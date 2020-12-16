@@ -65,7 +65,7 @@ export const VaultCard = observer((props: any) => {
 
 				<CardContent className={classes.card} >
 
-					{Object.keys(contract).filter((key) => !!collection.contract ? collection.contract.table.includes(key) : true)
+					{Object.keys(contract).filter((key) => config.table.includes(key))
 						.map((key: string) => {
 							let value = contract[key]
 							if (BigNumber.isBigNumber(value)) {

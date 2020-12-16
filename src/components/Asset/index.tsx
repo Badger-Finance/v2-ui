@@ -44,11 +44,6 @@ export const Asset = observer(() => {
 
 	const goBack = () => goTo(views.collection, { collection: collection.id })
 
-	const renderActions = () => {
-		return config.abi
-			.filter((method: any) => method.type === "function")
-			.map((method: any) => <VaultFunction key={method.name} method={method} row={config.abi} />)
-	}
 	// const renderFilters = () => {
 	// 	return collection.configs.vaults.abi
 	// 		.filter((method: any) => method.type == "function" && method.inputs.length > 0)
@@ -63,7 +58,14 @@ export const Asset = observer(() => {
 	const config = (vault in vaults) ? collection.configs.vaults : collection.configs.geysers
 	const underlyingKey = contract[config.underlying]
 	const yieldingKey = contract[config.yielding]
-	// const yieldAsset = tokens[yieldingKey]
+
+
+
+	const renderActions = () => {
+		return config.abi
+			.filter((method: any) => method.type === "function" && config.actions.includes(method.name))
+			.map((method: any) => <VaultFunction key={method.name} method={method} row={config.abi} />)
+	}
 
 	return (
 		<Container maxWidth="lg">
