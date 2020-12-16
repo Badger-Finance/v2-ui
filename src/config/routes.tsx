@@ -6,7 +6,6 @@ import { Route } from 'mobx-router';
 //components
 import { Home } from '../components/Home';
 import { Asset } from '../components/Asset';
-import { Account } from '../components/Accounts';
 import { Collection } from '../components/Collection';
 import { RootStore } from '../mobx/store';
 
@@ -22,55 +21,45 @@ const routes = {
 		path: '/collection/:collection',
 		component: <Collection />,
 		onEnter: (route, { collection }, store) => {
-			console.log(`entering collection: ${collection}!`);
-			store.app.fetchCollection(collection)
+			store.uiState.setCollection(collection)
 		},
 		beforeExit: () => {
-			console.log('exiting collection!');
 		},
 		onParamsChange: (route, { collection }, store) => {
-			console.log('collection changed to', collection);
-			store.app.fetchCollection(collection)
-
+			store.uiState.setCollection(collection)
 		}
 	}),
-	asset: new Route<RootStore, {
+	vault: new Route<RootStore, {
 		collection: string;
 		id: string;
 	}>({
 		path: '/asset/:collection/:id',
 		component: <Asset />,
 		onEnter: (_, { collection, id }, store) => {
-			console.log(`entering asset: ${collection} + ${id}`);
-
-			store.app.fetchVault(collection, id)
-
-
+			store.uiState.setVault(collection, id)
 		},
 		beforeExit: (_, _p, store) => {
-			console.log('exiting asset');
 		},
 		onParamsChange: (route, { collection, id }, store) => {
-			console.log('params changed to', collection, id);
-			store.app.fetchVault(collection, id)
+			store.uiState.setVault(collection, id)
 
 		}
 	}),
-	account: new Route<RootStore, {
-		account: string;
-	}>({
-		path: '/accounts/:account',
-		component: <Account />,
-		onEnter: (_, { account }) => {
-			console.log(`entering account: ${account}!`);
-		},
-		beforeExit: () => {
-			console.log('exiting account!');
-		},
-		onParamsChange: (route, params) => {
-			console.log('params changed to', params);
-		}
-	}),
+	// account: new Route<RootStore, {
+	// 	account: string;
+	// }>({
+	// 	path: '/accounts/:account',
+	// 	component: <Account />,
+	// 	onEnter: (_, { account }) => {
+	// 		console.log(`entering account: ${account}!`);
+	// 	},
+	// 	beforeExit: () => {
+	// 		console.log('exiting account!');
+	// 	},
+	// 	onParamsChange: (route, params) => {
+	// 		console.log('params changed to', params);
+	// 	}
+	// }),
 
 };
 export default routes;

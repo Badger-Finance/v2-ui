@@ -1,13 +1,19 @@
 import { RouterStore } from 'mobx-router';
-import AppStore from './stores/app-store';
+import UiState from './stores/ui-state';
+import WalletStore from './stores/wallet-store';
+import ContractsStore from './stores/contracts-store';
 
 export class RootStore {
 	public router: RouterStore<RootStore>;
-	public app: AppStore;
+	public wallet: WalletStore;
+	public uiState: UiState;
+	public contracts: ContractsStore;
 
 	constructor() {
 		this.router = new RouterStore<RootStore>(this);
-		this.app = new AppStore();
+		this.wallet = new WalletStore(this);
+		this.contracts = new ContractsStore(this);
+		this.uiState = new UiState(this);
 	}
 }
 

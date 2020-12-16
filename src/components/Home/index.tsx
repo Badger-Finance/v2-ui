@@ -1,6 +1,5 @@
 import React from 'react';
 import { observer } from 'mobx-react-lite';
-import { Link } from 'mobx-router';
 import views from '../../config/routes';
 import { useContext } from 'react';
 import { StoreContext } from '../../context/store-context';

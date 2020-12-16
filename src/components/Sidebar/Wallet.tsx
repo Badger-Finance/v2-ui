@@ -1,13 +1,10 @@
 import React, { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
-import { Link } from 'mobx-router';
-import views from '../../config/routes';
 import { useContext } from 'react';
 import { StoreContext } from '../../context/store-context';
-import { Container, CssBaseline, Grid, List, ListItem, ListItemText, Button } from "@material-ui/core"
+import { Button } from "@material-ui/core"
 import { makeStyles } from '@material-ui/core/styles';
-import { collections } from '../../config/constants';
-import { useWallet, UseWalletProvider } from 'use-wallet'
+import { useWallet } from 'use-wallet'
 
 const useStyles = makeStyles((theme) => ({
 
@@ -37,7 +34,7 @@ export const Wallet = observer(() => {
 	const wallet = useWallet()
 
 	const store = useContext(StoreContext);
-	const { router: { goTo }, app: { setProvider } } = store;
+	const { wallet: { setProvider } } = store;
 
 	const shortenAddress = (address: String) => {
 		return address.slice(0, 6) + '...' + address.slice(address.length - 4, address.length)
@@ -47,7 +44,7 @@ export const Wallet = observer(() => {
 		wallet.connect('provided')
 	}
 
-	useEffect(() => { !!wallet.ethereum && setProvider(wallet.ethereum) }, [wallet.ethereum])
+	useEffect(() => { !!wallet.ethereum && setProvider(wallet.ethereum) }, [wallet.ethereum, setProvider])
 
 	if (wallet.status === 'connected')
 		return <div className={classes.root}>

@@ -1,20 +1,9 @@
 import React, { useContext, useState } from 'react';
-import { AnyKindOfDictionary, map } from 'lodash';
 import { observer } from 'mobx-react-lite';
-import views from '../../config/routes';
 import { StoreContext } from '../../context/store-context';
-import { OpenSeaAsset } from 'opensea-js/lib/types';
 import {
-	Grid, CircularProgress, Card, CardHeader, CardMedia, CardContent, CardActions, CardActionArea, Collapse, Avatar, IconButton,
-	TableContainer,
-	TableBody,
-	Table,
-	TableHead,
-	TableRow,
-	TableCell,
-	Container,
+	Grid, Card, CardHeader, CardContent, CardActions, IconButton,
 	TextField,
-	Button
 } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -22,7 +11,6 @@ import { Loader } from '../Loader';
 import BigNumber from 'bignumber.js'
 import Submit from '@material-ui/icons/ArrowForward'
 import { useForm } from "react-hook-form";
-import _ from 'lodash';
 import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
 import { Share } from '@material-ui/icons';
@@ -51,9 +39,10 @@ export const VaultFunction = observer((props: any) => {
 	const { row, method } = props
 	const { register, handleSubmit, watch, errors } = useForm({ mode: 'all' });
 
-	const { router: { params, goTo }, app: { vault, collection, callMethod, refresh } } = store;
 
-	const [state, setState] = useState<any>({ status: method.type })
+	const { uiState: { collection, vault }, wallet: { provider, sendMethod } } = store;
+
+	const [state, setState] = useState<any>({ status: method.stateMutability })
 
 	const onSubmit = (params: any) => {
 		console.log(vault)
@@ -62,7 +51,7 @@ export const VaultFunction = observer((props: any) => {
 			return /\-?\d+\.*\d+/.test(param) ? new BigNumber(parseFloat(param)).multipliedBy(1e18) : param;
 		}) : []
 		console.log(inputs)
-		callMethod(vault.address, method.name, inputs, collection.config.abi, onTransaction)
+		sendMethod(vault!, method.name, inputs, collection.config.abi, onTransaction)
 	}
 
 	const onTransaction = (transaction: PromiEvent<Contract>) => {
@@ -72,7 +61,6 @@ export const VaultFunction = observer((props: any) => {
 			}).on('receipt', (reciept: any) => {
 				setState({ status: 'success', hash: state.hash })
 
-				refresh()
 			}).catch((error: any) => {
 				setState({ status: 'error', hash: state.hash })
 
@@ -83,11 +71,13 @@ export const VaultFunction = observer((props: any) => {
 	const actionInput = (type: string, name: string, index: number) => {
 		switch (type) {
 			case 'address':
-				return <TextField type="text" disabled={state.status == "pending"} autoComplete="off" placeholder="Type an address" name={`${method.name}[${index}]`} inputRef={register} fullWidth className={classes.field} />
+				return <TextField type="text" disabled={state.status === "pending"} autoComplete="off" placeholder="Type an address" name={`${method.name}[${index}]`} inputRef={register} fullWidth className={classes.field} />
 			case 'uint256':
-				return <TextField type="text" disabled={state.status == "pending"} autoComplete="off" placeholder="Type a number" name={`${method.name}[${index}]`} inputRef={register} fullWidth className={classes.field} />
+				return <TextField type="text" disabled={state.status === "pending"} autoComplete="off" placeholder="Type a number" name={`${method.name}[${index}]`} inputRef={register} fullWidth className={classes.field} />
 			case 'bytes':
-				return <TextField type="text" disabled={state.status == "pending"} autoComplete="off" placeholder="Type some bytes" name={`${method.name}[${index}]`} inputRef={register} fullWidth className={classes.field} />
+				return <TextField type="text" disabled={state.status === "pending"} autoComplete="off" placeholder="Type some bytes" name={`${method.name}[${index}]`} inputRef={register} fullWidth className={classes.field} />
+			case 'bytes32':
+				return <TextField type="text" disabled={state.status === "pending"} autoComplete="off" placeholder="Type some bytes32" name={`${method.name}[${index}]`} inputRef={register} fullWidth className={classes.field} />
 		}
 	}
 
@@ -109,7 +99,7 @@ export const VaultFunction = observer((props: any) => {
 			<CardHeader
 
 				title={method.name}
-				subheader={state.status || method.type}
+				subheader={state.status}
 
 				action={state.hash && <IconButton href={`https://etherscan.io/tx/${state.hash}`} target="_"><Share /></IconButton>}
 
@@ -130,7 +120,7 @@ export const VaultFunction = observer((props: any) => {
 					})}
 			</CardContent>
 			<CardActions >
-				<IconButton disabled={state.status == "pending"} style={{ marginLeft: 'auto' }} onClick={handleSubmit(onSubmit)} >
+				<IconButton disabled={state.status == "pending" || !provider.selectedAddress} style={{ marginLeft: 'auto' }} onClick={handleSubmit(onSubmit)} >
 					<Submit />
 				</IconButton>
 			</CardActions>

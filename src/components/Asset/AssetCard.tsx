@@ -1,18 +1,8 @@
 import React, { useContext } from 'react';
-import { map } from 'lodash';
 import { observer } from 'mobx-react-lite';
-import views from '../../config/routes';
 import { StoreContext } from '../../context/store-context';
-import { OpenSeaAsset } from 'opensea-js/lib/types';
 import {
-	Grid, CircularProgress, Card, CardHeader, CardMedia, CardContent, CardActions, CardActionArea, Collapse, Avatar, IconButton,
-	TableContainer,
-	TableBody,
-	Table,
-	TableHead,
-	TableRow,
-	TableCell,
-	Container,
+	Grid, Card, CardHeader, CardMedia, CardContent, CardActions, CardActionArea, Collapse, Avatar, IconButton,
 	Button
 } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
@@ -26,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
 	// root: { marginTop: theme.spacing(2) },
 	stat: {
 		float: "left",
-		width: "33%",
+		width: "50%",
 		padding: theme.spacing(2, 2, 0, 0),
 		wordWrap: "break-word",
 		overflow: 'hidden',
@@ -51,11 +41,8 @@ export const AssetCard = observer((props: any) => {
 	const classes = useStyles();
 	const { asset, contract } = props
 
-	const { router: { params, goTo }, app: { collection, assets, increaseAllowance } } = store;
+	const { router: { params, goTo }, wallet: { provider }, contracts: { vaults, tokens, geysers } } = store;
 
-	const openAsset = (asset: string) => {
-		goTo(views.asset, { collection: collection.config.id, id: asset })
-	}
 
 	const stat = (key: any, value: any) => <div className={classes.stat}>
 		<Typography color="textSecondary" variant="subtitle2">{key}</Typography>
@@ -68,19 +55,26 @@ export const AssetCard = observer((props: any) => {
 		return <div />
 	}
 
-	const allowance = !!assets[asset.address].allowance ? assets[asset.address].allowance.div(1e18).toFixed(18) : 0
-	const balance = !!assets[asset.address].balanceOf ? assets[asset.address].balanceOf.div(1e18).toFixed(18) : 0
-	const totalSupply = !!assets[asset.address].totalSupply ? assets[asset.address].totalSupply.div(1e18).toFixed(18) : 0
+	let allowance = !!asset.allowance ? asset.allowance.div(1e18).toFixed(18) : 0
+	let balance = !!asset.balanceOf ? asset.balanceOf.div(1e18).toFixed(18) : 0
+	let ethValue = !!asset.ethValue ? asset.ethValue.toFixed(18) : 0
+	let totalSupply = !!asset.totalSupply ? asset.totalSupply.div(1e18).toFixed(18) : 0
 
 	return <Card >
-		<CardActionArea onClick={() => increaseAllowance()}>
-			<CardContent className={classes.card} >
+		<CardContent className={classes.card} >
+			{Object.keys(asset)
+				.map((key: string) => {
+					let value = asset[key]
+					if (BigNumber.isBigNumber(value)) {
+						value = value.div(1e18).toFixed(18)
+					}
+					return stat(key, value)
+				})}
 
-				{stat('token', asset.address)}
-				{stat('balance', balance)}
-				{stat('allowance', allowance)}
-			</CardContent>
-		</CardActionArea>
+		</CardContent>
+		<CardActions>
+			<Button variant="outlined" onClick={() => { }} disabled={!provider}>increase allowance</Button>
+		</CardActions>
 	</Card>
 
 

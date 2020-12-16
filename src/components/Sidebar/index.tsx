@@ -1,15 +1,14 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { observer } from 'mobx-react-lite';
-import { Link } from 'mobx-router';
 import views from '../../config/routes';
 import { useContext } from 'react';
 import { StoreContext } from '../../context/store-context';
-import { Button, ButtonGroup, Container, CssBaseline, Grid, List, ListItem, ListItemText, Typography } from "@material-ui/core"
+import { Button, ButtonGroup, List, ListItem, Typography } from "@material-ui/core"
 import { makeStyles } from '@material-ui/core/styles';
 import { collections } from '../../config/constants';
 import { Wallet } from './Wallet';
 import { UseWalletProvider } from 'use-wallet'
-import { SnackbarProvider, useSnackbar } from 'notistack';
+// import { useSnackbar } from 'notistack';
 
 const useStyles = makeStyles((theme) => ({
 	logo: {
@@ -65,21 +64,21 @@ export const Sidebar = observer(() => {
 	const classes = useStyles();
 
 	const store = useContext(StoreContext);
-	const { router: { goTo }, app: { errorMessage } } = store;
+	const { router: { goTo } } = store;
 
-	const { enqueueSnackbar } = useSnackbar();
+	// const { enqueueSnackbar } = useSnackbar();
 
-	useEffect(() => {
-		if (!!errorMessage)
-			enqueueSnackbar(errorMessage, { variant: 'error' })
+	// useEffect(() => {
+	// 	if (!!errorMessage)
+	// 		enqueueSnackbar(errorMessage, { variant: 'error' })
 
-	}, [errorMessage])
+	// }, [errorMessage])
 
 
 	const renderCollections = () => {
 		return collections.map((collection) => {
 
-			return <ListItem className={classes.listItem + ' ' + (store.router.params?.collection === collection.id ? classes.activeListItem : '')}
+			return <ListItem key={collection.id} className={classes.listItem + ' ' + (store.router.params?.collection === collection.id ? classes.activeListItem : '')}
 				onClick={() => goTo(views.collection, { collection: collection.id })}>
 
 				{collection.title}
@@ -113,18 +112,11 @@ export const Sidebar = observer(() => {
 					</div>
 				</div>
 
-				<Typography variant="body2" color="textSecondary">COLLECTIONS</Typography>
+				<Typography variant="body2" color="textSecondary">collections</Typography>
 
 				<List >
 					{renderCollections()}
 				</List>
-
-
-
-
-				{/* <button onClick={() => goTo(views.userProfile, { username: 'kitze', tab: 'articles' })}>
-        go to user kitze
-    	</button> */}
 
 			</div >
 		</UseWalletProvider>

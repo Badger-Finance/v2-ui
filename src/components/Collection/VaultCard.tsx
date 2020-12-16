@@ -1,26 +1,14 @@
 import React, { useContext } from 'react';
-import { map } from 'lodash';
 import { observer } from 'mobx-react-lite';
 import views from '../../config/routes';
 import { StoreContext } from '../../context/store-context';
-import { OpenSeaAsset } from 'opensea-js/lib/types';
 import {
-	Grid, CircularProgress, Card, CardHeader, CardMedia, CardContent, CardActions, CardActionArea, Collapse, Avatar, IconButton,
-	TableContainer,
-	TableBody,
-	Table,
-	TableHead,
-	TableRow,
-	TableCell,
-	Container,
-	Button
+	Card, CardContent, CardActions, CardActionArea, Collapse, Avatar, IconButton,
 } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Loader } from '../Loader';
 import BigNumber from 'bignumber.js'
-import { ExpandMore } from '@material-ui/icons';
-import { AssetCard } from '../Asset/AssetCard';
 
 const useStyles = makeStyles((theme) => ({
 
@@ -50,12 +38,12 @@ const useStyles = makeStyles((theme) => ({
 export const VaultCard = observer((props: any) => {
 	const store = useContext(StoreContext);
 	const classes = useStyles();
-	const { row } = props
+	const { config } = props
 
-	const { router: { params, goTo }, app: { collection, assets } } = store;
+	const { router: { params, goTo }, contracts: { vaults, tokens }, uiState: { collection } } = store;
 
-	const openAsset = (asset: string) => {
-		goTo(views.asset, { collection: collection.config.id, id: asset })
+	const openVault = (asset: string) => {
+		goTo(views.vault, { collection: collection.id, id: asset })
 	}
 
 	const stat = (key: any, value: any) => <div className={classes.stat}>
@@ -65,21 +53,21 @@ export const VaultCard = observer((props: any) => {
 	</div>
 
 
-	if (!row) {
+	if (!config) {
 		return <Loader />
 	}
 
-	const underlying = row[collection.config.config.underlying]
+	const underlying = config[collection.underlying]
 
 	return <>
 		<Card>
-			<CardActionArea onClick={() => openAsset(row.address)}>
+			<CardActionArea onClick={() => openVault(config.address)}>
 
 				<CardContent className={classes.card} >
 
-					{Object.keys(row).filter((key) => !!collection.config.config ? collection.config.config.table.includes(key) : true)
+					{Object.keys(config).filter((key) => !!collection.config ? collection.config.table.includes(key) : true)
 						.map((key: string) => {
-							let value = row[key]
+							let value = config[key]
 							if (BigNumber.isBigNumber(value)) {
 								value = value.div(1e18).toFixed(18)
 							}

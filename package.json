@@ -6,8 +6,10 @@
 	"dependencies": {
 		"@material-ui/core": "^4.11.2",
 		"@material-ui/icons": "^4.11.2",
+		"@types/async": "^3.2.5",
 		"@types/material-ui": "^0.21.8",
 		"assert": "^2.0.0",
+		"async": "^3.2.0",
 		"bignumber.js": "^9.0.1",
 		"director": "1.2.8",
 		"lodash": "^4.17.20",
@@ -15,7 +17,6 @@
 		"mobx-react-lite": "^2.0.6",
 		"mobx-router": "^0.2.11",
 		"notistack": "^1.0.2",
-		"opensea-js": "^1.1.10",
 		"react": "^16.13.1",
 		"react-dom": "^16.13.1",
 		"react-hook-form": "^6.13.0",

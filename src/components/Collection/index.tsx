@@ -1,25 +1,17 @@
 import React, { useContext } from 'react';
-import { map } from 'lodash';
 import { observer } from 'mobx-react-lite';
-import views from '../../config/routes';
 import { StoreContext } from '../../context/store-context';
-import { OpenSeaAsset } from 'opensea-js/lib/types';
 import {
-	Grid, CircularProgress, Card, CardHeader, CardMedia, CardContent, CardActions, CardActionArea, Collapse, Avatar, IconButton,
-	TableContainer,
-	TableBody,
-	Table,
-	TableHead,
-	TableRow,
-	TableCell,
+	Grid, Card, CardHeader, CardMedia, CardContent, CardActions, CardActionArea, Collapse, Avatar, IconButton,
+
 	Container,
-	Chip
 } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Loader } from '../Loader';
 import BigNumber from 'bignumber.js'
 import { VaultCard } from './VaultCard';
+import _ from 'lodash';
 
 const useStyles = makeStyles((theme) => ({
 
@@ -43,23 +35,35 @@ export const Collection = observer(() => {
 	const store = useContext(StoreContext);
 	const classes = useStyles();
 
-	const { router: { params, goTo }, app: { collection, removeFilter, addFilter } } = store;
+	const { router: { params, goTo }, contracts: { vaults, geysers, tokens }, uiState: { collection } } = store;
 
 	const openAsset = (asset: string) => {
-		goTo(views.asset, { collection: collection.config.id, id: asset })
+		// goTo(views.asset, { collection: collection.id, id: asset })
 	}
 
-	const renderRows = () => {
-		return collection!.vaults.map((row: any) => {
-			return <Grid item xs={12}><VaultCard row={row} /></Grid>
+	const renderContracts = () => {
+		let vaultCards: any[] = []
+		if (!!vaults)
+			_.mapKeys(vaults, (config: any, address: string) => {
+				vaultCards.push(<Grid item xs={12} key={address}>
+					<VaultCard config={config} />
+				</Grid>)
+			})
+		if (!!geysers)
+			_.mapKeys(geysers, (config: any, address: string) => {
+				vaultCards.push(<Grid item xs={12} key={address}>
+					<VaultCard config={config} />
+				</Grid>)
+			})
 
-		})
+		return vaultCards
 
 	}
 
 	const renderFilters = () => {
-		return Object.keys(collection.vaults[0])
-			.map((key: string) => <Chip color={collection.config.config.table.includes(key) ? 'primary' : 'default'} size="small" className={classes.filter} label={key} onClick={() => { addFilter(key) }} onDelete={collection.config.config.table.includes(key) ? () => removeFilter(key) : undefined} />)
+		return []
+		// return Object.keys(collection.vaults[0])
+		// 	.map((key: string) => <Chip color={collection.config.config.table.includes(key) ? 'primary' : 'default'} size="small" className={classes.filter} label={key} onClick={() => { addFilter(key) }} onDelete={collection.config.config.table.includes(key) ? () => removeFilter(key) : undefined} />)
 	}
 
 	if (!collection) {
@@ -67,10 +71,10 @@ export const Collection = observer(() => {
 	}
 
 	return <Container className={classes.root} >
-		<Grid container xs={12} spacing={2}>
+		<Grid container spacing={2}>
 			<Grid item xs={4}>
-				<Typography variant="h5">{collection.config.title}</Typography>
-				<Typography variant="body1" color="textSecondary">{collection.vaults.length > 0 ? collection.vaults.length + ' Vaults' : 'No vaults'}</Typography>
+				<Typography variant="h5">{collection.title}</Typography>
+				<Typography variant="body1" color="textSecondary">{collection.contracts.vaults > 0 ? collection.contracts.vaults.length + ' Vaults' : 'No vaults'}</Typography>
 			</Grid>
 			<Grid item xs={2} className={classes.stat}>
 				<Typography variant="body1" color="textSecondary">TVL</Typography>
@@ -93,11 +97,10 @@ export const Collection = observer(() => {
 
 			</Grid>
 			<Grid item xs={12} className={classes.filters}>
-				<Typography variant="body2" color="textSecondary">PROPERTIES</Typography>
+				<Typography variant="body2" color="textSecondary">filter</Typography>
 
-				{renderFilters()}
 			</Grid>
-			{renderRows()}
+			{renderContracts()}
 		</Grid>
 
 	</Container >
