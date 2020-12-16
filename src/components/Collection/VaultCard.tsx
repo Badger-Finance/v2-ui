@@ -46,14 +46,14 @@ export const VaultCard = observer((props: any) => {
 		goTo(views.vault, { collection: collection.id, id: asset })
 	}
 
-	const stat = (key: any, value: any) => <div className={classes.stat}>
+	const stat = (key: any, value: any) => <div key={key} className={classes.stat}>
 		<Typography color="textSecondary" variant="subtitle2">{key}</Typography>
 		<Typography variant="body1">{value}</Typography>
 		<img src={require("../../assets/fade.png")} className={classes.fade} />
 	</div>
 
 
-	if (!contract) {
+	if (!contract || !config) {
 		return <Loader />
 	}
 

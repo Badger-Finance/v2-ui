@@ -57,7 +57,7 @@ export const getTokenAddresses = (contracts: any, config: any) => {
 }
 
 export const walletMethods = (methods: any[], wallet: WalletStore): any[] => {
-	if (!wallet.provider)
+	if (!wallet.provider.selectedAddress)
 		return []
 	return methods.map((method: string) => {
 		return {

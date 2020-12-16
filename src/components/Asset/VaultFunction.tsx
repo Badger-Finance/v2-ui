@@ -113,7 +113,7 @@ export const VaultFunction = observer((props: any) => {
 				{method.inputs
 					.map((input: any, index: number) => {
 
-						return <div className={classes.stat}>
+						return <div key={input.name} className={classes.stat}>
 							<Typography variant="subtitle1">{input.name}</Typography>
 							{actionInput(input.type, input.name, index)}
 						</div>

@@ -70,14 +70,16 @@ class ContractsStore {
 				let keyedResult = _.groupBy(result, 'namespace')
 
 				_.mapKeys(keyedResult, (value: any, key: string) => {
-					this.geysers = {}
-					this.vaults = {}
-
 					if (key === "vaults")
 						this.vaults = _.keyBy(reduceBatchResult(value), 'address')
 					else
 						this.geysers = _.keyBy(reduceBatchResult(value), 'address')
 				})
+
+				if (!("vaults" in keyedResult))
+					this.vaults = {}
+				if (!("geysers" in keyedResult))
+					this.geysers = {}
 
 				console.log(this.vaults, this.geysers, keyedResult)
 
@@ -100,10 +102,11 @@ class ContractsStore {
 		})
 
 		tokenAddresses = _.uniq(_.flatten(tokenAddresses))
+		tokenAddresses = _.compact(tokenAddresses)
+		// Prepare graph queries
 		console.log(tokenAddresses)
 
-		// Prepare graph queries
-		let graphQueries = tokenAddresses.map((key: string) => graphQuery(key)); //TODO: make 1 query
+		let graphQueries = tokenAddresses.map((address: string) => graphQuery(address)); //TODO: make 1 query
 
 		// Prepare batch call
 		let allowances: any[] = []

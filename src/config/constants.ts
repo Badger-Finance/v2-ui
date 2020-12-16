@@ -56,7 +56,7 @@ export const collections = [
 				actions: ['stake', 'unstake'],
 				underlying: 'token',
 				yielding: 'getDistributionToken',
-				walletMethods: ['totalStakedFor', 'getNumStakes', 'getUnstakable']
+				walletMethods: ['totalStakedFor']
 			},
 		}
 	},

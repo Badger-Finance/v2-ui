@@ -49,17 +49,17 @@ export const Asset = observer(() => {
 	// 		.filter((method: any) => method.type == "function" && method.inputs.length > 0)
 	// 		.map((method: any) => <Chip color={collection.config.config.actions.includes(method.name) ? 'primary' : 'default'} size="small" className={classes.filter} label={method.name} onClick={() => { addAction(method.name) }} onDelete={collection.config.config.actions.includes(method.name) ? () => removeAction(method.name) : undefined} />)
 	// }
-
-	if (!vault || !tokens || (!vaults && !geysers)) {
+	if (!vault || (!vaults && !geysers) || !tokens) {
 		return <Loader />
 	}
+	const contract = !!vaults && !!vault && (vault in vaults) ? vaults[vault] : geysers[vault]
+	const config = !!vaults && !!vault && (vault in vaults) ? collection.configs.vaults : collection.configs.geysers
 
-	const contract = (vault in vaults) ? vaults[vault] : geysers[vault]
-	const config = (vault in vaults) ? collection.configs.vaults : collection.configs.geysers
+	if (!config) {
+		return <Loader />
+	}
 	const underlyingKey = contract[config.underlying]
 	const yieldingKey = contract[config.yielding]
-
-
 
 	const renderActions = () => {
 		return config.abi
