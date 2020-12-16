@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
 export const VaultCard = observer((props: any) => {
 	const store = useContext(StoreContext);
 	const classes = useStyles();
-	const { config } = props
+	const { config, contract } = props
 
 	const { router: { params, goTo }, contracts: { vaults, tokens }, uiState: { collection } } = store;
 
@@ -53,21 +53,21 @@ export const VaultCard = observer((props: any) => {
 	</div>
 
 
-	if (!config) {
+	if (!contract) {
 		return <Loader />
 	}
 
-	const underlying = config[collection.underlying]
+	const underlying = contract[config.underlying]
 
 	return <>
 		<Card>
-			<CardActionArea onClick={() => openVault(config.address)}>
+			<CardActionArea onClick={() => openVault(contract.address)}>
 
 				<CardContent className={classes.card} >
 
-					{Object.keys(config).filter((key) => !!collection.config ? collection.config.table.includes(key) : true)
+					{Object.keys(contract).filter((key) => !!collection.contract ? collection.contract.table.includes(key) : true)
 						.map((key: string) => {
-							let value = config[key]
+							let value = contract[key]
 							if (BigNumber.isBigNumber(value)) {
 								value = value.div(1e18).toFixed(18)
 							}

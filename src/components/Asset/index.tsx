@@ -76,7 +76,7 @@ export const Asset = observer(() => {
 				<Grid item xs={12} className={classes.filters}>
 
 					<Typography variant="body2" color="textSecondary">{collection.id}</Typography>
-					<VaultCard config={contract} />
+					<VaultCard config={config} contract={contract} />
 
 				</Grid>
 

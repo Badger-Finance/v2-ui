@@ -44,15 +44,15 @@ export const Collection = observer(() => {
 	const renderContracts = () => {
 		let vaultCards: any[] = []
 		if (!!vaults)
-			_.mapKeys(vaults, (config: any, address: string) => {
+			_.mapKeys(vaults, (contract: any, address: string) => {
 				vaultCards.push(<Grid item xs={12} key={address}>
-					<VaultCard config={config} />
+					<VaultCard config={collection.configs.vaults} contract={contract} />
 				</Grid>)
 			})
 		if (!!geysers)
-			_.mapKeys(geysers, (config: any, address: string) => {
+			_.mapKeys(geysers, (contract: any, address: string) => {
 				vaultCards.push(<Grid item xs={12} key={address}>
-					<VaultCard config={config} />
+					<VaultCard config={collection.configs.geysers} contract={contract} />
 				</Grid>)
 			})
 
