@@ -50,8 +50,10 @@ export const getTokenAddresses = (contracts: any, config: any) => {
 	// pull underlying and yileding token addresses
 	let addresses: any[] = []
 	_.mapKeys(contracts, (contract: any, address: string) => {
-		addresses.push(contract[config.underlying!])
-		addresses.push(contract[config.yielding!])
+		if (!!contract[config.underlying!])
+			addresses.push({ address: contract[config.underlying!], contract: contract.address, type: 'underlying' })
+		if (!!contract[config.yielding!])
+			addresses.push({ address: contract[config.yielding!], contract: contract.address, type: 'yielding' })
 	})
 	return addresses
 }

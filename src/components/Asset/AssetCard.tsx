@@ -44,7 +44,7 @@ export const AssetCard = observer((props: any) => {
 	const { router: { params, goTo }, wallet: { provider }, contracts: { vaults, tokens, geysers } } = store;
 
 
-	const stat = (key: any, value: any) => <div className={classes.stat}>
+	const stat = (key: any, value: any) => <div key={key} className={classes.stat}>
 		<Typography color="textSecondary" variant="subtitle2">{key}</Typography>
 		<Typography variant="body1">{value}</Typography>
 		<img src={require("../../assets/fade.png")} className={classes.fade} />
@@ -54,12 +54,6 @@ export const AssetCard = observer((props: any) => {
 	if (!asset) {
 		return <div />
 	}
-
-	let allowance = !!asset.allowance ? asset.allowance.div(1e18).toFixed(18) : 0
-	let balance = !!asset.balanceOf ? asset.balanceOf.div(1e18).toFixed(18) : 0
-	let ethValue = !!asset.ethValue ? asset.ethValue.toFixed(18) : 0
-	let totalSupply = !!asset.totalSupply ? asset.totalSupply.div(1e18).toFixed(18) : 0
-
 	return <Card >
 		<CardContent className={classes.card} >
 			{Object.keys(asset)
@@ -73,7 +67,8 @@ export const AssetCard = observer((props: any) => {
 
 		</CardContent>
 		<CardActions>
-			<Button variant="outlined" onClick={() => { }} disabled={!provider}>increase allowance</Button>
+			<Button variant="outlined" onClick={() => { }} disabled={!provider}>deposit</Button>
+			<Button variant="outlined" onClick={() => { }} disabled={!provider}>withdraw</Button>
 		</CardActions>
 	</Card>
 

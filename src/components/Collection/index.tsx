@@ -12,6 +12,7 @@ import { Loader } from '../Loader';
 import BigNumber from 'bignumber.js'
 import { VaultCard } from './VaultCard';
 import _ from 'lodash';
+import { AssetCard } from '../Asset/AssetCard';
 
 const useStyles = makeStyles((theme) => ({
 
@@ -43,18 +44,19 @@ export const Collection = observer(() => {
 
 	const renderContracts = () => {
 		let vaultCards: any[] = []
-		if (!!vaults)
-			_.mapKeys(vaults, (contract: any, address: string) => {
-				vaultCards.push(<Grid item xs={12} key={address}>
-					<VaultCard config={collection.configs.vaults} contract={contract} />
-				</Grid>)
+		if (!!tokens)
+			_.map(tokens, (contract: any, address: string) => {
+				if (address != 'undefined')
+					vaultCards.push(<Grid item xs={12} key={address}>
+						<AssetCard asset={contract} contract={{}} />
+					</Grid>)
 			})
-		if (!!geysers)
-			_.mapKeys(geysers, (contract: any, address: string) => {
-				vaultCards.push(<Grid item xs={12} key={address}>
-					<VaultCard config={collection.configs.geysers} contract={contract} />
-				</Grid>)
-			})
+		// if (!!geysers)
+		// 	_.mapKeys(geysers, (contract: any, address: string) => {
+		// 		vaultCards.push(<Grid item xs={12} key={address}>
+		// 			<VaultCard config={collection.configs.geysers} contract={contract} />
+		// 		</Grid>)
+		// 	})
 
 		return vaultCards
 
@@ -66,7 +68,7 @@ export const Collection = observer(() => {
 		// 	.map((key: string) => <Chip color={collection.config.config.table.includes(key) ? 'primary' : 'default'} size="small" className={classes.filter} label={key} onClick={() => { addFilter(key) }} onDelete={collection.config.config.table.includes(key) ? () => removeFilter(key) : undefined} />)
 	}
 
-	if (!collection) {
+	if (!tokens) {
 		return <Loader />
 	}
 
@@ -97,7 +99,7 @@ export const Collection = observer(() => {
 
 			</Grid>
 			<Grid item xs={12} className={classes.filters}>
-				<Typography variant="body2" color="textSecondary">filter</Typography>
+				<Typography variant="body2" color="textSecondary">assets</Typography>
 
 			</Grid>
 			{renderContracts()}

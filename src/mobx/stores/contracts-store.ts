@@ -93,18 +93,16 @@ class ContractsStore {
 		const { wallet, uiState } = this.store
 		const { collection } = uiState
 
-		let tokenAddresses: any[] = []
+		let tokenMappings: any[] = []
 		_.mapKeys(collection.configs, (config: any, namespace: string) => {
 			console.log(namespace, config)
 			let addresses = namespace === "vaults" ? this.vaults : this.geysers
-			tokenAddresses.push(getTokenAddresses(addresses, config))
-			console.log(getTokenAddresses(addresses, config))
+			let tokens = getTokenAddresses(addresses, config)
+			tokenMappings = _.concat(tokenMappings, tokens)
 		})
 
-		tokenAddresses = _.uniq(_.flatten(tokenAddresses))
-		tokenAddresses = _.compact(tokenAddresses)
-		// Prepare graph queries
-		console.log(tokenAddresses)
+		this.tokens = _.keyBy(_.mergeWith(tokenMappings, 'address'), 'address')
+		let tokenAddresses = _.compact(tokenMappings.map((token: any) => token.address))
 
 		let graphQueries = tokenAddresses.map((address: string) => graphQuery(address)); //TODO: make 1 query
 
@@ -113,14 +111,19 @@ class ContractsStore {
 		let readMethods: any[] = []
 		erc20Methods(wallet, this.vaults, allowances, readMethods);
 
+		console.log(tokenAddresses)
+
 		const tokenBatch: Promise<any> = batchCall.execute([batchConfig('tokens', wallet, tokenAddresses, readMethods, ERC20.abi, true)])
 
 		Promise.all([tokenBatch, ...graphQueries])
 			.then((result: any[]) => {
 
-				let tokens = _.keyBy(reduceBatchResult(result.shift()), 'address')
-				this.tokens = reduceGraphResult(tokens, result)
+				let tokenContracts = _.keyBy(reduceBatchResult(result.shift()), 'address')
+				let tokenGraph = _.keyBy(_.compact(reduceGraphResult(result)), 'address')
 
+				this.tokens = _.mapValues(this.tokens, (value: any, address: string) => _.assign(value, tokenContracts[address], tokenGraph[address]))
+
+				// console.log(this.tokens, tokenContracts, tokenGraph)
 			})
 	});
 

@@ -27,17 +27,17 @@ export const collections = [
 				abi: BadgerVault.abi,
 				table: ['balance', 'name', 'symbol', 'balanceOf'],
 				actions: ['deposit', 'depositAll', 'withdraw', 'withdrawAll'],
-				underlying: 'getStakingToken',
-				yielding: 'getStakingToken',
+				underlying: 'token',
+				yielding: 'token',
 				walletMethods: ['balanceOf']
 			},
 			geysers: {
 				abi: BadgerGeyser.abi,
 				table: ['totalStaked', 'address', 'totalStakedFor'],
 				actions: ['stake', 'unstake'],
+				walletMethods: ['totalStakedFor'],
 				underlying: 'getStakingToken',
 				yielding: 'getStakingToken',
-				walletMethods: ['totalStakedFor']
 
 			},
 		}
