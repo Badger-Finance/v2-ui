@@ -41,7 +41,7 @@ export const AssetCard = observer((props: any) => {
 	const classes = useStyles();
 	const { asset, contract } = props
 
-	const { router: { params, goTo }, wallet: { provider }, contracts: { vaults, tokens, geysers } } = store;
+	const { router: { params, goTo }, wallet: { provider }, contracts: { vaults, tokens, geysers, batchDeposit, batchWithdraw } } = store;
 
 
 	const stat = (key: any, value: any) => <div key={key} className={classes.stat}>
@@ -67,8 +67,8 @@ export const AssetCard = observer((props: any) => {
 
 		</CardContent>
 		<CardActions>
-			<Button variant="outlined" onClick={() => { }} disabled={!provider}>deposit</Button>
-			<Button variant="outlined" onClick={() => { }} disabled={!provider}>withdraw</Button>
+			<Button variant="outlined" onClick={batchDeposit} disabled={!provider}>deposit</Button>
+			<Button variant="outlined" onClick={batchWithdraw} disabled={!provider}>withdraw</Button>
 		</CardActions>
 	</Card>
 

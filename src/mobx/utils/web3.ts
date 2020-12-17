@@ -49,11 +49,11 @@ export const batchConfig = (namespace: string, wallet: WalletStore, addresses: a
 export const getTokenAddresses = (contracts: any, config: any) => {
 	// pull underlying and yileding token addresses
 	let addresses: any[] = []
-	_.mapKeys(contracts, (contract: any, address: string) => {
+	_.map(contracts, (contract: any) => {
 		if (!!contract[config.underlying!])
-			addresses.push({ address: contract[config.underlying!], contract: contract.address, type: 'underlying' })
+			addresses.push({ address: contract[config.underlying!], contract: contract.address.toLowerCase(), type: 'underlying' })
 		if (!!contract[config.yielding!])
-			addresses.push({ address: contract[config.yielding!], contract: contract.address, type: 'yielding' })
+			addresses.push({ address: contract[config.yielding!], contract: contract.address.toLowerCase(), type: 'yielding' })
 	})
 	return addresses
 }
@@ -70,24 +70,25 @@ export const walletMethods = (methods: any[], wallet: WalletStore): any[] => {
 		}
 	})
 }
-
-export const erc20Methods = (wallet: WalletStore, vaults: any[], allowances: any[], readMethods: any[]) => {
+export const erc20Methods = (wallet: WalletStore, vaults: any[]): any[] => {
 	if (!!wallet.provider.selectedAddress) {
 		// get allowance of each vault
-		allowances = _.toArray(_.mapKeys(vaults, (vault: any, address: string) => {
+		let allowances = vaults.map((vault: any) => {
 			return {
 				name: "allowance",
 				args: [
 					wallet.provider.selectedAddress,
-					address,
+					vault,
 				]
 			};
-		}));
-		readMethods = [{
+		});
+		return [{
 			name: "balanceOf",
 			args: [
 				wallet.provider.selectedAddress
 			]
 		}, ...allowances];
+	} else {
+		return []
 	}
 }

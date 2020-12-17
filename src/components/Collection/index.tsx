@@ -45,7 +45,7 @@ export const Collection = observer(() => {
 	const renderContracts = () => {
 		let vaultCards: any[] = []
 		if (!!tokens)
-			_.map(tokens, (contract: any, address: string) => {
+			_.map(_.filter(tokens, (token: any) => !(token.contract in tokens)), (contract: any, address: string) => {
 				if (address != 'undefined')
 					vaultCards.push(<Grid item xs={12} key={address}>
 						<AssetCard asset={contract} contract={{}} />

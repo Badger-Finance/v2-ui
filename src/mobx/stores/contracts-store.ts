@@ -102,14 +102,13 @@ class ContractsStore {
 		})
 
 		this.tokens = _.keyBy(_.mergeWith(tokenMappings, 'address'), 'address')
+
 		let tokenAddresses = _.compact(tokenMappings.map((token: any) => token.address))
 
 		let graphQueries = tokenAddresses.map((address: string) => graphQuery(address)); //TODO: make 1 query
 
 		// Prepare batch call
-		let allowances: any[] = []
-		let readMethods: any[] = []
-		erc20Methods(wallet, this.vaults, allowances, readMethods);
+		let readMethods = erc20Methods(wallet, _.compact(_.concat(collection.contracts.vaults, collection.contracts.geysers)));
 
 		console.log(tokenAddresses)
 
@@ -126,6 +125,22 @@ class ContractsStore {
 				// console.log(this.tokens, tokenContracts, tokenGraph)
 			})
 	});
+
+
+
+	batchDeposit = action(() => {
+		const { wallet, uiState } = this.store
+		const { collection } = uiState
+
+	});
+
+	batchWithdraw = action(() => {
+		const { wallet, uiState } = this.store
+		const { collection } = uiState
+	});
+
+
+
 
 
 
