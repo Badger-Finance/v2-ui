@@ -115,8 +115,8 @@ export const Collection = observer(() => {
 			</Grid>
 			<Grid item xs={6} className={classes.filters}>
 				<ButtonGroup variant="outlined" size="small">
-					<Button color="primary">BTC</Button>
-					<Button>ETH</Button>
+					<Button>BTC</Button>
+					<Button color="primary">ETH</Button>
 					<Button>USD</Button>
 				</ButtonGroup>
 			</Grid>
