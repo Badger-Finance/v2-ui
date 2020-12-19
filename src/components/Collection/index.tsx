@@ -5,6 +5,8 @@ import {
 	Grid, Card, CardHeader, CardMedia, CardContent, CardActions, CardActionArea, Collapse, Avatar, IconButton,
 
 	Container,
+	ButtonGroup,
+	Button,
 } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -36,7 +38,7 @@ export const Collection = observer(() => {
 	const store = useContext(StoreContext);
 	const classes = useStyles();
 
-	const { router: { params, goTo }, contracts: { vaults, geysers, tokens }, uiState: { collection } } = store;
+	const { router: { params, goTo }, contracts: { vaults, geysers, tokens }, uiState: { collection, stats } } = store;
 
 	const openAsset = (asset: string) => {
 		// goTo(views.asset, { collection: collection.id, id: asset })
@@ -45,11 +47,22 @@ export const Collection = observer(() => {
 	const renderContracts = () => {
 		let vaultCards: any[] = []
 		if (!!tokens)
-			_.map(_.filter(tokens, (token: any) => !(token.contract in tokens)), (contract: any, address: string) => {
-				if (address != 'undefined')
-					vaultCards.push(<Grid item xs={12} key={address}>
-						<AssetCard asset={contract} contract={{}} />
-					</Grid>)
+			return _.map(vaults, (contract: any, address: string) => {
+				let token = tokens[contract.token]
+				let geyser = _.find(geysers, (geyser: any) => geyser.getStakingToken === address)
+
+				if (!!token)
+					return <>
+						<Grid item xs={6} key={address}>
+							<AssetCard asset={token} contract={{}} />
+						</Grid>
+						{!!geyser && <Grid item xs={6} key={address + 'geyser'}>
+							<AssetCard asset={tokens[geyser.getStakingToken]} contract={{}} />
+						</Grid>}
+					</>
+				else {
+					return <div>{address}</div>
+				}
 			})
 		// if (!!geysers)
 		// 	_.mapKeys(geysers, (contract: any, address: string) => {
@@ -58,7 +71,6 @@ export const Collection = observer(() => {
 		// 		</Grid>)
 		// 	})
 
-		return vaultCards
 
 	}
 
@@ -74,33 +86,46 @@ export const Collection = observer(() => {
 
 	return <Container className={classes.root} >
 		<Grid container spacing={2}>
-			<Grid item xs={4}>
+			<Grid item xs={2}>
 				<Typography variant="h5">{collection.title}</Typography>
-				<Typography variant="body1" color="textSecondary">{collection.contracts.vaults > 0 ? collection.contracts.vaults.length + ' Vaults' : 'No vaults'}</Typography>
+				<Typography variant="body1" color="textSecondary">{_.keys(vaults).length + " assets" || "No vaults"}</Typography>
 			</Grid>
 			<Grid item xs={2} className={classes.stat}>
 				<Typography variant="body1" color="textSecondary">TVL</Typography>
-				<Typography variant="h5">...</Typography>
+				<Typography variant="h5">{stats.tvl.eth}</Typography>
+
+			</Grid>
+			<Grid item xs={2} className={classes.stat}>
+				<Typography variant="body1" color="textSecondary">Day</Typography>
+				<Typography variant="h5">{stats.growth.day}</Typography>
 
 			</Grid>
 			<Grid item xs={2} className={classes.stat}>
 				<Typography variant="body1" color="textSecondary">Week</Typography>
-				<Typography variant="h5">...%</Typography>
+				<Typography variant="h5">{stats.growth.week}</Typography>
 
 			</Grid>
 			<Grid item xs={2} className={classes.stat}>
 				<Typography variant="body1" color="textSecondary">Month</Typography>
-				<Typography variant="h5">...%</Typography>
-
+				<Typography variant="h5">{stats.growth.month}</Typography>
 			</Grid>
 			<Grid item xs={2} className={classes.stat}>
-				<Typography variant="body1" color="textSecondary">All-Time</Typography>
-				<Typography variant="h5">...%</Typography>
-
+				<Typography variant="body1" color="textSecondary">Year</Typography>
+				<Typography variant="h5">{stats.growth.year}</Typography>
 			</Grid>
-			<Grid item xs={12} className={classes.filters}>
-				<Typography variant="body2" color="textSecondary">assets</Typography>
-
+			<Grid item xs={6} className={classes.filters}>
+				<ButtonGroup variant="outlined" size="small">
+					<Button color="primary">BTC</Button>
+					<Button>ETH</Button>
+					<Button>USD</Button>
+				</ButtonGroup>
+			</Grid>
+			<Grid item xs={6} className={classes.filters} style={{ textAlign: 'right' }}>
+				<ButtonGroup variant="outlined" size="small">
+					<Button color="primary">Y</Button>
+					<Button>M</Button>
+					<Button>D</Button>
+				</ButtonGroup>
 			</Grid>
 			{renderContracts()}
 		</Grid>

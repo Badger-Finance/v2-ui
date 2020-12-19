@@ -20,7 +20,6 @@ const useStyles = makeStyles((theme) => ({
 	listHeader: {
 		fontSize: ".8rem",
 		textTransform: "uppercase",
-		marginLeft: theme.spacing(0),
 		color: theme.palette.primary.main
 	},
 	link: {
@@ -32,9 +31,13 @@ const useStyles = makeStyles((theme) => ({
 		// paddingTop: theme.spacing(2),
 		marginRight: theme.spacing(-2),
 		marginLeft: theme.spacing(-2),
-		display: 'flex',
 		flexDirection: 'column',
-		justifyContent: 'start'
+		justifyContent: 'start',
+		display: "flex",
+		// alignItems: "center",
+		flexWrap: 'wrap',
+		padding: theme.spacing(2, 2, 1, 1),
+
 	},
 	listItem: {
 		cursor: "pointer",
@@ -48,12 +51,7 @@ const useStyles = makeStyles((theme) => ({
 	activeListItem: {
 		fontWeight: 'bold'
 	},
-	header: {
-		display: "flex", alignItems: "center",
-		flexWrap: 'wrap',
-		marginBottom: theme.spacing(2),
 
-	},
 	currency: {
 		marginTop: theme.spacing(1)
 	}
@@ -92,30 +90,21 @@ export const Sidebar = observer(() => {
 			chainId={1}
 			connectors={{
 				// This is how connectors get configured
-				portis: { dAppId: 'itchiro-dex' },
+				portis: { dAppId: 'badger.finance' },
 			}}
 		>
 
 			<div className={classes.root}>
-				<div className={classes.header}>
 
-					<img src={require('../../assets/commonyield.png')} className={classes.logo} />
-					<div>
 
-						<Wallet />
-						<ButtonGroup variant="outlined" size="small" className={classes.currency}>
-							<Button variant="contained">ETH</Button>
-							<Button>USD</Button>
-							<Button>BTC</Button>
-						</ButtonGroup>
 
-					</div>
-				</div>
+				<Wallet />
 
-				<Typography variant="body2" color="textSecondary">collections</Typography>
+
 
 				<List >
 					{renderCollections()}
+					<ListItem className={classes.listItem}>Account Overview</ListItem>
 				</List>
 
 			</div >

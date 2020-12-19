@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../context/store-context';
 import {
-	Grid, Card, CardHeader, CardMedia, CardContent, CardActions, CardActionArea, Collapse, Avatar, IconButton,
+	Grid, Card, CardHeader, CardMedia, CardContent, CardActions, CardActionArea, Collapse, Avatar, IconButton, TextField,
 	Button
 } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
@@ -10,6 +10,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Loader } from '../Loader';
 import BigNumber from 'bignumber.js'
 import { ArrowUpward, ExpandMore } from '@material-ui/icons';
+
 
 const useStyles = makeStyles((theme) => ({
 
@@ -43,6 +44,12 @@ export const AssetCard = observer((props: any) => {
 
 	const { router: { params, goTo }, wallet: { provider }, contracts: { vaults, tokens, geysers, batchDeposit, batchWithdraw } } = store;
 
+	const deposit = () => {
+		batchDeposit(asset.address)
+	}
+	const withdraw = () => {
+		batchWithdraw(asset.address)
+	}
 
 	const stat = (key: any, value: any) => <div key={key} className={classes.stat}>
 		<Typography color="textSecondary" variant="subtitle2">{key}</Typography>
@@ -66,10 +73,13 @@ export const AssetCard = observer((props: any) => {
 				})}
 
 		</CardContent>
-		<CardActions>
-			<Button variant="outlined" onClick={batchDeposit} disabled={!provider}>deposit</Button>
-			<Button variant="outlined" onClick={batchWithdraw} disabled={!provider}>withdraw</Button>
-		</CardActions>
+		{!!provider.selectedAddress && <CardActions>
+			{/* <TextField placeholder="amount"></TextField> */}
+			<Button variant="outlined" onClick={deposit} disabled={!provider}>deposit</Button>
+			{/* <TextField placeholder="amount"></TextField> */}
+
+			<Button variant="outlined" onClick={withdraw} disabled={!provider}>withdraw</Button>
+		</CardActions>}
 	</Card>
 
 

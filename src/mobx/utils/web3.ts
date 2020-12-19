@@ -10,7 +10,7 @@ const { fetchJson } = require('../../config/constants')
 
 export const estimateAndSend = (web3: Web3, method: ContractSendMethod, address: string, callback: (transaction: PromiEvent<Contract>) => void) => {
 
-	fetch("http://localhost:8010/proxy", fetchJson)
+	fetch("https://gasprice.poa.network/")
 		.then((result: any) => result.json())
 		.then((price: any) => {
 
@@ -30,10 +30,15 @@ export const estimateAndSend = (web3: Web3, method: ContractSendMethod, address:
 export const batchConfig = (namespace: string, wallet: WalletStore, addresses: any[], methods: any[], abi: any, allReadMethods: boolean = true) => {
 
 	let readMethods = {}
+	let abiFile = {}
 
 	if (methods.length > 0)
 		readMethods = {
 			readMethods: methods
+		}
+	if (!!abi)
+		abiFile = {
+			abi: abi
 		}
 	return ({
 		namespace,
@@ -42,7 +47,8 @@ export const batchConfig = (namespace: string, wallet: WalletStore, addresses: a
 		allReadMethods,
 		groupByNamespace: true,
 		logging: false,
-		...readMethods
+		...readMethods,
+		...abiFile
 	})
 }
 
@@ -70,7 +76,7 @@ export const walletMethods = (methods: any[], wallet: WalletStore): any[] => {
 		}
 	})
 }
-export const erc20Methods = (wallet: WalletStore, vaults: any[]): any[] => {
+export const erc20Methods = (wallet: WalletStore, token: any, vaults: any[]): any[] => {
 	if (!!wallet.provider.selectedAddress) {
 		// get allowance of each vault
 		let allowances = vaults.map((vault: any) => {
@@ -78,7 +84,7 @@ export const erc20Methods = (wallet: WalletStore, vaults: any[]): any[] => {
 				name: "allowance",
 				args: [
 					wallet.provider.selectedAddress,
-					vault,
+					token.contract,
 				]
 			};
 		});

@@ -10,18 +10,30 @@ import { estimateAndSend } from '../utils/web3';
 
 class WalletStore {
 
-	public provider?: any;
+	public provider?: any = new Web3.providers.HttpProvider('https://mainnet.infura.io/v3/77a0f6647eb04f5ca1409bba62ae9128')
 	private store?: RootStore
+	public currentBlock?: number;
 
 	constructor(store: RootStore) {
-		const provider = new Web3.providers.HttpProvider('https://mainnet.infura.io/v3/77a0f6647eb04f5ca1409bba62ae9128')
 		this.store = store
 
 		extendObservable(this, {
-			provider
+			provider: this.provider,
+			currentBlock: undefined
 		});
+
+		this.getCurrentBlock()
+		setInterval(() => this.getCurrentBlock()
+			, 1000)
 	}
 
+	getCurrentBlock = action(() => {
+		let web3 = new Web3(this.provider)
+		web3.eth.getBlockNumber().then((value: number) => {
+			this.currentBlock = value
+		})
+
+	});
 	setProvider = action((provider: any) => {
 		this.provider = provider;
 		this.store?.contracts.fetchCollection()
