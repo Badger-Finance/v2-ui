@@ -27,10 +27,11 @@ export const collections = [
 				"0xA207D69Ea6Fb967E54baA8639c408c31767Ba62D",
 				"0xeD0B7f5d9F6286d00763b0FFCbA886D8f9d56d5e"],
 		},
+
 		configs: {
 			vaults: {
 				abi: BadgerVault.abi,
-				table: ['balance', 'name', 'symbol', 'balanceOf'],
+				table: ['balance', 'name', 'symbol', 'balanceOf', 'day', 'week', 'month', 'year'],
 				actions: ['deposit', 'depositAll', 'withdraw', 'withdrawAll'],
 				underlying: 'token',
 				yielding: 'token',
@@ -38,13 +39,21 @@ export const collections = [
 			},
 			geysers: {
 				abi: BadgerGeyser.abi,
-				table: ['totalStaked', 'address', 'totalStakedFor'],
+				table: ['totalStaked', 'address', 'totalStakedFor', 'rewards', 'day', 'week', 'month', 'year'],
 				actions: ['stake', 'unstake'],
 				walletMethods: ['totalStakedFor'],
 				underlying: 'getStakingToken',
 				yielding: 'getStakingToken',
+				rewards: {
+					method: 'getUnlockSchedulesFor',
+					tokens: ['0x3472a5a71965499acd81997a54bba8d852c6e53d', '0xa0246c9032bc3a600820415ae600c6388619a14d'],
+					merkleEndpoint: 'https://fzqm8i0owc.execute-api.us-east-1.amazonaws.com/prod',
+				},
 			},
 		},
+
+
+
 		curveBtcPools: {
 			contracts: [
 				"0x49849c98ae39fff122806c06791fa73784fb3675",  //renBTC/wBTC (crvRenWBTC)

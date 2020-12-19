@@ -64,17 +64,27 @@ export const getTokenAddresses = (contracts: any, config: any) => {
 	return addresses
 }
 
-export const walletMethods = (methods: any[], wallet: WalletStore): any[] => {
-	if (!wallet.provider.selectedAddress)
-		return []
-	return methods.map((method: string) => {
-		return {
-			name: method,
-			args: [
-				wallet.provider.selectedAddress
-			]
-		}
-	})
+export const contractMethods = (config: any, wallet: WalletStore): any[] => {
+	let methods = []
+	if (!!config.rewards) {
+		methods.push({
+			name: config.rewards.method,
+			args: config.rewards.tokens
+		})
+	}
+
+	if (!!wallet.provider.selectedAddress)
+		methods = methods.concat(
+			config.walletMethods.map((method: string) => {
+				return {
+					name: method,
+					args: [
+						wallet.provider.selectedAddress
+					]
+				}
+			}))
+
+	return methods
 }
 export const erc20Methods = (wallet: WalletStore, token: any, vaults: any[]): any[] => {
 	if (!!wallet.provider.selectedAddress) {

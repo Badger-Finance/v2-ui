@@ -41,19 +41,19 @@ startRouter(routes, store, {
 ReactDOM.render(
 	<StoreProvider value={store}>
 		<ThemeProvider theme={theme}>
+
 			<CssBaseline />
 			<SnackbarProvider maxSnack={5} anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
 
 				<Container maxWidth={false}>
 					<Grid container spacing={4}>
-						<Grid item xs={12} md={2} style={{ paddingBottom: 0 }}>
-							<Sidebar />
-						</Grid>
-						<Grid item xs={12} md={10} style={{}}>
+						<Grid item xs={12} md={12} style={{}}>
 							<MobxRouter store={store} />
 						</Grid>
 					</Grid>
 				</Container>
+				<Sidebar />
+
 			</SnackbarProvider>
 
 		</ThemeProvider>

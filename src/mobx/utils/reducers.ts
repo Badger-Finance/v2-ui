@@ -22,8 +22,9 @@ export const reduceResult = (value: any): any => {
 
 	else if (_.isString(value))
 		return value
+
 	else
-		return JSON.stringify(value)
+		return value
 }
 
 export const reduceGraphResult = (graphResult: any[]) => {
@@ -66,10 +67,10 @@ export const reduceGrowth = (graphResult: any[], periods: number[]) => {
 				: new BigNumber("1")
 		)
 		return {
-			day: growth.now.dividedBy(growth.day),
-			week: growth.now.dividedBy(growth.week),
-			month: growth.now.dividedBy(growth.month),
-			year: growth.now.dividedBy(growth.month).multipliedBy(12.0),
+			day: growth.now.dividedBy(growth.day).minus(1),
+			week: growth.now.dividedBy(growth.week).minus(1),
+			month: growth.now.dividedBy(growth.month).minus(1),
+			year: growth.now.dividedBy(growth.month).minus(1).multipliedBy(12.0),
 		}
 	})
 

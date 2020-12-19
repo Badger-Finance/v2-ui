@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite';
 import views from '../../config/routes';
 import { useContext } from 'react';
 import { StoreContext } from '../../context/store-context';
-import { Button, ButtonGroup, List, ListItem, Typography } from "@material-ui/core"
+import { Button, ButtonGroup, List, ListItem, Typography, Drawer } from "@material-ui/core"
 import { makeStyles } from '@material-ui/core/styles';
 import { collections } from '../../config/constants';
 import { Wallet } from './Wallet';
@@ -27,17 +27,10 @@ const useStyles = makeStyles((theme) => ({
 		textDecoration: 'none'
 	},
 	root: {
-		height: "100vh",
-		// paddingTop: theme.spacing(2),
-		marginRight: theme.spacing(-2),
-		marginLeft: theme.spacing(-2),
-		flexDirection: 'column',
-		justifyContent: 'start',
-		display: "flex",
-		// alignItems: "center",
-		flexWrap: 'wrap',
-		padding: theme.spacing(2, 2, 1, 1),
+		padding: theme.spacing(2)
 
+	},
+	drawer: {
 	},
 	listItem: {
 		cursor: "pointer",
@@ -93,21 +86,26 @@ export const Sidebar = observer(() => {
 				portis: { dAppId: 'badger.finance' },
 			}}
 		>
+			<Drawer
+				variant="persistent"
+				anchor="left"
+				open={true}
+				className={classes.drawer}
+			>
 
-			<div className={classes.root}>
 
+				<div className={classes.root}>
 
+					<Wallet />
 
-				<Wallet />
+					<List >
+						{renderCollections()}
+						<ListItem className={classes.listItem}>My Portfolio</ListItem>
+						<ListItem className={classes.listItem}>Hunt</ListItem>
+					</List>
 
-
-
-				<List >
-					{renderCollections()}
-					<ListItem className={classes.listItem}>Account Overview</ListItem>
-				</List>
-
-			</div >
+				</div >
+			</Drawer>
 		</UseWalletProvider>
 	);
 });

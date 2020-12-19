@@ -53,12 +53,22 @@ export const Collection = observer(() => {
 
 				if (!!token)
 					return <>
-						<Grid item xs={6} key={address}>
+						<Grid item xs={4} key={address + 'geyser'}>
+							asset
 							<AssetCard asset={token} contract={{}} />
 						</Grid>
-						{!!geyser && <Grid item xs={6} key={address + 'geyser'}>
-							<AssetCard asset={tokens[geyser.getStakingToken]} contract={{}} />
-						</Grid>}
+						<Grid item xs={4} key={address}>
+							vault
+							<VaultCard contract={contract} config={collection.configs.vaults} />
+
+						</Grid>
+						<Grid item xs={4} key={address}>
+							geyser
+							<VaultCard contract={geyser} config={collection.configs.geysers} />
+
+						</Grid>
+
+
 					</>
 				else {
 					return <div>{address}</div>

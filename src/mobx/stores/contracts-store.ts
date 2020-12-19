@@ -1,7 +1,7 @@
 import { extendObservable, action } from 'mobx';
 import Web3 from 'web3'
 import BatchCall from "web3-batch-call";
-import { batchConfig, getTokenAddresses, walletMethods, erc20Methods } from "../utils/web3"
+import { batchConfig, getTokenAddresses, erc20Methods, contractMethods } from "../utils/web3"
 import BigNumber from 'bignumber.js';
 import { RootStore } from '../store';
 import _, { Collection } from 'lodash';
@@ -58,7 +58,7 @@ class ContractsStore {
 				batchConfig(namespace,
 					wallet,
 					collection.contracts[namespace],
-					walletMethods(config.walletMethods, wallet),
+					contractMethods(config, wallet),
 					config.abi)
 		)
 
@@ -194,6 +194,26 @@ class ContractsStore {
 		let vault = this.vaults[this.tokens[underlyingToken].contract]
 		let geyser = this.geysers[this.tokens[vault.address].contract]
 
+
+	});
+
+	updateVaults = action((vaults: any) => {
+		this.vaults = _.mapValues(
+			this.vaults,
+			(value: any, address: string) =>
+				_.assign(
+					value,
+					vaults[address]))
+
+	});
+	updateGeysers = action((geysers: any) => {
+		console.log(geysers)
+		this.geysers = _.mapValues(
+			this.geysers,
+			(value: any, address: string) =>
+				_.assign(
+					value,
+					geysers[address]))
 
 	});
 

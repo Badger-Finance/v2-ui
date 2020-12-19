@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
 	// root: { marginTop: theme.spacing(2) },
 	stat: {
 		float: "left",
-		width: "33%",
+		width: "50%",
 		padding: theme.spacing(2, 2, 0, 0),
 		wordWrap: "break-word",
 		overflow: 'hidden',
