@@ -39,7 +39,7 @@ export const collections = [
 			},
 			geysers: {
 				abi: BadgerGeyser.abi,
-				table: ['totalStaked', 'address', 'totalStakedFor', 'rewards', 'day', 'week', 'month', 'year'],
+				table: ['totalStaked', 'address', 'totalStakedFor', 'rewards', 'day', 'week', 'month', 'year', 'ethBalance'],
 				actions: ['stake', 'unstake'],
 				walletMethods: ['totalStakedFor'],
 				underlying: 'getStakingToken',

@@ -26,7 +26,10 @@ class UiState {
 			vault: undefined,
 			stats: {
 				tvl: { eth: '...' },
-				growth: { day: '...', month: '...', week: '...', year: '...' }
+				growth: { day: '...', month: '...', week: '...', year: '...' },
+				vaults: undefined,
+				geysers: undefined,
+				portfolio: {}
 			}
 		});
 
@@ -40,6 +43,7 @@ class UiState {
 		observe(this.store.wallet as any, "currentBlock", (change: any) => {
 			this.calculateGrowth()
 		})
+
 
 	}
 
@@ -75,7 +79,7 @@ class UiState {
 	});
 
 	calculateGrowth = action(() => {
-		let { vaults, tokens, updateVaults } = this.store.contracts
+		let { vaults, tokens } = this.store.contracts
 		let { currentBlock } = this.store.wallet
 
 		if (!currentBlock)
@@ -101,22 +105,13 @@ class UiState {
 				this.stats.growth = _.mapValues(vaultGrowth.total as any, (value: any) => value.multipliedBy(100).toFixed(2) + "%")
 
 				// extend vaults with new growth statistics.. pretty hairy maybe we keep this is the UI-state
-				updateVaults(
-					_.mapValues(
-						vaultGrowth.vaults as any,
-						(value: any) =>
-							_.mapValues(
-								value,
-								(number: BigNumber) =>
-									number.multipliedBy(100).toFixed(2) + "%")))
-
-
+				this.updateVaults(vaultGrowth.vaults)
 			})
 
 	})
 
 	calculateGeyserRewards = action(() => {
-		let { geysers, tokens, vaults, updateGeysers } = this.store.contracts
+		let { geysers, tokens, vaults } = this.store.contracts
 		let { currentBlock } = this.store.wallet
 
 		let { method, tokens: rewardTokens } = this.collection.configs.geysers.rewards
@@ -127,7 +122,7 @@ class UiState {
 		const rewardToken = tokens[rewardTokens[0]]
 		const timestamp = new BigNumber(new Date().getTime() / 1000.0)
 
-		updateGeysers(
+		this.updateGeysers(
 			_.mapValues(geysers,
 				(geyser: any, address: string) => {
 					let schedule = geyser[method]
@@ -157,7 +152,8 @@ class UiState {
 						day: rps.multipliedBy(60 * 60 * 24),
 						week: rps.multipliedBy(60 * 60 * 24 * 7),
 						month: rps.multipliedBy(60 * 60 * 24 * 30),
-						year: rps.multipliedBy(60 * 60 * 24 * 365)
+						year: rps.multipliedBy(60 * 60 * 24 * 365),
+						// ethBalance: !!geyser.totalStakedFor ? new BigNumber(geyser.totalStakedFor).multipliedBy(underlyingToken.ethValue) : new BigNumber(0)
 					}
 
 					console.log(underlyingToken, rewardToken)
@@ -170,65 +166,27 @@ class UiState {
 					})
 				}))
 
-		// if (!currentBlock)
-		// 	return
-
-		// 	let schedule = await earn.methods.getUnlockSchedulesFor(deploy.token).call();
-		// 	if (!!schedule.length > 0) {
-
-
-		// 		let initialLocked = 0
-		// 		let endTime = 0
-		// 		let startTime = 0
-
-		// 		schedule.forEach((s) => {
-		// 			console.log(s)
-
-		// 			if (new Date() > new Date(parseInt(s.startTime) * 1000)
-		// 				&& new Date() < new Date(parseInt(s.endAtSec) * 1000)) {
-		// 				initialLocked += parseInt(s.initialLocked)
-
-
-		// 				if (startTime == 0 || parseInt(s.startTime) < startTime)
-		// 					startTime = parseInt(s.startTime)
-		// 				if (endTime === 0 || parseInt(s.endAtSec) > endTime)
-		// 					endTime = parseInt(s.endAtSec)
-
-		// 			}
-		// 			// console.log(startTime, endTime, initialLocked, new Date(parseInt(s.startTime) * 1000), new Date(parseInt(s.endAtSec) * 1000))
-
-		// 		})
-		// 		let durationSec = endTime - startTime
-		// 		// console.log(durationSec)
-		// 		if (durationSec == 0) {
-		// 			initialLocked = parseInt(schedule[0]["initialLocked"])
-		// 			durationSec = parseInt(schedule[0]["durationSec"])
-		// 		}
-
-
-
-		// 		let badgerPrice = parseFloat(usdPrices['badger'].eth)
-		// 		let tokenPrice = parseFloat(usdPrices[asset.price_id].eth)
-
-		// 		let totalRewards = parseFloat(initialLocked / 1e18)
-
-		// 		let badgerPerTokenPerYear = ((totalRewards / durationSec)) / (asset.vaultHoldings) * (60 * 60 * 24 * 365)
-		// 		let apy = ((badgerPerTokenPerYear * badgerPrice)) / (tokenPrice)
-
-		// 		if (asset.id == "bBadgerwbtc") {
-		// 			// console.log(badgerPerTokenPerYear = ((totalRewards / durationSec)), (asset.vaultValue), (60 * 60 * 24 * 365))
-		// 			badgerPerTokenPerYear = ((totalRewards / durationSec)) * (60 * 60 * 24 * 365)
-		// 			apy = (badgerPerTokenPerYear * badgerPrice) / asset.vaultValue
-		// 		}
-
-
-		// 		apy = apy === Infinity ? 0 : apy
-
-		// 		callback(null, { rewards: totalRewards, apy: apy })
-		// 	} else {
 
 	})
 
+	updateVaults = action((vaults: any) => {
+		this.stats.vaults = !this.stats.vaults ? vaults : _.mapValues(
+			this.stats.vaults,
+			(value: any, address: string) =>
+				_.assign(
+					value,
+					vaults[address]))
+
+	});
+	updateGeysers = action((geysers: any) => {
+		this.stats.geysers = !this.stats.geysers ? geysers : _.mapValues(
+			this.stats.geysers,
+			(value: any, address: string) =>
+				_.assign(
+					value,
+					geysers[address]))
+
+	});
 	// UI
 	// addFilter = action((filter: string) => {
 	// 	this.collection.config.config.table.push(filter)

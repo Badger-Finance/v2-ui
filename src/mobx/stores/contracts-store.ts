@@ -197,25 +197,6 @@ class ContractsStore {
 
 	});
 
-	updateVaults = action((vaults: any) => {
-		this.vaults = _.mapValues(
-			this.vaults,
-			(value: any, address: string) =>
-				_.assign(
-					value,
-					vaults[address]))
-
-	});
-	updateGeysers = action((geysers: any) => {
-		console.log(geysers)
-		this.geysers = _.mapValues(
-			this.geysers,
-			(value: any, address: string) =>
-				_.assign(
-					value,
-					geysers[address]))
-
-	});
 
 
 

@@ -100,7 +100,7 @@ export const Sidebar = observer(() => {
 
 					<List >
 						{renderCollections()}
-						<ListItem className={classes.listItem}>My Portfolio</ListItem>
+						<ListItem className={classes.listItem}>Digg</ListItem>
 						<ListItem className={classes.listItem}>Hunt</ListItem>
 					</List>
 

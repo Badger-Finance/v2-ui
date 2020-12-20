@@ -47,9 +47,12 @@ export const Collection = observer(() => {
 	const renderContracts = () => {
 		let vaultCards: any[] = []
 		if (!!tokens)
+			// let myGeysers = _.values(geysers).sort((a:any, b:any)=>a.totalStakedFor.mult(a.ethValue))
+
 			return _.map(vaults, (contract: any, address: string) => {
 				let token = tokens[contract.token]
 				let geyser = _.find(geysers, (geyser: any) => geyser.getStakingToken === address)
+
 
 				if (!!token)
 					return <>
@@ -60,7 +63,6 @@ export const Collection = observer(() => {
 						<Grid item xs={4} key={address}>
 							vault
 							<VaultCard contract={contract} config={collection.configs.vaults} />
-
 						</Grid>
 						<Grid item xs={4} key={address}>
 							geyser

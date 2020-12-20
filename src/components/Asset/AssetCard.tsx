@@ -72,6 +72,7 @@ export const AssetCard = observer((props: any) => {
 					return stat(key, value)
 				})}
 
+
 		</CardContent>
 		{!!provider.selectedAddress && <CardActions>
 			{/* <TextField placeholder="amount"></TextField> */}
