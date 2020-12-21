@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
 	// root: { marginTop: theme.spacing(2) },
 	stat: {
 		float: "left",
-		width: "50%",
+		width: "33%",
 		padding: theme.spacing(2, 2, 0, 0),
 		wordWrap: "break-word",
 		overflow: 'hidden',
@@ -63,7 +63,7 @@ export const AssetCard = observer((props: any) => {
 	}
 	return <Card >
 		<CardContent className={classes.card} >
-			{Object.keys(asset)
+			{Object.keys(asset).filter((key: any) => ["name", "balanceOf", "ethValue"].includes(key))
 				.map((key: string) => {
 					let value = asset[key]
 					if (BigNumber.isBigNumber(value)) {

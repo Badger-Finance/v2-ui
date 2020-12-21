@@ -1,16 +1,17 @@
-import { extendObservable, action } from 'mobx';
+import { extendObservable, action, observe } from 'mobx';
 import Web3 from 'web3'
 import BatchCall from "web3-batch-call";
 import { batchConfig, getTokenAddresses, erc20Methods, contractMethods } from "../utils/web3"
 import BigNumber from 'bignumber.js';
 import { RootStore } from '../store';
 import _, { Collection } from 'lodash';
-import { reduceBatchResult, reduceCurveResult, reduceGraphResult } from '../utils/reducers';
-import { curvePrice, graphQuery } from '../utils/helpers';
+import { reduceBatchResult, reduceCurveResult, reduceGeyserSchedule, reduceGraphResult, reduceGrowth } from '../utils/reducers';
+import { curvePrice, graphQuery, growthQuery, secondsToBlocks } from '../utils/helpers';
 import { collections } from '../../config/constants';
 
 const WBTC_ADDRESS = "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599"
 const ERC20 = require("../../config/abis/ERC20.json")
+const START_BLOCK = 11381216
 
 const infuraProvider = new Web3.providers.HttpProvider('https://mainnet.infura.io/v3/77a0f6647eb04f5ca1409bba62ae9128')
 const options = {
@@ -38,6 +39,12 @@ class ContractsStore {
 			tokens: undefined,
 			geysers: undefined,
 		});
+
+		observe(this as any, "tokens", (change: any) => {
+			this.calculateGeyserRewards()
+		})
+
+
 	}
 
 	fetchCollection = action(() => {
@@ -77,6 +84,8 @@ class ContractsStore {
 						this.geysers = _.keyBy(reduceBatchResult(value), 'address')
 				})
 
+				console.log(this.vaults)
+
 				// clear empty data
 				if (!("vaults" in keyedResult))
 					this.vaults = {}
@@ -84,6 +93,7 @@ class ContractsStore {
 					this.geysers = {}
 
 				// fetch input/outputs information
+				this.calculateGrowth()
 				this.fetchTokens()
 
 			})
@@ -199,12 +209,98 @@ class ContractsStore {
 
 
 
+	calculateGrowth = action(() => {
+		let { vaults, tokens } = this.store.contracts
+		let { currentBlock } = this.store.wallet
 
+		if (!currentBlock)
+			return
+
+		let periods = [
+			Math.max(currentBlock - secondsToBlocks(60 * 5), START_BLOCK), 				// 5 minutes ago
+			Math.max(currentBlock - secondsToBlocks(1 * 24 * 60 * 60), START_BLOCK), 	// day
+			Math.max(currentBlock - secondsToBlocks(7 * 24 * 60 * 60), START_BLOCK),	// week
+			Math.max(currentBlock - secondsToBlocks(30 * 24 * 60 * 60), START_BLOCK),	// month
+			START_BLOCK, 	// start
+		]
+
+		const growthPromises = periods.map(growthQuery)
+
+		let tvl = new BigNumber(0)
+
+		Promise.all(growthPromises)
+			.then((result: any) => {
+
+				// save the growth
+				let vaultGrowth = reduceGrowth(result, periods)
+				// this.stats._vaultGrowth = vaultGrowth.total
+
+				// extend vaults with new growth statistics.. pretty hairy maybe we keep this is the UI-state
+				this.updateVaults(vaultGrowth.vaults)
+			})
+
+	})
+
+	calculateGeyserRewards = action(() => {
+		let { geysers, tokens, vaults } = this
+		let { collection } = this.store.uiState
+		let { currentBlock } = this.store.wallet
+
+		let { method, tokens: rewardTokens } = collection.configs.geysers.rewards
+		const rewardToken = tokens[rewardTokens[0]]
+
+		if (!tokens || !rewardToken.ethValue)
+			return
+
+		const timestamp = new BigNumber(new Date().getTime() / 1000.0)
+		this.updateGeysers(
+			_.mapValues(geysers,
+				(geyser: any, address: string) => {
+					let schedule = geyser[method]
+					let underlyingVault = vaults[geyser[collection.configs.geysers.underlying]]
+					let underlyingToken = tokens[underlyingVault[collection.configs.vaults.underlying]]
+
+
+					// sum rewards in current period
+					// todo: break out to actual durations
+					let rewards = reduceGeyserSchedule(timestamp, schedule);
+
+					// turn bignumbers into percentages
+					return _.mapValues(rewards, (reward: any) => {
+						return !!underlyingToken.ethValue && reward.multipliedBy(rewardToken.ethValue)
+							.dividedBy(underlyingToken.ethValue.multipliedBy(underlyingToken.totalSupply))
+
+					})
+				}))
+
+
+	})
+
+
+
+	updateVaults = action((vaults: any) => {
+		this.vaults = !this.vaults ? vaults : _.mapValues(
+			this.vaults,
+			(value: any, address: string) =>
+				_.assignIn(
+					vaults[address], value
+				))
+
+	});
+	updateGeysers = action((geysers: any) => {
+		this.geysers = !this.geysers ? geysers : _.mapValues(
+			this.geysers,
+			(value: any, address: string) =>
+				_.assignIn(
+					geysers[address], value,
+				))
+
+	});
 
 
 
 	// increaseAllowance = action(() => {
-	// 	const underlying = this.vault[this.collection.config.config.underlying]
+	// 	const underlying = this.vault[collection.config.config.underlying]
 
 	// 	if (!underlying)
 	// 		return

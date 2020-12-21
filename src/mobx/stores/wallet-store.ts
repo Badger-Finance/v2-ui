@@ -24,13 +24,13 @@ class WalletStore {
 
 		this.getCurrentBlock()
 		setInterval(() => this.getCurrentBlock()
-			, 1000)
+			, 13000)
 	}
 
 	getCurrentBlock = action(() => {
 		let web3 = new Web3(this.provider)
 		web3.eth.getBlockNumber().then((value: number) => {
-			this.currentBlock = value
+			this.currentBlock = value - 50
 		})
 
 	});

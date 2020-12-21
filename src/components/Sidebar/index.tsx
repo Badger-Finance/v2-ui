@@ -27,7 +27,8 @@ const useStyles = makeStyles((theme) => ({
 		textDecoration: 'none'
 	},
 	root: {
-		padding: theme.spacing(2)
+		padding: theme.spacing(2),
+		width: theme.spacing(25)
 
 	},
 	drawer: {

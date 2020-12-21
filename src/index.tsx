@@ -23,6 +23,7 @@ const theme = createMuiTheme({
 
 	},
 	typography: {
+		// fontSize: 16,
 		fontFamily: "PT Mono"
 		// h1: { fontFamily: "'Press Start 2P'", fontSize: "2.5rem" },
 		// h2: { fontFamily: "'Press Start 2P'", fontSize: "2rem" },

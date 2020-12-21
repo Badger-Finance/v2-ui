@@ -1,5 +1,8 @@
 import BigNumber from "bignumber.js";
 import _ from "lodash";
+import { RootStore } from "../store";
+import UiState from "../stores/ui-state";
+import { inCurrency } from "./helpers";
 
 
 export const reduceBatchResult = (result: any[]): any[] => {
@@ -48,11 +51,16 @@ export const reduceGraphResult = (graphResult: any[]) => {
 
 
 export const reduceCurveResult = (graphResult: any[], contracts: any[], wbtcToken: any) => {
-	return graphResult.map((result: any, i: number) => { return { address: contracts[i], virtualPrice: new BigNumber(result[0].virtual_price), ethValue: new BigNumber(result[0].virtual_price).multipliedBy(wbtcToken.ethValue).dividedBy(1e18) } })
+	return graphResult.map((result: any, i: number) => {
+		return {
+			address: contracts[i],
+			virtualPrice: new BigNumber(result[0].virtual_price),
+			ethValue: new BigNumber(result[0].virtual_price).multipliedBy(wbtcToken.ethValue).dividedBy(1e18)
+		}
+	})
 }
 
 export const reduceGrowth = (graphResult: any[], periods: number[]) => {
-
 	let reduction = graphResult
 		.map((result: any, i: number) =>
 			_.keyBy(result.data.vaults, 'id'))
@@ -74,25 +82,161 @@ export const reduceGrowth = (graphResult: any[], periods: number[]) => {
 		}
 	})
 
-	let average: any = {
-		day: new BigNumber(0),
-		week: new BigNumber(0),
-		month: new BigNumber(0),
-		year: new BigNumber(0),
-		start: new BigNumber(0),
-	}
-	_.forIn(vaults, (vault: any) =>
-		_.forIn(vault, (data: any, key: string) => {
-			average[key] = (average[key] as BigNumber).plus(data)
-		}))
-
-	const length = _.keys(vaults).length
 	return {
-		total: _.mapValues(average, (data: BigNumber, key: string) => data.dividedBy(length)),
 		vaults
 	}
 
 }
+
+export const reduceGeyserSchedule = (timestamp: BigNumber, schedule: any) => {
+	let locked = new BigNumber(0);
+	let period = { start: timestamp, end: timestamp };
+	schedule.forEach((block: any) => {
+		let [initialLocked, endAtSec, duration, startTime] = _.valuesIn(block).map((val: any) => new BigNumber(val));
+
+		if (timestamp.gt(startTime)
+			&& timestamp.lt(endAtSec)) {
+			locked = locked.plus(initialLocked);
+			if (startTime.lt(period.start))
+				period.start = startTime;
+			if (endAtSec.gt(period.end))
+				period.end = endAtSec;
+		}
+	});
+	let badgerPerSecond = locked.dividedBy(period.end.minus(period.start))
+	return {
+		day: badgerPerSecond.multipliedBy(60 * 60 * 24),
+		week: badgerPerSecond.multipliedBy(60 * 60 * 24 * 7),
+		month: badgerPerSecond.multipliedBy(60 * 60 * 24 * 30),
+		year: badgerPerSecond.multipliedBy(60 * 60 * 24 * 365),
+		// ethBalance: !!geyser.totalStakedFor ? new BigNumber(geyser.totalStakedFor).multipliedBy(underlyingToken.ethValue) : new BigNumber(0)
+	}
+
+}
+
+export const reduceGeysersToStats = (store: RootStore) => {
+	const { vaults, geysers, tokens } = store.contracts
+	const { collection, stats, period, currency } = store.uiState
+
+	const config = collection.configs.geysers
+
+	return _.mapValues(geysers, (geyser: any, geyserAddress: string) => {
+
+		let vault = vaults[geyser[config.underlying]]
+		let token = tokens[vault.token]
+		let vaultToken = tokens[vault.address]
+
+		// return geyser
+		let virtualEthValue = !!token.ethValue ? token.ethValue.dividedBy(1e18).multipliedBy(!!vault.getPricePerFullShare ? vault.getPricePerFullShare.dividedBy(1e18) : 1) : token.ethValue
+
+		return {
+			// ethValue: !!geyser.totalStaked &&
+			// 	geyser.totalStaked.multipliedBy(token.ethValue).dividedBy(1e18),
+
+			yourValue: !!geyser.totalStakedFor &&
+				inCurrency(geyser.totalStakedFor.multipliedBy(virtualEthValue), currency),
+
+			yourBalance: !!geyser.totalStakedFor &&
+				inCurrency(geyser.totalStakedFor, 'eth', true),
+
+			availableBalance: !!token.balanceOf &&
+				inCurrency(token.balanceOf, 'eth', true),
+
+			name: token.name,
+			growth: !!geyser[period] && geyser[period].multipliedBy(1e2).toFixed(2) + "%",
+		}
+	})
+}
+
+
+
+export const reduceVaultsToStats = (store: RootStore) => {
+	const { vaults, geysers, tokens } = store.contracts
+	const { collection, stats, currency, period } = store.uiState
+
+	const config = collection.configs.geysers
+
+	return _.mapValues(vaults, (vault: any, vaultAddress: string) => {
+
+		let token = tokens[vault.token]
+
+
+		return {
+			// ethValue: !!vault.totalSupply &&
+			// 	vault.totalSupply.dividedBy(1e18).multipliedBy(token.ethValue),
+
+			yourBalance: !!vault.balanceOf &&
+				inCurrency(vault.balanceOf, 'eth', true),
+
+			wrapped: !!vault.balanceOf && vault.balanceOf.gt(0),
+			yourValue: !!token.balanceOf &&
+				inCurrency(token.balanceOf.multipliedBy(token.ethValue.dividedBy(1e18)), currency),
+
+
+			availableBalance: !!token.balanceOf &&
+				inCurrency(token.balanceOf, 'eth', true),
+
+			name: token.name,
+			growth: !!vault[period] && vault[period].multipliedBy(1e2).toFixed(2) + "%",
+		}
+	})
+}
+
+
+export const reduceContractsToStats = (store: RootStore) => {
+	let { vaults: vaultContracts, tokens, geysers: geyserContracts } = store.contracts
+	let { configs } = store.uiState.collection
+	let { currency } = store.uiState
+
+	let tvl = new BigNumber(0)
+	let wallet = new BigNumber(0)
+	let geysers = new BigNumber(0)
+	let portfolio = new BigNumber(0)
+	let growth = new BigNumber(0)
+	_.forIn(vaultContracts, (vault: any, address: string) => {
+		let token = tokens[vault.token]
+
+		tvl = tvl.plus(vault.totalSupply.dividedBy(1e18).multipliedBy(token.ethValue))
+
+		let value = vault.totalSupply.dividedBy(1e18).multipliedBy(token.ethValue)
+
+		if (!!vault.year)
+			growth = growth.plus(value.multipliedBy(vault.year))
+
+		if (!!token.balanceOf) {
+			portfolio = portfolio.plus(token.balanceOf.multipliedBy(token.ethValue).dividedBy(1e18))
+			// wallet = portfolio.plus(vault.balanceOf.multipliedBy(token.ethValue))
+		}
+
+		if (!!token.balanceOf)
+			wallet = wallet.plus(token.balanceOf.multipliedBy(token.ethValue).dividedBy(1e18))
+
+	})
+
+	_.forIn(geyserContracts, (geyser: any, address: string) => {
+		let vault = vaultContracts[geyser[configs.geysers.underlying]]
+		let token = tokens[vault.token]
+
+		if (!!geyser.totalStakedFor) {
+			let virtualEthValue = !!token.ethValue ? token.ethValue.dividedBy(1e18).multipliedBy(vault.getPricePerFullShare.dividedBy(1e18)) : token.ethValue
+			portfolio = portfolio.plus(geyser.totalStakedFor.multipliedBy(virtualEthValue))
+			geysers = geysers.plus(geyser.totalStakedFor.multipliedBy(virtualEthValue))
+		}
+	})
+
+
+	return {
+		tvl: inCurrency(tvl, currency),
+		portfolio: inCurrency(portfolio, currency),
+		growth: inCurrency(growth, currency),
+		wallet: inCurrency(wallet, currency),
+		geysers: inCurrency(geysers, currency)
+	}
+
+}
+
+
+
 
 
 

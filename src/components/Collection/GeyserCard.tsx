@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite';
 import views from '../../config/routes';
 import { StoreContext } from '../../context/store-context';
 import {
-	Card, CardContent, CardActions, CardActionArea, Collapse, Avatar, IconButton, Divider, Button, Grid, ButtonGroup
+	Card, CardContent, CardActions, CardActionArea, Collapse, Avatar, IconButton, Divider, Button, Grid
 } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
 	}
 
 }));
-export const VaultCard = observer((props: any) => {
+export const GeyserCard = observer((props: any) => {
 	const store = useContext(StoreContext);
 	const classes = useStyles();
 	const { underlying,
@@ -71,11 +71,10 @@ export const VaultCard = observer((props: any) => {
 					{uiStats.name}
 				</Typography>
 			</Grid>
-
 			<Grid item xs={2}>
 				<Typography variant="body1">
 
-					{uiStats.availableBalance}
+					{uiStats.yourBalance}
 				</Typography>
 			</Grid>
 			<Grid item xs={2}>
@@ -93,10 +92,7 @@ export const VaultCard = observer((props: any) => {
 
 			</Grid>
 			<Grid item xs={2} className={classes.buttons}>
-				<ButtonGroup variant="outlined">
-					<Button variant="outlined" size="small" >Stake</Button>
-					{!!uiStats.wrapped && <Button variant="outlined" size="small" className={classes.button}>Unwrap</Button>}
-				</ButtonGroup>
+				<Button variant="outlined" size="small" className={classes.button}>Withdraw</Button>
 			</Grid>
 		</Grid>
 
