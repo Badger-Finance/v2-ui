@@ -131,7 +131,7 @@ export const VaultCard = observer((props: any) => {
 			<Grid item xs={12} sm={6} md={2}>
 				<ButtonGroup variant="outlined" style={{ float: "right" }}>
 					{anyAvailable && <Button onClick={() => onStake(uiStats.address)} variant="contained" color="primary" size="small" >Stake</Button>}
-					{!!uiStats.wrapped && <Button onClick={() => onUnwrap(uiStats.address)} variant="outlined" color="primary" size="small" className={classes.button}>Unwrap</Button>}
+					{!!uiStats.anyWrapped && <Button onClick={() => onUnwrap(uiStats.address)} variant="outlined" color="primary" size="small" className={classes.button}>Unwrap</Button>}
 				</ButtonGroup>
 
 

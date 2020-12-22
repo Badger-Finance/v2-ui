@@ -51,7 +51,11 @@ const useStyles = makeStyles((theme) => ({
 	},
 
 	rewards: {
-		marginTop: theme.spacing(1)
+		margin: theme.spacing(2, 2, 0, 0)
+	},
+	flex: {
+		display: 'flex',
+		alignItens: 'center'
 	}
 
 }));
@@ -98,24 +102,30 @@ export const Sidebar = observer(() => {
 				className={classes.drawer}
 				onClose={() => closeSidebar()}
 			>
-				<div>
+				<div className={classes.flex}>
 					<img src={require('../../assets/badger-logo.png')} className={classes.logo} />
+					{stats.claims[0] !== 0 &&
+						<Button fullWidth variant="outlined" color="primary" size="small" className={classes.rewards} onClick={() => goTo(views.home)}>
+							{stats.claims[0]}
+							{/* <Typography variant="body2">{stats.claims[1]}</Typography> */}
+						</Button>}
 				</div>
 
 				<div className={classes.root}>
 
 					<Wallet />
 
-					{stats.claims[0] !== 0 &&
-						<Button fullWidth variant="contained" color="primary" className={classes.rewards}>
-							{stats.claims[0]}
-							{/* <Typography variant="body2">{stats.claims[1]}</Typography> */}
-						</Button>}
+
 
 
 					<List >
+						<ListItem
+							onClick={() => goTo(views.home)}
+							className={classes.listItem + ' ' + (store.router.currentPath === '/' ? classes.activeListItem : '')}>
+							Portfolio</ListItem>
+
 						{renderCollections()}
-						<ListItem className={classes.listItem}>Digg</ListItem>
+						<ListItem className={classes.listItem}>DIGG</ListItem>
 						<ListItem className={classes.listItem}>Hunt</ListItem>
 					</List>
 

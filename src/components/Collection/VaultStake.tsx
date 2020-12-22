@@ -14,6 +14,9 @@ import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Loader } from '../Loader';
 import BigNumber from 'bignumber.js'
+import { useForm } from 'react-hook-form';
+
+const TEXTFIELD_ID = 'amountField'
 
 const useStyles = makeStyles((theme) => ({
 
@@ -43,6 +46,9 @@ const useStyles = makeStyles((theme) => ({
 	button: {
 		marginBottom: theme.spacing(1)
 	},
+	field: {
+		margin: theme.spacing(1, 0, 1)
+	},
 	border: {
 		border: `1px solid rgba(255,255,255,.2)`,
 		marginBottom: theme.spacing(1),
@@ -58,22 +64,27 @@ export const VaultStake = observer((props: any) => {
 	const { onStake,
 		onUnwrap,
 		uiStats } = props
+	const { register, handleSubmit, watch, errors, setValue } = useForm({ mode: 'all' });
 
 	const { router: { params, goTo }, contracts: { vaults, tokens }, uiState: { collection }, wallet: { provider } } = store;
 
-	const openVault = (asset: string) => {
-		goTo(views.vault, { collection: collection.id, id: asset })
+	const setAmount = (percent: number) => {
+		// (document.getElementById(TEXTFIELD_ID)! as HTMLInputElement).value = uiStats.availableFull[percent];
+		setValue('amount', uiStats.availableFull[percent])
 	}
-
-	const stat = (key: any, value: any) => <div key={key} className={classes.stat}>
-		<Typography color="textSecondary" variant="subtitle2">{key}</Typography>
-		<Typography variant="body1">{value}</Typography>
-		<img src={require("../../assets/fade.png")} className={classes.fade} />
-	</div>
 
 	if (!uiStats) {
 		return <Loader />
 	}
+
+	let renderAmounts = <ButtonGroup fullWidth className={classes.button}>
+		<Button onClick={() => { setAmount(25) }} variant={watch().amount === uiStats.availableFull[25] ? "contained" : "outlined"} color="primary">25%</Button>
+		<Button onClick={() => { setAmount(50) }} variant={watch().amount === uiStats.availableFull[50] ? "contained" : "outlined"} color="primary">50%</Button>
+		<Button onClick={() => { setAmount(75) }} variant={watch().amount === uiStats.availableFull[75] ? "contained" : "outlined"} color="primary">75%</Button>
+		<Button onClick={() => { setAmount(100) }} variant={watch().amount === uiStats.availableFull[100] ? "contained" : "outlined"} color="primary">100%</Button>
+	</ButtonGroup>
+
+
 	let anyAvailable = !!uiStats.availableBalance && parseFloat(uiStats.availableBalance) !== 0
 	return <>
 		<DialogContent style={{ textAlign: 'center' }}>
@@ -83,22 +94,18 @@ export const VaultStake = observer((props: any) => {
 			</Typography>
 
 			<Typography variant="h5" color={!anyAvailable ? "textSecondary" : 'textPrimary'}>
-				{uiStats.availableBalance} {uiStats.symbol}
+				{uiStats.availableFull[100]} {uiStats.symbol}
 			</Typography>
 
 
 		</DialogContent>
 		<DialogContent style={{ textAlign: "center" }}>
+			{renderAmounts}
 
 
-			<TextField className={classes.button} variant="outlined" fullWidth label="Type an amount to stake" />
 
-			<ButtonGroup fullWidth className={classes.button}>
-				<Button onClick={() => { }} variant="outlined" color="primary">25%</Button>
-				<Button onClick={() => { }} variant="outlined" color="primary">50%</Button>
-				<Button onClick={() => { }} variant="outlined" color="primary">75%</Button>
-				<Button onClick={() => { }} variant="outlined" color="primary">100%</Button>
-			</ButtonGroup>
+			<TextField name="amount" inputRef={register} id={TEXTFIELD_ID} className={classes.field} variant="outlined" fullWidth placeholder="Type an amount to stake" />
+
 
 			<Button onClick={() => onStake(uiStats.address)} variant="contained" color="primary" fullWidth className={classes.button}>Stake</Button>
 

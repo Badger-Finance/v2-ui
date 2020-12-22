@@ -17,6 +17,7 @@ import _ from 'lodash';
 import { GeyserCard } from './GeyserCard';
 import { VaultStake } from './VaultStake';
 import Carousel from 'react-material-ui-carousel'
+import { SettList } from './SettList';
 
 const useStyles = makeStyles((theme) => ({
 
@@ -31,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
 		textAlign: 'right'
 	},
 	buttonGroup: {
-		marginLeft: theme.spacing(1),
+		marginLeft: theme.spacing(2),
 	},
 
 	statPaper: {
@@ -260,24 +261,24 @@ export const Collection = observer(() => {
 
 			{spacer}
 
-			<Grid item xs={12} md={!!stats.cycle ? 4 : 6} >
+			<Grid item xs={12} md={!!stats.badger ? 4 : 6} >
 				<Paper className={classes.statPaper}>
 					<Typography variant="body1" color="textPrimary">TVL</Typography>
 					<Typography variant="h5">{stats.tvl}</Typography>
 				</Paper>
 			</Grid >
-			<Grid item xs={12} md={!!stats.cycle ? 4 : 6}>
+			<Grid item xs={12} md={!!stats.badger ? 4 : 6}>
 				<Paper className={classes.statPaper}>
 					<Typography variant="body1" color="textPrimary">Your Portfolio</Typography>
 					<Typography variant="h5">{stats.portfolio}</Typography>
 				</Paper>
 
 			</Grid>
-			{!!stats.cycle &&
+			{!!stats.badger &&
 				<Grid item xs={12} md={4}>
 					<Paper className={classes.statPaper}>
-						<Typography variant="body1" color="textPrimary">Rewards Cycle</Typography>
-						<Typography variant="h5">{stats.cycle}</Typography>
+						<Typography variant="body1" color="textPrimary">Badger Price</Typography>
+						<Typography variant="h5">{stats.badger}</Typography>
 					</Paper>
 
 				</Grid>}
@@ -310,13 +311,7 @@ export const Collection = observer(() => {
 
 			{spacer}
 
-			{!!provider.selectedAddress && tableHeader(`Your Wallet - ${stats.wallet}`)}
-			{!!provider.selectedAddress && walletVaults()}
-			{!!provider.selectedAddress && tableHeader(`Deposits - ${stats.geysers}`)}
-			{!!provider.selectedAddress && renderDeposits()}
-
-			{tableHeader(`Setts`)}
-			{emptyGeysers()}
+			<SettList />
 
 		</Grid >
 

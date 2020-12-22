@@ -10,7 +10,7 @@ const ItchiroVault = require("./abis/LockedGeyser.json")
 
 export const collections = [
 	{
-		title: "Setts",
+		title: "Sett Vaults",
 		id: 'badger',
 
 		contracts: {

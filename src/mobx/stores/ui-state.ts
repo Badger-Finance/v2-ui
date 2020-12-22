@@ -7,6 +7,7 @@ import { collections } from '../../config/constants';
 import { RootStore } from '../store';
 import { growthQuery, jsonQuery, secondsToBlocks } from '../utils/helpers';
 import { reduceClaims, reduceContractsToStats, reduceGeysersToStats, reduceVaultsToStats } from '../utils/reducers';
+import views from '../../config/routes';
 
 class UiState {
 	private store!: RootStore
@@ -65,9 +66,8 @@ class UiState {
 
 		})
 		observe(this.store.wallet as any, "provider", (change: any) => {
-
 			this.fetchSettRewards()
-
+			this.store.router.goTo(views.home)
 		})
 		observe(this as any, "period", (change: any) => {
 			this.reduceContracts()

@@ -130,20 +130,16 @@ export const reduceGeysersToStats = (store: RootStore) => {
 		let virtualEthValue = !!token.ethValue ? token.ethValue.dividedBy(1e18).multipliedBy(!!vault.getPricePerFullShare ? vault.getPricePerFullShare.dividedBy(1e18) : 1) : token.ethValue
 
 		return {
-			// ethValue: !!geyser.totalStaked &&
-			// 	geyser.totalStaked.multipliedBy(token.ethValue).dividedBy(1e18),
 			address: geyser.address,
 
 			underlyingTokens: !!geyser.totalStaked &&
 				inCurrency(geyser.totalStaked, 'eth', true),
-
 			underlyingBalance: !!geyser.totalStaked &&
 				inCurrency(geyser.totalStaked.multipliedBy(virtualEthValue), currency),
 
 
 			yourValue: !!geyser.totalStakedFor &&
 				inCurrency(geyser.totalStakedFor.multipliedBy(virtualEthValue), currency),
-
 			yourBalance: !!geyser.totalStakedFor &&
 				inCurrency(geyser.totalStakedFor, 'eth', true),
 
@@ -179,24 +175,31 @@ export const reduceVaultsToStats = (store: RootStore) => {
 		let geyser = _.find(geysers, (geyser: any) => geyser[collection.configs.geysers.underlying] === vaultAddress)
 
 		return {
-			// ethValue: !!vault.totalSupply &&
-			// 	vault.totalSupply.dividedBy(1e18).multipliedBy(token.ethValue),
+			vault: vault,
 			address: vault.address,
+
 			yourBalance: !!vault.balanceOf &&
 				inCurrency(vault.balanceOf, 'eth', true),
 			yourValue: !!token.balanceOf && !!token.ethValue &&
 				inCurrency(token.balanceOf.multipliedBy(token.ethValue.dividedBy(1e18)), currency),
 
-			wrapped: !!vault.balanceOf && vault.balanceOf.gt(0),
+			anyWrapped: !!vault.balanceOf && vault.balanceOf.gt(0),
 
 			underlyingTokens: !!vault.totalSupply &&
 				inCurrency(vault.totalSupply, 'eth', true),
 			underlyingBalance: !!vault.totalSupply && !!token.ethValue &&
 				inCurrency(vault.totalSupply.multipliedBy(token.ethValue.dividedBy(1e18)), currency),
 
-
 			availableBalance: !!token.balanceOf &&
 				inCurrency(token.balanceOf, 'eth', true),
+
+			availableFull: !!token.balanceOf && {
+				25: inCurrency(token.balanceOf.multipliedBy(0.25), 'eth', true, 18),
+				50: inCurrency(token.balanceOf.multipliedBy(0.5), 'eth', true, 18),
+				75: inCurrency(token.balanceOf.multipliedBy(0.75), 'eth', true, 18),
+				100: inCurrency(token.balanceOf, 'eth', true, 18),
+			},
+
 			symbol: token.symbol,
 			name: token.name,
 			vaultGrowth: !!vault[period] && vault[period].multipliedBy(1e2).toFixed(2) + "%",
@@ -252,13 +255,17 @@ export const reduceContractsToStats = (store: RootStore) => {
 		}
 	})
 
+	const badgerToken = !!tokens && tokens["0x3472a5a71965499acd81997a54bba8d852c6e53d"].ethValue
+
 
 	return {
 		tvl: inCurrency(tvl, currency),
 		portfolio: inCurrency(portfolio, currency),
 		growth: inCurrency(growth, currency),
 		wallet: inCurrency(wallet, currency),
-		geysers: inCurrency(geysers, currency)
+		geysers: inCurrency(geysers, currency),
+		badger: !!tokens && inCurrency(badgerToken, currency)
+
 	}
 
 }

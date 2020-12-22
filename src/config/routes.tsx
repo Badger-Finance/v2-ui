@@ -8,11 +8,21 @@ import { Home } from '../components/Home';
 import { Asset } from '../components/Asset';
 import { Collection } from '../components/Collection';
 import { RootStore } from '../mobx/store';
+import { collections } from './constants';
 
 const routes = {
 	home: new Route<RootStore>({
 		path: '/',
-		component: <Home />
+		component: <Home />,
+		onEnter: (route, params, store) => {
+			store.uiState.setCollection(collections[0].id)
+		},
+		beforeExit: () => {
+		},
+		onParamsChange: (route, params, store) => {
+			store.uiState.setCollection(collections[0].id)
+		}
+
 	}),
 
 	collection: new Route<RootStore, {
