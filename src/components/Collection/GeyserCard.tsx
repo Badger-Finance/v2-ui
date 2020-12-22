@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
 		marginLeft: theme.spacing(1)
 	},
 	border: {
-		border: `1px solid rgba(255,255,255,.2)`,
+		border: `1px solid ${theme.palette.grey[800]}`,
 		marginBottom: theme.spacing(1),
 		borderRadius: theme.shape.borderRadius,
 		padding: theme.spacing(2, 1),

@@ -133,6 +133,7 @@ class UiState {
 									let claims = reduceClaims(merkleProof, claimedRewards)
 									this.stats = {
 										...this.stats,
+										cycle: parseInt(merkleProof.cycle, 16),
 										claims
 									}
 								})

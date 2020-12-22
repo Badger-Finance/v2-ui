@@ -260,19 +260,27 @@ export const Collection = observer(() => {
 
 			{spacer}
 
-			<Grid item xs={12} md={6} >
+			<Grid item xs={12} md={!!stats.cycle ? 4 : 6} >
 				<Paper className={classes.statPaper}>
 					<Typography variant="body1" color="textPrimary">TVL</Typography>
 					<Typography variant="h5">{stats.tvl}</Typography>
 				</Paper>
 			</Grid >
-			<Grid item xs={12} md={6}>
+			<Grid item xs={12} md={!!stats.cycle ? 4 : 6}>
 				<Paper className={classes.statPaper}>
 					<Typography variant="body1" color="textPrimary">Your Portfolio</Typography>
 					<Typography variant="h5">{stats.portfolio}</Typography>
 				</Paper>
 
 			</Grid>
+			{!!stats.cycle &&
+				<Grid item xs={12} md={4}>
+					<Paper className={classes.statPaper}>
+						<Typography variant="body1" color="textPrimary">Rewards Cycle</Typography>
+						<Typography variant="h5">{stats.cycle}</Typography>
+					</Paper>
+
+				</Grid>}
 
 			<Grid item xs={12} >
 				<Typography variant="body1" color="textPrimary" className={classes.featuredHeader}>Featured</Typography>

@@ -50,7 +50,8 @@ const useStyles = makeStyles((theme) => ({
 		border: 0,
 		paddingTop: '30%',
 		background: theme.palette.grey[800],
-		borderRadius: theme.shape.borderRadius
+		borderRadius: theme.shape.borderRadius,
+		boxShadow: theme.shadows[1]
 	}
 
 }));
