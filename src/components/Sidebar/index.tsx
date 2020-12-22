@@ -12,10 +12,10 @@ import { UseWalletProvider } from 'use-wallet'
 
 const useStyles = makeStyles((theme) => ({
 	logo: {
-		width: "20%",
-		minWidth: "4rem",
-		margin: theme.spacing(2, 2, 2, 0)
-		// display: "block"
+		height: "2.4rem",
+		width: "auto",
+		// display: 'block',
+		margin: theme.spacing(2, 2, 0, 2)
 	},
 	listHeader: {
 		fontSize: ".8rem",
@@ -48,6 +48,10 @@ const useStyles = makeStyles((theme) => ({
 
 	currency: {
 		marginTop: theme.spacing(1)
+	},
+
+	rewards: {
+		marginTop: theme.spacing(1)
 	}
 
 }));
@@ -56,7 +60,7 @@ export const Sidebar = observer(() => {
 	const classes = useStyles();
 
 	const store = useContext(StoreContext);
-	const { router: { goTo } } = store;
+	const { router: { goTo }, uiState: { sidebarOpen, closeSidebar, stats } } = store;
 
 	// const { enqueueSnackbar } = useSnackbar();
 
@@ -88,16 +92,26 @@ export const Sidebar = observer(() => {
 			}}
 		>
 			<Drawer
-				variant="persistent"
+				variant={window.innerWidth > 960 ? 'persistent' : 'temporary'}
 				anchor="left"
-				open={true}
+				open={sidebarOpen}
 				className={classes.drawer}
+				onClose={() => closeSidebar()}
 			>
-
+				<div>
+					<img src={require('../../assets/badger-logo.png')} className={classes.logo} />
+				</div>
 
 				<div className={classes.root}>
 
 					<Wallet />
+
+					{stats.claims[0] !== 0 &&
+						<Button fullWidth variant="contained" color="primary" className={classes.rewards}>
+							{stats.claims[0]}
+							{/* <Typography variant="body2">{stats.claims[1]}</Typography> */}
+						</Button>}
+
 
 					<List >
 						{renderCollections()}

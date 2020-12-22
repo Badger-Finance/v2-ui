@@ -1,13 +1,21 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../context/store-context';
 import {
 	Grid, Card, CardHeader, CardMedia, CardContent, CardActions, CardActionArea, Collapse, Avatar, IconButton,
-
+	AppBar,
+	Toolbar,
 	Container,
 	ButtonGroup,
 	Button,
 	Paper,
+	Modal,
+	DialogContent,
+	DialogContentText,
+	DialogActions,
+	Dialog,
+	DialogTitle,
+	Drawer,
 } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -17,36 +25,34 @@ import { VaultCard } from './VaultCard';
 import _ from 'lodash';
 import { AssetCard } from '../Asset/AssetCard';
 import { GeyserCard } from './GeyserCard';
+import { VaultFunction } from '../Asset/VaultFunction';
+import { VaultStake } from './VaultStake';
 
 const useStyles = makeStyles((theme) => ({
 
-	root: { marginTop: theme.spacing(2), paddingLeft: theme.spacing(28) },
-	stat: {
-		// textAlign: 'right'
-	},
-	card: {
-		overflow: 'hidden',
-		padding: theme.spacing(0, 2, 2, 2)
+	root: {
+		marginTop: theme.spacing(11),
+		[theme.breakpoints.up('md')]: {
+			paddingLeft: theme.spacing(28),
+			marginTop: theme.spacing(2),
+		},
 	},
 	filters: {
-		margin: theme.spacing(2, 0, 0)
+		// margin: theme.spacing(2, 0, 0)
+		textAlign: 'right'
 	},
-	filter: {
-		margin: theme.spacing(0, 1, 1, 0)
+	buttonGroup: {
+		marginLeft: theme.spacing(1),
 	},
+
 	statPaper: {
 		padding: theme.spacing(2),
 		textAlign: 'center'
 	},
-	divider: {
-		width: "100%",
-		borderBottom: `1px solid rgba(255,255,255,.1)`,
-		marginBottom: theme.spacing(2)
-	},
 	before: {
-		paddingTop: theme.spacing(2),
+		marginTop: theme.spacing(3),
 		width: "100%"
-	}
+	},
 
 }));
 export const Collection = observer(() => {
@@ -58,80 +64,85 @@ export const Collection = observer(() => {
 		contracts: { vaults, geysers, tokens },
 		uiState: { collection, stats, geyserStats, vaultStats, currency, period, setCurrency, setPeriod } } = store;
 
-	const openAsset = (asset: string) => {
-		// goTo(views.asset, { collection: collection.id, id: asset })
+	const [modalProps, setModalProps] = useState({ open: false, mode: '', contract: "0x" })
+
+
+	const renderContracts = (contracts: any, isGeysers: boolean = false) => {
+
+		return _.map(contracts, (contract: any, address: string) => {
+
+			let vault = vaults[contract[collection.configs.geysers.underlying]]
+			let geyser = contract
+			let stats = !!geyserStats && geyserStats[contract.address]
+			let config = collection.configs.geysers
+
+			if (!vault) {
+				vault = contract
+				geyser = _.find(geysers, (geyser: any) => geyser.getStakingToken === vault.address)
+				stats = vaultStats[contract.address]
+				config = collection.configs.vaults
+
+			} else
+				vault = vaults[contract[collection.configs.geysers.underlying]]
+
+			if (!isGeysers)
+				return <Grid item xs={12} key={address}>
+					<VaultCard uiStats={stats} onStake={onStake} onUwrap={onUnwrap} />
+				</Grid>
+			else
+				return <Grid item xs={12} key={address}>
+					<GeyserCard uiStats={stats} onStake={onStake} onUnstake={onUnstake} />
+				</Grid>
+		})
 	}
 
-	const renderWallet = () => {
+	const onUnwrap = (contract: string) => {
+		setModalProps({ mode: 'unwrap', contract, open: true })
+	}
+	const onUnstake = (contract: string) => {
+		setModalProps({ mode: 'unstake', contract, open: true })
+	}
+	const onStake = (contract: string) => {
+		setModalProps({ mode: 'stake', contract, open: true })
+	}
+	const onClose = (contract: string) => {
+		setModalProps({ ...modalProps, open: false })
+	}
+
+	const walletVaults = () => {
+
 		let vaultCards: any[] = []
 
-		if (!tokens)
-			return
+		// wallet assets & wrapped assets ordered by value
+		return renderContracts(
+			_.sortBy(vaults, [(vault: any) => {
+				let token = tokens[vault[collection.configs.vaults.underlying]]
+				return -token.balanceOf
+			}]).filter((geyser: any) => {
+				return (!!geyser.balanceOf && geyser.balanceOf.gt(0))
+			}))
+	}
+
+	const emptyGeysers = () => {
 
 		// wallet assets & wrapped assets ordered by value
-		let balAssets = _.sortBy(vaults, [(vault: any) => {
+		return renderContracts(_.sortBy(vaults, [(vault: any) => {
 			let token = tokens[vault[collection.configs.vaults.underlying]]
 			return -token.balanceOf
-		}])
-		vaultCards = _.concat(vaultCards, _.map(balAssets, (contract: any, address: string) => {
-			let token = tokens[contract.token]
-			let geyser = _.find(geysers, (geyser: any) => geyser.getStakingToken === address)
-			const stats = vaultStats
-
-			if (!!token)
-				return <>
-
-					<Grid item xs={12} key={address}>
-						<VaultCard contract={contract} config={collection.configs.vaults} uiStats={!!stats && stats[contract.address]} />
-
-					</Grid>
-
-				</>
-			else {
-				return <div>{address}</div>
-			}
+		}]).filter((vault: any) => {
+			return (!vault.balanceOf || !vault.balanceOf.gt(0))
 		}))
-		return vaultCards
 	}
-	const renderGeysers = () => {
-		let geyserCards: any[] = []
-
-		if (!tokens)
-			return
+	const renderDeposits = () => {
 
 		// pooled tokens & empty tokens
-		let pools = _.sortBy(geysers, [(geyser: any) => {
-			let token = tokens[geyser[collection.configs.geysers.underlying]]
-			return -token.balanceOf
-		}]).filter((geyser: any) => {
-			return (!!geyser.totalStakedFor && geyser.totalStakedFor.gt(0))
-		})
-
-
-
-		geyserCards = _.concat(geyserCards, _.map(pools, (contract: any, address: string) => {
-			const vault = vaults[contract[collection.configs.geysers.underlying]]
-			const token = tokens[vault.token]
-			const stats = geyserStats
-			if (!!token)
-				return <>
-
-					<Grid item xs={12} key={address}>
-						<GeyserCard
-							underlying={token}
-							contract={contract}
-							config={collection.configs.geysers}
-							uiStats={!!stats && stats[contract.address]} />
-					</Grid>
-
-
-				</>
-			else {
-				return <div>{address}</div>
-			}
-		}))
-
-		return geyserCards
+		return renderContracts(
+			_.sortBy(geysers, [(geyser: any) => {
+				let token = tokens[geyser[collection.configs.geysers.underlying]]
+				return -token.balanceOf
+			}]).filter((geyser: any) => {
+				return (!!geyser.totalStakedFor && geyser.totalStakedFor.gt(0))
+			}), true)
 	}
 
 	const renderFilters = () => {
@@ -144,115 +155,117 @@ export const Collection = observer(() => {
 		return <Loader />
 	}
 
-	return <Container className={classes.root} >
-		<Grid container spacing={2}>
-			<Grid item xs={6} className={classes.filters}>
-				<ButtonGroup variant="outlined" size="small">
-					<Button color={currency === "btc" ? 'primary' : 'default'} onClick={() => setCurrency('btc')}>BTC</Button>
-					<Button color={currency === "eth" ? 'primary' : 'default'} onClick={() => setCurrency('eth')}>ETH</Button>
-					<Button color={currency === "usd" ? 'primary' : 'default'} onClick={() => setCurrency('usd')}>USD</Button>
-				</ButtonGroup>
-			</Grid>
-			<Grid item xs={6} className={classes.filters} style={{ textAlign: 'right' }}>
-				<ButtonGroup variant="outlined" size="small">
-					<Button color={period === "year" ? 'primary' : 'default'} onClick={() => setPeriod('year')}>Y</Button>
-					<Button color={period === "month" ? 'primary' : 'default'} onClick={() => setPeriod('month')}>M</Button>
-					<Button color={period === "day" ? 'primary' : 'default'} onClick={() => setPeriod('day')}>D</Button>
-				</ButtonGroup>
-			</Grid>
-			{/* <Grid item xs={3}>
-				<Typography variant="h5">{collection.title}</Typography>
-				<Typography variant="body1" color="textPrimary">{_.keys(vaults).length + " assets" || "No vaults"}</Typography>
-			</Grid>
-			<Grid item xs={9} className={classes.stat}>
-				<Typography variant="body1" color="textPrimary">Growth</Typography>
-				<Typography variant="h5">{stats.growth}</Typography>
-			</Grid> */}
+	const spacer = <div className={classes.before} />;
 
-			<Grid item xs={6} className={classes.stat}>
+	const tableHeader = (title: string) => {
+		return <>
+			<Grid item xs={12} sm={4}>
+				<Typography variant="body1" color="textPrimary">
+					{title}
+				</Typography>
+
+			</Grid>
+			<Grid item xs={12} sm={4} md={2}>
+				<Typography variant="body2" color="textSecondary">
+					Tokens Locked
+			</Typography>
+
+			</Grid>
+			<Grid item xs={12} sm={4} md={2}>
+				<Typography variant="body2" color="textSecondary">
+					{({ year: 'Yearly', day: 'Daily', month: 'Monthly' } as any)[period]} ROI
+
+			</Typography>
+
+			</Grid>
+
+			<Grid item xs={12} sm={6} md={2}>
+				<Typography variant="body2" color="textSecondary">
+					Tokens Locked
+			</Typography>
+
+			</Grid>
+		</>
+	};
+
+
+	const depositModal = () => {
+
+		const { mode, open, contract } = modalProps
+		let vault: any = {}
+		let title: string = ""
+		if (mode == "stake") {
+			vault = vaultStats[contract]
+			title = "Stake"
+		} else if (mode == "unstake") {
+			vault = geyserStats[contract]
+			title = "Unstake"
+		} else if (mode == "stake") {
+			vault = vaultStats[contract]
+			title = "Unwrap"
+		}
+
+		return <Dialog fullWidth maxWidth={'sm'} open={open} onClose={onClose}>
+
+
+			<VaultStake uiStats={vault} onStake={onStake} onUnstake={onUnstake} />
+		</Dialog>
+	}
+
+
+	return <Container className={classes.root} >
+		{depositModal()}
+		<Grid container spacing={2}>
+			{spacer}
+
+			<Grid item xs={3} >
+				<Typography variant="h5" color="textPrimary" >Badger Setts</Typography>
+				<Typography variant="subtitle2" color="textPrimary" >Wrap, stake & earn Badger</Typography>
+			</Grid>
+
+			<Grid item xs={9} className={classes.filters}>
+
+				<ButtonGroup variant="outlined" size="small" className={classes.buttonGroup}>
+					{["btc", "eth", "usd"].map((curr: string) =>
+						<Button color={currency === curr ? 'primary' : 'default'} onClick={() => setCurrency(curr)}>{curr}</Button>
+					)}
+				</ButtonGroup>
+
+				<ButtonGroup variant="outlined" size="small" className={classes.buttonGroup}>
+					{["day", "month", "year"].map((p: string) =>
+						<Button color={period === p ? 'primary' : 'default'} onClick={() => setPeriod(p)}>{p.charAt(0)}</Button>
+					)}
+				</ButtonGroup >
+
+			</Grid >
+
+			{spacer}
+
+			<Grid item xs={12} md={6} >
 				<Paper className={classes.statPaper}>
 					<Typography variant="body1" color="textPrimary">TVL</Typography>
 					<Typography variant="h5">{stats.tvl}</Typography>
 				</Paper>
-			</Grid>
-			<Grid item xs={6} className={classes.stat}>
+			</Grid >
+			<Grid item xs={12} md={6}>
 				<Paper className={classes.statPaper}>
-
 					<Typography variant="body1" color="textPrimary">Your Portfolio</Typography>
 					<Typography variant="h5">{stats.portfolio}</Typography>
 				</Paper>
 
 			</Grid>
-			<div className={classes.before} />
 
+			{spacer}
 
-			<Grid item xs={4} >
-				<Typography variant="body2" color="textPrimary">
-					Setts
-					{!!provider.selectedAddress && ` - ${stats.wallet}`}
-				</Typography>
+			{!!provider.selectedAddress && tableHeader(`Your Wallet - ${stats.wallet}`)}
+			{!!provider.selectedAddress && walletVaults()}
+			{!!provider.selectedAddress && tableHeader(`Deposits - ${stats.geysers}`)}
+			{!!provider.selectedAddress && renderDeposits()}
 
-			</Grid>
-			<Grid item xs={2}>
-				<Typography variant="body2" color="textPrimary">
-					Underlying Tokens
-				</Typography>
+			{tableHeader(`Setts`)}
+			{emptyGeysers()}
 
-			</Grid>
-			<Grid item xs={2} >
-				<Typography variant="body2" color="textPrimary">
-					{({ year: 'Yearly', day: 'Daily', month: 'Monthly' } as any)[period]} ROI
-
-				</Typography>
-
-			</Grid>
-
-			<Grid item xs={2} >
-				<Typography variant="body2" color="textPrimary">
-					Balance
-
-				</Typography>
-
-			</Grid>
-
-			{renderWallet()}
-
-			{!!provider.selectedAddress && <>
-				<div className={classes.before} />
-
-				<Grid item xs={4} >
-					<Typography variant="body2" color="textPrimary">
-						Deposits
-					{!!provider.selectedAddress && ` - ${stats.geysers}`}
-
-					</Typography>
-
-				</Grid>
-				<Grid item xs={2} >
-					<Typography variant="body2" color="textPrimary">
-						Balance
-
-				</Typography>
-
-				</Grid>
-				<Grid item xs={2} >
-					<Typography variant="body2" color="textPrimary">
-						{({ year: 'Yearly', day: 'Daily', month: 'Monthly' } as any)[period]}
-				&nbsp;ROI
-
-				</Typography>
-
-				</Grid>
-				<Grid item xs={2} >
-					<Typography variant="body2" color="textPrimary">
-						Value
-
-				</Typography>
-
-				</Grid>
-			</>}
-			{renderGeysers()}
-		</Grid>
+		</Grid >
 
 
 	</Container >

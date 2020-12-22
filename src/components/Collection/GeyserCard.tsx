@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
 		marginLeft: theme.spacing(1)
 	},
 	border: {
-		border: `1px solid rgba(255,255,255,.1)`,
+		border: `1px solid rgba(255,255,255,.2)`,
 		marginBottom: theme.spacing(1),
 		borderRadius: theme.shape.borderRadius,
 		padding: theme.spacing(2, 1),
@@ -51,10 +51,7 @@ const useStyles = makeStyles((theme) => ({
 export const GeyserCard = observer((props: any) => {
 	const store = useContext(StoreContext);
 	const classes = useStyles();
-	const { underlying,
-		contract,
-		config,
-		uiStats } = props
+	const { uiStats } = props
 
 	const { router: { params, goTo }, contracts: { vaults, tokens }, uiState: { collection }, wallet: { provider } } = store;
 
@@ -74,7 +71,7 @@ export const GeyserCard = observer((props: any) => {
 	let anyAvailable = !!uiStats.availableBalance && parseFloat(uiStats.availableBalance) !== 0
 	return <>
 		<Grid container spacing={2} className={classes.border}>
-			<Grid item xs={4}>
+			<Grid item xs={12} sm={4}>
 				<Typography variant="body1">
 					{uiStats.name}
 				</Typography>
@@ -83,7 +80,7 @@ export const GeyserCard = observer((props: any) => {
 				</Typography>
 			</Grid>
 
-			<Grid item xs={2}>
+			<Grid item xs={12} sm={2}>
 				<Typography variant="body1" color={parseFloat(uiStats.underlyingBalance) === 0 ? "textSecondary" : 'textPrimary'}>
 
 					{uiStats.underlyingBalance}
@@ -93,7 +90,7 @@ export const GeyserCard = observer((props: any) => {
 
 				</Typography>
 			</Grid>
-			<Grid item xs={2}>
+			<Grid item xs={12} sm={2}>
 				<Tooltip arrow placement="left" title={`${uiStats.geyserGrowth} + ${uiStats.vaultGrowth} ${uiStats.symbol} `}>
 
 					<Typography variant="body1" >
@@ -104,12 +101,12 @@ export const GeyserCard = observer((props: any) => {
 				</Tooltip>
 
 				<Typography variant="body2" color="textSecondary">
-					{!!uiStats.vaultGrowth && 'Strategy:'} {uiStats.vaultGrowth}
+					{!!uiStats.vaultGrowth && '+'} {uiStats.vaultGrowth}
 
 				</Typography>
 
 			</Grid>
-			<Grid item xs={2}>
+			<Grid item xs={12} sm={2}>
 				<Typography variant="body1" color={!anyAvailable ? "textSecondary" : 'textPrimary'}>
 
 					{uiStats.yourValue}
@@ -122,7 +119,7 @@ export const GeyserCard = observer((props: any) => {
 				</Typography>
 			</Grid>
 
-			<Grid item xs={2}>
+			<Grid item xs={12} sm={2}>
 				<ButtonGroup variant="outlined" style={{ float: "right" }}>
 					{!!anyAvailable && <Button variant="outlined" color="primary" size="small" className={classes.button}>Withdraw</Button>}
 				</ButtonGroup>

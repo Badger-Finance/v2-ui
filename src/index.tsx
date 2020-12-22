@@ -15,12 +15,12 @@ import store from './mobx/store';
 //router
 import routes from './config/routes';
 import { Sidebar } from './components/Sidebar';
+import { Header } from './components/Header';
 
 const theme = createMuiTheme({
 	palette: {
 		type: 'dark',
 		primary: { main: "#F2A52B" },
-
 	},
 	typography: {
 		// fontSize: 16,
@@ -52,6 +52,7 @@ ReactDOM.render(
 
 			<CssBaseline />
 			<SnackbarProvider maxSnack={5} anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
+				<Header />
 
 				<Container maxWidth={false}>
 					<Grid container spacing={4}>

@@ -32,7 +32,7 @@ export const graphQuery = (address: string): Promise<Response> => {
 		})
 	}).then((response: any) => response.json())
 }
-export const curvePrice = (contract: string, url: string): Promise<Response> => {
+export const jsonQuery = (url: string): Promise<Response> => {
 	return fetch(url, {
 		method: 'GET',
 		headers: {
@@ -41,6 +41,7 @@ export const curvePrice = (contract: string, url: string): Promise<Response> => 
 		}
 	}).then((response: any) => response.json())
 }
+
 export const getExchangeRates = (): Promise<Response> => {
 	return fetch("https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd,btc", {
 		method: 'GET',
@@ -99,7 +100,7 @@ export const inCurrency = (value: BigNumber, currency: string, hide: boolean = f
 
 	let suffix = ''
 
-	if (normal.dividedBy(1e6).gt(1e2)) {
+	if (normal.dividedBy(1e6).gt(1)) {
 		normal = normal.dividedBy(1e6)
 		decimals = 2
 		suffix = 'm'

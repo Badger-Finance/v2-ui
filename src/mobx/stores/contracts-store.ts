@@ -6,7 +6,7 @@ import BigNumber from 'bignumber.js';
 import { RootStore } from '../store';
 import _, { Collection } from 'lodash';
 import { reduceBatchResult, reduceCurveResult, reduceGeyserSchedule, reduceGraphResult, reduceGrowth } from '../utils/reducers';
-import { curvePrice, graphQuery, growthQuery, secondsToBlocks } from '../utils/helpers';
+import { jsonQuery, graphQuery, growthQuery, secondsToBlocks } from '../utils/helpers';
 import { collections } from '../../config/constants';
 
 const WBTC_ADDRESS = "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599"
@@ -138,10 +138,7 @@ class ContractsStore {
 
 		// prepare curve query
 		const curveBtcPrices = collection.curveBtcPools.contracts.map(
-			(address: string, index: number) =>
-				curvePrice(
-					address,
-					collection.curveBtcPools.prices[index]));
+			(address: string, index: number) => jsonQuery(collection.curveBtcPools.prices[index]))
 
 		// prepare graph query
 		const graphQueries = tokenAddresses.map(
@@ -207,8 +204,6 @@ class ContractsStore {
 
 	});
 
-
-
 	calculateGrowth = action(() => {
 		let { vaults, tokens } = this.store.contracts
 		let { currentBlock } = this.store.wallet
@@ -272,7 +267,6 @@ class ContractsStore {
 
 					})
 				}))
-
 
 	})
 

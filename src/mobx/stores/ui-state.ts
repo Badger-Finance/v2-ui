@@ -2,10 +2,11 @@ import async from 'async';
 import BigNumber from 'bignumber.js';
 import _, { times } from 'lodash';
 import { extendObservable, action, observe, computed } from 'mobx';
+import Web3 from 'web3';
 import { collections } from '../../config/constants';
 import { RootStore } from '../store';
-import { growthQuery, secondsToBlocks } from '../utils/helpers';
-import { reduceContractsToStats, reduceGeysersToStats, reduceVaultsToStats } from '../utils/reducers';
+import { growthQuery, jsonQuery, secondsToBlocks } from '../utils/helpers';
+import { reduceClaims, reduceContractsToStats, reduceGeysersToStats, reduceVaultsToStats } from '../utils/reducers';
 
 class UiState {
 	private store!: RootStore
@@ -21,6 +22,8 @@ class UiState {
 	public vaultStats: any
 	public geyserStats: any
 
+	public sidebarOpen!: boolean
+
 
 	constructor(store: RootStore) {
 		this.store = store
@@ -33,12 +36,15 @@ class UiState {
 				tvl: '...',
 				growth: '...',
 				portfolio: '...',
-				_vaultGrowth: {}
+				_vaultGrowth: {},
+				claims: [0, 0],
 			},
 			geyserStats: {},
 			vaultStats: {},
+
 			currency: 'eth',
-			period: 'year'
+			period: 'year',
+			sidebarOpen: !!window && window.innerWidth > 960,
 		});
 
 		observe(this.store.contracts as any, "geysers", (change: any) => {
@@ -55,6 +61,13 @@ class UiState {
 		})
 		observe(this.store.wallet as any, "currentBlock", (change: any) => {
 			this.reduceContracts()
+			this.fetchSettRewards()
+
+		})
+		observe(this.store.wallet as any, "provider", (change: any) => {
+
+			this.fetchSettRewards()
+
 		})
 		observe(this as any, "period", (change: any) => {
 			this.reduceContracts()
@@ -62,6 +75,15 @@ class UiState {
 		observe(this as any, "currency", (change: any) => {
 			this.reduceContracts()
 		})
+
+		window.onresize = () => {
+
+			if (window.innerWidth < 960) {
+				this.sidebarOpen = false
+			} else {
+				this.sidebarOpen = true
+			}
+		}
 	}
 
 
@@ -82,7 +104,45 @@ class UiState {
 
 		this.collection = collections.find((collection) => collection.id === id)
 		this.store?.contracts.fetchCollection() //TODO:observe ui from collections
+		this.fetchSettRewards()
+
 	});
+
+
+	fetchSettRewards = action(() => {
+		const { provider } = this.store.wallet
+		const { merkle, proofNetwork, tokens } = this.collection.configs.geysers.rewards
+
+		if (!provider.selectedAddress)
+			return
+
+		let web3 = new Web3(provider)
+		let rewardsTree = new web3.eth.Contract(merkle.abi, merkle.hashContract)
+		let checksumAddress = Web3.utils.toChecksumAddress(provider.selectedAddress)
+
+		rewardsTree.methods
+			.merkleContentHash()
+			.call()
+			.then((merkleHash: any) => {
+				jsonQuery(`${merkle.proofEndpoint}/rewards/${merkle.proofNetwork}/${merkleHash}/${checksumAddress}`)
+					.then((merkleProof: any) => {
+						if (!merkleProof.error) {
+							rewardsTree.methods.getClaimedFor(provider.selectedAddress, tokens)
+								.call()
+								.then((claimedRewards: any[]) => {
+									let claims = reduceClaims(merkleProof, claimedRewards)
+									this.stats = {
+										...this.stats,
+										claims
+									}
+								})
+						}
+					})
+
+			})
+
+	});
+
 
 	setVault = action((collection: string, id: string) => {
 		this.vault = id
@@ -94,6 +154,12 @@ class UiState {
 	});
 	setPeriod = action((period: string) => {
 		this.period = period
+	});
+	openSidebar = action(() => {
+		this.sidebarOpen = true
+	});
+	closeSidebar = action(() => {
+		this.sidebarOpen = false
 	});
 
 
@@ -115,4 +181,5 @@ class UiState {
 }
 
 export default UiState;
+
 

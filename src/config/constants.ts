@@ -3,6 +3,8 @@ import BigNumber from "bignumber.js"
 const BadgerVault = require("./abis/Sett.json")
 const CurvePool = require("./abis/CurvePool.json")
 const BadgerGeyser = require("./abis/BadgerGeyser.json")
+const BadgerHunt = require("./abis/BadgerHunt.json")
+const BadgerTree = require("./abis/BadgerTree.json")
 const EnokiVault = require("./abis/SporePool.json")
 const ItchiroVault = require("./abis/LockedGeyser.json")
 
@@ -47,12 +49,15 @@ export const collections = [
 				rewards: {
 					method: 'getUnlockSchedulesFor',
 					tokens: ['0x3472a5a71965499acd81997a54bba8d852c6e53d', '0xa0246c9032bc3a600820415ae600c6388619a14d'],
-					merkleEndpoint: 'https://fzqm8i0owc.execute-api.us-east-1.amazonaws.com/prod',
+					merkle: {
+						proofEndpoint: 'https://fzqm8i0owc.execute-api.us-east-1.amazonaws.com/prod',
+						proofNetwork: 1,
+						hashContract: "0x660802Fc641b154aBA66a62137e71f331B6d787A",
+						abi: BadgerTree.abi
+					},
 				},
 			},
 		},
-
-
 
 		curveBtcPools: {
 			contracts: [

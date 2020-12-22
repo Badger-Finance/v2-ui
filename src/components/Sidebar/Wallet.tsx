@@ -53,7 +53,7 @@ export const Wallet = observer(() => {
 				size="small"
 				variant="outlined"
 				onClick={() => wallet.reset()}>
-				{shortenAddress(wallet.account!)}
+				{wallet.status}
 				<div className={wallet.status !== 'connected' ? classes.redDot : classes.greenDot} />
 
 			</Button>

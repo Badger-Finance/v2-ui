@@ -132,9 +132,11 @@ export const reduceGeysersToStats = (store: RootStore) => {
 		return {
 			// ethValue: !!geyser.totalStaked &&
 			// 	geyser.totalStaked.multipliedBy(token.ethValue).dividedBy(1e18),
+			address: geyser.address,
 
 			underlyingTokens: !!geyser.totalStaked &&
 				inCurrency(geyser.totalStaked, 'eth', true),
+
 			underlyingBalance: !!geyser.totalStaked &&
 				inCurrency(geyser.totalStaked.multipliedBy(virtualEthValue), currency),
 
@@ -156,6 +158,12 @@ export const reduceGeysersToStats = (store: RootStore) => {
 		}
 	})
 }
+export const reduceClaims = (merkleProof: any, claimedRewards: any[]) => {
+	return merkleProof.cumulativeAmounts.map((amount: number, i: number) => {
+		return inCurrency(new BigNumber(amount).minus(claimedRewards[1][i]), 'eth', true);
+	});
+}
+
 
 
 
@@ -173,18 +181,18 @@ export const reduceVaultsToStats = (store: RootStore) => {
 		return {
 			// ethValue: !!vault.totalSupply &&
 			// 	vault.totalSupply.dividedBy(1e18).multipliedBy(token.ethValue),
-
+			address: vault.address,
 			yourBalance: !!vault.balanceOf &&
 				inCurrency(vault.balanceOf, 'eth', true),
+			yourValue: !!token.balanceOf && !!token.ethValue &&
+				inCurrency(token.balanceOf.multipliedBy(token.ethValue.dividedBy(1e18)), currency),
+
+			wrapped: !!vault.balanceOf && vault.balanceOf.gt(0),
 
 			underlyingTokens: !!vault.totalSupply &&
 				inCurrency(vault.totalSupply, 'eth', true),
-			underlyingBalance: !!vault.totalSupply &&
+			underlyingBalance: !!vault.totalSupply && !!token.ethValue &&
 				inCurrency(vault.totalSupply.multipliedBy(token.ethValue.dividedBy(1e18)), currency),
-
-			wrapped: !!vault.balanceOf && vault.balanceOf.gt(0),
-			yourValue: !!token.balanceOf &&
-				inCurrency(token.balanceOf.multipliedBy(token.ethValue.dividedBy(1e18)), currency),
 
 
 			availableBalance: !!token.balanceOf &&
@@ -194,6 +202,10 @@ export const reduceVaultsToStats = (store: RootStore) => {
 			vaultGrowth: !!vault[period] && vault[period].multipliedBy(1e2).toFixed(2) + "%",
 			geyserGrowth: !!geyser[period] && geyser[period].multipliedBy(1e2).toFixed(2) + "%",
 			growth: !!vault[period] && vault[period].plus(geyser[period] || 0).multipliedBy(1e2).toFixed(2) + "%",
+
+			year: !!vault['year'] && vault['year'].plus(geyser['year'] || 0).multipliedBy(1e2).toFixed(2) + "%",
+			month: !!vault['month'] && vault['month'].plus(geyser['month'] || 0).multipliedBy(1e2).toFixed(2) + "%",
+			day: !!vault['day'] && vault['day'].plus(geyser['day'] || 0).multipliedBy(1e2).toFixed(2) + "%",
 		}
 	})
 }
@@ -250,10 +262,6 @@ export const reduceContractsToStats = (store: RootStore) => {
 	}
 
 }
-
-
-
-
 
 
 interface Currency {
