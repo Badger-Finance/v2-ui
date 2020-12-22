@@ -2,31 +2,21 @@ import React, { useContext, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../context/store-context';
 import {
-	Grid, Card, CardHeader, CardMedia, CardContent, CardActions, CardActionArea, Collapse, Avatar, IconButton,
-	AppBar,
-	Toolbar,
+	Grid,
 	Container,
 	ButtonGroup,
 	Button,
 	Paper,
-	Modal,
-	DialogContent,
-	DialogContentText,
-	DialogActions,
 	Dialog,
-	DialogTitle,
-	Drawer,
 } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Loader } from '../Loader';
-import BigNumber from 'bignumber.js'
 import { VaultCard } from './VaultCard';
 import _ from 'lodash';
-import { AssetCard } from '../Asset/AssetCard';
 import { GeyserCard } from './GeyserCard';
-import { VaultFunction } from '../Asset/VaultFunction';
 import { VaultStake } from './VaultStake';
+import Carousel from 'react-material-ui-carousel'
 
 const useStyles = makeStyles((theme) => ({
 
@@ -38,7 +28,6 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	filters: {
-		// margin: theme.spacing(2, 0, 0)
 		textAlign: 'right'
 	},
 	buttonGroup: {
@@ -67,7 +56,7 @@ export const Collection = observer(() => {
 	const [modalProps, setModalProps] = useState({ open: false, mode: '', contract: "0x" })
 
 
-	const renderContracts = (contracts: any, isGeysers: boolean = false) => {
+	const renderContracts = (contracts: any, isGeysers: boolean = false, isFeatured: boolean = false) => {
 
 		return _.map(contracts, (contract: any, address: string) => {
 
@@ -87,7 +76,7 @@ export const Collection = observer(() => {
 
 			if (!isGeysers)
 				return <Grid item xs={12} key={address}>
-					<VaultCard uiStats={stats} onStake={onStake} onUwrap={onUnwrap} />
+					<VaultCard uiStats={stats} onStake={onStake} onUwrap={onUnwrap} isFeatured={isFeatured} />
 				</Grid>
 			else
 				return <Grid item xs={12} key={address}>
@@ -132,6 +121,17 @@ export const Collection = observer(() => {
 		}]).filter((vault: any) => {
 			return (!vault.balanceOf || !vault.balanceOf.gt(0))
 		}))
+	}
+
+	const featuredGeysers = () => {
+
+		// wallet assets & wrapped assets ordered by value
+		return renderContracts(_.sortBy(vaults, [(vault: any) => {
+			let token = tokens[vault[collection.configs.vaults.underlying]]
+			return -token.balanceOf
+		}]).filter((vault: any) => {
+			return (!vault.balanceOf || !vault.balanceOf.gt(0))
+		}), false, true)
 	}
 	const renderDeposits = () => {
 
@@ -254,6 +254,14 @@ export const Collection = observer(() => {
 				</Paper>
 
 			</Grid>
+
+			{/* <Grid item xs={12} >
+
+				<Carousel >
+					{featuredGeysers()}
+				</Carousel>
+			</Grid > */}
+
 
 			{spacer}
 
