@@ -19,7 +19,7 @@ import { Sidebar } from './components/Sidebar';
 const theme = createMuiTheme({
 	palette: {
 		type: 'dark',
-		primary: { main: "#69ff70" },
+		primary: { main: "#F2A52B" },
 
 	},
 	typography: {
@@ -31,6 +31,13 @@ const theme = createMuiTheme({
 		// h4: { fontFamily: "'Press Start 2P'", fontSize: "1rem" },
 		// h5: { fontFamily: "'Press Start 2P'" },
 		// h6: { fontFamily: "'Press Start 2P'" },
+	},
+	overrides: {
+		MuiTooltip: {
+			tooltip: {
+				fontSize: "1em",
+			}
+		}
 	}
 });
 

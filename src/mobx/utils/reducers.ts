@@ -133,6 +133,12 @@ export const reduceGeysersToStats = (store: RootStore) => {
 			// ethValue: !!geyser.totalStaked &&
 			// 	geyser.totalStaked.multipliedBy(token.ethValue).dividedBy(1e18),
 
+			underlyingTokens: !!geyser.totalStaked &&
+				inCurrency(geyser.totalStaked, 'eth', true),
+			underlyingBalance: !!geyser.totalStaked &&
+				inCurrency(geyser.totalStaked.multipliedBy(virtualEthValue), currency),
+
+
 			yourValue: !!geyser.totalStakedFor &&
 				inCurrency(geyser.totalStakedFor.multipliedBy(virtualEthValue), currency),
 
@@ -143,7 +149,10 @@ export const reduceGeysersToStats = (store: RootStore) => {
 				inCurrency(token.balanceOf, 'eth', true),
 
 			name: token.name,
-			growth: !!geyser[period] && geyser[period].multipliedBy(1e2).toFixed(2) + "%",
+			symbol: token.symbol,
+			vaultGrowth: !!vault[period] && vault[period].multipliedBy(1e2).toFixed(2) + "%",
+			geyserGrowth: !!geyser[period] && geyser[period].multipliedBy(1e2).toFixed(2) + "%",
+			growth: !!vault[period] && vault[period].plus(geyser[period] || 0).multipliedBy(1e2).toFixed(2) + "%",
 		}
 	})
 }
@@ -159,7 +168,7 @@ export const reduceVaultsToStats = (store: RootStore) => {
 	return _.mapValues(vaults, (vault: any, vaultAddress: string) => {
 
 		let token = tokens[vault.token]
-
+		let geyser = _.find(geysers, (geyser: any) => geyser[collection.configs.geysers.underlying] === vaultAddress)
 
 		return {
 			// ethValue: !!vault.totalSupply &&
@@ -168,6 +177,11 @@ export const reduceVaultsToStats = (store: RootStore) => {
 			yourBalance: !!vault.balanceOf &&
 				inCurrency(vault.balanceOf, 'eth', true),
 
+			underlyingTokens: !!vault.totalSupply &&
+				inCurrency(vault.totalSupply, 'eth', true),
+			underlyingBalance: !!vault.totalSupply &&
+				inCurrency(vault.totalSupply.multipliedBy(token.ethValue.dividedBy(1e18)), currency),
+
 			wrapped: !!vault.balanceOf && vault.balanceOf.gt(0),
 			yourValue: !!token.balanceOf &&
 				inCurrency(token.balanceOf.multipliedBy(token.ethValue.dividedBy(1e18)), currency),
@@ -175,9 +189,11 @@ export const reduceVaultsToStats = (store: RootStore) => {
 
 			availableBalance: !!token.balanceOf &&
 				inCurrency(token.balanceOf, 'eth', true),
-
+			symbol: token.symbol,
 			name: token.name,
-			growth: !!vault[period] && vault[period].multipliedBy(1e2).toFixed(2) + "%",
+			vaultGrowth: !!vault[period] && vault[period].multipliedBy(1e2).toFixed(2) + "%",
+			geyserGrowth: !!geyser[period] && geyser[period].multipliedBy(1e2).toFixed(2) + "%",
+			growth: !!vault[period] && vault[period].plus(geyser[period] || 0).multipliedBy(1e2).toFixed(2) + "%",
 		}
 	})
 }

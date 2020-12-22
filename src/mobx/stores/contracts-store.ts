@@ -87,10 +87,10 @@ class ContractsStore {
 				console.log(this.vaults)
 
 				// clear empty data
-				if (!("vaults" in keyedResult))
-					this.vaults = {}
-				if (!("geysers" in keyedResult))
-					this.geysers = {}
+				// if (!("vaults" in keyedResult))
+				// 	this.vaults = {}
+				// if (!("geysers" in keyedResult))
+				// 	this.geysers = {}
 
 				// fetch input/outputs information
 				this.calculateGrowth()

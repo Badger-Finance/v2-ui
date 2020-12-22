@@ -109,6 +109,6 @@ export const inCurrency = (value: BigNumber, currency: string, hide: boolean = f
 		suffix = 'k'
 	}
 
-	return `${prefix}${normal.toFixed(decimals)}${suffix}`
+	return `${prefix}${normal.toFixed(decimals).toLocaleString()}${suffix}`
 
 }

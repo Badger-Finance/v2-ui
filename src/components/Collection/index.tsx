@@ -162,23 +162,23 @@ export const Collection = observer(() => {
 			</Grid>
 			{/* <Grid item xs={3}>
 				<Typography variant="h5">{collection.title}</Typography>
-				<Typography variant="body1" color="textSecondary">{_.keys(vaults).length + " assets" || "No vaults"}</Typography>
+				<Typography variant="body1" color="textPrimary">{_.keys(vaults).length + " assets" || "No vaults"}</Typography>
 			</Grid>
 			<Grid item xs={9} className={classes.stat}>
-				<Typography variant="body1" color="textSecondary">Growth</Typography>
+				<Typography variant="body1" color="textPrimary">Growth</Typography>
 				<Typography variant="h5">{stats.growth}</Typography>
 			</Grid> */}
 
 			<Grid item xs={6} className={classes.stat}>
 				<Paper className={classes.statPaper}>
-					<Typography variant="body1" color="textSecondary">TVL</Typography>
+					<Typography variant="body1" color="textPrimary">TVL</Typography>
 					<Typography variant="h5">{stats.tvl}</Typography>
 				</Paper>
 			</Grid>
 			<Grid item xs={6} className={classes.stat}>
 				<Paper className={classes.statPaper}>
 
-					<Typography variant="body1" color="textSecondary">Your Portfolio</Typography>
+					<Typography variant="body1" color="textPrimary">Your Portfolio</Typography>
 					<Typography variant="h5">{stats.portfolio}</Typography>
 				</Paper>
 
@@ -187,34 +187,33 @@ export const Collection = observer(() => {
 
 
 			<Grid item xs={4} >
-				<Typography variant="body2" color="textSecondary">
-					My Wallet
+				<Typography variant="body2" color="textPrimary">
+					Setts
 					{!!provider.selectedAddress && ` - ${stats.wallet}`}
 				</Typography>
 
 			</Grid>
-			<Grid item xs={2} >
-				<Typography variant="body2" color="textSecondary">
-					Available
-
+			<Grid item xs={2}>
+				<Typography variant="body2" color="textPrimary">
+					Underlying Tokens
 				</Typography>
 
 			</Grid>
 			<Grid item xs={2} >
-				<Typography variant="body2" color="textSecondary">{({ year: 'Yearly', day: 'Daily', month: 'Monthly' } as any)[period]}
-				&nbsp;Growth
+				<Typography variant="body2" color="textPrimary">
+					{({ year: 'Yearly', day: 'Daily', month: 'Monthly' } as any)[period]} ROI
 
 				</Typography>
 
 			</Grid>
+
 			<Grid item xs={2} >
-				<Typography variant="body2" color="textSecondary">
-					Value
+				<Typography variant="body2" color="textPrimary">
+					Balance
 
 				</Typography>
 
 			</Grid>
-			<div className={classes.divider} />
 
 			{renderWallet()}
 
@@ -222,7 +221,7 @@ export const Collection = observer(() => {
 				<div className={classes.before} />
 
 				<Grid item xs={4} >
-					<Typography variant="body2" color="textSecondary">
+					<Typography variant="body2" color="textPrimary">
 						Deposits
 					{!!provider.selectedAddress && ` - ${stats.geysers}`}
 
@@ -230,27 +229,27 @@ export const Collection = observer(() => {
 
 				</Grid>
 				<Grid item xs={2} >
-					<Typography variant="body2" color="textSecondary">
+					<Typography variant="body2" color="textPrimary">
 						Balance
 
 				</Typography>
 
 				</Grid>
 				<Grid item xs={2} >
-					<Typography variant="body2" color="textSecondary">{({ year: 'Yearly', day: 'Daily', month: 'Monthly' } as any)[period]}
-				&nbsp;Growth
+					<Typography variant="body2" color="textPrimary">
+						{({ year: 'Yearly', day: 'Daily', month: 'Monthly' } as any)[period]}
+				&nbsp;ROI
 
 				</Typography>
 
 				</Grid>
 				<Grid item xs={2} >
-					<Typography variant="body2" color="textSecondary">
+					<Typography variant="body2" color="textPrimary">
 						Value
 
 				</Typography>
 
 				</Grid>
-				<div className={classes.divider} />
 			</>}
 			{renderGeysers()}
 		</Grid>
