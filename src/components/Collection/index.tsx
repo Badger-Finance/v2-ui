@@ -42,6 +42,25 @@ const useStyles = makeStyles((theme) => ({
 		marginTop: theme.spacing(3),
 		width: "100%"
 	},
+	carousel: {
+		overflow: 'inherit',
+		marginTop: theme.spacing(1)
+	},
+	featuredHeader: {
+		marginBottom: theme.spacing(2)
+	},
+	indicatorContainer: {
+		display: 'none'
+	},
+	indicator: {
+		fontSize: '11px',
+		width: '1rem'
+	},
+	activeIndicator: {
+		fontSize: '11px',
+		width: '1rem',
+		color: '#fff'
+	}
 
 }));
 export const Collection = observer(() => {
@@ -218,12 +237,12 @@ export const Collection = observer(() => {
 		<Grid container spacing={2}>
 			{spacer}
 
-			<Grid item xs={3} >
+			<Grid item xs={4} >
 				<Typography variant="h5" color="textPrimary" >Badger Setts</Typography>
 				<Typography variant="subtitle2" color="textPrimary" >Wrap, stake & earn Badger</Typography>
 			</Grid>
 
-			<Grid item xs={9} className={classes.filters}>
+			<Grid item xs={8} className={classes.filters}>
 
 				<ButtonGroup variant="outlined" size="small" className={classes.buttonGroup}>
 					{["btc", "eth", "usd"].map((curr: string) =>
@@ -255,12 +274,30 @@ export const Collection = observer(() => {
 
 			</Grid>
 
-			{/* <Grid item xs={12} >
+			<Grid item xs={12} >
+				<Typography variant="body1" color="textPrimary" className={classes.featuredHeader}>Featured</Typography>
 
-				<Carousel >
+				<Carousel
+					interval={10000}
+					className={classes.carousel}
+					navButtonsAlwaysVisible
+					indicatorContainerProps={{
+						className: classes.indicatorContainer,
+						style: {}
+					}}
+					indicatorProps={{
+						className: classes.indicator,
+						style: {}
+					}}
+					activeIndicatorProps={{
+						className: classes.activeIndicator,
+						style: {}
+					}}
+
+				>
 					{featuredGeysers()}
 				</Carousel>
-			</Grid > */}
+			</Grid >
 
 
 			{spacer}

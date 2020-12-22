@@ -45,6 +45,12 @@ const useStyles = makeStyles((theme) => ({
 		borderRadius: theme.shape.borderRadius,
 		padding: theme.spacing(2, 1),
 		alignItems: 'center'
+	},
+	featured: {
+		border: 0,
+		paddingTop: '30%',
+		background: theme.palette.grey[800],
+		borderRadius: theme.shape.borderRadius
 	}
 
 }));
@@ -53,7 +59,7 @@ export const VaultCard = observer((props: any) => {
 	const classes = useStyles();
 	const { onStake,
 		onUnwrap,
-		uiStats } = props
+		uiStats, isFeatured } = props
 
 	const { router: { params, goTo }, contracts: { vaults, tokens }, uiState: { collection }, wallet: { provider } } = store;
 
@@ -72,7 +78,7 @@ export const VaultCard = observer((props: any) => {
 	}
 	let anyAvailable = !!uiStats.availableBalance && parseFloat(uiStats.availableBalance) !== 0
 	return <>
-		<Grid container spacing={2} className={classes.border}>
+		<Grid container spacing={2} className={classes.border + (isFeatured ? ` ${classes.featured}` : '')}>
 			<Grid item xs={12} sm={4}>
 				<Typography variant="body1">
 					{uiStats.name}
