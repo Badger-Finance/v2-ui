@@ -17,6 +17,7 @@ import { VaultStake } from './VaultStake';
 import Carousel from 'react-material-ui-carousel'
 import { VaultUnwrap } from './VaultUnwrap';
 import { VaultUnstake } from './VaultUnstake';
+import { VaultSymbol } from '../VaultSymbol';
 
 const useStyles = makeStyles((theme) => ({
 
@@ -224,7 +225,9 @@ export const SettList = observer((props: any) => {
 		}
 
 		return <Dialog fullWidth maxWidth={'sm'} open={open} onClose={onClose}>
-			<DialogTitle>{title}</DialogTitle>
+			<DialogTitle >{title}
+				<VaultSymbol symbol={vault.symbol} />
+			</DialogTitle>
 
 			{component}
 		</Dialog>
