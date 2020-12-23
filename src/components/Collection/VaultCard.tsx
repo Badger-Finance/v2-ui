@@ -53,6 +53,11 @@ const useStyles = makeStyles((theme) => ({
 		background: theme.palette.grey[800],
 		borderRadius: theme.shape.borderRadius,
 		boxShadow: theme.shadows[1]
+	},
+	icon: {
+		marginTop: 'auto', 
+		marginBottom: 'auto', 
+		paddingLeft: '.5rem'
 	}
 
 }));
@@ -84,9 +89,10 @@ export const VaultCard = observer((props: any) => {
 			<Grid item xs={12} sm={4}>
 				<Grid container spacing={4}>
 					<img alt=""
+						className={classes.icon}
 						src={require('../../assets/' + uiStats.symbol.toLowerCase().replace(/\/+/g, '') + '-logo.png')}
 						height={'30px'}
-						style={{marginTop: 'auto', marginBottom: 'auto', paddingLeft: '.5rem'}} />
+						style={{}} />
 					<Grid item xs={12} sm={4} md={8}>
 						<Typography variant="body1">
 							{uiStats.name}

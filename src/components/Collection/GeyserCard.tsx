@@ -45,6 +45,11 @@ const useStyles = makeStyles((theme) => ({
 		borderRadius: theme.shape.borderRadius,
 		padding: theme.spacing(2, 1),
 		alignItems: 'center'
+	},
+	icon: {
+		marginTop: 'auto', 
+		marginBottom: 'auto', 
+		paddingLeft: '.5rem'
 	}
 
 }));
@@ -82,9 +87,10 @@ export const GeyserCard = observer((props: any) => {
 			<Grid item xs={12} sm={4}>
 				<Grid container spacing={4}>
 					<img alt=""
+						className={classes.icon}
 						src={require('../../assets/' + uiStats.symbol.toLowerCase().replace(/\/+/g, '') + '-logo.png')}
 						height={'30px'}
-						style={{marginTop: 'auto', marginBottom: 'auto', filter: 'saturate(25%)', paddingLeft: '.5rem'}} />
+						style={{}} />
 					<Grid item xs={12} sm={4} md={8}>
 						<Typography variant="body1">
 							{uiStats.name}
