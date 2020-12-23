@@ -58,7 +58,6 @@ export const collections = [
 				},
 			},
 		},
-
 		curveBtcPools: {
 			contracts: [
 				"0x49849c98ae39fff122806c06791fa73784fb3675",  //renBTC/wBTC (crvRenWBTC)
@@ -81,6 +80,5 @@ export const collections = [
 				"renBTC/wBTC/sBTC",
 			]
 		}
-
 	}
 ]

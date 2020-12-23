@@ -3,23 +3,19 @@ import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../context/store-context';
 import {
 	Grid,
-	Container,
-	ButtonGroup,
-	Button,
-	Paper,
+
 	Dialog,
 } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Loader } from '../Loader';
-import { VaultCard } from '../Collection/VaultCard';
+import { VaultCard } from './VaultCard';
 import _ from 'lodash';
-import { GeyserCard } from '../Collection/GeyserCard';
-import { VaultStake } from '../Collection/VaultStake';
+import { GeyserCard } from './GeyserCard';
+import { VaultStake } from './VaultStake';
 import Carousel from 'react-material-ui-carousel'
-import { SettList } from '../Collection/SettList';
-import { collections } from '../../config/constants';
-import views from '../../config/routes';
+import { VaultUnwrap } from './VaultUnwrap';
+import { VaultUnstake } from './VaultUnstake';
 
 const useStyles = makeStyles((theme) => ({
 
@@ -63,27 +59,14 @@ const useStyles = makeStyles((theme) => ({
 		fontSize: '11px',
 		width: '1rem',
 		color: '#fff'
-	},
-	inlineStat: {
-		display: 'flex',
-		width: "100%",
-		justifyContent: 'space-between',
-		alignItems: 'center',
-		marginTop: theme.spacing(1)
-	},
-	border: {
-		// border: `1px solid ${theme.palette.primary.dark}`,
-		background: theme.palette.grey[800],
-		margin: theme.spacing(0, 0, 1),
-		borderRadius: theme.shape.borderRadius,
-		padding: theme.spacing(1, 1),
-		alignItems: 'center'
-	},
+	}
 
 }));
-export const Home = observer(() => {
+export const SettList = observer((props: any) => {
 	const store = useContext(StoreContext);
 	const classes = useStyles();
+
+	const { hideEmpty } = props
 
 	const { router: { params, goTo },
 		wallet: { provider },
@@ -92,9 +75,19 @@ export const Home = observer(() => {
 
 	const [modalProps, setModalProps] = useState({ open: false, mode: '', contract: "0x" })
 
-	if (!provider.selectedAddress)
-		goTo(views.collection, { collection: collections[0].id })
 
+	const onUnwrap = (contract: string) => {
+		setModalProps({ mode: 'unwrap', contract, open: true })
+	}
+	const onUnstake = (contract: string) => {
+		setModalProps({ mode: 'unstake', contract, open: true })
+	}
+	const onStake = (contract: string) => {
+		setModalProps({ mode: 'stake', contract, open: true })
+	}
+	const onClose = (contract: string) => {
+		setModalProps({ ...modalProps, open: false })
+	}
 
 	const renderContracts = (contracts: any, isGeysers: boolean = false, isFeatured: boolean = false) => {
 
@@ -116,7 +109,7 @@ export const Home = observer(() => {
 
 			if (!isGeysers)
 				return <Grid item xs={12} key={address}>
-					<VaultCard uiStats={stats} onStake={onStake} onUwrap={onUnwrap} isFeatured={isFeatured} />
+					<VaultCard uiStats={stats} onStake={onStake} onUnwrap={onUnwrap} isFeatured={isFeatured} />
 				</Grid>
 			else
 				return <Grid item xs={12} key={address}>
@@ -125,18 +118,6 @@ export const Home = observer(() => {
 		})
 	}
 
-	const onUnwrap = (contract: string) => {
-		setModalProps({ mode: 'unwrap', contract, open: true })
-	}
-	const onUnstake = (contract: string) => {
-		setModalProps({ mode: 'unstake', contract, open: true })
-	}
-	const onStake = (contract: string) => {
-		setModalProps({ mode: 'stake', contract, open: true })
-	}
-	const onClose = (contract: string) => {
-		setModalProps({ ...modalProps, open: false })
-	}
 
 	const walletVaults = () => {
 
@@ -195,8 +176,6 @@ export const Home = observer(() => {
 		return <Loader />
 	}
 
-	const spacer = <div className={classes.before} />;
-
 	const tableHeader = (title: string) => {
 		return <>
 			<Grid item xs={12} sm={4}>
@@ -205,131 +184,65 @@ export const Home = observer(() => {
 				</Typography>
 
 			</Grid>
-			<Grid item xs={12} md={3}>
+			<Grid item xs={12} sm={4} md={2}>
 				<Typography variant="body2" color="textSecondary">
-					Super Setts
+					Tokens Locked
+			</Typography>
+
+			</Grid>
+			<Grid item xs={12} sm={4} md={2}>
+				<Typography variant="body2" color="textSecondary">
+					{({ year: 'Yearly', day: 'Daily', month: 'Monthly' } as any)[period]} ROI
+
 			</Typography>
 
 			</Grid>
 
+			<Grid item xs={12} sm={6} md={2}>
+				<Typography variant="body2" color="textSecondary">
+					Value
+			</Typography>
 
+			</Grid>
 		</>
 	};
 
 
-	const depositModal = () => {
+	const renderModal = () => {
 
 		const { mode, open, contract } = modalProps
 		let vault: any = {}
-		let title: string = ""
+		let component: any = {}
 		if (mode == "stake") {
 			vault = vaultStats[contract]
-			title = "Stake"
+			component = <VaultStake uiStats={vault} onStake={onStake} onUnstake={onUnstake} />
 		} else if (mode == "unstake") {
 			vault = geyserStats[contract]
-			title = "Unstake"
-		} else if (mode == "stake") {
+			component = <VaultUnstake uiStats={vault} onStake={onStake} onUnstake={onUnstake} />
+		} else if (mode == "unwrap") {
 			vault = vaultStats[contract]
-			title = "Unwrap"
+			component = <VaultUnwrap uiStats={vault} onStake={onStake} onUnstake={onUnstake} />
 		}
 
 		return <Dialog fullWidth maxWidth={'sm'} open={open} onClose={onClose}>
 
-
-			<VaultStake uiStats={vault} onStake={onStake} onUnstake={onUnstake} />
+			{component}
 		</Dialog>
 	}
 
 
-	const rewardsBox = <Grid container spacing={2} className={classes.border}>
-		<Grid item xs={12} sm={4}>
-			<Typography variant="body1">
-				{stats.claims[0] || '0.00000'} BADGER
-			</Typography>
+	return <>
+		{!!provider.selectedAddress && tableHeader(`Your Wallet - ${stats.wallet}`)}
+		{!!provider.selectedAddress && walletVaults()}
+		{!!provider.selectedAddress && tableHeader(`Deposits - ${stats.geysers}`)}
+		{!!provider.selectedAddress && renderDeposits()}
 
+		{!hideEmpty && tableHeader(`Setts`)}
+		{!hideEmpty && emptyGeysers()}
 
-		</Grid>
-		<Grid item xs={12} sm={4}>
-			<Typography variant="body1">
-				+ {stats.claims[1] || '0.00000'} FARM
-			</Typography>
-			<Typography variant="body1">
-				+ {stats.claims[2] || '0.00000'} renCRV
-			</Typography>
+		{renderModal()}
 
-		</Grid>
-		<Grid item xs={12} sm={4} style={{ textAlign: 'right' }}>
-			<ButtonGroup>
-				<Button variant="outlined" color="primary">Claim</Button>
-				<Button variant="contained" color="primary">Claim & Stake</Button>
-			</ButtonGroup>
-
-		</Grid>
-	</Grid>;
-
-	return <Container className={classes.root} >
-		{depositModal()}
-
-		<Grid container spacing={2}>
-			{spacer}
-
-			<Grid item xs={4} >
-				<Typography variant="h5" color="textPrimary" >Account Overview</Typography>
-				<Typography variant="subtitle2" color="textPrimary" >BTC on DeFi</Typography>
-			</Grid>
-
-			<Grid item xs={8} className={classes.filters}>
-
-				<ButtonGroup variant="outlined" size="small" className={classes.buttonGroup}>
-					{["btc", "eth", "usd"].map((curr: string) =>
-						<Button color={currency === curr ? 'primary' : 'default'} onClick={() => setCurrency(curr)}>{curr}</Button>
-					)}
-				</ButtonGroup>
-
-				<ButtonGroup variant="outlined" size="small" className={classes.buttonGroup}>
-					{["day", "month", "year"].map((p: string) =>
-						<Button color={period === p ? 'primary' : 'default'} onClick={() => setPeriod(p)}>{p.charAt(0)}</Button>
-					)}
-				</ButtonGroup >
-
-			</Grid >
-
-			{spacer}
-
-			<Grid item xs={12} md={!!stats.cycle ? 4 : 6} >
-				<Paper className={classes.statPaper}>
-					<Typography variant="body1" color="textPrimary">TVL</Typography>
-					<Typography variant="h5">{stats.tvl}</Typography>
-				</Paper>
-			</Grid >
-			<Grid item xs={12} md={!!stats.cycle ? 4 : 6}>
-				<Paper className={classes.statPaper}>
-					<Typography variant="body1" color="textPrimary">Your Portfolio</Typography>
-					<Typography variant="h5">{stats.portfolio}</Typography>
-				</Paper>
-
-			</Grid>
-			{!!stats.cycle &&
-				<Grid item xs={12} md={4}>
-					<Paper className={classes.statPaper}>
-						<Typography variant="body1" color="textPrimary">Rewards Cycle</Typography>
-						<Typography variant="h5">{stats.cycle}</Typography>
-					</Paper>
-
-				</Grid>}
-
-			{stats.claims[0] > 0 && tableHeader("Yield Farming")}
-
-			{stats.claims[0] > 0 && rewardsBox}
-
-			{spacer}
-
-			<SettList hideEmpty={true} />
-
-		</Grid >
-
-
-	</Container >
+	</>
 
 });
 

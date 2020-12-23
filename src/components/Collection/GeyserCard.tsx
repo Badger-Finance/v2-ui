@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
 export const GeyserCard = observer((props: any) => {
 	const store = useContext(StoreContext);
 	const classes = useStyles();
-	const { uiStats } = props
+	const { uiStats, onUnstake } = props
 
 	const { router: { params, goTo }, contracts: { vaults, tokens }, uiState: { collection }, wallet: { provider } } = store;
 
@@ -68,7 +68,7 @@ export const GeyserCard = observer((props: any) => {
 	if (!uiStats) {
 		return <Loader />
 	}
-	let anyAvailable = !!uiStats.availableBalance && parseFloat(uiStats.availableBalance) !== 0
+	let anyAvailable = !!uiStats.underlyingBalance && parseFloat(uiStats.underlyingBalance) !== 0
 	return <>
 		<Grid container spacing={2} className={classes.border}>
 			<Grid item xs={12} sm={4}>
@@ -121,7 +121,7 @@ export const GeyserCard = observer((props: any) => {
 
 			<Grid item xs={12} sm={2}>
 				<ButtonGroup variant="outlined" style={{ float: "right" }}>
-					{!!anyAvailable && <Button variant="outlined" color="primary" size="small" className={classes.button}>Withdraw</Button>}
+					{!!anyAvailable && <Button onClick={() => onUnstake(uiStats.address)} variant="outlined" color="primary" size="small" className={classes.button}>Unstake</Button>}
 				</ButtonGroup>
 
 

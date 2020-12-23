@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
 	}
 
 }));
-export const VaultStake = observer((props: any) => {
+export const VaultUnstake = observer((props: any) => {
 	const store = useContext(StoreContext);
 	const classes = useStyles();
 	const {
@@ -66,16 +66,16 @@ export const VaultStake = observer((props: any) => {
 		uiStats } = props
 	const { register, handleSubmit, watch, errors, setValue } = useForm({ mode: 'all' });
 
-	const { router: { params, goTo }, contracts: { vaults, tokens, depositAndStake }, uiState: { collection }, wallet: { provider } } = store;
+	const { router: { params, goTo }, contracts: { vaults, tokens, unstakeAndUnwrap }, uiState: { collection }, wallet: { provider } } = store;
 
 	const setAmount = (percent: number) => {
-		// (document.getElementById(TEXTFIELD_ID)! as HTMLInputElement).value = uiStats.availableFull[percent];
-		setValue('amount', uiStats.availableFull[percent])
+		// (document.getElementById(TEXTFIELD_ID)! as HTMLInputElement).value = uiStats.depositedFull[percent];
+		setValue('amount', uiStats.depositedFull[percent])
 	}
 
 	const onSubmit = (params: any) => {
 		let amount = new BigNumber(params.amount).multipliedBy(1e18)
-		depositAndStake(uiStats.vault, amount)
+		unstakeAndUnwrap(uiStats.vault, amount)
 	}
 
 	if (!uiStats) {
@@ -83,10 +83,10 @@ export const VaultStake = observer((props: any) => {
 	}
 
 	let renderAmounts = <ButtonGroup fullWidth className={classes.button}>
-		<Button onClick={() => { setAmount(25) }} variant={watch().amount === uiStats.availableFull[25] ? "contained" : "outlined"} color="primary">25%</Button>
-		<Button onClick={() => { setAmount(50) }} variant={watch().amount === uiStats.availableFull[50] ? "contained" : "outlined"} color="primary">50%</Button>
-		<Button onClick={() => { setAmount(75) }} variant={watch().amount === uiStats.availableFull[75] ? "contained" : "outlined"} color="primary">75%</Button>
-		<Button onClick={() => { setAmount(100) }} variant={watch().amount === uiStats.availableFull[100] ? "contained" : "outlined"} color="primary">100%</Button>
+		<Button onClick={() => { setAmount(25) }} variant={watch().amount === uiStats.depositedFull[25] ? "contained" : "outlined"} color="primary">25%</Button>
+		<Button onClick={() => { setAmount(50) }} variant={watch().amount === uiStats.depositedFull[50] ? "contained" : "outlined"} color="primary">50%</Button>
+		<Button onClick={() => { setAmount(75) }} variant={watch().amount === uiStats.depositedFull[75] ? "contained" : "outlined"} color="primary">75%</Button>
+		<Button onClick={() => { setAmount(100) }} variant={watch().amount === uiStats.depositedFull[100] ? "contained" : "outlined"} color="primary">100%</Button>
 	</ButtonGroup>
 
 
@@ -95,11 +95,11 @@ export const VaultStake = observer((props: any) => {
 		<DialogContent style={{ textAlign: 'center' }}>
 
 			<Typography variant="body1" color={'textSecondary'}>
-				Balance
+				Deposited
 			</Typography>
 
 			<Typography variant="h5" color={!anyAvailable ? "textSecondary" : 'textPrimary'}>
-				{uiStats.availableFull[100]} {uiStats.symbol}
+				{uiStats.depositedFull[100]} {uiStats.symbol}
 			</Typography>
 
 
@@ -112,7 +112,7 @@ export const VaultStake = observer((props: any) => {
 			<TextField autoComplete="off" name="amount" inputRef={register} id={TEXTFIELD_ID} className={classes.field} variant="outlined" fullWidth placeholder="Type an amount to stake" />
 
 
-			<Button onClick={handleSubmit(onSubmit)} variant="contained" color="primary" fullWidth className={classes.button}>Stake</Button>
+			<Button onClick={handleSubmit(onSubmit)} variant="contained" color="primary" fullWidth className={classes.button}>Unstake & Unwrap</Button>
 
 		</DialogContent>
 		<DialogActions style={{ display: 'flex', justifyContent: 'space-between' }}>
