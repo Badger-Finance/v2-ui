@@ -131,6 +131,7 @@ export const reduceGeysersToStats = (store: RootStore) => {
 
 		return {
 			address: geyser.address,
+			vault,
 
 			underlyingTokens: !!geyser.totalStaked &&
 				inCurrency(geyser.totalStaked, 'eth', true),

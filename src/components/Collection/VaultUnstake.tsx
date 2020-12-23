@@ -82,7 +82,7 @@ export const VaultUnstake = observer((props: any) => {
 		return <Loader />
 	}
 
-	let renderAmounts = <ButtonGroup fullWidth className={classes.button}>
+	let renderAmounts = <ButtonGroup size="small" >
 		<Button onClick={() => { setAmount(25) }} variant={watch().amount === uiStats.depositedFull[25] ? "contained" : "outlined"} color="primary">25%</Button>
 		<Button onClick={() => { setAmount(50) }} variant={watch().amount === uiStats.depositedFull[50] ? "contained" : "outlined"} color="primary">50%</Button>
 		<Button onClick={() => { setAmount(75) }} variant={watch().amount === uiStats.depositedFull[75] ? "contained" : "outlined"} color="primary">75%</Button>
@@ -92,38 +92,22 @@ export const VaultUnstake = observer((props: any) => {
 
 	let anyAvailable = !!uiStats.availableBalance && parseFloat(uiStats.availableBalance) !== 0
 	return <>
-		<DialogContent style={{ textAlign: 'center' }}>
-
-			<Typography variant="body1" color={'textSecondary'}>
-				Deposited
-			</Typography>
-
-			<Typography variant="h5" color={!anyAvailable ? "textSecondary" : 'textPrimary'}>
-				{uiStats.depositedFull[100]} {uiStats.symbol}
-			</Typography>
-
-
-		</DialogContent>
 		<DialogContent style={{ textAlign: "center" }}>
-			{renderAmounts}
+
+			<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+				<Typography variant="body1" color={'textSecondary'}>
+					Deposited: {uiStats.depositedFull[100]}
+
+				</Typography>
+				{renderAmounts}
+			</div>
+
+			<TextField autoComplete="off" name="amount" inputRef={register} id={TEXTFIELD_ID} className={classes.field} variant="outlined" fullWidth placeholder="Type an amount to unstake" />
 
 
-
-			<TextField autoComplete="off" name="amount" inputRef={register} id={TEXTFIELD_ID} className={classes.field} variant="outlined" fullWidth placeholder="Type an amount to stake" />
-
-
-			<Button onClick={handleSubmit(onSubmit)} variant="contained" color="primary" fullWidth className={classes.button}>Unstake & Unwrap</Button>
+			<Button size="large" onClick={handleSubmit(onSubmit)} variant="contained" color="primary" fullWidth className={classes.button}>Unstake & Unwrap</Button>
 
 		</DialogContent>
-		<DialogActions style={{ display: 'flex', justifyContent: 'space-between' }}>
-			<Typography variant="body2" color="textPrimary">ROI:</Typography>
-			<div style={{ display: 'flex' }}><Typography variant="body2" color="textPrimary">{uiStats.day}</Typography>&nbsp;
-				<Typography variant="body2" color="textSecondary"> daily</Typography></div>
-			<div style={{ display: 'flex' }}><Typography variant="body2" color="textPrimary">{uiStats.month}</Typography>&nbsp;
-				<Typography variant="body2" color="textSecondary"> monthly</Typography></div>
-			<div style={{ display: 'flex' }}><Typography variant="body2" color="textPrimary">{uiStats.year}</Typography>&nbsp;
-				<Typography variant="body2" color="textSecondary"> yearly</Typography></div>
-		</DialogActions>
 	</>
 
 

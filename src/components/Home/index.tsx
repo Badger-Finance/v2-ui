@@ -87,7 +87,7 @@ export const Home = observer(() => {
 
 	const { router: { params, goTo },
 		wallet: { provider },
-		contracts: { vaults, geysers, tokens },
+		contracts: { vaults, geysers, tokens, claimGeysers },
 		uiState: { collection, stats, geyserStats, vaultStats, currency, period, setCurrency, setPeriod } } = store;
 
 	const [modalProps, setModalProps] = useState({ open: false, mode: '', contract: "0x" })
@@ -260,8 +260,8 @@ export const Home = observer(() => {
 		</Grid>
 		<Grid item xs={12} sm={4} style={{ textAlign: 'right' }}>
 			<ButtonGroup>
-				<Button variant="outlined" color="primary">Claim</Button>
-				<Button variant="contained" color="primary">Claim & Stake</Button>
+				<Button variant="outlined" color="primary" onClick={() => { claimGeysers(false) }}>Claim</Button>
+				<Button variant="contained" color="primary" onClick={() => { claimGeysers(true) }}>Claim & Stake</Button>
 			</ButtonGroup>
 
 		</Grid>

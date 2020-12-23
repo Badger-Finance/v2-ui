@@ -5,6 +5,7 @@ import {
 	Grid,
 
 	Dialog,
+	DialogTitle,
 } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -213,18 +214,26 @@ export const SettList = observer((props: any) => {
 		const { mode, open, contract } = modalProps
 		let vault: any = {}
 		let component: any = {}
+		let title = ""
 		if (mode == "stake") {
 			vault = vaultStats[contract]
+			title = "Stake " + vault.name
+
 			component = <VaultStake uiStats={vault} onStake={onStake} onUnstake={onUnstake} />
 		} else if (mode == "unstake") {
 			vault = geyserStats[contract]
+			title = "Unstake " + vault.name
+
 			component = <VaultUnstake uiStats={vault} onStake={onStake} onUnstake={onUnstake} />
 		} else if (mode == "unwrap") {
 			vault = vaultStats[contract]
+			title = "Unwrap " + vault.name
+
 			component = <VaultUnwrap uiStats={vault} onStake={onStake} onUnstake={onUnstake} />
 		}
 
 		return <Dialog fullWidth maxWidth={'sm'} open={open} onClose={onClose}>
+			<DialogTitle>{title}</DialogTitle>
 
 			{component}
 		</Dialog>
