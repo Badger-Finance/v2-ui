@@ -81,7 +81,7 @@ getExchangeRates().then((result: any) => exchangeRates = result.ethereum)
 // output: formatted currency string
 export const inCurrency = (value: BigNumber, currency: string, hide: boolean = false, preferredDecimals: number = 5) => {
 	let normal = value.dividedBy(1e18)
-	let prefix = !hide ? 'E ' : ''
+	let prefix = !hide ? 'Ξ ' : ''
 	let decimals = preferredDecimals
 
 	switch (currency) {
@@ -89,7 +89,7 @@ export const inCurrency = (value: BigNumber, currency: string, hide: boolean = f
 			break
 		case "btc":
 			normal = normal.multipliedBy(exchangeRates.btc)
-			prefix = 'B '
+			prefix = '₿ '
 			break
 		case "usd":
 			prefix = '$'

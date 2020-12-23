@@ -80,6 +80,7 @@ export const VaultCard = observer((props: any) => {
 	let anyAvailable = !!uiStats.availableBalance && parseFloat(uiStats.availableBalance) !== 0
 	return <>
 		<Grid container spacing={2} className={classes.border + (isFeatured ? ` ${classes.featured}` : '')}>
+			{console.log("uiStats for ", uiStats.symbol, ": ", uiStats)}
 			<Grid item xs={12} sm={4}>
 				<Typography variant="body1">
 					{uiStats.name}
