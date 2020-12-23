@@ -80,14 +80,22 @@ export const VaultCard = observer((props: any) => {
 	let anyAvailable = !!uiStats.availableBalance && parseFloat(uiStats.availableBalance) !== 0
 	return <>
 		<Grid container spacing={2} className={classes.border + (isFeatured ? ` ${classes.featured}` : '')}>
-			{console.log("uiStats for ", uiStats.symbol, ": ", uiStats)}
 			<Grid item xs={12} sm={4}>
-				<Typography variant="body1">
-					{uiStats.name}
-				</Typography>
-				<Typography variant="body2" color="textSecondary">
-					{uiStats.symbol}
-				</Typography>
+				<Grid container spacing={4}>
+					<img alt=""
+						src={require('../../assets/' + uiStats.symbol.toLowerCase().replace(/\/+/g, '') + '-logo.png')}
+						height={'30px'}
+						style={{marginTop: 'auto', marginBottom: 'auto', filter: 'saturate(25%)', paddingLeft: '.5rem'}} />
+					<Grid item xs={12} sm={4} md={8}>
+						<Typography variant="body1">
+							{uiStats.name}
+						</Typography>
+					
+						<Typography variant="body2" color="textSecondary">
+							{uiStats.symbol}
+						</Typography>
+					</Grid>
+				</Grid>
 			</Grid>
 
 			<Grid item xs={12} sm={4} md={2}>
