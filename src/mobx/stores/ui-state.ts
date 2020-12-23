@@ -24,6 +24,8 @@ class UiState {
 	public geyserStats: any
 
 	public sidebarOpen!: boolean
+	public notification: any = {}
+	public gasPrice?: number
 
 
 	constructor(store: RootStore) {
@@ -45,7 +47,10 @@ class UiState {
 
 			currency: 'eth',
 			period: 'year',
+
 			sidebarOpen: !!window && window.innerWidth > 960,
+			notification: {},
+			gasPrice: 0
 		});
 
 		observe(this.store.contracts as any, "geysers", (change: any) => {
@@ -63,7 +68,10 @@ class UiState {
 		observe(this.store.wallet as any, "currentBlock", (change: any) => {
 			this.reduceContracts()
 			this.fetchSettRewards()
-
+		})
+		observe(this.store.wallet as any, "gasPrices", (change: any) => {
+			if (!this.gasPrice)
+				this.gasPrice = this.store.wallet.gasPrices.fast
 		})
 		observe(this.store.wallet as any, "provider", (change: any) => {
 			this.fetchSettRewards()
@@ -77,7 +85,6 @@ class UiState {
 		})
 
 		window.onresize = () => {
-
 			if (window.innerWidth < 960) {
 				this.sidebarOpen = false
 			} else {
@@ -85,6 +92,10 @@ class UiState {
 			}
 		}
 	}
+
+	queueNotification = action((message: string, variant: string) => {
+		this.notification = { message, variant }
+	})
 
 
 	reduceContracts = action(() => {
@@ -96,6 +107,7 @@ class UiState {
 			...this.stats,
 			...reduceContractsToStats(this.store)
 		}
+
 
 	});
 	setCollection = action((id: string) => {

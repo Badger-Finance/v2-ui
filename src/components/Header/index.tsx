@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import views from '../../config/routes';
 import { useContext } from 'react';
@@ -8,6 +8,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import { collections } from '../../config/constants';
 import { UseWalletProvider } from 'use-wallet'
 import { Menu } from '@material-ui/icons';
+import { observe } from 'mobx';
+import { useSnackbar } from 'notistack';
 // import { useSnackbar } from 'notistack';
 
 const useStyles = makeStyles((theme) => ({
@@ -34,8 +36,17 @@ export const Header = observer(() => {
 	const classes = useStyles();
 
 	const store = useContext(StoreContext);
-	const { router: { goTo }, uiState: { sidebarOpen, openSidebar } } = store;
+	const { router: { goTo }, uiState: { sidebarOpen, openSidebar, notification } } = store;
+	const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
+	const enq = () => {
+		if (!notification || !notification.message)
+			return
+
+		enqueueSnackbar(notification.message, { variant: notification.variant })
+
+	}
+	useEffect(enq, [notification])
 
 	return (
 		<AppBar className={classes.appBar} color="primary">

@@ -5,13 +5,13 @@ import { PromiEvent } from 'web3-core'
 import WalletStore from "../stores/wallet-store";
 import _ from "lodash";
 import { CollectionsOutlined } from "@material-ui/icons";
+import { gasPriceQuery } from "./helpers";
 
 const { fetchJson } = require('../../config/constants')
 
 export const estimateAndSend = (web3: Web3, method: ContractSendMethod, address: string, callback: (transaction: PromiEvent<Contract>) => void) => {
 
-	fetch("https://gasprice.poa.network/")
-		.then((result: any) => result.json())
+	gasPriceQuery()
 		.then((price: any) => {
 
 			let instantWei = new BigNumber(price.instant.toFixed(0))
