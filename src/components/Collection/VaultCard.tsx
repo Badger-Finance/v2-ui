@@ -41,8 +41,9 @@ const useStyles = makeStyles((theme) => ({
 	},
 	border: {
 		border: `1px solid ${theme.palette.grey[800]}`,
-		marginBottom: theme.spacing(1),
-		borderRadius: theme.shape.borderRadius,
+		borderWidth: '1px 1px 0 1px',
+		// marginBottom: theme.spacing(1),
+		// borderRadius: theme.shape.borderRadius,
 		padding: theme.spacing(2, 1),
 		alignItems: 'center'
 	},
@@ -85,7 +86,7 @@ export const VaultCard = observer((props: any) => {
 					<img alt=""
 						src={require('../../assets/' + uiStats.symbol.toLowerCase().replace(/\/+/g, '') + '-logo.png')}
 						height={'30px'}
-						style={{marginTop: 'auto', marginBottom: 'auto', filter: 'saturate(25%)', paddingLeft: '.5rem'}} />
+						style={{marginTop: 'auto', marginBottom: 'auto', paddingLeft: '.5rem'}} />
 					<Grid item xs={12} sm={4} md={8}>
 						<Typography variant="body1">
 							{uiStats.name}
