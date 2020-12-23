@@ -29,7 +29,12 @@ const useStyles = makeStyles((theme) => ({
 	},
 	root: {
 		padding: theme.spacing(0),
-		width: theme.spacing(25)
+		width: theme.spacing(25),
+		display: "flex",
+		flexDirection: "column",
+		justifyContent: "space-between",
+		minHeight: "100%"
+
 
 	},
 	drawer: {
@@ -79,7 +84,7 @@ export const Sidebar = observer(() => {
 	const renderCollections = () => {
 		return collections.map((collection) => {
 
-			return <ListItem key={collection.id} className={classes.listItem + ' ' + (store.router.params?.collection === collection.id ? classes.activeListItem : '')}
+			return <ListItem divider button key={collection.id} className={classes.listItem + ' ' + (store.router.params?.collection === collection.id ? classes.activeListItem : '')}
 				onClick={() => goTo(views.collection, { collection: collection.id })}>
 
 				{collection.title}
@@ -105,25 +110,25 @@ export const Sidebar = observer(() => {
 			>
 
 				<div className={classes.root}>
-
 					<List >
 						<ListItem button className={classes.listItem}>
 							<img src={require('../../assets/badger-logo.png')} className={classes.logo} />
 
 						</ListItem>
-						<ListItem button
+						<ListItem button divider
 							onClick={() => goTo(views.home)}
 							className={classes.listItem + ' ' + (store.router.currentPath === '/' ? classes.activeListItem : '')}>
 							Portfolio
-							
-							{stats.claims[0] !== 0 &&<Chip size="small" label={stats.claims[0]} variant="outlined" color="primary" className={classes.rewards} onClick={() => goTo(views.home)}/>}
-							</ListItem>
+
+							{stats.claims[0] !== 0 && <Chip size="small" label={stats.claims[0]} variant="outlined" color="primary" className={classes.rewards} onClick={() => goTo(views.home)} />}
+						</ListItem>
 
 						{renderCollections()}
-						<ListItem button className={classes.listItem}>DIGG</ListItem>
+						<ListItem button className={classes.listItem} divider>DIGG</ListItem>
 
-						<ListItem button className={classes.listItem} divider>Hunt</ListItem>
-
+						<ListItem button className={classes.listItem} divider>HUNT</ListItem>
+					</List>
+					<List>
 						<ListItem className={classes.listItem} >
 							<Wallet />
 
@@ -133,15 +138,11 @@ export const Sidebar = observer(() => {
 
 						</ListItem>
 
-						
-							<ListItem className={classes.listItem} >
-							
-							</ListItem>
+
 
 					</List>
 
-
-				</div >
+				</div>
 			</Drawer>
 		</UseWalletProvider>
 	);
