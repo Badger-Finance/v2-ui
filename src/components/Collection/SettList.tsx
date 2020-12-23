@@ -225,8 +225,16 @@ export const SettList = observer((props: any) => {
 		}
 
 		return <Dialog fullWidth maxWidth={'sm'} open={open} onClose={onClose}>
-			<DialogTitle >{title}
+			<DialogTitle disableTypography >
 				<VaultSymbol symbol={vault.symbol} />
+
+				<Typography variant="body1">
+					{title}
+				</Typography>
+				<Typography variant="body2" color="textSecondary">
+					{vault.symbol}
+				</Typography>
+
 			</DialogTitle>
 
 			{component}
