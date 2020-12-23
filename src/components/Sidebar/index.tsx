@@ -3,11 +3,12 @@ import { observer } from 'mobx-react-lite';
 import views from '../../config/routes';
 import { useContext } from 'react';
 import { StoreContext } from '../../context/store-context';
-import { Button, ButtonGroup, List, ListItem, Typography, Drawer } from "@material-ui/core"
+import { Button, ButtonGroup, List, ListItem, Typography, Drawer, Chip } from "@material-ui/core"
 import { makeStyles } from '@material-ui/core/styles';
 import { collections } from '../../config/constants';
 import { Wallet } from './Wallet';
 import { UseWalletProvider } from 'use-wallet'
+import { LocalGasStation } from '@material-ui/icons';
 // import { useSnackbar } from 'notistack';
 
 const useStyles = makeStyles((theme) => ({
@@ -15,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
 		height: "2.4rem",
 		width: "auto",
 		// display: 'block',
-		margin: theme.spacing(2, 2, 0, 2)
+		// margin: theme.spacing(2, 2, 0, 2)
 	},
 	listHeader: {
 		fontSize: ".8rem",
@@ -27,8 +28,13 @@ const useStyles = makeStyles((theme) => ({
 		textDecoration: 'none'
 	},
 	root: {
-		padding: theme.spacing(2),
-		width: theme.spacing(25)
+		padding: theme.spacing(0),
+		width: theme.spacing(25),
+		display: "flex",
+		flexDirection: "column",
+		justifyContent: "space-between",
+		minHeight: "100%"
+
 
 	},
 	drawer: {
@@ -40,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
 
 		},
 		// paddingLeft: theme.spacing(1),
-		padding: theme.spacing(1)
+		padding: theme.spacing(1, 2)
 	},
 	activeListItem: {
 		fontWeight: 'bold'
@@ -51,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 
 	rewards: {
-		margin: theme.spacing(2, 2, 0, 0)
+		margin: theme.spacing(0, 0, 0, 1)
 	},
 	flex: {
 		display: 'flex',
@@ -64,7 +70,7 @@ export const Sidebar = observer(() => {
 	const classes = useStyles();
 
 	const store = useContext(StoreContext);
-	const { router: { goTo }, uiState: { sidebarOpen, closeSidebar, stats } } = store;
+	const { router: { goTo }, uiState: { sidebarOpen, closeSidebar, stats, gasPrice } } = store;
 
 	// const { enqueueSnackbar } = useSnackbar();
 
@@ -78,7 +84,7 @@ export const Sidebar = observer(() => {
 	const renderCollections = () => {
 		return collections.map((collection) => {
 
-			return <ListItem key={collection.id} className={classes.listItem + ' ' + (store.router.params?.collection === collection.id ? classes.activeListItem : '')}
+			return <ListItem divider button key={collection.id} className={classes.listItem + ' ' + (store.router.params?.collection === collection.id ? classes.activeListItem : '')}
 				onClick={() => goTo(views.collection, { collection: collection.id })}>
 
 				{collection.title}
@@ -102,34 +108,41 @@ export const Sidebar = observer(() => {
 				className={classes.drawer}
 				onClose={() => closeSidebar()}
 			>
-				<div className={classes.flex}>
-					<img src={require('../../assets/badger-logo.png')} className={classes.logo} />
-					{stats.claims[0] !== 0 &&
-						<Button fullWidth variant="outlined" color="primary" size="small" className={classes.rewards} onClick={() => goTo(views.home)}>
-							{stats.claims[0]}
-							{/* <Typography variant="body2">{stats.claims[1]}</Typography> */}
-						</Button>}
-				</div>
 
 				<div className={classes.root}>
-
-					<Wallet />
-
-
-
-
 					<List >
-						<ListItem
+						<ListItem button className={classes.listItem}>
+							<img src={require('../../assets/badger-logo.png')} className={classes.logo} />
+
+						</ListItem>
+						<ListItem button divider
 							onClick={() => goTo(views.home)}
 							className={classes.listItem + ' ' + (store.router.currentPath === '/' ? classes.activeListItem : '')}>
-							Portfolio</ListItem>
+							Portfolio
+
+							{stats.claims[0] !== 0 && <Chip size="small" label={stats.claims[0]} variant="outlined" color="primary" className={classes.rewards} onClick={() => goTo(views.home)} />}
+						</ListItem>
 
 						{renderCollections()}
-						<ListItem className={classes.listItem}>DIGG</ListItem>
-						<ListItem className={classes.listItem}>Hunt</ListItem>
+						<ListItem button className={classes.listItem} divider>DIGG</ListItem>
+
+						<ListItem button className={classes.listItem} divider>HUNT</ListItem>
+					</List>
+					<List>
+						<ListItem className={classes.listItem} >
+							<Wallet />
+
+						</ListItem>
+						<ListItem className={classes.listItem} >
+							<Button size="small" variant="outlined" startIcon={<LocalGasStation />} >{gasPrice}</Button>
+
+						</ListItem>
+
+
+
 					</List>
 
-				</div >
+				</div>
 			</Drawer>
 		</UseWalletProvider>
 	);

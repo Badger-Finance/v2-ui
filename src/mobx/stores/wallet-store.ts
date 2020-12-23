@@ -13,17 +13,24 @@ class WalletStore {
 	public provider?: any = new Web3.providers.HttpProvider('https://mainnet.infura.io/v3/77a0f6647eb04f5ca1409bba62ae9128')
 	private store?: RootStore
 	public currentBlock?: number;
+	public gasPrices?: any;
 
 	constructor(store: RootStore) {
 		this.store = store
 
 		extendObservable(this, {
 			provider: this.provider,
-			currentBlock: undefined
+			currentBlock: undefined,
+			gasPrices: {}
 		});
 
 		this.getCurrentBlock()
-		setInterval(() => this.getCurrentBlock()
+		this.getGasPrice()
+
+		setInterval(() => {
+			this.getGasPrice()
+			this.getCurrentBlock()
+		}
 			, 13000)
 	}
 
@@ -32,8 +39,16 @@ class WalletStore {
 		web3.eth.getBlockNumber().then((value: number) => {
 			this.currentBlock = value - 50
 		})
-
 	});
+
+	getGasPrice = action(() => {
+		fetch("https://gasprice.poa.network/")
+			.then((result: any) => result.json())
+			.then((price: any) => {
+				this.gasPrices = price
+			})
+	});
+
 	setProvider = action((provider: any) => {
 		this.provider = provider;
 		this.store?.contracts.fetchCollection()

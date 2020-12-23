@@ -55,7 +55,6 @@ export const Wallet = observer(() => {
 				onClick={() => wallet.reset()}>
 				{wallet.status}
 				<div className={wallet.status !== 'connected' ? classes.redDot : classes.greenDot} />
-
 			</Button>
 		</div>
 	else

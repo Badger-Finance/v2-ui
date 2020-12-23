@@ -17,6 +17,7 @@ import { VaultStake } from './VaultStake';
 import Carousel from 'react-material-ui-carousel'
 import { VaultUnwrap } from './VaultUnwrap';
 import { VaultUnstake } from './VaultUnstake';
+import { VaultSymbol } from '../VaultSymbol';
 
 const useStyles = makeStyles((theme) => ({
 
@@ -129,8 +130,9 @@ export const SettList = observer((props: any) => {
 			_.sortBy(vaults, [(vault: any) => {
 				let token = tokens[vault[collection.configs.vaults.underlying]]
 				return -token.balanceOf
-			}]).filter((geyser: any) => {
-				return (!!geyser.balanceOf && geyser.balanceOf.gt(0))
+			}]).filter((vault: any) => {
+				let token = tokens[vault[collection.configs.vaults.underlying]]
+				return (!!vault.balanceOf && vault.balanceOf.gt(0)) || (!!token.balanceOf && token.balanceOf.gt(0))
 			}))
 	}
 
@@ -145,16 +147,6 @@ export const SettList = observer((props: any) => {
 		}))
 	}
 
-	const featuredGeysers = () => {
-
-		// wallet assets & wrapped assets ordered by value
-		return renderContracts(_.sortBy(vaults, [(vault: any) => {
-			let token = tokens[vault[collection.configs.vaults.underlying]]
-			return -token.balanceOf
-		}]).filter((vault: any) => {
-			return (!vault.balanceOf || !vault.balanceOf.gt(0))
-		}), false, true)
-	}
 	const renderDeposits = () => {
 
 		// pooled tokens & empty tokens
@@ -233,7 +225,9 @@ export const SettList = observer((props: any) => {
 		}
 
 		return <Dialog fullWidth maxWidth={'sm'} open={open} onClose={onClose}>
-			<DialogTitle>{title}</DialogTitle>
+			<DialogTitle >{title}
+				<VaultSymbol symbol={vault.symbol} />
+			</DialogTitle>
 
 			{component}
 		</Dialog>

@@ -4,12 +4,14 @@ import views from '../../config/routes';
 import { StoreContext } from '../../context/store-context';
 import {
 	Tooltip,
-	Card, CardContent, CardActions, CardActionArea, Collapse, Avatar, IconButton, Divider, Button, Grid, ButtonGroup
+	Button,
+	Grid,
+	ButtonGroup
 } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Loader } from '../Loader';
-import BigNumber from 'bignumber.js'
+import { VaultSymbol } from '../VaultSymbol';
 
 const useStyles = makeStyles((theme) => ({
 
@@ -72,6 +74,8 @@ export const GeyserCard = observer((props: any) => {
 	return <>
 		<Grid container spacing={2} className={classes.border}>
 			<Grid item xs={12} sm={4}>
+				<VaultSymbol symbol={uiStats.symbol} />
+
 				<Typography variant="body1">
 					{uiStats.name}
 				</Typography>
