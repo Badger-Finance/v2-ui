@@ -53,7 +53,7 @@ export const Wallet = observer(() => {
 				size="small"
 				variant="outlined"
 				onClick={() => wallet.reset()}>
-				{wallet.status}
+				{wallet.account != null ? wallet.account.substr(0, 7) + "..." + wallet.account.substr(-5) : wallet.status }
 				<div className={wallet.status !== 'connected' ? classes.redDot : classes.greenDot} />
 			</Button>
 		</div>
