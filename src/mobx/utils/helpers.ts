@@ -52,6 +52,11 @@ export const getExchangeRates = (): Promise<Response> => {
 	}).then((response: any) => response.json())
 }
 
+export const gasPriceQuery = (): Promise<Response> => {
+	return fetch("https://gasprice.poa.network/")
+		.then((result: any) => result.json())
+}
+
 export const growthQuery = (block: number): Promise<Response> => {
 	return fetch(`https://api.thegraph.com/subgraphs/name/m4azey/badger-finance`, {
 		method: 'POST',
@@ -81,7 +86,7 @@ getExchangeRates().then((result: any) => exchangeRates = result.ethereum)
 // output: formatted currency string
 export const inCurrency = (value: BigNumber, currency: string, hide: boolean = false, preferredDecimals: number = 5) => {
 	let normal = value.dividedBy(1e18)
-	let prefix = !hide ? 'E ' : ''
+	let prefix = !hide ? 'Ξ ' : ''
 	let decimals = preferredDecimals
 
 	switch (currency) {
@@ -89,7 +94,7 @@ export const inCurrency = (value: BigNumber, currency: string, hide: boolean = f
 			break
 		case "btc":
 			normal = normal.multipliedBy(exchangeRates.btc)
-			prefix = 'B '
+			prefix = '₿ '
 			break
 		case "usd":
 			prefix = '$'
