@@ -24,6 +24,7 @@ class UiState {
 	public geyserStats: any
 
 	public sidebarOpen!: boolean
+	public notification: any = {}
 
 
 	constructor(store: RootStore) {
@@ -45,7 +46,9 @@ class UiState {
 
 			currency: 'eth',
 			period: 'year',
+
 			sidebarOpen: !!window && window.innerWidth > 960,
+			notification: {}
 		});
 
 		observe(this.store.contracts as any, "geysers", (change: any) => {
@@ -77,7 +80,6 @@ class UiState {
 		})
 
 		window.onresize = () => {
-
 			if (window.innerWidth < 960) {
 				this.sidebarOpen = false
 			} else {
@@ -85,6 +87,10 @@ class UiState {
 			}
 		}
 	}
+
+	queueNotification = action((message: string, variant: string) => {
+		this.notification = { message, variant }
+	})
 
 
 	reduceContracts = action(() => {
@@ -96,6 +102,7 @@ class UiState {
 			...this.stats,
 			...reduceContractsToStats(this.store)
 		}
+
 
 	});
 	setCollection = action((id: string) => {

@@ -88,12 +88,14 @@ export const Home = observer(() => {
 	const { router: { params, goTo },
 		wallet: { provider },
 		contracts: { vaults, geysers, tokens, claimGeysers },
-		uiState: { collection, stats, geyserStats, vaultStats, currency, period, setCurrency, setPeriod } } = store;
+		uiState: { collection, stats, geyserStats, vaultStats, currency, period, setCurrency, setPeriod, queueNotification } } = store;
 
 	const [modalProps, setModalProps] = useState({ open: false, mode: '', contract: "0x" })
 
-	if (!provider.selectedAddress)
+	if (!provider.selectedAddress) {
 		goTo(views.collection, { collection: collections[0].id })
+		queueNotification('Please connect your wallet', 'warning')
+	}
 
 
 	const renderContracts = (contracts: any, isGeysers: boolean = false, isFeatured: boolean = false) => {
@@ -243,7 +245,7 @@ export const Home = observer(() => {
 
 	const rewardsBox = <Grid container spacing={2} className={classes.border}>
 		<Grid item xs={12} sm={4}>
-			<Typography variant="body1">
+			<Typography variant="h5">
 				{stats.claims[0] || '0.00000'} BADGER
 			</Typography>
 

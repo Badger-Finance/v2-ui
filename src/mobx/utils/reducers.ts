@@ -190,7 +190,7 @@ export const reduceVaultsToStats = (store: RootStore) => {
 			yourBalance: !!vault.balanceOf &&
 				inCurrency(vault.balanceOf, 'eth', true),
 			yourValue: !!token.balanceOf && !!token.ethValue &&
-				inCurrency(token.balanceOf.multipliedBy(token.ethValue.dividedBy(1e18)), currency),
+				inCurrency(token.balanceOf.plus(vault.balanceOf).multipliedBy(token.ethValue.dividedBy(1e18)), currency),
 
 			anyWrapped: !!vault.balanceOf && vault.balanceOf.gt(0),
 
@@ -248,6 +248,7 @@ export const reduceContractsToStats = (store: RootStore) => {
 	let growth = new BigNumber(0)
 	_.forIn(vaultContracts, (vault: any, address: string) => {
 		let token = tokens[vault.token]
+		let wrapped = tokens[vault.address]
 
 		tvl = tvl.plus(vault.totalSupply.dividedBy(1e18).multipliedBy(token.ethValue))
 
@@ -256,13 +257,20 @@ export const reduceContractsToStats = (store: RootStore) => {
 		if (!!vault.year)
 			growth = growth.plus(value.multipliedBy(vault.year))
 
-		if (!!token.balanceOf) {
-			portfolio = portfolio.plus(token.balanceOf.multipliedBy(token.ethValue).dividedBy(1e18))
-			// wallet = portfolio.plus(vault.balanceOf.multipliedBy(token.ethValue))
+		if (!!wrapped.balanceOf) {
+			wallet = wallet.plus(
+				wrapped.balanceOf.multipliedBy(token.ethValue).multipliedBy(vault.getPricePerFullShare.dividedBy(1e18))
+					.dividedBy(1e18))
+
+			portfolio = portfolio.plus(
+				wrapped.balanceOf.multipliedBy(token.ethValue).multipliedBy(vault.getPricePerFullShare.dividedBy(1e18))
+					.dividedBy(1e18))
 		}
 
-		if (!!token.balanceOf)
+		if (!!token.balanceOf) {
 			wallet = wallet.plus(token.balanceOf.multipliedBy(token.ethValue).dividedBy(1e18))
+			portfolio = portfolio.plus(token.balanceOf.multipliedBy(token.ethValue).dividedBy(1e18))
+		}
 
 	})
 
