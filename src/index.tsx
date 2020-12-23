@@ -24,7 +24,7 @@ const theme = createMuiTheme({
 	},
 	typography: {
 		// fontSize: 16,
-		fontFamily: "Ubuntu"
+		fontFamily: "'IBM Plex Sans'"
 		// h1: { fontFamily: "'Press Start 2P'", fontSize: "2.5rem" },
 		// h2: { fontFamily: "'Press Start 2P'", fontSize: "2rem" },
 		// h3: { fontFamily: "'Press Start 2P'", fontSize: "1.8rem" },
