@@ -294,11 +294,11 @@ class ContractsStore {
 
 	});
 
-	unstakeAndUnwrap = action((geyser: any, amount: BigNumber) => {
+	unstakeAndUnwrap = action((vault: any, amount: BigNumber) => {
 		const { tokens, vaults } = this
 		const { collection } = this.store.uiState
 
-		let vault = vaults[geyser[collection.configs.geysers.underlying]]
+		let underlying = tokens[vault.token]
 		let wrapped = tokens[vault.address]
 
 		// ensure balance is valid
@@ -319,8 +319,9 @@ class ContractsStore {
 		let underlying = tokens[vault.token]
 		let wrapped = tokens[vault.address]
 
+
 		// ensure balance is valid
-		if (amount.lte(0) || amount.gt(underlying.balanceOf.plus(vault.balanceOf)))
+		if (!underlying.balanceOf || amount.lte(0) || amount.gt(underlying.balanceOf.plus(vault.balanceOf)))
 			return
 
 		// calculate amount to deposit
@@ -337,6 +338,10 @@ class ContractsStore {
 
 	});
 
+
+	claimGeysers = action((stake: boolean = false) => {
+		console.log(stake ? "claim & stake" : "claiming...")
+	});
 
 	updateVaults = action((vaults: any) => {
 		this.vaults = !this.vaults ? vaults : _.mapValues(

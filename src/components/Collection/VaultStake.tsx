@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
 		marginBottom: theme.spacing(1)
 	},
 	field: {
-		margin: theme.spacing(1, 0, 1)
+		margin: theme.spacing(0, 0, 1)
 	},
 	border: {
 		border: `1px solid rgba(255,255,255,.2)`,
@@ -82,7 +82,7 @@ export const VaultStake = observer((props: any) => {
 		return <Loader />
 	}
 
-	let renderAmounts = <ButtonGroup fullWidth className={classes.button}>
+	let renderAmounts = <ButtonGroup size="small" className={classes.button}>
 		<Button onClick={() => { setAmount(25) }} variant={watch().amount === uiStats.availableFull[25] ? "contained" : "outlined"} color="primary">25%</Button>
 		<Button onClick={() => { setAmount(50) }} variant={watch().amount === uiStats.availableFull[50] ? "contained" : "outlined"} color="primary">50%</Button>
 		<Button onClick={() => { setAmount(75) }} variant={watch().amount === uiStats.availableFull[75] ? "contained" : "outlined"} color="primary">75%</Button>
@@ -92,27 +92,21 @@ export const VaultStake = observer((props: any) => {
 
 	let anyAvailable = !!uiStats.availableBalance && parseFloat(uiStats.availableBalance) !== 0
 	return <>
-		<DialogContent style={{ textAlign: 'center' }}>
 
-			<Typography variant="body1" color={'textSecondary'}>
-				Balance
-			</Typography>
-
-			<Typography variant="h5" color={!anyAvailable ? "textSecondary" : 'textPrimary'}>
-				{uiStats.availableFull[100]} {uiStats.symbol}
-			</Typography>
-
-
-		</DialogContent>
 		<DialogContent style={{ textAlign: "center" }}>
-			{renderAmounts}
+			<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+				<Typography variant="body1" color={'textSecondary'}>
+					Balance: {uiStats.availableFull[100]}
 
+				</Typography>
+				{renderAmounts}
+			</div>
 
 
 			<TextField autoComplete="off" name="amount" inputRef={register} id={TEXTFIELD_ID} className={classes.field} variant="outlined" fullWidth placeholder="Type an amount to stake" />
 
 
-			<Button onClick={handleSubmit(onSubmit)} variant="contained" color="primary" fullWidth className={classes.button}>Stake</Button>
+			<Button size="large" onClick={handleSubmit(onSubmit)} variant="contained" color="primary" fullWidth className={classes.button}>Stake</Button>
 
 		</DialogContent>
 		<DialogActions style={{ display: 'flex', justifyContent: 'space-between' }}>

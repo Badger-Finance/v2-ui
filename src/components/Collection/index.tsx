@@ -8,6 +8,7 @@ import {
 	Button,
 	Paper,
 	Dialog,
+	DialogTitle,
 } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -216,17 +217,19 @@ export const Collection = observer(() => {
 		let title: string = ""
 		if (mode == "stake") {
 			vault = vaultStats[contract]
-			title = "Stake"
+			title = "Stake " + vault.name
 		} else if (mode == "unstake") {
 			vault = geyserStats[contract]
-			title = "Unstake"
+			title = "Unstake " + vault.name
 		} else if (mode == "stake") {
 			vault = vaultStats[contract]
-			title = "Unwrap"
+			title = "Unwrap " + vault.name
 		}
 
 		return <Dialog fullWidth maxWidth={'sm'} open={open} onClose={onClose}>
-
+			<DialogTitle>
+				{title}
+			</DialogTitle>
 
 			<VaultStake uiStats={vault} onStake={onStake} onUnstake={onUnstake} />
 		</Dialog>
