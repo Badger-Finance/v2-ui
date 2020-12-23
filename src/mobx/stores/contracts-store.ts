@@ -270,6 +270,72 @@ class ContractsStore {
 
 	})
 
+	depositAndStake = action((vault: any, amount: BigNumber) => {
+		const { tokens } = this
+
+		let underlying = tokens[vault.token]
+		let wrapped = tokens[vault.address]
+
+		// ensure balance is valid
+		if (amount.lte(0) || amount.gt(underlying.balanceOf.plus(vault.balanceOf)))
+			return
+
+		// calculate amount to deposit
+		let underlyingAmount = new BigNumber(0);
+		let wrappedAmount = new BigNumber(0);
+		if (amount.gt(vault.balanceOf)) {
+			wrappedAmount = wrapped.balanceOf
+			underlyingAmount = amount.minus(wrappedAmount)
+		} else {
+			wrappedAmount = amount
+		}
+
+		console.log('wrap:', underlyingAmount.toString(), 'stake:', wrappedAmount.toString())
+
+	});
+
+	unstakeAndUnwrap = action((geyser: any, amount: BigNumber) => {
+		const { tokens, vaults } = this
+		const { collection } = this.store.uiState
+
+		let vault = vaults[geyser[collection.configs.geysers.underlying]]
+		let wrapped = tokens[vault.address]
+
+		// ensure balance is valid
+		if (amount.lte(0) || amount.gt(vault.totalStakedFor))
+			return
+
+		// calculate amount to deposit
+		let stakedAmount = amount;
+		let wrappedAmount = amount.dividedBy(vault.getPricePerFullShare);
+
+		console.log('unstake:', stakedAmount.toString(), 'unwrap:', wrappedAmount.toString())
+
+	});
+
+	unwrap = action((vault: any, amount: BigNumber) => {
+		const { tokens } = this
+
+		let underlying = tokens[vault.token]
+		let wrapped = tokens[vault.address]
+
+		// ensure balance is valid
+		if (amount.lte(0) || amount.gt(underlying.balanceOf.plus(vault.balanceOf)))
+			return
+
+		// calculate amount to deposit
+		let underlyingAmount = new BigNumber(0);
+		let wrappedAmount = new BigNumber(0);
+		if (amount.gt(vault.balanceOf)) {
+			wrappedAmount = wrapped.balanceOf
+			underlyingAmount = amount.minus(wrappedAmount)
+		} else {
+			wrappedAmount = amount
+		}
+
+		console.log(wrappedAmount.toString(), underlyingAmount.toString())
+
+	});
 
 
 	updateVaults = action((vaults: any) => {
@@ -290,8 +356,6 @@ class ContractsStore {
 				))
 
 	});
-
-
 
 	// increaseAllowance = action(() => {
 	// 	const underlying = this.vault[collection.config.config.underlying]
