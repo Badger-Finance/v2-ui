@@ -71,7 +71,7 @@ export const SettList = observer((props: any) => {
 	const { hideEmpty } = props
 
 	const { router: { params, goTo },
-		wallet: { provider },
+		wallet: { walletState },
 		contracts: { vaults, geysers, tokens },
 		uiState: { collection, stats, geyserStats, vaultStats, currency, period, setCurrency, setPeriod } } = store;
 
@@ -235,10 +235,10 @@ export const SettList = observer((props: any) => {
 
 
 	return <>
-		{!!provider.selectedAddress && tableHeader(`Your Wallet - ${stats.wallet}`)}
-		{!!provider.selectedAddress && walletVaults()}
-		{!!provider.selectedAddress && tableHeader(`Deposits - ${stats.geysers}`)}
-		{!!provider.selectedAddress && renderDeposits()}
+		{!!walletState && tableHeader(`Your Wallet - ${stats.wallet}`)}
+		{!!walletState && walletVaults()}
+		{!!walletState && tableHeader(`Deposits - ${stats.geysers}`)}
+		{!!walletState && renderDeposits()}
 
 		{!hideEmpty && tableHeader(`Setts`)}
 		{!hideEmpty && emptyGeysers()}

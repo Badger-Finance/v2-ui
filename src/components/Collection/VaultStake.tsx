@@ -66,7 +66,7 @@ export const VaultStake = observer((props: any) => {
 		uiStats } = props
 	const { register, handleSubmit, watch, errors, setValue } = useForm({ mode: 'all' });
 
-	const { router: { params, goTo }, contracts: { vaults, tokens, depositAndStake }, uiState: { collection }, wallet: { provider } } = store;
+	const { router: { params, goTo }, contracts: { vaults, tokens, depositAndStake }, uiState: { collection }, wallet: { walletState } } = store;
 
 	const setAmount = (percent: number) => {
 		// (document.getElementById(TEXTFIELD_ID)! as HTMLInputElement).value = uiStats.availableFull[percent];

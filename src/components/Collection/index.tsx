@@ -70,7 +70,7 @@ export const Collection = observer(() => {
 	const classes = useStyles();
 
 	const { router: { params, goTo },
-		wallet: { provider },
+		wallet: { walletState },
 		contracts: { vaults, geysers, tokens },
 		uiState: { collection, stats, geyserStats, vaultStats, currency, period, setCurrency, setPeriod } } = store;
 
