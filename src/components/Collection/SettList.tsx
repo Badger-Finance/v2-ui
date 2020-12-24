@@ -61,6 +61,9 @@ const useStyles = makeStyles((theme) => ({
 		fontSize: '11px',
 		width: '1rem',
 		color: '#fff'
+	},
+	assetTable: {
+		marginTop: '-1px'
 	}
 
 }));
@@ -110,11 +113,11 @@ export const SettList = observer((props: any) => {
 				vault = vaults[contract[collection.configs.geysers.underlying]]
 
 			if (!isGeysers)
-				return <Grid item xs={12} key={address}>
+				return <Grid item xs={12} key={address} className={classes.assetTable}>
 					<VaultCard uiStats={stats} onStake={onStake} onUnwrap={onUnwrap} isFeatured={isFeatured} />
 				</Grid>
 			else
-				return <Grid item xs={12} key={address}>
+				return <Grid item xs={12} key={address} className={classes.assetTable}>
 					<GeyserCard uiStats={stats} onStake={onStake} onUnstake={onUnstake} />
 				</Grid>
 		})
@@ -235,10 +238,10 @@ export const SettList = observer((props: any) => {
 
 
 	return <>
-		{!!walletState && tableHeader(`Your Wallet - ${stats.wallet}`)}
-		{!!walletState && walletVaults()}
-		{!!walletState && tableHeader(`Deposits - ${stats.geysers}`)}
-		{!!walletState && renderDeposits()}
+		{!!walletState?.address && tableHeader(`Your Wallet - ${stats.wallet}`)}
+		{!!walletState?.address && walletVaults()}
+		{!!walletState?.address && tableHeader(`Deposits - ${stats.geysers}`)}
+		{!!walletState?.address && renderDeposits()}
 
 		{!hideEmpty && tableHeader(`Setts`)}
 		{!hideEmpty && emptyGeysers()}

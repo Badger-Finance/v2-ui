@@ -124,13 +124,12 @@ class UiState {
 	fetchSettRewards = action(() => {
 		const { walletState, provider } = this.store.wallet
 		const { merkle, proofNetwork, tokens } = this.collection.configs.geysers.rewards
-		console.log("wallet state: ", walletState)
-		if (!walletState)
+		if (!walletState?.address)
 			return
 
 		let web3 = new Web3(provider)
 		let rewardsTree = new web3.eth.Contract(merkle.abi, merkle.hashContract)
-		let checksumAddress = Web3.utils.toChecksumAddress(walletState.address)
+		let checksumAddress = Web3.utils.toChecksumAddress(walletState?.address)
 
 		rewardsTree.methods
 			.merkleContentHash()
@@ -139,7 +138,7 @@ class UiState {
 				jsonQuery(`${merkle.proofEndpoint}/rewards/${merkle.proofNetwork}/${merkleHash}/${checksumAddress}`)
 					.then((merkleProof: any) => {
 						if (!merkleProof.error) {
-							rewardsTree.methods.getClaimedFor(walletState.address, tokens)
+							rewardsTree.methods.getClaimedFor(walletState?.address, tokens)
 								.call()
 								.then((claimedRewards: any[]) => {
 									let claims = reduceClaims(merkleProof, claimedRewards)

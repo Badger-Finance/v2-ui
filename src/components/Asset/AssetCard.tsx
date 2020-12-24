@@ -74,7 +74,7 @@ export const AssetCard = observer((props: any) => {
 
 
 		</CardContent>
-		{!!walletState.address && <CardActions>
+		{!!walletState?.address && <CardActions>
 			{/* <TextField placeholder="amount"></TextField> */}
 			<Button variant="outlined" onClick={deposit} disabled={!walletState}>deposit</Button>
 			{/* <TextField placeholder="amount"></TextField> */}

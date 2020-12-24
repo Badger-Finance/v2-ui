@@ -95,7 +95,7 @@ export const Home = observer(() => {
 
 	const [modalProps, setModalProps] = useState({ open: false, mode: '', contract: "0x" })
 
-	if (!walletState) {
+	if (!walletState?.address) {
 		goTo(views.collection, { collection: collections[0].id })
 		queueNotification('Please connect your wallet', 'warning')
 	}

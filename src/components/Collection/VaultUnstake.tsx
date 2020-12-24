@@ -50,9 +50,10 @@ const useStyles = makeStyles((theme) => ({
 		margin: theme.spacing(1, 0, 1)
 	},
 	border: {
-		border: `1px solid rgba(255,255,255,.2)`,
-		marginBottom: theme.spacing(1),
-		borderRadius: theme.shape.borderRadius,
+		border: `1px solid ${theme.palette.grey[800]}`,
+		borderWidth: '1px 1px 1px 1px',
+		// marginBottom: theme.spacing(1),
+		// borderRadius: theme.shape.borderRadius,
 		padding: theme.spacing(2, 1),
 		alignItems: 'center'
 	}

@@ -43,8 +43,9 @@ const useStyles = makeStyles((theme) => ({
 	},
 	border: {
 		border: `1px solid ${theme.palette.grey[800]}`,
-		marginBottom: theme.spacing(1),
-		borderRadius: theme.shape.borderRadius,
+		borderWidth: '1px 1px 1px 1px',
+		// marginBottom: theme.spacing(1),
+		// borderRadius: theme.shape.borderRadius,
 		padding: theme.spacing(2, 1),
 		alignItems: 'center'
 	},
@@ -139,7 +140,7 @@ export const GeyserCard = observer((props: any) => {
 				<Typography variant="body2" color="textSecondary">
 
 					{uiStats.availableBalance}
-					{!walletState && "..."}
+					{!walletState?.address && "..."}
 
 				</Typography>
 			</Grid>

@@ -119,7 +119,7 @@ export const VaultFunction = observer((props: any) => {
 					})}
 			</CardContent>
 			<CardActions >
-				<IconButton disabled={state.status == "pending" || !walletState.address} style={{ marginLeft: 'auto' }} onClick={handleSubmit(onSubmit)} >
+				<IconButton disabled={state.status == "pending" || !walletState?.address} style={{ marginLeft: 'auto' }} onClick={handleSubmit(onSubmit)} >
 					<Submit />
 				</IconButton>
 			</CardActions>

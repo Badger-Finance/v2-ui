@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	border: {
 		border: `1px solid ${theme.palette.grey[800]}`,
-		borderWidth: '1px 1px 0 1px',
+		borderWidth: '1px 1px 1px 1px',
 		// marginBottom: theme.spacing(1),
 		// borderRadius: theme.shape.borderRadius,
 		padding: theme.spacing(2, 1),
@@ -140,7 +140,7 @@ export const VaultCard = observer((props: any) => {
 				<Typography variant="body2" color="textSecondary">
 
 					{uiStats.availableBalance}
-					{!walletState && "..."}
+					{!walletState?.address && "..."}
 
 				</Typography>
 			</Grid>
