@@ -45,7 +45,8 @@ export const Wallet = observer(() => {
 		await wsOnboard.walletSelect();
 		const readyToTransact = await wsOnboard.walletCheck();
 		if (readyToTransact) {
-			store.wallet.walletState = wsOnboard.getState();
+			console.log("wallet: ", wsOnboard);
+			store.wallet.connect(wsOnboard);
 			setConnected(true);
 		}
 	}

@@ -49,6 +49,7 @@ class WalletStore {
 		this.store = store
 
 		extendObservable(this, {
+			walletState: this.walletState,
 			provider: this.provider,
 			currentBlock: undefined,
 			gasPrices: {}
@@ -65,8 +66,15 @@ class WalletStore {
 	}
 
 	walletReset = action(() => {
+		this.setProvider(new Web3.providers.HttpProvider('https://mainnet.infura.io/v3/77a0f6647eb04f5ca1409bba62ae9128'));
 		this.onboard.walletReset();
 	});
+
+	connect = action((wsOnboard:any) => {
+		this.walletState = wsOnboard.getState();
+		this.onboard = wsOnboard;
+		this.setProvider(this.walletState.wallet.provider)
+	})
 
 	getCurrentBlock = action(() => {
 		let web3 = new Web3(this.provider)
