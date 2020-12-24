@@ -91,7 +91,7 @@ export const VaultCard = observer((props: any) => {
 				<Grid container spacing={4}>
 					<img alt=""
 						className={classes.icon}
-						src={require('../../assets/' + uiStats.symbol.toLowerCase().replace(/\/+/g, '') + '-logo.png')}
+						src={uiStats.symbol ? require('../../assets/' + uiStats.symbol.toLowerCase().replace(/\/+/g, '') + '-logo.png') : ''}
 						height={'30px'}
 						style={{}} />
 					<Grid item xs={12} sm={4} md={8}>

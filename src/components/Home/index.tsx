@@ -79,6 +79,9 @@ const useStyles = makeStyles((theme) => ({
 		padding: theme.spacing(1, 1),
 		alignItems: 'center'
 	},
+	onboardModal: {
+		background: theme.palette.grey[800],
+	}
 
 }));
 export const Home = observer(() => {
@@ -86,13 +89,13 @@ export const Home = observer(() => {
 	const classes = useStyles();
 
 	const { router: { params, goTo },
-		wallet: { provider },
+		wallet: { walletState },
 		contracts: { vaults, geysers, tokens, claimGeysers },
 		uiState: { collection, stats, geyserStats, vaultStats, currency, period, setCurrency, setPeriod, queueNotification } } = store;
 
 	const [modalProps, setModalProps] = useState({ open: false, mode: '', contract: "0x" })
 
-	if (!provider.selectedAddress) {
+	if (!walletState) {
 		goTo(views.collection, { collection: collections[0].id })
 		queueNotification('Please connect your wallet', 'warning')
 	}

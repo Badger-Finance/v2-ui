@@ -36,6 +36,23 @@ const theme = createMuiTheme({
 		borderRadius: 8
 	},
 	overrides: {
+		MuiCssBaseline: {
+			'@global': {
+			  '.bn-onboard-modal-content': {
+				backgroundColor: '#424242 !important',
+			  },
+			  '.bn-onboard-icon-button:hover': {
+				  backgroundColor: '#303030 !important'
+			  },
+			  '.bn-onboard-dark-mode-background-hover:hover': {
+				backgroundColor: '#303030 !important'
+			  },
+			  '.bn-onboard-custom.bn-onboard-dark-mode-link': {
+				  color: '#F2A52B !important',
+				  borderColor: '#F2A52B !important'
+			  }
+			},
+		},
 		MuiTooltip: {
 			tooltip: {
 				fontSize: "1rem",
