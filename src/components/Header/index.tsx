@@ -43,7 +43,7 @@ export const Header = observer(() => {
 		if (!notification || !notification.message)
 			return
 
-		enqueueSnackbar(notification.message, { variant: notification.variant })
+		enqueueSnackbar(notification.message, { variant: notification.variant, persist: notification.variant === 'success' })
 
 	}
 	useEffect(enq, [notification])

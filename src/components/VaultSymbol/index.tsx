@@ -6,10 +6,10 @@ const useStyles = makeStyles((theme) => ({
 	symbol: {
 		marginTop: 'auto',
 		marginBottom: 'auto',
-		padding: theme.spacing(1),
-
+		padding: theme.spacing(1.2, 1, 0, 0),
+		display: 'inline-block',
 		float: 'left',
-		width: '3.2rem'
+		width: '2.4rem'
 	}
 
 }));

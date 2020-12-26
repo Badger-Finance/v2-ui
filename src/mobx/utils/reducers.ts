@@ -7,7 +7,6 @@ import { inCurrency } from "./helpers";
 
 export const reduceBatchResult = (result: any[]): any[] => {
 	return result.map((vault) => {
-
 		return _.mapValues(vault, (element: any, name: string) =>
 			Array.isArray(element) ?
 				reduceResult(element[0].value) :
@@ -50,12 +49,14 @@ export const reduceGraphResult = (graphResult: any[]) => {
 }
 
 
-export const reduceCurveResult = (graphResult: any[], contracts: any[], wbtcToken: any) => {
+export const reduceCurveResult = (graphResult: any[], contracts: any[], tokenContracts: any, wbtcToken: any) => {
 	return graphResult.map((result: any, i: number) => {
+
 		return {
 			address: contracts[i],
 			virtualPrice: new BigNumber(result[0].virtual_price),
-			ethValue: new BigNumber(result[0].virtual_price).multipliedBy(wbtcToken.ethValue).dividedBy(1e18)
+			ethValue: new BigNumber(result[0].virtual_price).multipliedBy(wbtcToken.ethValue).dividedBy(1e18),
+			totalSupply: tokenContracts[contracts[i]].totalSupply
 		}
 	})
 }
@@ -104,6 +105,7 @@ export const reduceGeyserSchedule = (timestamp: BigNumber, schedule: any) => {
 		}
 	});
 	let badgerPerSecond = locked.dividedBy(period.end.minus(period.start))
+
 	return {
 		day: badgerPerSecond.multipliedBy(60 * 60 * 24),
 		week: badgerPerSecond.multipliedBy(60 * 60 * 24 * 7),
@@ -132,6 +134,7 @@ export const reduceGeysersToStats = (store: RootStore) => {
 		return {
 			address: geyser.address,
 			vault,
+			geyser,
 
 			underlyingTokens: !!geyser.totalStaked &&
 				inCurrency(geyser.totalStaked, 'eth', true),
@@ -181,7 +184,7 @@ export const reduceVaultsToStats = (store: RootStore) => {
 
 		let token = tokens[vault.token]
 		let wrapped = tokens[vault.address]
-		let geyser = _.find(geysers, (geyser: any) => geyser[collection.configs.geysers.underlying] === vaultAddress)
+		let geyser = geysers[wrapped.contract]
 
 		return {
 			vault: vault,
@@ -208,11 +211,11 @@ export const reduceVaultsToStats = (store: RootStore) => {
 				75: inCurrency(token.balanceOf.plus(vault.balanceOf).multipliedBy(0.75), 'eth', true, 18),
 				100: inCurrency(token.balanceOf.plus(vault.balanceOf), 'eth', true, 18),
 			},
-			wrappedFull: !!vault.balanceOf && {
-				25: inCurrency(vault.balanceOf.multipliedBy(0.25), 'eth', true, 18),
-				50: inCurrency(vault.balanceOf.multipliedBy(0.5), 'eth', true, 18),
-				75: inCurrency(vault.balanceOf.multipliedBy(0.75), 'eth', true, 18),
-				100: inCurrency(vault.balanceOf, 'eth', true, 18),
+			wrappedFull: !!wrapped.balanceOf && {
+				25: inCurrency(wrapped.balanceOf.multipliedBy(0.25), 'eth', true, 18),
+				50: inCurrency(wrapped.balanceOf.multipliedBy(0.5), 'eth', true, 18),
+				75: inCurrency(wrapped.balanceOf.multipliedBy(0.75), 'eth', true, 18),
+				100: inCurrency(wrapped.balanceOf, 'eth', true, 18),
 			},
 
 			depositedFull: !!geyser.totalStakedFor && {

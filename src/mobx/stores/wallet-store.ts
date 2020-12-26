@@ -51,7 +51,6 @@ class WalletStore {
 
 	setProvider = action((provider: any) => {
 		this.provider = provider;
-		this.store?.contracts.fetchCollection()
 	});
 
 	sendMethod = action((address: string, methodName: string, inputs: any = [], abi: any, callback: (contract: PromiEvent<Contract>) => void) => {

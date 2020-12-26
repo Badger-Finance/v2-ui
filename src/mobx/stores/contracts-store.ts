@@ -1,17 +1,21 @@
 import { extendObservable, action, observe } from 'mobx';
 import Web3 from 'web3'
 import BatchCall from "web3-batch-call";
-import { batchConfig, getTokenAddresses, erc20Methods, contractMethods } from "../utils/web3"
+import { batchConfig, getTokenAddresses, erc20Methods, contractMethods, estimateAndSend } from "../utils/web3"
 import BigNumber from 'bignumber.js';
 import { RootStore } from '../store';
 import _, { Collection } from 'lodash';
 import { reduceBatchResult, reduceCurveResult, reduceGeyserSchedule, reduceGraphResult, reduceGrowth } from '../utils/reducers';
-import { jsonQuery, graphQuery, growthQuery, secondsToBlocks } from '../utils/helpers';
+import { jsonQuery, graphQuery, growthQuery, secondsToBlocks, inCurrency } from '../utils/helpers';
 import { collections } from '../../config/constants';
+import { PromiEvent } from 'web3-core';
+import { Contract } from 'web3-eth-contract';
+import async from 'async';
 
 const WBTC_ADDRESS = "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599"
 const ERC20 = require("../../config/abis/ERC20.json")
 const START_BLOCK = 11381216
+const EMPTY_DATA = '0x'
 
 const infuraProvider = new Web3.providers.HttpProvider('https://mainnet.infura.io/v3/77a0f6647eb04f5ca1409bba62ae9128')
 const options = {
@@ -22,7 +26,7 @@ const options = {
 	},
 }
 
-const batchCall = new BatchCall(options);
+let batchCall = new BatchCall(options);
 
 class ContractsStore {
 	private store!: RootStore;
@@ -41,10 +45,27 @@ class ContractsStore {
 		});
 
 		observe(this as any, "tokens", (change: any) => {
-			this.calculateGeyserRewards()
+			if (!!change.oldValue) {
+				this.calculateGrowth()
+				this.calculateGeyserRewards()
+				// console.log(
+				// 	_.map(this.geysers, (geyser: any) => (geyser.day / 1).toString()).join(','),
+				// 	_.map(this.tokens, (geyser: any) => (geyser.ethValue / 1).toString()).join(','),
+				// )
+			}
 		})
+		observe(this.store.wallet as any, "provider", (change: any) => {
+			const newOptions = {
+				web3: new Web3(this.store.wallet.provider),
+				etherscan: {
+					apiKey: "NXSHKK6D53D3R9I17SR49VX8VITQY7UC6P",
+					delayTime: 300
+				},
+			}
+			batchCall = new BatchCall(newOptions);
 
-
+			this.fetchCollection()
+		})
 	}
 
 	fetchCollection = action(() => {
@@ -84,16 +105,7 @@ class ContractsStore {
 						this.geysers = _.keyBy(reduceBatchResult(value), 'address')
 				})
 
-				console.log(this.vaults)
-
-				// clear empty data
-				// if (!("vaults" in keyedResult))
-				// 	this.vaults = {}
-				// if (!("geysers" in keyedResult))
-				// 	this.geysers = {}
-
 				// fetch input/outputs information
-				this.calculateGrowth()
 				this.fetchTokens()
 
 			})
@@ -115,17 +127,16 @@ class ContractsStore {
 		})
 
 		// reduce to {address:{address:,contract:}}
-		tokenMappings = _.mergeWith(_.keyBy(_.flatten(tokenMappings), 'address'))
+		tokenMappings = _.keyBy(_.flatten(tokenMappings), 'address')
 
-		//generate curve prices
+		//generate curve tokens
 		let curveMappings = _.keyBy(
 			_.zip(collection.curveBtcPools.contracts, collection.curveBtcPools.symbols, collection.curveBtcPools.names)
 				.map((token: any[]) => {
 					return _.zipObject(['address', 'symbol', 'name'], token)
 				})
 			, 'address')
-		tokenMappings = { ...tokenMappings, ...curveMappings }
-
+		tokenMappings = _.assign(tokenMappings, curveMappings)
 
 		// set or update token list
 		this.tokens = !this.tokens ? tokenMappings : _.mapValues(this.tokens, (value: any, address: string) => _.assign(value, tokenMappings[address]))
@@ -146,36 +157,34 @@ class ContractsStore {
 
 		// prepare web3 query
 		let readBatches: Promise<any>[] = _.map(tokenMappings, (tokenMap: any) => {
-			let ercMethods = erc20Methods(
-				wallet,
-				tokenMap,
-				_.compact(
-					_.concat(
-						collection.contracts.vaults,
-						collection.contracts.geysers)))
+			// let ercMethods = erc20Methods(
+			// 	wallet,
+			// 	tokenMap)
 
 			return batchCall.execute([
-				batchConfig('tokens', wallet, tokenAddresses, ercMethods, ERC20.abi, true)])
+				batchConfig('tokens', wallet, [tokenMap.address], erc20Methods(
+					wallet,
+					tokenMap), ERC20.abi, true)])
 		});
 
 		// execute promises
 		Promise.all([...curveBtcPrices, ...readBatches, ...graphQueries])
 			.then((result: any[]) => {
-				let tokenContracts = _.keyBy(reduceBatchResult(result.slice(4, readBatches.length + 4)[0]), 'address')
-				let tokenGraph = _.keyBy(_.compact(reduceGraphResult(result.slice(readBatches.length + 4))), 'address')
-				let curveBtcPrices = _.keyBy(reduceCurveResult(result.slice(0, 3), collection.curveBtcPools.contracts, tokenGraph[WBTC_ADDRESS]), 'address')
+				let tokenContracts = _.keyBy(reduceBatchResult(_.flatten(result.slice(3, readBatches.length + 3))), 'address')
+				let tokenGraph = _.keyBy(_.compact(reduceGraphResult(result.slice(readBatches.length + 3))), 'address')
+				let curveBtcPrices = _.keyBy(reduceCurveResult(result.slice(0, 3), collection.curveBtcPools.contracts, tokenContracts, tokenGraph[WBTC_ADDRESS]), 'address')
 
 				this.tokens = _.mapValues(
 					this.tokens,
-					(value: any, address: string) =>
-						_.assign(
+					(value: any, address: string) => {
+						return _.assign(
 							value,
 							tokenGraph[address],
 							curveBtcPrices[address],
-							tokenContracts[address]))
+							tokenContracts[address])
+					})
 			})
 	});
-
 
 
 	batchDeposit = action((underlyingToken: string) => {
@@ -252,18 +261,21 @@ class ContractsStore {
 			_.mapValues(geysers,
 				(geyser: any, address: string) => {
 					let schedule = geyser[method]
-					let underlyingVault = vaults[geyser[collection.configs.geysers.underlying]]
-					let underlyingToken = tokens[underlyingVault[collection.configs.vaults.underlying]]
 
+					let underlyingVault = vaults[geyser[collection.configs.geysers.underlying]]
+
+					let rawToken = tokens[underlyingVault[collection.configs.vaults.underlying]]
+					let underlyingToken = tokens[underlyingVault.address]
 
 					// sum rewards in current period
 					// todo: break out to actual durations
 					let rewards = reduceGeyserSchedule(timestamp, schedule);
 
+					// console.log(rewards, underlyingVault.totalSupply.toString(), underlyingVault.ethValue.toString(), rawToken.totalSupply.toString(), rawToken.ethValue.toString())
 					// turn bignumbers into percentages
 					return _.mapValues(rewards, (reward: any) => {
-						return !!underlyingToken.ethValue && reward.multipliedBy(rewardToken.ethValue)
-							.dividedBy(underlyingToken.ethValue.multipliedBy(underlyingToken.totalSupply))
+						return !!rawToken.ethValue && reward.multipliedBy(rewardToken.ethValue)
+							.dividedBy(rawToken.ethValue.multipliedBy(rawToken.totalSupply))
 
 					})
 				}))
@@ -271,76 +283,121 @@ class ContractsStore {
 	})
 
 	depositAndStake = action((vault: any, amount: BigNumber) => {
-		const { tokens } = this
+		const { tokens, geysers } = this
+		const { collection, setTxStatus } = this.store.uiState
 
-		let underlying = tokens[vault.token]
-		let wrapped = tokens[vault.address]
+		const underlying = tokens[vault.token]
+		const wrapped = tokens[vault.address]
+		const geyser = geysers[wrapped.contract]
 
 		// ensure balance is valid
-		if (amount.lte(0) || amount.gt(underlying.balanceOf.plus(vault.balanceOf)))
+		if (!amount || amount.lte(0) || amount.gt(underlying.balanceOf.plus(wrapped.balanceOf)))
 			return
 
 		// calculate amount to deposit
-		let underlyingAmount = new BigNumber(0);
 		let wrappedAmount = new BigNumber(0);
-		if (amount.gt(vault.balanceOf)) {
-			wrappedAmount = wrapped.balanceOf
-			underlyingAmount = amount.minus(wrappedAmount)
-		} else {
+		let methodSeries: any = []
+
+		if (amount.gt(vault.balanceOf))
+			wrappedAmount = vault.balanceOf
+		else
 			wrappedAmount = amount
+
+		let underlyingAmount = amount.minus(wrappedAmount)
+
+		// if we need to wrap assets, make sure we have allowance
+		if (underlyingAmount.gt(0)) {
+			if (underlying.allowance.lt(underlyingAmount))
+				methodSeries.push((callback: any) => this.increaseAllowance(underlying, callback))
+
+			methodSeries.push((callback: any) => this.depositVault(
+				vault,
+				underlyingAmount,
+				amount.gte(underlying.balanceOf),
+				callback))
 		}
 
-		console.log('wrap:', underlyingAmount.toString(), 'stake:', wrappedAmount.toString())
+		// if we need to deposit wrapped assets, make sure we have allowance
+		if (wrapped.allowance.lt(amount))
+			methodSeries.push((callback: any) => this.increaseAllowance(wrapped, callback))
+
+		methodSeries.push((callback: any) => this.depositGeyser(geyser, amount, callback))
+		setTxStatus('pending')
+		async.series(methodSeries, (err: any, results: any) => {
+			console.log(err, results)
+			setTxStatus(!!err ? 'error' : 'success')
+		})
 
 	});
 
-	unstakeAndUnwrap = action((vault: any, amount: BigNumber) => {
+	unstakeAndUnwrap = action((geyser: any, amount: BigNumber) => {
 		const { tokens, vaults } = this
-		const { collection } = this.store.uiState
+		const { collection, setTxStatus } = this.store.uiState
 
-		let underlying = tokens[vault.token]
-		let wrapped = tokens[vault.address]
+		let wrapped = tokens[geyser[collection.configs.geysers.underlying]]
+		let vault = vaults[wrapped.address]
+		let underlying = tokens[vaults[wrapped.address].token]
 
 		// ensure balance is valid
-		if (amount.lte(0) || amount.gt(vault.totalStakedFor))
+		if (amount.lte(0) || amount.gt(geyser.totalStakedFor))
 			return
 
-		// calculate amount to deposit
-		let stakedAmount = amount;
-		let wrappedAmount = amount.dividedBy(vault.getPricePerFullShare);
+		// calculate amount to withdraw
+		let wrappedAmount = amount;
+		let methodSeries: any = []
 
-		console.log('unstake:', stakedAmount.toString(), 'unwrap:', wrappedAmount.toString())
+		// if we need to wrap assets, make sure we have allowance
+		methodSeries.push((callback: any) => this.withdrawGeyser(
+			geyser,
+			wrappedAmount,
+			callback))
+
+		methodSeries.push((callback: any) => this.withdrawVault(
+			vault,
+			wrappedAmount,
+			wrappedAmount.gte(wrapped.balanceOf),
+			callback))
+		setTxStatus('pending')
+		async.series(methodSeries, (err: any, results: any) => {
+			console.log(err, results)
+			setTxStatus(!!err ? 'error' : 'success')
+		})
 
 	});
 
 	unwrap = action((vault: any, amount: BigNumber) => {
 		const { tokens } = this
+		const { collection, setTxStatus } = this.store.uiState
 
 		let underlying = tokens[vault.token]
 		let wrapped = tokens[vault.address]
 
-
 		// ensure balance is valid
-		if (!underlying.balanceOf || amount.lte(0) || amount.gt(underlying.balanceOf.plus(vault.balanceOf)))
+		if (!wrapped.balanceOf || amount.gt(wrapped.balanceOf))
 			return
 
-		// calculate amount to deposit
-		let underlyingAmount = new BigNumber(0);
-		let wrappedAmount = new BigNumber(0);
-		if (amount.gt(vault.balanceOf)) {
-			wrappedAmount = wrapped.balanceOf
-			underlyingAmount = amount.minus(wrappedAmount)
-		} else {
-			wrappedAmount = amount
-		}
+		// calculate amount to withdraw
+		let wrappedAmount = amount;
+		let methodSeries: any = []
 
-		console.log(wrappedAmount.toString(), underlyingAmount.toString())
+		// withdraw
+		methodSeries.push((callback: any) => this.withdrawVault(
+			vault,
+			wrappedAmount,
+			wrappedAmount.gte(wrapped.balanceOf),
+			callback))
+		setTxStatus('pending')
+		async.series(methodSeries, (err: any, results: any) => {
+			console.log(err, results)
+			setTxStatus(!!err ? 'error' : 'success')
+		})
 
 	});
 
 
 	claimGeysers = action((stake: boolean = false) => {
 		console.log(stake ? "claim & stake" : "claiming...")
+
 	});
 
 	updateVaults = action((vaults: any) => {
@@ -350,8 +407,8 @@ class ContractsStore {
 				_.assignIn(
 					vaults[address], value
 				))
-
 	});
+
 	updateGeysers = action((geysers: any) => {
 		this.geysers = !this.geysers ? geysers : _.mapValues(
 			this.geysers,
@@ -362,28 +419,150 @@ class ContractsStore {
 
 	});
 
-	// increaseAllowance = action(() => {
-	// 	const underlying = this.vault[collection.config.config.underlying]
+	increaseAllowance = action((underlyingAsset: any, callback: (err: any, result: any) => void) => {
+		let { collection, queueNotification, setTxStatus } = this.store.uiState
+		let { provider } = this.store.wallet
 
-	// 	if (!underlying)
-	// 		return
 
-	// 	const underlyingAsset = this.assets[underlying]
+		const web3 = new Web3(this.store!.wallet!.provider)
+		const underlyingContract = new web3.eth.Contract(ERC20.abi, underlyingAsset.address)
+		const method = underlyingContract.methods.approve(underlyingAsset.contract, underlyingAsset.totalSupply)
 
-	// 	const web3 = new Web3(this.store!.wallet!.provider)
-	// 	const underlyingContract = new web3.eth.Contract(ERC20.abi, underlying)
-	// 	const method = underlyingContract.methods.approve(this.vault.address, underlyingAsset.totalSupply)
+		queueNotification(`Sign the transaction to allow ${underlyingAsset.contract} to spend your ${underlyingAsset.address}`, "warning")
 
-	// 	estimateAndSend(web3, method, this.store!.wallet!.provider.selectedAddress, (transaction: PromiEvent<Contract>) => {
-	// 		transaction
-	// 			.on('transactionHash', (hash: string) => {
-	// 				this.errorMessage = hash
-	// 			}).on('receipt', (reciept: any) => {
-	// 				this.errorMessage = "Allowance increased."
-	// 			}).catch((error: any) => this.errorMessage = error.message)
+		estimateAndSend(web3, method, provider.selectedAddress, (transaction: PromiEvent<Contract>) => {
+			transaction
+				.on('transactionHash', (hash: string) => {
+					queueNotification(`Transaction submitted with hash: ${hash}`, "info")
+				}).on('receipt', (reciept: any) => {
+					queueNotification(`${underlyingAsset.symbol} allowance increased.`, "success")
+					this.fetchCollection()
+					callback(null, {})
+				}).catch((error: any) => {
+					this.fetchCollection()
+					queueNotification(error.message, "error")
+					setTxStatus('error')
+				})
 
-	// 	})
-	// });
+		})
+	});
+
+	depositGeyser = action((geyser: any, amount: BigNumber, callback: (err: any, result: any) => void) => {
+		let { collection, queueNotification, setTxStatus } = this.store.uiState
+		let { provider } = this.store.wallet
+
+		const underlyingAsset = this.tokens[geyser[collection.configs.geysers.underlying]]
+
+		const web3 = new Web3(provider)
+		const geyserContract = new web3.eth.Contract(collection.configs.geysers.abi, geyser.address)
+		const method = geyserContract.methods.stake(amount, EMPTY_DATA)
+
+		queueNotification(`Sign the transaction to stake ${inCurrency(amount, 'eth', true)} ${underlyingAsset.symbol}`, "warning")
+
+		estimateAndSend(web3, method, provider.selectedAddress, (transaction: PromiEvent<Contract>) => {
+			transaction
+				.on('transactionHash', (hash: string) => {
+					queueNotification(`Deposit submitted with hash: ${hash}`, "info")
+				}).on('receipt', (reciept: any) => {
+					queueNotification(`Successfully deposited ${inCurrency(amount, 'eth', true)} ${underlyingAsset.symbol}`, "success")
+					this.fetchCollection()
+					callback(null, {})
+				}).catch((error: any) => {
+					this.fetchCollection()
+					queueNotification(error.message, "error")
+					setTxStatus('error')
+				})
+		})
+	});
+	withdrawGeyser = action((geyser: any, amount: BigNumber, callback: (err: any, result: any) => void) => {
+		let { collection, queueNotification, setTxStatus } = this.store.uiState
+		let { provider } = this.store.wallet
+
+		const underlyingAsset = this.tokens[geyser[collection.configs.geysers.underlying]]
+
+		const web3 = new Web3(provider)
+		const geyserContract = new web3.eth.Contract(collection.configs.geysers.abi, geyser.address)
+		const method = geyserContract.methods.unstake(amount, EMPTY_DATA)
+
+		queueNotification(`Sign the transaction to unstake ${inCurrency(amount, 'eth', true)} ${underlyingAsset.symbol}`, "warning")
+
+		estimateAndSend(web3, method, provider.selectedAddress, (transaction: PromiEvent<Contract>) => {
+			transaction
+				.on('transactionHash', (hash: string) => {
+					queueNotification(`Deposit submitted with hash: ${hash}`, "info")
+				}).on('receipt', (reciept: any) => {
+					queueNotification(`Successfully unstaked ${inCurrency(amount, 'eth', true)} ${underlyingAsset.symbol}`, "success")
+					this.fetchCollection()
+					callback(null, {})
+				}).catch((error: any) => {
+					this.fetchCollection()
+					queueNotification(error.message, "error")
+					setTxStatus('error')
+				})
+		})
+	});
+
+
+	depositVault = action((vault: any, amount: BigNumber, all: boolean = false, callback: (err: any, result: any) => void) => {
+		let { collection, queueNotification, setTxStatus } = this.store.uiState
+		let { provider } = this.store.wallet
+
+		const underlyingAsset = this.tokens[vault[collection.configs.vaults.underlying]]
+
+		const web3 = new Web3(provider)
+		const underlyingContract = new web3.eth.Contract(collection.configs.vaults.abi, vault.address)
+
+		let method = underlyingContract.methods.deposit(amount)
+		if (all)
+			method = underlyingContract.methods.depositAll()
+
+		queueNotification(`Sign the transaction to wrap ${inCurrency(amount, 'eth', true)} ${underlyingAsset.symbol}`, "warning")
+
+		estimateAndSend(web3, method, provider.selectedAddress, (transaction: PromiEvent<Contract>) => {
+			transaction
+				.on('transactionHash', (hash: string) => {
+					queueNotification(`Deposit submitted with hash: ${hash}`, "info")
+				}).on('receipt', (reciept: any) => {
+					queueNotification(`Successfully deposited ${inCurrency(amount, 'eth', true)} ${underlyingAsset.symbol}`, "success")
+					this.fetchCollection()
+					callback(null, {})
+				}).catch((error: any) => {
+					this.fetchCollection()
+					queueNotification(error.message, "error")
+					setTxStatus('error')
+				})
+		})
+	});
+	withdrawVault = action((vault: any, amount: BigNumber, all: boolean = false, callback: (err: any, result: any) => void) => {
+		let { collection, setTxStatus, queueNotification } = this.store.uiState
+		let { provider } = this.store.wallet
+
+		const underlyingAsset = this.tokens[vault[collection.configs.vaults.underlying]]
+
+		const web3 = new Web3(provider)
+		const underlyingContract = new web3.eth.Contract(collection.configs.vaults.abi, vault.address)
+
+		let method = underlyingContract.methods.withdraw(amount)
+		if (all)
+			method = underlyingContract.methods.withdrawAll()
+
+		queueNotification(`Sign the transaction to unwrap ${inCurrency(amount, 'eth', true)} ${underlyingAsset.symbol}`, "warning")
+
+		estimateAndSend(web3, method, provider.selectedAddress, (transaction: PromiEvent<Contract>) => {
+			transaction
+				.on('transactionHash', (hash: string) => {
+					queueNotification(`Withdraw submitted with hash: ${hash}`, "info")
+				}).on('receipt', (reciept: any) => {
+					queueNotification(`Successfully withdrew ${inCurrency(amount, 'eth', true)} ${underlyingAsset.symbol}`, "success")
+					this.fetchCollection()
+					callback(null, {})
+				}).catch((error: any) => {
+					this.fetchCollection()
+					queueNotification(error.message, "error")
+					setTxStatus('error')
+				})
+		})
+	});
 
 }
 

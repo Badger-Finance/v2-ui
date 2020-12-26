@@ -245,23 +245,26 @@ export const Home = observer(() => {
 
 	const rewardsBox = <Grid container spacing={2} className={classes.border}>
 		<Grid item xs={12} sm={4}>
-			<Typography variant="h5">
+			<Typography variant="body1">
 				{stats.claims[0] || '0.00000'} BADGER
 			</Typography>
 
 
 		</Grid>
 		<Grid item xs={12} sm={4}>
-			<Typography variant="body1">
+			<Typography variant="body2">
 				+ {stats.claims[1] || '0.00000'} FARM
 			</Typography>
-			<Typography variant="body1">
+			<Typography variant="body2">
 				+ {stats.claims[2] || '0.00000'} renCRV
+			</Typography>
+			<Typography variant="body2">
+				+ {stats.claims[3] || '0.00000'} SUSHI
 			</Typography>
 
 		</Grid>
 		<Grid item xs={12} sm={4} style={{ textAlign: 'right' }}>
-			<ButtonGroup>
+			<ButtonGroup size="small">
 				<Button variant="outlined" color="primary" onClick={() => { claimGeysers(false) }}>Claim</Button>
 				<Button variant="contained" color="primary" onClick={() => { claimGeysers(true) }}>Claim & Stake</Button>
 			</ButtonGroup>
@@ -324,7 +327,6 @@ export const Home = observer(() => {
 
 			{stats.claims[0] > 0 && rewardsBox}
 
-			{spacer}
 
 			<SettList hideEmpty={true} />
 
