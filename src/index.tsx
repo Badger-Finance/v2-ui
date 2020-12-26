@@ -42,14 +42,20 @@ const theme = createMuiTheme({
 				backgroundColor: '#424242 !important',
 			  },
 			  '.bn-onboard-icon-button:hover': {
-				  backgroundColor: '#303030 !important'
+				backgroundColor: '#303030 !important'
 			  },
 			  '.bn-onboard-dark-mode-background-hover:hover': {
 				backgroundColor: '#303030 !important'
 			  },
 			  '.bn-onboard-custom.bn-onboard-dark-mode-link': {
-				  color: '#F2A52B !important',
-				  borderColor: '#F2A52B !important'
+				color: '#F2A52B !important',
+				borderColor: '#F2A52B !important'
+			  },
+			  '.bn-onboard-selected-wallet': {
+				backgroundColor: '#222 !important'
+			  },
+			  '.bn-onboard-dark-mode-close-background': {
+				backgroundColor: '#303030 !important'
 			  }
 			},
 		},

@@ -18,6 +18,71 @@ class WalletStore {
 		{ checkName: 'network' },
 	  ]
 	
+
+	// private FORTMATIC_KEY = "Your Fortmatic key here"
+	// private PORTIS_KEY = "Your Portis key here"
+	// private SQUARELINK_KEY = "Your Squarelink key here"
+	private INFURA_KEY = "77a0f6647eb04f5ca1409bba62ae9128"
+	private APP_URL = "https://app.badger.finance/"
+	private CONTACT_EMAIL = "hello@badger.finance"
+	private RPC_URL = "https://mainnet.infura.io/v3/77a0f6647eb04f5ca1409bba62ae9128"
+	private APP_NAME = "badgerDAO"
+
+	private wallets = [
+	{ walletName: "metamask"},
+	{ walletName: 'coinbase' },
+	{ walletName: "trust", rpcUrl: this.RPC_URL },
+	{
+		walletName: "walletConnect",
+		infuraKey: this.INFURA_KEY
+	},
+	{ walletName: "dapper"}, 
+	{
+		walletName: 'trezor',
+		appUrl: this.APP_URL,
+		email: this.CONTACT_EMAIL,
+		rpcUrl: this.RPC_URL
+	},
+	{
+		walletName: 'ledger',
+		rpcUrl: this.RPC_URL
+	},
+	{
+		walletName: 'lattice',
+		rpcUrl: this.RPC_URL,
+		appName: this.APP_NAME
+	},
+	// {
+	// 	walletName: "fortmatic",
+	// 	apiKey: this.FORTMATIC_KEY,
+	// 	preferred: true
+	// },
+	// {
+	// 	walletName: "portis",
+	// 	apiKey: this.PORTIS_KEY,
+	// 	preferred: true,
+	// 	label: 'Login with Email'
+	// },
+	// {
+	// 	walletName: "squarelink",
+	// 	apiKey: this.SQUARELINK_KEY
+	// },
+	{ walletName: "authereum" },
+	{ walletName: "opera" },
+	{ walletName: "operaTouch" },
+	{ walletName: "torus" },
+	{ walletName: "status" },
+	{ walletName: "unilogin" },
+	{ walletName: "walletLink", rpcUrl: this.RPC_URL, appName: this.APP_NAME },
+	{ walletName: "imToken", rpcUrl: this.RPC_URL },
+	{ walletName: "meetone" },
+	{ walletName: "mykey", rpcUrl: this.RPC_URL },
+	{ walletName: "huobiwallet", rpcUrl: this.RPC_URL },
+	{ walletName: "hyperpay" },
+	{ walletName: "wallet.io", rpcUrl: this.RPC_URL },
+	{ walletName: "atoken" }
+	]
+
 	private initializationOptions: any = {
 		dappId: 'af74a87b-cd08-4f45-83ff-ade6b3859a07',
 		networkId: 1,
@@ -33,7 +98,7 @@ class WalletStore {
 		  heading: 'Select wallet to connect to badgerDAO',
 		//   description: String,
 		//   explanation: String,
-		//   wallets: Array
+		  wallets: this.wallets
 		},
 		walletCheck: this.walletChecks
 		}
