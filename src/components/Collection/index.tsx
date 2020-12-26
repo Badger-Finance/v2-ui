@@ -243,7 +243,7 @@ export const Collection = observer(() => {
 
 			<Grid item xs={4} >
 				<Typography variant="h5" color="textPrimary" >Badger Setts</Typography>
-				<Typography variant="subtitle2" color="textPrimary" >Stake & earn Badger</Typography>
+				<Typography variant="subtitle2" color="textPrimary" >Deposit & Earn on your Bitcoin</Typography>
 			</Grid>
 
 			<Grid item xs={8} className={classes.filters}>
@@ -284,6 +284,7 @@ export const Collection = observer(() => {
 				</Paper>
 
 			</Grid>
+
 
 			<Grid item xs={12} >
 				<Typography variant="body1" color="textPrimary" className={classes.featuredHeader}>Featured</Typography>

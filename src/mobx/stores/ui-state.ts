@@ -6,7 +6,7 @@ import Web3 from 'web3';
 import { collections } from '../../config/constants';
 import { RootStore } from '../store';
 import { growthQuery, jsonQuery, secondsToBlocks } from '../utils/helpers';
-import { reduceClaims, reduceContractsToStats, reduceGeysersToStats, reduceVaultsToStats } from '../utils/reducers';
+import { reduceClaims, reduceContractsToStats, reduceGeysersToStats, reduceVaultsToStats } from '../utils/stats-reducers';
 import views from '../../config/routes';
 
 class UiState {

@@ -79,6 +79,9 @@ const useStyles = makeStyles((theme) => ({
 		padding: theme.spacing(1, 1),
 		alignItems: 'center'
 	},
+	rewards: {
+		marginTop: theme.spacing(1)
+	}
 
 }));
 export const Home = observer(() => {
@@ -201,18 +204,19 @@ export const Home = observer(() => {
 
 	const tableHeader = (title: string) => {
 		return <>
-			<Grid item xs={12} sm={4}>
+			<Grid item xs={12} sm={8}>
 				<Typography variant="body1" color="textPrimary">
 					{title}
 				</Typography>
 
 			</Grid>
-			<Grid item xs={12} md={3}>
+			<Grid item xs={12} sm={4}>
 				<Typography variant="body2" color="textSecondary">
-					Super Setts
-			</Typography>
+					Accumulated Rewards
+				</Typography>
 
 			</Grid>
+
 
 
 		</>
@@ -244,11 +248,19 @@ export const Home = observer(() => {
 
 
 	const rewardsBox = <Grid container spacing={2} className={classes.border}>
-		<Grid item xs={12} sm={4}>
+		<Grid item xs={12} sm={3}>
 			<Typography variant="body1">
 				{stats.claims[0] || '0.00000'} BADGER
 			</Typography>
 
+
+		</Grid>
+
+		<Grid item xs={12} sm={5} style={{ textAlign: 'left' }}>
+			<ButtonGroup size="small">
+				<Button variant="outlined" color="primary" onClick={() => { claimGeysers(false) }}>Claim</Button>
+				<Button variant="contained" color="primary" onClick={() => { claimGeysers(true) }}>Claim & Stake</Button>
+			</ButtonGroup>
 
 		</Grid>
 		<Grid item xs={12} sm={4}>
@@ -256,18 +268,8 @@ export const Home = observer(() => {
 				+ {stats.claims[1] || '0.00000'} FARM
 			</Typography>
 			<Typography variant="body2">
-				+ {stats.claims[2] || '0.00000'} renCRV
+				+ {stats.claims[2] || '0.00000'} SUSHI
 			</Typography>
-			<Typography variant="body2">
-				+ {stats.claims[3] || '0.00000'} SUSHI
-			</Typography>
-
-		</Grid>
-		<Grid item xs={12} sm={4} style={{ textAlign: 'right' }}>
-			<ButtonGroup size="small">
-				<Button variant="outlined" color="primary" onClick={() => { claimGeysers(false) }}>Claim</Button>
-				<Button variant="contained" color="primary" onClick={() => { claimGeysers(true) }}>Claim & Stake</Button>
-			</ButtonGroup>
 
 		</Grid>
 	</Grid>;
@@ -280,7 +282,7 @@ export const Home = observer(() => {
 
 			<Grid item xs={4} >
 				<Typography variant="h5" color="textPrimary" >Account Overview</Typography>
-				<Typography variant="subtitle2" color="textPrimary" >BTC on DeFi</Typography>
+				<Typography variant="subtitle2" color="textPrimary" >Deposit & Earn on your Bitcoin</Typography>
 			</Grid>
 
 			<Grid item xs={8} className={classes.filters}>
@@ -301,31 +303,48 @@ export const Home = observer(() => {
 
 			{spacer}
 
-			<Grid item xs={12} md={!!stats.cycle ? 4 : 6} >
+			<Grid item xs={12} md={!!stats.badger ? 4 : 6} >
 				<Paper className={classes.statPaper}>
 					<Typography variant="body1" color="textPrimary">TVL</Typography>
 					<Typography variant="h5">{stats.tvl}</Typography>
 				</Paper>
 			</Grid >
-			<Grid item xs={12} md={!!stats.cycle ? 4 : 6}>
+			<Grid item xs={12} md={!!stats.badger ? 4 : 6}>
 				<Paper className={classes.statPaper}>
 					<Typography variant="body1" color="textPrimary">Your Portfolio</Typography>
 					<Typography variant="h5">{stats.portfolio}</Typography>
 				</Paper>
 
 			</Grid>
-			{!!stats.cycle &&
+			{!!stats.badger &&
 				<Grid item xs={12} md={4}>
 					<Paper className={classes.statPaper}>
-						<Typography variant="body1" color="textPrimary">Rewards Cycle</Typography>
-						<Typography variant="h5">{stats.cycle}</Typography>
+						<Typography variant="body1" color="textPrimary">Badger Price</Typography>
+						<Typography variant="h5">{stats.badger || "..."}</Typography>
 					</Paper>
 
 				</Grid>}
 
-			{stats.claims[0] > 0 && tableHeader("Yield Farming")}
+			<Grid item xs={6} md={6}>
+				<Paper className={classes.statPaper}>
+					<Typography variant="body1" color="textPrimary">Badger Rewards</Typography>
+					<Typography variant="h5">{stats.claims[0] || "..."}</Typography>
+					<ButtonGroup size="small" className={classes.rewards}>
+						<Button variant="outlined" color="primary" onClick={() => { claimGeysers(false) }}>Claim</Button>
+						<Button variant="contained" color="primary" onClick={() => { claimGeysers(true) }}>Claim & Stake</Button>
+					</ButtonGroup>
+				</Paper>
 
-			{stats.claims[0] > 0 && rewardsBox}
+			</Grid>
+			<Grid item xs={6} md={6}>
+				<Paper className={classes.statPaper}>
+					<Typography variant="body1" color="textPrimary">Other Rewards</Typography>
+					<Typography variant="body2">{stats.claims[1] || "..."}</Typography>
+					<Typography variant="body2">{stats.claims[2] || "..."}</Typography>
+				</Paper>
+
+			</Grid>
+
 
 
 			<SettList hideEmpty={true} />

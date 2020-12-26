@@ -85,7 +85,7 @@ export const GeyserCard = observer((props: any) => {
 			<Grid item xs={12} sm={2}>
 				<Typography variant="body1" color={parseFloat(uiStats.underlyingBalance) === 0 ? "textSecondary" : 'textPrimary'}>
 
-					{uiStats.availableBalance}
+					{uiStats.yourBalance}
 				</Typography>
 				{/* <Typography variant="body2" color="textSecondary">
 					{uiStats.underlyingBalance}
