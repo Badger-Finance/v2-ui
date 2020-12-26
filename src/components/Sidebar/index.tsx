@@ -70,7 +70,7 @@ export const Sidebar = observer(() => {
 	const classes = useStyles();
 
 	const store = useContext(StoreContext);
-	const { router: { goTo }, uiState: { sidebarOpen, closeSidebar, stats, gasPrice } } = store;
+	const { router: { goTo }, uiState: { sidebarOpen, closeSidebar, stats, gasPrice, setGasPrice }, wallet: { gasPrices } } = store;
 
 	// const { enqueueSnackbar } = useSnackbar();
 
@@ -128,13 +128,19 @@ export const Sidebar = observer(() => {
 
 						<ListItem button className={classes.listItem} divider>HUNT</ListItem>
 					</List>
-					<List>
+					<List disablePadding>
 						<ListItem className={classes.listItem} >
 							<Wallet />
 
 						</ListItem>
 						<ListItem className={classes.listItem} >
-							<Button size="small" variant="outlined" startIcon={<LocalGasStation />} >{gasPrice}</Button>
+							<ButtonGroup variant="outlined" fullWidth>
+								<Button size="small" disabled><LocalGasStation style={{ fontSize: '1rem' }} /></Button>
+
+								{['slow', 'fast', 'instant'].map((speed: string) =>
+									<Button variant={gasPrice === gasPrices[speed] ? 'contained' : 'outlined'} size="small" onClick={() => setGasPrice(gasPrices[speed])} >{(gasPrices[speed] / 1).toFixed(0)}</Button>
+								)}
+							</ButtonGroup>
 
 						</ListItem>
 

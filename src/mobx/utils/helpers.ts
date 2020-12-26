@@ -84,7 +84,10 @@ getExchangeRates().then((result: any) => exchangeRates = result.ethereum)
 
 // input: eth value in wei
 // output: formatted currency string
-export const inCurrency = (value: BigNumber, currency: string, hide: boolean = false, preferredDecimals: number = 5) => {
+export const inCurrency = (value: BigNumber, currency: string, hide: boolean = false, preferredDecimals: number = 5): string => {
+	if (!value || value.isNaN())
+		return inCurrency(new BigNumber(0), currency, hide, preferredDecimals)
+
 	let normal = value.dividedBy(1e18)
 	let prefix = !hide ? 'Ξ ' : ''
 	let decimals = preferredDecimals

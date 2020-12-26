@@ -10,7 +10,8 @@ import WalletStore from '../../mobx/stores/wallet-store'
 const useStyles = makeStyles((theme) => ({
 
 	root: {
-		padding: theme.spacing(0)
+		padding: theme.spacing(0),
+		width: "100%"
 	},
 	redDot: {
 		display: "inline-block",
@@ -69,7 +70,7 @@ export const Wallet = observer(() => {
 
 			<Button
 				fullWidth
-				size="small"
+				disableElevation
 				onClick={connect}
 				variant="outlined">
 				{connected ? shortenAddress(store.wallet.walletState.address) : 'DISCONNECTED'}

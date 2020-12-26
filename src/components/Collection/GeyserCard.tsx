@@ -42,12 +42,12 @@ const useStyles = makeStyles((theme) => ({
 		marginLeft: theme.spacing(1)
 	},
 	border: {
-		border: `1px solid ${theme.palette.grey[800]}`,
-		borderWidth: '1px 1px 1px 1px',
-		// marginBottom: theme.spacing(1),
+		borderBottom: `1px solid ${theme.palette.grey[800]}`,
+		// marginTop: "-1px",
 		// borderRadius: theme.shape.borderRadius,
-		padding: theme.spacing(2, 1),
-		alignItems: 'center'
+		padding: theme.spacing(2, 2),
+		alignItems: 'center',
+		overflow: 'hidden'
 	},
 	icon: {
 		marginTop: 'auto', 
@@ -109,12 +109,13 @@ export const GeyserCard = observer((props: any) => {
 			<Grid item xs={12} sm={2}>
 				<Typography variant="body1" color={parseFloat(uiStats.underlyingBalance) === 0 ? "textSecondary" : 'textPrimary'}>
 
-					{uiStats.underlyingBalance}
+					{uiStats.yourBalance}
 				</Typography>
-				<Typography variant="body2" color="textSecondary">
+				{/* <Typography variant="body2" color="textSecondary">
+					{uiStats.underlyingBalance}
 					{uiStats.underlyingTokens}
 
-				</Typography>
+				</Typography> */}
 			</Grid>
 			<Grid item xs={12} sm={2}>
 				<Tooltip arrow placement="left" title={`${uiStats.geyserGrowth} + ${uiStats.vaultGrowth} ${uiStats.symbol} `}>
@@ -126,10 +127,10 @@ export const GeyserCard = observer((props: any) => {
 					</Typography>
 				</Tooltip>
 
-				<Typography variant="body2" color="textSecondary">
+				{/* <Typography variant="body2" color="textSecondary">
 					{!!uiStats.vaultGrowth && '+'} {uiStats.vaultGrowth}
 
-				</Typography>
+				</Typography> */}
 
 			</Grid>
 			<Grid item xs={12} sm={2}>
@@ -137,12 +138,12 @@ export const GeyserCard = observer((props: any) => {
 
 					{uiStats.yourValue}
 				</Typography>
-				<Typography variant="body2" color="textSecondary">
+				{/* <Typography variant="body2" color="textSecondary">
 
 					{uiStats.availableBalance}
 					{!walletState?.address && "..."}
 
-				</Typography>
+				</Typography> */}
 			</Grid>
 
 			<Grid item xs={12} sm={2}>

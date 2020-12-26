@@ -76,7 +76,7 @@ ReactDOM.render(
 		<ThemeProvider theme={theme}>
 
 			<CssBaseline />
-			<SnackbarProvider maxSnack={5} anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
+			<SnackbarProvider maxSnack={5} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
 				<Header />
 
 				<Container maxWidth={false}>

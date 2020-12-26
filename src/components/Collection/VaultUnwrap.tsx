@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import views from '../../config/routes';
 import { StoreContext } from '../../context/store-context';
@@ -13,7 +13,7 @@ import {
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Loader } from '../Loader';
-import BigNumber from 'bignumber.js'
+import { BigNumber } from 'bignumber.js'
 import { useForm } from 'react-hook-form';
 
 const TEXTFIELD_ID = 'amountField'
@@ -63,11 +63,11 @@ export const VaultUnwrap = observer((props: any) => {
 	const store = useContext(StoreContext);
 	const classes = useStyles();
 	const {
-		onUnwrap,
+		onClose,
 		uiStats } = props
 	const { register, handleSubmit, watch, errors, setValue } = useForm({ mode: 'all' });
 
-	const { router: { params, goTo }, contracts: { vaults, tokens, unwrap }, uiState: { collection }, wallet: { walletState } } = store;
+	const { router: { params, goTo }, contracts: { vaults, tokens, unwrap }, uiState: { collection, txStatus }, wallet: { walletState } } = store;
 
 	const setAmount = (percent: number) => {
 		// (document.getElementById(TEXTFIELD_ID)! as HTMLInputElement).value = uiStats.availableFull[percent];
@@ -78,7 +78,6 @@ export const VaultUnwrap = observer((props: any) => {
 		let amount = new BigNumber(params.amount).multipliedBy(1e18)
 		unwrap(uiStats.vault, amount)
 	}
-
 	if (!uiStats) {
 		return <Loader />
 	}
@@ -99,10 +98,10 @@ export const VaultUnwrap = observer((props: any) => {
 				</Typography>
 				{renderAmounts}
 			</div>
-			<TextField autoComplete="off" name="amount" inputRef={register} id={TEXTFIELD_ID} className={classes.field} variant="outlined" fullWidth placeholder="Type an amount to unwrap" />
+			<TextField autoComplete="off" name="amount" disabled={txStatus === "pending"} inputRef={register} id={TEXTFIELD_ID} className={classes.field} variant="outlined" fullWidth placeholder="Type an amount to unwrap" />
 
 
-			<Button size="large" onClick={handleSubmit(onSubmit)} variant="contained" color="primary" fullWidth className={classes.button}>Unwrap</Button>
+			<Button size="large" disabled={txStatus === "pending"} onClick={handleSubmit(onSubmit)} variant="contained" color="primary" fullWidth className={classes.button}>Unwrap</Button>
 
 		</DialogContent>
 		<DialogActions style={{ display: 'flex', justifyContent: 'space-between' }}>

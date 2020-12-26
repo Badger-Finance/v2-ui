@@ -6,7 +6,7 @@ import Web3 from 'web3';
 import { collections } from '../../config/constants';
 import { RootStore } from '../store';
 import { growthQuery, jsonQuery, secondsToBlocks } from '../utils/helpers';
-import { reduceClaims, reduceContractsToStats, reduceGeysersToStats, reduceVaultsToStats } from '../utils/reducers';
+import { reduceClaims, reduceContractsToStats, reduceGeysersToStats, reduceVaultsToStats } from '../utils/stats-reducers';
 import views from '../../config/routes';
 
 class UiState {
@@ -26,6 +26,8 @@ class UiState {
 	public sidebarOpen!: boolean
 	public notification: any = {}
 	public gasPrice?: number
+
+	public txStatus?: string
 
 
 	constructor(store: RootStore) {
@@ -50,7 +52,8 @@ class UiState {
 
 			sidebarOpen: !!window && window.innerWidth > 960,
 			notification: {},
-			gasPrice: 0
+			gasPrice: 0,
+			txStatus: undefined
 		});
 
 		observe(this.store.contracts as any, "geysers", (change: any) => {
@@ -60,6 +63,12 @@ class UiState {
 			}
 		})
 		observe(this.store.contracts as any, "vaults", (change: any) => {
+			// skip first update
+			if (!!change.oldValue) {
+				this.reduceContracts()
+			}
+		})
+		observe(this.store.contracts as any, "tokens", (change: any) => {
 			// skip first update
 			if (!!change.oldValue) {
 				this.reduceContracts()
@@ -84,6 +93,7 @@ class UiState {
 			this.reduceContracts()
 		})
 
+
 		window.onresize = () => {
 			if (window.innerWidth < 960) {
 				this.sidebarOpen = false
@@ -97,6 +107,9 @@ class UiState {
 		this.notification = { message, variant }
 	})
 
+	setTxStatus = action((status?: string) => {
+		this.txStatus = status
+	})
 
 	reduceContracts = action(() => {
 
@@ -159,6 +172,10 @@ class UiState {
 	setVault = action((collection: string, id: string) => {
 		this.vault = id
 		this.setCollection(collection)
+	});
+
+	setGasPrice = action((gasPrice: number) => {
+		this.gasPrice = gasPrice
 	});
 
 	setCurrency = action((currency: string) => {
