@@ -8,7 +8,7 @@ import {
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Loader } from '../Loader';
-import BigNumber from 'bignumber.js'
+import { BigNumber } from 'bignumber.js'
 import Submit from '@material-ui/icons/ArrowForward'
 import { useForm } from "react-hook-form";
 import { PromiEvent } from 'web3-core';
