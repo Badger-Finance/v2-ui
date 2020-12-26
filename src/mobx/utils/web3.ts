@@ -58,8 +58,8 @@ export const getTokenAddresses = (contracts: any, config: any) => {
 	_.map(contracts, (contract: any) => {
 		if (!!contract[config.underlying!])
 			addresses.push({ address: contract[config.underlying!], contract: contract.address.toLowerCase(), type: 'underlying' })
-		if (!!contract[config.yielding!])
-			addresses.push({ address: contract[config.yielding!], contract: contract.address.toLowerCase(), type: 'yielding' })
+		// if (!!contract[config.yielding!])
+		// 	addresses.push({ address: contract[config.yielding!], contract: contract.address.toLowerCase(), type: 'yielding' })
 	})
 	return addresses
 }
@@ -86,24 +86,22 @@ export const contractMethods = (config: any, wallet: WalletStore): any[] => {
 
 	return methods
 }
-export const erc20Methods = (wallet: WalletStore, token: any, vaults: any[]): any[] => {
-	if (!!wallet.provider.selectedAddress) {
-		// get allowance of each vault
-		let allowances = vaults.map((vault: any) => {
-			return {
-				name: "allowance",
-				args: [
-					wallet.provider.selectedAddress,
-					token.contract,
-				]
-			};
-		});
+export const erc20Methods = (wallet: WalletStore, token: any): any[] => {
+	if (!!wallet.provider.selectedAddress && !!token.contract) {
+		// get allowance of associated contract
+
 		return [{
 			name: "balanceOf",
 			args: [
-				wallet.provider.selectedAddress
+				Web3.utils.toChecksumAddress(wallet.provider.selectedAddress)
 			]
-		}, ...allowances];
+		}, {
+			name: "allowance",
+			args: [
+				Web3.utils.toChecksumAddress(wallet.provider.selectedAddress),
+				Web3.utils.toChecksumAddress(token.contract),
+			]
+		}];
 	} else {
 		return []
 	}

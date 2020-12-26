@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import views from '../../config/routes';
 import { StoreContext } from '../../context/store-context';
@@ -62,11 +62,11 @@ export const VaultStake = observer((props: any) => {
 	const store = useContext(StoreContext);
 	const classes = useStyles();
 	const {
-		onUnwrap,
+		onClose,
 		uiStats } = props
 	const { register, handleSubmit, watch, errors, setValue } = useForm({ mode: 'all' });
 
-	const { router: { params, goTo }, contracts: { vaults, tokens, depositAndStake }, uiState: { collection }, wallet: { provider } } = store;
+	const { router: { params, goTo }, contracts: { vaults, tokens, depositAndStake }, uiState: { collection, txStatus }, wallet: { provider } } = store;
 
 	const setAmount = (percent: number) => {
 		// (document.getElementById(TEXTFIELD_ID)! as HTMLInputElement).value = uiStats.availableFull[percent];
@@ -77,6 +77,8 @@ export const VaultStake = observer((props: any) => {
 		let amount = new BigNumber(params.amount).multipliedBy(1e18)
 		depositAndStake(uiStats.vault, amount)
 	}
+
+
 
 	if (!uiStats) {
 		return <Loader />
@@ -93,20 +95,21 @@ export const VaultStake = observer((props: any) => {
 	let anyAvailable = !!uiStats.availableBalance && parseFloat(uiStats.availableBalance) !== 0
 	return <>
 
-		<DialogContent style={{ textAlign: "center" }}>
+		<DialogContent  >
 			<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
 				<Typography variant="body1" color={'textSecondary'}>
-					Balance: {uiStats.availableFull[100]}
+					Available: {uiStats.availableFull[100]}
+					{/* Wrapped: {uiStats.wrappedFull[100]} */}
 
 				</Typography>
 				{renderAmounts}
 			</div>
 
 
-			<TextField autoComplete="off" name="amount" inputRef={register} id={TEXTFIELD_ID} className={classes.field} variant="outlined" fullWidth placeholder="Type an amount to stake" />
+			<TextField autoComplete="off" name="amount" disabled={txStatus === "pending"} inputRef={register} id={TEXTFIELD_ID} className={classes.field} variant="outlined" fullWidth placeholder="Type an amount to stake" />
 
 
-			<Button size="large" onClick={handleSubmit(onSubmit)} variant="contained" color="primary" fullWidth className={classes.button}>Stake</Button>
+			<Button size="large" disabled={txStatus === "pending"} onClick={handleSubmit(onSubmit)} variant="contained" color="primary" fullWidth className={classes.button}>Stake</Button>
 
 		</DialogContent>
 		<DialogActions style={{ display: 'flex', justifyContent: 'space-between' }}>

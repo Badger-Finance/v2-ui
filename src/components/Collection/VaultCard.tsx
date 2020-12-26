@@ -41,11 +41,12 @@ const useStyles = makeStyles((theme) => ({
 		marginLeft: theme.spacing(1)
 	},
 	border: {
-		border: `1px solid ${theme.palette.grey[800]}`,
-		marginBottom: theme.spacing(1),
-		borderRadius: theme.shape.borderRadius,
-		padding: theme.spacing(2, 1),
-		alignItems: 'center'
+		borderBottom: `1px solid ${theme.palette.grey[800]}`,
+		// marginTop: "-1px",
+		// borderRadius: theme.shape.borderRadius,
+		padding: theme.spacing(2, 2),
+		alignItems: 'center',
+		overflow: 'hidden'
 	},
 	featured: {
 		border: 0,
@@ -61,7 +62,7 @@ export const VaultCard = observer((props: any) => {
 	const classes = useStyles();
 	const { onStake,
 		onUnwrap,
-		uiStats, isFeatured } = props
+		uiStats, isFeatured, isGlobal } = props
 
 	const { router: { params, goTo }, contracts: { vaults, tokens }, uiState: { collection }, wallet: { provider } } = store;
 
@@ -80,7 +81,7 @@ export const VaultCard = observer((props: any) => {
 	}
 	let anyAvailable = !!uiStats.availableBalance && parseFloat(uiStats.availableBalance) !== 0
 	return <>
-		<Grid container spacing={2} className={classes.border + (isFeatured ? ` ${classes.featured}` : '')}>
+		<Grid container className={classes.border + (isFeatured ? ` ${classes.featured}` : '')}>
 			<Grid item xs={12} sm={4}>
 				<VaultSymbol symbol={uiStats.symbol} />
 				<Typography variant="body1">
@@ -94,40 +95,39 @@ export const VaultCard = observer((props: any) => {
 			<Grid item xs={12} sm={4} md={2}>
 				<Typography variant="body1" color={parseFloat(uiStats.underlyingBalance) === 0 ? "textSecondary" : 'textPrimary'}>
 
-					{uiStats.underlyingBalance}
+					{!isGlobal ? uiStats.availableBalance : uiStats.underlyingTokens}
 				</Typography>
-				<Typography variant="body2" color="textSecondary">
+				{/* <Typography variant="body2" color="textSecondary">
 					{uiStats.underlyingTokens}
+					{uiStats.underlyingBalance}
 
-				</Typography>
+				</Typography> */}
 			</Grid>
 			<Grid item xs={12} sm={4} md={2}>
 				<Tooltip arrow placement="left" title={`${uiStats.geyserGrowth} + ${uiStats.vaultGrowth} ${uiStats.symbol} `}>
 
 					<Typography variant="body1" >
 
-						{uiStats.growth}
+						{uiStats.growth || '...'}
 
 					</Typography>
 				</Tooltip>
 
-				<Typography variant="body2" color="textSecondary">
+				{/* <Typography variant="body2" color="textSecondary">
 					{!!uiStats.vaultGrowth && '+'} {uiStats.vaultGrowth}
 
-				</Typography>
+				</Typography> */}
 
 			</Grid>
 			<Grid item xs={12} sm={6} md={2}>
-				<Typography variant="body1" color={!anyAvailable ? "textSecondary" : 'textPrimary'}>
+				<Typography variant="body1" color={!anyAvailable && false ? "textSecondary" : 'textPrimary'}>
 
-					{uiStats.yourValue}
+					{!isGlobal ? uiStats.yourValue : uiStats.underlyingBalance}
 				</Typography>
-				<Typography variant="body2" color="textSecondary">
+				{/* <Typography variant="body2" color="textSecondary">
 
-					{uiStats.availableBalance}
-					{!provider.selectedAddress && "..."}
 
-				</Typography>
+				</Typography> */}
 			</Grid>
 
 			<Grid item xs={12} sm={6} md={2}>

@@ -9,7 +9,8 @@ import { useWallet } from 'use-wallet'
 const useStyles = makeStyles((theme) => ({
 
 	root: {
-		padding: theme.spacing(0)
+		padding: theme.spacing(0),
+		width: "100%"
 	},
 	redDot: {
 		display: "inline-block",
@@ -34,7 +35,7 @@ export const Wallet = observer(() => {
 	const wallet = useWallet()
 
 	const store = useContext(StoreContext);
-	const { wallet: { setProvider } } = store;
+	const { wallet: { setProvider, provider } } = store;
 
 	const shortenAddress = (address: String) => {
 		return address.slice(0, 6) + '...' + address.slice(address.length - 4, address.length)
@@ -50,10 +51,10 @@ export const Wallet = observer(() => {
 		return <div className={classes.root}>
 			<Button
 				fullWidth
-				size="small"
-				variant="outlined"
+				disableElevation
+				variant="contained"
 				onClick={() => wallet.reset()}>
-				{wallet.status}
+				{shortenAddress(provider.selectedAddress)}
 				<div className={wallet.status !== 'connected' ? classes.redDot : classes.greenDot} />
 			</Button>
 		</div>
@@ -62,9 +63,9 @@ export const Wallet = observer(() => {
 
 			<Button
 				fullWidth
-				size="small"
+				disableElevation
 				onClick={connect}
-				variant="outlined">
+				variant="contained">
 				{wallet.status}
 				<div className={wallet.status !== 'connected' ? classes.redDot : classes.greenDot} />
 

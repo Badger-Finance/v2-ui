@@ -97,7 +97,7 @@ export const Collection = observer(() => {
 
 			if (!isGeysers)
 				return <Grid item xs={12} key={address}>
-					<VaultCard uiStats={stats} onStake={onStake} onUwrap={onUnwrap} isFeatured={isFeatured} />
+					<VaultCard isGlobal uiStats={stats} onStake={onStake} onUwrap={onUnwrap} isFeatured={isFeatured} />
 				</Grid>
 			else
 				return <Grid item xs={12} key={address}>
@@ -176,7 +176,7 @@ export const Collection = observer(() => {
 		return <Loader />
 	}
 
-	const spacer = <div className={classes.before} />;
+	const spacer = () => <div className={classes.before} />;
 
 	const tableHeader = (title: string) => {
 		return <>
@@ -239,52 +239,51 @@ export const Collection = observer(() => {
 	return <Container className={classes.root} >
 		{depositModal()}
 		<Grid container spacing={2}>
-			{spacer}
+			{spacer()}
 
 			<Grid item xs={4} >
 				<Typography variant="h5" color="textPrimary" >Badger Setts</Typography>
-				<Typography variant="subtitle2" color="textPrimary" >Wrap, stake & earn Badger</Typography>
+				<Typography variant="subtitle2" color="textPrimary" >Stake & earn Badger</Typography>
 			</Grid>
 
 			<Grid item xs={8} className={classes.filters}>
 
 				<ButtonGroup variant="outlined" size="small" className={classes.buttonGroup}>
 					{["btc", "eth", "usd"].map((curr: string) =>
-						<Button color={currency === curr ? 'primary' : 'default'} onClick={() => setCurrency(curr)}>{curr}</Button>
+						<Button key={curr} color={currency === curr ? 'primary' : 'default'} onClick={() => setCurrency(curr)}>{curr}</Button>
 					)}
 				</ButtonGroup>
 
 				<ButtonGroup variant="outlined" size="small" className={classes.buttonGroup}>
 					{["day", "month", "year"].map((p: string) =>
-						<Button color={period === p ? 'primary' : 'default'} onClick={() => setPeriod(p)}>{p.charAt(0)}</Button>
+						<Button key={p} color={period === p ? 'primary' : 'default'} onClick={() => setPeriod(p)}>{p.charAt(0)}</Button>
 					)}
 				</ButtonGroup >
 
 			</Grid >
 
-			{spacer}
+			{spacer()}
 
-			<Grid item xs={12} md={!!stats.badger ? 4 : 6} >
+			<Grid item xs={12} md={!!provider.address ? 4 : 6} >
 				<Paper className={classes.statPaper}>
 					<Typography variant="body1" color="textPrimary">TVL</Typography>
 					<Typography variant="h5">{stats.tvl}</Typography>
 				</Paper>
 			</Grid >
-			<Grid item xs={12} md={!!stats.badger ? 4 : 6}>
+			{!!provider.address && <Grid item xs={12} md={4}>
 				<Paper className={classes.statPaper}>
 					<Typography variant="body1" color="textPrimary">Your Portfolio</Typography>
 					<Typography variant="h5">{stats.portfolio}</Typography>
+				</Paper> 			</Grid>
+			}
+
+			<Grid item xs={12} md={!!provider.address ? 4 : 6}>
+				<Paper className={classes.statPaper}>
+					<Typography variant="body1" color="textPrimary">Badger Price</Typography>
+					<Typography variant="h5">{stats.badger || "..."}</Typography>
 				</Paper>
 
 			</Grid>
-			{!!stats.badger &&
-				<Grid item xs={12} md={4}>
-					<Paper className={classes.statPaper}>
-						<Typography variant="body1" color="textPrimary">Badger Price</Typography>
-						<Typography variant="h5">{stats.badger}</Typography>
-					</Paper>
-
-				</Grid>}
 
 			<Grid item xs={12} >
 				<Typography variant="body1" color="textPrimary" className={classes.featuredHeader}>Featured</Typography>
@@ -311,10 +310,7 @@ export const Collection = observer(() => {
 				</Carousel>
 			</Grid >
 
-
-			{spacer}
-
-			<SettList />
+			<SettList isGlobal />
 
 		</Grid >
 

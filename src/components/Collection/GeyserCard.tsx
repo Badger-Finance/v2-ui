@@ -42,10 +42,8 @@ const useStyles = makeStyles((theme) => ({
 		marginLeft: theme.spacing(1)
 	},
 	border: {
-		border: `1px solid ${theme.palette.grey[800]}`,
-		marginBottom: theme.spacing(1),
 		borderRadius: theme.shape.borderRadius,
-		padding: theme.spacing(2, 1),
+		padding: theme.spacing(2, 2),
 		alignItems: 'center'
 	}
 
@@ -72,7 +70,7 @@ export const GeyserCard = observer((props: any) => {
 	}
 	let anyAvailable = !!uiStats.underlyingBalance && parseFloat(uiStats.underlyingBalance) !== 0
 	return <>
-		<Grid container spacing={2} className={classes.border}>
+		<Grid container className={classes.border}>
 			<Grid item xs={12} sm={4}>
 				<VaultSymbol symbol={uiStats.symbol} />
 
@@ -87,12 +85,13 @@ export const GeyserCard = observer((props: any) => {
 			<Grid item xs={12} sm={2}>
 				<Typography variant="body1" color={parseFloat(uiStats.underlyingBalance) === 0 ? "textSecondary" : 'textPrimary'}>
 
-					{uiStats.underlyingBalance}
+					{uiStats.availableBalance}
 				</Typography>
-				<Typography variant="body2" color="textSecondary">
+				{/* <Typography variant="body2" color="textSecondary">
+					{uiStats.underlyingBalance}
 					{uiStats.underlyingTokens}
 
-				</Typography>
+				</Typography> */}
 			</Grid>
 			<Grid item xs={12} sm={2}>
 				<Tooltip arrow placement="left" title={`${uiStats.geyserGrowth} + ${uiStats.vaultGrowth} ${uiStats.symbol} `}>
@@ -104,10 +103,10 @@ export const GeyserCard = observer((props: any) => {
 					</Typography>
 				</Tooltip>
 
-				<Typography variant="body2" color="textSecondary">
+				{/* <Typography variant="body2" color="textSecondary">
 					{!!uiStats.vaultGrowth && '+'} {uiStats.vaultGrowth}
 
-				</Typography>
+				</Typography> */}
 
 			</Grid>
 			<Grid item xs={12} sm={2}>
@@ -115,12 +114,11 @@ export const GeyserCard = observer((props: any) => {
 
 					{uiStats.yourValue}
 				</Typography>
-				<Typography variant="body2" color="textSecondary">
+				{/* <Typography variant="body2" color="textSecondary">
 
-					{uiStats.availableBalance}
 					{!provider.selectedAddress && "..."}
 
-				</Typography>
+				</Typography> */}
 			</Grid>
 
 			<Grid item xs={12} sm={2}>
