@@ -84,11 +84,11 @@ export const VaultStake = observer((props: any) => {
 		return <Loader />
 	}
 
-	let renderAmounts = <ButtonGroup size="small" className={classes.button}>
-		<Button onClick={() => { setAmount(25) }} variant={watch().amount === uiStats.availableFull[25] ? "contained" : "outlined"} color="primary">25%</Button>
-		<Button onClick={() => { setAmount(50) }} variant={watch().amount === uiStats.availableFull[50] ? "contained" : "outlined"} color="primary">50%</Button>
-		<Button onClick={() => { setAmount(75) }} variant={watch().amount === uiStats.availableFull[75] ? "contained" : "outlined"} color="primary">75%</Button>
-		<Button onClick={() => { setAmount(100) }} variant={watch().amount === uiStats.availableFull[100] ? "contained" : "outlined"} color="primary">100%</Button>
+	let renderAmounts = <ButtonGroup size="small" className={classes.button} disabled={!provider.selectedAddress} >
+		<Button onClick={() => { setAmount(25) }} variant={!!provider.selectedAddress && watch().amount === uiStats.availableFull[25] ? "contained" : "outlined"} color="primary">25%</Button>
+		<Button onClick={() => { setAmount(50) }} variant={!!provider.selectedAddress && watch().amount === uiStats.availableFull[50] ? "contained" : "outlined"} color="primary">50%</Button>
+		<Button onClick={() => { setAmount(75) }} variant={!!provider.selectedAddress && watch().amount === uiStats.availableFull[75] ? "contained" : "outlined"} color="primary">75%</Button>
+		<Button onClick={() => { setAmount(100) }} variant={!!provider.selectedAddress && watch().amount === uiStats.availableFull[100] ? "contained" : "outlined"} color="primary">100%</Button>
 	</ButtonGroup>
 
 
@@ -98,7 +98,7 @@ export const VaultStake = observer((props: any) => {
 		<DialogContent  >
 			<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
 				<Typography variant="body1" color={'textSecondary'}>
-					Available: {uiStats.availableFull[100]}
+					Available: {uiStats.availableFull[100] || '0.000000000000000000'}
 					{/* Wrapped: {uiStats.wrappedFull[100]} */}
 
 				</Typography>
@@ -106,10 +106,10 @@ export const VaultStake = observer((props: any) => {
 			</div>
 
 
-			<TextField autoComplete="off" name="amount" disabled={txStatus === "pending"} inputRef={register} id={TEXTFIELD_ID} className={classes.field} variant="outlined" fullWidth placeholder="Type an amount to stake" />
+			<TextField autoComplete="off" name="amount" disabled={txStatus === "pending" || !provider.selectedAddress} inputRef={register} id={TEXTFIELD_ID} className={classes.field} variant="outlined" fullWidth placeholder="Type an amount to stake" />
 
 
-			<Button size="large" disabled={txStatus === "pending"} onClick={handleSubmit(onSubmit)} variant="contained" color="primary" fullWidth className={classes.button}>Stake</Button>
+			<Button size="large" disabled={txStatus === "pending" || !provider.selectedAddress} onClick={handleSubmit(onSubmit)} variant="contained" color="primary" fullWidth className={classes.button}>Stake</Button>
 
 		</DialogContent>
 		<DialogActions style={{ display: 'flex', justifyContent: 'space-between' }}>

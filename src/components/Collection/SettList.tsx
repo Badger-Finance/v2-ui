@@ -41,6 +41,11 @@ const useStyles = makeStyles((theme) => ({
 	},
 	header: {
 		padding: theme.spacing(0, -2, 0, 0)
+	},
+	hiddenMobile: {
+		[theme.breakpoints.down('sm')]: {
+			display: 'none',
+		},
 	}
 
 }));
@@ -180,13 +185,13 @@ export const SettList = observer((props: any) => {
 						</Typography>
 
 					</Grid>
-					<Grid item xs={12} sm={4} md={2}>
+					<Grid item xs={12} sm={4} md={2} className={classes.hiddenMobile}>
 						<Typography variant="body2" color="textSecondary">
 							Tokens Locked
 						</Typography>
 
 					</Grid>
-					<Grid item xs={12} sm={4} md={2}>
+					<Grid item xs={12} sm={4} md={2} className={classes.hiddenMobile}>
 						<Typography variant="body2" color="textSecondary">
 							{({ year: 'Yearly', day: 'Daily', month: 'Monthly' } as any)[period]} ROI
 
@@ -194,7 +199,7 @@ export const SettList = observer((props: any) => {
 
 					</Grid>
 
-					<Grid item xs={12} sm={6} md={2}>
+					<Grid item xs={12} sm={6} md={2} className={classes.hiddenMobile}>
 						<Typography variant="body2" color="textSecondary">
 							Value
 						</Typography>

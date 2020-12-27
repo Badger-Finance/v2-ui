@@ -79,12 +79,12 @@ export const secondsToBlocks = (seconds: number) => {
 	return Math.floor(seconds / 13.5)
 }
 
-var exchangeRates: any = undefined
+var exchangeRates: any = { usd: 641.69, btc: 41.93 }
 getExchangeRates().then((result: any) => exchangeRates = result.ethereum)
 
 // input: eth value in wei
 // output: formatted currency string
-export const inCurrency = (value: BigNumber, currency: string, hide: boolean = false, preferredDecimals: number = 5): string => {
+export const inCurrency = (value: BigNumber, currency: string, hide: boolean = false, preferredDecimals: number = 5, noCommas: boolean = false): string => {
 	if (!value || value.isNaN())
 		return inCurrency(new BigNumber(0), currency, hide, preferredDecimals)
 
@@ -118,6 +118,14 @@ export const inCurrency = (value: BigNumber, currency: string, hide: boolean = f
 		suffix = 'k'
 	}
 
-	return `${prefix}${normal.toFixed(decimals).toLocaleString()}${suffix}`
+	let fixedNormal = noCommas ? normal.toFixed(decimals) : numberWithCommas(normal.toFixed(decimals))
 
+	return `${prefix}${fixedNormal}${suffix}`
+
+}
+
+function numberWithCommas(x: string) {
+	var parts = x.toString().split(".");
+	parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	return parts.join(".");
 }

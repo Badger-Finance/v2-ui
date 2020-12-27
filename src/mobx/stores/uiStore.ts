@@ -6,7 +6,7 @@ import Web3 from 'web3';
 import { collections } from '../../config/constants';
 import { RootStore } from '../store';
 import { growthQuery, jsonQuery, secondsToBlocks } from '../utils/helpers';
-import { reduceClaims, reduceContractsToStats, reduceGeysersToStats, reduceVaultsToStats } from '../utils/stats-reducers';
+import { reduceClaims, reduceContractsToStats, reduceGeysersToStats, reduceVaultsToStats } from '../reducers/statsReducers';
 import views from '../../config/routes';
 
 class UiState {
@@ -22,10 +22,11 @@ class UiState {
 	public stats?: any;
 	public vaultStats: any
 	public geyserStats: any
+	public treeStats: any
 
 	public sidebarOpen!: boolean
 	public notification: any = {}
-	public gasPrice?: number
+	public gasPrice!: string
 
 	public txStatus?: string
 
@@ -46,13 +47,14 @@ class UiState {
 			},
 			geyserStats: {},
 			vaultStats: {},
+			treeStats: { claims: [] },
 
-			currency: 'eth',
+			currency: 'usd',
 			period: 'year',
 
 			sidebarOpen: !!window && window.innerWidth > 960,
 			notification: {},
-			gasPrice: 0,
+			gasPrice: 'fast',
 			txStatus: undefined
 		});
 
@@ -74,16 +76,16 @@ class UiState {
 				this.reduceContracts()
 			}
 		})
+		observe(this.store.contracts as any, "badgerTree", (change: any) => {
+			// skip first update
+			this.reduceTreeRewards()
+
+		})
 		observe(this.store.wallet as any, "currentBlock", (change: any) => {
 			this.reduceContracts()
-			this.fetchSettRewards()
 		})
-		observe(this.store.wallet as any, "gasPrices", (change: any) => {
-			if (!this.gasPrice)
-				this.gasPrice = this.store.wallet.gasPrices.fast
-		})
+
 		observe(this.store.wallet as any, "provider", (change: any) => {
-			this.fetchSettRewards()
 			this.store.router.goTo(views.home)
 		})
 		observe(this as any, "period", (change: any) => {
@@ -123,59 +125,26 @@ class UiState {
 
 
 	});
+	reduceTreeRewards = action(() => {
+		console.log(this.store.contracts.badgerTree)
+		this.treeStats = this.store.contracts.badgerTree
+
+	});
 	setCollection = action((id: string) => {
 		if (!!this.collection && this.collection.id === id)
 			return
 
 		this.collection = collections.find((collection) => collection.id === id)
 		this.store?.contracts.fetchCollection() //TODO:observe ui from collections
-		this.fetchSettRewards()
 
 	});
-
-
-	fetchSettRewards = action(() => {
-		const { provider } = this.store.wallet
-		const { merkle, proofNetwork, tokens } = this.collection.configs.geysers.rewards
-
-		if (!provider.selectedAddress)
-			return
-
-		let web3 = new Web3(provider)
-		let rewardsTree = new web3.eth.Contract(merkle.abi, merkle.hashContract)
-		let checksumAddress = Web3.utils.toChecksumAddress(provider.selectedAddress)
-
-		rewardsTree.methods
-			.merkleContentHash()
-			.call()
-			.then((merkleHash: any) => {
-				jsonQuery(`${merkle.proofEndpoint}/rewards/${merkle.proofNetwork}/${merkleHash}/${checksumAddress}`)
-					.then((merkleProof: any) => {
-						if (!merkleProof.error) {
-							rewardsTree.methods.getClaimedFor(provider.selectedAddress, tokens)
-								.call()
-								.then((claimedRewards: any[]) => {
-									let claims = reduceClaims(merkleProof, claimedRewards)
-									this.stats = {
-										...this.stats,
-										cycle: parseInt(merkleProof.cycle, 16),
-										claims
-									}
-								})
-						}
-					})
-
-			})
-
-	});
-
 
 	setVault = action((collection: string, id: string) => {
 		this.vault = id
 		this.setCollection(collection)
 	});
 
-	setGasPrice = action((gasPrice: number) => {
+	setGasPrice = action((gasPrice: string) => {
 		this.gasPrice = gasPrice
 	});
 

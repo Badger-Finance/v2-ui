@@ -40,7 +40,7 @@ export const VaultFunction = observer((props: any) => {
 	const { register, handleSubmit, watch, errors } = useForm({ mode: 'all' });
 
 
-	const { uiState: { collection, vault }, wallet: { provider, sendMethod } } = store;
+	const { uiState: { collection, vault }, wallet: { provider } } = store;
 
 	const [state, setState] = useState<any>({ status: method.stateMutability })
 
@@ -50,7 +50,7 @@ export const VaultFunction = observer((props: any) => {
 		let inputs = !!params[method.name] ? params[method.name].map((param: string) => {
 			return /\.*\d+(?:,\d*)?/.test(param) ? new BigNumber(param).multipliedBy(1e18).toString() : param;
 		}) : []
-		sendMethod(vault!, method.name, inputs, collection.config.abi, onTransaction)
+		// sendMethod(vault!, method.name, inputs, collection.config.abi, onTransaction)
 	}
 
 	const onTransaction = (transaction: PromiEvent<Contract>) => {

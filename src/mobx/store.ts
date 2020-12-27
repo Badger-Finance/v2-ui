@@ -1,7 +1,7 @@
 import { RouterStore } from 'mobx-router';
-import UiState from './stores/ui-state';
-import WalletStore from './stores/wallet-store';
-import ContractsStore from './stores/contracts-store';
+import UiState from './stores/uiStore';
+import WalletStore from './stores/walletStore';
+import ContractsStore from './stores/contractsStore';
 
 export class RootStore {
 	public router: RouterStore<RootStore>;
