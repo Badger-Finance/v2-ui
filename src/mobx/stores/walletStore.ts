@@ -7,6 +7,7 @@ import { RootStore } from '../store';
 import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
 import { estimateAndSend } from '../utils/web3';
+import BigNumber from 'bignumber.js';
 
 
 class WalletStore {
@@ -92,6 +93,7 @@ class WalletStore {
 	public connectedAddress: string = '';
 	private store?: RootStore
 	public currentBlock?: number;
+	public ethBalance?: BigNumber;
 	public gasPrices?: any;
 
 	constructor(store: RootStore) {
@@ -101,7 +103,8 @@ class WalletStore {
 			connectedAddress: this.connectedAddress,
 			provider: this.provider,
 			currentBlock: undefined,
-			gasPrices: {}
+			gasPrices: {},
+			ethBalance: new BigNumber(0),
 		});
 
 		this.getCurrentBlock()
@@ -135,6 +138,9 @@ class WalletStore {
 		web3.eth.getBlockNumber().then((value: number) => {
 			this.currentBlock = value - 50
 		})
+		!!this.provider.selectedAddress && web3.eth.getBalance(this.provider.selectedAddress).then((value: string) => {
+			this.ethBalance = new BigNumber(value)
+		})
 	});
 
 	getGasPrice = action(() => {
@@ -147,23 +153,15 @@ class WalletStore {
 
 	setProvider = action((provider: any) => {
 		this.provider = provider;
+		let web3 = new Web3(this.provider)
+		this.getCurrentBlock()
+
 	});
 
 	setAddress = action((address: any) => {
 		this.connectedAddress = address;
 	});
 
-	sendMethod = action((address: string, methodName: string, inputs: any = [], abi: any, callback: (contract: PromiEvent<Contract>) => void) => {
-		const web3 = new Web3(this.store!.wallet!.provider)
-		const contract = new web3.eth.Contract(abi, address)
-
-		const method = contract.methods[methodName](...inputs)
-
-		estimateAndSend(web3, method, this.connectedAddress, (transaction: PromiEvent<Contract>) => {
-			callback(transaction)
-		})
-
-	});
 
 
 }

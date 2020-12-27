@@ -53,11 +53,7 @@ ReactDOM.render(
 				<Header />
 
 				<Container maxWidth={false}>
-					<Grid container spacing={4}>
-						<Grid item xs={12} md={12} style={{}}>
-							<MobxRouter store={store} />
-						</Grid>
-					</Grid>
+					<MobxRouter store={store} />
 				</Container>
 				<Sidebar />
 

@@ -1,8 +1,8 @@
 import BigNumber from "bignumber.js";
 import _ from "lodash";
 import { RootStore } from "../store";
-import UiState from "../stores/ui-state";
-import { inCurrency } from "./helpers";
+import UiState from "../stores/uiStore";
+import { inCurrency } from "../utils/helpers";
 
 
 export const reduceGeysersToStats = (store: RootStore) => {
@@ -40,10 +40,10 @@ export const reduceGeysersToStats = (store: RootStore) => {
 				inCurrency(token.balanceOf, 'eth', true),
 
 			depositedFull: !!geyser.totalStakedFor && {
-				25: inCurrency(geyser.totalStakedFor.multipliedBy(0.25), 'eth', true, 18),
-				50: inCurrency(geyser.totalStakedFor.multipliedBy(0.5), 'eth', true, 18),
-				75: inCurrency(geyser.totalStakedFor.multipliedBy(0.75), 'eth', true, 18),
-				100: inCurrency(geyser.totalStakedFor, 'eth', true, 18),
+				25: inCurrency(geyser.totalStakedFor.multipliedBy(0.25), 'eth', true, 18, true),
+				50: inCurrency(geyser.totalStakedFor.multipliedBy(0.5), 'eth', true, 18, true),
+				75: inCurrency(geyser.totalStakedFor.multipliedBy(0.75), 'eth', true, 18, true),
+				100: inCurrency(geyser.totalStakedFor, 'eth', true, 18, true),
 			},
 
 			name: token.name,
@@ -87,23 +87,23 @@ export const reduceVaultsToStats = (store: RootStore) => {
 				inCurrency(token.balanceOf.plus(vault.balanceOf), 'eth', true),
 
 			availableFull: !!token.balanceOf && {
-				25: inCurrency(token.balanceOf.plus(vault.balanceOf).multipliedBy(0.25), 'eth', true, 18),
-				50: inCurrency(token.balanceOf.plus(vault.balanceOf).multipliedBy(0.5), 'eth', true, 18),
-				75: inCurrency(token.balanceOf.plus(vault.balanceOf).multipliedBy(0.75), 'eth', true, 18),
-				100: inCurrency(token.balanceOf.plus(vault.balanceOf), 'eth', true, 18),
+				25: inCurrency(token.balanceOf.plus(vault.balanceOf).multipliedBy(0.25), 'eth', true, 18, true),
+				50: inCurrency(token.balanceOf.plus(vault.balanceOf).multipliedBy(0.5), 'eth', true, 18, true),
+				75: inCurrency(token.balanceOf.plus(vault.balanceOf).multipliedBy(0.75), 'eth', true, 18, true),
+				100: inCurrency(token.balanceOf.plus(vault.balanceOf), 'eth', true, 18, true),
 			},
 			wrappedFull: !!wrapped.balanceOf && {
-				25: inCurrency(wrapped.balanceOf.multipliedBy(0.25), 'eth', true, 18),
-				50: inCurrency(wrapped.balanceOf.multipliedBy(0.5), 'eth', true, 18),
-				75: inCurrency(wrapped.balanceOf.multipliedBy(0.75), 'eth', true, 18),
-				100: inCurrency(wrapped.balanceOf, 'eth', true, 18),
+				25: inCurrency(wrapped.balanceOf.multipliedBy(0.25), 'eth', true, 18, true),
+				50: inCurrency(wrapped.balanceOf.multipliedBy(0.5), 'eth', true, 18, true),
+				75: inCurrency(wrapped.balanceOf.multipliedBy(0.75), 'eth', true, 18, true),
+				100: inCurrency(wrapped.balanceOf, 'eth', true, 18, true),
 			},
 
 			depositedFull: !!geyser.totalStakedFor && {
-				25: inCurrency(geyser.totalStakedFor.multipliedBy(0.25), 'eth', true, 18),
-				50: inCurrency(geyser.totalStakedFor.multipliedBy(0.5), 'eth', true, 18),
-				75: inCurrency(geyser.totalStakedFor.multipliedBy(0.75), 'eth', true, 18),
-				100: inCurrency(geyser.totalStakedFor, 'eth', true, 18),
+				25: inCurrency(geyser.totalStakedFor.multipliedBy(0.25), 'eth', true, 18, true),
+				50: inCurrency(geyser.totalStakedFor.multipliedBy(0.5), 'eth', true, 18, true),
+				75: inCurrency(geyser.totalStakedFor.multipliedBy(0.75), 'eth', true, 18, true),
+				100: inCurrency(geyser.totalStakedFor, 'eth', true, 18, true),
 			},
 
 			symbol: token.symbol,

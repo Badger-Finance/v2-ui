@@ -35,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	buttonGroup: {
 		marginLeft: theme.spacing(2),
+		marginBottom: theme.spacing(1),
 	},
 
 	statPaper: {
@@ -82,7 +83,7 @@ const useStyles = makeStyles((theme) => ({
 		background: theme.palette.grey[800],
 	},
 	rewards: {
-		marginTop: theme.spacing(1)
+		// marginTop: theme.spacing(1)
 	}
 
 }));
@@ -93,7 +94,7 @@ export const Home = observer(() => {
 	const { router: { params, goTo },
 		wallet: { connectedAddress },
 		contracts: { vaults, geysers, tokens, claimGeysers },
-		uiState: { collection, stats, geyserStats, vaultStats, currency, period, setCurrency, setPeriod, queueNotification } } = store;
+		uiState: { collection, stats, geyserStats, vaultStats, treeStats, currency, setCurrency, period, setPeriod, queueNotification } } = store;
 
 	const [modalProps, setModalProps] = useState({ open: false, mode: '', contract: "0x" })
 
@@ -249,33 +250,6 @@ export const Home = observer(() => {
 	}
 
 
-	const rewardsBox = <Grid container spacing={2} className={classes.border}>
-		<Grid item xs={12} sm={3}>
-			<Typography variant="body1">
-				{stats.claims[0] || '0.00000'} BADGER
-			</Typography>
-
-
-		</Grid>
-
-		<Grid item xs={12} sm={5} style={{ textAlign: 'left' }}>
-			<ButtonGroup size="small">
-				<Button variant="outlined" color="primary" onClick={() => { claimGeysers(false) }}>Claim</Button>
-				<Button variant="contained" color="primary" onClick={() => { claimGeysers(true) }}>Claim & Stake</Button>
-			</ButtonGroup>
-
-		</Grid>
-		<Grid item xs={12} sm={4}>
-			<Typography variant="body2">
-				+ {stats.claims[1] || '0.00000'} FARM
-			</Typography>
-			<Typography variant="body2">
-				+ {stats.claims[2] || '0.00000'} SUSHI
-			</Typography>
-
-		</Grid>
-	</Grid>;
-
 	return <Container className={classes.root} >
 		{depositModal()}
 
@@ -327,25 +301,32 @@ export const Home = observer(() => {
 
 				</Grid>}
 
-			<Grid item xs={6} md={6}>
-				<Paper className={classes.statPaper}>
-					<Typography variant="body1" color="textPrimary">Badger Rewards</Typography>
-					<Typography variant="h5">{stats.claims[0] || "..."}</Typography>
-					<ButtonGroup size="small" className={classes.rewards}>
-						<Button variant="outlined" color="primary" onClick={() => { claimGeysers(false) }}>Claim</Button>
-						<Button variant="contained" color="primary" onClick={() => { claimGeysers(true) }}>Claim & Stake</Button>
-					</ButtonGroup>
+			<Grid item xs={12} md={!!treeStats.claims[1] || !!treeStats.claims[2] ? 6 : 12}>
+				<Paper className={classes.statPaper} variant="outlined" style={{ textAlign: 'left' }}>
+					<div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+						<div>
+							<Typography variant="body1" color="textPrimary">Badger Rewards</Typography>
+							<Typography variant="h5">{treeStats.claims[0] || "..."}</Typography>
+						</div>
+						<div>
+
+							{!!treeStats.claims[0] && <ButtonGroup size="small" className={classes.rewards}>
+								<Button variant="outlined" color="primary" onClick={() => { claimGeysers(false) }}>Claim</Button>
+								<Button variant="outlined" color="primary" onClick={() => { claimGeysers(true) }}>Claim & Stake</Button>
+							</ButtonGroup>}
+						</div>
+					</div>
 				</Paper>
 
 			</Grid>
-			<Grid item xs={6} md={6}>
-				<Paper className={classes.statPaper}>
+			{!!treeStats.claims[1] || !!treeStats.claims[2] && <Grid item xs={6} md={6}>
+				<Paper className={classes.statPaper} variant="outlined" style={{ textAlign: 'left' }}>
 					<Typography variant="body1" color="textPrimary">Other Rewards</Typography>
-					<Typography variant="body2">{stats.claims[1] || "..."}</Typography>
-					<Typography variant="body2">{stats.claims[2] || "..."}</Typography>
+					{!!treeStats.claims[1] && <Typography variant="body2">{treeStats.claims[1] || "..."}</Typography>}
+					{!!treeStats.claims[2] && <Typography variant="body2">{treeStats.claims[2] || "..."}</Typography>}
 				</Paper>
 
-			</Grid>
+			</Grid>}
 
 
 

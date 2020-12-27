@@ -30,10 +30,16 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	filters: {
-		textAlign: 'right'
+		textAlign: 'left',
+		[theme.breakpoints.up('md')]: {
+			textAlign: 'right'
+		},
 	},
 	buttonGroup: {
-		marginLeft: theme.spacing(2),
+		marginRight: theme.spacing(2),
+		[theme.breakpoints.up('md')]: {
+			marginLeft: theme.spacing(2),
+		},
 	},
 
 	statPaper: {
@@ -147,11 +153,8 @@ export const Collection = observer(() => {
 	const featuredGeysers = () => {
 
 		// wallet assets & wrapped assets ordered by value
-		return renderContracts(_.sortBy(vaults, [(vault: any) => {
-			let token = tokens[vault[collection.configs.vaults.underlying]]
-			return -token.balanceOf
-		}]).filter((vault: any) => {
-			return (!vault.balanceOf || !vault.balanceOf.gt(0))
+		return renderContracts(collection.featured.map((vaultAddress: any) => {
+			return vaults[vaultAddress]
 		}), false, true)
 	}
 	const renderDeposits = () => {
@@ -241,12 +244,12 @@ export const Collection = observer(() => {
 		<Grid container spacing={2}>
 			{spacer()}
 
-			<Grid item xs={4} >
+			<Grid item xs={12} sm={4} >
 				<Typography variant="h5" color="textPrimary" >Badger Setts</Typography>
 				<Typography variant="subtitle2" color="textPrimary" >Deposit & Earn on your Bitcoin</Typography>
 			</Grid>
 
-			<Grid item xs={8} className={classes.filters}>
+			<Grid item xs={12} sm={8} className={classes.filters}>
 
 				<ButtonGroup variant="outlined" size="small" className={classes.buttonGroup}>
 					{["btc", "eth", "usd"].map((curr: string) =>

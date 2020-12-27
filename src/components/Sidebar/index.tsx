@@ -116,9 +116,10 @@ export const Sidebar = observer(() => {
 						</ListItem>
 
 						{renderCollections()}
-						<ListItem button className={classes.listItem} divider>DIGG</ListItem>
+						<ListItem button className={classes.listItem} divider>Digg</ListItem>
 
-						<ListItem button className={classes.listItem} divider>HUNT</ListItem>
+						<ListItem button className={classes.listItem} divider>Hunt</ListItem>
+						<ListItem button className={classes.listItem} divider>Coverage</ListItem>
 					</List>
 					<List disablePadding>
 						<ListItem className={classes.listItem} >
@@ -130,7 +131,7 @@ export const Sidebar = observer(() => {
 								<Button size="small" disabled><LocalGasStation style={{ fontSize: '1rem' }} /></Button>
 
 								{['slow', 'fast', 'instant'].map((speed: string) =>
-									<Button variant={gasPrice === gasPrices[speed] ? 'contained' : 'outlined'} size="small" onClick={() => setGasPrice(gasPrices[speed])} >{(gasPrices[speed] / 1).toFixed(0)}</Button>
+									<Button variant={gasPrice === speed ? 'contained' : 'outlined'} size="small" onClick={() => setGasPrice(speed)} >{(gasPrices[speed] / 1).toFixed(0)}</Button>
 								)}
 							</ButtonGroup>
 

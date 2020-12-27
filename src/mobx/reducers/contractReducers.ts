@@ -1,8 +1,8 @@
 import BigNumber from "bignumber.js";
 import _ from "lodash";
 import { RootStore } from "../store";
-import UiState from "../stores/ui-state";
-import { inCurrency } from "./helpers";
+import UiState from "../stores/uiStore";
+import { inCurrency } from "../utils/helpers";
 
 
 export const reduceBatchResult = (result: any[]): any[] => {

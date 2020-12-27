@@ -5,17 +5,19 @@ import { batchConfig, getTokenAddresses, erc20Methods, contractMethods, estimate
 import BigNumber from 'bignumber.js';
 import { RootStore } from '../store';
 import _, { Collection } from 'lodash';
-import { reduceBatchResult, reduceCurveResult, reduceGeyserSchedule, reduceGraphResult, reduceGrowth } from '../utils/reducers';
+import { reduceBatchResult, reduceCurveResult, reduceGeyserSchedule, reduceGraphResult, reduceGrowth } from '../reducers/contractReducers';
 import { jsonQuery, graphQuery, growthQuery, secondsToBlocks, inCurrency } from '../utils/helpers';
 import { collections } from '../../config/constants';
 import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
 import async from 'async';
+import { reduceClaims } from '../reducers/statsReducers';
 
 const WBTC_ADDRESS = "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599"
 const ERC20 = require("../../config/abis/ERC20.json")
 const START_BLOCK = 11381216
 const EMPTY_DATA = '0x'
+const MIN_ETH_BALANCE = new BigNumber(0.01 * 1e18);
 
 const infuraProvider = new Web3.providers.HttpProvider('https://mainnet.infura.io/v3/77a0f6647eb04f5ca1409bba62ae9128')
 const options = {
@@ -35,6 +37,8 @@ class ContractsStore {
 	public vaults?: any;	// vaults contract data
 	public geysers?: any; 	// geyser contract data
 
+	public badgerTree?: any; 	// geyser contract data
+
 	constructor(store: RootStore) {
 		this.store = store
 
@@ -42,6 +46,7 @@ class ContractsStore {
 			vaults: undefined,
 			tokens: undefined,
 			geysers: undefined,
+			badgerTree: undefined
 		});
 
 		observe(this as any, "tokens", (change: any) => {
@@ -64,6 +69,7 @@ class ContractsStore {
 			}
 			batchCall = new BatchCall(newOptions);
 
+			this.fetchSettRewards()
 			this.fetchCollection()
 		})
 		observe(this.store.wallet as any, "connectedAddress", (change: any) => {
@@ -285,17 +291,53 @@ class ContractsStore {
 
 	})
 
+	fetchSettRewards = action(() => {
+		const { provider } = this.store.wallet
+		const { collection } = this.store.uiState
+		const { merkle, proofNetwork, tokens } = this.store.uiState.collection.configs.geysers.rewards
+
+		if (!provider.selectedAddress)
+			return
+
+		let web3 = new Web3(provider)
+		let rewardsTree = new web3.eth.Contract(merkle.abi, merkle.hashContract)
+		let checksumAddress = Web3.utils.toChecksumAddress(provider.selectedAddress)
+
+		rewardsTree.methods
+			.merkleContentHash()
+			.call()
+			.then((merkleHash: any) => {
+				jsonQuery(`${merkle.proofEndpoint}/rewards/${merkle.proofNetwork}/${merkleHash}/${checksumAddress}`)
+					.then((merkleProof: any) => {
+						if (!merkleProof.error) {
+							rewardsTree.methods.getClaimedFor(provider.selectedAddress, tokens)
+								.call()
+								.then((claimedRewards: any[]) => {
+									let claims = reduceClaims(merkleProof, claimedRewards)
+									this.badgerTree = {
+										cycle: parseInt(merkleProof.cycle, 16),
+										claims,
+										merkleProof
+									}
+								})
+						}
+					})
+
+			})
+	});
+
+
 	depositAndStake = action((vault: any, amount: BigNumber) => {
 		const { tokens, geysers } = this
-		const { collection, setTxStatus } = this.store.uiState
+		const { collection, setTxStatus, queueNotification } = this.store.uiState
 
 		const underlying = tokens[vault.token]
 		const wrapped = tokens[vault.address]
 		const geyser = geysers[wrapped.contract]
 
 		// ensure balance is valid
-		if (!amount || amount.lte(0) || amount.gt(underlying.balanceOf.plus(wrapped.balanceOf)))
-			return
+		if (amount.isNaN() || amount.lte(0) || amount.gt(underlying.balanceOf.plus(wrapped.balanceOf)))
+			return queueNotification("Please enter a valid amount", 'error')
 
 		// calculate amount to deposit
 		let wrappedAmount = new BigNumber(0);
@@ -335,15 +377,15 @@ class ContractsStore {
 
 	unstakeAndUnwrap = action((geyser: any, amount: BigNumber) => {
 		const { tokens, vaults } = this
-		const { collection, setTxStatus } = this.store.uiState
+		const { collection, setTxStatus, queueNotification } = this.store.uiState
 
 		let wrapped = tokens[geyser[collection.configs.geysers.underlying]]
 		let vault = vaults[wrapped.address]
 		let underlying = tokens[vaults[wrapped.address].token]
 
 		// ensure balance is valid
-		if (amount.lte(0) || amount.gt(geyser.totalStakedFor))
-			return
+		if (amount.isNaN() || amount.lte(0) || amount.gt(geyser.totalStakedFor))
+			return queueNotification("Please enter a valid amount", 'error')
 
 		// calculate amount to withdraw
 		let wrappedAmount = amount;
@@ -370,14 +412,14 @@ class ContractsStore {
 
 	unwrap = action((vault: any, amount: BigNumber) => {
 		const { tokens } = this
-		const { collection, setTxStatus } = this.store.uiState
+		const { collection, setTxStatus, queueNotification } = this.store.uiState
 
 		let underlying = tokens[vault.token]
 		let wrapped = tokens[vault.address]
 
 		// ensure balance is valid
-		if (!wrapped.balanceOf || amount.gt(wrapped.balanceOf))
-			return
+		if (amount.isNaN() || !wrapped.balanceOf || amount.gt(wrapped.balanceOf))
+			return queueNotification("Please enter a valid amount", 'error')
 
 		// calculate amount to withdraw
 		let wrappedAmount = amount;
@@ -399,7 +441,50 @@ class ContractsStore {
 
 
 	claimGeysers = action((stake: boolean = false) => {
-		console.log(stake ? "claim & stake" : "claiming...")
+		const { merkleProof } = this.badgerTree
+		const { provider, ethBalance, gasPrices } = this.store.wallet
+		const { collection, queueNotification, gasPrice, setTxStatus } = this.store.uiState
+		const { merkle, proofNetwork, tokens } = this.store.uiState.collection.configs.geysers.rewards
+
+		if (!provider.selectedAddress)
+			return
+
+		if (ethBalance?.lt(MIN_ETH_BALANCE))
+			return queueNotification("Your account is low on ETH, you may need to top up to claim.", 'warning')
+
+		let web3 = new Web3(provider)
+		let rewardsTree = new web3.eth.Contract(merkle.abi, merkle.hashContract)
+		const method = rewardsTree.methods.claim(
+			merkleProof.tokens,
+			merkleProof.cumulativeAmounts,
+			merkleProof.index,
+			merkleProof.cycle,
+			merkleProof.proof)
+
+		queueNotification(`Sign the transaction to claim your earnings`, "info")
+		let badgerAmount = new BigNumber(this.badgerTree.claims[0]).multipliedBy(1e18)
+		estimateAndSend(web3, gasPrices[gasPrice], method, provider.selectedAddress, (transaction: PromiEvent<Contract>) => {
+			transaction
+				.on('transactionHash', (hash: string) => {
+					queueNotification(`Claim submitted with hash: ${hash}`, "info")
+				}).on('receipt', (reciept: any) => {
+					queueNotification(`Rewards claimed.`, "success")
+					this.fetchSettRewards()
+					this.fetchCollection()
+
+					if (stake) {
+						let badgerVault = this.vaults["0x19d97d8fa813ee2f51ad4b4e04ea08baf4dffc28"]
+						this.depositAndStake(badgerVault, badgerAmount)
+					}
+				}).catch((error: any) => {
+					this.fetchCollection()
+					queueNotification(error.message, "error")
+					setTxStatus('error')
+				})
+
+		})
+
+
 
 	});
 
@@ -433,7 +518,7 @@ class ContractsStore {
 
 		queueNotification(`Sign the transaction to allow ${underlyingAsset.contract} to spend your ${underlyingAsset.address}`, "warning")
 
-		estimateAndSend(web3, method, connectedAddress, (transaction: PromiEvent<Contract>) => {
+		estimateAndSend(web3, this.store.wallet.gasPrices[this.store.uiState.gasPrice], method, connectedAddress, (transaction: PromiEvent<Contract>) => {
 			transaction
 				.on('transactionHash', (hash: string) => {
 					queueNotification(`Transaction submitted with hash: ${hash}`, "info")
@@ -462,7 +547,7 @@ class ContractsStore {
 
 		queueNotification(`Sign the transaction to stake ${inCurrency(amount, 'eth', true)} ${underlyingAsset.symbol}`, "warning")
 
-		estimateAndSend(web3, method, connectedAddress, (transaction: PromiEvent<Contract>) => {
+		estimateAndSend(web3, this.store.wallet.gasPrices[this.store.uiState.gasPrice], method, connectedAddress, (transaction: PromiEvent<Contract>) => {
 			transaction
 				.on('transactionHash', (hash: string) => {
 					queueNotification(`Deposit submitted with hash: ${hash}`, "info")
@@ -489,7 +574,7 @@ class ContractsStore {
 
 		queueNotification(`Sign the transaction to unstake ${inCurrency(amount, 'eth', true)} ${underlyingAsset.symbol}`, "warning")
 
-		estimateAndSend(web3, method, connectedAddress, (transaction: PromiEvent<Contract>) => {
+		estimateAndSend(web3, this.store.wallet.gasPrices[this.store.uiState.gasPrice], method, connectedAddress, (transaction: PromiEvent<Contract>) => {
 			transaction
 				.on('transactionHash', (hash: string) => {
 					queueNotification(`Deposit submitted with hash: ${hash}`, "info")
@@ -518,10 +603,9 @@ class ContractsStore {
 		let method = underlyingContract.methods.deposit(amount)
 		if (all)
 			method = underlyingContract.methods.depositAll()
-
 		queueNotification(`Sign the transaction to wrap ${inCurrency(amount, 'eth', true)} ${underlyingAsset.symbol}`, "warning")
 
-		estimateAndSend(web3, method, connectedAddress, (transaction: PromiEvent<Contract>) => {
+		estimateAndSend(web3, this.store.wallet.gasPrices[this.store.uiState.gasPrice], method, connectedAddress, (transaction: PromiEvent<Contract>) => {
 			transaction
 				.on('transactionHash', (hash: string) => {
 					queueNotification(`Deposit submitted with hash: ${hash}`, "info")
@@ -551,7 +635,7 @@ class ContractsStore {
 
 		queueNotification(`Sign the transaction to unwrap ${inCurrency(amount, 'eth', true)} ${underlyingAsset.symbol}`, "warning")
 
-		estimateAndSend(web3, method, connectedAddress, (transaction: PromiEvent<Contract>) => {
+		estimateAndSend(web3, this.store.wallet.gasPrices[this.store.uiState.gasPrice], method, connectedAddress, (transaction: PromiEvent<Contract>) => {
 			transaction
 				.on('transactionHash', (hash: string) => {
 					queueNotification(`Withdraw submitted with hash: ${hash}`, "info")

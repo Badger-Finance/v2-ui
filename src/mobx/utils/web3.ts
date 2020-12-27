@@ -2,28 +2,25 @@ import BigNumber from "bignumber.js";
 import Web3 from "web3";
 import { Contract, ContractSendMethod } from "web3-eth-contract";
 import { PromiEvent } from 'web3-core'
-import WalletStore from "../stores/wallet-store";
+import WalletStore from "../stores/walletStore";
 import _ from "lodash";
 import { CollectionsOutlined } from "@material-ui/icons";
-import { gasPriceQuery } from "./helpers";
 
 const { fetchJson } = require('../../config/constants')
 
-export const estimateAndSend = (web3: Web3, method: ContractSendMethod, address: string, callback: (transaction: PromiEvent<Contract>) => void) => {
+export const estimateAndSend = (web3: Web3, gasPrice: number, method: ContractSendMethod, address: string, callback: (transaction: PromiEvent<Contract>) => void) => {
 
-	gasPriceQuery()
-		.then((price: any) => {
 
-			let instantWei = new BigNumber(price.instant.toFixed(0))
+	let instantWei = new BigNumber(gasPrice.toFixed(0))
 
-			method.estimateGas({
-				from: address,
-				gas: instantWei.toNumber()
-			}, (error: any, gasLimit: number) => {
-				callback(method.send({ from: address, gas: gasLimit, gasPrice: instantWei.multipliedBy(1e9).toFixed(0) }))
-			})
+	method.estimateGas({
+		from: address,
+		gas: instantWei.toNumber()
+	}, (error: any, gasLimit: number) => {
+		callback(method.send({ from: address, gas: gasLimit, gasPrice: instantWei.multipliedBy(1e9).toFixed(0) }))
+	})
 
-		})
+
 }
 
 
