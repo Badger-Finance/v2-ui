@@ -28,8 +28,6 @@ const useStyles = makeStyles((theme) => ({
 		padding: 0
 	},
 	listItem: {
-		border: `1px solid ${theme.palette.grey[800]}`,
-		marginBottom: '-1px',
 		padding: 0,
 		'&:last-child div': {
 			borderBottom: 0
@@ -58,9 +56,7 @@ const useStyles = makeStyles((theme) => ({
 		width: '1rem',
 		color: '#fff'
 	},
-	assetTable: {
-		marginTop: '-1px'
-	},
+
 	header: {
 		padding: theme.spacing(0, -2, 0, 0)
 	},
@@ -132,7 +128,7 @@ export const SettList = observer((props: any) => {
 				vault = vaults[contract[collection.configs.geysers.underlying]]
 
 			if (!isGeysers)
-				return <Grid item xs={12} key={address} className={classes.assetTable}>
+				return <Grid item xs={12} key={address} className={classes.listItem}>
 					<VaultCard uiStats={stats} onStake={onStake} onUnwrap={onUnwrap} isFeatured={isFeatured} />
 				</Grid>
 			else
@@ -210,7 +206,7 @@ export const SettList = observer((props: any) => {
 					</Grid>
 					<Grid item xs={12} sm={4} md={2} className={classes.hiddenMobile}>
 						<Typography variant="body2" color="textSecondary">
-							Tokens Locked
+							{isGlobal ? "Tokens Locked" : "Available"}
 						</Typography>
 
 					</Grid>

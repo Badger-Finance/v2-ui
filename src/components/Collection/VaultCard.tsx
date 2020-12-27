@@ -39,8 +39,6 @@ const useStyles = makeStyles((theme) => ({
 	},
 	border: {
 		borderBottom: `1px solid ${theme.palette.grey[800]}`,
-		// marginTop: "-1px",
-		// borderRadius: theme.shape.borderRadius,
 		padding: theme.spacing(2, 2),
 		alignItems: 'center',
 		overflow: 'hidden'
@@ -116,7 +114,10 @@ export const VaultCard = observer((props: any) => {
 			<Grid item xs={6} md={2}>
 				<Typography variant="body1" color={parseFloat(uiStats.underlyingBalance) === 0 ? "textSecondary" : 'textPrimary'}>
 
-					{!isGlobal ? uiStats.availableBalance : uiStats.underlyingTokens}
+					{!isGlobal ?
+						!isDeposit ?
+							uiStats.availableBalance : uiStats.yourBalance
+						: uiStats.underlyingTokens}
 				</Typography>
 				{/* <Typography variant="body2" color="textSecondary">
 					{uiStats.underlyingTokens}
