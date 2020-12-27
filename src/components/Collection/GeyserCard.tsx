@@ -61,7 +61,7 @@ export const GeyserCard = observer((props: any) => {
 	const classes = useStyles();
 	const { uiStats, onUnstake } = props
 
-	const { router: { params, goTo }, contracts: { vaults, tokens }, uiState: { collection }, wallet: { walletState } } = store;
+	const { router: { params, goTo }, contracts: { vaults, tokens }, uiState: { collection } } = store;
 
 	const openVault = (asset: string) => {
 		goTo(views.vault, { collection: collection.id, id: asset })

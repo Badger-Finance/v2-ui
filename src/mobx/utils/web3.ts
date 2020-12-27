@@ -73,13 +73,13 @@ export const contractMethods = (config: any, wallet: WalletStore): any[] => {
 		})
 	}
 
-	if (!!wallet.walletState)
+	if (!!wallet.connectedAddress)
 		methods = methods.concat(
 			config.walletMethods.map((method: string) => {
 				return {
 					name: method,
 					args: [
-						wallet.walletState.address
+						wallet.connectedAddress
 					]
 				}
 			}))
@@ -87,18 +87,18 @@ export const contractMethods = (config: any, wallet: WalletStore): any[] => {
 	return methods
 }
 export const erc20Methods = (wallet: WalletStore, token: any, vaults: any[]): any[] => {
-	if (!!wallet.walletState && !!token.contract) {
+	if (!!wallet.connectedAddress && !!token.contract) {
 		// get allowance of each vault
 	
 		return [{
 			name: "balanceOf",
 			args: [
-				Web3.utils.toChecksumAddress(wallet.walletState.address)
+				Web3.utils.toChecksumAddress(wallet.connectedAddress)
 			]
 		}, {
 			name: "allowance",
 			args: [
-				Web3.utils.toChecksumAddress(wallet.walletState.address),
+				Web3.utils.toChecksumAddress(wallet.connectedAddress),
 				Web3.utils.toChecksumAddress(token.contract),
 			]
 		}];

@@ -7,7 +7,6 @@ import { Button, ButtonGroup, List, ListItem, Typography, Drawer, Chip } from "@
 import { makeStyles } from '@material-ui/core/styles';
 import { collections } from '../../config/constants';
 import { Wallet } from './Wallet';
-import { UseWalletProvider } from 'use-wallet'
 import { LocalGasStation } from '@material-ui/icons';
 // import { useSnackbar } from 'notistack';
 
@@ -85,7 +84,7 @@ export const Sidebar = observer(() => {
 		return collections.map((collection) => {
 
 			return <ListItem divider button key={collection.id} className={classes.listItem + ' ' + (store.router.params?.collection === collection.id ? classes.activeListItem : '')}
-				onClick={() => goTo(views.collection, { collection: collection.id })}>
+				onClick={() => {closeSidebar(); goTo(views.collection, { collection: collection.id })}}>
 
 				{collection.title}
 
@@ -94,13 +93,6 @@ export const Sidebar = observer(() => {
 	}
 
 	return (
-		<UseWalletProvider
-			chainId={1}
-			connectors={{
-				// This is how connectors get configured
-				portis: { dAppId: 'badger.finance' },
-			}}
-		>
 			<Drawer
 				variant={window.innerWidth > 960 ? 'persistent' : 'temporary'}
 				anchor="left"
@@ -116,11 +108,11 @@ export const Sidebar = observer(() => {
 
 						</ListItem>
 						<ListItem button divider
-							onClick={() => goTo(views.home)}
+							onClick={() => {closeSidebar();  goTo(views.home)}}
 							className={classes.listItem + ' ' + (store.router.currentPath === '/' ? classes.activeListItem : '')}>
 							Portfolio
 
-							{stats.claims[0] !== 0 && <Chip size="small" label={stats.claims[0]} variant="outlined" color="primary" className={classes.rewards} onClick={() => goTo(views.home)} />}
+							{stats.claims[0] !== 0 && <Chip size="small" label={stats.claims[0]} variant="outlined" color="primary" className={classes.rewards} onClick={() => {closeSidebar(); goTo(views.home)}} />}
 						</ListItem>
 
 						{renderCollections()}
@@ -150,6 +142,5 @@ export const Sidebar = observer(() => {
 
 				</div>
 			</Drawer>
-		</UseWalletProvider>
 	);
 });

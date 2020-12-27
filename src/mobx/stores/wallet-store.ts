@@ -18,10 +18,6 @@ class WalletStore {
 		{ checkName: 'network' },
 	  ]
 	
-
-	// private FORTMATIC_KEY = "Your Fortmatic key here"
-	// private PORTIS_KEY = "Your Portis key here"
-	// private SQUARELINK_KEY = "Your Squarelink key here"
 	private INFURA_KEY = "77a0f6647eb04f5ca1409bba62ae9128"
 	private APP_URL = "https://app.badger.finance/"
 	private CONTACT_EMAIL = "hello@badger.finance"
@@ -52,21 +48,6 @@ class WalletStore {
 		rpcUrl: this.RPC_URL,
 		appName: this.APP_NAME
 	},
-	// {
-	// 	walletName: "fortmatic",
-	// 	apiKey: this.FORTMATIC_KEY,
-	// 	preferred: true
-	// },
-	// {
-	// 	walletName: "portis",
-	// 	apiKey: this.PORTIS_KEY,
-	// 	preferred: true,
-	// 	label: 'Login with Email'
-	// },
-	// {
-	// 	walletName: "squarelink",
-	// 	apiKey: this.SQUARELINK_KEY
-	// },
 	{ walletName: "authereum" },
 	{ walletName: "opera" },
 	{ walletName: "operaTouch" },
@@ -87,13 +68,16 @@ class WalletStore {
 		dappId: 'af74a87b-cd08-4f45-83ff-ade6b3859a07',
 		networkId: 1,
 		darkMode: true,
-		// TODO: define change functions
-		// subscriptions: {
-		//   address: Function, 
+		subscriptions: {
+		  address: (address: any) => {
+			  this.setAddress(address);
+		  }, 
+		// TOOD: Add check for mainnet and display a warning if not connected
 		//   network: Function,
+		// TODO:  Add balance refresh on change
 		//   balance: Function,
 		//   wallet: Function
-		// },
+		},
 		walletSelect: {
 		  heading: 'Select wallet to connect to badgerDAO',
 		//   description: String,
@@ -104,8 +88,8 @@ class WalletStore {
 		}
 	
 	public onboard: any = Onboard(this.initializationOptions);
-	public walletState: any;
 	public provider?: any = new Web3.providers.HttpProvider('https://mainnet.infura.io/v3/77a0f6647eb04f5ca1409bba62ae9128')
+	public connectedAddress: string = '';
 	private store?: RootStore
 	public currentBlock?: number;
 	public gasPrices?: any;
@@ -114,7 +98,7 @@ class WalletStore {
 		this.store = store
 
 		extendObservable(this, {
-			walletState: this.walletState,
+			connectedAddress: this.connectedAddress,
 			provider: this.provider,
 			currentBlock: undefined,
 			gasPrices: {}
@@ -131,14 +115,19 @@ class WalletStore {
 	}
 
 	walletReset = action(() => {
-		this.setProvider(new Web3.providers.HttpProvider('https://mainnet.infura.io/v3/77a0f6647eb04f5ca1409bba62ae9128'));
-		this.onboard.walletReset();
+		try {
+			this.setProvider(new Web3.providers.HttpProvider('https://mainnet.infura.io/v3/77a0f6647eb04f5ca1409bba62ae9128'));
+			this.setAddress('');
+		} catch (err) {
+			console.log(err)
+		}
 	});
 
 	connect = action((wsOnboard:any) => {
-		this.walletState = wsOnboard.getState();
+		let walletState = wsOnboard.getState();
+		this.setProvider(walletState.wallet.provider)
+		this.connectedAddress = walletState.wallet.provider.selectedAddress;
 		this.onboard = wsOnboard;
-		this.setProvider(this.walletState.wallet.provider)
 	})
 
 	getCurrentBlock = action(() => {
@@ -160,13 +149,17 @@ class WalletStore {
 		this.provider = provider;
 	});
 
+	setAddress = action((address: any) => {
+		this.connectedAddress = address;
+	});
+
 	sendMethod = action((address: string, methodName: string, inputs: any = [], abi: any, callback: (contract: PromiEvent<Contract>) => void) => {
 		const web3 = new Web3(this.store!.wallet!.provider)
 		const contract = new web3.eth.Contract(abi, address)
 
 		const method = contract.methods[methodName](...inputs)
 
-		estimateAndSend(web3, method, this.store!.wallet!.provider.selectedAddress, (transaction: PromiEvent<Contract>) => {
+		estimateAndSend(web3, method, this.connectedAddress, (transaction: PromiEvent<Contract>) => {
 			callback(transaction)
 		})
 

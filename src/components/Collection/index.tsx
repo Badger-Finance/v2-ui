@@ -70,7 +70,7 @@ export const Collection = observer(() => {
 	const classes = useStyles();
 
 	const { router: { params, goTo },
-		wallet: { walletState },
+		wallet: { connectedAddress },
 		contracts: { vaults, geysers, tokens },
 		uiState: { collection, stats, geyserStats, vaultStats, currency, period, setCurrency, setPeriod } } = store;
 
@@ -264,20 +264,20 @@ export const Collection = observer(() => {
 
 			{spacer()}
 
-			<Grid item xs={12} md={!!walletState?.address ? 4 : 6} >
+			<Grid item xs={12} md={!!connectedAddress ? 4 : 6} >
 				<Paper className={classes.statPaper}>
 					<Typography variant="body1" color="textPrimary">TVL</Typography>
 					<Typography variant="h5">{stats.tvl}</Typography>
 				</Paper>
 			</Grid >
-			{!!walletState?.address && <Grid item xs={12} md={4}>
+			{!!connectedAddress && <Grid item xs={12} md={4}>
 				<Paper className={classes.statPaper}>
 					<Typography variant="body1" color="textPrimary">Your Portfolio</Typography>
 					<Typography variant="h5">{stats.portfolio}</Typography>
 				</Paper> 			</Grid>
 			}
 
-			<Grid item xs={12} md={!!walletState?.address ? 4 : 6}>
+			<Grid item xs={12} md={!!connectedAddress ? 4 : 6}>
 				<Paper className={classes.statPaper}>
 					<Typography variant="body1" color="textPrimary">Badger Price</Typography>
 					<Typography variant="h5">{stats.badger || "..."}</Typography>

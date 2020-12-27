@@ -75,6 +75,7 @@ class UiState {
 			}
 		})
 		observe(this.store.wallet as any, "currentBlock", (change: any) => {
+			console.log("updating current block")
 			this.reduceContracts()
 			this.fetchSettRewards()
 		})
@@ -85,6 +86,10 @@ class UiState {
 		observe(this.store.wallet as any, "provider", (change: any) => {
 			this.fetchSettRewards()
 			this.store.router.goTo(views.home)
+		})
+		observe(this.store.wallet as any, "connectedAddress", (change: any) => {
+			this.fetchSettRewards()
+			this.reduceContracts()
 		})
 		observe(this as any, "period", (change: any) => {
 			this.reduceContracts()
@@ -135,14 +140,14 @@ class UiState {
 
 
 	fetchSettRewards = action(() => {
-		const { walletState, provider } = this.store.wallet
+		const { connectedAddress, provider } = this.store.wallet
 		const { merkle, proofNetwork, tokens } = this.collection.configs.geysers.rewards
-		if (!walletState?.address)
+		if (connectedAddress === '')
 			return
 
 		let web3 = new Web3(provider)
 		let rewardsTree = new web3.eth.Contract(merkle.abi, merkle.hashContract)
-		let checksumAddress = Web3.utils.toChecksumAddress(walletState?.address)
+		let checksumAddress = Web3.utils.toChecksumAddress(connectedAddress)
 
 		rewardsTree.methods
 			.merkleContentHash()
@@ -151,7 +156,7 @@ class UiState {
 				jsonQuery(`${merkle.proofEndpoint}/rewards/${merkle.proofNetwork}/${merkleHash}/${checksumAddress}`)
 					.then((merkleProof: any) => {
 						if (!merkleProof.error) {
-							rewardsTree.methods.getClaimedFor(walletState?.address, tokens)
+							rewardsTree.methods.getClaimedFor(connectedAddress, tokens)
 								.call()
 								.then((claimedRewards: any[]) => {
 									let claims = reduceClaims(merkleProof, claimedRewards)
@@ -161,6 +166,11 @@ class UiState {
 										claims
 									}
 								})
+						} else {
+							// We need to handle this when users switch to a connected address that has no merkle tree entries
+							this.stats = {
+								claims: [0, 0]
+							}
 						}
 					})
 
@@ -188,7 +198,11 @@ class UiState {
 		this.sidebarOpen = true
 	});
 	closeSidebar = action(() => {
-		this.sidebarOpen = false
+		if (window.innerWidth < 960) {
+			this.sidebarOpen = false
+		} else {
+			this.sidebarOpen = true
+		}
 	});
 
 

@@ -69,7 +69,7 @@ export const VaultCard = observer((props: any) => {
 		onUnwrap,
 		uiStats, isFeatured, isGlobal } = props
 
-	const { router: { params, goTo }, contracts: { vaults, tokens }, uiState: { collection }, wallet: { walletState } } = store;
+	const { router: { params, goTo }, contracts: { vaults, tokens }, uiState: { collection } } = store;
 
 	const openVault = (asset: string) => {
 		goTo(views.vault, { collection: collection.id, id: asset })
@@ -89,11 +89,7 @@ export const VaultCard = observer((props: any) => {
 		<Grid container className={classes.border + (isFeatured ? ` ${classes.featured}` : '')}>
 			<Grid item xs={12} sm={4}>
 				<Grid container spacing={4}>
-					<img alt=""
-						className={classes.icon}
-						src={uiStats.symbol ? require('../../assets/' + uiStats.symbol.toLowerCase().replace(/\/+/g, '') + '-logo.png') : ''}
-						height={'30px'}
-						style={{}} />
+					<VaultSymbol symbol={uiStats.symbol} />
 					<Grid item xs={12} sm={4} md={8}>
 						<Typography variant="body1">
 							{uiStats.name}
@@ -138,15 +134,6 @@ export const VaultCard = observer((props: any) => {
 
 					{!isGlobal ? uiStats.yourValue : uiStats.underlyingBalance}
 				</Typography>
-				{/* <Typography variant="body2" color="textSecondary">
-
-<<<<<<< HEAD
-					{uiStats.availableBalance}
-					{!walletState?.address && "..."}
-=======
->>>>>>> 5bc8b70a23da4ea5fcbb45c63ab9b3ddd3af44cd
-
-				</Typography> */}
 			</Grid>
 
 			<Grid item xs={12} sm={6} md={2}>

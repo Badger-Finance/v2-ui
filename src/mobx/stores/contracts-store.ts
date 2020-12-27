@@ -66,6 +66,9 @@ class ContractsStore {
 
 			this.fetchCollection()
 		})
+		observe(this.store.wallet as any, "connectedAddress", (change: any) => {
+			this.fetchCollection()
+		})
 	}
 
 	fetchCollection = action(() => {
@@ -421,16 +424,16 @@ class ContractsStore {
 
 	increaseAllowance = action((underlyingAsset: any, callback: (err: any, result: any) => void) => {
 		let { collection, queueNotification, setTxStatus } = this.store.uiState
-		let { provider } = this.store.wallet
+		let { provider, connectedAddress } = this.store.wallet
 
 
-		const web3 = new Web3(this.store!.wallet!.provider)
+		const web3 = new Web3(provider)
 		const underlyingContract = new web3.eth.Contract(ERC20.abi, underlyingAsset.address)
 		const method = underlyingContract.methods.approve(underlyingAsset.contract, underlyingAsset.totalSupply)
 
 		queueNotification(`Sign the transaction to allow ${underlyingAsset.contract} to spend your ${underlyingAsset.address}`, "warning")
 
-		estimateAndSend(web3, method, provider.selectedAddress, (transaction: PromiEvent<Contract>) => {
+		estimateAndSend(web3, method, connectedAddress, (transaction: PromiEvent<Contract>) => {
 			transaction
 				.on('transactionHash', (hash: string) => {
 					queueNotification(`Transaction submitted with hash: ${hash}`, "info")
@@ -449,7 +452,7 @@ class ContractsStore {
 
 	depositGeyser = action((geyser: any, amount: BigNumber, callback: (err: any, result: any) => void) => {
 		let { collection, queueNotification, setTxStatus } = this.store.uiState
-		let { provider } = this.store.wallet
+		let { provider, connectedAddress } = this.store.wallet
 
 		const underlyingAsset = this.tokens[geyser[collection.configs.geysers.underlying]]
 
@@ -459,7 +462,7 @@ class ContractsStore {
 
 		queueNotification(`Sign the transaction to stake ${inCurrency(amount, 'eth', true)} ${underlyingAsset.symbol}`, "warning")
 
-		estimateAndSend(web3, method, provider.selectedAddress, (transaction: PromiEvent<Contract>) => {
+		estimateAndSend(web3, method, connectedAddress, (transaction: PromiEvent<Contract>) => {
 			transaction
 				.on('transactionHash', (hash: string) => {
 					queueNotification(`Deposit submitted with hash: ${hash}`, "info")
@@ -476,7 +479,7 @@ class ContractsStore {
 	});
 	withdrawGeyser = action((geyser: any, amount: BigNumber, callback: (err: any, result: any) => void) => {
 		let { collection, queueNotification, setTxStatus } = this.store.uiState
-		let { provider } = this.store.wallet
+		let { provider, connectedAddress } = this.store.wallet
 
 		const underlyingAsset = this.tokens[geyser[collection.configs.geysers.underlying]]
 
@@ -486,7 +489,7 @@ class ContractsStore {
 
 		queueNotification(`Sign the transaction to unstake ${inCurrency(amount, 'eth', true)} ${underlyingAsset.symbol}`, "warning")
 
-		estimateAndSend(web3, method, provider.selectedAddress, (transaction: PromiEvent<Contract>) => {
+		estimateAndSend(web3, method, connectedAddress, (transaction: PromiEvent<Contract>) => {
 			transaction
 				.on('transactionHash', (hash: string) => {
 					queueNotification(`Deposit submitted with hash: ${hash}`, "info")
@@ -505,7 +508,7 @@ class ContractsStore {
 
 	depositVault = action((vault: any, amount: BigNumber, all: boolean = false, callback: (err: any, result: any) => void) => {
 		let { collection, queueNotification, setTxStatus } = this.store.uiState
-		let { provider } = this.store.wallet
+		let { provider, connectedAddress } = this.store.wallet
 
 		const underlyingAsset = this.tokens[vault[collection.configs.vaults.underlying]]
 
@@ -518,7 +521,7 @@ class ContractsStore {
 
 		queueNotification(`Sign the transaction to wrap ${inCurrency(amount, 'eth', true)} ${underlyingAsset.symbol}`, "warning")
 
-		estimateAndSend(web3, method, provider.selectedAddress, (transaction: PromiEvent<Contract>) => {
+		estimateAndSend(web3, method, connectedAddress, (transaction: PromiEvent<Contract>) => {
 			transaction
 				.on('transactionHash', (hash: string) => {
 					queueNotification(`Deposit submitted with hash: ${hash}`, "info")
@@ -535,7 +538,7 @@ class ContractsStore {
 	});
 	withdrawVault = action((vault: any, amount: BigNumber, all: boolean = false, callback: (err: any, result: any) => void) => {
 		let { collection, setTxStatus, queueNotification } = this.store.uiState
-		let { provider } = this.store.wallet
+		let { provider, connectedAddress } = this.store.wallet
 
 		const underlyingAsset = this.tokens[vault[collection.configs.vaults.underlying]]
 
@@ -548,7 +551,7 @@ class ContractsStore {
 
 		queueNotification(`Sign the transaction to unwrap ${inCurrency(amount, 'eth', true)} ${underlyingAsset.symbol}`, "warning")
 
-		estimateAndSend(web3, method, provider.selectedAddress, (transaction: PromiEvent<Contract>) => {
+		estimateAndSend(web3, method, connectedAddress, (transaction: PromiEvent<Contract>) => {
 			transaction
 				.on('transactionHash', (hash: string) => {
 					queueNotification(`Withdraw submitted with hash: ${hash}`, "info")

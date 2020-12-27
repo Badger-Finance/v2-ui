@@ -4,8 +4,6 @@ import { useContext } from 'react';
 import { StoreContext } from '../../context/store-context';
 import { Button } from "@material-ui/core"
 import { makeStyles } from '@material-ui/core/styles';
-import { useWallet } from 'use-wallet'
-import WalletStore from '../../mobx/stores/wallet-store'
 
 const useStyles = makeStyles((theme) => ({
 
@@ -33,36 +31,33 @@ const useStyles = makeStyles((theme) => ({
 
 export const Wallet = observer(() => {
 	const classes = useStyles();
-	let [connected, setConnected] = useState(false);
 
 	const store = useContext(StoreContext);
 	const wsOnboard = store.wallet.onboard;
+	const connectedAddress = store.wallet.connectedAddress;
 
 	const shortenAddress = (address: String) => {
 		return address.slice(0, 6) + '...' + address.slice(address.length - 4, address.length)
 	}
 
 	const connect = async () => {
+		if (store.uiState.sidebarOpen) {store.uiState.closeSidebar()}
 		await wsOnboard.walletSelect();
 		const readyToTransact = await wsOnboard.walletCheck();
 		if (readyToTransact) {
-			console.log("wallet: ", wsOnboard);
 			store.wallet.connect(wsOnboard);
-			setConnected(true);
 		}
 	}
 
-	// useEffect(() => { !!wallet.ethereum && setProvider(wallet.ethereum) }, [wallet.ethereum, setProvider])
-
-	if (connected)
+	if (!!connectedAddress)
 		return <div className={classes.root}>
 			<Button
 				fullWidth
 				size="small"
 				variant="outlined"
-				onClick={() => { store.wallet.walletReset(); setConnected(false);}}>
-				{connected ? shortenAddress(store.wallet.walletState.address) : 'DISCONNECTED' }
-				<div className={connected ? classes.greenDot : classes.redDot} />
+				onClick={() => { store.wallet.walletReset();}}>
+				{!!connectedAddress ? shortenAddress(connectedAddress) : 'DISCONNECTED' }
+				<div className={!!connectedAddress ? classes.greenDot : classes.redDot} />
 			</Button>
 		</div>
 	else
@@ -73,8 +68,8 @@ export const Wallet = observer(() => {
 				disableElevation
 				onClick={connect}
 				variant="outlined">
-				{connected ? shortenAddress(store.wallet.walletState.address) : 'DISCONNECTED'}
-				<div className={connected ? classes.greenDot : classes.redDot} />
+				{!!connectedAddress ? shortenAddress(connectedAddress) : 'DISCONNECTED'}
+				<div className={!!connectedAddress ? classes.greenDot : classes.redDot} />
 
 			</Button>
 		</div>
