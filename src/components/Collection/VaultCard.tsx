@@ -81,8 +81,6 @@ export const VaultCard = observer((props: any) => {
 
 	const { uiState: { collection } } = store;
 
-
-
 	if (!uiStats) {
 		return <Loader />
 	}
@@ -161,10 +159,6 @@ export const VaultCard = observer((props: any) => {
 
 					{!isGlobal ? uiStats.yourValue : uiStats.underlyingBalance}
 				</Typography>
-				{/* <Typography variant="body2" color="textSecondary">
-
-
-				</Typography> */}
 			</Grid>
 
 			<Grid item xs={12} md={2}>

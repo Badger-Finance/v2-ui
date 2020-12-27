@@ -1,10 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { useContext } from 'react';
 import { StoreContext } from '../../context/store-context';
 import { Button } from "@material-ui/core"
 import { makeStyles } from '@material-ui/core/styles';
-import { useWallet } from 'use-wallet'
 
 const useStyles = makeStyles((theme) => ({
 
@@ -32,30 +31,34 @@ const useStyles = makeStyles((theme) => ({
 
 export const Wallet = observer(() => {
 	const classes = useStyles();
-	const wallet = useWallet()
 
 	const store = useContext(StoreContext);
-	const { wallet: { setProvider, provider } } = store;
+	const wsOnboard = store.wallet.onboard;
+	const connectedAddress = store.wallet.connectedAddress;
 
 	const shortenAddress = (address: String) => {
 		return address.slice(0, 6) + '...' + address.slice(address.length - 4, address.length)
 	}
 
-	const connect = () => {
-		wallet.connect('provided')
+	const connect = async () => {
+		if (store.uiState.sidebarOpen) { store.uiState.closeSidebar() }
+		if (!await wsOnboard.walletSelect())
+			return
+		const readyToTransact = await wsOnboard.walletCheck();
+		if (readyToTransact) {
+			store.wallet.connect(wsOnboard);
+		}
 	}
 
-	useEffect(() => { !!wallet.ethereum && setProvider(wallet.ethereum) }, [wallet.ethereum, setProvider])
-
-	if (wallet.status === 'connected')
+	if (!!connectedAddress)
 		return <div className={classes.root}>
 			<Button
 				fullWidth
-				disableElevation
-				variant="contained"
-				onClick={() => wallet.reset()}>
-				{shortenAddress(provider.selectedAddress)}
-				<div className={wallet.status !== 'connected' ? classes.redDot : classes.greenDot} />
+				size="small"
+				variant="outlined"
+				onClick={() => { store.wallet.walletReset(); }}>
+				{!!connectedAddress ? shortenAddress(connectedAddress) : 'DISCONNECTED'}
+				<div className={!!connectedAddress ? classes.greenDot : classes.redDot} />
 			</Button>
 		</div>
 	else
@@ -65,9 +68,9 @@ export const Wallet = observer(() => {
 				fullWidth
 				disableElevation
 				onClick={connect}
-				variant="contained">
-				{wallet.status}
-				<div className={wallet.status !== 'connected' ? classes.redDot : classes.greenDot} />
+				variant="outlined">
+				{!!connectedAddress ? shortenAddress(connectedAddress) : 'DISCONNECTED'}
+				<div className={!!connectedAddress ? classes.greenDot : classes.redDot} />
 
 			</Button>
 		</div>

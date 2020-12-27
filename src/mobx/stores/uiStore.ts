@@ -93,6 +93,10 @@ class UiState {
 		observe(this.store.wallet as any, "provider", (change: any) => {
 			this.store.router.goTo(views.home)
 		})
+		observe(this.store.wallet as any, "connectedAddress", (change: any) => {
+			this.store.contracts.fetchSettRewards()
+			this.reduceContracts()
+		})
 		observe(this as any, "period", (change: any) => {
 			this.reduceContracts()
 		})
@@ -167,7 +171,11 @@ class UiState {
 		this.sidebarOpen = true
 	});
 	closeSidebar = action(() => {
-		this.sidebarOpen = false
+		if (window.innerWidth < 960) {
+			this.sidebarOpen = false
+		} else {
+			this.sidebarOpen = true
+		}
 	});
 
 

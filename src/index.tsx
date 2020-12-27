@@ -17,6 +17,9 @@ import routes from './config/routes';
 import { Sidebar } from './components/Sidebar';
 import { Header } from './components/Header';
 
+//css
+import './assets/css/onboard-override.css'
+
 const theme = createMuiTheme({
 	palette: {
 		type: 'dark',
@@ -24,7 +27,7 @@ const theme = createMuiTheme({
 	},
 	typography: {
 		// fontSize: 16,
-		fontFamily: "IBM Plex Sans",
+		fontFamily: "'IBM Plex Sans'",
 		// h1: { fontSize: "1.8rem", fontWeight: 700 },
 		// h2: { fontFamily: "'Press Start 2P'", fontSize: "2rem" },
 		// h3: { fontFamily: "'Press Start 2P'", fontSize: "1.8rem" },

@@ -40,7 +40,7 @@ export const VaultFunction = observer((props: any) => {
 	const { register, handleSubmit, watch, errors } = useForm({ mode: 'all' });
 
 
-	const { uiState: { collection, vault }, wallet: { provider } } = store;
+	const { uiState: { collection, vault }, wallet: { connectedAddress } } = store;
 
 	const [state, setState] = useState<any>({ status: method.stateMutability })
 
@@ -119,7 +119,7 @@ export const VaultFunction = observer((props: any) => {
 					})}
 			</CardContent>
 			<CardActions >
-				<IconButton disabled={state.status == "pending" || !provider.selectedAddress} style={{ marginLeft: 'auto' }} onClick={handleSubmit(onSubmit)} >
+				<IconButton disabled={state.status == "pending" || !!connectedAddress} style={{ marginLeft: 'auto' }} onClick={handleSubmit(onSubmit)} >
 					<Submit />
 				</IconButton>
 			</CardActions>

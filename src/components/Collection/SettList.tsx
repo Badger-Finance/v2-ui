@@ -28,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
 		padding: 0
 	},
 	listItem: {
+		border: `1px solid ${theme.palette.grey[800]}`,
 		marginBottom: '-1px',
 		padding: 0,
 		'&:last-child div': {
@@ -37,6 +38,28 @@ const useStyles = makeStyles((theme) => ({
 	before: {
 		marginTop: theme.spacing(3),
 		width: "100%"
+	},
+	carousel: {
+		overflow: 'inherit',
+		marginTop: theme.spacing(1)
+	},
+	featuredHeader: {
+		marginBottom: theme.spacing(2)
+	},
+	indicatorContainer: {
+		display: 'none'
+	},
+	indicator: {
+		fontSize: '11px',
+		width: '1rem'
+	},
+	activeIndicator: {
+		fontSize: '11px',
+		width: '1rem',
+		color: '#fff'
+	},
+	assetTable: {
+		marginTop: '-1px'
 	},
 	header: {
 		padding: theme.spacing(0, -2, 0, 0)
@@ -55,7 +78,7 @@ export const SettList = observer((props: any) => {
 	const { hideEmpty, isGlobal } = props
 
 	const { router: { params, goTo },
-		wallet: { provider },
+		wallet: { connectedAddress },
 		contracts: { vaults, geysers, tokens },
 		uiState: { collection, stats, geyserStats, vaultStats, currency, period, setCurrency, txStatus, setTxStatus } } = store;
 
@@ -109,10 +132,11 @@ export const SettList = observer((props: any) => {
 				vault = vaults[contract[collection.configs.geysers.underlying]]
 
 			if (!isGeysers)
-				return <ListItem key={address} className={classes.listItem}>
-					<VaultCard isGlobal={isGlobal} uiStats={stats} onStake={onStake} onUnwrap={onUnwrap} isFeatured={isFeatured} />
-				</ListItem>
+				return <Grid item xs={12} key={address} className={classes.assetTable}>
+					<VaultCard uiStats={stats} onStake={onStake} onUnwrap={onUnwrap} isFeatured={isFeatured} />
+				</Grid>
 			else
+
 				return <ListItem key={address} className={classes.listItem}>
 					<VaultCard isDeposit uiStats={stats} onStake={onStake} onUnstake={onUnstake} />
 				</ListItem>
@@ -253,10 +277,10 @@ export const SettList = observer((props: any) => {
 
 
 	return <>
-		{!!provider.selectedAddress && !isGlobal && anyWalletAssets() && tableHeader(`Your Wallet - ${stats.wallet}`)}
-		{!!provider.selectedAddress && !isGlobal && anyWalletAssets() && walletVaults()}
-		{!!provider.selectedAddress && !isGlobal && tableHeader(`Deposits - ${stats.geysers}`)}
-		{!!provider.selectedAddress && !isGlobal && renderDeposits()}
+		{!!connectedAddress && !isGlobal && tableHeader(`Your Wallet - ${stats.wallet}`)}
+		{!!connectedAddress && !isGlobal && walletVaults()}
+		{!!connectedAddress && !isGlobal && tableHeader(`Deposits - ${stats.geysers}`)}
+		{!!connectedAddress && !isGlobal && renderDeposits()}
 
 		{!hideEmpty && tableHeader(`Setts`)}
 		{!hideEmpty && emptyGeysers()}

@@ -1,5 +1,6 @@
 import { extendObservable, action } from 'mobx';
-import Web3 from 'web3'
+import Web3 from 'web3';
+import Onboard from 'bnc-onboard';
 
 import { Store } from 'mobx-router';
 import { RootStore } from '../store';
@@ -7,12 +8,18 @@ import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
 import { estimateAndSend } from '../utils/web3';
 import BigNumber from 'bignumber.js';
+import { onboardWallets, onboardWalletCheck } from '../../config/wallets';
+
 
 
 class WalletStore {
 
-	public provider?: any = new Web3.providers.HttpProvider('https://mainnet.infura.io/v3/77a0f6647eb04f5ca1409bba62ae9128')
 	private store?: RootStore
+
+
+	public onboard: any;
+	public provider?: any = new Web3.providers.HttpProvider('https://mainnet.infura.io/v3/77a0f6647eb04f5ca1409bba62ae9128')
+	public connectedAddress: string = '';
 	public currentBlock?: number;
 	public ethBalance?: BigNumber;
 	public gasPrices?: any;
@@ -20,11 +27,28 @@ class WalletStore {
 	constructor(store: RootStore) {
 		this.store = store
 
+		const onboardOptions: any = {
+			dappId: 'af74a87b-cd08-4f45-83ff-ade6b3859a07',
+			networkId: 1,
+			darkMode: true,
+			subscriptions: {
+				address: this.setAddress,
+			},
+			walletSelect: {
+				heading: 'Connect to BadgerDAO',
+				description: 'Deposit & Earn on your Bitcoin',
+				wallets: onboardWallets
+			},
+			walletCheck: onboardWalletCheck
+		}
+
 		extendObservable(this, {
+			connectedAddress: this.connectedAddress,
 			provider: this.provider,
 			currentBlock: undefined,
 			gasPrices: {},
 			ethBalance: new BigNumber(0),
+			onboard: Onboard(onboardOptions)
 		});
 
 		this.getCurrentBlock()
@@ -33,9 +57,24 @@ class WalletStore {
 		setInterval(() => {
 			this.getGasPrice()
 			this.getCurrentBlock()
-		}
-			, 13000)
+		}, 13000)
 	}
+
+	walletReset = action(() => {
+		try {
+			this.setProvider(new Web3.providers.HttpProvider('https://mainnet.infura.io/v3/77a0f6647eb04f5ca1409bba62ae9128'));
+			this.setAddress('');
+		} catch (err) {
+			console.log(err)
+		}
+	});
+
+	connect = action((wsOnboard: any) => {
+		let walletState = wsOnboard.getState();
+		this.setProvider(walletState.wallet.provider)
+		this.connectedAddress = walletState.wallet.provider.selectedAddress;
+		this.onboard = wsOnboard;
+	})
 
 	getCurrentBlock = action(() => {
 		let web3 = new Web3(this.provider)
@@ -60,6 +99,10 @@ class WalletStore {
 		let web3 = new Web3(this.provider)
 		this.getCurrentBlock()
 
+	});
+
+	setAddress = action((address: any) => {
+		this.connectedAddress = address;
 	});
 
 

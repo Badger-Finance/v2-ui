@@ -11,6 +11,7 @@
 		"assert": "^2.0.0",
 		"async": "^3.2.0",
 		"bignumber.js": "^9.0.1",
+		"bnc-onboard": "^1.17.1",
 		"d3-scale": "^3.2.3",
 		"d3-shape": "^2.0.0",
 		"d3-time-format": "^3.0.0",

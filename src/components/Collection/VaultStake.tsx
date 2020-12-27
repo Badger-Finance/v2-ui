@@ -50,9 +50,10 @@ const useStyles = makeStyles((theme) => ({
 		margin: theme.spacing(0, 0, 1)
 	},
 	border: {
-		border: `1px solid rgba(255,255,255,.2)`,
-		marginBottom: theme.spacing(1),
-		borderRadius: theme.shape.borderRadius,
+		border: `1px solid ${theme.palette.grey[800]}`,
+		borderWidth: '1px 1px 1px 1px',
+		// marginBottom: theme.spacing(1),
+		// borderRadius: theme.shape.borderRadius,
 		padding: theme.spacing(2, 1),
 		alignItems: 'center'
 	}
@@ -66,7 +67,7 @@ export const VaultStake = observer((props: any) => {
 		uiStats } = props
 	const { register, handleSubmit, watch, errors, setValue } = useForm({ mode: 'all' });
 
-	const { router: { params, goTo }, contracts: { vaults, tokens, depositAndStake }, uiState: { collection, txStatus }, wallet: { provider } } = store;
+	const { router: { params, goTo }, contracts: { vaults, tokens, depositAndStake }, wallet: { connectedAddress }, uiState: { collection, txStatus } } = store;
 
 	const setAmount = (percent: number) => {
 		// (document.getElementById(TEXTFIELD_ID)! as HTMLInputElement).value = uiStats.availableFull[percent];
@@ -84,11 +85,11 @@ export const VaultStake = observer((props: any) => {
 		return <Loader />
 	}
 
-	let renderAmounts = <ButtonGroup size="small" className={classes.button} disabled={!provider.selectedAddress} >
-		<Button onClick={() => { setAmount(25) }} variant={!!provider.selectedAddress && watch().amount === uiStats.availableFull[25] ? "contained" : "outlined"} color="primary">25%</Button>
-		<Button onClick={() => { setAmount(50) }} variant={!!provider.selectedAddress && watch().amount === uiStats.availableFull[50] ? "contained" : "outlined"} color="primary">50%</Button>
-		<Button onClick={() => { setAmount(75) }} variant={!!provider.selectedAddress && watch().amount === uiStats.availableFull[75] ? "contained" : "outlined"} color="primary">75%</Button>
-		<Button onClick={() => { setAmount(100) }} variant={!!provider.selectedAddress && watch().amount === uiStats.availableFull[100] ? "contained" : "outlined"} color="primary">100%</Button>
+	let renderAmounts = <ButtonGroup size="small" className={classes.button} disabled={!connectedAddress} >
+		<Button onClick={() => { setAmount(25) }} variant={!!connectedAddress && watch().amount === uiStats.availableFull[25] ? "contained" : "outlined"} color="primary">25%</Button>
+		<Button onClick={() => { setAmount(50) }} variant={!!connectedAddress && watch().amount === uiStats.availableFull[50] ? "contained" : "outlined"} color="primary">50%</Button>
+		<Button onClick={() => { setAmount(75) }} variant={!!connectedAddress && watch().amount === uiStats.availableFull[75] ? "contained" : "outlined"} color="primary">75%</Button>
+		<Button onClick={() => { setAmount(100) }} variant={!!connectedAddress && watch().amount === uiStats.availableFull[100] ? "contained" : "outlined"} color="primary">100%</Button>
 	</ButtonGroup>
 
 
@@ -106,10 +107,10 @@ export const VaultStake = observer((props: any) => {
 			</div>
 
 
-			<TextField autoComplete="off" name="amount" disabled={txStatus === "pending" || !provider.selectedAddress} inputRef={register} id={TEXTFIELD_ID} className={classes.field} variant="outlined" fullWidth placeholder="Type an amount to stake" />
+			<TextField autoComplete="off" name="amount" disabled={txStatus === "pending" || !connectedAddress} inputRef={register} id={TEXTFIELD_ID} className={classes.field} variant="outlined" fullWidth placeholder="Type an amount to stake" />
 
 
-			<Button size="large" disabled={txStatus === "pending" || !provider.selectedAddress} onClick={handleSubmit(onSubmit)} variant="contained" color="primary" fullWidth className={classes.button}>Stake</Button>
+			<Button size="large" disabled={txStatus === "pending" || !connectedAddress} onClick={handleSubmit(onSubmit)} variant="contained" color="primary" fullWidth className={classes.button}>Stake</Button>
 
 		</DialogContent>
 		<DialogActions style={{ display: 'flex', justifyContent: 'space-between' }}>

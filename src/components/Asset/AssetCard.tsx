@@ -42,7 +42,7 @@ export const AssetCard = observer((props: any) => {
 	const classes = useStyles();
 	const { asset, contract } = props
 
-	const { router: { params, goTo }, wallet: { provider }, contracts: { vaults, tokens, geysers, batchDeposit, batchWithdraw } } = store;
+	const { router: { params, goTo }, wallet: { connectedAddress }, contracts: { vaults, tokens, geysers, batchDeposit, batchWithdraw } } = store;
 
 	const deposit = () => {
 		batchDeposit(asset.address)
@@ -74,12 +74,12 @@ export const AssetCard = observer((props: any) => {
 
 
 		</CardContent>
-		{!!provider.selectedAddress && <CardActions>
+		{!!connectedAddress && <CardActions>
 			{/* <TextField placeholder="amount"></TextField> */}
-			<Button variant="outlined" onClick={deposit} disabled={!provider}>deposit</Button>
+			<Button variant="outlined" onClick={deposit} disabled={connectedAddress === '' ? true : false}>deposit</Button>
 			{/* <TextField placeholder="amount"></TextField> */}
 
-			<Button variant="outlined" onClick={withdraw} disabled={!provider}>withdraw</Button>
+			<Button variant="outlined" onClick={withdraw} disabled={connectedAddress === '' ? true : false}>withdraw</Button>
 		</CardActions>}
 	</Card>
 
