@@ -79,8 +79,6 @@ export const VaultUnstake = observer((props: any) => {
 		unstakeAndUnwrap(uiStats.geyser, amount)
 	}
 
-
-
 	if (!uiStats) {
 		return <Loader />
 	}
@@ -97,8 +95,8 @@ export const VaultUnstake = observer((props: any) => {
 	return <>
 		<DialogContent style={{ textAlign: "center" }}>
 
-			<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-				<Typography variant="body1" color={'textSecondary'}>
+			<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap' }}>
+				<Typography variant="body1" color={'textSecondary'} style={{ marginBottom: ".2rem" }}>
 					Deposited: {uiStats.depositedFull[100]}
 
 				</Typography>

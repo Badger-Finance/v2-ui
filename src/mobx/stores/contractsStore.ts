@@ -38,6 +38,7 @@ class ContractsStore {
 	public geysers?: any; 	// geyser contract data
 
 	public badgerTree?: any; 	// geyser contract data
+	public airdrops?: any; 	// geyser contract data
 
 	constructor(store: RootStore) {
 		this.store = store
@@ -46,7 +47,8 @@ class ContractsStore {
 			vaults: undefined,
 			tokens: undefined,
 			geysers: undefined,
-			badgerTree: undefined
+			badgerTree: undefined,
+			airdrops: undefined
 		});
 
 		observe(this as any, "tokens", (change: any) => {
@@ -280,11 +282,10 @@ class ContractsStore {
 					// todo: break out to actual durations
 					let rewards = reduceGeyserSchedule(timestamp, schedule);
 
-					// console.log(rewards, underlyingVault.totalSupply.toString(), underlyingVault.ethValue.toString(), rawToken.totalSupply.toString(), rawToken.ethValue.toString())
 					// turn bignumbers into percentages
 					return _.mapValues(rewards, (reward: any) => {
 						return !!rawToken.ethValue && reward.multipliedBy(rewardToken.ethValue)
-							.dividedBy(rawToken.ethValue.multipliedBy(rawToken.totalSupply))
+							.dividedBy(rawToken.ethValue.multipliedBy(underlyingVault.balance))
 
 					})
 				}))
@@ -317,6 +318,40 @@ class ContractsStore {
 									this.badgerTree = {
 										cycle: parseInt(merkleProof.cycle, 16),
 										claims,
+										merkleProof
+									}
+								})
+						}
+					})
+
+			})
+	});
+
+	fetchAirdrops = action(() => {
+		const { provider } = this.store.wallet
+		const { collection } = this.store.uiState
+		const { merkle, proofNetwork, tokens } = this.store.uiState.collection.configs.geysers.rewards
+
+		if (!provider.selectedAddress)
+			return
+
+		let web3 = new Web3(provider)
+		let rewardsTree = new web3.eth.Contract(merkle.abi, merkle.hashContract)
+		let checksumAddress = Web3.utils.toChecksumAddress(provider.selectedAddress)
+
+		rewardsTree.methods
+			.merkleContentHash()
+			.call()
+			.then((merkleHash: any) => {
+				jsonQuery(`${merkle.proofEndpoint}/hunt/${checksumAddress}`)
+					.then((merkleProof: any) => {
+
+						if (!merkleProof.error) {
+							rewardsTree.methods.isClaimed(merkleProof.index)
+								.call()
+								.then((isClaimed: boolean) => {
+									this.airdrops = {
+										badger: !isClaimed ? new BigNumber(Web3.utils.hexToNumberString(merkleProof.amount)).multipliedBy(1e18) : new BigNumber(0),
 										merkleProof
 									}
 								})
@@ -483,9 +518,49 @@ class ContractsStore {
 				})
 
 		})
+	});
+	claimAirdrops = action((stake: boolean = false) => {
+		const { merkleProof } = this.airdrops
+		const { provider, ethBalance, gasPrices } = this.store.wallet
+		const { collection, queueNotification, gasPrice, setTxStatus } = this.store.uiState
+		const { merkle, proofNetwork, tokens } = this.store.uiState.collection.configs.geysers.rewards
 
+		if (!provider.selectedAddress)
+			return
 
+		if (ethBalance?.lt(MIN_ETH_BALANCE))
+			return queueNotification("Your account is low on ETH, you may need to top up to claim.", 'warning')
 
+		let web3 = new Web3(provider)
+		let rewardsTree = new web3.eth.Contract(merkle.abi, merkle.hashContract)
+		const method = rewardsTree.methods.claim(
+			merkleProof.index,
+			provider.selectedAddress,
+			merkleProof.amount,
+			merkleProof.proof)
+
+		queueNotification(`Sign the transaction to claim your airdrop`, "info")
+		let badgerAmount = this.airdrops.badger
+		estimateAndSend(web3, gasPrices[gasPrice], method, provider.selectedAddress, (transaction: PromiEvent<Contract>) => {
+			transaction
+				.on('transactionHash', (hash: string) => {
+					queueNotification(`Claim submitted with hash: ${hash}`, "info")
+				}).on('receipt', (reciept: any) => {
+					queueNotification(`Rewards claimed.`, "success")
+					this.fetchSettRewards()
+					this.fetchCollection()
+
+					if (stake) {
+						let badgerVault = this.vaults["0x19d97d8fa813ee2f51ad4b4e04ea08baf4dffc28"]
+						this.depositAndStake(badgerVault, badgerAmount)
+					}
+				}).catch((error: any) => {
+					this.fetchCollection()
+					queueNotification(error.message, "error")
+					setTxStatus('error')
+				})
+
+		})
 	});
 
 	updateVaults = action((vaults: any) => {

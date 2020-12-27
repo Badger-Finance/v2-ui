@@ -14,7 +14,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Loader } from '../Loader';
 import { VaultCard } from '../Collection/VaultCard';
 import _ from 'lodash';
-import { GeyserCard } from '../Collection/GeyserCard';
 import { VaultStake } from '../Collection/VaultStake';
 import Carousel from 'react-material-ui-carousel'
 import { SettList } from '../Collection/SettList';
@@ -31,11 +30,18 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	filters: {
-		textAlign: 'right'
+		textAlign: 'right',
+		[theme.breakpoints.up('sm')]: {
+			textAlign: 'right'
+		},
 	},
 	buttonGroup: {
-		marginLeft: theme.spacing(2),
-		marginBottom: theme.spacing(1),
+		marginRight: theme.spacing(2),
+		[theme.breakpoints.up('md')]: {
+			marginLeft: theme.spacing(2),
+			marginRight: theme.spacing(0),
+
+		},
 	},
 
 	statPaper: {
@@ -104,35 +110,6 @@ export const Home = observer(() => {
 	}
 
 
-	const renderContracts = (contracts: any, isGeysers: boolean = false, isFeatured: boolean = false) => {
-
-		return _.map(contracts, (contract: any, address: string) => {
-
-			let vault = vaults[contract[collection.configs.geysers.underlying]]
-			let geyser = contract
-			let stats = !!geyserStats && geyserStats[contract.address]
-			let config = collection.configs.geysers
-
-			if (!vault) {
-				vault = contract
-				geyser = _.find(geysers, (geyser: any) => geyser.getStakingToken === vault.address)
-				stats = vaultStats[contract.address]
-				config = collection.configs.vaults
-
-			} else
-				vault = vaults[contract[collection.configs.geysers.underlying]]
-
-			if (!isGeysers)
-				return <Grid item xs={12} key={address}>
-					<VaultCard uiStats={stats} onStake={onStake} onUwrap={onUnwrap} isFeatured={isFeatured} />
-				</Grid>
-			else
-				return <Grid item xs={12} key={address}>
-					<GeyserCard uiStats={stats} onStake={onStake} onUnstake={onUnstake} />
-				</Grid>
-		})
-	}
-
 	const onUnwrap = (contract: string) => {
 		setModalProps({ mode: 'unwrap', contract, open: true })
 	}
@@ -146,84 +123,11 @@ export const Home = observer(() => {
 		setModalProps({ ...modalProps, open: false })
 	}
 
-	const walletVaults = () => {
-
-		let vaultCards: any[] = []
-
-		// wallet assets & wrapped assets ordered by value
-		return renderContracts(
-			_.sortBy(vaults, [(vault: any) => {
-				let token = tokens[vault[collection.configs.vaults.underlying]]
-				return -token.balanceOf
-			}]).filter((geyser: any) => {
-				return (!!geyser.balanceOf && geyser.balanceOf.gt(0))
-			}))
-	}
-
-	const emptyGeysers = () => {
-
-		// wallet assets & wrapped assets ordered by value
-		return renderContracts(_.sortBy(vaults, [(vault: any) => {
-			let token = tokens[vault[collection.configs.vaults.underlying]]
-			return -token.balanceOf
-		}]).filter((vault: any) => {
-			return (!vault.balanceOf || !vault.balanceOf.gt(0))
-		}))
-	}
-
-	const featuredGeysers = () => {
-
-		// wallet assets & wrapped assets ordered by value
-		return renderContracts(_.sortBy(vaults, [(vault: any) => {
-			let token = tokens[vault[collection.configs.vaults.underlying]]
-			return -token.balanceOf
-		}]).filter((vault: any) => {
-			return (!vault.balanceOf || !vault.balanceOf.gt(0))
-		}), false, true)
-	}
-	const renderDeposits = () => {
-
-		// pooled tokens & empty tokens
-		return renderContracts(
-			_.sortBy(geysers, [(geyser: any) => {
-				let token = tokens[geyser[collection.configs.geysers.underlying]]
-				return -token.balanceOf
-			}]).filter((geyser: any) => {
-				return (!!geyser.totalStakedFor && geyser.totalStakedFor.gt(0))
-			}), true)
-	}
-
-	const renderFilters = () => {
-		return []
-		// return Object.keys(collection.vaults[0])
-		// 	.map((key: string) => <Chip color={collection.config.config.table.includes(key) ? 'primary' : 'default'} size="small" className={classes.filter} label={key} onClick={() => { addFilter(key) }} onDelete={collection.config.config.table.includes(key) ? () => removeFilter(key) : undefined} />)
-	}
-
 	if (!tokens) {
 		return <Loader />
 	}
 
 	const spacer = <div className={classes.before} />;
-
-	const tableHeader = (title: string) => {
-		return <>
-			<Grid item xs={12} sm={8}>
-				<Typography variant="body1" color="textPrimary">
-					{title}
-				</Typography>
-
-			</Grid>
-			<Grid item xs={12} sm={4}>
-				<Typography variant="body2" color="textSecondary">
-					Accumulated Rewards
-				</Typography>
-
-			</Grid>
-
-
-
-		</>
-	};
 
 
 	const depositModal = () => {
@@ -277,17 +181,16 @@ export const Home = observer(() => {
 
 			</Grid >
 
-			{spacer}
 
 			<Grid item xs={12} md={!!stats.badger ? 4 : 6} >
 				<Paper className={classes.statPaper}>
-					<Typography variant="body1" color="textPrimary">TVL</Typography>
+					<Typography variant="subtitle1" color="textPrimary">TVL</Typography>
 					<Typography variant="h5">{stats.tvl}</Typography>
 				</Paper>
 			</Grid >
 			<Grid item xs={12} md={!!stats.badger ? 4 : 6}>
 				<Paper className={classes.statPaper}>
-					<Typography variant="body1" color="textPrimary">Your Portfolio</Typography>
+					<Typography variant="subtitle1" color="textPrimary">Your Portfolio</Typography>
 					<Typography variant="h5">{stats.portfolio}</Typography>
 				</Paper>
 
@@ -295,17 +198,18 @@ export const Home = observer(() => {
 			{!!stats.badger &&
 				<Grid item xs={12} md={4}>
 					<Paper className={classes.statPaper}>
-						<Typography variant="body1" color="textPrimary">Badger Price</Typography>
+						<Typography variant="subtitle1" color="textPrimary">Badger Price</Typography>
 						<Typography variant="h5">{stats.badger || "..."}</Typography>
 					</Paper>
 
 				</Grid>}
+			{spacer}
 
 			<Grid item xs={12} md={!!treeStats.claims[1] || !!treeStats.claims[2] ? 6 : 12}>
 				<Paper className={classes.statPaper} variant="outlined" style={{ textAlign: 'left' }}>
 					<div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
 						<div>
-							<Typography variant="body1" color="textPrimary">Badger Rewards</Typography>
+							<Typography variant="subtitle1" color="textPrimary">Badger Rewards</Typography>
 							<Typography variant="h5">{treeStats.claims[0] || "..."}</Typography>
 						</div>
 						<div>
@@ -327,7 +231,6 @@ export const Home = observer(() => {
 				</Paper>
 
 			</Grid>}
-
 
 
 			<SettList hideEmpty={true} />

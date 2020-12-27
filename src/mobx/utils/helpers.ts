@@ -129,3 +129,70 @@ function numberWithCommas(x: string) {
 	parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 	return parts.join(".");
 }
+
+export const fetchDiggChart = (chart: string, range: number, callback: (marketChart: any) => void) => {
+	let to = new Date();
+	let from = new Date();
+	from.setDate(to.getDate() - range);
+
+	fetch(
+		`https://api.coingecko.com/api/v3/coins/badger-dao/market_chart/range?vs_currency=usd&from=
+		${from.getTime() / 1000}&to=${to.getTime() / 1000}`)
+		.then((data: any) => data.json())
+		.then((marketData: any) => {
+			let data = reduceMarketChart(marketData[chart], range, to);
+			let calcs = marketChartStats(data, "change");
+			callback({ from, to, data, calcs });
+		})
+
+}
+
+const reduceMarketChart = (data: any[], range: number, maxDate: Date) => {
+	let formatted = data.map((value: any, index: number) => {
+		let date = new Date();
+
+		// if range less than 90 days, coingecko's data points are 1 hour apart.
+		// otherwise, 1 day
+		// in ascending order up to the max date requested
+		if (range <= 90) date.setHours(maxDate.getHours() - (data.length - index));
+		else date.setDate(maxDate.getDate() - (data.length - index));
+
+		return {
+			date: date,
+			close: value[0],
+			change: value[1],
+		};
+	});
+	return formatted;
+}
+
+export function marketChartStats(dataSet: Array<any>, accessor: string) {
+	// highest high
+	let dataCopy: Array<any> = dataSet.slice(0);
+	let sortedData = dataCopy.sort((a, b) => a[accessor] - b[accessor]);
+	let high =
+		Math.round(
+			(sortedData[sortedData.length - 1][accessor] + Number.EPSILON) * 100
+		) / 100;
+
+	// highest high
+	let low = Math.round((sortedData[0][accessor] + Number.EPSILON) * 100) / 100;
+
+	// average of open
+	var total = 0;
+	for (var i = 0; i < dataSet.length; i++) {
+		total += dataSet[i][accessor];
+	}
+	let avg = Math.round((total / dataSet.length + Number.EPSILON) * 100) / 100;
+
+	// median of open
+	let mid = Math.ceil(dataSet.length / 2);
+
+	let m =
+		dataSet.length % 2 === 0
+			? (sortedData[mid][accessor] + sortedData[mid - 1][accessor]) / 2
+			: sortedData[mid - 1][accessor];
+	let median = Math.round((m + Number.EPSILON) * 100) / 100;
+
+	return { high, low, avg, median };
+}

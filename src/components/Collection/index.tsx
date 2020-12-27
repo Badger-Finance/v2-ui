@@ -15,7 +15,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Loader } from '../Loader';
 import { VaultCard } from './VaultCard';
 import _ from 'lodash';
-import { GeyserCard } from './GeyserCard';
 import { VaultStake } from './VaultStake';
 import Carousel from 'react-material-ui-carousel'
 import { SettList } from './SettList';
@@ -31,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	filters: {
 		textAlign: 'left',
-		[theme.breakpoints.up('md')]: {
+		[theme.breakpoints.up('sm')]: {
 			textAlign: 'right'
 		},
 	},
@@ -39,6 +38,8 @@ const useStyles = makeStyles((theme) => ({
 		marginRight: theme.spacing(2),
 		[theme.breakpoints.up('md')]: {
 			marginLeft: theme.spacing(2),
+			marginRight: theme.spacing(0),
+
 		},
 	},
 
@@ -101,14 +102,10 @@ export const Collection = observer(() => {
 			} else
 				vault = vaults[contract[collection.configs.geysers.underlying]]
 
-			if (!isGeysers)
-				return <Grid item xs={12} key={address}>
-					<VaultCard isGlobal uiStats={stats} onStake={onStake} onUwrap={onUnwrap} isFeatured={isFeatured} />
-				</Grid>
-			else
-				return <Grid item xs={12} key={address}>
-					<GeyserCard uiStats={stats} onStake={onStake} onUnstake={onUnstake} />
-				</Grid>
+			return <Grid item xs={12} key={address}>
+				<VaultCard isGlobal uiStats={stats} onStake={onStake} onUwrap={onUnwrap} isFeatured={isFeatured} />
+			</Grid>
+
 		})
 	}
 
@@ -265,28 +262,28 @@ export const Collection = observer(() => {
 
 			</Grid >
 
-			{spacer()}
 
 			<Grid item xs={12} md={!!connectedAddress ? 4 : 6} >
 				<Paper className={classes.statPaper}>
-					<Typography variant="body1" color="textPrimary">TVL</Typography>
+					<Typography variant="subtitle1" color="textPrimary">TVL</Typography>
 					<Typography variant="h5">{stats.tvl}</Typography>
 				</Paper>
 			</Grid >
 			{!!connectedAddress && <Grid item xs={12} md={4}>
 				<Paper className={classes.statPaper}>
-					<Typography variant="body1" color="textPrimary">Your Portfolio</Typography>
+					<Typography variant="subtitle1" color="textPrimary">Your Portfolio</Typography>
 					<Typography variant="h5">{stats.portfolio}</Typography>
 				</Paper> 			</Grid>
 			}
 
 			<Grid item xs={12} md={!!connectedAddress ? 4 : 6}>
 				<Paper className={classes.statPaper}>
-					<Typography variant="body1" color="textPrimary">Badger Price</Typography>
+					<Typography variant="subtitle1" color="textPrimary">Badger Price</Typography>
 					<Typography variant="h5">{stats.badger || "..."}</Typography>
 				</Paper>
 
 			</Grid>
+			{spacer()}
 
 
 			<Grid item xs={12} >

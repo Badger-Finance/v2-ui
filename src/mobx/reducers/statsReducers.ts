@@ -78,10 +78,10 @@ export const reduceVaultsToStats = (store: RootStore) => {
 
 			anyWrapped: !!vault.balanceOf && vault.balanceOf.gt(0),
 
-			underlyingTokens: !!vault.totalSupply &&
-				inCurrency(vault.totalSupply, 'eth', true),
-			underlyingBalance: !!vault.totalSupply && !!token.ethValue &&
-				inCurrency(vault.totalSupply.multipliedBy(token.ethValue.dividedBy(1e18)), currency),
+			underlyingTokens: !!vault.balance &&
+				inCurrency(vault.balance, 'eth', true),
+			underlyingBalance: !!vault.balance && !!token.ethValue &&
+				inCurrency(vault.balance.multipliedBy(token.ethValue.dividedBy(1e18)), currency),
 
 			availableBalance: !!token.balanceOf &&
 				inCurrency(token.balanceOf.plus(vault.balanceOf), 'eth', true),
@@ -134,12 +134,7 @@ export const reduceContractsToStats = (store: RootStore) => {
 		let token = tokens[vault.token]
 		let wrapped = tokens[vault.address]
 
-		tvl = tvl.plus(vault.totalSupply.dividedBy(1e18).multipliedBy(token.ethValue))
-
-		let value = vault.totalSupply.dividedBy(1e18).multipliedBy(token.ethValue)
-
-		if (!!vault.year)
-			growth = growth.plus(value.multipliedBy(vault.year))
+		tvl = tvl.plus(vault.balance.dividedBy(1e18).multipliedBy(token.ethValue))
 
 		if (!!wrapped.balanceOf) {
 			wallet = wallet.plus(
@@ -162,6 +157,9 @@ export const reduceContractsToStats = (store: RootStore) => {
 		let vault = vaultContracts[geyser[configs.geysers.underlying]]
 		let token = tokens[vault.token]
 
+		if (token.symbol === "BADGER")
+			growth = !!vault.year ? vault.year.plus(geyser.year) : new BigNumber(0)
+
 		if (!!geyser.totalStakedFor) {
 			let virtualEthValue = !!token.ethValue ? token.ethValue.dividedBy(1e18).multipliedBy(vault.getPricePerFullShare.dividedBy(1e18)) : token.ethValue
 			portfolio = portfolio.plus(geyser.totalStakedFor.multipliedBy(virtualEthValue))
@@ -178,7 +176,8 @@ export const reduceContractsToStats = (store: RootStore) => {
 		growth: inCurrency(growth, currency),
 		wallet: inCurrency(wallet, currency),
 		geysers: inCurrency(geysers, currency),
-		badger: !!tokens && inCurrency(badgerToken, currency)
+		badger: !!tokens && inCurrency(badgerToken, currency),
+		badgerGrowth: growth.multipliedBy(1e2).toFixed(2)
 
 	}
 
@@ -187,5 +186,10 @@ export const reduceContractsToStats = (store: RootStore) => {
 export const reduceClaims = (merkleProof: any, claimedRewards: any[]) => {
 	return merkleProof.cumulativeAmounts.map((amount: number, i: number) => {
 		return inCurrency(new BigNumber(amount).minus(claimedRewards[1][i]), 'eth', true);
+	});
+}
+export const reduceAirdrops = (airdrops: any) => {
+	return _.mapValues(airdrops, (amount: BigNumber, token: string) => {
+		return inCurrency(amount, 'eth', true);
 	});
 }

@@ -21,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	toolbar: {
 		justifyContent: 'space-between',
+		cursor: 'pointer'
 
 	},
 	logo: {
@@ -50,7 +51,7 @@ export const Header = observer(() => {
 
 	return (
 		<AppBar className={classes.appBar} color="primary">
-			<Toolbar className={classes.toolbar}>
+			<Toolbar className={classes.toolbar} onClick={() => goTo(views.collection, { collection: 'badger' })}>
 				<img src={require('../../assets/badger-full.png')} className={classes.logo} />
 				<IconButton className={classes.menuButton} onClick={() => openSidebar()}><Menu /></IconButton>
 			</Toolbar>

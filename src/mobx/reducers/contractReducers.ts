@@ -49,14 +49,25 @@ export const reduceGraphResult = (graphResult: any[]) => {
 }
 
 
-export const reduceCurveResult = (graphResult: any[], contracts: any[], tokenContracts: any, wbtcToken: any) => {
-	return graphResult.map((result: any, i: number) => {
+export const reduceCurveResult = (curveResult: any[], contracts: any[], tokenContracts: any, wbtcToken: any) => {
+	return curveResult.map((result: any, i: number) => {
+
+		let sum = new BigNumber(0)
+		let count = 0
+		result.map((sample: any, i: number) => {
+			sum = sum.plus(result[0].virtual_price)
+			count++
+			if (i > 10)
+				return
+		})
+
+		let vp = sum.dividedBy(count).dividedBy(1e18)
 
 		return {
 			address: contracts[i],
-			virtualPrice: new BigNumber(result[0].virtual_price),
-			ethValue: new BigNumber(result[0].virtual_price).multipliedBy(wbtcToken.ethValue).dividedBy(1e18),
-			totalSupply: tokenContracts[contracts[i]].totalSupply
+			virtualPrice: vp,
+			ethValue: new BigNumber(vp).multipliedBy(wbtcToken.ethValue),
+			balance: tokenContracts[contracts[i]].balance
 		}
 	})
 }
@@ -90,11 +101,17 @@ export const reduceGrowth = (graphResult: any[], periods: number[]) => {
 }
 
 export const reduceGeyserSchedule = (timestamp: BigNumber, schedule: any) => {
+
 	let locked = new BigNumber(0);
+
 	let period = { start: timestamp, end: timestamp };
+
+	let lockedAllTime = new BigNumber(0);
+	let periodAllTime = { start: timestamp, end: timestamp };
+
+
 	schedule.forEach((block: any) => {
 		let [initialLocked, endAtSec, duration, startTime] = _.valuesIn(block).map((val: any) => new BigNumber(val));
-
 		if (timestamp.gt(startTime)
 			&& timestamp.lt(endAtSec)) {
 			locked = locked.plus(initialLocked);
@@ -103,14 +120,21 @@ export const reduceGeyserSchedule = (timestamp: BigNumber, schedule: any) => {
 			if (endAtSec.gt(period.end))
 				period.end = endAtSec;
 		}
+
+		lockedAllTime = lockedAllTime.plus(initialLocked);
+		if (startTime.lt(periodAllTime.start))
+			periodAllTime.start = startTime;
+		if (endAtSec.gt(periodAllTime.end))
+			periodAllTime.end = endAtSec;
 	});
 	let badgerPerSecond = locked.dividedBy(period.end.minus(period.start))
+	let badgerPerSecondAllTime = lockedAllTime.dividedBy(periodAllTime.end.minus(periodAllTime.start))
 
 	return {
 		day: badgerPerSecond.multipliedBy(60 * 60 * 24),
 		week: badgerPerSecond.multipliedBy(60 * 60 * 24 * 7),
 		month: badgerPerSecond.multipliedBy(60 * 60 * 24 * 30),
-		year: badgerPerSecond.multipliedBy(60 * 60 * 24 * 365),
+		year: badgerPerSecondAllTime.multipliedBy(60 * 60 * 24 * 365),
 		// ethBalance: !!geyser.totalStakedFor ? new BigNumber(geyser.totalStakedFor).multipliedBy(underlyingToken.ethValue) : new BigNumber(0)
 	}
 

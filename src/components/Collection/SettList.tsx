@@ -13,7 +13,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Loader } from '../Loader';
 import { VaultCard } from './VaultCard';
 import _ from 'lodash';
-import { GeyserCard } from './GeyserCard';
 import { VaultStake } from './VaultStake';
 import { VaultUnwrap } from './VaultUnwrap';
 import { VaultUnstake } from './VaultUnstake';
@@ -137,9 +136,15 @@ export const SettList = observer((props: any) => {
 					<VaultCard uiStats={stats} onStake={onStake} onUnwrap={onUnwrap} isFeatured={isFeatured} />
 				</Grid>
 			else
+<<<<<<< HEAD
 				return <Grid item xs={12} key={address} className={classes.assetTable}>
 					<GeyserCard uiStats={stats} onStake={onStake} onUnstake={onUnstake} />
 				</Grid>
+=======
+				return <ListItem key={address} className={classes.listItem}>
+					<VaultCard isDeposit uiStats={stats} onStake={onStake} onUnstake={onUnstake} />
+				</ListItem>
+>>>>>>> develop
 		})
 
 		return <List className={classes.list}>{list}</List>

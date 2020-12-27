@@ -84,7 +84,7 @@ export const Sidebar = observer(() => {
 		return collections.map((collection) => {
 
 			return <ListItem divider button key={collection.id} className={classes.listItem + ' ' + (store.router.params?.collection === collection.id ? classes.activeListItem : '')}
-				onClick={() => {closeSidebar(); goTo(views.collection, { collection: collection.id })}}>
+				onClick={() => { closeSidebar(); goTo(views.collection, { collection: collection.id }) }}>
 
 				{collection.title}
 
@@ -93,55 +93,54 @@ export const Sidebar = observer(() => {
 	}
 
 	return (
-			<Drawer
-				variant={window.innerWidth > 960 ? 'persistent' : 'temporary'}
-				anchor="left"
-				open={sidebarOpen}
-				className={classes.drawer}
-				onClose={() => closeSidebar()}
-			>
+		<Drawer
+			variant={window.innerWidth > 960 ? 'persistent' : 'temporary'}
+			anchor="left"
+			open={sidebarOpen}
+			className={classes.drawer}
+			onClose={() => closeSidebar()}
+		>
 
-				<div className={classes.root}>
-					<List >
-						<ListItem button className={classes.listItem}>
-							<img src={require('../../assets/badger-logo.png')} className={classes.logo} />
+			<div className={classes.root}>
+				<List >
+					<ListItem button className={classes.listItem}>
+						<img src={require('../../assets/badger-logo.png')} className={classes.logo} />
 
-						</ListItem>
-						<ListItem button divider
-							onClick={() => {closeSidebar();  goTo(views.home)}}
-							className={classes.listItem + ' ' + (store.router.currentPath === '/' ? classes.activeListItem : '')}>
-							Portfolio
+					</ListItem>
+					<ListItem button divider
+						onClick={() => { closeSidebar(); goTo(views.home) }}
+						className={classes.listItem + ' ' + (store.router.currentPath === '/' ? classes.activeListItem : '')}>
+						Portfolio
 
-							{stats.claims[0] !== 0 && <Chip size="small" label={stats.claims[0]} variant="outlined" color="primary" className={classes.rewards} onClick={() => {closeSidebar(); goTo(views.home)}} />}
-						</ListItem>
+							{stats.claims[0] !== 0 && <Chip size="small" label={stats.claims[0]} variant="outlined" color="primary" className={classes.rewards} onClick={() => { closeSidebar(); goTo(views.home) }} />}
+					</ListItem>
 
-						{renderCollections()}
-						<ListItem button className={classes.listItem} divider>Digg</ListItem>
+					{renderCollections()}
+					<ListItem button className={classes.listItem + ' ' + (store.router.currentPath == '/airdrops' ? classes.activeListItem : '')} divider onClick={() => goTo(views.airdrops)}>Airdrops</ListItem>
+					<ListItem button className={classes.listItem + ' ' + (store.router.currentPath == '/digg' ? classes.activeListItem : '')} divider onClick={() => goTo(views.digg)}>Digg</ListItem>
 
-						<ListItem button className={classes.listItem} divider>Hunt</ListItem>
-						<ListItem button className={classes.listItem} divider>Coverage</ListItem>
-					</List>
-					<List disablePadding>
-						<ListItem className={classes.listItem} >
-							<Wallet />
+				</List>
+				<List disablePadding>
+					<ListItem className={classes.listItem} >
+						<Wallet />
 
-						</ListItem>
-						<ListItem className={classes.listItem} >
-							<ButtonGroup variant="outlined" fullWidth>
-								<Button size="small" disabled><LocalGasStation style={{ fontSize: '1rem' }} /></Button>
+					</ListItem>
+					<ListItem className={classes.listItem} >
+						<ButtonGroup variant="outlined" fullWidth>
+							<Button size="small" disabled><LocalGasStation style={{ fontSize: '1rem' }} /></Button>
 
-								{['slow', 'fast', 'instant'].map((speed: string) =>
-									<Button variant={gasPrice === speed ? 'contained' : 'outlined'} size="small" onClick={() => setGasPrice(speed)} >{(gasPrices[speed] / 1).toFixed(0)}</Button>
-								)}
-							</ButtonGroup>
+							{['slow', 'fast', 'instant'].map((speed: string) =>
+								<Button variant={gasPrice === speed ? 'contained' : 'outlined'} size="small" onClick={() => setGasPrice(speed)} >{(gasPrices[speed] / 1).toFixed(0)}</Button>
+							)}
+						</ButtonGroup>
 
-						</ListItem>
-
+					</ListItem>
 
 
-					</List>
 
-				</div>
-			</Drawer>
+				</List>
+
+			</div>
+		</Drawer>
 	);
 });

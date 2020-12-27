@@ -43,6 +43,9 @@ export const collections = [
 		superSett: [
 			"0xaf5a1decfa95baf63e0084a35c62592b774a2a87"
 		],
+		airdrops: {
+			badger: "0xe0CC3F129ACe3888b41a4f8F04FC01CD1974C727"
+		},
 		configs: {
 			vaults: {
 				abi: BadgerVault.abi,
