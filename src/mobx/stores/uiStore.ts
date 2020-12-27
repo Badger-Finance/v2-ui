@@ -6,7 +6,7 @@ import Web3 from 'web3';
 import { collections } from '../../config/constants';
 import { RootStore } from '../store';
 import { growthQuery, jsonQuery, secondsToBlocks } from '../utils/helpers';
-import { reduceClaims, reduceContractsToStats, reduceGeysersToStats, reduceVaultsToStats } from '../reducers/statsReducers';
+import { reduceAirdrops, reduceClaims, reduceContractsToStats, reduceGeysersToStats, reduceVaultsToStats } from '../reducers/statsReducers';
 import views from '../../config/routes';
 
 class UiState {
@@ -23,6 +23,7 @@ class UiState {
 	public vaultStats: any
 	public geyserStats: any
 	public treeStats: any
+	public airdropStats: any
 
 	public sidebarOpen!: boolean
 	public notification: any = {}
@@ -48,6 +49,7 @@ class UiState {
 			geyserStats: {},
 			vaultStats: {},
 			treeStats: { claims: [] },
+			airdropStats: { badger: '0.00000' },
 
 			currency: 'usd',
 			period: 'year',
@@ -79,7 +81,10 @@ class UiState {
 		observe(this.store.contracts as any, "badgerTree", (change: any) => {
 			// skip first update
 			this.reduceTreeRewards()
-
+		})
+		observe(this.store.contracts as any, "airdrops", (change: any) => {
+			// skip first update
+			this.reduceAirdrops()
 		})
 		observe(this.store.wallet as any, "currentBlock", (change: any) => {
 			this.reduceContracts()
@@ -129,6 +134,10 @@ class UiState {
 		console.log(this.store.contracts.badgerTree)
 		this.treeStats = this.store.contracts.badgerTree
 
+	});
+	reduceAirdrops = action(() => {
+		alert('dsa')
+		this.airdropStats = reduceAirdrops(this.store.contracts.airdrops.airdrops)
 	});
 	setCollection = action((id: string) => {
 		if (!!this.collection && this.collection.id === id)

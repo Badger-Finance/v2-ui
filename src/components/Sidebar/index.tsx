@@ -124,10 +124,9 @@ export const Sidebar = observer(() => {
 						</ListItem>
 
 						{renderCollections()}
-						<ListItem button className={classes.listItem} divider>Digg</ListItem>
+						<ListItem button className={classes.listItem + ' ' + (store.router.currentPath == '/airdrops' ? classes.activeListItem : '')} divider onClick={() => goTo(views.airdrops)}>Airdrops</ListItem>
+						<ListItem button className={classes.listItem + ' ' + (store.router.currentPath == '/digg' ? classes.activeListItem : '')} divider onClick={() => goTo(views.digg)}>Digg</ListItem>
 
-						<ListItem button className={classes.listItem} divider>Hunt</ListItem>
-						<ListItem button className={classes.listItem} divider>Coverage</ListItem>
 					</List>
 					<List disablePadding>
 						<ListItem className={classes.listItem} >

@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
 	featuredImage: {
 		margin: theme.spacing(0, 'auto', 2, 'auto'),
 		display: 'block',
-		borderRadius: theme.shape.borderRadius,
+		borderRadius: theme.shape.borderRadius * 2,
 		maxHeight: "425px",
 		maxWidth: "805px",
 		width: "100%"
@@ -61,6 +61,10 @@ const useStyles = makeStyles((theme) => ({
 		[theme.breakpoints.down('sm')]: {
 			marginBottom: theme.spacing(2)
 		},
+	},
+	chip: {
+		marginLeft: theme.spacing(1),
+		padding: 0
 	}
 
 }));
@@ -68,14 +72,15 @@ export const VaultCard = observer((props: any) => {
 	const store = useContext(StoreContext);
 	const classes = useStyles();
 	const { onStake,
+		onUnstake,
 		onUnwrap,
-		uiStats, isFeatured, isGlobal } = props
+		uiStats,
+		isFeatured,
+		isGlobal,
+		isDeposit } = props
 
-	const { router: { params, goTo }, contracts: { vaults, tokens }, uiState: { collection }, wallet: { provider } } = store;
+	const { uiState: { collection } } = store;
 
-	const openVault = (asset: string) => {
-		goTo(views.vault, { collection: collection.id, id: asset })
-	}
 
 
 	if (!uiStats) {
@@ -97,6 +102,8 @@ export const VaultCard = observer((props: any) => {
 
 				<Typography variant="body2" color="textSecondary">
 					{uiStats.symbol}
+					{!!isSuperSett && <Chip className={classes.chip} label="Super Sett" size="small" color="primary" />}
+
 				</Typography>
 
 			</Grid>
@@ -118,7 +125,6 @@ export const VaultCard = observer((props: any) => {
 					{uiStats.underlyingBalance}
 
 				</Typography> */}
-				{!!isSuperSett && <Chip label="Super Sett" size="small" color="primary" />}
 
 			</Grid>
 			<Grid item className={classes.mobileLabel} xs={6}>
@@ -163,8 +169,10 @@ export const VaultCard = observer((props: any) => {
 
 			<Grid item xs={12} md={2}>
 				<ButtonGroup variant="outlined" style={{ float: "right", zIndex: 1000, position: 'relative' }}>
-					<Button onClick={() => onStake(uiStats.address)} variant={anyAvailable ? 'contained' : 'outlined'} color="primary" size="small" >Stake</Button>
+					{isDeposit && <Button onClick={() => onUnstake(uiStats.address)} variant="outlined" color="primary" size="small" className={classes.button}>Unstake</Button>}
+					{!isDeposit && <Button onClick={() => onStake(uiStats.address)} variant={anyAvailable ? 'contained' : 'outlined'} color="primary" size="small" >Stake</Button>}
 					{!!uiStats.anyWrapped && <Button onClick={() => onUnwrap(uiStats.address)} variant="outlined" color="primary" size="small" className={classes.button}>Unwrap</Button>}
+
 				</ButtonGroup>
 
 

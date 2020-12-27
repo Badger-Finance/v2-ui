@@ -9,6 +9,8 @@ import { Asset } from '../components/Asset';
 import { Collection } from '../components/Collection';
 import { RootStore } from '../mobx/store';
 import { collections } from './constants';
+import { Airdrops } from '../components/Collection/Airdrops';
+import { Digg } from '../components/Collection/Digg';
 
 const routes = {
 	home: new Route<RootStore>({
@@ -39,19 +41,34 @@ const routes = {
 			store.uiState.setCollection(collection)
 		}
 	}),
-	vault: new Route<RootStore, {
-		collection: string;
-		id: string;
+	airdrops: new Route<RootStore, {
 	}>({
-		path: '/asset/:collection/:id',
-		component: <Asset />,
-		onEnter: (_, { collection, id }, store) => {
-			store.uiState.setVault(collection, id)
+		path: '/airdrops',
+		component: <Airdrops />,
+		onEnter: (_, params, store) => {
+			store.uiState.setCollection('badger')
+			store.contracts.fetchAirdrops()
 		},
 		beforeExit: (_, _p, store) => {
 		},
-		onParamsChange: (route, { collection, id }, store) => {
-			store.uiState.setVault(collection, id)
+		onParamsChange: (route, params, store) => {
+			// store.uiState.setVault(collection, id)
+
+		}
+	}),
+	digg: new Route<RootStore, {
+	}>({
+		path: '/digg',
+		component: <Digg />,
+		onEnter: (_, params, store) => {
+			store.uiState.setCollection('badger')
+			store.contracts.fetchAirdrops()
+		},
+		beforeExit: (_, _p, store) => {
+
+		},
+		onParamsChange: (route, params, store) => {
+			// store.uiState.setVault(collection, id)
 
 		}
 	}),
