@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
 		overflow: 'hidden'
 	},
 	mobileLabel: {
-		[theme.breakpoints.up('sm')]: {
+		[theme.breakpoints.up('md')]: {
 			display: 'none',
 		},
 	},
@@ -82,14 +82,14 @@ export const VaultCard = observer((props: any) => {
 		return <Loader />
 	}
 	let isSuperSett = collection.superSett.includes(uiStats.address)
-	let anyAvailable = true// !!uiStats.availableBalance && parseFloat(uiStats.availableBalance) !== 0
+	let anyAvailable = !!uiStats.availableBalance && parseFloat(uiStats.availableBalance) !== 0
 	return <>
 		<Grid container className={classes.border + (isFeatured ? ` ${classes.featured}` : '')}>
 			{!!isFeatured && <Grid item xs={12} sm={12}>
 				<img className={classes.featuredImage} src={require(`../../assets/featured-setts/${uiStats.symbol.toLowerCase().replace('/', '')}.png`)} />
 
 			</Grid>}
-			<Grid item xs={12} sm={4} className={classes.name}>
+			<Grid item xs={12} md={4} className={classes.name}>
 				<VaultSymbol symbol={uiStats.symbol} />
 				<Typography variant="body1">
 					{uiStats.name}
@@ -108,7 +108,7 @@ export const VaultCard = observer((props: any) => {
 				</Typography>
 			</Grid>
 
-			<Grid item xs={6} sm={4} md={2}>
+			<Grid item xs={6} md={2}>
 				<Typography variant="body1" color={parseFloat(uiStats.underlyingBalance) === 0 ? "textSecondary" : 'textPrimary'}>
 
 					{!isGlobal ? uiStats.availableBalance : uiStats.underlyingTokens}
@@ -127,7 +127,7 @@ export const VaultCard = observer((props: any) => {
 					ROI
 				</Typography>
 			</Grid>
-			<Grid item xs={6} sm={4} md={2}>
+			<Grid item xs={6} md={2}>
 				<Tooltip arrow placement="left" title={`${uiStats.geyserGrowth} + ${uiStats.vaultGrowth} ${uiStats.symbol} `}>
 
 					<Typography variant="body1" >
@@ -150,7 +150,7 @@ export const VaultCard = observer((props: any) => {
 					Value
 				</Typography>
 			</Grid>
-			<Grid item xs={6} sm={6} md={2}>
+			<Grid item xs={6} md={2}>
 				<Typography variant="body1" color={!anyAvailable && false ? "textSecondary" : 'textPrimary'}>
 
 					{!isGlobal ? uiStats.yourValue : uiStats.underlyingBalance}
@@ -161,9 +161,9 @@ export const VaultCard = observer((props: any) => {
 				</Typography> */}
 			</Grid>
 
-			<Grid item xs={12} sm={6} md={2}>
+			<Grid item xs={12} md={2}>
 				<ButtonGroup variant="outlined" style={{ float: "right", zIndex: 1000, position: 'relative' }}>
-					{anyAvailable && <Button onClick={() => onStake(uiStats.address)} variant="contained" color="primary" size="small" >Stake</Button>}
+					<Button onClick={() => onStake(uiStats.address)} variant={anyAvailable ? 'contained' : 'outlined'} color="primary" size="small" >Stake</Button>
 					{!!uiStats.anyWrapped && <Button onClick={() => onUnwrap(uiStats.address)} variant="outlined" color="primary" size="small" className={classes.button}>Unwrap</Button>}
 				</ButtonGroup>
 
