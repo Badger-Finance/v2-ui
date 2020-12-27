@@ -78,10 +78,10 @@ export const reduceVaultsToStats = (store: RootStore) => {
 
 			anyWrapped: !!vault.balanceOf && vault.balanceOf.gt(0),
 
-			underlyingTokens: !!vault.totalSupply &&
-				inCurrency(vault.totalSupply, 'eth', true),
-			underlyingBalance: !!vault.totalSupply && !!token.ethValue &&
-				inCurrency(vault.totalSupply.multipliedBy(token.ethValue.dividedBy(1e18)), currency),
+			underlyingTokens: !!vault.balance &&
+				inCurrency(vault.balance, 'eth', true),
+			underlyingBalance: !!vault.balance && !!token.ethValue &&
+				inCurrency(vault.balance.multipliedBy(token.ethValue.dividedBy(1e18)), currency),
 
 			availableBalance: !!token.balanceOf &&
 				inCurrency(token.balanceOf.plus(vault.balanceOf), 'eth', true),
@@ -134,10 +134,7 @@ export const reduceContractsToStats = (store: RootStore) => {
 		let token = tokens[vault.token]
 		let wrapped = tokens[vault.address]
 
-		tvl = tvl.plus(vault.totalSupply.dividedBy(1e18).multipliedBy(token.ethValue))
-
-		let value = vault.totalSupply.dividedBy(1e18).multipliedBy(token.ethValue)
-
+		tvl = tvl.plus(vault.balance.dividedBy(1e18).multipliedBy(token.ethValue))
 
 		if (!!wrapped.balanceOf) {
 			wallet = wallet.plus(

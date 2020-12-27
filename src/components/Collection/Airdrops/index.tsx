@@ -6,6 +6,9 @@ import {
 	ButtonGroup,
 	Button,
 	Paper,
+	Card,
+	CardContent,
+	CardActionArea,
 	Dialog,
 	DialogTitle,
 } from '@material-ui/core';
@@ -67,23 +70,27 @@ export const Airdrops = observer(() => {
 
 	const copy = () => {
 		let q = [
-			{ title: "Stake", button: `Stake (${stats.badgerGrowth}% APY)`, href: "/setts", copy: "Deposit in Badger Sett to earn vault fees and more $BADGER." },
+			{ title: `Stake (${stats.badgerGrowth}% APY)`, button: `Stake (${stats.badgerGrowth}% APY)`, href: "/setts", copy: "Deposit in Badger Sett to earn vault fees and more $BADGER." },
 			{ title: "Liquidity", button: "Add Liquidity", href: "https://info.uniswap.org/pair/0xcd7989894bc033581532d2cd88da5db0a4b12859", copy: "Deposit $BADGER<>$WBTC Uniswap LP token into Sett vault to earn $BADGER." },
 			{ title: "Mine NFTs", button: "Visit MEME", href: "https://dontbuymeme.com/", copy: "Next week, stake $BADGER in MEME farm to mint Badger NFTs." },
 			{ title: "Governance", button: "Visit DAO", href: "https://forum.badger.finance/", copy: "Vote and lead the direction of the DAO + all of its products like Sett vault." },
 		]
-		return q.map((qualifier) => <Grid item xs={12} md={12}>
+		return q.map((qualifier) => <Grid item xs={12} md={6}>
+			<Card>
+				<CardActionArea target="_blank" href={qualifier.href}>
+					<CardContent>
 
-			<Typography variant="body1">
-				{qualifier.title}
-			</Typography>
+						<Typography variant="body1">
+							{qualifier.title}
+						</Typography>
 
-			<Typography variant="body2" color="textSecondary" style={{ marginTop: ".4rem" }}>
-				{qualifier.copy}
-			</Typography>
-			<Button size="small" variant="outlined" target="_blank" href={qualifier.href} className={classes.button}>
-				{qualifier.button}</Button>
+						<Typography variant="body2" color="textSecondary" style={{ marginTop: ".4rem" }}>
+							{qualifier.copy}
+						</Typography>
 
+					</CardContent>
+				</CardActionArea>
+			</Card>
 
 		</Grid>)
 	}

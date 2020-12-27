@@ -95,7 +95,7 @@ export const Sidebar = observer(() => {
 
 	return (
 		<UseWalletProvider
-			chainId={1}
+			chainId={1337}
 			connectors={{
 				// This is how connectors get configured
 				portis: { dAppId: 'badger.finance' },

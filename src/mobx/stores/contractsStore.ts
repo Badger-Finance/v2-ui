@@ -279,11 +279,10 @@ class ContractsStore {
 					// todo: break out to actual durations
 					let rewards = reduceGeyserSchedule(timestamp, schedule);
 
-					// console.log(rewards, underlyingVault.totalSupply.toString(), underlyingVault.ethValue.toString(), rawToken.totalSupply.toString(), rawToken.ethValue.toString())
 					// turn bignumbers into percentages
 					return _.mapValues(rewards, (reward: any) => {
 						return !!rawToken.ethValue && reward.multipliedBy(rewardToken.ethValue)
-							.dividedBy(rawToken.ethValue.multipliedBy(rawToken.totalSupply))
+							.dividedBy(rawToken.ethValue.multipliedBy(underlyingVault.balance))
 
 					})
 				}))

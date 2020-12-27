@@ -78,8 +78,6 @@ export const VaultUnstake = observer((props: any) => {
 		unstakeAndUnwrap(uiStats.geyser, amount)
 	}
 
-
-
 	if (!uiStats) {
 		return <Loader />
 	}

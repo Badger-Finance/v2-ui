@@ -100,7 +100,7 @@ export const VaultCard = observer((props: any) => {
 					{uiStats.name}
 				</Typography>
 
-				<Typography variant="body2" color="textSecondary">
+				<Typography variant="body2" color="textSecondary" component="div">
 					{uiStats.symbol}
 					{!!isSuperSett && <Chip className={classes.chip} label="Super Sett" size="small" color="primary" />}
 
