@@ -6,12 +6,17 @@ const BadgerGeyser = require("./abis/BadgerGeyser.json")
 const BadgerHunt = require("./abis/BadgerHunt.json")
 const BadgerTree = require("./abis/BadgerTree.json")
 const EnokiVault = require("./abis/SporePool.json")
-const ItchiroVault = require("./abis/LockedGeyser.json")
+const UFragments = require("./abis/UFragments.json")
 
 export const collections = [
 	{
 		title: "Sett Vaults",
 		id: 'badger',
+
+		rebase: {
+			contract: "0xd46ba6d942050d489dbd938a2c909a5d5039a161",
+			abi: UFragments.abi
+		},
 
 		contracts: {
 			vaults: [

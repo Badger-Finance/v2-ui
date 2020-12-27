@@ -8,6 +8,7 @@
 		"@material-ui/icons": "^4.11.2",
 		"@types/async": "^3.2.5",
 		"@types/material-ui": "^0.21.8",
+		"@use-it/interval": "^1.0.0",
 		"assert": "^2.0.0",
 		"async": "^3.2.0",
 		"bignumber.js": "^9.0.1",

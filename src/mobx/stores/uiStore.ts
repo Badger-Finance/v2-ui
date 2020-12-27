@@ -6,7 +6,7 @@ import Web3 from 'web3';
 import { collections } from '../../config/constants';
 import { RootStore } from '../store';
 import { growthQuery, jsonQuery, secondsToBlocks } from '../utils/helpers';
-import { reduceAirdrops, reduceClaims, reduceContractsToStats, reduceGeysersToStats, reduceVaultsToStats } from '../reducers/statsReducers';
+import { reduceAirdrops, reduceClaims, reduceContractsToStats, reduceGeysersToStats, reduceRebaseToStats, reduceVaultsToStats } from '../reducers/statsReducers';
 import views from '../../config/routes';
 
 class UiState {
@@ -24,6 +24,7 @@ class UiState {
 	public geyserStats: any
 	public treeStats: any
 	public airdropStats: any
+	public rebaseStats: any
 
 	public sidebarOpen!: boolean
 	public notification: any = {}
@@ -48,6 +49,7 @@ class UiState {
 			},
 			geyserStats: {},
 			vaultStats: {},
+			rebaseStats: {},
 			treeStats: { claims: [] },
 			airdropStats: { badger: '0.00000' },
 
@@ -87,7 +89,9 @@ class UiState {
 			this.reduceAirdrops()
 		})
 		observe(this.store.wallet as any, "currentBlock", (change: any) => {
-			this.reduceContracts()
+			if (!!change.oldValue) {
+				this.reduceContracts()
+			}
 		})
 
 		observe(this.store.wallet as any, "provider", (change: any) => {
@@ -126,6 +130,7 @@ class UiState {
 
 		this.geyserStats = reduceGeysersToStats(this.store)
 		this.vaultStats = reduceVaultsToStats(this.store)
+		this.rebaseStats = reduceRebaseToStats(this.store)
 
 		this.stats = {
 			...this.stats,

@@ -39,7 +39,6 @@ export const batchConfig = (namespace: string, wallet: WalletStore, addresses: a
 		}
 	return ({
 		namespace,
-		abi,
 		addresses,
 		allReadMethods,
 		groupByNamespace: true,
@@ -86,7 +85,7 @@ export const contractMethods = (config: any, wallet: WalletStore): any[] => {
 export const erc20Methods = (wallet: WalletStore, token: any, vaults: any[]): any[] => {
 	if (!!wallet.connectedAddress && !!token.contract) {
 		// get allowance of each vault
-	
+
 		return [{
 			name: "balanceOf",
 			args: [

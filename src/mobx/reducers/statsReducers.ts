@@ -118,6 +118,21 @@ export const reduceVaultsToStats = (store: RootStore) => {
 		}
 	})
 }
+export const reduceRebaseToStats = (store: RootStore) => {
+	const { rebase, tokens } = store.contracts
+	const { collection, stats, currency, period } = store.uiState
+
+	if (!tokens)
+		return
+
+	const token = tokens[collection.rebase.contract]
+
+	return {
+		nextRebase: new Date(1609106345791),
+		oracleRate: inCurrency(token.ethValue, currency),
+		totalSupply: inCurrency(token.totalSupply.multipliedBy(1e9), 'eth', true),
+	}
+}
 
 
 export const reduceContractsToStats = (store: RootStore) => {

@@ -129,12 +129,12 @@ export const SettList = observer((props: any) => {
 
 			if (!isGeysers)
 				return <Grid item xs={12} key={address} className={classes.listItem}>
-					<VaultCard uiStats={stats} onStake={onStake} onUnwrap={onUnwrap} isFeatured={isFeatured} />
+					<VaultCard isGlobal={isGlobal} uiStats={stats} onStake={onStake} onUnwrap={onUnwrap} isFeatured={isFeatured} />
 				</Grid>
 			else
 
 				return <ListItem key={address} className={classes.listItem}>
-					<VaultCard isDeposit uiStats={stats} onStake={onStake} onUnstake={onUnstake} />
+					<VaultCard isGlobal={isGlobal} isDeposit uiStats={stats} onStake={onStake} onUnstake={onUnstake} />
 				</ListItem>
 		})
 

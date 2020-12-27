@@ -36,6 +36,7 @@ class ContractsStore {
 	public tokens?: any;	// inputs to vaults and geysers
 	public vaults?: any;	// vaults contract data
 	public geysers?: any; 	// geyser contract data
+	public rebase?: any; 	// rebase contract data
 
 	public badgerTree?: any; 	// geyser contract data
 	public airdrops?: any; 	// geyser contract data
@@ -47,14 +48,16 @@ class ContractsStore {
 			vaults: undefined,
 			tokens: undefined,
 			geysers: undefined,
+			rebase: undefined,
 			badgerTree: undefined,
 			airdrops: undefined
 		});
 
 		observe(this as any, "tokens", (change: any) => {
 			if (!!change.oldValue) {
-				this.calculateGrowth()
+				this.calculateVaultGrowth()
 				this.calculateGeyserRewards()
+				// this.fetchRebase()
 				// console.log(
 				// 	_.map(this.geysers, (geyser: any) => (geyser.day / 1).toString()).join(','),
 				// 	_.map(this.tokens, (geyser: any) => (geyser.ethValue / 1).toString()).join(','),
@@ -121,6 +124,29 @@ class ContractsStore {
 
 	});
 
+	// fetchRebase = action(() => {
+	// 	// state and wallet are separate stores
+	// 	const { wallet, uiState } = this.store
+	// 	const { collection } = uiState
+
+	// 	const { contract, abi } = collection.rebase
+
+	// 	let batchContracts: any = [batchConfig('rebase',
+	// 		wallet,
+	// 		[contract],
+	// 		[],
+	// 		abi)]
+
+	// 	batchCall.execute(batchContracts)
+	// 		.then((result: any) => {
+
+	// 			let keyedResult = _.groupBy(result, 'namespace')
+	// 			this.rebase = _.values(_.keyBy(reduceBatchResult(keyedResult.rebase), 'address'))[0]
+
+	// 		}).catch((error: any) => console.log(error))
+
+	// });
+
 	fetchTokens = action(() => {
 		const { wallet, uiState } = this.store
 		const { collection } = uiState
@@ -133,9 +159,12 @@ class ContractsStore {
 			let tokens = getTokenAddresses(addresses, config)
 			return tokens
 		})
+		tokenMappings.push([WBTC_ADDRESS, collection.rebase.contract].map((address: string) => ({ address })))
 
 		// reduce to {address:{address:,contract:}}
-		tokenMappings = _.keyBy(_.flatten(tokenMappings), 'address')
+		tokenMappings = _.keyBy(
+			_.flatten(tokenMappings),
+			'address')
 
 		//generate curve tokens
 		let curveMappings = _.keyBy(
@@ -153,7 +182,8 @@ class ContractsStore {
 		let tokenAddresses = _.compact(
 			_.map(
 				tokenMappings,
-				(token: any) => token.address).concat(WBTC_ADDRESS))
+				(token: any) => token.address))
+
 
 		// prepare curve query
 		const curveBtcPrices = collection.curveBtcPools.contracts.map(
@@ -221,7 +251,7 @@ class ContractsStore {
 
 	});
 
-	calculateGrowth = action(() => {
+	calculateVaultGrowth = action(() => {
 		let { vaults, tokens } = this.store.contracts
 		let { currentBlock } = this.store.wallet
 
@@ -399,6 +429,7 @@ class ContractsStore {
 			methodSeries.push((callback: any) => this.increaseAllowance(wrapped, callback))
 
 		methodSeries.push((callback: any) => this.depositGeyser(geyser, amount, callback))
+
 		setTxStatus('pending')
 		async.series(methodSeries, (err: any, results: any) => {
 			console.log(err, results)
@@ -588,7 +619,7 @@ class ContractsStore {
 		const underlyingContract = new web3.eth.Contract(ERC20.abi, underlyingAsset.address)
 		const method = underlyingContract.methods.approve(underlyingAsset.contract, underlyingAsset.totalSupply)
 
-		queueNotification(`Sign the transaction to allow ${underlyingAsset.contract} to spend your ${underlyingAsset.address}`, "warning")
+		queueNotification(`Sign the transaction to allow Badger to spend your ${underlyingAsset.symbol}`, "info")
 
 		estimateAndSend(web3, this.store.wallet.gasPrices[this.store.uiState.gasPrice], method, connectedAddress, (transaction: PromiEvent<Contract>) => {
 			transaction
@@ -615,9 +646,9 @@ class ContractsStore {
 
 		const web3 = new Web3(provider)
 		const geyserContract = new web3.eth.Contract(collection.configs.geysers.abi, geyser.address)
-		const method = geyserContract.methods.stake(amount, EMPTY_DATA)
+		const method = geyserContract.methods.stake(amount.toFixed(0), EMPTY_DATA)
 
-		queueNotification(`Sign the transaction to stake ${inCurrency(amount, 'eth', true)} ${underlyingAsset.symbol}`, "warning")
+		queueNotification(`Sign the transaction to stake ${inCurrency(amount, 'eth', true)} ${underlyingAsset.symbol}`, "info")
 
 		estimateAndSend(web3, this.store.wallet.gasPrices[this.store.uiState.gasPrice], method, connectedAddress, (transaction: PromiEvent<Contract>) => {
 			transaction
@@ -642,14 +673,14 @@ class ContractsStore {
 
 		const web3 = new Web3(provider)
 		const geyserContract = new web3.eth.Contract(collection.configs.geysers.abi, geyser.address)
-		const method = geyserContract.methods.unstake(amount, EMPTY_DATA)
+		const method = geyserContract.methods.unstake(amount.toFixed(0), EMPTY_DATA)
 
-		queueNotification(`Sign the transaction to unstake ${inCurrency(amount, 'eth', true)} ${underlyingAsset.symbol}`, "warning")
+		queueNotification(`Sign the transaction to unstake ${inCurrency(amount, 'eth', true)} ${underlyingAsset.symbol}`, "info")
 
 		estimateAndSend(web3, this.store.wallet.gasPrices[this.store.uiState.gasPrice], method, connectedAddress, (transaction: PromiEvent<Contract>) => {
 			transaction
 				.on('transactionHash', (hash: string) => {
-					queueNotification(`Deposit submitted with hash: ${hash}`, "info")
+					queueNotification(`Transaction submitted with hash: ${hash}`, "info")
 				}).on('receipt', (reciept: any) => {
 					queueNotification(`Successfully unstaked ${inCurrency(amount, 'eth', true)} ${underlyingAsset.symbol}`, "success")
 					this.fetchCollection()
@@ -672,10 +703,10 @@ class ContractsStore {
 		const web3 = new Web3(provider)
 		const underlyingContract = new web3.eth.Contract(collection.configs.vaults.abi, vault.address)
 
-		let method = underlyingContract.methods.deposit(amount)
+		let method = underlyingContract.methods.deposit(amount.toFixed(0))
 		if (all)
 			method = underlyingContract.methods.depositAll()
-		queueNotification(`Sign the transaction to wrap ${inCurrency(amount, 'eth', true)} ${underlyingAsset.symbol}`, "warning")
+		queueNotification(`Sign the transaction to wrap ${inCurrency(amount, 'eth', true)} ${underlyingAsset.symbol}`, "info")
 
 		estimateAndSend(web3, this.store.wallet.gasPrices[this.store.uiState.gasPrice], method, connectedAddress, (transaction: PromiEvent<Contract>) => {
 			transaction
@@ -701,11 +732,11 @@ class ContractsStore {
 		const web3 = new Web3(provider)
 		const underlyingContract = new web3.eth.Contract(collection.configs.vaults.abi, vault.address)
 
-		let method = underlyingContract.methods.withdraw(amount)
+		let method = underlyingContract.methods.withdraw(amount.toFixed(0))
 		if (all)
 			method = underlyingContract.methods.withdrawAll()
 
-		queueNotification(`Sign the transaction to unwrap ${inCurrency(amount, 'eth', true)} ${underlyingAsset.symbol}`, "warning")
+		queueNotification(`Sign the transaction to unwrap ${inCurrency(amount, 'eth', true)} ${underlyingAsset.symbol}`, "info")
 
 		estimateAndSend(web3, this.store.wallet.gasPrices[this.store.uiState.gasPrice], method, connectedAddress, (transaction: PromiEvent<Contract>) => {
 			transaction

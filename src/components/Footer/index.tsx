@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 
 }));
-export const Loader = () => {
+export const Footer = () => {
 	const classes = useStyles();
 
 	return <div style={{ margin: "6rem 0 0", background: "#fff", width: "100%", }}>

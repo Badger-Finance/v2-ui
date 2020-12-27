@@ -62,7 +62,6 @@ const routes = {
 		component: <Digg />,
 		onEnter: (_, params, store) => {
 			store.uiState.setCollection('badger')
-			store.contracts.fetchAirdrops()
 		},
 		beforeExit: (_, _p, store) => {
 

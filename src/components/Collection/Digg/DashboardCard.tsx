@@ -44,7 +44,6 @@ const DashboardCard = observer((props: any) => {
 
 	const ranges = <ButtonGroup
 		variant="outlined"
-		color="primary"
 		size="small"
 		aria-label="outlined button group"
 	>
