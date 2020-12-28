@@ -320,16 +320,16 @@ class ContractsStore {
 	})
 
 	fetchSettRewards = action(() => {
-		const { provider } = this.store.wallet
+		const { provider, connectedAddress } = this.store.wallet
 		const { collection } = this.store.uiState
 		const { merkle, proofNetwork, tokens } = this.store.uiState.collection.configs.geysers.rewards
 
-		if (!provider.selectedAddress)
+		if (!connectedAddress)
 			return
 
 		let web3 = new Web3(provider)
 		let rewardsTree = new web3.eth.Contract(merkle.abi, merkle.hashContract)
-		let checksumAddress = Web3.utils.toChecksumAddress(provider.selectedAddress)
+		let checksumAddress = Web3.utils.toChecksumAddress(connectedAddress)
 
 		rewardsTree.methods
 			.merkleContentHash()
@@ -338,7 +338,7 @@ class ContractsStore {
 				jsonQuery(`${merkle.proofEndpoint}/rewards/${merkle.proofNetwork}/${merkleHash}/${checksumAddress}`)
 					.then((merkleProof: any) => {
 						if (!merkleProof.error) {
-							rewardsTree.methods.getClaimedFor(provider.selectedAddress, tokens)
+							rewardsTree.methods.getClaimedFor(connectedAddress, tokens)
 								.call()
 								.then((claimedRewards: any[]) => {
 									let claims = reduceClaims(merkleProof, claimedRewards)
@@ -355,16 +355,16 @@ class ContractsStore {
 	});
 
 	fetchAirdrops = action(() => {
-		const { provider } = this.store.wallet
+		const { provider, connectedAddress } = this.store.wallet
 		const { collection } = this.store.uiState
 		const { merkle, proofNetwork, tokens } = this.store.uiState.collection.configs.geysers.rewards
 
-		if (!provider.selectedAddress)
+		if (!connectedAddress)
 			return
 
 		let web3 = new Web3(provider)
 		let rewardsTree = new web3.eth.Contract(merkle.abi, merkle.hashContract)
-		let checksumAddress = Web3.utils.toChecksumAddress(provider.selectedAddress)
+		let checksumAddress = Web3.utils.toChecksumAddress(connectedAddress)
 
 		rewardsTree.methods
 			.merkleContentHash()
@@ -505,11 +505,11 @@ class ContractsStore {
 
 	claimGeysers = action((stake: boolean = false) => {
 		const { merkleProof } = this.badgerTree
-		const { provider, ethBalance, gasPrices } = this.store.wallet
+		const { provider, ethBalance, gasPrices, connectedAddress } = this.store.wallet
 		const { collection, queueNotification, gasPrice, setTxStatus } = this.store.uiState
 		const { merkle, proofNetwork, tokens } = this.store.uiState.collection.configs.geysers.rewards
 
-		if (!provider.selectedAddress)
+		if (!connectedAddress)
 			return
 
 		if (ethBalance?.lt(MIN_ETH_BALANCE))
@@ -526,7 +526,7 @@ class ContractsStore {
 
 		queueNotification(`Sign the transaction to claim your earnings`, "info")
 		let badgerAmount = new BigNumber(this.badgerTree.claims[0]).multipliedBy(1e18)
-		estimateAndSend(web3, gasPrices[gasPrice], method, provider.selectedAddress, (transaction: PromiEvent<Contract>) => {
+		estimateAndSend(web3, gasPrices[gasPrice], method, connectedAddress, (transaction: PromiEvent<Contract>) => {
 			transaction
 				.on('transactionHash', (hash: string) => {
 					queueNotification(`Claim submitted with hash: ${hash}`, "info")
@@ -549,11 +549,11 @@ class ContractsStore {
 	});
 	claimAirdrops = action((stake: boolean = false) => {
 		const { merkleProof } = this.airdrops
-		const { provider, ethBalance, gasPrices } = this.store.wallet
+		const { provider, ethBalance, gasPrices, connectedAddress } = this.store.wallet
 		const { collection, queueNotification, gasPrice, setTxStatus } = this.store.uiState
 		const { merkle, proofNetwork, tokens } = this.store.uiState.collection.configs.geysers.rewards
 
-		if (!provider.selectedAddress)
+		if (!connectedAddress)
 			return
 
 		if (ethBalance?.lt(MIN_ETH_BALANCE))
@@ -563,13 +563,13 @@ class ContractsStore {
 		let rewardsTree = new web3.eth.Contract(merkle.abi, merkle.hashContract)
 		const method = rewardsTree.methods.claim(
 			merkleProof.index,
-			provider.selectedAddress,
+			connectedAddress,
 			merkleProof.amount,
 			merkleProof.proof)
 
 		queueNotification(`Sign the transaction to claim your airdrop`, "info")
 		let badgerAmount = this.airdrops.badger
-		estimateAndSend(web3, gasPrices[gasPrice], method, provider.selectedAddress, (transaction: PromiEvent<Contract>) => {
+		estimateAndSend(web3, gasPrices[gasPrice], method, connectedAddress, (transaction: PromiEvent<Contract>) => {
 			transaction
 				.on('transactionHash', (hash: string) => {
 					queueNotification(`Claim submitted with hash: ${hash}`, "info")

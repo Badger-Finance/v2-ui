@@ -39,6 +39,11 @@ export const darkTheme = createMuiTheme({
 			paperAnchorDockedLeft: {
 				borderRight: 0
 			}
+		},
+		MuiPaper: {
+			outlined: {
+				border: 0
+			}
 		}
 	}
 });
