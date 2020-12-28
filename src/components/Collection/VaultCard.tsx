@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
 	featured: {
 		border: 0,
 		// paddingTop: '30%',
-		background: theme.palette.grey[800],
+		background: theme.palette.background.paper,
 		borderRadius: theme.shape.borderRadius,
 		boxShadow: theme.shadows[1]
 	},
@@ -63,6 +63,12 @@ const useStyles = makeStyles((theme) => ({
 	chip: {
 		marginLeft: theme.spacing(1),
 		padding: 0
+	},
+	cardActions: {
+		float: "right", zIndex: 1000, position: 'relative',
+		[theme.breakpoints.down('sm')]: {
+			marginTop: theme.spacing(1)
+		},
 	}
 
 }));
@@ -82,7 +88,7 @@ export const VaultCard = observer((props: any) => {
 	if (!uiStats) {
 		return <Loader />
 	}
-	let isSuperSett = collection.superSett.includes(uiStats.address)
+	let isSuperSett = collection.configs.vaults.superSett.includes(uiStats.address)
 	let anyAvailable = !!uiStats.availableBalance && parseFloat(uiStats.availableBalance) !== 0
 	return <>
 		<Grid container className={classes.border + (isFeatured ? ` ${classes.featured}` : '')}>
@@ -163,7 +169,7 @@ export const VaultCard = observer((props: any) => {
 			</Grid>
 
 			<Grid item xs={12} md={2}>
-				<ButtonGroup variant="outlined" style={{ float: "right", zIndex: 1000, position: 'relative' }}>
+				<ButtonGroup variant="outlined" className={classes.cardActions}>
 					{isDeposit && <Button onClick={() => onUnstake(uiStats.address)} variant="outlined" color="primary" size="small" className={classes.button}>Unstake</Button>}
 					{!isDeposit && <Button onClick={() => onStake(uiStats.address)} variant={anyAvailable ? 'contained' : 'outlined'} color="primary" size="small" >Stake</Button>}
 					{!!uiStats.anyWrapped && <Button onClick={() => onUnwrap(uiStats.address)} variant="outlined" color="primary" size="small" className={classes.button}>Unwrap</Button>}

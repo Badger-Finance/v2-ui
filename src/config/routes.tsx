@@ -5,7 +5,6 @@ import { Route } from 'mobx-router';
 
 //components
 import { Home } from '../components/Home';
-import { Asset } from '../components/Asset';
 import { Collection } from '../components/Collection';
 import { RootStore } from '../mobx/store';
 import { collections } from './constants';

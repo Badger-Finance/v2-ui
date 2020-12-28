@@ -62,10 +62,11 @@ export const reduceVaultsToStats = (store: RootStore) => {
 	const config = collection.configs.geysers
 
 	return _.mapValues(vaults, (vault: any, vaultAddress: string) => {
-
 		let token = tokens[vault.token]
 		let wrapped = tokens[vault.address]
+
 		let geyser = geysers[wrapped.contract]
+
 
 		return {
 			vault: vault,

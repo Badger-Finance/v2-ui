@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	filters: {
-		textAlign: 'right',
+		textAlign: 'left',
 		[theme.breakpoints.up('sm')]: {
 			textAlign: 'right'
 		},
@@ -160,12 +160,12 @@ export const Home = observer(() => {
 		<Grid container spacing={2}>
 			{spacer}
 
-			<Grid item xs={4} >
+			<Grid item xs={12} md={6} >
 				<Typography variant="h5" color="textPrimary" >Account Overview</Typography>
 				<Typography variant="subtitle2" color="textPrimary" >Deposit & Earn on your Bitcoin</Typography>
 			</Grid>
 
-			<Grid item xs={8} className={classes.filters}>
+			<Grid item xs={12} md={6} className={classes.filters}>
 
 				<ButtonGroup variant="outlined" size="small" className={classes.buttonGroup}>
 					{["btc", "eth", "usd"].map((curr: string) =>

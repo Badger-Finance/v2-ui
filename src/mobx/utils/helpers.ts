@@ -1,7 +1,10 @@
 import BigNumber from "bignumber.js"
 
-export const graphQuery = (address: string): Promise<Response> => {
-	return fetch('https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2', {
+export const graphQuery = (token: any) => {
+	// if (!token.subgraph)
+	// 	return undefined
+
+	return fetch(`https://api.thegraph.com/subgraphs/name/${token.subgraph || 'uniswap/uniswap-v2'}`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
@@ -9,13 +12,13 @@ export const graphQuery = (address: string): Promise<Response> => {
 		},
 		body: JSON.stringify({
 			query: `{  
-				token(id: "${address.toLowerCase()}") {
+				token(id: "${token.address.toLowerCase()}") {
 					id
 					derivedETH
 					symbol
 					name
 				}
-				pair(id: "${address.toLowerCase()}") {
+				pair(id: "${token.address.toLowerCase()}") {
 					id
 					reserveETH
 					totalSupply

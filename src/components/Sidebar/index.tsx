@@ -33,8 +33,6 @@ const useStyles = makeStyles((theme) => ({
 		flexDirection: "column",
 		justifyContent: "space-between",
 		minHeight: "100%"
-
-
 	},
 	drawer: {
 	},
@@ -48,7 +46,8 @@ const useStyles = makeStyles((theme) => ({
 		padding: theme.spacing(1, 2)
 	},
 	activeListItem: {
-		fontWeight: 'bold'
+		fontWeight: 'bold',
+		color: theme.palette.primary.main
 	},
 
 	currency: {
@@ -107,7 +106,9 @@ export const Sidebar = observer(() => {
 						<img src={require('../../assets/badger-logo.png')} className={classes.logo} />
 
 					</ListItem>
-					<ListItem button divider
+					{renderCollections()}
+
+					<ListItem divider button
 						onClick={() => { closeSidebar(); goTo(views.home) }}
 						className={classes.listItem + ' ' + (store.router.currentPath === '/' ? classes.activeListItem : '')}>
 						Portfolio
@@ -115,9 +116,8 @@ export const Sidebar = observer(() => {
 							{stats.claims[0] !== 0 && <Chip size="small" label={stats.claims[0]} variant="outlined" color="primary" className={classes.rewards} onClick={() => { closeSidebar(); goTo(views.home) }} />}
 					</ListItem>
 
-					{renderCollections()}
-					<ListItem button className={classes.listItem + ' ' + (store.router.currentPath == '/airdrops' ? classes.activeListItem : '')} divider onClick={() => goTo(views.airdrops)}>Airdrops</ListItem>
-					<ListItem button className={classes.listItem + ' ' + (store.router.currentPath == '/digg' ? classes.activeListItem : '')} divider onClick={() => goTo(views.digg)}>Digg</ListItem>
+					<ListItem divider button className={classes.listItem + ' ' + (store.router.currentPath == '/airdrops' ? classes.activeListItem : '')} onClick={() => goTo(views.airdrops)}>Airdrops</ListItem>
+					<ListItem divider button className={classes.listItem + ' ' + (store.router.currentPath == '/digg' ? classes.activeListItem : '')} onClick={() => goTo(views.digg)}>Digg</ListItem>
 
 				</List>
 				<List disablePadding>

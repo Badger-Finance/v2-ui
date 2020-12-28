@@ -10,7 +10,7 @@ const UFragments = require("./abis/UFragments.json")
 
 export const collections = [
 	{
-		title: "Sett Vaults",
+		title: "Badger Setts",
 		id: 'badger',
 
 		rebase: {
@@ -26,8 +26,8 @@ export const collections = [
 				"0xb9D076fDe463dbc9f915E5392F807315Bf940334",
 				"0x235c9e24D3FB2FAFd58a2E49D454Fdcd2DBf7FF1",
 				"0xAf5A1DECfa95BAF63E0084a35c62592B774A2A87",
-				// "0x235c9e24D3FB2FAFd58a2E49D454Fdcd2DBf7FF1",
-				// "0x235c9e24D3FB2FAFd58a2E49D454Fdcd2DBf7FF1",
+				// "0x758a43ee2bff8230eeb784879cdcff4828f2544d",
+				// "0x1862A18181346EBd9EdAf800804f89190DeF24a5",
 
 			],
 			geysers: [
@@ -37,36 +37,32 @@ export const collections = [
 				"0x085A9340ff7692Ab6703F17aB5FfC917B580a6FD",
 				"0xA207D69Ea6Fb967E54baA8639c408c31767Ba62D",
 				"0xeD0B7f5d9F6286d00763b0FFCbA886D8f9d56d5e",
-				// "0x95826C65EB1f2d2F0EDBb7EcB176563B61C60bBf",
-				// "0x95826C65EB1f2d2F0EDBb7EcB176563B61C60bBf",
+				// "0x7a56d65254705b4def63c68488c0182968c452ce",
+				// "0x3a494D79AA78118795daad8AeFF5825C6c8dF7F1",
 			],
 		},
-		featured: [
-			"0x235c9e24d3fb2fafd58a2e49d454fdcd2dbf7ff1",
-			"0xaf5a1decfa95baf63e0084a35c62592b774a2a87"
-		],
-		superSett: [
-			"0xaf5a1decfa95baf63e0084a35c62592b774a2a87"
-		],
-		airdrops: {
-			badger: "0xe0CC3F129ACe3888b41a4f8F04FC01CD1974C727"
-		},
+
 		configs: {
 			vaults: {
 				abi: BadgerVault.abi,
-				table: ['balance', 'name', 'symbol', 'balanceOf', 'day', 'week', 'month', 'year'],
-				actions: ['deposit', 'depositAll', 'withdraw', 'withdrawAll'],
 				underlying: 'token',
-				yielding: 'token',
-				walletMethods: ['balanceOf']
+				walletMethods: ['balanceOf'],
+				featured: [
+					"0x235c9e24d3fb2fafd58a2e49d454fdcd2dbf7ff1",
+					"0xaf5a1decfa95baf63e0084a35c62592b774a2a87"
+				],
+				superSett: [
+					"0xaf5a1decfa95baf63e0084a35c62592b774a2a87"
+				],
+				sushi: [
+					"0x758a43ee2bff8230eeb784879cdcff4828f2544d",
+					"0x1862A18181346EBd9EdAf800804f89190DeF24a5",
+				]
 			},
 			geysers: {
 				abi: BadgerGeyser.abi,
-				table: ['totalStaked', 'address', 'totalStakedFor', 'rewards', 'day', 'week', 'month', 'year', 'ethBalance'],
-				actions: ['stake', 'unstake'],
 				walletMethods: ['totalStakedFor'],
 				underlying: 'getStakingToken',
-				yielding: 'getStakingToken',
 				rewards: {
 					method: 'getUnlockSchedulesFor',
 					tokens: ['0x3472a5a71965499acd81997a54bba8d852c6e53d', '0xa0246c9032bc3a600820415ae600c6388619a14d'],
@@ -78,6 +74,9 @@ export const collections = [
 					},
 				},
 			},
+		},
+		airdrops: {
+			badger: "0xe0CC3F129ACe3888b41a4f8F04FC01CD1974C727"
 		},
 		curveBtcPools: {
 			contracts: [

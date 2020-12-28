@@ -150,7 +150,7 @@ export const Collection = observer(() => {
 	const featuredGeysers = () => {
 
 		// wallet assets & wrapped assets ordered by value
-		return renderContracts(collection.featured.map((vaultAddress: any) => {
+		return renderContracts(collection.configs.vaults.featured.map((vaultAddress: any) => {
 			return vaults[vaultAddress]
 		}), false, true)
 	}

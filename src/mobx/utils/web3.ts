@@ -53,7 +53,12 @@ export const getTokenAddresses = (contracts: any, config: any) => {
 	let addresses: any[] = []
 	_.map(contracts, (contract: any) => {
 		if (!!contract[config.underlying!])
-			addresses.push({ address: contract[config.underlying!], contract: contract.address.toLowerCase(), type: 'underlying' })
+			addresses.push({
+				address: contract[config.underlying!],
+				contract: contract.address.toLowerCase(),
+				type: 'underlying',
+				subgraph: !!config.sushi && config.sushi.includes(contract.address) ? 'zippoxer/sushiswap-subgraph-fork' : 'uniswap/uniswap-v2'
+			})
 		// if (!!contract[config.yielding!])
 		// 	addresses.push({ address: contract[config.yielding!], contract: contract.address.toLowerCase(), type: 'yielding' })
 	})

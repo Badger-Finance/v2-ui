@@ -190,8 +190,8 @@ class ContractsStore {
 			(address: string, index: number) => jsonQuery(collection.curveBtcPools.prices[index]))
 
 		// prepare graph query
-		const graphQueries = tokenAddresses.map(
-			(address: string) => graphQuery(address));
+		const graphQueries = _.compact(_.map(tokenMappings,
+			(token: any, address: string) => graphQuery(token)));
 
 		// prepare web3 query
 		let readBatches: Promise<any>[] = _.map(tokenMappings, (tokenMap: any) => {
