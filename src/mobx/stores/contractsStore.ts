@@ -93,13 +93,28 @@ class ContractsStore {
 
 		// create batch configs for vaults and geysers
 		let batchContracts: any[] = _.map(collection.configs,
-			(config: any, namespace: string) =>
-				batchConfig(namespace,
-					wallet,
-					collection.contracts[namespace],
-					contractMethods(config, wallet),
-					config.abi)
-		)
+			(config: any, namespace: string) => {
+				if (namespace === "geysers") {
+					return batchConfig(namespace,
+						wallet,
+						collection.contracts[namespace].slice(0, collection.contracts[namespace].length - 2),
+						contractMethods(config, wallet),
+						config.abi)
+				} else {
+					return batchConfig(namespace,
+						wallet,
+						collection.contracts[namespace],
+						contractMethods(config, wallet),
+						config.abi)
+				}
+			})
+
+		batchContracts.push(
+			batchConfig('geysers',
+				wallet,
+				collection.contracts.geysers.slice(collection.contracts['geysers'].length - 2, collection.contracts['geysers'].length),
+				[],
+				collection.configs.geysers.sushiAbi))
 
 		// execute batch calls to web3 (infura most likely)
 		batchCall.execute(batchContracts)
@@ -116,6 +131,12 @@ class ContractsStore {
 						this.geysers = _.keyBy(reduceBatchResult(value), 'address')
 				})
 
+				// manually update sushi assets
+				this.vaults["0x758A43EE2BFf8230eeb784879CdcFF4828F2544D".toLowerCase()]['token'] = "0x110492b31c59716ac47337e616804e3e3adc0b4a".toLowerCase()
+				this.vaults["0x1862A18181346EBd9EdAf800804f89190DeF24a5".toLowerCase()]['token'] = "0xceff51756c56ceffca006cd410b03ffc46dd3a58".toLowerCase()
+				this.geysers["0x7a56d65254705b4def63c68488c0182968c452ce".toLowerCase()]['getStakingToken'] = "0x758A43EE2BFf8230eeb784879CdcFF4828F2544D".toLowerCase()
+				this.geysers["0x3a494D79AA78118795daad8AeFF5825C6c8dF7F1".toLowerCase()]['getStakingToken'] = "0x1862A18181346EBd9EdAf800804f89190DeF24a5".toLowerCase()
+
 				// fetch input/outputs information
 				this.fetchTokens()
 
@@ -123,29 +144,6 @@ class ContractsStore {
 			.catch((error: any) => console.log(error))
 
 	});
-
-	// fetchRebase = action(() => {
-	// 	// state and wallet are separate stores
-	// 	const { wallet, uiState } = this.store
-	// 	const { collection } = uiState
-
-	// 	const { contract, abi } = collection.rebase
-
-	// 	let batchContracts: any = [batchConfig('rebase',
-	// 		wallet,
-	// 		[contract],
-	// 		[],
-	// 		abi)]
-
-	// 	batchCall.execute(batchContracts)
-	// 		.then((result: any) => {
-
-	// 			let keyedResult = _.groupBy(result, 'namespace')
-	// 			this.rebase = _.values(_.keyBy(reduceBatchResult(keyedResult.rebase), 'address'))[0]
-
-	// 		}).catch((error: any) => console.log(error))
-
-	// });
 
 	fetchTokens = action(() => {
 		const { wallet, uiState } = this.store
@@ -304,6 +302,7 @@ class ContractsStore {
 
 					let rawToken = tokens[underlyingVault[collection.configs.vaults.underlying]]
 					let underlyingToken = tokens[underlyingVault.address]
+					console.log(schedule)
 
 					// sum rewards in current period
 					// todo: break out to actual durations
@@ -397,15 +396,17 @@ class ContractsStore {
 		const wrapped = tokens[vault.address]
 		const geyser = geysers[wrapped.contract]
 
+		let depositedTokens = !!vault.balanceOf ? vault.balanceOf.multipliedBy(vault.getPricePerFullShare.dividedBy(1e18)) : new BigNumber(0)
+
 		// ensure balance is valid
-		if (amount.isNaN() || amount.lte(0) || amount.gt(underlying.balanceOf.plus(wrapped.balanceOf)))
+		if (amount.isNaN() || amount.lte(0) || amount.gt(underlying.balanceOf.plus(depositedTokens)))
 			return queueNotification("Please enter a valid amount", 'error')
 
 		// calculate amount to deposit
 		let wrappedAmount = new BigNumber(0);
 		let methodSeries: any = []
 
-		if (amount.gt(vault.balanceOf))
+		if (amount.gt(depositedTokens))
 			wrappedAmount = vault.balanceOf
 		else
 			wrappedAmount = amount

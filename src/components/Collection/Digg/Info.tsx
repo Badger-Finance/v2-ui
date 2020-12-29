@@ -43,21 +43,21 @@ const Info = observer((props: any) => {
 			<Paper className={classes.statPaper}>
 
 				<Typography variant="subtitle1">Next Rebase</Typography>
-				<Typography variant="h5">{nextRebase}</Typography>
+				<Typography variant="h5">{nextRebase || '...'}</Typography>
 			</Paper>
 		</Grid>
 		<Grid item xs={6} md={3}>
 			<Paper className={classes.statPaper}>
 
 				<Typography variant="subtitle1">Oracle rate</Typography>
-				<Typography variant="h5">{rebaseStats.oracleRate}</Typography>
+				<Typography variant="h5">{rebaseStats.oracleRate || '...'}</Typography>
 			</Paper>
 		</Grid>
 		<Grid item xs={6} md={3}>
 			<Paper className={classes.statPaper}>
 
 				<Typography variant="subtitle1">Price target</Typography>
-				<Typography variant="h5">1 BTC</Typography>
+				<Typography variant="h5">₿ 1.00000</Typography>
 			</Paper>
 		</Grid>
 		<Grid item xs={12} md={3}>
@@ -65,7 +65,7 @@ const Info = observer((props: any) => {
 
 				<Typography variant="subtitle1">Total Supply</Typography>
 				<Typography variant="h5">
-					{rebaseStats.totalSupply}
+					{rebaseStats.totalSupply || '...'}
 				</Typography>
 			</Paper>
 		</Grid>

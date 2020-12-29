@@ -67,17 +67,19 @@ export const reduceVaultsToStats = (store: RootStore) => {
 
 		let geyser = geysers[wrapped.contract]
 
+		let depositedTokens = !!vault.balanceOf ? vault.balanceOf.multipliedBy(vault.getPricePerFullShare.dividedBy(1e18)) : new BigNumber(0)
+
 
 		return {
 			vault: vault,
 			address: vault.address,
 
-			yourBalance: !!vault.balanceOf &&
-				inCurrency(vault.balanceOf.plus(token.balanceOf), 'eth', true),
-			yourValue: !!vault.balanceOf && !!token.ethValue &&
-				inCurrency(vault.balanceOf.plus(token.balanceOf).multipliedBy(token.ethValue.dividedBy(1e18)), currency),
+			yourBalance: !!token.balanceOf &&
+				inCurrency(token.balanceOf.plus(depositedTokens), 'eth', true),
+			yourValue: !!token.balanceOf &&
+				inCurrency(token.balanceOf.plus(depositedTokens).multipliedBy(token.ethValue.dividedBy(1e18)), currency),
 
-			anyWrapped: !!vault.balanceOf && vault.balanceOf.gt(0),
+			anyWrapped: depositedTokens.gt(0),
 
 			underlyingTokens: !!vault.balance &&
 				inCurrency(vault.balance, 'eth', true),
@@ -85,13 +87,13 @@ export const reduceVaultsToStats = (store: RootStore) => {
 				inCurrency(vault.balance.multipliedBy(token.ethValue.dividedBy(1e18)), currency),
 
 			availableBalance: !!token.balanceOf &&
-				inCurrency(token.balanceOf.plus(vault.balanceOf), 'eth', true),
+				inCurrency(token.balanceOf.plus(depositedTokens), 'eth', true),
 
 			availableFull: !!token.balanceOf && {
-				25: inCurrency(token.balanceOf.plus(vault.balanceOf).multipliedBy(0.25), 'eth', true, 18, true),
-				50: inCurrency(token.balanceOf.plus(vault.balanceOf).multipliedBy(0.5), 'eth', true, 18, true),
-				75: inCurrency(token.balanceOf.plus(vault.balanceOf).multipliedBy(0.75), 'eth', true, 18, true),
-				100: inCurrency(token.balanceOf.plus(vault.balanceOf), 'eth', true, 18, true),
+				25: inCurrency(token.balanceOf.plus(depositedTokens).multipliedBy(0.25), 'eth', true, 18, true),
+				50: inCurrency(token.balanceOf.plus(depositedTokens).multipliedBy(0.5), 'eth', true, 18, true),
+				75: inCurrency(token.balanceOf.plus(depositedTokens).multipliedBy(0.75), 'eth', true, 18, true),
+				100: inCurrency(token.balanceOf.plus(depositedTokens), 'eth', true, 18, true),
 			},
 			wrappedFull: !!wrapped.balanceOf && {
 				25: inCurrency(wrapped.balanceOf.multipliedBy(0.25), 'eth', true, 18, true),

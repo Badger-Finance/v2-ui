@@ -3,6 +3,7 @@ import BigNumber from "bignumber.js"
 const BadgerVault = require("./abis/Sett.json")
 const CurvePool = require("./abis/CurvePool.json")
 const BadgerGeyser = require("./abis/BadgerGeyser.json")
+const SushiGeyser = require("./abis/SushiGeyser.json")
 const BadgerHunt = require("./abis/BadgerHunt.json")
 const BadgerTree = require("./abis/BadgerTree.json")
 const EnokiVault = require("./abis/SporePool.json")
@@ -26,9 +27,8 @@ export const collections = [
 				"0xb9D076fDe463dbc9f915E5392F807315Bf940334",
 				"0x235c9e24D3FB2FAFd58a2E49D454Fdcd2DBf7FF1",
 				"0xAf5A1DECfa95BAF63E0084a35c62592B774A2A87",
-				// "0x758a43ee2bff8230eeb784879cdcff4828f2544d",
-				// "0x1862A18181346EBd9EdAf800804f89190DeF24a5",
-
+				"0x758A43EE2BFf8230eeb784879CdcFF4828F2544D",
+				"0x1862A18181346EBd9EdAf800804f89190DeF24a5",
 			],
 			geysers: [
 				"0x2296f174374508278DC12b806A7f27c87D53Ca15",
@@ -37,8 +37,8 @@ export const collections = [
 				"0x085A9340ff7692Ab6703F17aB5FfC917B580a6FD",
 				"0xA207D69Ea6Fb967E54baA8639c408c31767Ba62D",
 				"0xeD0B7f5d9F6286d00763b0FFCbA886D8f9d56d5e",
-				// "0x7a56d65254705b4def63c68488c0182968c452ce",
-				// "0x3a494D79AA78118795daad8AeFF5825C6c8dF7F1",
+				"0x7a56d65254705b4def63c68488c0182968c452ce",
+				"0x3a494D79AA78118795daad8AeFF5825C6c8dF7F1",
 			],
 		},
 
@@ -55,14 +55,19 @@ export const collections = [
 					"0xaf5a1decfa95baf63e0084a35c62592b774a2a87"
 				],
 				sushi: [
-					"0x758a43ee2bff8230eeb784879cdcff4828f2544d",
+					"0x758A43EE2BFf8230eeb784879CdcFF4828F2544D",
 					"0x1862A18181346EBd9EdAf800804f89190DeF24a5",
 				]
 			},
 			geysers: {
 				abi: BadgerGeyser.abi,
+				sushiAbi: SushiGeyser.abi,
 				walletMethods: ['totalStakedFor'],
 				underlying: 'getStakingToken',
+				sushi: [
+					"0x7a56d65254705b4def63c68488c0182968c452ce",
+					"0x3a494D79AA78118795daad8AeFF5825C6c8dF7F1",
+				],
 				rewards: {
 					method: 'getUnlockSchedulesFor',
 					tokens: ['0x3472a5a71965499acd81997a54bba8d852c6e53d', '0xa0246c9032bc3a600820415ae600c6388619a14d'],
