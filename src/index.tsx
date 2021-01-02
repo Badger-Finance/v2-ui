@@ -7,7 +7,7 @@ import { StoreProvider } from "./context/store-context";
 //material
 import { Container, CssBaseline, Grid, List, ListItem, ListItemText } from "@material-ui/core"
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-import { SnackbarProvider, useSnackbar } from 'notistack';
+import { Snackbar } from './components/Snackbar';
 
 //mobx
 import store from './mobx/store';
@@ -22,8 +22,6 @@ import './assets/css/onboard-override.css'
 import { darkTheme } from './config/themes/dark';
 import { lightTheme } from './config/themes/light';
 
-
-
 startRouter(routes, store, {
 	html5history: true, // or false if you want to use hash based routing
 });
@@ -33,7 +31,7 @@ ReactDOM.render(
 		<ThemeProvider theme={darkTheme}>
 
 			<CssBaseline />
-			<SnackbarProvider maxSnack={5} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
+			<Snackbar>
 				<Header />
 
 				<Container maxWidth={false}>
@@ -41,8 +39,10 @@ ReactDOM.render(
 				</Container>
 				<Sidebar />
 
-			</SnackbarProvider>
-
+			</Snackbar>
 		</ThemeProvider>
 	</StoreProvider>, document.getElementById('root')
 )
+
+
+

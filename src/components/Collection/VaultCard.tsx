@@ -30,15 +30,15 @@ const useStyles = makeStyles((theme) => ({
 		position: 'absolute',
 		right: 0,
 		bottom: 0
-	}
-	, buttons: {
+	},
+	buttons: {
 		textAlign: "right"
 	},
 	button: {
 		marginLeft: theme.spacing(1)
 	},
 	border: {
-		borderBottom: `1px solid ${theme.palette.grey[800]}`,
+		borderBottom: `1px solid ${theme.palette.background.default}`,
 		padding: theme.spacing(2, 2),
 		alignItems: 'center',
 		overflow: 'hidden'
@@ -88,11 +88,10 @@ export const VaultCard = observer((props: any) => {
 	if (!uiStats) {
 		return <Loader />
 	}
-	let isSuperSett = false//collection.configs.vaults.superSett.includes(uiStats.address)
 	let anyAvailable = false//!!uiStats.availableBalance && parseFloat(uiStats.availableBalance) !== 0
 	return <>
 		<Grid container className={classes.border + (isFeatured ? ` ${classes.featured}` : '')}>
-			{!!isFeatured && <Grid item xs={12} sm={12}>
+			{!!isFeatured && !!uiStats.symbol && <Grid item xs={12} sm={12}>
 				<img className={classes.featuredImage} src={require(`../../assets/featured-setts/${uiStats.symbol.toLowerCase().replace('/', '')}.png`)} />
 
 			</Grid>}
@@ -105,7 +104,7 @@ export const VaultCard = observer((props: any) => {
 
 				<Typography variant="body2" color="textSecondary" component="div">
 					{uiStats.symbol}
-					{!!isSuperSett && <Chip className={classes.chip} label="Super Sett" size="small" color="primary" />}
+					{!!uiStats.vault.isSuperSett && <Chip className={classes.chip} label="Super Sett" size="small" color="primary" />}
 
 				</Typography>
 

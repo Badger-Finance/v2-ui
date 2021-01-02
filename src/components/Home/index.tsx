@@ -15,7 +15,6 @@ import { Loader } from '../Loader';
 import { VaultCard } from '../Collection/VaultCard';
 import _ from 'lodash';
 import { VaultStake } from '../Collection/VaultStake';
-import Carousel from 'react-material-ui-carousel'
 import { SettList } from '../Collection/SettList';
 import views from '../../config/routes';
 
@@ -57,10 +56,7 @@ const useStyles = makeStyles((theme) => ({
 		marginTop: theme.spacing(3),
 		width: "100%"
 	},
-	carousel: {
-		overflow: 'inherit',
-		marginTop: theme.spacing(1)
-	},
+
 	featuredHeader: {
 		marginBottom: theme.spacing(2)
 	},
@@ -112,9 +108,9 @@ export const Home = observer(() => {
 	if (connectedAddress === '') {
 		goTo(views.collection, { collection: 'badger' })
 		queueNotification('Please connect your wallet', 'warning')
+
+
 	}
-
-
 	const onUnwrap = (contract: string) => {
 		setModalProps({ mode: 'unwrap', contract, open: true })
 	}

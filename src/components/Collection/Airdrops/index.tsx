@@ -79,7 +79,7 @@ export const Airdrops = observer(() => {
 			{ title: "Liquidity", button: "Add Liquidity", badge: !!stats.badgerLiqGrowth && `Up to ${stats.badgerLiqGrowth}% APY`, href: "https://info.uniswap.org/pair/0xcd7989894bc033581532d2cd88da5db0a4b12859", copy: "Deposit $BADGER<>$WBTC Uniswap LP token into Sett vault to earn $BADGER." },
 			{ title: "Governance", button: "Visit DAO", href: "https://forum.badger.finance/", copy: "Vote and lead the direction of the DAO + all of its products like Sett vault." },
 		]
-		return q.map((qualifier) => <Grid item xs={12} md={12}>
+		return q.map((qualifier) => <Grid item xs={12} md={4}>
 			<Card>
 				<CardActionArea target="_blank" href={qualifier.href}>
 					<CardContent>
@@ -145,13 +145,13 @@ export const Airdrops = observer(() => {
 			</Grid>
 			{spacer()}
 			<Grid item xs={12}>
-				<Typography variant="body1">
-					Badger builds products to accelerate Bitcoin in DeFi. Our core product is Sett Vault which generates automated yield for tokenized Bitcoin. Click the "Sett Vaults" tab in the sidebar to explore or learn more about Badger DAO below.
-					</Typography>
+
+				<Typography variant="body2">
+					Badger builds products to accelerate Bitcoin in DeFi. Our core product is Sett Vault which generates automated yield for tokenized Bitcoin. Click the "Sett Vaults" tab in the sidebar or learn more about Badger DAO below.
+				</Typography>
 
 			</Grid>
 
-			{spacer()}
 
 			{copy()}
 

@@ -21,6 +21,7 @@ import { VaultUnstake } from './VaultUnstake';
 import { VaultSymbol } from '../VaultSymbol';
 
 import { geysers as geyserConfig, vaults as vaultConfig } from '../../config/system/settSystem'
+import Carousel from 'react-material-ui-carousel';
 
 const useStyles = makeStyles((theme) => ({
 
@@ -28,7 +29,8 @@ const useStyles = makeStyles((theme) => ({
 		width: "100%",
 		borderRadius: theme.shape.borderRadius,
 		overflow: 'hidden',
-		border: `1px solid ${theme.palette.grey[800]}`,
+		border: `1px solid ${theme.palette.grey[900]}`,
+		background: `${theme.palette.background.paper}`,
 		padding: 0
 	},
 	listItem: {
@@ -42,8 +44,9 @@ const useStyles = makeStyles((theme) => ({
 		width: "100%"
 	},
 	carousel: {
-		overflow: 'inherit',
-		marginTop: theme.spacing(1)
+		// overflow: 'inherit',
+		// marginTop: theme.spacing(1)
+		width: '100%'
 	},
 	featuredHeader: {
 		marginBottom: theme.spacing(2)
@@ -121,7 +124,7 @@ export const SettList = observer((props: any) => {
 		}).length > 0
 	}
 
-	const renderContracts = (contracts: any, isGeysers: boolean = false, isFeatured: boolean = false) => {
+	const renderContracts = (contracts: any, isGeysers: boolean = false, isFeatured: boolean = false, raw: boolean = false) => {
 
 		let list = _.map(contracts, (contract: any, address: string) => {
 
@@ -140,16 +143,19 @@ export const SettList = observer((props: any) => {
 				vault = vaults[contract[contract.underlyingKey]]
 
 			if (!isGeysers)
-				return <Grid item xs={12} key={address} className={classes.listItem}>
+				return <ListItem key={address} className={classes.listItem}>
 					<VaultCard isGlobal={isGlobal} uiStats={stats} onStake={onStake} onUnwrap={onUnwrap} isFeatured={isFeatured} />
-				</Grid>
+				</ListItem>
 			else
 				return <ListItem key={address} className={classes.listItem}>
 					<VaultCard isGlobal={isGlobal} isDeposit uiStats={stats} onStake={onStake} onUnstake={onUnstake} />
 				</ListItem>
 		})
 
-		return <List className={classes.list}>{list}</List>
+		if (raw)
+			return list
+		else
+			return <List className={classes.list}>{list}</List>
 	}
 
 
@@ -172,10 +178,7 @@ export const SettList = observer((props: any) => {
 	const emptyGeysers = () => {
 
 		// wallet assets & wrapped assets ordered by value
-		return renderContracts(_.sortBy(vaults, [(vault: any) => {
-			let token = tokens[vault[vault.underlyingKey]]
-			return !!token && -token.balanceOf
-		}]).filter((vault: any) => {
+		return renderContracts(_.filter(vaults, (vault: any) => {
 			return !!vault && (!vault.balanceOf || !vault.balanceOf.gt(0))
 		}))
 	}
@@ -196,7 +199,8 @@ export const SettList = observer((props: any) => {
 
 	const featuredGeysers = () => {
 		// wallet assets & wrapped assets ordered by value
-		return renderContracts(vaults.filter((vault: any) => vault.isFeatured), false, true)
+		return renderContracts(_.filter(vaults, (vault: any) => vault.isFeatured), false, true, true)
+
 	}
 
 
@@ -302,6 +306,7 @@ export const SettList = observer((props: any) => {
 		{!!connectedAddress && !isGlobal && tableHeader(`Deposits - ${stats.geysers}`)}
 		{!!connectedAddress && !isGlobal && renderDeposits()}
 
+		{isGlobal && <Carousel className={classes.carousel} indicators={false} navButtonsAlwaysVisible >{featuredGeysers()}</Carousel>}
 		{!hideEmpty && tableHeader(`Setts`)}
 		{!hideEmpty && emptyGeysers()}
 
