@@ -90,7 +90,6 @@ class ContractsStore {
 	updateTokens = action((tokens: any) => {
 		this.tokens = _.defaultsDeep(tokens, this.tokens)
 	});
-
 	updateGeysers = action((geysers: any) => {
 		this.geysers = _.defaultsDeep(geysers, this.geysers)
 	});

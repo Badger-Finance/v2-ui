@@ -2,20 +2,14 @@ import { extendObservable, action } from 'mobx';
 import Web3 from 'web3';
 import Onboard from 'bnc-onboard';
 
-import { Store } from 'mobx-router';
 import { RootStore } from '../store';
-import { PromiEvent } from 'web3-core';
-import { Contract } from 'web3-eth-contract';
-import { estimateAndSend } from '../utils/web3';
 import BigNumber from 'bignumber.js';
 import { onboardWallets, onboardWalletCheck } from '../../config/wallets';
 
 
 
 class WalletStore {
-
 	private store?: RootStore
-
 
 	public onboard: any;
 	public provider?: any = new Web3.providers.HttpProvider('https://mainnet.infura.io/v3/77a0f6647eb04f5ca1409bba62ae9128')
@@ -33,6 +27,7 @@ class WalletStore {
 			darkMode: true,
 			subscriptions: {
 				address: this.setAddress,
+				wallet: this.cacheWallet
 			},
 			walletSelect: {
 				heading: 'Connect to BadgerDAO',
@@ -58,6 +53,15 @@ class WalletStore {
 			this.getGasPrice()
 			this.getCurrentBlock()
 		}, 13000)
+
+		const previouslySelectedWallet = window.localStorage.getItem('selectedWallet')
+
+		// call wallet select with that value if it exists
+		if (previouslySelectedWallet != null) {
+			this.onboard.walletSelect(previouslySelectedWallet)
+		}
+
+
 	}
 
 	walletReset = action(() => {
@@ -103,6 +107,9 @@ class WalletStore {
 
 	setAddress = action((address: any) => {
 		this.connectedAddress = address;
+	});
+	cacheWallet = action((wallet: any) => {
+		window.localStorage.setItem('selectedWallet', wallet.name)
 	});
 
 
