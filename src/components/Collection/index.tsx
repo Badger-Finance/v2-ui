@@ -147,20 +147,20 @@ export const Collection = observer(() => {
 
 
 			<Grid item xs={12} md={!!connectedAddress ? 4 : 6} >
-				<Paper className={classes.statPaper}>
+				<Paper elevation={2} className={classes.statPaper}>
 					<Typography variant="subtitle1" color="textPrimary">TVL</Typography>
 					<Typography variant="h5">{stats.tvl}</Typography>
 				</Paper>
 			</Grid >
 			{!!connectedAddress && <Grid item xs={12} md={4}>
-				<Paper className={classes.statPaper}>
+				<Paper elevation={2} className={classes.statPaper}>
 					<Typography variant="subtitle1" color="textPrimary">Your Portfolio</Typography>
 					<Typography variant="h5">{stats.portfolio}</Typography>
 				</Paper> 			</Grid>
 			}
 
 			<Grid item xs={12} md={!!connectedAddress ? 4 : 6}>
-				<Paper className={classes.statPaper}>
+				<Paper elevation={2} className={classes.statPaper}>
 					<Typography variant="subtitle1" color="textPrimary">Badger Price</Typography>
 					<Typography variant="h5">{stats.badger || "..."}</Typography>
 				</Paper>

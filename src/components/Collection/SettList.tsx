@@ -31,7 +31,8 @@ const useStyles = makeStyles((theme) => ({
 		overflow: 'hidden',
 		border: `1px solid ${theme.palette.grey[900]}`,
 		background: `${theme.palette.background.paper}`,
-		padding: 0
+		padding: 0,
+		boxShadow: theme.shadows[1]
 	},
 	listItem: {
 		padding: 0,
@@ -46,7 +47,11 @@ const useStyles = makeStyles((theme) => ({
 	carousel: {
 		// overflow: 'inherit',
 		// marginTop: theme.spacing(1)
-		width: '100%'
+		width: '100%',
+		background: theme.palette.background.paper,
+		borderRadius: theme.shape.borderRadius,
+		minHeight: '517px',
+		boxShadow: theme.shadows[3]
 	},
 	featuredHeader: {
 		marginBottom: theme.spacing(2)
