@@ -5,8 +5,6 @@ import { useContext } from 'react';
 import { StoreContext } from '../../context/store-context';
 import { Button, ButtonGroup, List, ListItem, Typography, Drawer, Toolbar, AppBar, IconButton } from "@material-ui/core"
 import { makeStyles } from '@material-ui/core/styles';
-import { collections } from '../../config/constants';
-import { UseWalletProvider } from 'use-wallet'
 import { Menu } from '@material-ui/icons';
 import { observe } from 'mobx';
 import { useSnackbar } from 'notistack';

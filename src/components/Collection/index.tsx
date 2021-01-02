@@ -76,101 +76,11 @@ export const Collection = observer(() => {
 	const store = useContext(StoreContext);
 	const classes = useStyles();
 
-	const { router: { params, goTo },
+	const {
 		wallet: { connectedAddress },
-		contracts: { vaults, geysers, tokens },
-		uiState: { collection, stats, geyserStats, vaultStats, currency, period, setCurrency, setPeriod } } = store;
+		contracts: { tokens },
+		uiState: { stats, geyserStats, vaultStats, currency, period, setCurrency, setPeriod } } = store;
 
-	const [modalProps, setModalProps] = useState({ open: false, mode: '', contract: "0x" })
-
-
-	const renderContracts = (contracts: any, isGeysers: boolean = false, isFeatured: boolean = false) => {
-
-		return _.map(contracts, (contract: any, address: string) => {
-
-			let vault = vaults[contract[collection.configs.geysers.underlying]]
-			let geyser = contract
-			let stats = !!geyserStats && geyserStats[contract.address]
-			let config = collection.configs.geysers
-
-			if (!vault) {
-				vault = contract
-				geyser = _.find(geysers, (geyser: any) => geyser.getStakingToken === vault.address)
-				stats = vaultStats[contract.address]
-				config = collection.configs.vaults
-
-			} else
-				vault = vaults[contract[collection.configs.geysers.underlying]]
-
-			return <Grid item xs={12} key={address}>
-				<VaultCard isGlobal uiStats={stats} onStake={onStake} onUwrap={onUnwrap} isFeatured={isFeatured} />
-			</Grid>
-
-		})
-	}
-
-	const onUnwrap = (contract: string) => {
-		setModalProps({ mode: 'unwrap', contract, open: true })
-	}
-	const onUnstake = (contract: string) => {
-		setModalProps({ mode: 'unstake', contract, open: true })
-	}
-	const onStake = (contract: string) => {
-		setModalProps({ mode: 'stake', contract, open: true })
-	}
-	const onClose = (contract: string) => {
-		setModalProps({ ...modalProps, open: false })
-	}
-
-	const walletVaults = () => {
-
-		let vaultCards: any[] = []
-
-		// wallet assets & wrapped assets ordered by value
-		return renderContracts(
-			_.sortBy(vaults, [(vault: any) => {
-				let token = tokens[vault[collection.configs.vaults.underlying]]
-				return -token.balanceOf
-			}]).filter((geyser: any) => {
-				return (!!geyser.balanceOf && geyser.balanceOf.gt(0))
-			}))
-	}
-
-	const emptyGeysers = () => {
-
-		// wallet assets & wrapped assets ordered by value
-		return renderContracts(_.sortBy(vaults, [(vault: any) => {
-			let token = tokens[vault[collection.configs.vaults.underlying]]
-			return -token.balanceOf
-		}]).filter((vault: any) => {
-			return (!vault.balanceOf || !vault.balanceOf.gt(0))
-		}))
-	}
-
-	const featuredGeysers = () => {
-
-		// wallet assets & wrapped assets ordered by value
-		return renderContracts(collection.configs.vaults.featured.map((vaultAddress: any) => {
-			return vaults[vaultAddress]
-		}), false, true)
-	}
-	const renderDeposits = () => {
-
-		// pooled tokens & empty tokens
-		return renderContracts(
-			_.sortBy(geysers, [(geyser: any) => {
-				let token = tokens[geyser[collection.configs.geysers.underlying]]
-				return -token.balanceOf
-			}]).filter((geyser: any) => {
-				return (!!geyser.totalStakedFor && geyser.totalStakedFor.gt(0))
-			}), true)
-	}
-
-	const renderFilters = () => {
-		return []
-		// return Object.keys(collection.vaults[0])
-		// 	.map((key: string) => <Chip color={collection.config.config.table.includes(key) ? 'primary' : 'default'} size="small" className={classes.filter} label={key} onClick={() => { addFilter(key) }} onDelete={collection.config.config.table.includes(key) ? () => removeFilter(key) : undefined} />)
-	}
 
 	if (!tokens) {
 		return <Loader />
@@ -210,34 +120,7 @@ export const Collection = observer(() => {
 	};
 
 
-	const depositModal = () => {
-
-		const { mode, open, contract } = modalProps
-		let vault: any = {}
-		let title: string = ""
-		if (mode == "stake") {
-			vault = vaultStats[contract]
-			title = "Stake " + vault.name
-		} else if (mode == "unstake") {
-			vault = geyserStats[contract]
-			title = "Unstake " + vault.name
-		} else if (mode == "stake") {
-			vault = vaultStats[contract]
-			title = "Unwrap " + vault.name
-		}
-
-		return <Dialog fullWidth maxWidth={'sm'} open={open} onClose={onClose}>
-			<DialogTitle>
-				{title}
-			</DialogTitle>
-
-			<VaultStake uiStats={vault} onStake={onStake} onUnstake={onUnstake} />
-		</Dialog>
-	}
-
-
 	return <Container className={classes.root} >
-		{depositModal()}
 		<Grid container spacing={2}>
 			{spacer()}
 
@@ -286,7 +169,7 @@ export const Collection = observer(() => {
 			{spacer()}
 
 
-			<Grid item xs={12} >
+			{/* <Grid item xs={12} >
 				<Typography variant="body1" color="textPrimary" className={classes.featuredHeader}>Featured</Typography>
 
 				<Carousel
@@ -307,9 +190,8 @@ export const Collection = observer(() => {
 					}}
 
 				>
-					{featuredGeysers()}
 				</Carousel>
-			</Grid >
+			</Grid > */}
 
 			<SettList isGlobal />
 

@@ -5,6 +5,7 @@ import { PromiEvent } from 'web3-core'
 import WalletStore from "../stores/walletStore";
 import _ from "lodash";
 import { CollectionsOutlined } from "@material-ui/icons";
+import { reduceMethodConfig } from "../reducers/contractReducers";
 
 const { fetchJson } = require('../../config/constants')
 
@@ -24,7 +25,7 @@ export const estimateAndSend = (web3: Web3, gasPrice: number, method: ContractSe
 }
 
 
-export const batchConfig = (namespace: string, wallet: WalletStore, addresses: any[], methods: any[], abi: any, allReadMethods: boolean = true) => {
+export const batchConfig = (namespace: string, addresses: any[], methods: any[], abi: any, allReadMethods: boolean = true) => {
 
 	let readMethods = {}
 	let abiFile = {}
@@ -39,7 +40,7 @@ export const batchConfig = (namespace: string, wallet: WalletStore, addresses: a
 		}
 	return ({
 		namespace,
-		addresses,
+		addresses: addresses.map((address: string) => Web3.utils.toChecksumAddress(address)),
 		allReadMethods,
 		groupByNamespace: true,
 		logging: false,
@@ -87,19 +88,19 @@ export const contractMethods = (config: any, wallet: WalletStore): any[] => {
 
 	return methods
 }
-export const erc20Methods = (wallet: WalletStore, token: any, vaults: any[]): any[] => {
-	if (!!wallet.connectedAddress && !!token.contract) {
+export const erc20Methods = (connectedAddress: string, token: any, vaults: any[]): any[] => {
+	if (!!connectedAddress && !!token.contract) {
 		// get allowance of each vault
 
 		return [{
 			name: "balanceOf",
 			args: [
-				Web3.utils.toChecksumAddress(wallet.connectedAddress)
+				Web3.utils.toChecksumAddress(connectedAddress)
 			]
 		}, {
 			name: "allowance",
 			args: [
-				Web3.utils.toChecksumAddress(wallet.connectedAddress),
+				Web3.utils.toChecksumAddress(connectedAddress),
 				Web3.utils.toChecksumAddress(token.contract),
 			]
 		}];

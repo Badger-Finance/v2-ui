@@ -5,7 +5,6 @@ import { useContext } from 'react';
 import { StoreContext } from '../../context/store-context';
 import { Button, ButtonGroup, List, ListItem, Typography, Drawer, Chip } from "@material-ui/core"
 import { makeStyles } from '@material-ui/core/styles';
-import { collections } from '../../config/constants';
 import { Wallet } from './Wallet';
 import { LocalGasStation } from '@material-ui/icons';
 // import { useSnackbar } from 'notistack';
@@ -77,20 +76,6 @@ export const Sidebar = observer(() => {
 	// 		enqueueSnackbar(errorMessage, { variant: 'error' })
 
 	// }, [errorMessage])
-
-
-	const renderCollections = () => {
-		return collections.map((collection) => {
-
-			return <ListItem divider button key={collection.id} className={classes.listItem + ' ' + (store.router.params?.collection === collection.id ? classes.activeListItem : '')}
-				onClick={() => { closeSidebar(); goTo(views.collection, { collection: collection.id }) }}>
-
-				{collection.title}
-
-			</ListItem>
-		})
-	}
-
 	return (
 		<Drawer
 			variant={window.innerWidth > 960 ? 'persistent' : 'temporary'}
@@ -106,7 +91,9 @@ export const Sidebar = observer(() => {
 						<img src={require('../../assets/badger-logo.png')} className={classes.logo} />
 
 					</ListItem>
-					{renderCollections()}
+
+					<ListItem divider button className={classes.listItem + ' ' + (store.router.currentPath == '/setts' ? classes.activeListItem : '')} onClick={() => goTo(views.collection)}>
+						Setts</ListItem>
 
 					<ListItem divider button
 						onClick={() => { closeSidebar(); goTo(views.home) }}

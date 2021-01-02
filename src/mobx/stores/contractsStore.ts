@@ -1,23 +1,23 @@
 import { extendObservable, action, observe } from 'mobx';
 import Web3 from 'web3'
 import BatchCall from "web3-batch-call";
-import { batchConfig, getTokenAddresses, erc20Methods, contractMethods, estimateAndSend } from "../utils/web3"
+import { batchConfig, erc20Methods, contractMethods, estimateAndSend } from "../utils/web3"
 import BigNumber from 'bignumber.js';
 import { RootStore } from '../store';
-import _, { Collection } from 'lodash';
-import { reduceBatchResult, reduceCurveResult, reduceGeyserSchedule, reduceGraphResult, reduceGrowth } from '../reducers/contractReducers';
-import { jsonQuery, graphQuery, growthQuery, secondsToBlocks, inCurrency } from '../utils/helpers';
-import { collections } from '../../config/constants';
+import _ from 'lodash';
+import { erc20BatchConfig, generateCurveTokens, reduceBatchResult, reduceContractConfig, reduceMethodConfig, reduceContractsToTokens, reduceCurveResult, reduceGeyserSchedule, reduceGraphResult, reduceGrowth, reduceMasterChefResults } from '../reducers/contractReducers';
+import { jsonQuery, graphQuery, growthQuery, secondsToBlocks, inCurrency, chefQueries } from '../utils/helpers';
 import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
 import async from 'async';
 import { reduceClaims } from '../reducers/statsReducers';
+import { token as diggToken } from '../../config/system/digg';
+import { curveTokens } from '../../config/system/tokens';
+import { EMPTY_DATA, ERC20, MIN_ETH_BALANCE, START_BLOCK, WBTC_ADDRESS } from '../../config/constants';
+import { rewards as rewardsConfig, geysers as geyserConfigs } from '../../config/system/settSystem';
+import { rewards as airdropsConfig } from '../../config/system/settSystem';
 
-const WBTC_ADDRESS = "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599"
-const ERC20 = require("../../config/abis/ERC20.json")
-const START_BLOCK = 11381216
-const EMPTY_DATA = '0x'
-const MIN_ETH_BALANCE = new BigNumber(0.01 * 1e18);
+
 
 const infuraProvider = new Web3.providers.HttpProvider('https://mainnet.infura.io/v3/77a0f6647eb04f5ca1409bba62ae9128')
 const options = {
@@ -28,7 +28,7 @@ const options = {
 	},
 }
 
-let batchCall = new BatchCall(options);
+var batchCall = new BatchCall(options);
 
 class ContractsStore {
 	private store!: RootStore;
@@ -53,19 +53,18 @@ class ContractsStore {
 			airdrops: undefined
 		});
 
+		this.fetchContracts()
+
 		observe(this as any, "tokens", (change: any) => {
 			if (!!change.oldValue) {
 				this.calculateVaultGrowth()
 				this.calculateGeyserRewards()
 				// this.fetchRebase()
-				// console.log(
-				// 	_.map(this.geysers, (geyser: any) => (geyser.day / 1).toString()).join(','),
-				// 	_.map(this.tokens, (geyser: any) => (geyser.ethValue / 1).toString()).join(','),
-				// )
 			}
 		})
+
 		observe(this.store.wallet as any, "connectedAddress", (change: any) => {
-			const newOptions = {
+			let newOptions = {
 				web3: new Web3(this.store.wallet.provider),
 				etherscan: {
 					apiKey: "NXSHKK6D53D3R9I17SR49VX8VITQY7UC6P",
@@ -75,46 +74,52 @@ class ContractsStore {
 			batchCall = new BatchCall(newOptions);
 
 			this.fetchSettRewards()
-			this.fetchCollection()
+			this.fetchContracts()
 		})
 	}
 
-	fetchCollection = action(() => {
+	updateVaults = action((vaults: any) => {
+		this.vaults = _.defaultsDeep(vaults, this.vaults)
+	});
+	updateTokens = action((tokens: any) => {
+		this.tokens = _.defaultsDeep(tokens, this.tokens)
+	});
+
+	updateGeysers = action((geysers: any) => {
+		this.geysers = _.defaultsDeep(geysers, this.geysers)
+	});
+
+	fetchContracts = action(() => {
 		// state and wallet are separate stores
 		const { wallet, uiState } = this.store
-		const { collection } = uiState
-
-		// only fetch the active collection.
-		if (!collection)
-			return
+		const { connectedAddress } = this.store.wallet
 
 		// grab respective config files
-		const { vaults, geysers } = collection.contracts
+		const { vaults, geysers } = require('config/system/settSystem.ts')
+
+		this.updateVaults(reduceContractConfig(vaults, connectedAddress && { connectedAddress }))
+		this.updateGeysers(reduceContractConfig(geysers, connectedAddress && { connectedAddress }))
 
 		// create batch configs for vaults and geysers
-		let batchContracts: any[] = _.map(collection.configs,
-			(config: any, namespace: string) => {
-				if (namespace === "geysers") {
-					return batchConfig(namespace,
-						wallet,
-						collection.contracts[namespace].slice(0, collection.contracts[namespace].length - 2),
-						contractMethods(config, wallet),
-						config.abi)
-				} else {
-					return batchConfig(namespace,
-						wallet,
-						collection.contracts[namespace],
-						contractMethods(config, wallet),
-						config.abi)
-				}
+		const vaultBatch: any[] = _.map(vaults,
+			(config: any) => {
+				return batchConfig('vaults',
+					config.contracts,
+					!!config.methods ? reduceMethodConfig(config.methods, !!connectedAddress && { connectedAddress }) : [],
+					config.abi)
 			})
 
-		batchContracts.push(
-			batchConfig('geysers',
-				wallet,
-				collection.contracts.geysers.slice(collection.contracts['geysers'].length - 2, collection.contracts['geysers'].length),
-				[],
-				collection.configs.geysers.sushiAbi))
+		const geyserBatch: any[] = _.map(geysers,
+			(config: any) => {
+				return batchConfig('geysers',
+					config.contracts,
+					!!config.methods ? reduceMethodConfig(config.methods, !!connectedAddress && { connectedAddress }) : [],
+					config.abi)
+			})
+
+		let batchContracts = _.concat(vaultBatch, geyserBatch)
+
+		console.log(batchContracts, batchCall)
 
 		// execute batch calls to web3 (infura most likely)
 		batchCall.execute(batchContracts)
@@ -122,20 +127,15 @@ class ContractsStore {
 
 				// sort result into hash {vaults:[], geysers:[]}
 				let keyedResult = _.groupBy(result, 'namespace')
-
 				// store vaults & geysers as hashes {contract_address: data}
 				_.mapKeys(keyedResult, (value: any, key: string) => {
 					if (key === "vaults")
-						this.vaults = _.keyBy(reduceBatchResult(value), 'address')
+						this.updateVaults(_.keyBy(reduceBatchResult(value), 'address'))
 					else
-						this.geysers = _.keyBy(reduceBatchResult(value), 'address')
+						this.updateGeysers(_.keyBy(reduceBatchResult(value), 'address'))
 				})
 
-				// manually update sushi assets
-				this.vaults["0x758A43EE2BFf8230eeb784879CdcFF4828F2544D".toLowerCase()]['token'] = "0x110492b31c59716ac47337e616804e3e3adc0b4a".toLowerCase()
-				this.vaults["0x1862A18181346EBd9EdAf800804f89190DeF24a5".toLowerCase()]['token'] = "0xceff51756c56ceffca006cd410b03ffc46dd3a58".toLowerCase()
-				this.geysers["0x7a56d65254705b4def63c68488c0182968c452ce".toLowerCase()]['getStakingToken'] = "0x758A43EE2BFf8230eeb784879CdcFF4828F2544D".toLowerCase()
-				this.geysers["0x3a494D79AA78118795daad8AeFF5825C6c8dF7F1".toLowerCase()]['getStakingToken'] = "0x1862A18181346EBd9EdAf800804f89190DeF24a5".toLowerCase()
+				console.log(this.vaults)
 
 				// fetch input/outputs information
 				this.fetchTokens()
@@ -147,197 +147,61 @@ class ContractsStore {
 
 	fetchTokens = action(() => {
 		const { wallet, uiState } = this.store
-		const { collection } = uiState
-
-		// grab underlying and yielding token addresses as {address:, contract:}
-		let tokenMappings: any = _.map(collection.configs, (config: any, namespace: string) => {
-			if (namespace === undefined)
-				return
-			let addresses = namespace === "vaults" ? this.vaults : this.geysers
-			let tokens = getTokenAddresses(addresses, config)
-			return tokens
-		})
-		tokenMappings.push([WBTC_ADDRESS, collection.rebase.contract].map((address: string) => ({ address })))
+		const { connectedAddress } = this.store.wallet
 
 		// reduce to {address:{address:,contract:}}
-		tokenMappings = _.keyBy(
-			_.flatten(tokenMappings),
-			'address')
+		this.updateTokens(reduceContractsToTokens({ ...this.vaults, ...this.geysers }))
+		// console.log(this.tokens)
 
 		//generate curve tokens
-		let curveMappings = _.keyBy(
-			_.zip(collection.curveBtcPools.contracts, collection.curveBtcPools.symbols, collection.curveBtcPools.names)
-				.map((token: any[]) => {
-					return _.zipObject(['address', 'symbol', 'name'], token)
-				})
-			, 'address')
-		tokenMappings = _.assign(tokenMappings, curveMappings)
-
-		// set or update token list
-		this.tokens = !this.tokens ? tokenMappings : _.mapValues(this.tokens, (value: any, address: string) => _.assign(value, tokenMappings[address]))
-
-		// pull raw addresses
-		let tokenAddresses = _.compact(
-			_.map(
-				tokenMappings,
-				(token: any) => token.address))
-
+		this.updateTokens(generateCurveTokens())
 
 		// prepare curve query
-		const curveBtcPrices = collection.curveBtcPools.contracts.map(
-			(address: string, index: number) => jsonQuery(collection.curveBtcPools.prices[index]))
+		const curveBtcPrices = curveTokens.contracts.map(
+			(address: string, index: number) => jsonQuery(curveTokens.priceEndpoints[index]))
 
-		// prepare graph query
-		const graphQueries = _.compact(_.map(tokenMappings,
+		// prepare price queries
+		const graphQueries = _.flatten(_.map(this.tokens,
 			(token: any, address: string) => graphQuery(token)));
 
-		// prepare web3 query
-		let readBatches: Promise<any>[] = _.map(tokenMappings, (tokenMap: any) => {
-			// let ercMethods = erc20Methods(
-			// 	wallet,
-			// 	tokenMap)
-
-			return batchCall.execute([
-				batchConfig('tokens', wallet, [tokenMap.address], erc20Methods(
-					wallet,
-					tokenMap, []), ERC20.abi, true)])
-		});
+		// prepare batch call
+		let ercConfigs = erc20BatchConfig(this.tokens, connectedAddress)
+		let ercBatch = !!ercConfigs ? [batchCall.execute(ercConfigs)] : []
 
 		// execute promises
-		Promise.all([...curveBtcPrices, ...readBatches, ...graphQueries])
+		Promise.all([...curveBtcPrices, ...ercBatch, ...graphQueries])
 			.then((result: any[]) => {
-				let tokenContracts = _.keyBy(reduceBatchResult(_.flatten(result.slice(3, readBatches.length + 3))), 'address')
-				let tokenGraph = _.keyBy(_.compact(reduceGraphResult(result.slice(readBatches.length + 3))), 'address')
-				let curveBtcPrices = _.keyBy(reduceCurveResult(result.slice(0, 3), collection.curveBtcPools.contracts, tokenContracts, tokenGraph[WBTC_ADDRESS]), 'address')
+				let tokenContracts = _.keyBy(reduceBatchResult(_.flatten(result.slice(3, 4))), 'address')
+				let tokenGraph = _.keyBy(_.compact(reduceGraphResult(result.slice(4))), 'address')
+				let curveBtcPrices = _.keyBy(reduceCurveResult(result.slice(0, 3), curveTokens.contracts, this.tokens, tokenGraph[WBTC_ADDRESS]), 'address')
 
-				this.tokens = _.mapValues(
-					this.tokens,
-					(value: any, address: string) => {
-						return _.assign(
-							value,
-							tokenGraph[address],
-							curveBtcPrices[address],
-							tokenContracts[address])
-					})
+				this.updateTokens(tokenContracts)
+				this.updateTokens(tokenGraph)
+				this.updateTokens(curveBtcPrices)
+
+				// console.log(this.tokens, tokenContracts, tokenGraph, curveBtcPrices)
 			})
 	});
-
-
-	batchDeposit = action((underlyingToken: string) => {
-		const { wallet, uiState } = this.store
-		const { collection } = uiState
-
-		let vault = this.vaults[this.tokens[underlyingToken].contract]
-		let geyser = this.geysers[this.tokens[vault.address].contract]
-
-
-		// approve underlying
-		// approve sett tokens
-		// deposit remaining underlying
-		// deposit remaining sett tokens
-
-
-	});
-
-	batchWithdraw = action((underlyingToken: string) => {
-		const { wallet, uiState } = this.store
-		const { collection } = uiState
-
-		let vault = this.vaults[this.tokens[underlyingToken].contract]
-		let geyser = this.geysers[this.tokens[vault.address].contract]
-
-
-	});
-
-	calculateVaultGrowth = action(() => {
-		let { vaults, tokens } = this.store.contracts
-		let { currentBlock } = this.store.wallet
-
-		if (!currentBlock)
-			return
-
-		let periods = [
-			Math.max(currentBlock - secondsToBlocks(60 * 5), START_BLOCK), 				// 5 minutes ago
-			Math.max(currentBlock - secondsToBlocks(1 * 24 * 60 * 60), START_BLOCK), 	// day
-			Math.max(currentBlock - secondsToBlocks(7 * 24 * 60 * 60), START_BLOCK),	// week
-			Math.max(currentBlock - secondsToBlocks(30 * 24 * 60 * 60), START_BLOCK),	// month
-			START_BLOCK, 	// start
-		]
-
-		const growthPromises = periods.map(growthQuery)
-
-		let tvl = new BigNumber(0)
-
-		Promise.all(growthPromises)
-			.then((result: any) => {
-
-				// save the growth
-				let vaultGrowth = reduceGrowth(result, periods)
-				// this.stats._vaultGrowth = vaultGrowth.total
-
-				// extend vaults with new growth statistics.. pretty hairy maybe we keep this is the UI-state
-				this.updateVaults(vaultGrowth.vaults)
-			})
-
-	})
-
-	calculateGeyserRewards = action(() => {
-		let { geysers, tokens, vaults } = this
-		let { collection } = this.store.uiState
-		let { currentBlock } = this.store.wallet
-
-		let { method, tokens: rewardTokens } = collection.configs.geysers.rewards
-		const rewardToken = tokens[rewardTokens[0]]
-
-		if (!tokens || !rewardToken.ethValue)
-			return
-
-		const timestamp = new BigNumber(new Date().getTime() / 1000.0)
-		this.updateGeysers(
-			_.mapValues(geysers,
-				(geyser: any, address: string) => {
-					let schedule = geyser[method]
-
-					let underlyingVault = vaults[geyser[collection.configs.geysers.underlying]]
-
-					let rawToken = tokens[underlyingVault[collection.configs.vaults.underlying]]
-					let underlyingToken = tokens[underlyingVault.address]
-					console.log(schedule)
-
-					// sum rewards in current period
-					// todo: break out to actual durations
-					let rewards = reduceGeyserSchedule(timestamp, schedule);
-
-					// turn bignumbers into percentages
-					return _.mapValues(rewards, (reward: any) => {
-						return !!rawToken.ethValue && reward.multipliedBy(rewardToken.ethValue)
-							.dividedBy(rawToken.ethValue.multipliedBy(underlyingVault.balance))
-
-					})
-				}))
-
-	})
 
 	fetchSettRewards = action(() => {
 		const { provider, connectedAddress } = this.store.wallet
 		const { collection } = this.store.uiState
-		const { merkle, proofNetwork, tokens } = this.store.uiState.collection.configs.geysers.rewards
 
 		if (!connectedAddress)
 			return
 
 		let web3 = new Web3(provider)
-		let rewardsTree = new web3.eth.Contract(merkle.abi, merkle.hashContract)
+		let rewardsTree = new web3.eth.Contract(rewardsConfig.abi, rewardsConfig.contract)
 		let checksumAddress = Web3.utils.toChecksumAddress(connectedAddress)
 
 		rewardsTree.methods
 			.merkleContentHash()
 			.call()
 			.then((merkleHash: any) => {
-				jsonQuery(`${merkle.proofEndpoint}/rewards/${merkle.proofNetwork}/${merkleHash}/${checksumAddress}`)
+				jsonQuery(`${rewardsConfig.endpoint}/rewards/${rewardsConfig.network}/${merkleHash}/${checksumAddress}`)
 					.then((merkleProof: any) => {
 						if (!merkleProof.error) {
-							rewardsTree.methods.getClaimedFor(connectedAddress, tokens)
+							rewardsTree.methods.getClaimedFor(connectedAddress, rewardsConfig.tokens)
 								.call()
 								.then((claimedRewards: any[]) => {
 									let claims = reduceClaims(merkleProof, claimedRewards)
@@ -356,20 +220,19 @@ class ContractsStore {
 	fetchAirdrops = action(() => {
 		const { provider, connectedAddress } = this.store.wallet
 		const { collection } = this.store.uiState
-		const { merkle, proofNetwork, tokens } = this.store.uiState.collection.configs.geysers.rewards
 
 		if (!connectedAddress)
 			return
 
 		let web3 = new Web3(provider)
-		let rewardsTree = new web3.eth.Contract(merkle.abi, merkle.hashContract)
+		let rewardsTree = new web3.eth.Contract(airdropsConfig.abi, airdropsConfig.contract)
 		let checksumAddress = Web3.utils.toChecksumAddress(connectedAddress)
 
 		rewardsTree.methods
 			.merkleContentHash()
 			.call()
 			.then((merkleHash: any) => {
-				jsonQuery(`${merkle.proofEndpoint}/hunt/${checksumAddress}`)
+				jsonQuery(`${airdropsConfig.endpoint}/hunt/${checksumAddress}`)
 					.then((merkleProof: any) => {
 
 						if (!merkleProof.error) {
@@ -390,9 +253,9 @@ class ContractsStore {
 
 	depositAndStake = action((vault: any, amount: BigNumber) => {
 		const { tokens, geysers } = this
-		const { collection, setTxStatus, queueNotification } = this.store.uiState
+		const { setTxStatus, queueNotification } = this.store.uiState
 
-		const underlying = tokens[vault.token]
+		const underlying = tokens[vault[vault.underlyingKey]]
 		const wrapped = tokens[vault.address]
 		const geyser = geysers[wrapped.contract]
 
@@ -441,9 +304,9 @@ class ContractsStore {
 
 	unstakeAndUnwrap = action((geyser: any, amount: BigNumber) => {
 		const { tokens, vaults } = this
-		const { collection, setTxStatus, queueNotification } = this.store.uiState
+		const { setTxStatus, queueNotification } = this.store.uiState
 
-		let wrapped = tokens[geyser[collection.configs.geysers.underlying]]
+		let wrapped = tokens[geyser[geyser.underlyingKey]]
 		let vault = vaults[wrapped.address]
 		let underlying = tokens[vaults[wrapped.address].token]
 
@@ -476,9 +339,9 @@ class ContractsStore {
 
 	unwrap = action((vault: any, amount: BigNumber) => {
 		const { tokens } = this
-		const { collection, setTxStatus, queueNotification } = this.store.uiState
+		const { setTxStatus, queueNotification } = this.store.uiState
 
-		let underlying = tokens[vault.token]
+		let underlying = tokens[vault[vault.underlyingKey]]
 		let wrapped = tokens[vault.address]
 
 		// ensure balance is valid
@@ -507,8 +370,7 @@ class ContractsStore {
 	claimGeysers = action((stake: boolean = false) => {
 		const { merkleProof } = this.badgerTree
 		const { provider, ethBalance, gasPrices, connectedAddress } = this.store.wallet
-		const { collection, queueNotification, gasPrice, setTxStatus } = this.store.uiState
-		const { merkle, proofNetwork, tokens } = this.store.uiState.collection.configs.geysers.rewards
+		const { queueNotification, gasPrice, setTxStatus } = this.store.uiState
 
 		if (!connectedAddress)
 			return
@@ -517,7 +379,7 @@ class ContractsStore {
 			return queueNotification("Your account is low on ETH, you may need to top up to claim.", 'warning')
 
 		let web3 = new Web3(provider)
-		let rewardsTree = new web3.eth.Contract(merkle.abi, merkle.hashContract)
+		let rewardsTree = new web3.eth.Contract(rewardsConfig.abi, rewardsConfig.contract)
 		const method = rewardsTree.methods.claim(
 			merkleProof.tokens,
 			merkleProof.cumulativeAmounts,
@@ -534,14 +396,14 @@ class ContractsStore {
 				}).on('receipt', (reciept: any) => {
 					queueNotification(`Rewards claimed.`, "success")
 					this.fetchSettRewards()
-					this.fetchCollection()
+					this.fetchContracts()
 
 					if (stake) {
 						let badgerVault = this.vaults["0x19d97d8fa813ee2f51ad4b4e04ea08baf4dffc28"]
 						this.depositAndStake(badgerVault, badgerAmount)
 					}
 				}).catch((error: any) => {
-					this.fetchCollection()
+					this.fetchContracts()
 					queueNotification(error.message, "error")
 					setTxStatus('error')
 				})
@@ -551,8 +413,7 @@ class ContractsStore {
 	claimAirdrops = action((stake: boolean = false) => {
 		const { merkleProof } = this.airdrops
 		const { provider, ethBalance, gasPrices, connectedAddress } = this.store.wallet
-		const { collection, queueNotification, gasPrice, setTxStatus } = this.store.uiState
-		const { merkle, proofNetwork, tokens } = this.store.uiState.collection.configs.geysers.rewards
+		const { queueNotification, gasPrice, setTxStatus } = this.store.uiState
 
 		if (!connectedAddress)
 			return
@@ -561,7 +422,7 @@ class ContractsStore {
 			return queueNotification("Your account is low on ETH, you may need to top up to claim.", 'warning')
 
 		let web3 = new Web3(provider)
-		let rewardsTree = new web3.eth.Contract(merkle.abi, merkle.hashContract)
+		let rewardsTree = new web3.eth.Contract(airdropsConfig.abi, airdropsConfig.contract)
 		const method = rewardsTree.methods.claim(
 			merkleProof.index,
 			connectedAddress,
@@ -577,14 +438,14 @@ class ContractsStore {
 				}).on('receipt', (reciept: any) => {
 					queueNotification(`Rewards claimed.`, "success")
 					this.fetchSettRewards()
-					this.fetchCollection()
+					this.fetchContracts()
 
 					if (stake) {
 						let badgerVault = this.vaults["0x19d97d8fa813ee2f51ad4b4e04ea08baf4dffc28"]
 						this.depositAndStake(badgerVault, badgerAmount)
 					}
 				}).catch((error: any) => {
-					this.fetchCollection()
+					this.fetchContracts()
 					queueNotification(error.message, "error")
 					setTxStatus('error')
 				})
@@ -592,29 +453,11 @@ class ContractsStore {
 		})
 	});
 
-	updateVaults = action((vaults: any) => {
-		this.vaults = !this.vaults ? vaults : _.mapValues(
-			this.vaults,
-			(value: any, address: string) =>
-				_.assignIn(
-					vaults[address], value
-				))
-	});
 
-	updateGeysers = action((geysers: any) => {
-		this.geysers = !this.geysers ? geysers : _.mapValues(
-			this.geysers,
-			(value: any, address: string) =>
-				_.assignIn(
-					geysers[address], value,
-				))
-
-	});
 
 	increaseAllowance = action((underlyingAsset: any, callback: (err: any, result: any) => void) => {
-		let { collection, queueNotification, setTxStatus } = this.store.uiState
+		let { queueNotification, setTxStatus } = this.store.uiState
 		let { provider, connectedAddress } = this.store.wallet
-
 
 		const web3 = new Web3(provider)
 		const underlyingContract = new web3.eth.Contract(ERC20.abi, underlyingAsset.address)
@@ -628,10 +471,10 @@ class ContractsStore {
 					queueNotification(`Transaction submitted with hash: ${hash}`, "info")
 				}).on('receipt', (reciept: any) => {
 					queueNotification(`${underlyingAsset.symbol} allowance increased.`, "success")
-					this.fetchCollection()
+					this.fetchContracts()
 					callback(null, {})
 				}).catch((error: any) => {
-					this.fetchCollection()
+					this.fetchContracts()
 					queueNotification(error.message, "error")
 					setTxStatus('error')
 				})
@@ -640,13 +483,13 @@ class ContractsStore {
 	});
 
 	depositGeyser = action((geyser: any, amount: BigNumber, callback: (err: any, result: any) => void) => {
-		let { collection, queueNotification, setTxStatus } = this.store.uiState
+		let { queueNotification, setTxStatus } = this.store.uiState
 		let { provider, connectedAddress } = this.store.wallet
 
-		const underlyingAsset = this.tokens[geyser[collection.configs.geysers.underlying]]
+		const underlyingAsset = this.tokens[geyser[geyser.underlyingKey]]
 
 		const web3 = new Web3(provider)
-		const geyserContract = new web3.eth.Contract(collection.configs.geysers.abi, geyser.address)
+		const geyserContract = new web3.eth.Contract(geyser.abi, geyser.address)
 		const method = geyserContract.methods.stake(amount.toFixed(0), EMPTY_DATA)
 
 		queueNotification(`Sign the transaction to stake ${inCurrency(amount, 'eth', true)} ${underlyingAsset.symbol}`, "info")
@@ -657,23 +500,23 @@ class ContractsStore {
 					queueNotification(`Deposit submitted with hash: ${hash}`, "info")
 				}).on('receipt', (reciept: any) => {
 					queueNotification(`Successfully deposited ${inCurrency(amount, 'eth', true)} ${underlyingAsset.symbol}`, "success")
-					this.fetchCollection()
+					this.fetchContracts()
 					callback(null, {})
 				}).catch((error: any) => {
-					this.fetchCollection()
+					this.fetchContracts()
 					queueNotification(error.message, "error")
 					setTxStatus('error')
 				})
 		})
 	});
 	withdrawGeyser = action((geyser: any, amount: BigNumber, callback: (err: any, result: any) => void) => {
-		let { collection, queueNotification, setTxStatus } = this.store.uiState
+		let { queueNotification, setTxStatus } = this.store.uiState
 		let { provider, connectedAddress } = this.store.wallet
 
-		const underlyingAsset = this.tokens[geyser[collection.configs.geysers.underlying]]
+		const underlyingAsset = this.tokens[geyser[geyser.underlyingKey]]
 
 		const web3 = new Web3(provider)
-		const geyserContract = new web3.eth.Contract(collection.configs.geysers.abi, geyser.address)
+		const geyserContract = new web3.eth.Contract(geyser.abi, geyser.address)
 		const method = geyserContract.methods.unstake(amount.toFixed(0), EMPTY_DATA)
 
 		queueNotification(`Sign the transaction to unstake ${inCurrency(amount, 'eth', true)} ${underlyingAsset.symbol}`, "info")
@@ -684,10 +527,10 @@ class ContractsStore {
 					queueNotification(`Transaction submitted with hash: ${hash}`, "info")
 				}).on('receipt', (reciept: any) => {
 					queueNotification(`Successfully unstaked ${inCurrency(amount, 'eth', true)} ${underlyingAsset.symbol}`, "success")
-					this.fetchCollection()
+					this.fetchContracts()
 					callback(null, {})
 				}).catch((error: any) => {
-					this.fetchCollection()
+					this.fetchContracts()
 					queueNotification(error.message, "error")
 					setTxStatus('error')
 				})
@@ -696,13 +539,13 @@ class ContractsStore {
 
 
 	depositVault = action((vault: any, amount: BigNumber, all: boolean = false, callback: (err: any, result: any) => void) => {
-		let { collection, queueNotification, setTxStatus } = this.store.uiState
+		let { queueNotification, setTxStatus } = this.store.uiState
 		let { provider, connectedAddress } = this.store.wallet
 
-		const underlyingAsset = this.tokens[vault[collection.configs.vaults.underlying]]
+		const underlyingAsset = this.tokens[vault[vault.underlyingKey]]
 
 		const web3 = new Web3(provider)
-		const underlyingContract = new web3.eth.Contract(collection.configs.vaults.abi, vault.address)
+		const underlyingContract = new web3.eth.Contract(vault.abi, vault.address)
 
 		let method = underlyingContract.methods.deposit(amount.toFixed(0))
 		if (all)
@@ -715,23 +558,23 @@ class ContractsStore {
 					queueNotification(`Deposit submitted with hash: ${hash}`, "info")
 				}).on('receipt', (reciept: any) => {
 					queueNotification(`Successfully deposited ${inCurrency(amount, 'eth', true)} ${underlyingAsset.symbol}`, "success")
-					this.fetchCollection()
+					this.fetchContracts()
 					callback(null, {})
 				}).catch((error: any) => {
-					this.fetchCollection()
+					this.fetchContracts()
 					queueNotification(error.message, "error")
 					setTxStatus('error')
 				})
 		})
 	});
 	withdrawVault = action((vault: any, amount: BigNumber, all: boolean = false, callback: (err: any, result: any) => void) => {
-		let { collection, setTxStatus, queueNotification } = this.store.uiState
+		let { setTxStatus, queueNotification } = this.store.uiState
 		let { provider, connectedAddress } = this.store.wallet
 
-		const underlyingAsset = this.tokens[vault[collection.configs.vaults.underlying]]
+		const underlyingAsset = this.tokens[vault[vault.underlyingKey]]
 
 		const web3 = new Web3(provider)
-		const underlyingContract = new web3.eth.Contract(collection.configs.vaults.abi, vault.address)
+		const underlyingContract = new web3.eth.Contract(vault.abi, vault.address)
 
 		let method = underlyingContract.methods.withdraw(amount.toFixed(0))
 		if (all)
@@ -745,15 +588,123 @@ class ContractsStore {
 					queueNotification(`Withdraw submitted with hash: ${hash}`, "info")
 				}).on('receipt', (reciept: any) => {
 					queueNotification(`Successfully withdrew ${inCurrency(amount, 'eth', true)} ${underlyingAsset.symbol}`, "success")
-					this.fetchCollection()
+					this.fetchContracts()
 					callback(null, {})
 				}).catch((error: any) => {
-					this.fetchCollection()
+					this.fetchContracts()
 					queueNotification(error.message, "error")
 					setTxStatus('error')
 				})
 		})
 	});
+
+
+	calculateVaultGrowth = action(() => {
+		let { vaults, tokens } = this.store.contracts
+		let { currentBlock } = this.store.wallet
+
+		if (!currentBlock)
+			return
+
+		let periods = [
+			Math.max(currentBlock - Math.floor(secondsToBlocks(60 * 5)), START_BLOCK), 				// 5 minutes ago
+			Math.max(currentBlock - Math.floor(secondsToBlocks(1 * 24 * 60 * 60)), START_BLOCK), 	// day
+			Math.max(currentBlock - Math.floor(secondsToBlocks(7 * 24 * 60 * 60)), START_BLOCK),	// week
+			Math.max(currentBlock - Math.floor(secondsToBlocks(30 * 24 * 60 * 60)), START_BLOCK),	// month
+			START_BLOCK, 	// start
+		]
+
+		const growthPromises = periods.map(growthQuery)
+
+		let tvl = new BigNumber(0)
+
+		Promise.all(growthPromises)
+			.then((result: any) => {
+
+				// save the growth
+				let vaultGrowth = reduceGrowth(result, periods)
+				// this.stats._vaultGrowth = vaultGrowth.total
+
+				// extend vaults with new growth statistics.. pretty hairy maybe we keep this is the UI-state
+				this.updateVaults(vaultGrowth)
+			})
+
+
+	})
+
+	calculateGeyserRewards = action(() => {
+		let { geysers, tokens, vaults } = this
+		let { collection } = this.store.uiState
+		let { currentBlock } = this.store.wallet
+
+		let rewardToken = tokens[rewardsConfig.tokens[0]]
+
+		if (!tokens || !rewardToken)
+			return
+
+		const timestamp = new BigNumber(new Date().getTime() / 1000.0)
+		let geyserRewards =
+			_.mapValues(geysers,
+				(geyser: any, address: string) => {
+					let schedule = geyser['getUnlockSchedulesFor']
+					let underlyingVault = vaults[geyser[geyser.underlyingKey]]
+
+					if (!schedule || !underlyingVault)
+						return {}
+
+					let rawToken = tokens[underlyingVault[underlyingVault.underlyingKey]]
+
+					// sum rewards in current period
+					// todo: break out to actual durations
+					let rewardSchedule = reduceGeyserSchedule(timestamp, schedule);
+
+					return _.mapValues(rewardSchedule, (reward: any) => {
+
+						return !!rawToken.ethValue && reward.multipliedBy(rewardToken.ethValue)
+							.dividedBy(rawToken.ethValue
+								.multipliedBy(underlyingVault.balance)
+								.multipliedBy(underlyingVault.getPricePerFullShare.dividedBy(1e18)))
+
+					})
+				})
+
+		this.updateGeysers(geyserRewards)
+
+		// grab sushi APYs
+		_.map(geyserConfigs, (config: any) => {
+			if (!!config.growthEndpoint) {
+				let masterChef = chefQueries(config.contracts, this.geysers, config.growthEndpoint)
+				let rewardToken = tokens[rewardsConfig.tokens[2]]
+
+				Promise.all(masterChef).then((results: any) => {
+
+					let sushiRewards = reduceMasterChefResults(results, config.contracts, this.tokens, this.vaults)
+
+					this.updateGeysers(_.mapValues(sushiRewards, (reward: any, geyserAddress: string) => {
+						let geyser = geysers[geyserAddress]
+						let vault = vaults[geyser[geyser.underlyingKey]]
+						let token = tokens[vault[vault.underlyingKey]]
+
+						delete reward.address
+
+						return {
+							sushiRewards: _.mapValues(reward, (rewardsInSushi: BigNumber, period: string) => {
+								if (!rewardToken.ethValue)
+									return
+
+								return rewardToken.ethValue
+									.multipliedBy(rewardsInSushi)
+									.dividedBy(vault.balance.multipliedBy(token.ethValue.dividedBy(1e18)))
+							})
+						}
+					}))
+				})
+			}
+		})
+
+
+	})
+
 
 }
 

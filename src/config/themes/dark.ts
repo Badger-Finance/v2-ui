@@ -30,6 +30,11 @@ export const darkTheme = createMuiTheme({
 		MuiTooltip: {
 			tooltip: {
 				fontSize: "1rem",
+				backgroundColor: "#F2A52B",
+				color: "#181818",
+			},
+			arrow: {
+				color: "#F2A52B"
 			}
 		},
 		MuiDrawer: {

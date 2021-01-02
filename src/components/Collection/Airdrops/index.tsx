@@ -6,6 +6,7 @@ import {
 	ButtonGroup,
 	Button,
 	Paper,
+	Chip,
 	Card,
 	CardContent,
 	CardActionArea,
@@ -54,6 +55,10 @@ const useStyles = makeStyles((theme) => ({
 	},
 	button: {
 		margin: theme.spacing(1.5, 0, 2)
+	},
+	chip: {
+		// float: 'right'
+		margin: theme.spacing(2, 0, 0, 'auto')
 	}
 
 }));
@@ -70,8 +75,8 @@ export const Airdrops = observer(() => {
 
 	const copy = () => {
 		let q = [
-			{ title: `Stake (${stats.badgerGrowth}% APY)`, button: `Stake (${stats.badgerGrowth}% APY)`, href: "/setts", copy: "Deposit in Badger Sett to earn vault fees and more $BADGER." },
-			{ title: "Liquidity", button: "Add Liquidity", href: "https://info.uniswap.org/pair/0xcd7989894bc033581532d2cd88da5db0a4b12859", copy: "Deposit $BADGER<>$WBTC Uniswap LP token into Sett vault to earn $BADGER." },
+			{ title: `Stake`, button: `Stake`, badge: !!stats.badgerGrowth && `Up to ${stats.badgerGrowth}% APY`, href: "/setts", copy: "Deposit in Badger Sett to earn vault fees and more $BADGER." },
+			{ title: "Liquidity", button: "Add Liquidity", badge: !!stats.badgerLiqGrowth && `Up to ${stats.badgerLiqGrowth}% APY`, href: "https://info.uniswap.org/pair/0xcd7989894bc033581532d2cd88da5db0a4b12859", copy: "Deposit $BADGER<>$WBTC Uniswap LP token into Sett vault to earn $BADGER." },
 			{ title: "Mine NFTs", button: "Visit MEME", href: "https://dontbuymeme.com/", copy: "Next week, stake $BADGER in MEME farm to mint Badger NFTs." },
 			{ title: "Governance", button: "Visit DAO", href: "https://forum.badger.finance/", copy: "Vote and lead the direction of the DAO + all of its products like Sett vault." },
 		]
@@ -79,7 +84,6 @@ export const Airdrops = observer(() => {
 			<Card>
 				<CardActionArea target="_blank" href={qualifier.href}>
 					<CardContent>
-
 						<Typography variant="body1">
 							{qualifier.title}
 						</Typography>
@@ -87,6 +91,7 @@ export const Airdrops = observer(() => {
 						<Typography variant="body2" color="textSecondary" style={{ marginTop: ".4rem" }}>
 							{qualifier.copy}
 						</Typography>
+						{!!qualifier.badge && <Chip className={classes.chip} label={qualifier.badge} color="primary" size="small" />}
 
 					</CardContent>
 				</CardActionArea>

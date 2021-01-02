@@ -7,7 +7,6 @@ import { Route } from 'mobx-router';
 import { Home } from '../components/Home';
 import { Collection } from '../components/Collection';
 import { RootStore } from '../mobx/store';
-import { collections } from './constants';
 import { Airdrops } from '../components/Collection/Airdrops';
 import { Digg } from '../components/Collection/Digg';
 
@@ -16,28 +15,22 @@ const routes = {
 		path: '/',
 		component: <Home />,
 		onEnter: (route, params, store) => {
-			store.uiState.setCollection(collections[0].id)
 		},
 		beforeExit: () => {
 		},
 		onParamsChange: (route, params, store) => {
-			store.uiState.setCollection(collections[0].id)
 		}
 
 	}),
 
-	collection: new Route<RootStore, {
-		collection: string;
-	}>({
-		path: '/collection/:collection',
+	collection: new Route<RootStore, any>({
+		path: '/setts',
 		component: <Collection />,
-		onEnter: (route, { collection }, store) => {
-			store.uiState.setCollection(collection)
+		onEnter: (route, params, store) => {
 		},
 		beforeExit: () => {
 		},
 		onParamsChange: (route, { collection }, store) => {
-			store.uiState.setCollection(collection)
 		}
 	}),
 	airdrops: new Route<RootStore, {
@@ -45,7 +38,6 @@ const routes = {
 		path: '/airdrops',
 		component: <Airdrops />,
 		onEnter: (_, params, store) => {
-			store.uiState.setCollection('badger')
 			store.contracts.fetchAirdrops()
 		},
 		beforeExit: (_, _p, store) => {
@@ -60,7 +52,6 @@ const routes = {
 		path: '/digg',
 		component: <Digg />,
 		onEnter: (_, params, store) => {
-			store.uiState.setCollection('badger')
 		},
 		beforeExit: (_, _p, store) => {
 

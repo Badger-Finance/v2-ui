@@ -17,7 +17,6 @@ import _ from 'lodash';
 import { VaultStake } from '../Collection/VaultStake';
 import Carousel from 'react-material-ui-carousel'
 import { SettList } from '../Collection/SettList';
-import { collections } from '../../config/constants';
 import views from '../../config/routes';
 
 const useStyles = makeStyles((theme) => ({
@@ -100,12 +99,12 @@ export const Home = observer(() => {
 	const { router: { params, goTo },
 		wallet: { connectedAddress },
 		contracts: { vaults, geysers, tokens, claimGeysers },
-		uiState: { collection, stats, geyserStats, vaultStats, treeStats, currency, setCurrency, period, setPeriod, queueNotification } } = store;
+		uiState: { stats, geyserStats, vaultStats, treeStats, currency, setCurrency, period, setPeriod, queueNotification } } = store;
 
 	const [modalProps, setModalProps] = useState({ open: false, mode: '', contract: "0x" })
 
 	if (connectedAddress === '') {
-		goTo(views.collection, { collection: collections[0].id })
+		goTo(views.collection, { collection: 'badger' })
 		queueNotification('Please connect your wallet', 'warning')
 	}
 
@@ -209,8 +208,8 @@ export const Home = observer(() => {
 				<Paper className={classes.statPaper} variant="outlined" style={{ textAlign: 'left' }}>
 					<div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
 						<div>
-							<Typography variant="subtitle1" color="textPrimary">Badger Rewards</Typography>
-							<Typography variant="h5">{treeStats.claims[0] || "..."}</Typography>
+							<Typography variant="subtitle2" color="textPrimary">Badger Rewards</Typography>
+							<Typography variant="h6">{treeStats.claims[0] || "..."}</Typography>
 						</div>
 						<div>
 

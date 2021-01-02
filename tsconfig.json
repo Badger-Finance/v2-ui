@@ -1,6 +1,7 @@
 {
 	"compilerOptions": {
 		"target": "es5",
+		"baseUrl": "src",
 		"lib": [
 			"dom.iterable",
 			"esnext",
@@ -21,9 +22,9 @@
 		"jsx": "react",
 		"noImplicitAny": true,
 		"noImplicitThis": true,
-		"strictNullChecks": true
+		"strictNullChecks": true,
 	},
 	"include": [
 		"src"
-	]
+	],
 }

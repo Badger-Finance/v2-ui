@@ -44,6 +44,8 @@ const useStyles = makeStyles((theme) => ({
 		overflow: 'hidden'
 	},
 	mobileLabel: {
+		textAlign: 'right',
+		paddingRight: theme.spacing(2),
 		[theme.breakpoints.up('md')]: {
 			display: 'none',
 		},
@@ -83,13 +85,11 @@ export const VaultCard = observer((props: any) => {
 		isGlobal,
 		isDeposit } = props
 
-	const { uiState: { collection } } = store;
-
 	if (!uiStats) {
 		return <Loader />
 	}
-	let isSuperSett = collection.configs.vaults.superSett.includes(uiStats.address)
-	let anyAvailable = !!uiStats.availableBalance && parseFloat(uiStats.availableBalance) !== 0
+	let isSuperSett = false//collection.configs.vaults.superSett.includes(uiStats.address)
+	let anyAvailable = false//!!uiStats.availableBalance && parseFloat(uiStats.availableBalance) !== 0
 	return <>
 		<Grid container className={classes.border + (isFeatured ? ` ${classes.featured}` : '')}>
 			{!!isFeatured && <Grid item xs={12} sm={12}>
@@ -97,10 +97,11 @@ export const VaultCard = observer((props: any) => {
 
 			</Grid>}
 			<Grid item xs={12} md={4} className={classes.name}>
-				<VaultSymbol symbol={uiStats.symbol} />
+				<VaultSymbol vault={uiStats.vault} />
 				<Typography variant="body1">
 					{uiStats.name}
 				</Typography>
+
 
 				<Typography variant="body2" color="textSecondary" component="div">
 					{uiStats.symbol}
@@ -112,8 +113,7 @@ export const VaultCard = observer((props: any) => {
 
 			<Grid item className={classes.mobileLabel} xs={6}>
 				<Typography variant="body2" color={"textSecondary"}>
-
-					Tokens Locked
+					{!isGlobal ? "Tokens Available" : "Tokens Locked"}
 				</Typography>
 			</Grid>
 
@@ -135,13 +135,13 @@ export const VaultCard = observer((props: any) => {
 			<Grid item className={classes.mobileLabel} xs={6}>
 				<Typography variant="body2" color={"textSecondary"}>
 
-					ROI
+					{!isDeposit && !isGlobal ? "Potential ROI" : "ROI"}
 				</Typography>
 			</Grid>
 			<Grid item xs={6} md={2}>
-				<Tooltip arrow placement="left" title={`${uiStats.geyserGrowth} + ${uiStats.vaultGrowth} ${uiStats.symbol} `}>
+				<Tooltip arrow placement="left" title={uiStats.tooltip}>
 
-					<Typography variant="body1" >
+					<Typography variant="body1" color={(!isDeposit && !isGlobal) ? 'textSecondary' : 'textPrimary'} >
 
 						{uiStats.growth || '...'}
 

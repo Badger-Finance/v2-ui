@@ -7,6 +7,7 @@ import {
 	ListItem,
 	Dialog,
 	DialogTitle,
+	CircularProgress
 } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -17,6 +18,8 @@ import { VaultStake } from './VaultStake';
 import { VaultUnwrap } from './VaultUnwrap';
 import { VaultUnstake } from './VaultUnstake';
 import { VaultSymbol } from '../VaultSymbol';
+
+import { geysers as geyserConfig, vaults as vaultConfig } from '../../config/system/settSystem'
 
 const useStyles = makeStyles((theme) => ({
 
@@ -64,6 +67,13 @@ const useStyles = makeStyles((theme) => ({
 		[theme.breakpoints.down('sm')]: {
 			display: 'none',
 		},
+	},
+	pendingTx: {
+		textAlign: "center",
+		padding: theme.spacing(4, 2, 8)
+	},
+	progress: {
+		padding: theme.spacing(0, 0, 2)
 	}
 
 }));
@@ -76,7 +86,7 @@ export const SettList = observer((props: any) => {
 	const { router: { params, goTo },
 		wallet: { connectedAddress },
 		contracts: { vaults, geysers, tokens },
-		uiState: { collection, stats, geyserStats, vaultStats, currency, period, setCurrency, txStatus, setTxStatus } } = store;
+		uiState: { stats, geyserStats, vaultStats, currency, period, setCurrency, txStatus, setTxStatus, notification } } = store;
 
 	const [modalProps, setModalProps] = useState({ open: false, mode: '', contract: "0x" })
 
@@ -102,9 +112,10 @@ export const SettList = observer((props: any) => {
 			return
 		setModalProps({ ...modalProps, open: false })
 	}
+
 	const anyWalletAssets = () => {
 		return _.filter(vaults, (vault: any) => {
-			let token = tokens[vault[collection.configs.vaults.underlying]]
+			let token = tokens[vault[vault.underlyingKey]]
 			return (!!vault.balanceOf && vault.balanceOf.gt(0)) || (!!token.balanceOf && token.balanceOf.gt(0))
 		}).length > 0
 	}
@@ -113,26 +124,25 @@ export const SettList = observer((props: any) => {
 
 		let list = _.map(contracts, (contract: any, address: string) => {
 
-			let vault = vaults[contract[collection.configs.geysers.underlying]]
+			let vault = vaults[contract[contract.underlyingKey]]
 			let geyser = contract
 			let stats = !!geyserStats && geyserStats[contract.address]
-			let config = collection.configs.geysers
+			let config = geysers
 
 			if (!vault) {
 				vault = contract
-				geyser = _.find(geysers, (geyser: any) => geyser.getStakingToken === vault.address)
+				geyser = _.find(geysers, (geyser: any) => geyser.StakingToken === vault.address)
 				stats = vaultStats[contract.address]
-				config = collection.configs.vaults
+				config = vaults
 
 			} else
-				vault = vaults[contract[collection.configs.geysers.underlying]]
+				vault = vaults[contract[contract.underlyingKey]]
 
 			if (!isGeysers)
 				return <Grid item xs={12} key={address} className={classes.listItem}>
 					<VaultCard isGlobal={isGlobal} uiStats={stats} onStake={onStake} onUnwrap={onUnwrap} isFeatured={isFeatured} />
 				</Grid>
 			else
-
 				return <ListItem key={address} className={classes.listItem}>
 					<VaultCard isGlobal={isGlobal} isDeposit uiStats={stats} onStake={onStake} onUnstake={onUnstake} />
 				</ListItem>
@@ -147,46 +157,49 @@ export const SettList = observer((props: any) => {
 		let vaultCards: any[] = []
 
 		// wallet assets & wrapped assets ordered by value
-		return renderContracts(
-			_.sortBy(vaults, [(vault: any) => {
-				let token = tokens[vault[collection.configs.vaults.underlying]]
-				return -token.balanceOf
-			}]).filter((vault: any) => {
-				let token = tokens[vault[collection.configs.vaults.underlying]]
-				return (!!vault.balanceOf && vault.balanceOf.gt(0)) || (!!token.balanceOf && token.balanceOf.gt(0))
-			}))
+		return renderContracts(_.sortBy(vaults, [(vault: any) => {
+			let token = tokens[vault[vault.underlyingKey]]
+			return !!token && -token.balanceOf
+		}]).filter((vaultContract: any) => {
+			let rawToken = tokens[vaultContract[vaultContract.underlyingKey]]
+			let vault = tokens[vaultContract.address]
+
+			return !!vault && (!!vault.balanceOf && vault.balanceOf.gt(0) || !!rawToken.balanceOf && rawToken.balanceOf.gt(0))
+		}))
 	}
 
 	const emptyGeysers = () => {
 
 		// wallet assets & wrapped assets ordered by value
 		return renderContracts(_.sortBy(vaults, [(vault: any) => {
-			let token = tokens[vault[collection.configs.vaults.underlying]]
-			return -token.balanceOf
+			let token = tokens[vault[vault.underlyingKey]]
+			return !!token && -token.balanceOf
 		}]).filter((vault: any) => {
-			return (!vault.balanceOf || !vault.balanceOf.gt(0))
+			return !!vault && (!vault.balanceOf || !vault.balanceOf.gt(0))
 		}))
 	}
 
 	const renderDeposits = () => {
 
 		// pooled tokens & empty tokens
+		console.log(geysers)
 		return renderContracts(
 			_.sortBy(geysers, [(geyser: any) => {
-				let token = tokens[geyser[collection.configs.geysers.underlying]]
-				return -token.balanceOf
+				let token = tokens[geyser[geyser.underlyingKey]]
+				return !!token && -token.balanceOf
 			}]).filter((geyser: any) => {
-				return (!!geyser.totalStakedFor && geyser.totalStakedFor.gt(0))
+				return !!geyser && (!!geyser.totalStakedFor && geyser.totalStakedFor.gt(0))
 			}), true)
 	}
 
-	const renderFilters = () => {
-		return []
-		// return Object.keys(collection.vaults[0])
-		// 	.map((key: string) => <Chip color={collection.config.config.table.includes(key) ? 'primary' : 'default'} size="small" className={classes.filter} label={key} onClick={() => { addFilter(key) }} onDelete={collection.config.config.table.includes(key) ? () => removeFilter(key) : undefined} />)
+
+	const featuredGeysers = () => {
+		// wallet assets & wrapped assets ordered by value
+		return renderContracts(vaults.filter((vault: any) => vault.isFeatured), false, true)
 	}
 
-	if (!tokens) {
+
+	if (!vaultStats || !tokens || !vaults || !geysers) {
 		return <Loader />
 	}
 
@@ -230,6 +243,15 @@ export const SettList = observer((props: any) => {
 		</>
 	};
 
+	const pendingTx = (message: string) => {
+		return <div className={classes.pendingTx}>
+			<div className={classes.progress} >
+				<CircularProgress />
+			</div>
+			<Typography variant="body2" color="textSecondary">{message}</Typography>
+		</div>
+	}
+
 
 	const renderModal = () => {
 
@@ -238,36 +260,36 @@ export const SettList = observer((props: any) => {
 		let component: any = {}
 		let title = ""
 		if (mode == "stake") {
-			vault = vaultStats[contract]
+			vault = vaults[contract]
 			title = "Stake " + vault.name
 
-			component = <VaultStake uiStats={vault} onClose={onClose} />
+			component = <VaultStake uiStats={vaultStats[contract]} onClose={onClose} />
 		} else if (mode == "unstake") {
-			vault = geyserStats[contract]
+			let geyser = geysers[contract]
+			vault = vaults[geyser[geyser.underlyingKey]]
 			title = "Unstake " + vault.name
 
-			component = <VaultUnstake uiStats={vault} onClose={onClose} />
+			component = <VaultUnstake uiStats={geyserStats[contract]} onClose={onClose} />
 		} else if (mode == "unwrap") {
-			vault = vaultStats[contract]
+			vault = vaults[contract]
 			title = "Unwrap " + vault.name
 
-			component = <VaultUnwrap uiStats={vault} onClose={onClose} />
+			component = <VaultUnwrap uiStats={vaultStats[contract]} onClose={onClose} />
 		}
 
 		return <Dialog key={contract} fullWidth maxWidth={'sm'} open={open} onClose={onClose}>
 			<DialogTitle disableTypography >
-				<VaultSymbol symbol={vault.symbol} />
+				<VaultSymbol vault={vault} />
 
 				<Typography variant="body1">
-					{title}
-				</Typography>
+					{title}</Typography>
+
 				<Typography variant="body2" color="textSecondary">
-					{vault.symbol}
-				</Typography>
+					{vault.symbol}</Typography>
 
 			</DialogTitle>
 
-			{component}
+			{txStatus === "pending" ? pendingTx("Awaiting transaction confirmation...") : component}
 		</Dialog>
 	}
 

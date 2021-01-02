@@ -1,39 +1,63 @@
 import BigNumber from "bignumber.js"
+import { vaults } from "../../config/system/settSystem"
+import { priceEndpoints } from "../../config/system/tokens"
 
 export const graphQuery = (token: any) => {
-	// if (!token.subgraph)
-	// 	return undefined
+	return priceEndpoints.map((endpoint: any) => {
+		return fetch(endpoint, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				'Accept': 'application/json',
+			},
+			body: JSON.stringify({
+				query: `{  
+					token(id: "${token.address}") {
+						id
+						derivedETH
+						symbol
+						name
+					}
+					pair(id: "${token.address}") {
+						id
+						reserveETH
+						totalSupply
+						token0{
+							name
+							symbol
+						  }
+						   token1{
+							name
+							symbol
+						  }
+					}
+				}`
+			})
+		}).then((response: any) => response.json())
 
-	return fetch(`https://api.thegraph.com/subgraphs/name/${token.subgraph || 'uniswap/uniswap-v2'}`, {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-			'Accept': 'application/json',
-		},
-		body: JSON.stringify({
-			query: `{  
-				token(id: "${token.address.toLowerCase()}") {
-					id
-					derivedETH
-					symbol
-					name
-				}
-				pair(id: "${token.address.toLowerCase()}") {
-					id
-					reserveETH
-					totalSupply
-					token0{
-						name
-						symbol
-					  }
-					   token1{
-						name
-						symbol
-					  }
-				}
-			}`
-		})
-	}).then((response: any) => response.json())
+	})
+}
+export const chefQueries = (pairs: any[], contracts: any[], growthEndpoint: string) => {
+	return pairs.map((pair: any) => {
+		return fetch(growthEndpoint, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				'Accept': 'application/json',
+			},
+			body: JSON.stringify({
+				query: `{
+					masterChefs {
+						pools(where: {id:"${contracts[pair].onsenId}"}) {
+							allocPoint
+							slpBalance
+						}
+						totalAllocPoint
+					}
+				}`
+			})
+		}).then((response: any) => response.json())
+	})
 }
 export const jsonQuery = (url: string): Promise<Response> => {
 	return fetch(url, {
@@ -79,7 +103,7 @@ export const growthQuery = (block: number): Promise<Response> => {
 }
 
 export const secondsToBlocks = (seconds: number) => {
-	return Math.floor(seconds / 13.5)
+	return seconds / 13.5
 }
 
 var exchangeRates: any = { usd: 641.69, btc: 41.93 }

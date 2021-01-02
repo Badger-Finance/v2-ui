@@ -3,7 +3,6 @@ import BigNumber from 'bignumber.js';
 import _, { times } from 'lodash';
 import { extendObservable, action, observe, computed } from 'mobx';
 import Web3 from 'web3';
-import { collections } from '../../config/constants';
 import { RootStore } from '../store';
 import { growthQuery, jsonQuery, secondsToBlocks } from '../utils/helpers';
 import { reduceAirdrops, reduceClaims, reduceContractsToStats, reduceGeysersToStats, reduceRebaseToStats, reduceVaultsToStats } from '../reducers/statsReducers';
@@ -15,10 +14,7 @@ class UiState {
 	public currency!: string
 	public period!: string
 
-	public errorMessage?: String;
-	public collection?: any;
-	public vault?: string;
-
+	public collection: any;
 	public stats?: any;
 	public vaultStats: any
 	public geyserStats: any
@@ -37,9 +33,7 @@ class UiState {
 		this.store = store
 
 		extendObservable(this, {
-			errorMessage: undefined,
-			collection: undefined,
-			vault: undefined,
+			collection: {},
 			stats: {
 				tvl: '...',
 				growth: '...',
@@ -47,6 +41,7 @@ class UiState {
 				_vaultGrowth: {},
 				claims: [0, 0],
 			},
+
 			geyserStats: {},
 			vaultStats: {},
 			rebaseStats: {},
@@ -62,24 +57,22 @@ class UiState {
 			txStatus: undefined
 		});
 
+
+		// format vaults and geysers to ui
 		observe(this.store.contracts as any, "geysers", (change: any) => {
-			// skip first update
-			if (!!change.oldValue) {
+			if (!!change.oldValue)
 				this.reduceContracts()
-			}
 		})
 		observe(this.store.contracts as any, "vaults", (change: any) => {
-			// skip first update
-			if (!!change.oldValue) {
+			if (!!change.oldValue)
 				this.reduceContracts()
-			}
 		})
 		observe(this.store.contracts as any, "tokens", (change: any) => {
-			// skip first update
-			if (!!change.oldValue) {
+			if (!!change.oldValue)
 				this.reduceContracts()
-			}
 		})
+
+		// format rewards for UI
 		observe(this.store.contracts as any, "badgerTree", (change: any) => {
 			// skip first update
 			this.reduceTreeRewards()
@@ -88,19 +81,13 @@ class UiState {
 			// skip first update
 			this.reduceAirdrops()
 		})
-		observe(this.store.wallet as any, "currentBlock", (change: any) => {
-			if (!!change.oldValue) {
-				this.reduceContracts()
-			}
-		})
 
+		// redirect to portfolio if logged in
 		observe(this.store.wallet as any, "provider", (change: any) => {
 			this.store.router.goTo(views.home)
 		})
-		observe(this.store.wallet as any, "connectedAddress", (change: any) => {
-			this.store.contracts.fetchSettRewards()
-			this.reduceContracts()
-		})
+
+		// reduce to formatted options
 		observe(this as any, "period", (change: any) => {
 			this.reduceContracts()
 		})
@@ -108,7 +95,7 @@ class UiState {
 			this.reduceContracts()
 		})
 
-
+		// hide the sidebar
 		window.onresize = () => {
 			if (window.innerWidth < 960) {
 				this.sidebarOpen = false
@@ -139,27 +126,25 @@ class UiState {
 
 
 	});
+
 	reduceTreeRewards = action(() => {
 		console.log(this.store.contracts.badgerTree)
 		this.treeStats = this.store.contracts.badgerTree
 
 	});
+
 	reduceAirdrops = action(() => {
 		alert('dsa')
 		this.airdropStats = reduceAirdrops(this.store.contracts.airdrops.airdrops)
 	});
+
 	setCollection = action((id: string) => {
 		if (!!this.collection && this.collection.id === id)
 			return
 
-		this.collection = collections.find((collection) => collection.id === id)
-		this.store?.contracts.fetchCollection() //TODO:observe ui from collections
+		// this.collection = collections.find((collection) => collection.id === id)
+		// this.store?.contracts.fetchCollection() //TODO:observe ui from collections
 
-	});
-
-	setVault = action((collection: string, id: string) => {
-		this.vault = id
-		this.setCollection(collection)
 	});
 
 	setGasPrice = action((gasPrice: string) => {
@@ -182,22 +167,6 @@ class UiState {
 			this.sidebarOpen = true
 		}
 	});
-
-
-
-	// UI
-	// addFilter = action((filter: string) => {
-	// 	this.collection.config.config.table.push(filter)
-	// });
-	// removeFilter = action((filter: string) => {
-	// 	this.collection.config.config.table = this.collection.config.config.table.filter((item: string) => item != filter)
-	// });
-	// addAction = action((method: string) => {
-	// 	this.collection.config.config.actions.push(method)
-	// });
-	// removeAction = action((method: string) => {
-	// 	this.collection.config.config.actions = this.collection.config.config.actions.filter((item: string) => item != method)
-	// });
 
 }
 
