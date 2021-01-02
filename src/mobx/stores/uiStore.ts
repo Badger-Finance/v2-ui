@@ -106,7 +106,7 @@ class UiState {
 	}
 
 	queueNotification = action((message: string, variant: string) => {
-		this.notification = { message, variant }
+		this.notification = { message, variant, persist: false }
 	})
 
 	setTxStatus = action((status?: string) => {

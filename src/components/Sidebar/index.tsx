@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 
 	rewards: {
-		margin: theme.spacing(0, 0, 0, 1)
+		margin: theme.spacing(0, 0, 0, 1),
 	},
 	flex: {
 		display: 'flex',
@@ -104,7 +104,8 @@ export const Sidebar = observer(() => {
 					<ListItem divider button className={classes.listItem + ' ' + (store.router.currentPath == '/setts' ? classes.activeListItem : '')} onClick={() => goTo(views.collection)}>
 						Sett Vaults</ListItem>
 					<ListItem divider button className={classes.listItem + ' ' + (store.router.currentPath == '/airdrops' ? classes.activeListItem : '')} onClick={() => goTo(views.airdrops)}>Airdrops</ListItem>
-					<ListItem divider button className={classes.listItem + ' ' + (store.router.currentPath == '/digg' ? classes.activeListItem : '')} onClick={() => goTo(views.digg)}>Digg</ListItem>
+					<ListItem divider button disabled className={classes.listItem + ' ' + (store.router.currentPath == '/digg' ? classes.activeListItem : '')} onClick={() => goTo(views.digg)}>Digg
+					<Chip size="small" label={"Coming soon"} variant="outlined" color="primary" className={classes.rewards} /></ListItem>
 
 				</List>
 				<List disablePadding>

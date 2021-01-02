@@ -133,13 +133,13 @@ export const Collection = observer(() => {
 
 				<ButtonGroup variant="outlined" size="small" className={classes.buttonGroup}>
 					{["btc", "eth", "usd"].map((curr: string) =>
-						<Button key={curr} color={currency === curr ? 'primary' : 'default'} onClick={() => setCurrency(curr)}>{curr}</Button>
+						<Button key={curr} variant={currency === curr ? 'contained' : 'outlined'} onClick={() => setCurrency(curr)}>{curr}</Button>
 					)}
 				</ButtonGroup>
 
 				<ButtonGroup variant="outlined" size="small" className={classes.buttonGroup}>
 					{["day", "month", "year"].map((p: string) =>
-						<Button key={p} color={period === p ? 'primary' : 'default'} onClick={() => setPeriod(p)}>{p.charAt(0)}</Button>
+						<Button key={p} variant={period === p ? 'contained' : 'outlined'} onClick={() => setPeriod(p)}>{p.charAt(0)}</Button>
 					)}
 				</ButtonGroup >
 

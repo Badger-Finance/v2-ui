@@ -117,9 +117,9 @@ export const Airdrops = observer(() => {
 						</div>
 						<div>
 
-							<ButtonGroup disabled={!airdropStats.anyAvailable} size="small" className={classes.rewards}>
-								<Button variant="outlined" color="primary" onClick={() => { claimAirdrops(false) }}>Claim</Button>
-								<Button variant="outlined" color="primary" onClick={() => { claimAirdrops(true) }}>Claim & Stake</Button>
+							<ButtonGroup variant="outlined" disabled={!airdropStats.anyAvailable} size="small" className={classes.rewards}>
+								<Button color="primary" onClick={() => { claimAirdrops(false) }}>Claim</Button>
+								<Button color="primary" onClick={() => { claimAirdrops(true) }}>Claim & Stake</Button>
 							</ButtonGroup>
 						</div>
 					</div>
@@ -134,9 +134,9 @@ export const Airdrops = observer(() => {
 							<Typography variant="h5">{airdropStats.badger}</Typography>
 						</div>
 						<div>
-							<ButtonGroup disabled={!airdropStats.anyAvailable} size="small" className={classes.rewards}>
-								<Button variant="outlined" color="primary" onClick={() => { claimAirdrops(false) }}>Claim</Button>
-								<Button variant="outlined" color="primary" onClick={() => { claimAirdrops(true) }}>Claim & Stake</Button>
+							<ButtonGroup variant="outlined" disabled={!airdropStats.anyAvailable} size="small" className={classes.rewards}>
+								<Button color="primary" onClick={() => { claimAirdrops(false) }}>Claim</Button>
+								<Button color="primary" onClick={() => { claimAirdrops(true) }}>Claim & Stake</Button>
 							</ButtonGroup>						</div>
 
 					</div>
@@ -155,10 +155,7 @@ export const Airdrops = observer(() => {
 
 			{copy()}
 
-
-
-
-
+			{spacer()}
 
 		</Grid >
 

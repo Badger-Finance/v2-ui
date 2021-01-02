@@ -64,6 +64,7 @@ export const Digg = observer((props: any) => {
 					</ButtonGroup>
 				</Grid>
 
+
 				<Info />
 
 				<Grid item xs={12} >

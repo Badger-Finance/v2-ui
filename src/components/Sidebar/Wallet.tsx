@@ -54,8 +54,7 @@ export const Wallet = observer(() => {
 		return <div className={classes.root}>
 			<Button
 				fullWidth
-				size="small"
-				variant="contained"
+				variant="outlined"
 				onClick={() => { store.wallet.walletReset(); }}>
 				{!!connectedAddress ? shortenAddress(connectedAddress) : 'DISCONNECTED'}
 				<div className={!!connectedAddress ? classes.greenDot : classes.redDot} />

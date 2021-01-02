@@ -46,7 +46,7 @@ class WalletStore {
 			connectedAddress: this.connectedAddress,
 			provider: this.provider,
 			currentBlock: undefined,
-			gasPrices: {},
+			gasPrices: { slow: 51, fast: 75, instant: 122 },
 			ethBalance: new BigNumber(0),
 			onboard: Onboard(onboardOptions)
 		});

@@ -24,8 +24,10 @@ export const reduceGeysersToStats = (store: RootStore) => {
 		if (!token)
 			return
 
-		// return geyser
 		let virtualEthValue = !!token.ethValue ? token.ethValue.dividedBy(1e18).multipliedBy(!!vault.getPricePerFullShare ? vault.getPricePerFullShare.dividedBy(1e18) : 1) : token.ethValue
+
+
+		let { growth, tooltip } = reduceTotalGrowth(vault, period, token, geyser);
 
 		return {
 			address: geyser.address,
@@ -56,7 +58,8 @@ export const reduceGeysersToStats = (store: RootStore) => {
 			symbol: token.symbol,
 			vaultGrowth: !!vault[period] && vault[period].multipliedBy(1e2).toFixed(2) + "%",
 			geyserGrowth: !!geyser[period] && geyser[period].multipliedBy(1e2).toFixed(2) + "%",
-			growth: !!vault[period] && vault[period].plus(geyser[period] || 0).multipliedBy(1e2).toFixed(2) + "%",
+			growth: growth,
+			tooltip
 		}
 	})
 }
