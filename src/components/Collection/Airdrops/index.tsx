@@ -77,7 +77,6 @@ export const Airdrops = observer(() => {
 		let q = [
 			{ title: `Stake`, button: `Stake`, badge: !!stats.badgerGrowth && `Up to ${stats.badgerGrowth}% APY`, href: "/setts", copy: "Deposit in Badger Sett to earn vault fees and more $BADGER." },
 			{ title: "Liquidity", button: "Add Liquidity", badge: !!stats.badgerLiqGrowth && `Up to ${stats.badgerLiqGrowth}% APY`, href: "https://info.uniswap.org/pair/0xcd7989894bc033581532d2cd88da5db0a4b12859", copy: "Deposit $BADGER<>$WBTC Uniswap LP token into Sett vault to earn $BADGER." },
-			{ title: "Mine NFTs", button: "Visit MEME", href: "https://dontbuymeme.com/", copy: "Next week, stake $BADGER in MEME farm to mint Badger NFTs." },
 			{ title: "Governance", button: "Visit DAO", href: "https://forum.badger.finance/", copy: "Vote and lead the direction of the DAO + all of its products like Sett vault." },
 		]
 		return q.map((qualifier) => <Grid item xs={12} md={6}>

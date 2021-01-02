@@ -92,17 +92,17 @@ export const Sidebar = observer(() => {
 
 					</ListItem>
 
-					<ListItem divider button className={classes.listItem + ' ' + (store.router.currentPath == '/setts' ? classes.activeListItem : '')} onClick={() => goTo(views.collection)}>
-						Setts</ListItem>
 
 					<ListItem divider button
 						onClick={() => { closeSidebar(); goTo(views.home) }}
 						className={classes.listItem + ' ' + (store.router.currentPath === '/' ? classes.activeListItem : '')}>
-						Portfolio
+						Your Portfolio
 
 							{stats.claims[0] !== 0 && <Chip size="small" label={stats.claims[0]} variant="outlined" color="primary" className={classes.rewards} onClick={() => { closeSidebar(); goTo(views.home) }} />}
 					</ListItem>
 
+					<ListItem divider button className={classes.listItem + ' ' + (store.router.currentPath == '/setts' ? classes.activeListItem : '')} onClick={() => goTo(views.collection)}>
+						Sett Vaults</ListItem>
 					<ListItem divider button className={classes.listItem + ' ' + (store.router.currentPath == '/airdrops' ? classes.activeListItem : '')} onClick={() => goTo(views.airdrops)}>Airdrops</ListItem>
 					<ListItem divider button className={classes.listItem + ' ' + (store.router.currentPath == '/digg' ? classes.activeListItem : '')} onClick={() => goTo(views.digg)}>Digg</ListItem>
 

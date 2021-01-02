@@ -42,6 +42,12 @@ const useStyles = makeStyles((theme) => ({
 
 		},
 	},
+	hiddenMobile: {
+		[theme.breakpoints.down('sm')]: {
+			display: 'none'
+
+		},
+	},
 
 	statPaper: {
 		padding: theme.spacing(2),
@@ -204,7 +210,8 @@ export const Home = observer(() => {
 				</Grid>}
 			{spacer}
 
-			<Grid item xs={12} md={!!treeStats.claims[1] || !!treeStats.claims[2] ? 6 : 12}>
+			<Grid item md={2} className={classes.hiddenMobile} />
+			<Grid item xs={12} md={!!treeStats.claims[1] || !!treeStats.claims[2] ? 4 : 8}>
 				<Paper className={classes.statPaper} variant="outlined" style={{ textAlign: 'left' }}>
 					<div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
 						<div>
@@ -222,7 +229,7 @@ export const Home = observer(() => {
 				</Paper>
 
 			</Grid>
-			{!!treeStats.claims[1] || !!treeStats.claims[2] && <Grid item xs={6} md={6}>
+			{!!treeStats.claims[1] || !!treeStats.claims[2] && <Grid item xs={12} md={4}>
 				<Paper className={classes.statPaper} variant="outlined" style={{ textAlign: 'left' }}>
 					<Typography variant="body1" color="textPrimary">Other Rewards</Typography>
 					{!!treeStats.claims[1] && <Typography variant="body2">{treeStats.claims[1] || "..."}</Typography>}
@@ -230,6 +237,7 @@ export const Home = observer(() => {
 				</Paper>
 
 			</Grid>}
+			<Grid item md={2} className={classes.hiddenMobile} />
 
 
 			<SettList hideEmpty={true} />

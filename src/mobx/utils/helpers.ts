@@ -22,13 +22,19 @@ export const graphQuery = (token: any) => {
 						id
 						reserveETH
 						totalSupply
+						reserve0
+						reserve1
 						token0{
+							id
 							name
 							symbol
+							derivedETH
 						  }
 						   token1{
+							id
 							name
 							symbol
+							derivedETH
 						  }
 					}
 				}`
@@ -143,6 +149,10 @@ export const inCurrency = (value: BigNumber, currency: string, hide: boolean = f
 		normal = normal.dividedBy(1e3)
 		decimals = 2
 		suffix = 'k'
+	} else if (normal.gt(0) && normal.lt(10 ** -preferredDecimals)) {
+		normal = normal.multipliedBy(10 ** preferredDecimals)
+		decimals = preferredDecimals
+		suffix = `e-${preferredDecimals}`
 	}
 
 	let fixedNormal = noCommas ? normal.toFixed(decimals) : numberWithCommas(normal.toFixed(decimals))

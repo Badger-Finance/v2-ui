@@ -62,6 +62,12 @@ class ContractsStore {
 				// this.fetchRebase()
 			}
 		})
+		observe(this.store.wallet, "currentBlock", (change: any) => {
+			if (!!change.oldValue) {
+				this.fetchContracts()
+				// this.fetchRebase()
+			}
+		})
 
 		observe(this.store.wallet as any, "connectedAddress", (change: any) => {
 			let newOptions = {

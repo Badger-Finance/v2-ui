@@ -163,6 +163,7 @@ export const reduceContractsToStats = (store: RootStore) => {
 	let portfolio = new BigNumber(0)
 	let growth = new BigNumber(0)
 	let liqGrowth = new BigNumber(0)
+
 	_.forIn(vaultContracts, (vault: any, address: string) => {
 		let token = tokens[vault[vault.underlyingKey]]
 		let wrapped = tokens[vault.address]

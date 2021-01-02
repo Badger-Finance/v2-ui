@@ -125,7 +125,7 @@ export const Collection = observer(() => {
 			{spacer()}
 
 			<Grid item xs={12} sm={4} >
-				<Typography variant="h5" color="textPrimary" >Badger Setts</Typography>
+				<Typography variant="h5" color="textPrimary" >Sett Vaults</Typography>
 				<Typography variant="subtitle2" color="textPrimary" >Deposit & Earn on your Bitcoin</Typography>
 			</Grid>
 

@@ -68,15 +68,33 @@ export const reduceGraphResult = (graphResult: any[]) => {
 		if (!element.data.pair && !element.data.token)
 			return
 
-		let ethValue = !!element.data.pair ? new BigNumber(element.data.pair.reserveETH).dividedBy(new BigNumber(element.data.pair.totalSupply)).multipliedBy(1e18) : new BigNumber(element.data.token.derivedETH).multipliedBy(1e18)
+		// calculate price per token
+		let ethValue = new BigNumber(0);
+
+		if (!!element.data.pair) {
+			let token0Value = new BigNumber(element.data.pair.token0.derivedETH)
+			let token1Value = new BigNumber(element.data.pair.token1.derivedETH)
+
+			// fix for sushiswap returning 0 as derivedETH value of Badger
+			if (token1Value.isEqualTo(0)) {
+				graphResult.forEach((result: any) => {
+
+					if (!!result.data.token && result.data.token.id === element.data.pair.token1.id) {
+						console.log('match')
+						return token1Value = new BigNumber(result.data.token.derivedETH)
+					}
+				})
+			}
+
+			let reserve0 = new BigNumber(token0Value).multipliedBy(new BigNumber(element.data.pair.reserve0)).multipliedBy(1e18)
+			let reserve1 = new BigNumber(token1Value).multipliedBy(new BigNumber(element.data.pair.reserve1)).multipliedBy(1e18)
+			ethValue = reserve0.plus(reserve1).dividedBy(element.data.pair.totalSupply)
+		} else {
+			ethValue = new BigNumber(element.data.token.derivedETH).multipliedBy(1e18)
+		}
+
+
 		let tokenAddress = !!element.data.pair ? element.data.pair.id : element.data.token.id
-		console.log({
-			address: tokenAddress.toLowerCase(),
-			type: !!element.data.pair ? 'pair' : 'token',
-			symbol: !!element.data.pair ? element.data.pair.token0.symbol + '/' + element.data.pair.token1.symbol : element.data.token.symbol,
-			name: !!element.data.pair ? element.data.pair.token0.name + '/' + element.data.pair.token1.name : element.data.token.name,
-			ethValue: ethValue
-		})
 
 		return {
 			address: tokenAddress.toLowerCase(),
@@ -127,7 +145,7 @@ export const reduceCurveResult = (curveResult: any[], contracts: any[], tokenCon
 			address: contracts[i].toLowerCase(),
 			virtualPrice: vp,
 			ethValue: new BigNumber(vp).multipliedBy(wbtcToken.ethValue),
-			balance: tokenContracts[contracts[i]].balance
+			// balance: tokenContracts[contracts[i]].balance
 		}
 	})
 }
