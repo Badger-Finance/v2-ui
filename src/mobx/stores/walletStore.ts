@@ -76,7 +76,7 @@ class WalletStore {
 	connect = action((wsOnboard: any) => {
 		let walletState = wsOnboard.getState();
 		this.setProvider(walletState.wallet.provider)
-		this.connectedAddress = walletState.wallet.provider.selectedAddress;
+		this.connectedAddress = walletState.address;
 		this.onboard = wsOnboard;
 	})
 
