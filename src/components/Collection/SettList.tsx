@@ -171,7 +171,7 @@ export const SettList = observer((props: any) => {
 		// wallet assets & wrapped assets ordered by value
 		return renderContracts(_.sortBy(vaults, [(vault: any) => {
 			let token = tokens[vault[vault.underlyingKey]]
-			return !!token && -token.balanceOf
+			return vault.listOrder
 		}]).filter((vaultContract: any) => {
 			let rawToken = tokens[vaultContract[vaultContract.underlyingKey]]
 			let vault = tokens[vaultContract.address]
@@ -182,10 +182,19 @@ export const SettList = observer((props: any) => {
 
 	const emptyGeysers = () => {
 
-		// wallet assets & wrapped assets ordered by value
-		return renderContracts(_.filter(vaults, (vault: any) => {
+
+
+		return renderContracts(_.sortBy(vaults, [(vault: any) => {
+			// let token = tokens[vault[vault.underlyingKey]]
+			return vault.listOrder
+		}]).filter((vaultContract: any) => {
+			let rawToken = tokens[vaultContract[vaultContract.underlyingKey]]
+			let vault = tokens[vaultContract.address]
+
 			return !!vault && (!vault.balanceOf || !vault.balanceOf.gt(0))
 		}))
+
+
 	}
 
 	const renderDeposits = () => {
@@ -194,8 +203,8 @@ export const SettList = observer((props: any) => {
 		console.log(geysers)
 		return renderContracts(
 			_.sortBy(geysers, [(geyser: any) => {
-				let token = tokens[geyser[geyser.underlyingKey]]
-				return !!token && -token.balanceOf
+				let vault = vaults[geyser[geyser.underlyingKey]]
+				return !!vault && vault.listOrder
 			}]).filter((geyser: any) => {
 				return !!geyser && (!!geyser.totalStakedFor && geyser.totalStakedFor.gt(0))
 			}), true)

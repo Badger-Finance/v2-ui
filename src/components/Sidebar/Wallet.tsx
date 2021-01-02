@@ -66,6 +66,7 @@ export const Wallet = observer(() => {
 			<Button
 				fullWidth
 				disableElevation
+
 				onClick={connect}
 				variant="contained">
 				{!!connectedAddress ? shortenAddress(connectedAddress) : 'DISCONNECTED'}

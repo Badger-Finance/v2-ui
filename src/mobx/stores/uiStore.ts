@@ -115,14 +115,12 @@ class UiState {
 
 	reduceContracts = action(() => {
 
-		this.geyserStats = reduceGeysersToStats(this.store)
-		this.vaultStats = reduceVaultsToStats(this.store)
-		this.rebaseStats = reduceRebaseToStats(this.store)
+		this.geyserStats = _.defaultsDeep(reduceGeysersToStats(this.store), this.geyserStats)
+		this.vaultStats = _.defaultsDeep(reduceVaultsToStats(this.store), this.vaultStats)
+		this.rebaseStats = _.defaultsDeep(reduceRebaseToStats(this.store), this.rebaseStats)
 
-		this.stats = {
-			...this.stats,
-			...reduceContractsToStats(this.store)
-		}
+		this.stats = _.defaultsDeep(reduceContractsToStats(this.store), this.stats)
+
 
 
 	});

@@ -28,6 +28,14 @@ export const vaults = [
 				true,
 				true
 			],
+			listOrder: [
+				7,
+				4,
+				5,
+				3,
+				2,
+				6
+			],
 			isSuperSett: [
 				false,
 				false,
@@ -54,6 +62,10 @@ export const vaults = [
 			isFeatured: [
 				false,
 				true
+			],
+			listOrder: [
+				0,
+				1
 			],
 			symbolPrefix: [
 				'sushi',

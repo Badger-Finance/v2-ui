@@ -688,7 +688,14 @@ class ContractsStore {
 
 					this.updateGeysers(_.mapValues(sushiRewards, (reward: any, geyserAddress: string) => {
 						let geyser = geysers[geyserAddress]
+						if (!geyser)
+							return
+
 						let vault = vaults[geyser[geyser.underlyingKey]]
+
+						if (!vault)
+							return
+
 						let token = tokens[vault[vault.underlyingKey]]
 
 						delete reward.address

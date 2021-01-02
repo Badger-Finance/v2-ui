@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
 
 	statPaper: {
 		padding: theme.spacing(2),
-		textAlign: 'center'
+		textAlign: 'center',
 	},
 	before: {
 		marginTop: theme.spacing(3),
@@ -170,54 +170,28 @@ export const Home = observer(() => {
 
 				<ButtonGroup variant="outlined" size="small" className={classes.buttonGroup}>
 					{["btc", "eth", "usd"].map((curr: string) =>
-						<Button color={currency === curr ? 'primary' : 'default'} onClick={() => setCurrency(curr)}>{curr}</Button>
+						<Button variant={currency === curr ? 'contained' : 'outlined'} onClick={() => setCurrency(curr)}>{curr}</Button>
 					)}
 				</ButtonGroup>
 
 				<ButtonGroup variant="outlined" size="small" className={classes.buttonGroup}>
 					{["day", "month", "year"].map((p: string) =>
-						<Button color={period === p ? 'primary' : 'default'} onClick={() => setPeriod(p)}>{p.charAt(0)}</Button>
+						<Button variant={period === p ? 'contained' : 'outlined'} onClick={() => setPeriod(p)}>{p.charAt(0)}</Button>
 					)}
 				</ButtonGroup >
 
 			</Grid >
-
-
-			<Grid item xs={12} md={!!stats.badger ? 4 : 6} >
-				<Paper className={classes.statPaper}>
-					<Typography variant="subtitle1" color="textPrimary">TVL</Typography>
-					<Typography variant="h5">{stats.tvl}</Typography>
-				</Paper>
-			</Grid >
-			<Grid item xs={12} md={!!stats.badger ? 4 : 6}>
-				<Paper className={classes.statPaper}>
-					<Typography variant="subtitle1" color="textPrimary">Your Portfolio</Typography>
-					<Typography variant="h5">{stats.portfolio}</Typography>
-				</Paper>
-
-			</Grid>
-			{!!stats.badger &&
-				<Grid item xs={12} md={4}>
-					<Paper className={classes.statPaper}>
-						<Typography variant="subtitle1" color="textPrimary">Badger Price</Typography>
-						<Typography variant="h5">{stats.badger || "..."}</Typography>
-					</Paper>
-
-				</Grid>}
-			{spacer}
-
-			<Grid item md={2} className={classes.hiddenMobile} />
-			<Grid item xs={12} md={!!treeStats.claims[1] || !!treeStats.claims[2] ? 4 : 8}>
-				<Paper className={classes.statPaper} variant="outlined" style={{ textAlign: 'left' }}>
+			<Grid item xs={12} md={!!treeStats.claims[1] || !!treeStats.claims[2] ? 6 : 6}>
+				<Paper className={classes.statPaper} style={{ textAlign: 'left' }}>
 					<div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
 						<div>
-							<Typography variant="subtitle2" color="textPrimary">Badger Rewards</Typography>
-							<Typography variant="h6">{treeStats.claims[0] || "..."}</Typography>
+							<Typography variant="subtitle1" color="textPrimary">Badger Rewards</Typography>
+							<Typography variant="h5">{treeStats.claims[0] || "..."}</Typography>
 						</div>
 						<div>
 
 							{!!treeStats.claims[0] && <ButtonGroup size="small" className={classes.rewards}>
-								<Button variant="outlined" color="primary" onClick={() => { claimGeysers(false) }}>Claim</Button>
+								<Button variant="contained" color="primary" onClick={() => { claimGeysers(false) }}>Claim</Button>
 								<Button variant="outlined" color="primary" onClick={() => { claimGeysers(true) }}>Claim & Stake</Button>
 							</ButtonGroup>}
 						</div>
@@ -225,14 +199,39 @@ export const Home = observer(() => {
 				</Paper>
 
 			</Grid>
-			{!!treeStats.claims[1] || !!treeStats.claims[2] && <Grid item xs={12} md={4}>
-				<Paper className={classes.statPaper} variant="outlined" style={{ textAlign: 'left' }}>
-					<Typography variant="body1" color="textPrimary">Other Rewards</Typography>
-					{!!treeStats.claims[1] && <Typography variant="body2">{treeStats.claims[1] || "..."}</Typography>}
-					{!!treeStats.claims[2] && <Typography variant="body2">{treeStats.claims[2] || "..."}</Typography>}
+			{!!treeStats.claims[1] || !!treeStats.claims[2] && <Grid item xs={12} md={6}>
+				<Paper className={classes.statPaper} style={{ textAlign: 'left' }}>
+					<Typography variant="subtitle2" color="textPrimary">Other Rewards</Typography>
+					{!!treeStats.claims[1] && <Typography variant="body1">• {treeStats.claims[1] || "..."}</Typography>}
+					{!!treeStats.claims[2] && <Typography variant="body1">• {treeStats.claims[2] || "..."}</Typography>}
 				</Paper>
 
 			</Grid>}
+
+			{spacer}
+
+			<Grid item xs={12} md={!!stats.badger ? 4 : 6} >
+				<Paper elevation={2} className={classes.statPaper}>
+					<Typography variant="subtitle1" color="textPrimary">TVL</Typography>
+					<Typography variant="h5">{stats.tvl}</Typography>
+				</Paper>
+			</Grid >
+			<Grid item xs={12} md={!!stats.badger ? 4 : 6}>
+				<Paper elevation={2} className={classes.statPaper}>
+					<Typography variant="subtitle1" color="textPrimary">Your Portfolio</Typography>
+					<Typography variant="h5">{stats.portfolio}</Typography>
+				</Paper>
+
+			</Grid>
+			{!!stats.badger &&
+				<Grid item xs={12} md={4}>
+					<Paper elevation={2} className={classes.statPaper}>
+						<Typography variant="subtitle1" color="textPrimary">Badger Price</Typography>
+						<Typography variant="h5">{stats.badger || "..."}</Typography>
+					</Paper>
+
+				</Grid>}
+
 			<Grid item md={2} className={classes.hiddenMobile} />
 
 

@@ -92,8 +92,8 @@ export const reduceVaultsToStats = (store: RootStore) => {
 
 			yourBalance: !!token.balanceOf &&
 				inCurrency(token.balanceOf.plus(depositedTokens), 'eth', true),
-			yourValue: !!token.balanceOf &&
-				inCurrency(token.balanceOf.plus(depositedTokens).multipliedBy(token.ethValue.dividedBy(1e18)), currency),
+			yourValue: !!token.balanceOf && !!token.ethValue &&
+				inCurrency(token.balanceOf.multipliedBy(token.ethValue.dividedBy(1e18)).plus(depositedTokens).multipliedBy(token.ethValue.dividedBy(1e18)), currency),
 
 			anyWrapped: depositedTokens.gt(0),
 

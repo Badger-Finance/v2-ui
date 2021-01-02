@@ -4,7 +4,7 @@ import views from '../../config/routes';
 import { StoreContext } from '../../context/store-context';
 import {
 	Tooltip,
-	Card, CardContent, CardActions, CardActionArea, Collapse, Avatar, IconButton, Divider, Button, Grid, ButtonGroup, Chip
+	Card, CardContent, CardActions, CardActionArea, Collapse, Avatar, IconButton, Divider, Button, Grid, ButtonGroup, Chip, LinearProgress
 } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -86,7 +86,7 @@ export const VaultCard = observer((props: any) => {
 		isDeposit } = props
 
 	if (!uiStats) {
-		return <Loader />
+		return <LinearProgress />
 	}
 	let anyAvailable = false//!!uiStats.availableBalance && parseFloat(uiStats.availableBalance) !== 0
 	return <>
