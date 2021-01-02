@@ -33,6 +33,6 @@ export const curveTokens =
 // 	"http://localhost:8011/proxy"
 // ]
 export const priceEndpoints = [
-	"https://api.thegraph.com/subgraphs/name/zippoxer/sushiswap-subgraph-fork",
+	"https://api.thegraph.com/subgraphs/name/sushiswap/exchange",
 	"https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2"
 ]

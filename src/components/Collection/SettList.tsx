@@ -7,7 +7,8 @@ import {
 	ListItem,
 	Dialog,
 	DialogTitle,
-	CircularProgress
+	CircularProgress,
+	DialogContent
 } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -288,8 +289,9 @@ export const SettList = observer((props: any) => {
 					{vault.symbol}</Typography>
 
 			</DialogTitle>
-
-			{txStatus === "pending" ? pendingTx("Awaiting transaction confirmation...") : component}
+			<div>
+				{txStatus === "pending" ? pendingTx("Awaiting transaction confirmation...") : component}
+			</div>
 		</Dialog>
 	}
 

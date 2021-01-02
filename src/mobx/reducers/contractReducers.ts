@@ -80,7 +80,7 @@ export const reduceGraphResult = (graphResult: any[]) => {
 				graphResult.forEach((result: any) => {
 
 					if (!!result.data.token && result.data.token.id === element.data.pair.token1.id) {
-						console.log('match')
+						// console.log('match')
 						return token1Value = new BigNumber(result.data.token.derivedETH)
 					}
 				})
@@ -279,8 +279,6 @@ export const reduceContractsToTokens = (contracts: any) => {
 			contract: address.toLowerCase()
 		}
 	})
-
-	console.log(assets, contracts)
 
 	assets.push([WBTC_ADDRESS, diggToken.contract, rewards.tokens[2]]
 		.map((address: string) => ({ address })))

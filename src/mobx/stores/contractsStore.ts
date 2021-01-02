@@ -125,7 +125,7 @@ class ContractsStore {
 
 		let batchContracts = _.concat(vaultBatch, geyserBatch)
 
-		console.log(batchContracts, batchCall)
+		// console.log(batchContracts, batchCall)
 
 		// execute batch calls to web3 (infura most likely)
 		batchCall.execute(batchContracts)
@@ -141,7 +141,7 @@ class ContractsStore {
 						this.updateGeysers(_.keyBy(reduceBatchResult(value), 'address'))
 				})
 
-				console.log(this.vaults)
+				// console.log(this.vaults)
 
 				// fetch input/outputs information
 				this.fetchTokens()

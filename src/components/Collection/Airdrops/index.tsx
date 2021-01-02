@@ -79,7 +79,7 @@ export const Airdrops = observer(() => {
 			{ title: "Liquidity", button: "Add Liquidity", badge: !!stats.badgerLiqGrowth && `Up to ${stats.badgerLiqGrowth}% APY`, href: "https://info.uniswap.org/pair/0xcd7989894bc033581532d2cd88da5db0a4b12859", copy: "Deposit $BADGER<>$WBTC Uniswap LP token into Sett vault to earn $BADGER." },
 			{ title: "Governance", button: "Visit DAO", href: "https://forum.badger.finance/", copy: "Vote and lead the direction of the DAO + all of its products like Sett vault." },
 		]
-		return q.map((qualifier) => <Grid item xs={12} md={6}>
+		return q.map((qualifier) => <Grid item xs={12} md={12}>
 			<Card>
 				<CardActionArea target="_blank" href={qualifier.href}>
 					<CardContent>
@@ -117,10 +117,10 @@ export const Airdrops = observer(() => {
 						</div>
 						<div>
 
-							{airdropStats.anyAvailable && <ButtonGroup size="small" className={classes.rewards}>
+							<ButtonGroup disabled={!airdropStats.anyAvailable} size="small" className={classes.rewards}>
 								<Button variant="outlined" color="primary" onClick={() => { claimAirdrops(false) }}>Claim</Button>
 								<Button variant="outlined" color="primary" onClick={() => { claimAirdrops(true) }}>Claim & Stake</Button>
-							</ButtonGroup>}
+							</ButtonGroup>
 						</div>
 					</div>
 				</Paper>
@@ -133,6 +133,11 @@ export const Airdrops = observer(() => {
 							<Typography variant="subtitle1" color="textPrimary">Digg Available</Typography>
 							<Typography variant="h5">{airdropStats.badger}</Typography>
 						</div>
+						<div>
+							<ButtonGroup disabled={!airdropStats.anyAvailable} size="small" className={classes.rewards}>
+								<Button variant="outlined" color="primary" onClick={() => { claimAirdrops(false) }}>Claim</Button>
+								<Button variant="outlined" color="primary" onClick={() => { claimAirdrops(true) }}>Claim & Stake</Button>
+							</ButtonGroup>						</div>
 
 					</div>
 				</Paper>
