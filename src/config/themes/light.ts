@@ -3,52 +3,32 @@ import { createMuiTheme } from "@material-ui/core";
 export const lightTheme = createMuiTheme({
 
 	palette: {
-		primary: {
-			main: "#F2A52B",
-			contrastText: "#000"
-		},
-		secondary: {
-			main: "#000",
-			contrastText: "#fff",
-		},
-		text: {
-			primary: "#000"
-		},
-		background: {
-			default: "#f9f9f9",
-		},
+		type: 'light',
+		primary: { main: "#F2A52B" },
+		// background: {
+		// 	default: "#181818",
+		// 	paper: "#2b2b2b"
+		// },
 		grey: {
-			800: '#eee'
+			800: '#2b2b2b'
+		},
+		success: {
+			contrastText: "#181818",
+			main: "#7FD1B9"
+		},
+		info: {
+			contrastText: "#ffffff",
+			main: "#489FB5"
+		},
+		error: {
+			contrastText: "#ffffff",
+			main: "#F4442E"
+		},
+		warning: {
+			contrastText: "#181818",
+			main: "#F2A52B"
 		}
 	},
-
-	shadows: [
-		"none",
-		"0px 0px 12px rgba(0,0,0,0.05)",
-		"0px 0px 12px rgba(0,0,0,0.05)",
-		"0px 0px 12px rgba(0,0,0,0.05)",
-		"0px 0px 12px rgba(0,0,0,0.05)",
-		"0px 0px 12px rgba(0,0,0,0.05)",
-		"0px 0px 12px rgba(0,0,0,0.05)",
-		"0px 0px 12px rgba(0,0,0,0.05)",
-		"0px 0px 12px rgba(0,0,0,0.05)",
-		"0px 0px 12px rgba(0,0,0,0.05)",
-		"0px 0px 12px rgba(0,0,0,0.05)",
-		"0px 0px 12px rgba(0,0,0,0.05)",
-		"0px 0px 12px rgba(0,0,0,0.05)",
-		"0px 0px 12px rgba(0,0,0,0.05)",
-		"0px 0px 12px rgba(0,0,0,0.05)",
-		"0px 0px 12px rgba(0,0,0,0.05)",
-		"0px 0px 12px rgba(0,0,0,0.05)",
-		"0px 0px 12px rgba(0,0,0,0.05)",
-		"0px 0px 12px rgba(0,0,0,0.05)",
-		"0px 0px 12px rgba(0,0,0,0.05)",
-		"0px 0px 12px rgba(0,0,0,0.05)",
-		"0px 0px 12px rgba(0,0,0,0.05)",
-		"0px 0px 12px rgba(0,0,0,0.05)",
-		"0px 0px 12px rgba(0,0,0,0.05)",
-		"0px 0px 12px rgba(0,0,0,0.05)",
-	],
 	typography: {
 		// fontSize: 16,
 		fontFamily: "'IBM Plex Sans'",
@@ -60,45 +40,32 @@ export const lightTheme = createMuiTheme({
 		body1: { fontWeight: 500 },
 		// h6: { fontFamily: "'Press Start 2P'" },
 	},
+	shape: {
+		borderRadius: 8
+	},
 	overrides: {
 		MuiTooltip: {
 			tooltip: {
-				fontSize: "1em",
-				// fontWeight: 400,
-				// lineHeight: "1.8rem",
-				backgroundColor: "#000",
-				color: "#fff",
-				padding: ".8rem 1rem",
-				maxWidth: "30rem",
-				textTransform: "none",
-				// borderRadius: 10,
+				fontSize: "1rem",
+				backgroundColor: "#F2A52B",
+				color: "#181818",
 			},
 			arrow: {
-				color: "#000",
-			},
+				color: "#F2A52B"
+			}
 		},
-
-		MuiButton: {
-			root: {
-				// textTransform: "none"
+		MuiDrawer: {
+			paper: {
+				// background: "#121212",
 			},
-
-			containedPrimary: {
-				// boxShadow: "inset 2px 2px 0 rgba(255,225,183,0.25), inset -2px -2px 0 rgba(57,18,0,0.2)"
-				// backgroundImage: `url(${require('../assets/8bit/button.png')})`,
-				backgroundPosition: "center center",
-				backgroundSize: "cover",
-			},
-			containedSecondary: {
-				// boxShadow: "inset 2px 2px 0 rgba(255,225,183,0.25), inset -2px -2px 0 rgba(57,18,0,0.2)"
-				// backgroundImage: `url(${require('../assets/8bit/button_dark.png')})`,
-				backgroundPosition: "center center",
-				backgroundSize: "cover",
-			},
-
+			paperAnchorDockedLeft: {
+				borderRight: 0
+			}
 		},
-	},
-	shape: {
-		borderRadius: 12,
-	},
+		MuiPaper: {
+			outlined: {
+				border: 0
+			}
+		}
+	}
 });

@@ -99,7 +99,7 @@ export const Airdrops = observer(() => {
 		</Grid>)
 	}
 
-	return <Container className={classes.root} maxWidth="md" >
+	return <Container className={classes.root} >
 		<Grid container spacing={2}>
 			{spacer()}
 

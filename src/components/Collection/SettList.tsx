@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 		width: "100%",
 		borderRadius: theme.shape.borderRadius,
 		overflow: 'hidden',
-		border: `1px solid ${theme.palette.grey[900]}`,
+		// border: `1px solid ${theme.palette.grey[100]}`,
 		background: `${theme.palette.background.paper}`,
 		padding: 0,
 		boxShadow: theme.shadows[1]
@@ -320,7 +320,7 @@ export const SettList = observer((props: any) => {
 		{!!connectedAddress && !isGlobal && tableHeader(`Deposits - ${stats.geysers}`)}
 		{!!connectedAddress && !isGlobal && renderDeposits()}
 
-		{isGlobal && <Carousel className={classes.carousel} indicators={false} navButtonsAlwaysVisible >{featuredGeysers()}</Carousel>}
+		{/* {isGlobal && <Carousel className={classes.carousel} indicators={false} navButtonsAlwaysVisible >{featuredGeysers()}</Carousel>} */}
 		{!hideEmpty && tableHeader(`Setts`)}
 		{!hideEmpty && emptyGeysers()}
 

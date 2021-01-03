@@ -180,7 +180,35 @@ export const Home = observer(() => {
 				</ButtonGroup >
 
 			</Grid >
-			<Grid item xs={12} md={!!treeStats.claims[1] || !!treeStats.claims[2] ? 6 : 6}>
+
+
+
+			<Grid item xs={12} md={!!stats.badger ? 4 : 6} >
+				<Paper elevation={2} className={classes.statPaper}>
+					<Typography variant="subtitle1" color="textPrimary">TVL</Typography>
+					<Typography variant="h5">{stats.tvl}</Typography>
+				</Paper>
+			</Grid >
+			<Grid item xs={12} md={!!stats.badger ? 4 : 6}>
+				<Paper elevation={2} className={classes.statPaper}>
+					<Typography variant="subtitle1" color="textPrimary">Your Portfolio</Typography>
+					<Typography variant="h5">{stats.portfolio}</Typography>
+				</Paper>
+
+			</Grid>
+
+
+			{!!stats.badger &&
+				<Grid item xs={12} md={4}>
+					<Paper elevation={2} className={classes.statPaper}>
+						<Typography variant="subtitle1" color="textPrimary">Badger Price</Typography>
+						<Typography variant="h5">{stats.badger || "..."}</Typography>
+					</Paper>
+
+				</Grid>}
+			{spacer}
+
+			<Grid item xs={12}>
 				<Paper className={classes.statPaper} style={{ textAlign: 'left' }}>
 					<div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
 						<div>
@@ -198,7 +226,7 @@ export const Home = observer(() => {
 				</Paper>
 
 			</Grid>
-			{!!treeStats.claims[1] || !!treeStats.claims[2] && <Grid item xs={12} md={6}>
+			{!!treeStats.claims[1] || !!treeStats.claims[2] && <Grid item xs={12}>
 				<Paper className={classes.statPaper} style={{ textAlign: 'left' }}>
 					<Typography variant="subtitle2" color="textPrimary">Other Rewards</Typography>
 					{!!treeStats.claims[1] && <Typography variant="body1">• {treeStats.claims[1] || "..."}</Typography>}
@@ -206,33 +234,6 @@ export const Home = observer(() => {
 				</Paper>
 
 			</Grid>}
-
-			{spacer}
-
-			<Grid item xs={12} md={!!stats.badger ? 4 : 6} >
-				<Paper elevation={2} className={classes.statPaper}>
-					<Typography variant="subtitle1" color="textPrimary">TVL</Typography>
-					<Typography variant="h5">{stats.tvl}</Typography>
-				</Paper>
-			</Grid >
-			<Grid item xs={12} md={!!stats.badger ? 4 : 6}>
-				<Paper elevation={2} className={classes.statPaper}>
-					<Typography variant="subtitle1" color="textPrimary">Your Portfolio</Typography>
-					<Typography variant="h5">{stats.portfolio}</Typography>
-				</Paper>
-
-			</Grid>
-			{!!stats.badger &&
-				<Grid item xs={12} md={4}>
-					<Paper elevation={2} className={classes.statPaper}>
-						<Typography variant="subtitle1" color="textPrimary">Badger Price</Typography>
-						<Typography variant="h5">{stats.badger || "..."}</Typography>
-					</Paper>
-
-				</Grid>}
-
-			<Grid item md={2} className={classes.hiddenMobile} />
-
 
 			<SettList hideEmpty={true} />
 
