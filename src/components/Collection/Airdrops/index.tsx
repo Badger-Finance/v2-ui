@@ -75,9 +75,9 @@ export const Airdrops = observer(() => {
 
 	const copy = () => {
 		let q = [
-			{ title: `Stake`, button: `Stake`, badge: !!stats.badgerGrowth && `Up to ${stats.badgerGrowth}% APY`, href: "/setts", copy: "Deposit in Badger Sett to earn vault fees and more $BADGER." },
-			{ title: "Liquidity", button: "Add Liquidity", badge: !!stats.badgerLiqGrowth && `Up to ${stats.badgerLiqGrowth}% APY`, href: "https://info.uniswap.org/pair/0xcd7989894bc033581532d2cd88da5db0a4b12859", copy: "Deposit $BADGER<>$WBTC Uniswap LP token into Sett vault to earn $BADGER." },
-			{ title: "Governance", button: "Visit DAO", href: "https://forum.badger.finance/", copy: "Vote and lead the direction of the DAO + all of its products like Sett vault." },
+			{ title: `Stake`, button: `Stake`, badge: !!stats.badgerGrowth && `Up to ${stats.badgerGrowth}% APY`, href: "/setts", copy: "Deposit in vaults to earn Badger and Digg" },
+			{ title: "Liquidity", button: "Add Liquidity", badge: !!stats.badgerLiqGrowth && `Up to ${stats.badgerLiqGrowth}% APY`, href: "https://info.uniswap.org/pair/0xcd7989894bc033581532d2cd88da5db0a4b12859", copy: "Provide liquidity and stake LP in vaults." },
+			{ title: "Governance", button: "Visit DAO", href: "https://forum.badger.finance/", copy: "Govern all Badger DAO products and treasury." },
 		]
 		return q.map((qualifier) => <Grid item xs={12} md={4}>
 			<Card>

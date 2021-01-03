@@ -42,7 +42,7 @@ class WalletStore {
 			connectedAddress: this.connectedAddress,
 			provider: this.provider,
 			currentBlock: undefined,
-			gasPrices: { slow: 51, fast: 75, instant: 122 },
+			gasPrices: { slow: 51, standard: 75, rapid: 122 },
 			ethBalance: new BigNumber(0),
 			onboard: Onboard(onboardOptions)
 		});
@@ -115,6 +115,10 @@ class WalletStore {
 	cacheWallet = action((wallet: any) => {
 		this.setProvider(wallet.provider)
 		window.localStorage.setItem('selectedWallet', wallet.name)
+	});
+	isCached = action((wallet: any) => {
+		return !!this.connectedAddress || !!window.localStorage.getItem('selectedWallet')
+
 	});
 
 

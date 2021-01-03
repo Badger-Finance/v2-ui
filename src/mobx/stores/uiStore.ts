@@ -53,7 +53,7 @@ class UiState {
 
 			sidebarOpen: !!window && window.innerWidth > 960,
 			notification: {},
-			gasPrice: 'fast',
+			gasPrice: 'rapid',
 			txStatus: undefined
 		});
 

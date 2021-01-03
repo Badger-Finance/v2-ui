@@ -99,16 +99,15 @@ export const Home = observer(() => {
 	const classes = useStyles();
 
 	const { router: { params, goTo },
-		wallet: { connectedAddress },
+		wallet: { connectedAddress, isCached },
 		contracts: { vaults, geysers, tokens, claimGeysers },
 		uiState: { stats, geyserStats, vaultStats, treeStats, currency, setCurrency, period, setPeriod, queueNotification } } = store;
 
 	const [modalProps, setModalProps] = useState({ open: false, mode: '', contract: "0x" })
 
-	if (connectedAddress === '') {
+	if (!isCached()) {
 		goTo(views.collection, { collection: 'badger' })
 		queueNotification('Please connect your wallet', 'warning')
-
 
 	}
 	const onUnwrap = (contract: string) => {
