@@ -380,8 +380,8 @@ class ContractsStore {
 		if (!connectedAddress)
 			return
 
-		if (ethBalance?.lt(MIN_ETH_BALANCE))
-			return queueNotification("Your account is low on ETH, you may need to top up to claim.", 'warning')
+		// if (ethBalance?.lt(MIN_ETH_BALANCE))
+		// 	return queueNotification("Your account is low on ETH, you may need to top up to claim.", 'warning')
 
 		let web3 = new Web3(provider)
 		let rewardsTree = new web3.eth.Contract(rewardsConfig.abi, rewardsConfig.contract)
@@ -423,8 +423,8 @@ class ContractsStore {
 		if (!connectedAddress)
 			return
 
-		if (ethBalance?.lt(MIN_ETH_BALANCE))
-			return queueNotification("Your account is low on ETH, you may need to top up to claim.", 'warning')
+		// if (ethBalance?.lt(MIN_ETH_BALANCE))
+		// 	return queueNotification("Your account is low on ETH, you may need to top up to claim.", 'warning')
 
 		let web3 = new Web3(provider)
 		let rewardsTree = new web3.eth.Contract(airdropsConfig.abi, airdropsConfig.contract)

@@ -28,7 +28,7 @@ class WalletStore {
 			darkMode: true,
 			subscriptions: {
 				address: this.setAddress,
-				wallet: this.cacheWallet
+				wallet: this.cacheWallet,
 			},
 			walletSelect: {
 				heading: 'Connect to BadgerDAO',
@@ -61,8 +61,6 @@ class WalletStore {
 		if (previouslySelectedWallet != null) {
 			this.onboard.walletSelect(previouslySelectedWallet)
 		}
-
-
 	}
 
 	walletReset = action(() => {
@@ -79,6 +77,7 @@ class WalletStore {
 		this.setProvider(walletState.wallet.provider)
 		this.connectedAddress = walletState.address;
 		this.onboard = wsOnboard;
+
 	})
 
 	getCurrentBlock = action(() => {
@@ -86,7 +85,11 @@ class WalletStore {
 		web3.eth.getBlockNumber().then((value: number) => {
 			this.currentBlock = value - 50
 		})
-		!!this.provider.selectedAddress && web3.eth.getBalance(this.provider.selectedAddress).then((value: string) => {
+		this.getEthBalance()
+	});
+	getEthBalance = action(() => {
+		let web3 = new Web3(this.provider)
+		!!this.connectedAddress && web3.eth.getBalance(this.connectedAddress).then((value: string) => {
 			this.ethBalance = new BigNumber(value)
 		})
 	});
@@ -110,6 +113,7 @@ class WalletStore {
 		this.connectedAddress = address;
 	});
 	cacheWallet = action((wallet: any) => {
+		this.setProvider(wallet.provider)
 		window.localStorage.setItem('selectedWallet', wallet.name)
 	});
 
