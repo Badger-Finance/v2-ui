@@ -117,7 +117,7 @@ export const Sidebar = observer(() => {
 						<ButtonGroup variant="outlined" fullWidth>
 							<Button size="small" disabled><LocalGasStation style={{ fontSize: '1rem' }} /></Button>
 
-							{['slow', 'fast', 'instant'].map((speed: string) =>
+							{['slow', 'standard', 'rapid'].map((speed: string) =>
 								<Button variant={gasPrice === speed ? 'contained' : 'outlined'} size="small" onClick={() => setGasPrice(speed)} >{(gasPrices[speed] / 1).toFixed(0)}</Button>
 							)}
 						</ButtonGroup>

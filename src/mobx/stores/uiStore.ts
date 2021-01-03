@@ -121,8 +121,6 @@ class UiState {
 
 		this.stats = _.defaultsDeep(reduceContractsToStats(this.store), this.stats)
 
-
-
 	});
 
 	reduceTreeRewards = action(() => {

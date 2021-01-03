@@ -11,6 +11,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Loader } from '../Loader';
 import { BigNumber } from 'bignumber.js'
 import { VaultSymbol } from '../VaultSymbol';
+import { LinkOff } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
 	featuredImage: {
@@ -99,7 +100,9 @@ export const VaultCard = observer((props: any) => {
 				<VaultSymbol vault={uiStats.vault} />
 				<Typography variant="body1">
 					{uiStats.name}
+
 				</Typography>
+
 
 
 				<Typography variant="body2" color="textSecondary" component="div">

@@ -5,6 +5,7 @@ import Onboard from 'bnc-onboard';
 import { RootStore } from '../store';
 import BigNumber from 'bignumber.js';
 import { onboardWallets, onboardWalletCheck } from '../../config/wallets';
+import { mapValues } from 'lodash';
 
 
 
@@ -91,10 +92,10 @@ class WalletStore {
 	});
 
 	getGasPrice = action(() => {
-		fetch("https://gasprice.poa.network/")
+		fetch("https://www.gasnow.org/api/v3/gas/price?utm_source=badger")
 			.then((result: any) => result.json())
 			.then((price: any) => {
-				this.gasPrices = price
+				this.gasPrices = _.mapValues(price.data, (val: number) => val / 1e9)
 			})
 	});
 
