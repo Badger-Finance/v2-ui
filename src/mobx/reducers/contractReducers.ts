@@ -215,7 +215,6 @@ export const reduceGeyserSchedule = (timestamp: BigNumber, schedule: any) => {
 		week: badgerPerSecond.multipliedBy(60 * 60 * 24 * 7),
 		month: badgerPerSecond.multipliedBy(60 * 60 * 24 * 30),
 		year: badgerPerSecondAllTime.multipliedBy(60 * 60 * 24 * 365),
-		// ethBalance: !!geyser.totalStakedFor ? new BigNumber(geyser.totalStakedFor).multipliedBy(underlyingToken.ethValue) : new BigNumber(0)
 	}
 
 }

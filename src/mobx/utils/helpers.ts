@@ -85,10 +85,6 @@ export const getExchangeRates = (): Promise<Response> => {
 	}).then((response: any) => response.json())
 }
 
-export const gasPriceQuery = (): Promise<Response> => {
-	return fetch("https://gasprice.poa.network/")
-		.then((result: any) => result.json())
-}
 
 export const growthQuery = (block: number): Promise<Response> => {
 	return fetch(`https://api.thegraph.com/subgraphs/name/m4azey/badger-finance`, {
