@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import views from '../../config/routes';
 import { useContext } from 'react';
 import { StoreContext } from '../../context/store-context';
-import { Button, ButtonGroup, List, ListItem, Typography, Drawer, Chip } from "@material-ui/core"
+import { Button, ButtonGroup, List, ListItem, Typography, Drawer, Chip, Collapse, IconButton, ListItemIcon, ListItemText } from "@material-ui/core"
 import { makeStyles } from '@material-ui/core/styles';
 import { Wallet } from './Wallet';
-import { LocalGasStation } from '@material-ui/icons';
+import { ExpandMore, LocalGasStation, GetApp, Lock, Timeline } from '@material-ui/icons';
 // import { useSnackbar } from 'notistack';
 
 const useStyles = makeStyles((theme) => ({
@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	root: {
 		padding: theme.spacing(0),
-		width: theme.spacing(25),
+		width: theme.spacing(30),
 		display: "flex",
 		flexDirection: "column",
 		justifyContent: "space-between",
@@ -37,16 +37,31 @@ const useStyles = makeStyles((theme) => ({
 	},
 	listItem: {
 		cursor: "pointer",
+		// justifyContent: 'space-between',
 		"&:hover": {
-			fontWeight: 'bold'
+			fontWeight: 'bold',
+			backgroundColor: theme.palette.background.default
 
 		},
 		// paddingLeft: theme.spacing(1),
 		padding: theme.spacing(1, 2)
 	},
+	divider: {
+		padding: theme.spacing(2, 2, 1, 2),
+		fontSize: '.8rem'
+	},
+	secondaryListItem: {
+		cursor: "pointer",
+		justifyContent: 'space-between',
+		"&:hover": {
+			fontWeight: 'bold'
+		},
+		// paddingLeft: theme.spacing(1),
+		padding: theme.spacing(.5, 2)
+	},
 	activeListItem: {
 		fontWeight: 'bold',
-		color: theme.palette.primary.main
+		backgroundColor: theme.palette.background.default
 	},
 
 	currency: {
@@ -56,10 +71,20 @@ const useStyles = makeStyles((theme) => ({
 	rewards: {
 		margin: theme.spacing(0, 0, 0, 1),
 	},
-	flex: {
-		display: 'flex',
-		alignItens: 'center'
-	}
+
+	expand: {
+		transform: 'rotate(0deg)',
+		marginLeft: 'auto',
+		pointerEvents: 'none',
+		height: '1rem',
+		width: '1rem',
+		transition: theme.transitions.create('transform', {
+			duration: theme.transitions.duration.shortest,
+		}),
+	},
+	expandOpen: {
+		transform: 'rotate(180deg)',
+	},
 
 }));
 
@@ -68,6 +93,8 @@ export const Sidebar = observer(() => {
 
 	const store = useContext(StoreContext);
 	const { router: { goTo }, uiState: { sidebarOpen, closeSidebar, stats, gasPrice, setGasPrice }, wallet: { gasPrices } } = store;
+
+	const [expanded, setExpanded] = useState('')
 
 	// const { enqueueSnackbar } = useSnackbar();
 
@@ -88,31 +115,80 @@ export const Sidebar = observer(() => {
 			<div className={classes.root}>
 				<List >
 					<ListItem button className={classes.listItem}>
-						<img src={require('../../assets/badger-logo.png')} className={classes.logo} />
-
+						<img src={require('../../assets/badger-full-white.png')} className={classes.logo} />
+						{/* <Chip label="v2.0.0" variant="outlined" color="primary" size="small" /> */}
 					</ListItem>
+					<ListItem />
 
+					<Wallet />
+
+					<ListItem button className={classes.divider}>
+						v2.0.1
+					</ListItem>
 
 					<ListItem divider button
 						onClick={() => { closeSidebar(); goTo(views.home) }}
 						className={classes.listItem + ' ' + (store.router.currentPath === '/' ? classes.activeListItem : '')}>
-						Your Portfolio
+						<ListItemIcon  ><Lock fontSize="inherit" /> </ListItemIcon>
+						<ListItemText primary="Sett Vaults" />
 
-							{stats.claims[0] !== 0 && <Chip size="small" label={stats.claims[0]} variant="outlined" color="primary" className={classes.rewards} onClick={() => { closeSidebar(); goTo(views.home) }} />}
+						{stats.claims[0] !== 0 && <Chip size="small" label={stats.claims[0]} variant="outlined" color="primary" className={classes.rewards} onClick={() => { closeSidebar(); goTo(views.home) }} />}
 					</ListItem>
 
-					<ListItem divider button className={classes.listItem + ' ' + (store.router.currentPath == '/setts' ? classes.activeListItem : '')} onClick={() => goTo(views.collection)}>
-						Sett Vaults</ListItem>
-					<ListItem divider button className={classes.listItem + ' ' + (store.router.currentPath == '/airdrops' ? classes.activeListItem : '')} onClick={() => goTo(views.airdrops)}>Airdrops</ListItem>
-					<ListItem divider button disabled className={classes.listItem + ' ' + (store.router.currentPath == '/digg' ? classes.activeListItem : '')} onClick={() => goTo(views.digg)}>Digg
-					<Chip size="small" label={"Coming soon"} variant="outlined" color="primary" className={classes.rewards} /></ListItem>
+					<ListItem divider button className={classes.listItem + ' ' + (store.router.currentPath == '/airdrops' ? classes.activeListItem : '')} onClick={() => goTo(views.airdrops)}>
+						<ListItemIcon ><GetApp fontSize="inherit" /> </ListItemIcon>
+						<ListItemText primary="Airdrops" />
+
+					</ListItem>
+					<ListItem button disabled className={classes.listItem + ' ' + (store.router.currentPath == '/digg' ? classes.activeListItem : '')} onClick={() => goTo(views.digg)}>
+
+						<ListItemIcon ><Timeline fontSize="inherit" />  </ListItemIcon>
+						<ListItemText primary="Digg" />
+
+						{/* <Chip size="small" label={"Coming soon"} variant="outlined" color="primary" className={classes.rewards} /> */}
+					</ListItem>
 
 				</List>
-				<List disablePadding>
-					<ListItem className={classes.listItem} >
-						<Wallet />
 
+				<List>
+					<ListItem button className={classes.secondaryListItem}>
+						Forum
 					</ListItem>
+					<ListItem button className={classes.secondaryListItem} onClick={() => setExpanded(expanded === 'socials' ? '' : 'socials')}>
+						Socials
+						<IconButton
+							size="small"
+							className={classes.expand + " " + (expanded === 'socials' ? classes.expandOpen : '')}
+							aria-label="show more"
+						>
+
+							<ExpandMore />
+						</IconButton>
+					</ListItem>
+
+					<Collapse in={expanded === 'socials'} timeout="auto" unmountOnExit>
+						<ListItem button className={classes.secondaryListItem} href="https://www.twitter.com/badgerdao" target="_">
+							Twitter
+						</ListItem>
+						<ListItem button className={classes.secondaryListItem} href="https://badgerdao.medium.com" target="_">
+							Medium
+						</ListItem>
+						<ListItem button className={classes.secondaryListItem} href="https://discord.com/invite/xSPFHHS" target="_">
+							Discord
+						</ListItem>
+						<ListItem button className={classes.secondaryListItem} href="https://t.me/badger_dao" target="_">
+							Telegram
+						</ListItem>
+					</Collapse>
+
+					<ListItem button className={classes.secondaryListItem} href="https://app.gitbook.com/@badger-finance/s/badger-finance/">
+						Docs
+					</ListItem>
+					<ListItem button className={classes.secondaryListItem} href="https://badgerdao.medium.com/badger-developer-program-3bf0cb2cc5f1">
+						Developer Program
+					</ListItem>
+
+
 					<ListItem className={classes.listItem} >
 						<ButtonGroup variant="outlined" fullWidth>
 							<Button size="small" disabled><LocalGasStation style={{ fontSize: '1rem' }} /></Button>
@@ -123,9 +199,6 @@ export const Sidebar = observer(() => {
 						</ButtonGroup>
 
 					</ListItem>
-
-
-
 				</List>
 
 			</div>

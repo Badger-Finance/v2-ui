@@ -9,6 +9,13 @@ import {
 	Paper,
 	Dialog,
 	DialogTitle,
+	Select,
+	MenuItem,
+	FormControlLabel,
+	Switch,
+	List,
+	ListItem,
+	ListItemText
 } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -18,6 +25,7 @@ import _ from 'lodash';
 import { VaultStake } from './VaultStake';
 import Carousel from 'react-material-ui-carousel'
 import { SettList } from './SettList';
+import { Wallet } from '../Sidebar/Wallet';
 
 const useStyles = makeStyles((theme) => ({
 
@@ -35,12 +43,16 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	buttonGroup: {
-		marginRight: theme.spacing(2),
-		[theme.breakpoints.up('md')]: {
-			marginLeft: theme.spacing(2),
-			marginRight: theme.spacing(0),
+		marginLeft: theme.spacing(1),
 
-		},
+	},
+	select: {
+		height: '1.8rem',
+		fontSize: '.9rem',
+		overflow: 'hidden'
+	},
+	selectInput: {
+		margin: 0
 	},
 
 	statPaper: {
@@ -69,6 +81,9 @@ const useStyles = makeStyles((theme) => ({
 		fontSize: '11px',
 		width: '1rem',
 		color: '#fff'
+	},
+	rewards: {
+		marginTop: theme.spacing(1)
 	}
 
 }));
@@ -77,9 +92,11 @@ export const Collection = observer(() => {
 	const classes = useStyles();
 
 	const {
-		wallet: { connectedAddress },
-		contracts: { tokens },
-		uiState: { stats, geyserStats, vaultStats, currency, period, setCurrency, setPeriod } } = store;
+		wallet: { connectedAddress, isCached },
+		contracts: { tokens, claimGeysers },
+		uiState: { stats, geyserStats, vaultStats, currency, period, setCurrency, setPeriod, treeStats } } = store;
+
+	const [isGlobal, setIsGlobal] = useState<boolean>(!isCached())
 
 
 	if (!tokens) {
@@ -120,56 +137,89 @@ export const Collection = observer(() => {
 	};
 
 
-	return <Container className={classes.root} >
-		<Grid container spacing={2}>
-			{spacer()}
+	return <>
+		<Container className={classes.root} >
 
-			<Grid item xs={12} sm={4} >
-				<Typography variant="h5" color="textPrimary" >Sett Vaults</Typography>
-				<Typography variant="subtitle2" color="textPrimary" >Deposit & Earn on your Bitcoin</Typography>
-			</Grid>
+			<Grid container spacing={2}>
+				{spacer()}
 
-			<Grid item xs={12} sm={8} className={classes.filters}>
+				<Grid item xs={4} style={{ textAlign: 'left' }} >
 
-				<ButtonGroup variant="outlined" size="small" className={classes.buttonGroup}>
-					{["btc", "eth", "usd"].map((curr: string) =>
-						<Button key={curr} variant={currency === curr ? 'contained' : 'outlined'} onClick={() => setCurrency(curr)}>{curr}</Button>
-					)}
-				</ButtonGroup>
+					<FormControlLabel
+						control={
+							<Switch
+								checked={isGlobal}
+								onChange={() => setIsGlobal(!isGlobal)}
+								color="primary"
+							/>
+						}
+						label="Hide zero balances"
+					/>
 
-				<ButtonGroup variant="outlined" size="small" className={classes.buttonGroup}>
-					{["day", "month", "year"].map((p: string) =>
-						<Button key={p} variant={period === p ? 'contained' : 'outlined'} onClick={() => setPeriod(p)}>{p.charAt(0)}</Button>
-					)}
-				</ButtonGroup >
+				</Grid>
+				<Grid item xs={4} style={{ textAlign: 'center' }} >
 
-			</Grid >
+					{!!connectedAddress && <Button fullWidth variant="contained" color="primary" onClick={() => { claimGeysers(false) }}>Claim {treeStats.claims[0] || "..."} Badger</Button>}
+
+				</Grid>
+				<Grid item xs={4} style={{ textAlign: 'right' }} >
+
+					<span className={classes.buttonGroup}>
+
+						<Select
+							variant="outlined"
+							value={period}
+							onChange={(v: any) => setPeriod(v.target.value)}
+							className={classes.select}
+						>
+							<MenuItem value={'day'}>DAY</MenuItem>
+							<MenuItem value={'month'}>MONTH</MenuItem>
+							<MenuItem value={'year'}>YEAR</MenuItem>
+						</Select>
+					</span>
+					<span className={classes.buttonGroup}>
+
+						<Select
+							variant="outlined"
+							value={currency}
+							onChange={(v: any) => setCurrency(v.target.value)}
+							className={classes.select}
+						>
+							<MenuItem value={'usd'}>USD</MenuItem>
+							<MenuItem value={'btc'}>BTC</MenuItem>
+							<MenuItem value={'eth'}>ETH</MenuItem>
+						</Select>
+					</span>
+
+				</Grid>
+
+				{spacer()}
+
+				<Grid item xs={12} md={!!connectedAddress ? 4 : 6} >
+					<Paper elevation={2} className={classes.statPaper}>
+						<Typography variant="subtitle1" color="textPrimary">TVL</Typography>
+						<Typography variant="h5">{stats.tvl}</Typography>
+					</Paper>
+				</Grid >
+				{!!connectedAddress && <Grid item xs={12} md={4}>
+					<Paper elevation={2} className={classes.statPaper}>
+						<Typography variant="subtitle1" color="textPrimary">Your Portfolio</Typography>
+						<Typography variant="h5">{stats.portfolio}</Typography>
+
+					</Paper>
+				</Grid>
+				}
+
+				<Grid item xs={12} md={!!connectedAddress ? 4 : 6}>
+					<Paper elevation={2} className={classes.statPaper}>
+						<Typography variant="subtitle1" color="textPrimary">Badger Price</Typography>
+						<Typography variant="h5">{stats.badger || "..."}</Typography>
+					</Paper>
+
+				</Grid>
 
 
-			<Grid item xs={12} md={!!connectedAddress ? 4 : 6} >
-				<Paper elevation={2} className={classes.statPaper}>
-					<Typography variant="subtitle1" color="textPrimary">TVL</Typography>
-					<Typography variant="h5">{stats.tvl}</Typography>
-				</Paper>
-			</Grid >
-			{!!connectedAddress && <Grid item xs={12} md={4}>
-				<Paper elevation={2} className={classes.statPaper}>
-					<Typography variant="subtitle1" color="textPrimary">Your Portfolio</Typography>
-					<Typography variant="h5">{stats.portfolio}</Typography>
-				</Paper> 			</Grid>
-			}
-
-			<Grid item xs={12} md={!!connectedAddress ? 4 : 6}>
-				<Paper elevation={2} className={classes.statPaper}>
-					<Typography variant="subtitle1" color="textPrimary">Badger Price</Typography>
-					<Typography variant="h5">{stats.badger || "..."}</Typography>
-				</Paper>
-
-			</Grid>
-			{spacer()}
-
-
-			{/* <Grid item xs={12} >
+				{/* <Grid item xs={12} >
 				<Typography variant="body1" color="textPrimary" className={classes.featuredHeader}>Featured</Typography>
 
 				<Carousel
@@ -193,12 +243,13 @@ export const Collection = observer(() => {
 				</Carousel>
 			</Grid > */}
 
-			<SettList isGlobal />
+				<SettList isGlobal={!isCached()} hideEmpty={isGlobal} />
 
-		</Grid >
+			</Grid >
 
 
-	</Container >
+		</Container >
+	</>
 
 });
 

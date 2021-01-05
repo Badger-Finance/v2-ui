@@ -84,11 +84,13 @@ export const VaultStake = observer((props: any) => {
 		return <Loader />
 	}
 
+	const canDeposit = !!connectedAddress && uiStats.availableFull[25] !== uiStats.availableFull[100]
+
 	let renderAmounts = <ButtonGroup size="small" className={classes.button} disabled={!connectedAddress} >
-		<Button onClick={() => { setAmount(25) }} variant={!!connectedAddress && watch().amount === uiStats.availableFull[25] ? "contained" : "outlined"} color="primary">25%</Button>
-		<Button onClick={() => { setAmount(50) }} variant={!!connectedAddress && watch().amount === uiStats.availableFull[50] ? "contained" : "outlined"} color="primary">50%</Button>
-		<Button onClick={() => { setAmount(75) }} variant={!!connectedAddress && watch().amount === uiStats.availableFull[75] ? "contained" : "outlined"} color="primary">75%</Button>
-		<Button onClick={() => { setAmount(100) }} variant={!!connectedAddress && watch().amount === uiStats.availableFull[100] ? "contained" : "outlined"} color="primary">100%</Button>
+		<Button onClick={() => { setAmount(25) }} variant={!!canDeposit && watch().amount === uiStats.availableFull[25] ? "contained" : "outlined"} color="primary">25%</Button>
+		<Button onClick={() => { setAmount(50) }} variant={!!canDeposit && watch().amount === uiStats.availableFull[50] ? "contained" : "outlined"} color="primary">50%</Button>
+		<Button onClick={() => { setAmount(75) }} variant={!!canDeposit && watch().amount === uiStats.availableFull[75] ? "contained" : "outlined"} color="primary">75%</Button>
+		<Button onClick={() => { setAmount(100) }} variant={!!canDeposit && watch().amount === uiStats.availableFull[100] ? "contained" : "outlined"} color="primary">100%</Button>
 	</ButtonGroup>
 
 

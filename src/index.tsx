@@ -19,6 +19,7 @@ import { Header } from './components/Header';
 
 //css
 import './assets/css/onboard-override.css'
+import './assets/css/body.css'
 import { darkTheme } from './config/themes/dark';
 import { lightTheme } from './config/themes/light';
 

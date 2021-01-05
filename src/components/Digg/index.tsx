@@ -4,7 +4,7 @@ import { observer } from 'mobx-react-lite';
 import DashboardCard from "./DashboardCard";
 import Info from "./Info";
 import React, { useContext } from "react";
-import { StoreContext } from "../../../context/store-context";
+import { StoreContext } from "../../context/store-context";
 
 
 const useStyles = makeStyles((theme) => ({

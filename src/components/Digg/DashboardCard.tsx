@@ -13,8 +13,8 @@ import React, { useState, useEffect, useContext } from "react";
 
 import AreaChart from "./AreaChart";
 import { observer } from "mobx-react-lite";
-import { StoreContext } from "../../../context/store-context";
-import { fetchDiggChart } from "../../../mobx/utils/helpers";
+import { StoreContext } from "../../context/store-context";
+import { fetchDiggChart } from "../../mobx/utils/helpers";
 
 const DashboardCard = observer((props: any) => {
 	const store = useContext(StoreContext);

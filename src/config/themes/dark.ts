@@ -53,6 +53,20 @@ export const darkTheme = createMuiTheme({
 				color: "#F2A52B"
 			}
 		},
+		MuiListItemIcon: {
+			root: {
+				minWidth: '2.2rem',
+				fontSize: '1rem'
+			}
+		},
+		MuiListItemText: {
+			primary: {
+				fontSize: 'inherit'
+			}
+		},
+		MuiIcon: {
+
+		},
 		MuiDrawer: {
 			paper: {
 				// background: "#121212",

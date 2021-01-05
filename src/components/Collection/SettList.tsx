@@ -17,7 +17,7 @@ import { VaultCard } from './VaultCard';
 import _ from 'lodash';
 import { VaultStake } from './VaultStake';
 import { VaultUnwrap } from './VaultUnwrap';
-import { VaultUnstake } from './VaultUnstake';
+import { GeyserUnstake } from './GeyserUnstake';
 import { VaultSymbol } from '../VaultSymbol';
 
 import { geysers as geyserConfig, vaults as vaultConfig } from '../../config/system/settSystem'
@@ -99,6 +99,8 @@ export const SettList = observer((props: any) => {
 
 	const [modalProps, setModalProps] = useState({ open: false, mode: '', contract: "0x" })
 
+	const [hasDeposits, setHasDeposits] = useState(false)
+
 	useEffect(() => {
 		if (txStatus === "success") {
 			onClose()
@@ -129,32 +131,35 @@ export const SettList = observer((props: any) => {
 		}).length > 0
 	}
 
-	const renderContracts = (contracts: any, isGeysers: boolean = false, isFeatured: boolean = false, raw: boolean = false) => {
+	const renderContracts = (contracts: any,
+		isGeysers: boolean = false,
+		global: boolean = false,
+		raw: boolean = false) => {
+		console.log(contracts, isGeysers,
+			global,
+			raw)
 
-		let list = _.map(contracts, (contract: any, address: string) => {
+		let list = _.map(contracts, (contract: any) => {
 
-			let vault = vaults[contract[contract.underlyingKey]]
-			let geyser = contract
-			let stats = !!geyserStats && geyserStats[contract.address]
-			let config = geysers
 
-			if (!vault) {
-				vault = contract
-				geyser = _.find(geysers, (geyser: any) => geyser.StakingToken === vault.address)
-				stats = vaultStats[contract.address]
-				config = vaults
+			if (isGeysers) {
+				let geyser = geyserStats[contract.address]
 
-			} else
-				vault = vaults[contract[contract.underlyingKey]]
+				if (!geyser)
+					return
 
-			if (!isGeysers)
-				return <ListItem key={address} className={classes.listItem}>
-					<VaultCard isGlobal={isGlobal} uiStats={stats} onStake={onStake} onUnwrap={onUnwrap} isFeatured={isFeatured} />
+				return <ListItem key={contract.address} className={classes.listItem}>
+					<VaultCard isGlobal={global} uiStats={geyser} onStake={onStake} onUnstake={onUnstake} isDeposit />
 				</ListItem>
-			else
-				return <ListItem key={address} className={classes.listItem}>
-					<VaultCard isGlobal={isGlobal} isDeposit uiStats={stats} onStake={onStake} onUnstake={onUnstake} />
+			} else {
+				let vault = vaultStats[contract.address]
+				if (!vault)
+					return
+
+				return <ListItem key={contract.address} className={classes.listItem}>
+					<VaultCard isGlobal={global} uiStats={vault} onStake={onStake} onUnwrap={onUnwrap} />
 				</ListItem>
+			}
 		})
 
 		if (raw)
@@ -177,22 +182,18 @@ export const SettList = observer((props: any) => {
 			let vault = tokens[vaultContract.address]
 
 			return !!vault && (!!vault.balanceOf && vault.balanceOf.gt(0) || !!rawToken.balanceOf && rawToken.balanceOf.gt(0))
-		}))
+		}), false, false)
 	}
 
 	const emptyGeysers = () => {
 
-
-
-		return renderContracts(_.sortBy(vaults, [(vault: any) => {
+		return renderContracts(_.sortBy(geysers, [(geyser: any) => {
+			let vault = vaults[geyser[geyser.underlyingKey]]
 			// let token = tokens[vault[vault.underlyingKey]]
+			if (!vault)
+				return
 			return vault.listOrder
-		}]).filter((vaultContract: any) => {
-			let rawToken = tokens[vaultContract[vaultContract.underlyingKey]]
-			let vault = tokens[vaultContract.address]
-
-			return !!vault && (!vault.balanceOf || !vault.balanceOf.gt(0))
-		}))
+		}]), true, true)
 
 
 	}
@@ -200,14 +201,16 @@ export const SettList = observer((props: any) => {
 	const renderDeposits = () => {
 
 		// pooled tokens & empty tokens
-		console.log(geysers)
-		return renderContracts(
-			_.sortBy(geysers, [(geyser: any) => {
-				let vault = vaults[geyser[geyser.underlyingKey]]
-				return !!vault && vault.listOrder
-			}]).filter((geyser: any) => {
-				return !!geyser && (!!geyser.totalStakedFor && geyser.totalStakedFor.gt(0))
-			}), true)
+		let filtered = _.sortBy(geysers, [(geyser: any) => {
+			let vault = vaults[geyser[geyser.underlyingKey]]
+			return !!vault && vault.listOrder
+		}]).filter((geyser: any) => {
+			return (!!geyser && (!!geyser.totalStakedFor && geyser.totalStakedFor.gt(0)))
+		})
+
+		if (hasDeposits != (filtered.length > 0))
+			setHasDeposits((filtered.length > 0))
+		return renderContracts(filtered, true, false)
 	}
 
 
@@ -234,31 +237,27 @@ export const SettList = observer((props: any) => {
 						<Typography variant="body1" color="textPrimary">
 							{title}
 						</Typography>
-
 					</Grid>
+
 					<Grid item xs={12} sm={4} md={2} className={classes.hiddenMobile}>
 						<Typography variant="body2" color="textSecondary">
 							{isGlobal ? "Tokens Locked" : "Available"}
 						</Typography>
-
 					</Grid>
+
 					<Grid item xs={12} sm={4} md={2} className={classes.hiddenMobile}>
 						<Typography variant="body2" color="textSecondary">
 							{({ year: 'Yearly', day: 'Daily', month: 'Monthly' } as any)[period]} ROI
-
 						</Typography>
-
 					</Grid>
 
 					<Grid item xs={12} sm={6} md={2} className={classes.hiddenMobile}>
 						<Typography variant="body2" color="textSecondary">
 							Value
 						</Typography>
-
 					</Grid>
 				</Grid>
 			</Grid>
-
 		</>
 	};
 
@@ -279,16 +278,25 @@ export const SettList = observer((props: any) => {
 		let component: any = {}
 		let title = ""
 		if (mode == "stake") {
-			vault = vaults[contract]
-			title = "Stake " + vault.name
+			let theStats = vaultStats[contract]
+			if (!theStats && !!geysers[contract]) {
+				let geyser = geysers[contract]
+				vault = vaults[geyser[geyser.underlyingKey]]
+				if (!!vault)
+					theStats = vaultStats[vault.address]
+			} else {
+				vault = vaults[contract]
+			}
 
-			component = <VaultStake uiStats={vaultStats[contract]} onClose={onClose} />
+
+			title = "Stake " + vault.name
+			component = <VaultStake uiStats={theStats} onClose={onClose} />
 		} else if (mode == "unstake") {
 			let geyser = geysers[contract]
 			vault = vaults[geyser[geyser.underlyingKey]]
-			title = "Unstake " + vault.name
 
-			component = <VaultUnstake uiStats={geyserStats[contract]} onClose={onClose} />
+			title = "Unstake " + vault.name
+			component = <GeyserUnstake uiStats={geyserStats[contract]} onClose={onClose} />
 		} else if (mode == "unwrap") {
 			vault = vaults[contract]
 			title = "Unwrap " + vault.name
@@ -317,9 +325,8 @@ export const SettList = observer((props: any) => {
 	return <>
 		{!!connectedAddress && !isGlobal && tableHeader(`Your Wallet - ${stats.wallet}`)}
 		{!!connectedAddress && !isGlobal && walletVaults()}
-		{!!connectedAddress && !isGlobal && tableHeader(`Deposits - ${stats.geysers}`)}
+		{!!connectedAddress && !isGlobal && hasDeposits && tableHeader(`Deposits - ${stats.geysers}`)}
 		{!!connectedAddress && !isGlobal && renderDeposits()}
-
 		{/* {isGlobal && <Carousel className={classes.carousel} indicators={false} navButtonsAlwaysVisible >{featuredGeysers()}</Carousel>} */}
 		{!hideEmpty && tableHeader(`Setts`)}
 		{!hideEmpty && emptyGeysers()}

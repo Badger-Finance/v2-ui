@@ -7,13 +7,13 @@ import { Route } from 'mobx-router';
 import { Home } from '../components/Home';
 import { Collection } from '../components/Collection';
 import { RootStore } from '../mobx/store';
-import { Airdrops } from '../components/Collection/Airdrops';
-import { Digg } from '../components/Collection/Digg';
+import { Airdrops } from '../components/Airdrops';
+import { Digg } from '../components/Digg';
 
 const routes = {
 	home: new Route<RootStore>({
 		path: '/',
-		component: <Home />,
+		component: <Collection />,
 		onEnter: (route, params, store) => {
 		},
 		beforeExit: () => {
@@ -23,16 +23,7 @@ const routes = {
 
 	}),
 
-	collection: new Route<RootStore, any>({
-		path: '/setts',
-		component: <Collection />,
-		onEnter: (route, params, store) => {
-		},
-		beforeExit: () => {
-		},
-		onParamsChange: (route, { collection }, store) => {
-		}
-	}),
+
 	airdrops: new Route<RootStore, {
 	}>({
 		path: '/airdrops',

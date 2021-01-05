@@ -1,10 +1,10 @@
 import { Grid, Typography, Paper, makeStyles } from "@material-ui/core";
 
 import React, { useState, useContext } from "react";
-import { StoreContext } from "../../../context/store-context";
+import { StoreContext } from "../../context/store-context";
 import useInterval from "@use-it/interval";
 import { observer } from "mobx-react-lite";
-import { Loader } from "../../Loader";
+import { Loader } from "../Loader";
 const useStyles = makeStyles((theme) => ({
 
 	before: {

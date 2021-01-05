@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { useContext } from 'react';
 import { StoreContext } from '../../context/store-context';
-import { Button } from "@material-ui/core"
+import { ListItem, ListItemIcon, ListItemText } from "@material-ui/core"
 import { makeStyles } from '@material-ui/core/styles';
+import { AccountBalanceWallet } from '@material-ui/icons';
+
 
 const useStyles = makeStyles((theme) => ({
 
@@ -12,19 +14,19 @@ const useStyles = makeStyles((theme) => ({
 		width: "100%"
 	},
 	redDot: {
-		display: "inline-block",
-		width: theme.spacing(.8),
+		display: "block",
+		width: theme.spacing(.9),
 		height: theme.spacing(.8),
-		marginLeft: theme.spacing(1),
-		borderRadius: theme.spacing(1),
+		marginLeft: theme.spacing(.4),
+		borderRadius: theme.spacing(.4),
 		background: theme.palette.error.main
 	},
 	greenDot: {
-		display: "inline-block",
-		width: theme.spacing(.8),
+		display: "block",
+		width: theme.spacing(.9),
 		height: theme.spacing(.8),
-		marginLeft: theme.spacing(1),
-		borderRadius: theme.spacing(1),
+		marginLeft: theme.spacing(.4),
+		borderRadius: theme.spacing(.4),
 		background: theme.palette.success.main
 	}
 }));
@@ -51,28 +53,29 @@ export const Wallet = observer(() => {
 	}
 
 	if (!!connectedAddress)
-		return <div className={classes.root}>
-			<Button
-				fullWidth
-				variant="outlined"
-				onClick={() => { store.wallet.walletReset(); }}>
-				{!!connectedAddress ? shortenAddress(connectedAddress) : 'DISCONNECTED'}
-				<div className={!!connectedAddress ? classes.greenDot : classes.redDot} />
-			</Button>
-		</div>
+		return <ListItem
+			divider
+			button
+			style={{ marginTop: '-2px' }}
+			color="primary" onClick={() => { store.wallet.walletReset(); }}>
+			<ListItemIcon><AccountBalanceWallet fontSize="inherit" /></ListItemIcon>
+
+			<ListItemText primary={!!connectedAddress ? shortenAddress(connectedAddress) : 'DISCONNECTED'} />
+
+			<div className={!!connectedAddress ? classes.greenDot : classes.redDot} />
+		</ListItem>
 	else
-		return <div className={classes.root}>
+		return <ListItem
+			divider
+			button
+			style={{ marginTop: '-2px' }}
+			onClick={connect}
+			color="primary">
+			<ListItemIcon><AccountBalanceWallet fontSize="inherit" /></ListItemIcon>
+			<ListItemText primary={!!connectedAddress ? shortenAddress(connectedAddress) : 'DISCONNECTED'} />
 
-			<Button
-				fullWidth
-				disableElevation
+			<div className={!!connectedAddress ? classes.greenDot : classes.redDot} />
 
-				onClick={connect}
-				variant="contained">
-				{!!connectedAddress ? shortenAddress(connectedAddress) : 'DISCONNECTED'}
-				<div className={!!connectedAddress ? classes.greenDot : classes.redDot} />
-
-			</Button>
-		</div>
+		</ListItem>
 
 });
