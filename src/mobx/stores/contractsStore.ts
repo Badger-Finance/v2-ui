@@ -266,8 +266,9 @@ class ContractsStore {
 
 		let depositedTokens = !!vault.balanceOf ? vault.balanceOf.multipliedBy(vault.getPricePerFullShare.dividedBy(1e18)) : new BigNumber(0)
 
+		console.log(underlying.balanceOf.plus(depositedTokens).dividedBy(1e18).toString(), amount.dividedBy(1e18).toString())
 		// ensure balance is valid
-		if (amount.isNaN() || amount.lte(0) || amount.gt(underlying.balanceOf.plus(depositedTokens)))
+		if (!amount || amount.isNaN() || amount.lte(0) || amount.gt(underlying.balanceOf.plus(depositedTokens)))
 			return queueNotification("Please enter a valid amount", 'error')
 
 		// calculate amount to deposit

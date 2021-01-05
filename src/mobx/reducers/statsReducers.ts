@@ -25,7 +25,7 @@ export const reduceGeysersToStats = (store: RootStore) => {
 			return
 
 		let virtualEthValue = !!token.ethValue ? token.ethValue.dividedBy(1e18).multipliedBy(!!vault.getPricePerFullShare ? vault.getPricePerFullShare.dividedBy(1e18) : 1) : token.ethValue
-
+		let underlyingBalance = !!geyser.totalStakedFor && geyser.totalStakedFor
 
 		let { growth, tooltip } = reduceTotalGrowth(vault, period, token, geyser);
 
@@ -41,17 +41,20 @@ export const reduceGeysersToStats = (store: RootStore) => {
 
 			yourValue: !!geyser.totalStakedFor &&
 				inCurrency(geyser.totalStakedFor.multipliedBy(virtualEthValue), currency),
-			yourBalance: !!geyser.totalStakedFor &&
-				inCurrency(geyser.totalStakedFor, 'eth', true),
+			yourBalance: !!underlyingBalance &&
+				inCurrency(underlyingBalance, 'eth', true),
+
+			anyStaked: !!underlyingBalance && underlyingBalance.gt(0),
+
 
 			availableBalance: !!token.balanceOf &&
 				inCurrency(token.balanceOf, 'eth', true),
 
-			depositedFull: !!geyser.totalStakedFor && {
-				25: inCurrency(geyser.totalStakedFor.multipliedBy(0.25), 'eth', true, 18, true),
-				50: inCurrency(geyser.totalStakedFor.multipliedBy(0.5), 'eth', true, 18, true),
-				75: inCurrency(geyser.totalStakedFor.multipliedBy(0.75), 'eth', true, 18, true),
-				100: inCurrency(geyser.totalStakedFor, 'eth', true, 18, true),
+			depositedFull: !!underlyingBalance && {
+				25: inCurrency(underlyingBalance.multipliedBy(0.25), 'eth', true, 18, true),
+				50: inCurrency(underlyingBalance.multipliedBy(0.5), 'eth', true, 18, true),
+				75: inCurrency(underlyingBalance.multipliedBy(0.75), 'eth', true, 18, true),
+				100: inCurrency(underlyingBalance, 'eth', true, 18, true),
 			},
 
 			name: token.name,
@@ -80,7 +83,7 @@ export const reduceVaultsToStats = (store: RootStore) => {
 		if (!geyser || !token)
 			return //console.log(vault, token, wrapped)
 
-		let depositedTokens = !!wrapped.balanceOf ? wrapped.balanceOf.multipliedBy(vault.getPricePerFullShare.dividedBy(1e18)) : new BigNumber(0)
+		let depositedTokens = !!wrapped.balanceOf ? vault.balanceOf.multipliedBy(vault.getPricePerFullShare.dividedBy(1e18)) : new BigNumber(0)
 		let { growth, tooltip } = reduceTotalGrowth(vault, period, token, geyser);
 		let { growth: growthDay } = reduceTotalGrowth(vault, 'day', token, geyser);
 		let { growth: growthMonth } = reduceTotalGrowth(vault, 'month', token, geyser);
@@ -96,6 +99,7 @@ export const reduceVaultsToStats = (store: RootStore) => {
 				inCurrency(token.balanceOf.plus(depositedTokens).multipliedBy(token.ethValue.dividedBy(1e18)), currency),
 
 			anyWrapped: depositedTokens.gt(0),
+			anyUnderlying: !!token.balanceOf && token.balanceOf.gt(0),
 
 			underlyingTokens: !!vault.balance &&
 				inCurrency(vault.balance, 'eth', true),

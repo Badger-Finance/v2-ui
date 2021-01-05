@@ -172,9 +172,9 @@ export const VaultCard = observer((props: any) => {
 
 			<Grid item xs={12} md={2}>
 				<ButtonGroup variant="outlined" className={classes.cardActions}>
-					{isDeposit && <Button onClick={() => onUnstake(uiStats.address)} variant="outlined" color="primary" size="small" className={classes.button}>Unstake</Button>}
-					{!isDeposit && <Button onClick={() => onStake(uiStats.address)} variant={anyAvailable ? 'contained' : 'outlined'} color="primary" size="small" >Stake</Button>}
-					{!!uiStats.anyWrapped && <Button onClick={() => onUnwrap(uiStats.address)} variant="outlined" color="primary" size="small" className={classes.button}>Unwrap</Button>}
+					{!!uiStats.anyUnderlying && <Button onClick={() => onStake(uiStats.address)} variant={(uiStats.anyUnderlying || uiStats.anyWrapped) ? 'contained' : 'outlined'} color="primary" size="small" >Deposit</Button>}
+					{isDeposit && !!uiStats.anyStaked && <Button onClick={() => onUnstake(uiStats.address)} variant="outlined" color="primary" size="small" className={classes.button}>Withdraw</Button>}
+					{!!uiStats.anyWrapped && <Button onClick={() => onUnwrap(uiStats.address)} variant="outlined" color="primary" size="small" className={classes.button}>Withdraw</Button>}
 
 				</ButtonGroup>
 

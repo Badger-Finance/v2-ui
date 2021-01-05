@@ -151,7 +151,7 @@ export const inCurrency = (value: BigNumber, currency: string, hide: boolean = f
 		suffix = `e-${preferredDecimals}`
 	}
 
-	let fixedNormal = noCommas ? normal.toFixed(decimals) : numberWithCommas(normal.toFixed(decimals))
+	let fixedNormal = noCommas ? normal.toFixed(decimals, BigNumber.ROUND_DOWN) : numberWithCommas(normal.toFixed(decimals, BigNumber.ROUND_DOWN))
 
 	return `${prefix}${fixedNormal}${suffix}`
 

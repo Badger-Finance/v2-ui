@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
 	}
 
 }));
-export const VaultUnstake = observer((props: any) => {
+export const GeyserUnstake = observer((props: any) => {
 	const store = useContext(StoreContext);
 	const classes = useStyles();
 	const {

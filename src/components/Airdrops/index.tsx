@@ -17,8 +17,8 @@ import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import _ from 'lodash';
 import Carousel from 'react-material-ui-carousel'
-import { Loader } from '../../Loader';
-import { StoreContext } from '../../../context/store-context';
+import { Loader } from '../Loader';
+import { StoreContext } from '../../context/store-context';
 
 const useStyles = makeStyles((theme) => ({
 

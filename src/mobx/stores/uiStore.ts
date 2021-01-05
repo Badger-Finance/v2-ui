@@ -83,9 +83,9 @@ class UiState {
 		})
 
 		// redirect to portfolio if logged in
-		observe(this.store.wallet as any, "provider", (change: any) => {
-			this.store.router.goTo(views.home)
-		})
+		// observe(this.store.wallet as any, "provider", (change: any) => {
+		// 	this.store.router.goTo(views.home)
+		// })
 
 		// reduce to formatted options
 		observe(this as any, "period", (change: any) => {
@@ -137,9 +137,6 @@ class UiState {
 	setCollection = action((id: string) => {
 		if (!!this.collection && this.collection.id === id)
 			return
-
-		// this.collection = collections.find((collection) => collection.id === id)
-		// this.store?.contracts.fetchCollection() //TODO:observe ui from collections
 
 	});
 

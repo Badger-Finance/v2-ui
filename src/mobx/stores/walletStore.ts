@@ -116,7 +116,7 @@ class WalletStore {
 		this.setProvider(wallet.provider)
 		window.localStorage.setItem('selectedWallet', wallet.name)
 	});
-	isCached = action((wallet: any) => {
+	isCached = action(() => {
 		return !!this.connectedAddress || !!window.localStorage.getItem('selectedWallet')
 
 	});
