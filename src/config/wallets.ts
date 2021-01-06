@@ -8,20 +8,22 @@ import {
 export const onboardWallets = [
 	{ walletName: "metamask" },
 	{ walletName: 'coinbase' },
-	{ walletName: "trust", rpcUrl: RPC_URL },
+	// Removed due to handling through walletConnect
+	//{ walletName: "trust", rpcUrl: RPC_URL },
+	{
+		walletName: 'ledger',
+		rpcUrl: RPC_URL
+	},
 	{
 		walletName: "walletConnect",
 		infuraKey: INFURA_KEY
 	},
+	{ walletName: "walletLink", rpcUrl: RPC_URL, appName: APP_NAME },
 	{ walletName: "dapper" },
 	{
 		walletName: 'trezor',
 		appUrl: APP_URL,
 		email: CONTACT_EMAIL,
-		rpcUrl: RPC_URL
-	},
-	{
-		walletName: 'ledger',
 		rpcUrl: RPC_URL
 	},
 	{
@@ -35,7 +37,6 @@ export const onboardWallets = [
 	{ walletName: "torus" },
 	{ walletName: "status" },
 	{ walletName: "unilogin" },
-	{ walletName: "walletLink", rpcUrl: RPC_URL, appName: APP_NAME },
 	{ walletName: "imToken", rpcUrl: RPC_URL },
 	{ walletName: "meetone" },
 	{ walletName: "mykey", rpcUrl: RPC_URL },
