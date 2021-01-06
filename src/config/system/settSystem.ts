@@ -100,7 +100,33 @@ export const geysers = [
 			deploy.geysers['native.tbtcCrv'],
 			deploy.geysers['native.uniBadgerWbtc'],
 			deploy.geysers['harvest.renCrv'],
-		]
+		],
+		fillers: {
+			isFeatured: [
+				false,
+				false,
+				false,
+				false,
+				true,
+				true
+			],
+			listOrder: [
+				7,
+				4,
+				5,
+				3,
+				2,
+				6
+			],
+			isSuperSett: [
+				false,
+				false,
+				false,
+				false,
+				false,
+				true
+			]
+		},
 	},
 	{
 		abi: SushiGeyser.abi,
@@ -127,7 +153,11 @@ export const geysers = [
 			onsenId: [
 				'21',
 				'73'
-			]
+			],
+			listOrder: [
+				0,
+				1
+			],
 		},
 
 		growthEndpoint: "https://api.thegraph.com/subgraphs/name/sushiswap/master-chef",

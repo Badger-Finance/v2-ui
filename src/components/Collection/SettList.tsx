@@ -13,7 +13,7 @@ import {
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Loader } from '../Loader';
-import { VaultCard } from './VaultCard';
+import { AssetCard } from './AssetCard';
 import _ from 'lodash';
 import { VaultStake } from './VaultStake';
 import { VaultUnwrap } from './VaultUnwrap';
@@ -90,14 +90,14 @@ export const SettList = observer((props: any) => {
 	const store = useContext(StoreContext);
 	const classes = useStyles();
 
-	const { hideEmpty, isGlobal } = props
+	const { hideEmpty } = props
 
 	const { router: { params, goTo },
 		wallet: { connectedAddress },
 		contracts: { vaults, geysers, tokens },
 		uiState: { stats, geyserStats, vaultStats, currency, period, setCurrency, txStatus, setTxStatus, notification } } = store;
 
-	const [modalProps, setModalProps] = useState({ open: false, mode: '', contract: "0x" })
+	const [dialogProps, setDialogProps] = useState({ open: false, mode: '', stats: undefined as any })
 
 	const [hasDeposits, setHasDeposits] = useState(false)
 
@@ -108,20 +108,19 @@ export const SettList = observer((props: any) => {
 		}
 	}, [txStatus])
 
-	const onUnwrap = (contract: string) => {
-		setModalProps({ mode: 'unwrap', contract, open: true })
-		console.log(modalProps)
+	const onUnwrap = (stats: any) => {
+		setDialogProps({ mode: 'unwrap', stats, open: true })
 	}
-	const onUnstake = (contract: string) => {
-		setModalProps({ mode: 'unstake', contract, open: true })
+	const onUnstake = (stats: any) => {
+		setDialogProps({ mode: 'unstake', stats, open: true })
 	}
-	const onStake = (contract: string) => {
-		setModalProps({ mode: 'stake', contract, open: true })
+	const onStake = (stats: any) => {
+		setDialogProps({ mode: 'stake', stats, open: true })
 	}
 	const onClose = () => {
 		if (txStatus === 'pending')
 			return
-		setModalProps({ ...modalProps, open: false })
+		setDialogProps({ ...dialogProps, open: false })
 	}
 
 	const anyWalletAssets = () => {
@@ -133,91 +132,44 @@ export const SettList = observer((props: any) => {
 
 	const renderContracts = (contracts: any,
 		isGeysers: boolean = false,
-		global: boolean = false,
-		raw: boolean = false) => {
-		console.log(contracts, isGeysers,
-			global,
-			raw)
+		global: boolean = false) => {
+
+		console.log(contracts, isGeysers, global)
 
 		let list = _.map(contracts, (contract: any) => {
 
 
 			if (isGeysers) {
-				let geyser = geyserStats[contract.address]
-
-				if (!geyser)
-					return
 
 				return <ListItem key={contract.address} className={classes.listItem}>
-					<VaultCard isGlobal={global} uiStats={geyser} onStake={onStake} onUnstake={onUnstake} isDeposit />
+					<AssetCard isGlobal={global} uiStats={contract} onStake={onStake} onUnstake={onUnstake} onUnwrap={onUnwrap} isDeposit />
 				</ListItem>
 			} else {
-				let vault = vaultStats[contract.address]
-				if (!vault)
-					return
-
 				return <ListItem key={contract.address} className={classes.listItem}>
-					<VaultCard isGlobal={global} uiStats={vault} onStake={onStake} onUnwrap={onUnwrap} />
+					<AssetCard isGlobal={global} uiStats={contract} onStake={onStake} onUnstake={onUnstake} onUnwrap={onUnwrap} />
 				</ListItem>
 			}
 		})
 
-		if (raw)
-			return list
-		else
-			return <List className={classes.list}>{list}</List>
+		return <List className={classes.list}>{list}</List>
 	}
 
 
 	const walletVaults = () => {
-
 		let vaultCards: any[] = []
 
 		// wallet assets & wrapped assets ordered by value
-		return renderContracts(_.sortBy(vaults, [(vault: any) => {
-			let token = tokens[vault[vault.underlyingKey]]
-			return vault.listOrder
-		}]).filter((vaultContract: any) => {
-			let rawToken = tokens[vaultContract[vaultContract.underlyingKey]]
-			let vault = tokens[vaultContract.address]
-
-			return !!vault && (!!vault.balanceOf && vault.balanceOf.gt(0) || !!rawToken.balanceOf && rawToken.balanceOf.gt(0))
-		}), false, false)
+		return renderContracts(stats.assets.wallet, false, false)
 	}
 
 	const emptyGeysers = () => {
-
-		return renderContracts(_.sortBy(geysers, [(geyser: any) => {
-			let vault = vaults[geyser[geyser.underlyingKey]]
-			// let token = tokens[vault[vault.underlyingKey]]
-			if (!vault)
-				return
-			return vault.listOrder
-		}]), true, true)
-
-
+		return renderContracts(stats.assets.setts, true, true)
 	}
 
 	const renderDeposits = () => {
-
-		// pooled tokens & empty tokens
-		let filtered = _.sortBy(geysers, [(geyser: any) => {
-			let vault = vaults[geyser[geyser.underlyingKey]]
-			return !!vault && vault.listOrder
-		}]).filter((geyser: any) => {
-			return (!!geyser && (!!geyser.totalStakedFor && geyser.totalStakedFor.gt(0)))
-		})
-
-		if (hasDeposits != (filtered.length > 0))
-			setHasDeposits((filtered.length > 0))
-		return renderContracts(filtered, true, false)
-	}
-
-
-	const featuredGeysers = () => {
-		// wallet assets & wrapped assets ordered by value
-		return renderContracts(_.filter(vaults, (vault: any) => vault.isFeatured), false, true, true)
-
+		if (stats.assets.deposits.length > 0 && !hasDeposits)
+			setHasDeposits(true)
+		return renderContracts(stats.assets.deposits, false, false)
 	}
 
 
@@ -226,7 +178,6 @@ export const SettList = observer((props: any) => {
 	}
 
 	const spacer = () => <div className={classes.before} />;
-
 
 	const tableHeader = (title: string) => {
 		return <>
@@ -241,8 +192,8 @@ export const SettList = observer((props: any) => {
 
 					<Grid item xs={12} sm={4} md={2} className={classes.hiddenMobile}>
 						<Typography variant="body2" color="textSecondary">
-							{isGlobal ? "Tokens Locked" : "Available"}
-						</Typography>
+							Available
+					</Typography>
 					</Grid>
 
 					<Grid item xs={12} sm={4} md={2} className={classes.hiddenMobile}>
@@ -271,42 +222,37 @@ export const SettList = observer((props: any) => {
 	}
 
 
-	const renderModal = () => {
+	const renderDialog = () => {
 
-		const { mode, open, contract } = modalProps
+		const { mode, open, stats } = dialogProps
 		let vault: any = {}
 		let component: any = {}
 		let title = ""
-		if (mode == "stake") {
-			let theStats = vaultStats[contract]
-			if (!theStats && !!geysers[contract]) {
-				let geyser = geysers[contract]
-				vault = vaults[geyser[geyser.underlyingKey]]
-				if (!!vault)
-					theStats = vaultStats[vault.address]
-			} else {
-				vault = vaults[contract]
-			}
 
+		if (!stats)
+			return
+
+		if (mode == "stake") {
+			vault = stats.stats.vault
 
 			title = "Stake " + vault.name
-			component = <VaultStake uiStats={theStats} onClose={onClose} />
+			component = <VaultStake uiStats={stats.stats} onClose={onClose} />
 		} else if (mode == "unstake") {
-			let geyser = geysers[contract]
-			vault = vaults[geyser[geyser.underlyingKey]]
+			let geyser = stats.stats.geyser
+			vault = stats.stats.vault
 
 			title = "Unstake " + vault.name
-			component = <GeyserUnstake uiStats={geyserStats[contract]} onClose={onClose} />
+			component = <GeyserUnstake uiStats={stats.stats} onClose={onClose} />
 		} else if (mode == "unwrap") {
-			vault = vaults[contract]
+			vault = stats.stats.vault
 			title = "Unwrap " + vault.name
 
-			component = <VaultUnwrap uiStats={vaultStats[contract]} onClose={onClose} />
+			component = <VaultUnwrap uiStats={stats.stats} onClose={onClose} />
 		}
 
-		return <Dialog key={contract} fullWidth maxWidth={'sm'} open={open} onClose={onClose}>
+		return <Dialog key={title} fullWidth maxWidth={'sm'} open={open} onClose={onClose}>
 			<DialogTitle disableTypography >
-				<VaultSymbol vault={vault} />
+				<VaultSymbol token={stats.token} />
 
 				<Typography variant="body1">
 					{title}</Typography>
@@ -323,15 +269,15 @@ export const SettList = observer((props: any) => {
 
 
 	return <>
-		{!!connectedAddress && !isGlobal && tableHeader(`Your Wallet - ${stats.wallet}`)}
-		{!!connectedAddress && !isGlobal && walletVaults()}
-		{!!connectedAddress && !isGlobal && hasDeposits && tableHeader(`Deposits - ${stats.geysers}`)}
-		{!!connectedAddress && !isGlobal && renderDeposits()}
+		{!!connectedAddress && tableHeader(`Your Wallet - ${stats.stats.wallet}`)}
+		{!!connectedAddress && walletVaults()}
+		{!!connectedAddress && hasDeposits && tableHeader(`Deposits - ${stats.stats.geysers}`)}
+		{!!connectedAddress && renderDeposits()}
 		{/* {isGlobal && <Carousel className={classes.carousel} indicators={false} navButtonsAlwaysVisible >{featuredGeysers()}</Carousel>} */}
-		{!hideEmpty && tableHeader(`Setts`)}
+		{!hideEmpty && tableHeader(`All Setts`)}
 		{!hideEmpty && emptyGeysers()}
 
-		{renderModal()}
+		{renderDialog()}
 		{spacer()}
 
 

@@ -4,7 +4,6 @@ import React from 'react';
 import { Route } from 'mobx-router';
 
 //components
-import { Home } from '../components/Home';
 import { Collection } from '../components/Collection';
 import { RootStore } from '../mobx/store';
 import { Airdrops } from '../components/Airdrops';

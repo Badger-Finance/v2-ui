@@ -75,7 +75,7 @@ const useStyles = makeStyles((theme) => ({
 	}
 
 }));
-export const VaultCard = observer((props: any) => {
+export const AssetCard = observer((props: any) => {
 	const store = useContext(StoreContext);
 	const classes = useStyles();
 	const { onStake,
@@ -86,29 +86,25 @@ export const VaultCard = observer((props: any) => {
 		isGlobal,
 		isDeposit } = props
 
-	if (!uiStats) {
+	const { stats, token } = uiStats
+
+	if (!stats || !stats.vault) {
 		return <LinearProgress />
 	}
-	let anyAvailable = false//!!uiStats.availableBalance && parseFloat(uiStats.availableBalance) !== 0
+
 	return <>
 		<Grid container className={classes.border + (isFeatured ? ` ${classes.featured}` : '')}>
-			{!!isFeatured && !!uiStats.symbol && <Grid item xs={12} sm={12}>
-				<img className={classes.featuredImage} src={require(`../../assets/featured-setts/${uiStats.symbol.toLowerCase().replace('/', '')}.png`)} />
 
-			</Grid>}
 			<Grid item xs={12} md={4} className={classes.name}>
-				<VaultSymbol vault={uiStats.vault} />
+				<VaultSymbol token={token} />
 				<Typography variant="body1">
-					{uiStats.name}
+					{stats.name}
 
 				</Typography>
 
-
-
 				<Typography variant="body2" color="textSecondary" component="div">
-					{uiStats.symbol}
-					{!!uiStats.vault.isSuperSett && <Chip className={classes.chip} label="Super Sett" size="small" color="primary" />}
-
+					{token.symbol}
+					{!!stats.vault.isSuperSett && <Chip className={classes.chip} label="Super Sett" size="small" color="primary" />}
 				</Typography>
 
 			</Grid>
@@ -120,16 +116,16 @@ export const VaultCard = observer((props: any) => {
 			</Grid>
 
 			<Grid item xs={6} md={2}>
-				<Typography variant="body1" color={parseFloat(uiStats.underlyingBalance) === 0 ? "textSecondary" : 'textPrimary'}>
+				<Typography variant="body1" color={parseFloat(stats.underlyingBalance) === 0 ? "textSecondary" : 'textPrimary'}>
 
 					{!isGlobal ?
 						!isDeposit ?
-							uiStats.availableBalance : uiStats.yourBalance
-						: uiStats.underlyingTokens}
+							stats.availableBalance : stats.yourBalance
+						: stats.underlyingTokens}
 				</Typography>
 				{/* <Typography variant="body2" color="textSecondary">
-					{uiStats.underlyingTokens}
-					{uiStats.underlyingBalance}
+					{stats.underlyingTokens}
+					{stats.underlyingBalance}
 
 				</Typography> */}
 
@@ -141,19 +137,14 @@ export const VaultCard = observer((props: any) => {
 				</Typography>
 			</Grid>
 			<Grid item xs={6} md={2}>
-				<Tooltip arrow placement="left" title={uiStats.tooltip}>
+				<Tooltip arrow placement="left" title={stats.tooltip}>
 
 					<Typography variant="body1" color={(!isDeposit && !isGlobal) ? 'textSecondary' : 'textPrimary'} >
 
-						{uiStats.growth || '...'}
+						{stats.growth || '...'}
 
 					</Typography>
 				</Tooltip>
-
-				{/* <Typography variant="body2" color="textSecondary">
-					{!!uiStats.vaultGrowth && '+'} {uiStats.vaultGrowth}
-
-				</Typography> */}
 
 			</Grid>
 			<Grid item className={classes.mobileLabel} xs={6}>
@@ -164,17 +155,29 @@ export const VaultCard = observer((props: any) => {
 				</Typography>
 			</Grid>
 			<Grid item xs={6} md={2}>
-				<Typography variant="body1" color={!anyAvailable && false ? "textSecondary" : 'textPrimary'}>
+				<Typography variant="body1" color={'textPrimary'}>
 
-					{!isGlobal ? uiStats.yourValue : uiStats.underlyingBalance}
+					{!isGlobal ? stats.yourValue : stats.underlyingBalance}
 				</Typography>
 			</Grid>
 
 			<Grid item xs={12} md={2}>
 				<ButtonGroup variant="outlined" className={classes.cardActions}>
-					{!!uiStats.anyUnderlying && <Button onClick={() => onStake(uiStats.address)} variant={(uiStats.anyUnderlying || uiStats.anyWrapped) ? 'contained' : 'outlined'} color="primary" size="small" >Deposit</Button>}
-					{isDeposit && !!uiStats.anyStaked && <Button onClick={() => onUnstake(uiStats.address)} variant="outlined" color="primary" size="small" className={classes.button}>Withdraw</Button>}
-					{!!uiStats.anyWrapped && <Button onClick={() => onUnwrap(uiStats.address)} variant="outlined" color="primary" size="small" className={classes.button}>Withdraw</Button>}
+
+					{!!stats.anyUnderlying &&
+						<Button onClick={() => onStake({ stats, token })}
+							variant={(stats.anyUnderlying || stats.anyWrapped) ? 'contained' : 'outlined'} color="primary" size="small" >
+							Stake</Button>}
+
+					{isDeposit && !!stats.anyStaked &&
+						<Button onClick={() => onUnstake({ stats, token })}
+							variant="outlined" color="primary" size="small" className={classes.button}>
+							Unstake</Button>}
+
+					{!!stats.anyWrapped &&
+						<Button onClick={() => onUnwrap({ stats, token })}
+							variant="outlined" color="primary" size="small" className={classes.button}>
+							Unwrap</Button>}
 
 				</ButtonGroup>
 

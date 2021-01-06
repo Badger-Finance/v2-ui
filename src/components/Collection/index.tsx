@@ -20,7 +20,6 @@ import {
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Loader } from '../Loader';
-import { VaultCard } from './VaultCard';
 import _ from 'lodash';
 import { VaultStake } from './VaultStake';
 import Carousel from 'react-material-ui-carousel'
@@ -96,7 +95,7 @@ export const Collection = observer(() => {
 		contracts: { tokens, claimGeysers },
 		uiState: { stats, geyserStats, vaultStats, currency, period, setCurrency, setPeriod, treeStats } } = store;
 
-	const [isGlobal, setIsGlobal] = useState<boolean>(!isCached())
+	const [isGlobal, setIsGlobal] = useState<boolean>(false)
 
 
 	if (!tokens) {
@@ -198,13 +197,13 @@ export const Collection = observer(() => {
 				<Grid item xs={12} md={!!connectedAddress ? 4 : 6} >
 					<Paper elevation={2} className={classes.statPaper}>
 						<Typography variant="subtitle1" color="textPrimary">TVL</Typography>
-						<Typography variant="h5">{stats.tvl}</Typography>
+						<Typography variant="h5">{stats.stats.tvl}</Typography>
 					</Paper>
 				</Grid >
 				{!!connectedAddress && <Grid item xs={12} md={4}>
 					<Paper elevation={2} className={classes.statPaper}>
 						<Typography variant="subtitle1" color="textPrimary">Your Portfolio</Typography>
-						<Typography variant="h5">{stats.portfolio}</Typography>
+						<Typography variant="h5">{stats.stats.portfolio}</Typography>
 
 					</Paper>
 				</Grid>
@@ -213,7 +212,7 @@ export const Collection = observer(() => {
 				<Grid item xs={12} md={!!connectedAddress ? 4 : 6}>
 					<Paper elevation={2} className={classes.statPaper}>
 						<Typography variant="subtitle1" color="textPrimary">Badger Price</Typography>
-						<Typography variant="h5">{stats.badger || "..."}</Typography>
+						<Typography variant="h5">{stats.stats.badger || "..."}</Typography>
 					</Paper>
 
 				</Grid>
