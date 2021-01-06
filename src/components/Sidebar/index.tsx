@@ -115,7 +115,7 @@ export const Sidebar = observer(() => {
 			<div className={classes.root}>
 				<List >
 					<ListItem button className={classes.listItem}>
-						<img src={require('../../assets/badger-full-white.png')} className={classes.logo} />
+						<img src={require('../../assets/badger-logo.png')} className={classes.logo} />
 						{/* <Chip label="v2.0.0" variant="outlined" color="primary" size="small" /> */}
 					</ListItem>
 					<ListItem />
@@ -132,7 +132,6 @@ export const Sidebar = observer(() => {
 						<ListItemIcon  ><Lock fontSize="inherit" /> </ListItemIcon>
 						<ListItemText primary="Sett Vaults" />
 
-						{stats.claims[0] !== 0 && <Chip size="small" label={stats.claims[0]} variant="outlined" color="primary" className={classes.rewards} onClick={() => { closeSidebar(); goTo(views.home) }} />}
 					</ListItem>
 
 					<ListItem divider button className={classes.listItem + ' ' + (store.router.currentPath == '/airdrops' ? classes.activeListItem : '')} onClick={() => goTo(views.airdrops)}>
