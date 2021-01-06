@@ -30,7 +30,7 @@ export const reduceAssets = (store: RootStore) => {
 		if (!geyser || !token)
 			return
 
-		if (!token.balanceOf || !wrapped.balanceOf)
+		if (!token.balanceOf && !wrapped.balanceOf)
 			return
 
 		if (token.balanceOf.gt(0) && wrapped.balanceOf.gt(0))
@@ -39,7 +39,7 @@ export const reduceAssets = (store: RootStore) => {
 				stats: reduceVaultToStats(vault, tokens, geysers, period, currency, true),
 			})
 
-		if (token.balanceOf.gt(0) && wrapped.balanceOf.gt(0))
+		if (token.balanceOf.gt(0))
 			return {
 				token: token,
 				stats: reduceVaultToStats(vault, tokens, geysers, period, currency),
@@ -179,7 +179,7 @@ function calculatePortfolioStats(vaultContracts: any, tokens: any, geyserContrac
 	_.forIn(vaultContracts, (vault: any, address: string) => {
 		let token = tokens[vault[vault.underlyingKey]];
 		let wrapped = tokens[vault.address];
-		if (!token)
+		if (!token || !vault.balance)
 			return;
 
 		tvl = tvl.plus(vault.balance.dividedBy(1e18).multipliedBy(vault.getPricePerFullShare.dividedBy(1e18)).multipliedBy(token.ethValue));

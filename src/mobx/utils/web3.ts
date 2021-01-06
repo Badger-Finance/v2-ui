@@ -12,13 +12,13 @@ const { fetchJson } = require('../../config/constants')
 export const estimateAndSend = (web3: Web3, gasPrice: number, method: ContractSendMethod, address: string, callback: (transaction: PromiEvent<Contract>) => void) => {
 
 
-	let instantWei = new BigNumber(gasPrice.toFixed(0))
+	let gasWei = new BigNumber(gasPrice.toFixed(0))
 
 	method.estimateGas({
 		from: address,
-		gas: instantWei.toNumber()
+		gas: gasWei.toNumber()
 	}, (error: any, gasLimit: number) => {
-		callback(method.send({ from: address, gas: gasLimit, gasPrice: instantWei.multipliedBy(1e9).toFixed(0) }))
+		callback(method.send({ from: address, gas: gasLimit, gasPrice: gasWei.multipliedBy(1e9).toFixed(0) }))
 	})
 
 
