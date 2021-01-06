@@ -115,7 +115,7 @@ export const Sidebar = observer(() => {
 			<div className={classes.root}>
 				<List >
 					<ListItem button className={classes.listItem}>
-						<img src={require('../../assets/badger-full-white.png')} className={classes.logo} />
+						<img src={require('../../assets/badger-logo.png')} className={classes.logo} />
 						{/* <Chip label="v2.0.0" variant="outlined" color="primary" size="small" /> */}
 					</ListItem>
 					<ListItem />
@@ -132,7 +132,6 @@ export const Sidebar = observer(() => {
 						<ListItemIcon  ><Lock fontSize="inherit" /> </ListItemIcon>
 						<ListItemText primary="Sett Vaults" />
 
-						{stats.claims[0] !== 0 && <Chip size="small" label={stats.claims[0]} variant="outlined" color="primary" className={classes.rewards} onClick={() => { closeSidebar(); goTo(views.home) }} />}
 					</ListItem>
 
 					<ListItem divider button className={classes.listItem + ' ' + (store.router.currentPath == '/airdrops' ? classes.activeListItem : '')} onClick={() => goTo(views.airdrops)}>
@@ -151,7 +150,7 @@ export const Sidebar = observer(() => {
 				</List>
 
 				<List>
-					<ListItem button className={classes.secondaryListItem}>
+					<ListItem button className={classes.secondaryListItem} onClick={() => window.open("https://forum.badger.finance")}>
 						Forum
 					</ListItem>
 					<ListItem button className={classes.secondaryListItem} onClick={() => setExpanded(expanded === 'socials' ? '' : 'socials')}>
@@ -167,24 +166,24 @@ export const Sidebar = observer(() => {
 					</ListItem>
 
 					<Collapse in={expanded === 'socials'} timeout="auto" unmountOnExit>
-						<ListItem button className={classes.secondaryListItem} href="https://www.twitter.com/badgerdao" target="_">
+						<ListItem button className={classes.secondaryListItem} onClick={() => window.open("https://www.twitter.com/badgerdao")} >
 							Twitter
 						</ListItem>
-						<ListItem button className={classes.secondaryListItem} href="https://badgerdao.medium.com" target="_">
+						<ListItem button className={classes.secondaryListItem} onClick={() => window.open("https://badgerdao.medium.com")} >
 							Medium
 						</ListItem>
-						<ListItem button className={classes.secondaryListItem} href="https://discord.com/invite/xSPFHHS" target="_">
+						<ListItem button className={classes.secondaryListItem} onClick={() => window.open("https://discord.com/invite/xSPFHHS")} >
 							Discord
 						</ListItem>
-						<ListItem button className={classes.secondaryListItem} href="https://t.me/badger_dao" target="_">
+						<ListItem button className={classes.secondaryListItem} onClick={() => window.open("https://t.me/badger_dao")} >
 							Telegram
 						</ListItem>
 					</Collapse>
 
-					<ListItem button className={classes.secondaryListItem} href="https://app.gitbook.com/@badger-finance/s/badger-finance/">
+					<ListItem button className={classes.secondaryListItem} onClick={() => window.open("https://app.gitbook.com/@badger-finance/s/badger-finance/")}>
 						Docs
 					</ListItem>
-					<ListItem button className={classes.secondaryListItem} href="https://badgerdao.medium.com/badger-developer-program-3bf0cb2cc5f1">
+					<ListItem button className={classes.secondaryListItem} onClick={() => window.open("https://badgerdao.medium.com/badger-developer-program-3bf0cb2cc5f1")}>
 						Developer Program
 					</ListItem>
 

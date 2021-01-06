@@ -15,7 +15,8 @@ import {
 	Switch,
 	List,
 	ListItem,
-	ListItemText
+	ListItemText,
+	ListItemSecondaryAction
 } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -31,18 +32,22 @@ const useStyles = makeStyles((theme) => ({
 	root: {
 		marginTop: theme.spacing(11),
 		[theme.breakpoints.up('md')]: {
-			paddingLeft: theme.spacing(28),
+			paddingLeft: theme.spacing(33),
 			marginTop: theme.spacing(2),
 		},
 	},
 	filters: {
 		textAlign: 'left',
-		[theme.breakpoints.up('sm')]: {
+		[theme.breakpoints.up('md')]: {
 			textAlign: 'right'
 		},
 	},
 	buttonGroup: {
-		marginLeft: theme.spacing(1),
+		marginRight: theme.spacing(1),
+		[theme.breakpoints.up('md')]: {
+			marginRight: theme.spacing(0),
+			marginLeft: theme.spacing(1),
+		},
 
 	},
 	select: {
@@ -83,6 +88,9 @@ const useStyles = makeStyles((theme) => ({
 	},
 	rewards: {
 		marginTop: theme.spacing(1)
+	},
+	rewardItem: {
+		padding: 0
 	}
 
 }));
@@ -139,11 +147,9 @@ export const Collection = observer(() => {
 	return <>
 		<Container className={classes.root} >
 
-			<Grid container spacing={2}>
+			<Grid container spacing={2} justify="center">
 				{spacer()}
-
-				<Grid item xs={4} style={{ textAlign: 'left' }} >
-
+				<Grid item xs={6} >
 					<FormControlLabel
 						control={
 							<Switch
@@ -154,14 +160,10 @@ export const Collection = observer(() => {
 						}
 						label="Hide zero balances"
 					/>
-
 				</Grid>
-				<Grid item xs={4} style={{ textAlign: 'center' }} >
+				<Grid item xs={12} md={6} className={classes.filters} >
 
-					{!!connectedAddress && <Button fullWidth variant="contained" color="primary" onClick={() => { claimGeysers(false) }}>Claim {treeStats.claims[0] || "..."} Badger</Button>}
 
-				</Grid>
-				<Grid item xs={4} style={{ textAlign: 'right' }} >
 
 					<span className={classes.buttonGroup}>
 
@@ -192,8 +194,6 @@ export const Collection = observer(() => {
 
 				</Grid>
 
-				{spacer()}
-
 				<Grid item xs={12} md={!!connectedAddress ? 4 : 6} >
 					<Paper elevation={2} className={classes.statPaper}>
 						<Typography variant="subtitle1" color="textPrimary">TVL</Typography>
@@ -217,6 +217,30 @@ export const Collection = observer(() => {
 
 				</Grid>
 
+
+				<Grid item xs={12} style={{ textAlign: 'center' }} >
+					<Typography variant="subtitle1" color="textPrimary">
+						Available Rewards:
+					</Typography>
+				</Grid>
+				<Grid item xs={12} md={6}>
+					<Paper className={classes.statPaper}>
+						{/* {!!connectedAddress && <Button fullWidth variant="contained" color="primary" onClick={() => { claimGeysers(false) }}>Claim {treeStats.claims[0] || "..."} Badger</Button>} */}
+						<List style={{ padding: 0 }}>
+
+							{treeStats.claims.map((claim: string) => <ListItem className={classes.rewardItem}>
+								<ListItemText primary={claim} secondary="Badger available to claim" />
+								<ListItemSecondaryAction >
+									<ButtonGroup size="small" variant="outlined" color="primary">
+										<Button onClick={() => { claimGeysers(false) }} variant="contained">Claim</Button>
+										<Button onClick={() => { claimGeysers(true) }} >Deposit</Button>
+									</ButtonGroup>
+								</ListItemSecondaryAction>
+							</ListItem>)}
+
+						</List>
+					</Paper>
+				</Grid>
 
 				{/* <Grid item xs={12} >
 				<Typography variant="body1" color="textPrimary" className={classes.featuredHeader}>Featured</Typography>

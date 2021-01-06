@@ -16,6 +16,7 @@ class UiState {
 
 	public collection: any;
 	public stats?: any;
+	public claims?: any;
 	public vaultStats: any
 	public geyserStats: any
 	public treeStats: any
@@ -39,9 +40,8 @@ class UiState {
 				growth: '...',
 				portfolio: '...',
 				_vaultGrowth: {},
-				claims: [0, 0],
 			},
-
+			claims: [0, 0, 0],
 			geyserStats: {},
 			vaultStats: {},
 			rebaseStats: {},
@@ -61,15 +61,28 @@ class UiState {
 		// format vaults and geysers to ui
 		observe(this.store.contracts as any, "geysers", (change: any) => {
 			if (!!change.oldValue)
-				this.reduceContracts()
+				try {
+					this.reduceContracts()
+				} catch (e) {
+					console.log(e)
+				}
+
 		})
 		observe(this.store.contracts as any, "vaults", (change: any) => {
 			if (!!change.oldValue)
-				this.reduceContracts()
+				try {
+					this.reduceContracts()
+				} catch (e) {
+					console.log(e)
+				}
 		})
 		observe(this.store.contracts as any, "tokens", (change: any) => {
 			if (!!change.oldValue)
-				this.reduceContracts()
+				try {
+					this.reduceContracts()
+				} catch (e) {
+					console.log(e)
+				}
 		})
 
 		// format rewards for UI
@@ -114,23 +127,14 @@ class UiState {
 	})
 
 	reduceContracts = action(() => {
-
-		// this.geyserStats = _.defaultsDeep(reduceGeysersToStats(this.store), this.geyserStats)
-		// this.vaultStats = _.defaultsDeep(reduceVaultsToStats(this.store), this.vaultStats)
-		// this.rebaseStats = _.defaultsDeep(reduceRebaseToStats(this.store), this.rebaseStats)
-
-		this.stats = _.defaultsDeep(reduceContractsToStats(this.store), this.stats)
-
+		this.stats = reduceContractsToStats(this.store)
 	});
 
 	reduceTreeRewards = action(() => {
-		console.log(this.store.contracts.badgerTree)
 		this.treeStats = this.store.contracts.badgerTree
-
 	});
 
 	reduceAirdrops = action(() => {
-		alert('dsa')
 		this.airdropStats = reduceAirdrops(this.store.contracts.airdrops.airdrops)
 	});
 

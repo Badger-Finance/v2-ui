@@ -38,24 +38,26 @@ export const reduceResult = (value: any): any => {
 export const reduceMasterChefResults = (results: any[], contracts: string[], tokens: any, vaults: any): any => {
 	let reduction = results.map((data: any, i: number) => {
 		let result = data.data.masterChefs[0]
+		console.log(result)
 
 		let { totalAllocPoint, pools } = result
 		let { allocPoint, slpBalance } = pools[0]
 
-		let allocRatio = new BigNumber(parseFloat(allocPoint) / parseFloat(totalAllocPoint))
+		let allocRatio = new BigNumber(parseFloat(allocPoint)).dividedBy(parseFloat(totalAllocPoint))
 
 		let sushiPerBlock = new BigNumber(100).minus(new BigNumber(100).multipliedBy(allocRatio))
-			.multipliedBy(3).multipliedBy(allocRatio)
-		let sushiPerSecond = sushiPerBlock.multipliedBy(secondsToBlocks(1)).multipliedBy(3)
 
-		// let apy = (derivedETH * blocksPerDay * sushiPerBlock * 365 * 3 * (onsen.allocPoint / onsen.totalAllocPoint)) / (onsen.totalValueETH * (onsen.slpBalance / onsen.totalSupply))
+
+		let sushiPerDay = sushiPerBlock.multipliedBy(secondsToBlocks(86400)).multipliedBy(allocRatio).multipliedBy(3)
+
 
 		return {
 			address: contracts[i],
-			day: sushiPerSecond.multipliedBy(60 * 60 * 24),
-			week: sushiPerSecond.multipliedBy(60 * 60 * 24 * 7),
-			month: sushiPerSecond.multipliedBy(60 * 60 * 24 * 30),
-			year: sushiPerSecond.multipliedBy(60 * 60 * 24 * 365),
+			slpBalance: parseFloat(slpBalance),
+			day: sushiPerDay,
+			week: sushiPerDay.multipliedBy(7),
+			month: sushiPerDay.multipliedBy(30),
+			year: sushiPerDay.multipliedBy(365),
 		}
 	})
 	return _.keyBy(reduction, 'address')
@@ -168,7 +170,7 @@ export const reduceGrowth = (graphResult: any[], periods: number[]) => {
 				: new BigNumber("1")
 		)
 		return {
-			day: growth.now.dividedBy(growth.day).minus(1),
+			day: growth.now.dividedBy(growth.week).minus(1).dividedBy(7),
 			week: growth.now.dividedBy(growth.week).minus(1),
 			month: growth.now.dividedBy(growth.month).minus(1),
 			year: growth.now.dividedBy(growth.month).minus(1).multipliedBy(12.0),
@@ -279,7 +281,7 @@ export const reduceContractsToTokens = (contracts: any) => {
 		}
 	})
 
-	assets.push([WBTC_ADDRESS, diggToken.contract, rewards.tokens[2]]
+	assets.push([WBTC_ADDRESS, diggToken.contract, rewards.tokens[2], rewards.tokens[3]]
 		.map((address: string) => ({ address })))
 
 	return _.keyBy(
