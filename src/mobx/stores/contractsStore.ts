@@ -689,7 +689,7 @@ class ContractsStore {
 
 				Promise.all([...masterChef, xSushi]).then((results: any) => {
 
-					let sushiRewards = reduceMasterChefResults(results.slice(0, 2), config.contracts, this.tokens, this.vaults)
+					let sushiRewards = reduceMasterChefResults(results.slice(0, 2), config.contracts)
 					let xAPY = parseFloat(results[2]['APY'])
 
 					this.updateGeysers(_.mapValues(sushiRewards, (reward: any, geyserAddress: string) => {
@@ -720,11 +720,11 @@ class ContractsStore {
 								// xAPY contains xSUSHI apy
 
 								let numerator = rewardToken.ethValue
-									.multipliedBy(rewardsInSushi).dividedBy(1e18)
+									.multipliedBy(rewardsInSushi)
 
-								let sushiAPY = numerator
-									.dividedBy(vault.balance.multipliedBy(token.ethValue.dividedBy(1e18)).multipliedBy(slpBalance.dividedBy(token.totalSupply)))
-
+								let vaultValue = slpBalance.multipliedBy(1e18).multipliedBy(token.ethValue.dividedBy(1e18))
+						
+								let sushiAPY = numerator.dividedBy(vaultValue.multipliedBy(slpBalance.multipliedBy(1e18).dividedBy(token.totalSupply)))
 
 								return sushiAPY
 							})

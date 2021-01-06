@@ -35,10 +35,9 @@ export const reduceResult = (value: any): any => {
 		return value
 }
 
-export const reduceMasterChefResults = (results: any[], contracts: string[], tokens: any, vaults: any): any => {
+export const reduceMasterChefResults = (results: any[], contracts: string[]): any => {
 	let reduction = results.map((data: any, i: number) => {
 		let result = data.data.masterChefs[0]
-		console.log(result)
 
 		let { totalAllocPoint, pools } = result
 		let { allocPoint, slpBalance } = pools[0]
@@ -47,9 +46,7 @@ export const reduceMasterChefResults = (results: any[], contracts: string[], tok
 
 		let sushiPerBlock = new BigNumber(100).minus(new BigNumber(100).multipliedBy(allocRatio))
 
-
 		let sushiPerDay = sushiPerBlock.multipliedBy(secondsToBlocks(86400)).multipliedBy(allocRatio).multipliedBy(3)
-
 
 		return {
 			address: contracts[i],
