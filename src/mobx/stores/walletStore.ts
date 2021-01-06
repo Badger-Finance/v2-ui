@@ -5,7 +5,7 @@ import Onboard from 'bnc-onboard';
 import { RootStore } from '../store';
 import BigNumber from 'bignumber.js';
 import { onboardWallets, onboardWalletCheck } from '../../config/wallets';
-import { mapValues } from 'lodash';
+import _ from 'lodash';
 
 
 

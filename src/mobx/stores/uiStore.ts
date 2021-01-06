@@ -5,7 +5,7 @@ import { extendObservable, action, observe, computed } from 'mobx';
 import Web3 from 'web3';
 import { RootStore } from '../store';
 import { growthQuery, jsonQuery, secondsToBlocks } from '../utils/helpers';
-import { reduceAirdrops, reduceClaims, reduceContractsToStats, reduceGeysersToStats, reduceRebaseToStats, reduceVaultsToStats } from '../reducers/statsReducers';
+import { reduceAirdrops, reduceClaims, reduceContractsToStats, reduceRebaseToStats } from '../reducers/statsReducers';
 import views from '../../config/routes';
 
 class UiState {
@@ -115,9 +115,9 @@ class UiState {
 
 	reduceContracts = action(() => {
 
-		this.geyserStats = _.defaultsDeep(reduceGeysersToStats(this.store), this.geyserStats)
-		this.vaultStats = _.defaultsDeep(reduceVaultsToStats(this.store), this.vaultStats)
-		this.rebaseStats = _.defaultsDeep(reduceRebaseToStats(this.store), this.rebaseStats)
+		// this.geyserStats = _.defaultsDeep(reduceGeysersToStats(this.store), this.geyserStats)
+		// this.vaultStats = _.defaultsDeep(reduceVaultsToStats(this.store), this.vaultStats)
+		// this.rebaseStats = _.defaultsDeep(reduceRebaseToStats(this.store), this.rebaseStats)
 
 		this.stats = _.defaultsDeep(reduceContractsToStats(this.store), this.stats)
 

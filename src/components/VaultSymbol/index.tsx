@@ -20,21 +20,18 @@ export const VaultSymbol = observer((props: any) => {
 	const store = useContext(StoreContext);
 	const { tokens } = store.contracts
 
-	const { vault } = props
+	const { token } = props
 
-	if (!vault || !vault.symbol || !tokens)
-		return <CircularProgress />
+	// let prefix = !!vault.symbolPrefix ? vault.symbolPrefix : ''
+	// let underlying = tokens[vault[vault.underlyingKey]]
 
-	let prefix = !!vault.symbolPrefix ? vault.symbolPrefix : ''
-	let underlying = tokens[vault[vault.underlyingKey]]
-
-	if (!underlying || !underlying.symbol)
+	if (!token || !token.symbol)
 		return <CircularProgress />
 
 
 	return <img alt=""
 		className={classes.symbol}
-		src={require(`../../assets/icons/${prefix}${underlying.symbol.replace(/\/+/g, '').toLowerCase()}.png`)} />
+		src={require(`../../assets/icons/${token.symbol.replace(/\/+/g, '').toLowerCase()}.png`)} />
 
 });
 
