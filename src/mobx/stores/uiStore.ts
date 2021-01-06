@@ -36,10 +36,14 @@ class UiState {
 		extendObservable(this, {
 			collection: {},
 			stats: {
-				tvl: '...',
-				growth: '...',
-				portfolio: '...',
-				_vaultGrowth: {},
+				stats: {
+					tvl: '...',
+					growth: '...',
+					badgerLiqGrowth: '...',
+					badgerGrowth: '...',
+					portfolio: '...',
+					_vaultGrowth: {},
+				}
 			},
 			claims: [0, 0, 0],
 			geyserStats: {},
@@ -137,7 +141,8 @@ class UiState {
 	})
 
 	reduceContracts = action(() => {
-		this.stats = reduceContractsToStats(this.store)
+		let newStats = reduceContractsToStats(this.store)
+		this.stats = !!newStats ? reduceContractsToStats(this.store) : this.stats
 	});
 
 	reduceTreeRewards = action(() => {
