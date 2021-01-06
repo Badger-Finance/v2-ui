@@ -305,10 +305,10 @@ function reduceVaultToStats(vault: any, tokens: any, geysers: any, period: strin
 
 	let _depositedTokens = !!wrapped.balanceOf ? vault.balanceOf.multipliedBy(vault.getPricePerFullShare.dividedBy(1e18)) : new BigNumber(0);
 	let depositedTokens = wrappedOnly ? _depositedTokens : new BigNumber(0);
-	let { growth, tooltip } = reduceTotalGrowth(wrappedOnly ? vault : {}, period, token);
-	let { growth: growthDay } = reduceTotalGrowth(wrappedOnly ? vault : {}, 'day', token);
-	let { growth: growthMonth } = reduceTotalGrowth(wrappedOnly ? vault : {}, 'month', token);
-	let { growth: growthYear } = reduceTotalGrowth(wrappedOnly ? vault : {}, 'year', token);
+	let { growth, tooltip } = reduceTotalGrowth(vault, period, token);
+	let { growth: growthDay } = reduceTotalGrowth(vault, 'day', token);
+	let { growth: growthMonth } = reduceTotalGrowth(vault, 'month', token);
+	let { growth: growthYear } = reduceTotalGrowth(vault, 'year', token);
 
 	let tokenBalance = wrappedOnly ? new BigNumber(0) : !!token.balanceOf ? token.balanceOf : new BigNumber(0)
 

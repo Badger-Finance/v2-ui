@@ -85,13 +85,13 @@ class ContractsStore {
 	}
 
 	updateVaults = action((vaults: any) => {
-		this.vaults = _.defaultsDeep(vaults, this.vaults)
+		this.vaults = _.defaultsDeep(vaults, this.vaults, vaults)
 	});
 	updateTokens = action((tokens: any) => {
-		this.tokens = _.defaultsDeep(tokens, this.tokens)
+		this.tokens = _.defaultsDeep(tokens, this.tokens, tokens)
 	});
 	updateGeysers = action((geysers: any) => {
-		this.geysers = _.defaultsDeep(geysers, this.geysers)
+		this.geysers = _.defaultsDeep(geysers, this.geysers, geysers)
 	});
 
 	fetchContracts = action(() => {
@@ -723,7 +723,7 @@ class ContractsStore {
 									.multipliedBy(rewardsInSushi)
 
 								let vaultValue = slpBalance.multipliedBy(1e18).multipliedBy(token.ethValue.dividedBy(1e18))
-						
+
 								let sushiAPY = numerator.dividedBy(vaultValue.multipliedBy(slpBalance.multipliedBy(1e18).dividedBy(token.totalSupply)))
 
 								return sushiAPY
