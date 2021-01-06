@@ -179,7 +179,7 @@ export const SettList = observer((props: any) => {
 
 	const spacer = () => <div className={classes.before} />;
 
-	const tableHeader = (title: string) => {
+	const tableHeader = (title: string, tokenTitle: string) => {
 		return <>
 			{spacer()}
 			<Grid item xs={12}>
@@ -192,8 +192,8 @@ export const SettList = observer((props: any) => {
 
 					<Grid item xs={12} sm={4} md={2} className={classes.hiddenMobile}>
 						<Typography variant="body2" color="textSecondary">
-							Available
-					</Typography>
+							{tokenTitle}
+						</Typography>
 					</Grid>
 
 					<Grid item xs={12} sm={4} md={2} className={classes.hiddenMobile}>
@@ -269,12 +269,12 @@ export const SettList = observer((props: any) => {
 
 
 	return <>
-		{!!connectedAddress && tableHeader(`Your Wallet - ${stats.stats.wallet}`)}
+		{!!connectedAddress && tableHeader(`Your Wallet - ${stats.stats.wallet}`, 'Available')}
 		{!!connectedAddress && walletVaults()}
-		{!!connectedAddress && hasDeposits && tableHeader(`Deposits - ${stats.stats.geysers}`)}
+		{!!connectedAddress && hasDeposits && tableHeader(`Deposits - ${stats.stats.geysers}`, 'Deposited')}
 		{!!connectedAddress && renderDeposits()}
 		{/* {isGlobal && <Carousel className={classes.carousel} indicators={false} navButtonsAlwaysVisible >{featuredGeysers()}</Carousel>} */}
-		{!hideEmpty && tableHeader(`All Setts`)}
+		{!hideEmpty && tableHeader(`All Setts`, 'Tokens')}
 		{!hideEmpty && emptyGeysers()}
 
 		{renderDialog()}

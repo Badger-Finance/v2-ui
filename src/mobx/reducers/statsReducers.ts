@@ -252,7 +252,7 @@ function reduceGeyserToStats(geyser: any, vaults: any, tokens: any, period: stri
 		return;
 
 	let virtualEthValue = !!token.ethValue ? token.ethValue.dividedBy(1e18).multipliedBy(!!vault.getPricePerFullShare ? vault.getPricePerFullShare.dividedBy(1e18) : 1) : token.ethValue;
-	let underlyingBalance = !!geyser.totalStakedFor && geyser.totalStakedFor;
+	let underlyingBalance = !!geyser.totalStakedFor && geyser.totalStakedFor.multipliedBy(!!vault.getPricePerFullShare ? vault.getPricePerFullShare.dividedBy(1e18) : 1);
 
 	let { growth, tooltip } = reduceTotalGrowth(vault, period, token, geyser);
 
@@ -317,7 +317,7 @@ function reduceVaultToStats(vault: any, tokens: any, geysers: any, period: strin
 		address: vault.address,
 
 		anyWrapped: wrappedOnly,
-		anyUnderlying: tokenBalance.gt(0),
+		anyUnderlying: tokenBalance.gt(0) || (!!vault.balanceOf && vault.balanceOf.gt(0)),
 
 		underlyingTokens: !!vault.balance &&
 			inCurrency(vault.balance, 'eth', true),

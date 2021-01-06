@@ -317,11 +317,11 @@ class ContractsStore {
 		let underlying = tokens[vaults[wrapped.address].token]
 
 		// ensure balance is valid
-		if (amount.isNaN() || amount.lte(0) || amount.gt(geyser.totalStakedFor))
+		if (amount.isNaN() || amount.lte(0) || amount.gt(geyser.totalStakedFor.multipliedBy(vault.getPricePerFullShare.dividedBy(1e18))))
 			return queueNotification("Please enter a valid amount", 'error')
 
 		// calculate amount to withdraw
-		let wrappedAmount = amount;
+		let wrappedAmount = amount.dividedBy(vault.getPricePerFullShare.dividedBy(1e18));
 		let methodSeries: any = []
 
 		// if we need to wrap assets, make sure we have allowance
@@ -400,7 +400,7 @@ class ContractsStore {
 		estimateAndSend(web3, gasPrices[gasPrice], method, connectedAddress, (transaction: PromiEvent<Contract>) => {
 			transaction
 				.on('transactionHash', (hash: string) => {
-					queueNotification(`Claim submitted with hash: ${hash}`, "info")
+					queueNotification(`Claim submitted.`, "info")
 				}).on('receipt', (reciept: any) => {
 					queueNotification(`Rewards claimed.`, "success")
 					this.fetchSettRewards()
@@ -442,7 +442,7 @@ class ContractsStore {
 		estimateAndSend(web3, gasPrices[gasPrice], method, connectedAddress, (transaction: PromiEvent<Contract>) => {
 			transaction
 				.on('transactionHash', (hash: string) => {
-					queueNotification(`Claim submitted with hash: ${hash}`, "info")
+					queueNotification(`Claim submitted.`, "info")
 				}).on('receipt', (reciept: any) => {
 					queueNotification(`Rewards claimed.`, "success")
 					this.fetchSettRewards()
@@ -476,7 +476,7 @@ class ContractsStore {
 		estimateAndSend(web3, this.store.wallet.gasPrices[this.store.uiState.gasPrice], method, connectedAddress, (transaction: PromiEvent<Contract>) => {
 			transaction
 				.on('transactionHash', (hash: string) => {
-					queueNotification(`Transaction submitted with hash: ${hash}`, "info")
+					queueNotification(`Transaction submitted.`, "info")
 				}).on('receipt', (reciept: any) => {
 					queueNotification(`${underlyingAsset.symbol} allowance increased.`, "success")
 					this.fetchContracts()
@@ -505,7 +505,7 @@ class ContractsStore {
 		estimateAndSend(web3, this.store.wallet.gasPrices[this.store.uiState.gasPrice], method, connectedAddress, (transaction: PromiEvent<Contract>) => {
 			transaction
 				.on('transactionHash', (hash: string) => {
-					queueNotification(`Deposit submitted with hash: ${hash}`, "info")
+					queueNotification(`Deposit submitted.`, "info")
 				}).on('receipt', (reciept: any) => {
 					queueNotification(`Successfully deposited ${inCurrency(amount, 'eth', true)} ${underlyingAsset.symbol}`, "success")
 					this.fetchContracts()
@@ -532,7 +532,7 @@ class ContractsStore {
 		estimateAndSend(web3, this.store.wallet.gasPrices[this.store.uiState.gasPrice], method, connectedAddress, (transaction: PromiEvent<Contract>) => {
 			transaction
 				.on('transactionHash', (hash: string) => {
-					queueNotification(`Transaction submitted with hash: ${hash}`, "info")
+					queueNotification(`Transaction submitted.`, "info")
 				}).on('receipt', (reciept: any) => {
 					queueNotification(`Successfully unstaked ${inCurrency(amount, 'eth', true)} ${underlyingAsset.symbol}`, "success")
 					this.fetchContracts()
@@ -563,7 +563,7 @@ class ContractsStore {
 		estimateAndSend(web3, this.store.wallet.gasPrices[this.store.uiState.gasPrice], method, connectedAddress, (transaction: PromiEvent<Contract>) => {
 			transaction
 				.on('transactionHash', (hash: string) => {
-					queueNotification(`Deposit submitted with hash: ${hash}`, "info")
+					queueNotification(`Deposit submitted.`, "info")
 				}).on('receipt', (reciept: any) => {
 					queueNotification(`Successfully deposited ${inCurrency(amount, 'eth', true)} ${underlyingAsset.symbol}`, "success")
 					this.fetchContracts()
@@ -593,7 +593,7 @@ class ContractsStore {
 		estimateAndSend(web3, this.store.wallet.gasPrices[this.store.uiState.gasPrice], method, connectedAddress, (transaction: PromiEvent<Contract>) => {
 			transaction
 				.on('transactionHash', (hash: string) => {
-					queueNotification(`Withdraw submitted with hash: ${hash}`, "info")
+					queueNotification(`Withdraw submitted.`, "info")
 				}).on('receipt', (reciept: any) => {
 					queueNotification(`Successfully withdrew ${inCurrency(amount, 'eth', true)} ${underlyingAsset.symbol}`, "success")
 					this.fetchContracts()
