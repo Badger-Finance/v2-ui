@@ -378,7 +378,7 @@ function reduceTotalGrowth(vault: any, period: string, token: any, geyser: any =
 	}
 	if (!!geyser.sushiRewards && !!geyser.sushiRewards[period] && !geyser.sushiRewards[period].isNaN() && !geyser.sushiRewards[period].eq(0)) {
 		growthRaw = growthRaw.plus(geyser.sushiRewards[period]);
-		tooltip += geyser.sushiRewards[period].multipliedBy(1e2).toFixed(2) + "% SUSHI + ";
+		tooltip += geyser.sushiRewards[period].multipliedBy(1e2).toFixed(2) + "% xSUSHI + ";
 	}
 
 	growth = growthRaw.multipliedBy(1e2).toFixed(2) + "%";

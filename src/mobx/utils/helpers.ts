@@ -74,6 +74,14 @@ export const jsonQuery = (url: string): Promise<Response> => {
 		}
 	}).then((response: any) => response.json())
 }
+export const vanillaQuery = (url: string): Promise<Response> => {
+	return fetch(url, {
+		method: 'GET',
+		headers: {
+			'Accept': 'application/json',
+		}
+	}).then((response: any) => response.json())
+}
 
 export const getExchangeRates = (): Promise<Response> => {
 	return fetch("https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd,btc", {
@@ -105,7 +113,7 @@ export const growthQuery = (block: number): Promise<Response> => {
 }
 
 export const secondsToBlocks = (seconds: number) => {
-	return seconds / 13.5
+	return seconds / (1 / (6500 / (24 * 60 * 60)))
 }
 
 var exchangeRates: any = { usd: 641.69, btc: 41.93 }

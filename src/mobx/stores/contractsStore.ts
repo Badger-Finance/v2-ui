@@ -6,7 +6,7 @@ import BigNumber from 'bignumber.js';
 import { RootStore } from '../store';
 import _ from 'lodash';
 import { erc20BatchConfig, generateCurveTokens, reduceBatchResult, reduceContractConfig, reduceMethodConfig, reduceContractsToTokens, reduceCurveResult, reduceGeyserSchedule, reduceGraphResult, reduceGrowth, reduceMasterChefResults } from '../reducers/contractReducers';
-import { jsonQuery, graphQuery, growthQuery, secondsToBlocks, inCurrency, chefQueries } from '../utils/helpers';
+import { jsonQuery, graphQuery, growthQuery, secondsToBlocks, inCurrency, chefQueries, vanillaQuery } from '../utils/helpers';
 import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
 import async from 'async';
@@ -680,13 +680,17 @@ class ContractsStore {
 
 		// grab sushi APYs
 		_.map(geyserConfigs, (config: any) => {
-			if (!!config.growthEndpoint) {
-				let masterChef = chefQueries(config.contracts, this.geysers, config.growthEndpoint)
+			if (!!config.growthEndpoints) {
+				let masterChef = chefQueries(config.contracts, this.geysers, config.growthEndpoints[0])
+				let xSushi = vanillaQuery(config.growthEndpoints[1])
+
 				let rewardToken = tokens[rewardsConfig.tokens[2]]
+				let xRewardToken = tokens[rewardsConfig.tokens[3]]
 
-				Promise.all(masterChef).then((results: any) => {
+				Promise.all([...masterChef, xSushi]).then((results: any) => {
 
-					let sushiRewards = reduceMasterChefResults(results, config.contracts, this.tokens, this.vaults)
+					let sushiRewards = reduceMasterChefResults(results.slice(0, 2), config.contracts, this.tokens, this.vaults)
+					let xAPY = parseFloat(results[2]['APY'])
 
 					this.updateGeysers(_.mapValues(sushiRewards, (reward: any, geyserAddress: string) => {
 						let geyser = geysers[geyserAddress]
@@ -700,16 +704,29 @@ class ContractsStore {
 
 						let token = tokens[vault[vault.underlyingKey]]
 
+						let slpBalance = new BigNumber(reward.slpBalance)
+
 						delete reward.address
+						delete reward.slpBalance
 
 						return {
 							sushiRewards: _.mapValues(reward, (rewardsInSushi: BigNumber, period: string) => {
 								if (!rewardToken.ethValue)
 									return
 
-								return rewardToken.ethValue
-									.multipliedBy(rewardsInSushi)
-									.dividedBy(vault.balance.multipliedBy(token.ethValue.dividedBy(1e18)))
+								// period will be day, week, month
+								// rewards in sushi are amount of sushi earned in that period
+
+								// xAPY contains xSUSHI apy
+
+								let numerator = rewardToken.ethValue
+									.multipliedBy(rewardsInSushi).dividedBy(1e18)
+
+								let sushiAPY = numerator
+									.dividedBy(vault.balance.multipliedBy(token.ethValue.dividedBy(1e18)).multipliedBy(slpBalance.dividedBy(token.totalSupply)))
+
+
+								return sushiAPY
 							})
 						}
 					}))
