@@ -298,7 +298,7 @@ class ContractsStore {
 		if (wrapped.allowance.lt(amount))
 			methodSeries.push((callback: any) => this.increaseAllowance(wrapped, callback))
 
-		methodSeries.push((callback: any) => this.depositGeyser(geyser, amount, callback))
+		methodSeries.push((callback: any) => this.depositGeyser(geyser, amount.dividedBy(vault.getPricePerFullShare.dividedBy(1e18)), callback))
 
 		setTxStatus('pending')
 		async.series(methodSeries, (err: any, results: any) => {

@@ -169,7 +169,7 @@ export const SettList = observer((props: any) => {
 	const renderDeposits = () => {
 		if (stats.assets.deposits.length > 0 && !hasDeposits)
 			setHasDeposits(true)
-		return renderContracts(stats.assets.deposits, false, false)
+		return renderContracts(stats.assets.deposits, true, false)
 	}
 
 
