@@ -98,7 +98,7 @@ class WalletStore {
 		fetch("https://www.gasnow.org/api/v3/gas/price?utm_source=badger")
 			.then((result: any) => result.json())
 			.then((price: any) => {
-				this.gasPrices = _.mapValues(price.data, (val: number) => val / 1e9)
+				this.gasPrices = mapValues(price.data, (val: number) => val / 1e9)
 			})
 	});
 
