@@ -5,6 +5,8 @@ import UiState from "../stores/uiStore";
 import { inCurrency } from "../utils/helpers";
 import { token as diggToken } from "../../config/system/digg"
 
+import { geysers as geysersConfig } from '../../config/system/settSystem'
+
 // export const reduceGeysersToStats = (store: RootStore) => {
 // 	const { vaults, geysers, tokens } = store.contracts
 // 	const { stats, period, currency } = store.uiState
@@ -100,6 +102,9 @@ export const reduceGeysers = (store: RootStore) => {
 	})
 
 	geyserAssets = _.compact(geyserAssets)
+
+	if (geyserAssets.length < geysersConfig[0].contracts.length + geysersConfig[1].contracts.length)
+		return store.uiState.stats.assets.setts
 
 	return _.sortBy(geyserAssets, (geyserAsset: any) => geyserAsset.stats.geyser.listOrder)
 

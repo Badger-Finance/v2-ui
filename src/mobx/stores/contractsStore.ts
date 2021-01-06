@@ -180,9 +180,9 @@ class ContractsStore {
 				let tokenGraph = _.keyBy(_.compact(reduceGraphResult(result.slice(4))), 'address')
 				let curveBtcPrices = _.keyBy(reduceCurveResult(result.slice(0, 3), curveTokens.contracts, this.tokens, tokenGraph[WBTC_ADDRESS]), 'address')
 
-				this.updateTokens(tokenContracts)
-				this.updateTokens(tokenGraph)
-				this.updateTokens(curveBtcPrices)
+				this.updateTokens(_.defaultsDeep(curveBtcPrices, tokenGraph, tokenContracts, this.tokens))
+				// this.updateTokens(tokenGraph)
+				// this.updateTokens(curveBtcPrices)
 
 				// console.log(this.tokens, tokenContracts, tokenGraph, curveBtcPrices)
 			})
@@ -394,6 +394,8 @@ class ContractsStore {
 			merkleProof.proof)
 
 		queueNotification(`Sign the transaction to claim your earnings`, "info")
+		if (stake)
+			queueNotification(`You will need to approve 3 transactions in order to wrap & stake your assets`, "info")
 		let badgerAmount = new BigNumber(this.badgerTree.claims[0]).multipliedBy(1e18)
 		estimateAndSend(web3, gasPrices[gasPrice], method, connectedAddress, (transaction: PromiEvent<Contract>) => {
 			transaction

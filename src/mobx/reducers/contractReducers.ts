@@ -168,7 +168,7 @@ export const reduceGrowth = (graphResult: any[], periods: number[]) => {
 				: new BigNumber("1")
 		)
 		return {
-			day: growth.now.dividedBy(growth.day).minus(1),
+			day: growth.now.dividedBy(growth.week).minus(1).dividedBy(7),
 			week: growth.now.dividedBy(growth.week).minus(1),
 			month: growth.now.dividedBy(growth.month).minus(1),
 			year: growth.now.dividedBy(growth.month).minus(1).multipliedBy(12.0),

@@ -61,15 +61,28 @@ class UiState {
 		// format vaults and geysers to ui
 		observe(this.store.contracts as any, "geysers", (change: any) => {
 			if (!!change.oldValue)
-				this.reduceContracts()
+				try {
+					this.reduceContracts()
+				} catch (e) {
+					console.log(e)
+				}
+
 		})
 		observe(this.store.contracts as any, "vaults", (change: any) => {
 			if (!!change.oldValue)
-				this.reduceContracts()
+				try {
+					this.reduceContracts()
+				} catch (e) {
+					console.log(e)
+				}
 		})
 		observe(this.store.contracts as any, "tokens", (change: any) => {
 			if (!!change.oldValue)
-				this.reduceContracts()
+				try {
+					this.reduceContracts()
+				} catch (e) {
+					console.log(e)
+				}
 		})
 
 		// format rewards for UI

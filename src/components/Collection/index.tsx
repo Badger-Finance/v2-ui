@@ -147,7 +147,7 @@ export const Collection = observer(() => {
 	return <>
 		<Container className={classes.root} >
 
-			<Grid container spacing={2}>
+			<Grid container spacing={2} justify="center">
 				{spacer()}
 				<Grid item xs={6} >
 					<FormControlLabel
@@ -218,23 +218,28 @@ export const Collection = observer(() => {
 				</Grid>
 
 
-				<Grid item xs={12} md={6} style={{ textAlign: 'left' }} >
+				<Grid item xs={12} style={{ textAlign: 'center' }} >
+					<Typography variant="subtitle1" color="textPrimary">
+						Available Rewards:
+					</Typography>
+				</Grid>
+				<Grid item xs={12} md={6}>
+					<Paper className={classes.statPaper}>
+						{/* {!!connectedAddress && <Button fullWidth variant="contained" color="primary" onClick={() => { claimGeysers(false) }}>Claim {treeStats.claims[0] || "..."} Badger</Button>} */}
+						<List style={{ padding: 0 }}>
 
+							{treeStats.claims.map((claim: string) => <ListItem className={classes.rewardItem}>
+								<ListItemText primary={claim} secondary="Badger available to claim" />
+								<ListItemSecondaryAction >
+									<ButtonGroup size="small" variant="outlined" color="primary">
+										<Button onClick={() => { claimGeysers(false) }} variant="contained">Claim</Button>
+										<Button onClick={() => { claimGeysers(true) }} >Deposit</Button>
+									</ButtonGroup>
+								</ListItemSecondaryAction>
+							</ListItem>)}
 
-					{/* {!!connectedAddress && <Button fullWidth variant="contained" color="primary" onClick={() => { claimGeysers(false) }}>Claim {treeStats.claims[0] || "..."} Badger</Button>} */}
-					<List style={{ padding: 0 }}>
-
-						{treeStats.claims.map((claim: string) => <ListItem className={classes.rewardItem}>
-							<ListItemText primary={claim} secondary="Badger available to claim" />
-							<ListItemSecondaryAction >
-								<ButtonGroup size="small" variant="outlined" color="primary">
-									<Button onClick={() => { claimGeysers(false) }} variant="contained">Claim</Button>
-									<Button onClick={() => { claimGeysers(true) }} >Deposit</Button>
-								</ButtonGroup>
-							</ListItemSecondaryAction>
-						</ListItem>)}
-
-					</List>
+						</List>
+					</Paper>
 				</Grid>
 
 				{/* <Grid item xs={12} >

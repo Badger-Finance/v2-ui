@@ -18,11 +18,13 @@ const useStyles = makeStyles((theme) => ({
 export const VaultSymbol = observer((props: any) => {
 	const classes = useStyles();
 	const store = useContext(StoreContext);
-	const { tokens } = store.contracts
+	const { tokens, vaults } = store.contracts
 
 	const { token } = props
 
-	// let prefix = !!vault.symbolPrefix ? vault.symbolPrefix : ''
+
+
+	let prefix = !!vaults[token.contract] && !!vaults[token.contract].symbolPrefix ? vaults[token.contract].symbolPrefix : ''
 	// let underlying = tokens[vault[vault.underlyingKey]]
 
 	if (!token || !token.symbol)
@@ -31,7 +33,7 @@ export const VaultSymbol = observer((props: any) => {
 
 	return <img alt=""
 		className={classes.symbol}
-		src={require(`../../assets/icons/${token.symbol.replace(/\/+/g, '').toLowerCase()}.png`)} />
+		src={require(`../../assets/icons/${prefix}${token.symbol.replace(/\/+/g, '').toLowerCase()}.png`)} />
 
 });
 
