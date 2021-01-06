@@ -37,10 +37,10 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	filters: {
-		textAlign: 'left',
-		[theme.breakpoints.up('md')]: {
-			textAlign: 'right'
-		},
+		// textAlign: 'left',
+		// [theme.breakpoints.up('md')]: {
+		textAlign: 'right'
+		// },
 	},
 	buttonGroup: {
 		marginRight: theme.spacing(1),
@@ -168,7 +168,7 @@ export const Collection = observer(() => {
 						label="Hide zero balances"
 					/>
 				</Grid>
-				<Grid item xs={12} md={6} className={classes.filters} >
+				<Grid item xs={6} className={classes.filters} >
 
 
 
