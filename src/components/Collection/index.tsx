@@ -225,7 +225,7 @@ export const Collection = observer(() => {
 				</Grid>
 
 
-				{!!connectedAddress && <>
+				{!!connectedAddress && treeStats.claims.length > 0 && <>
 					<Grid item xs={12} style={{ textAlign: 'center', paddingBottom: 0 }} >
 						<Typography variant="subtitle1" color="textPrimary">
 							Available Rewards:

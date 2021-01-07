@@ -43,6 +43,11 @@ class UiState {
 					badgerGrowth: '...',
 					portfolio: '...',
 					_vaultGrowth: {},
+
+				},
+				assets: {
+					wallet: [],
+					deposits: []
 				}
 			},
 			claims: [0, 0, 0],

@@ -256,7 +256,7 @@ class ContractsStore {
 	});
 
 
-	depositAndStake = action((vault: any, amount: BigNumber) => {
+	depositAndStake = action((vault: any, amount: BigNumber, onlyWrapped: boolean = false) => {
 		const { tokens, geysers } = this
 		const { setTxStatus, queueNotification } = this.store.uiState
 
@@ -264,22 +264,39 @@ class ContractsStore {
 		const wrapped = tokens[vault.address]
 		const geyser = geysers[wrapped.contract]
 
-		let depositedTokens = !!vault.balanceOf ? vault.balanceOf.multipliedBy(vault.getPricePerFullShare.dividedBy(1e18)) : new BigNumber(0)
-
-		// ensure balance is valid
-		if (!amount || amount.isNaN() || amount.lte(0) || amount.gt(underlying.balanceOf.plus(depositedTokens)))
+		if (!amount || amount.isNaN() || amount.lte(0))
 			return queueNotification("Please enter a valid amount", 'error')
 
 		// calculate amount to deposit
+
 		let wrappedAmount = new BigNumber(0);
+		let underlyingAmount = new BigNumber(0);
+
+		if (onlyWrapped) {
+			if (amount.gte(vault.balanceOf))
+				return queueNotification("Please enter a valid amount", 'error')
+
+			wrappedAmount = amount
+
+		} else {
+			let depositedTokens = !!vault.balanceOf ? vault.balanceOf : new BigNumber(0)
+			depositedTokens = depositedTokens.multipliedBy(vault.getPricePerFullShare.dividedBy(1e18))
+
+			if (amount.gte(depositedTokens)) {
+				wrappedAmount = vault.balanceOf
+				underlyingAmount = amount.minus(wrappedAmount)
+			} else {
+				wrappedAmount = amount
+				underlyingAmount = amount.minus(wrappedAmount)
+				if (!onlyWrapped)
+					wrappedAmount = amount.dividedBy(vault.getPricePerFullShare.dividedBy(1e18))
+			}
+		}
+
+		// if amoutn is more than what's already wrapped, deposit all wrapped tokens
+		console.log('wrapped & underlying', wrappedAmount.dividedBy(1e18).toString(), underlyingAmount.dividedBy(1e18).toString())
+
 		let methodSeries: any = []
-
-		if (amount.gte(depositedTokens))
-			wrappedAmount = vault.balanceOf
-		else
-			wrappedAmount = amount.multipliedBy(vault.getPricePerFullShare.dividedBy(1e18))
-
-		let underlyingAmount = amount.minus(wrappedAmount)
 
 		// if we need to wrap assets, make sure we have allowance
 		if (underlyingAmount.gt(0)) {
@@ -297,7 +314,7 @@ class ContractsStore {
 		if (wrapped.allowance.lt(amount))
 			methodSeries.push((callback: any) => this.increaseAllowance(wrapped, callback))
 
-		methodSeries.push((callback: any) => this.depositGeyser(geyser, amount.dividedBy(vault.getPricePerFullShare.dividedBy(1e18)), callback))
+		methodSeries.push((callback: any) => this.depositGeyser(geyser, onlyWrapped ? amount : amount.dividedBy(vault.getPricePerFullShare.dividedBy(1e18)), callback))
 
 		setTxStatus('pending')
 		async.series(methodSeries, (err: any, results: any) => {
@@ -356,6 +373,8 @@ class ContractsStore {
 		// calculate amount to withdraw
 		let wrappedAmount = amount;
 		let methodSeries: any = []
+
+		console.log("unwrapping", wrappedAmount.dividedBy(1e18).toString())
 
 		// withdraw
 		methodSeries.push((callback: any) => this.withdrawVault(
@@ -587,14 +606,14 @@ class ContractsStore {
 		if (all)
 			method = underlyingContract.methods.withdrawAll()
 
-		queueNotification(`Sign the transaction to unwrap ${inCurrency(amount, 'eth', true)} ${underlyingAsset.symbol}`, "info")
+		queueNotification(`Sign the transaction to unwrap ${inCurrency(amount, 'eth', true)} ${vault.symbol}`, "info")
 
 		estimateAndSend(web3, this.store.wallet.gasPrices[this.store.uiState.gasPrice], method, connectedAddress, (transaction: PromiEvent<Contract>) => {
 			transaction
 				.on('transactionHash', (hash: string) => {
 					queueNotification(`Withdraw submitted.`, "info")
 				}).on('receipt', (reciept: any) => {
-					queueNotification(`Successfully withdrew ${inCurrency(amount, 'eth', true)} ${underlyingAsset.symbol}`, "success")
+					queueNotification(`Successfully withdrew ${inCurrency(amount, 'eth', true)} ${vault.symbol}`, "success")
 					this.fetchContracts()
 					callback(null, {})
 				}).catch((error: any) => {
@@ -710,7 +729,7 @@ class ContractsStore {
 
 						return {
 							sushiRewards: _.mapValues(reward, (rewardsInSushi: BigNumber, period: string) => {
-								if (!rewardToken.ethValue)
+								if (!rewardToken.ethValue || !token.ethValue)
 									return
 
 								// period will be day, week, month

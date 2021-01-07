@@ -1,5 +1,5 @@
 import BigNumber from "bignumber.js";
-import _ from "lodash";
+import _, { wrap } from "lodash";
 import { RootStore } from "../store";
 import UiState from "../stores/uiStore";
 import { inCurrency } from "../utils/helpers";
@@ -302,7 +302,7 @@ function reduceVaultToStats(vault: any, tokens: any, geysers: any, period: strin
 	if (!geyser || !token)
 		return; //console.log(vault, token, wrapped)
 
-	let _depositedTokens = !!wrapped.balanceOf ? vault.balanceOf.multipliedBy(vault.getPricePerFullShare.dividedBy(1e18)) : new BigNumber(0);
+	let _depositedTokens = !!vault.balanceOf ? vault.balanceOf : new BigNumber(0);
 	let depositedTokens = wrappedOnly ? _depositedTokens : new BigNumber(0);
 	let { growth, tooltip } = reduceTotalGrowth(vault, period, token);
 	let { growth: growthDay } = reduceTotalGrowth(vault, 'day', token);
@@ -310,6 +310,19 @@ function reduceVaultToStats(vault: any, tokens: any, geysers: any, period: strin
 	let { growth: growthYear } = reduceTotalGrowth(vault, 'year', token);
 
 	let tokenBalance = wrappedOnly ? new BigNumber(0) : !!token.balanceOf ? token.balanceOf : new BigNumber(0)
+
+	let availableFull = !!tokenBalance && {
+		25: inCurrency(tokenBalance.plus(_depositedTokens).multipliedBy(0.25), 'eth', true, 18, true),
+		50: inCurrency(tokenBalance.plus(_depositedTokens).multipliedBy(0.5), 'eth', true, 18, true),
+		75: inCurrency(tokenBalance.plus(_depositedTokens).multipliedBy(0.75), 'eth', true, 18, true),
+		100: inCurrency(tokenBalance.plus(_depositedTokens), 'eth', true, 18, true),
+	}
+	let wrappedFull = !!wrapped.balanceOf && {
+		25: inCurrency(wrapped.balanceOf.multipliedBy(0.25), 'eth', true, 18, true),
+		50: inCurrency(wrapped.balanceOf.multipliedBy(0.5), 'eth', true, 18, true),
+		75: inCurrency(wrapped.balanceOf.multipliedBy(0.75), 'eth', true, 18, true),
+		100: inCurrency(wrapped.balanceOf, 'eth', true, 18, true),
+	}
 
 	return {
 		vault: vault,
@@ -323,25 +336,15 @@ function reduceVaultToStats(vault: any, tokens: any, geysers: any, period: strin
 		underlyingBalance: !!vault.balance && !!token.ethValue &&
 			inCurrency(vault.balance.multipliedBy(token.ethValue.dividedBy(1e18)), currency),
 
-		availableBalance: !!tokenBalance &&
+		availableBalance: wrappedOnly ? inCurrency(depositedTokens, 'eth', true) : !!tokenBalance &&
 			inCurrency(tokenBalance.plus(depositedTokens), 'eth', true),
 		yourValue: !!token.ethValue &&
 			inCurrency(tokenBalance.plus(depositedTokens).multipliedBy(token.ethValue.dividedBy(1e18)), currency),
 
 
-		availableFull: !!tokenBalance && {
-			25: inCurrency(tokenBalance.plus(_depositedTokens).multipliedBy(0.25), 'eth', true, 18, true),
-			50: inCurrency(tokenBalance.plus(_depositedTokens).multipliedBy(0.5), 'eth', true, 18, true),
-			75: inCurrency(tokenBalance.plus(_depositedTokens).multipliedBy(0.75), 'eth', true, 18, true),
-			100: inCurrency(tokenBalance.plus(_depositedTokens), 'eth', true, 18, true),
-		},
+		availableFull: wrappedOnly ? wrappedFull : availableFull,
 
-		wrappedFull: !!wrapped.balanceOf && {
-			25: inCurrency(wrapped.balanceOf.multipliedBy(0.25), 'eth', true, 18, true),
-			50: inCurrency(wrapped.balanceOf.multipliedBy(0.5), 'eth', true, 18, true),
-			75: inCurrency(wrapped.balanceOf.multipliedBy(0.75), 'eth', true, 18, true),
-			100: inCurrency(wrapped.balanceOf, 'eth', true, 18, true),
-		},
+		wrappedFull,
 
 		depositedFull: !!geyser.totalStakedFor && {
 			25: inCurrency(geyser.totalStakedFor.multipliedBy(0.25), 'eth', true, 18, true),
