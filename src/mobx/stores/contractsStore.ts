@@ -721,9 +721,11 @@ class ContractsStore {
 								let numerator = rewardToken.ethValue
 									.multipliedBy(rewardsInSushi)
 
-								let vaultValue = slpBalance.multipliedBy(1e18).multipliedBy(token.ethValue.dividedBy(1e18))
+								let slpValue = slpBalance.multipliedBy(1e18).multipliedBy(token.ethValue.dividedBy(1e18))
+								let vaultValue = vault.balance.multipliedBy(vault.getPricePerFullShare.dividedBy(1e18)).multipliedBy(token.ethValue.dividedBy(1e18))
 
-								let sushiAPY = numerator.dividedBy(vaultValue.multipliedBy(slpBalance.multipliedBy(1e18).dividedBy(token.totalSupply)))
+								let xSushiAPY = numerator.multipliedBy(xAPY).dividedBy(vaultValue)
+								let sushiAPY = numerator.dividedBy(slpValue.multipliedBy(slpBalance.multipliedBy(1e18).dividedBy(token.totalSupply))).plus(xSushiAPY.dividedBy(100))
 
 								return sushiAPY
 							})
