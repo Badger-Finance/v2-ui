@@ -282,19 +282,14 @@ class ContractsStore {
 			let depositedTokens = !!vault.balanceOf ? vault.balanceOf : new BigNumber(0)
 			depositedTokens = depositedTokens.multipliedBy(vault.getPricePerFullShare.dividedBy(1e18))
 
+			// if amount is more than what's already wrapped, deposit all wrapped tokens
 			if (amount.gte(depositedTokens)) {
 				wrappedAmount = vault.balanceOf
-				underlyingAmount = amount.minus(wrappedAmount)
+				underlyingAmount = amount.minus(wrappedAmount.multipliedBy(vault.getPricePerFullShare.dividedBy(1e18)))
 			} else {
-				wrappedAmount = amount
-				underlyingAmount = amount.minus(wrappedAmount)
-				if (!onlyWrapped)
-					wrappedAmount = amount.dividedBy(vault.getPricePerFullShare.dividedBy(1e18))
+				wrappedAmount = amount.dividedBy(vault.getPricePerFullShare.dividedBy(1e18))
 			}
 		}
-
-		// if amoutn is more than what's already wrapped, deposit all wrapped tokens
-		console.log('wrapped & underlying', wrappedAmount.dividedBy(1e18).toString(), underlyingAmount.dividedBy(1e18).toString())
 
 		let methodSeries: any = []
 
@@ -314,7 +309,7 @@ class ContractsStore {
 		if (wrapped.allowance.lt(amount))
 			methodSeries.push((callback: any) => this.increaseAllowance(wrapped, callback))
 
-		methodSeries.push((callback: any) => this.depositGeyser(geyser, onlyWrapped ? amount : amount.dividedBy(vault.getPricePerFullShare.dividedBy(1e18)), callback))
+		methodSeries.push((callback: any) => this.depositGeyser(geyser, amount, callback))
 
 		setTxStatus('pending')
 		async.series(methodSeries, (err: any, results: any) => {
@@ -543,8 +538,8 @@ class ContractsStore {
 
 		// unstake all if within 2e-18
 		let adjustedAmount = amount
-		if (underlyingAsset.balanceOf.minus(amount).lte(2e-18)) {
-			adjustedAmount = underlyingAsset.balanceOf
+		if (geyser.totalStakedFor.minus(amount).lte(2e-18)) {
+			adjustedAmount = geyser.totalStakedFor
 		}
 
 		const web3 = new Web3(provider)
