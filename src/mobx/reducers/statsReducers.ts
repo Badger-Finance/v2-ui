@@ -16,7 +16,7 @@ import { geysers as geysersConfig } from '../../config/system/settSystem'
 // 	return _.mapValues(geysers, reduceGeyserToStats(vaults, tokens, period, currency))
 // }
 
-export const reduceAssets = (store: RootStore) => {
+export const walletAssets = (store: RootStore) => {
 	const { vaults, geysers, tokens } = store.contracts
 	const { collection, stats, currency, period } = store.uiState
 
@@ -35,7 +35,7 @@ export const reduceAssets = (store: RootStore) => {
 		if (!token.balanceOf && !wrapped.balanceOf)
 			return
 
-		if (token.balanceOf.gt(0) && wrapped.balanceOf.gt(0))
+		if (wrapped.balanceOf.gt(0))
 			wrappedAssets.push({
 				token: wrapped,
 				stats: reduceVaultToStats(vault, tokens, geysers, period, currency, true),
@@ -67,7 +67,7 @@ export const reduceDeposits = (store: RootStore) => {
 		if (!token)
 			return
 
-		if (!vault.balanceOf || vault.balanceOf.eq(0))
+		if (!geyser.totalStakedFor || geyser.totalStakedFor.eq(0))
 			return
 
 		return {
@@ -75,8 +75,7 @@ export const reduceDeposits = (store: RootStore) => {
 			stats: reduceGeyserToStats(geyser, vaults, tokens, period, currency),
 		}
 	})
-	return _.compact(depositedAssets)
-
+	return _.sortBy(_.compact(depositedAssets), (geyserAsset: any) => geyserAsset.stats.geyser.listOrder)
 }
 export const reduceGeysers = (store: RootStore) => {
 	const { vaults, geysers, tokens } = store.contracts
@@ -143,7 +142,7 @@ export const reduceContractsToStats = (store: RootStore) => {
 	if (!tokens)
 		return
 
-	var { tvl, portfolio, wallet, geysers, badgerToken, growth, liqGrowth } = calculatePortfolioStats(vaultContracts, tokens, geyserContracts);
+	var { tvl, portfolio, wallet, geysers, badgerToken, growth, liqGrowth } = calculatePortfolioStats(vaultContracts, tokens, vaultContracts, geyserContracts);
 
 	return {
 		stats: {
@@ -155,7 +154,7 @@ export const reduceContractsToStats = (store: RootStore) => {
 			badgerGrowth: growth.multipliedBy(1e2).toFixed(2),
 		},
 		assets: {
-			wallet: reduceAssets(store),
+			wallet: walletAssets(store),
 			deposits: reduceDeposits(store),
 			setts: reduceGeysers(store)
 		}
@@ -173,7 +172,7 @@ export const reduceAirdrops = (airdrops: any) => {
 		return inCurrency(amount, 'eth', true);
 	});
 }
-function calculatePortfolioStats(vaultContracts: any, tokens: any, geyserContracts: any) {
+function calculatePortfolioStats(vaultContracts: any, tokens: any, vaults: any, geyserContracts: any) {
 	let tvl = new BigNumber(0);
 	let wallet = new BigNumber(0);
 	let geysers = new BigNumber(0);
@@ -183,13 +182,13 @@ function calculatePortfolioStats(vaultContracts: any, tokens: any, geyserContrac
 
 	_.forIn(vaultContracts, (vault: any, address: string) => {
 		let token = tokens[vault[vault.underlyingKey]];
-		let wrapped = tokens[vault.address];
+		let wrapped = vaults[vault.address];
 		if (!token || !vault.balance)
 			return;
 
 		tvl = tvl.plus(vault.balance.dividedBy(1e18).multipliedBy(vault.getPricePerFullShare.dividedBy(1e18)).multipliedBy(token.ethValue));
 
-		if (!!wrapped.balanceOf) {
+		if (!!wrapped.balanceOf && wrapped.balanceOf.gt(0)) {
 			wallet = wallet.plus(
 				wrapped.balanceOf.multipliedBy(token.ethValue).multipliedBy(vault.getPricePerFullShare.dividedBy(1e18))
 					.dividedBy(1e18));
@@ -199,7 +198,7 @@ function calculatePortfolioStats(vaultContracts: any, tokens: any, geyserContrac
 					.dividedBy(1e18));
 		}
 
-		if (!!token.balanceOf) {
+		if (!!token.balanceOf && token.balanceOf.gt(0)) {
 			wallet = wallet.plus(token.balanceOf.multipliedBy(token.ethValue).dividedBy(1e18));
 			portfolio = portfolio.plus(token.balanceOf.multipliedBy(token.ethValue).dividedBy(1e18));
 		}
@@ -252,7 +251,7 @@ function reduceGeyserToStats(geyser: any, vaults: any, tokens: any, period: stri
 		return;
 
 	let virtualEthValue = !!token.ethValue ? token.ethValue.dividedBy(1e18).multipliedBy(!!vault.getPricePerFullShare ? vault.getPricePerFullShare.dividedBy(1e18) : 1) : token.ethValue;
-	let underlyingBalance = !!geyser.totalStakedFor && geyser.totalStakedFor;
+	let underlyingBalance = !!geyser.totalStakedFor && geyser.totalStakedFor.multipliedBy(!!vault.getPricePerFullShare ? vault.getPricePerFullShare.dividedBy(1e18) : 1);
 
 	let { growth, tooltip } = reduceTotalGrowth(vault, period, token, geyser);
 
@@ -305,10 +304,10 @@ function reduceVaultToStats(vault: any, tokens: any, geysers: any, period: strin
 
 	let _depositedTokens = !!wrapped.balanceOf ? vault.balanceOf.multipliedBy(vault.getPricePerFullShare.dividedBy(1e18)) : new BigNumber(0);
 	let depositedTokens = wrappedOnly ? _depositedTokens : new BigNumber(0);
-	let { growth, tooltip } = reduceTotalGrowth(wrappedOnly ? vault : {}, period, token);
-	let { growth: growthDay } = reduceTotalGrowth(wrappedOnly ? vault : {}, 'day', token);
-	let { growth: growthMonth } = reduceTotalGrowth(wrappedOnly ? vault : {}, 'month', token);
-	let { growth: growthYear } = reduceTotalGrowth(wrappedOnly ? vault : {}, 'year', token);
+	let { growth, tooltip } = reduceTotalGrowth(vault, period, token);
+	let { growth: growthDay } = reduceTotalGrowth(vault, 'day', token);
+	let { growth: growthMonth } = reduceTotalGrowth(vault, 'month', token);
+	let { growth: growthYear } = reduceTotalGrowth(vault, 'year', token);
 
 	let tokenBalance = wrappedOnly ? new BigNumber(0) : !!token.balanceOf ? token.balanceOf : new BigNumber(0)
 
@@ -317,7 +316,7 @@ function reduceVaultToStats(vault: any, tokens: any, geysers: any, period: strin
 		address: vault.address,
 
 		anyWrapped: wrappedOnly,
-		anyUnderlying: tokenBalance.gt(0),
+		anyUnderlying: tokenBalance.gt(0) || (!!vault.balanceOf && vault.balanceOf.gt(0)),
 
 		underlyingTokens: !!vault.balance &&
 			inCurrency(vault.balance, 'eth', true),

@@ -36,10 +36,14 @@ class UiState {
 		extendObservable(this, {
 			collection: {},
 			stats: {
-				tvl: '...',
-				growth: '...',
-				portfolio: '...',
-				_vaultGrowth: {},
+				stats: {
+					tvl: '...',
+					growth: '...',
+					badgerLiqGrowth: '...',
+					badgerGrowth: '...',
+					portfolio: '...',
+					_vaultGrowth: {},
+				}
 			},
 			claims: [0, 0, 0],
 			geyserStats: {},
@@ -48,12 +52,12 @@ class UiState {
 			treeStats: { claims: [] },
 			airdropStats: { badger: '0.00000' },
 
-			currency: 'usd',
-			period: 'year',
+			currency: window.localStorage.getItem('selectedCurrency') || 'usd',
+			period: window.localStorage.getItem('selectedPeriod') || 'year',
 
 			sidebarOpen: !!window && window.innerWidth > 960,
 			notification: {},
-			gasPrice: 'rapid',
+			gasPrice: window.localStorage.getItem('selectedGasPrice') || 'standard',
 			txStatus: undefined
 		});
 
@@ -87,12 +91,22 @@ class UiState {
 
 		// format rewards for UI
 		observe(this.store.contracts as any, "badgerTree", (change: any) => {
-			// skip first update
-			this.reduceTreeRewards()
+			try {
+				// skip first update
+				this.reduceTreeRewards()
+			} catch (e) {
+				console.log(e)
+			}
+
 		})
 		observe(this.store.contracts as any, "airdrops", (change: any) => {
-			// skip first update
-			this.reduceAirdrops()
+
+			try {
+				// skip first update
+				this.reduceAirdrops()
+			} catch (e) {
+				console.log(e)
+			}
 		})
 
 		// redirect to portfolio if logged in
@@ -127,7 +141,8 @@ class UiState {
 	})
 
 	reduceContracts = action(() => {
-		this.stats = reduceContractsToStats(this.store)
+		let newStats = reduceContractsToStats(this.store)
+		this.stats = !!newStats ? reduceContractsToStats(this.store) : this.stats
 	});
 
 	reduceTreeRewards = action(() => {
@@ -146,13 +161,19 @@ class UiState {
 
 	setGasPrice = action((gasPrice: string) => {
 		this.gasPrice = gasPrice
+		window.localStorage.setItem('selectedGasPrice', gasPrice)
+
 	});
 
 	setCurrency = action((currency: string) => {
 		this.currency = currency
+		window.localStorage.setItem('selectedCurrency', currency)
+
 	});
 	setPeriod = action((period: string) => {
 		this.period = period
+		window.localStorage.setItem('selectedPeriod', period)
+
 	});
 	openSidebar = action(() => {
 		this.sidebarOpen = true

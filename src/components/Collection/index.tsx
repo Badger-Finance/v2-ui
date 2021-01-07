@@ -37,10 +37,10 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	filters: {
-		textAlign: 'left',
-		[theme.breakpoints.up('md')]: {
-			textAlign: 'right'
-		},
+		// textAlign: 'left',
+		// [theme.breakpoints.up('md')]: {
+		textAlign: 'right'
+		// },
 	},
 	buttonGroup: {
 		marginRight: theme.spacing(1),
@@ -103,7 +103,7 @@ export const Collection = observer(() => {
 		contracts: { tokens, claimGeysers },
 		uiState: { stats, geyserStats, vaultStats, currency, period, setCurrency, setPeriod, treeStats } } = store;
 
-	const [isGlobal, setIsGlobal] = useState<boolean>(false)
+	const [hideZeroBal, setHideZeroBal] = useState<boolean>(!!window.localStorage.getItem('hideZeroBal'))
 
 
 	if (!tokens) {
@@ -153,15 +153,22 @@ export const Collection = observer(() => {
 					<FormControlLabel
 						control={
 							<Switch
-								checked={isGlobal}
-								onChange={() => setIsGlobal(!isGlobal)}
+								checked={hideZeroBal}
+								onChange={() => {
+									if (!hideZeroBal)
+										window.localStorage.setItem('hideZeroBal', 'YES')
+									else
+										window.localStorage.removeItem('hideZeroBal')
+									setHideZeroBal(!hideZeroBal)
+
+								}}
 								color="primary"
 							/>
 						}
 						label="Hide zero balances"
 					/>
 				</Grid>
-				<Grid item xs={12} md={6} className={classes.filters} >
+				<Grid item xs={6} className={classes.filters} >
 
 
 
@@ -218,29 +225,30 @@ export const Collection = observer(() => {
 				</Grid>
 
 
-				<Grid item xs={12} style={{ textAlign: 'center' }} >
-					<Typography variant="subtitle1" color="textPrimary">
-						Available Rewards:
+				{!!connectedAddress && <>
+					<Grid item xs={12} style={{ textAlign: 'center', paddingBottom: 0 }} >
+						<Typography variant="subtitle1" color="textPrimary">
+							Available Rewards:
 					</Typography>
-				</Grid>
-				<Grid item xs={12} md={6}>
-					<Paper className={classes.statPaper}>
-						{/* {!!connectedAddress && <Button fullWidth variant="contained" color="primary" onClick={() => { claimGeysers(false) }}>Claim {treeStats.claims[0] || "..."} Badger</Button>} */}
-						<List style={{ padding: 0 }}>
+					</Grid>
+					<Grid item xs={12} md={6}>
+						<Paper className={classes.statPaper}>
+							{/* {!!connectedAddress && <Button fullWidth variant="contained" color="primary" onClick={() => { claimGeysers(false) }}>Claim {treeStats.claims[0] || "..."} Badger</Button>} */}
+							<List style={{ padding: 0 }}>
 
-							{treeStats.claims.map((claim: string) => <ListItem className={classes.rewardItem}>
-								<ListItemText primary={claim} secondary="Badger available to claim" />
-								<ListItemSecondaryAction >
-									<ButtonGroup size="small" variant="outlined" color="primary">
-										<Button onClick={() => { claimGeysers(false) }} variant="contained">Claim</Button>
-										<Button onClick={() => { claimGeysers(true) }} >Deposit</Button>
-									</ButtonGroup>
-								</ListItemSecondaryAction>
-							</ListItem>)}
+								{treeStats.claims.map((claim: string) => <ListItem className={classes.rewardItem}>
+									<ListItemText primary={claim} secondary="Badger available to claim" />
+									<ListItemSecondaryAction >
+										<ButtonGroup size="small" variant="outlined" color="primary">
+											<Button onClick={() => { claimGeysers(false) }} variant="contained">Claim</Button>
+											<Button onClick={() => { claimGeysers(true) }} >Deposit</Button>
+										</ButtonGroup>
+									</ListItemSecondaryAction>
+								</ListItem>)}
 
-						</List>
-					</Paper>
-				</Grid>
+							</List>
+						</Paper>
+					</Grid></>}
 
 				{/* <Grid item xs={12} >
 				<Typography variant="body1" color="textPrimary" className={classes.featuredHeader}>Featured</Typography>
@@ -266,7 +274,7 @@ export const Collection = observer(() => {
 				</Carousel>
 			</Grid > */}
 
-				<SettList isGlobal={!isCached()} hideEmpty={isGlobal} />
+				<SettList isGlobal={!isCached()} hideEmpty={hideZeroBal} />
 
 			</Grid >
 

@@ -65,6 +65,7 @@ export const chefQueries = (pairs: any[], contracts: any[], growthEndpoint: stri
 		}).then((response: any) => response.json())
 	})
 }
+
 export const jsonQuery = (url: string): Promise<Response> => {
 	return fetch(url, {
 		method: 'GET',

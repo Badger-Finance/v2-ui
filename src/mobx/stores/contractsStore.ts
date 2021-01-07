@@ -64,7 +64,8 @@ class ContractsStore {
 		})
 		observe(this.store.wallet, "currentBlock", (change: any) => {
 			if (!!change.oldValue) {
-				this.fetchContracts()
+
+				this.fetchTokens()
 				this.fetchRebase()
 			}
 		})
@@ -85,16 +86,16 @@ class ContractsStore {
 	}
 
 	updateVaults = action((vaults: any) => {
-		this.vaults = _.defaultsDeep(vaults, this.vaults)
+		this.vaults = _.defaultsDeep(vaults, this.vaults, vaults)
 	});
 	updateTokens = action((tokens: any) => {
-		this.tokens = _.defaultsDeep(tokens, this.tokens)
+		this.tokens = _.defaultsDeep(tokens, this.tokens, tokens)
 	});
 	updateGeysers = action((geysers: any) => {
-		this.geysers = _.defaultsDeep(geysers, this.geysers)
+		this.geysers = _.defaultsDeep(geysers, this.geysers, geysers)
 	});
 	updateRebase = action((rebase: any) => {
-		this.rebase = _.defaultsDeep(rebase, this.rebase)
+		this.rebase = _.defaultsDeep(rebase, this.rebase, rebase)
 	});
 
 	fetchContracts = action(() => {
@@ -123,7 +124,7 @@ class ContractsStore {
 					!!config.methods ? reduceMethodConfig(config.methods, !!connectedAddress && { connectedAddress }) : [],
 					config.abi)
 			})
-		
+
 		let batchContracts = _.concat(vaultBatch, geyserBatch)
 
 		// console.log(batchContracts, batchCall)
@@ -276,6 +277,7 @@ class ContractsStore {
 					oracleRate : new BigNumber(keyedResult.oracle[0].providerReports.payload),
 					derivedEth: result[1].data.token.derivedETH
 				}
+				console.log(token)
 				this.updateRebase(token)
 			})
 	})
@@ -290,7 +292,6 @@ class ContractsStore {
 
 		let depositedTokens = !!vault.balanceOf ? vault.balanceOf.multipliedBy(vault.getPricePerFullShare.dividedBy(1e18)) : new BigNumber(0)
 
-		console.log(underlying.balanceOf.plus(depositedTokens).dividedBy(1e18).toString(), amount.dividedBy(1e18).toString())
 		// ensure balance is valid
 		if (!amount || amount.isNaN() || amount.lte(0) || amount.gt(underlying.balanceOf.plus(depositedTokens)))
 			return queueNotification("Please enter a valid amount", 'error')
@@ -299,10 +300,10 @@ class ContractsStore {
 		let wrappedAmount = new BigNumber(0);
 		let methodSeries: any = []
 
-		if (amount.gt(depositedTokens))
+		if (amount.gte(depositedTokens))
 			wrappedAmount = vault.balanceOf
 		else
-			wrappedAmount = amount
+			wrappedAmount = amount.multipliedBy(vault.getPricePerFullShare.dividedBy(1e18))
 
 		let underlyingAmount = amount.minus(wrappedAmount)
 
@@ -322,7 +323,7 @@ class ContractsStore {
 		if (wrapped.allowance.lt(amount))
 			methodSeries.push((callback: any) => this.increaseAllowance(wrapped, callback))
 
-		methodSeries.push((callback: any) => this.depositGeyser(geyser, amount, callback))
+		methodSeries.push((callback: any) => this.depositGeyser(geyser, amount.dividedBy(vault.getPricePerFullShare.dividedBy(1e18)), callback))
 
 		setTxStatus('pending')
 		async.series(methodSeries, (err: any, results: any) => {
@@ -341,11 +342,11 @@ class ContractsStore {
 		let underlying = tokens[vaults[wrapped.address].token]
 
 		// ensure balance is valid
-		if (amount.isNaN() || amount.lte(0) || amount.gt(geyser.totalStakedFor))
+		if (amount.isNaN() || amount.lte(0) || amount.gt(geyser.totalStakedFor.multipliedBy(vault.getPricePerFullShare.dividedBy(1e18))))
 			return queueNotification("Please enter a valid amount", 'error')
 
 		// calculate amount to withdraw
-		let wrappedAmount = amount;
+		let wrappedAmount = amount.dividedBy(vault.getPricePerFullShare.dividedBy(1e18));
 		let methodSeries: any = []
 
 		// if we need to wrap assets, make sure we have allowance
@@ -424,7 +425,7 @@ class ContractsStore {
 		estimateAndSend(web3, gasPrices[gasPrice], method, connectedAddress, (transaction: PromiEvent<Contract>) => {
 			transaction
 				.on('transactionHash', (hash: string) => {
-					queueNotification(`Claim submitted with hash: ${hash}`, "info")
+					queueNotification(`Claim submitted.`, "info")
 				}).on('receipt', (reciept: any) => {
 					queueNotification(`Rewards claimed.`, "success")
 					this.fetchSettRewards()
@@ -466,7 +467,7 @@ class ContractsStore {
 		estimateAndSend(web3, gasPrices[gasPrice], method, connectedAddress, (transaction: PromiEvent<Contract>) => {
 			transaction
 				.on('transactionHash', (hash: string) => {
-					queueNotification(`Claim submitted with hash: ${hash}`, "info")
+					queueNotification(`Claim submitted.`, "info")
 				}).on('receipt', (reciept: any) => {
 					queueNotification(`Rewards claimed.`, "success")
 					this.fetchSettRewards()
@@ -500,7 +501,7 @@ class ContractsStore {
 		estimateAndSend(web3, this.store.wallet.gasPrices[this.store.uiState.gasPrice], method, connectedAddress, (transaction: PromiEvent<Contract>) => {
 			transaction
 				.on('transactionHash', (hash: string) => {
-					queueNotification(`Transaction submitted with hash: ${hash}`, "info")
+					queueNotification(`Transaction submitted.`, "info")
 				}).on('receipt', (reciept: any) => {
 					queueNotification(`${underlyingAsset.symbol} allowance increased.`, "success")
 					this.fetchContracts()
@@ -529,7 +530,7 @@ class ContractsStore {
 		estimateAndSend(web3, this.store.wallet.gasPrices[this.store.uiState.gasPrice], method, connectedAddress, (transaction: PromiEvent<Contract>) => {
 			transaction
 				.on('transactionHash', (hash: string) => {
-					queueNotification(`Deposit submitted with hash: ${hash}`, "info")
+					queueNotification(`Deposit submitted.`, "info")
 				}).on('receipt', (reciept: any) => {
 					queueNotification(`Successfully deposited ${inCurrency(amount, 'eth', true)} ${underlyingAsset.symbol}`, "success")
 					this.fetchContracts()
@@ -556,7 +557,7 @@ class ContractsStore {
 		estimateAndSend(web3, this.store.wallet.gasPrices[this.store.uiState.gasPrice], method, connectedAddress, (transaction: PromiEvent<Contract>) => {
 			transaction
 				.on('transactionHash', (hash: string) => {
-					queueNotification(`Transaction submitted with hash: ${hash}`, "info")
+					queueNotification(`Transaction submitted.`, "info")
 				}).on('receipt', (reciept: any) => {
 					queueNotification(`Successfully unstaked ${inCurrency(amount, 'eth', true)} ${underlyingAsset.symbol}`, "success")
 					this.fetchContracts()
@@ -587,7 +588,7 @@ class ContractsStore {
 		estimateAndSend(web3, this.store.wallet.gasPrices[this.store.uiState.gasPrice], method, connectedAddress, (transaction: PromiEvent<Contract>) => {
 			transaction
 				.on('transactionHash', (hash: string) => {
-					queueNotification(`Deposit submitted with hash: ${hash}`, "info")
+					queueNotification(`Deposit submitted.`, "info")
 				}).on('receipt', (reciept: any) => {
 					queueNotification(`Successfully deposited ${inCurrency(amount, 'eth', true)} ${underlyingAsset.symbol}`, "success")
 					this.fetchContracts()
@@ -617,7 +618,7 @@ class ContractsStore {
 		estimateAndSend(web3, this.store.wallet.gasPrices[this.store.uiState.gasPrice], method, connectedAddress, (transaction: PromiEvent<Contract>) => {
 			transaction
 				.on('transactionHash', (hash: string) => {
-					queueNotification(`Withdraw submitted with hash: ${hash}`, "info")
+					queueNotification(`Withdraw submitted.`, "info")
 				}).on('receipt', (reciept: any) => {
 					queueNotification(`Successfully withdrew ${inCurrency(amount, 'eth', true)} ${underlyingAsset.symbol}`, "success")
 					this.fetchContracts()
@@ -713,7 +714,7 @@ class ContractsStore {
 
 				Promise.all([...masterChef, xSushi]).then((results: any) => {
 
-					let sushiRewards = reduceMasterChefResults(results.slice(0, 2), config.contracts, this.tokens, this.vaults)
+					let sushiRewards = reduceMasterChefResults(results.slice(0, 2), config.contracts)
 					let xAPY = parseFloat(results[2]['APY'])
 
 					this.updateGeysers(_.mapValues(sushiRewards, (reward: any, geyserAddress: string) => {
@@ -744,11 +745,13 @@ class ContractsStore {
 								// xAPY contains xSUSHI apy
 
 								let numerator = rewardToken.ethValue
-									.multipliedBy(rewardsInSushi).dividedBy(1e18)
+									.multipliedBy(rewardsInSushi)
 
-								let sushiAPY = numerator
-									.dividedBy(vault.balance.multipliedBy(token.ethValue.dividedBy(1e18)).multipliedBy(slpBalance.dividedBy(token.totalSupply)))
+								let slpValue = slpBalance.multipliedBy(1e18).multipliedBy(token.ethValue.dividedBy(1e18))
+								let vaultValue = vault.balance.multipliedBy(vault.getPricePerFullShare.dividedBy(1e18)).multipliedBy(token.ethValue.dividedBy(1e18))
 
+								let xSushiAPY = numerator.multipliedBy(xAPY).dividedBy(vaultValue)
+								let sushiAPY = numerator.dividedBy(slpValue.multipliedBy(slpBalance.multipliedBy(1e18).dividedBy(token.totalSupply))).plus(xSushiAPY.dividedBy(100))
 
 								return sushiAPY
 							})

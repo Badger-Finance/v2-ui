@@ -67,6 +67,8 @@ class WalletStore {
 		try {
 			this.setProvider(new Web3.providers.HttpProvider('https://mainnet.infura.io/v3/77a0f6647eb04f5ca1409bba62ae9128'));
 			this.setAddress('');
+			window.localStorage.removeItem('selectedWallet')
+
 		} catch (err) {
 			console.log(err)
 		}

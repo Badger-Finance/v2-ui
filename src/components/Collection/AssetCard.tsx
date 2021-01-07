@@ -111,7 +111,10 @@ export const AssetCard = observer((props: any) => {
 
 			<Grid item className={classes.mobileLabel} xs={6}>
 				<Typography variant="body2" color={"textSecondary"}>
-					{!isGlobal ? "Tokens Available" : "Tokens Locked"}
+					{!isGlobal ?
+						!isDeposit ?
+							'Tokens Available' : 'Tokens Deposited'
+						: 'Tokens Locked'}
 				</Typography>
 			</Grid>
 
@@ -177,7 +180,7 @@ export const AssetCard = observer((props: any) => {
 					{!!stats.anyWrapped &&
 						<Button onClick={() => onUnwrap({ stats, token })}
 							variant="outlined" color="primary" size="small" className={classes.button}>
-							Unwrap</Button>}
+							Withdraw</Button>}
 
 				</ButtonGroup>
 
