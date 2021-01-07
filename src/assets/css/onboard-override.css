@@ -1,5 +1,8 @@
+.bn-onboard-custom {
+	z-index:1000;
+}
 .bn-onboard-modal-content {
-    background-color: #424242 !important;
+	background-color: #424242 !important;
 }
 .bn-onboard-icon-button:hover {
     background-color: #242424 !important;
