@@ -118,8 +118,8 @@ export const SettList = observer((props: any) => {
 		setDialogProps({ mode: 'stake', stats, open: true })
 	}
 	const onClose = () => {
-		if (txStatus === 'pending')
-			return
+		// if (txStatus === 'pending')
+		// 	return
 		setDialogProps({ ...dialogProps, open: false })
 	}
 
