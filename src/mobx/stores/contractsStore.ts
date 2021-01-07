@@ -64,7 +64,7 @@ class ContractsStore {
 		})
 		observe(this.store.wallet, "currentBlock", (change: any) => {
 			if (!!change.oldValue) {
-				this.fetchContracts()
+				this.fetchTokens()
 				// this.fetchRebase()
 			}
 		})
@@ -266,7 +266,6 @@ class ContractsStore {
 
 		let depositedTokens = !!vault.balanceOf ? vault.balanceOf.multipliedBy(vault.getPricePerFullShare.dividedBy(1e18)) : new BigNumber(0)
 
-		console.log(underlying.balanceOf.plus(depositedTokens).dividedBy(1e18).toString(), amount.dividedBy(1e18).toString())
 		// ensure balance is valid
 		if (!amount || amount.isNaN() || amount.lte(0) || amount.gt(underlying.balanceOf.plus(depositedTokens)))
 			return queueNotification("Please enter a valid amount", 'error')
@@ -275,10 +274,10 @@ class ContractsStore {
 		let wrappedAmount = new BigNumber(0);
 		let methodSeries: any = []
 
-		if (amount.gt(depositedTokens))
+		if (amount.gte(depositedTokens))
 			wrappedAmount = vault.balanceOf
 		else
-			wrappedAmount = amount
+			wrappedAmount = amount.multipliedBy(vault.getPricePerFullShare.dividedBy(1e18))
 
 		let underlyingAmount = amount.minus(wrappedAmount)
 

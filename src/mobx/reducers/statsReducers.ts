@@ -75,8 +75,7 @@ export const reduceDeposits = (store: RootStore) => {
 			stats: reduceGeyserToStats(geyser, vaults, tokens, period, currency),
 		}
 	})
-	return _.compact(depositedAssets)
-
+	return _.sortBy(_.compact(depositedAssets), (geyserAsset: any) => geyserAsset.stats.geyser.listOrder)
 }
 export const reduceGeysers = (store: RootStore) => {
 	const { vaults, geysers, tokens } = store.contracts
