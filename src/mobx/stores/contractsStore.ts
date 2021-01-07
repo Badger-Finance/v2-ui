@@ -59,13 +59,13 @@ class ContractsStore {
 			if (!!change.oldValue) {
 				this.calculateVaultGrowth()
 				this.calculateGeyserRewards()
-				// this.fetchRebase()
+				this.fetchRebase()
 			}
 		})
 		observe(this.store.wallet, "currentBlock", (change: any) => {
 			if (!!change.oldValue) {
 				this.fetchContracts()
-				// this.fetchRebase()
+				this.fetchRebase()
 			}
 		})
 
@@ -93,6 +93,9 @@ class ContractsStore {
 	updateGeysers = action((geysers: any) => {
 		this.geysers = _.defaultsDeep(geysers, this.geysers)
 	});
+	updateRebase = action((rebase: any) => {
+		this.rebase = _.defaultsDeep(rebase, this.rebase)
+	});
 
 	fetchContracts = action(() => {
 		// state and wallet are separate stores
@@ -104,7 +107,6 @@ class ContractsStore {
 
 		this.updateVaults(reduceContractConfig(vaults, connectedAddress && { connectedAddress }))
 		this.updateGeysers(reduceContractConfig(geysers, connectedAddress && { connectedAddress }))
-
 		// create batch configs for vaults and geysers
 		const vaultBatch: any[] = _.map(vaults,
 			(config: any) => {
@@ -121,7 +123,7 @@ class ContractsStore {
 					!!config.methods ? reduceMethodConfig(config.methods, !!connectedAddress && { connectedAddress }) : [],
 					config.abi)
 			})
-
+		
 		let batchContracts = _.concat(vaultBatch, geyserBatch)
 
 		// console.log(batchContracts, batchCall)
@@ -255,6 +257,28 @@ class ContractsStore {
 			})
 	});
 
+	fetchRebase = action( () => {
+
+		const { digg } = require('config/system/digg')
+		Promise.all([...[batchCall.execute(digg)], ...[...graphQuery({address: digg[0].addresses[0]})]])
+			.then((result: any[]) => {
+
+				let keyedResult = _.groupBy(result[0], 'namespace')
+				let token = {
+					totalSupply: keyedResult.token[0].totalSupply,
+					decimals: keyedResult.token[0].decimals,
+					lastRebaseTimestampSec: keyedResult.policy[0].lastRebaseTimestampSec,
+					minRebaseTimeIntervalSec: keyedResult.policy[0].minRebaseTimeIntervalSec,
+					rebaseLag: keyedResult.policy[0].rebaseLag,
+					epoch: keyedResult.policy[0].epoch,
+					inRebaseWindow: keyedResult.policy[0].inRebaseWindow,
+					rebaseWindowLengthSec: keyedResult.policy[0].rebaseWindowLengthSec,
+					oracleRate : new BigNumber(keyedResult.oracle[0].providerReports.payload),
+					derivedEth: result[1].data.token.derivedETH
+				}
+				this.updateRebase(token)
+			})
+	})
 
 	depositAndStake = action((vault: any, amount: BigNumber) => {
 		const { tokens, geysers } = this
