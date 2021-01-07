@@ -26,6 +26,8 @@ export const VaultSymbol = observer((props: any) => {
 
 	let prefix = !!vaults[token.contract] && !!vaults[token.contract].symbolPrefix ? vaults[token.contract].symbolPrefix : ''
 	// let underlying = tokens[vault[vault.underlyingKey]]
+	console.log("symbol: ", token.symbol)
+	console.log("token: ", token)
 
 	if (!token || !token.symbol)
 		return <CircularProgress />
@@ -33,7 +35,7 @@ export const VaultSymbol = observer((props: any) => {
 
 	return <img alt=""
 		className={classes.symbol}
-		src={require(`../../assets/icons/${prefix}${token.symbol.replace(/\/+/g, '').toLowerCase()}.png`)} />
+		src={require(`../../assets/icons/${prefix}${token.symbol.replace(/^[b]/g, '').replace(/\/+/g, '').toLowerCase()}.png`)} />
 
 });
 
