@@ -127,7 +127,7 @@ export const Airdrops = observer(() => {
 				<Typography variant="subtitle1" color="textPrimary" >Available Airdrops:</Typography>
 			</Grid>
 
-			<Grid item xs={6}>
+			<Grid item xs={12} md={6}>
 				<Paper className={classes.statPaper}>
 					<List style={{ padding: 0 }}>
 						<ListItem style={{ margin: 0, padding: 0 }}>
@@ -143,7 +143,7 @@ export const Airdrops = observer(() => {
 				</Paper>
 
 			</Grid>
-			<Grid item xs={6}>
+			<Grid item xs={12} md={6}>
 				<Paper className={classes.statPaper}>
 					<List style={{ padding: 0 }}>
 						<ListItem style={{ margin: 0, padding: 0 }}>
