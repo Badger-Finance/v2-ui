@@ -121,10 +121,18 @@ class UiState {
 
 		// reduce to formatted options
 		observe(this as any, "period", (change: any) => {
-			this.reduceContracts()
+			try {
+				this.reduceContracts()
+			} catch (e) {
+				console.log(e)
+			}
 		})
 		observe(this as any, "currency", (change: any) => {
-			this.reduceContracts()
+			try {
+				this.reduceContracts()
+			} catch (e) {
+				console.log(e)
+			}
 		})
 
 		// hide the sidebar
