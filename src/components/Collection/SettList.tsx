@@ -134,8 +134,6 @@ export const SettList = observer((props: any) => {
 		isGeysers: boolean = false,
 		global: boolean = false) => {
 
-		console.log(contracts, isGeysers, global)
-
 		let list = _.map(contracts, (contract: any) => {
 
 

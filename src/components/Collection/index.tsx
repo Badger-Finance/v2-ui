@@ -241,7 +241,7 @@ export const Collection = observer(() => {
 									<ListItemSecondaryAction >
 										<ButtonGroup size="small" variant="outlined" color="primary">
 											<Button onClick={() => { claimGeysers(false) }} variant="contained">Claim</Button>
-											<Button onClick={() => { claimGeysers(true) }} >Deposit</Button>
+											{/* <Button onClick={() => { claimGeysers(true) }} >Deposit</Button> */}
 										</ButtonGroup>
 									</ListItemSecondaryAction>
 								</ListItem>)}
