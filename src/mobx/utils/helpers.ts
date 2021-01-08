@@ -146,19 +146,20 @@ export const inCurrency = (value: BigNumber, currency: string, hide: boolean = f
 
 	let suffix = ''
 
-	if (normal.dividedBy(1e6).gt(1)) {
-		normal = normal.dividedBy(1e6)
-		decimals = 2
-		suffix = 'm'
-	} else if (normal.dividedBy(1e3).gt(1e2)) {
-		normal = normal.dividedBy(1e3)
-		decimals = 2
-		suffix = 'k'
-	} else if (normal.gt(0) && normal.lt(10 ** -preferredDecimals)) {
-		normal = normal.multipliedBy(10 ** preferredDecimals)
-		decimals = preferredDecimals
-		suffix = `e-${preferredDecimals}`
-	}
+	if (!noCommas)
+		if (normal.dividedBy(1e6).gt(1)) {
+			normal = normal.dividedBy(1e6)
+			decimals = 2
+			suffix = 'm'
+		} else if (normal.dividedBy(1e3).gt(1e2)) {
+			normal = normal.dividedBy(1e3)
+			decimals = 2
+			suffix = 'k'
+		} else if (normal.gt(0) && normal.lt(10 ** -preferredDecimals)) {
+			normal = normal.multipliedBy(10 ** preferredDecimals)
+			decimals = preferredDecimals
+			suffix = `e-${preferredDecimals}`
+		}
 
 	let fixedNormal = noCommas ? normal.toFixed(decimals, BigNumber.ROUND_DOWN) : numberWithCommas(normal.toFixed(decimals, BigNumber.ROUND_DOWN))
 

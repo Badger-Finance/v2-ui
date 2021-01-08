@@ -314,7 +314,8 @@ class ContractsStore {
 		if (wrapped.allowance.lt(amount))
 			methodSeries.push((callback: any) => this.increaseAllowance(wrapped, callback))
 
-		// methodSeries.push((callback: any) => this.depositGeyser(geyser, onlyWrapped ? amount : amount.dividedBy(vault.getPricePerFullShare.dividedBy(1e18)), callback))
+		if (onlyWrapped)
+			methodSeries.push((callback: any) => this.depositGeyser(geyser, onlyWrapped ? amount : amount.dividedBy(vault.getPricePerFullShare.dividedBy(1e18)), callback))
 
 		console.log(methodSeries, wrapped.balanceOf.dividedBy(1e18).toString(), underlying.balanceOf.dividedBy(1e18).toString(),
 			wrappedAmount.dividedBy(1e18).toString(), underlyingAmount.dividedBy(1e18).toString(), onlyWrapped ? amount.dividedBy(1e18).toString() : amount.dividedBy(vault.getPricePerFullShare.dividedBy(1e18)).dividedBy(1e18).toString())
@@ -342,6 +343,9 @@ class ContractsStore {
 		// calculate amount to withdraw
 		let wrappedAmount = amount.dividedBy(vault.getPricePerFullShare.dividedBy(1e18));
 		let methodSeries: any = []
+
+		if (wrappedAmount.minus(geyser.totalStakedFor).lt(2e-18))
+			wrappedAmount = geyser.totalStakedFor
 
 		// if we need to wrap assets, make sure we have allowance
 		methodSeries.push((callback: any) => this.withdrawGeyser(
