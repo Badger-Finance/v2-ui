@@ -98,10 +98,10 @@ export const VaultUnwrap = observer((props: any) => {
 				</Typography>
 				{renderAmounts}
 			</div>
-			<TextField autoComplete="off" name="amount" disabled={txStatus === "pending"} inputRef={register} id={TEXTFIELD_ID} className={classes.field} variant="outlined" fullWidth placeholder="Type an amount to unwrap" />
+			<TextField autoComplete="off" name="amount" inputRef={register} id={TEXTFIELD_ID} className={classes.field} variant="outlined" fullWidth placeholder="Type an amount to unwrap" />
 
 
-			<Button size="large" disabled={txStatus === "pending"} onClick={handleSubmit(onSubmit)} variant="contained" color="primary" fullWidth className={classes.button}>Unwrap</Button>
+			<Button size="large" onClick={handleSubmit(onSubmit)} variant="contained" color="primary" fullWidth className={classes.button}>Unwrap</Button>
 
 		</DialogContent>
 		<DialogActions style={{ display: 'flex', justifyContent: 'space-between' }}>

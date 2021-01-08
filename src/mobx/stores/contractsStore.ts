@@ -273,7 +273,7 @@ class ContractsStore {
 		let underlyingAmount = new BigNumber(0);
 
 		if (onlyWrapped) {
-			if (amount.gte(vault.balanceOf))
+			if (amount.gt(vault.balanceOf))
 				return queueNotification("Please enter a valid amount", 'error')
 
 			wrappedAmount = amount
@@ -283,7 +283,7 @@ class ContractsStore {
 			depositedTokens = depositedTokens.multipliedBy(vault.getPricePerFullShare.dividedBy(1e18))
 
 			// if amount is more than what's already wrapped, deposit all wrapped tokens
-			if (amount.gte(depositedTokens)) {
+			if (amount.gt(depositedTokens)) {
 				wrappedAmount = vault.balanceOf
 				underlyingAmount = amount.minus(wrappedAmount.multipliedBy(vault.getPricePerFullShare.dividedBy(1e18)))
 			} else {
@@ -292,6 +292,11 @@ class ContractsStore {
 		}
 
 		let methodSeries: any = []
+
+		console.log(
+			wrappedAmount.dividedBy(1e18).toString(),
+			underlyingAmount.dividedBy(1e18).toString(),
+			underlying.balanceOf.dividedBy(1e18).toString())
 
 		// if we need to wrap assets, make sure we have allowance
 		if (underlyingAmount.gt(0)) {
@@ -309,7 +314,10 @@ class ContractsStore {
 		if (wrapped.allowance.lt(amount))
 			methodSeries.push((callback: any) => this.increaseAllowance(wrapped, callback))
 
-		methodSeries.push((callback: any) => this.depositGeyser(geyser, amount, callback))
+		// methodSeries.push((callback: any) => this.depositGeyser(geyser, onlyWrapped ? amount : amount.dividedBy(vault.getPricePerFullShare.dividedBy(1e18)), callback))
+
+		console.log(methodSeries, wrapped.balanceOf.dividedBy(1e18).toString(), underlying.balanceOf.dividedBy(1e18).toString(),
+			wrappedAmount.dividedBy(1e18).toString(), underlyingAmount.dividedBy(1e18).toString(), onlyWrapped ? amount.dividedBy(1e18).toString() : amount.dividedBy(vault.getPricePerFullShare.dividedBy(1e18)).dividedBy(1e18).toString())
 
 		setTxStatus('pending')
 		async.series(methodSeries, (err: any, results: any) => {
@@ -511,7 +519,7 @@ class ContractsStore {
 
 		const web3 = new Web3(provider)
 		const geyserContract = new web3.eth.Contract(geyser.abi, geyser.address)
-		const method = geyserContract.methods.stake(amount.toFixed(0), EMPTY_DATA)
+		const method = geyserContract.methods.stake(amount.toFixed(0, BigNumber.ROUND_DOWN), EMPTY_DATA)
 
 		queueNotification(`Sign the transaction to stake ${inCurrency(amount, 'eth', true)} ${underlyingAsset.symbol}`, "info")
 
@@ -544,7 +552,7 @@ class ContractsStore {
 
 		const web3 = new Web3(provider)
 		const geyserContract = new web3.eth.Contract(geyser.abi, geyser.address)
-		const method = geyserContract.methods.unstake(adjustedAmount.toFixed(0), EMPTY_DATA)
+		const method = geyserContract.methods.unstake(adjustedAmount.toFixed(0, BigNumber.ROUND_DOWN), EMPTY_DATA)
 
 		queueNotification(`Sign the transaction to unstake ${inCurrency(adjustedAmount, 'eth', true)} ${underlyingAsset.symbol}`, "info")
 
@@ -574,7 +582,7 @@ class ContractsStore {
 		const web3 = new Web3(provider)
 		const underlyingContract = new web3.eth.Contract(vault.abi, vault.address)
 
-		let method = underlyingContract.methods.deposit(amount.toFixed(0))
+		let method = underlyingContract.methods.deposit(amount.toFixed(0, BigNumber.ROUND_DOWN))
 		if (all)
 			method = underlyingContract.methods.depositAll()
 		queueNotification(`Sign the transaction to wrap ${inCurrency(amount, 'eth', true)} ${underlyingAsset.symbol}`, "info")
@@ -603,7 +611,7 @@ class ContractsStore {
 		const web3 = new Web3(provider)
 		const underlyingContract = new web3.eth.Contract(vault.abi, vault.address)
 
-		let method = underlyingContract.methods.withdraw(amount.toFixed(0))
+		let method = underlyingContract.methods.withdraw(amount.toFixed(0, BigNumber.ROUND_DOWN))
 		if (all)
 			method = underlyingContract.methods.withdrawAll()
 
