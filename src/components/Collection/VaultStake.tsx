@@ -76,7 +76,7 @@ export const VaultStake = observer((props: any) => {
 
 	const onSubmit = (params: any) => {
 		let amount = new BigNumber(params.amount).multipliedBy(1e18)
-		depositAndStake(uiStats.vault, amount)
+		depositAndStake(uiStats.vault, amount, uiStats.anyWrapped)
 	}
 
 
