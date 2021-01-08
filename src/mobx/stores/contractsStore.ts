@@ -344,8 +344,10 @@ class ContractsStore {
 		let wrappedAmount = amount.dividedBy(vault.getPricePerFullShare.dividedBy(1e18));
 		let methodSeries: any = []
 
-		if (wrappedAmount.minus(geyser.totalStakedFor).lt(2e-18))
+		if (geyser.totalStakedFor.minus(wrappedAmount).lt(2e-18))
 			wrappedAmount = geyser.totalStakedFor
+
+		console.log(geyser.totalStakedFor.minus(wrappedAmount).lt(2e-18).toString())
 
 		// if we need to wrap assets, make sure we have allowance
 		methodSeries.push((callback: any) => this.withdrawGeyser(
@@ -549,23 +551,19 @@ class ContractsStore {
 		const underlyingAsset = this.tokens[geyser[geyser.underlyingKey]]
 
 		// unstake all if within 2e-18
-		let adjustedAmount = amount
-		if (geyser.totalStakedFor.minus(amount).lte(2e-18)) {
-			adjustedAmount = geyser.totalStakedFor
-		}
 
 		const web3 = new Web3(provider)
 		const geyserContract = new web3.eth.Contract(geyser.abi, geyser.address)
-		const method = geyserContract.methods.unstake(adjustedAmount.toFixed(0, BigNumber.ROUND_DOWN), EMPTY_DATA)
+		const method = geyserContract.methods.unstake(amount.toFixed(0, BigNumber.ROUND_DOWN), EMPTY_DATA)
 
-		queueNotification(`Sign the transaction to unstake ${inCurrency(adjustedAmount, 'eth', true)} ${underlyingAsset.symbol}`, "info")
+		queueNotification(`Sign the transaction to unstake ${inCurrency(amount, 'eth', true)} ${underlyingAsset.symbol}`, "info")
 
 		estimateAndSend(web3, this.store.wallet.gasPrices[this.store.uiState.gasPrice], method, connectedAddress, (transaction: PromiEvent<Contract>) => {
 			transaction
 				.on('transactionHash', (hash: string) => {
 					queueNotification(`Transaction submitted.`, "info")
 				}).on('receipt', (reciept: any) => {
-					queueNotification(`Successfully unstaked ${inCurrency(adjustedAmount, 'eth', true)} ${underlyingAsset.symbol}`, "success")
+					queueNotification(`Successfully unstaked ${inCurrency(amount, 'eth', true)} ${underlyingAsset.symbol}`, "success")
 					this.fetchContracts()
 					callback(null, {})
 				}).catch((error: any) => {
