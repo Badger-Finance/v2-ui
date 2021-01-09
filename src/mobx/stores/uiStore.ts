@@ -177,9 +177,7 @@ class UiState {
 	});
 
 	reduceRebase = action(() => {
-		const {oracleRate, nextRebase, totalSupply} = this.store.contracts.rebase
-		this.rebaseStats = {oracleRate: shortenNumbers(oracleRate,'₿', 5),
-			nextRebase, totalSupply: shortenNumbers(totalSupply, '', 2)}
+		this.rebaseStats = this.store.contracts.rebase
 	});
 
 	setCollection = action((id: string) => {

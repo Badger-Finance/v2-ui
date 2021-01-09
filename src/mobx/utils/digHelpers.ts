@@ -15,6 +15,7 @@ export const getDiggExchangeRates = () => {
 
 // for dynamically calculating new supply if rebased triggered with supplied oracle rate
 export const calculateNewSupply = (oracleRate: number, currentSupply: number, rebaseLag: number) => {
+
     if (oracleRate <= UPPER_LIMIT && oracleRate >= LOWER_LIMIT){
         return currentSupply
     }
@@ -83,7 +84,7 @@ export const shortenNumbers = (value: BigNumber,  prefix: string, preferredDecim
 
 }
 
-function numberWithCommas(x: string) {
+export const numberWithCommas = (x: string) => {
     var parts = x.toString().split(".");
     parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     return parts.join(".");

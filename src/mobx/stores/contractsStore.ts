@@ -265,7 +265,6 @@ class ContractsStore {
 			.then((result: any[]) => {
 
 				let keyedResult = _.groupBy(result[0], 'namespace')
-				console.log(keyedResult)
 				const minRebaseTimeIntervalSec = parseInt(keyedResult.policy[0].minRebaseTimeIntervalSec[0].value)
 				const lastRebaseTimestampSec = parseInt(keyedResult.policy[0].lastRebaseTimestampSec[0].value)
 				const decimals = parseInt(keyedResult.token[0].decimals[0].value)
