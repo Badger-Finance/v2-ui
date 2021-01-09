@@ -1,10 +1,10 @@
-import { Grid, Typography, Paper, makeStyles } from "@material-ui/core";
-
+import {Grid, Typography, Paper, makeStyles, Button} from "@material-ui/core";
 import React, { useState, useContext } from "react";
 import { StoreContext } from "../../context/store-context";
 import useInterval from "@use-it/interval";
 import { observer } from "mobx-react-lite";
 import { Loader } from "../Loader";
+import {calculateNewSupply, shortenNumbers, numberWithCommas} from '../../mobx/utils/digHelpers'
 const useStyles = makeStyles((theme) => ({
 
 	before: {
@@ -24,7 +24,10 @@ const Info = observer((props: any) => {
 	const classes = useStyles();
 
 	const [nextRebase, setNextRebase] = useState("00:00:00");
-
+	const newSupply = rebaseStats.oracleRate && rebaseStats.totalSupply? calculateNewSupply(rebaseStats.oracleRate.toNumber(),rebaseStats.totalSupply.toNumber(),rebaseStats.rebaseLag):0;
+	const isPositive = !newSupply || newSupply >= rebaseStats.totalSupply ;
+    const percentage = newSupply && rebaseStats.totalSupply ?
+		 				((newSupply-rebaseStats.totalSupply)/rebaseStats.totalSupply * 100):0;
 	if (!rebaseStats) {
 		return <Loader />
 	}
@@ -38,6 +41,8 @@ const Info = observer((props: any) => {
 		}
 	}, 1000);
 
+	const spacer = () => <div className={classes.before} />;
+
 	return <>
 		<Grid item xs={12} md={3}>
 			<Paper className={classes.statPaper}>
@@ -50,7 +55,7 @@ const Info = observer((props: any) => {
 			<Paper className={classes.statPaper}>
 
 				<Typography variant="subtitle1">Oracle rate</Typography>
-				<Typography variant="h5">{rebaseStats.oracleRate || '...'}</Typography>
+				<Typography variant="h5">{shortenNumbers(rebaseStats.oracleRate,'₿', 5) || '...'}</Typography>
 			</Paper>
 		</Grid>
 		<Grid item xs={6} md={3}>
@@ -65,8 +70,22 @@ const Info = observer((props: any) => {
 
 				<Typography variant="subtitle1">Total Supply</Typography>
 				<Typography variant="h5">
-					{rebaseStats.totalSupply || '...'}
+					{shortenNumbers(rebaseStats.totalSupply, '', 2) || '...'}
 				</Typography>
+			</Paper>
+		</Grid>
+		<Grid item xs={12}>
+			<Paper className={classes.statPaper}>
+				<Typography variant="subtitle1">Supply After Rebase {isPositive ? '+':
+					'-' } {percentage ? Math.abs(percentage).toFixed(2)+ '%':''} </Typography>
+				<Typography variant="h4" style={{ color: isPositive? 'green':'red' }}>
+					{numberWithCommas(newSupply.toFixed(2)) || '...'}
+				</Typography>
+				{spacer()}
+
+				<Button size="large" variant="contained" color="primary">
+					Rebase
+				</Button>
 			</Paper>
 		</Grid>
 	</>
