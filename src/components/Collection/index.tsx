@@ -38,10 +38,10 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	filters: {
-		// textAlign: 'left',
-		// [theme.breakpoints.up('md')]: {
-		textAlign: 'right'
-		// },
+		textAlign: 'left',
+		[theme.breakpoints.up('sm')]: {
+			textAlign: 'right'
+		},
 	},
 	buttonGroup: {
 		marginRight: theme.spacing(1),
@@ -173,15 +173,13 @@ export const Collection = observer(() => {
 						label="Hide zero balances"
 					/>
 				</Grid>
-				
-				<Grid item xs={6} className={classes.filters} style={{display:'flex', justifyContent:'right' }}>
-					<div className={classes.roiTooltip}>
-						<Tooltip arrow placement="left" title="ROI is a combination of the appreciation of the b wrapped token and any emissions from $BADGER or $DIGG. It is based on returns since inception and is a volatile amount so any numbers are an approximation based on historical data.">
-							<Typography variant="body1" >
-								What is ROI?
+
+				<Grid item xs={6} className={classes.filters}>
+					<Tooltip arrow placement="left" title="ROI combines the appreciation of the vault with its $BADGER or $DIGG emissions. All numbers are an approximation based on historical data.">
+						<Typography variant="body1" style={{ display: 'inline' }} >
+							What is ROI?
 							</Typography>
-						</Tooltip>
-					</div>
+					</Tooltip>
 					<span className={classes.buttonGroup}>
 
 						<Select
