@@ -39,7 +39,6 @@ export const digg = [
 	{
 		addresses: ['0x99c9775e076fdf99388c029550155032ba2d8914'],
 		abi: MedianOracle.abi,
-		allReadMethods: false,
 		groupByNamespace: true,
 		namespace: "oracle",
 		readMethods: [
@@ -47,7 +46,7 @@ export const digg = [
 				name: 'providerReports',
 				args: ['0xfc4b1Ce32ed7310028DCC0d94C7B3D96dCd880e0',0]
 			}
-		],
+		]
 	}
 ]
 

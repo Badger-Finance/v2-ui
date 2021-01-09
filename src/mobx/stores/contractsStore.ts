@@ -16,7 +16,7 @@ import { curveTokens } from '../../config/system/tokens';
 import { EMPTY_DATA, ERC20, MIN_ETH_BALANCE, START_BLOCK, WBTC_ADDRESS } from '../../config/constants';
 import { rewards as rewardsConfig, geysers as geyserConfigs } from '../../config/system/settSystem';
 import { rewards as airdropsConfig } from '../../config/system/settSystem';
-
+import { getNextRebase} from "../utils/digHelpers";
 
 
 const infuraProvider = new Web3.providers.HttpProvider('https://mainnet.infura.io/v3/77a0f6647eb04f5ca1409bba62ae9128')
@@ -265,19 +265,23 @@ class ContractsStore {
 			.then((result: any[]) => {
 
 				let keyedResult = _.groupBy(result[0], 'namespace')
+				console.log(keyedResult)
+				const minRebaseTimeIntervalSec = parseInt(keyedResult.policy[0].minRebaseTimeIntervalSec[0].value)
+				const lastRebaseTimestampSec = parseInt(keyedResult.policy[0].lastRebaseTimestampSec[0].value)
+				const decimals = parseInt(keyedResult.token[0].decimals[0].value)
 				let token = {
-					totalSupply: keyedResult.token[0].totalSupply,
-					decimals: keyedResult.token[0].decimals,
-					lastRebaseTimestampSec: keyedResult.policy[0].lastRebaseTimestampSec,
-					minRebaseTimeIntervalSec: keyedResult.policy[0].minRebaseTimeIntervalSec,
-					rebaseLag: keyedResult.policy[0].rebaseLag,
-					epoch: keyedResult.policy[0].epoch,
-					inRebaseWindow: keyedResult.policy[0].inRebaseWindow,
-					rebaseWindowLengthSec: keyedResult.policy[0].rebaseWindowLengthSec,
-					oracleRate : new BigNumber(keyedResult.oracle[0].providerReports.payload),
-					derivedEth: result[1].data.token.derivedETH
+					totalSupply: new BigNumber(keyedResult.token[0].totalSupply[0].value).dividedBy(Math.pow(10,decimals)),
+					decimals: decimals,
+					lastRebaseTimestampSec: lastRebaseTimestampSec,
+					minRebaseTimeIntervalSec: minRebaseTimeIntervalSec,
+					rebaseLag: keyedResult.policy[0].rebaseLag[0].value,
+					epoch: keyedResult.policy[0].epoch[0].value,
+					inRebaseWindow: keyedResult.policy[0].inRebaseWindow[0].value,
+					rebaseWindowLengthSec: parseInt(keyedResult.policy[0].rebaseWindowLengthSec[0].value),
+					oracleRate : new BigNumber(keyedResult.oracle[0].providerReports[0].value.payload).dividedBy(1e18),
+					derivedEth: result[1].data.token.derivedETH,
+					nextRebase: getNextRebase(minRebaseTimeIntervalSec, lastRebaseTimestampSec)
 				}
-				console.log(token)
 				this.updateRebase(token)
 			})
 	})
