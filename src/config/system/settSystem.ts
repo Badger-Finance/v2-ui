@@ -162,7 +162,8 @@ export const geysers = [
 
 		growthEndpoints: [
 			"https://api.thegraph.com/subgraphs/name/sushiswap/master-chef",
-			"https://apy.sushiswap.fi/xsushi"
+			"https://apy.sushiswap.fi/xsushi",
+			"https://apy.sushiswap.fi/?pairs="
 		]
 
 	}

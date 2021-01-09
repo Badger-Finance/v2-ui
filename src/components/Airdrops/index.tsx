@@ -81,7 +81,7 @@ export const Airdrops = observer(() => {
 		let q = [
 			{ title: `Stake`, button: `Stake`, badge: !!stats.stats.badgerGrowth && `Up to ${stats.stats.badgerGrowth}% APY`, href: "/setts", copy: "Deposit in vaults to earn Badger and Digg" },
 			{ title: "Liquidity", button: "Add Liquidity", badge: !!stats.stats.badgerLiqGrowth && `Up to ${stats.stats.badgerLiqGrowth}% APY`, href: "https://info.uniswap.org/pair/0xcd7989894bc033581532d2cd88da5db0a4b12859", copy: "Provide liquidity and stake LP in vaults." },
-			{ title: "Governance", button: "Visit DAO", href: "https://forum.badger.finance/", copy: "Govern all Badger DAO products and treasury." },
+			{ title: "Governance", button: "Vote Now", href: "https://snapshot.page/#/badgerdao.eth", copy: "Govern all Badger DAO products and treasury." },
 		]
 		return q.map((qualifier) =>
 			<Grid item xs={12} sm={4} style={{ textAlign: 'left' }}>
@@ -113,8 +113,8 @@ export const Airdrops = observer(() => {
 				</Typography>
 
 
-				<Typography variant="subtitle1" style={{ maxWidth: '40rem', margin: '1rem 0' }}>
-					Badger builds products to accelerate Bitcoin in DeFi. Our core product is Sett Vault which generates automated yield for tokenized Bitcoin. Click the "Sett Vaults" tab in the sidebar or learn more about Badger DAO below.
+				<Typography variant="subtitle1" style={{  margin: '1rem 0' }}>
+					What to do with your Badger and Digg
 				</Typography>
 
 			</Grid>
