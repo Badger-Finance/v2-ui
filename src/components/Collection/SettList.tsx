@@ -118,8 +118,8 @@ export const SettList = observer((props: any) => {
 		setDialogProps({ mode: 'stake', stats, open: true })
 	}
 	const onClose = () => {
-		if (txStatus === 'pending')
-			return
+		// if (txStatus === 'pending')
+		// 	return
 		setDialogProps({ ...dialogProps, open: false })
 	}
 
@@ -133,8 +133,6 @@ export const SettList = observer((props: any) => {
 	const renderContracts = (contracts: any,
 		isGeysers: boolean = false,
 		global: boolean = false) => {
-
-		console.log(contracts, isGeysers, global)
 
 		let list = _.map(contracts, (contract: any) => {
 
@@ -235,17 +233,17 @@ export const SettList = observer((props: any) => {
 		if (mode == "stake") {
 			vault = stats.stats.vault
 
-			title = "Stake " + vault.name
+			title = "Stake " + stats.token.name
 			component = <VaultStake uiStats={stats.stats} onClose={onClose} />
 		} else if (mode == "unstake") {
 			let geyser = stats.stats.geyser
 			vault = stats.stats.vault
 
-			title = "Unstake " + vault.name
+			title = "Unstake " + stats.token.name
 			component = <GeyserUnstake uiStats={stats.stats} onClose={onClose} />
 		} else if (mode == "unwrap") {
 			vault = stats.stats.vault
-			title = "Unwrap " + vault.name
+			title = "Unwrap " + stats.token.name
 
 			component = <VaultUnwrap uiStats={stats.stats} onClose={onClose} />
 		}
@@ -258,11 +256,11 @@ export const SettList = observer((props: any) => {
 					{title}</Typography>
 
 				<Typography variant="body2" color="textSecondary">
-					{vault.symbol}</Typography>
+					{stats.token.symbol}</Typography>
 
 			</DialogTitle>
 			<div>
-				{txStatus === "pending" ? pendingTx("Awaiting transaction confirmation...") : component}
+				{false ? pendingTx("Awaiting transaction confirmation...") : component}
 			</div>
 		</Dialog>
 	}
