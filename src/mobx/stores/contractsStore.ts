@@ -5,11 +5,11 @@ import { batchConfig, erc20Methods, contractMethods, estimateAndSend, getTokenAd
 import BigNumber from 'bignumber.js';
 import { RootStore } from '../store';
 import _ from 'lodash';
-import { erc20BatchConfig, generateCurveTokens, reduceBatchResult, reduceContractConfig, reduceMethodConfig, reduceContractsToTokens, reduceCurveResult, reduceGeyserSchedule, reduceGraphResult, reduceGrowth, reduceMasterChefResults } from '../reducers/contractReducers';
+import { erc20BatchConfig, generateCurveTokens, reduceBatchResult, reduceContractConfig, reduceMethodConfig, reduceContractsToTokens, reduceCurveResult, reduceGeyserSchedule, reduceGraphResult, reduceGrowth, reduceSushiAPIResults, reduceXSushiROIResults } from '../reducers/contractReducers';
 import { jsonQuery, graphQuery, growthQuery, secondsToBlocks, inCurrency, chefQueries, vanillaQuery } from '../utils/helpers';
 import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
-import async from 'async';
+import async, { any } from 'async';
 import { reduceClaims } from '../reducers/statsReducers';
 import { token as diggToken } from '../../config/system/digg';
 import { curveTokens } from '../../config/system/tokens';
@@ -710,65 +710,50 @@ class ContractsStore {
 		// grab sushi APYs
 		_.map(geyserConfigs, (config: any) => {
 			if (!!config.growthEndpoints) {
-				let masterChef = chefQueries(config.contracts, this.geysers, config.growthEndpoints[0])
+				// let masterChef = chefQueries(config.contracts, this.geysers, config.growthEndpoints[0])
 				let xSushi = vanillaQuery(config.growthEndpoints[1])
 				
+				// First we grab the sushi pair contracts from the sushi geysers
 				let sushiSuffix: string[] = []
 				_.map(config.contracts, (contract: any) => {
 					sushiSuffix.push(this.vaults[this.geysers[contract].getStakingToken].token)
 				})
+				// Then we use the provided API from sushi to get the ROI numbers
 				let newMasterChef = vanillaQuery(config.growthEndpoints[2].concat(sushiSuffix.join(";")))
-				Promise.all([newMasterChef]).then((results: any) => {
-					console.log("new master chef results: ", results)
-				})
 
-				//TODO: map the pairs array in the sushi return to the sushi addresses
+				Promise.all([xSushi, newMasterChef]).then((results: any) => {
+					let xROI: any = reduceXSushiROIResults(results[0]['weekly_APY'])
+					let newSushiRewards = reduceSushiAPIResults(results[1], config.contracts)
+					// TODO: add in xROI:
+					// - pull vault balance in eth
+					// - multiply by sushi ROI to get sushi value that will be invested
+					// - multiply this value by xsushi ROI to get xsushi rewards
+					// - divide by vault balance to get xsushi ROI in relation to vault
+					// - add to sushi ROI for total ROI
 
-				let rewardToken = tokens[rewardsConfig.tokens[2]]
-				let xRewardToken = tokens[rewardsConfig.tokens[3]]
-
-				Promise.all([...masterChef, xSushi]).then((results: any) => {
-
-					let sushiRewards = reduceMasterChefResults(results.slice(0, 2), config.contracts)
-					let xAPY = parseFloat(results[2]['APY'])
-
-					this.updateGeysers(_.mapValues(sushiRewards, (reward: any, geyserAddress: string) => {
-						let geyser = geysers[geyserAddress]
-						if (!geyser)
-							return
-
-						let vault = vaults[geyser[geyser.underlyingKey]]
-
-						if (!vault)
-							return
-
-						let token = tokens[vault[vault.underlyingKey]]
-
-						let slpBalance = new BigNumber(reward.slpBalance)
-
-						delete reward.address
-						delete reward.slpBalance
-
+					// let newSushiROIs = _.map(results.pairs, (pair: any, i: number) => {
+					// 	return {
+					// 		address: contracts[i],
+					// 		day: new BigNumber(pair.aprDay).dividedBy(100),
+					// 		month: new BigNumber(pair.aprMonthly).dividedBy(100),
+					// 		year: new BigNumber(pair.aprYear_without_lockup).dividedBy(100)
+					// 	}
+					// })
+					// return _.keyBy(newSushiROIs, 'address')
+					this.updateGeysers(_.mapValues(newSushiRewards, (reward: any, geyserAddress: string) => {
+						let vault = this.vaults![this.geysers![geyserAddress].getStakingToken]
+						let vaultBalance = vault.balance
+						let tokenValue = this.tokens[vault.token].ethValue
+						let vaultEthVal = vaultBalance.multipliedBy(tokenValue.dividedBy(1e18))
 						return {
-							sushiRewards: _.mapValues(reward, (rewardsInSushi: BigNumber, period: string) => {
-								if (!rewardToken.ethValue || !token.ethValue)
-									return
-
-								// period will be day, week, month
-								// rewards in sushi are amount of sushi earned in that period
-
-								// xAPY contains xSUSHI apy
-
-								let numerator = rewardToken.ethValue
-									.multipliedBy(rewardsInSushi)
-
-								let slpValue = slpBalance.multipliedBy(1e18).multipliedBy(token.ethValue.dividedBy(1e18))
-								let vaultValue = vault.balance.multipliedBy(vault.getPricePerFullShare.dividedBy(1e18)).multipliedBy(token.ethValue.dividedBy(1e18))
-
-								let xSushiAPY = numerator.multipliedBy(xAPY).dividedBy(vaultValue)
-								let sushiAPY = numerator.dividedBy(slpValue.multipliedBy(slpBalance.multipliedBy(1e18).dividedBy(token.totalSupply))).plus(xSushiAPY.dividedBy(100))
-
-								return sushiAPY
+							sushiRewards: _.mapValues(reward, (periodROI: BigNumber, period: string) => {
+								if(periodROI.toString().substr(0,2) != '0x') {
+									let sushiRewards = vaultEthVal.multipliedBy(periodROI)
+									let xsushiRewards = sushiRewards.multipliedBy(xROI[period].dividedBy(100))
+									let xsushiROI = xsushiRewards.dividedBy(vaultEthVal)
+									periodROI = periodROI.plus(xsushiROI)
+								}
+								return periodROI
 							})
 						}
 					}))
