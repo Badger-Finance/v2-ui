@@ -6,6 +6,7 @@ import Web3 from 'web3';
 import { RootStore } from '../store';
 import { growthQuery, jsonQuery, secondsToBlocks } from '../utils/helpers';
 import { reduceAirdrops, reduceClaims, reduceContractsToStats, reduceRebaseToStats } from '../reducers/statsReducers';
+import { shortenNumbers } from '../utils/digHelpers'
 import views from '../../config/routes';
 
 class UiState {
@@ -114,6 +115,15 @@ class UiState {
 			}
 		})
 
+		observe(this.store.contracts as any, "rebase", (change: any) => {
+			try {
+				// skip first update
+				this.reduceRebase()
+			} catch (e) {
+				console.log(e)
+			}
+		})
+
 		// redirect to portfolio if logged in
 		// observe(this.store.wallet as any, "provider", (change: any) => {
 		// 	this.store.router.goTo(views.home)
@@ -164,6 +174,10 @@ class UiState {
 
 	reduceAirdrops = action(() => {
 		this.airdropStats = reduceAirdrops(this.store.contracts.airdrops.airdrops)
+	});
+
+	reduceRebase = action(() => {
+		this.rebaseStats = this.store.contracts.rebase
 	});
 
 	setCollection = action((id: string) => {
