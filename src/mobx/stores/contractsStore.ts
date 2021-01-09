@@ -713,6 +713,12 @@ class ContractsStore {
 				let masterChef = chefQueries(config.contracts, this.geysers, config.growthEndpoints[0])
 				let xSushi = vanillaQuery(config.growthEndpoints[1])
 
+				console.log("endpoint: ", config.growthEndpoints[2].concat(config.contracts.join(";")))
+				let newMasterChef = vanillaQuery(config.growthEndpoints[2].concat(config.contracts.join(";")))
+				Promise.all([newMasterChef]).then((results: any) => {
+					console.log("new master chef results: ", results)
+				})
+
 				let rewardToken = tokens[rewardsConfig.tokens[2]]
 				let xRewardToken = tokens[rewardsConfig.tokens[3]]
 

@@ -16,7 +16,8 @@ import {
 	List,
 	ListItem,
 	ListItemText,
-	ListItemSecondaryAction
+	ListItemSecondaryAction,
+	Tooltip
 } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -49,6 +50,10 @@ const useStyles = makeStyles((theme) => ({
 			marginLeft: theme.spacing(1),
 		},
 
+	},
+	roiTooltip: {
+		marginRight: theme.spacing(1),
+		cursor: 'default',
 	},
 	select: {
 		height: '1.8rem',
@@ -168,10 +173,15 @@ export const Collection = observer(() => {
 						label="Hide zero balances"
 					/>
 				</Grid>
-				<Grid item xs={6} className={classes.filters} >
-
-
-
+				
+				<Grid item xs={6} className={classes.filters} style={{display:'flex', justifyContent:'right' }}>
+					<div className={classes.roiTooltip}>
+						<Tooltip arrow placement="left" title="ROI is a combination of the appreciation of the b wrapped token and any emissions from $BADGER or $DIGG. It is based on returns since inception and is a volatile amount so any numbers are an approximation based on historical data.">
+							<Typography variant="body1" >
+								What is ROI?
+							</Typography>
+						</Tooltip>
+					</div>
 					<span className={classes.buttonGroup}>
 
 						<Select
