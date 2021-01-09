@@ -1,7 +1,7 @@
 import { extendObservable, action, observe } from 'mobx';
 import Web3 from 'web3'
 import BatchCall from "web3-batch-call";
-import { batchConfig, erc20Methods, contractMethods, estimateAndSend } from "../utils/web3"
+import { batchConfig, erc20Methods, contractMethods, estimateAndSend, getTokenAddresses } from "../utils/web3"
 import BigNumber from 'bignumber.js';
 import { RootStore } from '../store';
 import _ from 'lodash';
@@ -712,12 +712,17 @@ class ContractsStore {
 			if (!!config.growthEndpoints) {
 				let masterChef = chefQueries(config.contracts, this.geysers, config.growthEndpoints[0])
 				let xSushi = vanillaQuery(config.growthEndpoints[1])
-
-				console.log("endpoint: ", config.growthEndpoints[2].concat(config.contracts.join(";")))
-				let newMasterChef = vanillaQuery(config.growthEndpoints[2].concat(config.contracts.join(";")))
+				
+				let sushiSuffix: string[] = []
+				_.map(config.contracts, (contract: any) => {
+					sushiSuffix.push(this.vaults[this.geysers[contract].getStakingToken].token)
+				})
+				let newMasterChef = vanillaQuery(config.growthEndpoints[2].concat(sushiSuffix.join(";")))
 				Promise.all([newMasterChef]).then((results: any) => {
 					console.log("new master chef results: ", results)
 				})
+
+				//TODO: map the pairs array in the sushi return to the sushi addresses
 
 				let rewardToken = tokens[rewardsConfig.tokens[2]]
 				let xRewardToken = tokens[rewardsConfig.tokens[3]]
