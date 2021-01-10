@@ -281,12 +281,15 @@ class ContractsStore {
 		} else {
 			let depositedTokens = !!vault.balanceOf ? vault.balanceOf : new BigNumber(0)
 			depositedTokens = depositedTokens.multipliedBy(vault.getPricePerFullShare.dividedBy(1e18))
-
+			console.log("vault: ", vault)
+			console.log("deposited tokens: ", depositedTokens.toString())
 			// if amount is more than what's already wrapped, deposit all wrapped tokens
 			if (amount.gt(depositedTokens)) {
+				console.log("amount gt deposited tokens")
 				wrappedAmount = vault.balanceOf
 				underlyingAmount = amount.minus(wrappedAmount.multipliedBy(vault.getPricePerFullShare.dividedBy(1e18)))
 			} else {
+				console.log("amount less than deposited tokens")
 				wrappedAmount = amount.dividedBy(vault.getPricePerFullShare.dividedBy(1e18))
 			}
 		}
@@ -580,6 +583,8 @@ class ContractsStore {
 		let { provider, connectedAddress } = this.store.wallet
 
 		const underlyingAsset = this.tokens[vault[vault.underlyingKey]]
+		console.log("tokens: ", this.tokens)
+		console.log("underlying address: ", underlyingAsset)
 
 		const web3 = new Web3(provider)
 		const underlyingContract = new web3.eth.Contract(vault.abi, vault.address)
@@ -741,9 +746,19 @@ class ContractsStore {
 					// })
 					// return _.keyBy(newSushiROIs, 'address')
 					this.updateGeysers(_.mapValues(newSushiRewards, (reward: any, geyserAddress: string) => {
-						let vault = this.vaults![this.geysers![geyserAddress].getStakingToken]
+						let geyser = geysers[geyserAddress]
+						if (!geyser)
+							return
+
+						let vault = vaults[geyser[geyser.underlyingKey]]
+						if (!vault)
+							return
+						
 						let vaultBalance = vault.balance
 						let tokenValue = this.tokens[vault.token].ethValue
+						if (!tokenValue)
+							return
+
 						let vaultEthVal = vaultBalance.multipliedBy(tokenValue.dividedBy(1e18))
 						return {
 							sushiRewards: _.mapValues(reward, (periodROI: BigNumber, period: string) => {
