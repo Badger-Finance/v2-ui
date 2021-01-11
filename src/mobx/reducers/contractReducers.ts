@@ -35,30 +35,50 @@ export const reduceResult = (value: any): any => {
 		return value
 }
 
-export const reduceMasterChefResults = (results: any[], contracts: string[]): any => {
-	let reduction = results.map((data: any, i: number) => {
-		let result = data.data.masterChefs[0]
+// export const reduceMasterChefResults = (results: any[], contracts: string[]): any => {
+// 	let reduction = results.map((data: any, i: number) => {
+// 		let result = data.data.masterChefs[0]
 
-		let { totalAllocPoint, pools } = result
-		let { allocPoint, slpBalance } = pools[0]
+// 		let { totalAllocPoint, pools } = result
+// 		let { allocPoint, slpBalance } = pools[0]
 
-		let allocRatio = new BigNumber(parseFloat(allocPoint)).dividedBy(parseFloat(totalAllocPoint))
+// 		let allocRatio = new BigNumber(parseFloat(allocPoint)).dividedBy(parseFloat(totalAllocPoint))
 
-		let sushiPerBlock = new BigNumber(100).minus(new BigNumber(100).multipliedBy(allocRatio))
+// 		let sushiPerBlock = new BigNumber(100).minus(new BigNumber(100).multipliedBy(allocRatio))
 
-		let sushiPerDay = sushiPerBlock.multipliedBy(secondsToBlocks(86400)).multipliedBy(allocRatio).multipliedBy(3)
+// 		let sushiPerDay = sushiPerBlock.multipliedBy(secondsToBlocks(86400)).multipliedBy(allocRatio).multipliedBy(3)
 
+// 		return {
+// 			address: contracts[i],
+// 			slpBalance: parseFloat(slpBalance),
+// 			day: sushiPerDay,
+// 			week: sushiPerDay.multipliedBy(7),
+// 			month: sushiPerDay.multipliedBy(30),
+// 			year: sushiPerDay.multipliedBy(365),
+// 		}
+// 	})
+// 	return _.keyBy(reduction, 'address')
+
+// }
+
+export const reduceSushiAPIResults = (results: any, contracts: any[]) => {
+	let newSushiROIs = _.map(results.pairs, (pair: any, i: number) => {
 		return {
 			address: contracts[i],
-			slpBalance: parseFloat(slpBalance),
-			day: sushiPerDay,
-			week: sushiPerDay.multipliedBy(7),
-			month: sushiPerDay.multipliedBy(30),
-			year: sushiPerDay.multipliedBy(365),
+			day: new BigNumber(pair.aprDay).dividedBy(100),
+			month: new BigNumber(pair.aprMonthly).dividedBy(100),
+			year: new BigNumber(pair.aprYear_without_lockup).dividedBy(100)
 		}
 	})
-	return _.keyBy(reduction, 'address')
+	return _.keyBy(newSushiROIs, 'address')
+}
 
+export const reduceXSushiROIResults = (ROI: any) => {
+	return{
+		'day': new BigNumber(ROI).dividedBy(365),
+		'month': new BigNumber(ROI).dividedBy(12),
+		'year': new BigNumber(ROI)
+	}
 }
 
 export const reduceGraphResult = (graphResult: any[]) => {
