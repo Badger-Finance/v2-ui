@@ -196,7 +196,7 @@ export const Collection = observer(() => {
 							<MenuItem value={'year'}>YEAR</MenuItem>
 						</Select>
 					</span>
-					<span className={classes.buttonGroup} style={{ display: 'flex' }}>
+					<span className={classes.buttonGroup} >
 
 						<Select
 							variant="outlined"
