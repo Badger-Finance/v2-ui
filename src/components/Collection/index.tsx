@@ -53,6 +53,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 	roiTooltip: {
 		marginRight: theme.spacing(1),
+		marginTop: 'auto',
+		marginBottom: 'auto',
 		cursor: 'default',
 	},
 	select: {
@@ -187,19 +189,21 @@ export const Collection = observer(() => {
 							value={period}
 							onChange={(v: any) => setPeriod(v.target.value)}
 							className={classes.select}
+							style={{ marginTop: 'auto', marginBottom: 'auto' }}
 						>
 							<MenuItem value={'day'}>DAY</MenuItem>
 							<MenuItem value={'month'}>MONTH</MenuItem>
 							<MenuItem value={'year'}>YEAR</MenuItem>
 						</Select>
 					</span>
-					<span className={classes.buttonGroup}>
+					<span className={classes.buttonGroup} style={{ display: 'flex' }}>
 
 						<Select
 							variant="outlined"
 							value={currency}
 							onChange={(v: any) => setCurrency(v.target.value)}
 							className={classes.select}
+							style={{ marginTop: 'auto', marginBottom: 'auto' }}
 						>
 							<MenuItem value={'usd'}>USD</MenuItem>
 							<MenuItem value={'btc'}>BTC</MenuItem>
