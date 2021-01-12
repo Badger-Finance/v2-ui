@@ -52,6 +52,12 @@ const useStyles = makeStyles((theme) => ({
 		},
 
 	},
+	roiTooltip: {
+		marginRight: theme.spacing(1),
+		marginTop: 'auto',
+		marginBottom: 'auto',
+		cursor: 'default',
+	},
 	select: {
 		height: '1.8rem',
 		fontSize: '.9rem',
@@ -166,13 +172,13 @@ export const Collection = observer(() => {
 					/>
 				</Grid>
 
-				<Grid item xs={6} className={classes.filters}>
-					<Tooltip arrow placement="left" title="ROI combines the appreciation of the vault with its $BADGER or $DIGG emissions. All numbers are an approximation based on historical data.">
+				<Grid item xs={6} className={classes.filters} style={{display: 'flex', justifyContent: 'end'}}>
+					<Tooltip className={classes.roiTooltip} arrow placement="left" title="ROI combines the appreciation of the vault with its $BADGER or $DIGG emissions. All numbers are an approximation based on historical data.">
 						<Typography variant="body1" className={classes.buttonGroup} >
 							What is ROI?
 							</Typography>
 					</Tooltip>
-					<span className={classes.buttonGroup}>
+					<span className={classes.buttonGroup} style={{display: 'flex'}}>
 
 						<Select
 							variant="outlined"
@@ -186,7 +192,7 @@ export const Collection = observer(() => {
 							<MenuItem value={'year'}>YEAR</MenuItem>
 						</Select>
 					</span>
-					<span className={classes.buttonGroup} >
+					<span className={classes.buttonGroup} style={{display: 'flex'}}>
 
 						<Select
 							variant="outlined"
