@@ -160,6 +160,8 @@ export const inCurrency = (value: BigNumber, currency: string, hide: boolean = f
 		normal = normal.multipliedBy(10 ** preferredDecimals)
 		decimals = preferredDecimals
 		suffix = `e-${preferredDecimals}`
+	} else if (normal.dividedBy(1e3).gt(1e2)) {
+		decimals = 2
 	}
 
 	let fixedNormal = noCommas ? normal.toFixed(decimals, BigNumber.ROUND_DOWN) : numberWithCommas(normal.toFixed(decimals, BigNumber.ROUND_DOWN))

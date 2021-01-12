@@ -25,7 +25,7 @@ export const walletAssets = (store: RootStore, hideZeroBal: boolean) => {
 
 	let walletAssets = _.map(geysers, (geyser: any) => {
 		let vault = vaults[geyser[geyser.underlyingKey]]
-		let token = tokens[vault[vault.underlyingKey]]
+		let token = !!vault && tokens[vault[vault.underlyingKey]]
 		let wrapped = tokens[vault.address]
 
 		if (!geyser || !token)
@@ -41,7 +41,7 @@ export const walletAssets = (store: RootStore, hideZeroBal: boolean) => {
 		}
 	})
 
-	return _.compact(_.sortBy(walletAssets, (asset: any) => !asset.stats.anyUnderlying))
+	return _.sortBy(_.compact(walletAssets), (asset: any) => !asset.stats.anyUnderlying)
 }
 export const wrappedAssets = (store: RootStore) => {
 	const { vaults, geysers, tokens } = store.contracts
