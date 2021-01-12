@@ -147,7 +147,7 @@ export const Airdrops = observer(() => {
 				<Paper className={classes.statPaper}>
 					<List style={{ padding: 0 }}>
 						<ListItem style={{ margin: 0, padding: 0 }}>
-							<ListItemText primary={airdropStats.badger} secondary="Badger available to claim" />
+							<ListItemText primary={'0.00000'} secondary="DIGG available to claim" />
 							<ListItemSecondaryAction >
 								<ButtonGroup disabled size="small" variant="outlined" color="primary">
 									<Button onClick={() => { claimAirdrops(false) }} variant="contained">Claim</Button>

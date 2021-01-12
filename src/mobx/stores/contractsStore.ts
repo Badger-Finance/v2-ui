@@ -369,10 +369,11 @@ class ContractsStore {
 		let wrappedAmount = amount.dividedBy(vault.getPricePerFullShare.dividedBy(1e18));
 		let methodSeries: any = []
 
-		if (geyser.totalStakedFor.minus(wrappedAmount).lt(2e-18))
+		if (geyser.totalStakedFor.minus(wrappedAmount).lte(1)) {
+			console.log("unstakeALL")
 			wrappedAmount = geyser.totalStakedFor
+		}
 
-		console.log(geyser.totalStakedFor.minus(wrappedAmount).lt(2e-18).toString())
 
 		// if we need to wrap assets, make sure we have allowance
 		methodSeries.push((callback: any) => this.withdrawGeyser(
