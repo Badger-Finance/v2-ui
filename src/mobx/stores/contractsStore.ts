@@ -65,7 +65,7 @@ class ContractsStore {
 		observe(this.store.wallet, "currentBlock", (change: any) => {
 			if (!!change.oldValue) {
 
-				this.fetchTokens()
+				this.fetchContracts()
 				this.fetchRebase()
 			}
 		})

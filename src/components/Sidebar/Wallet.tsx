@@ -58,7 +58,10 @@ export const Wallet = observer(() => {
 			button
 			style={{ marginTop: '-2px' }}
 			color="primary" onClick={() => { store.wallet.walletReset(); }}>
-			<ListItemIcon><AccountBalanceWallet fontSize="inherit" /></ListItemIcon>
+			<ListItemIcon>
+				<img src={require('assets/sidebar/wallet.png')} style={{ width: '1.1rem' }} />
+
+			</ListItemIcon>
 
 			<ListItemText primary={!!connectedAddress ? shortenAddress(connectedAddress) : 'DISCONNECTED'} />
 
@@ -71,7 +74,10 @@ export const Wallet = observer(() => {
 			style={{ marginTop: '-2px' }}
 			onClick={connect}
 			color="primary">
-			<ListItemIcon><AccountBalanceWallet fontSize="inherit" /></ListItemIcon>
+			<ListItemIcon>
+				<img src={require('assets/sidebar/wallet.png')} style={{ width: '1.1rem' }} />
+
+			</ListItemIcon>
 			<ListItemText primary={!!connectedAddress ? shortenAddress(connectedAddress) : 'DISCONNECTED'} />
 
 			<div className={!!connectedAddress ? classes.greenDot : classes.redDot} />

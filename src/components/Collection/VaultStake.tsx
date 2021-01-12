@@ -111,7 +111,8 @@ export const VaultStake = observer((props: any) => {
 			<TextField autoComplete="off" name="amount" disabled={!connectedAddress} inputRef={register} id={TEXTFIELD_ID} className={classes.field} variant="outlined" fullWidth placeholder="Type an amount to stake" />
 
 
-			<Button size="large" disabled={!connectedAddress} onClick={handleSubmit(onSubmit)} variant="contained" color="primary" fullWidth className={classes.button}>Stake</Button>
+			<Button size="large" disabled={!connectedAddress} onClick={handleSubmit(onSubmit)} variant="contained" color="primary" fullWidth className={classes.button}>
+				{uiStats.anyWrapped ? 'Stake' : 'Deposit'}</Button>
 
 		</DialogContent>
 		<DialogActions style={{ display: 'flex', justifyContent: 'space-between' }}>

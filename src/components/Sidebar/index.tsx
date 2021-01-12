@@ -85,6 +85,9 @@ const useStyles = makeStyles((theme) => ({
 	expandOpen: {
 		transform: 'rotate(180deg)',
 	},
+	icon: {
+		width: '1.1em'
+	}
 
 }));
 
@@ -130,19 +133,25 @@ export const Sidebar = observer(() => {
 					<ListItem divider button
 						onClick={() => { closeSidebar(); goTo(views.home) }}
 						className={classes.listItem + ' ' + (store.router.currentPath === '/' ? classes.activeListItem : '')}>
-						<ListItemIcon  ><Lock fontSize="inherit" /> </ListItemIcon>
+						<ListItemIcon  >
+							<img className={classes.icon} src={require('assets/sidebar/sett.png')} />
+						</ListItemIcon>
 						<ListItemText primary="Sett Vaults" />
 
 					</ListItem>
 
 					<ListItem divider button className={classes.listItem + ' ' + (store.router.currentPath == '/airdrops' ? classes.activeListItem : '')} onClick={() => goTo(views.airdrops)}>
-						<ListItemIcon ><GetApp fontSize="inherit" /> </ListItemIcon>
+						<ListItemIcon >
+							<img src={require('assets/sidebar/airdrop.png')} className={classes.icon} />
+						</ListItemIcon>
 						<ListItemText primary="Airdrops" />
 
 					</ListItem>
 					<ListItem button disabled className={classes.listItem + ' ' + (store.router.currentPath == '/digg' ? classes.activeListItem : '')} onClick={() => goTo(views.digg)}>
 
-						<ListItemIcon ><Timeline fontSize="inherit" />  </ListItemIcon>
+						<ListItemIcon >
+							<img src={require('assets/sidebar/digg-orange.png')} className={classes.icon} />
+						</ListItemIcon>
 						<ListItemText primary="Digg" />
 
 						{/* <Chip size="small" label={"Coming soon"} variant="outlined" color="primary" className={classes.rewards} /> */}
@@ -191,7 +200,9 @@ export const Sidebar = observer(() => {
 
 					<ListItem className={classes.listItem} >
 						<ButtonGroup variant="outlined" fullWidth>
-							<Button size="small" disabled><LocalGasStation style={{ fontSize: '1rem' }} /></Button>
+							<Button size="small" disabled>
+								<img src={require('assets/sidebar/gas.png')} className={classes.icon} />
+							</Button>
 
 							{['slow', 'standard', 'rapid'].map((speed: string) =>
 								<Button variant={gasPrice === speed ? 'contained' : 'outlined'} size="small" onClick={() => setGasPrice(speed)} >{(gasPrices[speed] / 1).toFixed(0)}</Button>

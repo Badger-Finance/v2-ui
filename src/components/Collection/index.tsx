@@ -162,7 +162,7 @@ export const Collection = observer(() => {
 								color="primary"
 							/>
 						}
-						label="Hide zero balances"
+						label="Your Wallet"
 					/>
 				</Grid>
 
