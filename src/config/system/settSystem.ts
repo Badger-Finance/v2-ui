@@ -32,9 +32,9 @@ export const vaults = [
 				7,
 				4,
 				5,
-				3,
+				6,
 				2,
-				6
+				3
 			],
 			isSuperSett: [
 				false,

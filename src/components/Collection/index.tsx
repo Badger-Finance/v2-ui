@@ -44,18 +44,13 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	buttonGroup: {
+		display: 'inline',
 		marginRight: theme.spacing(1),
 		[theme.breakpoints.up('md')]: {
 			marginRight: theme.spacing(0),
 			marginLeft: theme.spacing(1),
 		},
 
-	},
-	roiTooltip: {
-		marginRight: theme.spacing(1),
-		marginTop: 'auto',
-		marginBottom: 'auto',
-		cursor: 'default',
 	},
 	select: {
 		height: '1.8rem',
@@ -68,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
 
 	statPaper: {
 		padding: theme.spacing(2),
-		textAlign: 'center'
+		textAlign: 'center',
 	},
 	before: {
 		marginTop: theme.spacing(3),
@@ -108,9 +103,8 @@ export const Collection = observer(() => {
 	const {
 		wallet: { connectedAddress, isCached },
 		contracts: { tokens, claimGeysers },
-		uiState: { stats, geyserStats, vaultStats, currency, period, setCurrency, setPeriod, treeStats } } = store;
+		uiState: { stats, geyserStats, vaultStats, currency, period, setCurrency, setPeriod, treeStats, hideZeroBal, setHideZeroBal } } = store;
 
-	const [hideZeroBal, setHideZeroBal] = useState<boolean>(!!window.localStorage.getItem('hideZeroBal'))
 
 
 	if (!tokens) {
@@ -162,11 +156,7 @@ export const Collection = observer(() => {
 							<Switch
 								checked={hideZeroBal}
 								onChange={() => {
-									if (!hideZeroBal)
-										window.localStorage.setItem('hideZeroBal', 'YES')
-									else
-										window.localStorage.removeItem('hideZeroBal')
-									setHideZeroBal(!hideZeroBal)
+									!!connectedAddress && setHideZeroBal(!hideZeroBal)
 
 								}}
 								color="primary"
@@ -178,7 +168,7 @@ export const Collection = observer(() => {
 
 				<Grid item xs={6} className={classes.filters}>
 					<Tooltip arrow placement="left" title="ROI combines the appreciation of the vault with its $BADGER or $DIGG emissions. All numbers are an approximation based on historical data.">
-						<Typography variant="body1" style={{ display: 'inline' }} >
+						<Typography variant="body1" className={classes.buttonGroup} >
 							What is ROI?
 							</Typography>
 					</Tooltip>

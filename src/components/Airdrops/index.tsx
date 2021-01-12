@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 	root: {
 		marginTop: theme.spacing(11),
 		[theme.breakpoints.up('md')]: {
-			paddingLeft: theme.spacing(28),
+			paddingLeft: theme.spacing(33),
 			marginTop: theme.spacing(2),
 		},
 	},
@@ -84,7 +84,7 @@ export const Airdrops = observer(() => {
 			{ title: "Governance", button: "Vote Now", href: "https://snapshot.page/#/badgerdao.eth", copy: "Govern all Badger DAO products and treasury." },
 		]
 		return q.map((qualifier) =>
-			<Grid item xs={12} sm={4} style={{ textAlign: 'left' }}>
+			<Grid item xs={12} lg={4} style={{ textAlign: 'left' }}>
 
 				<Typography variant="subtitle1">
 					{qualifier.title}
@@ -106,14 +106,14 @@ export const Airdrops = observer(() => {
 
 			{spacer()}
 			{spacer()}
-			<Grid item sm={12} xs={12}>
+			<Grid item md={12} xs={12}>
 
 				<Typography variant="h5">
 					BadgerDAO accelerates Bitcoin in DeFi.
 				</Typography>
 
 
-				<Typography variant="subtitle1" style={{  margin: '1rem 0' }}>
+				<Typography variant="subtitle1" style={{ margin: '1rem 0' }}>
 					What to do with your Badger and Digg
 				</Typography>
 

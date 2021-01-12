@@ -74,7 +74,7 @@ export const reduceSushiAPIResults = (results: any, contracts: any[]) => {
 }
 
 export const reduceXSushiROIResults = (ROI: any) => {
-	return{
+	return {
 		'day': new BigNumber(ROI).dividedBy(365),
 		'month': new BigNumber(ROI).dividedBy(12),
 		'year': new BigNumber(ROI)

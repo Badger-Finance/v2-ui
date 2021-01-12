@@ -126,6 +126,7 @@ export const Sidebar = observer(() => {
 						v2.0.1
 					</ListItem>
 
+
 					<ListItem divider button
 						onClick={() => { closeSidebar(); goTo(views.home) }}
 						className={classes.listItem + ' ' + (store.router.currentPath === '/' ? classes.activeListItem : '')}>

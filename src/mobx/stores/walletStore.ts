@@ -6,6 +6,7 @@ import { RootStore } from '../store';
 import BigNumber from 'bignumber.js';
 import { onboardWallets, onboardWalletCheck } from '../../config/wallets';
 import _ from 'lodash';
+import { RPC_URL } from 'config/constants';
 
 
 
@@ -13,7 +14,7 @@ class WalletStore {
 	private store?: RootStore
 
 	public onboard: any;
-	public provider?: any = new Web3.providers.HttpProvider('https://mainnet.infura.io/v3/77a0f6647eb04f5ca1409bba62ae9128')
+	public provider?: any = new Web3.providers.HttpProvider(RPC_URL)
 	public connectedAddress: string = '';
 	public currentBlock?: number;
 	public ethBalance?: BigNumber;
@@ -65,7 +66,7 @@ class WalletStore {
 
 	walletReset = action(() => {
 		try {
-			this.setProvider(new Web3.providers.HttpProvider('https://mainnet.infura.io/v3/77a0f6647eb04f5ca1409bba62ae9128'));
+			this.setProvider(new Web3.providers.HttpProvider(RPC_URL));
 			this.setAddress('');
 			window.localStorage.removeItem('selectedWallet')
 

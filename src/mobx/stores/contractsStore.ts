@@ -13,13 +13,13 @@ import async, { any } from 'async';
 import { reduceClaims } from '../reducers/statsReducers';
 import { token as diggToken } from '../../config/system/digg';
 import { curveTokens } from '../../config/system/tokens';
-import { EMPTY_DATA, ERC20, MIN_ETH_BALANCE, START_BLOCK, WBTC_ADDRESS } from '../../config/constants';
+import { EMPTY_DATA, ERC20, MIN_ETH_BALANCE, RPC_URL, START_BLOCK, WBTC_ADDRESS } from '../../config/constants';
 import { rewards as rewardsConfig, geysers as geyserConfigs } from '../../config/system/settSystem';
 import { rewards as airdropsConfig } from '../../config/system/settSystem';
-import { getNextRebase} from "../utils/digHelpers";
+import { getNextRebase } from "../utils/digHelpers";
 
 
-const infuraProvider = new Web3.providers.HttpProvider('https://mainnet.infura.io/v3/77a0f6647eb04f5ca1409bba62ae9128')
+const infuraProvider = new Web3.providers.HttpProvider(RPC_URL)
 const options = {
 	web3: new Web3(infuraProvider),
 	etherscan: {
@@ -258,10 +258,10 @@ class ContractsStore {
 			})
 	});
 
-	fetchRebase = action( () => {
+	fetchRebase = action(() => {
 
 		const { digg } = require('config/system/digg')
-		Promise.all([...[batchCall.execute(digg)], ...[...graphQuery({address: digg[0].addresses[0]})]])
+		Promise.all([...[batchCall.execute(digg)], ...[...graphQuery({ address: digg[0].addresses[0] })]])
 			.then((result: any[]) => {
 
 				let keyedResult = _.groupBy(result[0], 'namespace')
@@ -269,7 +269,7 @@ class ContractsStore {
 				const lastRebaseTimestampSec = parseInt(keyedResult.policy[0].lastRebaseTimestampSec[0].value)
 				const decimals = parseInt(keyedResult.token[0].decimals[0].value)
 				let token = {
-					totalSupply: new BigNumber(keyedResult.token[0].totalSupply[0].value).dividedBy(Math.pow(10,decimals)),
+					totalSupply: new BigNumber(keyedResult.token[0].totalSupply[0].value).dividedBy(Math.pow(10, decimals)),
 					decimals: decimals,
 					lastRebaseTimestampSec: lastRebaseTimestampSec,
 					minRebaseTimeIntervalSec: minRebaseTimeIntervalSec,
@@ -277,7 +277,7 @@ class ContractsStore {
 					epoch: keyedResult.policy[0].epoch[0].value,
 					inRebaseWindow: keyedResult.policy[0].inRebaseWindow[0].value,
 					rebaseWindowLengthSec: parseInt(keyedResult.policy[0].rebaseWindowLengthSec[0].value),
-					oracleRate : new BigNumber(keyedResult.oracle[0].providerReports[0].value.payload).dividedBy(1e18),
+					oracleRate: new BigNumber(keyedResult.oracle[0].providerReports[0].value.payload).dividedBy(1e18),
 					derivedEth: result[1].data.token.derivedETH,
 					nextRebase: getNextRebase(minRebaseTimeIntervalSec, lastRebaseTimestampSec)
 				}
@@ -285,13 +285,15 @@ class ContractsStore {
 			})
 	})
 
-	depositAndStake = action((vault: any, amount: BigNumber, onlyWrapped: boolean = false) => {
-		const { tokens, geysers } = this
+	depositAndStake = action((geyser: any, amount: BigNumber, onlyWrapped: boolean = false) => {
+		const { tokens, geysers, vaults } = this
 		const { setTxStatus, queueNotification } = this.store.uiState
 
+		const vault = vaults[geyser[geyser.underlyingKey]]
 		const underlying = tokens[vault[vault.underlyingKey]]
 		const wrapped = tokens[vault.address]
-		const geyser = geysers[wrapped.contract]
+
+		console.log(vault, geyser, onlyWrapped)
 
 		if (!amount || amount.isNaN() || amount.lte(0))
 			return queueNotification("Please enter a valid amount", 'error')
@@ -308,55 +310,46 @@ class ContractsStore {
 			wrappedAmount = amount
 
 		} else {
-			let depositedTokens = !!vault.balanceOf ? vault.balanceOf : new BigNumber(0)
-			depositedTokens = depositedTokens.multipliedBy(vault.getPricePerFullShare.dividedBy(1e18))
-			console.log("vault: ", vault)
-			console.log("deposited tokens: ", depositedTokens.toString())
-			// if amount is more than what's already wrapped, deposit all wrapped tokens
-			if (amount.gt(depositedTokens)) {
-				console.log("amount gt deposited tokens")
-				wrappedAmount = vault.balanceOf
-				underlyingAmount = amount.minus(wrappedAmount.multipliedBy(vault.getPricePerFullShare.dividedBy(1e18)))
-			} else {
-				console.log("amount less than deposited tokens")
-				wrappedAmount = amount.dividedBy(vault.getPricePerFullShare.dividedBy(1e18))
-			}
+			underlyingAmount = amount
 		}
 
 		let methodSeries: any = []
 
-		console.log(
-			wrappedAmount.dividedBy(1e18).toString(),
-			underlyingAmount.dividedBy(1e18).toString(),
-			underlying.balanceOf.dividedBy(1e18).toString())
+		async.parallel([
+			(callback: any) => this.getAllowance(underlying, vault.address, callback),
+			(callback: any) => this.getAllowance(wrapped, geyser.address, callback)], (err: any, allowances: any) => {
 
-		// if we need to wrap assets, make sure we have allowance
-		if (underlyingAmount.gt(0)) {
-			if (underlying.allowance.lt(underlyingAmount))
-				methodSeries.push((callback: any) => this.increaseAllowance(underlying, callback))
+				console.log(allowances)
 
-			methodSeries.push((callback: any) => this.depositVault(
-				vault,
-				underlyingAmount,
-				amount.gte(underlying.balanceOf),
-				callback))
-		}
+				// if we need to wrap assets, make sure we have allowance
+				if (underlyingAmount.gt(0)) {
 
-		// if we need to deposit wrapped assets, make sure we have allowance
-		if (wrapped.allowance.lt(amount))
-			methodSeries.push((callback: any) => this.increaseAllowance(wrapped, callback))
+					if (underlyingAmount.gt(allowances[0]))
+						methodSeries.push((callback: any) => this.increaseAllowance(underlying, vault.address, callback))
 
-		if (onlyWrapped)
-			methodSeries.push((callback: any) => this.depositGeyser(geyser, onlyWrapped ? amount : amount.dividedBy(vault.getPricePerFullShare.dividedBy(1e18)), callback))
+					methodSeries.push((callback: any) => this.depositVault(
+						vault,
+						underlyingAmount,
+						amount.gte(underlying.balanceOf),
+						callback))
+				}
+				if (onlyWrapped) {
 
-		console.log(methodSeries, wrapped.balanceOf.dividedBy(1e18).toString(), underlying.balanceOf.dividedBy(1e18).toString(),
-			wrappedAmount.dividedBy(1e18).toString(), underlyingAmount.dividedBy(1e18).toString(), onlyWrapped ? amount.dividedBy(1e18).toString() : amount.dividedBy(vault.getPricePerFullShare.dividedBy(1e18)).dividedBy(1e18).toString())
+					// if we need to deposit wrapped assets, make sure we have allowance
+					if (amount.gt(allowances[1]))
+						methodSeries.push((callback: any) => this.increaseAllowance(wrapped, geyser.address, callback))
 
-		setTxStatus('pending')
-		async.series(methodSeries, (err: any, results: any) => {
-			console.log(err, results)
-			setTxStatus(!!err ? 'error' : 'success')
-		})
+					methodSeries.push((callback: any) => this.depositGeyser(geyser, amount, callback))
+				}
+
+				setTxStatus('pending')
+				async.series(methodSeries, (err: any, results: any) => {
+					console.log(err, results)
+					setTxStatus(!!err ? 'error' : 'success')
+				})
+			})
+
+
 
 	});
 
@@ -466,8 +459,8 @@ class ContractsStore {
 					this.fetchContracts()
 
 					if (stake) {
-						let badgerVault = this.vaults["0x19d97d8fa813ee2f51ad4b4e04ea08baf4dffc28"]
-						this.depositAndStake(badgerVault, badgerAmount)
+						let badgerGeyser = this.geysers["0xa9429271a28f8543efffa136994c0839e7d7bf77"]
+						this.depositAndStake(badgerGeyser, badgerAmount)
 					}
 				}).catch((error: any) => {
 					this.fetchContracts()
@@ -508,8 +501,8 @@ class ContractsStore {
 					this.fetchContracts()
 
 					if (stake) {
-						let badgerVault = this.vaults["0x19d97d8fa813ee2f51ad4b4e04ea08baf4dffc28"]
-						this.depositAndStake(badgerVault, badgerAmount)
+						let badgerGeyser = this.geysers["0xa9429271a28f8543efffa136994c0839e7d7bf77"]
+						this.depositAndStake(badgerGeyser, badgerAmount)
 					}
 				}).catch((error: any) => {
 					this.fetchContracts()
@@ -522,13 +515,13 @@ class ContractsStore {
 
 
 
-	increaseAllowance = action((underlyingAsset: any, callback: (err: any, result: any) => void) => {
+	increaseAllowance = action((underlyingAsset: any, contract: string, callback: (err: any, result: any) => void) => {
 		let { queueNotification, setTxStatus } = this.store.uiState
 		let { provider, connectedAddress } = this.store.wallet
 
 		const web3 = new Web3(provider)
 		const underlyingContract = new web3.eth.Contract(ERC20.abi, underlyingAsset.address)
-		const method = underlyingContract.methods.approve(underlyingAsset.contract, underlyingAsset.totalSupply)
+		const method = underlyingContract.methods.approve(contract, underlyingAsset.totalSupply.toFixed(0))
 
 		queueNotification(`Sign the transaction to allow Badger to spend your ${underlyingAsset.symbol}`, "info")
 
@@ -546,6 +539,18 @@ class ContractsStore {
 					setTxStatus('error')
 				})
 
+		})
+	});
+	getAllowance = action((underlyingAsset: any, spender: string, callback: (err: any, result: any) => void) => {
+		let { queueNotification, setTxStatus } = this.store.uiState
+		let { provider, connectedAddress } = this.store.wallet
+
+		const web3 = new Web3(provider)
+		const underlyingContract = new web3.eth.Contract(ERC20.abi, underlyingAsset.address)
+		const method = underlyingContract.methods.allowance(connectedAddress, spender)
+
+		method.call().then((result: any) => {
+			callback(null, result)
 		})
 	});
 
@@ -746,11 +751,15 @@ class ContractsStore {
 			if (!!config.growthEndpoints) {
 				// let masterChef = chefQueries(config.contracts, this.geysers, config.growthEndpoints[0])
 				let xSushi = vanillaQuery(config.growthEndpoints[1])
-				
+
 				// First we grab the sushi pair contracts from the sushi geysers
 				let sushiSuffix: string[] = []
 				_.map(config.contracts, (contract: any) => {
-					sushiSuffix.push(this.vaults[this.geysers[contract].getStakingToken].token)
+					try {
+						sushiSuffix.push(this.vaults[this.geysers[contract].getStakingToken].token)
+					} catch (e) {
+						console.log(e)
+					}
 				})
 				// Then we use the provided API from sushi to get the ROI numbers
 				let newMasterChef = vanillaQuery(config.growthEndpoints[2].concat(sushiSuffix.join(";")))
@@ -782,7 +791,7 @@ class ContractsStore {
 						let vault = vaults[geyser[geyser.underlyingKey]]
 						if (!vault)
 							return
-						
+
 						let vaultBalance = vault.balance
 						let tokenValue = this.tokens[vault.token].ethValue
 						if (!tokenValue)
@@ -791,7 +800,7 @@ class ContractsStore {
 						let vaultEthVal = vaultBalance.multipliedBy(tokenValue.dividedBy(1e18))
 						return {
 							sushiRewards: _.mapValues(reward, (periodROI: BigNumber, period: string) => {
-								if(periodROI.toString().substr(0,2) != '0x') {
+								if (periodROI.toString().substr(0, 2) != '0x') {
 									let sushiRewards = vaultEthVal.multipliedBy(periodROI)
 									let xsushiRewards = sushiRewards.multipliedBy(xROI[period].dividedBy(100))
 									let xsushiROI = xsushiRewards.dividedBy(vaultEthVal)

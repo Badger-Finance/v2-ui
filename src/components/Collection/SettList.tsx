@@ -8,7 +8,8 @@ import {
 	Dialog,
 	DialogTitle,
 	CircularProgress,
-	DialogContent
+	DialogContent,
+	Chip
 } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -32,7 +33,8 @@ const useStyles = makeStyles((theme) => ({
 		// border: `1px solid ${theme.palette.grey[100]}`,
 		background: `${theme.palette.background.paper}`,
 		padding: 0,
-		boxShadow: theme.shadows[1]
+		boxShadow: theme.shadows[1],
+		marginBottom: theme.spacing(1),
 	},
 	listItem: {
 		padding: 0,
@@ -83,7 +85,11 @@ const useStyles = makeStyles((theme) => ({
 	},
 	progress: {
 		padding: theme.spacing(0, 0, 2)
-	}
+	},
+	chip: {
+		marginLeft: theme.spacing(1),
+		padding: 0
+	},
 
 }));
 export const SettList = observer((props: any) => {
@@ -101,22 +107,29 @@ export const SettList = observer((props: any) => {
 
 	const [hasDeposits, setHasDeposits] = useState(false)
 
-	useEffect(() => {
-		if (txStatus === "success") {
-			onClose()
-			setTxStatus(undefined)
-		}
-	}, [txStatus])
+	// useEffect(() => {
+	// 	if (txStatus === "success") {
+	// 		onClose()
+	// 		setTxStatus(undefined)
+	// 	}
+	// }, [txStatus])
 
 	const onUnwrap = (stats: any) => {
 		setDialogProps({ mode: 'unwrap', stats, open: true })
 	}
+
 	const onUnstake = (stats: any) => {
 		setDialogProps({ mode: 'unstake', stats, open: true })
 	}
+
 	const onStake = (stats: any) => {
 		setDialogProps({ mode: 'stake', stats, open: true })
 	}
+
+	const onDeposit = (stats: any) => {
+		setDialogProps({ mode: 'stake', stats, open: true })
+	}
+
 	const onClose = () => {
 		// if (txStatus === 'pending')
 		// 	return
@@ -157,7 +170,7 @@ export const SettList = observer((props: any) => {
 		let vaultCards: any[] = []
 
 		// wallet assets & wrapped assets ordered by value
-		return renderContracts(stats.assets.wallet, false, false)
+		return renderContracts(stats.assets.wallet, false, !hideEmpty)
 	}
 
 	const emptyGeysers = () => {
@@ -167,7 +180,7 @@ export const SettList = observer((props: any) => {
 	const renderDeposits = () => {
 		if (stats.assets.deposits.length > 0 && !hasDeposits)
 			setHasDeposits(true)
-		return renderContracts(stats.assets.deposits, true, false)
+		return [renderContracts(stats.assets.wrapped, false, false), renderContracts(stats.assets.deposits, true, false)]
 	}
 
 
@@ -255,8 +268,11 @@ export const SettList = observer((props: any) => {
 				<Typography variant="body1">
 					{title}</Typography>
 
-				<Typography variant="body2" color="textSecondary">
-					{stats.token.symbol}</Typography>
+				<Typography variant="body2" color="textSecondary" component="div">
+					{stats.token.symbol}
+
+					{!!vault.isSuperSett && <Chip className={classes.chip} label="Super Sett" size="small" color="primary" />}
+				</Typography>
 
 			</DialogTitle>
 			<div>
@@ -267,13 +283,13 @@ export const SettList = observer((props: any) => {
 
 
 	return <>
-		{!!connectedAddress && tableHeader(`Your Wallet - ${stats.stats.wallet}`, 'Available')}
-		{!!connectedAddress && walletVaults()}
-		{!!connectedAddress && hasDeposits && tableHeader(`Deposits - ${stats.stats.geysers}`, 'Deposited')}
+		{!!connectedAddress && hasDeposits && tableHeader(`Deposits - ${stats.stats.deposits}`, 'Deposited')}
 		{!!connectedAddress && renderDeposits()}
+		{tableHeader(hideEmpty ? `Your Wallet - ${stats.stats.wallet}` : `All Setts  - ${stats.stats.tvl}`, hideEmpty ? 'Available' : 'Tokens')}
+		{ walletVaults()}
 		{/* {isGlobal && <Carousel className={classes.carousel} indicators={false} navButtonsAlwaysVisible >{featuredGeysers()}</Carousel>} */}
-		{!hideEmpty && tableHeader(`All Setts`, 'Tokens')}
-		{!hideEmpty && emptyGeysers()}
+		{/* {!hideEmpty && tableHeader(`All Setts`, 'Tokens')}
+		{!hideEmpty && emptyGeysers()} */}
 
 		{renderDialog()}
 		{spacer()}

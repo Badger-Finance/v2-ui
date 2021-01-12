@@ -25,6 +25,7 @@ class UiState {
 	public rebaseStats: any
 
 	public sidebarOpen!: boolean
+	public hideZeroBal!: boolean
 	public notification: any = {}
 	public gasPrice!: string
 
@@ -40,6 +41,7 @@ class UiState {
 				stats: {
 					tvl: '...',
 					growth: '...',
+					wallet: '...',
 					badgerLiqGrowth: '...',
 					badgerGrowth: '...',
 					portfolio: '...',
@@ -62,6 +64,7 @@ class UiState {
 			period: window.localStorage.getItem('selectedPeriod') || 'year',
 
 			sidebarOpen: !!window && window.innerWidth > 960,
+			hideZeroBal: !!window.localStorage.getItem('hideZeroBal'),
 			notification: {},
 			gasPrice: window.localStorage.getItem('selectedGasPrice') || 'standard',
 			txStatus: undefined
@@ -69,23 +72,7 @@ class UiState {
 
 
 		// format vaults and geysers to ui
-		observe(this.store.contracts as any, "geysers", (change: any) => {
-			if (!!change.oldValue)
-				try {
-					this.reduceContracts()
-				} catch (e) {
-					console.log(e)
-				}
 
-		})
-		observe(this.store.contracts as any, "vaults", (change: any) => {
-			if (!!change.oldValue)
-				try {
-					this.reduceContracts()
-				} catch (e) {
-					console.log(e)
-				}
-		})
 		observe(this.store.contracts as any, "tokens", (change: any) => {
 			if (!!change.oldValue)
 				try {
@@ -144,6 +131,13 @@ class UiState {
 				console.log(e)
 			}
 		})
+		observe(this as any, "hideZeroBal", (change: any) => {
+			try {
+				this.reduceContracts()
+			} catch (e) {
+				console.log(e)
+			}
+		})
 
 		// hide the sidebar
 		window.onresize = () => {
@@ -189,6 +183,14 @@ class UiState {
 	setGasPrice = action((gasPrice: string) => {
 		this.gasPrice = gasPrice
 		window.localStorage.setItem('selectedGasPrice', gasPrice)
+
+	});
+	setHideZeroBal = action((hide: boolean) => {
+		this.hideZeroBal = hide
+		if (hide)
+			window.localStorage.setItem('hideZeroBal', 'YES')
+		else
+			window.localStorage.removeItem('hideZeroBal')
 
 	});
 

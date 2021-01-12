@@ -25,7 +25,7 @@ export const VaultSymbol = observer((props: any) => {
 	let prefix = !!vaults[token.contract] && !!vaults[token.contract].symbolPrefix ? vaults[token.contract].symbolPrefix : ''
 	// let underlying = tokens[vault[vault.underlyingKey]]
 	if (!token || !token.symbol)
-		return <CircularProgress />
+		return <CircularProgress style={{ float: 'left', marginRight: '.5rem' }} />
 
 
 	return <img alt=""

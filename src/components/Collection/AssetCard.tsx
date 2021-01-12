@@ -142,7 +142,7 @@ export const AssetCard = observer((props: any) => {
 			<Grid item xs={6} md={2}>
 				<Tooltip arrow placement="left" title={stats.tooltip}>
 
-					<Typography variant="body1" color={(!isDeposit && !isGlobal) ? 'textSecondary' : 'textPrimary'} >
+					<Typography style={{ cursor: 'default' }} variant="body1" color={(!isDeposit && !isGlobal) ? 'textSecondary' : 'textPrimary'} >
 
 						{stats.growth || '...'}
 
@@ -167,20 +167,25 @@ export const AssetCard = observer((props: any) => {
 			<Grid item xs={12} md={2}>
 				<ButtonGroup variant="outlined" className={classes.cardActions}>
 
-					{!!stats.anyUnderlying &&
+					{!!stats.anyUnderlying && !stats.anyWrapped &&
+						<Button onClick={() => onStake({ stats, token })}
+							variant={'outlined'} color="primary" size="small" >
+							DEPOSIT</Button>}
+
+					{!!stats.anyWrapped && !isDeposit &&
 						<Button onClick={() => onStake({ stats, token })}
 							variant={(stats.anyUnderlying || stats.anyWrapped) ? 'contained' : 'outlined'} color="primary" size="small" >
-							{!!stats.anyWrapped ? 'Stake' : 'Deposit'}</Button>}
+							STAKE</Button>}
 
 					{isDeposit && !!stats.anyStaked &&
 						<Button onClick={() => onUnstake({ stats, token })}
 							variant="outlined" color="primary" size="small" className={classes.button}>
-							Withdraw</Button>}
+							WITHDRAW</Button>}
 
-					{!!stats.anyWrapped &&
+					{!!stats.anyWrapped && !isDeposit &&
 						<Button onClick={() => onUnwrap({ stats, token })}
 							variant="outlined" color="primary" size="small" className={classes.button}>
-							Withdraw</Button>}
+							WITHDRAW</Button>}
 
 				</ButtonGroup>
 

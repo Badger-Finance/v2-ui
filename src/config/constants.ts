@@ -3,7 +3,7 @@ import BigNumber from "bignumber.js"
 export const INFURA_KEY = "77a0f6647eb04f5ca1409bba62ae9128"
 export const APP_URL = "https://app.badger.finance/"
 export const CONTACT_EMAIL = "hello@badger.finance"
-export const RPC_URL = "https://mainnet.infura.io/v3/77a0f6647eb04f5ca1409bba62ae9128"
+export const RPC_URL = "https://mainnet.infura.io/v3/444f398ba24a4a9dbee6b886f1737f52"
 export const APP_NAME = "badgerDAO"
 
 export const WBTC_ADDRESS = "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599"
