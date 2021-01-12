@@ -394,20 +394,26 @@ function reduceTotalGrowth(vault: any, period: string, token: any, geyser: any =
 
 	if (!!vault[period] && !vault[period].isNaN() && !vault[period].eq(0)) {
 		growthRaw = growthRaw.plus(vault[period]);
-		tooltip += vault[period].multipliedBy(1e2).toFixed(2) + "% " + token.symbol + " + ";
+		tooltip += formatPercentage(vault[period]) + "% " + token.symbol + " + ";
 	}
 	if (!!geyser[period] && !geyser[period].isNaN() && !geyser[period].eq(0)) {
 		growthRaw = growthRaw.plus(geyser[period]);
-		tooltip += geyser[period].multipliedBy(1e2).toFixed(2) + "% Badger + ";
+		tooltip += formatPercentage(geyser[period]) + "% Badger + ";
 	}
 	if (!!geyser.sushiRewards && !!geyser.sushiRewards[period] && !geyser.sushiRewards[period].isNaN() && !geyser.sushiRewards[period].eq(0)) {
 		growthRaw = growthRaw.plus(geyser.sushiRewards[period]);
-		tooltip += geyser.sushiRewards[period].multipliedBy(1e2).toFixed(2) + "% xSUSHI + ";
+		tooltip += formatPercentage(geyser.sushiRewards[period]) + "% xSUSHI + ";
 	}
 
-	growth = growthRaw.multipliedBy(1e2).toFixed(2) + "%";
+	growth = formatPercentage(growthRaw) + "%";
 
 	tooltip = tooltip.slice(0, tooltip.length - 2);
 	return { growth, tooltip };
 }
 
+function formatPercentage(ratio: BigNumber) {
+	if (ratio.multipliedBy(1e2).lt(1e-2))
+		return ratio.multipliedBy(1e2).toFixed(4)
+	else
+		return ratio.multipliedBy(1e2).toFixed(2)
+}

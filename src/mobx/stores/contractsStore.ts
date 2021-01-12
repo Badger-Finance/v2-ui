@@ -13,7 +13,7 @@ import async, { any } from 'async';
 import { reduceClaims } from '../reducers/statsReducers';
 import { token as diggToken } from '../../config/system/digg';
 import { curveTokens } from '../../config/system/tokens';
-import { EMPTY_DATA, ERC20, MIN_ETH_BALANCE, RPC_URL, START_BLOCK, WBTC_ADDRESS } from '../../config/constants';
+import { EMPTY_DATA, ERC20, MIN_ETH_BALANCE, RPC_URL, START_BLOCK, START_TIME, WBTC_ADDRESS } from '../../config/constants';
 import { rewards as rewardsConfig, geysers as geyserConfigs } from '../../config/system/settSystem';
 import { rewards as airdropsConfig } from '../../config/system/settSystem';
 import { getNextRebase } from "../utils/digHelpers";
@@ -691,6 +691,7 @@ class ContractsStore {
 			START_BLOCK, 	// start
 		]
 
+
 		const growthPromises = periods.map(growthQuery)
 
 		let tvl = new BigNumber(0)
@@ -699,7 +700,7 @@ class ContractsStore {
 			.then((result: any) => {
 
 				// save the growth
-				let vaultGrowth = reduceGrowth(result, periods)
+				let vaultGrowth = reduceGrowth(result, periods, START_TIME)
 				// this.stats._vaultGrowth = vaultGrowth.total
 
 				// extend vaults with new growth statistics.. pretty hairy maybe we keep this is the UI-state

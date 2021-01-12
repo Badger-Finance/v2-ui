@@ -86,7 +86,8 @@ const useStyles = makeStyles((theme) => ({
 		transform: 'rotate(180deg)',
 	},
 	icon: {
-		width: '1.1em'
+		width: '1.1em',
+		display: 'inline-block'
 	}
 
 }));
@@ -150,7 +151,7 @@ export const Sidebar = observer(() => {
 					<ListItem button disabled className={classes.listItem + ' ' + (store.router.currentPath == '/digg' ? classes.activeListItem : '')} onClick={() => goTo(views.digg)}>
 
 						<ListItemIcon >
-							<img src={require('assets/sidebar/digg-orange.png')} className={classes.icon} />
+							<img src={require('assets/sidebar/digg-white.png')} className={classes.icon} />
 						</ListItemIcon>
 						<ListItemText primary="Digg" />
 

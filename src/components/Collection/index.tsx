@@ -27,6 +27,7 @@ import { VaultStake } from './VaultStake';
 import Carousel from 'react-material-ui-carousel'
 import { SettList } from './SettList';
 import { Wallet } from '../Sidebar/Wallet';
+import { START_TIME } from 'config/constants';
 
 const useStyles = makeStyles((theme) => ({
 
@@ -113,44 +114,12 @@ export const Collection = observer(() => {
 
 	const spacer = () => <div className={classes.before} />;
 
-	const tableHeader = (title: string) => {
-		return <>
-			<Grid item xs={12} sm={4}>
-				<Typography variant="body1" color="textPrimary">
-					{title}
-				</Typography>
-
-			</Grid>
-			<Grid item xs={12} sm={4} md={2}>
-				<Typography variant="body2" color="textSecondary">
-					Tokens Locked
-			</Typography>
-
-			</Grid>
-			<Grid item xs={12} sm={4} md={2}>
-				<Typography variant="body2" color="textSecondary">
-					{({ year: 'Yearly', day: 'Daily', month: 'Monthly' } as any)[period]} ROI
-
-			</Typography>
-
-			</Grid>
-
-			<Grid item xs={12} sm={6} md={2}>
-				<Typography variant="body2" color="textSecondary">
-					Tokens Locked
-			</Typography>
-
-			</Grid>
-		</>
-	};
-
 
 	return <>
 		<Container className={classes.root} >
-
 			<Grid container spacing={2} justify="center">
 				{spacer()}
-				<Grid item xs={6} >
+				<Grid item xs={12} sm={6} >
 					<FormControlLabel
 						control={
 							<Switch
@@ -162,15 +131,15 @@ export const Collection = observer(() => {
 								color="primary"
 							/>
 						}
-						label="Your Wallet"
+						label="Wallet balances"
 					/>
 				</Grid>
 
-				<Grid item xs={6} className={classes.filters}>
+				<Grid item xs={12} sm={6} className={classes.filters}>
 					<Tooltip arrow placement="left" title="ROI combines the appreciation of the vault with its $BADGER or $DIGG emissions. All numbers are an approximation based on historical data.">
 						<Typography variant="body1" className={classes.buttonGroup} >
 							What is ROI?
-							</Typography>
+						</Typography>
 					</Tooltip>
 					<span className={classes.buttonGroup}>
 
@@ -181,7 +150,7 @@ export const Collection = observer(() => {
 							className={classes.select}
 							style={{ marginTop: 'auto', marginBottom: 'auto' }}
 						>
-							<MenuItem value={'day'}>DAY</MenuItem>
+							<MenuItem value={'week'}>WEEK</MenuItem>
 							<MenuItem value={'month'}>MONTH</MenuItem>
 							<MenuItem value={'year'}>YEAR</MenuItem>
 						</Select>

@@ -48,6 +48,7 @@ export const darkTheme = createMuiTheme({
 				fontSize: "1rem",
 				backgroundColor: "#F2A52B",
 				color: "#181818",
+				fontWeight: 400
 			},
 			arrow: {
 				color: "#F2A52B"

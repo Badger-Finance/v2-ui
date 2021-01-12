@@ -160,7 +160,7 @@ export const inCurrency = (value: BigNumber, currency: string, hide: boolean = f
 		normal = normal.multipliedBy(10 ** preferredDecimals)
 		decimals = preferredDecimals
 		suffix = `e-${preferredDecimals}`
-	} else if (normal.dividedBy(1e3).gt(1e2)) {
+	} else if (normal.dividedBy(1e4).gt(1)) {
 		decimals = 2
 	}
 

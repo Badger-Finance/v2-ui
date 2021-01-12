@@ -169,7 +169,7 @@ export const reduceCurveResult = (curveResult: any[], contracts: any[], tokenCon
 	})
 }
 
-export const reduceGrowth = (graphResult: any[], periods: number[]) => {
+export const reduceGrowth = (graphResult: any[], periods: number[], startDate: Date) => {
 	let reduction: any[] = graphResult
 		.map((result: any, i: number) =>
 			!!result.data && _.keyBy(result.data.vaults, 'id'))
@@ -186,12 +186,17 @@ export const reduceGrowth = (graphResult: any[], periods: number[]) => {
 				new BigNumber(vault[key].pricePerFullShare)
 				: new BigNumber("1")
 		)
-		return {
-			day: growth.now.dividedBy(growth.week).minus(1).dividedBy(7),
-			week: growth.now.dividedBy(growth.week).minus(1),
-			month: growth.now.dividedBy(growth.month).minus(1),
-			year: growth.now.dividedBy(growth.month).minus(1).multipliedBy(12.0),
-		}
+		console.log(_.mapValues(growth, (n: BigNumber) => n.minus(1).toString()))
+
+
+
+		let day = growth.now.dividedBy(growth.day).minus(1)
+		let week = growth.week.gt(1) ? growth.now.dividedBy(growth.week).minus(1) : day.multipliedBy(7)
+		let month = growth.month.gt(1) ? growth.now.dividedBy(growth.month).minus(1) : week.multipliedBy(4)
+		let year = growth.start ? (growth.now.dividedBy(growth.start).minus(1).dividedBy(new Date().getTime() - startDate.getTime())).multipliedBy(365 * 24 * 60 * 60 * 60) : month.multipliedBy(13.05)
+
+		return { day, week, month, year }
+
 	})
 
 	return vaults
@@ -228,6 +233,8 @@ export const reduceGeyserSchedule = (timestamp: BigNumber, schedule: any) => {
 	let badgerPerSecond = locked.dividedBy(period.end.minus(period.start))
 	let badgerPerSecondAllTime = lockedAllTime.dividedBy(periodAllTime.end.minus(periodAllTime.start))
 
+	if (!badgerPerSecond || badgerPerSecond.eq(0))
+		badgerPerSecond = badgerPerSecondAllTime.dividedBy(365 * 60 * 60 * 24)
 
 	return {
 		day: badgerPerSecond.multipliedBy(60 * 60 * 24),
