@@ -140,7 +140,7 @@ export const AssetCard = observer((props: any) => {
 				</Typography>
 			</Grid>
 			<Grid item xs={6} md={2}>
-				<Tooltip arrow placement="left" title={stats.tooltip}>
+				<Tooltip enterDelay={0} leaveDelay={300} arrow placement="left" title={stats.tooltip}>
 
 					<Typography style={{ cursor: 'default' }} variant="body1" color={(!isDeposit && !isGlobal) ? 'textSecondary' : 'textPrimary'} >
 

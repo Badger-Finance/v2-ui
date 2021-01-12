@@ -45,10 +45,11 @@ export const darkTheme = createMuiTheme({
 	overrides: {
 		MuiTooltip: {
 			tooltip: {
-				fontSize: "1rem",
+				fontSize: ".95rem",
 				backgroundColor: "#F2A52B",
 				color: "#181818",
-				fontWeight: 400
+				fontWeight: 400,
+				padding: '.5rem .8rem'
 			},
 			arrow: {
 				color: "#F2A52B"

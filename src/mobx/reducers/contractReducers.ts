@@ -193,7 +193,7 @@ export const reduceGrowth = (graphResult: any[], periods: number[], startDate: D
 		let day = growth.now.dividedBy(growth.day).minus(1)
 		let week = growth.week.gt(1) ? growth.now.dividedBy(growth.week).minus(1) : day.multipliedBy(7)
 		let month = growth.month.gt(1) ? growth.now.dividedBy(growth.month).minus(1) : week.multipliedBy(4)
-		let year = growth.start ? (growth.now.dividedBy(growth.start).minus(1).dividedBy(new Date().getTime() - startDate.getTime())).multipliedBy(365 * 24 * 60 * 60 * 60) : month.multipliedBy(13.05)
+		let year = growth.start.gt(1) ? (growth.now.dividedBy(growth.start).minus(1).dividedBy(new Date().getTime() - startDate.getTime())).multipliedBy(365 * 24 * 60 * 60 * 60) : month.multipliedBy(13.05)
 
 		return { day, week, month, year }
 

@@ -136,7 +136,7 @@ export const Collection = observer(() => {
 				</Grid>
 
 				<Grid item xs={12} sm={6} className={classes.filters}>
-					<Tooltip arrow placement="left" title="ROI combines the appreciation of the vault with its $BADGER or $DIGG emissions. All numbers are an approximation based on historical data.">
+					<Tooltip enterDelay={0} leaveDelay={300} arrow placement="left" title="ROI combines the appreciation of the vault with its $BADGER or $DIGG emissions. All numbers are an approximation based on historical data.">
 						<Typography variant="body1" className={classes.buttonGroup} >
 							What is ROI?
 						</Typography>
