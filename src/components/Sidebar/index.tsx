@@ -163,7 +163,7 @@ export const Sidebar = observer(() => {
 
 						{/* <Chip size="small" label={"Coming soon"} variant="outlined" color="primary" className={classes.rewards} /> */}
 					</ListItem>
-				    <ListItem button disabled className={classes.listItem + ' ' + (store.router.currentPath == '/lp-links' ? classes.activeListItem : '')} onClick={() => goTo(views.lp-links)}>
+				    <ListItem button disabled className={classes.listItem + ' ' + (store.router.currentPath == '/lp-links' ? classes.activeListItem : '')} onClick={() => goTo(views.Lp-links)}>
 						<ListItemText primary="LP Pool Links" />
 
 						{/* <Chip size="small" label={"Coming soon"} variant="outlined" color="primary" className={classes.rewards} /> */}
