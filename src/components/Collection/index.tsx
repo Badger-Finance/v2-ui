@@ -137,24 +137,22 @@ export const Collection = observer(() => {
 
 				<Grid item xs={12} sm={6} className={classes.filters}>
 					<Tooltip enterDelay={0} leaveDelay={300} arrow placement="left" title="ROI combines the appreciation of the vault with its $BADGER or $DIGG emissions. All numbers are an approximation based on historical data.">
-						<Typography variant="body1" className={classes.buttonGroup} >
-							What is ROI?
-						</Typography>
-					</Tooltip>
-					<span className={classes.buttonGroup}>
+						<span className={classes.buttonGroup}>
 
-						<Select
-							variant="outlined"
-							value={period}
-							onChange={(v: any) => setPeriod(v.target.value)}
-							className={classes.select}
-							style={{ marginTop: 'auto', marginBottom: 'auto' }}
-						>
-							<MenuItem value={'week'}>WEEK</MenuItem>
-							<MenuItem value={'month'}>MONTH</MenuItem>
-							<MenuItem value={'year'}>YEAR</MenuItem>
-						</Select>
-					</span>
+							<Select
+								variant="outlined"
+								value={period}
+								onChange={(v: any) => setPeriod(v.target.value)}
+								className={classes.select}
+								style={{ marginTop: 'auto', marginBottom: 'auto' }}
+							>
+								<MenuItem value={'week'}>WEEK</MenuItem>
+								<MenuItem value={'month'}>MONTH</MenuItem>
+								<MenuItem value={'year'}>YEAR</MenuItem>
+							</Select>
+						</span>
+					</Tooltip>
+
 					<span className={classes.buttonGroup} >
 
 						<Select

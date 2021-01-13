@@ -106,7 +106,7 @@ export const GeyserUnstake = observer((props: any) => {
 			<TextField autoComplete="off" name="amount" inputRef={register} id={TEXTFIELD_ID} className={classes.field} variant="outlined" fullWidth placeholder="Type an amount to unstake" />
 
 
-			<Button size="large" onClick={handleSubmit(onSubmit)} variant="contained" color="primary" fullWidth className={classes.button}>Unstake & Unwrap</Button>
+			<Button size="large" onClick={handleSubmit(onSubmit)} variant="contained" color="primary" fullWidth className={classes.button}>Unstake & Withdraw</Button>
 
 		</DialogContent>
 	</>
