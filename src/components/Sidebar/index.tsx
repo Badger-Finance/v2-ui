@@ -149,6 +149,11 @@ export const Sidebar = observer(() => {
 						<ListItemText primary="Airdrops" />
 
 					</ListItem>
+				    <ListItem button  className={classes.listItem} onClick={() => window.open('https://matcha.xyz/markets/BADGER')}>
+						<ListItemText primary="Buy/Sell $BADGER" />
+
+						{/* <Chip size="small" label={"Coming soon"} variant="outlined" color="primary" className={classes.rewards} /> */}
+					</ListItem>
 					<ListItem button disabled className={classes.listItem + ' ' + (store.router.currentPath == '/digg' ? classes.activeListItem : '')} onClick={() => goTo(views.digg)}>
 
 						<ListItemIcon >
@@ -158,12 +163,7 @@ export const Sidebar = observer(() => {
 
 						{/* <Chip size="small" label={"Coming soon"} variant="outlined" color="primary" className={classes.rewards} /> */}
 					</ListItem>
-				    <ListItem button  className={classes.listItem} onClick={() => window.open('https://matcha.xyz/markets/BADGER')}>
-						<ListItemText primary="Buy/Sell $BADGER" />
-
-						{/* <Chip size="small" label={"Coming soon"} variant="outlined" color="primary" className={classes.rewards} /> */}
-					</ListItem>
-				    <ListItem button disabled className={classes.listItem + ' ' + (store.router.currentPath == '/lp-links' ? classes.activeListItem : '')} onClick={() => goTo(views.Lp-links)}>
+				    <ListItem button className={classes.listItem + ' ' + (store.router.currentPath == '/Lplinks' ? classes.activeListItem : '')} onClick={() => goTo(views.lplinks)}>
 						<ListItemText primary="LP Pool Links" />
 
 						{/* <Chip size="small" label={"Coming soon"} variant="outlined" color="primary" className={classes.rewards} /> */}

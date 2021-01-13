@@ -7,7 +7,7 @@ import { Route } from 'mobx-router';
 import { Collection } from '../components/Collection';
 import { RootStore } from '../mobx/store';
 import { Airdrops } from '../components/Airdrops';
-import {Lp-links}   from '../component/Lp-links'
+import { Lplinks } from '../components/Lplinks';
 import { Digg } from '../components/Digg';
 
 const routes = {
@@ -52,20 +52,18 @@ const routes = {
 
 		}
 	}),
-		digg: new Route<RootStore, {
-    	}>({
-    		path: '/lp-links',
-    		component: <Lp-links />,
-    		onEnter: (_, params, store) => {
-    		},
-    		beforeExit: (_, _p, store) => {
-
-    		},
-    		onParamsChange: (route, params, store) => {
-    			// store.uiState.setVault(collection, id)
-
+	lplinks: new Route<RootStore, {
+    }>({
+    	path: '/lplinks',
+    	component: <Lplinks />,
+    	onEnter: (_, params, store) => {
+    	},
+    	beforeExit: (_, _p, store) => {
+   		},
+   		onParamsChange: (route, params, store) => {
+   			// store.uiState.setVault(collection, id)
     		}
-    	}),
+   	}),
 	// account: new Route<RootStore, {
 	// 	account: string;
 	// }>({

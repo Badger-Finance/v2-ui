@@ -66,9 +66,11 @@ const useStyles = makeStyles((theme) => ({
 	}
 
 }));
-export const Lp-links = observer(() => {
+export const Lplinks = observer(() => {
 	const store = useContext(StoreContext);
 	const classes = useStyles();
+	const spacer = () => <div className={classes.before} />;
+
 
 	const copy = () => {
 		let q = [
@@ -76,6 +78,7 @@ export const Lp-links = observer(() => {
 			{ title: `BADGER/WBTC`, button: `BADGER/WBTC`, badge: `Uniswap dual-asset`, href: "https://app.uniswap.org/#/add/0x3472A5A71965499acd81997a54BBA8D852C6E53d/0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599" },
            // { title: `BADGER/WBTC`, button: `BADGER/WBTC`, badge: `Sushiswap single-asset`, href: "Link to Zapper invest page" },
 		   // { title: `BADGER/WBTC`, button: `BADGER/WBTC`, badge: `Uniswap single-asset`, href: "Link to Zapper invest page" },
+			{ title: `WBTC/ETH`, button: `WBTC/ETH`, badge: `Sushiswap dual-asset`, href: "https://exchange.sushiswapclassic.org/#/add/ETH/0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599" },
 			{ title: `crv:renBTC`, button: `crv:renBTC`, badge: `Curve`, href: "https://www.curve.fi/ren/deposit" },
 			{ title: `crv:sBTC`, button: `crv:sBTC`, badge: `Curve`, href: "https://www.curve.fi/sbtc/deposit" },
 			{ title: `crv:tBTC`, button: `crv:tBTC`, badge: `Curve`, href: "https://www.curve.fi/tbtc/deposit" },
@@ -85,10 +88,6 @@ export const Lp-links = observer(() => {
 
 				<Typography variant="subtitle1">
 					{qualifier.title}
-				</Typography>
-
-				<Typography variant="body2" color="textSecondary" style={{ margin: ".4rem 0 1rem" }}>
-					{qualifier.copy}
 				</Typography>
 
 				<Button target="_blank" href={qualifier.href} size="small" variant="contained" color="primary">{qualifier.button}</Button>
