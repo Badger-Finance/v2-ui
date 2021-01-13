@@ -158,12 +158,27 @@ export const Sidebar = observer(() => {
 
 						{/* <Chip size="small" label={"Coming soon"} variant="outlined" color="primary" className={classes.rewards} /> */}
 					</ListItem>
+				    <ListItem button  className={classes.listItem} onClick={() => window.open('https://matcha.xyz/markets/BADGER')}>
+						<ListItemText primary="Buy/Sell $BADGER" />
+
+						{/* <Chip size="small" label={"Coming soon"} variant="outlined" color="primary" className={classes.rewards} /> */}
+					</ListItem>
+				    <ListItem button disabled className={classes.listItem + ' ' + (store.router.currentPath == '/lp-links' ? classes.activeListItem : '')} onClick={() => goTo(views.lp-links)}>
+						<ListItemText primary="LP Pool Links" />
+
+						{/* <Chip size="small" label={"Coming soon"} variant="outlined" color="primary" className={classes.rewards} /> */}
+					</ListItem>
+
+
 
 				</List>
 
 				<List>
 					<ListItem button className={classes.secondaryListItem} onClick={() => window.open("https://forum.badger.finance")}>
 						Forum
+					</ListItem>
+					<ListItem button className={classes.secondaryListItem} onClick={() => window.open("https://https://snapshot.page/#/badgerdao.eth")}>
+						DAO Governance
 					</ListItem>
 					<ListItem button className={classes.secondaryListItem} onClick={() => setExpanded(expanded === 'socials' ? '' : 'socials')}>
 						Socials
