@@ -146,7 +146,6 @@ export const Collection = observer(() => {
 								className={classes.select}
 								style={{ marginTop: 'auto', marginBottom: 'auto' }}
 							>
-								<MenuItem value={'week'}>WEEK</MenuItem>
 								<MenuItem value={'month'}>MONTH</MenuItem>
 								<MenuItem value={'year'}>YEAR</MenuItem>
 							</Select>
