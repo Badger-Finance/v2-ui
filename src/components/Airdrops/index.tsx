@@ -79,8 +79,9 @@ export const Airdrops = observer(() => {
 
 	const copy = () => {
 		let q = [
-			{ title: `Stake`, button: `Stake`, badge: !!stats.stats.badgerGrowth && `Up to ${stats.stats.badgerGrowth}% APY`, href: "/setts", copy: "Deposit in vaults to earn Badger and Digg" },
-			{ title: "Liquidity", button: "Add Liquidity", badge: !!stats.stats.badgerLiqGrowth && `Up to ${stats.stats.badgerLiqGrowth}% APY`, href: "https://info.uniswap.org/pair/0xcd7989894bc033581532d2cd88da5db0a4b12859", copy: "Provide liquidity and stake LP in vaults." },
+			{ title: `Stake`, button: `Stake`, badge: !!stats.stats.badgerGrowth && `Up to ${stats.stats.badgerGrowth}% APY`, href: "/", copy: "Deposit in vaults to earn Badger and Digg" },
+			// { title: "Liquidity", button: "Add Liquidity", badge: !!stats.stats.badgerLiqGrowth && `Up to ${stats.stats.badgerLiqGrowth}% APY`, href: "https://info.uniswap.org/pair/0xcd7989894bc033581532d2cd88da5db0a4b12859", copy: "Provide liquidity and stake LP in vaults." },
+			{title: "Liquidity", button: "Uniswap", button2: "Sushiswap", href: "https://info.uniswap.org/pair/0xcd7989894bc033581532d2cd88da5db0a4b12859", href2: "https://sushiswap.fi/pair/0x110492b31c59716ac47337e616804e3e3adc0b4a", copy: "Provide liquidity and stake LP in vaults." },
 			{ title: "Governance", button: "Vote Now", href: "https://snapshot.page/#/badgerdao.eth", copy: "Govern all Badger DAO products and treasury." },
 		]
 		return q.map((qualifier) =>
@@ -94,8 +95,9 @@ export const Airdrops = observer(() => {
 					{qualifier.copy}
 				</Typography>
 
-				<Button target="_blank" href={qualifier.href} size="small" variant="contained" color="primary">{qualifier.button}</Button>
+				<Button className={classes.button} target="_blank" href={qualifier.href} size="small" variant="contained" color="primary">{qualifier.button}</Button>
 				{!!qualifier.badge && <Chip className={classes.chip} label={qualifier.badge} variant="outlined" color="primary" size="small" />}
+				{!!qualifier.button2 && <Button style={{marginLeft: "1rem"}} target="_blank" href={qualifier.href2} size="small" variant="contained" color="primary">{qualifier.button2}</Button>}
 
 			</Grid>
 		)
