@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite';
 
 import DashboardCard from "./DashboardCard";
 import Info from "./Info";
-import React, { useContext } from "react";
+import React, { useContext,useState } from "react";
 import { StoreContext } from "../../context/store-context";
 
 
@@ -44,8 +44,8 @@ export const Digg = observer((props: any) => {
 	const store = useContext(StoreContext);
 
 	const { uiState: { rebaseStats } } = store
-
 	const spacer = () => <div className={classes.before} />;
+	const [graphSelected,setGraphSelected] = useState<string>("Supply")
 
 	return (
 		<Container className={classes.root} maxWidth="lg">
@@ -67,14 +67,31 @@ export const Digg = observer((props: any) => {
 
 				<Info />
 
-				<Grid item xs={12} >
-					<DashboardCard title="Supply" accent="#152554" />
-				</Grid>
+				<ButtonGroup
+					variant="outlined"
+					size="small"
+					className={classes.buttonGroup}
+					aria-label="outlined button group">
+					<Button
+					 onClick={() => setGraphSelected("Supply")}
+					 variant={graphSelected === "Supply" ? "contained" : "outlined"}>
+						 Supply
+					</Button>
+					<Button
+					 onClick={() => setGraphSelected("Price")}
+					 variant={graphSelected === "Price" ? "contained" : "outlined"}>
+						 Price
+					</Button>
+					<Button
+					 onClick={() => setGraphSelected("Market cap")}
+					 variant={graphSelected === "Market cap" ? "contained" : "outlined"}>
+						 Market cap
+					</Button>
+
+				</ButtonGroup>
+
 				<Grid item xs={12}>
-					<DashboardCard title="Price" accent="#152554" />
-				</Grid>
-				<Grid item xs={12}>
-					<DashboardCard title="Market cap" accent="#152554" />
+					<DashboardCard title={graphSelected} accent="#152554"/>
 				</Grid>
 				{spacer()}
 

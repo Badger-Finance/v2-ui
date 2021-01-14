@@ -23,7 +23,6 @@ class UiState {
 	public treeStats: any
 	public airdropStats: any
 	public rebaseStats: any
-
 	public sidebarOpen!: boolean
 	public hideZeroBal!: boolean
 	public notification: any = {}
@@ -214,7 +213,6 @@ class UiState {
 			this.sidebarOpen = true
 		}
 	});
-
 }
 
 export default UiState;
