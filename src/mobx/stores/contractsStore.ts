@@ -306,7 +306,7 @@ class ContractsStore {
 		const underlying = tokens[vault[vault.underlyingKey]]
 		const wrapped = tokens[vault.address]
 
-		console.log(vault, geyser, onlyWrapped)
+		// console.log(vault, geyser, onlyWrapped)
 
 		if (!amount || amount.isNaN() || amount.lte(0))
 			return queueNotification("Please enter a valid amount", 'error')
@@ -332,7 +332,7 @@ class ContractsStore {
 			(callback: any) => this.getAllowance(underlying, vault.address, callback),
 			(callback: any) => this.getAllowance(wrapped, geyser.address, callback)], (err: any, allowances: any) => {
 
-				console.log(allowances)
+				// console.log(allowances)
 
 				// if we need to wrap assets, make sure we have allowance
 				if (underlyingAmount.gt(0)) {
@@ -422,7 +422,7 @@ class ContractsStore {
 		let wrappedAmount = amount;
 		let methodSeries: any = []
 
-		console.log("unwrapping", wrappedAmount.dividedBy(1e18).toString())
+		// console.log("unwrapping", wrappedAmount.dividedBy(1e18).toString())
 
 		// withdraw
 		methodSeries.push((callback: any) => this.withdrawVault(
@@ -631,8 +631,8 @@ class ContractsStore {
 		let { provider, connectedAddress } = this.store.wallet
 
 		const underlyingAsset = this.tokens[vault[vault.underlyingKey]]
-		console.log("tokens: ", this.tokens)
-		console.log("underlying address: ", underlyingAsset)
+		// console.log("tokens: ", this.tokens)
+		// console.log("underlying address: ", underlyingAsset)
 
 		const web3 = new Web3(provider)
 		const underlyingContract = new web3.eth.Contract(vault.abi, vault.address)
