@@ -143,8 +143,7 @@ export const Sidebar = observer(() => {
 							Cycle Count: {badgerTree ? badgerTree.cycle : '...'}
 						</ListItem>
 						<ListItem className={classes.secondaryListItem} >
-						{/* dashboard.time_since_last_cycle ? dashboard.time_since_last_cycle.hour.substr(-2) : "... ") + "h " + (dashboard.time_since_last_cycle ? dashboard.time_since_last_cycle.minute.substr(-2) : " ...") + "m since last cycle" */}
-							{(badgerTree?.timeSinceLastCycle ? badgerTree.timeSinceLastCycle.hour.substr(-2) : '...') + "h " + (badgerTree?.timeSinceLastCycle ? badgerTree.timeSinceLastCycle.minute.substr(-2) : "...") + "m since last cycle"}
+ 							{(badgerTree?.timeSinceLastCycle ? badgerTree.timeSinceLastCycle.hour.substr(-2) : '...') + "h " + (badgerTree?.timeSinceLastCycle ? badgerTree.timeSinceLastCycle.minute.substr(-2) : "...") + "m since last cycle"}
 						</ListItem>
 					</Collapse>
 
@@ -181,6 +180,31 @@ export const Sidebar = observer(() => {
 					<ListItem button className={classes.secondaryListItem} onClick={() => window.open("https://forum.badger.finance")}>
 						Forum
 					</ListItem>
+
+					<ListItem button className={classes.secondaryListItem} onClick={() => setExpanded(expanded === 'tokens' ? '' : 'tokens')}>
+						Tokens
+						<IconButton
+							size="small"
+							className={classes.expand + " " + (expanded === 'tokens' ? classes.expandOpen : '')}
+							aria-label="show more"
+						>
+
+							<ExpandMore />
+						</IconButton>
+					</ListItem>
+
+					<Collapse in={expanded === 'tokens'} timeout="auto" unmountOnExit>
+						<ListItem button className={classes.secondaryListItem} onClick={() => window.open("https://matcha.xyz/markets/BADGER")} >
+							BADGER
+						</ListItem>
+						<ListItem button className={classes.secondaryListItem} onClick={() => window.open("https://info.uniswap.org/pair/0xcd7989894bc033581532d2cd88da5db0a4b12859")} >
+							Uniswap BADGER/wBTC
+						</ListItem>
+						<ListItem button className={classes.secondaryListItem} onClick={() => window.open("https://sushiswap.fi/pair/0x110492b31c59716ac47337e616804e3e3adc0b4a")} >
+							Sushiswap BADGER/wBTC
+						</ListItem>
+					</Collapse>
+
 					<ListItem button className={classes.secondaryListItem} onClick={() => setExpanded(expanded === 'socials' ? '' : 'socials')}>
 						Socials
 						<IconButton
