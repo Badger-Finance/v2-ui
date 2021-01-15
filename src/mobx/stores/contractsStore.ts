@@ -218,6 +218,19 @@ class ContractsStore {
 										claims,
 										merkleProof
 									}
+									rewardsTree.methods
+									.lastPublishTimestamp()
+									.call()
+									.then((timestamp: any) => {
+										timestamp *= 1000;
+										const now = Date.now();
+										var timeSinceLastCycle = Math.abs(now - timestamp);
+										const objTimeSinceLastCycle = {
+											hour: "0" + Math.floor(timeSinceLastCycle / (60 * 60 * 1000)),
+											minute: "0" + Math.round(((timeSinceLastCycle % 86400000) % 3600000) / 60000)
+										}
+										this.badgerTree.timeSinceLastCycle = objTimeSinceLastCycle;
+									})
 								})
 						}
 					})
@@ -370,7 +383,7 @@ class ContractsStore {
 		let methodSeries: any = []
 
 		if (geyser.totalStakedFor.minus(wrappedAmount).lte(1)) {
-			console.log("unstakeALL")
+			// console.log("unstakeALL")
 			wrappedAmount = geyser.totalStakedFor
 		}
 
@@ -769,22 +782,6 @@ class ContractsStore {
 				Promise.all([xSushi, newMasterChef]).then((results: any) => {
 					let xROI: any = reduceXSushiROIResults(results[0]['weekly_APY'])
 					let newSushiRewards = reduceSushiAPIResults(results[1], config.contracts)
-					// TODO: add in xROI:
-					// - pull vault balance in eth
-					// - multiply by sushi ROI to get sushi value that will be invested
-					// - multiply this value by xsushi ROI to get xsushi rewards
-					// - divide by vault balance to get xsushi ROI in relation to vault
-					// - add to sushi ROI for total ROI
-
-					// let newSushiROIs = _.map(results.pairs, (pair: any, i: number) => {
-					// 	return {
-					// 		address: contracts[i],
-					// 		day: new BigNumber(pair.aprDay).dividedBy(100),
-					// 		month: new BigNumber(pair.aprMonthly).dividedBy(100),
-					// 		year: new BigNumber(pair.aprYear_without_lockup).dividedBy(100)
-					// 	}
-					// })
-					// return _.keyBy(newSushiROIs, 'address')
 					this.updateGeysers(_.mapValues(newSushiRewards, (reward: any, geyserAddress: string) => {
 						let geyser = geysers[geyserAddress]
 						if (!geyser)

@@ -97,7 +97,7 @@ export const Sidebar = observer(() => {
 	const classes = useStyles();
 
 	const store = useContext(StoreContext);
-	const { router: { goTo }, uiState: { sidebarOpen, closeSidebar, stats, gasPrice, setGasPrice }, wallet: { gasPrices } } = store;
+	const { router: { goTo }, uiState: { sidebarOpen, closeSidebar, stats, gasPrice, setGasPrice }, wallet: { gasPrices }, contracts: { badgerTree } } = store;
 
 	const [expanded, setExpanded] = useState('')
 
@@ -127,10 +127,26 @@ export const Sidebar = observer(() => {
 
 					<Wallet />
 
-					<ListItem button className={classes.divider}>
+					<ListItem button className={classes.divider} onClick={() => setExpanded(expanded === 'advanced' ? '' : 'advanced')}>
 						v2.0.1
-					</ListItem>
+						<IconButton
+							size="small"
+							className={classes.expand + " " + (expanded === 'advanced' ? classes.expandOpen : '')}
+							aria-label="show more"
+						>
 
+							<ExpandMore />
+						</IconButton>
+					</ListItem>
+					<Collapse in={expanded === 'advanced'} timeout="auto" unmountOnExit>
+						<ListItem className={classes.secondaryListItem} >
+							Cycle Count: {badgerTree ? badgerTree.cycle : '...'}
+						</ListItem>
+						<ListItem className={classes.secondaryListItem} >
+						{/* dashboard.time_since_last_cycle ? dashboard.time_since_last_cycle.hour.substr(-2) : "... ") + "h " + (dashboard.time_since_last_cycle ? dashboard.time_since_last_cycle.minute.substr(-2) : " ...") + "m since last cycle" */}
+							{(badgerTree?.timeSinceLastCycle ? badgerTree.timeSinceLastCycle.hour.substr(-2) : '...') + "h " + (badgerTree?.timeSinceLastCycle ? badgerTree.timeSinceLastCycle.minute.substr(-2) : "...") + "m since last cycle"}
+						</ListItem>
+					</Collapse>
 
 					<ListItem divider button
 						onClick={() => { closeSidebar(); goTo(views.home) }}
