@@ -211,9 +211,6 @@ const Info = observer((props: any) => {
 						How it works
 					</Button>
 					<Button variant="outlined" fullWidth size="small" color="default">
-						Whitepaper
-					</Button>
-					<Button variant="outlined" fullWidth size="small" color="default">
 						Get DIGG
 					</Button>
 				</CardActions>
