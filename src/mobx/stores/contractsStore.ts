@@ -10,7 +10,7 @@ import { jsonQuery, graphQuery, growthQuery, secondsToBlocks, inCurrency, chefQu
 import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
 import async, { any } from 'async';
-import { reduceClaims } from '../reducers/statsReducers';
+import { reduceClaims, reduceTimeSinceLastCycle } from '../reducers/statsReducers';
 import { token as diggToken } from '../../config/system/digg';
 import { curveTokens } from '../../config/system/tokens';
 import { EMPTY_DATA, ERC20, MIN_ETH_BALANCE, RPC_URL, START_BLOCK, START_TIME, WBTC_ADDRESS } from '../../config/constants';
@@ -49,7 +49,7 @@ class ContractsStore {
 			tokens: undefined,
 			geysers: undefined,
 			rebase: undefined,
-			badgerTree: undefined,
+			badgerTree: { cycle: '...', timeSinceLastCycle: '0h 0m', claims: [0] },
 			airdrops: undefined
 		});
 
@@ -83,6 +83,8 @@ class ContractsStore {
 			this.fetchSettRewards()
 			this.fetchContracts()
 		})
+
+		setInterval(this.fetchSettRewards, 6e4)
 	}
 
 	updateVaults = action((vaults: any) => {
@@ -149,7 +151,7 @@ class ContractsStore {
 				this.fetchTokens()
 
 			})
-			.catch((error: any) => console.log(error))
+			.catch((error: any) => process.env.NODE_ENV !== 'production' && console.log(error))
 
 	});
 
@@ -202,27 +204,36 @@ class ContractsStore {
 		let rewardsTree = new web3.eth.Contract(rewardsConfig.abi, rewardsConfig.contract)
 		let checksumAddress = Web3.utils.toChecksumAddress(connectedAddress)
 
-		rewardsTree.methods
-			.merkleContentHash()
-			.call()
-			.then((merkleHash: any) => {
-				jsonQuery(`${rewardsConfig.endpoint}/rewards/${rewardsConfig.network}/${merkleHash}/${checksumAddress}`)
-					.then((merkleProof: any) => {
-						if (!merkleProof.error) {
-							rewardsTree.methods.getClaimedFor(connectedAddress, rewardsConfig.tokens)
-								.call()
-								.then((claimedRewards: any[]) => {
-									let claims = reduceClaims(merkleProof, claimedRewards)
-									this.badgerTree = {
-										cycle: parseInt(merkleProof.cycle, 16),
-										claims,
-										merkleProof
-									}
-								})
+		let treeMethods = [
+			rewardsTree.methods.lastPublishTimestamp().call(),
+			rewardsTree.methods.merkleContentHash().call()
+		]
+
+		Promise.all(treeMethods).then((rewardsResponse: any) => {
+
+			let merkleHash = rewardsResponse[1]
+
+			this.badgerTree = _.defaults({
+				timeSinceLastCycle: reduceTimeSinceLastCycle(rewardsResponse[0]),
+			}, this.badgerTree)
+
+			let endpointQuery = jsonQuery(`${rewardsConfig.endpoint}/rewards/${rewardsConfig.network}/${merkleHash}/${checksumAddress}`)
+
+			endpointQuery.then((proof: any) => {
+				rewardsTree.methods.getClaimedFor(connectedAddress, rewardsConfig.tokens)
+					.call()
+					.then((claimedRewards: any[]) => {
+						if (!proof.error) {
+							this.badgerTree = _.defaults({
+								cycle: parseInt(proof.cycle, 16),
+								claims: reduceClaims(proof, claimedRewards),
+								proof
+							}, this.badgerTree)
 						}
 					})
-
 			})
+		})
+
 	});
 
 	fetchAirdrops = action(() => {
@@ -297,7 +308,7 @@ class ContractsStore {
 		const underlying = tokens[vault[vault.underlyingKey]]
 		const wrapped = tokens[vault.address]
 
-		console.log(vault, geyser, onlyWrapped)
+		// console.log(vault, geyser, onlyWrapped)
 
 		if (!amount || amount.isNaN() || amount.lte(0))
 			return queueNotification("Please enter a valid amount", 'error')
@@ -323,7 +334,7 @@ class ContractsStore {
 			(callback: any) => this.getAllowance(underlying, vault.address, callback),
 			(callback: any) => this.getAllowance(wrapped, geyser.address, callback)], (err: any, allowances: any) => {
 
-				console.log(allowances)
+				// console.log(allowances)
 
 				// if we need to wrap assets, make sure we have allowance
 				if (underlyingAmount.gt(0)) {
@@ -374,7 +385,7 @@ class ContractsStore {
 		let methodSeries: any = []
 
 		if (geyser.totalStakedFor.minus(wrappedAmount).lte(1)) {
-			console.log("unstakeALL")
+			// console.log("unstakeALL")
 			wrappedAmount = geyser.totalStakedFor
 		}
 
@@ -413,7 +424,7 @@ class ContractsStore {
 		let wrappedAmount = amount;
 		let methodSeries: any = []
 
-		console.log("unwrapping", wrappedAmount.dividedBy(1e18).toString())
+		// console.log("unwrapping", wrappedAmount.dividedBy(1e18).toString())
 
 		// withdraw
 		methodSeries.push((callback: any) => this.withdrawVault(
@@ -622,8 +633,8 @@ class ContractsStore {
 		let { provider, connectedAddress } = this.store.wallet
 
 		const underlyingAsset = this.tokens[vault[vault.underlyingKey]]
-		console.log("tokens: ", this.tokens)
-		console.log("underlying address: ", underlyingAsset)
+		// console.log("tokens: ", this.tokens)
+		// console.log("underlying address: ", underlyingAsset)
 
 		const web3 = new Web3(provider)
 		const underlyingContract = new web3.eth.Contract(vault.abi, vault.address)
@@ -764,7 +775,7 @@ class ContractsStore {
 					try {
 						sushiSuffix.push(this.vaults[this.geysers[contract].getStakingToken].token)
 					} catch (e) {
-						console.log(e)
+						process.env.NODE_ENV !== 'production' && console.log(e)
 					}
 				})
 				// Then we use the provided API from sushi to get the ROI numbers
@@ -773,22 +784,6 @@ class ContractsStore {
 				Promise.all([xSushi, newMasterChef]).then((results: any) => {
 					let xROI: any = reduceXSushiROIResults(results[0]['weekly_APY'])
 					let newSushiRewards = reduceSushiAPIResults(results[1], config.contracts)
-					// TODO: add in xROI:
-					// - pull vault balance in eth
-					// - multiply by sushi ROI to get sushi value that will be invested
-					// - multiply this value by xsushi ROI to get xsushi rewards
-					// - divide by vault balance to get xsushi ROI in relation to vault
-					// - add to sushi ROI for total ROI
-
-					// let newSushiROIs = _.map(results.pairs, (pair: any, i: number) => {
-					// 	return {
-					// 		address: contracts[i],
-					// 		day: new BigNumber(pair.aprDay).dividedBy(100),
-					// 		month: new BigNumber(pair.aprMonthly).dividedBy(100),
-					// 		year: new BigNumber(pair.aprYear_without_lockup).dividedBy(100)
-					// 	}
-					// })
-					// return _.keyBy(newSushiROIs, 'address')
 					this.updateGeysers(_.mapValues(newSushiRewards, (reward: any, geyserAddress: string) => {
 						let geyser = geysers[geyserAddress]
 						if (!geyser)

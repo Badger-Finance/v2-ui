@@ -129,15 +129,15 @@ export const reduceGeysers = (store: RootStore) => {
 
 }
 
-// export const reduceVaultsToStats = (store: RootStore) => {
-// 	const { vaults, geysers, tokens } = store.contracts
-// 	const { collection, stats, currency, period } = store.uiState
 
-// 	if (!tokens)
-// 		return
+export const reduceTimeSinceLastCycle = (time: string) => {
+	let timestamp = parseFloat(time) * 1000;
 
-// 	return _.mapValues(vaults, reduceVaultToStats(tokens, geysers, period, currency))
-// }
+	const now = Date.now();
+	var timeSinceLastCycle = Math.abs(now - timestamp);
+	return Math.floor(timeSinceLastCycle / (60 * 60 * 1000)) +
+		"h " + Math.round(((timeSinceLastCycle % 86400000) % 3600000) / 60000) + 'm'
+}
 
 export const reduceRebaseToStats = (store: RootStore) => {
 	const { rebase, tokens } = store.contracts
