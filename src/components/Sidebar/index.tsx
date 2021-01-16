@@ -59,6 +59,16 @@ const useStyles = makeStyles((theme) => ({
 		// paddingLeft: theme.spacing(1),
 		padding: theme.spacing(.5, 2)
 	},
+	secondarySubListItem: {
+		cursor: "pointer",
+		justifyContent: 'space-between',
+		background: ' rgba(0, 0, 0, .1)',
+		"&:hover": {
+			fontWeight: 'bold'
+		},
+		// paddingLeft: theme.spacing(1),
+		padding: theme.spacing(.5, 2, .5, 3)
+	},
 	activeListItem: {
 		fontWeight: 'bold',
 		backgroundColor: theme.palette.background.default
@@ -97,7 +107,7 @@ export const Sidebar = observer(() => {
 	const classes = useStyles();
 
 	const store = useContext(StoreContext);
-	const { router: { goTo }, uiState: { sidebarOpen, closeSidebar, stats, gasPrice, setGasPrice }, wallet: { gasPrices } } = store;
+	const { router: { goTo }, uiState: { sidebarOpen, closeSidebar, stats, gasPrice, setGasPrice }, wallet: { gasPrices }, contracts: { badgerTree } } = store;
 
 	const [expanded, setExpanded] = useState('')
 
@@ -127,10 +137,27 @@ export const Sidebar = observer(() => {
 
 					<Wallet />
 
-					<ListItem button className={classes.divider}>
+					<ListItem button className={classes.divider} onClick={() => setExpanded(expanded === 'advanced' ? '' : 'advanced')}>
 						v2.0.1
-					</ListItem>
+						<IconButton
+							size="small"
+							className={classes.expand + " " + (expanded === 'advanced' ? classes.expandOpen : '')}
+							aria-label="show more"
+						>
 
+							<ExpandMore />
+						</IconButton>
+					</ListItem>
+					<Collapse in={expanded === 'advanced'} timeout="auto" unmountOnExit>
+
+						<ListItem key="rewards">
+							<ListItemText
+								primary={`Cycle Count: ${badgerTree.cycle}`}
+								secondary={badgerTree?.timeSinceLastCycle && badgerTree.timeSinceLastCycle + " since last cycle"}
+							/>
+						</ListItem>
+
+					</Collapse>
 
 					<ListItem divider button
 						onClick={() => { closeSidebar(); goTo(views.home) }}
@@ -165,6 +192,31 @@ export const Sidebar = observer(() => {
 					<ListItem button className={classes.secondaryListItem} onClick={() => window.open("https://forum.badger.finance")}>
 						Forum
 					</ListItem>
+
+					<ListItem button className={classes.secondaryListItem} onClick={() => setExpanded(expanded === 'tokens' ? '' : 'tokens')}>
+						Tokens
+						<IconButton
+							size="small"
+							className={classes.expand + " " + (expanded === 'tokens' ? classes.expandOpen : '')}
+							aria-label="show more"
+						>
+
+							<ExpandMore />
+						</IconButton>
+					</ListItem>
+
+					<Collapse in={expanded === 'tokens'} timeout="auto" unmountOnExit>
+						<ListItem button className={classes.secondarySubListItem} onClick={() => window.open("https://matcha.xyz/markets/BADGER")} >
+							BADGER
+						</ListItem>
+						<ListItem button className={classes.secondarySubListItem} onClick={() => window.open("https://info.uniswap.org/pair/0xcd7989894bc033581532d2cd88da5db0a4b12859")} >
+							Uniswap BADGER/wBTC
+						</ListItem>
+						<ListItem button className={classes.secondarySubListItem} onClick={() => window.open("https://sushiswap.fi/pair/0x110492b31c59716ac47337e616804e3e3adc0b4a")} >
+							Sushiswap BADGER/wBTC
+						</ListItem>
+					</Collapse>
+
 					<ListItem button className={classes.secondaryListItem} onClick={() => setExpanded(expanded === 'socials' ? '' : 'socials')}>
 						Socials
 						<IconButton
@@ -178,16 +230,16 @@ export const Sidebar = observer(() => {
 					</ListItem>
 
 					<Collapse in={expanded === 'socials'} timeout="auto" unmountOnExit>
-						<ListItem button className={classes.secondaryListItem} onClick={() => window.open("https://www.twitter.com/badgerdao")} >
+						<ListItem button className={classes.secondarySubListItem} onClick={() => window.open("https://www.twitter.com/badgerdao")} >
 							Twitter
 						</ListItem>
-						<ListItem button className={classes.secondaryListItem} onClick={() => window.open("https://badgerdao.medium.com")} >
+						<ListItem button className={classes.secondarySubListItem} onClick={() => window.open("https://badgerdao.medium.com")} >
 							Medium
 						</ListItem>
-						<ListItem button className={classes.secondaryListItem} onClick={() => window.open("https://discord.com/invite/xSPFHHS")} >
+						<ListItem button className={classes.secondarySubListItem} onClick={() => window.open("https://discord.com/invite/xSPFHHS")} >
 							Discord
 						</ListItem>
-						<ListItem button className={classes.secondaryListItem} onClick={() => window.open("https://t.me/badger_dao")} >
+						<ListItem button className={classes.secondarySubListItem} onClick={() => window.open("https://t.me/badger_dao")} >
 							Telegram
 						</ListItem>
 					</Collapse>
@@ -200,7 +252,7 @@ export const Sidebar = observer(() => {
 					</ListItem>
 
 
-					<ListItem className={classes.listItem} >
+					<ListItem key="gas" >
 						<ButtonGroup variant="outlined" fullWidth>
 							<Button size="small" disabled>
 								<img src={require('assets/sidebar/gas.png')} className={classes.icon} />

@@ -132,7 +132,7 @@ export const reduceGraphResult = (graphResult: any[]) => {
 			graphResult.forEach((duplicate: any, dupIndex: number) => {
 				if (!!result && duplicate.address === result.address) {
 					if (duplicate.ethValue.gt(0)) {
-						console.log('avaraging', duplicate.ethValue, token.ethValue, token.symbol)
+						// console.log('avaraging', duplicate.ethValue, token.ethValue, token.symbol)
 						token.ethValue = token.ethValue.plus(duplicate.ethValue).dividedBy(2)
 					} else if (dupIndex < index) {
 						token = undefined
@@ -186,7 +186,7 @@ export const reduceGrowth = (graphResult: any[], periods: number[], startDate: D
 				new BigNumber(vault[key].pricePerFullShare)
 				: new BigNumber("1")
 		)
-		console.log(_.mapValues(growth, (n: BigNumber) => n.minus(1).toString()))
+		// console.log(_.mapValues(growth, (n: BigNumber) => n.minus(1).toString()))
 
 
 
