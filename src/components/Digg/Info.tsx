@@ -213,27 +213,6 @@ const Info = observer((props: any) => {
 		</Grid>
 
 		<Grid item xs={12} style={{ textAlign: 'center', paddingBottom: 0 }} >
-			<Typography variant="subtitle1">Available Rewards</Typography>
-
-		</Grid>
-		<Grid item xs={12} md={3} />
-		<Grid item xs={6}>
-			<Paper className={classes.statPaper}>
-				<List style={{ padding: 0 }}>
-					<ListItem style={{ margin: 0, padding: 0 }}>
-						<ListItemText primary={'airdropStats.badger'} secondary="DIGG available to claim" />
-						<ListItemSecondaryAction >
-							<ButtonGroup disabled size="small" variant="outlined" color="primary">
-								<Button onClick={() => { }} variant="contained">Claim</Button>
-							</ButtonGroup>
-						</ListItemSecondaryAction>
-					</ListItem>
-				</List>
-			</Paper>
-		</Grid>
-		<Grid item xs={12} md={3} />
-
-		<Grid item xs={12} style={{ textAlign: 'center', paddingBottom: 0 }} >
 			<Typography variant="subtitle1">Charts</Typography>
 
 		</Grid>
