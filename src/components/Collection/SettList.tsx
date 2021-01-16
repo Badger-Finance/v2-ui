@@ -271,7 +271,7 @@ export const SettList = observer((props: any) => {
 				<Typography variant="body2" color="textSecondary" component="div">
 					{stats.token.symbol}
 
-					{!!vault.isSuperSett && <Chip className={classes.chip} label="Super Sett" size="small" color="primary" />}
+					{!!vault.isSuperSett && <Chip className={classes.chip} label="Harvest" size="small" color="primary" />}
 				</Typography>
 
 			</DialogTitle>
