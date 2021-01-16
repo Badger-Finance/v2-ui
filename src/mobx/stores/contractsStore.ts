@@ -223,13 +223,17 @@ class ContractsStore {
 									.call()
 									.then((timestamp: any) => {
 										timestamp *= 1000;
-										const now = Date.now();
-										var timeSinceLastCycle = Math.abs(now - timestamp);
-										const objTimeSinceLastCycle = {
-											hour: "0" + Math.floor(timeSinceLastCycle / (60 * 60 * 1000)),
-											minute: "0" + Math.round(((timeSinceLastCycle % 86400000) % 3600000) / 60000)
-										}
-										this.badgerTree.timeSinceLastCycle = objTimeSinceLastCycle;
+										
+										setInterval(() => {
+											const now = Date.now();
+											var timeSinceLastCycle = Math.abs(now - timestamp);
+											const objTimeSinceLastCycle = {
+												hour: "0" + Math.floor(timeSinceLastCycle / (60 * 60 * 1000)),
+												minute: "0" + Math.round(((timeSinceLastCycle % 86400000) % 3600000) / 60000)
+											}
+											this.badgerTree.timeSinceLastCycle = objTimeSinceLastCycle;
+										}, 60000)
+										
 									})
 								})
 						}
