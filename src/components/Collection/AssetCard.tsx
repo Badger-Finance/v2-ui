@@ -172,6 +172,11 @@ export const AssetCard = observer((props: any) => {
 							variant={'outlined'} color="primary" size="small" >
 							DEPOSIT</Button>}
 
+					{!stats.anyUnderlying && !stats.anyWrapped && !stats.anyStaked && isGlobal &&
+						<Button disabled onClick={() => onStake({ stats, token })}
+							variant={'outlined'} color="primary" size="small" >
+							DEPOSIT</Button>}
+						
 					{!!stats.anyWrapped && !isDeposit &&
 						<Button onClick={() => onStake({ stats, token })}
 							variant={(stats.anyUnderlying || stats.anyWrapped) ? 'contained' : 'outlined'} color="primary" size="small" >
