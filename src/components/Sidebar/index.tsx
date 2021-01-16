@@ -108,6 +108,7 @@ export const Sidebar = observer(() => {
 		router: { goTo },
 		uiState: { sidebarOpen, closeSidebar, gasPrice, setGasPrice },
 		wallet: { gasPrices },
+		contracts: {}, // badgerTree
 	} = store;
 
 	const [expanded, setExpanded] = useState('');

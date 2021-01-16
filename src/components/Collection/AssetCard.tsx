@@ -140,11 +140,22 @@ export const AssetCard = observer((props: any) => {
 						{!isGlobal ? stats.yourValue : stats.underlyingBalance}
 					</Typography>
 				</Grid>
-
 				<Grid item xs={12} md={2}>
 					<ButtonGroup variant="outlined" className={classes.cardActions}>
 						{!!stats.anyUnderlying && !stats.anyWrapped && (
 							<Button
+								onClick={() => onStake({ stats, token })}
+								variant={'outlined'}
+								color="primary"
+								size="small"
+							>
+								DEPOSIT
+							</Button>
+						)}
+
+						{!stats.anyUnderlying && !stats.anyWrapped && !stats.anyStaked && isGlobal && (
+							<Button
+								disabled
 								onClick={() => onStake({ stats, token })}
 								variant={'outlined'}
 								color="primary"

@@ -57,7 +57,7 @@ class WalletStore {
 		const previouslySelectedWallet = window.localStorage.getItem('selectedWallet');
 
 		// call wallet select with that value if it exists
-		if (previouslySelectedWallet != null) {
+		if (!!previouslySelectedWallet) {
 			this.onboard.walletSelect(previouslySelectedWallet);
 		}
 	}

@@ -1,19 +1,19 @@
-import React, { useContext } from 'react';
-import { observer } from 'mobx-react-lite';
 import {
-	Grid,
-	Container,
-	ButtonGroup,
 	Button,
-	Paper,
-	ListItem,
-	ListItemText,
-	ListItemSecondaryAction,
+	ButtonGroup,
 	Chip,
+	Container,
+	Grid,
 	List,
+	ListItem,
+	ListItemSecondaryAction,
+	ListItemText,
+	Paper,
+	Typography,
 } from '@material-ui/core';
-import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { observer } from 'mobx-react-lite';
+import React, { useContext } from 'react';
 
 import { StoreContext } from '../../context/store-context';
 
@@ -76,14 +76,16 @@ export const Airdrops = observer(() => {
 				title: `Stake`,
 				button: `Stake`,
 				badge: !!stats.stats.badgerGrowth && `Up to ${stats.stats.badgerGrowth}% APY`,
-				href: '/setts',
+				href: '/',
 				copy: 'Deposit in vaults to earn Badger and Digg',
 			},
+			// { title: "Liquidity", button: "Add Liquidity", badge: !!stats.stats.badgerLiqGrowth && `Up to ${stats.stats.badgerLiqGrowth}% APY`, href: "https://info.uniswap.org/pair/0xcd7989894bc033581532d2cd88da5db0a4b12859", copy: "Provide liquidity and stake LP in vaults." },
 			{
 				title: 'Liquidity',
-				button: 'Add Liquidity',
-				badge: !!stats.stats.badgerLiqGrowth && `Up to ${stats.stats.badgerLiqGrowth}% APY`,
+				button: 'Uniswap',
+				button2: 'Sushiswap',
 				href: 'https://info.uniswap.org/pair/0xcd7989894bc033581532d2cd88da5db0a4b12859',
+				href2: 'https://sushiswap.fi/pair/0x110492b31c59716ac47337e616804e3e3adc0b4a',
 				copy: 'Provide liquidity and stake LP in vaults.',
 			},
 			{
@@ -101,7 +103,14 @@ export const Airdrops = observer(() => {
 					{qualifier.copy}
 				</Typography>
 
-				<Button target="_blank" href={qualifier.href} size="small" variant="contained" color="primary">
+				<Button
+					className={classes.button}
+					target="_blank"
+					href={qualifier.href}
+					size="small"
+					variant="contained"
+					color="primary"
+				>
 					{qualifier.button}
 				</Button>
 				{!!qualifier.badge && (
@@ -112,6 +121,18 @@ export const Airdrops = observer(() => {
 						color="primary"
 						size="small"
 					/>
+				)}
+				{!!qualifier.button2 && (
+					<Button
+						style={{ marginLeft: '1rem' }}
+						target="_blank"
+						href={qualifier.href2}
+						size="small"
+						variant="contained"
+						color="primary"
+					>
+						{qualifier.button2}
+					</Button>
 				)}
 			</Grid>
 		));

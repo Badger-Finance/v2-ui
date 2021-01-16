@@ -122,7 +122,7 @@ export const reduceGraphResult = (graphResult: any[]) => {
 			graphResult.forEach((duplicate: any, dupIndex: number) => {
 				if (!!result && duplicate.address === result.address) {
 					if (duplicate.ethValue.gt(0)) {
-						console.log('avaraging', duplicate.ethValue, token.ethValue, token.symbol);
+						// console.log('averaging', duplicate.ethValue, token.ethValue, token.symbol);
 						token.ethValue = token.ethValue.plus(duplicate.ethValue).dividedBy(2);
 					} else if (dupIndex < index) {
 						token = undefined;
@@ -166,13 +166,20 @@ export const reduceGrowth = (graphResult: any[], periods: number[], startDate: D
 		const timePeriods = ['now', 'day', 'week', 'month', 'start'];
 
 		const growth: any = {};
-		reduction.forEach(
-			(vault: any, i: number) =>
-				(growth[timePeriods[i]] = !!vault[key]
+		reduction.forEach((vault: any, i: number) => {
+			// added catch for incorrect PPFS reporting
+			if (key.toLowerCase() === '0xAf5A1DECfa95BAF63E0084a35c62592B774A2A87'.toLowerCase()) {
+				growth[timePeriods[i]] = !!vault[key]
+					? parseFloat(vault[key].pricePerFullShare) >= 1.05
+						? new BigNumber('1')
+						: new BigNumber(vault[key].pricePerFullShare)
+					: new BigNumber('1');
+			} else {
+				growth[timePeriods[i]] = !!vault[key]
 					? new BigNumber(vault[key].pricePerFullShare)
-					: new BigNumber('1')),
-		);
-		console.log(_.mapValues(growth, (n: BigNumber) => n.minus(1).toString()));
+					: new BigNumber('1');
+			}
+		});
 
 		const day = growth.now.dividedBy(growth.day).minus(1);
 		const week = growth.week.gt(1) ? growth.now.dividedBy(growth.week).minus(1) : day.multipliedBy(7);

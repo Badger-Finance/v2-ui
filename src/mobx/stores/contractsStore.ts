@@ -23,7 +23,7 @@ import { jsonQuery, graphQuery, growthQuery, secondsToBlocks, inCurrency, vanill
 import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
 import async from 'async';
-import { reduceClaims } from '../reducers/statsReducers';
+import { reduceClaims, reduceTimeSinceLastCycle } from '../reducers/statsReducers';
 import { curveTokens } from '../../config/system/tokens';
 import { EMPTY_DATA, ERC20, RPC_URL, START_BLOCK, START_TIME, WBTC_ADDRESS } from '../../config/constants';
 import { rewards as rewardsConfig, geysers as geyserConfigs } from '../../config/system/settSystem';
@@ -63,7 +63,7 @@ class ContractsStore {
 			tokens: undefined,
 			geysers: undefined,
 			rebase: undefined,
-			badgerTree: undefined,
+			badgerTree: { cycle: '...', timeSinceLastCycle: '0h 0m', claims: [0] },
 			airdrops: undefined,
 		});
 
@@ -97,6 +97,8 @@ class ContractsStore {
 			this.fetchSettRewards();
 			this.fetchContracts();
 		});
+
+		setInterval(this.fetchSettRewards, 6e4);
 	}
 
 	updateVaults = action((vaults: any) => {
@@ -162,7 +164,7 @@ class ContractsStore {
 				// fetch input/outputs information
 				this.fetchTokens();
 			})
-			.catch((error: any) => console.log(error));
+			.catch((error: any) => process.env.NODE_ENV !== 'production' && console.log(error));
 	});
 
 	fetchTokens = action(() => {
@@ -215,28 +217,43 @@ class ContractsStore {
 		const rewardsTree = new web3.eth.Contract(rewardsConfig.abi as any, rewardsConfig.contract);
 		const checksumAddress = Web3.utils.toChecksumAddress(connectedAddress);
 
-		rewardsTree.methods
-			.merkleContentHash()
-			.call()
-			.then((merkleHash: any) => {
-				jsonQuery(
-					`${rewardsConfig.endpoint}/rewards/${rewardsConfig.network}/${merkleHash}/${checksumAddress}`,
-				).then((merkleProof: any) => {
-					if (!merkleProof.error) {
-						rewardsTree.methods
-							.getClaimedFor(connectedAddress, rewardsConfig.tokens)
-							.call()
-							.then((claimedRewards: any[]) => {
-								const claims = reduceClaims(merkleProof, claimedRewards);
-								this.badgerTree = {
-									cycle: parseInt(merkleProof.cycle, 16),
-									claims,
-									merkleProof,
-								};
-							});
-					}
-				});
+		const treeMethods = [
+			rewardsTree.methods.lastPublishTimestamp().call(),
+			rewardsTree.methods.merkleContentHash().call(),
+		];
+
+		Promise.all(treeMethods).then((rewardsResponse: any) => {
+			const merkleHash = rewardsResponse[1];
+
+			this.badgerTree = _.defaults(
+				{
+					timeSinceLastCycle: reduceTimeSinceLastCycle(rewardsResponse[0]),
+				},
+				this.badgerTree,
+			);
+
+			const endpointQuery = jsonQuery(
+				`${rewardsConfig.endpoint}/rewards/${rewardsConfig.network}/${merkleHash}/${checksumAddress}`,
+			);
+
+			endpointQuery.then((proof: any) => {
+				rewardsTree.methods
+					.getClaimedFor(connectedAddress, rewardsConfig.tokens)
+					.call()
+					.then((claimedRewards: any[]) => {
+						if (!proof.error) {
+							this.badgerTree = _.defaults(
+								{
+									cycle: parseInt(proof.cycle, 16),
+									claims: reduceClaims(proof, claimedRewards),
+									proof,
+								},
+								this.badgerTree,
+							);
+						}
+					});
 			});
+		});
 	});
 
 	fetchAirdrops = action(() => {
@@ -308,7 +325,7 @@ class ContractsStore {
 		const underlying = tokens[vault[vault.underlyingKey]];
 		const wrapped = tokens[vault.address];
 
-		console.log(vault, geyser, onlyWrapped);
+		// console.log(vault, geyser, onlyWrapped);
 
 		if (!amount || amount.isNaN() || amount.lte(0))
 			return queueNotification('Please enter a valid amount', 'error');
@@ -328,7 +345,7 @@ class ContractsStore {
 				(callback: any) => this.getAllowance(wrapped, geyser.address, callback),
 			],
 			(err: any, allowances: any) => {
-				console.log(allowances);
+				// console.log(allowances);
 
 				// if we need to wrap assets, make sure we have allowance
 				if (underlyingAmount.gt(0)) {
@@ -378,7 +395,7 @@ class ContractsStore {
 		const methodSeries: any = [];
 
 		if (geyser.totalStakedFor.minus(wrappedAmount).lte(1)) {
-			console.log('unstakeALL');
+			// console.log('unstakeALL');
 			wrappedAmount = geyser.totalStakedFor;
 		}
 
@@ -409,7 +426,7 @@ class ContractsStore {
 		const wrappedAmount = amount;
 		const methodSeries: any = [];
 
-		console.log('unwrapping', wrappedAmount.dividedBy(1e18).toString());
+		// console.log('unwrapping', wrappedAmount.dividedBy(1e18).toString());
 
 		// withdraw
 		methodSeries.push((callback: any) =>
@@ -423,7 +440,7 @@ class ContractsStore {
 	});
 
 	claimGeysers = action((stake = false) => {
-		const { merkleProof } = this.badgerTree;
+		const { proof } = this.badgerTree;
 		const { provider, gasPrices, connectedAddress } = this.store.wallet;
 		const { queueNotification, gasPrice, setTxStatus } = this.store.uiState;
 
@@ -435,11 +452,11 @@ class ContractsStore {
 		const web3 = new Web3(provider);
 		const rewardsTree = new web3.eth.Contract(rewardsConfig.abi as any, rewardsConfig.contract);
 		const method = rewardsTree.methods.claim(
-			merkleProof.tokens,
-			merkleProof.cumulativeAmounts,
-			merkleProof.index,
-			merkleProof.cycle,
-			merkleProof.proof,
+			proof.tokens,
+			proof.cumulativeAmounts,
+			proof.index,
+			proof.cycle,
+			proof.proof,
 		);
 
 		queueNotification(`Sign the transaction to claim your earnings`, 'info');
@@ -651,8 +668,8 @@ class ContractsStore {
 		const { provider, connectedAddress } = this.store.wallet;
 
 		const underlyingAsset = this.tokens[vault[vault.underlyingKey]];
-		console.log('tokens: ', this.tokens);
-		console.log('underlying address: ', underlyingAsset);
+		// console.log('tokens: ', this.tokens);
+		// console.log('underlying address: ', underlyingAsset);
 
 		const web3 = new Web3(provider);
 		const underlyingContract = new web3.eth.Contract(vault.abi, vault.address);
@@ -774,8 +791,6 @@ class ContractsStore {
 
 			const rawToken = tokens[underlyingVault[underlyingVault.underlyingKey]];
 
-			// sum rewards in current period
-			// todo: break out to actual durations
 			const rewardSchedule = reduceGeyserSchedule(timestamp, schedule);
 
 			return _.mapValues(rewardSchedule, (reward: any) => {
@@ -806,7 +821,7 @@ class ContractsStore {
 					try {
 						sushiSuffix.push(this.vaults[this.geysers[contract].getStakingToken].token);
 					} catch (e) {
-						console.log(e);
+						process.env.NODE_ENV !== 'production' && console.log(e);
 					}
 				});
 				// Then we use the provided API from sushi to get the ROI numbers
@@ -815,22 +830,6 @@ class ContractsStore {
 				Promise.all([xSushi, newMasterChef]).then((results: any) => {
 					const xROI: any = reduceXSushiROIResults(results[0]['weekly_APY']);
 					const newSushiRewards = reduceSushiAPIResults(results[1], config.contracts);
-					// TODO: add in xROI:
-					// - pull vault balance in eth
-					// - multiply by sushi ROI to get sushi value that will be invested
-					// - multiply this value by xsushi ROI to get xsushi rewards
-					// - divide by vault balance to get xsushi ROI in relation to vault
-					// - add to sushi ROI for total ROI
-
-					// let newSushiROIs = _.map(results.pairs, (pair: any, i: number) => {
-					// 	return {
-					// 		address: contracts[i],
-					// 		day: new BigNumber(pair.aprDay).dividedBy(100),
-					// 		month: new BigNumber(pair.aprMonthly).dividedBy(100),
-					// 		year: new BigNumber(pair.aprYear_without_lockup).dividedBy(100)
-					// 	}
-					// })
-					// return _.keyBy(newSushiROIs, 'address')
 					this.updateGeysers(
 						_.mapValues(newSushiRewards, (reward: any, geyserAddress: string) => {
 							const geyser = geysers[geyserAddress];
@@ -846,7 +845,7 @@ class ContractsStore {
 							const vaultEthVal = vaultBalance.multipliedBy(tokenValue.dividedBy(1e18));
 							return {
 								sushiRewards: _.mapValues(reward, (periodROI: BigNumber, period: string) => {
-									if (periodROI.toString().substr(0, 2) !== '0x') {
+									if (periodROI.toString().substr(0, 2) != '0x') {
 										const sushiRewards = vaultEthVal.multipliedBy(periodROI);
 										const xsushiRewards = sushiRewards.multipliedBy(xROI[period].dividedBy(100));
 										const xsushiROI = xsushiRewards.dividedBy(vaultEthVal);
