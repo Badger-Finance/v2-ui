@@ -6,6 +6,8 @@ import {
 	Grid,
 	CardActions,
 	Typography,
+	Tabs,
+	Tab,
 	CardHeader,
 	CircularProgress,
 } from "@material-ui/core";
@@ -24,11 +26,12 @@ const DashboardCard = observer((props: any) => {
 	};
 
 	useEffect(componentDidMount, []);
+	const [title, setGraphSelected] = useState<string>("Supply")
 
 	const handleChangeRange = (range: number) => {
-		let chart = props.title === "Price"
+		let chart = title === "Price"
 			? "prices"
-			: props.title === "Supply"
+			: title === "Supply"
 				? "total_volumes"
 				: "market_caps"
 
@@ -38,6 +41,9 @@ const DashboardCard = observer((props: any) => {
 		})
 
 	};
+	useEffect(() => {
+		handleChangeRange(range)
+	}, [title])
 
 	const [chartData, setChartData] = useState<any>(undefined);
 	const [range, setRange] = useState<number>(420);
@@ -74,7 +80,21 @@ const DashboardCard = observer((props: any) => {
 
 	return !!chartData ? (
 		<Card >
-			<CardHeader title={props.title} action={ranges} subheader="Drag the chart and pan the axes to explore." >
+			<Tabs variant="fullWidth" indicatorColor="primary" value={["Supply", "Price", "Market cap"].indexOf(title)} style={{ background: 'rgba(0,0,0,.2)', marginBottom: '.5rem' }}>
+				<Tab
+					onClick={() => setGraphSelected("Supply")}
+					label="Supply">
+				</Tab>
+				<Tab
+					onClick={() => setGraphSelected("Price")}
+					label="Price">
+				</Tab>
+				<Tab
+					onClick={() => setGraphSelected("Market cap")}
+					label="Market cap">
+				</Tab>
+			</Tabs>
+			<CardHeader title={title} subheader="Drag the chart and pan the axes to explore." >
 
 			</CardHeader>
 			<CardContent>
@@ -89,40 +109,44 @@ const DashboardCard = observer((props: any) => {
 				}}
 			>
 				<AreaChart
+
 					accent={"#F2A52B"}
 					chartData={chartData}
-					yPrefix={props.title === "Price" && "$"}
+					yPrefix={title === "Price" && "$"}
 				/>
 			</CardContent>
 
-			<CardActions style={{ display: 'flex', justifyContent: 'start' }}>
-				<div style={{ display: 'flex', marginRight: '.5rem' }}><Typography variant="body2" color="textPrimary">
-					<Typography variant="body2" color="textSecondary">
+			<CardActions style={{ display: 'flex', justifyContent: 'space-between', marginTop: '.5rem' }}>
+				{ranges}
+				<div style={{ display: 'flex' }}>
+					<div style={{ marginLeft: '1rem' }}><Typography variant="body2" color="textPrimary">
+						<Typography variant="body2" color="textSecondary">
 
-						High</Typography>
-					{props.title === "Price" && "$"}
-					{intToString(chartData.calcs.high)}</Typography>
-				</div>
-				<div style={{ display: 'flex', marginRight: '.5rem' }}><Typography variant="body2" color="textPrimary">
-					<Typography variant="body2" color="textSecondary">
+							High</Typography>
+						{title === "Price" && "$"}
+						{intToString(chartData.calcs.high)}</Typography>
+					</div>
+					<div style={{ marginLeft: '1rem' }}><Typography variant="body2" color="textPrimary">
+						<Typography variant="body2" color="textSecondary">
 
-						Low</Typography>
-					{props.title === "Price" && "$"}
-					{intToString(chartData.calcs.low)}</Typography>
-				</div>
-				<div style={{ display: 'flex', marginRight: '.5rem' }}><Typography variant="body2" color="textPrimary">
-					<Typography variant="body2" color="textSecondary">
+							Low</Typography>
+						{title === "Price" && "$"}
+						{intToString(chartData.calcs.low)}</Typography>
+					</div>
+					<div style={{ marginLeft: '1rem' }}><Typography variant="body2" color="textPrimary">
+						<Typography variant="body2" color="textSecondary">
 
-						Average</Typography>
-					{props.title === "Price" && "$"}
-					{intToString(chartData.calcs.avg)}</Typography>
-				</div>
-				<div style={{ display: 'flex', marginRight: '.5rem' }}><Typography variant="body2" color="textPrimary">
-					<Typography variant="body2" color="textSecondary">
+							Average</Typography>
+						{title === "Price" && "$"}
+						{intToString(chartData.calcs.avg)}</Typography>
+					</div>
+					<div style={{ marginLeft: '1rem' }}><Typography variant="body2" color="textPrimary">
+						<Typography variant="body2" color="textSecondary">
 
-						Median</Typography>
-					{props.title === "Price" && "$"}
-					{intToString(chartData.calcs.median)}</Typography>
+							Median</Typography>
+						{title === "Price" && "$"}
+						{intToString(chartData.calcs.median)}</Typography>
+					</div>
 				</div>
 			</CardActions>
 		</Card>

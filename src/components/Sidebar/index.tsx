@@ -62,7 +62,7 @@ const useStyles = makeStyles((theme) => ({
 	secondarySubListItem: {
 		cursor: "pointer",
 		justifyContent: 'space-between',
-		background: ' rgba(0, 0, 0, .1)',
+		background: ' rgba(0, 0, 0, .2)',
 		"&:hover": {
 			fontWeight: 'bold'
 		},

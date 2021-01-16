@@ -1,9 +1,9 @@
-import { Button, ButtonGroup, Container, Grid, makeStyles, Typography, Paper } from "@material-ui/core";
+import { Button, ButtonGroup, Container, Grid, makeStyles, Typography, Paper, Tabs, Tab } from "@material-ui/core";
 import { observer } from 'mobx-react-lite';
 
 import DashboardCard from "./DashboardCard";
 import Info from "./Info";
-import React, { useContext,useState } from "react";
+import React, { useContext, useState } from "react";
 import { StoreContext } from "../../context/store-context";
 
 const useStyles = makeStyles((theme) => ({
@@ -46,7 +46,6 @@ export const Digg = observer((props: any) => {
 
 	const { uiState: { rebaseStats } } = store
 	const spacer = () => <div className={classes.before} />;
-	const [graphSelected,setGraphSelected] = useState<string>("Supply")
 
 	return (
 		<Container className={classes.root} maxWidth="lg">
@@ -67,38 +66,10 @@ export const Digg = observer((props: any) => {
 
 				<Info />
 
-				<Grid item xs={12}>
-					<Paper className={classes.statPaper}>
-						Add Digg Setts
-					</Paper>
-				</Grid>
 
-				{spacer()}
-				
-				<ButtonGroup
-					variant="outlined"
-					size="small"
-					className={classes.buttonGroup}
-					aria-label="outlined button group">
-					<Button
-					 onClick={() => setGraphSelected("Supply")}
-					 variant={graphSelected === "Supply" ? "contained" : "outlined"}>
-						 Supply
-					</Button>
-					<Button
-					 onClick={() => setGraphSelected("Price")}
-					 variant={graphSelected === "Price" ? "contained" : "outlined"}>
-						 Price
-					</Button>
-					<Button
-					 onClick={() => setGraphSelected("Market cap")}
-					 variant={graphSelected === "Market cap" ? "contained" : "outlined"}>
-						 Market cap
-					</Button>
-				</ButtonGroup>
 
 				<Grid item xs={12}>
-					<DashboardCard title={graphSelected} accent="#152554"/>
+					<DashboardCard accent="#152554" />
 				</Grid>
 				{spacer()}
 
