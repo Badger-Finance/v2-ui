@@ -165,9 +165,8 @@ export const Collection = observer(() => {
 								className={classes.select}
 								style={{ marginTop: 'auto', marginBottom: 'auto' }}
 							>
-								<MenuItem value={'usd'}>USD</MenuItem>
-								<MenuItem value={'btc'}>BTC</MenuItem>
-								<MenuItem value={'eth'}>ETH</MenuItem>
+								<MenuItem value={'month'}>MONTH</MenuItem>
+								<MenuItem value={'year'}>YEAR</MenuItem>
 							</Select>
 						</span>
 					</Grid>
