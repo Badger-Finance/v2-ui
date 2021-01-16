@@ -14,7 +14,7 @@
  
 yarn build;
 
-aws s3 rm s3://app.badger.finance/staging --recursive;
-aws s3 sync build/ s3://app.badger.finance/staging;
+aws s3 rm s3://app.badger.finance/staging --recursive --profile badger;
+aws s3 sync build/ s3://app.badger.finance/staging --profile badger;
 
-aws cloudfront create-invalidation --distribution-id E2VBLS8BHAUB1F --paths "/*" "/setts" "/super-setts" "/hunt" "/stake";
+aws cloudfront create-invalidation --distribution-id E2VBLS8BHAUB1F --paths "/*" "/setts" "/super-setts" "/hunt" "/stake" --profile badger;

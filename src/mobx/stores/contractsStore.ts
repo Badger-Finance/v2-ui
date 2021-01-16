@@ -208,7 +208,6 @@ class ContractsStore {
 			rewardsTree.methods.lastPublishTimestamp().call(),
 			rewardsTree.methods.merkleContentHash().call()
 		]
-		let endpointQuery = jsonQuery(`${rewardsConfig.endpoint}/rewards/${rewardsConfig.network}/${merkleHash}/${checksumAddress}`)
 
 		Promise.all(treeMethods).then((rewardsResponse: any) => {
 
@@ -217,6 +216,8 @@ class ContractsStore {
 			this.badgerTree = _.defaults({
 				timeSinceLastCycle: reduceTimeSinceLastCycle(rewardsResponse[0]),
 			}, this.badgerTree)
+
+			let endpointQuery = jsonQuery(`${rewardsConfig.endpoint}/rewards/${rewardsConfig.network}/${merkleHash}/${checksumAddress}`)
 
 			endpointQuery.then((proof: any) => {
 				rewardsTree.methods.getClaimedFor(connectedAddress, rewardsConfig.tokens)
