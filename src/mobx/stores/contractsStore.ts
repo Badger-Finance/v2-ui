@@ -204,12 +204,13 @@ class ContractsStore {
 		let rewardsTree = new web3.eth.Contract(rewardsConfig.abi, rewardsConfig.contract)
 		let checksumAddress = Web3.utils.toChecksumAddress(connectedAddress)
 
-		let methods = [
+		let treeMethods = [
 			rewardsTree.methods.lastPublishTimestamp().call(),
 			rewardsTree.methods.merkleContentHash().call()
 		]
+		let endpointQuery = jsonQuery(`${rewardsConfig.endpoint}/rewards/${rewardsConfig.network}/${merkleHash}/${checksumAddress}`)
 
-		Promise.all(methods).then((rewardsResponse: any) => {
+		Promise.all(treeMethods).then((rewardsResponse: any) => {
 
 			let merkleHash = rewardsResponse[1]
 
@@ -217,23 +218,19 @@ class ContractsStore {
 				timeSinceLastCycle: reduceTimeSinceLastCycle(rewardsResponse[0]),
 			}, this.badgerTree)
 
-			jsonQuery(`${rewardsConfig.endpoint}/rewards/${rewardsConfig.network}/${merkleHash}/${checksumAddress}`)
-				.then((proof: any) => {
-
-					rewardsTree.methods.getClaimedFor(connectedAddress, rewardsConfig.tokens)
-						.call()
-						.then((claimedRewards: any[]) => {
-							if (!proof.error) {
-								let claims = reduceClaims(proof, claimedRewards)
-
-								this.badgerTree = _.defaults({
-									cycle: parseInt(proof.cycle, 16),
-									claims,
-									proof
-								}, this.badgerTree)
-							}
-						})
-				})
+			endpointQuery.then((proof: any) => {
+				rewardsTree.methods.getClaimedFor(connectedAddress, rewardsConfig.tokens)
+					.call()
+					.then((claimedRewards: any[]) => {
+						if (!proof.error) {
+							this.badgerTree = _.defaults({
+								cycle: parseInt(proof.cycle, 16),
+								claims: reduceClaims(proof, claimedRewards),
+								proof
+							}, this.badgerTree)
+						}
+					})
+			})
 		})
 
 	});
