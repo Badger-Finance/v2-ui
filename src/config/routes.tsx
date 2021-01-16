@@ -1,7 +1,7 @@
 import React from 'react';
 
 //models
-import { Route } from 'mobx-router';
+import { QueryParams, Route } from 'mobx-router';
 
 //components
 import { Collection } from '../components/Collection';
@@ -13,43 +13,31 @@ const routes = {
 	home: new Route<RootStore>({
 		path: '/',
 		component: <Collection />,
-		onEnter: (route, params, store) => {
-		},
-		beforeExit: () => {
-		},
-		onParamsChange: (route, params, store) => {
-		}
-
+		// onEnter: () => {},
+		// beforeExit: () => {},
+		// onParamsChange: () => {}
 	}),
 
-
-	airdrops: new Route<RootStore, {
-	}>({
+	airdrops: new Route<RootStore, QueryParams>({
 		path: '/airdrops',
 		component: <Airdrops />,
 		onEnter: (_, params, store) => {
-			store.contracts.fetchAirdrops()
+			store.contracts.fetchAirdrops();
 		},
-		beforeExit: (_, _p, store) => {
-		},
-		onParamsChange: (route, params, store) => {
-			// store.uiState.setVault(collection, id)
-
-		}
+		// beforeExit: () => {},
+		// onParamsChange: () => {
+		// 	// store.uiState.setVault(collection, id)
+		// }
 	}),
-	digg: new Route<RootStore, {
-	}>({
+	digg: new Route<RootStore, QueryParams>({
 		path: '/digg',
 		component: <Digg />,
-		onEnter: (_, params, store) => {
-		},
-		beforeExit: (_, _p, store) => {
-
-		},
-		onParamsChange: (route, params, store) => {
-			// store.uiState.setVault(collection, id)
-
-		}
+		// onEnter: () => {},
+		// beforeExit: () => {},
+		// onParamsChange: (route, params, store) => {
+		// 	// store.uiState.setVault(collection, id)
+		//
+		// }
 	}),
 	// account: new Route<RootStore, {
 	// 	account: string;
@@ -66,6 +54,5 @@ const routes = {
 	// 		console.log('params changed to', params);
 	// 	}
 	// }),
-
 };
 export default routes;
