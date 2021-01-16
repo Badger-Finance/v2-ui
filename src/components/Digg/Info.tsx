@@ -121,6 +121,16 @@ const Info = observer((props: any) => {
 		</Grid>
 		<Grid item xs={12} md={3}>
 			<Metric
+				metric='Total Supply'
+				value={shortenNumbers(rebaseStats.totalSupply, '', 2)}
+				submetrics={[
+					{ title: 'Change', value: previousSupply ? getPercentageChange(rebaseStats.totalSupply, previousSupply).toFixed(2) : '-', change: true },
+					{ title: 'Previous Supply', value: previousSupply ? shortenNumbers(previousSupply, '', 2) : '-' },
+				]}
+			/>
+		</Grid>
+		<Grid item xs={6} md={3}>
+			<Metric
 				metric='Oracle Price'
 				value={'$42,109'}
 				submetrics={[
@@ -129,7 +139,7 @@ const Info = observer((props: any) => {
 				]}
 			/>
 		</Grid>
-		<Grid item xs={12} md={3}>
+		<Grid item xs={6} md={3}>
 			<Metric
 				metric='BTC Price'
 				value={'$40,345'}
@@ -139,21 +149,9 @@ const Info = observer((props: any) => {
 				]}
 			/>
 		</Grid>
-		<Grid item xs={12} md={3}>
-			<Metric
-				metric='Total Supply'
-				value={shortenNumbers(rebaseStats.totalSupply, '', 2)}
-				submetrics={[
-					{ title: 'Change', value: previousSupply ? getPercentageChange(rebaseStats.totalSupply, previousSupply).toFixed(2) : '-', change: true },
-					{ title: 'Previous Supply', value: previousSupply ? shortenNumbers(previousSupply, '', 2) : '-' },
-				]}
-			/>
-		</Grid>
-
 
 		<Grid item xs={12} style={{ textAlign: 'center', paddingBottom: 0 }} >
 			<Typography variant="subtitle1">Current Rebase</Typography>
-
 		</Grid>
 		<Grid item xs={12} md={6}>
 			<Card >
@@ -214,14 +212,11 @@ const Info = observer((props: any) => {
 						Get DIGG
 					</Button>
 				</CardActions>
-
-
 			</Card>
 		</Grid>
 
 		<Grid item xs={12} style={{ textAlign: 'center', paddingBottom: 0 }} >
 			<Typography variant="subtitle1">Charts</Typography>
-
 		</Grid>
 	</>
 });

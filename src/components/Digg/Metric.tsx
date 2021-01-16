@@ -4,7 +4,9 @@ import React from "react";
 
 const useStyles = makeStyles((theme) => ({
 	statPaper: {
-		padding: theme.spacing(2),
+		[theme.breakpoints.up('sm')]: {
+			padding: theme.spacing(2),
+    },
 		textAlign: 'center',
 		minHeight: '100%',
 		display: 'flex',

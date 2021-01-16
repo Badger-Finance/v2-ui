@@ -66,8 +66,6 @@ export const Digg = observer((props: any) => {
 
 				<Info />
 
-
-
 				<Grid item xs={12}>
 					<DashboardCard accent="#152554" />
 				</Grid>
