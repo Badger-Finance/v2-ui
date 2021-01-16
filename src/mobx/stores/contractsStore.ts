@@ -71,22 +71,27 @@ class ContractsStore {
 		})
 
 		observe(this.store.wallet as any, "connectedAddress", (change: any) => {
-			let newOptions = {
-				web3: new Web3(this.store.wallet.provider),
-				etherscan: {
-					apiKey: "NXSHKK6D53D3R9I17SR49VX8VITQY7UC6P",
-					delayTime: 300
-				},
-			}
-			batchCall = new BatchCall(newOptions);
-
-			this.fetchSettRewards()
-			this.fetchContracts()
+			this.updateProvider()
 		})
+		if (!!this.store.wallet.connectedAddress)
+			this.updateProvider()
 
 		setInterval(this.fetchSettRewards, 6e4)
 	}
 
+	updateProvider = action(() => {
+		let newOptions = {
+			web3: new Web3(this.store.wallet.provider),
+			etherscan: {
+				apiKey: "NXSHKK6D53D3R9I17SR49VX8VITQY7UC6P",
+				delayTime: 300
+			},
+		}
+		batchCall = new BatchCall(newOptions);
+
+		this.fetchSettRewards()
+		this.fetchContracts()
+	});
 	updateVaults = action((vaults: any) => {
 		this.vaults = _.defaultsDeep(vaults, this.vaults, vaults)
 	});

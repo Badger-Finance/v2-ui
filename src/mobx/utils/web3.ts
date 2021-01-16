@@ -41,7 +41,7 @@ export const batchConfig = (namespace: string, addresses: any[], methods: any[],
 	return ({
 		namespace,
 		addresses: addresses.map((address: string) => Web3.utils.toChecksumAddress(address)),
-		allReadMethods,
+		allReadMethods: false,
 		groupByNamespace: true,
 		logging: false,
 		...readMethods,
@@ -97,6 +97,12 @@ export const erc20Methods = (connectedAddress: string, token: any, vaults: any[]
 			args: [
 				Web3.utils.toChecksumAddress(connectedAddress)
 			]
+		}, {
+			name: "totalSupply",
+
+		}, {
+			name: "symbol",
+
 		}, {
 			name: "allowance",
 			args: [

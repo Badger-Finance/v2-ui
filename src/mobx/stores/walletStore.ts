@@ -53,7 +53,7 @@ class WalletStore {
 
 		setInterval(() => {
 			this.getGasPrice()
-			this.getCurrentBlock()
+			// this.getCurrentBlock()
 		}, 13000)
 
 		const previouslySelectedWallet = window.localStorage.getItem('selectedWallet')
