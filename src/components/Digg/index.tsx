@@ -1,4 +1,4 @@
-import { Button, ButtonGroup, Container, Grid, makeStyles, Typography } from "@material-ui/core";
+import { Button, ButtonGroup, Container, Grid, makeStyles, Typography, Paper } from "@material-ui/core";
 import { observer } from 'mobx-react-lite';
 
 import DashboardCard from "./DashboardCard";
@@ -6,9 +6,7 @@ import Info from "./Info";
 import React, { useContext,useState } from "react";
 import { StoreContext } from "../../context/store-context";
 
-
 const useStyles = makeStyles((theme) => ({
-
 	root: {
 		marginTop: theme.spacing(11),
 		[theme.breakpoints.up('md')]: {
@@ -25,18 +23,21 @@ const useStyles = makeStyles((theme) => ({
 		[theme.breakpoints.up('sm')]: {
 			textAlign: 'right'
 		},
+		marginTop: 'auto',
+		marginBottom: 'auto',
 	},
 	buttonGroup: {
 		marginRight: theme.spacing(2),
 		[theme.breakpoints.up('md')]: {
 			marginLeft: theme.spacing(2),
 			marginRight: theme.spacing(0),
-
 		},
 	},
-
-
-
+	statPaper: {
+		padding: theme.spacing(2),
+		textAlign: 'center',
+		minHeight: '100%',
+	},
 }));
 
 export const Digg = observer((props: any) => {
@@ -64,9 +65,16 @@ export const Digg = observer((props: any) => {
 					</ButtonGroup>
 				</Grid>
 
-
 				<Info />
 
+				<Grid item xs={12}>
+					<Paper className={classes.statPaper}>
+						Add Digg Setts
+					</Paper>
+				</Grid>
+
+				{spacer()}
+				
 				<ButtonGroup
 					variant="outlined"
 					size="small"
@@ -87,7 +95,6 @@ export const Digg = observer((props: any) => {
 					 variant={graphSelected === "Market cap" ? "contained" : "outlined"}>
 						 Market cap
 					</Button>
-
 				</ButtonGroup>
 
 				<Grid item xs={12}>
