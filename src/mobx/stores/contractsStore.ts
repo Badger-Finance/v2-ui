@@ -225,6 +225,7 @@ class ContractsStore {
 										timestamp *= 1000;
 										
 										setInterval(() => {
+											// Compare current date to last timestamp and save in an object
 											const now = Date.now();
 											var timeSinceLastCycle = Math.abs(now - timestamp);
 											const objTimeSinceLastCycle = {
@@ -232,6 +233,10 @@ class ContractsStore {
 												minute: "0" + Math.round(((timeSinceLastCycle % 86400000) % 3600000) / 60000)
 											}
 											this.badgerTree.timeSinceLastCycle = objTimeSinceLastCycle;
+											// Check if new cycle - if so, increment current by 1
+											if (parseInt(this.badgerTree.timeSinceLastCycle.hour.substr(-2)) === 0 && parseInt(this.badgerTree.timeSinceLastCycle.minute.substr(-2)) === 0) {
+												this.badgerTree.cycle += 1;
+											}
 										}, 60000)
 										
 									})
