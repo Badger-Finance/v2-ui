@@ -181,14 +181,20 @@ export const reduceGrowth = (graphResult: any[], periods: number[], startDate: D
 		let timePeriods = ["now", "day", "week", "month", "start"]
 
 		let growth: any = {}
-		reduction.forEach((vault: any, i: number) =>
-			growth[timePeriods[i]] = !!vault[key] ?
-				new BigNumber(vault[key].pricePerFullShare)
-				: new BigNumber("1")
-		)
-		// console.log(_.mapValues(growth, (n: BigNumber) => n.minus(1).toString()))
-
-
+		reduction.forEach((vault: any, i: number) => {
+			// added catch for incorrect PPFS reporting
+			if (key.toLowerCase() === '0xAf5A1DECfa95BAF63E0084a35c62592B774A2A87'.toLowerCase()){
+				growth[timePeriods[i]] = !!vault[key] ?
+					parseFloat(vault[key].pricePerFullShare) >= 1.05 ?
+					new BigNumber("1")
+					: new BigNumber(vault[key].pricePerFullShare)
+					: new BigNumber("1")
+			} else {
+				growth[timePeriods[i]] = !!vault[key] ? 
+					new BigNumber(vault[key].pricePerFullShare)
+					: new BigNumber("1")
+			}
+		})
 
 		let day = growth.now.dividedBy(growth.day).minus(1)
 		let week = growth.week.gt(1) ? growth.now.dividedBy(growth.week).minus(1) : day.multipliedBy(7)
