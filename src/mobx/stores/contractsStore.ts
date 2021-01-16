@@ -450,7 +450,6 @@ class ContractsStore {
 
 		let web3 = new Web3(provider)
 		let rewardsTree = new web3.eth.Contract(rewardsConfig.abi, rewardsConfig.contract)
-		console.log("badger tree:", this.badgerTree)
 		const method = rewardsTree.methods.claim(
 			proof.tokens,
 			proof.cumulativeAmounts,
@@ -747,6 +746,7 @@ class ContractsStore {
 					// sum rewards in current period
 					// todo: break out to actual durations
 					let rewardSchedule = reduceGeyserSchedule(timestamp, schedule);
+
 
 					return _.mapValues(rewardSchedule, (reward: any) => {
 
