@@ -10,7 +10,7 @@ import { jsonQuery, graphQuery, growthQuery, secondsToBlocks, inCurrency, chefQu
 import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
 import async, { any } from 'async';
-import { reduceClaims } from '../reducers/statsReducers';
+import { reduceClaims, reduceTimeSinceLastCycle } from '../reducers/statsReducers';
 import { token as diggToken } from '../../config/system/digg';
 import { curveTokens } from '../../config/system/tokens';
 import { EMPTY_DATA, ERC20, MIN_ETH_BALANCE, RPC_URL, START_BLOCK, START_TIME, WBTC_ADDRESS } from '../../config/constants';
@@ -49,7 +49,7 @@ class ContractsStore {
 			tokens: undefined,
 			geysers: undefined,
 			rebase: undefined,
-			badgerTree: undefined,
+			badgerTree: { cycle: '...', timeSinceLastCycle: '0h 0m', claims: [0] },
 			airdrops: undefined
 		});
 
@@ -83,6 +83,8 @@ class ContractsStore {
 			this.fetchSettRewards()
 			this.fetchContracts()
 		})
+
+		setInterval(this.fetchSettRewards, 6e4)
 	}
 
 	updateVaults = action((vaults: any) => {
@@ -202,44 +204,42 @@ class ContractsStore {
 		let rewardsTree = new web3.eth.Contract(rewardsConfig.abi, rewardsConfig.contract)
 		let checksumAddress = Web3.utils.toChecksumAddress(connectedAddress)
 
-		rewardsTree.methods
-			.merkleContentHash()
-			.call()
-			.then((merkleHash: any) => {
-				jsonQuery(`${rewardsConfig.endpoint}/rewards/${rewardsConfig.network}/${merkleHash}/${checksumAddress}`)
-					.then((merkleProof: any) => {
-						if (!merkleProof.error) {
-							rewardsTree.methods.getClaimedFor(connectedAddress, rewardsConfig.tokens)
-								.call()
-								.then((claimedRewards: any[]) => {
-									let claims = reduceClaims(merkleProof, claimedRewards)
-									this.badgerTree = {
-										cycle: parseInt(merkleProof.cycle, 16),
-										claims,
-										merkleProof
-									}
-									rewardsTree.methods
-									.lastPublishTimestamp()
-									.call()
-									.then((timestamp: any) => {
-										timestamp *= 1000;
-										
-										setInterval(() => {
-											const now = Date.now();
-											var timeSinceLastCycle = Math.abs(now - timestamp);
-											const objTimeSinceLastCycle = {
-												hour: "0" + Math.floor(timeSinceLastCycle / (60 * 60 * 1000)),
-												minute: "0" + Math.round(((timeSinceLastCycle % 86400000) % 3600000) / 60000)
-											}
-											this.badgerTree.timeSinceLastCycle = objTimeSinceLastCycle;
-										}, 60000)
-										
-									})
-								})
-						}
-					})
 
-			})
+		let methods = [
+			rewardsTree.methods.lastPublishTimestamp().call(),
+			rewardsTree.methods.merkleContentHash().call()
+		]
+
+		Promise.all(methods).then((rewardsResponse: any) => {
+
+			console.log(rewardsResponse)
+
+			let merkleHash = rewardsResponse[1]
+
+			this.badgerTree = _.defaults({
+				timeSinceLastCycle: reduceTimeSinceLastCycle(rewardsResponse[0]),
+			}, this.badgerTree)
+
+			jsonQuery(`${rewardsConfig.endpoint}/rewards/${rewardsConfig.network}/${merkleHash}/${checksumAddress}`)
+				.then((proof: any) => {
+					console.log(rewardsResponse)
+
+					rewardsTree.methods.getClaimedFor(connectedAddress, rewardsConfig.tokens)
+						.call()
+						.then((claimedRewards: any[]) => {
+							if (!proof.error) {
+								let claims = reduceClaims(proof, claimedRewards)
+
+								this.badgerTree = _.defaults({
+									cycle: parseInt(proof.cycle, 16),
+									claims,
+									proof
+								}, this.badgerTree)
+							}
+						})
+				})
+		})
+
 	});
 
 	fetchAirdrops = action(() => {

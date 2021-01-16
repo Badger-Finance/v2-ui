@@ -44,6 +44,7 @@ class UiState {
 					wallet: '...',
 					badgerLiqGrowth: '...',
 					badgerGrowth: '...',
+					badger: '...',
 					portfolio: '...',
 					_vaultGrowth: {},
 

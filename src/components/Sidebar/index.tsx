@@ -139,12 +139,14 @@ export const Sidebar = observer(() => {
 						</IconButton>
 					</ListItem>
 					<Collapse in={expanded === 'advanced'} timeout="auto" unmountOnExit>
-						<ListItem className={classes.secondaryListItem} >
-							Cycle Count: {badgerTree ? badgerTree.cycle : '...'}
+
+						<ListItem  >
+							<ListItemText
+								primary={`Cycle Count: ${badgerTree.cycle}`}
+								secondary={badgerTree?.timeSinceLastCycle && badgerTree.timeSinceLastCycle + " since last cycle"}
+							/>
 						</ListItem>
-						<ListItem className={classes.secondaryListItem} >
- 							{(badgerTree?.timeSinceLastCycle ? badgerTree.timeSinceLastCycle.hour.substr(-2) : '...') + "h " + (badgerTree?.timeSinceLastCycle ? badgerTree.timeSinceLastCycle.minute.substr(-2) : "...") + "m since last cycle"}
-						</ListItem>
+
 					</Collapse>
 
 					<ListItem divider button
@@ -194,13 +196,13 @@ export const Sidebar = observer(() => {
 					</ListItem>
 
 					<Collapse in={expanded === 'tokens'} timeout="auto" unmountOnExit>
-						<ListItem button style={{marginLeft:"1rem"}} className={classes.secondaryListItem} onClick={() => window.open("https://matcha.xyz/markets/BADGER")} >
+						<ListItem button style={{ marginLeft: "1rem" }} className={classes.secondaryListItem} onClick={() => window.open("https://matcha.xyz/markets/BADGER")} >
 							BADGER
 						</ListItem>
-						<ListItem button style={{marginLeft:"1rem"}} className={classes.secondaryListItem} onClick={() => window.open("https://info.uniswap.org/pair/0xcd7989894bc033581532d2cd88da5db0a4b12859")} >
+						<ListItem button style={{ marginLeft: "1rem" }} className={classes.secondaryListItem} onClick={() => window.open("https://info.uniswap.org/pair/0xcd7989894bc033581532d2cd88da5db0a4b12859")} >
 							Uniswap BADGER/wBTC
 						</ListItem>
-						<ListItem button style={{marginLeft:"1rem"}} className={classes.secondaryListItem} onClick={() => window.open("https://sushiswap.fi/pair/0x110492b31c59716ac47337e616804e3e3adc0b4a")} >
+						<ListItem button style={{ marginLeft: "1rem" }} className={classes.secondaryListItem} onClick={() => window.open("https://sushiswap.fi/pair/0x110492b31c59716ac47337e616804e3e3adc0b4a")} >
 							Sushiswap BADGER/wBTC
 						</ListItem>
 					</Collapse>
@@ -218,16 +220,16 @@ export const Sidebar = observer(() => {
 					</ListItem>
 
 					<Collapse in={expanded === 'socials'} timeout="auto" unmountOnExit>
-						<ListItem button style={{marginLeft:"1rem"}} className={classes.secondaryListItem} onClick={() => window.open("https://www.twitter.com/badgerdao")} >
+						<ListItem button style={{ marginLeft: "1rem" }} className={classes.secondaryListItem} onClick={() => window.open("https://www.twitter.com/badgerdao")} >
 							Twitter
 						</ListItem>
-						<ListItem button style={{marginLeft:"1rem"}} className={classes.secondaryListItem} onClick={() => window.open("https://badgerdao.medium.com")} >
+						<ListItem button style={{ marginLeft: "1rem" }} className={classes.secondaryListItem} onClick={() => window.open("https://badgerdao.medium.com")} >
 							Medium
 						</ListItem>
-						<ListItem button style={{marginLeft:"1rem"}} className={classes.secondaryListItem} onClick={() => window.open("https://discord.com/invite/xSPFHHS")} >
+						<ListItem button style={{ marginLeft: "1rem" }} className={classes.secondaryListItem} onClick={() => window.open("https://discord.com/invite/xSPFHHS")} >
 							Discord
 						</ListItem>
-						<ListItem button style={{marginLeft:"1rem"}} className={classes.secondaryListItem} onClick={() => window.open("https://t.me/badger_dao")} >
+						<ListItem button style={{ marginLeft: "1rem" }} className={classes.secondaryListItem} onClick={() => window.open("https://t.me/badger_dao")} >
 							Telegram
 						</ListItem>
 					</Collapse>
