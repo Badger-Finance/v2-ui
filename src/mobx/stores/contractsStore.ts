@@ -442,7 +442,7 @@ class ContractsStore {
 
 
 	claimGeysers = action((stake: boolean = false) => {
-		const { merkleProof } = this.badgerTree
+		const { proof } = this.badgerTree
 		const { provider, ethBalance, gasPrices, connectedAddress } = this.store.wallet
 		const { queueNotification, gasPrice, setTxStatus } = this.store.uiState
 
@@ -455,11 +455,11 @@ class ContractsStore {
 		let web3 = new Web3(provider)
 		let rewardsTree = new web3.eth.Contract(rewardsConfig.abi, rewardsConfig.contract)
 		const method = rewardsTree.methods.claim(
-			merkleProof.tokens,
-			merkleProof.cumulativeAmounts,
-			merkleProof.index,
-			merkleProof.cycle,
-			merkleProof.proof)
+			proof.tokens,
+			proof.cumulativeAmounts,
+			proof.index,
+			proof.cycle,
+			proof.proof)
 
 		queueNotification(`Sign the transaction to claim your earnings`, "info")
 		if (stake)
@@ -750,6 +750,7 @@ class ContractsStore {
 					// sum rewards in current period
 					// todo: break out to actual durations
 					let rewardSchedule = reduceGeyserSchedule(timestamp, schedule);
+
 
 					return _.mapValues(rewardSchedule, (reward: any) => {
 
