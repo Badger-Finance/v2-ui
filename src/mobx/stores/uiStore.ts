@@ -79,7 +79,7 @@ class UiState {
 				try {
 					this.reduceContracts()
 				} catch (e) {
-					console.log(e)
+					process.env.NODE_ENV !== 'production' && console.log(e)
 				}
 		})
 
@@ -89,7 +89,7 @@ class UiState {
 				// skip first update
 				this.reduceTreeRewards()
 			} catch (e) {
-				console.log(e)
+				process.env.NODE_ENV !== 'production' && console.log(e)
 			}
 
 		})
@@ -99,7 +99,7 @@ class UiState {
 				// skip first update
 				this.reduceAirdrops()
 			} catch (e) {
-				console.log(e)
+				process.env.NODE_ENV !== 'production' && console.log(e)
 			}
 		})
 
@@ -108,7 +108,7 @@ class UiState {
 				// skip first update
 				this.reduceRebase()
 			} catch (e) {
-				console.log(e)
+				process.env.NODE_ENV !== 'production' && console.log(e)
 			}
 		})
 
@@ -122,21 +122,21 @@ class UiState {
 			try {
 				this.reduceContracts()
 			} catch (e) {
-				console.log(e)
+				process.env.NODE_ENV !== 'production' && console.log(e)
 			}
 		})
 		observe(this as any, "currency", (change: any) => {
 			try {
 				this.reduceContracts()
 			} catch (e) {
-				console.log(e)
+				process.env.NODE_ENV !== 'production' && console.log(e)
 			}
 		})
 		observe(this as any, "hideZeroBal", (change: any) => {
 			try {
 				this.reduceContracts()
 			} catch (e) {
-				console.log(e)
+				process.env.NODE_ENV !== 'production' && console.log(e)
 			}
 		})
 

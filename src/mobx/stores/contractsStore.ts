@@ -151,7 +151,7 @@ class ContractsStore {
 				this.fetchTokens()
 
 			})
-			.catch((error: any) => console.log(error))
+			.catch((error: any) => process.env.NODE_ENV !== 'production' && console.log(error))
 
 	});
 
@@ -204,15 +204,12 @@ class ContractsStore {
 		let rewardsTree = new web3.eth.Contract(rewardsConfig.abi, rewardsConfig.contract)
 		let checksumAddress = Web3.utils.toChecksumAddress(connectedAddress)
 
-
 		let methods = [
 			rewardsTree.methods.lastPublishTimestamp().call(),
 			rewardsTree.methods.merkleContentHash().call()
 		]
 
 		Promise.all(methods).then((rewardsResponse: any) => {
-
-			console.log(rewardsResponse)
 
 			let merkleHash = rewardsResponse[1]
 
@@ -222,7 +219,6 @@ class ContractsStore {
 
 			jsonQuery(`${rewardsConfig.endpoint}/rewards/${rewardsConfig.network}/${merkleHash}/${checksumAddress}`)
 				.then((proof: any) => {
-					console.log(rewardsResponse)
 
 					rewardsTree.methods.getClaimedFor(connectedAddress, rewardsConfig.tokens)
 						.call()
@@ -777,7 +773,7 @@ class ContractsStore {
 					try {
 						sushiSuffix.push(this.vaults[this.geysers[contract].getStakingToken].token)
 					} catch (e) {
-						console.log(e)
+						process.env.NODE_ENV !== 'production' && console.log(e)
 					}
 				})
 				// Then we use the provided API from sushi to get the ROI numbers

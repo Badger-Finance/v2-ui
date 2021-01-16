@@ -140,7 +140,7 @@ export const Sidebar = observer(() => {
 					</ListItem>
 					<Collapse in={expanded === 'advanced'} timeout="auto" unmountOnExit>
 
-						<ListItem  >
+						<ListItem key="rewards">
 							<ListItemText
 								primary={`Cycle Count: ${badgerTree.cycle}`}
 								secondary={badgerTree?.timeSinceLastCycle && badgerTree.timeSinceLastCycle + " since last cycle"}
@@ -242,7 +242,7 @@ export const Sidebar = observer(() => {
 					</ListItem>
 
 
-					<ListItem className={classes.listItem} >
+					<ListItem key="gas" >
 						<ButtonGroup variant="outlined" fullWidth>
 							<Button size="small" disabled>
 								<img src={require('assets/sidebar/gas.png')} className={classes.icon} />

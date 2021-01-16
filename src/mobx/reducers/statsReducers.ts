@@ -131,7 +131,6 @@ export const reduceGeysers = (store: RootStore) => {
 
 
 export const reduceTimeSinceLastCycle = (time: string) => {
-	console.log(time)
 	let timestamp = parseFloat(time) * 1000;
 
 	const now = Date.now();
