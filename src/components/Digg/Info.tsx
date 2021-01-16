@@ -5,8 +5,9 @@ import useInterval from "@use-it/interval";
 import { observer } from "mobx-react-lite";
 import { Loader } from "../Loader";
 import Metric from "./Metric";
-import {calculateNewSupply, shortenNumbers, numberWithCommas} from '../../mobx/utils/digHelpers'
+import {calculateNewSupply, shortenNumbers, numberWithCommas,getPercentageChange} from '../../mobx/utils/digHelpers'
 import { WBTC_ADDRESS } from '../../config/constants';
+import BigNumber from "bignumber.js";
 const useStyles = makeStyles((theme) => ({
 
 	before: {
@@ -53,13 +54,15 @@ const Info = observer((props: any) => {
 	const store = useContext(StoreContext);
 	const { uiState: { rebaseStats }, contracts: { tokens } } = store
 	const classes = useStyles();
-
+	const previousSupply = rebaseStats.totalSupply && rebaseStats.pastRebase? rebaseStats.totalSupply.minus(
+		new BigNumber(rebaseStats.pastRebase.requestedSupplyAdjustment).dividedBy(Math.pow(10, rebaseStats.decimals))):null
 	const [nextRebase, setNextRebase] = useState("00:00:00");
 	const newSupply = rebaseStats.oracleRate && rebaseStats.totalSupply? calculateNewSupply(rebaseStats.oracleRate.toNumber(),rebaseStats.totalSupply.toNumber(),rebaseStats.rebaseLag):0;
 	const isPositive = !newSupply || newSupply >= rebaseStats.totalSupply ;
     const percentage = newSupply && rebaseStats.totalSupply ?
 		 				((newSupply-rebaseStats.totalSupply)/rebaseStats.totalSupply * 100):0;
-	if (!rebaseStats) {
+
+    if (!rebaseStats) {
 		return <Loader />
 	}
 
@@ -112,8 +115,8 @@ const Info = observer((props: any) => {
 				metric='Total Supply'
 				value={shortenNumbers(rebaseStats.totalSupply, '', 2)}
 				submetrics={[
-					{title: 'Supply at last Rebase', value: '11,893'},
-					{title: 'Change From Last Rebase', value: '2.6', change: true},
+					{title: 'Supply at last Rebase', value: previousSupply? shortenNumbers(previousSupply,'',2):'-'},
+					{title: 'Change From Last Rebase', value: previousSupply? getPercentageChange(rebaseStats.totalSupply,previousSupply).toFixed(2):'-', change: true},
 				]}
 			/>
 		</Grid>

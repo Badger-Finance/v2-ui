@@ -16,7 +16,7 @@ import { curveTokens } from '../../config/system/tokens';
 import { EMPTY_DATA, ERC20, MIN_ETH_BALANCE, RPC_URL, START_BLOCK, START_TIME, WBTC_ADDRESS } from '../../config/constants';
 import { rewards as rewardsConfig, geysers as geyserConfigs } from '../../config/system/settSystem';
 import { rewards as airdropsConfig } from '../../config/system/settSystem';
-import { getNextRebase } from "../utils/digHelpers";
+import { getNextRebase,getRebaseLogs } from "../utils/digHelpers";
 
 
 const infuraProvider = new Web3.providers.HttpProvider(RPC_URL)
@@ -258,11 +258,13 @@ class ContractsStore {
 			})
 	});
 
-	fetchRebase = action(() => {
+	fetchRebase = action(async() => {
 
+		const rebaseLog = await getRebaseLogs()
 		const { digg } = require('config/system/digg')
 		Promise.all([...[batchCall.execute(digg)], ...[...graphQuery({ address: digg[0].addresses[0] })]])
 			.then((result: any[]) => {
+
 
 				let keyedResult = _.groupBy(result[0], 'namespace')
 				const minRebaseTimeIntervalSec = parseInt(keyedResult.policy[0].minRebaseTimeIntervalSec[0].value)
@@ -279,8 +281,10 @@ class ContractsStore {
 					rebaseWindowLengthSec: parseInt(keyedResult.policy[0].rebaseWindowLengthSec[0].value),
 					oracleRate: new BigNumber(keyedResult.oracle[0].providerReports[0].value.payload).dividedBy(1e18),
 					derivedEth: result[1].data.token.derivedETH,
-					nextRebase: getNextRebase(minRebaseTimeIntervalSec, lastRebaseTimestampSec)
+					nextRebase: getNextRebase(minRebaseTimeIntervalSec, lastRebaseTimestampSec),
+					pastRebase: rebaseLog
 				}
+
 				this.updateRebase(token)
 			})
 	})
