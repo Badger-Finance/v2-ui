@@ -65,6 +65,16 @@ const useStyles = makeStyles((theme) => ({
 	up: {
 		color: theme.palette.success.main,
 	},
+	secondaryAction: {
+		position: 'inherit',
+		textAlign: 'left',
+		margin: theme.spacing(1, 4, 0),
+		[theme.breakpoints.up('md')]: {
+			position: 'absolute',
+			textAlign: 'right',
+			margin: 0,
+		}
+	}
 
 
 }));
@@ -180,7 +190,7 @@ const Info = observer((props: any) => {
 					<List style={{ padding: 0 }}>
 						<ListItem >
 							<Typography variant="body2">Rebase Impact</Typography>
-							<ListItemSecondaryAction>
+							<ListItemSecondaryAction className={classes.secondaryAction}>
 								<Typography variant="body1" className={isPositive ? classes.up : classes.down}>
 									1 DIGG <ArrowRightAlt style={{ transform: 'translate(0,7px)' }} /> {(percentage ? Math.abs(percentage).toFixed(2) : '...')} DIGG
 								</Typography>
@@ -189,7 +199,7 @@ const Info = observer((props: any) => {
 
 						<ListItem >
 							<Typography variant="body2">Supply After Rebase</Typography>
-							<ListItemSecondaryAction>
+							<ListItemSecondaryAction className={classes.secondaryAction}>
 								<Typography variant="body1">{numberWithCommas(newSupply.toFixed(2)) || '...'}</Typography>
 							</ListItemSecondaryAction>
 						</ListItem>
