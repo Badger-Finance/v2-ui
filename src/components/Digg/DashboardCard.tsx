@@ -11,6 +11,7 @@ import {
 	CardHeader,
 	CircularProgress,
 } from "@material-ui/core";
+import { makeStyles } from '@material-ui/core/styles';
 import React, { useState, useEffect, useContext } from "react";
 
 import AreaChart from "./AreaChart";
@@ -18,8 +19,20 @@ import { observer } from "mobx-react-lite";
 import { StoreContext } from "../../context/store-context";
 import { fetchDiggChart } from "../../mobx/utils/helpers";
 
+
+const useStyles = makeStyles((theme) => ({
+	chartHeader: {
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'space-between',
+		marginRight: theme.spacing(4),
+		marginBottom: theme.spacing(2),
+	}
+}));
+
 const DashboardCard = observer((props: any) => {
 	const store = useContext(StoreContext);
+	const classes = useStyles();
 
 	const componentDidMount = () => {
 		handleChangeRange(30);
@@ -53,7 +66,6 @@ const DashboardCard = observer((props: any) => {
 		size="small"
 		aria-label="outlined button group"
 	>
-
 		<Button
 			disableElevation
 			variant={range === 1 ? "contained" : "outlined"}
@@ -94,13 +106,10 @@ const DashboardCard = observer((props: any) => {
 					label="Market cap">
 				</Tab>
 			</Tabs>
-			<CardHeader title={title} subheader="Drag the chart and pan the axes to explore." >
-
-			</CardHeader>
-			<CardContent>
-
-
-			</CardContent>
+			<div className={classes.chartHeader}>
+				<CardHeader title={title} subheader="Drag the chart and pan the axes to explore." />
+				<div>{ranges}</div>
+			</div>
 			<CardContent
 				style={{
 					// paddingLeft: "2rem",
@@ -109,41 +118,31 @@ const DashboardCard = observer((props: any) => {
 				}}
 			>
 				<AreaChart
-
 					accent={"#F2A52B"}
 					chartData={chartData}
 					yPrefix={title === "Price" && "$"}
 				/>
 			</CardContent>
 
-			<CardActions style={{ display: 'flex', justifyContent: 'space-between', marginTop: '.5rem' }}>
-				{ranges}
+			<CardActions style={{ display: 'flex', justifyContent: 'center', marginBottom: '.75rem' }}>
 				<div style={{ display: 'flex' }}>
-					<div style={{ marginLeft: '1rem' }}><Typography variant="body2" color="textPrimary">
-						<Typography variant="body2" color="textSecondary">
-
-							High</Typography>
+					<div style={{ marginLeft: '1rem', textAlign: 'center' }}><Typography variant="body2" color="textPrimary">
+						<Typography variant="body2" color="textSecondary">High</Typography>
 						{title === "Price" && "$"}
 						{intToString(chartData.calcs.high)}</Typography>
 					</div>
-					<div style={{ marginLeft: '1rem' }}><Typography variant="body2" color="textPrimary">
-						<Typography variant="body2" color="textSecondary">
-
-							Low</Typography>
+					<div style={{ marginLeft: '1rem', textAlign: 'center' }}><Typography variant="body2" color="textPrimary">
+						<Typography variant="body2" color="textSecondary">Low</Typography>
 						{title === "Price" && "$"}
 						{intToString(chartData.calcs.low)}</Typography>
 					</div>
-					<div style={{ marginLeft: '1rem' }}><Typography variant="body2" color="textPrimary">
-						<Typography variant="body2" color="textSecondary">
-
-							Average</Typography>
+					<div style={{ marginLeft: '1rem', textAlign: 'center' }}><Typography variant="body2" color="textPrimary">
+						<Typography variant="body2" color="textSecondary">Average</Typography>
 						{title === "Price" && "$"}
 						{intToString(chartData.calcs.avg)}</Typography>
 					</div>
-					<div style={{ marginLeft: '1rem' }}><Typography variant="body2" color="textPrimary">
-						<Typography variant="body2" color="textSecondary">
-
-							Median</Typography>
+					<div style={{ marginLeft: '1rem', textAlign: 'center' }}><Typography variant="body2" color="textPrimary">
+						<Typography variant="body2" color="textSecondary">Median</Typography>
 						{title === "Price" && "$"}
 						{intToString(chartData.calcs.median)}</Typography>
 					</div>
