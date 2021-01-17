@@ -122,7 +122,7 @@ const Info = observer((props: any) => {
 		<Grid item xs={12} md={3}>
 			<Metric
 				metric='Total Supply'
-				value={shortenNumbers(rebaseStats.totalSupply, '', 2)}
+				value={rebaseStats.totalSupply ? shortenNumbers(rebaseStats.totalSupply, '', 2) : '-'}
 				submetrics={[
 					{ title: 'Change', value: previousSupply ? getPercentageChange(rebaseStats.totalSupply, previousSupply).toFixed(2) : '-', change: true },
 					{ title: 'Previous Supply', value: previousSupply ? shortenNumbers(previousSupply, '', 2) : '-' },

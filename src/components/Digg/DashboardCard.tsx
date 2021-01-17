@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
 			flexDirection: 'column',
 			paddingBottom: theme.spacing(2),
     },
-	}
+	},
 }));
 
 const DashboardCard = observer((props: any) => {
@@ -95,7 +95,7 @@ const DashboardCard = observer((props: any) => {
 
 
 	return !!chartData ? (
-		<Card >
+		<Card>
 			<Tabs variant="fullWidth" indicatorColor="primary" value={["Supply", "Price", "Market cap"].indexOf(title)} style={{ background: 'rgba(0,0,0,.2)', marginBottom: '.5rem' }}>
 				<Tab
 					onClick={() => setGraphSelected("Supply")}

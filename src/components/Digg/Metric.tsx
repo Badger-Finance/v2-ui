@@ -12,15 +12,7 @@ const useStyles = makeStyles((theme) => ({
 		display: 'flex',
 		flexDirection: 'column',
 	},
-	submetric: {
-		// display: 'flex',
-		// flexDirection: 'column',
-		// flexBasis: '50%',
-	},
 	submetricContainer: {
-		// display: 'flex',
-		// justifyContent: 'space-around',
-		// flexGrow: 1,
 		paddingBottom: theme.spacing(),
 	},
 	down: {
@@ -29,9 +21,6 @@ const useStyles = makeStyles((theme) => ({
 	up: {
 		color: theme.palette.success.main,
 	},
-	submetricTitle: {
-		marginTop: 'auto',
-	}
 }));
 
 type SubmetricData = {
@@ -50,12 +39,12 @@ const SubMetric = observer((props: SubmetricData) => {
 	const { title, value, change } = props;
 	const classes = useStyles();
 
-	const intValue = parseInt(value);
-	const metricValue = change ? `${intValue < 0 ? '' : '+'}${value}%` : value;
-	const metricValueClass = change ? intValue < 0 ? classes.down : classes.up : undefined;
+	const isNumber = !Number.isNaN(parseInt(value));
+	const metricValue = change && isNumber ? `${value}%` : value;
+	const metricValueClass = change && isNumber ? parseInt(value) < 0 ? classes.down : classes.up : undefined;
 	return (
-		<ListItem className={classes.submetric}>
-			<Typography variant="caption" className={classes.submetricTitle}>{title}</Typography>
+		<ListItem>
+			<Typography variant="caption">{title}</Typography>
 			<ListItemSecondaryAction>
 				<Typography variant="caption" className={metricValueClass}>{metricValue || '...'}</Typography>
 			</ListItemSecondaryAction>
