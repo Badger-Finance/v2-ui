@@ -307,7 +307,7 @@ export const generateCurveTokens = () => {
 export const erc20BatchConfig = (contracts: any, connectedAddress: string) => {
 	const configs = _.map(contracts, (contract: any) => {
 		if (!!contract.contract)
-			return batchConfig('tokens', [contract.address], erc20Methods(connectedAddress, contract, []), ERC20.abi);
+			return batchConfig('tokens', [contract.address], erc20Methods(connectedAddress, contract), ERC20.abi);
 	});
 	return _.compact(configs);
 };
