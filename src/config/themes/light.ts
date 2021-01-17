@@ -1,33 +1,32 @@
-import { createMuiTheme } from "@material-ui/core";
+import { createMuiTheme } from '@material-ui/core';
 
 export const lightTheme = createMuiTheme({
-
 	palette: {
 		type: 'light',
-		primary: { main: "#F2A52B" },
+		primary: { main: '#F2A52B' },
 		// background: {
 		// 	default: "#181818",
 		// 	paper: "#2b2b2b"
 		// },
 		grey: {
-			800: '#2b2b2b'
+			800: '#2b2b2b',
 		},
 		success: {
-			contrastText: "#181818",
-			main: "#7FD1B9"
+			contrastText: '#181818',
+			main: '#7FD1B9',
 		},
 		info: {
-			contrastText: "#ffffff",
-			main: "#489FB5"
+			contrastText: '#ffffff',
+			main: '#489FB5',
 		},
 		error: {
-			contrastText: "#ffffff",
-			main: "#F4442E"
+			contrastText: '#ffffff',
+			main: '#F4442E',
 		},
 		warning: {
-			contrastText: "#181818",
-			main: "#F2A52B"
-		}
+			contrastText: '#181818',
+			main: '#F2A52B',
+		},
 	},
 	typography: {
 		// fontSize: 16,
@@ -41,31 +40,31 @@ export const lightTheme = createMuiTheme({
 		// h6: { fontFamily: "'Press Start 2P'" },
 	},
 	shape: {
-		borderRadius: 8
+		borderRadius: 8,
 	},
 	overrides: {
 		MuiTooltip: {
 			tooltip: {
-				fontSize: "1rem",
-				backgroundColor: "#F2A52B",
-				color: "#181818",
+				fontSize: '1rem',
+				backgroundColor: '#F2A52B',
+				color: '#181818',
 			},
 			arrow: {
-				color: "#F2A52B"
-			}
+				color: '#F2A52B',
+			},
 		},
 		MuiDrawer: {
 			paper: {
 				// background: "#121212",
 			},
 			paperAnchorDockedLeft: {
-				borderRight: 0
-			}
+				borderRight: 0,
+			},
 		},
 		MuiPaper: {
 			outlined: {
-				border: 0
-			}
-		}
-	}
+				border: 0,
+			},
+		},
+	},
 });
