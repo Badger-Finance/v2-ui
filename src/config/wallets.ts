@@ -2,7 +2,8 @@ import {
 	INFURA_KEY, APP_URL,
 	CONTACT_EMAIL,
 	RPC_URL,
-	APP_NAME
+	APP_NAME,
+	PORTIS_APP_ID
 } from "./constants";
 
 export const onboardWallets = [
@@ -20,6 +21,11 @@ export const onboardWallets = [
 	},
 	{ walletName: "walletLink", rpcUrl: RPC_URL, appName: APP_NAME },
 	{ walletName: "dapper" },
+	{
+		walletName: "portis",
+		apiKey: PORTIS_APP_ID,
+		label: 'Portis'
+	},
 	{
 		walletName: 'trezor',
 		appUrl: APP_URL,
