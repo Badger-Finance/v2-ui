@@ -21,11 +21,9 @@ export const vaults = [
 			deploy.sett_system.vaults['native.uniDiggWbtc'],
 		],
 		fillers: {
-			isFeatured: [false, false, false, false,
-                            true, true, true, true]
+			isFeatured: [false, false, false, false, true, true, true, true],
 			listOrder: [10, 7, 8, 9, 5, 6, 3, 4],
-			isSuperSett: [false, false, false, false, false, true
-                            false, false],
+			isSuperSett: [false, false, false, false, false, true, false, false],
 		},
 		methods: [
 			{
@@ -82,11 +80,9 @@ export const geysers = [
 			deploy.geysers['native.uniDiggWbtc'],
 		],
 		fillers: {
-			isFeatured: [false, false, false, false, true, true,
-                            true, true],
+			isFeatured: [false, false, false, false, true, true, true, true],
 			listOrder: [10, 7, 8, 6, 5, 9, 3, 4],
-			isSuperSett: [false, false, false, false, false, true,
-                            false, false],
+			isSuperSett: [false, false, false, false, false, true, false, false],
 		},
 	},
 	{
