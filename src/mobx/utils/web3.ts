@@ -20,7 +20,7 @@ export const estimateAndSend = (
 			gas: gasWei.toNumber(),
 		},
 		(error: any, gasLimit: number) => {
-			callback(method.send({ from: address, gas: gasLimit, gasPrice: gasWei.multipliedBy(1e9).toFixed(0) }));
+			callback(method.send({ from: address, gas: Math.floor(gasLimit * 1.2), gasPrice: gasWei.multipliedBy(1e9).toFixed(0) }));
 		},
 	);
 };
