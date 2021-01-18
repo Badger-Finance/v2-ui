@@ -1,6 +1,7 @@
 import { extendObservable, action, observe } from 'mobx';
 import Web3 from 'web3';
 import BatchCall from 'web3-batch-call';
+import { AbiItem } from 'web3-utils';
 import { batchConfig, estimateAndSend } from '../utils/web3';
 import BigNumber from 'bignumber.js';
 import { RootStore } from '../store';
@@ -538,7 +539,7 @@ class ContractsStore {
 		const { provider, connectedAddress } = this.store.wallet;
 
 		const web3 = new Web3(provider);
-		const underlyingContract = new web3.eth.Contract(ERC20.abi, underlyingAsset.address);
+		const underlyingContract = new web3.eth.Contract(ERC20.abi as AbiItem[], underlyingAsset.address);
 		const method = underlyingContract.methods.approve(contract, underlyingAsset.totalSupply.toFixed(0));
 
 		queueNotification(`Sign the transaction to allow Badger to spend your ${underlyingAsset.symbol}`, 'info');
@@ -571,7 +572,7 @@ class ContractsStore {
 		const { provider, connectedAddress } = this.store.wallet;
 
 		const web3 = new Web3(provider);
-		const underlyingContract = new web3.eth.Contract(ERC20.abi, underlyingAsset.address);
+		const underlyingContract = new web3.eth.Contract(ERC20.abi as AbiItem[], underlyingAsset.address);
 		const method = underlyingContract.methods.allowance(connectedAddress, spender);
 
 		method.call().then((result: any) => {
