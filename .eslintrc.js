@@ -27,6 +27,6 @@ module.exports = {
 		'@typescript-eslint/no-explicit-any': 'off',
 		'react/display-name': [0, { ignoreTranspilerName: true }],
 		'autofix/no-unused-vars': 'warn',
-		'no-empty-pattern': 'warn'
+		'no-empty-pattern': 'warn',
 	},
 };
