@@ -138,7 +138,7 @@ export const Sidebar = observer(() => {
 					<Wallet />
 
 					<ListItem button className={classes.divider} onClick={() => setExpanded(expanded === 'advanced' ? '' : 'advanced')}>
-						v2.0.1
+						v2.1.0
 						<IconButton
 							size="small"
 							className={classes.expand + " " + (expanded === 'advanced' ? classes.expandOpen : '')}
@@ -176,7 +176,7 @@ export const Sidebar = observer(() => {
 						<ListItemText primary="Airdrops" />
 
 					</ListItem>
-					<ListItem button disabled className={classes.listItem + ' ' + (store.router.currentPath == '/digg' ? classes.activeListItem : '')} onClick={() => goTo(views.digg)}>
+					<ListItem button className={classes.listItem + ' ' + (store.router.currentPath == '/digg' ? classes.activeListItem : '')} onClick={() => goTo(views.digg)}>
 
 						<ListItemIcon >
 							<img src={require('assets/sidebar/digg-white.png')} className={classes.icon} />

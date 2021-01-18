@@ -6,7 +6,7 @@ const useStyles = makeStyles((theme) => ({
 	statPaper: {
 		[theme.breakpoints.up('sm')]: {
 			padding: theme.spacing(2),
-    },
+		},
 		textAlign: 'center',
 		minHeight: '100%',
 		display: 'flex',
@@ -60,9 +60,9 @@ const Metric = observer((props: MetricProps) => {
 		<Paper className={classes.statPaper} elevation={3}>
 			<Typography variant="subtitle1">{metric}</Typography>
 			<Typography variant="h5">{value || '...'}</Typography>
-			<List className={classes.submetricContainer}>
+			{/* <List className={classes.submetricContainer}>
 				{submetrics?.map(submetric => <SubMetric title={submetric.title} value={submetric.value} change={submetric.change} />)}
-			</List>
+			</List> */}
 		</Paper>
 	);
 });
