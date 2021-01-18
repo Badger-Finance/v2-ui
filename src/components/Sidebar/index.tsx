@@ -69,15 +69,9 @@ const useStyles = makeStyles((theme) => ({
 	secondarySubListItem: {
 		cursor: 'pointer',
 		justifyContent: 'space-between',
-<<<<<<< HEAD
 		background: ' rgba(0, 0, 0, .2)',
 		"&:hover": {
 			fontWeight: 'bold'
-=======
-		background: ' rgba(0, 0, 0, .1)',
-		'&:hover': {
-			fontWeight: 'bold',
->>>>>>> develop
 		},
 		// paddingLeft: theme.spacing(1),
 		padding: theme.spacing(0.5, 2, 0.5, 3),
@@ -153,17 +147,8 @@ export const Sidebar = observer(() => {
 
 					<Wallet />
 
-<<<<<<< HEAD
 					<ListItem button className={classes.divider} onClick={() => setExpanded(expanded === 'advanced' ? '' : 'advanced')}>
 						v2.1.0
-=======
-					<ListItem
-						button
-						className={classes.divider}
-						onClick={() => setExpanded(expanded === 'advanced' ? '' : 'advanced')}
-					>
-						v2.0.1
->>>>>>> develop
 						<IconButton
 							size="small"
 							className={classes.expand + ' ' + (expanded === 'advanced' ? classes.expandOpen : '')}
@@ -216,23 +201,10 @@ export const Sidebar = observer(() => {
 						</ListItemIcon>
 						<ListItemText primary="Airdrops" />
 					</ListItem>
-<<<<<<< HEAD
 					<ListItem button className={classes.listItem + ' ' + (store.router.currentPath == '/digg' ? classes.activeListItem : '')} onClick={() => goTo(views.digg)}>
 
 						<ListItemIcon >
 							<img src={require('assets/sidebar/digg-white.png')} className={classes.icon} />
-=======
-					<ListItem
-						button
-						disabled
-						className={
-							classes.listItem + ' ' + (store.router.currentPath == '/digg' ? classes.activeListItem : '')
-						}
-						onClick={() => goTo(views.digg)}
-					>
-						<ListItemIcon>
-							<img alt="" src={require('assets/sidebar/digg-white.png')} className={classes.icon} />
->>>>>>> develop
 						</ListItemIcon>
 						<ListItemText primary="Digg" />
 

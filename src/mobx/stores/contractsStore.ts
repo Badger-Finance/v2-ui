@@ -28,7 +28,7 @@ import { reduceClaims, reduceTimeSinceLastCycle } from '../reducers/statsReducer
 
 import { curveTokens } from '../../config/system/tokens';
 import { EMPTY_DATA, ERC20, RPC_URL, START_BLOCK, START_TIME, WBTC_ADDRESS } from '../../config/constants';
-import { rewards as rewardsConfig, geysers as geyserConfigs } from '../../config/system/settSystem';
+import { rewards as rewardsConfig, geysers as geyserConfigs, vaults as vaultsConfigs } from '../../config/system/settSystem';
 import { rewards as airdropsConfig } from '../../config/system/settSystem';
 import { getNextRebase, getRebaseLogs } from "../utils/digHelpers";
 
@@ -120,14 +120,14 @@ class ContractsStore {
 
 	fetchContracts = action(() => {
 		// state and wallet are separate stores
-		const { vaults, geysers } = this;
+		// const { vaults, geysers } = this;
 		const { connectedAddress } = this.store.wallet;
 
 		// grab respective config files
-		this.updateVaults(reduceContractConfig(vaults, connectedAddress && { connectedAddress }));
-		this.updateGeysers(reduceContractConfig(geysers, connectedAddress && { connectedAddress }));
-		// create batch configs for vaults and geysers
-		const vaultBatch: any[] = _.map(vaults, (config: any) => {
+		this.updateVaults(reduceContractConfig(vaultsConfigs, connectedAddress && { connectedAddress }));
+		this.updateGeysers(reduceContractConfig(geyserConfigs, connectedAddress && { connectedAddress }));
+		// create batch configs for vaultsConfigs and geysers
+		const vaultBatch: any[] = _.map(vaultsConfigs, (config: any) => {
 			return batchConfig(
 				'vaults',
 				config.contracts,
@@ -136,7 +136,7 @@ class ContractsStore {
 			);
 		});
 
-		const geyserBatch: any[] = _.map(geysers, (config: any) => {
+		const geyserBatch: any[] = _.map(geyserConfigs, (config: any) => {
 			return batchConfig(
 				'geysers',
 				config.contracts,
@@ -298,7 +298,7 @@ class ContractsStore {
 		const { digg } = require('config/system/digg')
 		Promise.all([...[batchCall.execute(digg)], ...[...graphQuery({ address: digg[0].addresses[0] })]])
 			.then((result: any[]) => {
-				console.log(result)
+				console.log('fetch rebase returned', result)
 
 				let keyedResult = _.groupBy(result[0], 'namespace')
 				const minRebaseTimeIntervalSec = parseInt(keyedResult.policy[0].minRebaseTimeIntervalSec[0].value)

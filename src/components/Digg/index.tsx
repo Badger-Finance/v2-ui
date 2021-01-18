@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { Button, ButtonGroup, Container, Grid, makeStyles, Typography, Paper, Tabs, Tab } from "@material-ui/core";
 import { observer } from 'mobx-react-lite';
 
@@ -6,15 +5,6 @@ import DashboardCard from "./DashboardCard";
 import Info from "./Info";
 import React, { useContext, useState } from "react";
 import { StoreContext } from "../../context/store-context";
-=======
-import { Button, ButtonGroup, Container, Grid, makeStyles, Typography } from '@material-ui/core';
-import { observer } from 'mobx-react-lite';
-
-import DashboardCard from './DashboardCard';
-import Info from './Info';
-import React, { useContext, useState } from 'react';
-import { StoreContext } from '../../context/store-context';
->>>>>>> develop
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -43,14 +33,11 @@ const useStyles = makeStyles((theme) => ({
 			marginRight: theme.spacing(0),
 		},
 	},
-<<<<<<< HEAD
 	statPaper: {
 		padding: theme.spacing(2),
 		textAlign: 'center',
 		minHeight: '100%',
 	},
-=======
->>>>>>> develop
 }));
 
 export const Digg = observer(() => {
@@ -58,13 +45,9 @@ export const Digg = observer(() => {
 	const store = useContext(StoreContext);
 
 	const {
-		uiState: {},
+		uiState: { },
 	} = store;
 	const spacer = () => <div className={classes.before} />;
-<<<<<<< HEAD
-=======
-	const [graphSelected, setGraphSelected] = useState<string>('Supply');
->>>>>>> develop
 
 	return (
 		<Container className={classes.root} maxWidth="lg">
@@ -88,39 +71,8 @@ export const Digg = observer(() => {
 
 				<Info />
 
-<<<<<<< HEAD
 				<Grid item xs={12}>
 					<DashboardCard accent="#152554" />
-=======
-				<ButtonGroup
-					variant="outlined"
-					size="small"
-					className={classes.buttonGroup}
-					aria-label="outlined button group"
-				>
-					<Button
-						onClick={() => setGraphSelected('Supply')}
-						variant={graphSelected === 'Supply' ? 'contained' : 'outlined'}
-					>
-						Supply
-					</Button>
-					<Button
-						onClick={() => setGraphSelected('Price')}
-						variant={graphSelected === 'Price' ? 'contained' : 'outlined'}
-					>
-						Price
-					</Button>
-					<Button
-						onClick={() => setGraphSelected('Market cap')}
-						variant={graphSelected === 'Market cap' ? 'contained' : 'outlined'}
-					>
-						Market cap
-					</Button>
-				</ButtonGroup>
-
-				<Grid item xs={12}>
-					<DashboardCard title={graphSelected} accent="#152554" />
->>>>>>> develop
 				</Grid>
 				{spacer()}
 			</Grid>
