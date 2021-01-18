@@ -104,7 +104,7 @@ export const AssetCard = observer((props: any) => {
 
 				<Typography variant="body2" color="textSecondary" component="div">
 					{token.symbol}
-					{!!stats.vault.isSuperSett && <Chip className={classes.chip} label="Super Sett" size="small" color="primary" />}
+					{!!stats.vault.isSuperSett && <Chip className={classes.chip} label="Harvest" size="small" color="primary" />}
 				</Typography>
 
 			</Grid>
@@ -176,7 +176,7 @@ export const AssetCard = observer((props: any) => {
 						<Button disabled onClick={() => onStake({ stats, token })}
 							variant={'outlined'} color="primary" size="small" >
 							DEPOSIT</Button>}
-						
+
 					{!!stats.anyWrapped && !isDeposit &&
 						<Button onClick={() => onStake({ stats, token })}
 							variant={(stats.anyUnderlying || stats.anyWrapped) ? 'contained' : 'outlined'} color="primary" size="small" >
