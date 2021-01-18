@@ -16,11 +16,11 @@ import { calculateNewSupply, shortenNumbers, numberWithCommas, getPercentageChan
 import { WBTC_ADDRESS } from '../../config/constants';
 import BigNumber from "bignumber.js";
 import { ArrowRightAlt } from "@material-ui/icons";
-const useStyles = makeStyles((theme) => ({
 
+const useStyles = makeStyles((theme) => ({
 	before: {
 		marginTop: theme.spacing(3),
-		width: "100%"
+		width: '100%',
 	},
 	statPaper: {
 		padding: theme.spacing(2),
@@ -78,8 +78,8 @@ const useStyles = makeStyles((theme) => ({
 
 
 }));
-const Info = observer((props: any) => {
 
+const Info = observer(() => {
 	const store = useContext(StoreContext);
 	const { uiState: { rebaseStats }, contracts: { tokens } } = store
 	const classes = useStyles();
@@ -92,12 +92,12 @@ const Info = observer((props: any) => {
 		((newSupply - rebaseStats.totalSupply) / rebaseStats.totalSupply * 100) : 0;
 
 	if (!rebaseStats) {
-		return <Loader />
+		return <Loader />;
 	}
 
 	useInterval(() => {
 		if (!!rebaseStats && !!rebaseStats.nextRebase) {
-			let zero = new Date(0);
+			const zero = new Date(0);
 
 			zero.setTime(rebaseStats.nextRebase.getTime() - new Date().getTime());
 			setNextRebase(zero.toISOString().substr(11, 8));

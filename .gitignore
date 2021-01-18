@@ -1,4 +1,10 @@
 node_modules/
 build/
 package-lock.json
+<<<<<<< HEAD
 .DS_Store
+=======
+/.idea
+yarn-error.log
+.DS_Store
+>>>>>>> develop

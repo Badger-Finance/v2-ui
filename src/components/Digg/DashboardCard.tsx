@@ -3,7 +3,6 @@ import {
 	ButtonGroup,
 	Card,
 	CardContent,
-	Grid,
 	CardActions,
 	Typography,
 	Tabs,
@@ -14,10 +13,9 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 import React, { useState, useEffect, useContext } from "react";
 
-import AreaChart from "./AreaChart";
-import { observer } from "mobx-react-lite";
-import { StoreContext } from "../../context/store-context";
-import { fetchDiggChart } from "../../mobx/utils/helpers";
+import AreaChart from './AreaChart';
+import { observer } from 'mobx-react-lite';
+import { fetchDiggChart } from '../../mobx/utils/helpers';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -30,12 +28,11 @@ const useStyles = makeStyles((theme) => ({
 		[theme.breakpoints.down('sm')]: {
 			flexDirection: 'column',
 			paddingBottom: theme.spacing(2),
-    },
+		},
 	},
 }));
 
 const DashboardCard = observer((props: any) => {
-	const store = useContext(StoreContext);
 	const classes = useStyles();
 
 	const componentDidMount = () => {
@@ -55,8 +52,7 @@ const DashboardCard = observer((props: any) => {
 		fetchDiggChart(chart, range, (marketData: any) => {
 			setChartData(marketData);
 			setRange(range);
-		})
-
+		});
 	};
 	useEffect(() => {
 		handleChangeRange(range)
@@ -117,8 +113,8 @@ const DashboardCard = observer((props: any) => {
 			<CardContent
 				style={{
 					// paddingLeft: "2rem",
-					paddingRight: "2rem",
-					margin: "-2rem 0 0 0",
+					paddingRight: '2rem',
+					margin: '-2rem 0 0 0',
 				}}
 			>
 				<AreaChart
@@ -154,13 +150,13 @@ const DashboardCard = observer((props: any) => {
 			</CardActions>
 		</Card>
 	) : (
-			<Card style={{ padding: "1rem .6rem" }} >
+			<Card style={{ padding: '1rem .6rem' }}>
 				<CardContent
 					style={{
-						display: "flex",
-						justifyContent: "center",
-						alignItems: "center",
-						minHeight: "10rem",
+						display: 'flex',
+						justifyContent: 'center',
+						alignItems: 'center',
+						minHeight: '10rem',
 					}}
 				>
 					<CircularProgress />
@@ -171,10 +167,10 @@ const DashboardCard = observer((props: any) => {
 
 const intToString = (n: number) => {
 	if (n < 1e3) return n;
-	if (n >= 1e3 && n < 1e6) return +(n / 1e3).toFixed(1) + "k";
-	if (n >= 1e6 && n < 1e9) return +(n / 1e6).toFixed(1) + "m";
-	if (n >= 1e9 && n < 1e12) return +(n / 1e9).toFixed(1) + "B";
-	if (n >= 1e12) return +(n / 1e12).toFixed(1) + "T";
+	if (n >= 1e3 && n < 1e6) return +(n / 1e3).toFixed(1) + 'k';
+	if (n >= 1e6 && n < 1e9) return +(n / 1e6).toFixed(1) + 'm';
+	if (n >= 1e9 && n < 1e12) return +(n / 1e9).toFixed(1) + 'B';
+	if (n >= 1e12) return +(n / 1e12).toFixed(1) + 'T';
 };
 
 export default DashboardCard;
