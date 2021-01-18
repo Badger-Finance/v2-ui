@@ -76,13 +76,12 @@ export const geysers = [
 			deploy.geysers['native.tbtcCrv'],
 			deploy.geysers['native.uniBadgerWbtc'],
 			deploy.geysers['harvest.renCrv'],
-			deploy.geysers['native.digg'],
 			deploy.geysers['native.uniDiggWbtc'],
 		],
 		fillers: {
-			isFeatured: [false, false, false, false, true, true, true, true],
-			listOrder: [10, 7, 8, 6, 5, 9, 3, 4],
-			isSuperSett: [false, false, false, false, false, true, false, false],
+			isFeatured: [false, false, false, false, true, true, true],
+			listOrder: [9, 6, 7, 5, 4, 8, 3],
+			isSuperSett: [false, false, false, false, false, true, false],
 		},
 	},
 	{

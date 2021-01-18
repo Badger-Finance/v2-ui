@@ -116,9 +116,8 @@
 		"harvest.renCrv": "0xeD0B7f5d9F6286d00763b0FFCbA886D8f9d56d5e",
 		"sushi.sushiWbtcWeth": "0x612f681BCd12A0b284518D42D2DBcC73B146eb65",
 		"sushi.sushiBadgerWBtc": "0xB5b654efBA23596Ed49FAdE44F7e67E23D6712e7",
-		"native.sushiDiggWbtc": "",
-		"native.uniDiggWbtc": "",
-		"native.digg": ""
+		"native.uniDiggWbtc": "0xED5eD054b46BAB6c5eCa52552e76A01cFaa664E1",
+		"native.sushiDiggWbtc": "0x60875c7241A1AD0A24E7721e71F215e71a4F9BAE"
 	},
         "digg_system": {
             "owner": "0xDA25ee226E534d868f0Dd8a459536b03fEE9079b",
