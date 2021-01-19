@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	before: {
-		marginTop: theme.spacing(3),
+		marginTop: theme.spacing(5),
 		width: '100%',
 	},
 	filters: {
@@ -39,6 +39,16 @@ const useStyles = makeStyles((theme) => ({
 		textAlign: 'center',
 		minHeight: '100%',
 	},
+	heroPaper: {
+		padding: theme.spacing(0, 0, 5),
+		minHeight: '100%',
+		background: 'none',
+		textAlign: 'center',
+		[theme.breakpoints.up('md')]: {
+			padding: theme.spacing(0, 5, 5),
+
+		}
+	},
 }));
 
 export const Digg = observer(() => {
@@ -56,24 +66,18 @@ export const Digg = observer(() => {
 			<Grid container spacing={1}>
 				{spacer()}
 
-				<Grid item sm={6} xs={12}>
-					<Typography variant="h5" color="textPrimary">
-						Digg
-					</Typography>
-					<Typography variant="subtitle2" color="textPrimary">
-						Rebasing Bitcoin
-					</Typography>
-				</Grid>
-				<Grid item sm={6} xs={12} className={classes.filters}>
-					{/* <ButtonGroup disabled variant="outlined" size="small" className={classes.buttonGroup}>
-						<Button>Deposit</Button>
-						<Button>Stake (0.00% APY)</Button>
-					</ButtonGroup> */}
-					<Button variant="contained" size="small" color="primary" onClick={() => goTo(views.home)}>
-						Stake
-					</Button>
-				</Grid>
+				<Grid item sm={12} xs={12}>
+					<div className={classes.heroPaper} >
+						<Typography variant="h4" color="textPrimary">
+							DIGG – Pegged to Bitcoin
 
+						</Typography>
+						<Typography variant="subtitle1" color="textSecondary">
+							An elastic supply cryptocurrency pegged to the price of Bitcoin & governed by BadgerDAO.
+
+					</Typography>
+					</div>
+				</Grid>
 				<Info />
 
 				<Grid item xs={12}>

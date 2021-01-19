@@ -86,7 +86,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 	rewardItem: {
 		padding: 0,
-	},
+	}
+
 }));
 export const Collection = observer(() => {
 	const store = useContext(StoreContext);
@@ -119,7 +120,7 @@ export const Collection = observer(() => {
 			<Container className={classes.root}>
 				<Grid container spacing={1} justify="center">
 					{spacer()}
-					<Grid item xs={12} sm={6}>
+					<Grid item sm={6}>
 						<FormControlLabel
 							control={
 								<Switch
@@ -134,7 +135,7 @@ export const Collection = observer(() => {
 						/>
 					</Grid>
 
-					<Grid item xs={12} sm={6} className={classes.filters}>
+					<Grid item sm={6} className={classes.filters}>
 						<Tooltip
 							enterDelay={0}
 							leaveDelay={300}

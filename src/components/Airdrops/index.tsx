@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
 		textAlign: 'center',
 	},
 	before: {
-		marginTop: theme.spacing(3),
+		marginTop: theme.spacing(5),
 		width: '100%',
 	},
 	rewards: {
@@ -56,14 +56,24 @@ const useStyles = makeStyles((theme) => ({
 		margin: theme.spacing(0, 0, 0, 1),
 		// float: 'right'
 	},
+	heroPaper: {
+		padding: theme.spacing(5, 0),
+
+		minHeight: '100%',
+		background: 'none',
+		[theme.breakpoints.up('md')]: {
+			padding: theme.spacing(10, 5),
+
+		}
+	},
 }));
 export const Airdrops = observer(() => {
 	const store = useContext(StoreContext);
 	const classes = useStyles();
 
 	const {
-		router: {},
-		wallet: {},
+		router: { },
+		wallet: { },
 		contracts: { claimBadgerAirdrops, claimDiggAirdrops },
 		uiState: { airdropStats, stats },
 	} = store;
@@ -97,7 +107,7 @@ export const Airdrops = observer(() => {
 		];
 		return q.map((qualifier, idx) => (
 			<Grid item xs={12} lg={4} style={{ textAlign: 'left' }} key={idx}>
-				<Typography variant="subtitle1">{qualifier.title}</Typography>
+				<Typography variant="h4">{qualifier.title}</Typography>
 
 				<Typography variant="body2" color="textSecondary" style={{ margin: '.4rem 0 1rem' }}>
 					{qualifier.copy}
@@ -144,24 +154,17 @@ export const Airdrops = observer(() => {
 				{spacer()}
 
 				<Grid item sm={12} xs={12}>
-					<Typography variant="h5" color="textPrimary">
-						BadgerDAO accelerates Bitcoin in DeFi.
+					<div className={classes.heroPaper}>
+						<Typography variant="h1" color="textPrimary">
+							Community rules everything.
 					</Typography>
-					<Typography variant="subtitle2" color="textPrimary">
-						What to do with your Badger and Digg
+						<Typography variant="subtitle1" color="textSecondary">
+							BadgerDAO is dedicated to building products and infrastructure to bring Bitcoin to DeFi. Check below to see if you have airdrops to claim.
+
 					</Typography>
+					</div>
 				</Grid>
-				{spacer()}
 
-				{copy()}
-
-				{spacer()}
-
-				<Grid item xs={12} style={{ textAlign: 'left', paddingBottom: 0 }}>
-					<Typography variant="subtitle1" color="textPrimary">
-						Available Airdrops:
-					</Typography>
-				</Grid>
 
 				<Grid item xs={12} md={6}>
 					<Paper className={classes.statPaper}>
@@ -224,6 +227,10 @@ export const Airdrops = observer(() => {
 						</List>
 					</Paper>
 				</Grid>
+
+				{spacer()}
+				{spacer()}
+				{copy()}
 			</Grid>
 
 			{spacer()}

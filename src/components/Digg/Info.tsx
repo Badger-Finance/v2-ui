@@ -188,7 +188,7 @@ const Info = observer(() => {
 				/>
 			</Grid>
 			{spacer()}
-			<Grid item xs={12} style={{ textAlign: 'center', paddingBottom: 0 }}>
+			<Grid item xs={12} style={{ textAlign: 'center' }}>
 				<Typography variant="subtitle1">Current Rebase</Typography>
 			</Grid>
 			<Grid item xs={12} md={6}>
@@ -269,7 +269,7 @@ const Info = observer(() => {
 			</Grid>
 			{spacer()}
 
-			<Grid item xs={12} style={{ textAlign: 'center', paddingBottom: 0 }}>
+			<Grid item xs={12} style={{ textAlign: 'center' }}>
 				<Typography variant="subtitle1">Charts</Typography>
 			</Grid>
 		</>
