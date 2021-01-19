@@ -1,4 +1,5 @@
 body {
 	overflow-y: scroll; /* Show vertical scrollbar */
-  }
-  
+	/* background: url(../holograms.png) -22px -50px fixed; */
+	background-size: 130px;
+}

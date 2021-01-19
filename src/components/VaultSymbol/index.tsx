@@ -11,26 +11,30 @@ const useStyles = makeStyles((theme) => ({
 		padding: theme.spacing(1.2, 1, 0, 0),
 		display: 'inline-block',
 		float: 'left',
-		width: '2.4rem'
-	}
-
+		width: '2.4rem',
+	},
 }));
+
 export const VaultSymbol = observer((props: any) => {
 	const classes = useStyles();
 	const store = useContext(StoreContext);
-	const { tokens, vaults } = store.contracts
+	const { vaults } = store.contracts;
 
-	const { token } = props
+	const { token } = props;
 
-	let prefix = !!vaults[token.contract] && !!vaults[token.contract].symbolPrefix ? vaults[token.contract].symbolPrefix : ''
+	const prefix =
+		!!vaults[token.contract] && !!vaults[token.contract].symbolPrefix ? vaults[token.contract].symbolPrefix : '';
 	// let underlying = tokens[vault[vault.underlyingKey]]
-	if (!token || !token.symbol)
-		return <CircularProgress style={{ float: 'left', marginRight: '.5rem' }} />
+	if (!token || !token.symbol) return <CircularProgress style={{ float: 'left', marginRight: '.5rem' }} />;
 
-
-	return <img alt=""
-		className={classes.symbol}
-		src={require(`../../assets/icons/${prefix}${token.symbol.replace(/^[b]/g, '').replace(/\/+/g, '').toLowerCase()}.png`)} />
-
+	return (
+		<img
+			alt=""
+			className={classes.symbol}
+			src={require(`../../assets/icons/${prefix}${token.symbol
+				.replace(/^[b]/g, '')
+				.replace(/\/+/g, '')
+				.toLowerCase()}.png`)}
+		/>
+	);
 });
-
