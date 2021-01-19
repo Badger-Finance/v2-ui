@@ -99,7 +99,7 @@ class WalletStore {
 	});
 
 	getGasPrice = action(() => {
-		fetch('https://www.gasnow.org/api/v3/gas/price?utm_source=badger')
+		fetch('https://www.gasnow.org/api/v3/gas/price?utm_source=badgerv2')
 			.then((result: any) => result.json())
 			.then((price: any) => {
 				this.gasPrices = _.mapValues(price.data, (val: number) => val / 1e9);
