@@ -22,6 +22,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Loader } from '../Loader';
 
 import { SettList } from './SettList';
+import { CLAIMS_SYMBOLS } from 'config/constants';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -114,6 +115,36 @@ export const Collection = observer(() => {
 	}
 
 	const spacer = () => <div className={classes.before} />;
+
+	const availableRewards = () => {
+		return treeStats.claims.map((claim: string, idx: number) => (
+			<Grid item xs={12} md={6}>
+
+				<Paper className={classes.statPaper}>
+
+					<List style={{ padding: 0 }}><ListItem className={classes.rewardItem} key={idx}>
+						<ListItemText primary={claim} secondary={`${CLAIMS_SYMBOLS[idx]} Available to Claim`} />
+						<ListItemSecondaryAction>
+							<ButtonGroup size="small" variant="outlined" color="primary">
+								<Button
+									onClick={() => {
+										claimGeysers(false);
+									}}
+									variant="contained"
+								>
+									Claim
+									</Button>
+
+							</ButtonGroup>
+						</ListItemSecondaryAction>
+					</ListItem>
+					</List>
+				</Paper>
+			</Grid>
+		))
+
+
+	}
 
 	return (
 		<>
@@ -208,31 +239,7 @@ export const Collection = observer(() => {
 									Available Rewards:
 								</Typography>
 							</Grid>
-							<Grid item xs={12} md={6}>
-								<Paper className={classes.statPaper}>
-									{/* {!!connectedAddress && <Button fullWidth variant="contained" color="primary" onClick={() => { claimGeysers(false) }}>Claim {treeStats.claims[0] || "..."} Badger</Button>} */}
-									<List style={{ padding: 0 }}>
-										{treeStats.claims.map((claim: string, idx: number) => (
-											<ListItem className={classes.rewardItem} key={idx}>
-												<ListItemText primary={claim} secondary="Badger available to claim" />
-												<ListItemSecondaryAction>
-													<ButtonGroup size="small" variant="outlined" color="primary">
-														<Button
-															onClick={() => {
-																claimGeysers(false);
-															}}
-															variant="contained"
-														>
-															Claim
-														</Button>
-														{/* <Button onClick={() => { claimGeysers(true) }} >Deposit</Button> */}
-													</ButtonGroup>
-												</ListItemSecondaryAction>
-											</ListItem>
-										))}
-									</List>
-								</Paper>
-							</Grid>
+							{availableRewards()}
 						</>
 					)}
 
@@ -266,3 +273,5 @@ export const Collection = observer(() => {
 		</>
 	);
 });
+
+
