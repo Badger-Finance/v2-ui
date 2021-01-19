@@ -167,6 +167,7 @@ class ContractsStore {
 				// sort result into hash {vaults:[], geysers:[]}
 				const keyedResult = _.groupBy(result, 'namespace');
 				// store vaults & geysers as hashes {contract_address: data}
+				console.log(keyedResult, vaultBatch, geyserBatch)
 				_.mapKeys(keyedResult, (value: any, key: string) => {
 					if (key === 'vaults') this.updateVaults(_.keyBy(reduceBatchResult(value), 'address'));
 					else this.updateGeysers(_.keyBy(reduceBatchResult(value), 'address'));
@@ -181,7 +182,7 @@ class ContractsStore {
 	});
 
 	fetchTokens = action(() => {
-		const {} = this.store;
+		const { } = this.store;
 		const { connectedAddress } = this.store.wallet;
 
 		// reduce to {address:{address:,contract:}}
@@ -222,7 +223,7 @@ class ContractsStore {
 
 	fetchSettRewards = action(() => {
 		const { provider, connectedAddress } = this.store.wallet;
-		const {} = this.store.uiState;
+		const { } = this.store.uiState;
 
 		if (!connectedAddress) return;
 
@@ -271,7 +272,7 @@ class ContractsStore {
 
 	fetchAirdrops = action(() => {
 		const { provider, connectedAddress, isCached } = this.store.wallet;
-		const {} = this.store.uiState;
+		const { } = this.store.uiState;
 		// console.log('fetching', connectedAddress)
 
 		if (!connectedAddress) return;
@@ -292,14 +293,14 @@ class ContractsStore {
 						.sharesToFragments(new BigNumber(Web3.utils.hexToNumberString(merkleProof.amount)).toFixed(0))
 						.call(),
 				])
-				.then((result: any[]) => {
-					// console.log(new BigNumber(result[1]).multipliedBy(1e9))
-					this.airdrops = {
-						digg: !result[0] ? new BigNumber(result[1]).multipliedBy(1e9) : new BigNumber(0),
+					.then((result: any[]) => {
+						// console.log(new BigNumber(result[1]).multipliedBy(1e9))
+						this.airdrops = {
+							digg: !result[0] ? new BigNumber(result[1]).multipliedBy(1e9) : new BigNumber(0),
 
-						merkleProof,
-					};
-				});
+							merkleProof,
+						};
+					});
 			}
 		});
 	});
@@ -335,7 +336,7 @@ class ContractsStore {
 		);
 	});
 
-	callRebase = action(() => {});
+	callRebase = action(() => { });
 
 	depositAndStake = action((geyser: any, amount: BigNumber, onlyWrapped = false) => {
 		const { tokens, vaults } = this;
@@ -629,7 +630,7 @@ class ContractsStore {
 		);
 	});
 	getAllowance = action((underlyingAsset: any, spender: string, callback: (err: any, result: any) => void) => {
-		const {} = this.store.uiState;
+		const { } = this.store.uiState;
 		const { provider, connectedAddress } = this.store.wallet;
 
 		const web3 = new Web3(provider);
@@ -810,7 +811,7 @@ class ContractsStore {
 	});
 
 	calculateVaultGrowth = action(() => {
-		const {} = this.store.contracts;
+		const { } = this.store.contracts;
 		const { currentBlock } = this.store.wallet;
 
 		if (!currentBlock) return;
@@ -837,8 +838,8 @@ class ContractsStore {
 
 	calculateGeyserRewards = action(() => {
 		const { geysers, tokens, vaults } = this;
-		const {} = this.store.uiState;
-		const {} = this.store.wallet;
+		const { } = this.store.uiState;
+		const { } = this.store.wallet;
 
 		const rewardToken = tokens[rewardsConfig.tokens[0]];
 

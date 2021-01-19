@@ -50,9 +50,9 @@ export const vaults = [
 		abi: BadgerSushiVault.abi,
 		underlying: 'token',
 		contracts: [
-			deploy.sett_system.vaults['sushi.sushiWbtcWeth'].toLowerCase(),
-			deploy.sett_system.vaults['sushi.sushiBadgerWBtc'].toLowerCase(),
-			deploy.sett_system.vaults['sushi.sushiDiggWbtc'].toLowerCase(),
+			deploy.sett_system.vaults['sushi.sushiWbtcWeth'],
+			deploy.sett_system.vaults['sushi.sushiBadgerWBtc'],
+			deploy.sett_system.vaults['sushi.sushiDiggWbtc'],
 		],
 		fillers: {
 			isFeatured: [false, true],
