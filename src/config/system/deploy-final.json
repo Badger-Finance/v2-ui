@@ -120,10 +120,11 @@
 		"sushi.sushiDiggWbtc": "0x7f6fe274e172ac7d096a7b214c78584d99ca988b"
 	},
 	"digg_system": {
+		"distributor": "0xED743eD6c78429981Ad3aaf9d2306D1E3C336010",
 		"owner": "0xDA25ee226E534d868f0Dd8a459536b03fEE9079b",
 		"devProxyAdmin": "0x20Dce41Acca85E8222D6861Aa6D23B6C941777bF",
 		"daoProxyAdmin": "0x11A9D034B1bbfbbDCaC9cB3b86ca7D5Df05140F2",
-		"uFragments": "0xd46ba6d942050d489dbd938a2c909a5d5039a161",
+		"uFragments": "0x798D1bE841a82a273720CE31c822C61a67a601C3",
 		"uFragmentsPolicy": "0x327a78D13eA74145cc0C63E6133D516ad3E974c3",
 		"orchestrator": "0xbd5d9451e004fc495f105ceab40d6c955e4192ba",
 		"cpiMedianOracle": "0x57280661EcAB9B2ad0ddac9B5ed824Ae17424A8C",

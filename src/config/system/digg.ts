@@ -4,13 +4,14 @@ import UFragments from './abis/UFragments.json';
 import UFragmentsPolicy from './abis/UFragmentsPolicy.json';
 import MedianOracle from './abis/MedianOracle.json';
 import Orchestrator from './abis/Orchestrator.json';
+import DiggDistributor from './abis/DiggDistributor.json';
 import diggDeploy from './deploy-final-digg.json';
 
 export const rewards = {
 	endpoint: 'https://fzqm8i0owc.execute-api.us-east-1.amazonaws.com/prod/hunt',
-	contract: deploy['badgerHunt'],
-	abi: BadgerHunt.abi,
-	tokens: [deploy.sett_system.vaults['native.badger']],
+	contract: deploy.digg_system.distributor,
+	abi: DiggDistributor.abi,
+	tokens: [deploy.digg_system.uFragments],
 };
 
 export const token = {

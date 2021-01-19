@@ -27,13 +27,20 @@ import async from 'async';
 import { reduceClaims, reduceTimeSinceLastCycle } from '../reducers/statsReducers';
 
 import { curveTokens } from '../../config/system/tokens';
-import { EMPTY_DATA, ERC20, RPC_URL, START_BLOCK, START_TIME, WBTC_ADDRESS } from '../../config/constants';
+import {
+	EMPTY_DATA,
+	ERC20,
+	RPC_URL,
+	START_BLOCK,
+	START_TIME,
+	WBTC_ADDRESS,
+} from '../../config/constants';
 import {
 	rewards as rewardsConfig,
 	geysers as geyserConfigs,
 	vaults as vaultsConfigs,
 } from '../../config/system/settSystem';
-import { digg, rewards as airdropsConfig, token as diggTokenConfig } from '../../config/system/digg';
+import { digg, orchestrator, rewards as airdropsConfig, token as diggTokenConfig } from '../../config/system/digg';
 import { getNextRebase, getRebaseLogs } from '../utils/digHelpers';
 
 const infuraProvider = new Web3.providers.HttpProvider(RPC_URL);
@@ -174,7 +181,7 @@ class ContractsStore {
 	});
 
 	fetchTokens = action(() => {
-		const {} = this.store;
+		const { } = this.store;
 		const { connectedAddress } = this.store.wallet;
 
 		// reduce to {address:{address:,contract:}}
@@ -218,7 +225,7 @@ class ContractsStore {
 
 	fetchSettRewards = action(() => {
 		const { provider, connectedAddress } = this.store.wallet;
-		const {} = this.store.uiState;
+		const { } = this.store.uiState;
 
 		if (!connectedAddress) return;
 
@@ -267,7 +274,7 @@ class ContractsStore {
 
 	fetchAirdrops = action(() => {
 		const { provider, connectedAddress, isCached } = this.store.wallet;
-		const {} = this.store.uiState;
+		const { } = this.store.uiState;
 		// console.log('fetching', connectedAddress)
 
 		if (!connectedAddress) return;
@@ -287,14 +294,15 @@ class ContractsStore {
 					diggToken.methods
 						.sharesToFragments(new BigNumber(Web3.utils.hexToNumberString(merkleProof.amount)).toFixed(0))
 						.call(),
-				]).then((result: any[]) => {
-					// console.log(new BigNumber(result[1]).multipliedBy(1e9))
-					this.airdrops = {
-						digg: !result[0] ? new BigNumber(result[1]).multipliedBy(1e9) : new BigNumber(0),
+				])
+					.then((result: any[]) => {
+						// console.log(new BigNumber(result[1]).multipliedBy(1e9))
+						this.airdrops = {
+							digg: !result[0] ? new BigNumber(result[1]).multipliedBy(1e9) : new BigNumber(0),
 
-						merkleProof,
-					};
-				});
+							merkleProof,
+						};
+					});
 			}
 		});
 	});
@@ -307,7 +315,8 @@ class ContractsStore {
 				let keyedResult = _.groupBy(result[0], 'namespace');
 				// console.log(keyedResult)
 
-				if (!keyedResult.token || !keyedResult.token[0].decimals) return;
+				if (!keyedResult.token || !keyedResult.token[0].decimals || !keyedResult.oracle)
+					return
 
 				const minRebaseTimeIntervalSec = parseInt(keyedResult.policy[0].minRebaseTimeIntervalSec[0].value);
 				const lastRebaseTimestampSec = parseInt(keyedResult.policy[0].lastRebaseTimestampSec[0].value);
@@ -321,20 +330,49 @@ class ContractsStore {
 					minRebaseTimeIntervalSec: minRebaseTimeIntervalSec,
 					rebaseLag: keyedResult.policy[0].rebaseLag[0].value,
 					epoch: keyedResult.policy[0].epoch[0].value,
-					inRebaseWindow: !!keyedResult.policy[0].inRebaseWindow[0].value,
+					inRebaseWindow: keyedResult.policy[0].inRebaseWindow[0].value !== 'N/A',
 					rebaseWindowLengthSec: parseInt(keyedResult.policy[0].rebaseWindowLengthSec[0].value),
 					oracleRate: new BigNumber(keyedResult.oracle[0].providerReports[0].value.payload).dividedBy(1e18),
 					derivedEth: result[1].data.token ? result[1].data.token.derivedETH : 0,
 					nextRebase: getNextRebase(minRebaseTimeIntervalSec, lastRebaseTimestampSec),
 					pastRebase: rebaseLog,
 				};
+				// console.log(token);
 				this.updateRebase(token);
 			},
 		);
 	});
 
-	callRebase = action(() => {});
+	callRebase = action(() => {
+		const { merkleProof } = this.airdrops;
+		const { provider, gasPrices, connectedAddress } = this.store.wallet;
+		const { queueNotification, gasPrice, setTxStatus } = this.store.uiState;
 
+		if (!connectedAddress) return;
+		// if (ethBalance?.lt(MIN_ETH_BALANCE))
+		// 	return queueNotification("Your account is low on ETH, you may need to top up to claim.", 'warning')
+
+		const web3 = new Web3(provider);
+		const policy = new web3.eth.Contract(orchestrator.abi as any, orchestrator.contract);
+		const method = policy.methods.rebase();
+
+		queueNotification(`Sign the transaction to rebase BADGER`, 'info');
+		const diggAmount = this.airdrops.digg;
+		estimateAndSend(web3, gasPrices[gasPrice], method, connectedAddress, (transaction: PromiEvent<Contract>) => {
+			transaction
+				.on('transactionHash', (hash) => {
+					queueNotification(`Rebase submitted.`, 'info', hash);
+				})
+				.on('receipt', () => {
+					queueNotification(`Rebase success.`, 'success');
+					this.fetchRebaseStats()
+				})
+				.catch((error: any) => {
+					queueNotification(error.message, 'error');
+					setTxStatus('error');
+				});
+		});
+	});
 	depositAndStake = action((geyser: any, amount: BigNumber, onlyWrapped = false) => {
 		const { tokens, vaults } = this;
 		const { setTxStatus, queueNotification } = this.store.uiState;
@@ -555,7 +593,7 @@ class ContractsStore {
 		const { queueNotification, gasPrice, setTxStatus } = this.store.uiState;
 
 		if (!connectedAddress) return;
-
+		console.log(merkleProof, this.airdrops)
 		// if (ethBalance?.lt(MIN_ETH_BALANCE))
 		// 	return queueNotification("Your account is low on ETH, you may need to top up to claim.", 'warning')
 
@@ -627,7 +665,7 @@ class ContractsStore {
 		);
 	});
 	getAllowance = action((underlyingAsset: any, spender: string, callback: (err: any, result: any) => void) => {
-		const {} = this.store.uiState;
+		const { } = this.store.uiState;
 		const { provider, connectedAddress } = this.store.wallet;
 
 		const web3 = new Web3(provider);
@@ -808,7 +846,7 @@ class ContractsStore {
 	});
 
 	calculateVaultGrowth = action(() => {
-		const {} = this.store.contracts;
+		const { } = this.store.contracts;
 		const { currentBlock } = this.store.wallet;
 
 		if (!currentBlock) return;
@@ -835,8 +873,8 @@ class ContractsStore {
 
 	calculateGeyserRewards = action(() => {
 		const { geysers, tokens, vaults } = this;
-		const {} = this.store.uiState;
-		const {} = this.store.wallet;
+		const { } = this.store.uiState;
+		const { } = this.store.wallet;
 
 		const rewardToken = tokens[rewardsConfig.tokens[0]];
 
@@ -858,7 +896,6 @@ class ContractsStore {
 			return _.mapValues(rewardSchedule, (reward: any) => {
 				return (
 					!!rawToken.ethValue &&
-					!!underlyingVault.getPricePerFullShare &&
 					reward
 						.multipliedBy(rewardToken.ethValue)
 						.dividedBy(
