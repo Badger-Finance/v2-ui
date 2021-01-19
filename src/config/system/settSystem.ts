@@ -29,6 +29,21 @@ export const vaults = [
 				name: 'balanceOf',
 				args: ['{connectedAddress}'],
 			},
+			{
+				name: 'getPricePerFullShare',
+			},
+			{
+				name: 'balance',
+			},
+			{
+				name: 'symbol',
+			},
+			{
+				name: 'token',
+			},
+			{
+				name: 'totalSupply',
+			},
 		],
 	},
 	{
@@ -65,6 +80,21 @@ export const vaults = [
 				name: 'balanceOf',
 				args: ['{connectedAddress}'],
 			},
+			{
+				name: 'getPricePerFullShare',
+			},
+			{
+				name: 'balance',
+			},
+			{
+				name: 'symbol',
+			},
+			{
+				name: 'totalSupply',
+			},
+			{
+				name: 'token',
+			},
 		],
 	},
 ];
@@ -82,6 +112,15 @@ export const geysers = [
 			{
 				name: 'getUnlockSchedulesFor',
 				args: [deploy.token],
+			},
+			{
+				name: 'totalStaked',
+			},
+			{
+				name: 'balance',
+			},
+			{
+				name: 'getStakingToken',
 			},
 		],
 		contracts: [
@@ -111,6 +150,15 @@ export const geysers = [
 			{
 				name: 'getUnlockSchedulesFor',
 				args: [deploy.token],
+			},
+			{
+				name: 'totalStaked',
+			},
+			{
+				name: 'balance',
+			},
+			{
+				name: 'getStakingToken',
 			},
 		],
 		contracts: [

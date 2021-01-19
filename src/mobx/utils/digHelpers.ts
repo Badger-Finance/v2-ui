@@ -1,4 +1,7 @@
 import BigNumber from 'bignumber.js';
+import { RPC_URL } from '../../config/constants';
+
+import { digg } from '../../config/system/digg';
 
 const UPPER_LIMIT = 1.05 * 1e18;
 const LOWER_LIMIT = 0.95 * 1e18;
@@ -83,7 +86,23 @@ export const shortenNumbers = (value: BigNumber, prefix: string, preferredDecima
 };
 
 export const numberWithCommas = (x: string) => {
-	const parts = x.toString().split('.');
+	var parts = x.toString().split('.');
 	parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 	return parts.join('.');
+};
+
+export const getRebaseLogs = async () => {
+	let Contract = require('web3-eth-contract');
+	Contract.setProvider(RPC_URL);
+	const policy = digg[1];
+	let contractInstance = new Contract(policy.abi, policy.addresses[0]);
+	const events = await contractInstance.getPastEvents('LogRebase', {
+		fromBlock: 11663433,
+		toBlock: 'latest',
+	});
+	return events.length ? events[events.length - 1].returnValues : null;
+};
+
+export const getPercentageChange = (newValue: BigNumber, originalValue: BigNumber) => {
+	return newValue.minus(originalValue).dividedBy(originalValue).multipliedBy(100).toNumber();
 };

@@ -186,7 +186,7 @@ export const fetchDiggChart = (chart: string, range: number, callback: (marketCh
 	from.setDate(to.getDate() - range);
 
 	fetch(
-		`https://api.coingecko.com/api/v3/coins/ampleforth/market_chart/range?vs_currency=usd&from=
+		`https://api.coingecko.com/api/v3/coins/badger-dao/market_chart/range?vs_currency=usd&from=
 		${from.getTime() / 1000}&to=${to.getTime() / 1000}`,
 	)
 		.then((data: any) => data.json())

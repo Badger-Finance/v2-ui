@@ -1,11 +1,29 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { observer } from 'mobx-react-lite';
-
-import { Tooltip, Button, Grid, ButtonGroup, Chip, LinearProgress } from '@material-ui/core';
+import views from '../../config/routes';
+import { StoreContext } from '../../context/store-context';
+import {
+	Tooltip,
+	Card,
+	CardContent,
+	CardActions,
+	CardActionArea,
+	Collapse,
+	Avatar,
+	IconButton,
+	Divider,
+	Button,
+	Grid,
+	ButtonGroup,
+	Chip,
+	LinearProgress,
+} from '@material-ui/core';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-
+import { Loader } from '../Loader';
+import { BigNumber } from 'bignumber.js';
 import { VaultSymbol } from '../VaultSymbol';
+import { LinkOff } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
 	featuredImage: {
@@ -71,6 +89,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 export const AssetCard = observer((props: any) => {
+	const store = useContext(StoreContext);
 	const classes = useStyles();
 	const { onStake, onUnstake, onUnwrap, uiStats, isFeatured, isGlobal, isDeposit } = props;
 
@@ -90,7 +109,7 @@ export const AssetCard = observer((props: any) => {
 					<Typography variant="body2" color="textSecondary" component="div">
 						{token.symbol}
 						{!!stats.vault.isSuperSett && (
-							<Chip className={classes.chip} label="Super Sett" size="small" color="primary" />
+							<Chip className={classes.chip} label="Harvest" size="small" color="primary" />
 						)}
 					</Typography>
 				</Grid>

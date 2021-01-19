@@ -1,7 +1,7 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../context/store-context';
-import { Grid, List, ListItem, Dialog, DialogTitle, CircularProgress, Chip } from '@material-ui/core';
+import { Grid, List, ListItem, Dialog, DialogTitle, CircularProgress, DialogContent, Chip } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Loader } from '../Loader';
@@ -11,6 +11,9 @@ import { VaultStake } from './VaultStake';
 import { VaultUnwrap } from './VaultUnwrap';
 import { GeyserUnstake } from './GeyserUnstake';
 import { VaultSymbol } from '../VaultSymbol';
+
+import { geysers as geyserConfig, vaults as vaultConfig } from '../../config/system/settSystem';
+import Carousel from 'react-material-ui-carousel';
 
 const useStyles = makeStyles((theme) => ({
 	list: {
@@ -85,10 +88,10 @@ export const SettList = observer((props: any) => {
 	const { hideEmpty } = props;
 
 	const {
-		router: {},
+		router: { params, goTo },
 		wallet: { connectedAddress },
 		contracts: { vaults, geysers, tokens },
-		uiState: { stats, vaultStats, period },
+		uiState: { stats, geyserStats, vaultStats, currency, period, setCurrency, txStatus, setTxStatus, notification },
 	} = store;
 
 	const [dialogProps, setDialogProps] = useState({ open: false, mode: '', stats: undefined as any });
@@ -114,9 +117,9 @@ export const SettList = observer((props: any) => {
 		setDialogProps({ mode: 'stake', stats, open: true });
 	};
 
-	// const onDeposit = (stats: any) => {
-	// 	setDialogProps({ mode: 'stake', stats, open: true });
-	// };
+	const onDeposit = (stats: any) => {
+		setDialogProps({ mode: 'stake', stats, open: true });
+	};
 
 	const onClose = () => {
 		// if (txStatus === 'pending')
@@ -124,17 +127,17 @@ export const SettList = observer((props: any) => {
 		setDialogProps({ ...dialogProps, open: false });
 	};
 
-	// const anyWalletAssets = () => {
-	// 	return (
-	// 		_.filter(vaults, (vault: any) => {
-	// 			const token = tokens[vault[vault.underlyingKey]];
-	// 			return (!!vault.balanceOf && vault.balanceOf.gt(0)) || (!!token.balanceOf && token.balanceOf.gt(0));
-	// 		}).length > 0
-	// 	);
-	// };
+	const anyWalletAssets = () => {
+		return (
+			_.filter(vaults, (vault: any) => {
+				let token = tokens[vault[vault.underlyingKey]];
+				return (!!vault.balanceOf && vault.balanceOf.gt(0)) || (!!token.balanceOf && token.balanceOf.gt(0));
+			}).length > 0
+		);
+	};
 
-	const renderContracts = (contracts: any, isGeysers = false, global = false) => {
-		const list = _.map(contracts, (contract: any) => {
+	const renderContracts = (contracts: any, isGeysers: boolean = false, global: boolean = false) => {
+		let list = _.map(contracts, (contract: any) => {
 			if (isGeysers) {
 				return (
 					<ListItem key={contract.address} className={classes.listItem}>
@@ -167,16 +170,18 @@ export const SettList = observer((props: any) => {
 	};
 
 	const walletVaults = () => {
+		let vaultCards: any[] = [];
+
 		// wallet assets & wrapped assets ordered by value
 		return renderContracts(stats.assets.wallet, false, !hideEmpty);
 	};
 
-	// const emptyGeysers = () => {
-	// 	return renderContracts(stats.assets.setts, true, true);
-	// };
+	const emptyGeysers = () => {
+		return renderContracts(stats.assets.setts, true, true);
+	};
 
 	const renderDeposits = () => {
-		if (stats.assets.deposits.length > 0 && !hasDeposits) setHasDeposits(true);
+		if (stats.assets.deposits.length + stats.assets.wrapped.length > 0 && !hasDeposits) setHasDeposits(true);
 		return [
 			renderContracts(stats.assets.wrapped, false, false),
 			renderContracts(stats.assets.deposits, true, false),
@@ -251,6 +256,7 @@ export const SettList = observer((props: any) => {
 			title = 'Stake ' + stats.token.name;
 			component = <VaultStake uiStats={stats.stats} onClose={onClose} />;
 		} else if (mode == 'unstake') {
+			let geyser = stats.stats.geyser;
 			vault = stats.stats.vault;
 
 			title = 'Unstake ' + stats.token.name;
@@ -273,7 +279,7 @@ export const SettList = observer((props: any) => {
 						{stats.token.symbol}
 
 						{!!vault.isSuperSett && (
-							<Chip className={classes.chip} label="Super Sett" size="small" color="primary" />
+							<Chip className={classes.chip} label="Harvest" size="small" color="primary" />
 						)}
 					</Typography>
 				</DialogTitle>
