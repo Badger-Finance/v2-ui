@@ -1,7 +1,7 @@
 import deploy from './deploy-final.json';
 import BadgerVault from './abis/Sett.json';
 import BadgerSushiVault from './abis/SushiSett.json';
-
+import DiggVault from './abis/DiggSett.json';
 import BadgerGeyser from './abis/BadgerGeyser.json';
 import SushiGeyser from './abis/SushiGeyser.json';
 import BadgerTree from './abis/BadgerTree.json';
@@ -17,13 +17,12 @@ export const vaults = [
 			deploy.sett_system.vaults['native.tbtcCrv'],
 			deploy.sett_system.vaults['native.uniBadgerWbtc'],
 			deploy.sett_system.vaults['harvest.renCrv'],
-			deploy.sett_system.vaults['native.digg'],
 			deploy.sett_system.vaults['native.uniDiggWbtc'],
 		],
 		fillers: {
-			isFeatured: [false, false, false, false, true, true, true, true],
-			listOrder: [10, 7, 8, 9, 5, 6, 3, 4],
-			isSuperSett: [false, false, false, false, false, true, false, false],
+			isFeatured: [false, false, false, false, true, true, true],
+			listOrder: [8, 5, 6, 7, 3, 4, 2],
+			isSuperSett: [false, false, false, false, false, true, false, false, false],
 		},
 		methods: [
 			{
@@ -36,14 +35,30 @@ export const vaults = [
 		abi: BadgerSushiVault.abi,
 		underlying: 'token',
 		contracts: [
-			deploy.sett_system.vaults['native.sushiDiggWbtc'].toLowerCase(),
 			deploy.sett_system.vaults['sushi.sushiWbtcWeth'].toLowerCase(),
 			deploy.sett_system.vaults['sushi.sushiBadgerWBtc'].toLowerCase(),
+			deploy.sett_system.vaults['sushi.sushiDiggWbtc'].toLowerCase(),
 		],
 		fillers: {
-			isFeatured: [true, false, true],
-			listOrder: [0, 1, 2],
-			symbolPrefix: ['sushi', 'sushi', 'sushi'],
+			isFeatured: [false, true],
+			listOrder: [9, 10, 1],
+			symbolPrefix: ['sushi', 'sushi'],
+		},
+		methods: [
+			{
+				name: 'balanceOf',
+				args: ['{connectedAddress}'],
+			},
+		],
+	},
+	{
+		abi: DiggVault.abi,
+		underlying: 'token',
+		contracts: [deploy.sett_system.vaults['native.digg']],
+		fillers: {
+			isFeatured: [true],
+			listOrder: [0],
+			symbolPrefix: ['sushi'],
 		},
 		methods: [
 			{
@@ -76,12 +91,11 @@ export const geysers = [
 			deploy.geysers['native.tbtcCrv'],
 			deploy.geysers['native.uniBadgerWbtc'],
 			deploy.geysers['harvest.renCrv'],
-			deploy.geysers['native.digg'],
 			deploy.geysers['native.uniDiggWbtc'],
 		],
 		fillers: {
-			isFeatured: [false, false, false, false, true, true, true, true],
-			listOrder: [10, 7, 8, 6, 5, 9, 3, 4],
+			isFeatured: [false, false, false, false, true, true, true],
+			listOrder: [9, 6, 7, 5, 4, 8, 3],
 			isSuperSett: [false, false, false, false, false, true, false, false],
 		},
 	},
@@ -100,17 +114,17 @@ export const geysers = [
 			},
 		],
 		contracts: [
-			deploy.geysers['native.sushiDiggWbtc'].toLowerCase(),
+			deploy.geysers['sushi.sushiDiggWbtc'].toLowerCase(),
 			deploy.geysers['sushi.sushiWbtcWeth'].toLowerCase(),
 			deploy.geysers['sushi.sushiBadgerWBtc'].toLowerCase(),
 		],
 		fillers: {
 			getStakingToken: [
-				deploy.sett_system.vaults['native.uniBadgerWbtc'],
+				deploy.sett_system.vaults['sushi.sushiDiggWbtc'],
 				deploy.sett_system.vaults['sushi.sushiWbtcWeth'],
 				deploy.sett_system.vaults['sushi.sushiBadgerWBtc'],
 			],
-			onsenId: ['', '21', '73'],
+			onsenId: ['103', '21', '73'],
 			listOrder: [0, 1, 2],
 		},
 

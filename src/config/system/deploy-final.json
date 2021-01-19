@@ -56,7 +56,7 @@
 			"sushi.sushiBadgerWBtc": "0x1862A18181346EBd9EdAf800804f89190DeF24a5",
 			"native.digg": "0x7e7E112A68d8D2E221E11047a72fFC1065c38e1a",
 			"native.uniDiggWbtc": "0xC17078FDd324CC473F8175Dc5290fae5f2E84714",
-			"native.sushiDiggWbtc": "0x88128580ACdD9c04Ce47AFcE196875747bF2A9f6"
+			"sushi.sushiDiggWbtc": "0x88128580ACdD9c04Ce47AFcE196875747bF2A9f6"
 		},
 		"strategies": {
 			"native.badger": "0x75b8E21BD623012Efb3b69E1B562465A68944eE6",
@@ -69,7 +69,7 @@
 			"sushi.sushiBadgerWBtc": "0x3a494D79AA78118795daad8AeFF5825C6c8dF7F1",
 			"native.digg": "0x4a8651F2edD68850B944AD93f2c67af817F39F62",
 			"native.uniDiggWbtc": "0xadc8d7322f2E284c1d9254170dbe311E9D3356cf",
-			"native.sushiDiggWbtc": "0xaa8dddfe7DFA3C3269f1910d89E4413dD006D08a"
+			"sushi.sushiDiggWbtc": "0xaa8dddfe7DFA3C3269f1910d89E4413dD006D08a"
 		},
 		"strategy_artifacts": {
 			"native.badger": "StrategyBadgerRewards",
@@ -80,7 +80,7 @@
 			"harvest.renCrv": "StrategyHarvestMetaFarm",
 			"sushi.sushiWbtcWeth": "StrategySushiLpOptimizer",
 			"sushi.sushiBadgerWBtc": "StrategySushiBadgerWbtc",
-			"native.sushiDiggWbtc": "StrategySushiDiggWbtcLpOptimizer",
+			"sushi.sushiDiggWbtc": "StrategySushiDiggWbtcLpOptimizer",
 			"native.uniDiggWbtc": "StrategyDiggLpMetaFarm",
 			"native.digg": "StrategyDiggRewards"
 		},
@@ -116,20 +116,19 @@
 		"harvest.renCrv": "0xeD0B7f5d9F6286d00763b0FFCbA886D8f9d56d5e",
 		"sushi.sushiWbtcWeth": "0x612f681BCd12A0b284518D42D2DBcC73B146eb65",
 		"sushi.sushiBadgerWBtc": "0xB5b654efBA23596Ed49FAdE44F7e67E23D6712e7",
-		"native.sushiDiggWbtc": "",
-		"native.uniDiggWbtc": "",
-		"native.digg": ""
+		"sushi.sushiDiggWbtc": "0x60875c7241A1AD0A24E7721e71F215e71a4F9BAE",
+		"native.uniDiggWbtc": "0xED5eD054b46BAB6c5eCa52552e76A01cFaa664E1"
 	},
-        "digg_system": {
-            "owner": "0xDA25ee226E534d868f0Dd8a459536b03fEE9079b",
-            "devProxyAdmin": "0x20Dce41Acca85E8222D6861Aa6D23B6C941777bF",
-            "daoProxyAdmin": "0x11A9D034B1bbfbbDCaC9cB3b86ca7D5Df05140F2",
-            "uFragments": "0x798D1bE841a82a273720CE31c822C61a67a601C3",
-            "uFragmentsPolicy": "0x327a78D13eA74145cc0C63E6133D516ad3E974c3",
-            "orchestrator": "0xbd5d9451e004fc495f105ceab40d6c955e4192ba",
-            "cpiMedianOracle": "0x57280661EcAB9B2ad0ddac9B5ed824Ae17424A8C",
-            "marketMedianOracle": "0x058ec2bf15011095a25670b618a129c043e2162e",
-            "constantOracle": "0xed57725991983e407837ce4b3e0f0fa38bd161b6",
-            "centralizedOracle": "0x72dc16CFa95beB42aeebD2B10F22E55bD17Ce976"
-        }
+	"digg_system": {
+		"owner": "0xDA25ee226E534d868f0Dd8a459536b03fEE9079b",
+		"devProxyAdmin": "0x20Dce41Acca85E8222D6861Aa6D23B6C941777bF",
+		"daoProxyAdmin": "0x11A9D034B1bbfbbDCaC9cB3b86ca7D5Df05140F2",
+		"uFragments": "0x798D1bE841a82a273720CE31c822C61a67a601C3",
+		"uFragmentsPolicy": "0x327a78D13eA74145cc0C63E6133D516ad3E974c3",
+		"orchestrator": "0xbd5d9451e004fc495f105ceab40d6c955e4192ba",
+		"cpiMedianOracle": "0x57280661EcAB9B2ad0ddac9B5ed824Ae17424A8C",
+		"marketMedianOracle": "0x058ec2bf15011095a25670b618a129c043e2162e",
+		"constantOracle": "0xed57725991983e407837ce4b3e0f0fa38bd161b6",
+		"centralizedOracle": "0x72dc16CFa95beB42aeebD2B10F22E55bD17Ce976"
+	}
 }
