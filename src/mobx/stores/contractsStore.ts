@@ -27,11 +27,14 @@ import async from 'async';
 import { reduceClaims, reduceTimeSinceLastCycle } from '../reducers/statsReducers';
 
 import { curveTokens } from '../../config/system/tokens';
-import { EMPTY_DATA, ERC20, RPC_URL, START_BLOCK, START_TIME, WBTC_ADDRESS } from '../../config/constants';
-import { rewards as rewardsConfig, geysers as geyserConfigs } from '../../config/system/settSystem';
-import { vaults, geysers, rewards as airdropsConfig } from '../../config/system/settSystem';
-import { getNextRebase } from '../utils/digHelpers';
-import { digg } from '../../config/system/digg';
+import { DIGG_ADDRESS, EMPTY_DATA, ERC20, RPC_URL, START_BLOCK, START_TIME, WBTC_ADDRESS } from '../../config/constants';
+import {
+	rewards as rewardsConfig,
+	geysers as geyserConfigs,
+	vaults as vaultsConfigs,
+} from '../../config/system/settSystem';
+import { digg, rewards as airdropsConfig, token as diggTokenConfig } from '../../config/system/digg';
+import { getNextRebase, getRebaseLogs } from '../utils/digHelpers';
 
 const infuraProvider = new Web3.providers.HttpProvider(RPC_URL);
 const options = {
@@ -73,21 +76,20 @@ class ContractsStore {
 			if (!!change.oldValue) {
 				this.calculateVaultGrowth();
 				this.calculateGeyserRewards();
-				this.fetchRebase();
+				this.fetchRebaseStats();
 			}
 		});
 		observe(this.store.wallet, 'currentBlock', (change: any) => {
 			if (!!change.oldValue) {
 				this.fetchContracts();
-				this.fetchRebase();
+				this.fetchRebaseStats();
 			}
 		});
 
-		observe(this.store.wallet as any, "connectedAddress", (change: any) => {
-			this.updateProvider()
-		})
-		if (!!this.store.wallet.connectedAddress)
-			this.updateProvider()
+		observe(this.store.wallet as any, 'connectedAddress', (change: any) => {
+			this.updateProvider();
+		});
+		if (!!this.store.wallet.connectedAddress) this.updateProvider();
 
 		setInterval(this.fetchSettRewards, 6e4);
 	}
@@ -96,14 +98,15 @@ class ContractsStore {
 		let newOptions = {
 			web3: new Web3(this.store.wallet.provider),
 			etherscan: {
-				apiKey: "NXSHKK6D53D3R9I17SR49VX8VITQY7UC6P",
-				delayTime: 300
+				apiKey: 'NXSHKK6D53D3R9I17SR49VX8VITQY7UC6P',
+				delayTime: 300,
 			},
-		}
+		};
 		batchCall = new BatchCall(newOptions);
 
-		this.fetchSettRewards()
-		this.fetchContracts()
+		this.fetchSettRewards();
+		this.fetchAirdrops();
+		this.fetchContracts();
 	});
 	updateVaults = action((vaults: any) => {
 		this.vaults = _.defaultsDeep(vaults, this.vaults, vaults);
@@ -120,14 +123,14 @@ class ContractsStore {
 
 	fetchContracts = action(() => {
 		// state and wallet are separate stores
-		const { } = this.store;
+		// const { vaults, geysers } = this;
 		const { connectedAddress } = this.store.wallet;
 
 		// grab respective config files
-		this.updateVaults(reduceContractConfig(vaults, connectedAddress && { connectedAddress }));
-		this.updateGeysers(reduceContractConfig(geysers, connectedAddress && { connectedAddress }));
-		// create batch configs for vaults and geysers
-		const vaultBatch: any[] = _.map(vaults, (config: any) => {
+		this.updateVaults(reduceContractConfig(vaultsConfigs, connectedAddress && { connectedAddress }));
+		this.updateGeysers(reduceContractConfig(geyserConfigs, connectedAddress && { connectedAddress }));
+		// create batch configs for vaultsConfigs and geysers
+		const vaultBatch: any[] = _.map(vaultsConfigs, (config: any) => {
 			return batchConfig(
 				'vaults',
 				config.contracts,
@@ -136,7 +139,7 @@ class ContractsStore {
 			);
 		});
 
-		const geyserBatch: any[] = _.map(geysers, (config: any) => {
+		const geyserBatch: any[] = _.map(geyserConfigs, (config: any) => {
 			return batchConfig(
 				'geysers',
 				config.contracts,
@@ -259,47 +262,57 @@ class ContractsStore {
 	});
 
 	fetchAirdrops = action(() => {
-		const { provider, connectedAddress } = this.store.wallet;
+		const { provider, connectedAddress, isCached } = this.store.wallet;
 		const { } = this.store.uiState;
+		console.log('fetching', connectedAddress)
 
-		if (!connectedAddress) return;
+		if (!connectedAddress)
+			return
+
+		console.log('fetching', connectedAddress)
+
 
 		const web3 = new Web3(provider);
 		const rewardsTree = new web3.eth.Contract(airdropsConfig.abi as any, airdropsConfig.contract);
+		const diggToken = new web3.eth.Contract(diggTokenConfig.abi as any, diggTokenConfig.contract);
 		const checksumAddress = Web3.utils.toChecksumAddress(connectedAddress);
 
-		rewardsTree.methods
-			.merkleContentHash()
-			.call()
-			.then(() => {
-				jsonQuery(`${airdropsConfig.endpoint}/hunt/${checksumAddress}`).then((merkleProof: any) => {
-					if (!merkleProof.error) {
-						rewardsTree.methods
-							.isClaimed(merkleProof.index)
-							.call()
-							.then((isClaimed: boolean) => {
-								this.airdrops = {
-									badger: !isClaimed
-										? new BigNumber(Web3.utils.hexToNumberString(merkleProof.amount)).multipliedBy(
-											1e18,
-										)
-										: new BigNumber(0),
-									merkleProof,
-								};
-							});
-					}
-				});
-			});
+		jsonQuery(`${airdropsConfig.endpoint}/1337/${checksumAddress}`).then((merkleProof: any) => {
+			console.log('proof', new BigNumber(Web3.utils.hexToNumberString(merkleProof.amount)).toString())
+			if (!merkleProof.error) {
+				Promise.all(
+					[rewardsTree.methods
+						.isClaimed(merkleProof.index)
+						.call(),
+					diggToken.methods
+						.sharesToFragments(new BigNumber(Web3.utils.hexToNumberString(merkleProof.amount)).toFixed(0))
+						.call()])
+
+					.then((result: any[]) => {
+						console.log(new BigNumber(result[1]).multipliedBy(1e9))
+						this.airdrops = {
+							digg: !result[0]
+								? new BigNumber(result[1]).multipliedBy(1e9)
+								: new BigNumber(0),
+
+							merkleProof
+						};
+					});
+			}
+		});
 	});
 
-	fetchRebase = action(() => {
+
+	fetchRebaseStats = action(async () => {
+		const rebaseLog = await getRebaseLogs();
+		const { digg } = require('config/system/digg');
 		Promise.all([...[batchCall.execute(digg)], ...[...graphQuery({ address: digg[0].addresses[0] })]]).then(
 			(result: any[]) => {
-				const keyedResult = _.groupBy(result[0], 'namespace');
+				let keyedResult = _.groupBy(result[0], 'namespace');
 				const minRebaseTimeIntervalSec = parseInt(keyedResult.policy[0].minRebaseTimeIntervalSec[0].value);
 				const lastRebaseTimestampSec = parseInt(keyedResult.policy[0].lastRebaseTimestampSec[0].value);
 				const decimals = parseInt(keyedResult.token[0].decimals[0].value);
-				const token = {
+				let token = {
 					totalSupply: new BigNumber(keyedResult.token[0].totalSupply[0].value).dividedBy(
 						Math.pow(10, decimals),
 					),
@@ -308,15 +321,22 @@ class ContractsStore {
 					minRebaseTimeIntervalSec: minRebaseTimeIntervalSec,
 					rebaseLag: keyedResult.policy[0].rebaseLag[0].value,
 					epoch: keyedResult.policy[0].epoch[0].value,
-					inRebaseWindow: keyedResult.policy[0].inRebaseWindow[0].value,
+					inRebaseWindow: keyedResult.policy[0].inRebaseWindow[0].value !== "N/A",
 					rebaseWindowLengthSec: parseInt(keyedResult.policy[0].rebaseWindowLengthSec[0].value),
 					oracleRate: new BigNumber(keyedResult.oracle[0].providerReports[0].value.payload).dividedBy(1e18),
 					derivedEth: result[1].data.token.derivedETH,
 					nextRebase: getNextRebase(minRebaseTimeIntervalSec, lastRebaseTimestampSec),
+					pastRebase: rebaseLog,
 				};
+				console.log(token)
 				this.updateRebase(token);
 			},
 		);
+	});
+
+	callRebase = action(() => {
+
+
 	});
 
 	depositAndStake = action((geyser: any, amount: BigNumber, onlyWrapped = false) => {
@@ -490,7 +510,7 @@ class ContractsStore {
 				});
 		});
 	});
-	claimAirdrops = action((stake = false) => {
+	claimBadgerAirdrops = action((stake = false) => {
 		const { merkleProof } = this.airdrops;
 		const { provider, gasPrices, connectedAddress } = this.store.wallet;
 		const { queueNotification, gasPrice, setTxStatus } = this.store.uiState;
@@ -524,6 +544,49 @@ class ContractsStore {
 					if (stake) {
 						const badgerGeyser = this.geysers['0xa9429271a28f8543efffa136994c0839e7d7bf77'];
 						this.depositAndStake(badgerGeyser, badgerAmount);
+					}
+				})
+				.catch((error: any) => {
+					this.fetchContracts();
+					queueNotification(error.message, 'error');
+					setTxStatus('error');
+				});
+		});
+	});
+	claimDiggAirdrops = action((stake = false) => {
+		const { merkleProof } = this.airdrops;
+		const { provider, gasPrices, connectedAddress } = this.store.wallet;
+		const { queueNotification, gasPrice, setTxStatus } = this.store.uiState;
+
+		if (!connectedAddress) return;
+
+		// if (ethBalance?.lt(MIN_ETH_BALANCE))
+		// 	return queueNotification("Your account is low on ETH, you may need to top up to claim.", 'warning')
+
+		const web3 = new Web3(provider);
+		const rewardsTree = new web3.eth.Contract(airdropsConfig.abi as any, airdropsConfig.contract);
+		const method = rewardsTree.methods.claim(
+			merkleProof.index,
+			connectedAddress,
+			merkleProof.amount,
+			merkleProof.proof,
+		);
+
+		queueNotification(`Sign the transaction to claim your airdrop`, 'info');
+		const diggAmount = this.airdrops.digg;
+		estimateAndSend(web3, gasPrices[gasPrice], method, connectedAddress, (transaction: PromiEvent<Contract>) => {
+			transaction
+				.on('transactionHash', () => {
+					queueNotification(`Claim submitted.`, 'info');
+				})
+				.on('receipt', () => {
+					queueNotification(`Rewards claimed.`, 'success');
+					this.fetchSettRewards();
+					this.fetchContracts();
+
+					if (stake) {
+						const badgerGeyser = this.geysers['0xa9429271a28f8543efffa136994c0839e7d7bf77'];
+						this.depositAndStake(badgerGeyser, diggAmount);
 					}
 				})
 				.catch((error: any) => {
@@ -822,7 +885,11 @@ class ContractsStore {
 				const sushiSuffix: string[] = [];
 				_.map(config.contracts, (contract: any) => {
 					try {
-						sushiSuffix.push(this.vaults[this.geysers[contract].getStakingToken].token);
+						let geyser = this.geysers[contract]
+						let vault = this.vaults[geyser[geyser.underlyingKey]]
+						if (!geyser || !vault)
+							return
+						sushiSuffix.push(vault[vault.underlyingKey]);
 					} catch (e) {
 						process.env.NODE_ENV !== 'production' && console.log(e);
 					}

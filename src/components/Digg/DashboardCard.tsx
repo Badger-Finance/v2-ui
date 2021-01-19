@@ -5,30 +5,53 @@ import {
 	CardContent,
 	CardActions,
 	Typography,
+	Tabs,
+	Tab,
 	CardHeader,
 	CircularProgress,
 } from '@material-ui/core';
-import React, { useState, useEffect } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import React, { useState, useEffect, useContext } from 'react';
 
 import AreaChart from './AreaChart';
 import { observer } from 'mobx-react-lite';
 import { fetchDiggChart } from '../../mobx/utils/helpers';
 
+const useStyles = makeStyles((theme) => ({
+	chartHeader: {
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'space-between',
+		marginRight: theme.spacing(4),
+		marginBottom: theme.spacing(2),
+		[theme.breakpoints.down('sm')]: {
+			flexDirection: 'column',
+			paddingBottom: theme.spacing(2),
+		},
+	},
+}));
+
 const DashboardCard = observer((props: any) => {
+	const classes = useStyles();
+
 	const componentDidMount = () => {
 		handleChangeRange(30);
 	};
 
 	useEffect(componentDidMount, []);
+	const [title, setGraphSelected] = useState<string>('Supply');
 
 	const handleChangeRange = (range: number) => {
-		const chart = props.title === 'Price' ? 'prices' : props.title === 'Supply' ? 'total_volumes' : 'market_caps';
+		let chart = title === 'Price' ? 'prices' : title === 'Supply' ? 'total_volumes' : 'market_caps';
 
 		fetchDiggChart(chart, range, (marketData: any) => {
 			setChartData(marketData);
 			setRange(range);
 		});
 	};
+	useEffect(() => {
+		handleChangeRange(range);
+	}, [title]);
 
 	const [chartData, setChartData] = useState<any>(undefined);
 	const [range, setRange] = useState<number>(420);
@@ -61,8 +84,20 @@ const DashboardCard = observer((props: any) => {
 
 	return !!chartData ? (
 		<Card>
-			<CardHeader title={props.title} action={ranges} subheader="Drag the chart and pan the axes to explore." />
-			<CardContent />
+			<Tabs
+				variant="fullWidth"
+				indicatorColor="primary"
+				value={['Supply', 'Price', 'Market cap'].indexOf(title)}
+				style={{ background: 'rgba(0,0,0,.2)', marginBottom: '.5rem' }}
+			>
+				<Tab onClick={() => setGraphSelected('Supply')} label="Supply"></Tab>
+				<Tab onClick={() => setGraphSelected('Price')} label="Price"></Tab>
+				<Tab onClick={() => setGraphSelected('Market cap')} label="Market cap"></Tab>
+			</Tabs>
+			<div className={classes.chartHeader}>
+				<CardHeader title={title} subheader="Drag the chart and pan the axes to explore." />
+				<div>{ranges}</div>
+			</div>
 			<CardContent
 				style={{
 					// paddingLeft: "2rem",
@@ -70,45 +105,47 @@ const DashboardCard = observer((props: any) => {
 					margin: '-2rem 0 0 0',
 				}}
 			>
-				<AreaChart accent={'#F2A52B'} chartData={chartData} yPrefix={props.title === 'Price' && '$'} />
+				<AreaChart accent={'#F2A52B'} chartData={chartData} yPrefix={title === 'Price' && '$'} />
 			</CardContent>
 
-			<CardActions style={{ display: 'flex', justifyContent: 'start' }}>
-				<div style={{ display: 'flex', marginRight: '.5rem' }}>
-					<Typography variant="body2" color="textPrimary">
-						<Typography variant="body2" color="textSecondary">
-							High
+			<CardActions style={{ display: 'flex', justifyContent: 'center', marginBottom: '.75rem' }}>
+				<div style={{ display: 'flex' }}>
+					<div style={{ marginLeft: '1rem', textAlign: 'center' }}>
+						<Typography variant="body2" color="textPrimary">
+							<Typography variant="body2" color="textSecondary">
+								High
+							</Typography>
+							{title === 'Price' && '$'}
+							{intToString(chartData.calcs.high)}
 						</Typography>
-						{props.title === 'Price' && '$'}
-						{intToString(chartData.calcs.high)}
-					</Typography>
-				</div>
-				<div style={{ display: 'flex', marginRight: '.5rem' }}>
-					<Typography variant="body2" color="textPrimary">
-						<Typography variant="body2" color="textSecondary">
-							Low
+					</div>
+					<div style={{ marginLeft: '1rem', textAlign: 'center' }}>
+						<Typography variant="body2" color="textPrimary">
+							<Typography variant="body2" color="textSecondary">
+								Low
+							</Typography>
+							{title === 'Price' && '$'}
+							{intToString(chartData.calcs.low)}
 						</Typography>
-						{props.title === 'Price' && '$'}
-						{intToString(chartData.calcs.low)}
-					</Typography>
-				</div>
-				<div style={{ display: 'flex', marginRight: '.5rem' }}>
-					<Typography variant="body2" color="textPrimary">
-						<Typography variant="body2" color="textSecondary">
-							Average
+					</div>
+					<div style={{ marginLeft: '1rem', textAlign: 'center' }}>
+						<Typography variant="body2" color="textPrimary">
+							<Typography variant="body2" color="textSecondary">
+								Average
+							</Typography>
+							{title === 'Price' && '$'}
+							{intToString(chartData.calcs.avg)}
 						</Typography>
-						{props.title === 'Price' && '$'}
-						{intToString(chartData.calcs.avg)}
-					</Typography>
-				</div>
-				<div style={{ display: 'flex', marginRight: '.5rem' }}>
-					<Typography variant="body2" color="textPrimary">
-						<Typography variant="body2" color="textSecondary">
-							Median
+					</div>
+					<div style={{ marginLeft: '1rem', textAlign: 'center' }}>
+						<Typography variant="body2" color="textPrimary">
+							<Typography variant="body2" color="textSecondary">
+								Median
+							</Typography>
+							{title === 'Price' && '$'}
+							{intToString(chartData.calcs.median)}
 						</Typography>
-						{props.title === 'Price' && '$'}
-						{intToString(chartData.calcs.median)}
-					</Typography>
+					</div>
 				</div>
 			</CardActions>
 		</Card>

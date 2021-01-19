@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
 		textAlign: 'right',
 	},
 	button: {
-		margin: theme.spacing(1.5, 0, 2),
+		margin: theme.spacing(1, .5, 2, 0),
 	},
 	chip: {
 		margin: theme.spacing(0, 0, 0, 1),
@@ -62,9 +62,9 @@ export const Airdrops = observer(() => {
 	const classes = useStyles();
 
 	const {
-		router: {},
-		wallet: {},
-		contracts: { claimAirdrops },
+		router: { },
+		wallet: { },
+		contracts: { claimBadgerAirdrops, claimDiggAirdrops },
 		uiState: { airdropStats, stats },
 	} = store;
 
@@ -124,7 +124,7 @@ export const Airdrops = observer(() => {
 				)}
 				{!!qualifier.button2 && (
 					<Button
-						style={{ marginLeft: '1rem' }}
+						className={classes.button}
 						target="_blank"
 						href={qualifier.href2}
 						size="small"
@@ -142,14 +142,16 @@ export const Airdrops = observer(() => {
 		<Container className={classes.root}>
 			<Grid container spacing={2} justify="center">
 				{spacer()}
-				{spacer()}
-				<Grid item md={12} xs={12}>
-					<Typography variant="h5">BadgerDAO accelerates Bitcoin in DeFi.</Typography>
 
-					<Typography variant="subtitle1" style={{ margin: '1rem 0' }}>
+				<Grid item sm={12} xs={12}>
+					<Typography variant="h5" color="textPrimary">
+						BadgerDAO accelerates Bitcoin in DeFi.
+					</Typography>
+					<Typography variant="subtitle2" color="textPrimary">
 						What to do with your Badger and Digg
 					</Typography>
 				</Grid>
+				{spacer()}
 
 				{copy()}
 
@@ -165,12 +167,12 @@ export const Airdrops = observer(() => {
 					<Paper className={classes.statPaper}>
 						<List style={{ padding: 0 }}>
 							<ListItem style={{ margin: 0, padding: 0 }}>
-								<ListItemText primary={airdropStats.badger} secondary="Badger available to claim" />
+								<ListItemText primary={'0.00000'} secondary="Badger available to claim" />
 								<ListItemSecondaryAction>
 									<ButtonGroup disabled size="small" variant="outlined" color="primary">
 										<Button
 											onClick={() => {
-												claimAirdrops(false);
+												claimBadgerAirdrops(false);
 											}}
 											variant="contained"
 										>
@@ -178,7 +180,7 @@ export const Airdrops = observer(() => {
 										</Button>
 										<Button
 											onClick={() => {
-												claimAirdrops(true);
+												claimBadgerAirdrops(true);
 											}}
 										>
 											Deposit
@@ -193,12 +195,12 @@ export const Airdrops = observer(() => {
 					<Paper className={classes.statPaper}>
 						<List style={{ padding: 0 }}>
 							<ListItem style={{ margin: 0, padding: 0 }}>
-								<ListItemText primary={'0.00000'} secondary="DIGG available to claim" />
+								<ListItemText primary={airdropStats.digg} secondary="DIGG available to claim" />
 								<ListItemSecondaryAction>
-									<ButtonGroup disabled size="small" variant="outlined" color="primary">
+									<ButtonGroup disabled={airdropStats.digg === '0.00000'} size="small" variant="outlined" color="primary">
 										<Button
 											onClick={() => {
-												claimAirdrops(false);
+												claimDiggAirdrops(false);
 											}}
 											variant="contained"
 										>
@@ -206,7 +208,7 @@ export const Airdrops = observer(() => {
 										</Button>
 										<Button
 											onClick={() => {
-												claimAirdrops(true);
+												claimDiggAirdrops(true);
 											}}
 										>
 											Deposit

@@ -52,7 +52,6 @@ function AreaChart(props: any) {
 							return (props.yPrefix || '') + intToString(value);
 						}}
 					/>
-
 					<AreaSeries
 						yAccessor={(d: any) => d.change}
 						fill={`url(#${gradientId})`}

@@ -69,7 +69,7 @@ const useStyles = makeStyles((theme) => ({
 	secondarySubListItem: {
 		cursor: 'pointer',
 		justifyContent: 'space-between',
-		background: ' rgba(0, 0, 0, .1)',
+		background: ' rgba(0, 0, 0, .2)',
 		'&:hover': {
 			fontWeight: 'bold',
 		},
@@ -152,7 +152,7 @@ export const Sidebar = observer(() => {
 						className={classes.divider}
 						onClick={() => setExpanded(expanded === 'advanced' ? '' : 'advanced')}
 					>
-						v2.0.1
+						v2.1.0
 						<IconButton
 							size="small"
 							className={classes.expand + ' ' + (expanded === 'advanced' ? classes.expandOpen : '')}
@@ -207,14 +207,13 @@ export const Sidebar = observer(() => {
 					</ListItem>
 					<ListItem
 						button
-						disabled
 						className={
 							classes.listItem + ' ' + (store.router.currentPath == '/digg' ? classes.activeListItem : '')
 						}
 						onClick={() => goTo(views.digg)}
 					>
 						<ListItemIcon>
-							<img alt="" src={require('assets/sidebar/digg-white.png')} className={classes.icon} />
+							<img src={require('assets/sidebar/digg-white.png')} className={classes.icon} />
 						</ListItemIcon>
 						<ListItemText primary="Digg" />
 

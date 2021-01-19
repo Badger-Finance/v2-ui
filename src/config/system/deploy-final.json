@@ -119,16 +119,16 @@
 		"native.uniDiggWbtc": "0xED5eD054b46BAB6c5eCa52552e76A01cFaa664E1",
 		"native.sushiDiggWbtc": "0x60875c7241A1AD0A24E7721e71F215e71a4F9BAE"
 	},
-        "digg_system": {
-            "owner": "0xDA25ee226E534d868f0Dd8a459536b03fEE9079b",
-            "devProxyAdmin": "0x20Dce41Acca85E8222D6861Aa6D23B6C941777bF",
-            "daoProxyAdmin": "0x11A9D034B1bbfbbDCaC9cB3b86ca7D5Df05140F2",
-            "uFragments": "0x798D1bE841a82a273720CE31c822C61a67a601C3",
-            "uFragmentsPolicy": "0x327a78D13eA74145cc0C63E6133D516ad3E974c3",
-            "orchestrator": "0xbd5d9451e004fc495f105ceab40d6c955e4192ba",
-            "cpiMedianOracle": "0x57280661EcAB9B2ad0ddac9B5ed824Ae17424A8C",
-            "marketMedianOracle": "0x058ec2bf15011095a25670b618a129c043e2162e",
-            "constantOracle": "0xed57725991983e407837ce4b3e0f0fa38bd161b6",
-            "centralizedOracle": "0x72dc16CFa95beB42aeebD2B10F22E55bD17Ce976"
-        }
+	"digg_system": {
+		"owner": "0xDA25ee226E534d868f0Dd8a459536b03fEE9079b",
+		"devProxyAdmin": "0x20Dce41Acca85E8222D6861Aa6D23B6C941777bF",
+		"daoProxyAdmin": "0x11A9D034B1bbfbbDCaC9cB3b86ca7D5Df05140F2",
+		"uFragments": "0x798D1bE841a82a273720CE31c822C61a67a601C3",
+		"uFragmentsPolicy": "0x327a78D13eA74145cc0C63E6133D516ad3E974c3",
+		"orchestrator": "0xbd5d9451e004fc495f105ceab40d6c955e4192ba",
+		"cpiMedianOracle": "0x57280661EcAB9B2ad0ddac9B5ed824Ae17424A8C",
+		"marketMedianOracle": "0x058ec2bf15011095a25670b618a129c043e2162e",
+		"constantOracle": "0xed57725991983e407837ce4b3e0f0fa38bd161b6",
+		"centralizedOracle": "0x72dc16CFa95beB42aeebD2B10F22E55bD17Ce976"
+	}
 }

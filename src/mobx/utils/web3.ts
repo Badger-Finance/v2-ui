@@ -20,7 +20,13 @@ export const estimateAndSend = (
 			gas: gasWei.toNumber(),
 		},
 		(error: any, gasLimit: number) => {
-			callback(method.send({ from: address, gas: Math.floor(gasLimit * 1.2), gasPrice: gasWei.multipliedBy(1e9).toFixed(0) }));
+			callback(
+				method.send({
+					from: address,
+					gas: Math.floor(gasLimit * 1.2),
+					gasPrice: gasWei.multipliedBy(1e9).toFixed(0),
+				}),
+			);
 		},
 	);
 };
@@ -93,24 +99,22 @@ export const erc20Methods = (connectedAddress: string, token: any): any[] => {
 	if (!!connectedAddress && !!token.contract) {
 		// get allowance of each vault
 
-		return [{
-			name: "balanceOf",
-			args: [
-				Web3.utils.toChecksumAddress(connectedAddress)
-			]
-		}, {
-			name: "totalSupply",
-
-		}, {
-			name: "symbol",
-
-		}, {
-			name: "allowance",
-			args: [
-				Web3.utils.toChecksumAddress(connectedAddress),
-				Web3.utils.toChecksumAddress(token.contract),
-			]
-		}];
+		return [
+			{
+				name: 'balanceOf',
+				args: [Web3.utils.toChecksumAddress(connectedAddress)],
+			},
+			{
+				name: 'totalSupply',
+			},
+			{
+				name: 'symbol',
+			},
+			{
+				name: 'allowance',
+				args: [Web3.utils.toChecksumAddress(connectedAddress), Web3.utils.toChecksumAddress(token.contract)],
+			},
+		];
 	} else {
 		return [];
 	}
