@@ -166,7 +166,7 @@ class ContractsStore {
 				// sort result into hash {vaults:[], geysers:[]}
 				const keyedResult = _.groupBy(result, 'namespace');
 				// store vaults & geysers as hashes {contract_address: data}
-				console.log(keyedResult, vaultBatch, geyserBatch)
+				// console.log(keyedResult, vaultBatch, geyserBatch)
 				_.mapKeys(keyedResult, (value: any, key: string) => {
 					if (key === 'vaults') this.updateVaults(_.keyBy(reduceBatchResult(value), 'address'));
 					else this.updateGeysers(_.keyBy(reduceBatchResult(value), 'address'));
@@ -313,7 +313,7 @@ class ContractsStore {
 		Promise.all([batchCall.execute(digg), ...[...graphQuery({ address: digg[0].addresses[0] })]]).then(
 			(result: any[]) => {
 				let keyedResult = _.groupBy(result[0], 'namespace');
-				console.log(keyedResult)
+				// console.log(keyedResult)
 
 				if (!keyedResult.token || !keyedResult.token[0].decimals)
 					return
@@ -496,8 +496,8 @@ class ContractsStore {
 		const badgerAmount = new BigNumber(this.badgerTree.claims[0]).multipliedBy(1e18);
 		estimateAndSend(web3, gasPrices[gasPrice], method, connectedAddress, (transaction: PromiEvent<Contract>) => {
 			transaction
-				.on('transactionHash', () => {
-					queueNotification(`Claim submitted.`, 'info');
+				.on('transactionHash', (hash) => {
+					queueNotification(`Claim submitted.`, 'info', hash);
 				})
 				.on('receipt', () => {
 					queueNotification(`Rewards claimed.`, 'success');
@@ -539,8 +539,8 @@ class ContractsStore {
 		const badgerAmount = this.airdrops.badger;
 		estimateAndSend(web3, gasPrices[gasPrice], method, connectedAddress, (transaction: PromiEvent<Contract>) => {
 			transaction
-				.on('transactionHash', () => {
-					queueNotification(`Claim submitted.`, 'info');
+				.on('transactionHash', (hash) => {
+					queueNotification(`Claim submitted.`, 'info', hash);
 				})
 				.on('receipt', () => {
 					queueNotification(`Rewards claimed.`, 'success');
@@ -582,8 +582,8 @@ class ContractsStore {
 		const diggAmount = this.airdrops.digg;
 		estimateAndSend(web3, gasPrices[gasPrice], method, connectedAddress, (transaction: PromiEvent<Contract>) => {
 			transaction
-				.on('transactionHash', () => {
-					queueNotification(`Claim submitted.`, 'info');
+				.on('transactionHash', (hash) => {
+					queueNotification(`Claim submitted.`, 'info', hash);
 				})
 				.on('receipt', () => {
 					queueNotification(`Rewards claimed.`, 'success');
@@ -620,8 +620,8 @@ class ContractsStore {
 			connectedAddress,
 			(transaction: PromiEvent<Contract>) => {
 				transaction
-					.on('transactionHash', () => {
-						queueNotification(`Transaction submitted.`, 'info');
+					.on('transactionHash', (hash) => {
+						queueNotification(`Transaction submitted.`, 'info', hash);
 					})
 					.on('receipt', () => {
 						queueNotification(`${underlyingAsset.symbol} allowance increased.`, 'success');
@@ -671,8 +671,8 @@ class ContractsStore {
 			connectedAddress,
 			(transaction: PromiEvent<Contract>) => {
 				transaction
-					.on('transactionHash', () => {
-						queueNotification(`Deposit submitted.`, 'info');
+					.on('transactionHash', (hash) => {
+						queueNotification(`Deposit submitted.`, 'info', hash);
 					})
 					.on('receipt', () => {
 						queueNotification(
@@ -714,8 +714,8 @@ class ContractsStore {
 			connectedAddress,
 			(transaction: PromiEvent<Contract>) => {
 				transaction
-					.on('transactionHash', () => {
-						queueNotification(`Transaction submitted.`, 'info');
+					.on('transactionHash', (hash) => {
+						queueNotification(`Transaction submitted.`, 'info', hash);
 					})
 					.on('receipt', () => {
 						queueNotification(
@@ -759,8 +759,8 @@ class ContractsStore {
 			connectedAddress,
 			(transaction: PromiEvent<Contract>) => {
 				transaction
-					.on('transactionHash', () => {
-						queueNotification(`Deposit submitted.`, 'info');
+					.on('transactionHash', (hash) => {
+						queueNotification(`Deposit submitted.`, 'info', hash);
 					})
 					.on('receipt', () => {
 						queueNotification(
@@ -797,8 +797,8 @@ class ContractsStore {
 			connectedAddress,
 			(transaction: PromiEvent<Contract>) => {
 				transaction
-					.on('transactionHash', () => {
-						queueNotification(`Withdraw submitted.`, 'info');
+					.on('transactionHash', (hash) => {
+						queueNotification(`Withdraw submitted.`, 'info', hash);
 					})
 					.on('receipt', () => {
 						queueNotification(

@@ -278,7 +278,7 @@ export const reduceMethodConfig = (methods: any[], payload: any) => {
 export const reduceContractsToTokens = (contracts: any) => {
 	// grab underlying and yielding token addresses as {address:, contract:}
 	const assets: any[] = _.map(contracts, (contract: any, address: string) => {
-		console.log(address, contract[contract.underlyingKey])
+		// console.log(address, contract[contract.underlyingKey])
 		return (
 			!!contract[contract.underlyingKey] && {
 				address: contract[contract.underlyingKey].toLowerCase(),

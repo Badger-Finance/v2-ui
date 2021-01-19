@@ -57,7 +57,7 @@ export const vaults = [
 		fillers: {
 			isFeatured: [false, true],
 			listOrder: [9, 10, 1],
-			symbolPrefix: ['sushi', 'sushi'],
+			symbolPrefix: ['sushi', 'sushi', 'sushi'],
 		},
 		methods: [
 			{
@@ -189,6 +189,7 @@ export const geysers = [
 			],
 			onsenId: ['103', '21', '73'],
 			listOrder: [0, 1, 2],
+
 		},
 
 		growthEndpoints: [

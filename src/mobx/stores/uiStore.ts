@@ -138,8 +138,8 @@ class UiState {
 		};
 	}
 
-	queueNotification = action((message: string, variant: string) => {
-		this.notification = { message, variant, persist: false };
+	queueNotification = action((message: string, variant: string, hash: any = false) => {
+		this.notification = { message, variant, persist: false, hash: hash };
 	});
 
 	setTxStatus = action((status?: string) => {
