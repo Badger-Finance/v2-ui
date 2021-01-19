@@ -4,7 +4,7 @@ import { RootStore } from '../store';
 
 import { reduceAirdrops, reduceContractsToStats, reduceRebase } from '../reducers/statsReducers';
 import { WBTC_ADDRESS } from 'config/constants';
-import { token as diggToken } from 'config/system/digg'
+import { token as diggToken } from 'config/system/digg';
 
 class UiState {
 	private readonly store!: RootStore;

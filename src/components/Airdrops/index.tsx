@@ -62,8 +62,8 @@ export const Airdrops = observer(() => {
 	const classes = useStyles();
 
 	const {
-		router: { },
-		wallet: { },
+		router: {},
+		wallet: {},
 		contracts: { claimBadgerAirdrops, claimDiggAirdrops },
 		uiState: { airdropStats, stats },
 	} = store;

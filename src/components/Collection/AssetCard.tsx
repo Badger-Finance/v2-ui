@@ -17,6 +17,7 @@ import {
 	ButtonGroup,
 	Chip,
 	LinearProgress,
+	CircularProgress,
 } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -96,7 +97,7 @@ export const AssetCard = observer((props: any) => {
 	const { stats, token } = uiStats;
 
 	if (!stats || !stats.vault) {
-		return <LinearProgress />;
+		return <div />;
 	}
 
 	return (
