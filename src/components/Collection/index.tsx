@@ -198,6 +198,7 @@ export const Collection = observer(() => {
 							<Typography variant="h5">{stats.stats.badger || '...'}</Typography>
 						</Paper>
 					</Grid>
+					{spacer()}
 
 					{!!connectedAddress && treeStats.claims.length > 0 && (
 						<>
