@@ -20,7 +20,7 @@ export const token = {
 
 export const digg = [
 	{
-		addresses: diggDeploy.digg_system.uFragments,
+		addresses: [diggDeploy.digg_system.uFragments],
 		abi: UFragments.abi,
 		allReadMethods: true,
 		groupByNamespace: true,

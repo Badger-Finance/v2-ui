@@ -17,8 +17,8 @@ export const vaults = [
 			deploy.sett_system.vaults['native.tbtcCrv'],
 			deploy.sett_system.vaults['native.uniBadgerWbtc'],
 			deploy.sett_system.vaults['harvest.renCrv'],
-			deploy.sett_system.vaults['native.digg'],
-			deploy.sett_system.vaults['native.uniDiggWbtc'],
+			// deploy.sett_system.vaults['native.digg'],
+			// deploy.sett_system.vaults['native.uniDiggWbtc'],
 		],
 		fillers: {
 			isFeatured: [false, false, false, false, true, true, true, true],
@@ -51,13 +51,13 @@ export const vaults = [
 		abi: BadgerSushiVault.abi,
 		underlying: 'token',
 		contracts: [
-			deploy.sett_system.vaults['native.sushiDiggWbtc'].toLowerCase(),
+			// deploy.sett_system.vaults['native.sushiDiggWbtc'].toLowerCase(),
 			deploy.sett_system.vaults['sushi.sushiWbtcWeth'].toLowerCase(),
 			deploy.sett_system.vaults['sushi.sushiBadgerWBtc'].toLowerCase(),
 		],
 		fillers: {
-			isFeatured: [true, false, true],
-			listOrder: [0, 1, 2],
+			isFeatured: [false, true, false],
+			listOrder: [1, 2, 0],
 			symbolPrefix: ['sushi', 'sushi', 'sushi'],
 		},
 		methods: [
@@ -115,7 +115,7 @@ export const geysers = [
 			deploy.geysers['native.tbtcCrv'],
 			deploy.geysers['native.uniBadgerWbtc'],
 			deploy.geysers['harvest.renCrv'],
-			deploy.geysers['native.uniDiggWbtc'],
+			// deploy.geysers['native.uniDiggWbtc'],
 		],
 		fillers: {
 			isFeatured: [false, false, false, false, true, true, true],
@@ -147,7 +147,7 @@ export const geysers = [
 			},
 		],
 		contracts: [
-			deploy.geysers['native.sushiDiggWbtc'].toLowerCase(),
+			// deploy.geysers['native.sushiDiggWbtc'].toLowerCase(),
 			deploy.geysers['sushi.sushiWbtcWeth'].toLowerCase(),
 			deploy.geysers['sushi.sushiBadgerWBtc'].toLowerCase(),
 		],

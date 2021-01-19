@@ -62,8 +62,8 @@ export const Airdrops = observer(() => {
 	const classes = useStyles();
 
 	const {
-		router: {},
-		wallet: {},
+		router: { },
+		wallet: { },
 		contracts: { claimBadgerAirdrops, claimDiggAirdrops },
 		uiState: { airdropStats, stats },
 	} = store;
@@ -195,10 +195,10 @@ export const Airdrops = observer(() => {
 					<Paper className={classes.statPaper}>
 						<List style={{ padding: 0 }}>
 							<ListItem style={{ margin: 0, padding: 0 }}>
-								<ListItemText primary={airdropStats.digg} secondary="DIGG available to claim" />
+								<ListItemText primary={'0.00000'} secondary="DIGG available to claim" />
 								<ListItemSecondaryAction>
 									<ButtonGroup
-										disabled={airdropStats.digg === '0.00000'}
+										disabled={true}
 										size="small"
 										variant="outlined"
 										color="primary"

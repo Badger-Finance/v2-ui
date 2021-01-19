@@ -3,7 +3,8 @@ import { extendObservable, action, observe } from 'mobx';
 import { RootStore } from '../store';
 
 import { reduceAirdrops, reduceContractsToStats, reduceRebase } from '../reducers/statsReducers';
-import { DIGG_ADDRESS, WBTC_ADDRESS } from 'config/constants';
+import { WBTC_ADDRESS } from 'config/constants';
+import { token as diggToken } from 'config/system/digg'
 
 class UiState {
 	private readonly store!: RootStore;
@@ -160,7 +161,7 @@ class UiState {
 
 	reduceRebase = action(() => {
 		const { tokens } = this.store.contracts;
-		this.rebaseStats = reduceRebase(this.store.contracts.rebase, tokens[WBTC_ADDRESS], tokens[DIGG_ADDRESS]);
+		this.rebaseStats = reduceRebase(this.store.contracts.rebase, tokens[WBTC_ADDRESS], tokens[diggToken.contract]);
 	});
 
 	// setCollection = action((id: string) => {

@@ -190,7 +190,9 @@ function calculatePortfolioStats(vaultContracts: any, tokens: any, vaults: any, 
 	_.forIn(vaultContracts, (vault: any) => {
 		const token = tokens[vault[vault.underlyingKey]];
 		const wrapped = vaults[vault.address];
-		if (!token || !vault.balance) return;
+		if (!token || !vault.balance) return
+
+		// console.log(token.symbol, token.ethValue.toString())
 
 		tvl = tvl.plus(
 			vault.balance
@@ -261,8 +263,8 @@ function reduceGeyserToStats(geyser: any, vaults: any, tokens: any, period: stri
 
 	const virtualEthValue = !!token.ethValue
 		? token.ethValue
-				.dividedBy(1e18)
-				.multipliedBy(!!vault.getPricePerFullShare ? vault.getPricePerFullShare.dividedBy(1e18) : 1)
+			.dividedBy(1e18)
+			.multipliedBy(!!vault.getPricePerFullShare ? vault.getPricePerFullShare.dividedBy(1e18) : 1)
 		: token.ethValue;
 	const underlyingBalance =
 		!!geyser.totalStakedFor &&
