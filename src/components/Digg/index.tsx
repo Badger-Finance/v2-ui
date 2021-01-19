@@ -1,10 +1,11 @@
-import { Button, ButtonGroup, Container, Grid, makeStyles, Typography, Paper, Tabs, Tab } from "@material-ui/core";
+import { Button, ButtonGroup, Container, Grid, makeStyles, Typography, Paper, Tabs, Tab } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
 
-import DashboardCard from "./DashboardCard";
-import Info from "./Info";
-import React, { useContext, useState } from "react";
-import { StoreContext } from "../../context/store-context";
+import DashboardCard from './DashboardCard';
+import Info from './Info';
+import React, { useContext, useState } from 'react';
+import { StoreContext } from '../../context/store-context';
+import views from '../../config/routes';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -45,7 +46,8 @@ export const Digg = observer(() => {
 	const store = useContext(StoreContext);
 
 	const {
-		uiState: { },
+		router: { goTo },
+		uiState: { openSidebar, notification },
 	} = store;
 	const spacer = () => <div className={classes.before} />;
 
@@ -63,10 +65,11 @@ export const Digg = observer(() => {
 					</Typography>
 				</Grid>
 				<Grid item sm={6} xs={12} className={classes.filters}>
-					<ButtonGroup disabled variant="outlined" size="small" className={classes.buttonGroup}>
+					{/* <ButtonGroup disabled variant="outlined" size="small" className={classes.buttonGroup}>
 						<Button>Deposit</Button>
 						<Button>Stake (0.00% APY)</Button>
-					</ButtonGroup>
+					</ButtonGroup> */}
+					<Button variant="contained" size="small" color="primary" onClick={() => goTo(views.home)}>Stake</Button>
 				</Grid>
 
 				<Info />

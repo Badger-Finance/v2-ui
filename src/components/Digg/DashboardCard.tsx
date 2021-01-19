@@ -9,14 +9,13 @@ import {
 	Tab,
 	CardHeader,
 	CircularProgress,
-} from "@material-ui/core";
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from 'react';
 
 import AreaChart from './AreaChart';
 import { observer } from 'mobx-react-lite';
 import { fetchDiggChart } from '../../mobx/utils/helpers';
-
 
 const useStyles = makeStyles((theme) => ({
 	chartHeader: {
@@ -40,14 +39,10 @@ const DashboardCard = observer((props: any) => {
 	};
 
 	useEffect(componentDidMount, []);
-	const [title, setGraphSelected] = useState<string>("Supply")
+	const [title, setGraphSelected] = useState<string>('Supply');
 
 	const handleChangeRange = (range: number) => {
-		let chart = title === "Price"
-			? "prices"
-			: title === "Supply"
-				? "total_volumes"
-				: "market_caps"
+		let chart = title === 'Price' ? 'prices' : title === 'Supply' ? 'total_volumes' : 'market_caps';
 
 		fetchDiggChart(chart, range, (marketData: any) => {
 			setChartData(marketData);
@@ -55,56 +50,49 @@ const DashboardCard = observer((props: any) => {
 		});
 	};
 	useEffect(() => {
-		handleChangeRange(range)
-	}, [title])
+		handleChangeRange(range);
+	}, [title]);
 
 	const [chartData, setChartData] = useState<any>(undefined);
 	const [range, setRange] = useState<number>(420);
 
-	const ranges = <ButtonGroup
-		variant="outlined"
-		size="small"
-		aria-label="outlined button group"
-	>
-		<Button
-			disableElevation
-			variant={range === 1 ? "contained" : "outlined"}
-			onClick={() => handleChangeRange(1)}
-		>
-			1 day
-		</Button>
-		<Button
-			disableElevation
-			variant={range === 7 ? "contained" : "outlined"}
-			onClick={() => handleChangeRange(7)}
-		>
-			1 week
-		</Button>
-		<Button
-			disableElevation
-			variant={range === 30 ? "contained" : "outlined"}
-			onClick={() => handleChangeRange(30)}
-		>
-			1 Month
-		</Button>
-	</ButtonGroup>
-
+	const ranges = (
+		<ButtonGroup variant="outlined" size="small" aria-label="outlined button group">
+			<Button
+				disableElevation
+				variant={range === 1 ? 'contained' : 'outlined'}
+				onClick={() => handleChangeRange(1)}
+			>
+				1 day
+			</Button>
+			<Button
+				disableElevation
+				variant={range === 7 ? 'contained' : 'outlined'}
+				onClick={() => handleChangeRange(7)}
+			>
+				1 week
+			</Button>
+			<Button
+				disableElevation
+				variant={range === 30 ? 'contained' : 'outlined'}
+				onClick={() => handleChangeRange(30)}
+			>
+				1 Month
+			</Button>
+		</ButtonGroup>
+	);
 
 	return !!chartData ? (
 		<Card>
-			<Tabs variant="fullWidth" indicatorColor="primary" value={["Supply", "Price", "Market cap"].indexOf(title)} style={{ background: 'rgba(0,0,0,.2)', marginBottom: '.5rem' }}>
-				<Tab
-					onClick={() => setGraphSelected("Supply")}
-					label="Supply">
-				</Tab>
-				<Tab
-					onClick={() => setGraphSelected("Price")}
-					label="Price">
-				</Tab>
-				<Tab
-					onClick={() => setGraphSelected("Market cap")}
-					label="Market cap">
-				</Tab>
+			<Tabs
+				variant="fullWidth"
+				indicatorColor="primary"
+				value={['Supply', 'Price', 'Market cap'].indexOf(title)}
+				style={{ background: 'rgba(0,0,0,.2)', marginBottom: '.5rem' }}
+			>
+				<Tab onClick={() => setGraphSelected('Supply')} label="Supply"></Tab>
+				<Tab onClick={() => setGraphSelected('Price')} label="Price"></Tab>
+				<Tab onClick={() => setGraphSelected('Market cap')} label="Market cap"></Tab>
 			</Tabs>
 			<div className={classes.chartHeader}>
 				<CardHeader title={title} subheader="Drag the chart and pan the axes to explore." />
@@ -117,52 +105,64 @@ const DashboardCard = observer((props: any) => {
 					margin: '-2rem 0 0 0',
 				}}
 			>
-				<AreaChart
-					accent={"#F2A52B"}
-					chartData={chartData}
-					yPrefix={title === "Price" && "$"}
-				/>
+				<AreaChart accent={'#F2A52B'} chartData={chartData} yPrefix={title === 'Price' && '$'} />
 			</CardContent>
 
 			<CardActions style={{ display: 'flex', justifyContent: 'center', marginBottom: '.75rem' }}>
 				<div style={{ display: 'flex' }}>
-					<div style={{ marginLeft: '1rem', textAlign: 'center' }}><Typography variant="body2" color="textPrimary">
-						<Typography variant="body2" color="textSecondary">High</Typography>
-						{title === "Price" && "$"}
-						{intToString(chartData.calcs.high)}</Typography>
+					<div style={{ marginLeft: '1rem', textAlign: 'center' }}>
+						<Typography variant="body2" color="textPrimary">
+							<Typography variant="body2" color="textSecondary">
+								High
+							</Typography>
+							{title === 'Price' && '$'}
+							{intToString(chartData.calcs.high)}
+						</Typography>
 					</div>
-					<div style={{ marginLeft: '1rem', textAlign: 'center' }}><Typography variant="body2" color="textPrimary">
-						<Typography variant="body2" color="textSecondary">Low</Typography>
-						{title === "Price" && "$"}
-						{intToString(chartData.calcs.low)}</Typography>
+					<div style={{ marginLeft: '1rem', textAlign: 'center' }}>
+						<Typography variant="body2" color="textPrimary">
+							<Typography variant="body2" color="textSecondary">
+								Low
+							</Typography>
+							{title === 'Price' && '$'}
+							{intToString(chartData.calcs.low)}
+						</Typography>
 					</div>
-					<div style={{ marginLeft: '1rem', textAlign: 'center' }}><Typography variant="body2" color="textPrimary">
-						<Typography variant="body2" color="textSecondary">Average</Typography>
-						{title === "Price" && "$"}
-						{intToString(chartData.calcs.avg)}</Typography>
+					<div style={{ marginLeft: '1rem', textAlign: 'center' }}>
+						<Typography variant="body2" color="textPrimary">
+							<Typography variant="body2" color="textSecondary">
+								Average
+							</Typography>
+							{title === 'Price' && '$'}
+							{intToString(chartData.calcs.avg)}
+						</Typography>
 					</div>
-					<div style={{ marginLeft: '1rem', textAlign: 'center' }}><Typography variant="body2" color="textPrimary">
-						<Typography variant="body2" color="textSecondary">Median</Typography>
-						{title === "Price" && "$"}
-						{intToString(chartData.calcs.median)}</Typography>
+					<div style={{ marginLeft: '1rem', textAlign: 'center' }}>
+						<Typography variant="body2" color="textPrimary">
+							<Typography variant="body2" color="textSecondary">
+								Median
+							</Typography>
+							{title === 'Price' && '$'}
+							{intToString(chartData.calcs.median)}
+						</Typography>
 					</div>
 				</div>
 			</CardActions>
 		</Card>
 	) : (
-			<Card style={{ padding: '1rem .6rem' }}>
-				<CardContent
-					style={{
-						display: 'flex',
-						justifyContent: 'center',
-						alignItems: 'center',
-						minHeight: '10rem',
-					}}
-				>
-					<CircularProgress />
-				</CardContent>
-			</Card>
-		);
+		<Card style={{ padding: '1rem .6rem' }}>
+			<CardContent
+				style={{
+					display: 'flex',
+					justifyContent: 'center',
+					alignItems: 'center',
+					minHeight: '10rem',
+				}}
+			>
+				<CircularProgress />
+			</CardContent>
+		</Card>
+	);
 });
 
 const intToString = (n: number) => {

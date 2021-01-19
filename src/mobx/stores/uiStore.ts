@@ -2,7 +2,8 @@ import { extendObservable, action, observe } from 'mobx';
 
 import { RootStore } from '../store';
 
-import { reduceAirdrops, reduceContractsToStats } from '../reducers/statsReducers';
+import { reduceAirdrops, reduceContractsToStats, reduceRebase } from '../reducers/statsReducers';
+import { DIGG_ADDRESS, WBTC_ADDRESS } from 'config/constants';
 
 class UiState {
 	private readonly store!: RootStore;
@@ -44,6 +45,7 @@ class UiState {
 				assets: {
 					wallet: [],
 					deposits: [],
+					wrapped: [],
 				},
 			},
 			claims: [0, 0, 0],
@@ -51,7 +53,7 @@ class UiState {
 			vaultStats: {},
 			rebaseStats: {},
 			treeStats: { claims: [] },
-			airdropStats: { badger: '0.00000' },
+			airdropStats: { badger: '0.00000', digg: '0.00000' },
 
 			currency: window.localStorage.getItem('selectedCurrency') || 'usd',
 			period: window.localStorage.getItem('selectedPeriod') || 'year',
@@ -73,6 +75,7 @@ class UiState {
 					process.env.NODE_ENV !== 'production' && console.log(e);
 				}
 		});
+
 
 		// format rewards for UI
 		observe(this.store.contracts as any, 'badgerTree', () => {
@@ -153,11 +156,12 @@ class UiState {
 	});
 
 	reduceAirdrops = action(() => {
-		this.airdropStats = reduceAirdrops(this.store.contracts.airdrops.airdrops);
+		this.airdropStats = reduceAirdrops(this.store.contracts.airdrops);
 	});
 
 	reduceRebase = action(() => {
-		this.rebaseStats = this.store.contracts.rebase;
+		const { tokens } = this.store.contracts
+		this.rebaseStats = reduceRebase(this.store.contracts.rebase, tokens[WBTC_ADDRESS], tokens[DIGG_ADDRESS]);
 	});
 
 	// setCollection = action((id: string) => {

@@ -1,6 +1,6 @@
-import { Typography, Paper, makeStyles, ListItem, List, ListItemSecondaryAction } from "@material-ui/core";
-import { observer } from "mobx-react-lite";
-import React from "react";
+import { Typography, Paper, makeStyles, ListItem, List, ListItemSecondaryAction } from '@material-ui/core';
+import { observer } from 'mobx-react-lite';
+import React from 'react';
 
 const useStyles = makeStyles((theme) => ({
 	statPaper: {
@@ -24,16 +24,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 type SubmetricData = {
-	title: string,
-	value: string,
-	change?: boolean,
+	title: string;
+	value: string;
+	change?: boolean;
 };
 
 type MetricProps = {
-	metric: string,
-	value: string,
-	submetrics?: Array<SubmetricData>,
-}
+	metric: string;
+	value: string;
+	submetrics?: Array<SubmetricData>;
+};
 
 const SubMetric = observer((props: SubmetricData) => {
 	const { title, value, change } = props;
@@ -41,12 +41,14 @@ const SubMetric = observer((props: SubmetricData) => {
 
 	const isNumber = !Number.isNaN(parseInt(value));
 	const metricValue = change && isNumber ? `${value}%` : value;
-	const metricValueClass = change && isNumber ? parseInt(value) < 0 ? classes.down : classes.up : undefined;
+	const metricValueClass = change && isNumber ? (parseInt(value) < 0 ? classes.down : classes.up) : undefined;
 	return (
 		<ListItem>
 			<Typography variant="caption">{title}</Typography>
 			<ListItemSecondaryAction>
-				<Typography variant="caption" className={metricValueClass}>{metricValue || '...'}</Typography>
+				<Typography variant="caption" className={metricValueClass}>
+					{metricValue || '...'}
+				</Typography>
 			</ListItemSecondaryAction>
 		</ListItem>
 	);

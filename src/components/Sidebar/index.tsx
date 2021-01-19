@@ -70,8 +70,8 @@ const useStyles = makeStyles((theme) => ({
 		cursor: 'pointer',
 		justifyContent: 'space-between',
 		background: ' rgba(0, 0, 0, .2)',
-		"&:hover": {
-			fontWeight: 'bold'
+		'&:hover': {
+			fontWeight: 'bold',
 		},
 		// paddingLeft: theme.spacing(1),
 		padding: theme.spacing(0.5, 2, 0.5, 3),
@@ -147,7 +147,11 @@ export const Sidebar = observer(() => {
 
 					<Wallet />
 
-					<ListItem button className={classes.divider} onClick={() => setExpanded(expanded === 'advanced' ? '' : 'advanced')}>
+					<ListItem
+						button
+						className={classes.divider}
+						onClick={() => setExpanded(expanded === 'advanced' ? '' : 'advanced')}
+					>
 						v2.1.0
 						<IconButton
 							size="small"
@@ -201,9 +205,14 @@ export const Sidebar = observer(() => {
 						</ListItemIcon>
 						<ListItemText primary="Airdrops" />
 					</ListItem>
-					<ListItem button className={classes.listItem + ' ' + (store.router.currentPath == '/digg' ? classes.activeListItem : '')} onClick={() => goTo(views.digg)}>
-
-						<ListItemIcon >
+					<ListItem
+						button
+						className={
+							classes.listItem + ' ' + (store.router.currentPath == '/digg' ? classes.activeListItem : '')
+						}
+						onClick={() => goTo(views.digg)}
+					>
+						<ListItemIcon>
 							<img src={require('assets/sidebar/digg-white.png')} className={classes.icon} />
 						</ListItemIcon>
 						<ListItemText primary="Digg" />

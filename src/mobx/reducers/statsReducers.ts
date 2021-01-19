@@ -173,9 +173,10 @@ export const reduceClaims = (merkleProof: any, claimedRewards: any[]) => {
 	});
 };
 export const reduceAirdrops = (airdrops: any) => {
-	return _.mapValues(airdrops, (amount: BigNumber) => {
-		return inCurrency(amount, 'eth', true);
-	});
+	if (!airdrops.digg) {
+		return { digg: '0.00000' }
+	}
+	return { digg: inCurrency(airdrops.digg, 'eth', true) }
 };
 function calculatePortfolioStats(vaultContracts: any, tokens: any, vaults: any, geyserContracts: any) {
 	let tvl = new BigNumber(0);
@@ -259,8 +260,8 @@ function reduceGeyserToStats(geyser: any, vaults: any, tokens: any, period: stri
 
 	const virtualEthValue = !!token.ethValue
 		? token.ethValue
-				.dividedBy(1e18)
-				.multipliedBy(!!vault.getPricePerFullShare ? vault.getPricePerFullShare.dividedBy(1e18) : 1)
+			.dividedBy(1e18)
+			.multipliedBy(!!vault.getPricePerFullShare ? vault.getPricePerFullShare.dividedBy(1e18) : 1)
 		: token.ethValue;
 	const underlyingBalance =
 		!!geyser.totalStakedFor &&
@@ -414,4 +415,28 @@ function reduceTotalGrowth(vault: any, period: string, token: any, geyser: any =
 function formatPercentage(ratio: BigNumber) {
 	if (ratio.multipliedBy(1e2).lt(1e-2)) return ratio.multipliedBy(1e2).toFixed(4);
 	else return ratio.multipliedBy(1e2).toFixed(2);
+}
+
+export function reduceRebase(stats: any, base: any, token: any) {
+	let info = {
+		// marketCap: token.totalSupply.multipliedBy(token.ethValue),
+		oraclePrice: inCurrency(base.ethValue.multipliedBy(stats.oracleRate), 'usd'),
+		btcPrice: inCurrency(base.ethValue, 'usd')
+	}
+	return _.defaults(stats, info)
+
+
+
+	// decimals: decimals,
+	// lastRebaseTimestampSec: lastRebaseTimestampSec,
+	// minRebaseTimeIntervalSec: minRebaseTimeIntervalSec,
+	// rebaseLag: keyedResult.policy[0].rebaseLag[0].value,
+	// epoch: keyedResult.policy[0].epoch[0].value,
+	// inRebaseWindow: keyedResult.policy[0].inRebaseWindow[0].value,
+	// rebaseWindowLengthSec: parseInt(keyedResult.policy[0].rebaseWindowLengthSec[0].value),
+	// oracleRate: new BigNumber(keyedResult.oracle[0].providerReports[0].value.payload).dividedBy(1e18),
+	// derivedEth: result[1].data.token.derivedETH,
+	// nextRebase: getNextRebase(minRebaseTimeIntervalSec, lastRebaseTimestampSec),
+	// pastRebase: rebaseLog,
+
 }

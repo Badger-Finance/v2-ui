@@ -1,21 +1,28 @@
 import {
-	Grid, Typography, Paper, makeStyles, Button, List, Card, CardActions,
+	Grid,
+	Typography,
+	Paper,
+	makeStyles,
+	Button,
+	List,
+	Card,
+	CardActions,
 	ListItem,
 	ListItemText,
 	ListItemSecondaryAction,
 	ButtonGroup,
-	CardContent
-} from "@material-ui/core";
-import React, { useState, useContext } from "react";
-import { StoreContext } from "../../context/store-context";
-import useInterval from "@use-it/interval";
-import { observer } from "mobx-react-lite";
-import { Loader } from "../Loader";
-import Metric from "./Metric";
-import { calculateNewSupply, shortenNumbers, numberWithCommas, getPercentageChange } from '../../mobx/utils/digHelpers'
+	CardContent,
+} from '@material-ui/core';
+import React, { useState, useContext } from 'react';
+import { StoreContext } from '../../context/store-context';
+import useInterval from '@use-it/interval';
+import { observer } from 'mobx-react-lite';
+import { Loader } from '../Loader';
+import Metric from './Metric';
+import { calculateNewSupply, shortenNumbers, numberWithCommas, getPercentageChange } from '../../mobx/utils/digHelpers';
 import { WBTC_ADDRESS } from '../../config/constants';
-import BigNumber from "bignumber.js";
-import { ArrowRightAlt } from "@material-ui/icons";
+import BigNumber from 'bignumber.js';
+import { ArrowRightAlt } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
 	before: {
@@ -57,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	cardActions: {
 		padding: theme.spacing(0, 0, 2),
-		justifyContent: 'center'
+		justifyContent: 'center',
 	},
 	down: {
 		color: theme.palette.error.main,
@@ -73,23 +80,39 @@ const useStyles = makeStyles((theme) => ({
 			position: 'absolute',
 			textAlign: 'right',
 			margin: 0,
-		}
-	}
-
-
+		},
+	},
 }));
 
 const Info = observer(() => {
 	const store = useContext(StoreContext);
-	const { uiState: { rebaseStats }, contracts: { tokens } } = store
+	const {
+		uiState: { rebaseStats },
+		contracts: { tokens },
+	} = store;
 	const classes = useStyles();
-	const previousSupply = rebaseStats.totalSupply && rebaseStats.pastRebase ? rebaseStats.totalSupply.minus(
-		new BigNumber(rebaseStats.pastRebase.requestedSupplyAdjustment).dividedBy(Math.pow(10, rebaseStats.decimals))) : null
-	const [nextRebase, setNextRebase] = useState("00:00:00");
-	const newSupply = rebaseStats.oracleRate && rebaseStats.totalSupply ? calculateNewSupply(rebaseStats.oracleRate.toNumber(), rebaseStats.totalSupply.toNumber(), rebaseStats.rebaseLag) : 0;
+	const previousSupply =
+		rebaseStats.totalSupply && rebaseStats.pastRebase
+			? rebaseStats.totalSupply.minus(
+				new BigNumber(rebaseStats.pastRebase.requestedSupplyAdjustment).dividedBy(
+					Math.pow(10, rebaseStats.decimals),
+				),
+			)
+			: null;
+	const [nextRebase, setNextRebase] = useState('00:00:00');
+	const newSupply =
+		rebaseStats.oracleRate && rebaseStats.totalSupply
+			? calculateNewSupply(
+				rebaseStats.oracleRate.toNumber(),
+				rebaseStats.totalSupply.toNumber(),
+				rebaseStats.rebaseLag,
+			)
+			: 0;
 	const isPositive = !newSupply || newSupply >= rebaseStats.totalSupply;
-	const percentage = newSupply && rebaseStats.totalSupply ?
-		((newSupply - rebaseStats.totalSupply) / rebaseStats.totalSupply * 100) : 0;
+	const percentage =
+		newSupply && rebaseStats.totalSupply
+			? ((newSupply - rebaseStats.totalSupply) / rebaseStats.totalSupply) * 100
+			: 0;
 
 	if (!rebaseStats) {
 		return <Loader />;
@@ -107,118 +130,131 @@ const Info = observer(() => {
 	const spacer = () => <div className={classes.before} />;
 	const mockDiggMarketCap = 506932023;
 
-	return <>
-		<Grid item xs={12} md={3}>
-			<Metric
-				metric='Market Cap'
-				value={`$${numberWithCommas(mockDiggMarketCap.toString())}`}
-				submetrics={[
-					{ title: '1h', value: '2.45', change: true },
-					{ title: '24h', value: '12.45', change: true },
-					{ title: '7d', value: '-3.4', change: true },
-				]}
-			/>
-		</Grid>
-		<Grid item xs={12} md={3}>
-			<Metric
-				metric='Total Supply'
-				value={rebaseStats.totalSupply ? shortenNumbers(rebaseStats.totalSupply, '', 2) : '-'}
-				submetrics={[
-					{ title: 'Change', value: previousSupply ? getPercentageChange(rebaseStats.totalSupply, previousSupply).toFixed(2) : '-', change: true },
-					{ title: 'Previous Supply', value: previousSupply ? shortenNumbers(previousSupply, '', 2) : '-' },
-				]}
-			/>
-		</Grid>
-		<Grid item xs={6} md={3}>
-			<Metric
-				metric='Oracle Price'
-				value={'$42,109'}
-				submetrics={[
-					{ title: 'Change', value: '-13.40', change: true },
-					{ title: 'Previous Price', value: '$47,497' },
-				]}
-			/>
-		</Grid>
-		<Grid item xs={6} md={3}>
-			<Metric
-				metric='BTC Price'
-				value={'$40,345'}
-				submetrics={[
-					{ title: 'Change', value: '1.043', change: true },
-					{ title: 'Current Ratio', value: '1.043' },
-				]}
-			/>
-		</Grid>
+	return (
+		<>
+			{/* <Grid item xs={12} md={4}>
+				<Metric
+					metric="Market Cap"
+					value={`$${numberWithCommas(mockDiggMarketCap.toString())}`}
+					submetrics={[
+						// { title: '1h', value: '2.45', change: true },
+						// { title: '24h', value: '12.45', change: true },
+						// { title: '7d', value: '-3.4', change: true },
+					]}
+				/>
+			</Grid> */}
 
-		<Grid item xs={12} style={{ textAlign: 'center', paddingBottom: 0 }} >
-			<Typography variant="subtitle1">Current Rebase</Typography>
-		</Grid>
-		<Grid item xs={12} md={6}>
-			<Card >
-				<CardContent className={classes.statPaper}>
-					<List style={{ padding: 0 }}>
-						<ListItem >
-							<Typography variant="body2">Time to Rebase</Typography>
-							<ListItemSecondaryAction>
-								<Typography variant="body1">{nextRebase || '...'}</Typography>
-							</ListItemSecondaryAction>
-						</ListItem>
+			<Grid item xs={12} md={4}>
+				<Metric
+					metric="Total Supply"
+					value={rebaseStats.totalSupply ? shortenNumbers(rebaseStats.totalSupply, '', 2) : '-'}
+				// submetrics={[
+				// 	{
+				// 		title: 'Change',
+				// 		value: previousSupply
+				// 			? getPercentageChange(rebaseStats.totalSupply, previousSupply).toFixed(2)
+				// 			: '-',
+				// 		change: true,
+				// 	},
+				// 	{
+				// 		title: 'Previous Supply',
+				// 		value: previousSupply ? shortenNumbers(previousSupply, '', 2) : '-',
+				// 	},
+				// ]}
+				/>
+			</Grid>
+			<Grid item xs={6} md={4}>
+				<Metric
+					metric="Oracle Price"
+					value={rebaseStats.oraclePrice ? rebaseStats.oraclePrice : '-'}
+					submetrics={[
+						// { title: 'Change', value: '-13.40', change: true },
+						// { title: 'Previous Price', value: '$47,497' },
+					]}
+				/>
+			</Grid>
+			<Grid item xs={6} md={4}>
+				<Metric
+					metric="BTC Price"
+					value={rebaseStats.btcPrice ? rebaseStats.btcPrice : '-'}
+					submetrics={[
+						// { title: 'Change', value: '1.043', change: true },
+						// { title: 'Current Ratio', value: '1.043' },
+					]}
+				/>
+			</Grid>
 
-						<ListItem >
-							<Typography variant="body2">Current Price Ratio</Typography>
-							<ListItemSecondaryAction>
-								<Typography variant="body1">{numberWithCommas(newSupply.toFixed(2)) || '...'}</Typography>
-							</ListItemSecondaryAction>
-						</ListItem>
+			<Grid item xs={12} style={{ textAlign: 'center', paddingBottom: 0 }}>
+				<Typography variant="subtitle1">Current Rebase</Typography>
+			</Grid>
+			<Grid item xs={12} md={6}>
+				<Card>
+					<CardContent className={classes.statPaper}>
+						<List style={{ padding: 0 }}>
+							<ListItem>
+								<Typography variant="body2">Time to Rebase</Typography>
+								<ListItemSecondaryAction>
+									<Typography variant="body1">{nextRebase || '...'}</Typography>
+								</ListItemSecondaryAction>
+							</ListItem>
 
-					</List>
-				</CardContent>
-				<CardActions >
-					<Button size="small" fullWidth variant="contained" color="primary" disabled>
-						TRIGGER REBASE
-					</Button>
-				</CardActions>
+							<ListItem>
+								<Typography variant="body2">Current Price Ratio</Typography>
+								<ListItemSecondaryAction>
+									<Typography variant="body1">
+										{numberWithCommas(newSupply.toFixed(2)) || '...'}
+									</Typography>
+								</ListItemSecondaryAction>
+							</ListItem>
+						</List>
+					</CardContent>
+					<CardActions>
+						<Button size="small" fullWidth variant="contained" color="primary" disabled={!rebaseStats.inRebaseWindow}>
+							TRIGGER REBASE {rebaseStats.inRebaseWindow}
+						</Button>
+					</CardActions>
+				</Card>
+			</Grid>
+			<Grid item xs={12} md={6}>
+				<Card>
+					<CardContent className={classes.statPaper}>
+						<List style={{ padding: 0 }}>
+							<ListItem>
+								<Typography variant="body2">Rebase Impact</Typography>
+								<ListItemSecondaryAction className={classes.secondaryAction}>
+									<Typography variant="body1" className={isPositive ? classes.up : classes.down}>
+										1 DIGG <ArrowRightAlt style={{ transform: 'translate(0,7px)' }} />{' '}
+										{percentage ? Math.abs(1 / percentage).toFixed(2) : '...'} DIGG
+									</Typography>
+								</ListItemSecondaryAction>
+							</ListItem>
 
+							<ListItem>
+								<Typography variant="body2">Supply After Rebase</Typography>
+								<ListItemSecondaryAction className={classes.secondaryAction}>
+									<Typography variant="body1">
+										{numberWithCommas(newSupply.toFixed(2)) || '...'}
+									</Typography>
+								</ListItemSecondaryAction>
+							</ListItem>
+						</List>
+					</CardContent>
+					<CardActions style={{ justifyContent: 'center' }}>
+						<Button variant="outlined" fullWidth size="small" color="default" href="https://badger.finance/digg" target="_">
+							How it works
+						</Button>
+						<Button variant="outlined" fullWidth size="small" color="default">
+							Get DIGG
+						</Button>
+					</CardActions>
+				</Card>
+			</Grid>
 
-			</Card>
-		</Grid>
-		<Grid item xs={12} md={6}>
-			<Card >
-				<CardContent className={classes.statPaper}>
-					<List style={{ padding: 0 }}>
-						<ListItem >
-							<Typography variant="body2">Rebase Impact</Typography>
-							<ListItemSecondaryAction className={classes.secondaryAction}>
-								<Typography variant="body1" className={isPositive ? classes.up : classes.down}>
-									1 DIGG <ArrowRightAlt style={{ transform: 'translate(0,7px)' }} /> {(percentage ? Math.abs(percentage).toFixed(2) : '...')} DIGG
-								</Typography>
-							</ListItemSecondaryAction>
-						</ListItem>
-
-						<ListItem >
-							<Typography variant="body2">Supply After Rebase</Typography>
-							<ListItemSecondaryAction className={classes.secondaryAction}>
-								<Typography variant="body1">{numberWithCommas(newSupply.toFixed(2)) || '...'}</Typography>
-							</ListItemSecondaryAction>
-						</ListItem>
-
-					</List>
-				</CardContent>
-				<CardActions style={{ justifyContent: 'center' }}>
-					<Button variant="outlined" fullWidth size="small" color="default">
-						How it works
-					</Button>
-					<Button variant="outlined" fullWidth size="small" color="default">
-						Get DIGG
-					</Button>
-				</CardActions>
-			</Card>
-		</Grid>
-
-		<Grid item xs={12} style={{ textAlign: 'center', paddingBottom: 0 }} >
-			<Typography variant="subtitle1">Charts</Typography>
-		</Grid>
-	</>
+			<Grid item xs={12} style={{ textAlign: 'center', paddingBottom: 0 }}>
+				<Typography variant="subtitle1">Charts</Typography>
+			</Grid>
+		</>
+	);
 });
 
 export default Info;

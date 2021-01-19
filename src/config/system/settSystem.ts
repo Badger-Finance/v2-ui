@@ -26,23 +26,23 @@ export const vaults = [
 		methods: [
 			{
 				name: 'balanceOf',
-				args: ['{connectedAddress}']
+				args: ['{connectedAddress}'],
 			},
 			{
-				name: 'getPricePerFullShare'
+				name: 'getPricePerFullShare',
 			},
 			{
-				name: 'balance'
+				name: 'balance',
 			},
 			{
-				name: 'symbol'
+				name: 'symbol',
 			},
 			{
-				name: 'token'
+				name: 'token',
 			},
 			{
-				name: 'totalSupply'
-			}
+				name: 'totalSupply',
+			},
 		],
 	},
 	{
@@ -60,24 +60,26 @@ export const vaults = [
 		methods: [
 			{
 				name: 'balanceOf',
-				args: ['{connectedAddress}']
+				args: ['{connectedAddress}'],
 			},
 			{
-				name: 'getPricePerFullShare'
+				name: 'getPricePerFullShare',
 			},
 			{
-				name: 'balance'
+				name: 'balance',
 			},
 			{
-				name: 'symbol'
+				name: 'symbol',
 			},
 			{
-				name: 'totalSupply'
+				name: 'totalSupply',
 			},
 			{
-				name: 'token'
-			}],
-	}]
+				name: 'token',
+			},
+		],
+	},
+];
 
 export const geysers = [
 	{
@@ -91,17 +93,18 @@ export const geysers = [
 			},
 			{
 				name: 'getUnlockSchedulesFor',
-				args: [deploy.token]
+				args: [deploy.token],
 			},
 			{
-				name: 'totalStaked'
+				name: 'totalStaked',
 			},
 			{
-				name: 'balance'
+				name: 'balance',
 			},
 			{
-				name: 'getStakingToken'
-			}],
+				name: 'getStakingToken',
+			},
+		],
 		contracts: [
 			deploy.geysers['native.badger'],
 			deploy.geysers['native.renCrv'],
@@ -127,17 +130,18 @@ export const geysers = [
 			},
 			{
 				name: 'getUnlockSchedulesFor',
-				args: [deploy.token]
+				args: [deploy.token],
 			},
 			{
-				name: 'totalStaked'
+				name: 'totalStaked',
 			},
 			{
-				name: 'balance'
+				name: 'balance',
 			},
 			{
-				name: 'getStakingToken'
-			}],
+				name: 'getStakingToken',
+			},
+		],
 		contracts: [
 			deploy.geysers['sushi.sushiWbtcWeth'].toLowerCase(),
 			deploy.geysers['sushi.sushiBadgerWBtc'].toLowerCase(),
