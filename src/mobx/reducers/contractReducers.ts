@@ -185,10 +185,10 @@ export const reduceGrowth = (graphResult: any[], periods: number[], startDate: D
 		const month = growth.month.gt(1) ? growth.now.dividedBy(growth.month).minus(1) : week.multipliedBy(4);
 		const year = growth.start.gt(1)
 			? growth.now
-				.dividedBy(growth.start)
-				.minus(1)
-				.dividedBy(new Date().getTime() - startDate.getTime())
-				.multipliedBy(365 * 24 * 60 * 60 * 60)
+					.dividedBy(growth.start)
+					.minus(1)
+					.dividedBy(new Date().getTime() - startDate.getTime())
+					.multipliedBy(365 * 24 * 60 * 60 * 60)
 			: month.multipliedBy(13.05);
 
 		return { day, week, month, year };
@@ -278,7 +278,6 @@ export const reduceMethodConfig = (methods: any[], payload: any) => {
 export const reduceContractsToTokens = (contracts: any) => {
 	// grab underlying and yielding token addresses as {address:, contract:}
 	const assets: any[] = _.map(contracts, (contract: any, address: string) => {
-		// console.log(address, contract[contract.underlyingKey])
 		return (
 			!!contract[contract.underlyingKey] && {
 				address: contract[contract.underlyingKey].toLowerCase(),
@@ -286,8 +285,6 @@ export const reduceContractsToTokens = (contracts: any) => {
 			}
 		);
 	});
-
-	console.log(assets)
 
 	assets.push(
 		[WBTC_ADDRESS, rewards.tokens[2], rewards.tokens[3]].map((address: string) => ({
