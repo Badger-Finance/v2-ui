@@ -53,7 +53,7 @@ export const Digg = observer(() => {
 
 	return (
 		<Container className={classes.root} maxWidth="lg">
-			<Grid container spacing={2}>
+			<Grid container spacing={1}>
 				{spacer()}
 
 				<Grid item sm={6} xs={12}>

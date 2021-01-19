@@ -117,7 +117,7 @@ export const Collection = observer(() => {
 	return (
 		<>
 			<Container className={classes.root}>
-				<Grid container spacing={2} justify="center">
+				<Grid container spacing={1} justify="center">
 					{spacer()}
 					<Grid item xs={12} sm={6}>
 						<FormControlLabel
