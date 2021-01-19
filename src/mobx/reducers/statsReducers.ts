@@ -45,8 +45,7 @@ export const wrappedAssets = (store: RootStore) => {
 
 	const walletAssets = _.map(geysers, (geyser: any) => {
 		const vault = vaults[geyser[geyser.underlyingKey]];
-		if (!vault)
-			return
+		if (!vault) return;
 		const token = tokens[vault[vault.underlyingKey]];
 		const wrapped = tokens[vault.address];
 
@@ -176,9 +175,9 @@ export const reduceClaims = (merkleProof: any, claimedRewards: any[]) => {
 };
 export const reduceAirdrops = (airdrops: any) => {
 	if (!airdrops.digg) {
-		return { digg: '0.00000' }
+		return { digg: '0.00000' };
 	}
-	return { digg: inCurrency(airdrops.digg, 'eth', true) }
+	return { digg: inCurrency(airdrops.digg, 'eth', true) };
 };
 function calculatePortfolioStats(vaultContracts: any, tokens: any, vaults: any, geyserContracts: any) {
 	let tvl = new BigNumber(0);
@@ -262,8 +261,8 @@ function reduceGeyserToStats(geyser: any, vaults: any, tokens: any, period: stri
 
 	const virtualEthValue = !!token.ethValue
 		? token.ethValue
-			.dividedBy(1e18)
-			.multipliedBy(!!vault.getPricePerFullShare ? vault.getPricePerFullShare.dividedBy(1e18) : 1)
+				.dividedBy(1e18)
+				.multipliedBy(!!vault.getPricePerFullShare ? vault.getPricePerFullShare.dividedBy(1e18) : 1)
 		: token.ethValue;
 	const underlyingBalance =
 		!!geyser.totalStakedFor &&
@@ -423,11 +422,9 @@ export function reduceRebase(stats: any, base: any, token: any) {
 	let info = {
 		// marketCap: token.totalSupply.multipliedBy(token.ethValue),
 		oraclePrice: inCurrency(base.ethValue.multipliedBy(stats.oracleRate), 'usd'),
-		btcPrice: inCurrency(base.ethValue, 'usd')
-	}
-	return _.defaults(stats, info)
-
-
+		btcPrice: inCurrency(base.ethValue, 'usd'),
+	};
+	return _.defaults(stats, info);
 
 	// decimals: decimals,
 	// lastRebaseTimestampSec: lastRebaseTimestampSec,
@@ -440,5 +437,4 @@ export function reduceRebase(stats: any, base: any, token: any) {
 	// derivedEth: result[1].data.token.derivedETH,
 	// nextRebase: getNextRebase(minRebaseTimeIntervalSec, lastRebaseTimestampSec),
 	// pastRebase: rebaseLog,
-
 }

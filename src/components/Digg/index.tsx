@@ -69,7 +69,9 @@ export const Digg = observer(() => {
 						<Button>Deposit</Button>
 						<Button>Stake (0.00% APY)</Button>
 					</ButtonGroup> */}
-					<Button variant="contained" size="small" color="primary" onClick={() => goTo(views.home)}>Stake</Button>
+					<Button variant="contained" size="small" color="primary" onClick={() => goTo(views.home)}>
+						Stake
+					</Button>
 				</Grid>
 
 				<Info />

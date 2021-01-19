@@ -16,9 +16,9 @@ export const onboardWallets = [
 	{ walletName: 'walletLink', rpcUrl: RPC_URL, appName: APP_NAME },
 	{ walletName: 'dapper' },
 	{
-		walletName: "portis",
+		walletName: 'portis',
 		apiKey: PORTIS_APP_ID,
-		label: 'Portis'
+		label: 'Portis',
 	},
 	{
 		walletName: 'trezor',

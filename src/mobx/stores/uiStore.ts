@@ -76,7 +76,6 @@ class UiState {
 				}
 		});
 
-
 		// format rewards for UI
 		observe(this.store.contracts as any, 'badgerTree', () => {
 			try {
@@ -160,7 +159,7 @@ class UiState {
 	});
 
 	reduceRebase = action(() => {
-		const { tokens } = this.store.contracts
+		const { tokens } = this.store.contracts;
 		this.rebaseStats = reduceRebase(this.store.contracts.rebase, tokens[WBTC_ADDRESS], tokens[DIGG_ADDRESS]);
 	});
 

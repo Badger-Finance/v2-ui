@@ -94,19 +94,19 @@ const Info = observer(() => {
 	const previousSupply =
 		rebaseStats.totalSupply && rebaseStats.pastRebase
 			? rebaseStats.totalSupply.minus(
-				new BigNumber(rebaseStats.pastRebase.requestedSupplyAdjustment).dividedBy(
-					Math.pow(10, rebaseStats.decimals),
-				),
-			)
+					new BigNumber(rebaseStats.pastRebase.requestedSupplyAdjustment).dividedBy(
+						Math.pow(10, rebaseStats.decimals),
+					),
+			  )
 			: null;
 	const [nextRebase, setNextRebase] = useState('00:00:00');
 	const newSupply =
 		rebaseStats.oracleRate && rebaseStats.totalSupply
 			? calculateNewSupply(
-				rebaseStats.oracleRate.toNumber(),
-				rebaseStats.totalSupply.toNumber(),
-				rebaseStats.rebaseLag,
-			)
+					rebaseStats.oracleRate.toNumber(),
+					rebaseStats.totalSupply.toNumber(),
+					rebaseStats.rebaseLag,
+			  )
 			: 0;
 	const isPositive = !newSupply || newSupply >= rebaseStats.totalSupply;
 	const percentage =
@@ -148,39 +148,43 @@ const Info = observer(() => {
 				<Metric
 					metric="Total Supply"
 					value={rebaseStats.totalSupply ? shortenNumbers(rebaseStats.totalSupply, '', 2) : '-'}
-				// submetrics={[
-				// 	{
-				// 		title: 'Change',
-				// 		value: previousSupply
-				// 			? getPercentageChange(rebaseStats.totalSupply, previousSupply).toFixed(2)
-				// 			: '-',
-				// 		change: true,
-				// 	},
-				// 	{
-				// 		title: 'Previous Supply',
-				// 		value: previousSupply ? shortenNumbers(previousSupply, '', 2) : '-',
-				// 	},
-				// ]}
+					// submetrics={[
+					// 	{
+					// 		title: 'Change',
+					// 		value: previousSupply
+					// 			? getPercentageChange(rebaseStats.totalSupply, previousSupply).toFixed(2)
+					// 			: '-',
+					// 		change: true,
+					// 	},
+					// 	{
+					// 		title: 'Previous Supply',
+					// 		value: previousSupply ? shortenNumbers(previousSupply, '', 2) : '-',
+					// 	},
+					// ]}
 				/>
 			</Grid>
 			<Grid item xs={6} md={4}>
 				<Metric
 					metric="Oracle Price"
 					value={rebaseStats.oraclePrice ? rebaseStats.oraclePrice : '-'}
-					submetrics={[
-						// { title: 'Change', value: '-13.40', change: true },
-						// { title: 'Previous Price', value: '$47,497' },
-					]}
+					submetrics={
+						[
+							// { title: 'Change', value: '-13.40', change: true },
+							// { title: 'Previous Price', value: '$47,497' },
+						]
+					}
 				/>
 			</Grid>
 			<Grid item xs={6} md={4}>
 				<Metric
 					metric="BTC Price"
 					value={rebaseStats.btcPrice ? rebaseStats.btcPrice : '-'}
-					submetrics={[
-						// { title: 'Change', value: '1.043', change: true },
-						// { title: 'Current Ratio', value: '1.043' },
-					]}
+					submetrics={
+						[
+							// { title: 'Change', value: '1.043', change: true },
+							// { title: 'Current Ratio', value: '1.043' },
+						]
+					}
 				/>
 			</Grid>
 
@@ -209,7 +213,13 @@ const Info = observer(() => {
 						</List>
 					</CardContent>
 					<CardActions>
-						<Button size="small" fullWidth variant="contained" color="primary" disabled={!rebaseStats.inRebaseWindow}>
+						<Button
+							size="small"
+							fullWidth
+							variant="contained"
+							color="primary"
+							disabled={!rebaseStats.inRebaseWindow}
+						>
 							TRIGGER REBASE {rebaseStats.inRebaseWindow}
 						</Button>
 					</CardActions>
@@ -240,7 +250,14 @@ const Info = observer(() => {
 						</List>
 					</CardContent>
 					<CardActions style={{ justifyContent: 'center' }}>
-						<Button variant="outlined" fullWidth size="small" color="default" href="https://badger.finance/digg" target="_">
+						<Button
+							variant="outlined"
+							fullWidth
+							size="small"
+							color="default"
+							href="https://badger.finance/digg"
+							target="_"
+						>
 							How it works
 						</Button>
 						<Button variant="outlined" fullWidth size="small" color="default">
