@@ -278,6 +278,7 @@ export const reduceMethodConfig = (methods: any[], payload: any) => {
 export const reduceContractsToTokens = (contracts: any) => {
 	// grab underlying and yielding token addresses as {address:, contract:}
 	const assets: any[] = _.map(contracts, (contract: any, address: string) => {
+		console.log(address, contract[contract.underlyingKey])
 		return (
 			!!contract[contract.underlyingKey] && {
 				address: contract[contract.underlyingKey].toLowerCase(),
@@ -286,8 +287,10 @@ export const reduceContractsToTokens = (contracts: any) => {
 		);
 	});
 
+	console.log(assets)
+
 	assets.push(
-		[WBTC_ADDRESS, diggToken.contract, rewards.tokens[2], rewards.tokens[3]].map((address: string) => ({
+		[WBTC_ADDRESS, rewards.tokens[2], rewards.tokens[3]].map((address: string) => ({
 			address,
 		})),
 	);

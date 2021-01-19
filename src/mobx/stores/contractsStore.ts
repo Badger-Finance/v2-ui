@@ -166,6 +166,7 @@ class ContractsStore {
 				// sort result into hash {vaults:[], geysers:[]}
 				const keyedResult = _.groupBy(result, 'namespace');
 				// store vaults & geysers as hashes {contract_address: data}
+				console.log(keyedResult, vaultBatch, geyserBatch)
 				_.mapKeys(keyedResult, (value: any, key: string) => {
 					if (key === 'vaults') this.updateVaults(_.keyBy(reduceBatchResult(value), 'address'));
 					else this.updateGeysers(_.keyBy(reduceBatchResult(value), 'address'));
@@ -189,6 +190,8 @@ class ContractsStore {
 
 		//generate curve tokens
 		this.updateTokens(generateCurveTokens());
+
+		console.log(this.vaults, this.geysers)
 
 		// prepare curve query
 		const curveBtcPrices = curveTokens.contracts.map((address: string, index: number) =>
@@ -305,7 +308,6 @@ class ContractsStore {
 	});
 
 	fetchRebaseStats = action(async () => {
-		return
 		const rebaseLog = await getRebaseLogs();
 		const { digg } = require('config/system/digg');
 		Promise.all([batchCall.execute(digg), ...[...graphQuery({ address: digg[0].addresses[0] })]]).then(
@@ -313,7 +315,7 @@ class ContractsStore {
 				let keyedResult = _.groupBy(result[0], 'namespace');
 				console.log(keyedResult)
 
-				if (!keyedResult.token || !keyedResult.token[0].decimals || result[1][0].data)
+				if (!keyedResult.token || !keyedResult.token[0].decimals)
 					return
 
 				const minRebaseTimeIntervalSec = parseInt(keyedResult.policy[0].minRebaseTimeIntervalSec[0].value);
@@ -331,7 +333,7 @@ class ContractsStore {
 					inRebaseWindow: keyedResult.policy[0].inRebaseWindow[0].value !== 'N/A',
 					rebaseWindowLengthSec: parseInt(keyedResult.policy[0].rebaseWindowLengthSec[0].value),
 					oracleRate: new BigNumber(keyedResult.oracle[0].providerReports[0].value.payload).dividedBy(1e18),
-					derivedEth: result[1][0].data.token.derivedETH,
+					derivedEth: result[1].data.token ? result[1].data.token.derivedETH : 0,
 					nextRebase: getNextRebase(minRebaseTimeIntervalSec, lastRebaseTimestampSec),
 					pastRebase: rebaseLog,
 				};

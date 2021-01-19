@@ -206,7 +206,6 @@ export const Sidebar = observer(() => {
 						<ListItemText primary="Airdrops" />
 					</ListItem>
 					<ListItem
-						disabled
 						button
 						className={
 							classes.listItem + ' ' + (store.router.currentPath == '/digg' ? classes.activeListItem : '')

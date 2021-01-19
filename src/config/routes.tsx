@@ -39,7 +39,7 @@ const routes = {
 	}),
 	digg: new Route<RootStore, QueryParams>({
 		path: '/digg',
-		component: <Airdrops />,
+		component: <Digg />,
 		onEnter: () => {
 			//
 		},

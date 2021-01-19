@@ -20,12 +20,11 @@ export const walletAssets = (store: RootStore, hideZeroBal: boolean) => {
 
 	if (!tokens) return;
 
-	const walletAssets = _.map(geysers, (geyser: any) => {
-		const vault = vaults[geyser[geyser.underlyingKey]];
+	const walletAssets = _.map(vaults, (vault: any) => {
 		const token = !!vault && tokens[vault[vault.underlyingKey]];
+		const geyser = _.find(geysers, (g: any) => g[g.underlyingKey] === vault.address);
 
-		if (!geyser || !token) return;
-
+		if (!token) return console.log(vault.address);
 		if (hideZeroBal && token.balanceOf.eq(0)) return;
 
 		// if (token.balanceOf.gt(0))
@@ -35,8 +34,9 @@ export const walletAssets = (store: RootStore, hideZeroBal: boolean) => {
 		};
 	});
 
-	return _.sortBy(_.compact(walletAssets), (asset: any) => !asset.stats.anyUnderlying);
+	return _.sortBy(_.compact(walletAssets), (asset: any) => !!asset.stats && !asset.stats.anyUnderlying);
 };
+
 export const wrappedAssets = (store: RootStore) => {
 	const { vaults, geysers, tokens } = store.contracts;
 	const { currency, period } = store.uiState;
@@ -190,7 +190,7 @@ function calculatePortfolioStats(vaultContracts: any, tokens: any, vaults: any, 
 	_.forIn(vaultContracts, (vault: any) => {
 		const token = tokens[vault[vault.underlyingKey]];
 		const wrapped = vaults[vault.address];
-		if (!token || !vault.balance) return
+		if (!token || !vault.balance || !token.ethValue) return
 
 		// console.log(token.symbol, token.ethValue.toString())
 
@@ -318,9 +318,10 @@ function reduceVaultToStats(
 	wrappedOnly = false,
 ): any {
 	const token = tokens[vault[vault.underlyingKey]];
-	const wrapped = tokens[vault.address];
 
-	if (!geyser || !token) return; //console.log(vault, token, wrapped)
+	const wrapped = tokens[vault.address];
+	if (!token || !wrapped) return console.log(vault.address, tokens); //console.log(vault, token, wrapped)
+
 
 	const _depositedTokens = !!vault.balanceOf ? vault.balanceOf : new BigNumber(0);
 	const depositedTokens = wrappedOnly ? _depositedTokens : new BigNumber(0);
