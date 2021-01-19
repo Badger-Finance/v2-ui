@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js';
 import _ from 'lodash';
-import { ERC20, WBTC_ADDRESS, DIGG_ADDRESS } from '../../config/constants';
+import { ERC20, WBTC_ADDRESS } from '../../config/constants';
 import { token as diggToken } from '../../config/system/digg';
 import { rewards } from '../../config/system/settSystem';
 import { curveTokens } from '../../config/system/tokens';

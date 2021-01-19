@@ -4,7 +4,7 @@ import UFragments from './abis/UFragments.json';
 import UFragmentsPolicy from './abis/UFragmentsPolicy.json';
 import MedianOracle from './abis/MedianOracle.json';
 import Orchestrator from './abis/Orchestrator.json';
-import diggDeploy from './deploy-final-digg.json'
+import diggDeploy from './deploy-final-digg.json';
 
 export const rewards = {
 	endpoint: 'https://fzqm8i0owc.execute-api.us-east-1.amazonaws.com/prod/hunt',
@@ -20,7 +20,7 @@ export const token = {
 
 export const digg = [
 	{
-		addresses: diggDeploy.digg_system.uFragments,
+		addresses: [diggDeploy.digg_system.uFragments],
 		abi: UFragments.abi,
 		allReadMethods: true,
 		groupByNamespace: true,

@@ -53,7 +53,7 @@ export const Digg = observer(() => {
 
 	return (
 		<Container className={classes.root} maxWidth="lg">
-			<Grid container spacing={2}>
+			<Grid container spacing={1}>
 				{spacer()}
 
 				<Grid item sm={6} xs={12}>
@@ -69,7 +69,9 @@ export const Digg = observer(() => {
 						<Button>Deposit</Button>
 						<Button>Stake (0.00% APY)</Button>
 					</ButtonGroup> */}
-					<Button variant="contained" size="small" color="primary" onClick={() => goTo(views.home)}>Stake</Button>
+					<Button variant="contained" size="small" color="primary" onClick={() => goTo(views.home)}>
+						Stake
+					</Button>
 				</Grid>
 
 				<Info />

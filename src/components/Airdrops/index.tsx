@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
 		textAlign: 'right',
 	},
 	button: {
-		margin: theme.spacing(1, .5, 2, 0),
+		margin: theme.spacing(1, 0.5, 2, 0),
 	},
 	chip: {
 		margin: theme.spacing(0, 0, 0, 1),
@@ -140,7 +140,7 @@ export const Airdrops = observer(() => {
 
 	return (
 		<Container className={classes.root}>
-			<Grid container spacing={2} justify="center">
+			<Grid container spacing={1} justify="center">
 				{spacer()}
 
 				<Grid item sm={12} xs={12}>
@@ -195,9 +195,14 @@ export const Airdrops = observer(() => {
 					<Paper className={classes.statPaper}>
 						<List style={{ padding: 0 }}>
 							<ListItem style={{ margin: 0, padding: 0 }}>
-								<ListItemText primary={airdropStats.digg} secondary="DIGG available to claim" />
+								<ListItemText primary={'0.00000'} secondary="DIGG available to claim" />
 								<ListItemSecondaryAction>
-									<ButtonGroup disabled={airdropStats.digg === '0.00000'} size="small" variant="outlined" color="primary">
+									<ButtonGroup
+										disabled={true}
+										size="small"
+										variant="outlined"
+										color="primary"
+									>
 										<Button
 											onClick={() => {
 												claimDiggAirdrops(false);

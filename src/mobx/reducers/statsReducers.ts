@@ -45,6 +45,7 @@ export const wrappedAssets = (store: RootStore) => {
 
 	const walletAssets = _.map(geysers, (geyser: any) => {
 		const vault = vaults[geyser[geyser.underlyingKey]];
+		if (!vault) return;
 		const token = tokens[vault[vault.underlyingKey]];
 		const wrapped = tokens[vault.address];
 
@@ -174,9 +175,9 @@ export const reduceClaims = (merkleProof: any, claimedRewards: any[]) => {
 };
 export const reduceAirdrops = (airdrops: any) => {
 	if (!airdrops.digg) {
-		return { digg: '0.00000' }
+		return { digg: '0.00000' };
 	}
-	return { digg: inCurrency(airdrops.digg, 'eth', true) }
+	return { digg: inCurrency(airdrops.digg, 'eth', true) };
 };
 function calculatePortfolioStats(vaultContracts: any, tokens: any, vaults: any, geyserContracts: any) {
 	let tvl = new BigNumber(0);
@@ -189,7 +190,9 @@ function calculatePortfolioStats(vaultContracts: any, tokens: any, vaults: any, 
 	_.forIn(vaultContracts, (vault: any) => {
 		const token = tokens[vault[vault.underlyingKey]];
 		const wrapped = vaults[vault.address];
-		if (!token || !vault.balance) return;
+		if (!token || !vault.balance) return
+
+		// console.log(token.symbol, token.ethValue.toString())
 
 		tvl = tvl.plus(
 			vault.balance
@@ -421,11 +424,9 @@ export function reduceRebase(stats: any, base: any, token: any) {
 	let info = {
 		// marketCap: token.totalSupply.multipliedBy(token.ethValue),
 		oraclePrice: inCurrency(base.ethValue.multipliedBy(stats.oracleRate), 'usd'),
-		btcPrice: inCurrency(base.ethValue, 'usd')
-	}
-	return _.defaults(stats, info)
-
-
+		btcPrice: inCurrency(base.ethValue, 'usd'),
+	};
+	return _.defaults(stats, info);
 
 	// decimals: decimals,
 	// lastRebaseTimestampSec: lastRebaseTimestampSec,
@@ -438,5 +439,4 @@ export function reduceRebase(stats: any, base: any, token: any) {
 	// derivedEth: result[1].data.token.derivedETH,
 	// nextRebase: getNextRebase(minRebaseTimeIntervalSec, lastRebaseTimestampSec),
 	// pastRebase: rebaseLog,
-
 }

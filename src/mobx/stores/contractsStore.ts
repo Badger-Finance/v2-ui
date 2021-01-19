@@ -27,7 +27,14 @@ import async from 'async';
 import { reduceClaims, reduceTimeSinceLastCycle } from '../reducers/statsReducers';
 
 import { curveTokens } from '../../config/system/tokens';
-import { DIGG_ADDRESS, EMPTY_DATA, ERC20, RPC_URL, START_BLOCK, START_TIME, WBTC_ADDRESS } from '../../config/constants';
+import {
+	EMPTY_DATA,
+	ERC20,
+	RPC_URL,
+	START_BLOCK,
+	START_TIME,
+	WBTC_ADDRESS,
+} from '../../config/constants';
 import {
 	rewards as rewardsConfig,
 	geysers as geyserConfigs,
@@ -194,6 +201,7 @@ class ContractsStore {
 		// prepare batch call
 		const ercConfigs = erc20BatchConfig(this.tokens, connectedAddress);
 		const ercBatch = !!ercConfigs ? [batchCall.execute(ercConfigs)] : [];
+		// console.log([...curveBtcPrices, ...ercBatch, ...graphQueries])
 
 		// execute promises
 		Promise.all([...curveBtcPrices, ...ercBatch, ...graphQueries]).then((result: any[]) => {
@@ -264,13 +272,11 @@ class ContractsStore {
 	fetchAirdrops = action(() => {
 		const { provider, connectedAddress, isCached } = this.store.wallet;
 		const { } = this.store.uiState;
-		console.log('fetching', connectedAddress)
+		// console.log('fetching', connectedAddress)
 
-		if (!connectedAddress)
-			return
+		if (!connectedAddress) return;
 
-		console.log('fetching', connectedAddress)
-
+		// console.log('fetching', connectedAddress)
 
 		const web3 = new Web3(provider);
 		const rewardsTree = new web3.eth.Contract(airdropsConfig.abi as any, airdropsConfig.contract);
@@ -278,37 +284,38 @@ class ContractsStore {
 		const checksumAddress = Web3.utils.toChecksumAddress(connectedAddress);
 
 		jsonQuery(`${airdropsConfig.endpoint}/1337/${checksumAddress}`).then((merkleProof: any) => {
-			console.log('proof', new BigNumber(Web3.utils.hexToNumberString(merkleProof.amount)).toString())
+			// console.log('proof', new BigNumber(Web3.utils.hexToNumberString(merkleProof.amount)).toString())
 			if (!merkleProof.error) {
-				Promise.all(
-					[rewardsTree.methods
-						.isClaimed(merkleProof.index)
-						.call(),
+				Promise.all([
+					rewardsTree.methods.isClaimed(merkleProof.index).call(),
 					diggToken.methods
 						.sharesToFragments(new BigNumber(Web3.utils.hexToNumberString(merkleProof.amount)).toFixed(0))
-						.call()])
-
+						.call(),
+				])
 					.then((result: any[]) => {
-						console.log(new BigNumber(result[1]).multipliedBy(1e9))
+						// console.log(new BigNumber(result[1]).multipliedBy(1e9))
 						this.airdrops = {
-							digg: !result[0]
-								? new BigNumber(result[1]).multipliedBy(1e9)
-								: new BigNumber(0),
+							digg: !result[0] ? new BigNumber(result[1]).multipliedBy(1e9) : new BigNumber(0),
 
-							merkleProof
+							merkleProof,
 						};
 					});
 			}
 		});
 	});
 
-
 	fetchRebaseStats = action(async () => {
+		return
 		const rebaseLog = await getRebaseLogs();
 		const { digg } = require('config/system/digg');
-		Promise.all([...[batchCall.execute(digg)], ...[...graphQuery({ address: digg[0].addresses[0] })]]).then(
+		Promise.all([batchCall.execute(digg), ...[...graphQuery({ address: digg[0].addresses[0] })]]).then(
 			(result: any[]) => {
 				let keyedResult = _.groupBy(result[0], 'namespace');
+				console.log(keyedResult)
+
+				if (!keyedResult.token || !keyedResult.token[0].decimals || result[1][0].data)
+					return
+
 				const minRebaseTimeIntervalSec = parseInt(keyedResult.policy[0].minRebaseTimeIntervalSec[0].value);
 				const lastRebaseTimestampSec = parseInt(keyedResult.policy[0].lastRebaseTimestampSec[0].value);
 				const decimals = parseInt(keyedResult.token[0].decimals[0].value);
@@ -321,23 +328,20 @@ class ContractsStore {
 					minRebaseTimeIntervalSec: minRebaseTimeIntervalSec,
 					rebaseLag: keyedResult.policy[0].rebaseLag[0].value,
 					epoch: keyedResult.policy[0].epoch[0].value,
-					inRebaseWindow: keyedResult.policy[0].inRebaseWindow[0].value !== "N/A",
+					inRebaseWindow: keyedResult.policy[0].inRebaseWindow[0].value !== 'N/A',
 					rebaseWindowLengthSec: parseInt(keyedResult.policy[0].rebaseWindowLengthSec[0].value),
 					oracleRate: new BigNumber(keyedResult.oracle[0].providerReports[0].value.payload).dividedBy(1e18),
-					derivedEth: result[1].data.token.derivedETH,
+					derivedEth: result[1][0].data.token.derivedETH,
 					nextRebase: getNextRebase(minRebaseTimeIntervalSec, lastRebaseTimestampSec),
 					pastRebase: rebaseLog,
 				};
-				console.log(token)
+				// console.log(token);
 				this.updateRebase(token);
 			},
 		);
 	});
 
-	callRebase = action(() => {
-
-
-	});
+	callRebase = action(() => { });
 
 	depositAndStake = action((geyser: any, amount: BigNumber, onlyWrapped = false) => {
 		const { tokens, vaults } = this;
@@ -885,7 +889,10 @@ class ContractsStore {
 				const sushiSuffix: string[] = [];
 				_.map(config.contracts, (contract: any) => {
 					try {
-						sushiSuffix.push(this.vaults[this.geysers[contract].getStakingToken].token);
+						let geyser = this.geysers[contract];
+						let vault = this.vaults[geyser[geyser.underlyingKey]];
+						if (!geyser || !vault) return;
+						sushiSuffix.push(vault[vault.underlyingKey]);
 					} catch (e) {
 						process.env.NODE_ENV !== 'production' && console.log(e);
 					}
