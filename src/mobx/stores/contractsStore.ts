@@ -264,12 +264,12 @@ class ContractsStore {
 	fetchAirdrops = action(() => {
 		const { provider, connectedAddress, isCached } = this.store.wallet;
 		const { } = this.store.uiState;
-		console.log('fetching', connectedAddress)
+		// console.log('fetching', connectedAddress)
 
 		if (!connectedAddress)
 			return
 
-		console.log('fetching', connectedAddress)
+		// console.log('fetching', connectedAddress)
 
 
 		const web3 = new Web3(provider);
@@ -278,7 +278,7 @@ class ContractsStore {
 		const checksumAddress = Web3.utils.toChecksumAddress(connectedAddress);
 
 		jsonQuery(`${airdropsConfig.endpoint}/1337/${checksumAddress}`).then((merkleProof: any) => {
-			console.log('proof', new BigNumber(Web3.utils.hexToNumberString(merkleProof.amount)).toString())
+			// console.log('proof', new BigNumber(Web3.utils.hexToNumberString(merkleProof.amount)).toString())
 			if (!merkleProof.error) {
 				Promise.all(
 					[rewardsTree.methods
@@ -289,7 +289,7 @@ class ContractsStore {
 						.call()])
 
 					.then((result: any[]) => {
-						console.log(new BigNumber(result[1]).multipliedBy(1e9))
+						// console.log(new BigNumber(result[1]).multipliedBy(1e9))
 						this.airdrops = {
 							digg: !result[0]
 								? new BigNumber(result[1]).multipliedBy(1e9)
