@@ -142,14 +142,16 @@ export const Airdrops = observer(() => {
 		<Container className={classes.root}>
 			<Grid container spacing={2} justify="center">
 				{spacer()}
-				{spacer()}
-				<Grid item md={12} xs={12}>
-					<Typography variant="h5">BadgerDAO accelerates Bitcoin in DeFi.</Typography>
 
-					<Typography variant="subtitle1" style={{ margin: '1rem 0' }}>
+				<Grid item sm={12} xs={12}>
+					<Typography variant="h5" color="textPrimary">
+						BadgerDAO accelerates Bitcoin in DeFi.
+					</Typography>
+					<Typography variant="subtitle2" color="textPrimary">
 						What to do with your Badger and Digg
 					</Typography>
 				</Grid>
+				{spacer()}
 
 				{copy()}
 
