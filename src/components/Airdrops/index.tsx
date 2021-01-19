@@ -140,7 +140,7 @@ export const Airdrops = observer(() => {
 
 	return (
 		<Container className={classes.root}>
-			<Grid container spacing={2} justify="center">
+			<Grid container spacing={1} justify="center">
 				{spacer()}
 
 				<Grid item sm={12} xs={12}>
