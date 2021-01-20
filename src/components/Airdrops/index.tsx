@@ -74,7 +74,7 @@ export const Airdrops = observer(() => {
 	const {
 		router: { },
 		wallet: { },
-		contracts: { claimBadgerAirdrops, claimDiggAirdrops },
+		airdrops: { claimBadgerAirdrops, claimDiggAirdrops },
 		uiState: { airdropStats, stats },
 	} = store;
 

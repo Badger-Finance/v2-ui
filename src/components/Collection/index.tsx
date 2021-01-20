@@ -96,7 +96,8 @@ export const Collection = observer(() => {
 
 	const {
 		wallet: { connectedAddress, isCached },
-		contracts: { tokens, claimGeysers },
+		contracts: { tokens },
+		rewards: { claimGeysers },
 		uiState: {
 			stats,
 

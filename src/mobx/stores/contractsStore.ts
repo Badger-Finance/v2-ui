@@ -62,9 +62,6 @@ class ContractsStore {
 	public geysers?: any; // geyser contract data
 	public rebase?: any; // rebase contract data
 
-	public badgerTree?: any; // geyser contract data
-	public airdrops?: any; // geyser contract data
-
 	constructor(store: RootStore) {
 		this.store = store;
 
@@ -73,8 +70,6 @@ class ContractsStore {
 			tokens: undefined,
 			geysers: undefined,
 			rebase: undefined,
-			badgerTree: { cycle: '...', timeSinceLastCycle: '0h 0m', claims: [0] },
-			airdrops: undefined,
 		});
 
 		this.fetchContracts();
@@ -82,7 +77,6 @@ class ContractsStore {
 		observe(this as any, 'tokens', (change: any) => {
 			if (!!change.oldValue) {
 				this.calculateVaultGrowth();
-				this.calculateGeyserRewards();
 				this.fetchRebaseStats();
 			}
 		});
@@ -98,7 +92,6 @@ class ContractsStore {
 		});
 		if (!!this.store.wallet.connectedAddress) this.updateProvider();
 
-		setInterval(this.fetchSettRewards, 6e4);
 	}
 
 	updateProvider = action(() => {
@@ -111,8 +104,7 @@ class ContractsStore {
 		};
 		batchCall = new BatchCall(newOptions);
 
-		this.fetchSettRewards();
-		this.fetchAirdrops();
+		this.store.airdrops.fetchAirdrops();
 		this.fetchContracts();
 	});
 	updateVaults = action((vaults: any) => {
@@ -223,90 +215,6 @@ class ContractsStore {
 		});
 	});
 
-	fetchSettRewards = action(() => {
-		const { provider, connectedAddress } = this.store.wallet;
-		const { } = this.store.uiState;
-
-		if (!connectedAddress) return;
-
-		const web3 = new Web3(provider);
-		const rewardsTree = new web3.eth.Contract(rewardsConfig.abi as any, rewardsConfig.contract);
-		const checksumAddress = Web3.utils.toChecksumAddress(connectedAddress);
-
-		const treeMethods = [
-			rewardsTree.methods.lastPublishTimestamp().call(),
-			rewardsTree.methods.merkleContentHash().call(),
-		];
-
-		Promise.all(treeMethods).then((rewardsResponse: any) => {
-			const merkleHash = rewardsResponse[1];
-
-			this.badgerTree = _.defaults(
-				{
-					timeSinceLastCycle: reduceTimeSinceLastCycle(rewardsResponse[0]),
-				},
-				this.badgerTree,
-			);
-
-			const endpointQuery = jsonQuery(
-				`${rewardsConfig.endpoint}/rewards/${rewardsConfig.network}/${merkleHash}/${checksumAddress}`,
-			);
-
-			endpointQuery.then((proof: any) => {
-				rewardsTree.methods
-					.getClaimedFor(connectedAddress, rewardsConfig.tokens)
-					.call()
-					.then((claimedRewards: any[]) => {
-						if (!proof.error) {
-							this.badgerTree = _.defaults(
-								{
-									cycle: parseInt(proof.cycle, 16),
-									claims: reduceClaims(proof, claimedRewards),
-									proof,
-								},
-								this.badgerTree,
-							);
-						}
-					});
-			});
-		});
-	});
-
-	fetchAirdrops = action(() => {
-		const { provider, connectedAddress, isCached } = this.store.wallet;
-		const { } = this.store.uiState;
-		// console.log('fetching', connectedAddress)
-
-		if (!connectedAddress) return;
-
-		// console.log('fetching', connectedAddress)
-
-		const web3 = new Web3(provider);
-		const rewardsTree = new web3.eth.Contract(airdropsConfig.abi as any, airdropsConfig.contract);
-		const diggToken = new web3.eth.Contract(diggTokenConfig.abi as any, diggTokenConfig.contract);
-		const checksumAddress = Web3.utils.toChecksumAddress(connectedAddress);
-
-		jsonQuery(`${airdropsConfig.endpoint}/1337/${checksumAddress}`).then((merkleProof: any) => {
-			// console.log('proof', new BigNumber(Web3.utils.hexToNumberString(merkleProof.amount)).toString())
-			if (!merkleProof.error) {
-				Promise.all([
-					rewardsTree.methods.isClaimed(merkleProof.index).call(),
-					diggToken.methods
-						.sharesToFragments(new BigNumber(Web3.utils.hexToNumberString(merkleProof.amount)).toFixed(0))
-						.call(),
-				])
-					.then((result: any[]) => {
-						// console.log(new BigNumber(result[1]).multipliedBy(1e9))
-						this.airdrops = {
-							digg: !result[0] ? new BigNumber(result[1]).multipliedBy(1e9) : new BigNumber(0),
-
-							merkleProof,
-						};
-					});
-			}
-		});
-	});
-
 	fetchRebaseStats = action(async () => {
 		const rebaseLog = await getRebaseLogs();
 		const { digg } = require('config/system/digg');
@@ -344,7 +252,6 @@ class ContractsStore {
 	});
 
 	callRebase = action(() => {
-		const { merkleProof } = this.airdrops;
 		const { provider, gasPrices, connectedAddress } = this.store.wallet;
 		const { queueNotification, gasPrice, setTxStatus } = this.store.uiState;
 
@@ -357,7 +264,6 @@ class ContractsStore {
 		const method = policy.methods.rebase();
 
 		queueNotification(`Sign the transaction to rebase BADGER`, 'info');
-		const diggAmount = this.airdrops.digg;
 		estimateAndSend(web3, gasPrices[gasPrice], method, connectedAddress, (transaction: PromiEvent<Contract>) => {
 			transaction
 				.on('transactionHash', (hash) => {
@@ -495,139 +401,6 @@ class ContractsStore {
 		async.series(methodSeries, (err: any, results: any) => {
 			console.log(err, results);
 			setTxStatus(!!err ? 'error' : 'success');
-		});
-	});
-
-	claimGeysers = action((stake = false) => {
-		const { proof } = this.badgerTree;
-		const { provider, gasPrices, connectedAddress } = this.store.wallet;
-		const { queueNotification, gasPrice, setTxStatus } = this.store.uiState;
-
-		if (!connectedAddress) return;
-
-		// if (ethBalance?.lt(MIN_ETH_BALANCE))
-		// 	return queueNotification("Your account is low on ETH, you may need to top up to claim.", 'warning')
-
-		const web3 = new Web3(provider);
-		const rewardsTree = new web3.eth.Contract(rewardsConfig.abi as any, rewardsConfig.contract);
-		const method = rewardsTree.methods.claim(
-			proof.tokens,
-			proof.cumulativeAmounts,
-			proof.index,
-			proof.cycle,
-			proof.proof,
-		);
-
-		queueNotification(`Sign the transaction to claim your earnings`, 'info');
-		if (stake)
-			queueNotification(`You will need to approve 3 transactions in order to wrap & stake your assets`, 'info');
-		const badgerAmount = new BigNumber(this.badgerTree.claims[0]).multipliedBy(1e18);
-		estimateAndSend(web3, gasPrices[gasPrice], method, connectedAddress, (transaction: PromiEvent<Contract>) => {
-			transaction
-				.on('transactionHash', (hash) => {
-					queueNotification(`Claim submitted.`, 'info', hash);
-				})
-				.on('receipt', () => {
-					queueNotification(`Rewards claimed.`, 'success');
-					this.fetchSettRewards();
-					this.fetchContracts();
-
-					if (stake) {
-						const badgerGeyser = this.geysers['0xa9429271a28f8543efffa136994c0839e7d7bf77'];
-						this.depositAndStake(badgerGeyser, badgerAmount);
-					}
-				})
-				.catch((error: any) => {
-					this.fetchContracts();
-					queueNotification(error.message, 'error');
-					setTxStatus('error');
-				});
-		});
-	});
-	claimBadgerAirdrops = action((stake = false) => {
-		const { merkleProof } = this.airdrops;
-		const { provider, gasPrices, connectedAddress } = this.store.wallet;
-		const { queueNotification, gasPrice, setTxStatus } = this.store.uiState;
-
-		if (!connectedAddress) return;
-
-		// if (ethBalance?.lt(MIN_ETH_BALANCE))
-		// 	return queueNotification("Your account is low on ETH, you may need to top up to claim.", 'warning')
-
-		const web3 = new Web3(provider);
-		const rewardsTree = new web3.eth.Contract(airdropsConfig.abi as any, airdropsConfig.contract);
-		const method = rewardsTree.methods.claim(
-			merkleProof.index,
-			connectedAddress,
-			merkleProof.amount,
-			merkleProof.proof,
-		);
-
-		queueNotification(`Sign the transaction to claim your airdrop`, 'info');
-		const badgerAmount = this.airdrops.badger;
-		estimateAndSend(web3, gasPrices[gasPrice], method, connectedAddress, (transaction: PromiEvent<Contract>) => {
-			transaction
-				.on('transactionHash', (hash) => {
-					queueNotification(`Claim submitted.`, 'info', hash);
-				})
-				.on('receipt', () => {
-					queueNotification(`Rewards claimed.`, 'success');
-					this.fetchSettRewards();
-					this.fetchContracts();
-
-					if (stake) {
-						const badgerGeyser = this.geysers['0xa9429271a28f8543efffa136994c0839e7d7bf77'];
-						this.depositAndStake(badgerGeyser, badgerAmount);
-					}
-				})
-				.catch((error: any) => {
-					this.fetchContracts();
-					queueNotification(error.message, 'error');
-					setTxStatus('error');
-				});
-		});
-	});
-	claimDiggAirdrops = action((stake = false) => {
-		const { merkleProof } = this.airdrops;
-		const { provider, gasPrices, connectedAddress } = this.store.wallet;
-		const { queueNotification, gasPrice, setTxStatus } = this.store.uiState;
-
-		if (!connectedAddress) return;
-		console.log(merkleProof, this.airdrops)
-		// if (ethBalance?.lt(MIN_ETH_BALANCE))
-		// 	return queueNotification("Your account is low on ETH, you may need to top up to claim.", 'warning')
-
-		const web3 = new Web3(provider);
-		const rewardsTree = new web3.eth.Contract(airdropsConfig.abi as any, airdropsConfig.contract);
-		const method = rewardsTree.methods.claim(
-			merkleProof.index,
-			connectedAddress,
-			merkleProof.amount,
-			merkleProof.proof,
-		);
-
-		queueNotification(`Sign the transaction to claim your airdrop`, 'info');
-		const diggAmount = this.airdrops.digg;
-		estimateAndSend(web3, gasPrices[gasPrice], method, connectedAddress, (transaction: PromiEvent<Contract>) => {
-			transaction
-				.on('transactionHash', (hash) => {
-					queueNotification(`Claim submitted.`, 'info', hash);
-				})
-				.on('receipt', () => {
-					queueNotification(`Rewards claimed.`, 'success');
-					this.fetchSettRewards();
-					this.fetchContracts();
-
-					if (stake) {
-						const badgerGeyser = this.geysers['0xa9429271a28f8543efffa136994c0839e7d7bf77'];
-						this.depositAndStake(badgerGeyser, diggAmount);
-					}
-				})
-				.catch((error: any) => {
-					this.fetchContracts();
-					queueNotification(error.message, 'error');
-					setTxStatus('error');
-				});
 		});
 	});
 
@@ -871,98 +644,7 @@ class ContractsStore {
 		});
 	});
 
-	calculateGeyserRewards = action(() => {
-		const { geysers, tokens, vaults } = this;
-		const { } = this.store.uiState;
-		const { } = this.store.wallet;
 
-		const rewardToken = tokens[rewardsConfig.tokens[0]];
-
-		if (!tokens || !rewardToken) return;
-
-		const timestamp = new BigNumber(new Date().getTime() / 1000.0);
-		const geyserRewards = _.mapValues(geysers, (geyser: any) => {
-			const schedule = geyser['getUnlockSchedulesFor'];
-			const underlyingVault = vaults[geyser[geyser.underlyingKey]];
-
-			if (!schedule || !underlyingVault) return {};
-
-			const rawToken = tokens[underlyingVault[underlyingVault.underlyingKey]];
-
-			// sum rewards in current period
-			// todo: break out to actual durations
-			const rewardSchedule = reduceGeyserSchedule(timestamp, schedule);
-
-			return _.mapValues(rewardSchedule, (reward: any) => {
-				return (
-					!!rawToken.ethValue &&
-					reward
-						.multipliedBy(rewardToken.ethValue)
-						.dividedBy(
-							rawToken.ethValue
-								.multipliedBy(underlyingVault.balance)
-								.multipliedBy(underlyingVault.getPricePerFullShare.dividedBy(1e18)),
-						)
-				);
-			});
-		});
-
-		this.updateGeysers(geyserRewards);
-
-		// grab sushi APYs
-		_.map(geyserConfigs, (config: any) => {
-			if (!!config.growthEndpoints) {
-				// let masterChef = chefQueries(config.contracts, this.geysers, config.growthEndpoints[0])
-				const xSushi = vanillaQuery(config.growthEndpoints[1]);
-
-				// First we grab the sushi pair contracts from the sushi geysers
-				const sushiSuffix: string[] = [];
-				_.map(config.contracts, (contract: any) => {
-					try {
-						let geyser = this.geysers[contract];
-						let vault = this.vaults[geyser[geyser.underlyingKey]];
-						if (!geyser || !vault) return;
-						sushiSuffix.push(vault[vault.underlyingKey]);
-					} catch (e) {
-						process.env.NODE_ENV !== 'production' && console.log(e);
-					}
-				});
-				// Then we use the provided API from sushi to get the ROI numbers
-				const newMasterChef = vanillaQuery(config.growthEndpoints[2].concat(sushiSuffix.join(';')));
-
-				Promise.all([xSushi, newMasterChef]).then((results: any) => {
-					const xROI: any = reduceXSushiROIResults(results[0]['weekly_APY']);
-					const newSushiRewards = reduceSushiAPIResults(results[1], config.contracts);
-					this.updateGeysers(
-						_.mapValues(newSushiRewards, (reward: any, geyserAddress: string) => {
-							const geyser = geysers[geyserAddress];
-							if (!geyser) return;
-
-							const vault = vaults[geyser[geyser.underlyingKey]];
-							if (!vault) return;
-
-							const vaultBalance = vault.balance;
-							const tokenValue = this.tokens[vault.token].ethValue;
-							if (!tokenValue) return;
-
-							const vaultEthVal = vaultBalance.multipliedBy(tokenValue.dividedBy(1e18));
-							return {
-								sushiRewards: _.mapValues(reward, (periodROI: BigNumber, period: string) => {
-									if (periodROI.toString().substr(0, 2) != '0x') {
-										const sushiRewards = vaultEthVal.multipliedBy(periodROI);
-										const xsushiRewards = sushiRewards.multipliedBy(xROI[period].dividedBy(100));
-										const xsushiROI = xsushiRewards.dividedBy(vaultEthVal);
-										periodROI = periodROI.plus(xsushiROI);
-									}
-									return periodROI;
-								}),
-							};
-						}),
-					);
-				});
-			}
-		});
-	});
 }
 
 export default ContractsStore;

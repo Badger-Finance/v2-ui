@@ -28,7 +28,7 @@ const routes = {
 		path: '/airdrops',
 		component: <Airdrops />,
 		onEnter: (_, params, store) => {
-			store.contracts.fetchAirdrops();
+			store.airdrops.fetchAirdrops();
 		},
 		beforeExit: () => {
 			//

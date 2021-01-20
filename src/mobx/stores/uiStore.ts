@@ -78,15 +78,15 @@ class UiState {
 		});
 
 		// format rewards for UI
-		observe(this.store.contracts as any, 'badgerTree', () => {
-			try {
-				// skip first update
-				this.reduceTreeRewards();
-			} catch (e) {
-				process.env.NODE_ENV !== 'production' && console.log(e);
-			}
-		});
-		observe(this.store.contracts as any, 'airdrops', () => {
+		// observe(this.store.rewards as any, 'badgerTree', () => {
+		// 	try {
+		// 		// skip first update
+		// 		this.reduceTreeRewards();
+		// 	} catch (e) {
+		// 		process.env.NODE_ENV !== 'production' && console.log(e);
+		// 	}
+		// });
+		observe(this.store.airdrops as any, 'airdrops', () => {
 			try {
 				// skip first update
 				this.reduceAirdrops();
@@ -95,7 +95,7 @@ class UiState {
 			}
 		});
 
-		observe(this.store.contracts as any, 'rebase', () => {
+		observe(this.store.rebase as any, 'rebase', () => {
 			try {
 				// skip first update
 				this.reduceRebase();
@@ -152,11 +152,11 @@ class UiState {
 	});
 
 	reduceTreeRewards = action(() => {
-		this.treeStats = this.store.contracts.badgerTree;
+		this.treeStats = this.store.rewards.badgerTree;
 	});
 
 	reduceAirdrops = action(() => {
-		this.airdropStats = reduceAirdrops(this.store.contracts.airdrops);
+		this.airdropStats = reduceAirdrops(this.store.airdrops.airdrops);
 	});
 
 	reduceRebase = action(() => {
