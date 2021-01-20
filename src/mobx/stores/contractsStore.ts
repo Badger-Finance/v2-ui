@@ -127,7 +127,6 @@ class ContractsStore {
 
 		const batchContracts = _.concat(vaultBatch, geyserBatch);
 
-		// console.log(batchContracts, batchCall)
 
 		// execute batch calls to web3 (infura most likely)
 		batchCall
@@ -136,13 +135,11 @@ class ContractsStore {
 				// sort result into hash {vaults:[], geysers:[]}
 				const keyedResult = _.groupBy(result, 'namespace');
 				// store vaults & geysers as hashes {contract_address: data}
-				// console.log(keyedResult, vaultBatch, geyserBatch)
 				_.mapKeys(keyedResult, (value: any, key: string) => {
 					if (key === 'vaults') this.updateVaults(_.keyBy(reduceBatchResult(value), 'address'));
 					else this.updateGeysers(_.keyBy(reduceBatchResult(value), 'address'));
 				});
 
-				// console.log(this.vaults)
 
 				// fetch input/outputs information
 				this.fetchTokens();
@@ -156,12 +153,10 @@ class ContractsStore {
 
 		// reduce to {address:{address:,contract:}}
 		this.updateTokens(reduceContractsToTokens({ ...this.vaults, ...this.geysers }));
-		// console.log(this.tokens)
 
 		//generate curve tokens
 		this.updateTokens(generateCurveTokens());
 
-		// console.log(this.vaults, this.geysers)
 
 		// prepare curve query
 		const curveBtcPrices = curveTokens.contracts.map((address: string, index: number) =>
@@ -174,7 +169,6 @@ class ContractsStore {
 		// prepare batch call
 		const ercConfigs = erc20BatchConfig(this.tokens, connectedAddress);
 		const ercBatch = !!ercConfigs ? [batchCall.execute(ercConfigs)] : [];
-		// console.log([...curveBtcPrices, ...ercBatch, ...graphQueries])
 
 		// execute promises
 		Promise.all([...curveBtcPrices, ...ercBatch, ...graphQueries]).then((result: any[]) => {
@@ -186,10 +180,7 @@ class ContractsStore {
 			);
 
 			this.updateTokens(_.defaultsDeep(curveBtcPrices, tokenGraph, tokenContracts, this.tokens));
-			// this.updateTokens(tokenGraph)
-			// this.updateTokens(curveBtcPrices)
 
-			// console.log(this.tokens, tokenContracts, tokenGraph, curveBtcPrices)
 		});
 	});
 
@@ -201,7 +192,6 @@ class ContractsStore {
 		const underlying = tokens[vault[vault.underlyingKey]];
 		const wrapped = tokens[vault.address];
 
-		// console.log(vault, geyser, onlyWrapped)
 
 		if (!amount || amount.isNaN() || amount.lte(0))
 			return queueNotification('Please enter a valid amount', 'error');
@@ -224,7 +214,6 @@ class ContractsStore {
 				(callback: any) => this.getAllowance(wrapped, geyser.address, callback),
 			],
 			(err: any, allowances: any) => {
-				// console.log(allowances)
 
 				// if we need to wrap assets, make sure we have allowance
 				if (underlyingAmount.gt(0)) {
@@ -274,7 +263,6 @@ class ContractsStore {
 		const methodSeries: any = [];
 
 		if (geyser.totalStakedFor.minus(wrappedAmount).lte(1)) {
-			// console.log("unstakeALL")
 			wrappedAmount = geyser.totalStakedFor;
 		}
 
@@ -305,7 +293,6 @@ class ContractsStore {
 		const wrappedAmount = amount;
 		const methodSeries: any = [];
 
-		// console.log("unwrapping", wrappedAmount.dividedBy(1e18).toString())
 
 		// withdraw
 		methodSeries.push((callback: any) =>
@@ -454,8 +441,6 @@ class ContractsStore {
 		const { provider, connectedAddress } = this.store.wallet;
 
 		const underlyingAsset = this.tokens[vault[vault.underlyingKey]];
-		// console.log("tokens: ", this.tokens)
-		// console.log("underlying address: ", underlyingAsset)
 
 		const web3 = new Web3(provider);
 		const underlyingContract = new web3.eth.Contract(vault.abi, vault.address);

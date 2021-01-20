@@ -25,7 +25,6 @@
 		"notistack": "^1.0.2",
 		"react": "^16.13.1",
 		"react-dom": "^16.13.1",
-		"react-error-boundary": "^3.1.0",
 		"react-hook-form": "^6.13.0",
 		"react-material-ui-carousel": "^2.1.1",
 		"react-stockcharts": "^0.7.8",
