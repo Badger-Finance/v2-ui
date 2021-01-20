@@ -183,7 +183,7 @@ class ContractsStore {
 				result.forEach((contract: any) => {
 					let tokenAddress = contract[defaults[contract.address].underlyingKey]
 					if (!this.tokens[tokenAddress]) {
-						return console.log(tokenAddress, this.tokens)
+						return console.log(contract.address, this.tokens)
 					}
 					let vault = this.getOrCreateVault(contract.address, this.tokens[tokenAddress])
 

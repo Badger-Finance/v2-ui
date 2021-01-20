@@ -157,7 +157,7 @@ class UiState {
 
 	reduceRebase = action(() => {
 		const { tokens } = this.store.contracts;
-		if (!!this.store.rebase.rebase)
+		if (!!this.store.rebase.rebase && !!tokens[WBTC_ADDRESS])
 			this.rebaseStats = reduceRebase(this.store.rebase.rebase, tokens[WBTC_ADDRESS], tokens[diggToken.contract]);
 	});
 
