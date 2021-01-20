@@ -7,6 +7,7 @@ import { curveTokens } from '../../config/system/tokens';
 import deploy from '../../config/system/deploy-final.json';
 
 import { batchConfig, erc20Methods } from '../utils/web3';
+import { RootStore } from '../store';
 
 export const reduceBatchResult = (result: any[]): any[] => {
 	return result.map((vault) => {
@@ -186,10 +187,10 @@ export const reduceGrowth = (graphResult: any[], periods: number[], startDate: D
 		const month = growth.month.gt(1) ? growth.now.dividedBy(growth.month).minus(1) : week.multipliedBy(4);
 		const year = growth.start.gt(1)
 			? growth.now
-					.dividedBy(growth.start)
-					.minus(1)
-					.dividedBy(new Date().getTime() - startDate.getTime())
-					.multipliedBy(365 * 24 * 60 * 60 * 60)
+				.dividedBy(growth.start)
+				.minus(1)
+				.dividedBy(new Date().getTime() - startDate.getTime())
+				.multipliedBy(365 * 24 * 60 * 60 * 60)
 			: month.multipliedBy(13.05);
 
 		return { day, week, month, year };
@@ -231,6 +232,33 @@ export const reduceGeyserSchedule = (timestamp: BigNumber, schedule: any) => {
 };
 
 export const reduceContractConfig = (configs: any[], payload: any = {}) => {
+	const contracts = _.map(configs, (config: any) => {
+		return _.map(config.contracts, (contract: string, i: number) => {
+			const r: any = {
+				address: contract.toLowerCase(),
+				abi: config.abi,
+				methods: reduceMethodConfig(config.methods, payload),
+				underlyingKey: config.underlying,
+			};
+			if (!!config.fillers)
+				_.mapValues(config.fillers, (fillers: any, key: any) => {
+					r[key] = fillers[i];
+				});
+			return r;
+		});
+	});
+	let defaults = _.keyBy(_.flatten(contracts), 'address');
+	let batchCall = _.map(configs, (config: any) => {
+		return batchConfig(
+			'vaults',
+			config.contracts,
+			!!config.methods ? reduceMethodConfig(config.methods, payload) : [],
+			config.abi,
+		);
+	});
+	return { defaults, batchCall }
+};
+export const reduceVaultConfig = (configs: any[], payload: any = {}) => {
 	const contracts = _.map(configs, (config: any) => {
 		return _.map(config.contracts, (contract: string, i: number) => {
 			const r: any = {
@@ -317,3 +345,99 @@ export const erc20BatchConfig = (contracts: any, connectedAddress: string) => {
 	});
 	return _.compact(configs);
 };
+
+
+export class Contract {
+	private store!: RootStore;
+	private address!: string;
+
+	constructor(store: RootStore, address: string) {
+		this.store = store
+		this.address = address
+	}
+
+}
+export class Token extends Contract {
+	public balance!: BigNumber
+	public decimals!: number
+	public totalSupply!: BigNumber
+	public symbol!: string
+	public ethValue!: BigNumber
+
+	constructor(store: RootStore, address: string, decimals: number) {
+		super(store, address)
+		this.balance = new BigNumber(0)
+		this.ethValue = new BigNumber(0)
+		this.decimals = decimals
+	}
+
+	update(payload: any) {
+		if (!!payload.balanceOf) this.balance = payload.balanceOf;
+		if (!!payload.decimals) this.decimals = payload.decimals;
+		if (!!payload.symbol) this.symbol = payload.symbol;
+		if (!!payload.ethValue) this.ethValue = payload.ethValue;
+		if (!!payload.totalSupply) this.totalSupply = payload.totalSupply;
+	}
+
+}
+
+export class Vault extends Token {
+	public position!: number
+	public holdings!: BigNumber
+
+	constructor(store: RootStore, address: string, decimals: number) {
+		super(store, address, decimals)
+		this.holdings = new BigNumber(0)
+	}
+
+	deposit(amount: string) {
+
+	}
+
+	withdraw(amount: string) {
+
+	}
+
+	holdingsValue() {
+		return this.holdings.multipliedBy(this.ethValue)
+	}
+
+	update(payload: any) {
+		super.update(payload)
+		if (!!payload.totalSupply) this.holdings = payload.totalSupply;
+		if (!!payload.position) this.position = payload.position;
+		if (!!payload.symbol) this.symbol = payload.symbol;
+	}
+
+}
+
+export class Geyser extends Contract {
+	public vault!: Vault
+	public holdings!: BigNumber
+	public balance!: BigNumber
+
+	constructor(store: RootStore, address: string, vault: Vault) {
+		super(store, address)
+		this.vault = vault
+		this.holdings = new BigNumber(0)
+		this.balance = new BigNumber(0)
+	}
+
+	stake(amount: string) {
+
+	}
+
+	unstake(amount: string) {
+
+	}
+
+	holdingsValue() {
+		return this.holdings.multipliedBy(this.vault.ethValue)
+	}
+
+	update(payload: any) {
+		if (!!payload.totalStaked) this.holdings = payload.totalStaked;
+		if (!!payload.totalStakedFor) this.balance = payload.totalStakedFor;
+	}
+}
+

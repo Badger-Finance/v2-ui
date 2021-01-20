@@ -22,7 +22,7 @@ export const priceEndpoints = [
 	'https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2',
 ];
 
-export const decimals = {
+export const decimals: any = {
 	'0x6b3595068778dd592e39a122f4f5a5cf09c90fe2': 18,
 	'0x6def55d2e18486b9ddfaa075bc4e4ee0b28c1545': 18,
 	'0x9a13867048e01c663ce8ce2fe0cdae69ff9f35e3': 18,

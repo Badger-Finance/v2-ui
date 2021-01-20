@@ -21,7 +21,7 @@ export const vaults = [
 		],
 		fillers: {
 			isFeatured: [false, false, false, false, true, true, true],
-			listOrder: [8, 5, 6, 7, 3, 4, 2],
+			position: [8, 5, 6, 7, 3, 4, 2],
 			isSuperSett: [false, false, false, false, false, true, false, false, false],
 		},
 		methods: [
@@ -56,7 +56,7 @@ export const vaults = [
 		],
 		fillers: {
 			isFeatured: [false, true],
-			listOrder: [9, 10, 1],
+			position: [9, 10, 1],
 			symbolPrefix: ['sushi', 'sushi', 'sushi'],
 		},
 		methods: [
@@ -87,7 +87,7 @@ export const vaults = [
 		contracts: [deploy.sett_system.vaults['native.digg']],
 		fillers: {
 			isFeatured: [true],
-			listOrder: [0],
+			position: [0],
 			symbolPrefix: [''],
 		},
 		methods: [
@@ -149,7 +149,6 @@ export const geysers = [
 		],
 		fillers: {
 			isFeatured: [false, false, false, false, true, true, true],
-			listOrder: [9, 6, 7, 5, 4, 8, 3],
 			isSuperSett: [false, false, false, false, false, true, false, false],
 		},
 	},
@@ -188,7 +187,6 @@ export const geysers = [
 				deploy.sett_system.vaults['sushi.sushiBadgerWbtc'],
 			],
 			onsenId: ['103', '21', '73'],
-			listOrder: [0, 1, 2],
 		},
 
 		growthEndpoints: [

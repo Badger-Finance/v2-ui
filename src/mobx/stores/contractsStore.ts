@@ -16,6 +16,8 @@ import {
 	reduceCurveResult,
 	reduceGraphResult,
 	reduceGrowth,
+	Vault,
+	Geyser,
 } from '../reducers/contractReducers';
 import { jsonQuery, graphQuery, growthQuery, secondsToBlocks, inCurrency } from '../utils/helpers';
 import { PromiEvent } from 'web3-core';
@@ -25,9 +27,13 @@ import async from 'async';
 import { curveTokens } from '../../config/system/tokens';
 import { EMPTY_DATA, ERC20, RPC_URL, START_BLOCK, START_TIME, WBTC_ADDRESS } from '../../config/constants';
 import {
-	geysers as geyserConfigs,
-	vaults as vaultsConfigs,
+	geysers as geyserBatches,
+	geysers,
+	vaults as vaultBatches,
 } from '../../config/system/contracts';
+import {
+	decimals as tokensConfig
+} from '../../config/system/tokens';
 
 const infuraProvider = new Web3.providers.HttpProvider(RPC_URL);
 const options = {
@@ -51,11 +57,12 @@ class ContractsStore {
 		this.store = store;
 
 		extendObservable(this, {
-			vaults: undefined,
-			tokens: undefined,
-			geysers: undefined,
+			vaults: {} as { string: Vault },
+			tokens: {} as { string: Vault },
+			geysers: {} as { string: Vault },
 		});
 
+		this.fetchContracts();
 		this.fetchContracts();
 
 		observe(this as any, 'tokens', (change: any) => {
@@ -65,6 +72,7 @@ class ContractsStore {
 		});
 		observe(this.store.wallet, 'currentBlock', (change: any) => {
 			if (!!change.oldValue) {
+				this.fetchContracts();
 				this.fetchContracts();
 			}
 		});
@@ -99,53 +107,62 @@ class ContractsStore {
 	});
 
 	fetchContracts = action(() => {
-		// state and wallet are separate stores
-		// const { vaults, geysers } = this;
+		this.fetchTokens();
+		this.fetchVaults();
+		this.fetchGeysers();
+	})
+
+	fetchVaults = action(() => {
 		const { connectedAddress } = this.store.wallet;
 
-		// grab respective config files
-		this.updateVaults(reduceContractConfig(vaultsConfigs, connectedAddress && { connectedAddress }));
-		this.updateGeysers(reduceContractConfig(geyserConfigs, connectedAddress && { connectedAddress }));
-		// create batch configs for vaultsConfigs and geysers
-		const vaultBatch: any[] = _.map(vaultsConfigs, (config: any) => {
-			return batchConfig(
-				'vaults',
-				config.contracts,
-				!!config.methods ? reduceMethodConfig(config.methods, !!connectedAddress && { connectedAddress }) : [],
-				config.abi,
-			);
-		});
+		let { defaults, batchCall: batch } = reduceContractConfig(vaultBatches, connectedAddress && { connectedAddress });
 
-		const geyserBatch: any[] = _.map(geyserConfigs, (config: any) => {
-			return batchConfig(
-				'geysers',
-				config.contracts,
-				!!config.methods ? reduceMethodConfig(config.methods, !!connectedAddress && { connectedAddress }) : [],
-				config.abi,
-			);
-		});
-
-		const batchContracts = _.concat(vaultBatch, geyserBatch);
-
-
-		// execute batch calls to web3 (infura most likely)
 		batchCall
-			.execute(batchContracts)
-			.then((result: any) => {
-				// sort result into hash {vaults:[], geysers:[]}
-				const keyedResult = _.groupBy(result, 'namespace');
-				// store vaults & geysers as hashes {contract_address: data}
-				_.mapKeys(keyedResult, (value: any, key: string) => {
-					if (key === 'vaults') this.updateVaults(_.keyBy(reduceBatchResult(value), 'address'));
-					else this.updateGeysers(_.keyBy(reduceBatchResult(value), 'address'));
+			.execute(batch)
+			.then((infuraResult: any[]) => {
+				let result = reduceBatchResult(infuraResult)
+				result.forEach((contract: any) => {
+					let vault = this.getOrCreateVault(contract.address)
+					vault.update(_.defaults(contract, defaults[contract.address]))
 				});
-
-
-				// fetch input/outputs information
-				this.fetchTokens();
 			})
 			.catch((error: any) => process.env.NODE_ENV !== 'production' && console.log(error));
 	});
+
+	fetchGeysers = action(() => {
+		const { connectedAddress } = this.store.wallet;
+
+		let { defaults, batchCall: batch } = reduceContractConfig(geyserBatches, connectedAddress && { connectedAddress });
+
+		batchCall
+			.execute(batch)
+			.then((infuraResult: any[]) => {
+				let result = reduceBatchResult(infuraResult)
+				result.forEach((contract: any) => {
+					let vaultAddress = contract[defaults[contract.address].underlyingKey]
+					let geyser = this.getOrCreateGeyser(contract.address, this.vaults[vaultAddress])
+					geyser.update(_.defaults(contract, defaults[contract.address]))
+				});
+				console.log(this.geysers)
+			})
+			.catch((error: any) => process.env.NODE_ENV !== 'production' && console.log(error));
+
+	});
+
+	getOrCreateVault = action((address: string) => {
+		if (!this.vaults[address]) {
+			return this.vaults[address] = new Vault(this.store, address, tokensConfig[address])
+		} else {
+			return this.vaults[address]
+		}
+	})
+	getOrCreateGeyser = action((address: string, vault?: Vault) => {
+		if (!this.vaults[address]) {
+			return this.geysers[address] = new Geyser(this.store, address, vault!)
+		} else {
+			return this.geysers[address]
+		}
+	})
 
 	fetchTokens = action(() => {
 		const { } = this.store;
@@ -328,9 +345,11 @@ class ContractsStore {
 					.on('receipt', () => {
 						queueNotification(`${underlyingAsset.symbol} allowance increased.`, 'success');
 						this.fetchContracts();
+						this.fetchContracts();
 						callback(null, {});
 					})
 					.catch((error: any) => {
+						this.fetchContracts();
 						this.fetchContracts();
 						queueNotification(error.message, 'error');
 						setTxStatus('error');
@@ -382,9 +401,11 @@ class ContractsStore {
 							'success',
 						);
 						this.fetchContracts();
+						this.fetchContracts();
 						callback(null, {});
 					})
 					.catch((error: any) => {
+						this.fetchContracts();
 						this.fetchContracts();
 						queueNotification(error.message, 'error');
 						setTxStatus('error');
@@ -425,9 +446,11 @@ class ContractsStore {
 							'success',
 						);
 						this.fetchContracts();
+						this.fetchContracts();
 						callback(null, {});
 					})
 					.catch((error: any) => {
+						this.fetchContracts();
 						this.fetchContracts();
 						queueNotification(error.message, 'error');
 						setTxStatus('error');
@@ -468,9 +491,11 @@ class ContractsStore {
 							'success',
 						);
 						this.fetchContracts();
+						this.fetchContracts();
 						callback(null, {});
 					})
 					.catch((error: any) => {
+						this.fetchContracts();
 						this.fetchContracts();
 						queueNotification(error.message, 'error');
 						setTxStatus('error');
@@ -506,9 +531,11 @@ class ContractsStore {
 							'success',
 						);
 						this.fetchContracts();
+						this.fetchContracts();
 						callback(null, {});
 					})
 					.catch((error: any) => {
+						this.fetchContracts();
 						this.fetchContracts();
 						queueNotification(error.message, 'error');
 						setTxStatus('error');
