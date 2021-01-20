@@ -5,6 +5,7 @@ import { RootStore } from '../store';
 import { reduceAirdrops, reduceContractsToStats, reduceRebase } from './statsReducers';
 import { WBTC_ADDRESS } from 'config/constants';
 import { token as diggToken } from 'config/system/rebase';
+import BigNumber from 'bignumber.js';
 
 class UiState {
 	private readonly store!: RootStore;
@@ -34,25 +35,15 @@ class UiState {
 			collection: {},
 			stats: {
 				stats: {
-					tvl: '...',
-					growth: '...',
-					wallet: '...',
-					badgerLiqGrowth: '...',
-					badgerGrowth: '...',
-					badger: '...',
-					portfolio: '...',
-					_vaultGrowth: {},
-				},
-				assets: {
-					wallet: [],
-					deposits: [],
-					wrapped: [],
+					tvl: new BigNumber(0),
+					wallet: new BigNumber(0),
+					portfolio: new BigNumber(0),
+					badger: new BigNumber(0)
 				},
 			},
 			claims: [0, 0, 0],
-			geyserStats: {},
-			vaultStats: {},
 			rebaseStats: {},
+
 			treeStats: { claims: [] },
 			airdropStats: { badger: '0.00000', digg: '0.00000' },
 
@@ -67,14 +58,16 @@ class UiState {
 		});
 
 		// format vaults and geysers to ui
+		setInterval(() =>
+			this.reduceStats(), 1000)
 
-		observe(this.store.contracts as any, 'tokens', (change: any) => {
-			if (!!change.oldValue)
-				try {
-					this.reduceContracts();
-				} catch (e) {
-					process.env.NODE_ENV !== 'production' && console.log(e);
-				}
+		observe(this.store.contracts as any, 'geysers', (change: any) => {
+			try {
+				alert('a')
+				this.reduceStats();
+			} catch (e) {
+				process.env.NODE_ENV !== 'production' && console.log(e);
+			}
 		});
 
 		// format rewards for UI
@@ -86,23 +79,23 @@ class UiState {
 		// 		process.env.NODE_ENV !== 'production' && console.log(e);
 		// 	}
 		// });
-		observe(this.store.airdrops as any, 'airdrops', () => {
-			try {
-				// skip first update
-				this.reduceAirdrops();
-			} catch (e) {
-				process.env.NODE_ENV !== 'production' && console.log(e);
-			}
-		});
+		// observe(this.store.airdrops as any, 'airdrops', () => {
+		// 	try {
+		// 		// skip first update
+		// 		this.reduceAirdrops();
+		// 	} catch (e) {
+		// 		process.env.NODE_ENV !== 'production' && console.log(e);
+		// 	}
+		// });
 
-		observe(this.store.rebase as any, 'rebase', () => {
-			try {
-				// skip first update
-				this.reduceRebase();
-			} catch (e) {
-				process.env.NODE_ENV !== 'production' && console.log(e);
-			}
-		});
+		// observe(this.store.rebase as any, 'rebase', () => {
+		// 	try {
+		// 		// skip first update
+		// 		this.reduceRebase();
+		// 	} catch (e) {
+		// 		process.env.NODE_ENV !== 'production' && console.log(e);
+		// 	}
+		// });
 
 		// redirect to portfolio if logged in
 		// observe(this.store.wallet as any, "provider", (change: any) => {
@@ -110,27 +103,27 @@ class UiState {
 		// })
 
 		// reduce to formatted options
-		observe(this as any, 'period', () => {
-			try {
-				this.reduceContracts();
-			} catch (e) {
-				process.env.NODE_ENV !== 'production' && console.log(e);
-			}
-		});
-		observe(this as any, 'currency', () => {
-			try {
-				this.reduceContracts();
-			} catch (e) {
-				process.env.NODE_ENV !== 'production' && console.log(e);
-			}
-		});
-		observe(this as any, 'hideZeroBal', () => {
-			try {
-				this.reduceContracts();
-			} catch (e) {
-				process.env.NODE_ENV !== 'production' && console.log(e);
-			}
-		});
+		// observe(this as any, 'period', () => {
+		// 	try {
+		// 		this.reduceStats();
+		// 	} catch (e) {
+		// 		process.env.NODE_ENV !== 'production' && console.log(e);
+		// 	}
+		// });
+		// observe(this as any, 'currency', () => {
+		// 	try {
+		// 		this.reduceStats();
+		// 	} catch (e) {
+		// 		process.env.NODE_ENV !== 'production' && console.log(e);
+		// 	}
+		// });
+		// observe(this as any, 'hideZeroBal', () => {
+		// 	try {
+		// 		this.reduceStats();
+		// 	} catch (e) {
+		// 		process.env.NODE_ENV !== 'production' && console.log(e);
+		// 	}
+		// });
 
 		// hide the sidebar
 		window.onresize = () => {
@@ -146,7 +139,7 @@ class UiState {
 		this.txStatus = status;
 	});
 
-	reduceContracts = action(() => {
+	reduceStats = action(() => {
 		const newStats = reduceContractsToStats(this.store);
 		this.stats = !!newStats ? reduceContractsToStats(this.store) : this.stats;
 	});

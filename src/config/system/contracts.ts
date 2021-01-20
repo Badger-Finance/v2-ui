@@ -20,6 +20,15 @@ export const vaultBatches = [
 			deploy.sett_system.vaults['native.uniDiggWbtc'],
 		],
 		fillers: {
+			symbol: [
+				'badger',
+				'renCrv',
+				'sbtcCrv',
+				'tbtcCrv',
+				'uniBadgerWbtc',
+				'renCrv',
+				'uniDiggWbtc',
+			],
 			isFeatured: [false, false, false, false, true, true, true],
 			position: [8, 5, 6, 7, 3, 4, 2],
 			isSuperSett: [false, false, false, false, false, true, false, false, false],

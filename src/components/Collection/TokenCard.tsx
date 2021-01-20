@@ -1,5 +1,5 @@
-import React, { useContext } from 'react';
-import { observer } from 'mobx-react-lite';
+import React, { useContext, useEffect, useState } from 'react';
+import { observer, useForceUpdate } from 'mobx-react-lite';
 import views from '../../config/routes';
 import { StoreContext } from '../../mobx/store-context';
 import {
@@ -25,7 +25,8 @@ import { Loader } from '../Loader';
 import { BigNumber } from 'bignumber.js';
 import { VaultSymbol } from '../VaultSymbol';
 import { LinkOff } from '@material-ui/icons';
-import { formatBalance, formatBalanceValue, formatGrowth, formatHoldingsValue } from 'mobx/reducers/statsReducers';
+import { formatBalance, formatBalanceValue, formatHoldingsValue, formatSupply, formatVaultGrowth } from 'mobx/reducers/statsReducers';
+import useInterval from '@use-it/interval';
 
 const useStyles = makeStyles((theme) => ({
 	featuredImage: {
@@ -104,20 +105,25 @@ export const TokenCard = observer((props: any) => {
 		currency
 	} = store.uiState
 
+	const { geysers } = store.contracts
+
 	const { underlyingToken: token } = vault;
 
 	if (!token) {
 		return <div />;
 	}
+	const [update, forceUpdate] = useState<boolean>();
 
-	const { total, tooltip } = formatGrowth(vault, period)
+	useInterval(() => forceUpdate(!update), 1000)
+
+	const { roi, roiTooltip } = formatVaultGrowth(vault, period)
 
 	return (
 		<>
 			<Grid container className={classes.border}>
 				<Grid item xs={12} md={4} className={classes.name}>
 					<VaultSymbol token={token} />
-					<Typography variant="body1">{token.symbol}</Typography>
+					<Typography variant="body1">{token.name}</Typography>
 
 					<Typography variant="body2" color="textSecondary" component="div">
 						{token.symbol}
@@ -138,7 +144,7 @@ export const TokenCard = observer((props: any) => {
 						variant="body1"
 						color={'textPrimary'}
 					>
-						{!isGlobal ? formatBalance(token) : formatBalance(vault)}
+						{!isGlobal ? formatBalance(token) : formatSupply(vault)}
 					</Typography>
 
 				</Grid>
@@ -148,13 +154,13 @@ export const TokenCard = observer((props: any) => {
 					</Typography>
 				</Grid>
 				<Grid item xs={6} md={2}>
-					<Tooltip enterDelay={0} leaveDelay={300} arrow placement="left" title={token.vaults.length}>
+					<Tooltip enterDelay={0} leaveDelay={300} arrow placement="left" title={roiTooltip}>
 						<Typography
 							style={{ cursor: 'default' }}
 							variant="body1"
 							color={'textPrimary'}
 						>
-							{token.vaults.length}
+							{roi}
 						</Typography>
 					</Tooltip>
 				</Grid>

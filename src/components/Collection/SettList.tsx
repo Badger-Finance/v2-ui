@@ -13,6 +13,7 @@ import { GeyserUnstake } from './GeyserUnstake';
 import { VaultSymbol } from '../VaultSymbol';
 import { vaultBatches } from 'config/system/contracts';
 import { Vault } from 'mobx/reducers/contractReducers';
+import { formatPrice } from 'mobx/reducers/statsReducers';
 
 const useStyles = makeStyles((theme) => ({
 	list: {
@@ -136,7 +137,7 @@ export const SettList = observer((props: any) => {
 	};
 
 	const renderVaults = (contracts: any) => {
-		let list = _.map(contracts, (address: string) => {
+		const list = _.map(contracts, (address: string) => {
 			const vault: Vault = vaults[address.toLowerCase()]
 			return !!vault && (
 				<ListItem key={address} className={classes.listItem}>
@@ -173,7 +174,7 @@ export const SettList = observer((props: any) => {
 		];
 	};
 
-	if (!vaultStats || !tokens || !vaults || !geysers) {
+	if (!tokens || !vaults || !geysers) {
 		return <Loader />;
 	}
 
@@ -273,15 +274,21 @@ export const SettList = observer((props: any) => {
 		);
 	};
 
+	const all = [
+		renderVaults(vaultBatches[2].contracts),
+		renderVaults(vaultBatches[1].contracts),
+		renderVaults(vaultBatches[0].contracts),
+	]
+
 	return (
 		<>
 			{/* {!!connectedAddress && hasDeposits && tableHeader(`Deposits - ${stats.stats.deposits}`, 'Deposited')}
-			{!!connectedAddress && renderDeposits()}
+			{!!connectedAddress && renderDeposits()} */}
 			{tableHeader(
-				hideEmpty ? `Your Wallet - ${stats.stats.wallet}` : `All Setts  - ${stats.stats.tvl}`,
+				hideEmpty ? `Your Wallet - ${formatPrice(stats.stats.wallet, currency)}` : `All Setts  - ${formatPrice(stats.stats.tvl, currency)}`,
 				hideEmpty ? 'Available' : 'Tokens',
-			)} */}
-			{walletVaults()}
+			)}
+			{all}
 			{/* {isGlobal && <Carousel className={classes.carousel} indicators={false} navButtonsAlwaysVisible >{featuredGeysers()}</Carousel>} */}
 			{/* {!hideEmpty && tableHeader(`All Setts`, 'Tokens')}
 		{!hideEmpty && emptyGeysers()} */}

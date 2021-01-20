@@ -25,7 +25,7 @@ import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
 import async from 'async';
 
-import { curveTokens } from '../../config/system/tokens';
+import { curveTokens, names, symbols } from '../../config/system/tokens';
 import { EMPTY_DATA, ERC20, RPC_URL, START_BLOCK, START_TIME, WBTC_ADDRESS, XSUSHI_ADDRESS } from '../../config/constants';
 import {
 	geyserBatches,
@@ -136,12 +136,20 @@ class ContractsStore {
 					reduceCurveResult(result.slice(1, 1 + curveQueries.length), curveTokens.contracts, this.tokens, tokenPrices[WBTC_ADDRESS]),
 					'address',
 				);
+				const tokens = _.compact(_.values(
+					_.defaultsDeep(
+						curvePrices,
+						tokenPrices,
+						tokenContracts,
+						_.mapValues(symbols, (value: string, address: string) => ({ address, symbol: value })),
+						_.mapValues(names, (value: string, address: string) => ({ address, name: value }))
+					)))
 
-				const tokens = _.compact(_.values(_.defaultsDeep(curvePrices, tokenPrices, tokenContracts)))
 				tokens.forEach((contract: any) => {
 					let token = this.getOrCreateToken(contract.address)
 					token.update(contract)
 				})
+
 				callback()
 
 			})
@@ -159,8 +167,10 @@ class ContractsStore {
 		const xSushiQuery = vanillaQuery(sushiBatches.growthEndpoints![1]);
 		const masterChefQuery = vanillaQuery(sushiBatches.growthEndpoints![2].concat(tokenBatches[0].contracts.join(';')));
 
+
 		Promise.all([batchCall.execute(batch), ...growthQueries, masterChefQuery, xSushiQuery])
 			.then((queryResult: any[]) => {
+
 				let result = reduceBatchResult(queryResult[0])
 				let masterChefResult: any = queryResult.slice(growthQueries.length + 1, growthQueries.length + 2)
 				let xSushiResult: any = queryResult.slice(growthQueries.length + 2)
@@ -172,15 +182,18 @@ class ContractsStore {
 
 				result.forEach((contract: any) => {
 					let tokenAddress = contract[defaults[contract.address].underlyingKey]
+					if (!this.tokens[tokenAddress]) {
+						return console.log(tokenAddress, this.tokens)
+					}
 					let vault = this.getOrCreateVault(contract.address, this.tokens[tokenAddress])
 
-					let growth = _.mapValues(vaultGrowth[contract.address],
+					let growth = !!vaultGrowth[contract.address] && _.mapValues(vaultGrowth[contract.address],
 						(tokens: BigNumber, period: string) => ({ amount: tokens, token: this.tokens[tokenAddress] }))
 
-					let xSushiGrowth = _.mapValues(newSushiRewards[contract.address],
+					let xSushiGrowth = !!newSushiRewards[contract.address] && _.mapValues(newSushiRewards[contract.address],
 						(tokens: BigNumber, period: string) => ({ amount: tokens, token: this.tokens[XSUSHI_ADDRESS] }))
 
-					vault.update(_.defaults(contract, defaults[contract.address], { growth: [growth, xSushiGrowth] }))
+					vault.update(_.defaults(contract, defaults[contract.address], { growth: _.compact([growth, xSushiGrowth]) }))
 				});
 				callback()
 				console.log(this.vaults)
@@ -199,7 +212,7 @@ class ContractsStore {
 				let result = reduceBatchResult(infuraResult)
 				result.forEach((contract: any) => {
 					let vaultAddress = contract[defaults[contract.address].underlyingKey]
-					let geyser = this.getOrCreateGeyser(contract.address, this.vaults[vaultAddress])
+					let geyser: Geyser = this.getOrCreateGeyser(contract.address, this.vaults[vaultAddress])
 					geyser.update(_.defaults(contract, defaults[contract.address]))
 				});
 				callback()

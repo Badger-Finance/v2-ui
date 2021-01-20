@@ -23,6 +23,7 @@ import { Loader } from '../Loader';
 
 import { SettList } from './SettList';
 import { CLAIMS_SYMBOLS } from 'config/constants';
+import { formatPrice } from 'mobx/reducers/statsReducers';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -204,7 +205,7 @@ export const Collection = observer(() => {
 							<Typography variant="subtitle1" color="textPrimary">
 								TVL
 							</Typography>
-							<Typography variant="h5">{stats.stats.tvl}</Typography>
+							<Typography variant="h5">{formatPrice(stats.stats.tvl, currency)}</Typography>
 						</Paper>
 					</Grid>
 					{!!connectedAddress && (
@@ -213,7 +214,7 @@ export const Collection = observer(() => {
 								<Typography variant="subtitle1" color="textPrimary">
 									Your Portfolio
 								</Typography>
-								<Typography variant="h5">{stats.stats.portfolio}</Typography>
+								<Typography variant="h5">{formatPrice(stats.stats.portfolio, currency)}</Typography>
 							</Paper>
 						</Grid>
 					)}
@@ -223,7 +224,7 @@ export const Collection = observer(() => {
 							<Typography variant="subtitle1" color="textPrimary">
 								Badger Price
 							</Typography>
-							<Typography variant="h5">{stats.stats.badger || '...'}</Typography>
+							<Typography variant="h5">{formatPrice(stats.stats.badger, currency)}</Typography>
 						</Paper>
 					</Grid>
 					{spacer()}
@@ -238,30 +239,6 @@ export const Collection = observer(() => {
 							{availableRewards()}
 						</>
 					)}
-
-					{/* <Grid item xs={12} >
-				<Typography variant="body1" color="textPrimary" className={classes.featuredHeader}>Featured</Typography>
-
-				<Carousel
-					interval={10000}
-					className={classes.carousel}
-					navButtonsAlwaysVisible
-					indicatorContainerProps={{
-						className: classes.indicatorContainer,
-						style: {}
-					}}
-					indicatorProps={{
-						className: classes.indicator,
-						style: {}
-					}}
-					activeIndicatorProps={{
-						className: classes.activeIndicator,
-						style: {}
-					}}
-
-				>
-				</Carousel>
-			</Grid > */}
 
 					<SettList isGlobal={!isCached()} hideEmpty={hideZeroBal} />
 				</Grid>

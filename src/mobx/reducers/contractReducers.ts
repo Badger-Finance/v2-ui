@@ -1,12 +1,9 @@
 import BigNumber from 'bignumber.js';
 import _ from 'lodash';
-import { ERC20, START_BLOCK, WBTC_ADDRESS } from '../../config/constants';
-import { token as diggToken } from '../../config/system/rebase';
+import { START_BLOCK } from '../../config/constants';
 import { rewards } from '../../config/system/contracts';
-import { curveTokens } from '../../config/system/tokens';
-import deploy from '../../config/system/deploy-final.json';
 
-import { batchConfig, erc20Methods } from '../utils/web3';
+import { batchConfig } from '../utils/web3';
 import { RootStore } from '../store';
 import { growthQuery, secondsToBlocks } from 'mobx/utils/helpers';
 
@@ -24,32 +21,6 @@ export const reduceResult = (value: any): any => {
 	else if (_.isString(value)) return value;
 	else return value;
 };
-
-// export const reduceMasterChefResults = (results: any[], contracts: string[]): any => {
-// 	let reduction = results.map((data: any, i: number) => {
-// 		let result = data.data.masterChefs[0]
-
-// 		let { totalAllocPoint, pools } = result
-// 		let { allocPoint, slpBalance } = pools[0]
-
-// 		let allocRatio = new BigNumber(parseFloat(allocPoint)).dividedBy(parseFloat(totalAllocPoint))
-
-// 		let sushiPerBlock = new BigNumber(100).minus(new BigNumber(100).multipliedBy(allocRatio))
-
-// 		let sushiPerDay = sushiPerBlock.multipliedBy(secondsToBlocks(86400)).multipliedBy(allocRatio).multipliedBy(3)
-
-// 		return {
-// 			address: contracts[i],
-// 			slpBalance: parseFloat(slpBalance),
-// 			day: sushiPerDay,
-// 			week: sushiPerDay.multipliedBy(7),
-// 			month: sushiPerDay.multipliedBy(30),
-// 			year: sushiPerDay.multipliedBy(365),
-// 		}
-// 	})
-// 	return _.keyBy(reduction, 'address')
-
-// }
 
 export const reduceSushiAPIResults = (results: any, contracts: any[]) => {
 	const newSushiROIs: any = _.map(results.pairs, (pair: any, i: number) => {
@@ -215,8 +186,9 @@ export const reduceGrowth = (graphResult: any[], periods: number[], startDate: D
 
 
 
-export const reduceGeyserSchedule = (timestamp: BigNumber, schedule: any) => {
+export const reduceGeyserSchedule = (schedule: any, store: RootStore) => {
 	let locked = new BigNumber(0);
+	let timestamp = new BigNumber(new Date().getTime() / 1000.0)
 
 	const period = { start: timestamp, end: timestamp };
 
@@ -241,12 +213,13 @@ export const reduceGeyserSchedule = (timestamp: BigNumber, schedule: any) => {
 	if (!badgerPerSecond || badgerPerSecond.eq(0))
 		badgerPerSecond = badgerPerSecondAllTime.dividedBy(365 * 60 * 60 * 24);
 
-	return {
+	let periods = {
 		day: badgerPerSecond.multipliedBy(60 * 60 * 24),
 		week: badgerPerSecond.multipliedBy(60 * 60 * 24 * 7),
 		month: badgerPerSecond.multipliedBy(60 * 60 * 24 * 30),
 		year: badgerPerSecondAllTime.multipliedBy(60 * 60 * 24 * 365),
 	};
+	return _.mapValues(periods, (amount: BigNumber) => ({ amount: amount, token: store.contracts.tokens[rewards.tokens[0]] }))
 };
 
 export const reduceContractConfig = (configs: any[], payload: any = {}) => {
@@ -276,24 +249,7 @@ export const reduceContractConfig = (configs: any[], payload: any = {}) => {
 	});
 	return { defaults, batchCall }
 };
-export const reduceVaultConfig = (configs: any[], payload: any = {}) => {
-	const contracts = _.map(configs, (config: any) => {
-		return _.map(config.contracts, (contract: string, i: number) => {
-			const r: any = {
-				address: contract.toLowerCase(),
-				abi: config.abi,
-				methods: reduceMethodConfig(config.methods, payload),
-				underlyingKey: config.underlying,
-			};
-			if (!!config.fillers)
-				_.mapValues(config.fillers, (fillers: any, key: any) => {
-					r[key] = fillers[i];
-				});
-			return r;
-		});
-	});
-	return _.keyBy(_.flatten(contracts), 'address');
-};
+
 
 export const reduceMethodConfig = (methods: any[], payload: any) => {
 	const reduced = _.map(methods, (method: any) => {
@@ -322,51 +278,8 @@ export const reduceMethodConfig = (methods: any[], payload: any) => {
 	return _.compact(reduced);
 };
 
-export const reduceContractsToTokens = (contracts: any) => {
-	// grab underlying and yielding token addresses as {address:, contract:}
-	const assets: any[] = _.map(contracts, (contract: any, address: string) => {
-		return (
-			!!contract[contract.underlyingKey] && {
-				address: contract[contract.underlyingKey].toLowerCase(),
-				contract: address.toLowerCase(),
-			}
-		);
-	});
-
-	assets.push(
-		[
-			WBTC_ADDRESS,
-			deploy.sett_system.vaults['native.digg'].toLowerCase(),
-			rewards.tokens[2],
-			rewards.tokens[3],
-		].map((address: string) => ({
-			address,
-		})),
-	);
-
-	return _.keyBy(_.flatten(assets), 'address');
-};
-
-export const generateCurveTokens = () => {
-	return _.keyBy(
-		_.zip(curveTokens.contracts, curveTokens.names).map((token: any[]) => {
-			return _.zipObject(['address', 'name'], token);
-		}),
-		'address',
-	);
-};
-
-export const erc20BatchConfig = (contracts: any, connectedAddress: string) => {
-	const configs = _.map(contracts, (contract: any) => {
-		if (!!contract.contract)
-			return batchConfig('tokens', [contract.address], erc20Methods(connectedAddress, contract), ERC20.abi);
-	});
-	return _.compact(configs);
-};
-
-
 export class Contract {
-	private store!: RootStore;
+	store!: RootStore;
 	private address!: string;
 
 	constructor(store: RootStore, address: string) {
@@ -380,6 +293,7 @@ export class Token extends Contract {
 	public decimals!: number
 	public totalSupply!: BigNumber
 	public symbol!: string
+	public name!: string
 	public ethValue!: BigNumber
 	public vaults!: Vault[]
 
@@ -391,12 +305,19 @@ export class Token extends Contract {
 		this.vaults = []
 	}
 
+	balanceValue() {
+		return this.balance
+			.dividedBy(10 ** this.decimals)
+			.multipliedBy(this.ethValue)
+	}
+
 	update(payload: any) {
 		if (!!payload.balanceOf) this.balance = payload.balanceOf;
 		if (!!payload.decimals) this.decimals = payload.decimals;
 		if (!!payload.symbol) this.symbol = payload.symbol;
 		if (!!payload.ethValue) this.ethValue = payload.ethValue;
 		if (!!payload.totalSupply) this.totalSupply = payload.totalSupply;
+		if (!!payload.name) this.name = payload.name;
 	}
 
 }
@@ -411,10 +332,11 @@ export class Vault extends Token {
 
 	constructor(store: RootStore, address: string, decimals: number, underlyingToken: Token) {
 		super(store, address, decimals)
-		this.holdings = new BigNumber(0)
 		this.pricePerShare = new BigNumber(1)
 		this.underlyingToken = underlyingToken
 		this.underlyingToken.vaults.push(this)
+		this.decimals = 18
+		this.holdings = new BigNumber(0)
 	}
 
 	deposit(amount: string) {
@@ -426,14 +348,24 @@ export class Vault extends Token {
 	}
 
 	holdingsValue() {
-		return this.holdings.multipliedBy(this.ethValue)
+		return this.holdings
+			.dividedBy(1e18)
+			.multipliedBy(this.pricePerShare)
+			.multipliedBy(this.underlyingToken.ethValue)
+
+	}
+	balanceValue() {
+		return this.balance
+			.dividedBy(1e18)
+			.multipliedBy(this.pricePerShare)
+			.multipliedBy(this.underlyingToken.ethValue)
 	}
 
 	update(payload: any) {
 		super.update(payload)
 		if (!!payload.position) this.position = payload.position;
 		if (!!payload.growth) this.growth = payload.growth;
-		if (!!payload.getPricePerFullShare) this.pricePerShare = payload.getPricePerFullShare;
+		if (!!payload.getPricePerFullShare) this.pricePerShare = payload.getPricePerFullShare.dividedBy(10 ** this.decimals);
 		if (!!payload.totalSupply) this.holdings = payload.totalSupply;
 	}
 
@@ -462,13 +394,23 @@ export class Geyser extends Contract {
 	}
 
 	holdingsValue() {
-		return this.holdings.multipliedBy(this.vault.ethValue)
+		return this.holdings
+			.dividedBy(1e18)
+			.multipliedBy(this.vault.pricePerShare)
+			.multipliedBy(this.vault.underlyingToken.ethValue)
+	}
+
+	balanceValue() {
+		return this.balance
+			.dividedBy(1e18)
+			.multipliedBy(this.vault.pricePerShare)
+			.multipliedBy(this.vault.underlyingToken.ethValue)
 	}
 
 	update(payload: any) {
 		if (!!payload.totalStaked) this.holdings = payload.totalStaked;
 		if (!!payload.totalStakedFor) this.balance = payload.totalStakedFor;
-		if (!!payload.rewards) this.rewards = payload.rewards;
+		if (!!payload.getUnlockSchedulesFor) this.rewards = reduceGeyserSchedule(payload.getUnlockSchedulesFor, this.store);
 	}
 }
 
