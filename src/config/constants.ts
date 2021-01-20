@@ -1,6 +1,6 @@
 import importedErc20 from '../config/system/abis/ERC20.json';
 
-export const INFURA_KEY = '77a0f6647eb04f5ca1409bba62ae9128';
+export const INFURA_KEY = '32d16e34f8af476e9ef63b34ba2a16cc';
 export const APP_URL = 'https://app.badger.finance/';
 export const CONTACT_EMAIL = 'hello@badger.finance';
 export const RPC_URL = 'https://mainnet.infura.io/v3/32d16e34f8af476e9ef63b34ba2a16cc';
