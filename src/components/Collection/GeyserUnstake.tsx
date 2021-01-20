@@ -57,9 +57,9 @@ export const GeyserUnstake = observer((props: any) => {
 	const { register, handleSubmit, watch, setValue } = useForm({ mode: 'all' });
 
 	const {
-		router: { },
+		router: {},
 		contracts: { unstakeAndUnwrap },
-		uiState: { },
+		uiState: {},
 	} = store;
 
 	const setAmount = (percent: number) => {

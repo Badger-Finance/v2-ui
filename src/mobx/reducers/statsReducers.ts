@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { RootStore } from '../store';
 
 import { inCurrency } from '../utils/helpers';
-import { token as diggToken } from '../../config/system/digg';
+import { token as diggToken } from '../../config/system/rebase';
 import { decimals } from 'config/system/tokens';
 
 // export const reduceGeysersToStats = (store: RootStore) => {
@@ -269,8 +269,8 @@ function reduceGeyserToStats(geyser: any, vaults: any, tokens: any, period: stri
 
 	const virtualEthValue = !!token.ethValue
 		? token.ethValue
-			.dividedBy(1e18)
-			.multipliedBy(!!vault.getPricePerFullShare ? vault.getPricePerFullShare.dividedBy(1e18) : 1)
+				.dividedBy(1e18)
+				.multipliedBy(!!vault.getPricePerFullShare ? vault.getPricePerFullShare.dividedBy(1e18) : 1)
 		: token.ethValue;
 	const underlyingBalance =
 		!!geyser.totalStakedFor &&
@@ -339,24 +339,45 @@ function reduceVaultToStats(
 	const tokenBalance = wrappedOnly ? new BigNumber(0) : !!token.balanceOf ? token.balanceOf : new BigNumber(0);
 
 	const availableFull = !!tokenBalance && {
-		25: inCurrency(tokenBalance.plus(depositedTokens).multipliedBy(0.25), 'eth', true, 18, true, (decimals as any)[token.address]),
-		50: inCurrency(tokenBalance.plus(depositedTokens).multipliedBy(0.5), 'eth', true, 18, true, (decimals as any)[token.address]),
-		75: inCurrency(tokenBalance.plus(depositedTokens).multipliedBy(0.75), 'eth', true, 18, true, (decimals as any)[token.address]),
+		25: inCurrency(
+			tokenBalance.plus(depositedTokens).multipliedBy(0.25),
+			'eth',
+			true,
+			18,
+			true,
+			(decimals as any)[token.address],
+		),
+		50: inCurrency(
+			tokenBalance.plus(depositedTokens).multipliedBy(0.5),
+			'eth',
+			true,
+			18,
+			true,
+			(decimals as any)[token.address],
+		),
+		75: inCurrency(
+			tokenBalance.plus(depositedTokens).multipliedBy(0.75),
+			'eth',
+			true,
+			18,
+			true,
+			(decimals as any)[token.address],
+		),
 		100: inCurrency(tokenBalance.plus(depositedTokens), 'eth', true, 18, true),
 	};
 	const wrappedFull = wrapped
 		? !!wrapped.balanceOf && {
-			25: inCurrency(wrapped.balanceOf.multipliedBy(0.25), 'eth', true, 18, true),
-			50: inCurrency(wrapped.balanceOf.multipliedBy(0.5), 'eth', true, 18, true),
-			75: inCurrency(wrapped.balanceOf.multipliedBy(0.75), 'eth', true, 18, true),
-			100: inCurrency(wrapped.balanceOf, 'eth', true, 18, true),
-		}
+				25: inCurrency(wrapped.balanceOf.multipliedBy(0.25), 'eth', true, 18, true),
+				50: inCurrency(wrapped.balanceOf.multipliedBy(0.5), 'eth', true, 18, true),
+				75: inCurrency(wrapped.balanceOf.multipliedBy(0.75), 'eth', true, 18, true),
+				100: inCurrency(wrapped.balanceOf, 'eth', true, 18, true),
+		  }
 		: {
-			25: 0,
-			50: 0,
-			75: 0,
-			100: 0,
-		};
+				25: 0,
+				50: 0,
+				75: 0,
+				100: 0,
+		  };
 
 	return {
 		vault,
@@ -385,11 +406,11 @@ function reduceVaultToStats(
 
 		depositedFull: !!geyser &&
 			!!geyser.totalStakedFor && {
-			25: inCurrency(geyser.totalStakedFor.multipliedBy(0.25), 'eth', true, 18, true),
-			50: inCurrency(geyser.totalStakedFor.multipliedBy(0.5), 'eth', true, 18, true),
-			75: inCurrency(geyser.totalStakedFor.multipliedBy(0.75), 'eth', true, 18, true),
-			100: inCurrency(geyser.totalStakedFor, 'eth', true, 18, true),
-		},
+				25: inCurrency(geyser.totalStakedFor.multipliedBy(0.25), 'eth', true, 18, true),
+				50: inCurrency(geyser.totalStakedFor.multipliedBy(0.5), 'eth', true, 18, true),
+				75: inCurrency(geyser.totalStakedFor.multipliedBy(0.75), 'eth', true, 18, true),
+				100: inCurrency(geyser.totalStakedFor, 'eth', true, 18, true),
+			},
 
 		symbol: token.symbol,
 		name: token.name,

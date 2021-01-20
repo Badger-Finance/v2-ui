@@ -31,11 +31,11 @@ export const darkTheme = createMuiTheme({
 	typography: {
 		// fontSize: 16,
 		fontFamily: "'IBM Plex Sans'",
-		h1: { fontWeight: 500, fontSize: '3rem', fontFamily: "PlatformRegular" },
+		h1: { fontWeight: 500, fontSize: '3rem', fontFamily: 'PlatformRegular' },
 		// h2: { fontFamily: "'Press Start 2P'", fontSize: "2rem" },
 		// h3: { fontFamily: "'Press Start 2P'", fontSize: "1.8rem" },
 		// h4: { fontFamily: "'Press Start 2P'", fontSize: "1rem" },
-		h4: { fontFamily: "PlatformRegular", fontSize: "1.8rem" },
+		h4: { fontFamily: 'PlatformRegular', fontSize: '1.8rem' },
 		h5: { fontWeight: 500 },
 		body1: { fontWeight: 500 },
 		// h6: { fontFamily: "'Press Start 2P'" },

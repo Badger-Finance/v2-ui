@@ -57,10 +57,10 @@ export const VaultStake = observer((props: any) => {
 	const { register, handleSubmit, watch, setValue } = useForm({ mode: 'all' });
 
 	const {
-		router: { },
+		router: {},
 		contracts: { depositAndStake },
 		wallet: { connectedAddress },
-		uiState: { },
+		uiState: {},
 	} = store;
 
 	const setAmount = (percent: number) => {

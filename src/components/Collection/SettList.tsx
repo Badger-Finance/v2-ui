@@ -12,7 +12,7 @@ import { VaultUnwrap } from './VaultUnwrap';
 import { GeyserUnstake } from './GeyserUnstake';
 import { VaultSymbol } from '../VaultSymbol';
 
-import { geysers as geyserConfig, vaults as vaultConfig } from '../../config/system/settSystem';
+import { geysers as geyserConfig, vaults as vaultConfig } from '../../config/system/contracts';
 import Carousel from 'react-material-ui-carousel';
 
 const useStyles = makeStyles((theme) => ({

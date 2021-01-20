@@ -19,7 +19,12 @@ import useInterval from '@use-it/interval';
 import { observer } from 'mobx-react-lite';
 import { Loader } from '../Loader';
 import Metric from './Metric';
-import { calculateNewSupply, shortenNumbers, numberWithCommas, getPercentageChange } from '../../mobx/utils/digHelpers';
+import {
+	calculateNewSupply,
+	shortenNumbers,
+	numberWithCommas,
+	getPercentageChange,
+} from '../../mobx/utils/diggHelpers';
 import { WBTC_ADDRESS } from '../../config/constants';
 import BigNumber from 'bignumber.js';
 import { ArrowRightAlt } from '@material-ui/icons';
@@ -88,25 +93,26 @@ const Info = observer(() => {
 	const store = useContext(StoreContext);
 	const {
 		uiState: { rebaseStats },
-		contracts: { tokens, callRebase },
+		contracts: { tokens },
+		rebase: { callRebase },
 	} = store;
 	const classes = useStyles();
 	const previousSupply =
 		rebaseStats.totalSupply && rebaseStats.pastRebase
 			? rebaseStats.totalSupply.minus(
-				new BigNumber(rebaseStats.pastRebase.requestedSupplyAdjustment).dividedBy(
-					Math.pow(10, rebaseStats.decimals),
-				),
-			)
+					new BigNumber(rebaseStats.pastRebase.requestedSupplyAdjustment).dividedBy(
+						Math.pow(10, rebaseStats.decimals),
+					),
+			  )
 			: null;
 	const [nextRebase, setNextRebase] = useState('00:00:00');
 	const newSupply =
 		rebaseStats.oracleRate && rebaseStats.totalSupply
 			? calculateNewSupply(
-				rebaseStats.oracleRate.toNumber(),
-				rebaseStats.totalSupply.toNumber(),
-				rebaseStats.rebaseLag,
-			)
+					rebaseStats.oracleRate.toNumber(),
+					rebaseStats.totalSupply.toNumber(),
+					rebaseStats.rebaseLag,
+			  )
 			: 0;
 	const isPositive = !newSupply || newSupply >= rebaseStats.totalSupply;
 	const percentage =
@@ -148,19 +154,19 @@ const Info = observer(() => {
 				<Metric
 					metric="Total Supply"
 					value={rebaseStats.totalSupply ? shortenNumbers(rebaseStats.totalSupply, '', 2) : '-'}
-				// submetrics={[
-				// 	{
-				// 		title: 'Change',
-				// 		value: previousSupply
-				// 			? getPercentageChange(rebaseStats.totalSupply, previousSupply).toFixed(2)
-				// 			: '-',
-				// 		change: true,
-				// 	},
-				// 	{
-				// 		title: 'Previous Supply',
-				// 		value: previousSupply ? shortenNumbers(previousSupply, '', 2) : '-',
-				// 	},
-				// ]}
+					// submetrics={[
+					// 	{
+					// 		title: 'Change',
+					// 		value: previousSupply
+					// 			? getPercentageChange(rebaseStats.totalSupply, previousSupply).toFixed(2)
+					// 			: '-',
+					// 		change: true,
+					// 	},
+					// 	{
+					// 		title: 'Previous Supply',
+					// 		value: previousSupply ? shortenNumbers(previousSupply, '', 2) : '-',
+					// 	},
+					// ]}
 				/>
 			</Grid>
 			<Grid item xs={6} md={4}>

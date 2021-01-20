@@ -1,5 +1,5 @@
 import { RouterStore } from 'mobx-router';
-import UiState from './stores/uiStore';
+import UiState from './reducers';
 import WalletStore from './stores/walletStore';
 import ContractsStore from './stores/contractsStore';
 import AirdropStore from './stores/airdropStore';

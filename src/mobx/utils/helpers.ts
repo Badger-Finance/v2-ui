@@ -126,7 +126,7 @@ export const inCurrency = (
 	hide = false,
 	preferredDecimals = 5,
 	noCommas = false,
-	exponent = 18
+	exponent = 18,
 ): string => {
 	if (!value || value.isNaN()) return inCurrency(new BigNumber(0), currency, hide, preferredDecimals);
 

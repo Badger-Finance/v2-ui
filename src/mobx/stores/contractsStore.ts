@@ -27,21 +27,14 @@ import async from 'async';
 import { reduceClaims, reduceTimeSinceLastCycle } from '../reducers/statsReducers';
 
 import { curveTokens } from '../../config/system/tokens';
-import {
-	EMPTY_DATA,
-	ERC20,
-	RPC_URL,
-	START_BLOCK,
-	START_TIME,
-	WBTC_ADDRESS,
-} from '../../config/constants';
+import { EMPTY_DATA, ERC20, RPC_URL, START_BLOCK, START_TIME, WBTC_ADDRESS } from '../../config/constants';
 import {
 	rewards as rewardsConfig,
 	geysers as geyserConfigs,
 	vaults as vaultsConfigs,
-} from '../../config/system/settSystem';
-import { digg, orchestrator, rewards as airdropsConfig, token as diggTokenConfig } from '../../config/system/digg';
-import { getNextRebase, getRebaseLogs } from '../utils/digHelpers';
+} from '../../config/system/contracts';
+import { digg, orchestrator, rewards as airdropsConfig, token as diggTokenConfig } from '../../config/system/rebase';
+import { getNextRebase, getRebaseLogs } from '../utils/diggHelpers';
 
 const infuraProvider = new Web3.providers.HttpProvider(RPC_URL);
 const options = {
@@ -60,7 +53,6 @@ class ContractsStore {
 	public tokens?: any; // inputs to vaults and geysers
 	public vaults?: any; // vaults contract data
 	public geysers?: any; // geyser contract data
-	public rebase?: any; // rebase contract data
 
 	constructor(store: RootStore) {
 		this.store = store;
@@ -69,7 +61,6 @@ class ContractsStore {
 			vaults: undefined,
 			tokens: undefined,
 			geysers: undefined,
-			rebase: undefined,
 		});
 
 		this.fetchContracts();
@@ -77,13 +68,11 @@ class ContractsStore {
 		observe(this as any, 'tokens', (change: any) => {
 			if (!!change.oldValue) {
 				this.calculateVaultGrowth();
-				this.fetchRebaseStats();
 			}
 		});
 		observe(this.store.wallet, 'currentBlock', (change: any) => {
 			if (!!change.oldValue) {
 				this.fetchContracts();
-				this.fetchRebaseStats();
 			}
 		});
 
@@ -91,7 +80,6 @@ class ContractsStore {
 			this.updateProvider();
 		});
 		if (!!this.store.wallet.connectedAddress) this.updateProvider();
-
 	}
 
 	updateProvider = action(() => {
@@ -115,9 +103,6 @@ class ContractsStore {
 	});
 	updateGeysers = action((geysers: any) => {
 		this.geysers = _.defaultsDeep(geysers, this.geysers, geysers);
-	});
-	updateRebase = action((rebase: any) => {
-		this.rebase = _.defaultsDeep(rebase, this.rebase, rebase);
 	});
 
 	fetchContracts = action(() => {
@@ -173,7 +158,7 @@ class ContractsStore {
 	});
 
 	fetchTokens = action(() => {
-		const { } = this.store;
+		const {} = this.store;
 		const { connectedAddress } = this.store.wallet;
 
 		// reduce to {address:{address:,contract:}}
@@ -215,70 +200,6 @@ class ContractsStore {
 		});
 	});
 
-	fetchRebaseStats = action(async () => {
-		const rebaseLog = await getRebaseLogs();
-		const { digg } = require('config/system/digg');
-		Promise.all([batchCall.execute(digg), ...[...graphQuery({ address: digg[0].addresses[0] })]]).then(
-			(result: any[]) => {
-				let keyedResult = _.groupBy(result[0], 'namespace');
-				// console.log(keyedResult)
-
-				if (!keyedResult.token || !keyedResult.token[0].decimals || !keyedResult.oracle)
-					return
-
-				const minRebaseTimeIntervalSec = parseInt(keyedResult.policy[0].minRebaseTimeIntervalSec[0].value);
-				const lastRebaseTimestampSec = parseInt(keyedResult.policy[0].lastRebaseTimestampSec[0].value);
-				const decimals = parseInt(keyedResult.token[0].decimals[0].value);
-				let token = {
-					totalSupply: new BigNumber(keyedResult.token[0].totalSupply[0].value).dividedBy(
-						Math.pow(10, decimals),
-					),
-					decimals: decimals,
-					lastRebaseTimestampSec: lastRebaseTimestampSec,
-					minRebaseTimeIntervalSec: minRebaseTimeIntervalSec,
-					rebaseLag: keyedResult.policy[0].rebaseLag[0].value,
-					epoch: keyedResult.policy[0].epoch[0].value,
-					inRebaseWindow: keyedResult.policy[0].inRebaseWindow[0].value !== 'N/A',
-					rebaseWindowLengthSec: parseInt(keyedResult.policy[0].rebaseWindowLengthSec[0].value),
-					oracleRate: new BigNumber(keyedResult.oracle[0].providerReports[0].value.payload).dividedBy(1e18),
-					derivedEth: result[1].data.token ? result[1].data.token.derivedETH : 0,
-					nextRebase: getNextRebase(minRebaseTimeIntervalSec, lastRebaseTimestampSec),
-					pastRebase: rebaseLog,
-				};
-				// console.log(token);
-				this.updateRebase(token);
-			},
-		);
-	});
-
-	callRebase = action(() => {
-		const { provider, gasPrices, connectedAddress } = this.store.wallet;
-		const { queueNotification, gasPrice, setTxStatus } = this.store.uiState;
-
-		if (!connectedAddress) return;
-		// if (ethBalance?.lt(MIN_ETH_BALANCE))
-		// 	return queueNotification("Your account is low on ETH, you may need to top up to claim.", 'warning')
-
-		const web3 = new Web3(provider);
-		const policy = new web3.eth.Contract(orchestrator.abi as any, orchestrator.contract);
-		const method = policy.methods.rebase();
-
-		queueNotification(`Sign the transaction to rebase BADGER`, 'info');
-		estimateAndSend(web3, gasPrices[gasPrice], method, connectedAddress, (transaction: PromiEvent<Contract>) => {
-			transaction
-				.on('transactionHash', (hash) => {
-					queueNotification(`Rebase submitted.`, 'info', hash);
-				})
-				.on('receipt', () => {
-					queueNotification(`Rebase success.`, 'success');
-					this.fetchRebaseStats()
-				})
-				.catch((error: any) => {
-					queueNotification(error.message, 'error');
-					setTxStatus('error');
-				});
-		});
-	});
 	depositAndStake = action((geyser: any, amount: BigNumber, onlyWrapped = false) => {
 		const { tokens, vaults } = this;
 		const { setTxStatus, queueNotification } = this.store.uiState;
@@ -438,7 +359,7 @@ class ContractsStore {
 		);
 	});
 	getAllowance = action((underlyingAsset: any, spender: string, callback: (err: any, result: any) => void) => {
-		const { } = this.store.uiState;
+		const {} = this.store.uiState;
 		const { provider, connectedAddress } = this.store.wallet;
 
 		const web3 = new Web3(provider);
@@ -619,7 +540,7 @@ class ContractsStore {
 	});
 
 	calculateVaultGrowth = action(() => {
-		const { } = this.store.contracts;
+		const {} = this.store.contracts;
 		const { currentBlock } = this.store.wallet;
 
 		if (!currentBlock) return;
@@ -643,8 +564,6 @@ class ContractsStore {
 			this.updateVaults(vaultGrowth);
 		});
 	});
-
-
 }
 
 export default ContractsStore;

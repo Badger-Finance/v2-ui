@@ -46,8 +46,7 @@ const useStyles = makeStyles((theme) => ({
 		textAlign: 'center',
 		[theme.breakpoints.up('md')]: {
 			padding: theme.spacing(0, 5, 5),
-
-		}
+		},
 	},
 }));
 
@@ -67,15 +66,13 @@ export const Digg = observer(() => {
 				{spacer()}
 
 				<Grid item sm={12} xs={12}>
-					<div className={classes.heroPaper} >
+					<div className={classes.heroPaper}>
 						<Typography variant="h4" color="textPrimary">
 							DIGG – Pegged to Bitcoin
-
 						</Typography>
 						<Typography variant="subtitle1" color="textSecondary">
 							An elastic supply cryptocurrency pegged to the price of Bitcoin & governed by BadgerDAO.
-
-					</Typography>
+						</Typography>
 					</div>
 				</Grid>
 				<Info />

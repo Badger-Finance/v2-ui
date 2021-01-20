@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js';
 import { RPC_URL } from '../../config/constants';
 
-import { digg } from '../../config/system/digg';
+import { digg } from '../../config/system/rebase';
 
 const UPPER_LIMIT = 1.05 * 1e18;
 const LOWER_LIMIT = 0.95 * 1e18;

@@ -63,8 +63,7 @@ const useStyles = makeStyles((theme) => ({
 		background: 'none',
 		[theme.breakpoints.up('md')]: {
 			padding: theme.spacing(10, 5),
-
-		}
+		},
 	},
 }));
 export const Airdrops = observer(() => {
@@ -72,8 +71,8 @@ export const Airdrops = observer(() => {
 	const classes = useStyles();
 
 	const {
-		router: { },
-		wallet: { },
+		router: {},
+		wallet: {},
 		airdrops: { claimBadgerAirdrops, claimDiggAirdrops },
 		uiState: { airdropStats, stats },
 	} = store;
@@ -157,14 +156,13 @@ export const Airdrops = observer(() => {
 					<div className={classes.heroPaper}>
 						<Typography variant="h1" color="textPrimary">
 							Community rules everything.
-					</Typography>
+						</Typography>
 						<Typography variant="subtitle1" color="textSecondary">
-							BadgerDAO is dedicated to building products and infrastructure to bring Bitcoin to DeFi. Check below to see if you have airdrops to claim.
-
-					</Typography>
+							BadgerDAO is dedicated to building products and infrastructure to bring Bitcoin to DeFi.
+							Check below to see if you have airdrops to claim.
+						</Typography>
 					</div>
 				</Grid>
-
 
 				<Grid item xs={12} md={6}>
 					<Paper className={classes.statPaper}>

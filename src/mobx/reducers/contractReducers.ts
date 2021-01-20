@@ -1,8 +1,8 @@
 import BigNumber from 'bignumber.js';
 import _ from 'lodash';
 import { ERC20, WBTC_ADDRESS } from '../../config/constants';
-import { token as diggToken } from '../../config/system/digg';
-import { rewards } from '../../config/system/settSystem';
+import { token as diggToken } from '../../config/system/rebase';
+import { rewards } from '../../config/system/contracts';
 import { curveTokens } from '../../config/system/tokens';
 import deploy from '../../config/system/deploy-final.json';
 

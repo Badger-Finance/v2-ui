@@ -87,8 +87,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	rewardItem: {
 		padding: 0,
-	}
-
+	},
 }));
 export const Collection = observer(() => {
 	const store = useContext(StoreContext);
@@ -120,32 +119,28 @@ export const Collection = observer(() => {
 	const availableRewards = () => {
 		return treeStats.claims.map((claim: string, idx: number) => (
 			<Grid item xs={12} md={6}>
-
 				<Paper className={classes.statPaper}>
-
-					<List style={{ padding: 0 }}><ListItem className={classes.rewardItem} key={idx}>
-						<ListItemText primary={claim} secondary={`${CLAIMS_SYMBOLS[idx]} Available to Claim`} />
-						<ListItemSecondaryAction>
-							<ButtonGroup size="small" variant="outlined" color="primary">
-								<Button
-									onClick={() => {
-										claimGeysers(false);
-									}}
-									variant="contained"
-								>
-									Claim
-								</Button>
-
-							</ButtonGroup>
-						</ListItemSecondaryAction>
-					</ListItem>
+					<List style={{ padding: 0 }}>
+						<ListItem className={classes.rewardItem} key={idx}>
+							<ListItemText primary={claim} secondary={`${CLAIMS_SYMBOLS[idx]} Available to Claim`} />
+							<ListItemSecondaryAction>
+								<ButtonGroup size="small" variant="outlined" color="primary">
+									<Button
+										onClick={() => {
+											claimGeysers(false);
+										}}
+										variant="contained"
+									>
+										Claim
+									</Button>
+								</ButtonGroup>
+							</ListItemSecondaryAction>
+						</ListItem>
 					</List>
 				</Paper>
 			</Grid>
-		))
-
-
-	}
+		));
+	};
 
 	return (
 		<>
@@ -274,5 +269,3 @@ export const Collection = observer(() => {
 		</>
 	);
 });
-
-
