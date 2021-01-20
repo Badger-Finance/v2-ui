@@ -47,7 +47,6 @@ class RebaseStore {
 		Promise.all([batchCall.execute(digg), ...[...graphQuery(digg[0].addresses[0])]]).then(
 			(result: any[]) => {
 				let keyedResult = _.groupBy(result[0], 'namespace');
-				console.log(keyedResult)
 
 				if (!keyedResult.token || !keyedResult.token[0].decimals) return;
 

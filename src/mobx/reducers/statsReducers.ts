@@ -3,7 +3,8 @@ import _ from 'lodash';
 import { RootStore } from '../store';
 
 import { inCurrency } from '../utils/helpers';
-import { token as diggToken } from '../../config/system/rebase';
+import { rewards, token as diggToken } from '../../config/system/rebase';
+import { rewards as rewardsConfig } from '../../config/system/contracts';
 import { decimals } from 'config/system/tokens';
 import { Amount, Geyser, Growth, Token, Vault } from './contractReducers';
 import { ZERO_CURRENCY } from 'config/constants';
@@ -66,11 +67,11 @@ export const reduceClaims = (merkleProof: any, claimedRewards: any[]) => {
 		return inCurrency(new BigNumber(amount).minus(claimedRewards[1][i]), 'eth', true);
 	});
 };
-export const reduceAirdrops = (airdrops: any) => {
+export const reduceAirdrops = (airdrops: any, store: RootStore) => {
 	if (!airdrops.digg) {
-		return { digg: '0.00000' };
+		return {};
 	}
-	return { digg: inCurrency(airdrops.digg, 'eth', true) };
+	return { digg: { amount: airdrops.digg, token: store.contracts.tokens[rewardsConfig.tokens[3]] } };
 };
 function calculatePortfolioStats(vaultContracts: any, tokens: any, vaults: any, geyserContracts: any) {
 	let tvl = new BigNumber(0);
@@ -179,6 +180,9 @@ export function formatVaultBalanceValue(vault: Vault, currency: string) {
 
 export function formatPrice(price: BigNumber, currency: string) {
 	return inCurrency(price.dividedBy(1e18), currency, true)
+}
+export function formatAmount(amount: Amount) {
+	return inCurrency(amount.amount.dividedBy(10 ** amount.token.decimals), 'eth', true)
 }
 
 export function formatGeyserGrowth(geyser: Geyser, period: string) {

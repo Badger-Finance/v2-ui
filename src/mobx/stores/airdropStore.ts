@@ -32,7 +32,7 @@ class AirdropStore {
 		this.store = store;
 
 		extendObservable(this, {
-			airdrops: undefined,
+			airdrops: {},
 		});
 	}
 
@@ -43,7 +43,7 @@ class AirdropStore {
 
 		if (!connectedAddress) return;
 
-		// console.log('fetching', connectedAddress)
+		console.log('fetching', connectedAddress)
 
 		const web3 = new Web3(provider);
 		const rewardsTree = new web3.eth.Contract(airdropsConfig.abi as any, airdropsConfig.contract);
@@ -66,6 +66,9 @@ class AirdropStore {
 						merkleProof,
 					};
 				});
+			} else {
+				this.airdrops = {};
+
 			}
 		});
 	});

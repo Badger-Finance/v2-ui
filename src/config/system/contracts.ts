@@ -227,6 +227,6 @@ export const rewards = {
 		deploy.sett_system.vaults['native.uniBadgerWbtc'].toLowerCase(),
 		'0x6b3595068778dd592e39a122f4f5a5cf09c90fe2'.toLowerCase(), // $SUSHI
 		'0x36e2fcccc59e5747ff63a03ea2e5c0c2c14911e7'.toLowerCase(), // $xSUSHI
-		'0x798D1bE841a82a273720CE31c822C61a67a601C3'.toLowerCase(), // $DIGG
+		deploy.token.toLowerCase(), // $DIGG
 	],
 };

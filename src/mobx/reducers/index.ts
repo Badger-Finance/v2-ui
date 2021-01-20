@@ -48,7 +48,7 @@ class UiState {
 			},
 
 			treeStats: { claims: [] },
-			airdropStats: { badger: '0.00000', digg: '0.00000' },
+			airdropStats: {},
 
 			currency: window.localStorage.getItem('selectedCurrency') || 'usd',
 			period: window.localStorage.getItem('selectedPeriod') || 'year',
@@ -62,7 +62,7 @@ class UiState {
 
 		// format vaults and geysers to ui
 		setInterval(() => {
-			this.reduceStats(), this.reduceRebase();
+			this.reduceStats(); this.reduceRebase(); this.reduceAirdrops()
 		}, 1000)
 
 		// observe(this.store.contracts as any, 'geysers', (change: any) => {
@@ -152,7 +152,7 @@ class UiState {
 	});
 
 	reduceAirdrops = action(() => {
-		this.airdropStats = reduceAirdrops(this.store.airdrops.airdrops);
+		this.airdropStats = reduceAirdrops(this.store.airdrops.airdrops, this.store);
 	});
 
 	reduceRebase = action(() => {

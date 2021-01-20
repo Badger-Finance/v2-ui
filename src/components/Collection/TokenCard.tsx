@@ -113,7 +113,6 @@ export const TokenCard = observer((props: any) => {
 		return <div />;
 	}
 	const [update, forceUpdate] = useState<boolean>();
-
 	useInterval(() => forceUpdate(!update), 1000)
 
 	const { roi, roiTooltip } = formatVaultGrowth(vault, period)

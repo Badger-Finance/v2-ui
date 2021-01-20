@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import {
 	Grid,
@@ -16,6 +16,8 @@ import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { StoreContext } from '../../mobx/store-context';
+import { formatAmount } from 'mobx/reducers/statsReducers';
+import useInterval from '@use-it/interval';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -78,6 +80,9 @@ export const Airdrops = observer(() => {
 	} = store;
 
 	const spacer = () => <div className={classes.before} />;
+
+	const [update, forceUpdate] = useState<boolean>();
+	useInterval(() => forceUpdate(!update), 1000)
 
 	const copy = () => {
 		const q = [
@@ -196,10 +201,10 @@ export const Airdrops = observer(() => {
 					<Paper className={classes.statPaper}>
 						<List style={{ padding: 0 }}>
 							<ListItem style={{ margin: 0, padding: 0 }}>
-								<ListItemText primary={airdropStats.digg} secondary="DIGG available to claim" />
+								<ListItemText primary={!!airdropStats.digg ? formatAmount(airdropStats.digg) : '0.00000'} secondary="DIGG available to claim" />
 								<ListItemSecondaryAction>
 									<ButtonGroup
-										disabled={airdropStats.digg === '0.00000'}
+										disabled={!airdropStats.digg}
 										size="small"
 										variant="outlined"
 										color="primary"
