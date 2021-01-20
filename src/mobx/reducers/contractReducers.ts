@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js';
 import _ from 'lodash';
-import { ERC20, WBTC_ADDRESS } from '../../config/constants';
+import { ERC20, START_BLOCK, WBTC_ADDRESS } from '../../config/constants';
 import { token as diggToken } from '../../config/system/rebase';
 import { rewards } from '../../config/system/contracts';
 import { curveTokens } from '../../config/system/tokens';
@@ -8,6 +8,7 @@ import deploy from '../../config/system/deploy-final.json';
 
 import { batchConfig, erc20Methods } from '../utils/web3';
 import { RootStore } from '../store';
+import { growthQuery, secondsToBlocks } from 'mobx/utils/helpers';
 
 export const reduceBatchResult = (result: any[]): any[] => {
 	return result.map((vault) => {
@@ -51,24 +52,41 @@ export const reduceResult = (value: any): any => {
 // }
 
 export const reduceSushiAPIResults = (results: any, contracts: any[]) => {
-	const newSushiROIs = _.map(results.pairs, (pair: any, i: number) => {
+	const newSushiROIs: any = _.map(results.pairs, (pair: any, i: number) => {
 		return {
-			address: contracts[i],
 			day: new BigNumber(pair.aprDay).dividedBy(100),
+			week: new BigNumber(pair.aprDay).dividedBy(100).multipliedBy(7),
 			month: new BigNumber(pair.aprMonthly).dividedBy(100),
 			year: new BigNumber(pair.aprYear_without_lockup).dividedBy(100),
 		};
 	});
-	return _.keyBy(newSushiROIs, 'address');
+	return _.zipObject(newSushiROIs, contracts);
 };
 
 export const reduceXSushiROIResults = (ROI: any) => {
 	return {
 		day: new BigNumber(ROI).dividedBy(365),
+		week: new BigNumber(ROI).dividedBy(365).multipliedBy(7),
 		month: new BigNumber(ROI).dividedBy(12),
 		year: new BigNumber(ROI),
 	};
 };
+
+export const reduceGrowthQueryConfig = (currentBlock?: number) => {
+
+	if (!currentBlock) return { periods: [], growthQueries: [] };
+
+	const periods = [
+		Math.max(currentBlock - Math.floor(secondsToBlocks(60 * 5)), START_BLOCK), // 5 minutes ago
+		Math.max(currentBlock - Math.floor(secondsToBlocks(1 * 24 * 60 * 60)), START_BLOCK), // day
+		Math.max(currentBlock - Math.floor(secondsToBlocks(7 * 24 * 60 * 60)), START_BLOCK), // week
+		Math.max(currentBlock - Math.floor(secondsToBlocks(30 * 24 * 60 * 60)), START_BLOCK), // month
+		START_BLOCK, // start
+	];
+
+	return { periods, growthQueries: periods.map(growthQuery) };
+
+}
 
 export const reduceGraphResult = (graphResult: any[]) => {
 	const reduction = graphResult.map((element: any) => {
@@ -161,8 +179,6 @@ export const reduceCurveResult = (curveResult: any[], contracts: any[], tokenCon
 export const reduceGrowth = (graphResult: any[], periods: number[], startDate: Date) => {
 	const reduction: any[] = graphResult.map((result: any) => !!result.data && _.keyBy(result.data.vaults, 'id'));
 
-	if (!reduction) return;
-
 	return _.mapValues(reduction[0], (value: any, key: string) => {
 		const timePeriods = ['now', 'day', 'week', 'month', 'start'];
 
@@ -196,6 +212,8 @@ export const reduceGrowth = (graphResult: any[], periods: number[], startDate: D
 		return { day, week, month, year };
 	});
 };
+
+
 
 export const reduceGeyserSchedule = (timestamp: BigNumber, schedule: any) => {
 	let locked = new BigNumber(0);
@@ -363,12 +381,14 @@ export class Token extends Contract {
 	public totalSupply!: BigNumber
 	public symbol!: string
 	public ethValue!: BigNumber
+	public vaults!: Vault[]
 
 	constructor(store: RootStore, address: string, decimals: number) {
 		super(store, address)
 		this.balance = new BigNumber(0)
 		this.ethValue = new BigNumber(0)
 		this.decimals = decimals
+		this.vaults = []
 	}
 
 	update(payload: any) {
@@ -385,11 +405,16 @@ export class Vault extends Token {
 	public position!: number
 	public holdings!: BigNumber
 	public underlyingToken!: Token
+	public growth!: Growth[]
+	public geyser!: Geyser
+	public pricePerShare!: BigNumber
 
 	constructor(store: RootStore, address: string, decimals: number, underlyingToken: Token) {
 		super(store, address, decimals)
 		this.holdings = new BigNumber(0)
+		this.pricePerShare = new BigNumber(1)
 		this.underlyingToken = underlyingToken
+		this.underlyingToken.vaults.push(this)
 	}
 
 	deposit(amount: string) {
@@ -407,6 +432,9 @@ export class Vault extends Token {
 	update(payload: any) {
 		super.update(payload)
 		if (!!payload.position) this.position = payload.position;
+		if (!!payload.growth) this.growth = payload.growth;
+		if (!!payload.getPricePerFullShare) this.pricePerShare = payload.getPricePerFullShare;
+		if (!!payload.totalSupply) this.holdings = payload.totalSupply;
 	}
 
 }
@@ -415,10 +443,12 @@ export class Geyser extends Contract {
 	public vault!: Vault
 	public holdings!: BigNumber
 	public balance!: BigNumber
+	public rewards!: Growth
 
 	constructor(store: RootStore, address: string, vault: Vault) {
 		super(store, address)
 		this.vault = vault
+		vault.geyser = this
 		this.holdings = new BigNumber(0)
 		this.balance = new BigNumber(0)
 	}
@@ -438,6 +468,17 @@ export class Geyser extends Contract {
 	update(payload: any) {
 		if (!!payload.totalStaked) this.holdings = payload.totalStaked;
 		if (!!payload.totalStakedFor) this.balance = payload.totalStakedFor;
+		if (!!payload.rewards) this.rewards = payload.rewards;
 	}
 }
 
+export interface Growth {
+	day: Amount,
+	week: Amount,
+	month: Amount,
+	year: Amount
+}
+export interface Amount {
+	token: Token,
+	amount: BigNumber
+}

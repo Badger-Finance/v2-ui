@@ -172,58 +172,58 @@ class RewardsStore {
 		// this.store.contracts.updateGeysers(geyserRewards);
 
 		// grab sushi APYs
-		_.map(geyserBatches, (config: any) => {
-			if (!!config.growthEndpoints) {
-				// let masterChef = chefQueries(config.contracts, this.geysers, config.growthEndpoints[0])
-				const xSushi = vanillaQuery(config.growthEndpoints[1]);
+		// _.map(geyserBatches, (config: any) => {
+		// 	if (!!config.growthEndpoints) {
+		// 		// let masterChef = chefQueries(config.contracts, this.geysers, config.growthEndpoints[0])
+		// 		const xSushi = vanillaQuery(config.growthEndpoints[1]);
 
-				// First we grab the sushi pair contracts from the sushi geysers
-				const sushiSuffix: string[] = [];
-				_.map(config.contracts, (contract: any) => {
-					try {
-						let geyser = geysers[contract];
-						let vault = vaults[geyser[geyser.underlyingKey]];
-						if (!geyser || !vault) return;
-						sushiSuffix.push(vault[vault.underlyingKey]);
-					} catch (e) {
-						process.env.NODE_ENV !== 'production' && console.log(e);
-					}
-				});
-				// Then we use the provided API from sushi to get the ROI numbers
-				const newMasterChef = vanillaQuery(config.growthEndpoints[2].concat(sushiSuffix.join(';')));
+		// 		// First we grab the sushi pair contracts from the sushi geysers
+		// 		const sushiSuffix: string[] = [];
+		// 		_.map(config.contracts, (contract: any) => {
+		// 			try {
+		// 				let geyser = geysers[contract];
+		// 				let vault = vaults[geyser[geyser.underlyingKey]];
+		// 				if (!geyser || !vault) return;
+		// 				sushiSuffix.push(vault[vault.underlyingKey]);
+		// 			} catch (e) {
+		// 				process.env.NODE_ENV !== 'production' && console.log(e);
+		// 			}
+		// 		});
+		// 		// Then we use the provided API from sushi to get the ROI numbers
+		// 		const newMasterChef = vanillaQuery(config.growthEndpoints[2].concat(sushiSuffix.join(';')));
 
-				Promise.all([xSushi, newMasterChef]).then((results: any) => {
-					const xROI: any = reduceXSushiROIResults(results[0]['weekly_APY']);
-					const newSushiRewards = reduceSushiAPIResults(results[1], config.contracts);
-					// this.store.contracts.updateGeysers(
-					// 	_.mapValues(newSushiRewards, (reward: any, geyserAddress: string) => {
-					// 		const geyser = geysers[geyserAddress];
-					// 		if (!geyser) return;
+		// 		Promise.all([xSushi, newMasterChef]).then((results: any) => {
+		// 			const xROI: any = reduceXSushiROIResults(results[0]['weekly_APY']);
+		// 			const newSushiRewards = reduceSushiAPIResults(results[1], config.contracts);
+		// 			this.store.contracts.updateGeysers(
+		// 				_.mapValues(newSushiRewards, (reward: any, geyserAddress: string) => {
+		// 					const geyser = geysers[geyserAddress];
+		// 					if (!geyser) return;
 
-					// 		const vault = vaults[geyser[geyser.underlyingKey]];
-					// 		if (!vault) return;
+		// 					const vault = vaults[geyser[geyser.underlyingKey]];
+		// 					if (!vault) return;
 
-					// 		const vaultBalance = vault.balance;
-					// 		const tokenValue = this.store.contracts.tokens[vault.token].ethValue;
-					// 		if (!tokenValue) return;
+		// 					const vaultBalance = vault.balance;
+		// 					const tokenValue = this.store.contracts.tokens[vault.token].ethValue;
+		// 					if (!tokenValue) return;
 
-					// 		const vaultEthVal = vaultBalance.multipliedBy(tokenValue.dividedBy(1e18));
-					// 		return {
-					// 			sushiRewards: _.mapValues(reward, (periodROI: BigNumber, period: string) => {
-					// 				if (periodROI.toString().substr(0, 2) != '0x') {
-					// 					const sushiRewards = vaultEthVal.multipliedBy(periodROI);
-					// 					const xsushiRewards = sushiRewards.multipliedBy(xROI[period].dividedBy(100));
-					// 					const xsushiROI = xsushiRewards.dividedBy(vaultEthVal);
-					// 					periodROI = periodROI.plus(xsushiROI);
-					// 				}
-					// 				return periodROI;
-					// 			}),
-					// 		};
-					// 	}),
-					// );
-				});
-			}
-		});
+		// 					const vaultEthVal = vaultBalance.multipliedBy(tokenValue.dividedBy(1e18));
+		// 					return {
+		// 						sushiRewards: _.mapValues(reward, (periodROI: BigNumber, period: string) => {
+		// 							if (periodROI.toString().substr(0, 2) != '0x') {
+		// 								const sushiRewards = vaultEthVal.multipliedBy(periodROI);
+		// 								const xsushiRewards = sushiRewards.multipliedBy(xROI[period].dividedBy(100));
+		// 								const xsushiROI = xsushiRewards.dividedBy(vaultEthVal);
+		// 								periodROI = periodROI.plus(xsushiROI);
+		// 							}
+		// 							return periodROI;
+		// 						}),
+		// 					};
+		// 				}),
+		// 			);
+		// 		});
+		// 	}
+		// });
 	});
 }
 

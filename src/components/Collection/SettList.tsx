@@ -5,12 +5,14 @@ import { Grid, List, ListItem, Dialog, DialogTitle, CircularProgress, Chip } fro
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Loader } from '../Loader';
-import { AssetCard } from './AssetCard';
+import { TokenCard } from './TokenCard';
 import _ from 'lodash';
 import { VaultStake } from './VaultStake';
 import { VaultUnwrap } from './VaultUnwrap';
 import { GeyserUnstake } from './GeyserUnstake';
 import { VaultSymbol } from '../VaultSymbol';
+import { vaultBatches } from 'config/system/contracts';
+import { Vault } from 'mobx/reducers/contractReducers';
 
 const useStyles = makeStyles((theme) => ({
 	list: {
@@ -133,34 +135,20 @@ export const SettList = observer((props: any) => {
 		);
 	};
 
-	const renderContracts = (contracts: any, isGeysers: boolean = false, global: boolean = false) => {
-		let list = _.map(contracts, (contract: any) => {
-			if (isGeysers) {
-				return (
-					<ListItem key={contract.address} className={classes.listItem}>
-						<AssetCard
-							isGlobal={global}
-							uiStats={contract}
-							onStake={onStake}
-							onUnstake={onUnstake}
-							onUnwrap={onUnwrap}
-							isDeposit
-						/>
-					</ListItem>
-				);
-			} else {
-				return (
-					<ListItem key={contract.address} className={classes.listItem}>
-						<AssetCard
-							isGlobal={global}
-							uiStats={contract}
-							onStake={onStake}
-							onUnstake={onUnstake}
-							onUnwrap={onUnwrap}
-						/>
-					</ListItem>
-				);
-			}
+	const renderVaults = (contracts: any) => {
+		let list = _.map(contracts, (address: string) => {
+			const vault: Vault = vaults[address.toLowerCase()]
+			return !!vault && (
+				<ListItem key={address} className={classes.listItem}>
+					<TokenCard
+						isGlobal={true}
+						vault={vault}
+						onDeposit={onStake}
+						onUnstake={onUnstake}
+						onUnwrap={onUnwrap}
+					/>
+				</ListItem>
+			);
 		});
 
 		return <List className={classes.list}>{list}</List>;
@@ -170,18 +158,18 @@ export const SettList = observer((props: any) => {
 		let vaultCards: any[] = [];
 
 		// wallet assets & wrapped assets ordered by value
-		return renderContracts(stats.assets.wallet, false, !hideEmpty);
+		return [renderVaults(vaultBatches[0].contracts), renderVaults(vaultBatches[1].contracts), renderVaults(vaultBatches[2].contracts)];
 	};
 
 	const emptyGeysers = () => {
-		return renderContracts(stats.assets.setts, true, true);
+		return renderVaults(stats.assets.setts);
 	};
 
 	const renderDeposits = () => {
 		if (stats.assets.deposits.length + stats.assets.wrapped.length > 0 && !hasDeposits) setHasDeposits(true);
 		return [
-			renderContracts(stats.assets.wrapped, false, false),
-			renderContracts(stats.assets.deposits, true, false),
+			renderVaults(stats.assets.wrapped),
+			renderVaults(stats.assets.deposits),
 		];
 	};
 
@@ -287,12 +275,12 @@ export const SettList = observer((props: any) => {
 
 	return (
 		<>
-			{!!connectedAddress && hasDeposits && tableHeader(`Deposits - ${stats.stats.deposits}`, 'Deposited')}
+			{/* {!!connectedAddress && hasDeposits && tableHeader(`Deposits - ${stats.stats.deposits}`, 'Deposited')}
 			{!!connectedAddress && renderDeposits()}
 			{tableHeader(
 				hideEmpty ? `Your Wallet - ${stats.stats.wallet}` : `All Setts  - ${stats.stats.tvl}`,
 				hideEmpty ? 'Available' : 'Tokens',
-			)}
+			)} */}
 			{walletVaults()}
 			{/* {isGlobal && <Carousel className={classes.carousel} indicators={false} navButtonsAlwaysVisible >{featuredGeysers()}</Carousel>} */}
 			{/* {!hideEmpty && tableHeader(`All Setts`, 'Tokens')}

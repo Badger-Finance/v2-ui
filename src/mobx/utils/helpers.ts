@@ -130,7 +130,7 @@ export const inCurrency = (
 ): string => {
 	if (!value || value.isNaN()) return inCurrency(new BigNumber(0), currency, hide, preferredDecimals);
 
-	let normal = value.dividedBy(10 ** exponent);
+	let normal = value;
 	let prefix = !hide ? 'Ξ ' : '';
 	let decimals = preferredDecimals;
 

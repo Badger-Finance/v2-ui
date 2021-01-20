@@ -39,6 +39,9 @@ export const vaultBatches = [
 				name: 'symbol',
 			},
 			{
+				name: 'decimals',
+			},
+			{
 				name: 'token',
 			},
 			{
@@ -58,6 +61,7 @@ export const vaultBatches = [
 			isFeatured: [false, true],
 			position: [9, 10, 1],
 			symbolPrefix: ['sushi', 'sushi', 'sushi'],
+			onsenId: ['103', '21', '73'],
 		},
 		methods: [
 			{
@@ -74,11 +78,19 @@ export const vaultBatches = [
 				name: 'symbol',
 			},
 			{
+				name: 'decimals',
+			},
+			{
 				name: 'token',
 			},
 			{
 				name: 'totalSupply',
 			},
+		],
+		growthEndpoints: [
+			'https://api.thegraph.com/subgraphs/name/sushiswap/master-chef',
+			'https://apy.sushiswap.fi/xsushi',
+			'https://apy.sushiswap.fi/?pairs=',
 		],
 	},
 	{
@@ -103,6 +115,9 @@ export const vaultBatches = [
 			},
 			{
 				name: 'symbol',
+			},
+			{
+				name: 'decimals',
 			},
 			{
 				name: 'totalSupply',
@@ -189,11 +204,7 @@ export const geyserBatches = [
 			onsenId: ['103', '21', '73'],
 		},
 
-		growthEndpoints: [
-			'https://api.thegraph.com/subgraphs/name/sushiswap/master-chef',
-			'https://apy.sushiswap.fi/xsushi',
-			'https://apy.sushiswap.fi/?pairs=',
-		],
+
 	},
 ];
 

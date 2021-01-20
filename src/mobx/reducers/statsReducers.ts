@@ -5,6 +5,7 @@ import { RootStore } from '../store';
 import { inCurrency } from '../utils/helpers';
 import { token as diggToken } from '../../config/system/rebase';
 import { decimals } from 'config/system/tokens';
+import { Geyser, Token, Vault } from './contractReducers';
 
 // export const reduceGeysersToStats = (store: RootStore) => {
 // 	const { vaults, geysers, tokens } = store.contracts
@@ -269,8 +270,8 @@ function reduceGeyserToStats(geyser: any, vaults: any, tokens: any, period: stri
 
 	const virtualEthValue = !!token.ethValue
 		? token.ethValue
-				.dividedBy(1e18)
-				.multipliedBy(!!vault.getPricePerFullShare ? vault.getPricePerFullShare.dividedBy(1e18) : 1)
+			.dividedBy(1e18)
+			.multipliedBy(!!vault.getPricePerFullShare ? vault.getPricePerFullShare.dividedBy(1e18) : 1)
 		: token.ethValue;
 	const underlyingBalance =
 		!!geyser.totalStakedFor &&
@@ -367,17 +368,17 @@ function reduceVaultToStats(
 	};
 	const wrappedFull = wrapped
 		? !!wrapped.balanceOf && {
-				25: inCurrency(wrapped.balanceOf.multipliedBy(0.25), 'eth', true, 18, true),
-				50: inCurrency(wrapped.balanceOf.multipliedBy(0.5), 'eth', true, 18, true),
-				75: inCurrency(wrapped.balanceOf.multipliedBy(0.75), 'eth', true, 18, true),
-				100: inCurrency(wrapped.balanceOf, 'eth', true, 18, true),
-		  }
+			25: inCurrency(wrapped.balanceOf.multipliedBy(0.25), 'eth', true, 18, true),
+			50: inCurrency(wrapped.balanceOf.multipliedBy(0.5), 'eth', true, 18, true),
+			75: inCurrency(wrapped.balanceOf.multipliedBy(0.75), 'eth', true, 18, true),
+			100: inCurrency(wrapped.balanceOf, 'eth', true, 18, true),
+		}
 		: {
-				25: 0,
-				50: 0,
-				75: 0,
-				100: 0,
-		  };
+			25: 0,
+			50: 0,
+			75: 0,
+			100: 0,
+		};
 
 	return {
 		vault,
@@ -406,11 +407,11 @@ function reduceVaultToStats(
 
 		depositedFull: !!geyser &&
 			!!geyser.totalStakedFor && {
-				25: inCurrency(geyser.totalStakedFor.multipliedBy(0.25), 'eth', true, 18, true),
-				50: inCurrency(geyser.totalStakedFor.multipliedBy(0.5), 'eth', true, 18, true),
-				75: inCurrency(geyser.totalStakedFor.multipliedBy(0.75), 'eth', true, 18, true),
-				100: inCurrency(geyser.totalStakedFor, 'eth', true, 18, true),
-			},
+			25: inCurrency(geyser.totalStakedFor.multipliedBy(0.25), 'eth', true, 18, true),
+			50: inCurrency(geyser.totalStakedFor.multipliedBy(0.5), 'eth', true, 18, true),
+			75: inCurrency(geyser.totalStakedFor.multipliedBy(0.75), 'eth', true, 18, true),
+			100: inCurrency(geyser.totalStakedFor, 'eth', true, 18, true),
+		},
 
 		symbol: token.symbol,
 		name: token.name,
@@ -477,3 +478,48 @@ export function reduceRebase(stats: any, base: any, token: any) {
 	// nextRebase: getNextRebase(minRebaseTimeIntervalSec, lastRebaseTimestampSec),
 	// pastRebase: rebaseLog,
 }
+
+
+
+export function formatSupply(token: Token) {
+	return inCurrency(token.totalSupply.dividedBy(10 ** token.decimals), 'eth', true)
+}
+
+export function formatBalance(token: Token) {
+	return inCurrency(token.balance.dividedBy(10 ** token.decimals), 'eth', true)
+}
+
+export function formatTotalStaked(geyser: Geyser) {
+	return inCurrency(geyser.holdings.dividedBy(10 ** geyser.vault.decimals), 'eth', true)
+}
+
+export function formatStaked(geyser: Geyser) {
+	return inCurrency(geyser.holdings.dividedBy(10 ** geyser.vault.decimals), 'eth', true)
+}
+
+export function formatHoldingsValue(vault: Vault, currency: string) {
+	return inCurrency(vault.holdings.dividedBy(10 ** vault.decimals).multipliedBy(vault.underlyingToken.ethValue.dividedBy(1e18)), currency, true)
+}
+
+export function formatBalanceValue(token: Token, currency: string) {
+	return inCurrency(token.balance.dividedBy(10 ** token.decimals).multipliedBy(token.ethValue), currency, true)
+}
+
+export function formatGeyserBalanceValue(geyser: Geyser, currency: string) {
+	return inCurrency(geyser.balance.dividedBy(10 ** geyser.vault.decimals).multipliedBy(geyser.vault.ethValue).multipliedBy(geyser.vault.pricePerShare), currency, true)
+}
+export function formatVaultBalanceValue(vault: Vault, currency: string) {
+	return inCurrency(vault.balance.dividedBy(10 ** vault.decimals).multipliedBy(vault.underlyingToken.ethValue).multipliedBy(vault.pricePerShare), currency, true)
+}
+
+
+export function formatGrowth(vault: Vault, period: string) {
+
+	return {
+		total: '',
+		tooltip: ''
+	}
+
+}
+
+
