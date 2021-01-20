@@ -41,7 +41,7 @@ class RebaseStore {
 	fetchRebaseStats = action(async () => {
 		const rebaseLog = await getRebaseLogs();
 		const { digg } = require('config/system/rebase');
-		Promise.all([batchCall.execute(digg), ...[...graphQuery({ address: digg[0].addresses[0] })]]).then(
+		Promise.all([batchCall.execute(digg), ...[...graphQuery(digg[0].addresses[0])]]).then(
 			(result: any[]) => {
 				let keyedResult = _.groupBy(result[0], 'namespace');
 				// console.log(keyedResult)

@@ -1,40 +1,16 @@
 import { extendObservable, action, observe } from 'mobx';
 import Web3 from 'web3';
 import BatchCall from 'web3-batch-call';
-import { AbiItem } from 'web3-utils';
-import { batchConfig, estimateAndSend } from '../utils/web3';
+import { estimateAndSend } from '../utils/web3';
 import BigNumber from 'bignumber.js';
 import { RootStore } from '../store';
 import _ from 'lodash';
-import {
-	erc20BatchConfig,
-	generateCurveTokens,
-	reduceBatchResult,
-	reduceContractConfig,
-	reduceMethodConfig,
-	reduceContractsToTokens,
-	reduceCurveResult,
-	reduceGeyserSchedule,
-	reduceGraphResult,
-	reduceGrowth,
-	reduceSushiAPIResults,
-	reduceXSushiROIResults,
-} from '../reducers/contractReducers';
-import { jsonQuery, graphQuery, growthQuery, secondsToBlocks, inCurrency, vanillaQuery } from '../utils/helpers';
+import { jsonQuery } from '../utils/helpers';
 import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
-import async from 'async';
-import { reduceClaims, reduceTimeSinceLastCycle } from '../reducers/statsReducers';
 
-import { curveTokens } from '../../config/system/tokens';
-import { EMPTY_DATA, ERC20, RPC_URL, START_BLOCK, START_TIME, WBTC_ADDRESS } from '../../config/constants';
-import {
-	rewards as rewardsConfig,
-	geysers as geyserConfigs,
-	vaults as vaultsConfigs,
-} from '../../config/system/contracts';
-import { digg, orchestrator, rewards as airdropsConfig, token as diggTokenConfig } from '../../config/system/rebase';
-import { getNextRebase, getRebaseLogs } from '../utils/diggHelpers';
+import { RPC_URL } from '../../config/constants';
+import { rewards as airdropsConfig, token as diggTokenConfig } from '../../config/system/rebase';
 
 const infuraProvider = new Web3.providers.HttpProvider(RPC_URL);
 const options = {
@@ -62,7 +38,7 @@ class AirdropStore {
 
 	fetchAirdrops = action(() => {
 		const { provider, connectedAddress, isCached } = this.store.wallet;
-		const {} = this.store.uiState;
+		const { } = this.store.uiState;
 		// console.log('fetching', connectedAddress)
 
 		if (!connectedAddress) return;

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
-import { Grid, List, ListItem, Dialog, DialogTitle, CircularProgress, DialogContent, Chip } from '@material-ui/core';
+import { Grid, List, ListItem, Dialog, DialogTitle, CircularProgress, Chip } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Loader } from '../Loader';
@@ -11,9 +11,6 @@ import { VaultStake } from './VaultStake';
 import { VaultUnwrap } from './VaultUnwrap';
 import { GeyserUnstake } from './GeyserUnstake';
 import { VaultSymbol } from '../VaultSymbol';
-
-import { geysers as geyserConfig, vaults as vaultConfig } from '../../config/system/contracts';
-import Carousel from 'react-material-ui-carousel';
 
 const useStyles = makeStyles((theme) => ({
 	list: {

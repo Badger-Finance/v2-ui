@@ -6,7 +6,7 @@ import SushiGeyser from './abis/SushiGeyser.json';
 import BadgerTree from './abis/BadgerTree.json';
 import deploy from './deploy-final.json';
 
-export const vaults = [
+export const vaultBatches = [
 	{
 		abi: BadgerVault.abi,
 		underlying: 'token',
@@ -114,7 +114,7 @@ export const vaults = [
 	},
 ];
 
-export const geysers = [
+export const geyserBatches = [
 	{
 		abi: BadgerGeyser.abi,
 		underlying: 'getStakingToken',

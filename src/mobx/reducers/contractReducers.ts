@@ -107,9 +107,9 @@ export const reduceGraphResult = (graphResult: any[]) => {
 		return {
 			address: tokenAddress.toLowerCase(),
 			type: !!element.data.pair ? 'pair' : 'token',
-			symbol: !!element.data.pair
-				? element.data.pair.token0.symbol + '/' + element.data.pair.token1.symbol
-				: element.data.token.symbol,
+			// symbol: !!element.data.pair
+			// 	? element.data.pair.token0.symbol + '/' + element.data.pair.token1.symbol
+			// 	: element.data.token.symbol,
 			name: !!element.data.pair
 				? element.data.pair.token0.name + '/' + element.data.pair.token1.name
 				: element.data.token.name,
@@ -118,19 +118,19 @@ export const reduceGraphResult = (graphResult: any[]) => {
 	});
 
 	// average duplicates
-	const noDupes = reduction.map((result: any, index: number) => {
-		let token = result;
-		if (!!token)
-			graphResult.forEach((duplicate: any, dupIndex: number) => {
-				if (!!result && duplicate.address === result.address) {
-					if (duplicate.ethValue.gt(0)) {
-						// console.log('avaraging', duplicate.ethValue, token.ethValue, token.symbol)
-						token.ethValue = token.ethValue.plus(duplicate.ethValue).dividedBy(2);
-					} else if (dupIndex < index) {
-						token = undefined;
-					}
+	const noDupes = _.compact(reduction).map((token: any, index: number) => {
+		graphResult.forEach((duplicate: any, dupIndex: number) => {
+			if (dupIndex > index && duplicate.address === token.address) {
+				if (duplicate.ethValue.gt(0)) {
+					console.log('avaraging', duplicate.ethValue, token.ethValue, token.symbol)
+
+					token.ethValue = token.ethValue.plus(duplicate.ethValue).dividedBy(2);
+
+				} else if (duplicate.address === token.address) {
+					token = undefined;
 				}
-			});
+			}
+		});
 		return token;
 	});
 
@@ -250,7 +250,7 @@ export const reduceContractConfig = (configs: any[], payload: any = {}) => {
 	let defaults = _.keyBy(_.flatten(contracts), 'address');
 	let batchCall = _.map(configs, (config: any) => {
 		return batchConfig(
-			'vaults',
+			'namespace',
 			config.contracts,
 			!!config.methods ? reduceMethodConfig(config.methods, payload) : [],
 			config.abi,
@@ -297,7 +297,7 @@ export const reduceMethodConfig = (methods: any[], payload: any) => {
 
 		return {
 			name: method.name,
-			args: args,
+			...(args.length > 0 && { args: args }),
 		};
 	});
 
@@ -331,8 +331,8 @@ export const reduceContractsToTokens = (contracts: any) => {
 
 export const generateCurveTokens = () => {
 	return _.keyBy(
-		_.zip(curveTokens.contracts, curveTokens.symbols, curveTokens.names).map((token: any[]) => {
-			return _.zipObject(['address', 'symbol', 'name'], token);
+		_.zip(curveTokens.contracts, curveTokens.names).map((token: any[]) => {
+			return _.zipObject(['address', 'name'], token);
 		}),
 		'address',
 	);
@@ -384,10 +384,12 @@ export class Token extends Contract {
 export class Vault extends Token {
 	public position!: number
 	public holdings!: BigNumber
+	public underlyingToken!: Token
 
-	constructor(store: RootStore, address: string, decimals: number) {
+	constructor(store: RootStore, address: string, decimals: number, underlyingToken: Token) {
 		super(store, address, decimals)
 		this.holdings = new BigNumber(0)
+		this.underlyingToken = underlyingToken
 	}
 
 	deposit(amount: string) {
@@ -404,9 +406,7 @@ export class Vault extends Token {
 
 	update(payload: any) {
 		super.update(payload)
-		if (!!payload.totalSupply) this.holdings = payload.totalSupply;
 		if (!!payload.position) this.position = payload.position;
-		if (!!payload.symbol) this.symbol = payload.symbol;
 	}
 
 }

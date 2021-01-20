@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js';
 
 import { priceEndpoints } from '../../config/system/tokens';
 
-export const graphQuery = (token: any) => {
+export const graphQuery = (address: string) => {
 	return priceEndpoints.map((endpoint: any) => {
 		return fetch(endpoint, {
 			method: 'POST',
@@ -12,13 +12,13 @@ export const graphQuery = (token: any) => {
 			},
 			body: JSON.stringify({
 				query: `{  
-					token(id: "${token.address}") {
+					token(id: "${address.toLowerCase()}") {
 						id
 						derivedETH
 						symbol
 						name
 					}
-					pair(id: "${token.address}") {
+					pair(id: "${address.toLowerCase()}") {
 						id
 						reserveETH
 						totalSupply

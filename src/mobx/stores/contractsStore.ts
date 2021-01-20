@@ -11,13 +11,13 @@ import {
 	generateCurveTokens,
 	reduceBatchResult,
 	reduceContractConfig,
-	reduceMethodConfig,
 	reduceContractsToTokens,
 	reduceCurveResult,
 	reduceGraphResult,
 	reduceGrowth,
 	Vault,
 	Geyser,
+	Token,
 } from '../reducers/contractReducers';
 import { jsonQuery, graphQuery, growthQuery, secondsToBlocks, inCurrency } from '../utils/helpers';
 import { PromiEvent } from 'web3-core';
@@ -27,12 +27,12 @@ import async from 'async';
 import { curveTokens } from '../../config/system/tokens';
 import { EMPTY_DATA, ERC20, RPC_URL, START_BLOCK, START_TIME, WBTC_ADDRESS } from '../../config/constants';
 import {
-	geysers as geyserBatches,
-	geysers,
-	vaults as vaultBatches,
+	geyserBatches,
+	vaultBatches,
 } from '../../config/system/contracts';
 import {
-	decimals as tokensConfig
+	decimals as tokenDecimals,
+	tokenBatches
 } from '../../config/system/tokens';
 
 const infuraProvider = new Web3.providers.HttpProvider(RPC_URL);
@@ -65,14 +65,13 @@ class ContractsStore {
 		this.fetchContracts();
 		this.fetchContracts();
 
-		observe(this as any, 'tokens', (change: any) => {
-			if (!!change.oldValue) {
-				this.calculateVaultGrowth();
-			}
-		});
+		// observe(this as any, 'tokens', (change: any) => {
+		// 	if (!!change.oldValue) {
+		// 		this.calculateVaultGrowth();
+		// 	}
+		// });
 		observe(this.store.wallet, 'currentBlock', (change: any) => {
 			if (!!change.oldValue) {
-				this.fetchContracts();
 				this.fetchContracts();
 			}
 		});
@@ -96,23 +95,62 @@ class ContractsStore {
 		this.store.airdrops.fetchAirdrops();
 		this.fetchContracts();
 	});
-	updateVaults = action((vaults: any) => {
-		this.vaults = _.defaultsDeep(vaults, this.vaults, vaults);
-	});
-	updateTokens = action((tokens: any) => {
-		this.tokens = _.defaultsDeep(tokens, this.tokens, tokens);
-	});
-	updateGeysers = action((geysers: any) => {
-		this.geysers = _.defaultsDeep(geysers, this.geysers, geysers);
-	});
 
+
+	private _fetchingContracts: boolean = false
 	fetchContracts = action(() => {
-		this.fetchTokens();
-		this.fetchVaults();
-		this.fetchGeysers();
+		if (this._fetchingContracts)
+			return
+		this._fetchingContracts = true
+		async.series([
+			(callback: any) => this.fetchTokens(callback),
+			(callback: any) => this.fetchVaults(callback),
+			(callback: any) => this.fetchGeysers(callback),
+		], (err: any, result: any) => {
+			this._fetchingContracts = false
+		})
+
 	})
 
-	fetchVaults = action(() => {
+	fetchTokens = action((callback: any) => {
+		const { connectedAddress } = this.store.wallet;
+
+		let { defaults, batchCall: batch } = reduceContractConfig(tokenBatches, connectedAddress && { connectedAddress });
+		console.log(batch)
+		// prepare curve price query
+		const curveQueries = curveTokens.contracts.map((address: string, index: number) =>
+			jsonQuery(curveTokens.priceEndpoints[index]),
+		);
+
+		// prepare price queries
+		const graphQueries = _.flatten(_.map(tokenBatches[0].contracts, (address: string) => graphQuery(address)));
+
+		Promise.all([
+			batchCall.execute(batch),
+			...curveQueries,
+			...graphQueries]).then((result: any[]) => {
+
+				const tokenContracts = _.keyBy(reduceBatchResult(_.flatten(result.slice(0, 1))), 'address');
+				const tokenPrices = _.keyBy(_.compact(reduceGraphResult(result.slice(1 + curveQueries.length))), 'address');
+				const curvePrices = _.keyBy(
+					reduceCurveResult(result.slice(1, 1 + curveQueries.length), curveTokens.contracts, this.tokens, tokenPrices[WBTC_ADDRESS]),
+					'address',
+				);
+
+				const tokens = _.compact(_.values(_.defaultsDeep(curvePrices, tokenPrices, tokenContracts)))
+				console.log(result.slice(0, 1))
+				tokens.forEach((contract: any) => {
+					let token = this.getOrCreateToken(contract.address)
+					token.update(contract)
+				})
+				callback()
+				// console.log(this.tokens)
+
+			})
+			.catch((error: any) => process.env.NODE_ENV !== 'production' && console.log(error));
+
+	});
+	fetchVaults = action((callback: any) => {
 		const { connectedAddress } = this.store.wallet;
 
 		let { defaults, batchCall: batch } = reduceContractConfig(vaultBatches, connectedAddress && { connectedAddress });
@@ -122,14 +160,17 @@ class ContractsStore {
 			.then((infuraResult: any[]) => {
 				let result = reduceBatchResult(infuraResult)
 				result.forEach((contract: any) => {
-					let vault = this.getOrCreateVault(contract.address)
+					let tokenAddress = contract[defaults[contract.address].underlyingKey]
+					let vault = this.getOrCreateVault(contract.address, this.tokens[tokenAddress])
 					vault.update(_.defaults(contract, defaults[contract.address]))
 				});
+				callback()
+				console.log(this.vaults)
 			})
 			.catch((error: any) => process.env.NODE_ENV !== 'production' && console.log(error));
 	});
 
-	fetchGeysers = action(() => {
+	fetchGeysers = action((callback: any) => {
 		const { connectedAddress } = this.store.wallet;
 
 		let { defaults, batchCall: batch } = reduceContractConfig(geyserBatches, connectedAddress && { connectedAddress });
@@ -143,15 +184,23 @@ class ContractsStore {
 					let geyser = this.getOrCreateGeyser(contract.address, this.vaults[vaultAddress])
 					geyser.update(_.defaults(contract, defaults[contract.address]))
 				});
-				console.log(this.geysers)
+				// console.log(this.geysers)
+				callback()
 			})
 			.catch((error: any) => process.env.NODE_ENV !== 'production' && console.log(error));
 
 	});
 
-	getOrCreateVault = action((address: string) => {
+	getOrCreateToken = action((address: string) => {
+		if (!this.tokens[address]) {
+			return this.tokens[address] = new Token(this.store, address, tokenDecimals[address])
+		} else {
+			return this.tokens[address]
+		}
+	})
+	getOrCreateVault = action((address: string, token?: Token) => {
 		if (!this.vaults[address]) {
-			return this.vaults[address] = new Vault(this.store, address, tokensConfig[address])
+			return this.vaults[address] = new Vault(this.store, address, tokenDecimals[address], token!)
 		} else {
 			return this.vaults[address]
 		}
@@ -163,43 +212,6 @@ class ContractsStore {
 			return this.geysers[address]
 		}
 	})
-
-	fetchTokens = action(() => {
-		const { } = this.store;
-		const { connectedAddress } = this.store.wallet;
-
-		// reduce to {address:{address:,contract:}}
-		this.updateTokens(reduceContractsToTokens({ ...this.vaults, ...this.geysers }));
-
-		//generate curve tokens
-		this.updateTokens(generateCurveTokens());
-
-
-		// prepare curve query
-		const curveBtcPrices = curveTokens.contracts.map((address: string, index: number) =>
-			jsonQuery(curveTokens.priceEndpoints[index]),
-		);
-
-		// prepare price queries
-		const graphQueries = _.flatten(_.map(this.tokens, (token: any) => graphQuery(token)));
-
-		// prepare batch call
-		const ercConfigs = erc20BatchConfig(this.tokens, connectedAddress);
-		const ercBatch = !!ercConfigs ? [batchCall.execute(ercConfigs)] : [];
-
-		// execute promises
-		Promise.all([...curveBtcPrices, ...ercBatch, ...graphQueries]).then((result: any[]) => {
-			const tokenContracts = _.keyBy(reduceBatchResult(_.flatten(result.slice(3, 4))), 'address');
-			const tokenGraph = _.keyBy(_.compact(reduceGraphResult(result.slice(4))), 'address');
-			const curveBtcPrices = _.keyBy(
-				reduceCurveResult(result.slice(0, 3), curveTokens.contracts, this.tokens, tokenGraph[WBTC_ADDRESS]),
-				'address',
-			);
-
-			this.updateTokens(_.defaultsDeep(curveBtcPrices, tokenGraph, tokenContracts, this.tokens));
-
-		});
-	});
 
 	depositAndStake = action((geyser: any, amount: BigNumber, onlyWrapped = false) => {
 		const { tokens, vaults } = this;
@@ -544,31 +556,31 @@ class ContractsStore {
 		);
 	});
 
-	calculateVaultGrowth = action(() => {
-		const { } = this.store.contracts;
-		const { currentBlock } = this.store.wallet;
+	// calculateVaultGrowth = action(() => {
+	// 	const { } = this.store.contracts;
+	// 	const { currentBlock } = this.store.wallet;
 
-		if (!currentBlock) return;
+	// 	if (!currentBlock) return;
 
-		const periods = [
-			Math.max(currentBlock - Math.floor(secondsToBlocks(60 * 5)), START_BLOCK), // 5 minutes ago
-			Math.max(currentBlock - Math.floor(secondsToBlocks(1 * 24 * 60 * 60)), START_BLOCK), // day
-			Math.max(currentBlock - Math.floor(secondsToBlocks(7 * 24 * 60 * 60)), START_BLOCK), // week
-			Math.max(currentBlock - Math.floor(secondsToBlocks(30 * 24 * 60 * 60)), START_BLOCK), // month
-			START_BLOCK, // start
-		];
+	// 	const periods = [
+	// 		Math.max(currentBlock - Math.floor(secondsToBlocks(60 * 5)), START_BLOCK), // 5 minutes ago
+	// 		Math.max(currentBlock - Math.floor(secondsToBlocks(1 * 24 * 60 * 60)), START_BLOCK), // day
+	// 		Math.max(currentBlock - Math.floor(secondsToBlocks(7 * 24 * 60 * 60)), START_BLOCK), // week
+	// 		Math.max(currentBlock - Math.floor(secondsToBlocks(30 * 24 * 60 * 60)), START_BLOCK), // month
+	// 		START_BLOCK, // start
+	// 	];
 
-		const growthPromises = periods.map(growthQuery);
+	// 	const growthPromises = periods.map(growthQuery);
 
-		Promise.all(growthPromises).then((result: any) => {
-			// save the growth
-			const vaultGrowth = reduceGrowth(result, periods, START_TIME);
-			// this.stats._vaultGrowth = vaultGrowth.total
+	// 	Promise.all(growthPromises).then((result: any) => {
+	// 		// save the growth
+	// 		const vaultGrowth = reduceGrowth(result, periods, START_TIME);
+	// 		// this.stats._vaultGrowth = vaultGrowth.total
 
-			// extend vaults with new growth statistics.. pretty hairy maybe we keep this is the UI-state
-			this.updateVaults(vaultGrowth);
-		});
-	});
+	// 		// extend vaults with new growth statistics.. pretty hairy maybe we keep this is the UI-state
+	// 		this.updateVaults(vaultGrowth);
+	// 	});
+	// });
 }
 
 export default ContractsStore;
