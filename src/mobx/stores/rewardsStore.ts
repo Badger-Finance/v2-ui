@@ -1,51 +1,26 @@
 import { extendObservable, action, observe } from 'mobx';
 import Web3 from 'web3';
-import BatchCall from 'web3-batch-call';
-import { AbiItem } from 'web3-utils';
-import { batchConfig, estimateAndSend } from '../utils/web3';
+import { PromiEvent } from 'web3-core';
+import { Contract } from 'web3-eth-contract';
+
+
+import { estimateAndSend } from '../utils/web3';
 import BigNumber from 'bignumber.js';
 import { RootStore } from '../store';
 import _ from 'lodash';
 import {
-	erc20BatchConfig,
-	generateCurveTokens,
-	reduceBatchResult,
-	reduceContractConfig,
-	reduceMethodConfig,
-	reduceContractsToTokens,
-	reduceCurveResult,
 	reduceGeyserSchedule,
-	reduceGraphResult,
-	reduceGrowth,
 	reduceSushiAPIResults,
 	reduceXSushiROIResults,
 } from '../reducers/contractReducers';
-import { jsonQuery, graphQuery, growthQuery, secondsToBlocks, inCurrency, vanillaQuery } from '../utils/helpers';
-import { PromiEvent } from 'web3-core';
-import { Contract } from 'web3-eth-contract';
-import async from 'async';
+import { jsonQuery, vanillaQuery } from '../utils/helpers';
 import { reduceClaims, reduceTimeSinceLastCycle } from '../reducers/statsReducers';
 
-import { curveTokens } from '../../config/system/tokens';
-import { EMPTY_DATA, ERC20, RPC_URL, START_BLOCK, START_TIME, WBTC_ADDRESS } from '../../config/constants';
 import {
 	rewards as rewardsConfig,
 	geysers as geyserConfigs,
-	vaults as vaultsConfigs,
 } from '../../config/system/contracts';
-import { digg, orchestrator, rewards as airdropsConfig, token as diggTokenConfig } from '../../config/system/rebase';
-import { getNextRebase, getRebaseLogs } from '../utils/diggHelpers';
 
-const infuraProvider = new Web3.providers.HttpProvider(RPC_URL);
-const options = {
-	web3: new Web3(infuraProvider),
-	etherscan: {
-		apiKey: 'NXSHKK6D53D3R9I17SR49VX8VITQY7UC6P',
-		delayTime: 300,
-	},
-};
-
-let batchCall = new BatchCall(options);
 
 class RewardsStore {
 	private store!: RootStore;
@@ -64,7 +39,7 @@ class RewardsStore {
 
 	fetchSettRewards = action(() => {
 		const { provider, connectedAddress } = this.store.wallet;
-		const {} = this.store.uiState;
+		const { } = this.store.uiState;
 
 		if (!connectedAddress) return;
 
@@ -160,8 +135,8 @@ class RewardsStore {
 
 	calculateGeyserRewards = action(() => {
 		const { geysers, tokens, vaults } = this.store.contracts;
-		const {} = this.store.uiState;
-		const {} = this.store.wallet;
+		const { } = this.store.uiState;
+		const { } = this.store.wallet;
 
 		const rewardToken = tokens[rewardsConfig.tokens[0]];
 

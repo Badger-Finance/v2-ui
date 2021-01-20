@@ -14,27 +14,20 @@ import {
 	reduceMethodConfig,
 	reduceContractsToTokens,
 	reduceCurveResult,
-	reduceGeyserSchedule,
 	reduceGraphResult,
 	reduceGrowth,
-	reduceSushiAPIResults,
-	reduceXSushiROIResults,
 } from '../reducers/contractReducers';
-import { jsonQuery, graphQuery, growthQuery, secondsToBlocks, inCurrency, vanillaQuery } from '../utils/helpers';
+import { jsonQuery, graphQuery, growthQuery, secondsToBlocks, inCurrency } from '../utils/helpers';
 import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
 import async from 'async';
-import { reduceClaims, reduceTimeSinceLastCycle } from '../reducers/statsReducers';
 
 import { curveTokens } from '../../config/system/tokens';
 import { EMPTY_DATA, ERC20, RPC_URL, START_BLOCK, START_TIME, WBTC_ADDRESS } from '../../config/constants';
 import {
-	rewards as rewardsConfig,
 	geysers as geyserConfigs,
 	vaults as vaultsConfigs,
 } from '../../config/system/contracts';
-import { digg, orchestrator, rewards as airdropsConfig, token as diggTokenConfig } from '../../config/system/rebase';
-import { getNextRebase, getRebaseLogs } from '../utils/diggHelpers';
 
 const infuraProvider = new Web3.providers.HttpProvider(RPC_URL);
 const options = {
@@ -158,7 +151,7 @@ class ContractsStore {
 	});
 
 	fetchTokens = action(() => {
-		const {} = this.store;
+		const { } = this.store;
 		const { connectedAddress } = this.store.wallet;
 
 		// reduce to {address:{address:,contract:}}
@@ -359,7 +352,7 @@ class ContractsStore {
 		);
 	});
 	getAllowance = action((underlyingAsset: any, spender: string, callback: (err: any, result: any) => void) => {
-		const {} = this.store.uiState;
+		const { } = this.store.uiState;
 		const { provider, connectedAddress } = this.store.wallet;
 
 		const web3 = new Web3(provider);
@@ -540,7 +533,7 @@ class ContractsStore {
 	});
 
 	calculateVaultGrowth = action(() => {
-		const {} = this.store.contracts;
+		const { } = this.store.contracts;
 		const { currentBlock } = this.store.wallet;
 
 		if (!currentBlock) return;
