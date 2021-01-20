@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { MobxRouter, startRouter } from 'mobx-router';
 
-import { StoreProvider } from './context/store-context';
+import { StoreProvider } from './mobx/store-context';
 
 //material
 import { Container, CssBaseline } from '@material-ui/core';

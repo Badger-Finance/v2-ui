@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { observer } from 'mobx-react-lite';
-import { StoreContext } from '../../context/store-context';
+import { StoreContext } from '../../mobx/store-context';
 import {
 	Grid,
 	Container,
@@ -133,7 +133,7 @@ export const Collection = observer(() => {
 									variant="contained"
 								>
 									Claim
-									</Button>
+								</Button>
 
 							</ButtonGroup>
 						</ListItemSecondaryAction>

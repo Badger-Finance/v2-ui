@@ -126,10 +126,11 @@ export const inCurrency = (
 	hide = false,
 	preferredDecimals = 5,
 	noCommas = false,
+	exponent = 18
 ): string => {
 	if (!value || value.isNaN()) return inCurrency(new BigNumber(0), currency, hide, preferredDecimals);
 
-	let normal = value.dividedBy(1e18);
+	let normal = value.dividedBy(10 ** exponent);
 	let prefix = !hide ? 'Ξ ' : '';
 	let decimals = preferredDecimals;
 
