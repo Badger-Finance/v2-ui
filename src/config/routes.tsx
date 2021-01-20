@@ -40,8 +40,8 @@ const routes = {
 	digg: new Route<RootStore, QueryParams>({
 		path: '/digg',
 		component: <Digg />,
-		onEnter: () => {
-			//
+		onEnter: (_, params, store) => {
+			store.rebase.fetchRebaseStats();
 		},
 		beforeExit: () => {
 			//

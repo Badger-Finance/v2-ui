@@ -62,7 +62,7 @@ const useStyles = makeStyles((theme) => ({
 		minHeight: '100%',
 		background: 'none',
 		[theme.breakpoints.up('md')]: {
-			padding: theme.spacing(10, 5),
+			padding: theme.spacing(10, 0),
 		},
 	},
 }));
@@ -71,8 +71,8 @@ export const Airdrops = observer(() => {
 	const classes = useStyles();
 
 	const {
-		router: {},
-		wallet: {},
+		router: { },
+		wallet: { },
 		airdrops: { claimBadgerAirdrops, claimDiggAirdrops },
 		uiState: { airdropStats, stats },
 	} = store;
@@ -105,7 +105,7 @@ export const Airdrops = observer(() => {
 			},
 		];
 		return q.map((qualifier, idx) => (
-			<Grid item xs={12} lg={4} style={{ textAlign: 'left' }} key={idx}>
+			<Grid item xs={12} md={4} style={{ textAlign: 'left', marginBottom: '3rem' }} key={idx}>
 				<Typography variant="h4">{qualifier.title}</Typography>
 
 				<Typography variant="body2" color="textSecondary" style={{ margin: '.4rem 0 1rem' }}>
@@ -154,11 +154,11 @@ export const Airdrops = observer(() => {
 
 				<Grid item sm={12} xs={12}>
 					<div className={classes.heroPaper}>
-						<Typography variant="h1" color="textPrimary">
+						<Typography variant="h1" color="textPrimary" style={{ marginBottom: '.5rem' }}>
 							Community rules everything.
 						</Typography>
 						<Typography variant="subtitle1" color="textSecondary">
-							BadgerDAO is dedicated to building products and infrastructure to bring Bitcoin to DeFi.
+							BadgerDAO is dedicated to building products and infrastructure to bring Bitcoin to DeFi.<br />
 							Check below to see if you have airdrops to claim.
 						</Typography>
 					</div>

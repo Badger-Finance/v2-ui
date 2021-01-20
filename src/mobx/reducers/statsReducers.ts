@@ -137,13 +137,11 @@ function formatReturn(amount: Amount, geyser: Geyser) {
 
 export function reduceRebase(stats: any, base: any, token: any) {
 	let info = {
-		oraclePrice: inCurrency(base.ethValue.multipliedBy(stats.oracleRate), 'usd'),
-		btcPrice: inCurrency(base.ethValue, 'usd'),
+		oraclePrice: base.ethValue.multipliedBy(stats.oracleRate),
+		btcPrice: base.ethValue,
 	};
 	return _.defaults(stats, info);
 }
-
-
 
 export function formatSupply(token: Token) {
 	if (!token.totalSupply)

@@ -28,6 +28,7 @@ import {
 import { WBTC_ADDRESS } from '../../config/constants';
 import BigNumber from 'bignumber.js';
 import { ArrowRightAlt } from '@material-ui/icons';
+import { formatPrice } from 'mobx/reducers/statsReducers';
 
 const useStyles = makeStyles((theme) => ({
 	before: {
@@ -92,7 +93,7 @@ const useStyles = makeStyles((theme) => ({
 const Info = observer(() => {
 	const store = useContext(StoreContext);
 	const {
-		uiState: { rebaseStats },
+		uiState: { rebaseStats, currency },
 		contracts: { tokens },
 		rebase: { callRebase },
 	} = store;
@@ -100,19 +101,19 @@ const Info = observer(() => {
 	const previousSupply =
 		rebaseStats.totalSupply && rebaseStats.pastRebase
 			? rebaseStats.totalSupply.minus(
-					new BigNumber(rebaseStats.pastRebase.requestedSupplyAdjustment).dividedBy(
-						Math.pow(10, rebaseStats.decimals),
-					),
-			  )
+				new BigNumber(rebaseStats.pastRebase.requestedSupplyAdjustment).dividedBy(
+					Math.pow(10, rebaseStats.decimals),
+				),
+			)
 			: null;
 	const [nextRebase, setNextRebase] = useState('00:00:00');
 	const newSupply =
 		rebaseStats.oracleRate && rebaseStats.totalSupply
 			? calculateNewSupply(
-					rebaseStats.oracleRate.toNumber(),
-					rebaseStats.totalSupply.toNumber(),
-					rebaseStats.rebaseLag,
-			  )
+				rebaseStats.oracleRate.toNumber(),
+				rebaseStats.totalSupply.toNumber(),
+				rebaseStats.rebaseLag,
+			)
 			: 0;
 	const isPositive = !newSupply || newSupply >= rebaseStats.totalSupply;
 	const percentage =
@@ -134,7 +135,6 @@ const Info = observer(() => {
 	}, 1000);
 
 	const spacer = () => <div className={classes.before} />;
-	const mockDiggMarketCap = 506932023;
 
 	return (
 		<>
@@ -154,25 +154,25 @@ const Info = observer(() => {
 				<Metric
 					metric="Total Supply"
 					value={rebaseStats.totalSupply ? shortenNumbers(rebaseStats.totalSupply, '', 2) : '-'}
-					// submetrics={[
-					// 	{
-					// 		title: 'Change',
-					// 		value: previousSupply
-					// 			? getPercentageChange(rebaseStats.totalSupply, previousSupply).toFixed(2)
-					// 			: '-',
-					// 		change: true,
-					// 	},
-					// 	{
-					// 		title: 'Previous Supply',
-					// 		value: previousSupply ? shortenNumbers(previousSupply, '', 2) : '-',
-					// 	},
-					// ]}
+				// submetrics={[
+				// 	{
+				// 		title: 'Change',
+				// 		value: previousSupply
+				// 			? getPercentageChange(rebaseStats.totalSupply, previousSupply).toFixed(2)
+				// 			: '-',
+				// 		change: true,
+				// 	},
+				// 	{
+				// 		title: 'Previous Supply',
+				// 		value: previousSupply ? shortenNumbers(previousSupply, '', 2) : '-',
+				// 	},
+				// ]}
 				/>
 			</Grid>
 			<Grid item xs={6} md={4}>
 				<Metric
 					metric="Oracle Price"
-					value={rebaseStats.oraclePrice ? rebaseStats.oraclePrice : '-'}
+					value={formatPrice(rebaseStats.oraclePrice, currency)}
 					submetrics={
 						[
 							// { title: 'Change', value: '-13.40', change: true },
@@ -184,7 +184,7 @@ const Info = observer(() => {
 			<Grid item xs={6} md={4}>
 				<Metric
 					metric="BTC Price"
-					value={rebaseStats.btcPrice ? rebaseStats.btcPrice : '-'}
+					value={formatPrice(rebaseStats.btcPrice, currency)}
 					submetrics={
 						[
 							// { title: 'Change', value: '1.043', change: true },

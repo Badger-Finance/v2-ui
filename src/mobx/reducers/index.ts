@@ -42,7 +42,10 @@ class UiState {
 				},
 			},
 			claims: [0, 0, 0],
-			rebaseStats: {},
+			rebaseStats: {
+				oraclePrice: new BigNumber(1),
+				btcPrice: new BigNumber(0),
+			},
 
 			treeStats: { claims: [] },
 			airdropStats: { badger: '0.00000', digg: '0.00000' },
@@ -58,17 +61,18 @@ class UiState {
 		});
 
 		// format vaults and geysers to ui
-		setInterval(() =>
-			this.reduceStats(), 1000)
+		setInterval(() => {
+			this.reduceStats(), this.reduceRebase();
+		}, 1000)
 
-		observe(this.store.contracts as any, 'geysers', (change: any) => {
-			try {
-				alert('a')
-				this.reduceStats();
-			} catch (e) {
-				process.env.NODE_ENV !== 'production' && console.log(e);
-			}
-		});
+		// observe(this.store.contracts as any, 'geysers', (change: any) => {
+		// 	try {
+		// 		alert('a')
+		// 		this.reduceStats();
+		// 	} catch (e) {
+		// 		process.env.NODE_ENV !== 'production' && console.log(e);
+		// 	}
+		// });
 
 		// format rewards for UI
 		// observe(this.store.rewards as any, 'badgerTree', () => {
@@ -90,7 +94,6 @@ class UiState {
 
 		// observe(this.store.rebase as any, 'rebase', () => {
 		// 	try {
-		// 		// skip first update
 		// 		this.reduceRebase();
 		// 	} catch (e) {
 		// 		process.env.NODE_ENV !== 'production' && console.log(e);
@@ -154,7 +157,8 @@ class UiState {
 
 	reduceRebase = action(() => {
 		const { tokens } = this.store.contracts;
-		this.rebaseStats = reduceRebase(this.store.rebase.rebase, tokens[WBTC_ADDRESS], tokens[diggToken.contract]);
+		if (!!this.store.rebase.rebase)
+			this.rebaseStats = reduceRebase(this.store.rebase.rebase, tokens[WBTC_ADDRESS], tokens[diggToken.contract]);
 	});
 
 	// setCollection = action((id: string) => {
