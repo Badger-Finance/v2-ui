@@ -25,7 +25,13 @@ import { Loader } from '../Loader';
 import { BigNumber } from 'bignumber.js';
 import { VaultSymbol } from '../VaultSymbol';
 import { LinkOff } from '@material-ui/icons';
-import { formatBalance, formatBalanceValue, formatHoldingsValue, formatSupply, formatVaultGrowth } from 'mobx/reducers/statsReducers';
+import {
+	formatBalance,
+	formatBalanceValue,
+	formatHoldingsValue,
+	formatSupply,
+	formatVaultGrowth,
+} from 'mobx/reducers/statsReducers';
 import useInterval from '@use-it/interval';
 
 const useStyles = makeStyles((theme) => ({
@@ -60,8 +66,8 @@ const useStyles = makeStyles((theme) => ({
 		overflow: 'hidden',
 		transition: '.2s background ease-out',
 		'&:hover': {
-			background: '#3a3a3a'
-		}
+			background: '#3a3a3a',
+		},
 	},
 	mobileLabel: {
 		textAlign: 'right',
@@ -99,16 +105,11 @@ export const TokenCard = observer((props: any) => {
 	const store = useContext(StoreContext);
 	const classes = useStyles();
 
-	const { vault,
-		isGlobal,
-		onOpen } = props;
+	const { vault, isGlobal, onOpen } = props;
 
-	const {
-		period,
-		currency
-	} = store.uiState
+	const { period, currency } = store.uiState;
 
-	const { geysers } = store.contracts
+	const { geysers } = store.contracts;
 
 	const { underlyingToken: token } = vault;
 
@@ -116,9 +117,9 @@ export const TokenCard = observer((props: any) => {
 		return <div />;
 	}
 	const [update, forceUpdate] = useState<boolean>();
-	useInterval(() => forceUpdate(!update), 1000)
+	useInterval(() => forceUpdate(!update), 1000);
 
-	const { roi, roiTooltip } = formatVaultGrowth(vault, period)
+	const { roi, roiTooltip } = formatVaultGrowth(vault, period);
 
 	return (
 		<>
@@ -142,13 +143,9 @@ export const TokenCard = observer((props: any) => {
 				</Grid>
 
 				<Grid item xs={6} md={2}>
-					<Typography
-						variant="body1"
-						color={'textPrimary'}
-					>
+					<Typography variant="body1" color={'textPrimary'}>
 						{!isGlobal ? formatBalance(token) : formatSupply(vault)}
 					</Typography>
-
 				</Grid>
 				<Grid item className={classes.mobileLabel} xs={6}>
 					<Typography variant="body2" color={'textSecondary'}>
@@ -157,12 +154,8 @@ export const TokenCard = observer((props: any) => {
 				</Grid>
 				<Grid item xs={6} md={2}>
 					<Tooltip enterDelay={0} leaveDelay={300} arrow placement="left" title={roiTooltip}>
-						<Typography
-							style={{ cursor: 'default' }}
-							variant="body1"
-							color={'textPrimary'}
-						>
-							{roi}
+						<Typography style={{ cursor: 'default' }} variant="body1" color={'textPrimary'}>
+							{!!roi ? roi : 0}
 						</Typography>
 					</Tooltip>
 				</Grid>
@@ -179,15 +172,14 @@ export const TokenCard = observer((props: any) => {
 
 				<Grid item xs={12} md={2}>
 					<ButtonGroup variant="outlined" className={classes.cardActions}>
-
 						<Button
 							onClick={() => onOpen(vault)}
 							variant={'outlined'}
 							color={vault.balance.gt(0) || token.balance.gt(0) ? 'primary' : 'default'}
 							size="small"
 						>
-							Deposit
-							</Button>
+							Open
+						</Button>
 					</ButtonGroup>
 				</Grid>
 			</Grid>
