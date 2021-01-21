@@ -43,14 +43,14 @@ class AirdropStore {
 
 		if (!connectedAddress) return;
 
-		console.log('fetching', connectedAddress)
 
 		const web3 = new Web3(provider);
 		const rewardsTree = new web3.eth.Contract(airdropsConfig.abi as any, airdropsConfig.contract);
 		const diggToken = new web3.eth.Contract(diggTokenConfig.abi as any, diggTokenConfig.contract);
-		const checksumAddress = Web3.utils.toChecksumAddress(connectedAddress);
+		const checksumAddress = connectedAddress.toLowerCase();
+		console.log('fetching', `${airdropsConfig.endpoint}/${checksumAddress}`)
 
-		jsonQuery(`${airdropsConfig.endpoint}/1337/${checksumAddress}`).then((merkleProof: any) => {
+		jsonQuery(`${airdropsConfig.endpoint}/${checksumAddress}`).then((merkleProof: any) => {
 			// console.log('proof', new BigNumber(Web3.utils.hexToNumberString(merkleProof.amount)).toString())
 			if (!merkleProof.error) {
 				Promise.all([
@@ -59,7 +59,7 @@ class AirdropStore {
 						.sharesToFragments(new BigNumber(Web3.utils.hexToNumberString(merkleProof.amount)).toFixed(0))
 						.call(),
 				]).then((result: any[]) => {
-					// console.log(new BigNumber(result[1]).multipliedBy(1e9))
+					console.log(new BigNumber(result[1]).multipliedBy(1e9))
 					this.airdrops = {
 						digg: !result[0] ? new BigNumber(result[1]).multipliedBy(1e9) : new BigNumber(0),
 

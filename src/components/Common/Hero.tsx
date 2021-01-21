@@ -39,6 +39,16 @@ const useStyles = makeStyles((theme) => ({
 		[theme.breakpoints.up('md')]: {
 			marginBottom: '0'
 		},
+	},
+	wallet: {
+		position: 'absolute',
+		top: theme.spacing(10),
+		right: theme.spacing(3),
+		[theme.breakpoints.up('md')]: {
+			marginBottom: '0',
+			top: theme.spacing(3),
+
+		},
 	}
 }));
 
@@ -58,7 +68,9 @@ const Hero = observer((props: any) => {
 					{subtitle}
 				</Typography>
 			</div>
-			<Wallet />
+			<div className={classes.wallet}>
+				<Wallet />
+			</div>
 		</div>
 	);
 });

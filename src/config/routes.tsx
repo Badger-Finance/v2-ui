@@ -8,8 +8,21 @@ import { Collection } from '../components/Collection';
 import { RootStore } from '../mobx/store';
 import { Airdrops } from '../components/Airdrops';
 import { Digg } from '../components/Digg';
+import { Locked } from 'components/Common/Locked';
 
 const routes = {
+	locked: new Route<RootStore>({
+		path: '/locked',
+		component: <Locked />,
+		onEnter: (_, params, store) => {
+		},
+		beforeExit: () => {
+			//
+		},
+		onParamsChange: () => {
+			//
+		},
+	}),
 	home: new Route<RootStore>({
 		path: '/',
 		component: <Collection />,

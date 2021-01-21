@@ -20,7 +20,7 @@ import {
 	reduceXSushiROIResults,
 	reduceSushiAPIResults,
 } from '../reducers/contractReducers';
-import { jsonQuery, graphQuery, growthQuery, secondsToBlocks, inCurrency, vanillaQuery } from '../utils/helpers';
+import { jsonQuery, graphQuery, growthQuery, secondsToBlocks, vanillaQuery } from '../utils/helpers';
 import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
 import async from 'async';
@@ -445,14 +445,16 @@ class ContractsStore {
 		const { queueNotification, setTxStatus } = this.store.uiState;
 		const { provider, connectedAddress } = this.store.wallet;
 
-		const underlyingAsset = this.tokens[geyser[geyser.underlyingKey]];
+		const underlyingAsset = geyser.vault.underlyingToken;
+		console.log('amount: ', amount.toString());
 
 		const web3 = new Web3(provider);
 		const geyserContract = new web3.eth.Contract(geyser.abi, geyser.address);
 		const method = geyserContract.methods.stake(amount.toFixed(0, BigNumber.ROUND_DOWN), EMPTY_DATA);
-
 		queueNotification(
-			`Sign the transaction to stake ${inCurrency(amount, 'eth', true)} ${underlyingAsset.symbol}`,
+			`Sign the transaction to stake ${formatAmount({ amount: amount, token: underlyingAsset })} ${
+				underlyingAsset.symbol
+			}`,
 			'info',
 		);
 
@@ -468,7 +470,9 @@ class ContractsStore {
 					})
 					.on('receipt', () => {
 						queueNotification(
-							`Successfully deposited ${inCurrency(amount, 'eth', true)} ${underlyingAsset.symbol}`,
+							`Successfully deposited ${formatAmount({ amount: amount, token: underlyingAsset })} ${
+								underlyingAsset.symbol
+							}`,
 							'success',
 						);
 						this.fetchContracts();
@@ -491,7 +495,9 @@ class ContractsStore {
 		const method = geyserContract.methods.unstake(amount.toFixed(0, BigNumber.ROUND_DOWN), EMPTY_DATA);
 
 		queueNotification(
-			`Sign the transaction to unstake ${inCurrency(amount, 'eth', true)} ${geyser.vault.underlyingToken.symbol}`,
+			`Sign the transaction to unstake ${formatAmount({ amount: amount, token: geyser.vault.underlyingToken })} ${
+				geyser.vault.underlyingToken.symbol
+			}`,
 			'info',
 		);
 
@@ -507,9 +513,10 @@ class ContractsStore {
 					})
 					.on('receipt', () => {
 						queueNotification(
-							`Successfully unstaked ${inCurrency(amount, 'eth', true)} ${
-								geyser.vault.underlyingToken.symbol
-							}`,
+							`Successfully unstaked ${formatAmount({
+								amount: amount,
+								token: geyser.vault.underlyingToken,
+							})} ${geyser.vault.underlyingToken.symbol}`,
 							'success',
 						);
 						this.fetchContracts();
@@ -581,7 +588,12 @@ class ContractsStore {
 		let method = underlyingContract.methods.withdraw(amount.toFixed(0, BigNumber.ROUND_DOWN));
 		if (all) method = underlyingContract.methods.withdrawAll();
 
-		queueNotification(`Sign the transaction to unwrap ${inCurrency(amount, 'eth', true)} ${vault.symbol}`, 'info');
+		queueNotification(
+			`Sign the transaction to unwrap ${formatAmount({ amount: amount, token: vault.underlyingToken })} ${
+				vault.symbol
+			}`,
+			'info',
+		);
 
 		estimateAndSend(
 			web3,
@@ -595,7 +607,9 @@ class ContractsStore {
 					})
 					.on('receipt', () => {
 						queueNotification(
-							`Successfully withdrew ${inCurrency(amount, 'eth', true)} ${vault.symbol}`,
+							`Successfully withdrew ${formatAmount({ amount: amount, token: vault.underlyingToken })} ${
+								vault.symbol
+							}`,
 							'success',
 						);
 						this.fetchContracts();

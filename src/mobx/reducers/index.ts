@@ -6,6 +6,7 @@ import { reduceAirdrops, reduceContractsToStats, reduceRebase } from './statsRed
 import { WBTC_ADDRESS } from 'config/constants';
 import { token as diggToken } from 'config/system/rebase';
 import BigNumber from 'bignumber.js';
+import views from 'config/routes'
 
 class UiState {
 	private readonly store!: RootStore;
@@ -26,6 +27,8 @@ class UiState {
 	public notification: any = {};
 	public gasPrice!: string;
 
+	public locked!: boolean;
+
 	public txStatus?: string;
 
 	constructor(store: RootStore) {
@@ -33,6 +36,7 @@ class UiState {
 
 		extendObservable(this, {
 			collection: {},
+			locked: window.localStorage.getItem('locked') === "YES",
 			stats: {
 				stats: {
 					tvl: new BigNumber(0),
@@ -64,6 +68,8 @@ class UiState {
 		setInterval(() => {
 			this.reduceStats(); this.reduceRebase(); this.reduceAirdrops(); this.reduceTreeRewards()
 		}, 1000)
+
+
 
 		// observe(this.store.contracts as any, 'geysers', (change: any) => {
 		// 	try {
@@ -182,6 +188,16 @@ class UiState {
 	setPeriod = action((period: string) => {
 		this.period = period;
 		window.localStorage.setItem('selectedPeriod', period);
+	});
+	unlockApp = action((password: string) => {
+		this.locked = !(password === "BADger")
+
+		if (this.locked) window.localStorage.setItem('locked', 'YES');
+		else window.localStorage.removeItem('locked');
+
+		if (!this.locked)
+			this.store.router.goTo(views.home)
+
 	});
 	openSidebar = action(() => {
 		this.sidebarOpen = true;
