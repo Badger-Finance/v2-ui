@@ -13,8 +13,8 @@ const routes = {
 	home: new Route<RootStore>({
 		path: '/',
 		component: <Collection />,
-		onEnter: () => {
-			//
+		onEnter: (_, params, store) => {
+			store.rewards.fetchSettRewards();
 		},
 		beforeExit: () => {
 			//

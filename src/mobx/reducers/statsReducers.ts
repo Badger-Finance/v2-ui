@@ -64,7 +64,9 @@ export const reduceContractsToStats = (store: RootStore) => {
 
 export const reduceClaims = (merkleProof: any, claimedRewards: any[]) => {
 	return merkleProof.cumulativeAmounts.map((amount: number, i: number) => {
-		return inCurrency(new BigNumber(amount).minus(claimedRewards[1][i]), 'eth', true);
+		return inCurrency(new BigNumber(amount)
+			.minus(claimedRewards[1][i])
+			.dividedBy(1e18), 'eth', true);
 	});
 };
 export const reduceAirdrops = (airdrops: any, store: RootStore) => {
@@ -214,13 +216,13 @@ export function formatVaultGrowth(vault: Vault, period: string) {
 	let tooltip = ''
 	roiArray.forEach((payload: any) => {
 		total = total.plus(payload.total)
-		tooltip += '+ ' + payload.tooltip
+		tooltip += ' + ' + payload.tooltip
 	});
 
 	if (!!vault.geyser) {
 		let geyserGrowth = formatGeyserGrowth(vault.geyser, period)
 
-		tooltip += '+ ' + geyserGrowth.tooltip
+		tooltip += ' + ' + geyserGrowth.tooltip
 		total = total.plus(geyserGrowth.total)
 	}
 
@@ -253,7 +255,7 @@ export function formatVaultGrowth(vault: Vault, period: string) {
 
 	return {
 		roi: formatPercentage(total) + '%',
-		roiTooltip: tooltip.slice(2)
+		roiTooltip: tooltip.slice(3)
 	}
 
 }

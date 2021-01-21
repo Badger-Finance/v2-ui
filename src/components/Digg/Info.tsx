@@ -267,9 +267,7 @@ const Info = observer(() => {
 						>
 							How it works
 						</Button>
-						<Button variant="outlined" fullWidth size="small" color="default">
-							Get DIGG
-						</Button>
+
 					</CardActions>
 				</Card>
 			</Grid>

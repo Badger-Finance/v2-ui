@@ -108,7 +108,7 @@ export const Collection = observer(() => {
 	const {
 		wallet: { connectedAddress, isCached },
 		contracts: { tokens },
-		rewards: { claimGeysers },
+		rewards: { claimGeysers, badgerTree },
 		uiState: {
 			stats,
 
@@ -116,7 +116,6 @@ export const Collection = observer(() => {
 			period,
 			setCurrency,
 			setPeriod,
-			treeStats,
 			hideZeroBal,
 			setHideZeroBal,
 		},
@@ -132,7 +131,7 @@ export const Collection = observer(() => {
 	const spacer = () => <div className={classes.before} />;
 
 	const availableRewards = () => {
-		return treeStats.claims.map((claim: string, idx: number) => (
+		return badgerTree.claims.map((claim: string, idx: number) => (
 			<Grid item xs={12} md={6}>
 				<Paper className={classes.statPaper}>
 					<List style={{ padding: 0 }}>
@@ -253,7 +252,7 @@ export const Collection = observer(() => {
 					</Grid>
 					{spacer()}
 
-					{!!connectedAddress && treeStats.claims.length > 0 && (
+					{!!connectedAddress && badgerTree.claims.length > 0 && (
 						<>
 							<Grid item xs={12} style={{ textAlign: 'center', paddingBottom: 0 }}>
 								<Typography variant="subtitle1" color="textPrimary">

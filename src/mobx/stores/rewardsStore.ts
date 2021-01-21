@@ -34,6 +34,10 @@ class RewardsStore {
 			badgerTree: { cycle: '...', timeSinceLastCycle: '0h 0m', claims: [0] },
 		});
 
+		observe(this.store.wallet, 'connectedAddress', (change: any) => {
+			this.fetchSettRewards();
+		});
+
 		setInterval(this.fetchSettRewards, 6e4);
 	}
 
