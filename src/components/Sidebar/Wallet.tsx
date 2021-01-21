@@ -51,36 +51,23 @@ export const Wallet = observer(() => {
 		}
 	};
 
-	if (!!connectedAddress)
-		return (
-			<Button
-				variant="outlined"
-				color="default"
-				// size="small"
-				onClick={() => {
-					store.wallet.walletReset();
-				}}
-				startIcon={<AccountBalanceWallet />}
-				endIcon={<div className={!!connectedAddress ? classes.greenDot : classes.redDot} />}
-			>
-
-				{!!connectedAddress ? shortenAddress(connectedAddress) : 'DISCONNECTED'}
-
-			</Button>
-		);
-	else
-		return (
-			<ListItem button onClick={connect} color="primary">
-				<ListItemIcon>
-					<img
-						alt=""
-						src={require('assets/sidebar/wallet.png')}
-						style={{ width: '1.1rem', height: '1.1rem', display: 'inline-block' }}
-					/>
-				</ListItemIcon>
-				<ListItemText primary={!!connectedAddress ? shortenAddress(connectedAddress) : 'DISCONNECTED'} />
-
-				<div className={!!connectedAddress ? classes.greenDot : classes.redDot} />
-			</ListItem>
-		);
+	return (
+		<Button
+			disableElevation
+			variant="contained"
+			color="default"
+			size="small"
+			onClick={
+				!!connectedAddress
+					? () => {
+						store.wallet.walletReset();
+					}
+					: connect
+			}
+			startIcon={<AccountBalanceWallet />}
+			endIcon={<div className={!!connectedAddress ? classes.greenDot : classes.redDot} />}
+		>
+			{!!connectedAddress ? shortenAddress(connectedAddress) : 'CLICK TO CONNECT'}
+		</Button>
+	);
 });

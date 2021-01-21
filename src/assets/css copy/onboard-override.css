@@ -1,0 +1,39 @@
+.bn-onboard-custom {
+	z-index: 1000;
+}
+.bn-onboard-modal-content {
+	background-color: #424242 !important;
+}
+.bn-onboard-icon-button:hover {
+	background-color: #242424 !important;
+}
+.bn-onboard-dark-mode-background-hover:hover {
+	background-color: #242424 !important;
+}
+.bn-onboard-custom.bn-onboard-dark-mode-link {
+	color: #f2a52b !important;
+	border-color: #f2a52b !important;
+}
+.bn-onboard-selected-wallet {
+	background-color: #242424 !important;
+}
+.bn-onboard-dark-mode-close-background {
+	background-color: #242424 !important;
+}
+
+.bn-onboard-icon-button,
+.bn-onboard-dark-mode-link {
+	border-radius: 9px !important;
+}
+.bn-onboard-modal-content-header-icon {
+	display: none !important;
+}
+
+.bn-onboard-modal-content-header-heading {
+	margin: 0 !important;
+}
+.bn-onboard-select-info-container span {
+	color: #fff !important;
+	font-size: 0.8rem;
+	font-weight: 500;
+}
