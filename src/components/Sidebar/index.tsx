@@ -63,7 +63,6 @@ const useStyles = makeStyles((theme) => ({
 		justifyContent: 'space-between',
 		'&:hover': {
 			backgroundColor: "#070707",
-
 		},
 		// paddingLeft: theme.spacing(1),
 		padding: theme.spacing(0.5, 2),

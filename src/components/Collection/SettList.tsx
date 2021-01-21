@@ -124,7 +124,7 @@ export const SettList = observer((props: any) => {
 			);
 		});
 
-		return <List className={classes.list}>{list}</List>;
+		return <List key={contracts[0]} className={classes.list}>{list}</List>;
 	};
 
 	const walletVaults = () => {

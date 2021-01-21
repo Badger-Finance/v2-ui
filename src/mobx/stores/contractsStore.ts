@@ -25,7 +25,7 @@ import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
 import async from 'async';
 
-import { curveTokens, names, symbols } from '../../config/system/tokens';
+import { curveTokens, names, symbols, tokenMap } from '../../config/system/tokens';
 import { EMPTY_DATA, ERC20, RPC_URL, START_BLOCK, START_TIME, WBTC_ADDRESS, XSUSHI_ADDRESS } from '../../config/constants';
 import {
 	geyserBatches,
@@ -51,9 +51,9 @@ let batchCall = new BatchCall(options);
 class ContractsStore {
 	private store!: RootStore;
 
-	public tokens?: any; // inputs to vaults and geysers
-	public vaults?: any; // vaults contract data
-	public geysers?: any; // geyser contract data
+	public tokens?: any = {}; // inputs to vaults and geysers
+	public vaults?: any = {}; // vaults contract data
+	public geysers?: any = {}; // geyser contract data
 
 	constructor(store: RootStore) {
 		this.store = store;
@@ -133,7 +133,7 @@ class ContractsStore {
 
 		// prepare price queries
 		const graphQueries = _.flatten(_.map(tokenBatches[0].contracts, (address: string) => graphQuery(address)));
-		console.log(batch)
+		// console.log(batch)
 		Promise.all([
 			batchCall.execute(batch),
 			...curveQueries,
@@ -155,10 +155,9 @@ class ContractsStore {
 					)))
 
 				tokens.forEach((contract: any) => {
-					let token = this.getOrCreateToken(contract.address)
+					const token = this.getOrCreateToken(contract.address)
 					token.update(contract)
 				})
-
 				callback()
 
 			})
@@ -176,13 +175,13 @@ class ContractsStore {
 		const xSushiQuery = vanillaQuery(sushiBatches.growthEndpoints![1]);
 		const masterChefQuery = vanillaQuery(sushiBatches.growthEndpoints![2].concat(tokenBatches[0].contracts.join(';')));
 
-
 		Promise.all([batchCall.execute(batch), ...growthQueries, masterChefQuery, xSushiQuery])
 			.then((queryResult: any[]) => {
 
 				let result = reduceBatchResult(queryResult[0])
 				let masterChefResult: any = queryResult.slice(growthQueries.length + 1, growthQueries.length + 2)
 				let xSushiResult: any = queryResult.slice(growthQueries.length + 2)
+				// console.log(queryResult[0])
 
 				const vaultGrowth = reduceGrowth(queryResult.slice(1, growthQueries.length + 1), periods, START_TIME);
 
@@ -190,9 +189,9 @@ class ContractsStore {
 				const newSushiRewards = reduceSushiAPIResults(masterChefResult[0], sushiBatches.contracts);
 
 				result.forEach((contract: any) => {
-					let tokenAddress = contract[defaults[contract.address].underlyingKey]
-					if (!this.tokens[tokenAddress]) {
-						return console.log(contract.address, this.tokens)
+					let tokenAddress = tokenMap[contract.address]
+					if (!tokenAddress) {
+						return console.log(tokenMap[contract.address], tokenMap, contract.address)
 					}
 					let vault = this.getOrCreateVault(contract.address, this.tokens[tokenAddress], defaults[contract.address].abi)
 
@@ -205,7 +204,6 @@ class ContractsStore {
 					vault.update(_.defaults(contract, defaults[contract.address], { growth: _.compact([growth, xSushiGrowth]) }))
 				});
 				callback()
-				console.log(this.vaults)
 			})
 			.catch((error: any) => process.env.NODE_ENV !== 'production' && console.log(error));
 	});
@@ -221,6 +219,9 @@ class ContractsStore {
 				let result = reduceBatchResult(infuraResult)
 				result.forEach((contract: any) => {
 					let vaultAddress = contract[defaults[contract.address].underlyingKey]
+					if (!this.vaults[vaultAddress]) {
+						console.log(this.vaults, vaultAddress)
+					}
 					let geyser: Geyser = this.getOrCreateGeyser(contract.address, this.vaults[vaultAddress], defaults[contract.address].abi)
 					geyser.update(_.defaults(contract, defaults[contract.address]))
 				});
@@ -232,21 +233,25 @@ class ContractsStore {
 
 	getOrCreateToken = action((address: string) => {
 		if (!this.tokens[address]) {
-			return this.tokens[address] = new Token(this.store, address, tokenDecimals[address])
+			this.tokens[address] = new Token(this.store, address, tokenDecimals[address])
+			return this.tokens[address]
 		} else {
 			return this.tokens[address]
 		}
 	})
 	getOrCreateVault = action((address: string, token?: Token, abi?: any) => {
 		if (!this.vaults[address]) {
-			return this.vaults[address] = new Vault(this.store, address, tokenDecimals[address], token!, abi)
+			this.vaults[address] = new Vault(this.store, address, tokenDecimals[address], token!, abi)
+			return this.vaults[address]
 		} else {
 			return this.vaults[address]
 		}
 	})
 	getOrCreateGeyser = action((address: string, vault?: Vault, abi?: any) => {
 		if (!this.vaults[address]) {
-			return this.geysers[address] = new Geyser(this.store, address, vault!, abi)
+			this.geysers[address] = new Geyser(this.store, address, vault!, abi)
+			return this.geysers[address]
+
 		} else {
 			return this.geysers[address]
 		}
