@@ -125,6 +125,7 @@ export const SettList = observer((props: any) => {
 	const renderVaults = (contracts: any) => {
 		const list = _.map(contracts, (address: string) => {
 			const vault: Vault = vaults[address.toLowerCase()];
+
 			return (
 				!!vault && (
 					<ListItem key={address} className={classes.listItem}>
@@ -239,16 +240,16 @@ export const SettList = observer((props: any) => {
 					{vault.geyser ? (
 						<Tab onClick={() => setDialogMode('geyser')} label={dialogOut ? 'Unstake' : 'Stake'}></Tab>
 					) : (
-						<Tooltip
-							enterDelay={0}
-							leaveDelay={300}
-							arrow
-							placement="bottom"
-							title={`Staking not enabled for ${vault.underlyingToken.symbol}`}
-						>
-							<Tab label={dialogOut ? 'Unstake' : 'Stake'}></Tab>
-						</Tooltip>
-					)}
+							<Tooltip
+								enterDelay={0}
+								leaveDelay={300}
+								arrow
+								placement="bottom"
+								title={`Staking not enabled for ${vault.underlyingToken.symbol}`}
+							>
+								<Tab label={dialogOut ? 'Unstake' : 'Stake'}></Tab>
+							</Tooltip>
+						)}
 				</Tabs>
 
 				<DialogTitle disableTypography style={{ marginBottom: '.5rem' }}>

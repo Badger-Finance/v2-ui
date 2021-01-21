@@ -1,0 +1,14 @@
+@font-face {
+	font-family: 'PlatformRegular';
+	src: url('../fonts/platform/platform-regular.eot');
+	src: url('../fonts/platform/platform-regular.eot') format('embedded-opentype'),
+		url('../fonts/platform/platform-regular.woff') format('woff'),
+		url('../fonts/platform/platform-regular.ttf') format('truetype'),
+		url('../fonts/platform/platform-regular.svg#PlatformRegular') format('svg');
+}
+
+body {
+	overflow-y: scroll; /* Show vertical scrollbar */
+	/* background: url(../holograms.png) -22px -50px fixed; */
+	background-size: 130px;
+}
