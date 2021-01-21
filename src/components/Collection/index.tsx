@@ -90,6 +90,16 @@ const useStyles = makeStyles((theme) => ({
 	rewardItem: {
 		padding: 0,
 	},
+
+	heroPaper: {
+		padding: theme.spacing(0, 0, 3),
+		minHeight: '100%',
+		background: 'none',
+		textAlign: 'center',
+		[theme.breakpoints.up('md')]: {
+			padding: theme.spacing(0, 0, 3),
+		},
+	},
 }));
 export const Collection = observer(() => {
 	const store = useContext(StoreContext);
@@ -152,6 +162,16 @@ export const Collection = observer(() => {
 			<Container className={classes.root}>
 				<Grid container spacing={1} justify="center">
 					{spacer()}
+					<Grid item sm={12} xs={12}>
+						<div className={classes.heroPaper}>
+							<Typography variant="h4" color="textPrimary">
+								Sett – Bitcoin Strategies
+						</Typography>
+							<Typography variant="subtitle1" color="textSecondary">
+								Participate in the most powerful Bitcoin vaults available
+						</Typography>
+						</div>
+					</Grid>
 					<Grid item sm={6}>
 						<FormControlLabel
 							control={

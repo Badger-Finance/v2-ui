@@ -48,7 +48,8 @@ const useStyles = makeStyles((theme) => ({
 		// justifyContent: 'space-between',
 		'&:hover': {
 			fontWeight: 'bold',
-			backgroundColor: theme.palette.background.default,
+			backgroundColor: 'transparent',
+			cursor: 'default'
 		},
 		// paddingLeft: theme.spacing(1),
 		padding: theme.spacing(1, 3),
@@ -58,20 +59,20 @@ const useStyles = makeStyles((theme) => ({
 		fontSize: '.8rem',
 	},
 	secondaryListItem: {
-		cursor: 'pointer',
+		cursor: 'default',
 		justifyContent: 'space-between',
 		'&:hover': {
-			fontWeight: 'bold',
+			backgroundColor: "#070707",
+
 		},
 		// paddingLeft: theme.spacing(1),
 		padding: theme.spacing(0.5, 2),
 	},
 	secondarySubListItem: {
-		cursor: 'pointer',
+		cursor: 'default',
 		justifyContent: 'space-between',
 		background: ' rgba(0, 0, 0, .2)',
 		'&:hover': {
-			fontWeight: 'bold',
 		},
 		// paddingLeft: theme.spacing(1),
 		padding: theme.spacing(0.5, 2, 0.5, 3),
@@ -84,6 +85,10 @@ const useStyles = makeStyles((theme) => ({
 		width: 'auto',
 		border: 0,
 		padding: theme.spacing(1, 2),
+		'&:hover': {
+			backgroundColor: "#070707",
+			cursor: 'default'
+		},
 	},
 
 	currency: {
