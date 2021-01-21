@@ -53,14 +53,15 @@ export const Wallet = observer(() => {
 
 	return (
 		<Button
-			variant="outlined"
+			disableElevation
+			variant="contained"
 			color="default"
-			// size="small"
+			size="small"
 			onClick={
 				!!connectedAddress
 					? () => {
-							store.wallet.walletReset();
-					  }
+						store.wallet.walletReset();
+					}
 					: connect
 			}
 			startIcon={<AccountBalanceWallet />}
