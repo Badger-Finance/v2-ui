@@ -94,7 +94,7 @@ export const VaultDeposit = observer((props: any) => {
 					className={classes.field}
 					variant="outlined"
 					fullWidth
-					placeholder="Type an amount to stake"
+					placeholder="Type an amount to deposit"
 				/>
 
 

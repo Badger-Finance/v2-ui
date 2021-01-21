@@ -24,7 +24,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Loader } from '../Loader';
 import { BigNumber } from 'bignumber.js';
 import { VaultSymbol } from '../VaultSymbol';
-import { LinkOff } from '@material-ui/icons';
+import { ZoomOutMap } from '@material-ui/icons';
 import {
 	formatBalance,
 	formatBalanceValue,
@@ -66,8 +66,12 @@ const useStyles = makeStyles((theme) => ({
 		alignItems: 'center',
 		overflow: 'hidden',
 		transition: '.2s background ease-out',
+		cursor: 'pointer',
 		'&:hover': {
 			background: '#3a3a3a',
+		},
+		'&:active': {
+			background: theme.palette.background.default,
 		},
 	},
 	mobileLabel: {
@@ -124,7 +128,10 @@ export const TokenCard = observer((props: any) => {
 
 	return (
 		<>
-			<Grid container className={classes.border}>
+			<Grid
+				onClick={() => onOpen(vault)}
+
+				container className={classes.border}>
 				<Grid item xs={12} md={4} className={classes.name}>
 					<VaultSymbol token={token} />
 					<Typography variant="body1">{token.name}</Typography>
@@ -171,17 +178,12 @@ export const TokenCard = observer((props: any) => {
 					{!isGlobal ? formatBalanceValue(vault.underlyingToken, currency) : formatHoldingsValue(vault, currency)}
 				</Grid>
 
-				<Grid item xs={12} md={2}>
-					<ButtonGroup variant="outlined" className={classes.cardActions}>
-						<Button
-							onClick={() => onOpen(vault)}
-							variant={'outlined'}
-							color={vault.balance.gt(0) || token.balance.gt(0) ? 'primary' : 'default'}
-							size="small"
-						>
-							Open
-						</Button>
-					</ButtonGroup>
+				<Grid item xs={12} md={2} style={{ textAlign: 'right' }}>
+					<IconButton
+						color={vault.balance.gt(0) || token.balance.gt(0) ? 'primary' : 'default'}
+					>
+						<ZoomOutMap />
+					</IconButton>
 				</Grid>
 			</Grid>
 		</>

@@ -41,6 +41,7 @@ class UiState {
 				stats: {
 					tvl: new BigNumber(0),
 					wallet: new BigNumber(0),
+					deposits: new BigNumber(0),
 					portfolio: new BigNumber(0),
 					badger: new BigNumber(0)
 				},

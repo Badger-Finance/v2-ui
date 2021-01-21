@@ -2,9 +2,9 @@ import React from 'react';
 import { observer } from 'mobx-react-lite';
 import { useContext } from 'react';
 import { StoreContext } from '../../mobx/store-context';
-import { Button, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
+import { Button, Select, MenuItem } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { AccountBalanceWallet } from '@material-ui/icons';
+import { AccountBalanceWallet, LocalGasStation } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -26,6 +26,12 @@ const useStyles = makeStyles((theme) => ({
 		marginLeft: theme.spacing(0.4),
 		borderRadius: theme.spacing(0.4),
 		background: theme.palette.success.main,
+	}, select: {
+		height: '2.1rem',
+		fontSize: '.9rem',
+		overflow: 'hidden',
+		marginRight: theme.spacing(1),
+		minWidth: '93px',
 	},
 }));
 
@@ -33,6 +39,8 @@ export const Wallet = observer(() => {
 	const classes = useStyles();
 
 	const store = useContext(StoreContext);
+	const { gasPrice, setGasPrice } = store.uiState
+	const { gasPrices } = store.wallet
 	const wsOnboard = store.wallet.onboard;
 	const connectedAddress = store.wallet.connectedAddress;
 
@@ -52,22 +60,37 @@ export const Wallet = observer(() => {
 	};
 
 	return (
-		<Button
-			disableElevation
-			variant="contained"
-			color="default"
-			size="small"
-			onClick={
-				!!connectedAddress
-					? () => {
+		<div style={{ display: 'flex' }}>
+			<Select
+				variant="outlined"
+				color="secondary"
+				value={gasPrice}
+				onChange={(v: any) => setGasPrice(v.target.value)}
+				className={classes.select}
+				startAdornment={<LocalGasStation style={{ cursor: 'pointer', fontSize: '1.2rem', marginRight: '.8rem' }} />}
+			>
+				<MenuItem value={'slow'}>{gasPrices['slow'].toFixed(0)}</MenuItem>
+				<MenuItem value={'standard'}>{gasPrices['standard'].toFixed(0)}</MenuItem>
+				<MenuItem value={'rapid'}>{gasPrices['rapid'].toFixed(0)}</MenuItem>
+			</Select>
+			<Button
+				disableElevation
+				variant="contained"
+				color="secondary"
+
+				// size="small"
+				onClick={() => {
+					if (!connectedAddress)
+						connect();
+					else
 						store.wallet.walletReset();
-					}
-					: connect
-			}
-			startIcon={<AccountBalanceWallet />}
-			endIcon={<div className={!!connectedAddress ? classes.greenDot : classes.redDot} />}
-		>
-			{!!connectedAddress ? shortenAddress(connectedAddress) : 'CLICK TO CONNECT'}
-		</Button>
+
+				}}
+				endIcon={<div className={!!connectedAddress ? classes.greenDot : classes.redDot} />}
+			>
+
+				{!!connectedAddress ? shortenAddress(connectedAddress) : 'DISCONNECTED'}
+			</Button>
+		</div >
 	);
 });

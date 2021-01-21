@@ -26,9 +26,9 @@ export const GeyserUnstake = observer((props: any) => {
 	const { register, handleSubmit, watch, setValue } = useForm({ mode: 'all' });
 
 	const {
-		router: {},
+		router: { },
 		wallet: { connectedAddress },
-		uiState: {},
+		uiState: { },
 	} = store;
 
 	const percentageOfBalance = (percent: number) => {
@@ -100,7 +100,7 @@ export const GeyserUnstake = observer((props: any) => {
 					className={classes.field}
 					variant="outlined"
 					fullWidth
-					placeholder="Type an amount to stake"
+					placeholder="Type an amount to unstake"
 				/>
 			</DialogContent>
 			<DialogActions>

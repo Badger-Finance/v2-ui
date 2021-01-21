@@ -255,6 +255,7 @@ export const Collection = observer(() => {
 							{availableRewards()}
 						</>
 					)}
+					{spacer()}
 
 					<SettList isGlobal={!isCached()} hideEmpty={hideZeroBal} />
 				</Grid>

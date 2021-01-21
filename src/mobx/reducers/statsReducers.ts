@@ -155,6 +155,9 @@ export function formatSupply(token: Token) {
 export function formatBalance(token: Token) {
 	return inCurrency(token.balance.dividedBy(10 ** token.decimals), 'eth', true)
 }
+export function formatGeyserBalance(geyser: Geyser) {
+	return inCurrency(geyser.balance.dividedBy(10e18), 'eth', true)
+}
 
 export function formatTotalStaked(geyser: Geyser) {
 	return inCurrency(geyser.holdings.dividedBy(10 ** geyser.vault.decimals), 'eth', true)

@@ -28,6 +28,7 @@ import { VaultSymbol } from '../VaultSymbol';
 import { vaultBatches } from 'config/system/contracts';
 import { Vault } from 'mobx/reducers/contractReducers';
 import { formatPrice } from 'mobx/reducers/statsReducers';
+import { DepositCard } from './DepositCard';
 
 const useStyles = makeStyles((theme) => ({
 	list: {
@@ -127,13 +128,12 @@ export const SettList = observer((props: any) => {
 		console.log('vaults: ', vaults);
 		const list = _.map(contracts, (address: string) => {
 			const vault: Vault = vaults[address.toLowerCase()];
-			return (
-				!!vault && (
-					<ListItem key={address} className={classes.listItem}>
-						<TokenCard isGlobal={!hideEmpty} vault={vault} onOpen={onOpen} />
-					</ListItem>
-				)
-			);
+
+			if (!!vault && (!hideEmpty || vault.underlyingToken.balance.gt(0)))
+				return (<ListItem key={address} className={classes.listItem}>
+					<TokenCard isGlobal={!hideEmpty} vault={vault} onOpen={onOpen} />
+				</ListItem>
+				);
 		});
 
 		return (
@@ -143,24 +143,22 @@ export const SettList = observer((props: any) => {
 		);
 	};
 
-	const walletVaults = () => {
-		let vaultCards: any[] = [];
+	const renderDeposits = (contracts: any) => {
+		const list = _.map(contracts, (address: string) => {
+			const vault: Vault = vaults[address.toLowerCase()];
 
-		// wallet assets & wrapped assets ordered by value
-		return [
-			renderVaults(vaultBatches[0].contracts),
-			renderVaults(vaultBatches[1].contracts),
-			renderVaults(vaultBatches[2].contracts),
-		];
-	};
+			if (!!vault && !!vault.geyser && (!hideEmpty || vault.geyser.balance.gt(0)))
+				return (<ListItem key={address} className={classes.listItem}>
+					<DepositCard isGlobal={!hideEmpty} vault={vault} onOpen={onOpen} />
+				</ListItem>
+				);
+		});
 
-	const emptyGeysers = () => {
-		return renderVaults(stats.assets.setts);
-	};
-
-	const renderDeposits = () => {
-		if (stats.assets.deposits.length + stats.assets.wrapped.length > 0 && !hasDeposits) setHasDeposits(true);
-		return [renderVaults(stats.assets.wrapped), renderVaults(stats.assets.deposits)];
+		return (
+			<List key={contracts[0]} className={classes.list}>
+				{list}
+			</List>
+		);
 	};
 
 	if (!tokens || !vaults || !geysers) {
@@ -194,7 +192,7 @@ export const SettList = observer((props: any) => {
 						</Grid>
 
 						<Grid item xs={12} sm={6} md={2} className={classes.hiddenMobile}>
-							<Typography variant="body2" color="textSecondary">
+							<Typography variant="body2" color="textPrimary">
 								Value
 							</Typography>
 						</Grid>
@@ -231,31 +229,11 @@ export const SettList = observer((props: any) => {
 
 		return (
 			<Dialog key={'dialog'} fullWidth maxWidth={'sm'} open={open} onClose={onClose}>
-				<Tabs
-					variant="fullWidth"
-					indicatorColor="primary"
-					value={['vault', 'geyser'].indexOf(dialogMode)}
-					style={{ background: 'rgba(0,0,0,.2)', marginBottom: '1rem' }}
-				>
-					<Tab onClick={() => setDialogMode('vault')} label={dialogOut ? 'Withdraw' : 'Deposit'}></Tab>
-					{vault.geyser ? (
-						<Tab onClick={() => setDialogMode('geyser')} label={dialogOut ? 'Unstake' : 'Stake'}></Tab>
-					) : (
-						<Tooltip
-							enterDelay={0}
-							leaveDelay={300}
-							arrow
-							placement="bottom"
-							title={`Staking not enabled for ${vault.underlyingToken.symbol}`}
-						>
-							<Tab label={dialogOut ? 'Unstake' : 'Stake'}></Tab>
-						</Tooltip>
-					)}
-				</Tabs>
 
-				<DialogTitle disableTypography style={{ marginBottom: '.5rem' }}>
+				<DialogTitle disableTypography style={{ background: 'rgba(0,0,0,.2)' }}>
+
 					<div style={{ float: 'right' }}>
-						Withdraw
+						{dialogOut ? 'Withdraw' : 'Deposit'}
 						<Switch
 							checked={!dialogOut}
 							onChange={() => {
@@ -263,7 +241,7 @@ export const SettList = observer((props: any) => {
 							}}
 							color="primary"
 						/>
-						Deposit
+
 					</div>
 					<VaultSymbol token={vault.underlyingToken} />
 
@@ -273,18 +251,41 @@ export const SettList = observer((props: any) => {
 					<Typography variant="body2" color="textSecondary" component="div">
 						{vault.underlyingToken.symbol}
 					</Typography>
+
 				</DialogTitle>
+				<Tabs
+					variant="fullWidth"
+					indicatorColor="primary"
+					value={['vault', 'geyser'].indexOf(dialogMode)}
+					style={{ background: 'rgba(0,0,0,.2)', marginBottom: '1rem' }}
+				>
+					<Tab
+						onClick={() => setDialogMode('vault')} label={dialogOut ? 'Withdraw' : 'Deposit'}></Tab>
+					{vault.geyser ? (
+						<Tab onClick={() => setDialogMode('geyser')} label={dialogOut ? 'Unstake' : 'Stake'}></Tab>
+					) : (
+							<Tooltip
+								enterDelay={0}
+								leaveDelay={300}
+								arrow
+								placement="bottom"
+								title={`Staking not enabled for ${vault.underlyingToken.symbol}`}
+							>
+								<Tab label={dialogOut ? '2. Unstake' : '1. Stake'}></Tab>
+							</Tooltip>
+						)}
+				</Tabs>
+
 
 				{form}
+
+
 			</Dialog>
 		);
 	};
 
-	const all = [
-		renderVaults(vaultBatches[2].contracts),
-		renderVaults(vaultBatches[1].contracts),
-		renderVaults(vaultBatches[0].contracts),
-	];
+	const all = renderVaults([...vaultBatches[2].contracts, ...vaultBatches[1].contracts, ...vaultBatches[0].contracts])
+	const deposits = renderDeposits([...vaultBatches[2].contracts, ...vaultBatches[1].contracts, ...vaultBatches[0].contracts])
 
 	return (
 		<>
@@ -297,6 +298,11 @@ export const SettList = observer((props: any) => {
 				hideEmpty ? 'Available' : 'Tokens',
 			)}
 			{all}
+			{hideEmpty && tableHeader(
+				`Your Deposits - ${formatPrice(stats.stats.deposits, currency)}`,
+				'Tokens',
+			)}
+			{hideEmpty && deposits}
 			{/* {isGlobal && <Carousel className={classes.carousel} indicators={false} navButtonsAlwaysVisible >{featuredGeysers()}</Carousel>} */}
 			{/* {!hideEmpty && tableHeader(`All Setts`, 'Tokens')}
 		{!hideEmpty && emptyGeysers()} */}
