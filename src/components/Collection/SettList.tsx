@@ -253,6 +253,7 @@ export const SettList = observer((props: any) => {
 
 				<DialogTitle disableTypography style={{ marginBottom: '.5rem' }}>
 					<div style={{ float: 'right' }}>
+						Withdraw
 						<Switch
 							checked={!dialogOut}
 							onChange={() => {
@@ -260,6 +261,7 @@ export const SettList = observer((props: any) => {
 							}}
 							color="primary"
 						/>
+						Deposit
 					</div>
 					<VaultSymbol token={vault.underlyingToken} />
 
