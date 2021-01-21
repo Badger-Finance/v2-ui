@@ -33,6 +33,7 @@ import {
 	formatVaultGrowth,
 } from 'mobx/reducers/statsReducers';
 import useInterval from '@use-it/interval';
+import { superSett } from '../../config/system/tokens';
 
 const useStyles = makeStyles((theme) => ({
 	featuredImage: {
@@ -130,9 +131,9 @@ export const TokenCard = observer((props: any) => {
 
 					<Typography variant="body2" color="textSecondary" component="div">
 						{token.symbol}
-						{/* {!!token.isSuperSett && (
+						{!!superSett[vault.address.toLowerCase()] && (
 							<Chip className={classes.chip} label="Harvest" size="small" color="primary" />
-						)} */}
+						)}
 					</Typography>
 				</Grid>
 
