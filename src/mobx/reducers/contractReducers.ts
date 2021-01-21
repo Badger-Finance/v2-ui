@@ -23,7 +23,6 @@ export const reduceResult = (value: any): any => {
 };
 
 export const reduceSushiAPIResults = (results: any, contracts: any[]) => {
-	console.log('reduce sushi results: ', results);
 	const newSushiROIs: any = _.map(results.pairs, (pair: any, i: number) => {
 		return {
 			address: pair.address,

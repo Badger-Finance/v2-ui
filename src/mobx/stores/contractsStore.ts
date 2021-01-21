@@ -137,11 +137,8 @@ class ContractsStore {
 		// prepare price queries
 		const graphQueries = _.flatten(_.map(tokenBatches[0].contracts, (address: string) => graphQuery(address)));
 		// console.log(batch)
-		Promise.all([
-			batchCall.execute(batch),
-			...curveQueries,
-			...graphQueries]).then((result: any[]) => {
-
+		Promise.all([batchCall.execute(batch), ...curveQueries, ...graphQueries])
+			.then((result: any[]) => {
 				const tokenContracts = _.keyBy(reduceBatchResult(_.flatten(result.slice(0, 1))), 'address');
 				const tokenPrices = _.keyBy(
 					_.compact(reduceGraphResult(result.slice(1 + curveQueries.length))),
@@ -169,9 +166,9 @@ class ContractsStore {
 				);
 
 				tokens.forEach((contract: any) => {
-					const token = this.getOrCreateToken(contract.address)
-					token.update(contract)
-				})
+					const token = this.getOrCreateToken(contract.address);
+					token.update(contract);
+				});
 
 				callback();
 			})
@@ -195,20 +192,18 @@ class ContractsStore {
 
 		Promise.all([batchCall.execute(batch), ...growthQueries, masterChefQuery, xSushiQuery])
 			.then((queryResult: any[]) => {
-
-				let result = reduceBatchResult(queryResult[0])
-				let masterChefResult: any = queryResult.slice(growthQueries.length + 1, growthQueries.length + 2)
-				let xSushiResult: any = queryResult.slice(growthQueries.length + 2)
+				let result = reduceBatchResult(queryResult[0]);
+				let masterChefResult: any = queryResult.slice(growthQueries.length + 1, growthQueries.length + 2);
+				let xSushiResult: any = queryResult.slice(growthQueries.length + 2);
 
 				const vaultGrowth = reduceGrowth(queryResult.slice(1, growthQueries.length + 1), periods, START_TIME);
-
-				const xROI: any = reduceXSushiROIResults(xSushiResult['weekly_APY']);
+				const xROI: any = reduceXSushiROIResults(xSushiResult[0]['weekly_APY']);
 				const newSushiRewards = reduceSushiAPIResults(masterChefResult[0], sushiBatches.contracts);
-				console.log('new sushi rewards return: ', newSushiRewards);
+
 				result.forEach((contract: any) => {
-					let tokenAddress = tokenMap[contract.address]
+					let tokenAddress = tokenMap[contract.address];
 					if (!tokenAddress) {
-						return console.log(tokenMap[contract.address], tokenMap, contract.address)
+						return console.log(tokenMap[contract.address], tokenMap, contract.address);
 					}
 					let vault = this.getOrCreateVault(
 						contract.address,
@@ -222,13 +217,16 @@ class ContractsStore {
 							amount: tokens,
 							token: this.tokens[tokenAddress],
 						}));
-
 					let xSushiGrowth =
-						!!newSushiRewards[contract.address] &&
-						_.mapValues(newSushiRewards[contract.address], (tokens: BigNumber, period: string) => ({
-							amount: tokens,
-							token: this.tokens[XSUSHI_ADDRESS],
-						}));
+						!!newSushiRewards[tokenAddress] &&
+						_.mapValues(newSushiRewards[tokenAddress], (tokens: BigNumber, period: string) => {
+							return {
+								amount: tokens,
+								token: this.tokens[XSUSHI_ADDRESS],
+							};
+						});
+
+					//TODO: xSushi ROI not added in here - need vault balance which doesn't seem to be set.
 
 					vault.update(
 						_.defaults(contract, defaults[contract.address], { growth: _.compact([growth, xSushiGrowth]) }),
@@ -252,12 +250,16 @@ class ContractsStore {
 			.then((infuraResult: any[]) => {
 				let result = reduceBatchResult(infuraResult);
 				result.forEach((contract: any) => {
-					let vaultAddress = contract[defaults[contract.address].underlyingKey]
+					let vaultAddress = contract[defaults[contract.address].underlyingKey];
 					if (!this.vaults[vaultAddress]) {
-						console.log(this.vaults, vaultAddress)
+						console.log(this.vaults, vaultAddress);
 					}
-					let geyser: Geyser = this.getOrCreateGeyser(contract.address, this.vaults[vaultAddress], defaults[contract.address].abi)
-					geyser.update(_.defaults(contract, defaults[contract.address]))
+					let geyser: Geyser = this.getOrCreateGeyser(
+						contract.address,
+						this.vaults[vaultAddress],
+						defaults[contract.address].abi,
+					);
+					geyser.update(_.defaults(contract, defaults[contract.address]));
 				});
 				callback();
 			})
@@ -266,24 +268,24 @@ class ContractsStore {
 
 	getOrCreateToken = action((address: string) => {
 		if (!this.tokens[address]) {
-			this.tokens[address] = new Token(this.store, address, tokenDecimals[address])
-			return this.tokens[address]
+			this.tokens[address] = new Token(this.store, address, tokenDecimals[address]);
+			return this.tokens[address];
 		} else {
 			return this.tokens[address];
 		}
 	});
 	getOrCreateVault = action((address: string, token?: Token, abi?: any) => {
 		if (!this.vaults[address]) {
-			this.vaults[address] = new Vault(this.store, address, tokenDecimals[address], token!, abi)
-			return this.vaults[address]
+			this.vaults[address] = new Vault(this.store, address, tokenDecimals[address], token!, abi);
+			return this.vaults[address];
 		} else {
 			return this.vaults[address];
 		}
 	});
 	getOrCreateGeyser = action((address: string, vault?: Vault, abi?: any) => {
 		if (!this.vaults[address]) {
-			this.geysers[address] = new Geyser(this.store, address, vault!, abi)
-			return this.geysers[address]
+			this.geysers[address] = new Geyser(this.store, address, vault!, abi);
+			return this.geysers[address];
 		} else {
 			return this.geysers[address];
 		}
@@ -427,7 +429,7 @@ class ContractsStore {
 	});
 
 	getAllowance = action((underlyingAsset: any, spender: string, callback: (err: any, result: any) => void) => {
-		const { } = this.store.uiState;
+		const {} = this.store.uiState;
 		const { provider, connectedAddress } = this.store.wallet;
 
 		const web3 = new Web3(provider);
@@ -505,7 +507,8 @@ class ContractsStore {
 					})
 					.on('receipt', () => {
 						queueNotification(
-							`Successfully unstaked ${inCurrency(amount, 'eth', true)} ${geyser.vault.underlyingToken.symbol
+							`Successfully unstaked ${inCurrency(amount, 'eth', true)} ${
+								geyser.vault.underlyingToken.symbol
 							}`,
 							'success',
 						);
@@ -532,7 +535,8 @@ class ContractsStore {
 		if (all) method = underlyingContract.methods.depositAll();
 
 		queueNotification(
-			`Sign the transaction to wrap ${formatAmount({ amount: amount, token: vault.underlyingToken })} ${vault.underlyingToken.symbol
+			`Sign the transaction to wrap ${formatAmount({ amount: amount, token: vault.underlyingToken })} ${
+				vault.underlyingToken.symbol
 			}`,
 			'info',
 		);
@@ -549,7 +553,8 @@ class ContractsStore {
 					})
 					.on('receipt', () => {
 						queueNotification(
-							`Successfully deposited ${formatAmount({ amount: amount, token: vault.underlyingToken })} ${vault.underlyingToken.symbol
+							`Successfully deposited ${formatAmount({ amount: amount, token: vault.underlyingToken })} ${
+								vault.underlyingToken.symbol
 							}`,
 							'success',
 						);
