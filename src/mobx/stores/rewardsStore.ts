@@ -120,10 +120,7 @@ class RewardsStore {
 					this.fetchSettRewards();
 					this.store.contracts.fetchContracts();
 
-					if (stake) {
-						const badgerGeyser = this.store.contracts.geysers['0xa9429271a28f8543efffa136994c0839e7d7bf77'];
-						this.store.contracts.depositAndStake(badgerGeyser, badgerAmount);
-					}
+
 				})
 				.catch((error: any) => {
 					this.store.contracts.fetchContracts();

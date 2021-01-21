@@ -29,7 +29,6 @@ export const VaultDeposit = observer((props: any) => {
 
 	const {
 		router: { },
-		contracts: { depositAndStake },
 		wallet: { connectedAddress },
 		uiState: { },
 	} = store;

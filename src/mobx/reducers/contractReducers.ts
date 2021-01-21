@@ -329,14 +329,16 @@ export class Vault extends Token {
 	public growth!: Growth[]
 	public geyser!: Geyser
 	public pricePerShare!: BigNumber
+	public abi!: any
 
-	constructor(store: RootStore, address: string, decimals: number, underlyingToken: Token) {
+	constructor(store: RootStore, address: string, decimals: number, underlyingToken: Token, abi: any) {
 		super(store, address, decimals)
 		this.pricePerShare = new BigNumber(1)
 		this.underlyingToken = underlyingToken
 		this.underlyingToken.vaults.push(this)
 		this.decimals = 18
 		this.holdings = new BigNumber(0)
+		this.abi = abi
 	}
 
 	deposit(amount: BigNumber) {
@@ -344,8 +346,7 @@ export class Vault extends Token {
 	}
 
 	withdraw(amount: BigNumber) {
-		// this.store.contracts.withdraw(this, amount)
-
+		this.store.contracts.withdraw(this, amount)
 	}
 
 	holdingsValue() {
@@ -377,13 +378,15 @@ export class Geyser extends Contract {
 	public holdings!: BigNumber
 	public balance!: BigNumber
 	public rewards!: Growth
+	public abi!: any
 
-	constructor(store: RootStore, address: string, vault: Vault) {
+	constructor(store: RootStore, address: string, vault: Vault, abi: any) {
 		super(store, address)
 		this.vault = vault
 		this.vault.geyser = this
 		this.holdings = new BigNumber(0)
 		this.balance = new BigNumber(0)
+		this.abi = abi
 	}
 
 	stake(amount: BigNumber) {
@@ -392,7 +395,7 @@ export class Geyser extends Contract {
 	}
 
 	unstake(amount: BigNumber) {
-		// this.store.contracts.unstake(this.vault, amount)
+		this.store.contracts.unstake(this.vault, amount)
 
 	}
 

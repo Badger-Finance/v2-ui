@@ -35,6 +35,7 @@ import {
 	decimals as tokenDecimals,
 	tokenBatches
 } from '../../config/system/tokens';
+import { formatAmount } from 'mobx/reducers/statsReducers';
 
 const infuraProvider = new Web3.providers.HttpProvider(RPC_URL);
 const options = {
@@ -193,7 +194,7 @@ class ContractsStore {
 					if (!this.tokens[tokenAddress]) {
 						return console.log(contract.address, this.tokens)
 					}
-					let vault = this.getOrCreateVault(contract.address, this.tokens[tokenAddress])
+					let vault = this.getOrCreateVault(contract.address, this.tokens[tokenAddress], defaults[contract.address].abi)
 
 					let growth = !!vaultGrowth[contract.address] && _.mapValues(vaultGrowth[contract.address],
 						(tokens: BigNumber, period: string) => ({ amount: tokens, token: this.tokens[tokenAddress] }))
@@ -220,7 +221,7 @@ class ContractsStore {
 				let result = reduceBatchResult(infuraResult)
 				result.forEach((contract: any) => {
 					let vaultAddress = contract[defaults[contract.address].underlyingKey]
-					let geyser: Geyser = this.getOrCreateGeyser(contract.address, this.vaults[vaultAddress])
+					let geyser: Geyser = this.getOrCreateGeyser(contract.address, this.vaults[vaultAddress], defaults[contract.address].abi)
 					geyser.update(_.defaults(contract, defaults[contract.address]))
 				});
 				callback()
@@ -236,16 +237,16 @@ class ContractsStore {
 			return this.tokens[address]
 		}
 	})
-	getOrCreateVault = action((address: string, token?: Token) => {
+	getOrCreateVault = action((address: string, token?: Token, abi?: any) => {
 		if (!this.vaults[address]) {
-			return this.vaults[address] = new Vault(this.store, address, tokenDecimals[address], token!)
+			return this.vaults[address] = new Vault(this.store, address, tokenDecimals[address], token!, abi)
 		} else {
 			return this.vaults[address]
 		}
 	})
-	getOrCreateGeyser = action((address: string, vault?: Vault) => {
+	getOrCreateGeyser = action((address: string, vault?: Vault, abi?: any) => {
 		if (!this.vaults[address]) {
-			return this.geysers[address] = new Geyser(this.store, address, vault!)
+			return this.geysers[address] = new Geyser(this.store, address, vault!, abi)
 		} else {
 			return this.geysers[address]
 		}
@@ -255,7 +256,7 @@ class ContractsStore {
 		const { tokens, vaults } = this;
 		const { setTxStatus, queueNotification } = this.store.uiState;
 
-		if (!amount || amount.isNaN() || amount.lte(0))
+		if (!amount || amount.isNaN() || amount.lte(0) || amount.gt(vault.underlyingToken.balance))
 			return queueNotification('Please enter a valid amount', 'error');
 
 		let underlyingAmount = amount.multipliedBy(10 ** vault.underlyingToken.decimals);
@@ -273,7 +274,7 @@ class ContractsStore {
 					);
 
 				methodSeries.push((callback: any) =>
-					this.depositVault(vault, underlyingAmount, amount.gte(vault.balance), callback),
+					this.depositVault(vault, underlyingAmount, amount.gte(vault.underlyingToken.balance), callback),
 				);
 
 				setTxStatus('pending');
@@ -288,25 +289,25 @@ class ContractsStore {
 		const { tokens, vaults } = this;
 		const { setTxStatus, queueNotification } = this.store.uiState;
 
-		if (!amount || amount.isNaN() || amount.lte(0))
+		if (!amount || amount.isNaN() || amount.lte(0) || amount.gt(vault.balance))
 			return queueNotification('Please enter a valid amount', 'error');
 
-		let underlyingAmount = amount.multipliedBy(10 ** vault.underlyingToken.decimals);
+		let wrappedAmount = amount.multipliedBy(10 ** vault.decimals);
 
 		const methodSeries: any = [];
 
 		async.parallel(
-			[(callback: any) => this.getAllowance(vault.underlyingToken, vault.address, callback)],
+			[(callback: any) => this.getAllowance(vault, vault.geyser.address, callback)],
 			(err: any, allowances: any) => {
 
 				// if we need to wrap assets, make sure we have allowance
-				if (underlyingAmount.gt(allowances[0]))
+				if (wrappedAmount.gt(allowances[0]))
 					methodSeries.push((callback: any) =>
-						this.increaseAllowance(vault.underlyingToken, vault.address, callback),
+						this.increaseAllowance(vault, vault.geyser.address, callback),
 					);
 
 				methodSeries.push((callback: any) =>
-					this.depositVault(vault, underlyingAmount, amount.gte(vault.balance), callback),
+					this.stakeGeyser(vault.geyser, wrappedAmount, callback),
 				);
 
 				setTxStatus('pending');
@@ -317,120 +318,44 @@ class ContractsStore {
 			},
 		);
 	});
-
-	depositAndStake = action((geyser: any, amount: BigNumber, onlyWrapped = false) => {
+	unstake = action((vault: Vault, amount: BigNumber) => {
 		const { tokens, vaults } = this;
 		const { setTxStatus, queueNotification } = this.store.uiState;
 
-		const vault = vaults[geyser[geyser.underlyingKey]];
-		const underlying = tokens[vault[vault.underlyingKey]];
-		const wrapped = tokens[vault.address];
-
-
-		if (!amount || amount.isNaN() || amount.lte(0))
+		if (!amount || amount.isNaN() || amount.lte(0) || amount.gt(vault.geyser.balance))
 			return queueNotification('Please enter a valid amount', 'error');
 
-		// calculate amount to deposit
-
-		let underlyingAmount = new BigNumber(0);
-
-		if (onlyWrapped) {
-			if (amount.gt(vault.balanceOf)) return queueNotification('Please enter a valid amount', 'error');
-		} else {
-			underlyingAmount = amount;
-		}
+		let wrappedAmount = amount.multipliedBy(10 ** vault.decimals);
 
 		const methodSeries: any = [];
-
-		async.parallel(
-			[
-				(callback: any) => this.getAllowance(underlying, vault.address, callback),
-				(callback: any) => this.getAllowance(wrapped, geyser.address, callback),
-			],
-			(err: any, allowances: any) => {
-
-				// if we need to wrap assets, make sure we have allowance
-				if (underlyingAmount.gt(0)) {
-					if (underlyingAmount.gt(allowances[0]))
-						methodSeries.push((callback: any) =>
-							this.increaseAllowance(underlying, vault.address, callback),
-						);
-
-					methodSeries.push((callback: any) =>
-						this.depositVault(vault, underlyingAmount, amount.gte(underlying.balanceOf), callback),
-					);
-				}
-				if (onlyWrapped) {
-					// if we need to deposit wrapped assets, make sure we have allowance
-					if (amount.gt(allowances[1]))
-						methodSeries.push((callback: any) => this.increaseAllowance(wrapped, geyser.address, callback));
-
-					methodSeries.push((callback: any) => this.depositGeyser(geyser, amount, callback));
-				}
-
-				setTxStatus('pending');
-				async.series(methodSeries, (err: any, results: any) => {
-					console.log(err, results);
-					setTxStatus(!!err ? 'error' : 'success');
-				});
-			},
-		);
-	});
-
-	unstakeAndUnwrap = action((geyser: any, amount: BigNumber) => {
-		const { tokens, vaults } = this;
-		const { setTxStatus, queueNotification } = this.store.uiState;
-
-		const wrapped = tokens[geyser[geyser.underlyingKey]];
-		const vault = vaults[wrapped.address];
-
-		// ensure balance is valid
-		if (
-			amount.isNaN() ||
-			amount.lte(0) ||
-			amount.gt(geyser.totalStakedFor.multipliedBy(vault.getPricePerFullShare.dividedBy(1e18)))
-		)
-			return queueNotification('Please enter a valid amount', 'error');
-
-		// calculate amount to withdraw
-		let wrappedAmount = amount.dividedBy(vault.getPricePerFullShare.dividedBy(1e18));
-		const methodSeries: any = [];
-
-		if (geyser.totalStakedFor.minus(wrappedAmount).lte(1)) {
-			wrappedAmount = geyser.totalStakedFor;
-		}
-
-		// if we need to wrap assets, make sure we have allowance
-		methodSeries.push((callback: any) => this.withdrawGeyser(geyser, wrappedAmount, callback));
 
 		methodSeries.push((callback: any) =>
-			this.withdrawVault(vault, wrappedAmount, wrappedAmount.gte(wrapped.balanceOf), callback),
+			this.unstakeGeyser(vault.geyser, wrappedAmount, callback),
 		);
+
 		setTxStatus('pending');
 		async.series(methodSeries, (err: any, results: any) => {
 			console.log(err, results);
 			setTxStatus(!!err ? 'error' : 'success');
 		});
+
 	});
 
-	unwrap = action((vault: any, amount: BigNumber) => {
+	withdraw = action((vault: any, amount: BigNumber) => {
 		const { tokens } = this;
 		const { setTxStatus, queueNotification } = this.store.uiState;
 
-		const wrapped = tokens[vault.address];
-
 		// ensure balance is valid
-		if (amount.isNaN() || !wrapped.balanceOf || amount.gt(wrapped.balanceOf))
+		if (amount.isNaN() || !vault.balance || amount.gt(vault.balance))
 			return queueNotification('Please enter a valid amount', 'error');
 
 		// calculate amount to withdraw
-		const wrappedAmount = amount;
+		const wrappedAmount = amount.multipliedBy(10 ** vault.decimals);
 		const methodSeries: any = [];
-
 
 		// withdraw
 		methodSeries.push((callback: any) =>
-			this.withdrawVault(vault, wrappedAmount, wrappedAmount.gte(wrapped.balanceOf), callback),
+			this.withdrawVault(vault, wrappedAmount, wrappedAmount.gte(vault.balance), callback),
 		);
 		setTxStatus('pending');
 		async.series(methodSeries, (err: any, results: any) => {
@@ -462,11 +387,9 @@ class ContractsStore {
 					.on('receipt', () => {
 						queueNotification(`${underlyingAsset.symbol} allowance increased.`, 'success');
 						this.fetchContracts();
-						this.fetchContracts();
 						callback(null, {});
 					})
 					.catch((error: any) => {
-						this.fetchContracts();
 						this.fetchContracts();
 						queueNotification(error.message, 'error');
 						setTxStatus('error');
@@ -474,6 +397,7 @@ class ContractsStore {
 			},
 		);
 	});
+
 	getAllowance = action((underlyingAsset: any, spender: string, callback: (err: any, result: any) => void) => {
 		const { } = this.store.uiState;
 		const { provider, connectedAddress } = this.store.wallet;
@@ -487,7 +411,7 @@ class ContractsStore {
 		});
 	});
 
-	depositGeyser = action((geyser: any, amount: BigNumber, callback: (err: any, result: any) => void) => {
+	stakeGeyser = action((geyser: any, amount: BigNumber, callback: (err: any, result: any) => void) => {
 		const { queueNotification, setTxStatus } = this.store.uiState;
 		const { provider, connectedAddress } = this.store.wallet;
 
@@ -518,11 +442,9 @@ class ContractsStore {
 							'success',
 						);
 						this.fetchContracts();
-						this.fetchContracts();
 						callback(null, {});
 					})
 					.catch((error: any) => {
-						this.fetchContracts();
 						this.fetchContracts();
 						queueNotification(error.message, 'error');
 						setTxStatus('error');
@@ -530,20 +452,16 @@ class ContractsStore {
 			},
 		);
 	});
-	withdrawGeyser = action((geyser: any, amount: BigNumber, callback: (err: any, result: any) => void) => {
+	unstakeGeyser = action((geyser: any, amount: BigNumber, callback: (err: any, result: any) => void) => {
 		const { queueNotification, setTxStatus } = this.store.uiState;
 		const { provider, connectedAddress } = this.store.wallet;
-
-		const underlyingAsset = this.tokens[geyser[geyser.underlyingKey]];
-
-		// unstake all if within 2e-18
 
 		const web3 = new Web3(provider);
 		const geyserContract = new web3.eth.Contract(geyser.abi, geyser.address);
 		const method = geyserContract.methods.unstake(amount.toFixed(0, BigNumber.ROUND_DOWN), EMPTY_DATA);
 
 		queueNotification(
-			`Sign the transaction to unstake ${inCurrency(amount, 'eth', true)} ${underlyingAsset.symbol}`,
+			`Sign the transaction to unstake ${inCurrency(amount, 'eth', true)} ${geyser.vault.underlyingToken.symbol}`,
 			'info',
 		);
 
@@ -559,15 +477,13 @@ class ContractsStore {
 					})
 					.on('receipt', () => {
 						queueNotification(
-							`Successfully unstaked ${inCurrency(amount, 'eth', true)} ${underlyingAsset.symbol}`,
+							`Successfully unstaked ${inCurrency(amount, 'eth', true)} ${geyser.vault.underlyingToken.symbol}`,
 							'success',
 						);
-						this.fetchContracts();
 						this.fetchContracts();
 						callback(null, {});
 					})
 					.catch((error: any) => {
-						this.fetchContracts();
 						this.fetchContracts();
 						queueNotification(error.message, 'error');
 						setTxStatus('error');
@@ -580,15 +496,14 @@ class ContractsStore {
 		const { queueNotification, setTxStatus } = this.store.uiState;
 		const { provider, connectedAddress } = this.store.wallet;
 
-		const underlyingAsset = this.tokens[vault[vault.underlyingKey]];
-
 		const web3 = new Web3(provider);
 		const underlyingContract = new web3.eth.Contract(vault.abi, vault.address);
 
 		let method = underlyingContract.methods.deposit(amount.toFixed(0, BigNumber.ROUND_DOWN));
 		if (all) method = underlyingContract.methods.depositAll();
+
 		queueNotification(
-			`Sign the transaction to wrap ${inCurrency(amount, 'eth', true)} ${underlyingAsset.symbol}`,
+			`Sign the transaction to wrap ${formatAmount({ amount: amount, token: vault.underlyingToken })} ${vault.underlyingToken.symbol}`,
 			'info',
 		);
 
@@ -604,7 +519,7 @@ class ContractsStore {
 					})
 					.on('receipt', () => {
 						queueNotification(
-							`Successfully deposited ${inCurrency(amount, 'eth', true)} ${underlyingAsset.symbol}`,
+							`Successfully deposited ${formatAmount({ amount: amount, token: vault.underlyingToken })} ${vault.underlyingToken.symbol}`,
 							'success',
 						);
 						this.fetchContracts();

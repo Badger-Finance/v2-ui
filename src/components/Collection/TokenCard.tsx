@@ -182,7 +182,7 @@ export const TokenCard = observer((props: any) => {
 							color={vault.balance.gt(0) || token.balance.gt(0) ? 'primary' : 'default'}
 							size="small"
 						>
-							OPEN
+							Deposit
 							</Button>
 					</ButtonGroup>
 				</Grid>

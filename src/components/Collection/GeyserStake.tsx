@@ -29,7 +29,6 @@ export const GeyserStake = observer((props: any) => {
 
 	const {
 		router: { },
-		contracts: { depositAndStake },
 		wallet: { connectedAddress },
 		uiState: { },
 	} = store;
@@ -110,7 +109,7 @@ export const GeyserStake = observer((props: any) => {
 					fullWidth
 					className={classes.button}
 				>
-					Deposit
+					Stake
 				</Button>
 			</DialogActions>
 		</>
