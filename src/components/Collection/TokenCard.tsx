@@ -155,7 +155,7 @@ export const TokenCard = observer((props: any) => {
 				<Grid item xs={6} md={2}>
 					<Tooltip enterDelay={0} leaveDelay={300} arrow placement="left" title={roiTooltip}>
 						<Typography style={{ cursor: 'default' }} variant="body1" color={'textPrimary'}>
-							{!!roi ? roi : 0}
+							{isNaN(parseFloat(roi)) ? '0.00%' : roi}
 						</Typography>
 					</Tooltip>
 				</Grid>
