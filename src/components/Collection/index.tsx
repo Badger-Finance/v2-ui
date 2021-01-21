@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
 import {
@@ -24,6 +24,7 @@ import { Loader } from '../Loader';
 import { SettList } from './SettList';
 import { CLAIMS_SYMBOLS } from 'config/constants';
 import { formatPrice } from 'mobx/reducers/statsReducers';
+import useInterval from '@use-it/interval';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -114,6 +115,9 @@ export const Collection = observer(() => {
 	if (!tokens) {
 		return <Loader />;
 	}
+
+	const [update, forceUpdate] = useState<boolean>();
+	useInterval(() => forceUpdate(!update), 1000)
 
 	const spacer = () => <div className={classes.before} />;
 

@@ -53,9 +53,7 @@ export const Wallet = observer(() => {
 	if (!!connectedAddress)
 		return (
 			<ListItem
-				divider
 				button
-				style={{ marginTop: '-2px' }}
 				color="primary"
 				onClick={() => {
 					store.wallet.walletReset();
@@ -76,7 +74,7 @@ export const Wallet = observer(() => {
 		);
 	else
 		return (
-			<ListItem divider button style={{ marginTop: '-2px' }} onClick={connect} color="primary">
+			<ListItem button onClick={connect} color="primary">
 				<ListItemIcon>
 					<img
 						alt=""

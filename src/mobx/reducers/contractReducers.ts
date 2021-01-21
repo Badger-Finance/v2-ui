@@ -280,7 +280,7 @@ export const reduceMethodConfig = (methods: any[], payload: any) => {
 
 export class Contract {
 	store!: RootStore;
-	private address!: string;
+	public address!: string;
 
 	constructor(store: RootStore, address: string) {
 		this.store = store
@@ -339,11 +339,12 @@ export class Vault extends Token {
 		this.holdings = new BigNumber(0)
 	}
 
-	deposit(amount: string) {
-
+	deposit(amount: BigNumber) {
+		this.store.contracts.deposit(this, amount)
 	}
 
-	withdraw(amount: string) {
+	withdraw(amount: BigNumber) {
+		// this.store.contracts.withdraw(this, amount)
 
 	}
 
@@ -380,16 +381,18 @@ export class Geyser extends Contract {
 	constructor(store: RootStore, address: string, vault: Vault) {
 		super(store, address)
 		this.vault = vault
-		vault.geyser = this
+		this.vault.geyser = this
 		this.holdings = new BigNumber(0)
 		this.balance = new BigNumber(0)
 	}
 
-	stake(amount: string) {
+	stake(amount: BigNumber) {
+		this.store.contracts.stake(this.vault, amount)
 
 	}
 
-	unstake(amount: string) {
+	unstake(amount: BigNumber) {
+		// this.store.contracts.unstake(this.vault, amount)
 
 	}
 

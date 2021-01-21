@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
 			backgroundColor: theme.palette.background.default,
 		},
 		// paddingLeft: theme.spacing(1),
-		padding: theme.spacing(1, 2),
+		padding: theme.spacing(1, 3),
 	},
 	divider: {
 		padding: theme.spacing(2, 2, 1, 2),
@@ -78,7 +78,12 @@ const useStyles = makeStyles((theme) => ({
 	},
 	activeListItem: {
 		fontWeight: 'bold',
-		backgroundColor: theme.palette.background.default,
+		backgroundColor: "#070707",
+		borderRadius: theme.shape.borderRadius,
+		margin: theme.spacing(0, 1),
+		width: 'auto',
+		border: 0,
+		padding: theme.spacing(1, 2),
 	},
 
 	currency: {
@@ -149,8 +154,8 @@ export const Sidebar = observer(() => {
 
 					<ListItem
 						button
-						className={classes.divider}
 						onClick={() => setExpanded(expanded === 'advanced' ? '' : 'advanced')}
+						style={{ marginTop: '.5rem' }}
 					>
 						v2.1.0
 						<IconButton
@@ -174,7 +179,7 @@ export const Sidebar = observer(() => {
 					</Collapse>
 
 					<ListItem
-						divider
+
 						button
 						onClick={() => {
 							closeSidebar();
@@ -191,7 +196,7 @@ export const Sidebar = observer(() => {
 					</ListItem>
 
 					<ListItem
-						divider
+
 						button
 						className={
 							classes.listItem +

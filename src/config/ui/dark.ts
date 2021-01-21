@@ -70,7 +70,7 @@ export const darkTheme = createMuiTheme({
 		MuiIcon: {},
 		MuiDrawer: {
 			paper: {
-				// background: "#121212",
+				background: "#121212",
 			},
 			paperAnchorDockedLeft: {
 				borderRight: 0,

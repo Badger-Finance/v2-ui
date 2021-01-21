@@ -94,11 +94,15 @@ class ContractsStore {
 		batchCall = new BatchCall(newOptions);
 
 		this.store.airdrops.fetchAirdrops();
-		this.fetchContracts();
+		if (this._fetchingContracts)
+			this._pendingChangeOfAddress = true
+		else
+			this.fetchContracts();
 	});
 
 
 	private _fetchingContracts: boolean = false
+	private _pendingChangeOfAddress: boolean = false
 	fetchContracts = action(() => {
 		if (this._fetchingContracts)
 			return
@@ -109,6 +113,10 @@ class ContractsStore {
 			(callback: any) => this.fetchGeysers(callback),
 		], (err: any, result: any) => {
 			this._fetchingContracts = false
+			if (this._pendingChangeOfAddress) {
+				this._pendingChangeOfAddress = false
+				this.fetchContracts()
+			}
 		})
 
 	})
@@ -116,7 +124,7 @@ class ContractsStore {
 	fetchTokens = action((callback: any) => {
 		const { connectedAddress } = this.store.wallet;
 
-		let { defaults, batchCall: batch } = reduceContractConfig(tokenBatches, connectedAddress && { connectedAddress });
+		let { defaults, batchCall: batch } = reduceContractConfig(tokenBatches, !!connectedAddress && { connectedAddress });
 		// prepare curve price query
 		const curveQueries = curveTokens.contracts.map((address: string, index: number) =>
 			jsonQuery(curveTokens.priceEndpoints[index]),
@@ -124,7 +132,7 @@ class ContractsStore {
 
 		// prepare price queries
 		const graphQueries = _.flatten(_.map(tokenBatches[0].contracts, (address: string) => graphQuery(address)));
-
+		console.log(batch)
 		Promise.all([
 			batchCall.execute(batch),
 			...curveQueries,
@@ -242,6 +250,73 @@ class ContractsStore {
 			return this.geysers[address]
 		}
 	})
+
+	deposit = action((vault: Vault, amount: BigNumber) => {
+		const { tokens, vaults } = this;
+		const { setTxStatus, queueNotification } = this.store.uiState;
+
+		if (!amount || amount.isNaN() || amount.lte(0))
+			return queueNotification('Please enter a valid amount', 'error');
+
+		let underlyingAmount = amount.multipliedBy(10 ** vault.underlyingToken.decimals);
+
+		const methodSeries: any = [];
+
+		async.parallel(
+			[(callback: any) => this.getAllowance(vault.underlyingToken, vault.address, callback)],
+			(err: any, allowances: any) => {
+
+				// if we need to wrap assets, make sure we have allowance
+				if (underlyingAmount.gt(allowances[0]))
+					methodSeries.push((callback: any) =>
+						this.increaseAllowance(vault.underlyingToken, vault.address, callback),
+					);
+
+				methodSeries.push((callback: any) =>
+					this.depositVault(vault, underlyingAmount, amount.gte(vault.balance), callback),
+				);
+
+				setTxStatus('pending');
+				async.series(methodSeries, (err: any, results: any) => {
+					console.log(err, results);
+					setTxStatus(!!err ? 'error' : 'success');
+				});
+			},
+		);
+	});
+	stake = action((vault: Vault, amount: BigNumber) => {
+		const { tokens, vaults } = this;
+		const { setTxStatus, queueNotification } = this.store.uiState;
+
+		if (!amount || amount.isNaN() || amount.lte(0))
+			return queueNotification('Please enter a valid amount', 'error');
+
+		let underlyingAmount = amount.multipliedBy(10 ** vault.underlyingToken.decimals);
+
+		const methodSeries: any = [];
+
+		async.parallel(
+			[(callback: any) => this.getAllowance(vault.underlyingToken, vault.address, callback)],
+			(err: any, allowances: any) => {
+
+				// if we need to wrap assets, make sure we have allowance
+				if (underlyingAmount.gt(allowances[0]))
+					methodSeries.push((callback: any) =>
+						this.increaseAllowance(vault.underlyingToken, vault.address, callback),
+					);
+
+				methodSeries.push((callback: any) =>
+					this.depositVault(vault, underlyingAmount, amount.gte(vault.balance), callback),
+				);
+
+				setTxStatus('pending');
+				async.series(methodSeries, (err: any, results: any) => {
+					console.log(err, results);
+					setTxStatus(!!err ? 'error' : 'success');
+				});
+			},
+		);
+	});
 
 	depositAndStake = action((geyser: any, amount: BigNumber, onlyWrapped = false) => {
 		const { tokens, vaults } = this;

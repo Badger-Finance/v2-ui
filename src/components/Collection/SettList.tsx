@@ -1,15 +1,16 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
-import { Grid, List, ListItem, Dialog, DialogTitle, CircularProgress, Chip } from '@material-ui/core';
+import { Grid, List, ListItem, Dialog, DialogTitle, CircularProgress, Chip, Tab, Tabs, FormControlLabel, Switch } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Loader } from '../Loader';
 import { TokenCard } from './TokenCard';
 import _ from 'lodash';
-import { VaultStake } from './VaultStake';
-import { VaultUnwrap } from './VaultUnwrap';
+import { VaultDeposit } from './VaultDeposit';
+import { VaultWithdraw } from './VaultWithdraw';
 import { GeyserUnstake } from './GeyserUnstake';
+import { GeyserStake } from './GeyserStake';
 import { VaultSymbol } from '../VaultSymbol';
 import { vaultBatches } from 'config/system/contracts';
 import { Vault } from 'mobx/reducers/contractReducers';
@@ -94,31 +95,12 @@ export const SettList = observer((props: any) => {
 		uiState: { stats, geyserStats, vaultStats, currency, period, setCurrency, txStatus, setTxStatus, notification },
 	} = store;
 
-	const [dialogProps, setDialogProps] = useState({ open: false, mode: '', stats: undefined as any });
+	const [dialogProps, setDialogProps] = useState({ open: false, vault: undefined as any });
 
 	const [hasDeposits, setHasDeposits] = useState(false);
 
-	// useEffect(() => {
-	// 	if (txStatus === "success") {
-	// 		onClose()
-	// 		setTxStatus(undefined)
-	// 	}
-	// }, [txStatus])
-
-	const onUnwrap = (stats: any) => {
-		setDialogProps({ mode: 'unwrap', stats, open: true });
-	};
-
-	const onUnstake = (stats: any) => {
-		setDialogProps({ mode: 'unstake', stats, open: true });
-	};
-
-	const onStake = (stats: any) => {
-		setDialogProps({ mode: 'stake', stats, open: true });
-	};
-
-	const onDeposit = (stats: any) => {
-		setDialogProps({ mode: 'stake', stats, open: true });
+	const onOpen = (vault: Vault) => {
+		setDialogProps({ vault, open: true });
 	};
 
 	const onClose = () => {
@@ -127,14 +109,6 @@ export const SettList = observer((props: any) => {
 		setDialogProps({ ...dialogProps, open: false });
 	};
 
-	const anyWalletAssets = () => {
-		return (
-			_.filter(vaults, (vault: any) => {
-				let token = tokens[vault[vault.underlyingKey]];
-				return (!!vault.balanceOf && vault.balanceOf.gt(0)) || (!!token.balanceOf && token.balanceOf.gt(0));
-			}).length > 0
-		);
-	};
 
 	const renderVaults = (contracts: any) => {
 		const list = _.map(contracts, (address: string) => {
@@ -144,9 +118,7 @@ export const SettList = observer((props: any) => {
 					<TokenCard
 						isGlobal={true}
 						vault={vault}
-						onDeposit={onStake}
-						onUnstake={onUnstake}
-						onUnwrap={onUnwrap}
+						onOpen={onOpen}
 					/>
 				</ListItem>
 			);
@@ -228,48 +200,55 @@ export const SettList = observer((props: any) => {
 		);
 	};
 
+	const [dialogMode, setDialogMode] = useState('vault')
+	const [dialogOut, setDialogOut] = useState(false)
 	const renderDialog = () => {
-		const { mode, open, stats } = dialogProps;
-		let vault: any = {};
-		let component: any = {};
-		let title = '';
+		const { open, vault } = dialogProps;
 
-		if (!stats) return;
+		if (!open)
+			return <div />
 
-		if (mode == 'stake') {
-			vault = stats.stats.vault;
-
-			title = 'Stake ' + stats.token.name;
-			component = <VaultStake uiStats={stats.stats} onClose={onClose} />;
-		} else if (mode == 'unstake') {
-			let geyser = stats.stats.geyser;
-			vault = stats.stats.vault;
-
-			title = 'Unstake ' + stats.token.name;
-			component = <GeyserUnstake uiStats={stats.stats} onClose={onClose} />;
-		} else if (mode == 'unwrap') {
-			vault = stats.stats.vault;
-			title = 'Unwrap ' + stats.token.name;
-
-			component = <VaultUnwrap uiStats={stats.stats} onClose={onClose} />;
-		}
+		let form = <VaultDeposit vault={vault} />
+		if (dialogMode === 'vault' && dialogOut)
+			form = <VaultWithdraw vault={vault} />
+		else if (dialogMode == 'geyser' && !dialogOut)
+			form = <GeyserStake vault={vault} />
+		else if (dialogMode == 'geyser' && dialogOut)
+			form = <GeyserUnstake vault={vault} />
 
 		return (
-			<Dialog key={title} fullWidth maxWidth={'sm'} open={open} onClose={onClose}>
-				<DialogTitle disableTypography>
-					<VaultSymbol token={stats.token} />
+			<Dialog key={'dialog'} fullWidth maxWidth={'sm'} open={open} onClose={onClose}>
+				<DialogTitle disableTypography style={{ marginBottom: '.5rem' }}>
+					<div style={{ float: 'right' }}>
+						<Switch
+							checked={!dialogOut}
+							onChange={() => {
+								setDialogOut(!dialogOut);
+							}}
+							color="primary"
+						/>
+					</div>
+					<VaultSymbol token={vault.underlyingToken} />
 
-					<Typography variant="body1">{title}</Typography>
-
+					<Typography variant="body1" color="textPrimary" component="div">
+						{vault.underlyingToken.name}
+					</Typography>
 					<Typography variant="body2" color="textSecondary" component="div">
-						{stats.token.symbol}
-
-						{!!vault.isSuperSett && (
-							<Chip className={classes.chip} label="Harvest" size="small" color="primary" />
-						)}
+						{vault.underlyingToken.symbol}
 					</Typography>
 				</DialogTitle>
-				<div>{false ? pendingTx('Awaiting transaction confirmation...') : component}</div>
+				<Tabs
+					variant="fullWidth"
+					indicatorColor="primary"
+					value={['vault', 'geyser'].indexOf(dialogMode)}
+					style={{ background: 'rgba(0,0,0,.2)', marginBottom: '.5rem' }}
+				>
+					<Tab onClick={() => setDialogMode('vault')} label={dialogOut ? "Withdraw" : "Deposit"}></Tab>
+					<Tab onClick={() => setDialogMode('geyser')} label={dialogOut ? "Unstake" : "Stake"}></Tab>
+				</Tabs>
+
+				{form}
+
 			</Dialog>
 		);
 	};

@@ -97,8 +97,7 @@ export const TokenCard = observer((props: any) => {
 
 	const { vault,
 		isGlobal,
-		onDeposit,
-		onWithdraw } = props;
+		onOpen } = props;
 
 	const {
 		period,
@@ -143,7 +142,7 @@ export const TokenCard = observer((props: any) => {
 						variant="body1"
 						color={'textPrimary'}
 					>
-						{!isGlobal ? formatBalance(token) : formatSupply(vault)}
+						{isGlobal ? formatBalance(token) : formatSupply(vault)}
 					</Typography>
 
 				</Grid>
@@ -176,28 +175,15 @@ export const TokenCard = observer((props: any) => {
 
 				<Grid item xs={12} md={2}>
 					<ButtonGroup variant="outlined" className={classes.cardActions}>
-						{token.balance.gt(0) && (
-							<Button
-								onClick={() => onDeposit({ token, vault })}
-								variant={'outlined'}
-								color="primary"
-								size="small"
-							>
-								DEPOSIT
-							</Button>
-						)}
-						{vault.balance.gt(0) && (
-							<Button
-								onClick={() => onWithdraw({ token, vault })}
-								variant={'outlined'}
-								color="primary"
-								size="small"
-							>
-								WITHDRAW
-							</Button>
-						)}
 
-
+						<Button
+							onClick={() => onOpen(vault)}
+							variant={'outlined'}
+							color={vault.balance.gt(0) || token.balance.gt(0) ? 'primary' : 'default'}
+							size="small"
+						>
+							OPEN
+							</Button>
 					</ButtonGroup>
 				</Grid>
 			</Grid>
