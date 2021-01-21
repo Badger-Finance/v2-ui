@@ -44,7 +44,7 @@ export const digg = [
 		readMethods: [
 			{
 				name: 'providerReports',
-				args: ['0xfc4b1Ce32ed7310028DCC0d94C7B3D96dCd880e0', 0],
+				args: [diggDeploy.digg_system.centralizedOracle, 0],
 			},
 		],
 	},

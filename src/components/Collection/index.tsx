@@ -1,6 +1,6 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { observer } from 'mobx-react-lite';
-import { StoreContext } from '../../context/store-context';
+import { StoreContext } from '../../mobx/store-context';
 import {
 	Grid,
 	Container,
@@ -23,6 +23,9 @@ import { Loader } from '../Loader';
 
 import { SettList } from './SettList';
 import { CLAIMS_SYMBOLS } from 'config/constants';
+import { formatPrice } from 'mobx/reducers/statsReducers';
+import useInterval from '@use-it/interval';
+import Hero from 'components/Common/Hero';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -58,6 +61,7 @@ const useStyles = makeStyles((theme) => ({
 	statPaper: {
 		padding: theme.spacing(2),
 		textAlign: 'center',
+
 	},
 	before: {
 		marginTop: theme.spacing(3),
@@ -87,8 +91,16 @@ const useStyles = makeStyles((theme) => ({
 	},
 	rewardItem: {
 		padding: 0,
-	}
+	},
 
+	heroPaper: {
+		padding: theme.spacing(3, 0),
+		minHeight: '100%',
+		background: 'none',
+		textAlign: 'left',
+		[theme.breakpoints.up('md')]: {
+		},
+	},
 }));
 export const Collection = observer(() => {
 	const store = useContext(StoreContext);
@@ -96,7 +108,8 @@ export const Collection = observer(() => {
 
 	const {
 		wallet: { connectedAddress, isCached },
-		contracts: { tokens, claimGeysers },
+		contracts: { tokens },
+		rewards: { claimGeysers, badgerTree },
 		uiState: {
 			stats,
 
@@ -104,7 +117,6 @@ export const Collection = observer(() => {
 			period,
 			setCurrency,
 			setPeriod,
-			treeStats,
 			hideZeroBal,
 			setHideZeroBal,
 		},
@@ -114,43 +126,44 @@ export const Collection = observer(() => {
 		return <Loader />;
 	}
 
+	const [update, forceUpdate] = useState<boolean>();
+	useInterval(() => forceUpdate(!update), 1000)
+
 	const spacer = () => <div className={classes.before} />;
 
 	const availableRewards = () => {
-		return treeStats.claims.map((claim: string, idx: number) => (
+		return badgerTree.claims.map((claim: string, idx: number) => (
 			<Grid item xs={12} md={6}>
-
 				<Paper className={classes.statPaper}>
-
-					<List style={{ padding: 0 }}><ListItem className={classes.rewardItem} key={idx}>
-						<ListItemText primary={claim} secondary={`${CLAIMS_SYMBOLS[idx]} Available to Claim`} />
-						<ListItemSecondaryAction>
-							<ButtonGroup size="small" variant="outlined" color="primary">
-								<Button
-									onClick={() => {
-										claimGeysers(false);
-									}}
-									variant="contained"
-								>
-									Claim
+					<List style={{ padding: 0 }}>
+						<ListItem className={classes.rewardItem} key={idx}>
+							<ListItemText primary={claim} secondary={`${CLAIMS_SYMBOLS[idx]} Available to Claim`} />
+							<ListItemSecondaryAction>
+								<ButtonGroup size="small" variant="outlined" color="primary">
+									<Button
+										onClick={() => {
+											claimGeysers(false);
+										}}
+										variant="contained"
+									>
+										Claim
 									</Button>
-
-							</ButtonGroup>
-						</ListItemSecondaryAction>
-					</ListItem>
+								</ButtonGroup>
+							</ListItemSecondaryAction>
+						</ListItem>
 					</List>
 				</Paper>
 			</Grid>
-		))
-
-
-	}
+		));
+	};
 
 	return (
 		<>
 			<Container className={classes.root}>
 				<Grid container spacing={1} justify="center">
-					{spacer()}
+					<Grid item sm={12} xs={12}>
+						<Hero title="Sett Vaults" subtitle="Powerful Bitcoin strategies. Automatic staking rewards" />
+					</Grid>
 					<Grid item sm={6}>
 						<FormControlLabel
 							control={
@@ -208,7 +221,7 @@ export const Collection = observer(() => {
 							<Typography variant="subtitle1" color="textPrimary">
 								TVL
 							</Typography>
-							<Typography variant="h5">{stats.stats.tvl}</Typography>
+							<Typography variant="h5">{formatPrice(stats.stats.tvl, currency)}</Typography>
 						</Paper>
 					</Grid>
 					{!!connectedAddress && (
@@ -217,7 +230,7 @@ export const Collection = observer(() => {
 								<Typography variant="subtitle1" color="textPrimary">
 									Your Portfolio
 								</Typography>
-								<Typography variant="h5">{stats.stats.portfolio}</Typography>
+								<Typography variant="h5">{formatPrice(stats.stats.portfolio, currency)}</Typography>
 							</Paper>
 						</Grid>
 					)}
@@ -227,12 +240,12 @@ export const Collection = observer(() => {
 							<Typography variant="subtitle1" color="textPrimary">
 								Badger Price
 							</Typography>
-							<Typography variant="h5">{stats.stats.badger || '...'}</Typography>
+							<Typography variant="h5">{formatPrice(stats.stats.badger, currency)}</Typography>
 						</Paper>
 					</Grid>
 					{spacer()}
 
-					{!!connectedAddress && treeStats.claims.length > 0 && (
+					{!!connectedAddress && badgerTree.claims.length > 0 && (
 						<>
 							<Grid item xs={12} style={{ textAlign: 'center', paddingBottom: 0 }}>
 								<Typography variant="subtitle1" color="textPrimary">
@@ -243,35 +256,9 @@ export const Collection = observer(() => {
 						</>
 					)}
 
-					{/* <Grid item xs={12} >
-				<Typography variant="body1" color="textPrimary" className={classes.featuredHeader}>Featured</Typography>
-
-				<Carousel
-					interval={10000}
-					className={classes.carousel}
-					navButtonsAlwaysVisible
-					indicatorContainerProps={{
-						className: classes.indicatorContainer,
-						style: {}
-					}}
-					indicatorProps={{
-						className: classes.indicator,
-						style: {}
-					}}
-					activeIndicatorProps={{
-						className: classes.activeIndicator,
-						style: {}
-					}}
-
-				>
-				</Carousel>
-			</Grid > */}
-
 					<SettList isGlobal={!isCached()} hideEmpty={hideZeroBal} />
 				</Grid>
 			</Container>
 		</>
 	);
 });
-
-

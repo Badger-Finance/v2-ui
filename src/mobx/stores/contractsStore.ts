@@ -7,26 +7,25 @@ import BigNumber from 'bignumber.js';
 import { RootStore } from '../store';
 import _ from 'lodash';
 import {
-	erc20BatchConfig,
-	generateCurveTokens,
 	reduceBatchResult,
 	reduceContractConfig,
-	reduceMethodConfig,
-	reduceContractsToTokens,
 	reduceCurveResult,
-	reduceGeyserSchedule,
 	reduceGraphResult,
 	reduceGrowth,
-	reduceSushiAPIResults,
+	Vault,
+	Geyser,
+	Token,
+	reduceGrowthQueryConfig,
+	Growth,
 	reduceXSushiROIResults,
+	reduceSushiAPIResults,
 } from '../reducers/contractReducers';
 import { jsonQuery, graphQuery, growthQuery, secondsToBlocks, inCurrency, vanillaQuery } from '../utils/helpers';
 import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
 import async from 'async';
-import { reduceClaims, reduceTimeSinceLastCycle } from '../reducers/statsReducers';
 
-import { curveTokens } from '../../config/system/tokens';
+import { curveTokens, names, symbols, tokenMap } from '../../config/system/tokens';
 import {
 	EMPTY_DATA,
 	ERC20,
@@ -34,14 +33,11 @@ import {
 	START_BLOCK,
 	START_TIME,
 	WBTC_ADDRESS,
+	XSUSHI_ADDRESS,
 } from '../../config/constants';
-import {
-	rewards as rewardsConfig,
-	geysers as geyserConfigs,
-	vaults as vaultsConfigs,
-} from '../../config/system/settSystem';
-import { digg, orchestrator, rewards as airdropsConfig, token as diggTokenConfig } from '../../config/system/digg';
-import { getNextRebase, getRebaseLogs } from '../utils/digHelpers';
+import { geyserBatches, vaultBatches } from '../../config/system/contracts';
+import { decimals as tokenDecimals, tokenBatches } from '../../config/system/tokens';
+import { formatAmount } from 'mobx/reducers/statsReducers';
 
 const infuraProvider = new Web3.providers.HttpProvider(RPC_URL);
 const options = {
@@ -57,39 +53,30 @@ let batchCall = new BatchCall(options);
 class ContractsStore {
 	private store!: RootStore;
 
-	public tokens?: any; // inputs to vaults and geysers
-	public vaults?: any; // vaults contract data
-	public geysers?: any; // geyser contract data
-	public rebase?: any; // rebase contract data
-
-	public badgerTree?: any; // geyser contract data
-	public airdrops?: any; // geyser contract data
+	public tokens?: any = {}; // inputs to vaults and geysers
+	public vaults?: any = {}; // vaults contract data
+	public geysers?: any = {}; // geyser contract data
 
 	constructor(store: RootStore) {
 		this.store = store;
 
 		extendObservable(this, {
-			vaults: undefined,
-			tokens: undefined,
-			geysers: undefined,
-			rebase: undefined,
-			badgerTree: { cycle: '...', timeSinceLastCycle: '0h 0m', claims: [0] },
-			airdrops: undefined,
+			vaults: {} as { string: Vault },
+			tokens: {} as { string: Token },
+			geysers: {} as { string: Geyser },
 		});
 
 		this.fetchContracts();
+		this.fetchContracts();
 
-		observe(this as any, 'tokens', (change: any) => {
-			if (!!change.oldValue) {
-				this.calculateVaultGrowth();
-				this.calculateGeyserRewards();
-				this.fetchRebaseStats();
-			}
-		});
+		// observe(this as any, 'tokens', (change: any) => {
+		// 	if (!!change.oldValue) {
+		// 		this.calculateVaultGrowth();
+		// 	}
+		// });
 		observe(this.store.wallet, 'currentBlock', (change: any) => {
 			if (!!change.oldValue) {
 				this.fetchContracts();
-				this.fetchRebaseStats();
 			}
 		});
 
@@ -97,8 +84,6 @@ class ContractsStore {
 			this.updateProvider();
 		});
 		if (!!this.store.wallet.connectedAddress) this.updateProvider();
-
-		setInterval(this.fetchSettRewards, 6e4);
 	}
 
 	updateProvider = action(() => {
@@ -111,319 +96,224 @@ class ContractsStore {
 		};
 		batchCall = new BatchCall(newOptions);
 
-		this.fetchSettRewards();
-		this.fetchAirdrops();
-		this.fetchContracts();
-	});
-	updateVaults = action((vaults: any) => {
-		this.vaults = _.defaultsDeep(vaults, this.vaults, vaults);
-	});
-	updateTokens = action((tokens: any) => {
-		this.tokens = _.defaultsDeep(tokens, this.tokens, tokens);
-	});
-	updateGeysers = action((geysers: any) => {
-		this.geysers = _.defaultsDeep(geysers, this.geysers, geysers);
-	});
-	updateRebase = action((rebase: any) => {
-		this.rebase = _.defaultsDeep(rebase, this.rebase, rebase);
+		this.store.airdrops.fetchAirdrops();
+		if (this._fetchingContracts) this._pendingChangeOfAddress = true;
+		else this.fetchContracts();
 	});
 
+	private _fetchingContracts: boolean = false;
+	private _pendingChangeOfAddress: boolean = false;
 	fetchContracts = action(() => {
-		// state and wallet are separate stores
-		// const { vaults, geysers } = this;
-		const { connectedAddress } = this.store.wallet;
-
-		// grab respective config files
-		this.updateVaults(reduceContractConfig(vaultsConfigs, connectedAddress && { connectedAddress }));
-		this.updateGeysers(reduceContractConfig(geyserConfigs, connectedAddress && { connectedAddress }));
-		// create batch configs for vaultsConfigs and geysers
-		const vaultBatch: any[] = _.map(vaultsConfigs, (config: any) => {
-			return batchConfig(
-				'vaults',
-				config.contracts,
-				!!config.methods ? reduceMethodConfig(config.methods, !!connectedAddress && { connectedAddress }) : [],
-				config.abi,
-			);
-		});
-
-		const geyserBatch: any[] = _.map(geyserConfigs, (config: any) => {
-			return batchConfig(
-				'geysers',
-				config.contracts,
-				!!config.methods ? reduceMethodConfig(config.methods, !!connectedAddress && { connectedAddress }) : [],
-				config.abi,
-			);
-		});
-
-		const batchContracts = _.concat(vaultBatch, geyserBatch);
-
-		// console.log(batchContracts, batchCall)
-
-		// execute batch calls to web3 (infura most likely)
-		batchCall
-			.execute(batchContracts)
-			.then((result: any) => {
-				// sort result into hash {vaults:[], geysers:[]}
-				const keyedResult = _.groupBy(result, 'namespace');
-				// store vaults & geysers as hashes {contract_address: data}
-				// console.log(keyedResult, vaultBatch, geyserBatch)
-				_.mapKeys(keyedResult, (value: any, key: string) => {
-					if (key === 'vaults') this.updateVaults(_.keyBy(reduceBatchResult(value), 'address'));
-					else this.updateGeysers(_.keyBy(reduceBatchResult(value), 'address'));
-				});
-
-				// console.log(this.vaults)
-
-				// fetch input/outputs information
-				this.fetchTokens();
-			})
-			.catch((error: any) => process.env.NODE_ENV !== 'production' && console.log(error));
-	});
-
-	fetchTokens = action(() => {
-		const { } = this.store;
-		const { connectedAddress } = this.store.wallet;
-
-		// reduce to {address:{address:,contract:}}
-		this.updateTokens(reduceContractsToTokens({ ...this.vaults, ...this.geysers }));
-		// console.log(this.tokens)
-
-		//generate curve tokens
-		this.updateTokens(generateCurveTokens());
-
-		// console.log(this.vaults, this.geysers)
-
-		// prepare curve query
-		const curveBtcPrices = curveTokens.contracts.map((address: string, index: number) =>
-			jsonQuery(curveTokens.priceEndpoints[index]),
-		);
-
-		// prepare price queries
-		const graphQueries = _.flatten(_.map(this.tokens, (token: any) => graphQuery(token)));
-
-		// prepare batch call
-		const ercConfigs = erc20BatchConfig(this.tokens, connectedAddress);
-		const ercBatch = !!ercConfigs ? [batchCall.execute(ercConfigs)] : [];
-		// console.log([...curveBtcPrices, ...ercBatch, ...graphQueries])
-
-		// execute promises
-		Promise.all([...curveBtcPrices, ...ercBatch, ...graphQueries]).then((result: any[]) => {
-			const tokenContracts = _.keyBy(reduceBatchResult(_.flatten(result.slice(3, 4))), 'address');
-			const tokenGraph = _.keyBy(_.compact(reduceGraphResult(result.slice(4))), 'address');
-			const curveBtcPrices = _.keyBy(
-				reduceCurveResult(result.slice(0, 3), curveTokens.contracts, this.tokens, tokenGraph[WBTC_ADDRESS]),
-				'address',
-			);
-
-			this.updateTokens(_.defaultsDeep(curveBtcPrices, tokenGraph, tokenContracts, this.tokens));
-			// this.updateTokens(tokenGraph)
-			// this.updateTokens(curveBtcPrices)
-
-			// console.log(this.tokens, tokenContracts, tokenGraph, curveBtcPrices)
-		});
-	});
-
-	fetchSettRewards = action(() => {
-		const { provider, connectedAddress } = this.store.wallet;
-		const { } = this.store.uiState;
-
-		if (!connectedAddress) return;
-
-		const web3 = new Web3(provider);
-		const rewardsTree = new web3.eth.Contract(rewardsConfig.abi as any, rewardsConfig.contract);
-		const checksumAddress = Web3.utils.toChecksumAddress(connectedAddress);
-
-		const treeMethods = [
-			rewardsTree.methods.lastPublishTimestamp().call(),
-			rewardsTree.methods.merkleContentHash().call(),
-		];
-
-		Promise.all(treeMethods).then((rewardsResponse: any) => {
-			const merkleHash = rewardsResponse[1];
-
-			this.badgerTree = _.defaults(
-				{
-					timeSinceLastCycle: reduceTimeSinceLastCycle(rewardsResponse[0]),
-				},
-				this.badgerTree,
-			);
-
-			const endpointQuery = jsonQuery(
-				`${rewardsConfig.endpoint}/rewards/${rewardsConfig.network}/${merkleHash}/${checksumAddress}`,
-			);
-
-			endpointQuery.then((proof: any) => {
-				rewardsTree.methods
-					.getClaimedFor(connectedAddress, rewardsConfig.tokens)
-					.call()
-					.then((claimedRewards: any[]) => {
-						if (!proof.error) {
-							this.badgerTree = _.defaults(
-								{
-									cycle: parseInt(proof.cycle, 16),
-									claims: reduceClaims(proof, claimedRewards),
-									proof,
-								},
-								this.badgerTree,
-							);
-						}
-					});
-			});
-		});
-	});
-
-	fetchAirdrops = action(() => {
-		const { provider, connectedAddress, isCached } = this.store.wallet;
-		const { } = this.store.uiState;
-		// console.log('fetching', connectedAddress)
-
-		if (!connectedAddress) return;
-
-		// console.log('fetching', connectedAddress)
-
-		const web3 = new Web3(provider);
-		const rewardsTree = new web3.eth.Contract(airdropsConfig.abi as any, airdropsConfig.contract);
-		const diggToken = new web3.eth.Contract(diggTokenConfig.abi as any, diggTokenConfig.contract);
-		const checksumAddress = Web3.utils.toChecksumAddress(connectedAddress);
-
-		jsonQuery(`${airdropsConfig.endpoint}/1337/${checksumAddress}`).then((merkleProof: any) => {
-			// console.log('proof', new BigNumber(Web3.utils.hexToNumberString(merkleProof.amount)).toString())
-			if (!merkleProof.error) {
-				Promise.all([
-					rewardsTree.methods.isClaimed(merkleProof.index).call(),
-					diggToken.methods
-						.sharesToFragments(new BigNumber(Web3.utils.hexToNumberString(merkleProof.amount)).toFixed(0))
-						.call(),
-				])
-					.then((result: any[]) => {
-						// console.log(new BigNumber(result[1]).multipliedBy(1e9))
-						this.airdrops = {
-							digg: !result[0] ? new BigNumber(result[1]).multipliedBy(1e9) : new BigNumber(0),
-
-							merkleProof,
-						};
-					});
-			}
-		});
-	});
-
-	fetchRebaseStats = action(async () => {
-		const rebaseLog = await getRebaseLogs();
-		const { digg } = require('config/system/digg');
-		Promise.all([batchCall.execute(digg), ...[...graphQuery({ address: digg[0].addresses[0] })]]).then(
-			(result: any[]) => {
-				let keyedResult = _.groupBy(result[0], 'namespace');
-				// console.log(keyedResult)
-
-				if (!keyedResult.token || !keyedResult.token[0].decimals || !keyedResult.oracle)
-					return
-
-				const minRebaseTimeIntervalSec = parseInt(keyedResult.policy[0].minRebaseTimeIntervalSec[0].value);
-				const lastRebaseTimestampSec = parseInt(keyedResult.policy[0].lastRebaseTimestampSec[0].value);
-				const decimals = parseInt(keyedResult.token[0].decimals[0].value);
-				let token = {
-					totalSupply: new BigNumber(keyedResult.token[0].totalSupply[0].value).dividedBy(
-						Math.pow(10, decimals),
-					),
-					decimals: decimals,
-					lastRebaseTimestampSec: lastRebaseTimestampSec,
-					minRebaseTimeIntervalSec: minRebaseTimeIntervalSec,
-					rebaseLag: keyedResult.policy[0].rebaseLag[0].value,
-					epoch: keyedResult.policy[0].epoch[0].value,
-					inRebaseWindow: keyedResult.policy[0].inRebaseWindow[0].value !== 'N/A',
-					rebaseWindowLengthSec: parseInt(keyedResult.policy[0].rebaseWindowLengthSec[0].value),
-					oracleRate: new BigNumber(keyedResult.oracle[0].providerReports[0].value.payload).dividedBy(1e18),
-					derivedEth: result[1].data.token ? result[1].data.token.derivedETH : 0,
-					nextRebase: getNextRebase(minRebaseTimeIntervalSec, lastRebaseTimestampSec),
-					pastRebase: rebaseLog,
-				};
-				// console.log(token);
-				this.updateRebase(token);
+		if (this._fetchingContracts) return;
+		this._fetchingContracts = true;
+		async.series(
+			[
+				(callback: any) => this.fetchTokens(callback),
+				(callback: any) => this.fetchVaults(callback),
+				(callback: any) => this.fetchGeysers(callback),
+			],
+			(err: any, result: any) => {
+				this._fetchingContracts = false;
+				if (this._pendingChangeOfAddress) {
+					this._pendingChangeOfAddress = false;
+					this.fetchContracts();
+				}
 			},
 		);
 	});
 
-	callRebase = action(() => {
-		const { merkleProof } = this.airdrops;
-		const { provider, gasPrices, connectedAddress } = this.store.wallet;
-		const { queueNotification, gasPrice, setTxStatus } = this.store.uiState;
+	fetchTokens = action((callback: any) => {
+		const { connectedAddress } = this.store.wallet;
 
-		if (!connectedAddress) return;
-		// if (ethBalance?.lt(MIN_ETH_BALANCE))
-		// 	return queueNotification("Your account is low on ETH, you may need to top up to claim.", 'warning')
+		let { defaults, batchCall: batch } = reduceContractConfig(
+			tokenBatches,
+			!!connectedAddress && { connectedAddress },
+		);
+		// prepare curve price query
+		const curveQueries = curveTokens.contracts.map((address: string, index: number) =>
+			jsonQuery(curveTokens.priceEndpoints[index]),
+		);
 
-		const web3 = new Web3(provider);
-		const policy = new web3.eth.Contract(orchestrator.abi as any, orchestrator.contract);
-		const method = policy.methods.rebase();
+		// prepare price queries
+		const graphQueries = _.flatten(_.map(tokenBatches[0].contracts, (address: string) => graphQuery(address)));
+		// console.log(batch)
+		Promise.all([batchCall.execute(batch), ...curveQueries, ...graphQueries])
+			.then((result: any[]) => {
+				const tokenContracts = _.keyBy(reduceBatchResult(_.flatten(result.slice(0, 1))), 'address');
+				const tokenPrices = _.keyBy(
+					_.compact(reduceGraphResult(result.slice(1 + curveQueries.length))),
+					'address',
+				);
+				const curvePrices = _.keyBy(
+					reduceCurveResult(
+						result.slice(1, 1 + curveQueries.length),
+						curveTokens.contracts,
+						this.tokens,
+						tokenPrices[WBTC_ADDRESS],
+					),
+					'address',
+				);
+				const tokens = _.compact(
+					_.values(
+						_.defaultsDeep(
+							curvePrices,
+							tokenPrices,
+							tokenContracts,
+							_.mapValues(symbols, (value: string, address: string) => ({ address, symbol: value })),
+							_.mapValues(names, (value: string, address: string) => ({ address, name: value })),
+						),
+					),
+				);
 
-		queueNotification(`Sign the transaction to rebase BADGER`, 'info');
-		const diggAmount = this.airdrops.digg;
-		estimateAndSend(web3, gasPrices[gasPrice], method, connectedAddress, (transaction: PromiEvent<Contract>) => {
-			transaction
-				.on('transactionHash', (hash) => {
-					queueNotification(`Rebase submitted.`, 'info', hash);
-				})
-				.on('receipt', () => {
-					queueNotification(`Rebase success.`, 'success');
-					this.fetchRebaseStats()
-				})
-				.catch((error: any) => {
-					queueNotification(error.message, 'error');
-					setTxStatus('error');
+				tokens.forEach((contract: any) => {
+					const token = this.getOrCreateToken(contract.address);
+					token.update(contract);
 				});
-		});
+
+				callback();
+			})
+			.catch((error: any) => process.env.NODE_ENV !== 'production' && console.log(error));
 	});
-	depositAndStake = action((geyser: any, amount: BigNumber, onlyWrapped = false) => {
+	fetchVaults = action((callback: any) => {
+		const { connectedAddress, currentBlock } = this.store.wallet;
+		const sushiBatches = vaultBatches[1];
+
+		let { defaults, batchCall: batch } = reduceContractConfig(
+			vaultBatches,
+			connectedAddress && { connectedAddress },
+		);
+
+		const { growthQueries, periods } = reduceGrowthQueryConfig(currentBlock);
+
+		const xSushiQuery = vanillaQuery(sushiBatches.growthEndpoints![1]);
+		const masterChefQuery = vanillaQuery(
+			sushiBatches.growthEndpoints![2].concat(tokenBatches[0].contracts.join(';')),
+		);
+
+		Promise.all([batchCall.execute(batch), ...growthQueries, masterChefQuery, xSushiQuery])
+			.then((queryResult: any[]) => {
+				let result = reduceBatchResult(queryResult[0]);
+				let masterChefResult: any = queryResult.slice(growthQueries.length + 1, growthQueries.length + 2);
+				let xSushiResult: any = queryResult.slice(growthQueries.length + 2);
+
+				const vaultGrowth = reduceGrowth(queryResult.slice(1, growthQueries.length + 1), periods, START_TIME);
+				const xROI: any = reduceXSushiROIResults(xSushiResult[0]['weekly_APY']);
+				const newSushiRewards = reduceSushiAPIResults(masterChefResult[0], sushiBatches.contracts);
+
+				result.forEach((contract: any) => {
+					let tokenAddress = tokenMap[contract.address];
+					if (!tokenAddress) {
+						return console.log(tokenMap[contract.address], tokenMap, contract.address);
+					}
+					let vault = this.getOrCreateVault(
+						contract.address,
+						this.tokens[tokenAddress],
+						defaults[contract.address].abi,
+					);
+
+					let growth =
+						!!vaultGrowth[contract.address] &&
+						_.mapValues(vaultGrowth[contract.address], (tokens: BigNumber, period: string) => ({
+							amount: tokens,
+							token: this.tokens[tokenAddress],
+						}));
+					let xSushiGrowth =
+						!!newSushiRewards[tokenAddress] &&
+						_.mapValues(newSushiRewards[tokenAddress], (tokens: BigNumber, period: string) => {
+							return {
+								amount: tokens,
+								token: this.tokens[XSUSHI_ADDRESS],
+							};
+						});
+
+					//TODO: xSushi ROI not added in here - need vault balance which doesn't seem to be set.
+
+					vault.update(
+						_.defaults(contract, defaults[contract.address], { growth: _.compact([growth, xSushiGrowth]) }),
+					);
+				});
+				callback();
+			})
+			.catch((error: any) => process.env.NODE_ENV !== 'production' && console.log(error));
+	});
+
+	fetchGeysers = action((callback: any) => {
+		const { connectedAddress } = this.store.wallet;
+
+		let { defaults, batchCall: batch } = reduceContractConfig(
+			geyserBatches,
+			connectedAddress && { connectedAddress },
+		);
+
+		batchCall
+			.execute(batch)
+			.then((infuraResult: any[]) => {
+				let result = reduceBatchResult(infuraResult);
+				result.forEach((contract: any) => {
+					let vaultAddress = contract[defaults[contract.address].underlyingKey];
+					if (!this.vaults[vaultAddress]) {
+						console.log(this.vaults, vaultAddress);
+					}
+					let geyser: Geyser = this.getOrCreateGeyser(
+						contract.address,
+						this.vaults[vaultAddress],
+						defaults[contract.address].abi,
+					);
+					geyser.update(_.defaults(contract, defaults[contract.address]));
+				});
+				callback();
+			})
+			.catch((error: any) => process.env.NODE_ENV !== 'production' && console.log(error));
+	});
+
+	getOrCreateToken = action((address: string) => {
+		if (!this.tokens[address]) {
+			this.tokens[address] = new Token(this.store, address, tokenDecimals[address]);
+			return this.tokens[address];
+		} else {
+			return this.tokens[address];
+		}
+	});
+	getOrCreateVault = action((address: string, token?: Token, abi?: any) => {
+		if (!this.vaults[address]) {
+			this.vaults[address] = new Vault(this.store, address, tokenDecimals[address], token!, abi);
+			return this.vaults[address];
+		} else {
+			return this.vaults[address];
+		}
+	});
+	getOrCreateGeyser = action((address: string, vault?: Vault, abi?: any) => {
+		if (!this.vaults[address]) {
+			this.geysers[address] = new Geyser(this.store, address, vault!, abi);
+			return this.geysers[address];
+		} else {
+			return this.geysers[address];
+		}
+	});
+
+	deposit = action((vault: Vault, amount: BigNumber) => {
 		const { tokens, vaults } = this;
 		const { setTxStatus, queueNotification } = this.store.uiState;
 
-		const vault = vaults[geyser[geyser.underlyingKey]];
-		const underlying = tokens[vault[vault.underlyingKey]];
-		const wrapped = tokens[vault.address];
-
-		// console.log(vault, geyser, onlyWrapped)
-
-		if (!amount || amount.isNaN() || amount.lte(0))
+		if (!amount || amount.isNaN() || amount.lte(0) || amount.gt(vault.underlyingToken.balance))
 			return queueNotification('Please enter a valid amount', 'error');
 
-		// calculate amount to deposit
-
-		let underlyingAmount = new BigNumber(0);
-
-		if (onlyWrapped) {
-			if (amount.gt(vault.balanceOf)) return queueNotification('Please enter a valid amount', 'error');
-		} else {
-			underlyingAmount = amount;
-		}
+		let underlyingAmount = amount.multipliedBy(10 ** vault.underlyingToken.decimals);
 
 		const methodSeries: any = [];
 
 		async.parallel(
-			[
-				(callback: any) => this.getAllowance(underlying, vault.address, callback),
-				(callback: any) => this.getAllowance(wrapped, geyser.address, callback),
-			],
+			[(callback: any) => this.getAllowance(vault.underlyingToken, vault.address, callback)],
 			(err: any, allowances: any) => {
-				// console.log(allowances)
-
 				// if we need to wrap assets, make sure we have allowance
-				if (underlyingAmount.gt(0)) {
-					if (underlyingAmount.gt(allowances[0]))
-						methodSeries.push((callback: any) =>
-							this.increaseAllowance(underlying, vault.address, callback),
-						);
-
+				if (underlyingAmount.gt(allowances[0]))
 					methodSeries.push((callback: any) =>
-						this.depositVault(vault, underlyingAmount, amount.gte(underlying.balanceOf), callback),
+						this.increaseAllowance(vault.underlyingToken, vault.address, callback),
 					);
-				}
-				if (onlyWrapped) {
-					// if we need to deposit wrapped assets, make sure we have allowance
-					if (amount.gt(allowances[1]))
-						methodSeries.push((callback: any) => this.increaseAllowance(wrapped, geyser.address, callback));
 
-					methodSeries.push((callback: any) => this.depositGeyser(geyser, amount, callback));
-				}
+				methodSeries.push((callback: any) =>
+					this.depositVault(vault, underlyingAmount, amount.gte(vault.underlyingToken.balance), callback),
+				);
 
 				setTxStatus('pending');
 				async.series(methodSeries, (err: any, results: any) => {
@@ -433,37 +323,47 @@ class ContractsStore {
 			},
 		);
 	});
-
-	unstakeAndUnwrap = action((geyser: any, amount: BigNumber) => {
+	stake = action((vault: Vault, amount: BigNumber) => {
 		const { tokens, vaults } = this;
 		const { setTxStatus, queueNotification } = this.store.uiState;
 
-		const wrapped = tokens[geyser[geyser.underlyingKey]];
-		const vault = vaults[wrapped.address];
-
-		// ensure balance is valid
-		if (
-			amount.isNaN() ||
-			amount.lte(0) ||
-			amount.gt(geyser.totalStakedFor.multipliedBy(vault.getPricePerFullShare.dividedBy(1e18)))
-		)
+		if (!amount || amount.isNaN() || amount.lte(0) || amount.gt(vault.balance))
 			return queueNotification('Please enter a valid amount', 'error');
 
-		// calculate amount to withdraw
-		let wrappedAmount = amount.dividedBy(vault.getPricePerFullShare.dividedBy(1e18));
+		let wrappedAmount = amount.multipliedBy(10 ** vault.decimals);
+
 		const methodSeries: any = [];
 
-		if (geyser.totalStakedFor.minus(wrappedAmount).lte(1)) {
-			// console.log("unstakeALL")
-			wrappedAmount = geyser.totalStakedFor;
-		}
+		async.parallel(
+			[(callback: any) => this.getAllowance(vault, vault.geyser.address, callback)],
+			(err: any, allowances: any) => {
+				// if we need to wrap assets, make sure we have allowance
+				if (wrappedAmount.gt(allowances[0]))
+					methodSeries.push((callback: any) => this.increaseAllowance(vault, vault.geyser.address, callback));
 
-		// if we need to wrap assets, make sure we have allowance
-		methodSeries.push((callback: any) => this.withdrawGeyser(geyser, wrappedAmount, callback));
+				methodSeries.push((callback: any) => this.stakeGeyser(vault.geyser, wrappedAmount, callback));
 
-		methodSeries.push((callback: any) =>
-			this.withdrawVault(vault, wrappedAmount, wrappedAmount.gte(wrapped.balanceOf), callback),
+				setTxStatus('pending');
+				async.series(methodSeries, (err: any, results: any) => {
+					console.log(err, results);
+					setTxStatus(!!err ? 'error' : 'success');
+				});
+			},
 		);
+	});
+	unstake = action((vault: Vault, amount: BigNumber) => {
+		const { tokens, vaults } = this;
+		const { setTxStatus, queueNotification } = this.store.uiState;
+
+		if (!amount || amount.isNaN() || amount.lte(0) || amount.gt(vault.geyser.balance))
+			return queueNotification('Please enter a valid amount', 'error');
+
+		let wrappedAmount = amount.multipliedBy(10 ** vault.decimals);
+
+		const methodSeries: any = [];
+
+		methodSeries.push((callback: any) => this.unstakeGeyser(vault.geyser, wrappedAmount, callback));
+
 		setTxStatus('pending');
 		async.series(methodSeries, (err: any, results: any) => {
 			console.log(err, results);
@@ -471,163 +371,26 @@ class ContractsStore {
 		});
 	});
 
-	unwrap = action((vault: any, amount: BigNumber) => {
+	withdraw = action((vault: any, amount: BigNumber) => {
 		const { tokens } = this;
 		const { setTxStatus, queueNotification } = this.store.uiState;
 
-		const wrapped = tokens[vault.address];
-
 		// ensure balance is valid
-		if (amount.isNaN() || !wrapped.balanceOf || amount.gt(wrapped.balanceOf))
+		if (amount.isNaN() || !vault.balance || amount.gt(vault.balance))
 			return queueNotification('Please enter a valid amount', 'error');
 
 		// calculate amount to withdraw
-		const wrappedAmount = amount;
+		const wrappedAmount = amount.multipliedBy(10 ** vault.decimals);
 		const methodSeries: any = [];
-
-		// console.log("unwrapping", wrappedAmount.dividedBy(1e18).toString())
 
 		// withdraw
 		methodSeries.push((callback: any) =>
-			this.withdrawVault(vault, wrappedAmount, wrappedAmount.gte(wrapped.balanceOf), callback),
+			this.withdrawVault(vault, wrappedAmount, wrappedAmount.gte(vault.balance), callback),
 		);
 		setTxStatus('pending');
 		async.series(methodSeries, (err: any, results: any) => {
 			console.log(err, results);
 			setTxStatus(!!err ? 'error' : 'success');
-		});
-	});
-
-	claimGeysers = action((stake = false) => {
-		const { proof } = this.badgerTree;
-		const { provider, gasPrices, connectedAddress } = this.store.wallet;
-		const { queueNotification, gasPrice, setTxStatus } = this.store.uiState;
-
-		if (!connectedAddress) return;
-
-		// if (ethBalance?.lt(MIN_ETH_BALANCE))
-		// 	return queueNotification("Your account is low on ETH, you may need to top up to claim.", 'warning')
-
-		const web3 = new Web3(provider);
-		const rewardsTree = new web3.eth.Contract(rewardsConfig.abi as any, rewardsConfig.contract);
-		const method = rewardsTree.methods.claim(
-			proof.tokens,
-			proof.cumulativeAmounts,
-			proof.index,
-			proof.cycle,
-			proof.proof,
-		);
-
-		queueNotification(`Sign the transaction to claim your earnings`, 'info');
-		if (stake)
-			queueNotification(`You will need to approve 3 transactions in order to wrap & stake your assets`, 'info');
-		const badgerAmount = new BigNumber(this.badgerTree.claims[0]).multipliedBy(1e18);
-		estimateAndSend(web3, gasPrices[gasPrice], method, connectedAddress, (transaction: PromiEvent<Contract>) => {
-			transaction
-				.on('transactionHash', (hash) => {
-					queueNotification(`Claim submitted.`, 'info', hash);
-				})
-				.on('receipt', () => {
-					queueNotification(`Rewards claimed.`, 'success');
-					this.fetchSettRewards();
-					this.fetchContracts();
-
-					if (stake) {
-						const badgerGeyser = this.geysers['0xa9429271a28f8543efffa136994c0839e7d7bf77'];
-						this.depositAndStake(badgerGeyser, badgerAmount);
-					}
-				})
-				.catch((error: any) => {
-					this.fetchContracts();
-					queueNotification(error.message, 'error');
-					setTxStatus('error');
-				});
-		});
-	});
-	claimBadgerAirdrops = action((stake = false) => {
-		const { merkleProof } = this.airdrops;
-		const { provider, gasPrices, connectedAddress } = this.store.wallet;
-		const { queueNotification, gasPrice, setTxStatus } = this.store.uiState;
-
-		if (!connectedAddress) return;
-
-		// if (ethBalance?.lt(MIN_ETH_BALANCE))
-		// 	return queueNotification("Your account is low on ETH, you may need to top up to claim.", 'warning')
-
-		const web3 = new Web3(provider);
-		const rewardsTree = new web3.eth.Contract(airdropsConfig.abi as any, airdropsConfig.contract);
-		const method = rewardsTree.methods.claim(
-			merkleProof.index,
-			connectedAddress,
-			merkleProof.amount,
-			merkleProof.proof,
-		);
-
-		queueNotification(`Sign the transaction to claim your airdrop`, 'info');
-		const badgerAmount = this.airdrops.badger;
-		estimateAndSend(web3, gasPrices[gasPrice], method, connectedAddress, (transaction: PromiEvent<Contract>) => {
-			transaction
-				.on('transactionHash', (hash) => {
-					queueNotification(`Claim submitted.`, 'info', hash);
-				})
-				.on('receipt', () => {
-					queueNotification(`Rewards claimed.`, 'success');
-					this.fetchSettRewards();
-					this.fetchContracts();
-
-					if (stake) {
-						const badgerGeyser = this.geysers['0xa9429271a28f8543efffa136994c0839e7d7bf77'];
-						this.depositAndStake(badgerGeyser, badgerAmount);
-					}
-				})
-				.catch((error: any) => {
-					this.fetchContracts();
-					queueNotification(error.message, 'error');
-					setTxStatus('error');
-				});
-		});
-	});
-	claimDiggAirdrops = action((stake = false) => {
-		const { merkleProof } = this.airdrops;
-		const { provider, gasPrices, connectedAddress } = this.store.wallet;
-		const { queueNotification, gasPrice, setTxStatus } = this.store.uiState;
-
-		if (!connectedAddress) return;
-		console.log(merkleProof, this.airdrops)
-		// if (ethBalance?.lt(MIN_ETH_BALANCE))
-		// 	return queueNotification("Your account is low on ETH, you may need to top up to claim.", 'warning')
-
-		const web3 = new Web3(provider);
-		const rewardsTree = new web3.eth.Contract(airdropsConfig.abi as any, airdropsConfig.contract);
-		const method = rewardsTree.methods.claim(
-			merkleProof.index,
-			connectedAddress,
-			merkleProof.amount,
-			merkleProof.proof,
-		);
-
-		queueNotification(`Sign the transaction to claim your airdrop`, 'info');
-		const diggAmount = this.airdrops.digg;
-		estimateAndSend(web3, gasPrices[gasPrice], method, connectedAddress, (transaction: PromiEvent<Contract>) => {
-			transaction
-				.on('transactionHash', (hash) => {
-					queueNotification(`Claim submitted.`, 'info', hash);
-				})
-				.on('receipt', () => {
-					queueNotification(`Rewards claimed.`, 'success');
-					this.fetchSettRewards();
-					this.fetchContracts();
-
-					if (stake) {
-						const badgerGeyser = this.geysers['0xa9429271a28f8543efffa136994c0839e7d7bf77'];
-						this.depositAndStake(badgerGeyser, diggAmount);
-					}
-				})
-				.catch((error: any) => {
-					this.fetchContracts();
-					queueNotification(error.message, 'error');
-					setTxStatus('error');
-				});
 		});
 	});
 
@@ -664,8 +427,9 @@ class ContractsStore {
 			},
 		);
 	});
+
 	getAllowance = action((underlyingAsset: any, spender: string, callback: (err: any, result: any) => void) => {
-		const { } = this.store.uiState;
+		const {} = this.store.uiState;
 		const { provider, connectedAddress } = this.store.wallet;
 
 		const web3 = new Web3(provider);
@@ -677,7 +441,7 @@ class ContractsStore {
 		});
 	});
 
-	depositGeyser = action((geyser: any, amount: BigNumber, callback: (err: any, result: any) => void) => {
+	stakeGeyser = action((geyser: any, amount: BigNumber, callback: (err: any, result: any) => void) => {
 		const { queueNotification, setTxStatus } = this.store.uiState;
 		const { provider, connectedAddress } = this.store.wallet;
 
@@ -718,20 +482,16 @@ class ContractsStore {
 			},
 		);
 	});
-	withdrawGeyser = action((geyser: any, amount: BigNumber, callback: (err: any, result: any) => void) => {
+	unstakeGeyser = action((geyser: any, amount: BigNumber, callback: (err: any, result: any) => void) => {
 		const { queueNotification, setTxStatus } = this.store.uiState;
 		const { provider, connectedAddress } = this.store.wallet;
-
-		const underlyingAsset = this.tokens[geyser[geyser.underlyingKey]];
-
-		// unstake all if within 2e-18
 
 		const web3 = new Web3(provider);
 		const geyserContract = new web3.eth.Contract(geyser.abi, geyser.address);
 		const method = geyserContract.methods.unstake(amount.toFixed(0, BigNumber.ROUND_DOWN), EMPTY_DATA);
 
 		queueNotification(
-			`Sign the transaction to unstake ${inCurrency(amount, 'eth', true)} ${underlyingAsset.symbol}`,
+			`Sign the transaction to unstake ${inCurrency(amount, 'eth', true)} ${geyser.vault.underlyingToken.symbol}`,
 			'info',
 		);
 
@@ -747,7 +507,9 @@ class ContractsStore {
 					})
 					.on('receipt', () => {
 						queueNotification(
-							`Successfully unstaked ${inCurrency(amount, 'eth', true)} ${underlyingAsset.symbol}`,
+							`Successfully unstaked ${inCurrency(amount, 'eth', true)} ${
+								geyser.vault.underlyingToken.symbol
+							}`,
 							'success',
 						);
 						this.fetchContracts();
@@ -766,17 +528,16 @@ class ContractsStore {
 		const { queueNotification, setTxStatus } = this.store.uiState;
 		const { provider, connectedAddress } = this.store.wallet;
 
-		const underlyingAsset = this.tokens[vault[vault.underlyingKey]];
-		// console.log("tokens: ", this.tokens)
-		// console.log("underlying address: ", underlyingAsset)
-
 		const web3 = new Web3(provider);
 		const underlyingContract = new web3.eth.Contract(vault.abi, vault.address);
 
 		let method = underlyingContract.methods.deposit(amount.toFixed(0, BigNumber.ROUND_DOWN));
 		if (all) method = underlyingContract.methods.depositAll();
+
 		queueNotification(
-			`Sign the transaction to wrap ${inCurrency(amount, 'eth', true)} ${underlyingAsset.symbol}`,
+			`Sign the transaction to wrap ${formatAmount({ amount: amount, token: vault.underlyingToken })} ${
+				vault.underlyingToken.symbol
+			}`,
 			'info',
 		);
 
@@ -792,13 +553,17 @@ class ContractsStore {
 					})
 					.on('receipt', () => {
 						queueNotification(
-							`Successfully deposited ${inCurrency(amount, 'eth', true)} ${underlyingAsset.symbol}`,
+							`Successfully deposited ${formatAmount({ amount: amount, token: vault.underlyingToken })} ${
+								vault.underlyingToken.symbol
+							}`,
 							'success',
 						);
+						this.fetchContracts();
 						this.fetchContracts();
 						callback(null, {});
 					})
 					.catch((error: any) => {
+						this.fetchContracts();
 						this.fetchContracts();
 						queueNotification(error.message, 'error');
 						setTxStatus('error');
@@ -834,9 +599,11 @@ class ContractsStore {
 							'success',
 						);
 						this.fetchContracts();
+						this.fetchContracts();
 						callback(null, {});
 					})
 					.catch((error: any) => {
+						this.fetchContracts();
 						this.fetchContracts();
 						queueNotification(error.message, 'error');
 						setTxStatus('error');
@@ -845,124 +612,31 @@ class ContractsStore {
 		);
 	});
 
-	calculateVaultGrowth = action(() => {
-		const { } = this.store.contracts;
-		const { currentBlock } = this.store.wallet;
+	// calculateVaultGrowth = action(() => {
+	// 	const { } = this.store.contracts;
+	// 	const { currentBlock } = this.store.wallet;
 
-		if (!currentBlock) return;
+	// 	if (!currentBlock) return;
 
-		const periods = [
-			Math.max(currentBlock - Math.floor(secondsToBlocks(60 * 5)), START_BLOCK), // 5 minutes ago
-			Math.max(currentBlock - Math.floor(secondsToBlocks(1 * 24 * 60 * 60)), START_BLOCK), // day
-			Math.max(currentBlock - Math.floor(secondsToBlocks(7 * 24 * 60 * 60)), START_BLOCK), // week
-			Math.max(currentBlock - Math.floor(secondsToBlocks(30 * 24 * 60 * 60)), START_BLOCK), // month
-			START_BLOCK, // start
-		];
+	// 	const periods = [
+	// 		Math.max(currentBlock - Math.floor(secondsToBlocks(60 * 5)), START_BLOCK), // 5 minutes ago
+	// 		Math.max(currentBlock - Math.floor(secondsToBlocks(1 * 24 * 60 * 60)), START_BLOCK), // day
+	// 		Math.max(currentBlock - Math.floor(secondsToBlocks(7 * 24 * 60 * 60)), START_BLOCK), // week
+	// 		Math.max(currentBlock - Math.floor(secondsToBlocks(30 * 24 * 60 * 60)), START_BLOCK), // month
+	// 		START_BLOCK, // start
+	// 	];
 
-		const growthPromises = periods.map(growthQuery);
+	// 	const growthPromises = periods.map(growthQuery);
 
-		Promise.all(growthPromises).then((result: any) => {
-			// save the growth
-			const vaultGrowth = reduceGrowth(result, periods, START_TIME);
-			// this.stats._vaultGrowth = vaultGrowth.total
+	// 	Promise.all(growthPromises).then((result: any) => {
+	// 		// save the growth
+	// 		const vaultGrowth = reduceGrowth(result, periods, START_TIME);
+	// 		// this.stats._vaultGrowth = vaultGrowth.total
 
-			// extend vaults with new growth statistics.. pretty hairy maybe we keep this is the UI-state
-			this.updateVaults(vaultGrowth);
-		});
-	});
-
-	calculateGeyserRewards = action(() => {
-		const { geysers, tokens, vaults } = this;
-		const { } = this.store.uiState;
-		const { } = this.store.wallet;
-
-		const rewardToken = tokens[rewardsConfig.tokens[0]];
-
-		if (!tokens || !rewardToken) return;
-
-		const timestamp = new BigNumber(new Date().getTime() / 1000.0);
-		const geyserRewards = _.mapValues(geysers, (geyser: any) => {
-			const schedule = geyser['getUnlockSchedulesFor'];
-			const underlyingVault = vaults[geyser[geyser.underlyingKey]];
-
-			if (!schedule || !underlyingVault) return {};
-
-			const rawToken = tokens[underlyingVault[underlyingVault.underlyingKey]];
-
-			// sum rewards in current period
-			// todo: break out to actual durations
-			const rewardSchedule = reduceGeyserSchedule(timestamp, schedule);
-
-			return _.mapValues(rewardSchedule, (reward: any) => {
-				return (
-					!!rawToken.ethValue &&
-					reward
-						.multipliedBy(rewardToken.ethValue)
-						.dividedBy(
-							rawToken.ethValue
-								.multipliedBy(underlyingVault.balance)
-								.multipliedBy(underlyingVault.getPricePerFullShare.dividedBy(1e18)),
-						)
-				);
-			});
-		});
-
-		this.updateGeysers(geyserRewards);
-
-		// grab sushi APYs
-		_.map(geyserConfigs, (config: any) => {
-			if (!!config.growthEndpoints) {
-				// let masterChef = chefQueries(config.contracts, this.geysers, config.growthEndpoints[0])
-				const xSushi = vanillaQuery(config.growthEndpoints[1]);
-
-				// First we grab the sushi pair contracts from the sushi geysers
-				const sushiSuffix: string[] = [];
-				_.map(config.contracts, (contract: any) => {
-					try {
-						let geyser = this.geysers[contract];
-						let vault = this.vaults[geyser[geyser.underlyingKey]];
-						if (!geyser || !vault) return;
-						sushiSuffix.push(vault[vault.underlyingKey]);
-					} catch (e) {
-						process.env.NODE_ENV !== 'production' && console.log(e);
-					}
-				});
-				// Then we use the provided API from sushi to get the ROI numbers
-				const newMasterChef = vanillaQuery(config.growthEndpoints[2].concat(sushiSuffix.join(';')));
-
-				Promise.all([xSushi, newMasterChef]).then((results: any) => {
-					const xROI: any = reduceXSushiROIResults(results[0]['weekly_APY']);
-					const newSushiRewards = reduceSushiAPIResults(results[1], config.contracts);
-					this.updateGeysers(
-						_.mapValues(newSushiRewards, (reward: any, geyserAddress: string) => {
-							const geyser = geysers[geyserAddress];
-							if (!geyser) return;
-
-							const vault = vaults[geyser[geyser.underlyingKey]];
-							if (!vault) return;
-
-							const vaultBalance = vault.balance;
-							const tokenValue = this.tokens[vault.token].ethValue;
-							if (!tokenValue) return;
-
-							const vaultEthVal = vaultBalance.multipliedBy(tokenValue.dividedBy(1e18));
-							return {
-								sushiRewards: _.mapValues(reward, (periodROI: BigNumber, period: string) => {
-									if (periodROI.toString().substr(0, 2) != '0x') {
-										const sushiRewards = vaultEthVal.multipliedBy(periodROI);
-										const xsushiRewards = sushiRewards.multipliedBy(xROI[period].dividedBy(100));
-										const xsushiROI = xsushiRewards.dividedBy(vaultEthVal);
-										periodROI = periodROI.plus(xsushiROI);
-									}
-									return periodROI;
-								}),
-							};
-						}),
-					);
-				});
-			}
-		});
-	});
+	// 		// extend vaults with new growth statistics.. pretty hairy maybe we keep this is the UI-state
+	// 		this.updateVaults(vaultGrowth);
+	// 	});
+	// });
 }
 
 export default ContractsStore;

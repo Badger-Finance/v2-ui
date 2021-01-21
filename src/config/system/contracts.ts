@@ -6,7 +6,7 @@ import SushiGeyser from './abis/SushiGeyser.json';
 import BadgerTree from './abis/BadgerTree.json';
 import deploy from './deploy-final.json';
 
-export const vaults = [
+export const vaultBatches = [
 	{
 		abi: BadgerVault.abi,
 		underlying: 'token',
@@ -20,8 +20,17 @@ export const vaults = [
 			deploy.sett_system.vaults['native.uniDiggWbtc'],
 		],
 		fillers: {
+			symbol: [
+				'badger',
+				'renCrv',
+				'sbtcCrv',
+				'tbtcCrv',
+				'uniBadgerWbtc',
+				'renCrv',
+				'uniDiggWbtc',
+			],
 			isFeatured: [false, false, false, false, true, true, true],
-			listOrder: [8, 5, 6, 7, 3, 4, 2],
+			position: [8, 5, 6, 7, 3, 4, 2],
 			isSuperSett: [false, false, false, false, false, true, false, false, false],
 		},
 		methods: [
@@ -37,6 +46,9 @@ export const vaults = [
 			},
 			{
 				name: 'symbol',
+			},
+			{
+				name: 'decimals',
 			},
 			{
 				name: 'token',
@@ -56,8 +68,9 @@ export const vaults = [
 		],
 		fillers: {
 			isFeatured: [false, true],
-			listOrder: [9, 10, 1],
+			position: [9, 10, 1],
 			symbolPrefix: ['sushi', 'sushi', 'sushi'],
+			onsenId: ['103', '21', '73'],
 		},
 		methods: [
 			{
@@ -74,11 +87,19 @@ export const vaults = [
 				name: 'symbol',
 			},
 			{
+				name: 'decimals',
+			},
+			{
 				name: 'token',
 			},
 			{
 				name: 'totalSupply',
 			},
+		],
+		growthEndpoints: [
+			'https://api.thegraph.com/subgraphs/name/sushiswap/master-chef',
+			'https://apy.sushiswap.fi/xsushi',
+			'https://apy.sushiswap.fi/?pairs=',
 		],
 	},
 	{
@@ -87,7 +108,7 @@ export const vaults = [
 		contracts: [deploy.sett_system.vaults['native.digg']],
 		fillers: {
 			isFeatured: [true],
-			listOrder: [0],
+			position: [0],
 			symbolPrefix: [''],
 		},
 		methods: [
@@ -105,6 +126,9 @@ export const vaults = [
 				name: 'symbol',
 			},
 			{
+				name: 'decimals',
+			},
+			{
 				name: 'totalSupply',
 			},
 			{
@@ -114,7 +138,7 @@ export const vaults = [
 	},
 ];
 
-export const geysers = [
+export const geyserBatches = [
 	{
 		abi: BadgerGeyser.abi,
 		underlying: 'getStakingToken',
@@ -149,7 +173,6 @@ export const geysers = [
 		],
 		fillers: {
 			isFeatured: [false, false, false, false, true, true, true],
-			listOrder: [9, 6, 7, 5, 4, 8, 3],
 			isSuperSett: [false, false, false, false, false, true, false, false],
 		},
 	},
@@ -188,14 +211,9 @@ export const geysers = [
 				deploy.sett_system.vaults['sushi.sushiBadgerWbtc'],
 			],
 			onsenId: ['103', '21', '73'],
-			listOrder: [0, 1, 2],
 		},
 
-		growthEndpoints: [
-			'https://api.thegraph.com/subgraphs/name/sushiswap/master-chef',
-			'https://apy.sushiswap.fi/xsushi',
-			'https://apy.sushiswap.fi/?pairs=',
-		],
+
 	},
 ];
 
@@ -209,6 +227,6 @@ export const rewards = {
 		deploy.sett_system.vaults['native.uniBadgerWbtc'].toLowerCase(),
 		'0x6b3595068778dd592e39a122f4f5a5cf09c90fe2'.toLowerCase(), // $SUSHI
 		'0x36e2fcccc59e5747ff63a03ea2e5c0c2c14911e7'.toLowerCase(), // $xSUSHI
-		'0x798D1bE841a82a273720CE31c822C61a67a601C3'.toLowerCase(), // $DIGG
+		deploy.token.toLowerCase(), // $DIGG
 	],
 };

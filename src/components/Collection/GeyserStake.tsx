@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 
 }));
-export const GeyserUnstake = observer((props: any) => {
+export const GeyserStake = observer((props: any) => {
 	const store = useContext(StoreContext);
 	const classes = useStyles();
 	const { vault } = props;
@@ -34,24 +34,24 @@ export const GeyserUnstake = observer((props: any) => {
 	} = store;
 
 	const percentageOfBalance = (percent: number) => {
-		return vault.geyser.balance.dividedBy(10 ** vault.decimals).multipliedBy(percent / 100).toFixed(18, BigNumber.ROUND_DOWN)
+		return vault.balance.dividedBy(10 ** vault.decimals).multipliedBy(percent / 100).toFixed(18, BigNumber.ROUND_DOWN)
 	}
 
 	const setAmount = (percent: number) => {
 		// (document.getElementById(TEXTFIELD_ID)! as HTMLInputElement).value = uiStats.availableFull[percent];
-		setValue('amount', vault.geyser.balance.dividedBy(10 ** vault.decimals).multipliedBy(percent / 100).toFixed(vault.decimals, BigNumber.ROUND_DOWN));
+		setValue('amount', vault.balance.dividedBy(10 ** vault.decimals).multipliedBy(percent / 100).toFixed(18, BigNumber.ROUND_DOWN));
 	};
 
 	const onSubmit = (params: any) => {
 		const amount = new BigNumber(params.amount)
-		vault.geyser.unstake(amount)
+		vault.geyser.stake(amount)
 	};
 
 	if (!vault) {
 		return <Loader />;
 	}
 
-	const canUnstake = !!connectedAddress && vault.geyser.balance.gt(0);
+	const canDeposit = !!connectedAddress && vault.balance.gt(0);
 
 	const renderAmounts = (
 		<ButtonGroup size="small" className={classes.button} disabled={!connectedAddress}>
@@ -60,7 +60,7 @@ export const GeyserUnstake = observer((props: any) => {
 					onClick={() => {
 						setAmount(amount);
 					}}
-					variant={!!canUnstake && watch().amount === percentageOfBalance(amount) ? 'contained' : 'outlined'}
+					variant={!!canDeposit && watch().amount === percentageOfBalance(amount) ? 'contained' : 'outlined'}
 					color="primary"
 				>
 					{amount}%
@@ -79,7 +79,7 @@ export const GeyserUnstake = observer((props: any) => {
 					style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap' }}
 				>
 					<Typography variant="body1" color={'textSecondary'} style={{ marginBottom: '.2rem' }}>
-						Available: {totalAvailable || '0.000000000000000000'}
+						Deposited: {totalAvailable || '0.000000000000000000'}
 						{/* Wrapped: {uiStats.wrappedFull[100]} */}
 					</Typography>
 					{renderAmounts}
@@ -102,14 +102,14 @@ export const GeyserUnstake = observer((props: any) => {
 			<DialogActions>
 				<Button
 					size="large"
-					disabled={!canUnstake}
+					disabled={!canDeposit}
 					onClick={handleSubmit(onSubmit)}
 					variant="contained"
 					color="primary"
 					fullWidth
 					className={classes.button}
 				>
-					Unstake
+					Stake
 				</Button>
 			</DialogActions>
 		</>

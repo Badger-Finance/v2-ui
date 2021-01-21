@@ -1,7 +1,7 @@
-import React, { useContext } from 'react';
-import { observer } from 'mobx-react-lite';
+import React, { useContext, useEffect, useState } from 'react';
+import { observer, useForceUpdate } from 'mobx-react-lite';
 import views from '../../config/routes';
-import { StoreContext } from '../../context/store-context';
+import { StoreContext } from '../../mobx/store-context';
 import {
 	Tooltip,
 	Card,
@@ -25,6 +25,8 @@ import { Loader } from '../Loader';
 import { BigNumber } from 'bignumber.js';
 import { VaultSymbol } from '../VaultSymbol';
 import { LinkOff } from '@material-ui/icons';
+import { formatBalance, formatBalanceValue, formatHoldingsValue, formatSupply, formatVaultGrowth } from 'mobx/reducers/statsReducers';
+import useInterval from '@use-it/interval';
 
 const useStyles = makeStyles((theme) => ({
 	featuredImage: {
@@ -56,6 +58,10 @@ const useStyles = makeStyles((theme) => ({
 		padding: theme.spacing(2, 2),
 		alignItems: 'center',
 		overflow: 'hidden',
+		transition: '.2s background ease-out',
+		'&:hover': {
+			background: '#3a3a3a'
+		}
 	},
 	mobileLabel: {
 		textAlign: 'right',
@@ -89,64 +95,74 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 }));
-export const AssetCard = observer((props: any) => {
+export const TokenCard = observer((props: any) => {
 	const store = useContext(StoreContext);
 	const classes = useStyles();
-	const { onStake, onUnstake, onUnwrap, uiStats, isFeatured, isGlobal, isDeposit } = props;
 
-	const { stats, token } = uiStats;
+	const { vault,
+		isGlobal,
+		onOpen } = props;
 
-	if (!stats || !stats.vault) {
+	const {
+		period,
+		currency
+	} = store.uiState
+
+	const { geysers } = store.contracts
+
+	const { underlyingToken: token } = vault;
+
+	if (!token) {
 		return <div />;
 	}
+	const [update, forceUpdate] = useState<boolean>();
+	useInterval(() => forceUpdate(!update), 1000)
+
+	const { roi, roiTooltip } = formatVaultGrowth(vault, period)
 
 	return (
 		<>
-			<Grid container className={classes.border + (isFeatured ? ` ${classes.featured}` : '')}>
+			<Grid container className={classes.border}>
 				<Grid item xs={12} md={4} className={classes.name}>
 					<VaultSymbol token={token} />
-					<Typography variant="body1">{stats.name}</Typography>
+					<Typography variant="body1">{token.name}</Typography>
 
 					<Typography variant="body2" color="textSecondary" component="div">
 						{token.symbol}
-						{!!stats.vault.isSuperSett && (
+						{/* {!!token.isSuperSett && (
 							<Chip className={classes.chip} label="Harvest" size="small" color="primary" />
-						)}
+						)} */}
 					</Typography>
 				</Grid>
 
 				<Grid item className={classes.mobileLabel} xs={6}>
 					<Typography variant="body2" color={'textSecondary'}>
-						{!isGlobal ? (!isDeposit ? 'Tokens Available' : 'Tokens Deposited') : 'Tokens Locked'}
+						{!isGlobal ? 'Tokens Available' : 'Tokens Deposited'}
 					</Typography>
 				</Grid>
 
 				<Grid item xs={6} md={2}>
 					<Typography
 						variant="body1"
-						color={parseFloat(stats.underlyingBalance) === 0 ? 'textSecondary' : 'textPrimary'}
+						color={'textPrimary'}
 					>
-						{!isGlobal ? (!isDeposit ? stats.availableBalance : stats.yourBalance) : stats.underlyingTokens}
+						{!isGlobal ? formatBalance(token) : formatSupply(vault)}
 					</Typography>
-					{/* <Typography variant="body2" color="textSecondary">
-					{stats.underlyingTokens}
-					{stats.underlyingBalance}
 
-				</Typography> */}
 				</Grid>
 				<Grid item className={classes.mobileLabel} xs={6}>
 					<Typography variant="body2" color={'textSecondary'}>
-						{!isDeposit && !isGlobal ? 'Potential ROI' : 'ROI'}
+						{!isGlobal ? 'Potential ROI' : 'ROI'}
 					</Typography>
 				</Grid>
 				<Grid item xs={6} md={2}>
-					<Tooltip enterDelay={0} leaveDelay={300} arrow placement="left" title={stats.tooltip}>
+					<Tooltip enterDelay={0} leaveDelay={300} arrow placement="left" title={roiTooltip}>
 						<Typography
 							style={{ cursor: 'default' }}
 							variant="body1"
-							color={!isDeposit && !isGlobal ? 'textSecondary' : 'textPrimary'}
+							color={'textPrimary'}
 						>
-							{stats.growth || '...'}
+							{roi}
 						</Typography>
 					</Tooltip>
 				</Grid>
@@ -157,69 +173,21 @@ export const AssetCard = observer((props: any) => {
 				</Grid>
 				<Grid item xs={6} md={2}>
 					<Typography variant="body1" color={'textPrimary'}>
-						{!isGlobal ? stats.yourValue : stats.underlyingBalance}
+						{!isGlobal ? formatBalanceValue(vault, currency) : formatHoldingsValue(vault, currency)}
 					</Typography>
 				</Grid>
 
 				<Grid item xs={12} md={2}>
 					<ButtonGroup variant="outlined" className={classes.cardActions}>
-						{!!stats.anyUnderlying && !stats.anyWrapped && (
-							<Button
-								onClick={() => onStake({ stats, token })}
-								variant={'outlined'}
-								color="primary"
-								size="small"
-							>
-								DEPOSIT
-							</Button>
-						)}
 
-						{!stats.anyUnderlying && !stats.anyWrapped && !stats.anyStaked && isGlobal && (
-							<Button
-								disabled
-								onClick={() => onStake({ stats, token })}
-								variant={'outlined'}
-								color="primary"
-								size="small"
-							>
-								DEPOSIT
+						<Button
+							onClick={() => onOpen(vault)}
+							variant={'outlined'}
+							color={vault.balance.gt(0) || token.balance.gt(0) ? 'primary' : 'default'}
+							size="small"
+						>
+							Deposit
 							</Button>
-						)}
-
-						{!!stats.anyWrapped && !isDeposit && (
-							<Button
-								onClick={() => onStake({ stats, token })}
-								variant={stats.anyUnderlying || stats.anyWrapped ? 'contained' : 'outlined'}
-								color="primary"
-								size="small"
-							>
-								STAKE
-							</Button>
-						)}
-
-						{isDeposit && !!stats.anyStaked && (
-							<Button
-								onClick={() => onUnstake({ stats, token })}
-								variant="outlined"
-								color="primary"
-								size="small"
-								className={classes.button}
-							>
-								WITHDRAW
-							</Button>
-						)}
-
-						{!!stats.anyWrapped && !isDeposit && (
-							<Button
-								onClick={() => onUnwrap({ stats, token })}
-								variant="outlined"
-								color="primary"
-								size="small"
-								className={classes.button}
-							>
-								WITHDRAW
-							</Button>
-						)}
 					</ButtonGroup>
 				</Grid>
 			</Grid>

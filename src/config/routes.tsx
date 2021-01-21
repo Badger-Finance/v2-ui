@@ -13,8 +13,8 @@ const routes = {
 	home: new Route<RootStore>({
 		path: '/',
 		component: <Collection />,
-		onEnter: () => {
-			//
+		onEnter: (_, params, store) => {
+			store.rewards.fetchSettRewards();
 		},
 		beforeExit: () => {
 			//
@@ -28,7 +28,7 @@ const routes = {
 		path: '/airdrops',
 		component: <Airdrops />,
 		onEnter: (_, params, store) => {
-			store.contracts.fetchAirdrops();
+			store.airdrops.fetchAirdrops();
 		},
 		beforeExit: () => {
 			//
@@ -40,8 +40,8 @@ const routes = {
 	digg: new Route<RootStore, QueryParams>({
 		path: '/digg',
 		component: <Digg />,
-		onEnter: () => {
-			//
+		onEnter: (_, params, store) => {
+			store.rebase.fetchRebaseStats();
 		},
 		beforeExit: () => {
 			//
