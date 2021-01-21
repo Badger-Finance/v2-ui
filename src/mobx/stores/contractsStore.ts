@@ -25,7 +25,7 @@ import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
 import async from 'async';
 
-import { curveTokens, names, symbols } from '../../config/system/tokens';
+import { curveTokens, names, symbols, tokenMap } from '../../config/system/tokens';
 import {
 	EMPTY_DATA,
 	ERC20,
