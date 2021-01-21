@@ -62,7 +62,7 @@ class UiState {
 
 		// format vaults and geysers to ui
 		setInterval(() => {
-			this.reduceStats(); this.reduceRebase(); this.reduceAirdrops()
+			this.reduceStats(); this.reduceRebase(); this.reduceAirdrops(); this.reduceTreeRewards()
 		}, 1000)
 
 		// observe(this.store.contracts as any, 'geysers', (change: any) => {
