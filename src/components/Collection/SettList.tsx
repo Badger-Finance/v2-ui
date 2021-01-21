@@ -123,8 +123,12 @@ export const SettList = observer((props: any) => {
 	};
 
 	const renderVaults = (contracts: any) => {
+		console.log('contracts: ', contracts);
+		console.log('vaults: ', vaults);
 		const list = _.map(contracts, (address: string) => {
 			const vault: Vault = vaults[address.toLowerCase()];
+			if (address.toLowerCase() === '0xd04c48A53c111300aD41190D63681ed3dAd998eC'.toLowerCase())
+				console.log('vault: ', vault);
 			return (
 				!!vault && (
 					<ListItem key={address} className={classes.listItem}>

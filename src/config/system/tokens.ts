@@ -176,7 +176,6 @@ export const vaults: any = {
 const vaultMap: any = [
 	deploy.sett_system.vaults['sushi.sushiDiggWbtc'].toLowerCase(),
 	deploy.sett_system.vaults['native.sbtcCrv'].toLowerCase(),
-	deploy.sett_system.vaults['native.renCrv'].toLowerCase(),
 	deploy.sett_system.vaults['native.digg'].toLowerCase(),
 	deploy.sett_system.vaults['native.badger'].toLowerCase(),
 	deploy.sett_system.vaults['harvest.renCrv'].toLowerCase(),
@@ -189,7 +188,6 @@ const vaultMap: any = [
 ];
 export const tokenMap: any = _.zipObject(vaultMap, [
 	'0x9a13867048e01c663ce8ce2fe0cdae69ff9f35e3',
-	'0x64eda51d3ad40d56b9dfc5554e06f94e1dd786fd',
 	'0x075b1bb99792c9e1041ba13afef80c91a1e70fb3',
 	'0x798d1be841a82a273720ce31c822c61a67a601c3',
 	'0x3472a5a71965499acd81997a54bba8d852c6e53d',
@@ -201,6 +199,20 @@ export const tokenMap: any = _.zipObject(vaultMap, [
 	'0xe86204c4eddd2f70ee00ead6805f917671f56c52',
 	'0x64eda51d3ad40d56b9dfc5554e06f94e1dd786fd',
 ]);
+
+export const superSett: any = {
+	[deploy.sett_system.vaults['sushi.sushiDiggWbtc'].toLowerCase()]: false,
+	[deploy.sett_system.vaults['native.sbtcCrv'].toLowerCase()]: false,
+	[deploy.sett_system.vaults['native.digg'].toLowerCase()]: false,
+	[deploy.sett_system.vaults['native.badger'].toLowerCase()]: false,
+	[deploy.sett_system.vaults['harvest.renCrv'].toLowerCase()]: true,
+	[deploy.sett_system.vaults['native.renCrv'].toLowerCase()]: false,
+	[deploy.sett_system.vaults['sushi.sushiBadgerWbtc'].toLowerCase()]: false,
+	[deploy.sett_system.vaults['native.uniBadgerWbtc'].toLowerCase()]: false,
+	[deploy.sett_system.vaults['sushi.sushiWbtcWeth'].toLowerCase()]: false,
+	[deploy.sett_system.vaults['native.uniDiggWbtc'].toLowerCase()]: false,
+	[deploy.sett_system.vaults['native.tbtcCrv'].toLowerCase()]: false,
+};
 
 // export const tokenData = {
 // 	'0x6b3595068778dd592e39a122f4f5a5cf09c90fe2': {
