@@ -116,7 +116,7 @@ export const SettList = observer((props: any) => {
 			return !!vault && (
 				<ListItem key={address} className={classes.listItem}>
 					<TokenCard
-						isGlobal={true}
+						isGlobal={!hideEmpty}
 						vault={vault}
 						onOpen={onOpen}
 					/>
@@ -218,6 +218,16 @@ export const SettList = observer((props: any) => {
 
 		return (
 			<Dialog key={'dialog'} fullWidth maxWidth={'sm'} open={open} onClose={onClose}>
+				<Tabs
+					variant="fullWidth"
+					indicatorColor="primary"
+					value={['vault', 'geyser'].indexOf(dialogMode)}
+					style={{ background: 'rgba(0,0,0,.2)', marginBottom: '1rem' }}
+				>
+					<Tab onClick={() => setDialogMode('vault')} label={dialogOut ? "Withdraw" : "Deposit"}></Tab>
+					<Tab onClick={() => setDialogMode('geyser')} label={dialogOut ? "Unstake" : "Stake"}></Tab>
+				</Tabs>
+
 				<DialogTitle disableTypography style={{ marginBottom: '.5rem' }}>
 					<div style={{ float: 'right' }}>
 						<Switch
@@ -237,15 +247,6 @@ export const SettList = observer((props: any) => {
 						{vault.underlyingToken.symbol}
 					</Typography>
 				</DialogTitle>
-				<Tabs
-					variant="fullWidth"
-					indicatorColor="primary"
-					value={['vault', 'geyser'].indexOf(dialogMode)}
-					style={{ background: 'rgba(0,0,0,.2)', marginBottom: '1rem' }}
-				>
-					<Tab onClick={() => setDialogMode('vault')} label={dialogOut ? "Withdraw" : "Deposit"}></Tab>
-					<Tab onClick={() => setDialogMode('geyser')} label={dialogOut ? "Unstake" : "Stake"}></Tab>
-				</Tabs>
 
 				{form}
 

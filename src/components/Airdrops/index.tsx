@@ -18,6 +18,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { StoreContext } from '../../mobx/store-context';
 import { formatAmount } from 'mobx/reducers/statsReducers';
 import useInterval from '@use-it/interval';
+import Hero from 'components/Common/Hero';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -43,6 +44,10 @@ const useStyles = makeStyles((theme) => ({
 	statPaper: {
 		padding: theme.spacing(2),
 		textAlign: 'center',
+		transition: '.2s background ease-out',
+		'&:hover': {
+			background: '#3a3a3a'
+		}
 	},
 	before: {
 		marginTop: theme.spacing(5),
@@ -52,10 +57,10 @@ const useStyles = makeStyles((theme) => ({
 		textAlign: 'right',
 	},
 	button: {
-		margin: theme.spacing(1, 0.5, 2, 0),
+		margin: theme.spacing(1, 1, 2, 0),
 	},
 	chip: {
-		margin: theme.spacing(0, 0, 0, 1),
+		margin: theme.spacing(0, 0, 0, 0),
 		// float: 'right'
 	},
 	heroPaper: {
@@ -110,10 +115,10 @@ export const Airdrops = observer(() => {
 			},
 		];
 		return q.map((qualifier, idx) => (
-			<Grid item xs={12} md={4} style={{ textAlign: 'left', marginBottom: '3rem' }} key={idx}>
+			<Grid item xs={12} md={4} style={{ textAlign: 'left', marginBottom: '2rem' }} key={idx}>
 				<Typography variant="h4">{qualifier.title}</Typography>
 
-				<Typography variant="body2" color="textSecondary" style={{ margin: '.4rem 0 1rem' }}>
+				<Typography variant="body2" color="textSecondary" style={{ margin: '.4rem 0 .5rem' }}>
 					{qualifier.copy}
 				</Typography>
 
@@ -158,17 +163,16 @@ export const Airdrops = observer(() => {
 				{spacer()}
 
 				<Grid item sm={12} xs={12}>
-					<div className={classes.heroPaper}>
-						<Typography variant="h1" color="textPrimary" style={{ marginBottom: '.5rem' }}>
-							Community rules everything.
-						</Typography>
-						<Typography variant="subtitle1" color="textSecondary">
-							BadgerDAO is dedicated to building products and infrastructure to bring Bitcoin to DeFi.<br />
-							Check below to see if you have airdrops to claim.
-						</Typography>
-					</div>
-				</Grid>
+					<Hero title="Community Rules." subtitle="BadgerDAO is dedicated to building products and infrastructure to bring Bitcoin to DeFi." />
 
+				</Grid>
+				{spacer()}
+
+				<Grid item xs={12}>
+					<Typography variant="subtitle1" align="center">
+						Available Airdrops
+					</Typography>
+				</Grid>
 				<Grid item xs={12} md={6}>
 					<Paper className={classes.statPaper}>
 						<List style={{ padding: 0 }}>

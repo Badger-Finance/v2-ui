@@ -6,6 +6,7 @@ import Info from './Info';
 import React, { useContext, useState } from 'react';
 import { StoreContext } from '../../mobx/store-context';
 import views from '../../config/routes';
+import Hero from 'components/Common/Hero';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -63,17 +64,9 @@ export const Digg = observer(() => {
 	return (
 		<Container className={classes.root} maxWidth="lg">
 			<Grid container spacing={1}>
-				{spacer()}
 
 				<Grid item sm={12} xs={12}>
-					<div className={classes.heroPaper}>
-						<Typography variant="h4" color="textPrimary">
-							DIGG – Pegged to Bitcoin
-						</Typography>
-						<Typography variant="subtitle1" color="textSecondary">
-							An elastic supply cryptocurrency pegged to the price of Bitcoin & governed by BadgerDAO.
-						</Typography>
-					</div>
+					<Hero title="DIGG" subtitle="Pegged to Bitcoin. Governed by BadgerDAO." />
 				</Grid>
 				<Info />
 

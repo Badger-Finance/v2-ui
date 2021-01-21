@@ -152,9 +152,7 @@ export const Sidebar = observer(() => {
 						<img alt="" src={require('../../assets/badger-logo.png')} className={classes.logo} />
 						{/* <Chip label="v2.0.0" variant="outlined" color="primary" size="small" /> */}
 					</ListItem>
-					<ListItem />
 
-					<Wallet />
 
 					<ListItem
 						button

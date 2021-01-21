@@ -8,7 +8,8 @@ const useStyles = makeStyles((theme) => ({
 	symbol: {
 		marginTop: 'auto',
 		marginBottom: 'auto',
-		padding: theme.spacing(1.2, 1, 0, 0),
+		padding: theme.spacing(0, 0, 0, 0),
+		marginRight: theme.spacing(2),
 		display: 'inline-block',
 		float: 'left',
 		width: '2.4rem',

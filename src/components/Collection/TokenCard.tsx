@@ -58,6 +58,10 @@ const useStyles = makeStyles((theme) => ({
 		padding: theme.spacing(2, 2),
 		alignItems: 'center',
 		overflow: 'hidden',
+		transition: '.2s background ease-out',
+		'&:hover': {
+			background: '#3a3a3a'
+		}
 	},
 	mobileLabel: {
 		textAlign: 'right',
@@ -142,7 +146,7 @@ export const TokenCard = observer((props: any) => {
 						variant="body1"
 						color={'textPrimary'}
 					>
-						{isGlobal ? formatBalance(token) : formatSupply(vault)}
+						{!isGlobal ? formatBalance(token) : formatSupply(vault)}
 					</Typography>
 
 				</Grid>

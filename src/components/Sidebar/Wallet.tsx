@@ -2,8 +2,9 @@ import React from 'react';
 import { observer } from 'mobx-react-lite';
 import { useContext } from 'react';
 import { StoreContext } from '../../mobx/store-context';
-import { ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
+import { Button, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { AccountBalanceWallet } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -52,25 +53,20 @@ export const Wallet = observer(() => {
 
 	if (!!connectedAddress)
 		return (
-			<ListItem
-				button
-				color="primary"
+			<Button
+				variant="outlined"
+				color="default"
+				// size="small"
 				onClick={() => {
 					store.wallet.walletReset();
 				}}
+				startIcon={<AccountBalanceWallet />}
+				endIcon={<div className={!!connectedAddress ? classes.greenDot : classes.redDot} />}
 			>
-				<ListItemIcon>
-					<img
-						alt=""
-						src={require('assets/sidebar/wallet.png')}
-						style={{ width: '1.1rem', height: '1.1rem', display: 'inline-block' }}
-					/>
-				</ListItemIcon>
 
-				<ListItemText primary={!!connectedAddress ? shortenAddress(connectedAddress) : 'DISCONNECTED'} />
+				{!!connectedAddress ? shortenAddress(connectedAddress) : 'DISCONNECTED'}
 
-				<div className={!!connectedAddress ? classes.greenDot : classes.redDot} />
-			</ListItem>
+			</Button>
 		);
 	else
 		return (

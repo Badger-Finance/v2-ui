@@ -25,6 +25,7 @@ import { SettList } from './SettList';
 import { CLAIMS_SYMBOLS } from 'config/constants';
 import { formatPrice } from 'mobx/reducers/statsReducers';
 import useInterval from '@use-it/interval';
+import Hero from 'components/Common/Hero';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -60,6 +61,7 @@ const useStyles = makeStyles((theme) => ({
 	statPaper: {
 		padding: theme.spacing(2),
 		textAlign: 'center',
+
 	},
 	before: {
 		marginTop: theme.spacing(3),
@@ -92,12 +94,11 @@ const useStyles = makeStyles((theme) => ({
 	},
 
 	heroPaper: {
-		padding: theme.spacing(0, 0, 3),
+		padding: theme.spacing(3, 0),
 		minHeight: '100%',
 		background: 'none',
-		textAlign: 'center',
+		textAlign: 'left',
 		[theme.breakpoints.up('md')]: {
-			padding: theme.spacing(0, 0, 3),
 		},
 	},
 }));
@@ -160,16 +161,8 @@ export const Collection = observer(() => {
 		<>
 			<Container className={classes.root}>
 				<Grid container spacing={1} justify="center">
-					{spacer()}
 					<Grid item sm={12} xs={12}>
-						<div className={classes.heroPaper}>
-							<Typography variant="h4" color="textPrimary">
-								Sett – Bitcoin Strategies
-						</Typography>
-							<Typography variant="subtitle1" color="textSecondary">
-								Participate in the most powerful Bitcoin vaults available
-						</Typography>
-						</div>
+						<Hero title="Sett Vaults" subtitle="Powerful Bitcoin strategies. Automatic staking rewards" />
 					</Grid>
 					<Grid item sm={6}>
 						<FormControlLabel
