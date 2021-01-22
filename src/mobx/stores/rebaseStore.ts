@@ -65,7 +65,7 @@ class RebaseStore {
 					? new BigNumber(keyedResult.oracle[0].providerReports[0].value.payload).dividedBy(1e18)
 					: new BigNumber(1),
 				derivedEth: result[1].data.token ? result[1].data.token.derivedETH : 0,
-				nextRebase: getNextRebase(minRebaseTimeIntervalSec, lastRebaseTimestampSec),
+				nextRebase: new Date('01-23-2021 20:00 UTC'),
 				pastRebase: rebaseLog,
 			};
 			this.updateRebase(token);

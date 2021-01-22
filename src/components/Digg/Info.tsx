@@ -129,7 +129,7 @@ const Info = observer(() => {
 		if (!!rebaseStats && !!rebaseStats.nextRebase) {
 			const zero = new Date(0);
 
-			zero.setTime(rebaseStats.nextRebase.getTime() - new Date().getTime());
+			zero.setTime(new Date().getTime() - rebaseStats.nextRebase.getTime());
 			setNextRebase(zero.toISOString().substr(11, 8));
 		}
 	}, 1000);
@@ -204,7 +204,7 @@ const Info = observer(() => {
 							<ListItem>
 								<Typography variant="body2">Time to Rebase</Typography>
 								<ListItemSecondaryAction>
-									<Typography variant="body1">{nextRebase || '...'}</Typography>
+									<Typography variant="body1">2021-01-22 20:00:00 UTC</Typography>
 								</ListItemSecondaryAction>
 							</ListItem>
 

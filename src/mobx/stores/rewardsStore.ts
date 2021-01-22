@@ -73,7 +73,6 @@ class RewardsStore {
 						.call(),
 				])
 					.then((result: any[]) => {
-						console.log(result)
 						if (!proof.error) {
 							this.badgerTree = _.defaults(
 								{
