@@ -16,6 +16,7 @@ import { ZoomOutMap } from '@material-ui/icons';
 import {
 	formatBalance,
 	formatBalanceValue,
+	formatGeyserHoldings,
 	formatHoldingsValue,
 	formatSupply,
 	formatVaultGrowth,
@@ -66,11 +67,11 @@ export const TokenCard = observer((props: any) => {
 
 	const { underlyingToken: token } = vault;
 
-	if (!token) {
+	if (!token || !vault.geyser) {
 		return <div />;
 	}
-	const [update, forceUpdate] = useState<boolean>();
-	useInterval(() => forceUpdate(!update), 1000);
+	// const [update, forceUpdate] = useState<boolean>();
+	// useInterval(() => forceUpdate(!update), 1000);
 
 	const { roi, roiTooltip } = formatVaultGrowth(vault, period);
 
@@ -97,7 +98,7 @@ export const TokenCard = observer((props: any) => {
 
 				<Grid item xs={6} md={2}>
 					<Typography variant="body1" color={'textPrimary'}>
-						{!isGlobal ? formatBalance(token) : formatSupply(vault)}
+						{!isGlobal ? formatBalance(token) : formatGeyserHoldings(vault.geyser)}
 					</Typography>
 				</Grid>
 				<Grid item className={classes.mobileLabel} xs={6}>

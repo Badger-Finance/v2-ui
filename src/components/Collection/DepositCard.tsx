@@ -121,7 +121,7 @@ export const DepositCard = observer((props: any) => {
 				</Grid>
 
 				<Grid item xs={12} md={2} style={{ textAlign: 'right' }}>
-					<IconButton color={vault.balance.gt(0) || token.balance.gt(0) ? 'primary' : 'default'}>
+					<IconButton color='primary'>
 						<ZoomOutMap />
 					</IconButton>
 				</Grid>

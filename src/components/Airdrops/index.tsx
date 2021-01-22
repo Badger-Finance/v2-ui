@@ -19,6 +19,8 @@ import { StoreContext } from '../../mobx/store-context';
 import { formatAmount } from 'mobx/reducers/statsReducers';
 import useInterval from '@use-it/interval';
 import Hero from 'components/Common/Hero';
+import views from '../../config/routes';
+
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -78,8 +80,8 @@ export const Airdrops = observer(() => {
 	const classes = useStyles();
 
 	const {
-		router: {},
-		wallet: {},
+		router: { goTo },
+		wallet: { },
 		airdrops: { claimBadgerAirdrops, claimDiggAirdrops },
 		uiState: { airdropStats, stats },
 	} = store;
@@ -95,16 +97,23 @@ export const Airdrops = observer(() => {
 				title: `Stake`,
 				button: `Stake`,
 				badge: !!stats.stats.badgerGrowth && `Up to ${stats.stats.badgerGrowth}% APY`,
-				href: '/',
 				copy: 'Deposit in vaults to earn Badger and Digg',
 			},
 			// { title: "Liquidity", button: "Add Liquidity", badge: !!stats.stats.badgerLiqGrowth && `Up to ${stats.stats.badgerLiqGrowth}% APY`, href: "https://info.uniswap.org/pair/0xcd7989894bc033581532d2cd88da5db0a4b12859", copy: "Provide liquidity and stake LP in vaults." },
 			{
-				title: 'Liquidity',
+				title: 'Badger Liquidity',
 				button: 'Uniswap',
 				button2: 'Sushiswap',
 				href: 'https://info.uniswap.org/pair/0xcd7989894bc033581532d2cd88da5db0a4b12859',
 				href2: 'https://sushiswap.fi/pair/0x110492b31c59716ac47337e616804e3e3adc0b4a',
+				copy: 'Provide liquidity and stake LP in vaults.',
+			},
+			{
+				title: 'Digg Liquidity',
+				button2: 'Uniswap',
+				button: 'Sushiswap',
+				href: 'https://info.uniswap.org/pair/0x0194B5fe9aB7e0C43a08aCbb771516fc057402e7',
+				href2: 'https://sushiswap.fi/pair/0x7f6fe274e172ac7d096a7b214c78584d99ca988b',
 				copy: 'Provide liquidity and stake LP in vaults.',
 			},
 			{
@@ -124,8 +133,12 @@ export const Airdrops = observer(() => {
 
 				<Button
 					className={classes.button}
-					target="_blank"
-					href={qualifier.href}
+					onClick={() => {
+						if (!!qualifier.href) {
+							window.open(qualifier.href)
+							goTo(views.home)
+						}
+					}}
 					size="small"
 					variant="contained"
 					color="primary"
@@ -141,19 +154,21 @@ export const Airdrops = observer(() => {
 						size="small"
 					/>
 				)}
-				{!!qualifier.button2 && (
-					<Button
-						className={classes.button}
-						target="_blank"
-						href={qualifier.href2}
-						size="small"
-						variant="contained"
-						color="primary"
-					>
-						{qualifier.button2}
-					</Button>
-				)}
-			</Grid>
+				{
+					!!qualifier.button2 && (
+						<Button
+							className={classes.button}
+							target="_blank"
+							href={qualifier.href2}
+							size="small"
+							variant="contained"
+							color="primary"
+						>
+							{qualifier.button2}
+						</Button>
+					)
+				}
+			</Grid >
 		));
 	};
 
@@ -226,13 +241,7 @@ export const Airdrops = observer(() => {
 										>
 											Claim
 										</Button>
-										<Button
-											onClick={() => {
-												claimDiggAirdrops(true);
-											}}
-										>
-											Deposit
-										</Button>
+
 									</ButtonGroup>
 								</ListItemSecondaryAction>
 							</ListItem>
