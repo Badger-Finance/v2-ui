@@ -35,6 +35,7 @@ import { vaultBatches } from 'config/system/vaults';
 import { geyserBatches } from 'config/system/geysers';
 import { decimals as tokenDecimals, tokenBatches } from 'config/system/tokens';
 import { formatAmount } from 'mobx/reducers/statsReducers';
+import deploy from 'config/deployments/mainnet.json'
 
 const infuraProvider = new Web3.providers.HttpProvider(RPC_URL);
 const options = {
@@ -145,6 +146,8 @@ class ContractsStore {
 					_.compact(reduceGraphResult(result.slice(2 + curveQueries.length))),
 					'address',
 				);
+				cgPrices[deploy.digg_system.uFragments.toLowerCase()] = { ethValue: tokenPrices[WBTC_ADDRESS.toLowerCase()] }
+
 				const curvePrices = _.keyBy(
 					reduceCurveResult(
 						result.slice(2, 2 + curveQueries.length),

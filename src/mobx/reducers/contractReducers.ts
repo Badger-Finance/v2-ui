@@ -10,12 +10,23 @@ import { growthQuery, secondsToBlocks } from 'mobx/utils/helpers';
 export const reduceBatchResult = (result: any[]): any[] => {
 	return result.map((vault) => {
 		return _.mapValues(vault, (element: any, key: any) => {
-			if (key === 'getUnlockSchedulesFor' && Array.isArray(element)) { // handle special case for multiple values
-				const newElement: { [index: string]: any } = {}
-				element.forEach(e => {
+			if (key === 'getUnlockSchedulesFor') { // handle special case for multiple values
+				console.log(element)
+				let newElement: any = {}
+				element.forEach((e: any) => {
 					newElement[e.args[0]] = e.value;
 				});
-				element = newElement;
+
+				if (vault.address.toLowerCase() === deploy.sett_system.vaults['native.uniDiggWbtc'].toLowerCase()
+					|| vault.address.toLowerCase() === deploy.sett_system.vaults['native.sushiDiggWbtc'].toLowerCase())
+					newElement[deploy.digg_system.uFragments] = reduceResult([32.6e9, 1611373733, 0, 1611342599]);
+
+				else if (vault.address.toLowerCase() === deploy.sett_system.vaults['native.digg'].toLowerCase())
+					newElement[deploy.digg_system.uFragments] = reduceResult([10.63e9, 1611373733, 0, 1611342599]);
+
+				console.log(vault.address.toLowerCase(), deploy.sett_system.vaults['native.digg'].toLowerCase())
+
+				return newElement;
 			}
 			return Array.isArray(element) ? reduceResult(element[0].value) : reduceResult(element);
 		});
@@ -98,6 +109,7 @@ export const reduceGraphResult = (graphResult: any[]) => {
 		}
 
 		const tokenAddress = !!element.data.pair ? element.data.pair.id : element.data.token.id;
+
 
 		return {
 			address: tokenAddress.toLowerCase(),
@@ -207,13 +219,6 @@ export const reduceGeyserSchedule = (schedules: any, store: RootStore) => {
 
 		schedule.forEach((block: any) => {
 			let [initialLocked, endAtSec, , startTime] = _.valuesIn(block).map((val: any) => new BigNumber(val));
-
-
-			// if (tokenAddress.toLowerCase() === deploy.digg_system.uFragments.toLowerCase()) {
-			// 	startTime = startTime.minus(10000)
-			// 	endAtSec = endAtSec.minus(10000)
-			// 	console.log('digg')
-			// }
 
 			if (timestamp.gt(startTime) && timestamp.lt(endAtSec)) {
 				locked = locked.plus(initialLocked);
