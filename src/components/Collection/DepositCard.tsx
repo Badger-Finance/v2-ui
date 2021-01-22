@@ -16,8 +16,10 @@ import {
 	formatGeyserBalance,
 	formatGeyserBalanceValue,
 	formatVaultGrowth,
+	simulateDiggSchedule,
 } from 'mobx/reducers/statsReducers';
 import useInterval from '@use-it/interval';
+import deploy from 'config/deployments/mainnet.json'
 
 const useStyles = makeStyles((theme) => ({
 
@@ -59,6 +61,7 @@ export const DepositCard = observer((props: any) => {
 	const { vault, onOpen } = props;
 
 	const { period, currency } = store.uiState;
+	const { tokens } = store.contracts;
 
 	const { underlyingToken: token, geyser } = vault;
 
@@ -69,6 +72,8 @@ export const DepositCard = observer((props: any) => {
 	useInterval(() => forceUpdate(!update), 1000);
 
 	const { roi, roiTooltip } = formatVaultGrowth(vault, period);
+	let fixedRoi = isNaN(parseFloat(roi)) ? 'Infinity%' : vault.underlyingToken.address === deploy.digg_system.uFragments.toLowerCase() ? simulateDiggSchedule(vault, tokens[deploy.digg_system.uFragments.toLowerCase()]) : roi
+	let fixedRoiTooltip = vault.underlyingToken.address === deploy.digg_system.uFragments.toLowerCase() ? fixedRoi + ' DIGG' : roiTooltip
 
 	return (
 		<>
@@ -102,9 +107,9 @@ export const DepositCard = observer((props: any) => {
 					</Typography>
 				</Grid>
 				<Grid item xs={6} md={2}>
-					<Tooltip enterDelay={0} leaveDelay={300} arrow placement="left" title={roiTooltip}>
+					<Tooltip enterDelay={0} leaveDelay={300} arrow placement="left" title={fixedRoiTooltip}>
 						<Typography style={{ cursor: 'default' }} variant="body1" color={'textPrimary'}>
-							{isNaN(parseFloat(roi)) ? '0.00%' : roi}
+							{fixedRoi}
 						</Typography>
 					</Tooltip>
 				</Grid>
