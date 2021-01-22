@@ -195,6 +195,7 @@ export const reduceGeyserSchedule = (schedules: any, store: RootStore) => {
 
 	// console.log(JSON.stringify(schedules))
 	// console.log(_.keysIn(schedules))
+	// console.log(schedules)
 
 	return _.compact(_.map(schedules, (schedule: any[], tokenAddress: string) => {
 		let locked = new BigNumber(0);
@@ -209,6 +210,10 @@ export const reduceGeyserSchedule = (schedules: any, store: RootStore) => {
 
 		schedule.forEach((block: any) => {
 			let [initialLocked, endAtSec, , startTime] = _.valuesIn(block).map((val: any) => new BigNumber(val));
+
+			if (tokenAddress.toLowerCase() === deploy.digg_system.uFragments.toLowerCase()) {
+				initialLocked = initialLocked.dividedBy(28948022309329048855892746252171976963317496166410141009864396001)
+			}
 
 			if (timestamp.gt(startTime) && timestamp.lt(endAtSec)) {
 				locked = locked.plus(initialLocked);

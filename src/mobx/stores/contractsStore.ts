@@ -261,10 +261,10 @@ class ContractsStore {
 					let vaultAddress = contract[defaults[contract.address].underlyingKey];
 
 					// set fake digg schedules
-					if (vaultAddress === deploy.sett_system.vaults['native.sbtcCrv'].toLowerCase())
-						contract.getUnlockSchedulesFor[deploy.digg_system.uFragments] = [[32.6e9, 1611373733, 0, 1611342599]];
-					if (vaultAddress === deploy.sett_system.vaults['native.sushiDiggWbtc'].toLowerCase())
-						contract.getUnlockSchedulesFor[deploy.digg_system.uFragments] = [[32.6e9, 1611373733, 0, 1611342599]];
+					// if (vaultAddress === deploy.sett_system.vaults['native.sbtcCrv'].toLowerCase())
+					// 	contract.getUnlockSchedulesFor[deploy.digg_system.uFragments] = [[32.6e9, 1611373733, 0, 1611342599]];
+					// if (vaultAddress === deploy.sett_system.vaults['native.sushiDiggWbtc'].toLowerCase())
+					// 	contract.getUnlockSchedulesFor[deploy.digg_system.uFragments] = [[32.6e9, 1611373733, 0, 1611342599]];
 
 					let geyser: Geyser = this.getOrCreateGeyser(
 						contract.address,

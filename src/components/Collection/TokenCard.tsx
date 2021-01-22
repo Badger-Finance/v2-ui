@@ -74,7 +74,7 @@ export const TokenCard = observer((props: any) => {
 
 	const { roi, roiTooltip } = formatVaultGrowth(vault, period);
 
-	let fixedRoi = isNaN(parseFloat(roi)) ? 'Infinity%' : vault.underlyingToken.address === deploy.digg_system.uFragments.toLowerCase() ? simulateDiggSchedule(vault, tokens[deploy.digg_system.uFragments.toLowerCase()]) : roi
+	let fixedRoi = isNaN(parseFloat(roi)) ? '1%' : vault.underlyingToken.address === deploy.digg_system.uFragments.toLowerCase() ? simulateDiggSchedule(vault, tokens[deploy.digg_system.uFragments.toLowerCase()]) : roi
 	let fixedRoiTooltip = vault.underlyingToken.address === deploy.digg_system.uFragments.toLowerCase() ? fixedRoi + ' DIGG' : roiTooltip
 
 	return (
