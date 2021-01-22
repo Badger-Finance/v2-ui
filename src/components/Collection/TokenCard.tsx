@@ -8,6 +8,7 @@ import {
 	Chip,
 
 } from '@material-ui/core';
+import deploy from 'config/deployments/mainnet.json'
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { VaultSymbol } from '../Common/VaultSymbol';
@@ -71,6 +72,9 @@ export const TokenCard = observer((props: any) => {
 
 	const { roi, roiTooltip } = formatVaultGrowth(vault, period);
 
+	let fixedRoi = isNaN(parseFloat(roi)) ? '100.00%' : vault.underlyingToken.address === deploy.digg_system.uFragments.toLowerCase() ? vault.pricePerShare.multipliedBy(1e2).toFixed(2) + '%' : roi
+	let fixedRoiTooltip = vault.underlyingToken.address === deploy.digg_system.uFragments.toLowerCase() ? fixedRoi + ' DIGG' : roiTooltip
+
 	return (
 		<>
 			<Grid onClick={() => onOpen(vault)} container className={classes.border}>
@@ -104,9 +108,9 @@ export const TokenCard = observer((props: any) => {
 					</Typography>
 				</Grid>
 				<Grid item xs={6} md={2}>
-					<Tooltip enterDelay={0} leaveDelay={300} arrow placement="left" title={roiTooltip}>
+					<Tooltip enterDelay={0} leaveDelay={300} arrow placement="left" title={fixedRoiTooltip}>
 						<Typography style={{ cursor: 'default' }} variant="body1" color={'textPrimary'}>
-							{isNaN(parseFloat(roi)) ? '0.00%' : roi}
+							{fixedRoi}
 						</Typography>
 					</Tooltip>
 				</Grid>

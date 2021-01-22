@@ -115,7 +115,7 @@ function calculatePortfolioStats(vaultContracts: any, tokens: any, vaults: any, 
 }
 
 function formatPercentage(ratio: BigNumber) {
-	if (ratio.multipliedBy(1e2).lt(1e-2)) return ratio.multipliedBy(1e2).toFixed(4);
+	if (ratio.multipliedBy(1e2).lt(1e-2) && ratio.gt(0)) return ratio.multipliedBy(1e2).toFixed(4);
 	else return ratio.multipliedBy(1e2).toFixed(2);
 }
 function formatReturn(amount: Amount, geyser: Geyser) {
