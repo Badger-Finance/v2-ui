@@ -154,7 +154,6 @@ class ContractsStore {
 					),
 					'address',
 				);
-				console.log(cgPrices, result.slice(0, 1)[0])
 				const tokens = _.compact(
 					_.values(
 						_.defaultsDeep(
@@ -453,7 +452,7 @@ class ContractsStore {
 
 		const web3 = new Web3(provider);
 		const geyserContract = new web3.eth.Contract(geyser.abi, geyser.address);
-		const method = geyserContract.methods.stake(amount.toFixed(0, BigNumber.ROUND_DOWN), EMPTY_DATA);
+		const method = geyserContract.methods.stake(amount.toFixed(0, BigNumber.ROUND_HALF_FLOOR), EMPTY_DATA);
 		queueNotification(
 			`Sign the transaction to stake ${formatAmount({ amount: amount, token: underlyingAsset })} ${underlyingAsset.symbol
 			}`,
@@ -493,7 +492,7 @@ class ContractsStore {
 
 		const web3 = new Web3(provider);
 		const geyserContract = new web3.eth.Contract(geyser.abi, geyser.address);
-		const method = geyserContract.methods.unstake(amount.toFixed(0, BigNumber.ROUND_DOWN), EMPTY_DATA);
+		const method = geyserContract.methods.unstake(amount.toFixed(0, BigNumber.ROUND_HALF_FLOOR), EMPTY_DATA);
 
 		queueNotification(
 			`Sign the transaction to unstake ${formatAmount({ amount: amount, token: geyser.vault.underlyingToken })} ${geyser.vault.underlyingToken.symbol
@@ -538,7 +537,7 @@ class ContractsStore {
 		const web3 = new Web3(provider);
 		const underlyingContract = new web3.eth.Contract(vault.abi, vault.address);
 
-		let method = underlyingContract.methods.deposit(amount.toFixed(0, BigNumber.ROUND_DOWN));
+		let method = underlyingContract.methods.deposit(amount.toFixed(0, BigNumber.ROUND_HALF_FLOOR));
 		if (all) method = underlyingContract.methods.depositAll();
 
 		queueNotification(
@@ -583,7 +582,7 @@ class ContractsStore {
 		const web3 = new Web3(provider);
 		const underlyingContract = new web3.eth.Contract(vault.abi, vault.address);
 
-		let method = underlyingContract.methods.withdraw(amount.toFixed(0, BigNumber.ROUND_DOWN));
+		let method = underlyingContract.methods.withdraw(amount.toFixed(0, BigNumber.ROUND_HALF_FLOOR));
 		if (all) method = underlyingContract.methods.withdrawAll();
 
 		queueNotification(

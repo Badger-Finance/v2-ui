@@ -169,8 +169,8 @@ export const inCurrency = (
 	}
 
 	const fixedNormal = noCommas
-		? normal.toFixed(decimals, BigNumber.ROUND_DOWN)
-		: numberWithCommas(normal.toFixed(decimals, BigNumber.ROUND_DOWN));
+		? normal.toFixed(decimals, BigNumber.ROUND_HALF_FLOOR)
+		: numberWithCommas(normal.toFixed(decimals, BigNumber.ROUND_HALF_FLOOR));
 
 	return `${prefix}${fixedNormal}${suffix}`;
 };

@@ -45,9 +45,7 @@ const useStyles = makeStyles((theme) => ({
 	drawer: {},
 	listItem: {
 		cursor: 'pointer',
-		// justifyContent: 'space-between',
 		'&:hover': {
-			fontWeight: 'bold',
 			backgroundColor: 'transparent',
 			cursor: 'default',
 		},
@@ -156,8 +154,9 @@ export const Sidebar = observer(() => {
 						button
 						onClick={() => setExpanded(expanded === 'advanced' ? '' : 'advanced')}
 						style={{ marginTop: '.5rem' }}
+						className={classes.listItem}
 					>
-						v2.1.0
+						v2.2.0
 						<IconButton
 							size="small"
 							className={classes.expand + ' ' + (expanded === 'advanced' ? classes.expandOpen : '')}

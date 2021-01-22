@@ -46,10 +46,7 @@ const useStyles = makeStyles((theme) => ({
 	statPaper: {
 		padding: theme.spacing(2),
 		textAlign: 'center',
-		transition: '.2s background ease-out',
-		'&:hover': {
-			background: '#3a3a3a',
-		},
+
 	},
 	before: {
 		marginTop: theme.spacing(5),

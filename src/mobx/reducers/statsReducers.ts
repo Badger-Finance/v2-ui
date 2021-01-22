@@ -177,7 +177,7 @@ export function formatPrice(price: BigNumber, currency: string) {
 	return inCurrency(price.dividedBy(1e18), currency, true);
 }
 export function formatAmount(amount: Amount) {
-	return inCurrency(amount.amount.dividedBy(10 ** amount.token.decimals), 'eth', true);
+	return inCurrency(amount.amount.dividedBy(10 ** amount.token.decimals), 'eth', true, amount.token.decimals);
 }
 
 export function formatGeyserGrowth(geyser: Geyser, period: string) {

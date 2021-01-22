@@ -40,12 +40,11 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	wallet: {
-		position: 'absolute',
-		top: theme.spacing(10),
-		right: theme.spacing(3),
 		[theme.breakpoints.up('md')]: {
+			position: 'absolute',
 			marginBottom: '0',
 			top: theme.spacing(3),
+			right: theme.spacing(3),
 		},
 	},
 }));
