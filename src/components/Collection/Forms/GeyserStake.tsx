@@ -8,6 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Loader } from '../../Loader';
 import { BigNumber } from 'bignumber.js';
 import { useForm } from 'react-hook-form';
+import { formatBalanceUnderlying } from 'mobx/reducers/statsReducers';
 
 const TEXTFIELD_ID = 'amountField';
 
@@ -84,10 +85,16 @@ export const GeyserStake = observer((props: any) => {
 				<div
 					style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap' }}
 				>
-					<Typography variant="body1" color={'textSecondary'} style={{ marginBottom: '.2rem' }}>
-						Available: {totalAvailable || '0.000000000000000000'}
-						{/* Wrapped: {uiStats.wrappedFull[100]} */}
-					</Typography>
+					<div>
+						<Typography variant="body2" color={'textSecondary'} style={{ marginBottom: '.2rem' }}>
+							Underlying: {formatBalanceUnderlying(vault)}
+							{/* Wrapped: {uiStats.wrappedFull[100]} */}
+						</Typography>
+						<Typography variant="body1" color={'textSecondary'} style={{ marginBottom: '.2rem' }}>
+							Available: {totalAvailable || '0.000000000000000000'}
+							{/* Wrapped: {uiStats.wrappedFull[100]} */}
+						</Typography>
+					</div>
 					{renderAmounts}
 				</div>
 

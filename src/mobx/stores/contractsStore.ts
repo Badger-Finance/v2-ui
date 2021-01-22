@@ -262,7 +262,7 @@ class ContractsStore {
 						this.vaults[vaultAddress],
 						defaults[contract.address].abi,
 					);
-					geyser.update(_.defaults(contract, defaults[contract.address]));
+					geyser.update(_.defaultsDeep(contract, defaults[contract.address]));
 				});
 				callback();
 			})
@@ -621,32 +621,6 @@ class ContractsStore {
 			},
 		);
 	});
-
-	// calculateVaultGrowth = action(() => {
-	// 	const { } = this.store.contracts;
-	// 	const { currentBlock } = this.store.wallet;
-
-	// 	if (!currentBlock) return;
-
-	// 	const periods = [
-	// 		Math.max(currentBlock - Math.floor(secondsToBlocks(60 * 5)), START_BLOCK), // 5 minutes ago
-	// 		Math.max(currentBlock - Math.floor(secondsToBlocks(1 * 24 * 60 * 60)), START_BLOCK), // day
-	// 		Math.max(currentBlock - Math.floor(secondsToBlocks(7 * 24 * 60 * 60)), START_BLOCK), // week
-	// 		Math.max(currentBlock - Math.floor(secondsToBlocks(30 * 24 * 60 * 60)), START_BLOCK), // month
-	// 		START_BLOCK, // start
-	// 	];
-
-	// 	const growthPromises = periods.map(growthQuery);
-
-	// 	Promise.all(growthPromises).then((result: any) => {
-	// 		// save the growth
-	// 		const vaultGrowth = reduceGrowth(result, periods, START_TIME);
-	// 		// this.stats._vaultGrowth = vaultGrowth.total
-
-	// 		// extend vaults with new growth statistics.. pretty hairy maybe we keep this is the UI-state
-	// 		this.updateVaults(vaultGrowth);
-	// 	});
-	// });
 }
 
 export default ContractsStore;

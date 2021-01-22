@@ -134,7 +134,7 @@ export const Collection = observer(() => {
 
 	const availableRewards = () => {
 		return badgerTree.claims.map((claim: string, idx: number) => {
-			return (parseFloat(CLAIMS_SYMBOLS[idx]) > 0) && (
+			return (parseFloat(claim) > 0) && (
 				<Grid key={claim} item xs={12} md={6}>
 					<Paper className={classes.statPaper}>
 						<List style={{ padding: 0 }}>
