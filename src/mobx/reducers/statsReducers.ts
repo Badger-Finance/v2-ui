@@ -115,8 +115,6 @@ function calculatePortfolioStats(vaultContracts: any, tokens: any, vaults: any, 
 }
 
 function formatPercentage(ratio: BigNumber) {
-	if (ratio.isNaN())
-		return '0.00'
 	if (ratio.multipliedBy(1e2).lt(1e-2)) return ratio.multipliedBy(1e2).toFixed(4);
 	else return ratio.multipliedBy(1e2).toFixed(2);
 }
@@ -125,9 +123,8 @@ function formatReturn(amount: Amount, geyser: Geyser) {
 	let geyserValue = geyser.holdingsValue();
 
 	let total = returnValue.dividedBy(geyserValue);
-	total = total.lt(0) ? new BigNumber(1) : total
+	total = total.isNaN() ? new BigNumber(1) : total
 	let tooltip = formatPercentage(total);
-
 
 	return { total, tooltip };
 }

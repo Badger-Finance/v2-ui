@@ -15,7 +15,6 @@ import {
 	reduceGrowthQueryConfig,
 	reduceXSushiROIResults,
 	reduceSushiAPIResults,
-	setFakeDiggSchedules,
 } from '../reducers/contractReducers';
 import { Vault, Geyser, Token, } from '../model';
 import { jsonQuery, graphQuery, vanillaQuery } from 'mobx/utils/helpers';
@@ -266,9 +265,6 @@ class ContractsStore {
 						contract.getUnlockSchedulesFor[deploy.digg_system.uFragments] = [[32.6e9, 1611373733, 0, 1611342599]];
 					if (vaultAddress === deploy.sett_system.vaults['native.sushiDiggWbtc'].toLowerCase())
 						contract.getUnlockSchedulesFor[deploy.digg_system.uFragments] = [[32.6e9, 1611373733, 0, 1611342599]];
-					if (vaultAddress === deploy.sett_system.vaults['native.digg'].toLowerCase())
-
-						contract.getUnlockSchedulesFor[deploy.digg_system.uFragments] = [[16.3e9, 1611373733, 0, 1611342599]];
 
 					let geyser: Geyser = this.getOrCreateGeyser(
 						contract.address,

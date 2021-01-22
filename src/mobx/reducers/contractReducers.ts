@@ -22,22 +22,6 @@ export const reduceBatchResult = (result: any[]): any[] => {
 	});
 };
 
-export const setFakeDiggSchedules = (result: any[]) => {
-
-	return result.map((contract: any) => {
-		console.log(contract)
-		if (contract.address === deploy.sett_system.vaults['native.badger'])
-			contract.getUnlockSchedulesFor[deploy.digg_system.uFragments] = reduceResult([32.6e9, 1611373733, 0, 1611342599]);
-
-		if (contract.address === deploy.sett_system.vaults['native.sushiDiggWbtc'])
-
-			contract.getUnlockSchedulesFor[deploy.digg_system.uFragments] = reduceResult([32.6e9, 1611373733, 0, 1611342599]);
-		if (contract.address === deploy.sett_system.vaults['native.digg'])
-
-			contract.getUnlockSchedulesFor[deploy.digg_system.uFragments] = reduceResult([16.3e9, 1611373733, 0, 1611342599]);
-
-	})
-}
 
 export const reduceResult = (value: any): any => {
 	if (/^-?\d+$/.test(value)) return new BigNumber(value);
