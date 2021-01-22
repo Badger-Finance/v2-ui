@@ -109,8 +109,8 @@ export const Airdrops = observer(() => {
 				title: 'Digg Liquidity',
 				button: 'Uniswap',
 				button2: 'Sushiswap',
-				href2: 'https://info.uniswap.org/pair/0x0194B5fe9aB7e0C43a08aCbb771516fc057402e7',
-				href: 'https://sushiswap.fi/pair/0x7f6fe274e172ac7d096a7b214c78584d99ca988b',
+				href: 'https://info.uniswap.org/pair/0x0194B5fe9aB7e0C43a08aCbb771516fc057402e7',
+				href2: 'https://sushiswap.fi/pair/0x7f6fe274e172ac7d096a7b214c78584d99ca988b',
 				copy: 'Provide liquidity and stake LP in vaults.',
 			},
 			{
@@ -133,6 +133,7 @@ export const Airdrops = observer(() => {
 					onClick={() => {
 						if (!!qualifier.href) {
 							window.open(qualifier.href)
+						} else {
 							goTo(views.home)
 						}
 					}}
@@ -183,8 +184,8 @@ export const Airdrops = observer(() => {
 				{spacer()}
 
 				<Grid item xs={12}>
-					<Typography variant="subtitle1" align="center">
-						Available Airdrops
+					<Typography variant="subtitle1" align="left">
+						Available Airdrops:
 					</Typography>
 				</Grid>
 				<Grid item xs={12} md={6}>

@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
 		display: 'flex',
 		justifyContent: 'space-between',
 		alignItems: 'center',
-		padding: theme.spacing(5, 0),
+		padding: theme.spacing(1, 0, 5),
 		minHeight: '100%',
 		background: 'none',
 		textAlign: 'left',
@@ -60,7 +60,7 @@ const Hero = observer((props: any) => {
 				<Typography variant="h2" color="textPrimary">
 					{title}
 				</Typography>
-				<Typography variant="subtitle1" color="textPrimary">
+				<Typography variant="subtitle1" color="textSecondary">
 					{subtitle}
 				</Typography>
 			</div>
