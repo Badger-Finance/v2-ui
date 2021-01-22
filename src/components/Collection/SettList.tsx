@@ -82,6 +82,9 @@ export const SettList = observer((props: any) => {
 			currency,
 			period,
 		},
+		wallet: {
+			connectedAddress
+		}
 	} = store;
 
 	const [dialogProps, setDialogProps] = useState({ open: false, vault: undefined as any });
@@ -276,7 +279,7 @@ export const SettList = observer((props: any) => {
 			{!all && !deposits && (
 				<div>
 					<Typography align="center" variant="subtitle1" color="textSecondary" style={{ margin: '2rem 0' }}>
-						There are tokens to display at this time.
+						{!hideEmpty ? "Loading Badger Setts..." : `Your address does not have tokens to deposit.`}
 					</Typography>
 				</div>
 			)}
