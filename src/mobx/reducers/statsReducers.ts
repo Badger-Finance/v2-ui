@@ -123,7 +123,7 @@ function formatReturn(amount: Amount, geyser: Geyser) {
 	let geyserValue = geyser.holdingsValue();
 
 	let total = returnValue.dividedBy(geyserValue);
-	total = total.isNaN() ? new BigNumber(1) : total
+	total = total.isNaN() ? new BigNumber(Infinity) : total
 	let tooltip = formatPercentage(total);
 
 	return { total, tooltip };
@@ -189,6 +189,12 @@ export function formatPrice(price: BigNumber, currency: string) {
 }
 export function formatAmount(amount: Amount) {
 	return inCurrency(amount.amount.dividedBy(10 ** amount.token.decimals), 'eth', true, amount.token.decimals);
+}
+
+export function simulateDiggSchedule(vault: Vault, digg: Token) {
+	let dps = new BigNumber(341427.37842872745)
+
+	return dps.multipliedBy(digg.ethValue).dividedBy(vault.holdings).multipliedBy(1e2).toFixed(2) + '%'
 }
 
 export function formatGeyserGrowth(geyser: Geyser, period: string) {

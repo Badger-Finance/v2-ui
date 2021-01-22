@@ -19,6 +19,7 @@ import {
 	formatGeyserHoldings,
 	formatHoldingsValue,
 	formatVaultGrowth,
+	simulateDiggSchedule,
 } from 'mobx/reducers/statsReducers';
 
 const useStyles = makeStyles((theme) => ({
@@ -61,6 +62,7 @@ export const TokenCard = observer((props: any) => {
 	const { vault, isGlobal, onOpen } = props;
 
 	const { period, currency } = store.uiState;
+	const { tokens } = store.contracts
 
 	const { underlyingToken: token } = vault;
 
@@ -72,7 +74,7 @@ export const TokenCard = observer((props: any) => {
 
 	const { roi, roiTooltip } = formatVaultGrowth(vault, period);
 
-	let fixedRoi = isNaN(parseFloat(roi)) ? '100.00%' : vault.underlyingToken.address === deploy.digg_system.uFragments.toLowerCase() ? vault.pricePerShare.multipliedBy(1e2).toFixed(2) + '%' : roi
+	let fixedRoi = isNaN(parseFloat(roi)) ? 'Infinity%' : vault.underlyingToken.address === deploy.digg_system.uFragments.toLowerCase() ? simulateDiggSchedule(vault, tokens[deploy.digg_system.uFragments.toLowerCase()]) : roi
 	let fixedRoiTooltip = vault.underlyingToken.address === deploy.digg_system.uFragments.toLowerCase() ? fixedRoi + ' DIGG' : roiTooltip
 
 	return (
