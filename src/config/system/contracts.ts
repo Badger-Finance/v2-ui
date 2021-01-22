@@ -4,7 +4,7 @@ import DiggVault from './abis/DiggSett.json';
 import BadgerGeyser from './abis/BadgerGeyser.json';
 import SushiGeyser from './abis/SushiGeyser.json';
 import BadgerTree from './abis/BadgerTree.json';
-import deploy from './deploy-final.json';
+import deploy from '../deployments/mainnet.json';
 
 export const vaultBatches = [
 	{

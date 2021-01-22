@@ -1,6 +1,6 @@
 import { ERC20 } from 'config/constants';
 import _ from 'lodash';
-import deploy from './deploy-final.json';
+import deploy from '../deployments/mainnet.json';
 
 export const curveTokens = {
 	contracts: [
