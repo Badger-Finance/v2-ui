@@ -203,13 +203,7 @@ export const Airdrops = observer(() => {
 										>
 											Claim
 										</Button>
-										<Button
-											onClick={() => {
-												claimBadgerAirdrops(true);
-											}}
-										>
-											Deposit
-										</Button>
+
 									</ButtonGroup>
 								</ListItemSecondaryAction>
 							</ListItem>

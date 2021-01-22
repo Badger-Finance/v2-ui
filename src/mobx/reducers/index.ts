@@ -73,14 +73,10 @@ class UiState {
 			this.reduceTreeRewards();
 		}, 1000);
 
-		// observe(this.store.contracts as any, 'geysers', (change: any) => {
-		// 	try {
-		// 		alert('a')
-		// 		this.reduceStats();
-		// 	} catch (e) {
-		// 		process.env.NODE_ENV !== 'production' && console.log(e);
-		// 	}
-		// });
+		observe(this.store.wallet as any, 'connectedAddress', (change: any) => {
+			if (!this.store.wallet.connectedAddress)
+				this.setHideZeroBal(false)
+		});
 
 		// format rewards for UI
 		// observe(this.store.rewards as any, 'badgerTree', () => {
