@@ -168,7 +168,7 @@ class ContractsStore {
 				);
 
 				tokens.forEach((contract: any) => {
-					const token = this.getOrCreateToken(contract.address);
+					let token = this.getOrCreateToken(contract.address);
 					token.update(contract);
 				});
 
@@ -229,9 +229,10 @@ class ContractsStore {
 						});
 
 					//TODO: xSushi ROI not added in here - need vault balance which doesn't seem to be set.
+					console.log(vault)
 
 					vault.update(
-						_.defaults(contract, defaults[contract.address], { growth: _.compact([growth, xSushiGrowth]) }),
+						_.defaultsDeep(contract, defaults[contract.address], { growth: _.compact([growth, xSushiGrowth]) }),
 					);
 				});
 				callback();

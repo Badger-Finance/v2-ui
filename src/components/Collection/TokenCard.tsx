@@ -84,6 +84,10 @@ export const TokenCard = observer((props: any) => {
 							<Chip className={classes.chip} label="Harvest" size="small" color="primary" />
 						)}
 					</Typography>
+					{/* <Typography variant="body2" color="textSecondary" component="div">
+						{vault.pricePerShare.toString()}
+
+					</Typography> */}
 				</Grid>
 
 				<Grid item className={classes.mobileLabel} xs={6}>
@@ -126,6 +130,7 @@ export const TokenCard = observer((props: any) => {
 					<IconButton color={vault.balance.gt(0) || token.balance.gt(0) ? 'default' : 'secondary'}>
 						<UnfoldMoreTwoTone />
 					</IconButton>
+
 				</Grid>
 			</Grid>
 		</>
