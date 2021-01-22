@@ -15,7 +15,7 @@ export const geyserBatches = [
 			},
 			{
 				name: 'getUnlockSchedulesFor',
-				args: [deploy.token],
+				args: [deploy.token, deploy.digg_system.uFragments],
 			},
 			{
 				name: 'totalStaked',

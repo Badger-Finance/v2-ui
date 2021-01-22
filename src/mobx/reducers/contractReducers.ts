@@ -186,6 +186,8 @@ export const reduceGeyserSchedule = (schedule: any, store: RootStore) => {
 	let locked = new BigNumber(0);
 	let timestamp = new BigNumber(new Date().getTime() / 1000.0);
 
+	console.log(schedule)
+
 	const period = { start: timestamp, end: timestamp };
 
 	let lockedAllTime = new BigNumber(0);
