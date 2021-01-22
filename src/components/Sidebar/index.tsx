@@ -343,24 +343,7 @@ export const Sidebar = observer(() => {
 						Developer Program
 					</ListItem>
 
-					<ListItem key="gas">
-						<ButtonGroup variant="outlined" fullWidth>
-							<Button size="small" disabled>
-								<img src={require('assets/sidebar/gas.png')} className={classes.icon} />
-							</Button>
 
-							{['slow', 'standard', 'rapid'].map((speed: string, idx: number) => (
-								<Button
-									key={idx}
-									variant={gasPrice === speed ? 'contained' : 'outlined'}
-									size="small"
-									onClick={() => setGasPrice(speed)}
-								>
-									{(gasPrices[speed] / 1).toFixed(0)}
-								</Button>
-							))}
-						</ButtonGroup>
-					</ListItem>
 				</List>
 			</div>
 		</Drawer>

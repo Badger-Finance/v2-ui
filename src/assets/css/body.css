@@ -9,6 +9,7 @@
 
 body {
 	overflow-y: scroll; /* Show vertical scrollbar */
-	/* background: url(../holograms.png) -22px -50px fixed; */
-	background-size: 130px;
+	background: url(../bg.png) center left no-repeat;
+	background-size: auto 100%;
+	background-attachment: fixed;
 }

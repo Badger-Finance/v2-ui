@@ -30,6 +30,7 @@ import Hero from 'components/Common/Hero';
 const useStyles = makeStyles((theme) => ({
 	root: {
 		marginTop: theme.spacing(11),
+		marginBottom: theme.spacing(10),
 		[theme.breakpoints.up('md')]: {
 			paddingLeft: theme.spacing(33),
 			marginTop: theme.spacing(2),
@@ -243,6 +244,7 @@ export const Collection = observer(() => {
 							<Typography variant="h5">{formatPrice(stats.stats.badger, currency)}</Typography>
 						</Paper>
 					</Grid>
+
 					{spacer()}
 
 					{!!connectedAddress && badgerTree.claims.length > 0 && (
@@ -255,6 +257,7 @@ export const Collection = observer(() => {
 							{availableRewards()}
 						</>
 					)}
+
 					{spacer()}
 
 					<SettList isGlobal={!isCached()} hideEmpty={hideZeroBal} />

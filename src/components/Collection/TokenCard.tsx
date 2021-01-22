@@ -174,8 +174,9 @@ export const TokenCard = observer((props: any) => {
 				</Grid>
 				<Grid item xs={6} md={2}>
 					<Typography variant="body1" color={'textPrimary'}>
+
+						{!isGlobal ? formatBalanceValue(vault.underlyingToken, currency) : formatHoldingsValue(vault, currency)}
 					</Typography>
-					{!isGlobal ? formatBalanceValue(vault.underlyingToken, currency) : formatHoldingsValue(vault, currency)}
 				</Grid>
 
 				<Grid item xs={12} md={2} style={{ textAlign: 'right' }}>

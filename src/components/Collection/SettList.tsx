@@ -29,6 +29,7 @@ import { vaultBatches } from 'config/system/contracts';
 import { Vault } from 'mobx/reducers/contractReducers';
 import { formatPrice } from 'mobx/reducers/statsReducers';
 import { DepositCard } from './DepositCard';
+import useInterval from '@use-it/interval';
 
 const useStyles = makeStyles((theme) => ({
 	list: {
@@ -124,41 +125,55 @@ export const SettList = observer((props: any) => {
 	};
 
 	const renderVaults = (contracts: any) => {
-		console.log('contracts: ', contracts);
-		console.log('vaults: ', vaults);
-		const list = _.map(contracts, (address: string) => {
+
+		let filtered = _.filter(contracts, (address: string) => {
+			const vault: Vault = vaults[address.toLowerCase()];
+			return (!!vault && (!hideEmpty || vault.underlyingToken.balance.gt(0)))
+		});
+		let sorted = _.sortBy(filtered, 'position')
+
+
+		let list = _.map(sorted, (address: string) => {
 			const vault: Vault = vaults[address.toLowerCase()];
 
-			if (!!vault && (!hideEmpty || vault.underlyingToken.balance.gt(0)))
-				return (<ListItem key={address} className={classes.listItem}>
-					<TokenCard isGlobal={!hideEmpty} vault={vault} onOpen={onOpen} />
-				</ListItem>
-				);
+			return (<ListItem key={address} className={classes.listItem}>
+				<TokenCard isGlobal={!hideEmpty} vault={vault} onOpen={onOpen} />
+			</ListItem>
+			);
 		});
 
-		return (
-			<List key={contracts[0]} className={classes.list}>
-				{list}
-			</List>
-		);
+		if (list.length > 0)
+			return (
+				<List key={contracts[0]} className={classes.list}>
+					{list}
+				</List>
+			);
+		else
+			return undefined
 	};
 
 	const renderDeposits = (contracts: any) => {
-		const list = _.map(contracts, (address: string) => {
+		let list = _.map(contracts, (address: string) => {
 			const vault: Vault = vaults[address.toLowerCase()];
 
-			if (!!vault && !!vault.geyser && (!hideEmpty || vault.geyser.balance.gt(0)))
+			if (!!vault && !!vault.geyser && (!hideEmpty || (vault.geyser.balance.gt(0) || vault.balance.gt(0))))
 				return (<ListItem key={address} className={classes.listItem}>
 					<DepositCard isGlobal={!hideEmpty} vault={vault} onOpen={onOpen} />
 				</ListItem>
 				);
 		});
 
-		return (
-			<List key={contracts[0]} className={classes.list}>
-				{list}
-			</List>
-		);
+		list = _.compact(list)
+
+		if (list.length > 0)
+			return (
+				<List key={contracts[0]} className={classes.list}>
+					{list}
+				</List>
+			);
+		else
+			return undefined
+
 	};
 
 	if (!tokens || !vaults || !geysers) {
@@ -284,25 +299,28 @@ export const SettList = observer((props: any) => {
 		);
 	};
 
-	const all = renderVaults([...vaultBatches[2].contracts, ...vaultBatches[1].contracts, ...vaultBatches[0].contracts])
-	const deposits = renderDeposits([...vaultBatches[2].contracts, ...vaultBatches[1].contracts, ...vaultBatches[0].contracts])
+	let all = renderVaults([...vaultBatches[2].contracts, ...vaultBatches[1].contracts, ...vaultBatches[0].contracts])
+	let deposits = renderDeposits([...vaultBatches[2].contracts, ...vaultBatches[1].contracts, ...vaultBatches[0].contracts])
 
 	return (
 		<>
 			{/* {!!connectedAddress && hasDeposits && tableHeader(`Deposits - ${stats.stats.deposits}`, 'Deposited')}
 			{!!connectedAddress && renderDeposits()} */}
-			{tableHeader(
+			{!!all && [tableHeader(
 				hideEmpty
 					? `Your Wallet - ${formatPrice(stats.stats.wallet, currency)}`
 					: `All Setts  - ${formatPrice(stats.stats.tvl, currency)}`,
 				hideEmpty ? 'Available' : 'Tokens',
-			)}
-			{all}
-			{hideEmpty && tableHeader(
+			), all]}
+			{!!deposits && hideEmpty && tableHeader(
 				`Your Deposits - ${formatPrice(stats.stats.deposits, currency)}`,
 				'Tokens',
 			)}
 			{hideEmpty && deposits}
+
+			{!all && !deposits && <div>
+				<Typography align="center" variant="subtitle1" color="textSecondary" style={{ margin: '2rem 0' }}>There are tokens to display at this time.</Typography>
+			</div>}
 			{/* {isGlobal && <Carousel className={classes.carousel} indicators={false} navButtonsAlwaysVisible >{featuredGeysers()}</Carousel>} */}
 			{/* {!hideEmpty && tableHeader(`All Setts`, 'Tokens')}
 		{!hideEmpty && emptyGeysers()} */}
