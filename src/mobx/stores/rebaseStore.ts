@@ -58,7 +58,8 @@ class RebaseStore {
 				minRebaseTimeIntervalSec: minRebaseTimeIntervalSec,
 				rebaseLag: keyedResult.policy[0].rebaseLag[0].value,
 				epoch: keyedResult.policy[0].epoch[0].value,
-				inRebaseWindow: keyedResult.policy[0].inRebaseWindow[0].value !== 'N/A',
+				// inRebaseWindow: keyedResult.policy[0].inRebaseWindow[0].value !== 'N/A',
+				inRebaseWindow: false,
 				rebaseWindowLengthSec: parseInt(keyedResult.policy[0].rebaseWindowLengthSec[0].value),
 				oracleRate: !!keyedResult.oracle
 					? new BigNumber(keyedResult.oracle[0].providerReports[0].value.payload).dividedBy(1e18)
