@@ -14,8 +14,7 @@ const routes = {
 	locked: new Route<RootStore>({
 		path: '/locked',
 		component: <Locked />,
-		onEnter: (_, params, store) => {
-		},
+		onEnter: (_, params, store) => {},
 		beforeExit: () => {
 			//
 		},

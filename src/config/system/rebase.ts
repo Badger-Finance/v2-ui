@@ -5,23 +5,22 @@ import UFragmentsPolicy from './abis/UFragmentsPolicy.json';
 import MedianOracle from './abis/MedianOracle.json';
 import Orchestrator from './abis/Orchestrator.json';
 import DiggDistributor from './abis/DiggDistributor.json';
-import diggDeploy from './deploy-final-digg.json';
 
 export const rewards = {
 	endpoint: 'https://fzqm8i0owc.execute-api.us-east-1.amazonaws.com/prod/hunt',
-	contract: deploy.digg_system.distributor,
+	contract: deploy.digg_system.diggDistributor,
 	abi: DiggDistributor.abi,
 	tokens: [deploy.digg_system.uFragments],
 };
 
 export const token = {
-	contract: diggDeploy.digg_system.uFragments,
+	contract: deploy.digg_system.uFragments,
 	abi: UFragments.abi,
 };
 
 export const digg = [
 	{
-		addresses: [diggDeploy.digg_system.uFragments],
+		addresses: [deploy.digg_system.uFragments],
 		abi: UFragments.abi,
 		allReadMethods: true,
 		groupByNamespace: true,
@@ -29,7 +28,7 @@ export const digg = [
 		namespace: 'token',
 	},
 	{
-		addresses: [diggDeploy.digg_system.uFragmentsPolicy],
+		addresses: [deploy.digg_system.uFragmentsPolicy],
 		abi: UFragmentsPolicy.abi,
 		allReadMethods: true,
 		groupByNamespace: true,
@@ -37,21 +36,21 @@ export const digg = [
 		namespace: 'policy',
 	},
 	{
-		addresses: [diggDeploy.digg_system.marketMedianOracle],
+		addresses: [deploy.digg_system.marketMedianOracle],
 		abi: MedianOracle.abi,
 		groupByNamespace: true,
 		namespace: 'oracle',
 		readMethods: [
 			{
 				name: 'providerReports',
-				args: [diggDeploy.digg_system.centralizedOracle, 0],
+				args: [deploy.digg_system.centralizedOracle, 0],
 			},
 		],
 	},
 ];
 
 export const orchestrator = {
-	contract: diggDeploy.digg_system.orchestrator,
+	contract: deploy.digg_system.orchestrator,
 	abi: Orchestrator.abi,
 };
 // export const digg = [

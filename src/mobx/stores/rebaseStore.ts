@@ -37,41 +37,38 @@ class RebaseStore {
 			rebase: undefined,
 		});
 
-		this.fetchRebaseStats()
-
+		this.fetchRebaseStats();
 	}
 
 	fetchRebaseStats = action(async () => {
 		const rebaseLog = await getRebaseLogs();
 		const { digg } = require('config/system/rebase');
-		Promise.all([batchCall.execute(digg), ...[...graphQuery(digg[0].addresses[0])]]).then(
-			(result: any[]) => {
-				let keyedResult = _.groupBy(result[0], 'namespace');
+		Promise.all([batchCall.execute(digg), ...[...graphQuery(digg[0].addresses[0])]]).then((result: any[]) => {
+			let keyedResult = _.groupBy(result[0], 'namespace');
 
-				if (!keyedResult.token || !keyedResult.token[0].decimals) return;
+			if (!keyedResult.token || !keyedResult.token[0].decimals) return;
 
-				const minRebaseTimeIntervalSec = parseInt(keyedResult.policy[0].minRebaseTimeIntervalSec[0].value);
-				const lastRebaseTimestampSec = parseInt(keyedResult.policy[0].lastRebaseTimestampSec[0].value);
-				const decimals = parseInt(keyedResult.token[0].decimals[0].value);
-				let token = {
-					totalSupply: new BigNumber(keyedResult.token[0].totalSupply[0].value).dividedBy(
-						Math.pow(10, decimals),
-					),
-					decimals: decimals,
-					lastRebaseTimestampSec: lastRebaseTimestampSec,
-					minRebaseTimeIntervalSec: minRebaseTimeIntervalSec,
-					rebaseLag: keyedResult.policy[0].rebaseLag[0].value,
-					epoch: keyedResult.policy[0].epoch[0].value,
-					inRebaseWindow: keyedResult.policy[0].inRebaseWindow[0].value !== 'N/A',
-					rebaseWindowLengthSec: parseInt(keyedResult.policy[0].rebaseWindowLengthSec[0].value),
-					oracleRate: !!keyedResult.oracle ? new BigNumber(keyedResult.oracle[0].providerReports[0].value.payload).dividedBy(1e18) : new BigNumber(1),
-					derivedEth: result[1].data.token ? result[1].data.token.derivedETH : 0,
-					nextRebase: getNextRebase(minRebaseTimeIntervalSec, lastRebaseTimestampSec),
-					pastRebase: rebaseLog,
-				};
-				this.updateRebase(token);
-			},
-		);
+			const minRebaseTimeIntervalSec = parseInt(keyedResult.policy[0].minRebaseTimeIntervalSec[0].value);
+			const lastRebaseTimestampSec = parseInt(keyedResult.policy[0].lastRebaseTimestampSec[0].value);
+			const decimals = parseInt(keyedResult.token[0].decimals[0].value);
+			let token = {
+				totalSupply: new BigNumber(keyedResult.token[0].totalSupply[0].value).dividedBy(Math.pow(10, decimals)),
+				decimals: decimals,
+				lastRebaseTimestampSec: lastRebaseTimestampSec,
+				minRebaseTimeIntervalSec: minRebaseTimeIntervalSec,
+				rebaseLag: keyedResult.policy[0].rebaseLag[0].value,
+				epoch: keyedResult.policy[0].epoch[0].value,
+				inRebaseWindow: keyedResult.policy[0].inRebaseWindow[0].value !== 'N/A',
+				rebaseWindowLengthSec: parseInt(keyedResult.policy[0].rebaseWindowLengthSec[0].value),
+				oracleRate: !!keyedResult.oracle
+					? new BigNumber(keyedResult.oracle[0].providerReports[0].value.payload).dividedBy(1e18)
+					: new BigNumber(1),
+				derivedEth: result[1].data.token ? result[1].data.token.derivedETH : 0,
+				nextRebase: getNextRebase(minRebaseTimeIntervalSec, lastRebaseTimestampSec),
+				pastRebase: rebaseLog,
+			};
+			this.updateRebase(token);
+		});
 	});
 	updateRebase = action((rebase: any) => {
 		this.rebase = _.defaultsDeep(rebase, this.rebase, rebase);

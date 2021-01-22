@@ -26,7 +26,8 @@ const useStyles = makeStyles((theme) => ({
 		marginLeft: theme.spacing(0.4),
 		borderRadius: theme.spacing(0.4),
 		background: theme.palette.success.main,
-	}, select: {
+	},
+	select: {
 		height: '2.1rem',
 		fontSize: '.9rem',
 		overflow: 'hidden',
@@ -39,8 +40,8 @@ export const Wallet = observer(() => {
 	const classes = useStyles();
 
 	const store = useContext(StoreContext);
-	const { gasPrice, setGasPrice } = store.uiState
-	const { gasPrices } = store.wallet
+	const { gasPrice, setGasPrice } = store.uiState;
+	const { gasPrices } = store.wallet;
 	const wsOnboard = store.wallet.onboard;
 	const connectedAddress = store.wallet.connectedAddress;
 
@@ -67,7 +68,9 @@ export const Wallet = observer(() => {
 				value={gasPrice}
 				onChange={(v: any) => setGasPrice(v.target.value)}
 				className={classes.select}
-				startAdornment={<LocalGasStation style={{ cursor: 'pointer', fontSize: '1.2rem', marginRight: '.8rem' }} />}
+				startAdornment={
+					<LocalGasStation style={{ cursor: 'pointer', fontSize: '1.2rem', marginRight: '.8rem' }} />
+				}
 			>
 				<MenuItem value={'slow'}>{gasPrices['slow'].toFixed(0)}</MenuItem>
 				<MenuItem value={'standard'}>{gasPrices['standard'].toFixed(0)}</MenuItem>
@@ -77,20 +80,15 @@ export const Wallet = observer(() => {
 				disableElevation
 				variant="contained"
 				color="secondary"
-
 				// size="small"
 				onClick={() => {
-					if (!connectedAddress)
-						connect();
-					else
-						store.wallet.walletReset();
-
+					if (!connectedAddress) connect();
+					else store.wallet.walletReset();
 				}}
 				endIcon={<div className={!!connectedAddress ? classes.greenDot : classes.redDot} />}
 			>
-
 				{!!connectedAddress ? shortenAddress(connectedAddress) : 'DISCONNECTED'}
 			</Button>
-		</div >
+		</div>
 	);
 });

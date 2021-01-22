@@ -20,17 +20,9 @@ export const vaultBatches = [
 			deploy.sett_system.vaults['native.uniDiggWbtc'],
 		],
 		fillers: {
-			symbol: [
-				'badger',
-				'renCrv',
-				'sbtcCrv',
-				'tbtcCrv',
-				'uniBadgerWbtc',
-				'renCrv',
-				'uniDiggWbtc',
-			],
+			symbol: ['badger', 'renCrv', 'sbtcCrv', 'tbtcCrv', 'uniBadgerWbtc', 'renCrv', 'uniDiggWbtc'],
 			isFeatured: [false, false, false, false, true, true, true],
-			position: [8, 5, 6, 7, 3, 4, 2],
+			position: [2, 11, 10, 9, 7, 8, 6],
 			isSuperSett: [false, false, false, false, false, true, false, false, false],
 		},
 		methods: [
@@ -62,13 +54,13 @@ export const vaultBatches = [
 		abi: BadgerSushiVault.abi,
 		underlying: 'token',
 		contracts: [
-			deploy.sett_system.vaults['sushi.sushiWbtcWeth'],
-			deploy.sett_system.vaults['sushi.sushiBadgerWbtc'],
-			deploy.sett_system.vaults['sushi.sushiDiggWbtc'],
+			deploy.sett_system.vaults['native.sushiWbtcEth'],
+			deploy.sett_system.vaults['native.sushiBadgerWbtc'],
+			deploy.sett_system.vaults['native.sushiDiggWbtc'],
 		],
 		fillers: {
 			isFeatured: [false, true],
-			position: [9, 10, 1],
+			position: [5, 4, 3],
 			symbolPrefix: ['sushi', 'sushi', 'sushi'],
 			onsenId: ['103', '21', '73'],
 		},
@@ -108,7 +100,7 @@ export const vaultBatches = [
 		contracts: [deploy.sett_system.vaults['native.digg']],
 		fillers: {
 			isFeatured: [true],
-			position: [0],
+			position: [1],
 			symbolPrefix: [''],
 		},
 		methods: [
@@ -200,20 +192,18 @@ export const geyserBatches = [
 			},
 		],
 		contracts: [
-			deploy.geysers['sushi.sushiDiggWbtc'].toLowerCase(),
-			deploy.geysers['sushi.sushiWbtcWeth'].toLowerCase(),
-			deploy.geysers['sushi.sushiBadgerWbtc'].toLowerCase(),
+			deploy.geysers['native.sushiDiggWbtc'].toLowerCase(),
+			deploy.geysers['native.sushiWbtcEth'].toLowerCase(),
+			deploy.geysers['native.sushiBadgerWbtc'].toLowerCase(),
 		],
 		fillers: {
 			getStakingToken: [
-				deploy.sett_system.vaults['sushi.sushiDiggWbtc'],
-				deploy.sett_system.vaults['sushi.sushiWbtcWeth'],
-				deploy.sett_system.vaults['sushi.sushiBadgerWbtc'],
+				deploy.sett_system.vaults['native.sushiDiggWbtc'],
+				deploy.sett_system.vaults['native.sushiWbtcEth'],
+				deploy.sett_system.vaults['native.sushiBadgerWbtc'],
 			],
 			onsenId: ['103', '21', '73'],
 		},
-
-
 	},
 ];
 

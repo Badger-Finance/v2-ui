@@ -46,8 +46,8 @@ const useStyles = makeStyles((theme) => ({
 		textAlign: 'center',
 		transition: '.2s background ease-out',
 		'&:hover': {
-			background: '#3a3a3a'
-		}
+			background: '#3a3a3a',
+		},
 	},
 	before: {
 		marginTop: theme.spacing(5),
@@ -78,8 +78,8 @@ export const Airdrops = observer(() => {
 	const classes = useStyles();
 
 	const {
-		router: { },
-		wallet: { },
+		router: {},
+		wallet: {},
 		airdrops: { claimBadgerAirdrops, claimDiggAirdrops },
 		uiState: { airdropStats, stats },
 	} = store;
@@ -87,7 +87,7 @@ export const Airdrops = observer(() => {
 	const spacer = () => <div className={classes.before} />;
 
 	const [update, forceUpdate] = useState<boolean>();
-	useInterval(() => forceUpdate(!update), 1000)
+	useInterval(() => forceUpdate(!update), 1000);
 
 	const copy = () => {
 		const q = [
@@ -163,8 +163,10 @@ export const Airdrops = observer(() => {
 				{spacer()}
 
 				<Grid item sm={12} xs={12}>
-					<Hero title="Community Rules." subtitle="BadgerDAO is dedicated to building products and infrastructure to bring Bitcoin to DeFi." />
-
+					<Hero
+						title="Community Rules."
+						subtitle="BadgerDAO is dedicated to building products and infrastructure to bring Bitcoin to DeFi."
+					/>
 				</Grid>
 				{spacer()}
 
@@ -205,7 +207,10 @@ export const Airdrops = observer(() => {
 					<Paper className={classes.statPaper}>
 						<List style={{ padding: 0 }}>
 							<ListItem style={{ margin: 0, padding: 0 }}>
-								<ListItemText primary={!!airdropStats.digg ? formatAmount(airdropStats.digg) : '0.00000'} secondary="DIGG available to claim" />
+								<ListItemText
+									primary={!!airdropStats.digg ? formatAmount(airdropStats.digg) : '0.00000'}
+									secondary="DIGG available to claim"
+								/>
 								<ListItemSecondaryAction>
 									<ButtonGroup
 										disabled={!airdropStats.digg}

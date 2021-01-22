@@ -38,19 +38,18 @@ class AirdropStore {
 
 	fetchAirdrops = action(() => {
 		const { provider, connectedAddress, isCached } = this.store.wallet;
-		const { } = this.store.uiState;
+		const {} = this.store.uiState;
 		// console.log('fetching', connectedAddress)
 
 		if (!connectedAddress) return;
-
 
 		const web3 = new Web3(provider);
 		const rewardsTree = new web3.eth.Contract(airdropsConfig.abi as any, airdropsConfig.contract);
 		const diggToken = new web3.eth.Contract(diggTokenConfig.abi as any, diggTokenConfig.contract);
 		const checksumAddress = connectedAddress.toLowerCase();
-		console.log('fetching', `${airdropsConfig.endpoint}/${checksumAddress}`)
+		// console.log('fetching', `${airdropsConfig.endpoint}/${checksumAddress}`)
 
-		jsonQuery(`${airdropsConfig.endpoint}/${checksumAddress}`).then((merkleProof: any) => {
+		jsonQuery(`${airdropsConfig.endpoint}/1337/${checksumAddress}`).then((merkleProof: any) => {
 			// console.log('proof', new BigNumber(Web3.utils.hexToNumberString(merkleProof.amount)).toString())
 			if (!merkleProof.error) {
 				Promise.all([
@@ -59,7 +58,7 @@ class AirdropStore {
 						.sharesToFragments(new BigNumber(Web3.utils.hexToNumberString(merkleProof.amount)).toFixed(0))
 						.call(),
 				]).then((result: any[]) => {
-					console.log(new BigNumber(result[1]).multipliedBy(1e9))
+					// console.log(new BigNumber(result[1]).multipliedBy(1e9))
 					this.airdrops = {
 						digg: !result[0] ? new BigNumber(result[1]).multipliedBy(1e9) : new BigNumber(0),
 
@@ -68,7 +67,6 @@ class AirdropStore {
 				});
 			} else {
 				this.airdrops = {};
-
 			}
 		});
 	});
@@ -102,7 +100,6 @@ class AirdropStore {
 				.on('receipt', () => {
 					queueNotification(`Rewards claimed.`, 'success');
 					this.store.contracts.fetchContracts();
-
 				})
 				.catch((error: any) => {
 					this.store.contracts.fetchContracts();
@@ -117,7 +114,7 @@ class AirdropStore {
 		const { queueNotification, gasPrice, setTxStatus } = this.store.uiState;
 
 		if (!connectedAddress) return;
-		console.log(merkleProof, this.airdrops);
+		// console.log(merkleProof, this.airdrops);
 		// if (ethBalance?.lt(MIN_ETH_BALANCE))
 		// 	return queueNotification("Your account is low on ETH, you may need to top up to claim.", 'warning')
 
@@ -140,7 +137,6 @@ class AirdropStore {
 				.on('receipt', () => {
 					queueNotification(`Rewards claimed.`, 'success');
 					this.store.contracts.fetchContracts();
-
 				})
 				.catch((error: any) => {
 					this.store.contracts.fetchContracts();

@@ -12,14 +12,11 @@ import {
 	reduceCurveResult,
 	reduceGraphResult,
 	reduceGrowth,
-	Vault,
-	Geyser,
-	Token,
 	reduceGrowthQueryConfig,
-	Growth,
 	reduceXSushiROIResults,
 	reduceSushiAPIResults,
 } from '../reducers/contractReducers';
+import { Vault, Geyser, Token, Growth } from '../model';
 import { jsonQuery, graphQuery, growthQuery, secondsToBlocks, vanillaQuery } from '../utils/helpers';
 import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';

@@ -3,24 +3,15 @@ import Web3 from 'web3';
 import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
 
-
 import { estimateAndSend } from '../utils/web3';
 import BigNumber from 'bignumber.js';
 import { RootStore } from '../store';
 import _ from 'lodash';
-import {
-	reduceGeyserSchedule,
-	reduceSushiAPIResults,
-	reduceXSushiROIResults,
-} from '../reducers/contractReducers';
+import { reduceGeyserSchedule, reduceSushiAPIResults, reduceXSushiROIResults } from '../reducers/contractReducers';
 import { jsonQuery, vanillaQuery } from '../utils/helpers';
 import { reduceClaims, reduceTimeSinceLastCycle } from '../reducers/statsReducers';
 
-import {
-	rewards as rewardsConfig,
-	geyserBatches,
-} from '../../config/system/contracts';
-
+import { rewards as rewardsConfig, geyserBatches } from '../../config/system/contracts';
 
 class RewardsStore {
 	private store!: RootStore;
@@ -43,7 +34,7 @@ class RewardsStore {
 
 	fetchSettRewards = action(() => {
 		const { provider, connectedAddress } = this.store.wallet;
-		const { } = this.store.uiState;
+		const {} = this.store.uiState;
 
 		if (!connectedAddress) return;
 
@@ -123,8 +114,6 @@ class RewardsStore {
 					queueNotification(`Rewards claimed.`, 'success');
 					this.fetchSettRewards();
 					this.store.contracts.fetchContracts();
-
-
 				})
 				.catch((error: any) => {
 					this.store.contracts.fetchContracts();
@@ -136,8 +125,8 @@ class RewardsStore {
 
 	calculateGeyserRewards = action(() => {
 		const { geysers, tokens, vaults } = this.store.contracts;
-		const { } = this.store.uiState;
-		const { } = this.store.wallet;
+		const {} = this.store.uiState;
+		const {} = this.store.wallet;
 
 		const rewardToken = tokens[rewardsConfig.tokens[0]];
 

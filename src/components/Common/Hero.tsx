@@ -31,13 +31,12 @@ const useStyles = makeStyles((theme) => ({
 		background: 'none',
 		textAlign: 'left',
 		flexWrap: 'wrap',
-
 	},
 	copy: {
 		marginBottom: '1rem',
 
 		[theme.breakpoints.up('md')]: {
-			marginBottom: '0'
+			marginBottom: '0',
 		},
 	},
 	wallet: {
@@ -47,16 +46,14 @@ const useStyles = makeStyles((theme) => ({
 		[theme.breakpoints.up('md')]: {
 			marginBottom: '0',
 			top: theme.spacing(3),
-
 		},
-	}
+	},
 }));
-
 
 const Hero = observer((props: any) => {
 	const classes = useStyles();
 
-	const { title, subtitle } = props
+	const { title, subtitle } = props;
 
 	return (
 		<div className={classes.heroPaper}>

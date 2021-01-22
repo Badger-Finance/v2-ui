@@ -32,7 +32,7 @@ export const darkTheme = createMuiTheme({
 		h1: { fontWeight: 500, fontSize: '3rem', fontFamily: 'IBM Plex Mono' },
 		// h2: { fontFamily: "'Press Start 2P'", fontSize: "2rem" },
 		// subtitle1: { },
-		h4: { fontSize: "1.3rem", fontWeight: 500 },
+		h4: { fontSize: '1.3rem', fontWeight: 500 },
 		h2: { fontSize: '2.2rem', fontWeight: 500, marginBottom: '.2rem' },
 		h5: { fontWeight: 500 },
 		body1: { fontWeight: 500 },
@@ -68,7 +68,7 @@ export const darkTheme = createMuiTheme({
 		MuiIcon: {},
 		MuiDrawer: {
 			paper: {
-				background: "#121212",
+				background: '#121212',
 			},
 			paperAnchorDockedLeft: {
 				borderRight: 0,

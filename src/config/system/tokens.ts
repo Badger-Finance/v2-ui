@@ -174,15 +174,15 @@ export const vaults: any = {
 };
 
 const vaultMap: any = [
-	deploy.sett_system.vaults['sushi.sushiDiggWbtc'].toLowerCase(),
+	deploy.sett_system.vaults['native.sushiDiggWbtc'].toLowerCase(),
 	deploy.sett_system.vaults['native.sbtcCrv'].toLowerCase(),
 	deploy.sett_system.vaults['native.digg'].toLowerCase(),
 	deploy.sett_system.vaults['native.badger'].toLowerCase(),
 	deploy.sett_system.vaults['harvest.renCrv'].toLowerCase(),
 	deploy.sett_system.vaults['native.renCrv'].toLowerCase(),
-	deploy.sett_system.vaults['sushi.sushiBadgerWbtc'].toLowerCase(),
+	deploy.sett_system.vaults['native.sushiBadgerWbtc'].toLowerCase(),
 	deploy.sett_system.vaults['native.uniBadgerWbtc'].toLowerCase(),
-	deploy.sett_system.vaults['sushi.sushiWbtcWeth'].toLowerCase(),
+	deploy.sett_system.vaults['native.sushiWbtcEth'].toLowerCase(),
 	deploy.sett_system.vaults['native.uniDiggWbtc'].toLowerCase(),
 	deploy.sett_system.vaults['native.tbtcCrv'].toLowerCase(),
 ];
@@ -201,15 +201,15 @@ export const tokenMap: any = _.zipObject(vaultMap, [
 ]);
 
 export const superSett: any = {
-	[deploy.sett_system.vaults['sushi.sushiDiggWbtc'].toLowerCase()]: false,
+	[deploy.sett_system.vaults['native.sushiDiggWbtc'].toLowerCase()]: false,
 	[deploy.sett_system.vaults['native.sbtcCrv'].toLowerCase()]: false,
 	[deploy.sett_system.vaults['native.digg'].toLowerCase()]: false,
 	[deploy.sett_system.vaults['native.badger'].toLowerCase()]: false,
 	[deploy.sett_system.vaults['harvest.renCrv'].toLowerCase()]: true,
 	[deploy.sett_system.vaults['native.renCrv'].toLowerCase()]: false,
-	[deploy.sett_system.vaults['sushi.sushiBadgerWbtc'].toLowerCase()]: false,
+	[deploy.sett_system.vaults['native.sushiBadgerWbtc'].toLowerCase()]: false,
 	[deploy.sett_system.vaults['native.uniBadgerWbtc'].toLowerCase()]: false,
-	[deploy.sett_system.vaults['sushi.sushiWbtcWeth'].toLowerCase()]: false,
+	[deploy.sett_system.vaults['native.sushiWbtcEth'].toLowerCase()]: false,
 	[deploy.sett_system.vaults['native.uniDiggWbtc'].toLowerCase()]: false,
 	[deploy.sett_system.vaults['native.tbtcCrv'].toLowerCase()]: false,
 };

@@ -6,7 +6,7 @@ import { reduceAirdrops, reduceContractsToStats, reduceRebase } from './statsRed
 import { WBTC_ADDRESS } from 'config/constants';
 import { token as diggToken } from 'config/system/rebase';
 import BigNumber from 'bignumber.js';
-import views from 'config/routes'
+import views from 'config/routes';
 
 class UiState {
 	private readonly store!: RootStore;
@@ -36,14 +36,14 @@ class UiState {
 
 		extendObservable(this, {
 			collection: {},
-			locked: window.localStorage.getItem('locked') === "YES",
+			locked: window.localStorage.getItem('locked') === 'YES',
 			stats: {
 				stats: {
 					tvl: new BigNumber(0),
 					wallet: new BigNumber(0),
 					deposits: new BigNumber(0),
 					portfolio: new BigNumber(0),
-					badger: new BigNumber(0)
+					badger: new BigNumber(0),
 				},
 			},
 			claims: [0, 0, 0],
@@ -67,10 +67,11 @@ class UiState {
 
 		// format vaults and geysers to ui
 		setInterval(() => {
-			this.reduceStats(); this.reduceRebase(); this.reduceAirdrops(); this.reduceTreeRewards()
-		}, 1000)
-
-
+			this.reduceStats();
+			this.reduceRebase();
+			this.reduceAirdrops();
+			this.reduceTreeRewards();
+		}, 1000);
 
 		// observe(this.store.contracts as any, 'geysers', (change: any) => {
 		// 	try {
@@ -191,14 +192,12 @@ class UiState {
 		window.localStorage.setItem('selectedPeriod', period);
 	});
 	unlockApp = action((password: string) => {
-		this.locked = !(password === "BADger")
+		this.locked = !(password === 'BADger');
 
 		if (this.locked) window.localStorage.setItem('locked', 'YES');
 		else window.localStorage.removeItem('locked');
 
-		if (!this.locked)
-			this.store.router.goTo(views.home)
-
+		if (!this.locked) this.store.router.goTo(views.home);
 	});
 	openSidebar = action(() => {
 		this.sidebarOpen = true;

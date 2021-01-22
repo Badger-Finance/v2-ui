@@ -12,14 +12,12 @@ import { useForm } from 'react-hook-form';
 const TEXTFIELD_ID = 'amountField';
 
 const useStyles = makeStyles((theme) => ({
-
 	button: {
 		marginBottom: theme.spacing(1),
 	},
 	field: {
 		margin: theme.spacing(0, 0, 1),
 	},
-
 }));
 export const VaultWithdraw = observer((props: any) => {
 	const store = useContext(StoreContext);
@@ -28,23 +26,32 @@ export const VaultWithdraw = observer((props: any) => {
 	const { register, handleSubmit, watch, setValue } = useForm({ mode: 'all' });
 
 	const {
-		router: { },
+		router: {},
 		wallet: { connectedAddress },
-		uiState: { },
+		uiState: {},
 	} = store;
 
 	const percentageOfBalance = (percent: number) => {
-		return vault.balance.dividedBy(10 ** vault.decimals).multipliedBy(percent / 100).toFixed(18, BigNumber.ROUND_DOWN)
-	}
+		return vault.balance
+			.dividedBy(10 ** vault.decimals)
+			.multipliedBy(percent / 100)
+			.toFixed(18, BigNumber.ROUND_DOWN);
+	};
 
 	const setAmount = (percent: number) => {
 		// (document.getElementById(TEXTFIELD_ID)! as HTMLInputElement).value = uiStats.availableFull[percent];
-		setValue('amount', vault.balance.dividedBy(10 ** vault.decimals).multipliedBy(percent / 100).toFixed(18, BigNumber.ROUND_DOWN));
+		setValue(
+			'amount',
+			vault.balance
+				.dividedBy(10 ** vault.decimals)
+				.multipliedBy(percent / 100)
+				.toFixed(18, BigNumber.ROUND_DOWN),
+		);
 	};
 
 	const onSubmit = (params: any) => {
-		const amount = new BigNumber(params.amount)
-		vault.withdraw(amount)
+		const amount = new BigNumber(params.amount);
+		vault.withdraw(amount);
 	};
 
 	if (!vault) {
@@ -55,7 +62,7 @@ export const VaultWithdraw = observer((props: any) => {
 
 	const renderAmounts = (
 		<ButtonGroup size="small" className={classes.button} disabled={!connectedAddress}>
-			{[25, 50, 75, 100].map((amount: number) =>
+			{[25, 50, 75, 100].map((amount: number) => (
 				<Button
 					onClick={() => {
 						setAmount(amount);
@@ -65,16 +72,15 @@ export const VaultWithdraw = observer((props: any) => {
 				>
 					{amount}%
 				</Button>
-			)}
+			))}
 		</ButtonGroup>
 	);
 
-	let totalAvailable = percentageOfBalance(100)
+	let totalAvailable = percentageOfBalance(100);
 
 	return (
 		<>
-			<DialogContent >
-
+			<DialogContent>
 				<div
 					style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap' }}
 				>
@@ -96,8 +102,6 @@ export const VaultWithdraw = observer((props: any) => {
 					fullWidth
 					placeholder="Type an amount to withdraw"
 				/>
-
-
 			</DialogContent>
 			<DialogActions>
 				<Button

@@ -12,16 +12,13 @@ import { useForm } from 'react-hook-form';
 const TEXTFIELD_ID = 'amountField';
 
 const useStyles = makeStyles((theme) => ({
-
 	button: {
 		marginBottom: theme.spacing(1),
 	},
 	field: {
 		margin: theme.spacing(1),
 		float: 'right',
-
 	},
-
 }));
 export const Locked = observer((props: any) => {
 	const store = useContext(StoreContext);
@@ -30,13 +27,13 @@ export const Locked = observer((props: any) => {
 	const { register, handleSubmit, watch, setValue } = useForm({ mode: 'all' });
 
 	const {
-		router: { },
+		router: {},
 		wallet: { connectedAddress },
 		uiState: { unlockApp },
 	} = store;
 
 	const onSubmit = (params: any) => {
-		unlockApp(params.password)
+		unlockApp(params.password);
 	};
 
 	return (
@@ -53,8 +50,6 @@ export const Locked = observer((props: any) => {
 					placeholder="Password"
 				/>
 			</form>
-
-
 		</>
 	);
 });

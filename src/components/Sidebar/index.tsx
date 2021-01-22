@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
 		'&:hover': {
 			fontWeight: 'bold',
 			backgroundColor: 'transparent',
-			cursor: 'default'
+			cursor: 'default',
 		},
 		// paddingLeft: theme.spacing(1),
 		padding: theme.spacing(1, 3),
@@ -62,7 +62,7 @@ const useStyles = makeStyles((theme) => ({
 		cursor: 'default',
 		justifyContent: 'space-between',
 		'&:hover': {
-			backgroundColor: "#070707",
+			backgroundColor: '#070707',
 		},
 		// paddingLeft: theme.spacing(1),
 		padding: theme.spacing(0.5, 2),
@@ -71,22 +71,21 @@ const useStyles = makeStyles((theme) => ({
 		cursor: 'default',
 		justifyContent: 'space-between',
 		background: ' rgba(0, 0, 0, .2)',
-		'&:hover': {
-		},
+		'&:hover': {},
 		// paddingLeft: theme.spacing(1),
 		padding: theme.spacing(0.5, 2, 0.5, 3),
 	},
 	activeListItem: {
 		fontWeight: 'bold',
-		backgroundColor: "#070707",
+		backgroundColor: '#070707',
 		borderRadius: theme.shape.borderRadius,
 		margin: theme.spacing(0, 1),
 		width: 'auto',
 		border: 0,
 		padding: theme.spacing(1, 2),
 		'&:hover': {
-			backgroundColor: "#070707",
-			cursor: 'default'
+			backgroundColor: '#070707',
+			cursor: 'default',
 		},
 	},
 
@@ -153,7 +152,6 @@ export const Sidebar = observer(() => {
 						{/* <Chip label="v2.0.0" variant="outlined" color="primary" size="small" /> */}
 					</ListItem>
 
-
 					<ListItem
 						button
 						onClick={() => setExpanded(expanded === 'advanced' ? '' : 'advanced')}
@@ -181,7 +179,6 @@ export const Sidebar = observer(() => {
 					</Collapse>
 
 					<ListItem
-
 						button
 						onClick={() => {
 							closeSidebar();
@@ -198,7 +195,6 @@ export const Sidebar = observer(() => {
 					</ListItem>
 
 					<ListItem
-
 						button
 						className={
 							classes.listItem +
@@ -342,8 +338,6 @@ export const Sidebar = observer(() => {
 					>
 						Developer Program
 					</ListItem>
-
-
 				</List>
 			</div>
 		</Drawer>

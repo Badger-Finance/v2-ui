@@ -7,17 +7,14 @@ import {
 	IconButton,
 	Grid,
 	Chip,
-
 } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { VaultSymbol } from '../Common/VaultSymbol';
 import { ZoomOutMap } from '@material-ui/icons';
 import {
-	formatBalance,
-	formatBalanceValue,
-	formatHoldingsValue,
-	formatSupply,
+	formatGeyserBalance,
+	formatGeyserBalanceValue,
 	formatVaultGrowth,
 } from 'mobx/reducers/statsReducers';
 import useInterval from '@use-it/interval';
@@ -56,17 +53,17 @@ const useStyles = makeStyles((theme) => ({
 		padding: 0,
 	},
 }));
-export const TokenCard = observer((props: any) => {
+export const DepositCard = observer((props: any) => {
 	const store = useContext(StoreContext);
 	const classes = useStyles();
 
-	const { vault, isGlobal, onOpen } = props;
+	const { vault, onOpen } = props;
 
 	const { period, currency } = store.uiState;
 
-	const { underlyingToken: token } = vault;
+	const { underlyingToken: token, geyser } = vault;
 
-	if (!token) {
+	if (!token || !geyser) {
 		return <div />;
 	}
 	const [update, forceUpdate] = useState<boolean>();
@@ -91,18 +88,18 @@ export const TokenCard = observer((props: any) => {
 
 				<Grid item className={classes.mobileLabel} xs={6}>
 					<Typography variant="body2" color={'textSecondary'}>
-						{!isGlobal ? 'Tokens Available' : 'Tokens Deposited'}
+						Deposited
 					</Typography>
 				</Grid>
 
 				<Grid item xs={6} md={2}>
 					<Typography variant="body1" color={'textPrimary'}>
-						{!isGlobal ? formatBalance(token) : formatSupply(vault)}
+						{formatGeyserBalance(geyser)}
 					</Typography>
 				</Grid>
 				<Grid item className={classes.mobileLabel} xs={6}>
 					<Typography variant="body2" color={'textSecondary'}>
-						{!isGlobal ? 'Potential ROI' : 'ROI'}
+						ROI
 					</Typography>
 				</Grid>
 				<Grid item xs={6} md={2}>
@@ -119,9 +116,7 @@ export const TokenCard = observer((props: any) => {
 				</Grid>
 				<Grid item xs={6} md={2}>
 					<Typography variant="body1" color={'textPrimary'}>
-						{!isGlobal
-							? formatBalanceValue(vault.underlyingToken, currency)
-							: formatHoldingsValue(vault, currency)}
+						{formatGeyserBalanceValue(geyser, currency)}
 					</Typography>
 				</Grid>
 

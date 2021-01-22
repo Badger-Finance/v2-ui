@@ -62,7 +62,6 @@ const useStyles = makeStyles((theme) => ({
 	statPaper: {
 		padding: theme.spacing(2),
 		textAlign: 'center',
-
 	},
 	before: {
 		marginTop: theme.spacing(3),
@@ -99,8 +98,7 @@ const useStyles = makeStyles((theme) => ({
 		minHeight: '100%',
 		background: 'none',
 		textAlign: 'left',
-		[theme.breakpoints.up('md')]: {
-		},
+		[theme.breakpoints.up('md')]: {},
 	},
 }));
 export const Collection = observer(() => {
@@ -128,13 +126,13 @@ export const Collection = observer(() => {
 	}
 
 	const [update, forceUpdate] = useState<boolean>();
-	useInterval(() => forceUpdate(!update), 1000)
+	useInterval(() => forceUpdate(!update), 1000);
 
 	const spacer = () => <div className={classes.before} />;
 
 	const availableRewards = () => {
 		return badgerTree.claims.map((claim: string, idx: number) => (
-			<Grid item xs={12} md={6}>
+			<Grid key={claim} item xs={12} md={6}>
 				<Paper className={classes.statPaper}>
 					<List style={{ padding: 0 }}>
 						<ListItem className={classes.rewardItem} key={idx}>
