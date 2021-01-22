@@ -194,7 +194,7 @@ export const reduceGrowth = (graphResult: any[], periods: number[], startDate: D
 export const reduceGeyserSchedule = (schedules: any, store: RootStore) => {
 
 	// console.log(JSON.stringify(schedules))
-	console.log(_.keysIn(schedules))
+	// console.log(_.keysIn(schedules))
 
 	return _.compact(_.map(schedules, (schedule: any[], tokenAddress: string) => {
 		let locked = new BigNumber(0);
@@ -205,7 +205,7 @@ export const reduceGeyserSchedule = (schedules: any, store: RootStore) => {
 		let lockedAllTime = new BigNumber(0);
 		const periodAllTime = { start: timestamp, end: timestamp };
 
-		console.log(schedule)
+		// console.log(schedule)
 
 		schedule.forEach((block: any) => {
 			let [initialLocked, endAtSec, , startTime] = _.valuesIn(block).map((val: any) => new BigNumber(val));

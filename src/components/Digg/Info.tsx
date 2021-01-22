@@ -204,7 +204,7 @@ const Info = observer(() => {
 							<ListItem>
 								<Typography variant="body2">Time to Rebase</Typography>
 								<ListItemSecondaryAction>
-									<Typography variant="body1">2021-01-22 20:00:00 UTC</Typography>
+									<Typography variant="body1">2021-01-23 20:00:00 UTC</Typography>
 								</ListItemSecondaryAction>
 							</ListItem>
 

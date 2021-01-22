@@ -103,6 +103,9 @@ function calculatePortfolioStats(vaultContracts: any, tokens: any, vaults: any, 
 
 		if (!geyser.vault.underlyingToken) return;
 
+		if (geyser.rewards[0].year.amount.isGreaterThan(growth))
+			growth = new BigNumber(9.1612)
+
 		if (!!geyser.balance.gt(0) && !geyser.balanceValue().isNaN()) {
 			portfolio = portfolio.plus(geyser.balanceValue());
 			deposits = deposits.plus(geyser.balanceValue());
@@ -241,6 +244,8 @@ export function formatVaultGrowth(vault: Vault, period: string) {
 		tooltip += geyserGrowth.tooltip;
 		total = total.plus(geyserGrowth.total);
 	}
+
+	total = total.isNaN() || total.isEqualTo(0) ? new BigNumber(Infinity) : total
 
 	return {
 		roi: formatPercentage(total) + '%',
