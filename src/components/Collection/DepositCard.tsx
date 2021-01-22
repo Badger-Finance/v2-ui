@@ -11,7 +11,7 @@ import {
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { VaultSymbol } from '../Common/VaultSymbol';
-import { ZoomOutMap } from '@material-ui/icons';
+import { UnfoldMoreTwoTone } from '@material-ui/icons';
 import {
 	formatGeyserBalance,
 	formatGeyserBalanceValue,
@@ -122,7 +122,7 @@ export const DepositCard = observer((props: any) => {
 
 				<Grid item xs={12} md={2} style={{ textAlign: 'right' }}>
 					<IconButton color='primary'>
-						<ZoomOutMap />
+						<UnfoldMoreTwoTone />
 					</IconButton>
 				</Grid>
 			</Grid>

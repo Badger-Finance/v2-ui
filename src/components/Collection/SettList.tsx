@@ -61,6 +61,10 @@ const useStyles = makeStyles((theme) => ({
 		marginLeft: theme.spacing(1),
 		padding: 0,
 	},
+	title: {
+		// background: 'rgba(0,0,0,.5)',
+		padding: theme.spacing(2, 2, 2)
+	}
 }));
 export const SettList = observer((props: any) => {
 	const store = useContext(StoreContext);
@@ -69,26 +73,18 @@ export const SettList = observer((props: any) => {
 	const { hideEmpty } = props;
 
 	const {
-		router: { params, goTo },
-		wallet: { connectedAddress },
-		contracts: { vaults, geysers, tokens },
+		contracts: {
+			vaults,
+			geysers,
+			tokens },
 		uiState: {
 			stats,
-			geyserStats,
-			vaultStats,
 			currency,
 			period,
-			setCurrency,
-			txStatus,
-			setTxStatus,
-			notification,
-			setPeriod,
 		},
 	} = store;
 
 	const [dialogProps, setDialogProps] = useState({ open: false, vault: undefined as any });
-
-	const [hasDeposits, setHasDeposits] = useState(false);
 
 	const onOpen = (vault: Vault) => {
 		setDialogProps({ vault, open: true });
@@ -206,7 +202,7 @@ export const SettList = observer((props: any) => {
 
 		return (
 			<Dialog key={'dialog'} fullWidth maxWidth={'sm'} open={open} onClose={onClose}>
-				<DialogTitle disableTypography style={{ background: 'rgba(0,0,0,.2)', paddingBottom: 0 }}>
+				<DialogTitle disableTypography className={classes.title} >
 					<div style={{ float: 'right' }}>
 						{dialogOut ? 'Withdraw' : 'Deposit'}
 						<Switch
@@ -217,6 +213,7 @@ export const SettList = observer((props: any) => {
 							color="primary"
 						/>
 					</div>
+
 					<VaultSymbol token={vault.underlyingToken} />
 
 					<Typography variant="body1" color="textPrimary" component="div">
@@ -262,8 +259,6 @@ export const SettList = observer((props: any) => {
 
 	return (
 		<>
-			{/* {!!connectedAddress && hasDeposits && tableHeader(`Deposits - ${stats.stats.deposits}`, 'Deposited')}
-			{!!connectedAddress && renderDeposits()} */}
 			{!!all && [
 				tableHeader(
 					hideEmpty
@@ -285,10 +280,6 @@ export const SettList = observer((props: any) => {
 					</Typography>
 				</div>
 			)}
-			{/* {isGlobal && <Carousel className={classes.carousel} indicators={false} navButtonsAlwaysVisible >{featuredGeysers()}</Carousel>} */}
-			{/* {!hideEmpty && tableHeader(`All Setts`, 'Tokens')}
-		{!hideEmpty && emptyGeysers()} */}
-
 			{renderDialog()}
 			{spacer()}
 		</>

@@ -68,7 +68,7 @@ export const GeyserUnstake = observer((props: any) => {
 						setAmount(amount);
 					}}
 					variant={!!canUnstake && watch().amount === percentageOfBalance(amount) ? 'contained' : 'outlined'}
-					color="primary"
+					color="default"
 				>
 					{amount}%
 				</Button>
@@ -85,7 +85,7 @@ export const GeyserUnstake = observer((props: any) => {
 					style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap' }}
 				>
 					<Typography variant="body1" color={'textSecondary'} style={{ marginBottom: '.2rem' }}>
-						Available: {totalAvailable || '0.000000000000000000'}
+						Staked: {totalAvailable || '0.000000000000000000'}
 						{/* Wrapped: {uiStats.wrappedFull[100]} */}
 					</Typography>
 					{renderAmounts}

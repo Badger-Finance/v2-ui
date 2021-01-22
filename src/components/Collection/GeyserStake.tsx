@@ -58,7 +58,7 @@ export const GeyserStake = observer((props: any) => {
 		return <Loader />;
 	}
 
-	const canDeposit = !!connectedAddress && vault.balance.gt(0);
+	const canDeposit = !!watch().amount && !!connectedAddress && vault.balance.gt(0);
 
 	const renderAmounts = (
 		<ButtonGroup size="small" className={classes.button} disabled={!connectedAddress}>
@@ -68,7 +68,7 @@ export const GeyserStake = observer((props: any) => {
 						setAmount(amount);
 					}}
 					variant={!!canDeposit && watch().amount === percentageOfBalance(amount) ? 'contained' : 'outlined'}
-					color="primary"
+					color="default"
 				>
 					{amount}%
 				</Button>
@@ -85,7 +85,7 @@ export const GeyserStake = observer((props: any) => {
 					style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap' }}
 				>
 					<Typography variant="body1" color={'textSecondary'} style={{ marginBottom: '.2rem' }}>
-						Deposited: {totalAvailable || '0.000000000000000000'}
+						Available: {totalAvailable || '0.000000000000000000'}
 						{/* Wrapped: {uiStats.wrappedFull[100]} */}
 					</Typography>
 					{renderAmounts}

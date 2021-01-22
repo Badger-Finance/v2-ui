@@ -58,7 +58,7 @@ export const VaultDeposit = observer((props: any) => {
 		return <Loader />;
 	}
 
-	const canDeposit = !!connectedAddress && vault.underlyingToken.balance.gt(0);
+	const canDeposit = !!watch().amount && !!connectedAddress && vault.underlyingToken.balance.gt(0);
 
 	const renderAmounts = (
 		<ButtonGroup size="small" className={classes.button} disabled={!connectedAddress}>
@@ -68,7 +68,7 @@ export const VaultDeposit = observer((props: any) => {
 						setAmount(amount);
 					}}
 					variant={!!canDeposit && watch().amount === percentageOfBalance(amount) ? 'contained' : 'outlined'}
-					color="primary"
+					color="default"
 				>
 					{amount}%
 				</Button>
