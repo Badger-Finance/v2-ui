@@ -146,7 +146,7 @@ class ContractsStore {
 					_.compact(reduceGraphResult(result.slice(2 + curveQueries.length))),
 					'address',
 				);
-				cgPrices[deploy.digg_system.uFragments.toLowerCase()] = { ethValue: tokenPrices[WBTC_ADDRESS.toLowerCase()].ethValue }
+				// cgPrices[deploy.digg_system.uFragments.toLowerCase()] = { ethValue: tokenPrices[WBTC_ADDRESS.toLowerCase()].ethValue }
 
 				const curvePrices = _.keyBy(
 					reduceCurveResult(

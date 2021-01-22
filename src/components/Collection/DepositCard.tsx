@@ -13,6 +13,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import { VaultSymbol } from '../Common/VaultSymbol';
 import { UnfoldMoreTwoTone } from '@material-ui/icons';
 import {
+	formatBalance,
+	formatBalanceValue,
 	formatGeyserBalance,
 	formatGeyserBalanceValue,
 	formatVaultGrowth,
@@ -65,7 +67,7 @@ export const DepositCard = observer((props: any) => {
 
 	const { underlyingToken: token, geyser } = vault;
 
-	if (!token || !geyser) {
+	if (!token) {
 		return <div />;
 	}
 	const [update, forceUpdate] = useState<boolean>();
@@ -98,7 +100,7 @@ export const DepositCard = observer((props: any) => {
 
 				<Grid item xs={6} md={2}>
 					<Typography variant="body1" color={'textPrimary'}>
-						{formatGeyserBalance(geyser)}
+						{!!geyser ? formatGeyserBalance(geyser) : formatBalance(vault)}
 					</Typography>
 				</Grid>
 				<Grid item className={classes.mobileLabel} xs={6}>
@@ -120,7 +122,7 @@ export const DepositCard = observer((props: any) => {
 				</Grid>
 				<Grid item xs={6} md={2}>
 					<Typography variant="body1" color={'textPrimary'}>
-						{formatGeyserBalanceValue(geyser, currency)}
+						{!!geyser ? formatGeyserBalanceValue(geyser, currency) : formatBalanceValue(vault, 'usd')}
 					</Typography>
 				</Grid>
 

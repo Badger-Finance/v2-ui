@@ -109,8 +109,8 @@ export const Airdrops = observer(() => {
 				title: 'Digg Liquidity',
 				button: 'Uniswap',
 				button2: 'Sushiswap',
-				href: 'https://info.uniswap.org/pair/0x0194B5fe9aB7e0C43a08aCbb771516fc057402e7',
-				href2: 'https://sushiswap.fi/pair/0x7f6fe274e172ac7d096a7b214c78584d99ca988b',
+				href: 'https://info.uniswap.org/pair/0xE86204c4eDDd2f70eE00EAd6805f917671F56c52',
+				href2: 'https://sushiswap.vision/pair/0x9a13867048e01c663ce8ce2fe0cdae69ff9f35e3',
 				copy: 'Provide liquidity and stake LP in vaults.',
 			},
 			{

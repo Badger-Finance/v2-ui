@@ -131,7 +131,7 @@ export const SettList = observer((props: any) => {
 		let list = _.map(contracts, (address: string) => {
 			const vault: Vault = vaults[address.toLowerCase()];
 
-			if (!!vault && !!vault.geyser && (!hideEmpty || vault.geyser.balance.gt(0) || vault.balance.gt(0)))
+			if (!!vault && (!hideEmpty || (!!vault.geyser && vault.geyser.balance.gt(0)) || vault.balance.gt(0)))
 				return (
 					<ListItem key={address} className={classes.listItem}>
 						<DepositCard isGlobal={!hideEmpty} vault={vault} onOpen={onOpen} />

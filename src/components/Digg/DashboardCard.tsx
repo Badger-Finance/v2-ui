@@ -89,7 +89,7 @@ const DashboardCard = observer((props: any) => {
 				variant="fullWidth"
 				indicatorColor="primary"
 				value={['Supply', 'Price', 'Market cap'].indexOf(title)}
-				style={{ background: 'rgba(0,0,0,.2)', marginBottom: '.5rem', pointerEvents: 'none' }}
+				style={{ background: 'rgba(0,0,0,.2)', marginBottom: '.5rem' }}
 			>
 				<Tab onClick={() => setGraphSelected('Supply')} label="Supply"></Tab>
 				<Tab onClick={() => setGraphSelected('Price')} label="Price"></Tab>
