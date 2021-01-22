@@ -9,6 +9,7 @@ import { RootStore } from '../store';
 import _ from 'lodash';
 import { jsonQuery } from '../utils/helpers';
 import { reduceClaims, reduceTimeSinceLastCycle } from '../reducers/statsReducers';
+import { token as diggTokenConfig } from '../../config/system/rebase';
 
 import { rewards as rewardsConfig } from 'config/system/geysers';
 
@@ -40,6 +41,7 @@ class RewardsStore {
 		const web3 = new Web3(provider);
 		const rewardsTree = new web3.eth.Contract(rewardsConfig.abi as any, rewardsConfig.contract);
 		const checksumAddress = Web3.utils.toChecksumAddress(connectedAddress);
+		const diggToken = new web3.eth.Contract(diggTokenConfig.abi as any, diggTokenConfig.contract);
 
 		const treeMethods = [
 			rewardsTree.methods.lastPublishTimestamp().call(),
@@ -61,15 +63,22 @@ class RewardsStore {
 			);
 
 			endpointQuery.then((proof: any) => {
-				rewardsTree.methods
-					.getClaimedFor(connectedAddress, rewardsConfig.tokens)
-					.call()
-					.then((claimedRewards: any[]) => {
+
+				Promise.all([
+					rewardsTree.methods
+						.getClaimedFor(connectedAddress, rewardsConfig.tokens)
+						.call(),
+					!!proof.cumulativeAmounts && !!proof.cumulativeAmounts[1] && diggToken.methods
+						.sharesToFragments(new BigNumber(Web3.utils.hexToNumberString(proof.cumulativeAmounts[1])).toFixed(0))
+						.call(),
+				])
+					.then((result: any[]) => {
+						console.log(result)
 						if (!proof.error) {
 							this.badgerTree = _.defaults(
 								{
 									cycle: parseInt(proof.cycle, 16),
-									claims: reduceClaims(proof, claimedRewards),
+									claims: reduceClaims(proof, result[0][1], result[1]),
 									proof,
 								},
 								this.badgerTree,
@@ -77,6 +86,7 @@ class RewardsStore {
 						}
 					});
 			});
+
 		});
 	});
 

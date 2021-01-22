@@ -61,9 +61,10 @@ export const reduceContractsToStats = (store: RootStore) => {
 	};
 };
 
-export const reduceClaims = (merkleProof: any, claimedRewards: any[]) => {
+export const reduceClaims = (merkleProof: any, claimedRewards: any[], fragments: any) => {
 	return merkleProof.cumulativeAmounts.map((amount: number, i: number) => {
-		return inCurrency(new BigNumber(amount).minus(claimedRewards[1][i]).dividedBy(1e18), 'eth', true);
+		let reward = i === 1 ? fragments : amount
+		return inCurrency(new BigNumber(reward).minus(claimedRewards[1][i]).dividedBy(1e18), 'eth', true);
 	});
 };
 export const reduceAirdrops = (airdrops: any, store: RootStore) => {
