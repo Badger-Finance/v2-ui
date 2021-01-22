@@ -51,6 +51,7 @@ export class Vault extends Token {
 	public geyser!: Geyser;
 	public pricePerShare!: BigNumber;
 	public abi!: any;
+	public super!: boolean;
 
 	constructor(store: RootStore, address: string, decimals: number, underlyingToken: Token, abi: any) {
 		super(store, address, decimals);
@@ -60,6 +61,7 @@ export class Vault extends Token {
 		this.decimals = 18;
 		this.holdings = new BigNumber(0);
 		this.abi = abi;
+		this.super = false;
 	}
 
 	deposit(amount: BigNumber) {
@@ -90,6 +92,7 @@ export class Vault extends Token {
 		if (!!payload.getPricePerFullShare)
 			this.pricePerShare = payload.getPricePerFullShare.dividedBy(10 ** this.decimals);
 		if (!!payload.totalSupply) this.holdings = payload.totalSupply;
+		if (!!payload.isSuperSett) this.super = payload.isSuperSett;
 	}
 }
 

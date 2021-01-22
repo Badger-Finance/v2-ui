@@ -18,7 +18,6 @@ import {
 	formatVaultGrowth,
 } from 'mobx/reducers/statsReducers';
 import useInterval from '@use-it/interval';
-import { superSett } from '../../config/system/tokens';
 
 const useStyles = makeStyles((theme) => ({
 
@@ -80,7 +79,7 @@ export const DepositCard = observer((props: any) => {
 
 					<Typography variant="body2" color="textSecondary" component="div">
 						{token.symbol}
-						{!!superSett[vault.address.toLowerCase()] && (
+						{!!vault.super && (
 							<Chip className={classes.chip} label="Harvest" size="small" color="primary" />
 						)}
 					</Typography>
@@ -121,7 +120,7 @@ export const DepositCard = observer((props: any) => {
 				</Grid>
 
 				<Grid item xs={12} md={2} style={{ textAlign: 'right' }}>
-					<IconButton color='primary'>
+					<IconButton color='default'>
 						<UnfoldMoreTwoTone />
 					</IconButton>
 				</Grid>

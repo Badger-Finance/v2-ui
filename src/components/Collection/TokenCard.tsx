@@ -1,6 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { observer, useForceUpdate } from 'mobx-react-lite';
-import views from '../../config/routes';
+import React, { useContext } from 'react';
+import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
 import {
 	Tooltip,
@@ -18,11 +17,8 @@ import {
 	formatBalanceValue,
 	formatGeyserHoldings,
 	formatHoldingsValue,
-	formatSupply,
 	formatVaultGrowth,
 } from 'mobx/reducers/statsReducers';
-import useInterval from '@use-it/interval';
-import { superSett } from '../../config/system/tokens';
 
 const useStyles = makeStyles((theme) => ({
 
@@ -84,7 +80,7 @@ export const TokenCard = observer((props: any) => {
 
 					<Typography variant="body2" color="textSecondary" component="div">
 						{token.symbol}
-						{!!superSett[vault.address.toLowerCase()] && (
+						{!!vault.super && (
 							<Chip className={classes.chip} label="Harvest" size="small" color="primary" />
 						)}
 					</Typography>
@@ -127,7 +123,7 @@ export const TokenCard = observer((props: any) => {
 				</Grid>
 
 				<Grid item xs={12} md={2} style={{ textAlign: 'right' }}>
-					<IconButton color={vault.balance.gt(0) || token.balance.gt(0) ? 'primary' : 'default'}>
+					<IconButton color={vault.balance.gt(0) || token.balance.gt(0) ? 'default' : 'secondary'}>
 						<UnfoldMoreTwoTone />
 					</IconButton>
 				</Grid>

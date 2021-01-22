@@ -110,10 +110,10 @@ export const Airdrops = observer(() => {
 			},
 			{
 				title: 'Digg Liquidity',
-				button2: 'Uniswap',
-				button: 'Sushiswap',
-				href: 'https://info.uniswap.org/pair/0x0194B5fe9aB7e0C43a08aCbb771516fc057402e7',
-				href2: 'https://sushiswap.fi/pair/0x7f6fe274e172ac7d096a7b214c78584d99ca988b',
+				button: 'Uniswap',
+				button2: 'Sushiswap',
+				href2: 'https://info.uniswap.org/pair/0x0194B5fe9aB7e0C43a08aCbb771516fc057402e7',
+				href: 'https://sushiswap.fi/pair/0x7f6fe274e172ac7d096a7b214c78584d99ca988b',
 				copy: 'Provide liquidity and stake LP in vaults.',
 			},
 			{
@@ -149,8 +149,7 @@ export const Airdrops = observer(() => {
 					<Chip
 						className={classes.chip}
 						label={qualifier.badge}
-						variant="outlined"
-						color="primary"
+						color="secondary"
 						size="small"
 					/>
 				)}
@@ -161,8 +160,9 @@ export const Airdrops = observer(() => {
 							target="_blank"
 							href={qualifier.href2}
 							size="small"
-							variant="contained"
+							variant="outlined"
 							color="primary"
+							disableElevation
 						>
 							{qualifier.button2}
 						</Button>
@@ -174,7 +174,7 @@ export const Airdrops = observer(() => {
 
 	return (
 		<Container className={classes.root}>
-			<Grid container spacing={1} justify="center">
+			<Grid container spacing={1} justify="flex-start">
 				{spacer()}
 
 				<Grid item sm={12} xs={12}>

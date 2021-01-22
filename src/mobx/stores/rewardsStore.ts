@@ -7,11 +7,10 @@ import { estimateAndSend } from '../utils/web3';
 import BigNumber from 'bignumber.js';
 import { RootStore } from '../store';
 import _ from 'lodash';
-import { reduceGeyserSchedule, reduceSushiAPIResults, reduceXSushiROIResults } from '../reducers/contractReducers';
-import { jsonQuery, vanillaQuery } from '../utils/helpers';
+import { jsonQuery } from '../utils/helpers';
 import { reduceClaims, reduceTimeSinceLastCycle } from '../reducers/statsReducers';
 
-import { rewards as rewardsConfig, geyserBatches } from '../../config/system/contracts';
+import { rewards as rewardsConfig } from 'config/system/geysers';
 
 class RewardsStore {
 	private store!: RootStore;
@@ -34,7 +33,7 @@ class RewardsStore {
 
 	fetchSettRewards = action(() => {
 		const { provider, connectedAddress } = this.store.wallet;
-		const {} = this.store.uiState;
+		const { } = this.store.uiState;
 
 		if (!connectedAddress) return;
 
@@ -88,9 +87,6 @@ class RewardsStore {
 
 		if (!connectedAddress) return;
 
-		// if (ethBalance?.lt(MIN_ETH_BALANCE))
-		// 	return queueNotification("Your account is low on ETH, you may need to top up to claim.", 'warning')
-
 		const web3 = new Web3(provider);
 		const rewardsTree = new web3.eth.Contract(rewardsConfig.abi as any, rewardsConfig.contract);
 		const method = rewardsTree.methods.claim(
@@ -121,99 +117,6 @@ class RewardsStore {
 					setTxStatus('error');
 				});
 		});
-	});
-
-	calculateGeyserRewards = action(() => {
-		const { geysers, tokens, vaults } = this.store.contracts;
-		const {} = this.store.uiState;
-		const {} = this.store.wallet;
-
-		const rewardToken = tokens[rewardsConfig.tokens[0]];
-
-		if (!tokens || !rewardToken) return;
-
-		const timestamp = new BigNumber(new Date().getTime() / 1000.0);
-		const geyserRewards = _.mapValues(geysers, (geyser: any) => {
-			const schedule = geyser['getUnlockSchedulesFor'];
-			const underlyingVault = vaults[geyser[geyser.underlyingKey]];
-
-			if (!schedule || !underlyingVault) return {};
-
-			const rawToken = tokens[underlyingVault[underlyingVault.underlyingKey]];
-
-			// sum rewards in current period
-			// todo: break out to actual durations
-			const rewardSchedule = reduceGeyserSchedule(timestamp, schedule);
-
-			return _.mapValues(rewardSchedule, (reward: any) => {
-				return (
-					!!rawToken.ethValue &&
-					reward
-						.multipliedBy(rewardToken.ethValue)
-						.dividedBy(
-							rawToken.ethValue
-								.multipliedBy(underlyingVault.balance)
-								.multipliedBy(underlyingVault.getPricePerFullShare.dividedBy(1e18)),
-						)
-				);
-			});
-		});
-
-		// this.store.contracts.updateGeysers(geyserRewards);
-
-		// grab sushi APYs
-		// _.map(geyserBatches, (config: any) => {
-		// 	if (!!config.growthEndpoints) {
-		// 		// let masterChef = chefQueries(config.contracts, this.geysers, config.growthEndpoints[0])
-		// 		const xSushi = vanillaQuery(config.growthEndpoints[1]);
-
-		// 		// First we grab the sushi pair contracts from the sushi geysers
-		// 		const sushiSuffix: string[] = [];
-		// 		_.map(config.contracts, (contract: any) => {
-		// 			try {
-		// 				let geyser = geysers[contract];
-		// 				let vault = vaults[geyser[geyser.underlyingKey]];
-		// 				if (!geyser || !vault) return;
-		// 				sushiSuffix.push(vault[vault.underlyingKey]);
-		// 			} catch (e) {
-		// 				process.env.NODE_ENV !== 'production' && console.log(e);
-		// 			}
-		// 		});
-		// 		// Then we use the provided API from sushi to get the ROI numbers
-		// 		const newMasterChef = vanillaQuery(config.growthEndpoints[2].concat(sushiSuffix.join(';')));
-
-		// 		Promise.all([xSushi, newMasterChef]).then((results: any) => {
-		// 			const xROI: any = reduceXSushiROIResults(results[0]['weekly_APY']);
-		// 			const newSushiRewards = reduceSushiAPIResults(results[1], config.contracts);
-		// 			this.store.contracts.updateGeysers(
-		// 				_.mapValues(newSushiRewards, (reward: any, geyserAddress: string) => {
-		// 					const geyser = geysers[geyserAddress];
-		// 					if (!geyser) return;
-
-		// 					const vault = vaults[geyser[geyser.underlyingKey]];
-		// 					if (!vault) return;
-
-		// 					const vaultBalance = vault.balance;
-		// 					const tokenValue = this.store.contracts.tokens[vault.token].ethValue;
-		// 					if (!tokenValue) return;
-
-		// 					const vaultEthVal = vaultBalance.multipliedBy(tokenValue.dividedBy(1e18));
-		// 					return {
-		// 						sushiRewards: _.mapValues(reward, (periodROI: BigNumber, period: string) => {
-		// 							if (periodROI.toString().substr(0, 2) != '0x') {
-		// 								const sushiRewards = vaultEthVal.multipliedBy(periodROI);
-		// 								const xsushiRewards = sushiRewards.multipliedBy(xROI[period].dividedBy(100));
-		// 								const xsushiROI = xsushiRewards.dividedBy(vaultEthVal);
-		// 								periodROI = periodROI.plus(xsushiROI);
-		// 							}
-		// 							return periodROI;
-		// 						}),
-		// 					};
-		// 				}),
-		// 			);
-		// 		});
-		// 	}
-		// });
 	});
 }
 

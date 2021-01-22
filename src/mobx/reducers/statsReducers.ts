@@ -1,10 +1,10 @@
 import BigNumber from 'bignumber.js';
 import _ from 'lodash';
-import { RootStore } from '../store';
+import { RootStore } from 'mobx/store';
 
-import { inCurrency } from '../utils/helpers';
-import { token as diggToken } from '../../config/system/rebase';
-import { rewards as rewardsConfig } from '../../config/system/contracts';
+import { inCurrency } from 'mobx/utils/helpers';
+import { token as diggToken } from 'config/system/rebase';
+import { rewards as rewardsConfig } from 'config/system/geysers';
 import { Vault, Amount, Geyser, Token, Growth } from '../model';
 import { ZERO_CURRENCY } from 'config/constants';
 

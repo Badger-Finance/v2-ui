@@ -2,7 +2,7 @@ import { extendObservable, action, observe } from 'mobx';
 import Web3 from 'web3';
 import BatchCall from 'web3-batch-call';
 import { AbiItem } from 'web3-utils';
-import { batchConfig, estimateAndSend } from '../utils/web3';
+import { estimateAndSend } from '../utils/web3';
 import BigNumber from 'bignumber.js';
 import { RootStore } from '../store';
 import _ from 'lodash';
@@ -16,24 +16,24 @@ import {
 	reduceXSushiROIResults,
 	reduceSushiAPIResults,
 } from '../reducers/contractReducers';
-import { Vault, Geyser, Token, Growth } from '../model';
-import { jsonQuery, graphQuery, growthQuery, secondsToBlocks, vanillaQuery } from '../utils/helpers';
+import { Vault, Geyser, Token, } from '../model';
+import { jsonQuery, graphQuery, vanillaQuery } from 'mobx/utils/helpers';
 import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
 import async from 'async';
 
-import { curveTokens, names, symbols, tokenMap } from '../../config/system/tokens';
+import { curveTokens, names, symbols, tokenMap } from 'config/system/tokens';
 import {
 	EMPTY_DATA,
 	ERC20,
 	RPC_URL,
-	START_BLOCK,
 	START_TIME,
 	WBTC_ADDRESS,
 	XSUSHI_ADDRESS,
-} from '../../config/constants';
-import { geyserBatches, vaultBatches } from '../../config/system/contracts';
-import { decimals as tokenDecimals, tokenBatches } from '../../config/system/tokens';
+} from 'config/constants';
+import { vaultBatches } from 'config/system/vaults';
+import { geyserBatches } from 'config/system/geysers';
+import { decimals as tokenDecimals, tokenBatches } from 'config/system/tokens';
 import { formatAmount } from 'mobx/reducers/statsReducers';
 
 const infuraProvider = new Web3.providers.HttpProvider(RPC_URL);

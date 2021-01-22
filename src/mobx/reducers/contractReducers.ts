@@ -1,10 +1,10 @@
 import BigNumber from 'bignumber.js';
 import _ from 'lodash';
-import { START_BLOCK } from '../../config/constants';
-import { rewards } from '../../config/system/contracts';
+import { START_BLOCK } from 'config/constants';
+import { rewards } from 'config/system/geysers';
 
-import { batchConfig } from '../utils/web3';
-import { RootStore } from '../store';
+import { batchConfig } from 'mobx/utils/web3';
+import { RootStore } from 'mobx/store';
 import { growthQuery, secondsToBlocks } from 'mobx/utils/helpers';
 
 export const reduceBatchResult = (result: any[]): any[] => {
