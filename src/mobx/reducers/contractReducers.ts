@@ -1,11 +1,11 @@
 import BigNumber from 'bignumber.js';
 import _ from 'lodash';
-import { ERC20, WBTC_ADDRESS } from '../../config/constants';
-import { token as diggToken } from '../../config/system/digg';
-import { rewards } from '../../config/system/settSystem';
-import { curveTokens } from '../../config/system/tokens';
+import { START_BLOCK } from 'config/constants';
+import { rewards } from 'config/system/geysers';
 
-import { batchConfig, erc20Methods } from '../utils/web3';
+import { batchConfig } from 'mobx/utils/web3';
+import { RootStore } from 'mobx/store';
+import { growthQuery, secondsToBlocks } from 'mobx/utils/helpers';
 
 export const reduceBatchResult = (result: any[]): any[] => {
 	return result.map((vault) => {
@@ -22,37 +22,12 @@ export const reduceResult = (value: any): any => {
 	else return value;
 };
 
-// export const reduceMasterChefResults = (results: any[], contracts: string[]): any => {
-// 	let reduction = results.map((data: any, i: number) => {
-// 		let result = data.data.masterChefs[0]
-
-// 		let { totalAllocPoint, pools } = result
-// 		let { allocPoint, slpBalance } = pools[0]
-
-// 		let allocRatio = new BigNumber(parseFloat(allocPoint)).dividedBy(parseFloat(totalAllocPoint))
-
-// 		let sushiPerBlock = new BigNumber(100).minus(new BigNumber(100).multipliedBy(allocRatio))
-
-// 		let sushiPerDay = sushiPerBlock.multipliedBy(secondsToBlocks(86400)).multipliedBy(allocRatio).multipliedBy(3)
-
-// 		return {
-// 			address: contracts[i],
-// 			slpBalance: parseFloat(slpBalance),
-// 			day: sushiPerDay,
-// 			week: sushiPerDay.multipliedBy(7),
-// 			month: sushiPerDay.multipliedBy(30),
-// 			year: sushiPerDay.multipliedBy(365),
-// 		}
-// 	})
-// 	return _.keyBy(reduction, 'address')
-
-// }
-
 export const reduceSushiAPIResults = (results: any, contracts: any[]) => {
-	const newSushiROIs = _.map(results.pairs, (pair: any, i: number) => {
+	const newSushiROIs: any = _.map(results.pairs, (pair: any, i: number) => {
 		return {
-			address: contracts[i],
+			address: pair.address,
 			day: new BigNumber(pair.aprDay).dividedBy(100),
+			week: new BigNumber(pair.aprDay).dividedBy(100).multipliedBy(7),
 			month: new BigNumber(pair.aprMonthly).dividedBy(100),
 			year: new BigNumber(pair.aprYear_without_lockup).dividedBy(100),
 		};
@@ -63,9 +38,24 @@ export const reduceSushiAPIResults = (results: any, contracts: any[]) => {
 export const reduceXSushiROIResults = (ROI: any) => {
 	return {
 		day: new BigNumber(ROI).dividedBy(365),
+		week: new BigNumber(ROI).dividedBy(365).multipliedBy(7),
 		month: new BigNumber(ROI).dividedBy(12),
 		year: new BigNumber(ROI),
 	};
+};
+
+export const reduceGrowthQueryConfig = (currentBlock?: number) => {
+	if (!currentBlock) return { periods: [], growthQueries: [] };
+
+	const periods = [
+		Math.max(currentBlock - Math.floor(secondsToBlocks(60 * 5)), START_BLOCK), // 5 minutes ago
+		Math.max(currentBlock - Math.floor(secondsToBlocks(1 * 24 * 60 * 60)), START_BLOCK), // day
+		Math.max(currentBlock - Math.floor(secondsToBlocks(7 * 24 * 60 * 60)), START_BLOCK), // week
+		Math.max(currentBlock - Math.floor(secondsToBlocks(30 * 24 * 60 * 60)), START_BLOCK), // month
+		START_BLOCK, // start
+	];
+
+	return { periods, growthQueries: periods.map(growthQuery) };
 };
 
 export const reduceGraphResult = (graphResult: any[]) => {
@@ -105,9 +95,9 @@ export const reduceGraphResult = (graphResult: any[]) => {
 		return {
 			address: tokenAddress.toLowerCase(),
 			type: !!element.data.pair ? 'pair' : 'token',
-			symbol: !!element.data.pair
-				? element.data.pair.token0.symbol + '/' + element.data.pair.token1.symbol
-				: element.data.token.symbol,
+			// symbol: !!element.data.pair
+			// 	? element.data.pair.token0.symbol + '/' + element.data.pair.token1.symbol
+			// 	: element.data.token.symbol,
 			name: !!element.data.pair
 				? element.data.pair.token0.name + '/' + element.data.pair.token1.name
 				: element.data.token.name,
@@ -116,19 +106,18 @@ export const reduceGraphResult = (graphResult: any[]) => {
 	});
 
 	// average duplicates
-	const noDupes = reduction.map((result: any, index: number) => {
-		let token = result;
-		if (!!token)
-			graphResult.forEach((duplicate: any, dupIndex: number) => {
-				if (!!result && duplicate.address === result.address) {
-					if (duplicate.ethValue.gt(0)) {
-						// console.log('avaraging', duplicate.ethValue, token.ethValue, token.symbol)
-						token.ethValue = token.ethValue.plus(duplicate.ethValue).dividedBy(2);
-					} else if (dupIndex < index) {
-						token = undefined;
-					}
+	const noDupes = _.compact(reduction).map((token: any, index: number) => {
+		graphResult.forEach((duplicate: any, dupIndex: number) => {
+			if (dupIndex > index && duplicate.address === token.address) {
+				if (duplicate.ethValue.gt(0)) {
+					console.log('avaraging', duplicate.ethValue, token.ethValue, token.symbol);
+
+					token.ethValue = token.ethValue.plus(duplicate.ethValue).dividedBy(2);
+				} else if (duplicate.address === token.address) {
+					token = undefined;
 				}
-			});
+			}
+		});
 		return token;
 	});
 
@@ -158,8 +147,6 @@ export const reduceCurveResult = (curveResult: any[], contracts: any[], tokenCon
 
 export const reduceGrowth = (graphResult: any[], periods: number[], startDate: Date) => {
 	const reduction: any[] = graphResult.map((result: any) => !!result.data && _.keyBy(result.data.vaults, 'id'));
-
-	if (!reduction) return;
 
 	return _.mapValues(reduction[0], (value: any, key: string) => {
 		const timePeriods = ['now', 'day', 'week', 'month', 'start'];
@@ -195,8 +182,9 @@ export const reduceGrowth = (graphResult: any[], periods: number[], startDate: D
 	});
 };
 
-export const reduceGeyserSchedule = (timestamp: BigNumber, schedule: any) => {
+export const reduceGeyserSchedule = (schedule: any, store: RootStore) => {
 	let locked = new BigNumber(0);
+	let timestamp = new BigNumber(new Date().getTime() / 1000.0);
 
 	const period = { start: timestamp, end: timestamp };
 
@@ -221,12 +209,16 @@ export const reduceGeyserSchedule = (timestamp: BigNumber, schedule: any) => {
 	if (!badgerPerSecond || badgerPerSecond.eq(0))
 		badgerPerSecond = badgerPerSecondAllTime.dividedBy(365 * 60 * 60 * 24);
 
-	return {
+	let periods = {
 		day: badgerPerSecond.multipliedBy(60 * 60 * 24),
 		week: badgerPerSecond.multipliedBy(60 * 60 * 24 * 7),
 		month: badgerPerSecond.multipliedBy(60 * 60 * 24 * 30),
 		year: badgerPerSecondAllTime.multipliedBy(60 * 60 * 24 * 365),
 	};
+	return _.mapValues(periods, (amount: BigNumber) => ({
+		amount: amount,
+		token: store.contracts.tokens[rewards.tokens[0]],
+	}));
 };
 
 export const reduceContractConfig = (configs: any[], payload: any = {}) => {
@@ -245,7 +237,16 @@ export const reduceContractConfig = (configs: any[], payload: any = {}) => {
 			return r;
 		});
 	});
-	return _.keyBy(_.flatten(contracts), 'address');
+	let defaults = _.keyBy(_.flatten(contracts), 'address');
+	let batchCall = _.map(configs, (config: any) => {
+		return batchConfig(
+			'namespace',
+			config.contracts,
+			!!config.methods ? reduceMethodConfig(config.methods, payload) : [],
+			config.abi,
+		);
+	});
+	return { defaults, batchCall };
 };
 
 export const reduceMethodConfig = (methods: any[], payload: any) => {
@@ -268,46 +269,9 @@ export const reduceMethodConfig = (methods: any[], payload: any) => {
 
 		return {
 			name: method.name,
-			args: args,
+			...(args.length > 0 && { args: args }),
 		};
 	});
 
 	return _.compact(reduced);
-};
-
-export const reduceContractsToTokens = (contracts: any) => {
-	// grab underlying and yielding token addresses as {address:, contract:}
-	const assets: any[] = _.map(contracts, (contract: any, address: string) => {
-		return (
-			!!contract[contract.underlyingKey] && {
-				address: contract[contract.underlyingKey].toLowerCase(),
-				contract: address.toLowerCase(),
-			}
-		);
-	});
-
-	assets.push(
-		[WBTC_ADDRESS, diggToken.contract, rewards.tokens[2], rewards.tokens[3]].map((address: string) => ({
-			address,
-		})),
-	);
-
-	return _.keyBy(_.flatten(assets), 'address');
-};
-
-export const generateCurveTokens = () => {
-	return _.keyBy(
-		_.zip(curveTokens.contracts, curveTokens.symbols, curveTokens.names).map((token: any[]) => {
-			return _.zipObject(['address', 'symbol', 'name'], token);
-		}),
-		'address',
-	);
-};
-
-export const erc20BatchConfig = (contracts: any, connectedAddress: string) => {
-	const configs = _.map(contracts, (contract: any) => {
-		if (!!contract.contract)
-			return batchConfig('tokens', [contract.address], erc20Methods(connectedAddress, contract), ERC20.abi);
-	});
-	return _.compact(configs);
 };

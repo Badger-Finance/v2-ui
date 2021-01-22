@@ -1,19 +1,31 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { observer } from 'mobx-react-lite';
-import { StoreContext } from '../../context/store-context';
-import { Grid, List, ListItem, Dialog, DialogTitle, CircularProgress, DialogContent, Chip } from '@material-ui/core';
+import { StoreContext } from '../../mobx/store-context';
+import {
+	Grid,
+	List,
+	ListItem,
+	Dialog,
+	DialogTitle,
+	Tab,
+	Tabs,
+	Tooltip,
+	Switch,
+} from '@material-ui/core';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { Loader } from '../Loader';
-import { AssetCard } from './AssetCard';
+import { TokenCard } from './TokenCard';
 import _ from 'lodash';
-import { VaultStake } from './VaultStake';
-import { VaultUnwrap } from './VaultUnwrap';
-import { GeyserUnstake } from './GeyserUnstake';
-import { VaultSymbol } from '../VaultSymbol';
-
-import { geysers as geyserConfig, vaults as vaultConfig } from '../../config/system/settSystem';
-import Carousel from 'react-material-ui-carousel';
+import { VaultDeposit } from './Forms/VaultDeposit';
+import { VaultWithdraw } from './Forms/VaultWithdraw';
+import { GeyserUnstake } from './Forms/GeyserUnstake';
+import { GeyserStake } from './Forms/GeyserStake';
+import { VaultSymbol } from '../Common/VaultSymbol';
+import { vaultBatches } from 'config/system/vaults';
+import { Vault } from 'mobx/model';
+import { formatPrice } from 'mobx/reducers/statsReducers';
+import { DepositCard } from './DepositCard';
+import { Loader } from 'components/Loader';
 
 const useStyles = makeStyles((theme) => ({
 	list: {
@@ -36,30 +48,6 @@ const useStyles = makeStyles((theme) => ({
 		marginTop: theme.spacing(3),
 		width: '100%',
 	},
-	carousel: {
-		// overflow: 'inherit',
-		// marginTop: theme.spacing(1)
-		width: '100%',
-		background: theme.palette.background.paper,
-		borderRadius: theme.shape.borderRadius,
-		minHeight: '517px',
-		boxShadow: theme.shadows[3],
-	},
-	featuredHeader: {
-		marginBottom: theme.spacing(2),
-	},
-	indicatorContainer: {
-		display: 'none',
-	},
-	indicator: {
-		fontSize: '11px',
-		width: '1rem',
-	},
-	activeIndicator: {
-		fontSize: '11px',
-		width: '1rem',
-		color: '#fff',
-	},
 
 	header: {
 		padding: theme.spacing(0, -2, 0, 0),
@@ -69,17 +57,14 @@ const useStyles = makeStyles((theme) => ({
 			display: 'none',
 		},
 	},
-	pendingTx: {
-		textAlign: 'center',
-		padding: theme.spacing(4, 2, 8),
-	},
-	progress: {
-		padding: theme.spacing(0, 0, 2),
-	},
 	chip: {
 		marginLeft: theme.spacing(1),
 		padding: 0,
 	},
+	title: {
+		// background: 'rgba(0,0,0,.5)',
+		padding: theme.spacing(2, 2, 2)
+	}
 }));
 export const SettList = observer((props: any) => {
 	const store = useContext(StoreContext);
@@ -88,37 +73,21 @@ export const SettList = observer((props: any) => {
 	const { hideEmpty } = props;
 
 	const {
-		router: { params, goTo },
-		wallet: { connectedAddress },
-		contracts: { vaults, geysers, tokens },
-		uiState: { stats, geyserStats, vaultStats, currency, period, setCurrency, txStatus, setTxStatus, notification },
+		contracts: {
+			vaults,
+			geysers,
+			tokens },
+		uiState: {
+			stats,
+			currency,
+			period,
+		},
 	} = store;
 
-	const [dialogProps, setDialogProps] = useState({ open: false, mode: '', stats: undefined as any });
+	const [dialogProps, setDialogProps] = useState({ open: false, vault: undefined as any });
 
-	const [hasDeposits, setHasDeposits] = useState(false);
-
-	// useEffect(() => {
-	// 	if (txStatus === "success") {
-	// 		onClose()
-	// 		setTxStatus(undefined)
-	// 	}
-	// }, [txStatus])
-
-	const onUnwrap = (stats: any) => {
-		setDialogProps({ mode: 'unwrap', stats, open: true });
-	};
-
-	const onUnstake = (stats: any) => {
-		setDialogProps({ mode: 'unstake', stats, open: true });
-	};
-
-	const onStake = (stats: any) => {
-		setDialogProps({ mode: 'stake', stats, open: true });
-	};
-
-	const onDeposit = (stats: any) => {
-		setDialogProps({ mode: 'stake', stats, open: true });
+	const onOpen = (vault: Vault) => {
+		setDialogProps({ vault, open: true });
 	};
 
 	const onClose = () => {
@@ -127,68 +96,58 @@ export const SettList = observer((props: any) => {
 		setDialogProps({ ...dialogProps, open: false });
 	};
 
-	const anyWalletAssets = () => {
-		return (
-			_.filter(vaults, (vault: any) => {
-				let token = tokens[vault[vault.underlyingKey]];
-				return (!!vault.balanceOf && vault.balanceOf.gt(0)) || (!!token.balanceOf && token.balanceOf.gt(0));
-			}).length > 0
-		);
-	};
-
-	const renderContracts = (contracts: any, isGeysers: boolean = false, global: boolean = false) => {
-		let list = _.map(contracts, (contract: any) => {
-			if (isGeysers) {
-				return (
-					<ListItem key={contract.address} className={classes.listItem}>
-						<AssetCard
-							isGlobal={global}
-							uiStats={contract}
-							onStake={onStake}
-							onUnstake={onUnstake}
-							onUnwrap={onUnwrap}
-							isDeposit
-						/>
-					</ListItem>
-				);
-			} else {
-				return (
-					<ListItem key={contract.address} className={classes.listItem}>
-						<AssetCard
-							isGlobal={global}
-							uiStats={contract}
-							onStake={onStake}
-							onUnstake={onUnstake}
-							onUnwrap={onUnwrap}
-						/>
-					</ListItem>
-				);
-			}
+	const renderVaults = (contracts: any) => {
+		let filtered = _.filter(contracts, (address: string) => {
+			const vault: Vault = vaults[address.toLowerCase()];
+			return !!vault && (!hideEmpty || vault.underlyingToken.balance.gt(0));
+		});
+		let sorted = _.sortBy(filtered, (address: string) => {
+			const vault: Vault = vaults[address.toLowerCase()];
+			return (!!vault && -(filtered.length - vault.position)) || 0;
 		});
 
-		return <List className={classes.list}>{list}</List>;
+		let list = _.map(sorted, (address: string) => {
+			const vault: Vault = vaults[address.toLowerCase()];
+			return (
+				<ListItem key={address} className={classes.listItem}>
+					<TokenCard isGlobal={!hideEmpty} vault={vault} onOpen={onOpen} />
+				</ListItem>
+			);
+		});
+
+		if (list.length > 0)
+			return (
+				<List key={contracts[0]} className={classes.list}>
+					{list}
+				</List>
+			);
+		else return undefined;
 	};
 
-	const walletVaults = () => {
-		let vaultCards: any[] = [];
+	const renderDeposits = (contracts: any) => {
+		let list = _.map(contracts, (address: string) => {
+			const vault: Vault = vaults[address.toLowerCase()];
 
-		// wallet assets & wrapped assets ordered by value
-		return renderContracts(stats.assets.wallet, false, !hideEmpty);
+			if (!!vault && !!vault.geyser && (!hideEmpty || vault.geyser.balance.gt(0) || vault.balance.gt(0)))
+				return (
+					<ListItem key={address} className={classes.listItem}>
+						<DepositCard isGlobal={!hideEmpty} vault={vault} onOpen={onOpen} />
+					</ListItem>
+				);
+		});
+
+		list = _.compact(list);
+
+		if (list.length > 0)
+			return (
+				<List key={contracts[0]} className={classes.list}>
+					{list}
+				</List>
+			);
+		else return undefined;
 	};
 
-	const emptyGeysers = () => {
-		return renderContracts(stats.assets.setts, true, true);
-	};
-
-	const renderDeposits = () => {
-		if (stats.assets.deposits.length + stats.assets.wrapped.length > 0 && !hasDeposits) setHasDeposits(true);
-		return [
-			renderContracts(stats.assets.wrapped, false, false),
-			renderContracts(stats.assets.deposits, true, false),
-		];
-	};
-
-	if (!vaultStats || !tokens || !vaults || !geysers) {
+	if (!tokens || !vaults || !geysers) {
 		return <Loader />;
 	}
 
@@ -219,7 +178,7 @@ export const SettList = observer((props: any) => {
 						</Grid>
 
 						<Grid item xs={12} sm={6} md={2} className={classes.hiddenMobile}>
-							<Typography variant="body2" color="textSecondary">
+							<Typography variant="body2" color="textPrimary">
 								Value
 							</Typography>
 						</Grid>
@@ -229,78 +188,98 @@ export const SettList = observer((props: any) => {
 		);
 	};
 
-	const pendingTx = (message: string) => {
-		return (
-			<div className={classes.pendingTx}>
-				<div className={classes.progress}>
-					<CircularProgress />
-				</div>
-				<Typography variant="body2" color="textSecondary">
-					{message}
-				</Typography>
-			</div>
-		);
-	};
-
+	const [dialogMode, setDialogMode] = useState('vault');
+	const [dialogOut, setDialogOut] = useState(false);
 	const renderDialog = () => {
-		const { mode, open, stats } = dialogProps;
-		let vault: any = {};
-		let component: any = {};
-		let title = '';
+		const { open, vault } = dialogProps;
 
-		if (!stats) return;
+		if (!open) return <div />;
 
-		if (mode == 'stake') {
-			vault = stats.stats.vault;
-
-			title = 'Stake ' + stats.token.name;
-			component = <VaultStake uiStats={stats.stats} onClose={onClose} />;
-		} else if (mode == 'unstake') {
-			let geyser = stats.stats.geyser;
-			vault = stats.stats.vault;
-
-			title = 'Unstake ' + stats.token.name;
-			component = <GeyserUnstake uiStats={stats.stats} onClose={onClose} />;
-		} else if (mode == 'unwrap') {
-			vault = stats.stats.vault;
-			title = 'Unwrap ' + stats.token.name;
-
-			component = <VaultUnwrap uiStats={stats.stats} onClose={onClose} />;
-		}
+		let form = <VaultDeposit vault={vault} />;
+		if (dialogMode === 'vault' && dialogOut) form = <VaultWithdraw vault={vault} />;
+		else if (dialogMode == 'geyser' && !dialogOut) form = <GeyserStake vault={vault} />;
+		else if (dialogMode == 'geyser' && dialogOut) form = <GeyserUnstake vault={vault} />;
 
 		return (
-			<Dialog key={title} fullWidth maxWidth={'sm'} open={open} onClose={onClose}>
-				<DialogTitle disableTypography>
-					<VaultSymbol token={stats.token} />
+			<Dialog key={'dialog'} fullWidth maxWidth={'sm'} open={open} onClose={onClose}>
+				<DialogTitle disableTypography className={classes.title} >
+					<div style={{ float: 'right' }}>
+						{dialogOut ? 'Withdraw' : 'Deposit'}
+						<Switch
+							checked={!dialogOut}
+							onChange={() => {
+								setDialogOut(!dialogOut);
+							}}
+							color="primary"
+						/>
+					</div>
 
-					<Typography variant="body1">{title}</Typography>
+					<VaultSymbol token={vault.underlyingToken} />
 
+					<Typography variant="body1" color="textPrimary" component="div">
+						{vault.underlyingToken.name}
+					</Typography>
 					<Typography variant="body2" color="textSecondary" component="div">
-						{stats.token.symbol}
-
-						{!!vault.isSuperSett && (
-							<Chip className={classes.chip} label="Harvest" size="small" color="primary" />
-						)}
+						{vault.underlyingToken.symbol}
 					</Typography>
 				</DialogTitle>
-				<div>{false ? pendingTx('Awaiting transaction confirmation...') : component}</div>
+				<Tabs
+					variant="fullWidth"
+					indicatorColor="primary"
+					value={['vault', 'geyser'].indexOf(dialogMode)}
+					style={{ background: 'rgba(0,0,0,.2)', marginBottom: '1rem' }}
+				>
+					<Tab onClick={() => setDialogMode('vault')} label={dialogOut ? 'Withdraw' : 'Deposit'}></Tab>
+					{vault.geyser ? (
+						<Tab onClick={() => setDialogMode('geyser')} label={dialogOut ? 'Unstake' : 'Stake'}></Tab>
+					) : (
+							<Tooltip
+								enterDelay={0}
+								leaveDelay={300}
+								arrow
+								placement="bottom"
+								title={`Staking not enabled for ${vault.underlyingToken.symbol}`}
+							>
+								<Tab label={dialogOut ? 'Unstake' : 'Stake'}></Tab>
+							</Tooltip>
+						)}
+				</Tabs>
+
+				{form}
 			</Dialog>
 		);
 	};
 
+	let all = renderVaults([...vaultBatches[2].contracts, ...vaultBatches[1].contracts, ...vaultBatches[0].contracts]);
+	let deposits = renderDeposits([
+		...vaultBatches[2].contracts,
+		...vaultBatches[1].contracts,
+		...vaultBatches[0].contracts,
+	]);
+
 	return (
 		<>
-			{!!connectedAddress && hasDeposits && tableHeader(`Deposits - ${stats.stats.deposits}`, 'Deposited')}
-			{!!connectedAddress && renderDeposits()}
-			{tableHeader(
-				hideEmpty ? `Your Wallet - ${stats.stats.wallet}` : `All Setts  - ${stats.stats.tvl}`,
-				hideEmpty ? 'Available' : 'Tokens',
-			)}
-			{walletVaults()}
-			{/* {isGlobal && <Carousel className={classes.carousel} indicators={false} navButtonsAlwaysVisible >{featuredGeysers()}</Carousel>} */}
-			{/* {!hideEmpty && tableHeader(`All Setts`, 'Tokens')}
-		{!hideEmpty && emptyGeysers()} */}
+			{!!all && [
+				tableHeader(
+					hideEmpty
+						? `Your Wallet - ${formatPrice(stats.stats.wallet, currency)}`
+						: `All Setts  - ${formatPrice(stats.stats.tvl, currency)}`,
+					hideEmpty ? 'Available' : 'Tokens',
+				),
+				all,
+			]}
+			{!!deposits &&
+				hideEmpty &&
+				tableHeader(`Your Deposits - ${formatPrice(stats.stats.deposits, currency)}`, 'Tokens')}
+			{hideEmpty && deposits}
 
+			{!all && !deposits && (
+				<div>
+					<Typography align="center" variant="subtitle1" color="textSecondary" style={{ margin: '2rem 0' }}>
+						There are tokens to display at this time.
+					</Typography>
+				</div>
+			)}
 			{renderDialog()}
 			{spacer()}
 		</>

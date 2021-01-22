@@ -8,13 +8,25 @@ import { Collection } from '../components/Collection';
 import { RootStore } from '../mobx/store';
 import { Airdrops } from '../components/Airdrops';
 import { Digg } from '../components/Digg';
+import { Locked } from 'components/Common/Locked';
 
 const routes = {
+	locked: new Route<RootStore>({
+		path: '/locked',
+		component: <Locked />,
+		onEnter: (_, params, store) => {},
+		beforeExit: () => {
+			//
+		},
+		onParamsChange: () => {
+			//
+		},
+	}),
 	home: new Route<RootStore>({
 		path: '/',
 		component: <Collection />,
-		onEnter: () => {
-			//
+		onEnter: (_, params, store) => {
+			store.rewards.fetchSettRewards();
 		},
 		beforeExit: () => {
 			//
@@ -28,7 +40,7 @@ const routes = {
 		path: '/airdrops',
 		component: <Airdrops />,
 		onEnter: (_, params, store) => {
-			store.contracts.fetchAirdrops();
+			store.airdrops.fetchAirdrops();
 		},
 		beforeExit: () => {
 			//
@@ -39,9 +51,9 @@ const routes = {
 	}),
 	digg: new Route<RootStore, QueryParams>({
 		path: '/digg',
-		component: <Airdrops />,
-		onEnter: () => {
-			//
+		component: <Digg />,
+		onEnter: (_, params, store) => {
+			store.rebase.fetchRebaseStats();
 		},
 		beforeExit: () => {
 			//

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import views from '../../config/routes';
 import { useContext } from 'react';
-import { StoreContext } from '../../context/store-context';
+import { StoreContext } from '../../mobx/store-context';
 import {
 	Button,
 	ButtonGroup,
@@ -45,40 +45,46 @@ const useStyles = makeStyles((theme) => ({
 	drawer: {},
 	listItem: {
 		cursor: 'pointer',
-		// justifyContent: 'space-between',
 		'&:hover': {
-			fontWeight: 'bold',
-			backgroundColor: theme.palette.background.default,
+			backgroundColor: 'transparent',
+			cursor: 'default',
 		},
 		// paddingLeft: theme.spacing(1),
-		padding: theme.spacing(1, 2),
+		padding: theme.spacing(1, 3),
 	},
 	divider: {
 		padding: theme.spacing(2, 2, 1, 2),
 		fontSize: '.8rem',
 	},
 	secondaryListItem: {
-		cursor: 'pointer',
+		cursor: 'default',
 		justifyContent: 'space-between',
 		'&:hover': {
-			fontWeight: 'bold',
+			backgroundColor: '#070707',
 		},
 		// paddingLeft: theme.spacing(1),
 		padding: theme.spacing(0.5, 2),
 	},
 	secondarySubListItem: {
-		cursor: 'pointer',
+		cursor: 'default',
 		justifyContent: 'space-between',
 		background: ' rgba(0, 0, 0, .2)',
-		'&:hover': {
-			fontWeight: 'bold',
-		},
+		'&:hover': {},
 		// paddingLeft: theme.spacing(1),
 		padding: theme.spacing(0.5, 2, 0.5, 3),
 	},
 	activeListItem: {
 		fontWeight: 'bold',
-		backgroundColor: theme.palette.background.default,
+		backgroundColor: '#070707',
+		borderRadius: theme.shape.borderRadius,
+		margin: theme.spacing(0, 1),
+		width: 'auto',
+		border: 0,
+		padding: theme.spacing(1, 2),
+		'&:hover': {
+			backgroundColor: '#070707',
+			cursor: 'default',
+		},
 	},
 
 	currency: {
@@ -117,7 +123,7 @@ export const Sidebar = observer(() => {
 		router: { goTo },
 		uiState: { sidebarOpen, closeSidebar, gasPrice, setGasPrice },
 		wallet: { gasPrices },
-		contracts: { badgerTree },
+		rewards: { badgerTree },
 	} = store;
 
 	const [expanded, setExpanded] = useState('');
@@ -143,16 +149,14 @@ export const Sidebar = observer(() => {
 						<img alt="" src={require('../../assets/badger-logo.png')} className={classes.logo} />
 						{/* <Chip label="v2.0.0" variant="outlined" color="primary" size="small" /> */}
 					</ListItem>
-					<ListItem />
-
-					<Wallet />
 
 					<ListItem
 						button
-						className={classes.divider}
 						onClick={() => setExpanded(expanded === 'advanced' ? '' : 'advanced')}
+						style={{ marginTop: '.5rem' }}
+						className={classes.listItem}
 					>
-						v2.1.0
+						v2.2.0
 						<IconButton
 							size="small"
 							className={classes.expand + ' ' + (expanded === 'advanced' ? classes.expandOpen : '')}
@@ -174,7 +178,6 @@ export const Sidebar = observer(() => {
 					</Collapse>
 
 					<ListItem
-						divider
 						button
 						onClick={() => {
 							closeSidebar();
@@ -191,7 +194,6 @@ export const Sidebar = observer(() => {
 					</ListItem>
 
 					<ListItem
-						divider
 						button
 						className={
 							classes.listItem +
@@ -206,7 +208,6 @@ export const Sidebar = observer(() => {
 						<ListItemText primary="Airdrops" />
 					</ListItem>
 					<ListItem
-						disabled
 						button
 						className={
 							classes.listItem + ' ' + (store.router.currentPath == '/digg' ? classes.activeListItem : '')
@@ -335,25 +336,6 @@ export const Sidebar = observer(() => {
 						}
 					>
 						Developer Program
-					</ListItem>
-
-					<ListItem key="gas">
-						<ButtonGroup variant="outlined" fullWidth>
-							<Button size="small" disabled>
-								<img src={require('assets/sidebar/gas.png')} className={classes.icon} />
-							</Button>
-
-							{['slow', 'standard', 'rapid'].map((speed: string, idx: number) => (
-								<Button
-									key={idx}
-									variant={gasPrice === speed ? 'contained' : 'outlined'}
-									size="small"
-									onClick={() => setGasPrice(speed)}
-								>
-									{(gasPrices[speed] / 1).toFixed(0)}
-								</Button>
-							))}
-						</ButtonGroup>
 					</ListItem>
 				</List>
 			</div>

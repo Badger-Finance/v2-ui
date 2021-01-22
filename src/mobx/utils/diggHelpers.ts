@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js';
 import { RPC_URL } from '../../config/constants';
 
-import { digg } from '../../config/system/digg';
+import { digg } from '../../config/system/rebase';
 
 const UPPER_LIMIT = 1.05 * 1e18;
 const LOWER_LIMIT = 0.95 * 1e18;
@@ -79,8 +79,8 @@ export const shortenNumbers = (value: BigNumber, prefix: string, preferredDecima
 		}
 
 	const fixedNormal = noCommas
-		? normal.toFixed(decimals, BigNumber.ROUND_DOWN)
-		: numberWithCommas(normal.toFixed(decimals, BigNumber.ROUND_DOWN));
+		? normal.toFixed(decimals, BigNumber.ROUND_HALF_FLOOR)
+		: numberWithCommas(normal.toFixed(decimals, BigNumber.ROUND_HALF_FLOOR));
 
 	return `${prefix} ${fixedNormal}${suffix}`;
 };
