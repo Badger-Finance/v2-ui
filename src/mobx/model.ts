@@ -74,14 +74,14 @@ export class Vault extends Token {
 
 	holdingsValue() {
 		return this.holdings
-			.dividedBy(1e18)
 			.multipliedBy(this.pricePerShare)
+			.dividedBy(1e18)
 			.multipliedBy(this.underlyingToken.ethValue);
 	}
 	balanceValue() {
 		return this.balance
-			.dividedBy(1e18)
 			.multipliedBy(this.pricePerShare)
+			.dividedBy(1e18)
 			.multipliedBy(this.underlyingToken.ethValue);
 	}
 
