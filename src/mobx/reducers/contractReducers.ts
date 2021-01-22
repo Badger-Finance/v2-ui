@@ -1,17 +1,24 @@
 import BigNumber from 'bignumber.js';
-import _ from 'lodash';
+import _, { stubString } from 'lodash';
 import { START_BLOCK } from 'config/constants';
 import { rewards } from 'config/system/geysers';
-
+import deploy from 'config/deployments/mainnet.json'
 import { batchConfig } from 'mobx/utils/web3';
 import { RootStore } from 'mobx/store';
 import { growthQuery, secondsToBlocks } from 'mobx/utils/helpers';
 
 export const reduceBatchResult = (result: any[]): any[] => {
 	return result.map((vault) => {
-		return _.mapValues(vault, (element: any) =>
-			Array.isArray(element) ? reduceResult(element[0].value) : reduceResult(element),
-		);
+		return _.mapValues(vault, (element: any, key: any) => {
+			if (key === 'getUnlockSchedulesFor' && Array.isArray(element)) { // handle special case for multiple values
+				const newElement: { [index: string]: any } = {}
+				element.forEach(e => {
+					newElement[e.args[0]] = e.value;
+				});
+				element = newElement;
+			}
+			return Array.isArray(element) ? reduceResult(element[0].value) : reduceResult(element);
+		});
 	});
 };
 
@@ -182,45 +189,62 @@ export const reduceGrowth = (graphResult: any[], periods: number[], startDate: D
 	});
 };
 
-export const reduceGeyserSchedule = (schedule: any, store: RootStore) => {
-	let locked = new BigNumber(0);
-	let timestamp = new BigNumber(new Date().getTime() / 1000.0);
+export const reduceGeyserSchedule = (schedules: any, store: RootStore) => {
 
-	console.log(schedule)
+	// console.log(JSON.stringify(schedules))
+	console.log(_.keysIn(schedules))
 
-	const period = { start: timestamp, end: timestamp };
+	return _.compact(_.map(schedules, (schedule: any[], tokenAddress: string) => {
+		let locked = new BigNumber(0);
+		let timestamp = new BigNumber(new Date().getTime() / 1000.0);
 
-	let lockedAllTime = new BigNumber(0);
-	const periodAllTime = { start: timestamp, end: timestamp };
+		const period = { start: timestamp, end: timestamp };
 
-	schedule.forEach((block: any) => {
-		const [initialLocked, endAtSec, , startTime] = _.valuesIn(block).map((val: any) => new BigNumber(val));
-		if (timestamp.gt(startTime) && timestamp.lt(endAtSec)) {
-			locked = locked.plus(initialLocked);
-			if (startTime.lt(period.start)) period.start = startTime;
-			if (endAtSec.gt(period.end)) period.end = endAtSec;
-		}
+		let lockedAllTime = new BigNumber(0);
+		const periodAllTime = { start: timestamp, end: timestamp };
 
-		lockedAllTime = lockedAllTime.plus(initialLocked);
-		if (startTime.lt(periodAllTime.start)) periodAllTime.start = startTime;
-		if (endAtSec.gt(periodAllTime.end)) periodAllTime.end = endAtSec;
-	});
-	let badgerPerSecond = locked.dividedBy(period.end.minus(period.start));
-	const badgerPerSecondAllTime = lockedAllTime.dividedBy(periodAllTime.end.minus(periodAllTime.start));
+		console.log(schedule)
 
-	if (!badgerPerSecond || badgerPerSecond.eq(0))
-		badgerPerSecond = badgerPerSecondAllTime.dividedBy(365 * 60 * 60 * 24);
+		schedule.forEach((block: any) => {
+			let [initialLocked, endAtSec, , startTime] = _.valuesIn(block).map((val: any) => new BigNumber(val));
 
-	let periods = {
-		day: badgerPerSecond.multipliedBy(60 * 60 * 24),
-		week: badgerPerSecond.multipliedBy(60 * 60 * 24 * 7),
-		month: badgerPerSecond.multipliedBy(60 * 60 * 24 * 30),
-		year: badgerPerSecondAllTime.multipliedBy(60 * 60 * 24 * 365),
-	};
-	return _.mapValues(periods, (amount: BigNumber) => ({
-		amount: amount,
-		token: store.contracts.tokens[rewards.tokens[0]],
-	}));
+
+			// if (tokenAddress.toLowerCase() === deploy.digg_system.uFragments.toLowerCase()) {
+			// 	startTime = startTime.minus(10000)
+			// 	endAtSec = endAtSec.minus(10000)
+			// 	console.log('digg')
+			// }
+
+			if (timestamp.gt(startTime) && timestamp.lt(endAtSec)) {
+				locked = locked.plus(initialLocked);
+				if (startTime.lt(period.start)) period.start = startTime;
+				if (endAtSec.gt(period.end)) period.end = endAtSec;
+			}
+
+			lockedAllTime = lockedAllTime.plus(initialLocked);
+			if (startTime.lt(periodAllTime.start)) periodAllTime.start = startTime;
+			if (endAtSec.gt(periodAllTime.end)) periodAllTime.end = endAtSec;
+		});
+
+		let duration = period.end.minus(period.start)
+		let rps = locked.dividedBy(duration.isNaN() ? 1 : duration);
+		const rpsAllTime = lockedAllTime.dividedBy(periodAllTime.end.minus(periodAllTime.start));
+
+		if (!rps || rps.eq(0))
+			rps = rpsAllTime.dividedBy(365 * 60 * 60 * 24);
+
+		let periods = {
+			day: rps.multipliedBy(60 * 60 * 24),
+			week: rps.multipliedBy(60 * 60 * 24 * 7),
+			month: rps.multipliedBy(60 * 60 * 24 * 30),
+			year: rpsAllTime.multipliedBy(60 * 60 * 24 * 365),
+		};
+		return _.mapValues(periods, (amount: BigNumber) => ({
+			amount: amount,
+			token: store.contracts.tokens[tokenAddress.toLowerCase()],
+		}));
+	}))
+
 };
 
 export const reduceContractConfig = (configs: any[], payload: any = {}) => {

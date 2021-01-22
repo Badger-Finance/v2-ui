@@ -100,7 +100,7 @@ export class Geyser extends Contract {
 	public vault!: Vault;
 	public holdings!: BigNumber;
 	public balance!: BigNumber;
-	public rewards!: Growth;
+	public rewards!: Growth[];
 	public abi!: any;
 
 	constructor(store: RootStore, address: string, vault: Vault, abi: any) {

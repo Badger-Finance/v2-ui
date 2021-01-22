@@ -193,13 +193,16 @@ export function formatAmount(amount: Amount) {
 export function formatGeyserGrowth(geyser: Geyser, period: string) {
 	let total = new BigNumber(0);
 	let tooltip = '';
+	_.map(geyser.rewards, (growth: Growth) => {
+		let rewards = (growth as any)[period]
 
-	let rewards = (geyser.rewards as any)[period];
-	if (!!rewards && !rewards.amount.isNaN() && rewards.amount.gt(0)) {
-		let geyserRewards = formatReturn(rewards, geyser);
-		total = total.plus(geyserRewards.total);
-		tooltip += geyserRewards.tooltip + '% Badger';
-	}
+		if (!!rewards.amount && !rewards.amount.isNaN() && rewards.amount.gt(0)) {
+			let geyserRewards = formatReturn(rewards, geyser);
+			total = total.plus(geyserRewards.total);
+			if (geyserRewards.tooltip !== '')
+				tooltip += ' + ' + geyserRewards.tooltip + `% ${rewards.token.symbol}`;
+		}
+	})
 	return { total, tooltip };
 }
 
@@ -228,7 +231,7 @@ export function formatVaultGrowth(vault: Vault, period: string) {
 	if (!!vault.geyser) {
 		let geyserGrowth = formatGeyserGrowth(vault.geyser, period);
 
-		tooltip += ' + ' + geyserGrowth.tooltip;
+		tooltip += geyserGrowth.tooltip;
 		total = total.plus(geyserGrowth.total);
 	}
 
