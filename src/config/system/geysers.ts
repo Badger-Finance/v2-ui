@@ -18,6 +18,10 @@ export const geyserBatches = [
 				args: [deploy.token],
 			},
 			{
+				name: 'getUnlockSchedulesFor',
+				args: [deploy.diggToken],
+			},
+			{
 				name: 'totalStaked',
 			},
 			{
@@ -53,6 +57,10 @@ export const geyserBatches = [
 			{
 				name: 'getUnlockSchedulesFor',
 				args: [deploy.token],
+			},
+			{
+				name: 'getUnlockSchedulesFor',
+				args: [deploy.diggToken],
 			},
 			{
 				name: 'totalStaked',

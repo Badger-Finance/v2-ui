@@ -9,9 +9,16 @@ import { growthQuery, secondsToBlocks } from 'mobx/utils/helpers';
 
 export const reduceBatchResult = (result: any[]): any[] => {
 	return result.map((vault) => {
-		return _.mapValues(vault, (element: any) =>
-			Array.isArray(element) ? reduceResult(element[0].value) : reduceResult(element),
-		);
+		return _.mapValues(vault, (element: any, key: any) => {
+			if (key === 'getUnlockSchedulesFor' && Array.isArray(element)) { // handle special case for multiple values
+				const newElement: {[index: string]:any} = {}
+				element.forEach(e => {
+					newElement[e.args[0]] = e.value;
+				});
+				element = newElement;
+			}
+			return Array.isArray(element) ? reduceResult(element[0].value) : reduceResult(element);
+		});
 	});
 };
 
@@ -183,42 +190,58 @@ export const reduceGrowth = (graphResult: any[], periods: number[], startDate: D
 };
 
 export const reduceGeyserSchedule = (schedule: any, store: RootStore) => {
-	let locked = new BigNumber(0);
-	let timestamp = new BigNumber(new Date().getTime() / 1000.0);
+	const lockScheules = Object.entries(schedule).map((entry: any) => {
+		let locked = new BigNumber(0);
+		let timestamp = new BigNumber(new Date().getTime() / 1000.0);
+	
+		const period = { start: timestamp, end: timestamp };
+	
+		let lockedAllTime = new BigNumber(0);
+		const periodAllTime = { start: timestamp, end: timestamp };
+		const unlockSchedules = entry[1];
+		
+		unlockSchedules.forEach((s: any) => {
+			const [initialLocked, endAtSec, , startTime] = _.valuesIn(s).map((val: any) => new BigNumber(val));
+			if (timestamp.gt(startTime) && timestamp.lt(endAtSec)) {
+				locked = locked.plus(initialLocked);
+				if (startTime.lt(period.start)) period.start = startTime;
+				if (endAtSec.gt(period.end)) period.end = endAtSec;
+			}
+	
+			lockedAllTime = lockedAllTime.plus(initialLocked);
+			if (startTime.lt(periodAllTime.start)) periodAllTime.start = startTime;
+			if (endAtSec.gt(periodAllTime.end)) periodAllTime.end = endAtSec;
+		});
 
-	const period = { start: timestamp, end: timestamp };
-
-	let lockedAllTime = new BigNumber(0);
-	const periodAllTime = { start: timestamp, end: timestamp };
-
-	schedule.forEach((block: any) => {
-		const [initialLocked, endAtSec, , startTime] = _.valuesIn(block).map((val: any) => new BigNumber(val));
-		if (timestamp.gt(startTime) && timestamp.lt(endAtSec)) {
-			locked = locked.plus(initialLocked);
-			if (startTime.lt(period.start)) period.start = startTime;
-			if (endAtSec.gt(period.end)) period.end = endAtSec;
+		return {
+			token: entry[0].toLowerCase(),
+			locked: locked,
+			period: period,
+			lockedAllTime: lockedAllTime,
+			periodAllTime: periodAllTime,
 		}
-
-		lockedAllTime = lockedAllTime.plus(initialLocked);
-		if (startTime.lt(periodAllTime.start)) periodAllTime.start = startTime;
-		if (endAtSec.gt(periodAllTime.end)) periodAllTime.end = endAtSec;
 	});
-	let badgerPerSecond = locked.dividedBy(period.end.minus(period.start));
-	const badgerPerSecondAllTime = lockedAllTime.dividedBy(periodAllTime.end.minus(periodAllTime.start));
 
-	if (!badgerPerSecond || badgerPerSecond.eq(0))
-		badgerPerSecond = badgerPerSecondAllTime.dividedBy(365 * 60 * 60 * 24);
+	return lockScheules.map(lockSchedule => {
+		const { token, locked, lockedAllTime, period, periodAllTime } = lockSchedule;
+		const duration = period.end.minus(period.start);
+		let tokenPerSecond = duration.gt(new BigNumber(0)) ? locked.dividedBy(period.end.minus(period.start)) : new BigNumber(0);
+		const tokenPerSecondAllTime = lockedAllTime.dividedBy(periodAllTime.end.minus(periodAllTime.start));
 
-	let periods = {
-		day: badgerPerSecond.multipliedBy(60 * 60 * 24),
-		week: badgerPerSecond.multipliedBy(60 * 60 * 24 * 7),
-		month: badgerPerSecond.multipliedBy(60 * 60 * 24 * 30),
-		year: badgerPerSecondAllTime.multipliedBy(60 * 60 * 24 * 365),
-	};
-	return _.mapValues(periods, (amount: BigNumber) => ({
-		amount: amount,
-		token: store.contracts.tokens[rewards.tokens[0]],
-	}));
+		if (!tokenPerSecond || (tokenPerSecond.eq(0) && duration.gt(new BigNumber(0))))
+			tokenPerSecond = tokenPerSecondAllTime.dividedBy(365 * 60 * 60 * 24);
+	
+		let periods = {
+			day: tokenPerSecond.multipliedBy(60 * 60 * 24),
+			week: tokenPerSecond.multipliedBy(60 * 60 * 24 * 7),
+			month: tokenPerSecond.multipliedBy(60 * 60 * 24 * 30),
+			year: tokenPerSecondAllTime.multipliedBy(60 * 60 * 24 * 365),
+		};
+		return _.mapValues(periods, (amount: BigNumber) => ({
+			amount: amount,
+			token: store.contracts.tokens[token],
+		}));
+	});
 };
 
 export const reduceContractConfig = (configs: any[], payload: any = {}) => {

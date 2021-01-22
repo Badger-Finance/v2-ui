@@ -229,7 +229,7 @@ class ContractsStore {
 						});
 
 					//TODO: xSushi ROI not added in here - need vault balance which doesn't seem to be set.
-					console.log(vault)
+					// console.log(vault)
 
 					vault.update(
 						_.defaultsDeep(contract, defaults[contract.address], { growth: _.compact([growth, xSushiGrowth]) }),
@@ -247,6 +247,7 @@ class ContractsStore {
 			geyserBatches,
 			connectedAddress && { connectedAddress },
 		);
+		// console.log(batch)
 
 		batchCall
 			.execute(batch)
@@ -262,6 +263,7 @@ class ContractsStore {
 						this.vaults[vaultAddress],
 						defaults[contract.address].abi,
 					);
+					// console.log(contract)
 					geyser.update(_.defaultsDeep(contract, defaults[contract.address]));
 				});
 				callback();
