@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
+import _ from 'lodash';
 import {
 	Grid,
 	Container,
@@ -26,6 +27,7 @@ import { CLAIMS_SYMBOLS } from 'config/constants';
 import { formatPrice } from 'mobx/reducers/statsReducers';
 import useInterval from '@use-it/interval';
 import Hero from 'components/Common/Hero';
+
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -131,30 +133,34 @@ export const Collection = observer(() => {
 	const spacer = () => <div className={classes.before} />;
 
 	const availableRewards = () => {
-		return badgerTree.claims.map((claim: string, idx: number) => (
-			<Grid key={claim} item xs={12} md={6}>
-				<Paper className={classes.statPaper}>
-					<List style={{ padding: 0 }}>
-						<ListItem className={classes.rewardItem} key={idx}>
-							<ListItemText primary={claim} secondary={`${CLAIMS_SYMBOLS[idx]} Available to Claim`} />
-							<ListItemSecondaryAction>
-								<ButtonGroup size="small" variant="outlined" color="primary">
-									<Button
-										onClick={() => {
-											claimGeysers(false);
-										}}
-										variant="contained"
-									>
-										Claim
+		return badgerTree.claims.map((claim: string, idx: number) => {
+			return (parseFloat(CLAIMS_SYMBOLS[idx]) > 0) && (
+				<Grid key={claim} item xs={12} md={6}>
+					<Paper className={classes.statPaper}>
+						<List style={{ padding: 0 }}>
+							<ListItem className={classes.rewardItem} key={idx}>
+								<ListItemText primary={claim} secondary={`${CLAIMS_SYMBOLS[idx]} Available to Claim`} />
+								<ListItemSecondaryAction>
+									<ButtonGroup size="small" variant="outlined" color="primary">
+										<Button
+											onClick={() => {
+												claimGeysers(false);
+											}}
+											variant="contained"
+										>
+											Claim
 									</Button>
-								</ButtonGroup>
-							</ListItemSecondaryAction>
-						</ListItem>
-					</List>
-				</Paper>
-			</Grid>
-		));
+									</ButtonGroup>
+								</ListItemSecondaryAction>
+							</ListItem>
+						</List>
+					</Paper>
+				</Grid>
+			)
+		});
 	};
+
+	const rewards = _.compact(availableRewards())
 
 	return (
 		<>
@@ -245,14 +251,14 @@ export const Collection = observer(() => {
 
 					{spacer()}
 
-					{!!connectedAddress && badgerTree.claims.length > 0 && (
+					{!!connectedAddress && rewards.length > 0 && badgerTree.claims.length > 0 && (
 						<>
 							<Grid item xs={12} style={{ textAlign: 'center', paddingBottom: 0 }}>
 								<Typography variant="subtitle1" color="textPrimary">
 									Available Rewards:
 								</Typography>
 							</Grid>
-							{availableRewards()}
+							{rewards}
 						</>
 					)}
 
