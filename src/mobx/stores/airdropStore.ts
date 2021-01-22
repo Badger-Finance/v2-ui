@@ -38,7 +38,7 @@ class AirdropStore {
 
 	fetchAirdrops = action(() => {
 		const { provider, connectedAddress, isCached } = this.store.wallet;
-		const {} = this.store.uiState;
+		const { } = this.store.uiState;
 		// console.log('fetching', connectedAddress)
 
 		if (!connectedAddress) return;
@@ -49,7 +49,7 @@ class AirdropStore {
 		const checksumAddress = connectedAddress.toLowerCase();
 		// console.log('fetching', `${airdropsConfig.endpoint}/${checksumAddress}`)
 
-		jsonQuery(`${airdropsConfig.endpoint}/1337/${checksumAddress}`).then((merkleProof: any) => {
+		jsonQuery(`${airdropsConfig.endpoint}/${checksumAddress}`).then((merkleProof: any) => {
 			// console.log('proof', new BigNumber(Web3.utils.hexToNumberString(merkleProof.amount)).toString())
 			if (!merkleProof.error) {
 				Promise.all([

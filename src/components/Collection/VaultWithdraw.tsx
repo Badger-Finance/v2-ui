@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
 		marginBottom: theme.spacing(1),
 	},
 	field: {
-		margin: theme.spacing(0, 0, 1),
+		margin: theme.spacing(1, 0, 1),
 	},
 }));
 export const VaultWithdraw = observer((props: any) => {
@@ -26,9 +26,9 @@ export const VaultWithdraw = observer((props: any) => {
 	const { register, handleSubmit, watch, setValue } = useForm({ mode: 'all' });
 
 	const {
-		router: {},
+		router: { },
 		wallet: { connectedAddress },
-		uiState: {},
+		uiState: { },
 	} = store;
 
 	const percentageOfBalance = (percent: number) => {

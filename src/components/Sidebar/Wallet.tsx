@@ -87,7 +87,7 @@ export const Wallet = observer(() => {
 				}}
 				endIcon={<div className={!!connectedAddress ? classes.greenDot : classes.redDot} />}
 			>
-				{!!connectedAddress ? shortenAddress(connectedAddress) : 'DISCONNECTED'}
+				{!!connectedAddress ? shortenAddress(connectedAddress) : 'CLICK TO CONNECT'}
 			</Button>
 		</div>
 	);
