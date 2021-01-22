@@ -63,7 +63,7 @@ export const TokenCard = observer((props: any) => {
 
 	const { underlyingToken: token } = vault;
 
-	if (!token || !vault.geyser) {
+	if (!token) {
 		return <div />;
 	}
 	// const [update, forceUpdate] = useState<boolean>();
@@ -94,7 +94,7 @@ export const TokenCard = observer((props: any) => {
 
 				<Grid item xs={6} md={2}>
 					<Typography variant="body1" color={'textPrimary'}>
-						{!isGlobal ? formatBalance(token) : formatGeyserHoldings(vault.geyser)}
+						{!isGlobal ? formatBalance(token) : formatGeyserHoldings(vault)}
 					</Typography>
 				</Grid>
 				<Grid item className={classes.mobileLabel} xs={6}>
