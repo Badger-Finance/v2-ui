@@ -10,17 +10,18 @@ import { growthQuery, secondsToBlocks } from 'mobx/utils/helpers';
 export const reduceBatchResult = (result: any[]): any[] => {
 	return result.map((vault) => {
 		return _.mapValues(vault, (element: any, key: any) => {
-			if (key === 'getUnlockSchedulesFor' && Array.isArray(element)) { // handle special case for multiple values
-				const newElement: { [index: string]: any } = {}
-				element.forEach(e => {
+			if (key === 'getUnlockSchedulesFor') { // handle special case for multiple values
+				let newElement: any = {}
+				element.forEach((e: any) => {
 					newElement[e.args[0]] = e.value;
 				});
-				element = newElement;
+				return newElement;
 			}
 			return Array.isArray(element) ? reduceResult(element[0].value) : reduceResult(element);
 		});
 	});
 };
+
 
 export const reduceResult = (value: any): any => {
 	if (/^-?\d+$/.test(value)) return new BigNumber(value);
@@ -98,6 +99,7 @@ export const reduceGraphResult = (graphResult: any[]) => {
 		}
 
 		const tokenAddress = !!element.data.pair ? element.data.pair.id : element.data.token.id;
+
 
 		return {
 			address: tokenAddress.toLowerCase(),
@@ -207,13 +209,6 @@ export const reduceGeyserSchedule = (schedules: any, store: RootStore) => {
 
 		schedule.forEach((block: any) => {
 			let [initialLocked, endAtSec, , startTime] = _.valuesIn(block).map((val: any) => new BigNumber(val));
-
-
-			// if (tokenAddress.toLowerCase() === deploy.digg_system.uFragments.toLowerCase()) {
-			// 	startTime = startTime.minus(10000)
-			// 	endAtSec = endAtSec.minus(10000)
-			// 	console.log('digg')
-			// }
 
 			if (timestamp.gt(startTime) && timestamp.lt(endAtSec)) {
 				locked = locked.plus(initialLocked);

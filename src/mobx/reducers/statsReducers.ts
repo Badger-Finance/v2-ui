@@ -123,6 +123,7 @@ function formatReturn(amount: Amount, geyser: Geyser) {
 	let geyserValue = geyser.holdingsValue();
 
 	let total = returnValue.dividedBy(geyserValue);
+	total = total.isNaN() ? new BigNumber(1) : total
 	let tooltip = formatPercentage(total);
 
 	return { total, tooltip };

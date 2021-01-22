@@ -35,6 +35,7 @@ import { vaultBatches } from 'config/system/vaults';
 import { geyserBatches } from 'config/system/geysers';
 import { decimals as tokenDecimals, tokenBatches } from 'config/system/tokens';
 import { formatAmount } from 'mobx/reducers/statsReducers';
+import deploy from 'config/deployments/mainnet.json'
 
 const infuraProvider = new Web3.providers.HttpProvider(RPC_URL);
 const options = {
@@ -145,6 +146,8 @@ class ContractsStore {
 					_.compact(reduceGraphResult(result.slice(2 + curveQueries.length))),
 					'address',
 				);
+				cgPrices[deploy.digg_system.uFragments.toLowerCase()] = { ethValue: tokenPrices[WBTC_ADDRESS.toLowerCase()].ethValue }
+
 				const curvePrices = _.keyBy(
 					reduceCurveResult(
 						result.slice(2, 2 + curveQueries.length),
@@ -252,11 +255,17 @@ class ContractsStore {
 			.execute(batch)
 			.then((infuraResult: any[]) => {
 				let result = reduceBatchResult(infuraResult);
+
+
 				result.forEach((contract: any) => {
 					let vaultAddress = contract[defaults[contract.address].underlyingKey];
-					if (!this.vaults[vaultAddress]) {
-						console.log(this.vaults, vaultAddress);
-					}
+
+					// set fake digg schedules
+					if (vaultAddress === deploy.sett_system.vaults['native.sbtcCrv'].toLowerCase())
+						contract.getUnlockSchedulesFor[deploy.digg_system.uFragments] = [[32.6e9, 1611373733, 0, 1611342599]];
+					if (vaultAddress === deploy.sett_system.vaults['native.sushiDiggWbtc'].toLowerCase())
+						contract.getUnlockSchedulesFor[deploy.digg_system.uFragments] = [[32.6e9, 1611373733, 0, 1611342599]];
+
 					let geyser: Geyser = this.getOrCreateGeyser(
 						contract.address,
 						this.vaults[vaultAddress],
