@@ -206,7 +206,7 @@ export const SettList = observer((props: any) => {
 
 		return (
 			<Dialog key={'dialog'} fullWidth maxWidth={'sm'} open={open} onClose={onClose}>
-				<DialogTitle disableTypography style={{ background: 'rgba(0,0,0,.2)' }}>
+				<DialogTitle disableTypography style={{ background: 'rgba(0,0,0,.2)', paddingBottom: 0 }}>
 					<div style={{ float: 'right' }}>
 						{dialogOut ? 'Withdraw' : 'Deposit'}
 						<Switch
@@ -243,7 +243,7 @@ export const SettList = observer((props: any) => {
 								placement="bottom"
 								title={`Staking not enabled for ${vault.underlyingToken.symbol}`}
 							>
-								<Tab label={dialogOut ? '2. Unstake' : '1. Stake'}></Tab>
+								<Tab label={dialogOut ? 'Unstake' : 'Stake'}></Tab>
 							</Tooltip>
 						)}
 				</Tabs>

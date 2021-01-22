@@ -143,7 +143,7 @@ export function formatBalance(token: Token) {
 	return inCurrency(token.balance.dividedBy(10 ** token.decimals), 'eth', true);
 }
 export function formatGeyserBalance(geyser: Geyser) {
-	return inCurrency(geyser.balance.dividedBy(10e18), 'eth', true);
+	return inCurrency(geyser.balance.plus(geyser.vault.balance).multipliedBy(geyser.vault.pricePerShare).dividedBy(1e18), 'eth', true);
 }
 
 export function formatTotalStaked(geyser: Geyser) {
@@ -163,7 +163,7 @@ export function formatBalanceValue(token: Token, currency: string) {
 }
 
 export function formatGeyserBalanceValue(geyser: Geyser, currency: string) {
-	return inCurrency(geyser.balanceValue().dividedBy(1e18), currency, true);
+	return inCurrency(geyser.balanceValue().plus(geyser.vault.balanceValue()).dividedBy(1e18), currency, true);
 }
 
 export function formatVaultBalanceValue(vault: Vault, currency: string) {

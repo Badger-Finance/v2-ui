@@ -133,26 +133,32 @@ class ContractsStore {
 
 		// prepare price queries
 		const graphQueries = _.flatten(_.map(tokenBatches[0].contracts, (address: string) => graphQuery(address)));
+
+		const cgQueries = vanillaQuery(`https://api.coingecko.com/api/v3/simple/token_price/ethereum?contract_addresses=${tokenBatches[0].contracts.join(',')}&vs_currencies=eth`)
+
 		// console.log(batch)
-		Promise.all([batchCall.execute(batch), ...curveQueries, ...graphQueries])
+		Promise.all([cgQueries, batchCall.execute(batch), ...curveQueries, ...graphQueries])
 			.then((result: any[]) => {
-				const tokenContracts = _.keyBy(reduceBatchResult(_.flatten(result.slice(0, 1))), 'address');
+				const cgPrices = _.mapValues(result.slice(0, 1)[0], (price: any) => ({ ethValue: new BigNumber(price.eth).multipliedBy(1e18) }));
+				const tokenContracts = _.keyBy(reduceBatchResult(_.flatten(result.slice(1, 2))), 'address');
 				const tokenPrices = _.keyBy(
-					_.compact(reduceGraphResult(result.slice(1 + curveQueries.length))),
+					_.compact(reduceGraphResult(result.slice(2 + curveQueries.length))),
 					'address',
 				);
 				const curvePrices = _.keyBy(
 					reduceCurveResult(
-						result.slice(1, 1 + curveQueries.length),
+						result.slice(2, 2 + curveQueries.length),
 						curveTokens.contracts,
 						this.tokens,
 						tokenPrices[WBTC_ADDRESS],
 					),
 					'address',
 				);
+				console.log(cgPrices, result.slice(0, 1)[0])
 				const tokens = _.compact(
 					_.values(
 						_.defaultsDeep(
+							cgPrices,
 							curvePrices,
 							tokenPrices,
 							tokenContracts,
@@ -426,7 +432,7 @@ class ContractsStore {
 	});
 
 	getAllowance = action((underlyingAsset: any, spender: string, callback: (err: any, result: any) => void) => {
-		const {} = this.store.uiState;
+		const { } = this.store.uiState;
 		const { provider, connectedAddress } = this.store.wallet;
 
 		const web3 = new Web3(provider);
@@ -449,8 +455,7 @@ class ContractsStore {
 		const geyserContract = new web3.eth.Contract(geyser.abi, geyser.address);
 		const method = geyserContract.methods.stake(amount.toFixed(0, BigNumber.ROUND_DOWN), EMPTY_DATA);
 		queueNotification(
-			`Sign the transaction to stake ${formatAmount({ amount: amount, token: underlyingAsset })} ${
-				underlyingAsset.symbol
+			`Sign the transaction to stake ${formatAmount({ amount: amount, token: underlyingAsset })} ${underlyingAsset.symbol
 			}`,
 			'info',
 		);
@@ -467,8 +472,7 @@ class ContractsStore {
 					})
 					.on('receipt', () => {
 						queueNotification(
-							`Successfully deposited ${formatAmount({ amount: amount, token: underlyingAsset })} ${
-								underlyingAsset.symbol
+							`Successfully deposited ${formatAmount({ amount: amount, token: underlyingAsset })} ${underlyingAsset.symbol
 							}`,
 							'success',
 						);
@@ -492,8 +496,7 @@ class ContractsStore {
 		const method = geyserContract.methods.unstake(amount.toFixed(0, BigNumber.ROUND_DOWN), EMPTY_DATA);
 
 		queueNotification(
-			`Sign the transaction to unstake ${formatAmount({ amount: amount, token: geyser.vault.underlyingToken })} ${
-				geyser.vault.underlyingToken.symbol
+			`Sign the transaction to unstake ${formatAmount({ amount: amount, token: geyser.vault.underlyingToken })} ${geyser.vault.underlyingToken.symbol
 			}`,
 			'info',
 		);
@@ -539,8 +542,7 @@ class ContractsStore {
 		if (all) method = underlyingContract.methods.depositAll();
 
 		queueNotification(
-			`Sign the transaction to wrap ${formatAmount({ amount: amount, token: vault.underlyingToken })} ${
-				vault.underlyingToken.symbol
+			`Sign the transaction to wrap ${formatAmount({ amount: amount, token: vault.underlyingToken })} ${vault.underlyingToken.symbol
 			}`,
 			'info',
 		);
@@ -557,8 +559,7 @@ class ContractsStore {
 					})
 					.on('receipt', () => {
 						queueNotification(
-							`Successfully deposited ${formatAmount({ amount: amount, token: vault.underlyingToken })} ${
-								vault.underlyingToken.symbol
+							`Successfully deposited ${formatAmount({ amount: amount, token: vault.underlyingToken })} ${vault.underlyingToken.symbol
 							}`,
 							'success',
 						);
@@ -586,8 +587,7 @@ class ContractsStore {
 		if (all) method = underlyingContract.methods.withdrawAll();
 
 		queueNotification(
-			`Sign the transaction to unwrap ${formatAmount({ amount: amount, token: vault.underlyingToken })} ${
-				vault.symbol
+			`Sign the transaction to unwrap ${formatAmount({ amount: amount, token: vault.underlyingToken })} ${vault.symbol
 			}`,
 			'info',
 		);
@@ -604,8 +604,7 @@ class ContractsStore {
 					})
 					.on('receipt', () => {
 						queueNotification(
-							`Successfully withdrew ${formatAmount({ amount: amount, token: vault.underlyingToken })} ${
-								vault.symbol
+							`Successfully withdrew ${formatAmount({ amount: amount, token: vault.underlyingToken })} ${vault.symbol
 							}`,
 							'success',
 						);
