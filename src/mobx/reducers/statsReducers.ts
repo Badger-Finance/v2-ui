@@ -30,7 +30,7 @@ export const reduceRebaseToStats = (store: RootStore) => {
 	const token = tokens[diggToken.contract];
 
 	return {
-		nextRebase: new Date(1609106345791),
+		nextRebase: new Date('Jan 23 8:00PM UTC'),
 		oracleRate: inCurrency(token.ethValue, currency),
 		totalSupply: !!token.totalSupply && inCurrency(token.totalSupply.multipliedBy(1e9), 'eth', true),
 	};
