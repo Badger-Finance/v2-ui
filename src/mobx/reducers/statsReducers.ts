@@ -72,7 +72,7 @@ export const reduceAirdrops = (airdrops: any, store: RootStore) => {
 	if (!airdrops.digg) {
 		return {};
 	}
-	return { digg: { amount: airdrops.digg, token: store.contracts.tokens[rewardsConfig.tokens[3]] } };
+	return { digg: { amount: airdrops.digg, token: store.contracts.tokens[rewardsConfig.tokens[1]] } };
 };
 function calculatePortfolioStats(vaultContracts: any, tokens: any, vaults: any, geyserContracts: any) {
 	let tvl = new BigNumber(0);
