@@ -4,8 +4,9 @@ import { observer } from 'mobx-react-lite';
 import DashboardCard from './DashboardCard';
 import Info from './Info';
 import React, { useContext, useState } from 'react';
-import { StoreContext } from '../../context/store-context';
+import { StoreContext } from '../../mobx/store-context';
 import views from '../../config/routes';
+import Hero from 'components/Common/Hero';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -16,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	before: {
-		marginTop: theme.spacing(3),
+		marginTop: theme.spacing(5),
 		width: '100%',
 	},
 	filters: {
@@ -39,6 +40,15 @@ const useStyles = makeStyles((theme) => ({
 		textAlign: 'center',
 		minHeight: '100%',
 	},
+	heroPaper: {
+		padding: theme.spacing(0, 0, 5),
+		minHeight: '100%',
+		background: 'none',
+		textAlign: 'center',
+		[theme.breakpoints.up('md')]: {
+			padding: theme.spacing(0, 5, 5),
+		},
+	},
 }));
 
 export const Digg = observer(() => {
@@ -54,26 +64,9 @@ export const Digg = observer(() => {
 	return (
 		<Container className={classes.root} maxWidth="lg">
 			<Grid container spacing={1}>
-				{spacer()}
-
-				<Grid item sm={6} xs={12}>
-					<Typography variant="h5" color="textPrimary">
-						Digg
-					</Typography>
-					<Typography variant="subtitle2" color="textPrimary">
-						Rebasing Bitcoin
-					</Typography>
+				<Grid item sm={12} xs={12}>
+					<Hero title="DIGG" subtitle="Pegged to Bitcoin. Governed by BadgerDAO." />
 				</Grid>
-				<Grid item sm={6} xs={12} className={classes.filters}>
-					{/* <ButtonGroup disabled variant="outlined" size="small" className={classes.buttonGroup}>
-						<Button>Deposit</Button>
-						<Button>Stake (0.00% APY)</Button>
-					</ButtonGroup> */}
-					<Button variant="contained" size="small" color="primary" onClick={() => goTo(views.home)}>
-						Stake
-					</Button>
-				</Grid>
-
 				<Info />
 
 				<Grid item xs={12}>

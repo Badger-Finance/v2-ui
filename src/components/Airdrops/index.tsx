@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import {
 	Grid,
@@ -15,7 +15,12 @@ import {
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { StoreContext } from '../../context/store-context';
+import { StoreContext } from '../../mobx/store-context';
+import { formatAmount } from 'mobx/reducers/statsReducers';
+import useInterval from '@use-it/interval';
+import Hero from 'components/Common/Hero';
+import views from '../../config/routes';
+
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -41,20 +46,30 @@ const useStyles = makeStyles((theme) => ({
 	statPaper: {
 		padding: theme.spacing(2),
 		textAlign: 'center',
+
 	},
 	before: {
-		marginTop: theme.spacing(3),
+		marginTop: theme.spacing(5),
 		width: '100%',
 	},
 	rewards: {
 		textAlign: 'right',
 	},
 	button: {
-		margin: theme.spacing(1, 0.5, 2, 0),
+		margin: theme.spacing(1, 1, 2, 0),
 	},
 	chip: {
-		margin: theme.spacing(0, 0, 0, 1),
+		margin: theme.spacing(0, 0, 0, 0),
 		// float: 'right'
+	},
+	heroPaper: {
+		padding: theme.spacing(5, 0),
+
+		minHeight: '100%',
+		background: 'none',
+		[theme.breakpoints.up('md')]: {
+			padding: theme.spacing(10, 0),
+		},
 	},
 }));
 export const Airdrops = observer(() => {
@@ -62,13 +77,16 @@ export const Airdrops = observer(() => {
 	const classes = useStyles();
 
 	const {
-		router: { },
+		router: { goTo },
 		wallet: { },
-		contracts: { claimBadgerAirdrops, claimDiggAirdrops },
+		airdrops: { claimBadgerAirdrops, claimDiggAirdrops },
 		uiState: { airdropStats, stats },
 	} = store;
 
 	const spacer = () => <div className={classes.before} />;
+
+	const [update, forceUpdate] = useState<boolean>();
+	useInterval(() => forceUpdate(!update), 1000);
 
 	const copy = () => {
 		const q = [
@@ -76,16 +94,23 @@ export const Airdrops = observer(() => {
 				title: `Stake`,
 				button: `Stake`,
 				badge: !!stats.stats.badgerGrowth && `Up to ${stats.stats.badgerGrowth}% APY`,
-				href: '/',
 				copy: 'Deposit in vaults to earn Badger and Digg',
 			},
 			// { title: "Liquidity", button: "Add Liquidity", badge: !!stats.stats.badgerLiqGrowth && `Up to ${stats.stats.badgerLiqGrowth}% APY`, href: "https://info.uniswap.org/pair/0xcd7989894bc033581532d2cd88da5db0a4b12859", copy: "Provide liquidity and stake LP in vaults." },
 			{
-				title: 'Liquidity',
+				title: 'Badger Liquidity',
 				button: 'Uniswap',
 				button2: 'Sushiswap',
 				href: 'https://info.uniswap.org/pair/0xcd7989894bc033581532d2cd88da5db0a4b12859',
 				href2: 'https://sushiswap.fi/pair/0x110492b31c59716ac47337e616804e3e3adc0b4a',
+				copy: 'Provide liquidity and stake LP in vaults.',
+			},
+			{
+				title: 'Digg Liquidity',
+				button: 'Uniswap',
+				button2: 'Sushiswap',
+				href: 'https://info.uniswap.org/pair/0xE86204c4eDDd2f70eE00EAd6805f917671F56c52',
+				href2: 'https://sushiswap.vision/pair/0x9a13867048e01c663ce8ce2fe0cdae69ff9f35e3',
 				copy: 'Provide liquidity and stake LP in vaults.',
 			},
 			{
@@ -96,17 +121,22 @@ export const Airdrops = observer(() => {
 			},
 		];
 		return q.map((qualifier, idx) => (
-			<Grid item xs={12} lg={4} style={{ textAlign: 'left' }} key={idx}>
-				<Typography variant="subtitle1">{qualifier.title}</Typography>
+			<Grid item xs={12} md={4} style={{ textAlign: 'left', marginBottom: '2rem' }} key={idx}>
+				<Typography variant="h4">{qualifier.title}</Typography>
 
-				<Typography variant="body2" color="textSecondary" style={{ margin: '.4rem 0 1rem' }}>
+				<Typography variant="body2" color="textSecondary" style={{ margin: '.4rem 0 .5rem' }}>
 					{qualifier.copy}
 				</Typography>
 
 				<Button
 					className={classes.button}
-					target="_blank"
-					href={qualifier.href}
+					onClick={() => {
+						if (!!qualifier.href) {
+							window.open(qualifier.href)
+						} else {
+							goTo(views.home)
+						}
+					}}
 					size="small"
 					variant="contained"
 					color="primary"
@@ -117,52 +147,47 @@ export const Airdrops = observer(() => {
 					<Chip
 						className={classes.chip}
 						label={qualifier.badge}
-						variant="outlined"
-						color="primary"
+						color="secondary"
 						size="small"
 					/>
 				)}
-				{!!qualifier.button2 && (
-					<Button
-						className={classes.button}
-						target="_blank"
-						href={qualifier.href2}
-						size="small"
-						variant="contained"
-						color="primary"
-					>
-						{qualifier.button2}
-					</Button>
-				)}
-			</Grid>
+				{
+					!!qualifier.button2 && (
+						<Button
+							className={classes.button}
+							target="_blank"
+							href={qualifier.href2}
+							size="small"
+							variant="outlined"
+							color="primary"
+							disableElevation
+						>
+							{qualifier.button2}
+						</Button>
+					)
+				}
+			</Grid >
 		));
 	};
 
 	return (
 		<Container className={classes.root}>
-			<Grid container spacing={1} justify="center">
+			<Grid container spacing={1} justify="flex-start">
 				{spacer()}
 
 				<Grid item sm={12} xs={12}>
-					<Typography variant="h5" color="textPrimary">
-						BadgerDAO accelerates Bitcoin in DeFi.
-					</Typography>
-					<Typography variant="subtitle2" color="textPrimary">
-						What to do with your Badger and Digg
-					</Typography>
+					<Hero
+						title="Community Rules."
+						subtitle="BadgerDAO is dedicated to building products and infrastructure to bring Bitcoin to DeFi."
+					/>
 				</Grid>
 				{spacer()}
 
-				{copy()}
-
-				{spacer()}
-
-				<Grid item xs={12} style={{ textAlign: 'left', paddingBottom: 0 }}>
-					<Typography variant="subtitle1" color="textPrimary">
+				<Grid item xs={12}>
+					<Typography variant="subtitle1" align="left">
 						Available Airdrops:
 					</Typography>
 				</Grid>
-
 				<Grid item xs={12} md={6}>
 					<Paper className={classes.statPaper}>
 						<List style={{ padding: 0 }}>
@@ -178,13 +203,7 @@ export const Airdrops = observer(() => {
 										>
 											Claim
 										</Button>
-										<Button
-											onClick={() => {
-												claimBadgerAirdrops(true);
-											}}
-										>
-											Deposit
-										</Button>
+
 									</ButtonGroup>
 								</ListItemSecondaryAction>
 							</ListItem>
@@ -195,10 +214,13 @@ export const Airdrops = observer(() => {
 					<Paper className={classes.statPaper}>
 						<List style={{ padding: 0 }}>
 							<ListItem style={{ margin: 0, padding: 0 }}>
-								<ListItemText primary={'0.00000'} secondary="DIGG available to claim" />
+								<ListItemText
+									primary={!!airdropStats.digg ? formatAmount(airdropStats.digg) : '0.00000'}
+									secondary="DIGG available to claim"
+								/>
 								<ListItemSecondaryAction>
 									<ButtonGroup
-										disabled={true}
+										disabled={!airdropStats.digg}
 										size="small"
 										variant="outlined"
 										color="primary"
@@ -211,19 +233,17 @@ export const Airdrops = observer(() => {
 										>
 											Claim
 										</Button>
-										<Button
-											onClick={() => {
-												claimDiggAirdrops(true);
-											}}
-										>
-											Deposit
-										</Button>
+
 									</ButtonGroup>
 								</ListItemSecondaryAction>
 							</ListItem>
 						</List>
 					</Paper>
 				</Grid>
+
+				{spacer()}
+				{spacer()}
+				{copy()}
 			</Grid>
 
 			{spacer()}

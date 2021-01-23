@@ -14,15 +14,21 @@ import {
 	CardContent,
 } from '@material-ui/core';
 import React, { useState, useContext } from 'react';
-import { StoreContext } from '../../context/store-context';
+import { StoreContext } from '../../mobx/store-context';
 import useInterval from '@use-it/interval';
 import { observer } from 'mobx-react-lite';
 import { Loader } from '../Loader';
 import Metric from './Metric';
-import { calculateNewSupply, shortenNumbers, numberWithCommas, getPercentageChange } from '../../mobx/utils/digHelpers';
+import {
+	calculateNewSupply,
+	shortenNumbers,
+	numberWithCommas,
+	getPercentageChange,
+} from '../../mobx/utils/diggHelpers';
 import { WBTC_ADDRESS } from '../../config/constants';
 import BigNumber from 'bignumber.js';
 import { ArrowRightAlt } from '@material-ui/icons';
+import { formatPrice } from 'mobx/reducers/statsReducers';
 
 const useStyles = makeStyles((theme) => ({
 	before: {
@@ -87,26 +93,27 @@ const useStyles = makeStyles((theme) => ({
 const Info = observer(() => {
 	const store = useContext(StoreContext);
 	const {
-		uiState: { rebaseStats },
+		uiState: { rebaseStats, currency },
 		contracts: { tokens },
+		rebase: { callRebase },
 	} = store;
 	const classes = useStyles();
 	const previousSupply =
 		rebaseStats.totalSupply && rebaseStats.pastRebase
 			? rebaseStats.totalSupply.minus(
-					new BigNumber(rebaseStats.pastRebase.requestedSupplyAdjustment).dividedBy(
-						Math.pow(10, rebaseStats.decimals),
-					),
-			  )
+				new BigNumber(rebaseStats.pastRebase.requestedSupplyAdjustment).dividedBy(
+					Math.pow(10, rebaseStats.decimals),
+				),
+			)
 			: null;
 	const [nextRebase, setNextRebase] = useState('00:00:00');
 	const newSupply =
 		rebaseStats.oracleRate && rebaseStats.totalSupply
 			? calculateNewSupply(
-					rebaseStats.oracleRate.toNumber(),
-					rebaseStats.totalSupply.toNumber(),
-					rebaseStats.rebaseLag,
-			  )
+				rebaseStats.oracleRate.toNumber(),
+				rebaseStats.totalSupply.toNumber(),
+				rebaseStats.rebaseLag,
+			)
 			: 0;
 	const isPositive = !newSupply || newSupply >= rebaseStats.totalSupply;
 	const percentage =
@@ -122,13 +129,12 @@ const Info = observer(() => {
 		if (!!rebaseStats && !!rebaseStats.nextRebase) {
 			const zero = new Date(0);
 
-			zero.setTime(rebaseStats.nextRebase.getTime() - new Date().getTime());
+			zero.setTime(new Date().getTime() - rebaseStats.nextRebase.getTime());
 			setNextRebase(zero.toISOString().substr(11, 8));
 		}
 	}, 1000);
 
 	const spacer = () => <div className={classes.before} />;
-	const mockDiggMarketCap = 506932023;
 
 	return (
 		<>
@@ -148,25 +154,25 @@ const Info = observer(() => {
 				<Metric
 					metric="Total Supply"
 					value={rebaseStats.totalSupply ? shortenNumbers(rebaseStats.totalSupply, '', 2) : '-'}
-					// submetrics={[
-					// 	{
-					// 		title: 'Change',
-					// 		value: previousSupply
-					// 			? getPercentageChange(rebaseStats.totalSupply, previousSupply).toFixed(2)
-					// 			: '-',
-					// 		change: true,
-					// 	},
-					// 	{
-					// 		title: 'Previous Supply',
-					// 		value: previousSupply ? shortenNumbers(previousSupply, '', 2) : '-',
-					// 	},
-					// ]}
+				// submetrics={[
+				// 	{
+				// 		title: 'Change',
+				// 		value: previousSupply
+				// 			? getPercentageChange(rebaseStats.totalSupply, previousSupply).toFixed(2)
+				// 			: '-',
+				// 		change: true,
+				// 	},
+				// 	{
+				// 		title: 'Previous Supply',
+				// 		value: previousSupply ? shortenNumbers(previousSupply, '', 2) : '-',
+				// 	},
+				// ]}
 				/>
 			</Grid>
 			<Grid item xs={6} md={4}>
 				<Metric
 					metric="Oracle Price"
-					value={rebaseStats.oraclePrice ? rebaseStats.oraclePrice : '-'}
+					value={formatPrice(rebaseStats.oraclePrice, currency)}
 					submetrics={
 						[
 							// { title: 'Change', value: '-13.40', change: true },
@@ -178,7 +184,7 @@ const Info = observer(() => {
 			<Grid item xs={6} md={4}>
 				<Metric
 					metric="BTC Price"
-					value={rebaseStats.btcPrice ? rebaseStats.btcPrice : '-'}
+					value={formatPrice(rebaseStats.btcPrice, currency)}
 					submetrics={
 						[
 							// { title: 'Change', value: '1.043', change: true },
@@ -187,8 +193,8 @@ const Info = observer(() => {
 					}
 				/>
 			</Grid>
-
-			<Grid item xs={12} style={{ textAlign: 'center', paddingBottom: 0 }}>
+			{spacer()}
+			<Grid item xs={12} style={{ textAlign: 'center' }}>
 				<Typography variant="subtitle1">Current Rebase</Typography>
 			</Grid>
 			<Grid item xs={12} md={6}>
@@ -198,7 +204,7 @@ const Info = observer(() => {
 							<ListItem>
 								<Typography variant="body2">Time to Rebase</Typography>
 								<ListItemSecondaryAction>
-									<Typography variant="body1">{nextRebase || '...'}</Typography>
+									<Typography variant="body1">2021-01-23 20:00:00 UTC</Typography>
 								</ListItemSecondaryAction>
 							</ListItem>
 
@@ -216,6 +222,7 @@ const Info = observer(() => {
 						<Button
 							size="small"
 							fullWidth
+							onClick={() => callRebase()}
 							variant="contained"
 							color="primary"
 							disabled={!rebaseStats.inRebaseWindow}
@@ -260,14 +267,12 @@ const Info = observer(() => {
 						>
 							How it works
 						</Button>
-						<Button variant="outlined" fullWidth size="small" color="default">
-							Get DIGG
-						</Button>
 					</CardActions>
 				</Card>
 			</Grid>
+			{spacer()}
 
-			<Grid item xs={12} style={{ textAlign: 'center', paddingBottom: 0 }}>
+			<Grid item xs={12} style={{ textAlign: 'center' }}>
 				<Typography variant="subtitle1">Charts</Typography>
 			</Grid>
 		</>

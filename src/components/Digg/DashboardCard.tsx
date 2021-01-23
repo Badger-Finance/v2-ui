@@ -57,7 +57,7 @@ const DashboardCard = observer((props: any) => {
 	const [range, setRange] = useState<number>(420);
 
 	const ranges = (
-		<ButtonGroup variant="outlined" size="small" aria-label="outlined button group">
+		<ButtonGroup disabled variant="outlined" size="small" aria-label="outlined button group">
 			<Button
 				disableElevation
 				variant={range === 1 ? 'contained' : 'outlined'}
@@ -85,6 +85,7 @@ const DashboardCard = observer((props: any) => {
 	return !!chartData ? (
 		<Card>
 			<Tabs
+
 				variant="fullWidth"
 				indicatorColor="primary"
 				value={['Supply', 'Price', 'Market cap'].indexOf(title)}
@@ -108,7 +109,7 @@ const DashboardCard = observer((props: any) => {
 				<AreaChart accent={'#F2A52B'} chartData={chartData} yPrefix={title === 'Price' && '$'} />
 			</CardContent>
 
-			<CardActions style={{ display: 'flex', justifyContent: 'center', marginBottom: '.75rem' }}>
+			{/* <CardActions style={{ display: 'flex', justifyContent: 'center', marginBottom: '.75rem' }}>
 				<div style={{ display: 'flex' }}>
 					<div style={{ marginLeft: '1rem', textAlign: 'center' }}>
 						<Typography variant="body2" color="textPrimary">
@@ -147,22 +148,22 @@ const DashboardCard = observer((props: any) => {
 						</Typography>
 					</div>
 				</div>
-			</CardActions>
+			</CardActions> */}
 		</Card>
 	) : (
-		<Card style={{ padding: '1rem .6rem' }}>
-			<CardContent
-				style={{
-					display: 'flex',
-					justifyContent: 'center',
-					alignItems: 'center',
-					minHeight: '10rem',
-				}}
-			>
-				<CircularProgress />
-			</CardContent>
-		</Card>
-	);
+			<Card style={{ padding: '1rem .6rem' }}>
+				<CardContent
+					style={{
+						display: 'flex',
+						justifyContent: 'center',
+						alignItems: 'center',
+						minHeight: '10rem',
+					}}
+				>
+					<CircularProgress />
+				</CardContent>
+			</Card>
+		);
 });
 
 const intToString = (n: number) => {

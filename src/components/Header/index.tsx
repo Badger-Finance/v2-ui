@@ -2,10 +2,19 @@ import React, { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import views from '../../config/routes';
 import { useContext } from 'react';
-import { StoreContext } from '../../context/store-context';
+import { StoreContext } from '../../mobx/store-context';
 import { Toolbar, AppBar, IconButton } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Menu } from '@material-ui/icons';
+import Notify from 'bnc-notify';
+
+var notify = Notify({
+	dappId: 'af74a87b-cd08-4f45-83ff-ade6b3859a07', // [String] The API key created by step one above
+	networkId: 1, // [Integer] The Ethereum network ID your Dapp uses.
+});
+notify.config({
+	darkMode: true, // (default: false)
+});
 
 import { useSnackbar } from 'notistack';
 
@@ -29,6 +38,12 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
+function addEtherscan(transaction: any) {
+	return {
+		link: `https://etherscan.io/tx/${transaction.hash}`,
+	};
+}
+
 export const Header = observer(() => {
 	const classes = useStyles();
 
@@ -42,7 +57,13 @@ export const Header = observer(() => {
 	const enq = () => {
 		if (!notification || !notification.message) return;
 
-		enqueueSnackbar(notification.message, { variant: notification.variant, persist: false });
+		if (notification.hash) {
+			// then on each transaction...
+			const { emitter } = notify.hash(notification.hash);
+			emitter.on('all', addEtherscan);
+		} else {
+			enqueueSnackbar(notification.message, { variant: notification.variant, persist: false });
+		}
 	};
 	useEffect(enq, [notification]);
 

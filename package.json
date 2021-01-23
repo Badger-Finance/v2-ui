@@ -12,6 +12,7 @@
 		"assert": "^2.0.0",
 		"async": "^3.2.0",
 		"bignumber.js": "^9.0.1",
+		"bnc-notify": "^1.5.1",
 		"bnc-onboard": "^1.17.1",
 		"d3-scale": "^3.2.3",
 		"d3-shape": "^2.0.0",
@@ -24,7 +25,6 @@
 		"notistack": "^1.0.2",
 		"react": "^16.13.1",
 		"react-dom": "^16.13.1",
-		"react-error-boundary": "^3.1.0",
 		"react-hook-form": "^6.13.0",
 		"react-material-ui-carousel": "^2.1.1",
 		"react-stockcharts": "^0.7.8",
@@ -33,7 +33,8 @@
 		"web3": "^1.3.0",
 		"web3-batch-call": "^1.0.6",
 		"web3-core": "^1.3.0",
-		"web3-eth-contract": "^1.3.0"
+		"web3-eth-contract": "^1.3.0",
+		"web3-utils": "^1.3.1"
 	},
 	"scripts": {
 		"start": "react-scripts start",
