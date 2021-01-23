@@ -95,9 +95,9 @@ export const rewards = {
 	abi: BadgerTree.abi,
 	tokens: [
 		deploy.token.toLowerCase(),
-		deploy.sett_system.vaults['native.uniBadgerWbtc'].toLowerCase(),
-		'0x6b3595068778dd592e39a122f4f5a5cf09c90fe2'.toLowerCase(), // $SUSHI
-		'0x36e2fcccc59e5747ff63a03ea2e5c0c2c14911e7'.toLowerCase(), // $xSUSHI
-		deploy.token.toLowerCase(), // $DIGG
+		// deploy.sett_system.vaults['native.uniBadgerWbtc'].toLowerCase(),
+		// '0x6b3595068778dd592e39a122f4f5a5cf09c90fe2'.toLowerCase(), // $SUSHI
+		// '0x36e2fcccc59e5747ff63a03ea2e5c0c2c14911e7'.toLowerCase(), // $xSUSHI
+		deploy.digg_system.uFragments.toLowerCase(), // $DIGG
 	],
 };

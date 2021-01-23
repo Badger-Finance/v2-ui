@@ -195,9 +195,9 @@ export function formatAmount(amount: Amount) {
 }
 
 export function simulateDiggSchedule(vault: Vault, digg: Token) {
-	let dps = new BigNumber(341427.37842872745)
+	let dps = new BigNumber(0.000031442 * 60 * 60 * 24 * 360)
 
-	return dps.multipliedBy(digg.ethValue).dividedBy(vault.holdings).multipliedBy(1e2).toFixed(2) + '%'
+	return dps.multipliedBy(digg.ethValue).dividedBy(vault.holdingsValue()).multipliedBy(1e2).toFixed(2) + '%'
 }
 
 export function formatGeyserGrowth(geyser: Geyser, period: string) {
