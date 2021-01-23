@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js';
 import _, { stubString } from 'lodash';
 import { START_BLOCK } from 'config/constants';
 import { rewards } from 'config/system/geysers';
-import deploy from 'config/deployments/mainnet.json'
+import deploy from 'config/deployments/mainnet.json';
 import { batchConfig } from 'mobx/utils/web3';
 import { RootStore } from 'mobx/store';
 import { growthQuery, secondsToBlocks } from 'mobx/utils/helpers';
@@ -10,8 +10,9 @@ import { growthQuery, secondsToBlocks } from 'mobx/utils/helpers';
 export const reduceBatchResult = (result: any[]): any[] => {
 	return result.map((vault) => {
 		return _.mapValues(vault, (element: any, key: any) => {
-			if (key === 'getUnlockSchedulesFor') { // handle special case for multiple values
-				let newElement: any = {}
+			if (key === 'getUnlockSchedulesFor') {
+				// handle special case for multiple values
+				let newElement: any = {};
 				element.forEach((e: any) => {
 					newElement[e.args[0]] = e.value;
 				});
@@ -21,7 +22,6 @@ export const reduceBatchResult = (result: any[]): any[] => {
 		});
 	});
 };
-
 
 export const reduceResult = (value: any): any => {
 	if (/^-?\d+$/.test(value)) return new BigNumber(value);
@@ -99,7 +99,6 @@ export const reduceGraphResult = (graphResult: any[]) => {
 		}
 
 		const tokenAddress = !!element.data.pair ? element.data.pair.id : element.data.token.id;
-
 
 		return {
 			address: tokenAddress.toLowerCase(),
@@ -181,10 +180,10 @@ export const reduceGrowth = (graphResult: any[], periods: number[], startDate: D
 		const month = growth.month.gt(1) ? growth.now.dividedBy(growth.month).minus(1) : week.multipliedBy(4);
 		const year = growth.start.gt(1)
 			? growth.now
-				.dividedBy(growth.start)
-				.minus(1)
-				.dividedBy(new Date().getTime() - startDate.getTime())
-				.multipliedBy(365 * 24 * 60 * 60 * 60)
+					.dividedBy(growth.start)
+					.minus(1)
+					.dividedBy(new Date().getTime() - startDate.getTime())
+					.multipliedBy(365 * 24 * 60 * 60 * 60)
 			: month.multipliedBy(13.05);
 
 		return { day, week, month, year };
@@ -192,59 +191,60 @@ export const reduceGrowth = (graphResult: any[], periods: number[], startDate: D
 };
 
 export const reduceGeyserSchedule = (schedules: any, store: RootStore) => {
-
 	// console.log(JSON.stringify(schedules))
 	// console.log(_.keysIn(schedules))
 	// console.log(schedules)
 
-	return _.compact(_.map(schedules, (schedule: any[], tokenAddress: string) => {
-		let locked = new BigNumber(0);
-		let timestamp = new BigNumber(new Date().getTime() / 1000.0);
+	return _.compact(
+		_.map(schedules, (schedule: any[], tokenAddress: string) => {
+			let locked = new BigNumber(0);
+			let timestamp = new BigNumber(new Date().getTime() / 1000.0);
 
-		const period = { start: timestamp, end: timestamp };
+			const period = { start: timestamp, end: timestamp };
 
-		let lockedAllTime = new BigNumber(0);
-		const periodAllTime = { start: timestamp, end: timestamp };
+			let lockedAllTime = new BigNumber(0);
+			const periodAllTime = { start: timestamp, end: timestamp };
 
-		// console.log(schedule)
+			// console.log(schedule)
 
-		schedule.forEach((block: any) => {
-			let [initialLocked, endAtSec, , startTime] = _.valuesIn(block).map((val: any) => new BigNumber(val));
+			schedule.forEach((block: any) => {
+				let [initialLocked, endAtSec, , startTime] = _.valuesIn(block).map((val: any) => new BigNumber(val));
 
-			if (tokenAddress.toLowerCase() === deploy.digg_system.uFragments.toLowerCase()) {
-				initialLocked = initialLocked.dividedBy(28948022309329048855892746252171976963317496166410141009864396001)
-			}
+				if (tokenAddress.toLowerCase() === deploy.digg_system.uFragments.toLowerCase()) {
+					initialLocked = initialLocked.dividedBy(
+						28948022309329048855892746252171976963317496166410141009864396001,
+					);
+				}
 
-			if (timestamp.gt(startTime) && timestamp.lt(endAtSec)) {
-				locked = locked.plus(initialLocked);
-				if (startTime.lt(period.start)) period.start = startTime;
-				if (endAtSec.gt(period.end)) period.end = endAtSec;
-			}
+				if (timestamp.gt(startTime) && timestamp.lt(endAtSec)) {
+					locked = locked.plus(initialLocked);
+					if (startTime.lt(period.start)) period.start = startTime;
+					if (endAtSec.gt(period.end)) period.end = endAtSec;
+				}
 
-			lockedAllTime = lockedAllTime.plus(initialLocked);
-			if (startTime.lt(periodAllTime.start)) periodAllTime.start = startTime;
-			if (endAtSec.gt(periodAllTime.end)) periodAllTime.end = endAtSec;
-		});
+				lockedAllTime = lockedAllTime.plus(initialLocked);
+				if (startTime.lt(periodAllTime.start)) periodAllTime.start = startTime;
+				if (endAtSec.gt(periodAllTime.end)) periodAllTime.end = endAtSec;
+			});
 
-		let duration = period.end.minus(period.start)
-		let rps = locked.dividedBy(duration.isNaN() ? 1 : duration);
-		const rpsAllTime = lockedAllTime.dividedBy(periodAllTime.end.minus(periodAllTime.start));
+			let duration = period.end.minus(period.start);
+			let rps = locked.dividedBy(duration.isNaN() ? 1 : duration);
+			const rpsAllTime = lockedAllTime.dividedBy(periodAllTime.end.minus(periodAllTime.start));
 
-		if (!rps || rps.eq(0))
-			rps = rpsAllTime.dividedBy(365 * 60 * 60 * 24);
+			if (!rps || rps.eq(0)) rps = rpsAllTime.dividedBy(365 * 60 * 60 * 24);
 
-		let periods = {
-			day: rps.multipliedBy(60 * 60 * 24),
-			week: rps.multipliedBy(60 * 60 * 24 * 7),
-			month: rps.multipliedBy(60 * 60 * 24 * 30),
-			year: rpsAllTime.multipliedBy(60 * 60 * 24 * 365),
-		};
-		return _.mapValues(periods, (amount: BigNumber) => ({
-			amount: amount,
-			token: store.contracts.tokens[tokenAddress.toLowerCase()],
-		}));
-	}))
-
+			let periods = {
+				day: rps.multipliedBy(60 * 60 * 24),
+				week: rps.multipliedBy(60 * 60 * 24 * 7),
+				month: rps.multipliedBy(60 * 60 * 24 * 30),
+				year: rpsAllTime.multipliedBy(60 * 60 * 24 * 365),
+			};
+			return _.mapValues(periods, (amount: BigNumber) => ({
+				amount: amount,
+				token: store.contracts.tokens[tokenAddress.toLowerCase()],
+			}));
+		}),
+	);
 };
 
 export const reduceContractConfig = (configs: any[], payload: any = {}) => {
