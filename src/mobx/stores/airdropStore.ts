@@ -9,7 +9,7 @@ import { jsonQuery } from '../utils/helpers';
 import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
 
-import { RPC_URL } from '../../config/constants';
+import { RPC_URL } from 'config/constants';
 import { rewards as airdropsConfig, token as diggTokenConfig } from '../../config/system/rebase';
 
 const infuraProvider = new Web3.providers.HttpProvider(RPC_URL);
@@ -60,8 +60,7 @@ class AirdropStore {
 				]).then((result: any[]) => {
 					// console.log(new BigNumber(result[1]).multipliedBy(1e9))
 					this.airdrops = {
-						digg: !result[0] ? new BigNumber(result[1]).multipliedBy(1e9) : new BigNumber(0),
-
+						digg: !!result[1] ? new BigNumber(result[1]) : new BigNumber(0),
 						merkleProof,
 					};
 				});
