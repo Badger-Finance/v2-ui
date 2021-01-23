@@ -194,12 +194,14 @@ class ContractsStore {
 		const masterChefQuery = vanillaQuery(
 			sushiBatches.growthEndpoints![2].concat(tokenBatches[0].contracts.join(';')),
 		);
+		const ppfsQuery = vanillaQuery('https://api.sett.vision/protocol/ppfs');
 
-		Promise.all([batchCall.execute(batch), ...growthQueries, masterChefQuery, xSushiQuery])
+		Promise.all([batchCall.execute(batch), ...growthQueries, masterChefQuery, xSushiQuery, ppfsQuery])
 			.then((queryResult: any[]) => {
 				let result = reduceBatchResult(queryResult[0]);
 				let masterChefResult: any = queryResult.slice(growthQueries.length + 1, growthQueries.length + 2);
-				let xSushiResult: any = queryResult.slice(growthQueries.length + 2);
+				let xSushiResult: any = queryResult.slice(growthQueries.length + 2, growthQueries.length + 3);
+				let ppfsResult: any = queryResult.slice(growthQueries.length + 3)[0];
 
 				const vaultGrowth = reduceGrowth(queryResult.slice(1, growthQueries.length + 1), periods, START_TIME);
 				const xROI: any = reduceXSushiROIResults(xSushiResult[0]['weekly_APY']);
@@ -233,7 +235,9 @@ class ContractsStore {
 
 					//TODO: xSushi ROI not added in here - need vault balance which doesn't seem to be set.
 					// console.log(vault)
-
+					
+					// update ppfs from ppfs api
+					contract.getPricePerFullShare = new BigNumber(ppfsResult[vault.address]);
 					vault.update(
 						_.defaultsDeep(contract, defaults[contract.address], { growth: _.compact([growth, xSushiGrowth]) }),
 					);
