@@ -90,7 +90,7 @@ export class Vault extends Token {
 		if (!!payload.position) this.position = payload.position;
 		if (!!payload.growth) this.growth = payload.growth;
 		if (!!payload.getPricePerFullShare)
-			this.pricePerShare = payload.getPricePerFullShare.dividedBy(10 ** this.decimals);
+			this.pricePerShare = payload.getPricePerFullShare;
 		if (!!payload.totalSupply) this.holdings = payload.totalSupply;
 		if (!!payload.isSuperSett) this.super = payload.isSuperSett;
 	}
