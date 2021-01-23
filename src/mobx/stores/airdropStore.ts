@@ -60,7 +60,7 @@ class AirdropStore {
 				]).then((result: any[]) => {
 					// console.log(new BigNumber(result[1]).multipliedBy(1e9))
 					this.airdrops = {
-						digg: !!result[1] ? new BigNumber(result[1]) : new BigNumber(0),
+						digg: !result[0] ? new BigNumber(result[1]) : new BigNumber(0),
 						merkleProof,
 					};
 				});

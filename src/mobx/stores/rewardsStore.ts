@@ -73,6 +73,7 @@ class RewardsStore {
 						.call(),
 				])
 					.then((result: any[]) => {
+						console.log(reduceClaims(proof, result[0][1], result[1]), proof, result[0][1], result[1])
 						if (!proof.error) {
 							this.badgerTree = _.defaults(
 								{
