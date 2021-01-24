@@ -2,6 +2,7 @@ import BigNumber from 'bignumber.js';
 import { RPC_URL } from '../../config/constants';
 
 import { digg } from '../../config/system/rebase';
+import { Vault } from '../model';
 
 const UPPER_LIMIT = 1.05 * 1e18;
 const LOWER_LIMIT = 0.95 * 1e18;
@@ -105,4 +106,8 @@ export const getRebaseLogs = async () => {
 
 export const getPercentageChange = (newValue: BigNumber, originalValue: BigNumber) => {
 	return newValue.minus(originalValue).dividedBy(originalValue).multipliedBy(100).toNumber();
+};
+
+export const getDiggPerShare = (vault: Vault) => {
+	return vault.vaultBalance.dividedBy(vault.totalSupply.dividedBy(1e9));
 };

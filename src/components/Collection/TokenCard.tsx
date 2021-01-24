@@ -1,14 +1,8 @@
 import React, { useContext } from 'react';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
-import {
-	Tooltip,
-	IconButton,
-	Grid,
-	Chip,
-
-} from '@material-ui/core';
-import deploy from 'config/deployments/mainnet.json'
+import { Tooltip, IconButton, Grid, Chip } from '@material-ui/core';
+import deploy from 'config/deployments/mainnet.json';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { VaultSymbol } from '../Common/VaultSymbol';
@@ -19,11 +13,11 @@ import {
 	formatGeyserHoldings,
 	formatHoldingsValue,
 	formatVaultGrowth,
+	formatVaultBalance,
 	simulateDiggSchedule,
 } from 'mobx/reducers/statsReducers';
 
 const useStyles = makeStyles((theme) => ({
-
 	border: {
 		borderBottom: `1px solid ${theme.palette.background.default}`,
 		padding: theme.spacing(2, 2),
@@ -62,7 +56,7 @@ export const TokenCard = observer((props: any) => {
 	const { vault, isGlobal, onOpen } = props;
 
 	const { period, currency } = store.uiState;
-	const { tokens } = store.contracts
+	const { tokens } = store.contracts;
 
 	const { underlyingToken: token } = vault;
 
@@ -74,8 +68,13 @@ export const TokenCard = observer((props: any) => {
 
 	const { roi, roiTooltip } = formatVaultGrowth(vault, period);
 
-	let fixedRoi = isNaN(parseFloat(roi)) ? '1%' : vault.underlyingToken.address === deploy.digg_system.uFragments.toLowerCase() ? simulateDiggSchedule(vault, tokens[deploy.digg_system.uFragments.toLowerCase()]) : roi
-	let fixedRoiTooltip = vault.underlyingToken.address === deploy.digg_system.uFragments.toLowerCase() ? fixedRoi + ' DIGG' : roiTooltip
+	let fixedRoi = isNaN(parseFloat(roi))
+		? '1%'
+		: vault.underlyingToken.address === deploy.digg_system.uFragments.toLowerCase()
+		? simulateDiggSchedule(vault, tokens[deploy.digg_system.uFragments.toLowerCase()])
+		: roi;
+	let fixedRoiTooltip =
+		vault.underlyingToken.address === deploy.digg_system.uFragments.toLowerCase() ? fixedRoi + ' DIGG' : roiTooltip;
 
 	return (
 		<>
@@ -90,7 +89,6 @@ export const TokenCard = observer((props: any) => {
 							<Chip className={classes.chip} label="Harvest" size="small" color="primary" />
 						)}
 					</Typography>
-
 				</Grid>
 
 				<Grid item className={classes.mobileLabel} xs={6}>
@@ -101,7 +99,11 @@ export const TokenCard = observer((props: any) => {
 
 				<Grid item xs={6} md={2}>
 					<Typography variant="body1" color={'textPrimary'}>
-						{!isGlobal ? formatBalance(token) : formatGeyserHoldings(vault)}
+						{!isGlobal
+							? formatBalance(token)
+							: vault.geyser
+							? formatGeyserHoldings(vault)
+							: formatVaultBalance(vault)}
 					</Typography>
 				</Grid>
 				<Grid item className={classes.mobileLabel} xs={6}>
@@ -133,7 +135,6 @@ export const TokenCard = observer((props: any) => {
 					<IconButton color={vault.balance.gt(0) || token.balance.gt(0) ? 'default' : 'secondary'}>
 						<UnfoldMoreTwoTone />
 					</IconButton>
-
 				</Grid>
 			</Grid>
 		</>

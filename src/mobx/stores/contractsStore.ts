@@ -16,26 +16,19 @@ import {
 	reduceXSushiROIResults,
 	reduceSushiAPIResults,
 } from '../reducers/contractReducers';
-import { Vault, Geyser, Token, } from '../model';
+import { Vault, Geyser, Token } from '../model';
 import { jsonQuery, graphQuery, vanillaQuery } from 'mobx/utils/helpers';
 import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
 import async from 'async';
 
 import { curveTokens, names, symbols, tokenMap } from 'config/system/tokens';
-import {
-	EMPTY_DATA,
-	ERC20,
-	RPC_URL,
-	START_TIME,
-	WBTC_ADDRESS,
-	XSUSHI_ADDRESS,
-} from 'config/constants';
+import { EMPTY_DATA, ERC20, RPC_URL, START_TIME, WBTC_ADDRESS, XSUSHI_ADDRESS } from 'config/constants';
 import { vaultBatches } from 'config/system/vaults';
 import { geyserBatches } from 'config/system/geysers';
 import { decimals as tokenDecimals, tokenBatches } from 'config/system/tokens';
 import { formatAmount } from 'mobx/reducers/statsReducers';
-import deploy from 'config/deployments/mainnet.json'
+import deploy from 'config/deployments/mainnet.json';
 
 const infuraProvider = new Web3.providers.HttpProvider(RPC_URL);
 const options = {
@@ -135,12 +128,18 @@ class ContractsStore {
 		// prepare price queries
 		const graphQueries = _.flatten(_.map(tokenBatches[0].contracts, (address: string) => graphQuery(address)));
 
-		const cgQueries = vanillaQuery(`https://api.coingecko.com/api/v3/simple/token_price/ethereum?contract_addresses=${tokenBatches[0].contracts.join(',')}&vs_currencies=eth`)
+		const cgQueries = vanillaQuery(
+			`https://api.coingecko.com/api/v3/simple/token_price/ethereum?contract_addresses=${tokenBatches[0].contracts.join(
+				',',
+			)}&vs_currencies=eth`,
+		);
 
 		// console.log(batch)
 		Promise.all([cgQueries, batchCall.execute(batch), ...curveQueries, ...graphQueries])
 			.then((result: any[]) => {
-				const cgPrices = _.mapValues(result.slice(0, 1)[0], (price: any) => ({ ethValue: new BigNumber(price.eth).multipliedBy(1e18) }));
+				const cgPrices = _.mapValues(result.slice(0, 1)[0], (price: any) => ({
+					ethValue: new BigNumber(price.eth).multipliedBy(1e18),
+				}));
 				const tokenContracts = _.keyBy(reduceBatchResult(_.flatten(result.slice(1, 2))), 'address');
 				const tokenPrices = _.keyBy(
 					_.compact(reduceGraphResult(result.slice(2 + curveQueries.length))),
@@ -207,7 +206,7 @@ class ContractsStore {
 				const xROI: any = reduceXSushiROIResults(xSushiResult[0]['weekly_APY']);
 				const newSushiRewards = reduceSushiAPIResults(masterChefResult[0], sushiBatches.contracts);
 
-				result.forEach((contract: any) => {
+				result.forEach((contract: any, i: number) => {
 					let tokenAddress = tokenMap[contract.address];
 					if (!tokenAddress) {
 						return console.log(tokenMap[contract.address], tokenMap, contract.address);
@@ -235,12 +234,19 @@ class ContractsStore {
 
 					//TODO: xSushi ROI not added in here - need vault balance which doesn't seem to be set.
 					// console.log(vault)
-					
+
 					// update ppfs from ppfs api
 					contract.getPricePerFullShare = new BigNumber(ppfsResult[vault.address]);
 					vault.update(
-						_.defaultsDeep(contract, defaults[contract.address], { growth: _.compact([growth, xSushiGrowth]) }),
+						_.defaultsDeep(contract, defaults[contract.address], {
+							growth: _.compact([growth, xSushiGrowth]),
+						}),
 					);
+
+					// update vaultBalance if given
+					vault.vaultBalance = isNaN(parseFloat(result[i].balance))
+						? new BigNumber(0.0)
+						: new BigNumber(result[i].balance);
 				});
 				callback();
 			})
@@ -259,7 +265,6 @@ class ContractsStore {
 			.execute(batch)
 			.then((infuraResult: any[]) => {
 				let result = reduceBatchResult(infuraResult);
-
 
 				result.forEach((contract: any) => {
 					let vaultAddress = contract[defaults[contract.address].underlyingKey];
@@ -445,7 +450,7 @@ class ContractsStore {
 	});
 
 	getAllowance = action((underlyingAsset: any, spender: string, callback: (err: any, result: any) => void) => {
-		const { } = this.store.uiState;
+		const {} = this.store.uiState;
 		const { provider, connectedAddress } = this.store.wallet;
 
 		const web3 = new Web3(provider);
@@ -468,7 +473,8 @@ class ContractsStore {
 		const geyserContract = new web3.eth.Contract(geyser.abi, geyser.address);
 		const method = geyserContract.methods.stake(amount.toFixed(0, BigNumber.ROUND_HALF_FLOOR), EMPTY_DATA);
 		queueNotification(
-			`Sign the transaction to stake ${formatAmount({ amount: amount, token: underlyingAsset })} ${underlyingAsset.symbol
+			`Sign the transaction to stake ${formatAmount({ amount: amount, token: underlyingAsset })} ${
+				underlyingAsset.symbol
 			}`,
 			'info',
 		);
@@ -485,7 +491,8 @@ class ContractsStore {
 					})
 					.on('receipt', () => {
 						queueNotification(
-							`Successfully deposited ${formatAmount({ amount: amount, token: underlyingAsset })} ${underlyingAsset.symbol
+							`Successfully deposited ${formatAmount({ amount: amount, token: underlyingAsset })} ${
+								underlyingAsset.symbol
 							}`,
 							'success',
 						);
@@ -509,7 +516,8 @@ class ContractsStore {
 		const method = geyserContract.methods.unstake(amount.toFixed(0, BigNumber.ROUND_HALF_FLOOR), EMPTY_DATA);
 
 		queueNotification(
-			`Sign the transaction to unstake ${formatAmount({ amount: amount, token: geyser.vault.underlyingToken })} ${geyser.vault.underlyingToken.symbol
+			`Sign the transaction to unstake ${formatAmount({ amount: amount, token: geyser.vault.underlyingToken })} ${
+				geyser.vault.underlyingToken.symbol
 			}`,
 			'info',
 		);
@@ -555,7 +563,8 @@ class ContractsStore {
 		if (all) method = underlyingContract.methods.depositAll();
 
 		queueNotification(
-			`Sign the transaction to wrap ${formatAmount({ amount: amount, token: vault.underlyingToken })} ${vault.underlyingToken.symbol
+			`Sign the transaction to wrap ${formatAmount({ amount: amount, token: vault.underlyingToken })} ${
+				vault.underlyingToken.symbol
 			}`,
 			'info',
 		);
@@ -572,7 +581,8 @@ class ContractsStore {
 					})
 					.on('receipt', () => {
 						queueNotification(
-							`Successfully deposited ${formatAmount({ amount: amount, token: vault.underlyingToken })} ${vault.underlyingToken.symbol
+							`Successfully deposited ${formatAmount({ amount: amount, token: vault.underlyingToken })} ${
+								vault.underlyingToken.symbol
 							}`,
 							'success',
 						);
@@ -600,7 +610,8 @@ class ContractsStore {
 		if (all) method = underlyingContract.methods.withdrawAll();
 
 		queueNotification(
-			`Sign the transaction to unwrap ${formatAmount({ amount: amount, token: vault.underlyingToken })} ${vault.symbol
+			`Sign the transaction to unwrap ${formatAmount({ amount: amount, token: vault.underlyingToken })} ${
+				vault.symbol
 			}`,
 			'info',
 		);
@@ -617,7 +628,8 @@ class ContractsStore {
 					})
 					.on('receipt', () => {
 						queueNotification(
-							`Successfully withdrew ${formatAmount({ amount: amount, token: vault.underlyingToken })} ${vault.symbol
+							`Successfully withdrew ${formatAmount({ amount: amount, token: vault.underlyingToken })} ${
+								vault.symbol
 							}`,
 							'success',
 						);
