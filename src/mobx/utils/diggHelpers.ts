@@ -109,5 +109,7 @@ export const getPercentageChange = (newValue: BigNumber, originalValue: BigNumbe
 };
 
 export const getDiggPerShare = (vault: Vault) => {
+	if (!vault.vaultBalance) return 1;
+	if (!vault.totalSupply) return 1;
 	return vault.vaultBalance.dividedBy(vault.totalSupply.dividedBy(1e9));
 };

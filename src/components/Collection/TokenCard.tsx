@@ -120,7 +120,7 @@ export const TokenCard = observer((props: any) => {
 				</Grid>
 				<Grid item className={classes.mobileLabel} xs={6}>
 					<Typography variant="body2" color={'textSecondary'}>
-						Value
+						Value test
 					</Typography>
 				</Grid>
 				<Grid item xs={6} md={2}>

@@ -193,7 +193,9 @@ export function formatBalanceUnderlying(vault: Vault) {
 }
 
 export function formatHoldingsValue(vault: Vault, currency: string) {
-	return inCurrency(vault.holdingsValue().dividedBy(1e18), currency, true);
+	let diggMultiplier = vault.underlyingToken.symbol === 'DIGG' ? getDiggPerShare(vault) : new BigNumber(1);
+	console.log(diggMultiplier);
+	return inCurrency(vault.holdingsValue().multipliedBy(diggMultiplier).dividedBy(1e18), currency, true);
 }
 
 export function formatBalanceValue(token: Token, currency: string) {
