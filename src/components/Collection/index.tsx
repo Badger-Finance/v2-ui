@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
 import _ from 'lodash';
+import BigNumber from 'bignumber.js';
 import {
 	Grid,
 	Container,
@@ -25,6 +26,7 @@ import { Loader } from '../Loader';
 import { SettList } from './SettList';
 import { CLAIMS_SYMBOLS } from 'config/constants';
 import { formatPrice } from 'mobx/reducers/statsReducers';
+import { inCurrency } from '../../mobx/utils/helpers';
 import useInterval from '@use-it/interval';
 import Hero from 'components/Common/Hero';
 
@@ -133,13 +135,15 @@ export const Collection = observer(() => {
 	const spacer = () => <div className={classes.before} />;
 
 	const availableRewards = () => {
-		return badgerTree.claims.map((claim: string, idx: number) => {
-			return (parseFloat(claim) > 0) && (
-				<Grid key={claim} item xs={12} md={6}>
+		return badgerTree.claims.map((claim: BigNumber, idx: number) => {
+			const claimValue = claim ? claim.dividedBy(idx == 0 ? 1e18 : badgerTree.sharesPerFragment * 1e9) : claim;
+			const claimDisplay = inCurrency(claimValue, 'eth', true);
+			return (parseFloat(claimDisplay) > 0) && (
+				<Grid key={claimDisplay} item xs={12} md={6}>
 					<Paper className={classes.statPaper}>
 						<List style={{ padding: 0 }}>
 							<ListItem className={classes.rewardItem} key={idx}>
-								<ListItemText primary={claim} secondary={`${CLAIMS_SYMBOLS[idx]} Available to Claim`} />
+								<ListItemText primary={claimDisplay} secondary={`${CLAIMS_SYMBOLS[idx]} Available to Claim`} />
 								<ListItemSecondaryAction>
 									<ButtonGroup size="small" variant="outlined" color="primary">
 										<Button

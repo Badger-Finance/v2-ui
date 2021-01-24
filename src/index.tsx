@@ -41,7 +41,6 @@ ReactDOM.render(
 			<CssBaseline />
 			<Snackbar>
 				<Header />
-
 				<Container maxWidth={false}>
 					<MobxRouter store={store} />
 				</Container>
