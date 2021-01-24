@@ -1,17 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
-import {
-	Grid,
-	List,
-	ListItem,
-	Dialog,
-	DialogTitle,
-	Tab,
-	Tabs,
-	Tooltip,
-	Switch,
-} from '@material-ui/core';
+import { Grid, List, ListItem, Dialog, DialogTitle, Tab, Tabs, Tooltip, Switch } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { TokenCard } from './TokenCard';
@@ -63,8 +53,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 	title: {
 		// background: 'rgba(0,0,0,.5)',
-		padding: theme.spacing(2, 2, 2)
-	}
+		padding: theme.spacing(2, 2, 2),
+	},
 }));
 export const SettList = observer((props: any) => {
 	const store = useContext(StoreContext);
@@ -73,18 +63,9 @@ export const SettList = observer((props: any) => {
 	const { hideEmpty } = props;
 
 	const {
-		contracts: {
-			vaults,
-			geysers,
-			tokens },
-		uiState: {
-			stats,
-			currency,
-			period,
-		},
-		wallet: {
-			connectedAddress
-		}
+		contracts: { vaults, geysers, tokens },
+		uiState: { stats, currency, period },
+		wallet: { connectedAddress },
 	} = store;
 
 	const [dialogProps, setDialogProps] = useState({ open: false, vault: undefined as any });
@@ -205,7 +186,7 @@ export const SettList = observer((props: any) => {
 
 		return (
 			<Dialog key={'dialog'} fullWidth maxWidth={'sm'} open={open} onClose={onClose}>
-				<DialogTitle disableTypography className={classes.title} >
+				<DialogTitle disableTypography className={classes.title}>
 					<div style={{ float: 'right' }}>
 						{dialogOut ? 'Withdraw' : 'Deposit'}
 						<Switch
@@ -236,16 +217,8 @@ export const SettList = observer((props: any) => {
 					{vault.geyser ? (
 						<Tab onClick={() => setDialogMode('geyser')} label={dialogOut ? 'Unstake' : 'Stake'}></Tab>
 					) : (
-							<Tooltip
-								enterDelay={0}
-								leaveDelay={300}
-								arrow
-								placement="bottom"
-								title={`Staking not enabled for ${vault.underlyingToken.symbol}`}
-							>
-								<Tab label={dialogOut ? 'Unstake' : 'Stake'}></Tab>
-							</Tooltip>
-						)}
+						<span></span>
+					)}
 				</Tabs>
 
 				{form}
@@ -279,7 +252,7 @@ export const SettList = observer((props: any) => {
 			{!all && !deposits && (
 				<div>
 					<Typography align="center" variant="subtitle1" color="textSecondary" style={{ margin: '2rem 0' }}>
-						{!hideEmpty ? "Loading Badger Setts..." : `Your address does not have tokens to deposit.`}
+						{!hideEmpty ? 'Loading Badger Setts...' : `Your address does not have tokens to deposit.`}
 					</Typography>
 				</div>
 			)}

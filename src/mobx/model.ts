@@ -52,6 +52,7 @@ export class Vault extends Token {
 	public pricePerShare!: BigNumber;
 	public abi!: any;
 	public super!: boolean;
+	public vaultBalance!: BigNumber;
 
 	constructor(store: RootStore, address: string, decimals: number, underlyingToken: Token, abi: any) {
 		super(store, address, decimals);
@@ -60,6 +61,7 @@ export class Vault extends Token {
 		this.underlyingToken.vaults.push(this);
 		this.decimals = 18;
 		this.holdings = new BigNumber(0);
+		this.vaultBalance = new BigNumber(0);
 		this.abi = abi;
 		this.super = false;
 	}
@@ -89,8 +91,8 @@ export class Vault extends Token {
 		super.update(payload);
 		if (!!payload.position) this.position = payload.position;
 		if (!!payload.growth) this.growth = payload.growth;
-		if (!!payload.getPricePerFullShare)
-			this.pricePerShare = payload.getPricePerFullShare;
+		if (!!payload.balance) this.vaults = payload.balance;
+		if (!!payload.getPricePerFullShare) this.pricePerShare = payload.getPricePerFullShare;
 		if (!!payload.totalSupply) this.holdings = payload.totalSupply;
 		if (!!payload.isSuperSett) this.super = payload.isSuperSett;
 	}

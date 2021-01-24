@@ -2,18 +2,14 @@ import React, { useContext, useEffect, useState } from 'react';
 import { observer, useForceUpdate } from 'mobx-react-lite';
 import views from '../../config/routes';
 import { StoreContext } from '../../mobx/store-context';
-import {
-	Tooltip,
-	IconButton,
-	Grid,
-	Chip,
-} from '@material-ui/core';
+import { Tooltip, IconButton, Grid, Chip } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { VaultSymbol } from '../Common/VaultSymbol';
 import { UnfoldMoreTwoTone } from '@material-ui/icons';
 import {
 	formatBalance,
+	formatBalanceUnderlying,
 	formatBalanceValue,
 	formatGeyserBalance,
 	formatGeyserBalanceValue,
@@ -21,10 +17,9 @@ import {
 	simulateDiggSchedule,
 } from 'mobx/reducers/statsReducers';
 import useInterval from '@use-it/interval';
-import deploy from 'config/deployments/mainnet.json'
+import deploy from 'config/deployments/mainnet.json';
 
 const useStyles = makeStyles((theme) => ({
-
 	border: {
 		borderBottom: `1px solid ${theme.palette.background.default}`,
 		padding: theme.spacing(2, 2),
@@ -74,8 +69,13 @@ export const DepositCard = observer((props: any) => {
 	useInterval(() => forceUpdate(!update), 1000);
 
 	const { roi, roiTooltip } = formatVaultGrowth(vault, period);
-	let fixedRoi = isNaN(parseFloat(roi)) ? 'Infinity%' : vault.underlyingToken.address === deploy.digg_system.uFragments.toLowerCase() ? simulateDiggSchedule(vault, tokens[deploy.digg_system.uFragments.toLowerCase()]) : roi
-	let fixedRoiTooltip = vault.underlyingToken.address === deploy.digg_system.uFragments.toLowerCase() ? fixedRoi + ' DIGG' : roiTooltip
+	let fixedRoi = isNaN(parseFloat(roi))
+		? 'Infinity%'
+		: vault.underlyingToken.address === deploy.digg_system.uFragments.toLowerCase()
+		? simulateDiggSchedule(vault, tokens[deploy.digg_system.uFragments.toLowerCase()])
+		: roi;
+	let fixedRoiTooltip =
+		vault.underlyingToken.address === deploy.digg_system.uFragments.toLowerCase() ? fixedRoi + ' DIGG' : roiTooltip;
 
 	return (
 		<>
@@ -100,7 +100,7 @@ export const DepositCard = observer((props: any) => {
 
 				<Grid item xs={6} md={2}>
 					<Typography variant="body1" color={'textPrimary'}>
-						{!!geyser ? formatGeyserBalance(geyser) : formatBalance(vault)}
+						{!!geyser ? formatGeyserBalance(geyser) : formatBalanceUnderlying(vault)}
 					</Typography>
 				</Grid>
 				<Grid item className={classes.mobileLabel} xs={6}>
@@ -127,7 +127,7 @@ export const DepositCard = observer((props: any) => {
 				</Grid>
 
 				<Grid item xs={12} md={2} style={{ textAlign: 'right' }}>
-					<IconButton color='default'>
+					<IconButton color="default">
 						<UnfoldMoreTwoTone />
 					</IconButton>
 				</Grid>

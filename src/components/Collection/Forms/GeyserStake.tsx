@@ -27,9 +27,9 @@ export const GeyserStake = observer((props: any) => {
 	const { register, handleSubmit, watch, setValue } = useForm({ mode: 'all' });
 
 	const {
-		router: { },
+		router: {},
 		wallet: { connectedAddress },
-		uiState: { },
+		uiState: {},
 	} = store;
 
 	const percentageOfBalance = (percent: number) => {
@@ -87,11 +87,11 @@ export const GeyserStake = observer((props: any) => {
 				>
 					<div>
 						<Typography variant="body2" color={'textSecondary'} style={{ marginBottom: '.2rem' }}>
-							Underlying: {formatBalanceUnderlying(vault)}
+							Underlying {vault.underlyingToken.symbol}: {formatBalanceUnderlying(vault)}
 							{/* Wrapped: {uiStats.wrappedFull[100]} */}
 						</Typography>
 						<Typography variant="body1" color={'textSecondary'} style={{ marginBottom: '.2rem' }}>
-							Available: {totalAvailable || '0.000000000000000000'}
+							Available {vault.symbol}: {totalAvailable || '0.000000000000000000'}
 							{/* Wrapped: {uiStats.wrappedFull[100]} */}
 						</Typography>
 					</div>
