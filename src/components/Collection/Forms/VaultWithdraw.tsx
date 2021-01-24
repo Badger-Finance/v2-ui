@@ -87,7 +87,7 @@ export const VaultWithdraw = observer((props: any) => {
 				>
 					<div>
 						<Typography variant="body2" color={'textSecondary'} style={{ marginBottom: '.2rem' }}>
-							Underlying {vault.token.symbol}: {formatBalanceUnderlying(vault)}
+							Underlying {vault.underlyingToken.symbol}: {formatBalanceUnderlying(vault)}
 							{/* Wrapped: {uiStats.wrappedFull[100]} */}
 						</Typography>
 						<Typography variant="body1" color={'textSecondary'} style={{ marginBottom: '.2rem' }}>

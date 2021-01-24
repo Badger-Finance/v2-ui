@@ -91,7 +91,6 @@ export const GeyserUnstake = observer((props: any) => {
 							{/* Wrapped: {uiStats.wrappedFull[100]} */}
 						</Typography>
 						<Typography variant="body1" color={'textSecondary'} style={{ marginBottom: '.2rem' }}>
-							{console.log(vault)}
 							Staked {vault.symbol}: {totalAvailable || '0.000000000000000000'}
 							{/* Wrapped: {uiStats.wrappedFull[100]} */}
 						</Typography>
