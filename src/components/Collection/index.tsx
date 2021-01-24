@@ -30,7 +30,6 @@ import { inCurrency } from '../../mobx/utils/helpers';
 import useInterval from '@use-it/interval';
 import Hero from 'components/Common/Hero';
 
-
 const useStyles = makeStyles((theme) => ({
 	root: {
 		marginTop: theme.spacing(11),
@@ -95,6 +94,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	rewardItem: {
 		padding: 0,
+		flexWrap: 'wrap',
 	},
 
 	heroPaper: {
@@ -138,33 +138,15 @@ export const Collection = observer(() => {
 		return badgerTree.claims.map((claim: BigNumber, idx: number) => {
 			const claimValue = claim ? claim.dividedBy(idx == 0 ? 1e18 : badgerTree.sharesPerFragment * 1e9) : claim;
 			const claimDisplay = inCurrency(claimValue, 'eth', true);
-			return (parseFloat(claimDisplay) > 0) && (
-				<Grid key={claimDisplay} item xs={12} md={6}>
-					<Paper className={classes.statPaper}>
-						<List style={{ padding: 0 }}>
-							<ListItem className={classes.rewardItem} key={idx}>
-								<ListItemText primary={claimDisplay} secondary={`${CLAIMS_SYMBOLS[idx]} Available to Claim`} />
-								<ListItemSecondaryAction>
-									<ButtonGroup size="small" variant="outlined" color="primary">
-										<Button
-											onClick={() => {
-												claimGeysers(false);
-											}}
-											variant="contained"
-										>
-											Claim
-									</Button>
-									</ButtonGroup>
-								</ListItemSecondaryAction>
-							</ListItem>
-						</List>
-					</Paper>
-				</Grid>
-			)
+			return (
+				parseFloat(claimDisplay) > 0 && (
+					<ListItemText primary={claimDisplay} secondary={`${CLAIMS_SYMBOLS[idx]} Available to Claim`} />
+				)
+			);
 		});
 	};
 
-	const rewards = _.compact(availableRewards())
+	const rewards = _.compact(availableRewards());
 
 	return (
 		<>
@@ -262,7 +244,24 @@ export const Collection = observer(() => {
 									Available Rewards:
 								</Typography>
 							</Grid>
-							{rewards}
+							<Grid item xs={12} md={6}>
+								<Paper className={classes.statPaper}>
+									<List style={{ padding: 0, textAlign: 'center' }}>
+										<ListItem className={classes.rewardItem}>{rewards}</ListItem>
+										{spacer()}
+										<ButtonGroup size="small" variant="outlined" color="primary">
+											<Button
+												onClick={() => {
+													claimGeysers(false);
+												}}
+												variant="contained"
+											>
+												Claim
+											</Button>
+										</ButtonGroup>
+									</List>
+								</Paper>
+							</Grid>
 						</>
 					)}
 
