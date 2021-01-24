@@ -63,21 +63,16 @@ class RewardsStore {
 			);
 
 			endpointQuery.then((proof: any) => {
-				console.log('proof: ', proof);
 				Promise.all([
 					rewardsTree.methods.getClaimedFor(connectedAddress, rewardsConfig.tokens).call(),
-					!!proof.cumulativeAmounts &&
-						!!proof.cumulativeAmounts[1] &&
-						diggToken.methods
-							.sharesToFragments(new BigNumber(proof.cumulativeAmounts[1]).toFixed(0))
-							.call(),
+					diggToken.methods._sharesPerFragment().call(),
 				]).then((result: any[]) => {
-					console.log(reduceClaims(proof, result[0][1], result[1]), proof, result[0][1], result[1]);
 					if (!proof.error) {
 						this.badgerTree = _.defaults(
 							{
 								cycle: parseInt(proof.cycle, 16),
-								claims: reduceClaims(proof, result[0][1], result[1]),
+								claims: reduceClaims(proof, result[0][1]),
+								sharesPerFragment: result[1],
 								proof,
 							},
 							this.badgerTree,
