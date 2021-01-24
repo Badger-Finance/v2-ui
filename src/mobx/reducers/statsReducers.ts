@@ -196,7 +196,13 @@ export function formatHoldingsValue(vault: Vault, currency: string) {
 }
 
 export function formatBalanceValue(token: Token, currency: string) {
-	return inCurrency(token.balanceValue().dividedBy(1e18), currency, true);
+	let diggMultiplier =
+		token.symbol === 'DIGG'
+			? getDiggPerShare(token.vaults[0])
+			: token.symbol === 'bDIGG'
+			? getDiggPerShare(token)
+			: new BigNumber(1);
+	return inCurrency(token.balanceValue().multipliedBy(diggMultiplier).dividedBy(1e18), currency, true);
 }
 
 export function formatGeyserBalanceValue(geyser: Geyser, currency: string) {
