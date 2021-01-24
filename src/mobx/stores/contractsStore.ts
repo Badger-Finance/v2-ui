@@ -610,7 +610,7 @@ class ContractsStore {
 		if (all) method = underlyingContract.methods.withdrawAll();
 
 		queueNotification(
-			`Sign the transaction to unwrap ${formatAmount({ amount: amount, token: vault.underlyingToken })} ${
+			`Sign the transaction to unwrap ${formatAmount({ amount: amount, token: vault.underlyingToken }, true)} ${
 				vault.symbol
 			}`,
 			'info',
@@ -628,9 +628,10 @@ class ContractsStore {
 					})
 					.on('receipt', () => {
 						queueNotification(
-							`Successfully withdrew ${formatAmount({ amount: amount, token: vault.underlyingToken })} ${
-								vault.symbol
-							}`,
+							`Successfully withdrew ${formatAmount(
+								{ amount: amount, token: vault.underlyingToken },
+								true,
+							)} ${vault.symbol}`,
 							'success',
 						);
 						this.fetchContracts();

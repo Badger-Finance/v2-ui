@@ -211,8 +211,13 @@ export function formatVaultBalanceValue(vault: Vault, currency: string) {
 export function formatPrice(price: BigNumber, currency: string) {
 	return inCurrency(price.dividedBy(1e18), currency, true);
 }
-export function formatAmount(amount: Amount) {
-	return inCurrency(amount.amount.dividedBy(10 ** amount.token.decimals), 'eth', true, amount.token.decimals);
+export function formatAmount(amount: Amount, isVault: boolean = false) {
+	let decimals = amount.token.decimals ? amount.token.decimals : amount.token.symbol === 'bDIGG' ? 9 : 18;
+	if (isVault) {
+		decimals = 18;
+	}
+	console.log();
+	return inCurrency(amount.amount.dividedBy(10 ** decimals), 'eth', true, amount.token.decimals);
 }
 
 export function simulateDiggSchedule(vault: Vault, digg: Token) {
