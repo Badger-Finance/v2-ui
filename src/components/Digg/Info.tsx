@@ -209,7 +209,7 @@ const Info = observer(() => {
 			{spacer()}
 			<Grid item xs={12} md={6} style={{ textAlign: 'center' }}>
 				<Paper className={classes.darkPaper}>
-					<Typography variant="body1">1 DIGG = {!!stats.stats.bDigg ? new BigNumber(1).dividedBy(stats.stats.bDigg).toFixed(9) : '...'} bDIGG</Typography>
+					<Typography variant="body1">1 bDIGG = {!!stats.stats.bDigg ? stats.stats.bDigg.toFixed(9) : '...'} DIGG</Typography>
 				</Paper>
 				<Button
 					variant="text"
