@@ -224,11 +224,11 @@ export function formatAmount(amount: Amount, isVault: boolean = false) {
 	return inCurrency(amount.amount.dividedBy(10 ** decimals), 'eth', true, amount.token.decimals);
 }
 
-export function simulateDiggSchedule(vault: Vault, digg: Token) {
-	let dps = new BigNumber(0.000031442 * 60 * 60 * 24 * 360);
+// export function simulateDiggSchedule(vault: Vault, digg: Token) {
+// 	let dps = new BigNumber(0.000031442 * 60 * 60 * 24 * 360);
 
-	return dps.multipliedBy(digg.ethValue).dividedBy(vault.holdingsValue()).multipliedBy(1e2).toFixed(2) + '%';
-}
+// 	return dps.multipliedBy(digg.ethValue).dividedBy(vault.holdingsValue()).multipliedBy(1e2).toFixed(2) + '%';
+// }
 
 export function formatGeyserGrowth(geyser: Geyser, period: string) {
 	let total = new BigNumber(0);
