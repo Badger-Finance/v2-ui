@@ -93,7 +93,7 @@ const useStyles = makeStyles((theme) => ({
 const Info = observer(() => {
 	const store = useContext(StoreContext);
 	const {
-		uiState: { rebaseStats, currency },
+		uiState: { rebaseStats, currency, stats },
 		contracts: { tokens },
 		rebase: { callRebase },
 	} = store;
@@ -118,7 +118,7 @@ const Info = observer(() => {
 	const isPositive = !newSupply || newSupply >= rebaseStats.totalSupply;
 	const percentage =
 		newSupply && rebaseStats.totalSupply
-			? ((newSupply - rebaseStats.totalSupply) / rebaseStats.totalSupply) * 100
+			? ((newSupply) / rebaseStats.totalSupply) * 10
 			: 0;
 
 	if (!rebaseStats) {
@@ -129,7 +129,7 @@ const Info = observer(() => {
 		if (!!rebaseStats && !!rebaseStats.nextRebase) {
 			const zero = new Date(0);
 
-			zero.setTime(new Date().getTime() - rebaseStats.nextRebase.getTime());
+			zero.setTime(rebaseStats.nextRebase.getTime() - new Date().getTime());
 			setNextRebase(zero.toISOString().substr(11, 8));
 		}
 	}, 1000);
@@ -171,24 +171,24 @@ const Info = observer(() => {
 			</Grid>
 			<Grid item xs={6} md={4}>
 				<Metric
-					metric="Oracle Price"
-					value={formatPrice(rebaseStats.oraclePrice, currency)}
-					submetrics={
-						[
-							// { title: 'Change', value: '-13.40', change: true },
-							// { title: 'Previous Price', value: '$47,497' },
-						]
-					}
-				/>
-			</Grid>
-			<Grid item xs={6} md={4}>
-				<Metric
 					metric="BTC Price"
 					value={formatPrice(rebaseStats.btcPrice, currency)}
 					submetrics={
 						[
 							// { title: 'Change', value: '1.043', change: true },
 							// { title: 'Current Ratio', value: '1.043' },
+						]
+					}
+				/>
+			</Grid>
+			<Grid item xs={6} md={4}>
+				<Metric
+					metric="DIGG Price"
+					value={formatPrice(stats.stats.digg || new BigNumber(0), currency)}
+					submetrics={
+						[
+							// { title: 'Change', value: '-13.40', change: true },
+							// { title: 'Previous Price', value: '$47,497' },
 						]
 					}
 				/>
@@ -204,7 +204,7 @@ const Info = observer(() => {
 							<ListItem>
 								<Typography variant="body2">Time to Rebase</Typography>
 								<ListItemSecondaryAction>
-									<Typography variant="body1">2021-01-23 20:00:00 UTC</Typography>
+									<Typography variant="body1">{nextRebase}</Typography>
 								</ListItemSecondaryAction>
 							</ListItem>
 
@@ -241,7 +241,7 @@ const Info = observer(() => {
 								<ListItemSecondaryAction className={classes.secondaryAction}>
 									<Typography variant="body1" className={isPositive ? classes.up : classes.down}>
 										1 DIGG <ArrowRightAlt style={{ transform: 'translate(0,7px)' }} />{' '}
-										{percentage ? Math.abs(1 / percentage).toFixed(2) : '...'} DIGG
+										{percentage ? Math.abs(percentage).toFixed(2) : '...'} DIGG
 									</Typography>
 								</ListItemSecondaryAction>
 							</ListItem>

@@ -54,10 +54,10 @@ const DashboardCard = observer((props: any) => {
 	}, [title]);
 
 	const [chartData, setChartData] = useState<any>(undefined);
-	const [range, setRange] = useState<number>(420);
+	const [range, setRange] = useState<number>(7);
 
 	const ranges = (
-		<ButtonGroup disabled variant="outlined" size="small" aria-label="outlined button group">
+		<ButtonGroup variant="outlined" size="small" aria-label="outlined button group">
 			<Button
 				disableElevation
 				variant={range === 1 ? 'contained' : 'outlined'}
