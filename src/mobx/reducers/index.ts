@@ -45,7 +45,7 @@ class UiState {
 					portfolio: new BigNumber(0),
 					badger: new BigNumber(0),
 					digg: new BigNumber(0),
-					bDigg: new BigNumber(0),
+					bDigg: new BigNumber(1),
 				},
 			},
 			claims: [0, 0, 0],
