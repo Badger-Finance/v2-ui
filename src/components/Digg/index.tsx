@@ -63,7 +63,7 @@ export const Digg = observer(() => {
 
 	return (
 		<Container className={classes.root} maxWidth="lg">
-			<Grid container spacing={1}>
+			<Grid container spacing={1} justify="center">
 				<Grid item sm={12} xs={12}>
 					<Hero title="DIGG" subtitle="Pegged to Bitcoin. Governed by BadgerDAO." />
 				</Grid>

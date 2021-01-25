@@ -44,7 +44,7 @@ export const reduceContractsToStats = (store: RootStore) => {
 
 	if (!tokens) return;
 
-	const { tvl, portfolio, wallet, deposits, badgerToken, diggToken, growth } = calculatePortfolioStats(
+	const { tvl, portfolio, wallet, deposits, badgerToken, diggToken, growth, bDigg } = calculatePortfolioStats(
 		vaultContracts,
 		tokens,
 		vaultContracts,
@@ -56,6 +56,7 @@ export const reduceContractsToStats = (store: RootStore) => {
 			tvl,
 			portfolio,
 			wallet,
+			bDigg,
 			deposits,
 			badger: badgerToken,
 			digg: diggToken,
@@ -113,11 +114,12 @@ function calculatePortfolioStats(vaultContracts: any, tokens: any, vaults: any, 
 		}
 	});
 
-	const badger = tokens[deploy.token.toLowerCase()];
-	const digg = tokens[deploy.digg_system.uFragments.toLowerCase()];
+	const badger: Token = tokens[deploy.token.toLowerCase()];
+	const digg: Token = tokens[deploy.digg_system.uFragments.toLowerCase()];
 	const badgerToken = !!badger && !!badger.ethValue ? badger.ethValue : new BigNumber(0);
 	const diggToken = !!digg && !!digg.ethValue ? digg.ethValue : new BigNumber(0);
-	return { tvl, portfolio, wallet, deposits, badgerToken, diggToken, growth, liqGrowth };
+	const bDigg = !!digg && digg.vaults.length > 0 && digg.vaults[0].pricePerShare
+	return { tvl, portfolio, wallet, deposits, badgerToken, diggToken, bDigg, growth, liqGrowth };
 }
 
 function formatPercentage(ratio: BigNumber) {

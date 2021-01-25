@@ -35,7 +35,7 @@ const DashboardCard = observer((props: any) => {
 	const classes = useStyles();
 
 	const componentDidMount = () => {
-		handleChangeRange(30);
+		handleChangeRange(7);
 	};
 
 	useEffect(componentDidMount, []);
