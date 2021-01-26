@@ -76,8 +76,7 @@ class UiState {
 		}, 1000);
 
 		observe(this.store.wallet as any, 'connectedAddress', (change: any) => {
-			if (!this.store.wallet.connectedAddress)
-				this.setHideZeroBal(false)
+			if (!this.store.wallet.connectedAddress) this.setHideZeroBal(false);
 		});
 
 		// format rewards for UI

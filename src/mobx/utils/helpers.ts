@@ -84,7 +84,7 @@ export const vanillaQuery = (url: string): Promise<Response> => {
 };
 
 export const getExchangeRates = (): Promise<Response> => {
-	return fetch('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd,btc', {
+	return fetch('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd,cad,btc', {
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json',
@@ -115,7 +115,7 @@ export const secondsToBlocks = (seconds: number) => {
 	return seconds / (1 / (6500 / (24 * 60 * 60)));
 };
 
-let exchangeRates: any = { usd: 641.69, btc: 41.93 };
+let exchangeRates: any = { usd: 641.69, cad: 776.44, btc: 41.93 };
 getExchangeRates().then((result: any) => (exchangeRates = result.ethereum));
 
 // input: eth value in wei
@@ -145,6 +145,11 @@ export const inCurrency = (
 			prefix = '$';
 			decimals = 2;
 			normal = normal.multipliedBy(exchangeRates.usd);
+			break;
+		case 'cad':
+			normal = normal.multipliedBy(exchangeRates.cad);
+			prefix = '$';
+			decimals = 2;
 			break;
 	}
 

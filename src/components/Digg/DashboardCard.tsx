@@ -85,7 +85,6 @@ const DashboardCard = observer((props: any) => {
 	return !!chartData ? (
 		<Card>
 			<Tabs
-
 				variant="fullWidth"
 				indicatorColor="primary"
 				value={['Total Volume', 'Price', 'Market cap'].indexOf(title)}
@@ -151,19 +150,19 @@ const DashboardCard = observer((props: any) => {
 			</CardActions> */}
 		</Card>
 	) : (
-			<Card style={{ padding: '1rem .6rem' }}>
-				<CardContent
-					style={{
-						display: 'flex',
-						justifyContent: 'center',
-						alignItems: 'center',
-						minHeight: '10rem',
-					}}
-				>
-					<CircularProgress />
-				</CardContent>
-			</Card>
-		);
+		<Card style={{ padding: '1rem .6rem' }}>
+			<CardContent
+				style={{
+					display: 'flex',
+					justifyContent: 'center',
+					alignItems: 'center',
+					minHeight: '10rem',
+				}}
+			>
+				<CircularProgress />
+			</CardContent>
+		</Card>
+	);
 });
 
 const intToString = (n: number) => {
