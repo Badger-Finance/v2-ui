@@ -118,7 +118,7 @@ function calculatePortfolioStats(vaultContracts: any, tokens: any, vaults: any, 
 	const digg: Token = tokens[deploy.digg_system.uFragments.toLowerCase()];
 	const badgerToken = !!badger && !!badger.ethValue ? badger.ethValue : new BigNumber(0);
 	const diggToken = !!digg && !!digg.ethValue ? digg.ethValue : new BigNumber(0);
-	const bDigg = !!digg && digg.vaults.length > 0 && digg.vaults[0].pricePerShare
+	const bDigg = !!digg && digg.vaults.length > 0 && getDiggPerShare(digg.vaults[0])
 	return { tvl, portfolio, wallet, deposits, badgerToken, diggToken, bDigg, growth, liqGrowth };
 }
 
