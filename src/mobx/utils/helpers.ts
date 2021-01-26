@@ -187,18 +187,19 @@ export const fetchDiggChart = (chart: string, range: number, callback: (marketCh
 	from.setDate(to.getDate() - range);
 
 	fetch(
-		`https://api.coingecko.com/api/v3/coins/badger-dao/market_chart/range?vs_currency=usd&from=
+		`https://api.coingecko.com/api/v3/coins/digg/market_chart/range?vs_currency=usd&from=
 		${from.getTime() / 1000}&to=${to.getTime() / 1000}`,
 	)
 		.then((data: any) => data.json())
 		.then((marketData: any) => {
-			const data = reduceMarketChart(marketData[chart], range, to);
-			const calcs = marketChartStats(data, 'change');
+			const data = reduceMarketChart(marketData[chart], range, to, chart);
+			const calcs = marketChartStats(data, 'close');
 			callback({ from, to, data, calcs });
 		});
 };
 
-const reduceMarketChart = (data: any[], range: number, maxDate: Date) => {
+const reduceMarketChart = (data: any[], range: number, maxDate: Date, chart: string) => {
+
 	const formatted = data.map((value: any, index: number) => {
 		const date = new Date();
 
@@ -207,6 +208,11 @@ const reduceMarketChart = (data: any[], range: number, maxDate: Date) => {
 		// in ascending order up to the max date requested
 		if (range <= 90) date.setHours(maxDate.getHours() - (data.length - index));
 		else date.setDate(maxDate.getDate() - (data.length - index));
+
+		// let change = value[1]
+		// if (chart === 'total_volumes') {
+		// 	change = change / 1e9
+		// }
 
 		return {
 			date: date,

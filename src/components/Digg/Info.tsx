@@ -29,6 +29,7 @@ import { WBTC_ADDRESS } from '../../config/constants';
 import BigNumber from 'bignumber.js';
 import { ArrowRightAlt } from '@material-ui/icons';
 import { formatPrice } from 'mobx/reducers/statsReducers';
+import { Link } from 'mobx-router';
 
 const useStyles = makeStyles((theme) => ({
 	before: {
@@ -39,6 +40,15 @@ const useStyles = makeStyles((theme) => ({
 		padding: theme.spacing(2),
 		textAlign: 'center',
 		minHeight: '100%',
+	},
+	darkPaper: {
+		padding: theme.spacing(2),
+		textAlign: 'center',
+		boxShadow: 'none',
+		background: theme.palette.secondary.main
+	},
+	darkActions: {
+		background: theme.palette.secondary.main
 	},
 	claim: {
 		display: 'flex',
@@ -93,7 +103,7 @@ const useStyles = makeStyles((theme) => ({
 const Info = observer(() => {
 	const store = useContext(StoreContext);
 	const {
-		uiState: { rebaseStats, currency },
+		uiState: { rebaseStats, currency, stats },
 		contracts: { tokens },
 		rebase: { callRebase },
 	} = store;
@@ -118,7 +128,7 @@ const Info = observer(() => {
 	const isPositive = !newSupply || newSupply >= rebaseStats.totalSupply;
 	const percentage =
 		newSupply && rebaseStats.totalSupply
-			? ((newSupply - rebaseStats.totalSupply) / rebaseStats.totalSupply) * 100
+			? ((newSupply) / rebaseStats.totalSupply)
 			: 0;
 
 	if (!rebaseStats) {
@@ -129,7 +139,7 @@ const Info = observer(() => {
 		if (!!rebaseStats && !!rebaseStats.nextRebase) {
 			const zero = new Date(0);
 
-			zero.setTime(new Date().getTime() - rebaseStats.nextRebase.getTime());
+			zero.setTime(rebaseStats.nextRebase.getTime() - new Date().getTime());
 			setNextRebase(zero.toISOString().substr(11, 8));
 		}
 	}, 1000);
@@ -150,7 +160,27 @@ const Info = observer(() => {
 				/>
 			</Grid> */}
 
-			<Grid item xs={12} md={4}>
+
+			<Grid item xs={6} md={6}>
+				<Metric
+					metric="BTC Price"
+					value={formatPrice(rebaseStats.btcPrice, currency)}
+					submetrics={
+						[
+							// { title: 'Change', value: '1.043', change: true },
+							// { title: 'Current Ratio', value: '1.043' },
+						]
+					}
+				/>
+			</Grid>
+			<Grid item xs={6} md={6}>
+				<Metric
+					metric="DIGG Price"
+					value={formatPrice(stats.stats.digg || new BigNumber(0), currency)}
+
+				/>
+			</Grid>
+			<Grid item xs={12} md={6}>
 				<Metric
 					metric="Total Supply"
 					value={rebaseStats.totalSupply ? shortenNumbers(rebaseStats.totalSupply, '', 2) : '-'}
@@ -169,112 +199,32 @@ const Info = observer(() => {
 				// ]}
 				/>
 			</Grid>
-			<Grid item xs={6} md={4}>
+			<Grid item xs={6} md={6}>
 				<Metric
-					metric="Oracle Price"
-					value={formatPrice(rebaseStats.oraclePrice, currency)}
-					submetrics={
-						[
-							// { title: 'Change', value: '-13.40', change: true },
-							// { title: 'Previous Price', value: '$47,497' },
-						]
-					}
-				/>
-			</Grid>
-			<Grid item xs={6} md={4}>
-				<Metric
-					metric="BTC Price"
-					value={formatPrice(rebaseStats.btcPrice, currency)}
-					submetrics={
-						[
-							// { title: 'Change', value: '1.043', change: true },
-							// { title: 'Current Ratio', value: '1.043' },
-						]
-					}
+					metric="Time To Rebase"
+					value={nextRebase}
+
 				/>
 			</Grid>
 			{spacer()}
-			<Grid item xs={12} style={{ textAlign: 'center' }}>
-				<Typography variant="subtitle1">Current Rebase</Typography>
-			</Grid>
-			<Grid item xs={12} md={6}>
-				<Card>
-					<CardContent className={classes.statPaper}>
-						<List style={{ padding: 0 }}>
-							<ListItem>
-								<Typography variant="body2">Time to Rebase</Typography>
-								<ListItemSecondaryAction>
-									<Typography variant="body1">2021-01-23 20:00:00 UTC</Typography>
-								</ListItemSecondaryAction>
-							</ListItem>
+			<Grid item xs={12} md={6} style={{ textAlign: 'center' }}>
+				<Paper className={classes.darkPaper}>
+					<Typography variant="body1">1 bDIGG = {!!stats.stats.bDigg ? stats.stats.bDigg.toFixed(9) : '...'} DIGG</Typography>
+				</Paper>
+				<Button
+					variant="text"
+					fullWidth
+					size="small"
+					color="primary"
+					href="https://badger.finance/digg"
+					target="_"
 
-							<ListItem>
-								<Typography variant="body2">Current Price Ratio</Typography>
-								<ListItemSecondaryAction>
-									<Typography variant="body1">
-										{numberWithCommas(newSupply.toFixed(2)) || '...'}
-									</Typography>
-								</ListItemSecondaryAction>
-							</ListItem>
-						</List>
-					</CardContent>
-					<CardActions>
-						<Button
-							size="small"
-							fullWidth
-							onClick={() => callRebase()}
-							variant="contained"
-							color="primary"
-							disabled={!rebaseStats.inRebaseWindow}
-						>
-							TRIGGER REBASE {rebaseStats.inRebaseWindow}
-						</Button>
-					</CardActions>
-				</Card>
-			</Grid>
-			<Grid item xs={12} md={6}>
-				<Card>
-					<CardContent className={classes.statPaper}>
-						<List style={{ padding: 0 }}>
-							<ListItem>
-								<Typography variant="body2">Rebase Impact</Typography>
-								<ListItemSecondaryAction className={classes.secondaryAction}>
-									<Typography variant="body1" className={isPositive ? classes.up : classes.down}>
-										1 DIGG <ArrowRightAlt style={{ transform: 'translate(0,7px)' }} />{' '}
-										{percentage ? Math.abs(1 / percentage).toFixed(2) : '...'} DIGG
-									</Typography>
-								</ListItemSecondaryAction>
-							</ListItem>
-
-							<ListItem>
-								<Typography variant="body2">Supply After Rebase</Typography>
-								<ListItemSecondaryAction className={classes.secondaryAction}>
-									<Typography variant="body1">
-										{numberWithCommas(newSupply.toFixed(2)) || '...'}
-									</Typography>
-								</ListItemSecondaryAction>
-							</ListItem>
-						</List>
-					</CardContent>
-					<CardActions style={{ justifyContent: 'center' }}>
-						<Button
-							variant="outlined"
-							fullWidth
-							size="small"
-							color="default"
-							href="https://badger.finance/digg"
-							target="_"
-						>
-							How it works
-						</Button>
-					</CardActions>
-				</Card>
+				>
+					Learn More
+				</Button>
 			</Grid>
 			{spacer()}
 
-			<Grid item xs={12} style={{ textAlign: 'center' }}>
-				<Typography variant="subtitle1">Charts</Typography>
-			</Grid>
 		</>
 	);
 });

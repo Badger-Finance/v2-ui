@@ -34,10 +34,14 @@ class RebaseStore {
 		this.store = store;
 
 		extendObservable(this, {
-			rebase: undefined,
+			rebase: {},
 		});
 
 		this.fetchRebaseStats();
+		setInterval(() => {
+			this.fetchRebaseStats();
+			// this.getCurrentBlock()
+		}, 30000);
 	}
 
 	fetchRebaseStats = action(async () => {
@@ -46,7 +50,7 @@ class RebaseStore {
 		Promise.all([batchCall.execute(digg), ...[...graphQuery(digg[0].addresses[0])]]).then((result: any[]) => {
 			let keyedResult = _.groupBy(result[0], 'namespace');
 
-			if (!keyedResult.token || !keyedResult.token[0].decimals) return;
+			if (!keyedResult.token || !keyedResult.token[0].decimals || !keyedResult.oracle[0].providerReports[0].value) return;
 
 			const minRebaseTimeIntervalSec = parseInt(keyedResult.policy[0].minRebaseTimeIntervalSec[0].value);
 			const lastRebaseTimestampSec = parseInt(keyedResult.policy[0].lastRebaseTimestampSec[0].value);
@@ -65,14 +69,14 @@ class RebaseStore {
 					? new BigNumber(keyedResult.oracle[0].providerReports[0].value.payload).dividedBy(1e18)
 					: new BigNumber(1),
 				derivedEth: result[1].data.token ? result[1].data.token.derivedETH : 0,
-				nextRebase: new Date('01-23-2021 20:00 UTC'),
+				nextRebase: getNextRebase(minRebaseTimeIntervalSec, lastRebaseTimestampSec),
 				pastRebase: rebaseLog,
 			};
 			this.updateRebase(token);
 		});
 	});
 	updateRebase = action((rebase: any) => {
-		this.rebase = _.defaultsDeep(rebase, this.rebase, rebase);
+		_.defaultsDeep(this.rebase, rebase);
 	});
 
 	callRebase = action(() => {

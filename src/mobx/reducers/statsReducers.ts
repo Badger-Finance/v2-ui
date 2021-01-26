@@ -1,6 +1,7 @@
 import BigNumber from 'bignumber.js';
 import _ from 'lodash';
 import { RootStore } from 'mobx/store';
+import deploy from 'config/deployments/mainnet.json'
 
 import { inCurrency } from 'mobx/utils/helpers';
 import { getDiggPerShare } from 'mobx/utils/diggHelpers';
@@ -43,7 +44,7 @@ export const reduceContractsToStats = (store: RootStore) => {
 
 	if (!tokens) return;
 
-	const { tvl, portfolio, wallet, deposits, badgerToken, growth } = calculatePortfolioStats(
+	const { tvl, portfolio, wallet, deposits, badgerToken, diggToken, growth, bDigg } = calculatePortfolioStats(
 		vaultContracts,
 		tokens,
 		vaultContracts,
@@ -55,8 +56,10 @@ export const reduceContractsToStats = (store: RootStore) => {
 			tvl,
 			portfolio,
 			wallet,
+			bDigg,
 			deposits,
 			badger: badgerToken,
+			digg: diggToken,
 			badgerGrowth: growth.multipliedBy(1e2).toFixed(2),
 		},
 	};
@@ -111,9 +114,12 @@ function calculatePortfolioStats(vaultContracts: any, tokens: any, vaults: any, 
 		}
 	});
 
-	const badger = tokens['0x3472a5a71965499acd81997a54bba8d852c6e53d'];
+	const badger: Token = tokens[deploy.token.toLowerCase()];
+	const digg: Token = tokens[deploy.digg_system.uFragments.toLowerCase()];
 	const badgerToken = !!badger && !!badger.ethValue ? badger.ethValue : new BigNumber(0);
-	return { tvl, portfolio, wallet, deposits, badgerToken, growth, liqGrowth };
+	const diggToken = !!digg && !!digg.ethValue ? digg.ethValue : new BigNumber(0);
+	const bDigg = !!digg && digg.vaults.length > 0 && getDiggPerShare(digg.vaults[0])
+	return { tvl, portfolio, wallet, deposits, badgerToken, diggToken, bDigg, growth, liqGrowth };
 }
 
 function formatPercentage(ratio: BigNumber) {
@@ -200,8 +206,8 @@ export function formatBalanceValue(token: Token, currency: string) {
 		token.symbol === 'DIGG'
 			? getDiggPerShare(token.vaults[0])
 			: token.symbol === 'bDIGG'
-			? getDiggPerShare(token)
-			: new BigNumber(1);
+				? getDiggPerShare(token)
+				: new BigNumber(1);
 	return inCurrency(token.balanceValue().multipliedBy(diggMultiplier).dividedBy(1e18), currency, true);
 }
 
@@ -248,16 +254,16 @@ export function formatGeyserGrowth(geyser: Geyser, period: string) {
 export function formatVaultGrowth(vault: Vault, period: string) {
 	let roiArray = !!vault.growth
 		? vault.growth.map((growth: Growth) => {
-				return (
-					!!(growth as any)[period] && {
-						tooltip:
-							formatPercentage((growth as any)[period].amount) +
-							'% ' +
-							(growth as any)[period].token.symbol,
-						total: (growth as any)[period].amount,
-					}
-				);
-		  })
+			return (
+				!!(growth as any)[period] && {
+					tooltip:
+						formatPercentage((growth as any)[period].amount) +
+						'% ' +
+						(growth as any)[period].token.symbol,
+					total: (growth as any)[period].amount,
+				}
+			);
+		})
 		: [];
 
 	let total = new BigNumber(0);
