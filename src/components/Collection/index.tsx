@@ -147,7 +147,7 @@ export const Collection = observer(() => {
 	};
 
 	const rewards = _.compact(availableRewards());
-
+	//
 	return (
 		<>
 			<Container className={classes.root}>
