@@ -39,10 +39,10 @@ const DashboardCard = observer((props: any) => {
 	};
 
 	useEffect(componentDidMount, []);
-	const [title, setGraphSelected] = useState<string>('Supply');
+	const [title, setGraphSelected] = useState<string>('Total Volume');
 
 	const handleChangeRange = (range: number) => {
-		let chart = title === 'Price' ? 'prices' : title === 'Supply' ? 'total_volumes' : 'market_caps';
+		let chart = title === 'Price' ? 'prices' : title === 'Total Volume' ? 'total_volumes' : 'market_caps';
 
 		fetchDiggChart(chart, range, (marketData: any) => {
 			setChartData(marketData);
@@ -88,10 +88,10 @@ const DashboardCard = observer((props: any) => {
 
 				variant="fullWidth"
 				indicatorColor="primary"
-				value={['Supply', 'Price', 'Market cap'].indexOf(title)}
+				value={['Total Volume', 'Price', 'Market cap'].indexOf(title)}
 				style={{ background: 'rgba(0,0,0,.2)', marginBottom: '.5rem' }}
 			>
-				<Tab onClick={() => setGraphSelected('Supply')} label="Supply"></Tab>
+				<Tab onClick={() => setGraphSelected('Total Volume')} label="Total Volume"></Tab>
 				<Tab onClick={() => setGraphSelected('Price')} label="Price"></Tab>
 				<Tab onClick={() => setGraphSelected('Market cap')} label="Market cap"></Tab>
 			</Tabs>
@@ -106,7 +106,7 @@ const DashboardCard = observer((props: any) => {
 					margin: '-2rem 0 0 0',
 				}}
 			>
-				<AreaChart accent={'#F2A52B'} chartData={chartData} yPrefix={title === 'Price' && '$'} />
+				<AreaChart accent={'#F2A52B'} chartData={chartData} yPrefix={'$'} />
 			</CardContent>
 
 			{/* <CardActions style={{ display: 'flex', justifyContent: 'center', marginBottom: '.75rem' }}>
