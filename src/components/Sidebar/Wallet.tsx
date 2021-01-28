@@ -60,6 +60,10 @@ export const Wallet = observer(() => {
 		}
 	};
 
+	const onGasStationClicked = () => {
+		window.open('https://gasnow.org', '_blank')
+	}
+
 	return (
 		<div style={{ display: 'flex' }}>
 			<Select
@@ -69,7 +73,7 @@ export const Wallet = observer(() => {
 				onChange={(v: any) => setGasPrice(v.target.value)}
 				className={classes.select}
 				startAdornment={
-					<LocalGasStation style={{ cursor: 'pointer', fontSize: '1.2rem', marginRight: '.8rem' }} />
+					<LocalGasStation onClick={onGasStationClicked} style={{ cursor: 'pointer', fontSize: '1.2rem', marginRight: '.8rem' }} />
 				}
 			>
 				<MenuItem value={'slow'}>{gasPrices['slow'].toFixed(0)}</MenuItem>
