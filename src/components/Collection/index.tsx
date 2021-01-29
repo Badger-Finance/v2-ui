@@ -147,7 +147,7 @@ export const Collection = observer(() => {
 	};
 
 	const rewards = _.compact(availableRewards());
-
+	//
 	return (
 		<>
 			<Container className={classes.root}>
@@ -201,6 +201,7 @@ export const Collection = observer(() => {
 								style={{ marginTop: 'auto', marginBottom: 'auto' }}
 							>
 								<MenuItem value={'usd'}>USD</MenuItem>
+								<MenuItem value={'cad'}>CAD</MenuItem>
 								<MenuItem value={'btc'}>BTC</MenuItem>
 								<MenuItem value={'eth'}>ETH</MenuItem>
 							</Select>
