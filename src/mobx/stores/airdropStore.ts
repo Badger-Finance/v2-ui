@@ -38,7 +38,7 @@ class AirdropStore {
 
 	fetchAirdrops = action(() => {
 		const { provider, connectedAddress, isCached } = this.store.wallet;
-		const { } = this.store.uiState;
+		const {} = this.store.uiState;
 		// console.log('fetching', connectedAddress)
 
 		if (!connectedAddress) return;

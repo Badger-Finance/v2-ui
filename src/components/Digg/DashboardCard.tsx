@@ -35,14 +35,14 @@ const DashboardCard = observer((props: any) => {
 	const classes = useStyles();
 
 	const componentDidMount = () => {
-		handleChangeRange(30);
+		handleChangeRange(7);
 	};
 
 	useEffect(componentDidMount, []);
-	const [title, setGraphSelected] = useState<string>('Supply');
+	const [title, setGraphSelected] = useState<string>('Total Volume');
 
 	const handleChangeRange = (range: number) => {
-		let chart = title === 'Price' ? 'prices' : title === 'Supply' ? 'total_volumes' : 'market_caps';
+		let chart = title === 'Price' ? 'prices' : title === 'Total Volume' ? 'total_volumes' : 'market_caps';
 
 		fetchDiggChart(chart, range, (marketData: any) => {
 			setChartData(marketData);
@@ -54,10 +54,10 @@ const DashboardCard = observer((props: any) => {
 	}, [title]);
 
 	const [chartData, setChartData] = useState<any>(undefined);
-	const [range, setRange] = useState<number>(420);
+	const [range, setRange] = useState<number>(7);
 
 	const ranges = (
-		<ButtonGroup disabled variant="outlined" size="small" aria-label="outlined button group">
+		<ButtonGroup variant="outlined" size="small" aria-label="outlined button group">
 			<Button
 				disableElevation
 				variant={range === 1 ? 'contained' : 'outlined'}
@@ -85,13 +85,12 @@ const DashboardCard = observer((props: any) => {
 	return !!chartData ? (
 		<Card>
 			<Tabs
-
 				variant="fullWidth"
 				indicatorColor="primary"
-				value={['Supply', 'Price', 'Market cap'].indexOf(title)}
+				value={['Total Volume', 'Price', 'Market cap'].indexOf(title)}
 				style={{ background: 'rgba(0,0,0,.2)', marginBottom: '.5rem' }}
 			>
-				<Tab onClick={() => setGraphSelected('Supply')} label="Supply"></Tab>
+				<Tab onClick={() => setGraphSelected('Total Volume')} label="Total Volume"></Tab>
 				<Tab onClick={() => setGraphSelected('Price')} label="Price"></Tab>
 				<Tab onClick={() => setGraphSelected('Market cap')} label="Market cap"></Tab>
 			</Tabs>
@@ -106,7 +105,7 @@ const DashboardCard = observer((props: any) => {
 					margin: '-2rem 0 0 0',
 				}}
 			>
-				<AreaChart accent={'#F2A52B'} chartData={chartData} yPrefix={title === 'Price' && '$'} />
+				<AreaChart accent={'#F2A52B'} chartData={chartData} yPrefix={'$'} />
 			</CardContent>
 
 			{/* <CardActions style={{ display: 'flex', justifyContent: 'center', marginBottom: '.75rem' }}>
@@ -151,19 +150,19 @@ const DashboardCard = observer((props: any) => {
 			</CardActions> */}
 		</Card>
 	) : (
-			<Card style={{ padding: '1rem .6rem' }}>
-				<CardContent
-					style={{
-						display: 'flex',
-						justifyContent: 'center',
-						alignItems: 'center',
-						minHeight: '10rem',
-					}}
-				>
-					<CircularProgress />
-				</CardContent>
-			</Card>
-		);
+		<Card style={{ padding: '1rem .6rem' }}>
+			<CardContent
+				style={{
+					display: 'flex',
+					justifyContent: 'center',
+					alignItems: 'center',
+					minHeight: '10rem',
+				}}
+			>
+				<CircularProgress />
+			</CardContent>
+		</Card>
+	);
 });
 
 const intToString = (n: number) => {
