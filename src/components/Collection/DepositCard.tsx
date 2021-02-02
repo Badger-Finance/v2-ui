@@ -14,7 +14,6 @@ import {
 	formatGeyserBalance,
 	formatGeyserBalanceValue,
 	formatVaultGrowth,
-	// simulateDiggSchedule,
 } from 'mobx/reducers/statsReducers';
 import useInterval from '@use-it/interval';
 import deploy from 'config/deployments/mainnet.json';
@@ -71,8 +70,6 @@ export const DepositCard = observer((props: any) => {
 	const { roi, roiTooltip } = formatVaultGrowth(vault, period);
 	let fixedRoi = isNaN(parseFloat(roi))
 		? 'Infinity%'
-		// : vault.underlyingToken.address === deploy.digg_system.uFragments.toLowerCase()
-		// ? simulateDiggSchedule(vault, tokens[deploy.digg_system.uFragments.toLowerCase()])
 		: roi;
 	let fixedRoiTooltip =
 		vault.underlyingToken.address === deploy.digg_system.uFragments.toLowerCase() ? fixedRoi + ' DIGG' : roiTooltip;

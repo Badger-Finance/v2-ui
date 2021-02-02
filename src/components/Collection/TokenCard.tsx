@@ -14,7 +14,6 @@ import {
 	formatHoldingsValue,
 	formatVaultGrowth,
 	formatVaultBalance,
-	// simulateDiggSchedule,
 } from 'mobx/reducers/statsReducers';
 
 const useStyles = makeStyles((theme) => ({
@@ -70,8 +69,6 @@ export const TokenCard = observer((props: any) => {
 
 	let fixedRoi = isNaN(parseFloat(roi))
 		? '1%'
-		// : vault.underlyingToken.address === deploy.digg_system.uFragments.toLowerCase()
-		// ? simulateDiggSchedule(vault, tokens[deploy.digg_system.uFragments.toLowerCase()])
 		: roi;
 	let fixedRoiTooltip =
 		vault.underlyingToken.address === deploy.digg_system.uFragments.toLowerCase() ? fixedRoi + ' DIGG' : roiTooltip;
