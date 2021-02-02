@@ -21,7 +21,6 @@ import useInterval from '@use-it/interval';
 import Hero from 'components/Common/Hero';
 import views from '../../config/routes';
 
-
 const useStyles = makeStyles((theme) => ({
 	root: {
 		marginTop: theme.spacing(11),
@@ -46,7 +45,6 @@ const useStyles = makeStyles((theme) => ({
 	statPaper: {
 		padding: theme.spacing(2),
 		textAlign: 'center',
-
 	},
 	before: {
 		marginTop: theme.spacing(5),
@@ -78,7 +76,7 @@ export const Airdrops = observer(() => {
 
 	const {
 		router: { goTo },
-		wallet: { },
+		wallet: {},
 		airdrops: { claimBadgerAirdrops, claimDiggAirdrops },
 		uiState: { airdropStats, stats },
 	} = store;
@@ -132,9 +130,9 @@ export const Airdrops = observer(() => {
 					className={classes.button}
 					onClick={() => {
 						if (!!qualifier.href) {
-							window.open(qualifier.href)
+							window.open(qualifier.href);
 						} else {
-							goTo(views.home)
+							goTo(views.home);
 						}
 					}}
 					size="small"
@@ -144,29 +142,22 @@ export const Airdrops = observer(() => {
 					{qualifier.button}
 				</Button>
 				{!!qualifier.badge && (
-					<Chip
-						className={classes.chip}
-						label={qualifier.badge}
-						color="secondary"
-						size="small"
-					/>
+					<Chip className={classes.chip} label={qualifier.badge} color="secondary" size="small" />
 				)}
-				{
-					!!qualifier.button2 && (
-						<Button
-							className={classes.button}
-							target="_blank"
-							href={qualifier.href2}
-							size="small"
-							variant="outlined"
-							color="primary"
-							disableElevation
-						>
-							{qualifier.button2}
-						</Button>
-					)
-				}
-			</Grid >
+				{!!qualifier.button2 && (
+					<Button
+						className={classes.button}
+						target="_blank"
+						href={qualifier.href2}
+						size="small"
+						variant="outlined"
+						color="primary"
+						disableElevation
+					>
+						{qualifier.button2}
+					</Button>
+				)}
+			</Grid>
 		));
 	};
 
@@ -203,7 +194,6 @@ export const Airdrops = observer(() => {
 										>
 											Claim
 										</Button>
-
 									</ButtonGroup>
 								</ListItemSecondaryAction>
 							</ListItem>
@@ -233,7 +223,6 @@ export const Airdrops = observer(() => {
 										>
 											Claim
 										</Button>
-
 									</ButtonGroup>
 								</ListItemSecondaryAction>
 							</ListItem>
