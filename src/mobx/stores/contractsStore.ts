@@ -29,6 +29,8 @@ import { geyserBatches } from 'config/system/geysers';
 import { decimals as tokenDecimals, tokenBatches } from 'config/system/tokens';
 import { formatAmount } from 'mobx/reducers/statsReducers';
 import deploy from 'config/deployments/mainnet.json';
+import { getAssetsUnderManagement, getCoinData, getAssetPerformances } from 'mobx/utils/api';
+import { setts, diggSetts } from 'mobx/utils/setts';
 
 const infuraProvider = new Web3.providers.HttpProvider(RPC_URL);
 const options = {
@@ -47,6 +49,10 @@ class ContractsStore {
 	public tokens?: any = {}; // inputs to vaults and geysers
 	public vaults?: any = {}; // vaults contract data
 	public geysers?: any = {}; // geyser contract data
+	public assets?: any = {};
+	public badger?: any = {};
+	public setts?: any = [];
+	public diggSetts?: any = [];
 
 	constructor(store: RootStore) {
 		this.store = store;
@@ -78,7 +84,7 @@ class ContractsStore {
 	}
 
 	updateProvider = action(() => {
-		let newOptions = {
+		const newOptions = {
 			web3: new Web3(this.store.wallet.provider),
 			etherscan: {
 				apiKey: 'NXSHKK6D53D3R9I17SR49VX8VITQY7UC6P',
@@ -92,8 +98,8 @@ class ContractsStore {
 		else this.fetchContracts();
 	});
 
-	private _fetchingContracts: boolean = false;
-	private _pendingChangeOfAddress: boolean = false;
+	private _fetchingContracts = false;
+	private _pendingChangeOfAddress = false;
 	fetchContracts = action(() => {
 		if (this._fetchingContracts) return;
 		this._fetchingContracts = true;
@@ -102,6 +108,10 @@ class ContractsStore {
 				(callback: any) => this.fetchTokens(callback),
 				(callback: any) => this.fetchVaults(callback),
 				(callback: any) => this.fetchGeysers(callback),
+				(callback: any) => this.fetchAssets(callback),
+				(callback: any) => this.fetchBadger(callback),
+				(callback: any) => this.fetchSetts(callback),
+				(callback: any) => this.fetchDiggSetts(callback),
 			],
 			(err: any, result: any) => {
 				this._fetchingContracts = false;
@@ -111,6 +121,42 @@ class ContractsStore {
 				}
 			},
 		);
+	});
+
+	fetchBadger = action((callback: any) => {
+		getCoinData('badger-dao').then((res: any) => {
+			if (res) {
+				this.badger = res;
+			}
+			callback();
+		});
+	});
+
+	fetchAssets = action((callback: any) => {
+		getAssetsUnderManagement().then((res: any) => {
+			if (res) {
+				this.assets = res;
+			}
+			callback();
+		});
+	});
+
+	fetchSetts = action((callback: any) => {
+		getAssetPerformances(setts).then((res: any) => {
+			if (res) {
+				this.setts = res;
+			}
+			callback();
+		});
+	});
+
+	fetchDiggSetts = action((callback: any) => {
+		getAssetPerformances(diggSetts).then((res: any) => {
+			if (res) {
+				this.diggSetts = res;
+			}
+			callback();
+		});
 	});
 
 	fetchTokens = action((callback: any) => {
@@ -197,33 +243,33 @@ class ContractsStore {
 
 		Promise.all([batchCall.execute(batch), ...growthQueries, masterChefQuery, xSushiQuery, ppfsQuery])
 			.then((queryResult: any[]) => {
-				let result = reduceBatchResult(queryResult[0]);
-				let masterChefResult: any = queryResult.slice(growthQueries.length + 1, growthQueries.length + 2);
-				let xSushiResult: any = queryResult.slice(growthQueries.length + 2, growthQueries.length + 3);
-				let ppfsResult: any = queryResult.slice(growthQueries.length + 3)[0];
+				const result = reduceBatchResult(queryResult[0]);
+				const masterChefResult: any = queryResult.slice(growthQueries.length + 1, growthQueries.length + 2);
+				const xSushiResult: any = queryResult.slice(growthQueries.length + 2, growthQueries.length + 3);
+				const ppfsResult: any = queryResult.slice(growthQueries.length + 3)[0];
 
 				const vaultGrowth = reduceGrowth(queryResult.slice(1, growthQueries.length + 1), periods, START_TIME);
 				const xROI: any = reduceXSushiROIResults(xSushiResult[0]['weekly_APY']);
 				const newSushiRewards = reduceSushiAPIResults(masterChefResult[0], sushiBatches.contracts);
 
 				result.forEach((contract: any, i: number) => {
-					let tokenAddress = tokenMap[contract.address];
+					const tokenAddress = tokenMap[contract.address];
 					if (!tokenAddress) {
 						return console.log(tokenMap[contract.address], tokenMap, contract.address);
 					}
-					let vault = this.getOrCreateVault(
+					const vault = this.getOrCreateVault(
 						contract.address,
 						this.tokens[tokenAddress],
 						defaults[contract.address].abi,
 					);
 
-					let growth =
+					const growth =
 						!!vaultGrowth[contract.address] &&
 						_.mapValues(vaultGrowth[contract.address], (tokens: BigNumber, period: string) => ({
 							amount: tokens,
 							token: this.tokens[tokenAddress],
 						}));
-					let xSushiGrowth =
+					const xSushiGrowth =
 						!!newSushiRewards[tokenAddress] &&
 						_.mapValues(newSushiRewards[tokenAddress], (tokens: BigNumber, period: string) => {
 							return {
@@ -264,24 +310,26 @@ class ContractsStore {
 		batchCall
 			.execute(batch)
 			.then((infuraResult: any[]) => {
-				let result = reduceBatchResult(infuraResult);
+				const result = reduceBatchResult(infuraResult);
 
-				result.forEach((contract: any) => {
-					let vaultAddress = contract[defaults[contract.address].underlyingKey];
+				if (result) {
+					result.forEach((contract: any) => {
+						const vaultAddress = contract[defaults[contract.address].underlyingKey];
+						// set fake digg schedules
+						// if (vaultAddress === deploy.sett_system.vaults['native.sbtcCrv'].toLowerCase())
+						// 	contract.getUnlockSchedulesFor[deploy.digg_system.uFragments] = [[32.6e9, 1611373733, 0, 1611342599]];
+						// if (vaultAddress === deploy.sett_system.vaults['native.sushiDiggWbtc'].toLowerCase())
+						// 	contract.getUnlockSchedulesFor[deploy.digg_system.uFragments] = [[32.6e9, 1611373733, 0, 1611342599]];
 
-					// set fake digg schedules
-					// if (vaultAddress === deploy.sett_system.vaults['native.sbtcCrv'].toLowerCase())
-					// 	contract.getUnlockSchedulesFor[deploy.digg_system.uFragments] = [[32.6e9, 1611373733, 0, 1611342599]];
-					// if (vaultAddress === deploy.sett_system.vaults['native.sushiDiggWbtc'].toLowerCase())
-					// 	contract.getUnlockSchedulesFor[deploy.digg_system.uFragments] = [[32.6e9, 1611373733, 0, 1611342599]];
+						const geyser: Geyser = this.getOrCreateGeyser(
+							contract.address,
+							this.vaults[vaultAddress],
+							defaults[contract.address].abi,
+						);
+						geyser.update(_.defaultsDeep(contract, defaults[contract.address]));
+					});
+				}
 
-					let geyser: Geyser = this.getOrCreateGeyser(
-						contract.address,
-						this.vaults[vaultAddress],
-						defaults[contract.address].abi,
-					);
-					geyser.update(_.defaultsDeep(contract, defaults[contract.address]));
-				});
 				callback();
 			})
 			.catch((error: any) => process.env.NODE_ENV !== 'production' && console.log(error));

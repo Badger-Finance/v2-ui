@@ -6,14 +6,12 @@ import deploy from 'config/deployments/mainnet.json';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { VaultSymbol } from '../Common/VaultSymbol';
+import { formatWithCommas } from 'mobx/utils/api';
 import { UnfoldMoreTwoTone } from '@material-ui/icons';
 import {
 	formatBalance,
-	formatBalanceValue,
-	formatGeyserHoldings,
 	formatHoldingsValue,
 	formatVaultGrowth,
-	formatVaultBalance,
 	simulateDiggSchedule,
 } from 'mobx/reducers/statsReducers';
 
@@ -53,39 +51,37 @@ export const TokenCard = observer((props: any) => {
 	const store = useContext(StoreContext);
 	const classes = useStyles();
 
-	const { vault, isGlobal, onOpen } = props;
-
+	const { sett, isGlobal, onOpen, vault } = props;
 	const { period, currency } = store.uiState;
-	const { tokens } = store.contracts;
-
+	const { assets } = store.contracts;
 	const { underlyingToken: token } = vault;
 
-	if (!token) {
-		return <div />;
-	}
-	// const [update, forceUpdate] = useState<boolean>();
-	// useInterval(() => forceUpdate(!update), 1000);
+	const tokensAmount = isGlobal ? formatWithCommas(assets[`${sett.asset}Tokens`].toFixed(5)) : formatBalance(token);
+	const value = isGlobal
+		? `$${formatWithCommas(assets[sett.asset].toFixed(2))}`
+		: formatHoldingsValue(vault, currency);
+	const { tokens } = store.contracts;
 
 	const { roi, roiTooltip } = formatVaultGrowth(vault, period);
 
-	let fixedRoi = isNaN(parseFloat(roi))
+	const fixedRoi = isNaN(parseFloat(roi))
 		? '1%'
 		: vault.underlyingToken.address === deploy.digg_system.uFragments.toLowerCase()
 		? simulateDiggSchedule(vault, tokens[deploy.digg_system.uFragments.toLowerCase()])
 		: roi;
-	let fixedRoiTooltip =
+	const fixedRoiTooltip =
 		vault.underlyingToken.address === deploy.digg_system.uFragments.toLowerCase() ? fixedRoi + ' DIGG' : roiTooltip;
 
 	return (
 		<>
-			<Grid onClick={() => onOpen(vault)} container className={classes.border}>
+			<Grid onClick={() => onOpen(vault, sett)} container className={classes.border}>
 				<Grid item xs={12} md={4} className={classes.name}>
-					<VaultSymbol token={token} />
-					<Typography variant="body1">{token.name}</Typography>
+					<VaultSymbol token={sett.asset} />
 
+					<Typography variant="body1">{sett.title}</Typography>
 					<Typography variant="body2" color="textSecondary" component="div">
-						{token.symbol}
-						{!!vault.super && (
+						{sett.asset}
+						{!!sett.title.includes('Harvest') && (
 							<Chip className={classes.chip} label="Harvest" size="small" color="primary" />
 						)}
 					</Typography>
@@ -96,16 +92,12 @@ export const TokenCard = observer((props: any) => {
 						{!isGlobal ? 'Tokens Available' : 'Tokens Deposited'}
 					</Typography>
 				</Grid>
-
 				<Grid item xs={6} md={2}>
 					<Typography variant="body1" color={'textPrimary'}>
-						{!isGlobal
-							? formatBalance(token)
-							: vault.geyser
-							? formatGeyserHoldings(vault)
-							: formatVaultBalance(vault)}
+						{tokensAmount}
 					</Typography>
 				</Grid>
+
 				<Grid item className={classes.mobileLabel} xs={6}>
 					<Typography variant="body2" color={'textSecondary'}>
 						{!isGlobal ? 'Potential ROI' : 'ROI'}
@@ -118,6 +110,7 @@ export const TokenCard = observer((props: any) => {
 						</Typography>
 					</Tooltip>
 				</Grid>
+
 				<Grid item className={classes.mobileLabel} xs={6}>
 					<Typography variant="body2" color={'textSecondary'}>
 						Value
@@ -125,9 +118,7 @@ export const TokenCard = observer((props: any) => {
 				</Grid>
 				<Grid item xs={6} md={2}>
 					<Typography variant="body1" color={'textPrimary'}>
-						{!isGlobal
-							? formatBalanceValue(vault.underlyingToken, currency)
-							: formatHoldingsValue(vault, currency)}
+						{value}
 					</Typography>
 				</Grid>
 
