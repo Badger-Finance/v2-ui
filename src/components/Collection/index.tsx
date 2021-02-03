@@ -16,6 +16,7 @@ import {
 	List,
 	ListItem,
 	ListItemText,
+	ListItemSecondaryAction,
 	Tooltip,
 } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
@@ -25,7 +26,6 @@ import { Loader } from '../Loader';
 import { SettList } from './SettList';
 import { CLAIMS_SYMBOLS } from 'config/constants';
 import { formatPrice } from 'mobx/reducers/statsReducers';
-import { formatUsd } from 'mobx/utils/api';
 import { inCurrency } from '../../mobx/utils/helpers';
 import useInterval from '@use-it/interval';
 import Hero from 'components/Common/Hero';
@@ -111,7 +111,7 @@ export const Collection = observer(() => {
 
 	const {
 		wallet: { connectedAddress, isCached },
-		contracts: { tokens, assets, badger },
+		contracts: { tokens },
 		rewards: { claimGeysers, badgerTree },
 		uiState: {
 			stats,
@@ -147,12 +147,7 @@ export const Collection = observer(() => {
 	};
 
 	const rewards = _.compact(availableRewards());
-	const tvl = assets.totalValue ? formatUsd(assets.totalValue) : '$0.00';
-	const badgerPrice =
-		badger && badger.market_data && badger.market_data.current_price
-			? formatUsd(badger.market_data.current_price.usd)
-			: '$0.00';
-
+	//
 	return (
 		<>
 			<Container className={classes.root}>
@@ -218,7 +213,7 @@ export const Collection = observer(() => {
 							<Typography variant="subtitle1" color="textPrimary">
 								TVL
 							</Typography>
-							<Typography variant="h5">{tvl}</Typography>
+							<Typography variant="h5">{formatPrice(stats.stats.tvl, currency)}</Typography>
 						</Paper>
 					</Grid>
 					{!!connectedAddress && (
@@ -237,7 +232,7 @@ export const Collection = observer(() => {
 							<Typography variant="subtitle1" color="textPrimary">
 								Badger Price
 							</Typography>
-							<Typography variant="h5">{badgerPrice}</Typography>
+							<Typography variant="h5">{formatPrice(stats.stats.badger, currency)}</Typography>
 						</Paper>
 					</Grid>
 
