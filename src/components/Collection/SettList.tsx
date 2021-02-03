@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
-import { Grid, List, ListItem, Dialog, DialogTitle, Tab, Tabs, Switch } from '@material-ui/core';
+import { Grid, List, ListItem, Dialog, DialogTitle, Tab, Tabs, Tooltip, Switch } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { TokenCard } from './TokenCard';
@@ -16,7 +16,6 @@ import { Vault } from 'mobx/model';
 import { formatPrice } from 'mobx/reducers/statsReducers';
 import { DepositCard } from './DepositCard';
 import { Loader } from 'components/Loader';
-import { formatUsd } from 'mobx/utils/api';
 
 const useStyles = makeStyles((theme) => ({
 	list: {
@@ -64,15 +63,15 @@ export const SettList = observer((props: any) => {
 	const { hideEmpty } = props;
 
 	const {
-		contracts: { vaults, geysers, tokens, assets, setts, diggSetts },
+		contracts: { vaults, geysers, tokens },
 		uiState: { stats, currency, period },
-		wallet: {},
+		wallet: { connectedAddress },
 	} = store;
 
-	const [dialogProps, setDialogProps] = useState({ open: false, vault: undefined as any, sett: undefined as any });
+	const [dialogProps, setDialogProps] = useState({ open: false, vault: undefined as any });
 
-	const onOpen = (vault: Vault, sett: any) => {
-		setDialogProps({ vault, open: true, sett });
+	const onOpen = (vault: Vault) => {
+		setDialogProps({ vault, open: true });
 	};
 
 	const onClose = () => {
@@ -81,27 +80,31 @@ export const SettList = observer((props: any) => {
 		setDialogProps({ ...dialogProps, open: false });
 	};
 
-	let allSetts: any = undefined;
-	if (setts && diggSetts) {
-		allSetts = setts.concat(diggSetts);
-	}
-
-	const renderAllSetts = () => {
-		const sorted = _.sortBy(allSetts, (sett) => {
-			return -(allSetts.length - sett.position) || 0;
+	const renderVaults = (contracts: any) => {
+		let filtered = _.filter(contracts, (address: string) => {
+			const vault: Vault = vaults[address.toLowerCase()];
+			return !!vault && (!hideEmpty || vault.underlyingToken.balance.gt(0));
+		});
+		let sorted = _.sortBy(filtered, (address: string) => {
+			const vault: Vault = vaults[address.toLowerCase()];
+			return (!!vault && -(filtered.length - vault.position)) || 0;
 		});
 
-		const list = _.map(sorted, (sett) => {
-			const vault: Vault = vaults[sett.address.toLowerCase()];
-			// console.log('vault: \n', vault);
+		let list = _.map(sorted, (address: string) => {
+			const vault: Vault = vaults[address.toLowerCase()];
 			return (
-				<ListItem key={sett.asset} className={classes.listItem}>
-					<TokenCard isGlobal={!hideEmpty} sett={sett} onOpen={onOpen} vault={vault} />
+				<ListItem key={address} className={classes.listItem}>
+					<TokenCard isGlobal={!hideEmpty} vault={vault} onOpen={onOpen} />
 				</ListItem>
 			);
 		});
 
-		if (list.length > 0) return <List className={classes.list}>{list}</List>;
+		if (list.length > 0)
+			return (
+				<List key={contracts[0]} className={classes.list}>
+					{list}
+				</List>
+			);
 		else return undefined;
 	};
 
@@ -172,7 +175,7 @@ export const SettList = observer((props: any) => {
 	const [dialogMode, setDialogMode] = useState('vault');
 	const [dialogOut, setDialogOut] = useState(false);
 	const renderDialog = () => {
-		const { open, vault, sett } = dialogProps;
+		const { open, vault } = dialogProps;
 
 		if (!open) return <div />;
 
@@ -195,7 +198,7 @@ export const SettList = observer((props: any) => {
 						/>
 					</div>
 
-					<VaultSymbol token={sett.asset} />
+					<VaultSymbol token={vault.underlyingToken} />
 
 					<Typography variant="body1" color="textPrimary" component="div">
 						{vault.underlyingToken.name}
@@ -221,21 +224,20 @@ export const SettList = observer((props: any) => {
 		);
 	};
 
-	const all = renderAllSetts();
-
-	const deposits = renderDeposits([
+	let all = renderVaults([...vaultBatches[2].contracts, ...vaultBatches[1].contracts, ...vaultBatches[0].contracts]);
+	let deposits = renderDeposits([
 		...vaultBatches[2].contracts,
 		...vaultBatches[1].contracts,
 		...vaultBatches[0].contracts,
 	]);
 
-	const tvl = assets.totalValue ? formatUsd(assets.totalValue) : '$0.00';
-
 	return (
 		<>
 			{!!all && [
 				tableHeader(
-					hideEmpty ? `Your Wallet - ${formatPrice(stats.stats.wallet, currency)}` : `All Setts  - ${tvl}`,
+					hideEmpty
+						? `Your Wallet - ${formatPrice(stats.stats.wallet, currency)}`
+						: `All Setts  - ${formatPrice(stats.stats.tvl, currency)}`,
 					hideEmpty ? 'Available' : 'Tokens',
 				),
 				all,
