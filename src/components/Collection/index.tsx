@@ -147,16 +147,12 @@ export const Collection = observer(() => {
 	};
 
 	const rewards = _.compact(availableRewards());
-<<<<<<< HEAD
-	//
-=======
 	const tvl = assets.totalValue ? formatUsd(assets.totalValue) : '$0.00';
 	const badgerPrice =
 		badger && badger.market_data && badger.market_data.current_price
 			? formatUsd(badger.market_data.current_price.usd)
 			: '$0.00';
 
->>>>>>> d6194f2... Implement setts vision api
 	return (
 		<>
 			<Container className={classes.root}>
