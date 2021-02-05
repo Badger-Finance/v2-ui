@@ -12,16 +12,17 @@ import { Contract } from 'web3-eth-contract';
 import { RPC_URL } from 'config/constants';
 import { rewards as airdropsConfig, token as diggTokenConfig } from '../../config/system/rebase';
 
-const infuraProvider = new Web3.providers.HttpProvider(RPC_URL);
-const options = {
-	web3: new Web3(infuraProvider),
-	etherscan: {
-		apiKey: 'NXSHKK6D53D3R9I17SR49VX8VITQY7UC6P',
-		delayTime: 300,
-	},
-};
+// const infuraProvider = new Web3.providers.HttpProvider(RPC_URL);
+// const options = {
+// 	web3: new Web3(infuraProvider),
+// 	etherscan: {
+// 		apiKey: 'NXSHKK6D53D3R9I17SR49VX8VITQY7UC6P',
+// 		delayTime: 300,
+// 	},
+// };
 
-let batchCall = new BatchCall(options);
+// // let batchCall = new BatchCall(options);
+// let batchCall = null;
 
 class AirdropStore {
 	private store!: RootStore;

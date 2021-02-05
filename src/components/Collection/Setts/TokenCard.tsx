@@ -1,19 +1,14 @@
 import React, { useContext } from 'react';
 import { observer } from 'mobx-react-lite';
-import { StoreContext } from '../../mobx/store-context';
+import { StoreContext } from 'mobx/store-context';
 import { Tooltip, IconButton, Grid, Chip } from '@material-ui/core';
 import deploy from 'config/deployments/mainnet.json';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { VaultSymbol } from '../Common/VaultSymbol';
+import { VaultSymbol } from '../../Common/VaultSymbol';
 import { formatWithCommas } from 'mobx/utils/api';
 import { UnfoldMoreTwoTone } from '@material-ui/icons';
-import {
-	formatBalance,
-	formatHoldingsValue,
-	formatVaultGrowth,
-	simulateDiggSchedule,
-} from 'mobx/reducers/statsReducers';
+import { formatBalance, formatBalanceValue } from 'mobx/reducers/statsReducers';
 
 const useStyles = makeStyles((theme) => ({
 	border: {
@@ -47,34 +42,48 @@ const useStyles = makeStyles((theme) => ({
 		padding: 0,
 	},
 }));
-export const TokenCard = observer((props: any) => {
+
+// const get;
+
+export const TokenCard = (props: any) => {
 	const store = useContext(StoreContext);
 	const classes = useStyles();
 
 	const { sett, isGlobal, onOpen, vault } = props;
 	const { period, currency } = store.uiState;
-	const { assets } = store.contracts;
-	const { underlyingToken: token } = vault;
+	const { assets, farmData } = store.sett;
+	const getRoi = () => {
+		if (farmData && farmData[sett.asset] && farmData[sett.asset].apy) {
+			const { apy } = farmData[sett.asset];
+			if (period === 'month') {
+				return apy / 12;
+			} else {
+				return apy;
+			}
+		}
+		return 0;
+	};
 
-	const tokensAmount = isGlobal ? formatWithCommas(assets[`${sett.asset}Tokens`].toFixed(5)) : formatBalance(token);
-	const value = isGlobal
-		? `$${formatWithCommas(assets[sett.asset].toFixed(2))}`
-		: formatHoldingsValue(vault, currency);
-	const { tokens } = store.contracts;
+	let tokensAmount = formatWithCommas(assets[`${sett.asset}Tokens`].toFixed(5)),
+		token = null;
+	let value = `$${formatWithCommas(assets[sett.asset].toFixed(2))}`;
+	const roi = getRoi();
 
-	const { roi, roiTooltip } = formatVaultGrowth(vault, period);
+	if (!!vault && !isGlobal) {
+		token = vault.underlyingToken;
+		tokensAmount = formatBalance(token);
+		value = formatBalanceValue(token, currency);
+	}
 
-	const fixedRoi = isNaN(parseFloat(roi))
-		? '1%'
-		: vault.underlyingToken.address === deploy.digg_system.uFragments.toLowerCase()
-		? simulateDiggSchedule(vault, tokens[deploy.digg_system.uFragments.toLowerCase()])
-		: roi;
-	const fixedRoiTooltip =
-		vault.underlyingToken.address === deploy.digg_system.uFragments.toLowerCase() ? fixedRoi + ' DIGG' : roiTooltip;
+	const onCardClick = () => {
+		if (vault) {
+			onOpen(vault, sett);
+		}
+	};
 
 	return (
 		<>
-			<Grid onClick={() => onOpen(vault, sett)} container className={classes.border}>
+			<Grid onClick={onCardClick} container className={classes.border}>
 				<Grid item xs={12} md={4} className={classes.name}>
 					<VaultSymbol token={sett.asset} />
 
@@ -104,11 +113,11 @@ export const TokenCard = observer((props: any) => {
 					</Typography>
 				</Grid>
 				<Grid item xs={6} md={2}>
-					<Tooltip enterDelay={0} leaveDelay={300} arrow placement="left" title={fixedRoiTooltip}>
-						<Typography style={{ cursor: 'default' }} variant="body1" color={'textPrimary'}>
-							{fixedRoi}
-						</Typography>
-					</Tooltip>
+					{/* <Tooltip enterDelay={0} leaveDelay={300} arrow placement="left" title={fixedRoiTooltip}> */}
+					<Typography style={{ cursor: 'default' }} variant="body1" color={'textPrimary'}>
+						{roi.toFixed(2)}%
+					</Typography>
+					{/* </Tooltip> */}
 				</Grid>
 
 				<Grid item className={classes.mobileLabel} xs={6}>
@@ -123,11 +132,17 @@ export const TokenCard = observer((props: any) => {
 				</Grid>
 
 				<Grid item xs={12} md={2} style={{ textAlign: 'right' }}>
-					<IconButton color={vault.balance.gt(0) || token.balance.gt(0) ? 'default' : 'secondary'}>
-						<UnfoldMoreTwoTone />
-					</IconButton>
+					{vault && token ? (
+						<IconButton color={vault.balance.gt(0) || token.balance.gt(0) ? 'default' : 'secondary'}>
+							<UnfoldMoreTwoTone />
+						</IconButton>
+					) : (
+						<IconButton color="secondary">
+							<UnfoldMoreTwoTone />
+						</IconButton>
+					)}
 				</Grid>
 			</Grid>
 		</>
 	);
-});
+};

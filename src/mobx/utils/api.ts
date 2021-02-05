@@ -1,10 +1,11 @@
 // api badger functions
 
 const getApi = () => {
-	if (process.env.NODE_ENV === 'production') {
-		return 'https://api.sett.vision';
-	}
-	return 'https://rn6p9w9x10.execute-api.us-west-1.amazonaws.com/staging';
+	// if (process.env.NODE_ENV === 'production') {
+	// 	return 'https://api.sett.vision';
+	// }
+	// return 'https://rn6p9w9x10.execute-api.us-west-1.amazonaws.com/staging';
+	return 'https://api.sett.vision';
 };
 const badgerApi = getApi();
 
@@ -12,7 +13,8 @@ export const getAssetsUnderManagement = (): any => {
 	return fetch(`${badgerApi}/protocol/value?tokens=true`).then((response) => response.json());
 };
 
-export const getGeysers = async (): Promise<any> => {
+export const getFarmData = async (): Promise<any> => {
+	// getGeysers
 	return await fetch(`${badgerApi}/protocol/farm`).then((response) => response.json());
 };
 

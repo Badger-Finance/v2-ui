@@ -28,9 +28,6 @@ import { vaultBatches } from 'config/system/vaults';
 import { geyserBatches } from 'config/system/geysers';
 import { decimals as tokenDecimals, tokenBatches } from 'config/system/tokens';
 import { formatAmount } from 'mobx/reducers/statsReducers';
-import deploy from 'config/deployments/mainnet.json';
-import { getAssetsUnderManagement, getCoinData, getAssetPerformances } from 'mobx/utils/api';
-import { setts, diggSetts } from 'mobx/utils/setts';
 
 const infuraProvider = new Web3.providers.HttpProvider(RPC_URL);
 const options = {
@@ -41,7 +38,8 @@ const options = {
 	},
 };
 
-let batchCall = new BatchCall(options);
+// let batchCall = new BatchCall(options);
+let batchCall: any = null;
 
 class ContractsStore {
 	private store!: RootStore;
@@ -49,10 +47,6 @@ class ContractsStore {
 	public tokens?: any = {}; // inputs to vaults and geysers
 	public vaults?: any = {}; // vaults contract data
 	public geysers?: any = {}; // geyser contract data
-	public assets?: any = {};
-	public badger?: any = {};
-	public setts?: any = [];
-	public diggSetts?: any = [];
 
 	constructor(store: RootStore) {
 		this.store = store;
@@ -63,7 +57,6 @@ class ContractsStore {
 			geysers: {} as { string: Geyser },
 		});
 
-		this.fetchContracts();
 		this.fetchContracts();
 
 		// observe(this as any, 'tokens', (change: any) => {
@@ -84,6 +77,12 @@ class ContractsStore {
 	}
 
 	updateProvider = action(() => {
+		if (!this.store.wallet.provider) {
+			this.vaults = {};
+			this.tokens = {};
+			this.geysers = {};
+			return;
+		}
 		const newOptions = {
 			web3: new Web3(this.store.wallet.provider),
 			etherscan: {
@@ -108,10 +107,6 @@ class ContractsStore {
 				(callback: any) => this.fetchTokens(callback),
 				(callback: any) => this.fetchVaults(callback),
 				(callback: any) => this.fetchGeysers(callback),
-				(callback: any) => this.fetchAssets(callback),
-				(callback: any) => this.fetchBadger(callback),
-				(callback: any) => this.fetchSetts(callback),
-				(callback: any) => this.fetchDiggSetts(callback),
 			],
 			(err: any, result: any) => {
 				this._fetchingContracts = false;
@@ -121,42 +116,6 @@ class ContractsStore {
 				}
 			},
 		);
-	});
-
-	fetchBadger = action((callback: any) => {
-		getCoinData('badger-dao').then((res: any) => {
-			if (res) {
-				this.badger = res;
-			}
-			callback();
-		});
-	});
-
-	fetchAssets = action((callback: any) => {
-		getAssetsUnderManagement().then((res: any) => {
-			if (res) {
-				this.assets = res;
-			}
-			callback();
-		});
-	});
-
-	fetchSetts = action((callback: any) => {
-		getAssetPerformances(setts).then((res: any) => {
-			if (res) {
-				this.setts = res;
-			}
-			callback();
-		});
-	});
-
-	fetchDiggSetts = action((callback: any) => {
-		getAssetPerformances(diggSetts).then((res: any) => {
-			if (res) {
-				this.diggSetts = res;
-			}
-			callback();
-		});
 	});
 
 	fetchTokens = action((callback: any) => {
@@ -179,6 +138,11 @@ class ContractsStore {
 				',',
 			)}&vs_currencies=eth`,
 		);
+
+		if (!batchCall) {
+			callback();
+			return;
+		}
 
 		// console.log(batch)
 		Promise.all([cgQueries, batchCall.execute(batch), ...curveQueries, ...graphQueries])
@@ -224,7 +188,13 @@ class ContractsStore {
 			})
 			.catch((error: any) => process.env.NODE_ENV !== 'production' && console.log(error));
 	});
+
 	fetchVaults = action((callback: any) => {
+		if (!batchCall) {
+			callback();
+			return;
+		}
+
 		const { connectedAddress, currentBlock } = this.store.wallet;
 		const sushiBatches = vaultBatches[1];
 
@@ -300,6 +270,11 @@ class ContractsStore {
 	});
 
 	fetchGeysers = action((callback: any) => {
+		if (!batchCall) {
+			callback();
+			return;
+		}
+
 		const { connectedAddress } = this.store.wallet;
 
 		let { defaults, batchCall: batch } = reduceContractConfig(

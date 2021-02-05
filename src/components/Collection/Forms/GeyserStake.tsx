@@ -70,6 +70,7 @@ export const GeyserStake = observer((props: any) => {
 					}}
 					variant={!!canDeposit && watch().amount === percentageOfBalance(amount) ? 'contained' : 'outlined'}
 					color="default"
+					key={amount}
 				>
 					{amount}%
 				</Button>
@@ -77,7 +78,7 @@ export const GeyserStake = observer((props: any) => {
 		</ButtonGroup>
 	);
 
-	let totalAvailable = percentageOfBalance(100);
+	const totalAvailable = percentageOfBalance(100);
 
 	return (
 		<>

@@ -204,7 +204,6 @@ export const fetchDiggChart = (chart: string, range: number, callback: (marketCh
 };
 
 const reduceMarketChart = (data: any[], range: number, maxDate: Date, chart: string) => {
-
 	const formatted = data.map((value: any, index: number) => {
 		const date = new Date();
 

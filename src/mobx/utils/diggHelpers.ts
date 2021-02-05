@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js';
 import { RPC_URL } from '../../config/constants';
-
+import Web3 from 'web3';
 import { digg } from '../../config/system/rebase';
 import { Vault } from '../model';
 
@@ -92,11 +92,13 @@ export const numberWithCommas = (x: string) => {
 	return parts.join('.');
 };
 
-export const getRebaseLogs = async () => {
-	let Contract = require('web3-eth-contract');
-	Contract.setProvider(RPC_URL);
+export const getRebaseLogs = async (provider: any) => {
+	const Contract = require('web3-eth-contract');
+	Contract.setProvider(provider);
+	// const web3 = new Web3(provider);
 	const policy = digg[1];
-	let contractInstance = new Contract(policy.abi, policy.addresses[0]);
+	// let contractInstance = new web3.eth.Contract(policy.abi || '', policy.addresses[0]);
+	const contractInstance = new Contract(policy.abi, policy.addresses[0]);
 	const events = await contractInstance.getPastEvents('LogRebase', {
 		fromBlock: 11663433,
 		toBlock: 'latest',
