@@ -214,10 +214,8 @@ export const SettList = observer((props: any) => {
 					style={{ background: 'rgba(0,0,0,.2)', marginBottom: '1rem' }}
 				>
 					<Tab onClick={() => setDialogMode('vault')} label={dialogOut ? 'Withdraw' : 'Deposit'}></Tab>
-					{vault.geyser ? (
+					{vault.geyser && (
 						<Tab onClick={() => setDialogMode('geyser')} label={dialogOut ? 'Unstake' : 'Stake'}></Tab>
-					) : (
-						<span></span>
 					)}
 				</Tabs>
 
