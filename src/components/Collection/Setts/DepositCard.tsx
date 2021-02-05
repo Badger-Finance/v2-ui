@@ -1,14 +1,13 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { observer, useForceUpdate } from 'mobx-react-lite';
-import views from '../../config/routes';
-import { StoreContext } from '../../mobx/store-context';
+import React, { useContext, useState } from 'react';
+import { observer } from 'mobx-react-lite';
+
+import { StoreContext } from '../../../mobx/store-context';
 import { Tooltip, IconButton, Grid, Chip } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { VaultSymbol } from '../Common/VaultSymbol';
+import { VaultSymbol } from '../../Common/VaultSymbol';
 import { UnfoldMoreTwoTone } from '@material-ui/icons';
 import {
-	formatBalance,
 	formatBalanceUnderlying,
 	formatBalanceValue,
 	formatGeyserBalance,
@@ -51,9 +50,11 @@ const useStyles = makeStyles((theme) => ({
 		padding: 0,
 	},
 }));
-export const DepositCard = observer((props: any) => {
+export const DepositCard = (props: any) => {
 	const store = useContext(StoreContext);
 	const classes = useStyles();
+	const [update, forceUpdate] = useState<boolean>();
+	useInterval(() => forceUpdate(!update), 1000);
 
 	const { vault, onOpen } = props;
 
@@ -65,16 +66,14 @@ export const DepositCard = observer((props: any) => {
 	if (!token) {
 		return <div />;
 	}
-	const [update, forceUpdate] = useState<boolean>();
-	useInterval(() => forceUpdate(!update), 1000);
 
 	const { roi, roiTooltip } = formatVaultGrowth(vault, period);
-	let fixedRoi = isNaN(parseFloat(roi))
+	const fixedRoi = isNaN(parseFloat(roi))
 		? 'Infinity%'
 		: vault.underlyingToken.address === deploy.digg_system.uFragments.toLowerCase()
 		? simulateDiggSchedule(vault, tokens[deploy.digg_system.uFragments.toLowerCase()])
 		: roi;
-	let fixedRoiTooltip =
+	const fixedRoiTooltip =
 		vault.underlyingToken.address === deploy.digg_system.uFragments.toLowerCase() ? fixedRoi + ' DIGG' : roiTooltip;
 
 	return (
@@ -134,4 +133,4 @@ export const DepositCard = observer((props: any) => {
 			</Grid>
 		</>
 	);
-});
+};
