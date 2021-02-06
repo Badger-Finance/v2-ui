@@ -12,7 +12,7 @@ class WalletStore {
 	private store?: RootStore;
 
 	public onboard: any;
-	public provider?: any = new Web3.providers.HttpProvider(RPC_URL);
+	public provider?: any = null;
 	public connectedAddress = '';
 	public currentBlock?: number;
 	public ethBalance?: BigNumber;
@@ -68,7 +68,8 @@ class WalletStore {
 
 	walletReset = action(() => {
 		try {
-			this.setProvider(new Web3.providers.HttpProvider(RPC_URL));
+			// this.setProvider(new Web3.providers.HttpProvider(RPC_URL));
+			this.setProvider(null);
 			this.setAddress('');
 			window.localStorage.removeItem('selectedWallet');
 		} catch (err) {
@@ -84,6 +85,9 @@ class WalletStore {
 	});
 
 	getCurrentBlock = action(() => {
+		if (!this.provider) {
+			return;
+		}
 		const web3 = new Web3(this.provider);
 		web3.eth.getBlockNumber().then((value: number) => {
 			this.currentBlock = value - 50;

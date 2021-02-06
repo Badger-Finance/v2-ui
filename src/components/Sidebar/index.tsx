@@ -113,6 +113,9 @@ const useStyles = makeStyles((theme) => ({
 		height: '1.1rem',
 		display: 'inline-block',
 	},
+	smallItemText: {
+		fontSize: '11px'
+	}
 }));
 
 export const Sidebar = observer(() => {
@@ -224,6 +227,22 @@ export const Sidebar = observer(() => {
 				</List>
 
 				<List>
+					<ListItem
+						button
+						className={classes.listItem}
+						onClick={() => window.open('https://app.nexusmutual.io/cover/buy/get-quote?address=0x6354E79F21B56C11f48bcD7c451BE456D7102A36')}
+					>
+						<ListItemIcon>
+							<img src={require('assets/sidebar/nexus_logo_bw.png')} className={classes.icon} />
+						</ListItemIcon>
+						<ListItemText>
+							Get Coverage
+							<div className={classes.smallItemText}>
+								Powered By Nexus Mutual
+							</div>
+						</ListItemText>
+					</ListItem>
+
 					<ListItem
 						button
 						className={classes.secondaryListItem}

@@ -23,7 +23,8 @@ const options = {
 	},
 };
 
-let batchCall = new BatchCall(options);
+// let batchCall = new BatchCall(options);
+let batchCall: any = null;
 
 class RebaseStore {
 	private store!: RootStore;
@@ -45,12 +46,32 @@ class RebaseStore {
 	}
 
 	fetchRebaseStats = action(async () => {
-		const rebaseLog = await getRebaseLogs();
+		let rebaseLog: any = null;
 		const { digg } = require('config/system/rebase');
+
+		if (this.store.wallet.provider) {
+			const options = {
+				web3: new Web3(this.store.wallet.provider),
+				etherscan: {
+					apiKey: 'NXSHKK6D53D3R9I17SR49VX8VITQY7UC6P',
+					delayTime: 300,
+				},
+			};
+
+			batchCall = new BatchCall(options);
+
+			rebaseLog = await getRebaseLogs(this.store.wallet.provider);
+		} else {
+			return;
+		}
+
+		if (!batchCall) return;
+
 		Promise.all([batchCall.execute(digg), ...[...graphQuery(digg[0].addresses[0])]]).then((result: any[]) => {
 			let keyedResult = _.groupBy(result[0], 'namespace');
 
-			if (!keyedResult.token || !keyedResult.token[0].decimals || !keyedResult.oracle[0].providerReports[0].value) return;
+			if (!keyedResult.token || !keyedResult.token[0].decimals || !keyedResult.oracle[0].providerReports[0].value)
+				return;
 
 			const minRebaseTimeIntervalSec = parseInt(keyedResult.policy[0].minRebaseTimeIntervalSec[0].value);
 			const lastRebaseTimestampSec = parseInt(keyedResult.policy[0].lastRebaseTimestampSec[0].value);
