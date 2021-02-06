@@ -97,8 +97,8 @@ class ContractsStore {
 		else this.fetchContracts();
 	});
 
-	private _fetchingContracts = false;
-	private _pendingChangeOfAddress = false;
+	private _fetchingContracts: boolean = false;
+	private _pendingChangeOfAddress: boolean = false;
 	fetchContracts = action(() => {
 		if (this._fetchingContracts) return;
 		this._fetchingContracts = true;

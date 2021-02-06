@@ -10,20 +10,9 @@ import { Contract } from 'web3-eth-contract';
 
 import { graphQuery } from '../utils/helpers';
 import { estimateAndSend } from '../utils/web3';
-import { RPC_URL } from '../../config/constants';
 import { orchestrator } from '../../config/system/rebase';
 import { getNextRebase, getRebaseLogs } from '../utils/diggHelpers';
 
-const infuraProvider = new Web3.providers.HttpProvider(RPC_URL);
-const options = {
-	web3: new Web3(infuraProvider),
-	etherscan: {
-		apiKey: 'NXSHKK6D53D3R9I17SR49VX8VITQY7UC6P',
-		delayTime: 300,
-	},
-};
-
-// let batchCall = new BatchCall(options);
 let batchCall: any = null;
 
 class RebaseStore {

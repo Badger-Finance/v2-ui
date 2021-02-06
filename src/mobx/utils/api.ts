@@ -1,11 +1,11 @@
 // api badger functions
 
+// TODO: Update to api.badger.finance on v2 migration
 const getApi = () => {
-	// if (process.env.NODE_ENV === 'production') {
-	// 	return 'https://api.sett.vision';
-	// }
-	// return 'https://rn6p9w9x10.execute-api.us-west-1.amazonaws.com/staging';
-	return 'https://api.sett.vision';
+	if (process.env.NODE_ENV === 'production') {
+		return 'https://api.sett.vision';
+	}
+	return 'https://rn6p9w9x10.execute-api.us-west-1.amazonaws.com/staging';
 };
 const badgerApi = getApi();
 
@@ -13,8 +13,8 @@ export const getAssetsUnderManagement = (): any => {
 	return fetch(`${badgerApi}/protocol/value?tokens=true`).then((response) => response.json());
 };
 
+// Geyser Data
 export const getFarmData = async (): Promise<any> => {
-	// getGeysers
 	return await fetch(`${badgerApi}/protocol/farm`).then((response) => response.json());
 };
 

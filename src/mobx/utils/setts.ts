@@ -69,7 +69,7 @@ export const diggSetts = [
 		title: 'Sushi DIGG-WBTC',
 		asset: 'slp-digg-wbtc',
 		symbol: 'wbtcDiggSLP',
-		address: '0x1862A18181346EBd9EdAf800804f89190DeF24a5',
+		address: '0x88128580ACdD9c04Ce47AFcE196875747bF2A9f6',
 		position: 3,
 	},
 	{
