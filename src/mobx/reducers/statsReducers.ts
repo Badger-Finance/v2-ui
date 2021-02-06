@@ -106,10 +106,7 @@ function calculatePortfolioStats(vaultContracts: any, tokens: any, vaults: any, 
 
 		if (!geyser.vault.underlyingToken) return;
 
-<<<<<<< HEAD
 		// TODO: Evaluate what should actually be happening here
-=======
->>>>>>> 3ac0c3466579bb0bb5bd1d50b64adf54ea873e68
 		if (!!geyser.rewards && geyser.rewards[0].year.amount.isGreaterThan(growth)) growth = new BigNumber(9.1612);
 
 		if (!!geyser.balance.gt(0) && !geyser.balanceValue().isNaN()) {
