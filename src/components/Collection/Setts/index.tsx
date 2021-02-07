@@ -70,8 +70,6 @@ export const SettList = observer((props: any) => {
 	};
 
 	const onClose = () => {
-		// if (txStatus === 'pending')
-		// 	return
 		setDialogProps({ ...dialogProps, open: false });
 	};
 
