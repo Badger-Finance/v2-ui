@@ -53,7 +53,7 @@ export const TokenCard = (props: any) => {
 	const getRoi = () => {
 		const getTooltip = (base: number, badger: number, digg: number, divisor: number): string => {
 			const adjBase = divisor ? base / divisor : base;
-			let tooltip = `${adjBase.toFixed(2)}% ${vault.underlyingToken.symbol}`;
+			let tooltip = `${adjBase.toFixed(2)}% ${vault ? vault.underlyingToken.symbol : ''}`;
 			if (badger) {
 				const adjBadger = divisor ? badger / divisor : badger;
 				tooltip += ` + ${adjBadger.toFixed(2)}% Badger`;
