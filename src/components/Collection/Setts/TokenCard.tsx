@@ -1,14 +1,11 @@
 import React, { useContext } from 'react';
-import { observer } from 'mobx-react-lite';
 import { StoreContext } from 'mobx/store-context';
 import { Tooltip, IconButton, Grid, Chip } from '@material-ui/core';
-import deploy from 'config/deployments/mainnet.json';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { VaultSymbol } from '../../Common/VaultSymbol';
 import { formatWithCommas } from 'mobx/utils/api';
 import { UnfoldMoreTwoTone } from '@material-ui/icons';
-import { formatBalance, formatBalanceValue } from 'mobx/reducers/statsReducers';
 
 const useStyles = makeStyles((theme) => ({
 	border: {
@@ -53,7 +50,7 @@ export const TokenCard = (props: any) => {
 	const getRoi = () => {
 		const getTooltip = (base: number, badger: number, digg: number, divisor: number): string => {
 			const adjBase = divisor ? base / divisor : base;
-			let tooltip = `${adjBase.toFixed(2)}% ${vault ? vault.underlyingToken.symbol : ''}`;
+			let tooltip = `${adjBase.toFixed(2)}% ${sett.symbol}`;
 			if (badger) {
 				const adjBadger = divisor ? badger / divisor : badger;
 				tooltip += ` + ${adjBadger.toFixed(2)}% Badger`;
@@ -66,25 +63,20 @@ export const TokenCard = (props: any) => {
 		};
 		if (farmData && farmData[sett.asset] && farmData[sett.asset].apy) {
 			const { apy, badgerApy, diggApy } = farmData[sett.asset];
+			const totalApy = apy + badgerApy + diggApy;
 			if (period === 'month') {
-				return { apy: apy / 12, tooltip: getTooltip(apy, badgerApy, diggApy, 12) };
+				return { apy: totalApy / 12, tooltip: getTooltip(apy, badgerApy, diggApy, 12) };
 			} else {
-				return { apy: apy, tooltip: getTooltip(apy, badgerApy, diggApy, 1) };
+				return { apy: totalApy, tooltip: getTooltip(apy, badgerApy, diggApy, 1) };
 			}
 		}
 		return { apy: 0, tooltip: '' };
 	};
 
-	let tokensAmount = formatWithCommas(assets[`${sett.asset}Tokens`].toFixed(5)),
-		token = null;
+	let tokensAmount = formatWithCommas(assets[`${sett.asset}Tokens`].toFixed(5));
 	let value = `$${formatWithCommas(assets[sett.asset].toFixed(2))}`;
 
-	if (!!vault && !isGlobal) {
-		token = vault.underlyingToken;
-		tokensAmount = formatBalance(token);
-		value = formatBalanceValue(token, currency);
-	}
-
+	console.log(sett);
 	const onCardClick = () => {
 		if (vault) {
 			onOpen(vault, sett);
@@ -100,7 +92,7 @@ export const TokenCard = (props: any) => {
 
 					<Typography variant="body1">{sett.title}</Typography>
 					<Typography variant="body2" color="textSecondary" component="div">
-						{vault ? vault.underlyingToken.symbol : ''}
+						{sett.symbol}
 						{!!sett.title.includes('Harvest') && (
 							<Chip className={classes.chip} label="Harvest" size="small" color="primary" />
 						)}
@@ -143,8 +135,8 @@ export const TokenCard = (props: any) => {
 				</Grid>
 
 				<Grid item xs={12} md={2} style={{ textAlign: 'right' }}>
-					{vault && token ? (
-						<IconButton color={vault.balance.gt(0) || token.balance.gt(0) ? 'default' : 'secondary'}>
+					{vault ? (
+						<IconButton color={vault.balance.gt(0) || vault.underlyingToken.balance.gt(0) ? 'default' : 'secondary'}>
 							<UnfoldMoreTwoTone />
 						</IconButton>
 					) : (

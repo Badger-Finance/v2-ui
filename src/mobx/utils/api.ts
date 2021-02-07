@@ -18,6 +18,10 @@ export const getFarmData = async (): Promise<any> => {
 	return await fetch(`${badgerApi}/protocol/farm`).then((response) => response.json());
 };
 
+export const getPpfs = async (): Promise<any> => {
+	return await fetch(`${badgerApi}/protocol/ppfs`).then((response) => response.json());
+};
+
 export const getAssetPerformances = (setts: Array<any>): Promise<any> => {
 	const performanceData = setts.map(async (sett: any) => {
 		const assetKey = sett.asset.toLowerCase();

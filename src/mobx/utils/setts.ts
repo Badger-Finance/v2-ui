@@ -2,7 +2,7 @@ export const setts = [
 	{
 		title: 'Badger',
 		asset: 'badger',
-		symbol: 'badger',
+		symbol: 'BADGER',
 		address: '0x19D97D8fA813EE2f51aD4B4e04EA08bAf4DFfC28',
 		position: 2,
 	},
@@ -61,7 +61,7 @@ export const diggSetts = [
 	{
 		title: 'Digg',
 		asset: 'digg',
-		symbol: 'digg',
+		symbol: 'DIGG',
 		address: '0x7e7e112a68d8d2e221e11047a72ffc1065c38e1a',
 		position: 1,
 	},

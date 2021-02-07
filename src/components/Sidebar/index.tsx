@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
 		cursor: 'pointer',
 		'&:hover': {
 			backgroundColor: 'transparent',
-			cursor: 'default',
+			cursor: 'pointer',
 		},
 		// paddingLeft: theme.spacing(1),
 		padding: theme.spacing(1, 3),
@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
 		fontSize: '.8rem',
 	},
 	secondaryListItem: {
-		cursor: 'default',
+		cursor: 'pointer',
 		justifyContent: 'space-between',
 		'&:hover': {
 			backgroundColor: '#070707',
@@ -66,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
 		padding: theme.spacing(0.5, 2),
 	},
 	secondarySubListItem: {
-		cursor: 'default',
+		cursor: 'pointer',
 		justifyContent: 'space-between',
 		background: ' rgba(0, 0, 0, .2)',
 		'&:hover': {},
@@ -83,7 +83,7 @@ const useStyles = makeStyles((theme) => ({
 		padding: theme.spacing(1, 2),
 		'&:hover': {
 			backgroundColor: '#070707',
-			cursor: 'default',
+			cursor: 'pointer',
 		},
 	},
 
@@ -114,8 +114,8 @@ const useStyles = makeStyles((theme) => ({
 		display: 'inline-block',
 	},
 	smallItemText: {
-		fontSize: '11px'
-	}
+		fontSize: '11px',
+	},
 }));
 
 export const Sidebar = observer(() => {
@@ -230,16 +230,18 @@ export const Sidebar = observer(() => {
 					<ListItem
 						button
 						className={classes.listItem}
-						onClick={() => window.open('https://app.nexusmutual.io/cover/buy/get-quote?address=0x6354E79F21B56C11f48bcD7c451BE456D7102A36')}
+						onClick={() =>
+							window.open(
+								'https://app.nexusmutual.io/cover/buy/get-quote?address=0x6354E79F21B56C11f48bcD7c451BE456D7102A36',
+							)
+						}
 					>
 						<ListItemIcon>
 							<img src={require('assets/sidebar/nexus_logo_bw.png')} className={classes.icon} />
 						</ListItemIcon>
 						<ListItemText>
 							Get Coverage
-							<div className={classes.smallItemText}>
-								Powered By Nexus Mutual
-							</div>
+							<div className={classes.smallItemText}>Powered By Nexus Mutual</div>
 						</ListItemText>
 					</ListItem>
 
@@ -249,6 +251,14 @@ export const Sidebar = observer(() => {
 						onClick={() => window.open('https://forum.badger.finance')}
 					>
 						Forum
+					</ListItem>
+
+					<ListItem
+						button
+						className={classes.secondaryListItem}
+						onClick={() => window.open('https://snapshot.page/#/badgerdao.eth')}
+					>
+						Governance
 					</ListItem>
 
 					<ListItem
