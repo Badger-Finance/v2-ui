@@ -8,6 +8,7 @@ import { Collection } from '../components/Collection';
 import { RootStore } from '../mobx/store';
 import { Airdrops } from '../components/Airdrops';
 import { Digg } from '../components/Digg';
+import { Bbtc } from '../components/Bbtc';
 import { Locked } from 'components/Common/Locked';
 
 const routes = {
@@ -60,6 +61,19 @@ const routes = {
 		},
 		onParamsChange: () => {
 			// store.uiState.setVault(collection, id)
+		},
+	}),
+	Bbtc: new Route<RootStore, QueryParams>({
+		path: '/bBTC',
+		component: <Bbtc />,
+		onEnter: (_, params, store) => {
+			// initialize store
+		},
+		beforeExit: () => {
+			//
+		},
+		onParamsChange: () => {
+			//
 		},
 	}),
 	// account: new Route<RootStore, {

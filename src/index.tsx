@@ -20,6 +20,7 @@ import { Header } from './components/Header';
 //css
 import './assets/css/onboard-override.css';
 import './assets/css/body.css';
+import './assets/css/input-override.css';
 import { darkTheme } from './config/ui/dark';
 
 startRouter(routes, store, {

@@ -3,19 +3,9 @@ import { observer } from 'mobx-react-lite';
 import views from '../../config/routes';
 import { useContext } from 'react';
 import { StoreContext } from '../../mobx/store-context';
-import {
-	Button,
-	ButtonGroup,
-	List,
-	ListItem,
-	Drawer,
-	Collapse,
-	IconButton,
-	ListItemIcon,
-	ListItemText,
-} from '@material-ui/core';
+import { List, ListItem, Drawer, Collapse, IconButton, ListItemIcon, ListItemText } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { Wallet } from './Wallet';
+
 import { ExpandMore } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
@@ -220,6 +210,18 @@ export const Sidebar = observer(() => {
 						<ListItemText primary="Digg" />
 
 						{/* <Chip size="small" label={"Coming soon"} variant="outlined" color="primary" className={classes.rewards} /> */}
+					</ListItem>
+					<ListItem
+						button
+						className={
+							classes.listItem + ' ' + (store.router.currentPath == '/bBTC' ? classes.activeListItem : '')
+						}
+						onClick={() => goTo(views.Bbtc)}
+					>
+						<ListItemIcon>
+							<img src={require('assets/sidebar/digg-white.png')} className={classes.icon} />
+						</ListItemIcon>
+						<ListItemText primary="bBTC" />
 					</ListItem>
 				</List>
 
