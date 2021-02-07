@@ -76,7 +76,7 @@ export const Airdrops = observer(() => {
 
 	const {
 		router: { goTo },
-		wallet: {},
+		wallet: { connectedAddress },
 		airdrops: { claimBadgerAirdrops, claimDiggAirdrops },
 		uiState: { airdropStats, stats },
 	} = store;
@@ -205,7 +205,11 @@ export const Airdrops = observer(() => {
 						<List style={{ padding: 0 }}>
 							<ListItem style={{ margin: 0, padding: 0 }}>
 								<ListItemText
-									primary={!!airdropStats.digg ? formatAmount(airdropStats.digg) : '0.00000'}
+									primary={
+										!!connectedAddress && !!airdropStats.digg
+											? formatAmount(airdropStats.digg)
+											: '0.00000'
+									}
 									secondary="DIGG available to claim"
 								/>
 								<ListItemSecondaryAction>
