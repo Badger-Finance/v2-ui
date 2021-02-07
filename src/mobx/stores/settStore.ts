@@ -2,7 +2,7 @@ import { extendObservable, action, observe } from 'mobx';
 import { RootStore } from '../store';
 import _ from 'lodash';
 import async from 'async';
-import { getAssetsUnderManagement, getCoinData, getAssetPerformances, getFarmData } from 'mobx/utils/api';
+import { getAssetsUnderManagement, getCoinData, getAssetPerformances, getFarmData, getPpfs } from 'mobx/utils/api';
 import { setts, diggSetts } from 'mobx/utils/setts';
 
 class SettStore {
@@ -12,6 +12,7 @@ class SettStore {
 	public setts?: any = [];
 	public diggSetts?: any = [];
 	public farmData?: any = {};
+	public ppfs?: any = {};
 
 	constructor(store: RootStore) {
 		this.store = store;
@@ -22,6 +23,7 @@ class SettStore {
 			setts: [],
 			diggSetts: [],
 			farmData: {},
+			ppfs: {},
 		});
 
 		this.fetchSettData();
@@ -39,6 +41,7 @@ class SettStore {
 				(callback: any) => this.fetchSetts(callback),
 				(callback: any) => this.fetchDiggSetts(callback),
 				(callback: any) => this.fetchFarmData(callback),
+				(callback: any) => this.fetchPpfs(callback),
 			],
 			(_err: any, _result: any) => {
 				this._fetchingSettData = false;
@@ -86,6 +89,15 @@ class SettStore {
 		getFarmData().then((res: any) => {
 			if (res) {
 				this.farmData = res;
+			}
+			callback();
+		});
+	});
+
+	fetchPpfs = action((callback: any) => {
+		getPpfs().then((res: any) => {
+			if (res) {
+				this.ppfs = res;
 			}
 			callback();
 		});

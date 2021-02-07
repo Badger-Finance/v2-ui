@@ -19,10 +19,7 @@ export default function AllSettList(props: any) {
 	});
 
 	const list = _.map(filtered, (sett) => {
-		// console.log('list: \n', vaults, sett.address);
 		const vault: Vault = vaults[sett.address.toLowerCase()];
-		// console.log(vault);
-
 		return (
 			<ListItem key={sett.asset} className={classes.listItem}>
 				<TokenCard isGlobal={!hideEmpty} sett={sett} onOpen={onOpen} vault={vault} period={period} />
@@ -30,7 +27,8 @@ export default function AllSettList(props: any) {
 		);
 	});
 
-	if (list.length > 0)
+	// TODO: Find a better way to verify data is loaded & ready
+	if (list && list.length === 11)
 		return (
 			<>
 				<TableHeader

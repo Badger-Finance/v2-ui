@@ -141,7 +141,7 @@ export const Collection = observer(() => {
 			const claimDisplay = inCurrency(claimValue, 'eth', true);
 			return (
 				parseFloat(claimDisplay) > 0 && (
-					<ListItemText primary={claimDisplay} secondary={`${CLAIMS_SYMBOLS[idx]} Available to Claim`} />
+					<ListItemText key={idx} primary={claimDisplay} secondary={`${CLAIMS_SYMBOLS[idx]} Available to Claim`} />
 				)
 			);
 		});
