@@ -2,20 +2,34 @@ import React, { useState } from 'react';
 import { VaultDeposit, VaultWithdraw, GeyserUnstake, GeyserStake } from 'components/Collection/Forms';
 import { VaultSymbol } from 'components/Common/VaultSymbol';
 import { Dialog, DialogTitle, Tab, Tabs, Switch, Typography } from '@material-ui/core';
+import deploy from '../../../config/deployments/mainnet.json';
+import BigNumber from "bignumber.js";
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 const SettDialog = (props: any) => {
-	const [dialogMode, setDialogMode] = useState('vault');
+	const [dialogMode, setDialogMode] = useState(0);
 	const [dialogOut, setDialogOut] = useState(false);
 	const { dialogProps, classes, onClose } = props;
-	const { open, vault, sett } = dialogProps;
+	const { open, sett } = dialogProps;
+	let { vault } = dialogProps;
 
 	if (!open) return <div />;
 
+	if (!vault) { // user wallet not connected - populate zero data
+		vault = {
+			underlyingToken: {
+				balance: new BigNumber(0),
+				decimals: 1, // decimals do not matter - dividend is 0
+			}
+		};
+	}
+
+	const diggSett = deploy.sett_system.vaults['native.digg'].toLowerCase();
 	let form = <VaultDeposit vault={vault} />;
-	if (dialogMode === 'vault' && dialogOut) form = <VaultWithdraw vault={vault} />;
-	else if (dialogMode == 'geyser' && !dialogOut) form = <GeyserStake vault={vault} />;
-	else if (dialogMode == 'geyser' && dialogOut) form = <GeyserUnstake vault={vault} />;
+	// TODO: DialogMode should take integer indexes, may be worth enumerating - maybe not
+	if (dialogMode === 0 && dialogOut) form = <VaultWithdraw vault={vault} />;
+	else if (dialogMode == 1 && !dialogOut) form = <GeyserStake vault={vault} />;
+	else if (dialogMode == 1 && dialogOut) form = <GeyserUnstake vault={vault} />;
 
 	return (
 		<Dialog key={'dialog'} fullWidth maxWidth={'sm'} open={open} onClose={onClose}>
@@ -30,28 +44,25 @@ const SettDialog = (props: any) => {
 						color="primary"
 					/>
 				</div>
-
-				<VaultSymbol token={sett ? sett.asset : vault} />
-
+				<VaultSymbol token={sett.asset} />
 				<Typography variant="body1" color="textPrimary" component="div">
-					{vault.underlyingToken.name}
+					{sett.title}
 				</Typography>
 				<Typography variant="body2" color="textSecondary" component="div">
-					{vault.underlyingToken.symbol}
+					{sett.symbol}
 				</Typography>
 			</DialogTitle>
 			<Tabs
 				variant="fullWidth"
 				indicatorColor="primary"
-				value={['vault', 'geyser'].indexOf(dialogMode)}
+				value={dialogMode}
 				style={{ background: 'rgba(0,0,0,.2)', marginBottom: '1rem' }}
 			>
-				<Tab onClick={() => setDialogMode('vault')} label={dialogOut ? 'Withdraw' : 'Deposit'}></Tab>
-				{vault.geyser && (
-					<Tab onClick={() => setDialogMode('geyser')} label={dialogOut ? 'Unstake' : 'Stake'}></Tab>
+				<Tab onClick={() => setDialogMode(0)} label={dialogOut ? 'Withdraw' : 'Deposit'}></Tab>
+				{sett.address !== diggSett && (
+					<Tab onClick={() => setDialogMode(1)} label={dialogOut ? 'Unstake' : 'Stake'}></Tab>
 				)}
 			</Tabs>
-
 			{form}
 		</Dialog>
 	);

@@ -76,11 +76,8 @@ export const TokenCard = (props: any) => {
 	let tokensAmount = formatWithCommas(assets[`${sett.asset}Tokens`].toFixed(5));
 	let value = `$${formatWithCommas(assets[sett.asset].toFixed(2))}`;
 
-	console.log(sett);
 	const onCardClick = () => {
-		if (vault) {
-			onOpen(vault, sett);
-		}
+		onOpen(vault, sett);
 	};
 
 	const { apy, tooltip } = getRoi();
