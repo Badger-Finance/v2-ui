@@ -116,7 +116,6 @@ export const Collection = observer(() => {
 		rewards: { claimGeysers, badgerTree },
 		uiState: {
 			stats,
-
 			currency,
 			period,
 			setCurrency,

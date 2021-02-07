@@ -63,34 +63,39 @@ export const TokenCard = (props: any) => {
 		};
 		if (farmData && farmData[sett.asset] && farmData[sett.asset].apy) {
 			const { apy, badgerApy, diggApy } = farmData[sett.asset];
-			const totalApy = apy + badgerApy + diggApy;
+			const baseApy = apy - badgerApy - diggApy;
 			if (period === 'month') {
-				return { apy: totalApy / 12, tooltip: getTooltip(apy, badgerApy, diggApy, 12) };
+				return { apy: apy / 12, tooltip: getTooltip(baseApy, badgerApy, diggApy, 12) };
 			} else {
-				return { apy: totalApy, tooltip: getTooltip(apy, badgerApy, diggApy, 1) };
+				return { apy: apy, tooltip: getTooltip(baseApy, badgerApy, diggApy, 1) };
 			}
 		}
 		return { apy: 0, tooltip: '' };
 	};
 
-	let tokensAmount = formatWithCommas(assets[`${sett.asset}Tokens`].toFixed(5));
-	let value = `$${formatWithCommas(assets[sett.asset].toFixed(2))}`;
-
-	const onCardClick = () => {
-		onOpen(vault, sett);
+	const getTokens = () => {
+		const tokenCount = assets[`${sett.asset}Tokens`];
+		if (tokenCount < 0.00001) {
+			// Visual 0 Balance
+			return '< 0.00001';
+		}
+		return formatWithCommas(tokenCount);
 	};
 
+	const tokensAmount = getTokens();
+	const value = `$${formatWithCommas(assets[sett.asset].toFixed(2))}`;
 	const { apy, tooltip } = getRoi();
+	
 	return (
 		<>
-			<Grid onClick={onCardClick} container className={classes.border}>
+			<Grid onClick={() => onOpen(vault, sett)} container className={classes.border}>
 				<Grid item xs={12} md={4} className={classes.name}>
-					<VaultSymbol token={sett.asset} />
-
+					<VaultSymbol token={sett} />
 					<Typography variant="body1">{sett.title}</Typography>
 					<Typography variant="body2" color="textSecondary" component="div">
 						{sett.symbol}
-						{!!sett.title.includes('Harvest') && (
+						{/* TODO: Refactor this check on v2 (this is bad!) */}
+						{sett && sett.position === 8 && (
 							<Chip className={classes.chip} label="Harvest" size="small" color="primary" />
 						)}
 					</Typography>
@@ -133,7 +138,9 @@ export const TokenCard = (props: any) => {
 
 				<Grid item xs={12} md={2} style={{ textAlign: 'right' }}>
 					{vault ? (
-						<IconButton color={vault.balance.gt(0) || vault.underlyingToken.balance.gt(0) ? 'default' : 'secondary'}>
+						<IconButton
+							color={vault.balance.gt(0) || vault.underlyingToken.balance.gt(0) ? 'default' : 'secondary'}
+						>
 							<UnfoldMoreTwoTone />
 						</IconButton>
 					) : (

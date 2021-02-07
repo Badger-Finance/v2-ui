@@ -16,7 +16,6 @@ const useStyles = makeStyles((theme) => ({
 		width: '100%',
 		borderRadius: theme.shape.borderRadius,
 		overflow: 'hidden',
-		// border: `1px solid ${theme.palette.grey[100]}`,
 		background: `${theme.palette.background.paper}`,
 		padding: 0,
 		boxShadow: theme.shadows[1],
@@ -46,7 +45,6 @@ const useStyles = makeStyles((theme) => ({
 		padding: 0,
 	},
 	title: {
-		// background: 'rgba(0,0,0,.5)',
 		padding: theme.spacing(2, 2, 2),
 	},
 }));
@@ -66,14 +64,14 @@ export const SettList = observer((props: any) => {
 	const [dialogProps, setDialogProps] = useState({ open: false, vault: undefined as any, sett: undefined as any });
 
 	const onOpen = (vault: Vault, sett: any) => {
-		setDialogProps({ vault, open: true, sett });
+		setDialogProps({ vault: vault, open: true, sett: sett });
 	};
 
 	const onClose = () => {
 		setDialogProps({ ...dialogProps, open: false });
 	};
 
-	let allSetts: any = undefined;
+	let allSetts: any[] = [];
 	if (setts && diggSetts) {
 		allSetts = setts.concat(diggSetts);
 	}
@@ -84,10 +82,11 @@ export const SettList = observer((props: any) => {
 
 	const spacer = () => <div className={classes.before} />;
 
-	const tvl = assets.totalValue ? formatUsd(assets.totalValue) : '$0.00';
+	const tvl = assets.totalValue ? `${formatUsd(assets.totalValue)}` : '$0.00';
 
 	const depositListProps = {
 		contracts: [...vaultBatches[2].contracts, ...vaultBatches[1].contracts, ...vaultBatches[0].contracts],
+		allSetts,
 		vaults,
 		hideEmpty,
 		classes,

@@ -85,7 +85,7 @@ export const VaultDeposit = observer((props: any) => {
 					style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap' }}
 				>
 					<Typography variant="body1" color={'textSecondary'} style={{ marginBottom: '.2rem' }}>
-						Available: {totalAvailable > 0 ? totalAvailable : '0.000000000000000000'}
+						Available: {totalAvailable}
 					</Typography>
 					{renderAmounts}
 				</div>

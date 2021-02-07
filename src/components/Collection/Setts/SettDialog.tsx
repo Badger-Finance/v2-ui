@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { VaultDeposit, VaultWithdraw, GeyserUnstake, GeyserStake } from 'components/Collection/Forms';
 import { VaultSymbol } from 'components/Common/VaultSymbol';
 import { Dialog, DialogTitle, Tab, Tabs, Switch, Typography } from '@material-ui/core';
@@ -13,14 +13,40 @@ const SettDialog = (props: any) => {
 	const { open, sett } = dialogProps;
 	let { vault } = dialogProps;
 
+	useEffect(() => {
+		const reset = async () => await setDialogMode(0);
+		if (open) {
+			reset();
+		}
+	}, [open]);
 	if (!open) return <div />;
 
+	/**
+	 * TODO: Revist the general structure of downstream data consumption
+	 * This structure is a bit recursive
+	 */
 	if (!vault) { // user wallet not connected - populate zero data
+		const decimals = sett.asset == 'digg' ? 9 : 18;
 		vault = {
 			underlyingToken: {
 				balance: new BigNumber(0),
-				decimals: 1, // decimals do not matter - dividend is 0
-			}
+				decimals: decimals, // decimals do not matter - dividend is 0
+			},
+			geyser: {
+				balance: new BigNumber(0),
+				decimals: decimals, // decimals do not matter - dividend is 0
+				vault: {
+					balance: new BigNumber(0),
+					decimals: decimals, // decimals do not matter - dividend is 0
+					pricePerShare: 1,
+					underlyingToken: {
+						balance: new BigNumber(0),
+						decimals: decimals, // decimals do not matter - dividend is 0
+					},
+				}
+			},
+			balance: new BigNumber(0),
+			decimals: decimals,
 		};
 	}
 
@@ -44,7 +70,7 @@ const SettDialog = (props: any) => {
 						color="primary"
 					/>
 				</div>
-				<VaultSymbol token={sett.asset} />
+				<VaultSymbol token={sett} />
 				<Typography variant="body1" color="textPrimary" component="div">
 					{sett.title}
 				</Typography>

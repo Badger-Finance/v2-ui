@@ -56,8 +56,7 @@ export const DepositCard = (props: any) => {
 	const [update, forceUpdate] = useState<boolean>();
 	useInterval(() => forceUpdate(!update), 1000);
 
-	const { vault, onOpen } = props;
-
+	const { sett, vault, onOpen } = props;
 	const { period, currency } = store.uiState;
 	const { tokens } = store.contracts;
 
@@ -78,11 +77,10 @@ export const DepositCard = (props: any) => {
 
 	return (
 		<>
-			<Grid onClick={() => onOpen(vault)} container className={classes.border}>
+			<Grid onClick={() => onOpen(vault, sett)} container className={classes.border}>
 				<Grid item xs={12} md={4} className={classes.name}>
-					<VaultSymbol token={token} />
+					<VaultSymbol token={sett} />
 					<Typography variant="body1">{token.name}</Typography>
-
 					<Typography variant="body2" color="textSecondary" component="div">
 						{token.symbol}
 						{!!vault.super && (
