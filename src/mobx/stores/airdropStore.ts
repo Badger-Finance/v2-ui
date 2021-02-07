@@ -8,20 +8,7 @@ import _ from 'lodash';
 import { jsonQuery } from '../utils/helpers';
 import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
-
-import { RPC_URL } from 'config/constants';
 import { rewards as airdropsConfig, token as diggTokenConfig } from '../../config/system/rebase';
-
-const infuraProvider = new Web3.providers.HttpProvider(RPC_URL);
-const options = {
-	web3: new Web3(infuraProvider),
-	etherscan: {
-		apiKey: 'NXSHKK6D53D3R9I17SR49VX8VITQY7UC6P',
-		delayTime: 300,
-	},
-};
-
-let batchCall = new BatchCall(options);
 
 class AirdropStore {
 	private store!: RootStore;
@@ -39,7 +26,6 @@ class AirdropStore {
 	fetchAirdrops = action(() => {
 		const { provider, connectedAddress, isCached } = this.store.wallet;
 		const {} = this.store.uiState;
-		// console.log('fetching', connectedAddress)
 
 		if (!connectedAddress) return;
 
@@ -47,10 +33,8 @@ class AirdropStore {
 		const rewardsTree = new web3.eth.Contract(airdropsConfig.abi as any, airdropsConfig.contract);
 		const diggToken = new web3.eth.Contract(diggTokenConfig.abi as any, diggTokenConfig.contract);
 		const checksumAddress = connectedAddress.toLowerCase();
-		// console.log('fetching', `${airdropsConfig.endpoint}/${checksumAddress}`)
 
 		jsonQuery(`${airdropsConfig.endpoint}/${checksumAddress}`).then((merkleProof: any) => {
-			// console.log('proof', new BigNumber(Web3.utils.hexToNumberString(merkleProof.amount)).toString())
 			if (!merkleProof.error) {
 				Promise.all([
 					rewardsTree.methods.isClaimed(merkleProof.index).call(),
@@ -58,7 +42,6 @@ class AirdropStore {
 						.sharesToFragments(new BigNumber(Web3.utils.hexToNumberString(merkleProof.amount)).toFixed(0))
 						.call(),
 				]).then((result: any[]) => {
-					// console.log(new BigNumber(result[1]).multipliedBy(1e9))
 					this.airdrops = {
 						digg: !result[0] ? new BigNumber(result[1]) : new BigNumber(0),
 						merkleProof,
@@ -76,9 +59,6 @@ class AirdropStore {
 		const { queueNotification, gasPrice, setTxStatus } = this.store.uiState;
 
 		if (!connectedAddress) return;
-
-		// if (ethBalance?.lt(MIN_ETH_BALANCE))
-		// 	return queueNotification("Your account is low on ETH, you may need to top up to claim.", 'warning')
 
 		const web3 = new Web3(provider);
 		const rewardsTree = new web3.eth.Contract(airdropsConfig.abi as any, airdropsConfig.contract);
@@ -113,9 +93,6 @@ class AirdropStore {
 		const { queueNotification, gasPrice, setTxStatus } = this.store.uiState;
 
 		if (!connectedAddress) return;
-		// console.log(merkleProof, this.airdrops);
-		// if (ethBalance?.lt(MIN_ETH_BALANCE))
-		// 	return queueNotification("Your account is low on ETH, you may need to top up to claim.", 'warning')
 
 		const web3 = new Web3(provider);
 		const rewardsTree = new web3.eth.Contract(airdropsConfig.abi as any, airdropsConfig.contract);
