@@ -91,15 +91,13 @@ function calculatePortfolioStats(vaultContracts: any, tokens: any, vaults: any, 
 		if (!vault.holdingsValue().isNaN()) tvl = tvl.plus(vault.holdingsValue());
 
 		if (vault.balance.gt(0) && !vault.balanceValue().isNaN()) {
-			let diggMultiplier = vault.underlyingToken.symbol === 'DIGG' ? getDiggPerShare(vault) : new BigNumber(1);
-			deposits = deposits.plus(vault.balanceValue().multipliedBy(diggMultiplier));
-			portfolio = portfolio.plus(vault.balanceValue().multipliedBy(diggMultiplier));
+			deposits = deposits.plus(vault.balanceValue());
+			portfolio = portfolio.plus(vault.balanceValue());
 		}
 
 		if (vault.underlyingToken.balance.gt(0) && !vault.underlyingToken.balanceValue().isNaN()) {
-			let diggMultiplier = vault.underlyingToken.symbol === 'DIGG' ? getDiggPerShare(vault) : new BigNumber(1);
-			wallet = wallet.plus(vault.underlyingToken.balanceValue().multipliedBy(diggMultiplier));
-			portfolio = portfolio.plus(vault.underlyingToken.balanceValue().multipliedBy(diggMultiplier));
+			wallet = wallet.plus(vault.underlyingToken.balanceValue());
+			portfolio = portfolio.plus(vault.underlyingToken.balanceValue());
 		}
 	});
 
