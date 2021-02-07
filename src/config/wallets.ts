@@ -1,4 +1,4 @@
-import { INFURA_KEY, APP_URL, CONTACT_EMAIL, RPC_URL, APP_NAME, PORTIS_APP_ID } from './constants';
+import { APP_URL, CONTACT_EMAIL, RPC_URL, APP_NAME, PORTIS_APP_ID } from './constants';
 
 export const onboardWallets = [
 	{ walletName: 'metamask' },
@@ -11,7 +11,7 @@ export const onboardWallets = [
 	},
 	{
 		walletName: 'walletConnect',
-		infuraKey: INFURA_KEY,
+		rpc: { ['1']: RPC_URL },
 	},
 	{ walletName: 'walletLink', rpcUrl: RPC_URL, appName: APP_NAME },
 	{ walletName: 'dapper' },

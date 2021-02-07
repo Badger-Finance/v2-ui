@@ -43,8 +43,6 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-// const get;
-
 export const TokenCard = (props: any) => {
 	const store = useContext(StoreContext);
 	const classes = useStyles();
@@ -53,21 +51,33 @@ export const TokenCard = (props: any) => {
 	const { period, currency } = store.uiState;
 	const { assets, farmData } = store.sett;
 	const getRoi = () => {
+		const getTooltip = (base: number, badger: number, digg: number, divisor: number): string => {
+			const adjBase = divisor ? base / divisor : base;
+			let tooltip = `${adjBase.toFixed(2)}% ${vault.underlyingToken.symbol}`;
+			if (badger) { 
+				const adjBadger = divisor ? badger / divisor : badger;
+				tooltip += ` + ${adjBadger.toFixed(2)}% Badger`;
+			}
+			if (digg) { 
+				const adjDigg = divisor ? digg / divisor : digg;
+				tooltip += ` + ${adjDigg.toFixed(2)}% Digg`;
+			}
+			return tooltip;
+		};
 		if (farmData && farmData[sett.asset] && farmData[sett.asset].apy) {
-			const { apy } = farmData[sett.asset];
+			const { apy, badgerApy, diggApy } = farmData[sett.asset];
 			if (period === 'month') {
-				return apy / 12;
+				return {apy: apy / 12, tooltip: getTooltip(apy, badgerApy, diggApy, 12)};
 			} else {
-				return apy;
+				return {apy: apy, tooltip: getTooltip(apy, badgerApy, diggApy, 1)};
 			}
 		}
-		return 0;
+		return {apy: 0, tooltip: ''};
 	};
 
 	let tokensAmount = formatWithCommas(assets[`${sett.asset}Tokens`].toFixed(5)),
 		token = null;
 	let value = `$${formatWithCommas(assets[sett.asset].toFixed(2))}`;
-	const roi = getRoi();
 
 	if (!!vault && !isGlobal) {
 		token = vault.underlyingToken;
@@ -80,7 +90,8 @@ export const TokenCard = (props: any) => {
 			onOpen(vault, sett);
 		}
 	};
-
+	
+	const {apy, tooltip} = getRoi();
 	return (
 		<>
 			<Grid onClick={onCardClick} container className={classes.border}>
@@ -89,7 +100,7 @@ export const TokenCard = (props: any) => {
 
 					<Typography variant="body1">{sett.title}</Typography>
 					<Typography variant="body2" color="textSecondary" component="div">
-						{sett.asset}
+						{vault.underlyingToken.symbol}
 						{!!sett.title.includes('Harvest') && (
 							<Chip className={classes.chip} label="Harvest" size="small" color="primary" />
 						)}
@@ -113,11 +124,11 @@ export const TokenCard = (props: any) => {
 					</Typography>
 				</Grid>
 				<Grid item xs={6} md={2}>
-					{/* <Tooltip enterDelay={0} leaveDelay={300} arrow placement="left" title={fixedRoiTooltip}> */}
-					<Typography style={{ cursor: 'default' }} variant="body1" color={'textPrimary'}>
-						{roi.toFixed(2)}%
-					</Typography>
-					{/* </Tooltip> */}
+					<Tooltip enterDelay={0} leaveDelay={300} arrow placement="left" title={tooltip}>
+						<Typography style={{ cursor: 'default' }} variant="body1" color={'textPrimary'}>
+							{apy.toFixed(2)}%
+						</Typography>
+					</Tooltip>
 				</Grid>
 
 				<Grid item className={classes.mobileLabel} xs={6}>

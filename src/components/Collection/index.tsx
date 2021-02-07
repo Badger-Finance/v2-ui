@@ -22,8 +22,6 @@ import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Loader } from '../Loader';
 
-// import SettList from './SettList';
-// import {} from './SettList/SettList';
 import { SettList } from './Setts';
 import { CLAIMS_SYMBOLS } from 'config/constants';
 import { formatPrice } from 'mobx/reducers/statsReducers';
