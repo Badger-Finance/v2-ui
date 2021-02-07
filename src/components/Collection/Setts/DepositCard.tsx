@@ -1,21 +1,22 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { observer } from 'mobx-react-lite';
-import { StoreContext } from '../../mobx/store-context';
+
+import { StoreContext } from '../../../mobx/store-context';
 import { Tooltip, IconButton, Grid, Chip } from '@material-ui/core';
-import deploy from 'config/deployments/mainnet.json';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { VaultSymbol } from '../Common/VaultSymbol';
+import { VaultSymbol } from '../../Common/VaultSymbol';
 import { UnfoldMoreTwoTone } from '@material-ui/icons';
 import {
-	formatBalance,
+	formatBalanceUnderlying,
 	formatBalanceValue,
-	formatGeyserHoldings,
-	formatHoldingsValue,
+	formatGeyserBalance,
+	formatGeyserBalanceValue,
 	formatVaultGrowth,
-	formatVaultBalance,
 	simulateDiggSchedule,
 } from 'mobx/reducers/statsReducers';
+import useInterval from '@use-it/interval';
+import deploy from 'config/deployments/mainnet.json';
 
 const useStyles = makeStyles((theme) => ({
 	border: {
@@ -49,31 +50,30 @@ const useStyles = makeStyles((theme) => ({
 		padding: 0,
 	},
 }));
-export const TokenCard = observer((props: any) => {
+export const DepositCard = (props: any) => {
 	const store = useContext(StoreContext);
 	const classes = useStyles();
+	const [update, forceUpdate] = useState<boolean>();
+	useInterval(() => forceUpdate(!update), 1000);
 
-	const { vault, isGlobal, onOpen } = props;
+	const { vault, onOpen } = props;
 
 	const { period, currency } = store.uiState;
 	const { tokens } = store.contracts;
 
-	const { underlyingToken: token } = vault;
+	const { underlyingToken: token, geyser } = vault;
 
 	if (!token) {
 		return <div />;
 	}
-	// const [update, forceUpdate] = useState<boolean>();
-	// useInterval(() => forceUpdate(!update), 1000);
 
 	const { roi, roiTooltip } = formatVaultGrowth(vault, period);
-
-	let fixedRoi = isNaN(parseFloat(roi))
-		? '1%'
+	const fixedRoi = isNaN(parseFloat(roi))
+		? 'Infinity%'
 		: vault.underlyingToken.address === deploy.digg_system.uFragments.toLowerCase()
 		? simulateDiggSchedule(vault, tokens[deploy.digg_system.uFragments.toLowerCase()])
 		: roi;
-	let fixedRoiTooltip =
+	const fixedRoiTooltip =
 		vault.underlyingToken.address === deploy.digg_system.uFragments.toLowerCase() ? fixedRoi + ' DIGG' : roiTooltip;
 
 	return (
@@ -93,22 +93,18 @@ export const TokenCard = observer((props: any) => {
 
 				<Grid item className={classes.mobileLabel} xs={6}>
 					<Typography variant="body2" color={'textSecondary'}>
-						{!isGlobal ? 'Tokens Available' : 'Tokens Deposited'}
+						Deposited
 					</Typography>
 				</Grid>
 
 				<Grid item xs={6} md={2}>
 					<Typography variant="body1" color={'textPrimary'}>
-						{!isGlobal
-							? formatBalance(token)
-							: vault.geyser
-							? formatGeyserHoldings(vault)
-							: formatVaultBalance(vault)}
+						{!!geyser ? formatGeyserBalance(geyser) : formatBalanceUnderlying(vault)}
 					</Typography>
 				</Grid>
 				<Grid item className={classes.mobileLabel} xs={6}>
 					<Typography variant="body2" color={'textSecondary'}>
-						{!isGlobal ? 'Potential ROI' : 'ROI'}
+						ROI
 					</Typography>
 				</Grid>
 				<Grid item xs={6} md={2}>
@@ -125,18 +121,16 @@ export const TokenCard = observer((props: any) => {
 				</Grid>
 				<Grid item xs={6} md={2}>
 					<Typography variant="body1" color={'textPrimary'}>
-						{!isGlobal
-							? formatBalanceValue(vault.underlyingToken, currency)
-							: formatHoldingsValue(vault, currency)}
+						{!!geyser ? formatGeyserBalanceValue(geyser, currency) : formatBalanceValue(vault, 'usd')}
 					</Typography>
 				</Grid>
 
 				<Grid item xs={12} md={2} style={{ textAlign: 'right' }}>
-					<IconButton color={vault.balance.gt(0) || token.balance.gt(0) ? 'default' : 'secondary'}>
+					<IconButton color="default">
 						<UnfoldMoreTwoTone />
 					</IconButton>
 				</Grid>
 			</Grid>
 		</>
 	);
-});
+};
