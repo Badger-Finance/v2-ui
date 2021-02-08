@@ -149,7 +149,7 @@ export const usdToCurrency = (
 			break;
 		case 'cad':
 			normal = normal.dividedBy(exchangeRates.usd).multipliedBy(exchangeRates.cad);
-			prefix = '$';
+			prefix = 'C$';
 			break;
 	}
 
@@ -199,7 +199,7 @@ export const inCurrency = (
 			break;
 		case 'cad':
 			normal = normal.multipliedBy(exchangeRates.cad);
-			prefix = '$';
+			prefix = 'C$';
 			decimals = 2;
 			break;
 	}
