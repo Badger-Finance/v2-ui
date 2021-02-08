@@ -98,10 +98,10 @@ function calculatePortfolioStats(vaultContracts: any, tokens: any, vaults: any, 
 			portfolio = portfolio.plus(vault.balanceValue().multipliedBy(diggMultiplier));
 		}
 
+		// No DIGG Multiplier for shares required on baseline DIGG
 		if (vault.underlyingToken.balance.gt(0) && !vault.underlyingToken.balanceValue().isNaN()) {
-			let diggMultiplier = vault.underlyingToken.symbol === 'DIGG' ? getDiggPerShare(vault) : new BigNumber(1);
-			wallet = wallet.plus(vault.underlyingToken.balanceValue().multipliedBy(diggMultiplier));
-			portfolio = portfolio.plus(vault.underlyingToken.balanceValue().multipliedBy(diggMultiplier));
+			wallet = wallet.plus(vault.underlyingToken.balanceValue());
+			portfolio = portfolio.plus(vault.underlyingToken.balanceValue());
 		}
 	});
 
