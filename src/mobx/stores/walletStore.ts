@@ -68,7 +68,6 @@ class WalletStore {
 
 	walletReset = action(() => {
 		try {
-			// this.setProvider(new Web3.providers.HttpProvider(RPC_URL));
 			this.setProvider(null);
 			this.setAddress('');
 			window.localStorage.removeItem('selectedWallet');

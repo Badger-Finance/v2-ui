@@ -83,31 +83,39 @@ export const getCoinData = async (coin: string): Promise<any> => {
 	return await fetch(`${coingeckoApi}/coins/${coin}`).then((response) => response.json());
 };
 
-// api util functions
-
-export const formatUsd = (value: number): any => {
-	const displayValue = parseFloat(value.toFixed(2));
-	let display = '';
-	if (displayValue > 1000000000) {
-		display = `${(value / 1000000000).toFixed(2)}B`;
-	} else if (displayValue > 1000000) {
-		display = `${(value / 1000000).toFixed(2)}M`;
-	} else if (displayValue > 1000) {
-		display = `${(value / 1000).toFixed(2)}K`;
-	} else {
-		display = `${value.toFixed(2)}`;
-	}
-	return `$${display}`;
+export const getEthPrice = async (coin: string): Promise<any> => {
+	return await fetch(`${coingeckoApi}/coins/${coin}`)
+		.then((response) => response.json())
+		.then((jsonResponse) => jsonResponse['market_data']['current_price']['usd']);
 };
 
-export const formatWithCommas = (x: any): any => {
+// api util functions
+
+export const formatUsd = (x: number): string => {
 	try {
-		const x1 = x.toString().split('.')[0];
-		const x2 = x.toString().split('.')[1];
-		return `${x1.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}.${x2}`;
+		const valueParts = x.toString().split('.');
+		let value = valueParts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+		if (valueParts.length > 1) {
+			value += '.' + valueParts[1].substring(0, 2);
+		}
+		return value;
 	} catch (e) {
 		console.log(e);
-		return x;
+		return x.toString();
+	}
+};
+
+export const formatWithCommas = (x: number): string => {
+	try {
+		const valueParts = x.toString().split('.');
+		let value = valueParts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+		if (valueParts.length > 1) {
+			value += '.' + valueParts[1].substring(0, 5);
+		}
+		return value;
+	} catch (e) {
+		console.log(e);
+		return x.toString();
 	}
 };
 

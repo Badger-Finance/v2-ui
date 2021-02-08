@@ -46,6 +46,7 @@ class UiState {
 					badger: new BigNumber(0),
 					digg: new BigNumber(0),
 					bDigg: new BigNumber(1),
+					vaultDeposits: new BigNumber(0),
 				},
 			},
 			claims: [0, 0, 0],

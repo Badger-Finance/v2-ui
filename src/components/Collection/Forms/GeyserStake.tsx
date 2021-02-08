@@ -40,7 +40,6 @@ export const GeyserStake = observer((props: any) => {
 	};
 
 	const setAmount = (percent: number) => {
-		// (document.getElementById(TEXTFIELD_ID)! as HTMLInputElement).value = uiStats.availableFull[percent];
 		setValue(
 			'amount',
 			vault.balance
@@ -89,11 +88,9 @@ export const GeyserStake = observer((props: any) => {
 					<div>
 						<Typography variant="body2" color={'textSecondary'} style={{ marginBottom: '.2rem' }}>
 							Underlying {vault.underlyingToken.symbol}: {formatBalanceUnderlying(vault)}
-							{/* Wrapped: {uiStats.wrappedFull[100]} */}
 						</Typography>
 						<Typography variant="body1" color={'textSecondary'} style={{ marginBottom: '.2rem' }}>
-							Available {vault.symbol}: {totalAvailable || '0.000000000000000000'}
-							{/* Wrapped: {uiStats.wrappedFull[100]} */}
+							Available {vault.symbol}: {totalAvailable}
 						</Typography>
 					</div>
 					{renderAmounts}
