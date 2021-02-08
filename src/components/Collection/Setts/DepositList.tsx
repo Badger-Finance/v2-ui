@@ -8,7 +8,18 @@ import BigNumber from 'bignumber.js';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function DepositList(props: any) {
-	const { allSetts, contracts, classes, vaults, hideEmpty, onOpen, period, walletBalance } = props;
+	const {
+		allSetts,
+		contracts,
+		classes,
+		vaults,
+		hideEmpty,
+		onOpen,
+		period,
+		walletBalance,
+		depositBalance,
+		vaultBalance,
+	} = props;
 
 	let walletBalances = contracts.map((address: string) => {
 		const vault: Vault = vaults[address.toLowerCase()];
@@ -37,6 +48,7 @@ export default function DepositList(props: any) {
 		let userBalance = vault ? vault.balance.toNumber() : 0;
 		if (sett && userBalance > 0) {
 			userBalance /= Math.pow(10, vault.decimals);
+			const ppfs = vault.pricePerShare.toNumber();
 			return (
 				<ListItem key={address} className={classes.listItem}>
 					<DepositCard
@@ -44,7 +56,7 @@ export default function DepositList(props: any) {
 						vault={vault}
 						sett={sett}
 						onOpen={onOpen}
-						balance={userBalance}
+						balance={userBalance * ppfs}
 						balanceToken={vault}
 					/>
 				</ListItem>
@@ -59,6 +71,7 @@ export default function DepositList(props: any) {
 		let userBalance = geyser ? geyser.balance.toNumber() : 0;
 		if (sett && geyser && userBalance > 0) {
 			userBalance /= Math.pow(10, vault.decimals);
+			const ppfs = vault.pricePerShare.toNumber();
 			return (
 				<ListItem key={address} className={classes.listItem}>
 					<DepositCard
@@ -66,7 +79,7 @@ export default function DepositList(props: any) {
 						vault={vault}
 						sett={sett}
 						onOpen={onOpen}
-						balance={userBalance}
+						balance={userBalance * ppfs}
 						balanceToken={geyser}
 					/>
 				</ListItem>
@@ -77,40 +90,50 @@ export default function DepositList(props: any) {
 	walletBalances = _.compact(walletBalances);
 	depositBalances = _.compact(depositBalances);
 	vaultBalances = _.compact(vaultBalances);
-	const depositBalance = 0;
-	const vaultBalance = 0;
 	const positions = walletBalances.length + depositBalances.length + vaultBalances.length;
 
 	if (positions > 0)
 		return (
 			<>
-				<TableHeader
-					title={`Your Wallet - ${walletBalance}`}
-					tokenTitle="Available"
-					classes={classes}
-					period={period}
-				/>
-				<List key={'wallet' + contracts[0]} className={classes.list}>
-					{walletBalances}
-				</List>
-				<TableHeader
-					title={`Your Deposits - ${depositBalance}`}
-					tokenTitle="Available"
-					classes={classes}
-					period={period}
-				/>
-				<List key={'deposit' + contracts[0]} className={classes.list}>
-					{depositBalances}
-				</List>
-				<TableHeader
-					title={`Your Sett Vaults - ${vaultBalance}`}
-					tokenTitle="Tokens"
-					classes={classes}
-					period={period}
-				/>
-				<List key={'vault' + contracts[0]} className={classes.list}>
-					{vaultBalances}
-				</List>
+				{walletBalances.length > 0 && (
+					<>
+						<TableHeader
+							title={`Your Wallet - ${walletBalance}`}
+							tokenTitle="Available"
+							classes={classes}
+							period={period}
+						/>
+						<List key={'wallet' + contracts[0]} className={classes.list}>
+							{walletBalances}
+						</List>
+					</>
+				)}
+				{depositBalances.length > 0 && (
+					<>
+						<TableHeader
+							title={`Your Deposits - ${depositBalance}`}
+							tokenTitle="Tokens"
+							classes={classes}
+							period={period}
+						/>
+						<List key={'deposit' + contracts[0]} className={classes.list}>
+							{depositBalances}
+						</List>
+					</>
+				)}
+				{vaultBalances.length > 0 && (
+					<>
+						<TableHeader
+							title={`Your Sett Vaults - ${vaultBalance}`}
+							tokenTitle="Tokens"
+							classes={classes}
+							period={period}
+						/>
+						<List key={'vault' + contracts[0]} className={classes.list}>
+							{vaultBalances}
+						</List>
+					</>
+				)}
 			</>
 		);
 

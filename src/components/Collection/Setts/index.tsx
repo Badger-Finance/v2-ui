@@ -92,6 +92,7 @@ export const SettList = observer((props: any) => {
 		classes,
 		onOpen,
 		period,
+		vaultBalance: formatPrice(stats.stats.vaultDeposits, currency),
 		depositBalance: formatPrice(stats.stats.deposits, currency),
 		walletBalance: formatPrice(stats.stats.wallet, currency),
 	};
