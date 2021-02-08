@@ -44,7 +44,7 @@ export const reduceContractsToStats = (store: RootStore) => {
 
 	if (!tokens) return;
 
-	const { tvl, portfolio, wallet, deposits, badgerToken, diggToken, growth, bDigg } = calculatePortfolioStats(
+	const { tvl, portfolio, wallet, deposits, badgerToken, diggToken, growth, bDigg, vaultDeposits } = calculatePortfolioStats(
 		vaultContracts,
 		tokens,
 		vaultContracts,
@@ -61,6 +61,7 @@ export const reduceContractsToStats = (store: RootStore) => {
 			badger: badgerToken,
 			digg: diggToken,
 			badgerGrowth: growth.multipliedBy(1e2).toFixed(2),
+			vaultDeposits,
 		},
 	};
 };
@@ -80,6 +81,7 @@ export const reduceAirdrops = (airdrops: any, store: RootStore) => {
 function calculatePortfolioStats(vaultContracts: any, tokens: any, vaults: any, geyserContracts: any) {
 	let tvl = new BigNumber(0);
 	let deposits = new BigNumber(0);
+	let vaultDeposits = new BigNumber(0);
 	let wallet = new BigNumber(0);
 	let portfolio = new BigNumber(0);
 	let growth = new BigNumber(0);
@@ -96,10 +98,10 @@ function calculatePortfolioStats(vaultContracts: any, tokens: any, vaults: any, 
 			portfolio = portfolio.plus(vault.balanceValue().multipliedBy(diggMultiplier));
 		}
 
+		// No DIGG Multiplier for shares required on baseline DIGG
 		if (vault.underlyingToken.balance.gt(0) && !vault.underlyingToken.balanceValue().isNaN()) {
-			let diggMultiplier = vault.underlyingToken.symbol === 'DIGG' ? getDiggPerShare(vault) : new BigNumber(1);
-			wallet = wallet.plus(vault.underlyingToken.balanceValue().multipliedBy(diggMultiplier));
-			portfolio = portfolio.plus(vault.underlyingToken.balanceValue().multipliedBy(diggMultiplier));
+			wallet = wallet.plus(vault.underlyingToken.balanceValue());
+			portfolio = portfolio.plus(vault.underlyingToken.balanceValue());
 		}
 	});
 
@@ -113,7 +115,7 @@ function calculatePortfolioStats(vaultContracts: any, tokens: any, vaults: any, 
 
 		if (!!geyser.balance.gt(0) && !geyser.balanceValue().isNaN()) {
 			portfolio = portfolio.plus(geyser.balanceValue());
-			deposits = deposits.plus(geyser.balanceValue());
+			vaultDeposits = vaultDeposits.plus(geyser.balanceValue());
 		}
 	});
 
@@ -122,7 +124,7 @@ function calculatePortfolioStats(vaultContracts: any, tokens: any, vaults: any, 
 	const badgerToken = !!badger && !!badger.ethValue ? badger.ethValue : new BigNumber(0);
 	const diggToken = !!digg && !!digg.ethValue ? digg.ethValue : new BigNumber(0);
 	const bDigg = !!digg && digg.vaults.length > 0 && getDiggPerShare(digg.vaults[0]);
-	return { tvl, portfolio, wallet, deposits, badgerToken, diggToken, bDigg, growth, liqGrowth };
+	return { tvl, portfolio, wallet, deposits, badgerToken, diggToken, bDigg, growth, liqGrowth, vaultDeposits };
 }
 
 function formatPercentage(ratio: BigNumber) {
@@ -195,7 +197,12 @@ export function formatStaked(geyser: Geyser) {
 }
 export function formatBalanceUnderlying(vault: Vault) {
 	let ppfs = vault.symbol === 'bDIGG' ? getDiggPerShare(vault) : vault.pricePerShare;
-	return inCurrency(vault.balance.multipliedBy(ppfs).dividedBy(10 ** vault.decimals), 'eth', true, 5);
+	return inCurrency(
+		vault.balance.multipliedBy(ppfs).dividedBy(10 ** vault.decimals),
+		'eth',
+		true,
+		vault.underlyingToken.decimals,
+	);
 }
 
 export function formatHoldingsValue(vault: Vault, currency: string) {
@@ -204,12 +211,8 @@ export function formatHoldingsValue(vault: Vault, currency: string) {
 }
 
 export function formatBalanceValue(token: Token, currency: string) {
-	let diggMultiplier =
-		token.symbol === 'DIGG'
-			? getDiggPerShare(token.vaults[0])
-			: token.symbol === 'bDIGG'
-			? getDiggPerShare(token)
-			: new BigNumber(1);
+	// Only bDIGG shares need to be scaled, DIGG is already the 1:1 underlying
+	const diggMultiplier = token.symbol === 'bDIGG' ? getDiggPerShare(token) : new BigNumber(1);
 	return inCurrency(token.balanceValue().multipliedBy(diggMultiplier).dividedBy(1e18), currency, true);
 }
 
@@ -235,12 +238,6 @@ export function formatAmount(amount: Amount, isVault: boolean = false) {
 		decimals = 18;
 	}
 	return inCurrency(amount.amount.dividedBy(10 ** decimals), 'eth', true, amount.token.decimals);
-}
-
-export function simulateDiggSchedule(vault: Vault, digg: Token) {
-	let dps = new BigNumber(0.000031442 * 60 * 60 * 24 * 360);
-
-	return dps.multipliedBy(digg.ethValue).dividedBy(vault.holdingsValue()).multipliedBy(1e2).toFixed(2) + '%';
 }
 
 export function formatGeyserGrowth(geyser: Geyser, period: string) {

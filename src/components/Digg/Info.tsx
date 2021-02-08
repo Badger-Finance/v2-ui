@@ -140,33 +140,19 @@ const Info = observer(() => {
 			<Grid item xs={6} md={6}>
 				<Metric
 					metric="BTC Price"
-					value={formatPrice(rebaseStats.btcPrice, currency)}
+					value={rebaseStats.btcPrice > 0 ? formatPrice(rebaseStats.btcPrice, currency) : '-'}
 				/>
 			</Grid>
 			<Grid item xs={6} md={6}>
 				<Metric
 					metric="DIGG Price"
-					value={formatPrice(stats.stats.digg || new BigNumber(0), currency)}
+					value={stats.stats.digg > 0 ? formatPrice(stats.stats.digg || new BigNumber(0), currency) : '-'}
 				/>
 			</Grid>
 			<Grid item xs={12} md={6}>
 				<Metric
 					metric="Total Supply"
 					value={rebaseStats.totalSupply ? shortenNumbers(rebaseStats.totalSupply, '', 2) : '-'}
-					// TODO: Remove me?
-					// submetrics={[
-					// 	{
-					// 		title: 'Change',
-					// 		value: previousSupply
-					// 			? getPercentageChange(rebaseStats.totalSupply, previousSupply).toFixed(2)
-					// 			: '-',
-					// 		change: true,
-					// 	},
-					// 	{
-					// 		title: 'Previous Supply',
-					// 		value: previousSupply ? shortenNumbers(previousSupply, '', 2) : '-',
-					// 	},
-					// ]}
 				/>
 			</Grid>
 			<Grid item xs={6} md={6}>
@@ -179,7 +165,7 @@ const Info = observer(() => {
 			{spacer()}
 			<Grid item xs={12} md={6} style={{ textAlign: 'center' }}>
 				<Paper className={classes.darkPaper}>
-					<Typography variant="body1">1 bDIGG = {ppfs && ppfs[diggSett] ? ppfs[diggSett].toFixed(9) : '...'} DIGG</Typography>
+					<Typography variant="body1">1 bDIGG = {!!stats.stats.bDigg ? stats.stats.bDigg.toFixed(9) : '...'} DIGG</Typography>
 				</Paper>
 				<Button
 					variant="text"
@@ -188,7 +174,6 @@ const Info = observer(() => {
 					color="primary"
 					href="https://badger.finance/digg"
 					target="_"
-
 				>
 					Learn More
 				</Button>

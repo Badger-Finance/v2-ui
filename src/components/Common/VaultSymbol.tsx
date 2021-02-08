@@ -22,24 +22,19 @@ export const VaultSymbol = observer((props: any) => {
 	const { vaults } = store.contracts;
 	const { token } = props;
 
-	if (token && token.symbol) {
+	// TODO: Add comment as to what is going on here?
+	if (!token) return <CircularProgress style={{ float: 'left', marginRight: '.5rem' }} />;
+	else {
 		const prefix =
 			!!vaults[token.contract] && !!vaults[token.contract].symbolPrefix
 				? vaults[token.contract].symbolPrefix
 				: '';
-		// let underlying = tokens[vault[vault.underlyingKey]]
-		if (!token || !token.symbol) return <CircularProgress style={{ float: 'left', marginRight: '.5rem' }} />;
-
 		return (
 			<img
 				alt=""
 				className={classes.symbol}
-				src={require(`../../assets/icons/${prefix}${token.symbol
-					.replace(/^[b]/g, '')
-					.replace(/\/+/g, '')
-					.toLowerCase()}.png`)}
+				src={require(`../../assets/icons/${prefix}${token.symbol.replace(/\/+/g, '').toLowerCase()}.png`)}
 			/>
 		);
 	}
-	return <img alt="" className={classes.symbol} src={require(`../../assets/icons/${token}.png`)} />;
 });

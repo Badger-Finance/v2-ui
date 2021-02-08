@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { observer } from 'mobx-react-lite';
+import { formatWithCommas } from 'mobx/utils/api';
 
 import { StoreContext } from '../../../mobx/store-context';
 import { Tooltip, IconButton, Grid, Chip } from '@material-ui/core';
@@ -12,11 +12,9 @@ import {
 	formatBalanceValue,
 	formatGeyserBalance,
 	formatGeyserBalanceValue,
-	formatVaultGrowth,
-	simulateDiggSchedule,
 } from 'mobx/reducers/statsReducers';
 import useInterval from '@use-it/interval';
-import deploy from 'config/deployments/mainnet.json';
+import BigNumber from 'bignumber.js';
 
 const useStyles = makeStyles((theme) => ({
 	border: {
@@ -56,10 +54,9 @@ export const DepositCard = (props: any) => {
 	const [update, forceUpdate] = useState<boolean>();
 	useInterval(() => forceUpdate(!update), 1000);
 
-	const { vault, onOpen } = props;
-
+	const { sett, vault, onOpen, balance, balanceValue } = props;
 	const { period, currency } = store.uiState;
-	const { tokens } = store.contracts;
+	const { farmData } = store.sett;
 
 	const { underlyingToken: token, geyser } = vault;
 
@@ -67,22 +64,48 @@ export const DepositCard = (props: any) => {
 		return <div />;
 	}
 
-	const { roi, roiTooltip } = formatVaultGrowth(vault, period);
-	const fixedRoi = isNaN(parseFloat(roi))
-		? 'Infinity%'
-		: vault.underlyingToken.address === deploy.digg_system.uFragments.toLowerCase()
-		? simulateDiggSchedule(vault, tokens[deploy.digg_system.uFragments.toLowerCase()])
-		: roi;
-	const fixedRoiTooltip =
-		vault.underlyingToken.address === deploy.digg_system.uFragments.toLowerCase() ? fixedRoi + ' DIGG' : roiTooltip;
+	// TODO: Helper / Utility Function across TokenCard / DepositCard
+	const getRoi = () => {
+		const getTooltip = (base: number, badger: number, digg: number, divisor: number): string => {
+			const adjBase = divisor ? base / divisor : base;
+			let tooltip = `${adjBase.toFixed(2)}% ${sett.symbol}`;
+			if (badger) {
+				const adjBadger = divisor ? badger / divisor : badger;
+				tooltip += ` + ${adjBadger.toFixed(2)}% Badger`;
+			}
+			if (digg) {
+				const adjDigg = divisor ? digg / divisor : digg;
+				tooltip += ` + ${adjDigg.toFixed(2)}% Digg`;
+			}
+			return tooltip;
+		};
+		if (farmData && farmData[sett.asset] && farmData[sett.asset].apy) {
+			const { apy, badgerApy, diggApy } = farmData[sett.asset];
+			const baseApy = apy - badgerApy - diggApy;
+			if (period === 'month') {
+				return { apy: apy / 12, tooltip: getTooltip(baseApy, badgerApy, diggApy, 12) };
+			} else {
+				return { apy: apy, tooltip: getTooltip(baseApy, badgerApy, diggApy, 1) };
+			}
+		}
+		return { apy: 0, tooltip: '' };
+	};
+	const { apy, tooltip } = getRoi();
+	const getTokens = (tokens: number) => {
+		if (tokens > 0 && tokens < 0.00001) {
+			// Visual 0 Balance
+			return '< 0.00001';
+		}
+		return formatWithCommas(tokens);
+	};
+	const tokenBalance = getTokens(balance);
 
 	return (
 		<>
-			<Grid onClick={() => onOpen(vault)} container className={classes.border}>
+			<Grid onClick={() => onOpen(vault, sett)} container className={classes.border}>
 				<Grid item xs={12} md={4} className={classes.name}>
-					<VaultSymbol token={token} />
+					<VaultSymbol token={sett} />
 					<Typography variant="body1">{token.name}</Typography>
-
 					<Typography variant="body2" color="textSecondary" component="div">
 						{token.symbol}
 						{!!vault.super && (
@@ -96,10 +119,9 @@ export const DepositCard = (props: any) => {
 						Deposited
 					</Typography>
 				</Grid>
-
 				<Grid item xs={6} md={2}>
 					<Typography variant="body1" color={'textPrimary'}>
-						{!!geyser ? formatGeyserBalance(geyser) : formatBalanceUnderlying(vault)}
+						{tokenBalance}
 					</Typography>
 				</Grid>
 				<Grid item className={classes.mobileLabel} xs={6}>
@@ -108,9 +130,9 @@ export const DepositCard = (props: any) => {
 					</Typography>
 				</Grid>
 				<Grid item xs={6} md={2}>
-					<Tooltip enterDelay={0} leaveDelay={300} arrow placement="left" title={fixedRoiTooltip}>
+					<Tooltip enterDelay={0} leaveDelay={300} arrow placement="left" title={tooltip}>
 						<Typography style={{ cursor: 'default' }} variant="body1" color={'textPrimary'}>
-							{fixedRoi}
+							{`${apy.toFixed(2)}%`}
 						</Typography>
 					</Tooltip>
 				</Grid>
@@ -121,10 +143,9 @@ export const DepositCard = (props: any) => {
 				</Grid>
 				<Grid item xs={6} md={2}>
 					<Typography variant="body1" color={'textPrimary'}>
-						{!!geyser ? formatGeyserBalanceValue(geyser, currency) : formatBalanceValue(vault, 'usd')}
+						{balanceValue}
 					</Typography>
 				</Grid>
-
 				<Grid item xs={12} md={2} style={{ textAlign: 'right' }}>
 					<IconButton color="default">
 						<UnfoldMoreTwoTone />

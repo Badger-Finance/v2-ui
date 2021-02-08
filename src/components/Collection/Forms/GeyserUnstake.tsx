@@ -59,7 +59,7 @@ export const GeyserUnstake = observer((props: any) => {
 		return <Loader />;
 	}
 
-	const canUnstake = !!connectedAddress && vault.geyser.balance.gt(0);
+	const canUnstake = !!connectedAddress && vault && vault.geyser.balance.gt(0);
 
 	const renderAmounts = (
 		<ButtonGroup size="small" className={classes.button} disabled={!connectedAddress}>
@@ -89,11 +89,9 @@ export const GeyserUnstake = observer((props: any) => {
 					<div>
 						<Typography variant="body2" color={'textSecondary'} style={{ marginBottom: '.2rem' }}>
 							Underlying {vault.underlyingToken.symbol}: {formatBalanceStaked(vault.geyser)}
-							{/* Wrapped: {uiStats.wrappedFull[100]} */}
 						</Typography>
 						<Typography variant="body1" color={'textSecondary'} style={{ marginBottom: '.2rem' }}>
-							Staked {vault.symbol}: {totalAvailable || '0.000000000000000000'}
-							{/* Wrapped: {uiStats.wrappedFull[100]} */}
+							Staked {vault.symbol}: {totalAvailable}
 						</Typography>
 					</div>
 					{renderAmounts}
