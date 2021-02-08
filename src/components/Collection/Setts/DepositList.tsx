@@ -1,10 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Typography, List, ListItem } from '@material-ui/core';
 import { Vault, Geyser } from 'mobx/model';
 import { DepositCard } from './DepositCard';
 import _ from 'lodash';
 import TableHeader from './TableHeader';
-import BigNumber from 'bignumber.js';
+import {
+	formatBalanceUnderlying,
+	formatBalanceValue,
+	formatGeyserBalance,
+	formatGeyserBalanceValue,
+	formatBalance,
+} from 'mobx/reducers/statsReducers';
+import { StoreContext } from 'mobx/store-context';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function DepositList(props: any) {
@@ -20,13 +27,16 @@ export default function DepositList(props: any) {
 		depositBalance,
 		vaultBalance,
 	} = props;
+	const store = useContext(StoreContext);
+	const {
+		uiState: { currency },
+	} = store;
 
 	let walletBalances = contracts.map((address: string) => {
 		const vault: Vault = vaults[address.toLowerCase()];
 		const sett: any = allSetts.find((s: any) => s.address.toLowerCase() === address.toLowerCase());
 		let userBalance = vault && vault.underlyingToken ? vault.underlyingToken.balance.toNumber() : 0;
 		if (sett && userBalance > 0) {
-			userBalance /= Math.pow(10, vault.underlyingToken.decimals);
 			return (
 				<ListItem key={address} className={classes.listItem}>
 					<DepositCard
@@ -34,8 +44,8 @@ export default function DepositList(props: any) {
 						vault={vault}
 						sett={sett}
 						onOpen={onOpen}
-						balance={userBalance}
-						balanceToken={vault.underlyingToken}
+						balance={formatBalance(vault.underlyingToken)}
+						balanceValue={formatBalanceValue(vault.underlyingToken, currency)}
 					/>
 				</ListItem>
 			);
@@ -47,8 +57,6 @@ export default function DepositList(props: any) {
 		const sett: any = allSetts.find((s: any) => s.address.toLowerCase() === address.toLowerCase());
 		let userBalance = vault ? vault.balance.toNumber() : 0;
 		if (sett && userBalance > 0) {
-			userBalance /= Math.pow(10, vault.decimals);
-			const ppfs = vault.pricePerShare.toNumber();
 			return (
 				<ListItem key={address} className={classes.listItem}>
 					<DepositCard
@@ -56,8 +64,8 @@ export default function DepositList(props: any) {
 						vault={vault}
 						sett={sett}
 						onOpen={onOpen}
-						balance={userBalance * ppfs}
-						balanceToken={vault}
+						balance={formatBalanceUnderlying(vault)}
+						balanceValue={formatBalanceValue(vault, currency)}
 					/>
 				</ListItem>
 			);
@@ -70,8 +78,6 @@ export default function DepositList(props: any) {
 		const geyser: Geyser | undefined = vault ? vault.geyser : undefined;
 		let userBalance = geyser ? geyser.balance.toNumber() : 0;
 		if (sett && geyser && userBalance > 0) {
-			userBalance /= Math.pow(10, vault.decimals);
-			const ppfs = vault.pricePerShare.toNumber();
 			return (
 				<ListItem key={address} className={classes.listItem}>
 					<DepositCard
@@ -79,8 +85,8 @@ export default function DepositList(props: any) {
 						vault={vault}
 						sett={sett}
 						onOpen={onOpen}
-						balance={userBalance * ppfs}
-						balanceToken={geyser}
+						balance={formatGeyserBalance(geyser)}
+						balanceValue={formatGeyserBalanceValue(geyser, currency)}
 					/>
 				</ListItem>
 			);

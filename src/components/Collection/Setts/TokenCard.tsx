@@ -125,7 +125,6 @@ export const TokenCard = (props: any) => {
 						</Typography>
 					</Tooltip>
 				</Grid>
-
 				<Grid item className={classes.mobileLabel} xs={6}>
 					<Typography variant="body2" color={'textSecondary'}>
 						Value

@@ -26,17 +26,15 @@ export default function AllSettList(props: any) {
 		return !hideEmpty || (!!vault && vault.underlyingToken.balance.gt(0));
 	});
 
-	const list = _.map(filtered, (sett) => {
-		// console.log('list: \n', vaults, sett.address);
+	let list = _.map(filtered, (sett) => {
 		const vault: Vault = vaults[sett.address.toLowerCase()];
-		// console.log(vault);
-
 		return (
 			<ListItem key={sett.asset} className={classes.listItem}>
 				<TokenCard isGlobal={!hideEmpty} sett={sett} onOpen={onOpen} vault={vault} period={period} />
 			</ListItem>
 		);
 	});
+	list = _.compact(list);
 
 	if (list.length > 0)
 		return (

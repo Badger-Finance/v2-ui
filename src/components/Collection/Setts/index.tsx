@@ -31,7 +31,6 @@ const useStyles = makeStyles((theme) => ({
 		marginTop: theme.spacing(3),
 		width: '100%',
 	},
-
 	header: {
 		padding: theme.spacing(0, -2, 0, 0),
 	},
@@ -111,7 +110,7 @@ export const SettList = observer((props: any) => {
 
 	return (
 		<>
-			<AllSettList {...settListProps} />
+			{!hideEmpty && <AllSettList {...settListProps} />}
 			{hideEmpty && <DepositList {...depositListProps} />}
 			<SettDialog dialogProps={dialogProps} classes={classes} onClose={onClose} />
 			{spacer()}

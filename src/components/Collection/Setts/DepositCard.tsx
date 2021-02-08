@@ -54,7 +54,7 @@ export const DepositCard = (props: any) => {
 	const [update, forceUpdate] = useState<boolean>();
 	useInterval(() => forceUpdate(!update), 1000);
 
-	const { sett, vault, onOpen, balance, balanceToken } = props;
+	const { sett, vault, onOpen, balance, balanceValue } = props;
 	const { period, currency } = store.uiState;
 	const { farmData } = store.sett;
 
@@ -121,7 +121,7 @@ export const DepositCard = (props: any) => {
 				</Grid>
 				<Grid item xs={6} md={2}>
 					<Typography variant="body1" color={'textPrimary'}>
-						{!!geyser ? formatGeyserBalance(geyser) : formatBalanceUnderlying(vault)}
+						{tokenBalance}
 					</Typography>
 				</Grid>
 				<Grid item className={classes.mobileLabel} xs={6}>
@@ -143,10 +143,9 @@ export const DepositCard = (props: any) => {
 				</Grid>
 				<Grid item xs={6} md={2}>
 					<Typography variant="body1" color={'textPrimary'}>
-						{!!geyser ? formatGeyserBalanceValue(geyser, currency) : formatBalanceValue(vault, 'usd')}
+						{balanceValue}
 					</Typography>
 				</Grid>
-
 				<Grid item xs={12} md={2} style={{ textAlign: 'right' }}>
 					<IconButton color="default">
 						<UnfoldMoreTwoTone />

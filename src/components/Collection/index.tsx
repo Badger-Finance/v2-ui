@@ -144,8 +144,7 @@ export const Collection = observer(() => {
 
 	const rewards = _.compact(availableRewards());
 	const tvl = assets.totalValue ? usdToCurrency(new BigNumber(assets.totalValue), currency) : '$0.00';
-	const badgerPrice =
-		badger && badger.market_data && badger.market_data.current_price
+	const badgerPrice = stats.stats.badger > 0 ? formatPrice(stats.stats.badger, currency) : badger && badger.market_data
 			? usdToCurrency(new BigNumber(badger.market_data.current_price.usd), currency)
 			: '$0.00';
 

@@ -155,12 +155,11 @@ export const usdToCurrency = (
 
 	let suffix = '';
 
-	if (normal.gt(0) && normal.lt(10 ** -preferredDecimals)) {
-		normal = normal.multipliedBy(10 ** preferredDecimals);
-		decimals = preferredDecimals;
-		suffix = `e-${preferredDecimals}`;
+	if (normal.gt(0) && normal.lt(10 ** -decimals)) {
+		normal = normal.multipliedBy(10 ** decimals);
+		suffix = `e-${decimals}`;
 	} else if (normal.dividedBy(1e4).gt(1)) {
-		decimals = 2;
+		decimals = preferredDecimals;
 	}
 
 	const fixedNormal = noCommas
