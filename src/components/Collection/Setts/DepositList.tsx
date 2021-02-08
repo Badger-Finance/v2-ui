@@ -117,7 +117,7 @@ export default function DepositList(props: any) {
 				{depositBalances.length > 0 && (
 					<>
 						<TableHeader
-							title={`Your Deposits - ${depositBalance}`}
+							title={`Your Vault Deposits - ${depositBalance}`}
 							tokenTitle="Tokens"
 							classes={classes}
 							period={period}
@@ -130,7 +130,7 @@ export default function DepositList(props: any) {
 				{vaultBalances.length > 0 && (
 					<>
 						<TableHeader
-							title={`Your Sett Vaults - ${vaultBalance}`}
+							title={`Your Staked Amounts - ${vaultBalance}`}
 							tokenTitle="Tokens"
 							classes={classes}
 							period={period}
