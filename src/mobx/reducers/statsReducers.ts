@@ -44,7 +44,7 @@ export const reduceContractsToStats = (store: RootStore) => {
 
 	if (!tokens) return;
 
-	const { tvl, portfolio, wallet, deposits, badgerToken, diggToken, growth, bDigg } = calculatePortfolioStats(
+	const { tvl, portfolio, wallet, deposits, badgerToken, diggToken, growth, bDigg, vaultDeposits } = calculatePortfolioStats(
 		vaultContracts,
 		tokens,
 		vaultContracts,
@@ -61,6 +61,7 @@ export const reduceContractsToStats = (store: RootStore) => {
 			badger: badgerToken,
 			digg: diggToken,
 			badgerGrowth: growth.multipliedBy(1e2).toFixed(2),
+			vaultDeposits,
 		},
 	};
 };
@@ -80,6 +81,7 @@ export const reduceAirdrops = (airdrops: any, store: RootStore) => {
 function calculatePortfolioStats(vaultContracts: any, tokens: any, vaults: any, geyserContracts: any) {
 	let tvl = new BigNumber(0);
 	let deposits = new BigNumber(0);
+	let vaultDeposits = new BigNumber(0);
 	let wallet = new BigNumber(0);
 	let portfolio = new BigNumber(0);
 	let growth = new BigNumber(0);
@@ -113,7 +115,7 @@ function calculatePortfolioStats(vaultContracts: any, tokens: any, vaults: any, 
 
 		if (!!geyser.balance.gt(0) && !geyser.balanceValue().isNaN()) {
 			portfolio = portfolio.plus(geyser.balanceValue());
-			deposits = deposits.plus(geyser.balanceValue());
+			vaultDeposits = vaultDeposits.plus(geyser.balanceValue());
 		}
 	});
 
@@ -122,7 +124,7 @@ function calculatePortfolioStats(vaultContracts: any, tokens: any, vaults: any, 
 	const badgerToken = !!badger && !!badger.ethValue ? badger.ethValue : new BigNumber(0);
 	const diggToken = !!digg && !!digg.ethValue ? digg.ethValue : new BigNumber(0);
 	const bDigg = !!digg && digg.vaults.length > 0 && getDiggPerShare(digg.vaults[0]);
-	return { tvl, portfolio, wallet, deposits, badgerToken, diggToken, bDigg, growth, liqGrowth };
+	return { tvl, portfolio, wallet, deposits, badgerToken, diggToken, bDigg, growth, liqGrowth, vaultDeposits };
 }
 
 function formatPercentage(ratio: BigNumber) {

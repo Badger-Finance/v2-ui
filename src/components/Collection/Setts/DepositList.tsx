@@ -8,7 +8,7 @@ import BigNumber from "bignumber.js";
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function DepositList(props: any) {
-	const { allSetts, contracts, classes, vaults, hideEmpty, onOpen, period, walletBalance } = props;
+	const { allSetts, contracts, classes, vaults, hideEmpty, onOpen, period, walletBalance, depositBalance, vaultBalance } = props;
 	
 	let walletBalances = contracts.map((address: string) => {
 		const vault: Vault = vaults[address.toLowerCase()];
@@ -59,41 +59,53 @@ export default function DepositList(props: any) {
 	walletBalances = _.compact(walletBalances);
 	depositBalances = _.compact(depositBalances);
 	vaultBalances = _.compact(vaultBalances);
-	console.log(depositBalances);
-	const depositBalance = 0;
-	const vaultBalance = 0;
 	const positions = walletBalances.length + depositBalances.length + vaultBalances.length;
 
 	if (positions > 0)
 		return (
 			<>
-				<TableHeader
-					title={`Your Wallet - ${walletBalance}`}
-					tokenTitle="Available"
-					classes={classes}
-					period={period}
-				/>
-				<List key={'wallet' + contracts[0]} className={classes.list}>
-					{walletBalances}
-				</List>
-				<TableHeader
-					title={`Your Deposits - ${depositBalance}`}
-					tokenTitle="Available"
-					classes={classes}
-					period={period}
-				/>
-				<List key={'deposit' + contracts[0]} className={classes.list}>
-					{depositBalances}
-				</List>
-				<TableHeader
-					title={`Your Sett Vaults - ${vaultBalance}`}
-					tokenTitle="Tokens"
-					classes={classes}
-					period={period}
-				/>
-				<List key={'vault' + contracts[0]} className={classes.list}>
-					{vaultBalances}
-				</List>
+				{
+					walletBalances.length > 0 &&
+					<>
+						<TableHeader
+							title={`Your Wallet - ${walletBalance}`}
+							tokenTitle="Available"
+							classes={classes}
+							period={period}
+						/>
+						<List key={'wallet' + contracts[0]} className={classes.list}>
+							{walletBalances}
+						</List>
+					</>
+				}
+				{
+					depositBalances.length > 0 &&
+					<>
+						<TableHeader
+							title={`Your Deposits - ${depositBalance}`}
+							tokenTitle="Available"
+							classes={classes}
+							period={period}
+						/>
+						<List key={'deposit' + contracts[0]} className={classes.list}>
+							{depositBalances}
+						</List>
+					</>
+				}
+				{
+					vaultBalances.length > 0 &&
+					<>
+						<TableHeader
+							title={`Your Sett Vaults - ${vaultBalance}`}
+							tokenTitle="Tokens"
+							classes={classes}
+							period={period}
+						/>
+						<List key={'vault' + contracts[0]} className={classes.list}>
+							{vaultBalances}
+						</List>
+					</>
+				}
 			</>
 		);
 
