@@ -8,17 +8,18 @@ import BigNumber from "bignumber.js";
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function DepositList(props: any) {
-	const { allSetts, contracts, classes, vaults, hideEmpty, onOpen, depositBalance, period, walletBalance } = props;
+	const { allSetts, contracts, classes, vaults, hideEmpty, onOpen, period, walletBalance } = props;
 	
 	let walletBalances = contracts.map((address: string) => {
 		const vault: Vault = vaults[address.toLowerCase()];
 		const sett: any = allSetts.find((s: any) => s.address.toLowerCase() === address.toLowerCase());
 		let userBalance = vault && vault.underlyingToken ? vault.underlyingToken.balance.toNumber() : 0;
-		if (userBalance > 0) {
+		if (sett && userBalance > 0) {
 			userBalance /= Math.pow(10, vault.underlyingToken.decimals);
 			return (
 				<ListItem key={address} className={classes.listItem}>
-					<DepositCard isGlobal={!hideEmpty} vault={vault} sett={sett} onOpen={onOpen} balance={userBalance} />
+					<DepositCard isGlobal={!hideEmpty} vault={vault} sett={sett}
+						onOpen={onOpen} balance={userBalance} balanceToken={vault.underlyingToken} />
 				</ListItem>
 			);
 		}
@@ -28,11 +29,12 @@ export default function DepositList(props: any) {
 		const vault: Vault = vaults[address.toLowerCase()];
 		const sett: any = allSetts.find((s: any) => s.address.toLowerCase() === address.toLowerCase());
 		let userBalance = vault ? vault.balance.toNumber() : 0;
-		if (userBalance > 0) {
+		if (sett && userBalance > 0) {
 			userBalance /= Math.pow(10, vault.decimals);
 			return (
 				<ListItem key={address} className={classes.listItem}>
-					<DepositCard isGlobal={!hideEmpty} vault={vault} sett={sett} onOpen={onOpen} balance={userBalance} />
+					<DepositCard isGlobal={!hideEmpty} vault={vault} sett={sett}
+						onOpen={onOpen} balance={userBalance} balanceToken={vault} />
 				</ListItem>
 			);
 		}
@@ -43,11 +45,12 @@ export default function DepositList(props: any) {
 		const sett: any = allSetts.find((s: any) => s.address.toLowerCase() === address.toLowerCase());
 		const geyser: Geyser | undefined = vault ? vault.geyser : undefined;
 		let userBalance = geyser ? geyser.balance.toNumber() : 0;
-		if (userBalance > 0) {
+		if (sett && geyser && userBalance > 0) {
 			userBalance /= Math.pow(10, vault.decimals);
 			return (
 				<ListItem key={address} className={classes.listItem}>
-					<DepositCard isGlobal={!hideEmpty} vault={vault} sett={sett} onOpen={onOpen} balance={userBalance} />
+					<DepositCard isGlobal={!hideEmpty} vault={vault} sett={sett}
+						onOpen={onOpen} balance={userBalance} balanceToken={geyser} />
 				</ListItem>
 			);
 		}
@@ -56,8 +59,10 @@ export default function DepositList(props: any) {
 	walletBalances = _.compact(walletBalances);
 	depositBalances = _.compact(depositBalances);
 	vaultBalances = _.compact(vaultBalances);
-	const positions = walletBalance.length + depositBalance.length;
-	console.log(positions);
+	console.log(depositBalances);
+	const depositBalance = 0;
+	const vaultBalance = 0;
+	const positions = walletBalances.length + depositBalances.length + vaultBalances.length;
 
 	if (positions > 0)
 		return (
@@ -81,8 +86,8 @@ export default function DepositList(props: any) {
 					{depositBalances}
 				</List>
 				<TableHeader
-					title={`Your Sett Vaults - ${depositBalance}`}
-					tokenTitle="Available"
+					title={`Your Sett Vaults - ${vaultBalance}`}
+					tokenTitle="Tokens"
 					classes={classes}
 					period={period}
 				/>

@@ -52,10 +52,9 @@ export const DepositCard = (props: any) => {
 	const [update, forceUpdate] = useState<boolean>();
 	useInterval(() => forceUpdate(!update), 1000);
 
-	const { sett, vault, onOpen, balance } = props;
+	const { sett, vault, onOpen, balance, balanceToken } = props;
 	const { period, currency } = store.uiState;
-	const { tokens } = store.contracts;
-	const { assets, farmData } = store.sett;
+	const { farmData } = store.sett;
 
 	const { underlyingToken: token, geyser } = vault;
 
@@ -142,7 +141,7 @@ export const DepositCard = (props: any) => {
 				</Grid>
 				<Grid item xs={6} md={2}>
 					<Typography variant="body1" color={'textPrimary'}>
-						{formatBalanceValue(vault.underlyingToken, 'usd')}
+						{formatBalanceValue(balanceToken, 'usd')}
 					</Typography>
 				</Grid>
 
