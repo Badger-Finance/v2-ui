@@ -87,9 +87,12 @@ export const getCoinData = async (coin: string): Promise<any> => {
 
 export const formatUsd = (x: number): string => {
 	try {
-		const x1 = x.toString().split('.')[0];
-		const x2 = x.toString().split('.')[1].substring(0, 2);
-		return `$${x1.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}.${x2}`;
+		const valueParts = x.toString().split('.');
+		let value = valueParts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+		if (valueParts.length > 1) {
+			value += '.' + valueParts[1].substring(0, 2);
+		}
+		return value;
 	} catch (e) {
 		console.log(e);
 		return x.toString();
@@ -98,9 +101,12 @@ export const formatUsd = (x: number): string => {
 
 export const formatWithCommas = (x: number): string => {
 	try {
-		const x1 = x.toString().split('.')[0];
-		const x2 = x.toString().split('.')[1].substring(0, 5);
-		return `${x1.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}.${x2}`;
+		const valueParts = x.toString().split('.');
+		let value = valueParts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+		if (valueParts.length > 1) {
+			value += '.' + valueParts[1].substring(0, 5);
+		}
+		return value;
 	} catch (e) {
 		console.log(e);
 		return x.toString();

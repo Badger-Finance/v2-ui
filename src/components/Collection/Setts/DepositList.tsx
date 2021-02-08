@@ -1,6 +1,6 @@
 import React from 'react';
 import { Typography, List, ListItem } from '@material-ui/core';
-import { Vault } from 'mobx/model';
+import { Vault, Geyser } from 'mobx/model';
 import { DepositCard } from './DepositCard';
 import _ from 'lodash';
 import TableHeader from './TableHeader';
@@ -8,34 +8,86 @@ import BigNumber from "bignumber.js";
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function DepositList(props: any) {
-	const { allSetts, contracts, classes, vaults, hideEmpty, onOpen, depositBalance, period, wallet } = props;
-
-	let list = _.map(contracts, (address: string) => {
+	const { allSetts, contracts, classes, vaults, hideEmpty, onOpen, depositBalance, period, walletBalance } = props;
+	
+	let walletBalances = contracts.map((address: string) => {
 		const vault: Vault = vaults[address.toLowerCase()];
 		const sett: any = allSetts.find((s: any) => s.address.toLowerCase() === address.toLowerCase());
-		const userBalance = vault && vault.underlyingToken ? vault.underlyingToken.balance : new BigNumber(0);
-
-		if (!!vault && (!hideEmpty || (!!vault.geyser && vault.geyser.balance.gt(0)) || vault.balance.gt(0) || userBalance.gt(0)))
+		let userBalance = vault && vault.underlyingToken ? vault.underlyingToken.balance.toNumber() : 0;
+		if (userBalance > 0) {
+			userBalance /= Math.pow(10, vault.underlyingToken.decimals);
 			return (
 				<ListItem key={address} className={classes.listItem}>
-					<DepositCard isGlobal={!hideEmpty} vault={vault} sett={sett} onOpen={onOpen} />
+					<DepositCard isGlobal={!hideEmpty} vault={vault} sett={sett} onOpen={onOpen} balance={userBalance} />
 				</ListItem>
 			);
+		}
 	});
 
-	list = _.compact(list);
+	let depositBalances = contracts.map((address: string) => {
+		const vault: Vault = vaults[address.toLowerCase()];
+		const sett: any = allSetts.find((s: any) => s.address.toLowerCase() === address.toLowerCase());
+		let userBalance = vault ? vault.balance.toNumber() : 0;
+		if (userBalance > 0) {
+			userBalance /= Math.pow(10, vault.decimals);
+			return (
+				<ListItem key={address} className={classes.listItem}>
+					<DepositCard isGlobal={!hideEmpty} vault={vault} sett={sett} onOpen={onOpen} balance={userBalance} />
+				</ListItem>
+			);
+		}
+	});
 
-	if (list.length > 0)
+	let vaultBalances = contracts.map((address: string) => {
+		const vault: Vault = vaults[address.toLowerCase()];
+		const sett: any = allSetts.find((s: any) => s.address.toLowerCase() === address.toLowerCase());
+		const geyser: Geyser | undefined = vault ? vault.geyser : undefined;
+		let userBalance = geyser ? geyser.balance.toNumber() : 0;
+		if (userBalance > 0) {
+			userBalance /= Math.pow(10, vault.decimals);
+			return (
+				<ListItem key={address} className={classes.listItem}>
+					<DepositCard isGlobal={!hideEmpty} vault={vault} sett={sett} onOpen={onOpen} balance={userBalance} />
+				</ListItem>
+			);
+		}
+	});
+
+	walletBalances = _.compact(walletBalances);
+	depositBalances = _.compact(depositBalances);
+	vaultBalances = _.compact(vaultBalances);
+	const positions = walletBalance.length + depositBalance.length;
+	console.log(positions);
+
+	if (positions > 0)
 		return (
 			<>
 				<TableHeader
-					title={`Your Deposits - ${depositBalance}`}
-					tokenTitle="Tokens"
+					title={`Your Wallet - ${walletBalance}`}
+					tokenTitle="Available"
 					classes={classes}
 					period={period}
 				/>
-				<List key={contracts[0]} className={classes.list}>
-					{list}
+				<List key={'wallet' + contracts[0]} className={classes.list}>
+					{walletBalances}
+				</List>
+				<TableHeader
+					title={`Your Deposits - ${depositBalance}`}
+					tokenTitle="Available"
+					classes={classes}
+					period={period}
+				/>
+				<List key={'deposit' + contracts[0]} className={classes.list}>
+					{depositBalances}
+				</List>
+				<TableHeader
+					title={`Your Sett Vaults - ${depositBalance}`}
+					tokenTitle="Available"
+					classes={classes}
+					period={period}
+				/>
+				<List key={'vault' + contracts[0]} className={classes.list}>
+					{vaultBalances}
 				</List>
 			</>
 		);

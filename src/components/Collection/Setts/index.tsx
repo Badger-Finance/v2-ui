@@ -93,6 +93,7 @@ export const SettList = observer((props: any) => {
 		onOpen,
 		period,
 		depositBalance: formatPrice(stats.stats.deposits, currency),
+		walletBalance: formatPrice(stats.stats.wallet, currency),
 	};
 
 	const settListProps = {

@@ -75,7 +75,7 @@ export const TokenCard = (props: any) => {
 
 	const getTokens = () => {
 		const tokenCount = assets[`${sett.asset}Tokens`];
-		if (tokenCount < 0.00001) {
+		if (tokenCount > 0 && tokenCount < 0.00001) {
 			// Visual 0 Balance
 			return '< 0.00001';
 		}
