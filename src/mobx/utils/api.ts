@@ -83,6 +83,12 @@ export const getCoinData = async (coin: string): Promise<any> => {
 	return await fetch(`${coingeckoApi}/coins/${coin}`).then((response) => response.json());
 };
 
+export const getEthPrice = async (coin: string): Promise<any> => {
+	return await fetch(`${coingeckoApi}/coins/${coin}`)
+		.then((response) => response.json())
+		.then((jsonResponse) => jsonResponse['market_data']['current_price']['usd']);
+};
+
 // api util functions
 
 export const formatUsd = (x: number): string => {

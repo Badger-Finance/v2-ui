@@ -6,6 +6,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import { VaultSymbol } from '../../Common/VaultSymbol';
 import { formatWithCommas } from 'mobx/utils/api';
 import { UnfoldMoreTwoTone } from '@material-ui/icons';
+import { usdToCurrency } from '../../../mobx/utils/helpers';
+import BigNumber from 'bignumber.js';
 
 const useStyles = makeStyles((theme) => ({
 	border: {
@@ -81,11 +83,10 @@ export const TokenCard = (props: any) => {
 		}
 		return formatWithCommas(tokenCount);
 	};
-
 	const tokensAmount = getTokens();
-	const value = `$${formatWithCommas(assets[sett.asset].toFixed(2))}`;
+	const value = assets[sett.asset];
 	const { apy, tooltip } = getRoi();
-	
+
 	return (
 		<>
 			<Grid onClick={() => onOpen(vault, sett)} container className={classes.border}>
@@ -132,7 +133,7 @@ export const TokenCard = (props: any) => {
 				</Grid>
 				<Grid item xs={6} md={2}>
 					<Typography variant="body1" color={'textPrimary'}>
-						{value}
+						{usdToCurrency(new BigNumber(assets[sett.asset]), currency)}
 					</Typography>
 				</Grid>
 

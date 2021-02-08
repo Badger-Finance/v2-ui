@@ -1,13 +1,21 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Typography, List, ListItem } from '@material-ui/core';
 import { Vault } from 'mobx/model';
+import BigNumber from 'bignumber.js';
+import { usdToCurrency } from '../../../mobx/utils/helpers';
 import _ from 'lodash';
 import { TokenCard } from './TokenCard';
 import TableHeader from './TableHeader';
+import { StoreContext } from 'mobx/store-context';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function AllSettList(props: any) {
+	const store = useContext(StoreContext);
 	const { allSetts, classes, vaults, hideEmpty, onOpen, period, walletBalance, tvl } = props;
+
+	const {
+		uiState: { currency },
+	} = store;
 
 	const sorted = _.sortBy(allSetts, (sett) => {
 		return -(allSetts.length - sett.position) || 0;
@@ -19,7 +27,10 @@ export default function AllSettList(props: any) {
 	});
 
 	const list = _.map(filtered, (sett) => {
+		// console.log('list: \n', vaults, sett.address);
 		const vault: Vault = vaults[sett.address.toLowerCase()];
+		// console.log(vault);
+
 		return (
 			<ListItem key={sett.asset} className={classes.listItem}>
 				<TokenCard isGlobal={!hideEmpty} sett={sett} onOpen={onOpen} vault={vault} period={period} />
@@ -27,12 +38,15 @@ export default function AllSettList(props: any) {
 		);
 	});
 
-	// TODO: Find a better way to verify data is loaded & ready
-	if (list && list.length === 11)
+	if (list.length > 0)
 		return (
 			<>
 				<TableHeader
-					title={hideEmpty ? `Your Wallet - ${walletBalance}` : `All Setts  - ${tvl}`}
+					title={
+						hideEmpty
+							? `Your Wallet - ${walletBalance}`
+							: `All Setts  - ${usdToCurrency(new BigNumber(tvl.replace(/,/g, '')), currency)}`
+					}
 					tokenTitle={hideEmpty ? 'Available' : 'Tokens'}
 					classes={classes}
 					period={period}

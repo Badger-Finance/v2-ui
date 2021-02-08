@@ -4,12 +4,12 @@ import { Vault, Geyser } from 'mobx/model';
 import { DepositCard } from './DepositCard';
 import _ from 'lodash';
 import TableHeader from './TableHeader';
-import BigNumber from "bignumber.js";
+import BigNumber from 'bignumber.js';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function DepositList(props: any) {
 	const { allSetts, contracts, classes, vaults, hideEmpty, onOpen, period, walletBalance } = props;
-	
+
 	let walletBalances = contracts.map((address: string) => {
 		const vault: Vault = vaults[address.toLowerCase()];
 		const sett: any = allSetts.find((s: any) => s.address.toLowerCase() === address.toLowerCase());
@@ -18,8 +18,14 @@ export default function DepositList(props: any) {
 			userBalance /= Math.pow(10, vault.underlyingToken.decimals);
 			return (
 				<ListItem key={address} className={classes.listItem}>
-					<DepositCard isGlobal={!hideEmpty} vault={vault} sett={sett}
-						onOpen={onOpen} balance={userBalance} balanceToken={vault.underlyingToken} />
+					<DepositCard
+						isGlobal={!hideEmpty}
+						vault={vault}
+						sett={sett}
+						onOpen={onOpen}
+						balance={userBalance}
+						balanceToken={vault.underlyingToken}
+					/>
 				</ListItem>
 			);
 		}
@@ -33,8 +39,14 @@ export default function DepositList(props: any) {
 			userBalance /= Math.pow(10, vault.decimals);
 			return (
 				<ListItem key={address} className={classes.listItem}>
-					<DepositCard isGlobal={!hideEmpty} vault={vault} sett={sett}
-						onOpen={onOpen} balance={userBalance} balanceToken={vault} />
+					<DepositCard
+						isGlobal={!hideEmpty}
+						vault={vault}
+						sett={sett}
+						onOpen={onOpen}
+						balance={userBalance}
+						balanceToken={vault}
+					/>
 				</ListItem>
 			);
 		}
@@ -49,8 +61,14 @@ export default function DepositList(props: any) {
 			userBalance /= Math.pow(10, vault.decimals);
 			return (
 				<ListItem key={address} className={classes.listItem}>
-					<DepositCard isGlobal={!hideEmpty} vault={vault} sett={sett}
-						onOpen={onOpen} balance={userBalance} balanceToken={geyser} />
+					<DepositCard
+						isGlobal={!hideEmpty}
+						vault={vault}
+						sett={sett}
+						onOpen={onOpen}
+						balance={userBalance}
+						balanceToken={geyser}
+					/>
 				</ListItem>
 			);
 		}
@@ -59,7 +77,6 @@ export default function DepositList(props: any) {
 	walletBalances = _.compact(walletBalances);
 	depositBalances = _.compact(depositBalances);
 	vaultBalances = _.compact(vaultBalances);
-	console.log(depositBalances);
 	const depositBalance = 0;
 	const vaultBalance = 0;
 	const positions = walletBalances.length + depositBalances.length + vaultBalances.length;

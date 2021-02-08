@@ -195,7 +195,12 @@ export function formatStaked(geyser: Geyser) {
 }
 export function formatBalanceUnderlying(vault: Vault) {
 	let ppfs = vault.symbol === 'bDIGG' ? getDiggPerShare(vault) : vault.pricePerShare;
-	return inCurrency(vault.balance.multipliedBy(ppfs).dividedBy(10 ** vault.decimals), 'eth', true, vault.underlyingToken.decimals);
+	return inCurrency(
+		vault.balance.multipliedBy(ppfs).dividedBy(10 ** vault.decimals),
+		'eth',
+		true,
+		vault.underlyingToken.decimals,
+	);
 }
 
 export function formatHoldingsValue(vault: Vault, currency: string) {

@@ -8,11 +8,13 @@ import { makeStyles } from '@material-ui/core/styles';
 import { VaultSymbol } from '../../Common/VaultSymbol';
 import { UnfoldMoreTwoTone } from '@material-ui/icons';
 import {
+	formatBalanceUnderlying,
 	formatBalanceValue,
+	formatGeyserBalance,
 	formatGeyserBalanceValue,
 } from 'mobx/reducers/statsReducers';
 import useInterval from '@use-it/interval';
-import BigNumber from "bignumber.js";
+import BigNumber from 'bignumber.js';
 
 const useStyles = makeStyles((theme) => ({
 	border: {
@@ -119,7 +121,7 @@ export const DepositCard = (props: any) => {
 				</Grid>
 				<Grid item xs={6} md={2}>
 					<Typography variant="body1" color={'textPrimary'}>
-						{tokenBalance}
+						{!!geyser ? formatGeyserBalance(geyser) : formatBalanceUnderlying(vault)}
 					</Typography>
 				</Grid>
 				<Grid item className={classes.mobileLabel} xs={6}>
@@ -141,7 +143,7 @@ export const DepositCard = (props: any) => {
 				</Grid>
 				<Grid item xs={6} md={2}>
 					<Typography variant="body1" color={'textPrimary'}>
-						{formatBalanceValue(balanceToken, 'usd')}
+						{!!geyser ? formatGeyserBalanceValue(geyser, currency) : formatBalanceValue(vault, 'usd')}
 					</Typography>
 				</Grid>
 

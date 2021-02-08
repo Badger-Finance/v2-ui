@@ -118,6 +118,58 @@ export const secondsToBlocks = (seconds: number) => {
 let exchangeRates: any = { usd: 641.69, cad: 776.44, btc: 41.93 };
 getExchangeRates().then((result: any) => (exchangeRates = result.ethereum));
 
+// input: usd value
+// output: formatted currency string
+export const usdToCurrency = (
+	value: BigNumber,
+	currency: string,
+	hide = false,
+	preferredDecimals = 2,
+	noCommas = false,
+	exponent = 18,
+): string => {
+	if (!value || value.isNaN()) return inCurrency(new BigNumber(0), currency, hide, preferredDecimals);
+
+	let normal = value;
+	let prefix = !hide ? '$' : '';
+	let decimals = preferredDecimals;
+
+	switch (currency) {
+		case 'usd':
+			break;
+		case 'btc':
+			normal = normal.dividedBy(exchangeRates.usd).multipliedBy(exchangeRates.btc);
+			decimals = 5;
+			prefix = '₿ ';
+			break;
+		case 'eth':
+			prefix = 'Ξ ';
+			decimals = 5;
+			normal = normal.dividedBy(exchangeRates.usd);
+			break;
+		case 'cad':
+			normal = normal.dividedBy(exchangeRates.usd).multipliedBy(exchangeRates.cad);
+			prefix = '$';
+			break;
+	}
+
+	let suffix = '';
+
+	if (normal.gt(0) && normal.lt(10 ** -preferredDecimals)) {
+		normal = normal.multipliedBy(10 ** preferredDecimals);
+		decimals = preferredDecimals;
+		suffix = `e-${preferredDecimals}`;
+	} else if (normal.dividedBy(1e4).gt(1)) {
+		decimals = 2;
+	}
+
+	const fixedNormal = noCommas
+		? normal.toFixed(decimals, BigNumber.ROUND_HALF_FLOOR)
+		: numberWithCommas(normal.toFixed(decimals, BigNumber.ROUND_HALF_FLOOR));
+
+	return `${prefix}${fixedNormal}${suffix}`;
+};
+
 // input: eth value in wei
 // output: formatted currency string
 export const inCurrency = (
