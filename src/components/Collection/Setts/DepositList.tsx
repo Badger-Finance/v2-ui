@@ -31,10 +31,11 @@ export default function DepositList(props: any) {
 		let userBalance = vault ? vault.balance.toNumber() : 0;
 		if (sett && userBalance > 0) {
 			userBalance /= Math.pow(10, vault.decimals);
+			const ppfs = vault.pricePerShare.toNumber();
 			return (
 				<ListItem key={address} className={classes.listItem}>
 					<DepositCard isGlobal={!hideEmpty} vault={vault} sett={sett}
-						onOpen={onOpen} balance={userBalance} balanceToken={vault} />
+						onOpen={onOpen} balance={userBalance * ppfs} balanceToken={vault} />
 				</ListItem>
 			);
 		}
@@ -47,10 +48,11 @@ export default function DepositList(props: any) {
 		let userBalance = geyser ? geyser.balance.toNumber() : 0;
 		if (sett && geyser && userBalance > 0) {
 			userBalance /= Math.pow(10, vault.decimals);
+			const ppfs = vault.pricePerShare.toNumber();
 			return (
 				<ListItem key={address} className={classes.listItem}>
 					<DepositCard isGlobal={!hideEmpty} vault={vault} sett={sett}
-						onOpen={onOpen} balance={userBalance} balanceToken={geyser} />
+						onOpen={onOpen} balance={userBalance * ppfs} balanceToken={geyser} />
 				</ListItem>
 			);
 		}
@@ -83,7 +85,7 @@ export default function DepositList(props: any) {
 					<>
 						<TableHeader
 							title={`Your Deposits - ${depositBalance}`}
-							tokenTitle="Available"
+							tokenTitle="Tokens"
 							classes={classes}
 							period={period}
 						/>
