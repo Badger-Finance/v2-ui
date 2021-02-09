@@ -7,7 +7,7 @@ import { estimateAndSend } from '../utils/web3';
 import BigNumber from 'bignumber.js';
 import { RootStore } from '../store';
 import _ from 'lodash';
-import { jsonQuery, vanillaQuery } from '../utils/helpers';
+import { jsonQuery } from '../utils/helpers';
 import { reduceClaims, reduceTimeSinceLastCycle } from '../reducers/statsReducers';
 import { token as diggTokenConfig } from '../../config/system/rebase';
 

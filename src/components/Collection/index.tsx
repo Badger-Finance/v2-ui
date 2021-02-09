@@ -23,9 +23,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Loader } from '../Loader';
 
 import { SettList } from './Setts';
+import { digg_system } from '../../config/deployments/mainnet.json';
 import { CLAIMS_SYMBOLS } from 'config/constants';
 import { formatPrice } from 'mobx/reducers/statsReducers';
-import { formatUsd } from 'mobx/utils/api';
 import { inCurrency, usdToCurrency } from '../../mobx/utils/helpers';
 import useInterval from '@use-it/interval';
 import Hero from 'components/Common/Hero';
@@ -96,7 +96,9 @@ const useStyles = makeStyles((theme) => ({
 		padding: 0,
 		flexWrap: 'wrap',
 	},
-
+	rewardText: {
+		marginRight: '3px',
+	},
 	heroPaper: {
 		padding: theme.spacing(3, 0),
 		minHeight: '100%',
@@ -130,7 +132,9 @@ export const Collection = observer(() => {
 		return badgerTree.claims.map((claim: any[], idx: number) => {
 			const claimAddress = claim[0];
 			const claimValue = claim
-				? claim[1].dividedBy(idx == 0 ? 1e18 : badgerTree.sharesPerFragment * 1e9)
+				? claim[1].dividedBy(
+						claimAddress === digg_system['uFragments'] ? badgerTree.sharesPerFragment * 1e9 : 1e18,
+				  )
 				: claim[1];
 			const claimDisplay = inCurrency(claimValue, 'eth', true);
 			return (
@@ -138,6 +142,7 @@ export const Collection = observer(() => {
 					<ListItemText
 						key={claimAddress}
 						primary={claimDisplay}
+						className={classes.rewardText}
 						secondary={`${CLAIMS_SYMBOLS[claimAddress.toLowerCase()]} Available to Claim`}
 					/>
 				)
