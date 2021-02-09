@@ -68,10 +68,11 @@ class RewardsStore {
 					diggToken.methods._sharesPerFragment().call(),
 				]).then((result: any[]) => {
 					if (!proof.error) {
+						console.log('reduction: ', result[0]);
 						this.badgerTree = _.defaults(
 							{
 								cycle: parseInt(proof.cycle, 16),
-								claims: reduceClaims(proof, result[0][1]),
+								claims: reduceClaims(proof, result[0][0], result[0][1]),
 								sharesPerFragment: result[1],
 								proof,
 							},

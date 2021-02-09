@@ -127,15 +127,22 @@ export const Collection = observer(() => {
 	const spacer = () => <div className={classes.before} />;
 
 	const availableRewards = () => {
-		return badgerTree.claims.map((claim: BigNumber, idx: number) => {
-			const claimValue = claim ? claim.dividedBy(idx == 0 ? 1e18 : badgerTree.sharesPerFragment * 1e9) : claim;
+		console.log('claims: ', badgerTree.claims);
+		return badgerTree.claims.map((claim: any[], idx: number) => {
+			console.log('claim: ', claim);
+			const claimAddress = claim[0];
+			const claimValue = claim
+				? claim[1].dividedBy(idx == 0 ? 1e18 : badgerTree.sharesPerFragment * 1e9)
+				: claim[1];
 			const claimDisplay = inCurrency(claimValue, 'eth', true);
+			console.log('claim address: ', claimAddress);
+			console.log('claim display: ', claimDisplay);
 			return (
 				parseFloat(claimDisplay) > 0 && (
 					<ListItemText
-						key={idx}
+						key={claimAddress}
 						primary={claimDisplay}
-						secondary={`${CLAIMS_SYMBOLS[idx]} Available to Claim`}
+						secondary={`${CLAIMS_SYMBOLS[claimAddress.toLowerCase()]} Available to Claim`}
 					/>
 				)
 			);
@@ -144,7 +151,10 @@ export const Collection = observer(() => {
 
 	const rewards = _.compact(availableRewards());
 	const tvl = assets.totalValue ? usdToCurrency(new BigNumber(assets.totalValue), currency) : '$0.00';
-	const badgerPrice = stats.stats.badger > 0 ? formatPrice(stats.stats.badger, currency) : badger && badger.market_data
+	const badgerPrice =
+		stats.stats.badger > 0
+			? formatPrice(stats.stats.badger, currency)
+			: badger && badger.market_data
 			? usdToCurrency(new BigNumber(badger.market_data.current_price.usd), currency)
 			: '$0.00';
 

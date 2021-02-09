@@ -44,12 +44,17 @@ export const reduceContractsToStats = (store: RootStore) => {
 
 	if (!tokens) return;
 
-	const { tvl, portfolio, wallet, deposits, badgerToken, diggToken, growth, bDigg, vaultDeposits } = calculatePortfolioStats(
-		vaultContracts,
-		tokens,
-		vaultContracts,
-		geyserContracts,
-	);
+	const {
+		tvl,
+		portfolio,
+		wallet,
+		deposits,
+		badgerToken,
+		diggToken,
+		growth,
+		bDigg,
+		vaultDeposits,
+	} = calculatePortfolioStats(vaultContracts, tokens, vaultContracts, geyserContracts);
 
 	return {
 		stats: {
@@ -66,10 +71,10 @@ export const reduceContractsToStats = (store: RootStore) => {
 	};
 };
 
-export const reduceClaims = (merkleProof: any, claimedRewards: any[]) => {
+export const reduceClaims = (merkleProof: any, rewardAddresses: any[], claimedRewards: any[]) => {
 	if (!merkleProof.cumulativeAmounts) return [];
 	return merkleProof.cumulativeAmounts.map((amount: number, i: number) => {
-		return new BigNumber(amount).minus(claimedRewards[i]);
+		return [rewardAddresses[i], new BigNumber(amount).minus(claimedRewards[i])];
 	});
 };
 export const reduceAirdrops = (airdrops: any, store: RootStore) => {

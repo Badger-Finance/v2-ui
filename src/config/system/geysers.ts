@@ -2,6 +2,7 @@ import BadgerGeyser from './abis/BadgerGeyser.json';
 import SushiGeyser from './abis/SushiGeyser.json';
 import BadgerTree from './abis/BadgerTree.json';
 import deploy from '../deployments/mainnet.json';
+import { XSUSHI_ADDRESS, FARM_ADDRESS, USDC_ADDRESS } from '../constants';
 
 export const geyserBatches = [
 	{
@@ -97,7 +98,9 @@ export const rewards = {
 		deploy.token.toLowerCase(),
 		// deploy.sett_system.vaults['native.uniBadgerWbtc'].toLowerCase(),
 		// '0x6b3595068778dd592e39a122f4f5a5cf09c90fe2'.toLowerCase(), // $SUSHI
-		// '0x36e2fcccc59e5747ff63a03ea2e5c0c2c14911e7'.toLowerCase(), // $xSUSHI
 		deploy.digg_system.uFragments.toLowerCase(), // $DIGG
+		XSUSHI_ADDRESS.toLowerCase(), // $xSUSHI
+		FARM_ADDRESS.toLowerCase(), // FARM
+		USDC_ADDRESS.toLowerCase(), // USDC
 	],
 };
