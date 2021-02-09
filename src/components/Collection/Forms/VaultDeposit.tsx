@@ -39,7 +39,6 @@ export const VaultDeposit = observer((props: any) => {
 	};
 
 	const setAmount = (percent: number) => {
-		// (document.getElementById(TEXTFIELD_ID)! as HTMLInputElement).value = uiStats.availableFull[percent];
 		setValue(
 			'amount',
 			vault.underlyingToken.balance
@@ -69,6 +68,7 @@ export const VaultDeposit = observer((props: any) => {
 					}}
 					variant={!!canDeposit && watch().amount === percentageOfBalance(amount) ? 'contained' : 'outlined'}
 					color="default"
+					key={amount}
 				>
 					{amount}%
 				</Button>
@@ -76,7 +76,7 @@ export const VaultDeposit = observer((props: any) => {
 		</ButtonGroup>
 	);
 
-	let totalAvailable = percentageOfBalance(100);
+	const totalAvailable = percentageOfBalance(100);
 
 	return (
 		<>
@@ -85,12 +85,10 @@ export const VaultDeposit = observer((props: any) => {
 					style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap' }}
 				>
 					<Typography variant="body1" color={'textSecondary'} style={{ marginBottom: '.2rem' }}>
-						Available: {totalAvailable || '0.000000000000000000'}
-						{/* Wrapped: {uiStats.wrappedFull[100]} */}
+						Available: {totalAvailable}
 					</Typography>
 					{renderAmounts}
 				</div>
-
 				<TextField
 					autoComplete="off"
 					name="amount"

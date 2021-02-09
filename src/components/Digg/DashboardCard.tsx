@@ -100,7 +100,6 @@ const DashboardCard = observer((props: any) => {
 			</div>
 			<CardContent
 				style={{
-					// paddingLeft: "2rem",
 					paddingRight: '2rem',
 					margin: '-2rem 0 0 0',
 				}}
@@ -108,6 +107,7 @@ const DashboardCard = observer((props: any) => {
 				<AreaChart accent={'#F2A52B'} chartData={chartData} yPrefix={'$'} />
 			</CardContent>
 
+			{/* TODO: Remove this? */}
 			{/* <CardActions style={{ display: 'flex', justifyContent: 'center', marginBottom: '.75rem' }}>
 				<div style={{ display: 'flex' }}>
 					<div style={{ marginLeft: '1rem', textAlign: 'center' }}>

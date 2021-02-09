@@ -76,7 +76,7 @@ export const Airdrops = observer(() => {
 
 	const {
 		router: { goTo },
-		wallet: {},
+		wallet: { connectedAddress },
 		airdrops: { claimBadgerAirdrops, claimDiggAirdrops },
 		uiState: { airdropStats, stats },
 	} = store;
@@ -185,7 +185,12 @@ export const Airdrops = observer(() => {
 							<ListItem style={{ margin: 0, padding: 0 }}>
 								<ListItemText primary={'0.00000'} secondary="Badger available to claim" />
 								<ListItemSecondaryAction>
-									<ButtonGroup disabled size="small" variant="outlined" color="primary">
+									<ButtonGroup
+										disabled={airdropStats.badger ? !airdropStats.badger.amount.gt(0) : true}
+										size="small"
+										variant="outlined"
+										color="primary"
+									>
 										<Button
 											onClick={() => {
 												claimBadgerAirdrops(false);
@@ -205,12 +210,16 @@ export const Airdrops = observer(() => {
 						<List style={{ padding: 0 }}>
 							<ListItem style={{ margin: 0, padding: 0 }}>
 								<ListItemText
-									primary={!!airdropStats.digg ? formatAmount(airdropStats.digg) : '0.00000'}
+									primary={
+										!!connectedAddress && !!airdropStats.digg
+											? formatAmount(airdropStats.digg)
+											: '0.00000'
+									}
 									secondary="DIGG available to claim"
 								/>
 								<ListItemSecondaryAction>
 									<ButtonGroup
-										disabled={!airdropStats.digg}
+										disabled={airdropStats.digg ? !airdropStats.digg.amount.gt(0) : true}
 										size="small"
 										variant="outlined"
 										color="primary"

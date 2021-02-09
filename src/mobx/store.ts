@@ -5,6 +5,7 @@ import ContractsStore from './stores/contractsStore';
 import AirdropStore from './stores/airdropStore';
 import RebaseStore from './stores/rebaseStore';
 import RewardsStore from './stores/rewardsStore';
+import SettStore from './stores/settStore';
 
 export class RootStore {
 	public router: RouterStore<RootStore>;
@@ -14,6 +15,7 @@ export class RootStore {
 	public airdrops: AirdropStore;
 	public rebase: RebaseStore;
 	public rewards: RewardsStore;
+	public sett: SettStore;
 
 	constructor() {
 		this.router = new RouterStore<RootStore>(this);
@@ -23,6 +25,7 @@ export class RootStore {
 		this.rebase = new RebaseStore(this);
 		this.rewards = new RewardsStore(this);
 		this.uiState = new UiState(this);
+		this.sett = new SettStore(this);
 	}
 }
 

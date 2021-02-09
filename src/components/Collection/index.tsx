@@ -16,17 +16,17 @@ import {
 	List,
 	ListItem,
 	ListItemText,
-	ListItemSecondaryAction,
 	Tooltip,
 } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Loader } from '../Loader';
 
-import { SettList } from './SettList';
+import { SettList } from './Setts';
 import { CLAIMS_SYMBOLS } from 'config/constants';
 import { formatPrice } from 'mobx/reducers/statsReducers';
-import { inCurrency } from '../../mobx/utils/helpers';
+import { formatUsd } from 'mobx/utils/api';
+import { inCurrency, usdToCurrency } from '../../mobx/utils/helpers';
 import useInterval from '@use-it/interval';
 import Hero from 'components/Common/Hero';
 
@@ -112,17 +112,9 @@ export const Collection = observer(() => {
 	const {
 		wallet: { connectedAddress, isCached },
 		contracts: { tokens },
+		sett: { assets, badger },
 		rewards: { claimGeysers, badgerTree },
-		uiState: {
-			stats,
-
-			currency,
-			period,
-			setCurrency,
-			setPeriod,
-			hideZeroBal,
-			setHideZeroBal,
-		},
+		uiState: { stats, currency, period, setCurrency, setPeriod, hideZeroBal, setHideZeroBal },
 	} = store;
 
 	if (!tokens) {
@@ -140,14 +132,22 @@ export const Collection = observer(() => {
 			const claimDisplay = inCurrency(claimValue, 'eth', true);
 			return (
 				parseFloat(claimDisplay) > 0 && (
-					<ListItemText primary={claimDisplay} secondary={`${CLAIMS_SYMBOLS[idx]} Available to Claim`} />
+					<ListItemText
+						key={idx}
+						primary={claimDisplay}
+						secondary={`${CLAIMS_SYMBOLS[idx]} Available to Claim`}
+					/>
 				)
 			);
 		});
 	};
 
 	const rewards = _.compact(availableRewards());
-	//
+	const tvl = assets.totalValue ? usdToCurrency(new BigNumber(assets.totalValue), currency) : '$0.00';
+	const badgerPrice = stats.stats.badger > 0 ? formatPrice(stats.stats.badger, currency) : badger && badger.market_data
+			? usdToCurrency(new BigNumber(badger.market_data.current_price.usd), currency)
+			: '$0.00';
+
 	return (
 		<>
 			<Container className={classes.root}>
@@ -213,7 +213,7 @@ export const Collection = observer(() => {
 							<Typography variant="subtitle1" color="textPrimary">
 								TVL
 							</Typography>
-							<Typography variant="h5">{formatPrice(stats.stats.tvl, currency)}</Typography>
+							<Typography variant="h5">{tvl}</Typography>
 						</Paper>
 					</Grid>
 					{!!connectedAddress && (
@@ -232,7 +232,7 @@ export const Collection = observer(() => {
 							<Typography variant="subtitle1" color="textPrimary">
 								Badger Price
 							</Typography>
-							<Typography variant="h5">{formatPrice(stats.stats.badger, currency)}</Typography>
+							<Typography variant="h5">{badgerPrice}</Typography>
 						</Paper>
 					</Grid>
 
