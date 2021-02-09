@@ -127,16 +127,12 @@ export const Collection = observer(() => {
 	const spacer = () => <div className={classes.before} />;
 
 	const availableRewards = () => {
-		console.log('claims: ', badgerTree.claims);
 		return badgerTree.claims.map((claim: any[], idx: number) => {
-			console.log('claim: ', claim);
 			const claimAddress = claim[0];
 			const claimValue = claim
 				? claim[1].dividedBy(idx == 0 ? 1e18 : badgerTree.sharesPerFragment * 1e9)
 				: claim[1];
 			const claimDisplay = inCurrency(claimValue, 'eth', true);
-			console.log('claim address: ', claimAddress);
-			console.log('claim display: ', claimDisplay);
 			return (
 				parseFloat(claimDisplay) > 0 && (
 					<ListItemText

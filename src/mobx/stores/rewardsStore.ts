@@ -7,7 +7,7 @@ import { estimateAndSend } from '../utils/web3';
 import BigNumber from 'bignumber.js';
 import { RootStore } from '../store';
 import _ from 'lodash';
-import { jsonQuery } from '../utils/helpers';
+import { jsonQuery, vanillaQuery } from '../utils/helpers';
 import { reduceClaims, reduceTimeSinceLastCycle } from '../reducers/statsReducers';
 import { token as diggTokenConfig } from '../../config/system/rebase';
 
@@ -68,7 +68,6 @@ class RewardsStore {
 					diggToken.methods._sharesPerFragment().call(),
 				]).then((result: any[]) => {
 					if (!proof.error) {
-						console.log('reduction: ', result[0]);
 						this.badgerTree = _.defaults(
 							{
 								cycle: parseInt(proof.cycle, 16),
