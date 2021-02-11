@@ -5,7 +5,7 @@ const getApi = () => {
 	if (process.env.NODE_ENV === 'production') {
 		return 'https://api.sett.vision';
 	}
-	return 'https://rn6p9w9x10.execute-api.us-west-1.amazonaws.com/staging';
+	return 'https://hm77p4zo3l.execute-api.us-west-1.amazonaws.com/staging/';
 };
 const badgerApi = getApi();
 
