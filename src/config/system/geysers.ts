@@ -99,6 +99,8 @@ export const rewards = {
 		// deploy.sett_system.vaults['native.uniBadgerWbtc'].toLowerCase(),
 		// '0x6b3595068778dd592e39a122f4f5a5cf09c90fe2'.toLowerCase(), // $SUSHI
 		deploy.digg_system.uFragments.toLowerCase(), // $DIGG
+		deploy.sett_system.vaults['native.badger'].toLowerCase(), //bBadger
+		deploy.sett_system.vaults['native.digg'].toLowerCase(), //bDigg
 		XSUSHI_ADDRESS.toLowerCase(), // $xSUSHI
 		FARM_ADDRESS.toLowerCase(), // FARM
 		USDC_ADDRESS.toLowerCase(), // USDC
