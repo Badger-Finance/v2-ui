@@ -171,18 +171,21 @@ export const Collection = observer(() => {
 						<Hero title="Sett Vaults" subtitle="Powerful Bitcoin strategies. Automatic staking rewards" />
 					</Grid>
 					<Grid item sm={6}>
-						<FormControlLabel
-							control={
-								<Switch
-									checked={hideZeroBal}
-									onChange={() => {
-										!!connectedAddress && setHideZeroBal(!hideZeroBal);
-									}}
-									color="primary"
+						{
+							connectedAddress && (
+								<FormControlLabel
+									control={
+										<Switch
+											checked={hideZeroBal}
+											onChange={() => {
+												!!connectedAddress && setHideZeroBal(!hideZeroBal);
+											}}
+											color="primary"
+										/>
+									}
+									label="Wallet balances"
 								/>
-							}
-							label="Wallet balances"
-						/>
+						)}
 					</Grid>
 
 					<Grid item sm={6} className={classes.filters}>
