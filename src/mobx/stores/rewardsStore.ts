@@ -71,7 +71,7 @@ class RewardsStore {
 						this.badgerTree = _.defaults(
 							{
 								cycle: parseInt(proof.cycle, 16),
-								claims: reduceClaims(proof, result[0][1]),
+								claims: reduceClaims(proof, result[0][0], result[0][1]),
 								sharesPerFragment: result[1],
 								proof,
 							},

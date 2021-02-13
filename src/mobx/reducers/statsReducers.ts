@@ -2,6 +2,7 @@ import BigNumber from 'bignumber.js';
 import _ from 'lodash';
 import { RootStore } from 'mobx/store';
 import deploy from 'config/deployments/mainnet.json';
+import Web3 from 'web3';
 
 import { inCurrency } from 'mobx/utils/helpers';
 import { getDiggPerShare } from 'mobx/utils/diggHelpers';
@@ -44,12 +45,17 @@ export const reduceContractsToStats = (store: RootStore) => {
 
 	if (!tokens) return;
 
-	const { tvl, portfolio, wallet, deposits, badgerToken, diggToken, growth, bDigg, vaultDeposits } = calculatePortfolioStats(
-		vaultContracts,
-		tokens,
-		vaultContracts,
-		geyserContracts,
-	);
+	const {
+		tvl,
+		portfolio,
+		wallet,
+		deposits,
+		badgerToken,
+		diggToken,
+		growth,
+		bDigg,
+		vaultDeposits,
+	} = calculatePortfolioStats(vaultContracts, tokens, vaultContracts, geyserContracts);
 
 	return {
 		stats: {
@@ -66,10 +72,15 @@ export const reduceContractsToStats = (store: RootStore) => {
 	};
 };
 
-export const reduceClaims = (merkleProof: any, claimedRewards: any[]) => {
+export const reduceClaims = (merkleProof: any, rewardAddresses: any[], claimedRewards: any[]) => {
 	if (!merkleProof.cumulativeAmounts) return [];
 	return merkleProof.cumulativeAmounts.map((amount: number, i: number) => {
-		return new BigNumber(amount).minus(claimedRewards[i]);
+		return [
+			merkleProof.tokens[i],
+			new BigNumber(amount).minus(
+				claimedRewards[rewardAddresses.indexOf(Web3.utils.toChecksumAddress(merkleProof.tokens[i]))],
+			),
+		];
 	});
 };
 export const reduceAirdrops = (airdrops: any, store: RootStore) => {

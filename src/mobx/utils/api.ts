@@ -115,7 +115,7 @@ export const formatWithCommas = (x: number): string => {
 		return value;
 	} catch (e) {
 		console.log(e);
-		return x.toString();
+		return x ? x.toString() : '0.00';
 	}
 };
 
