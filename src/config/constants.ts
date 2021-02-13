@@ -1,5 +1,5 @@
 import importedErc20 from '../config/system/abis/ERC20.json';
-import { token as BADGER_ADDRESS, digg_system } from './deployments/mainnet.json';
+import { token as BADGER_ADDRESS, digg_system, sett_system } from './deployments/mainnet.json';
 
 export const INFURA_KEY = '32d16e34f8af476e9ef63b34ba2a16cc';
 export const APP_URL = 'https://app.badger.finance/';
@@ -23,6 +23,8 @@ export const CLAIMS_SYMBOLS = {
 	[USDC_ADDRESS.toLowerCase()]: 'USDC',
 	[BADGER_ADDRESS.toLowerCase()]: 'Badger',
 	[digg_system['uFragments'].toLowerCase()]: 'Digg',
+	[sett_system.vaults['native.badger'].toLowerCase()]: 'bBadger',
+	[sett_system.vaults['native.digg'].toLowerCase()]: 'bDigg',
 };
 
 // export const MIN_ETH_BALANCE = new BigNumber(0.01 * 1e18);

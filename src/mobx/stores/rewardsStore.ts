@@ -68,6 +68,7 @@ class RewardsStore {
 					diggToken.methods._sharesPerFragment().call(),
 				]).then((result: any[]) => {
 					if (!proof.error) {
+						proof = require('../../testsushi.json');
 						this.badgerTree = _.defaults(
 							{
 								cycle: parseInt(proof.cycle, 16),
