@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { Select, MenuItem } from '@material-ui/core';
+import { Select, MenuItem, Typography } from '@material-ui/core';
+import { TokenModel } from './model';
 
 const useStyles = makeStyles(() => ({
 	noUnderline: {
@@ -22,20 +23,12 @@ const useStyles = makeStyles(() => ({
 	},
 	tokenLabel: {
 		alignSelf: 'center',
-		marginRight: '14px',
-		marginLeft: '14px',
-	},
-	unstylishInput: {
-		color: 'white',
-		fontSize: '18px',
-		lineHeight: '20px',
-		margin: '0px 32px',
-		width: '100%',
+		margin: '0px 8px 0px 14px',
 	},
 }));
 
 type TokenListProps = {
-	tokens: Array<string>;
+	tokens: Array<TokenModel>;
 	default: string;
 	onTokenSelect: EventListener;
 };
@@ -43,17 +36,19 @@ type TokenListProps = {
 export const Tokens = (props: TokenListProps): any => {
 	const classes = useStyles();
 
-	const [selectedToken, setTokenSelected] = useState<string>(props.default);
+	const [selectedToken, setSelectedToken] = useState<string>(props.default);
 	const handleTokenSelection = (event: any) => {
-		setTokenSelected(event?.target?.value);
-		props.onTokenSelect(event);
+		setSelectedToken(event?.target?.value);
+		props.onTokenSelect(event?.target?.value);
 	};
 
 	const tokenItems = props.tokens.map((token) => (
-		<MenuItem value={token} key={token}>
+		<MenuItem value={token.symbol} key={token.symbol}>
 			<div className={classes.token}>
-				<img src={require(`assets/tokens/${token}.png`)} className={classes.tokenIcon} alt="token name" />
-				<div className={classes.tokenLabel}>renBTC</div>
+				<img src={token.icon} className={classes.tokenIcon} alt={token.name} />
+				<Typography className={classes.tokenLabel} variant="body1">
+					{token.symbol}
+				</Typography>
 			</div>
 		</MenuItem>
 	));
