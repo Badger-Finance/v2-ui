@@ -120,6 +120,7 @@ const Info = observer(() => {
 			? ((newSupply) / rebaseStats.totalSupply)
 			: 0;
 	const diggSett = deploy.sett_system.vaults['native.digg'].toLowerCase();
+	const rebasePercentage = ( ( stats.stats.digg - rebaseStats.btcPrice ) / rebaseStats.btcPrice ) * 0.1
 
 	if (!rebaseStats) {
 		return <Loader />;
@@ -146,7 +147,7 @@ const Info = observer(() => {
 			<Grid item xs={6} md={6}>
 				<Metric
 					metric="DIGG Price"
-					value={stats.stats.digg > 0 ? formatPrice(stats.stats.digg || new BigNumber(0), currency) : '-'}
+					value={stats.stats.digg > 0 ? formatPrice(stats.stats.digg || new BigNumber(0), currency) + `(${rebasePercentage})` : '-'}
 				/>
 			</Grid>
 			<Grid item xs={12} md={6}>
