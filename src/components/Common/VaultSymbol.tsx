@@ -33,7 +33,7 @@ export const VaultSymbol = observer((props: any) => {
 			<img
 				alt=""
 				className={classes.symbol}
-				src={require(`../../assets/icons/${token.iconName}`)}
+				src={`assets/icons/${token.iconName}`}
 			/>
 		);
 	}

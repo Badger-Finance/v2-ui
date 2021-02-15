@@ -149,7 +149,7 @@ export const Sidebar = observer(() => {
 			<div className={classes.root}>
 				<List>
 					<ListItem button className={classes.listItem}>
-						<img alt="" src={require('../../assets/badger-logo.png')} className={classes.logo} />
+						<img alt="" src={'assets/badger-logo.png'} className={classes.logo} />
 						{/* <Chip label="v2.0.0" variant="outlined" color="primary" size="small" /> */}
 					</ListItem>
 
@@ -191,7 +191,7 @@ export const Sidebar = observer(() => {
 						}
 					>
 						<ListItemIcon>
-							<img alt="" className={classes.icon} src={require('assets/sidebar/sett.png')} />
+							<img alt="" className={classes.icon} src={'assets/sidebar/sett.png'} />
 						</ListItemIcon>
 						<ListItemText primary="Sett Vaults" />
 					</ListItem>
@@ -206,7 +206,7 @@ export const Sidebar = observer(() => {
 						onClick={() => goTo(views.airdrops)}
 					>
 						<ListItemIcon>
-							<img alt="" src={require('assets/sidebar/airdrop.png')} className={classes.icon} />
+							<img alt="" src={'assets/sidebar/airdrop.png'} className={classes.icon} />
 						</ListItemIcon>
 						<ListItemText primary="Airdrops" />
 					</ListItem>
@@ -218,7 +218,7 @@ export const Sidebar = observer(() => {
 						onClick={() => goTo(views.digg)}
 					>
 						<ListItemIcon>
-							<img src={require('assets/sidebar/digg-white.png')} className={classes.icon} />
+							<img src={'assets/sidebar/digg-white.png'} className={classes.icon} />
 						</ListItemIcon>
 						<ListItemText primary="Digg" />
 
@@ -237,7 +237,7 @@ export const Sidebar = observer(() => {
 						}
 					>
 						<ListItemIcon>
-							<img src={require('assets/sidebar/nexus_logo_bw.png')} className={classes.icon} />
+							<img src={'assets/sidebar/nexus_logo_bw.png'} className={classes.icon} />
 						</ListItemIcon>
 						<ListItemText>
 							Get Coverage
