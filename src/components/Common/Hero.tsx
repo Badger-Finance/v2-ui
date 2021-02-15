@@ -1,4 +1,4 @@
-import { Typography, Paper, makeStyles, ListItem, List, ListItemSecondaryAction } from '@material-ui/core';
+import { Typography, makeStyles } from '@material-ui/core';
 import { Wallet } from 'components/Sidebar/Wallet';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
@@ -34,7 +34,6 @@ const useStyles = makeStyles((theme) => ({
 	},
 	copy: {
 		marginBottom: '1rem',
-
 		[theme.breakpoints.up('md')]: {
 			marginBottom: '0',
 		},
@@ -51,7 +50,6 @@ const useStyles = makeStyles((theme) => ({
 
 const Hero = observer((props: any) => {
 	const classes = useStyles();
-
 	const { title, subtitle } = props;
 
 	return (

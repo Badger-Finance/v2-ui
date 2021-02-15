@@ -14,6 +14,9 @@ class UiState {
 	public currency!: string;
 	public period!: string;
 
+	/**
+	 * TODO: Add types.
+	 */
 	public collection: any;
 	public stats?: any;
 	public claims?: any;
@@ -42,7 +45,7 @@ class UiState {
 					tvl: new BigNumber(0),
 					wallet: new BigNumber(0),
 					deposits: new BigNumber(0),
-					portfolio: new BigNumber(0),
+					portfolio: undefined,
 					badger: new BigNumber(0),
 					digg: new BigNumber(0),
 					bDigg: new BigNumber(1),
@@ -68,6 +71,7 @@ class UiState {
 			txStatus: undefined,
 		});
 
+		// TODO: refactor this - causes a refresh every 1s
 		// format vaults and geysers to ui
 		setInterval(() => {
 			this.reduceStats();
@@ -79,60 +83,6 @@ class UiState {
 		observe(this.store.wallet as any, 'connectedAddress', () => {
 			if (!this.store.wallet.connectedAddress) this.setHideZeroBal(false);
 		});
-
-		// format rewards for UI
-		// observe(this.store.rewards as any, 'badgerTree', () => {
-		// 	try {
-		// 		// skip first update
-		// 		this.reduceTreeRewards();
-		// 	} catch (e) {
-		// 		process.env.NODE_ENV !== 'production' && console.log(e);
-		// 	}
-		// });
-		// observe(this.store.airdrops as any, 'airdrops', () => {
-		// 	try {
-		// 		// skip first update
-		// 		this.reduceAirdrops();
-		// 	} catch (e) {
-		// 		process.env.NODE_ENV !== 'production' && console.log(e);
-		// 	}
-		// });
-
-		// observe(this.store.rebase as any, 'rebase', () => {
-		// 	try {
-		// 		this.reduceRebase();
-		// 	} catch (e) {
-		// 		process.env.NODE_ENV !== 'production' && console.log(e);
-		// 	}
-		// });
-
-		// redirect to portfolio if logged in
-		// observe(this.store.wallet as any, "provider", (change: any) => {
-		// 	this.store.router.goTo(views.home)
-		// })
-
-		// reduce to formatted options
-		// observe(this as any, 'period', () => {
-		// 	try {
-		// 		this.reduceStats();
-		// 	} catch (e) {
-		// 		process.env.NODE_ENV !== 'production' && console.log(e);
-		// 	}
-		// });
-		// observe(this as any, 'currency', () => {
-		// 	try {
-		// 		this.reduceStats();
-		// 	} catch (e) {
-		// 		process.env.NODE_ENV !== 'production' && console.log(e);
-		// 	}
-		// });
-		// observe(this as any, 'hideZeroBal', () => {
-		// 	try {
-		// 		this.reduceStats();
-		// 	} catch (e) {
-		// 		process.env.NODE_ENV !== 'production' && console.log(e);
-		// 	}
-		// });
 
 		// hide the sidebar
 		window.onresize = () => {
@@ -166,10 +116,6 @@ class UiState {
 		if (!!this.store.rebase.rebase && !!tokens[WBTC_ADDRESS])
 			this.rebaseStats = reduceRebase(this.store.rebase.rebase, tokens[WBTC_ADDRESS], tokens[diggToken.contract]);
 	});
-
-	// setCollection = action((id: string) => {
-	// 	if (!!this.collection && this.collection.id === id) return;
-	// });
 
 	setGasPrice = action((gasPrice: string) => {
 		this.gasPrice = gasPrice;
