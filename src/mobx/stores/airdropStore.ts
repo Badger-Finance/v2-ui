@@ -8,7 +8,7 @@ import _ from 'lodash';
 import { jsonQuery } from '../utils/helpers';
 import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
-import { rewards as airdropsConfig, token as diggTokenConfig } from '../../config/system/rebase';
+import { airdropsConfig, airdropEndpoint } from '../../config/system/airdrops';
 
 class AirdropStore {
 	private store!: RootStore;
@@ -25,16 +25,24 @@ class AirdropStore {
 
 	fetchAirdrops = action(() => {
 		const { provider, connectedAddress, isCached } = this.store.wallet;
+		const { digg_system } = require('../../config/deployments/mainnet.json');
 		const {} = this.store.uiState;
 
 		if (!connectedAddress) return;
 
 		const web3 = new Web3(provider);
-		const rewardsTree = new web3.eth.Contract(airdropsConfig.abi as any, airdropsConfig.contract);
-		const diggToken = new web3.eth.Contract(diggTokenConfig.abi as any, diggTokenConfig.contract);
+		const rewardsTree = new web3.eth.Contract(
+			airdropsConfig[digg_system.uFragments].airdropAbi,
+			airdropsConfig[0].airdropContract,
+		);
+		const diggToken = new web3.eth.Contract(
+			airdropsConfig[digg_system.uFragments].tokenAbi,
+			digg_system.uFragments,
+		);
 		const checksumAddress = connectedAddress.toLowerCase();
 
-		jsonQuery(`${airdropsConfig.endpoint}/${checksumAddress}`).then((merkleProof: any) => {
+		//TODO: Update to handle the airdrop based on what token is available via airdrops.ts config
+		jsonQuery(`${airdropEndpoint}/${checksumAddress}`).then((merkleProof: any) => {
 			if (!merkleProof.error) {
 				Promise.all([
 					rewardsTree.methods.isClaimed(merkleProof.index).call(),
@@ -57,12 +65,16 @@ class AirdropStore {
 		const { merkleProof } = this.airdrops;
 		const { provider, gasPrices, connectedAddress } = this.store.wallet;
 		const { queueNotification, gasPrice, setTxStatus } = this.store.uiState;
+		const { token } = require('../../config/deployments/mainnet.json');
 
 		if (!connectedAddress) return;
 
 		const web3 = new Web3(provider);
-		const rewardsTree = new web3.eth.Contract(airdropsConfig.abi as any, airdropsConfig.contract);
-		const method = rewardsTree.methods.claim(
+		const airdropTree = new web3.eth.Contract(
+			airdropsConfig[token].airdropAbi,
+			airdropsConfig[token].airdropContract,
+		);
+		const method = airdropTree.methods.claim(
 			merkleProof.index,
 			connectedAddress,
 			merkleProof.amount,
@@ -70,7 +82,6 @@ class AirdropStore {
 		);
 
 		queueNotification(`Sign the transaction to claim your airdrop`, 'info');
-		const badgerAmount = this.airdrops.badger;
 		estimateAndSend(web3, gasPrices[gasPrice], method, connectedAddress, (transaction: PromiEvent<Contract>) => {
 			transaction
 				.on('transactionHash', (hash) => {
@@ -91,12 +102,16 @@ class AirdropStore {
 		const { merkleProof } = this.airdrops;
 		const { provider, gasPrices, connectedAddress } = this.store.wallet;
 		const { queueNotification, gasPrice, setTxStatus } = this.store.uiState;
+		const { digg_system } = require('../../config/deployments/mainnet.json');
 
 		if (!connectedAddress) return;
 
 		const web3 = new Web3(provider);
-		const rewardsTree = new web3.eth.Contract(airdropsConfig.abi as any, airdropsConfig.contract);
-		const method = rewardsTree.methods.claim(
+		const airdropTree = new web3.eth.Contract(
+			airdropsConfig[digg_system.uFragments].airdropAbi as any,
+			airdropsConfig[digg_system.uFragments].airdropContract,
+		);
+		const method = airdropTree.methods.claim(
 			merkleProof.index,
 			connectedAddress,
 			merkleProof.amount,

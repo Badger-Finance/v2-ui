@@ -4,7 +4,7 @@ import { RootStore } from '../store';
 
 import { reduceAirdrops, reduceContractsToStats, reduceRebase } from './statsReducers';
 import { WBTC_ADDRESS } from 'config/constants';
-import { token as diggToken } from 'config/system/rebase';
+// import { token as diggToken } from 'config/system/rebase';
 import BigNumber from 'bignumber.js';
 import views from 'config/routes';
 
@@ -163,8 +163,13 @@ class UiState {
 
 	reduceRebase = action(() => {
 		const { tokens } = this.store.contracts;
+		const { digg_system } = require('config/deployments/mainnet.json');
 		if (!!this.store.rebase.rebase && !!tokens[WBTC_ADDRESS])
-			this.rebaseStats = reduceRebase(this.store.rebase.rebase, tokens[WBTC_ADDRESS], tokens[diggToken.contract]);
+			this.rebaseStats = reduceRebase(
+				this.store.rebase.rebase,
+				tokens[WBTC_ADDRESS],
+				tokens[digg_system.uFragments],
+			);
 	});
 
 	// setCollection = action((id: string) => {

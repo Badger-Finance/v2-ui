@@ -9,7 +9,6 @@ import { RootStore } from '../store';
 import _ from 'lodash';
 import { jsonQuery } from '../utils/helpers';
 import { reduceClaims, reduceTimeSinceLastCycle } from '../reducers/statsReducers';
-import { token as diggTokenConfig } from '../../config/system/rebase';
 
 import { rewards as rewardsConfig } from 'config/system/geysers';
 
@@ -35,13 +34,16 @@ class RewardsStore {
 	fetchSettRewards = action(() => {
 		const { provider, connectedAddress } = this.store.wallet;
 		const {} = this.store.uiState;
+		const { digg_system, badgerTree } = require('../../config/deployments/mainnet.json');
+		const { abi: diggAbi } = require('../../config/system/abis/UFragments.json');
+		const { abi: rewardsAbi } = require('../../config/system/abis/BadgerTree.json');
 
 		if (!connectedAddress) return;
 
 		const web3 = new Web3(provider);
-		const rewardsTree = new web3.eth.Contract(rewardsConfig.abi as any, rewardsConfig.contract);
+		const rewardsTree = new web3.eth.Contract(rewardsAbi, badgerTree);
 		const checksumAddress = Web3.utils.toChecksumAddress(connectedAddress);
-		const diggToken = new web3.eth.Contract(diggTokenConfig.abi as any, diggTokenConfig.contract);
+		const diggToken = new web3.eth.Contract(diggAbi, digg_system.uFragments);
 
 		const treeMethods = [
 			rewardsTree.methods.lastPublishTimestamp().call(),
@@ -90,8 +92,10 @@ class RewardsStore {
 
 		if (!connectedAddress) return;
 
+		const { abi: rewardsAbi } = require('../../config/system/abis/BadgerTree.json');
+		const { badgerTree } = require('../../config/deployments/mainnet.json');
 		const web3 = new Web3(provider);
-		const rewardsTree = new web3.eth.Contract(rewardsConfig.abi as any, rewardsConfig.contract);
+		const rewardsTree = new web3.eth.Contract(rewardsAbi, badgerTree);
 		const method = rewardsTree.methods.claim(
 			proof.tokens,
 			proof.cumulativeAmounts,
