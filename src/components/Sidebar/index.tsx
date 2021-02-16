@@ -333,6 +333,19 @@ export const Sidebar = observer(() => {
 									</ListItem>
 								</Collapse>
 							</ListItem>
+							<ListItem
+								button
+								className={
+									classes.listItem +
+									' ' +
+									(store.router.currentPath == '/claws' ? classes.activeListItem : '')
+								}
+								onClick={() => goTo(views.claws)}
+							>
+								<ListItemText primary="Claws" />
+
+								{/* <Chip size="small" label={"Coming soon"} variant="outlined" color="primary" className={classes.rewards} /> */}
+							</ListItem>
 						</>
 					) : (
 						<></>

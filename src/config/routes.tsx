@@ -11,6 +11,7 @@ import { RootStore } from '../mobx/store';
 import { Airdrops } from '../components/Airdrops';
 import { Digg } from '../components/Digg';
 import { Locked } from 'components/Common/Locked';
+import { Claws } from 'components/Claws';
 
 import { IbBTC } from 'components/IbBTC';
 import { FLAGS } from 'config/constants';
@@ -82,6 +83,10 @@ const routes = {
 	honeybadgerDrop: new Route<RootStore, QueryParams>({
 		path: '/honey-badger-drop',
 		component: <HoneybadgerDrop />,
+	}),
+	claws: new Route<RootStore, QueryParams>({
+		path: '/claws',
+		component: <Claws />,
 	}),
 	// account: new Route<RootStore, {
 	// 	account: string;
