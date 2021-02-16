@@ -4,7 +4,6 @@ import { RootStore } from '../store';
 
 import { reduceAirdrops, reduceContractsToStats, reduceRebase } from './statsReducers';
 import { WBTC_ADDRESS } from 'config/constants';
-// import { token as diggToken } from 'config/system/rebase';
 import BigNumber from 'bignumber.js';
 import views from 'config/routes';
 

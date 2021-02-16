@@ -33,7 +33,7 @@ class AirdropStore {
 		const web3 = new Web3(provider);
 		const rewardsTree = new web3.eth.Contract(
 			airdropsConfig[digg_system.uFragments].airdropAbi,
-			airdropsConfig[0].airdropContract,
+			airdropsConfig[digg_system.uFragments].airdropContract,
 		);
 		const diggToken = new web3.eth.Contract(
 			airdropsConfig[digg_system.uFragments].tokenAbi,

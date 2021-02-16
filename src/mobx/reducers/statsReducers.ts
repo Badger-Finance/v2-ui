@@ -6,7 +6,6 @@ import Web3 from 'web3';
 
 import { inCurrency } from 'mobx/utils/helpers';
 import { getDiggPerShare } from 'mobx/utils/diggHelpers';
-import { token as diggToken } from 'config/system/rebase';
 import { rewards as rewardsConfig } from 'config/system/geysers';
 import { Vault, Amount, Geyser, Token, Growth } from '../model';
 import { ZERO_CURRENCY } from 'config/constants';
@@ -30,7 +29,7 @@ export const reduceRebaseToStats = (store: RootStore) => {
 
 	if (!tokens) return;
 
-	const token = tokens[diggToken.contract];
+	const token = tokens[deploy.digg_system.uFragments];
 
 	return {
 		nextRebase: new Date('Jan 23 8:00PM UTC'),
