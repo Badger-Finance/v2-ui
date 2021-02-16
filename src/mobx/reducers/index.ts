@@ -76,7 +76,7 @@ class UiState {
 			this.reduceTreeRewards();
 		}, 1000);
 
-		observe(this.store.wallet as any, 'connectedAddress', (change: any) => {
+		observe(this.store.wallet as any, 'connectedAddress', () => {
 			if (!this.store.wallet.connectedAddress) this.setHideZeroBal(false);
 		});
 

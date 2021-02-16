@@ -121,7 +121,7 @@ class ContractsStore {
 	fetchTokens = action((callback: any) => {
 		const { connectedAddress } = this.store.wallet;
 
-		let { defaults, batchCall: batch } = reduceContractConfig(
+		const { defaults, batchCall: batch } = reduceContractConfig(
 			tokenBatches,
 			!!connectedAddress && { connectedAddress },
 		);
@@ -180,7 +180,7 @@ class ContractsStore {
 				);
 
 				tokens.forEach((contract: any) => {
-					let token = this.getOrCreateToken(contract.address);
+					const token = this.getOrCreateToken(contract.address);
 					token.update(contract);
 				});
 
@@ -198,7 +198,7 @@ class ContractsStore {
 		const { connectedAddress, currentBlock } = this.store.wallet;
 		const sushiBatches = vaultBatches[1];
 
-		let { defaults, batchCall: batch } = reduceContractConfig(
+		const { defaults, batchCall: batch } = reduceContractConfig(
 			vaultBatches,
 			connectedAddress && { connectedAddress },
 		);
@@ -277,7 +277,7 @@ class ContractsStore {
 
 		const { connectedAddress } = this.store.wallet;
 
-		let { defaults, batchCall: batch } = reduceContractConfig(
+		const { defaults, batchCall: batch } = reduceContractConfig(
 			geyserBatches,
 			connectedAddress && { connectedAddress },
 		);
@@ -342,7 +342,7 @@ class ContractsStore {
 		if (!amount || amount.isNaN() || amount.lte(0) || amount.gt(vault.underlyingToken.balance))
 			return queueNotification('Please enter a valid amount', 'error');
 
-		let underlyingAmount = amount.multipliedBy(10 ** vault.underlyingToken.decimals);
+		const underlyingAmount = amount.multipliedBy(10 ** vault.underlyingToken.decimals);
 
 		const methodSeries: any = [];
 
@@ -374,7 +374,7 @@ class ContractsStore {
 		if (!amount || amount.isNaN() || amount.lte(0) || amount.gt(vault.balance))
 			return queueNotification('Please enter a valid amount', 'error');
 
-		let wrappedAmount = amount.multipliedBy(10 ** vault.decimals);
+		const wrappedAmount = amount.multipliedBy(10 ** vault.decimals);
 
 		const methodSeries: any = [];
 
@@ -402,7 +402,7 @@ class ContractsStore {
 		if (!amount || amount.isNaN() || amount.lte(0) || amount.gt(vault.geyser.balance))
 			return queueNotification('Please enter a valid amount', 'error');
 
-		let wrappedAmount = amount.multipliedBy(10 ** vault.decimals);
+		const wrappedAmount = amount.multipliedBy(10 ** vault.decimals);
 
 		const methodSeries: any = [];
 

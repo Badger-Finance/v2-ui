@@ -3,7 +3,7 @@ import { VaultDeposit, VaultWithdraw, GeyserUnstake, GeyserStake } from 'compone
 import { VaultSymbol } from 'components/Common/VaultSymbol';
 import { Dialog, DialogTitle, Tab, Tabs, Switch, Typography } from '@material-ui/core';
 import deploy from '../../../config/deployments/mainnet.json';
-import BigNumber from "bignumber.js";
+import BigNumber from 'bignumber.js';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 const SettDialog = (props: any) => {
@@ -25,7 +25,8 @@ const SettDialog = (props: any) => {
 	 * TODO: Revist the general structure of downstream data consumption
 	 * This structure is a bit recursive
 	 */
-	if (!vault) { // user wallet not connected - populate zero data
+	if (!vault) {
+		// user wallet not connected - populate zero data
 		const decimals = sett.asset == 'digg' ? 9 : 18;
 		vault = {
 			underlyingToken: {
@@ -43,7 +44,7 @@ const SettDialog = (props: any) => {
 						balance: new BigNumber(0),
 						decimals: decimals, // decimals do not matter - dividend is 0
 					},
-				}
+				},
 			},
 			balance: new BigNumber(0),
 			decimals: decimals,

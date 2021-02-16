@@ -35,7 +35,7 @@ export default function DepositList(props: any) {
 	let walletBalances = contracts.map((address: string) => {
 		const vault: Vault = vaults[address.toLowerCase()];
 		const sett: any = allSetts.find((s: any) => s.address.toLowerCase() === address.toLowerCase());
-		let userBalance = vault && vault.underlyingToken ? vault.underlyingToken.balance.toNumber() : 0;
+		const userBalance = vault && vault.underlyingToken ? vault.underlyingToken.balance.toNumber() : 0;
 		if (sett && userBalance > 0) {
 			return (
 				<ListItem key={address} className={classes.listItem}>
@@ -55,7 +55,7 @@ export default function DepositList(props: any) {
 	let depositBalances = contracts.map((address: string) => {
 		const vault: Vault = vaults[address.toLowerCase()];
 		const sett: any = allSetts.find((s: any) => s.address.toLowerCase() === address.toLowerCase());
-		let userBalance = vault ? vault.balance.toNumber() : 0;
+		const userBalance = vault ? vault.balance.toNumber() : 0;
 		if (sett && userBalance > 0) {
 			return (
 				<ListItem key={address} className={classes.listItem}>
@@ -76,7 +76,7 @@ export default function DepositList(props: any) {
 		const vault: Vault = vaults[address.toLowerCase()];
 		const sett: any = allSetts.find((s: any) => s.address.toLowerCase() === address.toLowerCase());
 		const geyser: Geyser | undefined = vault ? vault.geyser : undefined;
-		let userBalance = geyser ? geyser.balance.toNumber() : 0;
+		const userBalance = geyser ? geyser.balance.toNumber() : 0;
 		if (sett && geyser && userBalance > 0) {
 			return (
 				<ListItem key={address} className={classes.listItem}>

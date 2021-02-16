@@ -43,8 +43,8 @@
 		"eject": "react-scripts eject",
 		"predeploy": "npm run build",
 		"deploy": "gh-pages -d build",
-		"lint": "yarn prettier --check .",
-		"lint-fix": "yarn prettier --write .",
+		"lint": "yarn eslint src/ --quiet",
+		"lint-fix": "yarn eslint src/ --quiet --fix",
 		"ui": "yarn upgradeInteractive"
 	},
 	"eslintConfig": {
@@ -69,6 +69,7 @@
 		"@types/react-dom": "^16.9.6",
 		"@typescript-eslint/eslint-plugin": "^4.13.0",
 		"@typescript-eslint/parser": "^4.13.0",
+		"eslint": "^7.20.0",
 		"eslint-config-prettier": "^7.1.0",
 		"eslint-plugin-autofix": "^1.0.3",
 		"eslint-plugin-prettier": "^3.3.1",
