@@ -1,34 +1,44 @@
-const { digg_system, sett_system, token, badgerHunt } = require('../deployments/mainnet.json');
-const { abi: diggDistributorAbi } = require('./abis/DiggDistributor.json');
-const { abi: diggAbi } = require('./abis/UFragments.json');
-const { abi: erc20Abi } = require('./abis/ERC20.json');
-const { abi: badgerHuntAbi } = require('./abis/BadgerHunt.json');
+import { AbiItem } from 'web3-utils';
+import { badgerHunt, digg_system, sett_system, token } from '../deployments/mainnet.json';
+import { abi as diggDistributorAbi } from './abis/DiggDistributor.json';
+import { abi as diggAbi } from './abis/UFragments.json';
+import { abi as erc20Abi } from './abis/ERC20.json';
+import { abi as badgerHuntAbi } from './abis/BadgerHunt.json';
 
 export const airdropEndpoint = 'https://fzqm8i0owc.execute-api.us-east-1.amazonaws.com/prod/hunt';
 
-export const airdropsConfig = {
+type AirdropsConfig = {
+	[index: string]: {
+		tokenAbi: AbiItem[];
+		tokenContract: string | { [index: string]: string };
+		airdropContract: string;
+		airdropAbi: AbiItem[];
+	};
+};
+
+const nativeBadger = sett_system.vaults['native.badger'];
+
+export const airdropsConfig: AirdropsConfig = {
 	// BADGER
 	[token]: {
-		tokenAbi: erc20Abi,
+		tokenAbi: erc20Abi as AbiItem[],
 		tokenContract: token,
 		airdropContract: badgerHunt,
-		airdropAbi: badgerHuntAbi,
+		airdropAbi: badgerHuntAbi as AbiItem[],
 	},
 	// DIGG
 	[digg_system.uFragments]: {
-		tokenAbi: diggAbi,
+		tokenAbi: diggAbi as AbiItem[],
 		tokenContract: digg_system.uFragments,
 		airdropContract: digg_system.diggDistributor,
-		airdropAbi: diggDistributorAbi,
+		airdropAbi: diggDistributorAbi as AbiItem[],
 	},
-	// bBADGER
-	[sett_system.vaults['native.badger']]: {
-		tokenAbi: erc20Abi,
-		tokenContract: sett_system.vaults['native.badger'],
+	// // bBADGER
+	[nativeBadger]: {
+		tokenAbi: erc20Abi as AbiItem[],
+		tokenContract: nativeBadger,
 		// TODO: Add new airdrop contract
 		airdropContract: '',
-		airdropAbi: '',
+		airdropAbi: [] as AbiItem[],
 	},
 };
-
-const tokens = [token, digg_system.uFragments, sett_system.vaults['native.badger']];

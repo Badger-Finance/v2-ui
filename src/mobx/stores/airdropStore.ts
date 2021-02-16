@@ -1,14 +1,15 @@
-import { extendObservable, action, observe } from 'mobx';
+import { extendObservable, action } from 'mobx';
 import Web3 from 'web3';
-import BatchCall from 'web3-batch-call';
+
 import { estimateAndSend } from '../utils/web3';
 import BigNumber from 'bignumber.js';
 import { RootStore } from '../store';
-import _ from 'lodash';
+
 import { jsonQuery } from '../utils/helpers';
 import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
 import { airdropsConfig, airdropEndpoint } from '../../config/system/airdrops';
+import { digg_system } from '../../config/deployments/mainnet.json';
 
 class AirdropStore {
 	private store!: RootStore;
@@ -24,8 +25,7 @@ class AirdropStore {
 	}
 
 	fetchAirdrops = action(() => {
-		const { provider, connectedAddress, isCached } = this.store.wallet;
-		const { digg_system } = require('../../config/deployments/mainnet.json');
+		const { provider, connectedAddress } = this.store.wallet;
 		const {} = this.store.uiState;
 
 		if (!connectedAddress) return;
@@ -119,7 +119,7 @@ class AirdropStore {
 		);
 
 		queueNotification(`Sign the transaction to claim your airdrop`, 'info');
-		const diggAmount = this.airdrops.digg;
+
 		estimateAndSend(web3, gasPrices[gasPrice], method, connectedAddress, (transaction: PromiEvent<Contract>) => {
 			transaction
 				.on('transactionHash', (hash) => {
