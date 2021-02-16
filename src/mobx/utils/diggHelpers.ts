@@ -93,6 +93,7 @@ export const numberWithCommas = (x: string) => {
 };
 
 export const getRebaseLogs = async (provider: any) => {
+	// eslint-disable-next-line @typescript-eslint/no-var-requires
 	const Contract = require('web3-eth-contract');
 	Contract.setProvider(provider);
 	// const web3 = new Web3(provider);

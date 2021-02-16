@@ -36,7 +36,7 @@ class RebaseStore {
 
 	fetchRebaseStats = action(async () => {
 		let rebaseLog: any = null;
-		const { digg } = require('config/system/rebase');
+		const { digg } = await import('config/system/rebase');
 
 		if (this.store.wallet.provider) {
 			const options = {
