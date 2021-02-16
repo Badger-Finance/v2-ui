@@ -80,7 +80,7 @@ export class Vault extends Token {
 			.dividedBy(1e18)
 			.multipliedBy(this.underlyingToken.ethValue);
 	}
-	
+
 	balanceValue() {
 		return this.balance
 			.multipliedBy(this.pricePerShare)

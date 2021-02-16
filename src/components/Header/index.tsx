@@ -8,7 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Menu } from '@material-ui/icons';
 import Notify from 'bnc-notify';
 
-var notify = Notify({
+const notify = Notify({
 	dappId: 'af74a87b-cd08-4f45-83ff-ade6b3859a07', // [String] The API key created by step one above
 	networkId: 1, // [Integer] The Ethereum network ID your Dapp uses.
 });

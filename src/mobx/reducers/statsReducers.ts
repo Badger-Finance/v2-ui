@@ -96,7 +96,7 @@ function calculatePortfolioStats(vaultContracts: any, tokens: any, vaults: any, 
 	let wallet = new BigNumber(0);
 	let portfolio = new BigNumber(0);
 	let growth = new BigNumber(0);
-	let liqGrowth = new BigNumber(0);
+	const liqGrowth = new BigNumber(0);
 
 	_.forIn(vaultContracts, (vault: Vault) => {
 		if (!vault.underlyingToken || !vault.underlyingToken.ethValue) return;
@@ -104,7 +104,7 @@ function calculatePortfolioStats(vaultContracts: any, tokens: any, vaults: any, 
 		if (!vault.holdingsValue().isNaN()) tvl = tvl.plus(vault.holdingsValue());
 
 		if (vault.balance.gt(0) && !vault.balanceValue().isNaN()) {
-			let diggMultiplier = vault.underlyingToken.symbol === 'DIGG' ? getDiggPerShare(vault) : new BigNumber(1);
+			const diggMultiplier = vault.underlyingToken.symbol === 'DIGG' ? getDiggPerShare(vault) : new BigNumber(1);
 			deposits = deposits.plus(vault.balanceValue().multipliedBy(diggMultiplier));
 			portfolio = portfolio.plus(vault.balanceValue().multipliedBy(diggMultiplier));
 		}
@@ -143,18 +143,18 @@ function formatPercentage(ratio: BigNumber) {
 	else return ratio.multipliedBy(1e2).toFixed(2);
 }
 function formatReturn(amount: Amount, geyser: Geyser) {
-	let returnValue = amount.amount.dividedBy(10 ** amount.token.decimals).multipliedBy(amount.token.ethValue);
-	let geyserValue = geyser.holdingsValue();
+	const returnValue = amount.amount.dividedBy(10 ** amount.token.decimals).multipliedBy(amount.token.ethValue);
+	const geyserValue = geyser.holdingsValue();
 
 	let total = returnValue.dividedBy(geyserValue);
 	total = total.isNaN() ? new BigNumber(Infinity) : total;
-	let tooltip = formatPercentage(total);
+	const tooltip = formatPercentage(total);
 
 	return { total, tooltip };
 }
 
 export function reduceRebase(stats: any, base: any, token: any) {
-	let info = {
+	const info = {
 		oraclePrice: base.ethValue.multipliedBy(stats.oracleRate),
 		btcPrice: base.ethValue,
 	};
@@ -207,7 +207,7 @@ export function formatStaked(geyser: Geyser) {
 	return inCurrency(geyser.holdings.dividedBy(10 ** geyser.vault.decimals), 'eth', true);
 }
 export function formatBalanceUnderlying(vault: Vault) {
-	let ppfs = vault.symbol === 'bDIGG' ? getDiggPerShare(vault) : vault.pricePerShare;
+	const ppfs = vault.symbol === 'bDIGG' ? getDiggPerShare(vault) : vault.pricePerShare;
 	return inCurrency(
 		vault.balance.multipliedBy(ppfs).dividedBy(10 ** vault.decimals),
 		'eth',
@@ -217,7 +217,7 @@ export function formatBalanceUnderlying(vault: Vault) {
 }
 
 export function formatHoldingsValue(vault: Vault, currency: string) {
-	let diggMultiplier = vault.underlyingToken.symbol === 'DIGG' ? getDiggPerShare(vault) : new BigNumber(1);
+	const diggMultiplier = vault.underlyingToken.symbol === 'DIGG' ? getDiggPerShare(vault) : new BigNumber(1);
 	return inCurrency(vault.holdingsValue().multipliedBy(diggMultiplier).dividedBy(1e18), currency, true);
 }
 
@@ -243,7 +243,7 @@ export function formatNumber(price: BigNumber, currency: string) {
 	return inCurrency(price, currency, true);
 }
 
-export function formatAmount(amount: Amount, isVault: boolean = false) {
+export function formatAmount(amount: Amount, isVault = false) {
 	let decimals = amount.token.decimals ? amount.token.decimals : amount.token.symbol === 'bDIGG' ? 9 : 18;
 	if (isVault) {
 		decimals = 18;
@@ -255,10 +255,10 @@ export function formatGeyserGrowth(geyser: Geyser, period: string) {
 	let total = new BigNumber(0);
 	let tooltip = '';
 	_.map(geyser.rewards, (growth: Growth) => {
-		let rewards = (growth as any)[period];
+		const rewards = (growth as any)[period];
 
 		if (!!rewards.amount && !rewards.amount.isNaN() && rewards.amount.gt(0)) {
-			let geyserRewards = formatReturn(rewards, geyser);
+			const geyserRewards = formatReturn(rewards, geyser);
 			total = total.plus(geyserRewards.total);
 			if (geyserRewards.tooltip !== '') tooltip += ' + ' + geyserRewards.tooltip + `% ${rewards.token.symbol}`;
 		}
@@ -267,7 +267,7 @@ export function formatGeyserGrowth(geyser: Geyser, period: string) {
 }
 
 export function formatVaultGrowth(vault: Vault, period: string) {
-	let roiArray = !!vault.growth
+	const roiArray = !!vault.growth
 		? vault.growth.map((growth: Growth) => {
 				return (
 					!!(growth as any)[period] && {
@@ -289,7 +289,7 @@ export function formatVaultGrowth(vault: Vault, period: string) {
 	});
 
 	if (!!vault.geyser) {
-		let geyserGrowth = formatGeyserGrowth(vault.geyser, period);
+		const geyserGrowth = formatGeyserGrowth(vault.geyser, period);
 
 		tooltip += geyserGrowth.tooltip;
 		total = total.plus(geyserGrowth.total);

@@ -43,8 +43,8 @@
 		"eject": "react-scripts eject",
 		"predeploy": "npm run build",
 		"deploy": "gh-pages -d build",
-		"lint": "yarn prettier --check .",
-		"lint-fix": "yarn prettier --write .",
+		"lint": "yarn eslint */**/*.{js,json,ts,tsx}",
+		"lint-fix": "yarn eslint */**/*.{js,json,ts,tsx} --quiet --fix",
 		"ui": "yarn upgradeInteractive"
 	},
 	"eslintConfig": {

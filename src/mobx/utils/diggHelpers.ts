@@ -87,12 +87,13 @@ export const shortenNumbers = (value: BigNumber, prefix: string, preferredDecima
 };
 
 export const numberWithCommas = (x: string) => {
-	var parts = x.toString().split('.');
+	const parts = x.toString().split('.');
 	parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 	return parts.join('.');
 };
 
 export const getRebaseLogs = async (provider: any) => {
+	// eslint-disable-next-line @typescript-eslint/no-var-requires
 	const Contract = require('web3-eth-contract');
 	Contract.setProvider(provider);
 	// const web3 = new Web3(provider);
