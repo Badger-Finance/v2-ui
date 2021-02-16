@@ -110,6 +110,7 @@ export const Airdrops = observer(() => {
 				</Typography>
 
 				<Button
+					aria-label={qualifier.button}
 					className={classes.button}
 					onClick={() => {
 						if (!!qualifier.href) {
@@ -129,6 +130,7 @@ export const Airdrops = observer(() => {
 				)}
 				{!!qualifier.button2 && (
 					<Button
+						aria-label={qualifier.button2}
 						className={classes.button}
 						target="_blank"
 						href={qualifier.href2}
@@ -183,6 +185,7 @@ export const Airdrops = observer(() => {
 										color="primary"
 									>
 										<Button
+											aria-label="Claim"
 											onClick={() => {
 												claimAirdrops(sett_system.vaults['native.badger']);
 											}}

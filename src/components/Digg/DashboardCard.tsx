@@ -52,6 +52,7 @@ const DashboardCard = observer(() => {
 	const ranges = (
 		<ButtonGroup variant="outlined" size="small" aria-label="outlined button group">
 			<Button
+				aria-label="1 day"
 				disableElevation
 				variant={range === 1 ? 'contained' : 'outlined'}
 				onClick={() => handleChangeRange(1)}
@@ -59,6 +60,7 @@ const DashboardCard = observer(() => {
 				1 day
 			</Button>
 			<Button
+				aria-label="1 week"
 				disableElevation
 				variant={range === 7 ? 'contained' : 'outlined'}
 				onClick={() => handleChangeRange(7)}
@@ -66,6 +68,7 @@ const DashboardCard = observer(() => {
 				1 week
 			</Button>
 			<Button
+				aria-label="1 Month"
 				disableElevation
 				variant={range === 30 ? 'contained' : 'outlined'}
 				onClick={() => handleChangeRange(30)}

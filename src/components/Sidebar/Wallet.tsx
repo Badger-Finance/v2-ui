@@ -84,6 +84,7 @@ export const Wallet = observer(() => {
 				<MenuItem value={'rapid'}>{gasPrices['rapid'].toFixed(0)}</MenuItem>
 			</Select>
 			<Button
+				aria-label={!!connectedAddress ? shortenAddress(connectedAddress) : 'CLICK TO CONNECT'}
 				disableElevation
 				variant="contained"
 				color="secondary"

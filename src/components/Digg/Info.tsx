@@ -131,6 +131,7 @@ const Info = observer(() => {
 					</Typography>
 				</Paper>
 				<Button
+					aria-label="Learn More"
 					variant="text"
 					fullWidth
 					size="small"

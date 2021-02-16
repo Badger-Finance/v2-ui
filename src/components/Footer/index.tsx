@@ -46,6 +46,7 @@ export const Footer = (): JSX.Element => {
 						/>
 						<br />
 						<Button
+							aria-label="Get Coverage"
 							variant="outlined"
 							color="secondary"
 							href="https://app.coverprotocol.com/app/marketplace/protocols/BADGERDAO"
