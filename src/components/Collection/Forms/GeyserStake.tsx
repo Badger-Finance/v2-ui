@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import { observer } from 'mobx-react-lite';
-
 import { StoreContext } from '../../../mobx/store-context';
 import { Button, DialogContent, TextField, DialogActions, ButtonGroup } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
@@ -27,9 +26,7 @@ export const GeyserStake = observer((props: any) => {
 	const { register, handleSubmit, watch, setValue } = useForm({ mode: 'all' });
 
 	const {
-		router: {},
 		wallet: { connectedAddress },
-		uiState: {},
 	} = store;
 
 	const percentageOfBalance = (percent: number) => {
