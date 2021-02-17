@@ -72,7 +72,7 @@ export const Header = observer(() => {
 	return (
 		<AppBar className={classes.appBar} color="primary">
 			<Toolbar className={classes.toolbar} onClick={() => goTo(views.home, { collection: 'badger' })}>
-				<img alt="Badger header icon" src={require('../../assets/badger-full.png')} className={classes.logo} />
+				<img alt="Badger Header Logo" src={require('../../assets/badger-full.png')} className={classes.logo} />
 				<IconButton className={classes.menuButton} onClick={() => openSidebar()}>
 					<Menu />
 				</IconButton>
