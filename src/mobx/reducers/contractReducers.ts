@@ -1,11 +1,18 @@
 import BigNumber from 'bignumber.js';
-import _, { stubString } from 'lodash';
+import _ from 'lodash';
 import { START_BLOCK } from 'config/constants';
-import { rewards } from 'config/system/geysers';
 import deploy from 'config/deployments/mainnet.json';
 import { batchConfig } from 'mobx/utils/web3';
 import { RootStore } from 'mobx/store';
 import { growthQuery, secondsToBlocks } from 'mobx/utils/helpers';
+import {
+	ReducedSushiROIResults,
+	ReducedGrowthQueryConfig,
+	ReducedCurveResult,
+	ReducedGrowth,
+	Growth,
+	ReducedContractConfig,
+} from '../model';
 
 export const reduceBatchResult = (result: any[]): any[] => {
 	return result.map((vault) => {
@@ -30,8 +37,8 @@ export const reduceResult = (value: any): any => {
 	else return value;
 };
 
-export const reduceSushiAPIResults = (results: any, contracts: any[]) => {
-	const newSushiROIs: any = _.map(results.pairs, (pair: any, i: number) => {
+export const reduceSushiAPIResults = (results: any, contracts: any[]): any => {
+	const newSushiROIs: any = _.map(results.pairs, (pair: any) => {
 		return {
 			address: pair.address,
 			day: new BigNumber(pair.aprDay).dividedBy(100),
@@ -43,7 +50,7 @@ export const reduceSushiAPIResults = (results: any, contracts: any[]) => {
 	return _.keyBy(newSushiROIs, 'address');
 };
 
-export const reduceXSushiROIResults = (ROI: any) => {
+export const reduceXSushiROIResults = (ROI: any): ReducedSushiROIResults => {
 	return {
 		day: new BigNumber(ROI).dividedBy(365),
 		week: new BigNumber(ROI).dividedBy(365).multipliedBy(7),
@@ -52,7 +59,7 @@ export const reduceXSushiROIResults = (ROI: any) => {
 	};
 };
 
-export const reduceGrowthQueryConfig = (currentBlock?: number) => {
+export const reduceGrowthQueryConfig = (currentBlock?: number): ReducedGrowthQueryConfig => {
 	if (!currentBlock) return { periods: [], growthQueries: [] };
 
 	const periods = [
@@ -66,7 +73,7 @@ export const reduceGrowthQueryConfig = (currentBlock?: number) => {
 	return { periods, growthQueries: periods.map(growthQuery) };
 };
 
-export const reduceGraphResult = (graphResult: any[]) => {
+export const reduceGraphResult = (graphResult: any[]): any[] => {
 	const reduction = graphResult.map((element: any) => {
 		if (!element.data.pair && !element.data.token) return;
 
@@ -132,7 +139,12 @@ export const reduceGraphResult = (graphResult: any[]) => {
 	return _.compact(noDupes);
 };
 
-export const reduceCurveResult = (curveResult: any[], contracts: any[], tokenContracts: any, wbtcToken: any) => {
+export const reduceCurveResult = (
+	curveResult: any[],
+	contracts: any[],
+	_tokenContracts: any,
+	wbtcToken: any,
+): ReducedCurveResult => {
 	return curveResult.map((result: any, i: number) => {
 		let sum = new BigNumber(0);
 		let count = 0;
@@ -153,7 +165,7 @@ export const reduceCurveResult = (curveResult: any[], contracts: any[], tokenCon
 	});
 };
 
-export const reduceGrowth = (graphResult: any[], periods: number[], startDate: Date) => {
+export const reduceGrowth = (graphResult: any[], periods: number[], startDate: Date): ReducedGrowth => {
 	const reduction: any[] = graphResult.map((result: any) => !!result.data && _.keyBy(result.data.vaults, 'id'));
 
 	return _.mapValues(reduction[0], (value: any, key: string) => {
@@ -190,7 +202,7 @@ export const reduceGrowth = (graphResult: any[], periods: number[], startDate: D
 	});
 };
 
-export const reduceGeyserSchedule = (schedules: any, store: RootStore) => {
+export const reduceGeyserSchedule = (schedules: any, store: RootStore): Growth[] => {
 	// console.log(JSON.stringify(schedules))
 	// console.log(_.keysIn(schedules))
 	// console.log(schedules)
@@ -247,7 +259,7 @@ export const reduceGeyserSchedule = (schedules: any, store: RootStore) => {
 	);
 };
 
-export const reduceContractConfig = (configs: any[], payload: any = {}) => {
+export const reduceContractConfig = (configs: any[], payload: any = {}): ReducedContractConfig => {
 	const contracts = _.map(configs, (config: any) => {
 		return _.map(config.contracts, (contract: string, i: number) => {
 			const r: any = {
@@ -275,7 +287,7 @@ export const reduceContractConfig = (configs: any[], payload: any = {}) => {
 	return { defaults, batchCall };
 };
 
-export const reduceMethodConfig = (methods: any[], payload: any) => {
+export const reduceMethodConfig = (methods: any[], payload: any): { args?: any[]; name: any }[] => {
 	const reduced = _.map(methods, (method: any) => {
 		const args = _.map(method.args, (arg: string) => {
 			const brackets = /\{(.*?)\}/; // FIXME: has a redundant escape character for \{ and \}

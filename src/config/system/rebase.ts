@@ -1,5 +1,4 @@
 import deploy from '../deployments/mainnet.json';
-import BadgerHunt from './abis/BadgerHunt.json';
 import UFragments from './abis/UFragments.json';
 import UFragmentsPolicy from './abis/UFragmentsPolicy.json';
 import MedianOracle from './abis/MedianOracle.json';

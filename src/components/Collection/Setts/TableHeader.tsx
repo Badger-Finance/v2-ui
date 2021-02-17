@@ -1,7 +1,7 @@
 import { Grid, Typography } from '@material-ui/core';
 import React from 'react';
 
-export default function TableHeader(props: any) {
+export default function TableHeader(props: any): JSX.Element {
 	const { title, tokenTitle, classes, period } = props;
 	const spacer = () => <div className={classes.before} />;
 	return (

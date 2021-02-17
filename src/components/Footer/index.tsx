@@ -30,7 +30,7 @@ const useStyles = makeStyles(() => ({
 	},
 }));
 
-export const Footer = () => {
+export const Footer = (): JSX.Element => {
 	const classes = useStyles();
 
 	return (

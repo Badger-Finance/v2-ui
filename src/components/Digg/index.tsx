@@ -1,11 +1,9 @@
-import { Button, ButtonGroup, Container, Grid, makeStyles, Typography, Paper, Tabs, Tab } from '@material-ui/core';
+import { Container, Grid, makeStyles } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
-
 import DashboardCard from './DashboardCard';
 import Info from './Info';
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { StoreContext } from '../../mobx/store-context';
-import views from '../../config/routes';
 import Hero from 'components/Common/Hero';
 
 const useStyles = makeStyles((theme) => ({

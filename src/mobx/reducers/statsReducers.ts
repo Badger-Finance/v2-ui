@@ -8,10 +8,21 @@ import { inCurrency } from 'mobx/utils/helpers';
 import { getDiggPerShare } from 'mobx/utils/diggHelpers';
 import { token as diggToken } from 'config/system/rebase';
 import { rewards as rewardsConfig } from 'config/system/geysers';
-import { Vault, Amount, Geyser, Token, Growth } from '../model';
+import {
+	Vault,
+	Amount,
+	Geyser,
+	Token,
+	Growth,
+	RebaseToStats,
+	ContractToStats,
+	ReducedAirdops,
+	FormattedGeyserGrowth,
+	FormattedVaultGrowth,
+} from '../model';
 import { ZERO_CURRENCY } from 'config/constants';
 
-export const reduceTimeSinceLastCycle = (time: string) => {
+export const reduceTimeSinceLastCycle = (time: string): string => {
 	const timestamp = parseFloat(time) * 1000;
 
 	const now = Date.now();
@@ -24,7 +35,7 @@ export const reduceTimeSinceLastCycle = (time: string) => {
 	);
 };
 
-export const reduceRebaseToStats = (store: RootStore) => {
+export const reduceRebaseToStats = (store: RootStore): RebaseToStats | undefined => {
 	const { tokens } = store.contracts;
 	const { currency } = store.uiState;
 
@@ -39,9 +50,9 @@ export const reduceRebaseToStats = (store: RootStore) => {
 	};
 };
 
-export const reduceContractsToStats = (store: RootStore) => {
+export const reduceContractsToStats = (store: RootStore): ContractToStats | undefined => {
 	const { vaults: vaultContracts, tokens, geysers: geyserContracts } = store.contracts;
-	const { currency, hideZeroBal } = store.uiState;
+	/* const { currency, hideZeroBal } = store.uiState; */
 
 	if (!tokens) return;
 
@@ -72,7 +83,7 @@ export const reduceContractsToStats = (store: RootStore) => {
 	};
 };
 
-export const reduceClaims = (merkleProof: any, rewardAddresses: any[], claimedRewards: any[]) => {
+export const reduceClaims = (merkleProof: any, rewardAddresses: any[], claimedRewards: any[]): Amount | never[] => {
 	if (!merkleProof.cumulativeAmounts) return [];
 	return merkleProof.cumulativeAmounts.map((amount: number, i: number) => {
 		return [
@@ -83,12 +94,14 @@ export const reduceClaims = (merkleProof: any, rewardAddresses: any[], claimedRe
 		];
 	});
 };
-export const reduceAirdrops = (airdrops: any, store: RootStore) => {
+
+export const reduceAirdrops = (airdrops: any, store: RootStore): ReducedAirdops | Record<string, unknown> => {
 	if (!airdrops.digg) {
 		return {};
 	}
 	return { digg: { amount: airdrops.digg, token: store.contracts.tokens[rewardsConfig.tokens[1].toLowerCase()] } };
 };
+
 function calculatePortfolioStats(vaultContracts: any, tokens: any, vaults: any, geyserContracts: any) {
 	let tvl = new BigNumber(0);
 	let deposits = new BigNumber(0);
@@ -153,7 +166,7 @@ function formatReturn(amount: Amount, geyser: Geyser) {
 	return { total, tooltip };
 }
 
-export function reduceRebase(stats: any, base: any, token: any) {
+export function reduceRebase(stats: any, base: any, token: Token): any {
 	const info = {
 		oraclePrice: base.ethValue.multipliedBy(stats.oracleRate),
 		btcPrice: base.ethValue,
@@ -161,18 +174,18 @@ export function reduceRebase(stats: any, base: any, token: any) {
 	return _.defaults(stats, info);
 }
 
-export function formatSupply(token: Token) {
+export function formatSupply(token: Token): string {
 	if (!token.totalSupply) return ZERO_CURRENCY;
 	return inCurrency(token.totalSupply.dividedBy(10 ** token.decimals), 'eth', true);
 }
 
-export function formatBalance(token: Token): any {
+export function formatBalance(token: Token): string {
 	if (token) return inCurrency(token.balance.dividedBy(10 ** token.decimals), 'eth', true);
 	else {
 		return '0.00';
 	}
 }
-export function formatGeyserBalance(geyser: Geyser) {
+export function formatGeyserBalance(geyser: Geyser): string {
 	return inCurrency(
 		geyser.balance.plus(geyser.vault.balance).multipliedBy(geyser.vault.pricePerShare).dividedBy(1e18),
 		'eth',
@@ -180,13 +193,13 @@ export function formatGeyserBalance(geyser: Geyser) {
 		5,
 	);
 }
-export function formatGeyserHoldings(vault: Vault) {
+export function formatGeyserHoldings(vault: Vault): string {
 	return inCurrency(vault.holdings.multipliedBy(vault.pricePerShare).dividedBy(1e18), 'eth', true);
 }
-export function formatVaultBalance(vault: Vault) {
+export function formatVaultBalance(vault: Vault): string {
 	return inCurrency(vault.vaultBalance.dividedBy(10 ** vault.underlyingToken.decimals), 'eth', true);
 }
-export function formatTotalStaked(geyser: Geyser) {
+export function formatTotalStaked(geyser: Geyser): string {
 	return inCurrency(
 		geyser.holdings.dividedBy(10 ** geyser.vault.decimals).multipliedBy(geyser.vault.pricePerShare),
 		'eth',
@@ -194,7 +207,7 @@ export function formatTotalStaked(geyser: Geyser) {
 	);
 }
 
-export function formatBalanceStaked(geyser: Geyser) {
+export function formatBalanceStaked(geyser: Geyser): string {
 	return inCurrency(
 		geyser.balance.dividedBy(10 ** geyser.vault.decimals).multipliedBy(geyser.vault.pricePerShare),
 		'eth',
@@ -203,10 +216,10 @@ export function formatBalanceStaked(geyser: Geyser) {
 	);
 }
 
-export function formatStaked(geyser: Geyser) {
+export function formatStaked(geyser: Geyser): string {
 	return inCurrency(geyser.holdings.dividedBy(10 ** geyser.vault.decimals), 'eth', true);
 }
-export function formatBalanceUnderlying(vault: Vault) {
+export function formatBalanceUnderlying(vault: Vault): string {
 	const ppfs = vault.symbol === 'bDIGG' ? getDiggPerShare(vault) : vault.pricePerShare;
 	return inCurrency(
 		vault.balance.multipliedBy(ppfs).dividedBy(10 ** vault.decimals),
@@ -216,34 +229,34 @@ export function formatBalanceUnderlying(vault: Vault) {
 	);
 }
 
-export function formatHoldingsValue(vault: Vault, currency: string) {
+export function formatHoldingsValue(vault: Vault, currency: string): string {
 	const diggMultiplier = vault.underlyingToken.symbol === 'DIGG' ? getDiggPerShare(vault) : new BigNumber(1);
 	return inCurrency(vault.holdingsValue().multipliedBy(diggMultiplier).dividedBy(1e18), currency, true);
 }
 
-export function formatBalanceValue(token: Token, currency: string) {
+export function formatBalanceValue(token: Token, currency: string): string {
 	// Only bDIGG shares need to be scaled, DIGG is already the 1:1 underlying
 	const diggMultiplier = token.symbol === 'bDIGG' ? getDiggPerShare(token) : new BigNumber(1);
 	return inCurrency(token.balanceValue().multipliedBy(diggMultiplier).dividedBy(1e18), currency, true);
 }
 
-export function formatGeyserBalanceValue(geyser: Geyser, currency: string) {
+export function formatGeyserBalanceValue(geyser: Geyser, currency: string): string {
 	return inCurrency(geyser.balanceValue().plus(geyser.vault.balanceValue()).dividedBy(1e18), currency, true);
 }
 
-export function formatVaultBalanceValue(vault: Vault, currency: string) {
+export function formatVaultBalanceValue(vault: Vault, currency: string): string {
 	return inCurrency(vault.balanceValue().dividedBy(1e18), currency, true);
 }
 
-export function formatPrice(price: BigNumber, currency: string) {
+export function formatPrice(price: BigNumber, currency: string): string {
 	return inCurrency(price.dividedBy(1e18), currency, true);
 }
 
-export function formatNumber(price: BigNumber, currency: string) {
+export function formatNumber(price: BigNumber, currency: string): string {
 	return inCurrency(price, currency, true);
 }
 
-export function formatAmount(amount: Amount, isVault = false) {
+export function formatAmount(amount: Amount, isVault = false): string {
 	let decimals = amount.token.decimals ? amount.token.decimals : amount.token.symbol === 'bDIGG' ? 9 : 18;
 	if (isVault) {
 		decimals = 18;
@@ -251,7 +264,7 @@ export function formatAmount(amount: Amount, isVault = false) {
 	return inCurrency(amount.amount.dividedBy(10 ** decimals), 'eth', true, amount.token.decimals);
 }
 
-export function formatGeyserGrowth(geyser: Geyser, period: string) {
+export function formatGeyserGrowth(geyser: Geyser, period: string): FormattedGeyserGrowth {
 	let total = new BigNumber(0);
 	let tooltip = '';
 	_.map(geyser.rewards, (growth: Growth) => {
@@ -266,7 +279,7 @@ export function formatGeyserGrowth(geyser: Geyser, period: string) {
 	return { total, tooltip };
 }
 
-export function formatVaultGrowth(vault: Vault, period: string) {
+export function formatVaultGrowth(vault: Vault, period: string): FormattedVaultGrowth {
 	const roiArray = !!vault.growth
 		? vault.growth.map((growth: Growth) => {
 				return (

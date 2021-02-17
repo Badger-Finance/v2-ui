@@ -3,19 +3,8 @@ import { observer } from 'mobx-react-lite';
 import views from '../../config/routes';
 import { useContext } from 'react';
 import { StoreContext } from '../../mobx/store-context';
-import {
-	Button,
-	ButtonGroup,
-	List,
-	ListItem,
-	Drawer,
-	Collapse,
-	IconButton,
-	ListItemIcon,
-	ListItemText,
-} from '@material-ui/core';
+import { List, ListItem, Drawer, Collapse, IconButton, ListItemIcon, ListItemText } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { Wallet } from './Wallet';
 import { ExpandMore } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({

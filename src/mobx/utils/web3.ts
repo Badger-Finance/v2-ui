@@ -10,6 +10,7 @@ export const estimateAndSend = (
 	gasPrice: number,
 	method: ContractSendMethod,
 	address: string,
+	// eslint-disable-next-line autofix/no-unused-vars
 	callback: (transaction: PromiEvent<Contract>) => void,
 ) => {
 	const gasWei = new BigNumber(gasPrice.toFixed(0));

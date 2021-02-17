@@ -1,4 +1,4 @@
-import { extendObservable, action, observe } from 'mobx';
+import { extendObservable, action } from 'mobx';
 import Web3 from 'web3';
 import BatchCall from 'web3-batch-call';
 import BigNumber from 'bignumber.js';

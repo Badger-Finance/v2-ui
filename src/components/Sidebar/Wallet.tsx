@@ -4,7 +4,7 @@ import { useContext } from 'react';
 import { StoreContext } from '../../mobx/store-context';
 import { Button, Select, MenuItem } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { AccountBalanceWallet, LocalGasStation } from '@material-ui/icons';
+import { LocalGasStation } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
 	root: {

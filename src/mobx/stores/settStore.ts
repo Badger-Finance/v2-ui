@@ -1,6 +1,5 @@
-import { extendObservable, action, observe } from 'mobx';
+import { extendObservable, action } from 'mobx';
 import { RootStore } from '../store';
-import _ from 'lodash';
 import async from 'async';
 import { getAssetsUnderManagement, getCoinData, getAssetPerformances, getFarmData, getPpfs } from 'mobx/utils/api';
 import { setts, diggSetts } from 'mobx/utils/setts';
@@ -43,7 +42,7 @@ class SettStore {
 				(callback: any) => this.fetchFarmData(callback),
 				(callback: any) => this.fetchPpfs(callback),
 			],
-			(_err: any, _result: any) => {
+			() => {
 				this._fetchingSettData = false;
 			},
 		);

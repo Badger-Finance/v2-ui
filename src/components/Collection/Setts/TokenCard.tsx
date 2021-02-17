@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export const TokenCard = (props: any) => {
+export const TokenCard = (props: any): JSX.Element => {
 	const store = useContext(StoreContext);
 	const classes = useStyles();
 
@@ -84,7 +84,6 @@ export const TokenCard = (props: any) => {
 		return formatWithCommas(tokenCount);
 	};
 	const tokensAmount = getTokens();
-	const value = assets[sett.asset];
 	const { apy, tooltip } = getRoi();
 
 	return (

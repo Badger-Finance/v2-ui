@@ -155,3 +155,53 @@ export interface Amount {
 	token: Token;
 	amount: BigNumber;
 }
+export type RebaseToStats = { nextRebase: Date; oracleRate: string; totalSupply: string | boolean };
+
+export type ContractToStats = {
+	stats: {
+		tvl: BigNumber;
+		portfolio: BigNumber;
+		wallet: BigNumber;
+		bDigg: any;
+		deposits: BigNumber;
+		badger: BigNumber;
+		digg: BigNumber;
+		badgerGrowth: string;
+		vaultDeposits: BigNumber;
+	};
+};
+
+export type ReducedAirdops = {
+	digg: {
+		amount: any;
+		token: any;
+	};
+};
+
+export type FormattedGeyserGrowth = { total: BigNumber; tooltip: string };
+
+export type FormattedVaultGrowth = { roi: string; roiTooltip: string };
+
+export type ReducedSushiROIResults = {
+	day: BigNumber;
+	week: BigNumber;
+	month: BigNumber;
+	year: BigNumber;
+};
+
+export type ReducedGrowthQueryConfig = { periods: number[]; growthQueries: any };
+
+export type ReducedCurveResult = { address: any; virtualPrice: BigNumber; ethValue: BigNumber }[];
+
+export type ReducedGrowth = { [x: string]: { day: any; week: any; month: any; year: any } };
+
+export type ReducedContractConfig = {
+	defaults: _.Dictionary<any>;
+	batchCall: {
+		namespace: string;
+		addresses: string[];
+		allReadMethods: boolean;
+		groupByNamespace: boolean;
+		logging: boolean;
+	}[];
+};
