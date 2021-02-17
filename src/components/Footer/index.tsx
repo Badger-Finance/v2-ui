@@ -39,7 +39,7 @@ export const Footer = (): JSX.Element => {
 				<Grid container spacing={4}>
 					<Grid item sm={12} lg={3} style={{ margin: '.5rem 0' }}>
 						<img
-							alt="Badger score image"
+							alt="Score Logo"
 							src={require('../../assets/8bit/badger score.png')}
 							height="80px"
 							style={{ marginBottom: '1rem' }}
@@ -65,7 +65,7 @@ export const Footer = (): JSX.Element => {
 						>
 							<div className={classes.iconContainer}>
 								<img
-									alt="Badger twitter icon"
+									alt="Twitter Logo"
 									src={require('../../assets/twitter.svg')}
 									height="24px"
 									className={classes.icon}
@@ -79,7 +79,7 @@ export const Footer = (): JSX.Element => {
 						>
 							<div className={classes.iconContainer}>
 								<img
-									alt="Badger medium icon"
+									alt="Medium Logo"
 									src={require('../../assets/medium.svg')}
 									height="24px"
 									className={classes.icon}
@@ -90,7 +90,7 @@ export const Footer = (): JSX.Element => {
 						<div className={classes.link} onClick={() => window.open('https://t.me/badger_dao', '_blank')}>
 							<div className={classes.iconContainer}>
 								<img
-									alt="Badger telegram icon"
+									alt="Telegram Logo"
 									src={require('../../assets/telegram.svg')}
 									height="24px"
 									className={classes.icon}
@@ -109,7 +109,7 @@ export const Footer = (): JSX.Element => {
 						>
 							<div className={classes.iconContainer}>
 								<img
-									alt="Badger discord icon"
+									alt="Discord Logo"
 									src={require('../../assets/discord.svg')}
 									height="24px"
 									className={classes.icon}
@@ -123,7 +123,7 @@ export const Footer = (): JSX.Element => {
 						>
 							<div className={classes.iconContainer}>
 								<img
-									alt="Badger github icon"
+									alt="Github Logo"
 									src={require('../../assets/github.svg')}
 									height="24px"
 									className={classes.icon}
@@ -139,7 +139,7 @@ export const Footer = (): JSX.Element => {
 						>
 							<div className={classes.iconContainer}>
 								<img
-									alt="Badger gitbook icon"
+									alt="Gitbook Logo"
 									src={require('../../assets/github.svg')}
 									height="24px"
 									className={classes.icon}
