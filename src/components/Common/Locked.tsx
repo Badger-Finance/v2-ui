@@ -24,7 +24,6 @@ export const Locked = observer((props: any) => {
 	const { register, handleSubmit, watch, setValue } = useForm({ mode: 'all' });
 
 	const {
-		router: {},
 		wallet: { connectedAddress },
 		uiState: { unlockApp },
 	} = store;

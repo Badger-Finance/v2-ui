@@ -34,7 +34,6 @@ class RewardsStore {
 
 	fetchSettRewards = action(() => {
 		const { provider, connectedAddress } = this.store.wallet;
-		const {} = this.store.uiState;
 
 		if (!connectedAddress) return;
 
