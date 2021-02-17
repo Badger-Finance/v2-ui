@@ -146,8 +146,8 @@ const Info = observer(() => {
 			</Grid>
 			<Grid item xs={6} md={6}>
 				<Metric
-					metric="DIGG Price"
-					value={stats.stats.digg > 0 ? formatPrice(stats.stats.digg || new BigNumber(0), currency) + `(${rebasePercentage})` : '-'}
+					metric={"DIGG Price" + (stats.stats.digg > 0 ? `   ${rebasePercentage.toFixed(5)}%` : '')}
+					value={stats.stats.digg > 0 ? formatPrice(stats.stats.digg || new BigNumber(0), currency) : '-'}
 				/>
 			</Grid>
 			<Grid item xs={12} md={6}>
