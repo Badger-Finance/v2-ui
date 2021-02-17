@@ -36,7 +36,6 @@ const WalletWidget = observer(() => {
 	const walletIcon = <div className={clsx(classes.walletDot, isConnected ? classes.greenDot : classes.redDot)} />;
 
 	const connect = async () => {
-		console.log('connect');
 		if (store.uiState.sidebarOpen) {
 			store.uiState.closeSidebar();
 		}
