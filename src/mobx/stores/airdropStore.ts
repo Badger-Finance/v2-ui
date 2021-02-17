@@ -24,7 +24,6 @@ class AirdropStore {
 
 	fetchAirdrops = action(() => {
 		const { provider, connectedAddress, isCached } = this.store.wallet;
-		const {} = this.store.uiState;
 
 		if (!connectedAddress) return;
 

@@ -473,7 +473,6 @@ class ContractsStore {
 	});
 
 	getAllowance = action((underlyingAsset: any, spender: string, callback: (err: any, result: any) => void) => {
-		const {} = this.store.uiState;
 		const { provider, connectedAddress } = this.store.wallet;
 
 		const web3 = new Web3(provider);
