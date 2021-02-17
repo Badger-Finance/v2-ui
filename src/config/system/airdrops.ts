@@ -4,17 +4,9 @@ import { abi as diggDistributorAbi } from './abis/DiggDistributor.json';
 import { abi as diggAbi } from './abis/UFragments.json';
 import { abi as erc20Abi } from './abis/ERC20.json';
 import { abi as badgerHuntAbi } from './abis/BadgerHunt.json';
+import { AirdropsConfig } from '../../mobx/model';
 
 export const airdropEndpoint = 'https://fzqm8i0owc.execute-api.us-east-1.amazonaws.com/prod/hunt';
-
-type AirdropsConfig = {
-	[index: string]: {
-		tokenAbi: AbiItem[];
-		tokenContract: string | { [index: string]: string };
-		airdropContract: string;
-		airdropAbi: AbiItem[];
-	};
-};
 
 const nativeBadger = sett_system.vaults['native.badger'];
 

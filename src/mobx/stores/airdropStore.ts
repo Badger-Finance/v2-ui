@@ -9,7 +9,7 @@ import { jsonQuery } from '../utils/helpers';
 import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
 import { airdropsConfig, airdropEndpoint } from '../../config/system/airdrops';
-import { digg_system } from '../../config/deployments/mainnet.json';
+import { sett_system } from '../../config/deployments/mainnet.json';
 
 class AirdropStore {
 	private store!: RootStore;
@@ -30,49 +30,40 @@ class AirdropStore {
 
 		if (!connectedAddress) return;
 
+		const bBadgerAddress = sett_system.vaults['native.badger'];
 		const web3 = new Web3(provider);
-		const rewardsTree = new web3.eth.Contract(
-			airdropsConfig[digg_system.uFragments].airdropAbi,
-			airdropsConfig[digg_system.uFragments].airdropContract,
-		);
-		const diggToken = new web3.eth.Contract(
-			airdropsConfig[digg_system.uFragments].tokenAbi,
-			digg_system.uFragments,
+		const bBadgerAirdropTree = new web3.eth.Contract(
+			airdropsConfig[bBadgerAddress].airdropAbi,
+			airdropsConfig[bBadgerAddress].airdropContract,
 		);
 		const checksumAddress = connectedAddress.toLowerCase();
 
 		//TODO: Update to handle the airdrop based on what token is available via airdrops.ts config
 		jsonQuery(`${airdropEndpoint}/${checksumAddress}`).then((merkleProof: any) => {
 			if (!merkleProof.error) {
-				Promise.all([
-					rewardsTree.methods.isClaimed(merkleProof.index).call(),
-					diggToken.methods
-						.sharesToFragments(new BigNumber(Web3.utils.hexToNumberString(merkleProof.amount)).toFixed(0))
-						.call(),
-				]).then((result: any[]) => {
+				Promise.all([bBadgerAirdropTree.methods.isClaimed(merkleProof.index).call()]).then((result: any[]) => {
 					this.airdrops = {
-						digg: !result[0] ? new BigNumber(result[1]) : new BigNumber(0),
+						bBadger: !result[0] ? new BigNumber(merkleProof.amount) : new BigNumber(0),
 						merkleProof,
 					};
 				});
 			} else {
-				this.airdrops = {};
+				this.airdrops = { bBadger: null };
 			}
 		});
 	});
 
-	claimBadgerAirdrops = action((stake = false) => {
+	claimAirdrops = action((contract: string) => {
 		const { merkleProof } = this.airdrops;
 		const { provider, gasPrices, connectedAddress } = this.store.wallet;
 		const { queueNotification, gasPrice, setTxStatus } = this.store.uiState;
-		const { token } = require('../../config/deployments/mainnet.json');
 
 		if (!connectedAddress) return;
 
 		const web3 = new Web3(provider);
 		const airdropTree = new web3.eth.Contract(
-			airdropsConfig[token].airdropAbi,
-			airdropsConfig[token].airdropContract,
+			airdropsConfig[contract].airdropAbi,
+			airdropsConfig[contract].airdropContract,
 		);
 		const method = airdropTree.methods.claim(
 			merkleProof.index,
@@ -98,44 +89,80 @@ class AirdropStore {
 				});
 		});
 	});
-	claimDiggAirdrops = action((stake = false) => {
-		const { merkleProof } = this.airdrops;
-		const { provider, gasPrices, connectedAddress } = this.store.wallet;
-		const { queueNotification, gasPrice, setTxStatus } = this.store.uiState;
-		const { digg_system } = require('../../config/deployments/mainnet.json');
 
-		if (!connectedAddress) return;
+	// claimBadgerAirdrops = action((stake = false) => {
+	// 	const { merkleProof } = this.airdrops;
+	// 	const { provider, gasPrices, connectedAddress } = this.store.wallet;
+	// 	const { queueNotification, gasPrice, setTxStatus } = this.store.uiState;
 
-		const web3 = new Web3(provider);
-		const airdropTree = new web3.eth.Contract(
-			airdropsConfig[digg_system.uFragments].airdropAbi as any,
-			airdropsConfig[digg_system.uFragments].airdropContract,
-		);
-		const method = airdropTree.methods.claim(
-			merkleProof.index,
-			connectedAddress,
-			merkleProof.amount,
-			merkleProof.proof,
-		);
+	// 	if (!connectedAddress) return;
 
-		queueNotification(`Sign the transaction to claim your airdrop`, 'info');
+	// 	const web3 = new Web3(provider);
+	// 	const airdropTree = new web3.eth.Contract(
+	// 		airdropsConfig[token].airdropAbi,
+	// 		airdropsConfig[token].airdropContract,
+	// 	);
+	// 	const method = airdropTree.methods.claim(
+	// 		merkleProof.index,
+	// 		connectedAddress,
+	// 		merkleProof.amount,
+	// 		merkleProof.proof,
+	// 	);
 
-		estimateAndSend(web3, gasPrices[gasPrice], method, connectedAddress, (transaction: PromiEvent<Contract>) => {
-			transaction
-				.on('transactionHash', (hash) => {
-					queueNotification(`Claim submitted.`, 'info', hash);
-				})
-				.on('receipt', () => {
-					queueNotification(`Rewards claimed.`, 'success');
-					this.store.contracts.fetchContracts();
-				})
-				.catch((error: any) => {
-					this.store.contracts.fetchContracts();
-					queueNotification(error.message, 'error');
-					setTxStatus('error');
-				});
-		});
-	});
+	// 	queueNotification(`Sign the transaction to claim your airdrop`, 'info');
+	// 	estimateAndSend(web3, gasPrices[gasPrice], method, connectedAddress, (transaction: PromiEvent<Contract>) => {
+	// 		transaction
+	// 			.on('transactionHash', (hash) => {
+	// 				queueNotification(`Claim submitted.`, 'info', hash);
+	// 			})
+	// 			.on('receipt', () => {
+	// 				queueNotification(`Rewards claimed.`, 'success');
+	// 				this.store.contracts.fetchContracts();
+	// 			})
+	// 			.catch((error: any) => {
+	// 				this.store.contracts.fetchContracts();
+	// 				queueNotification(error.message, 'error');
+	// 				setTxStatus('error');
+	// 			});
+	// 	});
+	// });
+	// claimDiggAirdrops = action((stake = false) => {
+	// 	const { merkleProof } = this.airdrops;
+	// 	const { provider, gasPrices, connectedAddress } = this.store.wallet;
+	// 	const { queueNotification, gasPrice, setTxStatus } = this.store.uiState;
+
+	// 	if (!connectedAddress) return;
+
+	// 	const web3 = new Web3(provider);
+	// 	const airdropTree = new web3.eth.Contract(
+	// 		airdropsConfig[digg_system.uFragments].airdropAbi as any,
+	// 		airdropsConfig[digg_system.uFragments].airdropContract,
+	// 	);
+	// 	const method = airdropTree.methods.claim(
+	// 		merkleProof.index,
+	// 		connectedAddress,
+	// 		merkleProof.amount,
+	// 		merkleProof.proof,
+	// 	);
+
+	// 	queueNotification(`Sign the transaction to claim your airdrop`, 'info');
+
+	// 	estimateAndSend(web3, gasPrices[gasPrice], method, connectedAddress, (transaction: PromiEvent<Contract>) => {
+	// 		transaction
+	// 			.on('transactionHash', (hash) => {
+	// 				queueNotification(`Claim submitted.`, 'info', hash);
+	// 			})
+	// 			.on('receipt', () => {
+	// 				queueNotification(`Rewards claimed.`, 'success');
+	// 				this.store.contracts.fetchContracts();
+	// 			})
+	// 			.catch((error: any) => {
+	// 				this.store.contracts.fetchContracts();
+	// 				queueNotification(error.message, 'error');
+	// 				setTxStatus('error');
+	// 			});
+	// 	});
+	// });
 }
 
 export default AirdropStore;
