@@ -137,7 +137,7 @@ export const reduceCurveResult = (curveResult: any[], contracts: any[], tokenCon
 		let sum = new BigNumber(0);
 		let count = 0;
 		result.map((sample: any, i: number) => {
-			sum = sum.plus(result[0].virtual_price);
+			sum = sum.plus(sample.virtual_price);
 			count++;
 			if (i > 10) return;
 		});
