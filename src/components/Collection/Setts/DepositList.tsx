@@ -44,7 +44,7 @@ export default function DepositList(props: any) {
 						vault={vault}
 						sett={sett}
 						onOpen={onOpen}
-						balance={formatBalance(vault.underlyingToken)}
+						balance={parseFloat(formatBalance(vault.underlyingToken))}
 						balanceValue={formatBalanceValue(vault.underlyingToken, currency)}
 					/>
 				</ListItem>
@@ -64,7 +64,7 @@ export default function DepositList(props: any) {
 						vault={vault}
 						sett={sett}
 						onOpen={onOpen}
-						balance={formatBalanceUnderlying(vault)}
+						balance={parseFloat(formatBalanceUnderlying(vault))}
 						balanceValue={formatBalanceValue(vault, currency)}
 					/>
 				</ListItem>
@@ -85,7 +85,7 @@ export default function DepositList(props: any) {
 						vault={vault}
 						sett={sett}
 						onOpen={onOpen}
-						balance={formatGeyserBalance(geyser)}
+						balance={parseFloat(formatGeyserBalance(geyser))}
 						balanceValue={formatGeyserBalanceValue(geyser, currency)}
 					/>
 				</ListItem>

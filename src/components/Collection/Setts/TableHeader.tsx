@@ -1,7 +1,8 @@
 import { Grid, Typography } from '@material-ui/core';
 import React from 'react';
+import { TableHeaderProps } from '../../../mobx/model';
 
-export default function TableHeader(props: any): JSX.Element {
+export default function TableHeader(props: TableHeaderProps): JSX.Element {
 	const { title, tokenTitle, classes, period } = props;
 	const spacer = () => <div className={classes.before} />;
 	return (

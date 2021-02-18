@@ -158,6 +158,50 @@ export interface Amount {
 	amount: BigNumber;
 }
 
+export type Airdrops = {
+	digg?: BigNumber;
+	merkleProof?: any;
+};
+
+export interface DepositCardProps {
+	isGlobal: boolean;
+	vault: Vault;
+	sett: any;
+	onOpen: any;
+	balance: number;
+	balanceValue: string;
+}
+
+export interface TableHeaderProps {
+	title: string;
+	tokenTitle: string;
+	classes: Record<'chip' | 'header' | 'title' | 'list' | 'listItem' | 'before' | 'hiddenMobile', string>;
+	period: string;
+}
+
+export interface TokenCardProps {
+	isGlobal: boolean;
+	vault: Vault;
+	sett: any;
+	onOpen: any;
+	period: string;
+}
+
+export type TokenRebaseStats = {
+	totalSupply: BigNumber;
+	decimals: number;
+	lastRebaseTimestampSec: number;
+	minRebaseTimeIntervalSec: number;
+	rebaseLag: any;
+	epoch: any;
+	inRebaseWindow: boolean;
+	rebaseWindowLengthSec: number;
+	oracleRate: BigNumber;
+	derivedEth: any;
+	nextRebase: Date;
+	pastRebase: any;
+};
+
 export type TokenPayload = {
 	balanceOf: BigNumber;
 	decimals: number;
@@ -172,7 +216,15 @@ export type TokenPayload = {
 	isSuperSett: boolean;
 };
 
-export type GeyserPayload = { totalStaked: BigNumber; totalStakedFor: BigNumber; getUnlockSchedulesFor: Growth[] };
+export type GeyserPayload = {
+	totalStaked: BigNumber;
+	totalStakedFor: BigNumber;
+	getUnlockSchedulesFor: Schedules;
+};
+
+export type Schedules = {
+	array: string[];
+};
 
 export type RebaseToStats = { nextRebase: Date; oracleRate: string; totalSupply: string | boolean };
 
@@ -208,6 +260,8 @@ export type ReducedSushiROIResults = {
 	year: BigNumber;
 };
 
+export type MethodConfigPayload = { [index: string]: string };
+
 export type ReducedGrowthQueryConfig = { periods: number[]; growthQueries: any };
 
 export type ReducedCurveResult = { address: any; virtualPrice: BigNumber; ethValue: BigNumber }[];
@@ -223,4 +277,12 @@ export type ReducedContractConfig = {
 		groupByNamespace: boolean;
 		logging: boolean;
 	}[];
+};
+
+export type BatchConfig = {
+	namespace: string;
+	addresses: string[];
+	allReadMethods: boolean;
+	groupByNamespace: boolean;
+	logging: boolean;
 };

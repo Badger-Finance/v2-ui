@@ -4,6 +4,8 @@ import { Contract, ContractSendMethod } from 'web3-eth-contract';
 import { PromiEvent } from 'web3-core';
 import WalletStore from '../stores/walletStore';
 import _ from 'lodash';
+import { AbiItem } from 'web3-utils';
+import { BatchConfig } from '../model';
 
 export const estimateAndSend = (
 	web3: Web3,
@@ -12,7 +14,7 @@ export const estimateAndSend = (
 	address: string,
 	// eslint-disable-next-line autofix/no-unused-vars
 	callback: (transaction: PromiEvent<Contract>) => void,
-) => {
+): void => {
 	const gasWei = new BigNumber(gasPrice.toFixed(0));
 
 	method.estimateGas(
@@ -32,7 +34,13 @@ export const estimateAndSend = (
 	);
 };
 
-export const batchConfig = (namespace: string, addresses: any[], methods: any[], abi: any, allReadMethods = true) => {
+export const batchConfig = (
+	namespace: string,
+	addresses: any[],
+	methods: any[],
+	abi: AbiItem,
+	allReadMethods = true,
+): BatchConfig => {
 	let readMethods = {};
 	let abiFile = {};
 
@@ -55,6 +63,7 @@ export const batchConfig = (namespace: string, addresses: any[], methods: any[],
 	};
 };
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const getTokenAddresses = (contracts: any, config: any) => {
 	// pull underlying and yileding token addresses
 	const addresses: any[] = [];
@@ -75,6 +84,7 @@ export const getTokenAddresses = (contracts: any, config: any) => {
 	return addresses;
 };
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const contractMethods = (config: any, wallet: WalletStore): any[] => {
 	let methods = [];
 	if (!!config.rewards) {
@@ -96,6 +106,8 @@ export const contractMethods = (config: any, wallet: WalletStore): any[] => {
 
 	return methods;
 };
+
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const erc20Methods = (connectedAddress: string, token: any): any[] => {
 	if (!!connectedAddress && !!token.contract) {
 		// get allowance of each vault

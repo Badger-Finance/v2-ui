@@ -19,6 +19,8 @@ import {
 	ReducedAirdops,
 	FormattedGeyserGrowth,
 	FormattedVaultGrowth,
+	Airdrops,
+	TokenRebaseStats,
 } from '../model';
 import { ZERO_CURRENCY } from 'config/constants';
 
@@ -83,6 +85,7 @@ export const reduceContractsToStats = (store: RootStore): ContractToStats | unde
 	};
 };
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const reduceClaims = (merkleProof: any, rewardAddresses: any[], claimedRewards: any[]): Amount | never[] => {
 	if (!merkleProof.cumulativeAmounts) return [];
 	return merkleProof.cumulativeAmounts.map((amount: number, i: number) => {
@@ -95,7 +98,7 @@ export const reduceClaims = (merkleProof: any, rewardAddresses: any[], claimedRe
 	});
 };
 
-export const reduceAirdrops = (airdrops: any, store: RootStore): ReducedAirdops | Record<string, unknown> => {
+export const reduceAirdrops = (airdrops: Airdrops, store: RootStore): ReducedAirdops | Record<string, unknown> => {
 	if (!airdrops.digg) {
 		return {};
 	}
@@ -166,7 +169,7 @@ function formatReturn(amount: Amount, geyser: Geyser) {
 	return { total, tooltip };
 }
 
-export function reduceRebase(stats: any, base: any, token: Token): any {
+export function reduceRebase(stats: TokenRebaseStats, base: Token, token: Token): any {
 	const info = {
 		oraclePrice: base.ethValue.multipliedBy(stats.oracleRate),
 		btcPrice: base.ethValue,

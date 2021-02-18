@@ -12,6 +12,9 @@ import {
 	ReducedGrowth,
 	Growth,
 	ReducedContractConfig,
+	Token,
+	Schedules,
+	MethodConfigPayload,
 } from '../model';
 
 export const reduceBatchResult = (result: any[]): any[] => {
@@ -30,6 +33,7 @@ export const reduceBatchResult = (result: any[]): any[] => {
 	});
 };
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const reduceResult = (value: any): any => {
 	if (/^-?\d+$/.test(value)) return new BigNumber(value);
 	else if (_.isString(value) && value.slice(0, 2) === '0x') return (value as string).toLowerCase();
@@ -37,6 +41,7 @@ export const reduceResult = (value: any): any => {
 	else return value;
 };
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const reduceSushiAPIResults = (results: any, contracts: any[]): any => {
 	const newSushiROIs: any = _.map(results.pairs, (pair: any) => {
 		return {
@@ -50,6 +55,7 @@ export const reduceSushiAPIResults = (results: any, contracts: any[]): any => {
 	return _.keyBy(newSushiROIs, 'address');
 };
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const reduceXSushiROIResults = (ROI: any): ReducedSushiROIResults => {
 	return {
 		day: new BigNumber(ROI).dividedBy(365),
@@ -142,8 +148,9 @@ export const reduceGraphResult = (graphResult: any[]): any[] => {
 export const reduceCurveResult = (
 	curveResult: any[],
 	contracts: any[],
+	// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 	_tokenContracts: any,
-	wbtcToken: any,
+	wbtcToken: Token,
 ): ReducedCurveResult => {
 	return curveResult.map((result: any, i: number) => {
 		let sum = new BigNumber(0);
@@ -202,16 +209,15 @@ export const reduceGrowth = (graphResult: any[], periods: number[], startDate: D
 	});
 };
 
-export const reduceGeyserSchedule = (schedules: any, store: RootStore): Growth[] => {
+export const reduceGeyserSchedule = (schedules: Schedules, store: RootStore): Growth[] => {
 	// console.log(JSON.stringify(schedules))
 	// console.log(_.keysIn(schedules))
-	// console.log(schedules)
+	// console.log(schedules);
 
 	return _.compact(
 		_.map(schedules, (schedule: any[], tokenAddress: string) => {
 			let locked = new BigNumber(0);
 			const timestamp = new BigNumber(new Date().getTime() / 1000.0);
-
 			const period = { start: timestamp, end: timestamp };
 
 			let lockedAllTime = new BigNumber(0);
@@ -287,7 +293,7 @@ export const reduceContractConfig = (configs: any[], payload: any = {}): Reduced
 	return { defaults, batchCall };
 };
 
-export const reduceMethodConfig = (methods: any[], payload: any): { args?: any[]; name: any }[] => {
+export const reduceMethodConfig = (methods: any[], payload: MethodConfigPayload): { args?: any[]; name: any }[] => {
 	const reduced = _.map(methods, (method: any) => {
 		const args = _.map(method.args, (arg: string) => {
 			const brackets = /\{(.*?)\}/; // FIXME: has a redundant escape character for \{ and \}

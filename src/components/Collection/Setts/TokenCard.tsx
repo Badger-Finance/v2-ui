@@ -8,6 +8,7 @@ import { formatWithCommas } from 'mobx/utils/api';
 import { UnfoldMoreTwoTone } from '@material-ui/icons';
 import { usdToCurrency } from '../../../mobx/utils/helpers';
 import BigNumber from 'bignumber.js';
+import { TokenCardProps } from '../../../mobx/model';
 
 const useStyles = makeStyles((theme) => ({
 	border: {
@@ -42,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export const TokenCard = (props: any): JSX.Element => {
+export const TokenCard = (props: TokenCardProps): JSX.Element => {
 	const store = useContext(StoreContext);
 	const classes = useStyles();
 

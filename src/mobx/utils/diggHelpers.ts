@@ -1,13 +1,11 @@
 import BigNumber from 'bignumber.js';
-import { RPC_URL } from '../../config/constants';
-import Web3 from 'web3';
 import { digg } from '../../config/system/rebase';
-import { Vault } from '../model';
+import { provider } from 'web3-core';
 
 const UPPER_LIMIT = 1.05 * 1e18;
 const LOWER_LIMIT = 0.95 * 1e18;
 
-export const getDiggExchangeRates = () => {
+export const getDiggExchangeRates = (): Promise<Response> => {
 	return fetch('https://api.coingecko.com/api/v3/simple/price?ids=ethereum,wrapped-bitcoin&vs_currencies=usd,btc', {
 		method: 'GET',
 		headers: {
@@ -18,7 +16,7 @@ export const getDiggExchangeRates = () => {
 };
 
 // for dynamically calculating new supply if rebased triggered with supplied oracle rate
-export const calculateNewSupply = (oracleRate: number, currentSupply: number, rebaseLag: number) => {
+export const calculateNewSupply = (oracleRate: number, currentSupply: number, rebaseLag: number): number => {
 	if (oracleRate <= UPPER_LIMIT && oracleRate >= LOWER_LIMIT) {
 		return currentSupply;
 	}
@@ -33,18 +31,18 @@ export const calculateNewSupply = (oracleRate: number, currentSupply: number, re
 // 	return diff <= 0 ? 0 : diff;
 // };
 
-export const getNextRebase = (minRebaseDurationSec: number, lastRebaseTimestampSec: number) => {
+export const getNextRebase = (minRebaseDurationSec: number, lastRebaseTimestampSec: number): Date => {
 	const nextRebase = minRebaseDurationSec + lastRebaseTimestampSec;
 	return new Date(nextRebase * 1000);
 };
 
 // get percentage value of time to available rebase (for displaying in a timebar)
-export const getTimeBarPercentage = (minRebaseDurationSec: number, countDown: number) => {
+export const getTimeBarPercentage = (minRebaseDurationSec: number, countDown: number): number => {
 	return Math.max(((minRebaseDurationSec - countDown) / minRebaseDurationSec) * 100, 0);
 };
 
 // convert seconds to HH:MM:SS to display countdown (can be used with getRebaseCountdown's result)
-export const toHHMMSS = (secs: any) => {
+export const toHHMMSS = (secs: string): string => {
 	const sec_num = parseInt(secs, 10);
 	const hours = Math.floor(sec_num / 3600);
 	const minutes = Math.floor(sec_num / 60) % 60;
@@ -86,13 +84,13 @@ export const shortenNumbers = (value: BigNumber, prefix: string, preferredDecima
 	return `${prefix} ${fixedNormal}${suffix}`;
 };
 
-export const numberWithCommas = (x: string) => {
+export const numberWithCommas = (x: string): string => {
 	const parts = x.toString().split('.');
 	parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 	return parts.join('.');
 };
 
-export const getRebaseLogs = async (provider: any) => {
+export const getRebaseLogs = async (provider: provider): Promise<any> => {
 	// eslint-disable-next-line @typescript-eslint/no-var-requires
 	const Contract = require('web3-eth-contract');
 	Contract.setProvider(provider);
@@ -107,11 +105,11 @@ export const getRebaseLogs = async (provider: any) => {
 	return events.length ? events[events.length - 1].returnValues : null;
 };
 
-export const getPercentageChange = (newValue: BigNumber, originalValue: BigNumber) => {
+export const getPercentageChange = (newValue: BigNumber, originalValue: BigNumber): number => {
 	return newValue.minus(originalValue).dividedBy(originalValue).multipliedBy(100).toNumber();
 };
 
-export const getDiggPerShare = (vault: any) => {
+export const getDiggPerShare = (vault: any): number | BigNumber => {
 	if (!vault.vaultBalance) return 1;
 	if (!vault.totalSupply) return 1;
 	return vault.vaultBalance.dividedBy(vault.totalSupply.dividedBy(1e9));
