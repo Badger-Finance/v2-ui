@@ -1,6 +1,7 @@
 import BigNumber from 'bignumber.js';
 import { digg } from '../../config/system/rebase';
 import { provider } from 'web3-core';
+import { Vault } from '../model';
 
 const UPPER_LIMIT = 1.05 * 1e18;
 const LOWER_LIMIT = 0.95 * 1e18;
@@ -109,7 +110,7 @@ export const getPercentageChange = (newValue: BigNumber, originalValue: BigNumbe
 	return newValue.minus(originalValue).dividedBy(originalValue).multipliedBy(100).toNumber();
 };
 
-export const getDiggPerShare = (vault: any): number | BigNumber => {
+export const getDiggPerShare = (vault: Vault): number | BigNumber => {
 	if (!vault.vaultBalance) return 1;
 	if (!vault.totalSupply) return 1;
 	return vault.vaultBalance.dividedBy(vault.totalSupply.dividedBy(1e9));
