@@ -188,19 +188,14 @@ export const Airdrops = observer(() => {
 								<ListItemText
 									primary={
 										!!connectedAddress && !!airdropStats.badger
-											? inCurrency(
-													airdropStats.badger.amount.dividedBy(10 ** 18),
-													'eth',
-													true,
-													18,
-											  )
+											? inCurrency(airdropStats.badger.dividedBy(10 ** 18), 'eth', true, 18)
 											: '0.00000'
 									}
 									secondary="Badger available to claim"
 								/>
 								<ListItemSecondaryAction>
 									<ButtonGroup
-										disabled={airdropStats.badger ? !airdropStats.badger.amount.gt(0) : true}
+										disabled={airdropStats.badger ? !airdropStats.badger.gt(0) : true}
 										size="small"
 										variant="outlined"
 										color="primary"
@@ -227,14 +222,14 @@ export const Airdrops = observer(() => {
 								<ListItemText
 									primary={
 										!!connectedAddress && !!airdropStats.digg
-											? inCurrency(airdropStats.digg.amount.dividedBy(10 ** 9), 'eth', true, 9)
+											? inCurrency(airdropStats.digg.dividedBy(10 ** 9), 'eth', true, 9)
 											: '0.00000'
 									}
 									secondary="DIGG available to claim"
 								/>
 								<ListItemSecondaryAction>
 									<ButtonGroup
-										disabled={airdropStats.digg ? !airdropStats.digg.amount.gt(0) : true}
+										disabled={airdropStats.digg ? !airdropStats.digg.gt(0) : true}
 										size="small"
 										variant="outlined"
 										color="primary"
@@ -261,19 +256,14 @@ export const Airdrops = observer(() => {
 								<ListItemText
 									primary={
 										!!connectedAddress && !!airdropStats.bBadger
-											? inCurrency(
-													airdropStats.bBadger.amount.dividedBy(10 ** 18),
-													'eth',
-													true,
-													18,
-											  )
+											? inCurrency(airdropStats.bBadger.dividedBy(10 ** 18), 'eth', true, 18)
 											: '0.00000'
 									}
 									secondary="bBadger available to claim"
 								/>
 								<ListItemSecondaryAction>
 									<ButtonGroup
-										disabled={airdropStats.bBadger ? !airdropStats.bBadger.amount.gt(0) : true}
+										disabled={airdropStats.bBadger ? !airdropStats.bBadger.gt(0) : true}
 										size="small"
 										variant="outlined"
 										color="primary"

@@ -45,7 +45,7 @@ export default function DepositList(props: any) {
 						sett={sett}
 						onOpen={onOpen}
 						balance={formatBalance(vault.underlyingToken)}
-						balanceValue={formatBalanceValue(vault.underlyingToken, currency)}
+						balanceValue={formatBalanceValue(vault, currency)}
 					/>
 				</ListItem>
 			);

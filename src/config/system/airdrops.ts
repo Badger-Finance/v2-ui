@@ -4,6 +4,7 @@ import { abi as diggDistributorAbi } from './abis/DiggDistributor.json';
 import { abi as diggAbi } from './abis/UFragments.json';
 import { abi as erc20Abi } from './abis/ERC20.json';
 import { abi as badgerHuntAbi } from './abis/BadgerHunt.json';
+import { abi as bBadgerAirdropAbi } from './abis/bBadgerAidrop.json';
 import { AirdropsConfig } from '../../mobx/model';
 
 export const airdropEndpoint = 'https://fzqm8i0owc.execute-api.us-east-1.amazonaws.com/prod/hunt';
@@ -30,7 +31,7 @@ export const airdropsConfig: AirdropsConfig = {
 		tokenAbi: erc20Abi as AbiItem[],
 		tokenContract: nativeBadger,
 		// TODO: Add new airdrop contract
-		airdropContract: '',
-		airdropAbi: [] as AbiItem[],
+		airdropContract: '0xD17C7effa924B55951E0F6d555b3a3ea34451179',
+		airdropAbi: bBadgerAirdropAbi as AbiItem[],
 	},
 };
