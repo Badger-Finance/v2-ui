@@ -15,14 +15,14 @@ import {
 import BigNumber from 'bignumber.js';
 import _keyBy from 'lodash/keyBy';
 
-type Token = {
+interface Token {
 	name: string;
 	balance: string;
-};
+}
 
-type Props = {
+interface Props {
 	tokens: Token[];
-};
+}
 
 const useStyles = makeStyles((theme) => ({
 	margin: {
@@ -37,12 +37,8 @@ const useStyles = makeStyles((theme) => ({
 			justifyContent: 'space-between',
 		},
 		[theme.breakpoints.up('sm')]: {
-			paddingLeft: '15%',
+			paddingLeft: '10%',
 		},
-	},
-	whiteBold: {
-		color: theme.palette.common.white,
-		fontWeight: 'bold',
 	},
 }));
 
@@ -59,7 +55,7 @@ export const ClawParams: FC<Props> = ({ tokens: _tokens }) => {
 	const displayValue = new BigNumber(token?.balance || 0).multipliedBy((percentage || 100) / 100);
 
 	return (
-		<Box clone px={2}>
+		<Box clone px={1}>
 			<Grid
 				container
 				justify="space-between"
@@ -77,7 +73,7 @@ export const ClawParams: FC<Props> = ({ tokens: _tokens }) => {
 									placeholder="Select a Token"
 									value={token?.name || ''}
 									onChange={handleChange}
-									input={<InputBase className={classes.whiteBold} />}
+									input={<InputBase color="primary" />}
 								>
 									<MenuItem value="" disabled>
 										<em>Select a Token</em>
@@ -99,17 +95,12 @@ export const ClawParams: FC<Props> = ({ tokens: _tokens }) => {
 				</Grid>
 				<Grid item xs={12} sm={6}>
 					<Grid container justify="flex-end">
-						<ButtonGroup
-							size="small"
-							variant="text"
-							className={classes.whiteBold}
-							aria-label="text primary button group"
-						>
+						<ButtonGroup variant="text" size="small" aria-label="text button group">
 							{[25, 50, 75, 100].map((amount: number, index: number) => (
 								<Button
 									key={`button_${amount}_${index}`}
-									variant="text"
-									className={classes.whiteBold}
+									disableElevation
+									variant={amount === percentage ? 'contained' : 'text'}
 									onClick={() => {
 										setPercentage(amount);
 									}}

@@ -21,6 +21,14 @@ const useStyles = makeStyles((theme) => ({
 	tabs: {
 		marginBottom: theme.spacing(1),
 	},
+	cardContent: {
+		paddingRight: theme.spacing(2),
+		paddingLeft: theme.spacing(2),
+		[theme.breakpoints.up('md')]: {
+			paddingRight: theme.spacing(3),
+			paddingLeft: theme.spacing(3),
+		},
+	},
 }));
 
 export const Claws = () => {
@@ -60,7 +68,7 @@ export const Claws = () => {
 							<Tab onClick={() => setActiveTab(TABS.MANAGE)} label="Manage"></Tab>
 							<Tab onClick={() => setActiveTab(TABS.REDEEM)} label="Redeem"></Tab>
 						</Tabs>
-						<CardContent>
+						<CardContent className={classes.cardContent}>
 							<Mint />
 						</CardContent>
 					</Card>
