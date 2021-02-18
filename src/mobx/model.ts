@@ -12,6 +12,7 @@ export class Contract {
 		this.address = address;
 	}
 }
+
 export class Token extends Contract {
 	public balance!: BigNumber;
 	public decimals!: number;
@@ -151,6 +152,7 @@ export interface Growth {
 	month: Amount;
 	year: Amount;
 }
+
 export interface Amount {
 	token: Token;
 	amount: BigNumber;

@@ -1,4 +1,4 @@
-// api badger functions
+import { Sett } from "../api-model";
 
 // TODO: Update to api.badger.finance on v2 migration
 const getApi = () => {
@@ -8,6 +8,14 @@ const getApi = () => {
 	return 'https://hm77p4zo3l.execute-api.us-west-1.amazonaws.com/staging/';
 };
 const badgerApi = getApi();
+
+export const listSetts = async (): Promise<Sett[]> => {
+	const response = await fetch(`${badgerApi}/v2/protocol/sett`);
+	if (!response.ok) {
+		// TODO: some error handling
+	}
+	return response.json() as Promise<Sett[]>;
+} ;
 
 export const getAssetsUnderManagement = (): any => {
 	return fetch(`${badgerApi}/protocol/value?tokens=true`).then((response) => response.json());
