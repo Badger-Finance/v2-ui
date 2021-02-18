@@ -5,7 +5,8 @@ import { StoreContext } from '../../mobx/store-context';
 
 const useStyles = makeStyles(() => ({
 	samplePicker: {
-		height: '2.2rem',
+		height: '1.8rem',
+		overflow: 'auto',
 	},
 }));
 

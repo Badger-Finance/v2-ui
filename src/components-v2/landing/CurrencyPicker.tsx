@@ -5,7 +5,7 @@ import { StoreContext } from '../../mobx/store-context';
 
 const useStyles = makeStyles((theme) => ({
 	currencyPicker: {
-		height: '2.2rem',
+		height: '1.8rem',
 		overflow: 'auto',
 		marginLeft: theme.spacing(1),
 	},
