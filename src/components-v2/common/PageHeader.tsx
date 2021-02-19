@@ -12,15 +12,26 @@ const useStyles = makeStyles((theme) => ({
 	headerWidgets: {
 		display: 'flex',
 		alignItems: 'center',
+		[theme.breakpoints.down('sm')]: {
+			justifyContent: 'center',
+		},
 	},
 	headerContainer: {
 		display: 'flex',
 		marginTop: theme.spacing(3),
 		[theme.breakpoints.down('sm')]: {
-			marginTop: theme.spacing(12),
+			marginTop: theme.spacing(8),
+		},
+		[theme.breakpoints.down('xs')]: {
+			flexDirection: 'column',
 		},
 		alignItems: 'center',
 		justifyContent: 'space-between',
+	},
+	headerContent: {
+		[theme.breakpoints.down('xs')]: {
+			marginBottom: theme.spacing(1),
+		},
 	},
 }));
 
@@ -29,7 +40,7 @@ const PageHeader: React.FC<PageHeaderProps> = (props: PageHeaderProps) => {
 	const { title, subtitle } = props;
 	return (
 		<div className={classes.headerContainer}>
-			<div>
+			<div className={classes.headerContent}>
 				<Typography variant="h2" color="textPrimary">
 					{title}
 				</Typography>

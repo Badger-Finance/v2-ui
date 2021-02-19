@@ -17,6 +17,7 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	headerContainer: {
+		marginTop: theme.spacing(3),
 		marginBottom: theme.spacing(3),
 	},
 	widgetContainer: {
@@ -24,6 +25,12 @@ const useStyles = makeStyles((theme) => ({
 		justifyContent: 'space-between',
 		height: '2.2rem',
 		marginBottom: theme.spacing(1),
+		[theme.breakpoints.down('xs')]: {
+			flexDirection: 'column',
+			alignItems: 'center',
+			justifyContent: 'center',
+			marginBottom: theme.spacing(3),
+		},
 	},
 	pickerContainer: {
 		marginRight: theme.spacing(1),
