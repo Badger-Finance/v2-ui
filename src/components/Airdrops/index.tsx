@@ -218,7 +218,6 @@ export const Airdrops = observer(() => {
 					<Paper className={classes.statPaper}>
 						<List style={{ padding: 0 }}>
 							<ListItem style={{ margin: 0, padding: 0 }}>
-								{console.log(airdropStats)}
 								<ListItemText
 									primary={
 										!!connectedAddress && !!airdropStats.digg

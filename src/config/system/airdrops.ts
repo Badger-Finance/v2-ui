@@ -7,7 +7,11 @@ import { abi as badgerHuntAbi } from './abis/BadgerHunt.json';
 import { abi as bBadgerAirdropAbi } from './abis/bBadgerAidrop.json';
 import { AirdropsConfig } from '../../mobx/model';
 
-export const airdropEndpoint = 'https://fzqm8i0owc.execute-api.us-east-1.amazonaws.com/prod/hunt';
+export const airdropEndpoint = `${
+	process.env.NODE_ENV !== 'production'
+		? 'https://laiv44udi0.execute-api.us-west-1.amazonaws.com/staging'
+		: 'https://2k2ccquid1.execute-api.us-west-1.amazonaws.com/prod'
+}/v2/reward`;
 
 const nativeBadger = sett_system.vaults['native.badger'];
 
