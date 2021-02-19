@@ -74,6 +74,7 @@ export const ClawParams: FC<Props> = ({
 		onOptionChange(event.target.value as string);
 	};
 
+	// TODO: handle input > balance error
 	const handleAmountChange = (event: React.ChangeEvent<{ value: unknown }>) => {
 		const input = event.target.value as string;
 		const isValidChange = isValidAmountChange(input);
