@@ -60,7 +60,9 @@ class RewardsStore {
 				this.badgerTree,
 			);
 
-			const endpointQuery = jsonQuery(`${rewardsConfig.endpoint}/${merkleHash}/${checksumAddress}`);
+			const endpointQuery = jsonQuery(
+				`${rewardsConfig.endpoint}/rewards/${rewardsConfig.network}/${merkleHash}/${checksumAddress}`,
+			);
 
 			endpointQuery.then((proof: any) => {
 				Promise.all([

@@ -7,6 +7,7 @@ import Web3 from 'web3';
 import { inCurrency } from 'mobx/utils/helpers';
 import { getDiggPerShare } from 'mobx/utils/diggHelpers';
 import { rewards as rewardsConfig } from 'config/system/geysers';
+import { sett_system } from '../../config/deployments/mainnet.json';
 import { Vault, Amount, Geyser, Token, Growth } from '../model';
 import { ZERO_CURRENCY } from 'config/constants';
 
@@ -83,10 +84,12 @@ export const reduceClaims = (merkleProof: any, rewardAddresses: any[], claimedRe
 	});
 };
 export const reduceAirdrops = (airdrops: any, store: RootStore) => {
-	if (!airdrops.digg) {
+	if (!airdrops.bBadger) {
 		return {};
 	}
-	return { digg: { amount: airdrops.digg, token: store.contracts.tokens[rewardsConfig.tokens[1].toLowerCase()] } };
+	return {
+		bBadger: { amount: airdrops.bBadger, token: store.contracts.tokens[sett_system.vaults['native.badger']] },
+	};
 };
 function calculatePortfolioStats(vaultContracts: any, tokens: any, vaults: any, geyserContracts: any) {
 	let tvl = new BigNumber(0);

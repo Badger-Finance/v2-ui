@@ -181,7 +181,7 @@ export const Airdrops = observer(() => {
 						Available Airdrops:
 					</Typography>
 				</Grid>
-				<Grid item xs={12} md={6}>
+				{/* <Grid item xs={12} md={6}>
 					<Paper className={classes.statPaper}>
 						<List style={{ padding: 0 }}>
 							<ListItem style={{ margin: 0, padding: 0 }}>
@@ -246,7 +246,7 @@ export const Airdrops = observer(() => {
 							</ListItem>
 						</List>
 					</Paper>
-				</Grid>
+				</Grid> */}
 
 				<Grid item xs={12} md={6}>
 					<Paper className={classes.statPaper}>
@@ -255,14 +255,19 @@ export const Airdrops = observer(() => {
 								<ListItemText
 									primary={
 										!!connectedAddress && !!airdropStats.bBadger
-											? inCurrency(airdropStats.bBadger.dividedBy(10 ** 18), 'eth', true, 18)
+											? inCurrency(
+													airdropStats.bBadger.amount.dividedBy(10 ** 18),
+													'eth',
+													true,
+													18,
+											  )
 											: '0.00000'
 									}
 									secondary="bBadger available to claim"
 								/>
 								<ListItemSecondaryAction>
 									<ButtonGroup
-										disabled={airdropStats.bBadger ? !airdropStats.bBadger.gt(0) : true}
+										disabled={airdropStats.bBadger ? !airdropStats.bBadger.amount.gt(0) : true}
 										size="small"
 										variant="outlined"
 										color="primary"
