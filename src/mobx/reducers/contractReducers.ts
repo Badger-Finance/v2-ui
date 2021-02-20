@@ -12,7 +12,7 @@ export const reduceBatchResult = (result: any[]): any[] => {
 		return _.mapValues(vault, (element: any, key: any) => {
 			if (key === 'getUnlockSchedulesFor') {
 				// handle special case for multiple values
-				let newElement: any = {};
+				const newElement: any = {};
 				element.forEach((e: any) => {
 					newElement[e.args[0]] = e.value;
 				});
@@ -198,7 +198,7 @@ export const reduceGeyserSchedule = (schedules: any, store: RootStore) => {
 	return _.compact(
 		_.map(schedules, (schedule: any[], tokenAddress: string) => {
 			let locked = new BigNumber(0);
-			let timestamp = new BigNumber(new Date().getTime() / 1000.0);
+			const timestamp = new BigNumber(new Date().getTime() / 1000.0);
 
 			const period = { start: timestamp, end: timestamp };
 
@@ -208,8 +208,8 @@ export const reduceGeyserSchedule = (schedules: any, store: RootStore) => {
 			// console.log(schedule)
 
 			schedule.forEach((block: any) => {
-				let [initialLocked, endAtSec, , startTime] = _.valuesIn(block).map((val: any) => new BigNumber(val));
-
+				const [initial, endAtSec, , startTime] = _.valuesIn(block).map((val: any) => new BigNumber(val));
+				let initialLocked = initial;
 				if (tokenAddress.toLowerCase() === deploy.digg_system.uFragments.toLowerCase()) {
 					initialLocked = initialLocked.dividedBy(
 						28948022309329048855892746252171976963317496166410141009864396001,
@@ -227,13 +227,13 @@ export const reduceGeyserSchedule = (schedules: any, store: RootStore) => {
 				if (endAtSec.gt(periodAllTime.end)) periodAllTime.end = endAtSec;
 			});
 
-			let duration = period.end.minus(period.start);
+			const duration = period.end.minus(period.start);
 			let rps = locked.dividedBy(duration.isNaN() ? 1 : duration);
 			const rpsAllTime = lockedAllTime.dividedBy(periodAllTime.end.minus(periodAllTime.start));
 
 			if (!rps || rps.eq(0)) rps = rpsAllTime.dividedBy(365 * 60 * 60 * 24);
 
-			let periods = {
+			const periods = {
 				day: rps.multipliedBy(60 * 60 * 24),
 				week: rps.multipliedBy(60 * 60 * 24 * 7),
 				month: rps.multipliedBy(60 * 60 * 24 * 30),
@@ -263,8 +263,8 @@ export const reduceContractConfig = (configs: any[], payload: any = {}) => {
 			return r;
 		});
 	});
-	let defaults = _.keyBy(_.flatten(contracts), 'address');
-	let batchCall = _.map(configs, (config: any) => {
+	const defaults = _.keyBy(_.flatten(contracts), 'address');
+	const batchCall = _.map(configs, (config: any) => {
 		return batchConfig(
 			'namespace',
 			config.contracts,

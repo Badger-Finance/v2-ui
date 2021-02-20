@@ -14,28 +14,23 @@ import {
 } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-
 import { StoreContext } from '../../mobx/store-context';
 import { formatAmount } from 'mobx/reducers/statsReducers';
 import useInterval from '@use-it/interval';
-import Hero from 'components/Common/Hero';
 import views from '../../config/routes';
 import { inCurrency } from '../../mobx/utils/helpers';
 import { token, digg_system, sett_system } from '../../config/deployments/mainnet.json';
+import PageHeader from '../../components-v2/common/PageHeader';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
-		marginTop: theme.spacing(11),
 		[theme.breakpoints.up('md')]: {
-			paddingLeft: theme.spacing(33),
-			marginTop: theme.spacing(2),
+			paddingLeft: theme.spacing(30),
 		},
 	},
-	filters: {
-		textAlign: 'left',
-		[theme.breakpoints.up('sm')]: {
-			textAlign: 'right',
-		},
+	headerContainer: {
+		marginTop: theme.spacing(3),
+		marginBottom: theme.spacing(3),
 	},
 	buttonGroup: {
 		marginRight: theme.spacing(2),
@@ -43,7 +38,6 @@ const useStyles = makeStyles((theme) => ({
 			marginLeft: theme.spacing(2),
 		},
 	},
-
 	statPaper: {
 		padding: theme.spacing(2),
 		textAlign: 'center',
@@ -52,26 +46,14 @@ const useStyles = makeStyles((theme) => ({
 		marginTop: theme.spacing(5),
 		width: '100%',
 	},
-	rewards: {
-		textAlign: 'right',
-	},
 	button: {
 		margin: theme.spacing(1, 1, 2, 0),
 	},
 	chip: {
 		margin: theme.spacing(0, 0, 0, 0),
-		// float: 'right'
-	},
-	heroPaper: {
-		padding: theme.spacing(5, 0),
-
-		minHeight: '100%',
-		background: 'none',
-		[theme.breakpoints.up('md')]: {
-			padding: theme.spacing(10, 0),
-		},
 	},
 }));
+
 export const Airdrops = observer(() => {
 	const store = useContext(StoreContext);
 	const classes = useStyles();
@@ -166,16 +148,12 @@ export const Airdrops = observer(() => {
 	return (
 		<Container className={classes.root}>
 			<Grid container spacing={1} justify="flex-start">
-				{spacer()}
-
-				<Grid item sm={12} xs={12}>
-					<Hero
+				<Grid item xs={12} className={classes.headerContainer}>
+					<PageHeader
 						title="Community Rules."
 						subtitle="BadgerDAO is dedicated to building products and infrastructure to bring Bitcoin to DeFi."
 					/>
 				</Grid>
-				{spacer()}
-
 				<Grid item xs={12}>
 					<Typography variant="subtitle1" align="left">
 						Available Airdrops:

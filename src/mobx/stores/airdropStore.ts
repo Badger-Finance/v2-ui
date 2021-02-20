@@ -39,7 +39,7 @@ class AirdropStore {
 		const checksumAddress = connectedAddress.toLowerCase();
 		//TODO: Update to handle the airdrop based on what token is available via airdrops.ts config
 		jsonQuery(`${airdropEndpoint}/gitcoin/${checksumAddress}`).then((merkleProof: any) => {
-			if (!merkleProof.error) {
+			if (!!merkleProof.index) {
 				Promise.all([bBadgerAirdropTree.methods.isClaimed(merkleProof.index).call()]).then((result: any[]) => {
 					this.airdrops = {
 						bBadger: !result[0] ? new BigNumber(merkleProof.amount) : new BigNumber(0),
