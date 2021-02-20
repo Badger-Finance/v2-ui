@@ -7,7 +7,7 @@ import Web3 from 'web3';
 import { inCurrency } from 'mobx/utils/helpers';
 import { getDiggPerShare } from 'mobx/utils/diggHelpers';
 import { rewards as rewardsConfig } from 'config/system/geysers';
-import { sett_system } from '../../config/deployments/mainnet.json';
+import { sett_system, digg_system, token } from '../../config/deployments/mainnet.json';
 import { Vault, Amount, Geyser, Token, Growth } from '../model';
 import { ZERO_CURRENCY } from 'config/constants';
 
@@ -30,7 +30,7 @@ export const reduceRebaseToStats = (store: RootStore) => {
 
 	if (!tokens) return;
 
-	const token = tokens[deploy.digg_system.uFragments];
+	const token = tokens[digg_system.uFragments];
 
 	return {
 		nextRebase: new Date('Jan 23 8:00PM UTC'),
@@ -132,8 +132,8 @@ function calculatePortfolioStats(vaultContracts: any, tokens: any, vaults: any, 
 		}
 	});
 
-	const badger: Token = tokens[deploy.token.toLowerCase()];
-	const digg: Token = tokens[deploy.digg_system.uFragments.toLowerCase()];
+	const badger: Token = tokens[token.toLowerCase()];
+	const digg: Token = tokens[digg_system.uFragments.toLowerCase()];
 	const badgerToken = !!badger && !!badger.ethValue ? badger.ethValue : new BigNumber(0);
 	const diggToken = !!digg && !!digg.ethValue ? digg.ethValue : new BigNumber(0);
 	const bDigg = !!digg && digg.vaults.length > 0 && getDiggPerShare(digg.vaults[0]);

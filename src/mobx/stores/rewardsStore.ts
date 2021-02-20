@@ -2,6 +2,7 @@ import { extendObservable, action, observe } from 'mobx';
 import Web3 from 'web3';
 import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
+import { AbiItem } from 'web3-utils';
 
 import { estimateAndSend } from '../utils/web3';
 import BigNumber from 'bignumber.js';
@@ -9,6 +10,10 @@ import { RootStore } from '../store';
 import _ from 'lodash';
 import { jsonQuery } from '../utils/helpers';
 import { reduceClaims, reduceTimeSinceLastCycle } from '../reducers/statsReducers';
+import { abi as rewardsAbi } from '../../config/system/abis/BadgerTree.json';
+import { abi as diggAbi } from '../../config/system/abis/UFragments.json';
+
+import { badgerTree, digg_system } from '../../config/deployments/mainnet.json';
 
 import { rewards as rewardsConfig } from 'config/system/geysers';
 
@@ -34,16 +39,13 @@ class RewardsStore {
 	fetchSettRewards = action(() => {
 		const { provider, connectedAddress } = this.store.wallet;
 		const {} = this.store.uiState;
-		const { digg_system, badgerTree } = require('../../config/deployments/mainnet.json');
-		const { abi: diggAbi } = require('../../config/system/abis/UFragments.json');
-		const { abi: rewardsAbi } = require('../../config/system/abis/BadgerTree.json');
 
 		if (!connectedAddress) return;
 
 		const web3 = new Web3(provider);
-		const rewardsTree = new web3.eth.Contract(rewardsAbi, badgerTree);
+		const rewardsTree = new web3.eth.Contract(rewardsAbi as AbiItem[], badgerTree);
 		const checksumAddress = Web3.utils.toChecksumAddress(connectedAddress);
-		const diggToken = new web3.eth.Contract(diggAbi, digg_system.uFragments);
+		const diggToken = new web3.eth.Contract(diggAbi as AbiItem[], digg_system.uFragments);
 
 		const treeMethods = [
 			rewardsTree.methods.lastPublishTimestamp().call(),
@@ -92,10 +94,8 @@ class RewardsStore {
 
 		if (!connectedAddress) return;
 
-		const { abi: rewardsAbi } = require('../../config/system/abis/BadgerTree.json');
-		const { badgerTree } = require('../../config/deployments/mainnet.json');
 		const web3 = new Web3(provider);
-		const rewardsTree = new web3.eth.Contract(rewardsAbi, badgerTree);
+		const rewardsTree = new web3.eth.Contract(rewardsAbi as AbiItem[], badgerTree);
 		const method = rewardsTree.methods.claim(
 			proof.tokens,
 			proof.cumulativeAmounts,

@@ -34,7 +34,6 @@ export const airdropsConfig: AirdropsConfig = {
 	[nativeBadger]: {
 		tokenAbi: erc20Abi as AbiItem[],
 		tokenContract: nativeBadger,
-		// TODO: Add new airdrop contract
 		airdropContract: '0xD17C7effa924B55951E0F6d555b3a3ea34451179',
 		airdropAbi: bBadgerAirdropAbi as AbiItem[],
 	},

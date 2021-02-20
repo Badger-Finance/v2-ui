@@ -129,7 +129,6 @@ export const Collection = observer(() => {
 	const spacer = () => <div className={classes.before} />;
 
 	const availableRewards = () => {
-		console.log(badgerTree);
 		return badgerTree.claims.map((claim: any[], idx: number) => {
 			const claimAddress = claim[0];
 			const claimValue = claim
