@@ -1,11 +1,11 @@
 // api badger functions
 
-// TODO: Update to api.badger.finance on v2 migration
 const getApi = () => {
 	if (process.env.NODE_ENV === 'production') {
-		return 'https://api.sett.vision';
+		// TODO: Update to api.badger.finance on cloudflare redirect
+		return 'https://2k2ccquid1.execute-api.us-west-1.amazonaws.com/prod/';
 	}
-	return 'https://hm77p4zo3l.execute-api.us-west-1.amazonaws.com/staging/';
+	return 'https://laiv44udi0.execute-api.us-west-1.amazonaws.com/staging/';
 };
 const badgerApi = getApi();
 

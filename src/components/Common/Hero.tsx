@@ -34,7 +34,6 @@ const useStyles = makeStyles((theme) => ({
 	},
 	copy: {
 		marginBottom: '1rem',
-
 		[theme.breakpoints.up('md')]: {
 			marginBottom: '0',
 		},
@@ -51,7 +50,6 @@ const useStyles = makeStyles((theme) => ({
 
 const Hero = observer((props: any) => {
 	const classes = useStyles();
-
 	const { title, subtitle } = props;
 
 	return (

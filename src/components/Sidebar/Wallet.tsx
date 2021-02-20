@@ -87,7 +87,6 @@ export const Wallet = observer(() => {
 				disableElevation
 				variant="contained"
 				color="secondary"
-				// size="small"
 				onClick={() => {
 					if (!connectedAddress) connect();
 					else store.wallet.walletReset();

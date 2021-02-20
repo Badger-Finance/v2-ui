@@ -61,7 +61,6 @@ const useStyles = makeStyles((theme) => ({
 	selectInput: {
 		margin: 0,
 	},
-
 	statPaper: {
 		padding: theme.spacing(2),
 		textAlign: 'center',
@@ -107,6 +106,7 @@ const useStyles = makeStyles((theme) => ({
 		[theme.breakpoints.up('md')]: {},
 	},
 }));
+
 export const Collection = observer(() => {
 	const store = useContext(StoreContext);
 	const classes = useStyles();
