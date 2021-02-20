@@ -8,6 +8,7 @@ import { Loader } from '../../Loader';
 import { BigNumber } from 'bignumber.js';
 import { useForm } from 'react-hook-form';
 import { formatBalanceUnderlying } from 'mobx/reducers/statsReducers';
+import { numberWithCommas } from 'mobx/utils/helpers';
 
 const TEXTFIELD_ID = 'amountField';
 
@@ -84,7 +85,8 @@ export const GeyserStake = observer((props: any) => {
 				>
 					<div>
 						<Typography variant="body2" color={'textSecondary'} style={{ marginBottom: '.2rem' }}>
-							Underlying {vault.underlyingToken.symbol}: {formatBalanceUnderlying(vault)}
+							Underlying {vault.underlyingToken.symbol}:{' '}
+							{numberWithCommas(formatBalanceUnderlying(vault))}
 						</Typography>
 						<Typography variant="body1" color={'textSecondary'} style={{ marginBottom: '.2rem' }}>
 							Available {vault.symbol}: {totalAvailable}

@@ -13,8 +13,20 @@ import {
 } from 'mobx/reducers/statsReducers';
 import { StoreContext } from 'mobx/store-context';
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export default function DepositList(props: any) {
+interface DepositListProps {
+	contracts: string[];
+	allSetts: any[];
+	vaults: any;
+	hideEmpty: any;
+	classes: Record<'title' | 'header' | 'list' | 'listItem' | 'before' | 'hiddenMobile' | 'chip', string>;
+	onOpen: (vault: Vault, sett: any) => void;
+	period: string;
+	vaultBalance: string;
+	depositBalance: string;
+	walletBalance: string;
+}
+
+export default function DepositList(props: DepositListProps): JSX.Element {
 	const {
 		allSetts,
 		contracts,

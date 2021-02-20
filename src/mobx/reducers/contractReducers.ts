@@ -15,6 +15,7 @@ import {
 	Token,
 	Schedules,
 	MethodConfigPayload,
+	SushiAPIResults,
 } from '../model';
 
 export const reduceBatchResult = (result: any[]): any[] => {
@@ -33,6 +34,8 @@ export const reduceBatchResult = (result: any[]): any[] => {
 	});
 };
 
+// Disable Reason: value is assigned from results of a web3-batch-call that can take different shapes.
+// Function deals with type identification for the differnet possible cases.
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const reduceResult = (value: any): any => {
 	if (/^-?\d+$/.test(value)) return new BigNumber(value);
@@ -41,8 +44,7 @@ export const reduceResult = (value: any): any => {
 	else return value;
 };
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const reduceSushiAPIResults = (results: any, contracts: any[]): any => {
+export const reduceSushiAPIResults = (results: SushiAPIResults, contracts: any[]): any => {
 	const newSushiROIs: any = _.map(results.pairs, (pair: any) => {
 		return {
 			address: pair.address,
@@ -55,8 +57,7 @@ export const reduceSushiAPIResults = (results: any, contracts: any[]): any => {
 	return _.keyBy(newSushiROIs, 'address');
 };
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const reduceXSushiROIResults = (ROI: any): ReducedSushiROIResults => {
+export const reduceXSushiROIResults = (ROI: number | string | BigNumber): ReducedSushiROIResults => {
 	return {
 		day: new BigNumber(ROI).dividedBy(365),
 		week: new BigNumber(ROI).dividedBy(365).multipliedBy(7),
@@ -147,9 +148,8 @@ export const reduceGraphResult = (graphResult: any[]): any[] => {
 
 export const reduceCurveResult = (
 	curveResult: any[],
-	contracts: any[],
-	// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-	_tokenContracts: any,
+	contracts: string[],
+	//_tokenContracts: any, // It is unused for now but may be used in the future
 	wbtcToken: Token,
 ): ReducedCurveResult => {
 	return curveResult.map((result: any, i: number) => {

@@ -19,7 +19,7 @@ import {
 	ReducedAirdops,
 	FormattedGeyserGrowth,
 	FormattedVaultGrowth,
-	Airdrops,
+	ReduceAirdropsProps,
 	TokenRebaseStats,
 } from '../model';
 import { ZERO_CURRENCY } from 'config/constants';
@@ -85,6 +85,7 @@ export const reduceContractsToStats = (store: RootStore): ContractToStats | unde
 	};
 };
 
+// Disable Reason: Only instance feeds a value obtained from a require() statement that always returns a type any
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const reduceClaims = (merkleProof: any, rewardAddresses: any[], claimedRewards: any[]): Amount | never[] => {
 	if (!merkleProof.cumulativeAmounts) return [];
@@ -98,7 +99,7 @@ export const reduceClaims = (merkleProof: any, rewardAddresses: any[], claimedRe
 	});
 };
 
-export const reduceAirdrops = (airdrops: Airdrops, store: RootStore): ReducedAirdops | Record<string, unknown> => {
+export const reduceAirdrops = (airdrops: ReduceAirdropsProps, store: RootStore): ReducedAirdops => {
 	if (!airdrops.digg) {
 		return {};
 	}
@@ -183,7 +184,7 @@ export function formatSupply(token: Token): string {
 }
 
 export function formatBalance(token: Token): string {
-	if (token) return inCurrency(token.balance.dividedBy(10 ** token.decimals), 'eth', true);
+	if (token) return inCurrency(token.balance.dividedBy(10 ** token.decimals), 'eth', true, 5, true);
 	else {
 		return '0.00';
 	}
@@ -194,6 +195,7 @@ export function formatGeyserBalance(geyser: Geyser): string {
 		'eth',
 		true,
 		5,
+		true,
 	);
 }
 export function formatGeyserHoldings(vault: Vault): string {
@@ -229,6 +231,7 @@ export function formatBalanceUnderlying(vault: Vault): string {
 		'eth',
 		true,
 		vault.underlyingToken.decimals,
+		true,
 	);
 }
 

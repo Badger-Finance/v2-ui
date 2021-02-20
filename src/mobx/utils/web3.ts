@@ -5,7 +5,7 @@ import { PromiEvent } from 'web3-core';
 import WalletStore from '../stores/walletStore';
 import _ from 'lodash';
 import { AbiItem } from 'web3-utils';
-import { BatchConfig } from '../model';
+import { BatchConfig, TokenContract, ContractMethodsConfig, TokenAddressessConfig, TokenAddressess } from '../model';
 
 export const estimateAndSend = (
 	web3: Web3,
@@ -63,10 +63,9 @@ export const batchConfig = (
 	};
 };
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const getTokenAddresses = (contracts: any, config: any) => {
+export const getTokenAddresses = (contracts: any[], config: TokenAddressessConfig): TokenAddressess[] => {
 	// pull underlying and yileding token addresses
-	const addresses: any[] = [];
+	const addresses: TokenAddressess[] = [];
 	_.map(contracts, (contract: any) => {
 		if (!!contract[config.underlying!])
 			addresses.push({
@@ -84,8 +83,7 @@ export const getTokenAddresses = (contracts: any, config: any) => {
 	return addresses;
 };
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const contractMethods = (config: any, wallet: WalletStore): any[] => {
+export const contractMethods = (config: ContractMethodsConfig, wallet: WalletStore): any[] => {
 	let methods = [];
 	if (!!config.rewards) {
 		methods.push({
@@ -107,8 +105,7 @@ export const contractMethods = (config: any, wallet: WalletStore): any[] => {
 	return methods;
 };
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const erc20Methods = (connectedAddress: string, token: any): any[] => {
+export const erc20Methods = (connectedAddress: string, token: TokenContract): any[] => {
 	if (!!connectedAddress && !!token.contract) {
 		// get allowance of each vault
 

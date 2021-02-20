@@ -8,7 +8,7 @@ import { formatWithCommas } from 'mobx/utils/api';
 import { UnfoldMoreTwoTone } from '@material-ui/icons';
 import { usdToCurrency } from '../../../mobx/utils/helpers';
 import BigNumber from 'bignumber.js';
-import { TokenCardProps } from '../../../mobx/model';
+import { Vault } from '../../../mobx/model';
 
 const useStyles = makeStyles((theme) => ({
 	border: {
@@ -42,6 +42,14 @@ const useStyles = makeStyles((theme) => ({
 		padding: 0,
 	},
 }));
+
+interface TokenCardProps {
+	isGlobal: boolean;
+	vault: Vault;
+	sett: any;
+	onOpen: any;
+	period: string;
+}
 
 export const TokenCard = (props: TokenCardProps): JSX.Element => {
 	const store = useContext(StoreContext);

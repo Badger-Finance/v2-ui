@@ -43,8 +43,9 @@
 		"eject": "react-scripts eject",
 		"predeploy": "npm run build",
 		"deploy": "gh-pages -d build",
-		"lint": "yarn eslint */**/*.{js,json,ts,tsx}",
-		"lint-fix": "yarn eslint */**/*.{js,json,ts,tsx} --quiet --fix",
+		"lint": "eslint src/**/*.{js,jsx,json,ts,tsx,md}",
+		"lint-fix": "eslint src/**/*.{js,jsx,json,ts,tsx,md} --quiet --fix",
+		"lint-fix-warn": "eslint src/**/*.{js,jsx,json,ts,tsx,md} --fix",
 		"ui": "yarn upgradeInteractive"
 	},
 	"eslintConfig": {
@@ -74,6 +75,7 @@
 		"eslint-plugin-prettier": "^3.3.1",
 		"eslint-plugin-react": "^7.22.0",
 		"eslint-plugin-react-hooks": "^4.2.0",
+		"eslint": "^7.20.0",
 		"gh-pages": "^3.1.0",
 		"prettier": "^2.2.1",
 		"react-scripts": "3.4.1",

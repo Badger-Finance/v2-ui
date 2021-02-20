@@ -8,7 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { VaultSymbol } from '../../Common/VaultSymbol';
 import { UnfoldMoreTwoTone } from '@material-ui/icons';
 import useInterval from '@use-it/interval';
-import { DepositCardProps } from '../../../mobx/model';
+import { Vault } from '../../../mobx/model';
 
 const useStyles = makeStyles((theme) => ({
 	border: {
@@ -42,6 +42,16 @@ const useStyles = makeStyles((theme) => ({
 		padding: 0,
 	},
 }));
+
+interface DepositCardProps {
+	isGlobal: boolean;
+	vault: Vault;
+	sett: any;
+	onOpen: any;
+	balance: number;
+	balanceValue: string;
+}
+
 export const DepositCard = (props: DepositCardProps): React.ReactElement => {
 	const store = useContext(StoreContext);
 	const classes = useStyles();

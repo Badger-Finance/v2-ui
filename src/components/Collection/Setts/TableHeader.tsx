@@ -1,6 +1,12 @@
 import { Grid, Typography } from '@material-ui/core';
 import React from 'react';
-import { TableHeaderProps } from '../../../mobx/model';
+
+interface TableHeaderProps {
+	title: string;
+	tokenTitle: string;
+	classes: Record<'chip' | 'header' | 'title' | 'list' | 'listItem' | 'before' | 'hiddenMobile', string>;
+	period: string;
+}
 
 export default function TableHeader(props: TableHeaderProps): JSX.Element {
 	const { title, tokenTitle, classes, period } = props;

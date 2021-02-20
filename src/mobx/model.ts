@@ -158,34 +158,19 @@ export interface Amount {
 	amount: BigNumber;
 }
 
-export type Airdrops = {
+export type SushiAPIResults = {
+	pairs: {
+		address: any;
+		aprDay: number | string | BigNumber;
+		aprMonthly: number | string | BigNumber;
+		aprYear_without_lockup: number | string | BigNumber;
+	}[];
+};
+
+export type ReduceAirdropsProps = {
 	digg?: BigNumber;
 	merkleProof?: any;
 };
-
-export interface DepositCardProps {
-	isGlobal: boolean;
-	vault: Vault;
-	sett: any;
-	onOpen: any;
-	balance: number;
-	balanceValue: string;
-}
-
-export interface TableHeaderProps {
-	title: string;
-	tokenTitle: string;
-	classes: Record<'chip' | 'header' | 'title' | 'list' | 'listItem' | 'before' | 'hiddenMobile', string>;
-	period: string;
-}
-
-export interface TokenCardProps {
-	isGlobal: boolean;
-	vault: Vault;
-	sett: any;
-	onOpen: any;
-	period: string;
-}
 
 export type TokenRebaseStats = {
 	totalSupply: BigNumber;
@@ -243,8 +228,8 @@ export type ContractToStats = {
 };
 
 export type ReducedAirdops = {
-	digg: {
-		amount: any;
+	digg?: {
+		amount: BigNumber;
 		token: any;
 	};
 };
@@ -268,6 +253,18 @@ export type ReducedCurveResult = { address: any; virtualPrice: BigNumber; ethVal
 
 export type ReducedGrowth = { [x: string]: { day: any; week: any; month: any; year: any } };
 
+export type TokenAddressessConfig = {
+	underlying: any;
+	sushi: string[];
+};
+
+export type TokenAddressess = {
+	address: any;
+	contract: string;
+	type: string;
+	subgraph: string;
+};
+
 export type ReducedContractConfig = {
 	defaults: _.Dictionary<any>;
 	batchCall: {
@@ -279,10 +276,22 @@ export type ReducedContractConfig = {
 	}[];
 };
 
+export type ContractMethodsConfig = {
+	rewards: {
+		method: any;
+		tokens: any;
+	};
+	walletMethods: string[];
+};
+
 export type BatchConfig = {
 	namespace: string;
 	addresses: string[];
 	allReadMethods: boolean;
 	groupByNamespace: boolean;
 	logging: boolean;
+};
+
+export type TokenContract = {
+	contract: string;
 };

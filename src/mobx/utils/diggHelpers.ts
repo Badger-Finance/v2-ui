@@ -6,7 +6,7 @@ import { Vault } from '../model';
 const UPPER_LIMIT = 1.05 * 1e18;
 const LOWER_LIMIT = 0.95 * 1e18;
 
-export const getDiggExchangeRates = (): Promise<Response> => {
+export const getDiggExchangeRates = (): Promise<any> => {
 	return fetch('https://api.coingecko.com/api/v3/simple/price?ids=ethereum,wrapped-bitcoin&vs_currencies=usd,btc', {
 		method: 'GET',
 		headers: {
@@ -92,6 +92,8 @@ export const numberWithCommas = (x: string): string => {
 };
 
 export const getRebaseLogs = async (provider: provider): Promise<any> => {
+	// Disable reason: 'web3-eth-contract' object can only be imported with the required method since it
+	// is exported using 'module.exports'
 	// eslint-disable-next-line @typescript-eslint/no-var-requires
 	const Contract = require('web3-eth-contract');
 	Contract.setProvider(provider);

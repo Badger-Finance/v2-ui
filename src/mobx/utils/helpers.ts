@@ -231,11 +231,11 @@ export const inCurrency = (
 	return `${prefix}${fixedNormal}${suffix}`;
 };
 
-function numberWithCommas(x: string) {
+export const numberWithCommas = (x: string): string => {
 	const parts = x.toString().split('.');
 	parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 	return parts.join('.');
-}
+};
 
 export const fetchDiggChart = (chart: string, range: number, callback: (marketChart: any) => void): void => {
 	const to = new Date();
