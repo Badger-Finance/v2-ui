@@ -2,8 +2,7 @@ import UFragments from './abis/UFragments.json';
 import UFragmentsPolicy from './abis/UFragmentsPolicy.json';
 import MedianOracle from './abis/MedianOracle.json';
 import Orchestrator from './abis/Orchestrator.json';
-
-const { digg_system } = require('../deployments/mainnet.json');
+import { digg_system } from '../deployments/mainnet.json';
 
 export const digg = [
 	{

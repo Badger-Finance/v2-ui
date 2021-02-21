@@ -229,6 +229,10 @@ export function formatBalanceValue(vault: Vault, currency: string) {
 	return inCurrency(vault.balanceValue().multipliedBy(diggMultiplier).dividedBy(1e18), currency, true);
 }
 
+export function formatTokenBalanceValue(token: Token, currency: string) {
+	return inCurrency(token.balanceValue().dividedBy(1e18), currency, true);
+}
+
 export function formatGeyserBalanceValue(geyser: Geyser, currency: string) {
 	return inCurrency(geyser.balanceValue().plus(geyser.vault.balanceValue()).dividedBy(1e18), currency, true);
 }
