@@ -18,6 +18,8 @@ import { StoreContext } from '../../mobx/store-context';
 import { formatAmount } from 'mobx/reducers/statsReducers';
 import useInterval from '@use-it/interval';
 import views from '../../config/routes';
+import { inCurrency } from '../../mobx/utils/helpers';
+import { token, digg_system, sett_system } from '../../config/deployments/mainnet.json';
 import PageHeader from '../../components-v2/common/PageHeader';
 
 const useStyles = makeStyles((theme) => ({
@@ -59,7 +61,7 @@ export const Airdrops = observer(() => {
 	const {
 		router: { goTo },
 		wallet: { connectedAddress },
-		airdrops: { claimBadgerAirdrops, claimDiggAirdrops },
+		airdrops: { claimAirdrops },
 		uiState: { airdropStats, stats },
 	} = store;
 
@@ -157,54 +159,34 @@ export const Airdrops = observer(() => {
 						Available Airdrops:
 					</Typography>
 				</Grid>
-				<Grid item xs={12} md={6}>
-					<Paper className={classes.statPaper}>
-						<List style={{ padding: 0 }}>
-							<ListItem style={{ margin: 0, padding: 0 }}>
-								<ListItemText primary={'0.00000'} secondary="Badger available to claim" />
-								<ListItemSecondaryAction>
-									<ButtonGroup
-										disabled={airdropStats.badger ? !airdropStats.badger.amount.gt(0) : true}
-										size="small"
-										variant="outlined"
-										color="primary"
-									>
-										<Button
-											onClick={() => {
-												claimBadgerAirdrops(false);
-											}}
-											variant="contained"
-										>
-											Claim
-										</Button>
-									</ButtonGroup>
-								</ListItemSecondaryAction>
-							</ListItem>
-						</List>
-					</Paper>
-				</Grid>
+
 				<Grid item xs={12} md={6}>
 					<Paper className={classes.statPaper}>
 						<List style={{ padding: 0 }}>
 							<ListItem style={{ margin: 0, padding: 0 }}>
 								<ListItemText
 									primary={
-										!!connectedAddress && !!airdropStats.digg
-											? formatAmount(airdropStats.digg)
+										!!connectedAddress && !!airdropStats.bBadger
+											? inCurrency(
+													airdropStats.bBadger.amount.dividedBy(10 ** 18),
+													'eth',
+													true,
+													18,
+											  )
 											: '0.00000'
 									}
-									secondary="DIGG available to claim"
+									secondary="bBadger available to claim"
 								/>
 								<ListItemSecondaryAction>
 									<ButtonGroup
-										disabled={airdropStats.digg ? !airdropStats.digg.amount.gt(0) : true}
+										disabled={airdropStats.bBadger ? !airdropStats.bBadger.amount.gt(0) : true}
 										size="small"
 										variant="outlined"
 										color="primary"
 									>
 										<Button
 											onClick={() => {
-												claimDiggAirdrops(false);
+												claimAirdrops(sett_system.vaults['native.badger']);
 											}}
 											variant="contained"
 										>

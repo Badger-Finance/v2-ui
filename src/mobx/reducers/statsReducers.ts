@@ -6,8 +6,8 @@ import Web3 from 'web3';
 
 import { inCurrency } from 'mobx/utils/helpers';
 import { getDiggPerShare } from 'mobx/utils/diggHelpers';
-import { token as diggToken } from 'config/system/rebase';
 import { rewards as rewardsConfig } from 'config/system/geysers';
+import { sett_system, digg_system, token } from '../../config/deployments/mainnet.json';
 import { Vault, Amount, Geyser, Token, Growth } from '../model';
 import { ZERO_CURRENCY } from 'config/constants';
 
@@ -30,7 +30,7 @@ export const reduceRebaseToStats = (store: RootStore) => {
 
 	if (!tokens) return;
 
-	const token = tokens[diggToken.contract];
+	const token = tokens[digg_system.uFragments];
 
 	return {
 		nextRebase: new Date('Jan 23 8:00PM UTC'),
@@ -84,10 +84,12 @@ export const reduceClaims = (merkleProof: any, rewardAddresses: any[], claimedRe
 	});
 };
 export const reduceAirdrops = (airdrops: any, store: RootStore) => {
-	if (!airdrops.digg) {
+	if (!airdrops.bBadger) {
 		return {};
 	}
-	return { digg: { amount: airdrops.digg, token: store.contracts.tokens[rewardsConfig.tokens[1].toLowerCase()] } };
+	return {
+		bBadger: { amount: airdrops.bBadger, token: store.contracts.tokens[sett_system.vaults['native.badger']] },
+	};
 };
 function calculatePortfolioStats(vaultContracts: any, tokens: any, vaults: any, geyserContracts: any) {
 	let tvl = new BigNumber(0);
@@ -130,8 +132,8 @@ function calculatePortfolioStats(vaultContracts: any, tokens: any, vaults: any, 
 		}
 	});
 
-	const badger: Token = tokens[deploy.token.toLowerCase()];
-	const digg: Token = tokens[deploy.digg_system.uFragments.toLowerCase()];
+	const badger: Token = tokens[token.toLowerCase()];
+	const digg: Token = tokens[digg_system.uFragments.toLowerCase()];
 	const badgerToken = !!badger && !!badger.ethValue ? badger.ethValue : new BigNumber(0);
 	const diggToken = !!digg && !!digg.ethValue ? digg.ethValue : new BigNumber(0);
 	const bDigg = !!digg && digg.vaults.length > 0 && getDiggPerShare(digg.vaults[0]);
@@ -221,10 +223,14 @@ export function formatHoldingsValue(vault: Vault, currency: string) {
 	return inCurrency(vault.holdingsValue().multipliedBy(diggMultiplier).dividedBy(1e18), currency, true);
 }
 
-export function formatBalanceValue(token: Token, currency: string) {
+export function formatBalanceValue(vault: Vault, currency: string) {
 	// Only bDIGG shares need to be scaled, DIGG is already the 1:1 underlying
-	const diggMultiplier = token.symbol === 'bDIGG' ? getDiggPerShare(token) : new BigNumber(1);
-	return inCurrency(token.balanceValue().multipliedBy(diggMultiplier).dividedBy(1e18), currency, true);
+	const diggMultiplier = vault.symbol === 'bDIGG' ? getDiggPerShare(vault) : new BigNumber(1);
+	return inCurrency(vault.balanceValue().multipliedBy(diggMultiplier).dividedBy(1e18), currency, true);
+}
+
+export function formatTokenBalanceValue(token: Token, currency: string) {
+	return inCurrency(token.balanceValue().dividedBy(1e18), currency, true);
 }
 
 export function formatGeyserBalanceValue(geyser: Geyser, currency: string) {

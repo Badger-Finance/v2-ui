@@ -2,6 +2,7 @@ import BigNumber from 'bignumber.js';
 import _ from 'lodash';
 import { reduceGeyserSchedule } from './reducers/contractReducers';
 import { RootStore } from './store';
+import { AbiItem } from 'web3-utils';
 
 export class Contract {
 	store!: RootStore;
@@ -155,3 +156,12 @@ export interface Amount {
 	token: Token;
 	amount: BigNumber;
 }
+
+export type AirdropsConfig = {
+	[index: string]: {
+		tokenAbi: AbiItem[];
+		tokenContract: string | { [index: string]: string };
+		airdropContract: string;
+		airdropAbi: AbiItem[];
+	};
+};

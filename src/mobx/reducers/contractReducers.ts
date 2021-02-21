@@ -118,8 +118,6 @@ export const reduceGraphResult = (graphResult: any[]) => {
 		graphResult.forEach((duplicate: any, dupIndex: number) => {
 			if (dupIndex > index && duplicate.address === token.address) {
 				if (duplicate.ethValue.gt(0)) {
-					console.log('avaraging', duplicate.ethValue, token.ethValue, token.symbol);
-
 					token.ethValue = token.ethValue.plus(duplicate.ethValue).dividedBy(2);
 				} else if (duplicate.address === token.address) {
 					token = undefined;

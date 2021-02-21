@@ -90,6 +90,11 @@ export const geyserBatches = [
 ];
 
 export const rewards = {
+	// endpoint: `${
+	// 	process.env.NODE_ENV !== 'production'
+	// 		? 'https://laiv44udi0.execute-api.us-west-1.amazonaws.com/staging'
+	// 		: 'https://2k2ccquid1.execute-api.us-west-1.amazonaws.com/prod'
+	// }/v2/reward/tree`,
 	endpoint: 'https://fzqm8i0owc.execute-api.us-east-1.amazonaws.com/prod',
 	network: 1,
 	contract: '0x660802Fc641b154aBA66a62137e71f331B6d787A',
