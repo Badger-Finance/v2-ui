@@ -23,9 +23,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Loader } from '../Loader';
 
 import { SettList } from './Setts';
-import { CLAIMS_SYMBOLS } from 'config/constants';
+import { digg_system } from '../../config/deployments/mainnet.json';
+import { CLAIMS_SYMBOLS, USDC_ADDRESS } from 'config/constants';
 import { formatPrice } from 'mobx/reducers/statsReducers';
-import { formatUsd } from 'mobx/utils/api';
 import { inCurrency, usdToCurrency } from '../../mobx/utils/helpers';
 import useInterval from '@use-it/interval';
 import Hero from 'components/Common/Hero';
@@ -61,7 +61,6 @@ const useStyles = makeStyles((theme) => ({
 	selectInput: {
 		margin: 0,
 	},
-
 	statPaper: {
 		padding: theme.spacing(2),
 		textAlign: 'center',
@@ -96,7 +95,9 @@ const useStyles = makeStyles((theme) => ({
 		padding: 0,
 		flexWrap: 'wrap',
 	},
-
+	rewardText: {
+		marginRight: '3px',
+	},
 	heroPaper: {
 		padding: theme.spacing(3, 0),
 		minHeight: '100%',
@@ -105,6 +106,7 @@ const useStyles = makeStyles((theme) => ({
 		[theme.breakpoints.up('md')]: {},
 	},
 }));
+
 export const Collection = observer(() => {
 	const store = useContext(StoreContext);
 	const classes = useStyles();
@@ -127,15 +129,25 @@ export const Collection = observer(() => {
 	const spacer = () => <div className={classes.before} />;
 
 	const availableRewards = () => {
-		return badgerTree.claims.map((claim: BigNumber, idx: number) => {
-			const claimValue = claim ? claim.dividedBy(idx == 0 ? 1e18 : badgerTree.sharesPerFragment * 1e9) : claim;
+		return badgerTree.claims.map((claim: any[], idx: number) => {
+			const claimAddress = claim[0];
+			const claimValue = claim
+				? claim[1].dividedBy(
+						claimAddress === digg_system['uFragments']
+							? badgerTree.sharesPerFragment * 1e9
+							: claimAddress === USDC_ADDRESS
+							? 1e6
+							: 1e18,
+				  )
+				: claim[1];
 			const claimDisplay = inCurrency(claimValue, 'eth', true);
 			return (
 				parseFloat(claimDisplay) > 0 && (
 					<ListItemText
-						key={idx}
+						key={claimAddress}
 						primary={claimDisplay}
-						secondary={`${CLAIMS_SYMBOLS[idx]} Available to Claim`}
+						className={classes.rewardText}
+						secondary={`${CLAIMS_SYMBOLS[claimAddress.toLowerCase()]} Available to Claim`}
 					/>
 				)
 			);
@@ -144,7 +156,10 @@ export const Collection = observer(() => {
 
 	const rewards = _.compact(availableRewards());
 	const tvl = assets.totalValue ? usdToCurrency(new BigNumber(assets.totalValue), currency) : '$0.00';
-	const badgerPrice = stats.stats.badger > 0 ? formatPrice(stats.stats.badger, currency) : badger && badger.market_data
+	const badgerPrice =
+		stats.stats.badger > 0
+			? formatPrice(stats.stats.badger, currency)
+			: badger && badger.market_data
 			? usdToCurrency(new BigNumber(badger.market_data.current_price.usd), currency)
 			: '$0.00';
 
@@ -156,20 +171,19 @@ export const Collection = observer(() => {
 						<Hero title="Sett Vaults" subtitle="Powerful Bitcoin strategies. Automatic staking rewards" />
 					</Grid>
 					<Grid item sm={6}>
-						{
-							connectedAddress && (
-								<FormControlLabel
-									control={
-										<Switch
-											checked={hideZeroBal}
-											onChange={() => {
-												!!connectedAddress && setHideZeroBal(!hideZeroBal);
-											}}
-											color="primary"
-										/>
-									}
-									label="Wallet balances"
-								/>
+						{connectedAddress && (
+							<FormControlLabel
+								control={
+									<Switch
+										checked={hideZeroBal}
+										onChange={() => {
+											!!connectedAddress && setHideZeroBal(!hideZeroBal);
+										}}
+										color="primary"
+									/>
+								}
+								label="Wallet balances"
+							/>
 						)}
 					</Grid>
 
