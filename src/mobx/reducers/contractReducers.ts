@@ -79,7 +79,6 @@ export const reduceGraphResult = (graphResult: any[], prices: any) => {
 			let token0Value: any = prices[element.data.pair.token0.id];
 			let token1Value: any = prices[element.data.pair.token1.id];
 
-			console.log(token0Value, token1Value);
 			// assign eth value 
 			if (token0Value) token0Value = token0Value.ethValue / 1e18;
 			if (token1Value) token1Value = token1Value.ethValue / 1e18;
