@@ -295,3 +295,12 @@ export type BatchConfig = {
 export type TokenContract = {
 	contract: string;
 };
+
+export type AirdropsConfig = {
+	[index: string]: {
+		tokenAbi: AbiItem[];
+		tokenContract: string | { [index: string]: string };
+		airdropContract: string;
+		airdropAbi: AbiItem[];
+	};
+};

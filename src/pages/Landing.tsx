@@ -2,9 +2,24 @@ import CurrencyInfoCard from '../components-v2/common/CurrencyInfoCard';
 import CurrencyPicker from '../components-v2/landing/CurrencyPicker';
 import SamplePicker from '../components-v2/landing/SamplePicker';
 import WalletSlider from '../components-v2/landing/WalletSlider';
-import { Grid, Container, makeStyles } from '@material-ui/core';
+import {
+	Grid,
+	Container,
+	makeStyles,
+	ListItemText,
+	Typography,
+	Paper,
+	List,
+	ListItem,
+	Button,
+	ButtonGroup,
+} from '@material-ui/core';
 import PageHeader from '../components-v2/common/PageHeader';
 import { SettList } from '../components/Collection/Setts';
+import { digg_system } from 'config/deployments/mainnet.json';
+import { CLAIMS_SYMBOLS, USDC_ADDRESS } from 'config/constants';
+import { inCurrency } from '../mobx/utils/helpers';
+import _ from 'lodash';
 import { StoreContext } from '../mobx/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
@@ -20,6 +35,15 @@ const useStyles = makeStyles((theme) => ({
 		marginTop: theme.spacing(3),
 		marginBottom: theme.spacing(3),
 	},
+	marginTop: {
+		marginTop: theme.spacing(3),
+	},
+	rewardContainer: {
+		marginTop: theme.spacing(3),
+		marginBottom: theme.spacing(3),
+		marginLeft: 'auto',
+		marginRight: 'auto',
+	},
 	widgetContainer: {
 		display: 'flex',
 		justifyContent: 'space-between',
@@ -31,6 +55,17 @@ const useStyles = makeStyles((theme) => ({
 			justifyContent: 'center',
 			marginBottom: theme.spacing(3),
 		},
+	},
+	rewardText: {
+		marginRight: theme.spacing(3),
+		textAlign: 'left',
+	},
+	statPaper: {
+		padding: theme.spacing(2),
+	},
+	rewardItem: {
+		padding: 0,
+		flexWrap: 'wrap',
 	},
 	pickerContainer: {
 		marginRight: theme.spacing(1),
@@ -44,9 +79,36 @@ const Landing = observer(() => {
 	const {
 		wallet: { connectedAddress, isCached },
 		sett: { assets, badger },
+		rewards: { claimGeysers, badgerTree },
 		uiState: { stats, currency, hideZeroBal },
 	} = store;
 	const userConnected = !!connectedAddress;
+
+	const availableRewards = () => {
+		return badgerTree.claims.map((claim: any[], idx: number) => {
+			const claimAddress = claim[0];
+			const claimValue = claim
+				? claim[1].dividedBy(
+						claimAddress === digg_system['uFragments']
+							? badgerTree.sharesPerFragment * 1e9
+							: claimAddress === USDC_ADDRESS
+							? 1e6
+							: 1e18,
+				  )
+				: claim[1];
+			const claimDisplay = inCurrency(claimValue, 'eth', true);
+			return (
+				parseFloat(claimDisplay) > 0 && (
+					<ListItemText
+						key={claimAddress}
+						primary={claimDisplay}
+						className={classes.rewardText}
+						secondary={`${CLAIMS_SYMBOLS[claimAddress.toLowerCase()]} Available to Claim`}
+					/>
+				)
+			);
+		});
+	};
 
 	// force convert tvl due to zero typing on store (remove once typed)
 	const totalValueLocked: BigNumber | undefined = assets.totalValue ? new BigNumber(assets.totalValue) : undefined;
@@ -56,6 +118,8 @@ const Landing = observer(() => {
 	const badgerDisplayPrice: BigNumber | undefined = badgerPrice ? new BigNumber(badgerPrice) : undefined;
 
 	const portfolioValue = userConnected ? stats.stats.portfolio : undefined;
+
+	const rewards = _.compact(availableRewards());
 
 	return (
 		<Container className={classes.landingContainer}>
@@ -95,6 +159,34 @@ const Landing = observer(() => {
 					/>
 				</Grid>
 			</Grid>
+
+			{!!connectedAddress && rewards.length > 0 && badgerTree.claims.length > 0 && (
+				<>
+					<Grid item xs={12} style={{ textAlign: 'center', paddingBottom: 0 }}>
+						<Typography className={classes.marginTop} variant="subtitle1" color="textPrimary">
+							Available Rewards:
+						</Typography>
+					</Grid>
+					<Grid className={classes.rewardContainer} item xs={12} md={6}>
+						<Paper className={classes.statPaper}>
+							<List style={{ padding: 0, textAlign: 'center' }}>
+								<ListItem className={classes.rewardItem}>{rewards}</ListItem>
+								<ButtonGroup size="small" variant="outlined" color="primary">
+									<Button
+										className={classes.marginTop}
+										onClick={() => {
+											claimGeysers(false);
+										}}
+										variant="contained"
+									>
+										Claim
+									</Button>
+								</ButtonGroup>
+							</List>
+						</Paper>
+					</Grid>
+				</>
+			)}
 			<SettList isGlobal={!isCached()} hideEmpty={hideZeroBal} />
 		</Container>
 	);

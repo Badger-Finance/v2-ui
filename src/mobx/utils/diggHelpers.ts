@@ -1,7 +1,11 @@
 import BigNumber from 'bignumber.js';
+import { RPC_URL } from '../../config/constants';
+import Web3 from 'web3';
+import { AbiItem } from 'web3-utils';
 import { digg } from '../../config/system/rebase';
 import { provider } from 'web3-core';
 import { Vault } from '../model';
+import Contract from 'web3-eth-contract';
 
 const UPPER_LIMIT = 1.05 * 1e18;
 const LOWER_LIMIT = 0.95 * 1e18;
@@ -95,12 +99,11 @@ export const getRebaseLogs = async (provider: provider): Promise<any> => {
 	// Disable reason: 'web3-eth-contract' object can only be imported with the required method since it
 	// is exported using 'module.exports'
 	// eslint-disable-next-line @typescript-eslint/no-var-requires
-	const Contract = require('web3-eth-contract');
-	Contract.setProvider(provider);
+	const web3 = new Web3(provider);
 	// const web3 = new Web3(provider);
 	const policy = digg[1];
 	// let contractInstance = new web3.eth.Contract(policy.abi || '', policy.addresses[0]);
-	const contractInstance = new Contract(policy.abi, policy.addresses[0]);
+	const contractInstance = new web3.eth.Contract(policy.abi as AbiItem[], policy.addresses[0]);
 	const events = await contractInstance.getPastEvents('LogRebase', {
 		fromBlock: 11663433,
 		toBlock: 'latest',

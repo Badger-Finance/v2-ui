@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import BigNumber from 'bignumber.js';
 import { Typography, List, ListItem } from '@material-ui/core';
 import { Vault, Geyser } from 'mobx/model';
 import { DepositCard } from './DepositCard';
@@ -10,8 +11,10 @@ import {
 	formatGeyserBalance,
 	formatGeyserBalanceValue,
 	formatBalance,
+	formatTokenBalanceValue,
 } from 'mobx/reducers/statsReducers';
 import { StoreContext } from 'mobx/store-context';
+import { inCurrency } from 'mobx/utils/helpers';
 
 interface DepositListProps {
 	contracts: string[];
@@ -47,8 +50,10 @@ export default function DepositList(props: DepositListProps): JSX.Element {
 	let walletBalances = contracts.map((address: string) => {
 		const vault: Vault = vaults[address.toLowerCase()];
 		const sett: any = allSetts.find((s: any) => s.address.toLowerCase() === address.toLowerCase());
-		const userBalance = vault && vault.underlyingToken ? vault.underlyingToken.balance.toNumber() : 0;
-		if (sett && userBalance > 0) {
+		const userBalance =
+			vault && vault.underlyingToken ? new BigNumber(vault.underlyingToken.balance) : new BigNumber(0);
+		if (sett && userBalance.gt(0)) {
+			console.log(vault.underlyingToken.balance.dividedBy(10 ** vault.underlyingToken.decimals).toString());
 			return (
 				<ListItem key={address} className={classes.listItem}>
 					<DepositCard
@@ -57,7 +62,7 @@ export default function DepositList(props: DepositListProps): JSX.Element {
 						sett={sett}
 						onOpen={onOpen}
 						balance={parseFloat(formatBalance(vault.underlyingToken))}
-						balanceValue={formatBalanceValue(vault, currency)}
+						balanceValue={formatTokenBalanceValue(vault.underlyingToken, currency)}
 					/>
 				</ListItem>
 			);
