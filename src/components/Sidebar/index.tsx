@@ -3,15 +3,7 @@ import { observer } from 'mobx-react-lite';
 import views from '../../config/routes';
 import { useContext } from 'react';
 import { StoreContext } from '../../mobx/store-context';
-import {
-	List,
-	ListItem,
-	Drawer,
-	Collapse,
-	IconButton,
-	ListItemIcon,
-	ListItemText,
-} from '@material-ui/core';
+import { List, ListItem, Drawer, Collapse, IconButton, ListItemIcon, ListItemText } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { ExpandMore } from '@material-ui/icons';
 
@@ -275,7 +267,7 @@ export const Sidebar = observer(() => {
 							button
 							className={classes.secondarySubListItem}
 							onClick={() =>
-								window.open('https://sushiswap.fi/pair/0x110492b31c59716ac47337e616804e3e3adc0b4a')
+								window.open('https://app.sushiswap.fi/pair/0x110492b31c59716ac47337e616804e3e3adc0b4a')
 							}
 						>
 							Sushiswap BADGER/wBTC

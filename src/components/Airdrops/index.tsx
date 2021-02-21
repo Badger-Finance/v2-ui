@@ -84,7 +84,7 @@ export const Airdrops = observer(() => {
 				button: 'Uniswap',
 				button2: 'Sushiswap',
 				href: 'https://info.uniswap.org/pair/0xcd7989894bc033581532d2cd88da5db0a4b12859',
-				href2: 'https://sushiswap.fi/pair/0x110492b31c59716ac47337e616804e3e3adc0b4a',
+				href2: 'https://app.sushiswap.fi/pair/0x110492b31c59716ac47337e616804e3e3adc0b4a',
 				copy: 'Provide liquidity and stake LP in vaults.',
 			},
 			{
