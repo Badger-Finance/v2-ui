@@ -66,7 +66,8 @@ export const reduceGrowthQueryConfig = (currentBlock?: number) => {
 	return { periods, growthQueries: periods.map(growthQuery) };
 };
 
-export const reduceGraphResult = (graphResult: any[]) => {
+// todo: resolve types on QA lint branch (will need merge resolution)
+export const reduceGraphResult = (graphResult: any[], prices: any) => {
 	const reduction = graphResult.map((element: any) => {
 		if (!element.data.pair && !element.data.token) return;
 
@@ -74,18 +75,18 @@ export const reduceGraphResult = (graphResult: any[]) => {
 		let ethValue;
 
 		if (!!element.data.pair) {
-			const token0Value = new BigNumber(element.data.pair.token0.derivedETH);
-			let token1Value = new BigNumber(element.data.pair.token1.derivedETH);
+			// compilation any, until price resolution is stanardized
+			let token0Value: any = prices[element.data.pair.token0.id];
+			let token1Value: any = prices[element.data.pair.token1.id];
 
-			// fix for sushiswap returning 0 as derivedETH value of Badger
-			if (token1Value.isEqualTo(0)) {
-				graphResult.forEach((result: any) => {
-					if (!!result.data.token && result.data.token.id === element.data.pair.token1.id) {
-						// console.log('match')
-						return (token1Value = new BigNumber(result.data.token.derivedETH));
-					}
-				});
-			}
+			console.log(token0Value, token1Value);
+			// assign eth value 
+			if (token0Value) token0Value = token0Value.ethValue / 1e18;
+			if (token1Value) token1Value = token1Value.ethValue / 1e18;
+
+			// fall back to derived ETH from thegraph
+			if (!token0Value) new BigNumber(element.data.pair.token0.derivedETH);
+			if (!token1Value) new BigNumber(element.data.pair.token1.derivedETH);
 
 			const reserve0 = new BigNumber(token0Value)
 				.multipliedBy(new BigNumber(element.data.pair.reserve0))
@@ -93,6 +94,7 @@ export const reduceGraphResult = (graphResult: any[]) => {
 			const reserve1 = new BigNumber(token1Value)
 				.multipliedBy(new BigNumber(element.data.pair.reserve1))
 				.multipliedBy(1e18);
+
 			ethValue = reserve0.plus(reserve1).dividedBy(element.data.pair.totalSupply);
 		} else {
 			ethValue = new BigNumber(element.data.token.derivedETH).multipliedBy(1e18);
