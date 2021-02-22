@@ -170,7 +170,7 @@ export type SushiAPIResults = {
 export type ReduceAirdropsProps = {
 	digg?: BigNumber;
 	merkleProof?: any;
-	bBadger: any;
+	bBadger?: BigNumber;
 };
 
 export type TokenRebaseStats = {
