@@ -1,40 +1,15 @@
 import React, { FC, useState } from 'react';
-import { Grid, Box, makeStyles, Button } from '@material-ui/core';
-import ClawParams from './ClawParams';
+import { Grid, Box, Button } from '@material-ui/core';
+import ClawParams, { ClawParam } from './ClawParams';
+import { useMainStyles } from './index';
 import ClawLabel from './ClawLabel';
 import ClawDetails from './ClawDetails';
-
-interface ClawItem {
-	amount: string;
-	selectedOption?: string;
-	error?: string;
-}
-
-const useStyles = makeStyles((theme) => ({
-	details: {
-		width: '50%',
-		marginTop: theme.spacing(2),
-		margin: 'auto',
-		[theme.breakpoints.only('xs')]: {
-			width: '80%',
-		},
-	},
-	button: {
-		width: '80%',
-		marginTop: theme.spacing(4),
-		marginBottom: theme.spacing(2),
-		margin: 'auto',
-		[theme.breakpoints.only('xs')]: {
-			width: '100%',
-		},
-	},
-}));
 
 const tokenOptions = ['wBTCwETHSLP', 'bBadger'];
 
 const expiryOptions: Record<string, string[]> = {
 	wBTCwETHSLP: ['eCLAW FEB20', 'eCLAW MAR20'],
-	bBadger: ['bCLAW FEB20', 'bCLAW FEB20 '],
+	bBadger: ['bCLAW FEB20', 'bCLAW FEB20'],
 };
 
 const eCLAWS: Record<string, string> = {
@@ -42,16 +17,16 @@ const eCLAWS: Record<string, string> = {
 	bBadger: '2000',
 };
 
-const initialValue: ClawItem = {
+const initialValue: ClawParam = {
 	amount: '0.00',
 };
 
 export const Mint: FC = () => {
-	const classes = useStyles();
+	const classes = useMainStyles();
 	//TODO value should be in store
 	const SLPTokenBalance = '0.000017';
-	const [collateral, setCollateral] = useState<ClawItem>(initialValue);
-	const [mintable, setMintable] = useState<ClawItem>(initialValue);
+	const [collateral, setCollateral] = useState<ClawParam>(initialValue);
+	const [mintable, setMintable] = useState<ClawParam>(initialValue);
 
 	const error = collateral.error || mintable.error;
 
@@ -100,13 +75,13 @@ export const Mint: FC = () => {
 						<ClawLabel
 							name="Mintable"
 							balanceLabel="Maximum eCLAW:"
-							balance={collateral.selectedOption ? eCLAWS[collateral.selectedOption] : '0'}
+							balance={collateral.selectedOption && eCLAWS[collateral.selectedOption]}
 						/>
 					</Grid>
 				</Box>
 				<Grid item xs={12}>
 					<ClawParams
-						referenceBalance={collateral.selectedOption ? eCLAWS[collateral.selectedOption] : '0'}
+						referenceBalance={collateral.selectedOption && eCLAWS[collateral.selectedOption]}
 						placeholder="Select Expiry"
 						amount={mintable.amount}
 						onAmountChange={(amount: string, error?: boolean) => {
@@ -148,7 +123,7 @@ export const Mint: FC = () => {
 					<Button
 						color="primary"
 						variant="contained"
-						disabled={!!error}
+						disabled={!!error || !collateral.selectedOption || !mintable.selectedOption}
 						size="large"
 						className={classes.button}
 					>
@@ -159,3 +134,5 @@ export const Mint: FC = () => {
 		</Grid>
 	);
 };
+
+export default Mint;

@@ -4,8 +4,8 @@ import { Grid, Typography, makeStyles } from '@material-ui/core';
 
 interface Props {
 	name: string;
-	balanceLabel: string;
-	balance: string;
+	balanceLabel?: string;
+	balance?: string;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export const ClawLabel: FC<Props> = ({ name, balanceLabel, balance }) => {
+export const ClawLabel: FC<Props> = ({ name, balanceLabel = '', balance = '' }) => {
 	const classes = useStyles();
 
 	return (
