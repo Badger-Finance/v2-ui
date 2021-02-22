@@ -4,6 +4,12 @@ import ClawParams from './ClawParams';
 import ClawLabel from './ClawLabel';
 import ClawDetails from './ClawDetails';
 
+interface ClawItem {
+	amount: string;
+	selectedOption?: string;
+	error?: string;
+}
+
 const useStyles = makeStyles((theme) => ({
 	details: {
 		width: '50%',
@@ -36,20 +42,18 @@ const eCLAWS: Record<string, string> = {
 	bBadger: '2000',
 };
 
+const initialValue: ClawItem = {
+	amount: '0.00',
+};
+
 export const Mint: FC = () => {
 	const classes = useStyles();
 	//TODO value should be in store
 	const SLPTokenBalance = '0.000017';
-	const [collateralToken, setCollateralToken] = useState<string | undefined>(undefined);
-	const [expiry, setExpiry] = useState<string | undefined>(undefined);
-	const [collateralAmount, setCollateralAmount] = useState('0.00');
-	const [expiryAmount, setExpiryAmount] = useState('0.00');
+	const [collateral, setCollateral] = useState<ClawItem>(initialValue);
+	const [mintable, setMintable] = useState<ClawItem>(initialValue);
 
-	const handleTokenChange = (token: string) => {
-		setExpiry(undefined);
-		setExpiryAmount('0.00');
-		setCollateralToken(token);
-	};
+	const error = collateral.error || mintable.error;
 
 	return (
 		<Grid container>
@@ -58,9 +62,9 @@ export const Mint: FC = () => {
 					<Box clone pb={1}>
 						<Grid item xs={12}>
 							<ClawLabel
-								firstLabel="Collateral"
-								secondLabel="Available wbtcWethSLP:"
-								thirdLabel={SLPTokenBalance}
+								name="Collateral"
+								balanceLabel="Available wbtcWethSLP:"
+								balance={SLPTokenBalance}
 							/>
 						</Grid>
 					</Box>
@@ -68,12 +72,24 @@ export const Mint: FC = () => {
 						<ClawParams
 							referenceBalance={SLPTokenBalance}
 							placeholder="Select Token"
-							amount={collateralAmount}
-							onAmountChange={setCollateralAmount}
-							selectedOption={collateralToken}
-							onOptionChange={handleTokenChange}
+							amount={collateral.amount}
+							onAmountChange={(amount: string, error?: boolean) => {
+								setCollateral({
+									...collateral,
+									amount,
+									error: error ? 'Amount exceeds wbtcWethSLP balance' : undefined,
+								});
+							}}
+							selectedOption={collateral.selectedOption}
+							onOptionChange={(selectedOption: string) => {
+								setMintable(initialValue);
+								setCollateral({
+									...collateral,
+									selectedOption,
+								});
+							}}
 							options={tokenOptions}
-							disabledAmount={!collateralToken}
+							disabledAmount={!collateral.selectedOption}
 						/>
 					</Grid>
 				</Grid>
@@ -82,23 +98,34 @@ export const Mint: FC = () => {
 				<Box clone pb={1}>
 					<Grid item xs={12}>
 						<ClawLabel
-							firstLabel="Mintable"
-							secondLabel="Maximum eCLAW:"
-							thirdLabel={collateralToken ? eCLAWS[collateralToken] : '0'}
+							name="Mintable"
+							balanceLabel="Maximum eCLAW:"
+							balance={collateral.selectedOption ? eCLAWS[collateral.selectedOption] : '0'}
 						/>
 					</Grid>
 				</Box>
 				<Grid item xs={12}>
 					<ClawParams
-						referenceBalance={collateralToken ? eCLAWS[collateralToken] : '0'}
+						referenceBalance={collateral.selectedOption ? eCLAWS[collateral.selectedOption] : '0'}
 						placeholder="Select Expiry"
-						amount={expiryAmount}
-						onAmountChange={setExpiryAmount}
-						selectedOption={expiry}
-						options={collateralToken ? expiryOptions[collateralToken] : []}
-						onOptionChange={setExpiry}
-						disabledAmount={!collateralToken}
-						disabledOptions={!collateralToken}
+						amount={mintable.amount}
+						onAmountChange={(amount: string, error?: boolean) => {
+							setMintable({
+								...mintable,
+								amount,
+								error: error ? 'Amount exceeds eCLAW balance' : undefined,
+							});
+						}}
+						selectedOption={mintable.selectedOption}
+						options={collateral.selectedOption ? expiryOptions[collateral.selectedOption] : []}
+						onOptionChange={(selectedOption: string) => {
+							setMintable({
+								...mintable,
+								selectedOption,
+							});
+						}}
+						disabledAmount={!collateral.selectedOption}
+						disabledOptions={!collateral.selectedOption}
 					/>
 				</Grid>
 			</Grid>
@@ -118,8 +145,14 @@ export const Mint: FC = () => {
 			</Grid>
 			<Grid item xs={12}>
 				<Grid container>
-					<Button color="primary" variant="contained" size="large" className={classes.button}>
-						MINT
+					<Button
+						color="primary"
+						variant="contained"
+						disabled={!!error}
+						size="large"
+						className={classes.button}
+					>
+						{error ? error : 'MINT'}
 					</Button>
 				</Grid>
 			</Grid>

@@ -23,7 +23,7 @@ interface Props {
 	disabledAmount?: boolean;
 	disabledOptions?: boolean;
 	// eslint-disable-next-line autofix/no-unused-vars
-	onAmountChange: (amount: string) => void;
+	onAmountChange: (amount: string, error?: boolean) => void;
 	// eslint-disable-next-line autofix/no-unused-vars
 	onOptionChange: (option: string) => void;
 }
@@ -74,7 +74,6 @@ export const ClawParams: FC<Props> = ({
 		onOptionChange(event.target.value as string);
 	};
 
-	// TODO: handle input > balance error
 	const handleAmountChange = (event: React.ChangeEvent<{ value: unknown }>) => {
 		const input = event.target.value as string;
 		const isValidChange = isValidAmountChange(input);
@@ -83,7 +82,9 @@ export const ClawParams: FC<Props> = ({
 			return;
 		}
 
-		onAmountChange(sanitizeValue(event.target.value as string));
+		const amount = new BigNumber(input);
+		const amountExceedsBalance = new BigNumber(referenceBalance).lt(amount);
+		onAmountChange(sanitizeValue(event.target.value as string), amountExceedsBalance);
 	};
 
 	const applyPercentage = (percentage: number) => {
@@ -121,6 +122,7 @@ export const ClawParams: FC<Props> = ({
 						<Grid item xs={12} sm={7} lg={8}>
 							<InputBase
 								type="tel"
+								error
 								placeholder="0.00"
 								disabled={disabledAmount}
 								inputProps={{ pattern: '^[0-9]*[.,]?[0-9]*$' }}
