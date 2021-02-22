@@ -5,8 +5,17 @@ import { Dialog, DialogTitle, Tab, Tabs, Switch, Typography } from '@material-ui
 import deploy from '../../../config/deployments/mainnet.json';
 import BigNumber from 'bignumber.js';
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-const SettDialog = (props: any) => {
+interface SettDialogProps {
+	dialogProps: {
+		open: boolean;
+		vault: any;
+		sett: any;
+	};
+	onClose: () => void;
+	classes: Record<'list' | 'listItem' | 'before' | 'header' | 'hiddenMobile' | 'chip' | 'title', string>;
+}
+
+const SettDialog = (props: SettDialogProps): JSX.Element => {
 	const [dialogMode, setDialogMode] = useState(0);
 	const [dialogOut, setDialogOut] = useState(false);
 	const { dialogProps, classes, onClose } = props;

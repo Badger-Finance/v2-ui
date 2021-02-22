@@ -16,8 +16,20 @@ import {
 import { StoreContext } from 'mobx/store-context';
 import { inCurrency } from 'mobx/utils/helpers';
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export default function DepositList(props: any) {
+interface DepositListProps {
+	contracts: string[];
+	allSetts: any[];
+	vaults: any;
+	hideEmpty: any;
+	classes: Record<'title' | 'header' | 'list' | 'listItem' | 'before' | 'hiddenMobile' | 'chip', string>;
+	onOpen: (vault: Vault, sett: any) => void;
+	period: string;
+	vaultBalance: string;
+	depositBalance: string;
+	walletBalance: string;
+}
+
+export default function DepositList(props: DepositListProps): JSX.Element {
 	const {
 		allSetts,
 		contracts,
@@ -49,7 +61,7 @@ export default function DepositList(props: any) {
 						vault={vault}
 						sett={sett}
 						onOpen={onOpen}
-						balance={formatBalance(vault.underlyingToken)}
+						balance={parseFloat(formatBalance(vault.underlyingToken))}
 						balanceValue={formatTokenBalanceValue(vault.underlyingToken, currency)}
 					/>
 				</ListItem>
@@ -69,7 +81,7 @@ export default function DepositList(props: any) {
 						vault={vault}
 						sett={sett}
 						onOpen={onOpen}
-						balance={formatBalanceUnderlying(vault)}
+						balance={parseFloat(formatBalanceUnderlying(vault))}
 						balanceValue={formatBalanceValue(vault, currency)}
 					/>
 				</ListItem>
@@ -90,7 +102,7 @@ export default function DepositList(props: any) {
 						vault={vault}
 						sett={sett}
 						onOpen={onOpen}
-						balance={formatGeyserBalance(geyser)}
+						balance={parseFloat(formatGeyserBalance(geyser))}
 						balanceValue={formatGeyserBalanceValue(geyser, currency)}
 					/>
 				</ListItem>

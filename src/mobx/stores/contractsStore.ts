@@ -160,7 +160,7 @@ class ContractsStore {
 					reduceCurveResult(
 						result.slice(2, 2 + curveQueries.length),
 						curveTokens.contracts,
-						this.tokens,
+						// this.tokens, // Commented out as it is not in use but may be in the future
 						tokenPrices[WBTC_ADDRESS],
 					),
 					'address',
@@ -472,7 +472,6 @@ class ContractsStore {
 	});
 
 	getAllowance = action((underlyingAsset: any, spender: string, callback: (err: any, result: any) => void) => {
-		const {} = this.store.uiState;
 		const { provider, connectedAddress } = this.store.wallet;
 
 		const web3 = new Web3(provider);

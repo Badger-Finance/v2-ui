@@ -1,11 +1,22 @@
 import BigNumber from 'bignumber.js';
-import _, { stubString } from 'lodash';
+import _ from 'lodash';
 import { START_BLOCK } from 'config/constants';
-import { rewards } from 'config/system/geysers';
 import deploy from 'config/deployments/mainnet.json';
 import { batchConfig } from 'mobx/utils/web3';
 import { RootStore } from 'mobx/store';
 import { growthQuery, secondsToBlocks } from 'mobx/utils/helpers';
+import {
+	ReducedSushiROIResults,
+	ReducedGrowthQueryConfig,
+	ReducedCurveResult,
+	ReducedGrowth,
+	Growth,
+	ReducedContractConfig,
+	Token,
+	Schedules,
+	MethodConfigPayload,
+	SushiAPIResults,
+} from '../model';
 
 export const reduceBatchResult = (result: any[]): any[] => {
 	return result.map((vault) => {
@@ -23,6 +34,9 @@ export const reduceBatchResult = (result: any[]): any[] => {
 	});
 };
 
+// Disable Reason: value is assigned from results of a web3-batch-call that can take different shapes.
+// Function deals with type identification for the differnet possible cases.
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const reduceResult = (value: any): any => {
 	if (/^-?\d+$/.test(value)) return new BigNumber(value);
 	else if (_.isString(value) && value.slice(0, 2) === '0x') return (value as string).toLowerCase();
@@ -30,8 +44,8 @@ export const reduceResult = (value: any): any => {
 	else return value;
 };
 
-export const reduceSushiAPIResults = (results: any, contracts: any[]) => {
-	const newSushiROIs: any = _.map(results.pairs, (pair: any, i: number) => {
+export const reduceSushiAPIResults = (results: SushiAPIResults, contracts: any[]): any => {
+	const newSushiROIs: any = _.map(results.pairs, (pair: any) => {
 		return {
 			address: pair.address,
 			day: new BigNumber(pair.aprDay).dividedBy(100),
@@ -43,7 +57,7 @@ export const reduceSushiAPIResults = (results: any, contracts: any[]) => {
 	return _.keyBy(newSushiROIs, 'address');
 };
 
-export const reduceXSushiROIResults = (ROI: any) => {
+export const reduceXSushiROIResults = (ROI: number | string | BigNumber): ReducedSushiROIResults => {
 	return {
 		day: new BigNumber(ROI).dividedBy(365),
 		week: new BigNumber(ROI).dividedBy(365).multipliedBy(7),
@@ -52,7 +66,7 @@ export const reduceXSushiROIResults = (ROI: any) => {
 	};
 };
 
-export const reduceGrowthQueryConfig = (currentBlock?: number) => {
+export const reduceGrowthQueryConfig = (currentBlock?: number): ReducedGrowthQueryConfig => {
 	if (!currentBlock) return { periods: [], growthQueries: [] };
 
 	const periods = [
@@ -79,7 +93,7 @@ export const reduceGraphResult = (graphResult: any[], prices: any) => {
 			let token0Value: any = prices[element.data.pair.token0.id];
 			let token1Value: any = prices[element.data.pair.token1.id];
 
-			// assign eth value 
+			// assign eth value
 			if (token0Value) token0Value = token0Value.ethValue / 1e18;
 			if (token1Value) token1Value = token1Value.ethValue / 1e18;
 
@@ -131,7 +145,12 @@ export const reduceGraphResult = (graphResult: any[], prices: any) => {
 	return _.compact(noDupes);
 };
 
-export const reduceCurveResult = (curveResult: any[], contracts: any[], tokenContracts: any, wbtcToken: any) => {
+export const reduceCurveResult = (
+	curveResult: any[],
+	contracts: string[],
+	//_tokenContracts: any, // It is unused for now but may be used in the future
+	wbtcToken: Token,
+): ReducedCurveResult => {
 	return curveResult.map((result: any, i: number) => {
 		let sum = new BigNumber(0);
 		let count = 0;
@@ -152,7 +171,7 @@ export const reduceCurveResult = (curveResult: any[], contracts: any[], tokenCon
 	});
 };
 
-export const reduceGrowth = (graphResult: any[], periods: number[], startDate: Date) => {
+export const reduceGrowth = (graphResult: any[], periods: number[], startDate: Date): ReducedGrowth => {
 	const reduction: any[] = graphResult.map((result: any) => !!result.data && _.keyBy(result.data.vaults, 'id'));
 
 	return _.mapValues(reduction[0], (value: any, key: string) => {
@@ -189,16 +208,15 @@ export const reduceGrowth = (graphResult: any[], periods: number[], startDate: D
 	});
 };
 
-export const reduceGeyserSchedule = (schedules: any, store: RootStore) => {
+export const reduceGeyserSchedule = (schedules: Schedules, store: RootStore): Growth[] => {
 	// console.log(JSON.stringify(schedules))
 	// console.log(_.keysIn(schedules))
-	// console.log(schedules)
+	// console.log(schedules);
 
 	return _.compact(
 		_.map(schedules, (schedule: any[], tokenAddress: string) => {
 			let locked = new BigNumber(0);
 			const timestamp = new BigNumber(new Date().getTime() / 1000.0);
-
 			const period = { start: timestamp, end: timestamp };
 
 			let lockedAllTime = new BigNumber(0);
@@ -246,7 +264,7 @@ export const reduceGeyserSchedule = (schedules: any, store: RootStore) => {
 	);
 };
 
-export const reduceContractConfig = (configs: any[], payload: any = {}) => {
+export const reduceContractConfig = (configs: any[], payload: any = {}): ReducedContractConfig => {
 	const contracts = _.map(configs, (config: any) => {
 		return _.map(config.contracts, (contract: string, i: number) => {
 			const r: any = {
@@ -274,7 +292,7 @@ export const reduceContractConfig = (configs: any[], payload: any = {}) => {
 	return { defaults, batchCall };
 };
 
-export const reduceMethodConfig = (methods: any[], payload: any) => {
+export const reduceMethodConfig = (methods: any[], payload: MethodConfigPayload): { args?: any[]; name: any }[] => {
 	const reduced = _.map(methods, (method: any) => {
 		const args = _.map(method.args, (arg: string) => {
 			const brackets = /\{(.*?)\}/; // FIXME: has a redundant escape character for \{ and \}

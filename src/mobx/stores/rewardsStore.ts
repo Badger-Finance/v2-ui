@@ -29,7 +29,7 @@ class RewardsStore {
 			badgerTree: { cycle: '...', timeSinceLastCycle: '0h 0m', claims: [0] },
 		});
 
-		observe(this.store.wallet, 'connectedAddress', (change: any) => {
+		observe(this.store.wallet, 'connectedAddress', () => {
 			this.fetchSettRewards();
 		});
 
@@ -38,7 +38,6 @@ class RewardsStore {
 
 	fetchSettRewards = action(() => {
 		const { provider, connectedAddress } = this.store.wallet;
-		const {} = this.store.uiState;
 
 		if (!connectedAddress) return;
 

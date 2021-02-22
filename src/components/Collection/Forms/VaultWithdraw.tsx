@@ -9,6 +9,7 @@ import { Loader } from 'components/Loader';
 import { BigNumber } from 'bignumber.js';
 import { useForm } from 'react-hook-form';
 import { formatBalanceUnderlying } from 'mobx/reducers/statsReducers';
+import { numberWithCommas } from 'mobx/utils/helpers';
 
 const TEXTFIELD_ID = 'amountField';
 
@@ -27,9 +28,7 @@ export const VaultWithdraw = observer((props: any) => {
 	const { register, handleSubmit, watch, setValue } = useForm({ mode: 'all' });
 
 	const {
-		router: {},
 		wallet: { connectedAddress },
-		uiState: {},
 	} = store;
 
 	const percentageOfBalance = (percent: number) => {
@@ -87,7 +86,8 @@ export const VaultWithdraw = observer((props: any) => {
 				>
 					<div>
 						<Typography variant="body2" color={'textSecondary'} style={{ marginBottom: '.2rem' }}>
-							Underlying {vault.underlyingToken.symbol}: {formatBalanceUnderlying(vault)}
+							Underlying {vault.underlyingToken.symbol}:{' '}
+							{numberWithCommas(formatBalanceUnderlying(vault))}
 						</Typography>
 						<Typography variant="body1" color={'textSecondary'} style={{ marginBottom: '.2rem' }}>
 							Deposited {vault.symbol}: {totalAvailable}
