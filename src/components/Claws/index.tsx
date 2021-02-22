@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 import { Tab, Card, Tabs, CardContent, Container, Grid, Switch, FormControlLabel } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Hero from 'components/Common/Hero';
-import { Mint } from './Mint';
+import Mint from './Mint';
+import Manage from './Manage';
+import Redeem from './Redeem';
 
 const TABS = {
 	MINT: 0,
@@ -10,7 +12,7 @@ const TABS = {
 	REDEEM: 2,
 };
 
-const useStyles = makeStyles((theme) => ({
+export const useMainStyles = makeStyles((theme) => ({
 	root: {
 		marginTop: theme.spacing(11),
 		[theme.breakpoints.up('md')]: {
@@ -29,12 +31,41 @@ const useStyles = makeStyles((theme) => ({
 			paddingLeft: theme.spacing(3),
 		},
 	},
+	details: {
+		width: '50%',
+		marginTop: theme.spacing(2),
+		margin: 'auto',
+		[theme.breakpoints.only('xs')]: {
+			width: '80%',
+		},
+	},
+	button: {
+		width: '80%',
+		marginTop: theme.spacing(4),
+		marginBottom: theme.spacing(2),
+		margin: 'auto',
+		[theme.breakpoints.only('xs')]: {
+			width: '100%',
+		},
+	},
 }));
 
-export const Claws = () => {
-	const classes = useStyles();
+export const Claws: FC = () => {
+	const classes = useMainStyles();
 	const [activeTab, setActiveTab] = useState(0);
 	const [globalData, setGlobalData] = useState(false);
+
+	const Content = () => {
+		switch (activeTab) {
+			case TABS.REDEEM:
+				return <Redeem />;
+			case TABS.MANAGE:
+				return <Manage />;
+			case TABS.MINT:
+			default:
+				return <Mint />;
+		}
+	};
 
 	return (
 		<Container className={classes.root} maxWidth="lg">
@@ -69,7 +100,7 @@ export const Claws = () => {
 							<Tab onClick={() => setActiveTab(TABS.REDEEM)} label="Redeem"></Tab>
 						</Tabs>
 						<CardContent className={classes.cardContent}>
-							<Mint />
+							<Content />
 						</CardContent>
 					</Card>
 				</Grid>

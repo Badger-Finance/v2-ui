@@ -14,12 +14,18 @@ import {
 import BigNumber from 'bignumber.js';
 import { isValidAmountChange, sanitizeValue } from './utils';
 
-interface Props {
-	referenceBalance: string;
+export interface ClawParam {
 	amount: string;
 	selectedOption?: string;
+	error?: string;
+}
+
+interface Props {
 	placeholder: string;
-	options: string[];
+	options?: string[];
+	referenceBalance?: string;
+	amount?: string;
+	selectedOption?: string;
 	disabledAmount?: boolean;
 	disabledOptions?: boolean;
 	// eslint-disable-next-line autofix/no-unused-vars
@@ -32,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
 	margin: {
 		margin: theme.spacing(1),
 	},
-	contentContainer: {
+	border: {
 		border: '1px solid #5C5C5C',
 		borderRadius: 8,
 	},
@@ -58,13 +64,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const ClawParams: FC<Props> = ({
-	referenceBalance,
+	referenceBalance = '0',
 	disabledAmount = false,
 	disabledOptions = false,
-	amount,
+	amount = '0',
+	options: _options = [],
 	selectedOption,
 	placeholder,
-	options: _options,
 	onAmountChange,
 	onOptionChange,
 }) => {
@@ -95,7 +101,7 @@ export const ClawParams: FC<Props> = ({
 
 	return (
 		<Box clone px={1}>
-			<Grid container alignContent="center" alignItems="center" className={classes.contentContainer}>
+			<Grid container alignContent="center" alignItems="center" className={classes.border}>
 				<Grid item xs={12} sm={8}>
 					<Grid container alignItems="center" spacing={2} className={classes.selectContainer}>
 						<Grid item xs={12} sm={5} lg={4}>
