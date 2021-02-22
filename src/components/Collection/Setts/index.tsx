@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
 	settListContainer: {
 		marginTop: theme.spacing(6),
 		marginBottom: theme.spacing(12),
-	}
+	},
 }));
 
 export const SettList = observer((props: any) => {

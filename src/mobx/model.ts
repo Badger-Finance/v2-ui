@@ -170,6 +170,7 @@ export type SushiAPIResults = {
 export type ReduceAirdropsProps = {
 	digg?: BigNumber;
 	merkleProof?: any;
+	bBadger: any;
 };
 
 export type TokenRebaseStats = {
@@ -229,6 +230,10 @@ export type ContractToStats = {
 
 export type ReducedAirdops = {
 	digg?: {
+		amount: BigNumber;
+		token: any;
+	};
+	bBadger?: {
 		amount: BigNumber;
 		token: any;
 	};

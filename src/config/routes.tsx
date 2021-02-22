@@ -4,7 +4,7 @@ import React from 'react';
 import { QueryParams, Route } from 'mobx-router';
 
 // pages
-import Landing from "../pages/Landing";
+import Landing from '../pages/Landing';
 
 //components
 import { Collection } from '../components/Collection';
