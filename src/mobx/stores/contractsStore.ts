@@ -21,7 +21,6 @@ import { jsonQuery, graphQuery, vanillaQuery } from 'mobx/utils/helpers';
 import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
 import async from 'async';
-
 import { curveTokens, names, symbols, tokenMap } from 'config/system/tokens';
 import { EMPTY_DATA, ERC20, RPC_URL, START_TIME, WBTC_ADDRESS, XSUSHI_ADDRESS } from 'config/constants';
 import { vaultBatches } from 'config/system/vaults';
@@ -152,7 +151,7 @@ class ContractsStore {
 				}));
 				const tokenContracts = _.keyBy(reduceBatchResult(_.flatten(result.slice(1, 2))), 'address');
 				const tokenPrices = _.keyBy(
-					_.compact(reduceGraphResult(result.slice(2 + curveQueries.length))),
+					_.compact(reduceGraphResult(result.slice(2 + curveQueries.length), cgPrices)),
 					'address',
 				);
 				// cgPrices[deploy.digg_system.uFragments.toLowerCase()] = { ethValue: tokenPrices[WBTC_ADDRESS.toLowerCase()].ethValue }
