@@ -5,6 +5,9 @@ import async from 'async';
 import { getAssetsUnderManagement, getCoinData, getAssetPerformances, getFarmData, getPpfs } from 'mobx/utils/api';
 import { setts, diggSetts } from 'mobx/utils/setts';
 
+/**
+ * TODO: Clean this up, zero typing.
+ */
 class SettStore {
 	private store!: RootStore;
 	public assets?: any = {};

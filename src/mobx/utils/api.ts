@@ -1,11 +1,11 @@
 // api badger functions
 
-// TODO: Update to api.badger.finance on v2 migration
 const getApi = () => {
 	if (process.env.NODE_ENV === 'production') {
-		return 'https://api.sett.vision';
+		// TODO: Update to api.badger.finance on cloudflare redirect
+		return 'https://2k2ccquid1.execute-api.us-west-1.amazonaws.com/prod/';
 	}
-	return 'https://rn6p9w9x10.execute-api.us-west-1.amazonaws.com/staging';
+	return 'https://laiv44udi0.execute-api.us-west-1.amazonaws.com/staging/';
 };
 const badgerApi = getApi();
 
@@ -115,7 +115,7 @@ export const formatWithCommas = (x: number): string => {
 		return value;
 	} catch (e) {
 		console.log(e);
-		return x.toString();
+		return x ? x.toString() : '0.00';
 	}
 };
 

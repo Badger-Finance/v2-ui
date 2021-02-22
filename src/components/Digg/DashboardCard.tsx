@@ -42,7 +42,7 @@ const DashboardCard = observer((props: any) => {
 	const [title, setGraphSelected] = useState<string>('Total Volume');
 
 	const handleChangeRange = (range: number) => {
-		let chart = title === 'Price' ? 'prices' : title === 'Total Volume' ? 'total_volumes' : 'market_caps';
+		const chart = title === 'Price' ? 'prices' : title === 'Total Volume' ? 'total_volumes' : 'market_caps';
 
 		fetchDiggChart(chart, range, (marketData: any) => {
 			setChartData(marketData);

@@ -36,7 +36,7 @@ class RebaseStore {
 
 	fetchRebaseStats = action(async () => {
 		let rebaseLog: any = null;
-		const { digg } = require('config/system/rebase');
+		const { digg } = await import('config/system/rebase');
 
 		if (this.store.wallet.provider) {
 			const options = {
@@ -57,7 +57,7 @@ class RebaseStore {
 		if (!batchCall) return;
 
 		Promise.all([batchCall.execute(digg), ...[...graphQuery(digg[0].addresses[0])]]).then((result: any[]) => {
-			let keyedResult = _.groupBy(result[0], 'namespace');
+			const keyedResult = _.groupBy(result[0], 'namespace');
 
 			if (!keyedResult.token || !keyedResult.token[0].decimals || !keyedResult.oracle[0].providerReports[0].value)
 				return;
@@ -65,7 +65,7 @@ class RebaseStore {
 			const minRebaseTimeIntervalSec = parseInt(keyedResult.policy[0].minRebaseTimeIntervalSec[0].value);
 			const lastRebaseTimestampSec = parseInt(keyedResult.policy[0].lastRebaseTimestampSec[0].value);
 			const decimals = parseInt(keyedResult.token[0].decimals[0].value);
-			let token = {
+			const token = {
 				totalSupply: new BigNumber(keyedResult.token[0].totalSupply[0].value).dividedBy(Math.pow(10, decimals)),
 				decimals: decimals,
 				lastRebaseTimestampSec: lastRebaseTimestampSec,

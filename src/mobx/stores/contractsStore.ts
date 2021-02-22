@@ -21,7 +21,6 @@ import { jsonQuery, graphQuery, vanillaQuery } from 'mobx/utils/helpers';
 import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
 import async from 'async';
-
 import { curveTokens, names, symbols, tokenMap } from 'config/system/tokens';
 import { EMPTY_DATA, ERC20, RPC_URL, START_TIME, WBTC_ADDRESS, XSUSHI_ADDRESS } from 'config/constants';
 import { vaultBatches } from 'config/system/vaults';
@@ -121,7 +120,7 @@ class ContractsStore {
 	fetchTokens = action((callback: any) => {
 		const { connectedAddress } = this.store.wallet;
 
-		let { defaults, batchCall: batch } = reduceContractConfig(
+		const { defaults, batchCall: batch } = reduceContractConfig(
 			tokenBatches,
 			!!connectedAddress && { connectedAddress },
 		);
@@ -152,7 +151,7 @@ class ContractsStore {
 				}));
 				const tokenContracts = _.keyBy(reduceBatchResult(_.flatten(result.slice(1, 2))), 'address');
 				const tokenPrices = _.keyBy(
-					_.compact(reduceGraphResult(result.slice(2 + curveQueries.length))),
+					_.compact(reduceGraphResult(result.slice(2 + curveQueries.length), cgPrices)),
 					'address',
 				);
 				// cgPrices[deploy.digg_system.uFragments.toLowerCase()] = { ethValue: tokenPrices[WBTC_ADDRESS.toLowerCase()].ethValue }
@@ -180,7 +179,7 @@ class ContractsStore {
 				);
 
 				tokens.forEach((contract: any) => {
-					let token = this.getOrCreateToken(contract.address);
+					const token = this.getOrCreateToken(contract.address);
 					token.update(contract);
 				});
 
@@ -198,7 +197,7 @@ class ContractsStore {
 		const { connectedAddress, currentBlock } = this.store.wallet;
 		const sushiBatches = vaultBatches[1];
 
-		let { defaults, batchCall: batch } = reduceContractConfig(
+		const { defaults, batchCall: batch } = reduceContractConfig(
 			vaultBatches,
 			connectedAddress && { connectedAddress },
 		);
@@ -277,7 +276,7 @@ class ContractsStore {
 
 		const { connectedAddress } = this.store.wallet;
 
-		let { defaults, batchCall: batch } = reduceContractConfig(
+		const { defaults, batchCall: batch } = reduceContractConfig(
 			geyserBatches,
 			connectedAddress && { connectedAddress },
 		);
@@ -342,7 +341,7 @@ class ContractsStore {
 		if (!amount || amount.isNaN() || amount.lte(0) || amount.gt(vault.underlyingToken.balance))
 			return queueNotification('Please enter a valid amount', 'error');
 
-		let underlyingAmount = amount.multipliedBy(10 ** vault.underlyingToken.decimals);
+		const underlyingAmount = amount.multipliedBy(10 ** vault.underlyingToken.decimals);
 
 		const methodSeries: any = [];
 
@@ -374,7 +373,7 @@ class ContractsStore {
 		if (!amount || amount.isNaN() || amount.lte(0) || amount.gt(vault.balance))
 			return queueNotification('Please enter a valid amount', 'error');
 
-		let wrappedAmount = amount.multipliedBy(10 ** vault.decimals);
+		const wrappedAmount = amount.multipliedBy(10 ** vault.decimals);
 
 		const methodSeries: any = [];
 
@@ -402,7 +401,7 @@ class ContractsStore {
 		if (!amount || amount.isNaN() || amount.lte(0) || amount.gt(vault.geyser.balance))
 			return queueNotification('Please enter a valid amount', 'error');
 
-		let wrappedAmount = amount.multipliedBy(10 ** vault.decimals);
+		const wrappedAmount = amount.multipliedBy(10 ** vault.decimals);
 
 		const methodSeries: any = [];
 
