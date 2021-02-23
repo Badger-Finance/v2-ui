@@ -18,19 +18,18 @@ import BTCLogo from '../../assets/icons/btc.svg';
 import BigNumber from 'bignumber.js';
 import { ERC20, BADGER_ADAPTER, CURVE_EXCHANGE, BTC_GATEWAY } from '../../config/constants';
 import {
+        // TODO: This is just a placeholder address, configure real adapter address once deployed.
         BRIDGE_ADDR,
         CURVE_WBTC_RENBTC_TRADING_PAIR_ADDR,
         WBTC_TOKEN_ADDR,
         RENBTC_TOKEN_ADDR,
-        RENVM_GATEWAY_ADDR,n
+        RENVM_GATEWAY_ADDR,
 } from '../../config/system/bridge.json';
 
 const MAX_BTC = new BigNumber(2100000000000000);
 const MIN_AMOUNT = 0.002;
 // SLIPPAGE_BUFFER increases estimated max slippage by 3%.
 const SLIPPAGE_BUFFER = 0.03;
-
-const renJS = new RenJS();
 
 const TabPanel = (props: any) => {
 	const { children, value, index, ...other } = props;
