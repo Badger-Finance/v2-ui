@@ -52,39 +52,43 @@ class RewardsStore {
 			rewardsTree.methods.merkleContentHash().call(),
 		];
 
-		Promise.all(treeMethods).then((rewardsResponse: any) => {
-			const merkleHash = rewardsResponse[1];
+		Promise.all(treeMethods)
+			.then((rewardsResponse: any) => {
+				const merkleHash = rewardsResponse[1];
 
-			this.badgerTree = _.defaults(
-				{
-					timeSinceLastCycle: reduceTimeSinceLastCycle(rewardsResponse[0]),
-				},
-				this.badgerTree,
-			);
+				this.badgerTree = _.defaults(
+					{
+						timeSinceLastCycle: reduceTimeSinceLastCycle(rewardsResponse[0]),
+					},
+					this.badgerTree,
+				);
 
-			const endpointQuery = jsonQuery(
-				`${rewardsConfig.endpoint}/rewards/${rewardsConfig.network}/${merkleHash}/${checksumAddress}`,
-			);
+				const endpointQuery = jsonQuery(`${rewardsConfig.endpoint}/${checksumAddress}`);
 
-			endpointQuery.then((proof: any) => {
-				Promise.all([
-					rewardsTree.methods.getClaimedFor(connectedAddress, rewardsConfig.tokens).call(),
-					diggToken.methods._sharesPerFragment().call(),
-				]).then((result: any[]) => {
-					if (!proof.error) {
-						this.badgerTree = _.defaults(
-							{
-								cycle: parseInt(proof.cycle, 16),
-								claims: reduceClaims(proof, result[0][0], result[0][1]),
-								sharesPerFragment: result[1],
-								proof,
-							},
-							this.badgerTree,
-						);
-					}
-				});
-			});
-		});
+				endpointQuery
+					.then((proof: any) => {
+						Promise.all([
+							rewardsTree.methods.getClaimedFor(connectedAddress, rewardsConfig.tokens).call(),
+							diggToken.methods._sharesPerFragment().call(),
+						])
+							.then((result: any[]) => {
+								if (!proof.error) {
+									this.badgerTree = _.defaults(
+										{
+											cycle: parseInt(proof.cycle, 16),
+											claims: reduceClaims(proof, result[0][0], result[0][1]),
+											sharesPerFragment: result[1],
+											proof,
+										},
+										this.badgerTree,
+									);
+								}
+							})
+							.catch((err) => console.log(err));
+					})
+					.catch((err) => console.log('error: ', err));
+			})
+			.catch((err) => console.log(err));
 	});
 
 	claimGeysers = action((stake = false) => {

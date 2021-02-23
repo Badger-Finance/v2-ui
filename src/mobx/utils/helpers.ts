@@ -72,8 +72,18 @@ export const jsonQuery = (url: string): Promise<Response> => {
 			'Content-Type': 'application/json',
 			Accept: 'application/json',
 		},
-	}).then((response: any) => response.json());
+	}).then((response: any) => {
+		return response.json();
+	});
 };
+
+export const textQuery = (url: string): Promise<Response> => {
+	// Use this query to return text without formatting to JSON for debugging
+	return fetch(url, {}).then((response: any) => {
+		return response.text();
+	});
+};
+
 export const vanillaQuery = (url: string): Promise<Response> => {
 	return fetch(url, {
 		method: 'GET',

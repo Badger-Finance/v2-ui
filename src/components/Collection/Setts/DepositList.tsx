@@ -41,7 +41,6 @@ export default function DepositList(props: any) {
 		const userBalance =
 			vault && vault.underlyingToken ? new BigNumber(vault.underlyingToken.balance) : new BigNumber(0);
 		if (sett && userBalance.gt(0)) {
-			console.log(vault.underlyingToken.balance.dividedBy(10 ** vault.underlyingToken.decimals).toString());
 			return (
 				<ListItem key={address} className={classes.listItem}>
 					<DepositCard
