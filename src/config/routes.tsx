@@ -11,6 +11,7 @@ import { RootStore } from '../mobx/store';
 import { Airdrops } from '../components/Airdrops';
 import { Digg } from '../components/Digg';
 import { Locked } from 'components/Common/Locked';
+import { Bridge } from '../components/Bridge';
 
 const routes = {
 	locked: new Route<RootStore>({
@@ -65,6 +66,13 @@ const routes = {
 		onParamsChange: () => {
 			// store.uiState.setVault(collection, id)
 		},
+	}),
+	bridge: new Route<RootStore, QueryParams>({
+		path: '/bridge',
+		component: <Bridge />,
+		onEnter: (_, params, store) => {},
+		beforeExit: () => {},
+		onParamsChange: (route, params, store) => {},
 	}),
 	// account: new Route<RootStore, {
 	// 	account: string;

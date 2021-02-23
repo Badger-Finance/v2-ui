@@ -28,3 +28,6 @@ export const CLAIMS_SYMBOLS = {
 };
 
 // export const MIN_ETH_BALANCE = new BigNumber(0.01 * 1e18);
+export const BADGER_ADAPTER = require('config/system/abis/BadgerAdapter.json');
+export const CURVE_EXCHANGE = require('config/system/abis/CurveExchange.json');
+export const BTC_GATEWAY = require('config/system/abis/BtcGateway.json');
