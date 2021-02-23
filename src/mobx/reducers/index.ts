@@ -113,11 +113,7 @@ class UiState {
 	reduceRebase = action(() => {
 		const { tokens } = this.store.contracts;
 		if (!!this.store.rebase.rebase && !!tokens[WBTC_ADDRESS])
-			this.rebaseStats = reduceRebase(
-				this.store.rebase.rebase,
-				tokens[WBTC_ADDRESS],
-				/* tokens[digg_system.uFragments], // Not in use within method */
-			);
+			this.rebaseStats = reduceRebase(this.store.rebase.rebase, tokens[WBTC_ADDRESS]);
 	});
 
 	setGasPrice = action((gasPrice: string) => {
