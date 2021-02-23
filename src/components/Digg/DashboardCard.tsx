@@ -20,13 +20,15 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const DashboardCard = observer((props: any) => {
+const DashboardCard = observer(() => {
 	const classes = useStyles();
 
 	const componentDidMount = () => {
 		handleChangeRange(7);
 	};
 
+	// Disable reason: Hook used for execution on mount.
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	useEffect(componentDidMount, []);
 	const [title, setGraphSelected] = useState<string>('Total Volume');
 
@@ -40,6 +42,8 @@ const DashboardCard = observer((props: any) => {
 	};
 	useEffect(() => {
 		handleChangeRange(range);
+		// Disable reason: Hook used to trigger handleChangeRange() on change of 'title'.
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [title]);
 
 	const [chartData, setChartData] = useState<any>(undefined);
@@ -154,12 +158,13 @@ const DashboardCard = observer((props: any) => {
 	);
 });
 
-const intToString = (n: number) => {
+// Not in use
+/* const intToString = (n: number) => {
 	if (n < 1e3) return n;
 	if (n >= 1e3 && n < 1e6) return +(n / 1e3).toFixed(1) + 'k';
 	if (n >= 1e6 && n < 1e9) return +(n / 1e6).toFixed(1) + 'm';
 	if (n >= 1e9 && n < 1e12) return +(n / 1e9).toFixed(1) + 'B';
 	if (n >= 1e12) return +(n / 1e12).toFixed(1) + 'T';
-};
+}; */
 
 export default DashboardCard;

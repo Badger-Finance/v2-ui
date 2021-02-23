@@ -1,4 +1,4 @@
-import { Typography, Paper, makeStyles, ListItem, ListItemSecondaryAction } from '@material-ui/core';
+import { Typography, Paper, makeStyles } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 
@@ -35,7 +35,8 @@ type MetricProps = {
 	submetrics?: Array<SubmetricData>;
 };
 
-const SubMetric = observer((props: SubmetricData) => {
+// Not in use
+/* const SubMetric = observer((props: SubmetricData) => {
 	const { title, value, change } = props;
 	const classes = useStyles();
 
@@ -52,10 +53,10 @@ const SubMetric = observer((props: SubmetricData) => {
 			</ListItemSecondaryAction>
 		</ListItem>
 	);
-});
+}); */
 
 const Metric = observer((props: MetricProps) => {
-	const { metric, value, submetrics } = props;
+	const { metric, value } = props;
 	const classes = useStyles();
 
 	return (

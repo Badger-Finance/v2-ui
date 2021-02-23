@@ -17,11 +17,10 @@ const useStyles = makeStyles((theme) => ({
 		float: 'right',
 	},
 }));
-export const Locked = observer((props: any) => {
+export const Locked = observer(() => {
 	const store = useContext(StoreContext);
 	const classes = useStyles();
-	const { vault } = props;
-	const { register, handleSubmit, watch, setValue } = useForm({ mode: 'all' });
+	const { register, handleSubmit } = useForm({ mode: 'all' });
 
 	const {
 		wallet: { connectedAddress },

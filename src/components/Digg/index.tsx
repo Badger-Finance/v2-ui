@@ -33,7 +33,7 @@ export const Digg = observer(() => {
 				</Grid>
 				<Info />
 				<Grid item xs={12}>
-					<DashboardCard accent="#152554" />
+					<DashboardCard /* accent="#152554"  // unused within the component */ />
 				</Grid>
 				{spacer()}
 			</Grid>
