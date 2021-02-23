@@ -143,7 +143,6 @@ class ContractsStore {
 			return;
 		}
 
-		// console.log(batch)
 		Promise.all([cgQueries, batchCall.execute(batch), ...curveQueries, ...graphQueries])
 			.then((result: any[]) => {
 				const cgPrices = _.mapValues(result.slice(0, 1)[0], (price: any) => ({
@@ -488,7 +487,6 @@ class ContractsStore {
 		const { provider, connectedAddress } = this.store.wallet;
 
 		const underlyingAsset = geyser.vault.underlyingToken;
-		console.log('amount: ', amount.toString());
 
 		const web3 = new Web3(provider);
 		const geyserContract = new web3.eth.Contract(geyser.abi, geyser.address);
