@@ -1,32 +1,48 @@
 import React, { useContext, useState } from 'react';
 
 import { Container, Button, Typography } from '@material-ui/core';
-import { useStyles, debounce } from './common';
-
+import { commonStyles, debounce } from './index';
+import { observer } from 'mobx-react-lite';
+import BigNumber from 'bignumber.js';
 import { Tokens } from './Tokens';
 import { StoreContext } from '../../mobx/store-context';
 import { TokenModel } from './model';
 
-export const Redeem = (): any => {
+export const Redeem = observer((): any => {
 	const store = useContext(StoreContext);
-	const classes = useStyles();
+	const classes = commonStyles();
 
-	const tokens = store.bbtcStore.tokens;
-	const bBTC = store.bbtcStore.bBTC;
+	const {
+		bbtcStore: { tokens, bBTC },
+	} = store;
+
+	let inputRef: any;
 
 	const [selectedToken, setSelectedToken] = useState<TokenModel>(tokens[0]);
-	const [inputAmount, setInputAmount] = useState<number>();
+	const [inputAmount, setInputAmount] = useState<number | string>('');
+	const _debouncedSetInputAmount = debounce(1000, (val) => {
+		setInputAmount(val);
+	});
+	const handleInputAmount = (event: any) => {
+		const nextValue = event?.target?.value;
+		_debouncedSetInputAmount(nextValue);
+	};
 
 	const handleTokenSelection = (event: any) => {
 		const token = tokens.find((token) => token.symbol === event?.target?.value);
 		setSelectedToken(token || tokens[0]);
 	};
 
-	const _debouncedSetInputAmount = debounce(1000, (val) => setInputAmount(val));
+	const clearInputs = () => {
+		setInputAmount((inputRef.value = ''));
+	};
 
-	const handleInputAmount = (event: any) => {
-		const nextValue = event?.target?.value;
-		_debouncedSetInputAmount(nextValue);
+	const useMaxBalance = () => {
+		setInputAmount((inputRef.value = bBTC.unscale(bBTC.balance).toString(10)));
+	};
+	const handleRedeemClick = () => {
+		store.bbtcStore.redeem(selectedToken, bBTC.scale(new BigNumber(inputAmount)));
+		clearInputs();
 	};
 
 	return (
@@ -47,10 +63,11 @@ export const Redeem = (): any => {
 						className={classes.unstylishInput + ' unstylish-input'}
 						onChange={handleInputAmount}
 						type="number"
+						ref={(ref) => (inputRef = ref)}
 						min="0"
 						placeholder="0.0"
 					/>
-					<Button className={classes.btnMax} variant="outlined">
+					<Button className={classes.btnMax} variant="outlined" onClick={useMaxBalance}>
 						max
 					</Button>
 				</div>
@@ -81,11 +98,11 @@ export const Redeem = (): any => {
 					<Tokens tokens={tokens} default={selectedToken.symbol} onTokenSelect={handleTokenSelection} />
 					<input
 						className={classes.unstylishInput + ' unstylish-input'}
+						value={inputAmount}
+						placeholder="0.0"
 						type="number"
 						min="0"
-						placeholder="0.0"
 						readOnly
-						value={inputAmount}
 					/>
 				</div>
 			</div>
@@ -104,10 +121,10 @@ export const Redeem = (): any => {
 				</div>
 			</div>
 			<div className={classes.outerWrapper}>
-				<Button size="large" variant="contained" color="primary" disabled>
+				<Button size="large" variant="contained" color="primary" onClick={handleRedeemClick}>
 					REDEEM
 				</Button>
 			</div>
 		</Container>
 	);
-};
+});

@@ -3,53 +3,20 @@
 		"contracts": {
 			"tokens": {
 				"bBTC": {
-					"address": "0x5BC25f649fc4e26069dDF4cF4010F9f706c23831",
+					"address": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
 					"decimals": 18,
 					"symbol": "bBTC",
 					"name": "Badger BTC"
 				},
-				"sBTC": {
-					"address": "0x5BC25f649fc4e26069dDF4cF4010F9f706c23831",
+				"bcrvRenWSBTC": {
+					"address": "0x8A791620dd6260079BF849Dc5567aDC3F2FdC318",
 					"decimals": 18,
-					"symbol": "sBTC",
-					"name": "sBTC"
-				},
-				"wBTC": {
-					"address": "0x20c36f062a31865bed8a5b1e512d9a1a20aa333a",
-					"decimals": 18,
-					"symbol": "wBTC",
-					"name": "wBTC"
-				},
-				"renBTC": {
-					"address": "0x6B175474E89094C44Da98b954EedeAC495271d0F",
-					"decimals": 18,
-					"symbol": "renBTC",
-					"name": "renBTC"
-				},
-				"bcrvwBTC": {
-					"address": "0xdF5e0e81Dff6FAF3A7e52BA697820c5e32D806A8",
-					"decimals": 18,
-					"symbol": "bcrvwBTC",
-					"name": "Curve.fi wBTC"
-				},
-				"bcrvrenBTC": {
-					"address": "0xdF5e0e81Dff6FAF3A7e52BA697820c5e32D806A8",
-					"decimals": 18,
-					"symbol": "bcrvrenBTC",
-					"name": "Curve.fi renBTC"
+					"symbol": "bcrvRenWSBTC",
+					"name": "Badger crvRenWSBTC",
+					"poolId": 0
 				}
 			},
-			"vesting": "0x7ef30ce82f5a6d0366a3851c4b410ff54a07eadd",
-			"peaks": {
-				"yVaultPeak": {
-					"coins": ["wBTC", "renBTC", "sBTC"],
-					"native": ["bcrvwBTC", "bcrvrenBTC"],
-					"address": "0xA89BD606d5DadDa60242E8DEDeebC95c41aD8986",
-					"zap": "0xed373A23F7e69c2d7dBD0eE4e744a10Ce4D2602D",
-					"controller": "0x88fF54ED47402A97F6e603737f26Bb9e4E6cb03d"
-				}
-			},
-			"base": "0xE449Ca7d10b041255E7e989D158Bee355d8f88d3"
+			"peak": "0x0165878A594ca255338adfa4d48449f69242Eb8F"
 		}
 	}
 }

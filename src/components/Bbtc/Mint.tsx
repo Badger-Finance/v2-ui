@@ -1,21 +1,21 @@
 import React, { useContext, useState } from 'react';
-
 import { Container, Button, Typography } from '@material-ui/core';
+import { observer } from 'mobx-react-lite';
 
-import { useStyles, debounce } from './common';
+import { commonStyles, debounce } from './index';
 import BigNumber from 'bignumber.js';
 import { Tokens } from './Tokens';
 
 import { TokenModel } from './model';
-
 import { StoreContext } from '../../mobx/store-context';
 
-export const Mint = (): any => {
+export const Mint = observer((): any => {
 	const store = useContext(StoreContext);
-	const classes = useStyles();
+	const classes = commonStyles();
 
-	const tokens = store.bbtcStore.tokens;
-	const bBTC = store.bbtcStore.bBTC;
+	const {
+		bbtcStore: { tokens, bBTC },
+	} = store;
 
 	let inputRef: any;
 
@@ -35,11 +35,16 @@ export const Mint = (): any => {
 		setSelectedToken(token || tokens[0]);
 	};
 
+	const clearInputs = () => {
+		setInputAmount((inputRef.value = ''));
+	};
+
 	const useMaxBalance = () => {
-		setInputAmount((inputRef.value = selectedToken.balance.toString(10)));
+		setInputAmount((inputRef.value = selectedToken.unscale(selectedToken.balance).toString(10)));
 	};
 	const handleMintClick = () => {
 		store.bbtcStore.mint(selectedToken, selectedToken.scale(new BigNumber(inputAmount)));
+		clearInputs();
 	};
 
 	return (
@@ -95,10 +100,10 @@ export const Mint = (): any => {
 					</div>
 					<input
 						className={classes.unstylishInput + ' unstylish-input'}
-						type="number"
-						min="0"
 						value={inputAmount}
 						placeholder="0.0"
+						type="number"
+						min="0"
 						readOnly
 					/>
 				</div>
@@ -124,4 +129,4 @@ export const Mint = (): any => {
 			</div>
 		</Container>
 	);
-};
+});

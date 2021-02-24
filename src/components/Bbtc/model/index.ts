@@ -1,38 +1,45 @@
 import BigNumber from 'bignumber.js';
 import Web3 from 'web3';
+import { Contract } from 'mobx/model';
+import { RootStore } from 'mobx/store';
 
 const TEN = new BigNumber(10);
 const ZERO = new BigNumber(0);
 
-export class TokenModel {
+interface TokenConfig {
+	address: string;
+	name: string;
+	symbol: string;
+	decimals: number;
+	poolId?: number | undefined;
+}
+
+export class TokenModel extends Contract {
 	public name: string;
-	public address: string;
 	public symbol: string;
 	public decimals: number;
 	public balance: BigNumber;
+	public poolId?: number | undefined;
 
-	constructor(data: { address: string; name: string; symbol: string; decimals: number }) {
-		this.address = Web3.utils.toChecksumAddress(data.address);
+	constructor(store: RootStore, data: TokenConfig) {
+		super(store, Web3.utils.toChecksumAddress(data.address));
 		this.name = data.name;
 		this.symbol = data.symbol;
 		this.decimals = data.decimals;
-		this.balance = new BigNumber(0);
-	}
-
-	public get isCurvy(): boolean {
-		return this.symbol ? this.symbol.includes('crv') : false;
-	}
-
-	public get bBTC(): boolean {
-		return this.symbol === 'DUSD';
+		this.poolId = data?.poolId;
+		this.balance = ZERO;
 	}
 
 	public get formattedBalance(): string {
-		return this.scale(this.balance).toFixed(3);
+		return this.unscale(this.balance).toFixed(3);
 	}
 
 	public get icon(): string {
 		return require(`assets/tokens/${this.symbol}.png`);
+	}
+
+	public set Balance(balance: BigNumber) {
+		this.balance = balance;
 	}
 
 	public scale(amount: BigNumber | string): BigNumber {
