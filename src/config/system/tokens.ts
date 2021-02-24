@@ -58,7 +58,6 @@ export const tokenBatches = [
 			'0xcd7989894bc033581532d2cd88da5db0a4b12859',
 			'0xceff51756c56ceffca006cd410b03ffc46dd3a58',
 			'0xd04c48a53c111300ad41190d63681ed3dad998ec',
-			'0xd46ba6d942050d489dbd938a2c909a5d5039a161',
 			'0xe86204c4eddd2f70ee00ead6805f917671f56c52',
 			'0x88128580acdd9c04ce47afce196875747bf2a9f6',
 			'0x8798249c2e607446efb7ad49ec89dd1865ff4272',
@@ -87,7 +86,6 @@ export const decimals: any = {
 	'0xcd7989894bc033581532d2cd88da5db0a4b12859': 18,
 	'0xceff51756c56ceffca006cd410b03ffc46dd3a58': 18,
 	'0xd04c48a53c111300ad41190d63681ed3dad998ec': 18,
-	'0xd46ba6d942050d489dbd938a2c909a5d5039a161': 18,
 	'0xe86204c4eddd2f70ee00ead6805f917671f56c52': 18,
 	'0x88128580acdd9c04ce47afce196875747bf2a9f6': 18,
 	'0x8798249c2e607446efb7ad49ec89dd1865ff4272': 18,
@@ -105,7 +103,6 @@ export const symbols: any = {
 	'0x110492b31c59716ac47337e616804e3e3adc0b4a': 'wbtcBadgerSLP',
 	'0xcd7989894bc033581532d2cd88da5db0a4b12859': 'wbtcBadgerUNI-V2',
 	'0xceff51756c56ceffca006cd410b03ffc46dd3a58': 'wbtcWethSLP',
-	'0xd46ba6d942050d489dbd938a2c909a5d5039a161': 'AMPL',
 	'0xe86204c4eddd2f70ee00ead6805f917671f56c52': 'wbtcDiggUNI-V2',
 	'0x8798249c2e607446efb7ad49ec89dd1865ff4272': 'xSUSHI',
 
@@ -133,7 +130,6 @@ export const names: any = {
 	'0x110492b31c59716ac47337e616804e3e3adc0b4a': 'wBTC/Badger Sushi LP',
 	'0xcd7989894bc033581532d2cd88da5db0a4b12859': 'wBTC/Badger Uni LP',
 	'0xceff51756c56ceffca006cd410b03ffc46dd3a58': 'wBTC/wETH Sushi LP',
-	'0xd46ba6d942050d489dbd938a2c909a5d5039a161': 'AMPL',
 	'0x8798249c2e607446efb7ad49ec89dd1865ff4272': 'xSUSHI',
 
 	'0x6def55d2e18486b9ddfaa075bc4e4ee0b28c1545': 'bcrvRenWBTC',

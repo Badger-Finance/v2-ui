@@ -1,17 +1,6 @@
-import {
-	Button,
-	ButtonGroup,
-	Card,
-	CardContent,
-	CardActions,
-	Typography,
-	Tabs,
-	Tab,
-	CardHeader,
-	CircularProgress,
-} from '@material-ui/core';
+import { Button, ButtonGroup, Card, CardContent, Tabs, Tab, CardHeader, CircularProgress } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import AreaChart from './AreaChart';
 import { observer } from 'mobx-react-lite';

@@ -90,24 +90,22 @@ export const geyserBatches = [
 ];
 
 export const rewards = {
-	// endpoint: `${
-	// 	process.env.NODE_ENV !== 'production'
-	// 		? 'https://laiv44udi0.execute-api.us-west-1.amazonaws.com/staging'
-	// 		: 'https://2k2ccquid1.execute-api.us-west-1.amazonaws.com/prod'
-	// }/v2/reward/tree`,
-	endpoint: 'https://fzqm8i0owc.execute-api.us-east-1.amazonaws.com/prod',
+	// Staging endpoint
+	// endpoint: 'https://laiv44udi0.execute-api.us-west-1.amazonaws.com/staging/v2/reward/tree',
+	// Prod endpoint
+	endpoint: 'https://2k2ccquid1.execute-api.us-west-1.amazonaws.com/prod/v2/reward/tree',
 	network: 1,
 	contract: '0x660802Fc641b154aBA66a62137e71f331B6d787A',
 	abi: BadgerTree.abi,
 	tokens: [
-		deploy.token.toLowerCase(),
+		deploy.token.toLowerCase(), // $BADGER
 		// deploy.sett_system.vaults['native.uniBadgerWbtc'].toLowerCase(),
 		// '0x6b3595068778dd592e39a122f4f5a5cf09c90fe2'.toLowerCase(), // $SUSHI
 		deploy.digg_system.uFragments.toLowerCase(), // $DIGG
-		deploy.sett_system.vaults['native.badger'].toLowerCase(), //bBadger
-		deploy.sett_system.vaults['native.digg'].toLowerCase(), //bDigg
+		deploy.sett_system.vaults['native.badger'].toLowerCase(), // $bBadger
+		deploy.sett_system.vaults['native.digg'].toLowerCase(), // $bDigg
 		XSUSHI_ADDRESS.toLowerCase(), // $xSUSHI
-		FARM_ADDRESS.toLowerCase(), // FARM
-		USDC_ADDRESS.toLowerCase(), // USDC
+		FARM_ADDRESS.toLowerCase(), // $FARM
+		USDC_ADDRESS.toLowerCase(), // $USDC
 	],
 };
