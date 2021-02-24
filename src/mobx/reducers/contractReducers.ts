@@ -98,8 +98,8 @@ export const reduceGraphResult = (graphResult: any[], prices: any) => {
 			if (token1Value) token1Value = token1Value.ethValue / 1e18;
 
 			// fall back to derived ETH from thegraph
-			if (!token0Value) new BigNumber(element.data.pair.token0.derivedETH);
-			if (!token1Value) new BigNumber(element.data.pair.token1.derivedETH);
+			if (!token0Value) token0Value = new BigNumber(element.data.pair.token0.derivedETH);
+			if (!token1Value) token1Value = new BigNumber(element.data.pair.token1.derivedETH);
 
 			const reserve0 = new BigNumber(token0Value)
 				.multipliedBy(new BigNumber(element.data.pair.reserve0))
@@ -118,9 +118,6 @@ export const reduceGraphResult = (graphResult: any[], prices: any) => {
 		return {
 			address: tokenAddress.toLowerCase(),
 			type: !!element.data.pair ? 'pair' : 'token',
-			// symbol: !!element.data.pair
-			// 	? element.data.pair.token0.symbol + '/' + element.data.pair.token1.symbol
-			// 	: element.data.token.symbol,
 			name: !!element.data.pair
 				? element.data.pair.token0.name + '/' + element.data.pair.token1.name
 				: element.data.token.name,
