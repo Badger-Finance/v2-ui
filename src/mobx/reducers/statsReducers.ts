@@ -4,7 +4,7 @@ import { RootStore } from 'mobx/store';
 import deploy from 'config/deployments/mainnet.json';
 import Web3 from 'web3';
 
-import { inCurrency } from 'mobx/utils/helpers';
+import { inCurrency, formatTokens } from 'mobx/utils/helpers';
 import { getDiggPerShare } from 'mobx/utils/diggHelpers';
 import { rewards as rewardsConfig } from 'config/system/geysers';
 import {
@@ -186,18 +186,14 @@ export function formatSupply(token: Token): string {
 }
 
 export function formatBalance(token: Token): string {
-	if (token) return inCurrency(token.balance.dividedBy(10 ** token.decimals), 'eth', true, 5, true);
+	if (token) return formatTokens(token.balance.dividedBy(10 ** token.decimals));
 	else {
 		return '0.00';
 	}
 }
 export function formatGeyserBalance(geyser: Geyser): string {
-	return inCurrency(
+	return formatTokens(
 		geyser.balance.plus(geyser.vault.balance).multipliedBy(geyser.vault.pricePerShare).dividedBy(1e18),
-		'eth',
-		true,
-		5,
-		true,
 	);
 }
 export function formatGeyserHoldings(vault: Vault): string {
@@ -228,13 +224,7 @@ export function formatStaked(geyser: Geyser): string {
 }
 export function formatBalanceUnderlying(vault: Vault): string {
 	const ppfs = vault.symbol === 'bDIGG' ? getDiggPerShare(vault) : vault.pricePerShare;
-	return inCurrency(
-		vault.balance.multipliedBy(ppfs).dividedBy(10 ** vault.decimals),
-		'eth',
-		true,
-		vault.underlyingToken.decimals,
-		true,
-	);
+	return formatTokens(vault.balance.multipliedBy(ppfs).dividedBy(10 ** vault.decimals));
 }
 
 export function formatHoldingsValue(vault: Vault, currency: string): string {
