@@ -1,12 +1,15 @@
 import React, { useContext, useState } from 'react';
-
 import { Container, Button, Typography } from '@material-ui/core';
-import { commonStyles, debounce } from './index';
+
 import { observer } from 'mobx-react-lite';
 import BigNumber from 'bignumber.js';
+
+import { commonStyles, debounce } from './index';
 import { Tokens } from './Tokens';
-import { StoreContext } from '../../mobx/store-context';
-import { TokenModel } from './model';
+import { StoreContext } from 'mobx/store-context';
+import { TokenModel } from 'mobx/model';
+
+const ZERO = new BigNumber(0);
 
 export const Redeem = observer((): any => {
 	const store = useContext(StoreContext);
@@ -20,9 +23,20 @@ export const Redeem = observer((): any => {
 
 	const [selectedToken, setSelectedToken] = useState<TokenModel>(tokens[0]);
 	const [inputAmount, setInputAmount] = useState<number | string>('');
-	const _debouncedSetInputAmount = debounce(1000, (val) => {
+	const [outputAmount, setOutputAmount] = useState<number | string>('');
+	const _debouncedSetInputAmount = debounce(600, (val) => {
 		setInputAmount(val);
+		val = new BigNumber(val);
+		if (val.gt(ZERO))
+			store.bbtcStore.calcRedeemAmount(selectedToken, selectedToken.scale(val), handleCalcOutputAmount);
+		else setOutputAmount('');
 	});
+
+	const handleCalcOutputAmount = (err: any, result: any): void => {
+		if (!err) setOutputAmount(bBTC.unscale(new BigNumber(result)).toString(10));
+		else setOutputAmount('');
+	};
+
 	const handleInputAmount = (event: any) => {
 		const nextValue = event?.target?.value;
 		_debouncedSetInputAmount(nextValue);
@@ -35,13 +49,18 @@ export const Redeem = observer((): any => {
 
 	const clearInputs = () => {
 		setInputAmount((inputRef.value = ''));
+		setOutputAmount('');
 	};
 
 	const useMaxBalance = () => {
 		setInputAmount((inputRef.value = bBTC.unscale(bBTC.balance).toString(10)));
+		store.bbtcStore.calcRedeemAmount(selectedToken, bBTC.balance, handleCalcOutputAmount);
 	};
 	const handleRedeemClick = () => {
-		store.bbtcStore.redeem(selectedToken, bBTC.scale(new BigNumber(inputAmount)));
+		store.bbtcStore.redeem(selectedToken, bBTC.scale(new BigNumber(inputAmount)), handleRedeem);
+	};
+
+	const handleRedeem = (err: any, result: any): void => {
 		clearInputs();
 	};
 
@@ -98,7 +117,7 @@ export const Redeem = observer((): any => {
 					<Tokens tokens={tokens} default={selectedToken.symbol} onTokenSelect={handleTokenSelection} />
 					<input
 						className={classes.unstylishInput + ' unstylish-input'}
-						value={inputAmount}
+						value={outputAmount}
 						placeholder="0.0"
 						type="number"
 						min="0"
@@ -111,7 +130,8 @@ export const Redeem = observer((): any => {
 					<div className={classes.summaryRow}>
 						<Typography variant="subtitle1">Current Conversion Rate: </Typography>
 						<Typography variant="subtitle1">
-							1{selectedToken.symbol}: 1{bBTC.symbol}
+							{selectedToken.formatAmount(selectedToken.mintRate || ZERO)} {bBTC.symbol}: 1{' '}
+							{selectedToken.symbol}
 						</Typography>
 					</div>
 					<div className={classes.summaryRow}>

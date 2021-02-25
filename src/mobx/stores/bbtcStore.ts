@@ -1,33 +1,25 @@
-import BigNumber from 'bignumber.js';
-import { extendObservable, action, observe, autorun } from 'mobx';
+import { RootStore } from '../store';
+import { extendObservable, action, observe } from 'mobx';
 import async from 'async';
+
+import BigNumber from 'bignumber.js';
 import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
-import SETT from 'config/system/abis/Sett.json';
-import BadgerBtcPeak from 'config/system/abis/BadgerBtcPeak.json';
 import Web3 from 'web3';
+import { TokenModel } from 'mobx/model';
 import { estimateAndSend } from '../utils/web3';
+
+import SETT from 'config/system/abis/Sett.json';
 import addresses from '../../config/bbtc/addresses.json';
-import { TokenModel } from 'components/Bbtc/model';
-import { RootStore } from '../store';
-import { formatAmount } from 'mobx/reducers/statsReducers';
+import BadgerBtcPeak from 'config/system/abis/BadgerBtcPeak.json';
 
 const ZERO = new BigNumber(0);
 const MAX = Web3.utils.toTwosComplement(-1);
 
-// TODO: I need three pool token 0, 1 and 2 respectively bcrvRenWSBTC,
-// bcrvRenWBTC, and b-tbtc/sbtcCrv
-// Use the pool id with each three tokens
-// Have bBTC
-// Fetch balances
-// Check allowance
-// Mint and Redeem
-
 class BBTCStore {
 	private store!: RootStore;
 	private config!: typeof addresses.mainnet;
-	private client!: any;
 
 	public tokens: Array<TokenModel> = [];
 	public bBTC: TokenModel;
@@ -63,6 +55,7 @@ class BBTCStore {
 
 	init = action((): void => {
 		this.fetchBalances();
+		this.fetchConversionRates();
 	});
 
 	fetchBalances = action(
@@ -75,14 +68,44 @@ class BBTCStore {
 		},
 	);
 
+	fetchConversionRates = action(
+		async (): Promise<void> => {
+			// Fetch mint rate and redeem rate
+			this.tokens.forEach(async (token) => {
+				this.fetchMintRate(token);
+				this.fetchRedeemRate(token);
+			});
+		},
+	);
+
+	fetchMintRate = action((token: TokenModel): void => {
+		const callback = (err: any, result: any): void => {
+			if (!err) token.mintRate = token.unscale(new BigNumber(result)).toString(10);
+			else token.mintRate = ZERO;
+		};
+
+		this.calcMintAmount(token, token.scale(new BigNumber(1)), callback);
+	});
+
+	fetchRedeemRate = action((token: TokenModel): void => {
+		const callback = (err: any, result: any): void => {
+			if (!err) token.redeemRate = token.unscale(new BigNumber(result)).toString(10);
+			else token.redeemRate = ZERO;
+		};
+
+		this.calcRedeemAmount(token, token.scale(new BigNumber(1)), callback);
+	});
+
 	fetchBalance = action(
 		async (token: TokenModel): Promise<BigNumber> => {
 			const { provider, connectedAddress } = this.store.wallet;
 			if (!connectedAddress) return ZERO;
+
 			const web3 = new Web3(provider);
 			const tokenContract = new web3.eth.Contract(SETT.abi as AbiItem[], token.address);
 			let balance = tokenContract.methods.balanceOf(connectedAddress);
 			balance = await balance.call();
+
 			return new BigNumber(balance);
 		},
 	);
@@ -107,6 +130,7 @@ class BBTCStore {
 		) => {
 			const { queueNotification, setTxStatus } = this.store.uiState;
 			const { provider, connectedAddress } = this.store.wallet;
+
 			const web3 = new Web3(provider);
 			const tokenContract = new web3.eth.Contract(SETT.abi as AbiItem[], underlyingAsset.address);
 			const method = tokenContract.methods.increaseAllowance(spender, amount);
@@ -136,12 +160,12 @@ class BBTCStore {
 		},
 	);
 
-	mint = action((inToken: TokenModel, amount: BigNumber) => {
+	mint = action((inToken: TokenModel, amount: BigNumber, callback: (err: any, result: any) => void) => {
 		const { queueNotification, setTxStatus } = this.store.uiState;
 		const { connectedAddress } = this.store.wallet;
-		if (!connectedAddress) {
-			return queueNotification('Please connect a wallet', 'error');
-		}
+
+		if (!connectedAddress) return queueNotification('Please connect a wallet', 'error');
+
 		if (!amount || amount.isNaN() || amount.lte(0))
 			return queueNotification('Please enter a valid amount', 'error');
 		if (amount.gt(inToken.balance))
@@ -154,19 +178,21 @@ class BBTCStore {
 				// make sure we have allowance
 				if (amount.gt(allowances[0]))
 					methodSeries.push((callback: any) =>
+						// skip amount to approve max
 						this.increaseAllowance(inToken, this.config.contracts.peak, callback, amount),
 					);
 				methodSeries.push((callback: any) => this.mintBBTC(inToken, amount, callback));
 				setTxStatus('pending');
 				async.series(methodSeries, (err: any, results: any) => {
-					console.log(err, results);
 					setTxStatus(!!err ? 'error' : 'success');
+					callback(err, results);
 				});
 			},
 		);
 	});
 	calcMintAmount = action((inToken: TokenModel, amount: BigNumber, callback: (err: any, result: any) => void) => {
 		const { provider } = this.store.wallet;
+
 		const web3 = new Web3(provider);
 		const peakContract = new web3.eth.Contract(BadgerBtcPeak.abi as AbiItem[], this.config.contracts.peak);
 		const method = peakContract.methods.calcMint(inToken.poolId, amount);
@@ -196,11 +222,11 @@ class BBTCStore {
 					})
 					.on('receipt', () => {
 						queueNotification(`Successfully minted ${this.bBTC.symbol}`, 'success');
-						this.fetchBalances();
+						this.init();
 						callback(null, {});
 					})
 					.catch((error: any) => {
-						this.fetchBalances();
+						this.init();
 						queueNotification(error.message, 'error');
 						setTxStatus('error');
 					});
@@ -208,42 +234,38 @@ class BBTCStore {
 		);
 	});
 
-	redeem = action((inToken: TokenModel, amount: BigNumber) => {
-		const { queueNotification, setTxStatus } = this.store.uiState;
+	redeem = action((outToken: TokenModel, amount: BigNumber, callback: (err: any, result: any) => void) => {
+		const { queueNotification } = this.store.uiState;
 		const { connectedAddress } = this.store.wallet;
-		if (!connectedAddress) {
-			return queueNotification('Please connect a wallet', 'error');
-		}
+
+		if (!connectedAddress) return queueNotification('Please connect a wallet', 'error');
 		if (!amount || amount.isNaN() || amount.lte(0))
 			return queueNotification('Please enter a valid amount', 'error');
 		if (amount.gt(this.bBTC.balance))
 			return queueNotification(`You have insufficient balance of ${this.bBTC.symbol}`, 'error');
 
-		const methodSeries: any = [];
-		async.parallel(
-			[(callback: any) => this.getAllowance(this.bBTC, this.config.contracts.peak, callback)],
-			(err: any, allowances: any) => {
-				// make sure we have allowance
-				if (amount.gt(allowances[0]))
-					methodSeries.push((callback: any) =>
-						this.increaseAllowance(this.bBTC, this.config.contracts.peak, callback, amount),
-					);
-				methodSeries.push((callback: any) => this.redeemBBTC(inToken, amount, callback));
-				setTxStatus('pending');
-				async.series(methodSeries, (err: any, results: any) => {
-					console.log(err, results);
-					setTxStatus(!!err ? 'error' : 'success');
-				});
-			},
-		);
+		this.redeemBBTC(outToken, amount, callback);
 	});
-	redeemBBTC = action((inToken: TokenModel, amount: BigNumber, callback: (err: any, result: any) => void) => {
+
+	calcRedeemAmount = action((outToken: TokenModel, amount: BigNumber, callback: (err: any, result: any) => void) => {
+		const { provider } = this.store.wallet;
+
+		const web3 = new Web3(provider);
+		const peakContract = new web3.eth.Contract(BadgerBtcPeak.abi as AbiItem[], this.config.contracts.peak);
+		const method = peakContract.methods.calcRedeem(outToken.poolId, amount);
+
+		method.call().then((result: any) => {
+			callback(null, result);
+		});
+	});
+
+	redeemBBTC = action((outToken: TokenModel, amount: BigNumber, callback: (err: any, result: any) => void) => {
 		const { queueNotification, setTxStatus } = this.store.uiState;
 		const { provider, connectedAddress } = this.store.wallet;
 
 		const web3 = new Web3(provider);
 		const peakContract = new web3.eth.Contract(BadgerBtcPeak.abi as AbiItem[], this.config.contracts.peak);
-		const method = peakContract.methods.redeem(inToken.poolId, amount);
+		const method = peakContract.methods.redeem(outToken.poolId, amount);
 
 		estimateAndSend(
 			web3,
@@ -256,12 +278,12 @@ class BBTCStore {
 						queueNotification(`Redeem submitted.`, 'info', hash);
 					})
 					.on('receipt', () => {
-						queueNotification(`Successfully redeemed ${inToken.symbol}`, 'success');
-						this.fetchBalances();
+						queueNotification(`Successfully redeemed ${outToken.symbol}`, 'success');
+						this.init();
 						callback(null, {});
 					})
 					.catch((error: any) => {
-						this.fetchBalances();
+						this.init();
 						queueNotification(error.message, 'error');
 						setTxStatus('error');
 					});

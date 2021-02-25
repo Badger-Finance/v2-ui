@@ -3,11 +3,13 @@ import { Container, Button, Typography } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
 
 import { commonStyles, debounce } from './index';
-import BigNumber from 'bignumber.js';
+import { BigNumber } from 'bignumber.js';
 import { Tokens } from './Tokens';
 
-import { TokenModel } from './model';
+import { TokenModel } from 'mobx/model';
 import { StoreContext } from '../../mobx/store-context';
+
+const ZERO = new BigNumber(0);
 
 export const Mint = observer((): any => {
 	const store = useContext(StoreContext);
@@ -21,9 +23,19 @@ export const Mint = observer((): any => {
 
 	const [selectedToken, setSelectedToken] = useState<TokenModel>(tokens[0]);
 	const [inputAmount, setInputAmount] = useState<number | string>('');
-	const _debouncedSetInputAmount = debounce(1000, (val) => {
+	const [outputAmount, setOutputAmount] = useState<number | string>('');
+	const _debouncedSetInputAmount = debounce(600, async (val) => {
 		setInputAmount(val);
+		val = new BigNumber(val);
+		if (val.gt(ZERO))
+			store.bbtcStore.calcMintAmount(selectedToken, selectedToken.scale(val), handleCalcOutputAmount);
+		else setOutputAmount('');
 	});
+
+	const handleCalcOutputAmount = (err: any, result: any): void => {
+		if (!err) setOutputAmount(bBTC.unscale(new BigNumber(result)).toString(10));
+		else setOutputAmount('');
+	};
 
 	const handleInputAmount = (event: any) => {
 		const nextValue = event?.target?.value;
@@ -37,13 +49,18 @@ export const Mint = observer((): any => {
 
 	const clearInputs = () => {
 		setInputAmount((inputRef.value = ''));
+		setOutputAmount('');
 	};
 
 	const useMaxBalance = () => {
 		setInputAmount((inputRef.value = selectedToken.unscale(selectedToken.balance).toString(10)));
+		store.bbtcStore.calcMintAmount(selectedToken, selectedToken.balance, handleCalcOutputAmount);
 	};
 	const handleMintClick = () => {
-		store.bbtcStore.mint(selectedToken, selectedToken.scale(new BigNumber(inputAmount)));
+		store.bbtcStore.mint(selectedToken, selectedToken.scale(new BigNumber(inputAmount)), handleMint);
+	};
+
+	const handleMint = (err: any, result: any): void => {
 		clearInputs();
 	};
 
@@ -100,7 +117,7 @@ export const Mint = observer((): any => {
 					</div>
 					<input
 						className={classes.unstylishInput + ' unstylish-input'}
-						value={inputAmount}
+						value={outputAmount}
 						placeholder="0.0"
 						type="number"
 						min="0"
@@ -113,7 +130,8 @@ export const Mint = observer((): any => {
 					<div className={classes.summaryRow}>
 						<Typography variant="subtitle1">Current Conversion Rate: </Typography>
 						<Typography variant="subtitle1">
-							1{selectedToken.symbol}: 1{bBTC.symbol}
+							1 {selectedToken.symbol}: {selectedToken.formatAmount(selectedToken.mintRate || ZERO)}{' '}
+							{bBTC.symbol}
 						</Typography>
 					</div>
 					<div className={classes.summaryRow}>

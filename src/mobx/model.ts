@@ -2,6 +2,7 @@ import BigNumber from 'bignumber.js';
 import _ from 'lodash';
 import { reduceGeyserSchedule } from './reducers/contractReducers';
 import { RootStore } from './store';
+import Web3 from 'web3';
 
 export class Contract {
 	store!: RootStore;
@@ -142,6 +143,64 @@ export class Geyser extends Contract {
 		if (!!payload.getUnlockSchedulesFor)
 			this.rewards = reduceGeyserSchedule(payload.getUnlockSchedulesFor, this.store);
 	}
+}
+
+const TEN = new BigNumber(10);
+const ZERO = new BigNumber(0);
+
+export class TokenModel extends Contract {
+	public name: string;
+	public symbol: string;
+	public decimals: number;
+	public balance: BigNumber;
+	public poolId?: number | undefined;
+	public mintRate?: BigNumber | string;
+	public redeemRate?: BigNumber | string;
+
+	constructor(store: RootStore, data: TokenConfig) {
+		super(store, Web3.utils.toChecksumAddress(data.address));
+		this.name = data.name;
+		this.symbol = data.symbol;
+		this.decimals = data.decimals;
+		this.poolId = data?.poolId;
+		this.balance = ZERO;
+		this.mintRate = ZERO;
+		this.redeemRate = ZERO;
+	}
+
+	public get formattedBalance(): string {
+		return this.unscale(this.balance).toFixed(3);
+	}
+
+	public get icon(): string {
+		return require(`assets/tokens/${this.symbol}.png`);
+	}
+
+	public set Balance(balance: BigNumber) {
+		this.balance = balance;
+	}
+
+	public formatAmount(amount: BigNumber | string): string {
+		return this.unscale(new BigNumber(amount)).toFixed(3);
+	}
+
+	public scale(amount: BigNumber | string): BigNumber {
+		return new BigNumber(amount).multipliedBy(TEN.pow(this.decimals));
+	}
+
+	public unscale(amount: BigNumber | string): BigNumber {
+		return new BigNumber(amount).dividedBy(TEN.pow(this.decimals));
+	}
+}
+
+interface TokenConfig {
+	address: string;
+	name: string;
+	symbol: string;
+	decimals: number;
+	poolId?: number | undefined;
+	mintRate?: BigNumber | string;
+	redeemRate?: BigNumber | string;
 }
 
 export interface Growth {

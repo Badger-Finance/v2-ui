@@ -25,6 +25,30 @@
 			"type": "function"
 		},
 		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "poolId",
+					"type": "uint256"
+				},
+				{
+					"internalType": "uint256",
+					"name": "inAmount",
+					"type": "uint256"
+				}
+			],
+			"name": "calcMint",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "bBtc",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
 			"inputs": [],
 			"name": "portfolioValue",
 			"outputs": [
@@ -59,6 +83,30 @@
 				}
 			],
 			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "poolId",
+					"type": "uint256"
+				},
+				{
+					"internalType": "uint256",
+					"name": "bBtc",
+					"type": "uint256"
+				}
+			],
+			"name": "calcRedeem",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "view",
 			"type": "function"
 		}
 	]

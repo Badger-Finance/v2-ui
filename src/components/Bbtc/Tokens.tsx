@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { Select, MenuItem, Typography } from '@material-ui/core';
-import { TokenModel } from './model';
+import { TokenModel } from 'mobx/model';
 
 const useStyles = makeStyles(() => ({
 	noUnderline: {
