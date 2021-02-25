@@ -6,7 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import _ from 'lodash';
 import { StoreContext } from '../../mobx/store-context';
 import { BridgeForm } from './BridgeForm';
-import Hero from 'components/Common/Hero';
+import PageHeader from 'components-v2/common/PageHeader';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -113,7 +113,7 @@ export const Bridge = observer(() => {
 		<Container className={classes.root}>
 			<Grid container spacing={2} justify="center">
 				<Grid item sm={12} xs={12}>
-					<Hero title="Badger Bitcoin Bridge." subtitle="Powered by RenVM" />
+					<PageHeader title="Badger Bitcoin Bridge." subtitle="Powered by RenVM" />
 				</Grid>				
 				{spacer()}
 				<Grid item xs={12} md={7}>

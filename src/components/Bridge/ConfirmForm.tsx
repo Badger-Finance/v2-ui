@@ -36,6 +36,20 @@ export const ConfirmForm = (props: any) => {
 		}));
 	};
 
+	const feeContainer = (title: string, message: string, value: string) => {
+		return 	<div className={classes.itemContainer}>
+					<div className={classes.info}>
+						<div>{title}</div>
+						<div style={{ paddingLeft: '10px' }}>
+							<Tooltip title={message}>
+								<InfoIcon fontSize={'small'} />
+							</Tooltip>
+						</div>
+					</div>
+					<div>{value}</div>
+				</div>
+	}
+
 	return (
 		<Grid container alignItems={'center'}>
 			<Grid item xs={4}>
@@ -76,51 +90,15 @@ export const ConfirmForm = (props: any) => {
 			{itemContainer('Destination', values.tabValue == 0 ? values.shortAddr : shortenAddress(values.btcAddr))}
 			{values.spacer}
 			<Grid item xs={12}>
-				<div className={classes.itemContainer}>
-					<div className={classes.info}>
-						<div>RenVM Fee</div>
-						<div style={{ paddingLeft: '10px' }}>
-							<Tooltip
-								title={`RenVM takes a ${values.renvmMintFee * 100}% fee per mint transaction and ${
+				{feeContainer('RenVM Fee', 
+								`RenVM takes a ${values.renvmMintFee * 100}% fee per mint transaction and ${
 									values.renvmBurnFee * 100
-								}% per burn transaction. This is shared evenly between all active nodes in the decentralized network.`}
-							>
-								<InfoIcon fontSize={'small'} />
-							</Tooltip>
-						</div>
-					</div>
-					<div>{`${values.renFee} BTC`}</div>
-				</div>
-				<div className={classes.itemContainer}>
-					<div className={classes.info}>
-						<div>Badger Fee</div>
-						<div style={{ paddingLeft: '10px' }}>
-							<Tooltip
-								title={`Badger takes a ${values.badgerMintFee * 100}% fee per mint transaction and ${
+								}% per burn transaction. This is shared evenly between all active nodes in the decentralized network.`, 
+								`${values.renFee} BTC`)}
+				{feeContainer('Badger Fee',`Badger takes a ${values.badgerMintFee * 100}% fee per mint transaction and ${
 									values.badgerBurnFee * 100
-								}% per burn transaction.`}
-							>
-								<InfoIcon fontSize={'small'} />
-							</Tooltip>
-						</div>
-					</div>
-					<div>{`${values.badgerFee} BTC`}</div>
-				</div>
-				<div className={classes.itemContainer}>
-					<div className={classes.info}>
-						<div>Bitcoin Miner Fee</div>
-						<div style={{ paddingLeft: '10px' }}>
-							<Tooltip
-								title={
-									'The fee required by Bitcoin miners, to move BTC. This does not go RenVM, the Ren or Badger team.'
-								}
-							>
-								<InfoIcon fontSize={'small'} />
-							</Tooltip>
-						</div>
-					</div>
-					<div>{`${values.tabValue == 0 ? values.lockNetworkFee : values.releaseNetworkFee} BTC`}</div>
-				</div>
+								}% per burn transaction.`,`${values.badgerFee} BTC`)}
+				{feeContainer('Bitcoin Miner Fee','The fee required by Bitcoin miners, to move BTC. This does not go RenVM, the Ren or Badger team.',`${values.tabValue == 0 ? values.lockNetworkFee : values.releaseNetworkFee} BTC`)}
 			</Grid>
 			{values.spacer}
 			<Grid item xs={12}>

@@ -185,6 +185,9 @@ export const BridgeForm = observer((props: any) => {
 		setStates((prevState) => ({
 			...prevState,
 			tabValue: newValue,
+			receiveAmount: 0,
+			burnAmount: '',
+			amount: '',			
 		}));
 	};
 
@@ -292,17 +295,10 @@ export const BridgeForm = observer((props: any) => {
 	};
 
 	useEffect(() => {
-                console.log('There is incomplete Transfer');
+		if (incompleteTransfer) {
+			queueNotification('There is incomplete Transfer', 'info');
+		}
 	}, [incompleteTransfer]);
-
-	useEffect(() => {
-		setStates((prevState) => ({
-			...prevState,
-			receiveAmount: 0,
-			burnAmount: '',
-			amount: '',
-		}));
-	}, [tabValue]);
 
 	useEffect(() => {
 		// Reset to original state if we're disconnected in middle
@@ -425,11 +421,6 @@ export const BridgeForm = observer((props: any) => {
 		let maxSlippage = 0;
 		if (token === 'WBTC') {
 			burnToken = WBTC_TOKEN_ADDR;
-			// const amountSatsWithSlippage = (
-			// 	amountSats *
-			// 	0.95 *
-			// 	(1 - Math.min(estimatedSlippage * SLIPPAGE_BUFFER, 1))
-			// ).toFixed(0);
 			maxSlippage = Math.min(estimatedSlippage * SLIPPAGE_BUFFER, 1);
 		}
 		const params: any = [
@@ -455,20 +446,20 @@ export const BridgeForm = observer((props: any) => {
 			},
 		];
 
-		const tokenParm = {
+		const tokenParam = {
 			address: token === 'renBTC' ? RENBTC_TOKEN_ADDR : WBTC_TOKEN_ADDR,
 			symbol: token,
 			totalSupply: amountSats,
 		};
 
 		const allowance: number = await new Promise((resolve, reject) => {
-			getAllowance(tokenParm, bridgeAddress, (err: any, result: number) => {
+			getAllowance(tokenParam, bridgeAddress, (err: any, result: number) => {
 				if (err) reject(err);
 				resolve(result);
 			});
 		});
 		if (amountSats.toNumber() > allowance) {
-			methodSeries.push((callback: any) => increaseAllowance(tokenParm, bridgeAddress, callback));
+			methodSeries.push((callback: any) => increaseAllowance(tokenParam, bridgeAddress, callback));
 		}
 		methodSeries.push((callback: any) => withdraw(contractFn, params, callback));
 		async.series(methodSeries, (err: any, results: any) => {
