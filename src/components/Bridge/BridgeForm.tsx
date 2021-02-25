@@ -30,7 +30,14 @@ const MIN_AMOUNT = 0.002;
 // SLIPPAGE_BUFFER increases estimated max slippage by 3%.
 const SLIPPAGE_BUFFER = 0.03;
 
-const TabPanel = (props: any) => {
+interface TabPanelProps {
+	children: any,
+	index: number,
+	value: number,
+	other?: any | unknown
+}
+
+const TabPanel = (props: TabPanelProps) => {
 	const { children, value, index, ...other } = props;
 	return (
 		<div
@@ -45,11 +52,6 @@ const TabPanel = (props: any) => {
 	);
 };
 
-TabPanel.propTypes = {
-	children: PropTypes.node,
-	index: PropTypes.any.isRequired,
-	value: PropTypes.any.isRequired,
-};
 
 const a11yProps = (index: number) => {
 	return {
