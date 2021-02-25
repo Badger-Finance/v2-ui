@@ -143,7 +143,6 @@ class ContractsStore {
 			return;
 		}
 
-		// console.log(batch)
 		Promise.all([cgQueries, batchCall.execute(batch), ...curveQueries, ...graphQueries])
 			.then((result: any[]) => {
 				const cgPrices = _.mapValues(result.slice(0, 1)[0], (price: any) => ({
@@ -154,13 +153,10 @@ class ContractsStore {
 					_.compact(reduceGraphResult(result.slice(2 + curveQueries.length), cgPrices)),
 					'address',
 				);
-				// cgPrices[deploy.digg_system.uFragments.toLowerCase()] = { ethValue: tokenPrices[WBTC_ADDRESS.toLowerCase()].ethValue }
-
 				const curvePrices = _.keyBy(
 					reduceCurveResult(
 						result.slice(2, 2 + curveQueries.length),
 						curveTokens.contracts,
-						this.tokens,
 						tokenPrices[WBTC_ADDRESS],
 					),
 					'address',
@@ -168,8 +164,8 @@ class ContractsStore {
 				const tokens = _.compact(
 					_.values(
 						_.defaultsDeep(
-							cgPrices,
 							curvePrices,
+							cgPrices,
 							tokenPrices,
 							tokenContracts,
 							_.mapValues(symbols, (value: string, address: string) => ({ address, symbol: value })),
@@ -289,12 +285,6 @@ class ContractsStore {
 				if (result) {
 					result.forEach((contract: any) => {
 						const vaultAddress = contract[defaults[contract.address].underlyingKey];
-						// set fake digg schedules
-						// if (vaultAddress === deploy.sett_system.vaults['native.sbtcCrv'].toLowerCase())
-						// 	contract.getUnlockSchedulesFor[deploy.digg_system.uFragments] = [[32.6e9, 1611373733, 0, 1611342599]];
-						// if (vaultAddress === deploy.sett_system.vaults['native.sushiDiggWbtc'].toLowerCase())
-						// 	contract.getUnlockSchedulesFor[deploy.digg_system.uFragments] = [[32.6e9, 1611373733, 0, 1611342599]];
-
 						const geyser: Geyser = this.getOrCreateGeyser(
 							contract.address,
 							this.vaults[vaultAddress],
@@ -472,7 +462,6 @@ class ContractsStore {
 	});
 
 	getAllowance = action((underlyingAsset: any, spender: string, callback: (err: any, result: any) => void) => {
-		const {} = this.store.uiState;
 		const { provider, connectedAddress } = this.store.wallet;
 
 		const web3 = new Web3(provider);
@@ -489,7 +478,6 @@ class ContractsStore {
 		const { provider, connectedAddress } = this.store.wallet;
 
 		const underlyingAsset = geyser.vault.underlyingToken;
-		console.log('amount: ', amount.toString());
 
 		const web3 = new Web3(provider);
 		const geyserContract = new web3.eth.Contract(geyser.abi, geyser.address);

@@ -7,14 +7,8 @@ import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { VaultSymbol } from '../../Common/VaultSymbol';
 import { UnfoldMoreTwoTone } from '@material-ui/icons';
-import {
-	formatBalanceUnderlying,
-	formatBalanceValue,
-	formatGeyserBalance,
-	formatGeyserBalanceValue,
-} from 'mobx/reducers/statsReducers';
 import useInterval from '@use-it/interval';
-import BigNumber from 'bignumber.js';
+import { Vault } from '../../../mobx/model';
 
 const useStyles = makeStyles((theme) => ({
 	border: {
@@ -48,17 +42,27 @@ const useStyles = makeStyles((theme) => ({
 		padding: 0,
 	},
 }));
-export const DepositCard = (props: any) => {
+
+interface DepositCardProps {
+	isGlobal: boolean;
+	vault: Vault;
+	sett: any;
+	onOpen: any;
+	balance: number;
+	balanceValue: string;
+}
+
+export const DepositCard = (props: DepositCardProps): React.ReactElement => {
 	const store = useContext(StoreContext);
 	const classes = useStyles();
 	const [update, forceUpdate] = useState<boolean>();
 	useInterval(() => forceUpdate(!update), 1000);
 
 	const { sett, vault, onOpen, balance, balanceValue } = props;
-	const { period, currency } = store.uiState;
+	const { period } = store.uiState;
 	const { farmData } = store.sett;
 
-	const { underlyingToken: token, geyser } = vault;
+	const { underlyingToken: token } = vault;
 
 	if (!token) {
 		return <div />;

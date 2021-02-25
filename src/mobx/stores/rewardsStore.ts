@@ -29,7 +29,7 @@ class RewardsStore {
 			badgerTree: { cycle: '...', timeSinceLastCycle: '0h 0m', claims: [0] },
 		});
 
-		observe(this.store.wallet, 'connectedAddress', (change: any) => {
+		observe(this.store.wallet, 'connectedAddress', () => {
 			this.fetchSettRewards();
 		});
 
@@ -38,7 +38,6 @@ class RewardsStore {
 
 	fetchSettRewards = action(() => {
 		const { provider, connectedAddress } = this.store.wallet;
-		const {} = this.store.uiState;
 
 		if (!connectedAddress) return;
 
@@ -52,39 +51,46 @@ class RewardsStore {
 			rewardsTree.methods.merkleContentHash().call(),
 		];
 
-		Promise.all(treeMethods).then((rewardsResponse: any) => {
-			const merkleHash = rewardsResponse[1];
+		Promise.all(treeMethods)
+			.then((rewardsResponse: any) => {
+				const merkleHash = rewardsResponse[1];
 
-			this.badgerTree = _.defaults(
-				{
-					timeSinceLastCycle: reduceTimeSinceLastCycle(rewardsResponse[0]),
-				},
-				this.badgerTree,
-			);
-
-			const endpointQuery = jsonQuery(
-				`${rewardsConfig.endpoint}/rewards/${rewardsConfig.network}/${merkleHash}/${checksumAddress}`,
-			);
-
-			endpointQuery.then((proof: any) => {
-				Promise.all([
-					rewardsTree.methods.getClaimedFor(connectedAddress, rewardsConfig.tokens).call(),
-					diggToken.methods._sharesPerFragment().call(),
-				]).then((result: any[]) => {
-					if (!proof.error) {
-						this.badgerTree = _.defaults(
-							{
-								cycle: parseInt(proof.cycle, 16),
-								claims: reduceClaims(proof, result[0][0], result[0][1]),
-								sharesPerFragment: result[1],
-								proof,
-							},
-							this.badgerTree,
-						);
-					}
-				});
-			});
-		});
+				this.badgerTree = _.defaults(
+					{
+						timeSinceLastCycle: reduceTimeSinceLastCycle(rewardsResponse[0]),
+					},
+					this.badgerTree,
+				);
+				// to use for new API endpoint
+				// const endpointQuery = jsonQuery(`${rewardsConfig.endpoint}/${checksumAddress}`);
+				// Old endpoint
+				const endpointQuery = jsonQuery(
+					`${rewardsConfig.endpoint}/rewards/${rewardsConfig.network}/${merkleHash}/${checksumAddress}`,
+				);
+				endpointQuery
+					.then((proof: any) => {
+						Promise.all([
+							rewardsTree.methods.getClaimedFor(connectedAddress, rewardsConfig.tokens).call(),
+							diggToken.methods._sharesPerFragment().call(),
+						])
+							.then((result: any[]) => {
+								if (!proof.error) {
+									this.badgerTree = _.defaults(
+										{
+											cycle: parseInt(proof.cycle, 16),
+											claims: reduceClaims(proof, result[0][0], result[0][1]),
+											sharesPerFragment: result[1],
+											proof,
+										},
+										this.badgerTree,
+									);
+								}
+							})
+							.catch((err) => console.log(err));
+					})
+					.catch((err) => console.log('error: ', err));
+			})
+			.catch((err) => console.log(err));
 	});
 
 	claimGeysers = action((stake = false) => {
