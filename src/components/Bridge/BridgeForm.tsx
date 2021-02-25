@@ -26,7 +26,6 @@ import {
         RENVM_GATEWAY_ADDR,
 } from '../../config/system/bridge.json';
 
-const MAX_BTC = new BigNumber(2100000000000000);
 const MIN_AMOUNT = 0.002;
 // SLIPPAGE_BUFFER increases estimated max slippage by 3%.
 const SLIPPAGE_BUFFER = 0.03;
@@ -59,7 +58,6 @@ const a11yProps = (index: number) => {
 	};
 };
 
-// FIXME: renbtc allowance increased popup bug
 
 export const BridgeForm = observer((props: any) => {
 	const store = useContext(StoreContext);
@@ -101,11 +99,11 @@ export const BridgeForm = observer((props: any) => {
 		renvmMintFee: 0,
 		renFee: 0,
 		badgerFee: 0,
-		networkFee: 0.001, // static fee until we find the api to get it dynamically
+		lockNetworkFee: 0.001, 
+		releaseNetworkFee: 0.001, 
 		tabValue: 0, // Keep on same tab even after reset
 	};
 	const [states, setStates] = useState(intialState);
-	const slippage = 0.99; // 1%
 
 	const {
 		token,
@@ -129,7 +127,8 @@ export const BridgeForm = observer((props: any) => {
 		bridgeAddress,
 		renFee,
 		badgerFee,
-		networkFee,
+		lockNetworkFee,
+		releaseNetworkFee
 	} = states;
 	const values = {
 		token,
@@ -159,7 +158,8 @@ export const BridgeForm = observer((props: any) => {
 		renvmMintFee,
 		renFee,
 		badgerFee,
-		networkFee,
+		lockNetworkFee,
+		releaseNetworkFee,
 		bridgeAddress
 	};
 
@@ -211,14 +211,7 @@ export const BridgeForm = observer((props: any) => {
 		if (tabValue === 0) {
 			deposit();
 		} else if (tabValue === 1) {
-			// withdraw()
 			approveAndWithdraw()
-				.then((result: any) => {
-					console.log('SUCCESS APPROVE AND WITHDRAW', result);
-				})
-				.catch((error: any) => {
-					console.error('APPROVEWITHDRAW ERROR', error);
-				});
 		}
 	};
 
@@ -232,6 +225,25 @@ export const BridgeForm = observer((props: any) => {
 	const shortenAddress = (address: String) => {
 		return address.slice(0, 6) + '...' + address.slice(address.length - 6, address.length);
 	};
+
+	const getBtcNetworkFees = async () => {
+		const query = {
+			jsonrpc: "2.0",
+			method: "ren_queryFees",
+			id: 67,
+			params: {}
+		};
+		
+		await fetch('https://lightnode-mainnet.herokuapp.com/', {
+			method: 'POST',
+			body: JSON.stringify(query),
+			headers: { 'Content-Type': 'application/json' }
+		}).then(res => res.json())
+		  .then(json => {
+			  updateState('lockNetworkFee', parseInt(json.result.btc.lock) / 100000000);
+			  updateState('releaseNetworkFee', parseInt(json.result.btc.release) / 100000000);
+		});
+	}
 
 	const getFeesFromContract = () => {
 		if (!connectedAddress) {
@@ -304,6 +316,7 @@ export const BridgeForm = observer((props: any) => {
 				shortAddr: shortenAddress(connectedAddress),
 			}));
 		}
+		getBtcNetworkFees();
 		getFeesFromContract();
 		updateBalance();
 		setInterval(() => {
@@ -312,7 +325,7 @@ export const BridgeForm = observer((props: any) => {
 	}, [connectedAddress, shortAddr]);
 
 	const deposit = async () => {
-		const amountSats = Math.floor(parseFloat(amount) * 10 ** 8); // Convert to Satoshis)
+		const amountSats = new BigNumber(parseFloat(amount) * 10 ** 8); // Convert to Satoshis)
 		let trade: any = null;
 		let result: any;
 		let commited: boolean = false;
@@ -355,7 +368,6 @@ export const BridgeForm = observer((props: any) => {
 				})
 				.result()
 				.on('status', async (status: any) => {
-					console.info(`[MINT STATUS] ${status}`);
 					if (status === 'mint_returnedFromRenVM') {
 						queueNotification(
 							'BTC deposit is ready, please sign the transaction to submit to ethereum',
@@ -364,7 +376,6 @@ export const BridgeForm = observer((props: any) => {
 					}
 				})
 				.on('transferUpdated', (transfer: any) => {
-					console.info(`[MINT TRANSFER]`, transfer);
 					trade = transfer;
 					switch (transfer.status) {
 						case 'mint_committed':
@@ -395,8 +406,6 @@ export const BridgeForm = observer((props: any) => {
 			if (!trade) return;
 			if (trade.status === 'mint_confirmedOnEthereum') {
 				queueNotification('Mint is successful', 'success');
-				console.log(`SUCCESSFUL MINT ${result}`);
-				console.log(`Deposited ${amount} BTC.`);
 				removeTx(trade);
 				nextStep();
 			}
@@ -409,11 +418,10 @@ export const BridgeForm = observer((props: any) => {
 	const approveAndWithdraw = async () => {
 		let methodSeries: any = [];
 		const contractFn: any = 'burn';
-		const amountSats = Math.floor((burnAmount as any) * 10 ** 8);
+		const amountSats = new BigNumber((burnAmount as any) * 10 ** 8);
 		let burnToken = RENBTC_TOKEN_ADDR;
 		let maxSlippage = 0;
 		if (token === 'WBTC') {
-                        // TODO: Calculate and subtract exact fees, for now just hard code 5% in fees.
 			burnToken = WBTC_TOKEN_ADDR;
 			// const amountSatsWithSlippage = (
 			// 	amountSats *
@@ -437,7 +445,6 @@ export const BridgeForm = observer((props: any) => {
 				type: 'bytes',
 				name: '_to',
 				value: '0x' + Buffer.from(btcAddr).toString('hex'),
-				// value: Buffer.from(btcAddr).toString('hex'),
 			},
 			{
 				name: '_amount',
@@ -458,7 +465,7 @@ export const BridgeForm = observer((props: any) => {
 				resolve(result);
 			});
 		});
-		if (amountSats > allowance) {
+		if (amountSats.toNumber() > allowance) {
 			methodSeries.push((callback: any) => increaseAllowance(tokenParm, bridgeAddress, callback));
 		}
 		methodSeries.push((callback: any) => withdraw(contractFn, params, callback));
@@ -516,9 +523,6 @@ export const BridgeForm = observer((props: any) => {
 		if (!trade) return;
 		if (trade.status === 'burn_returnedFromRenVM') {
 			queueNotification('Release is successful', 'success');
-			console.log(`SUCCESS ${trade.status} ${result}`);
-			console.log(`Withdrew ${amount} BTC to ${btcAddr}.`);
-			console.log(result);
 			nextStep();
 			removeTx(trade);
 		}
@@ -531,9 +535,7 @@ export const BridgeForm = observer((props: any) => {
 
 		try {
 			const curve = new web3.eth.Contract(CURVE_EXCHANGE, CURVE_WBTC_RENBTC_TRADING_PAIR_ADDR);
-			// TODO: In production, we actually want to calculate this based on the expected badger/renVM fees.
-			// For testing purposes we'll just make the minimum mint amount 95% of the mint amount.
-			const amountAfterFeesInSats = Math.floor(amount * 0.95 * 10 ** 8);
+			const amountAfterFeesInSats = new BigNumber(amount * 10 ** 8);
 			let swapResult;
 			if (name === 'amount') {
 				swapResult = await curve.methods.get_dy(0, 1, amountAfterFeesInSats).call();
@@ -543,8 +545,9 @@ export const BridgeForm = observer((props: any) => {
 				console.error(`expected mint or burn tx got: ${name}`);
 				return 0;
 			}
-			console.log(swapResult, amountAfterFeesInSats);
-			const swapRatio = Number(swapResult / amountAfterFeesInSats);
+			const swapRatio = Number(swapResult / amountAfterFeesInSats.toNumber());
+			
+			console.log(`swapResult ${swapResult} amount ${amountAfterFeesInSats} swapratio ${swapRatio}`);
 			if (swapRatio >= 1) return 0;
 			return 1 - swapRatio;
 		} catch (err) {
@@ -553,11 +556,15 @@ export const BridgeForm = observer((props: any) => {
 	};
 
 	const calcFees = async (inputAmount: any, name: string) => {
-		const estimatedSlippage = await getEstimatedSlippage(parseFloat(inputAmount), name);
+		let estimatedSlippage = 0; // only need to calculate slippage for wbtc mint/burn
+
 		const renFeeAmount = inputAmount * (tabValue === 0 ? renvmMintFee : renvmBurnFee);
 		const badgerFeeAmount = inputAmount * (tabValue === 0 ? badgerMintFee : badgerBurnFee);
+		const networkFee = tabValue === 0 ? lockNetworkFee : releaseNetworkFee;
 		const amountWithFee = inputAmount - renFeeAmount - badgerFeeAmount - networkFee;
-
+		if (token === 'WBTC') {
+			estimatedSlippage = await getEstimatedSlippage(amountWithFee, name);
+		}
 		console.log('estimatedSlippage ->', estimatedSlippage);
 		setStates((prevState) => ({
 			...prevState,
@@ -573,24 +580,7 @@ export const BridgeForm = observer((props: any) => {
 		if (name === 'amount' || name === 'burnAmount') {
 			const inputAmount = event.target.value;
 			if (!isFinite(inputAmount)) return;
-			const estimatedSlippage = await getEstimatedSlippage(parseFloat(inputAmount), name);
 			await calcFees(inputAmount, name);
-			// const renFeeAmount =
-			//   inputAmount * (tabValue === 0 ? renvmMintFee : renvmBurnFee);
-			// const badgerFeeAmount =
-			//   inputAmount * (tabValue === 0 ? badgerMintFee : badgerBurnFee);
-			// const amountWithFee =
-			//   inputAmount - renFeeAmount - badgerFeeAmount - networkFee;
-
-			// console.log("estimatedSlippage ->", estimatedSlippage);
-			// setStates((prevState) => ({
-			//   ...prevState,
-			//   [name]: inputAmount,
-			//   receiveAmount: amountWithFee < 0 ? 0 : amountWithFee,
-			//   renFee: renFeeAmount,
-			//   badgerFee: badgerFeeAmount,
-			//   estimatedSlippage,
-			// }));
 		} else {
 			const value = event.target.value;
 			setStates((prevState) => ({

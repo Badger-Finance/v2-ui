@@ -3,7 +3,6 @@ import { Grid, Button } from '@material-ui/core';
 
 export const MintForm = (props: any) => {
 	const { classes, handleChange, nextStep, values, assetSelect, itemContainer, connectWallet } = props;
-	console.log(`MintForm received update ${values.estimatedSlippage}`);
 
 	const next = (e: any) => {
 		e.preventDefault();

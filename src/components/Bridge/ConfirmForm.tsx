@@ -119,7 +119,7 @@ export const ConfirmForm = (props: any) => {
 							</Tooltip>
 						</div>
 					</div>
-					<div>{`${values.networkFee} BTC`}</div>
+					<div>{`${values.tabValue == 0 ? values.lockNetworkFee : values.releaseNetworkFee} BTC`}</div>
 				</div>
 			</Grid>
 			{values.spacer}
