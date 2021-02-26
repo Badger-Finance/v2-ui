@@ -7,7 +7,7 @@ import { BigNumber } from 'bignumber.js';
 import { Tokens } from './Tokens';
 
 import { TokenModel } from 'mobx/model';
-import { StoreContext } from '../../mobx/store-context';
+import { StoreContext } from 'mobx/store-context';
 
 const ZERO = new BigNumber(0);
 
@@ -16,7 +16,7 @@ export const Mint = observer((): any => {
 	const classes = commonStyles();
 
 	const {
-		bbtcStore: { tokens, bBTC },
+		ibBTCStore: { tokens, bBTC },
 	} = store;
 
 	let inputRef: any;
@@ -24,17 +24,24 @@ export const Mint = observer((): any => {
 	const [selectedToken, setSelectedToken] = useState<TokenModel>(tokens[0]);
 	const [inputAmount, setInputAmount] = useState<number | string>('');
 	const [outputAmount, setOutputAmount] = useState<number | string>('');
+	const initialFee = (1 - parseFloat(selectedToken.mintRate && selectedToken.mintRate.toString())).toFixed(3);
+	const [fee, setFee] = useState<number | string>(initialFee);
 	const _debouncedSetInputAmount = debounce(600, async (val) => {
 		setInputAmount(val);
 		val = new BigNumber(val);
 		if (val.gt(ZERO))
-			store.bbtcStore.calcMintAmount(selectedToken, selectedToken.scale(val), handleCalcOutputAmount);
-		else setOutputAmount('');
+			store.ibBTCStore.calcMintAmount(selectedToken, selectedToken.scale(val), handleCalcOutputAmount);
+		else {
+			setOutputAmount('');
+			setFee(initialFee);
+		}
 	});
 
 	const handleCalcOutputAmount = (err: any, result: any): void => {
-		if (!err) setOutputAmount(bBTC.unscale(new BigNumber(result)).toString(10));
-		else setOutputAmount('');
+		if (!err) {
+			setOutputAmount(bBTC.unscale(new BigNumber(result[0])).toString(10));
+			setFee(bBTC.unscale(new BigNumber(result[1])).toString(10));
+		} else setOutputAmount('');
 	};
 
 	const handleInputAmount = (event: any) => {
@@ -43,25 +50,26 @@ export const Mint = observer((): any => {
 	};
 
 	const handleTokenSelection = (event: any) => {
-		const token = tokens.find((token) => token.symbol === event?.target?.value);
+		const token = tokens.find((token: TokenModel) => token.symbol === event?.target?.value);
 		setSelectedToken(token || tokens[0]);
 	};
 
-	const clearInputs = () => {
+	const resetState = () => {
 		setInputAmount((inputRef.value = ''));
 		setOutputAmount('');
+		setFee(initialFee);
 	};
 
 	const useMaxBalance = () => {
 		setInputAmount((inputRef.value = selectedToken.unscale(selectedToken.balance).toString(10)));
-		store.bbtcStore.calcMintAmount(selectedToken, selectedToken.balance, handleCalcOutputAmount);
+		store.ibBTCStore.calcMintAmount(selectedToken, selectedToken.balance, handleCalcOutputAmount);
 	};
 	const handleMintClick = () => {
-		store.bbtcStore.mint(selectedToken, selectedToken.scale(new BigNumber(inputAmount)), handleMint);
+		store.ibBTCStore.mint(selectedToken, selectedToken.scale(new BigNumber(inputAmount)), handleMint);
 	};
 
 	const handleMint = (err: any, result: any): void => {
-		clearInputs();
+		resetState();
 	};
 
 	return (
@@ -129,14 +137,21 @@ export const Mint = observer((): any => {
 				<div className={classes.summaryWrapper}>
 					<div className={classes.summaryRow}>
 						<Typography variant="subtitle1">Current Conversion Rate: </Typography>
-						<Typography variant="subtitle1">
-							1 {selectedToken.symbol}: {selectedToken.formatAmount(selectedToken.mintRate || ZERO)}{' '}
-							{bBTC.symbol}
-						</Typography>
+						{outputAmount ? (
+							<Typography variant="subtitle1">
+								{inputAmount} {selectedToken.symbol}: {outputAmount} {bBTC.symbol}
+							</Typography>
+						) : (
+							<Typography variant="subtitle1">
+								1 {selectedToken.symbol}: {selectedToken.mintRate || ''} {bBTC.symbol}
+							</Typography>
+						)}
 					</div>
 					<div className={classes.summaryRow}>
 						<Typography variant="subtitle1">Fees: </Typography>
-						<Typography variant="subtitle1">0.002 {bBTC.symbol}</Typography>
+						<Typography variant="subtitle1">
+							{fee} {bBTC.symbol}
+						</Typography>
 					</div>
 				</div>
 			</div>

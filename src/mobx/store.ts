@@ -5,7 +5,7 @@ import ContractsStore from './stores/contractsStore';
 import AirdropStore from './stores/airdropStore';
 import RebaseStore from './stores/rebaseStore';
 import RewardsStore from './stores/rewardsStore';
-import BBTCStore from './stores/bbtcStore';
+import IbBTCStore from './stores/ibBTCStore';
 
 export class RootStore {
 	public router: RouterStore<RootStore>;
@@ -15,7 +15,7 @@ export class RootStore {
 	public airdrops: AirdropStore;
 	public rebase: RebaseStore;
 	public rewards: RewardsStore;
-	public bbtcStore: BBTCStore;
+	public ibBTCStore: IbBTCStore;
 
 	constructor() {
 		this.router = new RouterStore<RootStore>(this);
@@ -25,7 +25,7 @@ export class RootStore {
 		this.rebase = new RebaseStore(this);
 		this.rewards = new RewardsStore(this);
 		this.uiState = new UiState(this);
-		this.bbtcStore = new BBTCStore(this);
+		this.ibBTCStore = new IbBTCStore(this);
 	}
 }
 

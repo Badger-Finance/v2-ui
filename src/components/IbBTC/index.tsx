@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export const Bbtc = (): any => {
+export const IbBTC = (): any => {
 	const classes = useStyles();
 
 	const [title, setViewSelected] = useState<string>('Mint');
@@ -31,7 +31,10 @@ export const Bbtc = (): any => {
 		<Container className={classes.root} maxWidth="lg">
 			<Grid container spacing={1} justify="center">
 				<Grid item sm={12} xs={12}>
-					<Hero title="BBTC" subtitle="Pegged to Bitcoin using Defi Primitives. Governed by BadgerDAO." />
+					<Hero
+						title="ibBTC"
+						subtitle="Interest bearing Bitcoin using Defi Primitives. Governed by BadgerDAO."
+					/>
 				</Grid>
 
 				<Grid item sm={12} xs={12}>

@@ -8,14 +8,16 @@ import { Collection } from '../components/Collection';
 import { RootStore } from '../mobx/store';
 import { Airdrops } from '../components/Airdrops';
 import { Digg } from '../components/Digg';
-import { Bbtc } from '../components/Bbtc';
 import { Locked } from 'components/Common/Locked';
+import { IbBTC } from 'components/IbBTC';
 
 const routes = {
 	locked: new Route<RootStore>({
 		path: '/locked',
 		component: <Locked />,
-		onEnter: (_, params, store) => {},
+		onEnter: (_, params, store) => {
+			//
+		},
 		beforeExit: () => {
 			//
 		},
@@ -63,11 +65,12 @@ const routes = {
 			// store.uiState.setVault(collection, id)
 		},
 	}),
-	Bbtc: new Route<RootStore, QueryParams>({
-		path: '/bBTC',
-		component: <Bbtc />,
+	IbBTC: new Route<RootStore, QueryParams>({
+		path: '/ibBTC',
+		component: <IbBTC />,
 		onEnter: (_, params, store) => {
 			// initialize store
+			// store.ibBTCStore.init();
 		},
 		beforeExit: () => {
 			//

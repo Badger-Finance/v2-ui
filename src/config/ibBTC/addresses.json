@@ -1,0 +1,36 @@
+{
+	"mainnet": {
+		"contracts": {
+			"tokens": {
+				"bBTC": {
+					"address": "0x9A9f2CCfdE556A7E9Ff0848998Aa4a0CFD8863AE",
+					"decimals": 18,
+					"symbol": "bBTC",
+					"name": "Badger BTC"
+				},
+				"bcrvRenWSBTC": {
+					"address": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
+					"decimals": 18,
+					"symbol": "bcrvRenWSBTC",
+					"name": "Badger crvRenWSBTC",
+					"poolId": 0
+				},
+				"bcrvRenWBTC": {
+					"address": "0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6",
+					"decimals": 18,
+					"symbol": "bcrvRenWBTC",
+					"name": "Badger crvRenWBTC",
+					"poolId": 1
+				},
+				"btbtc_sbtcCrv": {
+					"address": "0xA51c1fc2f0D1a1b8494Ed1FE312d7C3a78Ed91C0",
+					"decimals": 18,
+					"symbol": "btbtc_sbtcCrv",
+					"name": "Badger t-btc/sbtcCrv",
+					"poolId": 2
+				}
+			},
+			"peak": "0xc6e7DF5E7b4f2A278906862b61205850344D4e7d"
+		}
+	}
+}

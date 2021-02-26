@@ -1,4 +1,4 @@
-import { RootStore } from '../store';
+import { RootStore } from 'mobx/store';
 import { extendObservable, action, observe } from 'mobx';
 import async from 'async';
 
@@ -8,16 +8,16 @@ import { Contract } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
 import Web3 from 'web3';
 import { TokenModel } from 'mobx/model';
-import { estimateAndSend } from '../utils/web3';
+import { estimateAndSend } from 'mobx/utils/web3';
 
 import SETT from 'config/system/abis/Sett.json';
-import addresses from '../../config/bbtc/addresses.json';
+import addresses from 'config/ibBTC/addresses.json';
 import BadgerBtcPeak from 'config/system/abis/BadgerBtcPeak.json';
 
 const ZERO = new BigNumber(0);
 const MAX = Web3.utils.toTwosComplement(-1);
 
-class BBTCStore {
+class IbBTCStore {
 	private store!: RootStore;
 	private config!: typeof addresses.mainnet;
 
@@ -35,26 +35,24 @@ class BBTCStore {
 		});
 
 		this.bBTC = new TokenModel(this.store, token_config['bBTC']);
-		this.tokens = [new TokenModel(this.store, token_config['bcrvRenWSBTC'])];
+		this.tokens = [
+			new TokenModel(this.store, token_config['bcrvRenWSBTC']),
+			new TokenModel(this.store, token_config['bcrvRenWBTC']),
+			new TokenModel(this.store, token_config['btbtc_sbtcCrv']),
+		];
 
 		observe(this.store.wallet as any, 'connectedAddress', () => {
-			const { connectedAddress } = this.store.wallet;
-			if (!!connectedAddress) {
-				this.init();
-			}
-		});
-
-		observe(this as any, 'tokens', () => {
-			console.log('updated');
-			const { tokens } = this;
-			console.log(tokens);
+			this.init();
 		});
 
 		if (!!this.store.wallet.connectedAddress) this.init();
 	}
 
 	init = action((): void => {
-		this.fetchBalances();
+		const { connectedAddress } = this.store.wallet;
+		if (!!connectedAddress) {
+			this.fetchBalances();
+		}
 		this.fetchConversionRates();
 	});
 
@@ -80,7 +78,7 @@ class BBTCStore {
 
 	fetchMintRate = action((token: TokenModel): void => {
 		const callback = (err: any, result: any): void => {
-			if (!err) token.mintRate = token.unscale(new BigNumber(result)).toString(10);
+			if (!err) token.mintRate = token.unscale(new BigNumber(result[0])).toString(10);
 			else token.mintRate = ZERO;
 		};
 
@@ -89,7 +87,7 @@ class BBTCStore {
 
 	fetchRedeemRate = action((token: TokenModel): void => {
 		const callback = (err: any, result: any): void => {
-			if (!err) token.redeemRate = token.unscale(new BigNumber(result)).toString(10);
+			if (!err) token.redeemRate = token.unscale(new BigNumber(result[0])).toString(10);
 			else token.redeemRate = ZERO;
 		};
 
@@ -292,4 +290,4 @@ class BBTCStore {
 	});
 }
 
-export default BBTCStore;
+export default IbBTCStore;

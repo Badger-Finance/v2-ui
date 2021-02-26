@@ -214,14 +214,16 @@ export const Sidebar = observer(() => {
 					<ListItem
 						button
 						className={
-							classes.listItem + ' ' + (store.router.currentPath == '/bBTC' ? classes.activeListItem : '')
+							classes.listItem +
+							' ' +
+							(store.router.currentPath == '/ibBTC' ? classes.activeListItem : '')
 						}
-						onClick={() => goTo(views.Bbtc)}
+						onClick={() => goTo(views.IbBTC)}
 					>
 						<ListItemIcon>
-							<img src={require('assets/sidebar/digg-white.png')} className={classes.icon} />
+							<img src={require('assets/sidebar/ibBTC.png')} className={classes.icon} />
 						</ListItemIcon>
-						<ListItemText primary="bBTC" />
+						<ListItemText primary="ibBTC" />
 					</ListItem>
 				</List>
 

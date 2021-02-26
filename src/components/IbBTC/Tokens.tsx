@@ -39,7 +39,7 @@ export const Tokens = (props: TokenListProps): any => {
 	const [selectedToken, setSelectedToken] = useState<string>(props.default);
 	const handleTokenSelection = (event: any) => {
 		setSelectedToken(event?.target?.value);
-		props.onTokenSelect(event?.target?.value);
+		props.onTokenSelect(event);
 	};
 
 	const tokenItems = props.tokens.map((token) => (

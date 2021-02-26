@@ -154,8 +154,8 @@ export class TokenModel extends Contract {
 	public decimals: number;
 	public balance: BigNumber;
 	public poolId?: number | undefined;
-	public mintRate?: BigNumber | string;
-	public redeemRate?: BigNumber | string;
+	public mintRate: BigNumber | string;
+	public redeemRate: BigNumber | string;
 
 	constructor(store: RootStore, data: TokenConfig) {
 		super(store, Web3.utils.toChecksumAddress(data.address));
@@ -164,8 +164,8 @@ export class TokenModel extends Contract {
 		this.decimals = data.decimals;
 		this.poolId = data?.poolId;
 		this.balance = ZERO;
-		this.mintRate = ZERO;
-		this.redeemRate = ZERO;
+		this.mintRate = '0.999';
+		this.redeemRate = '0.999';
 	}
 
 	public get formattedBalance(): string {
@@ -174,10 +174,6 @@ export class TokenModel extends Contract {
 
 	public get icon(): string {
 		return require(`assets/tokens/${this.symbol}.png`);
-	}
-
-	public set Balance(balance: BigNumber) {
-		this.balance = balance;
 	}
 
 	public formatAmount(amount: BigNumber | string): string {

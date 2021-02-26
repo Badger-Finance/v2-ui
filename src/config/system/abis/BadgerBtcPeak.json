@@ -13,15 +13,49 @@
 					"type": "uint256"
 				}
 			],
-			"name": "mint",
+			"name": "calcMint",
 			"outputs": [
 				{
 					"internalType": "uint256",
-					"name": "outAmount",
+					"name": "",
+					"type": "uint256"
+				},
+				{
+					"internalType": "uint256",
+					"name": "",
 					"type": "uint256"
 				}
 			],
-			"stateMutability": "nonpayable",
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "poolId",
+					"type": "uint256"
+				},
+				{
+					"internalType": "uint256",
+					"name": "bBtc",
+					"type": "uint256"
+				}
+			],
+			"name": "calcRedeem",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				},
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "view",
 			"type": "function"
 		},
 		{
@@ -37,15 +71,15 @@
 					"type": "uint256"
 				}
 			],
-			"name": "calcMint",
+			"name": "mint",
 			"outputs": [
 				{
 					"internalType": "uint256",
-					"name": "bBtc",
+					"name": "outAmount",
 					"type": "uint256"
 				}
 			],
-			"stateMutability": "view",
+			"stateMutability": "nonpayable",
 			"type": "function"
 		},
 		{
@@ -83,30 +117,6 @@
 				}
 			],
 			"stateMutability": "nonpayable",
-			"type": "function"
-		},
-		{
-			"inputs": [
-				{
-					"internalType": "uint256",
-					"name": "poolId",
-					"type": "uint256"
-				},
-				{
-					"internalType": "uint256",
-					"name": "bBtc",
-					"type": "uint256"
-				}
-			],
-			"name": "calcRedeem",
-			"outputs": [
-				{
-					"internalType": "uint256",
-					"name": "",
-					"type": "uint256"
-				}
-			],
-			"stateMutability": "view",
 			"type": "function"
 		}
 	]
