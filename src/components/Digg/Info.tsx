@@ -1,35 +1,14 @@
-import {
-	Grid,
-	Typography,
-	Paper,
-	makeStyles,
-	Button,
-	List,
-	Card,
-	CardActions,
-	ListItem,
-	ListItemText,
-	ListItemSecondaryAction,
-	ButtonGroup,
-	CardContent,
-} from '@material-ui/core';
+import { Grid, Typography, Paper, makeStyles, Button } from '@material-ui/core';
 import React, { useState, useContext } from 'react';
 import { StoreContext } from '../../mobx/store-context';
 import useInterval from '@use-it/interval';
 import { observer } from 'mobx-react-lite';
 import { Loader } from '../Loader';
 import Metric from './Metric';
-import {
-	calculateNewSupply,
-	shortenNumbers,
-	numberWithCommas,
-	getPercentageChange,
-} from '../../mobx/utils/diggHelpers';
-import { WBTC_ADDRESS } from '../../config/constants';
+import { calculateNewSupply, shortenNumbers } from '../../mobx/utils/diggHelpers';
 import BigNumber from 'bignumber.js';
-import { ArrowRightAlt } from '@material-ui/icons';
 import { formatPrice } from 'mobx/reducers/statsReducers';
-import { Link } from 'mobx-router';
+import deploy from '../../config/deployments/mainnet.json';
 
 const useStyles = makeStyles((theme) => ({
 	before: {
@@ -45,10 +24,10 @@ const useStyles = makeStyles((theme) => ({
 		padding: theme.spacing(2),
 		textAlign: 'center',
 		boxShadow: 'none',
-		background: theme.palette.secondary.main
+		background: theme.palette.secondary.main,
 	},
 	darkActions: {
-		background: theme.palette.secondary.main
+		background: theme.palette.secondary.main,
 	},
 	claim: {
 		display: 'flex',
@@ -107,6 +86,7 @@ const Info = observer(() => {
 		contracts: { tokens },
 		rebase: { callRebase },
 	} = store;
+	const { ppfs } = store.sett;
 	const classes = useStyles();
 	const previousSupply =
 		rebaseStats.totalSupply && rebaseStats.pastRebase
@@ -126,10 +106,8 @@ const Info = observer(() => {
 			  )
 			: 0;
 	const isPositive = !newSupply || newSupply >= rebaseStats.totalSupply;
-	const percentage =
-		newSupply && rebaseStats.totalSupply
-			? ((newSupply) / rebaseStats.totalSupply)
-			: 0;
+	const percentage = newSupply && rebaseStats.totalSupply ? newSupply / rebaseStats.totalSupply : 0;
+	const diggSett = deploy.sett_system.vaults['native.digg'].toLowerCase();
 
 	if (!rebaseStats) {
 		return <Loader />;
@@ -145,71 +123,35 @@ const Info = observer(() => {
 	}, 1000);
 
 	const spacer = () => <div className={classes.before} />;
-
 	return (
 		<>
-			{/* <Grid item xs={12} md={4}>
-				<Metric
-					metric="Market Cap"
-					value={`$${numberWithCommas(mockDiggMarketCap.toString())}`}
-					submetrics={[
-						// { title: '1h', value: '2.45', change: true },
-						// { title: '24h', value: '12.45', change: true },
-						// { title: '7d', value: '-3.4', change: true },
-					]}
-				/>
-			</Grid> */}
-
-
 			<Grid item xs={6} md={6}>
 				<Metric
 					metric="BTC Price"
-					value={formatPrice(rebaseStats.btcPrice, currency)}
-					submetrics={
-						[
-							// { title: 'Change', value: '1.043', change: true },
-							// { title: 'Current Ratio', value: '1.043' },
-						]
-					}
+					value={rebaseStats.btcPrice > 0 ? formatPrice(rebaseStats.btcPrice, currency) : '-'}
 				/>
 			</Grid>
 			<Grid item xs={6} md={6}>
 				<Metric
 					metric="DIGG Price"
-					value={formatPrice(stats.stats.digg || new BigNumber(0), currency)}
-
+					value={stats.stats.digg > 0 ? formatPrice(stats.stats.digg || new BigNumber(0), currency) : '-'}
 				/>
 			</Grid>
 			<Grid item xs={12} md={6}>
 				<Metric
 					metric="Total Supply"
 					value={rebaseStats.totalSupply ? shortenNumbers(rebaseStats.totalSupply, '', 2) : '-'}
-					// submetrics={[
-					// 	{
-					// 		title: 'Change',
-					// 		value: previousSupply
-					// 			? getPercentageChange(rebaseStats.totalSupply, previousSupply).toFixed(2)
-					// 			: '-',
-					// 		change: true,
-					// 	},
-					// 	{
-					// 		title: 'Previous Supply',
-					// 		value: previousSupply ? shortenNumbers(previousSupply, '', 2) : '-',
-					// 	},
-					// ]}
 				/>
 			</Grid>
 			<Grid item xs={6} md={6}>
-				<Metric
-					metric="Time To Rebase"
-					value={nextRebase}
-
-				/>
+				<Metric metric="Time To Rebase" value={nextRebase} />
 			</Grid>
 			{spacer()}
 			<Grid item xs={12} md={6} style={{ textAlign: 'center' }}>
 				<Paper className={classes.darkPaper}>
-					<Typography variant="body1">1 bDIGG = {!!stats.stats.bDigg ? stats.stats.bDigg.toFixed(9) : '...'} DIGG</Typography>
+					<Typography variant="body1">
+						1 bDIGG = {!!stats.stats.bDigg ? stats.stats.bDigg.toFixed(9) : '...'} DIGG
+					</Typography>
 				</Paper>
 				<Button
 					variant="text"
@@ -218,13 +160,11 @@ const Info = observer(() => {
 					color="primary"
 					href="https://badger.finance/digg"
 					target="_"
-
 				>
 					Learn More
 				</Button>
 			</Grid>
 			{spacer()}
-
 		</>
 	);
 });

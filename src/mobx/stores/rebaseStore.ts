@@ -1,4 +1,4 @@
-import { extendObservable, action, observe } from 'mobx';
+import { extendObservable, action } from 'mobx';
 import Web3 from 'web3';
 import BatchCall from 'web3-batch-call';
 import BigNumber from 'bignumber.js';
@@ -10,20 +10,10 @@ import { Contract } from 'web3-eth-contract';
 
 import { graphQuery } from '../utils/helpers';
 import { estimateAndSend } from '../utils/web3';
-import { RPC_URL } from '../../config/constants';
 import { orchestrator } from '../../config/system/rebase';
 import { getNextRebase, getRebaseLogs } from '../utils/diggHelpers';
 
-const infuraProvider = new Web3.providers.HttpProvider(RPC_URL);
-const options = {
-	web3: new Web3(infuraProvider),
-	etherscan: {
-		apiKey: 'NXSHKK6D53D3R9I17SR49VX8VITQY7UC6P',
-		delayTime: 300,
-	},
-};
-
-let batchCall = new BatchCall(options);
+let batchCall: any = null;
 
 class RebaseStore {
 	private store!: RootStore;
@@ -45,17 +35,37 @@ class RebaseStore {
 	}
 
 	fetchRebaseStats = action(async () => {
-		const rebaseLog = await getRebaseLogs();
-		const { digg } = require('config/system/rebase');
-		Promise.all([batchCall.execute(digg), ...[...graphQuery(digg[0].addresses[0])]]).then((result: any[]) => {
-			let keyedResult = _.groupBy(result[0], 'namespace');
+		let rebaseLog: any = null;
+		const { digg } = await import('config/system/rebase');
 
-			if (!keyedResult.token || !keyedResult.token[0].decimals || !keyedResult.oracle[0].providerReports[0].value) return;
+		if (this.store.wallet.provider) {
+			const options = {
+				web3: new Web3(this.store.wallet.provider),
+				etherscan: {
+					apiKey: 'NXSHKK6D53D3R9I17SR49VX8VITQY7UC6P',
+					delayTime: 300,
+				},
+			};
+
+			batchCall = new BatchCall(options);
+
+			rebaseLog = await getRebaseLogs(this.store.wallet.provider);
+		} else {
+			return;
+		}
+
+		if (!batchCall) return;
+
+		Promise.all([batchCall.execute(digg), ...[...graphQuery(digg[0].addresses[0])]]).then((result: any[]) => {
+			const keyedResult = _.groupBy(result[0], 'namespace');
+
+			if (!keyedResult.token || !keyedResult.token[0].decimals || !keyedResult.oracle[0].providerReports[0].value)
+				return;
 
 			const minRebaseTimeIntervalSec = parseInt(keyedResult.policy[0].minRebaseTimeIntervalSec[0].value);
 			const lastRebaseTimestampSec = parseInt(keyedResult.policy[0].lastRebaseTimestampSec[0].value);
 			const decimals = parseInt(keyedResult.token[0].decimals[0].value);
-			let token = {
+			const token = {
 				totalSupply: new BigNumber(keyedResult.token[0].totalSupply[0].value).dividedBy(Math.pow(10, decimals)),
 				decimals: decimals,
 				lastRebaseTimestampSec: lastRebaseTimestampSec,

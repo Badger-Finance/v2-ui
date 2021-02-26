@@ -5,15 +5,12 @@ import { useContext } from 'react';
 import { StoreContext } from '../../mobx/store-context';
 import { List, ListItem, Drawer, Collapse, IconButton, ListItemIcon, ListItemText } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-
 import { ExpandMore } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
 	logo: {
 		height: '2.4rem',
 		width: 'auto',
-		// display: 'block',
-		// margin: theme.spacing(2, 2, 0, 2)
 	},
 	listHeader: {
 		fontSize: '.8rem',
@@ -37,9 +34,8 @@ const useStyles = makeStyles((theme) => ({
 		cursor: 'pointer',
 		'&:hover': {
 			backgroundColor: 'transparent',
-			cursor: 'default',
+			cursor: 'pointer',
 		},
-		// paddingLeft: theme.spacing(1),
 		padding: theme.spacing(1, 3),
 	},
 	divider: {
@@ -47,20 +43,18 @@ const useStyles = makeStyles((theme) => ({
 		fontSize: '.8rem',
 	},
 	secondaryListItem: {
-		cursor: 'default',
+		cursor: 'pointer',
 		justifyContent: 'space-between',
 		'&:hover': {
 			backgroundColor: '#070707',
 		},
-		// paddingLeft: theme.spacing(1),
 		padding: theme.spacing(0.5, 2),
 	},
 	secondarySubListItem: {
-		cursor: 'default',
+		cursor: 'pointer',
 		justifyContent: 'space-between',
 		background: ' rgba(0, 0, 0, .2)',
 		'&:hover': {},
-		// paddingLeft: theme.spacing(1),
 		padding: theme.spacing(0.5, 2, 0.5, 3),
 	},
 	activeListItem: {
@@ -73,18 +67,15 @@ const useStyles = makeStyles((theme) => ({
 		padding: theme.spacing(1, 2),
 		'&:hover': {
 			backgroundColor: '#070707',
-			cursor: 'default',
+			cursor: 'pointer',
 		},
 	},
-
 	currency: {
 		marginTop: theme.spacing(1),
 	},
-
 	rewards: {
 		margin: theme.spacing(0, 0, 0, 1),
 	},
-
 	expand: {
 		transform: 'rotate(0deg)',
 		marginLeft: 'auto',
@@ -103,6 +94,9 @@ const useStyles = makeStyles((theme) => ({
 		height: '1.1rem',
 		display: 'inline-block',
 	},
+	smallItemText: {
+		fontSize: '11px',
+	},
 }));
 
 export const Sidebar = observer(() => {
@@ -111,20 +105,12 @@ export const Sidebar = observer(() => {
 	const store = useContext(StoreContext);
 	const {
 		router: { goTo },
-		uiState: { sidebarOpen, closeSidebar, gasPrice, setGasPrice },
-		wallet: { gasPrices },
+		uiState: { sidebarOpen, closeSidebar },
 		rewards: { badgerTree },
 	} = store;
 
 	const [expanded, setExpanded] = useState('');
 
-	// const { enqueueSnackbar } = useSnackbar();
-
-	// useEffect(() => {
-	// 	if (!!errorMessage)
-	// 		enqueueSnackbar(errorMessage, { variant: 'error' })
-
-	// }, [errorMessage])
 	return (
 		<Drawer
 			variant={window.innerWidth > 960 ? 'persistent' : 'temporary'}
@@ -137,7 +123,6 @@ export const Sidebar = observer(() => {
 				<List>
 					<ListItem button className={classes.listItem}>
 						<img alt="" src={require('../../assets/badger-logo.png')} className={classes.logo} />
-						{/* <Chip label="v2.0.0" variant="outlined" color="primary" size="small" /> */}
 					</ListItem>
 
 					<ListItem
@@ -146,7 +131,7 @@ export const Sidebar = observer(() => {
 						style={{ marginTop: '.5rem' }}
 						className={classes.listItem}
 					>
-						v2.2.0
+						v2.4.2
 						<IconButton
 							size="small"
 							className={classes.expand + ' ' + (expanded === 'advanced' ? classes.expandOpen : '')}
@@ -208,8 +193,6 @@ export const Sidebar = observer(() => {
 							<img src={require('assets/sidebar/digg-white.png')} className={classes.icon} />
 						</ListItemIcon>
 						<ListItemText primary="Digg" />
-
-						{/* <Chip size="small" label={"Coming soon"} variant="outlined" color="primary" className={classes.rewards} /> */}
 					</ListItem>
 					<ListItem
 						button
@@ -230,10 +213,36 @@ export const Sidebar = observer(() => {
 				<List>
 					<ListItem
 						button
+						className={classes.listItem}
+						onClick={() =>
+							window.open(
+								'https://app.nexusmutual.io/cover/buy/get-quote?address=0x6354E79F21B56C11f48bcD7c451BE456D7102A36',
+							)
+						}
+					>
+						<ListItemIcon>
+							<img src={require('assets/sidebar/nexus_logo_bw.png')} className={classes.icon} />
+						</ListItemIcon>
+						<ListItemText>
+							Get Coverage
+							<div className={classes.smallItemText}>Powered By Nexus Mutual</div>
+						</ListItemText>
+					</ListItem>
+
+					<ListItem
+						button
 						className={classes.secondaryListItem}
 						onClick={() => window.open('https://forum.badger.finance')}
 					>
 						Forum
+					</ListItem>
+
+					<ListItem
+						button
+						className={classes.secondaryListItem}
+						onClick={() => window.open('https://snapshot.page/#/badgerdao.eth')}
+					>
+						Governance
 					</ListItem>
 
 					<ListItem
@@ -272,7 +281,7 @@ export const Sidebar = observer(() => {
 							button
 							className={classes.secondarySubListItem}
 							onClick={() =>
-								window.open('https://sushiswap.fi/pair/0x110492b31c59716ac47337e616804e3e3adc0b4a')
+								window.open('https://app.sushiswap.fi/pair/0x110492b31c59716ac47337e616804e3e3adc0b4a')
 							}
 						>
 							Sushiswap BADGER/wBTC

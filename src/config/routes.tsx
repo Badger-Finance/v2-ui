@@ -3,6 +3,9 @@ import React from 'react';
 //models
 import { QueryParams, Route } from 'mobx-router';
 
+// pages
+import Landing from '../pages/Landing';
+
 //components
 import { Collection } from '../components/Collection';
 import { RootStore } from '../mobx/store';
@@ -27,7 +30,7 @@ const routes = {
 	}),
 	home: new Route<RootStore>({
 		path: '/',
-		component: <Collection />,
+		component: <Landing />,
 		onEnter: (_, params, store) => {
 			store.rewards.fetchSettRewards();
 		},

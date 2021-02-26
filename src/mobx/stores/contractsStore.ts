@@ -21,14 +21,12 @@ import { jsonQuery, graphQuery, vanillaQuery } from 'mobx/utils/helpers';
 import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
 import async from 'async';
-
 import { curveTokens, names, symbols, tokenMap } from 'config/system/tokens';
 import { EMPTY_DATA, ERC20, RPC_URL, START_TIME, WBTC_ADDRESS, XSUSHI_ADDRESS } from 'config/constants';
 import { vaultBatches } from 'config/system/vaults';
 import { geyserBatches } from 'config/system/geysers';
 import { decimals as tokenDecimals, tokenBatches } from 'config/system/tokens';
 import { formatAmount } from 'mobx/reducers/statsReducers';
-import deploy from 'config/deployments/mainnet.json';
 
 const infuraProvider = new Web3.providers.HttpProvider(RPC_URL);
 const options = {
@@ -39,7 +37,8 @@ const options = {
 	},
 };
 
-let batchCall = new BatchCall(options);
+// let batchCall = new BatchCall(options);
+let batchCall: any = null;
 
 class ContractsStore {
 	private store!: RootStore;
@@ -57,7 +56,6 @@ class ContractsStore {
 			geysers: {} as { string: Geyser },
 		});
 
-		this.fetchContracts();
 		this.fetchContracts();
 
 		// observe(this as any, 'tokens', (change: any) => {
@@ -78,7 +76,13 @@ class ContractsStore {
 	}
 
 	updateProvider = action(() => {
-		let newOptions = {
+		if (!this.store.wallet.provider) {
+			this.vaults = {};
+			this.tokens = {};
+			this.geysers = {};
+			return;
+		}
+		const newOptions = {
 			web3: new Web3(this.store.wallet.provider),
 			etherscan: {
 				apiKey: 'NXSHKK6D53D3R9I17SR49VX8VITQY7UC6P',
@@ -92,8 +96,8 @@ class ContractsStore {
 		else this.fetchContracts();
 	});
 
-	private _fetchingContracts: boolean = false;
-	private _pendingChangeOfAddress: boolean = false;
+	private _fetchingContracts = false;
+	private _pendingChangeOfAddress = false;
 	fetchContracts = action(() => {
 		if (this._fetchingContracts) return;
 		this._fetchingContracts = true;
@@ -116,7 +120,7 @@ class ContractsStore {
 	fetchTokens = action((callback: any) => {
 		const { connectedAddress } = this.store.wallet;
 
-		let { defaults, batchCall: batch } = reduceContractConfig(
+		const { defaults, batchCall: batch } = reduceContractConfig(
 			tokenBatches,
 			!!connectedAddress && { connectedAddress },
 		);
@@ -134,7 +138,11 @@ class ContractsStore {
 			)}&vs_currencies=eth`,
 		);
 
-		// console.log(batch)
+		if (!batchCall) {
+			callback();
+			return;
+		}
+
 		Promise.all([cgQueries, batchCall.execute(batch), ...curveQueries, ...graphQueries])
 			.then((result: any[]) => {
 				const cgPrices = _.mapValues(result.slice(0, 1)[0], (price: any) => ({
@@ -142,16 +150,13 @@ class ContractsStore {
 				}));
 				const tokenContracts = _.keyBy(reduceBatchResult(_.flatten(result.slice(1, 2))), 'address');
 				const tokenPrices = _.keyBy(
-					_.compact(reduceGraphResult(result.slice(2 + curveQueries.length))),
+					_.compact(reduceGraphResult(result.slice(2 + curveQueries.length), cgPrices)),
 					'address',
 				);
-				// cgPrices[deploy.digg_system.uFragments.toLowerCase()] = { ethValue: tokenPrices[WBTC_ADDRESS.toLowerCase()].ethValue }
-
 				const curvePrices = _.keyBy(
 					reduceCurveResult(
 						result.slice(2, 2 + curveQueries.length),
 						curveTokens.contracts,
-						this.tokens,
 						tokenPrices[WBTC_ADDRESS],
 					),
 					'address',
@@ -159,8 +164,8 @@ class ContractsStore {
 				const tokens = _.compact(
 					_.values(
 						_.defaultsDeep(
-							cgPrices,
 							curvePrices,
+							cgPrices,
 							tokenPrices,
 							tokenContracts,
 							_.mapValues(symbols, (value: string, address: string) => ({ address, symbol: value })),
@@ -170,7 +175,7 @@ class ContractsStore {
 				);
 
 				tokens.forEach((contract: any) => {
-					let token = this.getOrCreateToken(contract.address);
+					const token = this.getOrCreateToken(contract.address);
 					token.update(contract);
 				});
 
@@ -178,11 +183,17 @@ class ContractsStore {
 			})
 			.catch((error: any) => process.env.NODE_ENV !== 'production' && console.log(error));
 	});
+
 	fetchVaults = action((callback: any) => {
+		if (!batchCall) {
+			callback();
+			return;
+		}
+
 		const { connectedAddress, currentBlock } = this.store.wallet;
 		const sushiBatches = vaultBatches[1];
 
-		let { defaults, batchCall: batch } = reduceContractConfig(
+		const { defaults, batchCall: batch } = reduceContractConfig(
 			vaultBatches,
 			connectedAddress && { connectedAddress },
 		);
@@ -197,33 +208,33 @@ class ContractsStore {
 
 		Promise.all([batchCall.execute(batch), ...growthQueries, masterChefQuery, xSushiQuery, ppfsQuery])
 			.then((queryResult: any[]) => {
-				let result = reduceBatchResult(queryResult[0]);
-				let masterChefResult: any = queryResult.slice(growthQueries.length + 1, growthQueries.length + 2);
-				let xSushiResult: any = queryResult.slice(growthQueries.length + 2, growthQueries.length + 3);
-				let ppfsResult: any = queryResult.slice(growthQueries.length + 3)[0];
+				const result = reduceBatchResult(queryResult[0]);
+				const masterChefResult: any = queryResult.slice(growthQueries.length + 1, growthQueries.length + 2);
+				const xSushiResult: any = queryResult.slice(growthQueries.length + 2, growthQueries.length + 3);
+				const ppfsResult: any = queryResult.slice(growthQueries.length + 3)[0];
 
 				const vaultGrowth = reduceGrowth(queryResult.slice(1, growthQueries.length + 1), periods, START_TIME);
 				const xROI: any = reduceXSushiROIResults(xSushiResult[0]['weekly_APY']);
 				const newSushiRewards = reduceSushiAPIResults(masterChefResult[0], sushiBatches.contracts);
 
 				result.forEach((contract: any, i: number) => {
-					let tokenAddress = tokenMap[contract.address];
+					const tokenAddress = tokenMap[contract.address];
 					if (!tokenAddress) {
 						return console.log(tokenMap[contract.address], tokenMap, contract.address);
 					}
-					let vault = this.getOrCreateVault(
+					const vault = this.getOrCreateVault(
 						contract.address,
 						this.tokens[tokenAddress],
 						defaults[contract.address].abi,
 					);
 
-					let growth =
+					const growth =
 						!!vaultGrowth[contract.address] &&
 						_.mapValues(vaultGrowth[contract.address], (tokens: BigNumber, period: string) => ({
 							amount: tokens,
 							token: this.tokens[tokenAddress],
 						}));
-					let xSushiGrowth =
+					const xSushiGrowth =
 						!!newSushiRewards[tokenAddress] &&
 						_.mapValues(newSushiRewards[tokenAddress], (tokens: BigNumber, period: string) => {
 							return {
@@ -254,9 +265,14 @@ class ContractsStore {
 	});
 
 	fetchGeysers = action((callback: any) => {
+		if (!batchCall) {
+			callback();
+			return;
+		}
+
 		const { connectedAddress } = this.store.wallet;
 
-		let { defaults, batchCall: batch } = reduceContractConfig(
+		const { defaults, batchCall: batch } = reduceContractConfig(
 			geyserBatches,
 			connectedAddress && { connectedAddress },
 		);
@@ -264,24 +280,20 @@ class ContractsStore {
 		batchCall
 			.execute(batch)
 			.then((infuraResult: any[]) => {
-				let result = reduceBatchResult(infuraResult);
+				const result = reduceBatchResult(infuraResult);
 
-				result.forEach((contract: any) => {
-					let vaultAddress = contract[defaults[contract.address].underlyingKey];
+				if (result) {
+					result.forEach((contract: any) => {
+						const vaultAddress = contract[defaults[contract.address].underlyingKey];
+						const geyser: Geyser = this.getOrCreateGeyser(
+							contract.address,
+							this.vaults[vaultAddress],
+							defaults[contract.address].abi,
+						);
+						geyser.update(_.defaultsDeep(contract, defaults[contract.address]));
+					});
+				}
 
-					// set fake digg schedules
-					// if (vaultAddress === deploy.sett_system.vaults['native.sbtcCrv'].toLowerCase())
-					// 	contract.getUnlockSchedulesFor[deploy.digg_system.uFragments] = [[32.6e9, 1611373733, 0, 1611342599]];
-					// if (vaultAddress === deploy.sett_system.vaults['native.sushiDiggWbtc'].toLowerCase())
-					// 	contract.getUnlockSchedulesFor[deploy.digg_system.uFragments] = [[32.6e9, 1611373733, 0, 1611342599]];
-
-					let geyser: Geyser = this.getOrCreateGeyser(
-						contract.address,
-						this.vaults[vaultAddress],
-						defaults[contract.address].abi,
-					);
-					geyser.update(_.defaultsDeep(contract, defaults[contract.address]));
-				});
 				callback();
 			})
 			.catch((error: any) => process.env.NODE_ENV !== 'production' && console.log(error));
@@ -319,7 +331,7 @@ class ContractsStore {
 		if (!amount || amount.isNaN() || amount.lte(0) || amount.gt(vault.underlyingToken.balance))
 			return queueNotification('Please enter a valid amount', 'error');
 
-		let underlyingAmount = amount.multipliedBy(10 ** vault.underlyingToken.decimals);
+		const underlyingAmount = amount.multipliedBy(10 ** vault.underlyingToken.decimals);
 
 		const methodSeries: any = [];
 
@@ -351,7 +363,7 @@ class ContractsStore {
 		if (!amount || amount.isNaN() || amount.lte(0) || amount.gt(vault.balance))
 			return queueNotification('Please enter a valid amount', 'error');
 
-		let wrappedAmount = amount.multipliedBy(10 ** vault.decimals);
+		const wrappedAmount = amount.multipliedBy(10 ** vault.decimals);
 
 		const methodSeries: any = [];
 
@@ -379,7 +391,7 @@ class ContractsStore {
 		if (!amount || amount.isNaN() || amount.lte(0) || amount.gt(vault.geyser.balance))
 			return queueNotification('Please enter a valid amount', 'error');
 
-		let wrappedAmount = amount.multipliedBy(10 ** vault.decimals);
+		const wrappedAmount = amount.multipliedBy(10 ** vault.decimals);
 
 		const methodSeries: any = [];
 
@@ -450,7 +462,6 @@ class ContractsStore {
 	});
 
 	getAllowance = action((underlyingAsset: any, spender: string, callback: (err: any, result: any) => void) => {
-		const {} = this.store.uiState;
 		const { provider, connectedAddress } = this.store.wallet;
 
 		const web3 = new Web3(provider);
@@ -467,7 +478,6 @@ class ContractsStore {
 		const { provider, connectedAddress } = this.store.wallet;
 
 		const underlyingAsset = geyser.vault.underlyingToken;
-		console.log('amount: ', amount.toString());
 
 		const web3 = new Web3(provider);
 		const geyserContract = new web3.eth.Contract(geyser.abi, geyser.address);

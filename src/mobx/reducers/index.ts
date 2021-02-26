@@ -3,8 +3,8 @@ import { extendObservable, action, observe } from 'mobx';
 import { RootStore } from '../store';
 
 import { reduceAirdrops, reduceContractsToStats, reduceRebase } from './statsReducers';
+import { digg_system } from 'config/deployments/mainnet.json';
 import { WBTC_ADDRESS } from 'config/constants';
-import { token as diggToken } from 'config/system/rebase';
 import BigNumber from 'bignumber.js';
 import views from 'config/routes';
 
@@ -14,6 +14,9 @@ class UiState {
 	public currency!: string;
 	public period!: string;
 
+	/**
+	 * TODO: Add types.
+	 */
 	public collection: any;
 	public stats?: any;
 	public claims?: any;
@@ -42,10 +45,11 @@ class UiState {
 					tvl: new BigNumber(0),
 					wallet: new BigNumber(0),
 					deposits: new BigNumber(0),
-					portfolio: new BigNumber(0),
+					portfolio: undefined,
 					badger: new BigNumber(0),
 					digg: new BigNumber(0),
 					bDigg: new BigNumber(1),
+					vaultDeposits: new BigNumber(0),
 				},
 			},
 			claims: [0, 0, 0],
@@ -67,6 +71,7 @@ class UiState {
 			txStatus: undefined,
 		});
 
+		// TODO: refactor this - causes a refresh every 1s
 		// format vaults and geysers to ui
 		setInterval(() => {
 			this.reduceStats();
@@ -75,63 +80,9 @@ class UiState {
 			this.reduceTreeRewards();
 		}, 1000);
 
-		observe(this.store.wallet as any, 'connectedAddress', (change: any) => {
+		observe(this.store.wallet as any, 'connectedAddress', () => {
 			if (!this.store.wallet.connectedAddress) this.setHideZeroBal(false);
 		});
-
-		// format rewards for UI
-		// observe(this.store.rewards as any, 'badgerTree', () => {
-		// 	try {
-		// 		// skip first update
-		// 		this.reduceTreeRewards();
-		// 	} catch (e) {
-		// 		process.env.NODE_ENV !== 'production' && console.log(e);
-		// 	}
-		// });
-		// observe(this.store.airdrops as any, 'airdrops', () => {
-		// 	try {
-		// 		// skip first update
-		// 		this.reduceAirdrops();
-		// 	} catch (e) {
-		// 		process.env.NODE_ENV !== 'production' && console.log(e);
-		// 	}
-		// });
-
-		// observe(this.store.rebase as any, 'rebase', () => {
-		// 	try {
-		// 		this.reduceRebase();
-		// 	} catch (e) {
-		// 		process.env.NODE_ENV !== 'production' && console.log(e);
-		// 	}
-		// });
-
-		// redirect to portfolio if logged in
-		// observe(this.store.wallet as any, "provider", (change: any) => {
-		// 	this.store.router.goTo(views.home)
-		// })
-
-		// reduce to formatted options
-		// observe(this as any, 'period', () => {
-		// 	try {
-		// 		this.reduceStats();
-		// 	} catch (e) {
-		// 		process.env.NODE_ENV !== 'production' && console.log(e);
-		// 	}
-		// });
-		// observe(this as any, 'currency', () => {
-		// 	try {
-		// 		this.reduceStats();
-		// 	} catch (e) {
-		// 		process.env.NODE_ENV !== 'production' && console.log(e);
-		// 	}
-		// });
-		// observe(this as any, 'hideZeroBal', () => {
-		// 	try {
-		// 		this.reduceStats();
-		// 	} catch (e) {
-		// 		process.env.NODE_ENV !== 'production' && console.log(e);
-		// 	}
-		// });
 
 		// hide the sidebar
 		window.onresize = () => {
@@ -163,12 +114,12 @@ class UiState {
 	reduceRebase = action(() => {
 		const { tokens } = this.store.contracts;
 		if (!!this.store.rebase.rebase && !!tokens[WBTC_ADDRESS])
-			this.rebaseStats = reduceRebase(this.store.rebase.rebase, tokens[WBTC_ADDRESS], tokens[diggToken.contract]);
+			this.rebaseStats = reduceRebase(
+				this.store.rebase.rebase,
+				tokens[WBTC_ADDRESS],
+				tokens[digg_system.uFragments],
+			);
 	});
-
-	// setCollection = action((id: string) => {
-	// 	if (!!this.collection && this.collection.id === id) return;
-	// });
 
 	setGasPrice = action((gasPrice: string) => {
 		this.gasPrice = gasPrice;

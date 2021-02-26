@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import { observer } from 'mobx-react-lite';
-
 import { StoreContext } from '../../../mobx/store-context';
 import { Button, DialogContent, TextField, DialogActions, ButtonGroup } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
@@ -9,6 +8,7 @@ import { Loader } from '../../Loader';
 import { BigNumber } from 'bignumber.js';
 import { useForm } from 'react-hook-form';
 import { formatBalanceUnderlying } from 'mobx/reducers/statsReducers';
+import { numberWithCommas } from 'mobx/utils/helpers';
 
 const TEXTFIELD_ID = 'amountField';
 
@@ -27,9 +27,7 @@ export const GeyserStake = observer((props: any) => {
 	const { register, handleSubmit, watch, setValue } = useForm({ mode: 'all' });
 
 	const {
-		router: {},
 		wallet: { connectedAddress },
-		uiState: {},
 	} = store;
 
 	const percentageOfBalance = (percent: number) => {
@@ -40,7 +38,6 @@ export const GeyserStake = observer((props: any) => {
 	};
 
 	const setAmount = (percent: number) => {
-		// (document.getElementById(TEXTFIELD_ID)! as HTMLInputElement).value = uiStats.availableFull[percent];
 		setValue(
 			'amount',
 			vault.balance
@@ -70,6 +67,7 @@ export const GeyserStake = observer((props: any) => {
 					}}
 					variant={!!canDeposit && watch().amount === percentageOfBalance(amount) ? 'contained' : 'outlined'}
 					color="default"
+					key={amount}
 				>
 					{amount}%
 				</Button>
@@ -77,7 +75,7 @@ export const GeyserStake = observer((props: any) => {
 		</ButtonGroup>
 	);
 
-	let totalAvailable = percentageOfBalance(100);
+	const totalAvailable = percentageOfBalance(100);
 
 	return (
 		<>
@@ -87,12 +85,11 @@ export const GeyserStake = observer((props: any) => {
 				>
 					<div>
 						<Typography variant="body2" color={'textSecondary'} style={{ marginBottom: '.2rem' }}>
-							Underlying {vault.underlyingToken.symbol}: {formatBalanceUnderlying(vault)}
-							{/* Wrapped: {uiStats.wrappedFull[100]} */}
+							Underlying {vault.underlyingToken.symbol}:{' '}
+							{numberWithCommas(formatBalanceUnderlying(vault))}
 						</Typography>
 						<Typography variant="body1" color={'textSecondary'} style={{ marginBottom: '.2rem' }}>
-							Available {vault.symbol}: {totalAvailable || '0.000000000000000000'}
-							{/* Wrapped: {uiStats.wrappedFull[100]} */}
+							Available {vault.symbol}: {totalAvailable}
 						</Typography>
 					</div>
 					{renderAmounts}

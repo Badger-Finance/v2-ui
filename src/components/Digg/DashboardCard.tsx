@@ -1,17 +1,6 @@
-import {
-	Button,
-	ButtonGroup,
-	Card,
-	CardContent,
-	CardActions,
-	Typography,
-	Tabs,
-	Tab,
-	CardHeader,
-	CircularProgress,
-} from '@material-ui/core';
+import { Button, ButtonGroup, Card, CardContent, Tabs, Tab, CardHeader, CircularProgress } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import AreaChart from './AreaChart';
 import { observer } from 'mobx-react-lite';
@@ -42,7 +31,7 @@ const DashboardCard = observer((props: any) => {
 	const [title, setGraphSelected] = useState<string>('Total Volume');
 
 	const handleChangeRange = (range: number) => {
-		let chart = title === 'Price' ? 'prices' : title === 'Total Volume' ? 'total_volumes' : 'market_caps';
+		const chart = title === 'Price' ? 'prices' : title === 'Total Volume' ? 'total_volumes' : 'market_caps';
 
 		fetchDiggChart(chart, range, (marketData: any) => {
 			setChartData(marketData);
@@ -100,7 +89,6 @@ const DashboardCard = observer((props: any) => {
 			</div>
 			<CardContent
 				style={{
-					// paddingLeft: "2rem",
 					paddingRight: '2rem',
 					margin: '-2rem 0 0 0',
 				}}
@@ -108,6 +96,7 @@ const DashboardCard = observer((props: any) => {
 				<AreaChart accent={'#F2A52B'} chartData={chartData} yPrefix={'$'} />
 			</CardContent>
 
+			{/* TODO: Remove this? */}
 			{/* <CardActions style={{ display: 'flex', justifyContent: 'center', marginBottom: '.75rem' }}>
 				<div style={{ display: 'flex' }}>
 					<div style={{ marginLeft: '1rem', textAlign: 'center' }}>

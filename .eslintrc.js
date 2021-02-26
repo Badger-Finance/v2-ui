@@ -10,6 +10,7 @@ module.exports = {
 	},
 	settings: {
 		react: {
+
 			version: 'detect', // Tells eslint-plugin-react to automatically detect the version of React to use
 		},
 	},
@@ -26,7 +27,6 @@ module.exports = {
 		'@typescript-eslint/explicit-function-return-type': 'off',
 		'@typescript-eslint/no-explicit-any': 'off',
 		'react/display-name': [0, { ignoreTranspilerName: true }],
-		'autofix/no-unused-vars': 'warn',
 		'no-empty-pattern': 'warn',
 		'arrow-body-style': [0],
 		'prefer-arrow-callback': [0],
