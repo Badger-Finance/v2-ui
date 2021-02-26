@@ -177,7 +177,7 @@ class IbBTCStore {
 				if (amount.gt(allowances[0]))
 					methodSeries.push((callback: any) =>
 						// skip amount to approve max
-						this.increaseAllowance(inToken, this.config.contracts.peak, callback, amount),
+						this.increaseAllowance(inToken, this.config.contracts.peak, callback),
 					);
 				methodSeries.push((callback: any) => this.mintBBTC(inToken, amount, callback));
 				setTxStatus('pending');
