@@ -1,5 +1,4 @@
 import React, { useContext, useState } from 'react';
-import { formatWithCommas } from 'mobx/utils/api';
 
 import { StoreContext } from '../../../mobx/store-context';
 import { Tooltip, IconButton, Grid, Chip } from '@material-ui/core';
@@ -9,7 +8,6 @@ import { VaultSymbol } from '../../Common/VaultSymbol';
 import { UnfoldMoreTwoTone } from '@material-ui/icons';
 import useInterval from '@use-it/interval';
 import { Vault } from '../../../mobx/model';
-import BigNumber from 'bignumber.js';
 
 const useStyles = makeStyles((theme) => ({
 	border: {
