@@ -244,7 +244,7 @@ export const inCurrency = (
 export const formatTokens = (value: BigNumber): string => {
 	let decimals = 5;
 
-	if (!value || value.isNaN()) return '0.00';
+	if (!value || value.isNaN()) return '0.00000';
 	else {
 		if (value.gt(0) && value.lt(10 ** -decimals)) {
 			return '< 0.00001';
