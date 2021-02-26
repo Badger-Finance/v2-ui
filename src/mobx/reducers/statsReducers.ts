@@ -227,6 +227,11 @@ export function formatBalanceUnderlying(vault: Vault): string {
 	return formatTokens(vault.balance.multipliedBy(ppfs).dividedBy(10 ** vault.decimals));
 }
 
+export function formatDialogBalanceUnderlying(vault: Vault): string {
+	const ppfs = vault.symbol === 'bDIGG' ? getDiggPerShare(vault) : vault.pricePerShare;
+	return formatTokens(vault.balance.multipliedBy(ppfs).dividedBy(10 ** vault.decimals), vault.decimals);
+}
+
 export function formatHoldingsValue(vault: Vault, currency: string): string {
 	const diggMultiplier = vault.underlyingToken.symbol === 'DIGG' ? getDiggPerShare(vault) : new BigNumber(1);
 	return inCurrency(vault.holdingsValue().multipliedBy(diggMultiplier).dividedBy(1e18), currency, true);

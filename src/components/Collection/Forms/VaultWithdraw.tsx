@@ -8,7 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Loader } from 'components/Loader';
 import { BigNumber } from 'bignumber.js';
 import { useForm } from 'react-hook-form';
-import { formatBalanceUnderlying } from 'mobx/reducers/statsReducers';
+import { formatDialogBalanceUnderlying } from 'mobx/reducers/statsReducers';
 
 const TEXTFIELD_ID = 'amountField';
 
@@ -85,7 +85,7 @@ export const VaultWithdraw = observer((props: any) => {
 				>
 					<div>
 						<Typography variant="body2" color={'textSecondary'} style={{ marginBottom: '.2rem' }}>
-							Underlying {vault.underlyingToken.symbol}: {formatBalanceUnderlying(vault)}
+							Underlying {vault.underlyingToken.symbol}: {formatDialogBalanceUnderlying(vault)}
 						</Typography>
 						<Typography variant="body1" color={'textSecondary'} style={{ marginBottom: '.2rem' }}>
 							Deposited {vault.symbol}: {totalAvailable}
