@@ -9,6 +9,7 @@ import { VaultSymbol } from '../../Common/VaultSymbol';
 import { UnfoldMoreTwoTone } from '@material-ui/icons';
 import useInterval from '@use-it/interval';
 import { Vault } from '../../../mobx/model';
+import BigNumber from 'bignumber.js';
 
 const useStyles = makeStyles((theme) => ({
 	border: {
@@ -48,7 +49,7 @@ interface DepositCardProps {
 	vault: Vault;
 	sett: any;
 	onOpen: any;
-	balance: number;
+	balance: string;
 	balanceValue: string;
 }
 
@@ -95,14 +96,6 @@ export const DepositCard = (props: DepositCardProps): React.ReactElement => {
 		return { apy: 0, tooltip: '' };
 	};
 	const { apy, tooltip } = getRoi();
-	const getTokens = (tokens: number) => {
-		if (tokens > 0 && tokens < 0.00001) {
-			// Visual 0 Balance
-			return '< 0.00001';
-		}
-		return formatWithCommas(tokens);
-	};
-	const tokenBalance = getTokens(balance);
 
 	return (
 		<>
@@ -125,7 +118,7 @@ export const DepositCard = (props: DepositCardProps): React.ReactElement => {
 				</Grid>
 				<Grid item xs={6} md={2}>
 					<Typography variant="body1" color={'textPrimary'}>
-						{tokenBalance}
+						{balance}
 					</Typography>
 				</Grid>
 				<Grid item className={classes.mobileLabel} xs={6}>

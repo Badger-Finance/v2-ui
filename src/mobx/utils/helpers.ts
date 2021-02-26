@@ -241,6 +241,20 @@ export const inCurrency = (
 	return `${prefix}${fixedNormal}${suffix}`;
 };
 
+export const formatTokens = (value: BigNumber): string => {
+	let decimals = 5;
+
+	if (!value || value.isNaN()) return '0.00';
+	else {
+		if (value.gt(0) && value.lt(10 ** -decimals)) {
+			return '< 0.00001';
+		} else if (value.dividedBy(1e4).gt(1)) {
+			decimals = 2;
+		}
+		return numberWithCommas(value.toFixed(decimals, BigNumber.ROUND_HALF_FLOOR));
+	}
+};
+
 export const numberWithCommas = (x: string): string => {
 	const parts = x.toString().split('.');
 	parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
