@@ -16,15 +16,18 @@ import renBTCLogo from '../../assets/icons/renBTC.svg';
 import WBTCLogo from '../../assets/icons/WBTC.svg';
 import BTCLogo from '../../assets/icons/btc.svg';
 import BigNumber from 'bignumber.js';
-import { ERC20, BADGER_ADAPTER, CURVE_EXCHANGE, BTC_GATEWAY } from '../../config/constants';
 import {
+        ERC20,
+        BADGER_ADAPTER,
+        CURVE_EXCHANGE,
+        BTC_GATEWAY,
+        WBTC_ADDRESS,
+        RENBTC_ADDRESS,
+        CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS,
+        RENVM_GATEWAY_ADDRESS,
         // TODO: This is just a placeholder address, configure real adapter address once deployed.
-        BRIDGE_ADDR,
-        CURVE_WBTC_RENBTC_TRADING_PAIR_ADDR,
-        WBTC_TOKEN_ADDR,
-        RENBTC_TOKEN_ADDR,
-        RENVM_GATEWAY_ADDR,
-} from '../../config/system/bridge.json';
+        BADGER_BRIDGE_ADDRESS,
+} from '../../config/constants';
 
 const MIN_AMOUNT = 0.002;
 // SLIPPAGE_BUFFER increases estimated max slippage by 3%.
@@ -93,7 +96,7 @@ export const BridgeForm = observer((props: any) => {
 		token: 'renBTC',
 		renbtcBalance: 0,
 		wbtcBalance: 0,
-		bridgeAddress: BRIDGE_ADDR,
+		bridgeAddress: BADGER_BRIDGE_ADDRESS,
 		shortAddr: '',
 		badgerBurnFee: 0,
 		badgerMintFee: 0,
@@ -101,8 +104,8 @@ export const BridgeForm = observer((props: any) => {
 		renvmMintFee: 0,
 		renFee: 0,
 		badgerFee: 0,
-		lockNetworkFee: 0.001, 
-		releaseNetworkFee: 0.001, 
+		lockNetworkFee: 0.001,
+		releaseNetworkFee: 0.001,
 		tabValue: 0, // Keep on same tab even after reset
 	};
 	const [states, setStates] = useState(intialState);
@@ -169,9 +172,9 @@ export const BridgeForm = observer((props: any) => {
 
 	const web3 = new Web3(provider);
 	const adapterContract = new web3.eth.Contract(BADGER_ADAPTER, bridgeAddress);
-	const renbtcToken = new web3.eth.Contract(ERC20.abi as any, RENBTC_TOKEN_ADDR);
-	const wbtcToken = new web3.eth.Contract(ERC20.abi as any, WBTC_TOKEN_ADDR);
-	const gatewayContract = new web3.eth.Contract(BTC_GATEWAY, RENVM_GATEWAY_ADDR);
+	const renbtcToken = new web3.eth.Contract(ERC20.abi as any, RENBTC_ADDRESS);
+	const wbtcToken = new web3.eth.Contract(ERC20.abi as any, WBTC_ADDRESS);
+	const gatewayContract = new web3.eth.Contract(BTC_GATEWAY, RENVM_GATEWAY_ADDRESS);
 
 	const connectWallet = async () => {
 		if (!(await onboard.walletSelect())) return;
@@ -187,7 +190,7 @@ export const BridgeForm = observer((props: any) => {
 			tabValue: newValue,
 			receiveAmount: 0,
 			burnAmount: '',
-			amount: '',			
+			amount: '',
 		}));
 	};
 
@@ -238,7 +241,7 @@ export const BridgeForm = observer((props: any) => {
 			id: 67,
 			params: {}
 		};
-		
+
 		await fetch('https://lightnode-mainnet.herokuapp.com/', {
 			method: 'POST',
 			body: JSON.stringify(query),
@@ -330,10 +333,10 @@ export const BridgeForm = observer((props: any) => {
 		let completed: boolean = false;
 		const contractFn: string = 'mint';
 		let maxSlippage = 0;
-		let desiredToken = RENBTC_TOKEN_ADDR;
+		let desiredToken = RENBTC_ADDRESS;
 		if (token === 'WBTC') {
 			maxSlippage = Math.min(estimatedSlippage * SLIPPAGE_BUFFER, 1);
-			desiredToken = WBTC_TOKEN_ADDR
+			desiredToken = WBTC_ADDRESS
 		}
 		const params: any = [
 			{
@@ -417,10 +420,10 @@ export const BridgeForm = observer((props: any) => {
 		let methodSeries: any = [];
 		const contractFn: any = 'burn';
 		const amountSats = new BigNumber((burnAmount as any) * 10 ** 8);
-		let burnToken = RENBTC_TOKEN_ADDR;
+		let burnToken = RENBTC_ADDRESS;
 		let maxSlippage = 0;
 		if (token === 'WBTC') {
-			burnToken = WBTC_TOKEN_ADDR;
+			burnToken = WBTC_ADDRESS;
 			maxSlippage = Math.min(estimatedSlippage * SLIPPAGE_BUFFER, 1);
 		}
 		const params: any = [
@@ -447,7 +450,7 @@ export const BridgeForm = observer((props: any) => {
 		];
 
 		const tokenParam = {
-			address: token === 'renBTC' ? RENBTC_TOKEN_ADDR : WBTC_TOKEN_ADDR,
+			address: token === 'renBTC' ? RENBTC_ADDRESS : WBTC_ADDRESS,
 			symbol: token,
 			totalSupply: amountSats,
 		};
@@ -527,7 +530,7 @@ export const BridgeForm = observer((props: any) => {
 		}
 
 		try {
-			const curve = new web3.eth.Contract(CURVE_EXCHANGE, CURVE_WBTC_RENBTC_TRADING_PAIR_ADDR);
+			const curve = new web3.eth.Contract(CURVE_EXCHANGE, CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS);
 			const amountAfterFeesInSats = new BigNumber(amount * 10 ** 8);
 			let swapResult;
 			if (name === 'amount') {
@@ -539,7 +542,7 @@ export const BridgeForm = observer((props: any) => {
 				return 0;
 			}
 			const swapRatio = Number(swapResult / amountAfterFeesInSats.toNumber());
-			
+
 			console.log(`swapResult ${swapResult} amount ${amountAfterFeesInSats} swapratio ${swapRatio}`);
 			if (swapRatio >= 1) return 0;
 			return 1 - swapRatio;
