@@ -16,7 +16,7 @@ export const Redeem = observer((): any => {
 	const classes = commonStyles();
 
 	const {
-		ibBTCStore: { tokens, bBTC },
+		ibBTCStore: { tokens, ibBTC },
 	} = store;
 
 	let inputRef: any;
@@ -39,8 +39,8 @@ export const Redeem = observer((): any => {
 
 	const handleCalcOutputAmount = (err: any, result: any): void => {
 		if (!err) {
-			setOutputAmount(bBTC.unscale(new BigNumber(result[0])).toString(10));
-			setFee(bBTC.unscale(new BigNumber(result[1])).toString(10));
+			setOutputAmount(ibBTC.unscale(new BigNumber(result[0])).toString(10));
+			setFee(ibBTC.unscale(new BigNumber(result[1])).toString(10));
 		} else setOutputAmount('');
 	};
 
@@ -61,11 +61,11 @@ export const Redeem = observer((): any => {
 	};
 
 	const useMaxBalance = () => {
-		setInputAmount((inputRef.value = bBTC.unscale(bBTC.balance).toString(10)));
-		store.ibBTCStore.calcRedeemAmount(selectedToken, bBTC.balance, handleCalcOutputAmount);
+		setInputAmount((inputRef.value = ibBTC.unscale(ibBTC.balance).toString(10)));
+		store.ibBTCStore.calcRedeemAmount(selectedToken, ibBTC.balance, handleCalcOutputAmount);
 	};
 	const handleRedeemClick = () => {
-		store.ibBTCStore.redeem(selectedToken, bBTC.scale(new BigNumber(inputAmount)), handleRedeem);
+		store.ibBTCStore.redeem(selectedToken, ibBTC.scale(new BigNumber(inputAmount)), handleRedeem);
 	};
 
 	const handleRedeem = (err: any, result: any): void => {
@@ -76,14 +76,14 @@ export const Redeem = observer((): any => {
 		<Container className={classes.root} maxWidth="lg">
 			<div className={classes.outerWrapper}>
 				<Typography variant="caption" className={classes.balance}>
-					Available {bBTC.symbol}: {bBTC.formattedBalance}
+					Available {ibBTC.symbol}: {ibBTC.formattedBalance}
 				</Typography>
 
 				<div className={classes.inputWrapper}>
 					<div className={classes.token}>
-						<img src={bBTC.icon} className={classes.tokenIcon} alt={bBTC.name} />
+						<img src={ibBTC.icon} className={classes.tokenIcon} alt={ibBTC.name} />
 						<Typography className={classes.tokenLabel} variant="body1">
-							{bBTC.symbol}
+							{ibBTC.symbol}
 						</Typography>
 					</div>
 					<input
@@ -139,18 +139,18 @@ export const Redeem = observer((): any => {
 						<Typography variant="subtitle1">Current Conversion Rate: </Typography>
 						{outputAmount ? (
 							<Typography variant="subtitle1">
-								{inputAmount} {bBTC.symbol}: {outputAmount} {selectedToken.symbol}
+								{inputAmount} {ibBTC.symbol}: {outputAmount} {selectedToken.symbol}
 							</Typography>
 						) : (
 							<Typography variant="subtitle1">
-								1 {bBTC.symbol}: {selectedToken.mintRate || ''} {selectedToken.symbol}
+								1 {ibBTC.symbol}: {selectedToken.mintRate || ''} {selectedToken.symbol}
 							</Typography>
 						)}
 					</div>
 					<div className={classes.summaryRow}>
 						<Typography variant="subtitle1">Fees: </Typography>
 						<Typography variant="subtitle1">
-							{fee} {bBTC.symbol}
+							{fee} {ibBTC.symbol}
 						</Typography>
 					</div>
 				</div>

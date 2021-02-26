@@ -16,7 +16,7 @@ export const Mint = observer((): any => {
 	const classes = commonStyles();
 
 	const {
-		ibBTCStore: { tokens, bBTC },
+		ibBTCStore: { tokens, ibBTC },
 	} = store;
 
 	let inputRef: any;
@@ -39,8 +39,8 @@ export const Mint = observer((): any => {
 
 	const handleCalcOutputAmount = (err: any, result: any): void => {
 		if (!err) {
-			setOutputAmount(bBTC.unscale(new BigNumber(result[0])).toString(10));
-			setFee(bBTC.unscale(new BigNumber(result[1])).toString(10));
+			setOutputAmount(ibBTC.unscale(new BigNumber(result[0])).toString(10));
+			setFee(ibBTC.unscale(new BigNumber(result[1])).toString(10));
 		} else setOutputAmount('');
 	};
 
@@ -114,13 +114,13 @@ export const Mint = observer((): any => {
 			</div>
 			<div className={classes.outerWrapper}>
 				<Typography variant="caption" className={classes.balance}>
-					Available {bBTC.symbol}: {bBTC.formattedBalance}
+					Available {ibBTC.symbol}: {ibBTC.formattedBalance}
 				</Typography>
 				<div className={classes.inputWrapper}>
 					<div className={classes.token}>
-						<img src={bBTC.icon} className={classes.tokenIcon} alt={bBTC.name} />
+						<img src={ibBTC.icon} className={classes.tokenIcon} alt={ibBTC.name} />
 						<Typography className={classes.tokenLabel} variant="body1">
-							{bBTC.symbol}
+							{ibBTC.symbol}
 						</Typography>
 					</div>
 					<input
@@ -139,18 +139,18 @@ export const Mint = observer((): any => {
 						<Typography variant="subtitle1">Current Conversion Rate: </Typography>
 						{outputAmount ? (
 							<Typography variant="subtitle1">
-								{inputAmount} {selectedToken.symbol}: {outputAmount} {bBTC.symbol}
+								{inputAmount} {selectedToken.symbol}: {outputAmount} {ibBTC.symbol}
 							</Typography>
 						) : (
 							<Typography variant="subtitle1">
-								1 {selectedToken.symbol}: {selectedToken.mintRate || ''} {bBTC.symbol}
+								1 {selectedToken.symbol}: {selectedToken.mintRate || ''} {ibBTC.symbol}
 							</Typography>
 						)}
 					</div>
 					<div className={classes.summaryRow}>
 						<Typography variant="subtitle1">Fees: </Typography>
 						<Typography variant="subtitle1">
-							{fee} {bBTC.symbol}
+							{fee} {ibBTC.symbol}
 						</Typography>
 					</div>
 				</div>

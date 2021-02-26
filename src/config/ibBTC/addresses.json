@@ -2,10 +2,10 @@
 	"mainnet": {
 		"contracts": {
 			"tokens": {
-				"bBTC": {
+				"ibBTC": {
 					"address": "0x9A9f2CCfdE556A7E9Ff0848998Aa4a0CFD8863AE",
 					"decimals": 18,
-					"symbol": "bBTC",
+					"symbol": "ibBTC",
 					"name": "Badger BTC"
 				},
 				"bcrvRenWSBTC": {

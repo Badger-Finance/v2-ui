@@ -22,7 +22,7 @@ class IbBTCStore {
 	private config!: typeof addresses.mainnet;
 
 	public tokens: Array<TokenModel> = [];
-	public bBTC: TokenModel;
+	public ibBTC: TokenModel;
 
 	constructor(store: RootStore) {
 		this.store = store;
@@ -31,10 +31,10 @@ class IbBTCStore {
 
 		extendObservable(this, {
 			tokens: [],
-			bBTC: null,
+			ibBTC: null,
 		});
 
-		this.bBTC = new TokenModel(this.store, token_config['bBTC']);
+		this.ibBTC = new TokenModel(this.store, token_config['ibBTC']);
 		this.tokens = [
 			new TokenModel(this.store, token_config['bcrvRenWSBTC']),
 			new TokenModel(this.store, token_config['bcrvRenWBTC']),
@@ -62,7 +62,7 @@ class IbBTCStore {
 			this.tokens.forEach(async (token) => {
 				token.balance = await this.fetchBalance(token);
 			});
-			this.bBTC.balance = await this.fetchBalance(this.bBTC);
+			this.ibBTC.balance = await this.fetchBalance(this.ibBTC);
 		},
 	);
 
@@ -219,7 +219,7 @@ class IbBTCStore {
 						queueNotification(`Mint submitted.`, 'info', hash);
 					})
 					.on('receipt', () => {
-						queueNotification(`Successfully minted ${this.bBTC.symbol}`, 'success');
+						queueNotification(`Successfully minted ${this.ibBTC.symbol}`, 'success');
 						this.init();
 						callback(null, {});
 					})
@@ -239,8 +239,8 @@ class IbBTCStore {
 		if (!connectedAddress) return queueNotification('Please connect a wallet', 'error');
 		if (!amount || amount.isNaN() || amount.lte(0))
 			return queueNotification('Please enter a valid amount', 'error');
-		if (amount.gt(this.bBTC.balance))
-			return queueNotification(`You have insufficient balance of ${this.bBTC.symbol}`, 'error');
+		if (amount.gt(this.ibBTC.balance))
+			return queueNotification(`You have insufficient balance of ${this.ibBTC.symbol}`, 'error');
 
 		this.redeemBBTC(outToken, amount, callback);
 	});
