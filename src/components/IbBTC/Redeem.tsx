@@ -40,7 +40,7 @@ export const Redeem = observer((): any => {
 	const handleCalcOutputAmount = (err: any, result: any): void => {
 		if (!err) {
 			setOutputAmount(ibBTC.unscale(new BigNumber(result[0])).toString(10));
-			setFee(ibBTC.unscale(new BigNumber(result[1])).toString(10));
+			setFee(ibBTC.unscale(new BigNumber(result[1])).toFixed(4));
 		} else setOutputAmount('');
 	};
 
@@ -137,15 +137,14 @@ export const Redeem = observer((): any => {
 				<div className={classes.summaryWrapper}>
 					<div className={classes.summaryRow}>
 						<Typography variant="subtitle1">Current Conversion Rate: </Typography>
-						{outputAmount ? (
-							<Typography variant="subtitle1">
-								{inputAmount} {ibBTC.symbol}: {outputAmount} {selectedToken.symbol}
-							</Typography>
-						) : (
-							<Typography variant="subtitle1">
-								1 {ibBTC.symbol}: {selectedToken.mintRate || ''} {selectedToken.symbol}
-							</Typography>
-						)}
+						<Typography variant="subtitle1">
+							1 {ibBTC.symbol}:{' '}
+							{(
+								parseFloat(outputAmount.toString() || selectedToken.redeemRate.toString()) /
+								parseFloat(inputAmount.toString() || '1')
+							).toFixed(4)}{' '}
+							{selectedToken.symbol}
+						</Typography>
 					</div>
 					<div className={classes.summaryRow}>
 						<Typography variant="subtitle1">Fees: </Typography>

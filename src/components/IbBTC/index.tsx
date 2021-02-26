@@ -31,10 +31,7 @@ export const IbBTC = (): any => {
 		<Container className={classes.root} maxWidth="lg">
 			<Grid container spacing={1} justify="center">
 				<Grid item sm={12} xs={12}>
-					<Hero
-						title="ibBTC"
-						subtitle="Interest bearing Bitcoin using Defi Primitives. Governed by BadgerDAO."
-					/>
+					<Hero title="ibBTC" subtitle="Interest Bearing Badger Bitcoin." />
 				</Grid>
 
 				<Grid item sm={12} xs={12}>
@@ -126,5 +123,8 @@ export const commonStyles = makeStyles(() => ({
 	summaryRow: {
 		display: 'flex',
 		justifyContent: 'space-between',
+		'& h6:last-child': {
+			textAlign: 'end',
+		},
 	},
 }));

@@ -40,7 +40,7 @@ export const Mint = observer((): any => {
 	const handleCalcOutputAmount = (err: any, result: any): void => {
 		if (!err) {
 			setOutputAmount(ibBTC.unscale(new BigNumber(result[0])).toString(10));
-			setFee(ibBTC.unscale(new BigNumber(result[1])).toString(10));
+			setFee(ibBTC.unscale(new BigNumber(result[1])).toFixed(4));
 		} else setOutputAmount('');
 	};
 
@@ -137,16 +137,16 @@ export const Mint = observer((): any => {
 				<div className={classes.summaryWrapper}>
 					<div className={classes.summaryRow}>
 						<Typography variant="subtitle1">Current Conversion Rate: </Typography>
-						{outputAmount ? (
-							<Typography variant="subtitle1">
-								{inputAmount} {selectedToken.symbol}: {outputAmount} {ibBTC.symbol}
-							</Typography>
-						) : (
-							<Typography variant="subtitle1">
-								1 {selectedToken.symbol}: {selectedToken.mintRate || ''} {ibBTC.symbol}
-							</Typography>
-						)}
+						<Typography variant="subtitle1">
+							1 {selectedToken.symbol}:{' '}
+							{(
+								parseFloat(outputAmount.toString() || selectedToken.mintRate.toString()) /
+								parseFloat(inputAmount.toString() || '1')
+							).toFixed(4)}{' '}
+							{ibBTC.symbol}
+						</Typography>
 					</div>
+
 					<div className={classes.summaryRow}>
 						<Typography variant="subtitle1">Fees: </Typography>
 						<Typography variant="subtitle1">
