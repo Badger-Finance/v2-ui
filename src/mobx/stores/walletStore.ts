@@ -22,7 +22,7 @@ class WalletStore {
 
 		const onboardOptions: any = {
 			dappId: 'af74a87b-cd08-4f45-83ff-ade6b3859a07',
-			networkId: 1337,
+			networkId: 1,
 			darkMode: true,
 			subscriptions: {
 				address: this.setAddress,
