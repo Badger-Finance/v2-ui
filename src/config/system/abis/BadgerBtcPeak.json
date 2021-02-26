@@ -17,12 +17,12 @@
 			"outputs": [
 				{
 					"internalType": "uint256",
-					"name": "",
+					"name": "bBTC",
 					"type": "uint256"
 				},
 				{
 					"internalType": "uint256",
-					"name": "",
+					"name": "fee",
 					"type": "uint256"
 				}
 			],
@@ -46,12 +46,17 @@
 			"outputs": [
 				{
 					"internalType": "uint256",
-					"name": "",
+					"name": "sett",
 					"type": "uint256"
 				},
 				{
 					"internalType": "uint256",
-					"name": "",
+					"name": "fee",
+					"type": "uint256"
+				},
+				{
+					"internalType": "uint256",
+					"name": "max",
 					"type": "uint256"
 				}
 			],

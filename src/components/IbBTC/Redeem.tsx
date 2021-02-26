@@ -1,5 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { Container, Button, Typography } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import red from '@material-ui/core/colors/red';
 
 import { observer } from 'mobx-react-lite';
 import BigNumber from 'bignumber.js';
@@ -10,10 +12,15 @@ import { StoreContext } from 'mobx/store-context';
 import { TokenModel } from 'mobx/model';
 
 const ZERO = new BigNumber(0);
-
+const localStyle = makeStyles(() => ({
+	error: {
+		color: red[400],
+	},
+}));
 export const Redeem = observer((): any => {
 	const store = useContext(StoreContext);
 	const classes = commonStyles();
+	const scopedClasses = localStyle();
 
 	const {
 		ibBTCStore: { tokens, ibBTC },
@@ -26,6 +33,8 @@ export const Redeem = observer((): any => {
 	const [outputAmount, setOutputAmount] = useState<number | string>('');
 	const initialFee = (1 - parseFloat(selectedToken.redeemRate && selectedToken.mintRate.toString())).toFixed(3);
 	const [fee, setFee] = useState<number | string>(initialFee);
+	const [isEnoughToRedeem, setIsEnoughToRedeem] = useState<boolean>(true);
+	const [maxRedeem, setMaxRedeem] = useState<BigNumber | string>('');
 	const _debouncedSetInputAmount = debounce(600, (val) => {
 		setInputAmount(val);
 		val = new BigNumber(val);
@@ -39,7 +48,11 @@ export const Redeem = observer((): any => {
 
 	const handleCalcOutputAmount = (err: any, result: any): void => {
 		if (!err) {
-			setOutputAmount(ibBTC.unscale(new BigNumber(result[0])).toString(10));
+			const toBeRedeemed = selectedToken.unscale(new BigNumber(result[0]));
+			const availableToRedeemed = ibBTC.unscale(new BigNumber(result.max));
+			setMaxRedeem(availableToRedeemed.toFixed(4));
+			setIsEnoughToRedeem(availableToRedeemed.gt(toBeRedeemed));
+			setOutputAmount(toBeRedeemed.toString(10));
 			setFee(ibBTC.unscale(new BigNumber(result[1])).toFixed(4));
 		} else setOutputAmount('');
 	};
@@ -135,6 +148,15 @@ export const Redeem = observer((): any => {
 			</div>
 			<div className={classes.outerWrapper}>
 				<div className={classes.summaryWrapper}>
+					{!isEnoughToRedeem ? (
+						<div className={classes.summaryRow}>
+							<Typography variant="subtitle1" className={scopedClasses.error}>
+								A maximum of {maxRedeem} {ibBTC.symbol} can be redeemed to {selectedToken.symbol}
+							</Typography>
+						</div>
+					) : (
+						''
+					)}
 					<div className={classes.summaryRow}>
 						<Typography variant="subtitle1">Current Conversion Rate: </Typography>
 						<Typography variant="subtitle1">
@@ -155,7 +177,13 @@ export const Redeem = observer((): any => {
 				</div>
 			</div>
 			<div className={classes.outerWrapper}>
-				<Button size="large" variant="contained" color="primary" onClick={handleRedeemClick}>
+				<Button
+					size="large"
+					variant="contained"
+					color="primary"
+					onClick={handleRedeemClick}
+					disabled={!isEnoughToRedeem}
+				>
 					REDEEM
 				</Button>
 			</div>

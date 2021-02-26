@@ -126,5 +126,8 @@ export const commonStyles = makeStyles(() => ({
 		'& h6:last-child': {
 			textAlign: 'end',
 		},
+		'& h6:first-child': {
+			textAlign: 'start',
+		},
 	},
 }));
