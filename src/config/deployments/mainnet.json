@@ -151,5 +151,11 @@
 			"SwapStrategyRouter": "0x2cb501d371ba2248BB48455D3293d47cE773E0F7",
 			"CurveSwapStrategy": "0x883c6631248605Ee33E99060B7E8910D3dAB2Cf3"
 		}
+	},
+	"claw_system": {
+		"emps": {
+			"bClaw": "0x3F9E5Fc63b644797bd703CED7c29b57B1Bf0B220",
+			"sClaw": "0x5E4a8D011ef8d9E8B407cc87c68bD211B7ac72ab"
+		}
 	}
 }
