@@ -30,6 +30,9 @@ export const reduceBatchResult = (result: any[]): any[] => {
 				});
 				return newElement;
 			}
+			if (key === 'decimals') {
+				return Array.isArray(element) ? parseInt(element[0].value) : parseInt(element);
+			}
 			return Array.isArray(element) ? reduceResult(element[0].value) : reduceResult(element);
 		});
 	});
@@ -99,8 +102,8 @@ export const reduceGraphResult = (graphResult: any[], prices: GraphResultPrices)
 			if (token1Value) token1Value = token1Value.ethValue / 1e18;
 
 			// fall back to derived ETH from thegraph
-			if (!token0Value) new BigNumber(element.data.pair.token0.derivedETH);
-			if (!token1Value) new BigNumber(element.data.pair.token1.derivedETH);
+			if (!token0Value) token0Value = new BigNumber(element.data.pair.token0.derivedETH);
+			if (!token1Value) token1Value = new BigNumber(element.data.pair.token1.derivedETH);
 
 			const reserve0 = new BigNumber(token0Value)
 				.multipliedBy(new BigNumber(element.data.pair.reserve0))
@@ -119,9 +122,6 @@ export const reduceGraphResult = (graphResult: any[], prices: GraphResultPrices)
 		return {
 			address: tokenAddress.toLowerCase(),
 			type: !!element.data.pair ? 'pair' : 'token',
-			// symbol: !!element.data.pair
-			// 	? element.data.pair.token0.symbol + '/' + element.data.pair.token1.symbol
-			// 	: element.data.token.symbol,
 			name: !!element.data.pair
 				? element.data.pair.token0.name + '/' + element.data.pair.token1.name
 				: element.data.token.name,
@@ -156,7 +156,7 @@ export const reduceCurveResult = (
 		let sum = new BigNumber(0);
 		let count = 0;
 		result.map((sample: any, i: number) => {
-			sum = sum.plus(result[0].virtual_price);
+			sum = sum.plus(sample.virtual_price);
 			count++;
 			if (i > 10) return;
 		});

@@ -52,7 +52,6 @@ export default function DepositList(props: DepositListProps): JSX.Element {
 		const userBalance =
 			vault && vault.underlyingToken ? new BigNumber(vault.underlyingToken.balance) : new BigNumber(0);
 		if (sett && userBalance.gt(0)) {
-			console.log(vault.underlyingToken.balance.dividedBy(10 ** vault.underlyingToken.decimals).toString());
 			return (
 				<ListItem key={address} className={classes.listItem}>
 					<DepositCard
@@ -60,7 +59,7 @@ export default function DepositList(props: DepositListProps): JSX.Element {
 						vault={vault}
 						sett={sett}
 						onOpen={onOpen}
-						balance={parseFloat(formatBalance(vault.underlyingToken))}
+						balance={formatBalance(vault.underlyingToken)}
 						balanceValue={formatTokenBalanceValue(vault.underlyingToken, currency)}
 					/>
 				</ListItem>
@@ -80,7 +79,7 @@ export default function DepositList(props: DepositListProps): JSX.Element {
 						vault={vault}
 						sett={sett}
 						onOpen={onOpen}
-						balance={parseFloat(formatBalanceUnderlying(vault))}
+						balance={formatBalanceUnderlying(vault)}
 						balanceValue={formatBalanceValue(vault, currency)}
 					/>
 				</ListItem>
@@ -101,7 +100,7 @@ export default function DepositList(props: DepositListProps): JSX.Element {
 						vault={vault}
 						sett={sett}
 						onOpen={onOpen}
-						balance={parseFloat(formatGeyserBalance(geyser))}
+						balance={formatGeyserBalance(geyser)}
 						balanceValue={formatGeyserBalanceValue(geyser, currency)}
 					/>
 				</ListItem>

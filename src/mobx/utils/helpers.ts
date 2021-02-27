@@ -72,8 +72,18 @@ export const jsonQuery = (url: string): Promise<Response> => {
 			'Content-Type': 'application/json',
 			Accept: 'application/json',
 		},
-	}).then((response: any) => response.json());
+	}).then((response: any) => {
+		return response.json();
+	});
 };
+
+export const textQuery = (url: string): Promise<Response> => {
+	// Use this query to return text without formatting to JSON for debugging
+	return fetch(url, {}).then((response: any) => {
+		return response.text();
+	});
+};
+
 export const vanillaQuery = (url: string): Promise<Response> => {
 	return fetch(url, {
 		method: 'GET',
@@ -227,6 +237,23 @@ export const inCurrency = (
 		: numberWithCommas(normal.toFixed(decimals, BigNumber.ROUND_HALF_FLOOR));
 
 	return `${prefix}${fixedNormal}${suffix}`;
+};
+
+export const formatTokens = (value: BigNumber, decimals = 5): string => {
+	if (!value || value.isNaN()) {
+		let formattedZero = '0.';
+		for (let i = 0; i < decimals; i++) {
+			formattedZero += '0';
+		}
+		return formattedZero;
+	} else {
+		if (value.gt(0) && value.lt(10 ** -decimals)) {
+			return '< 0.00001';
+		} else if (value.dividedBy(1e4).gt(1)) {
+			decimals = 2;
+		}
+		return numberWithCommas(value.toFixed(decimals, BigNumber.ROUND_HALF_FLOOR));
+	}
 };
 
 export const numberWithCommas = (x: string): string => {

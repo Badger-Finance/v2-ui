@@ -131,7 +131,7 @@ export const Sidebar = observer(() => {
 						style={{ marginTop: '.5rem' }}
 						className={classes.listItem}
 					>
-						v2.4.0
+						v2.4.1
 						<IconButton
 							size="small"
 							className={classes.expand + ' ' + (expanded === 'advanced' ? classes.expandOpen : '')}
