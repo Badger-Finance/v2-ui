@@ -1,27 +1,31 @@
 import React, { FC, useState } from 'react';
 import { Grid, Box, Button } from '@material-ui/core';
+import { observer } from 'mobx-react-lite';
+import { useContext } from 'react';
+import { StoreContext } from 'mobx/store-context';
 import ClawParams, { ClawParam } from './ClawParams';
 import { useMainStyles } from './index';
 import ClawLabel from './ClawLabel';
 import ClawDetails from './ClawDetails';
-
-const tokenOptions = ['wBTCwETHSLP', 'bBadger'];
-
-const expiryOptions: Record<string, string[]> = {
-	wBTCwETHSLP: ['eCLAW FEB20', 'eCLAW MAR20'],
-	bBadger: ['bCLAW FEB20', 'bCLAW FEB20'],
-};
-
-const eCLAWS: Record<string, string> = {
-	wBTCwETHSLP: '1000',
-	bBadger: '2000',
-};
+import { Loader } from 'components/Loader';
 
 const initialValue: ClawParam = {
 	amount: '0.00',
 };
 
-export const Mint: FC = () => {
+export const Mint: FC = observer(() => {
+	const { claw: store } = useContext(StoreContext);
+	const {
+		isLoading,
+		collaterals,
+		eClaws,
+		syntheticsDataByEMP,
+		sponsorInformationByEMP,
+		collateralEclawRelation,
+	} = store;
+
+	console.log({ collaterals, eClaws, syntheticsDataByEMP, sponsorInformationByEMP, collateralEclawRelation });
+
 	const classes = useMainStyles();
 	//TODO value should be in store
 	const SLPTokenBalance = '0.000017';
@@ -30,17 +34,17 @@ export const Mint: FC = () => {
 
 	const error = collateral.error || mintable.error;
 
+	if (isLoading) {
+		return <Loader />;
+	}
+
 	return (
 		<Grid container>
 			<Box clone pb={4}>
 				<Grid item xs={12}>
 					<Box clone pb={1}>
 						<Grid item xs={12}>
-							<ClawLabel
-								name="Collateral"
-								balanceLabel="Available wbtcWethSLP:"
-								balance={SLPTokenBalance}
-							/>
+							<ClawLabel name="Collateral" balanceLabel="" balance={'0'} />
 						</Grid>
 					</Box>
 					<Grid item xs={12}>
@@ -57,31 +61,28 @@ export const Mint: FC = () => {
 							}}
 							selectedOption={collateral.selectedOption}
 							onOptionChange={(selectedOption: string) => {
+								console.log({ selectedOption });
 								setMintable(initialValue);
 								setCollateral({
 									...collateral,
 									selectedOption,
 								});
 							}}
-							options={tokenOptions}
+							options={collaterals}
 							disabledAmount={!collateral.selectedOption}
 						/>
 					</Grid>
 				</Grid>
 			</Box>
-			<Grid item xs={12}>
+			{/* <Grid item xs={12}>
 				<Box clone pb={1}>
 					<Grid item xs={12}>
-						<ClawLabel
-							name="Mintable"
-							balanceLabel="Maximum eCLAW:"
-							balance={collateral.selectedOption && eCLAWS[collateral.selectedOption]}
-						/>
+						<ClawLabel name="Mintable" balanceLabel="" balance={'0'} />
 					</Grid>
 				</Box>
 				<Grid item xs={12}>
 					<ClawParams
-						referenceBalance={collateral.selectedOption && eCLAWS[collateral.selectedOption]}
+						referenceBalance={collateral.selectedOption && '0'}
 						placeholder="Select Expiry"
 						amount={mintable.amount}
 						onAmountChange={(amount: string, error?: boolean) => {
@@ -92,7 +93,11 @@ export const Mint: FC = () => {
 							});
 						}}
 						selectedOption={mintable.selectedOption}
-						options={collateral.selectedOption ? expiryOptions[collateral.selectedOption] : []}
+						options={
+							collateral.selectedOption && collateralEclawRelation.get(collateral.selectedOption)
+								? [collateralEclawRelation.get(collateral.selectedOption) || '']
+								: []
+						}
 						onOptionChange={(selectedOption: string) => {
 							setMintable({
 								...mintable,
@@ -103,7 +108,7 @@ export const Mint: FC = () => {
 						disabledOptions={!collateral.selectedOption}
 					/>
 				</Grid>
-			</Grid>
+			</Grid> */}
 			<Grid item xs={12}>
 				<Grid container className={classes.details}>
 					<ClawDetails
@@ -133,6 +138,6 @@ export const Mint: FC = () => {
 			</Grid>
 		</Grid>
 	);
-};
+});
 
 export default Mint;

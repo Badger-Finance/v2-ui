@@ -10,6 +10,7 @@ import TransactionsStore from './stores/transactionsStore';
 import SettStoreV2 from './stores/settStoreV2';
 import { NETWORK_LIST } from '../config/constants';
 import { HoneyPotStore } from './stores/honeyPotStore';
+import { ClawStore } from './stores/clawStore';
 
 export class RootStore {
 	public router: RouterStore<RootStore>;
@@ -23,6 +24,7 @@ export class RootStore {
 	public setts: SettStoreV2;
 	public transactions: TransactionsStore;
 	public honeyPot: HoneyPotStore;
+	public claw: ClawStore;
 
 	constructor() {
 		this.router = new RouterStore<RootStore>(this);
@@ -37,6 +39,7 @@ export class RootStore {
 		// RenVM transactions store.
 		this.transactions = new TransactionsStore(this);
 		this.setts = new SettStoreV2(this);
+		this.claw = new ClawStore(this);
 
 		this.walletRefresh();
 	}

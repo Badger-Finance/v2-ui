@@ -5,6 +5,7 @@ import Hero from 'components/Common/Hero';
 import Mint from './Mint';
 import Manage from './Manage';
 import Redeem from './Redeem';
+import { observer } from 'mobx-react-lite';
 
 const TABS = {
 	MINT: 0,
@@ -50,7 +51,7 @@ export const useMainStyles = makeStyles((theme) => ({
 	},
 }));
 
-export const Claws: FC = () => {
+export const Claws: FC = observer(() => {
 	const classes = useMainStyles();
 	const [activeTab, setActiveTab] = useState(0);
 	const [globalData, setGlobalData] = useState(false);
@@ -107,4 +108,4 @@ export const Claws: FC = () => {
 			</Grid>
 		</Container>
 	);
-};
+});

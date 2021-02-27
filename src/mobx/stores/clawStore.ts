@@ -1,9 +1,20 @@
-import BigNumber from 'bignumber.js';
-import { observe } from 'mobx';
+import { action, observe, extendObservable } from 'mobx';
 import { RootStore } from 'mobx/store';
 import { getClawEmp, getClawEmpSponsor } from 'mobx/utils/api';
-
+import BigNumber from 'bignumber.js';
+import {
+	EMPS_ADDRESSES,
+	reduceCollateralEclawRelation,
+	reduceCollaterals,
+	reduceEclaws,
+	reduceSponsorData,
+	reduceSyntheticsData,
+} from 'mobx/reducers/clawsReducer';
 export interface SyntheticData {
+	// Long name of the synhetic (includes expiration date)
+	name: string;
+	// Token address of the underlying collateral currency.
+	collateralCurrency: string;
 	globalCollateralizationRatio: BigNumber;
 	totalPositionCollateral: BigNumber; // Total collateral supplied.
 	totalTokensOutstanding: BigNumber; // Token debt issued.
@@ -18,15 +29,13 @@ export interface SyntheticData {
 	// position without a dispute.
 	liquidationLiveness: BigNumber;
 }
-
 export interface SponsorData {
-	liquidations: Liqudation[];
+	liquidations: Liquidation[];
 	position: Position;
 	pendingWithdrawal: boolean;
 }
 
-// Liquidation Interface
-interface Liqudation {
+interface Liquidation {
 	/*
 	 * Following variables set upon creation of liquidation:
 	 * Liquidated (and expired or not), Pending a Dispute, or Dispute has resolved
@@ -54,7 +63,7 @@ interface Liqudation {
 	settlementPrice: BigNumber; // Final price as determined by an Oracle following a dispute
 	finalFee: BigNumber;
 }
-// Position Interface
+
 interface Position {
 	tokensOutstanding: BigNumber;
 	withdrawalRequestPassTimestamp: BigNumber;
@@ -65,36 +74,66 @@ interface Position {
 
 export class ClawStore {
 	private store: RootStore;
-	private readonly synthetics = [
-		'0x3F9E5Fc63b644797bd703CED7c29b57B1Bf0B220',
-		'0x5E4a8D011ef8d9E8B407cc87c68bD211B7ac72ab',
-	];
+
 	syntheticsData: SyntheticData[] = [];
 	sponsorInformation: SponsorData[] = [];
+	syntheticsDataByEMP: Map<string, SyntheticData> = new Map();
+	sponsorInformationByEMP: Map<string, SponsorData> = new Map();
+	collaterals: Map<string, string> = new Map();
+	eClaws: Map<string, string> = new Map();
+	collateralEclawRelation: Map<string, string> = new Map();
 	isLoading = false;
 
 	constructor(store: RootStore) {
 		this.store = store;
 
+		extendObservable(this, {
+			syntheticsData: this.syntheticsData,
+			sponsorInformation: this.sponsorInformation,
+			isLoading: this.isLoading,
+			syntheticsDataByEMP: this.syntheticsDataByEMP,
+			sponsorInformationByEMP: this.sponsorInformationByEMP,
+			collaterals: this.collaterals,
+			eClaws: this.eClaws,
+			collateralEclawRelation: this.collateralEclawRelation,
+		});
+
 		observe(this.store.wallet, 'connectedAddress', () => {
-			this.fetchSyntheticsData();
 			this.fetchSponsorData();
 		});
+
+		this.fetchSyntheticsData();
 	}
 
-	async fetchSyntheticsData(): Promise<void> {
-		this.isLoading = true;
-		this.syntheticsData = await Promise.all(this.synthetics.map((syntethic) => getClawEmp(syntethic)));
-		this.isLoading = false;
-	}
+	fetchSyntheticsData = action(async () => {
+		try {
+			this.isLoading = true;
+			this.syntheticsData = await Promise.all(EMPS_ADDRESSES.map((synthetic) => getClawEmp(synthetic)));
+			this.syntheticsDataByEMP = reduceSyntheticsData(this);
+			this.collaterals = reduceCollaterals(this);
+			this.collateralEclawRelation = reduceCollateralEclawRelation(this);
+			this.eClaws = reduceEclaws();
+		} catch (error) {
+			console.log(error);
+		} finally {
+			this.isLoading = false;
+		}
+	});
 
-	async fetchSponsorData(): Promise<void> {
+	fetchSponsorData = action(async () => {
 		const { connectedAddress } = this.store.wallet;
-
-		this.isLoading = true;
-		this.syntheticsData = await Promise.all(
-			this.synthetics.map((syntethic) => getClawEmpSponsor(syntethic, connectedAddress)),
-		);
-		this.isLoading = true;
-	}
+		try {
+			this.isLoading = true;
+			this.sponsorInformation = await Promise.all(
+				EMPS_ADDRESSES.map((synthetic) => getClawEmpSponsor(synthetic, connectedAddress)),
+			);
+			this.sponsorInformationByEMP = reduceSponsorData(this);
+		} catch (error) {
+			console.log(error);
+		} finally {
+			this.isLoading = false;
+		}
+	});
 }
+
+export default ClawStore;

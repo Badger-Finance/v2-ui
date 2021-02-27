@@ -72,7 +72,6 @@ const Redeem: FC = () => {
 							});
 						}}
 						selectedOption={redeemParams.selectedOption}
-						options={options}
 						onOptionChange={(selectedOption: string) => {
 							setRedeemParams({
 								selectedOption,
