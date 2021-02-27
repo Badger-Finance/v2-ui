@@ -29,6 +29,9 @@ export const reduceBatchResult = (result: any[]): any[] => {
 				});
 				return newElement;
 			}
+			if (key === 'decimals') {
+				return Array.isArray(element) ? parseInt(element[0].value) : parseInt(element);
+			}
 			return Array.isArray(element) ? reduceResult(element[0].value) : reduceResult(element);
 		});
 	});

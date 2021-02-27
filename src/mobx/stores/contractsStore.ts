@@ -216,7 +216,6 @@ class ContractsStore {
 				const vaultGrowth = reduceGrowth(queryResult.slice(1, growthQueries.length + 1), periods, START_TIME);
 				const xROI: any = reduceXSushiROIResults(xSushiResult[0]['weekly_APY']);
 				const newSushiRewards = reduceSushiAPIResults(masterChefResult[0], sushiBatches.contracts);
-
 				result.forEach((contract: any, i: number) => {
 					const tokenAddress = tokenMap[contract.address];
 					if (!tokenAddress) {
@@ -245,7 +244,6 @@ class ContractsStore {
 
 					//TODO: xSushi ROI not added in here - need vault balance which doesn't seem to be set.
 					// console.log(vault)
-
 					// update ppfs from ppfs api
 					contract.getPricePerFullShare = new BigNumber(ppfsResult[vault.address]);
 					vault.update(
@@ -253,7 +251,6 @@ class ContractsStore {
 							growth: _.compact([growth, xSushiGrowth]),
 						}),
 					);
-
 					// update vaultBalance if given
 					vault.vaultBalance = isNaN(parseFloat(result[i].balance))
 						? new BigNumber(0.0)

@@ -63,7 +63,6 @@ export const SettList = observer((props: any) => {
 		sett: { assets, setts, diggSetts },
 		uiState: { stats, currency, period },
 	} = store;
-
 	const [dialogProps, setDialogProps] = useState({ open: false, vault: undefined as any, sett: undefined as any });
 
 	const onOpen = (vault: Vault, sett: any) => {
