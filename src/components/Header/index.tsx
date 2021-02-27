@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useSnackbar } from 'notistack';
 import { observer } from 'mobx-react-lite';
 import views from '../../config/routes';
 import { useContext } from 'react';
@@ -6,8 +7,6 @@ import { StoreContext } from '../../mobx/store-context';
 import { Toolbar, AppBar, IconButton } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Menu } from '@material-ui/icons';
-
-import { useSnackbar } from 'notistack';
 
 const useStyles = makeStyles((theme) => ({
 	appBar: {

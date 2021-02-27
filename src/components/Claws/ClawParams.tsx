@@ -22,15 +22,13 @@ export interface ClawParam {
 
 interface Props {
 	placeholder: string;
-	options?: string[];
+	options?: Map<string, string>;
 	referenceBalance?: string;
 	amount?: string;
 	selectedOption?: string;
 	disabledAmount?: boolean;
 	disabledOptions?: boolean;
-	// eslint-disable-next-line autofix/no-unused-vars
 	onAmountChange: (amount: string, error?: boolean) => void;
-	// eslint-disable-next-line autofix/no-unused-vars
 	onOptionChange: (option: string) => void;
 }
 
@@ -68,7 +66,7 @@ export const ClawParams: FC<Props> = ({
 	disabledAmount = false,
 	disabledOptions = false,
 	amount = '0',
-	options: _options = [],
+	options: _options = new Map<string, string>(),
 	selectedOption,
 	placeholder,
 	onAmountChange,
@@ -117,9 +115,9 @@ export const ClawParams: FC<Props> = ({
 									<MenuItem value="" disabled>
 										{placeholder}
 									</MenuItem>
-									{_options.map((option, index) => (
-										<MenuItem key={`${option}_${index}`} value={option}>
-											{option}
+									{Array.from(_options).map(([key, value]) => (
+										<MenuItem key={`${key}_${value}`} value={key}>
+											{value}
 										</MenuItem>
 									))}
 								</Select>

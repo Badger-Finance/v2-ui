@@ -74,7 +74,6 @@ const Manage: FC = () => {
 							});
 						}}
 						selectedOption={txParams.selectedOption}
-						options={options[mode]}
 						onOptionChange={(selectedOption: string) => {
 							setTxParams({
 								selectedOption,
