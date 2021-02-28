@@ -12,10 +12,11 @@ import {
 	ReducedGrowth,
 	Growth,
 	ReducedContractConfig,
-	Token,
 	Schedules,
 	MethodConfigPayload,
 	SushiAPIResults,
+	GraphResultPrices,
+	ReducedGraphResults,
 } from '../model';
 
 export const reduceBatchResult = (result: any[]): any[] => {
@@ -47,7 +48,7 @@ export const reduceResult = (value: any): any => {
 	else return value;
 };
 
-export const reduceSushiAPIResults = (results: SushiAPIResults, contracts: any[]): any => {
+export const reduceSushiAPIResults = (results: SushiAPIResults): any => {
 	const newSushiROIs: any = _.map(results.pairs, (pair: any) => {
 		return {
 			address: pair.address,
@@ -84,7 +85,7 @@ export const reduceGrowthQueryConfig = (currentBlock?: number): ReducedGrowthQue
 };
 
 // todo: resolve types on QA lint branch (will need merge resolution)
-export const reduceGraphResult = (graphResult: any[], prices: any) => {
+export const reduceGraphResult = (graphResult: any[], prices: GraphResultPrices): ReducedGraphResults[] => {
 	const reduction = graphResult.map((element: any) => {
 		if (!element.data.pair && !element.data.token) return;
 
@@ -149,7 +150,7 @@ export const reduceCurveResult = (
 	curveResult: any[],
 	contracts: string[],
 	//_tokenContracts: any, // It is unused for now but may be used in the future
-	wbtcToken: Token,
+	wbtcToken: ReducedGraphResults,
 ): ReducedCurveResult => {
 	return curveResult.map((result: any, i: number) => {
 		let sum = new BigNumber(0);

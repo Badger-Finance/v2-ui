@@ -1,11 +1,9 @@
 import BigNumber from 'bignumber.js';
-import { RPC_URL } from '../../config/constants';
 import Web3 from 'web3';
 import { AbiItem } from 'web3-utils';
 import { digg } from '../../config/system/rebase';
 import { provider } from 'web3-core';
 import { Vault } from '../model';
-import Contract from 'web3-eth-contract';
 
 const UPPER_LIMIT = 1.05 * 1e18;
 const LOWER_LIMIT = 0.95 * 1e18;
