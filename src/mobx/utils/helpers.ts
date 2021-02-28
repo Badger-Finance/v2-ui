@@ -241,11 +241,14 @@ export const inCurrency = (
 	return `${prefix}${fixedNormal}${suffix}`;
 };
 
-export const formatTokens = (value: BigNumber): string => {
-	let decimals = 5;
-
-	if (!value || value.isNaN()) return '0.00';
-	else {
+export const formatTokens = (value: BigNumber, decimals = 5): string => {
+	if (!value || value.isNaN()) {
+		let formattedZero = '0.';
+		for (let i = 0; i < decimals; i++) {
+			formattedZero += '0';
+		}
+		return formattedZero;
+	} else {
 		if (value.gt(0) && value.lt(10 ** -decimals)) {
 			return '< 0.00001';
 		} else if (value.dividedBy(1e4).gt(1)) {

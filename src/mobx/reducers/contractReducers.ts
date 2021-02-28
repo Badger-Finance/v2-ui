@@ -29,6 +29,9 @@ export const reduceBatchResult = (result: any[]): any[] => {
 				});
 				return newElement;
 			}
+			if (key === 'decimals') {
+				return Array.isArray(element) ? parseInt(element[0].value) : parseInt(element);
+			}
 			return Array.isArray(element) ? reduceResult(element[0].value) : reduceResult(element);
 		});
 	});
@@ -152,7 +155,7 @@ export const reduceCurveResult = (
 		let sum = new BigNumber(0);
 		let count = 0;
 		result.map((sample: any, i: number) => {
-			sum = sum.plus(result[0].virtual_price);
+			sum = sum.plus(sample.virtual_price);
 			count++;
 			if (i > 10) return;
 		});
