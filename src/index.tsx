@@ -15,7 +15,7 @@ import store from './mobx/store';
 //router
 import routes from './config/routes';
 import { Sidebar } from './components/Sidebar';
-import { Header } from './components/Header';
+import { Header } from './components-v2/navigation/Header';
 
 //css
 import './assets/css/onboard-override.css';
