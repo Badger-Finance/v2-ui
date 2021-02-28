@@ -65,6 +65,8 @@ export const Header = observer(() => {
 			enqueueSnackbar(notification.message, { variant: notification.variant, persist: false });
 		}
 	};
+	// Disable reason: Hook used for execution of enq() on change of notification.
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	useEffect(enq, [notification]);
 
 	return (

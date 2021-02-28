@@ -136,7 +136,6 @@ export const usdToCurrency = (
 	hide = false,
 	preferredDecimals = 2,
 	noCommas = false,
-	exponent = 18,
 ): string => {
 	if (!value || value.isNaN()) return inCurrency(new BigNumber(0), currency, hide, preferredDecimals);
 
@@ -187,7 +186,6 @@ export const inCurrency = (
 	hide = false,
 	preferredDecimals = 5,
 	noCommas = false,
-	exponent = 18,
 ): string => {
 	if (!value || value.isNaN()) return inCurrency(new BigNumber(0), currency, hide, preferredDecimals);
 
@@ -275,13 +273,13 @@ export const fetchDiggChart = (chart: string, range: number, callback: (marketCh
 	)
 		.then((data: any) => data.json())
 		.then((marketData: any) => {
-			const data = reduceMarketChart(marketData[chart], range, to, chart);
+			const data = reduceMarketChart(marketData[chart], range, to);
 			const calcs = marketChartStats(data, 'close');
 			callback({ from, to, data, calcs });
 		});
 };
 
-const reduceMarketChart = (data: any[], range: number, maxDate: Date, chart: string) => {
+const reduceMarketChart = (data: any[], range: number, maxDate: Date) => {
 	const formatted = data.map((value: any, index: number) => {
 		const date = new Date();
 

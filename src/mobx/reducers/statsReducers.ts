@@ -1,12 +1,10 @@
 import BigNumber from 'bignumber.js';
 import _ from 'lodash';
 import { RootStore } from 'mobx/store';
-import deploy from 'config/deployments/mainnet.json';
 import Web3 from 'web3';
 
 import { inCurrency, formatTokens } from 'mobx/utils/helpers';
 import { getDiggPerShare } from 'mobx/utils/diggHelpers';
-import { rewards as rewardsConfig } from 'config/system/geysers';
 import {
 	Vault,
 	Amount,
@@ -172,7 +170,7 @@ function formatReturn(amount: Amount, geyser: Geyser) {
 	return { total, tooltip };
 }
 
-export function reduceRebase(stats: TokenRebaseStats, base: Token, token: Token): any {
+export function reduceRebase(stats: TokenRebaseStats, base: Token): any {
 	const info = {
 		oraclePrice: base.ethValue.multipliedBy(stats.oracleRate),
 		btcPrice: base.ethValue,

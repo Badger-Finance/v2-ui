@@ -13,7 +13,6 @@ export class Contract {
 		this.address = address;
 	}
 }
-
 export class Token extends Contract {
 	public balance!: BigNumber;
 	public decimals!: number;
@@ -234,7 +233,7 @@ export type ReducedAirdops = {
 		token: any;
 	};
 	bBadger?: {
-		amount: BigNumber;
+		amount: BigNumber | null;
 		token: any;
 	};
 };
@@ -295,6 +294,19 @@ export type BatchConfig = {
 	allReadMethods: boolean;
 	groupByNamespace: boolean;
 	logging: boolean;
+};
+
+export type ReducedGraphResults = {
+	address: string;
+	ethValue: BigNumber;
+	name: string;
+	type: string;
+};
+
+export type GraphResultPrices = {
+	[x: string]: {
+		ethValue: BigNumber;
+	};
 };
 
 export type TokenContract = {
