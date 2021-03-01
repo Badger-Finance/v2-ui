@@ -31,7 +31,7 @@ export const VaultSymbol = observer((props: any) => {
 				: '';
 		return (
 			<img
-				alt=""
+				alt={`Badger ${token.title} Vault Symbol`}
 				className={classes.symbol}
 				src={require(`../../assets/icons/${prefix}${token.symbol.replace(/\/+/g, '').toLowerCase()}.png`)}
 			/>
