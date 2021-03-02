@@ -4,7 +4,6 @@ import Web3 from 'web3';
 import { estimateAndSend } from '../utils/web3';
 import BigNumber from 'bignumber.js';
 import { RootStore } from '../store';
-
 import { jsonQuery } from '../utils/helpers';
 import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
@@ -26,8 +25,6 @@ class AirdropStore {
 
 	fetchAirdrops = action(() => {
 		const { provider, connectedAddress } = this.store.wallet;
-		const {} = this.store.uiState;
-
 		if (!connectedAddress) return;
 
 		const bBadgerAddress = sett_system.vaults['native.badger'];

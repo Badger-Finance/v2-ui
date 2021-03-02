@@ -14,7 +14,6 @@ import {
 	formatTokenBalanceValue,
 } from 'mobx/reducers/statsReducers';
 import { StoreContext } from 'mobx/store-context';
-import { inCurrency } from 'mobx/utils/helpers';
 
 interface DepositListProps {
 	contracts: string[];
@@ -60,7 +59,7 @@ export default function DepositList(props: DepositListProps): JSX.Element {
 						vault={vault}
 						sett={sett}
 						onOpen={onOpen}
-						balance={parseFloat(formatBalance(vault.underlyingToken))}
+						balance={formatBalance(vault.underlyingToken)}
 						balanceValue={formatTokenBalanceValue(vault.underlyingToken, currency)}
 					/>
 				</ListItem>
@@ -80,7 +79,7 @@ export default function DepositList(props: DepositListProps): JSX.Element {
 						vault={vault}
 						sett={sett}
 						onOpen={onOpen}
-						balance={parseFloat(formatBalanceUnderlying(vault))}
+						balance={formatBalanceUnderlying(vault)}
 						balanceValue={formatBalanceValue(vault, currency)}
 					/>
 				</ListItem>
@@ -101,7 +100,7 @@ export default function DepositList(props: DepositListProps): JSX.Element {
 						vault={vault}
 						sett={sett}
 						onOpen={onOpen}
-						balance={parseFloat(formatGeyserBalance(geyser))}
+						balance={formatGeyserBalance(geyser)}
 						balanceValue={formatGeyserBalanceValue(geyser, currency)}
 					/>
 				</ListItem>

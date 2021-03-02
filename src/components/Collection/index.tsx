@@ -269,6 +269,7 @@ export const Collection = observer(() => {
 										{spacer()}
 										<ButtonGroup size="small" variant="outlined" color="primary">
 											<Button
+												aria-label="Claim"
 												onClick={() => {
 													claimGeysers(false);
 												}}
