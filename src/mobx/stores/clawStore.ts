@@ -1,10 +1,10 @@
 import { action, observe, extendObservable } from 'mobx';
-import { RootStore } from 'mobx/store';
+import store, { RootStore } from 'mobx/store';
 import { getClawEmp, getClawEmpSponsor } from 'mobx/utils/api';
 import BigNumber from 'bignumber.js';
 import {
 	EMPS_ADDRESSES,
-	reduceCollateralEclawRelation,
+	reduceEclawByCollateral,
 	reduceCollaterals,
 	reduceEclaws,
 	reduceSponsorData,
@@ -13,6 +13,7 @@ import {
 export interface SyntheticData {
 	// Long name of the synhetic (includes expiration date)
 	name: string;
+	address: string;
 	// Token address of the underlying collateral currency.
 	collateralCurrency: string;
 	globalCollateralizationRatio: BigNumber;
@@ -81,7 +82,7 @@ export class ClawStore {
 	sponsorInformationByEMP: Map<string, SponsorData> = new Map();
 	collaterals: Map<string, string> = new Map();
 	eClaws: Map<string, string> = new Map();
-	collateralEclawRelation: Map<string, string> = new Map();
+	eclawsByCollateral: Map<string, Map<string, string>> = new Map();
 	isLoading = false;
 
 	constructor(store: RootStore) {
@@ -95,7 +96,7 @@ export class ClawStore {
 			sponsorInformationByEMP: this.sponsorInformationByEMP,
 			collaterals: this.collaterals,
 			eClaws: this.eClaws,
-			collateralEclawRelation: this.collateralEclawRelation,
+			collateralEclawRelation: this.eclawsByCollateral,
 		});
 
 		observe(this.store.wallet, 'connectedAddress', () => {
@@ -108,10 +109,10 @@ export class ClawStore {
 	fetchSyntheticsData = action(async () => {
 		try {
 			this.isLoading = true;
-			this.syntheticsData = await Promise.all(EMPS_ADDRESSES.map((synthetic) => getClawEmp(synthetic)));
+			this.syntheticsData = await this.fetchEmps();
 			this.syntheticsDataByEMP = reduceSyntheticsData(this);
 			this.collaterals = reduceCollaterals(this);
-			this.collateralEclawRelation = reduceCollateralEclawRelation(this);
+			this.eclawsByCollateral = reduceEclawByCollateral(this);
 			this.eClaws = reduceEclaws();
 		} catch (error) {
 			console.log(error);
@@ -134,6 +135,15 @@ export class ClawStore {
 			this.isLoading = false;
 		}
 	});
+
+	private async fetchEmps(): Promise<SyntheticData[]> {
+		const eclaws = await Promise.all(EMPS_ADDRESSES.map((synthetic) => getClawEmp(synthetic)));
+		return this.addEmpAddress(eclaws);
+	}
+
+	private addEmpAddress(data: SyntheticData[]) {
+		return data.map((s, index) => ({ ...s, address: EMPS_ADDRESSES[index] }));
+	}
 }
 
 export default ClawStore;

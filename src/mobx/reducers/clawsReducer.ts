@@ -1,60 +1,64 @@
 import { ClawStore, SponsorData, SyntheticData } from 'mobx/stores/clawStore';
-import { invert as _invert, reduce, valuesIn as _valuesIn } from 'lodash';
-import { names as TOKEN_NAMES } from 'config/system/tokens';
+import { invert as _invert, valuesIn as _valuesIn } from 'lodash';
+import { symbols as TOKEN_SYMBOLS } from 'config/system/tokens';
 import deploy from 'config/deployments/mainnet.json';
 
 export const EMPS_ADDRESSES = _valuesIn(deploy.claw_system.emps);
 
+// [EMP_ADDRESS: string] => [EMP_NAME: string]
 export function reduceEclaws(): Map<string, string> {
 	const EMPS_BY_ADDRESS = _invert(deploy.claw_system.emps);
 	return new Map(Object.entries(EMPS_BY_ADDRESS));
 }
 
+// [COLLATERAL_ADDRESS: string] => [COLLATERAL_NAME: string]
 export function reduceCollaterals({ syntheticsData }: ClawStore): Map<string, string> {
-	return syntheticsData.filter(filterAvailableTokenInformation).reduce(syntheticsToCollateral, new Map());
+	return syntheticsData.filter(hasTokenInformation).reduce(indexByCollateralAddress, new Map());
 }
 
-export function reduceCollateralEclawRelation({ syntheticsData }: ClawStore): Map<string, string> {
-	return syntheticsData.reduce(collateralEclawRelation, new Map());
-}
-
+// [EMPS_ADDRESS: string] => [SYNTHETIC_DATA: SyntheticData]
 export function reduceSyntheticsData({ syntheticsData }: ClawStore): Map<string, SyntheticData> {
-	return syntheticsData.reduce(keyByEmpAddress, new Map());
+	return syntheticsData.reduce(indexByEmpAddress, new Map());
 }
 
+// [EMPS_ADDRESS: string]  =>[SPONSOR_DATA: SponsorData]
 export function reduceSponsorData({ sponsorInformation }: ClawStore): Map<string, SponsorData> {
-	return sponsorInformation.reduce(keyByEmpAddress, new Map());
+	return sponsorInformation.reduce(indexByEmpAddress, new Map());
+}
+
+// [COLLATERAL_ADDRESS: string] => [ECLAW: [ECLAW_ADDRESS: string] => [ECLAW_NAME: string]]
+export function reduceEclawByCollateral({ collaterals, syntheticsData }: ClawStore): Map<string, Map<string, string>> {
+	return Array.from(collaterals).reduce(indexEmpByCollateralAddress(syntheticsData), new Map());
 }
 
 // helper functions
 
-function filterAvailableTokenInformation({ collateralCurrency }: SyntheticData) {
-	return Object.keys(TOKEN_NAMES)
-		.map((key) => key.toLocaleLowerCase())
-		.includes(collateralCurrency.toLocaleLowerCase());
+function indexByCollateralAddress(lastValue: Map<string, string>, { collateralCurrency }: SyntheticData) {
+	return lastValue.set(collateralCurrency.toLocaleLowerCase(), TOKEN_SYMBOLS[collateralCurrency.toLocaleLowerCase()]);
 }
 
-function syntheticsToCollateral(lastValue: Map<string, string>, { collateralCurrency }: SyntheticData) {
-	return lastValue.set(collateralCurrency.toLocaleLowerCase(), TOKEN_NAMES[collateralCurrency.toLocaleLowerCase()]);
-}
-
-function keyByEmpAddress<T>(lastValue: Map<string, T>, incomingData: T, index: number) {
+function indexByEmpAddress<T>(lastValue: Map<string, T>, incomingData: T, index: number) {
 	return lastValue.set(EMPS_ADDRESSES[index], incomingData);
 }
 
-function collateralEclawRelation(lastValue: Map<string, string>, { collateralCurrency }: SyntheticData, index: number) {
-	return lastValue.set(collateralCurrency.toLocaleLowerCase(), EMPS_ADDRESSES[index]);
+function indexByEclawAddress(lastValue: Map<string, string>, data: SyntheticData) {
+	return lastValue.set(data.address, data.name);
 }
 
-function collateralEclaw(store: ClawStore) {
-	const relation = new Map<string, string[]>();
+function indexEmpByCollateralAddress(data: SyntheticData[]) {
+	return (lastValue: Map<string, Map<string, string>>, [collateral]: string[]) => {
+		const eclaws = data.filter(matchesCollateral(collateral)).reduce(indexByEclawAddress, new Map());
+		return lastValue.set(collateral, eclaws);
+	};
+}
 
-	store.collaterals.forEach((_, key) => {
-		const eclaws = store.syntheticsData
-			.filter(({ collateralCurrency }) => collateralCurrency.toLocaleLowerCase() === key.toLocaleLowerCase())
-			.map((_, index) => EMPS_ADDRESSES[index]);
-		relation.set(key, eclaws);
-	});
+function matchesCollateral(collateral: string) {
+	return ({ collateralCurrency }: SyntheticData) =>
+		collateralCurrency.toLocaleLowerCase() === collateral.toLocaleLowerCase();
+}
 
-	return relation;
+function hasTokenInformation({ collateralCurrency }: SyntheticData) {
+	return Object.keys(TOKEN_SYMBOLS)
+		.map((key) => key.toLocaleLowerCase())
+		.includes(collateralCurrency.toLocaleLowerCase());
 }
