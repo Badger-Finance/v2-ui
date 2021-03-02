@@ -15,19 +15,11 @@ const initialValue: ClawParam = {
 
 export const Mint: FC = observer(() => {
 	const { claw: store } = useContext(StoreContext);
-	const {
-		isLoading,
-		collaterals,
-		eClaws,
-		syntheticsDataByEMP,
-		sponsorInformationByEMP,
-		collateralEclawRelation,
-	} = store;
+	const { isLoading, collaterals, eClaws, syntheticsDataByEMP, sponsorInformationByEMP, eclawsByCollateral } = store;
 
-	console.log({ collaterals, eClaws, syntheticsDataByEMP, sponsorInformationByEMP, collateralEclawRelation });
+	console.log({ collaterals, eClaws, syntheticsDataByEMP, sponsorInformationByEMP, eclawsByCollateral });
 
 	const classes = useMainStyles();
-	//TODO value should be in store
 	const SLPTokenBalance = '0.000017';
 	const [collateral, setCollateral] = useState<ClawParam>(initialValue);
 	const [mintable, setMintable] = useState<ClawParam>(initialValue);
@@ -74,7 +66,7 @@ export const Mint: FC = observer(() => {
 					</Grid>
 				</Grid>
 			</Box>
-			{/* <Grid item xs={12}>
+			<Grid item xs={12}>
 				<Box clone pb={1}>
 					<Grid item xs={12}>
 						<ClawLabel name="Mintable" balanceLabel="" balance={'0'} />
@@ -93,10 +85,9 @@ export const Mint: FC = observer(() => {
 							});
 						}}
 						selectedOption={mintable.selectedOption}
+						// WIP: Do something with this mess
 						options={
-							collateral.selectedOption && collateralEclawRelation.get(collateral.selectedOption)
-								? [collateralEclawRelation.get(collateral.selectedOption) || '']
-								: []
+							collateral.selectedOption ? eclawsByCollateral.get(collateral.selectedOption) : new Map()
 						}
 						onOptionChange={(selectedOption: string) => {
 							setMintable({
@@ -108,7 +99,7 @@ export const Mint: FC = observer(() => {
 						disabledOptions={!collateral.selectedOption}
 					/>
 				</Grid>
-			</Grid> */}
+			</Grid>
 			<Grid item xs={12}>
 				<Grid container className={classes.details}>
 					<ClawDetails
