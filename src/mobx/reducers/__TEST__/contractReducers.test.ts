@@ -1,6 +1,15 @@
 import '@testing-library/jest-dom';
 import BigNumber from 'bignumber.js';
-import { reduceBatchResult, reduceResult } from '../contractReducers';
+import { START_BLOCK } from 'config/constants';
+import { growthQuery } from 'mobx/utils/helpers';
+import {
+	reduceBatchResult,
+	reduceGraphResult,
+	reduceGrowthQueryConfig,
+	reduceResult,
+	reduceSushiAPIResults,
+	reduceXSushiROIResults,
+} from '../contractReducers';
 
 describe('reduceBatchResult', () => {
 	test('Mock data set is reduced correctly', () => {
@@ -93,5 +102,223 @@ describe('reduceResult', () => {
 	});
 	test('Input true returns true', () => {
 		expect(reduceResult(true)).toEqual(true);
+	});
+});
+
+describe('reduceSushiAPIResults', () => {
+	test('Mock data set is reduced correctly', () => {
+		const resultData = {
+			name: 'Sushi Liquidity API',
+			pairs: [
+				{
+					address: '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a',
+					aprDay: 0.1,
+					aprMonthly: 1.0,
+					aprYear_with_lockup: 1.2534963140772,
+					aprYear_without_lockup: 3.7604889422316,
+					token0: {
+						data: 'testdata',
+					},
+					token1: {
+						data: 'testdata',
+					},
+				},
+				{
+					address: '0x2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b',
+					aprDay: 0,
+					aprMonthly: NaN,
+					aprYear_with_lockup: 1.2534963140772,
+					aprYear_without_lockup: -3.7604889422316,
+					token0: {
+						data: 'testdata',
+					},
+					token1: {
+						data: 'testdata',
+					},
+				},
+			],
+		};
+
+		const expectedData = {
+			'0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a': {
+				address: '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a',
+				day: new BigNumber(0.001),
+				week: new BigNumber(0.007),
+				month: new BigNumber(0.01),
+				year: new BigNumber(0.037604889422316),
+			},
+			'0x2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b': {
+				address: '0x2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b',
+				day: new BigNumber(0),
+				week: new BigNumber(0),
+				month: new BigNumber(NaN),
+				year: new BigNumber(-0.037604889422316),
+			},
+		};
+		// This data set contains the different possible scenarios (structure based on actual fetched data).
+		expect(reduceSushiAPIResults(resultData)).toEqual(expectedData);
+	});
+});
+
+describe('reduceXSushiROIResults', () => {
+	test('Big number input is reduced correctly', () => {
+		const expected = {
+			day: new BigNumber(1),
+			week: new BigNumber(7),
+			month: new BigNumber(365).dividedBy(12),
+			year: new BigNumber(365),
+		};
+		expect(reduceXSushiROIResults(new BigNumber(365))).toEqual(expected);
+	});
+	test('String input is reduced correctly', () => {
+		const expected = {
+			day: new BigNumber(1),
+			week: new BigNumber(7),
+			month: new BigNumber(365).dividedBy(12),
+			year: new BigNumber(365),
+		};
+		expect(reduceXSushiROIResults('365')).toEqual(expected);
+	});
+	test('Number input is reduced correctly', () => {
+		const expected = {
+			day: new BigNumber(1),
+			week: new BigNumber(7),
+			month: new BigNumber(365).dividedBy(12),
+			year: new BigNumber(365),
+		};
+		expect(reduceXSushiROIResults(365)).toEqual(expected);
+	});
+	test('Negative number input is reduced correctly', () => {
+		const expected = {
+			day: new BigNumber(-1),
+			week: new BigNumber(-7),
+			month: new BigNumber(-365).dividedBy(12),
+			year: new BigNumber(-365),
+		};
+		expect(reduceXSushiROIResults(-365)).toEqual(expected);
+	});
+	test('NaN input is reduced correctly', () => {
+		const expected = {
+			day: new BigNumber(NaN),
+			week: new BigNumber(NaN),
+			month: new BigNumber(NaN),
+			year: new BigNumber(NaN),
+		};
+		expect(reduceXSushiROIResults(NaN)).toEqual(expected);
+	});
+});
+
+describe('reduceGrowthQueryConfig', () => {
+	test('Block number input is reduced correctly', () => {
+		const periods = [12345656, 12339178, 12300178, 12150678, 11381216];
+		const expected = {
+			periods,
+			growthQueries: periods.map(growthQuery), // Growth data is dynamically fetched within reducer function
+		};
+		expect(reduceGrowthQueryConfig(12345678)).toEqual(expected);
+	});
+	test('Older block number input is reduced correctly', () => {
+		const periods = [START_BLOCK, START_BLOCK, START_BLOCK, START_BLOCK, START_BLOCK];
+		const expected = {
+			periods,
+			growthQueries: periods.map(growthQuery), // Growth data is dynamically fetched within reducer function
+		};
+		expect(reduceGrowthQueryConfig(1234567)).toEqual(expected);
+	});
+	test('Negative block number input is reduced correctly', () => {
+		const periods = [START_BLOCK, START_BLOCK, START_BLOCK, START_BLOCK, START_BLOCK];
+		const expected = {
+			periods,
+			growthQueries: periods.map(growthQuery), // Growth data is dynamically fetched within reducer function
+		};
+		expect(reduceGrowthQueryConfig(-12345678)).toEqual(expected);
+	});
+	test('NaN input is reduced correctly', () => {
+		const expected = {
+			periods: [],
+			growthQueries: [],
+		};
+		expect(reduceGrowthQueryConfig(NaN)).toEqual(expected);
+	});
+	test('Undefined input is reduced correctly', () => {
+		const expected = {
+			periods: [],
+			growthQueries: [],
+		};
+		expect(reduceGrowthQueryConfig(undefined)).toEqual(expected);
+	});
+});
+
+describe('reduceGraphResult', () => {
+	test('Mock data set is reduced correctly', () => {
+		const graphResult = [
+			{
+				data: {
+					pair: null,
+					token: {
+						derivedETH: '0.1',
+						id: '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a',
+						name: 'testToken0',
+						symbol: 'TOKEN0',
+					},
+				},
+			},
+			{
+				data: {
+					pair: null,
+					token: null,
+				},
+			},
+			{
+				data: {
+					pair: {
+						id: '0x2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b',
+						reserve0: '100',
+						reserve1: '200',
+						reserveETH: '300',
+						token0: {
+							derivedETH: '0.0120386246105526492246191975746454',
+							id: '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a',
+							name: 'testToken0',
+							symbol: 'TOKEN0',
+						},
+						token1: {
+							derivedETH: '0.0120386246105526492246191975746454',
+							id: '0x3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c',
+							name: 'testToken1',
+							symbol: 'TOKEN1',
+						},
+						totalSupply: '0.0000001',
+					},
+					token: null,
+				},
+			},
+		];
+
+		const prices = {
+			'0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a': {
+				ethValue: new BigNumber(1000),
+			},
+			'0x3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c': {
+				ethValue: new BigNumber(2000),
+			},
+		};
+
+		const expectedData = [
+			{
+				address: '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a',
+				ethValue: new BigNumber(1e17),
+				name: 'testToken0',
+				type: 'token',
+			},
+			{
+				address: '0x2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b',
+				ethValue: new BigNumber(5e12),
+				name: 'testToken0/testToken1',
+				type: 'pair',
+			},
+		];
+		// This data set contains the different possible scenarios (structure based on actual fetched data).
+		expect(reduceGraphResult(graphResult, prices)).toEqual(expectedData);
 	});
 });

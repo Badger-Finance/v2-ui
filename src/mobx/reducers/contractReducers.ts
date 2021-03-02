@@ -84,7 +84,6 @@ export const reduceGrowthQueryConfig = (currentBlock?: number): ReducedGrowthQue
 	return { periods, growthQueries: periods.map(growthQuery) };
 };
 
-// todo: resolve types on QA lint branch (will need merge resolution)
 export const reduceGraphResult = (graphResult: any[], prices: GraphResultPrices): ReducedGraphResults[] => {
 	const reduction = graphResult.map((element: any) => {
 		if (!element.data.pair && !element.data.token) return;

@@ -143,7 +143,7 @@ describe('getDiggPerShare', () => {
 		expect(getDiggPerShare(vault)).toEqual(new BigNumber(Infinity));
 	});
 	test('vaultBalance = 0 & totalSupply = 1000, returns 0', () => {
-		// Creating new vault to reset value of vaultBalance to 0 its default, 0
+		// Creating new vault to reset value of vaultBalance to its default, 0
 		const vault2 = new Vault(
 			new RootStore(),
 			'0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a',
