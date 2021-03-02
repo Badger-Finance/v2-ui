@@ -5,10 +5,9 @@ import useInterval from '@use-it/interval';
 import { observer } from 'mobx-react-lite';
 import { Loader } from '../Loader';
 import Metric from './Metric';
-import { calculateNewSupply, shortenNumbers } from '../../mobx/utils/diggHelpers';
+import { shortenNumbers } from '../../mobx/utils/diggHelpers';
 import BigNumber from 'bignumber.js';
 import { formatPrice } from 'mobx/reducers/statsReducers';
-import deploy from '../../config/deployments/mainnet.json';
 
 const useStyles = makeStyles((theme) => ({
 	before: {
@@ -83,31 +82,9 @@ const Info = observer(() => {
 	const store = useContext(StoreContext);
 	const {
 		uiState: { rebaseStats, currency, stats },
-		contracts: { tokens },
-		rebase: { callRebase },
 	} = store;
-	const { ppfs } = store.sett;
 	const classes = useStyles();
-	const previousSupply =
-		rebaseStats.totalSupply && rebaseStats.pastRebase
-			? rebaseStats.totalSupply.minus(
-					new BigNumber(rebaseStats.pastRebase.requestedSupplyAdjustment).dividedBy(
-						Math.pow(10, rebaseStats.decimals),
-					),
-			  )
-			: null;
 	const [nextRebase, setNextRebase] = useState('00:00:00');
-	const newSupply =
-		rebaseStats.oracleRate && rebaseStats.totalSupply
-			? calculateNewSupply(
-					rebaseStats.oracleRate.toNumber(),
-					rebaseStats.totalSupply.toNumber(),
-					rebaseStats.rebaseLag,
-			  )
-			: 0;
-	const isPositive = !newSupply || newSupply >= rebaseStats.totalSupply;
-	const percentage = newSupply && rebaseStats.totalSupply ? newSupply / rebaseStats.totalSupply : 0;
-	const diggSett = deploy.sett_system.vaults['native.digg'].toLowerCase();
 
 	if (!rebaseStats) {
 		return <Loader />;
@@ -154,6 +131,7 @@ const Info = observer(() => {
 					</Typography>
 				</Paper>
 				<Button
+					aria-label="Learn More"
 					variant="text"
 					fullWidth
 					size="small"
