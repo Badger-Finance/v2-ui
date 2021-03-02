@@ -62,11 +62,11 @@ class RewardsStore {
 					this.badgerTree,
 				);
 				// to use for new API endpoint
-				// const endpointQuery = jsonQuery(`${rewardsConfig.endpoint}/${checksumAddress}`);
+				const endpointQuery = jsonQuery(`${rewardsConfig.endpoint}/${checksumAddress}`);
 				// Old endpoint
-				const endpointQuery = jsonQuery(
-					`${rewardsConfig.endpoint}/rewards/${rewardsConfig.network}/${merkleHash}/${checksumAddress}`,
-				);
+				// const endpointQuery = jsonQuery(
+				// 	`${rewardsConfig.endpoint}/rewards/${rewardsConfig.network}/${merkleHash}/${checksumAddress}`,
+				// );
 				endpointQuery
 					.then((proof: any) => {
 						Promise.all([
