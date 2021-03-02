@@ -2,14 +2,14 @@ import React, { useContext, useState } from 'react';
 import { Container, Button, Typography } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
 
+import { ZERO } from 'config/constants';
 import { commonStyles, debounce } from './index';
 import { BigNumber } from 'bignumber.js';
 import { Tokens } from './Tokens';
+import { DownArrow } from './DownArrow';
 
 import { TokenModel } from 'mobx/model';
 import { StoreContext } from 'mobx/store-context';
-
-const ZERO = new BigNumber(0);
 
 export const Mint = observer((): any => {
 	const store = useContext(StoreContext);
@@ -22,8 +22,8 @@ export const Mint = observer((): any => {
 	let inputRef: any;
 
 	const [selectedToken, setSelectedToken] = useState<TokenModel>(tokens[0]);
-	const [inputAmount, setInputAmount] = useState<number | string>('');
-	const [outputAmount, setOutputAmount] = useState<number | string>('');
+	const [inputAmount, setInputAmount] = useState<number | string | undefined>();
+	const [outputAmount, setOutputAmount] = useState<number | string | undefined>();
 	const initialFee = (1 - parseFloat(selectedToken.mintRate && selectedToken.mintRate.toString())).toFixed(3);
 	const [fee, setFee] = useState<number | string>(initialFee);
 	const _debouncedSetInputAmount = debounce(600, async (val) => {
@@ -65,7 +65,8 @@ export const Mint = observer((): any => {
 		store.ibBTCStore.calcMintAmount(selectedToken, selectedToken.balance, handleCalcOutputAmount);
 	};
 	const handleMintClick = () => {
-		store.ibBTCStore.mint(selectedToken, selectedToken.scale(new BigNumber(inputAmount)), handleMint);
+		if (inputAmount)
+			store.ibBTCStore.mint(selectedToken, selectedToken.scale(new BigNumber(inputAmount)), handleMint);
 	};
 
 	const handleMint = (err: any, result: any): void => {
@@ -81,7 +82,7 @@ export const Mint = observer((): any => {
 				<div className={classes.inputWrapper}>
 					<Tokens tokens={tokens} default={selectedToken.symbol} onTokenSelect={handleTokenSelection} />
 					<input
-						className={classes.unstylishInput + ' unstylish-input'}
+						className={classes.unstylishInput}
 						onChange={handleInputAmount}
 						type="number"
 						ref={(ref) => (inputRef = ref)}
@@ -95,22 +96,7 @@ export const Mint = observer((): any => {
 				</div>
 			</div>
 			<div className={classes.outerWrapper}>
-				<svg
-					className={classes.arrowDown}
-					width="13"
-					height="18"
-					viewBox="0 0 13 18"
-					fill="none"
-					xmlns="http://www.w3.org/2000/svg"
-				>
-					<path
-						fillRule="evenodd"
-						clipRule="evenodd"
-						d="M6.5 15.2138L11.6295 10L13 11.3931L6.5 18L-6.08938e-08 11.3931L1.37054 10L6.5 15.2138Z"
-						fill="white"
-					/>
-					<line x1="6.5" y1="16" x2="6.5" y2="4.37114e-08" stroke="white" strokeWidth="2" />
-				</svg>
+				<DownArrow />
 			</div>
 			<div className={classes.outerWrapper}>
 				<Typography variant="caption" className={classes.balance}>
@@ -124,7 +110,7 @@ export const Mint = observer((): any => {
 						</Typography>
 					</div>
 					<input
-						className={classes.unstylishInput + ' unstylish-input'}
+						className={classes.unstylishInput}
 						value={outputAmount}
 						placeholder="0.0"
 						type="number"
@@ -139,10 +125,12 @@ export const Mint = observer((): any => {
 						<Typography variant="subtitle1">Current Conversion Rate: </Typography>
 						<Typography variant="subtitle1">
 							1 {selectedToken.symbol}:{' '}
-							{(
-								parseFloat(outputAmount.toString() || selectedToken.mintRate.toString()) /
-								parseFloat(inputAmount.toString() || '1')
-							).toFixed(4)}{' '}
+							{outputAmount && inputAmount
+								? (
+										parseFloat(outputAmount.toString() || selectedToken.mintRate.toString()) /
+										parseFloat(inputAmount.toString() || '1')
+								  ).toFixed(4)
+								: ''}{' '}
 							{ibBTC.symbol}
 						</Typography>
 					</div>

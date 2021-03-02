@@ -6,12 +6,13 @@ import red from '@material-ui/core/colors/red';
 import { observer } from 'mobx-react-lite';
 import BigNumber from 'bignumber.js';
 
+import { ZERO } from 'config/constants';
 import { commonStyles, debounce } from './index';
 import { Tokens } from './Tokens';
+import { DownArrow } from './DownArrow';
 import { StoreContext } from 'mobx/store-context';
 import { TokenModel } from 'mobx/model';
 
-const ZERO = new BigNumber(0);
 const localStyle = makeStyles(() => ({
 	error: {
 		color: red[400],
@@ -29,18 +30,20 @@ export const Redeem = observer((): any => {
 	let inputRef: any;
 
 	const [selectedToken, setSelectedToken] = useState<TokenModel>(tokens[0]);
-	const [inputAmount, setInputAmount] = useState<number | string>('');
-	const [outputAmount, setOutputAmount] = useState<number | string>('');
+	const [inputAmount, setInputAmount] = useState<number | string | undefined>();
+	const [outputAmount, setOutputAmount] = useState<number | string | undefined>();
 	const initialFee = (1 - parseFloat(selectedToken.redeemRate && selectedToken.mintRate.toString())).toFixed(3);
 	const [fee, setFee] = useState<number | string>(initialFee);
 	const [isEnoughToRedeem, setIsEnoughToRedeem] = useState<boolean>(true);
-	const [maxRedeem, setMaxRedeem] = useState<BigNumber | string>('');
+	const [maxRedeem, setMaxRedeem] = useState<BigNumber | string | undefined>();
 	const _debouncedSetInputAmount = debounce(600, (val) => {
 		setInputAmount(val);
 		val = new BigNumber(val);
 		if (val.gt(ZERO))
 			store.ibBTCStore.calcRedeemAmount(selectedToken, selectedToken.scale(val), handleCalcOutputAmount);
 		else {
+			setMaxRedeem('');
+			setIsEnoughToRedeem(true);
 			setOutputAmount('');
 			setFee(initialFee);
 		}
@@ -70,6 +73,8 @@ export const Redeem = observer((): any => {
 	const resetState = () => {
 		setInputAmount((inputRef.value = ''));
 		setOutputAmount('');
+		setMaxRedeem('');
+		setIsEnoughToRedeem(true);
 		setFee(initialFee);
 	};
 
@@ -78,7 +83,7 @@ export const Redeem = observer((): any => {
 		store.ibBTCStore.calcRedeemAmount(selectedToken, ibBTC.balance, handleCalcOutputAmount);
 	};
 	const handleRedeemClick = () => {
-		store.ibBTCStore.redeem(selectedToken, ibBTC.scale(new BigNumber(inputAmount)), handleRedeem);
+		if (inputAmount) store.ibBTCStore.redeem(selectedToken, ibBTC.scale(new BigNumber(inputAmount)), handleRedeem);
 	};
 
 	const handleRedeem = (err: any, result: any): void => {
@@ -100,7 +105,7 @@ export const Redeem = observer((): any => {
 						</Typography>
 					</div>
 					<input
-						className={classes.unstylishInput + ' unstylish-input'}
+						className={classes.unstylishInput}
 						onChange={handleInputAmount}
 						type="number"
 						ref={(ref) => (inputRef = ref)}
@@ -113,22 +118,7 @@ export const Redeem = observer((): any => {
 				</div>
 			</div>
 			<div className={classes.outerWrapper}>
-				<svg
-					className={classes.arrowDown}
-					width="13"
-					height="18"
-					viewBox="0 0 13 18"
-					fill="none"
-					xmlns="http://www.w3.org/2000/svg"
-				>
-					<path
-						fillRule="evenodd"
-						clipRule="evenodd"
-						d="M6.5 15.2138L11.6295 10L13 11.3931L6.5 18L-6.08938e-08 11.3931L1.37054 10L6.5 15.2138Z"
-						fill="white"
-					/>
-					<line x1="6.5" y1="16" x2="6.5" y2="4.37114e-08" stroke="white" strokeWidth="2" />
-				</svg>
+				<DownArrow />
 			</div>
 			<div className={classes.outerWrapper}>
 				<Typography variant="caption" className={classes.balance}>
@@ -137,7 +127,7 @@ export const Redeem = observer((): any => {
 				<div className={classes.inputWrapper}>
 					<Tokens tokens={tokens} default={selectedToken.symbol} onTokenSelect={handleTokenSelection} />
 					<input
-						className={classes.unstylishInput + ' unstylish-input'}
+						className={classes.unstylishInput}
 						value={outputAmount}
 						placeholder="0.0"
 						type="number"
@@ -161,10 +151,12 @@ export const Redeem = observer((): any => {
 						<Typography variant="subtitle1">Current Conversion Rate: </Typography>
 						<Typography variant="subtitle1">
 							1 {ibBTC.symbol}:{' '}
-							{(
-								parseFloat(outputAmount.toString() || selectedToken.redeemRate.toString()) /
-								parseFloat(inputAmount.toString() || '1')
-							).toFixed(4)}{' '}
+							{outputAmount && inputAmount
+								? (
+										parseFloat(outputAmount.toString() || selectedToken.redeemRate.toString()) /
+										parseFloat(inputAmount.toString() || '1')
+								  ).toFixed(4)
+								: ''}{' '}
 							{selectedToken.symbol}
 						</Typography>
 					</div>

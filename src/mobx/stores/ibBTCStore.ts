@@ -13,9 +13,7 @@ import { estimateAndSend } from 'mobx/utils/web3';
 import SETT from 'config/system/abis/Sett.json';
 import addresses from 'config/ibBTC/addresses.json';
 import BadgerBtcPeak from 'config/system/abis/BadgerBtcPeak.json';
-
-const ZERO = new BigNumber(0);
-const MAX = Web3.utils.toTwosComplement(-1);
+import { ZERO, MAX } from 'config/constants';
 
 class IbBTCStore {
 	private store!: RootStore;
@@ -68,7 +66,7 @@ class IbBTCStore {
 
 	fetchConversionRates = action(
 		async (): Promise<void> => {
-			// Fetch mint rate and redeem rate
+			// Fetch mintRate, redeemRate and set to respected token
 			this.tokens.forEach(async (token) => {
 				this.fetchMintRate(token);
 				this.fetchRedeemRate(token);
@@ -108,16 +106,23 @@ class IbBTCStore {
 		},
 	);
 
-	getAllowance = action((underlyingAsset: TokenModel, spender: string, callback: (err: any, result: any) => void) => {
-		const { provider, connectedAddress } = this.store.wallet;
-		const web3 = new Web3(provider);
-		const tokenContract = new web3.eth.Contract(SETT.abi as AbiItem[], underlyingAsset.address);
-		const method = tokenContract.methods.allowance(connectedAddress, spender);
+	getAllowance = action(
+		async (underlyingAsset: TokenModel, spender: string, callback: (err: any, result: any) => void) => {
+			const { queueNotification } = this.store.uiState;
+			const { provider, connectedAddress } = this.store.wallet;
+			const web3 = new Web3(provider);
+			const tokenContract = new web3.eth.Contract(SETT.abi as AbiItem[], underlyingAsset.address);
+			const method = tokenContract.methods.allowance(connectedAddress, spender);
 
-		method.call().then((result: any) => {
-			callback(null, result);
-		});
-	});
+			try {
+				const result = await method.call();
+				callback(null, result);
+			} catch (err) {
+				queueNotification(err.message, 'error');
+				callback(err, null);
+			}
+		},
+	);
 
 	increaseAllowance = action(
 		(
@@ -188,17 +193,24 @@ class IbBTCStore {
 			},
 		);
 	});
-	calcMintAmount = action((inToken: TokenModel, amount: BigNumber, callback: (err: any, result: any) => void) => {
-		const { provider } = this.store.wallet;
+	calcMintAmount = action(
+		async (inToken: TokenModel, amount: BigNumber, callback: (err: any, result: any) => void) => {
+			const { queueNotification } = this.store.uiState;
+			const { provider } = this.store.wallet;
 
-		const web3 = new Web3(provider);
-		const peakContract = new web3.eth.Contract(BadgerBtcPeak.abi as AbiItem[], this.config.contracts.peak);
-		const method = peakContract.methods.calcMint(inToken.poolId, amount);
+			const web3 = new Web3(provider);
+			const peakContract = new web3.eth.Contract(BadgerBtcPeak.abi as AbiItem[], this.config.contracts.peak);
+			const method = peakContract.methods.calcMint(inToken.poolId, amount);
 
-		method.call().then((result: any) => {
-			callback(null, result);
-		});
-	});
+			try {
+				const result = await method.call();
+				callback(null, result);
+			} catch (err) {
+				queueNotification(err.message, 'error');
+				callback(err, null);
+			}
+		},
+	);
 
 	mintBBTC = action((inToken: TokenModel, amount: BigNumber, callback: (err: any, result: any) => void) => {
 		const { queueNotification, setTxStatus } = this.store.uiState;
@@ -245,17 +257,24 @@ class IbBTCStore {
 		this.redeemBBTC(outToken, amount, callback);
 	});
 
-	calcRedeemAmount = action((outToken: TokenModel, amount: BigNumber, callback: (err: any, result: any) => void) => {
-		const { provider } = this.store.wallet;
+	calcRedeemAmount = action(
+		async (outToken: TokenModel, amount: BigNumber, callback: (err: any, result: any) => void) => {
+			const { queueNotification } = this.store.uiState;
+			const { provider } = this.store.wallet;
 
-		const web3 = new Web3(provider);
-		const peakContract = new web3.eth.Contract(BadgerBtcPeak.abi as AbiItem[], this.config.contracts.peak);
-		const method = peakContract.methods.calcRedeem(outToken.poolId, amount);
+			const web3 = new Web3(provider);
+			const peakContract = new web3.eth.Contract(BadgerBtcPeak.abi as AbiItem[], this.config.contracts.peak);
+			const method = peakContract.methods.calcRedeem(outToken.poolId, amount);
 
-		method.call().then((result: any) => {
-			callback(null, result);
-		});
-	});
+			try {
+				const result = await method.call();
+				callback(null, result);
+			} catch (err) {
+				queueNotification(err.message, 'error');
+				callback(err, null);
+			}
+		},
+	);
 
 	redeemBBTC = action((outToken: TokenModel, amount: BigNumber, callback: (err: any, result: any) => void) => {
 		const { queueNotification, setTxStatus } = this.store.uiState;

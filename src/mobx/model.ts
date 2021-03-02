@@ -5,6 +5,7 @@ import { RootStore } from './store';
 import Web3 from 'web3';
 import { AbiItem } from 'web3-utils';
 
+import { ZERO, TEN } from 'config/constants';
 
 export class Contract {
 	store!: RootStore;
@@ -149,9 +150,6 @@ export class Geyser extends Contract {
 	}
 }
 
-const TEN = new BigNumber(10);
-const ZERO = new BigNumber(0);
-
 export class TokenModel extends Contract {
 	public name: string;
 	public symbol: string;
@@ -168,6 +166,9 @@ export class TokenModel extends Contract {
 		this.decimals = data.decimals;
 		this.poolId = data?.poolId;
 		this.balance = ZERO;
+		// This will be fetched and set at initialization using 1 unit of mint and redeem
+		// to show current conversion rate from token to ibBTC and from ibBTC to token
+		// by fetchConversionRates()
 		this.mintRate = '0.999';
 		this.redeemRate = '0.999';
 	}

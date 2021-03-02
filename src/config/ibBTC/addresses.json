@@ -9,21 +9,21 @@
 					"name": "Badger BTC"
 				},
 				"bcrvRenWSBTC": {
-					"address": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
+					"address": "0xd04c48a53c111300ad41190d63681ed3dad998ec",
 					"decimals": 18,
 					"symbol": "bcrvRenWSBTC",
 					"name": "Badger crvRenWSBTC",
 					"poolId": 0
 				},
 				"bcrvRenWBTC": {
-					"address": "0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6",
+					"address": "0x6def55d2e18486b9ddfaa075bc4e4ee0b28c1545",
 					"decimals": 18,
 					"symbol": "bcrvRenWBTC",
 					"name": "Badger crvRenWBTC",
 					"poolId": 1
 				},
 				"btbtc_sbtcCrv": {
-					"address": "0xA51c1fc2f0D1a1b8494Ed1FE312d7C3a78Ed91C0",
+					"address": "0xb9d076fde463dbc9f915e5392f807315bf940334",
 					"decimals": 18,
 					"symbol": "btbtc_sbtcCrv",
 					"name": "Badger t-btc/sbtcCrv",
