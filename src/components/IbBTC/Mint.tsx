@@ -22,10 +22,18 @@ export const Mint = observer((): any => {
 	let inputRef: any;
 
 	const [selectedToken, setSelectedToken] = useState<TokenModel>(tokens[0]);
-	const [inputAmount, setInputAmount] = useState<number | string | undefined>();
-	const [outputAmount, setOutputAmount] = useState<number | string | undefined>();
+	const [inputAmount, setInputAmount] = useState<string>();
+	const [outputAmount, setOutputAmount] = useState<string>();
 	const initialFee = (1 - parseFloat(selectedToken.mintRate && selectedToken.mintRate.toString())).toFixed(3);
-	const [fee, setFee] = useState<number | string>(initialFee);
+	const [fee, setFee] = useState<string>(initialFee);
+	const conversionRate =
+		outputAmount && inputAmount
+			? (
+					parseFloat(outputAmount.toString() || selectedToken.mintRate.toString()) /
+					parseFloat(inputAmount.toString() || '1')
+			  ).toFixed(4)
+			: (parseFloat(selectedToken.mintRate.toString()) / 1).toFixed(4);
+
 	const _debouncedSetInputAmount = debounce(600, async (val) => {
 		setInputAmount(val);
 		val = new BigNumber(val);
@@ -124,14 +132,7 @@ export const Mint = observer((): any => {
 					<div className={classes.summaryRow}>
 						<Typography variant="subtitle1">Current Conversion Rate: </Typography>
 						<Typography variant="subtitle1">
-							1 {selectedToken.symbol}:{' '}
-							{outputAmount && inputAmount
-								? (
-										parseFloat(outputAmount.toString() || selectedToken.mintRate.toString()) /
-										parseFloat(inputAmount.toString() || '1')
-								  ).toFixed(4)
-								: ''}{' '}
-							{ibBTC.symbol}
+							1 {selectedToken.symbol} : {conversionRate} {ibBTC.symbol}
 						</Typography>
 					</div>
 

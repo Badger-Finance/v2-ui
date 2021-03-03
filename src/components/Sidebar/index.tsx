@@ -204,7 +204,11 @@ export const Sidebar = observer(() => {
 						onClick={() => goTo(views.IbBTC)}
 					>
 						<ListItemIcon>
-							<img src={require('assets/sidebar/ibBTC.png')} className={classes.icon} />
+							<img
+								alt="Interest Bearing Badger Bitcoin Icon"
+								src={require('assets/sidebar/ibBTC.png')}
+								className={classes.icon}
+							/>
 						</ListItemIcon>
 						<ListItemText primary="ibBTC" />
 					</ListItem>

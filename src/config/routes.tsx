@@ -71,8 +71,7 @@ const routes = {
 		path: '/ibBTC',
 		component: <IbBTC />,
 		onEnter: (_, params, store) => {
-			// initialize store
-			// store.ibBTCStore.init();
+			//
 		},
 		beforeExit: () => {
 			//
