@@ -82,7 +82,7 @@ export const Airdrops = observer(() => {
 			{
 				title: `Stake`,
 				button: `Stake`,
-				badge: maxNativeApy && `Up to ${maxNativeApy.toFixed(2)}% APY`,
+				badge: !!maxNativeApy && `Up to ${maxNativeApy.toFixed(2)}% APY`,
 				copy: 'Deposit in vaults to earn Badger and Digg',
 			},
 			// { title: "Liquidity", button: "Add Liquidity", badge: !!stats.stats.badgerLiqGrowth && `Up to ${stats.stats.badgerLiqGrowth}% APY`, href: "https://info.uniswap.org/pair/0xcd7989894bc033581532d2cd88da5db0a4b12859", copy: "Provide liquidity and stake LP in vaults." },
