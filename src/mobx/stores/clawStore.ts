@@ -99,7 +99,7 @@ export class ClawStore {
 		});
 
 		observe(this.store.wallet, 'connectedAddress', () => {
-			if (this.sponsorInformation.length === 0) this.fetchSponsorData();
+			// if (this.sponsorInformation.length === 0) this.fetchSponsorData();
 		});
 
 		if (this.syntheticsData.length === 0) this.fetchSyntheticsData();
@@ -108,6 +108,7 @@ export class ClawStore {
 	fetchSyntheticsData = action(async () => {
 		try {
 			this.isLoading = true;
+			console.log('== FETCHING HERE ==');
 			this.syntheticsData = await this.fetchEmps();
 			this.syntheticsDataByEMP = reduceSyntheticsData(this);
 			this.collaterals = reduceCollaterals(this);
@@ -124,6 +125,7 @@ export class ClawStore {
 		const { connectedAddress } = this.store.wallet;
 		try {
 			this.isLoading = true;
+			console.log('== FETCHING HERE 2==');
 			this.sponsorInformation = await Promise.all(
 				EMPS_ADDRESSES.map((synthetic) => getClawEmpSponsor(synthetic, connectedAddress)),
 			);

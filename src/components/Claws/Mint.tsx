@@ -25,6 +25,8 @@ export const Mint: FC = observer(() => {
 	const walletNotConnected = (!tokens || !wallet.connectedAddress) && 'Connect Wallet';
 	const error = walletNotConnected || collateral.error || mintable.error;
 
+	console.log({ balance: collateralToken.balance.toString() });
+
 	return (
 		<Grid container>
 			<Box clone pb={4}>
