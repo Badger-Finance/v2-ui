@@ -1,5 +1,5 @@
 import { action, observe, extendObservable } from 'mobx';
-import store, { RootStore } from 'mobx/store';
+import { RootStore } from 'mobx/store';
 import { getClawEmp, getClawEmpSponsor } from 'mobx/utils/api';
 import BigNumber from 'bignumber.js';
 import {
@@ -74,8 +74,7 @@ interface Position {
 }
 
 export class ClawStore {
-	private store: RootStore;
-
+	store: RootStore;
 	syntheticsData: SyntheticData[] = [];
 	sponsorInformation: SponsorData[] = [];
 	syntheticsDataByEMP: Map<string, SyntheticData> = new Map();
@@ -100,10 +99,10 @@ export class ClawStore {
 		});
 
 		observe(this.store.wallet, 'connectedAddress', () => {
-			this.fetchSponsorData();
+			if (this.sponsorInformation.length === 0) this.fetchSponsorData();
 		});
 
-		this.fetchSyntheticsData();
+		if (this.syntheticsData.length === 0) this.fetchSyntheticsData();
 	}
 
 	fetchSyntheticsData = action(async () => {
