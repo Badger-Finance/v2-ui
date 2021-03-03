@@ -23,7 +23,7 @@ export interface ClawParam {
 interface Props {
 	placeholder: string;
 	options?: Map<string, string>;
-	referenceBalance?: string;
+	referenceBalance?: BigNumber;
 	amount?: string;
 	selectedOption?: string;
 	disabledAmount?: boolean;
@@ -102,7 +102,7 @@ export const ClawParams: FC<Props> = ({
 			<Grid container alignContent="center" alignItems="center" className={classes.border}>
 				<Grid item xs={12} sm={8}>
 					<Grid container alignItems="center" spacing={2} className={classes.selectContainer}>
-						<Grid item xs={12} sm={5} lg={4}>
+						<Grid item xs={12} sm>
 							<FormControl className={classes.margin}>
 								<Select
 									autoWidth
@@ -123,7 +123,7 @@ export const ClawParams: FC<Props> = ({
 								</Select>
 							</FormControl>
 						</Grid>
-						<Grid item xs={12} sm={7} lg={8}>
+						<Grid item xs={12} sm>
 							<InputBase
 								type="tel"
 								error

@@ -63,7 +63,7 @@ const Manage: FC = () => {
 				</Box>
 				<Grid item xs={12}>
 					<ClawParams
-						referenceBalance={txParams.selectedOption ? eCLAWS[txParams.selectedOption] : ''}
+						// referenceBalance={txParams.selectedOption ? eCLAWS[txParams.selectedOption] : ''}
 						placeholder="Select Token"
 						amount={txParams.amount}
 						onAmountChange={(amount: string, error?: boolean) => {
