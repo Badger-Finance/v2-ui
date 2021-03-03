@@ -61,7 +61,7 @@ const Redeem: FC = () => {
 						</Grid>
 					</Box>
 					<ClawParams
-						referenceBalance={redeemParams.selectedOption && eCLAWS[redeemParams.selectedOption]}
+						// referenceBalance={redeemParams.selectedOption && eCLAWS[redeemParams.selectedOption]}
 						placeholder="Select Token"
 						amount={redeemParams.amount}
 						onAmountChange={(amount: string, error?: boolean) => {
