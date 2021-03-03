@@ -1,10 +1,12 @@
 import '@testing-library/jest-dom';
 import BigNumber from 'bignumber.js';
 import { START_BLOCK } from 'config/constants';
+import store from 'mobx/store';
 import { growthQuery } from 'mobx/utils/helpers';
 import {
 	reduceBatchResult,
 	reduceCurveResult,
+	reduceGeyserSchedule,
 	reduceGraphResult,
 	reduceGrowth,
 	reduceGrowthQueryConfig,
@@ -523,5 +525,192 @@ describe('reduceGrowth', () => {
 
 		// The data set provided covers the different possible cases
 		expect(reduceGrowth(graphResults, periods, startDate)).toEqual(expected);
+	});
+});
+
+describe('reduceGeyserSchedule', () => {
+	// Create store with mock token objects
+	const mockStore = store;
+	mockStore.contracts.tokens['0x798D1bE841a82a273720CE31c822C61a67a601C3'.toLowerCase()] = {
+		address: '0x798D1bE841a82a273720CE31c822C61a67a601C3',
+		data: 'Token0',
+	};
+	mockStore.contracts.tokens['0x3472A5A71965499acd81997a54BBA8D852C6E53d'.toLowerCase()] = {
+		address: '0x3472A5A71965499acd81997a54BBA8D852C6E53d',
+		data: 'Token1',
+	};
+	mockStore.contracts.tokens['0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a'.toLowerCase()] = {
+		address: '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a',
+		data: 'Token2',
+	};
+
+	test('Mock data set is reduced correctly - No Special case', () => {
+		const schedules = {
+			'0x3472A5A71965499acd81997a54BBA8D852C6E53d': [
+				// [initial, endAtSec, , startTime] -> startTime < timestamp < endAtSec
+				['10', '1607019097', '604800', '1607019095'],
+				['10', '1607019097', '86400', '1607019095'],
+			],
+		};
+		const expected = [
+			{
+				day: {
+					amount: new BigNumber(864000), // 20/(1607019097-1607019095) = 10 -> 10 * 60 * 60 * 24
+					token: {
+						address: '0x3472A5A71965499acd81997a54BBA8D852C6E53d',
+						data: 'Token1',
+					},
+				},
+				week: {
+					amount: new BigNumber(6048000), // 20/(1607019097-1607019095) = 10 -> 10 * 60 * 60 * 24 * 7
+					token: {
+						address: '0x3472A5A71965499acd81997a54BBA8D852C6E53d',
+						data: 'Token1',
+					},
+				},
+				month: {
+					amount: new BigNumber(25920000), // 20/(1607019097-1607019095) = 10 -> 10 * 60 * 60 * 24 * 30
+					token: {
+						address: '0x3472A5A71965499acd81997a54BBA8D852C6E53d',
+						data: 'Token1',
+					},
+				},
+				year: {
+					amount: new BigNumber(315360000), // 20/(1607019097-1607019095) = 10 -> 10 * 60 * 60 * 24 * 365
+					token: {
+						address: '0x3472A5A71965499acd81997a54BBA8D852C6E53d',
+						data: 'Token1',
+					},
+				},
+			},
+		];
+
+		// Sets current date to mock timestamp (Timestamp: 1607019096)
+		jest.spyOn(global.Date, 'now').mockImplementationOnce(() =>
+			new Date('December 03, 2020 13:11:36 GMT-0500').valueOf(),
+		);
+
+		expect(reduceGeyserSchedule(schedules, mockStore)).toEqual(expected);
+	});
+
+	test('Mock data set is reduced correctly - Special case', () => {
+		const schedules = {
+			'0x798D1bE841a82a273720CE31c822C61a67a601C3': [
+				// [initial, endAtSec, , startTime] -> startTime < timestamp < endAtSec
+				[
+					'202057195719116761014131368840160399203956123241542784248853484086980000000',
+					'1607019097',
+					'518400',
+					'1607019095',
+				],
+				[
+					'202057195719116761014131368840160399203956123241542784248853484086980000000',
+					'1607019097',
+					'604800',
+					'1607019095',
+				],
+			],
+		};
+		const expected = [
+			{
+				day: {
+					// 687311999999999.972835496795423584 - Done programatically for BigNumber integrity
+					amount: new BigNumber('202057195719116761014131368840160399203956123241542784248853484086980000000')
+						.dividedBy(28948022309329048855892746252171976963317496166410141009864396001)
+						.multipliedBy(60 * 60 * 24),
+					token: {
+						address: '0x798D1bE841a82a273720CE31c822C61a67a601C3',
+						data: 'Token0',
+					},
+				},
+				week: {
+					// 4811183999999999.809848477567965088 - Done programatically for BigNumber integrity
+					amount: new BigNumber('202057195719116761014131368840160399203956123241542784248853484086980000000')
+						.dividedBy(28948022309329048855892746252171976963317496166410141009864396001)
+						.multipliedBy(60 * 60 * 24 * 7),
+					token: {
+						address: '0x798D1bE841a82a273720CE31c822C61a67a601C3',
+						data: 'Token0',
+					},
+				},
+				month: {
+					// 20619359999999999.18506490386270752 - Done programatically for BigNumber integrity
+					amount: new BigNumber('202057195719116761014131368840160399203956123241542784248853484086980000000')
+						.dividedBy(28948022309329048855892746252171976963317496166410141009864396001)
+						.multipliedBy(60 * 60 * 24 * 30),
+					token: {
+						address: '0x798D1bE841a82a273720CE31c822C61a67a601C3',
+						data: 'Token0',
+					},
+				},
+				year: {
+					// 250868879999999990.08495633032960816 - Done programatically for BigNumber integrity
+					amount: new BigNumber('202057195719116761014131368840160399203956123241542784248853484086980000000')
+						.dividedBy(28948022309329048855892746252171976963317496166410141009864396001)
+						.multipliedBy(60 * 60 * 24 * 365),
+					token: {
+						address: '0x798D1bE841a82a273720CE31c822C61a67a601C3',
+						data: 'Token0',
+					},
+				},
+			},
+		];
+
+		// Sets current date to mock timestamp (Timestamp: 1607019096)
+		jest.spyOn(global.Date, 'now').mockImplementationOnce(() =>
+			new Date('December 03, 2020 13:11:36 GMT-0500').valueOf(),
+		);
+
+		// The data set provided covers the different possible cases
+		expect(reduceGeyserSchedule(schedules, mockStore)).toEqual(expected);
+	});
+
+	test('Mock data set is reduced correctly - timestamp < startTime', () => {
+		const schedules = {
+			'0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a': [
+				// [initial, endAtSec, , startTime] -> timestamp < startTime < endAtSec
+				['10', '1607019099', '604800', '1607019097'],
+				['10', '1607019099', '86400', '1607019097'],
+			],
+		};
+		const expected = [
+			{
+				day: {
+					amount: new BigNumber(0).dividedBy(0), // Locked = 0 and duration = 0
+					token: {
+						address: '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a',
+						data: 'Token2',
+					},
+				},
+				week: {
+					amount: new BigNumber(0).dividedBy(0), // Locked = 0 and duration = 0
+					token: {
+						address: '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a',
+						data: 'Token2',
+					},
+				},
+				month: {
+					amount: new BigNumber(0).dividedBy(0), // Locked = 0 and duration = 0
+					token: {
+						address: '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a',
+						data: 'Token2',
+					},
+				},
+				year: {
+					amount: new BigNumber(20).dividedBy(3).multipliedBy(60 * 60 * 24 * 365), // periodAllTime.start = startTime
+					token: {
+						address: '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a',
+						data: 'Token2',
+					},
+				},
+			},
+		];
+
+		// Sets current date to mock timestamp (Timestamp: 1607019096)
+		jest.spyOn(global.Date, 'now').mockImplementationOnce(() =>
+			new Date('December 03, 2020 13:11:36 GMT-0500').valueOf(),
+		);
+
+		expect(reduceGeyserSchedule(schedules, mockStore)).toEqual(expected);
 	});
 });

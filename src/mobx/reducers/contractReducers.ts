@@ -12,7 +12,6 @@ import {
 	ReducedGrowth,
 	Growth,
 	ReducedContractConfig,
-	Schedules,
 	MethodConfigPayload,
 	SushiAPIResults,
 	GraphResultPrices,
@@ -208,7 +207,9 @@ export const reduceGrowth = (graphResult: any[], periods: number[], startDate: D
 	});
 };
 
-export const reduceGeyserSchedule = (schedules: Schedules, store: RootStore): Growth[] => {
+// Disable reason: Schedules contain properties whose name change dynamically with the Token's addresses
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export const reduceGeyserSchedule = (schedules: any, store: RootStore): Growth[] => {
 	// console.log(JSON.stringify(schedules))
 	// console.log(_.keysIn(schedules))
 	// console.log(schedules);
@@ -216,7 +217,7 @@ export const reduceGeyserSchedule = (schedules: Schedules, store: RootStore): Gr
 	return _.compact(
 		_.map(schedules, (schedule: any[], tokenAddress: string) => {
 			let locked = new BigNumber(0);
-			const timestamp = new BigNumber(new Date().getTime() / 1000.0);
+			const timestamp = new BigNumber(new Date(Date.now()).getTime() / 1000.0);
 			const period = { start: timestamp, end: timestamp };
 
 			let lockedAllTime = new BigNumber(0);

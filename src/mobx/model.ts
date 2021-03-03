@@ -141,8 +141,9 @@ export class Geyser extends Contract {
 	update(payload: GeyserPayload): void {
 		if (!!payload.totalStaked) this.holdings = payload.totalStaked;
 		if (!!payload.totalStakedFor) this.balance = payload.totalStakedFor;
-		if (!!payload.getUnlockSchedulesFor)
+		if (!!payload.getUnlockSchedulesFor) {
 			this.rewards = reduceGeyserSchedule(payload.getUnlockSchedulesFor, this.store);
+		}
 	}
 }
 
@@ -204,11 +205,7 @@ export type TokenPayload = {
 export type GeyserPayload = {
 	totalStaked: BigNumber;
 	totalStakedFor: BigNumber;
-	getUnlockSchedulesFor: Schedules;
-};
-
-export type Schedules = {
-	array: string[];
+	getUnlockSchedulesFor: any;
 };
 
 export type RebaseToStats = { nextRebase: Date; oracleRate: string; totalSupply: string | boolean };
