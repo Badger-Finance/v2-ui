@@ -1,11 +1,13 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useContext, useState } from 'react';
+import { observer } from 'mobx-react-lite';
+import { StoreContext } from 'mobx/store-context';
 import { Tab, Card, Tabs, CardContent, Container, Grid, Switch, FormControlLabel } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Hero from 'components/Common/Hero';
 import Mint from './Mint';
 import Manage from './Manage';
 import Redeem from './Redeem';
-import { observer } from 'mobx-react-lite';
+import { Loader } from 'components/Loader';
 
 const TABS = {
 	MINT: 0,
@@ -52,11 +54,14 @@ export const useMainStyles = makeStyles((theme) => ({
 }));
 
 export const Claws: FC = observer(() => {
+	const { claw: store } = useContext(StoreContext);
+	const { isLoading } = store;
 	const classes = useMainStyles();
 	const [activeTab, setActiveTab] = useState(0);
 	const [globalData, setGlobalData] = useState(false);
 
 	const Content = () => {
+		if (isLoading) return <Loader />;
 		switch (activeTab) {
 			case TABS.REDEEM:
 				return <Redeem />;
