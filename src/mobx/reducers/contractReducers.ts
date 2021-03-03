@@ -200,7 +200,7 @@ export const reduceGrowth = (graphResult: any[], periods: number[], startDate: D
 			? growth.now
 					.dividedBy(growth.start)
 					.minus(1)
-					.dividedBy(new Date().getTime() - startDate.getTime())
+					.dividedBy(new Date(Date.now()).getTime() - startDate.getTime())
 					.multipliedBy(365 * 24 * 60 * 60 * 60)
 			: month.multipliedBy(13.05);
 
