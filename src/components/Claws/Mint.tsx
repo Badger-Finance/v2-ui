@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useMemo, useState } from 'react';
 import { Grid, Box, Button } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
 import { useContext } from 'react';
@@ -9,23 +9,32 @@ import ClawLabel from './ClawLabel';
 import ClawDetails from './ClawDetails';
 import BigNumber from 'bignumber.js';
 
-const initialValue: ClawParam = {
-	amount: '0.00',
-};
-
 export const Mint: FC = observer(() => {
 	const classes = useMainStyles();
 	const { claw: store, contracts, wallet } = useContext(StoreContext);
-	const [collateral, setCollateral] = useState<ClawParam>(initialValue);
-	const [mintable, setMintable] = useState<ClawParam>(initialValue);
-	const { collaterals, eClaws, syntheticsDataByEMP, sponsorInformationByEMP, eclawsByCollateral } = store;
+	const [collateral, setCollateral] = useState<ClawParam>({});
+	const [mintable, setMintable] = useState<ClawParam>({});
+	const { collaterals, eclawsByCollateral, syntheticsDataByEMP } = store;
 	const { tokens } = contracts;
 
 	const collateralToken = collateral.selectedOption && tokens[collateral.selectedOption];
+
+	const maxEclaw = useMemo(() => {
+		const synthetics = mintable.selectedOption && syntheticsDataByEMP.get(mintable.selectedOption);
+		if (!synthetics || !collateral.amount) return;
+
+		const { globalCollateralizationRatio, cumulativeFeeMultiplier } = synthetics;
+		const collateralAmount = new BigNumber(collateral.amount);
+		const minCollateralAmount = globalCollateralizationRatio
+			.multipliedBy(collateralAmount)
+			.dividedBy(cumulativeFeeMultiplier);
+		return minCollateralAmount.multipliedBy(cumulativeFeeMultiplier).dividedBy(globalCollateralizationRatio);
+	}, [collateral.amount, mintable.selectedOption, syntheticsDataByEMP]);
+
+	console.log({ maxEclaw });
+
 	const walletNotConnected = (!tokens || !wallet.connectedAddress) && 'Connect Wallet';
 	const error = walletNotConnected || collateral.error || mintable.error;
-
-	console.log({ balance: collateralToken.balance.toString() });
 
 	return (
 		<Grid container>
@@ -35,34 +44,48 @@ export const Mint: FC = observer(() => {
 						<Grid item xs={12}>
 							<ClawLabel
 								name="Collateral"
-								balanceLabel={collateralToken ? collateralToken.balance.toString() : '0'}
+								balanceLabel={
+									collateral.selectedOption &&
+									`Available ${collaterals.get(collateral.selectedOption)}`
+								}
+								balance={collateralToken?.balance.dividedBy(10 ** 18).toFixed(18, BigNumber.ROUND_DOWN)}
 							/>
 						</Grid>
 					</Box>
 					<Grid item xs={12}>
 						<ClawParams
-							referenceBalance={collateralToken && collateralToken.balance}
+							referenceBalance={collateralToken?.balance.dividedBy(10 ** 18)}
 							placeholder="Select Token"
 							amount={collateral.amount}
+							selectedOption={collateral.selectedOption}
+							options={collaterals}
+							disabledAmount={!collateral.selectedOption}
 							onAmountChange={(amount: string, error?: boolean) => {
+								const collateralName = collateral.selectedOption
+									? collaterals.get(collateral.selectedOption)
+									: 'collateral';
 								setCollateral({
 									...collateral,
 									amount,
-									error: error ? 'Amount exceeds wbtcWethSLP balance' : undefined,
+									error: error ? `Amount exceeds ${collateralName} balance` : undefined,
 								});
 							}}
-							selectedOption={collateral.selectedOption}
 							onOptionChange={(selectedOption: string) => {
-								console.log({ selectedOption });
-								console.log('balance =>', tokens[selectedOption]);
-								setMintable(initialValue);
+								setMintable({});
 								setCollateral({
 									...collateral,
 									selectedOption,
 								});
 							}}
-							options={collaterals}
-							disabledAmount={!collateral.selectedOption}
+							onApplyPercentage={(percentage: number) => {
+								setCollateral({
+									...collateral,
+									amount: collateralToken?.balance
+										.multipliedBy(percentage / 100)
+										.dividedBy(10 ** 18)
+										.toFixed(18, BigNumber.ROUND_DOWN),
+								});
+							}}
 						/>
 					</Grid>
 				</Grid>
@@ -70,14 +93,21 @@ export const Mint: FC = observer(() => {
 			<Grid item xs={12}>
 				<Box clone pb={1}>
 					<Grid item xs={12}>
-						<ClawLabel name="Mintable" balanceLabel="" />
+						<ClawLabel
+							name="Mintable"
+							balanceLabel={maxEclaw && 'Max eCLAW:'}
+							balance={maxEclaw && `Maximum eCLAW: ${maxEclaw.toString()}`}
+						/>
 					</Grid>
 				</Box>
 				<Grid item xs={12}>
 					<ClawParams
-						// referenceBalance={collateral.selectedOption && '0'}
+						referenceBalance={maxEclaw}
 						placeholder="Select Expiry"
 						amount={mintable.amount}
+						selectedOption={mintable.selectedOption}
+						disabledOptions={!collateral.selectedOption}
+						disabledAmount={!collateral.selectedOption || !mintable.selectedOption}
 						onAmountChange={(amount: string, error?: boolean) => {
 							setMintable({
 								...mintable,
@@ -85,7 +115,6 @@ export const Mint: FC = observer(() => {
 								error: error ? 'Amount exceeds eCLAW balance' : undefined,
 							});
 						}}
-						selectedOption={mintable.selectedOption}
 						options={
 							collateral.selectedOption ? eclawsByCollateral.get(collateral.selectedOption) : new Map()
 						}
@@ -95,8 +124,7 @@ export const Mint: FC = observer(() => {
 								selectedOption,
 							});
 						}}
-						disabledAmount={!collateral.selectedOption}
-						disabledOptions={!collateral.selectedOption}
+						onApplyPercentage={() => {}}
 					/>
 				</Grid>
 			</Grid>
