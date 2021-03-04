@@ -82,6 +82,7 @@ const Manage: FC = () => {
 							});
 						}}
 						disabledAmount={!txParams.selectedOption}
+						onApplyPercentage={() => {}}
 					/>
 				</Grid>
 				<Grid item xs={12}>

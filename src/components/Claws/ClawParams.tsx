@@ -15,7 +15,7 @@ import BigNumber from 'bignumber.js';
 import { isValidAmountChange, sanitizeValue } from './utils';
 
 export interface ClawParam {
-	amount: string;
+	amount?: string;
 	selectedOption?: string;
 	error?: string;
 }
@@ -30,6 +30,7 @@ interface Props {
 	disabledOptions?: boolean;
 	onAmountChange: (amount: string, error?: boolean) => void;
 	onOptionChange: (option: string) => void;
+	onApplyPercentage: (percentage: number) => void;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -62,15 +63,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const ClawParams: FC<Props> = ({
-	referenceBalance = '0',
-	disabledAmount = false,
-	disabledOptions = false,
-	amount = '0',
-	options: _options = new Map<string, string>(),
 	selectedOption,
 	placeholder,
+	amount = '',
+	referenceBalance = new BigNumber('0'),
+	disabledAmount = false,
+	disabledOptions = false,
+	options: _options = new Map<string, string>(),
 	onAmountChange,
 	onOptionChange,
+	onApplyPercentage,
 }) => {
 	const classes = useStyles();
 
@@ -87,14 +89,8 @@ export const ClawParams: FC<Props> = ({
 		}
 
 		const amount = new BigNumber(input);
-		const amountExceedsBalance = new BigNumber(referenceBalance).lt(amount);
+		const amountExceedsBalance = referenceBalance.lt(amount);
 		onAmountChange(sanitizeValue(event.target.value as string), amountExceedsBalance);
-	};
-
-	const applyPercentage = (percentage: number) => {
-		const newAmount = new BigNumber(referenceBalance).multipliedBy(percentage / 100);
-
-		onAmountChange(newAmount.toString());
 	};
 
 	return (
@@ -152,7 +148,7 @@ export const ClawParams: FC<Props> = ({
 									variant="text"
 									className={classes.button}
 									onClick={() => {
-										applyPercentage(amount);
+										onApplyPercentage(amount);
 									}}
 								>
 									{amount}%
