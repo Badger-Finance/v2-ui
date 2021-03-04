@@ -4,7 +4,8 @@ import { token as BADGER_ADDRESS, digg_system, sett_system } from './deployments
 export const INFURA_KEY = '32d16e34f8af476e9ef63b34ba2a16cc';
 export const APP_URL = 'https://app.badger.finance/';
 export const CONTACT_EMAIL = 'hello@badger.finance';
-export const RPC_URL = 'https://eth-mainnet.alchemyapi.io/v2/ZPhpI9buZLLAvjR44hryTAhiC5V-HueZ';
+export const RPC_URL = 'https://cloudflare-eth.com'
+// export const RPC_URL = 'https://eth-mainnet.alchemyapi.io/v2/ZPhpI9buZLLAvjR44hryTAhiC5V-HueZ';
 export const APP_NAME = 'badgerDAO';
 export const PORTIS_APP_ID = 'cbf7534d-170d-4903-943f-e607dc588b7f';
 
