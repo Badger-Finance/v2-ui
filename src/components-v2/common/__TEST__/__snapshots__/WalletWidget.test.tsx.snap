@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`WalletWidget Renders correctly 1`] = `
+<button
+  className="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-walletButton-4 MuiButton-containedSecondary MuiButton-disableElevation"
+  disabled={false}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onDragLeave={[Function]}
+  onFocus={[Function]}
+  onKeyDown={[Function]}
+  onKeyUp={[Function]}
+  onMouseDown={[Function]}
+  onMouseLeave={[Function]}
+  onMouseUp={[Function]}
+  onTouchEnd={[Function]}
+  onTouchMove={[Function]}
+  onTouchStart={[Function]}
+  tabIndex={0}
+  type="button"
+>
+  <span
+    className="MuiButton-label"
+  >
+    Click to connect
+    <span
+      className="MuiButton-endIcon MuiButton-iconSizeMedium"
+    >
+      <div
+        className="makeStyles-walletDot-1 makeStyles-redDot-2"
+      />
+    </span>
+  </span>
+</button>
+`;

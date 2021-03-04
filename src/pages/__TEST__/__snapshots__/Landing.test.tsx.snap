@@ -1,0 +1,449 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Landing Page Renders correctly 1`] = `
+<div
+  className="MuiContainer-root makeStyles-landingContainer-1 MuiContainer-maxWidthLg"
+>
+  <div
+    className="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-1 MuiGrid-justify-xs-center"
+  >
+    <div
+      className="MuiGrid-root makeStyles-headerContainer-2 MuiGrid-item MuiGrid-grid-xs-12"
+    >
+      <div
+        className="makeStyles-headerContainer-11"
+      >
+        <div
+          className="makeStyles-headerContent-12"
+        >
+          <h2
+            className="MuiTypography-root MuiTypography-h2 MuiTypography-colorTextPrimary"
+          >
+            Sett Vaults
+          </h2>
+          <h6
+            className="MuiTypography-root MuiTypography-subtitle1 MuiTypography-colorTextSecondary"
+          >
+            Powerful Bitcoin strategies. Automatic staking rewards.
+          </h6>
+        </div>
+        <div
+          className="makeStyles-headerWidgets-10"
+        >
+          <div
+            className="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorSecondary MuiOutlinedInput-colorSecondary makeStyles-gasSelector-13 MuiInputBase-adornedStart MuiOutlinedInput-adornedStart"
+            onClick={[Function]}
+          >
+            <svg
+              aria-hidden={true}
+              className="MuiSvgIcon-root"
+              focusable="false"
+              onClick={[Function]}
+              style={
+                Object {
+                  "cursor": "pointer",
+                  "fontSize": "1.2rem",
+                  "marginRight": ".8rem",
+                }
+              }
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M19.77 7.23l.01-.01-3.72-3.72L15 4.56l2.11 2.11c-.94.36-1.61 1.26-1.61 2.33 0 1.38 1.12 2.5 2.5 2.5.36 0 .69-.08 1-.21v7.21c0 .55-.45 1-1 1s-1-.45-1-1V14c0-1.1-.9-2-2-2h-1V5c0-1.1-.9-2-2-2H6c-1.1 0-2 .9-2 2v16h10v-7.5h1.5v5c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5V9c0-.69-.28-1.32-.73-1.77zM12 10H6V5h6v5zm6 0c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"
+              />
+            </svg>
+            <div
+              aria-haspopup="listbox"
+              className="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedStart MuiOutlinedInput-inputAdornedStart"
+              onBlur={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onMouseDown={[Function]}
+              role="button"
+              tabIndex={0}
+            >
+              75
+            </div>
+            <input
+              aria-hidden={true}
+              className="MuiSelect-nativeInput"
+              onAnimationStart={[Function]}
+              onChange={[Function]}
+              tabIndex={-1}
+              value="standard"
+            />
+            <svg
+              aria-hidden={true}
+              className="MuiSvgIcon-root MuiSelect-icon MuiSelect-iconOutlined"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M7 10l5 5 5-5z"
+              />
+            </svg>
+            <fieldset
+              aria-hidden={true}
+              className="PrivateNotchedOutline-root-14 MuiOutlinedInput-notchedOutline"
+              style={
+                Object {
+                  "paddingLeft": 8,
+                }
+              }
+            >
+              <legend
+                className="PrivateNotchedOutline-legend-15"
+                style={
+                  Object {
+                    "width": 0.01,
+                  }
+                }
+              >
+                <span
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "&#8203;",
+                    }
+                  }
+                />
+              </legend>
+            </fieldset>
+          </div>
+          <button
+            className="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-walletButton-21 MuiButton-containedSecondary MuiButton-disableElevation"
+            disabled={false}
+            onBlur={[Function]}
+            onClick={[Function]}
+            onDragLeave={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onKeyUp={[Function]}
+            onMouseDown={[Function]}
+            onMouseLeave={[Function]}
+            onMouseUp={[Function]}
+            onTouchEnd={[Function]}
+            onTouchMove={[Function]}
+            onTouchStart={[Function]}
+            tabIndex={0}
+            type="button"
+          >
+            <span
+              className="MuiButton-label"
+            >
+              0x1a1a1...a1a1a1a
+              <span
+                className="MuiButton-endIcon MuiButton-iconSizeMedium"
+              >
+                <div
+                  className="makeStyles-walletDot-18 makeStyles-greenDot-20"
+                />
+              </span>
+            </span>
+            <span
+              className="MuiTouchRipple-root"
+            />
+          </button>
+        </div>
+      </div>
+    </div>
+    <div
+      className="MuiGrid-root makeStyles-widgetContainer-5 MuiGrid-item MuiGrid-grid-xs-12"
+    >
+      <div>
+        <label
+          className="MuiFormControlLabel-root makeStyles-walletSlider-22"
+        >
+          <span
+            className="MuiSwitch-root"
+          >
+            <span
+              aria-disabled={false}
+              className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-23 MuiSwitch-switchBase MuiSwitch-colorPrimary"
+              onBlur={[Function]}
+              onDragLeave={[Function]}
+              onFocus={[Function]}
+              onKeyDown={[Function]}
+              onKeyUp={[Function]}
+              onMouseDown={[Function]}
+              onMouseLeave={[Function]}
+              onMouseUp={[Function]}
+              onTouchEnd={[Function]}
+              onTouchMove={[Function]}
+              onTouchStart={[Function]}
+              tabIndex={null}
+            >
+              <span
+                className="MuiIconButton-label"
+              >
+                <input
+                  checked={false}
+                  className="PrivateSwitchBase-input-26 MuiSwitch-input"
+                  onChange={[Function]}
+                  type="checkbox"
+                />
+                <span
+                  className="MuiSwitch-thumb"
+                />
+              </span>
+              <span
+                className="MuiTouchRipple-root"
+              />
+            </span>
+            <span
+              className="MuiSwitch-track"
+            />
+          </span>
+          <span
+            className="MuiTypography-root MuiFormControlLabel-label MuiTypography-body1"
+          >
+            Portfolio View
+          </span>
+        </label>
+      </div>
+      <div
+        className="makeStyles-pickerContainer-9"
+      >
+        <div
+          className="MuiInputBase-root MuiOutlinedInput-root makeStyles-samplePicker-27"
+          onClick={[Function]}
+          onMouseLeave={[Function]}
+          onMouseOver={[Function]}
+          onTouchEnd={[Function]}
+          onTouchStart={[Function]}
+          style={
+            Object {
+              "marginBottom": "auto",
+              "marginTop": "auto",
+            }
+          }
+          title="ROI combines the appreciation of the vault with its $BADGER or $DIGG emissions. All numbers are an approximation based on historical data."
+        >
+          <div
+            aria-haspopup="listbox"
+            className="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input"
+            onBlur={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onMouseDown={[Function]}
+            role="button"
+            tabIndex={0}
+          >
+            YEAR
+          </div>
+          <input
+            aria-describedby={null}
+            aria-hidden={true}
+            className="MuiSelect-nativeInput"
+            onAnimationStart={[Function]}
+            onChange={[Function]}
+            tabIndex={-1}
+            value="year"
+          />
+          <svg
+            aria-hidden={true}
+            className="MuiSvgIcon-root MuiSelect-icon MuiSelect-iconOutlined"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M7 10l5 5 5-5z"
+            />
+          </svg>
+          <fieldset
+            aria-hidden={true}
+            className="PrivateNotchedOutline-root-14 MuiOutlinedInput-notchedOutline"
+            style={
+              Object {
+                "paddingLeft": 8,
+              }
+            }
+          >
+            <legend
+              className="PrivateNotchedOutline-legend-15"
+              style={
+                Object {
+                  "width": 0.01,
+                }
+              }
+            >
+              <span
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "&#8203;",
+                  }
+                }
+              />
+            </legend>
+          </fieldset>
+        </div>
+        <div
+          className="MuiInputBase-root MuiOutlinedInput-root makeStyles-currencyPicker-28"
+          onClick={[Function]}
+          style={
+            Object {
+              "marginBottom": "auto",
+              "marginTop": "auto",
+            }
+          }
+        >
+          <div
+            aria-haspopup="listbox"
+            className="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input"
+            onBlur={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onMouseDown={[Function]}
+            role="button"
+            tabIndex={0}
+          >
+            USD
+          </div>
+          <input
+            aria-hidden={true}
+            className="MuiSelect-nativeInput"
+            onAnimationStart={[Function]}
+            onChange={[Function]}
+            tabIndex={-1}
+            value="usd"
+          />
+          <svg
+            aria-hidden={true}
+            className="MuiSvgIcon-root MuiSelect-icon MuiSelect-iconOutlined"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M7 10l5 5 5-5z"
+            />
+          </svg>
+          <fieldset
+            aria-hidden={true}
+            className="PrivateNotchedOutline-root-14 MuiOutlinedInput-notchedOutline"
+            style={
+              Object {
+                "paddingLeft": 8,
+              }
+            }
+          >
+            <legend
+              className="PrivateNotchedOutline-legend-15"
+              style={
+                Object {
+                  "width": 0.01,
+                }
+              }
+            >
+              <span
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "&#8203;",
+                  }
+                }
+              />
+            </legend>
+          </fieldset>
+        </div>
+      </div>
+    </div>
+    <div
+      className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-4"
+    >
+      <div
+        className="MuiPaper-root makeStyles-infoPaper-29 MuiPaper-elevation2 MuiPaper-rounded"
+      >
+        <h6
+          className="MuiTypography-root MuiTypography-subtitle1 MuiTypography-colorTextPrimary"
+        >
+          Total Value Locked
+        </h6>
+        <span
+          className="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-withChildren MuiSkeleton-fitContent MuiSkeleton-heightAuto MuiSkeleton-wave"
+          style={
+            Object {
+              "height": undefined,
+              "width": undefined,
+            }
+          }
+        >
+          <h5
+            className="MuiTypography-root MuiTypography-h5"
+          >
+            Placeholder
+          </h5>
+        </span>
+      </div>
+    </div>
+    <div
+      className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-4"
+    >
+      <div
+        className="MuiPaper-root makeStyles-infoPaper-29 MuiPaper-elevation2 MuiPaper-rounded"
+      >
+        <h6
+          className="MuiTypography-root MuiTypography-subtitle1 MuiTypography-colorTextPrimary"
+        >
+          Your Portfolio
+        </h6>
+        <span
+          className="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-withChildren MuiSkeleton-fitContent MuiSkeleton-heightAuto MuiSkeleton-wave"
+          style={
+            Object {
+              "height": undefined,
+              "width": undefined,
+            }
+          }
+        >
+          <h5
+            className="MuiTypography-root MuiTypography-h5"
+          >
+            Placeholder
+          </h5>
+        </span>
+      </div>
+    </div>
+    <div
+      className="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-4"
+    >
+      <div
+        className="MuiPaper-root makeStyles-infoPaper-29 MuiPaper-elevation2 MuiPaper-rounded"
+      >
+        <h6
+          className="MuiTypography-root MuiTypography-subtitle1 MuiTypography-colorTextPrimary"
+        >
+          Badger Price
+        </h6>
+        <span
+          className="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-withChildren MuiSkeleton-fitContent MuiSkeleton-heightAuto MuiSkeleton-wave"
+          style={
+            Object {
+              "height": undefined,
+              "width": undefined,
+            }
+          }
+        >
+          <h5
+            className="MuiTypography-root MuiTypography-h5"
+          >
+            Placeholder
+          </h5>
+        </span>
+      </div>
+    </div>
+  </div>
+  <div
+    className="makeStyles-settListContainer-37"
+  >
+    <h6
+      className="MuiTypography-root MuiTypography-subtitle1 MuiTypography-colorTextSecondary MuiTypography-alignCenter"
+      style={
+        Object {
+          "margin": "2rem 0",
+        }
+      }
+    >
+      Loading Badger Setts...
+    </h6>
+    <div />
+  </div>
+</div>
+`;

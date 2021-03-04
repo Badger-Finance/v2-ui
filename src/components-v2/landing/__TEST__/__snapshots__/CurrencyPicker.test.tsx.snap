@@ -1,0 +1,71 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CurrencyPicker Renders correctly 1`] = `
+<div
+  className="MuiInputBase-root MuiOutlinedInput-root makeStyles-currencyPicker-1"
+  onClick={[Function]}
+  style={
+    Object {
+      "marginBottom": "auto",
+      "marginTop": "auto",
+    }
+  }
+>
+  <div
+    aria-haspopup="listbox"
+    className="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input"
+    onBlur={[Function]}
+    onFocus={[Function]}
+    onKeyDown={[Function]}
+    onMouseDown={[Function]}
+    role="button"
+    tabIndex={0}
+  >
+    USD
+  </div>
+  <input
+    aria-hidden={true}
+    className="MuiSelect-nativeInput"
+    onAnimationStart={[Function]}
+    onChange={[Function]}
+    tabIndex={-1}
+    value="usd"
+  />
+  <svg
+    aria-hidden={true}
+    className="MuiSvgIcon-root MuiSelect-icon MuiSelect-iconOutlined"
+    focusable="false"
+    viewBox="0 0 24 24"
+  >
+    <path
+      d="M7 10l5 5 5-5z"
+    />
+  </svg>
+  <fieldset
+    aria-hidden={true}
+    className="PrivateNotchedOutline-root-2 MuiOutlinedInput-notchedOutline"
+    style={
+      Object {
+        "paddingLeft": 8,
+      }
+    }
+  >
+    <legend
+      className="PrivateNotchedOutline-legend-3"
+      style={
+        Object {
+          "width": 0.01,
+        }
+      }
+    >
+      <span
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "&#8203;",
+          }
+        }
+      />
+    </legend>
+  </fieldset>
+</div>
+`;

@@ -1,26 +1,31 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { act } from 'react-dom/test-utils';
+import renderer from 'react-test-renderer';
 import SamplePicker from '../SamplePicker';
 import '@testing-library/jest-dom';
 import { StoreProvider } from '../../../mobx/store-context';
 import store from '../../../mobx/store';
 
+const { act } = renderer;
+
 describe('SamplePicker', () => {
 	const defaultPeriod = 'YEAR';
+	const testStore = store;
 
-	test('Renders and displays default period', () => {
-		render(
-			<StoreProvider value={store}>
-				<SamplePicker />
-			</StoreProvider>,
-		);
-		expect(screen.getByText(defaultPeriod)).toBeVisible; // Checks that picker is rendered with default period
+	test('Renders correctly', () => {
+		const rendered = renderer
+			.create(
+				<StoreProvider value={testStore}>
+					<SamplePicker />
+				</StoreProvider>,
+			)
+			.toJSON();
+		expect(rendered).toMatchSnapshot();
 	});
 
 	test('Opens period menu upon click', async () => {
 		render(
-			<StoreProvider value={store}>
+			<StoreProvider value={testStore}>
 				<SamplePicker />
 			</StoreProvider>,
 		);
@@ -34,7 +39,7 @@ describe('SamplePicker', () => {
 	test('Displays info on hover', async () => {
 		const defaultPeriod = 'YEAR';
 		render(
-			<StoreProvider value={store}>
+			<StoreProvider value={testStore}>
 				<SamplePicker />
 			</StoreProvider>,
 		);

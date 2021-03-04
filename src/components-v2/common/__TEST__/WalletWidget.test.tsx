@@ -1,29 +1,37 @@
 import React from 'react';
 import { render, screen, cleanup, fireEvent } from '@testing-library/react';
+import renderer from 'react-test-renderer';
 import WalletWidget from '../WalletWidget';
 import '@testing-library/jest-dom';
 import { StoreProvider } from '../../../mobx/store-context';
 import store from '../../../mobx/store';
 
 afterEach(cleanup);
+const { act } = renderer;
 
 describe('WalletWidget', () => {
-	test('Displays disconnected wallet message', () => {
-		render(
-			<StoreProvider value={store}>
-				<WalletWidget />
-			</StoreProvider>,
-		);
-		expect(screen.getByText('Click to connect')).toBeInTheDocument();
+	const testStore = store;
+
+	test('Renders correctly', () => {
+		const rendered = renderer
+			.create(
+				<StoreProvider value={testStore}>
+					<WalletWidget />
+				</StoreProvider>,
+			)
+			.toJSON();
+		expect(rendered).toMatchSnapshot();
 	});
 
 	test('Opens wallet menu upon click', async () => {
 		render(
-			<StoreProvider value={store}>
+			<StoreProvider value={testStore}>
 				<WalletWidget />
 			</StoreProvider>,
 		);
-		await fireEvent.click(screen.getByText('Click to connect'));
+		await act(async () => {
+			await fireEvent.click(screen.getByText('Click to connect'));
+		});
 		const Title = await screen.findByText('Connect to BadgerDAO');
 		expect(Title).toBeVisible;
 		const Subtitle = await screen.findByText('Deposit & Earn on your Bitcoin');
@@ -33,9 +41,11 @@ describe('WalletWidget', () => {
 	});
 
 	test('Connected address is properly displayed', async () => {
-		store.wallet.connectedAddress = '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a';
+		await act(async () => {
+			testStore.wallet.connectedAddress = '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a';
+		});
 		render(
-			<StoreProvider value={store}>
+			<StoreProvider value={testStore}>
 				<WalletWidget />
 			</StoreProvider>,
 		);

@@ -1,0 +1,50 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`WalletSlider Renders correctly 1`] = `
+<label
+  className="MuiFormControlLabel-root makeStyles-walletSlider-1"
+>
+  <span
+    className="MuiSwitch-root"
+  >
+    <span
+      aria-disabled={false}
+      className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-2 MuiSwitch-switchBase MuiSwitch-colorPrimary"
+      onBlur={[Function]}
+      onDragLeave={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      onKeyUp={[Function]}
+      onMouseDown={[Function]}
+      onMouseLeave={[Function]}
+      onMouseUp={[Function]}
+      onTouchEnd={[Function]}
+      onTouchMove={[Function]}
+      onTouchStart={[Function]}
+      tabIndex={null}
+    >
+      <span
+        className="MuiIconButton-label"
+      >
+        <input
+          checked={false}
+          className="PrivateSwitchBase-input-5 MuiSwitch-input"
+          onChange={[Function]}
+          type="checkbox"
+        />
+        <span
+          className="MuiSwitch-thumb"
+        />
+      </span>
+    </span>
+    <span
+      className="MuiSwitch-track"
+    />
+  </span>
+  <span
+    className="MuiTypography-root MuiFormControlLabel-label MuiTypography-body1"
+  >
+    Portfolio View
+  </span>
+</label>
+`;

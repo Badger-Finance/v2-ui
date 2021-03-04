@@ -1,23 +1,27 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
+import renderer from 'react-test-renderer';
 import GasWidget from '../GasWidget';
 import '@testing-library/jest-dom';
 import { StoreProvider } from '../../../mobx/store-context';
 import store from '../../../mobx/store';
 
 describe('GasWidget', () => {
-	test('Displays initial gas price', () => {
-		render(
-			<StoreProvider value={store}>
-				<GasWidget />
-			</StoreProvider>,
-		);
-		expect(screen.getByText(/(\d+)/i)).toBeVisible(); // Checks that gas price is rendered
-	});
+	const testStore = store;
 
+	test('Renders correctly', () => {
+		const rendered = renderer
+			.create(
+				<StoreProvider value={testStore}>
+					<GasWidget />
+				</StoreProvider>,
+			)
+			.toJSON();
+		expect(rendered).toMatchSnapshot();
+	});
 	test('Opens gas menu upon click', async () => {
 		render(
-			<StoreProvider value={store}>
+			<StoreProvider value={testStore}>
 				<GasWidget />
 			</StoreProvider>,
 		);

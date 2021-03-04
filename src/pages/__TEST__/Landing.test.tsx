@@ -1,30 +1,29 @@
 import React from 'react';
 import { render, fireEvent, cleanup } from '@testing-library/react';
+import renderer from 'react-test-renderer';
 import Landing from '../Landing';
 import '@testing-library/jest-dom';
 import { StoreProvider } from '../../mobx/store-context';
 import store from '../../mobx/store';
 
 afterEach(cleanup);
+const { act } = renderer;
 
 describe('Landing Page', () => {
-	const defaultTitle = 'Sett Vaults';
-	const defaultSubtitle = 'Powerful Bitcoin strategies. Automatic staking rewards.';
-	const defaultPeriod = 'YEAR';
-	const defaultCurrency = 'USD';
 	const connectedStore = store;
-	connectedStore.wallet.connectedAddress = '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a';
+	act(() => {
+		connectedStore.wallet.connectedAddress = '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a';
+	});
 
-	test('Renders and displays default info', () => {
-		const { getByText } = render(
-			<StoreProvider value={connectedStore}>
-				<Landing />
-			</StoreProvider>,
-		);
-		expect(getByText(defaultTitle)).toBeVisible;
-		expect(getByText(defaultSubtitle)).toBeVisible;
-		expect(getByText(defaultPeriod)).toBeVisible;
-		expect(getByText(defaultCurrency)).toBeVisible;
+	test('Renders correctly', () => {
+		const rendered = renderer
+			.create(
+				<StoreProvider value={connectedStore}>
+					<Landing />
+				</StoreProvider>,
+			)
+			.toJSON();
+		expect(rendered).toMatchSnapshot();
 	});
 
 	test('Clicking portfolio switch shows empty portfolio', async () => {
@@ -34,13 +33,14 @@ describe('Landing Page', () => {
 			</StoreProvider>,
 		);
 		// Clicks on switch
-		await fireEvent.click(getByText('Portfolio View'));
-
+		await act(async () => {
+			await fireEvent.click(getByText('Portfolio View'));
+		});
 		// Checks for display of empty portfolio message
 		const currency = await findByText('Your address does not have tokens to deposit.');
 		expect(currency).toBeVisible;
 	});
-	// TODO: Create a mock Web3 provider
+	// TODO: Create a mock Web3 provider to emulate connection and test further interactions
 	/* 
 	test('Selecting different currency changes displayed currency', async () => {
 		store.wallet.connectedAddress = '';
