@@ -3,9 +3,11 @@
 const getApi = () => {
 	if (process.env.NODE_ENV === 'production') {
 		// TODO: Update to api.badger.finance on cloudflare redirect
-		return 'https://2k2ccquid1.execute-api.us-west-1.amazonaws.com/prod/';
+		return 'https://2k2ccquid1.execute-api.us-west-1.amazonaws.com/prod';
+		// return 'api.badger.finance/';
 	}
-	return 'https://laiv44udi0.execute-api.us-west-1.amazonaws.com/staging/';
+	return 'https://laiv44udi0.execute-api.us-west-1.amazonaws.com/staging';
+	// return 'staging-api.badger.finance';
 };
 const badgerApi = getApi();
 
