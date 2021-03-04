@@ -15,7 +15,7 @@ describe('SamplePicker', () => {
 				<SamplePicker />
 			</StoreProvider>,
 		);
-		expect(screen.getByText(defaultPeriod)).toBeVisible; // Checks that picker is rendered with default currency
+		expect(screen.getByText(defaultPeriod)).toBeVisible; // Checks that picker is rendered with default period
 	});
 
 	test('Opens period menu upon click', async () => {

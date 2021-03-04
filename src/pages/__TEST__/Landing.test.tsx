@@ -33,10 +33,10 @@ describe('Landing Page', () => {
 				<Landing />
 			</StoreProvider>,
 		);
-		// Opens currency menu
+		// Clicks on switch
 		await fireEvent.click(getByText('Portfolio View'));
 
-		// Checks that CAD is in menu
+		// Checks for display of empty portfolio message
 		const currency = await findByText('Your address does not have tokens to deposit.');
 		expect(currency).toBeVisible;
 	});
