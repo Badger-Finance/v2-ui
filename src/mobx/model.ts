@@ -205,7 +205,11 @@ export type TokenPayload = {
 export type GeyserPayload = {
 	totalStaked: BigNumber;
 	totalStakedFor: BigNumber;
-	getUnlockSchedulesFor: any;
+	getUnlockSchedulesFor: Schedules;
+};
+
+export type Schedules = {
+	[index: string]: string[][];
 };
 
 export type RebaseToStats = { nextRebase: Date; oracleRate: string; totalSupply: string | boolean };

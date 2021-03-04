@@ -16,6 +16,7 @@ import {
 	SushiAPIResults,
 	GraphResultPrices,
 	ReducedGraphResults,
+	Schedules,
 } from '../model';
 
 export const reduceBatchResult = (result: any[]): any[] => {
@@ -207,9 +208,7 @@ export const reduceGrowth = (graphResult: any[], periods: number[], startDate: D
 	});
 };
 
-// Disable reason: Schedules contain properties whose name change dynamically with the Token's addresses
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const reduceGeyserSchedule = (schedules: any, store: RootStore): Growth[] => {
+export const reduceGeyserSchedule = (schedules: Schedules, store: RootStore): Growth[] => {
 	// console.log(JSON.stringify(schedules))
 	// console.log(_.keysIn(schedules))
 	// console.log(schedules);

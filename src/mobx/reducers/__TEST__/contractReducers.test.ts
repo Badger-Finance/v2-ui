@@ -1,19 +1,24 @@
 import '@testing-library/jest-dom';
+import { cleanup } from '@testing-library/react';
 import BigNumber from 'bignumber.js';
 import { START_BLOCK } from 'config/constants';
 import store from 'mobx/store';
 import { growthQuery } from 'mobx/utils/helpers';
 import {
 	reduceBatchResult,
+	reduceContractConfig,
 	reduceCurveResult,
 	reduceGeyserSchedule,
 	reduceGraphResult,
 	reduceGrowth,
 	reduceGrowthQueryConfig,
+	reduceMethodConfig,
 	reduceResult,
 	reduceSushiAPIResults,
 	reduceXSushiROIResults,
 } from '../contractReducers';
+
+afterEach(cleanup);
 
 describe('reduceBatchResult', () => {
 	test('Mock data set is reduced correctly', () => {
@@ -614,7 +619,7 @@ describe('reduceGeyserSchedule', () => {
 		const expected = [
 			{
 				day: {
-					// 687311999999999.972835496795423584 - Done programatically for BigNumber integrity
+					// 687311999999999.972835496795423584 - Done programatically to preserve BigNumber integrity
 					amount: new BigNumber('202057195719116761014131368840160399203956123241542784248853484086980000000')
 						.dividedBy(28948022309329048855892746252171976963317496166410141009864396001)
 						.multipliedBy(60 * 60 * 24),
@@ -624,7 +629,7 @@ describe('reduceGeyserSchedule', () => {
 					},
 				},
 				week: {
-					// 4811183999999999.809848477567965088 - Done programatically for BigNumber integrity
+					// 4811183999999999.809848477567965088 - Done programatically to preserve BigNumber integrity
 					amount: new BigNumber('202057195719116761014131368840160399203956123241542784248853484086980000000')
 						.dividedBy(28948022309329048855892746252171976963317496166410141009864396001)
 						.multipliedBy(60 * 60 * 24 * 7),
@@ -634,7 +639,7 @@ describe('reduceGeyserSchedule', () => {
 					},
 				},
 				month: {
-					// 20619359999999999.18506490386270752 - Done programatically for BigNumber integrity
+					// 20619359999999999.18506490386270752 - Done programatically to preserve BigNumber integrity
 					amount: new BigNumber('202057195719116761014131368840160399203956123241542784248853484086980000000')
 						.dividedBy(28948022309329048855892746252171976963317496166410141009864396001)
 						.multipliedBy(60 * 60 * 24 * 30),
@@ -644,7 +649,7 @@ describe('reduceGeyserSchedule', () => {
 					},
 				},
 				year: {
-					// 250868879999999990.08495633032960816 - Done programatically for BigNumber integrity
+					// 250868879999999990.08495633032960816 - Done programatically to preserve BigNumber integrity
 					amount: new BigNumber('202057195719116761014131368840160399203956123241542784248853484086980000000')
 						.dividedBy(28948022309329048855892746252171976963317496166410141009864396001)
 						.multipliedBy(60 * 60 * 24 * 365),
@@ -712,5 +717,167 @@ describe('reduceGeyserSchedule', () => {
 		);
 
 		expect(reduceGeyserSchedule(schedules, mockStore)).toEqual(expected);
+	});
+});
+
+describe('reduceContractConfig', () => {
+	test('Mock data set is reduced correctly', () => {
+		const configs = [
+			{
+				abi: [],
+				contracts: ['0x6b3595068778dd592e39a122f4f5a5cf09c90fe2', '0x6def55d2e18486b9ddfaa075bc4e4ee0b28c1545'],
+				fillers: {
+					isFeatured: [false, false],
+					isSuperSett: [true, true],
+					position: [1, 2],
+					symbol: ['token1', 'token2'],
+				},
+				methods: [
+					{
+						args: ['{connectedAddress}'],
+						name: 'balanceOf',
+					},
+				],
+				underlying: 'token',
+			},
+			{
+				abi: [],
+				contracts: ['0x36e2fcccc59e5747ff63a03ea2e5c0c2c14911e7', '0x64eda51d3ad40d56b9dfc5554e06f94e1dd786fd'],
+				fillers: {
+					isFeatured: [true, true],
+					isSuperSett: [false, false],
+					position: [3, 4],
+					symbol: ['token3', 'token4'],
+				},
+				methods: [],
+				underlying: 'token',
+			},
+		];
+
+		const payload = { connectedAddress: '0x0z0z0z0z0z0z0z0z0z0z0z0z0z0z0z0z0z0z0z0z' };
+
+		const expected = {
+			batchCall: [
+				{
+					abi: [],
+					addresses: [
+						'0x6B3595068778DD592e39A122f4f5a5cF09C90fE2',
+						'0x6dEf55d2e18486B9dDfaA075bc4e4EE0B28c1545',
+					],
+					allReadMethods: false,
+					groupByNamespace: true,
+					logging: false,
+					namespace: 'namespace',
+					readMethods: [
+						{
+							name: 'balanceOf',
+							args: ['0x0z0z0z0z0z0z0z0z0z0z0z0z0z0z0z0z0z0z0z0z'],
+						},
+					],
+				},
+				{
+					abi: [],
+					addresses: [
+						'0x36e2FCCCc59e5747Ff63a03ea2e5C0c2C14911e7',
+						'0x64eda51d3Ad40D56b9dFc5554E06F94e1Dd786Fd',
+					],
+					allReadMethods: false,
+					groupByNamespace: true,
+					logging: false,
+					namespace: 'namespace',
+				},
+			],
+			defaults: {
+				'0x6b3595068778dd592e39a122f4f5a5cf09c90fe2': {
+					abi: [],
+					address: '0x6b3595068778dd592e39a122f4f5a5cf09c90fe2',
+					isFeatured: false,
+					isSuperSett: true,
+					methods: [
+						{
+							name: 'balanceOf',
+							args: ['0x0z0z0z0z0z0z0z0z0z0z0z0z0z0z0z0z0z0z0z0z'],
+						},
+					],
+					position: 1,
+					symbol: 'token1',
+					underlyingKey: 'token',
+				},
+				'0x6def55d2e18486b9ddfaa075bc4e4ee0b28c1545': {
+					abi: [],
+					address: '0x6def55d2e18486b9ddfaa075bc4e4ee0b28c1545',
+					isFeatured: false,
+					isSuperSett: true,
+					methods: [
+						{
+							name: 'balanceOf',
+							args: ['0x0z0z0z0z0z0z0z0z0z0z0z0z0z0z0z0z0z0z0z0z'],
+						},
+					],
+					position: 2,
+					symbol: 'token2',
+					underlyingKey: 'token',
+				},
+				'0x36e2fcccc59e5747ff63a03ea2e5c0c2c14911e7': {
+					abi: [],
+					address: '0x36e2fcccc59e5747ff63a03ea2e5c0c2c14911e7',
+					isFeatured: true,
+					isSuperSett: false,
+					methods: [],
+					position: 3,
+					symbol: 'token3',
+					underlyingKey: 'token',
+				},
+				'0x64eda51d3ad40d56b9dfc5554e06f94e1dd786fd': {
+					abi: [],
+					address: '0x64eda51d3ad40d56b9dfc5554e06f94e1dd786fd',
+					isFeatured: true,
+					isSuperSett: false,
+					methods: [],
+					position: 4,
+					symbol: 'token4',
+					underlyingKey: 'token',
+				},
+			},
+		};
+
+		expect(reduceContractConfig(configs, payload)).toEqual(expected);
+	});
+});
+
+describe('reduceMethodConfig', () => {
+	test('Mock data set is reduced correctly', () => {
+		const methods = [
+			{
+				args: ['{connectedAddress}'],
+				name: 'balanceOf',
+			},
+			{
+				name: 'getPricePerFullShare',
+				args: ['{test}'],
+			},
+			{
+				name: 'balance',
+			},
+		];
+
+		const payload = { connectedAddress: '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a', test: 'test' };
+
+		const expected = [
+			{
+				name: 'balanceOf',
+				args: ['0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a'],
+			},
+			{
+				name: 'getPricePerFullShare',
+				args: ['test'],
+			},
+			{
+				name: 'balance',
+			},
+		];
+
+		// The data set provided covers the different possible cases
+		expect(reduceMethodConfig(methods, payload)).toEqual(expected);
 	});
 });
