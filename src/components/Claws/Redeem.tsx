@@ -80,6 +80,7 @@ const Redeem: FC = () => {
 							});
 						}}
 						disabledAmount={!redeemParams.selectedOption}
+						onApplyPercentage={() => {}}
 					/>
 				</Grid>
 			</Box>
