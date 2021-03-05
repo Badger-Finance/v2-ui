@@ -71,7 +71,7 @@ const routes = {
 	}),
 	IbBTC: new Route<RootStore, QueryParams>({
 		path: '/ibBTC',
-		component: IBBTC_FLAG ? <IbBTC /> : <div></div>,
+		component: IBBTC_FLAG ? <IbBTC /> : <></>,
 		onEnter: (_, params, store) => {
 			//
 		},
