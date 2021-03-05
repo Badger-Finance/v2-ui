@@ -1,16 +1,16 @@
 import React from 'react';
 import CurrencyInfoCard from '../CurrencyInfoCard';
 import '@testing-library/jest-dom';
-import renderer from 'react-test-renderer';
 import BigNumber from 'bignumber.js';
+import { render } from '@testing-library/react';
 
 describe('CurrencyInfoCard', () => {
 	test('Renders correctly', () => {
-		const DisplayPrice = new BigNumber(40);
+		const displayPrice = new BigNumber(40);
 		const currency = 'usd';
-		const rendered = renderer
-			.create(<CurrencyInfoCard title="Test Price" value={DisplayPrice} currency={currency} isUsd={true} />)
-			.toJSON();
-		expect(rendered).toMatchSnapshot();
+		const { container } = render(
+			<CurrencyInfoCard title="Test Price" value={displayPrice} currency={currency} isUsd={true} />,
+		);
+		expect(container).toMatchSnapshot();
 	});
 });

@@ -1,6 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
-import renderer from 'react-test-renderer';
+import { render, screen, fireEvent, act } from '@testing-library/react';
 import GasWidget from '../GasWidget';
 import '@testing-library/jest-dom';
 import { StoreProvider } from '../../../mobx/store-context';
@@ -8,25 +7,31 @@ import store from '../../../mobx/store';
 
 describe('GasWidget', () => {
 	const testStore = store;
+	act(() => {
+		testStore.wallet.gasPrices = { rapid: 122, standard: 75, slow: 51 };
+	});
 
 	test('Renders correctly', () => {
-		const rendered = renderer
-			.create(
-				<StoreProvider value={testStore}>
-					<GasWidget />
-				</StoreProvider>,
-			)
-			.toJSON();
-		expect(rendered).toMatchSnapshot();
-	});
-	test('Opens gas menu upon click', async () => {
-		render(
+		const { container } = render(
 			<StoreProvider value={testStore}>
 				<GasWidget />
 			</StoreProvider>,
 		);
+		expect(container).toMatchSnapshot();
+	});
+	test('Opens gas menu upon click and "rapid" is selected properly', async () => {
+		const { container } = render(
+			<StoreProvider value={testStore}>
+				<GasWidget />
+			</StoreProvider>,
+		);
+		// Opens menu correctly
 		await fireEvent.mouseDown(screen.getByText(/(\d+)/i));
-		expect(screen.getByRole('presentation')).toBeInTheDocument; // DOM parent for open menu
-		fireEvent.click(screen.getByDisplayValue('standard'));
+		const opennedMenu = await screen.getByRole('presentation');
+		expect(opennedMenu).toMatchSnapshot();
+
+		// Selects 'rapid'
+		await fireEvent.click(screen.getByRole('option', { name: '122' }));
+		expect(container).toMatchSnapshot();
 	});
 });

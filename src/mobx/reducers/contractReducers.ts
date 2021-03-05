@@ -200,7 +200,7 @@ export const reduceGrowth = (graphResult: any[], periods: number[], startDate: D
 			? growth.now
 					.dividedBy(growth.start)
 					.minus(1)
-					.dividedBy(new Date(Date.now()).getTime() - startDate.getTime())
+					.dividedBy(new Date().getTime() - startDate.getTime())
 					.multipliedBy(365 * 24 * 60 * 60 * 60)
 			: month.multipliedBy(13.05);
 
@@ -216,7 +216,7 @@ export const reduceGeyserSchedule = (schedules: Schedules, store: RootStore): Gr
 	return _.compact(
 		_.map(schedules, (schedule: any[], tokenAddress: string) => {
 			let locked = new BigNumber(0);
-			const timestamp = new BigNumber(new Date(Date.now()).getTime() / 1000.0);
+			const timestamp = new BigNumber(new Date().getTime() / 1000.0);
 			const period = { start: timestamp, end: timestamp };
 
 			let lockedAllTime = new BigNumber(0);

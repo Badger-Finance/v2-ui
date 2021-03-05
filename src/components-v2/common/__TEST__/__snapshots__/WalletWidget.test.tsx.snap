@@ -1,35 +1,78 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`WalletWidget Renders correctly 1`] = `
-<button
-  className="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-walletButton-4 MuiButton-containedSecondary MuiButton-disableElevation"
-  disabled={false}
-  onBlur={[Function]}
-  onClick={[Function]}
-  onDragLeave={[Function]}
-  onFocus={[Function]}
-  onKeyDown={[Function]}
-  onKeyUp={[Function]}
-  onMouseDown={[Function]}
-  onMouseLeave={[Function]}
-  onMouseUp={[Function]}
-  onTouchEnd={[Function]}
-  onTouchMove={[Function]}
-  onTouchStart={[Function]}
-  tabIndex={0}
-  type="button"
->
-  <span
-    className="MuiButton-label"
+exports[`WalletWidget Connected address is properly displayed 1`] = `
+<div>
+  <button
+    class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-walletButton-12 MuiButton-containedSecondary MuiButton-disableElevation"
+    tabindex="0"
+    type="button"
   >
-    Click to connect
     <span
-      className="MuiButton-endIcon MuiButton-iconSizeMedium"
+      class="MuiButton-label"
     >
-      <div
-        className="makeStyles-walletDot-1 makeStyles-redDot-2"
-      />
+      0x1a1a1...a1a1a1a
+      <span
+        class="MuiButton-endIcon MuiButton-iconSizeMedium"
+      >
+        <div
+          class="makeStyles-walletDot-9 makeStyles-greenDot-11"
+        />
+      </span>
     </span>
-  </span>
-</button>
+    <span
+      class="MuiTouchRipple-root"
+    />
+  </button>
+</div>
+`;
+
+exports[`WalletWidget Opens wallet menu upon click 1`] = `
+<h3
+  class="bn-onboard-custom bn-onboard-modal-content-header-heading svelte-8i8o6j"
+>
+  Connect to BadgerDAO
+</h3>
+`;
+
+exports[`WalletWidget Opens wallet menu upon click 2`] = `
+<p
+  class="bn-onboard-custom bn-onboard-select-description svelte-rj3fpa"
+>
+  Deposit & Earn on your Bitcoin
+</p>
+`;
+
+exports[`WalletWidget Opens wallet menu upon click 3`] = `
+<span
+  class="svelte-1skxsnk"
+>
+  MetaMask
+   
+</span>
+`;
+
+exports[`WalletWidget Renders correctly 1`] = `
+<div>
+  <button
+    class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-walletButton-4 MuiButton-containedSecondary MuiButton-disableElevation"
+    tabindex="0"
+    type="button"
+  >
+    <span
+      class="MuiButton-label"
+    >
+      Click to connect
+      <span
+        class="MuiButton-endIcon MuiButton-iconSizeMedium"
+      >
+        <div
+          class="makeStyles-walletDot-1 makeStyles-redDot-2"
+        />
+      </span>
+    </span>
+    <span
+      class="MuiTouchRipple-root"
+    />
+  </button>
+</div>
 `;

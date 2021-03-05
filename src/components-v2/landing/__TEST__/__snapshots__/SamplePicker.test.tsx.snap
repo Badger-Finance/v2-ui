@@ -1,77 +1,109 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`SamplePicker Renders correctly 1`] = `
+exports[`SamplePicker Opens period menu upon click 1`] = `
 <div
-  className="MuiInputBase-root MuiOutlinedInput-root makeStyles-samplePicker-1"
-  onClick={[Function]}
-  onMouseLeave={[Function]}
-  onMouseOver={[Function]}
-  onTouchEnd={[Function]}
-  onTouchStart={[Function]}
-  style={
-    Object {
-      "marginBottom": "auto",
-      "marginTop": "auto",
-    }
-  }
-  title="ROI combines the appreciation of the vault with its $BADGER or $DIGG emissions. All numbers are an approximation based on historical data."
+  class="MuiPopover-root"
+  id="menu-"
+  role="presentation"
+  style="position: fixed; z-index: 1300; right: 0px; bottom: 0px; top: 0px; left: 0px;"
 >
   <div
-    aria-haspopup="listbox"
-    className="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input"
-    onBlur={[Function]}
-    onFocus={[Function]}
-    onKeyDown={[Function]}
-    onMouseDown={[Function]}
-    role="button"
-    tabIndex={0}
-  >
-    YEAR
-  </div>
-  <input
-    aria-describedby={null}
-    aria-hidden={true}
-    className="MuiSelect-nativeInput"
-    onAnimationStart={[Function]}
-    onChange={[Function]}
-    tabIndex={-1}
-    value="year"
+    aria-hidden="true"
+    style="z-index: -1; position: fixed; right: 0px; bottom: 0px; top: 0px; left: 0px; background-color: transparent;"
   />
-  <svg
-    aria-hidden={true}
-    className="MuiSvgIcon-root MuiSelect-icon MuiSelect-iconOutlined"
-    focusable="false"
-    viewBox="0 0 24 24"
+  <div
+    data-test="sentinelStart"
+    tabindex="0"
+  />
+  <div
+    class="MuiPaper-root MuiMenu-paper MuiPopover-paper MuiPaper-elevation8 MuiPaper-rounded"
+    style="opacity: 1; transform: scale(1, 1); min-width: 0; transition: opacity 0ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,transform 0ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; top: 16px; left: 16px; transform-origin: -16px -16px;"
+    tabindex="-1"
   >
-    <path
-      d="M7 10l5 5 5-5z"
-    />
-  </svg>
-  <fieldset
-    aria-hidden={true}
-    className="PrivateNotchedOutline-root-2 MuiOutlinedInput-notchedOutline"
-    style={
-      Object {
-        "paddingLeft": 8,
-      }
-    }
-  >
-    <legend
-      className="PrivateNotchedOutline-legend-3"
-      style={
-        Object {
-          "width": 0.01,
-        }
-      }
+    <ul
+      class="MuiList-root MuiMenu-list MuiList-padding"
+      role="listbox"
+      tabindex="-1"
     >
-      <span
-        dangerouslySetInnerHTML={
-          Object {
-            "__html": "&#8203;",
-          }
-        }
+      <li
+        aria-disabled="false"
+        class="MuiButtonBase-root MuiListItem-root MuiMenuItem-root MuiMenuItem-gutters MuiListItem-gutters MuiListItem-button"
+        data-value="month"
+        role="option"
+        tabindex="-1"
+      >
+        MONTH
+        <span
+          class="MuiTouchRipple-root"
+        />
+      </li>
+      <li
+        aria-disabled="false"
+        aria-selected="true"
+        class="MuiButtonBase-root MuiListItem-root MuiMenuItem-root Mui-selected MuiMenuItem-gutters MuiListItem-gutters MuiListItem-button Mui-selected"
+        data-value="year"
+        role="option"
+        tabindex="0"
+      >
+        YEAR
+        <span
+          class="MuiTouchRipple-root"
+        />
+      </li>
+    </ul>
+  </div>
+  <div
+    data-test="sentinelEnd"
+    tabindex="0"
+  />
+</div>
+`;
+
+exports[`SamplePicker Renders correctly 1`] = `
+<div>
+  <div
+    class="MuiInputBase-root MuiOutlinedInput-root makeStyles-samplePicker-1"
+    style="margin-top: auto; margin-bottom: auto;"
+    title="ROI combines the appreciation of the vault with its $BADGER or $DIGG emissions. All numbers are an approximation based on historical data."
+  >
+    <div
+      aria-haspopup="listbox"
+      class="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input"
+      role="button"
+      tabindex="0"
+    >
+      YEAR
+    </div>
+    <input
+      aria-hidden="true"
+      class="MuiSelect-nativeInput"
+      tabindex="-1"
+      value="year"
+    />
+    <svg
+      aria-hidden="true"
+      class="MuiSvgIcon-root MuiSelect-icon MuiSelect-iconOutlined"
+      focusable="false"
+      viewBox="0 0 24 24"
+    >
+      <path
+        d="M7 10l5 5 5-5z"
       />
-    </legend>
-  </fieldset>
+    </svg>
+    <fieldset
+      aria-hidden="true"
+      class="PrivateNotchedOutline-root-2 MuiOutlinedInput-notchedOutline"
+      style="padding-left: 8px;"
+    >
+      <legend
+        class="PrivateNotchedOutline-legend-3"
+        style="width: 0.01px;"
+      >
+        <span>
+          ​
+        </span>
+      </legend>
+    </fieldset>
+  </div>
 </div>
 `;

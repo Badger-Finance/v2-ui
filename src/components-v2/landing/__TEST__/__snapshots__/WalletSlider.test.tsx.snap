@@ -1,50 +1,42 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`WalletSlider Renders correctly 1`] = `
-<label
-  className="MuiFormControlLabel-root makeStyles-walletSlider-1"
->
-  <span
-    className="MuiSwitch-root"
+<div>
+  <label
+    class="MuiFormControlLabel-root makeStyles-walletSlider-1"
   >
     <span
-      aria-disabled={false}
-      className="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-2 MuiSwitch-switchBase MuiSwitch-colorPrimary"
-      onBlur={[Function]}
-      onDragLeave={[Function]}
-      onFocus={[Function]}
-      onKeyDown={[Function]}
-      onKeyUp={[Function]}
-      onMouseDown={[Function]}
-      onMouseLeave={[Function]}
-      onMouseUp={[Function]}
-      onTouchEnd={[Function]}
-      onTouchMove={[Function]}
-      onTouchStart={[Function]}
-      tabIndex={null}
+      class="MuiSwitch-root"
     >
       <span
-        className="MuiIconButton-label"
+        aria-disabled="false"
+        class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-2 MuiSwitch-switchBase MuiSwitch-colorPrimary"
       >
-        <input
-          checked={false}
-          className="PrivateSwitchBase-input-5 MuiSwitch-input"
-          onChange={[Function]}
-          type="checkbox"
-        />
         <span
-          className="MuiSwitch-thumb"
+          class="MuiIconButton-label"
+        >
+          <input
+            class="PrivateSwitchBase-input-5 MuiSwitch-input"
+            type="checkbox"
+            value=""
+          />
+          <span
+            class="MuiSwitch-thumb"
+          />
+        </span>
+        <span
+          class="MuiTouchRipple-root"
         />
       </span>
+      <span
+        class="MuiSwitch-track"
+      />
     </span>
     <span
-      className="MuiSwitch-track"
-    />
-  </span>
-  <span
-    className="MuiTypography-root MuiFormControlLabel-label MuiTypography-body1"
-  >
-    Portfolio View
-  </span>
-</label>
+      class="MuiTypography-root MuiFormControlLabel-label MuiTypography-body1"
+    >
+      Portfolio View
+    </span>
+  </label>
+</div>
 `;

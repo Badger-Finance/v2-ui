@@ -1,13 +1,11 @@
 import React from 'react';
-import { render, fireEvent, cleanup } from '@testing-library/react';
-import renderer from 'react-test-renderer';
+import { render, fireEvent, cleanup, screen, act } from '@testing-library/react';
 import Landing from '../Landing';
 import '@testing-library/jest-dom';
 import { StoreProvider } from '../../mobx/store-context';
 import store from '../../mobx/store';
 
 afterEach(cleanup);
-const { act } = renderer;
 
 describe('Landing Page', () => {
 	const connectedStore = store;
@@ -16,30 +14,27 @@ describe('Landing Page', () => {
 	});
 
 	test('Renders correctly', () => {
-		const rendered = renderer
-			.create(
-				<StoreProvider value={connectedStore}>
-					<Landing />
-				</StoreProvider>,
-			)
-			.toJSON();
-		expect(rendered).toMatchSnapshot();
+		const { container } = render(
+			<StoreProvider value={connectedStore}>
+				<Landing />
+			</StoreProvider>,
+		);
+		expect(container).toMatchSnapshot();
 	});
 
 	test('Clicking portfolio switch shows empty portfolio', async () => {
-		const { getByText, findByText } = render(
+		const { container } = render(
 			<StoreProvider value={connectedStore}>
 				<Landing />
 			</StoreProvider>,
 		);
 		// Clicks on switch
 		await act(async () => {
-			await fireEvent.click(getByText('Portfolio View'));
+			await fireEvent.click(screen.getByText('Portfolio View'));
 		});
-		// Checks for display of empty portfolio message
-		const currency = await findByText('Your address does not have tokens to deposit.');
-		expect(currency).toBeVisible;
+		expect(container).toMatchSnapshot();
 	});
+
 	// TODO: Create a mock Web3 provider to emulate connection and test further interactions
 	/* 
 	test('Selecting different currency changes displayed currency', async () => {

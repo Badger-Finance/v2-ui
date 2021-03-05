@@ -1,5 +1,6 @@
 import '@testing-library/jest-dom';
 import { cleanup } from '@testing-library/react';
+import MockDate from 'mockdate';
 import BigNumber from 'bignumber.js';
 import { START_BLOCK } from 'config/constants';
 import store from 'mobx/store';
@@ -523,13 +524,14 @@ describe('reduceGrowth', () => {
 			},
 		};
 
-		// Sets current date to 1 second after the start date for the test run
-		jest.spyOn(global.Date, 'now').mockImplementationOnce(() =>
-			new Date('December 03, 2020 13:11:36 GMT-0500').valueOf(),
-		);
+		// Sets current date to mock timestamp (Timestamp: 1607019096)
+		MockDate.set(new Date('December 03, 2020 13:11:36 GMT-0500').valueOf());
 
 		// The data set provided covers the different possible cases
 		expect(reduceGrowth(graphResults, periods, startDate)).toEqual(expected);
+
+		// Resets date to real value
+		MockDate.reset();
 	});
 });
 
@@ -591,11 +593,12 @@ describe('reduceGeyserSchedule', () => {
 		];
 
 		// Sets current date to mock timestamp (Timestamp: 1607019096)
-		jest.spyOn(global.Date, 'now').mockImplementationOnce(() =>
-			new Date('December 03, 2020 13:11:36 GMT-0500').valueOf(),
-		);
+		MockDate.set(new Date('December 03, 2020 13:11:36 GMT-0500').valueOf());
 
 		expect(reduceGeyserSchedule(schedules, mockStore)).toEqual(expected);
+
+		// Resets date to real value
+		MockDate.reset();
 	});
 
 	test('Mock data set is reduced correctly - Special case', () => {
@@ -662,12 +665,13 @@ describe('reduceGeyserSchedule', () => {
 		];
 
 		// Sets current date to mock timestamp (Timestamp: 1607019096)
-		jest.spyOn(global.Date, 'now').mockImplementationOnce(() =>
-			new Date('December 03, 2020 13:11:36 GMT-0500').valueOf(),
-		);
+		MockDate.set(new Date('December 03, 2020 13:11:36 GMT-0500').valueOf());
 
 		// The data set provided covers the different possible cases
 		expect(reduceGeyserSchedule(schedules, mockStore)).toEqual(expected);
+
+		// Resets Date to real value
+		MockDate.reset();
 	});
 
 	test('Mock data set is reduced correctly - timestamp < startTime', () => {
@@ -712,11 +716,12 @@ describe('reduceGeyserSchedule', () => {
 		];
 
 		// Sets current date to mock timestamp (Timestamp: 1607019096)
-		jest.spyOn(global.Date, 'now').mockImplementationOnce(() =>
-			new Date('December 03, 2020 13:11:36 GMT-0500').valueOf(),
-		);
+		MockDate.set(new Date('December 03, 2020 13:11:36 GMT-0500').valueOf());
 
 		expect(reduceGeyserSchedule(schedules, mockStore)).toEqual(expected);
+
+		// Resets date to real value
+		MockDate.reset();
 	});
 });
 
