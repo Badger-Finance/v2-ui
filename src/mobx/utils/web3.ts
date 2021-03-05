@@ -4,14 +4,17 @@ import { Contract, ContractSendMethod } from 'web3-eth-contract';
 import { PromiEvent } from 'web3-core';
 import WalletStore from '../stores/walletStore';
 import _ from 'lodash';
+import { AbiItem } from 'web3-utils';
+import { BatchConfig, TokenContract, ContractMethodsConfig, TokenAddressessConfig, TokenAddressess } from '../model';
 
 export const estimateAndSend = (
 	web3: Web3,
 	gasPrice: number,
 	method: ContractSendMethod,
 	address: string,
+	// eslint-disable-next-line autofix/no-unused-vars
 	callback: (transaction: PromiEvent<Contract>) => void,
-) => {
+): void => {
 	const gasWei = new BigNumber(gasPrice.toFixed(0));
 
 	method.estimateGas(
@@ -31,7 +34,7 @@ export const estimateAndSend = (
 	);
 };
 
-export const batchConfig = (namespace: string, addresses: any[], methods: any[], abi: any, allReadMethods = true) => {
+export const batchConfig = (namespace: string, addresses: any[], methods: any[], abi: AbiItem): BatchConfig => {
 	let readMethods = {};
 	let abiFile = {};
 
@@ -54,13 +57,13 @@ export const batchConfig = (namespace: string, addresses: any[], methods: any[],
 	};
 };
 
-export const getTokenAddresses = (contracts: any, config: any) => {
+export const getTokenAddresses = (contracts: any[], config: TokenAddressessConfig): TokenAddressess[] => {
 	// pull underlying and yileding token addresses
-	const addresses: any[] = [];
+	const addresses: TokenAddressess[] = [];
 	_.map(contracts, (contract: any) => {
-		if (!!contract[config.underlying!])
+		if (!!contract[config.underlying])
 			addresses.push({
-				address: contract[config.underlying!],
+				address: contract[config.underlying],
 				contract: contract.address.toLowerCase(),
 				type: 'underlying',
 				subgraph:
@@ -74,7 +77,7 @@ export const getTokenAddresses = (contracts: any, config: any) => {
 	return addresses;
 };
 
-export const contractMethods = (config: any, wallet: WalletStore): any[] => {
+export const contractMethods = (config: ContractMethodsConfig, wallet: WalletStore): any[] => {
 	let methods = [];
 	if (!!config.rewards) {
 		methods.push({
@@ -95,7 +98,8 @@ export const contractMethods = (config: any, wallet: WalletStore): any[] => {
 
 	return methods;
 };
-export const erc20Methods = (connectedAddress: string, token: any): any[] => {
+
+export const erc20Methods = (connectedAddress: string, token: TokenContract): any[] => {
 	if (!!connectedAddress && !!token.contract) {
 		// get allowance of each vault
 

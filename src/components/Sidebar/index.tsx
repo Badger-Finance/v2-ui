@@ -3,27 +3,14 @@ import { observer } from 'mobx-react-lite';
 import views from '../../config/routes';
 import { useContext } from 'react';
 import { StoreContext } from '../../mobx/store-context';
-import {
-	Button,
-	ButtonGroup,
-	List,
-	ListItem,
-	Drawer,
-	Collapse,
-	IconButton,
-	ListItemIcon,
-	ListItemText,
-} from '@material-ui/core';
+import { List, ListItem, Drawer, Collapse, IconButton, ListItemIcon, ListItemText } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { Wallet } from './Wallet';
 import { ExpandMore } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
 	logo: {
 		height: '2.4rem',
 		width: 'auto',
-		// display: 'block',
-		// margin: theme.spacing(2, 2, 0, 2)
 	},
 	listHeader: {
 		fontSize: '.8rem',
@@ -49,7 +36,6 @@ const useStyles = makeStyles((theme) => ({
 			backgroundColor: 'transparent',
 			cursor: 'pointer',
 		},
-		// paddingLeft: theme.spacing(1),
 		padding: theme.spacing(1, 3),
 	},
 	divider: {
@@ -62,7 +48,6 @@ const useStyles = makeStyles((theme) => ({
 		'&:hover': {
 			backgroundColor: '#070707',
 		},
-		// paddingLeft: theme.spacing(1),
 		padding: theme.spacing(0.5, 2),
 	},
 	secondarySubListItem: {
@@ -70,7 +55,6 @@ const useStyles = makeStyles((theme) => ({
 		justifyContent: 'space-between',
 		background: ' rgba(0, 0, 0, .2)',
 		'&:hover': {},
-		// paddingLeft: theme.spacing(1),
 		padding: theme.spacing(0.5, 2, 0.5, 3),
 	},
 	activeListItem: {
@@ -86,15 +70,12 @@ const useStyles = makeStyles((theme) => ({
 			cursor: 'pointer',
 		},
 	},
-
 	currency: {
 		marginTop: theme.spacing(1),
 	},
-
 	rewards: {
 		margin: theme.spacing(0, 0, 0, 1),
 	},
-
 	expand: {
 		transform: 'rotate(0deg)',
 		marginLeft: 'auto',
@@ -124,20 +105,12 @@ export const Sidebar = observer(() => {
 	const store = useContext(StoreContext);
 	const {
 		router: { goTo },
-		uiState: { sidebarOpen, closeSidebar, gasPrice, setGasPrice },
-		wallet: { gasPrices },
+		uiState: { sidebarOpen, closeSidebar },
 		rewards: { badgerTree },
 	} = store;
 
 	const [expanded, setExpanded] = useState('');
 
-	// const { enqueueSnackbar } = useSnackbar();
-
-	// useEffect(() => {
-	// 	if (!!errorMessage)
-	// 		enqueueSnackbar(errorMessage, { variant: 'error' })
-
-	// }, [errorMessage])
 	return (
 		<Drawer
 			variant={window.innerWidth > 960 ? 'persistent' : 'temporary'}
@@ -149,8 +122,7 @@ export const Sidebar = observer(() => {
 			<div className={classes.root}>
 				<List>
 					<ListItem button className={classes.listItem}>
-						<img alt="" src={require('../../assets/badger-logo.png')} className={classes.logo} />
-						{/* <Chip label="v2.0.0" variant="outlined" color="primary" size="small" /> */}
+						<img alt="Badger Logo" src={'assets/badger-logo.png'} className={classes.logo} />
 					</ListItem>
 
 					<ListItem
@@ -159,7 +131,7 @@ export const Sidebar = observer(() => {
 						style={{ marginTop: '.5rem' }}
 						className={classes.listItem}
 					>
-						v2.3.0
+						v2.4.3
 						<IconButton
 							size="small"
 							className={classes.expand + ' ' + (expanded === 'advanced' ? classes.expandOpen : '')}
@@ -191,7 +163,7 @@ export const Sidebar = observer(() => {
 						}
 					>
 						<ListItemIcon>
-							<img alt="" className={classes.icon} src={require('assets/sidebar/sett.png')} />
+							<img alt="Badger Setts Logo" className={classes.icon} src={'assets/sidebar/sett.png'} />
 						</ListItemIcon>
 						<ListItemText primary="Sett Vaults" />
 					</ListItem>
@@ -206,7 +178,11 @@ export const Sidebar = observer(() => {
 						onClick={() => goTo(views.airdrops)}
 					>
 						<ListItemIcon>
-							<img alt="" src={require('assets/sidebar/airdrop.png')} className={classes.icon} />
+							<img
+								alt="Badger Airdrop Icon"
+								src={'assets/sidebar/airdrop.png'}
+								className={classes.icon}
+							/>
 						</ListItemIcon>
 						<ListItemText primary="Airdrops" />
 					</ListItem>
@@ -218,11 +194,13 @@ export const Sidebar = observer(() => {
 						onClick={() => goTo(views.digg)}
 					>
 						<ListItemIcon>
-							<img src={require('assets/sidebar/digg-white.png')} className={classes.icon} />
+							<img
+								alt="Badger Digg Icon"
+								src={'assets/sidebar/digg-white.png'}
+								className={classes.icon}
+							/>
 						</ListItemIcon>
 						<ListItemText primary="Digg" />
-
-						{/* <Chip size="small" label={"Coming soon"} variant="outlined" color="primary" className={classes.rewards} /> */}
 					</ListItem>
 				</List>
 
@@ -237,7 +215,7 @@ export const Sidebar = observer(() => {
 						}
 					>
 						<ListItemIcon>
-							<img src={require('assets/sidebar/nexus_logo_bw.png')} className={classes.icon} />
+							<img alt="Nexus Logo" src={'assets/sidebar/nexus_logo_bw.png'} className={classes.icon} />
 						</ListItemIcon>
 						<ListItemText>
 							Get Coverage
@@ -297,7 +275,7 @@ export const Sidebar = observer(() => {
 							button
 							className={classes.secondarySubListItem}
 							onClick={() =>
-								window.open('https://sushiswap.fi/pair/0x110492b31c59716ac47337e616804e3e3adc0b4a')
+								window.open('https://app.sushiswap.fi/pair/0x110492b31c59716ac47337e616804e3e3adc0b4a')
 							}
 						>
 							Sushiswap BADGER/wBTC

@@ -1,28 +1,46 @@
 import BigNumber from 'bignumber.js';
-import _, { stubString } from 'lodash';
+import _ from 'lodash';
 import { START_BLOCK } from 'config/constants';
-import { rewards } from 'config/system/geysers';
 import deploy from 'config/deployments/mainnet.json';
 import { batchConfig } from 'mobx/utils/web3';
 import { RootStore } from 'mobx/store';
 import { growthQuery, secondsToBlocks } from 'mobx/utils/helpers';
+import {
+	ReducedSushiROIResults,
+	ReducedGrowthQueryConfig,
+	ReducedCurveResult,
+	ReducedGrowth,
+	Growth,
+	ReducedContractConfig,
+	Schedules,
+	MethodConfigPayload,
+	SushiAPIResults,
+	GraphResultPrices,
+	ReducedGraphResults,
+} from '../model';
 
 export const reduceBatchResult = (result: any[]): any[] => {
 	return result.map((vault) => {
 		return _.mapValues(vault, (element: any, key: any) => {
 			if (key === 'getUnlockSchedulesFor') {
 				// handle special case for multiple values
-				let newElement: any = {};
+				const newElement: any = {};
 				element.forEach((e: any) => {
 					newElement[e.args[0]] = e.value;
 				});
 				return newElement;
+			}
+			if (key === 'decimals') {
+				return Array.isArray(element) ? parseInt(element[0].value) : parseInt(element);
 			}
 			return Array.isArray(element) ? reduceResult(element[0].value) : reduceResult(element);
 		});
 	});
 };
 
+// Disable Reason: value is assigned from results of a web3-batch-call that can take different shapes.
+// Function deals with type identification for the differnet possible cases.
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const reduceResult = (value: any): any => {
 	if (/^-?\d+$/.test(value)) return new BigNumber(value);
 	else if (_.isString(value) && value.slice(0, 2) === '0x') return (value as string).toLowerCase();
@@ -30,8 +48,8 @@ export const reduceResult = (value: any): any => {
 	else return value;
 };
 
-export const reduceSushiAPIResults = (results: any, contracts: any[]) => {
-	const newSushiROIs: any = _.map(results.pairs, (pair: any, i: number) => {
+export const reduceSushiAPIResults = (results: SushiAPIResults): any => {
+	const newSushiROIs: any = _.map(results.pairs, (pair: any) => {
 		return {
 			address: pair.address,
 			day: new BigNumber(pair.aprDay).dividedBy(100),
@@ -43,7 +61,7 @@ export const reduceSushiAPIResults = (results: any, contracts: any[]) => {
 	return _.keyBy(newSushiROIs, 'address');
 };
 
-export const reduceXSushiROIResults = (ROI: any) => {
+export const reduceXSushiROIResults = (ROI: number | string | BigNumber): ReducedSushiROIResults => {
 	return {
 		day: new BigNumber(ROI).dividedBy(365),
 		week: new BigNumber(ROI).dividedBy(365).multipliedBy(7),
@@ -52,7 +70,7 @@ export const reduceXSushiROIResults = (ROI: any) => {
 	};
 };
 
-export const reduceGrowthQueryConfig = (currentBlock?: number) => {
+export const reduceGrowthQueryConfig = (currentBlock?: number): ReducedGrowthQueryConfig => {
 	if (!currentBlock) return { periods: [], growthQueries: [] };
 
 	const periods = [
@@ -66,7 +84,8 @@ export const reduceGrowthQueryConfig = (currentBlock?: number) => {
 	return { periods, growthQueries: periods.map(growthQuery) };
 };
 
-export const reduceGraphResult = (graphResult: any[]) => {
+// todo: resolve types on QA lint branch (will need merge resolution)
+export const reduceGraphResult = (graphResult: any[], prices: GraphResultPrices): ReducedGraphResults[] => {
 	const reduction = graphResult.map((element: any) => {
 		if (!element.data.pair && !element.data.token) return;
 
@@ -74,18 +93,17 @@ export const reduceGraphResult = (graphResult: any[]) => {
 		let ethValue;
 
 		if (!!element.data.pair) {
-			const token0Value = new BigNumber(element.data.pair.token0.derivedETH);
-			let token1Value = new BigNumber(element.data.pair.token1.derivedETH);
+			// compilation any, until price resolution is stanardized
+			let token0Value: any = prices[element.data.pair.token0.id];
+			let token1Value: any = prices[element.data.pair.token1.id];
 
-			// fix for sushiswap returning 0 as derivedETH value of Badger
-			if (token1Value.isEqualTo(0)) {
-				graphResult.forEach((result: any) => {
-					if (!!result.data.token && result.data.token.id === element.data.pair.token1.id) {
-						// console.log('match')
-						return (token1Value = new BigNumber(result.data.token.derivedETH));
-					}
-				});
-			}
+			// assign eth value
+			if (token0Value) token0Value = token0Value.ethValue / 1e18;
+			if (token1Value) token1Value = token1Value.ethValue / 1e18;
+
+			// fall back to derived ETH from thegraph
+			if (!token0Value) token0Value = new BigNumber(element.data.pair.token0.derivedETH);
+			if (!token1Value) token1Value = new BigNumber(element.data.pair.token1.derivedETH);
 
 			const reserve0 = new BigNumber(token0Value)
 				.multipliedBy(new BigNumber(element.data.pair.reserve0))
@@ -93,6 +111,7 @@ export const reduceGraphResult = (graphResult: any[]) => {
 			const reserve1 = new BigNumber(token1Value)
 				.multipliedBy(new BigNumber(element.data.pair.reserve1))
 				.multipliedBy(1e18);
+
 			ethValue = reserve0.plus(reserve1).dividedBy(element.data.pair.totalSupply);
 		} else {
 			ethValue = new BigNumber(element.data.token.derivedETH).multipliedBy(1e18);
@@ -103,9 +122,6 @@ export const reduceGraphResult = (graphResult: any[]) => {
 		return {
 			address: tokenAddress.toLowerCase(),
 			type: !!element.data.pair ? 'pair' : 'token',
-			// symbol: !!element.data.pair
-			// 	? element.data.pair.token0.symbol + '/' + element.data.pair.token1.symbol
-			// 	: element.data.token.symbol,
 			name: !!element.data.pair
 				? element.data.pair.token0.name + '/' + element.data.pair.token1.name
 				: element.data.token.name,
@@ -118,8 +134,6 @@ export const reduceGraphResult = (graphResult: any[]) => {
 		graphResult.forEach((duplicate: any, dupIndex: number) => {
 			if (dupIndex > index && duplicate.address === token.address) {
 				if (duplicate.ethValue.gt(0)) {
-					console.log('avaraging', duplicate.ethValue, token.ethValue, token.symbol);
-
 					token.ethValue = token.ethValue.plus(duplicate.ethValue).dividedBy(2);
 				} else if (duplicate.address === token.address) {
 					token = undefined;
@@ -132,12 +146,17 @@ export const reduceGraphResult = (graphResult: any[]) => {
 	return _.compact(noDupes);
 };
 
-export const reduceCurveResult = (curveResult: any[], contracts: any[], tokenContracts: any, wbtcToken: any) => {
+export const reduceCurveResult = (
+	curveResult: any[],
+	contracts: string[],
+	//_tokenContracts: any, // It is unused for now but may be used in the future
+	wbtcToken: ReducedGraphResults,
+): ReducedCurveResult => {
 	return curveResult.map((result: any, i: number) => {
 		let sum = new BigNumber(0);
 		let count = 0;
 		result.map((sample: any, i: number) => {
-			sum = sum.plus(result[0].virtual_price);
+			sum = sum.plus(sample.virtual_price);
 			count++;
 			if (i > 10) return;
 		});
@@ -153,7 +172,7 @@ export const reduceCurveResult = (curveResult: any[], contracts: any[], tokenCon
 	});
 };
 
-export const reduceGrowth = (graphResult: any[], periods: number[], startDate: Date) => {
+export const reduceGrowth = (graphResult: any[], periods: number[], startDate: Date): ReducedGrowth => {
 	const reduction: any[] = graphResult.map((result: any) => !!result.data && _.keyBy(result.data.vaults, 'id'));
 
 	return _.mapValues(reduction[0], (value: any, key: string) => {
@@ -190,16 +209,15 @@ export const reduceGrowth = (graphResult: any[], periods: number[], startDate: D
 	});
 };
 
-export const reduceGeyserSchedule = (schedules: any, store: RootStore) => {
+export const reduceGeyserSchedule = (schedules: Schedules, store: RootStore): Growth[] => {
 	// console.log(JSON.stringify(schedules))
 	// console.log(_.keysIn(schedules))
-	// console.log(schedules)
+	// console.log(schedules);
 
 	return _.compact(
 		_.map(schedules, (schedule: any[], tokenAddress: string) => {
 			let locked = new BigNumber(0);
-			let timestamp = new BigNumber(new Date().getTime() / 1000.0);
-
+			const timestamp = new BigNumber(new Date().getTime() / 1000.0);
 			const period = { start: timestamp, end: timestamp };
 
 			let lockedAllTime = new BigNumber(0);
@@ -208,8 +226,8 @@ export const reduceGeyserSchedule = (schedules: any, store: RootStore) => {
 			// console.log(schedule)
 
 			schedule.forEach((block: any) => {
-				let [initialLocked, endAtSec, , startTime] = _.valuesIn(block).map((val: any) => new BigNumber(val));
-
+				const [initial, endAtSec, , startTime] = _.valuesIn(block).map((val: any) => new BigNumber(val));
+				let initialLocked = initial;
 				if (tokenAddress.toLowerCase() === deploy.digg_system.uFragments.toLowerCase()) {
 					initialLocked = initialLocked.dividedBy(
 						28948022309329048855892746252171976963317496166410141009864396001,
@@ -227,13 +245,13 @@ export const reduceGeyserSchedule = (schedules: any, store: RootStore) => {
 				if (endAtSec.gt(periodAllTime.end)) periodAllTime.end = endAtSec;
 			});
 
-			let duration = period.end.minus(period.start);
+			const duration = period.end.minus(period.start);
 			let rps = locked.dividedBy(duration.isNaN() ? 1 : duration);
 			const rpsAllTime = lockedAllTime.dividedBy(periodAllTime.end.minus(periodAllTime.start));
 
 			if (!rps || rps.eq(0)) rps = rpsAllTime.dividedBy(365 * 60 * 60 * 24);
 
-			let periods = {
+			const periods = {
 				day: rps.multipliedBy(60 * 60 * 24),
 				week: rps.multipliedBy(60 * 60 * 24 * 7),
 				month: rps.multipliedBy(60 * 60 * 24 * 30),
@@ -247,7 +265,7 @@ export const reduceGeyserSchedule = (schedules: any, store: RootStore) => {
 	);
 };
 
-export const reduceContractConfig = (configs: any[], payload: any = {}) => {
+export const reduceContractConfig = (configs: any[], payload: any = {}): ReducedContractConfig => {
 	const contracts = _.map(configs, (config: any) => {
 		return _.map(config.contracts, (contract: string, i: number) => {
 			const r: any = {
@@ -263,8 +281,8 @@ export const reduceContractConfig = (configs: any[], payload: any = {}) => {
 			return r;
 		});
 	});
-	let defaults = _.keyBy(_.flatten(contracts), 'address');
-	let batchCall = _.map(configs, (config: any) => {
+	const defaults = _.keyBy(_.flatten(contracts), 'address');
+	const batchCall = _.map(configs, (config: any) => {
 		return batchConfig(
 			'namespace',
 			config.contracts,
@@ -275,7 +293,7 @@ export const reduceContractConfig = (configs: any[], payload: any = {}) => {
 	return { defaults, batchCall };
 };
 
-export const reduceMethodConfig = (methods: any[], payload: any) => {
+export const reduceMethodConfig = (methods: any[], payload: MethodConfigPayload): { args?: any[]; name: any }[] => {
 	const reduced = _.map(methods, (method: any) => {
 		const args = _.map(method.args, (arg: string) => {
 			const brackets = /\{(.*?)\}/; // FIXME: has a redundant escape character for \{ and \}

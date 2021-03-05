@@ -8,7 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Menu } from '@material-ui/icons';
 import Notify from 'bnc-notify';
 
-var notify = Notify({
+const notify = Notify({
 	dappId: 'af74a87b-cd08-4f45-83ff-ade6b3859a07', // [String] The API key created by step one above
 	networkId: 1, // [Integer] The Ethereum network ID your Dapp uses.
 });
@@ -65,12 +65,15 @@ export const Header = observer(() => {
 			enqueueSnackbar(notification.message, { variant: notification.variant, persist: false });
 		}
 	};
+	// Disable reason: Hook used for execution of enq() on change of notification.
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	useEffect(enq, [notification]);
 
 	return (
 		<AppBar className={classes.appBar} color="primary">
 			<Toolbar className={classes.toolbar} onClick={() => goTo(views.home, { collection: 'badger' })}>
-				<img alt="" src={require('../../assets/badger-full.png')} className={classes.logo} />
+				<img alt="Badger Header Logo" src={'assets/badger-full.png'} className={classes.logo} />
+
 				<IconButton className={classes.menuButton} onClick={() => openSidebar()}>
 					<Menu />
 				</IconButton>
