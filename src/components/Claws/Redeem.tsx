@@ -1,23 +1,11 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useContext, useMemo, useState } from 'react';
 import { Box, Button, Grid, InputBase, makeStyles, Typography } from '@material-ui/core';
 import ClawParams, { ClawParam } from './ClawParams';
 import { useMainStyles } from './index';
 import ClawLabel from './ClawLabel';
 import ClawDetails from './ClawDetails';
-
-const options = ['eCLAW FEB29', 'eCLAW MARCH29'];
-
-const eCLAWS: Record<string, string> = {
-	'eCLAW FEB29': '1000',
-	'eCLAW MARCH29': '2000',
-};
-
-const redeemableTokens: Record<string, string> = {
-	'eCLAW FEB29': 'wBTCwETHSLP',
-	'eCLAW MARCH29': 'bBadger',
-};
-
-const initialValue = { amount: '0.00' };
+import { StoreContext } from 'mobx/store-context';
+import BigNumber from 'bignumber.js';
 
 const useStyles = makeStyles((theme) => ({
 	border: {
@@ -41,9 +29,33 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Redeem: FC = () => {
+	const { claw: store, contracts } = useContext(StoreContext);
+	const { collaterals, eClaws, syntheticsDataByEMP, sponsorInformationByEMP } = store;
+	const { tokens } = contracts;
 	const mainClasses = useMainStyles();
 	const classes = useStyles();
-	const [redeemParams, setRedeemParams] = useState<ClawParam>(initialValue);
+	const [{ selectedOption, amount, error }, setRedeemParams] = useState<ClawParam>({});
+
+	const amountToReceive = useMemo(() => {
+		const synthetic = selectedOption && syntheticsDataByEMP.get(selectedOption);
+		const userEmpInformation = sponsorInformationByEMP.get(selectedOption || '');
+		if (!amount || !userEmpInformation || !synthetic) return;
+
+		const { tokensOutstanding, rawCollateral } = userEmpInformation.position;
+		const fractionRedeemed = new BigNumber(amount).dividedBy(tokensOutstanding);
+		const feeAdjustedCollateral = rawCollateral.multipliedBy(synthetic.cumulativeFeeMultiplier);
+
+		return fractionRedeemed.multipliedBy(feeAdjustedCollateral);
+	}, [amount, selectedOption, sponsorInformationByEMP, syntheticsDataByEMP]);
+
+	const selectedSynthetic = selectedOption && syntheticsDataByEMP.get(selectedOption);
+	const userEclawBalance = sponsorInformationByEMP.get(selectedOption || '')?.position.tokensOutstanding;
+	const token = selectedSynthetic && tokens[selectedSynthetic.collateralCurrency.toLocaleLowerCase()];
+
+	console.log({
+		selectedOption,
+		amountToReceive,
+	});
 
 	return (
 		<Grid container>
@@ -53,38 +65,37 @@ const Redeem: FC = () => {
 						<Grid item xs={12}>
 							<ClawLabel
 								name="Token"
-								balanceLabel={
-									redeemParams.selectedOption && `Available ${redeemParams.selectedOption}:`
-								}
-								balance={redeemParams.selectedOption && eCLAWS[redeemParams.selectedOption]}
+								balanceLabel={selectedOption && `Available ${eClaws.get(selectedOption)}:`}
+								balance={userEclawBalance?.toString()}
 							/>
 						</Grid>
 					</Box>
 					<ClawParams
-						// referenceBalance={redeemParams.selectedOption && eCLAWS[redeemParams.selectedOption]}
+						referenceBalance={userEclawBalance}
+						options={eClaws}
 						placeholder="Select Token"
-						amount={redeemParams.amount}
+						amount={amount}
 						onAmountChange={(amount: string, error?: boolean) => {
 							setRedeemParams({
-								...redeemParams,
+								selectedOption,
 								amount,
-								error: error ? `Amount exceeds ${redeemParams.selectedOption} balance` : undefined,
+								error: error ? `Amount exceeds ${selectedOption} balance` : undefined,
 							});
 						}}
-						selectedOption={redeemParams.selectedOption}
+						selectedOption={selectedOption}
 						onOptionChange={(selectedOption: string) => {
 							setRedeemParams({
 								selectedOption,
-								amount: '0.00',
+								amount: undefined,
 								error: undefined,
 							});
 						}}
-						disabledAmount={!redeemParams.selectedOption}
+						disabledAmount={!selectedOption}
 						onApplyPercentage={() => {}}
 					/>
 				</Grid>
 			</Box>
-			{redeemParams.selectedOption && (
+			{token && (
 				<Box clone py={2}>
 					<Grid item xs={12} sm={8} className={classes.centered}>
 						<Box clone pb={1}>
@@ -97,7 +108,7 @@ const Redeem: FC = () => {
 								<Grid item xs={12}>
 									<Grid container alignItems="center" spacing={2} className={classes.selectContainer}>
 										<Grid item xs={12} sm={6}>
-											<Typography>{redeemableTokens[redeemParams.selectedOption]}</Typography>
+											<Typography>{collaterals.get(token.address)}</Typography>
 										</Grid>
 										<Grid item xs={12} sm={6}>
 											<InputBase type="tel" disabled placeholder="0.00" value="" />
@@ -124,11 +135,11 @@ const Redeem: FC = () => {
 					<Button
 						color="primary"
 						variant="contained"
-						disabled={!!redeemParams.error || !redeemParams.selectedOption}
+						disabled={!!error || !selectedOption}
 						size="large"
 						className={mainClasses.button}
 					>
-						{redeemParams.error ? redeemParams.error : 'REDEEM'}
+						{error ? error : 'REDEEM'}
 					</Button>
 				</Grid>
 			</Grid>
