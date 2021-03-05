@@ -12,8 +12,6 @@ import {
 	Box,
 } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
-import { isValidAmountChange, sanitizeValue } from './utils';
-
 export interface ClawParam {
 	amount?: string;
 	selectedOption?: string;
@@ -161,5 +159,16 @@ export const ClawParams: FC<Props> = ({
 		</Box>
 	);
 };
+
+function isValidAmountChange(input: string) {
+	const inputRegex = RegExp(`^\\d*(?:\\\\[.])?\\d*$`);
+	const cleanInput = input.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+	return inputRegex.test(cleanInput);
+}
+
+function sanitizeValue(value: string): string {
+	const isNonCalculableValue = ['', '.'].includes(value) || +value < 0;
+	return isNonCalculableValue ? '' : value;
+}
 
 export default ClawParams;
