@@ -15,11 +15,10 @@ import {
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { StoreContext } from '../../mobx/store-context';
-import { formatAmount } from 'mobx/reducers/statsReducers';
 import useInterval from '@use-it/interval';
 import views from '../../config/routes';
 import { inCurrency } from '../../mobx/utils/helpers';
-import { token, digg_system, sett_system } from '../../config/deployments/mainnet.json';
+import { sett_system } from '../../config/deployments/mainnet.json';
 import PageHeader from '../../components-v2/common/PageHeader';
 
 const useStyles = makeStyles((theme) => ({
@@ -63,7 +62,15 @@ export const Airdrops = observer(() => {
 		wallet: { connectedAddress },
 		airdrops: { claimAirdrops },
 		uiState: { airdropStats, stats },
+		sett: { farmData }
 	} = store;
+
+	let maxNativeApy: number | undefined = undefined;
+	if (farmData.digg && farmData.badger) {
+		const diggApy = farmData.digg.apy;
+		const badgerApy = farmData.badger.apy;
+		maxNativeApy = Math.max(diggApy, badgerApy);
+	}
 
 	const spacer = () => <div className={classes.before} />;
 
@@ -75,7 +82,7 @@ export const Airdrops = observer(() => {
 			{
 				title: `Stake`,
 				button: `Stake`,
-				badge: !!stats.stats.badgerGrowth && `Up to ${stats.stats.badgerGrowth}% APY`,
+				badge: !!maxNativeApy && `Up to ${maxNativeApy.toFixed(2)}% APY`,
 				copy: 'Deposit in vaults to earn Badger and Digg',
 			},
 			// { title: "Liquidity", button: "Add Liquidity", badge: !!stats.stats.badgerLiqGrowth && `Up to ${stats.stats.badgerLiqGrowth}% APY`, href: "https://info.uniswap.org/pair/0xcd7989894bc033581532d2cd88da5db0a4b12859", copy: "Provide liquidity and stake LP in vaults." },
@@ -111,6 +118,7 @@ export const Airdrops = observer(() => {
 				</Typography>
 
 				<Button
+					aria-label={qualifier.button}
 					className={classes.button}
 					onClick={() => {
 						if (!!qualifier.href) {
@@ -130,6 +138,7 @@ export const Airdrops = observer(() => {
 				)}
 				{!!qualifier.button2 && (
 					<Button
+						aria-label={qualifier.button2}
 						className={classes.button}
 						target="_blank"
 						href={qualifier.href2}
@@ -159,7 +168,6 @@ export const Airdrops = observer(() => {
 						Available Airdrops:
 					</Typography>
 				</Grid>
-
 				<Grid item xs={12} md={6}>
 					<Paper className={classes.statPaper}>
 						<List style={{ padding: 0 }}>
@@ -185,6 +193,7 @@ export const Airdrops = observer(() => {
 										color="primary"
 									>
 										<Button
+											aria-label="Claim"
 											onClick={() => {
 												claimAirdrops(sett_system.vaults['native.badger']);
 											}}

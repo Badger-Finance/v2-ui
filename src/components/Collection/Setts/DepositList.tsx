@@ -14,7 +14,6 @@ import {
 	formatTokenBalanceValue,
 } from 'mobx/reducers/statsReducers';
 import { StoreContext } from 'mobx/store-context';
-import { inCurrency } from 'mobx/utils/helpers';
 
 interface DepositListProps {
 	contracts: string[];

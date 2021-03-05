@@ -5,7 +5,6 @@ import { Contract } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
 
 import { estimateAndSend } from '../utils/web3';
-import BigNumber from 'bignumber.js';
 import { RootStore } from '../store';
 import _ from 'lodash';
 import { jsonQuery } from '../utils/helpers';
@@ -61,9 +60,12 @@ class RewardsStore {
 					},
 					this.badgerTree,
 				);
-
+				// to use for new API endpoint
 				const endpointQuery = jsonQuery(`${rewardsConfig.endpoint}/${checksumAddress}`);
-
+				// Old endpoint
+				// const endpointQuery = jsonQuery(
+				// 	`${rewardsConfig.endpoint}/rewards/${rewardsConfig.network}/${merkleHash}/${checksumAddress}`,
+				// );
 				endpointQuery
 					.then((proof: any) => {
 						Promise.all([
@@ -110,7 +112,6 @@ class RewardsStore {
 		queueNotification(`Sign the transaction to claim your earnings`, 'info');
 		if (stake)
 			queueNotification(`You will need to approve 3 transactions in order to wrap & stake your assets`, 'info');
-		const badgerAmount = new BigNumber(this.badgerTree.claims[0]).multipliedBy(1e18);
 		estimateAndSend(web3, gasPrices[gasPrice], method, connectedAddress, (transaction: PromiEvent<Contract>) => {
 			transaction
 				.on('transactionHash', (hash) => {

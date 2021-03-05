@@ -13,7 +13,6 @@ import {
 	reduceGraphResult,
 	reduceGrowth,
 	reduceGrowthQueryConfig,
-	reduceXSushiROIResults,
 	reduceSushiAPIResults,
 } from '../reducers/contractReducers';
 import { Vault, Geyser, Token } from '../model';
@@ -22,20 +21,11 @@ import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
 import async from 'async';
 import { curveTokens, names, symbols, tokenMap } from 'config/system/tokens';
-import { EMPTY_DATA, ERC20, RPC_URL, START_TIME, WBTC_ADDRESS, XSUSHI_ADDRESS } from 'config/constants';
+import { EMPTY_DATA, ERC20, START_TIME, WBTC_ADDRESS, XSUSHI_ADDRESS } from 'config/constants';
 import { vaultBatches } from 'config/system/vaults';
 import { geyserBatches } from 'config/system/geysers';
 import { decimals as tokenDecimals, tokenBatches } from 'config/system/tokens';
 import { formatAmount } from 'mobx/reducers/statsReducers';
-
-const infuraProvider = new Web3.providers.HttpProvider(RPC_URL);
-const options = {
-	web3: new Web3(infuraProvider),
-	etherscan: {
-		apiKey: 'NXSHKK6D53D3R9I17SR49VX8VITQY7UC6P',
-		delayTime: 300,
-	},
-};
 
 // let batchCall = new BatchCall(options);
 let batchCall: any = null;
@@ -69,7 +59,7 @@ class ContractsStore {
 			}
 		});
 
-		observe(this.store.wallet as any, 'connectedAddress', (change: any) => {
+		observe(this.store.wallet as any, 'connectedAddress', () => {
 			this.updateProvider();
 		});
 		if (!!this.store.wallet.connectedAddress) this.updateProvider();
@@ -107,7 +97,7 @@ class ContractsStore {
 				(callback: any) => this.fetchVaults(callback),
 				(callback: any) => this.fetchGeysers(callback),
 			],
-			(err: any, result: any) => {
+			() => {
 				this._fetchingContracts = false;
 				if (this._pendingChangeOfAddress) {
 					this._pendingChangeOfAddress = false;
@@ -120,10 +110,7 @@ class ContractsStore {
 	fetchTokens = action((callback: any) => {
 		const { connectedAddress } = this.store.wallet;
 
-		const { defaults, batchCall: batch } = reduceContractConfig(
-			tokenBatches,
-			!!connectedAddress && { connectedAddress },
-		);
+		const { batchCall: batch } = reduceContractConfig(tokenBatches, !!connectedAddress && { connectedAddress });
 		// prepare curve price query
 		const curveQueries = curveTokens.contracts.map((address: string, index: number) =>
 			jsonQuery(curveTokens.priceEndpoints[index]),
@@ -200,8 +187,12 @@ class ContractsStore {
 
 		const { growthQueries, periods } = reduceGrowthQueryConfig(currentBlock);
 
+		// Disable reason: growthEndPoints[1] has a hardcoded value and will never be null for vaultBatches[1]
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		const xSushiQuery = vanillaQuery(sushiBatches.growthEndpoints![1]);
 		const masterChefQuery = vanillaQuery(
+			// Disable reason: growthEndPoints[2] has a hardcoded value and will never be null for vaultBatches[1]
+			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 			sushiBatches.growthEndpoints![2].concat(tokenBatches[0].contracts.join(';')),
 		);
 		const ppfsQuery = vanillaQuery('https://api.sett.vision/protocol/ppfs');
@@ -210,12 +201,10 @@ class ContractsStore {
 			.then((queryResult: any[]) => {
 				const result = reduceBatchResult(queryResult[0]);
 				const masterChefResult: any = queryResult.slice(growthQueries.length + 1, growthQueries.length + 2);
-				const xSushiResult: any = queryResult.slice(growthQueries.length + 2, growthQueries.length + 3);
 				const ppfsResult: any = queryResult.slice(growthQueries.length + 3)[0];
 
 				const vaultGrowth = reduceGrowth(queryResult.slice(1, growthQueries.length + 1), periods, START_TIME);
-				const xROI: any = reduceXSushiROIResults(xSushiResult[0]['weekly_APY']);
-				const newSushiRewards = reduceSushiAPIResults(masterChefResult[0], sushiBatches.contracts);
+				const newSushiRewards = reduceSushiAPIResults(masterChefResult[0]);
 
 				result.forEach((contract: any, i: number) => {
 					const tokenAddress = tokenMap[contract.address];
@@ -230,13 +219,13 @@ class ContractsStore {
 
 					const growth =
 						!!vaultGrowth[contract.address] &&
-						_.mapValues(vaultGrowth[contract.address], (tokens: BigNumber, period: string) => ({
+						_.mapValues(vaultGrowth[contract.address], (tokens: BigNumber) => ({
 							amount: tokens,
 							token: this.tokens[tokenAddress],
 						}));
 					const xSushiGrowth =
 						!!newSushiRewards[tokenAddress] &&
-						_.mapValues(newSushiRewards[tokenAddress], (tokens: BigNumber, period: string) => {
+						_.mapValues(newSushiRewards[tokenAddress], (tokens: BigNumber) => {
 							return {
 								amount: tokens,
 								token: this.tokens[XSUSHI_ADDRESS],
@@ -245,7 +234,6 @@ class ContractsStore {
 
 					//TODO: xSushi ROI not added in here - need vault balance which doesn't seem to be set.
 					// console.log(vault)
-
 					// update ppfs from ppfs api
 					contract.getPricePerFullShare = new BigNumber(ppfsResult[vault.address]);
 					vault.update(
@@ -253,7 +241,6 @@ class ContractsStore {
 							growth: _.compact([growth, xSushiGrowth]),
 						}),
 					);
-
 					// update vaultBalance if given
 					vault.vaultBalance = isNaN(parseFloat(result[i].balance))
 						? new BigNumber(0.0)
@@ -307,17 +294,17 @@ class ContractsStore {
 			return this.tokens[address];
 		}
 	});
-	getOrCreateVault = action((address: string, token?: Token, abi?: any) => {
+	getOrCreateVault = action((address: string, token: Token, abi?: any) => {
 		if (!this.vaults[address]) {
-			this.vaults[address] = new Vault(this.store, address, tokenDecimals[address], token!, abi);
+			this.vaults[address] = new Vault(this.store, address, tokenDecimals[address], token, abi);
 			return this.vaults[address];
 		} else {
 			return this.vaults[address];
 		}
 	});
-	getOrCreateGeyser = action((address: string, vault?: Vault, abi?: any) => {
+	getOrCreateGeyser = action((address: string, vault: Vault, abi?: any) => {
 		if (!this.vaults[address]) {
-			this.geysers[address] = new Geyser(this.store, address, vault!, abi);
+			this.geysers[address] = new Geyser(this.store, address, vault, abi);
 			return this.geysers[address];
 		} else {
 			return this.geysers[address];
@@ -325,7 +312,6 @@ class ContractsStore {
 	});
 
 	deposit = action((vault: Vault, amount: BigNumber) => {
-		const { tokens, vaults } = this;
 		const { setTxStatus, queueNotification } = this.store.uiState;
 
 		if (!amount || amount.isNaN() || amount.lte(0) || amount.gt(vault.underlyingToken.balance))
@@ -357,7 +343,6 @@ class ContractsStore {
 		);
 	});
 	stake = action((vault: Vault, amount: BigNumber) => {
-		const { tokens, vaults } = this;
 		const { setTxStatus, queueNotification } = this.store.uiState;
 
 		if (!amount || amount.isNaN() || amount.lte(0) || amount.gt(vault.balance))
@@ -385,7 +370,6 @@ class ContractsStore {
 		);
 	});
 	unstake = action((vault: Vault, amount: BigNumber) => {
-		const { tokens, vaults } = this;
 		const { setTxStatus, queueNotification } = this.store.uiState;
 
 		if (!amount || amount.isNaN() || amount.lte(0) || amount.gt(vault.geyser.balance))
@@ -405,7 +389,6 @@ class ContractsStore {
 	});
 
 	withdraw = action((vault: any, amount: BigNumber) => {
-		const { tokens } = this;
 		const { setTxStatus, queueNotification } = this.store.uiState;
 
 		// ensure balance is valid

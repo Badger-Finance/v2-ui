@@ -34,13 +34,7 @@ export const estimateAndSend = (
 	);
 };
 
-export const batchConfig = (
-	namespace: string,
-	addresses: any[],
-	methods: any[],
-	abi: AbiItem,
-	allReadMethods = true,
-): BatchConfig => {
+export const batchConfig = (namespace: string, addresses: any[], methods: any[], abi: AbiItem): BatchConfig => {
 	let readMethods = {};
 	let abiFile = {};
 
@@ -67,9 +61,9 @@ export const getTokenAddresses = (contracts: any[], config: TokenAddressessConfi
 	// pull underlying and yileding token addresses
 	const addresses: TokenAddressess[] = [];
 	_.map(contracts, (contract: any) => {
-		if (!!contract[config.underlying!])
+		if (!!contract[config.underlying])
 			addresses.push({
-				address: contract[config.underlying!],
+				address: contract[config.underlying],
 				contract: contract.address.toLowerCase(),
 				type: 'underlying',
 				subgraph:
