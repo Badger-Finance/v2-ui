@@ -10,28 +10,24 @@ import ClawDetails from './ClawDetails';
 import BigNumber from 'bignumber.js';
 
 export const Mint: FC = observer(() => {
-	const classes = useMainStyles();
 	const { claw: store, contracts, wallet } = useContext(StoreContext);
-	const [collateral, setCollateral] = useState<ClawParam>({});
-	const [mintable, setMintable] = useState<ClawParam>({});
 	const { collaterals, eclawsByCollateral, syntheticsDataByEMP } = store;
 	const { tokens } = contracts;
-
+	const classes = useMainStyles();
+	const [collateral, setCollateral] = useState<ClawParam>({});
+	const [mintable, setMintable] = useState<ClawParam>({});
 	const collateralToken = collateral.selectedOption && tokens[collateral.selectedOption];
 
 	const maxEclaw = useMemo(() => {
 		const synthetics = mintable.selectedOption && syntheticsDataByEMP.get(mintable.selectedOption);
 		if (!synthetics || !collateral.amount) return;
 
-		const { globalCollateralizationRatio, cumulativeFeeMultiplier } = synthetics;
+		const { globalCollateralizationRatio, cumulativeFeeMultiplier, collateralRequirement } = synthetics;
 		const collateralAmount = new BigNumber(collateral.amount);
-		const minCollateralAmount = globalCollateralizationRatio
-			.multipliedBy(collateralAmount)
-			.dividedBy(cumulativeFeeMultiplier);
-		return minCollateralAmount.multipliedBy(cumulativeFeeMultiplier).dividedBy(globalCollateralizationRatio);
-	}, [collateral.amount, mintable.selectedOption, syntheticsDataByEMP]);
+		const ratio = globalCollateralizationRatio.isZero() ? collateralRequirement : globalCollateralizationRatio;
 
-	console.log({ maxEclaw });
+		return collateralAmount.multipliedBy(cumulativeFeeMultiplier).dividedBy(ratio);
+	}, [collateral.amount, mintable.selectedOption, syntheticsDataByEMP]);
 
 	const walletNotConnected = (!tokens || !wallet.connectedAddress) && 'Connect Wallet';
 	const error = walletNotConnected || collateral.error || mintable.error;
@@ -45,25 +41,27 @@ export const Mint: FC = observer(() => {
 							<ClawLabel
 								name="Collateral"
 								balanceLabel={
-									collateral.selectedOption &&
-									`Available ${collaterals.get(collateral.selectedOption)}`
+									collateralToken && `Available ${collaterals.get(collateralToken.address)}`
 								}
-								balance={collateralToken?.balance.dividedBy(10 ** 18).toFixed(18, BigNumber.ROUND_DOWN)}
+								balance={collateralToken?.balance
+									.dividedBy(10 ** collateralToken.decimals)
+									.toFixed(collateralToken.decimals, BigNumber.ROUND_DOWN)}
 							/>
 						</Grid>
 					</Box>
 					<Grid item xs={12}>
 						<ClawParams
-							referenceBalance={collateralToken?.balance.dividedBy(10 ** 18)}
+							referenceBalance={collateralToken?.balance.dividedBy(10 ** collateralToken.decimals)}
 							placeholder="Select Token"
 							amount={collateral.amount}
 							selectedOption={collateral.selectedOption}
 							options={collaterals}
 							disabledAmount={!collateral.selectedOption}
 							onAmountChange={(amount: string, error?: boolean) => {
-								const collateralName = collateral.selectedOption
-									? collaterals.get(collateral.selectedOption)
-									: 'collateral';
+								const collateralName = collateralToken
+									? collaterals.get(collateralToken.address)
+									: 'collateral token';
+
 								setCollateral({
 									...collateral,
 									amount,
@@ -82,8 +80,8 @@ export const Mint: FC = observer(() => {
 									...collateral,
 									amount: collateralToken?.balance
 										.multipliedBy(percentage / 100)
-										.dividedBy(10 ** 18)
-										.toFixed(18, BigNumber.ROUND_DOWN),
+										.dividedBy(10 ** collateralToken.decimals)
+										.toFixed(collateralToken.decimals, BigNumber.ROUND_DOWN),
 								});
 							}}
 						/>
@@ -96,7 +94,12 @@ export const Mint: FC = observer(() => {
 						<ClawLabel
 							name="Mintable"
 							balanceLabel={maxEclaw && 'Max eCLAW:'}
-							balance={maxEclaw && `Maximum eCLAW: ${maxEclaw.toString()}`}
+							balance={
+								maxEclaw &&
+								`Maximum eCLAW: ${maxEclaw
+									.toFixed(collateralToken.decimals, BigNumber.ROUND_DOWN)
+									.toString()}`
+							}
 						/>
 					</Grid>
 				</Box>
@@ -124,7 +127,16 @@ export const Mint: FC = observer(() => {
 								selectedOption,
 							});
 						}}
-						onApplyPercentage={() => {}}
+						onApplyPercentage={(percentage: number) => {
+							if (!maxEclaw) return;
+							console.log({ maxEclaw: maxEclaw.multipliedBy(percentage / 100).toString() });
+							setMintable({
+								...mintable,
+								amount: maxEclaw
+									.multipliedBy(percentage / 100)
+									.toFixed(collateralToken.decimals, BigNumber.ROUND_DOWN),
+							});
+						}}
 					/>
 				</Grid>
 			</Grid>

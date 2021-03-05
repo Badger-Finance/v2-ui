@@ -1,31 +1,22 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useContext, useState } from 'react';
 import { Box, Button, Container, Grid, MenuItem, Select } from '@material-ui/core';
 import { useMainStyles } from './index';
 import ClawParams, { ClawParam } from './ClawParams';
 import ClawLabel from './ClawLabel';
 import ClawDetails from './ClawDetails';
-
-const depositOptions = ['wBTCwETHSLP', 'bBadger'];
-const withdrawOptions = ['eCLAW FEB29', 'eCLAW MARCH29'];
-
-const eCLAWS: Record<string, string> = {
-	wBTCwETHSLP: '0.000017',
-	bBadger: '0.000017',
-	'eCLAW FEB29': '1000',
-	'eCLAW MARCH29': '2000',
-};
-
-const options: Record<string, string[]> = {
-	deposit: depositOptions,
-	withdraw: withdrawOptions,
-};
-
-const initialValue = { amount: '0.00' };
+import { StoreContext } from 'mobx/store-context';
+import BigNumber from 'bignumber.js';
 
 const Manage: FC = () => {
+	const { claw: store, contracts, wallet } = useContext(StoreContext);
+	const { collaterals, eClaws, syntheticsDataByEMP } = store;
+	const { tokens } = contracts;
 	const classes = useMainStyles();
 	const [mode, setMode] = useState<'deposit' | 'withdraw'>('deposit');
-	const [txParams, setTxParams] = useState<ClawParam>(initialValue);
+	const [manageParams, setManageParams] = useState<ClawParam>({});
+
+	const selectedSynthetic = syntheticsDataByEMP.get(manageParams.selectedOption || '');
+	const token = selectedSynthetic && tokens[selectedSynthetic.collateralCurrency.toLocaleLowerCase()];
 
 	return (
 		<Container>
@@ -39,7 +30,7 @@ const Manage: FC = () => {
 						value={mode}
 						style={{ textAlign: 'center' }}
 						onChange={(v: any) => {
-							setTxParams(initialValue);
+							setManageParams({});
 							setMode(v.target.value);
 						}}
 					>
@@ -56,33 +47,43 @@ const Manage: FC = () => {
 					<Grid item xs={12}>
 						<ClawLabel
 							name="Token"
-							balanceLabel={txParams.selectedOption ? `Available ${txParams.selectedOption}:` : ''}
-							balance={txParams.selectedOption ? eCLAWS[txParams.selectedOption] : ''}
+							balanceLabel={token && `Available ${collaterals.get(token.address)}: `}
+							balance={token?.balance
+								.dividedBy(10 ** token.decimals)
+								.toFixed(token.decimals, BigNumber.ROUND_DOWN)}
 						/>
 					</Grid>
 				</Box>
 				<Grid item xs={12}>
 					<ClawParams
-						// referenceBalance={txParams.selectedOption ? eCLAWS[txParams.selectedOption] : ''}
+						options={eClaws}
+						referenceBalance={token?.balance.dividedBy(10 ** token.decimals)}
 						placeholder="Select Token"
-						amount={txParams.amount}
+						amount={manageParams.amount}
+						selectedOption={manageParams.selectedOption}
+						disabledAmount={!manageParams.selectedOption}
 						onAmountChange={(amount: string, error?: boolean) => {
-							setTxParams({
-								...txParams,
+							const collateralName = token ? collaterals.get(token.address) : 'collateral token';
+							setManageParams({
+								...manageParams,
 								amount,
-								error: error ? `Amount exceeds ${txParams.selectedOption} balance` : undefined,
+								error: error ? `Amount exceeds ${collateralName} balance` : undefined,
 							});
 						}}
-						selectedOption={txParams.selectedOption}
 						onOptionChange={(selectedOption: string) => {
-							setTxParams({
+							setManageParams({
 								selectedOption,
-								amount: '0.00',
-								error: undefined,
 							});
 						}}
-						disabledAmount={!txParams.selectedOption}
-						onApplyPercentage={() => {}}
+						onApplyPercentage={(percentage: number) => {
+							setManageParams({
+								...manageParams,
+								amount: token?.balance
+									.multipliedBy(percentage / 100)
+									.dividedBy(10 ** token.decimals)
+									.toFixed(token.decimals, BigNumber.ROUND_DOWN),
+							});
+						}}
 					/>
 				</Grid>
 				<Grid item xs={12}>
@@ -99,16 +100,16 @@ const Manage: FC = () => {
 						/>
 					</Grid>
 				</Grid>
-				<Grid xs={12}>
+				<Grid item xs={12}>
 					<Grid container>
 						<Button
 							color="primary"
 							variant="contained"
-							disabled={!!txParams.error || !txParams.selectedOption}
+							disabled={!!manageParams.error || !manageParams.selectedOption}
 							size="large"
 							className={classes.button}
 						>
-							{txParams.error ? txParams.error : mode.toLocaleUpperCase()}
+							{manageParams.error ? manageParams.error : mode.toLocaleUpperCase()}
 						</Button>
 					</Grid>
 				</Grid>
