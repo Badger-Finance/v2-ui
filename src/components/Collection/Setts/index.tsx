@@ -46,6 +46,10 @@ const useStyles = makeStyles((theme) => ({
 	title: {
 		padding: theme.spacing(2, 2, 2),
 	},
+	settListContainer: {
+		marginTop: theme.spacing(6),
+		marginBottom: theme.spacing(12),
+	},
 }));
 
 export const SettList = observer((props: any) => {
@@ -59,7 +63,6 @@ export const SettList = observer((props: any) => {
 		sett: { assets, setts, diggSetts },
 		uiState: { stats, currency, period },
 	} = store;
-
 	const [dialogProps, setDialogProps] = useState({ open: false, vault: undefined as any, sett: undefined as any });
 
 	const onOpen = (vault: Vault, sett: any) => {
@@ -78,8 +81,6 @@ export const SettList = observer((props: any) => {
 	if (!tokens || !vaults || !geysers) {
 		return <Loader />;
 	}
-
-	const spacer = () => <div className={classes.before} />;
 
 	const tvl = assets.totalValue ? `${formatUsd(assets.totalValue)}` : '$0.00';
 
@@ -109,11 +110,10 @@ export const SettList = observer((props: any) => {
 	};
 
 	return (
-		<>
+		<div className={classes.settListContainer}>
 			{!hideEmpty && <AllSettList {...settListProps} />}
 			{hideEmpty && <DepositList {...depositListProps} />}
 			<SettDialog dialogProps={dialogProps} classes={classes} onClose={onClose} />
-			{spacer()}
-		</>
+		</div>
 	);
 });

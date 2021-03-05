@@ -12,7 +12,7 @@ const useStyles = makeStyles(() => ({
 	},
 }));
 
-export const Loader = () => {
+export const Loader = (): JSX.Element => {
 	const classes = useStyles();
 
 	return (

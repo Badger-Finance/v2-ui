@@ -1,17 +1,6 @@
-import {
-	Button,
-	ButtonGroup,
-	Card,
-	CardContent,
-	CardActions,
-	Typography,
-	Tabs,
-	Tab,
-	CardHeader,
-	CircularProgress,
-} from '@material-ui/core';
+import { Button, ButtonGroup, Card, CardContent, Tabs, Tab, CardHeader, CircularProgress } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import AreaChart from './AreaChart';
 import { observer } from 'mobx-react-lite';
@@ -31,18 +20,20 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const DashboardCard = observer((props: any) => {
+const DashboardCard = observer(() => {
 	const classes = useStyles();
 
 	const componentDidMount = () => {
 		handleChangeRange(7);
 	};
 
+	// Disable reason: Hook used for execution on mount.
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	useEffect(componentDidMount, []);
 	const [title, setGraphSelected] = useState<string>('Total Volume');
 
 	const handleChangeRange = (range: number) => {
-		let chart = title === 'Price' ? 'prices' : title === 'Total Volume' ? 'total_volumes' : 'market_caps';
+		const chart = title === 'Price' ? 'prices' : title === 'Total Volume' ? 'total_volumes' : 'market_caps';
 
 		fetchDiggChart(chart, range, (marketData: any) => {
 			setChartData(marketData);
@@ -51,6 +42,8 @@ const DashboardCard = observer((props: any) => {
 	};
 	useEffect(() => {
 		handleChangeRange(range);
+		// Disable reason: Hook used to trigger handleChangeRange() on change of 'title'.
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [title]);
 
 	const [chartData, setChartData] = useState<any>(undefined);
@@ -59,6 +52,7 @@ const DashboardCard = observer((props: any) => {
 	const ranges = (
 		<ButtonGroup variant="outlined" size="small" aria-label="outlined button group">
 			<Button
+				aria-label="1 day"
 				disableElevation
 				variant={range === 1 ? 'contained' : 'outlined'}
 				onClick={() => handleChangeRange(1)}
@@ -66,6 +60,7 @@ const DashboardCard = observer((props: any) => {
 				1 day
 			</Button>
 			<Button
+				aria-label="1 week"
 				disableElevation
 				variant={range === 7 ? 'contained' : 'outlined'}
 				onClick={() => handleChangeRange(7)}
@@ -73,6 +68,7 @@ const DashboardCard = observer((props: any) => {
 				1 week
 			</Button>
 			<Button
+				aria-label="1 Month"
 				disableElevation
 				variant={range === 30 ? 'contained' : 'outlined'}
 				onClick={() => handleChangeRange(30)}
@@ -164,13 +160,5 @@ const DashboardCard = observer((props: any) => {
 		</Card>
 	);
 });
-
-const intToString = (n: number) => {
-	if (n < 1e3) return n;
-	if (n >= 1e3 && n < 1e6) return +(n / 1e3).toFixed(1) + 'k';
-	if (n >= 1e6 && n < 1e9) return +(n / 1e6).toFixed(1) + 'm';
-	if (n >= 1e9 && n < 1e12) return +(n / 1e9).toFixed(1) + 'B';
-	if (n >= 1e12) return +(n / 1e12).toFixed(1) + 'T';
-};
 
 export default DashboardCard;

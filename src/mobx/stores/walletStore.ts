@@ -6,7 +6,6 @@ import { RootStore } from '../store';
 import BigNumber from 'bignumber.js';
 import { onboardWallets, onboardWalletCheck } from '../../config/wallets';
 import _ from 'lodash';
-import { RPC_URL } from 'config/constants';
 
 class WalletStore {
 	private store?: RootStore;

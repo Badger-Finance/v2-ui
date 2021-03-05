@@ -61,7 +61,6 @@ const useStyles = makeStyles((theme) => ({
 	selectInput: {
 		margin: 0,
 	},
-
 	statPaper: {
 		padding: theme.spacing(2),
 		textAlign: 'center',
@@ -107,6 +106,7 @@ const useStyles = makeStyles((theme) => ({
 		[theme.breakpoints.up('md')]: {},
 	},
 }));
+
 export const Collection = observer(() => {
 	const store = useContext(StoreContext);
 	const classes = useStyles();
@@ -129,7 +129,7 @@ export const Collection = observer(() => {
 	const spacer = () => <div className={classes.before} />;
 
 	const availableRewards = () => {
-		return badgerTree.claims.map((claim: any[], idx: number) => {
+		return badgerTree.claims.map((claim: any[]) => {
 			const claimAddress = claim[0];
 			const claimValue = claim
 				? claim[1].dividedBy(
@@ -171,20 +171,19 @@ export const Collection = observer(() => {
 						<Hero title="Sett Vaults" subtitle="Powerful Bitcoin strategies. Automatic staking rewards" />
 					</Grid>
 					<Grid item sm={6}>
-						{
-							connectedAddress && (
-								<FormControlLabel
-									control={
-										<Switch
-											checked={hideZeroBal}
-											onChange={() => {
-												!!connectedAddress && setHideZeroBal(!hideZeroBal);
-											}}
-											color="primary"
-										/>
-									}
-									label="Wallet balances"
-								/>
+						{connectedAddress && (
+							<FormControlLabel
+								control={
+									<Switch
+										checked={hideZeroBal}
+										onChange={() => {
+											!!connectedAddress && setHideZeroBal(!hideZeroBal);
+										}}
+										color="primary"
+									/>
+								}
+								label="Wallet balances"
+							/>
 						)}
 					</Grid>
 
@@ -270,6 +269,7 @@ export const Collection = observer(() => {
 										{spacer()}
 										<ButtonGroup size="small" variant="outlined" color="primary">
 											<Button
+												aria-label="Claim"
 												onClick={() => {
 													claimGeysers(false);
 												}}

@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import { observer } from 'mobx-react-lite';
-
 import { StoreContext } from '../../../mobx/store-context';
 import { Button, DialogContent, TextField, DialogActions, ButtonGroup } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
@@ -8,7 +7,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Loader } from '../../Loader';
 import { BigNumber } from 'bignumber.js';
 import { useForm } from 'react-hook-form';
-import { formatBalanceUnderlying } from 'mobx/reducers/statsReducers';
+import { formatDialogBalanceUnderlying } from 'mobx/reducers/statsReducers';
 
 const TEXTFIELD_ID = 'amountField';
 
@@ -27,9 +26,7 @@ export const GeyserStake = observer((props: any) => {
 	const { register, handleSubmit, watch, setValue } = useForm({ mode: 'all' });
 
 	const {
-		router: {},
 		wallet: { connectedAddress },
-		uiState: {},
 	} = store;
 
 	const percentageOfBalance = (percent: number) => {
@@ -64,6 +61,7 @@ export const GeyserStake = observer((props: any) => {
 		<ButtonGroup size="small" className={classes.button} disabled={!connectedAddress}>
 			{[25, 50, 75, 100].map((amount: number) => (
 				<Button
+					aria-label={`${amount}%`}
 					onClick={() => {
 						setAmount(amount);
 					}}
@@ -87,7 +85,7 @@ export const GeyserStake = observer((props: any) => {
 				>
 					<div>
 						<Typography variant="body2" color={'textSecondary'} style={{ marginBottom: '.2rem' }}>
-							Underlying {vault.underlyingToken.symbol}: {formatBalanceUnderlying(vault)}
+							Underlying {vault.underlyingToken.symbol}: {formatDialogBalanceUnderlying(vault)}
 						</Typography>
 						<Typography variant="body1" color={'textSecondary'} style={{ marginBottom: '.2rem' }}>
 							Available {vault.symbol}: {totalAvailable}
@@ -110,6 +108,7 @@ export const GeyserStake = observer((props: any) => {
 			</DialogContent>
 			<DialogActions>
 				<Button
+					aria-label="Stake"
 					size="large"
 					disabled={!canDeposit}
 					onClick={handleSubmit(onSubmit)}

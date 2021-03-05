@@ -27,9 +27,7 @@ export const GeyserUnstake = observer((props: any) => {
 	const { register, handleSubmit, watch, setValue } = useForm({ mode: 'all' });
 
 	const {
-		router: {},
 		wallet: { connectedAddress },
-		uiState: {},
 	} = store;
 
 	const percentageOfBalance = (percent: number) => {
@@ -65,6 +63,7 @@ export const GeyserUnstake = observer((props: any) => {
 		<ButtonGroup size="small" className={classes.button} disabled={!connectedAddress}>
 			{[25, 50, 75, 100].map((amount: number) => (
 				<Button
+					aria-label={`${amount}%`}
 					onClick={() => {
 						setAmount(amount);
 					}}
@@ -110,6 +109,7 @@ export const GeyserUnstake = observer((props: any) => {
 			</DialogContent>
 			<DialogActions>
 				<Button
+					aria-label="Unstake"
 					size="large"
 					disabled={!canUnstake}
 					onClick={handleSubmit(onSubmit)}

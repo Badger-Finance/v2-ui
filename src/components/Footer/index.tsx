@@ -30,7 +30,7 @@ const useStyles = makeStyles(() => ({
 	},
 }));
 
-export const Footer = () => {
+export const Footer = (): JSX.Element => {
 	const classes = useStyles();
 
 	return (
@@ -39,13 +39,14 @@ export const Footer = () => {
 				<Grid container spacing={4}>
 					<Grid item sm={12} lg={3} style={{ margin: '.5rem 0' }}>
 						<img
-							alt=""
+							alt="Score Logo"
 							src={'assets/8bit/badger score.png'}
 							height="80px"
 							style={{ marginBottom: '1rem' }}
 						/>
 						<br />
 						<Button
+							aria-label="Get Coverage"
 							variant="outlined"
 							color="secondary"
 							href="https://app.coverprotocol.com/app/marketplace/protocols/BADGERDAO"
@@ -65,7 +66,7 @@ export const Footer = () => {
 						>
 							<div className={classes.iconContainer}>
 								<img
-									alt=""
+									alt="Twitter Logo"
 									src={'assets/twitter.svg'}
 									height="24px"
 									className={classes.icon}
@@ -79,7 +80,7 @@ export const Footer = () => {
 						>
 							<div className={classes.iconContainer}>
 								<img
-									alt=""
+									alt="Medium Logo"
 									src={'assets/medium.svg'}
 									height="24px"
 									className={classes.icon}
@@ -90,7 +91,7 @@ export const Footer = () => {
 						<div className={classes.link} onClick={() => window.open('https://t.me/badger_dao', '_blank')}>
 							<div className={classes.iconContainer}>
 								<img
-									alt=""
+									alt="Telegram Logo"
 									src={'assets/telegram.svg'}
 									height="24px"
 									className={classes.icon}
@@ -109,7 +110,7 @@ export const Footer = () => {
 						>
 							<div className={classes.iconContainer}>
 								<img
-									alt=""
+									alt="Discord Logo"
 									src={'assets/discord.svg'}
 									height="24px"
 									className={classes.icon}
@@ -123,8 +124,9 @@ export const Footer = () => {
 						>
 							<div className={classes.iconContainer}>
 								<img
-									alt=""
+									alt="Github Logo"
 									src={'assets/github.svg'}
+
 									height="24px"
 									className={classes.icon}
 								/>
@@ -139,8 +141,9 @@ export const Footer = () => {
 						>
 							<div className={classes.iconContainer}>
 								<img
-									alt=""
+									alt="Gitbook Logo"
 									src={'assets/github.svg'}
+
 									height="24px"
 									className={classes.icon}
 								/>

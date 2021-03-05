@@ -8,8 +8,19 @@ import { TokenCard } from './TokenCard';
 import TableHeader from './TableHeader';
 import { StoreContext } from 'mobx/store-context';
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export default function AllSettList(props: any) {
+interface SettListProps {
+	allSetts: any[];
+	vaults: any;
+	hideEmpty: any;
+	classes: Record<'title' | 'header' | 'list' | 'listItem' | 'before' | 'hiddenMobile' | 'chip', string>;
+	onOpen: (vault: Vault, sett: any) => void;
+	period: string;
+	wallet: any;
+	tvl: string;
+	walletBalance: string;
+}
+
+export default function AllSettList(props: SettListProps): JSX.Element {
 	const store = useContext(StoreContext);
 	const { allSetts, classes, vaults, hideEmpty, onOpen, period, walletBalance, tvl } = props;
 
