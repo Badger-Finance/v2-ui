@@ -3,6 +3,7 @@ import SushiGeyser from './abis/SushiGeyser.json';
 import BadgerTree from './abis/BadgerTree.json';
 import deploy from '../deployments/mainnet.json';
 import { XSUSHI_ADDRESS, FARM_ADDRESS, USDC_ADDRESS } from '../constants';
+import { getApi } from '../../mobx/utils/api';
 
 export const geyserBatches = [
 	{
@@ -90,10 +91,7 @@ export const geyserBatches = [
 ];
 
 export const rewards = {
-	// Staging endpoint
-	// endpoint: 'https://staging-api.badger.finance/v2/reward/tree',
-	// Prod endpoint
-	endpoint: 'https://api.badger.finance/v2/reward/tree',
+	endpoint: `${getApi()}/v2/reward/tree`,
 	network: 1,
 	contract: '0x660802Fc641b154aBA66a62137e71f331B6d787A',
 	abi: BadgerTree.abi,
