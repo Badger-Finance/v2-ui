@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js';
 
 import { priceEndpoints } from '../../config/system/tokens';
 
-export const graphQuery = (address: string) => {
+export const graphQuery = (address: string): Promise<any>[] => {
 	return priceEndpoints.map((endpoint: any) => {
 		return fetch(endpoint, {
 			method: 'POST',
@@ -42,7 +42,7 @@ export const graphQuery = (address: string) => {
 		}).then((response: any) => response.json());
 	});
 };
-export const chefQueries = (pairs: any[], contracts: any[], growthEndpoint: string) => {
+export const chefQueries = (pairs: any[], contracts: any[], growthEndpoint: string): Promise<any>[] => {
 	return pairs.map((pair: any) => {
 		return fetch(growthEndpoint, {
 			method: 'POST',
@@ -72,8 +72,18 @@ export const jsonQuery = (url: string): Promise<Response> => {
 			'Content-Type': 'application/json',
 			Accept: 'application/json',
 		},
-	}).then((response: any) => response.json());
+	}).then((response: any) => {
+		return response.json();
+	});
 };
+
+export const textQuery = (url: string): Promise<Response> => {
+	// Use this query to return text without formatting to JSON for debugging
+	return fetch(url, {}).then((response: any) => {
+		return response.text();
+	});
+};
+
 export const vanillaQuery = (url: string): Promise<Response> => {
 	return fetch(url, {
 		method: 'GET',
@@ -111,7 +121,7 @@ export const growthQuery = (block: number): Promise<Response> => {
 	}).then((data) => data.json());
 };
 
-export const secondsToBlocks = (seconds: number) => {
+export const secondsToBlocks = (seconds: number): number => {
 	return seconds / (1 / (6500 / (24 * 60 * 60)));
 };
 
@@ -231,13 +241,27 @@ export const inCurrency = (
 	return `${prefix}${fixedNormal}${suffix}`;
 };
 
-function numberWithCommas(x: string) {
+export const formatTokens = (value: BigNumber): string => {
+	let decimals = 5;
+
+	if (!value || value.isNaN()) return '0.00000';
+	else {
+		if (value.gt(0) && value.lt(10 ** -decimals)) {
+			return '< 0.00001';
+		} else if (value.dividedBy(1e4).gt(1)) {
+			decimals = 2;
+		}
+		return numberWithCommas(value.toFixed(decimals, BigNumber.ROUND_HALF_FLOOR));
+	}
+};
+
+export const numberWithCommas = (x: string): string => {
 	const parts = x.toString().split('.');
 	parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 	return parts.join('.');
-}
+};
 
-export const fetchDiggChart = (chart: string, range: number, callback: (marketChart: any) => void) => {
+export const fetchDiggChart = (chart: string, range: number, callback: (marketChart: any) => void): void => {
 	const to = new Date();
 	const from = new Date();
 	from.setDate(to.getDate() - range);
@@ -278,7 +302,10 @@ const reduceMarketChart = (data: any[], range: number, maxDate: Date, chart: str
 	return formatted;
 };
 
-export function marketChartStats(dataSet: Array<any>, accessor: string) {
+export function marketChartStats(
+	dataSet: Array<any>,
+	accessor: string,
+): { high: number; low: number; avg: number; median: number } {
 	// highest high
 	const dataCopy: Array<any> = dataSet.slice(0);
 	const sortedData = dataCopy.sort((a, b) => a[accessor] - b[accessor]);

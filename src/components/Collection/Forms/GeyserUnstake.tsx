@@ -27,9 +27,7 @@ export const GeyserUnstake = observer((props: any) => {
 	const { register, handleSubmit, watch, setValue } = useForm({ mode: 'all' });
 
 	const {
-		router: {},
 		wallet: { connectedAddress },
-		uiState: {},
 	} = store;
 
 	const percentageOfBalance = (percent: number) => {

@@ -4,7 +4,7 @@ import { useContext } from 'react';
 import { StoreContext } from '../../mobx/store-context';
 import { Button, Select, MenuItem } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { AccountBalanceWallet, LocalGasStation } from '@material-ui/icons';
+import { LocalGasStation } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -61,8 +61,8 @@ export const Wallet = observer(() => {
 	};
 
 	const onGasStationClicked = () => {
-		window.open('https://gasnow.org', '_blank')
-	}
+		window.open('https://gasnow.org', '_blank');
+	};
 
 	return (
 		<div style={{ display: 'flex' }}>
@@ -73,7 +73,10 @@ export const Wallet = observer(() => {
 				onChange={(v: any) => setGasPrice(v.target.value)}
 				className={classes.select}
 				startAdornment={
-					<LocalGasStation onClick={onGasStationClicked} style={{ cursor: 'pointer', fontSize: '1.2rem', marginRight: '.8rem' }} />
+					<LocalGasStation
+						onClick={onGasStationClicked}
+						style={{ cursor: 'pointer', fontSize: '1.2rem', marginRight: '.8rem' }}
+					/>
 				}
 			>
 				<MenuItem value={'slow'}>{gasPrices['slow'].toFixed(0)}</MenuItem>
@@ -84,7 +87,6 @@ export const Wallet = observer(() => {
 				disableElevation
 				variant="contained"
 				color="secondary"
-				// size="small"
 				onClick={() => {
 					if (!connectedAddress) connect();
 					else store.wallet.walletReset();

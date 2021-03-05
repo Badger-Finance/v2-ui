@@ -21,7 +21,6 @@ import { jsonQuery, graphQuery, vanillaQuery } from 'mobx/utils/helpers';
 import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
 import async from 'async';
-
 import { curveTokens, names, symbols, tokenMap } from 'config/system/tokens';
 import { EMPTY_DATA, ERC20, RPC_URL, START_TIME, WBTC_ADDRESS, XSUSHI_ADDRESS } from 'config/constants';
 import { vaultBatches } from 'config/system/vaults';
@@ -121,7 +120,7 @@ class ContractsStore {
 	fetchTokens = action((callback: any) => {
 		const { connectedAddress } = this.store.wallet;
 
-		let { defaults, batchCall: batch } = reduceContractConfig(
+		const { defaults, batchCall: batch } = reduceContractConfig(
 			tokenBatches,
 			!!connectedAddress && { connectedAddress },
 		);
@@ -144,7 +143,6 @@ class ContractsStore {
 			return;
 		}
 
-		// console.log(batch)
 		Promise.all([cgQueries, batchCall.execute(batch), ...curveQueries, ...graphQueries])
 			.then((result: any[]) => {
 				const cgPrices = _.mapValues(result.slice(0, 1)[0], (price: any) => ({
@@ -152,16 +150,13 @@ class ContractsStore {
 				}));
 				const tokenContracts = _.keyBy(reduceBatchResult(_.flatten(result.slice(1, 2))), 'address');
 				const tokenPrices = _.keyBy(
-					_.compact(reduceGraphResult(result.slice(2 + curveQueries.length))),
+					_.compact(reduceGraphResult(result.slice(2 + curveQueries.length), cgPrices)),
 					'address',
 				);
-				// cgPrices[deploy.digg_system.uFragments.toLowerCase()] = { ethValue: tokenPrices[WBTC_ADDRESS.toLowerCase()].ethValue }
-
 				const curvePrices = _.keyBy(
 					reduceCurveResult(
 						result.slice(2, 2 + curveQueries.length),
 						curveTokens.contracts,
-						this.tokens,
 						tokenPrices[WBTC_ADDRESS],
 					),
 					'address',
@@ -169,8 +164,8 @@ class ContractsStore {
 				const tokens = _.compact(
 					_.values(
 						_.defaultsDeep(
-							cgPrices,
 							curvePrices,
+							cgPrices,
 							tokenPrices,
 							tokenContracts,
 							_.mapValues(symbols, (value: string, address: string) => ({ address, symbol: value })),
@@ -180,7 +175,7 @@ class ContractsStore {
 				);
 
 				tokens.forEach((contract: any) => {
-					let token = this.getOrCreateToken(contract.address);
+					const token = this.getOrCreateToken(contract.address);
 					token.update(contract);
 				});
 
@@ -198,7 +193,7 @@ class ContractsStore {
 		const { connectedAddress, currentBlock } = this.store.wallet;
 		const sushiBatches = vaultBatches[1];
 
-		let { defaults, batchCall: batch } = reduceContractConfig(
+		const { defaults, batchCall: batch } = reduceContractConfig(
 			vaultBatches,
 			connectedAddress && { connectedAddress },
 		);
@@ -277,7 +272,7 @@ class ContractsStore {
 
 		const { connectedAddress } = this.store.wallet;
 
-		let { defaults, batchCall: batch } = reduceContractConfig(
+		const { defaults, batchCall: batch } = reduceContractConfig(
 			geyserBatches,
 			connectedAddress && { connectedAddress },
 		);
@@ -290,12 +285,6 @@ class ContractsStore {
 				if (result) {
 					result.forEach((contract: any) => {
 						const vaultAddress = contract[defaults[contract.address].underlyingKey];
-						// set fake digg schedules
-						// if (vaultAddress === deploy.sett_system.vaults['native.sbtcCrv'].toLowerCase())
-						// 	contract.getUnlockSchedulesFor[deploy.digg_system.uFragments] = [[32.6e9, 1611373733, 0, 1611342599]];
-						// if (vaultAddress === deploy.sett_system.vaults['native.sushiDiggWbtc'].toLowerCase())
-						// 	contract.getUnlockSchedulesFor[deploy.digg_system.uFragments] = [[32.6e9, 1611373733, 0, 1611342599]];
-
 						const geyser: Geyser = this.getOrCreateGeyser(
 							contract.address,
 							this.vaults[vaultAddress],
@@ -342,7 +331,7 @@ class ContractsStore {
 		if (!amount || amount.isNaN() || amount.lte(0) || amount.gt(vault.underlyingToken.balance))
 			return queueNotification('Please enter a valid amount', 'error');
 
-		let underlyingAmount = amount.multipliedBy(10 ** vault.underlyingToken.decimals);
+		const underlyingAmount = amount.multipliedBy(10 ** vault.underlyingToken.decimals);
 
 		const methodSeries: any = [];
 
@@ -374,7 +363,7 @@ class ContractsStore {
 		if (!amount || amount.isNaN() || amount.lte(0) || amount.gt(vault.balance))
 			return queueNotification('Please enter a valid amount', 'error');
 
-		let wrappedAmount = amount.multipliedBy(10 ** vault.decimals);
+		const wrappedAmount = amount.multipliedBy(10 ** vault.decimals);
 
 		const methodSeries: any = [];
 
@@ -402,7 +391,7 @@ class ContractsStore {
 		if (!amount || amount.isNaN() || amount.lte(0) || amount.gt(vault.geyser.balance))
 			return queueNotification('Please enter a valid amount', 'error');
 
-		let wrappedAmount = amount.multipliedBy(10 ** vault.decimals);
+		const wrappedAmount = amount.multipliedBy(10 ** vault.decimals);
 
 		const methodSeries: any = [];
 
@@ -473,7 +462,6 @@ class ContractsStore {
 	});
 
 	getAllowance = action((underlyingAsset: any, spender: string, callback: (err: any, result: any) => void) => {
-		const {} = this.store.uiState;
 		const { provider, connectedAddress } = this.store.wallet;
 
 		const web3 = new Web3(provider);
@@ -490,7 +478,6 @@ class ContractsStore {
 		const { provider, connectedAddress } = this.store.wallet;
 
 		const underlyingAsset = geyser.vault.underlyingToken;
-		console.log('amount: ', amount.toString());
 
 		const web3 = new Web3(provider);
 		const geyserContract = new web3.eth.Contract(geyser.abi, geyser.address);

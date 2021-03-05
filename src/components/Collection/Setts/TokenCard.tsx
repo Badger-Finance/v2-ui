@@ -8,6 +8,7 @@ import { formatWithCommas } from 'mobx/utils/api';
 import { UnfoldMoreTwoTone } from '@material-ui/icons';
 import { usdToCurrency } from '../../../mobx/utils/helpers';
 import BigNumber from 'bignumber.js';
+import { Vault } from '../../../mobx/model';
 
 const useStyles = makeStyles((theme) => ({
 	border: {
@@ -42,7 +43,15 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export const TokenCard = (props: any) => {
+interface TokenCardProps {
+	isGlobal: boolean;
+	vault: Vault;
+	sett: any;
+	onOpen: any;
+	period: string;
+}
+
+export const TokenCard = (props: TokenCardProps): JSX.Element => {
 	const store = useContext(StoreContext);
 	const classes = useStyles();
 
@@ -84,7 +93,6 @@ export const TokenCard = (props: any) => {
 		return formatWithCommas(tokenCount);
 	};
 	const tokensAmount = getTokens();
-	const value = assets[sett.asset];
 	const { apy, tooltip } = getRoi();
 
 	return (
