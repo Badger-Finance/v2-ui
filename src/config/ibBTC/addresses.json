@@ -22,10 +22,10 @@
 					"name": "Badger crvRenWBTC",
 					"poolId": 1
 				},
-				"btbtc_sbtcCrv": {
+				"btbtc/sbtcCrv": {
 					"address": "0xb9d076fde463dbc9f915e5392f807315bf940334",
 					"decimals": 18,
-					"symbol": "btbtc_sbtcCrv",
+					"symbol": "btbtc/sbtcCrv",
 					"name": "Badger t-btc/sbtcCrv",
 					"poolId": 2
 				}

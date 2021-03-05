@@ -4,18 +4,19 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Container, Grid, Tabs, Tab, Card } from '@material-ui/core';
 
 // Local Components
-import Hero from 'components/Common/Hero';
+import PageHeader from 'components-v2/common/PageHeader';
 import { Mint } from './Mint';
 import { Redeem } from './Redeem';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
-		display: 'flex',
-		alignItems: 'center',
 		[theme.breakpoints.up('md')]: {
-			paddingLeft: theme.spacing(33),
-			marginTop: theme.spacing(2),
+			paddingLeft: theme.spacing(30),
 		},
+	},
+	headerContainer: {
+		marginTop: theme.spacing(3),
+		marginBottom: theme.spacing(3),
 	},
 	card: {
 		maxWidth: '640px',
@@ -32,8 +33,8 @@ export const IbBTC = (): any => {
 	return (
 		<Container className={classes.root} maxWidth="lg">
 			<Grid container spacing={1} justify="center">
-				<Grid item sm={12} xs={12}>
-					<Hero title="ibBTC" subtitle="Interest Bearing Badger Bitcoin." />
+				<Grid item sm={12} xs={12} className={classes.headerContainer}>
+					<PageHeader title="ibBTC" subtitle="Interest Bearing Badger Bitcoin." />
 				</Grid>
 
 				<Grid item sm={12} xs={12}>
@@ -54,18 +55,6 @@ export const IbBTC = (): any => {
 			</Grid>
 		</Container>
 	);
-};
-
-export const debounce = (n: number, fn: (...params: any[]) => any, immediate = false): any => {
-	let timer: any = undefined;
-	return function (this: any, ...args: any[]) {
-		if (timer === undefined && immediate) {
-			fn.apply(this, args);
-		}
-		clearTimeout(timer);
-		timer = setTimeout(() => fn.apply(this, args), n);
-		return timer;
-	};
 };
 
 export const commonStyles = makeStyles(() => ({

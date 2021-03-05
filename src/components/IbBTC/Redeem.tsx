@@ -6,8 +6,9 @@ import red from '@material-ui/core/colors/red';
 import { observer } from 'mobx-react-lite';
 import BigNumber from 'bignumber.js';
 
+import { debounce } from 'utils/componentHelpers';
 import { ZERO } from 'config/constants';
-import { commonStyles, debounce } from './index';
+import { commonStyles } from './index';
 import { Tokens } from './Tokens';
 import { DownArrow } from './DownArrow';
 import { StoreContext } from 'mobx/store-context';
@@ -32,17 +33,17 @@ export const Redeem = observer((): any => {
 	const [selectedToken, setSelectedToken] = useState<TokenModel>(tokens[0]);
 	const [inputAmount, setInputAmount] = useState<string>();
 	const [outputAmount, setOutputAmount] = useState<string>();
-	const initialFee = (1 - parseFloat(selectedToken.redeemRate && selectedToken.mintRate.toString())).toFixed(3);
+	const initialFee = (1 - parseFloat(selectedToken.redeemRate)).toFixed(3);
 	const [fee, setFee] = useState<string>(initialFee);
 	const [isEnoughToRedeem, setIsEnoughToRedeem] = useState<boolean>(true);
 	const [maxRedeem, setMaxRedeem] = useState<string>();
 	const conversionRate =
 		outputAmount && inputAmount
 			? (
-					parseFloat(outputAmount.toString() || selectedToken.redeemRate.toString()) /
+					parseFloat(outputAmount.toString() || selectedToken.redeemRate) /
 					parseFloat(inputAmount.toString() || '1')
 			  ).toFixed(4)
-			: (parseFloat(selectedToken.redeemRate.toString()) / 1).toFixed(4);
+			: (parseFloat(selectedToken.redeemRate) / 1).toFixed(4);
 
 	const _debouncedSetInputAmount = debounce(600, (val) => {
 		setInputAmount(val);
@@ -74,8 +75,9 @@ export const Redeem = observer((): any => {
 	};
 
 	const handleTokenSelection = (event: any) => {
-		const token = tokens.find((token: TokenModel) => token.symbol === event?.target?.value);
-		setSelectedToken(token || tokens[0]);
+		const token = tokens.find((token: TokenModel) => token.symbol === event?.target?.value) || tokens[0];
+		setSelectedToken(token);
+		if (inputAmount) store.ibBTCStore.calcRedeemAmount(token, token.scale(inputAmount), handleCalcOutputAmount);
 	};
 
 	const resetState = () => {
@@ -146,14 +148,12 @@ export const Redeem = observer((): any => {
 			</div>
 			<div className={classes.outerWrapper}>
 				<div className={classes.summaryWrapper}>
-					{!isEnoughToRedeem ? (
+					{!isEnoughToRedeem && (
 						<div className={classes.summaryRow}>
 							<Typography variant="subtitle1" className={scopedClasses.error}>
 								A maximum of {maxRedeem} {ibBTC.symbol} can be redeemed to {selectedToken.symbol}
 							</Typography>
 						</div>
-					) : (
-						''
 					)}
 					<div className={classes.summaryRow}>
 						<Typography variant="subtitle1">Current Conversion Rate: </Typography>
@@ -175,7 +175,7 @@ export const Redeem = observer((): any => {
 					variant="contained"
 					color="primary"
 					onClick={handleRedeemClick}
-					disabled={!isEnoughToRedeem}
+					disabled={!isEnoughToRedeem || !inputAmount}
 				>
 					REDEEM
 				</Button>

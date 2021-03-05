@@ -36,7 +36,7 @@ class IbBTCStore {
 		this.tokens = [
 			new TokenModel(this.store, token_config['bcrvRenWSBTC']),
 			new TokenModel(this.store, token_config['bcrvRenWBTC']),
-			new TokenModel(this.store, token_config['btbtc_sbtcCrv']),
+			new TokenModel(this.store, token_config['btbtc/sbtcCrv']),
 		];
 
 		observe(this.store.wallet as any, 'connectedAddress', () => {
@@ -48,10 +48,22 @@ class IbBTCStore {
 
 	init = action((): void => {
 		const { connectedAddress } = this.store.wallet;
-		if (!!connectedAddress) {
-			this.fetchBalances();
-		}
+		if (!!connectedAddress) this.fetchBalances();
+		else this.resetBalances();
 		this.fetchConversionRates();
+	});
+
+	validate = action((amount: BigNumber, token: TokenModel): boolean | void => {
+		const { queueNotification } = this.store.uiState;
+		const { connectedAddress } = this.store.wallet;
+
+		if (!connectedAddress) return queueNotification('Please connect a wallet', 'error');
+		if (!amount || amount.isNaN() || amount.lte(0))
+			return queueNotification('Please enter a valid amount', 'error');
+		if (amount.gt(token.balance))
+			return queueNotification(`You have insufficient balance of ${token.symbol}`, 'error');
+
+		return true;
 	});
 
 	fetchBalances = action(
@@ -64,20 +76,31 @@ class IbBTCStore {
 		},
 	);
 
+	resetBalances = action((): void => {
+		// ZERO balance for all tokens
+		this.tokens.forEach((token) => {
+			token.balance = ZERO;
+		});
+		this.ibBTC.balance = ZERO;
+	});
+
 	fetchConversionRates = action(
 		async (): Promise<void> => {
 			// Fetch mintRate, redeemRate and set to respected token
-			this.tokens.forEach(async (token) => {
-				this.fetchMintRate(token);
-				this.fetchRedeemRate(token);
-			});
+			const { provider } = this.store.wallet;
+			if (provider) {
+				this.tokens.forEach(async (token) => {
+					this.fetchMintRate(token);
+					this.fetchRedeemRate(token);
+				});
+			}
 		},
 	);
 
 	fetchMintRate = action((token: TokenModel): void => {
 		const callback = (err: any, result: any): void => {
 			if (!err) token.mintRate = token.unscale(new BigNumber(result[0])).toString(10);
-			else token.mintRate = ZERO;
+			else token.mintRate = '0';
 		};
 
 		this.calcMintAmount(token, token.scale(new BigNumber(1)), callback);
@@ -86,7 +109,7 @@ class IbBTCStore {
 	fetchRedeemRate = action((token: TokenModel): void => {
 		const callback = (err: any, result: any): void => {
 			if (!err) token.redeemRate = token.unscale(new BigNumber(result[0])).toString(10);
-			else token.redeemRate = ZERO;
+			else token.redeemRate = '0';
 		};
 
 		this.calcRedeemAmount(token, token.scale(new BigNumber(1)), callback);
@@ -164,15 +187,9 @@ class IbBTCStore {
 	);
 
 	mint = action((inToken: TokenModel, amount: BigNumber, callback: (err: any, result: any) => void) => {
-		const { queueNotification, setTxStatus } = this.store.uiState;
-		const { connectedAddress } = this.store.wallet;
+		const { setTxStatus } = this.store.uiState;
 
-		if (!connectedAddress) return queueNotification('Please connect a wallet', 'error');
-
-		if (!amount || amount.isNaN() || amount.lte(0))
-			return queueNotification('Please enter a valid amount', 'error');
-		if (amount.gt(inToken.balance))
-			return queueNotification(`You have insufficient balance of ${inToken.symbol}`, 'error');
+		if (!this.validate(amount, inToken)) return;
 
 		const methodSeries: any = [];
 		async.parallel(
@@ -193,10 +210,13 @@ class IbBTCStore {
 			},
 		);
 	});
+
 	calcMintAmount = action(
 		async (inToken: TokenModel, amount: BigNumber, callback: (err: any, result: any) => void) => {
 			const { queueNotification } = this.store.uiState;
 			const { provider } = this.store.wallet;
+
+			if (!provider) return queueNotification('Please connect a wallet', 'error');
 
 			const web3 = new Web3(provider);
 			const peakContract = new web3.eth.Contract(BadgerBtcPeak.abi as AbiItem[], this.config.contracts.peak);
@@ -245,14 +265,7 @@ class IbBTCStore {
 	});
 
 	redeem = action((outToken: TokenModel, amount: BigNumber, callback: (err: any, result: any) => void) => {
-		const { queueNotification } = this.store.uiState;
-		const { connectedAddress } = this.store.wallet;
-
-		if (!connectedAddress) return queueNotification('Please connect a wallet', 'error');
-		if (!amount || amount.isNaN() || amount.lte(0))
-			return queueNotification('Please enter a valid amount', 'error');
-		if (amount.gt(this.ibBTC.balance))
-			return queueNotification(`You have insufficient balance of ${this.ibBTC.symbol}`, 'error');
+		if (!this.validate(amount, this.ibBTC)) return;
 
 		this.redeemBBTC(outToken, amount, callback);
 	});
@@ -261,6 +274,8 @@ class IbBTCStore {
 		async (outToken: TokenModel, amount: BigNumber, callback: (err: any, result: any) => void) => {
 			const { queueNotification } = this.store.uiState;
 			const { provider } = this.store.wallet;
+
+			if (!provider) return queueNotification('Please connect a wallet', 'error');
 
 			const web3 = new Web3(provider);
 			const peakContract = new web3.eth.Contract(BadgerBtcPeak.abi as AbiItem[], this.config.contracts.peak);

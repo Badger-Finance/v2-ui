@@ -155,8 +155,8 @@ export class TokenModel extends Contract {
 	public decimals: number;
 	public balance: BigNumber;
 	public poolId?: number | undefined;
-	public mintRate: BigNumber | string;
-	public redeemRate: BigNumber | string;
+	public mintRate: string;
+	public redeemRate: string;
 
 	constructor(store: RootStore, data: TokenConfig) {
 		super(store, Web3.utils.toChecksumAddress(data.address));
@@ -168,8 +168,8 @@ export class TokenModel extends Contract {
 		// This will be fetched and set at initialization using 1 unit of mint and redeem
 		// to show current conversion rate from token to ibBTC and from ibBTC to token
 		// by fetchConversionRates()
-		this.mintRate = '0.999';
-		this.redeemRate = '0.999';
+		this.mintRate = '0';
+		this.redeemRate = '0';
 	}
 
 	public get formattedBalance(): string {
@@ -200,7 +200,7 @@ interface TokenConfig {
 	decimals: number;
 	poolId?: number | undefined;
 	mintRate?: BigNumber | string;
-	redeemRate?: BigNumber | string;
+	redeemRate?: string;
 }
 
 export interface Growth {

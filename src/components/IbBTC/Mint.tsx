@@ -2,8 +2,9 @@ import React, { useContext, useState } from 'react';
 import { Container, Button, Typography } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
 
+import { debounce } from 'utils/componentHelpers';
 import { ZERO } from 'config/constants';
-import { commonStyles, debounce } from './index';
+import { commonStyles } from './index';
 import { BigNumber } from 'bignumber.js';
 import { Tokens } from './Tokens';
 import { DownArrow } from './DownArrow';
@@ -24,15 +25,15 @@ export const Mint = observer((): any => {
 	const [selectedToken, setSelectedToken] = useState<TokenModel>(tokens[0]);
 	const [inputAmount, setInputAmount] = useState<string>();
 	const [outputAmount, setOutputAmount] = useState<string>();
-	const initialFee = (1 - parseFloat(selectedToken.mintRate && selectedToken.mintRate.toString())).toFixed(3);
+	const initialFee = (1 - parseFloat(selectedToken.mintRate)).toFixed(3);
 	const [fee, setFee] = useState<string>(initialFee);
 	const conversionRate =
 		outputAmount && inputAmount
 			? (
-					parseFloat(outputAmount.toString() || selectedToken.mintRate.toString()) /
+					parseFloat(outputAmount.toString() || selectedToken.mintRate) /
 					parseFloat(inputAmount.toString() || '1')
 			  ).toFixed(4)
-			: (parseFloat(selectedToken.mintRate.toString()) / 1).toFixed(4);
+			: (parseFloat(selectedToken.mintRate) / 1).toFixed(4);
 
 	const _debouncedSetInputAmount = debounce(600, async (val) => {
 		setInputAmount(val);
@@ -58,8 +59,9 @@ export const Mint = observer((): any => {
 	};
 
 	const handleTokenSelection = (event: any) => {
-		const token = tokens.find((token: TokenModel) => token.symbol === event?.target?.value);
-		setSelectedToken(token || tokens[0]);
+		const token = tokens.find((token: TokenModel) => token.symbol === event?.target?.value) || tokens[0];
+		setSelectedToken(token);
+		if (inputAmount) store.ibBTCStore.calcMintAmount(token, token.scale(inputAmount), handleCalcOutputAmount);
 	};
 
 	const resetState = () => {
@@ -145,7 +147,13 @@ export const Mint = observer((): any => {
 				</div>
 			</div>
 			<div className={classes.outerWrapper}>
-				<Button size="large" variant="contained" color="primary" onClick={handleMintClick}>
+				<Button
+					size="large"
+					variant="contained"
+					color="primary"
+					onClick={handleMintClick}
+					disabled={!inputAmount}
+				>
 					MINT
 				</Button>
 			</div>
