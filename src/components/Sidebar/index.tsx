@@ -178,7 +178,11 @@ export const Sidebar = observer(() => {
 						onClick={() => goTo(views.airdrops)}
 					>
 						<ListItemIcon>
-							<img alt="Badger Airdrop Icon" src={'assets/sidebar/airdrop.png'} className={classes.icon} />
+							<img
+								alt="Badger Airdrop Icon"
+								src={'assets/sidebar/airdrop.png'}
+								className={classes.icon}
+							/>
 						</ListItemIcon>
 						<ListItemText primary="Airdrops" />
 					</ListItem>
@@ -190,7 +194,11 @@ export const Sidebar = observer(() => {
 						onClick={() => goTo(views.digg)}
 					>
 						<ListItemIcon>
-							<img alt="Badger Digg Icon" src={'assets/sidebar/digg-white.png'} className={classes.icon} />
+							<img
+								alt="Badger Digg Icon"
+								src={'assets/sidebar/digg-white.png'}
+								className={classes.icon}
+							/>
 						</ListItemIcon>
 						<ListItemText primary="Digg" />
 					</ListItem>
