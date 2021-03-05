@@ -13,6 +13,8 @@ import { Digg } from '../components/Digg';
 import { Locked } from 'components/Common/Locked';
 import { IbBTC } from 'components/IbBTC';
 
+import { IBBTC_FLAG } from 'config/constants';
+
 const routes = {
 	locked: new Route<RootStore>({
 		path: '/locked',
@@ -69,7 +71,7 @@ const routes = {
 	}),
 	IbBTC: new Route<RootStore, QueryParams>({
 		path: '/ibBTC',
-		component: <IbBTC />,
+		component: IBBTC_FLAG ? <IbBTC /> : <div></div>,
 		onEnter: (_, params, store) => {
 			//
 		},

@@ -8,7 +8,6 @@ import RewardsStore from './stores/rewardsStore';
 import IbBTCStore from './stores/ibBTCStore';
 import SettStore from './stores/settStore';
 
-
 export class RootStore {
 	public router: RouterStore<RootStore>;
 	public wallet: WalletStore;

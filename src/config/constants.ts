@@ -33,3 +33,4 @@ export const CLAIMS_SYMBOLS = {
 export const ZERO = new BigNumber(0);
 export const TEN = new BigNumber(10);
 export const MAX = Web3.utils.toTwosComplement(-1);
+export const IBBTC_FLAG = process.env.IBBTC_FLAG;
