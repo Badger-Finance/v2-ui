@@ -100,7 +100,7 @@ export class ClawStore {
 		});
 
 		observe(this.store.wallet, 'connectedAddress', () => {
-			// if (this.sponsorInformation.length === 0) this.fetchSponsorData();
+			if (this.sponsorInformation.length === 0 && !this.isLoading) this.fetchSponsorData();
 		});
 
 		if (this.syntheticsData.length === 0) this.fetchSyntheticsData();
@@ -115,6 +115,7 @@ export class ClawStore {
 			this.collaterals = reduceCollaterals(this);
 			this.eclawsByCollateral = reduceEclawByCollateral(this);
 			this.eClaws = reduceEclaws();
+			if (this.store.wallet && this.sponsorInformation.length === 0) await this.fetchSponsorData();
 		} catch (error) {
 			console.log(error);
 		} finally {
