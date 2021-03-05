@@ -8,9 +8,7 @@ import { abi as bBadgerAirdropAbi } from './abis/bBadgerAidrop.json';
 import { AirdropsConfig } from '../../mobx/model';
 
 export const airdropEndpoint = `${
-	process.env.NODE_ENV !== 'production'
-		? 'https://laiv44udi0.execute-api.us-west-1.amazonaws.com/staging'
-		: 'https://2k2ccquid1.execute-api.us-west-1.amazonaws.com/prod'
+	process.env.NODE_ENV !== 'production' ? 'https://staging-api.badger.finance' : 'https://api.badger.finance'
 }/v2/reward`;
 
 const nativeBadger = sett_system.vaults['native.badger'];
