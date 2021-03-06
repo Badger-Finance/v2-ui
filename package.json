@@ -21,6 +21,7 @@
 		"d3-scale": "^3.2.3",
 		"d3-shape": "^2.0.0",
 		"d3-time-format": "^3.0.0",
+		"dayjs": "^1.10.4",
 		"director": "1.2.8",
 		"firebase": "^8.2.3",
 		"lodash": "^4.17.20",
