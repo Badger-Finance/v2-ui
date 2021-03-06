@@ -100,22 +100,30 @@ export class ClawStore {
 		});
 
 		observe(this.store.wallet, 'connectedAddress', () => {
-			if (this.sponsorInformation.length === 0 && !this.isLoading) this.fetchSponsorData();
+			if (this.store.wallet.connectedAddress && this.sponsorInformation.length === 0 && !this.isLoading) {
+				this.fetchSponsorData();
+			}
 		});
 
-		if (this.syntheticsData.length === 0) this.fetchSyntheticsData();
+		if (this.syntheticsData.length === 0) this.fetchData();
 	}
+
+	fetchData = action(async () => {
+		const isSponsorInformationEmpty = this.sponsorInformation.length === 0;
+		const isWalletConnected = !!this.store.wallet.connectedAddress;
+		await this.fetchSyntheticsData();
+		if (isWalletConnected && isSponsorInformationEmpty) await this.fetchSponsorData();
+	});
 
 	fetchSyntheticsData = action(async () => {
 		try {
 			this.isLoading = true;
-			console.log('== FETCHING HERE ==');
+			console.log('== FETCHING SYNTHETICS ==');
 			this.syntheticsData = await this.fetchEmps();
 			this.syntheticsDataByEMP = reduceSyntheticsData(this);
 			this.collaterals = reduceCollaterals(this);
 			this.eclawsByCollateral = reduceEclawByCollateral(this);
 			this.eClaws = reduceEclaws();
-			if (this.store.wallet && this.sponsorInformation.length === 0) await this.fetchSponsorData();
 		} catch (error) {
 			console.log(error);
 		} finally {
@@ -127,7 +135,7 @@ export class ClawStore {
 		const { connectedAddress } = this.store.wallet;
 		try {
 			this.isLoading = true;
-			console.log('== FETCHING HERE 2==');
+			console.log('== FETCHING SPONSOR DATA ==');
 			this.sponsorInformation = await Promise.all(
 				EMPS_ADDRESSES.map((synthetic) => getClawEmpSponsor(synthetic, connectedAddress)),
 			);
