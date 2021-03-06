@@ -1,7 +1,17 @@
 import React, { FC, useContext, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from 'mobx/store-context';
-import { Tab, Card, Tabs, CardContent, Container, Grid, Switch, FormControlLabel } from '@material-ui/core';
+import {
+	Tab,
+	Card,
+	Tabs,
+	CardContent,
+	Container,
+	Grid,
+	Switch,
+	FormControlLabel,
+	CircularProgress,
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Hero from 'components/Common/Hero';
 import Mint from './Mint';
@@ -51,6 +61,10 @@ export const useMainStyles = makeStyles((theme) => ({
 			width: '100%',
 		},
 	},
+	loader: {
+		textAlign: 'center',
+		padding: theme.spacing(20, 0),
+	},
 }));
 
 export const Claws: FC = observer(() => {
@@ -61,7 +75,14 @@ export const Claws: FC = observer(() => {
 	const [globalData, setGlobalData] = useState(false);
 
 	const Content = () => {
-		if (isLoading) return <Loader />;
+		if (isLoading) {
+			return (
+				<Container className={classes.loader}>
+					<CircularProgress />
+				</Container>
+			);
+		}
+
 		switch (activeTab) {
 			case TABS.REDEEM:
 				return <Redeem />;
