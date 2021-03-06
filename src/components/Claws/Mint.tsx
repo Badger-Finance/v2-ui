@@ -1,36 +1,80 @@
-import React, { FC, useMemo, useState } from 'react';
+import React, { FC, useMemo, useState, useContext } from 'react';
 import { Grid, Box, Button } from '@material-ui/core';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
 import { observer } from 'mobx-react-lite';
-import { useContext } from 'react';
 import { StoreContext } from 'mobx/store-context';
 import ClawParams, { ClawParam } from './ClawParams';
 import { useMainStyles } from './index';
 import ClawLabel from './ClawLabel';
 import ClawDetails from './ClawDetails';
 import BigNumber from 'bignumber.js';
+import { ConnectWalletButton } from './ConnectWalletButton';
+
+dayjs.extend(utc);
+
+const defaultDetails = {
+	'Collateral Ratio - Global': '-',
+	'Collateral Ratio - Minimum': '-',
+	'Collateral Ratio - Current': `-`,
+	Expiration: '-',
+	'Minimum Mint': '-',
+};
 
 export const Mint: FC = observer(() => {
+	console.time('render mint');
 	const { claw: store, contracts, wallet } = useContext(StoreContext);
 	const { collaterals, eclawsByCollateral, syntheticsDataByEMP } = store;
-	const { tokens } = contracts;
 	const classes = useMainStyles();
 	const [collateral, setCollateral] = useState<ClawParam>({});
 	const [mintable, setMintable] = useState<ClawParam>({});
-	const collateralToken = collateral.selectedOption && tokens[collateral.selectedOption];
+	const collateralToken = contracts.tokens[collateral.selectedOption || ''];
 
 	const maxEclaw = useMemo(() => {
-		const synthetics = mintable.selectedOption && syntheticsDataByEMP.get(mintable.selectedOption);
+		const synthetics = syntheticsDataByEMP.get(mintable.selectedOption || '');
 		if (!synthetics || !collateral.amount) return;
 
 		const { globalCollateralizationRatio, cumulativeFeeMultiplier, collateralRequirement } = synthetics;
 		const collateralAmount = new BigNumber(collateral.amount);
+
+		// Btw, for using min collateral ratio as initial GCR - we can't actually do that in practice since there's no defined price relationship between collateral < -> synthetic tokens.
+		// It's fine for testing but we'll need to remove that logic before release and set the starting GCR by an initial mint(to start the GCR above 1.2x based on current price at launch
 		const ratio = globalCollateralizationRatio.isZero() ? collateralRequirement : globalCollateralizationRatio;
 
 		return collateralAmount.multipliedBy(cumulativeFeeMultiplier).dividedBy(ratio);
 	}, [collateral.amount, mintable.selectedOption, syntheticsDataByEMP]);
 
-	const walletNotConnected = (!tokens || !wallet.connectedAddress) && 'Connect Wallet';
-	const error = walletNotConnected || collateral.error || mintable.error;
+	const mintDetails = useMemo(() => {
+		const synthetics = syntheticsDataByEMP.get(mintable.selectedOption || '');
+		if (!synthetics || !collateralToken) return defaultDetails;
+
+		const {
+			globalCollateralizationRatio,
+			minSponsorTokens,
+			collateralRequirement,
+			expirationTimestamp,
+		} = synthetics;
+		const precision = 10 ** collateralToken.decimals;
+
+		return {
+			'Liquidation Price': '1.000 (Still Hardcoded)',
+			'Collateral Ratio - Global': `${globalCollateralizationRatio.dividedBy(precision).toString()}x`,
+			'Collateral Ratio - Minimum': `${collateralRequirement.dividedBy(precision).toString()}x`,
+			'Collateral Ratio - Current': `4x (Still Hardcoded)`,
+			Expiration: `${dayjs(new Date(expirationTimestamp.toNumber() * 1000))
+				.utc()
+				.format('MMMM DD, YYYY HH:mm')} UTC`,
+			'Minimum Mint': `${minSponsorTokens.dividedBy(precision).toString()} eCLAW`,
+		};
+	}, [mintable.selectedOption, collateralToken]);
+
+	const noCollateral = !collateral.selectedOption && 'Select a Collateral Token';
+	const noCollateralAmount = !collateral.amount && 'Enter collateral amount';
+	const noMintable = !mintable.selectedOption && 'Select a Mintable eCLAW';
+	const noMintableAmount = !mintable.amount && 'Enter amount to mint';
+
+	const error =
+		collateral.error || mintable.error || noCollateral || noCollateralAmount || noMintable || noMintableAmount;
 
 	return (
 		<Grid container>
@@ -73,9 +117,11 @@ export const Mint: FC = observer(() => {
 								setCollateral({
 									...collateral,
 									selectedOption,
+									amount: undefined,
 								});
 							}}
 							onApplyPercentage={(percentage: number) => {
+								if (!collateralToken) return;
 								setCollateral({
 									...collateral,
 									amount: collateralToken?.balance
@@ -124,12 +170,12 @@ export const Mint: FC = observer(() => {
 						onOptionChange={(selectedOption: string) => {
 							setMintable({
 								...mintable,
+								amount: undefined,
 								selectedOption,
 							});
 						}}
 						onApplyPercentage={(percentage: number) => {
-							if (!maxEclaw) return;
-							console.log({ maxEclaw: maxEclaw.multipliedBy(percentage / 100).toString() });
+							if (!maxEclaw || !collateralToken) return;
 							setMintable({
 								...mintable,
 								amount: maxEclaw
@@ -142,29 +188,24 @@ export const Mint: FC = observer(() => {
 			</Grid>
 			<Grid item xs={12}>
 				<Grid container className={classes.details}>
-					<ClawDetails
-						details={[
-							{ 'Liquidation Price': '1.000' },
-							{ 'Collateral Ratio - Global': '1.2x' },
-							{ 'Collateral Ratio - Minimum': '1.2x' },
-							{ 'Collateral Ratio - Current': '4x' },
-							{ 'Expiration 4x': 'Feb 29th, 2021' },
-							{ 'Minimum Mint': '100 eCLAW' },
-						]}
-					/>
+					<ClawDetails details={mintDetails} />
 				</Grid>
 			</Grid>
 			<Grid item xs={12}>
 				<Grid container>
-					<Button
-						color="primary"
-						variant="contained"
-						disabled={!!error || !collateral.selectedOption || !mintable.selectedOption}
-						size="large"
-						className={classes.button}
-					>
-						{error ? error : 'MINT'}
-					</Button>
+					{!wallet.connectedAddress ? (
+						<ConnectWalletButton />
+					) : (
+						<Button
+							color="primary"
+							variant="contained"
+							disabled={!!error || !collateral.selectedOption || !mintable.selectedOption}
+							size="large"
+							className={classes.button}
+						>
+							{error ? error : 'MINT'}
+						</Button>
+					)}
 				</Grid>
 			</Grid>
 		</Grid>

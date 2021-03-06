@@ -1,22 +1,79 @@
-import React, { FC, useContext, useState } from 'react';
+import React, { FC, useContext, useMemo, useState } from 'react';
 import { Box, Button, Container, Grid, MenuItem, Select } from '@material-ui/core';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
 import { useMainStyles } from './index';
 import ClawParams, { ClawParam } from './ClawParams';
 import ClawLabel from './ClawLabel';
 import ClawDetails from './ClawDetails';
 import { StoreContext } from 'mobx/store-context';
 import BigNumber from 'bignumber.js';
+import { ConnectWalletButton } from './ConnectWalletButton';
+
+dayjs.extend(utc);
+
+const defaultWithdrawalDetails = {
+	'Withdraw Speed': '-',
+	'Collateral Ratio - Global': '-',
+	'Collateral Ratio - Minimum': '-',
+	'Collateral Ratio - Current': '-',
+	Expiration: '-',
+	'Minimum Deposit': '-',
+};
+
+const defaultDepositDetails = {
+	'Liquidation Price': '-',
+	'Collateral Ratio - Global': '-',
+	'Collateral Ratio - Minimum': '-',
+	'Collateral Ratio - Current': '-',
+	Expiration: '-',
+	'Minimum Deposit': '-',
+};
 
 const Manage: FC = () => {
 	const { claw: store, contracts, wallet } = useContext(StoreContext);
 	const { collaterals, eClaws, syntheticsDataByEMP } = store;
-	const { tokens } = contracts;
 	const classes = useMainStyles();
 	const [mode, setMode] = useState<'deposit' | 'withdraw'>('deposit');
-	const [manageParams, setManageParams] = useState<ClawParam>({});
+	const [{ selectedOption, amount, error: paramError }, setManageParams] = useState<ClawParam>({});
+	const selectedSynthetic = syntheticsDataByEMP.get(selectedOption || '');
+	const bToken = contracts.tokens[selectedSynthetic?.collateralCurrency.toLocaleLowerCase() ?? ''];
 
-	const selectedSynthetic = syntheticsDataByEMP.get(manageParams.selectedOption || '');
-	const token = selectedSynthetic && tokens[selectedSynthetic.collateralCurrency.toLocaleLowerCase()];
+	const details = useMemo(() => {
+		const isWithdraw = mode === 'withdraw';
+		const synthetics = syntheticsDataByEMP.get(selectedOption || '');
+
+		if (!synthetics || !bToken) return isWithdraw ? defaultWithdrawalDetails : defaultDepositDetails;
+
+		const {
+			globalCollateralizationRatio,
+			minSponsorTokens,
+			collateralRequirement,
+			expirationTimestamp,
+		} = synthetics;
+		const precision = 10 ** bToken.decimals;
+
+		const modeSpecificStats = {
+			[isWithdraw ? 'Withdraw Speed' : 'Liquidation Price']: isWithdraw
+				? 'Instant (Still Hardcoded)'
+				: '1.000 (Still Hardcoded)',
+		};
+
+		return {
+			...modeSpecificStats,
+			'Collateral Ratio - Global': `${globalCollateralizationRatio.dividedBy(precision).toString()}x`,
+			'Collateral Ratio - Minimum': `${collateralRequirement.dividedBy(precision).toString()}x`,
+			'Collateral Ratio - Current': `4x (Still Hardcoded)`,
+			Expiration: `${dayjs(new Date(expirationTimestamp.toNumber() * 1000))
+				.utc()
+				.format('MMMM DD, YYYY HH:mm')} UTC`,
+			'Minimum Mint': `${minSponsorTokens.dividedBy(precision).toString()} eCLAW`,
+		};
+	}, [mode, selectedOption]);
+
+	const noTokenError = !selectedOption && 'Select a Token';
+	const amountError = !amount && 'Enter an amount';
+	const error = noTokenError || amountError;
 
 	return (
 		<Container>
@@ -47,25 +104,25 @@ const Manage: FC = () => {
 					<Grid item xs={12}>
 						<ClawLabel
 							name="Token"
-							balanceLabel={token && `Available ${collaterals.get(token.address)}: `}
-							balance={token?.balance
-								.dividedBy(10 ** token.decimals)
-								.toFixed(token.decimals, BigNumber.ROUND_DOWN)}
+							balanceLabel={bToken && `Available ${collaterals.get(bToken.address)}: `}
+							balance={bToken?.balance
+								.dividedBy(10 ** bToken.decimals)
+								.toFixed(bToken.decimals, BigNumber.ROUND_DOWN)}
 						/>
 					</Grid>
 				</Box>
 				<Grid item xs={12}>
 					<ClawParams
 						options={eClaws}
-						referenceBalance={token?.balance.dividedBy(10 ** token.decimals)}
+						referenceBalance={bToken?.balance.dividedBy(10 ** bToken.decimals)}
 						placeholder="Select Token"
-						amount={manageParams.amount}
-						selectedOption={manageParams.selectedOption}
-						disabledAmount={!manageParams.selectedOption}
+						amount={amount}
+						selectedOption={selectedOption}
+						disabledAmount={!selectedOption}
 						onAmountChange={(amount: string, error?: boolean) => {
-							const collateralName = token ? collaterals.get(token.address) : 'collateral token';
+							const collateralName = bToken ? collaterals.get(bToken.address) : 'collateral token';
 							setManageParams({
-								...manageParams,
+								selectedOption,
 								amount,
 								error: error ? `Amount exceeds ${collateralName} balance` : undefined,
 							});
@@ -77,40 +134,36 @@ const Manage: FC = () => {
 						}}
 						onApplyPercentage={(percentage: number) => {
 							setManageParams({
-								...manageParams,
-								amount: token?.balance
+								selectedOption,
+								error: paramError,
+								amount: bToken?.balance
 									.multipliedBy(percentage / 100)
-									.dividedBy(10 ** token.decimals)
-									.toFixed(token.decimals, BigNumber.ROUND_DOWN),
+									.dividedBy(10 ** bToken.decimals)
+									.toFixed(bToken.decimals, BigNumber.ROUND_DOWN),
 							});
 						}}
 					/>
 				</Grid>
 				<Grid item xs={12}>
 					<Grid container className={classes.details}>
-						<ClawDetails
-							details={[
-								{ 'Liquidation Price': '1.000' },
-								{ 'Collateral Ratio - Global': '1.2x' },
-								{ 'Collateral Ratio - Minimum': '1.2x' },
-								{ 'Collateral Ratio - Current': '4x' },
-								{ 'Expiration 4x': 'Feb 29th, 2021' },
-								{ 'Minimum Deposit': '100 eCLAW' },
-							]}
-						/>
+						<ClawDetails details={details} />
 					</Grid>
 				</Grid>
 				<Grid item xs={12}>
 					<Grid container>
-						<Button
-							color="primary"
-							variant="contained"
-							disabled={!!manageParams.error || !manageParams.selectedOption}
-							size="large"
-							className={classes.button}
-						>
-							{manageParams.error ? manageParams.error : mode.toLocaleUpperCase()}
-						</Button>
+						{!wallet.connectedAddress ? (
+							<ConnectWalletButton />
+						) : (
+							<Button
+								color="primary"
+								variant="contained"
+								disabled={!!error}
+								size="large"
+								className={classes.button}
+							>
+								{error ? error : mode.toLocaleUpperCase()}
+							</Button>
+						)}
 					</Grid>
 				</Grid>
 			</Grid>
