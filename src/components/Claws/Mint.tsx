@@ -94,6 +94,7 @@ export const Mint: FC = observer(() => {
 						</Grid>
 					</Box>
 					<Grid item xs={12}>
+						//TODO: add validation in Minimum Mint
 						<ClawParams
 							referenceBalance={collateralToken?.balance.dividedBy(10 ** collateralToken.decimals)}
 							placeholder="Select Token"
