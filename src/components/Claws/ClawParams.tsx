@@ -80,15 +80,11 @@ export const ClawParams: FC<Props> = ({
 
 	const handleAmountChange = (event: React.ChangeEvent<{ value: unknown }>) => {
 		const input = event.target.value as string;
-		const isValidChange = isValidAmountChange(input);
-
-		if (!isValidChange) {
-			return;
-		}
+		if (!isValidAmountChange(input)) return;
 
 		const amount = new BigNumber(input);
 		const amountExceedsBalance = referenceBalance.lt(amount);
-		onAmountChange(sanitizeValue(event.target.value as string), amountExceedsBalance);
+		onAmountChange(sanitizeValue(input), amountExceedsBalance);
 	};
 
 	return (
