@@ -17,16 +17,14 @@ describe('CurrencyPicker', () => {
 		expect(container).toMatchSnapshot();
 	});
 	test('Opens menu upon click', async () => {
-		const defaultCurrency = 'USD';
 		render(
 			<StoreProvider value={testStore}>
 				<CurrencyPicker />
 			</StoreProvider>,
 		);
 		await act(async () => {
-			await fireEvent.mouseDown(screen.getByText(defaultCurrency));
+			await fireEvent.mouseDown(screen.getByRole('button'));
 		});
-		const opennedMenu = await screen.getByRole('presentation');
-		expect(opennedMenu).toMatchSnapshot();
+		expect(await screen.getByRole('presentation')).toMatchSnapshot();
 	});
 });

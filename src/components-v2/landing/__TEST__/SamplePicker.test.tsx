@@ -6,7 +6,6 @@ import { StoreProvider } from '../../../mobx/store-context';
 import store from '../../../mobx/store';
 
 describe('SamplePicker', () => {
-	const defaultPeriod = 'YEAR';
 	const testStore = store;
 
 	test('Renders correctly', () => {
@@ -25,9 +24,8 @@ describe('SamplePicker', () => {
 			</StoreProvider>,
 		);
 		act(() => {
-			fireEvent.mouseDown(screen.getByText(defaultPeriod));
+			fireEvent.mouseDown(screen.getByRole('button'));
 		});
-		const menu = await screen.findByRole('presentation');
-		expect(menu).toMatchSnapshot();
+		expect(await screen.findByRole('presentation')).toMatchSnapshot();
 	});
 });

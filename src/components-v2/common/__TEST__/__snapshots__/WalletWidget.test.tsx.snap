@@ -27,26 +27,37 @@ exports[`WalletWidget Connected address is properly displayed 1`] = `
 `;
 
 exports[`WalletWidget Opens wallet menu upon click 1`] = `
-<h3
-  class="bn-onboard-custom bn-onboard-modal-content-header-heading svelte-8i8o6j"
+<span
+  class="svelte-1skxsnk"
 >
-  Connect to BadgerDAO
-</h3>
+  MetaMask
+   
+</span>
 `;
 
 exports[`WalletWidget Opens wallet menu upon click 2`] = `
-<p
-  class="bn-onboard-custom bn-onboard-select-description svelte-rj3fpa"
+<span
+  class="svelte-1skxsnk"
 >
-  Deposit & Earn on your Bitcoin
-</p>
+  Ledger
+   
+</span>
 `;
 
 exports[`WalletWidget Opens wallet menu upon click 3`] = `
 <span
   class="svelte-1skxsnk"
 >
-  MetaMask
+  WalletConnect
+   
+</span>
+`;
+
+exports[`WalletWidget Opens wallet menu upon click 4`] = `
+<span
+  class="svelte-1skxsnk"
+>
+  WalletLink
    
 </span>
 `;
