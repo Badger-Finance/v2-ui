@@ -1,11 +1,16 @@
 import React, { FC, useContext, useMemo, useState } from 'react';
 import { Box, Button, Grid, InputBase, makeStyles, Typography } from '@material-ui/core';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
 import ClawParams, { ClawParam } from './ClawParams';
 import { useMainStyles } from './index';
 import ClawLabel from './ClawLabel';
 import ClawDetails from './ClawDetails';
 import { StoreContext } from 'mobx/store-context';
 import BigNumber from 'bignumber.js';
+import { ConnectWalletButton } from './ConnectWalletButton';
+
+dayjs.extend(utc);
 
 const useStyles = makeStyles((theme) => ({
 	border: {
@@ -28,16 +33,20 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
+const defaultDetails = {
+	'Expiration Date': '-',
+	'Expiration Price': '-',
+};
+
 const Redeem: FC = () => {
-	const { claw: store, contracts } = useContext(StoreContext);
+	const { claw: store, contracts, wallet } = useContext(StoreContext);
 	const { collaterals, eClaws, syntheticsDataByEMP, sponsorInformationByEMP } = store;
-	const { tokens } = contracts;
 	const mainClasses = useMainStyles();
 	const classes = useStyles();
-	const [{ selectedOption, amount, error }, setRedeemParams] = useState<ClawParam>({});
+	const [{ selectedOption, amount, error: redeemError }, setRedeemParams] = useState<ClawParam>({});
 
 	const amountToReceive = useMemo(() => {
-		const synthetic = selectedOption && syntheticsDataByEMP.get(selectedOption);
+		const synthetic = syntheticsDataByEMP.get(selectedOption || '');
 		const userEmpInformation = sponsorInformationByEMP.get(selectedOption || '');
 		if (!amount || !userEmpInformation || !synthetic) return;
 
@@ -48,14 +57,28 @@ const Redeem: FC = () => {
 		return fractionRedeemed.multipliedBy(feeAdjustedCollateral);
 	}, [amount, selectedOption, sponsorInformationByEMP, syntheticsDataByEMP]);
 
-	const selectedSynthetic = selectedOption && syntheticsDataByEMP.get(selectedOption);
-	const userEclawBalance = sponsorInformationByEMP.get(selectedOption || '')?.position.tokensOutstanding;
-	const token = selectedSynthetic && tokens[selectedSynthetic.collateralCurrency.toLocaleLowerCase()];
+	const selectedSynthetic = syntheticsDataByEMP.get(selectedOption || '');
+	const bToken = contracts.tokens[selectedSynthetic?.collateralCurrency.toLocaleLowerCase() ?? ''];
+	const eclawBalance = sponsorInformationByEMP.get(selectedOption || '')?.position.tokensOutstanding;
 
-	console.log({
-		selectedOption,
-		amountToReceive,
-	});
+	const details = useMemo(() => {
+		const synthetics = syntheticsDataByEMP.get(selectedOption || '');
+		if (!synthetics || !bToken) return defaultDetails;
+
+		const { expirationTimestamp } = synthetics;
+		const formattedDate = dayjs(new Date(expirationTimestamp.toNumber() * 1000))
+			.utc()
+			.format('MMMM DD, YYYY HH:mm');
+
+		return {
+			'Expiration Date': `${formattedDate} UTC`,
+			'Expiration Price': `1 ${collaterals.get(bToken.address)} = .000001 wBTCWethSLP (Still Hardcoded)`,
+		};
+	}, [selectedOption, bToken, collaterals]);
+
+	const tokenError = !bToken && 'Select a token';
+	const amountError = !amount && 'Enter an amount';
+	const error = tokenError || amountError || redeemError;
 
 	return (
 		<Grid container>
@@ -66,12 +89,12 @@ const Redeem: FC = () => {
 							<ClawLabel
 								name="Token"
 								balanceLabel={selectedOption && `Available ${eClaws.get(selectedOption)}:`}
-								balance={userEclawBalance?.toString()}
+								balance={selectedOption && (eclawBalance?.toString() ?? '0')}
 							/>
 						</Grid>
 					</Box>
 					<ClawParams
-						referenceBalance={userEclawBalance}
+						referenceBalance={eclawBalance}
 						options={eClaws}
 						placeholder="Select Token"
 						amount={amount}
@@ -79,7 +102,7 @@ const Redeem: FC = () => {
 							setRedeemParams({
 								selectedOption,
 								amount,
-								error: error ? `Amount exceeds ${selectedOption} balance` : undefined,
+								error: error ? `Insufficient Collateral` : undefined,
 							});
 						}}
 						selectedOption={selectedOption}
@@ -95,7 +118,7 @@ const Redeem: FC = () => {
 					/>
 				</Grid>
 			</Box>
-			{token && (
+			{bToken && (
 				<Box clone py={2}>
 					<Grid item xs={12} sm={8} className={classes.centered}>
 						<Box clone pb={1}>
@@ -108,10 +131,15 @@ const Redeem: FC = () => {
 								<Grid item xs={12}>
 									<Grid container alignItems="center" spacing={2} className={classes.selectContainer}>
 										<Grid item xs={12} sm={6}>
-											<Typography>{collaterals.get(token.address)}</Typography>
+											<Typography>{collaterals.get(bToken.address)}</Typography>
 										</Grid>
 										<Grid item xs={12} sm={6}>
-											<InputBase type="tel" disabled placeholder="0.00" value="" />
+											<InputBase
+												type="tel"
+												disabled
+												placeholder="0.00"
+												value={amountToReceive?.toString() ?? ''}
+											/>
 										</Grid>
 									</Grid>
 								</Grid>
@@ -122,25 +150,24 @@ const Redeem: FC = () => {
 			)}
 			<Grid item xs={12}>
 				<Grid container className={mainClasses.details}>
-					<ClawDetails
-						details={[
-							{ 'Expiration Date': 'Feb 29, 2021 8:00 UTC' },
-							{ 'Expiration Price': '1 eCLAW FEB29 = .000001 wBTCWethSLP' },
-						]}
-					/>
+					<ClawDetails details={details} />
 				</Grid>
 			</Grid>
 			<Grid item xs={12}>
 				<Grid container>
-					<Button
-						color="primary"
-						variant="contained"
-						disabled={!!error || !selectedOption}
-						size="large"
-						className={mainClasses.button}
-					>
-						{error ? error : 'REDEEM'}
-					</Button>
+					{!wallet.connectedAddress ? (
+						<ConnectWalletButton />
+					) : (
+						<Button
+							color="primary"
+							variant="contained"
+							disabled={!!error}
+							size="large"
+							className={mainClasses.button}
+						>
+							{error ? error : 'REDEEM'}
+						</Button>
+					)}
 				</Grid>
 			</Grid>
 		</Grid>
