@@ -8,7 +8,8 @@ export const RPC_URL = 'https://eth-mainnet.alchemyapi.io/v2/ZPhpI9buZLLAvjR44hr
 export const APP_NAME = 'badgerDAO';
 export const PORTIS_APP_ID = 'cbf7534d-170d-4903-943f-e607dc588b7f';
 
-export const WBTC_ADDRESS = '0x2260fac5e5542a773aa44fbcfedf7c193bc2c599';
+export const RENBTC_ADDRESS = '0xEB4C2781e4ebA804CE9a9803C67d0893436bB27D';
+export const WBTC_ADDRESS = '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599';
 export const XSUSHI_ADDRESS = '0x8798249c2e607446efb7ad49ec89dd1865ff4272';
 export const FARM_ADDRESS = '0xa0246c9032bC3A600820415aE600c6388619A14D';
 export const USDC_ADDRESS = '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48';
@@ -28,3 +29,9 @@ export const CLAIMS_SYMBOLS = {
 };
 
 // export const MIN_ETH_BALANCE = new BigNumber(0.01 * 1e18);
+export const BADGER_ADAPTER = require('config/system/abis/BadgerAdapter.json');
+export const CURVE_EXCHANGE = require('config/system/abis/CurveExchange.json');
+export const BTC_GATEWAY = require('config/system/abis/BtcGateway.json');
+
+export const CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS = "0x93054188d876f558f4a66B2EF1d97d16eDf0895B";
+export const RENVM_GATEWAY_ADDRESS = "0xe4b679400F0f267212D5D812B95f58C83243EE71";
