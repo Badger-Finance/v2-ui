@@ -29,7 +29,6 @@ export const ConfirmForm = (props: any) => {
 	const handleCheckbox = (event: any) => {
 		const name = event.target.name;
 		const value = event.target.checked;
-		console.log(name, value);
 		setAgreement((prevState) => ({
 			...prevState,
 			[name]: value,
@@ -90,10 +89,10 @@ export const ConfirmForm = (props: any) => {
 			{itemContainer('Destination', values.tabValue == 0 ? values.shortAddr : shortenAddress(values.btcAddr))}
 			{values.spacer}
 			<Grid item xs={12}>
-				{feeContainer('RenVM Fee', 
+				{feeContainer('RenVM Fee',
 								`RenVM takes a ${values.renvmMintFee * 100}% fee per mint transaction and ${
 									values.renvmBurnFee * 100
-								}% per burn transaction. This is shared evenly between all active nodes in the decentralized network.`, 
+								}% per burn transaction. This is shared evenly between all active nodes in the decentralized network.`,
 								`${values.renFee} BTC`)}
 				{feeContainer('Badger Fee',`Badger takes a ${values.badgerMintFee * 100}% fee per mint transaction and ${
 									values.badgerBurnFee * 100

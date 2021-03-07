@@ -22,10 +22,6 @@ export const ReleaseForm = (props: any) => {
 
 	const setAmount = (amount: any, token: any) => (event: any) => {
 		event.preventDefault();
-		// const Amount = parseFloat(amount);
-		// const amountWithFee = Amount - Amount * values.feeAmount;
-		// updateState("burnAmount", Amount);
-		// updateState("receiveAmount", amountWithFee);
 		updateState('token', token);
 		calcFees(amount, 'burnAmount');
 	};

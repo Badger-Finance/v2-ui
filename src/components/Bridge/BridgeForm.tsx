@@ -7,6 +7,7 @@ import async, { any } from 'async';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
 import { Grid, Tabs, Tab, FormControl, Select, MenuItem } from '@material-ui/core';
+import useInterval from '@use-it/interval';
 import { MintForm } from './MintForm';
 import { ReleaseForm } from './ReleaseForm';
 import { ConfirmForm } from './ConfirmForm';
@@ -31,6 +32,8 @@ import { bridge_system } from 'config/deployments/mainnet.json';
 const MIN_AMOUNT = 0.002;
 // SLIPPAGE_BUFFER increases estimated max slippage by 3%.
 const SLIPPAGE_BUFFER = 0.03;
+const MAX_BPS = 10000;
+const UPDATE_INTERVAL_SECONDS = 30 * 1000; // 30 seconds
 
 interface TabPanelProps {
 	children: any,
@@ -252,42 +255,42 @@ export const BridgeForm = observer((props: any) => {
 		});
 	}
 
-	const getFeesFromContract = () => {
+	const getFeesFromContract = async () => {
 		if (!connectedAddress) {
 			return;
 		}
-		adapterContract.methods
-			.burnFeeBps()
-			.call()
-			.then((result: number) => {
-				updateState('badgerBurnFee', result / 10000);
-			});
-		adapterContract.methods
-			.mintFeeBps()
-			.call()
-			.then((result: number) => {
-				updateState('badgerMintFee', result / 10000);
-			});
-		gatewayContract.methods
-			.burnFee()
-			.call()
-			.then((result: number) => {
-				updateState('renvmBurnFee', result / 10000);
-			});
-		gatewayContract.methods
-			.mintFee()
-			.call()
-			.then((result: number) => {
-				updateState('renvmMintFee', result / 10000);
-			});
+                const [
+                        badgerBurnFee,
+                        badgerMintFee,
+                        renvmBurnFee,
+                        renvmMintFee,
+                ] = (await Promise.all([
+                        adapterContract.methods.burnFeeBps().call(),
+                        adapterContract.methods.mintFeeBps().call(),
+                        gatewayContract.methods.burnFee().call(),
+                        gatewayContract.methods.mintFee().call(),
+                ])).map((result: number) => result / MAX_BPS);
+
+		setStates((prevState) => ({
+			...prevState,
+                        badgerBurnFee,
+                        badgerMintFee,
+                        renvmBurnFee,
+                        renvmMintFee,
+                }));
 	};
 
 	const updateBalance = async () => {
 		if (!connectedAddress) {
 			return;
 		}
-		const renbtc_Balance = await renbtcToken.methods.balanceOf(connectedAddress).call();
-		const wbtc_Balance = await wbtcToken.methods.balanceOf(connectedAddress).call();
+		const [
+                        renbtc_Balance,
+                        wbtc_Balance,
+                ] = await Promise.all([
+                        renbtcToken.methods.balanceOf(connectedAddress).call(),
+                        wbtcToken.methods.balanceOf(connectedAddress).call(),
+                ]);
 
 		setStates((prevState) => ({
 			...prevState,
@@ -319,10 +322,9 @@ export const BridgeForm = observer((props: any) => {
 		getBtcNetworkFees();
 		getFeesFromContract();
 		updateBalance();
-		setInterval(() => {
-			updateBalance();
-		}, 30 * 1000);
 	}, [connectedAddress, shortAddr]);
+
+        useInterval(updateBalance, UPDATE_INTERVAL_SECONDS);
 
 	const deposit = async () => {
 		const amountSats = new BigNumber(parseFloat(amount) * 10 ** 8); // Convert to Satoshis)
@@ -392,7 +394,7 @@ export const BridgeForm = observer((props: any) => {
 				})
 				.catch((error: any) => {
 					if (error.message !== 'Transfer cancelled by user') {
-						console.error(error.message);
+                                                queueNotification(`Mint failed: ${error.message}`, 'error');
 						return;
 					}
 					if (!trade) return;
@@ -410,8 +412,7 @@ export const BridgeForm = observer((props: any) => {
 				nextStep();
 			}
 		} catch (error) {
-			// Handle error
-			console.error(error);
+                        queueNotification(`Mint failed: ${error.message}`, 'error');
 		}
 	};
 
@@ -482,7 +483,6 @@ export const BridgeForm = observer((props: any) => {
 				contractFn: contractFn,
 				contractParams: params,
 				web3Provider: web3.currentProvider,
-				txConfig: { gas: 1000000 },
 			})
 			.result()
 			.on('status', async (status: any) => {
@@ -505,9 +505,8 @@ export const BridgeForm = observer((props: any) => {
 				}
 			})
 			.catch((error: any) => {
-				console.log(`[BURN ERROR] ${error}`);
 				if (error.message !== 'Transfer cancelled by user') {
-					console.error(error.message);
+                                        queueNotification(`Burn error ${error.message}`, 'error');
 					return;
 				}
 				if (!trade) return;
@@ -542,10 +541,10 @@ export const BridgeForm = observer((props: any) => {
 			}
 			const swapRatio = Number(swapResult / amountAfterFeesInSats.toNumber());
 
-			console.log(`swapResult ${swapResult} amount ${amountAfterFeesInSats} swapratio ${swapRatio}`);
 			if (swapRatio >= 1) return 0;
 			return 1 - swapRatio;
 		} catch (err) {
+                        queueNotification('WARNING: Failed to estimate slippage', 'error');
 			return 0;
 		}
 	};
@@ -560,7 +559,6 @@ export const BridgeForm = observer((props: any) => {
 		if (token === 'WBTC') {
 			estimatedSlippage = await getEstimatedSlippage(amountWithFee, name);
 		}
-		console.log('estimatedSlippage ->', estimatedSlippage);
 		setStates((prevState) => ({
 			...prevState,
 			[name]: inputAmount,
