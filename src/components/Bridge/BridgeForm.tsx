@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
+import BigNumber from 'bignumber.js';
 import PropTypes from 'prop-types';
 import GatewayJS from '@renproject/gateway';
 import Web3 from 'web3';
@@ -15,7 +16,6 @@ import { ResumeForm } from './ResumeForm';
 import renBTCLogo from '../../assets/icons/renBTC.svg';
 import WBTCLogo from '../../assets/icons/WBTC.svg';
 import BTCLogo from '../../assets/icons/btc.svg';
-import BigNumber from 'bignumber.js';
 import {
         ERC20,
         BADGER_ADAPTER,
@@ -25,9 +25,8 @@ import {
         RENBTC_ADDRESS,
         CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS,
         RENVM_GATEWAY_ADDRESS,
-        // TODO: This is just a placeholder address, configure real adapter address once deployed.
-        BADGER_BRIDGE_ADDRESS,
 } from '../../config/constants';
+import { bridge_system } from 'config/deployments/mainnet.json';
 
 const MIN_AMOUNT = 0.002;
 // SLIPPAGE_BUFFER increases estimated max slippage by 3%.
@@ -96,7 +95,7 @@ export const BridgeForm = observer((props: any) => {
 		token: 'renBTC',
 		renbtcBalance: 0,
 		wbtcBalance: 0,
-		bridgeAddress: BADGER_BRIDGE_ADDRESS,
+		bridgeAddress: bridge_system["adapter"],
 		shortAddr: '',
 		badgerBurnFee: 0,
 		badgerMintFee: 0,
