@@ -2,6 +2,8 @@ import { formatTokens, inCurrency, usdToCurrency, numberWithCommas } from '../he
 import '@testing-library/jest-dom';
 import BigNumber from 'bignumber.js';
 
+const exchangeRates = { usd: 641.69, cad: 776.44, btc: 41.93 }; // Hardcoded default values at helpers.ts
+
 describe('formatTokens', () => {
 	test.each([
 		[new BigNumber(1000000), undefined, '1,000,000.00'],
@@ -21,7 +23,6 @@ describe('formatTokens', () => {
 });
 
 describe('inCurrency', () => {
-	const exchangeRates = { usd: 641.69, cad: 776.44, btc: 41.93 }; // Hardcoded default values at helpers.ts
 	test.each([
 		[new BigNumber(1000000), 'eth', true, 18, true, '1000000.00'],
 		[new BigNumber(1000000), 'eth', undefined, 18, undefined, 'Ξ 1,000,000.00'],
@@ -46,7 +47,6 @@ describe('inCurrency', () => {
 });
 
 describe('usdToCurrency', () => {
-	const exchangeRates = { usd: 641.69, cad: 776.44, btc: 41.93 }; // Hardcoded default values at helpers.ts
 	test.each([
 		[new BigNumber(1000000), 'usd', undefined, undefined, undefined, '$1,000,000.00'],
 		[new BigNumber(1000000), 'usd', true, 5, true, '1000000.00000'],

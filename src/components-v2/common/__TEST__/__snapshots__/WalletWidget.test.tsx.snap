@@ -3,7 +3,7 @@
 exports[`WalletWidget Connected address is properly displayed 1`] = `
 <div>
   <button
-    class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-walletButton-12 MuiButton-containedSecondary MuiButton-disableElevation"
+    class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-walletButton-8 MuiButton-containedSecondary MuiButton-disableElevation"
     tabindex="0"
     type="button"
   >
@@ -15,7 +15,7 @@ exports[`WalletWidget Connected address is properly displayed 1`] = `
         class="MuiButton-endIcon MuiButton-iconSizeMedium"
       >
         <div
-          class="makeStyles-walletDot-9 makeStyles-greenDot-11"
+          class="makeStyles-walletDot-5 makeStyles-greenDot-7"
         />
       </span>
     </span>
@@ -24,42 +24,6 @@ exports[`WalletWidget Connected address is properly displayed 1`] = `
     />
   </button>
 </div>
-`;
-
-exports[`WalletWidget Opens wallet menu upon click 1`] = `
-<span
-  class="svelte-1skxsnk"
->
-  MetaMask
-   
-</span>
-`;
-
-exports[`WalletWidget Opens wallet menu upon click 2`] = `
-<span
-  class="svelte-1skxsnk"
->
-  Ledger
-   
-</span>
-`;
-
-exports[`WalletWidget Opens wallet menu upon click 3`] = `
-<span
-  class="svelte-1skxsnk"
->
-  WalletConnect
-   
-</span>
-`;
-
-exports[`WalletWidget Opens wallet menu upon click 4`] = `
-<span
-  class="svelte-1skxsnk"
->
-  WalletLink
-   
-</span>
 `;
 
 exports[`WalletWidget Renders correctly 1`] = `
