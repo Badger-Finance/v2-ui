@@ -93,10 +93,10 @@ export const ConfirmForm = (props: any) => {
 								`RenVM takes a ${values.renvmMintFee * 100}% fee per mint transaction and ${
 									values.renvmBurnFee * 100
 								}% per burn transaction. This is shared evenly between all active nodes in the decentralized network.`,
-								`${values.renFee} BTC`)}
+								`${values.renFee.toFixed(8)} BTC`)}
 				{feeContainer('Badger Fee',`Badger takes a ${values.badgerMintFee * 100}% fee per mint transaction and ${
 									values.badgerBurnFee * 100
-								}% per burn transaction.`,`${values.badgerFee} BTC`)}
+								}% per burn transaction.`,`${values.badgerFee.toFixed(8)} BTC`)}
 				{feeContainer('Bitcoin Miner Fee','The fee required by Bitcoin miners, to move BTC. This does not go RenVM, the Ren or Badger team.',`${values.tabValue == 0 ? values.lockNetworkFee : values.releaseNetworkFee} BTC`)}
 			</Grid>
 			{values.spacer}
