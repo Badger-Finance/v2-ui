@@ -279,7 +279,6 @@ export type ContractToStats = {
 		deposits: BigNumber;
 		badger: BigNumber;
 		digg: BigNumber;
-		badgerGrowth: string;
 		vaultDeposits: BigNumber;
 	};
 };
