@@ -9,12 +9,12 @@ exports[`Renders correctly 1`] = `
       class="makeStyles-headerContent-3"
     >
       <h2
-        class="MuiTypography-root MuiTypography-h2 MuiTypography-colorTextPrimary"
+        class="MuiTypography-root-4 MuiTypography-h2-10 MuiTypography-colorTextPrimary-29"
       >
         Test title
       </h2>
       <h6
-        class="MuiTypography-root MuiTypography-subtitle1 MuiTypography-colorTextSecondary"
+        class="MuiTypography-root-4 MuiTypography-subtitle1-15 MuiTypography-colorTextSecondary-30"
       >
         Test subtitle
       </h6>
@@ -23,11 +23,11 @@ exports[`Renders correctly 1`] = `
       class="makeStyles-headerWidgets-1"
     >
       <div
-        class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorSecondary MuiOutlinedInput-colorSecondary makeStyles-gasSelector-4 MuiInputBase-adornedStart MuiOutlinedInput-adornedStart"
+        class="MuiInputBase-root-61 MuiOutlinedInput-root-46 MuiInputBase-colorSecondary-70 MuiOutlinedInput-colorSecondary-47 makeStyles-gasSelector-34 MuiInputBase-adornedStart-65 MuiOutlinedInput-adornedStart-50"
       >
         <svg
           aria-hidden="true"
-          class="MuiSvgIcon-root"
+          class="MuiSvgIcon-root-79"
           focusable="false"
           style="cursor: pointer; font-size: 1.2rem; margin-right: .8rem;"
           viewBox="0 0 24 24"
@@ -38,7 +38,7 @@ exports[`Renders correctly 1`] = `
         </svg>
         <div
           aria-haspopup="listbox"
-          class="MuiSelect-root MuiSelect-select MuiSelect-selectMenu MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedStart MuiOutlinedInput-inputAdornedStart"
+          class="MuiSelect-root-35 MuiSelect-select-36 MuiSelect-selectMenu-39 MuiSelect-outlined-38 MuiInputBase-input-72 MuiOutlinedInput-input-56 MuiInputBase-inputAdornedStart-76 MuiOutlinedInput-inputAdornedStart-59"
           role="button"
           tabindex="0"
         >
@@ -46,13 +46,13 @@ exports[`Renders correctly 1`] = `
         </div>
         <input
           aria-hidden="true"
-          class="MuiSelect-nativeInput"
+          class="MuiSelect-nativeInput-45"
           tabindex="-1"
           value="standard"
         />
         <svg
           aria-hidden="true"
-          class="MuiSvgIcon-root MuiSelect-icon MuiSelect-iconOutlined"
+          class="MuiSvgIcon-root-79 MuiSelect-icon-41 MuiSelect-iconOutlined-44"
           focusable="false"
           viewBox="0 0 24 24"
         >
@@ -62,11 +62,11 @@ exports[`Renders correctly 1`] = `
         </svg>
         <fieldset
           aria-hidden="true"
-          class="PrivateNotchedOutline-root-5 MuiOutlinedInput-notchedOutline"
+          class="PrivateNotchedOutline-root-92 MuiOutlinedInput-notchedOutline-55"
           style="padding-left: 8px;"
         >
           <legend
-            class="PrivateNotchedOutline-legend-6"
+            class="PrivateNotchedOutline-legend-93"
             style="width: 0.01px;"
           >
             <span>
@@ -76,24 +76,24 @@ exports[`Renders correctly 1`] = `
         </fieldset>
       </div>
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-contained makeStyles-walletButton-12 MuiButton-containedSecondary MuiButton-disableElevation"
+        class="MuiButtonBase-root-129 MuiButton-root-100 MuiButton-contained-108 makeStyles-walletButton-99 MuiButton-containedSecondary-110 MuiButton-disableElevation-111"
         tabindex="0"
         type="button"
       >
         <span
-          class="MuiButton-label"
+          class="MuiButton-label-101"
         >
           Click to connect
           <span
-            class="MuiButton-endIcon MuiButton-iconSizeMedium"
+            class="MuiButton-endIcon-125 MuiButton-iconSizeMedium-127"
           >
             <div
-              class="makeStyles-walletDot-9 makeStyles-redDot-10"
+              class="makeStyles-walletDot-96 makeStyles-redDot-97"
             />
           </span>
         </span>
         <span
-          class="MuiTouchRipple-root"
+          class="MuiTouchRipple-root-132"
         />
       </button>
     </div>

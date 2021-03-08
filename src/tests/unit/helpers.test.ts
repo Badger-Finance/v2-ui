@@ -1,8 +1,6 @@
-import { formatTokens, inCurrency, usdToCurrency, numberWithCommas } from '../helpers';
+import { formatTokens, inCurrency, usdToCurrency, numberWithCommas, exchangeRates } from '../../mobx/utils/helpers';
 import '@testing-library/jest-dom';
 import BigNumber from 'bignumber.js';
-
-const exchangeRates = { usd: 641.69, cad: 776.44, btc: 41.93 }; // Hardcoded default values at helpers.ts
 
 describe('formatTokens', () => {
 	test.each([

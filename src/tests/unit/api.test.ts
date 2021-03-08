@@ -1,4 +1,4 @@
-import { formatUsd, formatWithCommas } from '../api';
+import { formatUsd, formatWithCommas } from '../../mobx/utils/api';
 import '@testing-library/jest-dom';
 
 describe('formatUsd', () => {

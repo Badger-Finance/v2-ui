@@ -1,9 +1,9 @@
 import React from 'react';
-import { render, screen, fireEvent, act } from '@testing-library/react';
-import GasWidget from '../GasWidget';
+import { customRender, screen, fireEvent, act } from './Utils';
+import GasWidget from '../components-v2/common/GasWidget';
 import '@testing-library/jest-dom';
-import { StoreProvider } from '../../../mobx/store-context';
-import store from '../../../mobx/store';
+import { StoreProvider } from '../mobx/store-context';
+import store from '../mobx/store';
 
 describe('GasWidget', () => {
 	const testStore = store;
@@ -12,7 +12,7 @@ describe('GasWidget', () => {
 	});
 
 	test('Renders correctly', () => {
-		const { container } = render(
+		const { container } = customRender(
 			<StoreProvider value={testStore}>
 				<GasWidget />
 			</StoreProvider>,
@@ -20,7 +20,7 @@ describe('GasWidget', () => {
 		expect(container).toMatchSnapshot();
 	});
 	test('Opens gas menu upon click and "rapid" is selected properly', async () => {
-		const { container } = render(
+		const { container } = customRender(
 			<StoreProvider value={testStore}>
 				<GasWidget />
 			</StoreProvider>,

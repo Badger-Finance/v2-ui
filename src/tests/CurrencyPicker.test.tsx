@@ -1,15 +1,15 @@
 import React from 'react';
-import { render, screen, fireEvent, act } from '@testing-library/react';
-import CurrencyPicker from '../CurrencyPicker';
+import { customRender, screen, fireEvent, act } from './Utils';
+import CurrencyPicker from '../components-v2/landing/CurrencyPicker';
 import '@testing-library/jest-dom';
-import { StoreProvider } from '../../../mobx/store-context';
-import store from '../../../mobx/store';
+import { StoreProvider } from '../mobx/store-context';
+import store from '../mobx/store';
 
 describe('CurrencyPicker', () => {
 	const testStore = store;
 
 	test('Renders correctly', () => {
-		const { container } = render(
+		const { container } = customRender(
 			<StoreProvider value={testStore}>
 				<CurrencyPicker />
 			</StoreProvider>,
@@ -17,7 +17,7 @@ describe('CurrencyPicker', () => {
 		expect(container).toMatchSnapshot();
 	});
 	test('Opens menu upon click', async () => {
-		render(
+		customRender(
 			<StoreProvider value={testStore}>
 				<CurrencyPicker />
 			</StoreProvider>,

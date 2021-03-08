@@ -1,14 +1,14 @@
 import React from 'react';
-import WalletSlider from '../WalletSlider';
+import WalletSlider from '../components-v2/landing/WalletSlider';
 import '@testing-library/jest-dom';
-import { render } from '@testing-library/react';
-import { StoreProvider } from '../../../mobx/store-context';
-import store from '../../../mobx/store';
+import { customRender } from './Utils';
+import { StoreProvider } from '../mobx/store-context';
+import store from '../mobx/store';
 
 describe('WalletSlider', () => {
 	const testStore = store;
 	test('Renders correctly', () => {
-		const { container } = render(
+		const { container } = customRender(
 			<StoreProvider value={testStore}>
 				<WalletSlider />
 			</StoreProvider>,

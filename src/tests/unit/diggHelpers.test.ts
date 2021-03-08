@@ -6,12 +6,12 @@ import {
 	shortenNumbers,
 	getPercentageChange,
 	getDiggPerShare,
-} from '../diggHelpers';
+} from '../../mobx/utils/diggHelpers';
 import '@testing-library/jest-dom';
 import BigNumber from 'bignumber.js';
-import { Token, Vault } from 'mobx/model';
+import { Token, Vault } from '../../mobx/model';
 import { AbiItem } from 'web3-utils';
-import { RootStore } from 'mobx/store';
+import { RootStore } from '../../mobx/store';
 
 describe('calculateNewSupply', () => {
 	const UPPER_LIMIT = 1.05 * 1e18;

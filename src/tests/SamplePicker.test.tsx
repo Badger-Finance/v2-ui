@@ -1,15 +1,15 @@
 import React from 'react';
-import { render, screen, fireEvent, act } from '@testing-library/react';
-import SamplePicker from '../SamplePicker';
+import { customRender, screen, fireEvent, act } from './Utils';
+import SamplePicker from '../components-v2/landing/SamplePicker';
 import '@testing-library/jest-dom';
-import { StoreProvider } from '../../../mobx/store-context';
-import store from '../../../mobx/store';
+import { StoreProvider } from '../mobx/store-context';
+import store from '../mobx/store';
 
 describe('SamplePicker', () => {
 	const testStore = store;
 
 	test('Renders correctly', () => {
-		const { container } = render(
+		const { container } = customRender(
 			<StoreProvider value={testStore}>
 				<SamplePicker />
 			</StoreProvider>,
@@ -18,7 +18,7 @@ describe('SamplePicker', () => {
 	});
 
 	test('Opens period menu upon click', async () => {
-		render(
+		customRender(
 			<StoreProvider value={testStore}>
 				<SamplePicker />
 			</StoreProvider>,

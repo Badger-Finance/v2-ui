@@ -1,9 +1,9 @@
 import React from 'react';
-import { render, fireEvent, cleanup, screen, act } from '@testing-library/react';
-import Landing from '../Landing';
+import { customRender, fireEvent, cleanup, screen, act } from './Utils';
+import Landing from '../pages/Landing';
 import '@testing-library/jest-dom';
-import { StoreProvider } from '../../mobx/store-context';
-import store from '../../mobx/store';
+import { StoreProvider } from '../mobx/store-context';
+import store from '../mobx/store';
 
 afterEach(cleanup);
 
@@ -14,7 +14,7 @@ describe('Landing Page', () => {
 	});
 
 	test('Renders correctly', () => {
-		const { container } = render(
+		const { container } = customRender(
 			<StoreProvider value={connectedStore}>
 				<Landing />
 			</StoreProvider>,
@@ -23,7 +23,7 @@ describe('Landing Page', () => {
 	});
 
 	test('Clicking portfolio switch shows empty portfolio', async () => {
-		const { container } = render(
+		const { container } = customRender(
 			<StoreProvider value={connectedStore}>
 				<Landing />
 			</StoreProvider>,
