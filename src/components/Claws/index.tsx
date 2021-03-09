@@ -17,13 +17,17 @@ import Hero from 'components/Common/Hero';
 import Mint from './Mint';
 import Manage from './Manage';
 import Redeem from './Redeem';
-import { Loader } from 'components/Loader';
 
-const TABS = {
-	MINT: 0,
-	MANAGE: 1,
-	REDEEM: 2,
-};
+export enum INVALID_REASON {
+	OVER_MAXIMUM = 'EXCEED',
+	UNDER_MINIMUM = 'NOT_MINIMUM',
+}
+
+export interface ClawParam {
+	amount?: string;
+	selectedOption?: string;
+	error?: INVALID_REASON;
+}
 
 export const useMainStyles = makeStyles((theme) => ({
 	root: {
@@ -66,6 +70,12 @@ export const useMainStyles = makeStyles((theme) => ({
 		padding: theme.spacing(20, 0),
 	},
 }));
+
+const TABS = {
+	MINT: 0,
+	MANAGE: 1,
+	REDEEM: 2,
+};
 
 export const Claws: FC = observer(() => {
 	const { claw: store } = useContext(StoreContext);
