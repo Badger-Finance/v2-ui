@@ -4,12 +4,13 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from 'mobx/store-context';
-import ClawParams, { ClawParam } from './ClawParams';
-import { useMainStyles } from './index';
+import ClawParams from './ClawParams';
+import { ClawParam, INVALID_REASON, useMainStyles } from './index';
 import ClawLabel from './ClawLabel';
 import ClawDetails from './ClawDetails';
 import BigNumber from 'bignumber.js';
 import { ConnectWalletButton } from './ConnectWalletButton';
+import { validateAmountBoundaries } from './utils';
 
 dayjs.extend(utc);
 
@@ -22,13 +23,14 @@ const defaultDetails = {
 };
 
 export const Mint: FC = observer(() => {
-	console.time('render mint');
 	const { claw: store, contracts, wallet } = useContext(StoreContext);
 	const { collaterals, eclawsByCollateral, syntheticsDataByEMP } = store;
 	const classes = useMainStyles();
 	const [collateral, setCollateral] = useState<ClawParam>({});
 	const [mintable, setMintable] = useState<ClawParam>({});
+
 	const collateralToken = contracts.tokens[collateral.selectedOption || ''];
+	const synthetic = syntheticsDataByEMP.get(mintable.selectedOption || '');
 
 	const maxEclaw = useMemo(() => {
 		const synthetics = syntheticsDataByEMP.get(mintable.selectedOption || '');
@@ -68,13 +70,27 @@ export const Mint: FC = observer(() => {
 		};
 	}, [mintable.selectedOption, collateralToken]);
 
+	const collateralName = collaterals.get(collateralToken?.address || '') || 'Collateral Token';
+
+	const collateralBalanceError =
+		collateral.error === INVALID_REASON.OVER_MAXIMUM && `Insufficient ${collateralName} balance`;
+
+	const mintableBalanceError =
+		mintable.error &&
+		(mintable.error === INVALID_REASON.OVER_MAXIMUM ? 'Insufficient eCLAW balance' : 'Insufficient eCLAW amount');
+
 	const noCollateral = !collateral.selectedOption && 'Select a Collateral Token';
 	const noCollateralAmount = !collateral.amount && 'Enter collateral amount';
 	const noMintable = !mintable.selectedOption && 'Select a Mintable eCLAW';
 	const noMintableAmount = !mintable.amount && 'Enter amount to mint';
 
 	const error =
-		collateral.error || mintable.error || noCollateral || noCollateralAmount || noMintable || noMintableAmount;
+		collateralBalanceError ||
+		mintableBalanceError ||
+		noCollateral ||
+		noCollateralAmount ||
+		noMintable ||
+		noMintableAmount;
 
 	return (
 		<Grid container>
@@ -94,23 +110,21 @@ export const Mint: FC = observer(() => {
 						</Grid>
 					</Box>
 					<Grid item xs={12}>
-						//TODO: add validation in Minimum Mint
 						<ClawParams
-							referenceBalance={collateralToken?.balance.dividedBy(10 ** collateralToken.decimals)}
 							placeholder="Select Token"
-							amount={collateral.amount}
+							displayAmount={collateral.amount}
 							selectedOption={collateral.selectedOption}
 							options={collaterals}
 							disabledAmount={!collateral.selectedOption}
-							onAmountChange={(amount: string, error?: boolean) => {
-								const collateralName = collateralToken
-									? collaterals.get(collateralToken.address)
-									: 'collateral token';
-
+							onAmountChange={(amount: string) => {
+								if (!collateralToken) return;
 								setCollateral({
 									...collateral,
 									amount,
-									error: error ? `Amount exceeds ${collateralName} balance` : undefined,
+									error: validateAmountBoundaries({
+										amount: new BigNumber(amount).multipliedBy(10 ** collateralToken.decimals),
+										maximum: collateralToken.balance,
+									}),
 								});
 							}}
 							onOptionChange={(selectedOption: string) => {
@@ -143,6 +157,7 @@ export const Mint: FC = observer(() => {
 							balanceLabel={maxEclaw && 'Max eCLAW:'}
 							balance={
 								maxEclaw &&
+								collateralToken &&
 								`Maximum eCLAW: ${maxEclaw
 									.toFixed(collateralToken.decimals, BigNumber.ROUND_DOWN)
 									.toString()}`
@@ -152,17 +167,39 @@ export const Mint: FC = observer(() => {
 				</Box>
 				<Grid item xs={12}>
 					<ClawParams
-						referenceBalance={maxEclaw}
-						placeholder="Select Expiry"
-						amount={mintable.amount}
+						placeholder="Select eCLAW"
+						displayAmount={mintable.amount}
 						selectedOption={mintable.selectedOption}
-						disabledOptions={!collateral.selectedOption}
+						disabledOptions={!collateral.selectedOption || !collateral.amount}
 						disabledAmount={!collateral.selectedOption || !mintable.selectedOption}
-						onAmountChange={(amount: string, error?: boolean) => {
+						onAmountChange={(amount: string) => {
+							if (!synthetic || !maxEclaw) return;
+
 							setMintable({
 								...mintable,
 								amount,
-								error: error ? 'Amount exceeds eCLAW balance' : undefined,
+								error: validateAmountBoundaries({
+									amount,
+									maximum: maxEclaw,
+									minimum: synthetic.minSponsorTokens,
+								}),
+							});
+						}}
+						onApplyPercentage={(percentage: number) => {
+							if (!synthetic || !maxEclaw || !collateralToken) return;
+
+							const amount = maxEclaw
+								.multipliedBy(percentage / 100)
+								.toFixed(collateralToken.decimals, BigNumber.ROUND_DOWN);
+
+							setMintable({
+								...mintable,
+								amount,
+								error: validateAmountBoundaries({
+									amount,
+									maximum: maxEclaw,
+									minimum: synthetic.minSponsorTokens.dividedBy(10 ** collateralToken.decimals),
+								}),
 							});
 						}}
 						options={
@@ -171,17 +208,7 @@ export const Mint: FC = observer(() => {
 						onOptionChange={(selectedOption: string) => {
 							setMintable({
 								...mintable,
-								amount: undefined,
 								selectedOption,
-							});
-						}}
-						onApplyPercentage={(percentage: number) => {
-							if (!maxEclaw || !collateralToken) return;
-							setMintable({
-								...mintable,
-								amount: maxEclaw
-									.multipliedBy(percentage / 100)
-									.toFixed(collateralToken.decimals, BigNumber.ROUND_DOWN),
 							});
 						}}
 					/>
