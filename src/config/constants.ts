@@ -1,3 +1,5 @@
+import Web3 from 'web3';
+import BigNumber from 'bignumber.js';
 import importedErc20 from '../config/system/abis/ERC20.json';
 import { token as BADGER_ADDRESS, digg_system, sett_system } from './deployments/mainnet.json';
 
@@ -29,6 +31,10 @@ export const CLAIMS_SYMBOLS = {
 };
 
 // export const MIN_ETH_BALANCE = new BigNumber(0.01 * 1e18);
+export const ZERO = new BigNumber(0);
+export const TEN = new BigNumber(10);
+export const MAX = Web3.utils.toTwosComplement(-1);
+export const IBBTC_FLAG = process.env.IBBTC_FLAG;
 export const BADGER_ADAPTER = require('config/system/abis/BadgerAdapter.json');
 export const CURVE_EXCHANGE = require('config/system/abis/CurveExchange.json');
 export const BTC_GATEWAY = require('config/system/abis/BtcGateway.json');

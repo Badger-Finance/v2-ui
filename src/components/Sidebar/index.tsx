@@ -6,6 +6,7 @@ import { StoreContext } from '../../mobx/store-context';
 import { List, ListItem, Drawer, Collapse, IconButton, ListItemIcon, ListItemText } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { ExpandMore } from '@material-ui/icons';
+import { IBBTC_FLAG } from 'config/constants';
 
 const useStyles = makeStyles((theme) => ({
 	logo: {
@@ -202,6 +203,26 @@ export const Sidebar = observer(() => {
 						</ListItemIcon>
 						<ListItemText primary="Digg" />
 					</ListItem>
+					{IBBTC_FLAG && (
+						<ListItem
+							button
+							className={
+								classes.listItem +
+								' ' +
+								(store.router.currentPath == '/ibBTC' ? classes.activeListItem : '')
+							}
+							onClick={() => goTo(views.IbBTC)}
+						>
+							<ListItemIcon>
+								<img
+									alt="Interest Bearing Badger Bitcoin Icon"
+									src={require('assets/sidebar/ibBTC.png')}
+									className={classes.icon}
+								/>
+							</ListItemIcon>
+							<ListItemText primary="ibBTC" />
+						</ListItem>
+					)}
 					<ListItem
 						button
 						className={
