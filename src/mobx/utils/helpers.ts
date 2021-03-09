@@ -125,7 +125,7 @@ export const secondsToBlocks = (seconds: number): number => {
 	return seconds / (1 / (6500 / (24 * 60 * 60)));
 };
 
-let exchangeRates: any = { usd: 641.69, cad: 776.44, btc: 41.93 };
+export let exchangeRates: any = { usd: 641.69, cad: 776.44, btc: 41.93 };
 getExchangeRates().then((result: any) => (exchangeRates = result.ethereum));
 
 // input: usd value

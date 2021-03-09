@@ -1,0 +1,102 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renders correctly 1`] = `
+<div>
+  <div
+    class="makeStyles-headerContainer-2"
+  >
+    <div
+      class="makeStyles-headerContent-3"
+    >
+      <h2
+        class="MuiTypography-root-4 MuiTypography-h2-10 MuiTypography-colorTextPrimary-29"
+      >
+        Test title
+      </h2>
+      <h6
+        class="MuiTypography-root-4 MuiTypography-subtitle1-15 MuiTypography-colorTextSecondary-30"
+      >
+        Test subtitle
+      </h6>
+    </div>
+    <div
+      class="makeStyles-headerWidgets-1"
+    >
+      <div
+        class="MuiInputBase-root-61 MuiOutlinedInput-root-46 MuiInputBase-colorSecondary-70 MuiOutlinedInput-colorSecondary-47 makeStyles-gasSelector-34 MuiInputBase-adornedStart-65 MuiOutlinedInput-adornedStart-50"
+      >
+        <svg
+          aria-hidden="true"
+          class="MuiSvgIcon-root-79"
+          focusable="false"
+          style="cursor: pointer; font-size: 1.2rem; margin-right: .8rem;"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M19.77 7.23l.01-.01-3.72-3.72L15 4.56l2.11 2.11c-.94.36-1.61 1.26-1.61 2.33 0 1.38 1.12 2.5 2.5 2.5.36 0 .69-.08 1-.21v7.21c0 .55-.45 1-1 1s-1-.45-1-1V14c0-1.1-.9-2-2-2h-1V5c0-1.1-.9-2-2-2H6c-1.1 0-2 .9-2 2v16h10v-7.5h1.5v5c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5V9c0-.69-.28-1.32-.73-1.77zM12 10H6V5h6v5zm6 0c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"
+          />
+        </svg>
+        <div
+          aria-haspopup="listbox"
+          class="MuiSelect-root-35 MuiSelect-select-36 MuiSelect-selectMenu-39 MuiSelect-outlined-38 MuiInputBase-input-72 MuiOutlinedInput-input-56 MuiInputBase-inputAdornedStart-76 MuiOutlinedInput-inputAdornedStart-59"
+          role="button"
+          tabindex="0"
+        >
+          75
+        </div>
+        <input
+          aria-hidden="true"
+          class="MuiSelect-nativeInput-45"
+          tabindex="-1"
+          value="standard"
+        />
+        <svg
+          aria-hidden="true"
+          class="MuiSvgIcon-root-79 MuiSelect-icon-41 MuiSelect-iconOutlined-44"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M7 10l5 5 5-5z"
+          />
+        </svg>
+        <fieldset
+          aria-hidden="true"
+          class="PrivateNotchedOutline-root-92 MuiOutlinedInput-notchedOutline-55"
+          style="padding-left: 8px;"
+        >
+          <legend
+            class="PrivateNotchedOutline-legend-93"
+            style="width: 0.01px;"
+          >
+            <span>
+              ​
+            </span>
+          </legend>
+        </fieldset>
+      </div>
+      <button
+        class="MuiButtonBase-root-129 MuiButton-root-100 MuiButton-contained-108 makeStyles-walletButton-99 MuiButton-containedSecondary-110 MuiButton-disableElevation-111"
+        tabindex="0"
+        type="button"
+      >
+        <span
+          class="MuiButton-label-101"
+        >
+          Click to connect
+          <span
+            class="MuiButton-endIcon-125 MuiButton-iconSizeMedium-127"
+          >
+            <div
+              class="makeStyles-walletDot-96 makeStyles-redDot-97"
+            />
+          </span>
+        </span>
+        <span
+          class="MuiTouchRipple-root-132"
+        />
+      </button>
+    </div>
+  </div>
+</div>
+`;
