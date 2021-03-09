@@ -12,23 +12,17 @@ import {
 	Box,
 } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
-export interface ClawParam {
-	amount?: string;
-	selectedOption?: string;
-	error?: string;
-}
 
 interface Props {
-	placeholder: string;
-	options?: Map<string, string>;
-	referenceBalance?: BigNumber;
-	amount?: string;
+	displayAmount?: string;
 	selectedOption?: string;
+	placeholder?: string;
+	options?: Map<string, string>;
 	disabledAmount?: boolean;
 	disabledOptions?: boolean;
-	onAmountChange: (amount: string, error?: boolean) => void;
 	onOptionChange: (option: string) => void;
-	onApplyPercentage: (percentage: number) => void;
+	onAmountChange: (amount: string) => void;
+	onApplyPercentage: (amount: number) => void;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -61,10 +55,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const ClawParams: FC<Props> = ({
-	selectedOption,
-	placeholder,
-	amount = '',
-	referenceBalance = new BigNumber('0'),
+	selectedOption = '',
+	displayAmount = '',
+	placeholder = '0.00',
 	disabledAmount = false,
 	disabledOptions = false,
 	options: _options = new Map<string, string>(),
@@ -83,8 +76,7 @@ export const ClawParams: FC<Props> = ({
 		if (!isValidAmountChange(input)) return;
 
 		const amount = new BigNumber(input);
-		const amountExceedsBalance = referenceBalance.lt(amount);
-		onAmountChange(sanitizeValue(input), amountExceedsBalance);
+		onAmountChange(sanitizeValue(input));
 	};
 
 	return (
@@ -97,7 +89,7 @@ export const ClawParams: FC<Props> = ({
 								<Select
 									autoWidth
 									displayEmpty
-									value={selectedOption || ''}
+									value={selectedOption}
 									onChange={handleOptionChange}
 									disabled={disabledOptions}
 									input={<InputBase placeholder="0.00" color="primary" disabled={disabledAmount} />}
@@ -122,7 +114,7 @@ export const ClawParams: FC<Props> = ({
 								inputProps={{ pattern: '^[0-9]*[.,]?[0-9]*$' }}
 								className={classes.input}
 								onChange={handleAmountChange}
-								value={amount}
+								value={displayAmount}
 							/>
 						</Grid>
 					</Grid>
