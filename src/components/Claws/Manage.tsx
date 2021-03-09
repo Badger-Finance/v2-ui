@@ -2,13 +2,14 @@ import React, { FC, useContext, useMemo, useState } from 'react';
 import { Box, Button, Container, Grid, MenuItem, Select } from '@material-ui/core';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
-import { useMainStyles } from './index';
-import ClawParams, { ClawParam } from './ClawParams';
+import { ClawParam, INVALID_REASON, useMainStyles } from './index';
+import ClawParams from './ClawParams';
 import ClawLabel from './ClawLabel';
 import ClawDetails from './ClawDetails';
 import { StoreContext } from 'mobx/store-context';
 import BigNumber from 'bignumber.js';
 import { ConnectWalletButton } from './ConnectWalletButton';
+import { validateAmountBoundaries } from './utils';
 
 dayjs.extend(utc);
 
@@ -18,7 +19,7 @@ const defaultWithdrawalDetails = {
 	'Collateral Ratio - Minimum': '-',
 	'Collateral Ratio - Current': '-',
 	Expiration: '-',
-	'Minimum Deposit': '-',
+	'Minimum Withdraw': '-',
 };
 
 const defaultDepositDetails = {
@@ -57,6 +58,10 @@ const Manage: FC = () => {
 			[isWithdraw ? 'Withdraw Speed' : 'Liquidation Price']: isWithdraw
 				? 'Instant (Still Hardcoded)'
 				: '1.000 (Still Hardcoded)',
+
+			[isWithdraw ? 'Minimum Withdraw' : ' Minimum Deposit']: `${minSponsorTokens
+				.dividedBy(precision)
+				.toString()} eCLAW`,
 		};
 
 		return {
@@ -67,13 +72,14 @@ const Manage: FC = () => {
 			Expiration: `${dayjs(new Date(expirationTimestamp.toNumber() * 1000))
 				.utc()
 				.format('MMMM DD, YYYY HH:mm')} UTC`,
-			'Minimum Mint': `${minSponsorTokens.dividedBy(precision).toString()} eCLAW`,
 		};
 	}, [mode, selectedOption]);
 
+	const collateralName = bToken ? collaterals.get(bToken.address) : 'collateral token';
 	const noTokenError = !selectedOption && 'Select a Token';
 	const amountError = !amount && 'Enter an amount';
-	const error = noTokenError || amountError;
+	const balanceError = paramError === INVALID_REASON.OVER_MAXIMUM && `Amount exceeds ${collateralName} balance`;
+	const error = !wallet.connectedAddress || balanceError || noTokenError || amountError;
 
 	return (
 		<Container>
@@ -113,33 +119,39 @@ const Manage: FC = () => {
 				</Box>
 				<Grid item xs={12}>
 					<ClawParams
-						options={eClaws}
-						referenceBalance={bToken?.balance.dividedBy(10 ** bToken.decimals)}
 						placeholder="Select Token"
-						amount={amount}
+						options={eClaws}
+						displayAmount={amount}
 						selectedOption={selectedOption}
-						disabledAmount={!selectedOption}
-						onAmountChange={(amount: string, error?: boolean) => {
-							const collateralName = bToken ? collaterals.get(bToken.address) : 'collateral token';
+						disabledOptions={!wallet.connectedAddress}
+						disabledAmount={!selectedOption || !wallet.connectedAddress}
+						onAmountChange={(amount: string) => {
+							if (!bToken) return;
+
 							setManageParams({
 								selectedOption,
 								amount,
-								error: error ? `Amount exceeds ${collateralName} balance` : undefined,
+								error: validateAmountBoundaries({
+									amount: new BigNumber(amount).multipliedBy(10 ** bToken.decimals),
+									maximum: bToken.balance,
+								}),
+							});
+						}}
+						onApplyPercentage={(percentage: number) => {
+							if (!bToken) return;
+
+							setManageParams({
+								selectedOption,
+								error: undefined,
+								amount: bToken.balance
+									.multipliedBy(percentage / 100)
+									.dividedBy(10 ** bToken.decimals)
+									.toFixed(bToken.decimals, BigNumber.ROUND_DOWN),
 							});
 						}}
 						onOptionChange={(selectedOption: string) => {
 							setManageParams({
 								selectedOption,
-							});
-						}}
-						onApplyPercentage={(percentage: number) => {
-							setManageParams({
-								selectedOption,
-								error: paramError,
-								amount: bToken?.balance
-									.multipliedBy(percentage / 100)
-									.dividedBy(10 ** bToken.decimals)
-									.toFixed(bToken.decimals, BigNumber.ROUND_DOWN),
 							});
 						}}
 					/>

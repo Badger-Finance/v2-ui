@@ -2,13 +2,14 @@ import React, { FC, useContext, useMemo, useState } from 'react';
 import { Box, Button, Grid, InputBase, makeStyles, Typography } from '@material-ui/core';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
-import ClawParams, { ClawParam } from './ClawParams';
-import { useMainStyles } from './index';
+import ClawParams from './ClawParams';
+import { ClawParam, INVALID_REASON, useMainStyles } from './index';
 import ClawLabel from './ClawLabel';
 import ClawDetails from './ClawDetails';
 import { StoreContext } from 'mobx/store-context';
 import BigNumber from 'bignumber.js';
 import { ConnectWalletButton } from './ConnectWalletButton';
+import { validateAmountBoundaries } from './utils';
 
 dayjs.extend(utc);
 
@@ -78,7 +79,8 @@ const Redeem: FC = () => {
 
 	const tokenError = !bToken && 'Select a token';
 	const amountError = !amount && 'Enter an amount';
-	const error = tokenError || amountError || redeemError;
+	const collateralError = redeemError === INVALID_REASON.OVER_MAXIMUM && 'Insufficient Collateral';
+	const error = collateralError || tokenError || amountError;
 
 	return (
 		<Grid container>
@@ -94,15 +96,15 @@ const Redeem: FC = () => {
 						</Grid>
 					</Box>
 					<ClawParams
-						referenceBalance={eclawBalance}
 						options={eClaws}
 						placeholder="Select Token"
-						amount={amount}
-						onAmountChange={(amount: string, error?: boolean) => {
+						displayAmount={amount}
+						onAmountChange={(amount: string) => {
+							if (!eclawBalance) return;
 							setRedeemParams({
 								selectedOption,
 								amount,
-								error: error ? `Insufficient Collateral` : undefined,
+								error: validateAmountBoundaries({ amount, maximum: eclawBalance })
 							});
 						}}
 						selectedOption={selectedOption}
@@ -113,8 +115,17 @@ const Redeem: FC = () => {
 								error: undefined,
 							});
 						}}
-						disabledAmount={!selectedOption}
-						onApplyPercentage={() => {}}
+						disabledOptions={!wallet.connectedAddress}
+						disabledAmount={!selectedOption || !wallet.connectedAddress}
+						onApplyPercentage={(percentage) => {
+							if (!eclawBalance || !bToken) return;
+
+							setRedeemParams({
+								selectedOption,
+								amount: eclawBalance.multipliedBy(percentage / 100).toFixed(bToken.decimals, BigNumber.ROUND_DOWN),
+								error: undefined,
+							});
+						}}
 					/>
 				</Grid>
 			</Box>
