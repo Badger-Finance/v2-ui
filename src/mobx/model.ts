@@ -320,3 +320,22 @@ export type AirdropsConfig = {
 		airdropAbi: AbiItem[];
 	};
 };
+
+export type VaultBatch = {
+	abi: AbiItem[];
+	underlying: string;
+	contracts: string[];
+	fillers: {
+		symbol?: string[];
+		isFeatured?: boolean[];
+		position?: number[];
+		isSuperSett?: boolean[];
+		symbolPrefix?: string[];
+		onsenId?: string[];
+	};
+	methods: {
+		name: string;
+		args?: string[];
+	}[];
+	growthEndpoints?: string[];
+};

@@ -1,5 +1,16 @@
 import BigNumber from 'bignumber.js';
 
+export const getNetwork = () => {
+	const host = window.location.host;
+	const hostArray = host.split('.');
+	const currentNetwork = hostArray[0].split('-');
+	if (currentNetwork.length > 0) {
+		return currentNetwork[0];
+	} else {
+		return null;
+	}
+};
+
 import { priceEndpoints } from '../../config/system/tokens';
 
 export const graphQuery = (address: string): Promise<any>[] => {
