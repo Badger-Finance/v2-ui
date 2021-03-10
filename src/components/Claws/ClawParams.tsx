@@ -11,7 +11,6 @@ import {
 	ButtonGroup,
 	Box,
 } from '@material-ui/core';
-import BigNumber from 'bignumber.js';
 
 interface Props {
 	displayAmount?: string;
@@ -74,8 +73,6 @@ export const ClawParams: FC<Props> = ({
 	const handleAmountChange = (event: React.ChangeEvent<{ value: unknown }>) => {
 		const input = event.target.value as string;
 		if (!isValidAmountChange(input)) return;
-
-		const amount = new BigNumber(input);
 		onAmountChange(sanitizeValue(input));
 	};
 
