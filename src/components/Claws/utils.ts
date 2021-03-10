@@ -1,6 +1,8 @@
 import BigNumber from 'bignumber.js';
 import { INVALID_REASON } from './index';
 
+//TODO: ask for where to put this file
+
 export interface ValidationParams {
 	amount: string | BigNumber;
 	maximum: BigNumber;
