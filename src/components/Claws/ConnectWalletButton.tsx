@@ -1,4 +1,4 @@
-import { Button, makeStyles } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import { connectToWallet } from 'components/Sidebar/Wallet';
 import { StoreContext } from 'mobx/store-context';
 import React, { useContext } from 'react';
