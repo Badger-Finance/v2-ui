@@ -1,17 +1,10 @@
-import React, { FC, useContext, useMemo, useState } from 'react';
+import React, { FC, useContext, useState } from 'react';
 import { Box, Button, Grid, InputBase, makeStyles, Typography } from '@material-ui/core';
-import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
-import ClawParams from './ClawParams';
-import { ClawParam, INVALID_REASON, useMainStyles } from './index';
-import ClawLabel from './ClawLabel';
-import ClawDetails from './ClawDetails';
+import { ClawParam, useMainStyles } from '../index';
 import { StoreContext } from 'mobx/store-context';
 import BigNumber from 'bignumber.js';
-import { ConnectWalletButton } from './ConnectWalletButton';
-import { validateAmountBoundaries } from './utils';
-
-dayjs.extend(utc);
+import { ClawDetails, ClawLabel, ClawParams, ConnectWalletButton, validateAmountBoundaries } from '../shared';
+import { useAmountToReceive, useDetails, useError } from './redeem.hooks';
 
 const useStyles = makeStyles((theme) => ({
 	border: {
@@ -34,53 +27,20 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const defaultDetails = {
-	'Expiration Date': '-',
-	'Expiration Price': '-',
-};
-
 const Redeem: FC = () => {
 	const { claw: store, contracts, wallet } = useContext(StoreContext);
 	const { collaterals, eClaws, syntheticsDataByEMP, sponsorInformationByEMP } = store;
 	const mainClasses = useMainStyles();
 	const classes = useStyles();
-	const [{ selectedOption, amount, error: redeemError }, setRedeemParams] = useState<ClawParam>({});
+	const [redeem, setRedeemParams] = useState<ClawParam>({});
+	const amountToReceive = useAmountToReceive(redeem);
+	const details = useDetails(redeem);
+	const error = useError(redeem);
 
-	const amountToReceive = useMemo(() => {
-		const synthetic = syntheticsDataByEMP.get(selectedOption || '');
-		const userEmpInformation = sponsorInformationByEMP.get(selectedOption || '');
-		if (!amount || !userEmpInformation || !synthetic) return;
-
-		const { tokensOutstanding, rawCollateral } = userEmpInformation.position;
-		const fractionRedeemed = new BigNumber(amount).dividedBy(tokensOutstanding);
-		const feeAdjustedCollateral = rawCollateral.multipliedBy(synthetic.cumulativeFeeMultiplier);
-
-		return fractionRedeemed.multipliedBy(feeAdjustedCollateral);
-	}, [amount, selectedOption, sponsorInformationByEMP, syntheticsDataByEMP]);
-
+	const { selectedOption, amount } = redeem;
 	const selectedSynthetic = syntheticsDataByEMP.get(selectedOption || '');
 	const bToken = contracts.tokens[selectedSynthetic?.collateralCurrency.toLocaleLowerCase() ?? ''];
 	const eclawBalance = sponsorInformationByEMP.get(selectedOption || '')?.position.tokensOutstanding;
-
-	const details = useMemo(() => {
-		const synthetics = syntheticsDataByEMP.get(selectedOption || '');
-		if (!synthetics || !bToken) return defaultDetails;
-
-		const { expirationTimestamp } = synthetics;
-		const formattedDate = dayjs(new Date(expirationTimestamp.toNumber() * 1000))
-			.utc()
-			.format('MMMM DD, YYYY HH:mm');
-
-		return {
-			'Expiration Date': `${formattedDate} UTC`,
-			'Expiration Price': `1 ${collaterals.get(bToken.address)} = .000001 wBTCWethSLP (Still Hardcoded)`,
-		};
-	}, [selectedOption, bToken, collaterals]);
-
-	const tokenError = !bToken && 'Select a token';
-	const amountError = !amount && 'Enter an amount';
-	const collateralError = redeemError === INVALID_REASON.OVER_MAXIMUM && 'Insufficient Collateral';
-	const error = collateralError || tokenError || amountError;
 
 	return (
 		<Grid container>
@@ -104,7 +64,7 @@ const Redeem: FC = () => {
 							setRedeemParams({
 								selectedOption,
 								amount,
-								error: validateAmountBoundaries({ amount, maximum: eclawBalance })
+								error: validateAmountBoundaries({ amount, maximum: eclawBalance }),
 							});
 						}}
 						selectedOption={selectedOption}
@@ -122,7 +82,9 @@ const Redeem: FC = () => {
 
 							setRedeemParams({
 								selectedOption,
-								amount: eclawBalance.multipliedBy(percentage / 100).toFixed(bToken.decimals, BigNumber.ROUND_DOWN),
+								amount: eclawBalance
+									.multipliedBy(percentage / 100)
+									.toFixed(bToken.decimals, BigNumber.ROUND_DOWN),
 								error: undefined,
 							});
 						}}

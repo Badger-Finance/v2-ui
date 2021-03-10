@@ -1,85 +1,23 @@
-import React, { FC, useContext, useMemo, useState } from 'react';
+import React, { FC, useContext, useState } from 'react';
 import { Box, Button, Container, Grid, MenuItem, Select } from '@material-ui/core';
-import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
-import { ClawParam, INVALID_REASON, useMainStyles } from './index';
-import ClawParams from './ClawParams';
-import ClawLabel from './ClawLabel';
-import ClawDetails from './ClawDetails';
-import { StoreContext } from 'mobx/store-context';
 import BigNumber from 'bignumber.js';
-import { ConnectWalletButton } from './ConnectWalletButton';
-import { validateAmountBoundaries } from './utils';
-
-dayjs.extend(utc);
-
-const defaultWithdrawalDetails = {
-	'Withdraw Speed': '-',
-	'Collateral Ratio - Global': '-',
-	'Collateral Ratio - Minimum': '-',
-	'Collateral Ratio - Current': '-',
-	Expiration: '-',
-	'Minimum Withdraw': '-',
-};
-
-const defaultDepositDetails = {
-	'Liquidation Price': '-',
-	'Collateral Ratio - Global': '-',
-	'Collateral Ratio - Minimum': '-',
-	'Collateral Ratio - Current': '-',
-	Expiration: '-',
-	'Minimum Deposit': '-',
-};
+import { StoreContext } from 'mobx/store-context';
+import { ClawParam, useMainStyles } from '../index';
+import { ClawLabel, ClawParams, ClawDetails, ConnectWalletButton, validateAmountBoundaries } from '../shared';
+import { useDetails, useError } from './manage.hooks';
 
 const Manage: FC = () => {
 	const { claw: store, contracts, wallet } = useContext(StoreContext);
 	const { collaterals, eClaws, syntheticsDataByEMP } = store;
 	const classes = useMainStyles();
 	const [mode, setMode] = useState<'deposit' | 'withdraw'>('deposit');
-	const [{ selectedOption, amount, error: paramError }, setManageParams] = useState<ClawParam>({});
+	const [manage, setManageParams] = useState<ClawParam>({});
+	const details = useDetails(mode, manage);
+	const error = useError(manage);
+
+	const { selectedOption, amount } = manage;
 	const selectedSynthetic = syntheticsDataByEMP.get(selectedOption || '');
 	const bToken = contracts.tokens[selectedSynthetic?.collateralCurrency.toLocaleLowerCase() ?? ''];
-
-	const details = useMemo(() => {
-		const isWithdraw = mode === 'withdraw';
-		const synthetics = syntheticsDataByEMP.get(selectedOption || '');
-
-		if (!synthetics || !bToken) return isWithdraw ? defaultWithdrawalDetails : defaultDepositDetails;
-
-		const {
-			globalCollateralizationRatio,
-			minSponsorTokens,
-			collateralRequirement,
-			expirationTimestamp,
-		} = synthetics;
-		const precision = 10 ** bToken.decimals;
-
-		const modeSpecificStats = {
-			[isWithdraw ? 'Withdraw Speed' : 'Liquidation Price']: isWithdraw
-				? 'Instant (Still Hardcoded)'
-				: '1.000 (Still Hardcoded)',
-
-			[isWithdraw ? 'Minimum Withdraw' : ' Minimum Deposit']: `${minSponsorTokens
-				.dividedBy(precision)
-				.toString()} eCLAW`,
-		};
-
-		return {
-			...modeSpecificStats,
-			'Collateral Ratio - Global': `${globalCollateralizationRatio.dividedBy(precision).toString()}x`,
-			'Collateral Ratio - Minimum': `${collateralRequirement.dividedBy(precision).toString()}x`,
-			'Collateral Ratio - Current': `4x (Still Hardcoded)`,
-			Expiration: `${dayjs(new Date(expirationTimestamp.toNumber() * 1000))
-				.utc()
-				.format('MMMM DD, YYYY HH:mm')} UTC`,
-		};
-	}, [mode, selectedOption]);
-
-	const collateralName = bToken ? collaterals.get(bToken.address) : 'collateral token';
-	const noTokenError = !selectedOption && 'Select a Token';
-	const amountError = !amount && 'Enter an amount';
-	const balanceError = paramError === INVALID_REASON.OVER_MAXIMUM && `Amount exceeds ${collateralName} balance`;
-	const error = !wallet.connectedAddress || balanceError || noTokenError || amountError;
 
 	return (
 		<Container>

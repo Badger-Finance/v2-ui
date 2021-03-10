@@ -1,7 +1,10 @@
 import BigNumber from 'bignumber.js';
-import { INVALID_REASON } from './index';
+import { INVALID_REASON } from '../index';
 
-//TODO: ask for where to put this file
+export * from './ClawDetails';
+export * from './ClawLabel';
+export * from './ClawParams';
+export * from './ConnectWalletButton';
 
 export interface ValidationParams {
 	amount: string | BigNumber;
@@ -22,15 +25,6 @@ export function validateAmountBoundaries({
 
 	if (amountIsLessThanMinimum) error = INVALID_REASON.UNDER_MINIMUM;
 	if (amountExceedsBalance) error = INVALID_REASON.OVER_MAXIMUM;
-
-	console.log({
-		input: input.toString(),
-		minimum: minimum.toString(),
-		maximum: maximum.toString(),
-		amountExceedsBalance,
-		amountIsLessThanMinimum,
-		error,
-	});
 
 	return error;
 }
