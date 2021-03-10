@@ -5,6 +5,7 @@ import Onboard from 'bnc-onboard';
 import { RootStore } from '../store';
 import BigNumber from 'bignumber.js';
 import { onboardWallets, onboardWalletCheck } from '../../config/wallets';
+import { getNetworkId } from '../../mobx/utils/web3';
 import _ from 'lodash';
 
 class WalletStore {
@@ -22,7 +23,7 @@ class WalletStore {
 
 		const onboardOptions: any = {
 			dappId: 'af74a87b-cd08-4f45-83ff-ade6b3859a07',
-			networkId: 1,
+			networkId: getNetworkId(),
 			darkMode: true,
 			subscriptions: {
 				address: this.setAddress,

@@ -3,8 +3,6 @@ import { Typography, makeStyles } from '@material-ui/core';
 import WalletWidget from './WalletWidget';
 import GasWidget from './GasWidget';
 
-import { getNetwork } from '../../mobx/utils/helpers';
-
 export interface PageHeaderProps {
 	title: string;
 	subtitle?: string;

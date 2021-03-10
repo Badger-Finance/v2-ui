@@ -339,3 +339,27 @@ export type VaultBatch = {
 	}[];
 	growthEndpoints?: string[];
 };
+
+export type TokenNetworkConfig = {
+	curveTokens?: {
+		contracts: string[];
+		priceEndpoints: string[];
+		names: string[];
+	};
+	priceEndpoints?: string[];
+	tokenBatches: [
+		{
+			abi: AbiItem[];
+			methods: {
+				name: string;
+				args?: string[];
+			}[];
+			contracts: string[];
+		},
+	];
+	decimals: { [index: string]: number };
+	symbols: { [index: string]: string };
+	names: { [index: string]: string };
+	vaultMap: string[];
+	tokenMap: string[];
+};

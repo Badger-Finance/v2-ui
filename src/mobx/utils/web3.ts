@@ -6,6 +6,33 @@ import WalletStore from '../stores/walletStore';
 import _ from 'lodash';
 import { AbiItem } from 'web3-utils';
 import { BatchConfig, TokenContract, ContractMethodsConfig, TokenAddressessConfig, TokenAddressess } from '../model';
+import { NETWORK_LIST } from '../../config/constants';
+
+export const getNetwork = () => {
+	const host = window.location.host;
+	const currentNetwork = host.split('.');
+	if (currentNetwork.length > 0) {
+		return currentNetwork[0];
+	} else {
+		return null;
+	}
+};
+
+export const getNetworkId = () => {
+	const network = getNetwork();
+	switch (network) {
+		case NETWORK_LIST.BSC:
+			return 56;
+		case NETWORK_LIST.XDAI:
+			return 100;
+		case NETWORK_LIST.FTM:
+			return 250;
+		case NETWORK_LIST.MATIC:
+			return 137;
+		default:
+			return 1;
+	}
+};
 
 export const estimateAndSend = (
 	web3: Web3,

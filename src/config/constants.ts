@@ -27,4 +27,9 @@ export const CLAIMS_SYMBOLS = {
 	[sett_system.vaults['native.digg'].toLowerCase()]: 'bDigg',
 };
 
-// export const MIN_ETH_BALANCE = new BigNumber(0.01 * 1e18);
+export enum NETWORK_LIST {
+	BSC = 'bsc',
+	MATIC = 'matic',
+	FTM = 'ftm',
+	XDAI = 'xdai',
+}
