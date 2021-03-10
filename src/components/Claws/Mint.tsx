@@ -30,7 +30,26 @@ export const Mint: FC = observer(() => {
 	const [mintable, setMintable] = useState<ClawParam>({});
 
 	const collateralToken = contracts.tokens[collateral.selectedOption || ''];
+	const collateralName = collaterals.get(collateralToken?.address || '') || 'Collateral Token';
 	const synthetic = syntheticsDataByEMP.get(mintable.selectedOption || '');
+
+	const collateralBalanceError =
+		collateral.error === INVALID_REASON.OVER_MAXIMUM && `Insufficient ${collateralName} balance`;
+	const mintableBalanceError =
+		mintable.error &&
+		(mintable.error === INVALID_REASON.OVER_MAXIMUM ? 'Insufficient eCLAW balance' : 'Insufficient eCLAW amount');
+	const noCollateral = !collateral.selectedOption && 'Select a Collateral Token';
+	const noCollateralAmount = !collateral.amount && 'Enter collateral amount';
+	const noMintable = !mintable.selectedOption && 'Select a Mintable eCLAW';
+	const noMintableAmount = !mintable.amount && 'Enter amount to mint';
+
+	const error =
+		collateralBalanceError ||
+		mintableBalanceError ||
+		noCollateral ||
+		noCollateralAmount ||
+		noMintable ||
+		noMintableAmount;
 
 	const maxEclaw = useMemo(() => {
 		const synthetics = syntheticsDataByEMP.get(mintable.selectedOption || '');
@@ -68,29 +87,11 @@ export const Mint: FC = observer(() => {
 				.format('MMMM DD, YYYY HH:mm')} UTC`,
 			'Minimum Mint': `${minSponsorTokens.dividedBy(precision).toString()} eCLAW`,
 		};
-	}, [mintable.selectedOption, collateralToken]);
+	}, [mintable.selectedOption, collateralToken, syntheticsDataByEMP]);
 
-	const collateralName = collaterals.get(collateralToken?.address || '') || 'Collateral Token';
-
-	const collateralBalanceError =
-		collateral.error === INVALID_REASON.OVER_MAXIMUM && `Insufficient ${collateralName} balance`;
-
-	const mintableBalanceError =
-		mintable.error &&
-		(mintable.error === INVALID_REASON.OVER_MAXIMUM ? 'Insufficient eCLAW balance' : 'Insufficient eCLAW amount');
-
-	const noCollateral = !collateral.selectedOption && 'Select a Collateral Token';
-	const noCollateralAmount = !collateral.amount && 'Enter collateral amount';
-	const noMintable = !mintable.selectedOption && 'Select a Mintable eCLAW';
-	const noMintableAmount = !mintable.amount && 'Enter amount to mint';
-
-	const error =
-		collateralBalanceError ||
-		mintableBalanceError ||
-		noCollateral ||
-		noCollateralAmount ||
-		noMintable ||
-		noMintableAmount;
+	const handleMint = async () => {
+		console.log(wallet.provider);
+	};
 
 	return (
 		<Grid container>
@@ -115,6 +116,7 @@ export const Mint: FC = observer(() => {
 							displayAmount={collateral.amount}
 							selectedOption={collateral.selectedOption}
 							options={collaterals}
+							disabledOptions={!wallet.connectedAddress}
 							disabledAmount={!collateral.selectedOption}
 							onAmountChange={(amount: string) => {
 								if (!collateralToken) return;
@@ -227,6 +229,7 @@ export const Mint: FC = observer(() => {
 						<Button
 							color="primary"
 							variant="contained"
+							onClick={handleMint}
 							disabled={!!error || !collateral.selectedOption || !mintable.selectedOption}
 							size="large"
 							className={classes.button}

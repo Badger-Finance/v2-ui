@@ -1,3 +1,4 @@
+import Web3 from 'web3';
 import { action, observe, extendObservable } from 'mobx';
 import { RootStore } from 'mobx/store';
 import { getClawEmp, getClawEmpSponsor } from 'mobx/utils/api';
@@ -10,12 +11,26 @@ import {
 	reduceSponsorData,
 	reduceSyntheticsData,
 } from 'mobx/reducers/clawsReducer';
+import { ERC20 } from 'config/constants';
+import { AbiItem } from 'web3-utils';
+import { estimateAndSend } from 'mobx/utils/web3';
+import { method } from 'lodash';
+import { PromiEvent } from 'web3-core';
+import { Contract } from 'web3-eth-contract';
+
+export interface DepositMint {
+	empAddress: string;
+	collateralAmount: BigNumber;
+	syntheticAmount: string;
+}
 export interface SyntheticData {
 	// Long name of the synhetic (includes expiration date)
 	name: string;
 	address: string;
 	// Token address of the underlying collateral currency.
 	collateralCurrency: string;
+	// Token address of the synthetic token currency.
+	tokenCurrency: string;
 	globalCollateralizationRatio: BigNumber;
 	totalPositionCollateral: BigNumber; // Total collateral supplied.
 	totalTokensOutstanding: BigNumber; // Token debt issued.
@@ -108,6 +123,16 @@ export class ClawStore {
 		if (this.syntheticsData.length === 0) this.fetchData();
 	}
 
+	depositMint = action(async ({ empAddress, collateralAmount, syntheticAmount }: DepositMint) => {
+		const { queueNotification } = this.store.uiState;
+		const { provider, connectedAddress } = this.store.wallet;
+		const synthetic = this.syntheticsDataByEMP.get(empAddress);
+
+		if (!synthetic || !connectedAddress) return;
+
+		await this.approveCollateralSpending(collateralAmount, empAddress, synthetic);
+	});
+
 	fetchData = action(async () => {
 		const isSponsorInformationEmpty = this.sponsorInformation.length === 0;
 		const isWalletConnected = !!this.store.wallet.connectedAddress;
@@ -118,7 +143,6 @@ export class ClawStore {
 	fetchSyntheticsData = action(async () => {
 		try {
 			this.isLoading = true;
-			console.log('== FETCHING SYNTHETICS ==');
 			this.syntheticsData = await this.fetchEmps();
 			this.syntheticsDataByEMP = reduceSyntheticsData(this);
 			this.collaterals = reduceCollaterals(this);
@@ -135,7 +159,6 @@ export class ClawStore {
 		const { connectedAddress } = this.store.wallet;
 		try {
 			this.isLoading = true;
-			console.log('== FETCHING SPONSOR DATA ==');
 			this.sponsorInformation = await Promise.all(
 				EMPS_ADDRESSES.map((synthetic) => getClawEmpSponsor(synthetic, connectedAddress)),
 			);
@@ -146,6 +169,40 @@ export class ClawStore {
 			this.isLoading = false;
 		}
 	});
+
+	// TODO: make approve call only if required
+	private async approveCollateralSpending(amount: BigNumber, empAddress: string, synthetic: SyntheticData) {
+		const { queueNotification } = this.store.uiState;
+		const { provider, connectedAddress } = this.store.wallet;
+
+		const web3 = new Web3(provider);
+		const syntheticToken = new web3.eth.Contract(ERC20.abi as AbiItem[], synthetic.tokenCurrency);
+		const approveCollateralSpending = syntheticToken.methods.approve(empAddress, amount.toString());
+
+		queueNotification(`First, you need to approve your collateral spending`, 'info');
+
+		return new Promise<void>((onSuccess, onError) => {
+			estimateAndSend(
+				web3,
+				this.store.wallet.gasPrices[this.store.uiState.gasPrice],
+				approveCollateralSpending,
+				connectedAddress,
+				(transaction: PromiEvent<Contract>) => {
+					transaction
+						.on('transactionHash', (hash) => {
+							queueNotification(`Transaction submitted.`, 'info', hash);
+						})
+						.on('receipt', () => {
+							queueNotification(`Collateral Spending `, 'success');
+							onSuccess();
+						})
+						.catch((error: any) => {
+							onError(error);
+						});
+				},
+			);
+		});
+	}
 
 	private async fetchEmps(): Promise<SyntheticData[]> {
 		const eclaws = await Promise.all(EMPS_ADDRESSES.map((synthetic) => getClawEmp(synthetic)));
