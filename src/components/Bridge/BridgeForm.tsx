@@ -529,7 +529,7 @@ export const BridgeForm = observer((props: any) => {
 
 		try {
 			const curve = new web3.eth.Contract(CURVE_EXCHANGE, CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS);
-			const amountAfterFeesInSats = new BigNumber(amount * 10 ** 8);
+			const amountAfterFeesInSats = new BigNumber((amount * 10 ** 8).toFixed(0));
 			let swapResult;
 			if (name === 'amount') {
 				swapResult = await curve.methods.get_dy(0, 1, amountAfterFeesInSats).call();
