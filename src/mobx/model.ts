@@ -9,6 +9,7 @@ import { getVaults } from '../config/system/vaults';
 import { getGeysers } from '../config/system/geysers';
 import { getRebase } from '../config/system/rebase';
 import { getAirdrops } from 'config/system/airdrops';
+import { NETWORK_IDS, NETWORK_LIST } from 'config/constants';
 
 export class Contract {
 	store!: RootStore;
@@ -423,24 +424,35 @@ export type DeployConfig = {
 	[index: string]: string | { [index: string]: string | { [index: string]: string } };
 };
 
-export class Network {
-	public name: string | null;
-	public networkId: number;
-	public tokens: TokenNetworkConfig | null;
-	public vaults: VaultNetworkConfig[] | null;
-	public geysers: GeyserNetworkConfig | null;
-	public rebase: RebaseNetworkConfig | null;
-	public airdrops: AirdropNetworkConfig | null;
-	public deploy: DeployConfig | null;
+export interface Network {
+	name: string;
+	networkId: number;
+	tokens: TokenNetworkConfig;
+	vaults: VaultNetworkConfig[];
+	geysers: GeyserNetworkConfig;
+	rebase: RebaseNetworkConfig;
+	airdrops: AirdropNetworkConfig;
+	deploy: DeployConfig;
+}
 
-	constructor() {
-		this.name = getNetworkName();
-		this.networkId = getNetworkId(getNetworkName());
-		this.tokens = getTokens(getNetworkName());
-		this.vaults = getVaults(getNetworkName());
-		this.geysers = getGeysers(getNetworkName());
-		this.rebase = getRebase(getNetworkName());
-		this.airdrops = getAirdrops(getNetworkName());
-		this.deploy = getNetworkDeploy(getNetworkName());
-	}
+export class BscNetwork implements Network {
+	public name = NETWORK_LIST.BSC;
+	public networkId = NETWORK_IDS.BSC;
+	public tokens = getTokens(NETWORK_LIST.BSC);
+	public vaults = getVaults(NETWORK_LIST.BSC);
+	public geysers = getGeysers(NETWORK_LIST.BSC);
+	public rebase = getRebase(NETWORK_LIST.BSC);
+	public airdrops = getAirdrops(NETWORK_LIST.BSC);
+	public deploy = getNetworkDeploy(NETWORK_LIST.BSC);
+}
+
+export class EthNetwork implements Network {
+	public name = NETWORK_LIST.ETH;
+	public networkId = NETWORK_IDS.ETH;
+	public tokens = getTokens(NETWORK_LIST.ETH);
+	public vaults = getVaults(NETWORK_LIST.ETH);
+	public geysers = getGeysers(NETWORK_LIST.ETH);
+	public rebase = getRebase(NETWORK_LIST.ETH);
+	public airdrops = getAirdrops(NETWORK_LIST.ETH);
+	public deploy = getNetworkDeploy(NETWORK_LIST.ETH);
 }

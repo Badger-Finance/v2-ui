@@ -5,8 +5,9 @@ import Onboard from 'bnc-onboard';
 import { RootStore } from '../store';
 import BigNumber from 'bignumber.js';
 import { onboardWallets, onboardWalletCheck } from '../../config/wallets';
-import { getNetworkId } from '../../mobx/utils/web3';
+import { getNetworkId, getNetworkName, getNetwork } from '../../mobx/utils/web3';
 import _ from 'lodash';
+import { Network } from 'mobx/model';
 
 class WalletStore {
 	private store?: RootStore;
@@ -17,13 +18,15 @@ class WalletStore {
 	public currentBlock?: number;
 	public ethBalance?: BigNumber;
 	public gasPrices?: any;
+	public network: Network;
 
 	constructor(store: RootStore) {
 		this.store = store;
+		this.network = getNetwork(getNetworkName());
 
 		const onboardOptions: any = {
 			dappId: 'af74a87b-cd08-4f45-83ff-ade6b3859a07',
-			networkId: getNetworkId(),
+			networkId: this.network.networkId,
 			darkMode: true,
 			subscriptions: {
 				address: this.setAddress,

@@ -34,3 +34,11 @@ export enum NETWORK_LIST {
 	XDAI = 'xdai',
 	ETH = 'app',
 }
+
+export enum NETWORK_IDS {
+	ETH = 1,
+	BSC = 56,
+	MATIC = 137,
+	FTM = 250,
+	XDAI = 100,
+}

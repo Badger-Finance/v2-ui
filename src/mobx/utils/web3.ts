@@ -12,27 +12,36 @@ import {
 	TokenAddressessConfig,
 	TokenAddressess,
 	DeployConfig,
+	Network,
+	BscNetwork,
+	EthNetwork,
 } from '../model';
 import { NETWORK_LIST } from '../../config/constants';
 import deploy from '../../config/deployments/mainnet.json';
 import bscDeploy from '../../config/deployments/bsc.json';
 
-export const getNetworkName = () => {
+export const getNetwork = (network: string): Network => {
+	switch (network) {
+		case NETWORK_LIST.BSC:
+			return new BscNetwork();
+		default:
+			return new EthNetwork();
+	}
+};
+
+export const getNetworkName = (): string => {
 	const host = window.location.host;
 	const currentNetwork = host.split('.');
 	// Enable testing for different networks in development.
 	if (currentNetwork.length > 0) {
 		if (process.env.NODE_ENV === 'production') {
 			return currentNetwork[0];
-		} else {
-			return NETWORK_LIST.ETH;
 		}
-	} else {
-		return null;
 	}
+	return NETWORK_LIST.ETH;
 };
 
-export const getNetworkId = (network: string | null) => {
+export const getNetworkId = (network: string | undefined) => {
 	switch (network) {
 		case NETWORK_LIST.BSC:
 			return 56;
@@ -47,7 +56,7 @@ export const getNetworkId = (network: string | null) => {
 	}
 };
 
-export const getNetworkDeploy = (network: string | null): DeployConfig => {
+export const getNetworkDeploy = (network: string | undefined): DeployConfig => {
 	switch (network) {
 		case NETWORK_LIST.BSC:
 			return bscDeploy;

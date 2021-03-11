@@ -2,7 +2,7 @@
 
 import { getNetworkName } from './web3';
 
-export const getApi = (network: string | null) => {
+export const getApi = (network: string | undefined) => {
 	switch (network) {
 		default:
 			if (process.env.NODE_ENV === 'production') {

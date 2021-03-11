@@ -8,7 +8,7 @@ import { abi as bBadgerAirdropAbi } from './abis/bBadgerAidrop.json';
 import { AirdropsConfig, AirdropNetworkConfig } from '../../mobx/model';
 import { getApi } from 'mobx/utils/api';
 
-export const getAirdrops = (network: string | null): AirdropNetworkConfig => {
+export const getAirdrops = (network: string | undefined): AirdropNetworkConfig => {
 	switch (network) {
 		default:
 			return {
