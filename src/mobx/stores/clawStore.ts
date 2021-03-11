@@ -89,6 +89,12 @@ interface Position {
 	transferPositionRequestPassTimestamp: BigNumber;
 }
 
+interface PrepareEmpTransaction {
+	method: any;
+	informationMessage?: string;
+	successMessage?: string;
+}
+
 export class ClawStore {
 	store: RootStore;
 	syntheticsData: SyntheticData[] = [];
@@ -137,6 +143,30 @@ export class ClawStore {
 		}
 	});
 
+	redeemCollateral = action(async (empAddress: string, redeemAmount: BigNumber) => {
+		try {
+			await this._redeemCollateral(empAddress, redeemAmount);
+		} catch (error) {
+			console.error(error);
+		}
+	});
+
+	withdrawCollateral = action(async (empAddress: string, withdrawAmount: BigNumber) => {
+		try {
+			await this._withdrawCollateral(empAddress, withdrawAmount);
+		} catch (error) {
+			console.error(error);
+		}
+	});
+
+	depositCollateral = action(async (empAddress: string, depositAmount: BigNumber) => {
+		try {
+			await this._depositCollateral(empAddress, depositAmount);
+		} catch (error) {
+			console.error(error);
+		}
+	});
+
 	fetchData = action(async () => {
 		const isSponsorInformationEmpty = this.sponsorInformation.length === 0;
 		const isWalletConnected = !!this.store.wallet.connectedAddress;
@@ -174,42 +204,6 @@ export class ClawStore {
 		}
 	});
 
-	private async _mintCollateral(empAddress: string, collateralAmount: BigNumber, mintAmount: BigNumber) {
-		const { queueNotification } = this.store.uiState;
-		const { provider, connectedAddress } = this.store.wallet;
-		const web3 = new Web3(provider);
-		const emp = new web3.eth.Contract(EMP.abi as AbiItem[], empAddress);
-
-		const create = emp.methods.create(
-			{ rawValue: collateralAmount.toString() },
-			{ rawValue: mintAmount.toString() },
-		);
-
-		queueNotification(`Please sign Mint transaction`, 'info');
-
-		return new Promise<void>((onSuccess, onError) => {
-			estimateAndSend(
-				web3,
-				this.store.wallet.gasPrices[this.store.uiState.gasPrice],
-				create,
-				connectedAddress,
-				(transaction: PromiEvent<Contract>) => {
-					transaction
-						.on('transactionHash', (hash) => {
-							queueNotification(`Transaction submitted.`, 'info', hash);
-						})
-						.on('receipt', () => {
-							queueNotification(`Collateral Spending `, 'success');
-							onSuccess();
-						})
-						.catch((error: any) => {
-							onError(error);
-						});
-				},
-			);
-		});
-	}
-
 	private async _approveCollateralIfRequired(empAddress: string, syntheticTokenAddress: string, amount: BigNumber) {
 		const { queueNotification } = this.store.uiState;
 		const { provider, connectedAddress } = this.store.wallet;
@@ -238,6 +232,94 @@ export class ClawStore {
 						})
 						.on('receipt', () => {
 							queueNotification(`Collateral Spending approved`, 'success');
+							onSuccess();
+						})
+						.catch((error: any) => {
+							onError(error);
+						});
+				},
+			);
+		});
+	}
+
+	private async _mintCollateral(empAddress: string, collateralAmount: BigNumber, mintAmount: BigNumber) {
+		const emp = this._getEmpContract(empAddress);
+
+		const create = emp.methods.create(
+			{ rawValue: collateralAmount.toString() },
+			{ rawValue: mintAmount.toString() },
+		);
+
+		return this._getEmpTransactionRequest({
+			method: create,
+			informationMessage: 'Please sign Mint transaction',
+			successMessage: 'Collateral Spending Success',
+		});
+	}
+
+	private async _redeemCollateral(empAddress: string, redeemAmount: BigNumber) {
+		const emp = this._getEmpContract(empAddress);
+		const redeem = emp.methods.redeem({ rawValue: redeemAmount.toString() });
+
+		return this._getEmpTransactionRequest({
+			method: redeem,
+			informationMessage: 'Please sign redeem transaction',
+			successMessage: 'Redeem success',
+		});
+	}
+
+	private async _withdrawCollateral(empAddress: string, withdrawAmount: BigNumber) {
+		const emp = this._getEmpContract(empAddress);
+		const withdraw = emp.methods.requestWithdrawal({ rawValue: withdrawAmount.toString() });
+
+		return this._getEmpTransactionRequest({
+			method: withdraw,
+			informationMessage: 'Please sign withdraw transaction',
+			successMessage: 'Withdraw success',
+		});
+	}
+
+	private async _depositCollateral(empAddress: string, depositAmount: BigNumber) {
+		const emp = this._getEmpContract(empAddress);
+		const deposit = emp.methods.deposit({ rawValue: depositAmount.toString() });
+
+		return this._getEmpTransactionRequest({
+			method: deposit,
+			informationMessage: 'Please sign deposit transaction',
+			successMessage: 'Deposit success',
+		});
+	}
+
+	private _getEmpContract(empAddress: string) {
+		const web3 = new Web3(this.store.wallet.provider);
+		return new web3.eth.Contract(EMP.abi as AbiItem[], empAddress);
+	}
+
+	/**
+	 * All EMP transactions follow the same logical structure so we use this method to execute them
+	 * @param params method and messages to be used
+	 * @returns EMP transaction promise
+	 */
+	private _getEmpTransactionRequest({ method, informationMessage, successMessage }: PrepareEmpTransaction) {
+		const { provider, connectedAddress } = this.store.wallet;
+		const { queueNotification } = this.store.uiState;
+		const web3 = new Web3(provider);
+
+		informationMessage && queueNotification(informationMessage, 'info');
+
+		return new Promise<void>((onSuccess, onError) => {
+			estimateAndSend(
+				web3,
+				this.store.wallet.gasPrices[this.store.uiState.gasPrice],
+				method,
+				connectedAddress,
+				(transaction: PromiEvent<Contract>) => {
+					transaction
+						.on('transactionHash', (hash) => {
+							queueNotification(`Transaction submitted.`, 'info', hash);
+						})
+						.on('receipt', () => {
+							queueNotification(successMessage || 'Success', 'success');
 							onSuccess();
 						})
 						.catch((error: any) => {
