@@ -19,6 +19,20 @@ export const Mint: FC = observer(() => {
 	const collateralToken = contracts.tokens[collateral.selectedOption || ''];
 	const synthetic = syntheticsDataByEMP.get(mintable.selectedOption || '');
 
+	const handleMint = () => {
+		const [empAddress, mintAmount] = [mintable.selectedOption, mintable.amount];
+		const [collateralAddress, collateralAmount] = [collateral.selectedOption, collateral.amount];
+		const decimals: number | undefined = contracts.tokens[collateralAddress || '']?.decimals;
+
+		if (!empAddress || !mintAmount || !decimals || !collateralAmount) return;
+
+		store.mintSynthetic({
+			empAddress,
+			collateralAmount: new BigNumber(collateralAmount).multipliedBy(10 ** decimals),
+			mintAmount: new BigNumber(mintAmount).multipliedBy(10 ** decimals),
+		});
+	};
+
 	return (
 		<Grid container>
 			<Box clone pb={4}>
@@ -107,9 +121,9 @@ export const Mint: FC = observer(() => {
 								...mintable,
 								amount,
 								error: validateAmountBoundaries({
-									amount,
-									maximum: maxEclaw,
+									amount: new BigNumber(amount).multipliedBy(10 ** collateralToken.decimals),
 									minimum: synthetic.minSponsorTokens,
+									maximum: new BigNumber(maxEclaw).multipliedBy(10 ** collateralToken.decimals),
 								}),
 							});
 						}}
@@ -155,6 +169,7 @@ export const Mint: FC = observer(() => {
 						<Button
 							color="primary"
 							variant="contained"
+							onClick={handleMint}
 							disabled={!!error || !collateral.selectedOption || !mintable.selectedOption}
 							size="large"
 							className={classes.button}
