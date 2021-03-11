@@ -1,12 +1,17 @@
 // api badger functions
 
-const getApi = () => {
-	if (process.env.NODE_ENV === 'production') {
-		return 'https://api.badger.finance';
+import { getNetworkName } from './web3';
+
+export const getApi = (network: string | null) => {
+	switch (network) {
+		default:
+			if (process.env.NODE_ENV === 'production') {
+				return 'https://api.badger.finance';
+			}
+			return 'https://staging-api.badger.finance';
 	}
-	return 'https://staging-api.badger.finance';
 };
-const badgerApi = getApi();
+const badgerApi = getApi(getNetworkName());
 
 export const getAssetsUnderManagement = (): any => {
 	return fetch(`${badgerApi}/protocol/value?tokens=true`).then((response) => response.json());

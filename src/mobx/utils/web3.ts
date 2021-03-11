@@ -5,21 +5,34 @@ import { PromiEvent } from 'web3-core';
 import WalletStore from '../stores/walletStore';
 import _ from 'lodash';
 import { AbiItem } from 'web3-utils';
-import { BatchConfig, TokenContract, ContractMethodsConfig, TokenAddressessConfig, TokenAddressess } from '../model';
+import {
+	BatchConfig,
+	TokenContract,
+	ContractMethodsConfig,
+	TokenAddressessConfig,
+	TokenAddressess,
+	DeployConfig,
+} from '../model';
 import { NETWORK_LIST } from '../../config/constants';
+import deploy from '../../config/deployments/mainnet.json';
+import bscDeploy from '../../config/deployments/bsc.json';
 
-export const getNetwork = () => {
+export const getNetworkName = () => {
 	const host = window.location.host;
 	const currentNetwork = host.split('.');
+	// Enable testing for different networks in development.
 	if (currentNetwork.length > 0) {
-		return currentNetwork[0];
+		if (process.env.NODE_ENV === 'production') {
+			return currentNetwork[0];
+		} else {
+			return NETWORK_LIST.ETH;
+		}
 	} else {
 		return null;
 	}
 };
 
-export const getNetworkId = () => {
-	const network = getNetwork();
+export const getNetworkId = (network: string | null) => {
 	switch (network) {
 		case NETWORK_LIST.BSC:
 			return 56;
@@ -31,6 +44,15 @@ export const getNetworkId = () => {
 			return 137;
 		default:
 			return 1;
+	}
+};
+
+export const getNetworkDeploy = (network: string | null): DeployConfig => {
+	switch (network) {
+		case NETWORK_LIST.BSC:
+			return bscDeploy;
+		default:
+			return deploy;
 	}
 };
 

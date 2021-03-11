@@ -4,6 +4,8 @@ import DashboardCard from './DashboardCard';
 import Info from './Info';
 import React from 'react';
 import PageHeader from '../../components-v2/common/PageHeader';
+import { getNetworkName } from 'mobx/utils/web3';
+import { NETWORK_LIST } from 'config/constants';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -24,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
 export const Digg = observer(() => {
 	const classes = useStyles();
 	const spacer = () => <div className={classes.before} />;
+	const network = getNetworkName();
 
 	return (
 		<Container className={classes.root}>
@@ -31,10 +34,20 @@ export const Digg = observer(() => {
 				<Grid item xs={12} className={classes.headerContainer}>
 					<PageHeader title="DIGG" subtitle="Pegged to Bitcoin. Governed by BadgerDAO." />
 				</Grid>
-				<Info />
-				<Grid item xs={12}>
-					<DashboardCard />
-				</Grid>
+				{network === NETWORK_LIST.ETH ? (
+					<>
+						<Info />
+						<Grid item xs={12}>
+							<DashboardCard />
+						</Grid>
+					</>
+				) : (
+					<>
+						<Grid item xs={12}>
+							Digg stats are available on ETH Mainnet only.
+						</Grid>
+					</>
+				)}
 				{spacer()}
 			</Grid>
 		</Container>

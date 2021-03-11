@@ -2,7 +2,13 @@ import BigNumber from 'bignumber.js';
 import _ from 'lodash';
 import { reduceGeyserSchedule } from './reducers/contractReducers';
 import { RootStore } from './store';
-import { AbiItem } from 'web3-utils';
+import { AbiInput, AbiItem } from 'web3-utils';
+import { getNetworkId, getNetworkName, getNetworkDeploy } from '../mobx/utils/web3';
+import { getTokens } from '../config/system/tokens';
+import { getVaults } from '../config/system/vaults';
+import { getGeysers } from '../config/system/geysers';
+import { getRebase } from '../config/system/rebase';
+import { getAirdrops } from 'config/system/airdrops';
 
 export class Contract {
 	store!: RootStore;
@@ -321,7 +327,12 @@ export type AirdropsConfig = {
 	};
 };
 
-export type VaultBatch = {
+export type AirdropNetworkConfig = {
+	airdropEndpoint: string;
+	airdropsConfig: AirdropsConfig;
+};
+
+export type VaultNetworkConfig = {
 	abi: AbiItem[];
 	underlying: string;
 	contracts: string[];
@@ -338,6 +349,31 @@ export type VaultBatch = {
 		args?: string[];
 	}[];
 	growthEndpoints?: string[];
+};
+
+export type GeyserNetworkConfig = {
+	geyserBatches?: {
+		abi: AbiItem[];
+		underlying: string;
+		methods: {
+			name: string;
+			args?: string[];
+		}[];
+		contracts: string[];
+		fillers?: {
+			isFeatured?: boolean[];
+			isSuperSett?: boolean[];
+			getStakingToken?: string[];
+			onsenId?: string[];
+		};
+	}[];
+	rewards: {
+		endpoint: string;
+		network: number;
+		contract: string;
+		abi: AbiItem[];
+		tokens: string[];
+	};
 };
 
 export type TokenNetworkConfig = {
@@ -363,3 +399,48 @@ export type TokenNetworkConfig = {
 	vaultMap: string[];
 	tokenMap: string[];
 };
+
+export type RebaseNetworkConfig = {
+	digg: {
+		addresses: string[];
+		abi: AbiItem[];
+		allReadMethods?: boolean;
+		readMethods?: {
+			name: string;
+			args: (string | number)[];
+		}[];
+		groupByNamespace: boolean;
+		logging?: boolean;
+		namespace: string;
+	}[];
+	orchestrator: {
+		contract: string;
+		abi: AbiItem[];
+	};
+};
+
+export type DeployConfig = {
+	[index: string]: string | { [index: string]: string | { [index: string]: string } };
+};
+
+export class Network {
+	public name: string | null;
+	public networkId: number;
+	public tokens: TokenNetworkConfig | null;
+	public vaults: VaultNetworkConfig[] | null;
+	public geysers: GeyserNetworkConfig | null;
+	public rebase: RebaseNetworkConfig | null;
+	public airdrops: AirdropNetworkConfig | null;
+	public deploy: DeployConfig | null;
+
+	constructor() {
+		this.name = getNetworkName();
+		this.networkId = getNetworkId(getNetworkName());
+		this.tokens = getTokens(getNetworkName());
+		this.vaults = getVaults(getNetworkName());
+		this.geysers = getGeysers(getNetworkName());
+		this.rebase = getRebase(getNetworkName());
+		this.airdrops = getAirdrops(getNetworkName());
+		this.deploy = getNetworkDeploy(getNetworkName());
+	}
+}
