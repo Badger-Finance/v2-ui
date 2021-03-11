@@ -12,7 +12,7 @@ export const onboardWallets = [
 	{
 		walletName: 'walletConnect',
 		rpc: { ['1']: RPC_URL },
-		// bridge: WC_BRIDGE
+		bridge: WC_BRIDGE,
 	},
 	{ walletName: 'walletLink', rpcUrl: RPC_URL, appName: APP_NAME },
 	{ walletName: 'dapper' },
