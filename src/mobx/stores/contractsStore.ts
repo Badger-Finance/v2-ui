@@ -20,11 +20,11 @@ import { jsonQuery, graphQuery, vanillaQuery } from 'mobx/utils/helpers';
 import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
 import async from 'async';
-import { curveTokens, names, symbols, tokenMap } from 'config/system/tokens';
-import { EMPTY_DATA, ERC20, START_TIME, WBTC_ADDRESS, XSUSHI_ADDRESS } from 'config/constants';
-import { vaultBatches } from 'config/system/vaults';
-import { geyserBatches } from 'config/system/geysers';
-import { decimals as tokenDecimals, tokenBatches } from 'config/system/tokens';
+import {  } from 'config/system/tokens';
+import { EMPTY_DATA, ERC20 } from 'config/constants';
+import {  } from 'config/system/vaults';
+import {  } from 'config/system/geysers';
+import {  } from 'config/system/tokens';
 import { formatAmount } from 'mobx/reducers/statsReducers';
 
 // let batchCall = new BatchCall(options);
@@ -108,19 +108,19 @@ class ContractsStore {
 	});
 
 	fetchTokens = action((callback: any) => {
-		const { connectedAddress } = this.store.wallet;
+		const { connectedAddress, network } = this.store.wallet;
 
-		const { batchCall: batch } = reduceContractConfig(tokenBatches, !!connectedAddress && { connectedAddress });
+		const { batchCall: batch } = reduceContractConfig(network.tokens.tokenBatches, !!connectedAddress && { connectedAddress });
 		// prepare curve price query
-		const curveQueries = curveTokens.contracts.map((address: string, index: number) =>
-			jsonQuery(curveTokens.priceEndpoints[index]),
-		);
+		const curveQueries = network.tokens.curveTokens?.priceEndpoints ? network.tokens.curveTokens?.contracts.map((address: string, index: number) =>
+			jsonQuery(network.tokens.curveTokens?.priceEndpoints[index]),
+		) : [''];
 
 		// prepare price queries
-		const graphQueries = _.flatten(_.map(tokenBatches[0].contracts, (address: string) => graphQuery(address)));
+		const graphQueries = _.flatten(_.map(network.tokens.tokenBatches[0].contracts, (address: string) => graphQuery(address)));
 
 		const cgQueries = vanillaQuery(
-			`https://api.coingecko.com/api/v3/simple/token_price/ethereum?contract_addresses=${tokenBatches[0].contracts.join(
+			`https://api.coingecko.com/api/v3/simple/token_price/ethereum?contract_addresses=${network.tokens.tokenBatches[0].contracts.join(
 				',',
 			)}&vs_currencies=eth`,
 		);
@@ -140,11 +140,11 @@ class ContractsStore {
 					_.compact(reduceGraphResult(result.slice(2 + curveQueries.length), cgPrices)),
 					'address',
 				);
-				const curvePrices = _.keyBy(
+				const curvePrices = network.tokens.curveTokens ? _.keyBy(
 					reduceCurveResult(
 						result.slice(2, 2 + curveQueries.length),
-						curveTokens.contracts,
-						tokenPrices[WBTC_ADDRESS],
+						network.tokens.curveTokens.contracts,
+						tokenPrices[network.tokens.curveTokens.vsToken],
 					),
 					'address',
 				);
@@ -177,7 +177,7 @@ class ContractsStore {
 			return;
 		}
 
-		const { connectedAddress, currentBlock } = this.store.wallet;
+		const { connectedAddress, currentBlock, network } = this.store.wallet;
 		const sushiBatches = vaultBatches[1];
 
 		const { defaults, batchCall: batch } = reduceContractConfig(
@@ -185,7 +185,7 @@ class ContractsStore {
 			connectedAddress && { connectedAddress },
 		);
 
-		const { growthQueries, periods } = reduceGrowthQueryConfig(currentBlock);
+		const { growthQueries, periods } = reduceGrowthQueryConfig(network.name, currentBlock);
 
 		// Disable reason: growthEndPoints[1] has a hardcoded value and will never be null for vaultBatches[1]
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion

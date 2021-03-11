@@ -4,8 +4,8 @@ import Onboard from 'bnc-onboard';
 
 import { RootStore } from '../store';
 import BigNumber from 'bignumber.js';
-import { onboardWallets, onboardWalletCheck } from '../../config/wallets';
-import { getNetworkId, getNetworkName, getNetwork } from '../../mobx/utils/web3';
+import { onboardWalletCheck, getOnboardWallets } from '../../config/wallets';
+import { getNetworkName, getNetwork } from '../../mobx/utils/web3';
 import _ from 'lodash';
 import { Network } from 'mobx/model';
 
@@ -35,7 +35,7 @@ class WalletStore {
 			walletSelect: {
 				heading: 'Connect to BadgerDAO',
 				description: 'Deposit & Earn on your Bitcoin',
-				wallets: onboardWallets,
+				wallets: getOnboardWallets(this.network.name),
 			},
 			walletCheck: onboardWalletCheck,
 		};

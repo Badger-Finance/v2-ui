@@ -64,7 +64,8 @@ export const chefQueries = (pairs: any[], contracts: any[], growthEndpoint: stri
 	});
 };
 
-export const jsonQuery = (url: string): Promise<Response> => {
+export const jsonQuery = (url: string | undefined): Promise<Response> | undefined => {
+	if (!url) return;
 	return fetch(url, {
 		method: 'GET',
 		headers: {

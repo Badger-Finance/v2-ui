@@ -382,6 +382,7 @@ export type TokenNetworkConfig = {
 		contracts: string[];
 		priceEndpoints: string[];
 		names: string[];
+		vsToken: string;
 	};
 	priceEndpoints?: string[];
 	tokenBatches: [
@@ -424,6 +425,19 @@ export type DeployConfig = {
 	[index: string]: string | { [index: string]: string | { [index: string]: string } };
 };
 
+export type NetworkConstants = {
+	[index: string]: {
+		APP_URL: string;
+		RPC_URL: string;
+		TOKENS: {
+			[index: string]: string;
+		};
+		START_BLOCK: number;
+		START_TIME: Date;
+		DEPLOY: DeployConfig;
+	};
+};
+
 export interface Network {
 	name: string;
 	networkId: number;
@@ -436,23 +450,23 @@ export interface Network {
 }
 
 export class BscNetwork implements Network {
-	public name = NETWORK_LIST.BSC;
-	public networkId = NETWORK_IDS.BSC;
-	public tokens = getTokens(NETWORK_LIST.BSC);
-	public vaults = getVaults(NETWORK_LIST.BSC);
-	public geysers = getGeysers(NETWORK_LIST.BSC);
-	public rebase = getRebase(NETWORK_LIST.BSC);
-	public airdrops = getAirdrops(NETWORK_LIST.BSC);
-	public deploy = getNetworkDeploy(NETWORK_LIST.BSC);
+	public readonly name = NETWORK_LIST.BSC;
+	public readonly networkId = NETWORK_IDS.BSC;
+	public readonly tokens = getTokens(NETWORK_LIST.BSC);
+	public readonly vaults = getVaults(NETWORK_LIST.BSC);
+	public readonly geysers = getGeysers(NETWORK_LIST.BSC);
+	public readonly rebase = getRebase(NETWORK_LIST.BSC);
+	public readonly airdrops = getAirdrops(NETWORK_LIST.BSC);
+	public readonly deploy = getNetworkDeploy(NETWORK_LIST.BSC);
 }
 
 export class EthNetwork implements Network {
-	public name = NETWORK_LIST.ETH;
-	public networkId = NETWORK_IDS.ETH;
-	public tokens = getTokens(NETWORK_LIST.ETH);
-	public vaults = getVaults(NETWORK_LIST.ETH);
-	public geysers = getGeysers(NETWORK_LIST.ETH);
-	public rebase = getRebase(NETWORK_LIST.ETH);
-	public airdrops = getAirdrops(NETWORK_LIST.ETH);
-	public deploy = getNetworkDeploy(NETWORK_LIST.ETH);
+	public readonly name = NETWORK_LIST.ETH;
+	public readonly networkId = NETWORK_IDS.ETH;
+	public readonly tokens = getTokens(NETWORK_LIST.ETH);
+	public readonly vaults = getVaults(NETWORK_LIST.ETH);
+	public readonly geysers = getGeysers(NETWORK_LIST.ETH);
+	public readonly rebase = getRebase(NETWORK_LIST.ETH);
+	public readonly airdrops = getAirdrops(NETWORK_LIST.ETH);
+	public readonly deploy = getNetworkDeploy(NETWORK_LIST.ETH);
 }

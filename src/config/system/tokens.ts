@@ -1,4 +1,4 @@
-import { ERC20, NETWORK_LIST } from 'config/constants';
+import { ERC20, NETWORK_LIST, NETWORK_CONSTANTS } from 'config/constants';
 import _ from 'lodash';
 import deploy from '../deployments/mainnet.json';
 import bscDeploy from '../deployments/bsc.json';
@@ -64,6 +64,7 @@ export const getTokens = (network: string | null): TokenNetworkConfig => {
 						'https://www.curve.fi/raw-stats/rens-1440m.json',
 					],
 					names: ['Curve.fi renBTC/wBTC', 'Curve.fi tBTC/sbtcCrv', 'Curve.fi renBTC/wBTC/sBTC'],
+					vsToken: NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.WBTC_ADDRESS,
 				},
 				priceEndpoints: [
 					'https://api.thegraph.com/subgraphs/name/jiro-ono/sushiswap-v1-exchange',

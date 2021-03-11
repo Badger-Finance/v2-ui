@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js';
 import _ from 'lodash';
-import { START_BLOCK } from 'config/constants';
+import { NETWORK_CONSTANTS, NETWORK_LIST } from 'config/constants';
 import deploy from 'config/deployments/mainnet.json';
 import { batchConfig } from 'mobx/utils/web3';
 import { RootStore } from 'mobx/store';
@@ -70,15 +70,24 @@ export const reduceXSushiROIResults = (ROI: number | string | BigNumber): Reduce
 	};
 };
 
-export const reduceGrowthQueryConfig = (currentBlock?: number): ReducedGrowthQueryConfig => {
+export const reduceGrowthQueryConfig = (networkName: string, currentBlock?: number): ReducedGrowthQueryConfig => {
 	if (!currentBlock) return { periods: [], growthQueries: [] };
 
 	const periods = [
-		Math.max(currentBlock - Math.floor(secondsToBlocks(60 * 5)), START_BLOCK), // 5 minutes ago
-		Math.max(currentBlock - Math.floor(secondsToBlocks(1 * 24 * 60 * 60)), START_BLOCK), // day
-		Math.max(currentBlock - Math.floor(secondsToBlocks(7 * 24 * 60 * 60)), START_BLOCK), // week
-		Math.max(currentBlock - Math.floor(secondsToBlocks(30 * 24 * 60 * 60)), START_BLOCK), // month
-		START_BLOCK, // start
+		Math.max(currentBlock - Math.floor(secondsToBlocks(60 * 5)), NETWORK_CONSTANTS[networkName].START_BLOCK), // 5 minutes ago
+		Math.max(
+			currentBlock - Math.floor(secondsToBlocks(1 * 24 * 60 * 60)),
+			NETWORK_CONSTANTS[networkName].START_BLOCK,
+		), // day
+		Math.max(
+			currentBlock - Math.floor(secondsToBlocks(7 * 24 * 60 * 60)),
+			NETWORK_CONSTANTS[networkName].START_BLOCK,
+		), // week
+		Math.max(
+			currentBlock - Math.floor(secondsToBlocks(30 * 24 * 60 * 60)),
+			NETWORK_CONSTANTS[networkName].START_BLOCK,
+		), // month
+		NETWORK_CONSTANTS[networkName].START_BLOCK, // start
 	];
 
 	return { periods, growthQueries: periods.map(growthQuery) };
