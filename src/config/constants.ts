@@ -9,6 +9,7 @@ export const CONTACT_EMAIL = 'hello@badger.finance';
 export const RPC_URL = 'https://eth-mainnet.alchemyapi.io/v2/ZPhpI9buZLLAvjR44hryTAhiC5V-HueZ';
 export const APP_NAME = 'badgerDAO';
 export const PORTIS_APP_ID = 'cbf7534d-170d-4903-943f-e607dc588b7f';
+export const WC_BRIDGE = 'https://wc-bridge.badger.finance/';
 
 export const RENBTC_ADDRESS = '0xEB4C2781e4ebA804CE9a9803C67d0893436bB27D';
 export const WBTC_ADDRESS = '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599';
