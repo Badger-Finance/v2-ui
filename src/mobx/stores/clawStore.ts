@@ -1,4 +1,7 @@
 import Web3 from 'web3';
+import { AbiItem } from 'web3-utils';
+import { PromiEvent } from 'web3-core';
+import { Contract } from 'web3-eth-contract';
 import { action, observe, extendObservable } from 'mobx';
 import { RootStore } from 'mobx/store';
 import { getClawEmp, getClawEmpSponsor } from 'mobx/utils/api';
@@ -12,16 +15,13 @@ import {
 	reduceSyntheticsData,
 } from 'mobx/reducers/clawsReducer';
 import { ERC20 } from 'config/constants';
-import { AbiItem } from 'web3-utils';
+import EMP from '../../config/system/abis/ExpiringMultiParty.json';
 import { estimateAndSend } from 'mobx/utils/web3';
-import { method } from 'lodash';
-import { PromiEvent } from 'web3-core';
-import { Contract } from 'web3-eth-contract';
 
 export interface DepositMint {
 	empAddress: string;
 	collateralAmount: BigNumber;
-	syntheticAmount: string;
+	mintAmount: BigNumber;
 }
 export interface SyntheticData {
 	// Long name of the synhetic (includes expiration date)
@@ -123,14 +123,18 @@ export class ClawStore {
 		if (this.syntheticsData.length === 0) this.fetchData();
 	}
 
-	depositMint = action(async ({ empAddress, collateralAmount, syntheticAmount }: DepositMint) => {
-		const { queueNotification } = this.store.uiState;
-		const { provider, connectedAddress } = this.store.wallet;
-		const synthetic = this.syntheticsDataByEMP.get(empAddress);
+	mintSynthetic = action(async ({ empAddress, collateralAmount, mintAmount }: DepositMint) => {
+		try {
+			const { connectedAddress } = this.store.wallet;
+			const synthetic = this.syntheticsDataByEMP.get(empAddress);
 
-		if (!synthetic || !connectedAddress) return;
+			if (!synthetic || !connectedAddress) return;
 
-		await this.approveCollateralSpending(collateralAmount, empAddress, synthetic);
+			await this._approveCollateralIfRequired(empAddress, synthetic.tokenCurrency, collateralAmount);
+			await this._mintCollateral(empAddress, collateralAmount, mintAmount);
+		} catch (error) {
+			console.error(error);
+		}
 	});
 
 	fetchData = action(async () => {
@@ -143,7 +147,7 @@ export class ClawStore {
 	fetchSyntheticsData = action(async () => {
 		try {
 			this.isLoading = true;
-			this.syntheticsData = await this.fetchEmps();
+			this.syntheticsData = await this._fetchEmps();
 			this.syntheticsDataByEMP = reduceSyntheticsData(this);
 			this.collaterals = reduceCollaterals(this);
 			this.eclawsByCollateral = reduceEclawByCollateral(this);
@@ -170,22 +174,24 @@ export class ClawStore {
 		}
 	});
 
-	// TODO: make approve call only if required
-	private async approveCollateralSpending(amount: BigNumber, empAddress: string, synthetic: SyntheticData) {
+	private async _mintCollateral(empAddress: string, collateralAmount: BigNumber, mintAmount: BigNumber) {
 		const { queueNotification } = this.store.uiState;
 		const { provider, connectedAddress } = this.store.wallet;
-
 		const web3 = new Web3(provider);
-		const syntheticToken = new web3.eth.Contract(ERC20.abi as AbiItem[], synthetic.tokenCurrency);
-		const approveCollateralSpending = syntheticToken.methods.approve(empAddress, amount.toString());
+		const emp = new web3.eth.Contract(EMP.abi as AbiItem[], empAddress);
 
-		queueNotification(`First, you need to approve your collateral spending`, 'info');
+		const create = emp.methods.create(
+			{ rawValue: collateralAmount.toString() },
+			{ rawValue: mintAmount.toString() },
+		);
+
+		queueNotification(`Please sign Mint transaction`, 'info');
 
 		return new Promise<void>((onSuccess, onError) => {
 			estimateAndSend(
 				web3,
 				this.store.wallet.gasPrices[this.store.uiState.gasPrice],
-				approveCollateralSpending,
+				create,
 				connectedAddress,
 				(transaction: PromiEvent<Contract>) => {
 					transaction
@@ -204,12 +210,50 @@ export class ClawStore {
 		});
 	}
 
-	private async fetchEmps(): Promise<SyntheticData[]> {
-		const eclaws = await Promise.all(EMPS_ADDRESSES.map((synthetic) => getClawEmp(synthetic)));
-		return this.addEmpAddress(eclaws);
+	private async _approveCollateralIfRequired(empAddress: string, syntheticTokenAddress: string, amount: BigNumber) {
+		const { queueNotification } = this.store.uiState;
+		const { provider, connectedAddress } = this.store.wallet;
+		const web3 = new Web3(provider);
+
+		const syntheticToken = new web3.eth.Contract(ERC20.abi as AbiItem[], syntheticTokenAddress);
+		const approveCollateralSpending = syntheticToken.methods.approve(empAddress, amount.toString());
+		const currentAllowance: string = await syntheticToken.methods.allowance(connectedAddress, empAddress).call();
+		const isApprovalNeeded = new BigNumber(currentAllowance).lt(amount);
+
+		console.log({ currentAllowance, isApprovalNeeded });
+		if (!isApprovalNeeded) return;
+
+		queueNotification(`First, we need you to approve your collateral spending`, 'info');
+
+		return new Promise<void>((onSuccess, onError) => {
+			estimateAndSend(
+				web3,
+				this.store.wallet.gasPrices[this.store.uiState.gasPrice],
+				approveCollateralSpending,
+				connectedAddress,
+				(transaction: PromiEvent<Contract>) => {
+					transaction
+						.on('transactionHash', (hash) => {
+							queueNotification(`Transaction submitted.`, 'info', hash);
+						})
+						.on('receipt', () => {
+							queueNotification(`Collateral Spending approved`, 'success');
+							onSuccess();
+						})
+						.catch((error: any) => {
+							onError(error);
+						});
+				},
+			);
+		});
 	}
 
-	private addEmpAddress(data: SyntheticData[]) {
+	private async _fetchEmps(): Promise<SyntheticData[]> {
+		const eclaws = await Promise.all(EMPS_ADDRESSES.map((synthetic) => getClawEmp(synthetic)));
+		return this._addEmpAddress(eclaws);
+	}
+
+	private _addEmpAddress(data: SyntheticData[]) {
 		return data.map((s, index) => ({ ...s, address: EMPS_ADDRESSES[index] }));
 	}
 }
