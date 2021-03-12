@@ -338,6 +338,7 @@ export const BridgeForm = observer((props: any) => {
 		if (token === 'WBTC') {
                         // Convert slippage from % to bps.
                         maxSlippage = Math.round(Math.min(estimatedSlippage * SLIPPAGE_BUFFER, 1) * MAX_BPS);
+                        desiredToken = WBTC_ADDRESS;
 		}
 		const params: any = [
 			{
