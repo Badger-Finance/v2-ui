@@ -124,10 +124,14 @@ class TransactionsStore {
 			return;
 		}
 		try {
-			await this.db.collection('transactions').doc(tx.id).update({
+                        const payload = {
 				status: 'deleted',
-                                error: err,
-			});
+                                error: '',
+                        };
+                        if (err && err.message) {
+                                payload.error = err.message;
+                        }
+			await this.db.collection('transactions').doc(tx.id).update(payload);
 			this.setIncompleteTransfer(false);
 		} catch (e) {
                         queueNotification(`Failed to delete tx id (${tx.id}): ${e.message}`, 'error');
