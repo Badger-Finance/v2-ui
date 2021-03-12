@@ -30,8 +30,8 @@ import {
 import { bridge_system } from 'config/deployments/mainnet.json';
 
 const MIN_AMOUNT = 0.002;
-// SLIPPAGE_BUFFER increases estimated max slippage by 3%.
-const SLIPPAGE_BUFFER = 0.03;
+// SLIPPAGE_BUFFER increases estimated slippage by 5%.
+const SLIPPAGE_BUFFER = 1.05;
 const MAX_BPS = 10000;
 const UPDATE_INTERVAL_SECONDS = 30 * 1000; // 30 seconds
 
@@ -327,7 +327,7 @@ export const BridgeForm = observer((props: any) => {
         useInterval(updateBalance, UPDATE_INTERVAL_SECONDS);
 
 	const deposit = async () => {
-		const amountSats = new BigNumber(parseFloat(amount) * 10 ** 8); // Convert to Satoshis)
+		const amountSats = new BigNumber(amount).multipliedBy(10 ** 8); // Convert to Satoshis
 		let trade: any = null;
 		let result: any;
 		let commited: boolean = false;
@@ -336,8 +336,8 @@ export const BridgeForm = observer((props: any) => {
 		let maxSlippage = 0;
 		let desiredToken = RENBTC_ADDRESS;
 		if (token === 'WBTC') {
-			maxSlippage = Math.min(estimatedSlippage * SLIPPAGE_BUFFER, 1);
-			desiredToken = WBTC_ADDRESS
+                        // Convert slippage from % to bps.
+			maxSlippage = Math.round(Math.min(estimatedSlippage * SLIPPAGE_BUFFER, 1) * MAX_BPS);
 		}
 		const params: any = [
 			{
@@ -419,12 +419,13 @@ export const BridgeForm = observer((props: any) => {
 	const approveAndWithdraw = async () => {
 		let methodSeries: any = [];
 		const contractFn: any = 'burn';
-		const amountSats = new BigNumber((burnAmount as any) * 10 ** 8);
+		const amountSats = new BigNumber(burnAmount as any).multipliedBy(10 ** 8); // Convert to Satoshis
 		let burnToken = RENBTC_ADDRESS;
 		let maxSlippage = 0;
 		if (token === 'WBTC') {
 			burnToken = WBTC_ADDRESS;
-			maxSlippage = Math.min(estimatedSlippage * SLIPPAGE_BUFFER, 1);
+                        // Convert slippage from % to bps.
+			maxSlippage = Math.round(Math.min(estimatedSlippage * SLIPPAGE_BUFFER, 1) * MAX_BPS);
 		}
 		const params: any = [
 			{
@@ -529,7 +530,7 @@ export const BridgeForm = observer((props: any) => {
 
 		try {
 			const curve = new web3.eth.Contract(CURVE_EXCHANGE, CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS);
-			const amountAfterFeesInSats = new BigNumber((amount * 10 ** 8).toFixed(0));
+                        const amountAfterFeesInSats = new BigNumber(amount.toFixed(8)).multipliedBy(10 ** 8);
 			let swapResult;
 			if (name === 'amount') {
 				swapResult = await curve.methods.get_dy(0, 1, amountAfterFeesInSats).call();

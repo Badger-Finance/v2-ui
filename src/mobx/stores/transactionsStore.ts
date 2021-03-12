@@ -14,7 +14,7 @@ class TransactionsStore {
 	constructor(store: RootStore) {
 		this.store = store;
 		this.db = fbase.firestore();
-		this.gjs = new GatewayJS('testnet');
+		this.gjs = new GatewayJS('mainnet');
 
 		extendObservable(this, {
 			incompleteTransfer: false,
