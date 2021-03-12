@@ -575,6 +575,14 @@ export const BridgeForm = observer((props: any) => {
 			const inputAmount = event.target.value;
 			if (!isFinite(inputAmount)) return;
 			await calcFees(inputAmount, name);
+                } else if (name === 'token') {
+			const value = event.target.value;
+			setStates((prevState) => ({
+				...prevState,
+                                // Reset initial states when changing token.
+                                ...initialStateResettable,
+				[name]: value,
+			}));
 		} else {
 			const value = event.target.value;
 			setStates((prevState) => ({
