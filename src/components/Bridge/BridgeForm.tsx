@@ -533,19 +533,19 @@ export const BridgeForm = observer((props: any) => {
                         const amountAfterFeesInSats = new BigNumber(amount.toFixed(8)).multipliedBy(10 ** 8);
 			let swapResult;
 			if (name === 'amount') {
-				swapResult = await curve.methods.get_dy(0, 1, amountAfterFeesInSats).call();
+				swapResult = await curve.methods.get_dy(0, 1, amountAfterFeesInSats.toString()).call();
 			} else if (name === 'burnAmount') {
-				swapResult = await curve.methods.get_dy(1, 0, amountAfterFeesInSats).call();
+				swapResult = await curve.methods.get_dy(1, 0, amountAfterFeesInSats.toString()).call();
 			} else {
 				console.error(`expected mint or burn tx got: ${name}`);
 				return 0;
 			}
-			const swapRatio = Number(swapResult / amountAfterFeesInSats.toNumber());
+			const swapRatio = (new BigNumber(swapResult.toString())).dividedBy(amountAfterFeesInSats).toNumber();
 
 			if (swapRatio >= 1) return 0;
 			return 1 - swapRatio;
 		} catch (err) {
-                        queueNotification('WARNING: Failed to estimate slippage', 'error');
+                        queueNotification(`WARNING: Failed to estimate slippage (${err.message})`, 'error');
 			return 0;
 		}
 	};
