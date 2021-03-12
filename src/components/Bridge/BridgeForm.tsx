@@ -337,7 +337,7 @@ export const BridgeForm = observer((props: any) => {
 		let desiredToken = RENBTC_ADDRESS;
 		if (token === 'WBTC') {
                         // Convert slippage from % to bps.
-			maxSlippage = Math.round(Math.min(estimatedSlippage * SLIPPAGE_BUFFER, 1) * MAX_BPS);
+                        maxSlippage = Math.round(Math.min(estimatedSlippage * SLIPPAGE_BUFFER, 1) * MAX_BPS);
 		}
 		const params: any = [
 			{
