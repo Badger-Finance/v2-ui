@@ -31,7 +31,7 @@ class TransactionsStore {
 	}
 
 	fetchAndRecoverTx = action(async (userAddr: string, provider: any) => {
-		console.log('fetchAndRecoverTx() -> ', userAddr, provider);
+                const { queueNotification } = this.store.uiState;
 		// Fetch any still pending tx.
 		const results = await this.db
 			.collection('transactions')
@@ -42,19 +42,18 @@ class TransactionsStore {
 				'deleted',
 			])
 			.get();
-		console.log('results ->', results.docs);
 		results.forEach((doc) => {
 			const tx = doc.data();
-			console.log('tx found -> ', tx);
+                        queueNotification(`Recovering tx id (${tx.id}).`, 'info');
 			if (_isGatewayJSTxComplete(tx.status)) return;
 			const parsedTx = JSON.parse(tx.data);
-			console.log('REOPEN', userAddr, tx);
 			this.setIncompleteTransfer(true);
 			this._reOpenTx(userAddr, provider, parsedTx);
 		});
 	});
 
 	addTx = action(async (userAddr: string, tx: any) => {
+                const { queueNotification } = this.store.uiState;
 		// add timestamps
 		const timestamp = firebase.firestore.Timestamp.fromDate(new Date(Date.now()));
 		tx.created = timestamp;
@@ -75,15 +74,15 @@ class TransactionsStore {
 					status: tx.status,
 				});
 		} catch (e) {
-			const errorMessage = String(e && e.message);
-			e.message = `Unable to store transaction to database${errorMessage ? `: ${errorMessage}` : '.'}`;
-			throw e;
+                        queueNotification(`Failed to store tx id (${id}): ${e.message}`, 'error');
 		}
 	});
 
 	updateTx = action(async (userAddr: string, newTx: any) => {
+                const { queueNotification } = this.store.uiState;
+
 		if (!newTx.id) {
-			console.error(`updateTx tx has no id: ${newTx}`);
+                        queueNotification(`UpdateTx tx has no id: ${newTx}`, 'error');
 			return;
 		}
 
@@ -97,7 +96,7 @@ class TransactionsStore {
 		try {
 			docData = await doc.get();
 		} catch (e) {
-			console.error(e);
+                        queueNotification(`Failed to fetch tx id (${newTx.id}): ${e.message}`, 'error');
 			return;
 		}
 
@@ -110,26 +109,28 @@ class TransactionsStore {
 					status: newTx.status,
 				});
 			} catch (e) {
-				console.error(e);
+                                queueNotification(`Failed to update tx id (${newTx.id}): ${e.message}`, 'error');
 			}
 		} else {
 			await this.addTx(userAddr, newTx);
 		}
 	});
 
-	removeTx = action(async <T extends { id: string }>(tx: T) => {
+	removeTx = action(async <T extends { id: string }>(tx: T, err?: Error) => {
+                const { queueNotification } = this.store.uiState;
+
 		if (!tx.id) {
-			console.error(`removeTx tx has no id: ${tx}`);
+                        queueNotification(`RemoveTx tx has no id: ${tx}`, 'error');
 			return;
 		}
 		try {
-			console.log('updating tx to be deleted');
 			await this.db.collection('transactions').doc(tx.id).update({
 				status: 'deleted',
+                                error: err,
 			});
 			this.setIncompleteTransfer(false);
 		} catch (e) {
-			console.error(e);
+                        queueNotification(`Failed to delete tx id (${tx.id}): ${e.message}`, 'error');
 		}
 	});
 
@@ -138,6 +139,7 @@ class TransactionsStore {
 	});
 
 	_reOpenTx = async (userAddr: string, provider: any, trade: any) => {
+                const { queueNotification } = this.store.uiState;
 		try {
 			await this.gjs
 				.recoverTransfer(provider, trade, trade.id)
@@ -148,19 +150,16 @@ class TransactionsStore {
 					if (completed) {
 						this.removeTx(trade);
 					}
-					console.info(`[REOPEN STATUS] ${status}`, trade);
 				})
 				.on('transferUpdated', (transfer: any) => {
-					console.info(`[REOPEN TRANSFER]`, transfer);
 					transfer.id = transfer.id || trade.id;
 					if (!transfer.archived) {
 						this.updateTx(userAddr, transfer);
 					}
 				});
-		} catch (err) {
-			// console.log("REOPEN #2", trade)
-			this.removeTx(trade);
-			console.error(`error re-opening tx: ${err.message}`);
+		} catch (e) {
+			this.removeTx(trade, e);
+                        queueNotification(`Failed to reopen tx id (${trade.id}): ${e.message}`, 'error');
 		}
 	};
 }

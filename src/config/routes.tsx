@@ -82,13 +82,10 @@ const routes = {
 		onParamsChange: () => {
 			//
 		},
-  }),
+	}),
 	bridge: new Route<RootStore, QueryParams>({
 		path: '/bridge',
 		component: <Bridge />,
-		onEnter: (_, params, store) => {},
-		beforeExit: () => {},
-		onParamsChange: (route, params, store) => {},
 	}),
 	// account: new Route<RootStore, {
 	// 	account: string;
