@@ -19,7 +19,7 @@ export const MintForm = (props: any) => {
 					className={classes.amountInput}
 					onChange={handleChange('amount')}
 					value={values.amount}
-                                        disabled={!!values.connectedAddress === false}
+					disabled={!!values.connectedAddress === false}
 				/>
 			</Grid>
 			{values.spacer}

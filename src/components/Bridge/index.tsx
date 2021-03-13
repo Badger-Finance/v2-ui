@@ -114,7 +114,7 @@ export const Bridge = observer(() => {
 			<Grid container spacing={2} justify="center">
 				<Grid item sm={12} xs={12}>
 					<PageHeader title="Badger Bitcoin Bridge." subtitle="Powered by RenVM" />
-				</Grid>				
+				</Grid>
 				{spacer()}
 				<Grid item xs={12} md={7}>
 					<Paper className={classes.statPaper}>

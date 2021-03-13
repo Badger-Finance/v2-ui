@@ -20,11 +20,11 @@ export const ConfirmForm = (props: any) => {
 
 	const receiveLogo = () => {
 		if (values.tabValue == 1) {
-			return values.BTCLogo
+			return values.BTCLogo;
 		} else {
-			return values.token === 'WBTC' ? values.WBTCLogo : values.renBTCLogo
+			return values.token === 'WBTC' ? values.WBTCLogo : values.renBTCLogo;
 		}
-	}
+	};
 
 	const handleCheckbox = (event: any) => {
 		const name = event.target.name;
@@ -36,18 +36,20 @@ export const ConfirmForm = (props: any) => {
 	};
 
 	const feeContainer = (title: string, message: string, value: string) => {
-		return 	<div className={classes.itemContainer}>
-					<div className={classes.info}>
-						<div>{title}</div>
-						<div style={{ paddingLeft: '10px' }}>
-							<Tooltip title={message}>
-								<InfoIcon fontSize={'small'} />
-							</Tooltip>
-						</div>
+		return (
+			<div className={classes.itemContainer}>
+				<div className={classes.info}>
+					<div>{title}</div>
+					<div style={{ paddingLeft: '10px' }}>
+						<Tooltip title={message}>
+							<InfoIcon fontSize={'small'} />
+						</Tooltip>
 					</div>
-					<div>{value}</div>
 				</div>
-	}
+				<div>{value}</div>
+			</div>
+		);
+	};
 
 	return (
 		<Grid container alignItems={'center'}>
@@ -89,25 +91,32 @@ export const ConfirmForm = (props: any) => {
 			{itemContainer('Destination', values.tabValue == 0 ? values.shortAddr : shortenAddress(values.btcAddr))}
 			{values.spacer}
 			<Grid item xs={12}>
-				{feeContainer('RenVM Fee',
-								`RenVM takes a ${values.renvmMintFee * 100}% fee per mint transaction and ${
-									values.renvmBurnFee * 100
-								}% per burn transaction. This is shared evenly between all active nodes in the decentralized network.`,
-								`${values.renFee.toFixed(8)} BTC`)}
-				{feeContainer('Badger Fee',`Badger takes a ${values.badgerMintFee * 100}% fee per mint transaction and ${
-									values.badgerBurnFee * 100
-								}% per burn transaction.`,`${values.badgerFee.toFixed(8)} BTC`)}
-				{feeContainer('Bitcoin Miner Fee','The fee required by Bitcoin miners, to move BTC. This does not go RenVM, the Ren or Badger team.',`${values.tabValue == 0 ? values.lockNetworkFee : values.releaseNetworkFee} BTC`)}
+				{feeContainer(
+					'RenVM Fee',
+					`RenVM takes a ${values.renvmMintFee * 100}% fee per mint transaction and ${
+						values.renvmBurnFee * 100
+					}% per burn transaction. This is shared evenly between all active nodes in the decentralized network.`,
+					`${values.renFee.toFixed(8)} BTC`,
+				)}
+				{feeContainer(
+					'Badger Fee',
+					`Badger takes a ${values.badgerMintFee * 100}% fee per mint transaction and ${
+						values.badgerBurnFee * 100
+					}% per burn transaction.`,
+					`${values.badgerFee.toFixed(8)} BTC`,
+				)}
+				{feeContainer(
+					'Bitcoin Miner Fee',
+					'The fee required by Bitcoin miners, to move BTC. This does not go RenVM, the Ren or Badger team.',
+					`${values.tabValue == 0 ? values.lockNetworkFee : values.releaseNetworkFee} BTC`,
+				)}
 			</Grid>
 			{values.spacer}
 			<Grid item xs={12}>
 				<div className={classes.itemContainer}>
 					<div>You will receive</div>
 					<div className={classes.receiveAmount}>
-						<img
-							src={receiveLogo()}
-							className={classes.logo2}
-						/>
+						<img src={receiveLogo()} className={classes.logo2} />
 						<div>
 							<div>{values.receiveAmount.toFixed(8)}</div>
 							<div>{values.token}</div>
