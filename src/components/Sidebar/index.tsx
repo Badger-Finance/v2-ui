@@ -6,7 +6,7 @@ import { StoreContext } from '../../mobx/store-context';
 import { List, ListItem, Drawer, Collapse, IconButton, ListItemIcon, ListItemText } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { ExpandMore } from '@material-ui/icons';
-import { IBBTC_FLAG } from 'config/constants';
+import { FLAGS } from 'config/constants';
 
 const useStyles = makeStyles((theme) => ({
 	logo: {
@@ -203,7 +203,7 @@ export const Sidebar = observer(() => {
 						</ListItemIcon>
 						<ListItemText primary="Digg" />
 					</ListItem>
-					{IBBTC_FLAG && (
+					{FLAGS.IBBTC_FLAG && (
 						<ListItem
 							button
 							className={
@@ -223,20 +223,22 @@ export const Sidebar = observer(() => {
 							<ListItemText primary="ibBTC" />
 						</ListItem>
 					)}
-					<ListItem
-						button
-						className={
-							classes.listItem +
-							' ' +
-							(store.router.currentPath == '/bridge' ? classes.activeListItem : '')
-						}
-						onClick={() => goTo(views.bridge)}
-					>
-						<ListItemIcon>
-							<img src={require('assets/sidebar/icon-badger-bridge.svg')} className={classes.icon} />
-						</ListItemIcon>
-						<ListItemText primary="Bridge" />
-					</ListItem>
+					{FLAGS.BRIDGE_FLAG &&
+						<ListItem
+							button
+							className={
+								classes.listItem +
+								' ' +
+								(store.router.currentPath == '/bridge' ? classes.activeListItem : '')
+							}
+							onClick={() => goTo(views.bridge)}
+						>
+							<ListItemIcon>
+								<img src={require('assets/sidebar/icon-badger-bridge.svg')} className={classes.icon} />
+							</ListItemIcon>
+							<ListItemText primary="Bridge" />
+						</ListItem>
+					}
 				</List>
 
 				<List>
