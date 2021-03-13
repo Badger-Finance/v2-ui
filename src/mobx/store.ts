@@ -8,6 +8,7 @@ import RewardsStore from './stores/rewardsStore';
 import IbBTCStore from './stores/ibBTCStore';
 import SettStore from './stores/settStore';
 import TransactionsStore from './stores/transactionsStore';
+import SettStoreV2 from './stores/settStoreV2';
 
 export class RootStore {
 	public router: RouterStore<RootStore>;
@@ -19,6 +20,7 @@ export class RootStore {
 	public rewards: RewardsStore;
 	public ibBTCStore: IbBTCStore;
 	public sett: SettStore;
+	public setts: SettStoreV2;
 	public transactions: TransactionsStore;
 
 	constructor() {
@@ -33,6 +35,7 @@ export class RootStore {
 		this.sett = new SettStore(this);
 		// RenVM transactions store.
 		this.transactions = new TransactionsStore(this);
+		this.setts = new SettStoreV2(this);
 	}
 }
 

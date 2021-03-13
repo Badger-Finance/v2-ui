@@ -92,6 +92,7 @@ class WalletStore {
 		});
 		this.getEthBalance();
 	});
+
 	getEthBalance = action(() => {
 		const web3 = new Web3(this.provider);
 		!!this.connectedAddress &&
@@ -116,10 +117,12 @@ class WalletStore {
 	setAddress = action((address: any) => {
 		this.connectedAddress = address;
 	});
+
 	cacheWallet = action((wallet: any) => {
 		this.setProvider(wallet.provider);
 		window.localStorage.setItem('selectedWallet', wallet.name);
 	});
+
 	isCached = action(() => {
 		return !!this.connectedAddress || !!window.localStorage.getItem('selectedWallet');
 	});
