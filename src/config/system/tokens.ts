@@ -9,9 +9,9 @@ export const curveTokens = {
 		'0x075b1bb99792c9e1041ba13afef80c91a1e70fb3', //Curve.fi renBTC/wBTC/sBTC
 	],
 	priceEndpoints: [
-		'https://www.curve.fi/raw-stats/ren2-1440m.json',
-		'https://www.curve.fi/raw-stats/tbtc-1440m.json',
-		'https://www.curve.fi/raw-stats/rens-1440m.json',
+		'https://stats.curve.fi/raw-stats/ren2-1440m.json',
+		'https://stats.curve.fi/raw-stats/tbtc-1440m.json',
+		'https://stats.curve.fi/raw-stats/rens-1440m.json',
 	],
 	names: ['Curve.fi renBTC/wBTC', 'Curve.fi tBTC/sbtcCrv', 'Curve.fi renBTC/wBTC/sBTC'],
 };
