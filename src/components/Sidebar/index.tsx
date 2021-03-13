@@ -223,20 +223,22 @@ export const Sidebar = observer(() => {
 							<ListItemText primary="ibBTC" />
 						</ListItem>
 					)}
-					<ListItem
-						button
-						className={
-							classes.listItem +
-							' ' +
-							(store.router.currentPath == '/bridge' ? classes.activeListItem : '')
-						}
-						onClick={() => goTo(views.bridge)}
-					>
-						<ListItemIcon>
-							<img src={require('assets/sidebar/icon-badger-bridge.svg')} className={classes.icon} />
-						</ListItemIcon>
-						<ListItemText primary="Bridge" />
-					</ListItem>
+					{FLAGS.BRIDGE_FLAG &&
+						<ListItem
+							button
+							className={
+								classes.listItem +
+								' ' +
+								(store.router.currentPath == '/bridge' ? classes.activeListItem : '')
+							}
+							onClick={() => goTo(views.bridge)}
+						>
+							<ListItemIcon>
+								<img src={require('assets/sidebar/icon-badger-bridge.svg')} className={classes.icon} />
+							</ListItemIcon>
+							<ListItemText primary="Bridge" />
+						</ListItem>
+					}
 				</List>
 
 				<List>

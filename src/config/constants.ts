@@ -33,9 +33,10 @@ export const CLAIMS_SYMBOLS = {
 };
 
 // export const MIN_ETH_BALANCE = new BigNumber(0.01 * 1e18);
+const toBool = (val: string | undefined): boolean => val ? val === 'true' : false;
 export const FLAGS = {
-	IBBTC_FLAG: process.env.IBBTC_FLAG,
-	BRIDGE_FLAG: process.env.BRIDGE_FLAG,
+	IBBTC_FLAG: toBool(process.env.REACT_APP_IBBTC_FLAG),
+	BRIDGE_FLAG: toBool(process.env.REACT_APP_BRIDGE_FLAG),
 }
 export const ZERO = new BigNumber(0);
 export const TEN = new BigNumber(10);
