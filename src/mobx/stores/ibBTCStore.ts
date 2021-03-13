@@ -13,7 +13,7 @@ import { estimateAndSend } from 'mobx/utils/web3';
 import SETT from 'config/system/abis/Sett.json';
 import addresses from 'config/ibBTC/addresses.json';
 import BadgerBtcPeak from 'config/system/abis/BadgerBtcPeak.json';
-import { ZERO, MAX, IBBTC_FLAG } from 'config/constants';
+import { ZERO, MAX, FLAGS } from 'config/constants';
 
 class IbBTCStore {
 	private store!: RootStore;
@@ -47,7 +47,7 @@ class IbBTCStore {
 	}
 
 	init = action((): void => {
-		if (!IBBTC_FLAG) return;
+		if (!FLAGS.IBBTC_FLAG) return;
 		const { connectedAddress } = this.store.wallet;
 		if (!!connectedAddress) this.fetchBalances();
 		else this.resetBalances();

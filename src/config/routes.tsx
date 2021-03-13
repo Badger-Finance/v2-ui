@@ -13,7 +13,7 @@ import { Digg } from '../components/Digg';
 import { Locked } from 'components/Common/Locked';
 
 import { IbBTC } from 'components/IbBTC';
-import { IBBTC_FLAG } from 'config/constants';
+import { FLAGS } from 'config/constants';
 import { Bridge } from '../components/Bridge';
 
 const routes = {
@@ -72,7 +72,7 @@ const routes = {
 	}),
 	IbBTC: new Route<RootStore, QueryParams>({
 		path: '/ibBTC',
-		component: IBBTC_FLAG ? <IbBTC /> : <></>,
+		component: FLAGS.IBBTC_FLAG ? <IbBTC /> : <></>,
 		onEnter: (_, params, store) => {
 			//
 		},
@@ -85,7 +85,7 @@ const routes = {
 	}),
 	bridge: new Route<RootStore, QueryParams>({
 		path: '/bridge',
-		component: <Bridge />,
+		component: FLAGS.BRIDGE_FLAG ? <Bridge /> : <></>,
 	}),
 	// account: new Route<RootStore, {
 	// 	account: string;
