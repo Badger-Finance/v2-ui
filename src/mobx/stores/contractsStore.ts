@@ -144,7 +144,7 @@ class ContractsStore {
 					reduceCurveResult(
 						result.slice(2, 2 + curveQueries.length),
 						curveTokens.contracts,
-						tokenPrices[WBTC_ADDRESS],
+						tokenPrices[WBTC_ADDRESS.toLowerCase()],
 					),
 					'address',
 				);
