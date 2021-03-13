@@ -18,14 +18,14 @@ import renBTCLogo from '../../assets/icons/renBTC.svg';
 import WBTCLogo from '../../assets/icons/WBTC.svg';
 import BTCLogo from '../../assets/icons/btc.svg';
 import {
-        ERC20,
-        BADGER_ADAPTER,
-        CURVE_EXCHANGE,
-        BTC_GATEWAY,
-        WBTC_ADDRESS,
-        RENBTC_ADDRESS,
-        CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS,
-        RENVM_GATEWAY_ADDRESS,
+	ERC20,
+	BADGER_ADAPTER,
+	CURVE_EXCHANGE,
+	BTC_GATEWAY,
+	WBTC_ADDRESS,
+	RENBTC_ADDRESS,
+	CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS,
+	RENVM_GATEWAY_ADDRESS,
 } from '../../config/constants';
 import { bridge_system } from 'config/deployments/mainnet.json';
 
@@ -36,10 +36,10 @@ const MAX_BPS = 10000;
 const UPDATE_INTERVAL_SECONDS = 30 * 1000; // 30 seconds
 
 interface TabPanelProps {
-	children: any,
-	index: number,
-	value: number,
-	other?: any | unknown
+	children: any;
+	index: number;
+	value: number;
+	other?: any | unknown;
 }
 
 const TabPanel = (props: TabPanelProps) => {
@@ -57,14 +57,12 @@ const TabPanel = (props: TabPanelProps) => {
 	);
 };
 
-
 const a11yProps = (index: number) => {
 	return {
 		id: `simple-tab-${index}`,
 		'aria-controls': `simple-tabpanel-${index}`,
 	};
 };
-
 
 export const BridgeForm = observer((props: any) => {
 	const store = useContext(StoreContext);
@@ -98,7 +96,7 @@ export const BridgeForm = observer((props: any) => {
 		token: 'renBTC',
 		renbtcBalance: 0,
 		wbtcBalance: 0,
-		bridgeAddress: bridge_system["adapter"],
+		bridgeAddress: bridge_system['adapter'],
 		shortAddr: '',
 		badgerBurnFee: 0,
 		badgerMintFee: 0,
@@ -135,7 +133,7 @@ export const BridgeForm = observer((props: any) => {
 		renFee,
 		badgerFee,
 		lockNetworkFee,
-		releaseNetworkFee
+		releaseNetworkFee,
 	} = states;
 	const values = {
 		token,
@@ -167,7 +165,7 @@ export const BridgeForm = observer((props: any) => {
 		badgerFee,
 		lockNetworkFee,
 		releaseNetworkFee,
-		bridgeAddress
+		bridgeAddress,
 	};
 
 	const gatewayJS = new GatewayJS('mainnet');
@@ -221,7 +219,7 @@ export const BridgeForm = observer((props: any) => {
 		if (tabValue === 0) {
 			deposit();
 		} else if (tabValue === 1) {
-			approveAndWithdraw()
+			approveAndWithdraw();
 		}
 	};
 
@@ -232,65 +230,60 @@ export const BridgeForm = observer((props: any) => {
 		}));
 	};
 
-	const shortenAddress = (address: String) => {
+	const shortenAddress = (address: string) => {
 		return address.slice(0, 6) + '...' + address.slice(address.length - 6, address.length);
 	};
 
 	const getBtcNetworkFees = async () => {
 		const query = {
-			jsonrpc: "2.0",
-			method: "ren_queryFees",
+			jsonrpc: '2.0',
+			method: 'ren_queryFees',
 			id: 67,
-			params: {}
+			params: {},
 		};
 
 		await fetch('https://lightnode-mainnet.herokuapp.com/', {
 			method: 'POST',
 			body: JSON.stringify(query),
-			headers: { 'Content-Type': 'application/json' }
-		}).then(res => res.json())
-		  .then(json => {
-			  updateState('lockNetworkFee', parseInt(json.result.btc.lock) / 100000000);
-			  updateState('releaseNetworkFee', parseInt(json.result.btc.release) / 100000000);
-		});
-	}
+			headers: { 'Content-Type': 'application/json' },
+		})
+			.then((res) => res.json())
+			.then((json) => {
+				updateState('lockNetworkFee', parseInt(json.result.btc.lock) / 100000000);
+				updateState('releaseNetworkFee', parseInt(json.result.btc.release) / 100000000);
+			});
+	};
 
 	const getFeesFromContract = async () => {
 		if (!connectedAddress) {
 			return;
 		}
-                const [
-                        badgerBurnFee,
-                        badgerMintFee,
-                        renvmBurnFee,
-                        renvmMintFee,
-                ] = (await Promise.all([
-                        adapterContract.methods.burnFeeBps().call(),
-                        adapterContract.methods.mintFeeBps().call(),
-                        gatewayContract.methods.burnFee().call(),
-                        gatewayContract.methods.mintFee().call(),
-                ])).map((result: number) => result / MAX_BPS);
+		const [badgerBurnFee, badgerMintFee, renvmBurnFee, renvmMintFee] = (
+			await Promise.all([
+				adapterContract.methods.burnFeeBps().call(),
+				adapterContract.methods.mintFeeBps().call(),
+				gatewayContract.methods.burnFee().call(),
+				gatewayContract.methods.mintFee().call(),
+			])
+		).map((result: number) => result / MAX_BPS);
 
 		setStates((prevState) => ({
 			...prevState,
-                        badgerBurnFee,
-                        badgerMintFee,
-                        renvmBurnFee,
-                        renvmMintFee,
-                }));
+			badgerBurnFee,
+			badgerMintFee,
+			renvmBurnFee,
+			renvmMintFee,
+		}));
 	};
 
 	const updateBalance = async () => {
 		if (!connectedAddress) {
 			return;
 		}
-		const [
-                        renbtc_Balance,
-                        wbtc_Balance,
-                ] = await Promise.all([
-                        renbtcToken.methods.balanceOf(connectedAddress).call(),
-                        wbtcToken.methods.balanceOf(connectedAddress).call(),
-                ]);
+		const [renbtc_Balance, wbtc_Balance] = await Promise.all([
+			renbtcToken.methods.balanceOf(connectedAddress).call(),
+			wbtcToken.methods.balanceOf(connectedAddress).call(),
+		]);
 
 		setStates((prevState) => ({
 			...prevState,
@@ -324,21 +317,21 @@ export const BridgeForm = observer((props: any) => {
 		updateBalance();
 	}, [connectedAddress, shortAddr]);
 
-        useInterval(updateBalance, UPDATE_INTERVAL_SECONDS);
+	useInterval(updateBalance, UPDATE_INTERVAL_SECONDS);
 
 	const deposit = async () => {
 		const amountSats = new BigNumber(amount).multipliedBy(10 ** 8); // Convert to Satoshis
 		let trade: any = null;
 		let result: any;
-		let commited: boolean = false;
-		let completed: boolean = false;
-		const contractFn: string = 'mint';
+		let commited = false;
+		let completed = false;
+		const contractFn = 'mint';
 		let maxSlippage = 0;
 		let desiredToken = RENBTC_ADDRESS;
 		if (token === 'WBTC') {
-                        // Convert slippage from % to bps.
-                        maxSlippage = Math.round(Math.min(estimatedSlippage * SLIPPAGE_BUFFER, 1) * MAX_BPS);
-                        desiredToken = WBTC_ADDRESS;
+			// Convert slippage from % to bps.
+			maxSlippage = Math.round(Math.min(estimatedSlippage * SLIPPAGE_BUFFER, 1) * MAX_BPS);
+			desiredToken = WBTC_ADDRESS;
 		}
 		const params: any = [
 			{
@@ -395,7 +388,7 @@ export const BridgeForm = observer((props: any) => {
 				})
 				.catch((error: any) => {
 					if (error.message !== 'Transfer cancelled by user') {
-                                                queueNotification(`Mint failed: ${error.message}`, 'error');
+						queueNotification(`Mint failed: ${error.message}`, 'error');
 						return;
 					}
 					if (!trade) return;
@@ -413,19 +406,19 @@ export const BridgeForm = observer((props: any) => {
 				nextStep();
 			}
 		} catch (error) {
-                        queueNotification(`Mint failed: ${error.message}`, 'error');
+			queueNotification(`Mint failed: ${error.message}`, 'error');
 		}
 	};
 
 	const approveAndWithdraw = async () => {
-		let methodSeries: any = [];
+		const methodSeries: any = [];
 		const contractFn: any = 'burn';
 		const amountSats = new BigNumber(burnAmount as any).multipliedBy(10 ** 8); // Convert to Satoshis
 		let burnToken = RENBTC_ADDRESS;
 		let maxSlippage = 0;
 		if (token === 'WBTC') {
 			burnToken = WBTC_ADDRESS;
-                        // Convert slippage from % to bps.
+			// Convert slippage from % to bps.
 			maxSlippage = Math.round(Math.min(estimatedSlippage * SLIPPAGE_BUFFER, 1) * MAX_BPS);
 		}
 		const params: any = [
@@ -475,8 +468,8 @@ export const BridgeForm = observer((props: any) => {
 	const withdraw = async (contractFn: any, params: any, callback: any) => {
 		let result: any;
 		let trade: any = null;
-		let commited: boolean = false;
-		let completed: boolean = false;
+		let commited = false;
+		let completed = false;
 
 		result = await gatewayJS
 			.open({
@@ -508,7 +501,7 @@ export const BridgeForm = observer((props: any) => {
 			})
 			.catch((error: any) => {
 				if (error.message !== 'Transfer cancelled by user') {
-                                        queueNotification(`Burn error ${error.message}`, 'error');
+					queueNotification(`Burn error ${error.message}`, 'error');
 					return;
 				}
 				if (!trade) return;
@@ -531,7 +524,7 @@ export const BridgeForm = observer((props: any) => {
 
 		try {
 			const curve = new web3.eth.Contract(CURVE_EXCHANGE, CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS);
-                        const amountAfterFeesInSats = new BigNumber(amount.toFixed(8)).multipliedBy(10 ** 8);
+			const amountAfterFeesInSats = new BigNumber(amount.toFixed(8)).multipliedBy(10 ** 8);
 			let swapResult;
 			if (name === 'amount') {
 				swapResult = await curve.methods.get_dy(0, 1, amountAfterFeesInSats.toString()).call();
@@ -541,12 +534,12 @@ export const BridgeForm = observer((props: any) => {
 				console.error(`expected mint or burn tx got: ${name}`);
 				return 0;
 			}
-			const swapRatio = (new BigNumber(swapResult.toString())).dividedBy(amountAfterFeesInSats).toNumber();
+			const swapRatio = new BigNumber(swapResult.toString()).dividedBy(amountAfterFeesInSats).toNumber();
 
 			if (swapRatio >= 1) return 0;
 			return 1 - swapRatio;
 		} catch (err) {
-                        queueNotification(`WARNING: Failed to estimate slippage (${err.message})`, 'error');
+			queueNotification(`WARNING: Failed to estimate slippage (${err.message})`, 'error');
 			return 0;
 		}
 	};
@@ -576,12 +569,12 @@ export const BridgeForm = observer((props: any) => {
 			const inputAmount = event.target.value;
 			if (!isFinite(inputAmount)) return;
 			await calcFees(inputAmount, name);
-                } else if (name === 'token') {
+		} else if (name === 'token') {
 			const value = event.target.value;
 			setStates((prevState) => ({
 				...prevState,
-                                // Reset initial states when changing token.
-                                ...initialStateResettable,
+				// Reset initial states when changing token.
+				...initialStateResettable,
 				[name]: value,
 			}));
 		} else {

@@ -126,7 +126,6 @@ export const Footer = (): JSX.Element => {
 								<img
 									alt="Github Logo"
 									src={'assets/github.svg'}
-
 									height="24px"
 									className={classes.icon}
 								/>
@@ -143,7 +142,6 @@ export const Footer = (): JSX.Element => {
 								<img
 									alt="Gitbook Logo"
 									src={'assets/github.svg'}
-
 									height="24px"
 									className={classes.icon}
 								/>

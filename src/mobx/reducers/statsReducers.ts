@@ -56,16 +56,12 @@ export const reduceContractsToStats = (store: RootStore): ContractToStats | unde
 
 	if (!tokens) return;
 
-	const {
-		tvl,
-		portfolio,
-		wallet,
-		deposits,
-		badgerToken,
-		diggToken,
-		bDigg,
-		vaultDeposits,
-	} = calculatePortfolioStats(vaultContracts, tokens, vaultContracts, geyserContracts);
+	const { tvl, portfolio, wallet, deposits, badgerToken, diggToken, bDigg, vaultDeposits } = calculatePortfolioStats(
+		vaultContracts,
+		tokens,
+		vaultContracts,
+		geyserContracts,
+	);
 
 	return {
 		stats: {

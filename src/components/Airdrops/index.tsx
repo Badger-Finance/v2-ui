@@ -62,7 +62,7 @@ export const Airdrops = observer(() => {
 		wallet: { connectedAddress },
 		airdrops: { claimAirdrops },
 		uiState: { airdropStats, stats },
-		sett: { farmData }
+		sett: { farmData },
 	} = store;
 
 	let maxNativeApy: number | undefined = undefined;

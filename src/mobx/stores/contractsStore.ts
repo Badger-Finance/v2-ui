@@ -21,7 +21,7 @@ import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
 import async from 'async';
 import { curveTokens, names, symbols, tokenMap } from 'config/system/tokens';
-import { EMPTY_DATA, ERC20, START_TIME, WBTC_ADDRESS, XSUSHI_ADDRESS } from 'config/constants';
+import { EMPTY_DATA, ERC20, START_TIME, WBTC_ADDRESS_LOWER, XSUSHI_ADDRESS } from 'config/constants';
 import { vaultBatches } from 'config/system/vaults';
 import { geyserBatches } from 'config/system/geysers';
 import { decimals as tokenDecimals, tokenBatches } from 'config/system/tokens';
@@ -144,7 +144,7 @@ class ContractsStore {
 					reduceCurveResult(
 						result.slice(2, 2 + curveQueries.length),
 						curveTokens.contracts,
-						tokenPrices[WBTC_ADDRESS.toLowerCase()],
+						tokenPrices[WBTC_ADDRESS_LOWER],
 					),
 					'address',
 				);
