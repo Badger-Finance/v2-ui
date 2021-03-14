@@ -65,12 +65,15 @@ export const Header = observer(() => {
 			enqueueSnackbar(notification.message, { variant: notification.variant, persist: false });
 		}
 	};
+	// Disable reason: Hook used for execution of enq() on change of notification.
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	useEffect(enq, [notification]);
 
 	return (
 		<AppBar className={classes.appBar} color="primary">
 			<Toolbar className={classes.toolbar} onClick={() => goTo(views.home, { collection: 'badger' })}>
-				<img alt="" src={require('../../assets/badger-full.png')} className={classes.logo} />
+				<img alt="Badger Header Logo" src={'assets/badger-full.png'} className={classes.logo} />
+
 				<IconButton className={classes.menuButton} onClick={() => openSidebar()}>
 					<Menu />
 				</IconButton>

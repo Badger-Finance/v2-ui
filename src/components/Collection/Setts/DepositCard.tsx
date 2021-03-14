@@ -1,5 +1,4 @@
 import React, { useContext, useState } from 'react';
-import { formatWithCommas } from 'mobx/utils/api';
 
 import { StoreContext } from '../../../mobx/store-context';
 import { Tooltip, IconButton, Grid, Chip } from '@material-ui/core';
@@ -48,7 +47,7 @@ interface DepositCardProps {
 	vault: Vault;
 	sett: any;
 	onOpen: any;
-	balance: number;
+	balance: string;
 	balanceValue: string;
 }
 
@@ -95,14 +94,6 @@ export const DepositCard = (props: DepositCardProps): React.ReactElement => {
 		return { apy: 0, tooltip: '' };
 	};
 	const { apy, tooltip } = getRoi();
-	const getTokens = (tokens: number) => {
-		if (tokens > 0 && tokens < 0.00001) {
-			// Visual 0 Balance
-			return '< 0.00001';
-		}
-		return formatWithCommas(tokens);
-	};
-	const tokenBalance = getTokens(balance);
 
 	return (
 		<>
@@ -125,7 +116,7 @@ export const DepositCard = (props: DepositCardProps): React.ReactElement => {
 				</Grid>
 				<Grid item xs={6} md={2}>
 					<Typography variant="body1" color={'textPrimary'}>
-						{tokenBalance}
+						{balance}
 					</Typography>
 				</Grid>
 				<Grid item className={classes.mobileLabel} xs={6}>

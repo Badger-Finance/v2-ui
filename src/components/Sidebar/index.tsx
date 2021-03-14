@@ -6,6 +6,7 @@ import { StoreContext } from '../../mobx/store-context';
 import { List, ListItem, Drawer, Collapse, IconButton, ListItemIcon, ListItemText } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { ExpandMore } from '@material-ui/icons';
+import { FLAGS } from 'config/constants';
 
 const useStyles = makeStyles((theme) => ({
 	logo: {
@@ -122,7 +123,7 @@ export const Sidebar = observer(() => {
 			<div className={classes.root}>
 				<List>
 					<ListItem button className={classes.listItem}>
-						<img alt="" src={require('../../assets/badger-logo.png')} className={classes.logo} />
+						<img alt="Badger Logo" src={'assets/badger-logo.png'} className={classes.logo} />
 					</ListItem>
 
 					<ListItem
@@ -131,7 +132,7 @@ export const Sidebar = observer(() => {
 						style={{ marginTop: '.5rem' }}
 						className={classes.listItem}
 					>
-						v2.4.2
+						v2.4.3
 						<IconButton
 							size="small"
 							className={classes.expand + ' ' + (expanded === 'advanced' ? classes.expandOpen : '')}
@@ -163,7 +164,7 @@ export const Sidebar = observer(() => {
 						}
 					>
 						<ListItemIcon>
-							<img alt="" className={classes.icon} src={require('assets/sidebar/sett.png')} />
+							<img alt="Badger Setts Logo" className={classes.icon} src={'assets/sidebar/sett.png'} />
 						</ListItemIcon>
 						<ListItemText primary="Sett Vaults" />
 					</ListItem>
@@ -178,7 +179,11 @@ export const Sidebar = observer(() => {
 						onClick={() => goTo(views.airdrops)}
 					>
 						<ListItemIcon>
-							<img alt="" src={require('assets/sidebar/airdrop.png')} className={classes.icon} />
+							<img
+								alt="Badger Airdrop Icon"
+								src={'assets/sidebar/airdrop.png'}
+								className={classes.icon}
+							/>
 						</ListItemIcon>
 						<ListItemText primary="Airdrops" />
 					</ListItem>
@@ -190,10 +195,50 @@ export const Sidebar = observer(() => {
 						onClick={() => goTo(views.digg)}
 					>
 						<ListItemIcon>
-							<img src={require('assets/sidebar/digg-white.png')} className={classes.icon} />
+							<img
+								alt="Badger Digg Icon"
+								src={'assets/sidebar/digg-white.png'}
+								className={classes.icon}
+							/>
 						</ListItemIcon>
 						<ListItemText primary="Digg" />
 					</ListItem>
+					{FLAGS.IBBTC_FLAG && (
+						<ListItem
+							button
+							className={
+								classes.listItem +
+								' ' +
+								(store.router.currentPath == '/ibBTC' ? classes.activeListItem : '')
+							}
+							onClick={() => goTo(views.IbBTC)}
+						>
+							<ListItemIcon>
+								<img
+									alt="Interest Bearing Badger Bitcoin Icon"
+									src={require('assets/sidebar/ibBTC.png')}
+									className={classes.icon}
+								/>
+							</ListItemIcon>
+							<ListItemText primary="ibBTC" />
+						</ListItem>
+					)}
+					{FLAGS.BRIDGE_FLAG &&
+						<ListItem
+							button
+							className={
+								classes.listItem +
+								' ' +
+								(store.router.currentPath == '/bridge' ? classes.activeListItem : '')
+							}
+							onClick={() => goTo(views.bridge)}
+						>
+							<ListItemIcon>
+								<img src={require('assets/sidebar/icon-badger-bridge.svg')} className={classes.icon} />
+							</ListItemIcon>
+							<ListItemText primary="Bridge" />
+						</ListItem>
+					}
 				</List>
 
 				<List>
@@ -207,7 +252,7 @@ export const Sidebar = observer(() => {
 						}
 					>
 						<ListItemIcon>
-							<img src={require('assets/sidebar/nexus_logo_bw.png')} className={classes.icon} />
+							<img alt="Nexus Logo" src={'assets/sidebar/nexus_logo_bw.png'} className={classes.icon} />
 						</ListItemIcon>
 						<ListItemText>
 							Get Coverage

@@ -1,0 +1,6 @@
+body {
+	overflow-y: scroll; /* Show vertical scrollbar */
+	background: url(../bg.png) center left no-repeat;
+	background-size: auto 100%;
+	background-attachment: fixed;
+}

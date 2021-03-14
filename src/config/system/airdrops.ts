@@ -6,12 +6,9 @@ import { abi as erc20Abi } from './abis/ERC20.json';
 import { abi as badgerHuntAbi } from './abis/BadgerHunt.json';
 import { abi as bBadgerAirdropAbi } from './abis/bBadgerAidrop.json';
 import { AirdropsConfig } from '../../mobx/model';
+import { getApi } from '../../mobx/utils/api';
 
-export const airdropEndpoint = `${
-	process.env.NODE_ENV !== 'production'
-		? 'https://laiv44udi0.execute-api.us-west-1.amazonaws.com/staging'
-		: 'https://2k2ccquid1.execute-api.us-west-1.amazonaws.com/prod'
-}/v2/reward`;
+export const airdropEndpoint = `${getApi()}/v2/reward`;
 
 const nativeBadger = sett_system.vaults['native.badger'];
 

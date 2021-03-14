@@ -2,7 +2,10 @@ import BigNumber from 'bignumber.js';
 import _ from 'lodash';
 import { reduceGeyserSchedule } from './reducers/contractReducers';
 import { RootStore } from './store';
+import Web3 from 'web3';
 import { AbiItem } from 'web3-utils';
+
+import { ZERO, TEN } from 'config/constants';
 
 export class Contract {
 	store!: RootStore;
@@ -13,7 +16,6 @@ export class Contract {
 		this.address = address;
 	}
 }
-
 export class Token extends Contract {
 	public balance!: BigNumber;
 	public decimals!: number;
@@ -142,9 +144,64 @@ export class Geyser extends Contract {
 	update(payload: GeyserPayload): void {
 		if (!!payload.totalStaked) this.holdings = payload.totalStaked;
 		if (!!payload.totalStakedFor) this.balance = payload.totalStakedFor;
-		if (!!payload.getUnlockSchedulesFor)
+		if (!!payload.getUnlockSchedulesFor) {
 			this.rewards = reduceGeyserSchedule(payload.getUnlockSchedulesFor, this.store);
+		}
 	}
+}
+
+export class TokenModel extends Contract {
+	public name: string;
+	public symbol: string;
+	public decimals: number;
+	public balance: BigNumber;
+	public poolId?: number | undefined;
+	public mintRate: string;
+	public redeemRate: string;
+
+	constructor(store: RootStore, data: TokenConfig) {
+		super(store, Web3.utils.toChecksumAddress(data.address));
+		this.name = data.name;
+		this.symbol = data.symbol;
+		this.decimals = data.decimals;
+		this.poolId = data?.poolId;
+		this.balance = ZERO;
+		// This will be fetched and set at initialization using 1 unit of mint and redeem
+		// to show current conversion rate from token to ibBTC and from ibBTC to token
+		// by fetchConversionRates()
+		this.mintRate = '0';
+		this.redeemRate = '0';
+	}
+
+	public get formattedBalance(): string {
+		return this.unscale(this.balance).toFixed(3);
+	}
+
+	public get icon(): string {
+		return require(`assets/tokens/${this.symbol}.png`);
+	}
+
+	public formatAmount(amount: BigNumber | string): string {
+		return this.unscale(new BigNumber(amount)).toFixed(3);
+	}
+
+	public scale(amount: BigNumber | string): BigNumber {
+		return new BigNumber(amount).multipliedBy(TEN.pow(this.decimals));
+	}
+
+	public unscale(amount: BigNumber | string): BigNumber {
+		return new BigNumber(amount).dividedBy(TEN.pow(this.decimals));
+	}
+}
+
+interface TokenConfig {
+	address: string;
+	name: string;
+	symbol: string;
+	decimals: number;
+	poolId?: number | undefined;
+	mintRate?: BigNumber | string;
+	redeemRate?: string;
 }
 
 export interface Growth {
@@ -209,7 +266,7 @@ export type GeyserPayload = {
 };
 
 export type Schedules = {
-	array: string[];
+	[index: string]: string[][];
 };
 
 export type RebaseToStats = { nextRebase: Date; oracleRate: string; totalSupply: string | boolean };
@@ -223,7 +280,6 @@ export type ContractToStats = {
 		deposits: BigNumber;
 		badger: BigNumber;
 		digg: BigNumber;
-		badgerGrowth: string;
 		vaultDeposits: BigNumber;
 	};
 };
@@ -234,7 +290,7 @@ export type ReducedAirdops = {
 		token: any;
 	};
 	bBadger?: {
-		amount: BigNumber;
+		amount: BigNumber | null;
 		token: any;
 	};
 };
@@ -295,6 +351,19 @@ export type BatchConfig = {
 	allReadMethods: boolean;
 	groupByNamespace: boolean;
 	logging: boolean;
+};
+
+export type ReducedGraphResults = {
+	address: string;
+	ethValue: BigNumber;
+	name: string;
+	type: string;
+};
+
+export type GraphResultPrices = {
+	[x: string]: {
+		ethValue: BigNumber;
+	};
 };
 
 export type TokenContract = {

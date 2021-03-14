@@ -61,6 +61,7 @@ export const VaultDeposit = observer((props: any) => {
 		<ButtonGroup size="small" className={classes.button} disabled={!connectedAddress}>
 			{[25, 50, 75, 100].map((amount: number) => (
 				<Button
+					aria-label={`${amount}%`}
 					onClick={() => {
 						setAmount(amount);
 					}}
@@ -101,6 +102,7 @@ export const VaultDeposit = observer((props: any) => {
 			</DialogContent>
 			<DialogActions>
 				<Button
+					aria-label="Deposit"
 					size="large"
 					disabled={!canDeposit}
 					onClick={handleSubmit(onSubmit)}

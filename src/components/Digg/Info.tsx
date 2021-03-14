@@ -5,7 +5,7 @@ import useInterval from '@use-it/interval';
 import { observer } from 'mobx-react-lite';
 import { Loader } from '../Loader';
 import Metric from './Metric';
-import { calculateNewSupply, shortenNumbers } from '../../mobx/utils/diggHelpers';
+import { shortenNumbers, calculateNewSupply } from '../../mobx/utils/diggHelpers';
 import BigNumber from 'bignumber.js';
 import { formatPrice } from 'mobx/reducers/statsReducers';
 import deploy from '../../config/deployments/mainnet.json';
@@ -83,19 +83,8 @@ const Info = observer(() => {
 	const store = useContext(StoreContext);
 	const {
 		uiState: { rebaseStats, currency, stats },
-		contracts: { tokens },
-		rebase: { callRebase },
 	} = store;
-	const { ppfs } = store.sett;
 	const classes = useStyles();
-	const previousSupply =
-		rebaseStats.totalSupply && rebaseStats.pastRebase
-			? rebaseStats.totalSupply.minus(
-					new BigNumber(rebaseStats.pastRebase.requestedSupplyAdjustment).dividedBy(
-						Math.pow(10, rebaseStats.decimals),
-					),
-			  )
-			: null;
 	const [nextRebase, setNextRebase] = useState('00:00:00');
 	const newSupply =
 		rebaseStats.oracleRate && rebaseStats.totalSupply
@@ -108,6 +97,7 @@ const Info = observer(() => {
 	const isPositive = !newSupply || newSupply >= rebaseStats.totalSupply;
 	const percentage = newSupply && rebaseStats.totalSupply ? newSupply / rebaseStats.totalSupply : 0;
 	const diggSett = deploy.sett_system.vaults['native.digg'].toLowerCase();
+	const rebasePercentage = ((stats.stats.digg - rebaseStats.btcPrice) / rebaseStats.btcPrice) * 0.1;
 
 	if (!rebaseStats) {
 		return <Loader />;
@@ -152,8 +142,17 @@ const Info = observer(() => {
 					<Typography variant="body1">
 						1 bDIGG = {!!stats.stats.bDigg ? stats.stats.bDigg.toFixed(9) : '...'} DIGG
 					</Typography>
+					<Typography variant="body2">
+						Potential Rebase ={' '}
+						<span
+							style={
+								!!rebasePercentage ? (rebasePercentage > 0 ? { color: 'green' } : { color: 'red' }) : {}
+							}
+						>{`${rebasePercentage ? rebasePercentage.toFixed(5) : '-'}%`}</span>
+					</Typography>
 				</Paper>
 				<Button
+					aria-label="Learn More"
 					variant="text"
 					fullWidth
 					size="small"

@@ -12,10 +12,11 @@ import {
 	ReducedGrowth,
 	Growth,
 	ReducedContractConfig,
-	Token,
-	Schedules,
 	MethodConfigPayload,
 	SushiAPIResults,
+	GraphResultPrices,
+	ReducedGraphResults,
+	Schedules,
 } from '../model';
 
 export const reduceBatchResult = (result: any[]): any[] => {
@@ -28,6 +29,9 @@ export const reduceBatchResult = (result: any[]): any[] => {
 					newElement[e.args[0]] = e.value;
 				});
 				return newElement;
+			}
+			if (key === 'decimals') {
+				return Array.isArray(element) ? parseInt(element[0].value) : parseInt(element);
 			}
 			return Array.isArray(element) ? reduceResult(element[0].value) : reduceResult(element);
 		});
@@ -44,7 +48,7 @@ export const reduceResult = (value: any): any => {
 	else return value;
 };
 
-export const reduceSushiAPIResults = (results: SushiAPIResults, contracts: any[]): any => {
+export const reduceSushiAPIResults = (results: SushiAPIResults): any => {
 	const newSushiROIs: any = _.map(results.pairs, (pair: any) => {
 		return {
 			address: pair.address,
@@ -80,8 +84,7 @@ export const reduceGrowthQueryConfig = (currentBlock?: number): ReducedGrowthQue
 	return { periods, growthQueries: periods.map(growthQuery) };
 };
 
-// todo: resolve types on QA lint branch (will need merge resolution)
-export const reduceGraphResult = (graphResult: any[], prices: any) => {
+export const reduceGraphResult = (graphResult: any[], prices: GraphResultPrices): ReducedGraphResults[] => {
 	const reduction = graphResult.map((element: any) => {
 		if (!element.data.pair && !element.data.token) return;
 
@@ -146,13 +149,13 @@ export const reduceCurveResult = (
 	curveResult: any[],
 	contracts: string[],
 	//_tokenContracts: any, // It is unused for now but may be used in the future
-	wbtcToken: Token,
+	wbtcToken: ReducedGraphResults,
 ): ReducedCurveResult => {
 	return curveResult.map((result: any, i: number) => {
 		let sum = new BigNumber(0);
 		let count = 0;
 		result.map((sample: any, i: number) => {
-			sum = sum.plus(result[0].virtual_price);
+			sum = sum.plus(sample.virtual_price);
 			count++;
 			if (i > 10) return;
 		});

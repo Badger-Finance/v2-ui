@@ -1,0 +1,132 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CurrencyPicker Opens menu upon click 1`] = `
+<div
+  class="MuiPopover-root-57"
+  id="menu-"
+  role="presentation"
+  style="position: fixed; z-index: 1300; right: 0px; bottom: 0px; top: 0px; left: 0px;"
+>
+  <div
+    aria-hidden="true"
+    style="z-index: -1; position: fixed; right: 0px; bottom: 0px; top: 0px; left: 0px; background-color: transparent;"
+  />
+  <div
+    data-test="sentinelStart"
+    tabindex="0"
+  />
+  <div
+    class="MuiPaper-root-63 MuiMenu-paper-55 MuiPopover-paper-58 MuiPaper-elevation8-74 MuiPaper-rounded-64"
+    style="opacity: 1; transform: scale(1, 1); min-width: 0; transition: opacity 0ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,transform 0ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; top: 16px; left: 16px; transform-origin: -16px -16px;"
+    tabindex="-1"
+  >
+    <ul
+      class="MuiList-root-91 MuiMenu-list-56 MuiList-padding-92"
+      role="listbox"
+      tabindex="-1"
+    >
+      <li
+        aria-disabled="false"
+        aria-selected="true"
+        class="MuiButtonBase-root-110 MuiListItem-root-99 MuiMenuItem-root-95 MuiMenuItem-selected-97 MuiMenuItem-gutters-96 MuiListItem-gutters-106 MuiListItem-button-107 MuiListItem-selected-109 MuiButtonBase-focusVisible-112 MuiListItem-focusVisible-101"
+        data-value="usd"
+        role="option"
+        tabindex="0"
+      >
+        USD
+        <span
+          class="MuiTouchRipple-root-113"
+        />
+      </li>
+      <li
+        aria-disabled="false"
+        class="MuiButtonBase-root-110 MuiListItem-root-99 MuiMenuItem-root-95 MuiMenuItem-gutters-96 MuiListItem-gutters-106 MuiListItem-button-107"
+        data-value="cad"
+        role="option"
+        tabindex="-1"
+      >
+        CAD
+        <span
+          class="MuiTouchRipple-root-113"
+        />
+      </li>
+      <li
+        aria-disabled="false"
+        class="MuiButtonBase-root-110 MuiListItem-root-99 MuiMenuItem-root-95 MuiMenuItem-gutters-96 MuiListItem-gutters-106 MuiListItem-button-107"
+        data-value="btc"
+        role="option"
+        tabindex="-1"
+      >
+        BTC
+        <span
+          class="MuiTouchRipple-root-113"
+        />
+      </li>
+      <li
+        aria-disabled="false"
+        class="MuiButtonBase-root-110 MuiListItem-root-99 MuiMenuItem-root-95 MuiMenuItem-gutters-96 MuiListItem-gutters-106 MuiListItem-button-107"
+        data-value="eth"
+        role="option"
+        tabindex="-1"
+      >
+        ETH
+        <span
+          class="MuiTouchRipple-root-113"
+        />
+      </li>
+    </ul>
+  </div>
+  <div
+    data-test="sentinelEnd"
+    tabindex="0"
+  />
+</div>
+`;
+
+exports[`CurrencyPicker Renders correctly 1`] = `
+<div>
+  <div
+    class="MuiInputBase-root-28 MuiOutlinedInput-root-13 makeStyles-currencyPicker-1"
+    style="margin-top: auto; margin-bottom: auto;"
+  >
+    <div
+      aria-haspopup="listbox"
+      class="MuiSelect-root-2 MuiSelect-select-3 MuiSelect-selectMenu-6 MuiSelect-outlined-5 MuiInputBase-input-39 MuiOutlinedInput-input-23"
+      role="button"
+      tabindex="0"
+    >
+      USD
+    </div>
+    <input
+      aria-hidden="true"
+      class="MuiSelect-nativeInput-12"
+      tabindex="-1"
+      value="usd"
+    />
+    <svg
+      aria-hidden="true"
+      class="MuiSvgIcon-root-46 MuiSelect-icon-8 MuiSelect-iconOutlined-11"
+      focusable="false"
+      viewBox="0 0 24 24"
+    >
+      <path
+        d="M7 10l5 5 5-5z"
+      />
+    </svg>
+    <fieldset
+      aria-hidden="true"
+      class="PrivateNotchedOutline-root-59 MuiOutlinedInput-notchedOutline-22"
+      style="padding-left: 8px;"
+    >
+      <legend
+        class="PrivateNotchedOutline-legend-60"
+        style="width: 0.01px;"
+      >
+        <span>
+          ​
+        </span>
+      </legend>
+    </fieldset>
+  </div>
+</div>
+`;
