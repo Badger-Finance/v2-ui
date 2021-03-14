@@ -10,8 +10,6 @@ import _ from 'lodash';
 import { Network } from 'mobx/model';
 
 class WalletStore {
-	private store?: RootStore;
-
 	public onboard: any;
 	public provider?: any = null;
 	public connectedAddress = '';
@@ -20,8 +18,7 @@ class WalletStore {
 	public gasPrices?: any;
 	public network: Network;
 
-	constructor(store: RootStore) {
-		this.store = store;
+	constructor() {
 		this.network = getNetwork(getNetworkName());
 
 		const onboardOptions: any = {

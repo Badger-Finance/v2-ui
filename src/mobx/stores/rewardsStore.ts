@@ -14,8 +14,6 @@ import { abi as diggAbi } from '../../config/system/abis/UFragments.json';
 
 import { badgerTree, digg_system } from '../../config/deployments/mainnet.json';
 
-import { rewards as rewardsConfig } from 'config/system/geysers';
-
 class RewardsStore {
 	private store!: RootStore;
 
@@ -36,7 +34,7 @@ class RewardsStore {
 	}
 
 	fetchSettRewards = action(() => {
-		const { provider, connectedAddress } = this.store.wallet;
+		const { provider, connectedAddress, network } = this.store.wallet;
 
 		if (!connectedAddress) return;
 
@@ -60,34 +58,33 @@ class RewardsStore {
 					},
 					this.badgerTree,
 				);
-				// to use for new API endpoint
-				const endpointQuery = jsonQuery(`${rewardsConfig.endpoint}/${checksumAddress}`);
-				// Old endpoint
-				// const endpointQuery = jsonQuery(
-				// 	`${rewardsConfig.endpoint}/rewards/${rewardsConfig.network}/${merkleHash}/${checksumAddress}`,
-				// );
-				endpointQuery
-					.then((proof: any) => {
-						Promise.all([
-							rewardsTree.methods.getClaimedFor(connectedAddress, rewardsConfig.tokens).call(),
-							diggToken.methods._sharesPerFragment().call(),
-						])
-							.then((result: any[]) => {
-								if (!proof.error) {
-									this.badgerTree = _.defaults(
-										{
-											cycle: parseInt(proof.cycle, 16),
-											claims: reduceClaims(proof, result[0][0], result[0][1]),
-											sharesPerFragment: result[1],
-											proof,
-										},
-										this.badgerTree,
-									);
-								}
-							})
-							.catch((err) => console.log(err));
-					})
-					.catch((err) => console.log('error: ', err));
+				const endpointQuery = jsonQuery(`${network.geysers.rewards.endpoint}/${checksumAddress}`);
+				if (!!endpointQuery) {
+					endpointQuery
+						.then((proof: any) => {
+							Promise.all([
+								rewardsTree.methods
+									.getClaimedFor(connectedAddress, network.geysers.rewards.tokens)
+									.call(),
+								diggToken.methods._sharesPerFragment().call(),
+							])
+								.then((result: any[]) => {
+									if (!proof.error) {
+										this.badgerTree = _.defaults(
+											{
+												cycle: parseInt(proof.cycle, 16),
+												claims: reduceClaims(proof, result[0][0], result[0][1]),
+												sharesPerFragment: result[1],
+												proof,
+											},
+											this.badgerTree,
+										);
+									}
+								})
+								.catch((err) => console.log(err));
+						})
+						.catch((err) => console.log('error: ', err));
+				}
 			})
 			.catch((err) => console.log(err));
 	});

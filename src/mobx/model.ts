@@ -334,22 +334,24 @@ export type AirdropNetworkConfig = {
 };
 
 export type VaultNetworkConfig = {
-	abi: AbiItem[];
-	underlying: string;
-	contracts: string[];
-	fillers: {
-		symbol?: string[];
-		isFeatured?: boolean[];
-		position?: number[];
-		isSuperSett?: boolean[];
-		symbolPrefix?: string[];
-		onsenId?: string[];
+	[index: string]: {
+		abi: AbiItem[];
+		underlying: string;
+		contracts: string[];
+		fillers: {
+			symbol?: string[];
+			isFeatured?: boolean[];
+			position?: number[];
+			isSuperSett?: boolean[];
+			symbolPrefix?: string[];
+			onsenId?: string[];
+		};
+		methods: {
+			name: string;
+			args?: string[];
+		}[];
+		growthEndpoints?: string[];
 	};
-	methods: {
-		name: string;
-		args?: string[];
-	}[];
-	growthEndpoints?: string[];
 };
 
 export type GeyserNetworkConfig = {
@@ -384,7 +386,7 @@ export type TokenNetworkConfig = {
 		names: string[];
 		vsToken: string;
 	};
-	priceEndpoints?: string[];
+	priceEndpoints: string[];
 	tokenBatches: [
 		{
 			abi: AbiItem[];
@@ -442,7 +444,7 @@ export interface Network {
 	name: string;
 	networkId: number;
 	tokens: TokenNetworkConfig;
-	vaults: VaultNetworkConfig[];
+	vaults: VaultNetworkConfig;
 	geysers: GeyserNetworkConfig;
 	rebase: RebaseNetworkConfig;
 	airdrops: AirdropNetworkConfig;

@@ -7,7 +7,7 @@ import { GeyserNetworkConfig } from 'mobx/model';
 import { AbiItem } from 'web3-utils';
 import { getApi } from '../../mobx/utils/api';
 
-export const getGeysers = (network: string | null): GeyserNetworkConfig => {
+export const getGeysers = (network: string): GeyserNetworkConfig => {
 	switch (network) {
 		default:
 			return {

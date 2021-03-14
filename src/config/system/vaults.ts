@@ -7,7 +7,7 @@ import deploy from '../deployments/mainnet.json';
 import bscDeploy from '../deployments/bsc.json';
 import { VaultNetworkConfig } from 'mobx/model';
 
-export const getVaults = (network: string | null): VaultNetworkConfig[] => {
+export const getVaults = (network: string | null): VaultNetworkConfig => {
 	switch (network) {
 		// case NETWORK_LIST.BSC:
 		// 	vaultBatches = [
@@ -49,8 +49,8 @@ export const getVaults = (network: string | null): VaultNetworkConfig[] => {
 		// 	];
 		// 	break;
 		default:
-			return [
-				{
+			return {
+				uniswap: {
 					abi: BadgerVault.abi as AbiItem[],
 					underlying: 'token',
 					contracts: [
@@ -93,7 +93,7 @@ export const getVaults = (network: string | null): VaultNetworkConfig[] => {
 						},
 					],
 				},
-				{
+				sushiswap: {
 					abi: BadgerSushiVault.abi as AbiItem[],
 					underlying: 'token',
 					contracts: [
@@ -137,7 +137,7 @@ export const getVaults = (network: string | null): VaultNetworkConfig[] => {
 						'https://apy.sushiswap.fi/?pairs=',
 					],
 				},
-				{
+				digg: {
 					abi: DiggVault.abi as AbiItem[],
 					underlying: 'token',
 					contracts: [deploy.sett_system.vaults['native.digg']],
@@ -171,6 +171,6 @@ export const getVaults = (network: string | null): VaultNetworkConfig[] => {
 						},
 					],
 				},
-			];
+			};
 	}
 };

@@ -20,11 +20,7 @@ import { jsonQuery, graphQuery, vanillaQuery } from 'mobx/utils/helpers';
 import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
 import async from 'async';
-import {  } from 'config/system/tokens';
-import { EMPTY_DATA, ERC20 } from 'config/constants';
-import {  } from 'config/system/vaults';
-import {  } from 'config/system/geysers';
-import {  } from 'config/system/tokens';
+import { EMPTY_DATA, ERC20, NETWORK_CONSTANTS } from 'config/constants';
 import { formatAmount } from 'mobx/reducers/statsReducers';
 
 // let batchCall = new BatchCall(options);
@@ -110,14 +106,22 @@ class ContractsStore {
 	fetchTokens = action((callback: any) => {
 		const { connectedAddress, network } = this.store.wallet;
 
-		const { batchCall: batch } = reduceContractConfig(network.tokens.tokenBatches, !!connectedAddress && { connectedAddress });
+		const { batchCall: batch } = reduceContractConfig(
+			network.tokens.tokenBatches,
+			!!connectedAddress && { connectedAddress },
+		);
 		// prepare curve price query
-		const curveQueries = network.tokens.curveTokens?.priceEndpoints ? network.tokens.curveTokens?.contracts.map((address: string, index: number) =>
-			jsonQuery(network.tokens.curveTokens?.priceEndpoints[index]),
-		) : [''];
+
+		const curveQueries = !!network.tokens.curveTokens
+			? network.tokens.curveTokens.contracts.map((address: string, index: number) =>
+					jsonQuery(network.tokens.curveTokens?.priceEndpoints[index]),
+			  )
+			: [''];
 
 		// prepare price queries
-		const graphQueries = _.flatten(_.map(network.tokens.tokenBatches[0].contracts, (address: string) => graphQuery(address)));
+		const graphQueries = _.flatten(
+			_.map(network.tokens.tokenBatches[0].contracts, (address: string) => graphQuery(address, this.store)),
+		);
 
 		const cgQueries = vanillaQuery(
 			`https://api.coingecko.com/api/v3/simple/token_price/ethereum?contract_addresses=${network.tokens.tokenBatches[0].contracts.join(
@@ -140,14 +144,16 @@ class ContractsStore {
 					_.compact(reduceGraphResult(result.slice(2 + curveQueries.length), cgPrices)),
 					'address',
 				);
-				const curvePrices = network.tokens.curveTokens ? _.keyBy(
-					reduceCurveResult(
-						result.slice(2, 2 + curveQueries.length),
-						network.tokens.curveTokens.contracts,
-						tokenPrices[network.tokens.curveTokens.vsToken],
-					),
-					'address',
-				);
+				const curvePrices = network.tokens.curveTokens
+					? _.keyBy(
+							reduceCurveResult(
+								result.slice(2, 2 + curveQueries.length),
+								network.tokens.curveTokens.contracts,
+								tokenPrices[network.tokens.curveTokens.vsToken],
+							),
+							'address',
+					  )
+					: undefined;
 				const tokens = _.compact(
 					_.values(
 						_.defaultsDeep(
@@ -155,8 +161,14 @@ class ContractsStore {
 							cgPrices,
 							tokenPrices,
 							tokenContracts,
-							_.mapValues(symbols, (value: string, address: string) => ({ address, symbol: value })),
-							_.mapValues(names, (value: string, address: string) => ({ address, name: value })),
+							_.mapValues(network.tokens.symbols, (value: string, address: string) => ({
+								address,
+								symbol: value,
+							})),
+							_.mapValues(network.tokens.names, (value: string, address: string) => ({
+								address,
+								name: value,
+							})),
 						),
 					),
 				);
@@ -178,38 +190,71 @@ class ContractsStore {
 		}
 
 		const { connectedAddress, currentBlock, network } = this.store.wallet;
-		const sushiBatches = vaultBatches[1];
+		const sushiBatches = network.vaults['sushiswap'];
 
 		const { defaults, batchCall: batch } = reduceContractConfig(
-			vaultBatches,
+			_.map(network.vaults),
 			connectedAddress && { connectedAddress },
 		);
 
 		const { growthQueries, periods } = reduceGrowthQueryConfig(network.name, currentBlock);
 
-		// Disable reason: growthEndPoints[1] has a hardcoded value and will never be null for vaultBatches[1]
-		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		const xSushiQuery = vanillaQuery(sushiBatches.growthEndpoints![1]);
-		const masterChefQuery = vanillaQuery(
-			// Disable reason: growthEndPoints[2] has a hardcoded value and will never be null for vaultBatches[1]
-			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-			sushiBatches.growthEndpoints![2].concat(tokenBatches[0].contracts.join(';')),
-		);
+		if (!!sushiBatches.growthEndpoints) {
+			const xSushiQuery = vanillaQuery(sushiBatches.growthEndpoints![1]);
+			const masterChefQuery = vanillaQuery(
+				// Disable reason: growthEndPoints[2] has a hardcoded value and will never be null for vaultBatches[1]
+				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+				sushiBatches.growthEndpoints![2].concat(network.vaults.sushiswap.contracts.join(';')),
+			);
+
+			Promise.all([masterChefQuery, xSushiQuery]).then((queryResult: any[]) => {
+				const masterChefResult: any = queryResult[0];
+				const newSushiRewards = reduceSushiAPIResults(masterChefResult[0]);
+				network.vaults['sushiswap'].contracts.forEach((contract: any, i: number) => {
+					const tokenAddress = network.tokens.tokenMap[contract.address];
+					const xSushiGrowth =
+						!!newSushiRewards[tokenAddress] &&
+						_.mapValues(newSushiRewards[tokenAddress], (tokens: BigNumber) => {
+							return {
+								amount: tokens,
+								token: this.tokens[NETWORK_CONSTANTS[network.name].TOKENS.XSUSHI_ADDRESS],
+							};
+						});
+					const vault = this.getOrCreateVault(
+						contract.address,
+						this.tokens[tokenAddress],
+						defaults[contract.address].abi,
+					);
+					vault.update(
+						_.defaultsDeep(contract, defaults[contract.address], {
+							growth: _.compact([vault.growth, xSushiGrowth]),
+						}),
+					);
+				});
+			});
+		}
+
 		const ppfsQuery = vanillaQuery('https://api.sett.vision/protocol/ppfs');
 
-		Promise.all([batchCall.execute(batch), ...growthQueries, masterChefQuery, xSushiQuery, ppfsQuery])
+		Promise.all([batchCall.execute(batch), ...growthQueries, ppfsQuery])
 			.then((queryResult: any[]) => {
 				const result = reduceBatchResult(queryResult[0]);
-				const masterChefResult: any = queryResult.slice(growthQueries.length + 1, growthQueries.length + 2);
-				const ppfsResult: any = queryResult.slice(growthQueries.length + 3)[0];
+				const ppfsResult: any = queryResult.slice(growthQueries.length + 1)[0];
 
-				const vaultGrowth = reduceGrowth(queryResult.slice(1, growthQueries.length + 1), periods, START_TIME);
-				const newSushiRewards = reduceSushiAPIResults(masterChefResult[0]);
+				const vaultGrowth = reduceGrowth(
+					queryResult.slice(1, growthQueries.length + 1),
+					periods,
+					NETWORK_CONSTANTS[network.name].START_TIME,
+				);
 
 				result.forEach((contract: any, i: number) => {
-					const tokenAddress = tokenMap[contract.address];
+					const tokenAddress = network.tokens.tokenMap[contract.address];
 					if (!tokenAddress) {
-						return console.log(tokenMap[contract.address], tokenMap, contract.address);
+						return console.log(
+							network.tokens.tokenMap[contract.address],
+							network.tokens.tokenMap,
+							contract.address,
+						);
 					}
 					const vault = this.getOrCreateVault(
 						contract.address,
@@ -223,14 +268,6 @@ class ContractsStore {
 							amount: tokens,
 							token: this.tokens[tokenAddress],
 						}));
-					const xSushiGrowth =
-						!!newSushiRewards[tokenAddress] &&
-						_.mapValues(newSushiRewards[tokenAddress], (tokens: BigNumber) => {
-							return {
-								amount: tokens,
-								token: this.tokens[XSUSHI_ADDRESS],
-							};
-						});
 
 					//TODO: xSushi ROI not added in here - need vault balance which doesn't seem to be set.
 					// console.log(vault)
@@ -238,7 +275,7 @@ class ContractsStore {
 					contract.getPricePerFullShare = new BigNumber(ppfsResult[vault.address]);
 					vault.update(
 						_.defaultsDeep(contract, defaults[contract.address], {
-							growth: _.compact([growth, xSushiGrowth]),
+							growth: _.compact([vault.growth, growth]),
 						}),
 					);
 					// update vaultBalance if given
@@ -256,11 +293,15 @@ class ContractsStore {
 			callback();
 			return;
 		}
+		const { connectedAddress, network } = this.store.wallet;
 
-		const { connectedAddress } = this.store.wallet;
+		if (!network.geysers.geyserBatches) {
+			callback();
+			return;
+		}
 
 		const { defaults, batchCall: batch } = reduceContractConfig(
-			geyserBatches,
+			network.geysers.geyserBatches || [],
 			connectedAddress && { connectedAddress },
 		);
 
@@ -287,16 +328,18 @@ class ContractsStore {
 	});
 
 	getOrCreateToken = action((address: string) => {
+		const { network } = this.store.wallet;
 		if (!this.tokens[address]) {
-			this.tokens[address] = new Token(this.store, address, tokenDecimals[address]);
+			this.tokens[address] = new Token(this.store, address, network.tokens.decimals[address]);
 			return this.tokens[address];
 		} else {
 			return this.tokens[address];
 		}
 	});
 	getOrCreateVault = action((address: string, token: Token, abi?: any) => {
+		const { network } = this.store.wallet;
 		if (!this.vaults[address]) {
-			this.vaults[address] = new Vault(this.store, address, tokenDecimals[address], token, abi);
+			this.vaults[address] = new Vault(this.store, address, network.tokens.decimals[address], token, abi);
 			return this.vaults[address];
 		} else {
 			return this.vaults[address];
