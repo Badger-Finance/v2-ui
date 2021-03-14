@@ -1,0 +1,50 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`WalletWidget Connected address is properly displayed 1`] = `
+<div>
+  <button
+    class="MuiButtonBase-root-34 MuiButton-root-5 MuiButton-contained-13 makeStyles-walletButton-4 MuiButton-containedSecondary-15 MuiButton-disableElevation-16"
+    tabindex="0"
+    type="button"
+  >
+    <span
+      class="MuiButton-label-6"
+    >
+      0x1a1a1...a1a1a1a
+      <span
+        class="MuiButton-endIcon-30 MuiButton-iconSizeMedium-32"
+      >
+        <div
+          class="makeStyles-walletDot-1 makeStyles-greenDot-3"
+        />
+      </span>
+    </span>
+  </button>
+</div>
+`;
+
+exports[`WalletWidget Renders correctly 1`] = `
+<div>
+  <button
+    class="MuiButtonBase-root-34 MuiButton-root-5 MuiButton-contained-13 makeStyles-walletButton-4 MuiButton-containedSecondary-15 MuiButton-disableElevation-16"
+    tabindex="0"
+    type="button"
+  >
+    <span
+      class="MuiButton-label-6"
+    >
+      Click to connect
+      <span
+        class="MuiButton-endIcon-30 MuiButton-iconSizeMedium-32"
+      >
+        <div
+          class="makeStyles-walletDot-1 makeStyles-redDot-2"
+        />
+      </span>
+    </span>
+    <span
+      class="MuiTouchRipple-root-37"
+    />
+  </button>
+</div>
+`;

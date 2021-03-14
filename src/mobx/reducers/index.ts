@@ -3,7 +3,7 @@ import { extendObservable, action, observe } from 'mobx';
 import { RootStore } from '../store';
 
 import { reduceAirdrops, reduceContractsToStats, reduceRebase } from './statsReducers';
-import { WBTC_ADDRESS } from 'config/constants';
+import { WBTC_ADDRESS_LOWER } from 'config/constants';
 import BigNumber from 'bignumber.js';
 import views from 'config/routes';
 
@@ -112,8 +112,8 @@ class UiState {
 
 	reduceRebase = action(() => {
 		const { tokens } = this.store.contracts;
-		if (!!this.store.rebase.rebase && !!tokens[WBTC_ADDRESS])
-			this.rebaseStats = reduceRebase(this.store.rebase.rebase, tokens[WBTC_ADDRESS]);
+		if (!!this.store.rebase.rebase && !!tokens[WBTC_ADDRESS_LOWER])
+			this.rebaseStats = reduceRebase(this.store.rebase.rebase, tokens[WBTC_ADDRESS_LOWER]);
 	});
 
 	setGasPrice = action((gasPrice: string) => {

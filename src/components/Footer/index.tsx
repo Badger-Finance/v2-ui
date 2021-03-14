@@ -40,7 +40,7 @@ export const Footer = (): JSX.Element => {
 					<Grid item sm={12} lg={3} style={{ margin: '.5rem 0' }}>
 						<img
 							alt="Score Logo"
-							src={require('../../assets/8bit/badger score.png')}
+							src={'assets/8bit/badger score.png'}
 							height="80px"
 							style={{ marginBottom: '1rem' }}
 						/>
@@ -67,7 +67,7 @@ export const Footer = (): JSX.Element => {
 							<div className={classes.iconContainer}>
 								<img
 									alt="Twitter Logo"
-									src={require('../../assets/twitter.svg')}
+									src={'assets/twitter.svg'}
 									height="24px"
 									className={classes.icon}
 								/>
@@ -81,7 +81,7 @@ export const Footer = (): JSX.Element => {
 							<div className={classes.iconContainer}>
 								<img
 									alt="Medium Logo"
-									src={require('../../assets/medium.svg')}
+									src={'assets/medium.svg'}
 									height="24px"
 									className={classes.icon}
 								/>
@@ -92,7 +92,7 @@ export const Footer = (): JSX.Element => {
 							<div className={classes.iconContainer}>
 								<img
 									alt="Telegram Logo"
-									src={require('../../assets/telegram.svg')}
+									src={'assets/telegram.svg'}
 									height="24px"
 									className={classes.icon}
 								/>
@@ -111,7 +111,7 @@ export const Footer = (): JSX.Element => {
 							<div className={classes.iconContainer}>
 								<img
 									alt="Discord Logo"
-									src={require('../../assets/discord.svg')}
+									src={'assets/discord.svg'}
 									height="24px"
 									className={classes.icon}
 								/>
@@ -125,7 +125,7 @@ export const Footer = (): JSX.Element => {
 							<div className={classes.iconContainer}>
 								<img
 									alt="Github Logo"
-									src={require('../../assets/github.svg')}
+									src={'assets/github.svg'}
 									height="24px"
 									className={classes.icon}
 								/>
@@ -141,7 +141,7 @@ export const Footer = (): JSX.Element => {
 							<div className={classes.iconContainer}>
 								<img
 									alt="Gitbook Logo"
-									src={require('../../assets/github.svg')}
+									src={'assets/github.svg'}
 									height="24px"
 									className={classes.icon}
 								/>

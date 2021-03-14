@@ -36,7 +36,7 @@ class SettStore {
 	fetchSettData = action(() => {
 		if (this._fetchingSettData) return;
 		this._fetchingSettData = true;
-		async.series(
+		async.parallel(
 			[
 				(callback: any) => this.fetchAssets(callback),
 				(callback: any) => this.fetchBadger(callback),

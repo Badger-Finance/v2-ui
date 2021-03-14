@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CurrencyInfoCard Renders correctly 1`] = `
+<div>
+  <div
+    class="MuiPaper-root-2 makeStyles-infoPaper-1 MuiPaper-elevation2-7 MuiPaper-rounded-3"
+  >
+    <h6
+      class="MuiTypography-root-30 MuiTypography-subtitle1-41 MuiTypography-colorTextPrimary-55"
+    >
+      Test Price
+    </h6>
+    <h5
+      class="MuiTypography-root-30 MuiTypography-h5-39"
+    >
+      $40.00
+    </h5>
+  </div>
+</div>
+`;

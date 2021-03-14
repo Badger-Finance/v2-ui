@@ -56,17 +56,12 @@ export const reduceContractsToStats = (store: RootStore): ContractToStats | unde
 
 	if (!tokens) return;
 
-	const {
-		tvl,
-		portfolio,
-		wallet,
-		deposits,
-		badgerToken,
-		diggToken,
-		growth,
-		bDigg,
-		vaultDeposits,
-	} = calculatePortfolioStats(vaultContracts, tokens, vaultContracts, geyserContracts);
+	const { tvl, portfolio, wallet, deposits, badgerToken, diggToken, bDigg, vaultDeposits } = calculatePortfolioStats(
+		vaultContracts,
+		tokens,
+		vaultContracts,
+		geyserContracts,
+	);
 
 	return {
 		stats: {
@@ -77,7 +72,6 @@ export const reduceContractsToStats = (store: RootStore): ContractToStats | unde
 			deposits,
 			badger: badgerToken,
 			digg: diggToken,
-			badgerGrowth: growth.multipliedBy(1e2).toFixed(2),
 			vaultDeposits,
 		},
 	};
@@ -112,7 +106,6 @@ function calculatePortfolioStats(vaultContracts: any, tokens: any, vaults: any, 
 	let vaultDeposits = new BigNumber(0);
 	let wallet = new BigNumber(0);
 	let portfolio = new BigNumber(0);
-	let growth = new BigNumber(0);
 	const liqGrowth = new BigNumber(0);
 
 	_.forIn(vaultContracts, (vault: Vault) => {
@@ -138,9 +131,6 @@ function calculatePortfolioStats(vaultContracts: any, tokens: any, vaults: any, 
 
 		if (!geyser.vault.underlyingToken) return;
 
-		// TODO: Evaluate what should actually be happening here
-		if (!!geyser.rewards && geyser.rewards[0].year.amount.isGreaterThan(growth)) growth = new BigNumber(9.1612);
-
 		if (!!geyser.balance.gt(0) && !geyser.balanceValue().isNaN()) {
 			portfolio = portfolio.plus(geyser.balanceValue());
 			vaultDeposits = vaultDeposits.plus(geyser.balanceValue());
@@ -152,7 +142,7 @@ function calculatePortfolioStats(vaultContracts: any, tokens: any, vaults: any, 
 	const badgerToken = !!badger && !!badger.ethValue ? badger.ethValue : new BigNumber(0);
 	const diggToken = !!digg && !!digg.ethValue ? digg.ethValue : new BigNumber(0);
 	const bDigg = !!digg && digg.vaults.length > 0 && getDiggPerShare(digg.vaults[0]);
-	return { tvl, portfolio, wallet, deposits, badgerToken, diggToken, bDigg, growth, liqGrowth, vaultDeposits };
+	return { tvl, portfolio, wallet, deposits, badgerToken, diggToken, bDigg, liqGrowth, vaultDeposits };
 }
 
 function formatPercentage(ratio: BigNumber) {
