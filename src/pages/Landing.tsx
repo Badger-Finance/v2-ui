@@ -24,6 +24,7 @@ import { StoreContext } from '../mobx/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
 import BigNumber from 'bignumber.js';
+import SettListV2 from 'components-v2/landing/SettListV2';
 
 const useStyles = makeStyles((theme) => ({
 	landingContainer: {
@@ -123,6 +124,8 @@ const Landing = observer(() => {
 
 	return (
 		<Container className={classes.landingContainer}>
+
+			{/* Landing Metrics Cards */}
 			<Grid container spacing={1} justify="center">
 				<Grid item xs={12} className={classes.headerContainer}>
 					<PageHeader
@@ -160,6 +163,7 @@ const Landing = observer(() => {
 				</Grid>
 			</Grid>
 
+			{/* Landing Claim Functionality */}
 			{!!connectedAddress && rewards.length > 0 && badgerTree.claims.length > 0 && (
 				<>
 					<Grid item xs={12} style={{ textAlign: 'center', paddingBottom: 0 }}>
@@ -187,7 +191,8 @@ const Landing = observer(() => {
 					</Grid>
 				</>
 			)}
-			<SettList isGlobal={!isCached()} hideEmpty={hideZeroBal} />
+
+			<SettListV2 />
 		</Container>
 	);
 });

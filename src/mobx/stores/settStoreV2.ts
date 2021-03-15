@@ -20,6 +20,8 @@ export default class SettStoreV2 {
 
 		this.settList = undefined;
 		this.priceData = undefined;
+
+		this.init();
 	}
 
 	init = action(
