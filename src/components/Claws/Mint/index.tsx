@@ -4,7 +4,9 @@ import BigNumber from 'bignumber.js';
 import { ethers } from 'ethers';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from 'mobx/store-context';
-import { ClawDetails, ClawLabel, ClawParams, ConnectWalletButton, validateAmountBoundaries } from '../shared';
+import TokenAmountLabel from 'components-v2/common/TokenAmountSelector';
+import TokenAmountSelector from 'components-v2/common/TokenAmountLabel';
+import { ClawDetails, ConnectWalletButton, validateAmountBoundaries } from '../shared';
 import { ClawParam, useMainStyles } from '../index';
 import { useError, useMaxEclaw, useMintDetails, useValidateEclaw } from './mint.hooks';
 
@@ -42,7 +44,7 @@ export const Mint: FC = observer(() => {
 				<Grid item xs={12}>
 					<Box clone pb={1}>
 						<Grid item xs={12}>
-							<ClawLabel
+							<TokenAmountLabel
 								name="Collateral"
 								balanceLabel={
 									collateralToken && `Available ${collaterals.get(collateralToken.address)}`
@@ -54,7 +56,7 @@ export const Mint: FC = observer(() => {
 						</Grid>
 					</Box>
 					<Grid item xs={12}>
-						<ClawParams
+						<TokenAmountSelector
 							placeholder="Select Token"
 							displayAmount={collateral.amount}
 							selectedOption={collateral.selectedOption}
@@ -97,7 +99,7 @@ export const Mint: FC = observer(() => {
 			<Grid item xs={12}>
 				<Box clone pb={1}>
 					<Grid item xs={12}>
-						<ClawLabel
+						<TokenAmountLabel
 							name="Mintable"
 							balanceLabel={maxEclaw ? 'Max eCLAW:' : ''}
 							balance={
@@ -111,7 +113,7 @@ export const Mint: FC = observer(() => {
 					</Grid>
 				</Box>
 				<Grid item xs={12}>
-					<ClawParams
+					<TokenAmountSelector
 						placeholder="Select eCLAW"
 						displayAmount={mintable.amount}
 						selectedOption={mintable.selectedOption}

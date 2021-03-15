@@ -3,7 +3,9 @@ import { Box, Button, Container, Grid, MenuItem, Select } from '@material-ui/cor
 import BigNumber from 'bignumber.js';
 import { StoreContext } from 'mobx/store-context';
 import { ClawParam, useMainStyles } from '../index';
-import { ClawLabel, ClawParams, ClawDetails, ConnectWalletButton, validateAmountBoundaries } from '../shared';
+import TokenAmountLabel from 'components-v2/common/TokenAmountSelector';
+import TokenAmountSelector from 'components-v2/common/TokenAmountLabel';
+import { ClawDetails, ConnectWalletButton, validateAmountBoundaries } from '../shared';
 import { useDetails, useError } from './manage.hooks';
 
 const Manage: FC = () => {
@@ -46,7 +48,7 @@ const Manage: FC = () => {
 			<Grid item xs={12}>
 				<Box clone pb={1}>
 					<Grid item xs={12}>
-						<ClawLabel
+						<TokenAmountLabel
 							name="Token"
 							balanceLabel={bToken && `Available ${collaterals.get(bToken.address)}: `}
 							balance={bToken?.balance
@@ -56,7 +58,7 @@ const Manage: FC = () => {
 					</Grid>
 				</Box>
 				<Grid item xs={12}>
-					<ClawParams
+					<TokenAmountSelector
 						placeholder="Select Token"
 						options={eClaws}
 						displayAmount={amount}
