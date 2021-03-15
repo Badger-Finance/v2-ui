@@ -378,3 +378,42 @@ export type AirdropsConfig = {
 		airdropAbi: AbiItem[];
 	};
 };
+
+/**
+ * Sett and geyser objects will be represented by the same
+ * interface. The key difference between a sett and geyser
+ * is the value sources which populate the entity. Geyser will
+ * have emissions value sources while setts only have the
+ * native underlying value source.
+ */
+export type Sett = {
+	name: string;
+	asset: string;
+	value: number;
+	tokens: TokenBalance[];
+	ppfs: number;
+	apy: number;
+	vaultToken: string;
+	underlyingToken: string;
+	sources: ValueSource[];
+	geyser?: Geyser;
+};
+
+export type ValueSource = {
+	name: string;
+	apy: number;
+	performance: Performance;
+};
+
+export type TokenBalance = {
+	address: string;
+	name: string;
+	symbol: string;
+	decimals: number;
+	balance: number;
+	value: number;
+};
+
+export type PriceSummary = {
+	[address: string]: number;
+};

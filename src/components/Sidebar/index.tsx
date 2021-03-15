@@ -223,7 +223,7 @@ export const Sidebar = observer(() => {
 							<ListItemText primary="ibBTC" />
 						</ListItem>
 					)}
-					{FLAGS.BRIDGE_FLAG &&
+					{FLAGS.BRIDGE_FLAG && (
 						<ListItem
 							button
 							className={
@@ -238,7 +238,7 @@ export const Sidebar = observer(() => {
 							</ListItemIcon>
 							<ListItemText primary="Bridge" />
 						</ListItem>
-					}
+					)}
 				</List>
 
 				<List>
