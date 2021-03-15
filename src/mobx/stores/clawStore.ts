@@ -139,7 +139,7 @@ export class ClawStore {
 			await this._approveCollateralIfRequired(empAddress, synthetic.tokenCurrency, collateralAmount);
 			await this._mintCollateral(empAddress, collateralAmount, mintAmount);
 		} catch (error) {
-			console.error(error);
+			process.env.NODE_ENV !== 'production' && console.log(error);
 		}
 	});
 
@@ -147,7 +147,7 @@ export class ClawStore {
 		try {
 			await this._redeemCollateral(empAddress, redeemAmount);
 		} catch (error) {
-			console.error(error);
+			process.env.NODE_ENV !== 'production' && console.log(error);
 		}
 	});
 
@@ -155,7 +155,7 @@ export class ClawStore {
 		try {
 			await this._withdrawCollateral(empAddress, withdrawAmount);
 		} catch (error) {
-			console.error(error);
+			process.env.NODE_ENV !== 'production' && console.log(error);
 		}
 	});
 
@@ -163,7 +163,7 @@ export class ClawStore {
 		try {
 			await this._depositCollateral(empAddress, depositAmount);
 		} catch (error) {
-			console.error(error);
+			process.env.NODE_ENV !== 'production' && console.log(error);
 		}
 	});
 
