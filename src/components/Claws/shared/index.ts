@@ -2,8 +2,6 @@ import BigNumber from 'bignumber.js';
 import { INVALID_REASON } from '../index';
 
 export * from './ClawDetails';
-export * from './ClawLabel';
-export * from './ClawParams';
 export * from './ConnectWalletButton';
 
 export interface ValidationParams {

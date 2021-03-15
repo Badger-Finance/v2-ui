@@ -3,7 +3,9 @@ import { Box, Button, Grid, InputBase, makeStyles, Typography } from '@material-
 import { ClawParam, useMainStyles } from '../index';
 import { StoreContext } from 'mobx/store-context';
 import BigNumber from 'bignumber.js';
-import { ClawDetails, ClawLabel, ClawParams, ConnectWalletButton, validateAmountBoundaries } from '../shared';
+import TokenAmountLabel from 'components-v2/common/TokenAmountSelector';
+import TokenAmountSelector from 'components-v2/common/TokenAmountLabel';
+import { ClawDetails, ConnectWalletButton, validateAmountBoundaries } from '../shared';
 import { useAmountToReceive, useDetails, useError } from './redeem.hooks';
 
 const useStyles = makeStyles((theme) => ({
@@ -48,14 +50,14 @@ const Redeem: FC = () => {
 				<Grid item xs={12}>
 					<Box clone pb={1}>
 						<Grid item xs={12}>
-							<ClawLabel
+							<TokenAmountLabel
 								name="Token"
 								balanceLabel={selectedOption && `Available ${eClaws.get(selectedOption)}:`}
 								balance={selectedOption && (eclawBalance?.toString() ?? '0')}
 							/>
 						</Grid>
 					</Box>
-					<ClawParams
+					<TokenAmountSelector
 						options={eClaws}
 						placeholder="Select Token"
 						displayAmount={amount}
@@ -96,7 +98,7 @@ const Redeem: FC = () => {
 					<Grid item xs={12} sm={8} className={classes.centered}>
 						<Box clone pb={1}>
 							<Grid item xs={12}>
-								<ClawLabel name="You Receive" />
+								<TokenAmountLabel name="You Receive" />
 							</Grid>
 						</Box>
 						<Box clone py={1} px={2}>
