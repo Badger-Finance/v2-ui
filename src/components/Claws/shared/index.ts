@@ -8,7 +8,7 @@ export * from './ConnectWalletButton';
 
 export interface ValidationParams {
 	amount: string | BigNumber;
-	maximum: BigNumber;
+	maximum?: BigNumber;
 	minimum?: BigNumber;
 }
 
@@ -20,7 +20,7 @@ export function validateAmountBoundaries({
 	let error: INVALID_REASON | undefined = undefined;
 
 	const input = new BigNumber(amount);
-	const amountExceedsBalance = input.gt(maximum);
+	const amountExceedsBalance = maximum && input.gt(maximum);
 	const amountIsLessThanMinimum = input.lt(minimum);
 
 	if (amountIsLessThanMinimum) error = INVALID_REASON.UNDER_MINIMUM;

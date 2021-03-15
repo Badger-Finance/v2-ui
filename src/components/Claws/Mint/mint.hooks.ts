@@ -9,15 +9,30 @@ dayjs.extend(utc);
 
 export function useMaxEclaw(collateral: ClawParam, mint: ClawParam) {
 	const store = React.useContext(StoreContext);
+	const collateralToken = store.contracts.tokens[collateral.selectedOption || ''];
 	const synthetic = store.claw.syntheticsDataByEMP.get(mint.selectedOption || '');
-	if (!synthetic || !collateral.amount) return;
+	if (!synthetic || !collateral.amount || !collateralToken) return;
 
+	const precision = 10 ** collateralToken.decimals;
 	const { globalCollateralizationRatio, cumulativeFeeMultiplier, collateralRequirement } = synthetic;
 
 	// Btw, for using min collateral ratio as initial GCR - we can't actually do that in practice since there's no defined price relationship between collateral < -> synthetic tokens.
 	// It's fine for testing but we'll need to remove that logic before release and set the starting GCR by an initial mint(to start the GCR above 1.2x based on current price at launch
 	const ratio = globalCollateralizationRatio.isZero() ? collateralRequirement : globalCollateralizationRatio;
-	return new BigNumber(collateral.amount).multipliedBy(cumulativeFeeMultiplier).dividedBy(ratio);
+
+	return new BigNumber(collateral.amount)
+		.multipliedBy(precision)
+		.multipliedBy(cumulativeFeeMultiplier)
+		.dividedBy(ratio);
+}
+
+// THIS IS ONLY FOR TESTING
+// TODO: remove this after testing is done
+export function useValidateEclaw(mint: ClawParam) {
+	const store = React.useContext(StoreContext);
+	const synthetic = store.claw.syntheticsDataByEMP.get(mint.selectedOption || '');
+	if (!synthetic) return false;
+	return synthetic.globalCollateralizationRatio.isZero();
 }
 
 export function useMintDetails(collateral: ClawParam, mint: ClawParam) {

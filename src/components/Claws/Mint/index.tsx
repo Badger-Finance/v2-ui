@@ -1,11 +1,12 @@
 import React, { FC, useState, useContext } from 'react';
 import { Grid, Box, Button } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
+import { ethers } from 'ethers';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from 'mobx/store-context';
 import { ClawDetails, ClawLabel, ClawParams, ConnectWalletButton, validateAmountBoundaries } from '../shared';
 import { ClawParam, useMainStyles } from '../index';
-import { useError, useMaxEclaw, useMintDetails } from './mint.hooks';
+import { useError, useMaxEclaw, useMintDetails, useValidateEclaw } from './mint.hooks';
 
 export const Mint: FC = observer(() => {
 	const { claw: store, contracts, wallet } = useContext(StoreContext);
@@ -16,6 +17,8 @@ export const Mint: FC = observer(() => {
 	const error = useError(collateral, mintable);
 	const maxEclaw = useMaxEclaw(collateral, mintable);
 	const mintDetails = useMintDetails(collateral, mintable);
+	// ONLY TESTING
+	const validateEclaw = useValidateEclaw(mintable);
 	const collateralToken = contracts.tokens[collateral.selectedOption || ''];
 	const synthetic = syntheticsDataByEMP.get(mintable.selectedOption || '');
 
@@ -28,8 +31,8 @@ export const Mint: FC = observer(() => {
 
 		store.mintSynthetic({
 			empAddress,
-			collateralAmount: new BigNumber(collateralAmount).multipliedBy(10 ** decimals),
-			mintAmount: new BigNumber(mintAmount).multipliedBy(10 ** decimals),
+			collateralAmount: ethers.utils.parseUnits(collateralAmount, decimals).toHexString(),
+			mintAmount: ethers.utils.parseUnits(mintAmount, decimals).toHexString(),
 		});
 	};
 
@@ -96,7 +99,7 @@ export const Mint: FC = observer(() => {
 					<Grid item xs={12}>
 						<ClawLabel
 							name="Mintable"
-							balanceLabel={maxEclaw && 'Max eCLAW:'}
+							balanceLabel={maxEclaw ? 'Max eCLAW:' : ''}
 							balance={
 								maxEclaw &&
 								collateralToken &&
@@ -123,7 +126,6 @@ export const Mint: FC = observer(() => {
 								error: validateAmountBoundaries({
 									amount: new BigNumber(amount).multipliedBy(10 ** collateralToken.decimals),
 									minimum: synthetic.minSponsorTokens,
-									maximum: new BigNumber(maxEclaw).multipliedBy(10 ** collateralToken.decimals),
 								}),
 							});
 						}}
@@ -139,7 +141,7 @@ export const Mint: FC = observer(() => {
 								amount,
 								error: validateAmountBoundaries({
 									amount,
-									maximum: maxEclaw,
+									maximum: validateEclaw ? maxEclaw : undefined,
 									minimum: synthetic.minSponsorTokens.dividedBy(10 ** collateralToken.decimals),
 								}),
 							});
