@@ -20,8 +20,8 @@ import { estimateAndSend } from 'mobx/utils/web3';
 
 export interface DepositMint {
 	empAddress: string;
-	collateralAmount: BigNumber;
-	mintAmount: BigNumber;
+	collateralAmount: string;
+	mintAmount: string;
 }
 export interface SyntheticData {
 	// Long name of the synhetic (includes expiration date)
@@ -130,6 +130,7 @@ export class ClawStore {
 	}
 
 	mintSynthetic = action(async ({ empAddress, collateralAmount, mintAmount }: DepositMint) => {
+		const { queueNotification } = this.store.uiState;
 		try {
 			const { connectedAddress } = this.store.wallet;
 			const synthetic = this.syntheticsDataByEMP.get(empAddress);
@@ -139,11 +140,12 @@ export class ClawStore {
 			await this._approveCollateralIfRequired(empAddress, synthetic.tokenCurrency, collateralAmount);
 			await this._mintCollateral(empAddress, collateralAmount, mintAmount);
 		} catch (error) {
+			queueNotification(error?.message || 'There was an error minting', 'error');
 			process.env.NODE_ENV !== 'production' && console.log(error);
 		}
 	});
 
-	redeemCollateral = action(async (empAddress: string, redeemAmount: BigNumber) => {
+	redeemCollateral = action(async (empAddress: string, redeemAmount: string) => {
 		try {
 			await this._redeemCollateral(empAddress, redeemAmount);
 		} catch (error) {
@@ -151,7 +153,7 @@ export class ClawStore {
 		}
 	});
 
-	withdrawCollateral = action(async (empAddress: string, withdrawAmount: BigNumber) => {
+	withdrawCollateral = action(async (empAddress: string, withdrawAmount: string) => {
 		try {
 			await this._withdrawCollateral(empAddress, withdrawAmount);
 		} catch (error) {
@@ -159,7 +161,7 @@ export class ClawStore {
 		}
 	});
 
-	depositCollateral = action(async (empAddress: string, depositAmount: BigNumber) => {
+	depositCollateral = action(async (empAddress: string, depositAmount: string) => {
 		try {
 			await this._depositCollateral(empAddress, depositAmount);
 		} catch (error) {
@@ -204,7 +206,7 @@ export class ClawStore {
 		}
 	});
 
-	private async _approveCollateralIfRequired(empAddress: string, syntheticTokenAddress: string, amount: BigNumber) {
+	private async _approveCollateralIfRequired(empAddress: string, syntheticTokenAddress: string, amount: string) {
 		const { queueNotification } = this.store.uiState;
 		const { provider, connectedAddress } = this.store.wallet;
 		const web3 = new Web3(provider);
@@ -242,13 +244,12 @@ export class ClawStore {
 		});
 	}
 
-	private async _mintCollateral(empAddress: string, collateralAmount: BigNumber, mintAmount: BigNumber) {
+	private async _mintCollateral(empAddress: string, collateralAmount: string, mintAmount: string) {
 		const emp = this._getEmpContract(empAddress);
 
-		const create = emp.methods.create(
-			{ rawValue: collateralAmount.toString() },
-			{ rawValue: mintAmount.toString() },
-		);
+		console.log({ rawValue: collateralAmount }, { rawValue: mintAmount });
+
+		const create = emp.methods.create({ rawValue: collateralAmount }, { rawValue: mintAmount });
 
 		return this._getEmpTransactionRequest({
 			method: create,
@@ -257,9 +258,9 @@ export class ClawStore {
 		});
 	}
 
-	private async _redeemCollateral(empAddress: string, redeemAmount: BigNumber) {
+	private async _redeemCollateral(empAddress: string, redeemAmount: string) {
 		const emp = this._getEmpContract(empAddress);
-		const redeem = emp.methods.redeem({ rawValue: redeemAmount.toString() });
+		const redeem = emp.methods.redeem({ rawValue: redeemAmount });
 
 		return this._getEmpTransactionRequest({
 			method: redeem,
@@ -268,9 +269,9 @@ export class ClawStore {
 		});
 	}
 
-	private async _withdrawCollateral(empAddress: string, withdrawAmount: BigNumber) {
+	private async _withdrawCollateral(empAddress: string, withdrawAmount: string) {
 		const emp = this._getEmpContract(empAddress);
-		const withdraw = emp.methods.requestWithdrawal({ rawValue: withdrawAmount.toString() });
+		const withdraw = emp.methods.requestWithdrawal({ rawValue: withdrawAmount });
 
 		return this._getEmpTransactionRequest({
 			method: withdraw,
@@ -279,9 +280,9 @@ export class ClawStore {
 		});
 	}
 
-	private async _depositCollateral(empAddress: string, depositAmount: BigNumber) {
+	private async _depositCollateral(empAddress: string, depositAmount: string) {
 		const emp = this._getEmpContract(empAddress);
-		const deposit = emp.methods.deposit({ rawValue: depositAmount.toString() });
+		const deposit = emp.methods.deposit({ rawValue: depositAmount });
 
 		return this._getEmpTransactionRequest({
 			method: deposit,
