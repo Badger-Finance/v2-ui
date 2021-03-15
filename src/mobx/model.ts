@@ -345,6 +345,7 @@ export type VaultNetworkConfig = {
 			isSuperSett?: boolean[];
 			symbolPrefix?: string[];
 			onsenId?: string[];
+			pairContract?: string[];
 		};
 		methods: {
 			name: string;
@@ -400,8 +401,7 @@ export type TokenNetworkConfig = {
 	decimals: { [index: string]: number };
 	symbols: { [index: string]: string };
 	names: { [index: string]: string };
-	vaultMap: string[];
-	tokenMap: string[];
+	tokenMap: { [index: string]: string };
 };
 
 export type RebaseNetworkConfig = {
@@ -423,8 +423,12 @@ export type RebaseNetworkConfig = {
 	};
 };
 
+export type BadgerSystem = {
+	[index: string]: string | { [index: string]: string };
+};
+
 export type DeployConfig = {
-	[index: string]: string | { [index: string]: string | { [index: string]: string } };
+	[index: string]: any;
 };
 
 export type NetworkConstants = {
@@ -437,6 +441,12 @@ export type NetworkConstants = {
 		START_BLOCK: number;
 		START_TIME: Date;
 		DEPLOY: DeployConfig;
+	};
+};
+
+export type ClaimsSymbols = {
+	[index: string]: {
+		[index: string]: string;
 	};
 };
 

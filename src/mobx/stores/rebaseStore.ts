@@ -35,11 +35,11 @@ class RebaseStore {
 
 	fetchRebaseStats = action(async () => {
 		let rebaseLog: any = null;
-		const { network } = this.store.wallet;
+		const { network, provider } = this.store.wallet;
 
-		if (this.store.wallet.provider) {
+		if (provider) {
 			const options = {
-				web3: new Web3(this.store.wallet.provider),
+				web3: new Web3(provider),
 				etherscan: {
 					apiKey: 'NXSHKK6D53D3R9I17SR49VX8VITQY7UC6P',
 					delayTime: 300,
@@ -48,7 +48,7 @@ class RebaseStore {
 
 			batchCall = new BatchCall(options);
 
-			rebaseLog = await getRebaseLogs(this.store.wallet.provider);
+			rebaseLog = await getRebaseLogs(provider, network);
 		} else {
 			return;
 		}

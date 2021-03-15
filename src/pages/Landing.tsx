@@ -17,7 +17,7 @@ import {
 import PageHeader from '../components-v2/common/PageHeader';
 import { SettList } from '../components/Collection/Setts';
 import { digg_system } from 'config/deployments/mainnet.json';
-import { CLAIMS_SYMBOLS, USDC_ADDRESS } from 'config/constants';
+import { CLAIMS_SYMBOLS, NETWORK_CONSTANTS } from 'config/constants';
 import { inCurrency } from '../mobx/utils/helpers';
 import _ from 'lodash';
 import { StoreContext } from '../mobx/store-context';
@@ -86,12 +86,13 @@ const Landing = observer(() => {
 
 	const availableRewards = () => {
 		return badgerTree.claims.map((claim: any[]) => {
-			const claimAddress = claim[0];
+			const { network } = store.wallet;
+			const claimAddress: string = claim[0];
 			const claimValue = claim
 				? claim[1].dividedBy(
 						claimAddress === digg_system['uFragments']
 							? badgerTree.sharesPerFragment * 1e9
-							: claimAddress === USDC_ADDRESS
+							: claimAddress === NETWORK_CONSTANTS[network.name].TOKENS.USDC_ADDRESS
 							? 1e6
 							: 1e18,
 				  )
@@ -103,7 +104,7 @@ const Landing = observer(() => {
 						key={claimAddress}
 						primary={claimDisplay}
 						className={classes.rewardText}
-						secondary={`${CLAIMS_SYMBOLS[claimAddress.toLowerCase()]} Available to Claim`}
+						secondary={`${CLAIMS_SYMBOLS[network.name][claimAddress.toLowerCase()]} Available to Claim`}
 					/>
 				)
 			);

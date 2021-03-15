@@ -2,7 +2,6 @@ import BigNumber from 'bignumber.js';
 import Web3 from 'web3';
 import { Contract, ContractSendMethod } from 'web3-eth-contract';
 import { PromiEvent } from 'web3-core';
-import WalletStore from '../stores/walletStore';
 import _ from 'lodash';
 import { AbiItem } from 'web3-utils';
 import {
@@ -115,47 +114,47 @@ export const batchConfig = (namespace: string, addresses: any[], methods: any[],
 	};
 };
 
-export const getTokenAddresses = (contracts: any[], config: TokenAddressessConfig): TokenAddressess[] => {
-	// pull underlying and yileding token addresses
-	const addresses: TokenAddressess[] = [];
-	_.map(contracts, (contract: any) => {
-		if (!!contract[config.underlying])
-			addresses.push({
-				address: contract[config.underlying],
-				contract: contract.address.toLowerCase(),
-				type: 'underlying',
-				subgraph:
-					!!config.sushi && config.sushi.includes(contract.address)
-						? 'zippoxer/sushiswap-subgraph-fork'
-						: 'uniswap/uniswap-v2',
-			});
-		// if (!!contract[config.yielding!])
-		// 	addresses.push({ address: contract[config.yielding!], contract: contract.address.toLowerCase(), type: 'yielding' })
-	});
-	return addresses;
-};
+// export const getTokenAddresses = (contracts: any[], config: TokenAddressessConfig): TokenAddressess[] => {
+// 	// pull underlying and yileding token addresses
+// 	const addresses: TokenAddressess[] = [];
+// 	_.map(contracts, (contract: any) => {
+// 		if (!!contract[config.underlying])
+// 			addresses.push({
+// 				address: contract[config.underlying],
+// 				contract: contract.address.toLowerCase(),
+// 				type: 'underlying',
+// 				subgraph:
+// 					!!config.sushi && config.sushi.includes(contract.address)
+// 						? 'zippoxer/sushiswap-subgraph-fork'
+// 						: 'uniswap/uniswap-v2',
+// 			});
+// 		// if (!!contract[config.yielding!])
+// 		// 	addresses.push({ address: contract[config.yielding!], contract: contract.address.toLowerCase(), type: 'yielding' })
+// 	});
+// 	return addresses;
+// };
 
-export const contractMethods = (config: ContractMethodsConfig, wallet: WalletStore): any[] => {
-	let methods = [];
-	if (!!config.rewards) {
-		methods.push({
-			name: config.rewards.method,
-			args: config.rewards.tokens,
-		});
-	}
+// export const contractMethods = (config: ContractMethodsConfig, wallet: WalletStore): any[] => {
+// 	let methods = [];
+// 	if (!!config.rewards) {
+// 		methods.push({
+// 			name: config.rewards.method,
+// 			args: config.rewards.tokens,
+// 		});
+// 	}
 
-	if (!!wallet.connectedAddress)
-		methods = methods.concat(
-			config.walletMethods.map((method: string) => {
-				return {
-					name: method,
-					args: [wallet.connectedAddress],
-				};
-			}),
-		);
+// 	if (!!wallet.connectedAddress)
+// 		methods = methods.concat(
+// 			config.walletMethods.map((method: string) => {
+// 				return {
+// 					name: method,
+// 					args: [wallet.connectedAddress],
+// 				};
+// 			}),
+// 		);
 
-	return methods;
-};
+// 	return methods;
+// };
 
 export const erc20Methods = (connectedAddress: string, token: TokenContract): any[] => {
 	if (!!connectedAddress && !!token.contract) {

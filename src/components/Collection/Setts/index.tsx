@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from 'mobx/store-context';
 import { makeStyles } from '@material-ui/core/styles';
-import { vaultBatches } from 'config/system/vaults';
+import { getVaults } from 'config/system/vaults';
 import { Vault } from 'mobx/model';
 import { formatPrice } from 'mobx/reducers/statsReducers';
 import { Loader } from 'components/Loader';
@@ -62,6 +62,7 @@ export const SettList = observer((props: any) => {
 		contracts: { vaults, geysers, tokens },
 		sett: { assets, setts, diggSetts },
 		uiState: { stats, currency, period },
+		wallet: { network },
 	} = store;
 	const [dialogProps, setDialogProps] = useState({ open: false, vault: undefined as any, sett: undefined as any });
 
@@ -85,7 +86,11 @@ export const SettList = observer((props: any) => {
 	const tvl = assets.totalValue ? `${formatUsd(assets.totalValue)}` : '$0.00';
 
 	const depositListProps = {
-		contracts: [...vaultBatches[2].contracts, ...vaultBatches[1].contracts, ...vaultBatches[0].contracts],
+		contracts: [
+			...network.vaults.digg.contracts,
+			...network.vaults.sushiswap.contracts,
+			...network.vaults.uniswap.contracts,
+		],
 		allSetts,
 		vaults,
 		hideEmpty,

@@ -18,8 +18,8 @@ import {
 	FormattedVaultGrowth,
 	ReduceAirdropsProps,
 	TokenRebaseStats,
+	Network,
 } from '../model';
-import { sett_system, digg_system, token } from '../../config/deployments/mainnet.json';
 import { ZERO_CURRENCY } from 'config/constants';
 
 export const reduceTimeSinceLastCycle = (time: string): string => {
@@ -38,10 +38,11 @@ export const reduceTimeSinceLastCycle = (time: string): string => {
 export const reduceRebaseToStats = (store: RootStore): RebaseToStats | undefined => {
 	const { tokens } = store.contracts;
 	const { currency } = store.uiState;
+	const { network } = store.wallet;
 
 	if (!tokens) return;
 
-	const token = tokens[digg_system.uFragments];
+	const token = tokens[network.deploy['digg_system']['uFragments']];
 
 	return {
 		nextRebase: new Date('Jan 23 8:00PM UTC'),
@@ -52,20 +53,18 @@ export const reduceRebaseToStats = (store: RootStore): RebaseToStats | undefined
 
 export const reduceContractsToStats = (store: RootStore): ContractToStats | undefined => {
 	const { vaults: vaultContracts, tokens, geysers: geyserContracts } = store.contracts;
+	const { network } = store.wallet;
 	/* const { currency, hideZeroBal } = store.uiState; */
 
 	if (!tokens) return;
 
-	const {
-		tvl,
-		portfolio,
-		wallet,
-		deposits,
-		badgerToken,
-		diggToken,
-		bDigg,
-		vaultDeposits,
-	} = calculatePortfolioStats(vaultContracts, tokens, vaultContracts, geyserContracts);
+	const { tvl, portfolio, wallet, deposits, badgerToken, diggToken, bDigg, vaultDeposits } = calculatePortfolioStats(
+		vaultContracts,
+		tokens,
+		vaultContracts,
+		geyserContracts,
+		network,
+	);
 
 	return {
 		stats: {
@@ -96,15 +95,25 @@ export const reduceClaims = (merkleProof: any, rewardAddresses: any[], claimedRe
 };
 
 export const reduceAirdrops = (airdrops: ReduceAirdropsProps, store: RootStore): ReducedAirdops => {
+	const { network } = store.wallet;
 	if (!airdrops.bBadger) {
 		return {};
 	}
 	return {
-		bBadger: { amount: airdrops.bBadger, token: store.contracts.tokens[sett_system.vaults['native.badger']] },
+		bBadger: {
+			amount: airdrops.bBadger,
+			token: store.contracts.tokens[network.deploy.sett_system.vaults['native.badger']],
+		},
 	};
 };
 
-function calculatePortfolioStats(vaultContracts: any, tokens: any, vaults: any, geyserContracts: any) {
+function calculatePortfolioStats(
+	vaultContracts: any,
+	tokens: any,
+	vaults: any,
+	geyserContracts: any,
+	network: Network,
+) {
 	let tvl = new BigNumber(0);
 	let deposits = new BigNumber(0);
 	let vaultDeposits = new BigNumber(0);
@@ -141,8 +150,8 @@ function calculatePortfolioStats(vaultContracts: any, tokens: any, vaults: any, 
 		}
 	});
 
-	const badger: Token = tokens[token.toLowerCase()];
-	const digg: Token = tokens[digg_system.uFragments.toLowerCase()];
+	const badger: Token = tokens[network.deploy.token.toLowerCase()];
+	const digg: Token = tokens[network.deploy.digg_system.uFragments.toLowerCase()];
 	const badgerToken = !!badger && !!badger.ethValue ? badger.ethValue : new BigNumber(0);
 	const diggToken = !!digg && !!digg.ethValue ? digg.ethValue : new BigNumber(0);
 	const bDigg = !!digg && digg.vaults.length > 0 && getDiggPerShare(digg.vaults[0]);

@@ -61,7 +61,8 @@ class SettStore {
 	});
 
 	fetchAssets = action((callback: any) => {
-		getAssetsUnderManagement().then((res: any) => {
+		const { network } = this.store.wallet;
+		getAssetsUnderManagement(network).then((res: any) => {
 			if (res) {
 				this.assets = res;
 			}
@@ -70,7 +71,8 @@ class SettStore {
 	});
 
 	fetchSetts = action((callback: any) => {
-		getAssetPerformances(setts).then((res: any) => {
+		const { network } = this.store.wallet;
+		getAssetPerformances(setts, network).then((res: any) => {
 			if (res) {
 				this.setts = res;
 			}
@@ -79,7 +81,8 @@ class SettStore {
 	});
 
 	fetchDiggSetts = action((callback: any) => {
-		getAssetPerformances(diggSetts).then((res: any) => {
+		const { network } = this.store.wallet;
+		getAssetPerformances(diggSetts, network).then((res: any) => {
 			if (res) {
 				this.diggSetts = res;
 			}
@@ -88,7 +91,8 @@ class SettStore {
 	});
 
 	fetchFarmData = action((callback: any) => {
-		getFarmData().then((res: any) => {
+		const { network } = this.store.wallet;
+		getFarmData(network).then((res: any) => {
 			if (res) {
 				this.farmData = res;
 			}
@@ -97,7 +101,8 @@ class SettStore {
 	});
 
 	fetchPpfs = action((callback: any) => {
-		getPpfs().then((res: any) => {
+		const { network } = this.store.wallet;
+		getPpfs(network).then((res: any) => {
 			if (res) {
 				this.ppfs = res;
 			}

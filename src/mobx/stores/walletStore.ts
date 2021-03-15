@@ -2,7 +2,6 @@ import { extendObservable, action } from 'mobx';
 import Web3 from 'web3';
 import Onboard from 'bnc-onboard';
 
-import { RootStore } from '../store';
 import BigNumber from 'bignumber.js';
 import { onboardWalletCheck, getOnboardWallets } from '../../config/wallets';
 import { getNetworkName, getNetwork } from '../../mobx/utils/web3';
@@ -102,6 +101,7 @@ class WalletStore {
 	});
 
 	getGasPrice = action(() => {
+		// TODO: Update to fetch gas price based on network
 		fetch('https://www.gasnow.org/api/v3/gas/price?utm_source=badgerv2')
 			.then((result: any) => result.json())
 			.then((price: any) => {

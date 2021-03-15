@@ -1,7 +1,7 @@
 import importedErc20 from '../config/system/abis/ERC20.json';
 import { getNetworkDeploy } from '../mobx/utils/web3';
 import { token as BADGER_ADDRESS, digg_system, sett_system } from './deployments/mainnet.json';
-import { NetworkConstants } from '../mobx/model';
+import { NetworkConstants, ClaimsSymbols } from '../mobx/model';
 
 export enum NETWORK_LIST {
 	BSC = 'bsc',
@@ -47,7 +47,7 @@ export const NETWORK_CONSTANTS: NetworkConstants = {
 	},
 };
 
-export const CLAIMS_SYMBOLS = {
+export const CLAIMS_SYMBOLS: ClaimsSymbols = {
 	[NETWORK_LIST.ETH]: {
 		[NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.FARM_ADDRESS.toLowerCase()]: 'Farm',
 		[NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.XSUSHI_ADDRESS.toLowerCase()]: 'xSushi',

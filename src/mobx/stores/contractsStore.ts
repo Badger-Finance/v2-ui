@@ -197,6 +197,8 @@ class ContractsStore {
 			connectedAddress && { connectedAddress },
 		);
 
+		console.log('defaults: ', defaults);
+
 		const { growthQueries, periods } = reduceGrowthQueryConfig(network.name, currentBlock);
 
 		if (!!sushiBatches.growthEndpoints) {
@@ -204,14 +206,21 @@ class ContractsStore {
 			const masterChefQuery = vanillaQuery(
 				// Disable reason: growthEndPoints[2] has a hardcoded value and will never be null for vaultBatches[1]
 				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-				sushiBatches.growthEndpoints![2].concat(network.vaults.sushiswap.contracts.join(';')),
+				sushiBatches.growthEndpoints![2].concat(
+					network.vaults.sushiswap.fillers.pairContract
+						? network.vaults.sushiswap.fillers.pairContract.join(';')
+						: '',
+				),
 			);
+			console.log('sushi: ', sushiBatches);
 
 			Promise.all([masterChefQuery, xSushiQuery]).then((queryResult: any[]) => {
 				const masterChefResult: any = queryResult[0];
-				const newSushiRewards = reduceSushiAPIResults(masterChefResult[0]);
-				network.vaults['sushiswap'].contracts.forEach((contract: any, i: number) => {
-					const tokenAddress = network.tokens.tokenMap[contract.address];
+				console.log('master chef result:', masterChefResult);
+				const newSushiRewards = reduceSushiAPIResults(masterChefResult);
+				network.vaults.sushiswap.contracts.forEach((contract: any, i: number) => {
+					console.log('contract address: ', contract);
+					const tokenAddress = network.tokens.tokenMap[contract.toLowerCase()];
 					const xSushiGrowth =
 						!!newSushiRewards[tokenAddress] &&
 						_.mapValues(newSushiRewards[tokenAddress], (tokens: BigNumber) => {
@@ -221,12 +230,12 @@ class ContractsStore {
 							};
 						});
 					const vault = this.getOrCreateVault(
-						contract.address,
+						contract.toLowerCase(),
 						this.tokens[tokenAddress],
-						defaults[contract.address].abi,
+						defaults[contract.toLowerCase()].abi,
 					);
 					vault.update(
-						_.defaultsDeep(contract, defaults[contract.address], {
+						_.defaultsDeep(contract.toLowerCase(), defaults[contract.toLowerCase()], {
 							growth: _.compact([vault.growth, xSushiGrowth]),
 						}),
 					);
