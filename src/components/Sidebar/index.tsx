@@ -54,6 +54,9 @@ const useStyles = makeStyles((theme) => ({
 		padding: theme.spacing(2, 2, 1, 2),
 		fontSize: '.8rem',
 	},
+	primarySubListItem: {
+		width: '100%',
+	},
 	secondaryListItem: {
 		cursor: 'pointer',
 		justifyContent: 'space-between',
@@ -290,6 +293,35 @@ export const Sidebar = observer(() => {
 					) : (
 						<></>
 					)}
+					<ListItem
+						button
+						className={classes.listItem}
+						onClick={() => setExpanded(expanded === 'badger-zone' ? '' : 'badger-zone')}
+					>
+						Badger Zone
+						<IconButton
+							size="small"
+							className={classes.expand + ' ' + (expanded === 'tokens' ? classes.expandOpen : '')}
+							aria-label="show more"
+						>
+							<ExpandMore />
+						</IconButton>
+					</ListItem>
+					<ListItem>
+						<Collapse in={expanded === 'badger-zone'} timeout="auto" unmountOnExit>
+							<ListItem
+								button
+								style={{ width: '100%' }}
+								className={[
+									store.router.currentPath == '/honey-badger-drop' ? classes.activeListItem : '',
+									classes.primarySubListItem,
+								].join(' ')}
+								onClick={() => goTo(views.honeybadgerDrop)}
+							>
+								Honey Badger Drop
+							</ListItem>
+						</Collapse>
+					</ListItem>
 				</List>
 
 				<List>
