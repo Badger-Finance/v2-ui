@@ -4,14 +4,18 @@ import { observer } from "mobx-react-lite";
 import { List, makeStyles, Typography } from "@material-ui/core";
 import { StoreContext } from "mobx/store-context";
 import { Loader } from "components/Loader";
+import _ from 'lodash';
 import SettListItem from "components-v2/common/SettListItem";
 import BigNumber from "bignumber.js";
 import {usdToCurrency} from "../../mobx/utils/helpers";
-import {formatPrice} from "../../mobx/reducers/statsReducers";
-import {Vault} from "../../mobx/model";
-import DepositList from "../../components/Collection/Setts/DepositList";
+import {
+	formatBalance,
+	formatBalanceUnderlying, formatBalanceValue, formatGeyserBalance, formatGeyserBalanceValue,
+	formatPrice,
+	formatTokenBalanceValue
+} from "../../mobx/reducers/statsReducers";
+import {Geyser, Vault} from "../../mobx/model";
 import SettDialog from "../../components/Collection/Setts/SettDialog";
-import DepositListV2 from "./DepositListv2";
 
 const useStyles = makeStyles((theme) => ({
 	list: {
@@ -60,90 +64,165 @@ interface Props {
 }
 
 const SettListV2 = observer((props: Props) => {
-  const classes = useStyles();
+	const classes = useStyles();
 	const store = useContext(StoreContext);
 
 	const {
-    setts: { settList },
-		uiState: { currency, period, hideZeroBal, stats },
-		contracts: { vaults },
-		wallet: { network },
+		setts: {settList},
+		uiState: {currency, period, hideZeroBal, stats},
+		contracts: {vaults},
 	} = store;
 
-	const { totalValue, isUsd } = props;
-
-	let displayValue: string | undefined;
-	if (totalValue) {
-		displayValue = isUsd ? usdToCurrency(totalValue, currency) : formatPrice(totalValue, currency);
-	}
+	const {totalValue, isUsd} = props;
 
 	// TODO: add vault symbol image to SettDialog
-	const [dialogProps, setDialogProps] = useState({ open: false, vault: undefined as any, sett: undefined as any });
-	const onOpen = (vault: Vault, sett: any) => setDialogProps({ vault: vault, open: true, sett: sett });
-	const onClose = () => setDialogProps({ ...dialogProps, open: false });
+	const [dialogProps, setDialogProps] = useState({open: false, vault: undefined as any, sett: undefined as any});
+	const onOpen = (vault: Vault, sett: any) => setDialogProps({vault: vault, open: true, sett: sett});
+	const onClose = () => setDialogProps({...dialogProps, open: false});
 
-  const getSettListDisplay = (): JSX.Element => {
-    const error = settList === null;
-    return (
-      <>
-        {error ? <Typography variant="h4">There was an issue loading setts. Try refreshing.</Typography> :
-          !settList ? <Loader /> : settList.map((sett) => {
-          	const vault: Vault = vaults[sett.vaultToken.toLowerCase()];
-          	return <SettListItem sett={sett} key={sett.name} currency={currency} onOpen={() => onOpen(vault, sett)} />;
-          })
-        }
-      </>
-    );
-  };
-
-	const getDepositListDisplay = (): JSX.Element => {
+	const getSettListDisplay = (): JSX.Element => {
 		const error = settList === null;
 
-		if (error) {
-			return (<Typography variant="h4">There was an issue loading setts. Try refreshing.</Typography>);
-		} else if (!settList) {
-			return (<Loader />);
-		}
-
-			const contracts = [];
-			if (network.vaults.digg) contracts.push(...network.vaults.digg.contracts);
-			if (network.vaults.sushiswap) contracts.push(...network.vaults.sushiswap.contracts);
-			if (network.vaults.uniswap) contracts.push(...network.vaults.uniswap.contracts);
-
-			const depositListProps = {
-				contracts,
-				settList,
-				vaults,
-				hideZeroBal,
-				classes,
-				onOpen,
-				period,
-				vaultBalance: formatPrice(stats.stats.vaultDeposits, currency),
-				depositBalance: formatPrice(stats.stats.deposits, currency),
-				walletBalance: formatPrice(stats.stats.wallet, currency),
-			};
-
-			return (
-				<DepositListV2 {...depositListProps} />
-			);
+		return (
+			<>
+				{error ? <Typography variant="h4">There was an issue loading setts. Try refreshing.</Typography> :
+					!settList ? <Loader /> : settList!.map((sett) => {
+					const vault: Vault = vaults[sett.vaultToken.toLowerCase()];
+					return <SettListItem sett={sett} key={sett.name} currency={currency} onOpen={() => onOpen(vault, sett)}/>;
+				})
+				}
+			</>
+		);
 	};
 
-  return (
-    <>
-			{hideZeroBal && getDepositListDisplay()}
-			{!hideZeroBal && (
-				<>
-					<TableHeader
-					title={`Your Vault Deposits - ${displayValue}`}
+	const getWalletListDisplay = (): (JSX.Element | undefined)[] => {
+		if (!settList) return [];
+
+		return (
+			settList.map((sett) => {
+				const vault: Vault = vaults[sett.vaultToken.toLowerCase()];
+				const userBalance = vault && vault.underlyingToken ? new BigNumber(vault.underlyingToken.balance) : new BigNumber(0);
+				if (userBalance.gt(0))
+					return (
+						<SettListItem
+							key={`wallet-${sett.name}`}
+							sett={sett}
+							balance={formatBalance(vault.underlyingToken)}
+							balanceValue={formatTokenBalanceValue(vault.underlyingToken, currency)}
+							currency={currency}
+							onOpen={() => onOpen(vault, sett)}/>
+					);
+			})
+		);
+	};
+
+	const getDepositListDisplay = (): (JSX.Element | undefined)[] => {
+		if (!settList) return [];
+
+		return (
+			settList.map((sett) => {
+				const vault: Vault = vaults[sett.vaultToken.toLowerCase()];
+				const userBalance = vault ? vault.balance.toNumber() : 0;
+				if (userBalance > 0)
+					return (
+						<SettListItem
+							key={`deposit-${sett.name}`}
+							sett={sett}
+							balance={formatBalanceUnderlying(vault)}
+							balanceValue={formatBalanceValue(vault, currency)}
+							currency={currency}
+							onOpen={() => onOpen(vault, sett)}/>
+					);
+			})
+		);
+	};
+
+	const getVaultListDisplay = (): (JSX.Element | undefined)[] => {
+		if (!settList) return [];
+
+		return (
+			settList.map((sett) => {
+				const vault: Vault = vaults[sett.vaultToken.toLowerCase()];
+				const geyser: Geyser | undefined = vault ? vault.geyser : undefined;
+				const userBalance = geyser ? geyser.balance.toNumber() : 0;
+				if (geyser && userBalance > 0)
+					return (
+						<SettListItem
+							key={`deposit-${sett.name}`}
+							sett={sett}
+							balance={formatGeyserBalance(geyser)}
+							balanceValue={formatGeyserBalanceValue(geyser, currency)}
+							currency={currency}
+							onOpen={() => onOpen(vault, sett)}/>
+					);
+			})
+		);
+	};
+
+	if (!hideZeroBal) {
+		let totalValueLocked: string | undefined;
+		if (totalValue) {
+			totalValueLocked = isUsd ? usdToCurrency(totalValue, currency) : formatPrice(totalValue, currency);
+		}
+		return (
+			<>
+				<TableHeader
+					title={`Your Vault Deposits - ${totalValueLocked}`}
 					tokenTitle={'Tokens'}
 					classes={classes}
-					period={period} />
-					<List className={classes.list}>{getSettListDisplay()}</List>
-				</>)
-			}
-			<SettDialog dialogProps={dialogProps} classes={classes} onClose={onClose} />
-    </>
-  );
+					period={period}/>
+				<List className={classes.list}>{getSettListDisplay()}</List>
+				<SettDialog dialogProps={dialogProps} classes={classes} onClose={onClose}/>
+			</>
+		);
+	}	else {
+		const walletBalance = formatPrice(stats.stats.wallet, currency);
+		const depositBalance = formatPrice(stats.stats.deposits, currency);
+		const vaultBalance = formatPrice(stats.stats.vaultDeposits, currency);
+		const walletList = _.compact(getWalletListDisplay());
+		const depositList = _.compact(getDepositListDisplay());
+		const vaultList = _.compact(getVaultListDisplay());
+		return(
+			<>
+				{walletList.length > 0 && (
+					<>
+						<TableHeader
+							title={`Your Wallet - ${walletBalance}`}
+							tokenTitle="Available"
+							classes={classes}
+							period={period} />
+						<List className={classes.list}>{walletList}</List>
+					</>
+				)}
+				{depositList.length > 0 && (
+					<>
+						<TableHeader
+							title={`Your Vault Deposits - ${depositBalance}`}
+							tokenTitle="Tokens"
+							classes={classes}
+							period={period} />
+						<List className={classes.list}>{depositList}</List>
+					</>
+				)}
+				{vaultList.length > 0 && (
+					<>
+						<TableHeader
+							title={`Your Staked Amounts - ${vaultBalance}`}
+							tokenTitle="Tokens"
+							classes={classes}
+							period={period} />
+						<List className={classes.list}>{vaultList}</List>
+					</>
+				)}
+				{walletList.length === 0 && depositList.length === 0 && vaultList.length === 0 && (
+					<Typography align="center" variant="subtitle1" color="textSecondary" style={{ margin: '2rem 0' }}>
+							Your address does not have tokens to deposit.
+					</Typography>
+				)}
+				<SettDialog dialogProps={dialogProps} classes={classes} onClose={onClose}/>
+			</>
+		);
+	}
 });
 
 export default SettListV2;
