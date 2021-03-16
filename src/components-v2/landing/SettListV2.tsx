@@ -75,31 +75,41 @@ const SettListV2 = observer((props: Props) => {
 
 	const {totalValue, isUsd} = props;
 
+	const isError = () => {
+		if (settList === null)
+			return (<Typography variant="h4">There was an issue loading setts. Try refreshing.</Typography>);
+		else if (!settList)
+				return (<Loader/>);
+		else
+			return undefined;
+	}
+
+
 	// TODO: add vault symbol image to SettDialog
 	const [dialogProps, setDialogProps] = useState({open: false, vault: undefined as any, sett: undefined as any});
 	const onOpen = (vault: Vault, sett: any) => setDialogProps({vault: vault, open: true, sett: sett});
 	const onClose = () => setDialogProps({...dialogProps, open: false});
 
 	const getSettListDisplay = (): JSX.Element => {
-		const error = settList === null;
+		const error = isError();
+		if (error) return error;
 
 		return (
 			<>
-				{error ? <Typography variant="h4">There was an issue loading setts. Try refreshing.</Typography> :
-					!settList ? <Loader /> : settList!.map((sett) => {
+				{settList!.map((sett) => {
 					const vault: Vault = vaults[sett.vaultToken.toLowerCase()];
 					return <SettListItem sett={sett} key={sett.name} currency={currency} onOpen={() => onOpen(vault, sett)}/>;
-				})
-				}
+				})}
 			</>
 		);
 	};
 
 	const getWalletListDisplay = (): (JSX.Element | undefined)[] => {
-		if (!settList) return [];
+		const error = isError();
+		if (error) return [error];
 
 		return (
-			settList.map((sett) => {
+			settList!.map((sett) => {
 				const vault: Vault = vaults[sett.vaultToken.toLowerCase()];
 				const userBalance = vault && vault.underlyingToken ? new BigNumber(vault.underlyingToken.balance) : new BigNumber(0);
 				if (userBalance.gt(0))
@@ -117,10 +127,11 @@ const SettListV2 = observer((props: Props) => {
 	};
 
 	const getDepositListDisplay = (): (JSX.Element | undefined)[] => {
-		if (!settList) return [];
+		const error = isError();
+		if (error) return [error];
 
 		return (
-			settList.map((sett) => {
+			settList!.map((sett) => {
 				const vault: Vault = vaults[sett.vaultToken.toLowerCase()];
 				const userBalance = vault ? vault.balance.toNumber() : 0;
 				if (userBalance > 0)
@@ -138,10 +149,11 @@ const SettListV2 = observer((props: Props) => {
 	};
 
 	const getVaultListDisplay = (): (JSX.Element | undefined)[] => {
-		if (!settList) return [];
+		const error = isError();
+		if (error) return [error];
 
 		return (
-			settList.map((sett) => {
+			settList!.map((sett) => {
 				const vault: Vault = vaults[sett.vaultToken.toLowerCase()];
 				const geyser: Geyser | undefined = vault ? vault.geyser : undefined;
 				const userBalance = geyser ? geyser.balance.toNumber() : 0;
