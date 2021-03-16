@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import views from '../../config/routes';
+import _ from 'lodash';
 import { useContext } from 'react';
 import { StoreContext } from '../../mobx/store-context';
 import { List, ListItem, Drawer, Collapse, IconButton, ListItemIcon, ListItemText } from '@material-ui/core';
@@ -112,6 +113,16 @@ export const Sidebar = observer(() => {
 	} = store;
 
 	const [expanded, setExpanded] = useState('');
+
+	const getTokens = () => {
+		return network.sidebarTokenLinks.map((value) => {
+			return (
+				<ListItem button className={classes.secondarySubListItem} onClick={() => window.open(value.url)}>
+					{value.title}
+				</ListItem>
+			);
+		});
+	};
 
 	return (
 		<Drawer
@@ -271,31 +282,7 @@ export const Sidebar = observer(() => {
 					</ListItem>
 
 					<Collapse in={expanded === 'tokens'} timeout="auto" unmountOnExit>
-						<ListItem
-							button
-							className={classes.secondarySubListItem}
-							onClick={() => window.open('https://matcha.xyz/markets/BADGER')}
-						>
-							BADGER
-						</ListItem>
-						<ListItem
-							button
-							className={classes.secondarySubListItem}
-							onClick={() =>
-								window.open('https://info.uniswap.org/pair/0xcd7989894bc033581532d2cd88da5db0a4b12859')
-							}
-						>
-							Uniswap BADGER/wBTC
-						</ListItem>
-						<ListItem
-							button
-							className={classes.secondarySubListItem}
-							onClick={() =>
-								window.open('https://app.sushiswap.fi/pair/0x110492b31c59716ac47337e616804e3e3adc0b4a')
-							}
-						>
-							Sushiswap BADGER/wBTC
-						</ListItem>
+						{getTokens()}
 					</Collapse>
 
 					<ListItem

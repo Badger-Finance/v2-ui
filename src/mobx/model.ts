@@ -466,6 +466,10 @@ export interface Network {
 	deploy: DeployConfig;
 	rewards: RewardNetworkConfig | undefined;
 	gasEndpoint: string;
+	sidebarTokenLinks: {
+		url: string;
+		title: string;
+	}[];
 }
 
 export class BscNetwork implements Network {
@@ -480,6 +484,16 @@ export class BscNetwork implements Network {
 	public readonly deploy = getNetworkDeploy(NETWORK_LIST.BSC);
 	public readonly rewards = getRewards(NETWORK_LIST.BSC);
 	public readonly gasEndpoint = '';
+	public readonly sidebarTokenLinks = [
+		{
+			url: 'https://pancakeswap.info/pair/0xE1E33459505bB3763843a426F7Fd9933418184ae',
+			title: 'PancakeSwap bDigg/BtcB',
+		},
+		{
+			url: 'https://pancakeswap.info/pair/0x10f461ceac7a17f59e249954db0784d42eff5db5',
+			title: 'PancakeSwap bBadger/BtcB',
+		},
+	];
 }
 
 export class EthNetwork implements Network {
@@ -494,4 +508,18 @@ export class EthNetwork implements Network {
 	public readonly deploy = getNetworkDeploy(NETWORK_LIST.ETH);
 	public readonly rewards = getRewards(NETWORK_LIST.ETH);
 	public readonly gasEndpoint = 'https://www.gasnow.org/api/v3/gas/price?utm_source=badgerv2';
+	public readonly sidebarTokenLinks = [
+		{
+			url: 'https://matcha.xyz/markets/BADGER',
+			title: 'BADGER',
+		},
+		{
+			url: 'https://info.uniswap.org/pair/0xcd7989894bc033581532d2cd88da5db0a4b12859',
+			title: 'Uniswap BADGER/wBTC',
+		},
+		{
+			url: 'https://app.sushiswap.fi/pair/0x110492b31c59716ac47337e616804e3e3adc0b4a',
+			title: 'Sushiswap BADGER/wBTC',
+		},
+	];
 }
