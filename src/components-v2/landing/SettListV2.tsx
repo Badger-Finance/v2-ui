@@ -1,10 +1,17 @@
-import React, { useContext } from "react";
+import React, {useContext, useState} from "react";
 import TableHeader from '../../components/Collection/Setts/TableHeader';
 import { observer } from "mobx-react-lite";
 import { List, makeStyles, Typography } from "@material-ui/core";
 import { StoreContext } from "mobx/store-context";
 import { Loader } from "components/Loader";
 import SettListItem from "components-v2/common/SettListItem";
+import BigNumber from "bignumber.js";
+import {usdToCurrency} from "../../mobx/utils/helpers";
+import {formatPrice} from "../../mobx/reducers/statsReducers";
+import {vaultBatches} from "../../config/system/vaults";
+import {Vault} from "../../mobx/model";
+import DepositList from "../../components/Collection/Setts/DepositList";
+import SettDialog from "../../components/Collection/Setts/SettDialog";
 
 const useStyles = makeStyles((theme) => ({
 	list: {
@@ -47,35 +54,75 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const SettListV2 = observer(() => {
+interface Props {
+	totalValue: BigNumber;
+	isUsd: boolean;
+}
+
+const SettListV2 = observer((props: Props) => {
   const classes = useStyles();
 	const store = useContext(StoreContext);
 
 	const {
-    setts: { settList, priceData },
-		uiState: { currency, period },
+    setts: { settList },
+		uiState: { currency, period, hideZeroBal, stats },
+		contracts: { vaults },
+		sett: { setts, diggSetts },
 	} = store;
+
+	const { totalValue, isUsd } = props;
+
+	let displayValue: string | undefined;
+	if (totalValue) {
+		displayValue = isUsd ? usdToCurrency(totalValue, currency) : formatPrice(totalValue, currency);
+	}
+
+	const [dialogProps, setDialogProps] = useState({ open: false, vault: undefined as any, sett: undefined as any });
+	const onOpen = (vault: Vault, sett: any) => setDialogProps({ vault: vault, open: true, sett: sett });
+	const onClose = () => setDialogProps({ ...dialogProps, open: false });
+
+	let allSetts: any[] = setts && diggSetts ? setts.concat(diggSetts) : [];
 
   const getSettListDisplay = (): JSX.Element => {
     const error = settList === null;
     return (
       <>
         {error ? <Typography variant="h4">There was an issue loading setts. Try refreshing.</Typography> :
-          !settList ? <Loader /> : settList.map((sett) => <SettListItem sett={sett} key={sett.name} currency={currency} />)
+          !settList ? <Loader /> : settList.map((sett) => {
+          	const vault: Vault = vaults[sett.vaultToken.toLowerCase()];
+          	// TODO: replace dialogSett with new Sett type (either need to add symbol image path to type if it's not there, or adjust SettDialogProps to include image path)
+          	const dialogSett: any = allSetts.find((s: any) => s.address.toLowerCase() === sett.vaultToken.toLowerCase());
+          	return <SettListItem sett={sett} key={sett.name} currency={currency} onOpen={() => onOpen(vault, dialogSett)} />;
+          })
         }
       </>
     );
   };
 
+	const depositListProps = {
+		contracts: [...vaultBatches[2].contracts, ...vaultBatches[1].contracts, ...vaultBatches[0].contracts],
+		allSetts,
+		vaults,
+		hideEmpty: hideZeroBal,
+		classes,
+		onOpen,
+		period,
+		vaultBalance: formatPrice(stats.stats.vaultDeposits, currency),
+		depositBalance: formatPrice(stats.stats.deposits, currency),
+		walletBalance: formatPrice(stats.stats.wallet, currency),
+	};
+
   return (
     <>
-      <TableHeader 
-        title={'All Setts  - '}
+			{hideZeroBal && <DepositList{...depositListProps} />}
+			{!hideZeroBal && (<><TableHeader
+        title={`Your Vault Deposits - ${displayValue}`}
         tokenTitle={'Tokens'}
         classes={classes}
         period={period}
       />
-			<List className={classes.list}>{getSettListDisplay()}</List>
+			<List className={classes.list}>{getSettListDisplay()}</List></>)}
+			<SettDialog dialogProps={dialogProps} classes={classes} onClose={onClose} />
     </>
   );
 });

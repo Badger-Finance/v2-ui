@@ -192,7 +192,7 @@ const Landing = observer(() => {
 				</>
 			)}
 
-			<SettListV2 />
+			<SettListV2 totalValue={totalValueLocked ?? new BigNumber(0)} isUsd={true} />
 		</Container>
 	);
 });
