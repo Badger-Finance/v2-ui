@@ -12,6 +12,10 @@ import { Airdrops } from '../components/Airdrops';
 import { Digg } from '../components/Digg';
 import { Locked } from 'components/Common/Locked';
 
+import { IbBTC } from 'components/IbBTC';
+import { FLAGS } from 'config/constants';
+import { Bridge } from '../components/Bridge';
+
 const routes = {
 	locked: new Route<RootStore>({
 		path: '/locked',
@@ -65,6 +69,23 @@ const routes = {
 		onParamsChange: () => {
 			// store.uiState.setVault(collection, id)
 		},
+	}),
+	IbBTC: new Route<RootStore, QueryParams>({
+		path: '/ibBTC',
+		component: FLAGS.IBBTC_FLAG ? <IbBTC /> : <></>,
+		onEnter: (_, params, store) => {
+			//
+		},
+		beforeExit: () => {
+			//
+		},
+		onParamsChange: () => {
+			//
+		},
+	}),
+	bridge: new Route<RootStore, QueryParams>({
+		path: '/bridge',
+		component: FLAGS.BRIDGE_FLAG ? <Bridge /> : <></>,
 	}),
 	// account: new Route<RootStore, {
 	// 	account: string;

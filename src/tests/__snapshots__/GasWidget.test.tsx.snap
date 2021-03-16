@@ -1,0 +1,188 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GasWidget Opens gas menu upon click and "rapid" is selected properly 1`] = `
+<div
+  class="MuiPopover-root-57"
+  id="menu-"
+  role="presentation"
+  style="position: fixed; z-index: 1300; right: 0px; bottom: 0px; top: 0px; left: 0px;"
+>
+  <div
+    aria-hidden="true"
+    style="z-index: -1; position: fixed; right: 0px; bottom: 0px; top: 0px; left: 0px; background-color: transparent;"
+  />
+  <div
+    data-test="sentinelStart"
+    tabindex="0"
+  />
+  <div
+    class="MuiPaper-root-63 MuiMenu-paper-55 MuiPopover-paper-58 MuiPaper-elevation8-74 MuiPaper-rounded-64"
+    style="opacity: 1; transform: scale(1, 1); min-width: 0; transition: opacity 0ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,transform 0ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; top: 16px; left: 16px; transform-origin: -16px -16px;"
+    tabindex="-1"
+  >
+    <ul
+      class="MuiList-root-91 MuiMenu-list-56 MuiList-padding-92"
+      role="listbox"
+      tabindex="-1"
+    >
+      <li
+        aria-disabled="false"
+        class="MuiButtonBase-root-110 MuiListItem-root-99 MuiMenuItem-root-95 MuiMenuItem-gutters-96 MuiListItem-gutters-106 MuiListItem-button-107"
+        data-value="slow"
+        role="option"
+        tabindex="-1"
+      >
+        51
+        <span
+          class="MuiTouchRipple-root-113"
+        />
+      </li>
+      <li
+        aria-disabled="false"
+        aria-selected="true"
+        class="MuiButtonBase-root-110 MuiListItem-root-99 MuiMenuItem-root-95 MuiMenuItem-selected-97 MuiMenuItem-gutters-96 MuiListItem-gutters-106 MuiListItem-button-107 MuiListItem-selected-109 MuiButtonBase-focusVisible-112 MuiListItem-focusVisible-101"
+        data-value="standard"
+        role="option"
+        tabindex="0"
+      >
+        75
+        <span
+          class="MuiTouchRipple-root-113"
+        />
+      </li>
+      <li
+        aria-disabled="false"
+        class="MuiButtonBase-root-110 MuiListItem-root-99 MuiMenuItem-root-95 MuiMenuItem-gutters-96 MuiListItem-gutters-106 MuiListItem-button-107"
+        data-value="rapid"
+        role="option"
+        tabindex="-1"
+      >
+        122
+        <span
+          class="MuiTouchRipple-root-113"
+        />
+      </li>
+    </ul>
+  </div>
+  <div
+    data-test="sentinelEnd"
+    tabindex="0"
+  />
+</div>
+`;
+
+exports[`GasWidget Opens gas menu upon click and "rapid" is selected properly 2`] = `
+<div>
+  <div
+    class="MuiInputBase-root-28 MuiOutlinedInput-root-13 MuiInputBase-colorSecondary-37 MuiOutlinedInput-colorSecondary-14 makeStyles-gasSelector-1 MuiInputBase-focused-30 MuiOutlinedInput-focused-15 MuiInputBase-adornedStart-32 MuiOutlinedInput-adornedStart-17"
+  >
+    <svg
+      aria-hidden="true"
+      class="MuiSvgIcon-root-46"
+      focusable="false"
+      style="cursor: pointer; font-size: 1.2rem; margin-right: .8rem;"
+      viewBox="0 0 24 24"
+    >
+      <path
+        d="M19.77 7.23l.01-.01-3.72-3.72L15 4.56l2.11 2.11c-.94.36-1.61 1.26-1.61 2.33 0 1.38 1.12 2.5 2.5 2.5.36 0 .69-.08 1-.21v7.21c0 .55-.45 1-1 1s-1-.45-1-1V14c0-1.1-.9-2-2-2h-1V5c0-1.1-.9-2-2-2H6c-1.1 0-2 .9-2 2v16h10v-7.5h1.5v5c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5V9c0-.69-.28-1.32-.73-1.77zM12 10H6V5h6v5zm6 0c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"
+      />
+    </svg>
+    <div
+      aria-haspopup="listbox"
+      class="MuiSelect-root-2 MuiSelect-select-3 MuiSelect-selectMenu-6 MuiSelect-outlined-5 MuiInputBase-input-39 MuiOutlinedInput-input-23 MuiInputBase-inputAdornedStart-43 MuiOutlinedInput-inputAdornedStart-26"
+      role="button"
+      tabindex="0"
+    >
+      122
+    </div>
+    <input
+      aria-hidden="true"
+      class="MuiSelect-nativeInput-12"
+      tabindex="-1"
+      value="rapid"
+    />
+    <svg
+      aria-hidden="true"
+      class="MuiSvgIcon-root-46 MuiSelect-icon-8 MuiSelect-iconOutlined-11"
+      focusable="false"
+      viewBox="0 0 24 24"
+    >
+      <path
+        d="M7 10l5 5 5-5z"
+      />
+    </svg>
+    <fieldset
+      aria-hidden="true"
+      class="PrivateNotchedOutline-root-59 MuiOutlinedInput-notchedOutline-22"
+      style="padding-left: 8px;"
+    >
+      <legend
+        class="PrivateNotchedOutline-legend-60"
+        style="width: 0.01px;"
+      >
+        <span>
+          ​
+        </span>
+      </legend>
+    </fieldset>
+  </div>
+</div>
+`;
+
+exports[`GasWidget Renders correctly 1`] = `
+<div>
+  <div
+    class="MuiInputBase-root-28 MuiOutlinedInput-root-13 MuiInputBase-colorSecondary-37 MuiOutlinedInput-colorSecondary-14 makeStyles-gasSelector-1 MuiInputBase-adornedStart-32 MuiOutlinedInput-adornedStart-17"
+  >
+    <svg
+      aria-hidden="true"
+      class="MuiSvgIcon-root-46"
+      focusable="false"
+      style="cursor: pointer; font-size: 1.2rem; margin-right: .8rem;"
+      viewBox="0 0 24 24"
+    >
+      <path
+        d="M19.77 7.23l.01-.01-3.72-3.72L15 4.56l2.11 2.11c-.94.36-1.61 1.26-1.61 2.33 0 1.38 1.12 2.5 2.5 2.5.36 0 .69-.08 1-.21v7.21c0 .55-.45 1-1 1s-1-.45-1-1V14c0-1.1-.9-2-2-2h-1V5c0-1.1-.9-2-2-2H6c-1.1 0-2 .9-2 2v16h10v-7.5h1.5v5c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5V9c0-.69-.28-1.32-.73-1.77zM12 10H6V5h6v5zm6 0c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"
+      />
+    </svg>
+    <div
+      aria-haspopup="listbox"
+      class="MuiSelect-root-2 MuiSelect-select-3 MuiSelect-selectMenu-6 MuiSelect-outlined-5 MuiInputBase-input-39 MuiOutlinedInput-input-23 MuiInputBase-inputAdornedStart-43 MuiOutlinedInput-inputAdornedStart-26"
+      role="button"
+      tabindex="0"
+    >
+      75
+    </div>
+    <input
+      aria-hidden="true"
+      class="MuiSelect-nativeInput-12"
+      tabindex="-1"
+      value="standard"
+    />
+    <svg
+      aria-hidden="true"
+      class="MuiSvgIcon-root-46 MuiSelect-icon-8 MuiSelect-iconOutlined-11"
+      focusable="false"
+      viewBox="0 0 24 24"
+    >
+      <path
+        d="M7 10l5 5 5-5z"
+      />
+    </svg>
+    <fieldset
+      aria-hidden="true"
+      class="PrivateNotchedOutline-root-59 MuiOutlinedInput-notchedOutline-22"
+      style="padding-left: 8px;"
+    >
+      <legend
+        class="PrivateNotchedOutline-legend-60"
+        style="width: 0.01px;"
+      >
+        <span>
+          ​
+        </span>
+      </legend>
+    </fieldset>
+  </div>
+</div>
+`;

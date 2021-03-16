@@ -1,9 +1,9 @@
 import BigNumber from 'bignumber.js';
 import Web3 from 'web3';
 import { AbiItem } from 'web3-utils';
-import { getRebase } from '../../config/system/rebase';
 import { provider } from 'web3-core';
 import { Vault, Network } from '../model';
+import { numberWithCommas } from './helpers';
 
 const UPPER_LIMIT = 1.05 * 1e18;
 const LOWER_LIMIT = 0.95 * 1e18;
@@ -85,12 +85,6 @@ export const shortenNumbers = (value: BigNumber, prefix: string, preferredDecima
 		: numberWithCommas(normal.toFixed(decimals, BigNumber.ROUND_HALF_FLOOR));
 
 	return `${prefix} ${fixedNormal}${suffix}`;
-};
-
-export const numberWithCommas = (x: string): string => {
-	const parts = x.toString().split('.');
-	parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-	return parts.join('.');
 };
 
 export const getRebaseLogs = async (provider: provider, network: Network): Promise<any> => {

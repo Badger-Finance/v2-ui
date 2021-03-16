@@ -135,5 +135,21 @@
 		"daoDiggTimelock": "0x5A54Ca44e8F5A1A695f8621f15Bfa159a140bB61",
 		"diggTeamVesting": "0x124FD4A9bd4914b32c77C9AE51819b1181dbb3D4",
 		"diggDistributor": "0x5E79958EfbB8AFdeDB6EC7107110F329e4EAfffA"
+	},
+	"bridge_system": {
+		"adapter": "0x3e2Ba76558350c7DF7077379f7D429707623c9D2",
+		"logic": {
+			"BadgerBridgeAdapter": "0x835C1532f6fF4022fF098C752c1D008cd444b7a3"
+		}
+	},
+	"swap_system": {
+		"router": "0x0e831bE5ED39fA9CaC685006d673A5e731967846",
+		"strategies": {
+			"curve": "0xFaE8bd34190615f3388f38191DC332B44C53e10B"
+		},
+		"logic": {
+			"SwapStrategyRouter": "0x2cb501d371ba2248BB48455D3293d47cE773E0F7",
+			"CurveSwapStrategy": "0x883c6631248605Ee33E99060B7E8910D3dAB2Cf3"
+		}
 	}
 }

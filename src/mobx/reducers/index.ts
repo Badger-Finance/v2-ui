@@ -113,10 +113,10 @@ class UiState {
 	reduceRebase = action(() => {
 		const { tokens } = this.store.contracts;
 		const { network } = this.store.wallet;
-		if (!!this.store.rebase.rebase && !!tokens[NETWORK_CONSTANTS[network.name].TOKENS.WBTC_ADDRESS])
+		if (!!this.store.rebase.rebase && !!tokens[NETWORK_CONSTANTS[network.name].TOKENS.WBTC_ADDRESS_LOWER])
 			this.rebaseStats = reduceRebase(
 				this.store.rebase.rebase,
-				tokens[NETWORK_CONSTANTS[network.name].TOKENS.WBTC_ADDRESS],
+				tokens[NETWORK_CONSTANTS[network.name].TOKENS.WBTC_ADDRESS_LOWER],
 			);
 	});
 

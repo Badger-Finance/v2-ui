@@ -1,6 +1,5 @@
 import { extendObservable, action, observe } from 'mobx';
 import Web3 from 'web3';
-import BatchCall from 'web3-batch-call';
 import { AbiItem } from 'web3-utils';
 import { estimateAndSend } from '../utils/web3';
 import BigNumber from 'bignumber.js';
@@ -22,7 +21,6 @@ import { Contract } from 'web3-eth-contract';
 import async from 'async';
 import { EMPTY_DATA, ERC20, NETWORK_CONSTANTS } from 'config/constants';
 import { formatAmount } from 'mobx/reducers/statsReducers';
-import { ContactSupportOutlined } from '@material-ui/icons';
 
 // let batchCall = new BatchCall(options);
 let batchCall: any = null;

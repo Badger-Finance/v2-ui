@@ -2,8 +2,8 @@ import BigNumber from 'bignumber.js';
 import _ from 'lodash';
 import { reduceGeyserSchedule } from './reducers/contractReducers';
 import { RootStore } from './store';
-import { AbiInput, AbiItem } from 'web3-utils';
-import { getNetworkId, getNetworkName, getNetworkDeploy } from '../mobx/utils/web3';
+import { AbiItem } from 'web3-utils';
+import { getNetworkDeploy } from '../mobx/utils/web3';
 import { getTokens } from '../config/system/tokens';
 import { getVaults } from '../config/system/vaults';
 import { getGeysers } from '../config/system/geysers';
@@ -11,6 +11,9 @@ import { getRebase } from '../config/system/rebase';
 import { getAirdrops } from 'config/system/airdrops';
 import { NETWORK_IDS, NETWORK_LIST } from 'config/constants';
 import { getRewards } from 'config/system/rewards';
+import Web3 from 'web3';
+
+import { ZERO, TEN } from 'config/constants';
 
 export class Contract {
 	store!: RootStore;
@@ -149,9 +152,64 @@ export class Geyser extends Contract {
 	update(payload: GeyserPayload): void {
 		if (!!payload.totalStaked) this.holdings = payload.totalStaked;
 		if (!!payload.totalStakedFor) this.balance = payload.totalStakedFor;
-		if (!!payload.getUnlockSchedulesFor)
+		if (!!payload.getUnlockSchedulesFor) {
 			this.rewards = reduceGeyserSchedule(payload.getUnlockSchedulesFor, this.store);
+		}
 	}
+}
+
+export class TokenModel extends Contract {
+	public name: string;
+	public symbol: string;
+	public decimals: number;
+	public balance: BigNumber;
+	public poolId?: number | undefined;
+	public mintRate: string;
+	public redeemRate: string;
+
+	constructor(store: RootStore, data: TokenConfig) {
+		super(store, Web3.utils.toChecksumAddress(data.address));
+		this.name = data.name;
+		this.symbol = data.symbol;
+		this.decimals = data.decimals;
+		this.poolId = data?.poolId;
+		this.balance = ZERO;
+		// This will be fetched and set at initialization using 1 unit of mint and redeem
+		// to show current conversion rate from token to ibBTC and from ibBTC to token
+		// by fetchConversionRates()
+		this.mintRate = '0';
+		this.redeemRate = '0';
+	}
+
+	public get formattedBalance(): string {
+		return this.unscale(this.balance).toFixed(3);
+	}
+
+	public get icon(): string {
+		return require(`assets/tokens/${this.symbol}.png`);
+	}
+
+	public formatAmount(amount: BigNumber | string): string {
+		return this.unscale(new BigNumber(amount)).toFixed(3);
+	}
+
+	public scale(amount: BigNumber | string): BigNumber {
+		return new BigNumber(amount).multipliedBy(TEN.pow(this.decimals));
+	}
+
+	public unscale(amount: BigNumber | string): BigNumber {
+		return new BigNumber(amount).dividedBy(TEN.pow(this.decimals));
+	}
+}
+
+interface TokenConfig {
+	address: string;
+	name: string;
+	symbol: string;
+	decimals: number;
+	poolId?: number | undefined;
+	mintRate?: BigNumber | string;
+	redeemRate?: string;
 }
 
 export interface Growth {
@@ -216,7 +274,7 @@ export type GeyserPayload = {
 };
 
 export type Schedules = {
-	array: string[];
+	[index: string]: string[][];
 };
 
 export type RebaseToStats = { nextRebase: Date; oracleRate: string; totalSupply: string | boolean };
@@ -523,3 +581,41 @@ export class EthNetwork implements Network {
 		},
 	];
 }
+/**
+ * Sett and geyser objects will be represented by the same
+ * interface. The key difference between a sett and geyser
+ * is the value sources which populate the entity. Geyser will
+ * have emissions value sources while setts only have the
+ * native underlying value source.
+ */
+export type Sett = {
+	name: string;
+	asset: string;
+	value: number;
+	tokens: TokenBalance[];
+	ppfs: number;
+	apy: number;
+	vaultToken: string;
+	underlyingToken: string;
+	sources: ValueSource[];
+	geyser?: Geyser;
+};
+
+export type ValueSource = {
+	name: string;
+	apy: number;
+	performance: Performance;
+};
+
+export type TokenBalance = {
+	address: string;
+	name: string;
+	symbol: string;
+	decimals: number;
+	balance: number;
+	value: number;
+};
+
+export type PriceSummary = {
+	[address: string]: number;
+};

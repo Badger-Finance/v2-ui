@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`WalletSlider Renders correctly 1`] = `
+<div>
+  <label
+    class="MuiFormControlLabel-root-2 makeStyles-walletSlider-1"
+  >
+    <span
+      class="MuiSwitch-root-8"
+    >
+      <span
+        aria-disabled="false"
+        class="MuiButtonBase-root-33 MuiIconButton-root-24 PrivateSwitchBase-root-20 MuiSwitch-switchBase-11 MuiSwitch-colorPrimary-12"
+      >
+        <span
+          class="MuiIconButton-label-32"
+        >
+          <input
+            class="PrivateSwitchBase-input-23 MuiSwitch-input-17"
+            type="checkbox"
+            value=""
+          />
+          <span
+            class="MuiSwitch-thumb-18"
+          />
+        </span>
+        <span
+          class="MuiTouchRipple-root-66"
+        />
+      </span>
+      <span
+        class="MuiSwitch-track-19"
+      />
+    </span>
+    <span
+      class="MuiTypography-root-36 MuiFormControlLabel-label-7 MuiTypography-body1-38"
+    >
+      Portfolio View
+    </span>
+  </label>
+</div>
+`;
