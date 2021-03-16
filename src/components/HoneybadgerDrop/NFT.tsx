@@ -18,6 +18,9 @@ const useStyles = makeStyles((theme) => ({
 	textCenter: {
 		textAlign: 'center',
 	},
+	textStart: {
+		textAlign: 'start',
+	},
 	textEnd: {
 		textAlign: 'end',
 	},
@@ -34,32 +37,32 @@ const NFT: React.FC<Props> = ({ name, balance, remaining, redemptionRate }) => {
 				</Grid>
 				<Grid item container xs={12}>
 					<Grid item container justify="space-between" xs={12}>
-						<Grid item xs>
+						<Grid item xs={6} className={classes.textStart}>
 							<Typography variant="caption" color="textSecondary">
 								Your Balance
 							</Typography>
 						</Grid>
-						<Grid item xs className={classes.textEnd}>
+						<Grid item xs={6} className={classes.textEnd}>
 							<Typography variant="caption">{balance}</Typography>
 						</Grid>
 					</Grid>
 					<Grid item container justify="space-between" xs={12}>
-						<Grid item xs>
+						<Grid item xs={6} className={classes.textStart}>
 							<Typography variant="caption" color="textSecondary">
 								Remaining
 							</Typography>
 						</Grid>
-						<Grid item xs className={classes.textEnd}>
+						<Grid item xs={6} className={classes.textEnd}>
 							<Typography variant="caption">{remaining}</Typography>
 						</Grid>
 					</Grid>
 					<Grid item container justify="space-between" xs={12}>
-						<Grid item xs>
+						<Grid item xs={6} className={classes.textStart}>
 							<Typography variant="caption" color="textSecondary">
 								Redemption Rate
 							</Typography>
 						</Grid>
-						<Grid item xs className={classes.textEnd}>
+						<Grid item xs={6} className={classes.textEnd}>
 							<Typography variant="caption">{redemptionRate}</Typography>
 						</Grid>
 					</Grid>
