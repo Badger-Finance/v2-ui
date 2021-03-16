@@ -12,8 +12,8 @@ import {
   formatTokenBalanceValue,
 } from 'mobx/reducers/statsReducers';
 import { StoreContext } from 'mobx/store-context';
-import {DepositCard} from "../../components/Collection/Setts/DepositCard";
 import TableHeader from "../../components/Collection/Setts/TableHeader";
+import {DepositCardV2} from "../common/DepositCardV2";
 
 interface DepositListProps {
   contracts: string[];
@@ -54,7 +54,7 @@ export default function DepositListV2(props: DepositListProps): JSX.Element {
     if (sett && userBalance.gt(0)) {
       return (
         <ListItem key={address} className={classes.listItem}>
-          <DepositCard
+          <DepositCardV2
             isGlobal={!hideZeroBal}
             vault={vault}
             sett={sett}
@@ -74,7 +74,7 @@ export default function DepositListV2(props: DepositListProps): JSX.Element {
     if (sett && userBalance > 0) {
       return (
         <ListItem key={address} className={classes.listItem}>
-          <DepositCard
+          <DepositCardV2
             isGlobal={!hideZeroBal}
             vault={vault}
             sett={sett}
@@ -95,7 +95,7 @@ export default function DepositListV2(props: DepositListProps): JSX.Element {
     if (sett && geyser && userBalance > 0) {
       return (
         <ListItem key={address} className={classes.listItem}>
-          <DepositCard
+          <DepositCardV2
             isGlobal={!hideZeroBal}
             vault={vault}
             sett={sett}
