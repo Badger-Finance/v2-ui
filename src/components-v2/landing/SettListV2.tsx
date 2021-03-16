@@ -1,17 +1,17 @@
-import React, {useContext, useState} from "react";
+import React, { useContext, useState } from 'react';
 import TableHeader from '../../components/Collection/Setts/TableHeader';
-import { observer } from "mobx-react-lite";
-import { List, makeStyles, Typography } from "@material-ui/core";
-import { StoreContext } from "mobx/store-context";
-import { Loader } from "components/Loader";
-import SettListItem from "components-v2/common/SettListItem";
-import BigNumber from "bignumber.js";
-import {usdToCurrency} from "../../mobx/utils/helpers";
-import {formatPrice} from "../../mobx/reducers/statsReducers";
-import {Vault} from "../../mobx/model";
-import DepositList from "../../components/Collection/Setts/DepositList";
-import SettDialog from "../../components/Collection/Setts/SettDialog";
-import DepositListV2 from "./DepositListv2";
+import { observer } from 'mobx-react-lite';
+import { List, makeStyles, Typography } from '@material-ui/core';
+import { StoreContext } from 'mobx/store-context';
+import { Loader } from 'components/Loader';
+import SettListItem from 'components-v2/common/SettListItem';
+import BigNumber from 'bignumber.js';
+import { usdToCurrency } from '../../mobx/utils/helpers';
+import { formatPrice } from '../../mobx/reducers/statsReducers';
+import { Vault } from '../../mobx/model';
+import DepositList from '../../components/Collection/Setts/DepositList';
+import SettDialog from '../../components/Collection/Setts/SettDialog';
+import DepositListV2 from './DepositListv2';
 
 const useStyles = makeStyles((theme) => ({
 	list: {
@@ -60,11 +60,11 @@ interface Props {
 }
 
 const SettListV2 = observer((props: Props) => {
-  const classes = useStyles();
+	const classes = useStyles();
 	const store = useContext(StoreContext);
 
 	const {
-    setts: { settList },
+		setts: { settList },
 		uiState: { currency, period, hideZeroBal, stats },
 		contracts: { vaults },
 		wallet: { network },
@@ -82,68 +82,80 @@ const SettListV2 = observer((props: Props) => {
 	const onOpen = (vault: Vault, sett: any) => setDialogProps({ vault: vault, open: true, sett: sett });
 	const onClose = () => setDialogProps({ ...dialogProps, open: false });
 
-  const getSettListDisplay = (): JSX.Element => {
-    const error = settList === null;
-    return (
-      <>
-        {error ? <Typography variant="h4">There was an issue loading setts. Try refreshing.</Typography> :
-          !settList ? <Loader /> : settList.map((sett) => {
-          	const vault: Vault = vaults[sett.vaultToken.toLowerCase()];
-          	return <SettListItem sett={sett} key={sett.name} currency={currency} onOpen={() => onOpen(vault, sett)} />;
-          })
-        }
-      </>
-    );
-  };
+	const getSettListDisplay = (): JSX.Element => {
+		const error = settList === null;
+		return (
+			<>
+				{error ? (
+					<Typography variant="h4">There was an issue loading setts. Try refreshing.</Typography>
+				) : !settList ? (
+					<Loader />
+				) : (
+					settList.map((sett) => {
+						const vault: Vault = vaults[sett.vaultToken.toLowerCase()];
+						return (
+							<SettListItem
+								sett={sett}
+								key={sett.name}
+								currency={currency}
+								onOpen={() => onOpen(vault, sett)}
+							/>
+						);
+					})
+				)}
+			</>
+		);
+	};
 
 	const getDepositListDisplay = (): JSX.Element => {
 		const error = settList === null;
 
 		if (error) {
-			return (<Typography variant="h4">There was an issue loading setts. Try refreshing.</Typography>);
+			return <Typography variant="h4">There was an issue loading setts. Try refreshing.</Typography>;
 		} else if (!settList) {
-			return (<Loader />);
+			return <Loader />;
 		}
 
-			const contracts = [];
-			if (network.vaults.digg) contracts.push(...network.vaults.digg.contracts);
-			if (network.vaults.sushiswap) contracts.push(...network.vaults.sushiswap.contracts);
-			if (network.vaults.uniswap) contracts.push(...network.vaults.uniswap.contracts);
+		var contracts = [];
+		if (network.vaults.digg) contracts.push(...network.vaults.digg.contracts);
+		if (network.vaults.sushiswap) contracts.push(...network.vaults.sushiswap.contracts);
+		if (network.vaults.uniswap) contracts.push(...network.vaults.uniswap.contracts);
 
-			const depositListProps = {
-				contracts,
-				settList,
-				vaults,
-				hideZeroBal,
-				classes,
-				onOpen,
-				period,
-				vaultBalance: formatPrice(stats.stats.vaultDeposits, currency),
-				depositBalance: formatPrice(stats.stats.deposits, currency),
-				walletBalance: formatPrice(stats.stats.wallet, currency),
-			};
+		console.log('stats: ', stats.stats);
 
-			return (
-				<DepositListV2 {...depositListProps} />
-			);
+		const depositListProps = {
+			contracts,
+			settList,
+			vaults,
+			hideZeroBal,
+			classes,
+			onOpen,
+			period,
+			vaultBalance: formatPrice(stats.stats.vaultDeposits, currency),
+			depositBalance: formatPrice(stats.stats.deposits, currency),
+			walletBalance: formatPrice(stats.stats.wallet, currency),
+		};
+
+		return <DepositListV2 {...depositListProps} />;
 	};
 
-  return (
-    <>
+	return (
+		<>
 			{hideZeroBal && getDepositListDisplay()}
 			{!hideZeroBal && (
 				<>
 					<TableHeader
-					title={`Your Vault Deposits - ${displayValue}`}
-					tokenTitle={'Tokens'}
-					classes={classes}
-					period={period} />
+						title={`Vault Deposits - ${displayValue}`}
+						tokenTitle={'Tokens'}
+						classes={classes}
+						period={period}
+					/>
 					<List className={classes.list}>{getSettListDisplay()}</List>
-				</>)
-			}
+				</>
+			)}
 			<SettDialog dialogProps={dialogProps} classes={classes} onClose={onClose} />
-    </>
-  );
+		</>
+	);
 });
 
 export default SettListV2;
