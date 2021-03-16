@@ -55,6 +55,7 @@ class AirdropStore {
 		const { queueNotification, gasPrice, setTxStatus } = this.store.uiState;
 
 		if (!connectedAddress) return;
+		if (!network.airdrops) return;
 
 		const web3 = new Web3(provider);
 		const airdropTree = new web3.eth.Contract(

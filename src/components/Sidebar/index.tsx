@@ -6,6 +6,7 @@ import { StoreContext } from '../../mobx/store-context';
 import { List, ListItem, Drawer, Collapse, IconButton, ListItemIcon, ListItemText } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { ExpandMore } from '@material-ui/icons';
+import { SITE_VERSION, NETWORK_LIST } from '../../config/constants';
 
 const useStyles = makeStyles((theme) => ({
 	logo: {
@@ -107,6 +108,7 @@ export const Sidebar = observer(() => {
 		router: { goTo },
 		uiState: { sidebarOpen, closeSidebar },
 		rewards: { badgerTree },
+		wallet: { network },
 	} = store;
 
 	const [expanded, setExpanded] = useState('');
@@ -131,7 +133,7 @@ export const Sidebar = observer(() => {
 						style={{ marginTop: '.5rem' }}
 						className={classes.listItem}
 					>
-						v2.4.3
+						{SITE_VERSION}
 						<IconButton
 							size="small"
 							className={classes.expand + ' ' + (expanded === 'advanced' ? classes.expandOpen : '')}
@@ -141,15 +143,22 @@ export const Sidebar = observer(() => {
 						</IconButton>
 					</ListItem>
 					<Collapse in={expanded === 'advanced'} timeout="auto" unmountOnExit>
-						<ListItem key="rewards">
-							<ListItemText
-								primary={`Cycle Count: ${badgerTree.cycle}`}
-								secondary={
-									badgerTree?.timeSinceLastCycle &&
-									badgerTree.timeSinceLastCycle + ' since last cycle'
-								}
-							/>
+						<ListItem key="network">
+							<ListItemText primary="Current Network" secondary={network.fullName} />
 						</ListItem>
+						{network.name === NETWORK_LIST.ETH ? (
+							<ListItem key="rewards">
+								<ListItemText
+									primary={`Cycle Count: ${badgerTree.cycle}`}
+									secondary={
+										badgerTree?.timeSinceLastCycle &&
+										badgerTree.timeSinceLastCycle + ' since last cycle'
+									}
+								/>
+							</ListItem>
+						) : (
+							<></>
+						)}
 					</Collapse>
 
 					<ListItem
@@ -167,41 +176,48 @@ export const Sidebar = observer(() => {
 						</ListItemIcon>
 						<ListItemText primary="Sett Vaults" />
 					</ListItem>
-
-					<ListItem
-						button
-						className={
-							classes.listItem +
-							' ' +
-							(store.router.currentPath == '/airdrops' ? classes.activeListItem : '')
-						}
-						onClick={() => goTo(views.airdrops)}
-					>
-						<ListItemIcon>
-							<img
-								alt="Badger Airdrop Icon"
-								src={'assets/sidebar/airdrop.png'}
-								className={classes.icon}
-							/>
-						</ListItemIcon>
-						<ListItemText primary="Airdrops" />
-					</ListItem>
-					<ListItem
-						button
-						className={
-							classes.listItem + ' ' + (store.router.currentPath == '/digg' ? classes.activeListItem : '')
-						}
-						onClick={() => goTo(views.digg)}
-					>
-						<ListItemIcon>
-							<img
-								alt="Badger Digg Icon"
-								src={'assets/sidebar/digg-white.png'}
-								className={classes.icon}
-							/>
-						</ListItemIcon>
-						<ListItemText primary="Digg" />
-					</ListItem>
+					{network.name === NETWORK_LIST.ETH ? (
+						<>
+							<ListItem
+								button
+								className={
+									classes.listItem +
+									' ' +
+									(store.router.currentPath == '/airdrops' ? classes.activeListItem : '')
+								}
+								onClick={() => goTo(views.airdrops)}
+							>
+								<ListItemIcon>
+									<img
+										alt="Badger Airdrop Icon"
+										src={'assets/sidebar/airdrop.png'}
+										className={classes.icon}
+									/>
+								</ListItemIcon>
+								<ListItemText primary="Airdrops" />
+							</ListItem>
+							<ListItem
+								button
+								className={
+									classes.listItem +
+									' ' +
+									(store.router.currentPath == '/digg' ? classes.activeListItem : '')
+								}
+								onClick={() => goTo(views.digg)}
+							>
+								<ListItemIcon>
+									<img
+										alt="Badger Digg Icon"
+										src={'assets/sidebar/digg-white.png'}
+										className={classes.icon}
+									/>
+								</ListItemIcon>
+								<ListItemText primary="Digg" />
+							</ListItem>
+						</>
+					) : (
+						<></>
+					)}
 				</List>
 
 				<List>

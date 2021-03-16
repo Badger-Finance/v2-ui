@@ -6,48 +6,50 @@ import DiggVault from './abis/DiggSett.json';
 import deploy from '../deployments/mainnet.json';
 import bscDeploy from '../deployments/bsc.json';
 import { VaultNetworkConfig } from 'mobx/model';
+import { NETWORK_LIST } from '../../config/constants';
 
 export const getVaults = (network: string | null): VaultNetworkConfig => {
 	switch (network) {
-		// case NETWORK_LIST.BSC:
-		// 	vaultBatches = [
-		// 		{
-		// 			abi: BadgerVault.abi as AbiItem[],
-		// 			underlying: 'token',
-		// 			contracts: [bscDeploy.sett_system.vaults['native.pancakeBnbBtcb']],
-		// 			fillers: {
-		// 				symbol: ['bnbBtcb'],
-		// 				isFeatured: [false],
-		// 				position: [1],
-		// 				isSuperSett: [false],
-		// 			},
-		// 			methods: [
-		// 				{
-		// 					name: 'balanceOf',
-		// 					args: ['{connectedAddress}'],
-		// 				},
-		// 				{
-		// 					name: 'getPricePerFullShare',
-		// 				},
-		// 				{
-		// 					name: 'balance',
-		// 				},
-		// 				{
-		// 					name: 'symbol',
-		// 				},
-		// 				{
-		// 					name: 'decimals',
-		// 				},
-		// 				{
-		// 					name: 'token',
-		// 				},
-		// 				{
-		// 					name: 'totalSupply',
-		// 				},
-		// 			],
-		// 		},
-		// 	];
-		// 	break;
+		case NETWORK_LIST.BSC:
+			return {
+				uniswap: {
+					abi: BadgerVault.abi as AbiItem[],
+					underlying: 'token',
+					contracts: [bscDeploy.sett_system.vaults['native.pancakeBnbBtcb']],
+					fillers: {
+						symbol: ['bnbBtcb'],
+						isFeatured: [false],
+						position: [1],
+						isSuperSett: [false],
+					},
+					methods: [
+						{
+							name: 'balanceOf',
+							args: ['{connectedAddress}'],
+						},
+						{
+							name: 'getPricePerFullShare',
+						},
+						{
+							name: 'balance',
+						},
+						{
+							name: 'symbol',
+						},
+						{
+							name: 'decimals',
+						},
+						{
+							name: 'token',
+						},
+						{
+							name: 'totalSupply',
+						},
+					],
+				},
+				sushiswap: undefined,
+				digg: undefined,
+			};
 		default:
 			return {
 				uniswap: {

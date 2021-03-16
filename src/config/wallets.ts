@@ -1,4 +1,4 @@
-import { CONTACT_EMAIL, APP_NAME, PORTIS_APP_ID, NETWORK_CONSTANTS, NETWORK_LIST } from './constants';
+import { CONTACT_EMAIL, APP_NAME, PORTIS_APP_ID, NETWORK_CONSTANTS, NETWORK_LIST, NETWORK_IDS } from './constants';
 
 export const getOnboardWallets = (network: string) => {
 	switch (network) {
@@ -14,7 +14,10 @@ export const getOnboardWallets = (network: string) => {
 				},
 				{
 					walletName: 'walletConnect',
-					rpc: { ['1']: NETWORK_CONSTANTS[NETWORK_LIST.ETH].RPC_URL },
+					rpc: {
+						['1']: NETWORK_CONSTANTS[NETWORK_LIST.ETH].RPC_URL,
+						[NETWORK_IDS.BSC.toString()]: NETWORK_CONSTANTS[NETWORK_LIST.BSC].RPC_URL,
+					},
 				},
 				{ walletName: 'walletLink', rpcUrl: NETWORK_CONSTANTS[NETWORK_LIST.ETH].RPC_URL, appName: APP_NAME },
 				{ walletName: 'dapper' },

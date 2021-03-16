@@ -37,6 +37,7 @@ class RewardsStore {
 		const { provider, connectedAddress, network } = this.store.wallet;
 
 		if (!connectedAddress) return;
+		if (!network.rewards) return;
 
 		const web3 = new Web3(provider);
 		const rewardsTree = new web3.eth.Contract(rewardsAbi as AbiItem[], badgerTree);
@@ -50,22 +51,18 @@ class RewardsStore {
 
 		Promise.all(treeMethods)
 			.then((rewardsResponse: any) => {
-				const merkleHash = rewardsResponse[1];
-
 				this.badgerTree = _.defaults(
 					{
 						timeSinceLastCycle: reduceTimeSinceLastCycle(rewardsResponse[0]),
 					},
 					this.badgerTree,
 				);
-				const endpointQuery = jsonQuery(`${network.geysers.rewards.endpoint}/${checksumAddress}`);
-				if (!!endpointQuery) {
-					endpointQuery
+				if (network.rewards) {
+					const endpointQuery = jsonQuery(`${network.rewards.endpoint}/${checksumAddress}`);
+					endpointQuery!
 						.then((proof: any) => {
 							Promise.all([
-								rewardsTree.methods
-									.getClaimedFor(connectedAddress, network.geysers.rewards.tokens)
-									.call(),
+								rewardsTree.methods.getClaimedFor(connectedAddress, network.rewards!.tokens).call(),
 								diggToken.methods._sharesPerFragment().call(),
 							])
 								.then((result: any[]) => {

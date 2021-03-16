@@ -54,6 +54,7 @@ class RebaseStore {
 		}
 
 		if (!batchCall) return;
+		if (!network.rebase) return;
 
 		Promise.all([
 			batchCall.execute(network.rebase.digg),
@@ -96,6 +97,7 @@ class RebaseStore {
 		const { queueNotification, gasPrice, setTxStatus } = this.store.uiState;
 
 		if (!connectedAddress) return;
+		if (!network.rebase) return;
 		// if (ethBalance?.lt(MIN_ETH_BALANCE))
 		// 	return queueNotification("Your account is low on ETH, you may need to top up to claim.", 'warning')
 

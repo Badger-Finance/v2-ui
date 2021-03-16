@@ -22,6 +22,7 @@ import { Contract } from 'web3-eth-contract';
 import async from 'async';
 import { EMPTY_DATA, ERC20, NETWORK_CONSTANTS } from 'config/constants';
 import { formatAmount } from 'mobx/reducers/statsReducers';
+import { ContactSupportOutlined } from '@material-ui/icons';
 
 // let batchCall = new BatchCall(options);
 let batchCall: any = null;
@@ -68,14 +69,6 @@ class ContractsStore {
 			this.geysers = {};
 			return;
 		}
-		const newOptions = {
-			web3: new Web3(this.store.wallet.provider),
-			etherscan: {
-				apiKey: 'NXSHKK6D53D3R9I17SR49VX8VITQY7UC6P',
-				delayTime: 300,
-			},
-		};
-		batchCall = new BatchCall(newOptions);
 
 		this.store.airdrops.fetchAirdrops();
 		if (this._fetchingContracts) this._pendingChangeOfAddress = true;
@@ -111,7 +104,6 @@ class ContractsStore {
 			!!connectedAddress && { connectedAddress },
 		);
 		// prepare curve price query
-
 		const curveQueries = !!network.tokens.curveTokens
 			? network.tokens.curveTokens.contracts.map((address: string, index: number) =>
 					jsonQuery(network.tokens.curveTokens?.priceEndpoints[index]),
@@ -123,6 +115,7 @@ class ContractsStore {
 			_.map(network.tokens.tokenBatches[0].contracts, (address: string) => graphQuery(address, this.store)),
 		);
 
+		// TODO: Use jintao API to query prices rather than cg
 		const cgQueries = vanillaQuery(
 			`https://api.coingecko.com/api/v3/simple/token_price/ethereum?contract_addresses=${network.tokens.tokenBatches[0].contracts.join(
 				',',
@@ -144,6 +137,7 @@ class ContractsStore {
 					_.compact(reduceGraphResult(result.slice(2 + curveQueries.length), cgPrices)),
 					'address',
 				);
+				console.log('token prices: ', tokenPrices);
 				const curvePrices = network.tokens.curveTokens
 					? _.keyBy(
 							reduceCurveResult(
@@ -154,6 +148,7 @@ class ContractsStore {
 							'address',
 					  )
 					: undefined;
+				console.log('curve prices: ', curvePrices);
 				const tokens = _.compact(
 					_.values(
 						_.defaultsDeep(
@@ -172,6 +167,7 @@ class ContractsStore {
 						),
 					),
 				);
+				console.log('tokens: ', tokens);
 
 				tokens.forEach((contract: any) => {
 					const token = this.getOrCreateToken(contract.address);
@@ -180,7 +176,7 @@ class ContractsStore {
 
 				callback();
 			})
-			.catch((error: any) => process.env.NODE_ENV !== 'production' && console.log(error));
+			.catch((error: any) => process.env.NODE_ENV !== 'production' && console.log('batch error: ', error));
 	});
 
 	fetchVaults = action((callback: any) => {
@@ -191,6 +187,7 @@ class ContractsStore {
 
 		const { connectedAddress, currentBlock, network } = this.store.wallet;
 		const sushiBatches = network.vaults['sushiswap'];
+		console.log('network: ', network);
 
 		const { defaults, batchCall: batch } = reduceContractConfig(
 			_.map(network.vaults),
@@ -201,24 +198,23 @@ class ContractsStore {
 
 		const { growthQueries, periods } = reduceGrowthQueryConfig(network.name, currentBlock);
 
-		if (!!sushiBatches.growthEndpoints) {
-			const xSushiQuery = vanillaQuery(sushiBatches.growthEndpoints![1]);
+		if (!!sushiBatches!.growthEndpoints) {
+			const xSushiQuery = vanillaQuery(sushiBatches!.growthEndpoints![1]);
 			const masterChefQuery = vanillaQuery(
 				// Disable reason: growthEndPoints[2] has a hardcoded value and will never be null for vaultBatches[1]
 				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-				sushiBatches.growthEndpoints![2].concat(
-					network.vaults.sushiswap.fillers.pairContract
-						? network.vaults.sushiswap.fillers.pairContract.join(';')
+				sushiBatches!.growthEndpoints![2].concat(
+					network.vaults.sushiswap!.fillers.pairContract
+						? network.vaults.sushiswap!.fillers.pairContract.join(';')
 						: '',
 				),
 			);
-			console.log('sushi: ', sushiBatches);
 
 			Promise.all([masterChefQuery, xSushiQuery]).then((queryResult: any[]) => {
 				const masterChefResult: any = queryResult[0];
 				console.log('master chef result:', masterChefResult);
 				const newSushiRewards = reduceSushiAPIResults(masterChefResult);
-				network.vaults.sushiswap.contracts.forEach((contract: any, i: number) => {
+				network.vaults.sushiswap!.contracts.forEach((contract: any, i: number) => {
 					console.log('contract address: ', contract);
 					const tokenAddress = network.tokens.tokenMap[contract.toLowerCase()];
 					const xSushiGrowth =
@@ -304,13 +300,13 @@ class ContractsStore {
 		}
 		const { connectedAddress, network } = this.store.wallet;
 
-		if (!network.geysers.geyserBatches) {
+		if (!network.geysers!.geyserBatches) {
 			callback();
 			return;
 		}
 
 		const { defaults, batchCall: batch } = reduceContractConfig(
-			network.geysers.geyserBatches || [],
+			network.geysers!.geyserBatches || [],
 			connectedAddress && { connectedAddress },
 		);
 

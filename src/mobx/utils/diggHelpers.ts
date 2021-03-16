@@ -99,6 +99,7 @@ export const getRebaseLogs = async (provider: provider, network: Network): Promi
 	// eslint-disable-next-line @typescript-eslint/no-var-requires
 	const web3 = new Web3(provider);
 	// const web3 = new Web3(provider);
+	if (!network.rebase) return;
 	const policy = network.rebase.digg[1];
 	// let contractInstance = new web3.eth.Contract(policy.abi || '', policy.addresses[0]);
 	const contractInstance = new web3.eth.Contract(policy.abi as AbiItem[], policy.addresses[0]);

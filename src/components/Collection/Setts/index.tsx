@@ -85,12 +85,13 @@ export const SettList = observer((props: any) => {
 
 	const tvl = assets.totalValue ? `${formatUsd(assets.totalValue)}` : '$0.00';
 
+	var contracts = [];
+	if (network.vaults.digg) contracts.push(...network.vaults.digg.contracts);
+	if (network.vaults.sushiswap) contracts.push(...network.vaults.sushiswap.contracts);
+	if (network.vaults.uniswap) contracts.push(...network.vaults.uniswap.contracts);
+
 	const depositListProps = {
-		contracts: [
-			...network.vaults.digg.contracts,
-			...network.vaults.sushiswap.contracts,
-			...network.vaults.uniswap.contracts,
-		],
+		contracts: contracts,
 		allSetts,
 		vaults,
 		hideEmpty,

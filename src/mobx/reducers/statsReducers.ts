@@ -151,7 +151,9 @@ function calculatePortfolioStats(
 	});
 
 	const badger: Token = tokens[network.deploy.token.toLowerCase()];
-	const digg: Token = tokens[network.deploy.digg_system.uFragments.toLowerCase()];
+	const digg: Token | undefined = network.deploy.digg_system
+		? tokens[network.deploy.digg_system.uFragments.toLowerCase()]
+		: undefined;
 	const badgerToken = !!badger && !!badger.ethValue ? badger.ethValue : new BigNumber(0);
 	const diggToken = !!digg && !!digg.ethValue ? digg.ethValue : new BigNumber(0);
 	const bDigg = !!digg && digg.vaults.length > 0 && getDiggPerShare(digg.vaults[0]);

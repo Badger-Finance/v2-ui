@@ -4,22 +4,13 @@ import { Contract, ContractSendMethod } from 'web3-eth-contract';
 import { PromiEvent } from 'web3-core';
 import _ from 'lodash';
 import { AbiItem } from 'web3-utils';
-import {
-	BatchConfig,
-	TokenContract,
-	ContractMethodsConfig,
-	TokenAddressessConfig,
-	TokenAddressess,
-	DeployConfig,
-	Network,
-	BscNetwork,
-	EthNetwork,
-} from '../model';
+import { BatchConfig, TokenContract, DeployConfig, Network, BscNetwork, EthNetwork } from '../model';
 import { NETWORK_LIST } from '../../config/constants';
 import deploy from '../../config/deployments/mainnet.json';
 import bscDeploy from '../../config/deployments/bsc.json';
 
 export const getNetwork = (network: string): Network => {
+	if (process.env.NODE_ENV !== 'production') return new BscNetwork();
 	switch (network) {
 		case NETWORK_LIST.BSC:
 			return new BscNetwork();

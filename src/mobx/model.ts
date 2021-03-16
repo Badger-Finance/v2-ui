@@ -10,6 +10,7 @@ import { getGeysers } from '../config/system/geysers';
 import { getRebase } from '../config/system/rebase';
 import { getAirdrops } from 'config/system/airdrops';
 import { NETWORK_IDS, NETWORK_LIST } from 'config/constants';
+import { getRewards } from 'config/system/rewards';
 
 export class Contract {
 	store!: RootStore;
@@ -334,25 +335,27 @@ export type AirdropNetworkConfig = {
 };
 
 export type VaultNetworkConfig = {
-	[index: string]: {
-		abi: AbiItem[];
-		underlying: string;
-		contracts: string[];
-		fillers: {
-			symbol?: string[];
-			isFeatured?: boolean[];
-			position?: number[];
-			isSuperSett?: boolean[];
-			symbolPrefix?: string[];
-			onsenId?: string[];
-			pairContract?: string[];
-		};
-		methods: {
-			name: string;
-			args?: string[];
-		}[];
-		growthEndpoints?: string[];
-	};
+	[index: string]:
+		| {
+				abi: AbiItem[];
+				underlying: string;
+				contracts: string[];
+				fillers: {
+					symbol?: string[];
+					isFeatured?: boolean[];
+					position?: number[];
+					isSuperSett?: boolean[];
+					symbolPrefix?: string[];
+					onsenId?: string[];
+					pairContract?: string[];
+				};
+				methods: {
+					name: string;
+					args?: string[];
+				}[];
+				growthEndpoints?: string[];
+		  }
+		| undefined;
 };
 
 export type GeyserNetworkConfig = {
@@ -371,13 +374,14 @@ export type GeyserNetworkConfig = {
 			onsenId?: string[];
 		};
 	}[];
-	rewards: {
-		endpoint: string;
-		network: number;
-		contract: string;
-		abi: AbiItem[];
-		tokens: string[];
-	};
+};
+
+export type RewardNetworkConfig = {
+	endpoint: string;
+	network: number;
+	contract: string;
+	abi: AbiItem[];
+	tokens: string[];
 };
 
 export type TokenNetworkConfig = {
@@ -453,32 +457,38 @@ export type ClaimsSymbols = {
 export interface Network {
 	name: string;
 	networkId: number;
+	fullName: string;
 	tokens: TokenNetworkConfig;
 	vaults: VaultNetworkConfig;
-	geysers: GeyserNetworkConfig;
-	rebase: RebaseNetworkConfig;
-	airdrops: AirdropNetworkConfig;
+	geysers: GeyserNetworkConfig | undefined;
+	rebase: RebaseNetworkConfig | undefined;
+	airdrops: AirdropNetworkConfig | undefined;
 	deploy: DeployConfig;
+	rewards: RewardNetworkConfig | undefined;
 }
 
 export class BscNetwork implements Network {
 	public readonly name = NETWORK_LIST.BSC;
 	public readonly networkId = NETWORK_IDS.BSC;
+	public readonly fullName = 'Binance Smart Chain';
 	public readonly tokens = getTokens(NETWORK_LIST.BSC);
 	public readonly vaults = getVaults(NETWORK_LIST.BSC);
 	public readonly geysers = getGeysers(NETWORK_LIST.BSC);
 	public readonly rebase = getRebase(NETWORK_LIST.BSC);
 	public readonly airdrops = getAirdrops(NETWORK_LIST.BSC);
 	public readonly deploy = getNetworkDeploy(NETWORK_LIST.BSC);
+	public readonly rewards = getRewards(NETWORK_LIST.BSC);
 }
 
 export class EthNetwork implements Network {
 	public readonly name = NETWORK_LIST.ETH;
 	public readonly networkId = NETWORK_IDS.ETH;
+	public readonly fullName = 'Ethereum';
 	public readonly tokens = getTokens(NETWORK_LIST.ETH);
 	public readonly vaults = getVaults(NETWORK_LIST.ETH);
 	public readonly geysers = getGeysers(NETWORK_LIST.ETH);
 	public readonly rebase = getRebase(NETWORK_LIST.ETH);
 	public readonly airdrops = getAirdrops(NETWORK_LIST.ETH);
 	public readonly deploy = getNetworkDeploy(NETWORK_LIST.ETH);
+	public readonly rewards = getRewards(NETWORK_LIST.ETH);
 }

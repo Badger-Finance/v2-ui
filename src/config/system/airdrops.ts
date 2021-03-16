@@ -7,9 +7,12 @@ import { abi as badgerHuntAbi } from './abis/BadgerHunt.json';
 import { abi as bBadgerAirdropAbi } from './abis/bBadgerAidrop.json';
 import { AirdropsConfig, AirdropNetworkConfig } from '../../mobx/model';
 import { getApi } from 'mobx/utils/api';
+import { NETWORK_LIST } from '../constants';
 
-export const getAirdrops = (network: string | undefined): AirdropNetworkConfig => {
+export const getAirdrops = (network: string | undefined): AirdropNetworkConfig | undefined => {
 	switch (network) {
+		case NETWORK_LIST.BSC:
+			return undefined;
 		default:
 			return {
 				airdropEndpoint: `${getApi(network)}/v2/reward`,

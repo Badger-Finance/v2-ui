@@ -7,49 +7,56 @@ import { TokenNetworkConfig } from 'mobx/model';
 
 export const getTokens = (network: string | null): TokenNetworkConfig => {
 	switch (network) {
-		// case NETWORK_LIST.BSC:
-		// 	return {
-		// 		priceEndpoints: ['https://api.thegraph.com/subgraphs/name/aizensousuke239/pancake-swap'],
-		// 		tokenBatches: [
-		// 			{
-		// 				abi: ERC20.abi as AbiItem[],
-		// 				methods: [
-		// 					{
-		// 						name: 'totalSupply',
-		// 					},
-		// 					{
-		// 						name: 'balanceOf',
-		// 						args: ['{connectedAddress}'],
-		// 					},
-		// 				],
-		// 				contracts: [
-		// 					// TODO: Add underlying token contracts
-		// 					'',
-		// 				],
-		// 			},
-		// 		],
-		// 		decimals: {
-		// 			// TODO: create list of decimals
-		// 			// eg: '0x6b3595068778dd592e39a122f4f5a5cf09c90fe2': 18,
-		// 			'': 18,
-		// 		},
-		// 		symbols: {
-		// 			// TODO: create list of symbols
-		// 			// eg: '0x9a13867048e01c663ce8ce2fe0cdae69ff9f35e3': 'wbtcDiggSLP',
-		// 			'': '',
-		// 		},
-		// 		names: {
-		// 			// TODO: create names for tokens
-		// 			// eg: '0x9a13867048e01c663ce8ce2fe0cdae69ff9f35e3': 'wBTC/DIGG Sushi LP',
-		// 			'': '',
-		// 		},
-		// 		vaultMap: [bscDeploy.sett_system.vaults['native.pancakeBnbBtcb'].toLowerCase()],
-		// 		tokenMap: [
-		// 			// TODO: Add corresponding token strings
-		// 			'',
-		// 		],
-		// 	};
-		// 	break;
+		case NETWORK_LIST.BSC:
+			const bscVaultList = [bscDeploy.sett_system.vaults['native.pancakeBnbBtcb'].toLowerCase()];
+			const bscTokenList = ['0x7561eee90e24f3b348e1087a005f78b4c8453524'];
+			const bscTokenMap = _.zipObject(bscVaultList, bscTokenList);
+			return {
+				priceEndpoints: ['https://api.thegraph.com/subgraphs/name/aizensousuke239/pancake-swap'],
+				tokenBatches: [
+					{
+						abi: ERC20.abi as AbiItem[],
+						methods: [
+							{
+								name: 'totalSupply',
+							},
+							{
+								name: 'balanceOf',
+								args: ['{connectedAddress}'],
+							},
+						],
+						contracts: [
+							'0x753fbc5800a8C8e3Fb6DC6415810d627A387Dfc9', // BADGER
+							'0x1F7216fdB338247512Ec99715587bb97BBf96eae', // bBADGER
+							'0x7561eee90e24f3b348e1087a005f78b4c8453524', // bnbBtc Cake LP
+							'0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c', // BTCb
+							'0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c', // BNB
+						],
+					},
+				],
+				decimals: {
+					'0x753fbc5800a8C8e3Fb6DC6415810d627A387Dfc9': 18, // BADGER
+					'0x1F7216fdB338247512Ec99715587bb97BBf96eae': 18, // bBADGER
+					'0x7561eee90e24f3b348e1087a005f78b4c8453524': 18, // bnbBtc Cake LP
+					'0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c': 18, // BTCb
+					'0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c': 18, // BNB
+				},
+				symbols: {
+					'0x753fbc5800a8C8e3Fb6DC6415810d627A387Dfc9': 'BADGER', // BADGER
+					'0x1F7216fdB338247512Ec99715587bb97BBf96eae': 'bBADGER', // bBADGER
+					'0x7561eee90e24f3b348e1087a005f78b4c8453524': 'BNB/BTCb CAKE-LP', // bnbBtc Cake LP
+					'0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c': 'BTCb', // BTCb
+					'0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c': 'BNB', // BNB
+				},
+				names: {
+					'0x7561EEe90e24F3b348E1087A005F78B4c8453524': 'BNB/BTCb Pancake LP',
+					'0x753fbc5800a8C8e3Fb6DC6415810d627A387Dfc9': 'Badger',
+					'0x1F7216fdB338247512Ec99715587bb97BBf96eae': 'bBadger',
+					'0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c': 'BTCb',
+					'0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c': 'BNB',
+				},
+				tokenMap: bscTokenMap,
+			};
 		default:
 			const vaultList = [
 				deploy.sett_system.vaults['native.sushiDiggWbtc'].toLowerCase(),
