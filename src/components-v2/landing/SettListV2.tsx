@@ -8,7 +8,6 @@ import SettListItem from "components-v2/common/SettListItem";
 import BigNumber from "bignumber.js";
 import {usdToCurrency} from "../../mobx/utils/helpers";
 import {formatPrice} from "../../mobx/reducers/statsReducers";
-import {vaultBatches} from "../../config/system/vaults";
 import {Vault} from "../../mobx/model";
 import DepositList from "../../components/Collection/Setts/DepositList";
 import SettDialog from "../../components/Collection/Setts/SettDialog";
@@ -68,6 +67,7 @@ const SettListV2 = observer((props: Props) => {
 		uiState: { currency, period, hideZeroBal, stats },
 		contracts: { vaults },
 		sett: { setts, diggSetts },
+		wallet: { network },
 	} = store;
 
 	const { totalValue, isUsd } = props;
@@ -99,8 +99,13 @@ const SettListV2 = observer((props: Props) => {
     );
   };
 
+	const contracts = [];
+	if (network.vaults.digg) contracts.push(...network.vaults.digg.contracts);
+	if (network.vaults.sushiswap) contracts.push(...network.vaults.sushiswap.contracts);
+	if (network.vaults.uniswap) contracts.push(...network.vaults.uniswap.contracts);
+
 	const depositListProps = {
-		contracts: [...vaultBatches[2].contracts, ...vaultBatches[1].contracts, ...vaultBatches[0].contracts],
+		contracts: contracts,
 		allSetts,
 		vaults,
 		hideEmpty: hideZeroBal,
