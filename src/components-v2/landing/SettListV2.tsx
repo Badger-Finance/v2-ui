@@ -11,6 +11,7 @@ import {formatPrice} from "../../mobx/reducers/statsReducers";
 import {Vault} from "../../mobx/model";
 import DepositList from "../../components/Collection/Setts/DepositList";
 import SettDialog from "../../components/Collection/Setts/SettDialog";
+import DepositListV2 from "./DepositListv2";
 
 const useStyles = makeStyles((theme) => ({
 	list: {
@@ -66,7 +67,6 @@ const SettListV2 = observer((props: Props) => {
     setts: { settList },
 		uiState: { currency, period, hideZeroBal, stats },
 		contracts: { vaults },
-		sett: { setts, diggSetts },
 		wallet: { network },
 	} = store;
 
@@ -77,11 +77,10 @@ const SettListV2 = observer((props: Props) => {
 		displayValue = isUsd ? usdToCurrency(totalValue, currency) : formatPrice(totalValue, currency);
 	}
 
+	// TODO: add vault symbol image to SettDialog
 	const [dialogProps, setDialogProps] = useState({ open: false, vault: undefined as any, sett: undefined as any });
 	const onOpen = (vault: Vault, sett: any) => setDialogProps({ vault: vault, open: true, sett: sett });
 	const onClose = () => setDialogProps({ ...dialogProps, open: false });
-
-	let allSetts: any[] = setts && diggSetts ? setts.concat(diggSetts) : [];
 
   const getSettListDisplay = (): JSX.Element => {
     const error = settList === null;
@@ -90,43 +89,58 @@ const SettListV2 = observer((props: Props) => {
         {error ? <Typography variant="h4">There was an issue loading setts. Try refreshing.</Typography> :
           !settList ? <Loader /> : settList.map((sett) => {
           	const vault: Vault = vaults[sett.vaultToken.toLowerCase()];
-          	// TODO: replace dialogSett with new Sett type (either need to add symbol image path to type if it's not there, or adjust SettDialogProps to include image path)
-          	const dialogSett: any = allSetts.find((s: any) => s.address.toLowerCase() === sett.vaultToken.toLowerCase());
-          	return <SettListItem sett={sett} key={sett.name} currency={currency} onOpen={() => onOpen(vault, dialogSett)} />;
+          	return <SettListItem sett={sett} key={sett.name} currency={currency} onOpen={() => onOpen(vault, sett)} />;
           })
         }
       </>
     );
   };
 
-	const contracts = [];
-	if (network.vaults.digg) contracts.push(...network.vaults.digg.contracts);
-	if (network.vaults.sushiswap) contracts.push(...network.vaults.sushiswap.contracts);
-	if (network.vaults.uniswap) contracts.push(...network.vaults.uniswap.contracts);
+	const getDepositListDisplay = (): JSX.Element => {
+		const error = settList === null;
 
-	const depositListProps = {
-		contracts: contracts,
-		allSetts,
-		vaults,
-		hideEmpty: hideZeroBal,
-		classes,
-		onOpen,
-		period,
-		vaultBalance: formatPrice(stats.stats.vaultDeposits, currency),
-		depositBalance: formatPrice(stats.stats.deposits, currency),
-		walletBalance: formatPrice(stats.stats.wallet, currency),
+		if (error) {
+			return (<Typography variant="h4">There was an issue loading setts. Try refreshing.</Typography>);
+		} else if (!settList) {
+			return (<Loader />);
+		}
+
+			const contracts = [];
+			if (network.vaults.digg) contracts.push(...network.vaults.digg.contracts);
+			if (network.vaults.sushiswap) contracts.push(...network.vaults.sushiswap.contracts);
+			if (network.vaults.uniswap) contracts.push(...network.vaults.uniswap.contracts);
+
+			const depositListProps = {
+				contracts,
+				settList,
+				vaults,
+				hideZeroBal,
+				classes,
+				onOpen,
+				period,
+				vaultBalance: formatPrice(stats.stats.vaultDeposits, currency),
+				depositBalance: formatPrice(stats.stats.deposits, currency),
+				walletBalance: formatPrice(stats.stats.wallet, currency),
+			};
+
+			return (
+				<DepositListV2 {...depositListProps} />
+			);
 	};
 
   return (
     <>
-			{hideZeroBal && <DepositList{...depositListProps} />}
-			{!hideZeroBal && (<><TableHeader
-        title={`Your Vault Deposits - ${displayValue}`}
-        tokenTitle={'Tokens'}
-        classes={classes}
-        period={period}
-      />
-			<List className={classes.list}>{getSettListDisplay()}</List></>)}
+			{hideZeroBal && getDepositListDisplay()}
+			{!hideZeroBal && (
+				<>
+					<TableHeader
+					title={`Your Vault Deposits - ${displayValue}`}
+					tokenTitle={'Tokens'}
+					classes={classes}
+					period={period} />
+					<List className={classes.list}>{getSettListDisplay()}</List>
+				</>)
+			}
 			<SettDialog dialogProps={dialogProps} classes={classes} onClose={onClose} />
     </>
   );
