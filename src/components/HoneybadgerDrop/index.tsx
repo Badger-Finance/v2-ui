@@ -1,5 +1,15 @@
 import React from 'react';
-import { Box, Button, Container, Grid, makeStyles, Paper, Typography } from '@material-ui/core';
+import {
+	Box,
+	Button,
+	Container,
+	Grid,
+	makeStyles,
+	Paper,
+	Typography,
+	useMediaQuery,
+	useTheme,
+} from '@material-ui/core';
 import Hero from 'components/Common/Hero';
 import NFT from './NFT';
 
@@ -28,10 +38,27 @@ const useStyles = makeStyles((theme) => ({
 	redeemButton: {
 		color: theme.palette.common.black,
 	},
+	nftContainer: {
+		[theme.breakpoints.only('xs')]: {
+			margin: theme.spacing(2, 'auto'),
+		},
+	},
+	holdingsTitle: {
+		marginTop: theme.spacing(4),
+		marginBottom: theme.spacing(2),
+		[theme.breakpoints.down('sm')]: {
+			textAlign: 'center',
+		},
+		[theme.breakpoints.up('md')]: {
+			paddingLeft: theme.spacing(4),
+		},
+	},
 }));
 
 export const HoneybadgerDrop: React.FC = () => {
 	const classes = useStyles();
+	const theme = useTheme();
+	const isMobile = useMediaQuery(theme.breakpoints.only('xs'));
 
 	return (
 		<Container className={classes.root}>
@@ -112,35 +139,43 @@ export const HoneybadgerDrop: React.FC = () => {
 							</Paper>
 						</Grid>
 					</Grid>
-				</Grid>
-				<Grid item xs={12} sm={10} container spacing={3}>
-					<Grid item xs={12}>
-						<Typography>Your Holdings</Typography>
-					</Grid>
-					<Grid item container xs={12} justify="space-between" spacing={8}>
-						<Grid item xs={12} sm={8} md={4}>
-							<NFT
-								name="DIGG NFT 1"
-								balance="Your Balance"
-								remaining="426/500"
-								redemptionRate="$572.05"
-							/>
+					<Grid item container justify="center" xs={12}>
+						<Grid item container xs={12} className={classes.holdingsTitle}>
+							<Typography style={{ width: '100%' }}>Your Holdings</Typography>
 						</Grid>
-						<Grid item xs={12} sm={8} md={4}>
-							<NFT
-								name="DIGG NFT 2"
-								balance="Your Balance"
-								remaining="426/500"
-								redemptionRate="$572.05"
-							/>
-						</Grid>
-						<Grid item xs={12} sm={8} md={4}>
-							<NFT
-								name="DIGG NFT 3"
-								balance="Your Balance"
-								remaining="426/500"
-								redemptionRate="$572.05"
-							/>
+						<Grid item container xs={12} justify="space-between" spacing={isMobile ? 0 : 8}>
+							<Grid className={classes.nftContainer} item xs={12} sm={6} lg={4}>
+								<NFT
+									name="DIGG NFT 1"
+									balance="Your Balance"
+									remaining="426/500"
+									redemptionRate="$572.05"
+								/>
+							</Grid>
+							<Grid className={classes.nftContainer} item xs={12} sm={6} lg={4}>
+								<NFT
+									name="DIGG NFT 2"
+									balance="Your Balance"
+									remaining="426/500"
+									redemptionRate="$572.05"
+								/>
+							</Grid>
+							<Grid className={classes.nftContainer} item xs={12} sm={6} lg={4}>
+								<NFT
+									name="DIGG NFT 3"
+									balance="Your Balance"
+									remaining="426/500"
+									redemptionRate="$572.05"
+								/>
+							</Grid>
+							<Grid className={classes.nftContainer} item xs={12} sm={6} lg={4}>
+								<NFT
+									name="DIGG NFT 3"
+									balance="Your Balance"
+									remaining="426/500"
+									redemptionRate="$572.05"
+								/>
+							</Grid>
 						</Grid>
 					</Grid>
 				</Grid>
