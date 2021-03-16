@@ -10,7 +10,6 @@ import { Contract } from 'web3-eth-contract';
 
 import { graphQuery } from '../utils/helpers';
 import { estimateAndSend } from '../utils/web3';
-import { orchestrator } from '../../config/system/rebase';
 import { getNextRebase, getRebaseLogs } from '../utils/diggHelpers';
 
 let batchCall: any = null;
@@ -36,11 +35,11 @@ class RebaseStore {
 
 	fetchRebaseStats = action(async () => {
 		let rebaseLog: any = null;
-		const { digg } = await import('config/system/rebase');
+		const { network, provider } = this.store.wallet;
 
-		if (this.store.wallet.provider) {
+		if (provider) {
 			const options = {
-				web3: new Web3(this.store.wallet.provider),
+				web3: new Web3(provider),
 				etherscan: {
 					apiKey: 'NXSHKK6D53D3R9I17SR49VX8VITQY7UC6P',
 					delayTime: 300,
@@ -49,14 +48,18 @@ class RebaseStore {
 
 			batchCall = new BatchCall(options);
 
-			rebaseLog = await getRebaseLogs(this.store.wallet.provider);
+			rebaseLog = await getRebaseLogs(provider, network);
 		} else {
 			return;
 		}
 
 		if (!batchCall) return;
+		if (!network.rebase) return;
 
-		Promise.all([batchCall.execute(digg), ...[...graphQuery(digg[0].addresses[0])]]).then((result: any[]) => {
+		Promise.all([
+			batchCall.execute(network.rebase.digg),
+			...[...graphQuery(network.rebase.digg[0].addresses[0], this.store)],
+		]).then((result: any[]) => {
 			const keyedResult = _.groupBy(result[0], 'namespace');
 
 			if (!keyedResult.token || !keyedResult.token[0].decimals || !keyedResult.oracle[0].providerReports[0].value)
@@ -90,15 +93,19 @@ class RebaseStore {
 	});
 
 	callRebase = action(() => {
-		const { provider, gasPrices, connectedAddress } = this.store.wallet;
+		const { provider, gasPrices, connectedAddress, network } = this.store.wallet;
 		const { queueNotification, gasPrice, setTxStatus } = this.store.uiState;
 
 		if (!connectedAddress) return;
+		if (!network.rebase) return;
 		// if (ethBalance?.lt(MIN_ETH_BALANCE))
 		// 	return queueNotification("Your account is low on ETH, you may need to top up to claim.", 'warning')
 
 		const web3 = new Web3(provider);
-		const policy = new web3.eth.Contract(orchestrator.abi as any, orchestrator.contract);
+		const policy = new web3.eth.Contract(
+			network.rebase.orchestrator.abi as any,
+			network.rebase.orchestrator.contract,
+		);
 		const method = policy.methods.rebase();
 
 		queueNotification(`Sign the transaction to rebase BADGER`, 'info');

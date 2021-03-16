@@ -1,77 +1,87 @@
 // api badger functions
 
-export const getApi = () => {
-	if (process.env.NODE_ENV === 'production') {
-		return 'https://api.badger.finance';
-	}
-	return 'https://staging-api.badger.finance';
-};
-const badgerApi = getApi();
+import { Network } from '../model';
 
-export const getAssetsUnderManagement = (): any => {
-	return fetch(`${badgerApi}/protocol/value?tokens=true`).then((response) => response.json());
+export const getApi = (network: string | undefined) => {
+	switch (network) {
+		// TODO: Add BSC / Matic endpoints
+		default:
+			if (process.env.NODE_ENV === 'production') {
+				return 'https://api.badger.finance';
+			}
+			return 'https://staging-api.badger.finance';
+	}
+};
+// const badgerApi = getApi(getNetworkName());
+
+export const getAssetsUnderManagement = (network: Network): any => {
+	return fetch(`${getApi(network.name)}/protocol/value?tokens=true`).then((response) => response.json());
 };
 
 // Geyser Data
-export const getFarmData = async (): Promise<any> => {
-	return await fetch(`${badgerApi}/protocol/farm`).then((response) => response.json());
+export const getFarmData = async (network: Network): Promise<any> => {
+	return await fetch(`${getApi(network.name)}/protocol/farm`).then((response) => response.json());
 };
 
-export const getPpfs = async (): Promise<any> => {
-	return await fetch(`${badgerApi}/protocol/ppfs`).then((response) => response.json());
+export const getPpfs = async (network: Network): Promise<any> => {
+	return await fetch(`${getApi(network.name)}/protocol/ppfs`).then((response) => response.json());
 };
 
-export const getAssetPerformances = (setts: Array<any>): Promise<any> => {
+export const getAssetPerformances = (setts: Array<any>, network: Network): Promise<any> => {
 	const performanceData = setts.map(async (sett: any) => {
 		const assetKey = sett.asset.toLowerCase();
 		return {
 			...sett,
 			asset: assetKey,
 			title: sett.title,
-			...(await getAssetPerformance(assetKey)),
+			...(await getAssetPerformance(assetKey, network)),
 		};
 	});
 	return Promise.all(performanceData);
 };
 
-const getAssetPerformance = async (asset: any): Promise<any> => {
-	return await fetch(`${badgerApi}/protocol/sett/${asset}/performance`).then((response) => response.json());
+const getAssetPerformance = async (asset: any, network: Network): Promise<any> => {
+	return await fetch(`${getApi(network.name)}/protocol/sett/${asset}/performance`).then((response) =>
+		response.json(),
+	);
 };
 
-export const getAssetPerformanceCharts = async (setts: Array<any>): Promise<any> => {
+export const getAssetPerformanceCharts = async (setts: Array<any>, network: Network): Promise<any> => {
 	const performanceData = setts.map(async (sett: any) => {
 		const assetKey = sett.asset.toLowerCase();
 		return {
 			asset: assetKey,
 			title: sett.title,
-			data: await getPerformanceChartData(assetKey),
+			data: await getPerformanceChartData(assetKey, network),
 		};
 	});
 	return await Promise.all(performanceData);
 };
 
-const getPerformanceChartData = async (asset: any): Promise<any> => {
-	return await fetch(`${badgerApi}/chart/sett/${asset}/performance?count=350`).then((response) => response.json());
+const getPerformanceChartData = async (asset: any, network: Network): Promise<any> => {
+	return await fetch(`${getApi(network.name)}/chart/sett/${asset}/performance?count=350`).then((response) =>
+		response.json(),
+	);
 };
 
-export const getSettCharts = async (setts: Array<any>): Promise<any> => {
+export const getSettCharts = async (setts: Array<any>, network: Network): Promise<any> => {
 	const jarData = setts.map(async (sett) => {
 		const assetKey = sett.asset.toLowerCase();
 		return {
 			title: sett.title,
 			asset: assetKey,
-			data: await getSettChartData(assetKey),
+			data: await getSettChartData(assetKey, network),
 		};
 	});
 	return await Promise.all(jarData);
 };
 
-const getSettChartData = async (asset: any): Promise<any> => {
-	return await fetch(`${badgerApi}/chart/sett/${asset}?count=1000`).then((response) => response.json());
+const getSettChartData = async (asset: any, network: Network): Promise<any> => {
+	return await fetch(`${getApi(network.name)}/chart/sett/${asset}?count=1000`).then((response) => response.json());
 };
 
-export const getUserAccount = async (address: string): Promise<any> => {
-	return await fetch(`${badgerApi}/protocol/earnings/${address}`).then((response) => response.json());
+export const getUserAccount = async (address: string, network: Network): Promise<any> => {
+	return await fetch(`${getApi(network.name)}/protocol/earnings/${address}`).then((response) => response.json());
 };
 
 // api coingecko functions

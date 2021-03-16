@@ -2,27 +2,28 @@ import { extendObservable, action } from 'mobx';
 import Web3 from 'web3';
 import Onboard from 'bnc-onboard';
 
-import { RootStore } from '../store';
 import BigNumber from 'bignumber.js';
-import { onboardWallets, onboardWalletCheck } from '../../config/wallets';
+import { onboardWalletCheck, getOnboardWallets } from '../../config/wallets';
+import { NETWORK_LIST } from '../../config/constants';
+import { getNetworkName, getNetwork } from '../../mobx/utils/web3';
 import _ from 'lodash';
+import { Network } from 'mobx/model';
 
 class WalletStore {
-	private store?: RootStore;
-
 	public onboard: any;
 	public provider?: any = null;
 	public connectedAddress = '';
 	public currentBlock?: number;
 	public ethBalance?: BigNumber;
 	public gasPrices?: any;
+	public network: Network;
 
-	constructor(store: RootStore) {
-		this.store = store;
+	constructor() {
+		this.network = getNetwork(getNetworkName());
 
 		const onboardOptions: any = {
 			dappId: 'af74a87b-cd08-4f45-83ff-ade6b3859a07',
-			networkId: 1,
+			networkId: this.network.networkId,
 			darkMode: true,
 			subscriptions: {
 				address: this.setAddress,
@@ -31,7 +32,7 @@ class WalletStore {
 			walletSelect: {
 				heading: 'Connect to BadgerDAO',
 				description: 'Deposit & Earn on your Bitcoin',
-				wallets: onboardWallets,
+				wallets: getOnboardWallets(this.network.name),
 			},
 			walletCheck: onboardWalletCheck,
 		};
@@ -102,6 +103,8 @@ class WalletStore {
 	});
 
 	getGasPrice = action(() => {
+		if (this.network.name !== NETWORK_LIST.ETH) return;
+		// TODO: Update to fetch gas price based on network
 		fetch('https://www.gasnow.org/api/v3/gas/price?utm_source=badgerv2')
 			.then((result: any) => result.json())
 			.then((price: any) => {

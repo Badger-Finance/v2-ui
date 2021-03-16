@@ -2,8 +2,16 @@ import BigNumber from 'bignumber.js';
 import _ from 'lodash';
 import { reduceGeyserSchedule } from './reducers/contractReducers';
 import { RootStore } from './store';
-import Web3 from 'web3';
 import { AbiItem } from 'web3-utils';
+import { getNetworkDeploy } from '../mobx/utils/web3';
+import { getTokens } from '../config/system/tokens';
+import { getVaults } from '../config/system/vaults';
+import { getGeysers } from '../config/system/geysers';
+import { getRebase } from '../config/system/rebase';
+import { getAirdrops } from 'config/system/airdrops';
+import { NETWORK_IDS, NETWORK_LIST } from 'config/constants';
+import { getRewards } from 'config/system/rewards';
+import Web3 from 'web3';
 
 import { ZERO, TEN } from 'config/constants';
 
@@ -379,6 +387,200 @@ export type AirdropsConfig = {
 	};
 };
 
+export type AirdropNetworkConfig = {
+	airdropEndpoint: string;
+	airdropsConfig: AirdropsConfig;
+};
+
+export type VaultNetworkConfig = {
+	[index: string]:
+		| {
+				abi: AbiItem[];
+				underlying: string;
+				contracts: string[];
+				fillers: {
+					symbol?: string[];
+					isFeatured?: boolean[];
+					position?: number[];
+					isSuperSett?: boolean[];
+					symbolPrefix?: string[];
+					onsenId?: string[];
+					pairContract?: string[];
+				};
+				methods: {
+					name: string;
+					args?: string[];
+				}[];
+				growthEndpoints?: string[];
+		  }
+		| undefined;
+};
+
+export type GeyserNetworkConfig = {
+	geyserBatches?: {
+		abi: AbiItem[];
+		underlying: string;
+		methods: {
+			name: string;
+			args?: string[];
+		}[];
+		contracts: string[];
+		fillers?: {
+			isFeatured?: boolean[];
+			isSuperSett?: boolean[];
+			getStakingToken?: string[];
+			onsenId?: string[];
+		};
+	}[];
+};
+
+export type RewardNetworkConfig = {
+	endpoint: string;
+	network: number;
+	contract: string;
+	abi: AbiItem[];
+	tokens: string[];
+};
+
+export type TokenNetworkConfig = {
+	curveTokens?: {
+		contracts: string[];
+		priceEndpoints: string[];
+		names: string[];
+		vsToken: string;
+	};
+	priceEndpoints: string[];
+	tokenBatches: [
+		{
+			abi: AbiItem[];
+			methods: {
+				name: string;
+				args?: string[];
+			}[];
+			contracts: string[];
+		},
+	];
+	decimals: { [index: string]: number };
+	symbols: { [index: string]: string };
+	names: { [index: string]: string };
+	tokenMap: { [index: string]: string };
+};
+
+export type RebaseNetworkConfig = {
+	digg: {
+		addresses: string[];
+		abi: AbiItem[];
+		allReadMethods?: boolean;
+		readMethods?: {
+			name: string;
+			args: (string | number)[];
+		}[];
+		groupByNamespace: boolean;
+		logging?: boolean;
+		namespace: string;
+	}[];
+	orchestrator: {
+		contract: string;
+		abi: AbiItem[];
+	};
+};
+
+export type BadgerSystem = {
+	[index: string]: string | { [index: string]: string };
+};
+
+export type DeployConfig = {
+	[index: string]: any;
+};
+
+export type NetworkConstants = {
+	[index: string]: {
+		APP_URL: string;
+		RPC_URL: string;
+		TOKENS: {
+			[index: string]: string;
+		};
+		START_BLOCK: number;
+		START_TIME: Date;
+		DEPLOY: DeployConfig;
+	};
+};
+
+export type ClaimsSymbols = {
+	[index: string]: {
+		[index: string]: string;
+	};
+};
+
+export interface Network {
+	name: string;
+	networkId: number;
+	fullName: string;
+	tokens: TokenNetworkConfig;
+	vaults: VaultNetworkConfig;
+	geysers: GeyserNetworkConfig | undefined;
+	rebase: RebaseNetworkConfig | undefined;
+	airdrops: AirdropNetworkConfig | undefined;
+	deploy: DeployConfig;
+	rewards: RewardNetworkConfig | undefined;
+	gasEndpoint: string;
+	sidebarTokenLinks: {
+		url: string;
+		title: string;
+	}[];
+}
+
+export class BscNetwork implements Network {
+	public readonly name = NETWORK_LIST.BSC;
+	public readonly networkId = NETWORK_IDS.BSC;
+	public readonly fullName = 'Binance Smart Chain';
+	public readonly tokens = getTokens(NETWORK_LIST.BSC);
+	public readonly vaults = getVaults(NETWORK_LIST.BSC);
+	public readonly geysers = getGeysers(NETWORK_LIST.BSC);
+	public readonly rebase = getRebase(NETWORK_LIST.BSC);
+	public readonly airdrops = getAirdrops(NETWORK_LIST.BSC);
+	public readonly deploy = getNetworkDeploy(NETWORK_LIST.BSC);
+	public readonly rewards = getRewards(NETWORK_LIST.BSC);
+	public readonly gasEndpoint = '';
+	public readonly sidebarTokenLinks = [
+		{
+			url: 'https://pancakeswap.info/pair/0xE1E33459505bB3763843a426F7Fd9933418184ae',
+			title: 'PancakeSwap bDigg/BtcB',
+		},
+		{
+			url: 'https://pancakeswap.info/pair/0x10f461ceac7a17f59e249954db0784d42eff5db5',
+			title: 'PancakeSwap bBadger/BtcB',
+		},
+	];
+}
+
+export class EthNetwork implements Network {
+	public readonly name = NETWORK_LIST.ETH;
+	public readonly networkId = NETWORK_IDS.ETH;
+	public readonly fullName = 'Ethereum';
+	public readonly tokens = getTokens(NETWORK_LIST.ETH);
+	public readonly vaults = getVaults(NETWORK_LIST.ETH);
+	public readonly geysers = getGeysers(NETWORK_LIST.ETH);
+	public readonly rebase = getRebase(NETWORK_LIST.ETH);
+	public readonly airdrops = getAirdrops(NETWORK_LIST.ETH);
+	public readonly deploy = getNetworkDeploy(NETWORK_LIST.ETH);
+	public readonly rewards = getRewards(NETWORK_LIST.ETH);
+	public readonly gasEndpoint = 'https://www.gasnow.org/api/v3/gas/price?utm_source=badgerv2';
+	public readonly sidebarTokenLinks = [
+		{
+			url: 'https://matcha.xyz/markets/BADGER',
+			title: 'BADGER',
+		},
+		{
+			url: 'https://info.uniswap.org/pair/0xcd7989894bc033581532d2cd88da5db0a4b12859',
+			title: 'Uniswap BADGER/wBTC',
+		},
+		{
+			url: 'https://app.sushiswap.fi/pair/0x110492b31c59716ac47337e616804e3e3adc0b4a',
+			title: 'Sushiswap BADGER/wBTC',
+		},
+	];
+}
 /**
  * Sett and geyser objects will be represented by the same
  * interface. The key difference between a sett and geyser

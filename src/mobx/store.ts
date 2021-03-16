@@ -25,7 +25,7 @@ export class RootStore {
 
 	constructor() {
 		this.router = new RouterStore<RootStore>(this);
-		this.wallet = new WalletStore(this);
+		this.wallet = new WalletStore();
 		this.contracts = new ContractsStore(this);
 		this.airdrops = new AirdropStore(this);
 		this.rebase = new RebaseStore(this);

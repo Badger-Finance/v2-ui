@@ -1,9 +1,9 @@
 import BigNumber from 'bignumber.js';
+import { RootStore } from 'mobx/store';
 
-import { priceEndpoints } from '../../config/system/tokens';
-
-export const graphQuery = (address: string): Promise<any>[] => {
-	return priceEndpoints.map((endpoint: any) => {
+export const graphQuery = (address: string, store: RootStore): Promise<any>[] => {
+	const { network } = store.wallet;
+	return network.tokens.priceEndpoints.map((endpoint: any) => {
 		return fetch(endpoint, {
 			method: 'POST',
 			headers: {
@@ -65,7 +65,8 @@ export const chefQueries = (pairs: any[], contracts: any[], growthEndpoint: stri
 	});
 };
 
-export const jsonQuery = (url: string): Promise<Response> => {
+export const jsonQuery = (url: string | undefined): Promise<Response> | undefined => {
+	if (!url) return;
 	return fetch(url, {
 		method: 'GET',
 		headers: {
