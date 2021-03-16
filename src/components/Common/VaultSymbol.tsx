@@ -19,8 +19,6 @@ export const VaultSymbol = observer((props: any) => {
 	const classes = useStyles();
 	const { token } = props;
 
-	console.log('token: ', token);
-
 	// Return a formatted Vault Icon for the vault forms
 	if (!token) return <CircularProgress style={{ float: 'left', marginRight: '.5rem' }} />;
 	else {
