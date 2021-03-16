@@ -465,6 +465,7 @@ export interface Network {
 	airdrops: AirdropNetworkConfig | undefined;
 	deploy: DeployConfig;
 	rewards: RewardNetworkConfig | undefined;
+	gasEndpoint: string;
 }
 
 export class BscNetwork implements Network {
@@ -478,6 +479,7 @@ export class BscNetwork implements Network {
 	public readonly airdrops = getAirdrops(NETWORK_LIST.BSC);
 	public readonly deploy = getNetworkDeploy(NETWORK_LIST.BSC);
 	public readonly rewards = getRewards(NETWORK_LIST.BSC);
+	public readonly gasEndpoint = '';
 }
 
 export class EthNetwork implements Network {
@@ -491,4 +493,5 @@ export class EthNetwork implements Network {
 	public readonly airdrops = getAirdrops(NETWORK_LIST.ETH);
 	public readonly deploy = getNetworkDeploy(NETWORK_LIST.ETH);
 	public readonly rewards = getRewards(NETWORK_LIST.ETH);
+	public readonly gasEndpoint = 'https://www.gasnow.org/api/v3/gas/price?utm_source=badgerv2';
 }

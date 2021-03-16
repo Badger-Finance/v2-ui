@@ -299,8 +299,6 @@ export const reduceContractConfig = (configs: any[], payload: any = {}): Reduced
 			config.abi,
 		);
 	});
-	console.log('defaults:', defaults);
-	console.log('batchCall: ', batchCall);
 	return { defaults, batchCall };
 };
 

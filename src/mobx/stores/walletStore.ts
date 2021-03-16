@@ -4,6 +4,7 @@ import Onboard from 'bnc-onboard';
 
 import BigNumber from 'bignumber.js';
 import { onboardWalletCheck, getOnboardWallets } from '../../config/wallets';
+import { NETWORK_LIST } from '../../config/constants';
 import { getNetworkName, getNetwork } from '../../mobx/utils/web3';
 import _ from 'lodash';
 import { Network } from 'mobx/model';
@@ -101,6 +102,7 @@ class WalletStore {
 	});
 
 	getGasPrice = action(() => {
+		if (this.network.name !== NETWORK_LIST.ETH) return;
 		// TODO: Update to fetch gas price based on network
 		fetch('https://www.gasnow.org/api/v3/gas/price?utm_source=badgerv2')
 			.then((result: any) => result.json())

@@ -3,6 +3,7 @@ import { Select, MenuItem, makeStyles } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
 import { LocalGasStation } from '@material-ui/icons';
+import { NETWORK_LIST } from 'config/constants';
 
 const useStyles = makeStyles(() => ({
 	gasSelector: {
@@ -15,7 +16,7 @@ const GasWidget = observer(() => {
 	const store = useContext(StoreContext);
 
 	const { gasPrice, setGasPrice } = store.uiState;
-	const { gasPrices } = store.wallet;
+	const { gasPrices, network } = store.wallet;
 	const gasIcon = (
 		<LocalGasStation
 			onClick={() => window.open('https://www.gasnow.org/')}
@@ -23,7 +24,7 @@ const GasWidget = observer(() => {
 		/>
 	);
 
-	return (
+	return network.name === NETWORK_LIST.ETH ? (
 		<Select
 			variant="outlined"
 			color="secondary"
@@ -36,6 +37,8 @@ const GasWidget = observer(() => {
 			<MenuItem value={'standard'}>{gasPrices['standard'].toFixed(0)}</MenuItem>
 			<MenuItem value={'rapid'}>{gasPrices['rapid'].toFixed(0)}</MenuItem>
 		</Select>
+	) : (
+		<> </>
 	);
 });
 

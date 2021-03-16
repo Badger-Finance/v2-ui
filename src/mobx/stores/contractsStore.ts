@@ -137,7 +137,6 @@ class ContractsStore {
 					_.compact(reduceGraphResult(result.slice(2 + curveQueries.length), cgPrices)),
 					'address',
 				);
-				console.log('token prices: ', tokenPrices);
 				const curvePrices = network.tokens.curveTokens
 					? _.keyBy(
 							reduceCurveResult(
@@ -148,7 +147,6 @@ class ContractsStore {
 							'address',
 					  )
 					: undefined;
-				console.log('curve prices: ', curvePrices);
 				const tokens = _.compact(
 					_.values(
 						_.defaultsDeep(
@@ -167,7 +165,6 @@ class ContractsStore {
 						),
 					),
 				);
-				console.log('tokens: ', tokens);
 
 				tokens.forEach((contract: any) => {
 					const token = this.getOrCreateToken(contract.address);
@@ -187,14 +184,11 @@ class ContractsStore {
 
 		const { connectedAddress, currentBlock, network } = this.store.wallet;
 		const sushiBatches = network.vaults['sushiswap'];
-		console.log('network: ', network);
 
 		const { defaults, batchCall: batch } = reduceContractConfig(
 			_.map(network.vaults),
 			connectedAddress && { connectedAddress },
 		);
-
-		console.log('defaults: ', defaults);
 
 		const { growthQueries, periods } = reduceGrowthQueryConfig(network.name, currentBlock);
 
@@ -212,10 +206,8 @@ class ContractsStore {
 
 			Promise.all([masterChefQuery, xSushiQuery]).then((queryResult: any[]) => {
 				const masterChefResult: any = queryResult[0];
-				console.log('master chef result:', masterChefResult);
 				const newSushiRewards = reduceSushiAPIResults(masterChefResult);
 				network.vaults.sushiswap!.contracts.forEach((contract: any, i: number) => {
-					console.log('contract address: ', contract);
 					const tokenAddress = network.tokens.tokenMap[contract.toLowerCase()];
 					const xSushiGrowth =
 						!!newSushiRewards[tokenAddress] &&
