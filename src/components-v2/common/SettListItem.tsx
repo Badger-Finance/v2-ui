@@ -1,9 +1,9 @@
-import {ListItem, makeStyles, Typography, Grid, Tooltip, Chip, IconButton} from "@material-ui/core";
-import { BigNumber } from "bignumber.js";
-import {Sett, TokenBalance, Vault} from "mobx/model";
-import {numberWithCommas, usdToCurrency} from "mobx/utils/helpers";
-import React from "react";
-import {UnfoldMoreTwoTone} from "@material-ui/icons";
+import { ListItem, makeStyles, Typography, Grid, Tooltip, Chip, IconButton } from '@material-ui/core';
+import { BigNumber } from 'bignumber.js';
+import { Sett, TokenBalance, Vault } from 'mobx/model';
+import { numberWithCommas, usdToCurrency } from 'mobx/utils/helpers';
+import React from 'react';
+import { UnfoldMoreTwoTone } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
 	border: {
@@ -63,25 +63,21 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface SettListItemProps {
-  sett: Sett;
-  currency: string;
-  onOpen: () => void;
+	sett: Sett;
+	currency: string;
+	onOpen: () => void;
 }
 
 const SettListItem = (props: SettListItemProps): JSX.Element => {
-  const classes = useStyles();
-  const { sett, currency, onOpen} = props;
-  const tooltip = getToolTip(sett);
-  const displayName = sett.name
-		.replace('Uniswap ', '')
-		.replace('Sushiswap ', '')
-		.replace('Harvest ', '')
+	const classes = useStyles();
+	const { sett, currency, onOpen } = props;
+	const tooltip = getToolTip(sett);
+	const displayName = sett.name.replace('Uniswap ', '').replace('Sushiswap ', '').replace('Harvest ', '');
 
-  console.log(`/assets/icons/${sett.asset.toLowerCase()}`);
-  return (
-    <ListItem className={classes.listItem} onClick={() => onOpen()}>
-      <Grid container className={classes.border}>
-        <Grid item xs={12} md={4} className={classes.name} container>
+	return (
+		<ListItem className={classes.listItem} onClick={() => onOpen()}>
+			<Grid container className={classes.border}>
+				<Grid item xs={12} md={4} className={classes.name} container>
 					<Grid item>
 						<img
 							alt={`Badger ${sett.name} Vault Symbol`}
@@ -92,69 +88,76 @@ const SettListItem = (props: SettListItemProps): JSX.Element => {
 					<Grid item>
 						<Grid container direction={'column'}>
 							<Typography variant="body1">{displayName}</Typography>
-							<Typography variant="body2" color="textSecondary">{sett.asset}
+							<Grid container direction={'row'}>
+								<Typography variant="body2" color="textSecondary">
+									{sett.asset}
+								</Typography>
 								{/^Harvest/i.exec(sett.name) && (
 									<Chip className={classes.chip} label="Harvest" size="small" color="primary" />
 								)}
-							</Typography>
+							</Grid>
 						</Grid>
 					</Grid>
-        </Grid>
+				</Grid>
 
 				<Grid item xs={12} md={2} container>
 					<Grid item className={classes.mobileLabel} xs={6}>
-						<Typography variant="body2" color={'textSecondary'}>Tokens Deposited</Typography>
+						<Typography variant="body2" color={'textSecondary'}>
+							Tokens Deposited
+						</Typography>
 					</Grid>
 					<Grid item xs={6} md={12}>
-						{sett.tokens.map((tokenBalance: TokenBalance, index: number) =>
+						{sett.tokens.map((tokenBalance: TokenBalance, index: number) => (
 							<Grid container key={`token-${index}`} alignItems={'center'}>
 								<img
 									alt={`${tokenBalance.name} symbol`}
 									className={classes.tokenSymbol}
-									src={sett.tokens.length === 1
-										? `/assets/icons/${sett.asset.toLowerCase()}.png`
-										: `/assets/icons/${tokenBalance.symbol.toLowerCase()}.png` }
+									src={
+										sett.tokens.length === 1
+											? `/assets/icons/${sett.asset.toLowerCase()}.png`
+											: `/assets/icons/${tokenBalance.symbol.toLowerCase()}-small.png`
+									}
 								/>
 								<Typography>{numberWithCommas(Number(tokenBalance.balance).toFixed())}</Typography>
 							</Grid>
-						)}
+						))}
 					</Grid>
 				</Grid>
 
-        <Grid item className={classes.mobileLabel} xs={6}>
-          <Typography variant="body2" color={'textSecondary'}>
-            {'ROI'}
-          </Typography>
-        </Grid>
-        <Grid item xs={6} md={2}>
-          <Tooltip enterDelay={0} leaveDelay={300} arrow placement="left" title={tooltip}>
-            <Typography style={{ cursor: 'default' }} variant="body1" color={'textPrimary'}>
-              {sett.apy.toFixed(2)}%
-            </Typography>
-          </Tooltip>
-        </Grid>
-        <Grid item className={classes.mobileLabel} xs={6}>
-          <Typography variant="body2" color={'textSecondary'}>
-            Value
-          </Typography>
-        </Grid>
-        <Grid item xs={6} md={2}>
-          <Typography variant="body1" color={'textPrimary'}>
-            {usdToCurrency(new BigNumber(sett.value), currency)}
-          </Typography>
-        </Grid>
+				<Grid item className={classes.mobileLabel} xs={6}>
+					<Typography variant="body2" color={'textSecondary'}>
+						{'ROI'}
+					</Typography>
+				</Grid>
+				<Grid item xs={6} md={2}>
+					<Tooltip enterDelay={0} leaveDelay={300} arrow placement="left" title={tooltip}>
+						<Typography style={{ cursor: 'default' }} variant="body1" color={'textPrimary'}>
+							{sett.apy.toFixed(2)}%
+						</Typography>
+					</Tooltip>
+				</Grid>
+				<Grid item className={classes.mobileLabel} xs={6}>
+					<Typography variant="body2" color={'textSecondary'}>
+						Value
+					</Typography>
+				</Grid>
+				<Grid item xs={6} md={2}>
+					<Typography variant="body1" color={'textPrimary'}>
+						{usdToCurrency(new BigNumber(sett.value), currency)}
+					</Typography>
+				</Grid>
 				<Grid item xs={12} md={2} style={{ textAlign: 'right' }}>
 					<IconButton color="default">
 						<UnfoldMoreTwoTone />
 					</IconButton>
 				</Grid>
-      </Grid>
-    </ListItem>
-  );
+			</Grid>
+		</ListItem>
+	);
 };
 
 const getToolTip = (sett: Sett): string => {
-  return sett.sources.map(source => `${source.apy}% ${source.name}`).join(' + ');
+	return sett.sources.map((source) => `${source.apy}% ${source.name}`).join(' + ');
 };
 
 export default SettListItem;

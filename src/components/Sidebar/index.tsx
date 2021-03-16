@@ -117,7 +117,12 @@ export const Sidebar = observer(() => {
 	const getTokens = () => {
 		return network.sidebarTokenLinks.map((value) => {
 			return (
-				<ListItem button className={classes.secondarySubListItem} onClick={() => window.open(value.url)}>
+				<ListItem
+					button
+					key={value.title}
+					className={classes.secondarySubListItem}
+					onClick={() => window.open(value.url)}
+				>
 					{value.title}
 				</ListItem>
 			);

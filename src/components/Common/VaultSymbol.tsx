@@ -1,7 +1,6 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { observer } from 'mobx-react-lite';
 import { makeStyles } from '@material-ui/core/styles';
-import { StoreContext } from 'mobx/store-context';
 import { CircularProgress } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
@@ -18,22 +17,18 @@ const useStyles = makeStyles((theme) => ({
 
 export const VaultSymbol = observer((props: any) => {
 	const classes = useStyles();
-	const store = useContext(StoreContext);
-	const { vaults } = store.contracts;
 	const { token } = props;
 
-	// TODO: Add comment as to what is going on here?
+	console.log('token: ', token);
+
+	// Return a formatted Vault Icon for the vault forms
 	if (!token) return <CircularProgress style={{ float: 'left', marginRight: '.5rem' }} />;
 	else {
-		const prefix =
-			!!vaults[token.contract] && !!vaults[token.contract].symbolPrefix
-				? vaults[token.contract].symbolPrefix
-				: '';
 		return (
 			<img
-				alt={`Badger ${token.title} Vault Symbol`}
+				alt={`Badger ${token.asset} Vault Symbol`}
 				className={classes.symbol}
-				src={`assets/icons/${token.iconName}`}
+				src={`assets/icons/${token.asset.toLowerCase()}.png`}
 			/>
 		);
 	}
