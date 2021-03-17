@@ -153,7 +153,7 @@ const SettListV2 = observer((props: Props) => {
 		return (
 			settList!.map((sett) => {
 				const vault: Vault = vaults[sett.vaultToken.toLowerCase()];
-				const geyser: Geyser | undefined = vault ? vault.geyser : undefined;
+				const geyser: Geyser | undefined = vault?.geyser;
 				const userBalance = geyser ? geyser.balance.toNumber() : 0;
 				if (geyser && userBalance > 0)
 					return (
@@ -177,7 +177,7 @@ const SettListV2 = observer((props: Props) => {
 		return (
 			<>
 				<TableHeader
-					title={`Your Vault Deposits - ${totalValueLocked}`}
+					title={`All Setts - ${totalValueLocked}`}
 					tokenTitle={'Tokens'}
 					classes={classes}
 					period={period}/>

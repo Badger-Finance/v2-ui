@@ -15,7 +15,6 @@ import {
 	ButtonGroup,
 } from '@material-ui/core';
 import PageHeader from '../components-v2/common/PageHeader';
-import { SettList } from '../components/Collection/Setts';
 import { digg_system } from 'config/deployments/mainnet.json';
 import { CLAIMS_SYMBOLS, NETWORK_CONSTANTS } from 'config/constants';
 import { inCurrency } from '../mobx/utils/helpers';
