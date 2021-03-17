@@ -84,8 +84,6 @@ const SettListV2 = observer((props: Props) => {
 			return undefined;
 	}
 
-
-	// TODO: add vault symbol image to SettDialog
 	const [dialogProps, setDialogProps] = useState({open: false, vault: undefined as any, sett: undefined as any});
 	const onOpen = (vault: Vault, sett: any) => setDialogProps({vault: vault, open: true, sett: sett});
 	const onClose = () => setDialogProps({...dialogProps, open: false});
