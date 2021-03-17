@@ -26,7 +26,7 @@ export default class SettStoreV2 {
 
 	init = action(
 		async (): Promise<void> => {
-			this.loadSetts();
+			this.loadSetts(this.store.wallet.network.name);
 		},
 	);
 

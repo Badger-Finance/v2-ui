@@ -61,7 +61,6 @@ const SettDialog = (props: SettDialogProps): JSX.Element => {
 	}
 
 	const diggSett = deploy.sett_system.vaults['native.digg'].toLowerCase();
-	console.log(sett);
 	let form = <VaultDeposit vault={vault} />;
 	// TODO: DialogMode should take integer indexes, may be worth enumerating - maybe not
 	if (dialogMode === 0 && dialogOut) form = <VaultWithdraw vault={vault} />;

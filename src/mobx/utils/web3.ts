@@ -23,10 +23,9 @@ export const getNetworkName = (): string => {
 	const host = window.location.host;
 	const currentNetwork = host.split('.');
 	// Enable testing for different networks in development.
+	if (process.env.NODE_ENV !== 'production') return NETWORK_LIST.ETH;
 	if (currentNetwork.length > 0) {
-		if (process.env.NODE_ENV === 'production') {
-			return currentNetwork[0];
-		}
+		return currentNetwork[0] === 'app' ? NETWORK_LIST.ETH : currentNetwork[0];
 	}
 	return NETWORK_LIST.ETH;
 };

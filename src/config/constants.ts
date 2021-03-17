@@ -10,7 +10,7 @@ export enum NETWORK_LIST {
 	MATIC = 'matic',
 	FTM = 'ftm',
 	XDAI = 'xdai',
-	ETH = 'app',
+	ETH = 'eth',
 }
 
 export enum NETWORK_IDS {
