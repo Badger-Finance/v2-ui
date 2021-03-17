@@ -41,7 +41,6 @@ export default function DepositListV2(props: DepositListProps): JSX.Element {
 		depositBalance,
 		vaultBalance,
 	} = props;
-	console.log('props: ', props);
 	const store = useContext(StoreContext);
 	const {
 		uiState: { currency },

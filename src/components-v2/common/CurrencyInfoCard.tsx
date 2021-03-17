@@ -28,7 +28,6 @@ const CurrencyInfoCard: React.FC<CurrencyInfoCardProps> = (props: CurrencyInfoCa
 
 	// todo: convert all usd native values to eth in store!
 	let displayValue: string | undefined;
-	console.log('value in info card: ', value);
 	if (value) {
 		displayValue = isUsd ? usdToCurrency(value, currency) : formatPrice(value, currency);
 	}

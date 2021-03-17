@@ -19,11 +19,8 @@ const GasWidget = observer(() => {
 	const { gasPrices, network } = store.wallet;
 
 	const getGasSelections = () => {
-		console.log('lodash price:', gasPrices);
 		let gasMap: any = [];
-
 		_.each(gasPrices, (price, key) => {
-			console.log('price in loop:', key, price);
 			gasMap.push(
 				<MenuItem value={key} key={key}>
 					{price.toFixed(0)}

@@ -66,7 +66,6 @@ class SettStore {
 		const { currency } = this.store.uiState;
 		getTotalValueLocked(currency, network.name).then((res: any) => {
 			if (res) {
-				console.log(res.totalValue);
 				this.assets = res;
 			}
 			callback();
