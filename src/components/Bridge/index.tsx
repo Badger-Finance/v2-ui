@@ -1,10 +1,7 @@
-import React, { useContext, useState } from 'react';
+import React from 'react';
 import { observer } from 'mobx-react-lite';
 import { Grid, Container, Paper } from '@material-ui/core';
-import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import _ from 'lodash';
-import { StoreContext } from '../../mobx/store-context';
 import { BridgeForm } from './BridgeForm';
 import PageHeader from 'components-v2/common/PageHeader';
 
@@ -139,7 +136,6 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 export const Bridge = observer(() => {
-	const store = useContext(StoreContext);
 	const classes = useStyles();
 
 	const spacer = () => <div className={classes.before} />;
@@ -158,12 +154,13 @@ export const Bridge = observer(() => {
 								className={classes.link}
 								href={'https://github.com/renproject/ren/wiki/Audits'}
 								target={'_blank'}
+								rel={'noreferrer'}
 							>
 								security audits
 							</a>{' '}
-							don't completely eliminate risks.
+							don&apos;t completely eliminate risks.
 							<br />
-							Please don’t supply assets you can’t afford to lose.
+							Please don&apos;t supply assets you can&apos;t afford to lose.
 						</p>
 					</Paper>
 				</Grid>

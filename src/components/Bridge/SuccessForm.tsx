@@ -1,7 +1,14 @@
 import React from 'react';
 import { Grid, Button } from '@material-ui/core';
 
-export const SuccessForm = (props: any) => {
+interface SuccessFormProps {
+	values: any;
+	classes: any;
+	updateState: (name: any, value: any) => void;
+	resetState: () => void;
+}
+
+export const SuccessForm = (props: SuccessFormProps): JSX.Element => {
 	const { classes, resetState, values } = props;
 
 	const gotoStart = (e: any) => {

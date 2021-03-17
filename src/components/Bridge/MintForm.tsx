@@ -7,22 +7,19 @@ import { StoreContext } from 'mobx/store-context';
 import { MIN_AMOUNT } from './constants';
 import { Slippage } from './Common';
 
-export const MintForm = (props: any) => {
-	const store = useContext(StoreContext);
-	const {
-                wallet: { connectedAddress },
-		bridge: { renbtcBalance, wbtcBalance },
-	} = store;
-	const {
-		classes,
-		handleChange,
-		handleSetMaxSlippage,
-		nextStep,
-		values,
-		assetSelect,
-		itemContainer,
-		connectWallet,
-	} = props;
+interface MintFormProps {
+	values: any;
+	handleChange: (name: string) => (event: any) => Promise<void>;
+	previousStep: () => void;
+	nextStep: () => void;
+	classes: any;
+	assetSelect: () => JSX.Element;
+	itemContainer: (label: string, item: any) => JSX.Element;
+	connectWallet: () => Promise<void>;
+}
+
+export const MintForm = (props: MintFormProps): JSX.Element => {
+	const { classes, handleChange, nextStep, values, assetSelect, itemContainer, connectWallet } = props;
 
 	const next = (e: any) => {
 		e.preventDefault();

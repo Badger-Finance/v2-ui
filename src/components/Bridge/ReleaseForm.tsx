@@ -9,12 +9,20 @@ import BTCLogo from 'assets/icons/btc.svg';
 import { MIN_AMOUNT } from './constants';
 import { Slippage } from './Common';
 
-export const ReleaseForm = (props: any) => {
-	const store = useContext(StoreContext);
-	const {
-                wallet: { connectedAddress },
-		bridge: { renbtcBalance, wbtcBalance },
-	} = store;
+interface ReleaseFormProps {
+	values: any;
+	handleChange: (name: string) => (event: any) => Promise<void>;
+	previousStep: () => void;
+	nextStep: () => void;
+	classes: any;
+	updateState: (name: any, value: any) => void;
+	assetSelect: () => JSX.Element;
+	itemContainer: (label: string, item: any) => JSX.Element;
+	connectWallet: () => Promise<void>;
+	calcFees: (inputAmount: any, name: string) => Promise<void>;
+}
+
+export const ReleaseForm = (props: ReleaseFormProps): JSX.Element => {
 	const {
 		classes,
 		handleChange,

@@ -19,6 +19,7 @@ import { getAirdrops } from 'config/system/airdrops';
 import { NETWORK_IDS, NETWORK_LIST } from 'config/constants';
 import { getRewards } from 'config/system/rewards';
 import { ZERO, TEN } from 'config/constants';
+import { CustomNotificationObject, EmitterListener, TransactionData } from 'bnc-notify';
 
 export class Contract {
 	store!: RootStore;
@@ -522,7 +523,7 @@ export interface GasPrices {
 	[speed: string]: number;
 }
 
-export interface NotifyLink {
+export interface NotifyLink extends CustomNotificationObject {
 	link: string;
 }
 
@@ -544,7 +545,7 @@ export interface Network {
 	}[];
 	settOrder: string[];
 	getGasPrices: () => Promise<GasPrices>;
-	getNotifyLink: (transaction: any) => NotifyLink;
+	getNotifyLink: EmitterListener;
 }
 
 export class BscNetwork implements Network {
@@ -578,7 +579,7 @@ export class BscNetwork implements Network {
 	public async getGasPrices(): Promise<GasPrices> {
 		return { standard: 10 };
 	}
-	public getNotifyLink(transaction: any): NotifyLink {
+	public getNotifyLink(transaction: TransactionData): NotifyLink {
 		return { link: `https://bscscan.com//tx/${transaction.hash}` };
 	}
 }
@@ -634,7 +635,7 @@ export class EthNetwork implements Network {
 		};
 	}
 
-	public getNotifyLink(transaction: any): NotifyLink {
+	public getNotifyLink(transaction: TransactionData): NotifyLink {
 		return { link: `https://etherscan.io/tx/${transaction.hash}` };
 	}
 }

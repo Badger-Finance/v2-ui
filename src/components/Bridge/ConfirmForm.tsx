@@ -2,17 +2,18 @@ import React, { useState, useContext } from 'react';
 import { Grid, Button, Checkbox, Tooltip } from '@material-ui/core';
 import InfoIcon from '@material-ui/icons/Info';
 
-import { StoreContext } from 'mobx/store-context';
-import { shortenAddress } from 'utils/componentHelpers';
-import renBTCLogo from 'assets/icons/renBTC.svg';
-import WBTCLogo from 'assets/icons/WBTC.svg';
+interface ConfirmFormProps {
+	values: any;
+	handleChange: (name: string) => (event: any) => Promise<void>;
+	previousStep: () => void;
+	confirmStep: () => void;
+	classes: any;
+	shortenAddress: (address: string) => string;
+	itemContainer: (label: string, item: any) => JSX.Element;
+}
 
-export const ConfirmForm = (props: any) => {
-	const store = useContext(StoreContext);
-	const {
-		bridge: { renvmMintFee, renvmBurnFee, badgerBurnFee, badgerMintFee, lockNetworkFee, releaseNetworkFee },
-	} = store;
-	const { classes, confirmStep, previousStep, values, itemContainer } = props;
+export const ConfirmForm = (props: ConfirmFormProps): JSX.Element => {
+	const { classes, confirmStep, previousStep, values, shortenAddress, itemContainer } = props;
 	const [agreement, setAgreement] = useState({
 		ethRequired: false,
 		userError: false,

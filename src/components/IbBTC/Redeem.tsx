@@ -96,7 +96,7 @@ export const Redeem = observer((): any => {
 		if (inputAmount) store.ibBTCStore.redeem(selectedToken, ibBTC.scale(new BigNumber(inputAmount)), handleRedeem);
 	};
 
-	const handleRedeem = (err: any, result: any): void => {
+	const handleRedeem = (): void => {
 		resetState();
 	};
 

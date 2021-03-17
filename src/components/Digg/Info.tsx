@@ -5,7 +5,7 @@ import useInterval from '@use-it/interval';
 import { observer } from 'mobx-react-lite';
 import { Loader } from '../Loader';
 import Metric from './Metric';
-import { shortenNumbers, calculateNewSupply } from '../../mobx/utils/diggHelpers';
+import { shortenNumbers } from '../../mobx/utils/diggHelpers';
 import BigNumber from 'bignumber.js';
 import { formatPrice } from 'mobx/reducers/statsReducers';
 

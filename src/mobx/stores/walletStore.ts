@@ -8,11 +8,12 @@ import { getNetwork, getNetworkNameFromId } from '../../mobx/utils/web3';
 import { GasPrices, Network } from 'mobx/model';
 import { RootStore } from 'mobx/store';
 import { API } from 'bnc-onboard/dist/src/interfaces';
+import { API as NotifyAPI } from 'bnc-notify';
 
 class WalletStore {
 	private store: RootStore;
 	public onboard: API;
-	public notify: any;
+	public notify: NotifyAPI;
 	public provider?: any | null;
 	public connectedAddress = '';
 	public currentBlock?: number;
@@ -47,6 +48,7 @@ class WalletStore {
 			dappId: 'af74a87b-cd08-4f45-83ff-ade6b3859a07',
 			networkId: this.network.networkId,
 		};
+		const notify = Notify(notifyOptions);
 
 		extendObservable(this, {
 			connectedAddress: this.connectedAddress,
@@ -56,11 +58,12 @@ class WalletStore {
 			ethBalance: new BigNumber(0),
 			network: this.network,
 			onboard: onboard,
-			notify: Notify(notifyOptions),
+			notify: notify,
 		});
 
 		// set defaults
 		this.onboard = onboard;
+		this.notify = notify;
 		this.provider = null;
 		this.init();
 	}

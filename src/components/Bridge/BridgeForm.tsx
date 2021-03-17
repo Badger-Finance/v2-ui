@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import GatewayJS from '@renproject/gateway';
 import { EthArgs, LockAndMintParamsSimple, BurnAndReleaseParamsSimple } from '@renproject/interfaces';
 import Web3 from 'web3';
-import async, { any } from 'async';
+import async from 'async';
 import { observer } from 'mobx-react-lite';
 import { Grid, Tabs, Tab, FormControl, Select, MenuItem, Typography } from '@material-ui/core';
 import useInterval from '@use-it/interval';
