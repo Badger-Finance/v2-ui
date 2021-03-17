@@ -169,7 +169,7 @@ const SettListItem = (props: SettListItemProps): JSX.Element => {
 };
 
 const getToolTip = (sett: Sett): string => {
-	return sett.sources.map((source) => `${source.apy}% ${source.name}`).join(' + ');
+	return sett.sources.map((source) => `${source.apy.toFixed(2)}% ${source.name}`).join(' + ');
 };
 
 export default SettListItem;
