@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { VaultDeposit, VaultWithdraw, GeyserUnstake, GeyserStake } from 'components/Collection/Forms';
 import { VaultSymbol } from 'components/Common/VaultSymbol';
 import { Dialog, DialogTitle, Tab, Tabs, Switch, Typography } from '@material-ui/core';
 import deploy from '../../../config/deployments/mainnet.json';
 import BigNumber from 'bignumber.js';
+import { StoreContext } from '../../../mobx/store-context';
+import { NETWORK_LIST } from '../../../config/constants';
 
 interface SettDialogProps {
 	dialogProps: {
@@ -21,6 +23,8 @@ const SettDialog = (props: SettDialogProps): JSX.Element => {
 	const { dialogProps, classes, onClose } = props;
 	const { open, sett } = dialogProps;
 	let { vault } = dialogProps;
+	const store = useContext(StoreContext);
+	const { network } = store.wallet;
 
 	useEffect(() => {
 		const reset = async () => await setDialogMode(0);
@@ -95,7 +99,7 @@ const SettDialog = (props: SettDialogProps): JSX.Element => {
 				style={{ background: 'rgba(0,0,0,.2)', marginBottom: '1rem' }}
 			>
 				<Tab onClick={() => setDialogMode(0)} label={dialogOut ? 'Withdraw' : 'Deposit'}></Tab>
-				{sett.address !== diggSett && (
+				{sett.address !== diggSett && network.name === NETWORK_LIST.ETH && (
 					<Tab onClick={() => setDialogMode(1)} label={dialogOut ? 'Unstake' : 'Stake'}></Tab>
 				)}
 			</Tabs>

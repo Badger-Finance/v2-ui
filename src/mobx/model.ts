@@ -528,6 +528,7 @@ export interface Network {
 		url: string;
 		title: string;
 	}[];
+	getGasPrices: Function;
 }
 
 export class BscNetwork implements Network {
@@ -552,6 +553,9 @@ export class BscNetwork implements Network {
 			title: 'PancakeSwap bBadger/BtcB',
 		},
 	];
+	public async getGasPrices() {
+		return { standard: 10 * 1e9 };
+	}
 }
 
 export class EthNetwork implements Network {
@@ -580,6 +584,14 @@ export class EthNetwork implements Network {
 			title: 'Sushiswap BADGER/wBTC',
 		},
 	];
+	public async getGasPrices() {
+		const prices = await fetch('https://www.gasnow.org/api/v3/gas/price?utm_source=badgerv2')
+			.then((result: any) => result.json())
+			.then((price: any) => {
+				return _.mapValues(price.data, (val: number) => val / 1e9);
+			});
+		return prices;
+	}
 }
 /**
  * Sett and geyser objects will be represented by the same

@@ -79,9 +79,9 @@ export const Wallet = observer(() => {
 					/>
 				}
 			>
-				<MenuItem value={'slow'}>{gasPrices['slow'].toFixed(0)}</MenuItem>
-				<MenuItem value={'standard'}>{gasPrices['standard'].toFixed(0)}</MenuItem>
-				<MenuItem value={'rapid'}>{gasPrices['rapid'].toFixed(0)}</MenuItem>
+				{/* <MenuItem value={'slow'}>{gasPrices['slow']!.toFixed(0)}</MenuItem>
+				<MenuItem value={'standard'}>{gasPrices!['standard'].toFixed(0)}</MenuItem>
+				<MenuItem value={'rapid'}>{gasPrices['rapid'].toFixed(0)}</MenuItem> */}
 			</Select>
 			<Button
 				aria-label={!!connectedAddress ? shortenAddress(connectedAddress) : 'CLICK TO CONNECT'}

@@ -28,6 +28,7 @@ class WalletStore {
 			subscriptions: {
 				address: this.setAddress,
 				wallet: this.cacheWallet,
+				network: this.checkNetwork,
 			},
 			walletSelect: {
 				heading: 'Connect to BadgerDAO',
@@ -59,9 +60,10 @@ class WalletStore {
 		}, 5000 * 60);
 
 		const previouslySelectedWallet = window.localStorage.getItem('selectedWallet');
+		const previouslySelectedNetwork = window.localStorage.getItem('selectedNetwork');
 
 		// call wallet select with that value if it exists
-		if (!!previouslySelectedWallet) {
+		if (!!previouslySelectedWallet && previouslySelectedNetwork === this.network.name) {
 			this.onboard.walletSelect(previouslySelectedWallet);
 		}
 	}
@@ -71,6 +73,7 @@ class WalletStore {
 			this.setProvider(null);
 			this.setAddress('');
 			window.localStorage.removeItem('selectedWallet');
+			window.localStorage.removeItem('selectedNetwork');
 		} catch (err) {
 			console.log(err);
 		}
@@ -78,6 +81,7 @@ class WalletStore {
 
 	connect = action((wsOnboard: any) => {
 		const walletState = wsOnboard.getState();
+		console.log(walletState);
 		this.setProvider(walletState.wallet.provider);
 		this.connectedAddress = walletState.address;
 		this.onboard = wsOnboard;
@@ -103,13 +107,20 @@ class WalletStore {
 	});
 
 	getGasPrice = action(() => {
-		if (this.network.name !== NETWORK_LIST.ETH) return;
+		// if (this.network.name !== NETWORK_LIST.ETH) return;
 		// TODO: Update to fetch gas price based on network
-		fetch('https://www.gasnow.org/api/v3/gas/price?utm_source=badgerv2')
-			.then((result: any) => result.json())
-			.then((price: any) => {
-				this.gasPrices = _.mapValues(price.data, (val: number) => val / 1e9);
+		this.network.getGasPrices().then((price: any) => {
+			console.log('get gas price: ', price);
+			this.gasPrices = _.mapValues(price, (value: number) => {
+				return value / 1e9;
 			});
+		});
+
+		// fetch('https://www.gasnow.org/api/v3/gas/price?utm_source=badgerv2')
+		// 	.then((result: any) => result.json())
+		// 	.then((price: any) => {
+		// 		this.gasPrices = _.mapValues(price.data, (val: number) => val / 1e9);
+		// 	});
 	});
 
 	setProvider = action((provider: any) => {
@@ -124,10 +135,23 @@ class WalletStore {
 	cacheWallet = action((wallet: any) => {
 		this.setProvider(wallet.provider);
 		window.localStorage.setItem('selectedWallet', wallet.name);
+		window.localStorage.setItem('selectedNetwork', this.network.name);
+	});
+
+	checkNetwork = action((network: number) => {
+		if (network !== this.network.networkId) {
+			this.walletReset();
+		}
 	});
 
 	isCached = action(() => {
-		return !!this.connectedAddress || !!window.localStorage.getItem('selectedWallet');
+		return (
+			!!this.connectedAddress ||
+			!!(
+				window.localStorage.getItem('selectedWallet') &&
+				this.network.name === window.localStorage.getItem('selectedNetwork')
+			)
+		);
 	});
 }
 

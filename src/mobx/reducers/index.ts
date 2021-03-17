@@ -35,6 +35,7 @@ class UiState {
 
 	constructor(store: RootStore) {
 		this.store = store;
+		const { network } = store.wallet;
 
 		extendObservable(this, {
 			collection: {},
@@ -60,13 +61,13 @@ class UiState {
 			treeStats: { claims: [] },
 			airdropStats: {},
 
-			currency: window.localStorage.getItem('selectedCurrency') || 'usd',
-			period: window.localStorage.getItem('selectedPeriod') || 'year',
+			currency: window.localStorage.getItem(`${network.name}-selectedCurrency`) || 'usd',
+			period: window.localStorage.getItem(`${network.name}-selectedPeriod`) || 'year',
 
 			sidebarOpen: !!window && window.innerWidth > 960,
-			hideZeroBal: !!window.localStorage.getItem('hideZeroBal'),
+			hideZeroBal: !!window.localStorage.getItem(`${network.name}-hideZeroBal`),
 			notification: {},
-			gasPrice: window.localStorage.getItem('selectedGasPrice') || 'standard',
+			gasPrice: window.localStorage.getItem(`${network.name}-selectedGasPrice`) || 'standard',
 			txStatus: undefined,
 		});
 
@@ -122,21 +123,25 @@ class UiState {
 
 	setGasPrice = action((gasPrice: string) => {
 		this.gasPrice = gasPrice;
-		window.localStorage.setItem('selectedGasPrice', gasPrice);
+		const { network } = this.store.wallet;
+		window.localStorage.setItem(`${network.name}-selectedGasPrice`, gasPrice);
 	});
 	setHideZeroBal = action((hide: boolean) => {
 		this.hideZeroBal = hide;
-		if (hide) window.localStorage.setItem('hideZeroBal', 'YES');
+		const { network } = this.store.wallet;
+		if (hide) window.localStorage.setItem(`${network.name}-hideZeroBal`, 'YES');
 		else window.localStorage.removeItem('hideZeroBal');
 	});
 
 	setCurrency = action((currency: string) => {
 		this.currency = currency;
-		window.localStorage.setItem('selectedCurrency', currency);
+		const { network } = this.store.wallet;
+		window.localStorage.setItem(`${network.name}-selectedCurrency`, currency);
 	});
 	setPeriod = action((period: string) => {
 		this.period = period;
-		window.localStorage.setItem('selectedPeriod', period);
+		const { network } = this.store.wallet;
+		window.localStorage.setItem(`${network.name}-selectedPeriod`, period);
 	});
 	unlockApp = action((password: string) => {
 		this.locked = !(password === 'BADger');

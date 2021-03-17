@@ -10,7 +10,7 @@ import deploy from '../../config/deployments/mainnet.json';
 import bscDeploy from '../../config/deployments/bsc.json';
 
 export const getNetwork = (network: string): Network => {
-	// if (process.env.NODE_ENV !== 'production') return new BscNetwork();
+	if (process.env.NODE_ENV !== 'production') return new BscNetwork();
 	switch (network) {
 		case NETWORK_LIST.BSC:
 			return new BscNetwork();
@@ -23,7 +23,7 @@ export const getNetworkName = (): string => {
 	const host = window.location.host;
 	const currentNetwork = host.split('.');
 	// Enable testing for different networks in development.
-	if (process.env.NODE_ENV !== 'production') return NETWORK_LIST.ETH;
+	// if (process.env.NODE_ENV !== 'production') return NETWORK_LIST.BSC;
 	if (currentNetwork.length > 0) {
 		return currentNetwork[0] === 'app' ? NETWORK_LIST.ETH : currentNetwork[0];
 	}
