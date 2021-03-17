@@ -10,6 +10,8 @@ import {
 
 export const getOnboardWallets = (network: string) => {
 	switch (network) {
+		case NETWORK_LIST.BSC:
+			return [{ walletName: 'metamask' }];
 		default:
 			return [
 				{ walletName: 'metamask' },
