@@ -21,6 +21,7 @@ import { Contract } from 'web3-eth-contract';
 import async from 'async';
 import { EMPTY_DATA, ERC20, NETWORK_CONSTANTS } from 'config/constants';
 import { formatAmount } from 'mobx/reducers/statsReducers';
+import BatchCall from 'web3-batch-call';
 
 // let batchCall = new BatchCall(options);
 let batchCall: any = null;
@@ -67,7 +68,14 @@ class ContractsStore {
 			this.geysers = {};
 			return;
 		}
-
+		const newOptions = {
+			web3: new Web3(this.store.wallet.provider),
+			// etherscan: {
+			// 	apiKey: 'NXSHKK6D53D3R9I17SR49VX8VITQY7UC6P',
+			// 	delayTime: 300,
+			// },
+		};
+		batchCall = new BatchCall(newOptions);
 		this.store.airdrops.fetchAirdrops();
 		if (this._fetchingContracts) this._pendingChangeOfAddress = true;
 		else this.fetchContracts();

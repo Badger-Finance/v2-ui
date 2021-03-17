@@ -121,8 +121,6 @@ const SettListV2 = observer((props: Props) => {
 		if (network.vaults.sushiswap) contracts.push(...network.vaults.sushiswap.contracts);
 		if (network.vaults.uniswap) contracts.push(...network.vaults.uniswap.contracts);
 
-		console.log('stats: ', stats.stats);
-
 		const depositListProps = {
 			contracts,
 			settList,

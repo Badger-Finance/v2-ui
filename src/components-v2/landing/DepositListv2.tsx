@@ -70,7 +70,7 @@ export default function DepositListV2(props: DepositListProps): JSX.Element {
 
 	let depositBalances = contracts.map((address: string) => {
 		const vault: Vault = vaults[address.toLowerCase()];
-		const sett: any = settList.find((s: Sett) => s.underlyingToken.toLowerCase() === address.toLowerCase());
+		const sett: any = settList.find((s: Sett) => s.vaultToken.toLowerCase() === address.toLowerCase());
 		const userBalance = vault ? vault.balance.toNumber() : 0;
 		if (sett && userBalance > 0) {
 			return (
@@ -90,7 +90,7 @@ export default function DepositListV2(props: DepositListProps): JSX.Element {
 
 	let vaultBalances = contracts.map((address: string) => {
 		const vault: Vault = vaults[address.toLowerCase()];
-		const sett: any = settList.find((s: Sett) => s.underlyingToken.toLowerCase() === address.toLowerCase());
+		const sett: any = settList.find((s: Sett) => s.vaultToken.toLowerCase() === address.toLowerCase());
 		const geyser: Geyser | undefined = vault ? vault.geyser : undefined;
 		const userBalance = geyser ? geyser.balance.toNumber() : 0;
 		if (sett && geyser && userBalance > 0) {
