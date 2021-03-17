@@ -4,7 +4,6 @@ import { observer } from "mobx-react-lite";
 import { List, makeStyles, Typography } from "@material-ui/core";
 import { StoreContext } from "mobx/store-context";
 import { Loader } from "components/Loader";
-import _ from 'lodash';
 import SettListItem from "components-v2/common/SettListItem";
 import BigNumber from "bignumber.js";
 import {usdToCurrency} from "../../mobx/utils/helpers";
@@ -189,9 +188,9 @@ const SettListV2 = observer((props: Props) => {
 		const walletBalance = formatPrice(stats.stats.wallet, currency);
 		const depositBalance = formatPrice(stats.stats.deposits, currency);
 		const vaultBalance = formatPrice(stats.stats.vaultDeposits, currency);
-		const walletList = _.compact(getWalletListDisplay());
-		const depositList = _.compact(getDepositListDisplay());
-		const vaultList = _.compact(getVaultListDisplay());
+		const walletList = getWalletListDisplay().filter(Boolean);
+		const depositList = getDepositListDisplay().filter(Boolean);
+		const vaultList = getVaultListDisplay().filter(Boolean);
 		return(
 			<>
 				{walletList.length > 0 && (
