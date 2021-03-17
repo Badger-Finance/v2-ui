@@ -1,7 +1,18 @@
 import React from 'react';
 import { Grid, Button } from '@material-ui/core';
 
-export const MintForm = (props: any) => {
+interface MintFormProps {
+	values: any;
+	handleChange: (name: string) => (event: any) => Promise<void>;
+	previousStep: () => void;
+	nextStep: () => void;
+	classes: any;
+	assetSelect: () => JSX.Element;
+	itemContainer: (label: string, item: any) => JSX.Element;
+	connectWallet: () => Promise<void>;
+}
+
+export const MintForm = (props: MintFormProps): JSX.Element => {
 	const { classes, handleChange, nextStep, values, assetSelect, itemContainer, connectWallet } = props;
 
 	const next = (e: any) => {

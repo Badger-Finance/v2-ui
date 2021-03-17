@@ -143,6 +143,8 @@ class TransactionsStore {
 		this.incompleteTransfer = status;
 	});
 
+	// Disable reason: 'trade' is the JSON parsed Tx, which can take different forms
+	// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 	_reOpenTx = async (userAddr: string, web3Provider: provider, trade: any): Promise<void> => {
 		const { queueNotification } = this.store.uiState;
 		try {

@@ -2,7 +2,17 @@ import React, { useState } from 'react';
 import { Grid, Button, Checkbox, Tooltip } from '@material-ui/core';
 import InfoIcon from '@material-ui/icons/Info';
 
-export const ConfirmForm = (props: any) => {
+interface ConfirmFormProps {
+	values: any;
+	handleChange: (name: string) => (event: any) => Promise<void>;
+	previousStep: () => void;
+	confirmStep: () => void;
+	classes: any;
+	shortenAddress: (address: string) => string;
+	itemContainer: (label: string, item: any) => JSX.Element;
+}
+
+export const ConfirmForm = (props: ConfirmFormProps): JSX.Element => {
 	const { classes, confirmStep, previousStep, values, shortenAddress, itemContainer } = props;
 	const [agreement, setAgreement] = useState({
 		ethRequired: false,

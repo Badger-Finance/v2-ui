@@ -2,7 +2,20 @@ import React, { useState, useEffect } from 'react';
 import { Grid, Button, Input } from '@material-ui/core';
 import validate from 'bitcoin-address-validation';
 
-export const ReleaseForm = (props: any) => {
+interface ReleaseFormProps {
+	values: any;
+	handleChange: (name: string) => (event: any) => Promise<void>;
+	previousStep: () => void;
+	nextStep: () => void;
+	classes: any;
+	updateState: (name: any, value: any) => void;
+	assetSelect: () => JSX.Element;
+	itemContainer: (label: string, item: any) => JSX.Element;
+	connectWallet: () => Promise<void>;
+	calcFees: (inputAmount: any, name: string) => Promise<void>;
+}
+
+export const ReleaseForm = (props: ReleaseFormProps): JSX.Element => {
 	const {
 		classes,
 		handleChange,
