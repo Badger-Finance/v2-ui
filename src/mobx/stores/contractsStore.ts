@@ -22,6 +22,7 @@ import async from 'async';
 import { EMPTY_DATA, ERC20, NETWORK_CONSTANTS } from 'config/constants';
 import { formatAmount } from 'mobx/reducers/statsReducers';
 import BatchCall from 'web3-batch-call';
+import { getApi } from '../utils/apiV2';
 
 // let batchCall = new BatchCall(options);
 let batchCall: any = null;
@@ -128,15 +129,18 @@ class ContractsStore {
 			)}&vs_currencies=eth`,
 		);
 
+		const priceApi = vanillaQuery(`${getApi()}/prices?network=${network.name}&currency=eth`);
+
 		if (!batchCall) {
 			callback();
 			return;
 		}
 
-		Promise.all([cgQueries, batchCall.execute(batch), ...curveQueries, ...graphQueries])
+		Promise.all([priceApi, batchCall.execute(batch), ...curveQueries, ...graphQueries])
 			.then((result: any[]) => {
+				console.log(result);
 				const cgPrices = _.mapValues(result.slice(0, 1)[0], (price: any) => ({
-					ethValue: new BigNumber(price.eth).multipliedBy(1e18),
+					ethValue: new BigNumber(price).multipliedBy(1e18),
 				}));
 				const tokenContracts = _.keyBy(reduceBatchResult(_.flatten(result.slice(1, 2))), 'address');
 				const tokenPrices = _.keyBy(

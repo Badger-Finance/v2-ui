@@ -2,6 +2,7 @@ import { extendObservable, action } from 'mobx';
 import { RootStore } from '../store';
 import async from 'async';
 import { getAssetsUnderManagement, getCoinData, getAssetPerformances, getFarmData, getPpfs } from 'mobx/utils/api';
+import { getTotalValueLocked } from 'mobx/utils/apiV2';
 import { setts, diggSetts } from 'mobx/utils/setts';
 
 /**
@@ -62,8 +63,10 @@ class SettStore {
 
 	fetchAssets = action((callback: any) => {
 		const { network } = this.store.wallet;
-		getAssetsUnderManagement(network).then((res: any) => {
+		const { currency } = this.store.uiState;
+		getTotalValueLocked(currency, network.name).then((res: any) => {
 			if (res) {
+				console.log(res.totalValue);
 				this.assets = res;
 			}
 			callback();

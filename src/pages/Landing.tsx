@@ -15,7 +15,6 @@ import {
 	ButtonGroup,
 } from '@material-ui/core';
 import PageHeader from '../components-v2/common/PageHeader';
-import { SettList } from '../components/Collection/Setts';
 import { digg_system } from 'config/deployments/mainnet.json';
 import { CLAIMS_SYMBOLS, NETWORK_CONSTANTS } from 'config/constants';
 import { inCurrency } from '../mobx/utils/helpers';
@@ -113,7 +112,9 @@ const Landing = observer(() => {
 	};
 
 	// force convert tvl due to zero typing on store (remove once typed)
-	const totalValueLocked: BigNumber | undefined = assets.totalValue ? new BigNumber(assets.totalValue) : undefined;
+
+	const totalValueLocked: BigNumber | undefined =
+		assets.totalValue >= 0 ? new BigNumber(assets.totalValue) : undefined;
 
 	// force undefined on $0 badger, value starts at 0 vs. undefined
 	const badgerPrice: number | undefined = badger.market_data ? badger.market_data.current_price.usd : undefined;
@@ -125,7 +126,6 @@ const Landing = observer(() => {
 
 	return (
 		<Container className={classes.landingContainer}>
-
 			{/* Landing Metrics Cards */}
 			<Grid container spacing={1} justify="center">
 				<Grid item xs={12} className={classes.headerContainer}>

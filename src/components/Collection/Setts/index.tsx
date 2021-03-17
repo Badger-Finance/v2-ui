@@ -82,7 +82,6 @@ export const SettList = observer((props: any) => {
 	if (!tokens || !vaults || !geysers) {
 		return <Loader />;
 	}
-
 	const tvl = assets.totalValue ? `${formatUsd(assets.totalValue)}` : '$0.00';
 
 	var contracts = [];

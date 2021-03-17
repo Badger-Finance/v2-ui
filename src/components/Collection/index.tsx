@@ -156,6 +156,8 @@ export const Collection = observer(() => {
 	};
 
 	const rewards = _.compact(availableRewards());
+	console.log('total value: ', assets);
+
 	const tvl = assets.totalValue ? usdToCurrency(new BigNumber(assets.totalValue), currency) : '$0.00';
 	const badgerPrice =
 		stats.stats.badger > 0
