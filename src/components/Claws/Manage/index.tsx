@@ -2,17 +2,19 @@ import React, { FC, useContext, useState } from 'react';
 import { Box, Button, Container, Grid, MenuItem, Select } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { StoreContext } from 'mobx/store-context';
-import { ClawParam, useMainStyles } from '../index';
+
 import TokenAmountLabel from 'components-v2/common/TokenAmountSelector';
 import TokenAmountSelector from 'components-v2/common/TokenAmountLabel';
-import { ClawDetails, ConnectWalletButton, validateAmountBoundaries } from '../shared';
+import { scaleToString, Direction } from 'utils/componentHelpers';
 import { useDetails, useError } from './manage.hooks';
+import { ClawDetails, ConnectWalletButton, validateAmountBoundaries } from '../shared';
+import { ClawParam, useMainStyles } from '../index';
 
 const Manage: FC = () => {
 	const { claw: store, contracts, wallet } = useContext(StoreContext);
 	const { collaterals, claws, syntheticsDataByEMP, sponsorInformationByEMP } = store;
 	const classes = useMainStyles();
-	const [mode, setMode] = useState<'deposit' | 'withdraw'>('deposit');
+	const [mode, setMode] = useState<'deposit' | 'withdraw' | 'request_withdrawal' | 'cancel_withdrawal'>('deposit');
 	const [manage, setManageParams] = useState<ClawParam>({});
 	const details = useDetails(mode, manage);
 	const error = useError(manage);
@@ -20,7 +22,24 @@ const Manage: FC = () => {
 	const { selectedOption, amount } = manage;
 	const selectedSynthetic = syntheticsDataByEMP.get(selectedOption || '');
 	const bToken = contracts.tokens[selectedSynthetic?.collateralCurrency.toLocaleLowerCase() ?? ''];
-        const clawBalance = sponsorInformationByEMP.get(selectedOption || '')?.position.tokensOutstanding;
+        const decimals = bToken ? bToken.decimals : 18; // Default to 18 decimals.
+        const position = sponsorInformationByEMP.get(selectedOption || '')?.position
+
+        let balanceLabel = '';
+        let balance = new BigNumber(0);
+        switch (mode) {
+                case 'deposit':
+                        balance = bToken?.balance;
+                        balanceLabel = bToken && `Available ${collaterals.get(bToken.address)}: `;
+                        break;
+                case 'withdraw':
+                case 'request_withdrawal':
+                        balanceLabel = bToken && `Deposited collateral ${collaterals.get(bToken.address)}: `;
+                        if (position) {
+                                balance = position.rawCollateral;
+                        }
+                        break;
+        }
 
 	return (
 		<Container>
@@ -43,8 +62,8 @@ const Manage: FC = () => {
 						</MenuItem>
 						<MenuItem value="deposit">DEPOSIT</MenuItem>
 						<MenuItem value="withdraw">WITHDRAW</MenuItem>
-						<MenuItem value="withdraw">REQUEST WITHDRAWAL</MenuItem>
-						<MenuItem value="withdraw">CANCEL WITHDRAWAL</MenuItem>
+						<MenuItem value="request_withdrawal">REQUEST WITHDRAWAL</MenuItem>
+						<MenuItem value="cancel_withdrawal">CANCEL WITHDRAWAL</MenuItem>
 					</Select>
 				</Grid>
 			</Box>
@@ -53,10 +72,8 @@ const Manage: FC = () => {
 					<Grid item xs={12}>
 						<TokenAmountLabel
 							name="Token"
-							balanceLabel={bToken && `Available ${collaterals.get(bToken.address)}: `}
-							balance={bToken?.balance
-								.dividedBy(10 ** bToken.decimals)
-								.toFixed(bToken.decimals, BigNumber.ROUND_DOWN)}
+							balanceLabel={balanceLabel}
+							balance={selectedOption && scaleToString(balance, decimals, Direction.Down)}
 						/>
 					</Grid>
 				</Box>
@@ -69,26 +86,26 @@ const Manage: FC = () => {
 						disabledOptions={!wallet.connectedAddress}
 						disabledAmount={!selectedOption || !wallet.connectedAddress}
 						onAmountChange={(amount: string) => {
-							if (!clawBalance) return;
+							if (!balance) return;
 
 							setManageParams({
 								selectedOption,
 								amount,
 								error: validateAmountBoundaries({
 									amount,
-									maximum: clawBalance,
+									maximum: balance,
 								}),
 							});
 						}}
 						onApplyPercentage={(percentage: number) => {
-							if (!clawBalance) return;
+							if (!balance) return;
 
 							setManageParams({
 								selectedOption,
-								error: undefined,
-								amount: clawBalance
+								amount: balance
                                                                         .multipliedBy(percentage / 100)
 									.toFixed(0, BigNumber.ROUND_DOWN),
+								error: undefined,
 							});
 						}}
 						onOptionChange={(selectedOption: string) => {
