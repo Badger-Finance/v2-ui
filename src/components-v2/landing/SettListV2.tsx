@@ -1,20 +1,24 @@
-import React, {useContext, useState} from "react";
+import React, { useContext, useState } from 'react';
 import TableHeader from '../../components/Collection/Setts/TableHeader';
-import { observer } from "mobx-react-lite";
-import { List, makeStyles, Typography } from "@material-ui/core";
-import { StoreContext } from "mobx/store-context";
-import { Loader } from "components/Loader";
-import SettListItem from "components-v2/common/SettListItem";
-import BigNumber from "bignumber.js";
-import {usdToCurrency} from "../../mobx/utils/helpers";
+import { observer } from 'mobx-react-lite';
+import { List, makeStyles, Typography } from '@material-ui/core';
+import { StoreContext } from 'mobx/store-context';
+import { Loader } from 'components/Loader';
+import SettListItem from 'components-v2/common/SettListItem';
+import BigNumber from 'bignumber.js';
+import { usdToCurrency } from '../../mobx/utils/helpers';
 import {
 	formatBalance,
-	formatBalanceUnderlying, formatBalanceValue, formatGeyserBalance, formatGeyserBalanceValue,
+	formatBalanceUnderlying,
+	formatBalanceValue,
+	formatGeyserBalance,
+	formatGeyserBalanceValue,
 	formatPrice,
-	formatTokenBalanceValue
-} from "../../mobx/reducers/statsReducers";
-import {Geyser, Vault} from "../../mobx/model";
-import SettDialog from "../../components/Collection/Setts/SettDialog";
+	formatTokenBalanceValue,
+} from '../../mobx/reducers/statsReducers';
+import { Geyser, Vault } from '../../mobx/model';
+import SettDialog from '../../components/Collection/Setts/SettDialog';
+import Web3 from 'web3';
 
 const useStyles = makeStyles((theme) => ({
 	list: {
@@ -67,25 +71,23 @@ const SettListV2 = observer((props: Props) => {
 	const store = useContext(StoreContext);
 
 	const {
-		setts: {settList},
-		uiState: {currency, period, hideZeroBal, stats},
-		contracts: {vaults},
+		setts: { settList },
+		uiState: { currency, period, hideZeroBal, stats },
+		contracts: { vaults },
 	} = store;
 
-	const {totalValue, isUsd} = props;
+	const { totalValue, isUsd } = props;
 
 	const isError = () => {
 		if (settList === null)
-			return (<Typography variant="h4">There was an issue loading setts. Try refreshing.</Typography>);
-		else if (!settList)
-				return (<Loader/>);
-		else
-			return undefined;
-	}
+			return <Typography variant="h4">There was an issue loading setts. Try refreshing.</Typography>;
+		else if (!settList) return <Loader />;
+		else return undefined;
+	};
 
-	const [dialogProps, setDialogProps] = useState({open: false, vault: undefined as any, sett: undefined as any});
-	const onOpen = (vault: Vault, sett: any) => setDialogProps({vault: vault, open: true, sett: sett});
-	const onClose = () => setDialogProps({...dialogProps, open: false});
+	const [dialogProps, setDialogProps] = useState({ open: false, vault: undefined as any, sett: undefined as any });
+	const onOpen = (vault: Vault, sett: any) => setDialogProps({ vault: vault, open: true, sett: sett });
+	const onClose = () => setDialogProps({ ...dialogProps, open: false });
 
 	const getSettListDisplay = (): JSX.Element => {
 		const error = isError();
@@ -94,8 +96,15 @@ const SettListV2 = observer((props: Props) => {
 		return (
 			<>
 				{settList!.map((sett) => {
-					const vault: Vault = vaults[sett.vaultToken.toLowerCase()];
-					return <SettListItem sett={sett} key={sett.name} currency={currency} onOpen={() => onOpen(vault, sett)}/>;
+					const vault: Vault = vaults[Web3.utils.toChecksumAddress(sett.vaultToken)];
+					return (
+						<SettListItem
+							sett={sett}
+							key={sett.name}
+							currency={currency}
+							onOpen={() => onOpen(vault, sett)}
+						/>
+					);
 				})}
 			</>
 		);
@@ -104,68 +113,72 @@ const SettListV2 = observer((props: Props) => {
 	const getWalletListDisplay = (): (JSX.Element | undefined)[] => {
 		const error = isError();
 		if (error) return [error];
-
-		return (
-			settList!.map((sett) => {
-				const vault: Vault = vaults[sett.vaultToken.toLowerCase()];
-				const userBalance = vault && vault.underlyingToken ? new BigNumber(vault.underlyingToken.balance) : new BigNumber(0);
-				if (userBalance.gt(0))
-					return (
-						<SettListItem
-							key={`wallet-${sett.name}`}
-							sett={sett}
-							balance={formatBalance(vault.underlyingToken)}
-							balanceValue={formatTokenBalanceValue(vault.underlyingToken, currency)}
-							currency={currency}
-							onOpen={() => onOpen(vault, sett)}/>
-					);
-			})
-		);
+		return settList!.map((sett) => {
+			const vault: Vault = vaults[sett.vaultToken];
+			const userBalance =
+				vault && vault.underlyingToken ? new BigNumber(vault.underlyingToken.balance) : new BigNumber(0);
+			if (userBalance.gt(0))
+				return (
+					<SettListItem
+						key={`wallet-${sett.name}`}
+						sett={sett}
+						balance={formatBalance(vault.underlyingToken)}
+						balanceValue={formatTokenBalanceValue(vault.underlyingToken, currency)}
+						currency={currency}
+						onOpen={() => onOpen(vault, sett)}
+					/>
+				);
+		});
 	};
 
 	const getDepositListDisplay = (): (JSX.Element | undefined)[] => {
 		const error = isError();
 		if (error) return [error];
 
-		return (
-			settList!.map((sett) => {
-				const vault: Vault = vaults[sett.vaultToken.toLowerCase()];
-				const userBalance = vault ? vault.balance.toNumber() : 0;
-				if (userBalance > 0)
-					return (
-						<SettListItem
-							key={`deposit-${sett.name}`}
-							sett={sett}
-							balance={formatBalanceUnderlying(vault)}
-							balanceValue={formatBalanceValue(vault, currency)}
-							currency={currency}
-							onOpen={() => onOpen(vault, sett)}/>
-					);
-			})
-		);
+		return settList!.map((sett) => {
+			const vault: Vault = vaults[sett.vaultToken];
+			if (!vault) {
+				console.log('vaults:', vaults);
+				console.log('sett:', sett.vaultToken);
+				console.log('settList:', settList);
+				console.log('vault', vault);
+			}
+
+			const userBalance = vault ? vault.balance.toNumber() : 0;
+			if (userBalance > 0)
+				return (
+					<SettListItem
+						key={`deposit-${sett.name}`}
+						sett={sett}
+						balance={formatBalanceUnderlying(vault)}
+						balanceValue={formatBalanceValue(vault, currency)}
+						currency={currency}
+						onOpen={() => onOpen(vault, sett)}
+					/>
+				);
+		});
 	};
 
 	const getVaultListDisplay = (): (JSX.Element | undefined)[] => {
 		const error = isError();
 		if (error) return [error];
 
-		return (
-			settList!.map((sett) => {
-				const vault: Vault = vaults[sett.vaultToken.toLowerCase()];
-				const geyser: Geyser | undefined = vault?.geyser;
-				const userBalance = geyser ? geyser.balance.toNumber() : 0;
-				if (geyser && userBalance > 0)
-					return (
-						<SettListItem
-							key={`deposit-${sett.name}`}
-							sett={sett}
-							balance={formatGeyserBalance(geyser)}
-							balanceValue={formatGeyserBalanceValue(geyser, currency)}
-							currency={currency}
-							onOpen={() => onOpen(vault, sett)}/>
-					);
-			})
-		);
+		return settList!.map((sett) => {
+			const vault: Vault = vaults[sett.vaultToken];
+			const geyser: Geyser | undefined = vault?.geyser;
+			const userBalance = geyser ? geyser.balance.toNumber() : 0;
+			if (geyser && userBalance > 0)
+				return (
+					<SettListItem
+						key={`deposit-${sett.name}`}
+						sett={sett}
+						balance={formatGeyserBalance(geyser)}
+						balanceValue={formatGeyserBalanceValue(geyser, currency)}
+						currency={currency}
+						onOpen={() => onOpen(vault, sett)}
+					/>
+				);
+		});
 	};
 
 	if (!hideZeroBal) {
@@ -179,19 +192,20 @@ const SettListV2 = observer((props: Props) => {
 					title={`All Setts - ${totalValueLocked}`}
 					tokenTitle={'Tokens'}
 					classes={classes}
-					period={period}/>
+					period={period}
+				/>
 				<List className={classes.list}>{getSettListDisplay()}</List>
-				<SettDialog dialogProps={dialogProps} classes={classes} onClose={onClose}/>
+				<SettDialog dialogProps={dialogProps} classes={classes} onClose={onClose} />
 			</>
 		);
-	}	else {
+	} else {
 		const walletBalance = formatPrice(stats.stats.wallet, currency);
 		const depositBalance = formatPrice(stats.stats.deposits, currency);
 		const vaultBalance = formatPrice(stats.stats.vaultDeposits, currency);
 		const walletList = getWalletListDisplay().filter(Boolean);
 		const depositList = getDepositListDisplay().filter(Boolean);
 		const vaultList = getVaultListDisplay().filter(Boolean);
-		return(
+		return (
 			<>
 				{walletList.length > 0 && (
 					<>
@@ -199,7 +213,8 @@ const SettListV2 = observer((props: Props) => {
 							title={`Your Wallet - ${walletBalance}`}
 							tokenTitle="Available"
 							classes={classes}
-							period={period} />
+							period={period}
+						/>
 						<List className={classes.list}>{walletList}</List>
 					</>
 				)}
@@ -209,7 +224,8 @@ const SettListV2 = observer((props: Props) => {
 							title={`Your Vault Deposits - ${depositBalance}`}
 							tokenTitle="Tokens"
 							classes={classes}
-							period={period} />
+							period={period}
+						/>
 						<List className={classes.list}>{depositList}</List>
 					</>
 				)}
@@ -219,16 +235,18 @@ const SettListV2 = observer((props: Props) => {
 							title={`Your Staked Amounts - ${vaultBalance}`}
 							tokenTitle="Tokens"
 							classes={classes}
-							period={period} />
+							period={period}
+						/>
 						<List className={classes.list}>{vaultList}</List>
 					</>
 				)}
+
 				{walletList.length === 0 && depositList.length === 0 && vaultList.length === 0 && (
 					<Typography align="center" variant="subtitle1" color="textSecondary" style={{ margin: '2rem 0' }}>
-							Your address does not have tokens to deposit.
+						Your address does not have tokens to deposit.
 					</Typography>
 				)}
-				<SettDialog dialogProps={dialogProps} classes={classes} onClose={onClose}/>
+				<SettDialog dialogProps={dialogProps} classes={classes} onClose={onClose} />
 			</>
 		);
 	}

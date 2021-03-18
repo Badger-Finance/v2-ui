@@ -15,7 +15,11 @@ export const getVaults = (network: string | null): VaultNetworkConfig => {
 				uniswap: {
 					abi: BadgerVault.abi as AbiItem[],
 					underlying: 'token',
-					contracts: [bscDeploy.sett_system.vaults['native.pancakeBnbBtcb']],
+					contracts: [
+						bscDeploy.sett_system.vaults['native.pancakeBnbBtcb'],
+						bscDeploy.sett_system.vaults['native.bBadgerBtcb'],
+						bscDeploy.sett_system.vaults['native.bDiggBtcb'],
+					],
 					fillers: {
 						symbol: ['bnbBtcb'],
 						isFeatured: [false],
@@ -47,8 +51,6 @@ export const getVaults = (network: string | null): VaultNetworkConfig => {
 						},
 					],
 				},
-				sushiswap: undefined,
-				digg: undefined,
 			};
 		default:
 			return {

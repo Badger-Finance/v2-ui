@@ -107,7 +107,6 @@ class WalletStore {
 
 	getGasPrice = action(() => {
 		this.network.getGasPrices().then((price: any) => {
-			console.log('prices:', price);
 			this.gasPrices = price;
 		});
 	});

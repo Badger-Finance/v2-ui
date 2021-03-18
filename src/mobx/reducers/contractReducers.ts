@@ -43,7 +43,7 @@ export const reduceBatchResult = (result: any[]): any[] => {
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const reduceResult = (value: any): any => {
 	if (/^-?\d+$/.test(value)) return new BigNumber(value);
-	else if (_.isString(value) && value.slice(0, 2) === '0x') return (value as string).toLowerCase();
+	else if (_.isString(value) && value.slice(0, 2) === '0x') return value as string;
 	else if (_.isString(value)) return value;
 	else return value;
 };
@@ -128,7 +128,7 @@ export const reduceGraphResult = (graphResult: any[], prices: GraphResultPrices)
 		const tokenAddress = !!element.data.pair ? element.data.pair.id : element.data.token.id;
 
 		return {
-			address: tokenAddress.toLowerCase(),
+			address: tokenAddress,
 			type: !!element.data.pair ? 'pair' : 'token',
 			name: !!element.data.pair
 				? element.data.pair.token0.name + '/' + element.data.pair.token1.name
@@ -172,7 +172,7 @@ export const reduceCurveResult = (
 		const vp = sum.dividedBy(count).dividedBy(1e18);
 
 		return {
-			address: contracts[i].toLowerCase(),
+			address: contracts[i],
 			virtualPrice: vp,
 			ethValue: new BigNumber(vp).multipliedBy(wbtcToken.ethValue),
 			// balance: tokenContracts[contracts[i]].balance
@@ -267,17 +267,20 @@ export const reduceGeyserSchedule = (schedules: Schedules, store: RootStore): Gr
 			};
 			return _.mapValues(periods, (amount: BigNumber) => ({
 				amount: amount,
-				token: store.contracts.tokens[tokenAddress.toLowerCase()],
+				token: store.contracts.tokens[tokenAddress],
 			}));
 		}),
 	);
 };
 
 export const reduceContractConfig = (configs: any[], payload: any = {}): ReducedContractConfig => {
-	const contracts = _.map(configs, (config: any) => {
+	const contracts = _.map(configs, (config: any | undefined) => {
+		if (!config) {
+			return;
+		}
 		return _.map(config.contracts, (contract: string, i: number) => {
 			const r: any = {
-				address: contract.toLowerCase(),
+				address: contract,
 				abi: config.abi,
 				methods: reduceMethodConfig(config.methods, payload),
 				underlyingKey: config.underlying,

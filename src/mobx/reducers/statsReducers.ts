@@ -123,9 +123,7 @@ function calculatePortfolioStats(
 
 	_.forIn(vaultContracts, (vault: Vault) => {
 		if (!vault.underlyingToken || !vault.underlyingToken.ethValue) return;
-
 		if (!vault.holdingsValue().isNaN()) tvl = tvl.plus(vault.holdingsValue());
-
 		if (vault.balance.gt(0) && !vault.balanceValue().isNaN()) {
 			const diggMultiplier = vault.underlyingToken.symbol === 'DIGG' ? getDiggPerShare(vault) : new BigNumber(1);
 			deposits = deposits.plus(vault.balanceValue().multipliedBy(diggMultiplier));
@@ -150,9 +148,9 @@ function calculatePortfolioStats(
 		}
 	});
 
-	const badger: Token = tokens[network.deploy.token.toLowerCase()];
+	const badger: Token = tokens[network.deploy.token];
 	const digg: Token | undefined = network.deploy.digg_system
-		? tokens[network.deploy.digg_system.uFragments.toLowerCase()]
+		? tokens[network.deploy.digg_system.uFragments]
 		: undefined;
 	const badgerToken = !!badger && !!badger.ethValue ? badger.ethValue : new BigNumber(0);
 	const diggToken = !!digg && !!digg.ethValue ? digg.ethValue : new BigNumber(0);
@@ -226,13 +224,14 @@ export function formatStaked(geyser: Geyser): string {
 	return inCurrency(geyser.holdings.dividedBy(10 ** geyser.vault.decimals), 'eth', true);
 }
 export function formatBalanceUnderlying(vault: Vault): string {
-	const ppfs = vault.symbol === 'bDIGG' ? getDiggPerShare(vault) : vault.pricePerShare;
-	return formatTokens(vault.balance.multipliedBy(ppfs).dividedBy(10 ** vault.decimals));
+	return formatTokens(vault.balance.multipliedBy(vault.pricePerShare).dividedBy(10 ** vault.decimals));
 }
 
 export function formatDialogBalanceUnderlying(vault: Vault): string {
-	const ppfs = vault.symbol === 'bDIGG' ? getDiggPerShare(vault) : vault.pricePerShare;
-	return formatTokens(vault.balance.multipliedBy(ppfs).dividedBy(10 ** vault.decimals), vault.decimals);
+	return formatTokens(
+		vault.balance.multipliedBy(vault.pricePerShare).dividedBy(10 ** vault.decimals),
+		vault.decimals,
+	);
 }
 
 export function formatHoldingsValue(vault: Vault, currency: string): string {

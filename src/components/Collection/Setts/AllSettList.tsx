@@ -33,12 +33,12 @@ export default function AllSettList(props: SettListProps): JSX.Element {
 	});
 
 	const filtered = _.filter(sorted, (sett) => {
-		const vault: Vault = vaults[sett.address.toLowerCase()];
+		const vault: Vault = vaults[sett.address];
 		return !hideEmpty || (!!vault && vault.underlyingToken.balance.gt(0));
 	});
 
 	let list = _.map(filtered, (sett) => {
-		const vault: Vault = vaults[sett.address.toLowerCase()];
+		const vault: Vault = vaults[sett.address];
 		return (
 			<ListItem key={sett.asset} className={classes.listItem}>
 				<TokenCard isGlobal={!hideEmpty} sett={sett} onOpen={onOpen} vault={vault} period={period} />

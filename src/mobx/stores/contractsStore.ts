@@ -110,58 +110,24 @@ class ContractsStore {
 			network.tokens.tokenBatches,
 			!!connectedAddress && { connectedAddress },
 		);
-		// prepare curve price query
-		const curveQueries = !!network.tokens.curveTokens
-			? network.tokens.curveTokens.contracts.map((address: string, index: number) =>
-					jsonQuery(network.tokens.curveTokens?.priceEndpoints[index]),
-			  )
-			: [''];
 
-		// prepare price queries
-		const graphQueries = _.flatten(
-			_.map(network.tokens.tokenBatches[0].contracts, (address: string) => graphQuery(address, this.store)),
-		);
-
-		// TODO: Use jintao API to query prices rather than cg
-		const cgQueries = vanillaQuery(
-			`https://api.coingecko.com/api/v3/simple/token_price/ethereum?contract_addresses=${network.tokens.tokenBatches[0].contracts.join(
-				',',
-			)}&vs_currencies=eth`,
-		);
-
-		const priceApi = vanillaQuery(`${getApi()}/prices?network=${network.name}&currency=eth`);
-
+		const priceApi = vanillaQuery(`${getApi()}/prices?chain=${network.name}&currency=eth`);
 		if (!batchCall) {
 			callback();
 			return;
 		}
 
-		Promise.all([priceApi, batchCall.execute(batch), ...curveQueries, ...graphQueries])
+		Promise.all([priceApi, batchCall.execute(batch)])
 			.then((result: any[]) => {
 				const cgPrices = _.mapValues(result.slice(0, 1)[0], (price: any) => ({
 					ethValue: new BigNumber(price).multipliedBy(1e18),
 				}));
 				const tokenContracts = _.keyBy(reduceBatchResult(_.flatten(result.slice(1, 2))), 'address');
-				const tokenPrices = _.keyBy(
-					_.compact(reduceGraphResult(result.slice(2 + curveQueries.length), cgPrices)),
-					'address',
-				);
-				const curvePrices = network.tokens.curveTokens
-					? _.keyBy(
-							reduceCurveResult(
-								result.slice(2, 2 + curveQueries.length),
-								network.tokens.curveTokens.contracts,
-								tokenPrices[network.tokens.curveTokens.vsToken],
-							),
-							'address',
-					  )
-					: undefined;
 				const tokens = _.compact(
 					_.values(
 						_.defaultsDeep(
-							curvePrices,
+							// curvePrices,
 							cgPrices,
-							tokenPrices,
 							tokenContracts,
 							_.mapValues(network.tokens.symbols, (value: string, address: string) => ({
 								address,
@@ -192,6 +158,7 @@ class ContractsStore {
 		}
 
 		const { connectedAddress, currentBlock, network } = this.store.wallet;
+		const { settList } = this.store.setts;
 		const sushiBatches = network.vaults['sushiswap'];
 
 		const { defaults, batchCall: batch } = reduceContractConfig(
@@ -201,7 +168,7 @@ class ContractsStore {
 
 		const { growthQueries, periods } = reduceGrowthQueryConfig(network.name, currentBlock);
 
-		if (!!sushiBatches!.growthEndpoints) {
+		if (!!sushiBatches) {
 			const xSushiQuery = vanillaQuery(sushiBatches!.growthEndpoints![1]);
 			const masterChefQuery = vanillaQuery(
 				// Disable reason: growthEndPoints[2] has a hardcoded value and will never be null for vaultBatches[1]
@@ -217,7 +184,7 @@ class ContractsStore {
 				const masterChefResult: any = queryResult[0];
 				const newSushiRewards = reduceSushiAPIResults(masterChefResult);
 				network.vaults.sushiswap!.contracts.forEach((contract: any, i: number) => {
-					const tokenAddress = network.tokens.tokenMap[contract.toLowerCase()];
+					const tokenAddress = network.tokens.tokenMap[contract];
 					const xSushiGrowth =
 						!!newSushiRewards[tokenAddress] &&
 						_.mapValues(newSushiRewards[tokenAddress], (tokens: BigNumber) => {
@@ -226,27 +193,26 @@ class ContractsStore {
 								token: this.tokens[NETWORK_CONSTANTS[network.name].TOKENS.XSUSHI_ADDRESS],
 							};
 						});
-					const vault = this.getOrCreateVault(
-						contract.toLowerCase(),
-						this.tokens[tokenAddress],
-						defaults[contract.toLowerCase()].abi,
-					);
+					const vault = this.getOrCreateVault(contract, this.tokens[tokenAddress], defaults[contract].abi);
 					vault.update(
-						_.defaultsDeep(contract.toLowerCase(), defaults[contract.toLowerCase()], {
+						_.defaultsDeep(contract, defaults[contract], {
 							growth: _.compact([vault.growth, xSushiGrowth]),
 						}),
 					);
 				});
 			});
 		}
+		settList?.forEach((sett) => {
+			sett.vaultToken = Web3.utils.toChecksumAddress(sett.vaultToken);
+		});
+		const settStructure = _.keyBy(settList, 'vaultToken');
+		console.log(settStructure);
 
-		const ppfsQuery = vanillaQuery('https://api.sett.vision/protocol/ppfs');
-
-		Promise.all([batchCall.execute(batch), ...growthQueries, ppfsQuery])
+		Promise.all([batchCall.execute(batch), ...growthQueries])
 			.then((queryResult: any[]) => {
+				console.log('fetch vaults result:', queryResult);
 				const result = reduceBatchResult(queryResult[0]);
-				const ppfsResult: any = queryResult.slice(growthQueries.length + 1)[0];
-
+				console.log('fetch vault reduced query: ', result);
 				const vaultGrowth = reduceGrowth(
 					queryResult.slice(1, growthQueries.length + 1),
 					periods,
@@ -267,7 +233,6 @@ class ContractsStore {
 						this.tokens[tokenAddress],
 						defaults[contract.address].abi,
 					);
-
 					const growth =
 						!!vaultGrowth[contract.address] &&
 						_.mapValues(vaultGrowth[contract.address], (tokens: BigNumber) => ({
@@ -275,10 +240,12 @@ class ContractsStore {
 							token: this.tokens[tokenAddress],
 						}));
 
-					//TODO: xSushi ROI not added in here - need vault balance which doesn't seem to be set.
-					// console.log(vault)
 					// update ppfs from ppfs api
-					contract.getPricePerFullShare = new BigNumber(ppfsResult[vault.address]);
+					contract.getPricePerFullShare = new BigNumber(
+						settStructure[Web3.utils.toChecksumAddress(vault.address)].ppfs,
+					);
+					if (contract.getPricePerFullShare.gt(1))
+						contract.getPricePerFullShare = contract.getPricePerFullShare.dividedBy(1e18);
 					vault.update(
 						_.defaultsDeep(contract, defaults[contract.address], {
 							growth: _.compact([vault.growth, growth]),
@@ -301,7 +268,7 @@ class ContractsStore {
 		}
 		const { connectedAddress, network } = this.store.wallet;
 
-		if (!network.geysers!.geyserBatches) {
+		if (!network.geysers) {
 			callback();
 			return;
 		}

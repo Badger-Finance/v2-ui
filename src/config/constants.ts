@@ -1,6 +1,7 @@
 import Web3 from 'web3';
 import BigNumber from 'bignumber.js';
 import importedErc20 from '../config/system/abis/ERC20.json';
+import importedBscErc20 from '../config/system/abis/BscErc20.json';
 import { getNetworkDeploy } from '../mobx/utils/web3';
 import { token as BADGER_ADDRESS, digg_system, sett_system } from './deployments/mainnet.json';
 import { NetworkConstants, ClaimsSymbols } from '../mobx/model';
@@ -54,18 +55,19 @@ export const NETWORK_CONSTANTS: NetworkConstants = {
 
 export const CLAIMS_SYMBOLS: ClaimsSymbols = {
 	[NETWORK_LIST.ETH]: {
-		[NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.FARM_ADDRESS.toLowerCase()]: 'Farm',
-		[NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.XSUSHI_ADDRESS.toLowerCase()]: 'xSushi',
-		[NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.USDC_ADDRESS.toLowerCase()]: 'USDC',
-		[NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.BADGER_ADDRESS.toLowerCase()]: 'Badger',
-		[NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.DIGG_ADDRESS.toLowerCase()]: 'Digg',
-		[NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.BBADGER_ADDRESS.toLowerCase()]: 'bBadger',
-		[NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.BDIGG_ADDRESS.toLowerCase()]: 'bDigg',
+		[NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.FARM_ADDRESS]: 'Farm',
+		[NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.XSUSHI_ADDRESS]: 'xSushi',
+		[NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.USDC_ADDRESS]: 'USDC',
+		[NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.BADGER_ADDRESS]: 'Badger',
+		[NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.DIGG_ADDRESS]: 'Digg',
+		[NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.BBADGER_ADDRESS]: 'bBadger',
+		[NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.BDIGG_ADDRESS]: 'bDigg',
 	},
 };
 
 export const CONTACT_EMAIL = 'hello@badger.finance';
 export const ERC20 = importedErc20;
+export const BSC_ERC20 = importedBscErc20;
 export const APP_NAME = 'badgerDAO';
 export const PORTIS_APP_ID = 'cbf7534d-170d-4903-943f-e607dc588b7f';
 export const EMPTY_DATA = '0x';

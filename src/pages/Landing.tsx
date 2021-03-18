@@ -104,7 +104,7 @@ const Landing = observer(() => {
 						key={claimAddress}
 						primary={claimDisplay}
 						className={classes.rewardText}
-						secondary={`${CLAIMS_SYMBOLS[network.name][claimAddress.toLowerCase()]} Available to Claim`}
+						secondary={`${CLAIMS_SYMBOLS[network.name][claimAddress]} Available to Claim`}
 					/>
 				)
 			);

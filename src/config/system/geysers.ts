@@ -81,9 +81,9 @@ export const getGeysers = (network: string): GeyserNetworkConfig | undefined => 
 							},
 						],
 						contracts: [
-							deploy.geysers['native.sushiDiggWbtc'].toLowerCase(),
-							deploy.geysers['native.sushiWbtcEth'].toLowerCase(),
-							deploy.geysers['native.sushiBadgerWbtc'].toLowerCase(),
+							deploy.geysers['native.sushiDiggWbtc'],
+							deploy.geysers['native.sushiWbtcEth'],
+							deploy.geysers['native.sushiBadgerWbtc'],
 						],
 						fillers: {
 							getStakingToken: [
