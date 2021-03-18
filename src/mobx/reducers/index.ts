@@ -130,7 +130,7 @@ class UiState {
 		this.hideZeroBal = hide;
 		const { network } = this.store.wallet;
 		if (hide) window.localStorage.setItem(`${network.name}-hideZeroBal`, 'YES');
-		else window.localStorage.removeItem('hideZeroBal');
+		else window.localStorage.removeItem(`${network.name}-hideZeroBal`);
 	});
 
 	setCurrency = action((currency: string) => {

@@ -1,6 +1,6 @@
 import { ListItem, makeStyles, Typography, Grid, Tooltip, Chip, IconButton } from '@material-ui/core';
 import { BigNumber } from 'bignumber.js';
-import { Sett, TokenBalance, Vault } from 'mobx/model';
+import { Sett, TokenBalance } from 'mobx/model';
 import { numberWithCommas, usdToCurrency } from 'mobx/utils/helpers';
 import React from 'react';
 import { UnfoldMoreTwoTone } from '@material-ui/icons';
@@ -64,13 +64,16 @@ const useStyles = makeStyles((theme) => ({
 
 interface SettListItemProps {
 	sett: Sett;
+	balance?: string;
+	balanceValue?: string;
 	currency: string;
 	onOpen: () => void;
 }
 
 const SettListItem = (props: SettListItemProps): JSX.Element => {
 	const classes = useStyles();
-	const { sett, currency, onOpen } = props;
+
+	const { sett, balance, balanceValue, currency, onOpen } = props;
 	const tooltip = getToolTip(sett);
 	const displayName = sett.name.replace('Uniswap ', '').replace('Sushiswap ', '').replace('Harvest ', '');
 
@@ -107,21 +110,31 @@ const SettListItem = (props: SettListItemProps): JSX.Element => {
 						</Typography>
 					</Grid>
 					<Grid item xs={6} md={12}>
-						{sett.tokens.map((tokenBalance: TokenBalance, index: number) => (
-							<Grid container key={`token-${index}`} alignItems={'center'}>
-								{console.log('tokenbalance: ', tokenBalance)}
+						{balance && (
+							<Grid container alignItems={'center'}>
 								<img
-									alt={`${tokenBalance.name} symbol`}
+									alt={`${sett.name} symbol`}
 									className={classes.tokenSymbol}
-									src={
-										sett.tokens.length === 1
-											? `/assets/icons/${sett.asset.toLowerCase()}.png`
-											: `/assets/icons/${tokenBalance.symbol.toLowerCase()}-small.png`
-									}
+									src={`/assets/icons/${sett.asset.toLowerCase()}.png`}
 								/>
-								<Typography>{numberWithCommas(Number(tokenBalance.balance).toFixed())}</Typography>
+								<Typography>{balance}</Typography>
 							</Grid>
-						))}
+						)}
+						{!balance &&
+							sett.tokens.map((tokenBalance: TokenBalance, index: number) => (
+								<Grid container key={`token-${index}`} alignItems={'center'}>
+									<img
+										alt={`${tokenBalance.name} symbol`}
+										className={classes.tokenSymbol}
+										src={
+											sett.tokens.length === 1
+												? `/assets/icons/${sett.asset.toLowerCase()}.png`
+												: `/assets/icons/${tokenBalance.symbol.toLowerCase()}-small.png`
+										}
+									/>
+									<Typography>{numberWithCommas(Number(tokenBalance.balance).toFixed())}</Typography>
+								</Grid>
+							))}
 					</Grid>
 				</Grid>
 
@@ -144,7 +157,7 @@ const SettListItem = (props: SettListItemProps): JSX.Element => {
 				</Grid>
 				<Grid item xs={6} md={2}>
 					<Typography variant="body1" color={'textPrimary'}>
-						{usdToCurrency(new BigNumber(sett.value), currency)}
+						{balanceValue ? balanceValue : usdToCurrency(new BigNumber(sett.value), currency)}
 					</Typography>
 				</Grid>
 				<Grid item xs={12} md={2} style={{ textAlign: 'right' }}>
@@ -158,7 +171,7 @@ const SettListItem = (props: SettListItemProps): JSX.Element => {
 };
 
 const getToolTip = (sett: Sett): string => {
-	return sett.sources.map((source) => `${source.apy}% ${source.name}`).join(' + ');
+	return sett.sources.map((source) => `${source.apy.toFixed(2)}% ${source.name}`).join(' + ');
 };
 
 export default SettListItem;

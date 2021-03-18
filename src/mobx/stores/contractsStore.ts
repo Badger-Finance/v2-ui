@@ -138,7 +138,6 @@ class ContractsStore {
 
 		Promise.all([priceApi, batchCall.execute(batch), ...curveQueries, ...graphQueries])
 			.then((result: any[]) => {
-				console.log(result);
 				const cgPrices = _.mapValues(result.slice(0, 1)[0], (price: any) => ({
 					ethValue: new BigNumber(price).multipliedBy(1e18),
 				}));

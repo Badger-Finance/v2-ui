@@ -554,7 +554,7 @@ export class BscNetwork implements Network {
 		},
 	];
 	public async getGasPrices() {
-		return { standard: 10 * 1e9 };
+		return { standard: 10 };
 	}
 }
 
@@ -588,7 +588,12 @@ export class EthNetwork implements Network {
 		const prices = await fetch('https://www.gasnow.org/api/v3/gas/price?utm_source=badgerv2')
 			.then((result: any) => result.json())
 			.then((price: any) => {
-				return _.mapValues(price.data, (val: number) => val / 1e9);
+				return {
+					rapid: price.data['rapid'] / 1e9,
+					fast: price.data['fast'] / 1e9,
+					standard: price.data['standard'] / 1e9,
+					slow: price.data['slow'] / 1e9,
+				};
 			});
 		return prices;
 	}

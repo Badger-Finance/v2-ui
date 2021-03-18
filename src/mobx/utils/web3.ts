@@ -10,7 +10,7 @@ import deploy from '../../config/deployments/mainnet.json';
 import bscDeploy from '../../config/deployments/bsc.json';
 
 export const getNetwork = (network: string): Network => {
-	if (process.env.NODE_ENV !== 'production') return new BscNetwork();
+	// if (process.env.NODE_ENV !== 'production') return new BscNetwork();
 	switch (network) {
 		case NETWORK_LIST.BSC:
 			return new BscNetwork();

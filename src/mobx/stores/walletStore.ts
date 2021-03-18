@@ -109,10 +109,8 @@ class WalletStore {
 		// if (this.network.name !== NETWORK_LIST.ETH) return;
 		// TODO: Update to fetch gas price based on network
 		this.network.getGasPrices().then((price: any) => {
-			console.log('get gas price: ', price);
-			this.gasPrices = _.mapValues(price, (value: number) => {
-				return value / 1e9;
-			});
+			console.log('prices:', price);
+			this.gasPrices = price;
 		});
 
 		// fetch('https://www.gasnow.org/api/v3/gas/price?utm_source=badgerv2')
