@@ -3,6 +3,8 @@ import BigNumber from 'bignumber.js';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import { StoreContext } from 'mobx/store-context';
+
+import { TEN } from 'config/constants';
 import { ClawParam, INVALID_REASON } from '..';
 
 dayjs.extend(utc);
@@ -42,16 +44,16 @@ export function useDetails({ selectedOption }: ClawParam) {
 	};
 }
 
-export function useAmountToReceive({ selectedOption, amount }: ClawParam) {
+export function useAmountToReceive({ selectedOption, amount }: ClawParam, decimals: number): BigNumber {
 	const { claw } = React.useContext(StoreContext);
 	const synthetic = claw.syntheticsDataByEMP.get(selectedOption || '');
 	const userEmpInformation = claw.sponsorInformationByEMP.get(selectedOption || '');
 
-	if (!amount || !userEmpInformation || !synthetic) return;
+	if (!amount || !userEmpInformation || !synthetic) return new BigNumber(0);
 
 	const { tokensOutstanding, rawCollateral } = userEmpInformation.position;
 	const fractionRedeemed = new BigNumber(amount).dividedBy(tokensOutstanding);
-	const feeAdjustedCollateral = rawCollateral.multipliedBy(synthetic.cumulativeFeeMultiplier);
+	const feeAdjustedCollateral = rawCollateral.multipliedBy(synthetic.cumulativeFeeMultiplier.dividedBy(TEN.pow(decimals)));
 
 	return fractionRedeemed.multipliedBy(feeAdjustedCollateral);
 }

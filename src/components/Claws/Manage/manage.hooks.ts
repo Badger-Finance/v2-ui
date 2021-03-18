@@ -55,7 +55,7 @@ export function useDetails(mode: string, manage: ClawParam) {
 
 		[isWithdraw ? 'Minimum Withdraw' : ' Minimum Deposit']: `${minSponsorTokens
 			.dividedBy(precision)
-			.toString()} eCLAW`,
+			.toString()} CLAW`,
 	};
 
 	return {

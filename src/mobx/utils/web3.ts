@@ -63,7 +63,7 @@ export const estimateAndSend = (
 	method: ContractSendMethod,
 	address: string,
 	// eslint-disable-next-line autofix/no-unused-vars
-	callback: (transaction: PromiEvent<Contract>) => void,
+	callback: (transaction: PromiEvent<Contract>, error?: Error) => void,
 ): void => {
 	const gasWei = new BigNumber(gasPrice.toFixed(0));
 
@@ -72,13 +72,14 @@ export const estimateAndSend = (
 			from: address,
 			gas: gasWei.toNumber(),
 		},
-		(error: any, gasLimit: number) => {
+		(error: Error, gasLimit: number) => {
 			callback(
 				method.send({
 					from: address,
 					gas: Math.floor(gasLimit * 1.2),
 					gasPrice: gasWei.multipliedBy(1e9).toFixed(0),
 				}),
+                                error,
 			);
 		},
 	);

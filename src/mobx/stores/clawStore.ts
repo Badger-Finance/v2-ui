@@ -8,9 +8,9 @@ import { getClawEmp, getClawEmpSponsor } from 'mobx/utils/api';
 import BigNumber from 'bignumber.js';
 import {
 	EMPS_ADDRESSES,
-	reduceEclawByCollateral,
+	reduceClawByCollateral,
 	reduceCollaterals,
-	reduceEclaws,
+	reduceClaws,
 	reduceSponsorData,
 	reduceSyntheticsData,
 } from 'mobx/reducers/clawsReducer';
@@ -18,10 +18,22 @@ import { ERC20 } from 'config/constants';
 import EMP from '../../config/system/abis/ExpiringMultiParty.json';
 import { estimateAndSend } from 'mobx/utils/web3';
 
-export interface DepositMint {
+export interface Mint {
 	empAddress: string;
 	collateralAmount: string;
 	mintAmount: string;
+}
+export interface Redeem {
+	empAddress: string;
+	numTokens: string;
+}
+export interface Withdraw {
+	empAddress: string;
+	collateralAmount: string;
+}
+export interface RequestWithdrawal {
+	empAddress: string;
+	collateralAmount: string;
 }
 export interface SyntheticData {
 	// Long name of the synhetic (includes expiration date)
@@ -102,9 +114,13 @@ export class ClawStore {
 	syntheticsDataByEMP: Map<string, SyntheticData> = new Map();
 	sponsorInformationByEMP: Map<string, SponsorData> = new Map();
 	collaterals: Map<string, string> = new Map();
-	eClaws: Map<string, string> = new Map();
-	eclawsByCollateral: Map<string, Map<string, string>> = new Map();
+	claws: Map<string, string> = new Map();
+	clawsByCollateral: Map<string, Map<string, string>> = new Map();
+        // Split up isLoading into two state variables to track individual data loading calls since 
+        // tracking together is racy as connectedAddress is loaded async and not on construction.
 	isLoading = false;
+	isLoadingSyntheticData = false;
+	isLoadingSponsorData = false;
 
 	constructor(store: RootStore) {
 		this.store = store;
@@ -113,110 +129,162 @@ export class ClawStore {
 			syntheticsData: this.syntheticsData,
 			sponsorInformation: this.sponsorInformation,
 			isLoading: this.isLoading,
+                        isLoadingSponsorData: this.isLoadingSponsorData,
+                        isLoadingSyntheticData: this.isLoadingSyntheticData,
 			syntheticsDataByEMP: this.syntheticsDataByEMP,
 			sponsorInformationByEMP: this.sponsorInformationByEMP,
 			collaterals: this.collaterals,
-			eClaws: this.eClaws,
-			collateralEclawRelation: this.eclawsByCollateral,
+			claws: this.claws,
+			collateralClawRelation: this.clawsByCollateral,
 		});
 
+		observe(this, 'isLoadingSponsorData', () => {
+                        this.isLoading = this.isLoadingSponsorData || this.isLoadingSyntheticData;
+		});
+		observe(this, 'isLoadingSyntheticData', () => {
+                        this.isLoading = this.isLoadingSponsorData || this.isLoadingSyntheticData;
+		});
 		observe(this.store.wallet, 'connectedAddress', () => {
-			if (this.store.wallet.connectedAddress && this.sponsorInformation.length === 0 && !this.isLoading) {
+			if (this.store.wallet.connectedAddress && !this.isLoadingSponsorData) {
 				this.fetchSponsorData();
 			}
 		});
 
-		if (this.syntheticsData.length === 0) this.fetchData();
+		this.fetchSyntheticsData();
 	}
 
-	mintSynthetic = action(async ({ empAddress, collateralAmount, mintAmount }: DepositMint) => {
+	mint = action(async ({ empAddress, collateralAmount, mintAmount }: Mint) => {
 		const { queueNotification } = this.store.uiState;
 		try {
-			const { connectedAddress } = this.store.wallet;
 			const synthetic = this.syntheticsDataByEMP.get(empAddress);
 
-			if (!synthetic || !connectedAddress) return;
+			if (!synthetic) return;
 
-			await this._approveCollateralIfRequired(empAddress, synthetic.tokenCurrency, collateralAmount);
-			await this._mintCollateral(empAddress, collateralAmount, mintAmount);
+			await this._approveSpendIfRequired(empAddress, synthetic.collateralCurrency, collateralAmount);
+			await this._mint(empAddress, collateralAmount, mintAmount);
+                        this.fetchSponsorData();
+                        this.fetchSyntheticsData();
 		} catch (error) {
 			queueNotification(error?.message || 'There was an error minting', 'error');
 			process.env.NODE_ENV !== 'production' && console.log(error);
 		}
 	});
 
-	redeemCollateral = action(async (empAddress: string, redeemAmount: string) => {
+	redeem = action(async ({ empAddress, numTokens }: Redeem) => {
+		const { queueNotification } = this.store.uiState;
 		try {
-			await this._redeemCollateral(empAddress, redeemAmount);
+			const synthetic = this.syntheticsDataByEMP.get(empAddress);
+
+			if (!synthetic) return;
+
+			await this._approveSpendIfRequired(empAddress, synthetic.tokenCurrency, numTokens);
+			await this._redeem(empAddress, numTokens);
+                        this.fetchSponsorData();
+                        this.fetchSyntheticsData();
 		} catch (error) {
+			queueNotification(error?.message || 'There was an error redeeming collateral', 'error');
 			process.env.NODE_ENV !== 'production' && console.log(error);
 		}
 	});
 
-	withdrawCollateral = action(async (empAddress: string, withdrawAmount: string) => {
+	withdraw = action(async ({ empAddress, collateralAmount }: Withdraw) => {
+		const { queueNotification } = this.store.uiState;
 		try {
-			await this._withdrawCollateral(empAddress, withdrawAmount);
+			await this._withdraw(empAddress, collateralAmount);
+                        this.fetchSponsorData();
+                        this.fetchSyntheticsData();
 		} catch (error) {
+			queueNotification(error?.message || 'There was an error withdrawing collateral', 'error');
+			process.env.NODE_ENV !== 'production' && console.log(error);
+		}
+	});
+
+	requestWithdrawal = action(async ({ empAddress, collateralAmount }: Withdraw) => {
+		const { queueNotification } = this.store.uiState;
+		try {
+			await this._requestWithdrawal(empAddress, collateralAmount);
+		} catch (error) {
+			queueNotification(error?.message || 'There was an error requesting withdrawal of collateral', 'error');
+			process.env.NODE_ENV !== 'production' && console.log(error);
+		}
+	});
+
+	withdrawPassedRequest = action(async (empAddress: string) => {
+		const { queueNotification } = this.store.uiState;
+		try {
+			await this._withdrawPassedRequest(empAddress);
+                        this.fetchSponsorData();
+                        this.fetchSyntheticsData();
+		} catch (error) {
+			queueNotification(error?.message || 'There was an error withdrawing collateral', 'error');
+			process.env.NODE_ENV !== 'production' && console.log(error);
+		}
+	});
+
+	cancelWithdrawal = action(async (empAddress: string) => {
+		const { queueNotification } = this.store.uiState;
+		try {
+			await this._cancelWithdrawal(empAddress);
+		} catch (error) {
+			queueNotification(error?.message || 'There was an error withdrawing collateral', 'error');
 			process.env.NODE_ENV !== 'production' && console.log(error);
 		}
 	});
 
 	depositCollateral = action(async (empAddress: string, depositAmount: string) => {
+		const { queueNotification } = this.store.uiState;
 		try {
 			await this._depositCollateral(empAddress, depositAmount);
+                        this.fetchSponsorData();
+                        this.fetchSyntheticsData();
 		} catch (error) {
+			queueNotification(error?.message || 'There was an error depositing collateral', 'error');
 			process.env.NODE_ENV !== 'production' && console.log(error);
 		}
 	});
 
-	fetchData = action(async () => {
-		const isSponsorInformationEmpty = this.sponsorInformation.length === 0;
-		const isWalletConnected = !!this.store.wallet.connectedAddress;
-		await this.fetchSyntheticsData();
-		if (isWalletConnected && isSponsorInformationEmpty) await this.fetchSponsorData();
-	});
-
 	fetchSyntheticsData = action(async () => {
+		const { queueNotification } = this.store.uiState;
 		try {
-			this.isLoading = true;
+			this.isLoadingSyntheticData = true;
 			this.syntheticsData = await this._fetchEmps();
 			this.syntheticsDataByEMP = reduceSyntheticsData(this);
 			this.collaterals = reduceCollaterals(this);
-			this.eclawsByCollateral = reduceEclawByCollateral(this);
-			this.eClaws = reduceEclaws();
+			this.clawsByCollateral = reduceClawByCollateral(this);
+			this.claws = reduceClaws();
 		} catch (error) {
-			console.log(error);
+			queueNotification(error?.message || 'There was an error fetching synthetic data', 'error');
 		} finally {
-			this.isLoading = false;
+			this.isLoadingSyntheticData = false;
 		}
 	});
 
 	fetchSponsorData = action(async () => {
+		const { queueNotification } = this.store.uiState;
 		const { connectedAddress } = this.store.wallet;
 		try {
-			this.isLoading = true;
+			this.isLoadingSponsorData = true;
 			this.sponsorInformation = await Promise.all(
 				EMPS_ADDRESSES.map((synthetic) => getClawEmpSponsor(synthetic, connectedAddress)),
 			);
 			this.sponsorInformationByEMP = reduceSponsorData(this);
 		} catch (error) {
-			console.log(error);
+			queueNotification(error?.message || 'There was an error fetching sponsor data', 'error');
 		} finally {
-			this.isLoading = false;
+			this.isLoadingSponsorData = false;
 		}
 	});
 
-	private async _approveCollateralIfRequired(empAddress: string, syntheticTokenAddress: string, amount: string) {
+	private async _approveSpendIfRequired(empAddress: string, tokenAddress: string, amount: string) {
 		const { queueNotification } = this.store.uiState;
 		const { provider, connectedAddress } = this.store.wallet;
 		const web3 = new Web3(provider);
 
-		const syntheticToken = new web3.eth.Contract(ERC20.abi as AbiItem[], syntheticTokenAddress);
-		const approveCollateralSpending = syntheticToken.methods.approve(empAddress, amount.toString());
-		const currentAllowance: string = await syntheticToken.methods.allowance(connectedAddress, empAddress).call();
+		const token = new web3.eth.Contract(ERC20.abi as AbiItem[], tokenAddress);
+		const approveSpend = token.methods.approve(empAddress, amount.toString());
+		const currentAllowance: string = await token.methods.allowance(connectedAddress, empAddress).call();
 		const isApprovalNeeded = new BigNumber(currentAllowance).lt(amount);
 
-		console.log({ currentAllowance, isApprovalNeeded });
 		if (!isApprovalNeeded) return;
 
 		queueNotification(`First, we need you to approve your collateral spending`, 'info');
@@ -225,15 +293,18 @@ export class ClawStore {
 			estimateAndSend(
 				web3,
 				this.store.wallet.gasPrices[this.store.uiState.gasPrice],
-				approveCollateralSpending,
+				approveSpend,
 				connectedAddress,
-				(transaction: PromiEvent<Contract>) => {
+				(transaction: PromiEvent<Contract>, error?: Error) => {
+                                        if (error) {
+                                                queueNotification(error.message || 'There was an error estimating gas', 'error');
+                                        }
 					transaction
 						.on('transactionHash', (hash) => {
 							queueNotification(`Transaction submitted.`, 'info', hash);
 						})
 						.on('receipt', () => {
-							queueNotification(`Collateral Spending approved`, 'success');
+							queueNotification(`Spending approved`, 'success');
 							onSuccess();
 						})
 						.catch((error: any) => {
@@ -244,7 +315,7 @@ export class ClawStore {
 		});
 	}
 
-	private async _mintCollateral(empAddress: string, collateralAmount: string, mintAmount: string) {
+	private async _mint(empAddress: string, collateralAmount: string, mintAmount: string) {
 		const emp = this._getEmpContract(empAddress);
 
 		console.log({ rawValue: collateralAmount }, { rawValue: mintAmount });
@@ -258,9 +329,9 @@ export class ClawStore {
 		});
 	}
 
-	private async _redeemCollateral(empAddress: string, redeemAmount: string) {
+	private async _redeem(empAddress: string, numTokens: string) {
 		const emp = this._getEmpContract(empAddress);
-		const redeem = emp.methods.redeem({ rawValue: redeemAmount });
+		const redeem = emp.methods.redeem({ rawValue: numTokens });
 
 		return this._getEmpTransactionRequest({
 			method: redeem,
@@ -269,13 +340,46 @@ export class ClawStore {
 		});
 	}
 
-	private async _withdrawCollateral(empAddress: string, withdrawAmount: string) {
+	private async _withdraw(empAddress: string, collateralAmount: string) {
 		const emp = this._getEmpContract(empAddress);
-		const withdraw = emp.methods.requestWithdrawal({ rawValue: withdrawAmount });
+		const withdraw = emp.methods.requestWithdrawal({ rawValue: collateralAmount });
 
 		return this._getEmpTransactionRequest({
 			method: withdraw,
 			informationMessage: 'Please sign withdraw transaction',
+			successMessage: 'Withdraw success',
+		});
+	}
+
+	private async _requestWithdrawal(empAddress: string, collateralAmount: string) {
+		const emp = this._getEmpContract(empAddress);
+		const requestWithdrawal = emp.methods.requestWithdrawal({ rawValue: collateralAmount });
+
+		return this._getEmpTransactionRequest({
+			method: requestWithdrawal,
+			informationMessage: 'Please sign request withdrawal transaction',
+			successMessage: 'Request withdrawal success',
+		});
+	}
+
+	private async _withdrawPassedRequest(empAddress: string) {
+		const emp = this._getEmpContract(empAddress);
+		const withdrawPassedRequest = emp.methods.withdrawPassedRequest();
+
+		return this._getEmpTransactionRequest({
+			method: withdrawPassedRequest,
+			informationMessage: 'Please sign withdraw passed request transaction',
+			successMessage: 'Withdraw success',
+		});
+	}
+
+	private async _cancelWithdrawal(empAddress: string) {
+		const emp = this._getEmpContract(empAddress);
+		const cancelWithdrawal = emp.methods.cancelWithdrawal();
+
+		return this._getEmpTransactionRequest({
+			method: cancelWithdrawal,
+			informationMessage: 'Please sign cancel withdrawal request transaction',
 			successMessage: 'Withdraw success',
 		});
 	}
@@ -314,7 +418,10 @@ export class ClawStore {
 				this.store.wallet.gasPrices[this.store.uiState.gasPrice],
 				method,
 				connectedAddress,
-				(transaction: PromiEvent<Contract>) => {
+				(transaction: PromiEvent<Contract>, error?: Error) => {
+                                        if (error) {
+                                                queueNotification(error.message || 'There was an error estimating gas', 'error');
+                                        }
 					transaction
 						.on('transactionHash', (hash) => {
 							queueNotification(`Transaction submitted.`, 'info', hash);
@@ -332,8 +439,8 @@ export class ClawStore {
 	}
 
 	private async _fetchEmps(): Promise<SyntheticData[]> {
-		const eclaws = await Promise.all(EMPS_ADDRESSES.map((synthetic) => getClawEmp(synthetic)));
-		return this._addEmpAddress(eclaws);
+		const claws = await Promise.all(EMPS_ADDRESSES.map((synthetic) => getClawEmp(synthetic)));
+		return this._addEmpAddress(claws);
 	}
 
 	private _addEmpAddress(data: SyntheticData[]) {
