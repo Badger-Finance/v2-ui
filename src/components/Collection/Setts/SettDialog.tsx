@@ -99,7 +99,7 @@ const SettDialog = (props: SettDialogProps): JSX.Element => {
 				style={{ background: 'rgba(0,0,0,.2)', marginBottom: '1rem' }}
 			>
 				<Tab onClick={() => setDialogMode(0)} label={dialogOut ? 'Withdraw' : 'Deposit'}></Tab>
-				{sett.address !== diggSett && network.name === NETWORK_LIST.ETH && (
+				{sett.vaultToken !== diggSett && network.name === NETWORK_LIST.ETH && (
 					<Tab onClick={() => setDialogMode(1)} label={dialogOut ? 'Unstake' : 'Stake'}></Tab>
 				)}
 			</Tabs>
