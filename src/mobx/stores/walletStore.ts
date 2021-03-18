@@ -127,6 +127,7 @@ class WalletStore {
 
 	setAddress = action((address: any) => {
 		this.connectedAddress = address;
+		this.getCurrentBlock();
 	});
 
 	cacheWallet = action((wallet: any) => {
