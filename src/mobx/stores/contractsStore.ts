@@ -206,13 +206,10 @@ class ContractsStore {
 			sett.vaultToken = Web3.utils.toChecksumAddress(sett.vaultToken);
 		});
 		const settStructure = _.keyBy(settList, 'vaultToken');
-		console.log(settStructure);
 
 		Promise.all([batchCall.execute(batch), ...growthQueries])
 			.then((queryResult: any[]) => {
-				console.log('fetch vaults result:', queryResult);
 				const result = reduceBatchResult(queryResult[0]);
-				console.log('fetch vault reduced query: ', result);
 				const vaultGrowth = reduceGrowth(
 					queryResult.slice(1, growthQueries.length + 1),
 					periods,
@@ -285,6 +282,8 @@ class ContractsStore {
 
 				if (result) {
 					result.forEach((contract: any) => {
+						if (!defaults[contract.address]) console.log('error - defaults: ', defaults, contract.address);
+
 						const vaultAddress = contract[defaults[contract.address].underlyingKey];
 						const geyser: Geyser = this.getOrCreateGeyser(
 							contract.address,

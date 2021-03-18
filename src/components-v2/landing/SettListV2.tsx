@@ -137,12 +137,6 @@ const SettListV2 = observer((props: Props) => {
 
 		return settList!.map((sett) => {
 			const vault: Vault = vaults[sett.vaultToken];
-			if (!vault) {
-				console.log('vaults:', vaults);
-				console.log('sett:', sett.vaultToken);
-				console.log('settList:', settList);
-				console.log('vault', vault);
-			}
 
 			const userBalance = vault ? vault.balance.toNumber() : 0;
 			if (userBalance > 0)

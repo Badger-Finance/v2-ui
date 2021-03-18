@@ -21,7 +21,8 @@ export const getNetwork = (network: string): Network => {
 
 export const getNetworkName = (): string => {
 	const host = window.location.host;
-	const currentNetwork = host.split('.');
+	const hostSplit = host.split('.');
+	const currentNetwork = hostSplit[0].split('-');
 	// Enable testing for different networks in development.
 	// if (process.env.NODE_ENV !== 'production') return NETWORK_LIST.BSC;
 	if (currentNetwork.length > 0) {
