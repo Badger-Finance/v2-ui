@@ -69,7 +69,7 @@ const NFT: React.FC<Props> = ({ name, balance, remaining, redemptionRate }) => {
 					<Grid item container justify="center" xs={12}>
 						<Box clone mt={2}>
 							<Button className={classes.redeemButton} variant="contained" color="primary">
-								Redeem All
+								Redeem
 							</Button>
 						</Box>
 					</Grid>
