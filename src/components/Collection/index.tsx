@@ -123,8 +123,8 @@ export const Collection = observer(() => {
 		return <Loader />;
 	}
 
-	const [update, forceUpdate] = useState<boolean>();
-	useInterval(() => forceUpdate(!update), 1000);
+	// const [update, forceUpdate] = useState<boolean>();
+	// useInterval(() => forceUpdate(!update), 1000);
 
 	const spacer = () => <div className={classes.before} />;
 

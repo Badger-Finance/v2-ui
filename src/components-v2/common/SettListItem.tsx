@@ -109,6 +109,7 @@ const SettListItem = (props: SettListItemProps): JSX.Element => {
 					<Grid item xs={6} md={12}>
 						{sett.tokens.map((tokenBalance: TokenBalance, index: number) => (
 							<Grid container key={`token-${index}`} alignItems={'center'}>
+								{console.log('tokenbalance: ', tokenBalance)}
 								<img
 									alt={`${tokenBalance.name} symbol`}
 									className={classes.tokenSymbol}
