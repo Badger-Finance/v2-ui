@@ -7,7 +7,7 @@ import deploy from 'config/deployments/mainnet.json';
 export const EMPS_ADDRESSES = _valuesIn(deploy.claw_system.emps);
 
 // [EMP_ADDRESS: string] => [EMP_NAME: string]
-export function reduceEclaws(): Map<string, string> {
+export function reduceClaws(): Map<string, string> {
 	const EMPS_BY_ADDRESS = _invert(deploy.claw_system.emps);
 	return new Map(Object.entries(EMPS_BY_ADDRESS));
 }
@@ -27,9 +27,9 @@ export function reduceSponsorData({ sponsorInformation }: ClawStore): Map<string
 	return sponsorInformation.map(parseSponsorsHexToBigNumber).reduce(indexByEmpAddress, new Map());
 }
 
-// [COLLATERAL_ADDRESS: string] => [ECLAW: [ECLAW_ADDRESS: string] => [ECLAW_NAME: string]]
-export function reduceEclawByCollateral({ collaterals, syntheticsData }: ClawStore): Map<string, Map<string, string>> {
-	return Array.from(collaterals).reduce(indexEclawsByCollateralAddress(syntheticsData), new Map());
+// [COLLATERAL_ADDRESS: string] => [CLAW: [CLAW_ADDRESS: string] => [CLAW_NAME: string]]
+export function reduceClawByCollateral({ collaterals, syntheticsData }: ClawStore): Map<string, Map<string, string>> {
+	return Array.from(collaterals).reduce(indexClawsByCollateralAddress(syntheticsData), new Map());
 }
 
 // reducer's helper functions
@@ -45,14 +45,14 @@ function indexByEmpAddress<T>(addresses: Map<string, T>, incomingData: T, index:
 	return addresses.set(EMPS_ADDRESSES[index], incomingData);
 }
 
-function indexByEclawAddress(eclaws: Map<string, string>, data: SyntheticData) {
-	return eclaws.set(data.address, data.name);
+function indexByClawAddress(claws: Map<string, string>, data: SyntheticData) {
+	return claws.set(data.address, data.name);
 }
 
-function indexEclawsByCollateralAddress(emps: SyntheticData[]) {
-	return (eclawsByCollateral: Map<string, Map<string, string>>, [collateral]: string[]) => {
-		const eclaws = emps.filter(matchesCollateral(collateral)).reduce(indexByEclawAddress, new Map());
-		return eclawsByCollateral.set(collateral, eclaws);
+function indexClawsByCollateralAddress(emps: SyntheticData[]) {
+	return (clawsByCollateral: Map<string, Map<string, string>>, [collateral]: string[]) => {
+		const claws = emps.filter(matchesCollateral(collateral)).reduce(indexByClawAddress, new Map());
+		return clawsByCollateral.set(collateral, claws);
 	};
 }
 

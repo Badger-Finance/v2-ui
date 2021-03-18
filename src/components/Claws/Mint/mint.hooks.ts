@@ -7,7 +7,7 @@ import { ClawParam, INVALID_REASON } from '..';
 
 dayjs.extend(utc);
 
-export function useMaxEclaw(collateral: ClawParam, mint: ClawParam) {
+export function useMaxClaw(collateral: ClawParam, mint: ClawParam) {
 	const store = React.useContext(StoreContext);
 	const collateralToken = store.contracts.tokens[collateral.selectedOption || ''];
 	const synthetic = store.claw.syntheticsDataByEMP.get(mint.selectedOption || '');
@@ -28,7 +28,7 @@ export function useMaxEclaw(collateral: ClawParam, mint: ClawParam) {
 
 // THIS IS ONLY FOR TESTING
 // TODO: remove this after testing is done
-export function useValidateEclaw(mint: ClawParam) {
+export function useValidateClaw(mint: ClawParam) {
 	const store = React.useContext(StoreContext);
 	const synthetic = store.claw.syntheticsDataByEMP.get(mint.selectedOption || '');
 	if (!synthetic) return false;
@@ -62,7 +62,7 @@ export function useMintDetails(collateral: ClawParam, mint: ClawParam) {
 		Expiration: `${dayjs(new Date(expirationTimestamp.toNumber() * 1000))
 			.utc()
 			.format('MMMM DD, YYYY HH:mm')} UTC`,
-		'Minimum Mint': `${minSponsorTokens.dividedBy(precision).toString()} eCLAW`,
+		'Minimum Mint': `${minSponsorTokens.dividedBy(precision).toString()} CLAW`,
 	};
 }
 
@@ -75,10 +75,10 @@ export function useError(collateral: ClawParam, synthetic: ClawParam) {
 		collateral.error === INVALID_REASON.OVER_MAXIMUM && `Insufficient ${collateralName} balance`;
 	const mintableBalanceError =
 		synthetic.error &&
-		(synthetic.error === INVALID_REASON.OVER_MAXIMUM ? 'Insufficient eCLAW balance' : 'Insufficient eCLAW amount');
+		(synthetic.error === INVALID_REASON.OVER_MAXIMUM ? 'Insufficient CLAW balance' : 'Insufficient CLAW amount');
 	const noCollateral = !collateral.selectedOption && 'Select a Collateral Token';
 	const noCollateralAmount = !collateral.amount && 'Enter collateral amount';
-	const noMintable = !synthetic.selectedOption && 'Select a Mintable eCLAW';
+	const noMintable = !synthetic.selectedOption && 'Select a Mintable CLAW';
 	const noMintableAmount = !synthetic.amount && 'Enter amount to mint';
 
 	return (

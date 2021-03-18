@@ -8,19 +8,19 @@ import TokenAmountLabel from 'components-v2/common/TokenAmountSelector';
 import TokenAmountSelector from 'components-v2/common/TokenAmountLabel';
 import { ClawDetails, ConnectWalletButton, validateAmountBoundaries } from '../shared';
 import { ClawParam, useMainStyles } from '../index';
-import { useError, useMaxEclaw, useMintDetails, useValidateEclaw } from './mint.hooks';
+import { useError, useMaxClaw, useMintDetails, useValidateClaw } from './mint.hooks';
 
 export const Mint: FC = observer(() => {
 	const { claw: store, contracts, wallet } = useContext(StoreContext);
-	const { collaterals, eclawsByCollateral, syntheticsDataByEMP } = store;
+	const { collaterals, clawsByCollateral, syntheticsDataByEMP } = store;
 	const classes = useMainStyles();
 	const [collateral, setCollateral] = useState<ClawParam>({});
 	const [mintable, setMintable] = useState<ClawParam>({});
 	const error = useError(collateral, mintable);
-	const maxEclaw = useMaxEclaw(collateral, mintable);
+	const maxClaw = useMaxClaw(collateral, mintable);
 	const mintDetails = useMintDetails(collateral, mintable);
 	// ONLY TESTING
-	const validateEclaw = useValidateEclaw(mintable);
+	const validateClaw = useValidateClaw(mintable);
 	const collateralToken = contracts.tokens[collateral.selectedOption || ''];
 	const synthetic = syntheticsDataByEMP.get(mintable.selectedOption || '');
 
@@ -31,7 +31,7 @@ export const Mint: FC = observer(() => {
 
 		if (!empAddress || !mintAmount || !decimals || !collateralAmount) return;
 
-		store.mintSynthetic({
+		store.mint({
 			empAddress,
 			collateralAmount: ethers.utils.parseUnits(collateralAmount, decimals).toHexString(),
 			mintAmount: ethers.utils.parseUnits(mintAmount, decimals).toHexString(),
@@ -101,11 +101,11 @@ export const Mint: FC = observer(() => {
 					<Grid item xs={12}>
 						<TokenAmountLabel
 							name="Mintable"
-							balanceLabel={maxEclaw ? 'Max eCLAW:' : ''}
+							balanceLabel={maxClaw ? 'Max CLAW:' : ''}
 							balance={
-								maxEclaw &&
+								maxClaw &&
 								collateralToken &&
-								`Maximum eCLAW: ${maxEclaw
+								`Maximum CLAW: ${maxClaw
 									.toFixed(collateralToken.decimals, BigNumber.ROUND_DOWN)
 									.toString()}`
 							}
@@ -114,13 +114,13 @@ export const Mint: FC = observer(() => {
 				</Box>
 				<Grid item xs={12}>
 					<TokenAmountSelector
-						placeholder="Select eCLAW"
+						placeholder="Select CLAW"
 						displayAmount={mintable.amount}
 						selectedOption={mintable.selectedOption}
 						disabledOptions={!collateral.selectedOption || !collateral.amount}
 						disabledAmount={!collateral.selectedOption || !mintable.selectedOption}
 						onAmountChange={(amount: string) => {
-							if (!synthetic || !maxEclaw) return;
+							if (!synthetic || !maxClaw) return;
 
 							setMintable({
 								...mintable,
@@ -132,9 +132,9 @@ export const Mint: FC = observer(() => {
 							});
 						}}
 						onApplyPercentage={(percentage: number) => {
-							if (!synthetic || !maxEclaw || !collateralToken) return;
+							if (!synthetic || !maxClaw || !collateralToken) return;
 
-							const amount = maxEclaw
+							const amount = maxClaw
 								.multipliedBy(percentage / 100)
 								.toFixed(collateralToken.decimals, BigNumber.ROUND_DOWN);
 
@@ -143,13 +143,13 @@ export const Mint: FC = observer(() => {
 								amount,
 								error: validateAmountBoundaries({
 									amount,
-									maximum: validateEclaw ? maxEclaw : undefined,
+									maximum: validateClaw ? maxClaw : undefined,
 									minimum: synthetic.minSponsorTokens.dividedBy(10 ** collateralToken.decimals),
 								}),
 							});
 						}}
 						options={
-							collateral.selectedOption ? eclawsByCollateral.get(collateral.selectedOption) : new Map()
+							collateral.selectedOption ? clawsByCollateral.get(collateral.selectedOption) : new Map()
 						}
 						onOptionChange={(selectedOption: string) => {
 							setMintable({

@@ -54,11 +54,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 /**
- * This component can be used to display a selector of a set of tokens, an input for the amount, 
+ * This component can be used to display a selector of a set of tokens, an input for the amount,
  * and a group of buttons to represent percentage of the asset.
- * 
+ *
  * Each token needs to have the following structure: [tokenAddress: string] => [tokenName: string]
- * 
+ *
  */
 export const TokenAmountSelector: FC<Props> = ({
 	selectedOption = '',
