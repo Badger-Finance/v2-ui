@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
 
 export const VaultSymbol = observer((props: any) => {
 	const classes = useStyles();
-	const { token } = props;
+	const { token, iconName } = props;
 
 	// Return a formatted Vault Icon for the vault forms
 	if (!token) return <CircularProgress style={{ float: 'left', marginRight: '.5rem' }} />;
@@ -26,7 +26,7 @@ export const VaultSymbol = observer((props: any) => {
 			<img
 				alt={`Badger ${token.asset} Vault Symbol`}
 				className={classes.symbol}
-				src={`assets/icons/${token.asset.toLowerCase()}.png`}
+				src={`assets/icons/${iconName}.png`}
 			/>
 		);
 	}

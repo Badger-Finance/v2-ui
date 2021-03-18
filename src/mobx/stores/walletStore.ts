@@ -106,18 +106,10 @@ class WalletStore {
 	});
 
 	getGasPrice = action(() => {
-		// if (this.network.name !== NETWORK_LIST.ETH) return;
-		// TODO: Update to fetch gas price based on network
 		this.network.getGasPrices().then((price: any) => {
 			console.log('prices:', price);
 			this.gasPrices = price;
 		});
-
-		// fetch('https://www.gasnow.org/api/v3/gas/price?utm_source=badgerv2')
-		// 	.then((result: any) => result.json())
-		// 	.then((price: any) => {
-		// 		this.gasPrices = _.mapValues(price.data, (val: number) => val / 1e9);
-		// 	});
 	});
 
 	setProvider = action((provider: any) => {

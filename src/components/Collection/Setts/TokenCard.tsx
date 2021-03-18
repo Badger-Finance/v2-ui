@@ -99,7 +99,7 @@ export const TokenCard = (props: TokenCardProps): JSX.Element => {
 		<>
 			<Grid onClick={() => onOpen(vault, sett)} container className={classes.border}>
 				<Grid item xs={12} md={4} className={classes.name}>
-					<VaultSymbol token={sett} />
+					<VaultSymbol token={sett} iconName={sett.asset.toLowerCase()} />
 					<Typography variant="body1">{sett.title}</Typography>
 					<Typography variant="body2" color="textSecondary" component="div">
 						{sett.symbol}

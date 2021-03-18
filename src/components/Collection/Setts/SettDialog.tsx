@@ -84,7 +84,7 @@ const SettDialog = (props: SettDialogProps): JSX.Element => {
 						color="primary"
 					/>
 				</div>
-				<VaultSymbol token={sett} />
+				<VaultSymbol token={sett} iconName={sett.asset.toLowerCase()} />
 				<Typography variant="body1" color="textPrimary" component="div">
 					{sett.name}
 				</Typography>
