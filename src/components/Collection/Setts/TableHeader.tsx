@@ -3,7 +3,7 @@ import React from 'react';
 
 const useStyles = makeStyles((theme) => ({
 	headerContainer: {
-		marginBottom: theme.spacing(1)
+		marginBottom: theme.spacing(1),
 	},
 	vauleItem: {
 		paddingLeft: theme.spacing(3),
@@ -27,7 +27,7 @@ export default function TableHeader(props: TableHeaderProps): JSX.Element {
 	const { title, tokenTitle, period } = props;
 	const classes = useStyles();
 
-	const samplePeriods: {[period: string]: string} = {
+	const samplePeriods: { [period: string]: string } = {
 		month: 'Monthly',
 		year: 'Yearly',
 	};

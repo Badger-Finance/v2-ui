@@ -55,10 +55,11 @@ const SettList = observer(() => {
 
 	return (
 		<div className={classes.settListContainer}>
-			{hideZeroBal && connectedAddress ?
-				<UserListDisplay classes={classes} onOpen={onOpen} /> :
+			{hideZeroBal && connectedAddress ? (
+				<UserListDisplay classes={classes} onOpen={onOpen} />
+			) : (
 				<SettListDisplay classes={classes} onOpen={onOpen} />
-			}
+			)}
 			<SettDialog dialogProps={dialogProps} classes={classes} onClose={onClose} />
 		</div>
 	);

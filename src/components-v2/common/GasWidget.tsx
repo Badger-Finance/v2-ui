@@ -19,7 +19,7 @@ const GasWidget = observer(() => {
 	const { gasPrices, network } = store.wallet;
 
 	const getGasSelections = () => {
-		let gasMap: any = [];
+		const gasMap: any = [];
 		for (const [key, value] of Object.entries(gasPrices!)) {
 			gasMap.push(
 				<MenuItem value={key} key={key}>

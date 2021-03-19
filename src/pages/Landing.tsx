@@ -112,7 +112,7 @@ const Landing = observer(() => {
 		});
 	};
 
-	const totalValueLocked = protocolSummary ? new BigNumber(protocolSummary.totalValue) : undefined; 
+	const totalValueLocked = protocolSummary ? new BigNumber(protocolSummary.totalValue) : undefined;
 
 	// force undefined on $0 badger, value starts at 0 vs. undefined
 	// const badgerPrice: number | undefined =

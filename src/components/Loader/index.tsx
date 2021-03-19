@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	loaderMessage: {
 		marginTop: theme.spacing(5),
-	}
+	},
 }));
 
 export interface LoaderProps {
@@ -26,7 +26,11 @@ export const Loader = (props: LoaderProps): JSX.Element => {
 	return (
 		<div className={classes.loaderContainer}>
 			<CircularProgress size={60} />
-			{message && <Typography variant="body1" className={classes.loaderMessage}>{message}</Typography>}
+			{message && (
+				<Typography variant="body1" className={classes.loaderMessage}>
+					{message}
+				</Typography>
+			)}
 		</div>
 	);
 };

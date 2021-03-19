@@ -83,10 +83,10 @@ export default class SettStoreV2 {
 	);
 
 	// HELPERS
-	keySettList = action((settList: Sett[] | undefined | null): {[geyser: string]: Sett} => {
-		const map: {[geyser: string]: Sett} = {};
+	keySettList = action((settList: Sett[] | undefined | null): { [geyser: string]: Sett } => {
+		const map: { [geyser: string]: Sett } = {};
 		if (settList) {
-			settList.forEach(sett => map[sett.vaultToken] = sett);
+			settList.forEach((sett) => (map[sett.vaultToken] = sett));
 		}
 		return map;
 	});
