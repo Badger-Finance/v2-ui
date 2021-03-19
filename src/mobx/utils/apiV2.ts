@@ -1,4 +1,4 @@
-import { PriceSummary, Sett } from 'mobx/model';
+import { PriceSummary, ProtocolSummary, Sett } from 'mobx/model';
 
 export const getApi = () => {
 	if (process.env.NODE_ENV === 'production') {
@@ -12,6 +12,7 @@ const badgerApi = getApi();
 const listSettsEndpoint = `${badgerApi}/setts`;
 const listGeysersEndpoint = `${badgerApi}/geysers`;
 const getPricesEndpoint = `${badgerApi}/prices`;
+const getTVLEndpoint = `${badgerApi}/value`;
 
 // api function calls
 export const listSetts = async (chain?: string): Promise<Sett[] | null> => {
@@ -30,8 +31,18 @@ export const listGeysers = async (chain?: string): Promise<Sett[] | null> => {
 	return response.json();
 };
 
-export const getTokenPrices = async (currency?: string): Promise<PriceSummary | null> => {
-	const response = await fetch(`${getPricesEndpoint}${currency ? `?currency=${currency}` : ''}`);
+export const getTokenPrices = async (currency?: string, chain?: string): Promise<PriceSummary | null> => {
+	const response = await fetch(
+		`${getPricesEndpoint}?currency=${currency ? currency : 'eth'}&chain=${chain ? chain : 'eth'}`,
+	);
+	if (!response.ok) {
+		return null;
+	}
+	return response.json();
+};
+
+export const getTotalValueLocked = async (network?: string): Promise<ProtocolSummary | null> => {
+	const response = await fetch(`${getTVLEndpoint}?chain=${network ? network : 'eth'}`);
 	if (!response.ok) {
 		return null;
 	}

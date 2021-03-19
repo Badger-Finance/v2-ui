@@ -3,7 +3,7 @@ import { extendObservable, action, observe } from 'mobx';
 import { RootStore } from '../store';
 
 import { reduceAirdrops, reduceContractsToStats, reduceRebase } from './statsReducers';
-import { WBTC_ADDRESS_LOWER } from 'config/constants';
+import { NETWORK_CONSTANTS } from 'config/constants';
 import BigNumber from 'bignumber.js';
 import views from 'config/routes';
 
@@ -35,6 +35,7 @@ class UiState {
 
 	constructor(store: RootStore) {
 		this.store = store;
+		const { network } = store.wallet;
 
 		extendObservable(this, {
 			collection: {},
@@ -60,13 +61,13 @@ class UiState {
 			treeStats: { claims: [] },
 			airdropStats: {},
 
-			currency: window.localStorage.getItem('selectedCurrency') || 'usd',
-			period: window.localStorage.getItem('selectedPeriod') || 'year',
+			currency: window.localStorage.getItem(`${network.name}-selectedCurrency`) || 'usd',
+			period: window.localStorage.getItem(`${network.name}-selectedPeriod`) || 'year',
 
 			sidebarOpen: !!window && window.innerWidth > 960,
-			hideZeroBal: !!window.localStorage.getItem('hideZeroBal'),
+			hideZeroBal: !!window.localStorage.getItem(`${network.name}-hideZeroBal`),
 			notification: {},
-			gasPrice: window.localStorage.getItem('selectedGasPrice') || 'standard',
+			gasPrice: window.localStorage.getItem(`${network.name}-selectedGasPrice`) || 'standard',
 			txStatus: undefined,
 		});
 
@@ -98,8 +99,12 @@ class UiState {
 	});
 
 	reduceStats = action(() => {
-		const newStats = reduceContractsToStats(this.store);
-		this.stats = !!newStats ? reduceContractsToStats(this.store) : this.stats;
+		try {
+			const newStats = reduceContractsToStats(this.store);
+			this.stats = !!newStats ? reduceContractsToStats(this.store) : this.stats;
+		} catch (err) {
+			console.log('error reducing stats', err);
+		}
 	});
 
 	reduceTreeRewards = action(() => {
@@ -112,27 +117,35 @@ class UiState {
 
 	reduceRebase = action(() => {
 		const { tokens } = this.store.contracts;
-		if (!!this.store.rebase.rebase && !!tokens[WBTC_ADDRESS_LOWER])
-			this.rebaseStats = reduceRebase(this.store.rebase.rebase, tokens[WBTC_ADDRESS_LOWER]);
+		const { network } = this.store.wallet;
+		if (!!this.store.rebase.rebase && !!tokens[NETWORK_CONSTANTS[network.name].TOKENS.WBTC_ADDRESS_LOWER])
+			this.rebaseStats = reduceRebase(
+				this.store.rebase.rebase,
+				tokens[NETWORK_CONSTANTS[network.name].TOKENS.WBTC_ADDRESS_LOWER],
+			);
 	});
 
 	setGasPrice = action((gasPrice: string) => {
 		this.gasPrice = gasPrice;
-		window.localStorage.setItem('selectedGasPrice', gasPrice);
+		const { network } = this.store.wallet;
+		window.localStorage.setItem(`${network.name}-selectedGasPrice`, gasPrice);
 	});
 	setHideZeroBal = action((hide: boolean) => {
 		this.hideZeroBal = hide;
-		if (hide) window.localStorage.setItem('hideZeroBal', 'YES');
-		else window.localStorage.removeItem('hideZeroBal');
+		const { network } = this.store.wallet;
+		if (hide) window.localStorage.setItem(`${network.name}-hideZeroBal`, 'YES');
+		else window.localStorage.removeItem(`${network.name}-hideZeroBal`);
 	});
 
 	setCurrency = action((currency: string) => {
 		this.currency = currency;
-		window.localStorage.setItem('selectedCurrency', currency);
+		const { network } = this.store.wallet;
+		window.localStorage.setItem(`${network.name}-selectedCurrency`, currency);
 	});
 	setPeriod = action((period: string) => {
 		this.period = period;
-		window.localStorage.setItem('selectedPeriod', period);
+		const { network } = this.store.wallet;
+		window.localStorage.setItem(`${network.name}-selectedPeriod`, period);
 	});
 	unlockApp = action((password: string) => {
 		this.locked = !(password === 'BADger');

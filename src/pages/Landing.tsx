@@ -15,15 +15,15 @@ import {
 	ButtonGroup,
 } from '@material-ui/core';
 import PageHeader from '../components-v2/common/PageHeader';
-import { SettList } from '../components/Collection/Setts';
 import { digg_system } from 'config/deployments/mainnet.json';
-import { CLAIMS_SYMBOLS, USDC_ADDRESS } from 'config/constants';
+import { CLAIMS_SYMBOLS, NETWORK_CONSTANTS } from 'config/constants';
 import { inCurrency } from '../mobx/utils/helpers';
 import _ from 'lodash';
 import { StoreContext } from '../mobx/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
 import BigNumber from 'bignumber.js';
+import SettListV2 from 'components-v2/landing/SettListV2';
 
 const useStyles = makeStyles((theme) => ({
 	landingContainer: {
@@ -77,21 +77,23 @@ const Landing = observer(() => {
 	const store = useContext(StoreContext);
 
 	const {
-		wallet: { connectedAddress, isCached },
-		sett: { assets, badger },
+		wallet: { connectedAddress, network, isCached },
+		setts: { assets, priceData, badger },
 		rewards: { claimGeysers, badgerTree },
-		uiState: { stats, currency, hideZeroBal },
+		uiState: { stats, currency },
 	} = store;
 	const userConnected = !!connectedAddress;
 
 	const availableRewards = () => {
+		if (!badgerTree || !badgerTree.claims) return;
 		return badgerTree.claims.map((claim: any[]) => {
-			const claimAddress = claim[0];
+			const { network } = store.wallet;
+			const claimAddress: string = claim[0];
 			const claimValue = claim
 				? claim[1].dividedBy(
 						claimAddress === digg_system['uFragments']
 							? badgerTree.sharesPerFragment * 1e9
-							: claimAddress === USDC_ADDRESS
+							: claimAddress === NETWORK_CONSTANTS[network.name].TOKENS.USDC_ADDRESS
 							? 1e6
 							: 1e18,
 				  )
@@ -103,7 +105,7 @@ const Landing = observer(() => {
 						key={claimAddress}
 						primary={claimDisplay}
 						className={classes.rewardText}
-						secondary={`${CLAIMS_SYMBOLS[claimAddress.toLowerCase()]} Available to Claim`}
+						secondary={`${CLAIMS_SYMBOLS[network.name][claimAddress]} Available to Claim`}
 					/>
 				)
 			);
@@ -111,10 +113,13 @@ const Landing = observer(() => {
 	};
 
 	// force convert tvl due to zero typing on store (remove once typed)
-	const totalValueLocked: BigNumber | undefined = assets.totalValue ? new BigNumber(assets.totalValue) : undefined;
+	const totalValueLocked: BigNumber | undefined =
+		!!assets && assets.totalValue >= 0 ? new BigNumber(assets.totalValue) : undefined;
 
 	// force undefined on $0 badger, value starts at 0 vs. undefined
-	const badgerPrice: number | undefined = badger.market_data ? badger.market_data.current_price.usd : undefined;
+	// const badgerPrice: number | undefined =
+	// 	priceData && priceData[network.deploy.token] ? priceData[network.deploy.token] : undefined;
+	const badgerPrice: number | undefined = badger ? badger : undefined;
 	const badgerDisplayPrice: BigNumber | undefined = badgerPrice ? new BigNumber(badgerPrice) : undefined;
 
 	const portfolioValue = userConnected ? stats.stats.portfolio : undefined;
@@ -123,6 +128,7 @@ const Landing = observer(() => {
 
 	return (
 		<Container className={classes.landingContainer}>
+			{/* Landing Metrics Cards */}
 			<Grid container spacing={1} justify="center">
 				<Grid item xs={12} className={classes.headerContainer}>
 					<PageHeader
@@ -160,7 +166,8 @@ const Landing = observer(() => {
 				</Grid>
 			</Grid>
 
-			{!!connectedAddress && rewards.length > 0 && badgerTree.claims.length > 0 && (
+			{/* Landing Claim Functionality */}
+			{!!connectedAddress && badgerTree && rewards.length > 0 && badgerTree.claims.length > 0 && (
 				<>
 					<Grid item xs={12} style={{ textAlign: 'center', paddingBottom: 0 }}>
 						<Typography className={classes.marginTop} variant="subtitle1" color="textPrimary">
@@ -187,7 +194,8 @@ const Landing = observer(() => {
 					</Grid>
 				</>
 			)}
-			<SettList isGlobal={!isCached()} hideEmpty={hideZeroBal} />
+
+			<SettListV2 totalValue={totalValueLocked ?? new BigNumber(0)} isUsd={true} />
 		</Container>
 	);
 });

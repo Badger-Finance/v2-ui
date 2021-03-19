@@ -538,15 +538,15 @@ describe('reduceGrowth', () => {
 describe('reduceGeyserSchedule', () => {
 	// Create store with mock token objects
 	const mockStore = store;
-	mockStore.contracts.tokens['0x798D1bE841a82a273720CE31c822C61a67a601C3'.toLowerCase()] = {
+	mockStore.contracts.tokens['0x798D1bE841a82a273720CE31c822C61a67a601C3'] = {
 		address: '0x798D1bE841a82a273720CE31c822C61a67a601C3',
 		data: 'Token0',
 	};
-	mockStore.contracts.tokens['0x3472A5A71965499acd81997a54BBA8D852C6E53d'.toLowerCase()] = {
+	mockStore.contracts.tokens['0x3472A5A71965499acd81997a54BBA8D852C6E53d'] = {
 		address: '0x3472A5A71965499acd81997a54BBA8D852C6E53d',
 		data: 'Token1',
 	};
-	mockStore.contracts.tokens['0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a'.toLowerCase()] = {
+	mockStore.contracts.tokens['0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a'] = {
 		address: '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a',
 		data: 'Token2',
 	};

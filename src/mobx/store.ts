@@ -6,9 +6,9 @@ import AirdropStore from './stores/airdropStore';
 import RebaseStore from './stores/rebaseStore';
 import RewardsStore from './stores/rewardsStore';
 import IbBTCStore from './stores/ibBTCStore';
-import SettStore from './stores/settStore';
 import TransactionsStore from './stores/transactionsStore';
 import SettStoreV2 from './stores/settStoreV2';
+import { NETWORK_LIST } from '../config/constants';
 
 export class RootStore {
 	public router: RouterStore<RootStore>;
@@ -19,7 +19,6 @@ export class RootStore {
 	public rebase: RebaseStore;
 	public rewards: RewardsStore;
 	public ibBTCStore: IbBTCStore;
-	public sett: SettStore;
 	public setts: SettStoreV2;
 	public transactions: TransactionsStore;
 
@@ -32,10 +31,27 @@ export class RootStore {
 		this.rewards = new RewardsStore(this);
 		this.uiState = new UiState(this);
 		this.ibBTCStore = new IbBTCStore(this);
-		this.sett = new SettStore(this);
 		// RenVM transactions store.
 		this.transactions = new TransactionsStore(this);
 		this.setts = new SettStoreV2(this);
+	}
+
+	async walletRefresh() {
+		this.contracts.updateProvider();
+		this.contracts.fetchContracts();
+		this.airdrops.fetchAirdrops();
+		this.rebase.fetchRebaseStats();
+		this.rewards.fetchSettRewards();
+		this.uiState.reduceRebase();
+		this.uiState.reduceAirdrops();
+		this.uiState.reduceTreeRewards();
+		this.ibBTCStore.init();
+		// RenVM transactions store.
+		if (this.wallet.network.name === NETWORK_LIST.ETH) this.setts.loadGeysers(NETWORK_LIST.ETH);
+		else this.setts.loadSetts(this.wallet.network.name);
+		this.setts.loadAssets(this.wallet.network.name);
+		this.setts.loadPrices(this.wallet.network.name);
+		this.uiState.reduceStats();
 	}
 }
 

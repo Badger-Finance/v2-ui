@@ -119,7 +119,7 @@
 		"native.sushiWbtcEth": "0x612f681BCd12A0b284518D42D2DBcC73B146eb65",
 		"native.sushiBadgerWbtc": "0xB5b654efBA23596Ed49FAdE44F7e67E23D6712e7",
 		"native.uniDiggWbtc": "0x0194B5fe9aB7e0C43a08aCbb771516fc057402e7",
-		"native.sushiDiggWbtc": "0x7f6fe274e172ac7d096a7b214c78584d99ca988b"
+		"native.sushiDiggWbtc": "0x7F6FE274e172AC7d096A7b214c78584D99ca988B"
 	},
 	"digg_system": {
 		"owner": "0xDA25ee226E534d868f0Dd8a459536b03fEE9079b",

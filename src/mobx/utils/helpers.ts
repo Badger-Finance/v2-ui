@@ -1,9 +1,9 @@
 import BigNumber from 'bignumber.js';
+import { RootStore } from 'mobx/store';
 
-import { priceEndpoints } from '../../config/system/tokens';
-
-export const graphQuery = (address: string): Promise<any>[] => {
-	return priceEndpoints.map((endpoint: any) => {
+export const graphQuery = (address: string, store: RootStore): Promise<any>[] => {
+	const { network } = store.wallet;
+	return network.tokens.priceEndpoints.map((endpoint: any) => {
 		return fetch(endpoint, {
 			method: 'POST',
 			headers: {
@@ -65,7 +65,8 @@ export const chefQueries = (pairs: any[], contracts: any[], growthEndpoint: stri
 	});
 };
 
-export const jsonQuery = (url: string): Promise<Response> => {
+export const jsonQuery = (url?: string): Promise<Response | undefined> | undefined => {
+	if (!url) return;
 	return fetch(url, {
 		method: 'GET',
 		headers: {
@@ -214,16 +215,6 @@ export const inCurrency = (
 
 	let suffix = '';
 
-	// if (!noCommas)
-	// 	if (normal.dividedBy(1e6).gt(1)) {
-	// 		normal = normal.dividedBy(1e6)
-	// 		decimals = 2
-	// 		suffix = 'm'
-	// 	} else if (normal.dividedBy(1e3).gt(1e2)) {
-	// 		normal = normal.dividedBy(1e3)
-	// 		decimals = 2
-	// 		suffix = 'k'
-	// 	} else
 	if (normal.gt(0) && normal.lt(10 ** -preferredDecimals)) {
 		normal = normal.multipliedBy(10 ** preferredDecimals);
 		decimals = preferredDecimals;
