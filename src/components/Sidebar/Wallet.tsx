@@ -5,6 +5,7 @@ import { StoreContext } from '../../mobx/store-context';
 import { Button, Select, MenuItem } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { LocalGasStation } from '@material-ui/icons';
+import { getNetworkName } from 'mobx/utils/web3';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -34,6 +35,10 @@ const useStyles = makeStyles((theme) => ({
 		marginRight: theme.spacing(1),
 		minWidth: '93px',
 	},
+	network: {
+		marginRight: theme.spacing(1),
+		pointerEvents: 'none'
+	},
 }));
 
 export const Wallet = observer(() => {
@@ -41,7 +46,7 @@ export const Wallet = observer(() => {
 
 	const store = useContext(StoreContext);
 	const { gasPrice, setGasPrice } = store.uiState;
-	const { gasPrices } = store.wallet;
+	const { gasPrices, network } = store.wallet;
 	const wsOnboard = store.wallet.onboard;
 	const connectedAddress = store.wallet.connectedAddress;
 
@@ -60,12 +65,23 @@ export const Wallet = observer(() => {
 		}
 	};
 
+	let networkName: string = getNetworkName()
+
 	const onGasStationClicked = () => {
 		window.open('https://gasnow.org', '_blank');
 	};
 
 	return (
 		<div style={{ display: 'flex' }}>
+			<Button
+				disableElevation
+				variant="text"
+				size="small"
+				className={classes.network}
+
+			>
+				{networkName}
+			</Button>
 			<Select
 				variant="outlined"
 				color="secondary"

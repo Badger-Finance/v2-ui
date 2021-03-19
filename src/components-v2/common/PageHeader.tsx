@@ -2,6 +2,7 @@ import React from 'react';
 import { Typography, makeStyles } from '@material-ui/core';
 import WalletWidget from './WalletWidget';
 import GasWidget from './GasWidget';
+import NetworkWidget from './NetworkWidget';
 
 export interface PageHeaderProps {
 	title: string;
@@ -51,6 +52,7 @@ const PageHeader: React.FC<PageHeaderProps> = (props: PageHeaderProps) => {
 				)}
 			</div>
 			<div className={classes.headerWidgets}>
+				<NetworkWidget />
 				<GasWidget />
 				<WalletWidget />
 			</div>

@@ -45,6 +45,7 @@ class WalletStore {
 			gasPrices: { slow: 51, standard: 75, rapid: 122 },
 			ethBalance: new BigNumber(0),
 			onboard: Onboard(onboardOptions),
+			network: this.network
 		});
 
 		this.getCurrentBlock();
