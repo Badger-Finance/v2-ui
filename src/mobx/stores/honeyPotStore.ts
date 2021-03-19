@@ -10,8 +10,9 @@ import { getNftBatchInformation } from 'mobx/utils/api';
 import mainnet from 'config/deployments/mainnet.json';
 import { abi as scarcityPoolABI } from 'config/system/abis/BadgerScarcityPool.json';
 import { abi as memeLtdABI } from 'config/system/abis/MemeLtd.json';
+import { reduceNextGlobalRedemptionRate } from 'mobx/reducers/honeypotReducer';
 
-interface NFT {
+export interface NFT {
 	tokenId: string;
 	balance: string;
 	totalSupply: string;
@@ -19,9 +20,10 @@ interface NFT {
 	name?: string;
 	image?: string;
 }
-class HoneyPotStore {
+export class HoneyPotStore {
 	private store: RootStore;
 	poolBalance?: BigNumber;
+	nextRedemptionRate?: BigNumber;
 	nfts?: NFT[];
 	loadingPoolBalance = false;
 	loadingNfts = false;
@@ -33,6 +35,7 @@ class HoneyPotStore {
 			poolBalance: this.poolBalance,
 			loadingPoolBalance: this.loadingPoolBalance,
 			loadingNfts: this.loadingNfts,
+			nextRedemptionRate: this.nextRedemptionRate,
 		});
 
 		observe(this.store.wallet, 'connectedAddress', () => {
@@ -103,6 +106,8 @@ class HoneyPotStore {
 				...nfts,
 				balance,
 			}));
+
+			this.nextRedemptionRate = reduceNextGlobalRedemptionRate(this);
 		} catch (error) {
 			const message = error?.message || 'There was an error. Please try again later.';
 			this.store.uiState.queueNotification(message, 'error');
@@ -111,6 +116,14 @@ class HoneyPotStore {
 			this.loadingNfts = false;
 		}
 	});
-}
 
-export default HoneyPotStore;
+	calculateRedemptionRate({ balance, totalSupply, root }: Pick<NFT, 'balance' | 'totalSupply' | 'root'>): BigNumber {
+		if (!this.poolBalance) return new BigNumber('0');
+
+		const owned = new BigNumber(balance);
+		const total = new BigNumber(totalSupply);
+		const exponential = new BigNumber(root);
+
+		return this.poolBalance.multipliedBy(owned.dividedBy(total).exponentiatedBy(exponential));
+	}
+}

@@ -9,7 +9,7 @@ import IbBTCStore from './stores/ibBTCStore';
 import TransactionsStore from './stores/transactionsStore';
 import SettStoreV2 from './stores/settStoreV2';
 import { NETWORK_LIST } from '../config/constants';
-import HoneyPotStore from './stores/honeyPotStore';
+import { HoneyPotStore } from './stores/honeyPotStore';
 
 export class RootStore {
 	public router: RouterStore<RootStore>;
