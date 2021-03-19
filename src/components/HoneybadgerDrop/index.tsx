@@ -16,7 +16,6 @@ import { StoreContext } from 'mobx/store-context';
 import { Skeleton, SkeletonProps } from '@material-ui/lab';
 import { observer } from 'mobx-react-lite';
 import { diggToCurrency } from 'mobx/utils/helpers';
-import { usePoolDigg } from './honeypot.hooks';
 import { useConnectWallet } from 'mobx/utils/hooks';
 
 const useStyles = makeStyles((theme) => ({
@@ -253,6 +252,17 @@ export const HoneybadgerDrop: React.FC = observer(() => {
 		</Container>
 	);
 });
+
+const usePoolDigg = () => {
+	const store = useContext(StoreContext);
+	const { poolBalance } = store.honeyPot;
+	const { stats, rebaseStats } = store.uiState;
+
+	if (!stats.stats.digg || !rebaseStats.btcPrice || !poolBalance) return;
+
+	const rebasePercentage = ((stats.stats.digg - rebaseStats.btcPrice) / rebaseStats.btcPrice) * 0.1;
+	return poolBalance.plus(poolBalance.multipliedBy(rebasePercentage));
+};
 
 const TypographySkeleton: React.FC<Omit<SkeletonProps, 'variant'> & TypographyProps & { loading: boolean }> = ({
 	loading,
