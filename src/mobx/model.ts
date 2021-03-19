@@ -636,3 +636,20 @@ export type TokenBalance = {
 export type PriceSummary = {
 	[address: string]: number;
 };
+
+export type TvlSummary = {
+	totalValue: number;
+	setts: {
+		name: string;
+		asset: string;
+		value: number;
+		tokens: {
+			address: string;
+			name: string;
+			symbol: string;
+			decimals: number;
+			balance: number;
+			value: number;
+		}[];
+	}[];
+};

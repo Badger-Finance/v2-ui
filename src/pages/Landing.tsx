@@ -78,7 +78,7 @@ const Landing = observer(() => {
 
 	const {
 		wallet: { connectedAddress, isCached },
-		sett: { assets, badger },
+		setts: { assets, badger },
 		rewards: { claimGeysers, badgerTree },
 		uiState: { stats, currency, hideZeroBal },
 	} = store;
@@ -114,10 +114,10 @@ const Landing = observer(() => {
 	// force convert tvl due to zero typing on store (remove once typed)
 
 	const totalValueLocked: BigNumber | undefined =
-		assets.totalValue >= 0 ? new BigNumber(assets.totalValue) : undefined;
+		!!assets && assets.totalValue >= 0 ? new BigNumber(assets.totalValue) : undefined;
 
 	// force undefined on $0 badger, value starts at 0 vs. undefined
-	const badgerPrice: number | undefined = badger.market_data ? badger.market_data.current_price.usd : undefined;
+	const badgerPrice: number | undefined = badger ? badger.market_data.current_price.usd : undefined;
 	const badgerDisplayPrice: BigNumber | undefined = badgerPrice ? new BigNumber(badgerPrice) : undefined;
 
 	const portfolioValue = userConnected ? stats.stats.portfolio : undefined;

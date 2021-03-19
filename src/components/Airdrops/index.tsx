@@ -61,15 +61,15 @@ export const Airdrops = observer(() => {
 		wallet: { connectedAddress },
 		airdrops: { claimAirdrops },
 		uiState: { airdropStats, stats },
-		sett: { farmData },
+		// sett: { farmData },
 	} = store;
 
 	let maxNativeApy: number | undefined = undefined;
-	if (farmData.digg && farmData.badger) {
-		const diggApy = farmData.digg.apy;
-		const badgerApy = farmData.badger.apy;
-		maxNativeApy = Math.max(diggApy, badgerApy);
-	}
+	// if (farmData.digg && farmData.badger) {
+	// 	const diggApy = farmData.digg.apy;
+	// 	const badgerApy = farmData.badger.apy;
+	// 	maxNativeApy = Math.max(diggApy, badgerApy);
+	// }
 
 	const spacer = () => <div className={classes.before} />;
 

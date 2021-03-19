@@ -1,4 +1,4 @@
-import { Network, PriceSummary, Sett } from 'mobx/model';
+import { PriceSummary, Sett, TvlSummary } from 'mobx/model';
 
 export const getApi = () => {
 	if (process.env.NODE_ENV === 'production') {
@@ -39,12 +39,16 @@ export const getTokenPrices = async (currency?: string): Promise<PriceSummary | 
 	return response.json();
 };
 
-export const getTotalValueLocked = async (currency?: string, network?: string): Promise<any> => {
-	const response = await fetch(
-		`${getTVLEndpoint}?currency=${currency ? currency : 'eth'}&chain=${network ? network : 'eth'}`,
-	);
+export const getTotalValueLocked = async (network?: string): Promise<TvlSummary | null> => {
+	const response = await fetch(`${getTVLEndpoint}?chain=${network ? network : 'eth'}`);
 	if (!response.ok) {
 		return null;
 	}
 	return response.json();
+};
+
+const coingeckoApi = 'https://api.coingecko.com/api/v3';
+
+export const getCoinData = async (coin: string): Promise<any> => {
+	return await fetch(`${coingeckoApi}/coins/${coin}`).then((response) => response.json());
 };

@@ -6,7 +6,7 @@ import { abi as erc20Abi } from './abis/ERC20.json';
 import { abi as badgerHuntAbi } from './abis/BadgerHunt.json';
 import { abi as bBadgerAirdropAbi } from './abis/bBadgerAidrop.json';
 import { AirdropNetworkConfig } from '../../mobx/model';
-import { getApi } from 'mobx/utils/api';
+import { getApi } from 'mobx/utils/apiV2';
 import { NETWORK_LIST } from '../constants';
 
 export const getAirdrops = (network: string | undefined): AirdropNetworkConfig | undefined => {
@@ -15,7 +15,7 @@ export const getAirdrops = (network: string | undefined): AirdropNetworkConfig |
 			return undefined;
 		default:
 			return {
-				airdropEndpoint: `${getApi(network)}/v2/reward`,
+				airdropEndpoint: `${getApi()}/v2/reward`,
 				airdropsConfig: {
 					[token]: {
 						tokenAbi: erc20Abi as AbiItem[],

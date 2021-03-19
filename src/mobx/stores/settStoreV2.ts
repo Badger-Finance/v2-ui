@@ -1,8 +1,9 @@
 import { extendObservable, action } from 'mobx';
 import { RootStore } from '../store';
-import { getTokenPrices, listGeysers, listSetts } from 'mobx/utils/apiV2';
-import { PriceSummary, Sett } from 'mobx/model';
+import { getTokenPrices, getTotalValueLocked, listGeysers, listSetts, getCoinData } from 'mobx/utils/apiV2';
+import { PriceSummary, Sett, TvlSummary } from 'mobx/model';
 import Web3 from 'web3';
+import { NETWORK_LIST } from 'config/constants';
 
 export default class SettStoreV2 {
 	private store!: RootStore;
@@ -10,6 +11,8 @@ export default class SettStoreV2 {
 	// loading: undefined, error: null, present: object
 	public settList: Sett[] | undefined | null;
 	public priceData: PriceSummary | undefined | null;
+	public assets: TvlSummary | undefined | null;
+	public badger: { [index: string]: any } | undefined | null;
 
 	constructor(store: RootStore) {
 		this.store = store;
@@ -17,17 +20,24 @@ export default class SettStoreV2 {
 		extendObservable(this, {
 			settList: undefined,
 			priceData: undefined,
+			assets: undefined,
+			badger: undefined,
 		});
 
 		this.settList = undefined;
 		this.priceData = undefined;
+		this.assets = undefined;
+		this.badger = undefined;
 
 		this.init();
 	}
 
 	init = action(
 		async (): Promise<void> => {
-			this.loadSetts(this.store.wallet.network.name);
+			if (this.store.wallet.network.name === NETWORK_LIST.ETH) this.loadGeysers(this.store.wallet.network.name);
+			else this.loadSetts(this.store.wallet.network.name);
+			this.loadAssets(this.store.wallet.network.name);
+			this.loadBadgerPrice();
 		},
 	);
 
@@ -35,6 +45,7 @@ export default class SettStoreV2 {
 		async (chain?: string): Promise<void> => {
 			this.settList = await listSetts(chain);
 			this.settList?.map((sett) => {
+				//
 				if (
 					sett.vaultToken === '0xF6BC36280F32398A031A7294e81131aEE787D178' &&
 					process.env.NODE_ENV !== 'production'
@@ -45,15 +56,30 @@ export default class SettStoreV2 {
 		},
 	);
 
+	loadBadgerPrice = action(() => {
+		getCoinData('badger-dao').then((res: any) => {
+			if (res) {
+				this.badger = res;
+			}
+		});
+	});
+
 	loadGeysers = action(
 		async (chain?: string): Promise<void> => {
 			this.settList = await listGeysers(chain);
 		},
 	);
 
+	// TODO: Use this?
 	loadPrices = action(
 		async (currency?: string): Promise<void> => {
 			this.priceData = await getTokenPrices(currency);
+		},
+	);
+
+	loadAssets = action(
+		async (chain?: string): Promise<void> => {
+			this.assets = await getTotalValueLocked(chain);
 		},
 	);
 }

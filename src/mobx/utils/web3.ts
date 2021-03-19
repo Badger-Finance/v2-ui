@@ -24,7 +24,7 @@ export const getNetworkName = (): string => {
 	const hostSplit = host.split('.');
 	const currentNetwork = hostSplit[0].split('-');
 	// Enable testing for different networks in development.
-	// if (process.env.NODE_ENV !== 'production') return NETWORK_LIST.BSC;
+	if (process.env.NODE_ENV !== 'production') return NETWORK_LIST.BSC;
 	if (currentNetwork.length > 0) {
 		return currentNetwork[0] === 'app' ? NETWORK_LIST.ETH : currentNetwork[0];
 	}

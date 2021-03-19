@@ -6,7 +6,6 @@ import AirdropStore from './stores/airdropStore';
 import RebaseStore from './stores/rebaseStore';
 import RewardsStore from './stores/rewardsStore';
 import IbBTCStore from './stores/ibBTCStore';
-import SettStore from './stores/settStore';
 import TransactionsStore from './stores/transactionsStore';
 import SettStoreV2 from './stores/settStoreV2';
 
@@ -19,7 +18,6 @@ export class RootStore {
 	public rebase: RebaseStore;
 	public rewards: RewardsStore;
 	public ibBTCStore: IbBTCStore;
-	public sett: SettStore;
 	public setts: SettStoreV2;
 	public transactions: TransactionsStore;
 
@@ -32,7 +30,6 @@ export class RootStore {
 		this.rewards = new RewardsStore(this);
 		this.uiState = new UiState(this);
 		this.ibBTCStore = new IbBTCStore(this);
-		this.sett = new SettStore(this);
 		// RenVM transactions store.
 		this.transactions = new TransactionsStore(this);
 		this.setts = new SettStoreV2(this);
