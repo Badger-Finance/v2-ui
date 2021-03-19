@@ -69,5 +69,4 @@ export const onboardWalletCheck = [
 	{ checkName: 'derivationPath' },
 	{ checkName: 'accounts' },
 	{ checkName: 'connect' },
-	{ checkName: 'network' },
 ];

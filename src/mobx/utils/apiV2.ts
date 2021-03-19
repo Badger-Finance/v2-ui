@@ -31,8 +31,10 @@ export const listGeysers = async (chain?: string): Promise<Sett[] | null> => {
 	return response.json();
 };
 
-export const getTokenPrices = async (currency?: string): Promise<PriceSummary | null> => {
-	const response = await fetch(`${getPricesEndpoint}${currency ? `?currency=${currency}` : ''}`);
+export const getTokenPrices = async (currency?: string, chain?: string): Promise<PriceSummary | null> => {
+	const response = await fetch(
+		`${getPricesEndpoint}?currency=${currency ? currency : 'eth'}&chain=${chain ? chain : 'eth'}`,
+	);
 	if (!response.ok) {
 		return null;
 	}
@@ -45,10 +47,4 @@ export const getTotalValueLocked = async (network?: string): Promise<ProtocolSum
 		return null;
 	}
 	return response.json();
-};
-
-const coingeckoApi = 'https://api.coingecko.com/api/v3';
-
-export const getCoinData = async (coin: string): Promise<any> => {
-	return await fetch(`${coingeckoApi}/coins/${coin}`).then((response) => response.json());
 };

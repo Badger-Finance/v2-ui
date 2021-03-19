@@ -42,7 +42,6 @@ export class RootStore {
 		this.airdrops.fetchAirdrops();
 		this.rebase.fetchRebaseStats();
 		this.rewards.fetchSettRewards();
-		this.uiState.reduceStats();
 		this.uiState.reduceRebase();
 		this.uiState.reduceAirdrops();
 		this.uiState.reduceTreeRewards();
@@ -51,7 +50,8 @@ export class RootStore {
 		if (this.wallet.network.name === NETWORK_LIST.ETH) this.setts.loadGeysers(NETWORK_LIST.ETH);
 		else this.setts.loadSetts(this.wallet.network.name);
 		this.setts.loadAssets(this.wallet.network.name);
-		this.setts.loadBadgerPrice();
+		this.setts.loadPrices(this.wallet.network.name);
+		this.uiState.reduceStats();
 	}
 }
 

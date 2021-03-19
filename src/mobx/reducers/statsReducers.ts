@@ -56,7 +56,10 @@ export const reduceContractsToStats = (store: RootStore): ContractToStats | unde
 	const { network } = store.wallet;
 	/* const { currency, hideZeroBal } = store.uiState; */
 
-	if (!tokens) return;
+	if (!tokens) {
+		if (process.env.NODE_ENV !== 'production') console.log('no tokens identified');
+		return;
+	}
 
 	const { tvl, portfolio, wallet, deposits, badgerToken, diggToken, bDigg, vaultDeposits } = calculatePortfolioStats(
 		vaultContracts,

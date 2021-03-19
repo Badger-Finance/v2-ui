@@ -99,8 +99,12 @@ class UiState {
 	});
 
 	reduceStats = action(() => {
-		const newStats = reduceContractsToStats(this.store);
-		this.stats = !!newStats ? reduceContractsToStats(this.store) : this.stats;
+		try {
+			const newStats = reduceContractsToStats(this.store);
+			this.stats = !!newStats ? reduceContractsToStats(this.store) : this.stats;
+		} catch (err) {
+			console.log('error reducing stats', err);
+		}
 	});
 
 	reduceTreeRewards = action(() => {

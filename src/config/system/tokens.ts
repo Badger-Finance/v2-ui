@@ -20,7 +20,7 @@ export const getTokens = (network: string | null): TokenNetworkConfig => {
 			];
 			const bscTokenMap = _.zipObject(bscVaultList, bscTokenList);
 			return {
-				priceEndpoints: ['https://api.thegraph.com/subgraphs/name/aizensousuke239/pancake-swap'],
+				priceEndpoints: ['https://api.thegraph.com/subgraphs/name/pancakeswap/exchange'],
 				tokenBatches: [
 					{
 						abi: BSC_ERC20.abi as AbiItem[],

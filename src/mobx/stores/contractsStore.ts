@@ -231,8 +231,6 @@ class ContractsStore {
 						}));
 
 					// update ppfs from ppfs api
-					// TODO: Check does this ever work?
-					console.log(settStructure[vault.address]);
 					contract.getPricePerFullShare = settStructure[vault.address]
 						? new BigNumber(settStructure[vault.address].ppfs)
 						: new BigNumber(1);

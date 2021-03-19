@@ -1,6 +1,6 @@
 import { extendObservable, action } from 'mobx';
 import { RootStore } from '../store';
-import { getTokenPrices, getTotalValueLocked, listGeysers, listSetts, getCoinData } from 'mobx/utils/apiV2';
+import { getTokenPrices, getTotalValueLocked, listGeysers, listSetts } from 'mobx/utils/apiV2';
 import { PriceSummary, Sett, ProtocolSummary, Network } from 'mobx/model';
 import Web3 from 'web3';
 import { NETWORK_LIST } from 'config/constants';
@@ -13,7 +13,7 @@ export default class SettStoreV2 {
 	public settList: Sett[] | undefined | null;
 	public priceData: PriceSummary | undefined | null;
 	public assets: ProtocolSummary | undefined | null;
-	public badger: { [index: string]: any } | undefined | null;
+	public badger: number | undefined | null;
 	public farmData: any;
 
 	constructor(store: RootStore) {
@@ -42,7 +42,8 @@ export default class SettStoreV2 {
 			if (this.network.name === NETWORK_LIST.ETH) this.loadGeysers(this.network.name);
 			else this.loadSetts(this.network.name);
 			this.loadAssets(this.network.name);
-			this.loadBadgerPrice();
+			this.loadPrices();
+			this.loadBadger();
 		},
 	);
 
@@ -61,14 +62,6 @@ export default class SettStoreV2 {
 		},
 	);
 
-	loadBadgerPrice = action(() => {
-		getCoinData('badger-dao').then((res: any) => {
-			if (res) {
-				this.badger = res;
-			}
-		});
-	});
-
 	loadGeysers = action(
 		async (chain?: string): Promise<void> => {
 			this.settList = await listGeysers(chain);
@@ -76,10 +69,16 @@ export default class SettStoreV2 {
 		},
 	);
 
-	// TODO: Use this?
 	loadPrices = action(
-		async (currency?: string): Promise<void> => {
-			this.priceData = await getTokenPrices(currency);
+		async (currency?: string, network?: string): Promise<void> => {
+			this.priceData = await getTokenPrices(currency, network);
+		},
+	);
+
+	loadBadger = action(
+		async (): Promise<void> => {
+			const response = await getTokenPrices('usd', 'eth');
+			this.badger = response![this.network.deploy.token];
 		},
 	);
 
