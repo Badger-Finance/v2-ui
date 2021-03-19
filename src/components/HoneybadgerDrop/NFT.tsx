@@ -2,6 +2,7 @@ import React from 'react';
 import { Box, Button, Grid, makeStyles, Paper, Typography } from '@material-ui/core';
 
 interface Props {
+	image?: string;
 	name: string;
 	balance: string;
 	remaining: string;
@@ -10,7 +11,7 @@ interface Props {
 
 const useStyles = makeStyles((theme) => ({
 	paper: {
-		padding: theme.spacing(1, 3),
+		padding: theme.spacing(2, 3),
 	},
 	redeemButton: {
 		color: theme.palette.common.black,
@@ -24,14 +25,22 @@ const useStyles = makeStyles((theme) => ({
 	textEnd: {
 		textAlign: 'end',
 	},
+	nftImage: {
+		maxWidth: '100%', maxHeight: 150
+	}
 }));
 
-const NFT: React.FC<Props> = ({ name, balance, remaining, redemptionRate }) => {
+const NFT: React.FC<Props> = ({ name, balance, remaining, redemptionRate, image }) => {
 	const classes = useStyles();
 
 	return (
 		<Paper elevation={0} className={classes.paper}>
 			<Grid container spacing={1}>
+				{image && (
+					<Grid item xs={12} className={classes.textCenter}>
+						<img src={image} className={classes.nftImage} alt="NFT Image" />
+					</Grid>
+				)}
 				<Grid item xs={12}>
 					<Typography className={classes.textCenter}>{name}</Typography>
 				</Grid>
