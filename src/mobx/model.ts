@@ -637,19 +637,14 @@ export type PriceSummary = {
 	[address: string]: number;
 };
 
-export type TvlSummary = {
+export interface SettSummary {
+	name: string;
+	asset: string;
+	value: number;
+	tokens: TokenBalance[];
+}
+
+export type ProtocolSummary = {
 	totalValue: number;
-	setts: {
-		name: string;
-		asset: string;
-		value: number;
-		tokens: {
-			address: string;
-			name: string;
-			symbol: string;
-			decimals: number;
-			balance: number;
-			value: number;
-		}[];
-	}[];
+	setts?: SettSummary[];
 };

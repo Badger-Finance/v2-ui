@@ -15,7 +15,7 @@ export const getAirdrops = (network: string | undefined): AirdropNetworkConfig |
 			return undefined;
 		default:
 			return {
-				airdropEndpoint: `${getApi()}/v2/reward`,
+				airdropEndpoint: `${getApi()}/reward`,
 				airdropsConfig: {
 					[token]: {
 						tokenAbi: erc20Abi as AbiItem[],

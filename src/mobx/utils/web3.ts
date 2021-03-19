@@ -5,7 +5,7 @@ import { PromiEvent } from 'web3-core';
 import _ from 'lodash';
 import { AbiItem } from 'web3-utils';
 import { BatchConfig, TokenContract, DeployConfig, Network, BscNetwork, EthNetwork } from '../model';
-import { NETWORK_LIST } from '../../config/constants';
+import { NETWORK_LIST, NETWORK_IDS } from '../../config/constants';
 import deploy from '../../config/deployments/mainnet.json';
 import bscDeploy from '../../config/deployments/bsc.json';
 
@@ -24,7 +24,7 @@ export const getNetworkName = (): string => {
 	const hostSplit = host.split('.');
 	const currentNetwork = hostSplit[0].split('-');
 	// Enable testing for different networks in development.
-	if (process.env.NODE_ENV !== 'production') return NETWORK_LIST.BSC;
+	// if (process.env.NODE_ENV !== 'production') return NETWORK_LIST.BSC;
 	if (currentNetwork.length > 0) {
 		return currentNetwork[0] === 'app' ? NETWORK_LIST.ETH : currentNetwork[0];
 	}
@@ -43,6 +43,15 @@ export const getNetworkId = (network: string | undefined) => {
 			return 137;
 		default:
 			return 1;
+	}
+};
+
+export const getNetworkNameFromId = (network: number): string => {
+	switch (network) {
+		case NETWORK_IDS.BSC:
+			return NETWORK_LIST.BSC;
+		default:
+			return NETWORK_LIST.ETH;
 	}
 };
 

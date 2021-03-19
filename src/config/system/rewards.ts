@@ -10,7 +10,7 @@ export const getRewards = (network: string): RewardNetworkConfig | undefined => 
 			return undefined;
 		default:
 			return {
-				endpoint: `${getApi()}/v2/reward/tree`,
+				endpoint: `${getApi()}/reward/tree`,
 				network: 1,
 				contract: '0x660802Fc641b154aBA66a62137e71f331B6d787A',
 				abi: BadgerTree.abi as AbiItem[],

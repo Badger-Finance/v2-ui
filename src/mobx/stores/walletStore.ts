@@ -4,8 +4,7 @@ import Onboard from 'bnc-onboard';
 
 import BigNumber from 'bignumber.js';
 import { onboardWalletCheck, getOnboardWallets } from '../../config/wallets';
-import { NETWORK_LIST } from '../../config/constants';
-import { getNetworkName, getNetwork } from '../../mobx/utils/web3';
+import { getNetworkName, getNetwork, getNetworkNameFromId } from '../../mobx/utils/web3';
 import _ from 'lodash';
 import { Network } from 'mobx/model';
 
@@ -15,11 +14,12 @@ class WalletStore {
 	public connectedAddress = '';
 	public currentBlock?: number;
 	public ethBalance?: BigNumber;
-	public gasPrices?: any;
+	public gasPrices: { [index: string]: number };
 	public network: Network;
 
 	constructor() {
 		this.network = getNetwork(getNetworkName());
+		this.gasPrices = { standard: 10 };
 
 		const onboardOptions: any = {
 			dappId: 'af74a87b-cd08-4f45-83ff-ade6b3859a07',
@@ -52,10 +52,8 @@ class WalletStore {
 
 		setInterval(() => {
 			this.getGasPrice();
-			// this.getCurrentBlock()
 		}, 13000);
 		setInterval(() => {
-			// this.getGasPrice()
 			this.getCurrentBlock();
 		}, 5000 * 60);
 
@@ -81,6 +79,7 @@ class WalletStore {
 
 	connect = action((wsOnboard: any) => {
 		const walletState = wsOnboard.getState();
+		this.checkNetwork(walletState.network);
 		this.setProvider(walletState.wallet.provider);
 		this.connectedAddress = walletState.address;
 		this.onboard = wsOnboard;
@@ -128,8 +127,11 @@ class WalletStore {
 	});
 
 	checkNetwork = action((network: number) => {
+		// Check to see if the wallet's connected network matches the network of the current URL
+		// If it doesn't and we're in prod, redirect to the correct URL (this may not work in dev / staging?)
 		if (network !== this.network.networkId) {
-			this.walletReset();
+			if (process.env.NODE_ENV === 'production')
+				window.location.href = `https://${getNetworkNameFromId(network)}.badger.finance/`;
 		}
 	});
 

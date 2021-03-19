@@ -12,7 +12,7 @@ import {
 	reduceGrowthQueryConfig,
 	reduceSushiAPIResults,
 } from '../reducers/contractReducers';
-import { Vault, Geyser, Token } from '../model';
+import { Vault, Geyser, Token, Sett } from '../model';
 import { vanillaQuery } from 'mobx/utils/helpers';
 import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
@@ -149,6 +149,11 @@ class ContractsStore {
 		const { settList } = this.store.setts;
 		const sushiBatches = network.vaults['sushiswap'];
 
+		if (!settList) {
+			callback();
+			return;
+		}
+
 		const { defaults, batchCall: batch } = reduceContractConfig(
 			_.map(network.vaults),
 			connectedAddress && { connectedAddress },
@@ -251,7 +256,8 @@ class ContractsStore {
 		}
 		const { connectedAddress, network } = this.store.wallet;
 
-		if (!network.geysers) {
+		// Initialization checks
+		if (!network.geysers || (this.vaults && Object.keys(this.vaults).length === 0)) {
 			callback();
 			return;
 		}

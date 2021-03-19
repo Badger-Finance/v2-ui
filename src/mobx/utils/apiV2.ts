@@ -1,4 +1,4 @@
-import { PriceSummary, Sett, TvlSummary } from 'mobx/model';
+import { PriceSummary, ProtocolSummary, Sett } from 'mobx/model';
 
 export const getApi = () => {
 	if (process.env.NODE_ENV === 'production') {
@@ -39,7 +39,7 @@ export const getTokenPrices = async (currency?: string): Promise<PriceSummary | 
 	return response.json();
 };
 
-export const getTotalValueLocked = async (network?: string): Promise<TvlSummary | null> => {
+export const getTotalValueLocked = async (network?: string): Promise<ProtocolSummary | null> => {
 	const response = await fetch(`${getTVLEndpoint}?chain=${network ? network : 'eth'}`);
 	if (!response.ok) {
 		return null;

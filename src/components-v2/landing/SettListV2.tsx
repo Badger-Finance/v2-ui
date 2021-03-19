@@ -74,6 +74,7 @@ const SettListV2 = observer((props: Props) => {
 		setts: { settList },
 		uiState: { currency, period, hideZeroBal, stats },
 		contracts: { vaults },
+		wallet: { connectedAddress },
 	} = store;
 
 	const { totalValue, isUsd } = props;
@@ -81,7 +82,7 @@ const SettListV2 = observer((props: Props) => {
 	const isError = () => {
 		if (settList === null)
 			return <Typography variant="h4">There was an issue loading setts. Try refreshing.</Typography>;
-		else if (!settList) return <Loader />;
+		else if (!settList) return <Loader key={'loader'} />;
 		else return undefined;
 	};
 
@@ -175,24 +176,7 @@ const SettListV2 = observer((props: Props) => {
 		});
 	};
 
-	if (!hideZeroBal) {
-		let totalValueLocked: string | undefined;
-		if (totalValue) {
-			totalValueLocked = isUsd ? usdToCurrency(totalValue, currency) : formatPrice(totalValue, currency);
-		}
-		return (
-			<>
-				<TableHeader
-					title={`All Setts - ${totalValueLocked}`}
-					tokenTitle={'Tokens'}
-					classes={classes}
-					period={period}
-				/>
-				<List className={classes.list}>{getSettListDisplay()}</List>
-				<SettDialog dialogProps={dialogProps} classes={classes} onClose={onClose} />
-			</>
-		);
-	} else {
+	if (hideZeroBal && connectedAddress) {
 		const walletBalance = formatPrice(stats.stats.wallet, currency);
 		const depositBalance = formatPrice(stats.stats.deposits, currency);
 		const vaultBalance = formatPrice(stats.stats.vaultDeposits, currency);
@@ -240,6 +224,23 @@ const SettListV2 = observer((props: Props) => {
 						Your address does not have tokens to deposit.
 					</Typography>
 				)}
+				<SettDialog dialogProps={dialogProps} classes={classes} onClose={onClose} />
+			</>
+		);
+	} else {
+		let totalValueLocked: string | undefined;
+		if (totalValue) {
+			totalValueLocked = isUsd ? usdToCurrency(totalValue, currency) : formatPrice(totalValue, currency);
+		}
+		return (
+			<>
+				<TableHeader
+					title={`All Setts - ${totalValueLocked}`}
+					tokenTitle={'Tokens'}
+					classes={classes}
+					period={period}
+				/>
+				<List className={classes.list}>{getSettListDisplay()}</List>
 				<SettDialog dialogProps={dialogProps} classes={classes} onClose={onClose} />
 			</>
 		);

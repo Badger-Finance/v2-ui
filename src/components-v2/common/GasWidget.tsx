@@ -20,13 +20,13 @@ const GasWidget = observer(() => {
 
 	const getGasSelections = () => {
 		let gasMap: any = [];
-		_.each(gasPrices, (price, key) => {
+		for (const [key, value] of Object.entries(gasPrices!)) {
 			gasMap.push(
 				<MenuItem value={key} key={key}>
-					{price.toFixed(0)}
+					{value.toFixed(0)}
 				</MenuItem>,
 			);
-		});
+		}
 		return gasMap;
 	};
 
