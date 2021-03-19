@@ -103,6 +103,7 @@ const SettListV2 = observer((props: Props) => {
 							sett={sett}
 							key={sett.name}
 							currency={currency}
+							period={period}
 							onOpen={() => onOpen(vault, sett)}
 						/>
 					);
@@ -126,6 +127,7 @@ const SettListV2 = observer((props: Props) => {
 						balance={formatBalance(vault.underlyingToken)}
 						balanceValue={formatTokenBalanceValue(vault.underlyingToken, currency)}
 						currency={currency}
+						period={period}
 						onOpen={() => onOpen(vault, sett)}
 					/>
 				);
@@ -148,6 +150,7 @@ const SettListV2 = observer((props: Props) => {
 						balance={formatBalanceUnderlying(vault)}
 						balanceValue={formatBalanceValue(vault, currency)}
 						currency={currency}
+						period={period}
 						onOpen={() => onOpen(vault, sett)}
 					/>
 				);
@@ -170,6 +173,7 @@ const SettListV2 = observer((props: Props) => {
 						balance={formatGeyserBalance(geyser)}
 						balanceValue={formatGeyserBalanceValue(geyser, currency)}
 						currency={currency}
+						period={period}
 						onOpen={() => onOpen(vault, sett)}
 					/>
 				);
