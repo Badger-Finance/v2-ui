@@ -162,7 +162,7 @@ export const Sidebar = observer(() => {
 						<ListItem key="network">
 							<ListItemText primary="Current Network" secondary={network.fullName} />
 						</ListItem>
-						{network.name === NETWORK_LIST.ETH ? (
+						{network.name === NETWORK_LIST.ETH && badgerTree ? (
 							<ListItem key="rewards">
 								<ListItemText
 									primary={`Cycle Count: ${badgerTree.cycle}`}

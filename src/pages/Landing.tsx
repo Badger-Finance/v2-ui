@@ -85,6 +85,7 @@ const Landing = observer(() => {
 	const userConnected = !!connectedAddress;
 
 	const availableRewards = () => {
+		if (!badgerTree || !badgerTree.claims) return;
 		return badgerTree.claims.map((claim: any[]) => {
 			const { network } = store.wallet;
 			const claimAddress: string = claim[0];
@@ -165,7 +166,7 @@ const Landing = observer(() => {
 			</Grid>
 
 			{/* Landing Claim Functionality */}
-			{!!connectedAddress && rewards.length > 0 && badgerTree.claims.length > 0 && (
+			{!!connectedAddress && badgerTree && rewards.length > 0 && badgerTree.claims.length > 0 && (
 				<>
 					<Grid item xs={12} style={{ textAlign: 'center', paddingBottom: 0 }}>
 						<Typography className={classes.marginTop} variant="subtitle1" color="textPrimary">
