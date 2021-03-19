@@ -27,7 +27,7 @@ export const NETWORK_CONSTANTS: NetworkConstants = {
 		APP_URL: 'https://app.badger.finance/',
 		RPC_URL: 'https://eth-mainnet.alchemyapi.io/v2/ZPhpI9buZLLAvjR44hryTAhiC5V-HueZ',
 		TOKENS: {
-			WBTC_ADDRESS: '0x2260fac5e5542a773aa44fbcfedf7c193bc2c599',
+			WBTC_ADDRESS: '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599',
 			WBTC_ADDRESS_LOWER: '0x2260fac5e5542a773aa44fbcfedf7c193bc2c599',
 			XSUSHI_ADDRESS: '0x8798249c2e607446efb7ad49ec89dd1865ff4272',
 			FARM_ADDRESS: '0xa0246c9032bC3A600820415aE600c6388619A14D',
