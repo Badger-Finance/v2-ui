@@ -26,8 +26,9 @@ const useStyles = makeStyles((theme) => ({
 		textAlign: 'end',
 	},
 	nftImage: {
-		maxWidth: '100%', maxHeight: 150
-	}
+		maxWidth: '100%',
+		maxHeight: 150,
+	},
 }));
 
 const NFT: React.FC<Props> = ({ name, balance, remaining, redemptionRate, image }) => {
