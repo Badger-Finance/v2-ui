@@ -23,7 +23,7 @@ import { StoreContext } from '../mobx/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
 import BigNumber from 'bignumber.js';
-import SettListV2 from 'components-v2/landing/SettListV2';
+import SettList from 'components-v2/landing/SettList';
 
 const useStyles = makeStyles((theme) => ({
 	landingContainer: {
@@ -78,7 +78,7 @@ const Landing = observer(() => {
 
 	const {
 		wallet: { connectedAddress, network, isCached },
-		setts: { assets, priceData, badger },
+		setts: { protocolSummary, priceData, badger },
 		rewards: { claimGeysers, badgerTree },
 		uiState: { stats, currency },
 	} = store;
@@ -112,9 +112,7 @@ const Landing = observer(() => {
 		});
 	};
 
-	// force convert tvl due to zero typing on store (remove once typed)
-	const totalValueLocked: BigNumber | undefined =
-		!!assets && assets.totalValue >= 0 ? new BigNumber(assets.totalValue) : undefined;
+	const totalValueLocked = protocolSummary ? new BigNumber(protocolSummary.totalValue) : undefined; 
 
 	// force undefined on $0 badger, value starts at 0 vs. undefined
 	// const badgerPrice: number | undefined =
@@ -194,8 +192,7 @@ const Landing = observer(() => {
 					</Grid>
 				</>
 			)}
-
-			<SettListV2 totalValue={totalValueLocked ?? new BigNumber(0)} isUsd={true} />
+			<SettList />
 		</Container>
 	);
 });

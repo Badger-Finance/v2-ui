@@ -14,7 +14,7 @@ interface SettDialogProps {
 		sett: any;
 	};
 	onClose: () => void;
-	classes: Record<'list' | 'listItem' | 'before' | 'header' | 'hiddenMobile' | 'chip' | 'title', string>;
+	classes: Record<'list' | 'listItem' | 'before' | 'chip' | 'title', string>;
 }
 
 const SettDialog = (props: SettDialogProps): JSX.Element => {
