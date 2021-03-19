@@ -10,11 +10,13 @@ import PageHeader from 'components-v2/common/PageHeader';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
-		marginTop: theme.spacing(11),
 		[theme.breakpoints.up('md')]: {
-			paddingLeft: theme.spacing(33),
-			marginTop: theme.spacing(2),
+			paddingLeft: theme.spacing(30),
 		},
+	},
+	headerContainer: {
+		marginTop: theme.spacing(3),
+		marginBottom: theme.spacing(6),
 	},
 	statPaper: {
 		padding: theme.spacing(2),
@@ -111,11 +113,10 @@ export const Bridge = observer(() => {
 
 	return (
 		<Container className={classes.root}>
-			<Grid container spacing={2} justify="center">
-				<Grid item sm={12} xs={12}>
+			<Grid container spacing={1} justify="center">
+				<Grid item sm={12} xs={12} className={classes.headerContainer}>
 					<PageHeader title="Badger Bitcoin Bridge." subtitle="Powered by RenVM" />
 				</Grid>
-				{spacer()}
 				<Grid item xs={12} md={7}>
 					<Paper className={classes.statPaper}>
 						<p>

@@ -52,7 +52,6 @@ const PageHeader: React.FC<PageHeaderProps> = (props: PageHeaderProps) => {
 				)}
 			</div>
 			<div className={classes.headerWidgets}>
-				<NetworkWidget />
 				<GasWidget />
 				<WalletWidget />
 			</div>

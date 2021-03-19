@@ -16,11 +16,10 @@ const useStyles = makeStyles((theme) => ({
 	},
 	headerContainer: {
 		marginTop: theme.spacing(3),
-		marginBottom: theme.spacing(3),
+		marginBottom: theme.spacing(6),
 	},
 	cardContainer: { justifyContent: 'center', display: 'flex' },
 	card: {
-		maxWidth: '640px',
 	},
 	tabHeader: { background: 'rgba(0,0,0,.2)' },
 }));
@@ -38,7 +37,7 @@ export const IbBTC = (): any => {
 					<PageHeader title="ibBTC" subtitle="Interest Bearing Badger Bitcoin." />
 				</Grid>
 
-				<Grid item sm={12} xs={12} className={classes.cardContainer}>
+				<Grid item sm={12} xs={12} md={7} >
 					<Card className={classes.card}>
 						<Tabs
 							variant="fullWidth"

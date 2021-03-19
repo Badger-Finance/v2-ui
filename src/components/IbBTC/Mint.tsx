@@ -30,9 +30,9 @@ export const Mint = observer((): any => {
 	const conversionRate =
 		outputAmount && inputAmount
 			? (
-					parseFloat(outputAmount.toString() || selectedToken.mintRate) /
-					parseFloat(inputAmount.toString() || '1')
-			  ).toFixed(4)
+				parseFloat(outputAmount.toString() || selectedToken.mintRate) /
+				parseFloat(inputAmount.toString() || '1')
+			).toFixed(4)
 			: (parseFloat(selectedToken.mintRate) / 1).toFixed(4);
 
 	const _debouncedSetInputAmount = debounce(600, async (val) => {
@@ -84,7 +84,7 @@ export const Mint = observer((): any => {
 	};
 
 	return (
-		<Container className={classes.root} maxWidth="lg">
+		<Container className={classes.root} >
 			<div className={classes.outerWrapper}>
 				<Typography variant="caption" className={classes.balance}>
 					Available {selectedToken.symbol}: {selectedToken.formattedBalance}
