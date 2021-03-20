@@ -71,15 +71,27 @@ interface SettListItemProps {
 	onOpen: () => void;
 }
 
+interface RoiData {
+	apy: number;
+	tooltip: JSX.Element;
+}
+
 const SettListItem = (props: SettListItemProps): JSX.Element => {
 	const classes = useStyles();
 
 	const { sett, balance, balanceValue, currency, period, onOpen } = props;
 	const displayName = sett.name.replace('Uniswap ', '').replace('Sushiswap ', '').replace('Harvest ', '');
 
-	const getRoi = (sett: Sett, period: string) => {
-		const getToolTip = (sett: Sett, divisor: number): string => {
-			return sett.sources.map((source) => `${(source.apy / divisor).toFixed(2)}% ${source.name}`).join(' + ');
+	const getRoi = (sett: Sett, period: string): RoiData => {
+		const getToolTip = (sett: Sett, divisor: number): JSX.Element => {
+			return (
+				<>
+					{sett.sources.map((source) => {
+						const apr = `${(source.apy / divisor).toFixed(2)}% ${source.name}`;
+						return <div key={source.name}>{apr}</div>;
+					})}
+				</>
+			);
 		};
 		if (sett && sett.apy) {
 			if (period === 'month') {
@@ -88,7 +100,7 @@ const SettListItem = (props: SettListItemProps): JSX.Element => {
 				return { apy: sett.apy, tooltip: getToolTip(sett, 1) };
 			}
 		} else {
-			return { apy: 0, tooltip: '' };
+			return { apy: 0, tooltip: <></> };
 		}
 	};
 	const { apy, tooltip } = getRoi(sett, period);
