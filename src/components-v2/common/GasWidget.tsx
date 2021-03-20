@@ -17,13 +17,14 @@ const GasWidget = observer(() => {
 
 	const { gasPrice, setGasPrice } = store.uiState;
 	const { gasPrices, network } = store.wallet;
+	if (!gasPrices[gasPrice]) store.uiState.setGasPrice('standard');
 
 	const getGasSelections = () => {
 		const gasMap: any = [];
 		for (const [key, value] of Object.entries(gasPrices!)) {
 			gasMap.push(
 				<MenuItem value={key} key={key}>
-					{value.toFixed(0)}
+					{value ? value.toFixed(0) : 10}
 				</MenuItem>,
 			);
 		}

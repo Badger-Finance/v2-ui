@@ -60,14 +60,14 @@ export const Airdrops = observer(() => {
 		router: { goTo },
 		wallet: { connectedAddress },
 		airdrops: { claimAirdrops },
-		uiState: { airdropStats, stats },
-		setts: { farmData },
+		uiState: { airdropStats },
+		setts: { settMap },
 	} = store;
 
 	let maxNativeApy: number | undefined = undefined;
-	if (farmData.digg && farmData.badger) {
-		const diggApy = farmData.digg.apy;
-		const badgerApy = farmData.badger.apy;
+	if (settMap && settMap.digg && settMap.badger) {
+		const diggApy = settMap.digg.apy;
+		const badgerApy = settMap.badger.apy;
 		maxNativeApy = Math.max(diggApy, badgerApy);
 	}
 

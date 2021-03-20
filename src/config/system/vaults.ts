@@ -8,7 +8,7 @@ import bscDeploy from '../deployments/bsc.json';
 import { VaultNetworkConfig } from 'mobx/model';
 import { NETWORK_LIST } from '../../config/constants';
 
-export const getVaults = (network: string | null): VaultNetworkConfig => {
+export const getVaults = (network?: string | null): VaultNetworkConfig | undefined => {
 	switch (network) {
 		case NETWORK_LIST.BSC:
 			return {
@@ -52,7 +52,7 @@ export const getVaults = (network: string | null): VaultNetworkConfig => {
 					],
 				},
 			};
-		default:
+		case NETWORK_LIST.ETH:
 			return {
 				uniswap: {
 					abi: BadgerVault.abi as AbiItem[],
@@ -181,5 +181,7 @@ export const getVaults = (network: string | null): VaultNetworkConfig => {
 					],
 				},
 			};
+		default:
+			return undefined;
 	}
 };

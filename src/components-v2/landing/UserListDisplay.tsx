@@ -23,10 +23,11 @@ const UserListDisplay = observer((props: SettListViewProps) => {
 		setts: { settList },
 		uiState: { currency, period, stats },
 		contracts: { vaults },
+		wallet: { network },
 	} = store;
 
 	if (settList === undefined) {
-		return <Loader message={'Loading Setts...'} />;
+		return <Loader message={`Loading ${network.fullName} Setts...`} />;
 	}
 	if (settList === null) {
 		return <Typography variant="h4">There was an issue loading setts. Try refreshing.</Typography>;

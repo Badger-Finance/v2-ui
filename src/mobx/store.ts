@@ -34,24 +34,34 @@ export class RootStore {
 		// RenVM transactions store.
 		this.transactions = new TransactionsStore(this);
 		this.setts = new SettStoreV2(this);
+
+		this.walletRefresh();
 	}
 
-	async walletRefresh() {
-		this.contracts.updateProvider();
-		this.contracts.fetchContracts();
-		this.airdrops.fetchAirdrops();
-		this.rebase.fetchRebaseStats();
-		this.rewards.fetchSettRewards();
-		this.uiState.reduceRebase();
-		this.uiState.reduceAirdrops();
-		this.uiState.reduceTreeRewards();
-		this.ibBTCStore.init();
-		// RenVM transactions store.
-		if (this.wallet.network.name === NETWORK_LIST.ETH) this.setts.loadGeysers(NETWORK_LIST.ETH);
-		else this.setts.loadSetts(this.wallet.network.name);
-		this.setts.loadAssets(this.wallet.network.name);
-		this.setts.loadPrices(this.wallet.network.name);
-		this.uiState.reduceStats();
+	async walletRefresh(): Promise<void> {
+		const chain = this.wallet.network.name;
+		const refreshData = [this.setts.loadAssets(chain), this.setts.loadPrices(chain)];
+		if (chain === NETWORK_LIST.ETH) {
+			refreshData.push(this.setts.loadGeysers(chain));
+			refreshData.push(this.rebase.fetchRebaseStats());
+		} else {
+			refreshData.push(this.setts.loadSetts(chain));
+		}
+		await Promise.all(refreshData);
+
+		if (this.wallet.connectedAddress) {
+			this.contracts.updateProvider();
+			await this.contracts.fetchContracts();
+			if (chain === NETWORK_LIST.ETH) {
+				this.uiState.reduceRebase();
+				this.ibBTCStore.init();
+				this.rewards.fetchSettRewards();
+				this.uiState.reduceTreeRewards();
+				this.airdrops.fetchAirdrops();
+				this.uiState.reduceAirdrops();
+			}
+			this.uiState.reduceStats();
+		}
 	}
 }
 

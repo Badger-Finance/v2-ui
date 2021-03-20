@@ -44,7 +44,6 @@ export const NETWORK_CONSTANTS: NetworkConstants = {
 	},
 	[NETWORK_LIST.BSC]: {
 		APP_URL: 'https://bsc.badger.finance/',
-		// TODO: Update this with a more reliable node
 		RPC_URL: 'https://bsc-node.badger.guru/',
 		TOKENS: {},
 		START_BLOCK: 11381216,
