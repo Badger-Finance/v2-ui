@@ -33,7 +33,10 @@ const NetworkWidget = observer(() => {
 		setAnchorEl(anchorEl ? null : event.currentTarget);
 	};
 	const optionClicked = (option: string) => {
-		window.location.href = `https://${option}-app.badger.finance`
+		if (option === 'eth')
+			window.location.href = `https://app.badger.finance`
+		else
+			window.location.href = `https://${option}-app.badger.finance`
 	}
 
 	let network = getNetwork(getNetworkName()).name
