@@ -543,6 +543,12 @@ export class BscNetwork implements Network {
 	public readonly deploy = getNetworkDeploy(NETWORK_LIST.BSC);
 	public readonly rewards = getRewards(NETWORK_LIST.BSC);
 	public readonly gasEndpoint = '';
+	// Deterministic order for displaying setts on the sett list component
+	public readonly settOrder = [
+		this.deploy.sett_system.vaults['native.bDiggBtcb'],
+		this.deploy.sett_system.vaults['native.bBadgerBtcb'],
+		this.deploy.sett_system.vaults['native.pancakeBnbBtcb'],
+	];
 	public readonly sidebarTokenLinks = [
 		{
 			url: 'https://pancakeswap.info/pair/0xE1E33459505bB3763843a426F7Fd9933418184ae',
@@ -570,6 +576,20 @@ export class EthNetwork implements Network {
 	public readonly deploy = getNetworkDeploy(NETWORK_LIST.ETH);
 	public readonly rewards = getRewards(NETWORK_LIST.ETH);
 	public readonly gasEndpoint = 'https://www.gasnow.org/api/v3/gas/price?utm_source=badgerv2';
+	// Deterministic order for displaying setts on the sett list component
+	public readonly settOrder = [
+		this.deploy.sett_system.vaults['native.digg'],
+		this.deploy.sett_system.vaults['native.badger'],
+		this.deploy.sett_system.vaults['native.sushiDiggWbtc'],
+		this.deploy.sett_system.vaults['native.sushiBadgerWbtc'],
+		this.deploy.sett_system.vaults['native.sushiWbtcEth'],
+		this.deploy.sett_system.vaults['native.uniDiggWbtc'],
+		this.deploy.sett_system.vaults['native.uniBadgerWbtc'],
+		this.deploy.sett_system.vaults['native.renCrv'],
+		this.deploy.sett_system.vaults['native.sbtcCrv'],
+		this.deploy.sett_system.vaults['native.tbtcCrv'],
+		this.deploy.sett_system.vaults['harvest.renCrv'],
+	];
 	public readonly sidebarTokenLinks = [
 		{
 			url: 'https://matcha.xyz/markets/BADGER',

@@ -62,10 +62,9 @@ class WalletStore {
 		}, 5000 * 60);
 
 		const previouslySelectedWallet = window.localStorage.getItem('selectedWallet');
-		const previouslySelectedNetwork = window.localStorage.getItem('selectedNetwork');
 
 		// call wallet select with that value if it exists
-		if (!!previouslySelectedWallet && previouslySelectedNetwork === this.network.name) {
+		if (!!previouslySelectedWallet) {
 			this.onboard.walletSelect(previouslySelectedWallet);
 		}
 	}
@@ -75,7 +74,6 @@ class WalletStore {
 			this.setProvider(null);
 			this.setAddress('');
 			window.localStorage.removeItem('selectedWallet');
-			window.localStorage.removeItem('selectedNetwork');
 		} catch (err) {
 			console.log(err);
 		}
@@ -84,6 +82,7 @@ class WalletStore {
 	connect = action((wsOnboard: any) => {
 		const walletState = wsOnboard.getState();
 		this.checkNetwork(walletState.network);
+		this.getGasPrice();
 		this.setProvider(walletState.wallet.provider);
 		this.connectedAddress = walletState.address;
 		this.onboard = wsOnboard;
@@ -127,7 +126,6 @@ class WalletStore {
 	cacheWallet = action((wallet: any) => {
 		this.setProvider(wallet.provider);
 		window.localStorage.setItem('selectedWallet', wallet.name);
-		window.localStorage.setItem('selectedNetwork', this.network.name);
 	});
 
 	checkNetwork = action((network: number) => {
@@ -136,18 +134,13 @@ class WalletStore {
 		if (network !== this.network.networkId) {
 			this.network = getNetwork(getNetworkNameFromId(network));
 			this.store.walletRefresh();
+			this.getGasPrice();
 			this.getCurrentBlock();
 		}
 	});
 
 	isCached = action(() => {
-		return (
-			!!this.connectedAddress ||
-			!!(
-				window.localStorage.getItem('selectedWallet') &&
-				this.network.name === window.localStorage.getItem('selectedNetwork')
-			)
-		);
+		return !!this.connectedAddress || !!window.localStorage.getItem('selectedWallet');
 	});
 }
 

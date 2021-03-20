@@ -149,7 +149,9 @@ class ContractsStore {
 		const { settList } = this.store.setts;
 		const sushiBatches = network.vaults['sushiswap'];
 
-		if (!settList) {
+		// TODO: Address root cause - init settList object to undefined before
+		// anything is assigned and on network switch.
+		if (!settList || (settList && Object.keys(settList).length === 0)) {
 			callback();
 			return;
 		}
