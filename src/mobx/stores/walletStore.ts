@@ -4,7 +4,7 @@ import Onboard from 'bnc-onboard';
 
 import BigNumber from 'bignumber.js';
 import { onboardWalletCheck, getOnboardWallets } from '../../config/wallets';
-import { getNetworkName, getNetwork, getNetworkNameFromId } from '../../mobx/utils/web3';
+import { getNetwork, getNetworkNameFromId } from '../../mobx/utils/web3';
 import _ from 'lodash';
 import { Network } from 'mobx/model';
 import { RootStore } from 'mobx/store';
@@ -20,7 +20,7 @@ class WalletStore {
 	public network: Network;
 
 	constructor(store: RootStore) {
-		this.network = getNetwork(getNetworkName());
+		this.network = getNetwork();
 		this.gasPrices = { standard: 10 };
 		this.store = store;
 
@@ -50,7 +50,11 @@ class WalletStore {
 			network: this.network,
 			onboard: Onboard(onboardOptions),
 		});
+		
+		this.init();
+	}
 
+	init = action(async (): Promise<void> => {
 		this.getCurrentBlock();
 		this.getGasPrice();
 
@@ -67,7 +71,7 @@ class WalletStore {
 		if (!!previouslySelectedWallet) {
 			this.onboard.walletSelect(previouslySelectedWallet);
 		}
-	}
+	});
 
 	walletReset = action(() => {
 		try {
@@ -132,6 +136,7 @@ class WalletStore {
 		// Check to see if the wallet's connected network matches the currently defined network
 		// if it doesn't, set to the proper network
 		if (network !== this.network.networkId) {
+			console.log('NETWORK CONNECTED', network);
 			this.network = getNetwork(getNetworkNameFromId(network));
 			this.store.walletRefresh();
 			this.getGasPrice();

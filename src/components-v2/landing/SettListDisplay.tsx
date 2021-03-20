@@ -5,7 +5,6 @@ import { observer } from 'mobx-react-lite';
 import { Vault } from 'mobx/model';
 import { StoreContext } from 'mobx/store-context';
 import React, { useContext } from 'react';
-import Web3 from 'web3';
 import { SettListViewProps } from './SettListView';
 import SettTable from './SettTable';
 
@@ -13,31 +12,33 @@ const SettListDisplay = observer((props: SettListViewProps) => {
 	const { onOpen } = props;
 	const store = useContext(StoreContext);
 	const {
-		setts: { keyedSettList },
+		setts: { settMap },
 		uiState: { currency, period },
 		contracts: { vaults },
 		wallet: { network },
 	} = store;
 
-	if (keyedSettList === undefined) {
-		return <Loader message={'Loading Setts...'} />;
+	if (settMap === undefined) {
+		return <Loader message={`Loading ${network.fullName} Setts...`} />;
 	}
-	if (keyedSettList === null) {
+	if (settMap === null) {
 		return <Typography variant="h4">There was an issue loading setts. Try refreshing.</Typography>;
 	}
 	const settListItems = network.settOrder.map((contract) => {
-		if (!keyedSettList[contract]) return;
-		const vault: Vault = vaults[Web3.utils.toChecksumAddress(keyedSettList[contract].vaultToken)];
+		if (!settMap[contract]) {
+			return;
+		}
+		const vault: Vault = vaults[settMap[contract].vaultToken];
 		return (
 			<SettListItem
-				sett={keyedSettList[contract]}
-				key={keyedSettList[contract].name}
+				sett={settMap[contract]}
+				key={settMap[contract].name}
 				currency={currency}
 				period={period}
-				onOpen={() => onOpen(vault, keyedSettList[contract])}
+				onOpen={() => onOpen(vault, settMap[contract])}
 			/>
 		);
-	});
+	}).filter(Boolean);
 	return <SettTable title={'All Setts'} tokenTitle={'Tokens'} period={period} settList={settListItems} />;
 });
 

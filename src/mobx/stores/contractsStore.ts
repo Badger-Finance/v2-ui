@@ -67,44 +67,22 @@ class ContractsStore {
 		};
 		batchCall = new BatchCall(newOptions);
 		this.store.airdrops.fetchAirdrops();
-		if (this._fetchingContracts) this._pendingChangeOfAddress = true;
-		else this.fetchContracts();
+		this.fetchContracts();
 	});
 
-	private _fetchingContracts = false;
-	private _pendingChangeOfAddress = false;
-	private _pendingVaultFetch = false;
-
-	fetchContracts = action(() => {
-		if (this._fetchingContracts) return;
-		this._fetchingContracts = true;
-		async.series(
-			[
-				(callback: any) => this.fetchTokens(callback),
-				(callback: any) => this.fetchVaults(callback),
-				(callback: any) => this.fetchGeysers(callback),
-			],
-			() => {
-				this._fetchingContracts = false;
-				if (this._pendingChangeOfAddress) {
-					this._pendingChangeOfAddress = false;
-					this.fetchContracts();
-				} else if (this._pendingVaultFetch) {
-					this._pendingVaultFetch = false;
-					this.fetchContracts();
-				}
-			},
-		);
+	fetchContracts = action(async (): Promise<void> => {
+		console.log(`updating contracts for ${this.store.wallet.network.name}`)
+		await this.fetchTokens();
+		await this.fetchVaults();
+		await this.fetchGeysers();
+		console.log('updated contracts', `${Object.keys(this.tokens).length} tokens`, `${Object.keys(this.vaults).length} vaults`, `${Object.keys(this.geysers).length} geysers`)
 	});
 
-	fetchTokens = action((callback: any) => {
+	fetchTokens = action(async (): Promise<void> => {
 		const { connectedAddress, network } = this.store.wallet;
-		console.log('fetching tokens');
 		if (!network.tokens) {
-			callback();
 			return;
 		}
-		console.log('got past initial check');
 
 		const { batchCall: batch } = reduceContractConfig(
 			network.tokens!.tokenBatches,
@@ -113,15 +91,12 @@ class ContractsStore {
 
 		const priceApi = vanillaQuery(`${getApi()}/prices?chain=${network.name}&currency=eth`);
 		if (!batchCall) {
-			callback();
 			return;
 		}
-		console.log('batch call exists');
 
-		Promise.all([priceApi, batchCall.execute(batch)])
+		// clean this up, but force async
+		await Promise.all([priceApi, batchCall.execute(batch)])
 			.then((result: any[]) => {
-				console.log('getting prices and user info');
-
 				const cgPrices = _.mapValues(result.slice(0, 1)[0], (price: any) => ({
 					ethValue: new BigNumber(price).multipliedBy(1e18),
 				}));
@@ -147,15 +122,12 @@ class ContractsStore {
 					const token = this.getOrCreateToken(contract.address);
 					token.update(contract);
 				});
-
-				callback();
 			})
 			.catch((error: any) => process.env.NODE_ENV !== 'production' && console.log('batch error: ', error));
 	});
 
-	fetchVaults = action((callback: any) => {
+	fetchVaults = action(async (): Promise<void> => {
 		if (!batchCall) {
-			callback();
 			return;
 		}
 
@@ -163,11 +135,10 @@ class ContractsStore {
 		const { settList } = this.store.setts;
 		const sushiBatches = network.vaults!['sushiswap'];
 
-		if (!settList || (settList && Object.keys(settList).length === 0)) {
-			this._pendingVaultFetch = true;
-			callback();
-			return;
-		}
+		// if (!settList || (settList && Object.keys(settList).length === 0)) {
+		// 	this._pendingVaultFetch = true;
+		// 	return;
+		// }
 
 		const { defaults, batchCall: batch } = reduceContractConfig(
 			_.map(network.vaults),
@@ -180,7 +151,7 @@ class ContractsStore {
 		});
 		const settStructure = _.keyBy(settList, 'vaultToken');
 
-		Promise.all([batchCall.execute(batch), ...growthQueries])
+		await Promise.all([batchCall.execute(batch), ...growthQueries])
 			.then((queryResult: any[]) => {
 				const result = reduceBatchResult(queryResult[0]);
 				const vaultGrowth = reduceGrowth(
@@ -227,7 +198,7 @@ class ContractsStore {
 						: new BigNumber(result[i].balance);
 				});
 			})
-			.then(() => {
+			.then(async () => {
 				if (!!sushiBatches) {
 					const xSushiQuery = vanillaQuery(sushiBatches!.growthEndpoints![1]);
 					const masterChefQuery = vanillaQuery(
@@ -240,7 +211,7 @@ class ContractsStore {
 						),
 					);
 
-					Promise.all([masterChefQuery, xSushiQuery]).then((queryResult: any[]) => {
+					await Promise.all([masterChefQuery, xSushiQuery]).then((queryResult: any[]) => {
 						const masterChefResult: any = queryResult[0];
 						const newSushiRewards = reduceSushiAPIResults(masterChefResult);
 						network.vaults!.sushiswap!.contracts.forEach((contract: any, i: number) => {
@@ -267,22 +238,17 @@ class ContractsStore {
 					});
 				}
 			})
-			.then(() => {
-				callback();
-			})
 			.catch((error: any) => process.env.NODE_ENV !== 'production' && console.log(error));
 	});
 
-	fetchGeysers = action((callback: any) => {
+	fetchGeysers = action(async (): Promise<void> => {
 		if (!batchCall) {
-			callback();
 			return;
 		}
 		const { connectedAddress, network } = this.store.wallet;
 
 		// Initialization checks
 		if (!network.geysers || (this.vaults && Object.keys(this.vaults).length === 0)) {
-			callback();
 			return;
 		}
 
@@ -291,11 +257,10 @@ class ContractsStore {
 			connectedAddress && { connectedAddress },
 		);
 
-		batchCall
+		await batchCall
 			.execute(batch)
 			.then((infuraResult: any[]) => {
 				const result = reduceBatchResult(infuraResult);
-
 				if (result) {
 					result.forEach((contract: any) => {
 						const vaultAddress = contract[defaults[contract.address].underlyingKey];
@@ -307,8 +272,6 @@ class ContractsStore {
 						geyser.update(_.defaultsDeep(contract, defaults[contract.address]));
 					});
 				}
-
-				callback();
 			})
 			.catch((error: any) => process.env.NODE_ENV !== 'production' && console.log(error));
 	});

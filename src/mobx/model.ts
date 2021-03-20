@@ -655,7 +655,7 @@ export type TokenBalance = {
 };
 
 export type PriceSummary = {
-	[address: string]: number;
+	[address: string]: number | undefined;
 };
 
 export interface SettSummary {
@@ -670,4 +670,4 @@ export type ProtocolSummary = {
 	setts?: SettSummary[];
 };
 
-export type keyedSettList = { [index: string]: Sett };
+export type SettMap = { [contract: string]: Sett };

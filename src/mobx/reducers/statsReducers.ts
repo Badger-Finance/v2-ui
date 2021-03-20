@@ -55,7 +55,6 @@ export const reduceRebaseToStats = (store: RootStore): RebaseToStats | undefined
 export const reduceContractsToStats = (store: RootStore): ContractToStats | undefined => {
 	const { vaults: vaultContracts, tokens, geysers: geyserContracts } = store.contracts;
 	const { network } = store.wallet;
-	/* const { currency, hideZeroBal } = store.uiState; */
 
 	if (!tokens) {
 		if (process.env.NODE_ENV !== 'production') console.log('no tokens identified');
@@ -64,9 +63,8 @@ export const reduceContractsToStats = (store: RootStore): ContractToStats | unde
 
 	const { tvl, portfolio, wallet, deposits, badgerToken, diggToken, bDigg, vaultDeposits } = calculatePortfolioStats(
 		vaultContracts,
-		tokens,
-		vaultContracts,
 		geyserContracts,
+		tokens,
 		network,
 	);
 
@@ -113,9 +111,8 @@ export const reduceAirdrops = (airdrops: ReduceAirdropsProps, store: RootStore):
 
 function calculatePortfolioStats(
 	vaultContracts: any,
-	tokens: any,
-	vaults: any,
 	geyserContracts: any,
+	tokens: any,
 	network: Network,
 ) {
 	let tvl = new BigNumber(0);

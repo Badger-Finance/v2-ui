@@ -24,6 +24,7 @@ import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
 import BigNumber from 'bignumber.js';
 import SettList from 'components-v2/landing/SettList';
+import SettStoreV2 from 'mobx/stores/settStoreV2';
 
 const useStyles = makeStyles((theme) => ({
 	landingContainer: {
@@ -77,11 +78,12 @@ const Landing = observer(() => {
 	const store = useContext(StoreContext);
 
 	const {
-		wallet: { connectedAddress, network, isCached },
-		setts: { protocolSummary, priceData, badger },
+		wallet: { connectedAddress, network },
 		rewards: { claimGeysers, badgerTree },
 		uiState: { stats, currency },
 	} = store;
+	const { setts } = store;
+	const { protocolSummary } = setts;
 	const userConnected = !!connectedAddress;
 
 	const availableRewards = () => {
@@ -113,15 +115,9 @@ const Landing = observer(() => {
 	};
 
 	const totalValueLocked = protocolSummary ? new BigNumber(protocolSummary.totalValue) : undefined;
-
-	// force undefined on $0 badger, value starts at 0 vs. undefined
-	// const badgerPrice: number | undefined =
-	// 	priceData && priceData[network.deploy.token] ? priceData[network.deploy.token] : undefined;
-	const badgerPrice: number | undefined = badger ? badger : undefined;
-	const badgerDisplayPrice: BigNumber | undefined = badgerPrice ? new BigNumber(badgerPrice) : undefined;
-
+	const badgerPrice = network.deploy ? setts.getPrice(network.deploy.token) : undefined;
+	const badgerPriceDisplay = badgerPrice ? new BigNumber(badgerPrice) : undefined;
 	const portfolioValue = userConnected ? stats.stats.portfolio : undefined;
-
 	const rewards = _.compact(availableRewards());
 
 	return (
@@ -157,9 +153,8 @@ const Landing = observer(() => {
 				<Grid item xs={12} md={userConnected ? 4 : 6}>
 					<CurrencyInfoCard
 						title="Badger Price"
-						value={badgerDisplayPrice}
+						value={badgerPriceDisplay}
 						currency={currency}
-						isUsd={true}
 					/>
 				</Grid>
 			</Grid>

@@ -9,7 +9,7 @@ import { NETWORK_LIST, NETWORK_IDS } from '../../config/constants';
 import deploy from '../../config/deployments/mainnet.json';
 import bscDeploy from '../../config/deployments/bsc.json';
 
-export const getNetwork = (network: string | undefined): Network => {
+export const getNetwork = (network?: string): Network => {
 	switch (network) {
 		case NETWORK_LIST.BSC:
 			return new BscNetwork();
@@ -18,16 +18,6 @@ export const getNetwork = (network: string | undefined): Network => {
 		default:
 			return new EthNetwork();
 	}
-};
-
-export const getNetworkName = (): string => {
-	const host = window.location.host;
-	const hostSplit = host.split('.');
-	const currentNetwork = hostSplit[0].split('-');
-	if (currentNetwork.length > 0) {
-		return currentNetwork[0] === 'app' ? NETWORK_LIST.ETH : currentNetwork[0];
-	}
-	return NETWORK_LIST.ETH;
 };
 
 export const getNetworkId = (network: string | undefined) => {
