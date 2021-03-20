@@ -96,6 +96,7 @@ const SettListV2 = observer((props: Props) => {
 
 		return (
 			<>
+				{/* TODO: Map through the network.settOrder array to pull the  correct order as defined on the network model */}
 				{settList!.map((sett) => {
 					const vault: Vault = vaults[Web3.utils.toChecksumAddress(sett.vaultToken)];
 					return (
