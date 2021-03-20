@@ -502,7 +502,7 @@ export type NetworkConstants = {
 		};
 		START_BLOCK: number;
 		START_TIME: Date;
-		DEPLOY: DeployConfig;
+		DEPLOY: DeployConfig | undefined;
 	};
 };
 
@@ -516,18 +516,19 @@ export interface Network {
 	name: string;
 	networkId: number;
 	fullName: string;
-	tokens: TokenNetworkConfig;
-	vaults: VaultNetworkConfig;
+	tokens: TokenNetworkConfig | undefined;
+	vaults: VaultNetworkConfig | undefined;
 	geysers: GeyserNetworkConfig | undefined;
 	rebase: RebaseNetworkConfig | undefined;
 	airdrops: AirdropNetworkConfig | undefined;
-	deploy: DeployConfig;
+	deploy: DeployConfig | undefined;
 	rewards: RewardNetworkConfig | undefined;
 	gasEndpoint: string;
 	sidebarTokenLinks: {
 		url: string;
 		title: string;
 	}[];
+	settOrder: string[];
 	getGasPrices: Function;
 }
 
@@ -545,9 +546,9 @@ export class BscNetwork implements Network {
 	public readonly gasEndpoint = '';
 	// Deterministic order for displaying setts on the sett list component
 	public readonly settOrder = [
-		this.deploy.sett_system.vaults['native.bDiggBtcb'],
-		this.deploy.sett_system.vaults['native.bBadgerBtcb'],
-		this.deploy.sett_system.vaults['native.pancakeBnbBtcb'],
+		this.deploy!.sett_system.vaults['native.bDiggBtcb'],
+		this.deploy!.sett_system.vaults['native.bBadgerBtcb'],
+		this.deploy!.sett_system.vaults['native.pancakeBnbBtcb'],
 	];
 	public readonly sidebarTokenLinks = [
 		{
@@ -578,17 +579,17 @@ export class EthNetwork implements Network {
 	public readonly gasEndpoint = 'https://www.gasnow.org/api/v3/gas/price?utm_source=badgerv2';
 	// Deterministic order for displaying setts on the sett list component
 	public readonly settOrder = [
-		this.deploy.sett_system.vaults['native.digg'],
-		this.deploy.sett_system.vaults['native.badger'],
-		this.deploy.sett_system.vaults['native.sushiDiggWbtc'],
-		this.deploy.sett_system.vaults['native.sushiBadgerWbtc'],
-		this.deploy.sett_system.vaults['native.sushiWbtcEth'],
-		this.deploy.sett_system.vaults['native.uniDiggWbtc'],
-		this.deploy.sett_system.vaults['native.uniBadgerWbtc'],
-		this.deploy.sett_system.vaults['native.renCrv'],
-		this.deploy.sett_system.vaults['native.sbtcCrv'],
-		this.deploy.sett_system.vaults['native.tbtcCrv'],
-		this.deploy.sett_system.vaults['harvest.renCrv'],
+		this.deploy!.sett_system.vaults['native.digg'],
+		this.deploy!.sett_system.vaults['native.badger'],
+		this.deploy!.sett_system.vaults['native.sushiDiggWbtc'],
+		this.deploy!.sett_system.vaults['native.sushiBadgerWbtc'],
+		this.deploy!.sett_system.vaults['native.sushiWbtcEth'],
+		this.deploy!.sett_system.vaults['native.uniDiggWbtc'],
+		this.deploy!.sett_system.vaults['native.uniBadgerWbtc'],
+		this.deploy!.sett_system.vaults['native.renCrv'],
+		this.deploy!.sett_system.vaults['native.sbtcCrv'],
+		this.deploy!.sett_system.vaults['native.tbtcCrv'],
+		this.deploy!.sett_system.vaults['harvest.renCrv'],
 	];
 	public readonly sidebarTokenLinks = [
 		{
@@ -668,3 +669,5 @@ export type ProtocolSummary = {
 	totalValue: number;
 	setts?: SettSummary[];
 };
+
+export type keyedSettList = { [index: string]: Sett };

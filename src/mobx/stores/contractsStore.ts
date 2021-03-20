@@ -73,6 +73,8 @@ class ContractsStore {
 
 	private _fetchingContracts = false;
 	private _pendingChangeOfAddress = false;
+	private _pendingVaultFetch = false;
+
 	fetchContracts = action(() => {
 		if (this._fetchingContracts) return;
 		this._fetchingContracts = true;
@@ -87,6 +89,9 @@ class ContractsStore {
 				if (this._pendingChangeOfAddress) {
 					this._pendingChangeOfAddress = false;
 					this.fetchContracts();
+				} else if (this._pendingVaultFetch) {
+					this._pendingVaultFetch = false;
+					this.fetchContracts();
 				}
 			},
 		);
@@ -94,9 +99,15 @@ class ContractsStore {
 
 	fetchTokens = action((callback: any) => {
 		const { connectedAddress, network } = this.store.wallet;
+		console.log('fetching tokens');
+		if (!network.tokens) {
+			callback();
+			return;
+		}
+		console.log('got past initial check');
 
 		const { batchCall: batch } = reduceContractConfig(
-			network.tokens.tokenBatches,
+			network.tokens!.tokenBatches,
 			!!connectedAddress && { connectedAddress },
 		);
 
@@ -105,9 +116,12 @@ class ContractsStore {
 			callback();
 			return;
 		}
+		console.log('batch call exists');
 
 		Promise.all([priceApi, batchCall.execute(batch)])
 			.then((result: any[]) => {
+				console.log('getting prices and user info');
+
 				const cgPrices = _.mapValues(result.slice(0, 1)[0], (price: any) => ({
 					ethValue: new BigNumber(price).multipliedBy(1e18),
 				}));
@@ -117,11 +131,11 @@ class ContractsStore {
 						_.defaultsDeep(
 							cgPrices,
 							tokenContracts,
-							_.mapValues(network.tokens.symbols, (value: string, address: string) => ({
+							_.mapValues(network.tokens!.symbols, (value: string, address: string) => ({
 								address,
 								symbol: value,
 							})),
-							_.mapValues(network.tokens.names, (value: string, address: string) => ({
+							_.mapValues(network.tokens!.names, (value: string, address: string) => ({
 								address,
 								name: value,
 							})),
@@ -147,11 +161,10 @@ class ContractsStore {
 
 		const { connectedAddress, currentBlock, network } = this.store.wallet;
 		const { settList } = this.store.setts;
-		const sushiBatches = network.vaults['sushiswap'];
+		const sushiBatches = network.vaults!['sushiswap'];
 
-		// TODO: Address root cause - init settList object to undefined before
-		// anything is assigned and on network switch.
 		if (!settList || (settList && Object.keys(settList).length === 0)) {
+			this._pendingVaultFetch = true;
 			callback();
 			return;
 		}
@@ -162,41 +175,6 @@ class ContractsStore {
 		);
 
 		const { growthQueries, periods } = reduceGrowthQueryConfig(network.name, currentBlock);
-
-		if (!!sushiBatches) {
-			const xSushiQuery = vanillaQuery(sushiBatches!.growthEndpoints![1]);
-			const masterChefQuery = vanillaQuery(
-				// Disable reason: growthEndPoints[2] has a hardcoded value and will never be null for vaultBatches[1]
-				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-				sushiBatches!.growthEndpoints![2].concat(
-					network.vaults.sushiswap!.fillers.pairContract
-						? network.vaults.sushiswap!.fillers.pairContract.join(';')
-						: '',
-				),
-			);
-
-			Promise.all([masterChefQuery, xSushiQuery]).then((queryResult: any[]) => {
-				const masterChefResult: any = queryResult[0];
-				const newSushiRewards = reduceSushiAPIResults(masterChefResult);
-				network.vaults.sushiswap!.contracts.forEach((contract: any, i: number) => {
-					const tokenAddress = network.tokens.tokenMap[contract];
-					const xSushiGrowth =
-						!!newSushiRewards[tokenAddress] &&
-						_.mapValues(newSushiRewards[tokenAddress], (tokens: BigNumber) => {
-							return {
-								amount: tokens,
-								token: this.tokens[NETWORK_CONSTANTS[network.name].TOKENS.XSUSHI_ADDRESS],
-							};
-						});
-					const vault = this.getOrCreateVault(contract, this.tokens[tokenAddress], defaults[contract].abi);
-					vault.update(
-						_.defaultsDeep(contract, defaults[contract], {
-							growth: _.compact([vault.growth, xSushiGrowth]),
-						}),
-					);
-				});
-			});
-		}
 		settList?.forEach((sett) => {
 			sett.vaultToken = Web3.utils.toChecksumAddress(sett.vaultToken);
 		});
@@ -212,11 +190,11 @@ class ContractsStore {
 				);
 
 				result.forEach((contract: any, i: number) => {
-					const tokenAddress = network.tokens.tokenMap[contract.address];
+					const tokenAddress = network.tokens!.tokenMap[contract.address];
 					if (!tokenAddress) {
 						return console.log(
-							network.tokens.tokenMap[contract.address],
-							network.tokens.tokenMap,
+							network.tokens!.tokenMap[contract.address],
+							network.tokens!.tokenMap,
 							contract.address,
 						);
 					}
@@ -248,6 +226,48 @@ class ContractsStore {
 						? new BigNumber(0.0)
 						: new BigNumber(result[i].balance);
 				});
+			})
+			.then(() => {
+				if (!!sushiBatches) {
+					const xSushiQuery = vanillaQuery(sushiBatches!.growthEndpoints![1]);
+					const masterChefQuery = vanillaQuery(
+						// Disable reason: growthEndPoints[2] has a hardcoded value and will never be null for vaultBatches[1]
+						// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+						sushiBatches!.growthEndpoints![2].concat(
+							network.vaults!.sushiswap!.fillers.pairContract
+								? network.vaults!.sushiswap!.fillers.pairContract.join(';')
+								: '',
+						),
+					);
+
+					Promise.all([masterChefQuery, xSushiQuery]).then((queryResult: any[]) => {
+						const masterChefResult: any = queryResult[0];
+						const newSushiRewards = reduceSushiAPIResults(masterChefResult);
+						network.vaults!.sushiswap!.contracts.forEach((contract: any, i: number) => {
+							const tokenAddress = network.tokens!.tokenMap[contract];
+							const xSushiGrowth =
+								!!newSushiRewards[tokenAddress] &&
+								_.mapValues(newSushiRewards[tokenAddress], (tokens: BigNumber) => {
+									return {
+										amount: tokens,
+										token: this.tokens[NETWORK_CONSTANTS[network.name].TOKENS.XSUSHI_ADDRESS],
+									};
+								});
+							const vault = this.getOrCreateVault(
+								contract,
+								this.tokens[tokenAddress],
+								defaults[contract].abi,
+							);
+							vault.update(
+								_.defaultsDeep(contract, defaults[contract], {
+									growth: _.compact([vault.growth, xSushiGrowth]),
+								}),
+							);
+						});
+					});
+				}
+			})
+			.then(() => {
 				callback();
 			})
 			.catch((error: any) => process.env.NODE_ENV !== 'production' && console.log(error));
@@ -296,7 +316,7 @@ class ContractsStore {
 	getOrCreateToken = action((address: string) => {
 		const { network } = this.store.wallet;
 		if (!this.tokens[address]) {
-			this.tokens[address] = new Token(this.store, address, network.tokens.decimals[address]);
+			this.tokens[address] = new Token(this.store, address, network.tokens!.decimals[address]);
 			return this.tokens[address];
 		} else {
 			return this.tokens[address];
@@ -305,7 +325,7 @@ class ContractsStore {
 	getOrCreateVault = action((address: string, token: Token, abi?: any) => {
 		const { network } = this.store.wallet;
 		if (!this.vaults[address]) {
-			this.vaults[address] = new Vault(this.store, address, network.tokens.decimals[address], token, abi);
+			this.vaults[address] = new Vault(this.store, address, network.tokens!.decimals[address], token, abi);
 			return this.vaults[address];
 		} else {
 			return this.vaults[address];

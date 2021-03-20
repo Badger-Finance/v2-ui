@@ -41,8 +41,9 @@ export const reduceRebaseToStats = (store: RootStore): RebaseToStats | undefined
 	const { network } = store.wallet;
 
 	if (!tokens) return;
+	if (!network.deploy) return;
 
-	const token = tokens[network.deploy['digg_system']['uFragments']];
+	const token = tokens[network.deploy!['digg_system']['uFragments']];
 
 	return {
 		nextRebase: new Date('Jan 23 8:00PM UTC'),
@@ -99,7 +100,7 @@ export const reduceClaims = (merkleProof: any, rewardAddresses: any[], claimedRe
 
 export const reduceAirdrops = (airdrops: ReduceAirdropsProps, store: RootStore): ReducedAirdops => {
 	const { network } = store.wallet;
-	if (!airdrops.bBadger) {
+	if (!airdrops.bBadger || !network.deploy) {
 		return {};
 	}
 	return {
@@ -151,9 +152,9 @@ function calculatePortfolioStats(
 		}
 	});
 
-	const badger: Token = tokens[network.deploy.token];
-	const digg: Token | undefined = network.deploy.digg_system
-		? tokens[network.deploy.digg_system.uFragments]
+	const badger: Token = tokens[network.deploy!.token];
+	const digg: Token | undefined = network.deploy!.digg_system
+		? tokens[network.deploy!.digg_system.uFragments]
 		: undefined;
 	const badgerToken = !!badger && !!badger.ethValue ? badger.ethValue : new BigNumber(0);
 	const diggToken = !!digg && !!digg.ethValue ? digg.ethValue : new BigNumber(0);

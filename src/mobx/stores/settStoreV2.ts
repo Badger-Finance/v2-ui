@@ -1,9 +1,9 @@
 import { extendObservable, action } from 'mobx';
 import { RootStore } from '../store';
 import { getTokenPrices, getTotalValueLocked, listGeysers, listSetts } from 'mobx/utils/apiV2';
-import { PriceSummary, Sett, ProtocolSummary, Network } from 'mobx/model';
+import { PriceSummary, Sett, ProtocolSummary, Network, keyedSettList } from 'mobx/model';
 import Web3 from 'web3';
-import { NETWORK_LIST } from 'config/constants';
+import { NETWORK_CONSTANTS, NETWORK_LIST } from 'config/constants';
 
 export default class SettStoreV2 {
 	private store!: RootStore;
@@ -15,6 +15,7 @@ export default class SettStoreV2 {
 	public assets: ProtocolSummary | undefined | null;
 	public badger: number | undefined | null;
 	public farmData: any;
+	public keyedSettList: keyedSettList | undefined | null;
 
 	constructor(store: RootStore) {
 		this.store = store;
@@ -26,6 +27,7 @@ export default class SettStoreV2 {
 			assets: undefined,
 			badger: undefined,
 			farmData: undefined,
+			keyedSettList: undefined,
 		});
 
 		this.settList = undefined;
@@ -33,6 +35,7 @@ export default class SettStoreV2 {
 		this.assets = undefined;
 		this.badger = undefined;
 		this.farmData = undefined;
+		this.keyedSettList = undefined;
 
 		this.init();
 	}
@@ -59,13 +62,15 @@ export default class SettStoreV2 {
 					sett.vaultToken = '0x34769B18279800d5598A101A93A34CfE86bd6694';
 				sett.vaultToken = Web3.utils.toChecksumAddress(sett.vaultToken);
 			});
+			this.keyedSettList = this.keySettByContract(this.settList);
 		},
 	);
 
 	loadGeysers = action(
 		async (chain?: string): Promise<void> => {
 			this.settList = await listGeysers(chain);
-			this.farmData = this.keySettList(this.settList);
+			this.farmData = this.keySettByAsset(this.settList);
+			this.keyedSettList = this.keySettByContract(this.settList);
 		},
 	);
 
@@ -78,7 +83,7 @@ export default class SettStoreV2 {
 	loadBadger = action(
 		async (): Promise<void> => {
 			const response = await getTokenPrices('usd', 'eth');
-			this.badger = response![this.network.deploy.token];
+			this.badger = response![NETWORK_CONSTANTS[NETWORK_LIST.ETH].DEPLOY!.token];
 		},
 	);
 
@@ -89,9 +94,19 @@ export default class SettStoreV2 {
 	);
 
 	// HELPERS
-	keySettList = action((settList: Sett[] | null) => {
+	// Input: Array of Sett objects
+	// Output: Object keyed by the asset name to lower case
+	keySettByAsset = action((settList: Sett[] | null) => {
 		var mappedList: { [x: string]: Sett } = {};
 		settList!.forEach((sett) => (mappedList[sett.asset.toLowerCase()] = sett));
+		return mappedList;
+	});
+
+	// Input: Array of Sett objects
+	// Output: Object keyed by the sett contract
+	keySettByContract = action((settList: Sett[] | null) => {
+		var mappedList: { [x: string]: Sett } = {};
+		settList!.forEach((sett) => (mappedList[sett.vaultToken] = sett));
 		return mappedList;
 	});
 }

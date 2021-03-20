@@ -9,10 +9,12 @@ import { NETWORK_LIST, NETWORK_IDS } from '../../config/constants';
 import deploy from '../../config/deployments/mainnet.json';
 import bscDeploy from '../../config/deployments/bsc.json';
 
-export const getNetwork = (network: string): Network => {
+export const getNetwork = (network: string | undefined): Network => {
 	switch (network) {
 		case NETWORK_LIST.BSC:
 			return new BscNetwork();
+		case NETWORK_LIST.ETH:
+			return new EthNetwork();
 		default:
 			return new EthNetwork();
 	}
@@ -43,21 +45,25 @@ export const getNetworkId = (network: string | undefined) => {
 	}
 };
 
-export const getNetworkNameFromId = (network: number): string => {
+export const getNetworkNameFromId = (network: number): string | undefined => {
 	switch (network) {
 		case NETWORK_IDS.BSC:
 			return NETWORK_LIST.BSC;
-		default:
+		case NETWORK_IDS.ETH:
 			return NETWORK_LIST.ETH;
+		default:
+			return undefined;
 	}
 };
 
-export const getNetworkDeploy = (network: string | undefined): DeployConfig => {
+export const getNetworkDeploy = (network?: string | undefined): DeployConfig | undefined => {
 	switch (network) {
 		case NETWORK_LIST.BSC:
 			return bscDeploy;
-		default:
+		case NETWORK_LIST.ETH:
 			return deploy;
+		default:
+			return undefined;
 	}
 };
 

@@ -71,18 +71,18 @@ const SettListV2 = observer((props: Props) => {
 	const store = useContext(StoreContext);
 
 	const {
-		setts: { settList },
+		setts: { keyedSettList },
 		uiState: { currency, period, hideZeroBal, stats },
 		contracts: { vaults },
-		wallet: { connectedAddress },
+		wallet: { connectedAddress, network },
 	} = store;
 
 	const { totalValue, isUsd } = props;
 
 	const isError = () => {
-		if (settList === null)
+		if (keyedSettList === null)
 			return <Typography variant="h4">There was an issue loading setts. Try refreshing.</Typography>;
-		else if (!settList) return <Loader key={'loader'} />;
+		else if (!keyedSettList) return <Loader key={'loader'} />;
 		else return undefined;
 	};
 
@@ -96,15 +96,15 @@ const SettListV2 = observer((props: Props) => {
 
 		return (
 			<>
-				{/* TODO: Map through the network.settOrder array to pull the  correct order as defined on the network model */}
-				{settList!.map((sett) => {
-					const vault: Vault = vaults[Web3.utils.toChecksumAddress(sett.vaultToken)];
+				{network.settOrder.map((contract) => {
+					if (!keyedSettList![contract]) return;
+					const vault: Vault = vaults[Web3.utils.toChecksumAddress(keyedSettList![contract].vaultToken)];
 					return (
 						<SettListItem
-							sett={sett}
-							key={sett.name}
+							sett={keyedSettList![contract]}
+							key={keyedSettList![contract].name}
 							currency={currency}
-							onOpen={() => onOpen(vault, sett)}
+							onOpen={() => onOpen(vault, keyedSettList![contract])}
 						/>
 					);
 				})}
@@ -115,19 +115,20 @@ const SettListV2 = observer((props: Props) => {
 	const getWalletListDisplay = (): (JSX.Element | undefined)[] => {
 		const error = isError();
 		if (error) return [error];
-		return settList!.map((sett) => {
-			const vault: Vault = vaults[sett.vaultToken];
+		return network.settOrder.map((contract) => {
+			if (!keyedSettList![contract]) return;
+			const vault: Vault = vaults[keyedSettList![contract].vaultToken];
 			const userBalance =
 				vault && vault.underlyingToken ? new BigNumber(vault.underlyingToken.balance) : new BigNumber(0);
 			if (userBalance.gt(0))
 				return (
 					<SettListItem
-						key={`wallet-${sett.name}`}
-						sett={sett}
+						key={`wallet-${keyedSettList![contract].name}`}
+						sett={keyedSettList![contract]}
 						balance={formatBalance(vault.underlyingToken)}
 						balanceValue={formatTokenBalanceValue(vault.underlyingToken, currency)}
 						currency={currency}
-						onOpen={() => onOpen(vault, sett)}
+						onOpen={() => onOpen(vault, keyedSettList![contract])}
 					/>
 				);
 		});
@@ -137,19 +138,21 @@ const SettListV2 = observer((props: Props) => {
 		const error = isError();
 		if (error) return [error];
 
-		return settList!.map((sett) => {
-			const vault: Vault = vaults[sett.vaultToken];
+		return network.settOrder.map((contract) => {
+			if (!keyedSettList![contract]) return;
+
+			const vault: Vault = vaults[keyedSettList![contract].vaultToken];
 
 			const userBalance = vault ? vault.balance.toNumber() : 0;
 			if (userBalance > 0)
 				return (
 					<SettListItem
-						key={`deposit-${sett.name}`}
-						sett={sett}
+						key={`deposit-${keyedSettList![contract].name}`}
+						sett={keyedSettList![contract]}
 						balance={formatBalanceUnderlying(vault)}
 						balanceValue={formatBalanceValue(vault, currency)}
 						currency={currency}
-						onOpen={() => onOpen(vault, sett)}
+						onOpen={() => onOpen(vault, keyedSettList![contract])}
 					/>
 				);
 		});
@@ -159,19 +162,21 @@ const SettListV2 = observer((props: Props) => {
 		const error = isError();
 		if (error) return [error];
 
-		return settList!.map((sett) => {
-			const vault: Vault = vaults[sett.vaultToken];
+		return network.settOrder.map((contract) => {
+			if (!keyedSettList![contract]) return;
+
+			const vault: Vault = vaults[keyedSettList![contract].vaultToken];
 			const geyser: Geyser | undefined = vault?.geyser;
 			const userBalance = geyser ? geyser.balance.toNumber() : 0;
 			if (geyser && userBalance > 0)
 				return (
 					<SettListItem
-						key={`deposit-${sett.name}`}
-						sett={sett}
+						key={`deposit-${keyedSettList![contract].name}`}
+						sett={keyedSettList![contract]}
 						balance={formatGeyserBalance(geyser)}
 						balanceValue={formatGeyserBalanceValue(geyser, currency)}
 						currency={currency}
-						onOpen={() => onOpen(vault, sett)}
+						onOpen={() => onOpen(vault, keyedSettList![contract])}
 					/>
 				);
 		});
