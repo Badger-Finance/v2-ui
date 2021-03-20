@@ -1,12 +1,13 @@
 import React, { useContext } from 'react';
 import { Button, Container, Grid, makeStyles, Paper, Typography, useMediaQuery, useTheme } from '@material-ui/core';
-import Hero from 'components/Common/Hero';
-import NFT from './NFT';
-import { StoreContext } from 'mobx/store-context';
 import { Skeleton } from '@material-ui/lab';
+import _isNil from 'lodash/isNil';
 import { observer } from 'mobx-react-lite';
 import { diggToCurrency } from 'mobx/utils/helpers';
+import { StoreContext } from 'mobx/store-context';
 import { useBdiggToDigg, useConnectWallet } from 'mobx/utils/hooks';
+import Hero from 'components/Common/Hero';
+import NFT from './NFT';
 import { NoWalletPlaceHolder } from './NoWalletPlaceHolder';
 import { TypographySkeleton } from './TypographySkeleton';
 
@@ -65,7 +66,7 @@ export const HoneybadgerDrop: React.FC = observer(() => {
 	const connectWallet = useConnectWallet();
 
 	const { connectedAddress } = store.wallet;
-	const { poolBalance, loadingPoolBalance, loadingNfts, nfts, nextRedemptionRate } = store.honeyPot;
+	const { poolBalance, loadingPoolBalance, loadingNfts, nfts, nextRedemptionRate, nftBeingRedeemed } = store.honeyPot;
 	const poolBalanceDiggs = poolBalance && bdiggToDigg(poolBalance);
 
 	return (
@@ -142,7 +143,7 @@ export const HoneybadgerDrop: React.FC = observer(() => {
 														width="20%"
 														loading={loadingNfts || !nfts}
 													>
-														{nfts?.length}
+														{nfts?.filter(({ balance }) => +balance > 0).length}
 													</TypographySkeleton>
 												</Grid>
 											</NoWalletPlaceHolder>
@@ -175,16 +176,18 @@ export const HoneybadgerDrop: React.FC = observer(() => {
 												</Typography>
 											</Grid>
 										</Grid>
-										<Grid item xs={12}>
-											<Button
-												className={classes.redeemButton}
-												onClick={connectedAddress ? () => {} : connectWallet}
-												variant="contained"
-												color="primary"
-											>
-												{connectedAddress ? 'Redeem All' : 'Check Rewards'}
-											</Button>
-										</Grid>
+										{!loadingNfts && !connectedAddress && (
+											<Grid item xs={12}>
+												<Button
+													className={classes.redeemButton}
+													onClick={connectWallet}
+													variant="contained"
+													color="primary"
+												>
+													Check Rewards
+												</Button>
+											</Grid>
+										)}
 									</Grid>
 								</Grid>
 							</Paper>
@@ -244,11 +247,15 @@ export const HoneybadgerDrop: React.FC = observer(() => {
 														lg={4}
 													>
 														<NFT
-															name={name || 'Unnamed NFT'}
+															nftId={tokenId}
+															name={name || 'NFT Name N/A'}
 															image={image}
 															balance={balance}
 															remaining={`${+totalSupply - +balance}/${totalSupply}`}
 															redemptionRate={formattedRedemptionRate}
+															loading={nftBeingRedeemed === tokenId}
+															disabled={!(+balance > 0)}
+															onRedeem={() => store.honeyPot.redeemNFT(tokenId)}
 														/>
 													</Grid>
 												);

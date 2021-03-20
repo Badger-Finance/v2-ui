@@ -1,12 +1,16 @@
 import React from 'react';
-import { Box, Button, Grid, makeStyles, Paper, Typography } from '@material-ui/core';
+import { Box, Button, CircularProgress, Grid, makeStyles, Paper, Typography } from '@material-ui/core';
 
 interface Props {
-	image?: string;
+	nftId: string;
 	name: string;
 	balance: string;
 	remaining: string;
 	redemptionRate: string;
+	image?: string;
+	disabled?: boolean;
+	loading?: boolean;
+	onRedeem: (id: string) => void;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -29,9 +33,22 @@ const useStyles = makeStyles((theme) => ({
 		maxWidth: '100%',
 		maxHeight: 150,
 	},
+	spinner: {
+		color: theme.palette.common.white,
+	},
 }));
 
-const NFT: React.FC<Props> = ({ name, balance, remaining, redemptionRate, image }) => {
+const NFT: React.FC<Props> = ({
+	nftId,
+	name,
+	balance,
+	remaining,
+	redemptionRate,
+	image,
+	disabled = false,
+	loading = false,
+	onRedeem,
+}) => {
 	const classes = useStyles();
 
 	return (
@@ -78,8 +95,14 @@ const NFT: React.FC<Props> = ({ name, balance, remaining, redemptionRate, image 
 					</Grid>
 					<Grid item container justify="center" xs={12}>
 						<Box clone mt={2}>
-							<Button className={classes.redeemButton} variant="contained" color="primary">
-								Redeem
+							<Button
+								disabled={disabled || loading}
+								className={classes.redeemButton}
+								variant="contained"
+								color="primary"
+								onClick={() => onRedeem(nftId)}
+							>
+								{loading ? <CircularProgress className={classes.spinner} size={20} /> : 'Redeem'}
 							</Button>
 						</Box>
 					</Grid>
