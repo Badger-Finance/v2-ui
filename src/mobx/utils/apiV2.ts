@@ -31,7 +31,7 @@ export const listGeysers = async (chain?: string): Promise<Sett[] | null> => {
 	return response.json();
 };
 
-export const getTokenPrices = async (currency?: string, chain?: string): Promise<PriceSummary | null> => {
+export const getTokenPrices = async (chain?: string, currency?: string): Promise<PriceSummary | null> => {
 	const response = await fetch(
 		`${getPricesEndpoint}?currency=${currency ? currency : 'eth'}&chain=${chain ? chain : 'eth'}`,
 	);

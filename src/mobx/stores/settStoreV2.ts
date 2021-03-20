@@ -60,8 +60,8 @@ export default class SettStoreV2 {
 	});
 
 	loadPrices = action(
-		async (currency?: string, network?: string): Promise<void> => {
-			const prices = await getTokenPrices(currency, network);
+		async (network?: string): Promise<void> => {
+			const prices = await getTokenPrices(network);
 			if (prices) {
 				Object.keys(prices).forEach(key => {
 					const value = prices[key];
