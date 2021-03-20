@@ -1,17 +1,29 @@
-import { List } from '@material-ui/core';
+import { List, makeStyles } from '@material-ui/core';
 import TableHeader from 'components/Collection/Setts/TableHeader';
 import React from 'react';
+
+const useStyles = makeStyles((theme) => ({
+	list: {
+		width: '100%',
+		borderRadius: theme.shape.borderRadius,
+		overflow: 'hidden',
+		background: `${theme.palette.background.paper}`,
+		padding: 0,
+		boxShadow: theme.shadows[1],
+		marginBottom: theme.spacing(1),
+	},
+}));
 
 export interface SettTableProps {
 	title: string;
 	tokenTitle: string;
-	classes: { [name: string]: string };
 	period: string;
 	settList: (JSX.Element | null | undefined)[];
 }
 
 const SettTable = (props: SettTableProps): JSX.Element => {
-	const { title, tokenTitle, classes, period, settList } = props;
+	const { title, tokenTitle, period, settList } = props;
+	const classes = useStyles();
 
 	return (
 		<>

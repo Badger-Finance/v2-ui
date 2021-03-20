@@ -1,7 +1,6 @@
 import { Typography } from '@material-ui/core';
 import { Loader } from 'components/Loader';
 import { observer } from 'mobx-react-lite';
-import { Sett, Vault } from 'mobx/model';
 import {
 	formatBalance,
 	formatBalanceUnderlying,
@@ -14,26 +13,22 @@ import {
 import { StoreContext } from 'mobx/store-context';
 import React, { useContext } from 'react';
 import SettListItem from './SettListItem';
+import { SettListViewProps } from './SettListView';
 import SettTable from './SettTable';
 
-export interface UserListDisplayProps {
-	classes: { [name: string]: string };
-	onOpen: (vault: Vault, sett: Sett) => void;
-}
-
-const UserListDisplay = observer((props: UserListDisplayProps) => {
-	const { classes, onOpen } = props;
+const UserListDisplay = observer((props: SettListViewProps) => {
+	const { onOpen } = props;
 	const store = useContext(StoreContext);
 	const {
-		setts: { settList, protocolSummary },
+		setts: { settList },
 		uiState: { currency, period, stats },
 		contracts: { vaults },
 	} = store;
 
-	if (settList === undefined || protocolSummary === undefined) {
+	if (settList === undefined) {
 		return <Loader message={'Loading Setts...'} />;
 	}
-	if (settList === null || protocolSummary === null) {
+	if (settList === null) {
 		return <Typography variant="h4">There was an issue loading setts. Try refreshing.</Typography>;
 	}
 
@@ -43,7 +38,7 @@ const UserListDisplay = observer((props: UserListDisplayProps) => {
 			if (!vault) {
 				return null;
 			}
-			if (vault.underlyingToken.balance.gt(0))
+			if (vault.underlyingToken.balance.gt(0)) {
 				return (
 					<SettListItem
 						key={`wallet-${sett.name}`}
@@ -55,6 +50,7 @@ const UserListDisplay = observer((props: UserListDisplayProps) => {
 						onOpen={() => onOpen(vault, sett)}
 					/>
 				);
+			}
 		})
 		.filter(Boolean);
 	const walletBalance = formatPrice(stats.stats.wallet, currency);
@@ -111,7 +107,6 @@ const UserListDisplay = observer((props: UserListDisplayProps) => {
 				<SettTable
 					title={`Your Wallet - ${walletBalance}`}
 					tokenTitle={'Available'}
-					classes={classes}
 					period={period}
 					settList={walletListItems}
 				/>
@@ -120,7 +115,6 @@ const UserListDisplay = observer((props: UserListDisplayProps) => {
 				<SettTable
 					title={`Your Vault Deposits - ${depositBalance}`}
 					tokenTitle={'Available'}
-					classes={classes}
 					period={period}
 					settList={depositListItems}
 				/>
@@ -129,7 +123,6 @@ const UserListDisplay = observer((props: UserListDisplayProps) => {
 				<SettTable
 					title={`Your Staked Amounts - ${vaultBalance}`}
 					tokenTitle={'Available'}
-					classes={classes}
 					period={period}
 					settList={vaultListItems}
 				/>

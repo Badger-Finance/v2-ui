@@ -2,19 +2,15 @@ import { Typography } from '@material-ui/core';
 import SettListItem from 'components-v2/landing/SettListItem';
 import { Loader } from 'components/Loader';
 import { observer } from 'mobx-react-lite';
-import { Sett, Vault } from 'mobx/model';
+import { Vault } from 'mobx/model';
 import { StoreContext } from 'mobx/store-context';
 import React, { useContext } from 'react';
 import Web3 from 'web3';
+import { SettListViewProps } from './SettListView';
 import SettTable from './SettTable';
 
-export interface SettListDisplayProps {
-	classes: { [name: string]: string };
-	onOpen: (vault: Vault, sett: Sett) => void;
-}
-
-const SettListDisplay = observer((props: SettListDisplayProps) => {
-	const { classes, onOpen } = props;
+const SettListDisplay = observer((props: SettListViewProps) => {
+	const { onOpen } = props;
 	const store = useContext(StoreContext);
 	const {
 		setts: { settList },
@@ -40,15 +36,7 @@ const SettListDisplay = observer((props: SettListDisplayProps) => {
 			/>
 		);
 	});
-	return (
-		<SettTable
-			title={'All Setts'}
-			tokenTitle={'Tokens'}
-			classes={classes}
-			period={period}
-			settList={settListItems}
-		/>
-	);
+	return <SettTable title={'All Setts'} tokenTitle={'Tokens'} period={period} settList={settListItems} />;
 });
 
 export default SettListDisplay;
