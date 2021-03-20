@@ -19,18 +19,34 @@ const useStyles = makeStyles((theme) => ({
 		marginBottom: theme.spacing(6),
 	},
 	statPaper: {
-		padding: theme.spacing(2),
 		textAlign: 'center',
 	},
 	before: {
 		marginTop: theme.spacing(3),
 		width: '100%',
 	},
+	summaryWrapper: {
+		background: 'rgba(20, 20, 20, 0.5)',
+		boxShadow: '0px 0.913793px 3.65517px rgba(0, 0, 0, 0.08)',
+		margin: '0 0px',
+	},
+	summaryRow: {
+		display: 'flex',
+		padding: '1rem 2.4rem',
+
+		justifyContent: 'space-between',
+		'& h6:last-child': {
+			textAlign: 'end',
+		},
+		'& h6:first-child': {
+			textAlign: 'start',
+		},
+	},
 	button: {
-		margin: theme.spacing(1.5, 0, 2),
-		paddingTop: theme.spacing(2),
-		paddingBottom: theme.spacing(2),
-		width: '70%',
+		margin: theme.spacing(2, 0, 3),
+		// paddingTop: theme.spacing(2),
+		// paddingBottom: theme.spacing(2),
+		// width: '70%',
 	},
 	amountInput: {
 		width: '100%',
@@ -104,6 +120,8 @@ const useStyles = makeStyles((theme) => ({
 		color: theme.palette.text.primary,
 		backgroundColor: theme.palette.background.paper,
 	},
+	tabHeader: { background: 'rgba(0,0,0,.2)' },
+
 }));
 export const Bridge = observer(() => {
 	const store = useContext(StoreContext);
@@ -118,7 +136,7 @@ export const Bridge = observer(() => {
 					<PageHeader title="Badger Bitcoin Bridge." subtitle="Powered by RenVM" />
 				</Grid>
 				<Grid item xs={12} md={7}>
-					<Paper className={classes.statPaper}>
+					<Paper className={classes.statPaper} style={{ padding: '1rem 0' }}>
 						<p>
 							RenVM is new technology and{' '}
 							<a

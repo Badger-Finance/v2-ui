@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Grid, Button, Input } from '@material-ui/core';
+import { Grid, Button, Input, TextField, Typography } from '@material-ui/core';
 import validate from 'bitcoin-address-validation';
+import { Token } from 'components/IbBTC/Tokens';
+import { ArrowDownward } from '@material-ui/icons';
 
 export const ReleaseForm = (props: any) => {
 	const {
@@ -38,82 +40,98 @@ export const ReleaseForm = (props: any) => {
 		}
 	}, [values.btcAddr]);
 
-	return (
-		<Grid container alignItems={'center'}>
+	return (<>
+		<Grid container spacing={2} style={{ padding: '.6rem 2rem' }}>
+			<Grid item xs={12} style={{ marginBottom: '.2rem' }}>
+				<Typography variant="body1" color='textSecondary' style={{ textAlign: 'right' }} >
+					Balance: {values.token === 'WBTC' ? values.wbtcBalance : values.renbtcBalance}
+				</Typography>
+
+			</Grid>
 			<Grid item xs={12}>
-				<input
-					inputMode="numeric"
-					style={
-						getSelectedTokenBalance() < values.burnAmount
-							? {
-									color: 'red',
-							  }
-							: {}
-					}
-					placeholder={`0.00 ${values.token}`}
-					type="text"
-					className={classes.amountInput}
-					onChange={handleChange('burnAmount')}
+
+				<TextField
+					variant="outlined"
+					size="medium"
 					value={values.burnAmount}
+					disabled={!!values.connectedAddress === false}
+
+					placeholder="0.00"
+					onChange={handleChange('burnAmount')}
+					InputProps={{
+						style: { fontSize: '3rem', color: getSelectedTokenBalance() < values.burnAmount ? 'red' : 'inherit' },
+						endAdornment: [
+							<Button size="small" className={classes.btnMax} variant="outlined" onClick={(e) => {
+								if (values.token === 'renBTC')
+									setAmount(values.renbtcBalance, 'renBTC')(e)
+								else
+									setAmount(values.wbtcBalance, 'WBTC')(e)
+							}}>
+								max
+						</Button>,
+							<div>{assetSelect()}</div>
+						]
+					}}
+				/>
+
+
+			</Grid>
+			<Grid item xs={12}>
+				<ArrowDownward />
+			</Grid>
+			<Grid item xs={12}>
+				<TextField
+					variant="outlined"
+					size="medium"
+					value={values.btcAddr}
+					disabled={!!values.connectedAddress === false}
+					fullWidth={true}
+					error={!validAddress}
+
+					placeholder="Your BTC address"
+					onChange={handleChange('btcAddr')}
 				/>
 			</Grid>
-			{values.spacer}
-			{itemContainer(
-				'renBTC balance',
-				<Button size="small" color="primary" onClick={setAmount(values.renbtcBalance, 'renBTC')}>
-					{values.renbtcBalance}
-				</Button>,
-			)}
-			{itemContainer(
-				'WBTC balance',
-				<Button size="small" color="primary" onClick={setAmount(values.wbtcBalance, 'WBTC')}>
-					{values.wbtcBalance}
-				</Button>,
-			)}
+		</Grid>
+		<Grid container spacing={2} style={{ padding: '1rem 0 0' }}>
 
-			{values.spacer}
-			{itemContainer('Receive token', assetSelect())}
-			{values.spacer}
-			{itemContainer(
-				'Your BTC Address',
-				<Input
-					className={classes.btcInput}
-					type="text"
-					error={!validAddress}
-					fullWidth={true}
-					onChange={handleChange('btcAddr')}
-					value={values.btcAddr}
-				/>,
-			)}
-			{values.spacer}
-			<Grid item xs={12}>
-				<div className={classes.itemContainer}>
-					<div>You will receive</div>
-					<div className={classes.receiveAmount}>
-						<img src={values.BTCLogo} className={classes.logo2} />
-						<div>
-							<div>{values.receiveAmount.toFixed(8)}</div>
-							<div>BTC</div>
-						</div>
-					</div>
+			<Grid item xs={12} className={classes.summaryWrapper}>
+
+				<div className={classes.summaryRow}>
+					<Typography variant="subtitle1">You will receive: </Typography>
+					<Typography variant="body1">
+						<div style={{ display: 'flex', alignItems: 'center' }}>
+							<img src={values.BTCLogo} className={classes.logo2} />
+							{values.receiveAmount.toFixed(8)} BTC
+							</div>
+					</Typography>
 				</div>
+				{values.token === 'WBTC' &&
+					<div className={classes.summaryRow}>
+						<Typography variant="subtitle1">Price impact: </Typography>
+						<Typography variant="body1">
+							{Math.abs(values.estimatedSlippage * 100).toFixed(2) + '%'}
+						</Typography>
+					</div>}
+
+
+
 			</Grid>
-			{values.spacer}
-			{values.token === 'WBTC'
-				? itemContainer('Price impact', Math.abs(values.estimatedSlippage * 100).toFixed(2) + '%')
-				: null}
-			{values.spacer}
-			<Grid container justify={'center'}>
+		</Grid>
+		<Grid container spacing={2} alignItems={'center'} style={{ padding: '.6rem 2rem' }}>
+			<Grid item xs={12}>
 				{!!values.connectedAddress ? (
 					<Button
 						variant="contained"
 						color="primary"
+						fullWidth
 						className={classes.button}
+						size="large"
 						onClick={next}
 						disabled={
 							(values.burnAmount as number) > values.MIN_AMOUNT &&
-							getSelectedTokenBalance() >= values.burnAmount &&
-							validAddress
+								getSelectedTokenBalance() >= values.burnAmount &&
+								validAddress
 								? false
 								: true
 						}
@@ -121,11 +139,12 @@ export const ReleaseForm = (props: any) => {
 						Next
 					</Button>
 				) : (
-					<Button variant="contained" color="primary" className={classes.button} onClick={connectWallet}>
+					<Button fullWidth size="large" variant="contained" color="primary" className={classes.button} onClick={connectWallet}>
 						Connect
 					</Button>
 				)}
 			</Grid>
 		</Grid>
+	</>
 	);
 };

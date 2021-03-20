@@ -42,6 +42,8 @@ export const IbBTC = (): any => {
 						<Tabs
 							variant="fullWidth"
 							className={classes.tabHeader}
+							textColor="primary"
+							aria-label="IbBTC Tabs"
 							indicatorColor="primary"
 							value={activeTab}
 						>
@@ -66,8 +68,10 @@ export const commonStyles = makeStyles(() => ({
 		flexDirection: 'column',
 	},
 	balance: {
-		textAlign: 'right',
-		marginBottom: '16px',
+		marginBottom: '.4rem',
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'flex-end'
 	},
 	inputWrapper: {
 		display: 'flex',
@@ -88,9 +92,7 @@ export const commonStyles = makeStyles(() => ({
 	},
 	btnMax: {
 		alignSelf: 'center',
-		marginLeft: 'auto',
-		fontSize: '12px',
-		lineHeight: '16px',
+		marginRight: '.6rem'
 	},
 	unstylishInput: {
 		color: 'white',
@@ -137,7 +139,7 @@ export const commonStyles = makeStyles(() => ({
 		background: 'rgba(20, 20, 20, 0.5)',
 		boxShadow: '0px 0.913793px 3.65517px rgba(0, 0, 0, 0.08)',
 		margin: '32px -24px',
-		padding: '20px 50px',
+		padding: '1.7rem',
 	},
 	summaryRow: {
 		display: 'flex',

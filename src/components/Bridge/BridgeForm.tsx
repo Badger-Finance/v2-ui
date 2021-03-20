@@ -6,7 +6,7 @@ import Web3 from 'web3';
 import async, { any } from 'async';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
-import { Grid, Tabs, Tab, FormControl, Select, MenuItem } from '@material-ui/core';
+import { Grid, Tabs, Tab, FormControl, Select, MenuItem, Typography } from '@material-ui/core';
 import useInterval from '@use-it/interval';
 import { MintForm } from './MintForm';
 import { ReleaseForm } from './ReleaseForm';
@@ -592,7 +592,7 @@ export const BridgeForm = observer((props: any) => {
 		return (
 			<Grid item xs={12}>
 				<div className={classes.itemContainer}>
-					<div>{label}</div>
+					<Typography variant="subtitle1">{label}</Typography>
 					<div>{item}</div>
 				</div>
 			</Grid>
@@ -602,12 +602,13 @@ export const BridgeForm = observer((props: any) => {
 		return (
 			<Tabs
 				value={tabValue}
+				variant="fullWidth"
 				onChange={handleTabChange}
 				aria-label="Bridge Tabs"
 				indicatorColor="primary"
 				textColor="primary"
-				className={classes.tabsContainer}
-				centered
+				className={classes.tabHeader}
+
 			>
 				<Tab label="Mint" {...a11yProps(0)} />
 				<Tab label="Release" {...a11yProps(1)} />
@@ -616,31 +617,31 @@ export const BridgeForm = observer((props: any) => {
 	};
 	const assetSelect = () => {
 		return (
-			<Grid item xs={6}>
-				<FormControl>
-					<Select
-						onChange={handleChange('token')}
-						value={values.token}
-						inputProps={{
-							name: 'token',
-							id: 'token-select',
-						}}
-					>
-						<MenuItem value={'renBTC'}>
-							<span className={classes.menuItem}>
-								<img src={renBTCLogo} className={classes.logo} />
-								<span>renBTC</span>
-							</span>
-						</MenuItem>
-						<MenuItem value={'WBTC'}>
-							<span className={classes.menuItem}>
-								<img src={WBTCLogo} className={classes.logo} />
-								<span>WBTC</span>
-							</span>
-						</MenuItem>
-					</Select>
-				</FormControl>
-			</Grid>
+			<FormControl>
+				<Select
+					variant="outlined"
+					onChange={handleChange('token')}
+					value={values.token}
+					style={{ height: '3rem', overflow: 'hidden', margin: '.3rem 0 0 .6rem' }}
+					inputProps={{
+						name: 'token',
+						id: 'token-select',
+					}}
+				>
+					<MenuItem value={'renBTC'}>
+						<span className={classes.menuItem}>
+							<img src={renBTCLogo} className={classes.logo} />
+							<span>renBTC</span>
+						</span>
+					</MenuItem>
+					<MenuItem value={'WBTC'}>
+						<span className={classes.menuItem}>
+							<img src={WBTCLogo} className={classes.logo} />
+							<span>WBTC</span>
+						</span>
+					</MenuItem>
+				</Select>
+			</FormControl>
 		);
 	};
 

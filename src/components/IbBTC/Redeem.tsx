@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Container, Button, Typography } from '@material-ui/core';
+import { Container, Button, Typography, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import red from '@material-ui/core/colors/red';
 
@@ -9,7 +9,7 @@ import BigNumber from 'bignumber.js';
 import { debounce } from 'utils/componentHelpers';
 import { ZERO } from 'config/constants';
 import { commonStyles } from './index';
-import { Tokens } from './Tokens';
+import { Token, Tokens } from './Tokens';
 import { DownArrow } from './DownArrow';
 import { StoreContext } from 'mobx/store-context';
 import { TokenModel } from 'mobx/model';
@@ -40,9 +40,9 @@ export const Redeem = observer((): any => {
 	const conversionRate =
 		outputAmount && inputAmount
 			? (
-					parseFloat(outputAmount.toString() || selectedToken.redeemRate) /
-					parseFloat(inputAmount.toString() || '1')
-			  ).toFixed(4)
+				parseFloat(outputAmount.toString() || selectedToken.redeemRate) /
+				parseFloat(inputAmount.toString() || '1')
+			).toFixed(4)
 			: (parseFloat(selectedToken.redeemRate) / 1).toFixed(4);
 
 	const _debouncedSetInputAmount = debounce(600, (val) => {
@@ -103,48 +103,48 @@ export const Redeem = observer((): any => {
 	return (
 		<Container className={classes.root} maxWidth="lg">
 			<div className={classes.outerWrapper}>
-				<Typography variant="caption" className={classes.balance}>
-					Available {ibBTC.symbol}: {ibBTC.formattedBalance}
+				<Typography variant="body1" color='textSecondary' className={classes.balance}>
+					Balance: {ibBTC.formattedBalance}
 				</Typography>
+				<TextField
+					variant="outlined"
+					size="medium"
 
-				<div className={classes.inputWrapper}>
-					<div className={classes.token}>
-						<img src={ibBTC.icon} className={classes.tokenIcon} alt={ibBTC.name} />
-						<Typography className={classes.tokenLabel} variant="body1">
-							{ibBTC.symbol}
-						</Typography>
-					</div>
-					<input
-						className={classes.unstylishInput}
-						onChange={handleInputAmount}
-						type="number"
-						ref={(ref) => (inputRef = ref)}
-						min="0"
-						placeholder="0.0"
-					/>
-					<Button className={classes.btnMax} variant="outlined" onClick={useMaxBalance}>
-						max
-					</Button>
-				</div>
+					placeholder="0.0"
+					onChange={handleInputAmount}
+					InputProps={{
+						style: { fontSize: '3rem' },
+						endAdornment: [
+							<Button size="small" className={classes.btnMax} variant="outlined" onClick={useMaxBalance}>
+								max
+						</Button>,
+							<div>< Token token={ibBTC} /></div>
+						]
+					}}
+				/>
+
+
 			</div>
 			<div className={classes.outerWrapper}>
 				<DownArrow />
 			</div>
-			<div className={classes.outerWrapper}>
-				<Typography variant="caption" className={classes.balance}>
-					Available {selectedToken.symbol}: {selectedToken.formattedBalance}
+			<div className={classes.outerWrapper} >
+
+				<Typography variant="body1" color='textSecondary' className={classes.balance}>
+					Balance: {ibBTC.formattedBalance}
 				</Typography>
-				<div className={classes.inputWrapper}>
-					<Tokens tokens={tokens} default={selectedToken.symbol} onTokenSelect={handleTokenSelection} />
-					<input
-						className={classes.unstylishInput}
-						value={outputAmount}
-						placeholder="0.0"
-						type="number"
-						min="0"
-						readOnly
-					/>
+				<div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', padding: '0 1rem 0 1rem' }}>
+					<Typography variant="h1" >
+						{outputAmount || '0.00'}
+					</Typography>
 				</div>
+				<div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', marginTop: '-2.5rem', padding: '0 0 2rem 1rem' }}>
+					< Tokens
+						tokens={tokens}
+						selected={selectedToken}
+						onTokenSelect={handleTokenSelection} />
+				</div>
+
 			</div>
 			<div className={classes.outerWrapper}>
 				<div className={classes.summaryWrapper}>
