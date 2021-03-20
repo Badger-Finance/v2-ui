@@ -56,6 +56,7 @@ export default class SettStoreV2 {
 	loadSetts = action(
 		async (chain?: string): Promise<void> => {
 			this.settList = await listSetts(chain);
+			this.keyedSettList = this.keySettByContract(this.settList);
 		},
 	);
 

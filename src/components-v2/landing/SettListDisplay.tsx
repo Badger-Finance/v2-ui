@@ -26,6 +26,7 @@ const SettListDisplay = observer((props: SettListViewProps) => {
 		return <Typography variant="h4">There was an issue loading setts. Try refreshing.</Typography>;
 	}
 	const settListItems = network.settOrder.map((contract) => {
+		if (!keyedSettList[contract]) return;
 		const vault: Vault = vaults[Web3.utils.toChecksumAddress(keyedSettList[contract].vaultToken)];
 		return (
 			<SettListItem
