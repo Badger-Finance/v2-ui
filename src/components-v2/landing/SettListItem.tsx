@@ -67,15 +67,31 @@ interface SettListItemProps {
 	balance?: string;
 	balanceValue?: string;
 	currency: string;
+	period: string;
 	onOpen: () => void;
 }
 
 const SettListItem = (props: SettListItemProps): JSX.Element => {
 	const classes = useStyles();
 
-	const { sett, balance, balanceValue, currency, onOpen } = props;
-	const tooltip = getToolTip(sett);
+	const { sett, balance, balanceValue, currency, period, onOpen } = props;
 	const displayName = sett.name.replace('Uniswap ', '').replace('Sushiswap ', '').replace('Harvest ', '');
+
+	const getRoi = (sett: Sett, period: string) => {
+		const getToolTip = (sett: Sett, divisor: number): string => {
+			return sett.sources.map((source) => `${(source.apy / divisor).toFixed(2)}% ${source.name}`).join(' + ');
+		};
+		if (sett && sett.apy) {
+			if (period === 'month') {
+				return { apy: sett.apy / 12, tooltip: getToolTip(sett, 12) };
+			} else {
+				return { apy: sett.apy, tooltip: getToolTip(sett, 1) };
+			}
+		} else {
+			return { apy: 0, tooltip: '' };
+		}
+	};
+	const { apy, tooltip } = getRoi(sett, period);
 
 	return (
 		<ListItem className={classes.listItem} onClick={() => onOpen()}>
@@ -146,7 +162,7 @@ const SettListItem = (props: SettListItemProps): JSX.Element => {
 				<Grid item xs={6} md={2}>
 					<Tooltip enterDelay={0} leaveDelay={300} arrow placement="left" title={tooltip}>
 						<Typography style={{ cursor: 'default' }} variant="body1" color={'textPrimary'}>
-							{sett.apy.toFixed(2)}%
+							{apy.toFixed(2)}%
 						</Typography>
 					</Tooltip>
 				</Grid>
@@ -168,10 +184,6 @@ const SettListItem = (props: SettListItemProps): JSX.Element => {
 			</Grid>
 		</ListItem>
 	);
-};
-
-const getToolTip = (sett: Sett): string => {
-	return sett.sources.map((source) => `${source.apy.toFixed(2)}% ${source.name}`).join(' + ');
 };
 
 export default SettListItem;

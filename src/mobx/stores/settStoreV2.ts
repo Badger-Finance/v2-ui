@@ -12,7 +12,7 @@ export default class SettStoreV2 {
 	// loading: undefined, error: null, present: object
 	public settList: Sett[] | undefined | null;
 	public priceData: PriceSummary | undefined | null;
-	public assets: ProtocolSummary | undefined | null;
+	public protocolSummary: ProtocolSummary | undefined | null;
 	public badger: number | undefined | null;
 	public farmData: any;
 	public keyedSettList: keyedSettList | undefined | null;
@@ -32,7 +32,7 @@ export default class SettStoreV2 {
 
 		this.settList = undefined;
 		this.priceData = undefined;
-		this.assets = undefined;
+		this.protocolSummary = undefined;
 		this.badger = undefined;
 		this.farmData = undefined;
 		this.keyedSettList = undefined;
@@ -42,8 +42,11 @@ export default class SettStoreV2 {
 
 	init = action(
 		async (): Promise<void> => {
-			if (this.network.name === NETWORK_LIST.ETH) this.loadGeysers(this.network.name);
-			else this.loadSetts(this.network.name);
+			if (this.network.name === NETWORK_LIST.ETH) {
+				this.loadGeysers(this.network.name);
+			} else {
+				this.loadSetts(this.network.name);
+			}
 			this.loadAssets(this.network.name);
 			this.loadPrices();
 			this.loadBadger();
@@ -53,16 +56,6 @@ export default class SettStoreV2 {
 	loadSetts = action(
 		async (chain?: string): Promise<void> => {
 			this.settList = await listSetts(chain);
-			this.settList?.map((sett) => {
-				// TODO: Remove this before production
-				if (
-					sett.vaultToken === '0xF6BC36280F32398A031A7294e81131aEE787D178' &&
-					process.env.NODE_ENV !== 'production'
-				)
-					sett.vaultToken = '0x34769B18279800d5598A101A93A34CfE86bd6694';
-				sett.vaultToken = Web3.utils.toChecksumAddress(sett.vaultToken);
-			});
-			this.keyedSettList = this.keySettByContract(this.settList);
 		},
 	);
 
@@ -89,17 +82,19 @@ export default class SettStoreV2 {
 
 	loadAssets = action(
 		async (chain?: string): Promise<void> => {
-			this.assets = await getTotalValueLocked(chain);
+			this.protocolSummary = await getTotalValueLocked(chain);
 		},
 	);
 
 	// HELPERS
 	// Input: Array of Sett objects
 	// Output: Object keyed by the asset name to lower case
-	keySettByAsset = action((settList: Sett[] | null) => {
-		var mappedList: { [x: string]: Sett } = {};
-		settList!.forEach((sett) => (mappedList[sett.asset.toLowerCase()] = sett));
-		return mappedList;
+	keySettByAsset = action((settList: Sett[] | undefined | null): { [geyser: string]: Sett } => {
+		const map: { [geyser: string]: Sett } = {};
+		if (settList) {
+			settList.forEach((sett) => (map[sett.vaultToken] = sett));
+		}
+		return map;
 	});
 
 	// Input: Array of Sett objects

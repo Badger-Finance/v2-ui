@@ -20,7 +20,7 @@ const GasWidget = observer(() => {
 	if (!gasPrices[gasPrice]) store.uiState.setGasPrice('standard');
 
 	const getGasSelections = () => {
-		let gasMap: any = [];
+		const gasMap: any = [];
 		for (const [key, value] of Object.entries(gasPrices!)) {
 			gasMap.push(
 				<MenuItem value={key} key={key}>
