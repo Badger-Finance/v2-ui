@@ -9,9 +9,9 @@ export default class SettStoreV2 {
 	private store!: RootStore;
 
 	// loading: undefined, error: null, present: object
-	private settCache: {[chain: string]: Sett[] | undefined | null};
-	private settMapCache: {[chain: string]: SettMap | undefined | null};
-	private protocolSummaryCache: {[chain: string]: ProtocolSummary | undefined | null};
+	private settCache: { [chain: string]: Sett[] | undefined | null };
+	private settMapCache: { [chain: string]: SettMap | undefined | null };
+	private protocolSummaryCache: { [chain: string]: ProtocolSummary | undefined | null };
 	private priceCache: PriceSummary;
 
 	constructor(store: RootStore) {
@@ -63,7 +63,7 @@ export default class SettStoreV2 {
 		async (network?: string): Promise<void> => {
 			const prices = await getTokenPrices(network);
 			if (prices) {
-				Object.keys(prices).forEach(key => {
+				Object.keys(prices).forEach((key) => {
 					const value = prices[key];
 					if (value) {
 						prices[key] = parseFloat(Web3.utils.toWei(value.toString()));

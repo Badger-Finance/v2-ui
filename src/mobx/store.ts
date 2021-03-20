@@ -40,10 +40,7 @@ export class RootStore {
 
 	async walletRefresh(): Promise<void> {
 		const chain = this.wallet.network.name;
-		const refreshData = [
-			this.setts.loadAssets(chain),
-			this.setts.loadPrices(chain),
-		]
+		const refreshData = [this.setts.loadAssets(chain), this.setts.loadPrices(chain)];
 		if (chain === NETWORK_LIST.ETH) {
 			refreshData.push(this.setts.loadGeysers(chain));
 			refreshData.push(this.rebase.fetchRebaseStats());
@@ -51,18 +48,20 @@ export class RootStore {
 			refreshData.push(this.setts.loadSetts(chain));
 		}
 		await Promise.all(refreshData);
-		await this.contracts.fetchContracts();
-		console.log('finish update contracts')
+
 		if (this.wallet.connectedAddress) {
 			this.contracts.updateProvider();
-			this.rewards.fetchSettRewards();
-			this.uiState.reduceAirdrops();
-			this.uiState.reduceTreeRewards();
-			this.airdrops.fetchAirdrops();
+			await this.contracts.fetchContracts();
+			if (chain === NETWORK_LIST.ETH) {
+				this.uiState.reduceRebase();
+				this.ibBTCStore.init();
+				this.rewards.fetchSettRewards();
+				this.uiState.reduceTreeRewards();
+				this.airdrops.fetchAirdrops();
+				this.uiState.reduceAirdrops();
+			}
+			this.uiState.reduceStats();
 		}
-		this.uiState.reduceRebase();
-		this.ibBTCStore.init();
-		this.uiState.reduceStats();
 	}
 }
 

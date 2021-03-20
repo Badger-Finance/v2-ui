@@ -24,21 +24,23 @@ const SettListDisplay = observer((props: SettListViewProps) => {
 	if (settMap === null) {
 		return <Typography variant="h4">There was an issue loading setts. Try refreshing.</Typography>;
 	}
-	const settListItems = network.settOrder.map((contract) => {
-		if (!settMap[contract]) {
-			return;
-		}
-		const vault: Vault = vaults[settMap[contract].vaultToken];
-		return (
-			<SettListItem
-				sett={settMap[contract]}
-				key={settMap[contract].name}
-				currency={currency}
-				period={period}
-				onOpen={() => onOpen(vault, settMap[contract])}
-			/>
-		);
-	}).filter(Boolean);
+	const settListItems = network.settOrder
+		.map((contract) => {
+			if (!settMap[contract]) {
+				return;
+			}
+			const vault: Vault = vaults[settMap[contract].vaultToken];
+			return (
+				<SettListItem
+					sett={settMap[contract]}
+					key={settMap[contract].name}
+					currency={currency}
+					period={period}
+					onOpen={() => onOpen(vault, settMap[contract])}
+				/>
+			);
+		})
+		.filter(Boolean);
 	return <SettTable title={'All Setts'} tokenTitle={'Tokens'} period={period} settList={settListItems} />;
 });
 

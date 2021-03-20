@@ -109,12 +109,7 @@ export const reduceAirdrops = (airdrops: ReduceAirdropsProps, store: RootStore):
 	};
 };
 
-function calculatePortfolioStats(
-	vaultContracts: any,
-	geyserContracts: any,
-	tokens: any,
-	network: Network,
-) {
+function calculatePortfolioStats(vaultContracts: any, geyserContracts: any, tokens: any, network: Network) {
 	let tvl = new BigNumber(0);
 	let deposits = new BigNumber(0);
 	let vaultDeposits = new BigNumber(0);

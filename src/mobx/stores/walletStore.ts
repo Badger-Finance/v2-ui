@@ -50,28 +50,30 @@ class WalletStore {
 			network: this.network,
 			onboard: Onboard(onboardOptions),
 		});
-		
+
 		this.init();
 	}
 
-	init = action(async (): Promise<void> => {
-		this.getCurrentBlock();
-		this.getGasPrice();
-
-		setInterval(() => {
-			this.getGasPrice();
-		}, 13000);
-		setInterval(() => {
+	init = action(
+		async (): Promise<void> => {
 			this.getCurrentBlock();
-		}, 5000 * 60);
+			this.getGasPrice();
 
-		const previouslySelectedWallet = window.localStorage.getItem('selectedWallet');
+			setInterval(() => {
+				this.getGasPrice();
+			}, 13000);
+			setInterval(() => {
+				this.getCurrentBlock();
+			}, 5000 * 60);
 
-		// call wallet select with that value if it exists
-		if (!!previouslySelectedWallet) {
-			this.onboard.walletSelect(previouslySelectedWallet);
-		}
-	});
+			const previouslySelectedWallet = window.localStorage.getItem('selectedWallet');
+
+			// call wallet select with that value if it exists
+			if (!!previouslySelectedWallet) {
+				this.onboard.walletSelect(previouslySelectedWallet);
+			}
+		},
+	);
 
 	walletReset = action(() => {
 		try {
@@ -136,7 +138,6 @@ class WalletStore {
 		// Check to see if the wallet's connected network matches the currently defined network
 		// if it doesn't, set to the proper network
 		if (network !== this.network.networkId) {
-			console.log('NETWORK CONNECTED', network);
 			this.network = getNetwork(getNetworkNameFromId(network));
 			this.store.walletRefresh();
 			this.getGasPrice();

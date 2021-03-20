@@ -151,11 +151,7 @@ const Landing = observer(() => {
 					</Grid>
 				)}
 				<Grid item xs={12} md={userConnected ? 4 : 6}>
-					<CurrencyInfoCard
-						title="Badger Price"
-						value={badgerPriceDisplay}
-						currency={currency}
-					/>
+					<CurrencyInfoCard title="Badger Price" value={badgerPriceDisplay} currency={currency} />
 				</Grid>
 			</Grid>
 
