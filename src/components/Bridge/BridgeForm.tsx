@@ -23,6 +23,7 @@ import {
 	CURVE_EXCHANGE,
 	BTC_GATEWAY,
 	NETWORK_CONSTANTS,
+	NETWORK_LIST,
 	CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS,
 	RENVM_GATEWAY_ADDRESS,
 } from '../../config/constants';
@@ -69,7 +70,7 @@ export const BridgeForm = observer((props: any) => {
 	const spacer = <div className={classes.before} />;
 
 	const {
-		wallet: { connect, connectedAddress, provider, onboard, network },
+		wallet: { connect, connectedAddress, provider, onboard },
 		contracts: { getAllowance, increaseAllowance },
 		uiState: { queueNotification, txStatus, setTxStatus },
 		transactions: { updateTx, removeTx, incompleteTransfer },
@@ -171,8 +172,11 @@ export const BridgeForm = observer((props: any) => {
 
 	const web3 = new Web3(provider);
 	const adapterContract = new web3.eth.Contract(BADGER_ADAPTER, bridgeAddress);
-	const renbtcToken = new web3.eth.Contract(ERC20.abi as any, NETWORK_CONSTANTS[network.name].TOKENS.RENBTC_ADDRESS);
-	const wbtcToken = new web3.eth.Contract(ERC20.abi as any, NETWORK_CONSTANTS[network.name].TOKENS.WBTC_ADDRESS);
+	const renbtcToken = new web3.eth.Contract(
+		ERC20.abi as any,
+		NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.RENBTC_ADDRESS,
+	);
+	const wbtcToken = new web3.eth.Contract(ERC20.abi as any, NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.WBTC_ADDRESS);
 	const gatewayContract = new web3.eth.Contract(BTC_GATEWAY, RENVM_GATEWAY_ADDRESS);
 
 	const connectWallet = async () => {
@@ -326,11 +330,11 @@ export const BridgeForm = observer((props: any) => {
 		let completed = false;
 		const contractFn = 'mint';
 		let maxSlippage = 0;
-		let desiredToken = NETWORK_CONSTANTS[network.name].TOKENS.RENBTC_ADDRESS;
+		let desiredToken = NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.RENBTC_ADDRESS;
 		if (token === 'WBTC') {
 			// Convert slippage from % to bps.
 			maxSlippage = Math.round(Math.min(estimatedSlippage * SLIPPAGE_BUFFER, 1) * MAX_BPS);
-			desiredToken = NETWORK_CONSTANTS[network.name].TOKENS.WBTC_ADDRESS;
+			desiredToken = NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.WBTC_ADDRESS;
 		}
 		const params: any = [
 			{
@@ -413,10 +417,10 @@ export const BridgeForm = observer((props: any) => {
 		const methodSeries: any = [];
 		const contractFn: any = 'burn';
 		const amountSats = new BigNumber(burnAmount as any).multipliedBy(10 ** 8); // Convert to Satoshis
-		let burnToken = NETWORK_CONSTANTS[network.name].TOKENS.RENBTC_ADDRESS;
+		let burnToken = NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.RENBTC_ADDRESS;
 		let maxSlippage = 0;
 		if (token === 'WBTC') {
-			burnToken = NETWORK_CONSTANTS[network.name].TOKENS.WBTC_ADDRESS;
+			burnToken = NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.WBTC_ADDRESS;
 			// Convert slippage from % to bps.
 			maxSlippage = Math.round(Math.min(estimatedSlippage * SLIPPAGE_BUFFER, 1) * MAX_BPS);
 		}
@@ -446,8 +450,8 @@ export const BridgeForm = observer((props: any) => {
 		const tokenParam = {
 			address:
 				token === 'renBTC'
-					? NETWORK_CONSTANTS[network.name].TOKENS.RENBTC_ADDRESS
-					: NETWORK_CONSTANTS[network.name].TOKENS.WBTC_ADDRESS,
+					? NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.RENBTC_ADDRESS
+					: NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.WBTC_ADDRESS,
 			symbol: token,
 			totalSupply: amountSats,
 		};

@@ -77,14 +77,15 @@ const Landing = observer(() => {
 	const store = useContext(StoreContext);
 
 	const {
-		wallet: { connectedAddress, isCached },
-		sett: { assets, badger },
+		wallet: { connectedAddress, network, isCached },
+		setts: { assets, priceData, badger },
 		rewards: { claimGeysers, badgerTree },
-		uiState: { stats, currency, hideZeroBal },
+		uiState: { stats, currency },
 	} = store;
 	const userConnected = !!connectedAddress;
 
 	const availableRewards = () => {
+		if (!badgerTree || !badgerTree.claims) return;
 		return badgerTree.claims.map((claim: any[]) => {
 			const { network } = store.wallet;
 			const claimAddress: string = claim[0];
@@ -112,12 +113,13 @@ const Landing = observer(() => {
 	};
 
 	// force convert tvl due to zero typing on store (remove once typed)
-
 	const totalValueLocked: BigNumber | undefined =
-		assets.totalValue >= 0 ? new BigNumber(assets.totalValue) : undefined;
+		!!assets && assets.totalValue >= 0 ? new BigNumber(assets.totalValue) : undefined;
 
 	// force undefined on $0 badger, value starts at 0 vs. undefined
-	const badgerPrice: number | undefined = badger.market_data ? badger.market_data.current_price.usd : undefined;
+	// const badgerPrice: number | undefined =
+	// 	priceData && priceData[network.deploy.token] ? priceData[network.deploy.token] : undefined;
+	const badgerPrice: number | undefined = badger ? badger : undefined;
 	const badgerDisplayPrice: BigNumber | undefined = badgerPrice ? new BigNumber(badgerPrice) : undefined;
 
 	const portfolioValue = userConnected ? stats.stats.portfolio : undefined;
@@ -165,7 +167,7 @@ const Landing = observer(() => {
 			</Grid>
 
 			{/* Landing Claim Functionality */}
-			{!!connectedAddress && rewards.length > 0 && badgerTree.claims.length > 0 && (
+			{!!connectedAddress && badgerTree && rewards.length > 0 && badgerTree.claims.length > 0 && (
 				<>
 					<Grid item xs={12} style={{ textAlign: 'center', paddingBottom: 0 }}>
 						<Typography className={classes.marginTop} variant="subtitle1" color="textPrimary">

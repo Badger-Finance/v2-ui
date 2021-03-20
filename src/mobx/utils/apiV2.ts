@@ -1,4 +1,4 @@
-import { Network, PriceSummary, Sett } from 'mobx/model';
+import { PriceSummary, ProtocolSummary, Sett } from 'mobx/model';
 
 export const getApi = () => {
 	if (process.env.NODE_ENV === 'production') {
@@ -31,18 +31,18 @@ export const listGeysers = async (chain?: string): Promise<Sett[] | null> => {
 	return response.json();
 };
 
-export const getTokenPrices = async (currency?: string): Promise<PriceSummary | null> => {
-	const response = await fetch(`${getPricesEndpoint}${currency ? `?currency=${currency}` : ''}`);
+export const getTokenPrices = async (currency?: string, chain?: string): Promise<PriceSummary | null> => {
+	const response = await fetch(
+		`${getPricesEndpoint}?currency=${currency ? currency : 'eth'}&chain=${chain ? chain : 'eth'}`,
+	);
 	if (!response.ok) {
 		return null;
 	}
 	return response.json();
 };
 
-export const getTotalValueLocked = async (currency?: string, network?: string): Promise<any> => {
-	const response = await fetch(
-		`${getTVLEndpoint}?currency=${currency ? currency : 'eth'}&chain=${network ? network : 'eth'}`,
-	);
+export const getTotalValueLocked = async (network?: string): Promise<ProtocolSummary | null> => {
+	const response = await fetch(`${getTVLEndpoint}?chain=${network ? network : 'eth'}`);
 	if (!response.ok) {
 		return null;
 	}

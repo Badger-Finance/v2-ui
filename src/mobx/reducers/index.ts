@@ -99,8 +99,12 @@ class UiState {
 	});
 
 	reduceStats = action(() => {
-		const newStats = reduceContractsToStats(this.store);
-		this.stats = !!newStats ? reduceContractsToStats(this.store) : this.stats;
+		try {
+			const newStats = reduceContractsToStats(this.store);
+			this.stats = !!newStats ? reduceContractsToStats(this.store) : this.stats;
+		} catch (err) {
+			console.log('error reducing stats', err);
+		}
 	});
 
 	reduceTreeRewards = action(() => {
@@ -114,10 +118,10 @@ class UiState {
 	reduceRebase = action(() => {
 		const { tokens } = this.store.contracts;
 		const { network } = this.store.wallet;
-		if (!!this.store.rebase.rebase && !!tokens[NETWORK_CONSTANTS[network.name].TOKENS.WBTC_ADDRESS_LOWER])
+		if (!!this.store.rebase.rebase && !!tokens[NETWORK_CONSTANTS[network.name].TOKENS.WBTC_ADDRESS])
 			this.rebaseStats = reduceRebase(
 				this.store.rebase.rebase,
-				tokens[NETWORK_CONSTANTS[network.name].TOKENS.WBTC_ADDRESS_LOWER],
+				tokens[NETWORK_CONSTANTS[network.name].TOKENS.WBTC_ADDRESS],
 			);
 	});
 

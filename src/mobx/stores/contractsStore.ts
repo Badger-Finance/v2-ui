@@ -8,14 +8,12 @@ import _ from 'lodash';
 import {
 	reduceBatchResult,
 	reduceContractConfig,
-	reduceCurveResult,
-	reduceGraphResult,
 	reduceGrowth,
 	reduceGrowthQueryConfig,
 	reduceSushiAPIResults,
 } from '../reducers/contractReducers';
-import { Vault, Geyser, Token } from '../model';
-import { jsonQuery, graphQuery, vanillaQuery } from 'mobx/utils/helpers';
+import { Vault, Geyser, Token, Sett } from '../model';
+import { vanillaQuery } from 'mobx/utils/helpers';
 import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
 import async from 'async';
@@ -23,8 +21,8 @@ import { EMPTY_DATA, ERC20, NETWORK_CONSTANTS } from 'config/constants';
 import { formatAmount } from 'mobx/reducers/statsReducers';
 import BatchCall from 'web3-batch-call';
 import { getApi } from '../utils/apiV2';
+import SettStoreV2 from './settStoreV2';
 
-// let batchCall = new BatchCall(options);
 let batchCall: any = null;
 
 class ContractsStore {
@@ -45,11 +43,6 @@ class ContractsStore {
 
 		this.fetchContracts();
 
-		// observe(this as any, 'tokens', (change: any) => {
-		// 	if (!!change.oldValue) {
-		// 		this.calculateVaultGrowth();
-		// 	}
-		// });
 		observe(this.store.wallet, 'currentBlock', (change: any) => {
 			if (!!change.oldValue) {
 				this.fetchContracts();
@@ -71,10 +64,6 @@ class ContractsStore {
 		}
 		const newOptions = {
 			web3: new Web3(this.store.wallet.provider),
-			// etherscan: {
-			// 	apiKey: 'NXSHKK6D53D3R9I17SR49VX8VITQY7UC6P',
-			// 	delayTime: 300,
-			// },
 		};
 		batchCall = new BatchCall(newOptions);
 		this.store.airdrops.fetchAirdrops();
@@ -126,7 +115,6 @@ class ContractsStore {
 				const tokens = _.compact(
 					_.values(
 						_.defaultsDeep(
-							// curvePrices,
 							cgPrices,
 							tokenContracts,
 							_.mapValues(network.tokens.symbols, (value: string, address: string) => ({
@@ -160,6 +148,11 @@ class ContractsStore {
 		const { connectedAddress, currentBlock, network } = this.store.wallet;
 		const { settList } = this.store.setts;
 		const sushiBatches = network.vaults['sushiswap'];
+
+		if (!settList) {
+			callback();
+			return;
+		}
 
 		const { defaults, batchCall: batch } = reduceContractConfig(
 			_.map(network.vaults),
@@ -238,9 +231,9 @@ class ContractsStore {
 						}));
 
 					// update ppfs from ppfs api
-					contract.getPricePerFullShare = new BigNumber(
-						settStructure[Web3.utils.toChecksumAddress(vault.address)].ppfs,
-					);
+					contract.getPricePerFullShare = settStructure[vault.address]
+						? new BigNumber(settStructure[vault.address].ppfs)
+						: new BigNumber(1);
 					if (contract.getPricePerFullShare.gt(1))
 						contract.getPricePerFullShare = contract.getPricePerFullShare.dividedBy(1e18);
 					vault.update(
@@ -265,7 +258,8 @@ class ContractsStore {
 		}
 		const { connectedAddress, network } = this.store.wallet;
 
-		if (!network.geysers) {
+		// Initialization checks
+		if (!network.geysers || (this.vaults && Object.keys(this.vaults).length === 0)) {
 			callback();
 			return;
 		}
@@ -282,8 +276,6 @@ class ContractsStore {
 
 				if (result) {
 					result.forEach((contract: any) => {
-						if (!defaults[contract.address]) console.log('error - defaults: ', defaults, contract.address);
-
 						const vaultAddress = contract[defaults[contract.address].underlyingKey];
 						const geyser: Geyser = this.getOrCreateGeyser(
 							contract.address,

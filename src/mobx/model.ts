@@ -636,3 +636,15 @@ export type TokenBalance = {
 export type PriceSummary = {
 	[address: string]: number;
 };
+
+export interface SettSummary {
+	name: string;
+	asset: string;
+	value: number;
+	tokens: TokenBalance[];
+}
+
+export type ProtocolSummary = {
+	totalValue: number;
+	setts?: SettSummary[];
+};

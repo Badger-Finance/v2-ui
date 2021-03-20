@@ -2,7 +2,7 @@ import { NETWORK_CONSTANTS, NETWORK_LIST } from '../constants';
 import { RewardNetworkConfig } from 'mobx/model';
 import BadgerTree from './abis/BadgerTree.json';
 import { AbiItem } from 'web3-utils';
-import { getApi } from '../../mobx/utils/api';
+import { getApi } from '../../mobx/utils/apiV2';
 
 export const getRewards = (network: string): RewardNetworkConfig | undefined => {
 	switch (network) {
@@ -10,7 +10,7 @@ export const getRewards = (network: string): RewardNetworkConfig | undefined => 
 			return undefined;
 		default:
 			return {
-				endpoint: `${getApi(NETWORK_LIST.ETH)}/v2/reward/tree`,
+				endpoint: `${getApi()}/reward/tree`,
 				network: 1,
 				contract: '0x660802Fc641b154aBA66a62137e71f331B6d787A',
 				abi: BadgerTree.abi as AbiItem[],

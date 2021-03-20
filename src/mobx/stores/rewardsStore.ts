@@ -37,12 +37,16 @@ class RewardsStore {
 		const { provider, connectedAddress, network } = this.store.wallet;
 
 		if (!connectedAddress) return;
-		if (!network.rewards) return;
 
 		const web3 = new Web3(provider);
 		const rewardsTree = new web3.eth.Contract(rewardsAbi as AbiItem[], badgerTree);
 		const checksumAddress = Web3.utils.toChecksumAddress(connectedAddress);
 		const diggToken = new web3.eth.Contract(diggAbi as AbiItem[], digg_system.uFragments);
+
+		if (!network.rewards) {
+			this.badgerTree = undefined;
+			return;
+		}
 
 		const treeMethods = [
 			rewardsTree.methods.lastPublishTimestamp().call(),
