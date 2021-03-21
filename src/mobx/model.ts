@@ -530,7 +530,7 @@ export interface Network {
 	}[];
 	settOrder: string[];
 	getGasPrices: Function;
-	getTransactionLink: (
+	getNotifyLink: (
 		transaction: any,
 	) => {
 		link: string;
@@ -568,7 +568,7 @@ export class BscNetwork implements Network {
 	public async getGasPrices() {
 		return { standard: 10 };
 	}
-	public getTransactionLink (transaction: any) {
+	public getNotifyLink(transaction: any) {
 		return { link: `https://bscscan.com//tx/${transaction.hash}` };
 	};
 }
@@ -626,7 +626,7 @@ export class EthNetwork implements Network {
 			});
 		return prices;
 	}
-	public getTransactionLink (transaction: any) {
+	public getNotifyLink(transaction: any) {
 		return { link: `https://etherscan.io/tx/${transaction.hash}` };
 	};
 }

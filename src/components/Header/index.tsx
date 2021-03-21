@@ -47,7 +47,7 @@ export const Header = observer(() => {
 		if (notification.hash && network.networkId == 1) {
 			// then on each transaction...
 			const { emitter } = notify.hash(notification.hash);
-			emitter.on('all', network.getTransactionLink);
+			emitter.on('all', network.getNotifyLink);
 		} else {
 			enqueueSnackbar(notification.message, { variant: notification.variant, persist: false });
 		}
