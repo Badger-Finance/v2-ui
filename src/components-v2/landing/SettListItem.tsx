@@ -149,20 +149,22 @@ const SettListItem = (props: SettListItemProps): JSX.Element => {
 							</Grid>
 						)}
 						{!balance &&
-							sett.tokens.map((tokenBalance: TokenBalance, index: number) => (
-								<Grid container key={`token-${index}`} alignItems={'center'}>
-									<img
-										alt={`${tokenBalance.name} symbol`}
-										className={classes.tokenSymbol}
-										src={
-											sett.tokens.length === 1
-												? `/assets/icons/${sett.asset.toLowerCase()}.png`
-												: `/assets/icons/${tokenBalance.symbol.toLowerCase()}-small.png`
-										}
-									/>
-									<Typography>{numberWithCommas(Number(tokenBalance.balance).toFixed())}</Typography>
-								</Grid>
-							))}
+							sett.tokens.map((tokenBalance: TokenBalance, index: number) => {
+								const iconName = sett.tokens.length === 1 ? `${sett.asset.toLowerCase()}` : `${tokenBalance.symbol.toLowerCase()}-small`;
+								const icon = `/assets/icons/${iconName}.png`;
+								const displayDecimals = tokenBalance.balance > 1 ? 0 : 4;
+								const balanceDisplay = tokenBalance.balance.toFixed(displayDecimals);
+								return (
+									<Grid container key={`token-${index}`} alignItems={'center'}>
+										<img
+											alt={`${tokenBalance.name} symbol`}
+											className={classes.tokenSymbol}
+											src={icon}
+										/>
+										<Typography>{numberWithCommas(balanceDisplay)}</Typography>
+									</Grid>
+								);
+							})}
 					</Grid>
 				</Grid>
 
