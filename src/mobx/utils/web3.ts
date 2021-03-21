@@ -24,12 +24,12 @@ export const getNetworkId = (network: string | undefined) => {
 	switch (network) {
 		case NETWORK_LIST.BSC:
 			return 56;
-		case NETWORK_LIST.XDAI:
-			return 100;
-		case NETWORK_LIST.FTM:
-			return 250;
-		case NETWORK_LIST.MATIC:
-			return 137;
+		// case NETWORK_LIST.XDAI:
+		// 	return 100;
+		// case NETWORK_LIST.FTM:
+		// 	return 250;
+		// case NETWORK_LIST.MATIC:
+		// 	return 137;
 		default:
 			return 1;
 	}

@@ -158,6 +158,15 @@ class WalletStore {
 		}
 	});
 
+	setNetwork = action((network: string): void => {
+		// only allow toggling if no wallet is connected
+		if (this.connectedAddress) {
+			return;
+		}
+		this.network = getNetwork(network);
+		this.store.walletRefresh();
+	});
+
 	isCached = action(() => {
 		return !!this.connectedAddress || !!window.localStorage.getItem('selectedWallet');
 	});

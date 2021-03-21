@@ -8,9 +8,9 @@ import { NetworkConstants, ClaimsSymbols } from '../mobx/model';
 
 export enum NETWORK_LIST {
 	BSC = 'bsc',
-	MATIC = 'matic',
-	FTM = 'ftm',
-	XDAI = 'xdai',
+	// MATIC = 'matic',
+	// FTM = 'ftm',
+	// XDAI = 'xdai',
 	ETH = 'eth',
 }
 

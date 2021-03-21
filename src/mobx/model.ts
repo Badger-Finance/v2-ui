@@ -570,7 +570,7 @@ export class BscNetwork implements Network {
 	}
 	public getNotifyLink(transaction: any) {
 		return { link: `https://bscscan.com//tx/${transaction.hash}` };
-	};
+	}
 }
 
 export class EthNetwork implements Network {
@@ -628,7 +628,7 @@ export class EthNetwork implements Network {
 	}
 	public getNotifyLink(transaction: any) {
 		return { link: `https://etherscan.io/tx/${transaction.hash}` };
-	};
+	}
 }
 /**
  * Sett and geyser objects will be represented by the same
