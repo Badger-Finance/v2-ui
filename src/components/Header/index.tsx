@@ -6,15 +6,6 @@ import { StoreContext } from '../../mobx/store-context';
 import { Toolbar, AppBar, IconButton } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Menu } from '@material-ui/icons';
-import Notify from 'bnc-notify';
-
-const notify = Notify({
-	dappId: 'af74a87b-cd08-4f45-83ff-ade6b3859a07', // [String] The API key created by step one above
-	networkId: 1, // [Integer] The Ethereum network ID your Dapp uses.
-});
-notify.config({
-	darkMode: true, // (default: false)
-});
 
 import { useSnackbar } from 'notistack';
 
@@ -38,12 +29,6 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-function addEtherscan(transaction: any) {
-	return {
-		link: `https://etherscan.io/tx/${transaction.hash}`,
-	};
-}
-
 export const Header = observer(() => {
 	const classes = useStyles();
 
@@ -51,16 +36,18 @@ export const Header = observer(() => {
 	const {
 		router: { goTo },
 		uiState: { openSidebar, notification },
+		wallet: { notify, network },
 	} = store;
 	const { enqueueSnackbar } = useSnackbar();
 
 	const enq = () => {
 		if (!notification || !notification.message) return;
 
-		if (notification.hash) {
+		// Notify doesn't support BSC currently so it is temporarily disabled for it
+		if (notification.hash && network.networkId == 1) {
 			// then on each transaction...
 			const { emitter } = notify.hash(notification.hash);
-			emitter.on('all', addEtherscan);
+			emitter.on('all', network.getNotifyLink);
 		} else {
 			enqueueSnackbar(notification.message, { variant: notification.variant, persist: false });
 		}
