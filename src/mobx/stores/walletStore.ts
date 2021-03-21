@@ -160,15 +160,6 @@ class WalletStore {
 	isCached = action(() => {
 		return !!this.connectedAddress || !!window.localStorage.getItem('selectedWallet');
 	});
-
-	getTransactionLink = action((transaction: any) => {
-		switch (this.network.name) {
-			case NETWORK_LIST.BSC:
-				return { link: `https://bscscan.com//tx/${transaction.hash}` };
-			default:
-				return { link: `https://etherscan.io/tx/${transaction.hash}` };
-		}
-	});
 }
 
 export default WalletStore;

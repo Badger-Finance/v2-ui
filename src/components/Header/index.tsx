@@ -36,7 +36,7 @@ export const Header = observer(() => {
 	const {
 		router: { goTo },
 		uiState: { openSidebar, notification },
-		wallet: { notify, getTransactionLink, network },
+		wallet: { notify, network },
 	} = store;
 	const { enqueueSnackbar } = useSnackbar();
 
@@ -47,7 +47,7 @@ export const Header = observer(() => {
 		if (notification.hash && network.networkId == 1) {
 			// then on each transaction...
 			const { emitter } = notify.hash(notification.hash);
-			emitter.on('all', getTransactionLink);
+			emitter.on('all', network.getTransactionLink);
 		} else {
 			enqueueSnackbar(notification.message, { variant: notification.variant, persist: false });
 		}

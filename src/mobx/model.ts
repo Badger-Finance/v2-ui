@@ -530,6 +530,11 @@ export interface Network {
 	}[];
 	settOrder: string[];
 	getGasPrices: Function;
+	getTransactionLink: (
+		transaction: any,
+	) => {
+		link: string;
+	};
 }
 
 export class BscNetwork implements Network {
@@ -563,6 +568,9 @@ export class BscNetwork implements Network {
 	public async getGasPrices() {
 		return { standard: 10 };
 	}
+	public getTransactionLink (transaction: any) {
+		return { link: `https://bscscan.com//tx/${transaction.hash}` };
+	};
 }
 
 export class EthNetwork implements Network {
@@ -618,6 +626,9 @@ export class EthNetwork implements Network {
 			});
 		return prices;
 	}
+	public getTransactionLink (transaction: any) {
+		return { link: `https://etherscan.io/tx/${transaction.hash}` };
+	};
 }
 /**
  * Sett and geyser objects will be represented by the same
