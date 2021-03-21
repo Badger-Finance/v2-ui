@@ -1,6 +1,7 @@
 import { extendObservable, action } from 'mobx';
 import Web3 from 'web3';
 import Onboard from 'bnc-onboard';
+import Notify from 'bnc-notify';
 
 import BigNumber from 'bignumber.js';
 import { onboardWalletCheck, getOnboardWallets } from '../../config/wallets';
@@ -8,10 +9,12 @@ import { getNetwork, getNetworkNameFromId } from '../../mobx/utils/web3';
 import _ from 'lodash';
 import { Network } from 'mobx/model';
 import { RootStore } from 'mobx/store';
+import { NETWORK_LIST } from 'config/constants';
 
 class WalletStore {
 	private store: RootStore;
 	public onboard: any;
+	public notify: any;
 	public provider?: any = null;
 	public connectedAddress = '';
 	public currentBlock?: number;
@@ -41,6 +44,11 @@ class WalletStore {
 			walletCheck: onboardWalletCheck,
 		};
 
+		const notifyOptions: any = {
+			dappId: 'af74a87b-cd08-4f45-83ff-ade6b3859a07',
+			networkId: this.network.networkId,
+		};
+
 		extendObservable(this, {
 			connectedAddress: this.connectedAddress,
 			provider: this.provider,
@@ -49,6 +57,7 @@ class WalletStore {
 			ethBalance: new BigNumber(0),
 			network: this.network,
 			onboard: Onboard(onboardOptions),
+			notify: Notify(notifyOptions),
 		});
 
 		this.init();
@@ -72,6 +81,9 @@ class WalletStore {
 			if (!!previouslySelectedWallet) {
 				this.onboard.walletSelect(previouslySelectedWallet);
 			}
+			this.notify.config({
+				darkMode: true, // (default: false)
+			});
 		},
 	);
 
@@ -147,6 +159,15 @@ class WalletStore {
 
 	isCached = action(() => {
 		return !!this.connectedAddress || !!window.localStorage.getItem('selectedWallet');
+	});
+
+	getTransactionLink = action((transaction: any) => {
+		switch (this.network.name) {
+			case NETWORK_LIST.BSC:
+				return { link: `https://bscscan.com//tx/${transaction.hash}` };
+			default:
+				return { link: `https://etherscan.io/tx/${transaction.hash}` };
+		}
 	});
 }
 

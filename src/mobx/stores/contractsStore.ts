@@ -175,7 +175,7 @@ class ContractsStore {
 							? new BigNumber(settStructure[vault.address].ppfs)
 							: new BigNumber(1);
 						if (contract.getPricePerFullShare.gt(1))
-							contract.getPricePerFullShare = contract.getPricePerFullShare.dividedBy(1e18);
+							contract.getPricePerFullShare = contract.getPricePerFullShare;
 						vault.update(
 							_.defaultsDeep(contract, defaults[contract.address], {
 								growth: _.compact([vault.growth, growth]),
