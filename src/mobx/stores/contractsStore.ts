@@ -1,7 +1,7 @@
 import { extendObservable, action, observe } from 'mobx';
 import Web3 from 'web3';
 import { AbiItem } from 'web3-utils';
-import { estimateAndSend } from '../utils/web3';
+import { estimateAndSend, getNetworkDeploy } from '../utils/web3';
 import BigNumber from 'bignumber.js';
 import { RootStore } from '../store';
 import _ from 'lodash';
@@ -17,7 +17,7 @@ import { vanillaQuery } from 'mobx/utils/helpers';
 import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
 import async from 'async';
-import { EMPTY_DATA, ERC20, NETWORK_CONSTANTS } from 'config/constants';
+import { EMPTY_DATA, ERC20, NETWORK_CONSTANTS, NETWORK_LIST } from 'config/constants';
 import { formatAmount } from 'mobx/reducers/statsReducers';
 import BatchCall from 'web3-batch-call';
 import { getApi } from '../utils/apiV2';
@@ -168,9 +168,14 @@ class ContractsStore {
 							}));
 
 						// update ppfs from ppfs api
-						contract.getPricePerFullShare = settStructure[vault.address]
-							? new BigNumber(settStructure[vault.address].ppfs)
-							: new BigNumber(1);
+            // digg ppfs is handled differently than other setts
+            // so we set this to 1
+						contract.getPricePerFullShare =
+							settStructure[vault.address] &&
+							vault.address !== getNetworkDeploy(NETWORK_LIST.ETH)!.sett_system.vaults['native.digg']
+								? new BigNumber(settStructure[vault.address].ppfs)
+								: new BigNumber(1);
+
 
 						vault.update(
 							_.defaultsDeep(contract, defaults[contract.address], {

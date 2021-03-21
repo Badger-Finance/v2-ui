@@ -220,12 +220,22 @@ export function formatStaked(geyser: Geyser): string {
 	return inCurrency(geyser.holdings.dividedBy(10 ** geyser.vault.decimals), 'eth', true);
 }
 export function formatBalanceUnderlying(vault: Vault): string {
-	return formatTokens(vault.balance.multipliedBy(vault.pricePerShare).dividedBy(10 ** vault.decimals));
+	const diggMultiplier = vault.underlyingToken.symbol === 'DIGG' ? getDiggPerShare(vault) : new BigNumber(1);
+	return formatTokens(
+		vault.balance
+			.multipliedBy(vault.pricePerShare)
+			.multipliedBy(diggMultiplier)
+			.dividedBy(10 ** vault.decimals),
+	);
 }
 
 export function formatDialogBalanceUnderlying(vault: Vault): string {
+	const diggMultiplier = vault.underlyingToken.symbol === 'DIGG' ? getDiggPerShare(vault) : new BigNumber(1);
 	return formatTokens(
-		vault.balance.multipliedBy(vault.pricePerShare).dividedBy(10 ** vault.decimals),
+		vault.balance
+			.multipliedBy(vault.pricePerShare)
+			.multipliedBy(diggMultiplier)
+			.dividedBy(10 ** vault.decimals),
 		vault.decimals,
 	);
 }
