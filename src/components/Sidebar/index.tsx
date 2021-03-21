@@ -4,7 +4,16 @@ import views from '../../config/routes';
 import _ from 'lodash';
 import { useContext } from 'react';
 import { StoreContext } from '../../mobx/store-context';
-import { List, ListItem, Drawer, Collapse, IconButton, ListItemIcon, ListItemText, ListItemSecondaryAction } from '@material-ui/core';
+import {
+	List,
+	ListItem,
+	Drawer,
+	Collapse,
+	IconButton,
+	ListItemIcon,
+	ListItemText,
+	ListItemSecondaryAction,
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { ExpandMore } from '@material-ui/icons';
 import { SITE_VERSION, NETWORK_LIST, FLAGS } from 'config/constants';
