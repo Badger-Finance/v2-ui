@@ -20,35 +20,35 @@ const UserListDisplay = observer((props: SettListViewProps) => {
 	const { onOpen } = props;
 	const store = useContext(StoreContext);
 	const {
-		setts: { settList },
+		setts: { settMap },
 		uiState: { currency, period, stats },
 		contracts: { vaults },
 		wallet: { network },
 	} = store;
 
-	if (settList === undefined) {
+	if (settMap === undefined) {
 		return <Loader message={`Loading ${network.fullName} Setts...`} />;
 	}
-	if (settList === null) {
+	if (settMap === null) {
 		return <Typography variant="h4">There was an issue loading setts. Try refreshing.</Typography>;
 	}
 
-	const walletListItems = settList
-		.map((sett) => {
-			const vault = vaults[sett.vaultToken];
+	const walletListItems = network.settOrder
+		.map((contract) => {
+			const vault = vaults[settMap[contract].vaultToken];
 			if (!vault) {
 				return null;
 			}
 			if (vault.underlyingToken.balance.gt(0)) {
 				return (
 					<SettListItem
-						key={`wallet-${sett.name}`}
-						sett={sett}
+						key={`wallet-${settMap[contract].name}`}
+						sett={settMap[contract]}
 						balance={formatBalance(vault.underlyingToken)}
 						balanceValue={formatTokenBalanceValue(vault.underlyingToken, currency)}
 						currency={currency}
 						period={period}
-						onOpen={() => onOpen(vault, sett)}
+						onOpen={() => onOpen(vault, settMap[contract])}
 					/>
 				);
 			}
@@ -56,42 +56,42 @@ const UserListDisplay = observer((props: SettListViewProps) => {
 		.filter(Boolean);
 	const walletBalance = formatPrice(stats.stats.wallet, currency);
 
-	const depositListItems = settList
-		.map((sett) => {
-			const vault = vaults[sett.vaultToken];
+	const depositListItems = network.settOrder
+		.map((contract) => {
+			const vault = vaults[settMap[contract].vaultToken];
 			if (!vault) {
 				return null;
 			}
 			if (vault.balance.gt(0))
 				return (
 					<SettListItem
-						key={`deposit-${sett.name}`}
-						sett={sett}
+						key={`deposit-${settMap[contract].name}`}
+						sett={settMap[contract]}
 						balance={formatBalanceUnderlying(vault)}
 						balanceValue={formatBalanceValue(vault, currency)}
 						currency={currency}
 						period={period}
-						onOpen={() => onOpen(vault, sett)}
+						onOpen={() => onOpen(vault, settMap[contract])}
 					/>
 				);
 		})
 		.filter(Boolean);
 	const depositBalance = formatPrice(stats.stats.deposits, currency);
 
-	const vaultListItems = settList
-		.map((sett) => {
-			const vault = vaults[sett.vaultToken];
+	const vaultListItems = network.settOrder
+		.map((contract) => {
+			const vault = vaults[settMap[contract].vaultToken];
 			const geyser = vault?.geyser;
 			if (geyser && geyser.balance.gt(0))
 				return (
 					<SettListItem
-						key={`deposit-${sett.name}`}
-						sett={sett}
+						key={`deposit-${settMap[contract].name}`}
+						sett={settMap[contract]}
 						balance={formatGeyserBalance(geyser)}
 						balanceValue={formatGeyserBalanceValue(geyser, currency)}
 						currency={currency}
 						period={period}
-						onOpen={() => onOpen(vault, sett)}
+						onOpen={() => onOpen(vault, settMap[contract])}
 					/>
 				);
 		})
