@@ -218,10 +218,6 @@ export const reduceGrowth = (graphResult: any[], periods: number[], startDate: D
 };
 
 export const reduceGeyserSchedule = (schedules: Schedules, store: RootStore): Growth[] => {
-	// console.log(JSON.stringify(schedules))
-	// console.log(_.keysIn(schedules))
-	// console.log(schedules);
-
 	return _.compact(
 		_.map(schedules, (schedule: any[], tokenAddress: string) => {
 			let locked = new BigNumber(0);

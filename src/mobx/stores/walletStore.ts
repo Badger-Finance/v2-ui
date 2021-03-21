@@ -104,6 +104,7 @@ class WalletStore {
 		this.setProvider(walletState.wallet.provider);
 		this.connectedAddress = walletState.address;
 		this.onboard = wsOnboard;
+		this.store.walletRefresh();
 	});
 
 	getCurrentBlock = action(() => {
