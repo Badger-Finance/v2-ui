@@ -3,6 +3,7 @@ import { observer } from 'mobx-react-lite';
 import { ArrowDropDown } from '@material-ui/icons';
 import { Button, Popper, Paper, List, ListItem, makeStyles, Typography } from '@material-ui/core';
 import { StoreContext } from 'mobx/store-context';
+import { NETWORK_LIST } from 'config/constants';
 
 const useStyles = makeStyles((theme) => ({
 	network: {
@@ -22,6 +23,7 @@ const NetworkWidget = observer(() => {
 	const { wallet } = useContext(StoreContext);
 	const connectedNetwork = wallet.network.name;
 
+	// anchorEl is the Popper reference object prop
 	const [anchorEl, setAnchorEl] = useState(null);
 	const open = Boolean(anchorEl);
 
@@ -31,12 +33,13 @@ const NetworkWidget = observer(() => {
 		}
 		setAnchorEl(anchorEl ? null : event.currentTarget);
 	};
+
 	const optionClicked = (option: string) => {
 		wallet.setNetwork(option);
 		setAnchorEl(null);
 	};
 
-	const options = ['eth', 'bsc'].filter((option) => option !== connectedNetwork);
+	const options = Object.values(NETWORK_LIST).filter((network: string) => network !== connectedNetwork);
 	return (
 		<>
 			<Button
