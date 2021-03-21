@@ -156,33 +156,38 @@ const Landing = observer(() => {
 			</Grid>
 
 			{/* Landing Claim Functionality */}
-			{!!connectedAddress && badgerTree && rewards.length > 0 && badgerTree.claims.length > 0 && (
-				<>
-					<Grid item xs={12} style={{ textAlign: 'center', paddingBottom: 0 }}>
-						<Typography className={classes.marginTop} variant="subtitle1" color="textPrimary">
-							Available Rewards:
-						</Typography>
-					</Grid>
-					<Grid className={classes.rewardContainer} item xs={12} md={6}>
-						<Paper className={classes.statPaper}>
-							<List style={{ padding: 0, textAlign: 'center' }}>
-								<ListItem className={classes.rewardItem}>{rewards}</ListItem>
-								<ButtonGroup size="small" variant="outlined" color="primary">
-									<Button
-										className={classes.marginTop}
-										onClick={() => {
-											claimGeysers(false);
-										}}
-										variant="contained"
-									>
-										Claim
-									</Button>
-								</ButtonGroup>
-							</List>
-						</Paper>
-					</Grid>
-				</>
-			)}
+			{!!network.rewards &&
+				!!connectedAddress &&
+				badgerTree &&
+				rewards.length > 0 &&
+				badgerTree.claims.length > 0 && (
+					<>
+						<Grid item xs={12} style={{ textAlign: 'center', paddingBottom: 0 }}>
+							<Typography className={classes.marginTop} variant="subtitle1" color="textPrimary">
+								Available Rewards:
+							</Typography>
+						</Grid>
+						<Grid className={classes.rewardContainer} item xs={12} md={6}>
+							<Paper className={classes.statPaper}>
+								<List style={{ padding: 0, textAlign: 'center' }}>
+									<ListItem className={classes.rewardItem}>{rewards}</ListItem>
+									<ButtonGroup size="small" variant="outlined" color="primary">
+										<Button
+											className={classes.marginTop}
+											onClick={() => {
+												claimGeysers(false);
+											}}
+											variant="contained"
+										>
+											Claim
+										</Button>
+									</ButtonGroup>
+								</List>
+							</Paper>
+						</Grid>
+					</>
+				)}
+
 			<SettList />
 		</Container>
 	);
