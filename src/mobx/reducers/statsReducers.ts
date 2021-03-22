@@ -175,7 +175,7 @@ export function reduceRebase(stats: TokenRebaseStats, base: Token): any {
 		oraclePrice: base.ethValue.multipliedBy(stats.oracleRate),
 		btcPrice: base.ethValue,
 	};
-	return _.defaults(stats, info); // TODO: replace with native function
+	return _.defaults(stats, info); // TODO: implement native defaults function
 }
 
 export function formatSupply(token: Token): string {

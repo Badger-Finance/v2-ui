@@ -208,7 +208,7 @@ class ContractsStore {
 								const tokenAddress = network.tokens!.tokenMap[contract];
 								const xSushiGrowth =
 									!!newSushiRewards[tokenAddress] &&
-									_.mapValues(newSushiRewards[tokenAddress], (tokens: BigNumber) => {
+									mapValues(newSushiRewards[tokenAddress], (tokens: BigNumber) => {
 										return {
 											amount: tokens,
 											token: this.tokens[NETWORK_CONSTANTS[network.name].TOKENS.XSUSHI_ADDRESS],
@@ -220,8 +220,9 @@ class ContractsStore {
 									defaults[contract].abi,
 								);
 								vault.update(
+									// TODO: implemment native defaultsDeep
 									_.defaultsDeep(contract, defaults[contract], {
-										growth: _.compact([vault.growth, xSushiGrowth]),
+										growth: compact([vault.growth, xSushiGrowth]),
 									}),
 								);
 							});

@@ -60,7 +60,7 @@ class RebaseStore {
 			batchCall.execute(network.rebase.digg),
 			...[...graphQuery(network.rebase.digg[0].addresses[0], this.store)],
 		]).then((result: any[]) => {
-			const keyedResult = _.groupBy(result[0], 'namespace'); // TODO: write native replacement for lodash here
+			const keyedResult = _.groupBy(result[0], 'namespace'); // TODO: implement native groupBy function
 
 			if (!keyedResult.token || !keyedResult.token[0].decimals || !keyedResult.oracle[0].providerReports[0].value)
 				return;
@@ -89,7 +89,7 @@ class RebaseStore {
 		});
 	});
 	updateRebase = action((rebase: any) => {
-		_.defaultsDeep(this.rebase, rebase); // TODO: write native replacement for lodash here
+		_.defaultsDeep(this.rebase, rebase); // TODO: implement native defaultsDeep function
 	});
 
 	callRebase = action(() => {

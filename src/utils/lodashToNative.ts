@@ -74,3 +74,4 @@ function isPrototype(value) {
   const proto = (typeof Ctor === 'function' && Ctor.prototype) || Object.prototype;
   return value === proto;
 }
+

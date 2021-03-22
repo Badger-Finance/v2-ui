@@ -23,7 +23,7 @@ import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
 import BigNumber from 'bignumber.js';
 import SettList from 'components-v2/landing/SettList';
-import SettStoreV2 from 'mobx/stores/settStoreV2';
+import {compact} from "../utils/lodashToNative";
 
 const useStyles = makeStyles((theme) => ({
 	landingContainer: {
