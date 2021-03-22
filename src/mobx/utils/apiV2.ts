@@ -1,3 +1,4 @@
+import { UnfoldLess } from '@material-ui/icons';
 import { PriceSummary, ProtocolSummary, Sett } from 'mobx/model';
 
 export const getApi = () => {
@@ -16,35 +17,31 @@ const getTVLEndpoint = `${badgerApi}/value`;
 
 // api function calls
 export const listSetts = async (chain?: string): Promise<Sett[] | null> => {
-	const response = await fetch(`${listSettsEndpoint}${chain ? `?chain=${chain}` : ''}`);
-	if (!response.ok) {
-		return null;
-	}
-	return response.json();
+	return fetchData(() => fetch(`${listSettsEndpoint}${chain ? `?chain=${chain}` : ''}`));
 };
 
 export const listGeysers = async (chain?: string): Promise<Sett[] | null> => {
-	const response = await fetch(`${listGeysersEndpoint}${chain ? `?chain=${chain}` : ''}`);
-	if (!response.ok) {
-		return null;
-	}
-	return response.json();
+	return fetchData(() => fetch(`${listGeysersEndpoint}${chain ? `?chain=${chain}` : ''}`));
 };
 
 export const getTokenPrices = async (chain?: string, currency?: string): Promise<PriceSummary | null> => {
-	const response = await fetch(
+	return fetchData(() => fetch(
 		`${getPricesEndpoint}?currency=${currency ? currency : 'eth'}&chain=${chain ? chain : 'eth'}`,
-	);
-	if (!response.ok) {
-		return null;
-	}
-	return response.json();
+	));
 };
 
 export const getTotalValueLocked = async (network?: string): Promise<ProtocolSummary | null> => {
-	const response = await fetch(`${getTVLEndpoint}?chain=${network ? network : 'eth'}`);
-	if (!response.ok) {
+	return fetchData(() => fetch(`${getTVLEndpoint}?chain=${network ? network : 'eth'}`));
+};
+
+const fetchData = async <T>(request: () => Promise<Response>): Promise<T | null> => {
+	try {
+		const response = await request();
+		if (!response.ok) {
+			return null;
+		}
+		return response.json();
+	} catch {
 		return null;
 	}
-	return response.json();
-};
+}
