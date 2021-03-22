@@ -1,9 +1,7 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { observer } from 'mobx-react-lite';
 import { Grid, Container, Paper } from '@material-ui/core';
-import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import _ from 'lodash';
 import { StoreContext } from '../../mobx/store-context';
 import { BridgeForm } from './BridgeForm';
 import PageHeader from 'components-v2/common/PageHeader';

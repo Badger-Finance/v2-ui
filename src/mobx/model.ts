@@ -14,6 +14,7 @@ import { getRewards } from 'config/system/rewards';
 import Web3 from 'web3';
 
 import { ZERO, TEN } from 'config/constants';
+import {Dictionary} from "async";
 
 export class Contract {
 	store!: RootStore;
@@ -335,7 +336,7 @@ export type TokenAddressess = {
 };
 
 export type ReducedContractConfig = {
-	defaults: _.Dictionary<any>;
+	defaults: Dictionary<any>;
 	batchCall: {
 		namespace: string;
 		addresses: string[];

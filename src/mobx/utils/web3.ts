@@ -2,7 +2,6 @@ import BigNumber from 'bignumber.js';
 import Web3 from 'web3';
 import { Contract, ContractSendMethod } from 'web3-eth-contract';
 import { PromiEvent } from 'web3-core';
-import _ from 'lodash';
 import { AbiItem } from 'web3-utils';
 import { BatchConfig, TokenContract, DeployConfig, Network, BscNetwork, EthNetwork } from '../model';
 import { NETWORK_LIST } from '../../config/constants';
@@ -108,7 +107,7 @@ export const batchConfig = (namespace: string, addresses: any[], methods: any[],
 // export const getTokenAddresses = (contracts: any[], config: TokenAddressessConfig): TokenAddressess[] => {
 // 	// pull underlying and yileding token addresses
 // 	const addresses: TokenAddressess[] = [];
-// 	_.map(contracts, (contract: any) => {
+// 	contracts.forEach( (contract: any) => {
 // 		if (!!contract[config.underlying])
 // 			addresses.push({
 // 				address: contract[config.underlying],

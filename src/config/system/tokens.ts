@@ -18,7 +18,7 @@ export const getTokens = (network: string | null): TokenNetworkConfig => {
 				'0x10F461CEAC7A17F59e249954Db0784d42EfF5DB5',
 				'0xE1E33459505bB3763843a426F7Fd9933418184ae',
 			];
-			const bscTokenMap = _.zipObject(bscVaultList, bscTokenList);
+			const bscTokenMap = _.zipObject(bscVaultList, bscTokenList); // TODO: write native replacement
 			return {
 				priceEndpoints: ['https://api.thegraph.com/subgraphs/name/aizensousuke239/pancake-swap'],
 				tokenBatches: [
@@ -108,7 +108,7 @@ export const getTokens = (network: string | null): TokenNetworkConfig => {
 				'0xE86204c4eDDd2f70eE00EAd6805f917671F56c52',
 				'0x64eda51d3Ad40D56b9dFc5554E06F94e1Dd786Fd',
 			];
-			const tokenMap = _.zipObject(vaultList, tokenList);
+			const tokenMap = _.zipObject(vaultList, tokenList); // TODO: write native replacement
 			return {
 				curveTokens: {
 					contracts: [

@@ -18,7 +18,6 @@ import PageHeader from '../components-v2/common/PageHeader';
 import { digg_system } from 'config/deployments/mainnet.json';
 import { CLAIMS_SYMBOLS, NETWORK_CONSTANTS } from 'config/constants';
 import { inCurrency } from '../mobx/utils/helpers';
-import _ from 'lodash';
 import { StoreContext } from '../mobx/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
@@ -122,7 +121,7 @@ const Landing = observer(() => {
 
 	const portfolioValue = userConnected ? stats.stats.portfolio : undefined;
 
-	const rewards = _.compact(availableRewards());
+	const rewards = availableRewards().filter(Boolean);
 
 	return (
 		<Container className={classes.landingContainer}>

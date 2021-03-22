@@ -21,6 +21,7 @@ import {
 	Network,
 } from '../model';
 import { ZERO_CURRENCY } from 'config/constants';
+import {forIn} from "../../utils/lodashToNative";
 
 export const reduceTimeSinceLastCycle = (time: string): string => {
 	const timestamp = parseFloat(time) * 1000;
@@ -121,7 +122,7 @@ function calculatePortfolioStats(
 	let portfolio = new BigNumber(0);
 	const liqGrowth = new BigNumber(0);
 
-	_.forIn(vaultContracts, (vault: Vault) => {
+	forIn(vaultContracts, (vault: Vault) => {
 		if (!vault.underlyingToken || !vault.underlyingToken.ethValue) return;
 		if (!vault.holdingsValue().isNaN()) tvl = tvl.plus(vault.holdingsValue());
 		if (vault.balance.gt(0) && !vault.balanceValue().isNaN()) {
@@ -137,7 +138,7 @@ function calculatePortfolioStats(
 		}
 	});
 
-	_.forIn(geyserContracts, (geyser: Geyser) => {
+	forIn(geyserContracts, (geyser: Geyser) => {
 		if (!geyser.vault) return;
 
 		if (!geyser.vault.underlyingToken) return;
@@ -178,7 +179,7 @@ export function reduceRebase(stats: TokenRebaseStats, base: Token): any {
 		oraclePrice: base.ethValue.multipliedBy(stats.oracleRate),
 		btcPrice: base.ethValue,
 	};
-	return _.defaults(stats, info);
+	return _.defaults(stats, info); // TODO: replace with native function
 }
 
 export function formatSupply(token: Token): string {
@@ -276,7 +277,7 @@ export function formatAmount(amount: Amount, isVault = false): string {
 export function formatGeyserGrowth(geyser: Geyser, period: string): FormattedGeyserGrowth {
 	let total = new BigNumber(0);
 	let tooltip = '';
-	_.map(geyser.rewards, (growth: Growth) => {
+	geyser.rewards.map((growth: Growth) => {
 		const rewards = (growth as any)[period];
 
 		if (!!rewards.amount && !rewards.amount.isNaN() && rewards.amount.gt(0)) {

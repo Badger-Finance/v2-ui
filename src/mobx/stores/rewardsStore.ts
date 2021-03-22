@@ -6,7 +6,6 @@ import { AbiItem } from 'web3-utils';
 
 import { estimateAndSend } from '../utils/web3';
 import { RootStore } from '../store';
-import _ from 'lodash';
 import { jsonQuery } from '../utils/helpers';
 import { reduceClaims, reduceTimeSinceLastCycle } from '../reducers/statsReducers';
 import { abi as rewardsAbi } from '../../config/system/abis/BadgerTree.json';
@@ -51,12 +50,9 @@ class RewardsStore {
 
 		Promise.all(treeMethods)
 			.then((rewardsResponse: any) => {
-				this.badgerTree = _.defaults(
-					{
-						timeSinceLastCycle: reduceTimeSinceLastCycle(rewardsResponse[0]),
-					},
-					this.badgerTree,
-				);
+				if (!this.badgerTree.timeSinceLastCycle) {
+					this.badgerTree.timeSinceLastCycle = reduceTimeSinceLastCycle(rewardsResponse[0]);
+				}
 				if (network.rewards) {
 					const endpointQuery = jsonQuery(`${network.rewards.endpoint}/${checksumAddress}`);
 					endpointQuery!
@@ -67,15 +63,10 @@ class RewardsStore {
 							])
 								.then((result: any[]) => {
 									if (!proof.error) {
-										this.badgerTree = _.defaults(
-											{
-												cycle: parseInt(proof.cycle, 16),
-												claims: reduceClaims(proof, result[0][0], result[0][1]),
-												sharesPerFragment: result[1],
-												proof,
-											},
-											this.badgerTree,
-										);
+										this.badgerTree.cycle = this.badgerTree.cycle ?? parseInt(proof.cycle, 16);
+										this.badgerTree.claims = this.badgerTree.claims ?? reduceClaims(proof, result[0][0], result[0][1]);
+										this.badgerTree.sharesPerFragment = this.badgerTree.sharesPerFragment ?? result[1];
+										this.badgerTree.proof = this.badgerTree.proof ?? proof;
 									}
 								})
 								.catch((err) => console.log(err));

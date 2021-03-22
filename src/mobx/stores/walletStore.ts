@@ -4,9 +4,7 @@ import Onboard from 'bnc-onboard';
 
 import BigNumber from 'bignumber.js';
 import { onboardWalletCheck, getOnboardWallets } from '../../config/wallets';
-import { NETWORK_LIST } from '../../config/constants';
 import { getNetworkName, getNetwork } from '../../mobx/utils/web3';
-import _ from 'lodash';
 import { Network } from 'mobx/model';
 
 class WalletStore {

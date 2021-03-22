@@ -22,6 +22,7 @@ import { formatAmount } from 'mobx/reducers/statsReducers';
 import BatchCall from 'web3-batch-call';
 import { getApi } from '../utils/apiV2';
 import SettStoreV2 from './settStoreV2';
+import {compact, flatten, keyBy, mapValues, values} from "../../utils/lodashToNative";
 
 let batchCall: any = null;
 
@@ -108,20 +109,20 @@ class ContractsStore {
 
 		Promise.all([priceApi, batchCall.execute(batch)])
 			.then((result: any[]) => {
-				const cgPrices = _.mapValues(result.slice(0, 1)[0], (price: any) => ({
+				const cgPrices = mapValues(result.slice(0, 1)[0], (price: any) => ({
 					ethValue: new BigNumber(price).multipliedBy(1e18),
 				}));
-				const tokenContracts = _.keyBy(reduceBatchResult(_.flatten(result.slice(1, 2))), 'address');
-				const tokens = _.compact(
-					_.values(
-						_.defaultsDeep(
+				const tokenContracts = keyBy(reduceBatchResult(flatten(result.slice(1, 2))), 'address');
+				const tokens = compact(
+					values(
+						_.defaultsDeep( // TODO: write native version of defaultsDeep
 							cgPrices,
 							tokenContracts,
-							_.mapValues(network.tokens.symbols, (value: string, address: string) => ({
+							mapValues(network.tokens.symbols, (value: string, address: string) => ({
 								address,
 								symbol: value,
 							})),
-							_.mapValues(network.tokens.names, (value: string, address: string) => ({
+							mapValues(network.tokens.names, (value: string, address: string) => ({
 								address,
 								name: value,
 							})),
@@ -150,7 +151,7 @@ class ContractsStore {
 		const sushiBatches = network.vaults['sushiswap'];
 
 		const { defaults, batchCall: batch } = reduceContractConfig(
-			_.map(network.vaults),
+			Object.values(network.vaults),
 			connectedAddress && { connectedAddress },
 		);
 
@@ -175,7 +176,7 @@ class ContractsStore {
 					const tokenAddress = network.tokens.tokenMap[contract];
 					const xSushiGrowth =
 						!!newSushiRewards[tokenAddress] &&
-						_.mapValues(newSushiRewards[tokenAddress], (tokens: BigNumber) => {
+						mapValues(newSushiRewards[tokenAddress], (tokens: BigNumber) => {
 							return {
 								amount: tokens,
 								token: this.tokens[NETWORK_CONSTANTS[network.name].TOKENS.XSUSHI_ADDRESS],
@@ -183,8 +184,9 @@ class ContractsStore {
 						});
 					const vault = this.getOrCreateVault(contract, this.tokens[tokenAddress], defaults[contract].abi);
 					vault.update(
+						// TODO: implement native version of defaultsDeep
 						_.defaultsDeep(contract, defaults[contract], {
-							growth: _.compact([vault.growth, xSushiGrowth]),
+							growth: compact([vault.growth, xSushiGrowth]),
 						}),
 					);
 				});
@@ -193,7 +195,7 @@ class ContractsStore {
 		settList?.forEach((sett) => {
 			sett.vaultToken = Web3.utils.toChecksumAddress(sett.vaultToken);
 		});
-		const settStructure = _.keyBy(settList, 'vaultToken');
+		const settStructure = keyBy(settList ?? [], 'vaultToken');
 
 		Promise.all([batchCall.execute(batch), ...growthQueries])
 			.then((queryResult: any[]) => {
@@ -220,7 +222,7 @@ class ContractsStore {
 					);
 					const growth =
 						!!vaultGrowth[contract.address] &&
-						_.mapValues(vaultGrowth[contract.address], (tokens: BigNumber) => ({
+						mapValues(vaultGrowth[contract.address], (tokens: BigNumber) => ({
 							amount: tokens,
 							token: this.tokens[tokenAddress],
 						}));
@@ -230,8 +232,9 @@ class ContractsStore {
 					if (contract.getPricePerFullShare.gt(1))
 						contract.getPricePerFullShare = contract.getPricePerFullShare.dividedBy(1e18);
 					vault.update(
+						// TODO: implement native version of defaultsDeep
 						_.defaultsDeep(contract, defaults[contract.address], {
-							growth: _.compact([vault.growth, growth]),
+							growth: compact([vault.growth, growth]),
 						}),
 					);
 					// update vaultBalance if given
@@ -274,6 +277,7 @@ class ContractsStore {
 							this.vaults[vaultAddress],
 							defaults[contract.address].abi,
 						);
+						// TODO: implement native version of defaultsDeep
 						geyser.update(_.defaultsDeep(contract, defaults[contract.address]));
 					});
 				}

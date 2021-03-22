@@ -1,6 +1,5 @@
 import BigNumber from 'bignumber.js';
-import _ from 'lodash';
-import { NETWORK_CONSTANTS, NETWORK_LIST } from 'config/constants';
+import { NETWORK_CONSTANTS } from 'config/constants';
 import deploy from 'config/deployments/mainnet.json';
 import { batchConfig } from 'mobx/utils/web3';
 import { RootStore } from 'mobx/store';
@@ -18,10 +17,11 @@ import {
 	ReducedGraphResults,
 	Schedules,
 } from '../model';
+import {map, compact, keyBy, mapValues, valuesIn} from "../../utils/lodashToNative";
 
 export const reduceBatchResult = (result: any[]): any[] => {
 	return result.map((vault) => {
-		return _.mapValues(vault, (element: any, key: any) => {
+		return mapValues(vault, (element: any, key: any) => {
 			if (key === 'getUnlockSchedulesFor') {
 				// handle special case for multiple values
 				const newElement: any = {};
@@ -43,13 +43,13 @@ export const reduceBatchResult = (result: any[]): any[] => {
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const reduceResult = (value: any): any => {
 	if (/^-?\d+$/.test(value)) return new BigNumber(value);
-	else if (_.isString(value) && value.slice(0, 2) === '0x') return value as string;
-	else if (_.isString(value)) return value;
+	else if (typeof value === 'string' && value.slice(0, 2) === '0x') return value as string;
+	else if (typeof value === 'string') return value;
 	else return value;
 };
 
 export const reduceSushiAPIResults = (results: SushiAPIResults): any => {
-	const newSushiROIs: any = _.map(results.pairs, (pair: any) => {
+	const newSushiROIs: any[] = results.pairs.map( (pair: any) => {
 		return {
 			address: pair.address,
 			day: new BigNumber(pair.aprDay).dividedBy(100),
@@ -58,7 +58,7 @@ export const reduceSushiAPIResults = (results: SushiAPIResults): any => {
 			year: new BigNumber(pair.aprYear_without_lockup).dividedBy(100),
 		};
 	});
-	return _.keyBy(newSushiROIs, 'address');
+	return keyBy(newSushiROIs, 'address');
 };
 
 export const reduceXSushiROIResults = (ROI: number | string | BigNumber): ReducedSushiROIResults => {
@@ -138,7 +138,7 @@ export const reduceGraphResult = (graphResult: any[], prices: GraphResultPrices)
 	});
 
 	// average duplicates
-	const noDupes = _.compact(reduction).map((token: any, index: number) => {
+	const noDupes = reduction.filter(Boolean).map((token: any, index: number) => {
 		graphResult.forEach((duplicate: any, dupIndex: number) => {
 			if (dupIndex > index && duplicate.address === token.address) {
 				if (duplicate.ethValue.gt(0)) {
@@ -151,7 +151,7 @@ export const reduceGraphResult = (graphResult: any[], prices: GraphResultPrices)
 		return token;
 	});
 
-	return _.compact(noDupes);
+	return noDupes.filter(Boolean);
 };
 
 export const reduceCurveResult = (
@@ -181,9 +181,9 @@ export const reduceCurveResult = (
 };
 
 export const reduceGrowth = (graphResult: any[], periods: number[], startDate: Date): ReducedGrowth => {
-	const reduction: any[] = graphResult.map((result: any) => !!result.data && _.keyBy(result.data.vaults, 'id'));
+	const reduction: any[] = graphResult.map((result: any) => !!result.data && keyBy(result.data.vaults, 'id'));
 
-	return _.mapValues(reduction[0], (value: any, key: string) => {
+	return mapValues(reduction[0], (value: any, key: string) => {
 		const timePeriods = ['now', 'day', 'week', 'month', 'start'];
 
 		const growth: any = {};
@@ -218,12 +218,9 @@ export const reduceGrowth = (graphResult: any[], periods: number[], startDate: D
 };
 
 export const reduceGeyserSchedule = (schedules: Schedules, store: RootStore): Growth[] => {
-	// console.log(JSON.stringify(schedules))
-	// console.log(_.keysIn(schedules))
-	// console.log(schedules);
 
-	return _.compact(
-		_.map(schedules, (schedule: any[], tokenAddress: string) => {
+	return compact(
+		map(schedules, (schedule: any[], tokenAddress: string) => {
 			let locked = new BigNumber(0);
 			const timestamp = new BigNumber(new Date().getTime() / 1000.0);
 			const period = { start: timestamp, end: timestamp };
@@ -233,8 +230,8 @@ export const reduceGeyserSchedule = (schedules: Schedules, store: RootStore): Gr
 
 			// console.log(schedule)
 
-			schedule.forEach((block: any) => {
-				const [initial, endAtSec, , startTime] = _.valuesIn(block).map((val: any) => new BigNumber(val));
+			schedule.forEach((block: any) => { // TODO: why use _valuesIn() here instead of _values()?
+				const [initial, endAtSec, , startTime] = valuesIn(block).map((val: any) => new BigNumber(val));
 				let initialLocked = initial;
 				if (tokenAddress.toLowerCase() === deploy.digg_system.uFragments.toLowerCase()) {
 					initialLocked = initialLocked.dividedBy(
@@ -265,7 +262,7 @@ export const reduceGeyserSchedule = (schedules: Schedules, store: RootStore): Gr
 				month: rps.multipliedBy(60 * 60 * 24 * 30),
 				year: rpsAllTime.multipliedBy(60 * 60 * 24 * 365),
 			};
-			return _.mapValues(periods, (amount: BigNumber) => ({
+			return mapValues(periods, (amount: BigNumber) => ({
 				amount: amount,
 				token: store.contracts.tokens[tokenAddress],
 			}));
@@ -274,11 +271,11 @@ export const reduceGeyserSchedule = (schedules: Schedules, store: RootStore): Gr
 };
 
 export const reduceContractConfig = (configs: any[], payload: any = {}): ReducedContractConfig => {
-	const contracts = _.map(configs, (config: any | undefined) => {
+	const contracts = map(configs, (config: any | undefined) => {
 		if (!config) {
 			return;
 		}
-		return _.map(config.contracts, (contract: string, i: number) => {
+		return map(config.contracts, (contract: string, i: number) => {
 			const r: any = {
 				address: contract,
 				abi: config.abi,
@@ -286,14 +283,14 @@ export const reduceContractConfig = (configs: any[], payload: any = {}): Reduced
 				underlyingKey: config.underlying,
 			};
 			if (!!config.fillers)
-				_.mapValues(config.fillers, (fillers: any, key: any) => {
+				mapValues(config.fillers, (fillers: any, key: any) => {
 					r[key] = fillers[i];
 				});
 			return r;
 		});
 	});
-	const defaults = _.keyBy(_.flatten(contracts), 'address');
-	const batchCall = _.map(configs, (config: any) => {
+	const defaults = keyBy(contracts.flat(), 'address');
+	const batchCall = map(configs, (config: any) => {
 		return batchConfig(
 			'namespace',
 			config.contracts,
@@ -305,8 +302,8 @@ export const reduceContractConfig = (configs: any[], payload: any = {}): Reduced
 };
 
 export const reduceMethodConfig = (methods: any[], payload: MethodConfigPayload): { args?: any[]; name: any }[] => {
-	const reduced = _.map(methods, (method: any) => {
-		const args = _.map(method.args, (arg: string) => {
+	const reduced = map(methods, (method: any) => {
+		const args = map(method.args, (arg: string) => {
 			const brackets = /\{(.*?)\}/; // FIXME: has a redundant escape character for \{ and \}
 			const matches = brackets.exec(arg);
 			if (!!matches && !!payload[matches[1]]) {
@@ -318,7 +315,7 @@ export const reduceMethodConfig = (methods: any[], payload: MethodConfigPayload)
 			}
 		});
 		// assume we shouldn't call the method if payload doesn't include correct variables
-		if (args.length > _.compact(args).length) {
+		if (args.length > compact(args).length) {
 			return false;
 		}
 
@@ -328,5 +325,5 @@ export const reduceMethodConfig = (methods: any[], payload: MethodConfigPayload)
 		};
 	});
 
-	return _.compact(reduced);
+	return compact(reduced);
 };
