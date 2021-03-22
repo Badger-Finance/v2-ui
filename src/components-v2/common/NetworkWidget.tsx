@@ -5,7 +5,6 @@ import { Button, Popper, Paper, List, ListItem, makeStyles, Typography } from '@
 import { StoreContext } from 'mobx/store-context';
 import { NETWORK_LIST } from 'config/constants';
 
-
 const useStyles = makeStyles((theme) => ({
 	network: {
 		marginRight: theme.spacing(1),
