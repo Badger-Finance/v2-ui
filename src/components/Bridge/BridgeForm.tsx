@@ -61,12 +61,20 @@ const a11yProps = (index: number) => {
 	};
 };
 
+const useStyles = makeStyles((theme) => {
+        padded: {
+                padding: '2rem 2rem',
+        },
+        select: { height: '3rem', overflow: 'hidden', margin: '.3rem 0 0 .6rem' },
+});
+
 // Gateways expects nonce as a bytes32 hex string.
 const formatNonceBytes32 = (nonce: number): string => {
 	return ethers.utils.hexZeroPad(`0x${nonce.toString(16)}`, 32);
 };
 
 export const BridgeForm = observer((props: any) => {
+        const classes = useStyles();
 	const store = useContext(StoreContext);
 	const classes = props.classes;
 	const spacer = <div className={classes.before} />;
@@ -431,7 +439,7 @@ export const BridgeForm = observer((props: any) => {
 					variant="outlined"
 					onChange={handleChange('token')}
 					value={values.token}
-					style={{ height: '3rem', overflow: 'hidden', margin: '.3rem 0 0 .6rem' }}
+					style={classes.select}
 					inputProps={{
 						name: 'token',
 						id: 'token-select',
@@ -522,7 +530,7 @@ export const BridgeForm = observer((props: any) => {
 
 	if (error) {
 		return (
-			<Grid container alignItems={'center'} style={{ padding: '2rem 2rem' }}>
+			<Grid container alignItems={'center'} style={classes.padded}>
 				Error: {error.message}
 			</Grid>
 		);
@@ -530,7 +538,7 @@ export const BridgeForm = observer((props: any) => {
 
 	if (loading) {
 		return (
-			<Grid container alignItems={'center'} style={{ padding: '2rem 2rem' }}>
+			<Grid container alignItems={'center'} style={classes.padded}>
 				Loading...
 			</Grid>
 		);
@@ -538,7 +546,7 @@ export const BridgeForm = observer((props: any) => {
 
 	if (status != Status.IDLE) {
 		return (
-			<Grid container alignItems={'center'} style={{ padding: '2rem 2rem' }}>
+			<Grid container alignItems={'center'} style={classes.padded}>
 				Transaction in progress...
 			</Grid>
 		);
