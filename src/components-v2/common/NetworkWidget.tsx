@@ -45,7 +45,7 @@ const NetworkWidget = observer(() => {
 			<Button
 				size="small"
 				variant="outlined"
-				endIcon={<ArrowDropDown />}
+				endIcon={wallet.connectedAddress ? <> </> : <ArrowDropDown />}
 				onClick={handleClick}
 				className={classes.selectButton}
 			>
