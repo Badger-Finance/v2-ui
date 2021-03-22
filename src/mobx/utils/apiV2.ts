@@ -1,4 +1,3 @@
-import { UnfoldLess } from '@material-ui/icons';
 import { PriceSummary, ProtocolSummary, Sett } from 'mobx/model';
 
 export const getApi = () => {
@@ -25,9 +24,9 @@ export const listGeysers = async (chain?: string): Promise<Sett[] | null> => {
 };
 
 export const getTokenPrices = async (chain?: string, currency?: string): Promise<PriceSummary | null> => {
-	return fetchData(() => fetch(
-		`${getPricesEndpoint}?currency=${currency ? currency : 'eth'}&chain=${chain ? chain : 'eth'}`,
-	));
+	return fetchData(() =>
+		fetch(`${getPricesEndpoint}?currency=${currency ? currency : 'eth'}&chain=${chain ? chain : 'eth'}`),
+	);
 };
 
 export const getTotalValueLocked = async (network?: string): Promise<ProtocolSummary | null> => {
@@ -44,4 +43,4 @@ const fetchData = async <T>(request: () => Promise<Response>): Promise<T | null>
 	} catch {
 		return null;
 	}
-}
+};
