@@ -160,6 +160,10 @@ class BridgeStore {
                                         ERC20.abi as AbiItem[],
                                         NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.WBTC_ADDRESS);
                                 this.gateway = new web3.eth.Contract(BTC_GATEWAY, RENVM_GATEWAY_ADDRESS);
+                                Promise.all([
+                                        this._getFees(),
+                                        this._getBTCNetworkFees(),
+                                ]);
                                 return;
                       });
 
@@ -242,10 +246,6 @@ class BridgeStore {
                                 this._openTx(newValue, true);
 
                         });
-
-                // One time data load.
-		this._getFees(),
-		this._getBTCNetworkFees(),
 
                 this.updateTimer = setTimeout(() => {
                         const { connectedAddress } = this.store.wallet;

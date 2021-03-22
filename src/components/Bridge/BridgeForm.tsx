@@ -301,7 +301,7 @@ export const BridgeForm = observer((props: any) => {
 					? NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.RENBTC_ADDRESS
 					: NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.WBTC_ADDRESS,
 			symbol: token,
-			totalSupply: amountSats.toString(),
+			totalSupply: amountSats,
 		};
 
 		const allowance: number = await new Promise((resolve, reject) => {
@@ -527,13 +527,25 @@ export const BridgeForm = observer((props: any) => {
 
         if (error) {
                 return (
-                        <Grid container>Error: {error.message}</Grid>
+                        <Grid container alignItems={'center'} style={{ padding: '2rem 2rem'}}>
+                                Error: {error.message}
+                        </Grid>
                 );
         }
 
         if (loading) {
                 return (
-                        <Grid container>Loading...</Grid>
+                        <Grid container alignItems={'center'} style={{ padding: '2rem 2rem'}}>
+                                Loading...
+                        </Grid>
+                );
+        }
+
+        if (status != Status.IDLE) {
+                return (
+                        <Grid container alignItems={'center'} style={{ padding: '2rem 2rem'}}>
+                                Transaction in progress...
+                        </Grid>
                 );
         }
 
