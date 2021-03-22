@@ -210,7 +210,6 @@ class BridgeStore {
                                 if (!provider) return;
                                 if (_.isEqual(oldValue, newValue)) return;
                                 if (newValue === null) return;
-                                console.log('set current tx ->', newValue, this.status);
 
                                 // Each lifecycle method updates the current tx after it finishes.
                                 // We handle all updates async here.
@@ -296,7 +295,6 @@ class BridgeStore {
                                         // Check if the first tx is uncommitted or incomplete and set current tx.
                                         const tx = transactions[0];
                                         if (!_isTxComplete(tx)) {
-                                                console.log('fetch setting current tx', tx);
                                                 this.current = tx;
                                         }
 
@@ -358,7 +356,6 @@ class BridgeStore {
                         await retry(async (context) => {
                                 await ref.update(txData);
                                 // Remove ref after committing to db.
-                                console.log("UPDATE TX SETTING CURRENT");
                                 this.current = txData as RenVMTransaction;
                         }, defaultRetryOptions);
                 } catch (err) {
