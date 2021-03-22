@@ -43,111 +43,115 @@ export const ReleaseForm = (props: any) => {
 		}
 	}, [values.btcAddr]);
 
-	return (<>
-		<Grid container spacing={2} style={{ padding: '.6rem 2rem' }}>
-			<Grid item xs={12} style={{ marginBottom: '.2rem' }}>
-				<Typography variant="body1" color='textSecondary' style={{ textAlign: 'right' }} >
-					Balance: {values.token === 'WBTC' ? values.wbtcBalance : values.renbtcBalance}
-				</Typography>
-
-			</Grid>
-			<Grid item xs={12}>
-
-				<TextField
-					variant="outlined"
-					size="medium"
-					value={values.burnAmount}
-					disabled={!!values.connectedAddress === false}
-
-					placeholder="0.00"
-					onChange={handleChange('burnAmount')}
-					InputProps={{
-						style: { fontSize: '3rem', color: getSelectedTokenBalance() < values.burnAmount ? 'red' : 'inherit' },
-						endAdornment: [
-							<Button size="small" className={classes.btnMax} variant="outlined" onClick={(e) => {
-								if (values.token === 'renBTC')
-									setAmount(values.renbtcBalance, 'renBTC')(e)
-								else
-									setAmount(values.wbtcBalance, 'WBTC')(e)
-							}}>
-								max
-						</Button>,
-							<div>{assetSelect()}</div>
-						]
-					}}
-				/>
-
-
-			</Grid>
-			<Grid item xs={12}>
-				<ArrowDownward />
-			</Grid>
-			<Grid item xs={12}>
-				<TextField
-					variant="outlined"
-					size="medium"
-					value={values.btcAddr}
-					disabled={!!values.connectedAddress === false}
-					fullWidth={true}
-					error={!validAddress}
-
-					placeholder="Your BTC address"
-					onChange={handleChange('btcAddr')}
-				/>
-			</Grid>
-		</Grid>
-		<Grid container spacing={2} style={{ padding: '1rem 0 0' }}>
-
-			<Grid item xs={12} className={classes.summaryWrapper}>
-
-				<div className={classes.summaryRow}>
-					<Typography variant="subtitle1">You will receive: </Typography>
-					<Typography variant="body1">
-						<div style={{ display: 'flex', alignItems: 'center' }}>
-							<img src={BTCLogo} className={classes.logo2} />
-							{values.receiveAmount.toFixed(8)} BTC
-							</div>
+	return (
+		<>
+			<Grid container spacing={2} style={{ padding: '.6rem 2rem' }}>
+				<Grid item xs={12} style={{ marginBottom: '.2rem' }}>
+					<Typography variant="body1" color="textSecondary" style={{ textAlign: 'right' }}>
+						Balance: {values.token === 'WBTC' ? values.wbtcBalance : values.renbtcBalance}
 					</Typography>
-				</div>
-				{values.token === 'WBTC' &&
-					<div className={classes.summaryRow}>
-						<Typography variant="subtitle1">Price impact: </Typography>
-						<Typography variant="body1">
-							{Math.abs(values.estimatedSlippage * 100).toFixed(2) + '%'}
-						</Typography>
-					</div>}
-
-
-
+				</Grid>
+				<Grid item xs={12}>
+					<TextField
+						variant="outlined"
+						size="medium"
+						value={values.burnAmount}
+						disabled={!!values.connectedAddress === false}
+						placeholder="0.00"
+						onChange={handleChange('burnAmount')}
+						InputProps={{
+							style: {
+								fontSize: '3rem',
+								color: getSelectedTokenBalance() < values.burnAmount ? 'red' : 'inherit',
+							},
+							endAdornment: [
+								<Button
+									size="small"
+									className={classes.btnMax}
+									variant="outlined"
+									onClick={(e) => {
+										if (values.token === 'renBTC') setAmount(values.renbtcBalance, 'renBTC')(e);
+										else setAmount(values.wbtcBalance, 'WBTC')(e);
+									}}
+								>
+									max
+								</Button>,
+								<div>{assetSelect()}</div>,
+							],
+						}}
+					/>
+				</Grid>
+				<Grid item xs={12}>
+					<ArrowDownward />
+				</Grid>
+				<Grid item xs={12}>
+					<TextField
+						variant="outlined"
+						size="medium"
+						value={values.btcAddr}
+						disabled={!!values.connectedAddress === false}
+						fullWidth={true}
+						error={!validAddress}
+						placeholder="Your BTC address"
+						onChange={handleChange('btcAddr')}
+					/>
+				</Grid>
 			</Grid>
-		</Grid>
-		<Grid container spacing={2} alignItems={'center'} style={{ padding: '.6rem 2rem' }}>
-			<Grid item xs={12}>
-				{!!values.connectedAddress ? (
-					<Button
-						variant="contained"
-						color="primary"
-						fullWidth
-						className={classes.button}
-						size="large"
-						onClick={next}
-						disabled={
-							(values.burnAmount as number) > MIN_AMOUNT &&
+			<Grid container spacing={2} style={{ padding: '1rem 0 0' }}>
+				<Grid item xs={12} className={classes.summaryWrapper}>
+					<div className={classes.summaryRow}>
+						<Typography variant="subtitle1">You will receive: </Typography>
+						<Typography variant="body1">
+							<div style={{ display: 'flex', alignItems: 'center' }}>
+								<img src={BTCLogo} className={classes.logo2} />
+								{values.receiveAmount.toFixed(8)} BTC
+							</div>
+						</Typography>
+					</div>
+					{values.token === 'WBTC' && (
+						<div className={classes.summaryRow}>
+							<Typography variant="subtitle1">Price impact: </Typography>
+							<Typography variant="body1">
+								{Math.abs(values.estimatedSlippage * 100).toFixed(2) + '%'}
+							</Typography>
+						</div>
+					)}
+				</Grid>
+			</Grid>
+			<Grid container spacing={2} alignItems={'center'} style={{ padding: '.6rem 2rem' }}>
+				<Grid item xs={12}>
+					{!!values.connectedAddress ? (
+						<Button
+							variant="contained"
+							color="primary"
+							fullWidth
+							className={classes.button}
+							size="large"
+							onClick={next}
+							disabled={
+								(values.burnAmount as number) > MIN_AMOUNT &&
 								getSelectedTokenBalance() >= values.burnAmount &&
 								validAddress
-								? false
-								: true
-						}
-					>
-						Next
-					</Button>
-				) : (
-					<Button fullWidth size="large" variant="contained" color="primary" className={classes.button} onClick={connectWallet}>
-						Connect
-					</Button>
-				)}
+									? false
+									: true
+							}
+						>
+							Next
+						</Button>
+					) : (
+						<Button
+							fullWidth
+							size="large"
+							variant="contained"
+							color="primary"
+							className={classes.button}
+							onClick={connectWallet}
+						>
+							Connect
+						</Button>
+					)}
+				</Grid>
 			</Grid>
-		</Grid>
-	</>
+		</>
 	);
 };

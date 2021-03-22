@@ -121,7 +121,6 @@ const useStyles = makeStyles((theme) => ({
 		backgroundColor: theme.palette.background.paper,
 	},
 	tabHeader: { background: 'rgba(0,0,0,.2)' },
-
 }));
 export const Bridge = observer(() => {
 	const store = useContext(StoreContext);

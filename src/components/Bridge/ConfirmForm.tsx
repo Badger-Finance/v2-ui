@@ -80,10 +80,7 @@ export const ConfirmForm = (props: any) => {
 				<div className={classes.itemContainer}>
 					<div>{values.tabValue == 0 ? 'Minting' : 'Releasing'}</div>
 					<div className={classes.receiveAmount}>
-						<img
-							src={values.token === 'WBTC' ? WBTCLogo : renBTCLogo}
-							className={classes.logo2}
-						/>
+						<img src={values.token === 'WBTC' ? WBTCLogo : renBTCLogo} className={classes.logo2} />
 						<div>
 							<div>{values.token}</div>
 						</div>

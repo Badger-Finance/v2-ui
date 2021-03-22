@@ -3,11 +3,7 @@ import BigNumber from 'bignumber.js';
 import { ethers } from 'ethers';
 import PropTypes from 'prop-types';
 import GatewayJS from '@renproject/gateway';
-import {
-        EthArgs,
-        LockAndMintParamsSimple,
-        BurnAndReleaseParamsSimple,
-} from '@renproject/interfaces';
+import { EthArgs, LockAndMintParamsSimple, BurnAndReleaseParamsSimple } from '@renproject/interfaces';
 import Web3 from 'web3';
 import async, { any } from 'async';
 import { observer } from 'mobx-react-lite';
@@ -67,8 +63,8 @@ const a11yProps = (index: number) => {
 
 // Gateways expects nonce as a bytes32 hex string.
 const formatNonceBytes32 = (nonce: number): string => {
-        return ethers.utils.hexZeroPad(`0x${nonce.toString(16)}`, 32);
-}
+	return ethers.utils.hexZeroPad(`0x${nonce.toString(16)}`, 32);
+};
 
 export const BridgeForm = observer((props: any) => {
 	const store = useContext(StoreContext);
@@ -80,24 +76,24 @@ export const BridgeForm = observer((props: any) => {
 		contracts: { getAllowance, increaseAllowance },
 		uiState: { queueNotification, txStatus, setTxStatus },
 		bridge: {
-                        status,
-                        begin,
-                        nextNonce,
-                        loading,
-                        error,
+			status,
+			begin,
+			nextNonce,
+			loading,
+			error,
 
-                        badgerBurnFee,
-                        badgerMintFee,
-                        renvmBurnFee,
-                        renvmMintFee,
-                        lockNetworkFee,
-                        releaseNetworkFee,
+			badgerBurnFee,
+			badgerMintFee,
+			renvmBurnFee,
+			renvmMintFee,
+			lockNetworkFee,
+			releaseNetworkFee,
 
-                        renbtcBalance,
-                        wbtcBalance,
+			renbtcBalance,
+			wbtcBalance,
 
-                        shortAddr,
-                },
+			shortAddr,
+		},
 	} = store;
 
 	// Initial state value that should be reset to initial values on reset.
@@ -131,7 +127,7 @@ export const BridgeForm = observer((props: any) => {
 		renFee,
 		badgerFee,
 	} = states;
-        // TODO: Refactor values to pull directly from mobx store for values in store.
+	// TODO: Refactor values to pull directly from mobx store for values in store.
 	const values = {
 		token,
 		amount,
@@ -220,7 +216,7 @@ export const BridgeForm = observer((props: any) => {
 		}
 	}, [connectedAddress]);
 
-        // TODO: Can refactor most of these methods below into the store as well.
+	// TODO: Can refactor most of these methods below into the store as well.
 	const deposit = async () => {
 		const amountSats = new BigNumber(amount).multipliedBy(10 ** 8); // Convert to Satoshis
 		let maxSlippage = 0;
@@ -248,18 +244,18 @@ export const BridgeForm = observer((props: any) => {
 			},
 		];
 
-                const params: LockAndMintParamsSimple = {
-                        sendToken: GatewayJS.Tokens.BTC.Btc2Eth,
-                        suggestedAmount: amountSats.toString(),
-                        sendTo: bridge_system["adapter"],
-                        nonce: formatNonceBytes32(nextNonce),
-                        contractFn: 'mint',
-                        contractParams,
-                };
+		const params: LockAndMintParamsSimple = {
+			sendToken: GatewayJS.Tokens.BTC.Btc2Eth,
+			suggestedAmount: amountSats.toString(),
+			sendTo: bridge_system['adapter'],
+			nonce: formatNonceBytes32(nextNonce),
+			contractFn: 'mint',
+			contractParams,
+		};
 
-                await begin({ params } as RenVMTransaction, () => {
-                        resetState();
-                });
+		await begin({ params } as RenVMTransaction, () => {
+			resetState();
+		});
 	};
 
 	const approveAndWithdraw = async () => {
@@ -305,13 +301,13 @@ export const BridgeForm = observer((props: any) => {
 		};
 
 		const allowance: number = await new Promise((resolve, reject) => {
-			getAllowance(tokenParam, bridge_system["adapter"], (err: any, result: number) => {
+			getAllowance(tokenParam, bridge_system['adapter'], (err: any, result: number) => {
 				if (err) reject(err);
 				resolve(result);
 			});
 		});
 		if (amountSats.toNumber() > allowance) {
-			methodSeries.push((callback: any) => increaseAllowance(tokenParam, bridge_system["adapter"], callback));
+			methodSeries.push((callback: any) => increaseAllowance(tokenParam, bridge_system['adapter'], callback));
 		}
 		methodSeries.push(() => withdraw(params));
 		async.series(methodSeries, (err: any, results: any) => {
@@ -320,17 +316,17 @@ export const BridgeForm = observer((props: any) => {
 	};
 
 	const withdraw = async (contractParams: EthArgs) => {
-                const params: BurnAndReleaseParamsSimple = {
-                        sendToken: GatewayJS.Tokens.BTC.Eth2Btc,
-                        sendTo: bridge_system["adapter"],
-                        nonce: formatNonceBytes32(nextNonce),
-                        contractFn: 'burn',
-                        contractParams,
-                };
+		const params: BurnAndReleaseParamsSimple = {
+			sendToken: GatewayJS.Tokens.BTC.Eth2Btc,
+			sendTo: bridge_system['adapter'],
+			nonce: formatNonceBytes32(nextNonce),
+			contractFn: 'burn',
+			contractParams,
+		};
 
-                await begin({ params } as RenVMTransaction, () => {
-                        resetState();
-                });
+		await begin({ params } as RenVMTransaction, () => {
+			resetState();
+		});
 	};
 
 	const getEstimatedSlippage = async (amount: number, name: string) => {
@@ -339,7 +335,7 @@ export const BridgeForm = observer((props: any) => {
 		}
 
 		try {
-                        const web3 = new Web3(provider);
+			const web3 = new Web3(provider);
 			const curve = new web3.eth.Contract(CURVE_EXCHANGE, CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS);
 			const amountAfterFeesInSats = new BigNumber(amount.toFixed(8)).multipliedBy(10 ** 8);
 			let swapResult;
@@ -422,7 +418,6 @@ export const BridgeForm = observer((props: any) => {
 				indicatorColor="primary"
 				textColor="primary"
 				className={classes.tabHeader}
-
 			>
 				<Tab label="Mint" {...a11yProps(0)} />
 				<Tab label="Release" {...a11yProps(1)} />
@@ -525,31 +520,29 @@ export const BridgeForm = observer((props: any) => {
 		}
 	};
 
-        if (error) {
-                return (
-                        <Grid container alignItems={'center'} style={{ padding: '2rem 2rem'}}>
-                                Error: {error.message}
-                        </Grid>
-                );
-        }
+	if (error) {
+		return (
+			<Grid container alignItems={'center'} style={{ padding: '2rem 2rem' }}>
+				Error: {error.message}
+			</Grid>
+		);
+	}
 
-        if (loading) {
-                return (
-                        <Grid container alignItems={'center'} style={{ padding: '2rem 2rem'}}>
-                                Loading...
-                        </Grid>
-                );
-        }
+	if (loading) {
+		return (
+			<Grid container alignItems={'center'} style={{ padding: '2rem 2rem' }}>
+				Loading...
+			</Grid>
+		);
+	}
 
-        if (status != Status.IDLE) {
-                return (
-                        <Grid container alignItems={'center'} style={{ padding: '2rem 2rem'}}>
-                                Transaction in progress...
-                        </Grid>
-                );
-        }
+	if (status != Status.IDLE) {
+		return (
+			<Grid container alignItems={'center'} style={{ padding: '2rem 2rem' }}>
+				Transaction in progress...
+			</Grid>
+		);
+	}
 
-	return (
-		<Grid container>{pageSwitcher()}</Grid>
-	);
+	return <Grid container>{pageSwitcher()}</Grid>;
 });
