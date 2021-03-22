@@ -3,6 +3,8 @@ import { Grid, Button, TextField, Typography } from '@material-ui/core';
 import { Token } from 'components/IbBTC/Tokens';
 import { ArrowDownward } from '@material-ui/icons';
 
+import { MIN_AMOUNT } from './constants';
+
 export const MintForm = (props: any) => {
 	const { classes, handleChange, nextStep, values, assetSelect, itemContainer, connectWallet } = props;
 
@@ -81,7 +83,7 @@ export const MintForm = (props: any) => {
 						color="primary"
 						className={classes.button}
 						onClick={next}
-						disabled={(values.amount as number) > values.MIN_AMOUNT ? false : true}
+						disabled={(values.amount as number) > MIN_AMOUNT ? false : true}
 						size="large">
 						Next
 					</Button>

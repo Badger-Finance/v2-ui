@@ -49,7 +49,6 @@ class WalletStore {
 			ethBalance: new BigNumber(0),
 			network: this.network,
 			onboard: Onboard(onboardOptions),
-			network: this.network
 		});
 
 		this.getCurrentBlock();

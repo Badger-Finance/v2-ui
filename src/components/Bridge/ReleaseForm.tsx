@@ -4,6 +4,9 @@ import validate from 'bitcoin-address-validation';
 import { Token } from 'components/IbBTC/Tokens';
 import { ArrowDownward } from '@material-ui/icons';
 
+import BTCLogo from 'assets/icons/btc.svg';
+import { MIN_AMOUNT } from './constants';
+
 export const ReleaseForm = (props: any) => {
 	const {
 		classes,
@@ -101,7 +104,7 @@ export const ReleaseForm = (props: any) => {
 					<Typography variant="subtitle1">You will receive: </Typography>
 					<Typography variant="body1">
 						<div style={{ display: 'flex', alignItems: 'center' }}>
-							<img src={values.BTCLogo} className={classes.logo2} />
+							<img src={BTCLogo} className={classes.logo2} />
 							{values.receiveAmount.toFixed(8)} BTC
 							</div>
 					</Typography>
@@ -129,7 +132,7 @@ export const ReleaseForm = (props: any) => {
 						size="large"
 						onClick={next}
 						disabled={
-							(values.burnAmount as number) > values.MIN_AMOUNT &&
+							(values.burnAmount as number) > MIN_AMOUNT &&
 								getSelectedTokenBalance() >= values.burnAmount &&
 								validAddress
 								? false

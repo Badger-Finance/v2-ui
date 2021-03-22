@@ -6,7 +6,7 @@ import AirdropStore from './stores/airdropStore';
 import RebaseStore from './stores/rebaseStore';
 import RewardsStore from './stores/rewardsStore';
 import IbBTCStore from './stores/ibBTCStore';
-import TransactionsStore from './stores/transactionsStore';
+import BridgeStore from './stores/bridgeStore';
 import SettStoreV2 from './stores/settStoreV2';
 import { NETWORK_LIST } from '../config/constants';
 
@@ -20,7 +20,7 @@ export class RootStore {
 	public rewards: RewardsStore;
 	public ibBTCStore: IbBTCStore;
 	public setts: SettStoreV2;
-	public transactions: TransactionsStore;
+	public bridge: BridgeStore;
 
 	constructor() {
 		this.router = new RouterStore<RootStore>(this);
@@ -31,8 +31,8 @@ export class RootStore {
 		this.rewards = new RewardsStore(this);
 		this.uiState = new UiState(this);
 		this.ibBTCStore = new IbBTCStore(this);
-		// RenVM transactions store.
-		this.transactions = new TransactionsStore(this);
+		// RenVM bridge store.
+		this.bridge = new BridgeStore(this);
 		this.setts = new SettStoreV2(this);
 	}
 
@@ -46,7 +46,6 @@ export class RootStore {
 		this.uiState.reduceAirdrops();
 		this.uiState.reduceTreeRewards();
 		this.ibBTCStore.init();
-		// RenVM transactions store.
 		if (this.wallet.network.name === NETWORK_LIST.ETH) this.setts.loadGeysers(NETWORK_LIST.ETH);
 		else this.setts.loadSetts(this.wallet.network.name);
 		this.setts.loadAssets(this.wallet.network.name);

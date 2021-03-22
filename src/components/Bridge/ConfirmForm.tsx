@@ -2,8 +2,12 @@ import React, { useState } from 'react';
 import { Grid, Button, Checkbox, Tooltip } from '@material-ui/core';
 import InfoIcon from '@material-ui/icons/Info';
 
+import { shortenAddress } from 'utils/componentHelpers';
+import renBTCLogo from 'assets/icons/renBTC.svg';
+import WBTCLogo from 'assets/icons/WBTC.svg';
+
 export const ConfirmForm = (props: any) => {
-	const { classes, confirmStep, previousStep, values, shortenAddress, itemContainer } = props;
+	const { classes, confirmStep, previousStep, values, itemContainer } = props;
 	const [agreement, setAgreement] = useState({
 		ethRequired: false,
 		userError: false,
@@ -22,7 +26,7 @@ export const ConfirmForm = (props: any) => {
 		if (values.tabValue == 1) {
 			return values.BTCLogo;
 		} else {
-			return values.token === 'WBTC' ? values.WBTCLogo : values.renBTCLogo;
+			return values.token === 'WBTC' ? WBTCLogo : renBTCLogo;
 		}
 	};
 
@@ -53,7 +57,7 @@ export const ConfirmForm = (props: any) => {
 
 	return (
 		<Grid container alignItems={'center'}>
-			<Grid item xs={4}>
+			<Grid item xs={4} style={{ padding: '1rem 0rem' }}>
 				<Button variant="contained" size={'small'} color="primary" onClick={back}>
 					BACK
 				</Button>
@@ -77,7 +81,7 @@ export const ConfirmForm = (props: any) => {
 					<div>{values.tabValue == 0 ? 'Minting' : 'Releasing'}</div>
 					<div className={classes.receiveAmount}>
 						<img
-							src={values.token === 'WBTC' ? values.WBTCLogo : values.renBTCLogo}
+							src={values.token === 'WBTC' ? WBTCLogo : renBTCLogo}
 							className={classes.logo2}
 						/>
 						<div>
