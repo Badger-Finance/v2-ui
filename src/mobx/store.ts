@@ -40,7 +40,7 @@ export class RootStore {
 
 	async walletRefresh(): Promise<void> {
 		const chain = this.wallet.network.name;
-		const refreshData = [this.setts.loadAssets(chain), this.setts.loadPrices(chain)];
+		const refreshData = [this.setts.loadAssets(chain), this.setts.loadPrices(chain), this.wallet.getGasPrice()];
 		if (chain === NETWORK_LIST.ETH) {
 			refreshData.push(this.setts.loadGeysers(chain));
 			refreshData.push(this.rebase.fetchRebaseStats());
