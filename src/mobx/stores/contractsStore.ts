@@ -168,14 +168,13 @@ class ContractsStore {
 							}));
 
 						// update ppfs from ppfs api
-            // digg ppfs is handled differently than other setts
-            // so we set this to 1
+						// digg ppfs is handled differently than other setts
+						// so we set this to 1
 						contract.getPricePerFullShare =
 							settStructure[vault.address] &&
 							vault.address !== getNetworkDeploy(NETWORK_LIST.ETH)!.sett_system.vaults['native.digg']
 								? new BigNumber(settStructure[vault.address].ppfs)
 								: new BigNumber(1);
-
 
 						vault.update(
 							_.defaultsDeep(contract, defaults[contract.address], {
