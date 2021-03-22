@@ -13,7 +13,6 @@ import { abi as rewardsAbi } from '../../config/system/abis/BadgerTree.json';
 import { abi as diggAbi } from '../../config/system/abis/UFragments.json';
 
 import { badgerTree, digg_system } from '../../config/deployments/mainnet.json';
-import { NETWORK_LIST } from 'config/constants';
 
 class RewardsStore {
 	private store!: RootStore;
