@@ -23,7 +23,8 @@ import { StoreContext } from '../mobx/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
 import BigNumber from 'bignumber.js';
-import SettListV2 from 'components-v2/landing/SettListV2';
+import SettList from 'components-v2/landing/SettList';
+import SettStoreV2 from 'mobx/stores/settStoreV2';
 
 const useStyles = makeStyles((theme) => ({
 	landingContainer: {
@@ -77,11 +78,12 @@ const Landing = observer(() => {
 	const store = useContext(StoreContext);
 
 	const {
-		wallet: { connectedAddress, network, isCached },
-		setts: { assets, priceData, badger },
+		wallet: { connectedAddress, network },
 		rewards: { claimGeysers, badgerTree },
 		uiState: { stats, currency },
 	} = store;
+	const { setts } = store;
+	const { protocolSummary } = setts;
 	const userConnected = !!connectedAddress;
 
 	const availableRewards = () => {
@@ -112,18 +114,10 @@ const Landing = observer(() => {
 		});
 	};
 
-	// force convert tvl due to zero typing on store (remove once typed)
-	const totalValueLocked: BigNumber | undefined =
-		!!assets && assets.totalValue >= 0 ? new BigNumber(assets.totalValue) : undefined;
-
-	// force undefined on $0 badger, value starts at 0 vs. undefined
-	// const badgerPrice: number | undefined =
-	// 	priceData && priceData[network.deploy.token] ? priceData[network.deploy.token] : undefined;
-	const badgerPrice: number | undefined = badger ? badger : undefined;
-	const badgerDisplayPrice: BigNumber | undefined = badgerPrice ? new BigNumber(badgerPrice) : undefined;
-
+	const totalValueLocked = protocolSummary ? new BigNumber(protocolSummary.totalValue) : undefined;
+	const badgerPrice = network.deploy ? setts.getPrice(network.deploy.token) : undefined;
+	const badgerPriceDisplay = badgerPrice ? new BigNumber(badgerPrice) : undefined;
 	const portfolioValue = userConnected ? stats.stats.portfolio : undefined;
-
 	const rewards = _.compact(availableRewards());
 
 	return (
@@ -157,45 +151,44 @@ const Landing = observer(() => {
 					</Grid>
 				)}
 				<Grid item xs={12} md={userConnected ? 4 : 6}>
-					<CurrencyInfoCard
-						title="Badger Price"
-						value={badgerDisplayPrice}
-						currency={currency}
-						isUsd={true}
-					/>
+					<CurrencyInfoCard title="Badger Price" value={badgerPriceDisplay} currency={currency} />
 				</Grid>
 			</Grid>
 
 			{/* Landing Claim Functionality */}
-			{!!connectedAddress && badgerTree && rewards.length > 0 && badgerTree.claims.length > 0 && (
-				<>
-					<Grid item xs={12} style={{ textAlign: 'center', paddingBottom: 0 }}>
-						<Typography className={classes.marginTop} variant="subtitle1" color="textPrimary">
-							Available Rewards:
-						</Typography>
-					</Grid>
-					<Grid className={classes.rewardContainer} item xs={12} md={6}>
-						<Paper className={classes.statPaper}>
-							<List style={{ padding: 0, textAlign: 'center' }}>
-								<ListItem className={classes.rewardItem}>{rewards}</ListItem>
-								<ButtonGroup size="small" variant="outlined" color="primary">
-									<Button
-										className={classes.marginTop}
-										onClick={() => {
-											claimGeysers(false);
-										}}
-										variant="contained"
-									>
-										Claim
-									</Button>
-								</ButtonGroup>
-							</List>
-						</Paper>
-					</Grid>
-				</>
-			)}
+			{!!network.rewards &&
+				!!connectedAddress &&
+				badgerTree &&
+				rewards.length > 0 &&
+				badgerTree.claims.length > 0 && (
+					<>
+						<Grid item xs={12} style={{ textAlign: 'center', paddingBottom: 0 }}>
+							<Typography className={classes.marginTop} variant="subtitle1" color="textPrimary">
+								Available Rewards:
+							</Typography>
+						</Grid>
+						<Grid className={classes.rewardContainer} item xs={12} md={6}>
+							<Paper className={classes.statPaper}>
+								<List style={{ padding: 0, textAlign: 'center' }}>
+									<ListItem className={classes.rewardItem}>{rewards}</ListItem>
+									<ButtonGroup size="small" variant="outlined" color="primary">
+										<Button
+											className={classes.marginTop}
+											onClick={() => {
+												claimGeysers(false);
+											}}
+											variant="contained"
+										>
+											Claim
+										</Button>
+									</ButtonGroup>
+								</List>
+							</Paper>
+						</Grid>
+					</>
+				)}
 
-			<SettListV2 totalValue={totalValueLocked ?? new BigNumber(0)} isUsd={true} />
+			<SettList />
 		</Container>
 	);
 });

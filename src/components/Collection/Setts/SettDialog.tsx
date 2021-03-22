@@ -1,30 +1,36 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { VaultDeposit, VaultWithdraw, GeyserUnstake, GeyserStake } from 'components/Collection/Forms';
 import { VaultSymbol } from 'components/Common/VaultSymbol';
-import { Dialog, DialogTitle, Tab, Tabs, Switch, Typography } from '@material-ui/core';
+import { Dialog, DialogTitle, Tab, Tabs, Switch, Typography, makeStyles } from '@material-ui/core';
 import deploy from '../../../config/deployments/mainnet.json';
 import BigNumber from 'bignumber.js';
 import { StoreContext } from '../../../mobx/store-context';
 import { NETWORK_LIST } from '../../../config/constants';
 
-interface SettDialogProps {
+const useStyles = makeStyles((theme) => ({
+	title: {
+		padding: theme.spacing(2, 2, 2),
+	},
+}));
+
+export interface SettDialogProps {
 	dialogProps: {
 		open: boolean;
 		vault: any;
 		sett: any;
 	};
 	onClose: () => void;
-	classes: Record<'list' | 'listItem' | 'before' | 'header' | 'hiddenMobile' | 'chip' | 'title', string>;
 }
 
 const SettDialog = (props: SettDialogProps): JSX.Element => {
 	const [dialogMode, setDialogMode] = useState(0);
 	const [dialogOut, setDialogOut] = useState(false);
-	const { dialogProps, classes, onClose } = props;
+	const { dialogProps, onClose } = props;
 	const { open, sett } = dialogProps;
 	let { vault } = dialogProps;
 	const store = useContext(StoreContext);
 	const { network } = store.wallet;
+	const classes = useStyles();
 
 	useEffect(() => {
 		const reset = async () => await setDialogMode(0);

@@ -27,7 +27,7 @@ class RewardsStore {
 		});
 
 		observe(this.store.wallet, 'connectedAddress', () => {
-			this.fetchSettRewards();
+			if (!!this.store.wallet.network.rewards) this.fetchSettRewards();
 		});
 
 		setInterval(this.fetchSettRewards, 6e4);

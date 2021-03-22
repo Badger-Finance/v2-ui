@@ -1,97 +1,100 @@
 import { extendObservable, action } from 'mobx';
 import { RootStore } from '../store';
 import { getTokenPrices, getTotalValueLocked, listGeysers, listSetts } from 'mobx/utils/apiV2';
-import { PriceSummary, Sett, ProtocolSummary, Network } from 'mobx/model';
-import Web3 from 'web3';
+import { PriceSummary, Sett, ProtocolSummary, Network, SettMap } from 'mobx/model';
 import { NETWORK_LIST } from 'config/constants';
+import Web3 from 'web3';
 
 export default class SettStoreV2 {
 	private store!: RootStore;
-	private network!: Network;
 
 	// loading: undefined, error: null, present: object
-	public settList: Sett[] | undefined | null;
-	public priceData: PriceSummary | undefined | null;
-	public assets: ProtocolSummary | undefined | null;
-	public badger: number | undefined | null;
-	public farmData: any;
+	private settCache: { [chain: string]: Sett[] | undefined | null };
+	private settMapCache: { [chain: string]: SettMap | undefined | null };
+	private protocolSummaryCache: { [chain: string]: ProtocolSummary | undefined | null };
+	private priceCache: PriceSummary;
 
 	constructor(store: RootStore) {
 		this.store = store;
-		this.network = this.store.wallet.network;
 
 		extendObservable(this, {
-			settList: undefined,
-			priceData: undefined,
-			assets: undefined,
-			badger: undefined,
-			farmData: undefined,
+			settCache: undefined,
+			protocolSummaryCache: undefined,
+			settMapCache: undefined,
+			priceCache: undefined,
 		});
 
-		this.settList = undefined;
-		this.priceData = undefined;
-		this.assets = undefined;
-		this.badger = undefined;
-		this.farmData = undefined;
-
-		this.init();
+		this.settCache = {};
+		this.settMapCache = {};
+		this.protocolSummaryCache = {};
+		this.priceCache = {};
 	}
 
-	init = action(
-		async (): Promise<void> => {
-			if (this.network.name === NETWORK_LIST.ETH) this.loadGeysers(this.network.name);
-			else this.loadSetts(this.network.name);
-			this.loadAssets(this.network.name);
-			this.loadPrices();
-			this.loadBadger();
-		},
-	);
+	get settList(): Sett[] | undefined | null {
+		return this.settCache[this.store.wallet.network.name];
+	}
 
-	loadSetts = action(
-		async (chain?: string): Promise<void> => {
-			this.settList = await listSetts(chain);
-			this.settList?.map((sett) => {
-				// TODO: Remove this before production
-				if (
-					sett.vaultToken === '0xF6BC36280F32398A031A7294e81131aEE787D178' &&
-					process.env.NODE_ENV !== 'production'
-				)
-					sett.vaultToken = '0x34769B18279800d5598A101A93A34CfE86bd6694';
-				sett.vaultToken = Web3.utils.toChecksumAddress(sett.vaultToken);
-			});
-		},
-	);
+	get settMap(): SettMap | undefined | null {
+		return this.settMapCache[this.store.wallet.network.name];
+	}
 
-	loadGeysers = action(
-		async (chain?: string): Promise<void> => {
-			this.settList = await listGeysers(chain);
-			this.farmData = this.keySettList(this.settList);
-		},
-	);
+	get protocolSummary(): ProtocolSummary | undefined | null {
+		return this.protocolSummaryCache[this.store.wallet.network.name];
+	}
+
+	getPrice(address: string): number | undefined {
+		return this.priceCache[Web3.utils.toChecksumAddress(address)];
+	}
+
+	loadSetts = action(async (chain?: string): Promise<void> => this.loadSettList(listSetts, chain));
+	loadGeysers = action(async (chain?: string): Promise<void> => this.loadSettList(listGeysers, chain));
+
+	loadSettList = action(async (load: (chain?: string) => Promise<Sett[] | null>, chain?: string) => {
+		// load interface, or display loading
+		chain = chain ?? NETWORK_LIST.ETH;
+		const settList = await load(chain);
+		if (settList) {
+			this.settCache[chain] = settList;
+			this.settMapCache[chain] = this.keySettByContract(settList);
+		}
+	});
 
 	loadPrices = action(
-		async (currency?: string, network?: string): Promise<void> => {
-			this.priceData = await getTokenPrices(currency, network);
-		},
-	);
-
-	loadBadger = action(
-		async (): Promise<void> => {
-			const response = await getTokenPrices('usd', 'eth');
-			this.badger = response![this.network.deploy.token];
+		async (network?: string): Promise<void> => {
+			const prices = await getTokenPrices(network);
+			if (prices) {
+				Object.keys(prices).forEach((key) => {
+					const value = prices[key];
+					if (value) {
+						prices[key] = parseFloat(Web3.utils.toWei(value.toString()));
+					}
+				});
+				this.priceCache = {
+					...this.priceCache,
+					...prices,
+				};
+			}
 		},
 	);
 
 	loadAssets = action(
 		async (chain?: string): Promise<void> => {
-			this.assets = await getTotalValueLocked(chain);
+			chain = chain ?? NETWORK_LIST.ETH;
+			const protocolSummary = await getTotalValueLocked(chain);
+			if (protocolSummary) {
+				this.protocolSummaryCache[chain] = protocolSummary;
+			}
 		},
 	);
 
 	// HELPERS
-	keySettList = action((settList: Sett[] | null) => {
-		var mappedList: { [x: string]: Sett } = {};
-		settList!.forEach((sett) => (mappedList[sett.asset.toLowerCase()] = sett));
-		return mappedList;
+	// Input: Array of Sett objects
+	// Output: Object keyed by the sett contract
+	keySettByContract = action((settList: Sett[] | undefined | null): { [geyser: string]: Sett } => {
+		const map: { [geyser: string]: Sett } = {};
+		if (settList) {
+			settList.forEach((sett) => (map[sett.vaultToken] = sett));
+		}
+		return map;
 	});
 }

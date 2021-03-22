@@ -41,8 +41,9 @@ export const reduceRebaseToStats = (store: RootStore): RebaseToStats | undefined
 	const { network } = store.wallet;
 
 	if (!tokens) return;
+	if (!network.deploy) return;
 
-	const token = tokens[network.deploy['digg_system']['uFragments']];
+	const token = tokens[network.deploy!['digg_system']['uFragments']];
 
 	return {
 		nextRebase: new Date('Jan 23 8:00PM UTC'),
@@ -54,7 +55,6 @@ export const reduceRebaseToStats = (store: RootStore): RebaseToStats | undefined
 export const reduceContractsToStats = (store: RootStore): ContractToStats | undefined => {
 	const { vaults: vaultContracts, tokens, geysers: geyserContracts } = store.contracts;
 	const { network } = store.wallet;
-	/* const { currency, hideZeroBal } = store.uiState; */
 
 	if (!tokens) {
 		if (process.env.NODE_ENV !== 'production') console.log('no tokens identified');
@@ -63,9 +63,8 @@ export const reduceContractsToStats = (store: RootStore): ContractToStats | unde
 
 	const { tvl, portfolio, wallet, deposits, badgerToken, diggToken, bDigg, vaultDeposits } = calculatePortfolioStats(
 		vaultContracts,
-		tokens,
-		vaultContracts,
 		geyserContracts,
+		tokens,
 		network,
 	);
 
@@ -99,7 +98,7 @@ export const reduceClaims = (merkleProof: any, rewardAddresses: any[], claimedRe
 
 export const reduceAirdrops = (airdrops: ReduceAirdropsProps, store: RootStore): ReducedAirdops => {
 	const { network } = store.wallet;
-	if (!airdrops.bBadger) {
+	if (!airdrops.bBadger || !network.deploy) {
 		return {};
 	}
 	return {
@@ -110,13 +109,7 @@ export const reduceAirdrops = (airdrops: ReduceAirdropsProps, store: RootStore):
 	};
 };
 
-function calculatePortfolioStats(
-	vaultContracts: any,
-	tokens: any,
-	vaults: any,
-	geyserContracts: any,
-	network: Network,
-) {
+function calculatePortfolioStats(vaultContracts: any, geyserContracts: any, tokens: any, network: Network) {
 	let tvl = new BigNumber(0);
 	let deposits = new BigNumber(0);
 	let vaultDeposits = new BigNumber(0);
@@ -151,9 +144,9 @@ function calculatePortfolioStats(
 		}
 	});
 
-	const badger: Token = tokens[network.deploy.token];
-	const digg: Token | undefined = network.deploy.digg_system
-		? tokens[network.deploy.digg_system.uFragments]
+	const badger: Token = tokens[network.deploy!.token];
+	const digg: Token | undefined = network.deploy!.digg_system
+		? tokens[network.deploy!.digg_system.uFragments]
 		: undefined;
 	const badgerToken = !!badger && !!badger.ethValue ? badger.ethValue : new BigNumber(0);
 	const diggToken = !!digg && !!digg.ethValue ? digg.ethValue : new BigNumber(0);
@@ -227,12 +220,22 @@ export function formatStaked(geyser: Geyser): string {
 	return inCurrency(geyser.holdings.dividedBy(10 ** geyser.vault.decimals), 'eth', true);
 }
 export function formatBalanceUnderlying(vault: Vault): string {
-	return formatTokens(vault.balance.multipliedBy(vault.pricePerShare).dividedBy(10 ** vault.decimals));
+	const diggMultiplier = vault.underlyingToken.symbol === 'DIGG' ? getDiggPerShare(vault) : new BigNumber(1);
+	return formatTokens(
+		vault.balance
+			.multipliedBy(vault.pricePerShare)
+			.multipliedBy(diggMultiplier)
+			.dividedBy(10 ** vault.decimals),
+	);
 }
 
 export function formatDialogBalanceUnderlying(vault: Vault): string {
+	const diggMultiplier = vault.underlyingToken.symbol === 'DIGG' ? getDiggPerShare(vault) : new BigNumber(1);
 	return formatTokens(
-		vault.balance.multipliedBy(vault.pricePerShare).dividedBy(10 ** vault.decimals),
+		vault.balance
+			.multipliedBy(vault.pricePerShare)
+			.multipliedBy(diggMultiplier)
+			.dividedBy(10 ** vault.decimals),
 		vault.decimals,
 	);
 }

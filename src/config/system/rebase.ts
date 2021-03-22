@@ -8,11 +8,9 @@ import { RebaseNetworkConfig } from '../../mobx/model';
 import { AbiItem } from 'web3-utils';
 import { NETWORK_LIST } from 'config/constants';
 
-export const getRebase = (network: string | null): RebaseNetworkConfig | undefined => {
+export const getRebase = (network?: string | null): RebaseNetworkConfig | undefined => {
 	switch (network) {
-		case NETWORK_LIST.BSC:
-			return undefined;
-		default:
+		case NETWORK_LIST.ETH:
 			return {
 				digg: [
 					{
@@ -49,5 +47,7 @@ export const getRebase = (network: string | null): RebaseNetworkConfig | undefin
 					abi: Orchestrator.abi as AbiItem[],
 				},
 			};
+		default:
+			undefined;
 	}
 };

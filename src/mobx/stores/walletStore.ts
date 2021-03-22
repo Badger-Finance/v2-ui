@@ -1,17 +1,20 @@
 import { extendObservable, action } from 'mobx';
 import Web3 from 'web3';
 import Onboard from 'bnc-onboard';
+import Notify from 'bnc-notify';
 
 import BigNumber from 'bignumber.js';
 import { onboardWalletCheck, getOnboardWallets } from '../../config/wallets';
-import { getNetworkName, getNetwork, getNetworkNameFromId } from '../../mobx/utils/web3';
+import { getNetwork, getNetworkNameFromId } from '../../mobx/utils/web3';
 import _ from 'lodash';
 import { Network } from 'mobx/model';
 import { RootStore } from 'mobx/store';
+import { NETWORK_LIST } from 'config/constants';
 
 class WalletStore {
 	private store: RootStore;
 	public onboard: any;
+	public notify: any;
 	public provider?: any = null;
 	public connectedAddress = '';
 	public currentBlock?: number;
@@ -20,7 +23,7 @@ class WalletStore {
 	public network: Network;
 
 	constructor(store: RootStore) {
-		this.network = getNetwork(getNetworkName());
+		this.network = getNetwork();
 		this.gasPrices = { standard: 10 };
 		this.store = store;
 
@@ -41,6 +44,11 @@ class WalletStore {
 			walletCheck: onboardWalletCheck,
 		};
 
+		const notifyOptions: any = {
+			dappId: 'af74a87b-cd08-4f45-83ff-ade6b3859a07',
+			networkId: this.network.networkId,
+		};
+
 		extendObservable(this, {
 			connectedAddress: this.connectedAddress,
 			provider: this.provider,
@@ -49,33 +57,41 @@ class WalletStore {
 			ethBalance: new BigNumber(0),
 			network: this.network,
 			onboard: Onboard(onboardOptions),
+			notify: Notify(notifyOptions),
 		});
 
-		this.getCurrentBlock();
-		this.getGasPrice();
-
-		setInterval(() => {
-			this.getGasPrice();
-		}, 13000);
-		setInterval(() => {
-			this.getCurrentBlock();
-		}, 5000 * 60);
-
-		const previouslySelectedWallet = window.localStorage.getItem('selectedWallet');
-		const previouslySelectedNetwork = window.localStorage.getItem('selectedNetwork');
-
-		// call wallet select with that value if it exists
-		if (!!previouslySelectedWallet && previouslySelectedNetwork === this.network.name) {
-			this.onboard.walletSelect(previouslySelectedWallet);
-		}
+		this.init();
 	}
+
+	init = action(
+		async (): Promise<void> => {
+			this.getCurrentBlock();
+			this.getGasPrice();
+
+			setInterval(() => {
+				this.getGasPrice();
+			}, 13000);
+			setInterval(() => {
+				this.getCurrentBlock();
+			}, 5000 * 60);
+
+			const previouslySelectedWallet = window.localStorage.getItem('selectedWallet');
+
+			// call wallet select with that value if it exists
+			if (!!previouslySelectedWallet) {
+				this.onboard.walletSelect(previouslySelectedWallet);
+			}
+			this.notify.config({
+				darkMode: true, // (default: false)
+			});
+		},
+	);
 
 	walletReset = action(() => {
 		try {
 			this.setProvider(null);
 			this.setAddress('');
 			window.localStorage.removeItem('selectedWallet');
-			window.localStorage.removeItem('selectedNetwork');
 		} catch (err) {
 			console.log(err);
 		}
@@ -84,9 +100,11 @@ class WalletStore {
 	connect = action((wsOnboard: any) => {
 		const walletState = wsOnboard.getState();
 		this.checkNetwork(walletState.network);
+		this.getGasPrice();
 		this.setProvider(walletState.wallet.provider);
 		this.connectedAddress = walletState.address;
 		this.onboard = wsOnboard;
+		this.store.walletRefresh();
 	});
 
 	getCurrentBlock = action(() => {
@@ -127,7 +145,6 @@ class WalletStore {
 	cacheWallet = action((wallet: any) => {
 		this.setProvider(wallet.provider);
 		window.localStorage.setItem('selectedWallet', wallet.name);
-		window.localStorage.setItem('selectedNetwork', this.network.name);
 	});
 
 	checkNetwork = action((network: number) => {
@@ -136,18 +153,22 @@ class WalletStore {
 		if (network !== this.network.networkId) {
 			this.network = getNetwork(getNetworkNameFromId(network));
 			this.store.walletRefresh();
+			this.getGasPrice();
 			this.getCurrentBlock();
 		}
 	});
 
+	setNetwork = action((network: string): void => {
+		// only allow toggling if no wallet is connected
+		if (this.connectedAddress) {
+			return;
+		}
+		this.network = getNetwork(network);
+		this.store.walletRefresh();
+	});
+
 	isCached = action(() => {
-		return (
-			!!this.connectedAddress ||
-			!!(
-				window.localStorage.getItem('selectedWallet') &&
-				this.network.name === window.localStorage.getItem('selectedNetwork')
-			)
-		);
+		return !!this.connectedAddress || !!window.localStorage.getItem('selectedWallet');
 	});
 }
 

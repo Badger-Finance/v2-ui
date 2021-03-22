@@ -8,6 +8,7 @@ import _ from 'lodash';
 const useStyles = makeStyles(() => ({
 	gasSelector: {
 		height: '2.2rem',
+		overflow: 'hidden',
 	},
 }));
 
@@ -16,14 +17,15 @@ const GasWidget = observer(() => {
 	const store = useContext(StoreContext);
 
 	const { gasPrice, setGasPrice } = store.uiState;
-	const { gasPrices, network } = store.wallet;
+	const { gasPrices } = store.wallet;
+	if (!gasPrices[gasPrice]) store.uiState.setGasPrice('standard');
 
 	const getGasSelections = () => {
-		let gasMap: any = [];
+		const gasMap: any = [];
 		for (const [key, value] of Object.entries(gasPrices!)) {
 			gasMap.push(
 				<MenuItem value={key} key={key}>
-					{value.toFixed(0)}
+					{value ? value.toFixed(0) : 10}
 				</MenuItem>,
 			);
 		}

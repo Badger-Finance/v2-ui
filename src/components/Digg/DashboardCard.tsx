@@ -102,48 +102,6 @@ const DashboardCard = observer(() => {
 			>
 				<AreaChart accent={'#F2A52B'} chartData={chartData} yPrefix={'$'} />
 			</CardContent>
-
-			{/* TODO: Remove this? */}
-			{/* <CardActions style={{ display: 'flex', justifyContent: 'center', marginBottom: '.75rem' }}>
-				<div style={{ display: 'flex' }}>
-					<div style={{ marginLeft: '1rem', textAlign: 'center' }}>
-						<Typography variant="body2" color="textPrimary">
-							<Typography variant="body2" color="textSecondary">
-								High
-							</Typography>
-							{title === 'Price' && '$'}
-							{intToString(chartData.calcs.high)}
-						</Typography>
-					</div>
-					<div style={{ marginLeft: '1rem', textAlign: 'center' }}>
-						<Typography variant="body2" color="textPrimary">
-							<Typography variant="body2" color="textSecondary">
-								Low
-							</Typography>
-							{title === 'Price' && '$'}
-							{intToString(chartData.calcs.low)}
-						</Typography>
-					</div>
-					<div style={{ marginLeft: '1rem', textAlign: 'center' }}>
-						<Typography variant="body2" color="textPrimary">
-							<Typography variant="body2" color="textSecondary">
-								Average
-							</Typography>
-							{title === 'Price' && '$'}
-							{intToString(chartData.calcs.avg)}
-						</Typography>
-					</div>
-					<div style={{ marginLeft: '1rem', textAlign: 'center' }}>
-						<Typography variant="body2" color="textPrimary">
-							<Typography variant="body2" color="textSecondary">
-								Median
-							</Typography>
-							{title === 'Price' && '$'}
-							{intToString(chartData.calcs.median)}
-						</Typography>
-					</div>
-				</div>
-			</CardActions> */}
 		</Card>
 	) : (
 		<Card style={{ padding: '1rem .6rem' }}>
