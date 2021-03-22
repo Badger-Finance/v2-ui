@@ -5,7 +5,7 @@ import bscDeploy from '../deployments/bsc.json';
 import { AbiItem } from 'web3-utils';
 import { TokenNetworkConfig } from 'mobx/model';
 
-export const getTokens = (network: string | null): TokenNetworkConfig => {
+export const getTokens = (network?: string | null): TokenNetworkConfig | undefined => {
 	switch (network) {
 		case NETWORK_LIST.BSC:
 			const bscVaultList = [
@@ -20,7 +20,7 @@ export const getTokens = (network: string | null): TokenNetworkConfig => {
 			];
 			const bscTokenMap = _.zipObject(bscVaultList, bscTokenList); // TODO: write native replacement
 			return {
-				priceEndpoints: ['https://api.thegraph.com/subgraphs/name/aizensousuke239/pancake-swap'],
+				priceEndpoints: ['https://api.thegraph.com/subgraphs/name/pancakeswap/exchange'],
 				tokenBatches: [
 					{
 						abi: BSC_ERC20.abi as AbiItem[],
@@ -81,7 +81,7 @@ export const getTokens = (network: string | null): TokenNetworkConfig => {
 				},
 				tokenMap: bscTokenMap,
 			};
-		default:
+		case NETWORK_LIST.ETH:
 			const vaultList = [
 				deploy.sett_system.vaults['native.sushiDiggWbtc'],
 				deploy.sett_system.vaults['native.sbtcCrv'],
@@ -246,5 +246,7 @@ export const getTokens = (network: string | null): TokenNetworkConfig => {
 				},
 				tokenMap: tokenMap,
 			};
+		default:
+			return undefined;
 	}
 };

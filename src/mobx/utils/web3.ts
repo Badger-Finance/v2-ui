@@ -4,53 +4,55 @@ import { Contract, ContractSendMethod } from 'web3-eth-contract';
 import { PromiEvent } from 'web3-core';
 import { AbiItem } from 'web3-utils';
 import { BatchConfig, TokenContract, DeployConfig, Network, BscNetwork, EthNetwork } from '../model';
-import { NETWORK_LIST } from '../../config/constants';
+import { NETWORK_LIST, NETWORK_IDS } from '../../config/constants';
 import deploy from '../../config/deployments/mainnet.json';
 import bscDeploy from '../../config/deployments/bsc.json';
 
-export const getNetwork = (network: string): Network => {
-	// if (process.env.NODE_ENV !== 'production') return new BscNetwork();
+export const getNetwork = (network?: string): Network => {
 	switch (network) {
 		case NETWORK_LIST.BSC:
 			return new BscNetwork();
+		case NETWORK_LIST.ETH:
+			return new EthNetwork();
 		default:
 			return new EthNetwork();
 	}
-};
-
-export const getNetworkName = (): string => {
-	const host = window.location.host;
-	const hostSplit = host.split('.');
-	const currentNetwork = hostSplit[0].split('-');
-	// Enable testing for different networks in development.
-	if (process.env.NODE_ENV !== 'production') return NETWORK_LIST.BSC;
-	if (currentNetwork.length > 0) {
-		return currentNetwork[0] === 'app' ? NETWORK_LIST.ETH : currentNetwork[0];
-	}
-	return NETWORK_LIST.ETH;
 };
 
 export const getNetworkId = (network: string | undefined) => {
 	switch (network) {
 		case NETWORK_LIST.BSC:
 			return 56;
-		case NETWORK_LIST.XDAI:
-			return 100;
-		case NETWORK_LIST.FTM:
-			return 250;
-		case NETWORK_LIST.MATIC:
-			return 137;
+		// case NETWORK_LIST.XDAI:
+		// 	return 100;
+		// case NETWORK_LIST.FTM:
+		// 	return 250;
+		// case NETWORK_LIST.MATIC:
+		// 	return 137;
 		default:
 			return 1;
 	}
 };
 
-export const getNetworkDeploy = (network: string | undefined): DeployConfig => {
+export const getNetworkNameFromId = (network: number): string | undefined => {
+	switch (network) {
+		case NETWORK_IDS.BSC:
+			return NETWORK_LIST.BSC;
+		case NETWORK_IDS.ETH:
+			return NETWORK_LIST.ETH;
+		default:
+			return undefined;
+	}
+};
+
+export const getNetworkDeploy = (network?: string | undefined): DeployConfig | undefined => {
 	switch (network) {
 		case NETWORK_LIST.BSC:
 			return bscDeploy;
-		default:
+		case NETWORK_LIST.ETH:
 			return deploy;
+		default:
+			return undefined;
 	}
 };
 
@@ -103,48 +105,6 @@ export const batchConfig = (namespace: string, addresses: any[], methods: any[],
 		...abiFile,
 	};
 };
-
-// export const getTokenAddresses = (contracts: any[], config: TokenAddressessConfig): TokenAddressess[] => {
-// 	// pull underlying and yileding token addresses
-// 	const addresses: TokenAddressess[] = [];
-// 	contracts.forEach( (contract: any) => {
-// 		if (!!contract[config.underlying])
-// 			addresses.push({
-// 				address: contract[config.underlying],
-// 				contract: contract.address.toLowerCase(),
-// 				type: 'underlying',
-// 				subgraph:
-// 					!!config.sushi && config.sushi.includes(contract.address)
-// 						? 'zippoxer/sushiswap-subgraph-fork'
-// 						: 'uniswap/uniswap-v2',
-// 			});
-// 		// if (!!contract[config.yielding!])
-// 		// 	addresses.push({ address: contract[config.yielding!], contract: contract.address.toLowerCase(), type: 'yielding' })
-// 	});
-// 	return addresses;
-// };
-
-// export const contractMethods = (config: ContractMethodsConfig, wallet: WalletStore): any[] => {
-// 	let methods = [];
-// 	if (!!config.rewards) {
-// 		methods.push({
-// 			name: config.rewards.method,
-// 			args: config.rewards.tokens,
-// 		});
-// 	}
-
-// 	if (!!wallet.connectedAddress)
-// 		methods = methods.concat(
-// 			config.walletMethods.map((method: string) => {
-// 				return {
-// 					name: method,
-// 					args: [wallet.connectedAddress],
-// 				};
-// 			}),
-// 		);
-
-// 	return methods;
-// };
 
 export const erc20Methods = (connectedAddress: string, token: TokenContract): any[] => {
 	if (!!connectedAddress && !!token.contract) {

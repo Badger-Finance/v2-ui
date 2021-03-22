@@ -67,15 +67,43 @@ interface SettListItemProps {
 	balance?: string;
 	balanceValue?: string;
 	currency: string;
+	period: string;
 	onOpen: () => void;
+}
+
+interface RoiData {
+	apy: number;
+	tooltip: JSX.Element;
 }
 
 const SettListItem = (props: SettListItemProps): JSX.Element => {
 	const classes = useStyles();
 
-	const { sett, balance, balanceValue, currency, onOpen } = props;
-	const tooltip = getToolTip(sett);
+	const { sett, balance, balanceValue, currency, period, onOpen } = props;
 	const displayName = sett.name.replace('Uniswap ', '').replace('Sushiswap ', '').replace('Harvest ', '');
+
+	const getRoi = (sett: Sett, period: string): RoiData => {
+		const getToolTip = (sett: Sett, divisor: number): JSX.Element => {
+			return (
+				<>
+					{sett.sources.map((source) => {
+						const apr = `${(source.apy / divisor).toFixed(2)}% ${source.name}`;
+						return <div key={source.name}>{apr}</div>;
+					})}
+				</>
+			);
+		};
+		if (sett && sett.apy) {
+			if (period === 'month') {
+				return { apy: sett.apy / 12, tooltip: getToolTip(sett, 12) };
+			} else {
+				return { apy: sett.apy, tooltip: getToolTip(sett, 1) };
+			}
+		} else {
+			return { apy: 0, tooltip: <></> };
+		}
+	};
+	const { apy, tooltip } = getRoi(sett, period);
 
 	return (
 		<ListItem className={classes.listItem} onClick={() => onOpen()}>
@@ -121,20 +149,25 @@ const SettListItem = (props: SettListItemProps): JSX.Element => {
 							</Grid>
 						)}
 						{!balance &&
-							sett.tokens.map((tokenBalance: TokenBalance, index: number) => (
-								<Grid container key={`token-${index}`} alignItems={'center'}>
-									<img
-										alt={`${tokenBalance.name} symbol`}
-										className={classes.tokenSymbol}
-										src={
-											sett.tokens.length === 1
-												? `/assets/icons/${sett.asset.toLowerCase()}.png`
-												: `/assets/icons/${tokenBalance.symbol.toLowerCase()}-small.png`
-										}
-									/>
-									<Typography>{numberWithCommas(Number(tokenBalance.balance).toFixed())}</Typography>
-								</Grid>
-							))}
+							sett.tokens.map((tokenBalance: TokenBalance, index: number) => {
+								const iconName =
+									sett.tokens.length === 1
+										? `${sett.asset.toLowerCase()}`
+										: `${tokenBalance.symbol.toLowerCase()}-small`;
+								const icon = `/assets/icons/${iconName}.png`;
+								const displayDecimals = tokenBalance.balance > 1 ? 0 : 4;
+								const balanceDisplay = tokenBalance.balance.toFixed(displayDecimals);
+								return (
+									<Grid container key={`token-${index}`} alignItems={'center'}>
+										<img
+											alt={`${tokenBalance.name} symbol`}
+											className={classes.tokenSymbol}
+											src={icon}
+										/>
+										<Typography>{numberWithCommas(balanceDisplay)}</Typography>
+									</Grid>
+								);
+							})}
 					</Grid>
 				</Grid>
 
@@ -146,7 +179,7 @@ const SettListItem = (props: SettListItemProps): JSX.Element => {
 				<Grid item xs={6} md={2}>
 					<Tooltip enterDelay={0} leaveDelay={300} arrow placement="left" title={tooltip}>
 						<Typography style={{ cursor: 'default' }} variant="body1" color={'textPrimary'}>
-							{sett.apy.toFixed(2)}%
+							{apy.toFixed(2)}%
 						</Typography>
 					</Tooltip>
 				</Grid>
@@ -168,10 +201,6 @@ const SettListItem = (props: SettListItemProps): JSX.Element => {
 			</Grid>
 		</ListItem>
 	);
-};
-
-const getToolTip = (sett: Sett): string => {
-	return sett.sources.map((source) => `${source.apy.toFixed(2)}% ${source.name}`).join(' + ');
 };
 
 export default SettListItem;

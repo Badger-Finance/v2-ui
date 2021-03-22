@@ -70,7 +70,14 @@ class AirdropStore {
 		);
 
 		queueNotification(`Sign the transaction to claim your airdrop`, 'info');
-		estimateAndSend(web3, gasPrices[gasPrice], method, connectedAddress, (transaction: PromiEvent<Contract>) => {
+		if (!gasPrices) {
+			queueNotification(
+				`Error retrieving gas selection - check the gas selector in the top right corner.`,
+				'error',
+			);
+			return;
+		}
+		estimateAndSend(web3, gasPrices![gasPrice], method, connectedAddress, (transaction: PromiEvent<Contract>) => {
 			transaction
 				.on('transactionHash', (hash) => {
 					queueNotification(`Claim submitted.`, 'info', hash);

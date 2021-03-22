@@ -8,9 +8,9 @@ import { NetworkConstants, ClaimsSymbols } from '../mobx/model';
 
 export enum NETWORK_LIST {
 	BSC = 'bsc',
-	MATIC = 'matic',
-	FTM = 'ftm',
-	XDAI = 'xdai',
+	// MATIC = 'matic',
+	// FTM = 'ftm',
+	// XDAI = 'xdai',
 	ETH = 'eth',
 }
 
@@ -27,7 +27,7 @@ export const NETWORK_CONSTANTS: NetworkConstants = {
 		APP_URL: 'https://app.badger.finance/',
 		RPC_URL: 'https://eth-mainnet.alchemyapi.io/v2/ZPhpI9buZLLAvjR44hryTAhiC5V-HueZ',
 		TOKENS: {
-			WBTC_ADDRESS: '0x2260fac5e5542a773aa44fbcfedf7c193bc2c599',
+			WBTC_ADDRESS: '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599',
 			WBTC_ADDRESS_LOWER: '0x2260fac5e5542a773aa44fbcfedf7c193bc2c599',
 			XSUSHI_ADDRESS: '0x8798249c2e607446efb7ad49ec89dd1865ff4272',
 			FARM_ADDRESS: '0xa0246c9032bC3A600820415aE600c6388619A14D',
@@ -44,8 +44,7 @@ export const NETWORK_CONSTANTS: NetworkConstants = {
 	},
 	[NETWORK_LIST.BSC]: {
 		APP_URL: 'https://bsc.badger.finance/',
-		// TODO: Update this with a more reliable node
-		RPC_URL: 'https://bsc.red/',
+		RPC_URL: 'https://bsc-node.badger.guru/',
 		TOKENS: {},
 		START_BLOCK: 11381216,
 		START_TIME: new Date('Dec 03 2020 06:11:35 PM UTC'),
@@ -54,6 +53,7 @@ export const NETWORK_CONSTANTS: NetworkConstants = {
 };
 
 export const CLAIMS_SYMBOLS: ClaimsSymbols = {
+	[NETWORK_LIST.BSC]: {},
 	[NETWORK_LIST.ETH]: {
 		[NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.FARM_ADDRESS]: 'Farm',
 		[NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.XSUSHI_ADDRESS]: 'xSushi',

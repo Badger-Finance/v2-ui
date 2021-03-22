@@ -4,10 +4,20 @@ import views from '../../config/routes';
 import _ from 'lodash';
 import { useContext } from 'react';
 import { StoreContext } from '../../mobx/store-context';
-import { List, ListItem, Drawer, Collapse, IconButton, ListItemIcon, ListItemText } from '@material-ui/core';
+import {
+	List,
+	ListItem,
+	Drawer,
+	Collapse,
+	IconButton,
+	ListItemIcon,
+	ListItemText,
+	ListItemSecondaryAction,
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { ExpandMore } from '@material-ui/icons';
 import { SITE_VERSION, NETWORK_LIST, FLAGS } from 'config/constants';
+import NetworkWidget from 'components-v2/common/NetworkWidget';
 
 const useStyles = makeStyles((theme) => ({
 	logo: {
@@ -141,28 +151,37 @@ export const Sidebar = observer(() => {
 				<List>
 					<ListItem button className={classes.listItem}>
 						<img alt="Badger Logo" src={'assets/badger-logo.png'} className={classes.logo} />
+						<ListItemSecondaryAction>
+							<NetworkWidget />
+						</ListItemSecondaryAction>
 					</ListItem>
 
-					<ListItem
-						button
-						onClick={() => setExpanded(expanded === 'advanced' ? '' : 'advanced')}
-						style={{ marginTop: '.5rem' }}
-						className={classes.listItem}
-					>
-						{SITE_VERSION}
-						<IconButton
-							size="small"
-							className={classes.expand + ' ' + (expanded === 'advanced' ? classes.expandOpen : '')}
-							aria-label="show more"
+					{network.name === NETWORK_LIST.ETH ? (
+						<ListItem
+							button
+							onClick={() => setExpanded(expanded === 'advanced' ? '' : 'advanced')}
+							style={{ marginTop: '.5rem' }}
+							className={classes.listItem}
 						>
-							<ExpandMore />
-						</IconButton>
-					</ListItem>
+							{SITE_VERSION}
+							<IconButton
+								size="small"
+								className={classes.expand + ' ' + (expanded === 'advanced' ? classes.expandOpen : '')}
+								aria-label="show more"
+							>
+								<ExpandMore />
+							</IconButton>
+						</ListItem>
+					) : (
+						<ListItem button style={{ marginTop: '.5rem' }} className={classes.listItem}>
+							{SITE_VERSION}
+						</ListItem>
+					)}
 					<Collapse in={expanded === 'advanced'} timeout="auto" unmountOnExit>
 						<ListItem key="network">
 							<ListItemText primary="Current Network" secondary={network.fullName} />
 						</ListItem>
-						{network.name === NETWORK_LIST.ETH ? (
+						{network.name === NETWORK_LIST.ETH && badgerTree && (
 							<ListItem key="rewards">
 								<ListItemText
 									primary={`Cycle Count: ${badgerTree.cycle}`}
@@ -172,8 +191,6 @@ export const Sidebar = observer(() => {
 									}
 								/>
 							</ListItem>
-						) : (
-							<></>
 						)}
 					</Collapse>
 

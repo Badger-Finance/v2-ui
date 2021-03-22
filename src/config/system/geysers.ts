@@ -5,11 +5,9 @@ import { NETWORK_LIST } from '../constants';
 import { GeyserNetworkConfig } from 'mobx/model';
 import { AbiItem } from 'web3-utils';
 
-export const getGeysers = (network: string): GeyserNetworkConfig | undefined => {
+export const getGeysers = (network?: string): GeyserNetworkConfig | undefined => {
 	switch (network) {
-		case NETWORK_LIST.BSC:
-			return undefined;
-		default:
+		case NETWORK_LIST.ETH:
 			return {
 				geyserBatches: [
 					{
@@ -96,5 +94,7 @@ export const getGeysers = (network: string): GeyserNetworkConfig | undefined => 
 					},
 				],
 			};
+		default:
+			return undefined;
 	}
 };

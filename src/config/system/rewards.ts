@@ -4,13 +4,11 @@ import BadgerTree from './abis/BadgerTree.json';
 import { AbiItem } from 'web3-utils';
 import { getApi } from '../../mobx/utils/apiV2';
 
-export const getRewards = (network: string): RewardNetworkConfig | undefined => {
+export const getRewards = (network?: string): RewardNetworkConfig | undefined => {
 	switch (network) {
-		case NETWORK_LIST.BSC:
-			return undefined;
-		default:
+		case NETWORK_LIST.ETH:
 			return {
-				endpoint: `${getApi()}/v2/reward/tree`,
+				endpoint: `${getApi()}/reward/tree`,
 				network: 1,
 				contract: '0x660802Fc641b154aBA66a62137e71f331B6d787A',
 				abi: BadgerTree.abi as AbiItem[],
@@ -24,5 +22,7 @@ export const getRewards = (network: string): RewardNetworkConfig | undefined => 
 					NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.USDC_ADDRESS, // $USDC
 				],
 			};
+		default:
+			return undefined;
 	}
 };

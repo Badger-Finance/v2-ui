@@ -8,7 +8,10 @@ import {
 	WC_BRIDGE,
 } from './constants';
 
-export const getOnboardWallets = (network: string) => {
+export const getOnboardWallets = (network?: string) => {
+	if (!network) {
+		return [];
+	}
 	switch (network) {
 		case NETWORK_LIST.BSC:
 			return [{ walletName: 'metamask' }];
@@ -69,5 +72,4 @@ export const onboardWalletCheck = [
 	{ checkName: 'derivationPath' },
 	{ checkName: 'accounts' },
 	{ checkName: 'connect' },
-	{ checkName: 'network' },
 ];
