@@ -156,21 +156,27 @@ export const Sidebar = observer(() => {
 						</ListItemSecondaryAction>
 					</ListItem>
 
-					<ListItem
-						button
-						onClick={() => setExpanded(expanded === 'advanced' ? '' : 'advanced')}
-						style={{ marginTop: '.5rem' }}
-						className={classes.listItem}
-					>
-						{SITE_VERSION}
-						<IconButton
-							size="small"
-							className={classes.expand + ' ' + (expanded === 'advanced' ? classes.expandOpen : '')}
-							aria-label="show more"
+					{network.name === NETWORK_LIST.ETH ? (
+						<ListItem
+							button
+							onClick={() => setExpanded(expanded === 'advanced' ? '' : 'advanced')}
+							style={{ marginTop: '.5rem' }}
+							className={classes.listItem}
 						>
-							<ExpandMore />
-						</IconButton>
-					</ListItem>
+							{SITE_VERSION}
+							<IconButton
+								size="small"
+								className={classes.expand + ' ' + (expanded === 'advanced' ? classes.expandOpen : '')}
+								aria-label="show more"
+							>
+								<ExpandMore />
+							</IconButton>
+						</ListItem>
+					) : (
+						<ListItem button style={{ marginTop: '.5rem' }} className={classes.listItem}>
+							{SITE_VERSION}
+						</ListItem>
+					)}
 					<Collapse in={expanded === 'advanced'} timeout="auto" unmountOnExit>
 						<ListItem key="network">
 							<ListItemText primary="Current Network" secondary={network.fullName} />
