@@ -1,5 +1,4 @@
 import BigNumber from 'bignumber.js';
-import _ from 'lodash';
 import { RootStore } from 'mobx/store';
 import Web3 from 'web3';
 
@@ -21,7 +20,7 @@ import {
 	Network,
 } from '../model';
 import { ZERO_CURRENCY } from 'config/constants';
-import {forIn} from "../../utils/lodashToNative";
+import {defaults, forIn} from "../../utils/lodashToNative";
 
 export const reduceTimeSinceLastCycle = (time: string): string => {
 	const timestamp = parseFloat(time) * 1000;
@@ -175,7 +174,7 @@ export function reduceRebase(stats: TokenRebaseStats, base: Token): any {
 		oraclePrice: base.ethValue.multipliedBy(stats.oracleRate),
 		btcPrice: base.ethValue,
 	};
-	return _.defaults(stats, info); // TODO: implement native defaults function
+	return defaults(stats, info);
 }
 
 export function formatSupply(token: Token): string {

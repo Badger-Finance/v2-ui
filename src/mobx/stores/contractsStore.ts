@@ -4,7 +4,6 @@ import { AbiItem } from 'web3-utils';
 import { estimateAndSend, getNetworkDeploy } from '../utils/web3';
 import BigNumber from 'bignumber.js';
 import { RootStore } from '../store';
-import _ from 'lodash';
 import {
 	reduceBatchResult,
 	reduceContractConfig,
@@ -12,7 +11,7 @@ import {
 	reduceGrowthQueryConfig,
 	reduceSushiAPIResults,
 } from '../reducers/contractReducers';
-import { Vault, Geyser, Token, Sett } from '../model';
+import {Vault, Geyser, Token, GeyserPayload} from '../model';
 import { vanillaQuery } from 'mobx/utils/helpers';
 import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
@@ -21,8 +20,7 @@ import { EMPTY_DATA, ERC20, NETWORK_CONSTANTS, NETWORK_LIST } from 'config/const
 import { formatAmount } from 'mobx/reducers/statsReducers';
 import BatchCall from 'web3-batch-call';
 import { getApi } from '../utils/apiV2';
-import SettStoreV2 from './settStoreV2';
-import {compact, flatten, keyBy, mapValues, values} from "../../utils/lodashToNative";
+import {compact, defaultsDeep, flatten, keyBy, mapValues, values} from "../../utils/lodashToNative";
 
 let batchCall: any = null;
 
@@ -96,7 +94,7 @@ class ContractsStore {
 					const tokenContracts = keyBy(reduceBatchResult(flatten(result.slice(1, 2))), 'address');
 					const tokens = compact(
 						values(
-							_.defaultsDeep( // TODO: write native version of defaultsDeep
+							defaultsDeep(
 								cgPrices,
 								tokenContracts,
 								mapValues(network.tokens!.symbols, (value: string, address: string) => ({
@@ -131,7 +129,7 @@ class ContractsStore {
 			const sushiBatches = network.vaults!['sushiswap'];
 
 		const { defaults, batchCall: batch } = reduceContractConfig(
-			Object.values(network.vaults),
+			values(network.vaults ?? {}),
 			connectedAddress && { connectedAddress },
 		);
 
@@ -177,8 +175,8 @@ class ContractsStore {
 								? new BigNumber(settStructure[vault.address].ppfs)
 								: new BigNumber(1);
 
-						vault.update( // TODO: implement native version of defaultsDeep
-							_.defaultsDeep(contract, defaults[contract.address], {
+						vault.update(
+							defaultsDeep(contract, defaults[contract.address], {
 								growth: compact([vault.growth, growth]),
 							}),
 						);
@@ -220,8 +218,7 @@ class ContractsStore {
 									defaults[contract].abi,
 								);
 								vault.update(
-									// TODO: implemment native defaultsDeep
-									_.defaultsDeep(contract, defaults[contract], {
+									defaultsDeep(contract, defaults[contract], {
 										growth: compact([vault.growth, xSushiGrowth]),
 									}),
 								);
@@ -261,8 +258,8 @@ class ContractsStore {
 								contract.address,
 								this.vaults[vaultAddress],
 								defaults[contract.address].abi,
-							); // TODO: implement native version of defaultsDeep
-							geyser.update(_.defaultsDeep(contract, defaults[contract.address]));
+							);
+							geyser.update(defaultsDeep(contract, defaults[contract.address]) as GeyserPayload);
 						});
 					}
 				})

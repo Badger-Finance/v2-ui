@@ -1,5 +1,4 @@
 import BigNumber from 'bignumber.js';
-import _ from 'lodash';
 import { reduceGeyserSchedule } from './reducers/contractReducers';
 import { RootStore } from './store';
 import { AbiItem } from 'web3-utils';

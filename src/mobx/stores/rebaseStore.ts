@@ -3,7 +3,6 @@ import Web3 from 'web3';
 import BatchCall from 'web3-batch-call';
 import BigNumber from 'bignumber.js';
 import { RootStore } from '../store';
-import _ from 'lodash';
 
 import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
@@ -11,6 +10,7 @@ import { Contract } from 'web3-eth-contract';
 import { graphQuery } from '../utils/helpers';
 import { estimateAndSend } from '../utils/web3';
 import { getNextRebase, getRebaseLogs } from '../utils/diggHelpers';
+import {defaultsDeep, groupBy} from "../../utils/lodashToNative";
 
 let batchCall: any = null;
 
@@ -60,7 +60,8 @@ class RebaseStore {
 			batchCall.execute(network.rebase.digg),
 			...[...graphQuery(network.rebase.digg[0].addresses[0], this.store)],
 		]).then((result: any[]) => {
-			const keyedResult = _.groupBy(result[0], 'namespace'); // TODO: implement native groupBy function
+			const keyedResult = groupBy(result[0], (v) => v.namespace); // TODO: is this groupby the same as lodash groupby on the next line?
+			// const keyedResult = _.groupBy(result[0], 'namespace');
 
 			if (!keyedResult.token || !keyedResult.token[0].decimals || !keyedResult.oracle[0].providerReports[0].value)
 				return;
@@ -89,7 +90,7 @@ class RebaseStore {
 		});
 	});
 	updateRebase = action((rebase: any) => {
-		_.defaultsDeep(this.rebase, rebase); // TODO: implement native defaultsDeep function
+		defaultsDeep(this.rebase, rebase);
 	});
 
 	callRebase = action(() => {

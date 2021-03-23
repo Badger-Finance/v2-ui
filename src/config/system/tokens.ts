@@ -1,9 +1,9 @@
 import { ERC20, BSC_ERC20, NETWORK_LIST, NETWORK_CONSTANTS } from 'config/constants';
-import _ from 'lodash';
 import deploy from '../deployments/mainnet.json';
 import bscDeploy from '../deployments/bsc.json';
 import { AbiItem } from 'web3-utils';
 import { TokenNetworkConfig } from 'mobx/model';
+import {zipObject} from "../../utils/lodashToNative";
 
 export const getTokens = (network?: string | null): TokenNetworkConfig | undefined => {
 	switch (network) {
@@ -18,7 +18,7 @@ export const getTokens = (network?: string | null): TokenNetworkConfig | undefin
 				'0x10F461CEAC7A17F59e249954Db0784d42EfF5DB5',
 				'0xE1E33459505bB3763843a426F7Fd9933418184ae',
 			];
-			const bscTokenMap = _.zipObject(bscVaultList, bscTokenList); // TODO: write native replacement
+			const bscTokenMap = zipObject(bscVaultList, bscTokenList);
 			return {
 				priceEndpoints: ['https://api.thegraph.com/subgraphs/name/pancakeswap/exchange'],
 				tokenBatches: [
@@ -108,7 +108,7 @@ export const getTokens = (network?: string | null): TokenNetworkConfig | undefin
 				'0xE86204c4eDDd2f70eE00EAd6805f917671F56c52',
 				'0x64eda51d3Ad40D56b9dFc5554E06F94e1Dd786Fd',
 			];
-			const tokenMap = _.zipObject(vaultList, tokenList); // TODO: write native replacement
+			const tokenMap = zipObject(vaultList, tokenList);
 			return {
 				curveTokens: {
 					contracts: [
