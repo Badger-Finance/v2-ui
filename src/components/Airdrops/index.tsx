@@ -15,7 +15,6 @@ import {
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { StoreContext } from '../../mobx/store-context';
-import useInterval from '@use-it/interval';
 import views from '../../config/routes';
 import { inCurrency } from '../../mobx/utils/helpers';
 import { sett_system } from '../../config/deployments/mainnet.json';
@@ -61,21 +60,18 @@ export const Airdrops = observer(() => {
 		router: { goTo },
 		wallet: { connectedAddress },
 		airdrops: { claimAirdrops },
-		uiState: { airdropStats, stats },
-		sett: { farmData },
+		uiState: { airdropStats },
+		setts: { settMap },
 	} = store;
 
 	let maxNativeApy: number | undefined = undefined;
-	if (farmData.digg && farmData.badger) {
-		const diggApy = farmData.digg.apy;
-		const badgerApy = farmData.badger.apy;
+	if (settMap && settMap.digg && settMap.badger) {
+		const diggApy = settMap.digg.apy;
+		const badgerApy = settMap.badger.apy;
 		maxNativeApy = Math.max(diggApy, badgerApy);
 	}
 
 	const spacer = () => <div className={classes.before} />;
-
-	const [update, forceUpdate] = useState<boolean>();
-	useInterval(() => forceUpdate(!update), 1000);
 
 	const copy = () => {
 		const q = [

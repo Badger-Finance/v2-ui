@@ -2,8 +2,10 @@ import { Container, Grid, makeStyles } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
 import DashboardCard from './DashboardCard';
 import Info from './Info';
-import React from 'react';
+import React, { useContext } from 'react';
 import PageHeader from '../../components-v2/common/PageHeader';
+import { NETWORK_LIST } from 'config/constants';
+import { StoreContext } from 'mobx/store-context';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -24,6 +26,8 @@ const useStyles = makeStyles((theme) => ({
 export const Digg = observer(() => {
 	const classes = useStyles();
 	const spacer = () => <div className={classes.before} />;
+	const store = useContext(StoreContext);
+	const { network } = store.wallet;
 
 	return (
 		<Container className={classes.root}>
@@ -31,10 +35,20 @@ export const Digg = observer(() => {
 				<Grid item xs={12} className={classes.headerContainer}>
 					<PageHeader title="DIGG" subtitle="Pegged to Bitcoin. Governed by BadgerDAO." />
 				</Grid>
-				<Info />
-				<Grid item xs={12}>
-					<DashboardCard />
-				</Grid>
+				{network.name === NETWORK_LIST.ETH ? (
+					<>
+						<Info />
+						<Grid item xs={12}>
+							<DashboardCard />
+						</Grid>
+					</>
+				) : (
+					<>
+						<Grid item xs={12}>
+							Digg stats are available on ETH Mainnet only.
+						</Grid>
+					</>
+				)}
 				{spacer()}
 			</Grid>
 		</Container>
