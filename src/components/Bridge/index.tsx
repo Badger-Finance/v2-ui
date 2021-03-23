@@ -44,9 +44,9 @@ const useStyles = makeStyles((theme) => ({
 	},
 	button: {
 		margin: theme.spacing(2, 0, 3),
-		// paddingTop: theme.spacing(2),
-		// paddingBottom: theme.spacing(2),
-		// width: '70%',
+		paddingTop: theme.spacing(2),
+		paddingBottom: theme.spacing(2),
+		width: '70%',
 	},
 	amountInput: {
 		width: '100%',
