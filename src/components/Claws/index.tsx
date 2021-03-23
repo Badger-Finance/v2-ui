@@ -8,15 +8,15 @@ import {
 	CardContent,
 	Container,
 	Grid,
-	Switch,
-	FormControlLabel,
 	CircularProgress,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Hero from 'components/Common/Hero';
+import Liquidations from './Liquidations';
 import Mint from './Mint';
 import Manage from './Manage';
 import Redeem from './Redeem';
+import Withdrawals from './Withdrawals';
 
 export enum INVALID_REASON {
 	OVER_MAXIMUM = 'EXCEED',
@@ -38,6 +38,7 @@ export interface ClawParam {
 
 export const useMainStyles = makeStyles((theme) => ({
 	root: {
+		marginBottom: theme.spacing(12),
 		marginTop: theme.spacing(11),
 		[theme.breakpoints.up('md')]: {
 			paddingLeft: theme.spacing(33),
@@ -89,7 +90,6 @@ export const Claws: FC = observer(() => {
 	const { isLoading } = store;
 	const classes = useMainStyles();
 	const [activeTab, setActiveTab] = useState(0);
-	const [globalData, setGlobalData] = useState(false);
 
 	const Content = () => {
 		if (isLoading) {
@@ -118,20 +118,6 @@ export const Claws: FC = observer(() => {
 					<Hero title="CLAWs" subtitle="Stablecoin backed by Badger Sett Vaults" />
 				</Grid>
 				<Grid item xs={12}>
-					<FormControlLabel
-						label="Global Data"
-						control={
-							<Switch
-								checked={globalData}
-								onChange={() => {
-									setGlobalData(!globalData);
-								}}
-								color="primary"
-							/>
-						}
-					/>
-				</Grid>
-				<Grid item xs={12}>
 					<Card>
 						<Tabs
 							variant="fullWidth"
@@ -148,6 +134,12 @@ export const Claws: FC = observer(() => {
 						</CardContent>
 					</Card>
 				</Grid>
+				{1 || 2 > 0 ? (
+					<Grid item xs={12}>
+						{1 > 0 ? <Withdrawals/> : null}
+						{2 > 0 ? <Liquidations/> : null}
+					</Grid>
+				) : null}
 			</Grid>
 		</Container>
 	);
