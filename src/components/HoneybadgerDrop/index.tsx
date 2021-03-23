@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Button, Container, Grid, makeStyles, Paper, Typography, useMediaQuery, useTheme } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import _isNil from 'lodash/isNil';
@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const HoneybadgerDrop: React.FC = observer(() => {
-	const store = useContext(StoreContext);
+	const store = React.useContext(StoreContext);
 	const classes = useStyles();
 	const theme = useTheme();
 	const isMobile = useMediaQuery(theme.breakpoints.only('xs'));
@@ -225,41 +225,41 @@ export const HoneybadgerDrop: React.FC = observer(() => {
 									</Grid>
 									{nfts.length > 0 ? (
 										<Grid item container xs={12} justify="space-between" spacing={isMobile ? 0 : 8}>
-											{nfts.map(({ balance, tokenId, name, image, totalSupply, root }) => {
-												const redemptionRate = store.honeyPot.calculateRedemptionRate({
-													balance,
-													totalSupply,
-													root,
-												});
+											{nfts.map(
+												({ balance, tokenId, name, image, totalSupply, root, poolBalance }) => {
+													const redemptionRate = store.honeyPot.calculateRedemptionRate(root);
 
-												const formattedRedemptionRate = diggToCurrency({
-													amount: bdiggToDigg(redemptionRate),
-													currency: 'usd',
-												});
+													const formattedRedemptionRate = diggToCurrency({
+														amount: bdiggToDigg(redemptionRate),
+														currency: 'usd',
+													});
 
-												return (
-													<Grid
-														key={tokenId}
-														className={classes.nftContainer}
-														item
-														xs={12}
-														sm={6}
-														lg={4}
-													>
-														<NFT
-															nftId={tokenId}
-															name={name || 'NFT Name N/A'}
-															image={image}
-															balance={balance}
-															remaining={`${+totalSupply - +balance}/${totalSupply}`}
-															redemptionRate={formattedRedemptionRate}
-															loading={nftBeingRedeemed === tokenId}
-															disabled={!(+balance > 0)}
-															onRedeem={() => store.honeyPot.redeemNFT(tokenId)}
-														/>
-													</Grid>
-												);
-											})}
+													const isBalanceEmpty = +balance < 1;
+
+													return (
+														<Grid
+															key={tokenId}
+															className={classes.nftContainer}
+															item
+															xs={12}
+															sm={6}
+															lg={4}
+														>
+															<NFT
+																nftId={tokenId}
+																name={name || 'NFT Name N/A'}
+																image={image}
+																balance={balance}
+																remaining={`${+totalSupply - +balance}/${totalSupply}`}
+																redemptionRate={formattedRedemptionRate}
+																loading={nftBeingRedeemed === tokenId}
+																disabled={isBalanceEmpty}
+																onRedeem={() => store.honeyPot.redeemNFT(tokenId)}
+															/>
+														</Grid>
+													);
+												},
+											)}
 										</Grid>
 									) : (
 										<Grid item container xs={12} justify="space-between">

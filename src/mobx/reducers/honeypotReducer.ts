@@ -5,7 +5,7 @@ export function reduceNextGlobalRedemptionRate(store: HoneyPotStore): BigNumber 
 	if (!store.nfts) return new BigNumber('0');
 
 	return store.nfts.reduce(
-		(redemptionSum: BigNumber, nft: NFT) => redemptionSum.plus(store.calculateRedemptionRate(nft)),
+		(redemptionSum: BigNumber, nft: NFT) => redemptionSum.plus(store.calculateRedemptionRate(nft.root)),
 		new BigNumber('0'),
 	);
 }
