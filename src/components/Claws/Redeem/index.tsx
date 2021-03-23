@@ -51,7 +51,6 @@ const Redeem: FC = () => {
         const handleRedeem = () => {
                 const [empAddress, numTokens] = [selectedOption, amount];
                 if (!empAddress || !numTokens) return;
-                console.log('numTokens ->', numTokens.toString(), new ethers.utils.BigNumber(numTokens).toString());
                 store.redeem({
                         empAddress,
                         numTokens: new ethers.utils.BigNumber(numTokens).toHexString(),

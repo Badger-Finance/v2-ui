@@ -2,7 +2,7 @@ import Web3 from 'web3';
 import { AbiItem } from 'web3-utils';
 import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
-import { action, observe, extendObservable } from 'mobx';
+import { action, observe, extendObservable, toJS } from 'mobx';
 import { RootStore } from 'mobx/store';
 import { getClawEmp, getClawEmpSponsor } from 'mobx/utils/api';
 import BigNumber from 'bignumber.js';
@@ -26,6 +26,10 @@ export interface Mint {
 export interface Redeem {
 	empAddress: string;
 	numTokens: string;
+}
+export interface Deposit {
+	empAddress: string;
+	depositAmount: string;
 }
 export interface Withdraw {
 	empAddress: string;
@@ -116,7 +120,7 @@ export class ClawStore {
 	collaterals: Map<string, string> = new Map();
 	claws: Map<string, string> = new Map();
 	clawsByCollateral: Map<string, Map<string, string>> = new Map();
-        // Split up isLoading into two state variables to track individual data loading calls since 
+        // Split up isLoading into two state variables to track individual data loading calls since
         // tracking together is racy as connectedAddress is loaded async and not on construction.
 	isLoading = false;
 	isLoadingSyntheticData = false;
@@ -157,13 +161,11 @@ export class ClawStore {
 		const { queueNotification } = this.store.uiState;
 		try {
 			const synthetic = this.syntheticsDataByEMP.get(empAddress);
-
 			if (!synthetic) return;
 
 			await this._approveSpendIfRequired(empAddress, synthetic.collateralCurrency, collateralAmount);
 			await this._mint(empAddress, collateralAmount, mintAmount);
-                        this.fetchSponsorData();
-                        this.fetchSyntheticsData();
+                        await this._updateBalances();
 		} catch (error) {
 			queueNotification(error?.message || 'There was an error minting', 'error');
 			process.env.NODE_ENV !== 'production' && console.log(error);
@@ -172,15 +174,14 @@ export class ClawStore {
 
 	redeem = action(async ({ empAddress, numTokens }: Redeem) => {
 		const { queueNotification } = this.store.uiState;
+		const { fetchTokens } = this.store.contracts;
 		try {
 			const synthetic = this.syntheticsDataByEMP.get(empAddress);
-
 			if (!synthetic) return;
 
 			await this._approveSpendIfRequired(empAddress, synthetic.tokenCurrency, numTokens);
 			await this._redeem(empAddress, numTokens);
-                        this.fetchSponsorData();
-                        this.fetchSyntheticsData();
+                        await this._updateBalances();
 		} catch (error) {
 			queueNotification(error?.message || 'There was an error redeeming collateral', 'error');
 			process.env.NODE_ENV !== 'production' && console.log(error);
@@ -191,8 +192,7 @@ export class ClawStore {
 		const { queueNotification } = this.store.uiState;
 		try {
 			await this._withdraw(empAddress, collateralAmount);
-                        this.fetchSponsorData();
-                        this.fetchSyntheticsData();
+                        await this._updateBalances();
 		} catch (error) {
 			queueNotification(error?.message || 'There was an error withdrawing collateral', 'error');
 			process.env.NODE_ENV !== 'production' && console.log(error);
@@ -213,8 +213,7 @@ export class ClawStore {
 		const { queueNotification } = this.store.uiState;
 		try {
 			await this._withdrawPassedRequest(empAddress);
-                        this.fetchSponsorData();
-                        this.fetchSyntheticsData();
+                        await this._updateBalances();
 		} catch (error) {
 			queueNotification(error?.message || 'There was an error withdrawing collateral', 'error');
 			process.env.NODE_ENV !== 'production' && console.log(error);
@@ -231,12 +230,15 @@ export class ClawStore {
 		}
 	});
 
-	depositCollateral = action(async (empAddress: string, depositAmount: string) => {
+	deposit = action(async ({ empAddress, depositAmount}: Deposit) => {
 		const { queueNotification } = this.store.uiState;
 		try {
-			await this._depositCollateral(empAddress, depositAmount);
-                        this.fetchSponsorData();
-                        this.fetchSyntheticsData();
+			const synthetic = this.syntheticsDataByEMP.get(empAddress);
+			if (!synthetic) return;
+
+			await this._approveSpendIfRequired(empAddress, synthetic.collateralCurrency, depositAmount);
+			await this._deposit(empAddress, depositAmount);
+                        await this._updateBalances();
 		} catch (error) {
 			queueNotification(error?.message || 'There was an error depositing collateral', 'error');
 			process.env.NODE_ENV !== 'production' && console.log(error);
@@ -252,6 +254,7 @@ export class ClawStore {
 			this.collaterals = reduceCollaterals(this);
 			this.clawsByCollateral = reduceClawByCollateral(this);
 			this.claws = reduceClaws();
+                        console.log('fetchSyntheticsData syntheticsData ->', toJS(this.syntheticsData), toJS(this.collaterals));
 		} catch (error) {
 			queueNotification(error?.message || 'There was an error fetching synthetic data', 'error');
 		} finally {
@@ -384,7 +387,7 @@ export class ClawStore {
 		});
 	}
 
-	private async _depositCollateral(empAddress: string, depositAmount: string) {
+	private async _deposit(empAddress: string, depositAmount: string) {
 		const emp = this._getEmpContract(empAddress);
 		const deposit = emp.methods.deposit({ rawValue: depositAmount });
 
@@ -446,6 +449,17 @@ export class ClawStore {
 	private _addEmpAddress(data: SyntheticData[]) {
 		return data.map((s, index) => ({ ...s, address: EMPS_ADDRESSES[index] }));
 	}
+
+        // _updateBalances updates all synthetic/collateral balances and sponsor position.
+	private async _updateBalances() {
+		const { fetchTokens } = this.store.contracts;
+                await Promise.all([
+                        // TODO: We should track loading state for token balances as well.
+                        fetchTokens(() => {}),
+                        this.fetchSponsorData(),
+                        this.fetchSyntheticsData(),
+                ]);
+        }
 }
 
 export default ClawStore;
