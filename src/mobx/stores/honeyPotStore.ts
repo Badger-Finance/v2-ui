@@ -4,8 +4,6 @@ import BigNumber from 'bignumber.js';
 import { RootStore } from '../store';
 import { AbiItem } from 'web3-utils';
 import { ERC20 } from 'config/constants';
-import _merge from 'lodash/merge';
-import _mergeWith from 'lodash/mergeWith';
 import { getNftBatchInformation } from 'mobx/utils/api';
 import mainnet from 'config/deployments/mainnet.json';
 import { abi as scarcityPoolABI } from 'config/system/abis/BadgerScarcityPool.json';
@@ -18,6 +16,7 @@ import { Contract } from 'web3-eth-contract';
 export interface NFT {
 	tokenId: string;
 	balance: string;
+	poolBalance: string;
 	totalSupply: string;
 	root: string;
 	name?: string;
@@ -73,7 +72,6 @@ export class HoneyPotStore {
 		}
 	});
 
-	// discus about whether to use the open sea api or not
 	fetchNFTS = action(async () => {
 		try {
 			const { provider, connectedAddress } = this.store.wallet;
@@ -99,17 +97,19 @@ export class HoneyPotStore {
 			}
 
 			const tokenIds = nfts.map(({ tokenId }) => tokenId);
-			const [balances, { assets }] = await Promise.all([
+			const [balances, poolBalances] = await Promise.all([
 				memeLtd.methods.balanceOfBatch(Array(nfts.length).fill(connectedAddress), tokenIds).call(),
-				getNftBatchInformation(tokenIds),
+				memeLtd.methods.balanceOfBatch(Array(nfts.length).fill(mainnet.honeypotMeme), tokenIds).call(),
 			]);
 
+			// TODO: add image and name once the contracts are deployed
 			// merge nft core information, balance, name and image
 			this.nfts = nfts.map((nft, index) => ({
 				...nft,
 				balance: balances[index],
-				image: assets[index]?.imagePreviewUrl,
-				name: assets[index]?.name,
+				poolBalance: poolBalances[index],
+				// image: assets[index]?.imagePreviewUrl,
+				// name: assets[index]?.name,
 			}));
 
 			this.nextRedemptionRate = reduceNextGlobalRedemptionRate(this);
@@ -134,7 +134,13 @@ export class HoneyPotStore {
 			const memeLtdAddress = await pool.methods.memeLtd().call();
 			const memeLtd = new web3.eth.Contract(memeLtdABI as AbiItem[], memeLtdAddress);
 
-			const redeem = memeLtd.methods.safeTransferFrom(memeLtdAddress, mainnet.honeypotMeme, tokenId, '1', '0x00');
+			const redeem = memeLtd.methods.safeTransferFrom(
+				connectedAddress,
+				mainnet.honeypotMeme,
+				tokenId,
+				'1',
+				'0x00',
+			);
 
 			queueNotification(`Sign the transaction to redeem your NFT`, 'info');
 
@@ -147,16 +153,16 @@ export class HoneyPotStore {
 					transaction
 						.on('transactionHash', (hash) => {
 							queueNotification(`Redemption submitted.`, 'info', hash);
-							this.nftBeingRedeemed = undefined;
 						})
 						.on('receipt', () => {
 							queueNotification(`NFT Redeemed.`, 'success');
 							this.fetchNFTS();
-							this.nftBeingRedeemed = undefined;
 						})
 						.catch((error: any) => {
 							queueNotification(error.message, 'error');
 							setTxStatus('error');
+						})
+						.finally(() => {
 							this.nftBeingRedeemed = undefined;
 						});
 				},
@@ -165,16 +171,19 @@ export class HoneyPotStore {
 			const message = error?.message || 'There was an error. Please try again later.';
 			this.store.uiState.queueNotification(message, 'error');
 			process.env.NODE_ENV != 'production' && console.error(error);
+			this.nftBeingRedeemed = undefined;
 		}
 	});
 
-	calculateRedemptionRate({ balance, totalSupply, root }: Pick<NFT, 'balance' | 'totalSupply' | 'root'>): BigNumber {
-		if (!this.poolBalance) return new BigNumber('0');
+	calculateRedemptionRate(root: NFT['root']): BigNumber {
+		if (!this.poolBalance || !this.nfts) return new BigNumber('0');
 
-		const owned = new BigNumber(balance);
-		const total = new BigNumber(totalSupply);
-		const exponential = new BigNumber(root);
+		const totalNftSupply = this.nfts.reduce((acc: number, { totalSupply }) => +totalSupply + acc, 0);
+		const totalPoolNftBalance = this.nfts.reduce((acc: number, { poolBalance }) => +poolBalance + acc, 0);
+		const exponential = +root / 10000;
+		const redemptionRatio = 1 / (totalNftSupply - totalPoolNftBalance);
 
-		return this.poolBalance.multipliedBy(owned.dividedBy(total).exponentiatedBy(exponential));
+		// formula is bDiggRemaining*{[amountToRedeem/(totalSupplyOfNft - poolBalanceOfNft)]^root}
+		return this.poolBalance.multipliedBy(Math.pow(redemptionRatio, exponential));
 	}
 }
