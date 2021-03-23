@@ -442,7 +442,7 @@ export const BridgeForm = observer((props: any) => {
 					variant="outlined"
 					onChange={handleChange('token')}
 					value={values.token}
-					style={classes.select}
+					className={classes.selec2t}
 					inputProps={{
 						name: 'token',
 						id: 'token-select',
@@ -533,7 +533,7 @@ export const BridgeForm = observer((props: any) => {
 
 	if (error) {
 		return (
-			<Grid container alignItems={'center'} style={classes.padded}>
+			<Grid container alignItems={'center'} className={classes.padded}>
 				Error: {error.message}
 			</Grid>
 		);
@@ -541,7 +541,7 @@ export const BridgeForm = observer((props: any) => {
 
 	if (loading) {
 		return (
-			<Grid container alignItems={'center'} style={classes.padded}>
+			<Grid container alignItems={'center'} className={classes.padded}>
 				Loading...
 			</Grid>
 		);
@@ -549,7 +549,7 @@ export const BridgeForm = observer((props: any) => {
 
 	if (status != Status.IDLE) {
 		return (
-			<Grid container alignItems={'center'} style={classes.padded}>
+			<Grid container alignItems={'center'} className={classes.padded}>
 				Transaction in progress...
 			</Grid>
 		);
