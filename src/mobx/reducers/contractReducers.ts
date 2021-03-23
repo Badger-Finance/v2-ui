@@ -229,7 +229,7 @@ export const reduceGeyserSchedule = (schedules: Schedules, store: RootStore): Gr
 
 			// console.log(schedule)
 
-			schedule.forEach((block: any) => { // TODO: why use _valuesIn() here instead of _values()?
+			schedule.forEach((block: any) => {
 				const [initial, endAtSec, , startTime] = valuesIn(block).map((val: any) => new BigNumber(val));
 				let initialLocked = initial;
 				if (tokenAddress.toLowerCase() === deploy.digg_system.uFragments.toLowerCase()) {

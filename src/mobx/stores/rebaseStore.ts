@@ -60,8 +60,7 @@ class RebaseStore {
 			batchCall.execute(network.rebase.digg),
 			...[...graphQuery(network.rebase.digg[0].addresses[0], this.store)],
 		]).then((result: any[]) => {
-			const keyedResult = groupBy(result[0], (v) => v.namespace); // TODO: is this groupby the same as lodash groupby on the next line?
-			// const keyedResult = _.groupBy(result[0], 'namespace');
+			const keyedResult = groupBy(result[0], (v) => v.namespace);
 
 			if (!keyedResult.token || !keyedResult.token[0].decimals || !keyedResult.oracle[0].providerReports[0].value)
 				return;
