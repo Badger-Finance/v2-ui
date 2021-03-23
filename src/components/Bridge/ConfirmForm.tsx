@@ -111,6 +111,11 @@ export const ConfirmForm = (props: any) => {
 					'The fee required by Bitcoin miners, to move BTC. This does not go RenVM, the Ren or Badger team.',
 					`${values.tabValue == 0 ? values.lockNetworkFee : values.releaseNetworkFee} BTC`,
 				)}
+				{values.token === 'WBTC' && feeContainer(
+					'Price Impact of Swap',
+					'The estimated slippage due to swapping RenBTC <-> wBTC.',
+					`${Math.abs(values.estimatedSlippage * 100).toFixed(2) + '%'}`,
+				)}
 			</Grid>
 			{values.spacer}
 			<Grid item xs={12}>
