@@ -10,11 +10,20 @@ import { useDetails, useError } from './manage.hooks';
 import { ClawDetails, ConnectWalletButton, validateAmountBoundaries } from '../shared';
 import { ClawParam, useMainStyles } from '../index';
 
+enum Mode {
+        DEPOSIT = 'deposit',
+        WITHDRAW = 'withdraw',
+        REQUEST_WITHDRAWAL = 'request_withdrawal',
+        WITHDRAW_PENDING = 'withdraw_pending',
+        CANCEL_WITHDRAWAL = 'cancel_withdrawal',
+}
+
 const Manage: FC = () => {
 	const { claw: store, contracts, wallet } = useContext(StoreContext);
 	const { collaterals, claws, syntheticsDataByEMP, sponsorInformationByEMP } = store;
 	const classes = useMainStyles();
-	const [mode, setMode] = useState<'deposit' | 'withdraw' | 'request_withdrawal' | 'cancel_withdrawal'>('deposit');
+	const [mode, setMode] = useState<Mode.DEPOSIT | Mode.WITHDRAW | Mode.REQUEST_WITHDRAWAL
+                | Mode.CANCEL_WITHDRAWAL | Mode.WITHDRAW_PENDING>(Mode.DEPOSIT);
 	const [manage, setManageParams] = useState<ClawParam>({});
 	const details = useDetails(mode, manage);
 	const error = useError(manage);
@@ -25,21 +34,49 @@ const Manage: FC = () => {
         const decimals = bToken ? bToken.decimals : 18; // Default to 18 decimals.
         const position = sponsorInformationByEMP.get(selectedOption || '')?.position
 
+        // handleManage depends on the mode.
         let balanceLabel = '';
         let balance = new BigNumber(0);
         switch (mode) {
-                case 'deposit':
+                case Mode.DEPOSIT:
                         balance = bToken?.balance;
                         balanceLabel = bToken && `Available ${collaterals.get(bToken.address)}: `;
                         break;
-                case 'withdraw':
-                case 'request_withdrawal':
+                case Mode.WITHDRAW:
+                case Mode.REQUEST_WITHDRAWAL:
                         balanceLabel = bToken && `Deposited collateral ${collaterals.get(bToken.address)}: `;
                         if (position) {
                                 balance = position.rawCollateral;
                         }
                         break;
         }
+        const handleManageFns = {
+                [Mode.DEPOSIT]: () => {
+                        const [empAddress, depositAmount] = [selectedOption, amount]
+                        if (!empAddress || !depositAmount) return;
+                        store.deposit({ empAddress, depositAmount });
+                },
+                [Mode.WITHDRAW]: () => {
+                        const [empAddress, collateralAmount] = [selectedOption, amount]
+                        if (!empAddress || !collateralAmount) return;
+                        store.withdraw({ empAddress, collateralAmount });
+                },
+                [Mode.REQUEST_WITHDRAWAL]: () => {
+                        const [empAddress, collateralAmount] = [selectedOption, amount]
+                        if (!empAddress || !collateralAmount) return;
+                        store.requestWithdrawal({ empAddress, collateralAmount });
+                },
+                [Mode.CANCEL_WITHDRAWAL]: () => {
+                        const empAddress = selectedOption
+                        if (!empAddress) return;
+                        store.cancelWithdrawal(empAddress);
+                },
+                [Mode.WITHDRAW_PENDING]: () => {
+                        const empAddress = selectedOption
+                        if (!empAddress) return;
+                        store.withdrawPassedRequest(empAddress);
+                },
+        };
 
 	return (
 		<Container>
@@ -60,10 +97,11 @@ const Manage: FC = () => {
 						<MenuItem value="" disabled>
 							Select Mode
 						</MenuItem>
-						<MenuItem value="deposit">DEPOSIT</MenuItem>
-						<MenuItem value="withdraw">WITHDRAW</MenuItem>
-						<MenuItem value="request_withdrawal">REQUEST WITHDRAWAL</MenuItem>
-						<MenuItem value="cancel_withdrawal">CANCEL WITHDRAWAL</MenuItem>
+						<MenuItem value={Mode.DEPOSIT}>DEPOSIT</MenuItem>
+						<MenuItem value={Mode.WITHDRAW}>WITHDRAW</MenuItem>
+						<MenuItem value={Mode.REQUEST_WITHDRAWAL}>REQUEST WITHDRAWAL</MenuItem>
+						<MenuItem value={Mode.CANCEL_WITHDRAWAL}>CANCEL WITHDRAWAL</MenuItem>
+						<MenuItem value={Mode.WITHDRAW_PENDING}>WITHDRAW PENDING</MenuItem>
 					</Select>
 				</Grid>
 			</Box>
@@ -131,6 +169,7 @@ const Manage: FC = () => {
 								disabled={!!error}
 								size="large"
 								className={classes.button}
+                                                                onClick={handleManageFns[mode]}
 							>
 								{error ? error : mode.toLocaleUpperCase()}
 							</Button>

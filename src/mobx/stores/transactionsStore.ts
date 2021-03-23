@@ -12,6 +12,7 @@ class TransactionsStore {
 	public incompleteTransfer!: boolean;
 
 	constructor(store: RootStore) {
+                return;
 		this.store = store;
 		this.db = fbase.firestore();
 		this.gjs = new GatewayJS('mainnet');
