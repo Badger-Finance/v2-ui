@@ -23,6 +23,13 @@ export enum INVALID_REASON {
 	UNDER_MINIMUM = 'NOT_MINIMUM',
 }
 
+// SkipError specifies which errors to skip when calling the useError fn.
+export interface SkipError {
+        noToken?: string;
+        amount?: string;
+        balance?: string;
+}
+
 export interface ClawParam {
 	amount?: string;
 	selectedOption?: string;

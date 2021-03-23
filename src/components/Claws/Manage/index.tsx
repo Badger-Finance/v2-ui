@@ -26,8 +26,16 @@ const Manage: FC = () => {
                 | Mode.CANCEL_WITHDRAWAL | Mode.WITHDRAW_PENDING>(Mode.DEPOSIT);
 	const [manage, setManageParams] = useState<ClawParam>({});
 	const details = useDetails(mode, manage);
-	const error = useError(manage);
-
+        let skipError = {};
+        if (mode === Mode.CANCEL_WITHDRAWAL) {
+                // No amount / balance validation for cancel withdrawal mode
+                // (user selects token but does not enter an amount).
+                skipError = {
+                        amount: true,
+                        balance: true,
+                }
+        }
+	const error =  useError(manage, skipError);
 	const { selectedOption, amount } = manage;
 	const selectedSynthetic = syntheticsDataByEMP.get(selectedOption || '');
 	const bToken = contracts.tokens[selectedSynthetic?.collateralCurrency.toLocaleLowerCase() ?? ''];
@@ -122,7 +130,7 @@ const Manage: FC = () => {
 						displayAmount={amount}
 						selectedOption={selectedOption}
 						disabledOptions={!wallet.connectedAddress}
-						disabledAmount={!selectedOption || !wallet.connectedAddress}
+						disabledAmount={!selectedOption || !wallet.connectedAddress || mode === Mode.CANCEL_WITHDRAWAL}
 						onAmountChange={(amount: string) => {
 							if (!balance) return;
 
@@ -146,11 +154,7 @@ const Manage: FC = () => {
 								error: undefined,
 							});
 						}}
-						onOptionChange={(selectedOption: string) => {
-							setManageParams({
-								selectedOption,
-							});
-						}}
+						onOptionChange={(selectedOption: string) => setManageParams({ selectedOption })}
 					/>
 				</Grid>
 				<Grid item xs={12}>
