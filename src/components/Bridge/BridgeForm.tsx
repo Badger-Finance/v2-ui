@@ -29,10 +29,6 @@ import {
 } from 'config/constants';
 import { bridge_system } from 'config/deployments/mainnet.json';
 
-// SLIPPAGE_BUFFER increases estimated slippage by 5%.
-const SLIPPAGE_BUFFER = 1.05;
-const MAX_BPS = 10000;
-
 interface TabPanelProps {
 	children: any;
 	index: number;
@@ -67,6 +63,14 @@ const useStyles = makeStyles((theme) => ({
                 padding: '2rem 2rem',
         },
         select: { height: '3rem', overflow: 'hidden', margin: '.3rem 0 0 .6rem' },
+        row: {
+                display: 'flex',
+                justifyContent: 'space-between',
+                flexDirection: 'row',
+                alignItems: 'center',
+                width: '100%',
+                padding: '.5rem 0 0 1rem',
+        },
 }));
 
 // Gateways expects nonce as a bytes32 hex string.
@@ -112,6 +116,8 @@ export const BridgeForm = observer((props: any) => {
 		amount: '',
 		receiveAmount: 0,
 		estimatedSlippage: 0,
+                // Default to 0.5%.
+                maxSlippage: .5,
 		burnAmount: '',
 		btcAddr: '',
 		renFee: 0,
@@ -135,6 +141,7 @@ export const BridgeForm = observer((props: any) => {
 		btcAddr,
 		tabValue,
 		estimatedSlippage,
+                maxSlippage,
 		renFee,
 		badgerFee,
 	} = states;
@@ -154,6 +161,7 @@ export const BridgeForm = observer((props: any) => {
 		tabValue,
 		spacer,
 		estimatedSlippage,
+                maxSlippage,
 		badgerBurnFee,
 		badgerMintFee,
 		renvmBurnFee,
@@ -172,6 +180,14 @@ export const BridgeForm = observer((props: any) => {
 		}
 	};
 
+	const resetState = () => {
+		// Reset everything except balances
+		setStates((prevState) => ({
+			...prevState,
+			...initialStateResettable,
+		}));
+	};
+
 	const handleTabChange = (event: any, newValue: number) => {
 		setStates((prevState) => ({
 			...prevState,
@@ -182,11 +198,10 @@ export const BridgeForm = observer((props: any) => {
 		}));
 	};
 
-	const resetState = () => {
-		// Reset everything except balances
+	const handleSetMaxSlippage = (newValue: number) => () => {
 		setStates((prevState) => ({
 			...prevState,
-			...initialStateResettable,
+			maxSlippage: newValue,
 		}));
 	};
 
@@ -230,11 +245,11 @@ export const BridgeForm = observer((props: any) => {
 	// TODO: Can refactor most of these methods below into the store as well.
 	const deposit = async () => {
 		const amountSats = new BigNumber(amount).multipliedBy(10 ** 8); // Convert to Satoshis
-		let maxSlippage = 0;
 		let desiredToken = NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.RENBTC_ADDRESS;
+                let maxSlippageBps = 0;
 		if (token === 'WBTC') {
-			// Convert slippage from % to bps.
-			maxSlippage = Math.round(Math.min(estimatedSlippage * SLIPPAGE_BUFFER, 1) * MAX_BPS);
+			// Convert max slippage from % to bps.
+                        maxSlippageBps = Math.round(maxSlippage * 100)
 			desiredToken = NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.WBTC_ADDRESS;
 		}
 		const contractParams: EthArgs = [
@@ -246,7 +261,7 @@ export const BridgeForm = observer((props: any) => {
 			{
 				name: '_slippage',
 				type: 'uint256',
-				value: maxSlippage,
+				value: maxSlippageBps,
 			},
 			{
 				name: '_destination',
@@ -273,11 +288,11 @@ export const BridgeForm = observer((props: any) => {
 		const methodSeries: any = [];
 		const amountSats = new BigNumber(burnAmount as any).multipliedBy(10 ** 8); // Convert to Satoshis
 		let burnToken = NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.RENBTC_ADDRESS;
-		let maxSlippage = 0;
+                let maxSlippageBps = 0;
 		if (token === 'WBTC') {
 			burnToken = NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.WBTC_ADDRESS;
-			// Convert slippage from % to bps.
-			maxSlippage = Math.round(Math.min(estimatedSlippage * SLIPPAGE_BUFFER, 1) * MAX_BPS);
+			// Convert max slippage from % to bps.
+                        maxSlippageBps = Math.round(maxSlippage * 100)
 		}
 		const params: any = [
 			{
@@ -393,6 +408,14 @@ export const BridgeForm = observer((props: any) => {
 			const inputAmount = event.target.value;
 			if (!isFinite(inputAmount)) return;
 			await calcFees(inputAmount, name);
+		} else if (name === 'maxSlippage') {
+                        // TODO: Can do some further validation here.
+			const value = event.target.value;
+			if (!isFinite(value)) return;
+			setStates((prevState) => ({
+				...prevState,
+				[name]: value,
+			}));
 		} else if (name === 'token') {
 			const value = event.target.value;
 			setStates((prevState) => ({
@@ -479,6 +502,7 @@ export const BridgeForm = observer((props: any) => {
 							<MintForm
 								values={values}
 								handleChange={handleChange}
+								handleSetMaxSlippage={handleSetMaxSlippage}
 								previousStep={previousStep}
 								nextStep={nextStep}
 								classes={classes}
@@ -491,6 +515,7 @@ export const BridgeForm = observer((props: any) => {
 							<ReleaseForm
 								values={values}
 								handleChange={handleChange}
+								handleSetMaxSlippage={handleSetMaxSlippage}
 								previousStep={previousStep}
 								nextStep={nextStep}
 								classes={classes}

@@ -6,11 +6,13 @@ import { ArrowDownward } from '@material-ui/icons';
 
 import BTCLogo from 'assets/icons/btc.svg';
 import { MIN_AMOUNT } from './constants';
+import { Slippage } from './Common';
 
 export const ReleaseForm = (props: any) => {
 	const {
 		classes,
 		handleChange,
+		handleSetMaxSlippage,
 		nextStep,
 		values,
 		connectWallet,
@@ -96,6 +98,14 @@ export const ReleaseForm = (props: any) => {
 						onChange={handleChange('btcAddr')}
 					/>
 				</Grid>
+                                {values.token === 'WBTC' && (
+                                        <Slippage
+                                                values={values}
+                                                classes={classes}
+                                                handleChange={handleChange}
+                                                handleSetMaxSlippage={handleSetMaxSlippage}
+                                        />
+                                )}
 			</Grid>
 			<Grid container spacing={2} style={{ padding: '1rem 0 0' }}>
 				<Grid item xs={12} className={classes.summaryWrapper}>
