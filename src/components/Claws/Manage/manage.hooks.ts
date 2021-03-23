@@ -2,7 +2,7 @@ import React from 'react';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import { StoreContext } from 'mobx/store-context';
-import { ClawParam, INVALID_REASON } from '../index';
+import { ClawParam, SkipError, INVALID_REASON } from '../index';
 
 dayjs.extend(utc);
 
@@ -24,17 +24,20 @@ const defaultDepositDetails = {
 	'Minimum Deposit': '-',
 };
 
-export function useError({ selectedOption, amount, error }: ClawParam) {
+export function useError({ selectedOption, amount, error }: ClawParam, skip: SkipError = {}): string {
 	const { claw, contracts } = React.useContext(StoreContext);
 	const selectedSynthetic = claw.syntheticsDataByEMP.get(selectedOption || '');
 	const bToken = contracts.tokens[selectedSynthetic?.collateralCurrency.toLocaleLowerCase() ?? ''];
 
 	const collateralName = bToken ? claw.collaterals.get(bToken.address) : 'collateral token';
-	const noTokenError = !selectedOption && 'Select a Token';
-	const amountError = !amount && 'Enter an amount';
-	const balanceError = error === INVALID_REASON.OVER_MAXIMUM && `Amount exceeds ${collateralName} balance`;
+        const errors: string[] = [];
+	if (!selectedOption && !skip.noToken) errors.push('Select a Token');
+	if (!amount && !skip.amount) errors.push('Enter an amount');
+        if (error === INVALID_REASON.OVER_MAXIMUM && !skip.amount) errors.push(`Amount exceeds ${collateralName} balance`);
 
-	return noTokenError || amountError || balanceError;
+	if (errors.length === 0) return '';
+
+        return errors.reduce((a, b) => (a || b));
 }
 
 export function useDetails(mode: string, manage: ClawParam) {
