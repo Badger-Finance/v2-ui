@@ -10,7 +10,7 @@ import { Contract } from 'web3-eth-contract';
 import { graphQuery } from '../utils/helpers';
 import { estimateAndSend } from '../utils/web3';
 import { getNextRebase, getRebaseLogs } from '../utils/diggHelpers';
-import {defaultsDeep, groupBy} from "../../utils/lodashToNative";
+import { defaultsDeep, groupBy } from '../../utils/lodashToNative';
 
 let batchCall: any = null;
 

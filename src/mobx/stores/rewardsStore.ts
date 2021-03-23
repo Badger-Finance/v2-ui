@@ -68,8 +68,10 @@ class RewardsStore {
 								.then((result: any[]) => {
 									if (!proof.error) {
 										this.badgerTree.cycle = this.badgerTree.cycle ?? parseInt(proof.cycle, 16);
-										this.badgerTree.claims = this.badgerTree.claims ?? reduceClaims(proof, result[0][0], result[0][1]);
-										this.badgerTree.sharesPerFragment = this.badgerTree.sharesPerFragment ?? result[1];
+										this.badgerTree.claims =
+											this.badgerTree.claims ?? reduceClaims(proof, result[0][0], result[0][1]);
+										this.badgerTree.sharesPerFragment =
+											this.badgerTree.sharesPerFragment ?? result[1];
 										this.badgerTree.proof = this.badgerTree.proof ?? proof;
 									}
 								})

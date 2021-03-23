@@ -17,7 +17,7 @@ import {
 	ReducedGraphResults,
 	Schedules,
 } from '../model';
-import {map, compact, keyBy, mapValues, valuesIn} from "../../utils/lodashToNative";
+import { map, compact, keyBy, mapValues, valuesIn, isString } from '../../utils/lodashToNative';
 
 export const reduceBatchResult = (result: any[]): any[] => {
 	return result.map((vault) => {
@@ -43,13 +43,13 @@ export const reduceBatchResult = (result: any[]): any[] => {
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const reduceResult = (value: any): any => {
 	if (/^-?\d+$/.test(value)) return new BigNumber(value);
-	else if (typeof value === 'string' && value.slice(0, 2) === '0x') return value as string;
-	else if (typeof value === 'string') return value;
+	else if (isString(value) && value.slice(0, 2) === '0x') return value as string;
+	else if (isString(value)) return value;
 	else return value;
 };
 
 export const reduceSushiAPIResults = (results: SushiAPIResults): any => {
-	const newSushiROIs: any[] = results.pairs.map( (pair: any) => {
+	const newSushiROIs: any[] = results.pairs.map((pair: any) => {
 		return {
 			address: pair.address,
 			day: new BigNumber(pair.aprDay).dividedBy(100),

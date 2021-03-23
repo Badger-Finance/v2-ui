@@ -13,7 +13,7 @@ import { getRewards } from 'config/system/rewards';
 import Web3 from 'web3';
 
 import { ZERO, TEN } from 'config/constants';
-import {Dictionary} from "async";
+import { Dictionary } from 'async';
 
 export class Contract {
 	store!: RootStore;

@@ -1,116 +1,112 @@
 // https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_keyby
 
 function arrayKeyBy(arr: Array<any>, key: string): Record<string, any> {
-  return (arr || []).reduce((accum, value) => ({ ...accum, [key ? value[key] : value]: value }), {});
+	return (arr || []).reduce((accum, value) => ({ ...accum, [key ? value[key] : value]: value }), {});
 }
 
 export function keyBy(collection: Array<any> | Record<string, any>, key: string): Record<string, any> {
-  if (Array.isArray(collection))
-    return arrayKeyBy(collection, key);
-  else
-    return arrayKeyBy(Object.values(collection), key);
+	if (Array.isArray(collection)) return arrayKeyBy(collection, key);
+	else return arrayKeyBy(Object.values(collection), key);
 }
 
 export function forIn<T>(obj: Record<string, T>, fun: (val: T) => void) {
-  Object.entries(obj || {}).forEach(prop => {
-    const [_, val] = prop as [string, T];
-    fun(val);
-  });
+	Object.entries(obj || {}).forEach((prop) => {
+		const [_, val] = prop as [string, T];
+		fun(val);
+	});
 }
 
 export function compact(arr: Array<any>) {
-  return arr.filter(Boolean);
+	return arr.filter(Boolean);
 }
 
 export function flatten(arr: Array<any>) {
-  return arr.flat();
+	return arr.flat();
 }
 
 export function map<T>(collection: Record<string, T> | T[], fun: (value: T, key: any) => any): any[] {
-  if (Array.isArray(collection)) {
-    return collection.map((value, index) => fun(value, index));
-  }
-  const result: any[] = [];
-  Object.entries(collection || {}).forEach(prop => {
-    const [key, value] = prop;
-    result.push(fun(value, key));
-  });
-  return result;
+	if (Array.isArray(collection)) {
+		return collection.map((value, index) => fun(value, index));
+	}
+	const result: any[] = [];
+	Object.entries(collection || {}).forEach((prop) => {
+		const [key, value] = prop;
+		result.push(fun(value, key));
+	});
+	return result;
 }
 
 export function mapValues<T>(obj: Record<string, T>, fun: (value: T, key: string) => any): Record<string, any> {
-  if (!obj) {
-    return {};
-  }
-  const newObj: Record<string, any> = {...obj};
-  Object.entries(obj).forEach(prop => {
-    const [key, value] = prop;
-    newObj[key] = fun(value, key);
-  });
-  return newObj;
+	if (!obj) {
+		return {};
+	}
+	const newObj: Record<string, any> = { ...obj };
+	Object.entries(obj).forEach((prop) => {
+		const [key, value] = prop;
+		newObj[key] = fun(value, key);
+	});
+	return newObj;
 }
 
 export function values<T>(obj: Record<string, T>): T[] {
-  return Object.values(obj || {});
+	return Object.values(obj || {});
 }
 
-export function valuesIn(obj: Object): any[] {
-  return baseKeysIn(obj || {}).map(val => (obj as Record<string, any>)[val]);
+export function valuesIn(obj: Record<string, any>): any[] {
+	return baseKeysIn(obj || {}).map((val) => obj[val]);
 }
 
 // based on lodash src -> pushes all own and inherited keys to array, except for the constructor in the case of prototype objects
-function baseKeysIn(obj: Object): string[] {
-  if (!obj) {
-    return [];
-  }
-  const isProto = isPrototype(obj)
-  const result = [];
+function baseKeysIn(obj: Record<string, any>): string[] {
+	if (!obj) {
+		return [];
+	}
+	const isProto = isPrototype(obj);
+	const result = [];
 
-  for (let key in obj) {
-    if (!(key === 'constructor' && (isProto || !obj.hasOwnProperty(key)))) {
-      result.push(key);
-    }
-  }
-  return result;
+	for (const key in obj) {
+		if (!(key === 'constructor' && (isProto || !obj.hasOwnProperty(key)))) {
+			result.push(key);
+		}
+	}
+	return result;
 }
 
 // based on lodash src, returns true if value is a prototype object
 function isPrototype(value: any): boolean {
-  const Ctor = value && value.constructor;
-  const proto = (typeof Ctor === 'function' && Ctor.prototype) || Object.prototype;
-  return value === proto;
+	const Ctor = value && value.constructor;
+	const proto = (typeof Ctor === 'function' && Ctor.prototype) || Object.prototype;
+	return value === proto;
 }
 
 function arrayGroupBy(arr: Array<any>, fun: (value: any) => any): Record<string, any> {
-  return (arr || []).reduce((accum, v, i, arr, k = fun(v)) => {
-    if (!accum[k]) {
-      accum[k] = [];
-    }
-    accum[k].push(v);
-    return accum;
-  }, {});
+	return (arr || []).reduce((accum, v, i, arr, k = fun(v)) => {
+		if (!accum[k]) {
+			accum[k] = [];
+		}
+		accum[k].push(v);
+		return accum;
+	}, {});
 }
 
 export function groupBy(collection: Array<any> | Record<string, any>, fun: (value: any) => any): Record<string, any> {
-  if (Array.isArray(collection))
-    return arrayGroupBy(collection, fun);
-  else
-    return arrayGroupBy(Object.values(collection || {}), fun);
+	if (Array.isArray(collection)) return arrayGroupBy(collection, fun);
+	else return arrayGroupBy(Object.values(collection || {}), fun);
 }
 
 export function defaults(dest: Record<string, any>, ...sources: Record<string, any>[]): Record<string, any> {
-  if (!dest) {
-    dest = {};
-  }
-  for (let source of sources) {
-    const keys = baseKeysIn(source);
-    for (let key of keys) {
-      if (dest[key] === undefined) {
-        dest[key] = source[key];
-      }
-    }
-  }
-  return dest;
+	if (!dest) {
+		dest = {};
+	}
+	for (const source of sources) {
+		const keys = baseKeysIn(source);
+		for (const key of keys) {
+			if (dest[key] === undefined) {
+				dest[key] = source[key];
+			}
+		}
+	}
+	return dest;
 }
 
 // ~O(S * F^N) where S is the number of sources, F is the average number of fields in source objects and sub-objects,
@@ -118,37 +114,41 @@ export function defaults(dest: Record<string, any>, ...sources: Record<string, a
 // every field of the destination and source objects must be looked at, so the worst case performance probably can't be improved
 // maybe common case performance can be improved if there is a practical benefit for us to work on that
 export function defaultsDeep(dest: Record<string, any>, ...sources: Record<string, any>[]): Record<string, any> {
-  if (!dest) {
-    dest = {};
-  }
-  for (let source of sources) {
-    const keys = baseKeysIn(source);
-    for (let key of keys) {
-      if (dest[key] === undefined && source[key] !== undefined) {
-        if (isObject(source[key])) {
-          dest[key] = defaultsDeep(dest[key], source[key]);
-        } else {
-          dest[key] = source[key];
-        }
-      }
-    }
-  }
-  return dest;
+	if (!dest) {
+		dest = {};
+	}
+	for (const source of sources) {
+		const keys = baseKeysIn(source);
+		for (const key of keys) {
+			if (dest[key] === undefined && source[key] !== undefined) {
+				if (isObject(source[key])) {
+					dest[key] = defaultsDeep(dest[key], source[key]);
+				} else {
+					dest[key] = source[key];
+				}
+			}
+		}
+	}
+	return dest;
 }
 
 function isObject(value: any): boolean {
-  let type = typeof value;
-  return value !== null && value !== undefined && (type === 'object' || type === 'function');
+	const type = typeof value;
+	return value !== null && value !== undefined && (type === 'object' || type === 'function');
 }
 
 export function zipObject(props: Array<string>, values: Array<any>): Record<string, any> {
-  const result: Record<string, any> = {};
-  for (let i = 0; i < props.length; i++) {
-    if (i >= values.length) {
-      result[props[i]] = undefined;
-    } else {
-      result[props[i]] = values[i];
-    }
-  }
-  return result;
+	const result: Record<string, any> = {};
+	for (let i = 0; i < props.length; i++) {
+		if (i >= values.length) {
+			result[props[i]] = undefined;
+		} else {
+			result[props[i]] = values[i];
+		}
+	}
+	return result;
+}
+
+export function isString(value: any): value is string {
+	return typeof value === 'string';
 }

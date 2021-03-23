@@ -20,7 +20,7 @@ import {
 	Network,
 } from '../model';
 import { ZERO_CURRENCY } from 'config/constants';
-import {defaults, forIn} from "../../utils/lodashToNative";
+import { defaults, forIn } from '../../utils/lodashToNative';
 
 export const reduceTimeSinceLastCycle = (time: string): string => {
 	const timestamp = parseFloat(time) * 1000;

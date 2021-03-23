@@ -11,7 +11,7 @@ import {
 	reduceGrowthQueryConfig,
 	reduceSushiAPIResults,
 } from '../reducers/contractReducers';
-import {Vault, Geyser, Token, GeyserPayload} from '../model';
+import { Vault, Geyser, Token, GeyserPayload } from '../model';
 import { vanillaQuery } from 'mobx/utils/helpers';
 import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
@@ -20,7 +20,7 @@ import { EMPTY_DATA, ERC20, NETWORK_CONSTANTS, NETWORK_LIST } from 'config/const
 import { formatAmount } from 'mobx/reducers/statsReducers';
 import BatchCall from 'web3-batch-call';
 import { getApi } from '../utils/apiV2';
-import {compact, defaultsDeep, flatten, keyBy, mapValues, values} from "../../utils/lodashToNative";
+import { compact, defaultsDeep, flatten, keyBy, mapValues, values } from '../../utils/lodashToNative';
 
 let batchCall: any = null;
 
@@ -128,10 +128,10 @@ class ContractsStore {
 			const { settList } = this.store.setts;
 			const sushiBatches = network.vaults!['sushiswap'];
 
-		const { defaults, batchCall: batch } = reduceContractConfig(
-			values(network.vaults ?? {}),
-			connectedAddress && { connectedAddress },
-		);
+			const { defaults, batchCall: batch } = reduceContractConfig(
+				values(network.vaults ?? {}),
+				connectedAddress && { connectedAddress },
+			);
 
 			const { growthQueries, periods } = reduceGrowthQueryConfig(network.name, currentBlock);
 			const settStructure = keyBy(settList ?? [], 'vaultToken');
