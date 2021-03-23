@@ -139,7 +139,7 @@ export const secondsToBlocks = (seconds: number): number => {
 export let exchangeRates: any = { usd: 641.69, cad: 776.44, btc: 41.93 };
 getExchangeRates().then((result: any) => (exchangeRates = result.ethereum));
 
-export let diggExchangeRates = { eth: 19.240247, usd: 35109, btc: 0.59842202, cad: 43534 };
+export let diggExchangeRates = { eth: 24.864618, usd: 42279, btc: 0.77050263, cad: 53213 };
 getDiggExchangeRates().then((result: any) => (diggExchangeRates = result.digg));
 
 // TECH DEBT: Reformat these formatting functions using a factory pattern and delete repeated code
@@ -241,7 +241,7 @@ export const inCurrency = (
 	const fixedNormal = noCommas
 		? normal.toFixed(decimals, BigNumber.ROUND_HALF_FLOOR)
 		: numberWithCommas(normal.toFixed(decimals, BigNumber.ROUND_HALF_FLOOR));
-  
+
 	return `${prefix}${fixedNormal}${suffix}`;
 };
 
