@@ -159,7 +159,9 @@ export class HoneyPotStore {
 							setTxStatus('error');
 						})
 						.finally(() => {
-							this.nftBeingRedeemed = this.nftBeingRedeemed.filter((id) => id === tokenId);
+							console.log({ nftBeingRedeemed: Array.from(this.nftBeingRedeemed), tokenId });
+							this.nftBeingRedeemed = this.nftBeingRedeemed.filter((id) => id !== tokenId);
+							console.log({ nftBeingRedeemed: Array.from(this.nftBeingRedeemed) });
 						});
 				},
 			);
