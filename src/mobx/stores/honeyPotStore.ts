@@ -8,7 +8,6 @@ import { getNftBatchInformation } from 'mobx/utils/api';
 import mainnet from 'config/deployments/mainnet.json';
 import { abi as scarcityPoolABI } from 'config/system/abis/BadgerScarcityPool.json';
 import { abi as memeLtdABI } from 'config/system/abis/MemeLtd.json';
-import { reduceNextGlobalRedemptionRate } from 'mobx/reducers/honeypotReducer';
 import { estimateAndSend } from 'mobx/utils/web3';
 import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
@@ -25,9 +24,8 @@ export interface NFT {
 export class HoneyPotStore {
 	private store: RootStore;
 	poolBalance?: BigNumber;
-	nextRedemptionRate?: BigNumber;
 	nfts?: NFT[];
-	nftBeingRedeemed?: string;
+	nftBeingRedeemed: string[] = [];
 	loadingPoolBalance = false;
 	loadingNfts = false;
 
@@ -38,7 +36,6 @@ export class HoneyPotStore {
 			poolBalance: this.poolBalance,
 			loadingPoolBalance: this.loadingPoolBalance,
 			loadingNfts: this.loadingNfts,
-			nextRedemptionRate: this.nextRedemptionRate,
 			nftBeingRedeemed: this.nftBeingRedeemed,
 		});
 
@@ -111,8 +108,6 @@ export class HoneyPotStore {
 				// image: assets[index]?.imagePreviewUrl,
 				// name: assets[index]?.name,
 			}));
-
-			this.nextRedemptionRate = reduceNextGlobalRedemptionRate(this);
 		} catch (error) {
 			const message = error?.message || 'There was an error. Please try again later.';
 			this.store.uiState.queueNotification(message, 'error');
@@ -128,7 +123,7 @@ export class HoneyPotStore {
 			const { provider, connectedAddress, gasPrices } = this.store.wallet;
 			if (!connectedAddress) return;
 
-			this.nftBeingRedeemed = tokenId;
+			this.nftBeingRedeemed.push(tokenId);
 			const web3 = new Web3(provider);
 			const pool = new web3.eth.Contract(scarcityPoolABI as AbiItem[], mainnet.honeypotMeme);
 			const memeLtdAddress = await pool.methods.memeLtd().call();
@@ -156,6 +151,7 @@ export class HoneyPotStore {
 						})
 						.on('receipt', () => {
 							queueNotification(`NFT Redeemed.`, 'success');
+							this.fetchPoolBalance();
 							this.fetchNFTS();
 						})
 						.catch((error: any) => {
@@ -163,7 +159,7 @@ export class HoneyPotStore {
 							setTxStatus('error');
 						})
 						.finally(() => {
-							this.nftBeingRedeemed = undefined;
+							this.nftBeingRedeemed = this.nftBeingRedeemed.filter((id) => id === tokenId);
 						});
 				},
 			);
@@ -171,7 +167,7 @@ export class HoneyPotStore {
 			const message = error?.message || 'There was an error. Please try again later.';
 			this.store.uiState.queueNotification(message, 'error');
 			process.env.NODE_ENV != 'production' && console.error(error);
-			this.nftBeingRedeemed = undefined;
+			this.nftBeingRedeemed = this.nftBeingRedeemed.filter((id) => id === tokenId);
 		}
 	});
 
