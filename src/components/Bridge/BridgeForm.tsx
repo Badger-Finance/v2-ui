@@ -373,9 +373,10 @@ export const BridgeForm = observer((props: any) => {
 		const renFeeAmount = inputAmount * (tabValue === 0 ? renvmMintFee : renvmBurnFee);
 		const badgerFeeAmount = inputAmount * (tabValue === 0 ? badgerMintFee : badgerBurnFee);
 		const networkFee = tabValue === 0 ? lockNetworkFee : releaseNetworkFee;
-		const amountWithFee = inputAmount - renFeeAmount - badgerFeeAmount - networkFee;
+		let amountWithFee = inputAmount - renFeeAmount - badgerFeeAmount - networkFee;
 		if (token === 'WBTC') {
 			estimatedSlippage = await getEstimatedSlippage(amountWithFee, name);
+                        amountWithFee *= (1 - estimatedSlippage);
 		}
 		setStates((prevState) => ({
 			...prevState,
