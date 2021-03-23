@@ -7,6 +7,7 @@ import { EthArgs, LockAndMintParamsSimple, BurnAndReleaseParamsSimple } from '@r
 import Web3 from 'web3';
 import async, { any } from 'async';
 import { observer } from 'mobx-react-lite';
+import { makeStyles } from '@material-ui/core/styles';
 import { Grid, Tabs, Tab, FormControl, Select, MenuItem, Typography } from '@material-ui/core';
 import useInterval from '@use-it/interval';
 
@@ -61,12 +62,12 @@ const a11yProps = (index: number) => {
 	};
 };
 
-const useStyles = makeStyles((theme) => {
+const useStyles = makeStyles((theme) => ({
         padded: {
                 padding: '2rem 2rem',
         },
         select: { height: '3rem', overflow: 'hidden', margin: '.3rem 0 0 .6rem' },
-});
+}));
 
 // Gateways expects nonce as a bytes32 hex string.
 const formatNonceBytes32 = (nonce: number): string => {
@@ -74,9 +75,11 @@ const formatNonceBytes32 = (nonce: number): string => {
 };
 
 export const BridgeForm = observer((props: any) => {
-        const classes = useStyles();
+        const classes = {
+                ...props.classes,
+                ...useStyles(),
+        }
 	const store = useContext(StoreContext);
-	const classes = props.classes;
 	const spacer = <div className={classes.before} />;
 
 	const {
