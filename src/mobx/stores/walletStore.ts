@@ -9,7 +9,6 @@ import { getNetwork, getNetworkNameFromId } from '../../mobx/utils/web3';
 import _ from 'lodash';
 import { Network } from 'mobx/model';
 import { RootStore } from 'mobx/store';
-import { NETWORK_LIST } from 'config/constants';
 
 class WalletStore {
 	private store: RootStore;
