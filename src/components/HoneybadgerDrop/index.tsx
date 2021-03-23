@@ -1,5 +1,15 @@
 import React from 'react';
-import { Button, Container, Grid, makeStyles, Paper, Typography, useMediaQuery, useTheme } from '@material-ui/core';
+import {
+	Button,
+	Container,
+	Grid,
+	makeStyles,
+	Paper,
+	Typography,
+	Fade,
+	useMediaQuery,
+	useTheme,
+} from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import _isNil from 'lodash/isNil';
 import { observer } from 'mobx-react-lite';
@@ -66,7 +76,7 @@ export const HoneybadgerDrop: React.FC = observer(() => {
 	const connectWallet = useConnectWallet();
 
 	const { connectedAddress } = store.wallet;
-	const { poolBalance, loadingPoolBalance, loadingNfts, nfts, nextRedemptionRate, nftBeingRedeemed } = store.honeyPot;
+	const { poolBalance, loadingPoolBalance, loadingNfts, nfts, nftBeingRedeemed } = store.honeyPot;
 	const poolBalanceDiggs = poolBalance && bdiggToDigg(poolBalance);
 
 	return (
@@ -76,106 +86,53 @@ export const HoneybadgerDrop: React.FC = observer(() => {
 					<Hero title="HONEY DIAMOND HANDS" subtitle="MEME Honey Pot 2 - Diamond Hands" />
 				</Grid>
 				<Grid item xs={12} container spacing={5}>
-					<Grid item container justify="center" xs={12} className={classes.centerText}>
-						<Grid item xs={12} sm={8} md={7}>
-							<Paper elevation={0} className={classes.mainPapers}>
-								<Grid container spacing={1}>
-									<Grid item xs={12}>
-										<Typography>Remaining Honey Pot Pool</Typography>
-									</Grid>
-									<NoWalletPlaceHolder>
+					<Fade in>
+						<Grid item container justify="center" xs={12} className={classes.centerText}>
+							<Grid item xs={12} sm={8} md={7}>
+								<Paper elevation={0} className={classes.mainPapers}>
+									<Grid container spacing={1}>
 										<Grid item xs={12}>
-											<TypographySkeleton
-												variant="h5"
-												color="textPrimary"
-												width="30%"
-												loading={loadingPoolBalance || !poolBalance}
-											>
-												{poolBalance && `${poolBalance.dividedBy(1e18).toFixed(2)} bDIGG`}
-											</TypographySkeleton>
+											<Typography>Remaining Honey Pot Pool</Typography>
 										</Grid>
-										<Grid item xs={12}>
-											<TypographySkeleton
-												variant="subtitle1"
-												color="textSecondary"
-												width="30%"
-												loading={loadingPoolBalance || !!poolBalanceDiggs?.isNaN()}
-											>
-												{poolBalanceDiggs &&
-													`${poolBalanceDiggs
-														.dividedBy(1e18)
-														.toFixed(2)} DIGG / ${diggToCurrency({
-														amount: poolBalanceDiggs,
-														currency: 'btc',
-													})}`}
-											</TypographySkeleton>
-										</Grid>
-										<Grid item xs={12}>
-											<TypographySkeleton
-												variant="subtitle1"
-												color="textSecondary"
-												width="30%"
-												loading={loadingPoolBalance || !!poolBalanceDiggs?.isNaN()}
-											>
-												{poolBalanceDiggs &&
-													diggToCurrency({ amount: poolBalanceDiggs, currency: 'usd' })}
-											</TypographySkeleton>
-										</Grid>
-									</NoWalletPlaceHolder>
-								</Grid>
-							</Paper>
-						</Grid>
-					</Grid>
-					<Grid item container justify="center" xs={12} className={classes.centerText}>
-						<Grid item xs={12} sm={8} md={5}>
-							<Paper elevation={0} className={classes.mainPapers}>
-								<Grid container spacing={1}>
-									<Grid item xs={12}>
-										<Typography>Available Rewards</Typography>
-									</Grid>
-									<Grid item container spacing={1} xs={12}>
-										<Grid item xs container>
-											<NoWalletPlaceHolder>
-												<Grid item xs={12}>
-													<TypographySkeleton
-														variant="h5"
-														color="textPrimary"
-														width="20%"
-														loading={loadingNfts || !nfts}
-													>
-														{nfts?.filter(({ balance }) => +balance > 0).length}
-													</TypographySkeleton>
-												</Grid>
-											</NoWalletPlaceHolder>
+										<NoWalletPlaceHolder>
 											<Grid item xs={12}>
-												<Typography variant="subtitle1" color="textSecondary">
-													NFTs Held
-												</Typography>
+												<TypographySkeleton
+													variant="h5"
+													color="textPrimary"
+													width="30%"
+													loading={loadingPoolBalance || !poolBalance}
+												>
+													{poolBalance && `${poolBalance.dividedBy(1e18).toFixed(2)} bDIGG`}
+												</TypographySkeleton>
 											</Grid>
-										</Grid>
-										<Grid item xs container>
-											<NoWalletPlaceHolder>
-												<Grid item xs={12}>
-													<TypographySkeleton
-														variant="h5"
-														color="textPrimary"
-														width="20%"
-														loading={loadingNfts || !!nextRedemptionRate?.isNaN()}
-													>
-														{nextRedemptionRate &&
-															diggToCurrency({
-																amount: nextRedemptionRate,
-																currency: 'usd',
-															})}
-													</TypographySkeleton>
-												</Grid>
-											</NoWalletPlaceHolder>
 											<Grid item xs={12}>
-												<Typography variant="subtitle1" color="textSecondary">
-													Next Redemption Rate
-												</Typography>
+												<TypographySkeleton
+													variant="subtitle1"
+													color="textSecondary"
+													width="30%"
+													loading={loadingPoolBalance || !!poolBalanceDiggs?.isNaN()}
+												>
+													{poolBalanceDiggs &&
+														`${poolBalanceDiggs
+															.dividedBy(1e18)
+															.toFixed(2)} DIGG / ${diggToCurrency({
+															amount: poolBalanceDiggs,
+															currency: 'btc',
+														})}`}
+												</TypographySkeleton>
 											</Grid>
-										</Grid>
+											<Grid item xs={12}>
+												<TypographySkeleton
+													variant="subtitle1"
+													color="textSecondary"
+													width="30%"
+													loading={loadingPoolBalance || !!poolBalanceDiggs?.isNaN()}
+												>
+													{poolBalanceDiggs &&
+														diggToCurrency({ amount: poolBalanceDiggs, currency: 'usd' })}
+												</TypographySkeleton>
+											</Grid>
+										</NoWalletPlaceHolder>
 										{!loadingNfts && !connectedAddress && (
 											<Grid item xs={12}>
 												<Button
@@ -189,86 +146,117 @@ export const HoneybadgerDrop: React.FC = observer(() => {
 											</Grid>
 										)}
 									</Grid>
-								</Grid>
-							</Paper>
+								</Paper>
+							</Grid>
 						</Grid>
-					</Grid>
+					</Fade>
 
 					{connectedAddress && (
 						<>
-							{(!nfts || loadingNfts) && (
-								<Grid item container justify="center" xs={12}>
-									<Grid item container xs={12} className={classes.holdingsTitle}>
-										<Typography style={{ width: '100%' }}>Your Holdings</Typography>
-									</Grid>
-									<Grid item container xs={12} justify="space-between" spacing={isMobile ? 0 : 8}>
-										{Array(3)
-											.fill(null)
-											.map(() => (
-												<Grid className={classes.nftContainer} item xs={12} sm={6} lg={4}>
-													<Skeleton
-														variant="rect"
-														width="100%"
-														height={250}
-														className={classes.nftSkeleton}
-													/>
-												</Grid>
-											))}
-									</Grid>
-								</Grid>
-							)}
-
-							{nfts && (
-								<Grid item container justify="center" xs={12}>
-									<Grid item container xs={12} className={classes.holdingsTitle}>
-										<Typography style={{ width: '100%' }}>Your Holdings</Typography>
-									</Grid>
-									{nfts.length > 0 ? (
+							{!nfts || loadingNfts ? (
+								<Fade in>
+									<Grid item container justify="center" xs={12}>
+										<Grid item container xs={12} className={classes.holdingsTitle}>
+											<Typography style={{ width: '100%' }}>Your Holdings</Typography>
+										</Grid>
 										<Grid item container xs={12} justify="space-between" spacing={isMobile ? 0 : 8}>
-											{nfts.map(
-												({ balance, tokenId, name, image, totalSupply, root, poolBalance }) => {
-													const redemptionRate = store.honeyPot.calculateRedemptionRate(root);
+											{Array(3)
+												.fill(null)
+												.map(() => (
+													<Grid className={classes.nftContainer} item xs={12} sm={6} lg={4}>
+														<Skeleton
+															variant="rect"
+															width="100%"
+															height={250}
+															className={classes.nftSkeleton}
+														/>
+													</Grid>
+												))}
+										</Grid>
+									</Grid>
+								</Fade>
+							) : (
+								<>
+									{nfts && (
+										<Fade in>
+											<Grid item container justify="center" xs={12}>
+												<Grid item container xs={12} className={classes.holdingsTitle}>
+													<Typography style={{ width: '100%' }}>Your Holdings</Typography>
+												</Grid>
+												{nfts.length > 0 ? (
+													<Grid
+														item
+														container
+														xs={12}
+														justify="space-between"
+														spacing={isMobile ? 0 : 8}
+													>
+														{nfts.map(
+															({
+																balance,
+																tokenId,
+																name,
+																image,
+																totalSupply,
+																root,
+																poolBalance,
+															}) => {
+																const redemptionRate = store.honeyPot.calculateRedemptionRate(
+																	root,
+																);
 
-													const formattedRedemptionRate = diggToCurrency({
-														amount: bdiggToDigg(redemptionRate),
-														currency: 'usd',
-													});
+																const formattedRedemptionRate = diggToCurrency({
+																	amount: bdiggToDigg(redemptionRate),
+																	currency: 'usd',
+																});
 
-													const isBalanceEmpty = +balance < 1;
+																const isBalanceEmpty = +balance < 1;
 
-													return (
-														<Grid
-															key={tokenId}
-															className={classes.nftContainer}
-															item
-															xs={12}
-															sm={6}
-															lg={4}
+																return (
+																	<Grid
+																		key={tokenId}
+																		className={classes.nftContainer}
+																		item
+																		xs={12}
+																		sm={6}
+																		lg={4}
+																	>
+																		<NFT
+																			nftId={tokenId}
+																			name={name || 'NFT Name N/A'}
+																			image={image}
+																			balance={balance}
+																			remaining={`${
+																				Number(totalSupply) -
+																				Number(poolBalance)
+																			}/${totalSupply}`}
+																			redemptionRate={formattedRedemptionRate}
+																			loading={nftBeingRedeemed.includes(tokenId)}
+																			disabled={isBalanceEmpty}
+																			onRedeem={() =>
+																				store.honeyPot.redeemNFT(tokenId)
+																			}
+																		/>
+																	</Grid>
+																);
+															},
+														)}
+													</Grid>
+												) : (
+													<Grid item container xs={12} justify="space-between">
+														<Typography
+															variant="h5"
+															className={classes.center}
+															color="textSecondary"
 														>
-															<NFT
-																nftId={tokenId}
-																name={name || 'NFT Name N/A'}
-																image={image}
-																balance={balance}
-																remaining={`${+totalSupply - +balance}/${totalSupply}`}
-																redemptionRate={formattedRedemptionRate}
-																loading={nftBeingRedeemed === tokenId}
-																disabled={isBalanceEmpty}
-																onRedeem={() => store.honeyPot.redeemNFT(tokenId)}
-															/>
-														</Grid>
-													);
-												},
-											)}
-										</Grid>
-									) : (
-										<Grid item container xs={12} justify="space-between">
-											<Typography variant="h5" className={classes.center} color="textSecondary">
-												No Holdings
-											</Typography>
-										</Grid>
+															No Holdings
+														</Typography>
+													</Grid>
+												)}
+											</Grid>
+										</Fade>
 									)}
-								</Grid>
+								</>
 							)}
 						</>
 					)}
