@@ -376,15 +376,15 @@ class BridgeStore {
 						switch (status) {
 							case LockAndMintStatus.ReturnedFromRenVM:
 								queueNotification(
-									'BTC deposit is ready, please sign the transaction to submit to ethereum',
+									'Deposit is ready, please sign the transaction to submit to ethereum',
 									'info',
 								);
 								break;
 							case LockAndMintStatus.ConfirmedOnEthereum:
-								queueNotification('BTC mint is successful', 'success');
+								queueNotification('Mint is successful', 'success');
 								break;
 							case BurnAndReleaseStatus.ConfirmedOnEthereum:
-								queueNotification('BTC release is completed', 'success');
+								queueNotification('Release is completed', 'success');
 								break;
 						}
 					})

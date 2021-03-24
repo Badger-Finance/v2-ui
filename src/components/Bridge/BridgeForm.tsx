@@ -284,7 +284,7 @@ export const BridgeForm = observer((props: any) => {
 			{
 				name: '_slippage',
 				type: 'uint256',
-				value: maxSlippage,
+				value: maxSlippageBps,
 			},
 			{
 				type: 'bytes',
