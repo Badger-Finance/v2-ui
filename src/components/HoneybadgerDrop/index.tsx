@@ -20,7 +20,6 @@ import NftStats from './NftStats';
 import { NoWalletPlaceHolder } from './NoWalletPlaceHolder';
 import { TypographySkeleton } from './TypographySkeleton';
 import { NFT } from 'mobx/model';
-import { NftAmountSelector } from './NftAmountSelector';
 import PageHeader from 'components-v2/common/PageHeader';
 
 interface NftAmountPromp {
@@ -74,8 +73,6 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const initialPromptState = { open: false, nft: undefined };
-
 export const HoneybadgerDrop: React.FC = observer(() => {
 	const store = React.useContext(StoreContext);
 	const classes = useStyles();
@@ -83,7 +80,6 @@ export const HoneybadgerDrop: React.FC = observer(() => {
 	const isMobile = useMediaQuery(theme.breakpoints.only('xs'));
 	const bdiggToDigg = useBdiggToDigg();
 	const connectWallet = useConnectWallet();
-	const [nftAmountPromp, setNftAmountPromp] = React.useState<NftAmountPromp>(initialPromptState);
 
 	const { connectedAddress } = store.wallet;
 	const { poolBalance, loadingPoolBalance, loadingNfts, nfts, nftBeingRedeemed } = store.honeyPot;
@@ -251,9 +247,9 @@ export const HoneybadgerDrop: React.FC = observer(() => {
 																		redemptionRate={formattedRedemptionRate}
 																		loading={nftBeingRedeemed.includes(tokenId)}
 																		disabled={isBalanceEmpty}
-																		onRedeem={() =>
-																			setNftAmountPromp({ nft, open: true })
-																		}
+																		onRedeem={() => {
+																			store.honeyPot.redeemNFT(tokenId, 1);
+																		}}
 																	/>
 																</Grid>
 															);
@@ -279,17 +275,6 @@ export const HoneybadgerDrop: React.FC = observer(() => {
 					)}
 				</Grid>
 			</Grid>
-			{nftAmountPromp.nft && (
-				<NftAmountSelector
-					isOpen={nftAmountPromp.open}
-					nft={nftAmountPromp.nft}
-					onClose={() => setNftAmountPromp(initialPromptState)}
-					onAmountSelected={(id: string, amount: number) => {
-						store.honeyPot.redeemNFT(id, amount);
-						setNftAmountPromp(initialPromptState);
-					}}
-				/>
-			)}
 		</Container>
 	);
 });
