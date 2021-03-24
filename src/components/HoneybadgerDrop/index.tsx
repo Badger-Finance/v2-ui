@@ -16,12 +16,12 @@ import { observer } from 'mobx-react-lite';
 import { diggToCurrency } from 'mobx/utils/helpers';
 import { StoreContext } from 'mobx/store-context';
 import { useBdiggToDigg, useConnectWallet } from 'mobx/utils/hooks';
-import Hero from 'components/Common/Hero';
 import NftStats from './NftStats';
 import { NoWalletPlaceHolder } from './NoWalletPlaceHolder';
 import { TypographySkeleton } from './TypographySkeleton';
 import { NFT } from 'mobx/model';
 import { NftAmountSelector } from './NftAmountSelector';
+import PageHeader from 'components-v2/common/PageHeader';
 
 interface NftAmountPromp {
 	open: boolean;
@@ -93,7 +93,7 @@ export const HoneybadgerDrop: React.FC = observer(() => {
 		<Container className={classes.root}>
 			<Grid container spacing={1} justify="center">
 				<Grid item xs={12} className={classes.headerContainer}>
-					<Hero title="HONEY DIAMOND HANDS" subtitle="MEME Honey Pot 2 - Diamond Hands" />
+					<PageHeader title="HONEY DIAMOND HANDS" subtitle="MEME Honey Pot 2 - Diamond Hands" />
 				</Grid>
 				<Grid item xs={12} container spacing={5}>
 					<Fade in>
