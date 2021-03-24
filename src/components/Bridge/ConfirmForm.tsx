@@ -120,7 +120,7 @@ export const ConfirmForm = (props: any) => {
 				)}
 				{feeContainer(
 					'Bitcoin Miner Fee',
-					'This fee is paid to Bitcoin miners to move BTC. This does not go RenVM, the Ren or Badger team.',
+					'This fee is paid to Bitcoin miners to move BTC. This does not go to the Ren or Badger team.',
 					`${values.tabValue == 0 ? lockNetworkFee : releaseNetworkFee} BTC`,
 				)}
 				{values.token === 'WBTC' && feeContainer(
