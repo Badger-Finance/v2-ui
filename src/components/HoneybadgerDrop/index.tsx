@@ -29,11 +29,8 @@ interface NftAmountPromp {
 
 const useStyles = makeStyles((theme) => ({
 	root: {
-		marginTop: theme.spacing(11),
-		marginBottom: theme.spacing(10),
 		[theme.breakpoints.up('md')]: {
-			paddingLeft: theme.spacing(33),
-			marginTop: theme.spacing(2),
+			paddingLeft: theme.spacing(30),
 		},
 	},
 	headerContainer: {
