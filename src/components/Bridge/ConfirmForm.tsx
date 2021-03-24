@@ -1,12 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Grid, Button, Checkbox, Tooltip } from '@material-ui/core';
 import InfoIcon from '@material-ui/icons/Info';
 
+import { StoreContext } from 'mobx/store-context';
 import { shortenAddress } from 'utils/componentHelpers';
 import renBTCLogo from 'assets/icons/renBTC.svg';
 import WBTCLogo from 'assets/icons/WBTC.svg';
 
 export const ConfirmForm = (props: any) => {
+        const store = useContext(StoreContext);
+        const {
+                bridge: {
+                        renvmMintFee,
+                        renvmBurnFee,
+                        badgerBurnFee,
+                        badgerMintFee,
+                        lockNetworkFee,
+                        releaseNetworkFee,
+                }
+        } = store;
 	const { classes, confirmStep, previousStep, values, itemContainer } = props;
 	const [agreement, setAgreement] = useState({
 		ethRequired: false,
@@ -94,22 +106,22 @@ export const ConfirmForm = (props: any) => {
 			<Grid item xs={12}>
 				{feeContainer(
 					'RenVM Fee',
-					`RenVM takes a ${values.renvmMintFee * 100}% fee per mint transaction and ${
-						values.renvmBurnFee * 100
+					`RenVM takes a ${renvmMintFee * 100}% fee per mint transaction and ${
+						renvmBurnFee * 100
 					}% per burn transaction. This is shared evenly between all active nodes in the decentralized network.`,
 					`${values.renFee.toFixed(8)} BTC`,
 				)}
 				{feeContainer(
 					'Badger Fee',
-					`Badger takes a ${values.badgerMintFee * 100}% fee per mint transaction and ${
-						values.badgerBurnFee * 100
+					`Badger takes a ${badgerMintFee * 100}% fee per mint transaction and ${
+						badgerBurnFee * 100
 					}% per burn transaction.`,
 					`${values.badgerFee.toFixed(8)} BTC`,
 				)}
 				{feeContainer(
 					'Bitcoin Miner Fee',
-					'The fee required by Bitcoin miners, to move BTC. This does not go RenVM, the Ren or Badger team.',
-					`${values.tabValue == 0 ? values.lockNetworkFee : values.releaseNetworkFee} BTC`,
+					'This fee is paid to Bitcoin miners to move BTC. This does not go RenVM, the Ren or Badger team.',
+					`${values.tabValue == 0 ? lockNetworkFee : releaseNetworkFee} BTC`,
 				)}
 				{values.token === 'WBTC' && feeContainer(
 					'Price Impact of Swap',
@@ -118,7 +130,7 @@ export const ConfirmForm = (props: any) => {
 				)}
 				{values.token === 'WBTC' && feeContainer(
 					'Max Slippage',
-					'The maximum configured slippage for swapping RenBTC <-> wBTC. If slippage is too high, a burn will fail and a mint will mint renBTC.',
+					'User determined maximum acceptable slippage for swapped renBTC <-> wBTC. If slippage is too high, the swap will fail.',
 					`${Math.abs(parseFloat(values.maxSlippage)).toFixed(2) + '%'}`,
 				)}
 			</Grid>
