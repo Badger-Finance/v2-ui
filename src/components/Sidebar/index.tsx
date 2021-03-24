@@ -1,12 +1,23 @@
 import React, { useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import views from '../../config/routes';
+import _ from 'lodash';
 import { useContext } from 'react';
 import { StoreContext } from '../../mobx/store-context';
-import { List, ListItem, Drawer, Collapse, IconButton, ListItemIcon, ListItemText } from '@material-ui/core';
+import {
+	List,
+	ListItem,
+	Drawer,
+	Collapse,
+	IconButton,
+	ListItemIcon,
+	ListItemText,
+	ListItemSecondaryAction,
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { ExpandMore } from '@material-ui/icons';
-import { FLAGS } from 'config/constants';
+import { SITE_VERSION, NETWORK_LIST, FLAGS } from 'config/constants';
+import NetworkWidget from 'components-v2/common/NetworkWidget';
 
 const useStyles = makeStyles((theme) => ({
 	logo: {
@@ -108,9 +119,25 @@ export const Sidebar = observer(() => {
 		router: { goTo },
 		uiState: { sidebarOpen, closeSidebar },
 		rewards: { badgerTree },
+		wallet: { network },
 	} = store;
 
 	const [expanded, setExpanded] = useState('');
+
+	const getTokens = () => {
+		return network.sidebarTokenLinks.map((value) => {
+			return (
+				<ListItem
+					button
+					key={value.title}
+					className={classes.secondarySubListItem}
+					onClick={() => window.open(value.url)}
+				>
+					{value.title}
+				</ListItem>
+			);
+		});
+	};
 
 	return (
 		<Drawer
@@ -124,33 +151,47 @@ export const Sidebar = observer(() => {
 				<List>
 					<ListItem button className={classes.listItem}>
 						<img alt="Badger Logo" src={'assets/badger-logo.png'} className={classes.logo} />
+						<ListItemSecondaryAction>
+							<NetworkWidget />
+						</ListItemSecondaryAction>
 					</ListItem>
 
-					<ListItem
-						button
-						onClick={() => setExpanded(expanded === 'advanced' ? '' : 'advanced')}
-						style={{ marginTop: '.5rem' }}
-						className={classes.listItem}
-					>
-						v2.4.3
-						<IconButton
-							size="small"
-							className={classes.expand + ' ' + (expanded === 'advanced' ? classes.expandOpen : '')}
-							aria-label="show more"
+					{network.name === NETWORK_LIST.ETH ? (
+						<ListItem
+							button
+							onClick={() => setExpanded(expanded === 'advanced' ? '' : 'advanced')}
+							style={{ marginTop: '.5rem' }}
+							className={classes.listItem}
 						>
-							<ExpandMore />
-						</IconButton>
-					</ListItem>
-					<Collapse in={expanded === 'advanced'} timeout="auto" unmountOnExit>
-						<ListItem key="rewards">
-							<ListItemText
-								primary={`Cycle Count: ${badgerTree.cycle}`}
-								secondary={
-									badgerTree?.timeSinceLastCycle &&
-									badgerTree.timeSinceLastCycle + ' since last cycle'
-								}
-							/>
+							{SITE_VERSION}
+							<IconButton
+								size="small"
+								className={classes.expand + ' ' + (expanded === 'advanced' ? classes.expandOpen : '')}
+								aria-label="show more"
+							>
+								<ExpandMore />
+							</IconButton>
 						</ListItem>
+					) : (
+						<ListItem button style={{ marginTop: '.5rem' }} className={classes.listItem}>
+							{SITE_VERSION}
+						</ListItem>
+					)}
+					<Collapse in={expanded === 'advanced'} timeout="auto" unmountOnExit>
+						<ListItem key="network">
+							<ListItemText primary="Current Network" secondary={network.fullName} />
+						</ListItem>
+						{network.name === NETWORK_LIST.ETH && badgerTree && (
+							<ListItem key="rewards">
+								<ListItemText
+									primary={`Cycle Count: ${badgerTree.cycle}`}
+									secondary={
+										badgerTree?.timeSinceLastCycle &&
+										badgerTree.timeSinceLastCycle + ' since last cycle'
+									}
+								/>
+							</ListItem>
+						)}
 					</Collapse>
 
 					<ListItem
@@ -168,77 +209,87 @@ export const Sidebar = observer(() => {
 						</ListItemIcon>
 						<ListItemText primary="Sett Vaults" />
 					</ListItem>
-
-					<ListItem
-						button
-						className={
-							classes.listItem +
-							' ' +
-							(store.router.currentPath == '/airdrops' ? classes.activeListItem : '')
-						}
-						onClick={() => goTo(views.airdrops)}
-					>
-						<ListItemIcon>
-							<img
-								alt="Badger Airdrop Icon"
-								src={'assets/sidebar/airdrop.png'}
-								className={classes.icon}
-							/>
-						</ListItemIcon>
-						<ListItemText primary="Airdrops" />
-					</ListItem>
-					<ListItem
-						button
-						className={
-							classes.listItem + ' ' + (store.router.currentPath == '/digg' ? classes.activeListItem : '')
-						}
-						onClick={() => goTo(views.digg)}
-					>
-						<ListItemIcon>
-							<img
-								alt="Badger Digg Icon"
-								src={'assets/sidebar/digg-white.png'}
-								className={classes.icon}
-							/>
-						</ListItemIcon>
-						<ListItemText primary="Digg" />
-					</ListItem>
-					{FLAGS.IBBTC_FLAG && (
-						<ListItem
-							button
-							className={
-								classes.listItem +
-								' ' +
-								(store.router.currentPath == '/ibBTC' ? classes.activeListItem : '')
-							}
-							onClick={() => goTo(views.IbBTC)}
-						>
-							<ListItemIcon>
-								<img
-									alt="Interest Bearing Badger Bitcoin Icon"
-									src={require('assets/sidebar/ibBTC.png')}
-									className={classes.icon}
-								/>
-							</ListItemIcon>
-							<ListItemText primary="ibBTC" />
-						</ListItem>
+					{network.name === NETWORK_LIST.ETH ? (
+						<>
+							<ListItem
+								button
+								className={
+									classes.listItem +
+									' ' +
+									(store.router.currentPath == '/airdrops' ? classes.activeListItem : '')
+								}
+								onClick={() => goTo(views.airdrops)}
+							>
+								<ListItemIcon>
+									<img
+										alt="Badger Airdrop Icon"
+										src={'assets/sidebar/airdrop.png'}
+										className={classes.icon}
+									/>
+								</ListItemIcon>
+								<ListItemText primary="Airdrops" />
+							</ListItem>
+							<ListItem
+								button
+								className={
+									classes.listItem +
+									' ' +
+									(store.router.currentPath == '/digg' ? classes.activeListItem : '')
+								}
+								onClick={() => goTo(views.digg)}
+							>
+								<ListItemIcon>
+									<img
+										alt="Badger Digg Icon"
+										src={'assets/sidebar/digg-white.png'}
+										className={classes.icon}
+									/>
+								</ListItemIcon>
+								<ListItemText primary="Digg" />
+							</ListItem>
+							{FLAGS.IBBTC_FLAG && (
+								<ListItem
+									button
+									className={
+										classes.listItem +
+										' ' +
+										(store.router.currentPath == '/ibBTC' ? classes.activeListItem : '')
+									}
+									onClick={() => goTo(views.IbBTC)}
+								>
+									<ListItemIcon>
+										<img
+											alt="Interest Bearing Badger Bitcoin Icon"
+											src={require('assets/sidebar/ibBTC.png')}
+											className={classes.icon}
+										/>
+									</ListItemIcon>
+									<ListItemText primary="ibBTC" />
+								</ListItem>
+							)}
+							{FLAGS.BRIDGE_FLAG && (
+								<ListItem
+									button
+									className={
+										classes.listItem +
+										' ' +
+										(store.router.currentPath == '/bridge' ? classes.activeListItem : '')
+									}
+									onClick={() => goTo(views.bridge)}
+								>
+									<ListItemIcon>
+										<img
+											src={require('assets/sidebar/icon-badger-bridge.svg')}
+											className={classes.icon}
+										/>
+									</ListItemIcon>
+									<ListItemText primary="Bridge" />
+								</ListItem>
+							)}
+						</>
+					) : (
+						<></>
 					)}
-					{FLAGS.BRIDGE_FLAG &&
-						<ListItem
-							button
-							className={
-								classes.listItem +
-								' ' +
-								(store.router.currentPath == '/bridge' ? classes.activeListItem : '')
-							}
-							onClick={() => goTo(views.bridge)}
-						>
-							<ListItemIcon>
-								<img src={require('assets/sidebar/icon-badger-bridge.svg')} className={classes.icon} />
-							</ListItemIcon>
-							<ListItemText primary="Bridge" />
-						</ListItem>
-					}
 				</List>
 
 				<List>
@@ -292,31 +343,7 @@ export const Sidebar = observer(() => {
 					</ListItem>
 
 					<Collapse in={expanded === 'tokens'} timeout="auto" unmountOnExit>
-						<ListItem
-							button
-							className={classes.secondarySubListItem}
-							onClick={() => window.open('https://matcha.xyz/markets/BADGER')}
-						>
-							BADGER
-						</ListItem>
-						<ListItem
-							button
-							className={classes.secondarySubListItem}
-							onClick={() =>
-								window.open('https://info.uniswap.org/pair/0xcd7989894bc033581532d2cd88da5db0a4b12859')
-							}
-						>
-							Uniswap BADGER/wBTC
-						</ListItem>
-						<ListItem
-							button
-							className={classes.secondarySubListItem}
-							onClick={() =>
-								window.open('https://app.sushiswap.fi/pair/0x110492b31c59716ac47337e616804e3e3adc0b4a')
-							}
-						>
-							Sushiswap BADGER/wBTC
-						</ListItem>
+						{getTokens()}
 					</Collapse>
 
 					<ListItem

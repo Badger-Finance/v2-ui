@@ -1,26 +1,36 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { VaultDeposit, VaultWithdraw, GeyserUnstake, GeyserStake } from 'components/Collection/Forms';
 import { VaultSymbol } from 'components/Common/VaultSymbol';
-import { Dialog, DialogTitle, Tab, Tabs, Switch, Typography } from '@material-ui/core';
+import { Dialog, DialogTitle, Tab, Tabs, Switch, Typography, makeStyles } from '@material-ui/core';
 import deploy from '../../../config/deployments/mainnet.json';
 import BigNumber from 'bignumber.js';
+import { StoreContext } from '../../../mobx/store-context';
+import { NETWORK_LIST } from '../../../config/constants';
 
-interface SettDialogProps {
+const useStyles = makeStyles((theme) => ({
+	title: {
+		padding: theme.spacing(2, 2, 2),
+	},
+}));
+
+export interface SettDialogProps {
 	dialogProps: {
 		open: boolean;
 		vault: any;
 		sett: any;
 	};
 	onClose: () => void;
-	classes: Record<'list' | 'listItem' | 'before' | 'header' | 'hiddenMobile' | 'chip' | 'title', string>;
 }
 
 const SettDialog = (props: SettDialogProps): JSX.Element => {
 	const [dialogMode, setDialogMode] = useState(0);
 	const [dialogOut, setDialogOut] = useState(false);
-	const { dialogProps, classes, onClose } = props;
+	const { dialogProps, onClose } = props;
 	const { open, sett } = dialogProps;
 	let { vault } = dialogProps;
+	const store = useContext(StoreContext);
+	const { network } = store.wallet;
+	const classes = useStyles();
 
 	useEffect(() => {
 		const reset = async () => await setDialogMode(0);
@@ -60,7 +70,7 @@ const SettDialog = (props: SettDialogProps): JSX.Element => {
 		};
 	}
 
-	const diggSett = deploy.sett_system.vaults['native.digg'].toLowerCase();
+	const diggSett = deploy.sett_system.vaults['native.digg'];
 	let form = <VaultDeposit vault={vault} />;
 	// TODO: DialogMode should take integer indexes, may be worth enumerating - maybe not
 	if (dialogMode === 0 && dialogOut) form = <VaultWithdraw vault={vault} />;
@@ -80,12 +90,12 @@ const SettDialog = (props: SettDialogProps): JSX.Element => {
 						color="primary"
 					/>
 				</div>
-				<VaultSymbol token={sett} />
+				<VaultSymbol token={sett} iconName={sett.asset.toLowerCase()} />
 				<Typography variant="body1" color="textPrimary" component="div">
-					{sett.title}
+					{sett.name}
 				</Typography>
 				<Typography variant="body2" color="textSecondary" component="div">
-					{sett.symbol}
+					{sett.asset}
 				</Typography>
 			</DialogTitle>
 			<Tabs
@@ -95,7 +105,7 @@ const SettDialog = (props: SettDialogProps): JSX.Element => {
 				style={{ background: 'rgba(0,0,0,.2)', marginBottom: '1rem' }}
 			>
 				<Tab onClick={() => setDialogMode(0)} label={dialogOut ? 'Withdraw' : 'Deposit'}></Tab>
-				{sett.address !== diggSett && (
+				{sett.vaultToken !== diggSett && network.name === NETWORK_LIST.ETH && (
 					<Tab onClick={() => setDialogMode(1)} label={dialogOut ? 'Unstake' : 'Stake'}></Tab>
 				)}
 			</Tabs>

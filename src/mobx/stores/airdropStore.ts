@@ -7,7 +7,6 @@ import { RootStore } from '../store';
 import { jsonQuery } from '../utils/helpers';
 import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
-import { airdropsConfig, airdropEndpoint } from '../../config/system/airdrops';
 import { sett_system } from '../../config/deployments/mainnet.json';
 
 class AirdropStore {
@@ -24,18 +23,19 @@ class AirdropStore {
 	}
 
 	fetchAirdrops = action(() => {
-		const { provider, connectedAddress } = this.store.wallet;
+		const { provider, connectedAddress, network } = this.store.wallet;
 		if (!connectedAddress) return;
+		if (!network.airdrops) return;
 
 		const bBadgerAddress = sett_system.vaults['native.badger'];
 		const web3 = new Web3(provider);
 		const bBadgerAirdropTree = new web3.eth.Contract(
-			airdropsConfig[bBadgerAddress].airdropAbi,
-			airdropsConfig[bBadgerAddress].airdropContract,
+			network.airdrops.airdropsConfig[bBadgerAddress].airdropAbi,
+			network.airdrops.airdropsConfig[bBadgerAddress].airdropContract,
 		);
 		const checksumAddress = connectedAddress.toLowerCase();
-		//TODO: Update to handle the airdrop based on what token is available via airdrops.ts config
-		jsonQuery(`${airdropEndpoint}/gitcoin/${checksumAddress}`).then((merkleProof: any) => {
+
+		jsonQuery(`${network.airdrops.airdropEndpoint}/gitcoin/${checksumAddress}`)?.then((merkleProof: any) => {
 			if (!!merkleProof.index) {
 				Promise.all([bBadgerAirdropTree.methods.isClaimed(merkleProof.index).call()]).then((result: any[]) => {
 					this.airdrops = {
@@ -51,15 +51,16 @@ class AirdropStore {
 
 	claimAirdrops = action((contract: string) => {
 		const { merkleProof } = this.airdrops;
-		const { provider, gasPrices, connectedAddress } = this.store.wallet;
+		const { provider, gasPrices, connectedAddress, network } = this.store.wallet;
 		const { queueNotification, gasPrice, setTxStatus } = this.store.uiState;
 
 		if (!connectedAddress) return;
+		if (!network.airdrops) return;
 
 		const web3 = new Web3(provider);
 		const airdropTree = new web3.eth.Contract(
-			airdropsConfig[contract].airdropAbi,
-			airdropsConfig[contract].airdropContract,
+			network.airdrops.airdropsConfig[contract].airdropAbi,
+			network.airdrops.airdropsConfig[contract].airdropContract,
 		);
 		const method = airdropTree.methods.claim(
 			merkleProof.index,
@@ -69,7 +70,14 @@ class AirdropStore {
 		);
 
 		queueNotification(`Sign the transaction to claim your airdrop`, 'info');
-		estimateAndSend(web3, gasPrices[gasPrice], method, connectedAddress, (transaction: PromiEvent<Contract>) => {
+		if (!gasPrices) {
+			queueNotification(
+				`Error retrieving gas selection - check the gas selector in the top right corner.`,
+				'error',
+			);
+			return;
+		}
+		estimateAndSend(web3, gasPrices![gasPrice], method, connectedAddress, (transaction: PromiEvent<Contract>) => {
 			transaction
 				.on('transactionHash', (hash) => {
 					queueNotification(`Claim submitted.`, 'info', hash);

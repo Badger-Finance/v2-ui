@@ -3,10 +3,12 @@ import { Select, MenuItem, makeStyles } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
 import { LocalGasStation } from '@material-ui/icons';
+import _ from 'lodash';
 
 const useStyles = makeStyles(() => ({
 	gasSelector: {
 		height: '2.2rem',
+		overflow: 'hidden',
 	},
 }));
 
@@ -16,6 +18,20 @@ const GasWidget = observer(() => {
 
 	const { gasPrice, setGasPrice } = store.uiState;
 	const { gasPrices } = store.wallet;
+	if (!gasPrices[gasPrice]) store.uiState.setGasPrice('standard');
+
+	const getGasSelections = () => {
+		const gasMap: any = [];
+		for (const [key, value] of Object.entries(gasPrices!)) {
+			gasMap.push(
+				<MenuItem value={key} key={key}>
+					{value ? value.toFixed(0) : 10}
+				</MenuItem>,
+			);
+		}
+		return gasMap;
+	};
+
 	const gasIcon = (
 		<LocalGasStation
 			onClick={() => window.open('https://www.gasnow.org/')}
@@ -32,9 +48,7 @@ const GasWidget = observer(() => {
 			className={classes.gasSelector}
 			startAdornment={gasIcon}
 		>
-			<MenuItem value={'slow'}>{gasPrices['slow'].toFixed(0)}</MenuItem>
-			<MenuItem value={'standard'}>{gasPrices['standard'].toFixed(0)}</MenuItem>
-			<MenuItem value={'rapid'}>{gasPrices['rapid'].toFixed(0)}</MenuItem>
+			{getGasSelections()}
 		</Select>
 	);
 });

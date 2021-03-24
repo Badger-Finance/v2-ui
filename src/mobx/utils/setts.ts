@@ -70,7 +70,7 @@ export const diggSetts = [
 		title: 'Digg',
 		asset: 'digg',
 		symbol: 'DIGG',
-		address: '0x7e7e112a68d8d2e221e11047a72ffc1065c38e1a',
+		address: '0x7e7E112A68d8D2E221E11047a72fFC1065c38e1a',
 		position: 1,
 		iconName: 'digg.png',
 	},

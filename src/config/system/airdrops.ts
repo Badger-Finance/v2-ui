@@ -5,33 +5,39 @@ import { abi as diggAbi } from './abis/UFragments.json';
 import { abi as erc20Abi } from './abis/ERC20.json';
 import { abi as badgerHuntAbi } from './abis/BadgerHunt.json';
 import { abi as bBadgerAirdropAbi } from './abis/bBadgerAidrop.json';
-import { AirdropsConfig } from '../../mobx/model';
-import { getApi } from '../../mobx/utils/api';
+import { AirdropNetworkConfig } from '../../mobx/model';
+import { getApi } from 'mobx/utils/apiV2';
+import { NETWORK_LIST } from '../constants';
 
-export const airdropEndpoint = `${getApi()}/v2/reward`;
-
-const nativeBadger = sett_system.vaults['native.badger'];
-
-export const airdropsConfig: AirdropsConfig = {
-	// BADGER
-	[token]: {
-		tokenAbi: erc20Abi as AbiItem[],
-		tokenContract: token,
-		airdropContract: badgerHunt,
-		airdropAbi: badgerHuntAbi as AbiItem[],
-	},
-	// DIGG
-	[digg_system.uFragments]: {
-		tokenAbi: diggAbi as AbiItem[],
-		tokenContract: digg_system.uFragments,
-		airdropContract: digg_system.diggDistributor,
-		airdropAbi: diggDistributorAbi as AbiItem[],
-	},
-	// // bBADGER
-	[nativeBadger]: {
-		tokenAbi: erc20Abi as AbiItem[],
-		tokenContract: nativeBadger,
-		airdropContract: '0xD17C7effa924B55951E0F6d555b3a3ea34451179',
-		airdropAbi: bBadgerAirdropAbi as AbiItem[],
-	},
+export const getAirdrops = (network?: string | undefined): AirdropNetworkConfig | undefined => {
+	switch (network) {
+		case NETWORK_LIST.ETH:
+			return {
+				airdropEndpoint: `${getApi()}/reward`,
+				airdropsConfig: {
+					[token]: {
+						tokenAbi: erc20Abi as AbiItem[],
+						tokenContract: token,
+						airdropContract: badgerHunt,
+						airdropAbi: badgerHuntAbi as AbiItem[],
+					},
+					// DIGG
+					[digg_system.uFragments]: {
+						tokenAbi: diggAbi as AbiItem[],
+						tokenContract: digg_system.uFragments,
+						airdropContract: digg_system.diggDistributor,
+						airdropAbi: diggDistributorAbi as AbiItem[],
+					},
+					// // bBADGER
+					[sett_system.vaults['native.badger']]: {
+						tokenAbi: erc20Abi as AbiItem[],
+						tokenContract: sett_system.vaults['native.badger'],
+						airdropContract: '0xD17C7effa924B55951E0F6d555b3a3ea34451179',
+						airdropAbi: bBadgerAirdropAbi as AbiItem[],
+					},
+				},
+			};
+		default:
+			return undefined;
+	}
 };
