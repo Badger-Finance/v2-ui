@@ -4,7 +4,6 @@ import BigNumber from 'bignumber.js';
 import { RootStore } from '../store';
 import { AbiItem } from 'web3-utils';
 import { ERC20 } from 'config/constants';
-import { getNftBatchInformation } from 'mobx/utils/api';
 import mainnet from 'config/deployments/mainnet.json';
 import { abi as scarcityPoolABI } from 'config/system/abis/BadgerScarcityPool.json';
 import { abi as memeLtdABI } from 'config/system/abis/MemeLtd.json';
