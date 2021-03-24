@@ -74,7 +74,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const initialPropValue = { open: false, nft: undefined };
+const initialPromptState = { open: false, nft: undefined };
 
 export const HoneybadgerDrop: React.FC = observer(() => {
 	const store = React.useContext(StoreContext);
@@ -83,7 +83,7 @@ export const HoneybadgerDrop: React.FC = observer(() => {
 	const isMobile = useMediaQuery(theme.breakpoints.only('xs'));
 	const bdiggToDigg = useBdiggToDigg();
 	const connectWallet = useConnectWallet();
-	const [nftAmountPromp, setNftAmountPromp] = React.useState<NftAmountPromp>(initialPropValue);
+	const [nftAmountPromp, setNftAmountPromp] = React.useState<NftAmountPromp>(initialPromptState);
 
 	const { connectedAddress } = store.wallet;
 	const { poolBalance, loadingPoolBalance, loadingNfts, nfts, nftBeingRedeemed } = store.honeyPot;
@@ -104,45 +104,53 @@ export const HoneybadgerDrop: React.FC = observer(() => {
 										<Grid item xs={12}>
 											<Typography>Remaining Honey Pot Pool</Typography>
 										</Grid>
-										<NoWalletPlaceHolder>
-											<Grid item xs={12}>
-												<TypographySkeleton
-													variant="h5"
-													color="textPrimary"
-													width="30%"
-													loading={loadingPoolBalance || !poolBalance}
-												>
-													{poolBalance && `${poolBalance.dividedBy(1e18).toFixed(2)} bDIGG`}
-												</TypographySkeleton>
-											</Grid>
-											<Grid item xs={12}>
-												<TypographySkeleton
-													variant="subtitle1"
-													color="textSecondary"
-													width="30%"
-													loading={loadingPoolBalance || !!poolBalanceDiggs?.isNaN()}
-												>
-													{poolBalanceDiggs &&
-														`${poolBalanceDiggs
-															.dividedBy(1e18)
-															.toFixed(2)} DIGG / ${diggToCurrency({
-															amount: poolBalanceDiggs,
-															currency: 'btc',
-														})}`}
-												</TypographySkeleton>
-											</Grid>
-											<Grid item xs={12}>
-												<TypographySkeleton
-													variant="subtitle1"
-													color="textSecondary"
-													width="30%"
-													loading={loadingPoolBalance || !!poolBalanceDiggs?.isNaN()}
-												>
-													{poolBalanceDiggs &&
-														diggToCurrency({ amount: poolBalanceDiggs, currency: 'usd' })}
-												</TypographySkeleton>
-											</Grid>
-										</NoWalletPlaceHolder>
+										{connectedAddress && (
+											<>
+												<NoWalletPlaceHolder>
+													<Grid item xs={12}>
+														<TypographySkeleton
+															variant="h5"
+															color="textPrimary"
+															width="30%"
+															loading={loadingPoolBalance || !poolBalance}
+														>
+															{poolBalance &&
+																`${poolBalance.dividedBy(1e18).toFixed(2)} bDIGG`}
+														</TypographySkeleton>
+													</Grid>
+													<Grid item xs={12}>
+														<TypographySkeleton
+															variant="subtitle1"
+															color="textSecondary"
+															width="30%"
+															loading={loadingPoolBalance || !!poolBalanceDiggs?.isNaN()}
+														>
+															{poolBalanceDiggs &&
+																`${poolBalanceDiggs
+																	.dividedBy(1e18)
+																	.toFixed(2)} DIGG / ${diggToCurrency({
+																	amount: poolBalanceDiggs,
+																	currency: 'btc',
+																})}`}
+														</TypographySkeleton>
+													</Grid>
+													<Grid item xs={12}>
+														<TypographySkeleton
+															variant="subtitle1"
+															color="textSecondary"
+															width="30%"
+															loading={loadingPoolBalance || !!poolBalanceDiggs?.isNaN()}
+														>
+															{poolBalanceDiggs &&
+																diggToCurrency({
+																	amount: poolBalanceDiggs,
+																	currency: 'usd',
+																})}
+														</TypographySkeleton>
+													</Grid>
+												</NoWalletPlaceHolder>
+											</>
+										)}
 										{!loadingNfts && !connectedAddress && (
 											<Grid item xs={12}>
 												<Button
@@ -271,15 +279,17 @@ export const HoneybadgerDrop: React.FC = observer(() => {
 					)}
 				</Grid>
 			</Grid>
-			<NftAmountSelector
-				isOpen={nftAmountPromp.open}
-				nft={nftAmountPromp.nft}
-				onClose={() => setNftAmountPromp(initialPropValue)}
-				onAmountSelected={(id: string, amount: number) => {
-					store.honeyPot.redeemNFT(id, amount);
-					setNftAmountPromp(initialPropValue);
-				}}
-			/>
+			{nftAmountPromp.nft && (
+				<NftAmountSelector
+					isOpen={nftAmountPromp.open}
+					nft={nftAmountPromp.nft}
+					onClose={() => setNftAmountPromp(initialPromptState)}
+					onAmountSelected={(id: string, amount: number) => {
+						store.honeyPot.redeemNFT(id, amount);
+						setNftAmountPromp(initialPromptState);
+					}}
+				/>
+			)}
 		</Container>
 	);
 });
