@@ -116,6 +116,11 @@ export const ConfirmForm = (props: any) => {
 					'The estimated slippage due to swapping RenBTC <-> wBTC.',
 					`${Math.abs(values.estimatedSlippage * 100).toFixed(2) + '%'}`,
 				)}
+				{values.token === 'WBTC' && feeContainer(
+					'Max Slippage',
+					'The maximum configured slippage for swapping RenBTC <-> wBTC. If slippage is too high, a burn will fail and a mint will mint renBTC.',
+					`${Math.abs(parseFloat(values.maxSlippage)).toFixed(2) + '%'}`,
+				)}
 			</Grid>
 			{values.spacer}
 			<Grid item xs={12}>
