@@ -108,6 +108,7 @@ export class Vault extends Token {
 		if (!!payload.getPricePerFullShare) this.pricePerShare = payload.getPricePerFullShare;
 		if (!!payload.totalSupply) this.holdings = payload.totalSupply;
 		if (!!payload.isSuperSett) this.super = payload.isSuperSett;
+		if (!!payload.ethValue) this.ethValue = payload.ethValue;
 	}
 }
 
@@ -614,18 +615,16 @@ export class EthNetwork implements Network {
 		},
 	];
 	public async getGasPrices() {
-		const prices = await fetch('https://www.gasnow.org/api/v3/gas/price?utm_source=badgerv2')
-			.then((result: any) => result.json())
-			.then((price: any) => {
-				return {
-					rapid: price.data['rapid'] / 1e9,
-					fast: price.data['fast'] / 1e9,
-					standard: price.data['standard'] / 1e9,
-					slow: price.data['slow'] / 1e9,
-				};
-			});
-		return prices;
+		const prices = await fetch('https://www.gasnow.org/api/v3/gas/price?utm_source=badgerv2');
+		const result = await prices.json();
+		return {
+			rapid: result.data['rapid'] / 1e9,
+			fast: result.data['fast'] / 1e9,
+			standard: result.data['standard'] / 1e9,
+			slow: result.data['slow'] / 1e9,
+		};
 	}
+
 	public getNotifyLink(transaction: any) {
 		return { link: `https://etherscan.io/tx/${transaction.hash}` };
 	}
@@ -666,7 +665,7 @@ export type TokenBalance = {
 };
 
 export type PriceSummary = {
-	[address: string]: number | undefined;
+	[address: string]: BigNumber | undefined;
 };
 
 export interface SettSummary {
