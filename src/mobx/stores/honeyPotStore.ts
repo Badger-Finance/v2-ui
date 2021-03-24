@@ -156,7 +156,7 @@ export class HoneyPotStore {
 				(transaction: PromiEvent<Contract>) => {
 					transaction
 						.on('transactionHash', (hash) => {
-							queueNotification(`Redemption submitted.`, 'info');
+							queueNotification(`Redemption submitted.`, 'info', hash);
 						})
 						.on('receipt', () => {
 							queueNotification(`NFT Redeemed.`, 'success');
