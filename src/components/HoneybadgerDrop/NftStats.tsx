@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const NFT: React.FC<Props> = ({
+const NftStats: React.FC<Props> = ({
 	nftId,
 	name,
 	balance,
@@ -112,4 +112,4 @@ const NFT: React.FC<Props> = ({
 	);
 };
 
-export default NFT;
+export default NftStats;
