@@ -94,10 +94,7 @@ const Info = observer(() => {
 					rebaseStats.rebaseLag,
 			  )
 			: 0;
-	const isPositive = !newSupply || newSupply >= rebaseStats.totalSupply;
-	const percentage = newSupply && rebaseStats.totalSupply ? newSupply / rebaseStats.totalSupply : 0;
-	const diggSett = deploy.sett_system.vaults['native.digg'];
-	const rebasePercentage = ((stats.stats.digg - rebaseStats.btcPrice) / rebaseStats.btcPrice) * 0.1;
+	const rebasePercentage = ((stats.stats.digg - rebaseStats.btcPrice) / rebaseStats.btcPrice) * 10;
 
 	if (!rebaseStats) {
 		return <Loader />;
