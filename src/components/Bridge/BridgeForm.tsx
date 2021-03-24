@@ -7,7 +7,6 @@ import { EthArgs, LockAndMintParamsSimple, BurnAndReleaseParamsSimple } from '@r
 import Web3 from 'web3';
 import async, { any } from 'async';
 import { observer } from 'mobx-react-lite';
-import { makeStyles } from '@material-ui/core/styles';
 import { Grid, Tabs, Tab, FormControl, Select, MenuItem, Typography } from '@material-ui/core';
 import useInterval from '@use-it/interval';
 
@@ -58,31 +57,13 @@ const a11yProps = (index: number) => {
 	};
 };
 
-const useStyles = makeStyles((theme) => ({
-        padded: {
-                padding: '2rem 2rem',
-        },
-        select: { height: '3rem', overflow: 'hidden', margin: '.3rem 0 0 .6rem' },
-        row: {
-                display: 'flex',
-                justifyContent: 'space-between',
-                flexDirection: 'row',
-                alignItems: 'center',
-                width: '100%',
-                padding: '.5rem 0 0 1rem',
-        },
-}));
-
 // Gateways expects nonce as a bytes32 hex string.
 const formatNonceBytes32 = (nonce: number): string => {
 	return ethers.utils.hexZeroPad(`0x${nonce.toString(16)}`, 32);
 };
 
 export const BridgeForm = observer((props: any) => {
-        const classes = {
-                ...props.classes,
-                ...useStyles(),
-        }
+        const classes = props.classes;
 	const store = useContext(StoreContext);
 	const spacer = <div className={classes.before} />;
 
@@ -117,7 +98,7 @@ export const BridgeForm = observer((props: any) => {
 		receiveAmount: 0,
 		estimatedSlippage: 0,
                 // Default to 0.5%.
-                maxSlippage: .5,
+                maxSlippage: '.5',
 		burnAmount: '',
 		btcAddr: '',
 		renFee: 0,
@@ -198,7 +179,7 @@ export const BridgeForm = observer((props: any) => {
 		}));
 	};
 
-	const handleSetMaxSlippage = (newValue: number) => () => {
+	const handleSetMaxSlippage = (newValue: string) => () => {
 		setStates((prevState) => ({
 			...prevState,
 			maxSlippage: newValue,
@@ -249,7 +230,7 @@ export const BridgeForm = observer((props: any) => {
                 let maxSlippageBps = 0;
 		if (token === 'WBTC') {
 			// Convert max slippage from % to bps.
-                        maxSlippageBps = Math.round(maxSlippage * 100)
+                        maxSlippageBps = Math.round(parseFloat(maxSlippage) * 100)
 			desiredToken = NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.WBTC_ADDRESS;
 		}
 		const contractParams: EthArgs = [
@@ -292,7 +273,7 @@ export const BridgeForm = observer((props: any) => {
 		if (token === 'WBTC') {
 			burnToken = NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.WBTC_ADDRESS;
 			// Convert max slippage from % to bps.
-                        maxSlippageBps = Math.round(maxSlippage * 100)
+                        maxSlippageBps = Math.round(parseFloat(maxSlippage) * 100)
 		}
 		const params: any = [
 			{
