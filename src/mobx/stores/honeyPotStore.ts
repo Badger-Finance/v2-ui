@@ -11,16 +11,7 @@ import { abi as memeLtdABI } from 'config/system/abis/MemeLtd.json';
 import { estimateAndSend } from 'mobx/utils/web3';
 import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
-
-export interface NFT {
-	tokenId: string;
-	balance: string;
-	poolBalance: string;
-	totalSupply: string;
-	root: string;
-	name?: string;
-	image?: string;
-}
+import { NFT } from 'mobx/model';
 export class HoneyPotStore {
 	private store: RootStore;
 	poolBalance?: BigNumber;
@@ -117,7 +108,7 @@ export class HoneyPotStore {
 		}
 	});
 
-	redeemNFT = action(async (tokenId: string) => {
+	redeemNFT = action(async (tokenId: string, amount: number) => {
 		try {
 			const { queueNotification, gasPrice, setTxStatus } = this.store.uiState;
 			const { provider, connectedAddress, gasPrices } = this.store.wallet;
@@ -133,7 +124,7 @@ export class HoneyPotStore {
 				connectedAddress,
 				mainnet.honeypotMeme,
 				tokenId,
-				'1',
+				amount,
 				'0x00',
 			);
 

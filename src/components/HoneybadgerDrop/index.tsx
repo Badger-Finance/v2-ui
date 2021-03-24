@@ -17,9 +17,16 @@ import { diggToCurrency } from 'mobx/utils/helpers';
 import { StoreContext } from 'mobx/store-context';
 import { useBdiggToDigg, useConnectWallet } from 'mobx/utils/hooks';
 import Hero from 'components/Common/Hero';
-import NFT from './NFT';
+import NftStats from './NftStats';
 import { NoWalletPlaceHolder } from './NoWalletPlaceHolder';
 import { TypographySkeleton } from './TypographySkeleton';
+import { NFT } from 'mobx/model';
+import { NftAmountSelector } from './NftAmountSelector';
+
+interface NftAmountPromp {
+	open: boolean;
+	nft?: NFT;
+}
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -67,6 +74,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
+const initialPropValue = { open: false, nft: undefined };
+
 export const HoneybadgerDrop: React.FC = observer(() => {
 	const store = React.useContext(StoreContext);
 	const classes = useStyles();
@@ -74,6 +83,7 @@ export const HoneybadgerDrop: React.FC = observer(() => {
 	const isMobile = useMediaQuery(theme.breakpoints.only('xs'));
 	const bdiggToDigg = useBdiggToDigg();
 	const connectWallet = useConnectWallet();
+	const [nftAmountPromp, setNftAmountPromp] = React.useState<NftAmountPromp>(initialPropValue);
 
 	const { connectedAddress } = store.wallet;
 	const { poolBalance, loadingPoolBalance, loadingNfts, nfts, nftBeingRedeemed } = store.honeyPot;
@@ -191,8 +201,8 @@ export const HoneybadgerDrop: React.FC = observer(() => {
 														justify="space-between"
 														spacing={isMobile ? 0 : 8}
 													>
-														{nfts.map(
-															({
+														{nfts.map((nft) => {
+															const {
 																balance,
 																tokenId,
 																name,
@@ -200,47 +210,46 @@ export const HoneybadgerDrop: React.FC = observer(() => {
 																totalSupply,
 																root,
 																poolBalance,
-															}) => {
-																const redemptionRate = store.honeyPot.calculateRedemptionRate(
-																	root,
-																);
+															} = nft;
 
-																const formattedRedemptionRate = diggToCurrency({
-																	amount: bdiggToDigg(redemptionRate),
-																	currency: 'usd',
-																});
+															const redemptionRate = store.honeyPot.calculateRedemptionRate(
+																root,
+															);
 
-																const isBalanceEmpty = +balance < 1;
+															const formattedRedemptionRate = diggToCurrency({
+																amount: bdiggToDigg(redemptionRate),
+																currency: 'usd',
+															});
 
-																return (
-																	<Grid
-																		key={tokenId}
-																		className={classes.nftContainer}
-																		item
-																		xs={12}
-																		sm={6}
-																		lg={4}
-																	>
-																		<NFT
-																			nftId={tokenId}
-																			name={name || 'NFT Name N/A'}
-																			image={image}
-																			balance={balance}
-																			remaining={`${
-																				Number(totalSupply) -
-																				Number(poolBalance)
-																			}/${totalSupply}`}
-																			redemptionRate={formattedRedemptionRate}
-																			loading={nftBeingRedeemed.includes(tokenId)}
-																			disabled={isBalanceEmpty}
-																			onRedeem={() =>
-																				store.honeyPot.redeemNFT(tokenId)
-																			}
-																		/>
-																	</Grid>
-																);
-															},
-														)}
+															const isBalanceEmpty = +balance < 1;
+
+															return (
+																<Grid
+																	key={tokenId}
+																	className={classes.nftContainer}
+																	item
+																	xs={12}
+																	sm={6}
+																	lg={4}
+																>
+																	<NftStats
+																		nftId={tokenId}
+																		name={name || 'NFT Name N/A'}
+																		image={image}
+																		balance={balance}
+																		remaining={`${
+																			Number(totalSupply) - Number(poolBalance)
+																		}/${totalSupply}`}
+																		redemptionRate={formattedRedemptionRate}
+																		loading={nftBeingRedeemed.includes(tokenId)}
+																		disabled={isBalanceEmpty}
+																		onRedeem={() =>
+																			setNftAmountPromp({ nft, open: true })
+																		}
+																	/>
+																</Grid>
+															);
+														})}
 													</Grid>
 												) : (
 													<Grid item container xs={12} justify="space-between">
@@ -262,6 +271,15 @@ export const HoneybadgerDrop: React.FC = observer(() => {
 					)}
 				</Grid>
 			</Grid>
+			<NftAmountSelector
+				isOpen={nftAmountPromp.open}
+				nft={nftAmountPromp.nft}
+				onClose={() => setNftAmountPromp(initialPropValue)}
+				onAmountSelected={(id: string, amount: number) => {
+					store.honeyPot.redeemNFT(id, amount);
+					setNftAmountPromp(initialPropValue);
+				}}
+			/>
 		</Container>
 	);
 });
