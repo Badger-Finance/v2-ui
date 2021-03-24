@@ -12,6 +12,25 @@ import { estimateAndSend } from 'mobx/utils/web3';
 import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
 import { NFT } from 'mobx/model';
+import badgerpackJoyRide from '../../assets/gifs/badgerpack-joyride.gif';
+import battleBadger from '../../assets/gifs/battlebadger.gif';
+import wackABadger from '../../assets/gifs/wack-a-badger.gif';
+
+const nftAssetsByTotalSupply: Record<string, { name: string; image: string }> = {
+	'200': {
+		name: 'Wack-A-Badger',
+		image: wackABadger,
+	},
+	'50': {
+		name: 'Badgerpack Joyride',
+		image: badgerpackJoyRide,
+	},
+	'10': {
+		name: 'Battle Badger',
+		image: battleBadger,
+	},
+};
+
 export class HoneyPotStore {
 	private store: RootStore;
 	poolBalance?: BigNumber;
@@ -91,14 +110,13 @@ export class HoneyPotStore {
 				memeLtd.methods.balanceOfBatch(Array(nfts.length).fill(mainnet.honeypotMeme), tokenIds).call(),
 			]);
 
-			// TODO: add image and name once the contracts are deployed
 			// merge nft core information, balance, name and image
 			this.nfts = nfts.map((nft, index) => ({
 				...nft,
 				balance: balances[index],
 				poolBalance: poolBalances[index],
-				// image: assets[index]?.imagePreviewUrl,
-				// name: assets[index]?.name,
+				image: nftAssetsByTotalSupply[nft.totalSupply]?.image,
+				name: nftAssetsByTotalSupply[nft.totalSupply]?.name,
 			}));
 		} catch (error) {
 			const message = error?.message || 'There was an error. Please try again later.';
