@@ -55,7 +55,10 @@ const useStyles = makeStyles((theme) => ({
 		fontSize: '.8rem',
 	},
 	primarySubListItem: {
-		width: '100%',
+		margin: theme.spacing(0, -999),
+		width: 'auto',
+		border: 0,
+		padding: theme.spacing(1, 1001),
 	},
 	secondaryListItem: {
 		cursor: 'pointer',
@@ -76,10 +79,10 @@ const useStyles = makeStyles((theme) => ({
 		fontWeight: 'bold',
 		backgroundColor: '#070707',
 		borderRadius: theme.shape.borderRadius,
-		margin: theme.spacing(0, 1),
+		margin: theme.spacing(0, -999),
 		width: 'auto',
 		border: 0,
-		padding: theme.spacing(1, 2),
+		padding: theme.spacing(1, 1001),
 		'&:hover': {
 			backgroundColor: '#070707',
 			cursor: 'pointer',
@@ -298,7 +301,7 @@ export const Sidebar = observer(() => {
 						className={classes.listItem}
 						onClick={() => setExpanded(expanded === 'badger-zone' ? '' : 'badger-zone')}
 					>
-						Badger Zone
+						Badger Arcade
 						<IconButton
 							size="small"
 							className={classes.expand + ' ' + (expanded === 'tokens' ? classes.expandOpen : '')}
@@ -311,7 +314,6 @@ export const Sidebar = observer(() => {
 						<Collapse in={expanded === 'badger-zone'} timeout="auto" unmountOnExit>
 							<ListItem
 								button
-								style={{ width: '100%' }}
 								className={[
 									store.router.currentPath == '/honey-badger-drop' ? classes.activeListItem : '',
 									classes.primarySubListItem,
