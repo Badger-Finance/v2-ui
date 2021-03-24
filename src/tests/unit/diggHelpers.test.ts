@@ -9,7 +9,7 @@ import {
 } from '../../mobx/utils/diggHelpers';
 import '@testing-library/jest-dom';
 import BigNumber from 'bignumber.js';
-import { Token, Vault } from '../../mobx/model';
+import { Token, Vault } from '../../config/model';
 import { AbiItem } from 'web3-utils';
 import { RootStore } from '../../mobx/store';
 

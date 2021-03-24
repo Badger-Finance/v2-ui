@@ -12,7 +12,7 @@ import {
 	reduceGrowthQueryConfig,
 	reduceSushiAPIResults,
 } from '../reducers/contractReducers';
-import { Vault, Geyser, Token, Sett } from '../model';
+import { Vault, Geyser, Token, Sett } from '../../config/model';
 import { vanillaQuery } from 'mobx/utils/helpers';
 import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';

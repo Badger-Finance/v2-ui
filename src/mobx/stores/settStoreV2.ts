@@ -1,7 +1,7 @@
 import { extendObservable, action } from 'mobx';
 import { RootStore } from '../store';
 import { getTokenPrices, getTotalValueLocked, listGeysers, listSetts } from 'mobx/utils/apiV2';
-import { PriceSummary, Sett, ProtocolSummary, Network, SettMap } from 'mobx/model';
+import { PriceSummary, Sett, ProtocolSummary, Network, SettMap } from 'config/model';
 import { NETWORK_LIST } from 'config/constants';
 import Web3 from 'web3';
 import BigNumber from 'bignumber.js';

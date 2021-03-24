@@ -7,7 +7,7 @@ import BigNumber from 'bignumber.js';
 import { onboardWalletCheck, getOnboardWallets } from '../../config/wallets';
 import { getNetwork, getNetworkNameFromId } from '../../mobx/utils/web3';
 import _ from 'lodash';
-import { Network } from 'mobx/model';
+import { Network } from 'config/model';
 import { RootStore } from 'mobx/store';
 
 class WalletStore {

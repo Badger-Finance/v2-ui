@@ -7,7 +7,7 @@ import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
 import Web3 from 'web3';
-import { TokenModel } from 'mobx/model';
+import { TokenModel } from 'config/model';
 import { estimateAndSend } from 'mobx/utils/web3';
 
 import SETT from 'config/system/abis/Sett.json';

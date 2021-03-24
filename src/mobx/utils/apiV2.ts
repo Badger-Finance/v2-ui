@@ -1,4 +1,4 @@
-import { PriceSummary, ProtocolSummary, Sett } from 'mobx/model';
+import { PriceSummary, ProtocolSummary, Sett } from 'config/model';
 
 export const getApi = () => {
 	if (process.env.NODE_ENV === 'production') {

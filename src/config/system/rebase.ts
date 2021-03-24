@@ -3,7 +3,7 @@ import UFragmentsPolicy from './abis/UFragmentsPolicy.json';
 import MedianOracle from './abis/MedianOracle.json';
 import Orchestrator from './abis/Orchestrator.json';
 import { digg_system } from '../deployments/mainnet.json';
-import { RebaseNetworkConfig } from '../../mobx/model';
+import { RebaseNetworkConfig } from '../model';
 
 import { AbiItem } from 'web3-utils';
 import { NETWORK_LIST } from 'config/constants';

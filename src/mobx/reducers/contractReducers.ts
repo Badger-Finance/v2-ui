@@ -17,7 +17,7 @@ import {
 	GraphResultPrices,
 	ReducedGraphResults,
 	Schedules,
-} from '../model';
+} from '../../config/model';
 
 export const reduceBatchResult = (result: any[]): any[] => {
 	return result.map((vault) => {

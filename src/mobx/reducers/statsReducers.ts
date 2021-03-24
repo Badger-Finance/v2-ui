@@ -19,7 +19,7 @@ import {
 	ReduceAirdropsProps,
 	TokenRebaseStats,
 	Network,
-} from '../model';
+} from '../../config/model';
 import { ZERO_CURRENCY } from 'config/constants';
 
 export const reduceTimeSinceLastCycle = (time: string): string => {

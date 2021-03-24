@@ -9,7 +9,7 @@ import { BigNumber } from 'bignumber.js';
 import { Tokens } from './Tokens';
 import { DownArrow } from './DownArrow';
 
-import { TokenModel } from 'mobx/model';
+import { TokenModel } from 'config/model';
 import { StoreContext } from 'mobx/store-context';
 
 export const Mint = observer((): any => {

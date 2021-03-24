@@ -12,7 +12,7 @@ import { commonStyles } from './index';
 import { Tokens } from './Tokens';
 import { DownArrow } from './DownArrow';
 import { StoreContext } from 'mobx/store-context';
-import { TokenModel } from 'mobx/model';
+import { TokenModel } from 'config/model';
 
 const localStyle = makeStyles(() => ({
 	error: {

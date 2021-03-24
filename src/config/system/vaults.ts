@@ -5,7 +5,7 @@ import BadgerSushiVault from './abis/SushiSett.json';
 import DiggVault from './abis/DiggSett.json';
 import deploy from '../deployments/mainnet.json';
 import bscDeploy from '../deployments/bsc.json';
-import { VaultNetworkConfig } from 'mobx/model';
+import { VaultNetworkConfig } from 'config/model';
 import { NETWORK_LIST } from '../../config/constants';
 
 export const getVaults = (network?: string | null): VaultNetworkConfig | undefined => {

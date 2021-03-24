@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { makeStyles } from '@material-ui/core';
-import { Vault } from '../../mobx/model';
+import { Vault } from '../../config/model';
 import SettDialog from '../../components/Collection/Setts/SettDialog';
 import SettListView from './SettListView';
 

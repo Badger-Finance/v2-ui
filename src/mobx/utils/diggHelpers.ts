@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js';
 import Web3 from 'web3';
 import { AbiItem } from 'web3-utils';
 import { provider } from 'web3-core';
-import { Vault, Network } from '../model';
+import { Vault, Network } from '../../config/model';
 import { numberWithCommas } from './helpers';
 
 const UPPER_LIMIT = 1.05 * 1e18;

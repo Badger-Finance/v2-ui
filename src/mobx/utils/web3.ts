@@ -4,7 +4,7 @@ import { Contract, ContractSendMethod } from 'web3-eth-contract';
 import { PromiEvent } from 'web3-core';
 import _ from 'lodash';
 import { AbiItem } from 'web3-utils';
-import { BatchConfig, TokenContract, DeployConfig, Network, BscNetwork, EthNetwork } from '../model';
+import { BatchConfig, TokenContract, DeployConfig, Network, BscNetwork, EthNetwork } from '../../config/model';
 import { NETWORK_LIST, NETWORK_IDS } from '../../config/constants';
 import deploy from '../../config/deployments/mainnet.json';
 import bscDeploy from '../../config/deployments/bsc.json';

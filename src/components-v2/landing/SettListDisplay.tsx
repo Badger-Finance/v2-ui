@@ -2,7 +2,7 @@ import { Typography } from '@material-ui/core';
 import SettListItem from 'components-v2/landing/SettListItem';
 import { Loader } from 'components/Loader';
 import { observer } from 'mobx-react-lite';
-import { Vault } from 'mobx/model';
+import { Vault } from 'config/model';
 import { StoreContext } from 'mobx/store-context';
 import React, { useContext } from 'react';
 import { SettListViewProps } from './SettListView';
