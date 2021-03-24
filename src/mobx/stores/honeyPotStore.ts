@@ -67,6 +67,7 @@ export class HoneyPotStore {
 
 			this.loadingNfts = true;
 
+			this.nftBeingRedeemed = [];
 			const nfts = [];
 			const web3 = new Web3(provider);
 			const pool = new web3.eth.Contract(scarcityPoolABI as AbiItem[], mainnet.honeypotMeme);
@@ -138,7 +139,7 @@ export class HoneyPotStore {
 				(transaction: PromiEvent<Contract>) => {
 					transaction
 						.on('transactionHash', (hash) => {
-							queueNotification(`Redemption submitted.`, 'info', hash);
+							queueNotification(`Redemption submitted.`, 'info');
 						})
 						.on('receipt', () => {
 							queueNotification(`NFT Redeemed.`, 'success');
