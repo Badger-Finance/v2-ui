@@ -111,7 +111,7 @@ export const HoneybadgerDrop: React.FC = observer(() => {
 															loading={loadingPoolBalance || !poolBalance}
 														>
 															{poolBalance &&
-																`${poolBalance.dividedBy(1e18).toFixed(2)} bDIGG`}
+																`${poolBalance.dividedBy(1e18).toFixed(5)} bDIGG`}
 														</TypographySkeleton>
 													</Grid>
 													<Grid item xs={12}>
@@ -124,7 +124,7 @@ export const HoneybadgerDrop: React.FC = observer(() => {
 															{poolBalanceDiggs &&
 																`${poolBalanceDiggs
 																	.dividedBy(1e18)
-																	.toFixed(2)} DIGG / ${diggToCurrency({
+																	.toFixed(5)} DIGG / ${diggToCurrency({
 																	amount: poolBalanceDiggs,
 																	currency: 'btc',
 																})}`}
@@ -176,8 +176,15 @@ export const HoneybadgerDrop: React.FC = observer(() => {
 										<Grid item container xs={12} justify="space-between" spacing={isMobile ? 0 : 8}>
 											{Array(3)
 												.fill(null)
-												.map(() => (
-													<Grid className={classes.nftContainer} item xs={12} sm={6} lg={4}>
+												.map((_, index: number) => (
+													<Grid
+														className={classes.nftContainer}
+														item
+														xs={12}
+														sm={6}
+														lg={4}
+														key={index}
+													>
 														<Skeleton
 															variant="rect"
 															width="100%"
