@@ -137,7 +137,6 @@ function parsePositionHexToBigNumber(data: SponsorData['position']): SponsorData
 		withdrawalRequestPassTimestamp,
 		withdrawalRequestAmount,
 		rawCollateral,
-		transferPositionRequestPassTimestamp,
 	} = data;
 
 	return {
@@ -145,6 +144,5 @@ function parsePositionHexToBigNumber(data: SponsorData['position']): SponsorData
 		withdrawalRequestPassTimestamp: new BigNumber((withdrawalRequestPassTimestamp as any).hex),
 		withdrawalRequestAmount: new BigNumber((withdrawalRequestAmount as any).hex),
 		rawCollateral: new BigNumber((rawCollateral as any).hex),
-		transferPositionRequestPassTimestamp: new BigNumber((transferPositionRequestPassTimestamp as any).hex),
 	};
 }
