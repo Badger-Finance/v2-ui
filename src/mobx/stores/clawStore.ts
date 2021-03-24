@@ -2,7 +2,7 @@ import Web3 from 'web3';
 import { AbiItem } from 'web3-utils';
 import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
-import { action, observe, extendObservable, toJS } from 'mobx';
+import { action, observe, extendObservable } from 'mobx';
 import { RootStore } from 'mobx/store';
 import { getClawEmp, getClawEmpSponsor } from 'mobx/utils/api';
 import BigNumber from 'bignumber.js';
@@ -102,7 +102,6 @@ interface Position {
 	withdrawalRequestPassTimestamp: BigNumber;
 	withdrawalRequestAmount: BigNumber;
 	rawCollateral: BigNumber;
-	transferPositionRequestPassTimestamp: BigNumber;
 }
 
 interface PrepareEmpTransaction {
@@ -254,7 +253,6 @@ export class ClawStore {
 			this.collaterals = reduceCollaterals(this);
 			this.clawsByCollateral = reduceClawByCollateral(this);
 			this.claws = reduceClaws();
-                        console.log('fetchSyntheticsData syntheticsData ->', toJS(this.syntheticsData), toJS(this.collaterals));
 		} catch (error) {
 			queueNotification(error?.message || 'There was an error fetching synthetic data', 'error');
 		} finally {

@@ -1,6 +1,6 @@
 import React, { FC, useContext, useState } from 'react';
+import { toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
-import { StoreContext } from 'mobx/store-context';
 import {
 	Tab,
 	Card,
@@ -11,6 +11,9 @@ import {
 	CircularProgress,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+
+import { StoreContext } from 'mobx/store-context';
+import { SponsorData } from 'mobx/stores/clawStore';
 import Hero from 'components/Common/Hero';
 import Liquidations from './Liquidations';
 import Mint from './Mint';
@@ -87,7 +90,7 @@ const TABS = {
 
 export const Claws: FC = observer(() => {
 	const { claw: store } = useContext(StoreContext);
-	const { isLoading } = store;
+	const { isLoading, sponsorInformationByEMP, syntheticsData } = store;
 	const classes = useMainStyles();
 	const [activeTab, setActiveTab] = useState(0);
 
@@ -110,7 +113,20 @@ export const Claws: FC = observer(() => {
 				return <Mint />;
 		}
 	};
+        const totalWithdrawals = Object.values(toJS(sponsorInformationByEMP))
+                .reduce((acc: number, { pendingWithdrawal }: SponsorData) => {
+                        console.log(pendingWithdrawal);
+                        if (pendingWithdrawal) return acc + 1;
+                        return acc;
+                }, 0);
+        const totalLiquidations = Object.values(toJS(sponsorInformationByEMP))
+                .reduce((acc: number, { liquidations }: SponsorData) => {
+                        if (liquidations) return acc + liquidations.length;
+                        return acc;
+                }, 0);
 
+        console.log(totalWithdrawals, totalLiquidations);
+        console.log(toJS(sponsorInformationByEMP));
 	return (
 		<Container className={classes.root} maxWidth="lg">
 			<Grid container spacing={1} justify="center">
@@ -134,10 +150,10 @@ export const Claws: FC = observer(() => {
 						</CardContent>
 					</Card>
 				</Grid>
-				{1 || 2 > 0 ? (
+				{totalWithdrawals + totalLiquidations > 0 ? (
 					<Grid item xs={12}>
-						{1 > 0 ? <Withdrawals/> : null}
-						{2 > 0 ? <Liquidations/> : null}
+						{totalWithdrawals > 0 ? <Withdrawals/> : null}
+						{totalLiquidations > 0 ? <Liquidations/> : null}
 					</Grid>
 				) : null}
 			</Grid>
