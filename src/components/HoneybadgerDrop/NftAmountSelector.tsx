@@ -15,7 +15,7 @@ import { NFT } from 'mobx/model';
 
 interface Props {
 	isOpen?: boolean;
-	nft?: NFT;
+	nft: NFT;
 	onClose: () => void;
 	onAmountSelected: (tokenId: NFT['tokenId'], amount: number) => void;
 }
@@ -30,7 +30,9 @@ export const NftAmountSelector: React.FC<Props> = ({ isOpen = false, nft, onClos
 	const classes = useStyles();
 	const [amount, setAmount] = React.useState<undefined | number>(1);
 
-	if (!nft) return <></>;
+	React.useEffect(() => {
+		setAmount(1);
+	}, []);
 
 	return (
 		<Dialog onClose={onClose} aria-labelledby="nft-amount-dialog-title" open={isOpen}>
@@ -63,7 +65,6 @@ export const NftAmountSelector: React.FC<Props> = ({ isOpen = false, nft, onClos
 					onClick={() => {
 						if (!amount) return;
 						onAmountSelected(nft.tokenId, amount);
-                        setAmount(1);
 					}}
 					color="primary"
 				>
