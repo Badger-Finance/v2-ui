@@ -681,3 +681,12 @@ export type ProtocolSummary = {
 };
 
 export type SettMap = { [contract: string]: Sett };
+export interface NFT {
+	tokenId: string;
+	balance: string;
+	poolBalance: string;
+	totalSupply: string;
+	root: string;
+	name?: string;
+	image?: string;
+}
