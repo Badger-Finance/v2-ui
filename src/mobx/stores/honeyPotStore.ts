@@ -15,16 +15,16 @@ import badgerpackJoyRide from '../../assets/gifs/badgerpack-joyride.gif';
 import battleBadger from '../../assets/gifs/battlebadger.gif';
 import wackABadger from '../../assets/gifs/wack-a-badger.gif';
 
-const nftAssetsByTotalSupply: Record<string, { name: string; image: string }> = {
-	'200': {
+const nftAssetsByTokenId: Record<string, { name: string; image: string }> = {
+	'205': {
 		name: 'Wack-A-Badger',
 		image: wackABadger,
 	},
-	'50': {
+	'206': {
 		name: 'Badgerpack Joyride',
 		image: badgerpackJoyRide,
 	},
-	'10': {
+	'208': {
 		name: 'Battle Badger',
 		image: battleBadger,
 	},
@@ -114,8 +114,8 @@ export class HoneyPotStore {
 				...nft,
 				balance: balances[index],
 				poolBalance: poolBalances[index],
-				image: nftAssetsByTotalSupply[nft.totalSupply]?.image,
-				name: nftAssetsByTotalSupply[nft.totalSupply]?.name,
+				image: nftAssetsByTokenId[nft.tokenId]?.image,
+				name: nftAssetsByTokenId[nft.tokenId]?.name,
 			}));
 		} catch (error) {
 			const message = error?.message || 'There was an error. Please try again later.';
@@ -188,6 +188,9 @@ export class HoneyPotStore {
 		const totalNftSupply = this.nfts.reduce((acc: number, { totalSupply }) => +totalSupply + acc, 0);
 		const totalPoolNftBalance = this.nfts.reduce((acc: number, { poolBalance }) => +poolBalance + acc, 0);
 		const exponential = +root / 10000;
+
+		if (totalNftSupply - totalPoolNftBalance <= 0) return new BigNumber('0');
+
 		const redemptionRatio = 1 / (totalNftSupply - totalPoolNftBalance);
 
 		// formula is bDiggRemaining*{[amountToRedeem/(totalSupplyOfNft - poolBalanceOfNft)]^root}
