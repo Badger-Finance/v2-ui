@@ -12,7 +12,7 @@ import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
 import { NFT } from 'mobx/model';
 
-const nftAssetsByTokenId: Record<string, { name: string; image: string; redirectUrl: string }> = {
+const nftAssetsByTokenId: Record<string, Pick<NFT, 'name' | 'image' | 'redirectUrl'>> = {
 	'205': {
 		name: 'Wack-A-Badger',
 		image: 'https://images.dontbuymeme.com/collections/badger/mp4/wack-a-badger.mp4',
