@@ -689,4 +689,5 @@ export interface NFT {
 	root: string;
 	name?: string;
 	image?: string;
+	redirectUrl?: string;
 }

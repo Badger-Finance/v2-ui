@@ -213,6 +213,7 @@ export const HoneybadgerDrop: React.FC = observer(() => {
 																totalSupply,
 																root,
 																poolBalance,
+																redirectUrl,
 															} = nft;
 
 															const redemptionRate = store.honeyPot.calculateRedemptionRate(
@@ -239,12 +240,15 @@ export const HoneybadgerDrop: React.FC = observer(() => {
 																		nftId={tokenId}
 																		name={name || 'NFT Name N/A'}
 																		image={image}
+																		redirectUrl={redirectUrl}
 																		balance={balance}
 																		remaining={`${
 																			Number(totalSupply) - Number(poolBalance)
 																		}/${totalSupply}`}
 																		redemptionRateUsd={formattedRedemptionRate}
-																		redemptionRateBdigg={redemptionRate.dividedBy(1e18).toFixed(5)}
+																		redemptionRateBdigg={redemptionRate
+																			.dividedBy(1e18)
+																			.toFixed(5)}
 																		loading={nftBeingRedeemed.includes(tokenId)}
 																		disabled={isBalanceEmpty}
 																		onRedeem={() => {

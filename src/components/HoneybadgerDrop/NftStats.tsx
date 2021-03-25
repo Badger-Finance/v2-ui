@@ -11,6 +11,7 @@ interface Props {
 	redemptionRateBdigg: string;
 	redemptionRateUsd: string;
 	image?: string;
+	redirectUrl?: string;
 	disabled?: boolean;
 	loading?: boolean;
 	onRedeem: (id: string) => void;
@@ -35,6 +36,7 @@ const useStyles = makeStyles((theme) => ({
 	nftImage: {
 		height: 225,
 		width: 150,
+		cursor: 'pointer',
 	},
 	spinner: {
 		color: theme.palette.common.white,
@@ -66,6 +68,7 @@ const NftStats: React.FC<Props> = ({
 	redemptionRateBdigg,
 	redemptionRateUsd,
 	image,
+	redirectUrl,
 	disabled = false,
 	loading = false,
 	onRedeem,
@@ -85,10 +88,13 @@ const NftStats: React.FC<Props> = ({
 							loop
 							playsInline
 							muted={muted}
+							preload="auto"
 							onLoadStart={(e) => {
 								e.currentTarget.volume = 0.19;
 							}}
-							preload="auto"
+							onClick={() => {
+								if (redirectUrl) window.open(redirectUrl, '_blank');
+							}}
 						/>
 					</Grid>
 				)}
