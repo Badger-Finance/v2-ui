@@ -20,11 +20,12 @@ export function useConnectWallet(): () => Promise<void> {
 
 export function useBdiggToDigg(): (bDigg: BigNumber) => BigNumber {
 	const store = React.useContext(StoreContext);
-	const { stats, rebaseStats } = store.uiState;
+	const digg = store.uiState.stats.stats.digg;
+	const btcPrice = store.uiState.rebaseStats.btcPrice;
 
 	return (bdigg: BigNumber) => {
-		if (!stats.stats.digg || !rebaseStats.btcPrice) return new BigNumber('0');
-		const rebasePercentage = ((stats.stats.digg - rebaseStats.btcPrice) / rebaseStats.btcPrice) * 0.1;
+		if (!digg || !btcPrice) return new BigNumber('NaN');
+		const rebasePercentage = ((digg - btcPrice) / btcPrice) * 0.1;
 		return bdigg.plus(bdigg.multipliedBy(rebasePercentage));
 	};
 }
