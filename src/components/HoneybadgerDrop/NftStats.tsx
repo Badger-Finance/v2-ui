@@ -58,7 +58,14 @@ const NftStats: React.FC<Props> = ({
 			<Grid container spacing={1}>
 				{image && (
 					<Grid item xs={12} className={classes.textCenter}>
-						<img src={image} className={classes.nftImage} alt="NFT Image" />
+						<video
+							src={image}
+							className={classes.nftImage}
+							autoPlay
+							loop
+							playsInline
+							muted
+						/>
 					</Grid>
 				)}
 				<Grid item xs={12}>

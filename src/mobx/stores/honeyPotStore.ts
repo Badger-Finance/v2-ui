@@ -11,22 +11,19 @@ import { estimateAndSend } from 'mobx/utils/web3';
 import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
 import { NFT } from 'mobx/model';
-import badgerpackJoyRide from '../../assets/gifs/badgerpack-joyride.gif';
-import battleBadger from '../../assets/gifs/battlebadger.gif';
-import wackABadger from '../../assets/gifs/wack-a-badger.gif';
 
 const nftAssetsByTokenId: Record<string, { name: string; image: string }> = {
 	'205': {
 		name: 'Wack-A-Badger',
-		image: wackABadger,
+		image: 'https://images.dontbuymeme.com/collections/badger/mp4/wack-a-badger.mp4',
 	},
 	'206': {
 		name: 'Badgerpack Joyride',
-		image: badgerpackJoyRide,
+		image: 'https://images.dontbuymeme.com/collections/badger/mp4/badgerpack-joyride.mp4',
 	},
 	'208': {
 		name: 'Battle Badger',
-		image: battleBadger,
+		image: 'https://images.dontbuymeme.com/collections/badger/mp4/battle-badger.mp4',
 	},
 };
 
