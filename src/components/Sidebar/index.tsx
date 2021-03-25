@@ -298,7 +298,14 @@ export const Sidebar = observer(() => {
 								className={classes.listItem}
 								onClick={() => setExpanded(expanded === 'badger-zone' ? '' : 'badger-zone')}
 							>
-								Badger Arcade
+								<ListItemIcon>
+									<img
+										alt="Badger Arcade"
+										src={'assets/sidebar/gas_station.png'}
+										className={classes.icon}
+									/>
+								</ListItemIcon>
+								<ListItemText primary="Badger Arcade" />
 								<IconButton
 									size="small"
 									className={classes.expand + ' ' + (expanded === 'tokens' ? classes.expandOpen : '')}
