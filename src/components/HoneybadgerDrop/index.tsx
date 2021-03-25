@@ -1,16 +1,5 @@
 import React from 'react';
-import {
-	Button,
-	Container,
-	Grid,
-	makeStyles,
-	Paper,
-	Typography,
-	Fade,
-	useMediaQuery,
-	useTheme,
-} from '@material-ui/core';
-import { Skeleton } from '@material-ui/lab';
+import { Container, Grid, makeStyles } from '@material-ui/core';
 import _isNil from 'lodash/isNil';
 import { observer } from 'mobx-react-lite';
 import { bDiggToCurrency } from 'mobx/utils/helpers';
@@ -23,6 +12,8 @@ import PageHeader from 'components-v2/common/PageHeader';
 import { NETWORK_CONSTANTS, NETWORK_IDS, NETWORK_LIST } from 'config/constants';
 import routes from 'config/routes';
 import { getDiggPerShare } from 'mobx/utils/diggHelpers';
+import { NftList } from './NftList';
+import { PoolBalance } from './PoolBalance';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -74,10 +65,6 @@ const useStyles = makeStyles((theme) => ({
 export const HoneybadgerDrop: React.FC = observer(() => {
 	const store = React.useContext(StoreContext);
 	const classes = useStyles();
-	const theme = useTheme();
-	const isMobile = useMediaQuery(theme.breakpoints.only('xs'));
-	const bdiggToDigg = useBdiggToDigg();
-	const connectWallet = useConnectWallet();
 
 	const { vaults } = store.contracts;
 	const { connectedAddress, network } = store.wallet;
@@ -305,6 +292,21 @@ export const HoneybadgerDrop: React.FC = observer(() => {
 								</>
 							)}
 						</>
+					<PoolBalance
+						isWalletConnect={!!connectedAddress}
+						loading={loadingPoolBalance}
+						poolBalance={poolBalance}
+					/>
+
+					{connectedAddress && (
+						<NftList
+							loading={loadingNfts}
+							nfts={nfts}
+							itemsLoading={nftBeingRedeemed}
+							onRedeem={(id: string, amount: number) => {
+								store.honeyPot.redeemNFT(id, amount);
+							}}
+						/>
 					)}
 				</Grid>
 			</Grid>
