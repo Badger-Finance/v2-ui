@@ -40,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
 		flexDirection: 'column',
 		justifyContent: 'space-between',
 		minHeight: '100%',
+		overflow: 'hidden',
 	},
 	drawer: {},
 	listItem: {
@@ -53,6 +54,12 @@ const useStyles = makeStyles((theme) => ({
 	divider: {
 		padding: theme.spacing(2, 2, 1, 2),
 		fontSize: '.8rem',
+	},
+	primarySubListItem: {
+		margin: theme.spacing(0, -999),
+		width: 'auto',
+		border: 0,
+		padding: theme.spacing(1, 1001),
 	},
 	secondaryListItem: {
 		cursor: 'pointer',
@@ -73,10 +80,10 @@ const useStyles = makeStyles((theme) => ({
 		fontWeight: 'bold',
 		backgroundColor: '#070707',
 		borderRadius: theme.shape.borderRadius,
-		margin: theme.spacing(0, 1),
+		margin: theme.spacing(0, -999),
 		width: 'auto',
 		border: 0,
-		padding: theme.spacing(1, 2),
+		padding: theme.spacing(1, 1002),
 		'&:hover': {
 			backgroundColor: '#070707',
 			cursor: 'pointer',
@@ -286,6 +293,47 @@ export const Sidebar = observer(() => {
 									<ListItemText primary="Bridge" />
 								</ListItem>
 							)}
+							<ListItem
+								button
+								className={classes.listItem}
+								onClick={() => setExpanded(expanded === 'badger-zone' ? '' : 'badger-zone')}
+							>
+								<ListItemIcon>
+									<img
+										alt="Badger Arcade"
+										src={'assets/sidebar/gas_station.png'}
+										className={classes.icon}
+									/>
+								</ListItemIcon>
+								<ListItemText primary="Badger Arcade" />
+								<IconButton
+									size="small"
+									className={classes.expand + ' ' + (expanded === 'tokens' ? classes.expandOpen : '')}
+									aria-label="show more"
+								>
+									<ExpandMore />
+								</IconButton>
+							</ListItem>
+							<ListItem>
+								<Collapse
+									in={expanded === 'badger-zone' || store.router.currentPath == '/honey-badger-drop'}
+									timeout="auto"
+									unmountOnExit
+								>
+									<ListItem
+										button
+										className={[
+											store.router.currentPath == '/honey-badger-drop'
+												? classes.activeListItem
+												: '',
+											classes.primarySubListItem,
+										].join(' ')}
+										onClick={() => goTo(views.honeybadgerDrop)}
+									>
+										Honey Badger Drop
+									</ListItem>
+								</Collapse>
+							</ListItem>
 						</>
 					) : (
 						<></>
