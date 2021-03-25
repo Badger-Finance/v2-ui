@@ -68,7 +68,7 @@ export interface SponsorData {
 	pendingWithdrawal: boolean;
 }
 
-interface Liquidation {
+export interface Liquidation {
 	/*
 	 * Following variables set upon creation of liquidation:
 	 * Liquidated (and expired or not), Pending a Dispute, or Dispute has resolved
@@ -97,7 +97,7 @@ interface Liquidation {
 	finalFee: BigNumber;
 }
 
-interface Position {
+export interface Position {
 	tokensOutstanding: BigNumber;
 	withdrawalRequestPassTimestamp: BigNumber;
 	withdrawalRequestAmount: BigNumber;
@@ -198,16 +198,6 @@ export class ClawStore {
 		}
 	});
 
-	requestWithdrawal = action(async ({ empAddress, collateralAmount }: Withdraw) => {
-		const { queueNotification } = this.store.uiState;
-		try {
-			await this._requestWithdrawal(empAddress, collateralAmount);
-		} catch (error) {
-			queueNotification(error?.message || 'There was an error requesting withdrawal of collateral', 'error');
-			process.env.NODE_ENV !== 'production' && console.log(error);
-		}
-	});
-
 	withdrawPassedRequest = action(async (empAddress: string) => {
 		const { queueNotification } = this.store.uiState;
 		try {
@@ -223,8 +213,9 @@ export class ClawStore {
 		const { queueNotification } = this.store.uiState;
 		try {
 			await this._cancelWithdrawal(empAddress);
+                        await this._updateBalances();
 		} catch (error) {
-			queueNotification(error?.message || 'There was an error withdrawing collateral', 'error');
+			queueNotification(error?.message || 'There was an error cancelling withdrawal', 'error');
 			process.env.NODE_ENV !== 'production' && console.log(error);
 		}
 	});
@@ -326,7 +317,7 @@ export class ClawStore {
 		return this._getEmpTransactionRequest({
 			method: create,
 			informationMessage: 'Please sign Mint transaction',
-			successMessage: 'Collateral Spending Success',
+			successMessage: 'Mint Success',
 		});
 	}
 
@@ -352,17 +343,6 @@ export class ClawStore {
 		});
 	}
 
-	private async _requestWithdrawal(empAddress: string, collateralAmount: string) {
-		const emp = this._getEmpContract(empAddress);
-		const requestWithdrawal = emp.methods.requestWithdrawal({ rawValue: collateralAmount });
-
-		return this._getEmpTransactionRequest({
-			method: requestWithdrawal,
-			informationMessage: 'Please sign request withdrawal transaction',
-			successMessage: 'Request withdrawal success',
-		});
-	}
-
 	private async _withdrawPassedRequest(empAddress: string) {
 		const emp = this._getEmpContract(empAddress);
 		const withdrawPassedRequest = emp.methods.withdrawPassedRequest();
@@ -381,7 +361,7 @@ export class ClawStore {
 		return this._getEmpTransactionRequest({
 			method: cancelWithdrawal,
 			informationMessage: 'Please sign cancel withdrawal request transaction',
-			successMessage: 'Withdraw success',
+			successMessage: 'Cancel withdrawal success',
 		});
 	}
 

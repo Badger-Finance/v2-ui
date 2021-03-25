@@ -26,13 +26,6 @@ export enum INVALID_REASON {
 	UNDER_MINIMUM = 'NOT_MINIMUM',
 }
 
-// SkipError specifies which errors to skip when calling the useError fn.
-export interface SkipError {
-        noToken?: string;
-        amount?: string;
-        balance?: string;
-}
-
 export interface ClawParam {
 	amount?: string;
 	selectedOption?: string;
@@ -113,20 +106,20 @@ export const Claws: FC = observer(() => {
 				return <Mint />;
 		}
 	};
-        const totalWithdrawals = Object.values(toJS(sponsorInformationByEMP))
-                .reduce((acc: number, { pendingWithdrawal }: SponsorData) => {
-                        console.log(pendingWithdrawal);
-                        if (pendingWithdrawal) return acc + 1;
-                        return acc;
-                }, 0);
-        const totalLiquidations = Object.values(toJS(sponsorInformationByEMP))
-                .reduce((acc: number, { liquidations }: SponsorData) => {
-                        if (liquidations) return acc + liquidations.length;
-                        return acc;
-                }, 0);
+        const [totalWithdrawals, totalLiquidations] = Object.values(toJS(sponsorInformationByEMP))
+                .reduce((
+                        [numWithdrawals, numLiquidations]: [number, number],
+                        { pendingWithdrawal, liquidations }: SponsorData,
+                ) => {
+                        if (liquidations) {
+                                numLiquidations = liquidations.length;
+                        }
+                        if (pendingWithdrawal) {
+                                numWithdrawals++;
+                        }
+                        return [numWithdrawals, numLiquidations];
+                }, [0, 0]);
 
-        console.log(totalWithdrawals, totalLiquidations);
-        console.log(toJS(sponsorInformationByEMP));
 	return (
 		<Container className={classes.root} maxWidth="lg">
 			<Grid container spacing={1} justify="center">
