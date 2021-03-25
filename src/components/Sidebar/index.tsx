@@ -40,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
 		flexDirection: 'column',
 		justifyContent: 'space-between',
 		minHeight: '100%',
+		overflow: 'hidden',
 	},
 	drawer: {},
 	listItem: {
