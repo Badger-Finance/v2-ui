@@ -1,5 +1,6 @@
 import React, { FC, useContext } from 'react';
 import { toJS } from 'mobx';
+import { observer } from 'mobx-react-lite';
 import {
 	Box,
 	Button,
@@ -17,8 +18,16 @@ import {
 } from '@material-ui/core';
 import { InfoOutlined as InfoOutlinedIcon, UnfoldMoreTwoTone } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
+import { ClassNameMap } from '@material-ui/core/styles/withStyles';
 
+import { scaleToString, Direction } from 'utils/componentHelpers';
 import { StoreContext } from 'mobx/store-context';
+import {
+        ClawStore,
+        SponsorData,
+        SyntheticData,
+        Position,
+} from 'mobx/stores/clawStore';
 
 export const useMainStyles = makeStyles((theme) => ({
 	table: {
@@ -38,47 +47,66 @@ export const useMainStyles = makeStyles((theme) => ({
 	},
 }));
 
-function createData(token: any, amount: any, completes: any) {
-	return { token, amount, completes };
-}
-const rows = [createData('eCLAW FEB29', 243.23, 'February 29, 2021 @ 12:00 MST')];
-
-interface Props {
-        classes: any;
-        row: any;
+interface WithdrawalProps {
+        classes: ClassNameMap;
+        store: ClawStore
+        position: Position;
+        synthetic: SyntheticData;
+        decimals: number;
 };
 
-const Withdrawal: FC<Props> = ({ classes, row }: any) => {
+const Withdrawal: FC<WithdrawalProps> = ({
+        store,
+        position,
+        synthetic,
+        classes,
+        decimals,
+} : WithdrawalProps) => {
+        const amount = scaleToString(position.withdrawalRequestAmount, decimals, Direction.Down);
+        // Scale from unix secs -> ms.
+        const completionDate = new Date(position.withdrawalRequestPassTimestamp.toNumber() * 1000)
+        const completion = `${completionDate.toLocaleDateString()} ${completionDate.toLocaleTimeString()}`;
+        const withdrawalPeriodPassed = new Date() > completionDate;
+
+        const cancel = () => store.cancelWithdrawal(synthetic.address);
+        const withdraw = () => store.withdrawPassedRequest(synthetic.address);
+
         return (
-                <TableRow key={row.token} className={classes.tableRow}>
+                <TableRow key={synthetic.name} className={classes.tableRow}>
                         <TableCell>
-                                <Typography variant="body1">{row.token}</Typography>
+                                <Typography variant="body1">{synthetic.name}</Typography>
                         </TableCell>
-                        <TableCell>{row.amount}</TableCell>
+                        <TableCell>{amount}</TableCell>
                         <TableCell>
                                 <Box style={{ display: 'flex', alignItems: 'center' }}>
-                                        <Typography variant="body2" style={{ marginRight: '0.5rem' }}>
-                                                {row.completes}
-                                        </Typography>
-                                        <Tooltip title="This withdrawal is under the global average collateral ratio. This transaction has been slowed to ensure a thorough dispute.">
+                                        <Tooltip title="This withdrawal is under the global average collateral ratio. You may withdraw on the completion date if there are no liquidations.">
                                                 <Chip color="primary" icon={<InfoOutlinedIcon />} label="Slow" />
                                         </Tooltip>
                                 </Box>
                         </TableCell>
+                        <TableCell>
+                                <Typography variant="body2">{completion}</Typography>
+                        </TableCell>
                         <TableCell align="right">
-                                <Button color="primary" variant="outlined" size="small">
-                                        Cancel Withdrawal
+                                <Button
+                                        onClick={withdrawalPeriodPassed ? withdraw : cancel}
+                                        color="primary"
+                                        variant="outlined"
+                                        size="small"
+                                >
+                                        {withdrawalPeriodPassed ? 'Withdraw' : 'Cancel Withdrawal'}
                                 </Button>
                         </TableCell>
                 </TableRow>
         );
 };
 
-const Withdrawals: FC = () => {
-	const { claw: store } = useContext(StoreContext);
+const Withdrawals: FC = observer(() => {
+	const { claw: store, contracts } = useContext(StoreContext);
 	const { isLoading, sponsorInformationByEMP, syntheticsData } = store;
-        console.log(toJS(sponsorInformationByEMP), toJS(syntheticsData));
 	const classes = useMainStyles();
+        const sponsorInfo = new Map(Object.entries(toJS(sponsorInformationByEMP)));
+        const synthetics = toJS(syntheticsData);
 	return (
 		<Box style={{ marginTop: '2rem' }}>
 			<Grid container alignItems="center" justify="space-between">
@@ -99,18 +127,36 @@ const Withdrawals: FC = () => {
 								Token
 							</TableCell>
 							<TableCell>Amount</TableCell>
+							<TableCell>Type</TableCell>
 							<TableCell colSpan={2}>Completes On</TableCell>
 						</TableRow>
 					</TableHead>
 					<TableBody>
-						{rows.map((row) => (
-                                                        <Withdrawal row={row} classes={classes} />
-						))}
+						{synthetics.map((synthetic: SyntheticData) => {
+                                                        const { position, pendingWithdrawal } = sponsorInfo.get(synthetic.address);
+                                                        if (!position) return;
+
+                                                        if (pendingWithdrawal) {
+                                                                const bToken = contracts.tokens[synthetic.collateralCurrency.toLocaleLowerCase()]
+                                                                const decimals = bToken ? bToken.decimals : 18;
+                                                                return (
+                                                                        <Withdrawal
+                                                                                key={synthetic.name}
+                                                                                store={store}
+                                                                                position={position}
+                                                                                synthetic={synthetic}
+                                                                                decimals={decimals}
+                                                                                classes={classes}
+                                                                        />
+                                                                );
+                                                        }
+                                                        return;
+						})}
 					</TableBody>
 				</Table>
 			</TableContainer>
 		</Box>
 	);
-};
+});
 
 export default Withdrawals;

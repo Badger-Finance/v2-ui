@@ -13,29 +13,16 @@ import { ClawParam, useMainStyles } from '../index';
 enum Mode {
         DEPOSIT = 'deposit',
         WITHDRAW = 'withdraw',
-        REQUEST_WITHDRAWAL = 'request_withdrawal',
-        WITHDRAW_PENDING = 'withdraw_pending',
-        CANCEL_WITHDRAWAL = 'cancel_withdrawal',
 }
 
 const Manage: FC = () => {
 	const { claw: store, contracts, wallet } = useContext(StoreContext);
 	const { collaterals, claws, syntheticsDataByEMP, sponsorInformationByEMP } = store;
 	const classes = useMainStyles();
-	const [mode, setMode] = useState<Mode.DEPOSIT | Mode.WITHDRAW | Mode.REQUEST_WITHDRAWAL
-                | Mode.CANCEL_WITHDRAWAL | Mode.WITHDRAW_PENDING>(Mode.DEPOSIT);
+	const [mode, setMode] = useState<Mode.DEPOSIT | Mode.WITHDRAW>(Mode.DEPOSIT);
 	const [manage, setManageParams] = useState<ClawParam>({});
 	const details = useDetails(mode, manage);
-        let skipError = {};
-        if (mode === Mode.CANCEL_WITHDRAWAL) {
-                // No amount / balance validation for cancel withdrawal mode
-                // (user selects token but does not enter an amount).
-                skipError = {
-                        amount: true,
-                        balance: true,
-                }
-        }
-	const error =  useError(manage, skipError);
+	const error =  useError(manage);
 	const { selectedOption, amount } = manage;
 	const selectedSynthetic = syntheticsDataByEMP.get(selectedOption || '');
 	const bToken = contracts.tokens[selectedSynthetic?.collateralCurrency.toLocaleLowerCase() ?? ''];
@@ -51,7 +38,6 @@ const Manage: FC = () => {
                         balanceLabel = bToken && `Available ${collaterals.get(bToken.address)}: `;
                         break;
                 case Mode.WITHDRAW:
-                case Mode.REQUEST_WITHDRAWAL:
                         balanceLabel = bToken && `Deposited collateral ${collaterals.get(bToken.address)}: `;
                         if (position) {
                                 balance = position.rawCollateral;
@@ -68,21 +54,6 @@ const Manage: FC = () => {
                         const [empAddress, collateralAmount] = [selectedOption, amount]
                         if (!empAddress || !collateralAmount) return;
                         store.withdraw({ empAddress, collateralAmount });
-                },
-                [Mode.REQUEST_WITHDRAWAL]: () => {
-                        const [empAddress, collateralAmount] = [selectedOption, amount]
-                        if (!empAddress || !collateralAmount) return;
-                        store.requestWithdrawal({ empAddress, collateralAmount });
-                },
-                [Mode.CANCEL_WITHDRAWAL]: () => {
-                        const empAddress = selectedOption
-                        if (!empAddress) return;
-                        store.cancelWithdrawal(empAddress);
-                },
-                [Mode.WITHDRAW_PENDING]: () => {
-                        const empAddress = selectedOption
-                        if (!empAddress) return;
-                        store.withdrawPassedRequest(empAddress);
                 },
         };
 
@@ -107,9 +78,6 @@ const Manage: FC = () => {
 						</MenuItem>
 						<MenuItem value={Mode.DEPOSIT}>DEPOSIT</MenuItem>
 						<MenuItem value={Mode.WITHDRAW}>WITHDRAW</MenuItem>
-						<MenuItem value={Mode.REQUEST_WITHDRAWAL}>REQUEST WITHDRAWAL</MenuItem>
-						<MenuItem value={Mode.CANCEL_WITHDRAWAL}>CANCEL WITHDRAWAL</MenuItem>
-						<MenuItem value={Mode.WITHDRAW_PENDING}>WITHDRAW PENDING</MenuItem>
 					</Select>
 				</Grid>
 			</Box>
@@ -130,7 +98,7 @@ const Manage: FC = () => {
 						displayAmount={amount}
 						selectedOption={selectedOption}
 						disabledOptions={!wallet.connectedAddress}
-						disabledAmount={!selectedOption || !wallet.connectedAddress || mode === Mode.CANCEL_WITHDRAWAL}
+						disabledAmount={!selectedOption || !wallet.connectedAddress}
 						onAmountChange={(amount: string) => {
 							if (!balance) return;
 
