@@ -6,7 +6,8 @@ interface Props {
 	name: string;
 	balance: string;
 	remaining: string;
-	redemptionRate: string;
+	redemptionRateBdigg: string;
+	redemptionRateUsd: string;
 	image?: string;
 	disabled?: boolean;
 	loading?: boolean;
@@ -30,8 +31,8 @@ const useStyles = makeStyles((theme) => ({
 		textAlign: 'end',
 	},
 	nftImage: {
-		maxWidth: '100%',
-		maxHeight: 150,
+		height: 225,
+		width: 150,
 	},
 	spinner: {
 		color: theme.palette.common.white,
@@ -43,7 +44,8 @@ const NftStats: React.FC<Props> = ({
 	name,
 	balance,
 	remaining,
-	redemptionRate,
+	redemptionRateBdigg,
+	redemptionRateUsd,
 	image,
 	disabled = false,
 	loading = false,
@@ -86,11 +88,21 @@ const NftStats: React.FC<Props> = ({
 					<Grid item container justify="space-between" xs={12}>
 						<Grid item xs={6} className={classes.textStart}>
 							<Typography variant="caption" color="textSecondary">
-								Redemption Rate
+								Redemption Value (bDIGG)
 							</Typography>
 						</Grid>
 						<Grid item xs={6} className={classes.textEnd}>
-							<Typography variant="caption">{redemptionRate}</Typography>
+							<Typography variant="caption">{redemptionRateBdigg}</Typography>
+						</Grid>
+					</Grid>
+					<Grid item container justify="space-between" xs={12}>
+						<Grid item xs={6} className={classes.textStart}>
+							<Typography variant="caption" color="textSecondary">
+								Redemption Value ($)
+							</Typography>
+						</Grid>
+						<Grid item xs={6} className={classes.textEnd}>
+							<Typography variant="caption">{redemptionRateUsd}</Typography>
 						</Grid>
 					</Grid>
 					<Grid item container justify="center" xs={12}>

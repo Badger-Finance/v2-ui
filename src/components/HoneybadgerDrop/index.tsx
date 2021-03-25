@@ -86,7 +86,7 @@ export const HoneybadgerDrop: React.FC = observer(() => {
 		<Container className={classes.root}>
 			<Grid container spacing={1} justify="center">
 				<Grid item xs={12} className={classes.headerContainer}>
-					<PageHeader title="HONEY DIAMOND HANDS" subtitle="MEME Honey Pot 2 - Diamond Hands" />
+					<PageHeader title="DIAMOND HANDS" subtitle="MEME Honeypot pt. II" />
 				</Grid>
 				<Grid item xs={12} container spacing={5}>
 					<Fade in>
@@ -95,7 +95,7 @@ export const HoneybadgerDrop: React.FC = observer(() => {
 								<Paper elevation={0} className={classes.mainPapers}>
 									<Grid container spacing={1}>
 										<Grid item xs={12}>
-											<Typography>Remaining Honey Pot Pool</Typography>
+											<Typography>Redemption Pool Remaining</Typography>
 										</Grid>
 										{connectedAddress && (
 											<>
@@ -248,7 +248,8 @@ export const HoneybadgerDrop: React.FC = observer(() => {
 																		remaining={`${
 																			Number(totalSupply) - Number(poolBalance)
 																		}/${totalSupply}`}
-																		redemptionRate={formattedRedemptionRate}
+																		redemptionRateUsd={formattedRedemptionRate}
+																		redemptionRateBdigg={redemptionRate.dividedBy(1e18).toFixed(5)}
 																		loading={nftBeingRedeemed.includes(tokenId)}
 																		disabled={isBalanceEmpty}
 																		onRedeem={() => {
