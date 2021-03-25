@@ -22,11 +22,6 @@ import { TypographySkeleton } from './TypographySkeleton';
 import { NFT } from 'mobx/model';
 import PageHeader from 'components-v2/common/PageHeader';
 
-interface NftAmountPromp {
-	open: boolean;
-	nft?: NFT;
-}
-
 const useStyles = makeStyles((theme) => ({
 	root: {
 		[theme.breakpoints.up('md')]: {
@@ -185,7 +180,7 @@ export const HoneybadgerDrop: React.FC = observer(() => {
 														<Skeleton
 															variant="rect"
 															width="100%"
-															height={250}
+															height={450}
 															className={classes.nftSkeleton}
 														/>
 													</Grid>
