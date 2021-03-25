@@ -5,13 +5,7 @@ import { diggToCurrency } from 'mobx/utils/helpers';
 import NftStats from './NftStats';
 import { Skeleton } from '@material-ui/lab';
 import { StoreContext } from 'mobx/store-context';
-
-interface Props {
-	nfts?: NFT[];
-	loading?: boolean;
-	itemsLoading?: string[];
-	onRedeem: (tokenId: string, amount: number) => void;
-}
+import { observer } from 'mobx-react-lite';
 
 const useStyles = makeStyles((theme) => ({
 	center: {
@@ -51,13 +45,18 @@ const Container: React.FC = ({ children }) => {
 	);
 };
 
-export const NftList: React.FC<Props> = ({ nfts, loading = false, itemsLoading = [], onRedeem }) => {
+export const NftList: React.FC = observer(() => {
 	const store = React.useContext(StoreContext);
 	const classes = useStyles();
 	const theme = useTheme();
 	const isMobile = useMediaQuery(theme.breakpoints.only('xs'));
 
-	if (loading || !nfts) {
+	const { connectedAddress } = store.wallet;
+	const { loadingNfts, nfts, nftBeingRedeemed } = store.honeyPot;
+
+	if (!connectedAddress) return null;
+
+	if (loadingNfts || !nfts) {
 		return (
 			<Container>
 				<Grid item container xs={12} justify="space-between" spacing={isMobile ? 0 : 8}>
@@ -65,7 +64,7 @@ export const NftList: React.FC<Props> = ({ nfts, loading = false, itemsLoading =
 						.fill(null)
 						.map((_, index: number) => (
 							<Grid className={classes.nftContainer} item xs={12} sm={6} lg={4} key={index}>
-								<Skeleton variant="rect" width="100%" height={250} className={classes.nftSkeleton} />
+								<Skeleton variant="rect" width="100%" height={450} className={classes.nftSkeleton} />
 							</Grid>
 						))}
 				</Grid>
@@ -106,11 +105,12 @@ export const NftList: React.FC<Props> = ({ nfts, loading = false, itemsLoading =
 								image={image}
 								balance={balance}
 								remaining={`${Number(totalSupply) - Number(poolBalance)}/${totalSupply}`}
-								redemptionRate={formattedRedemptionRate}
-								loading={itemsLoading.includes(tokenId)}
+								redemptionRateBdigg={redemptionRate.dividedBy(1e18).toFixed(5)}
+								redemptionRateUsd={formattedRedemptionRate}
+								loading={nftBeingRedeemed.includes(tokenId)}
 								disabled={isBalanceEmpty}
 								onRedeem={() => {
-									onRedeem(tokenId, 1);
+									store.honeyPot.redeemNFT(tokenId, 1);
 								}}
 							/>
 						</Grid>
@@ -119,4 +119,4 @@ export const NftList: React.FC<Props> = ({ nfts, loading = false, itemsLoading =
 			</Grid>
 		</Container>
 	);
-};
+});

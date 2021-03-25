@@ -1,6 +1,5 @@
 import React from 'react';
 import { Container, Grid, makeStyles } from '@material-ui/core';
-import _isNil from 'lodash/isNil';
 import { observer } from 'mobx-react-lite';
 import { bDiggToCurrency } from 'mobx/utils/helpers';
 import { StoreContext } from 'mobx/store-context';
@@ -63,7 +62,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const HoneybadgerDrop: React.FC = observer(() => {
-	const store = React.useContext(StoreContext);
 	const classes = useStyles();
 
 	const { vaults } = store.contracts;
@@ -308,6 +306,8 @@ export const HoneybadgerDrop: React.FC = observer(() => {
 							}}
 						/>
 					)}
+					<PoolBalance />
+					<NftList />
 				</Grid>
 			</Grid>
 		</Container>

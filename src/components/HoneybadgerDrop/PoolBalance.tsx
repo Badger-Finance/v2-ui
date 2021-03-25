@@ -4,13 +4,7 @@ import { diggToCurrency } from 'mobx/utils/helpers';
 import { StoreContext } from 'mobx/store-context';
 import { useBdiggToDigg, useConnectWallet } from 'mobx/utils/hooks';
 import { Skeleton } from '@material-ui/lab';
-import BigNumber from 'bignumber.js';
-
-interface Props {
-	isWalletConnect?: boolean;
-	loading?: boolean;
-	poolBalance?: BigNumber;
-}
+import { observer } from 'mobx-react-lite';
 
 const useStyles = makeStyles((theme) => ({
 	center: {
@@ -37,7 +31,7 @@ const Container: React.FC = ({ children }) => {
 					<Paper elevation={0} className={classes.mainPapers}>
 						<Grid container spacing={1}>
 							<Grid item xs={12}>
-								<Typography>Remaining Honey Pot Pool</Typography>
+								<Typography>Redemption Pool Remaining</Typography>
 							</Grid>
 							{children}
 						</Grid>
@@ -48,18 +42,17 @@ const Container: React.FC = ({ children }) => {
 	);
 };
 
-export const PoolBalance: React.FC<Props> = ({
-	isWalletConnect = false,
-	loading = false,
-	poolBalance = new BigNumber('0'),
-}) => {
+export const PoolBalance: React.FC = observer(() => {
+	const store = React.useContext(StoreContext);
 	const classes = useStyles();
 	const bdiggToDigg = useBdiggToDigg();
 	const connectWallet = useConnectWallet();
 
-	const poolBalanceDiggs = bdiggToDigg(poolBalance);
+	const { connectedAddress } = store.wallet;
+	const { poolBalance, loadingPoolBalance } = store.honeyPot;
+	const poolBalanceDiggs = poolBalance && bdiggToDigg(poolBalance);
 
-	if (!isWalletConnect) {
+	if (!connectedAddress) {
 		return (
 			<Container>
 				<Grid item xs={12}>
@@ -76,7 +69,7 @@ export const PoolBalance: React.FC<Props> = ({
 		);
 	}
 
-	if (loading || !!poolBalanceDiggs?.isNaN()) {
+	if (loadingPoolBalance || !poolBalance || !poolBalanceDiggs || poolBalanceDiggs?.isNaN()) {
 		return (
 			<Container>
 				<Grid item xs={12}>
@@ -123,4 +116,4 @@ export const PoolBalance: React.FC<Props> = ({
 			</Grid>
 		</Container>
 	);
-};
+});
