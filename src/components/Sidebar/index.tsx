@@ -292,38 +292,44 @@ export const Sidebar = observer(() => {
 									<ListItemText primary="Bridge" />
 								</ListItem>
 							)}
+							<ListItem
+								button
+								className={classes.listItem}
+								onClick={() => setExpanded(expanded === 'badger-zone' ? '' : 'badger-zone')}
+							>
+								Badger Arcade
+								<IconButton
+									size="small"
+									className={classes.expand + ' ' + (expanded === 'tokens' ? classes.expandOpen : '')}
+									aria-label="show more"
+								>
+									<ExpandMore />
+								</IconButton>
+							</ListItem>
+							<ListItem>
+								<Collapse
+									in={expanded === 'badger-zone' || store.router.currentPath == '/honey-badger-drop'}
+									timeout="auto"
+									unmountOnExit
+								>
+									<ListItem
+										button
+										className={[
+											store.router.currentPath == '/honey-badger-drop'
+												? classes.activeListItem
+												: '',
+											classes.primarySubListItem,
+										].join(' ')}
+										onClick={() => goTo(views.honeybadgerDrop)}
+									>
+										Honey Badger Drop
+									</ListItem>
+								</Collapse>
+							</ListItem>
 						</>
 					) : (
 						<></>
 					)}
-					<ListItem
-						button
-						className={classes.listItem}
-						onClick={() => setExpanded(expanded === 'badger-zone' ? '' : 'badger-zone')}
-					>
-						Badger Arcade
-						<IconButton
-							size="small"
-							className={classes.expand + ' ' + (expanded === 'tokens' ? classes.expandOpen : '')}
-							aria-label="show more"
-						>
-							<ExpandMore />
-						</IconButton>
-					</ListItem>
-					<ListItem>
-						<Collapse in={expanded === 'badger-zone'} timeout="auto" unmountOnExit>
-							<ListItem
-								button
-								className={[
-									store.router.currentPath == '/honey-badger-drop' ? classes.activeListItem : '',
-									classes.primarySubListItem,
-								].join(' ')}
-								onClick={() => goTo(views.honeybadgerDrop)}
-							>
-								Honey Badger Drop
-							</ListItem>
-						</Collapse>
-					</ListItem>
 				</List>
 
 				<List>
