@@ -19,8 +19,9 @@ import { useBdiggToDigg, useConnectWallet } from 'mobx/utils/hooks';
 import NftStats from './NftStats';
 import { NoWalletPlaceHolder } from './NoWalletPlaceHolder';
 import { TypographySkeleton } from './TypographySkeleton';
-import { NFT } from 'mobx/model';
 import PageHeader from 'components-v2/common/PageHeader';
+import { NETWORK_IDS } from 'config/constants';
+import routes from 'config/routes';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -77,9 +78,13 @@ export const HoneybadgerDrop: React.FC = observer(() => {
 	const bdiggToDigg = useBdiggToDigg();
 	const connectWallet = useConnectWallet();
 
-	const { connectedAddress } = store.wallet;
+	const { connectedAddress, network } = store.wallet;
 	const { poolBalance, loadingPoolBalance, loadingNfts, nfts, nftBeingRedeemed } = store.honeyPot;
 	const poolBalanceDiggs = poolBalance && bdiggToDigg(poolBalance);
+
+	if (network.networkId !== NETWORK_IDS.ETH) {
+		store.router.goTo(routes.home);
+	}
 
 	return (
 		<Container className={classes.root}>
@@ -121,7 +126,8 @@ export const HoneybadgerDrop: React.FC = observer(() => {
 																!poolBalance
 															}
 														>
-															{poolBalanceDiggs && poolBalance &&
+															{poolBalanceDiggs &&
+																poolBalance &&
 																`${poolBalanceDiggs
 																	.dividedBy(1e18)
 																	.toFixed(5)} DIGG / ${bDiggToCurrency({
