@@ -65,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	learnMore: {
 		marginTop: theme.spacing(1),
-		padding: theme.spacing(1)
+		padding: theme.spacing(1),
 	},
 }));
 
@@ -157,10 +157,9 @@ export const HoneybadgerDrop: React.FC = observer(() => {
 										)}
 									</Grid>
 								</Paper>
-							</Grid>
-							<Grid item container xs={12} justify="center">
 								<Button
 									className={classes.learnMore}
+									fullWidth
 									aria-label="Learn More"
 									variant="text"
 									size="small"
