@@ -20,8 +20,9 @@ import NftStats from './NftStats';
 import { NoWalletPlaceHolder } from './NoWalletPlaceHolder';
 import { TypographySkeleton } from './TypographySkeleton';
 import PageHeader from 'components-v2/common/PageHeader';
-import { NETWORK_IDS } from 'config/constants';
+import { NETWORK_CONSTANTS, NETWORK_IDS, NETWORK_LIST } from 'config/constants';
 import routes from 'config/routes';
+import { getDiggPerShare } from 'mobx/utils/diggHelpers';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -78,9 +79,13 @@ export const HoneybadgerDrop: React.FC = observer(() => {
 	const bdiggToDigg = useBdiggToDigg();
 	const connectWallet = useConnectWallet();
 
+	const { vaults } = store.contracts;
 	const { connectedAddress, network } = store.wallet;
 	const { poolBalance, loadingPoolBalance, loadingNfts, nfts, nftBeingRedeemed } = store.honeyPot;
-	const poolBalanceDiggs = poolBalance && bdiggToDigg(poolBalance);
+
+	const vault = vaults[NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.BDIGG_ADDRESS];
+	const diggMultiplier = vault && getDiggPerShare(vault);
+	const poolBalanceDiggs = poolBalance && diggMultiplier && poolBalance.multipliedBy(diggMultiplier);
 
 	if (network.networkId !== NETWORK_IDS.ETH) {
 		store.router.goTo(routes.home);
@@ -121,9 +126,7 @@ export const HoneybadgerDrop: React.FC = observer(() => {
 															color="textSecondary"
 															width="30%"
 															loading={
-																loadingPoolBalance ||
-																!!poolBalanceDiggs?.isNaN() ||
-																!poolBalance
+																loadingPoolBalance || !poolBalanceDiggs || !poolBalance
 															}
 														>
 															{poolBalanceDiggs &&
@@ -141,7 +144,7 @@ export const HoneybadgerDrop: React.FC = observer(() => {
 															variant="subtitle1"
 															color="textSecondary"
 															width="30%"
-															loading={loadingPoolBalance || !!poolBalanceDiggs?.isNaN()}
+															loading={loadingPoolBalance || !poolBalanceDiggs}
 														>
 															{poolBalance &&
 																bDiggToCurrency({
