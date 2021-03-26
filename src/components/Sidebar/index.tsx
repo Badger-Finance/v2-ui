@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
 		margin: theme.spacing(0, -999),
 		width: 'auto',
 		border: 0,
-		padding: theme.spacing(1, 1001),
+		padding: theme.spacing(1, 1002),
 	},
 	secondaryListItem: {
 		cursor: 'pointer',
