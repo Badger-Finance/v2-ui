@@ -457,7 +457,8 @@ class BridgeStore {
 		const { queueNotification } = this.store.uiState;
 		try {
 			await retry(async (context) => {
-				// TODO: Need to f/u and document what the id field means.
+				// NB: Query fees logic pulled from ren bridge source.
+                                // https://github.com/renproject/bridge/blob/18e5668db9423f2aaa32635c90dcf6269a3b1711/src/utils/walletUtils.ts#L104-L128
 				const query = {
 					jsonrpc: '2.0',
 					method: 'ren_queryFees',
