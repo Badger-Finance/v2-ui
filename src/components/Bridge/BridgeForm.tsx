@@ -262,7 +262,7 @@ export const BridgeForm = observer((props: any) => {
 				name: '_vault',
 				type: 'address',
 				// Will check in SC if address is addres(0), if not, will deposit to the desired vault
-				value: token === 'bWBTC' ? 'TBD VAULT ADDRESS' : '0x0',
+				value: token === 'bWBTC' ? 'TBD VAULT ADDRESS' : '0x0000000000000000000000000000000000000000',
 			},
 		];
 
