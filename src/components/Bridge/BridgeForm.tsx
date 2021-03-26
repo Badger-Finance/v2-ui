@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, PropsWithChildren, ReactNode } from 'react';
 import BigNumber from 'bignumber.js';
 import { ethers } from 'ethers';
 import GatewayJS from '@renproject/gateway';
@@ -27,12 +27,11 @@ import {
 } from 'config/constants';
 import { bridge_system } from 'config/deployments/mainnet.json';
 
-interface TabPanelProps {
-	children: any;
+type TabPanelProps = PropsWithChildren<{
 	index: number;
 	value: number;
 	other?: any | unknown;
-}
+}>;
 
 const TabPanel = (props: TabPanelProps) => {
 	const { children, value, index, ...other } = props;
@@ -176,7 +175,7 @@ export const BridgeForm = observer((props: any) => {
 		}));
 	};
 
-	const handleTabChange = (event: any, newValue: number) => {
+	const handleTabChange = (_: unknown, newValue: number) => {
 		setStates((prevState) => ({
 			...prevState,
 			tabValue: newValue,
@@ -214,7 +213,7 @@ export const BridgeForm = observer((props: any) => {
 		}
 	};
 
-	const updateState = (name: any, value: any) => {
+	const updateState = (name: string, value: unknown) => {
 		setStates((prevState) => ({
 			...prevState,
 			[name]: value,
@@ -282,8 +281,8 @@ export const BridgeForm = observer((props: any) => {
 	};
 
 	const approveAndWithdraw = async () => {
-		const methodSeries: any = [];
-		const amountSats = new BigNumber(burnAmount as any).multipliedBy(10 ** 8); // Convert to Satoshis
+		const methodSeries = [];
+		const amountSats = new BigNumber(burnAmount).multipliedBy(10 ** 8); // Convert to Satoshis
 		let burnToken = NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.RENBTC_ADDRESS;
 		let maxSlippageBps = 0;
 
@@ -293,7 +292,7 @@ export const BridgeForm = observer((props: any) => {
 			maxSlippageBps = Math.round(parseFloat(maxSlippage) * 100);
 		}
 
-		const params: any = [
+		const params = [
 			{
 				name: '_token',
 				type: 'address',
@@ -328,16 +327,18 @@ export const BridgeForm = observer((props: any) => {
 		};
 
 		const allowance: number = await new Promise((resolve, reject) => {
-			getAllowance(tokenParam, bridge_system['adapter'], (err: any, result: number) => {
+			getAllowance(tokenParam, bridge_system['adapter'], (err: unknown | undefined, result: number) => {
 				if (err) reject(err);
 				resolve(result);
 			});
 		});
 		if (amountSats.toNumber() > allowance) {
-			methodSeries.push((callback: any) => increaseAllowance(tokenParam, bridge_system['adapter'], callback));
+			methodSeries.push((callback: (...params: unknown[]) => unknown) =>
+				increaseAllowance(tokenParam, bridge_system['adapter'], callback),
+			);
 		}
 		methodSeries.push(() => withdraw(params));
-		async.series(methodSeries, (err: any) => {
+		async.series(methodSeries, (err?: unknown) => {
 			setTxStatus(!!err ? 'error' : 'success');
 		});
 	};
@@ -383,7 +384,7 @@ export const BridgeForm = observer((props: any) => {
 		}
 	};
 
-	const calcFees = async (inputAmount: any, name: string) => {
+	const calcFees = async (inputAmount: number, name: string) => {
 		let estimatedSlippage = 0; // only need to calculate slippage for wbtc mint/burn
 
 		const renFeeAmount = inputAmount * (tabValue === 0 ? renvmMintFee : renvmBurnFee);
@@ -434,7 +435,7 @@ export const BridgeForm = observer((props: any) => {
 		}
 	};
 
-	const itemContainer = (label: string, item: any) => {
+	const itemContainer = (label: string, item: ReactNode) => {
 		return (
 			<Grid item xs={12}>
 				<div className={classes.itemContainer}>
@@ -444,6 +445,7 @@ export const BridgeForm = observer((props: any) => {
 			</Grid>
 		);
 	};
+
 	const bridgeTabs = () => {
 		return (
 			<Tabs
