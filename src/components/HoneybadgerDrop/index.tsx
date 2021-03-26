@@ -13,14 +13,16 @@ import {
 import { Skeleton } from '@material-ui/lab';
 import _isNil from 'lodash/isNil';
 import { observer } from 'mobx-react-lite';
-import { diggToCurrency } from 'mobx/utils/helpers';
+import { bDiggToCurrency } from 'mobx/utils/helpers';
 import { StoreContext } from 'mobx/store-context';
 import { useBdiggToDigg, useConnectWallet } from 'mobx/utils/hooks';
 import NftStats from './NftStats';
 import { NoWalletPlaceHolder } from './NoWalletPlaceHolder';
 import { TypographySkeleton } from './TypographySkeleton';
-import { NFT } from 'mobx/model';
 import PageHeader from 'components-v2/common/PageHeader';
+import { NETWORK_CONSTANTS, NETWORK_IDS, NETWORK_LIST } from 'config/constants';
+import routes from 'config/routes';
+import { getDiggPerShare } from 'mobx/utils/diggHelpers';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -77,9 +79,17 @@ export const HoneybadgerDrop: React.FC = observer(() => {
 	const bdiggToDigg = useBdiggToDigg();
 	const connectWallet = useConnectWallet();
 
-	const { connectedAddress } = store.wallet;
+	const { vaults } = store.contracts;
+	const { connectedAddress, network } = store.wallet;
 	const { poolBalance, loadingPoolBalance, loadingNfts, nfts, nftBeingRedeemed } = store.honeyPot;
-	const poolBalanceDiggs = poolBalance && bdiggToDigg(poolBalance);
+
+	const vault = vaults[NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.BDIGG_ADDRESS];
+	const diggMultiplier = vault && getDiggPerShare(vault);
+	const poolBalanceDiggs = poolBalance && diggMultiplier && poolBalance.multipliedBy(diggMultiplier);
+
+	if (network.networkId !== NETWORK_IDS.ETH) {
+		store.router.goTo(routes.home);
+	}
 
 	return (
 		<Container className={classes.root}>
@@ -115,13 +125,16 @@ export const HoneybadgerDrop: React.FC = observer(() => {
 															variant="subtitle1"
 															color="textSecondary"
 															width="30%"
-															loading={loadingPoolBalance || !!poolBalanceDiggs?.isNaN()}
+															loading={
+																loadingPoolBalance || !poolBalanceDiggs || !poolBalance
+															}
 														>
 															{poolBalanceDiggs &&
+																poolBalance &&
 																`${poolBalanceDiggs
 																	.dividedBy(1e18)
-																	.toFixed(5)} DIGG / ${diggToCurrency({
-																	amount: poolBalanceDiggs,
+																	.toFixed(5)} DIGG / ${bDiggToCurrency({
+																	amount: poolBalance,
 																	currency: 'btc',
 																})}`}
 														</TypographySkeleton>
@@ -131,11 +144,11 @@ export const HoneybadgerDrop: React.FC = observer(() => {
 															variant="subtitle1"
 															color="textSecondary"
 															width="30%"
-															loading={loadingPoolBalance || !!poolBalanceDiggs?.isNaN()}
+															loading={loadingPoolBalance || !poolBalanceDiggs}
 														>
-															{poolBalanceDiggs &&
-																diggToCurrency({
-																	amount: poolBalanceDiggs,
+															{poolBalance &&
+																bDiggToCurrency({
+																	amount: poolBalance,
 																	currency: 'usd',
 																})}
 														</TypographySkeleton>
@@ -236,8 +249,8 @@ export const HoneybadgerDrop: React.FC = observer(() => {
 																root,
 															);
 
-															const formattedRedemptionRate = diggToCurrency({
-																amount: bdiggToDigg(redemptionRate),
+															const formattedRedemptionRate = bDiggToCurrency({
+																amount: redemptionRate,
 																currency: 'usd',
 															});
 
