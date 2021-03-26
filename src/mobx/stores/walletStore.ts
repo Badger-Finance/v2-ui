@@ -9,7 +9,6 @@ import { getNetwork, getNetworkNameFromId } from '../../mobx/utils/web3';
 import _ from 'lodash';
 import { Network } from 'mobx/model';
 import { RootStore } from 'mobx/store';
-import { NETWORK_LIST } from 'config/constants';
 
 class WalletStore {
 	private store: RootStore;
@@ -66,7 +65,7 @@ class WalletStore {
 	init = action(
 		async (): Promise<void> => {
 			this.getCurrentBlock();
-			this.getGasPrice();
+			await this.getGasPrice();
 
 			setInterval(() => {
 				this.getGasPrice();
@@ -100,7 +99,6 @@ class WalletStore {
 	connect = action((wsOnboard: any) => {
 		const walletState = wsOnboard.getState();
 		this.checkNetwork(walletState.network);
-		this.getGasPrice();
 		this.setProvider(walletState.wallet.provider);
 		this.connectedAddress = walletState.address;
 		this.onboard = wsOnboard;
@@ -126,10 +124,12 @@ class WalletStore {
 			});
 	});
 
-	getGasPrice = action(() => {
-		this.network.getGasPrices().then((price: any) => {
-			this.gasPrices = price;
-		});
+	getGasPrice = action(async () => {
+		this.gasPrices = await this.network.getGasPrices();
+		// Some networks have variable prices, and some only have a standard price
+		// If the selected gas price (such as 'fast') is not available on the current
+		// network, switch to standard.
+		if (!this.gasPrices[this.store.uiState.gasPrice]) this.store.uiState.gasPrice = 'standard';
 	});
 
 	setProvider = action((provider: any) => {
