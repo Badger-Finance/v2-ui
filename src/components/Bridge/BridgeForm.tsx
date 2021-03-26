@@ -1,16 +1,13 @@
 import React, { useContext, useState, useEffect } from 'react';
 import BigNumber from 'bignumber.js';
 import { ethers } from 'ethers';
-import PropTypes from 'prop-types';
 import GatewayJS from '@renproject/gateway';
 import { EthArgs, LockAndMintParamsSimple, BurnAndReleaseParamsSimple } from '@renproject/interfaces';
 import Web3 from 'web3';
-import async, { any } from 'async';
+import async from 'async';
 import { observer } from 'mobx-react-lite';
 import { Grid, Tabs, Tab, FormControl, Select, MenuItem, Typography } from '@material-ui/core';
-import useInterval from '@use-it/interval';
 
-import fbase from 'fbase';
 import { MintForm } from './MintForm';
 import { ReleaseForm } from './ReleaseForm';
 import { ConfirmForm } from './ConfirmForm';
@@ -19,7 +16,9 @@ import { StoreContext } from 'mobx/store-context';
 import { RenVMTransaction } from 'mobx/model';
 import { Status } from 'mobx/stores/bridgeStore';
 import renBTCLogo from 'assets/icons/renBTC.svg';
+import bWBTCLogo from 'assets/icons/bWBTC.svg';
 import WBTCLogo from 'assets/icons/WBTC.svg';
+
 import {
 	CURVE_EXCHANGE,
 	NETWORK_CONSTANTS,
@@ -63,14 +62,14 @@ const formatNonceBytes32 = (nonce: number): string => {
 };
 
 export const BridgeForm = observer((props: any) => {
-        const classes = props.classes;
+	const classes = props.classes;
 	const store = useContext(StoreContext);
 	const spacer = <div className={classes.before} />;
 
 	const {
 		wallet: { connect, connectedAddress, provider, onboard },
 		contracts: { getAllowance, increaseAllowance },
-		uiState: { queueNotification, txStatus, setTxStatus },
+		uiState: { queueNotification, setTxStatus },
 		bridge: {
 			status,
 			begin,
@@ -97,8 +96,8 @@ export const BridgeForm = observer((props: any) => {
 		amount: '',
 		receiveAmount: 0,
 		estimatedSlippage: 0,
-                // Default to 0.5%.
-                maxSlippage: '.5',
+		// Default to 0.5%.
+		maxSlippage: '.5',
 		burnAmount: '',
 		btcAddr: '',
 		renFee: 0,
@@ -106,11 +105,18 @@ export const BridgeForm = observer((props: any) => {
 		step: 1,
 	};
 
-	const intialState = {
-		...initialStateResettable,
+	const initialTokenState: {
+		token: 'renBTC' | 'WBTC' | 'bWBTC';
+	} = {
 		token: 'renBTC',
+	};
+
+	const intialState = {
+		...initialTokenState,
+		...initialStateResettable,
 		tabValue: 0, // Keep on same tab even after reset
 	};
+
 	const [states, setStates] = useState(intialState);
 
 	const {
@@ -122,10 +128,11 @@ export const BridgeForm = observer((props: any) => {
 		btcAddr,
 		tabValue,
 		estimatedSlippage,
-                maxSlippage,
+		maxSlippage,
 		renFee,
 		badgerFee,
 	} = states;
+
 	// TODO: Refactor values to pull directly from mobx store for values in store.
 	const values = {
 		token,
@@ -142,7 +149,7 @@ export const BridgeForm = observer((props: any) => {
 		tabValue,
 		spacer,
 		estimatedSlippage,
-                maxSlippage,
+		maxSlippage,
 		badgerBurnFee,
 		badgerMintFee,
 		renvmBurnFee,
@@ -221,18 +228,21 @@ export const BridgeForm = observer((props: any) => {
 			resetState();
 			return;
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [connectedAddress]);
 
 	// TODO: Can refactor most of these methods below into the store as well.
 	const deposit = async () => {
 		const amountSats = new BigNumber(amount).multipliedBy(10 ** 8); // Convert to Satoshis
 		let desiredToken = NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.RENBTC_ADDRESS;
-                let maxSlippageBps = 0;
-		if (token === 'WBTC') {
+		let maxSlippageBps = 0;
+
+		if (token === 'WBTC' || token === 'bWBTC') {
 			// Convert max slippage from % to bps.
-                        maxSlippageBps = Math.round(parseFloat(maxSlippage) * 100)
+			maxSlippageBps = Math.round(parseFloat(maxSlippage) * 100);
 			desiredToken = NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.WBTC_ADDRESS;
 		}
+
 		const contractParams: EthArgs = [
 			{
 				name: '_token',
@@ -245,9 +255,15 @@ export const BridgeForm = observer((props: any) => {
 				value: maxSlippageBps,
 			},
 			{
-				name: '_destination',
+				name: '_user',
 				type: 'address',
 				value: connectedAddress,
+			},
+			{
+				name: '_vault',
+				type: 'address',
+				// Will check in SC if address is addres(0), if not, will deposit to the desired vault
+				value: token === 'bWBTC' ? 'TBD VAULT ADDRESS' : '0x0',
 			},
 		];
 
@@ -269,12 +285,14 @@ export const BridgeForm = observer((props: any) => {
 		const methodSeries: any = [];
 		const amountSats = new BigNumber(burnAmount as any).multipliedBy(10 ** 8); // Convert to Satoshis
 		let burnToken = NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.RENBTC_ADDRESS;
-                let maxSlippageBps = 0;
-		if (token === 'WBTC') {
-			burnToken = NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.WBTC_ADDRESS;
+		let maxSlippageBps = 0;
+
+		if (token === 'WBTC' || token === 'bWBTC') {
+			burnToken = NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS[token === 'WBTC' ? 'WBTC_ADDRESS' : 'BWBTC_ADDRESS'];
 			// Convert max slippage from % to bps.
-                        maxSlippageBps = Math.round(parseFloat(maxSlippage) * 100)
+			maxSlippageBps = Math.round(parseFloat(maxSlippage) * 100);
 		}
+
 		const params: any = [
 			{
 				name: '_token',
@@ -302,6 +320,8 @@ export const BridgeForm = observer((props: any) => {
 			address:
 				token === 'renBTC'
 					? NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.RENBTC_ADDRESS
+					: token === 'bWBTC'
+					? NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.BWBTC_ADDRESS
 					: NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.WBTC_ADDRESS,
 			symbol: token,
 			totalSupply: amountSats,
@@ -317,7 +337,7 @@ export const BridgeForm = observer((props: any) => {
 			methodSeries.push((callback: any) => increaseAllowance(tokenParam, bridge_system['adapter'], callback));
 		}
 		methodSeries.push(() => withdraw(params));
-		async.series(methodSeries, (err: any, results: any) => {
+		async.series(methodSeries, (err: any) => {
 			setTxStatus(!!err ? 'error' : 'success');
 		});
 	};
@@ -372,7 +392,7 @@ export const BridgeForm = observer((props: any) => {
 		let amountWithFee = inputAmount - renFeeAmount - badgerFeeAmount - networkFee;
 		if (token === 'WBTC') {
 			estimatedSlippage = await getEstimatedSlippage(amountWithFee, name);
-                        amountWithFee *= (1 - estimatedSlippage);
+			amountWithFee *= 1 - estimatedSlippage;
 		}
 		setStates((prevState) => ({
 			...prevState,
@@ -390,7 +410,7 @@ export const BridgeForm = observer((props: any) => {
 			if (!isFinite(inputAmount)) return;
 			await calcFees(inputAmount, name);
 		} else if (name === 'maxSlippage') {
-                        // TODO: Can do some further validation here.
+			// TODO: Can do some further validation here.
 			const value = event.target.value;
 			if (!isFinite(value)) return;
 			setStates((prevState) => ({
@@ -463,6 +483,12 @@ export const BridgeForm = observer((props: any) => {
 						<span className={classes.menuItem}>
 							<img src={WBTCLogo} className={classes.logo} />
 							<span>WBTC</span>
+						</span>
+					</MenuItem>
+					<MenuItem value={'bWBTC'}>
+						<span className={classes.menuItem}>
+							<img src={bWBTCLogo} className={classes.logo} />
+							<span>bWBTC</span>
 						</span>
 					</MenuItem>
 				</Select>
