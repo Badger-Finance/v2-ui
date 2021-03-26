@@ -27,6 +27,7 @@ import {
 	CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS,
 } from 'config/constants';
 import { bridge_system } from 'config/deployments/mainnet.json';
+import { ValuesProp } from './Common';
 
 interface TabPanelProps {
 	children: any;
@@ -127,30 +128,20 @@ export const BridgeForm = observer((props: any) => {
 		badgerFee,
 	} = states;
 	// TODO: Refactor values to pull directly from mobx store for values in store.
-	const values = {
+	const values : ValuesProp = {
 		token,
 		amount,
 		receiveAmount,
 		step,
-		renbtcBalance,
-		wbtcBalance,
 		burnAmount,
 		btcAddr,
-		provider,
-		connectedAddress,
 		shortAddr,
 		tabValue,
 		spacer,
 		estimatedSlippage,
 		maxSlippage,
-		badgerBurnFee,
-		badgerMintFee,
-		renvmBurnFee,
-		renvmMintFee,
 		renFee,
 		badgerFee,
-		lockNetworkFee,
-		releaseNetworkFee,
 	};
 
 	const connectWallet = async () => {
@@ -447,7 +438,7 @@ export const BridgeForm = observer((props: any) => {
 					variant="outlined"
 					onChange={handleChange('token')}
 					value={values.token}
-					className={classes.selec2t}
+					className={classes.select}
 					inputProps={{
 						name: 'token',
 						id: 'token-select',

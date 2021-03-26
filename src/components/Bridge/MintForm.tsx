@@ -1,12 +1,18 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Grid, Button, TextField, Typography } from '@material-ui/core';
 import { Token } from 'components/IbBTC/Tokens';
 import { ArrowDownward } from '@material-ui/icons';
 
+import { StoreContext } from 'mobx/store-context';
 import { MIN_AMOUNT } from './constants';
 import { Slippage } from './Common';
 
 export const MintForm = (props: any) => {
+	const store = useContext(StoreContext);
+	const {
+                wallet: { connectedAddress },
+		bridge: { renbtcBalance, wbtcBalance },
+	} = store;
 	const {
 		classes,
 		handleChange,
@@ -31,7 +37,7 @@ export const MintForm = (props: any) => {
 						variant="outlined"
 						size="medium"
 						value={values.amount}
-						disabled={!!values.connectedAddress === false}
+						disabled={!!connectedAddress === false}
 						placeholder="0.00"
 						onChange={handleChange('amount')}
 						InputProps={{
@@ -49,7 +55,7 @@ export const MintForm = (props: any) => {
 				</Grid>
 				<Grid item xs={12}>
 					<Typography variant="body1" color="textSecondary" style={{ textAlign: 'right' }}>
-						Balance: {values.token === 'renBTC' ? values.renbtcBalance : values.wbtcBalance}
+						Balance: {values.token === 'renBTC' ? renbtcBalance : wbtcBalance}
 					</Typography>
 
 					<div className={classes.row}>
@@ -63,6 +69,7 @@ export const MintForm = (props: any) => {
 						classes={classes}
 						handleChange={handleChange}
 						handleSetMaxSlippage={handleSetMaxSlippage}
+                                                disabled={!!connectedAddress === false}
 					/>
 				)}
 			</Grid>
@@ -84,7 +91,7 @@ export const MintForm = (props: any) => {
 			</Grid>
 			<Grid container spacing={2} alignItems={'center'} style={{ padding: '.6rem 2rem' }}>
 				<Grid container justify={'center'}>
-					{!!values.connectedAddress ? (
+					{!!connectedAddress ? (
 						<Button
 							variant="contained"
 							color="primary"

@@ -1,14 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Grid, Button, Input, TextField, Typography } from '@material-ui/core';
 import validate from 'bitcoin-address-validation';
 import { Token } from 'components/IbBTC/Tokens';
 import { ArrowDownward } from '@material-ui/icons';
 
+import { StoreContext } from 'mobx/store-context';
 import BTCLogo from 'assets/icons/btc.svg';
 import { MIN_AMOUNT } from './constants';
 import { Slippage } from './Common';
 
 export const ReleaseForm = (props: any) => {
+	const store = useContext(StoreContext);
+	const {
+                wallet: { connectedAddress },
+		bridge: { renbtcBalance, wbtcBalance },
+	} = store;
 	const {
 		classes,
 		handleChange,
@@ -34,7 +40,7 @@ export const ReleaseForm = (props: any) => {
 	};
 
 	const getSelectedTokenBalance = () => {
-		return values.token === 'renBTC' ? values.renbtcBalance : values.wbtcBalance;
+		return values.token === 'renBTC' ? renbtcBalance : wbtcBalance;
 	};
 
 	useEffect(() => {
@@ -50,7 +56,7 @@ export const ReleaseForm = (props: any) => {
 			<Grid container spacing={2} style={{ padding: '.6rem 2rem' }}>
 				<Grid item xs={12} style={{ marginBottom: '.2rem' }}>
 					<Typography variant="body1" color="textSecondary" style={{ textAlign: 'right' }}>
-						Balance: {values.token === 'WBTC' ? values.wbtcBalance : values.renbtcBalance}
+						Balance: {values.token === 'WBTC' ? wbtcBalance : renbtcBalance}
 					</Typography>
 				</Grid>
 				<Grid item xs={12}>
@@ -58,7 +64,7 @@ export const ReleaseForm = (props: any) => {
 						variant="outlined"
 						size="medium"
 						value={values.burnAmount}
-						disabled={!!values.connectedAddress === false}
+						disabled={!!connectedAddress === false}
 						placeholder="0.00"
 						onChange={handleChange('burnAmount')}
 						InputProps={{
@@ -72,8 +78,8 @@ export const ReleaseForm = (props: any) => {
 									className={classes.btnMax}
 									variant="outlined"
 									onClick={(e) => {
-										if (values.token === 'renBTC') setAmount(values.renbtcBalance, 'renBTC')(e);
-										else setAmount(values.wbtcBalance, 'WBTC')(e);
+										if (values.token === 'renBTC') setAmount(renbtcBalance, 'renBTC')(e);
+										else setAmount(wbtcBalance, 'WBTC')(e);
 									}}
 								>
 									max
@@ -91,7 +97,7 @@ export const ReleaseForm = (props: any) => {
 						variant="outlined"
 						size="medium"
 						value={values.btcAddr}
-						disabled={!!values.connectedAddress === false}
+						disabled={!!connectedAddress === false}
 						fullWidth={true}
 						error={!validAddress}
 						placeholder="Your BTC address"
@@ -104,6 +110,7 @@ export const ReleaseForm = (props: any) => {
 						classes={classes}
 						handleChange={handleChange}
 						handleSetMaxSlippage={handleSetMaxSlippage}
+                                                disabled={!!connectedAddress === false}
 					/>
 				)}
 			</Grid>
@@ -130,7 +137,7 @@ export const ReleaseForm = (props: any) => {
 			</Grid>
 			<Grid container spacing={2} alignItems={'center'} style={{ padding: '.6rem 2rem' }}>
 				<Grid item xs={12}>
-					{!!values.connectedAddress ? (
+					{!!connectedAddress ? (
 						<Button
 							variant="contained"
 							color="primary"
