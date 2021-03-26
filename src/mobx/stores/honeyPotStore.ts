@@ -3,7 +3,7 @@ import Web3 from 'web3';
 import BigNumber from 'bignumber.js';
 import { RootStore } from '../store';
 import { AbiItem } from 'web3-utils';
-import { ERC20 } from 'config/constants';
+import { ERC20, NETWORK_IDS } from 'config/constants';
 import mainnet from 'config/deployments/mainnet.json';
 import { abi as scarcityPoolABI } from 'config/system/abis/BadgerScarcityPool.json';
 import { abi as memeLtdABI } from 'config/system/abis/MemeLtd.json';
@@ -56,14 +56,19 @@ export class HoneyPotStore {
 			this.fetchNFTS();
 		});
 
+		observe(this.store.wallet, 'network', () => {
+			this.fetchPoolBalance();
+			this.fetchNFTS();
+		});
+
 		this.fetchPoolBalance();
 		this.fetchNFTS();
 	}
 
 	fetchPoolBalance = action(async () => {
 		try {
-			const { provider, connectedAddress } = this.store.wallet;
-			if (!connectedAddress) return;
+			const { provider, connectedAddress, network } = this.store.wallet;
+			if (!connectedAddress || network.networkId !== NETWORK_IDS.ETH) return;
 
 			this.loadingPoolBalance = true;
 
@@ -83,8 +88,8 @@ export class HoneyPotStore {
 
 	fetchNFTS = action(async () => {
 		try {
-			const { provider, connectedAddress } = this.store.wallet;
-			if (!connectedAddress) return;
+			const { provider, connectedAddress, network } = this.store.wallet;
+			if (!connectedAddress || network.networkId !== NETWORK_IDS.ETH) return;
 
 			this.loadingNfts = true;
 
@@ -134,8 +139,8 @@ export class HoneyPotStore {
 	redeemNFT = action(async (tokenId: string, amount: number) => {
 		try {
 			const { queueNotification, gasPrice, setTxStatus } = this.store.uiState;
-			const { provider, connectedAddress, gasPrices } = this.store.wallet;
-			if (!connectedAddress) return;
+			const { provider, connectedAddress, gasPrices, network } = this.store.wallet;
+			if (!connectedAddress || network.networkId !== NETWORK_IDS.ETH) return;
 
 			this.nftBeingRedeemed.push(tokenId);
 			const web3 = new Web3(provider);
