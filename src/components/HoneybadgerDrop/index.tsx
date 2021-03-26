@@ -63,6 +63,10 @@ const useStyles = makeStyles((theme) => ({
 	nftSkeleton: {
 		borderRadius: theme.spacing(1),
 	},
+	learnMore: {
+		marginTop: theme.spacing(1),
+		padding: theme.spacing(1)
+	},
 }));
 
 export const HoneybadgerDrop: React.FC = observer(() => {
@@ -153,6 +157,19 @@ export const HoneybadgerDrop: React.FC = observer(() => {
 										)}
 									</Grid>
 								</Paper>
+							</Grid>
+							<Grid item container xs={12} justify="center">
+								<Button
+									className={classes.learnMore}
+									aria-label="Learn More"
+									variant="text"
+									size="small"
+									color="primary"
+									href="https://badgerdao.medium.com/badger-x-meme-nft-honeypot-part-ii-diamond-hands-7111d38b5df4"
+									target="_"
+								>
+									Learn More
+								</Button>
 							</Grid>
 						</Grid>
 					</Fade>
