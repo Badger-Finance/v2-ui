@@ -13,7 +13,7 @@ import {
 import { Skeleton } from '@material-ui/lab';
 import _isNil from 'lodash/isNil';
 import { observer } from 'mobx-react-lite';
-import { diggToCurrency } from 'mobx/utils/helpers';
+import { bDiggToCurrency } from 'mobx/utils/helpers';
 import { StoreContext } from 'mobx/store-context';
 import { useBdiggToDigg, useConnectWallet } from 'mobx/utils/hooks';
 import NftStats from './NftStats';
@@ -115,15 +115,20 @@ export const HoneybadgerDrop: React.FC = observer(() => {
 															variant="subtitle1"
 															color="textSecondary"
 															width="30%"
-															loading={loadingPoolBalance || !!poolBalanceDiggs?.isNaN()}
+															loading={
+																loadingPoolBalance ||
+																!!poolBalanceDiggs?.isNaN() ||
+																!poolBalance
+															}
 														>
-															{poolBalanceDiggs &&
-																`${poolBalanceDiggs
-																	.dividedBy(1e18)
-																	.toFixed(5)} DIGG / ${diggToCurrency({
-																	amount: poolBalanceDiggs,
-																	currency: 'btc',
-																})}`}
+															{poolBalanceDiggs && poolBalance
+																? `${poolBalanceDiggs
+																		.dividedBy(1e18)
+																		.toFixed(5)} DIGG / ${bDiggToCurrency({
+																		amount: poolBalance,
+																		currency: 'btc',
+																  })}`
+																: ''}
 														</TypographySkeleton>
 													</Grid>
 													<Grid item xs={12}>
@@ -133,9 +138,9 @@ export const HoneybadgerDrop: React.FC = observer(() => {
 															width="30%"
 															loading={loadingPoolBalance || !!poolBalanceDiggs?.isNaN()}
 														>
-															{poolBalanceDiggs &&
-																diggToCurrency({
-																	amount: poolBalanceDiggs,
+															{poolBalance &&
+																bDiggToCurrency({
+																	amount: poolBalance,
 																	currency: 'usd',
 																})}
 														</TypographySkeleton>
@@ -236,8 +241,8 @@ export const HoneybadgerDrop: React.FC = observer(() => {
 																root,
 															);
 
-															const formattedRedemptionRate = diggToCurrency({
-																amount: bdiggToDigg(redemptionRate),
+															const formattedRedemptionRate = bDiggToCurrency({
+																amount: redemptionRate,
 																currency: 'usd',
 															});
 

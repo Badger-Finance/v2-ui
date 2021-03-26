@@ -104,8 +104,8 @@ export const getExchangeRates = (): Promise<Response> => {
 	}).then((response: any) => response.json());
 };
 
-export const getDiggExchangeRates = async (): Promise<Response> => {
-	return fetch('https://api.coingecko.com/api/v3/simple/price?ids=digg&vs_currencies=eth,usd,btc,cad', {
+export const getBdiggExchangeRates = async (): Promise<Response> => {
+	return fetch('https://api.coingecko.com/api/v3/simple/price/?ids=badger-sett-digg&vs_currencies=usd,eth,btc,cad', {
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json',
@@ -139,8 +139,8 @@ export const secondsToBlocks = (seconds: number): number => {
 export let exchangeRates: any = { usd: 641.69, cad: 776.44, btc: 41.93 };
 getExchangeRates().then((result: any) => (exchangeRates = result.ethereum));
 
-export let diggExchangeRates = { eth: 24.864618, usd: 42279, btc: 0.77050263, cad: 53213 };
-getDiggExchangeRates().then((result: any) => (diggExchangeRates = result.digg));
+export let bDiggExchangeRates = { usd: 50405, eth: 30.725832, btc: 0.9456756, cad: 63346 };
+getBdiggExchangeRates().then((result: any) => (bDiggExchangeRates = result['badger-sett-digg']));
 
 // TECH DEBT: Reformat these formatting functions using a factory pattern and delete repeated code
 
@@ -259,7 +259,7 @@ interface DiggToCurrencyOptions {
  * @param options amount, currency, hide, preferredDecimals, noCommas
  * @returns formatted amount
  */
-export const diggToCurrency = ({
+export const bDiggToCurrency = ({
 	amount,
 	currency,
 	hide = false,
@@ -274,17 +274,17 @@ export const diggToCurrency = ({
 
 	switch (currency) {
 		case 'usd':
-			normal = normal.multipliedBy(diggExchangeRates.usd);
+			normal = normal.multipliedBy(bDiggExchangeRates.usd);
 			decimals = 2;
 			prefix = '$ ';
 			break;
 		case 'btc':
-			normal = normal.multipliedBy(diggExchangeRates.btc);
+			normal = normal.multipliedBy(bDiggExchangeRates.btc);
 			decimals = 5;
 			prefix = '₿ ';
 			break;
 		case 'eth':
-			normal = normal.multipliedBy(diggExchangeRates.eth);
+			normal = normal.multipliedBy(bDiggExchangeRates.eth);
 			prefix = 'Ξ ';
 			decimals = 5;
 			break;
