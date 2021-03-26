@@ -7,7 +7,16 @@ import { MIN_AMOUNT } from './constants';
 import { Slippage } from './Common';
 
 export const MintForm = (props: any) => {
-	const { classes, handleChange, handleSetMaxSlippage, nextStep, values, assetSelect, itemContainer, connectWallet } = props;
+	const {
+		classes,
+		handleChange,
+		handleSetMaxSlippage,
+		nextStep,
+		values,
+		assetSelect,
+		itemContainer,
+		connectWallet,
+	} = props;
 
 	const next = (e: any) => {
 		e.preventDefault();
@@ -43,19 +52,19 @@ export const MintForm = (props: any) => {
 						Balance: {values.token === 'renBTC' ? values.renbtcBalance : values.wbtcBalance}
 					</Typography>
 
-                                        <div className={classes.row}>
+					<div className={classes.row}>
 						<Typography variant="h1">{values.receiveAmount.toFixed(8) || '0.00'}</Typography>
 						{assetSelect()}
 					</div>
 				</Grid>
-                                {values.token === 'WBTC' && (
-                                        <Slippage
-                                                values={values}
-                                                classes={classes}
-                                                handleChange={handleChange}
-                                                handleSetMaxSlippage={handleSetMaxSlippage}
-                                        />
-                                )}
+				{values.token === 'WBTC' && (
+					<Slippage
+						values={values}
+						classes={classes}
+						handleChange={handleChange}
+						handleSetMaxSlippage={handleSetMaxSlippage}
+					/>
+				)}
 			</Grid>
 			<Grid container spacing={2} alignItems={'center'} style={{ padding: '2rem 0 .5rem' }}>
 				<Grid item xs={12} className={classes.summaryWrapper}>

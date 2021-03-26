@@ -98,14 +98,14 @@ export const ReleaseForm = (props: any) => {
 						onChange={handleChange('btcAddr')}
 					/>
 				</Grid>
-                                {values.token === 'WBTC' && (
-                                        <Slippage
-                                                values={values}
-                                                classes={classes}
-                                                handleChange={handleChange}
-                                                handleSetMaxSlippage={handleSetMaxSlippage}
-                                        />
-                                )}
+				{values.token === 'WBTC' && (
+					<Slippage
+						values={values}
+						classes={classes}
+						handleChange={handleChange}
+						handleSetMaxSlippage={handleSetMaxSlippage}
+					/>
+				)}
 			</Grid>
 			<Grid container spacing={2} style={{ padding: '1rem 0 0' }}>
 				<Grid item xs={12} className={classes.summaryWrapper}>

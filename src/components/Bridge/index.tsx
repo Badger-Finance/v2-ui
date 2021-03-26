@@ -123,20 +123,20 @@ const useStyles = makeStyles((theme) => ({
 	tabHeader: { background: 'rgba(0,0,0,.2)' },
 	btnMax: {
 		alignSelf: 'center',
-		marginRight: '.6rem'
+		marginRight: '.6rem',
 	},
-        padded: {
-                padding: '2rem 2rem',
-        },
-        select: { height: '3rem', overflow: 'hidden', margin: '.3rem 0 0 .6rem' },
-        row: {
-                display: 'flex',
-                justifyContent: 'space-between',
-                flexDirection: 'row',
-                alignItems: 'center',
-                width: '100%',
-                padding: '.5rem 0 0 1rem',
-        },
+	padded: {
+		padding: '2rem 2rem',
+	},
+	select: { height: '3rem', overflow: 'hidden', margin: '.3rem 0 0 .6rem' },
+	row: {
+		display: 'flex',
+		justifyContent: 'space-between',
+		flexDirection: 'row',
+		alignItems: 'center',
+		width: '100%',
+		padding: '.5rem 0 0 1rem',
+	},
 }));
 export const Bridge = observer(() => {
 	const store = useContext(StoreContext);

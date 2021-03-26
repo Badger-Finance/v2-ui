@@ -8,17 +8,10 @@ import renBTCLogo from 'assets/icons/renBTC.svg';
 import WBTCLogo from 'assets/icons/WBTC.svg';
 
 export const ConfirmForm = (props: any) => {
-        const store = useContext(StoreContext);
-        const {
-                bridge: {
-                        renvmMintFee,
-                        renvmBurnFee,
-                        badgerBurnFee,
-                        badgerMintFee,
-                        lockNetworkFee,
-                        releaseNetworkFee,
-                }
-        } = store;
+	const store = useContext(StoreContext);
+	const {
+		bridge: { renvmMintFee, renvmBurnFee, badgerBurnFee, badgerMintFee, lockNetworkFee, releaseNetworkFee },
+	} = store;
 	const { classes, confirmStep, previousStep, values, itemContainer } = props;
 	const [agreement, setAgreement] = useState({
 		ethRequired: false,
@@ -123,16 +116,18 @@ export const ConfirmForm = (props: any) => {
 					'This fee is paid to Bitcoin miners to move BTC. This does not go to the Ren or Badger team.',
 					`${values.tabValue == 0 ? lockNetworkFee : releaseNetworkFee} BTC`,
 				)}
-				{values.token === 'WBTC' && feeContainer(
-					'Price Impact of Swap',
-					'The estimated slippage due to swapping RenBTC <-> wBTC.',
-					`${Math.abs(values.estimatedSlippage * 100).toFixed(2) + '%'}`,
-				)}
-				{values.token === 'WBTC' && feeContainer(
-					'Max Slippage',
-					'User determined maximum acceptable slippage for swapped renBTC <-> wBTC. If slippage is too high, the swap will fail.',
-					`${Math.abs(parseFloat(values.maxSlippage)).toFixed(2) + '%'}`,
-				)}
+				{values.token === 'WBTC' &&
+					feeContainer(
+						'Price Impact of Swap',
+						'The estimated slippage due to swapping RenBTC <-> wBTC.',
+						`${Math.abs(values.estimatedSlippage * 100).toFixed(2) + '%'}`,
+					)}
+				{values.token === 'WBTC' &&
+					feeContainer(
+						'Max Slippage',
+						'User determined maximum acceptable slippage for swapped renBTC <-> wBTC. If slippage is too high, the swap will fail.',
+						`${Math.abs(parseFloat(values.maxSlippage)).toFixed(2) + '%'}`,
+					)}
 			</Grid>
 			{values.spacer}
 			<Grid item xs={12}>

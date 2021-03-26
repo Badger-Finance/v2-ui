@@ -2,7 +2,6 @@ import React from 'react';
 import { Typography, makeStyles } from '@material-ui/core';
 import WalletWidget from './WalletWidget';
 import GasWidget from './GasWidget';
-import NetworkWidget from './NetworkWidget';
 
 export interface PageHeaderProps {
 	title: string;
