@@ -117,17 +117,19 @@ export const ConfirmForm = (props: any) => {
 					`${values.tabValue == 0 ? lockNetworkFee : releaseNetworkFee} BTC`,
 				)}
 				{values.token === 'WBTC' &&
+                                        <>
 					feeContainer(
 						'Price Impact of Swap',
-						'The estimated slippage due to swapping RenBTC <-> wBTC.',
+						'The estimated slippage due to swapping renBTC to/from wBTC.',
 						`${Math.abs(values.estimatedSlippage * 100).toFixed(2) + '%'}`,
-					)}
-				{values.token === 'WBTC' &&
+					)
 					feeContainer(
 						'Max Slippage',
-						'User determined maximum acceptable slippage for swapped renBTC <-> wBTC. If slippage is too high, the swap will fail.',
+						'User determined maximum acceptable slippage for swapped renBTC to/from wBTC. If slippage is too high, the swap will fail.',
 						`${Math.abs(parseFloat(values.maxSlippage)).toFixed(2) + '%'}`,
-					)}
+					)
+                                        </>
+                                }
 			</Grid>
 			{values.spacer}
 			<Grid item xs={12}>

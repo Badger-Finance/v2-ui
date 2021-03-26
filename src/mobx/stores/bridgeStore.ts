@@ -389,8 +389,6 @@ class BridgeStore {
 						}
 					})
 					.on('transferUpdated', async (event: LockAndMintEvent | BurnAndReleaseEvent) => {
-						// Updates can come in async and out of order.
-						//if (this.status != Status.PROCESSING) return;
 						if (event.archived) return;
 						const txData = {
 							...tx,
