@@ -2148,10 +2148,10 @@
   dependencies:
     "@renproject/sol" "^1.0.1"
 
-"@renproject/gateway@^1.0.13":
-  version "1.0.13"
-  resolved "https://registry.yarnpkg.com/@renproject/gateway/-/gateway-1.0.13.tgz#9a7e235a0ef982769ca58790c889d8d5288e147c"
-  integrity sha512-Xpp/N/kMzGUhGgaZYMTZN6bO7Zpt3Dd1BXWGouFZBmc4kXPSRqTgNeh2pJnQ/9MxetCPv/kPXP1UGiN8Eb4HGQ==
+"@renproject/gateway@1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@renproject/gateway/-/gateway-1.1.0.tgz#540a29ce2722de8c6658ddc0e2fe922e0f82740a"
+  integrity sha512-b+z0pxwbUzlUDtgnJVa7LD1W795A5IUkSlA6vXkydny7K22UiLntDJBS7X/CAqpY5lmFeaMFl2uDGxEOJEoXJA==
   dependencies:
     "@renproject/interfaces" "^1.0.12"
     "@renproject/utils" "^1.0.13"
