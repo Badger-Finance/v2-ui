@@ -11,22 +11,25 @@ import { estimateAndSend } from 'mobx/utils/web3';
 import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
 import { NFT } from 'mobx/model';
-import badgerpackJoyRide from '../../assets/gifs/badgerpack-joyride.gif';
-import battleBadger from '../../assets/gifs/battlebadger.gif';
-import wackABadger from '../../assets/gifs/wack-a-badger.gif';
 
-const nftAssetsByTokenId: Record<string, { name: string; image: string }> = {
+const nftAssetsByTokenId: Record<string, Pick<NFT, 'name' | 'image' | 'redirectUrl' | 'totalSupply'>> = {
 	'205': {
 		name: 'Wack-A-Badger',
-		image: wackABadger,
+		image: 'https://images.dontbuymeme.com/collections/badger/mp4/wack-a-badger.mp4',
+		redirectUrl: 'https://opensea.io/assets/0xe4605d46Fd0B3f8329d936a8b258D69276cBa264/205',
+		totalSupply: '200',
 	},
 	'206': {
 		name: 'Badgerpack Joyride',
-		image: badgerpackJoyRide,
+		image: 'https://images.dontbuymeme.com/collections/badger/mp4/badgerpack-joyride.mp4',
+		redirectUrl: 'https://opensea.io/assets/0xe4605d46Fd0B3f8329d936a8b258D69276cBa264/206',
+		totalSupply: '50',
 	},
 	'208': {
 		name: 'Battle Badger',
-		image: battleBadger,
+		image: 'https://images.dontbuymeme.com/collections/badger/mp4/battle-badger.mp4',
+		redirectUrl: 'https://opensea.io/assets/0xe4605d46Fd0B3f8329d936a8b258D69276cBa264/208',
+		totalSupply: '10',
 	},
 };
 
@@ -114,8 +117,10 @@ export class HoneyPotStore {
 				...nft,
 				balance: balances[index],
 				poolBalance: poolBalances[index],
-				image: nftAssetsByTokenId[nft.tokenId]?.image,
-				name: nftAssetsByTokenId[nft.tokenId]?.name,
+				totalSupply: nftAssetsByTokenId[nft.tokenId].totalSupply,
+				image: nftAssetsByTokenId[nft.tokenId].image,
+				name: nftAssetsByTokenId[nft.tokenId].name,
+				redirectUrl: nftAssetsByTokenId[nft.tokenId].redirectUrl,
 			}));
 		} catch (error) {
 			const message = error?.message || 'There was an error. Please try again later.';
