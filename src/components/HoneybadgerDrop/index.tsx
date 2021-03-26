@@ -121,14 +121,13 @@ export const HoneybadgerDrop: React.FC = observer(() => {
 																!poolBalance
 															}
 														>
-															{poolBalanceDiggs && poolBalance
-																? `${poolBalanceDiggs
-																		.dividedBy(1e18)
-																		.toFixed(5)} DIGG / ${bDiggToCurrency({
-																		amount: poolBalance,
-																		currency: 'btc',
-																  })}`
-																: ''}
+															{poolBalanceDiggs && poolBalance &&
+																`${poolBalanceDiggs
+																	.dividedBy(1e18)
+																	.toFixed(5)} DIGG / ${bDiggToCurrency({
+																	amount: poolBalance,
+																	currency: 'btc',
+																})}`}
 														</TypographySkeleton>
 													</Grid>
 													<Grid item xs={12}>
