@@ -90,7 +90,7 @@ export const ConfirmForm = ({ classes, confirmStep, previousStep, values, itemCo
 					<>
 						{feeContainer(
 							'Minting',
-							`By minting bwBTC, this transaction directly deposits your newly minted wBTC into the Badger wBTC vault. bwBTC represents your position in the vault.`,
+							`By minting bWBTC, this transaction directly deposits your newly minted wBTC into the Badger wBTC vault. bwBTC represents your position in the vault.`,
 							<div className={classes.receiveAmount}>
 								<img src={selectedTokenImage} className={classes.logo2} />
 								<div>

@@ -60,8 +60,7 @@ const formatNonceBytes32 = (nonce: number): string => {
 	return ethers.utils.hexZeroPad(`0x${nonce.toString(16)}`, 32);
 };
 
-export const BridgeForm = observer((props: any) => {
-	const classes = props.classes;
+export const BridgeForm = observer(({ classes }: any) => {
 	const store = useContext(StoreContext);
 	const spacer = <div className={classes.before} />;
 
