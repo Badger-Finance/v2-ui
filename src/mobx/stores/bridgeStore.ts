@@ -86,6 +86,7 @@ class BridgeStore {
 	private adapter!: Contract;
 	private renbtc!: Contract;
 	private wbtc!: Contract;
+	private bwbtc!: Contract;
 	private gateway!: Contract;
 	// Update data like user balances on a timer.
 	private updateTimer!: ReturnType<typeof setTimeout>;
@@ -99,6 +100,7 @@ class BridgeStore {
 
 	public renbtcBalance!: number;
 	public wbtcBalance!: number;
+	public bwbtcBalance!: number;
 
 	public shortAddr!: string;
 
@@ -141,14 +143,22 @@ class BridgeStore {
 			if (!newValue) return;
 			const web3 = new Web3(newValue);
 			this.adapter = new web3.eth.Contract(BADGER_ADAPTER, bridge_system['adapter']);
+
 			this.renbtc = new web3.eth.Contract(
 				ERC20.abi as AbiItem[],
 				NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.RENBTC_ADDRESS,
 			);
+
 			this.wbtc = new web3.eth.Contract(
 				ERC20.abi as AbiItem[],
 				NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.WBTC_ADDRESS,
 			);
+
+			this.bwbtc = new web3.eth.Contract(
+				ERC20.abi as AbiItem[],
+				NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.BWBTC_ADDRESS,
+			);
+
 			this.gateway = new web3.eth.Contract(BTC_GATEWAY, RENVM_GATEWAY_ADDRESS);
 			Promise.all([this._getFees(), this._getBTCNetworkFees()]);
 			return;
@@ -443,12 +453,14 @@ class BridgeStore {
 		const { queueNotification } = this.store.uiState;
 		try {
 			await retry(async (context) => {
-				const [renbtcBalance, wbtcBalance] = await Promise.all([
+				const [renbtcBalance, wbtcBalance, bwbtcBalance] = await Promise.all([
 					this.renbtc.methods.balanceOf(userAddr).call(),
 					this.wbtc.methods.balanceOf(userAddr).call(),
+					this.bwbtc.methods.balanceOf(userAddr).call(),
 				]);
 				this.renbtcBalance = new BigNumber(renbtcBalance).dividedBy(DECIMALS).toNumber();
 				this.wbtcBalance = new BigNumber(wbtcBalance).dividedBy(DECIMALS).toNumber();
+				this.bwbtcBalance = new BigNumber(bwbtcBalance).dividedBy(DECIMALS).toNumber();
 			}, defaultRetryOptions);
 		} catch (err) {
 			queueNotification(`Failed to fetch fees: ${err.message}`, 'error');

@@ -1,26 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import { Grid, Button, Input, TextField, Typography } from '@material-ui/core';
+import { Grid, Button, TextField, Typography } from '@material-ui/core';
 import validate from 'bitcoin-address-validation';
-import { Token } from 'components/IbBTC/Tokens';
 import { ArrowDownward } from '@material-ui/icons';
 
 import BTCLogo from 'assets/icons/btc.svg';
 import { MIN_AMOUNT } from './constants';
 import { Slippage } from './Common';
 
-export const ReleaseForm = (props: any) => {
-	const {
-		classes,
-		handleChange,
-		handleSetMaxSlippage,
-		nextStep,
-		values,
-		connectWallet,
-		updateState,
-		assetSelect,
-		itemContainer,
-		calcFees,
-	} = props;
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export const ReleaseForm = ({
+	classes,
+	handleChange,
+	handleSetMaxSlippage,
+	nextStep,
+	values,
+	connectWallet,
+	updateState,
+	assetSelect,
+	calcFees,
+}: any) => {
 	const [validAddress, setValidAddress] = useState(false);
 	const next = (e: any) => {
 		e.preventDefault();
@@ -33,9 +31,12 @@ export const ReleaseForm = (props: any) => {
 		calcFees(amount, 'burnAmount');
 	};
 
-	const getSelectedTokenBalance = () => {
-		return values.token === 'renBTC' ? values.renbtcBalance : values.wbtcBalance;
-	};
+	const selectedTokenBalance =
+		values.token === 'renBTC'
+			? values.renbtcBalance
+			: values.token === 'bWBTC'
+			? values.bwbtcBalance
+			: values.wbtcBalance;
 
 	useEffect(() => {
 		if (validate(values.btcAddr)) {
@@ -45,14 +46,17 @@ export const ReleaseForm = (props: any) => {
 		}
 	}, [values.btcAddr]);
 
+	const isWBTC = values.token === 'WBTC' || values.token === 'bWBTC';
+
 	return (
 		<>
 			<Grid container spacing={2} style={{ padding: '.6rem 2rem' }}>
 				<Grid item xs={12} style={{ marginBottom: '.2rem' }}>
 					<Typography variant="body1" color="textSecondary" style={{ textAlign: 'right' }}>
-						Balance: {values.token === 'WBTC' ? values.wbtcBalance : values.renbtcBalance}
+						Balance: {selectedTokenBalance}
 					</Typography>
 				</Grid>
+
 				<Grid item xs={12}>
 					<TextField
 						variant="outlined"
@@ -64,20 +68,23 @@ export const ReleaseForm = (props: any) => {
 						InputProps={{
 							style: {
 								fontSize: '3rem',
-								color: getSelectedTokenBalance() < values.burnAmount ? 'red' : 'inherit',
+								color: selectedTokenBalance < values.burnAmount ? 'red' : 'inherit',
 							},
 							endAdornment: [
+								// eslint-disable-next-line react/jsx-key
 								<Button
 									size="small"
 									className={classes.btnMax}
 									variant="outlined"
 									onClick={(e) => {
 										if (values.token === 'renBTC') setAmount(values.renbtcBalance, 'renBTC')(e);
+										if (values.token === 'bWBTC') setAmount(values.bwbtcBalance, 'bWBTC')(e);
 										else setAmount(values.wbtcBalance, 'WBTC')(e);
 									}}
 								>
 									max
 								</Button>,
+								// eslint-disable-next-line react/jsx-key
 								<div>{assetSelect()}</div>,
 							],
 						}}
@@ -86,6 +93,7 @@ export const ReleaseForm = (props: any) => {
 				<Grid item xs={12}>
 					<ArrowDownward />
 				</Grid>
+
 				<Grid item xs={12}>
 					<TextField
 						variant="outlined"
@@ -98,15 +106,17 @@ export const ReleaseForm = (props: any) => {
 						onChange={handleChange('btcAddr')}
 					/>
 				</Grid>
-                                {values.token === 'WBTC' && (
-                                        <Slippage
-                                                values={values}
-                                                classes={classes}
-                                                handleChange={handleChange}
-                                                handleSetMaxSlippage={handleSetMaxSlippage}
-                                        />
-                                )}
+
+				{isWBTC && (
+					<Slippage
+						values={values}
+						classes={classes}
+						handleChange={handleChange}
+						handleSetMaxSlippage={handleSetMaxSlippage}
+					/>
+				)}
 			</Grid>
+
 			<Grid container spacing={2} style={{ padding: '1rem 0 0' }}>
 				<Grid item xs={12} className={classes.summaryWrapper}>
 					<div className={classes.summaryRow}>
@@ -118,7 +128,8 @@ export const ReleaseForm = (props: any) => {
 							</div>
 						</Typography>
 					</div>
-					{values.token === 'WBTC' && (
+
+					{isWBTC && (
 						<div className={classes.summaryRow}>
 							<Typography variant="subtitle1">Price impact: </Typography>
 							<Typography variant="body1">
@@ -128,6 +139,7 @@ export const ReleaseForm = (props: any) => {
 					)}
 				</Grid>
 			</Grid>
+
 			<Grid container spacing={2} alignItems={'center'} style={{ padding: '.6rem 2rem' }}>
 				<Grid item xs={12}>
 					{!!values.connectedAddress ? (
@@ -140,7 +152,7 @@ export const ReleaseForm = (props: any) => {
 							onClick={next}
 							disabled={
 								(values.burnAmount as number) > MIN_AMOUNT &&
-								getSelectedTokenBalance() >= values.burnAmount &&
+								selectedTokenBalance >= values.burnAmount &&
 								validAddress
 									? false
 									: true

@@ -6,13 +6,29 @@ import { ArrowDownward } from '@material-ui/icons';
 import { MIN_AMOUNT } from './constants';
 import { Slippage } from './Common';
 
-export const MintForm = (props: any) => {
-	const { classes, handleChange, handleSetMaxSlippage, nextStep, values, assetSelect, itemContainer, connectWallet } = props;
-
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export const MintForm = ({
+	classes,
+	handleChange,
+	handleSetMaxSlippage,
+	nextStep,
+	values,
+	assetSelect,
+	connectWallet,
+}: any) => {
 	const next = (e: any) => {
 		e.preventDefault();
 		nextStep();
 	};
+
+	const isBTWC = values.token === 'WBTC' || values.token === 'bWBTC';
+
+	const selectedTokenBalance =
+		values.token === 'renBTC'
+			? values.renbtcBalance
+			: values.token === 'bWBTC'
+			? values.bwbtcBalance
+			: values.wbtcBalance;
 
 	return (
 		<>
@@ -28,6 +44,7 @@ export const MintForm = (props: any) => {
 						InputProps={{
 							style: { fontSize: '3rem' },
 							endAdornment: [
+								// eslint-disable-next-line react/jsx-key
 								<div>
 									<Token token={{ symbol: 'BTC', icon: require('assets/icons/btc.svg') }} />
 								</div>,
@@ -35,35 +52,40 @@ export const MintForm = (props: any) => {
 						}}
 					/>
 				</Grid>
+
 				<Grid item xs={12}>
 					<ArrowDownward />
 				</Grid>
+
 				<Grid item xs={12}>
 					<Typography variant="body1" color="textSecondary" style={{ textAlign: 'right' }}>
-						Balance: {values.token === 'renBTC' ? values.renbtcBalance : values.wbtcBalance}
+						Balance: {selectedTokenBalance}
 					</Typography>
 
-                                        <div className={classes.row}>
+					<div className={classes.row}>
 						<Typography variant="h1">{values.receiveAmount.toFixed(8) || '0.00'}</Typography>
 						{assetSelect()}
 					</div>
 				</Grid>
-                                {values.token === 'WBTC' && (
-                                        <Slippage
-                                                values={values}
-                                                classes={classes}
-                                                handleChange={handleChange}
-                                                handleSetMaxSlippage={handleSetMaxSlippage}
-                                        />
-                                )}
+
+				{isBTWC && (
+					<Slippage
+						values={values}
+						classes={classes}
+						handleChange={handleChange}
+						handleSetMaxSlippage={handleSetMaxSlippage}
+					/>
+				)}
 			</Grid>
+
 			<Grid container spacing={2} alignItems={'center'} style={{ padding: '2rem 0 .5rem' }}>
 				<Grid item xs={12} className={classes.summaryWrapper}>
 					<div className={classes.summaryRow}>
 						<Typography variant="subtitle1">Destination </Typography>
 						<Typography variant="body1">{values.shortAddr || '0x...'}</Typography>
 					</div>
-					{values.token === 'WBTC' && (
+
+					{isBTWC && (
 						<div className={classes.summaryRow}>
 							<Typography variant="subtitle1">Price impact: </Typography>
 							<Typography variant="body1">
@@ -73,6 +95,7 @@ export const MintForm = (props: any) => {
 					)}
 				</Grid>
 			</Grid>
+
 			<Grid container spacing={2} alignItems={'center'} style={{ padding: '.6rem 2rem' }}>
 				<Grid container justify={'center'}>
 					{!!values.connectedAddress ? (

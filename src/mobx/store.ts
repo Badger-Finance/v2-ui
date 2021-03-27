@@ -38,7 +38,6 @@ export class RootStore {
 		this.walletRefresh();
 	}
 
-
 	async walletRefresh(): Promise<void> {
 		const chain = this.wallet.network.name;
 		const refreshData = [

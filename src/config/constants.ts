@@ -27,6 +27,8 @@ export const NETWORK_CONSTANTS: NetworkConstants = {
 		APP_URL: 'https://app.badger.finance/',
 		RPC_URL: 'https://eth-mainnet.alchemyapi.io/v2/ZPhpI9buZLLAvjR44hryTAhiC5V-HueZ',
 		TOKENS: {
+			// TODO: Please change to the real BWBTC token address
+			BWBTC_ADDRESS: '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599',
 			WBTC_ADDRESS: '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599',
 			WBTC_ADDRESS_LOWER: '0x2260fac5e5542a773aa44fbcfedf7c193bc2c599',
 			XSUSHI_ADDRESS: '0x8798249c2e607446efb7ad49ec89dd1865ff4272',
@@ -79,11 +81,16 @@ export const FLAGS = {
 	IBBTC_FLAG: toBool(process.env.REACT_APP_IBBTC_FLAG),
 	BRIDGE_FLAG: toBool(process.env.REACT_APP_BRIDGE_FLAG),
 };
+
 export const ZERO = new BigNumber(0);
 export const TEN = new BigNumber(10);
 export const MAX = Web3.utils.toTwosComplement(-1);
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 export const BADGER_ADAPTER = require('config/system/abis/BadgerAdapter.json');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 export const CURVE_EXCHANGE = require('config/system/abis/CurveExchange.json');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 export const BTC_GATEWAY = require('config/system/abis/BtcGateway.json');
 
 export const CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS = '0x93054188d876f558f4a66B2EF1d97d16eDf0895B';

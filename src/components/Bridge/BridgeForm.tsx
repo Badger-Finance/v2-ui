@@ -16,7 +16,7 @@ import { StoreContext } from 'mobx/store-context';
 import { RenVMTransaction } from 'mobx/model';
 import { Status } from 'mobx/stores/bridgeStore';
 import renBTCLogo from 'assets/icons/renBTC.svg';
-import bWBTCLogo from 'assets/icons/bWBTC.svg';
+import bWBTCLogo from 'assets/icons/bwbtc.png';
 import WBTCLogo from 'assets/icons/WBTC.svg';
 
 import {
@@ -85,6 +85,7 @@ export const BridgeForm = observer((props: any) => {
 
 			renbtcBalance,
 			wbtcBalance,
+			bwbtcBalance,
 
 			shortAddr,
 		},
@@ -140,6 +141,7 @@ export const BridgeForm = observer((props: any) => {
 		step,
 		renbtcBalance,
 		wbtcBalance,
+		bwbtcBalance,
 		burnAmount,
 		btcAddr,
 		provider,
@@ -262,7 +264,10 @@ export const BridgeForm = observer((props: any) => {
 				name: '_vault',
 				type: 'address',
 				// Will check in SC if address is addres(0), if not, will deposit to the desired vault
-				value: token === 'bWBTC' ? 'TBD VAULT ADDRESS' : '0x0000000000000000000000000000000000000000',
+				value:
+					token === 'bWBTC'
+						? NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.BWBTC_ADDRESS
+						: '0x0000000000000000000000000000000000000000',
 			},
 		];
 
@@ -391,10 +396,12 @@ export const BridgeForm = observer((props: any) => {
 		const badgerFeeAmount = inputAmount * (tabValue === 0 ? badgerMintFee : badgerBurnFee);
 		const networkFee = tabValue === 0 ? lockNetworkFee : releaseNetworkFee;
 		let amountWithFee = inputAmount - renFeeAmount - badgerFeeAmount - networkFee;
-		if (token === 'WBTC') {
+
+		if (token === 'WBTC' || token === 'bWBTC') {
 			estimatedSlippage = await getEstimatedSlippage(amountWithFee, name);
 			amountWithFee *= 1 - estimatedSlippage;
 		}
+
 		setStates((prevState) => ({
 			...prevState,
 			[name]: inputAmount,
@@ -481,12 +488,14 @@ export const BridgeForm = observer((props: any) => {
 							<span>renBTC</span>
 						</span>
 					</MenuItem>
+
 					<MenuItem value={'WBTC'}>
 						<span className={classes.menuItem}>
 							<img src={WBTCLogo} className={classes.logo} />
 							<span>WBTC</span>
 						</span>
 					</MenuItem>
+
 					<MenuItem value={'bWBTC'}>
 						<span className={classes.menuItem}>
 							<img src={bWBTCLogo} className={classes.logo} />
