@@ -78,7 +78,7 @@ export const ReleaseForm = ({
 									variant="outlined"
 									onClick={(e) => {
 										if (values.token === 'renBTC') setAmount(values.renbtcBalance, 'renBTC')(e);
-										if (values.token === 'bWBTC') setAmount(values.bwbtcBalance, 'bWBTC')(e);
+										else if (values.token === 'bWBTC') setAmount(values.bwbtcBalance, 'bWBTC')(e);
 										else setAmount(values.wbtcBalance, 'WBTC')(e);
 									}}
 								>

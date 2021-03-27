@@ -4,22 +4,18 @@ import InfoIcon from '@material-ui/icons/Info';
 
 import { StoreContext } from 'mobx/store-context';
 import { shortenAddress } from 'utils/componentHelpers';
+
 import renBTCLogo from 'assets/icons/renBTC.svg';
+import bWBTCLogo from 'assets/icons/bwbtc.png';
 import WBTCLogo from 'assets/icons/WBTC.svg';
 
-export const ConfirmForm = (props: any) => {
-        const store = useContext(StoreContext);
-        const {
-                bridge: {
-                        renvmMintFee,
-                        renvmBurnFee,
-                        badgerBurnFee,
-                        badgerMintFee,
-                        lockNetworkFee,
-                        releaseNetworkFee,
-                }
-        } = store;
-	const { classes, confirmStep, previousStep, values, itemContainer } = props;
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export const ConfirmForm = ({ classes, confirmStep, previousStep, values, itemContainer }: any) => {
+	const store = useContext(StoreContext);
+	const {
+		bridge: { renvmMintFee, renvmBurnFee, badgerBurnFee, badgerMintFee, lockNetworkFee, releaseNetworkFee },
+	} = store;
+
 	const [agreement, setAgreement] = useState({
 		ethRequired: false,
 		userError: false,
@@ -29,17 +25,10 @@ export const ConfirmForm = (props: any) => {
 		e.preventDefault();
 		previousStep();
 	};
+
 	const confirm = (e: any) => {
 		e.preventDefault();
 		confirmStep();
-	};
-
-	const receiveLogo = () => {
-		if (values.tabValue == 1) {
-			return values.BTCLogo;
-		} else {
-			return values.token === 'WBTC' ? WBTCLogo : renBTCLogo;
-		}
 	};
 
 	const handleCheckbox = (event: any) => {
@@ -51,7 +40,7 @@ export const ConfirmForm = (props: any) => {
 		}));
 	};
 
-	const feeContainer = (title: string, message: string, value: string) => {
+	const feeContainer = (title: string, message: string, value: string | JSX.Element) => {
 		return (
 			<div className={classes.itemContainer}>
 				<div className={classes.info}>
@@ -67,6 +56,9 @@ export const ConfirmForm = (props: any) => {
 		);
 	};
 
+	const selectedTokenImage = values.token === 'renBTC' ? renBTCLogo : values.token === 'bWBTC' ? bWBTCLogo : WBTCLogo;
+	const isWBTC = values.token === 'bWBTC' || values.token === 'WBTC';
+
 	return (
 		<Grid container alignItems={'center'}>
 			<Grid item xs={4} style={{ padding: '1rem 0rem' }}>
@@ -74,35 +66,61 @@ export const ConfirmForm = (props: any) => {
 					BACK
 				</Button>
 			</Grid>
+
 			<Grid item xs={12}>
-				<h3>{values.tabValue == 0 ? 'MINTING' : 'RELEASING'}</h3>
+				<h3>{values.tabValue === 0 ? 'MINTING' : 'RELEASING'}</h3>
 			</Grid>
+
 			{values.spacer}
+
 			<Grid item xs={12}>
 				<input
 					inputMode="numeric"
 					type="text"
 					className={classes.amountInput}
 					disabled={true}
-					value={values.tabValue == 0 ? `${values.amount} BTC` : `${values.burnAmount} ${values.token}`}
+					value={values.tabValue === 0 ? `${values.amount} BTC` : `${values.burnAmount} ${values.token}`}
 				/>
-			</Grid>
-			{values.spacer}
-			<Grid item xs={12}>
-				<div className={classes.itemContainer}>
-					<div>{values.tabValue == 0 ? 'Minting' : 'Releasing'}</div>
-					<div className={classes.receiveAmount}>
-						<img src={values.token === 'WBTC' ? WBTCLogo : renBTCLogo} className={classes.logo2} />
-						<div>
-							<div>{values.token}</div>
-						</div>
-					</div>
-				</div>
 			</Grid>
 
 			{values.spacer}
-			{itemContainer('Destination', values.tabValue == 0 ? values.shortAddr : shortenAddress(values.btcAddr))}
+
+			<Grid item xs={12}>
+				{values.tabValue === 0 && values.token === 'bWBTC' && (
+					<>
+						{feeContainer(
+							'Minting',
+							`By minting bwBTC, this transaction directly deposits your newly minted wBTC into the Badger wBTC vault. bwBTC represents your position in the vault.`,
+							<div className={classes.receiveAmount}>
+								<img src={selectedTokenImage} className={classes.logo2} />
+								<div>
+									<div>{values.token}</div>
+								</div>
+							</div>,
+						)}
+					</>
+				)}
+
+				{!(values.tabValue === 0 && values.token === 'bWBTC') && (
+					<div className={classes.itemContainer}>
+						<div>{values.tabValue === 0 ? 'Minting' : 'Releasing'}</div>
+
+						<div className={classes.receiveAmount}>
+							<img src={selectedTokenImage} className={classes.logo2} />
+							<div>
+								<div>{values.token}</div>
+							</div>
+						</div>
+					</div>
+				)}
+			</Grid>
+
 			{values.spacer}
+
+			{itemContainer('Destination', values.tabValue == 0 ? values.shortAddr : shortenAddress(values.btcAddr))}
+
+			{values.spacer}
+
 			<Grid item xs={12}>
 				{feeContainer(
 					'RenVM Fee',
@@ -111,6 +129,7 @@ export const ConfirmForm = (props: any) => {
 					}% per burn transaction. This is shared evenly between all active nodes in the decentralized network.`,
 					`${values.renFee.toFixed(8)} BTC`,
 				)}
+
 				{feeContainer(
 					'Badger Fee',
 					`Badger takes a ${badgerMintFee * 100}% fee per mint transaction and ${
@@ -118,28 +137,35 @@ export const ConfirmForm = (props: any) => {
 					}% per burn transaction.`,
 					`${values.badgerFee.toFixed(8)} BTC`,
 				)}
+
 				{feeContainer(
 					'Bitcoin Miner Fee',
 					'This fee is paid to Bitcoin miners to move BTC. This does not go to the Ren or Badger team.',
 					`${values.tabValue == 0 ? lockNetworkFee : releaseNetworkFee} BTC`,
 				)}
-				{values.token === 'WBTC' && feeContainer(
-					'Price Impact of Swap',
-					'The estimated slippage due to swapping RenBTC <-> wBTC.',
-					`${Math.abs(values.estimatedSlippage * 100).toFixed(2) + '%'}`,
-				)}
-				{values.token === 'WBTC' && feeContainer(
-					'Max Slippage',
-					'User determined maximum acceptable slippage for swapped renBTC <-> wBTC. If slippage is too high, the swap will fail.',
-					`${Math.abs(parseFloat(values.maxSlippage)).toFixed(2) + '%'}`,
-				)}
+
+				{isWBTC &&
+					feeContainer(
+						'Price Impact of Swap',
+						'The estimated slippage due to swapping RenBTC <-> wBTC.',
+						`${Math.abs(values.estimatedSlippage * 100).toFixed(2) + '%'}`,
+					)}
+
+				{isWBTC &&
+					feeContainer(
+						'Max Slippage',
+						'User determined maximum acceptable slippage for swapped renBTC <-> wBTC. If slippage is too high, the swap will fail.',
+						`${Math.abs(parseFloat(values.maxSlippage)).toFixed(2) + '%'}`,
+					)}
 			</Grid>
 			{values.spacer}
+
 			<Grid item xs={12}>
 				<div className={classes.itemContainer}>
 					<div>You will receive</div>
 					<div className={classes.receiveAmount}>
-						<img src={receiveLogo()} className={classes.logo2} />
+						<img src={selectedTokenImage} className={classes.logo2} />
+
 						<div>
 							<div>{values.receiveAmount.toFixed(8)}</div>
 							<div>{values.token}</div>
@@ -147,6 +173,7 @@ export const ConfirmForm = (props: any) => {
 					</div>
 				</div>
 			</Grid>
+
 			{values.spacer}
 			{values.tabValue === 0 ? (
 				<Grid item xs={12}>
