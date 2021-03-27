@@ -1,12 +1,13 @@
-import { Typography } from '@material-ui/core';
-import SettListItem from 'components-v2/landing/SettListItem';
-import { Loader } from 'components/Loader';
-import { observer } from 'mobx-react-lite';
-import { Vault } from 'mobx/model';
-import { StoreContext } from 'mobx/store-context';
 import React, { useContext } from 'react';
+
+import { Loader } from 'components/Loader';
+import SettListItem from 'components-v2/landing/SettListItem';
 import { SettListViewProps } from './SettListView';
 import SettTable from './SettTable';
+import { StoreContext } from 'mobx/store-context';
+import { Typography } from '@material-ui/core';
+import { Vault } from 'mobx/model';
+import { observer } from 'mobx-react-lite';
 
 const SettListDisplay = observer((props: SettListViewProps) => {
 	const { onOpen } = props;

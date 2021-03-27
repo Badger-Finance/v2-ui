@@ -1,23 +1,24 @@
-import BigNumber from 'bignumber.js';
-import _ from 'lodash';
-import { NETWORK_CONSTANTS, NETWORK_LIST } from 'config/constants';
-import deploy from 'config/deployments/mainnet.json';
-import { batchConfig } from 'mobx/utils/web3';
-import { RootStore } from 'mobx/store';
-import { growthQuery, secondsToBlocks } from 'mobx/utils/helpers';
 import {
-	ReducedSushiROIResults,
-	ReducedGrowthQueryConfig,
-	ReducedCurveResult,
-	ReducedGrowth,
-	Growth,
-	ReducedContractConfig,
-	MethodConfigPayload,
-	SushiAPIResults,
 	GraphResultPrices,
+	Growth,
+	MethodConfigPayload,
+	ReducedContractConfig,
+	ReducedCurveResult,
 	ReducedGraphResults,
+	ReducedGrowth,
+	ReducedGrowthQueryConfig,
+	ReducedSushiROIResults,
 	Schedules,
+	SushiAPIResults,
 } from '../model';
+import { growthQuery, secondsToBlocks } from 'mobx/utils/helpers';
+
+import BigNumber from 'bignumber.js';
+import { NETWORK_CONSTANTS } from 'config/constants';
+import { RootStore } from 'mobx/store';
+import _ from 'lodash';
+import { batchConfig } from 'mobx/utils/web3';
+import deploy from 'config/deployments/mainnet.json';
 
 export const reduceBatchResult = (result: any[]): any[] => {
 	return result.map((vault) => {

@@ -1,9 +1,10 @@
+import { Button, List, ListItem, Paper, Popper, Typography, makeStyles } from '@material-ui/core';
 import React, { useContext, useState } from 'react';
-import { observer } from 'mobx-react-lite';
+
 import { ArrowDropDown } from '@material-ui/icons';
-import { Button, Popper, Paper, List, ListItem, makeStyles, Typography } from '@material-ui/core';
-import { StoreContext } from 'mobx/store-context';
 import { NETWORK_LIST } from 'config/constants';
+import { StoreContext } from 'mobx/store-context';
+import { observer } from 'mobx-react-lite';
 
 const useStyles = makeStyles((theme) => ({
 	network: {

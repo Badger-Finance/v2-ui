@@ -1,5 +1,7 @@
-import { formatTokens, inCurrency, usdToCurrency, numberWithCommas, exchangeRates } from '../../mobx/utils/helpers';
 import '@testing-library/jest-dom';
+
+import { exchangeRates, formatTokens, inCurrency, numberWithCommas, usdToCurrency } from '../../mobx/utils/helpers';
+
 import BigNumber from 'bignumber.js';
 
 describe('formatTokens', () => {

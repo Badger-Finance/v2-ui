@@ -1,8 +1,10 @@
-import React from 'react';
-import { customRender, act, cleanup, fireEvent, screen, waitFor } from './Utils';
-import WalletWidget from '../components-v2/common/WalletWidget';
 import '@testing-library/jest-dom';
+
+import { act, cleanup, customRender, fireEvent, screen, waitFor } from './Utils';
+
+import React from 'react';
 import { StoreProvider } from '../mobx/store-context';
+import WalletWidget from '../components-v2/common/WalletWidget';
 import store from '../mobx/store';
 
 afterEach(cleanup);

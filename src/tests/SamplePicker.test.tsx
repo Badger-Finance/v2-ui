@@ -1,7 +1,9 @@
-import React from 'react';
-import { customRender, screen, fireEvent, act } from './Utils';
-import SamplePicker from '../components-v2/landing/SamplePicker';
 import '@testing-library/jest-dom';
+
+import { act, customRender, fireEvent, screen } from './Utils';
+
+import React from 'react';
+import SamplePicker from '../components-v2/landing/SamplePicker';
 import { StoreProvider } from '../mobx/store-context';
 import store from '../mobx/store';
 

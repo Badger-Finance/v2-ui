@@ -1,11 +1,12 @@
 import { Container, Grid, makeStyles } from '@material-ui/core';
-import { observer } from 'mobx-react-lite';
+import React, { useContext } from 'react';
+
 import DashboardCard from './DashboardCard';
 import Info from './Info';
-import React, { useContext } from 'react';
-import PageHeader from '../../components-v2/common/PageHeader';
 import { NETWORK_LIST } from 'config/constants';
+import PageHeader from '../../components-v2/common/PageHeader';
 import { StoreContext } from 'mobx/store-context';
+import { observer } from 'mobx-react-lite';
 
 const useStyles = makeStyles((theme) => ({
 	root: {

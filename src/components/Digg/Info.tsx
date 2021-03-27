@@ -1,14 +1,14 @@
-import { Grid, Typography, Paper, makeStyles, Button } from '@material-ui/core';
-import React, { useState, useContext } from 'react';
-import { StoreContext } from '../../mobx/store-context';
-import useInterval from '@use-it/interval';
-import { observer } from 'mobx-react-lite';
+import { Button, Grid, Paper, Typography, makeStyles } from '@material-ui/core';
+import React, { useContext, useState } from 'react';
+
+import BigNumber from 'bignumber.js';
 import { Loader } from '../Loader';
 import Metric from './Metric';
-import { shortenNumbers, calculateNewSupply } from '../../mobx/utils/diggHelpers';
-import BigNumber from 'bignumber.js';
+import { StoreContext } from '../../mobx/store-context';
 import { formatPrice } from 'mobx/reducers/statsReducers';
-import deploy from '../../config/deployments/mainnet.json';
+import { observer } from 'mobx-react-lite';
+import { shortenNumbers } from '../../mobx/utils/diggHelpers';
+import useInterval from '@use-it/interval';
 
 const useStyles = makeStyles((theme) => ({
 	before: {
@@ -84,19 +84,22 @@ const Info = observer(() => {
 	const {
 		uiState: { rebaseStats, currency, stats },
 	} = store;
+
 	const classes = useStyles();
 	const [nextRebase, setNextRebase] = useState('00:00:00');
-	const newSupply =
+	/*const newSupply =
 		rebaseStats.oracleRate && rebaseStats.totalSupply
 			? calculateNewSupply(
 					rebaseStats.oracleRate.toNumber(),
 					rebaseStats.totalSupply.toNumber(),
 					rebaseStats.rebaseLag,
 			  )
-			: 0;
-	const isPositive = !newSupply || newSupply >= rebaseStats.totalSupply;
+			: 0;*/
+
+	/*const isPositive = !newSupply || newSupply >= rebaseStats.totalSupply;
 	const percentage = newSupply && rebaseStats.totalSupply ? newSupply / rebaseStats.totalSupply : 0;
-	const diggSett = deploy.sett_system.vaults['native.digg'];
+	const diggSett = deploy.sett_system.vaults['native.digg'];*/
+
 	const rebasePercentage = ((stats.stats.digg - rebaseStats.btcPrice) / rebaseStats.btcPrice) * 0.1;
 
 	if (!rebaseStats) {

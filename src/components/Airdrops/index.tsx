@@ -1,24 +1,25 @@
-import React, { useContext, useState } from 'react';
-import { observer } from 'mobx-react-lite';
 import {
-	Grid,
-	Container,
-	ButtonGroup,
 	Button,
-	Paper,
-	ListItem,
-	ListItemText,
-	ListItemSecondaryAction,
+	ButtonGroup,
 	Chip,
+	Container,
+	Grid,
 	List,
+	ListItem,
+	ListItemSecondaryAction,
+	ListItemText,
+	Paper,
 } from '@material-ui/core';
-import { Typography } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import { StoreContext } from '../../mobx/store-context';
-import views from '../../config/routes';
-import { inCurrency } from '../../mobx/utils/helpers';
-import { sett_system } from '../../config/deployments/mainnet.json';
+import React, { useContext } from 'react';
+
 import PageHeader from '../../components-v2/common/PageHeader';
+import { StoreContext } from '../../mobx/store-context';
+import { Typography } from '@material-ui/core';
+import { inCurrency } from '../../mobx/utils/helpers';
+import { makeStyles } from '@material-ui/core/styles';
+import { observer } from 'mobx-react-lite';
+import { sett_system } from '../../config/deployments/mainnet.json';
+import views from '../../config/routes';
 
 const useStyles = makeStyles((theme) => ({
 	root: {

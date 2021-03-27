@@ -1,13 +1,13 @@
-import BigNumber from 'bignumber.js';
-import Web3 from 'web3';
+import { BatchConfig, BscNetwork, DeployConfig, EthNetwork, Network, TokenContract } from '../model';
 import { Contract, ContractSendMethod } from 'web3-eth-contract';
-import { PromiEvent } from 'web3-core';
-import _ from 'lodash';
+import { NETWORK_IDS, NETWORK_LIST } from '../../config/constants';
+
 import { AbiItem } from 'web3-utils';
-import { BatchConfig, TokenContract, DeployConfig, Network, BscNetwork, EthNetwork } from '../model';
-import { NETWORK_LIST, NETWORK_IDS } from '../../config/constants';
-import deploy from '../../config/deployments/mainnet.json';
+import BigNumber from 'bignumber.js';
+import { PromiEvent } from 'web3-core';
+import Web3 from 'web3';
 import bscDeploy from '../../config/deployments/bsc.json';
+import deploy from '../../config/deployments/mainnet.json';
 
 export const getNetwork = (network?: string): Network => {
 	switch (network) {
@@ -20,7 +20,7 @@ export const getNetwork = (network?: string): Network => {
 	}
 };
 
-export const getNetworkId = (network: string | undefined) => {
+export const getNetworkId = (network?: string): number => {
 	switch (network) {
 		case NETWORK_LIST.BSC:
 			return 56;

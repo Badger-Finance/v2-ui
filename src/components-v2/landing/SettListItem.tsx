@@ -1,7 +1,8 @@
-import { ListItem, makeStyles, Typography, Grid, Tooltip, Chip, IconButton } from '@material-ui/core';
-import { BigNumber } from 'bignumber.js';
+import { Chip, Grid, IconButton, ListItem, Tooltip, Typography, makeStyles } from '@material-ui/core';
 import { Sett, TokenBalance } from 'mobx/model';
 import { numberWithCommas, usdToCurrency } from 'mobx/utils/helpers';
+
+import { BigNumber } from 'bignumber.js';
 import React from 'react';
 import { UnfoldMoreTwoTone } from '@material-ui/icons';
 

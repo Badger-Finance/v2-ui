@@ -1,34 +1,29 @@
-import firebase from 'firebase';
-import Web3 from 'web3';
-import { Contract } from 'web3-eth-contract';
-import BigNumber from 'bignumber.js';
-import { provider } from 'web3-core';
-import { AbiItem } from 'web3-utils';
-import _ from 'lodash';
-import GatewayJS from '@renproject/gateway';
-import { Gateway } from '@renproject/gateway';
-import { LockAndMintStatus, BurnAndReleaseStatus, LockAndMintEvent, BurnAndReleaseEvent } from '@renproject/interfaces';
-import { extendObservable, action, observe, IValueDidChange, toJS } from 'mobx';
-import { retry } from '@lifeomic/attempt';
+import {
+	BADGER_ADAPTER,
+	BTC_GATEWAY,
+	ERC20,
+	NETWORK_CONSTANTS,
+	NETWORK_LIST,
+	RENVM_GATEWAY_ADDRESS,
+} from 'config/constants';
+import { BurnAndReleaseEvent, BurnAndReleaseStatus, LockAndMintEvent, LockAndMintStatus } from '@renproject/interfaces';
+import { IValueDidChange, action, extendObservable, observe, toJS } from 'mobx';
 
-import fbase from 'fbase';
+import { AbiItem } from 'web3-utils';
+import BigNumber from 'bignumber.js';
+import { Contract } from 'web3-eth-contract';
+import { Gateway } from '@renproject/gateway';
+import GatewayJS from '@renproject/gateway';
+import { RenVMTransaction } from '../model';
 import { RootStore } from '../store';
 import WalletStore from './walletStore';
-import { RenVMTransaction } from '../model';
-import {
-	// abis
-	ERC20,
-	BADGER_ADAPTER,
-	CURVE_EXCHANGE,
-	BTC_GATEWAY,
-	// config
-	NETWORK_LIST,
-	NETWORK_CONSTANTS,
-	CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS,
-	RENVM_GATEWAY_ADDRESS,
-	RENVM_NETWORK,
-} from 'config/constants';
+import Web3 from 'web3';
+import _ from 'lodash';
 import { bridge_system } from 'config/deployments/mainnet.json';
+import fbase from 'fbase';
+import firebase from 'firebase';
+import { provider } from 'web3-core';
+import { retry } from '@lifeomic/attempt';
 import { shortenAddress } from 'utils/componentHelpers';
 
 export enum Status {
@@ -40,12 +35,9 @@ export enum Status {
 	PROCESSING,
 }
 
-const DELETED = 'deleted';
 const DECIMALS = 10 ** 8;
 const MAX_BPS = 10000;
 const UPDATE_INTERVAL_SECONDS = 30 * 1000; // 30 seconds
-
-const DocumentReference = firebase.firestore.DocumentReference;
 
 const defaultRetryOptions = {
 	// delay defaults to 200 ms.
@@ -139,7 +131,7 @@ class BridgeStore {
 			...defaultProps,
 		});
 
-		observe(this.store.wallet as WalletStore, 'provider', ({ newValue, oldValue }: IValueDidChange<provider>) => {
+		observe(this.store.wallet as WalletStore, 'provider', ({ newValue }: IValueDidChange<provider>) => {
 			if (!newValue) return;
 			const web3 = new Web3(newValue);
 			this.adapter = new web3.eth.Contract(BADGER_ADAPTER, bridge_system['adapter']);
@@ -273,7 +265,7 @@ class BridgeStore {
 	// Fetch tx history from db. There may be uncommitted/incomplete tx in here.
 	_fetchTx = action(async (userAddr: string) => {
 		try {
-			await retry(async (context) => {
+			await retry(async () => {
 				// TODO: Implement paging of results if tx history
 				// bloat starts to become a problem.
 				const results = await this.db
@@ -315,6 +307,7 @@ class BridgeStore {
 		try {
 			const created = firebase.firestore.Timestamp.fromDate(new Date(Date.now()));
 			const ref = this.db.collection('transactions').doc();
+
 			// At this point we should only have are the tx params.
 			const txData = {
 				...tx,
@@ -324,7 +317,8 @@ class BridgeStore {
 				created,
 				deleted: false,
 			};
-			await retry(async (context) => {
+
+			await retry(async () => {
 				await ref.set(txData);
 				// Update current tx.
 				this.current = txData as RenVMTransaction;
@@ -349,11 +343,13 @@ class BridgeStore {
 				error: err && err.message ? err.message : '',
 				status: tx.status ? tx.status : '',
 			};
+
 			// Deletion is a soft delete.
 			if (deleted) {
 				txData.deleted = true;
 			}
-			await retry(async (context) => {
+
+			await retry(async () => {
 				await ref.update(txData);
 				// Remove ref after committing to db.
 				this.current = txData as RenVMTransaction;
@@ -369,7 +365,7 @@ class BridgeStore {
 		const { queueNotification } = this.store.uiState;
 
 		try {
-			await retry(async (context) => {
+			await retry(async () => {
 				let gateway: Gateway;
 				if (recover) {
 					const parsedTx = JSON.parse(tx.encodedTx);
@@ -430,7 +426,7 @@ class BridgeStore {
 	_getFees = action(async () => {
 		const { queueNotification } = this.store.uiState;
 		try {
-			await retry(async (context) => {
+			await retry(async () => {
 				const [badgerBurnFee, badgerMintFee, renvmBurnFee, renvmMintFee] = (
 					await Promise.all([
 						this.adapter.methods.burnFeeBps().call(),
@@ -452,7 +448,7 @@ class BridgeStore {
 	_getBalances = action(async (userAddr: string) => {
 		const { queueNotification } = this.store.uiState;
 		try {
-			await retry(async (context) => {
+			await retry(async () => {
 				const [renbtcBalance, wbtcBalance, bwbtcBalance] = await Promise.all([
 					this.renbtc.methods.balanceOf(userAddr).call(),
 					this.wbtc.methods.balanceOf(userAddr).call(),
@@ -467,10 +463,11 @@ class BridgeStore {
 		}
 	});
 
-	_getBTCNetworkFees = async () => {
+	_getBTCNetworkFees = async (): Promise<void> => {
 		const { queueNotification } = this.store.uiState;
+
 		try {
-			await retry(async (context) => {
+			await retry(async () => {
 				// TODO: Need to f/u and document what the id field means.
 				const query = {
 					jsonrpc: '2.0',
@@ -484,6 +481,7 @@ class BridgeStore {
 					body: JSON.stringify(query),
 					headers: { 'Content-Type': 'application/json' },
 				});
+
 				const { result } = await resp.json();
 
 				this.lockNetworkFee = new BigNumber(result.btc.lock).dividedBy(DECIMALS).toNumber();

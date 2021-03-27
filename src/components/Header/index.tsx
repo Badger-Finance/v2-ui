@@ -1,13 +1,13 @@
+import { AppBar, IconButton, Toolbar } from '@material-ui/core';
 import React, { useEffect } from 'react';
-import { observer } from 'mobx-react-lite';
-import views from '../../config/routes';
-import { useContext } from 'react';
-import { StoreContext } from '../../mobx/store-context';
-import { Toolbar, AppBar, IconButton } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import { Menu } from '@material-ui/icons';
 
+import { Menu } from '@material-ui/icons';
+import { StoreContext } from '../../mobx/store-context';
+import { makeStyles } from '@material-ui/core/styles';
+import { observer } from 'mobx-react-lite';
+import { useContext } from 'react';
 import { useSnackbar } from 'notistack';
+import views from '../../config/routes';
 
 const useStyles = makeStyles((theme) => ({
 	appBar: {

@@ -1,9 +1,10 @@
-import React from 'react';
 import { Paper, Typography, makeStyles } from '@material-ui/core';
+
+import BigNumber from 'bignumber.js';
+import React from 'react';
+import Skeleton from '@material-ui/lab/Skeleton';
 import { formatPrice } from 'mobx/reducers/statsReducers';
 import { usdToCurrency } from '../../mobx/utils/helpers';
-import Skeleton from '@material-ui/lab/Skeleton';
-import BigNumber from 'bignumber.js';
 
 export interface CurrencyInfoCardProps {
 	title: string;

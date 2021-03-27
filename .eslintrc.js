@@ -27,8 +27,11 @@ module.exports = {
 		'@typescript-eslint/no-explicit-any': 'off',
 		'react/display-name': [0, { ignoreTranspilerName: true }],
 		'no-empty-pattern': 'warn',
-		"prettier/prettier": ["error",{
-			"endOfLine": "auto"}
-		  ]
+		'prettier/prettier': [
+			'error',
+			{
+				endOfLine: 'auto',
+			},
+		],
 	},
 };

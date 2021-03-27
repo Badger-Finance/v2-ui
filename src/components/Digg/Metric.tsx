@@ -1,6 +1,7 @@
-import { Typography, Paper, makeStyles } from '@material-ui/core';
-import { observer } from 'mobx-react-lite';
+import { Paper, Typography, makeStyles } from '@material-ui/core';
+
 import React from 'react';
+import { observer } from 'mobx-react-lite';
 
 const useStyles = makeStyles((theme) => ({
 	statPaper: {

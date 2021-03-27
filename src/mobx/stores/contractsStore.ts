@@ -1,10 +1,7 @@
-import { extendObservable, action, observe } from 'mobx';
-import Web3 from 'web3';
-import { AbiItem } from 'web3-utils';
+import { EMPTY_DATA, ERC20, NETWORK_CONSTANTS, NETWORK_LIST } from 'config/constants';
+import { Geyser, Token, Vault } from '../model';
+import { action, extendObservable, observe } from 'mobx';
 import { estimateAndSend, getNetworkDeploy } from '../utils/web3';
-import BigNumber from 'bignumber.js';
-import { RootStore } from '../store';
-import _ from 'lodash';
 import {
 	reduceBatchResult,
 	reduceContractConfig,
@@ -12,16 +9,19 @@ import {
 	reduceGrowthQueryConfig,
 	reduceSushiAPIResults,
 } from '../reducers/contractReducers';
-import { Vault, Geyser, Token, Sett } from '../model';
-import { vanillaQuery } from 'mobx/utils/helpers';
-import { PromiEvent } from 'web3-core';
-import { Contract } from 'web3-eth-contract';
-import async from 'async';
-import { EMPTY_DATA, ERC20, NETWORK_CONSTANTS, NETWORK_LIST } from 'config/constants';
-import { formatAmount } from 'mobx/reducers/statsReducers';
+
+import { AbiItem } from 'web3-utils';
 import BatchCall from 'web3-batch-call';
+import BigNumber from 'bignumber.js';
+import { Contract } from 'web3-eth-contract';
+import { PromiEvent } from 'web3-core';
+import { RootStore } from '../store';
+import Web3 from 'web3';
+import _ from 'lodash';
+import async from 'async';
+import { formatAmount } from 'mobx/reducers/statsReducers';
 import { getApi } from '../utils/apiV2';
-import SettStoreV2 from './settStoreV2';
+import { vanillaQuery } from 'mobx/utils/helpers';
 
 let batchCall: any = null;
 
@@ -77,7 +77,7 @@ class ContractsStore {
 			}
 
 			const { batchCall: batch } = reduceContractConfig(
-				network.tokens!.tokenBatches,
+				network.tokens?.tokenBatches,
 				!!connectedAddress && { connectedAddress },
 			);
 
@@ -98,11 +98,11 @@ class ContractsStore {
 							_.defaultsDeep(
 								cgPrices,
 								tokenContracts,
-								_.mapValues(network.tokens!.symbols, (value: string, address: string) => ({
+								_.mapValues(network.tokens?.symbols, (value: string, address: string) => ({
 									address,
 									symbol: value,
 								})),
-								_.mapValues(network.tokens!.names, (value: string, address: string) => ({
+								_.mapValues(network.tokens?.names, (value: string, address: string) => ({
 									address,
 									name: value,
 								})),
@@ -127,7 +127,7 @@ class ContractsStore {
 
 			const { connectedAddress, currentBlock, network } = this.store.wallet;
 			const { settList } = this.store.setts;
-			const sushiBatches = network.vaults!['sushiswap'];
+			const sushiBatches = network.vaults?.['sushiswap'];
 
 			const { defaults, batchCall: batch } = reduceContractConfig(
 				_.map(network.vaults),
@@ -147,11 +147,11 @@ class ContractsStore {
 					);
 
 					result.forEach((contract: any, i: number) => {
-						const tokenAddress = network.tokens!.tokenMap[contract.address];
+						const tokenAddress = network.tokens?.tokenMap[contract.address];
 						if (!tokenAddress) {
 							return console.log(
-								network.tokens!.tokenMap[contract.address],
-								network.tokens!.tokenMap,
+								network.tokens?.tokenMap[contract.address],
+								network.tokens?.tokenMap,
 								contract.address,
 							);
 						}
@@ -172,7 +172,7 @@ class ContractsStore {
 						// so we set this to 1
 						contract.getPricePerFullShare =
 							settStructure[vault.address] &&
-							vault.address !== getNetworkDeploy(NETWORK_LIST.ETH)!.sett_system.vaults['native.digg']
+							vault.address !== getNetworkDeploy(NETWORK_LIST.ETH)?.sett_system.vaults['native.digg']
 								? new BigNumber(settStructure[vault.address].ppfs)
 								: new BigNumber(1);
 
@@ -189,13 +189,13 @@ class ContractsStore {
 				})
 				.then(async () => {
 					if (!!sushiBatches) {
-						const xSushiQuery = vanillaQuery(sushiBatches!.growthEndpoints![1]);
+						const xSushiQuery = vanillaQuery(sushiBatches?.growthEndpoints?.[1] || '');
 						const masterChefQuery = vanillaQuery(
 							// Disable reason: growthEndPoints[2] has a hardcoded value and will never be null for vaultBatches[1]
 							// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 							sushiBatches!.growthEndpoints![2].concat(
-								network.vaults!.sushiswap!.fillers.pairContract
-									? network.vaults!.sushiswap!.fillers.pairContract.join(';')
+								network.vaults?.sushiswap?.fillers.pairContract
+									? network.vaults?.sushiswap?.fillers.pairContract.join(';')
 									: '',
 							),
 						);
@@ -203,8 +203,8 @@ class ContractsStore {
 						await Promise.all([masterChefQuery, xSushiQuery]).then((queryResult: any[]) => {
 							const masterChefResult: any = queryResult[0];
 							const newSushiRewards = reduceSushiAPIResults(masterChefResult);
-							network.vaults!.sushiswap!.contracts.forEach((contract: any, i: number) => {
-								const tokenAddress = network.tokens!.tokenMap[contract];
+							network.vaults?.sushiswap?.contracts.forEach((contract: any) => {
+								const tokenAddress = network.tokens?.tokenMap[contract] || '';
 								const xSushiGrowth =
 									!!newSushiRewards[tokenAddress] &&
 									_.mapValues(newSushiRewards[tokenAddress], (tokens: BigNumber) => {
@@ -244,7 +244,7 @@ class ContractsStore {
 			}
 
 			const { defaults, batchCall: batch } = reduceContractConfig(
-				network.geysers!.geyserBatches || [],
+				network.geysers?.geyserBatches || [],
 				connectedAddress && { connectedAddress },
 			);
 
@@ -271,7 +271,7 @@ class ContractsStore {
 	getOrCreateToken = action((address: string) => {
 		const { network } = this.store.wallet;
 		if (!this.tokens[address]) {
-			this.tokens[address] = new Token(this.store, address, network.tokens!.decimals[address]);
+			this.tokens[address] = new Token(this.store, address, network.tokens?.decimals[address] || 18);
 			return this.tokens[address];
 		} else {
 			return this.tokens[address];
@@ -280,7 +280,7 @@ class ContractsStore {
 	getOrCreateVault = action((address: string, token: Token, abi?: any) => {
 		const { network } = this.store.wallet;
 		if (!this.vaults[address]) {
-			this.vaults[address] = new Vault(this.store, address, network.tokens!.decimals[address], token, abi);
+			this.vaults[address] = new Vault(this.store, address, network.tokens?.decimals[address] || 18, token, abi);
 			return this.vaults[address];
 		} else {
 			return this.vaults[address];

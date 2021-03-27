@@ -1,15 +1,13 @@
-import { extendObservable, action } from 'mobx';
-import Web3 from 'web3';
-import Onboard from 'bnc-onboard';
-import Notify from 'bnc-notify';
+import { action, extendObservable } from 'mobx';
+import { getNetwork, getNetworkNameFromId } from '../../mobx/utils/web3';
+import { getOnboardWallets, onboardWalletCheck } from '../../config/wallets';
 
 import BigNumber from 'bignumber.js';
-import { onboardWalletCheck, getOnboardWallets } from '../../config/wallets';
-import { getNetwork, getNetworkNameFromId } from '../../mobx/utils/web3';
-import _ from 'lodash';
 import { Network } from 'mobx/model';
+import Notify from 'bnc-notify';
+import Onboard from 'bnc-onboard';
 import { RootStore } from 'mobx/store';
-import { NETWORK_LIST } from 'config/constants';
+import Web3 from 'web3';
 
 class WalletStore {
 	private store: RootStore;

@@ -1,13 +1,14 @@
-import { AbiItem } from 'web3-utils';
 import { badgerHunt, digg_system, sett_system, token } from '../deployments/mainnet.json';
-import { abi as diggDistributorAbi } from './abis/DiggDistributor.json';
-import { abi as diggAbi } from './abis/UFragments.json';
-import { abi as erc20Abi } from './abis/ERC20.json';
-import { abi as badgerHuntAbi } from './abis/BadgerHunt.json';
-import { abi as bBadgerAirdropAbi } from './abis/bBadgerAidrop.json';
+
+import { AbiItem } from 'web3-utils';
 import { AirdropNetworkConfig } from '../../mobx/model';
-import { getApi } from 'mobx/utils/apiV2';
 import { NETWORK_LIST } from '../constants';
+import { abi as bBadgerAirdropAbi } from './abis/bBadgerAidrop.json';
+import { abi as badgerHuntAbi } from './abis/BadgerHunt.json';
+import { abi as diggAbi } from './abis/UFragments.json';
+import { abi as diggDistributorAbi } from './abis/DiggDistributor.json';
+import { abi as erc20Abi } from './abis/ERC20.json';
+import { getApi } from 'mobx/utils/apiV2';
 
 export const getAirdrops = (network?: string | undefined): AirdropNetworkConfig | undefined => {
 	switch (network) {

@@ -1,9 +1,9 @@
+import { AbiItem } from 'web3-utils';
 import BadgerGeyser from './abis/BadgerGeyser.json';
+import { GeyserNetworkConfig } from 'mobx/model';
+import { NETWORK_LIST } from '../constants';
 import SushiGeyser from './abis/SushiGeyser.json';
 import deploy from '../deployments/mainnet.json';
-import { NETWORK_LIST } from '../constants';
-import { GeyserNetworkConfig } from 'mobx/model';
-import { AbiItem } from 'web3-utils';
 
 export const getGeysers = (network?: string): GeyserNetworkConfig | undefined => {
 	switch (network) {

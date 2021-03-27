@@ -1,6 +1,4 @@
-import { Typography } from '@material-ui/core';
-import { Loader } from 'components/Loader';
-import { observer } from 'mobx-react-lite';
+import React, { useContext } from 'react';
 import {
 	formatBalance,
 	formatBalanceUnderlying,
@@ -10,11 +8,14 @@ import {
 	formatPrice,
 	formatTokenBalanceValue,
 } from 'mobx/reducers/statsReducers';
-import { StoreContext } from 'mobx/store-context';
-import React, { useContext } from 'react';
+
+import { Loader } from 'components/Loader';
 import SettListItem from './SettListItem';
 import { SettListViewProps } from './SettListView';
 import SettTable from './SettTable';
+import { StoreContext } from 'mobx/store-context';
+import { Typography } from '@material-ui/core';
+import { observer } from 'mobx-react-lite';
 
 const UserListDisplay = observer((props: SettListViewProps) => {
 	const { onOpen } = props;

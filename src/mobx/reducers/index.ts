@@ -1,10 +1,9 @@
-import { extendObservable, action, observe } from 'mobx';
-
-import { RootStore } from '../store';
-
-import { reduceAirdrops, reduceContractsToStats, reduceRebase } from './statsReducers';
 import { NETWORK_CONSTANTS, NETWORK_LIST } from 'config/constants';
+import { action, extendObservable, observe } from 'mobx';
+import { reduceAirdrops, reduceContractsToStats, reduceRebase } from './statsReducers';
+
 import BigNumber from 'bignumber.js';
+import { RootStore } from '../store';
 import views from 'config/routes';
 
 class UiState {
@@ -117,7 +116,6 @@ class UiState {
 
 	reduceRebase = action(() => {
 		const { tokens } = this.store.contracts;
-		const { network } = this.store.wallet;
 		if (!!this.store.rebase.rebase && !!tokens[NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.WBTC_ADDRESS])
 			this.rebaseStats = reduceRebase(
 				this.store.rebase.rebase,

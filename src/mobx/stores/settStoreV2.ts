@@ -1,8 +1,9 @@
-import { extendObservable, action } from 'mobx';
-import { RootStore } from '../store';
+import { PriceSummary, ProtocolSummary, Sett, SettMap } from 'mobx/model';
+import { action, extendObservable } from 'mobx';
 import { getTokenPrices, getTotalValueLocked, listGeysers, listSetts } from 'mobx/utils/apiV2';
-import { PriceSummary, Sett, ProtocolSummary, Network, SettMap } from 'mobx/model';
+
 import { NETWORK_LIST } from 'config/constants';
+import { RootStore } from '../store';
 import Web3 from 'web3';
 
 export default class SettStoreV2 {

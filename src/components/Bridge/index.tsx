@@ -1,12 +1,10 @@
-import React, { useContext, useState } from 'react';
-import { observer } from 'mobx-react-lite';
-import { Grid, Container, Paper } from '@material-ui/core';
-import { Typography } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import _ from 'lodash';
-import { StoreContext } from '../../mobx/store-context';
+import { Container, Grid, Paper } from '@material-ui/core';
+
 import { BridgeForm } from './BridgeForm';
 import PageHeader from 'components-v2/common/PageHeader';
+import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import { observer } from 'mobx-react-lite';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -123,23 +121,23 @@ const useStyles = makeStyles((theme) => ({
 	tabHeader: { background: 'rgba(0,0,0,.2)' },
 	btnMax: {
 		alignSelf: 'center',
-		marginRight: '.6rem'
+		marginRight: '.6rem',
 	},
-        padded: {
-                padding: '2rem 2rem',
-        },
-        select: { height: '3rem', overflow: 'hidden', margin: '.3rem 0 0 .6rem' },
-        row: {
-                display: 'flex',
-                justifyContent: 'space-between',
-                flexDirection: 'row',
-                alignItems: 'center',
-                width: '100%',
-                padding: '.5rem 0 0 1rem',
-        },
+	padded: {
+		padding: '2rem 2rem',
+	},
+	select: { height: '3rem', overflow: 'hidden', margin: '.3rem 0 0 .6rem' },
+	row: {
+		display: 'flex',
+		justifyContent: 'space-between',
+		flexDirection: 'row',
+		alignItems: 'center',
+		width: '100%',
+		padding: '.5rem 0 0 1rem',
+	},
 }));
+
 export const Bridge = observer(() => {
-	const store = useContext(StoreContext);
 	const classes = useStyles();
 
 	const spacer = () => <div className={classes.before} />;
@@ -156,12 +154,13 @@ export const Bridge = observer(() => {
 							RenVM is new technology and{' '}
 							<a
 								className={classes.link}
-								href={'https://github.com/renproject/ren/wiki/Audits'}
-								target={'_blank'}
+								href="https://github.com/renproject/ren/wiki/Audits"
+								target="_blank"
+								rel="noreferrer"
 							>
 								security audits
 							</a>{' '}
-							don't completely eliminate risks.
+							{"don't "}completely eliminate risks.
 							<br />
 							Please don’t supply assets you can’t afford to lose.
 						</p>

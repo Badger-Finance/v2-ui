@@ -1,20 +1,17 @@
-import React from 'react';
-
 //models
 import { QueryParams, Route } from 'mobx-router';
 
+import { Airdrops } from '../components/Airdrops';
+import { Bridge } from '../components/Bridge';
+import { Digg } from '../components/Digg';
+import { FLAGS } from 'config/constants';
+import { IbBTC } from 'components/IbBTC';
 // pages
 import Landing from '../pages/Landing';
-
+import { Locked } from 'components/Common/Locked';
+import React from 'react';
 //components
 import { RootStore } from '../mobx/store';
-import { Airdrops } from '../components/Airdrops';
-import { Digg } from '../components/Digg';
-import { Locked } from 'components/Common/Locked';
-
-import { IbBTC } from 'components/IbBTC';
-import { FLAGS } from 'config/constants';
-import { Bridge } from '../components/Bridge';
 
 const routes = {
 	locked: new Route<RootStore>({
@@ -60,7 +57,7 @@ const routes = {
 	digg: new Route<RootStore, QueryParams>({
 		path: '/digg',
 		component: <Digg />,
-		onEnter: (_, params, store) => {
+		onEnter: (_, _params, store) => {
 			store.rebase.fetchRebaseStats();
 		},
 		beforeExit: () => {
@@ -73,7 +70,7 @@ const routes = {
 	IbBTC: new Route<RootStore, QueryParams>({
 		path: '/ibBTC',
 		component: FLAGS.IBBTC_FLAG ? <IbBTC /> : <></>,
-		onEnter: (_, params, store) => {
+		onEnter: () => {
 			//
 		},
 		beforeExit: () => {

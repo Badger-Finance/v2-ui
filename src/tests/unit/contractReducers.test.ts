@@ -1,10 +1,5 @@
 import '@testing-library/jest-dom';
-import { cleanup } from '@testing-library/react';
-import MockDate from 'mockdate';
-import BigNumber from 'bignumber.js';
-import { START_BLOCK } from '../../config/constants';
-import store from '../../mobx/store';
-import { growthQuery } from '../../mobx/utils/helpers';
+
 import {
 	reduceBatchResult,
 	reduceContractConfig,
@@ -18,6 +13,13 @@ import {
 	reduceSushiAPIResults,
 	reduceXSushiROIResults,
 } from '../../mobx/reducers/contractReducers';
+
+import BigNumber from 'bignumber.js';
+import MockDate from 'mockdate';
+import { START_BLOCK } from '../../config/constants';
+import { cleanup } from '@testing-library/react';
+import { growthQuery } from '../../mobx/utils/helpers';
+import store from '../../mobx/store';
 
 afterEach(cleanup);
 

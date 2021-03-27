@@ -1,11 +1,7 @@
 import { PriceSummary, ProtocolSummary, Sett } from 'mobx/model';
 
-export const getApi = () => {
-	if (process.env.NODE_ENV === 'production') {
-		return 'https://api.badger.finance/v2';
-	}
-	return 'https://staging-api.badger.finance/v2';
-};
+export const getApi = (): string =>
+	process.env.NODE_ENV === 'production' ? 'https://api.badger.finance/v2' : 'https://staging-api.badger.finance/v2';
 const badgerApi = getApi();
 
 // api endpoints

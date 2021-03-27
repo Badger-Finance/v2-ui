@@ -1,17 +1,16 @@
+import { Button, Container, Typography } from '@material-ui/core';
 import React, { useContext, useState } from 'react';
-import { Container, Button, Typography } from '@material-ui/core';
-import { observer } from 'mobx-react-lite';
-
-import { debounce } from 'utils/componentHelpers';
-import { ZERO } from 'config/constants';
-import { commonStyles } from './index';
-import { BigNumber } from 'bignumber.js';
 import { Token, Tokens } from './Tokens';
-import { DownArrow } from './DownArrow';
 
-import { TokenModel } from 'mobx/model';
+import { BigNumber } from 'bignumber.js';
+import { DownArrow } from './DownArrow';
 import { StoreContext } from 'mobx/store-context';
 import { TextField } from '@material-ui/core';
+import { TokenModel } from 'mobx/model';
+import { ZERO } from 'config/constants';
+import { commonStyles } from './index';
+import { debounce } from 'utils/componentHelpers';
+import { observer } from 'mobx-react-lite';
 
 export const Mint = observer((): any => {
 	const store = useContext(StoreContext);
@@ -31,9 +30,9 @@ export const Mint = observer((): any => {
 	const conversionRate =
 		outputAmount && inputAmount
 			? (
-				parseFloat(outputAmount.toString() || selectedToken.mintRate) /
-				parseFloat(inputAmount.toString() || '1')
-			).toFixed(4)
+					parseFloat(outputAmount.toString() || selectedToken.mintRate) /
+					parseFloat(inputAmount.toString() || '1')
+			  ).toFixed(4)
 			: (parseFloat(selectedToken.mintRate) / 1).toFixed(4);
 
 	const _debouncedSetInputAmount = debounce(600, async (val) => {
@@ -80,56 +79,57 @@ export const Mint = observer((): any => {
 			store.ibBTCStore.mint(selectedToken, selectedToken.scale(new BigNumber(inputAmount)), handleMint);
 	};
 
-	const handleMint = (err: any, result: any): void => {
-		resetState();
-	};
+	const handleMint = () => resetState();
 
 	return (
-		<Container className={classes.root} >
+		<Container className={classes.root}>
 			<div className={classes.outerWrapper}>
-				<Typography variant="body1" color='textSecondary' className={classes.balance}>
+				<Typography variant="body1" color="textSecondary" className={classes.balance}>
 					Balance: {selectedToken.formattedBalance}
-
-
-
 				</Typography>
 				<TextField
 					variant="outlined"
 					size="medium"
-
 					placeholder="0.0"
 					onChange={handleInputAmount}
 					InputProps={{
 						style: { fontSize: '3rem' },
 						endAdornment: [
+							// eslint-disable-next-line react/jsx-key
 							<Button size="small" className={classes.btnMax} variant="outlined" onClick={useMaxBalance}>
 								max
-						</Button>,
-							< Tokens
-								tokens={tokens}
-								selected={selectedToken}
-								onTokenSelect={handleTokenSelection} />]
+							</Button>,
+							// eslint-disable-next-line react/jsx-key
+							<Tokens tokens={tokens} selected={selectedToken} onTokenSelect={handleTokenSelection} />,
+						],
 					}}
 				/>
-
 			</div>
+
 			<div className={classes.outerWrapper}>
 				<DownArrow />
 			</div>
-			<div className={classes.outerWrapper} >
 
-				<Typography variant="body1" color='textSecondary' className={classes.balance}>
+			<div className={classes.outerWrapper}>
+				<Typography variant="body1" color="textSecondary" className={classes.balance}>
 					Balance: {ibBTC.formattedBalance}
 				</Typography>
-				<div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '0 1rem 0 1rem' }}>
-					<Typography variant="h1" >
-						{outputAmount || '0.00'}
-					</Typography>
+				<div
+					style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '0 1rem 0 1rem' }}
+				>
+					<Typography variant="h1">{outputAmount || '0.00'}</Typography>
 				</div>
-				<div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', marginTop: '-2.5rem', padding: '0 1rem 2rem 1rem' }}>
-					< Token token={ibBTC} />
+				<div
+					style={{
+						display: 'flex',
+						flexDirection: 'column',
+						alignItems: 'flex-end',
+						marginTop: '-2.5rem',
+						padding: '0 1rem 2rem 1rem',
+					}}
+				>
+					<Token token={ibBTC} />
 				</div>
-
 			</div>
 
 			<div className={classes.outerWrapper}>
@@ -149,6 +149,7 @@ export const Mint = observer((): any => {
 					</div>
 				</div>
 			</div>
+
 			<div className={classes.outerWrapper}>
 				<Button
 					size="large"

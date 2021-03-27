@@ -1,5 +1,5 @@
-import firebase from 'firebase';
 import config from './config/system/firebase.json';
+import firebase from 'firebase';
 
 const app = firebase.initializeApp(config);
 

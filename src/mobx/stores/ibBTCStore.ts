@@ -1,19 +1,18 @@
-import { RootStore } from 'mobx/store';
-import { extendObservable, action, observe } from 'mobx';
-import async from 'async';
+import { FLAGS, MAX, ZERO } from 'config/constants';
+import { action, extendObservable, observe } from 'mobx';
 
-import BigNumber from 'bignumber.js';
-import { PromiEvent } from 'web3-core';
-import { Contract } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
-import Web3 from 'web3';
-import { TokenModel } from 'mobx/model';
-import { estimateAndSend } from 'mobx/utils/web3';
-
-import SETT from 'config/system/abis/Sett.json';
-import addresses from 'config/ibBTC/addresses.json';
 import BadgerBtcPeak from 'config/system/abis/BadgerBtcPeak.json';
-import { ZERO, MAX, FLAGS } from 'config/constants';
+import BigNumber from 'bignumber.js';
+import { Contract } from 'web3-eth-contract';
+import { PromiEvent } from 'web3-core';
+import { RootStore } from 'mobx/store';
+import SETT from 'config/system/abis/Sett.json';
+import { TokenModel } from 'mobx/model';
+import Web3 from 'web3';
+import addresses from 'config/ibBTC/addresses.json';
+import async from 'async';
+import { estimateAndSend } from 'mobx/utils/web3';
 
 class IbBTCStore {
 	private store!: RootStore;

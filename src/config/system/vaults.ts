@@ -1,12 +1,11 @@
 import { AbiItem } from 'web3-utils';
-
-import BadgerVault from './abis/Sett.json';
 import BadgerSushiVault from './abis/SushiSett.json';
+import BadgerVault from './abis/Sett.json';
 import DiggVault from './abis/DiggSett.json';
-import deploy from '../deployments/mainnet.json';
-import bscDeploy from '../deployments/bsc.json';
-import { VaultNetworkConfig } from 'mobx/model';
 import { NETWORK_LIST } from '../../config/constants';
+import { VaultNetworkConfig } from 'mobx/model';
+import bscDeploy from '../deployments/bsc.json';
+import deploy from '../deployments/mainnet.json';
 
 export const getVaults = (network?: string | null): VaultNetworkConfig | undefined => {
 	switch (network) {

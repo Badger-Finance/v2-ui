@@ -1,21 +1,22 @@
-import firebase from 'firebase';
-import BigNumber from 'bignumber.js';
-import _ from 'lodash';
-import { AbiItem } from 'web3-utils';
-import Web3 from 'web3';
-import { LockAndMintParamsSimple, BurnAndReleaseParamsSimple } from '@renproject/interfaces';
+import { BurnAndReleaseParamsSimple, LockAndMintParamsSimple } from '@renproject/interfaces';
+import { NETWORK_IDS, NETWORK_LIST } from 'config/constants';
+import { TEN, ZERO } from 'config/constants';
 
-import { reduceGeyserSchedule } from './reducers/contractReducers';
+import { AbiItem } from 'web3-utils';
+import BigNumber from 'bignumber.js';
 import { RootStore } from './store';
+import { Transaction } from 'web3-core';
+import Web3 from 'web3';
+import _ from 'lodash';
+import firebase from 'firebase';
+import { getAirdrops } from 'config/system/airdrops';
+import { getGeysers } from '../config/system/geysers';
 import { getNetworkDeploy } from '../mobx/utils/web3';
+import { getRebase } from '../config/system/rebase';
+import { getRewards } from 'config/system/rewards';
 import { getTokens } from '../config/system/tokens';
 import { getVaults } from '../config/system/vaults';
-import { getGeysers } from '../config/system/geysers';
-import { getRebase } from '../config/system/rebase';
-import { getAirdrops } from 'config/system/airdrops';
-import { NETWORK_IDS, NETWORK_LIST } from 'config/constants';
-import { getRewards } from 'config/system/rewards';
-import { ZERO, TEN } from 'config/constants';
+import { reduceGeyserSchedule } from './reducers/contractReducers';
 
 export class Contract {
 	store!: RootStore;
@@ -531,7 +532,7 @@ export interface Network {
 		title: string;
 	}[];
 	settOrder: string[];
-	getGasPrices: Function;
+	getGasPrices: () => Promise<any>;
 	getNotifyLink: (
 		transaction: any,
 	) => {
@@ -551,12 +552,14 @@ export class BscNetwork implements Network {
 	public readonly deploy = getNetworkDeploy(NETWORK_LIST.BSC);
 	public readonly rewards = getRewards(NETWORK_LIST.BSC);
 	public readonly gasEndpoint = '';
+
 	// Deterministic order for displaying setts on the sett list component
 	public readonly settOrder = [
-		this.deploy!.sett_system.vaults['native.bDiggBtcb'],
-		this.deploy!.sett_system.vaults['native.bBadgerBtcb'],
-		this.deploy!.sett_system.vaults['native.pancakeBnbBtcb'],
+		this.deploy?.sett_system.vaults['native.bDiggBtcb'],
+		this.deploy?.sett_system.vaults['native.bBadgerBtcb'],
+		this.deploy?.sett_system.vaults['native.pancakeBnbBtcb'],
 	];
+
 	public readonly sidebarTokenLinks = [
 		{
 			url: 'https://pancakeswap.info/pair/0xE1E33459505bB3763843a426F7Fd9933418184ae',
@@ -567,12 +570,14 @@ export class BscNetwork implements Network {
 			title: 'PancakeSwap bBadger/BtcB',
 		},
 	];
-	public async getGasPrices() {
-		return { standard: 10 };
-	}
-	public getNotifyLink(transaction: any) {
-		return { link: `https://bscscan.com//tx/${transaction.hash}` };
-	}
+
+	public getGasPrices = async (): Promise<{ standard: number }> => ({
+		standard: 10,
+	});
+
+	public getNotifyLink = ({ hash }: Transaction): { link: string } => ({
+		link: `https://bscscan.com/tx/${hash}`,
+	});
 }
 
 export class EthNetwork implements Network {
@@ -587,20 +592,22 @@ export class EthNetwork implements Network {
 	public readonly deploy = getNetworkDeploy(NETWORK_LIST.ETH);
 	public readonly rewards = getRewards(NETWORK_LIST.ETH);
 	public readonly gasEndpoint = 'https://www.gasnow.org/api/v3/gas/price?utm_source=badgerv2';
+
 	// Deterministic order for displaying setts on the sett list component
 	public readonly settOrder = [
-		this.deploy!.sett_system.vaults['native.digg'],
-		this.deploy!.sett_system.vaults['native.badger'],
-		this.deploy!.sett_system.vaults['native.sushiDiggWbtc'],
-		this.deploy!.sett_system.vaults['native.sushiBadgerWbtc'],
-		this.deploy!.sett_system.vaults['native.sushiWbtcEth'],
-		this.deploy!.sett_system.vaults['native.uniDiggWbtc'],
-		this.deploy!.sett_system.vaults['native.uniBadgerWbtc'],
-		this.deploy!.sett_system.vaults['native.renCrv'],
-		this.deploy!.sett_system.vaults['native.sbtcCrv'],
-		this.deploy!.sett_system.vaults['native.tbtcCrv'],
-		this.deploy!.sett_system.vaults['harvest.renCrv'],
+		this.deploy?.sett_system.vaults['native.digg'],
+		this.deploy?.sett_system.vaults['native.badger'],
+		this.deploy?.sett_system.vaults['native.sushiDiggWbtc'],
+		this.deploy?.sett_system.vaults['native.sushiBadgerWbtc'],
+		this.deploy?.sett_system.vaults['native.sushiWbtcEth'],
+		this.deploy?.sett_system.vaults['native.uniDiggWbtc'],
+		this.deploy?.sett_system.vaults['native.uniBadgerWbtc'],
+		this.deploy?.sett_system.vaults['native.renCrv'],
+		this.deploy?.sett_system.vaults['native.sbtcCrv'],
+		this.deploy?.sett_system.vaults['native.tbtcCrv'],
+		this.deploy?.sett_system.vaults['harvest.renCrv'],
 	];
+
 	public readonly sidebarTokenLinks = [
 		{
 			url: 'https://matcha.xyz/markets/BADGER',
@@ -615,22 +622,25 @@ export class EthNetwork implements Network {
 			title: 'Sushiswap BADGER/wBTC',
 		},
 	];
-	public async getGasPrices() {
-		const prices = await fetch('https://www.gasnow.org/api/v3/gas/price?utm_source=badgerv2')
+
+	public getGasPrices = async (): Promise<{
+		rapid: number;
+		fast: number;
+		standard: number;
+		slow: number;
+	}> =>
+		await fetch('https://www.gasnow.org/api/v3/gas/price?utm_source=badgerv2')
 			.then((result: any) => result.json())
-			.then((price: any) => {
-				return {
-					rapid: price.data['rapid'] / 1e9,
-					fast: price.data['fast'] / 1e9,
-					standard: price.data['standard'] / 1e9,
-					slow: price.data['slow'] / 1e9,
-				};
-			});
-		return prices;
-	}
-	public getNotifyLink(transaction: any) {
-		return { link: `https://etherscan.io/tx/${transaction.hash}` };
-	}
+			.then((price: any) => ({
+				rapid: price.data['rapid'] / 1e9,
+				fast: price.data['fast'] / 1e9,
+				standard: price.data['standard'] / 1e9,
+				slow: price.data['slow'] / 1e9,
+			}));
+
+	public getNotifyLink = ({ hash }: Transaction): { link: string } => ({
+		link: `https://etherscan.io/tx/${hash}`,
+	});
 }
 /**
  * Sett and geyser objects will be represented by the same

@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { observer } from 'mobx-react-lite';
-import { makeStyles } from '@material-ui/core';
-import { Vault } from '../../mobx/model';
+
 import SettDialog from '../../components/Collection/Setts/SettDialog';
 import SettListView from './SettListView';
+import { Vault } from '../../mobx/model';
+import { makeStyles } from '@material-ui/core';
+import { observer } from 'mobx-react-lite';
 
 const useStyles = makeStyles((theme) => ({
 	settListContainer: {

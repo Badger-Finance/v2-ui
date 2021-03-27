@@ -1,17 +1,32 @@
 import {
-	CONTACT_EMAIL,
 	APP_NAME,
-	PORTIS_APP_ID,
+	CONTACT_EMAIL,
 	NETWORK_CONSTANTS,
-	NETWORK_LIST,
 	NETWORK_IDS,
+	NETWORK_LIST,
+	PORTIS_APP_ID,
 	WC_BRIDGE,
 } from './constants';
 
-export const getOnboardWallets = (network?: string) => {
+interface Wallet {
+	walletName: string;
+	rpcUrl?: string;
+	rpc?: {
+		[key: string]: string;
+	};
+	bridge?: string;
+	apiKey?: string;
+	label?: string;
+	appUrl?: string;
+	email?: string;
+	appName?: string;
+}
+
+export const getOnboardWallets = (network?: string): Wallet[] => {
 	if (!network) {
 		return [];
 	}
+
 	switch (network) {
 		case NETWORK_LIST.BSC:
 			return [{ walletName: 'metamask' }];
@@ -21,10 +36,7 @@ export const getOnboardWallets = (network?: string) => {
 				{ walletName: 'coinbase' },
 				// Removed due to handling through walletConnect
 				//{ walletName: "trust", rpcUrl: RPC_URL },
-				{
-					walletName: 'ledger',
-					rpcUrl: NETWORK_CONSTANTS[NETWORK_LIST.ETH].RPC_URL,
-				},
+				{ walletName: 'ledger', rpcUrl: NETWORK_CONSTANTS[NETWORK_LIST.ETH].RPC_URL },
 				{
 					walletName: 'walletConnect',
 					rpc: {
@@ -33,7 +45,11 @@ export const getOnboardWallets = (network?: string) => {
 					},
 					bridge: WC_BRIDGE,
 				},
-				{ walletName: 'walletLink', rpcUrl: NETWORK_CONSTANTS[NETWORK_LIST.ETH].RPC_URL, appName: APP_NAME },
+				{
+					walletName: 'walletLink',
+					rpcUrl: NETWORK_CONSTANTS[NETWORK_LIST.ETH].RPC_URL,
+					appName: APP_NAME,
+				},
 				{ walletName: 'dapper' },
 				{
 					walletName: 'portis',

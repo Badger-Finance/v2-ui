@@ -1,9 +1,10 @@
-import { ERC20, BSC_ERC20, NETWORK_LIST, NETWORK_CONSTANTS } from 'config/constants';
-import _ from 'lodash';
-import deploy from '../deployments/mainnet.json';
-import bscDeploy from '../deployments/bsc.json';
+import { BSC_ERC20, ERC20, NETWORK_CONSTANTS, NETWORK_LIST } from 'config/constants';
+
 import { AbiItem } from 'web3-utils';
 import { TokenNetworkConfig } from 'mobx/model';
+import _ from 'lodash';
+import bscDeploy from '../deployments/bsc.json';
+import deploy from '../deployments/mainnet.json';
 
 export const getTokens = (network?: string | null): TokenNetworkConfig | undefined => {
 	switch (network) {

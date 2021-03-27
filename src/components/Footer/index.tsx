@@ -1,10 +1,10 @@
-import React from 'react';
-import { Container, Grid, Button, Typography } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import BugReportIcon from '@material-ui/icons/BugReport';
-import HowToVoteIcon from '@material-ui/icons/HowToVote';
+import { Button, Container, Grid, Typography } from '@material-ui/core';
 
+import BugReportIcon from '@material-ui/icons/BugReport';
 import ForumIcon from '@material-ui/icons/Forum';
+import HowToVoteIcon from '@material-ui/icons/HowToVote';
+import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(() => ({
 	link: {

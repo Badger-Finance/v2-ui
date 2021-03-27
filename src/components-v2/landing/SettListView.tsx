@@ -1,9 +1,10 @@
 import React, { useContext } from 'react';
-import { observer } from 'mobx-react-lite';
-import { StoreContext } from 'mobx/store-context';
 import { Sett, Vault } from '../../mobx/model';
+
 import SettListDisplay from './SettListDisplay';
+import { StoreContext } from 'mobx/store-context';
 import UserListDisplay from './UserListDisplay';
+import { observer } from 'mobx-react-lite';
 
 export interface SettListViewProps {
 	onOpen: (vault: Vault, sett: Sett) => void;

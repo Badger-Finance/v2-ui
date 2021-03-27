@@ -1,16 +1,15 @@
-import { extendObservable, action } from 'mobx';
-import Web3 from 'web3';
+import { action, extendObservable } from 'mobx';
+import { getNextRebase, getRebaseLogs } from '../utils/diggHelpers';
+
 import BatchCall from 'web3-batch-call';
 import BigNumber from 'bignumber.js';
-import { RootStore } from '../store';
-import _ from 'lodash';
-
-import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
-
-import { graphQuery } from '../utils/helpers';
+import { PromiEvent } from 'web3-core';
+import { RootStore } from '../store';
+import Web3 from 'web3';
+import _ from 'lodash';
 import { estimateAndSend } from '../utils/web3';
-import { getNextRebase, getRebaseLogs } from '../utils/diggHelpers';
+import { graphQuery } from '../utils/helpers';
 
 let batchCall: any = null;
 

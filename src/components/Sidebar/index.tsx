@@ -1,23 +1,23 @@
-import React, { useState } from 'react';
-import { observer } from 'mobx-react-lite';
-import views from '../../config/routes';
-import _ from 'lodash';
-import { useContext } from 'react';
-import { StoreContext } from '../../mobx/store-context';
 import {
+	Collapse,
+	Drawer,
+	IconButton,
 	List,
 	ListItem,
-	Drawer,
-	Collapse,
-	IconButton,
 	ListItemIcon,
-	ListItemText,
 	ListItemSecondaryAction,
+	ListItemText,
 } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { FLAGS, NETWORK_LIST, SITE_VERSION } from 'config/constants';
+import React, { useState } from 'react';
+
 import { ExpandMore } from '@material-ui/icons';
-import { SITE_VERSION, NETWORK_LIST, FLAGS } from 'config/constants';
 import NetworkWidget from 'components-v2/common/NetworkWidget';
+import { StoreContext } from '../../mobx/store-context';
+import { makeStyles } from '@material-ui/core/styles';
+import { observer } from 'mobx-react-lite';
+import { useContext } from 'react';
+import views from '../../config/routes';
 
 const useStyles = makeStyles((theme) => ({
 	logo: {

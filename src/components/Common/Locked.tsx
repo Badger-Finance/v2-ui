@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
-import { observer } from 'mobx-react-lite';
 
 import { StoreContext } from '../../mobx/store-context';
 import { TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { observer } from 'mobx-react-lite';
 import { useForm } from 'react-hook-form';
 
 const TEXTFIELD_ID = 'amountField';

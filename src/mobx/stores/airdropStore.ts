@@ -1,12 +1,12 @@
-import { extendObservable, action } from 'mobx';
-import Web3 from 'web3';
+import { action, extendObservable } from 'mobx';
 
-import { estimateAndSend } from '../utils/web3';
 import BigNumber from 'bignumber.js';
-import { RootStore } from '../store';
-import { jsonQuery } from '../utils/helpers';
-import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
+import { PromiEvent } from 'web3-core';
+import { RootStore } from '../store';
+import Web3 from 'web3';
+import { estimateAndSend } from '../utils/web3';
+import { jsonQuery } from '../utils/helpers';
 import { sett_system } from '../../config/deployments/mainnet.json';
 
 class AirdropStore {
@@ -77,7 +77,7 @@ class AirdropStore {
 			);
 			return;
 		}
-		estimateAndSend(web3, gasPrices![gasPrice], method, connectedAddress, (transaction: PromiEvent<Contract>) => {
+		estimateAndSend(web3, gasPrices?.[gasPrice], method, connectedAddress, (transaction: PromiEvent<Contract>) => {
 			transaction
 				.on('transactionHash', (hash) => {
 					queueNotification(`Claim submitted.`, 'info', hash);

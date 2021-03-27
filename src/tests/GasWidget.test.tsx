@@ -1,7 +1,9 @@
-import React from 'react';
-import { customRender, screen, fireEvent, act } from './Utils';
-import GasWidget from '../components-v2/common/GasWidget';
 import '@testing-library/jest-dom';
+
+import { act, customRender, fireEvent, screen } from './Utils';
+
+import GasWidget from '../components-v2/common/GasWidget';
+import React from 'react';
 import { StoreProvider } from '../mobx/store-context';
 import store from '../mobx/store';
 

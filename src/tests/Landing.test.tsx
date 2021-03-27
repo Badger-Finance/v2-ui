@@ -1,7 +1,9 @@
-import React from 'react';
-import { customRender, fireEvent, cleanup, screen, act } from './Utils';
-import Landing from '../pages/Landing';
 import '@testing-library/jest-dom';
+
+import { act, cleanup, customRender, fireEvent, screen } from './Utils';
+
+import Landing from '../pages/Landing';
+import React from 'react';
 import { StoreProvider } from '../mobx/store-context';
 import store from '../mobx/store';
 

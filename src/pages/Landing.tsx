@@ -1,30 +1,30 @@
-import CurrencyInfoCard from '../components-v2/common/CurrencyInfoCard';
-import CurrencyPicker from '../components-v2/landing/CurrencyPicker';
-import SamplePicker from '../components-v2/landing/SamplePicker';
-import WalletSlider from '../components-v2/landing/WalletSlider';
 import {
-	Grid,
-	Container,
-	makeStyles,
-	ListItemText,
-	Typography,
-	Paper,
-	List,
-	ListItem,
 	Button,
 	ButtonGroup,
+	Container,
+	Grid,
+	List,
+	ListItem,
+	ListItemText,
+	Paper,
+	Typography,
+	makeStyles,
 } from '@material-ui/core';
-import PageHeader from '../components-v2/common/PageHeader';
-import { digg_system } from 'config/deployments/mainnet.json';
 import { CLAIMS_SYMBOLS, NETWORK_CONSTANTS } from 'config/constants';
-import { inCurrency } from '../mobx/utils/helpers';
-import _ from 'lodash';
-import { StoreContext } from '../mobx/store-context';
-import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
+
 import BigNumber from 'bignumber.js';
+import CurrencyInfoCard from '../components-v2/common/CurrencyInfoCard';
+import CurrencyPicker from '../components-v2/landing/CurrencyPicker';
+import PageHeader from '../components-v2/common/PageHeader';
+import SamplePicker from '../components-v2/landing/SamplePicker';
 import SettList from 'components-v2/landing/SettList';
-import SettStoreV2 from 'mobx/stores/settStoreV2';
+import { StoreContext } from '../mobx/store-context';
+import WalletSlider from '../components-v2/landing/WalletSlider';
+import _ from 'lodash';
+import { digg_system } from 'config/deployments/mainnet.json';
+import { inCurrency } from '../mobx/utils/helpers';
+import { observer } from 'mobx-react-lite';
 
 const useStyles = makeStyles((theme) => ({
 	landingContainer: {

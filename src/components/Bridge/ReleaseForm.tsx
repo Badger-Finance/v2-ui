@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { Grid, Button, TextField, Typography } from '@material-ui/core';
-import validate from 'bitcoin-address-validation';
-import { ArrowDownward } from '@material-ui/icons';
+import { Button, Grid, TextField, Typography } from '@material-ui/core';
+import React, { useEffect, useState } from 'react';
 
+import { ArrowDownward } from '@material-ui/icons';
 import BTCLogo from 'assets/icons/btc.svg';
 import { MIN_AMOUNT } from './constants';
 import { Slippage } from './Common';
+import validate from 'bitcoin-address-validation';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const ReleaseForm = ({

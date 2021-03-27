@@ -1,8 +1,9 @@
-import React, { useContext } from 'react';
 import { Button, makeStyles } from '@material-ui/core';
-import { observer } from 'mobx-react-lite';
+import React, { useContext } from 'react';
+
 import { StoreContext } from '../../mobx/store-context';
 import clsx from 'clsx';
+import { observer } from 'mobx-react-lite';
 
 const useStyles = makeStyles((theme) => ({
 	walletDot: {

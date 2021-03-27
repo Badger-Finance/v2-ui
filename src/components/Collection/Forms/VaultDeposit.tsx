@@ -1,12 +1,12 @@
+import { Button, ButtonGroup, DialogActions, DialogContent, TextField } from '@material-ui/core';
 import React, { useContext } from 'react';
-import { observer } from 'mobx-react-lite';
 
+import { BigNumber } from 'bignumber.js';
+import { Loader } from 'components/Loader';
 import { StoreContext } from 'mobx/store-context';
-import { Button, DialogContent, TextField, DialogActions, ButtonGroup } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { Loader } from 'components/Loader';
-import { BigNumber } from 'bignumber.js';
+import { observer } from 'mobx-react-lite';
 import { useForm } from 'react-hook-form';
 
 const TEXTFIELD_ID = 'amountField';

@@ -1,16 +1,15 @@
 import { Chart, ChartCanvas } from 'react-stockcharts';
-import { CurrentCoordinate } from 'react-stockcharts/lib/coordinates';
-
-import React from 'react';
 import { XAxis, YAxis } from 'react-stockcharts/lib/axes';
 import { createVerticalLinearGradient, hexToRGBA } from 'react-stockcharts/lib/utils';
-import { timeFormat } from 'd3-time-format';
 
 import { AreaSeries } from 'react-stockcharts/lib/series';
+import { CurrentCoordinate } from 'react-stockcharts/lib/coordinates';
 import PropTypes from 'prop-types';
+import React from 'react';
 import { curveLinear } from 'd3-shape';
 import { fitWidth } from 'react-stockcharts/lib/helper';
 import { scaleTime } from 'd3-scale';
+import { timeFormat } from 'd3-time-format';
 
 const canvasGradient = createVerticalLinearGradient([{ stop: 0, color: hexToRGBA('#F2A52B', 0.0) }]);
 

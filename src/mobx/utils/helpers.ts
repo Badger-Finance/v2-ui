@@ -3,8 +3,8 @@ import { RootStore } from 'mobx/store';
 
 export const graphQuery = (address: string, store: RootStore): Promise<any>[] => {
 	const { network } = store.wallet;
-	return network.tokens!.priceEndpoints.map((endpoint: any) => {
-		return fetch(endpoint, {
+	return (network.tokens || ({} as any)).priceEndpoints.map(async (endpoint: any) => {
+		const response = await fetch(endpoint, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -39,12 +39,14 @@ export const graphQuery = (address: string, store: RootStore): Promise<any>[] =>
 					}
 				}`,
 			}),
-		}).then((response: any) => response.json());
+		});
+
+		return response.json();
 	});
 };
 export const chefQueries = (pairs: any[], contracts: any[], growthEndpoint: string): Promise<any>[] => {
-	return pairs.map((pair: any) => {
-		return fetch(growthEndpoint, {
+	return pairs.map(async (pair: any) => {
+		const response = await fetch(growthEndpoint, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -61,7 +63,9 @@ export const chefQueries = (pairs: any[], contracts: any[], growthEndpoint: stri
 					}
 				}`,
 			}),
-		}).then((response: any) => response.json());
+		});
+
+		return response.json();
 	});
 };
 

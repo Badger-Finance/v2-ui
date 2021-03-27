@@ -1,14 +1,14 @@
-import { RouterStore } from 'mobx-router';
-import UiState from './reducers';
-import WalletStore from './stores/walletStore';
-import ContractsStore from './stores/contractsStore';
 import AirdropStore from './stores/airdropStore';
+import BridgeStore from './stores/bridgeStore';
+import ContractsStore from './stores/contractsStore';
+import IbBTCStore from './stores/ibBTCStore';
+import { NETWORK_LIST } from '../config/constants';
 import RebaseStore from './stores/rebaseStore';
 import RewardsStore from './stores/rewardsStore';
-import IbBTCStore from './stores/ibBTCStore';
-import BridgeStore from './stores/bridgeStore';
+import { RouterStore } from 'mobx-router';
 import SettStoreV2 from './stores/settStoreV2';
-import { NETWORK_LIST } from '../config/constants';
+import UiState from './reducers';
+import WalletStore from './stores/walletStore';
 
 export class RootStore {
 	public router: RouterStore<RootStore>;

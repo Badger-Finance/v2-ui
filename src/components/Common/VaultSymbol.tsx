@@ -1,7 +1,7 @@
-import React from 'react';
-import { observer } from 'mobx-react-lite';
-import { makeStyles } from '@material-ui/core/styles';
 import { CircularProgress } from '@material-ui/core';
+import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import { observer } from 'mobx-react-lite';
 
 const useStyles = makeStyles((theme) => ({
 	symbol: {

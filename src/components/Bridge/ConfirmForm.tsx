@@ -1,13 +1,12 @@
-import React, { useState, useContext } from 'react';
-import { Grid, Button, Checkbox, Tooltip } from '@material-ui/core';
+import { Button, Checkbox, Grid, Tooltip } from '@material-ui/core';
+import React, { useContext, useState } from 'react';
+
 import InfoIcon from '@material-ui/icons/Info';
-
 import { StoreContext } from 'mobx/store-context';
-import { shortenAddress } from 'utils/componentHelpers';
-
-import renBTCLogo from 'assets/icons/renBTC.svg';
-import bWBTCLogo from 'assets/icons/bwbtc.png';
 import WBTCLogo from 'assets/icons/WBTC.svg';
+import bWBTCLogo from 'assets/icons/bwbtc.png';
+import renBTCLogo from 'assets/icons/renBTC.svg';
+import { shortenAddress } from 'utils/componentHelpers';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const ConfirmForm = ({ classes, confirmStep, previousStep, values, itemContainer }: any) => {
@@ -186,13 +185,16 @@ export const ConfirmForm = ({ classes, confirmStep, previousStep, values, itemCo
 								color="primary"
 							/>{' '}
 						</div>
+
 						<div>
 							I acknowledge this transaction requires ETH and that user errors such as sending funds to
 							the wrong address or attempting multiple deposits with multiple transactions can result in
 							lost funds
 						</div>
 					</div>
+
 					{values.spacer}
+
 					<div className={classes.checkboxContainer}>
 						<div>
 							<Checkbox
@@ -202,6 +204,7 @@ export const ConfirmForm = ({ classes, confirmStep, previousStep, values, itemCo
 								color="primary"
 							/>{' '}
 						</div>
+
 						<div>
 							I acknowledge that the Bitcoin Gateway address in the next screen can only be used once and
 							is valid only for 24 hours.

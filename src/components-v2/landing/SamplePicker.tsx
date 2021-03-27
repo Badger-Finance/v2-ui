@@ -1,7 +1,8 @@
+import { MenuItem, Select, Tooltip, makeStyles } from '@material-ui/core';
 import React, { useContext } from 'react';
-import { Select, MenuItem, Tooltip, makeStyles } from '@material-ui/core';
-import { observer } from 'mobx-react-lite';
+
 import { StoreContext } from '../../mobx/store-context';
+import { observer } from 'mobx-react-lite';
 
 const useStyles = makeStyles(() => ({
 	samplePicker: {

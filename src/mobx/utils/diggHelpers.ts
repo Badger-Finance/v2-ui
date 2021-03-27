@@ -1,9 +1,10 @@
+import { Network, Vault } from '../model';
+
+import { AbiItem } from 'web3-utils';
 import BigNumber from 'bignumber.js';
 import Web3 from 'web3';
-import { AbiItem } from 'web3-utils';
-import { provider } from 'web3-core';
-import { Vault, Network } from '../model';
 import { numberWithCommas } from './helpers';
+import { provider } from 'web3-core';
 
 const UPPER_LIMIT = 1.05 * 1e18;
 const LOWER_LIMIT = 0.95 * 1e18;

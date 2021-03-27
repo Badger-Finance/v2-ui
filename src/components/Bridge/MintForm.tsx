@@ -1,10 +1,10 @@
-import React from 'react';
-import { Grid, Button, TextField, Typography } from '@material-ui/core';
-import { Token } from 'components/IbBTC/Tokens';
-import { ArrowDownward } from '@material-ui/icons';
+import { Button, Grid, TextField, Typography } from '@material-ui/core';
 
+import { ArrowDownward } from '@material-ui/icons';
 import { MIN_AMOUNT } from './constants';
+import React from 'react';
 import { Slippage } from './Common';
+import { Token } from 'components/IbBTC/Tokens';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const MintForm = ({

@@ -1,18 +1,17 @@
+import { Button, Container, TextField, Typography } from '@material-ui/core';
 import React, { useContext, useState } from 'react';
-import { Container, Button, Typography, TextField } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import red from '@material-ui/core/colors/red';
-
-import { observer } from 'mobx-react-lite';
-import BigNumber from 'bignumber.js';
-
-import { debounce } from 'utils/componentHelpers';
-import { ZERO } from 'config/constants';
-import { commonStyles } from './index';
 import { Token, Tokens } from './Tokens';
+
+import BigNumber from 'bignumber.js';
 import { DownArrow } from './DownArrow';
 import { StoreContext } from 'mobx/store-context';
 import { TokenModel } from 'mobx/model';
+import { ZERO } from 'config/constants';
+import { commonStyles } from './index';
+import { debounce } from 'utils/componentHelpers';
+import { makeStyles } from '@material-ui/core/styles';
+import { observer } from 'mobx-react-lite';
+import red from '@material-ui/core/colors/red';
 
 const localStyle = makeStyles(() => ({
 	error: {
@@ -40,9 +39,9 @@ export const Redeem = observer((): any => {
 	const conversionRate =
 		outputAmount && inputAmount
 			? (
-				parseFloat(outputAmount.toString() || selectedToken.redeemRate) /
-				parseFloat(inputAmount.toString() || '1')
-			).toFixed(4)
+					parseFloat(outputAmount.toString() || selectedToken.redeemRate) /
+					parseFloat(inputAmount.toString() || '1')
+			  ).toFixed(4)
 			: (parseFloat(selectedToken.redeemRate) / 1).toFixed(4);
 
 	const _debouncedSetInputAmount = debounce(600, (val) => {
@@ -96,55 +95,64 @@ export const Redeem = observer((): any => {
 		if (inputAmount) store.ibBTCStore.redeem(selectedToken, ibBTC.scale(new BigNumber(inputAmount)), handleRedeem);
 	};
 
-	const handleRedeem = (err: any, result: any): void => {
+	const handleRedeem = (): void => {
 		resetState();
 	};
 
 	return (
 		<Container className={classes.root} maxWidth="lg">
 			<div className={classes.outerWrapper}>
-				<Typography variant="body1" color='textSecondary' className={classes.balance}>
+				<Typography variant="body1" color="textSecondary" className={classes.balance}>
 					Balance: {ibBTC.formattedBalance}
 				</Typography>
 				<TextField
 					variant="outlined"
 					size="medium"
-
 					placeholder="0.0"
 					onChange={handleInputAmount}
 					InputProps={{
 						style: { fontSize: '3rem' },
 						endAdornment: [
+							// eslint-disable-next-line react/jsx-key
 							<Button size="small" className={classes.btnMax} variant="outlined" onClick={useMaxBalance}>
 								max
-						</Button>,
-							<div>< Token token={ibBTC} /></div>
-						]
+							</Button>,
+							// eslint-disable-next-line react/jsx-key
+							<div>
+								<Token token={ibBTC} />
+							</div>,
+						],
 					}}
 				/>
-
-
 			</div>
 			<div className={classes.outerWrapper}>
 				<DownArrow />
 			</div>
-			<div className={classes.outerWrapper} >
-
-				<Typography variant="body1" color='textSecondary' className={classes.balance}>
+			<div className={classes.outerWrapper}>
+				<Typography variant="body1" color="textSecondary" className={classes.balance}>
 					Balance: {ibBTC.formattedBalance}
 				</Typography>
-				<div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', padding: '0 1rem 0 1rem' }}>
-					<Typography variant="h1" >
-						{outputAmount || '0.00'}
-					</Typography>
+				<div
+					style={{
+						display: 'flex',
+						flexDirection: 'column',
+						alignItems: 'flex-start',
+						padding: '0 1rem 0 1rem',
+					}}
+				>
+					<Typography variant="h1">{outputAmount || '0.00'}</Typography>
 				</div>
-				<div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', marginTop: '-2.5rem', padding: '0 0 2rem 1rem' }}>
-					< Tokens
-						tokens={tokens}
-						selected={selectedToken}
-						onTokenSelect={handleTokenSelection} />
+				<div
+					style={{
+						display: 'flex',
+						flexDirection: 'column',
+						alignItems: 'flex-end',
+						marginTop: '-2.5rem',
+						padding: '0 0 2rem 1rem',
+					}}
+				>
+					<Tokens tokens={tokens} selected={selectedToken} onTokenSelect={handleTokenSelection} />
 				</div>
-
 			</div>
 			<div className={classes.outerWrapper}>
 				<div className={classes.summaryWrapper}>

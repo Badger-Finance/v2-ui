@@ -1,31 +1,30 @@
-import React, { useContext, useState, useEffect, PropsWithChildren, ReactNode } from 'react';
-import BigNumber from 'bignumber.js';
-import { ethers } from 'ethers';
-import GatewayJS from '@renproject/gateway';
-import { EthArgs, LockAndMintParamsSimple, BurnAndReleaseParamsSimple } from '@renproject/interfaces';
-import Web3 from 'web3';
-import async from 'async';
-import { observer } from 'mobx-react-lite';
-import { Grid, Tabs, Tab, FormControl, Select, MenuItem, Typography } from '@material-ui/core';
-
-import { MintForm } from './MintForm';
-import { ReleaseForm } from './ReleaseForm';
-import { ConfirmForm } from './ConfirmForm';
-import { SuccessForm } from './SuccessForm';
-import { StoreContext } from 'mobx/store-context';
-import { RenVMTransaction } from 'mobx/model';
-import { Status } from 'mobx/stores/bridgeStore';
-import renBTCLogo from 'assets/icons/renBTC.svg';
-import bWBTCLogo from 'assets/icons/bwbtc.png';
-import WBTCLogo from 'assets/icons/WBTC.svg';
-
+import { BurnAndReleaseParamsSimple, EthArgs, LockAndMintParamsSimple } from '@renproject/interfaces';
 import {
 	CURVE_EXCHANGE,
+	CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS,
 	NETWORK_CONSTANTS,
 	NETWORK_LIST,
-	CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS,
 } from 'config/constants';
+import { FormControl, Grid, MenuItem, Select, Tab, Tabs, Typography } from '@material-ui/core';
+import React, { PropsWithChildren, ReactNode, useContext, useEffect, useState } from 'react';
+
+import BigNumber from 'bignumber.js';
+import { ConfirmForm } from './ConfirmForm';
+import GatewayJS from '@renproject/gateway';
+import { MintForm } from './MintForm';
+import { ReleaseForm } from './ReleaseForm';
+import { RenVMTransaction } from 'mobx/model';
+import { Status } from 'mobx/stores/bridgeStore';
+import { StoreContext } from 'mobx/store-context';
+import { SuccessForm } from './SuccessForm';
+import WBTCLogo from 'assets/icons/WBTC.svg';
+import Web3 from 'web3';
+import async from 'async';
+import bWBTCLogo from 'assets/icons/bwbtc.png';
 import { bridge_system } from 'config/deployments/mainnet.json';
+import { ethers } from 'ethers';
+import { observer } from 'mobx-react-lite';
+import renBTCLogo from 'assets/icons/renBTC.svg';
 
 type TabPanelProps = PropsWithChildren<{
 	index: number;

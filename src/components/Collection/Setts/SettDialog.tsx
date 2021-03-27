@@ -1,11 +1,12 @@
-import React, { useEffect, useState, useContext } from 'react';
-import { VaultDeposit, VaultWithdraw, GeyserUnstake, GeyserStake } from 'components/Collection/Forms';
-import { VaultSymbol } from 'components/Common/VaultSymbol';
-import { Dialog, DialogTitle, Tab, Tabs, Switch, Typography, makeStyles } from '@material-ui/core';
-import deploy from '../../../config/deployments/mainnet.json';
+import { Dialog, DialogTitle, Switch, Tab, Tabs, Typography, makeStyles } from '@material-ui/core';
+import { GeyserStake, GeyserUnstake, VaultDeposit, VaultWithdraw } from 'components/Collection/Forms';
+import React, { useContext, useEffect, useState } from 'react';
+
 import BigNumber from 'bignumber.js';
-import { StoreContext } from '../../../mobx/store-context';
 import { NETWORK_LIST } from '../../../config/constants';
+import { StoreContext } from '../../../mobx/store-context';
+import { VaultSymbol } from 'components/Common/VaultSymbol';
+import deploy from '../../../config/deployments/mainnet.json';
 
 const useStyles = makeStyles((theme) => ({
 	title: {
