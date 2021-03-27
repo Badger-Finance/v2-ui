@@ -104,6 +104,16 @@ export const getExchangeRates = (): Promise<Response> => {
 	}).then((response: any) => response.json());
 };
 
+export const getBdiggExchangeRates = async (): Promise<Response> => {
+	return fetch('https://api.coingecko.com/api/v3/simple/price/?ids=badger-sett-digg&vs_currencies=usd,eth,btc,cad', {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json',
+			Accept: 'application/json',
+		},
+	}).then((response: any) => response.json());
+};
+
 export const growthQuery = (block: number): Promise<Response> => {
 	return fetch(`https://api.thegraph.com/subgraphs/name/m4azey/badger-finance`, {
 		method: 'POST',
@@ -128,6 +138,11 @@ export const secondsToBlocks = (seconds: number): number => {
 
 export let exchangeRates: any = { usd: 641.69, cad: 776.44, btc: 41.93 };
 getExchangeRates().then((result: any) => (exchangeRates = result.ethereum));
+
+export let bDiggExchangeRates = { usd: 50405, eth: 30.725832, btc: 0.9456756, cad: 63346 };
+getBdiggExchangeRates().then((result: any) => (bDiggExchangeRates = result['badger-sett-digg']));
+
+// TECH DEBT: Reformat these formatting functions using a factory pattern and delete repeated code
 
 // input: usd value
 // output: formatted currency string
@@ -221,6 +236,72 @@ export const inCurrency = (
 		suffix = `e-${preferredDecimals}`;
 	} else if (normal.dividedBy(1e4).gt(1)) {
 		decimals = 2;
+	}
+
+	const fixedNormal = noCommas
+		? normal.toFixed(decimals, BigNumber.ROUND_HALF_FLOOR)
+		: numberWithCommas(normal.toFixed(decimals, BigNumber.ROUND_HALF_FLOOR));
+
+	return `${prefix}${fixedNormal}${suffix}`;
+};
+
+interface DiggToCurrencyOptions {
+	amount: BigNumber;
+	currency: 'usd' | 'btc' | 'eth' | 'cad';
+	hide?: boolean;
+	preferredDecimals?: number;
+	noCommas?: boolean;
+}
+
+/**
+ * Formats an amount in Digg to a specific currency
+ *
+ * @param options amount, currency, hide, preferredDecimals, noCommas
+ * @returns formatted amount
+ */
+export const bDiggToCurrency = ({
+	amount,
+	currency,
+	hide = false,
+	preferredDecimals = 2,
+	noCommas = false,
+}: DiggToCurrencyOptions): string => {
+	if (!amount || amount.isNaN()) return inCurrency(new BigNumber(0), currency, hide, preferredDecimals);
+
+	let normal = amount.dividedBy(1e18);
+	let prefix = '';
+	let decimals = preferredDecimals;
+
+	switch (currency) {
+		case 'usd':
+			normal = normal.multipliedBy(bDiggExchangeRates.usd);
+			decimals = 2;
+			prefix = '$ ';
+			break;
+		case 'btc':
+			normal = normal.multipliedBy(bDiggExchangeRates.btc);
+			decimals = 5;
+			prefix = '₿ ';
+			break;
+		case 'eth':
+			normal = normal.multipliedBy(bDiggExchangeRates.eth);
+			prefix = 'Ξ ';
+			decimals = 5;
+			break;
+		case 'cad':
+			normal = normal.multipliedBy(exchangeRates.cad);
+			decimals = 2;
+			prefix = 'C$';
+			break;
+	}
+
+	let suffix = '';
+
+	if (normal.gt(0) && normal.lt(10 ** -decimals)) {
+		normal = normal.multipliedBy(10 ** decimals);
+		suffix = `e-${decimals}`;
+	} else if (normal.dividedBy(1e4).gt(1)) {
+		decimals = preferredDecimals;
 	}
 
 	const fixedNormal = noCommas
