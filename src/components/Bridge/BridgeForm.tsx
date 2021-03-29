@@ -302,13 +302,22 @@ export const BridgeForm = observer(({ classes }: any) => {
 				value: burnToken,
 			},
 			{
+				name: '_vault',
+				type: 'address',
+				// Will check in SC if address is addres(0), if not, will deposit to the desired vault
+				value:
+					token === 'bWBTC'
+						? NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.BWBTC_ADDRESS
+						: '0x0000000000000000000000000000000000000000',
+			},
+			{
 				name: '_slippage',
 				type: 'uint256',
 				value: maxSlippageBps,
 			},
 			{
-				type: 'bytes',
 				name: '_to',
+				type: 'bytes',
 				value: '0x' + Buffer.from(btcAddr).toString('hex'),
 			},
 			{
