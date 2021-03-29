@@ -136,7 +136,9 @@ class ContractsStore {
 			const { growthQueries, periods } = reduceGrowthQueryConfig(network.name, currentBlock);
 			const settStructure = keyBy(settList ?? [], 'vaultToken');
 
-			await Promise.all([batchCall.execute(batch), ...growthQueries])
+			const priceApi = vanillaQuery(`${getApi()}/prices?chain=${network.name}&currency=eth`);
+
+			await Promise.all([batchCall.execute(batch), ...growthQueries, priceApi])
 				.then((queryResult: any[]) => {
 					const result = reduceBatchResult(queryResult[0]);
 					const vaultGrowth = reduceGrowth(
@@ -144,6 +146,10 @@ class ContractsStore {
 						periods,
 						NETWORK_CONSTANTS[network.name].START_TIME,
 					);
+
+					const prices = _.mapValues(queryResult.pop(), (price: any) => ({
+						ethValue: new BigNumber(price).multipliedBy(1e18),
+					}));
 
 					result.forEach((contract: any, i: number) => {
 						const tokenAddress = network.tokens!.tokenMap[contract.address];
@@ -174,7 +180,6 @@ class ContractsStore {
 							vault.address !== getNetworkDeploy(NETWORK_LIST.ETH)!.sett_system.vaults['native.digg']
 								? new BigNumber(settStructure[vault.address].ppfs)
 								: new BigNumber(1);
-
 						vault.update(
 							defaultsDeep(contract, defaults[contract.address], {
 								growth: compact([vault.growth, growth]),
@@ -184,6 +189,10 @@ class ContractsStore {
 						vault.vaultBalance = isNaN(parseFloat(result[i].balance))
 							? new BigNumber(0.0)
 							: new BigNumber(result[i].balance);
+						// update vault Eth Value if given
+						vault.ethValue = prices[contract.address].ethValue
+							? prices[contract.address].ethValue
+							: new BigNumber(0.0);
 					});
 				})
 				.then(async () => {

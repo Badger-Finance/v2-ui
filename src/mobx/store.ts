@@ -9,6 +9,7 @@ import IbBTCStore from './stores/ibBTCStore';
 import TransactionsStore from './stores/transactionsStore';
 import SettStoreV2 from './stores/settStoreV2';
 import { NETWORK_LIST } from '../config/constants';
+import { HoneyPotStore } from './stores/honeyPotStore';
 
 export class RootStore {
 	public router: RouterStore<RootStore>;
@@ -21,6 +22,7 @@ export class RootStore {
 	public ibBTCStore: IbBTCStore;
 	public setts: SettStoreV2;
 	public transactions: TransactionsStore;
+	public honeyPot: HoneyPotStore;
 
 	constructor() {
 		this.router = new RouterStore<RootStore>(this);
@@ -31,6 +33,7 @@ export class RootStore {
 		this.rewards = new RewardsStore(this);
 		this.uiState = new UiState(this);
 		this.ibBTCStore = new IbBTCStore(this);
+		this.honeyPot = new HoneyPotStore(this);
 		// RenVM transactions store.
 		this.transactions = new TransactionsStore(this);
 		this.setts = new SettStoreV2(this);
@@ -56,6 +59,7 @@ export class RootStore {
 
 		if (this.wallet.connectedAddress) {
 			this.contracts.updateProvider();
+			await this.wallet.getGasPrice();
 			await this.contracts.fetchContracts();
 			if (chain === NETWORK_LIST.ETH) {
 				this.uiState.reduceRebase();

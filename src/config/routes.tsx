@@ -15,6 +15,7 @@ import { Locked } from 'components/Common/Locked';
 import { IbBTC } from 'components/IbBTC';
 import { FLAGS } from 'config/constants';
 import { Bridge } from '../components/Bridge';
+import { HoneybadgerDrop } from 'components/HoneybadgerDrop';
 
 const routes = {
 	locked: new Route<RootStore>({
@@ -86,6 +87,10 @@ const routes = {
 	bridge: new Route<RootStore, QueryParams>({
 		path: '/bridge',
 		component: FLAGS.BRIDGE_FLAG ? <Bridge /> : <></>,
+	}),
+	honeybadgerDrop: new Route<RootStore, QueryParams>({
+		path: '/honey-badger-drop',
+		component: <HoneybadgerDrop />,
 	}),
 	// account: new Route<RootStore, {
 	// 	account: string;

@@ -15,8 +15,7 @@ import {
 	ButtonGroup,
 } from '@material-ui/core';
 import PageHeader from '../components-v2/common/PageHeader';
-import { digg_system } from 'config/deployments/mainnet.json';
-import { CLAIMS_SYMBOLS, NETWORK_CONSTANTS } from 'config/constants';
+import { CLAIMS_SYMBOLS, NETWORK_CONSTANTS, NETWORK_LIST } from 'config/constants';
 import { inCurrency } from '../mobx/utils/helpers';
 import { StoreContext } from '../mobx/store-context';
 import { observer } from 'mobx-react-lite';
@@ -92,9 +91,9 @@ const Landing = observer(() => {
 			const claimAddress: string = claim[0];
 			const claimValue = claim
 				? claim[1].dividedBy(
-						claimAddress === digg_system['uFragments']
+						claimAddress === NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.DIGG_ADDRESS
 							? badgerTree.sharesPerFragment * 1e9
-							: claimAddress === NETWORK_CONSTANTS[network.name].TOKENS.USDC_ADDRESS
+							: claimAddress === NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.USDC_ADDRESS
 							? 1e6
 							: 1e18,
 				  )
