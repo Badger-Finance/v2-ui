@@ -54,9 +54,7 @@ class RewardsStore {
 
 		Promise.all(treeMethods)
 			.then((rewardsResponse: any) => {
-				if (!this.badgerTree.timeSinceLastCycle) {
-					this.badgerTree.timeSinceLastCycle = reduceTimeSinceLastCycle(rewardsResponse[0]);
-				}
+				this.badgerTree.timeSinceLastCycle = reduceTimeSinceLastCycle(rewardsResponse[0]);
 				if (network.rewards) {
 					const endpointQuery = jsonQuery(`${network.rewards.endpoint}/${checksumAddress}`);
 					endpointQuery!
@@ -67,12 +65,12 @@ class RewardsStore {
 							])
 								.then((result: any[]) => {
 									if (!proof.error) {
-										this.badgerTree.cycle = this.badgerTree.cycle ?? parseInt(proof.cycle, 16);
+										this.badgerTree.cycle = parseInt(proof.cycle, 16) ?? this.badgerTree.cycle;
 										this.badgerTree.claims =
-											this.badgerTree.claims ?? reduceClaims(proof, result[0][0], result[0][1]);
+											reduceClaims(proof, result[0][0], result[0][1]) ?? this.badgerTree.claims;
 										this.badgerTree.sharesPerFragment =
-											this.badgerTree.sharesPerFragment ?? result[1];
-										this.badgerTree.proof = this.badgerTree.proof ?? proof;
+											result[1] ?? this.badgerTree.sharesPerFragment;
+										this.badgerTree.proof = proof ?? this.badgerTree.proof;
 									}
 								})
 								.catch((err) => console.log(err));

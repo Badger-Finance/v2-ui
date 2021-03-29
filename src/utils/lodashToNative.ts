@@ -121,7 +121,7 @@ export function defaultsDeep(dest: Record<string, any>, ...sources: Record<strin
 		const keys = baseKeysIn(source);
 		for (const key of keys) {
 			if (source[key] !== undefined) {
-				if (dest[key] === undefined) {
+				if (!dest[key]) {
 					dest[key] = source[key];
 				} else if (isObject(dest[key]) && isObject(source[key])) {
 					dest[key] = defaultsDeep(dest[key], source[key]);
