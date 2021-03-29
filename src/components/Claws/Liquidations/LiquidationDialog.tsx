@@ -81,18 +81,9 @@ export const LiquidationDialog: React.FC<Props> = ({ isOpen = false }) => {
 			</DialogTitle>
 			<Divider variant="middle" className={classes.mx} />
 			<DialogContent className={classes.dialogContent}>
-				{/* {transactionRows.forEach((row) => {
+				{transactionRows.map((row) => {
 					return <TransactionRow header={row[0]} content={row[1]}/>
-				})} */}
-				<TransactionRow header={transactionRows[0][0]} content={transactionRows[0][1]} />
-				<TransactionRow header={transactionRows[1][0]} content={transactionRows[1][1]} />
-				<TransactionRow header={transactionRows[2][0]} content={transactionRows[2][1]} />
-				<TransactionRow header={transactionRows[3][0]} content={transactionRows[3][1]} />
-				<TransactionRow header={transactionRows[4][0]} content={transactionRows[4][1]} />
-				<TransactionRow header={transactionRows[5][0]} content={transactionRows[5][1]} />
-				<TransactionRow header={transactionRows[6][0]} content={transactionRows[6][1]} />
-				<TransactionRow header={transactionRows[7][0]} content={transactionRows[7][1]} />
-				<TransactionRow header={transactionRows[8][0]} content={transactionRows[8][1]} />
+				})}
 			</DialogContent>
 			<Divider variant="middle" className={classes.mx} />
 			<DialogActions className={classes.dialogActions}>
