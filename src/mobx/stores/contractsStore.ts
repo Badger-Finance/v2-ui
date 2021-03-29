@@ -147,7 +147,7 @@ class ContractsStore {
 						NETWORK_CONSTANTS[network.name].START_TIME,
 					);
 
-					const prices = _.mapValues(queryResult.pop(), (price: any) => ({
+					const prices = mapValues(queryResult.pop(), (price: any) => ({
 						ethValue: new BigNumber(price).multipliedBy(1e18),
 					}));
 
