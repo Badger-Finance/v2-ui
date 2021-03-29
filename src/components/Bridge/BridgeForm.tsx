@@ -20,7 +20,7 @@ import { SuccessForm } from './SuccessForm';
 import WBTCLogo from 'assets/icons/WBTC.svg';
 import Web3 from 'web3';
 import async from 'async';
-import bWBTCLogo from 'assets/icons/bwbtc.png';
+import bWBTCLogo from 'assets/icons/bwbtc.svg';
 import { bridge_system } from 'config/deployments/mainnet.json';
 import { ethers } from 'ethers';
 import { observer } from 'mobx-react-lite';

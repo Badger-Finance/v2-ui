@@ -4,7 +4,7 @@ import React, { useContext, useState } from 'react';
 import InfoIcon from '@material-ui/icons/Info';
 import { StoreContext } from 'mobx/store-context';
 import WBTCLogo from 'assets/icons/WBTC.svg';
-import bWBTCLogo from 'assets/icons/bwbtc.png';
+import bWBTCLogo from 'assets/icons/bwbtc.svg';
 import renBTCLogo from 'assets/icons/renBTC.svg';
 import { shortenAddress } from 'utils/componentHelpers';
 
