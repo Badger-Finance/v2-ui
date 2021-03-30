@@ -51,10 +51,7 @@ export const NftList = observer(() => {
 	const theme = useTheme();
 	const isMobile = useMediaQuery(theme.breakpoints.only('xs'));
 
-	const { connectedAddress } = store.wallet;
 	const { loadingNfts, nfts, nftBeingRedeemed } = store.honeyPot;
-
-	if (!connectedAddress) return null;
 
 	if (loadingNfts || !nfts) {
 		return (
