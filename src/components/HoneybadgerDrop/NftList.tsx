@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid, makeStyles, Typography, Fade, useMediaQuery, useTheme } from '@material-ui/core';
 import { NFT } from 'mobx/model';
-import { diggToCurrency } from 'mobx/utils/helpers';
+import { bDiggToCurrency } from 'mobx/utils/helpers';
 import NftStats from './NftStats';
 import { Skeleton } from '@material-ui/lab';
 import { StoreContext } from 'mobx/store-context';
@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const Container: React.FC = ({ children }) => {
+const Container = ({ children }: { children: React.ReactNode }) => {
 	const classes = useStyles();
 	return (
 		<Fade in>
@@ -45,7 +45,7 @@ const Container: React.FC = ({ children }) => {
 	);
 };
 
-export const NftList: React.FC = observer(() => {
+export const NftList = observer(() => {
 	const store = React.useContext(StoreContext);
 	const classes = useStyles();
 	const theme = useTheme();
@@ -87,10 +87,10 @@ export const NftList: React.FC = observer(() => {
 	return (
 		<Container>
 			<Grid item container xs={12} justify="space-between" spacing={isMobile ? 0 : 8}>
-				{nfts.map(({ balance, tokenId, name, image, totalSupply, poolBalance, root }: NFT) => {
+				{nfts.map(({ balance, tokenId, name, image, totalSupply, poolBalance, root, redirectUrl }: NFT) => {
 					const redemptionRate = store.honeyPot.calculateRedemptionRate(root);
 
-					const formattedRedemptionRate = diggToCurrency({
+					const formattedRedemptionRate = bDiggToCurrency({
 						amount: redemptionRate,
 						currency: 'usd',
 					});
@@ -103,10 +103,11 @@ export const NftList: React.FC = observer(() => {
 								nftId={tokenId}
 								name={name || 'NFT Name N/A'}
 								image={image}
+								redirectUrl={redirectUrl}
 								balance={balance}
 								remaining={`${Number(totalSupply) - Number(poolBalance)}/${totalSupply}`}
-								redemptionRateBdigg={redemptionRate.dividedBy(1e18).toFixed(5)}
 								redemptionRateUsd={formattedRedemptionRate}
+								redemptionRateBdigg={redemptionRate.dividedBy(1e18).toFixed(5)}
 								loading={nftBeingRedeemed.includes(tokenId)}
 								disabled={isBalanceEmpty}
 								onRedeem={() => {
