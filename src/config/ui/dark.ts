@@ -29,7 +29,7 @@ export const darkTheme = createMuiTheme({
 	typography: {
 		// fontSize: 16,
 		fontFamily: "'IBM Plex Sans'",
-		h1: { fontWeight: 500, fontSize: '3rem', fontFamily: 'IBM Plex Mono' },
+		h1: { fontWeight: 500, fontSize: '3rem' },
 		// h2: { fontFamily: "'Press Start 2P'", fontSize: "2rem" },
 		// subtitle1: { },
 		h4: { fontSize: '1.3rem', fontWeight: 500 },

@@ -1,8 +1,15 @@
+import firebase from 'firebase';
 import BigNumber from 'bignumber.js';
 import _ from 'lodash';
+import { AbiItem } from 'web3-utils';
+import Web3 from 'web3';
+import {
+        LockAndMintParamsSimple,
+        BurnAndReleaseParamsSimple,
+} from '@renproject/interfaces';
+
 import { reduceGeyserSchedule } from './reducers/contractReducers';
 import { RootStore } from './store';
-import { AbiItem } from 'web3-utils';
 import { getNetworkDeploy } from '../mobx/utils/web3';
 import { getTokens } from '../config/system/tokens';
 import { getVaults } from '../config/system/vaults';
@@ -11,8 +18,6 @@ import { getRebase } from '../config/system/rebase';
 import { getAirdrops } from 'config/system/airdrops';
 import { NETWORK_IDS, NETWORK_LIST } from 'config/constants';
 import { getRewards } from 'config/system/rewards';
-import Web3 from 'web3';
-
 import { ZERO, TEN } from 'config/constants';
 
 export class Contract {
@@ -673,7 +678,7 @@ export interface SettSummary {
 	asset: string;
 	value: number;
 	tokens: TokenBalance[];
-}
+};
 
 export type ProtocolSummary = {
 	totalValue: number;
@@ -681,6 +686,24 @@ export type ProtocolSummary = {
 };
 
 export type SettMap = { [contract: string]: Sett };
+
+export type RenVMTransaction = {
+        // ID is the pkey in the db.
+        id: string;
+        userAddr: string;
+        // Nonce monotonically increases per user tx.
+        nonce: number;
+        encodedTx: string; // json encoded tx data.
+        // NB: The web3Provider field is not encoded (for obvious reasons).
+        params: LockAndMintParamsSimple | BurnAndReleaseParamsSimple,
+        status: string;
+        // Record if there was an error processing a tx.
+        error: string;
+        updated: firebase.firestore.Timestamp,
+        created: firebase.firestore.Timestamp,
+        deleted: boolean,
+};
+
 export interface NFT {
 	tokenId: string;
 	balance: string;
