@@ -1,10 +1,13 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import { Button, Grid, makeStyles, Paper, Typography, Fade } from '@material-ui/core';
-import { diggToCurrency } from 'mobx/utils/helpers';
+import { bDiggToCurrency } from 'mobx/utils/helpers';
 import { StoreContext } from 'mobx/store-context';
-import { useBdiggToDigg, useConnectWallet } from 'mobx/utils/hooks';
+import { useConnectWallet } from 'mobx/utils/hooks';
 import { Skeleton } from '@material-ui/lab';
 import { observer } from 'mobx-react-lite';
+import { NETWORK_CONSTANTS, NETWORK_LIST } from 'config/constants';
+import { getDiggPerShare } from 'mobx/utils/diggHelpers';
 
 const useStyles = makeStyles((theme) => ({
 	center: {
@@ -20,9 +23,13 @@ const useStyles = makeStyles((theme) => ({
 		marginTop: theme.spacing(2),
 		color: theme.palette.common.black,
 	},
+	learnMore: {
+		marginTop: theme.spacing(1),
+		padding: theme.spacing(1),
+	},
 }));
 
-const Container: React.FC = ({ children }) => {
+const Container = ({ children }: { children: React.ReactNode }) => {
 	const classes = useStyles();
 	return (
 		<Fade in>
@@ -36,21 +43,41 @@ const Container: React.FC = ({ children }) => {
 							{children}
 						</Grid>
 					</Paper>
+					<Button
+						className={classes.learnMore}
+						fullWidth
+						aria-label="Learn More"
+						variant="text"
+						size="small"
+						color="primary"
+						href="https://badgerdao.medium.com/badger-x-meme-nft-honeypot-part-ii-diamond-hands-7111d38b5df4"
+						target="_"
+					>
+						Learn More
+					</Button>
 				</Grid>
 			</Grid>
 		</Fade>
 	);
 };
 
-export const PoolBalance: React.FC = observer(() => {
+export const PoolBalance = observer(() => {
 	const store = React.useContext(StoreContext);
 	const classes = useStyles();
-	const bdiggToDigg = useBdiggToDigg();
 	const connectWallet = useConnectWallet();
 
+	// Disabling reason: importing this prop from the UI store
+	// triggers the reduceStats method that's needed for the
+	// bDIGG <> DIGG exchange
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	const { stats } = store.uiState;
+	const { vaults } = store.contracts;
 	const { connectedAddress } = store.wallet;
 	const { poolBalance, loadingPoolBalance } = store.honeyPot;
-	const poolBalanceDiggs = poolBalance && bdiggToDigg(poolBalance);
+
+	const vault = vaults[NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.BDIGG_ADDRESS];
+	const diggMultiplier = vault && getDiggPerShare(vault);
+	const poolBalanceDiggs = poolBalance && diggMultiplier && poolBalance.multipliedBy(diggMultiplier);
 
 	if (!connectedAddress) {
 		return (
@@ -69,7 +96,7 @@ export const PoolBalance: React.FC = observer(() => {
 		);
 	}
 
-	if (loadingPoolBalance || !poolBalance || !poolBalanceDiggs || poolBalanceDiggs?.isNaN()) {
+	if (loadingPoolBalance || !poolBalance || !poolBalanceDiggs) {
 		return (
 			<Container>
 				<Grid item xs={12}>
@@ -95,23 +122,26 @@ export const PoolBalance: React.FC = observer(() => {
 		<Container>
 			<Grid item xs={12}>
 				<Typography variant="h5" color="textPrimary">
-					{`${poolBalance.dividedBy(1e18).toFixed(5)} bDIGG`}
+					{poolBalance && `${poolBalance.dividedBy(1e18).toFixed(5)} bDIGG`}
 				</Typography>
 			</Grid>
 			<Grid item xs={12}>
 				<Typography variant="subtitle1" color="textSecondary">
-					{`${poolBalanceDiggs.dividedBy(1e18).toFixed(5)} DIGG / ${diggToCurrency({
-						amount: poolBalanceDiggs,
-						currency: 'btc',
-					})}`}
+					{poolBalanceDiggs &&
+						poolBalance &&
+						`${poolBalanceDiggs.dividedBy(1e18).toFixed(5)} DIGG / ${bDiggToCurrency({
+							amount: poolBalance,
+							currency: 'btc',
+						})}`}
 				</Typography>
 			</Grid>
 			<Grid item xs={12}>
 				<Typography variant="subtitle1" color="textSecondary">
-					{diggToCurrency({
-						amount: poolBalanceDiggs,
-						currency: 'usd',
-					})}
+					{poolBalance &&
+						bDiggToCurrency({
+							amount: poolBalance,
+							currency: 'usd',
+						})}
 				</Typography>
 			</Grid>
 		</Container>
