@@ -50,13 +50,11 @@ export default class UserStore {
 
 	getSettShopEligibility = action(
 		async (address: string): Promise<void> => {
-			if (address) {
-				const eligibility = await checkShopEligibility(address);
-				if (eligibility) {
-					this.permissions = {
-						viewSettShop: eligibility.isEligible,
-					};
-				}
+			const eligibility = await checkShopEligibility(address);
+			if (eligibility) {
+				this.permissions = {
+					viewSettShop: eligibility.isEligible,
+				};
 			}
 		},
 	);
