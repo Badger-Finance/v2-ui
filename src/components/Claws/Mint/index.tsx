@@ -1,41 +1,43 @@
-import React, { FC, useState, useContext } from 'react';
+import React from 'react';
 import { Grid, Box, Button } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { ethers } from 'ethers';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from 'mobx/store-context';
-import TokenAmountLabel from 'components-v2/common/TokenAmountSelector';
-import TokenAmountSelector from 'components-v2/common/TokenAmountLabel';
-import { ClawDetails, ConnectWalletButton, validateAmountBoundaries } from '../shared';
-import { ClawParam, useMainStyles } from '../index';
+import TokenAmountLabel from 'components-v2/common/TokenAmountLabel';
+import TokenAmountSelector from 'components-v2/common/TokenAmountSelector';
+import { ClawDetails, ActionButton } from '../shared';
+import { useMainStyles } from '../index';
 import { useError, useMaxClaw, useMintDetails, useValidateClaw } from './mint.hooks';
+import { mintReducer, State } from './mint.reducer';
 
-export const Mint: FC = observer(() => {
-	const { claw: store, contracts, wallet } = useContext(StoreContext);
+const initialState: State = { collateral: {}, synthetic: {} };
+
+export const Mint = observer(() => {
+	const { claw: store, contracts, wallet } = React.useContext(StoreContext);
 	const { collaterals, clawsByCollateral, syntheticsDataByEMP } = store;
 	const classes = useMainStyles();
-	const [collateral, setCollateral] = useState<ClawParam>({});
-	const [mintable, setMintable] = useState<ClawParam>({});
-	const error = useError(collateral, mintable);
-	const maxClaw = useMaxClaw(collateral, mintable);
-	const mintDetails = useMintDetails(collateral, mintable);
-	// ONLY TESTING
-	const validateClaw = useValidateClaw(mintable);
+	const [state, dispatch] = React.useReducer(mintReducer, initialState);
+	const { collateral, synthetic } = state;
+	const error = useError(collateral, synthetic);
+	const maxClaw = useMaxClaw(collateral, synthetic);
+	const mintDetails = useMintDetails(collateral, synthetic);
+	const validateClaw = useValidateClaw(synthetic);
+
 	const collateralToken = contracts.tokens[collateral.selectedOption || ''];
-	const synthetic = syntheticsDataByEMP.get(mintable.selectedOption || '');
 
 	const handleMint = () => {
-		const [empAddress, mintAmount] = [mintable.selectedOption, mintable.amount];
+		const [empAddress, mintAmount] = [synthetic.selectedOption, synthetic.amount];
 		const [collateralAddress, collateralAmount] = [collateral.selectedOption, collateral.amount];
 		const decimals: number | undefined = contracts.tokens[collateralAddress || '']?.decimals;
 
 		if (!empAddress || !mintAmount || !decimals || !collateralAmount) return;
 
-		store.mint({
+		store.actionStore.mint(
 			empAddress,
-			collateralAmount: ethers.utils.parseUnits(collateralAmount, decimals).toHexString(),
-			mintAmount: ethers.utils.parseUnits(mintAmount, decimals).toHexString(),
-		});
+			ethers.utils.parseUnits(collateralAmount, decimals).toHexString(),
+			ethers.utils.parseUnits(mintAmount, decimals).toHexString(),
+		);
 	};
 
 	return (
@@ -59,37 +61,25 @@ export const Mint: FC = observer(() => {
 						<TokenAmountSelector
 							placeholder="Select Token"
 							displayAmount={collateral.amount}
-							selectedOption={collateral.selectedOption}
 							options={collaterals}
+							selectedOption={collateral.selectedOption}
 							disabledOptions={!wallet.connectedAddress}
 							disabledAmount={!collateral.selectedOption}
+							onOptionChange={(selectedOption: string) => {
+								dispatch({ type: 'COLLATERAL_OPTION_CHANGE', payload: selectedOption });
+							}}
 							onAmountChange={(amount: string) => {
 								if (!collateralToken) return;
-								setCollateral({
-									...collateral,
-									amount,
-									error: validateAmountBoundaries({
-										amount: new BigNumber(amount).multipliedBy(10 ** collateralToken.decimals),
-										maximum: collateralToken.balance,
-									}),
-								});
-							}}
-							onOptionChange={(selectedOption: string) => {
-								setMintable({});
-								setCollateral({
-									...collateral,
-									selectedOption,
-									amount: undefined,
+								dispatch({
+									type: 'COLLATERAL_AMOUNT_CHANGE',
+									payload: { amount, collateralToken },
 								});
 							}}
 							onApplyPercentage={(percentage: number) => {
 								if (!collateralToken) return;
-								setCollateral({
-									...collateral,
-									amount: collateralToken?.balance
-										.multipliedBy(percentage / 100)
-										.dividedBy(10 ** collateralToken.decimals)
-										.toFixed(collateralToken.decimals, BigNumber.ROUND_DOWN),
+								dispatch({
+									type: 'COLLATERAL_PERCENTAGE_CHANGE',
+									payload: { percentage, collateralToken },
 								});
 							}}
 						/>
@@ -115,46 +105,35 @@ export const Mint: FC = observer(() => {
 				<Grid item xs={12}>
 					<TokenAmountSelector
 						placeholder="Select CLAW"
-						displayAmount={mintable.amount}
-						selectedOption={mintable.selectedOption}
-						disabledOptions={!collateral.selectedOption || !collateral.amount}
-						disabledAmount={!collateral.selectedOption || !mintable.selectedOption}
-						onAmountChange={(amount: string) => {
-							if (!synthetic || !maxClaw) return;
-
-							setMintable({
-								...mintable,
-								amount,
-								error: validateAmountBoundaries({
-									amount: new BigNumber(amount).multipliedBy(10 ** collateralToken.decimals),
-									minimum: synthetic.minSponsorTokens,
-								}),
-							});
-						}}
-						onApplyPercentage={(percentage: number) => {
-							if (!synthetic || !maxClaw || !collateralToken) return;
-
-							const amount = maxClaw
-								.multipliedBy(percentage / 100)
-								.toFixed(collateralToken.decimals, BigNumber.ROUND_DOWN);
-
-							setMintable({
-								...mintable,
-								amount,
-								error: validateAmountBoundaries({
-									amount,
-									maximum: validateClaw ? maxClaw : undefined,
-									minimum: synthetic.minSponsorTokens.dividedBy(10 ** collateralToken.decimals),
-								}),
-							});
-						}}
+						displayAmount={synthetic.amount}
 						options={
 							collateral.selectedOption ? clawsByCollateral.get(collateral.selectedOption) : new Map()
 						}
-						onOptionChange={(selectedOption: string) => {
-							setMintable({
-								...mintable,
-								selectedOption,
+						selectedOption={synthetic.selectedOption}
+						disabledOptions={!collateral.selectedOption || !collateral.amount}
+						disabledAmount={!collateral.selectedOption || !synthetic.selectedOption}
+						onOptionChange={(selectedOption: string) =>
+							dispatch({ type: 'SYNTHETIC_OPTION_CHANGE', payload: selectedOption })
+						}
+						onAmountChange={(amount: string) => {
+							if (!collateralToken || !synthetic) return;
+							dispatch({
+								type: 'SYNTHETIC_AMOUNT_CHANGE',
+								payload: { amount, collateralToken, synthetic },
+							});
+						}}
+						onApplyPercentage={(percentage: number) => {
+							const syntheticData = syntheticsDataByEMP.get(synthetic.selectedOption || '');
+							if (!syntheticData || !maxClaw || !collateralToken) return;
+							dispatch({
+								type: 'SYNTHETIC_PERCENTAGE_CHANGE',
+								payload: {
+									percentage,
+									maxClaw,
+									syntheticData,
+									collateralToken,
+									validateClaw,
+								},
 							});
 						}}
 					/>
@@ -167,20 +146,11 @@ export const Mint: FC = observer(() => {
 			</Grid>
 			<Grid item xs={12}>
 				<Grid container>
-					{!wallet.connectedAddress ? (
-						<ConnectWalletButton />
-					) : (
-						<Button
-							color="primary"
-							variant="contained"
-							onClick={handleMint}
-							disabled={!!error || !collateral.selectedOption || !mintable.selectedOption}
-							size="large"
-							className={classes.button}
-						>
-							{error ? error : 'MINT'}
-						</Button>
-					)}
+					<ActionButton
+						text={error ? error : 'MINT'}
+						onClick={handleMint}
+						disabled={!!error || !collateral.selectedOption || !synthetic.selectedOption}
+					/>
 				</Grid>
 			</Grid>
 		</Grid>
