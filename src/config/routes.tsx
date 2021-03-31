@@ -74,15 +74,6 @@ const routes = {
 	IbBTC: new Route<RootStore, QueryParams>({
 		path: '/ibBTC',
 		component: FLAGS.IBBTC_FLAG ? <IbBTC /> : <></>,
-		onEnter: (_, params, store) => {
-			//
-		},
-		beforeExit: () => {
-			//
-		},
-		onParamsChange: () => {
-			//
-		},
 	}),
 	bridge: new Route<RootStore, QueryParams>({
 		path: '/bridge',
