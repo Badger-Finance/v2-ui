@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js';
 import { INVALID_REASON } from '../index';
 
 export * from './ClawDetails';
-export * from './ConnectWalletButton';
+export * from './ActionButton';
 
 export interface ValidationParams {
 	amount: string | BigNumber;
