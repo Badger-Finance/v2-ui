@@ -86,7 +86,7 @@ export const TokenAmountSelector: FC<Props> = ({
 	return (
 		<Box clone px={1}>
 			<Grid container alignContent="center" alignItems="center" className={classes.border}>
-				<Grid item xs={12} sm={8}>
+				<Grid item xs={12} sm={8} lg={9}>
 					<Grid container alignItems="center" spacing={2} className={classes.selectContainer}>
 						<Grid item xs={12} sm>
 							<FormControl className={classes.margin}>
@@ -111,8 +111,8 @@ export const TokenAmountSelector: FC<Props> = ({
 						</Grid>
 						<Grid item xs={12} sm>
 							<InputBase
+								fullWidth
 								type="tel"
-								error
 								placeholder="0.00"
 								disabled={disabledAmount}
 								inputProps={{ pattern: '^[0-9]*[.,]?[0-9]*$' }}
@@ -123,7 +123,7 @@ export const TokenAmountSelector: FC<Props> = ({
 						</Grid>
 					</Grid>
 				</Grid>
-				<Grid item xs={12} sm={4}>
+				<Grid item xs={12} sm={4} lg={3}>
 					<Grid container justify="flex-end">
 						<ButtonGroup
 							variant="text"
