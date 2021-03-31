@@ -1,9 +1,12 @@
 import BigNumber from 'bignumber.js';
 import { invert as _invert, valuesIn as _valuesIn } from 'lodash';
-import { ClawStore, SponsorData, SyntheticData } from 'mobx/stores/clawStore';
-import { symbols as TOKEN_SYMBOLS } from 'config/system/tokens';
+import { ClawStore } from 'mobx/stores/claw/clawStore';
+import { getTokens } from 'config/system/tokens';
 import deploy from 'config/deployments/mainnet.json';
+import { SponsorData, SyntheticData } from 'mobx/model';
+import { NETWORK_LIST } from 'config/constants';
 
+const TOKENS = getTokens(NETWORK_LIST.ETH);
 export const EMPS_ADDRESSES = _valuesIn(deploy.claw_system.emps);
 
 // [EMP_ADDRESS: string] => [EMP_NAME: string]
@@ -35,10 +38,8 @@ export function reduceClawByCollateral({ collaterals, syntheticsData }: ClawStor
 // reducer's helper functions
 
 function indexByCollateralAddress(collaterals: Map<string, string>, { collateralCurrency }: SyntheticData) {
-	return collaterals.set(
-		collateralCurrency.toLocaleLowerCase(),
-		TOKEN_SYMBOLS[collateralCurrency.toLocaleLowerCase()],
-	);
+	if (!TOKENS) return collaterals;
+	return collaterals.set(collateralCurrency, TOKENS.names[collateralCurrency]);
 }
 
 function indexByEmpAddress<T>(addresses: Map<string, T>, incomingData: T, index: number) {
@@ -62,9 +63,8 @@ function matchesCollateral(collateral: string) {
 }
 
 function hasTokenInformation({ collateralCurrency }: SyntheticData) {
-	return Object.keys(TOKEN_SYMBOLS)
-		.map((key) => key.toLocaleLowerCase())
-		.includes(collateralCurrency.toLocaleLowerCase());
+	if (!TOKENS) return false;
+	return Object.keys(TOKENS.names).includes(collateralCurrency);
 }
 
 // hex to big number parsers
@@ -132,12 +132,7 @@ function parseLiquidationHexToBigNumber(data: SponsorData['liquidations'][0]): S
 }
 
 function parsePositionHexToBigNumber(data: SponsorData['position']): SponsorData['position'] {
-	const {
-		tokensOutstanding,
-		withdrawalRequestPassTimestamp,
-		withdrawalRequestAmount,
-		rawCollateral,
-	} = data;
+	const { tokensOutstanding, withdrawalRequestPassTimestamp, withdrawalRequestAmount, rawCollateral } = data;
 
 	return {
 		tokensOutstanding: new BigNumber((tokensOutstanding as any).hex),
