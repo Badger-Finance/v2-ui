@@ -79,7 +79,7 @@ export const Mint = observer((): any => {
 			store.ibBTCStore.mint(selectedToken, selectedToken.scale(new BigNumber(inputAmount)), handleMint);
 	};
 
-	const handleMint = (err: any, result: any): void => {
+	const handleMint = (): void => {
 		resetState();
 	};
 

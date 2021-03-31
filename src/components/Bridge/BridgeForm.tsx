@@ -1,9 +1,8 @@
 import React, { useContext, useState, useEffect } from 'react';
 import BigNumber from 'bignumber.js';
-import PropTypes from 'prop-types';
 import GatewayJS from '@renproject/gateway';
 import Web3 from 'web3';
-import async, { any } from 'async';
+import async from 'async';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
 import { Grid, Tabs, Tab, FormControl, Select, MenuItem } from '@material-ui/core';
@@ -72,7 +71,7 @@ export const BridgeForm = observer((props: any) => {
 	const {
 		wallet: { connect, connectedAddress, provider, onboard },
 		contracts: { getAllowance, increaseAllowance },
-		uiState: { queueNotification, txStatus, setTxStatus },
+		uiState: { queueNotification, setTxStatus },
 		transactions: { updateTx, removeTx, incompleteTransfer },
 	} = store;
 
@@ -299,6 +298,8 @@ export const BridgeForm = observer((props: any) => {
 		if (incompleteTransfer) {
 			queueNotification('There is incomplete Transfer', 'info');
 		}
+		// Disable reason: useEffect used as trigger for changes of incompleteTransfer
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [incompleteTransfer]);
 
 	useEffect(() => {
@@ -318,6 +319,8 @@ export const BridgeForm = observer((props: any) => {
 		getBtcNetworkFees();
 		getFeesFromContract();
 		updateBalance();
+		// Disable reason: useEffect used as trigger for changes of connectedAddress and shortAddr
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [connectedAddress, shortAddr]);
 
 	useInterval(updateBalance, UPDATE_INTERVAL_SECONDS);
@@ -325,7 +328,6 @@ export const BridgeForm = observer((props: any) => {
 	const deposit = async () => {
 		const amountSats = new BigNumber(amount).multipliedBy(10 ** 8); // Convert to Satoshis
 		let trade: any = null;
-		let result: any;
 		let commited = false;
 		let completed = false;
 		const contractFn = 'mint';
@@ -355,7 +357,7 @@ export const BridgeForm = observer((props: any) => {
 		];
 
 		try {
-			result = await gatewayJS
+			await gatewayJS
 				.open({
 					sendToken: GatewayJS.Tokens.BTC.Btc2Eth,
 					suggestedAmount: amountSats,
@@ -465,19 +467,18 @@ export const BridgeForm = observer((props: any) => {
 		if (amountSats.toNumber() > allowance) {
 			methodSeries.push((callback: any) => increaseAllowance(tokenParam, bridgeAddress, callback));
 		}
-		methodSeries.push((callback: any) => withdraw(contractFn, params, callback));
-		async.series(methodSeries, (err: any, results: any) => {
+		methodSeries.push(() => withdraw(contractFn, params));
+		async.series(methodSeries, (err: any) => {
 			setTxStatus(!!err ? 'error' : 'success');
 		});
 	};
 
-	const withdraw = async (contractFn: any, params: any, callback: any) => {
-		let result: any;
+	const withdraw = async (contractFn: any, params: any) => {
 		let trade: any = null;
 		let commited = false;
 		let completed = false;
 
-		result = await gatewayJS
+		await gatewayJS
 			.open({
 				sendToken: GatewayJS.Tokens.BTC.Eth2Btc,
 				sendTo: bridgeAddress,
@@ -715,7 +716,5 @@ export const BridgeForm = observer((props: any) => {
 		}
 	};
 
-	return (
-		<Grid container>{incompleteTransfer ? <ResumeForm values={values} classes={classes} /> : pageSwitcher()}</Grid>
-	);
+	return <Grid container>{incompleteTransfer ? <ResumeForm /> : pageSwitcher()}</Grid>;
 });

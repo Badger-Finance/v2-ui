@@ -181,7 +181,7 @@ class ContractsStore {
 						// so we set this to 1
 						contract.getPricePerFullShare =
 							settStructure[vault.address] &&
-							vault.address !== getNetworkDeploy(NETWORK_LIST.ETH)!.sett_system.vaults['native.digg']
+							vault.address !== getNetworkDeploy(NETWORK_LIST.ETH).sett_system.vaults['native.digg']
 								? new BigNumber(settStructure[vault.address].ppfs)
 								: new BigNumber(1);
 						vault.update(
@@ -258,7 +258,7 @@ class ContractsStore {
 	getOrCreateVault = action((address: string, token: Token, abi?: any) => {
 		const { network } = this.store.wallet;
 		if (!this.vaults[address]) {
-			this.vaults[address] = new Vault(this.store, address, network.tokens!.decimals[address], token, abi);
+			this.vaults[address] = new Vault(this.store, address, network.tokens.decimals[address], token, abi);
 			return this.vaults[address];
 		} else {
 			return this.vaults[address];

@@ -1,10 +1,7 @@
-import React, { useState } from 'react';
-import { Grid, Button, Checkbox, Tooltip } from '@material-ui/core';
-import InfoIcon from '@material-ui/icons/Info';
+import React from 'react';
+import { Grid } from '@material-ui/core';
 
-export const ResumeForm = (props: any) => {
-	const { classes, values, itemContainer } = props;
-
+export const ResumeForm = (): JSX.Element => {
 	return (
 		<Grid container alignItems={'center'}>
 			To resume your incomplete Transfer, please click on the button on top right corner
