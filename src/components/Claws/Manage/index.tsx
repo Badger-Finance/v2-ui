@@ -25,7 +25,7 @@ const Manage: FC = () => {
 
 	const { selectedOption, amount } = manage;
 	const selectedSynthetic = syntheticsDataByEMP.get(selectedOption || '');
-	const bToken = contracts.tokens[selectedSynthetic?.collateralCurrency.toLocaleLowerCase() ?? ''];
+	const bToken = contracts.tokens[selectedSynthetic?.collateralCurrency ?? ''];
 	const decimals = bToken ? bToken.decimals : 18; // Default to 18 decimals.
 	const position = sponsorInformationByEMP.get(selectedOption || '')?.position;
 

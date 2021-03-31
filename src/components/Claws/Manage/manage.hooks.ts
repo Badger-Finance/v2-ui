@@ -27,24 +27,24 @@ const defaultDepositDetails = {
 export function useError({ selectedOption, amount, error }: ClawParam): string {
 	const { claw, contracts } = React.useContext(StoreContext);
 	const selectedSynthetic = claw.syntheticsDataByEMP.get(selectedOption || '');
-	const bToken = contracts.tokens[selectedSynthetic?.collateralCurrency.toLocaleLowerCase() ?? ''];
+	const bToken = contracts.tokens[selectedSynthetic?.collateralCurrency ?? ''];
 
 	const collateralName = bToken ? claw.collaterals.get(bToken.address) : 'collateral token';
-        const errors: string[] = [];
+	const errors: string[] = [];
 	if (!selectedOption) errors.push('Select a Token');
 	if (!amount) errors.push('Enter an amount');
-        if (error === INVALID_REASON.OVER_MAXIMUM) errors.push(`Amount exceeds ${collateralName} balance`);
+	if (error === INVALID_REASON.OVER_MAXIMUM) errors.push(`Amount exceeds ${collateralName} balance`);
 
 	if (errors.length === 0) return '';
 
-        return errors.reduce((a, b) => (a || b));
+	return errors.reduce((a, b) => a || b);
 }
 
 export function useDetails(mode: string, manage: ClawParam) {
 	const { claw, contracts } = React.useContext(StoreContext);
 	const isWithdraw = mode === 'withdraw';
 	const synthetic = claw.syntheticsDataByEMP.get(manage.selectedOption || '');
-	const bToken = contracts.tokens[synthetic?.collateralCurrency.toLocaleLowerCase() ?? ''];
+	const bToken = contracts.tokens[synthetic?.collateralCurrency ?? ''];
 
 	if (!synthetic || !bToken) return isWithdraw ? defaultWithdrawalDetails : defaultDepositDetails;
 

@@ -127,7 +127,7 @@ const Withdrawals: FC = observer(() => {
 							if (!position) return;
 
 							if (pendingWithdrawal) {
-								const bToken = contracts.tokens[synthetic.collateralCurrency.toLocaleLowerCase()];
+								const bToken = contracts.tokens[synthetic.collateralCurrency];
 								const decimals = bToken ? bToken.decimals : 18;
 								return (
 									<Withdrawal

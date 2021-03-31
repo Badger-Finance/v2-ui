@@ -12,7 +12,7 @@ dayjs.extend(utc);
 export function useError({ selectedOption, amount, error }: ClawParam) {
 	const { claw, contracts } = React.useContext(StoreContext);
 	const synthetic = claw.syntheticsDataByEMP.get(selectedOption || '');
-	const bToken = contracts.tokens[synthetic?.collateralCurrency.toLocaleLowerCase() ?? ''];
+	const bToken = contracts.tokens[synthetic?.collateralCurrency ?? ''];
 
 	const tokenError = !bToken && 'Select a token';
 	const amountError = !amount && 'Enter an amount';
@@ -24,7 +24,7 @@ export function useError({ selectedOption, amount, error }: ClawParam) {
 export function useDetails({ selectedOption }: ClawParam) {
 	const { claw, contracts } = React.useContext(StoreContext);
 	const synthetic = claw.syntheticsDataByEMP.get(selectedOption || '');
-	const bToken = contracts.tokens[synthetic?.collateralCurrency.toLocaleLowerCase() ?? ''];
+	const bToken = contracts.tokens[synthetic?.collateralCurrency ?? ''];
 
 	if (!synthetic || !bToken) {
 		return {

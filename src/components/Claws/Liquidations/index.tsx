@@ -135,7 +135,7 @@ const Liquidations: FC = observer(() => {
 	synthetics.forEach((synthetic: SyntheticData) => {
 		const { position } = sponsorInfo.get(synthetic.address);
 		if (!position) return;
-		const bToken = contracts.tokens[synthetic.collateralCurrency.toLocaleLowerCase()];
+		const bToken = contracts.tokens[synthetic.collateralCurrency];
 		const decimals = bToken ? bToken.decimals : 18;
 		position.liquidations.forEach((liquidation: Liquidation) => {
 			rows.push(

@@ -43,7 +43,7 @@ const Redeem: FC = () => {
 
 	const { selectedOption, amount } = redeem;
 	const selectedSynthetic = syntheticsDataByEMP.get(selectedOption || '');
-	const bToken = contracts.tokens[selectedSynthetic?.collateralCurrency.toLocaleLowerCase() ?? ''];
+	const bToken = contracts.tokens[selectedSynthetic?.collateralCurrency ?? ''];
 	const decimals = bToken ? bToken.decimals : 18; // Default to 18 decimals.
 	const clawBalance = sponsorInformationByEMP.get(selectedOption || '')?.position.tokensOutstanding;
 	const amountToReceive = useAmountToReceive(redeem, decimals);
