@@ -8,7 +8,7 @@ import bscDeploy from '../deployments/bsc.json';
 import { VaultNetworkConfig } from 'mobx/model';
 import { NETWORK_LIST } from '../../config/constants';
 
-export const getVaults = (network?: string | null): VaultNetworkConfig | undefined => {
+export const getVaults = (network?: string | null): VaultNetworkConfig => {
 	switch (network) {
 		case NETWORK_LIST.BSC:
 			return {
@@ -182,6 +182,6 @@ export const getVaults = (network?: string | null): VaultNetworkConfig | undefin
 				},
 			};
 		default:
-			return undefined;
+			return {};
 	}
 };
