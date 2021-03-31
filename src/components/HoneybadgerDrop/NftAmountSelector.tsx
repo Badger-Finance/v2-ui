@@ -13,7 +13,7 @@ import {
 } from '@material-ui/core';
 import { NFT } from 'mobx/model';
 
-interface Props {
+interface SelectorProps {
 	isOpen?: boolean;
 	nft: NFT;
 	onClose: () => void;
@@ -26,7 +26,8 @@ const useStyles = makeStyles((theme: Theme) => ({
 	},
 }));
 
-export const NftAmountSelector: React.FC<Props> = ({ isOpen = false, nft, onClose, onAmountSelected }) => {
+export const NftAmountSelector: React.FC<SelectorProps> = (props: SelectorProps) => {
+	const { isOpen = false, nft, onClose, onAmountSelected } = props;
 	const classes = useStyles();
 	const [amount, setAmount] = React.useState<undefined | number>(1);
 

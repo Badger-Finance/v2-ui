@@ -1,9 +1,10 @@
 import firebase from 'firebase';
 import GatewayJS from '@renproject/gateway';
 import { extendObservable, action, observe } from 'mobx';
-
 import fbase from 'fbase';
 import { RootStore } from '../store';
+import WalletStore from './walletStore';
+import { provider } from 'web3-providers';
 
 class TransactionsStore {
 	private store!: RootStore;
@@ -20,7 +21,7 @@ class TransactionsStore {
 			incompleteTransfer: false,
 		});
 
-		observe(this.store.wallet as any, 'connectedAddress', async (change: any) => {
+		observe(this.store.wallet as WalletStore, 'connectedAddress', async (change: any) => {
 			const provider = this.store.wallet.provider;
 			if (!provider) return;
 			if (change.oldValue !== change.newValue) {
@@ -30,7 +31,7 @@ class TransactionsStore {
 		});
 	}
 
-	fetchAndRecoverTx = action(async (userAddr: string, provider: any) => {
+	fetchAndRecoverTx = action(async (userAddr: string, web3Provider: provider) => {
 		const { queueNotification } = this.store.uiState;
 		// Fetch any still pending tx.
 		const results = await this.db
@@ -48,7 +49,7 @@ class TransactionsStore {
 			if (_isGatewayJSTxComplete(tx.status)) return;
 			const parsedTx = JSON.parse(tx.data);
 			this.setIncompleteTransfer(true);
-			this._reOpenTx(userAddr, provider, parsedTx);
+			this._reOpenTx(userAddr, web3Provider, parsedTx);
 		});
 	});
 
@@ -142,11 +143,11 @@ class TransactionsStore {
 		this.incompleteTransfer = status;
 	});
 
-	_reOpenTx = async (userAddr: string, provider: any, trade: any) => {
+	_reOpenTx = async (userAddr: string, web3Provider: provider, trade: any): Promise<void> => {
 		const { queueNotification } = this.store.uiState;
 		try {
 			await this.gjs
-				.recoverTransfer(provider, trade, trade.id)
+				.recoverTransfer(web3Provider, trade, trade.id)
 				.pause()
 				.result()
 				.on('status', (status: any) => {

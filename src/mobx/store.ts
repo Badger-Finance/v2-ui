@@ -7,7 +7,7 @@ import RebaseStore from './stores/rebaseStore';
 import RewardsStore from './stores/rewardsStore';
 import IbBTCStore from './stores/ibBTCStore';
 import TransactionsStore from './stores/transactionsStore';
-import SettStoreV2 from './stores/settStoreV2';
+import SettStore from './stores/SettStore';
 import { NETWORK_LIST } from '../config/constants';
 import { HoneyPotStore } from './stores/honeyPotStore';
 
@@ -20,7 +20,7 @@ export class RootStore {
 	public rebase: RebaseStore;
 	public rewards: RewardsStore;
 	public ibBTCStore: IbBTCStore;
-	public setts: SettStoreV2;
+	public setts: SettStore;
 	public transactions: TransactionsStore;
 	public honeyPot: HoneyPotStore;
 
@@ -36,7 +36,7 @@ export class RootStore {
 		this.honeyPot = new HoneyPotStore(this);
 		// RenVM transactions store.
 		this.transactions = new TransactionsStore(this);
-		this.setts = new SettStoreV2(this);
+		this.setts = new SettStore(this);
 
 		this.walletRefresh();
 	}
