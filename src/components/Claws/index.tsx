@@ -1,25 +1,17 @@
 import React, { FC, useContext, useState } from 'react';
 import { toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
-import {
-	Tab,
-	Card,
-	Tabs,
-	CardContent,
-	Container,
-	Grid,
-	CircularProgress,
-} from '@material-ui/core';
+import { Tab, Card, Tabs, CardContent, Container, Grid, CircularProgress } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { StoreContext } from 'mobx/store-context';
-import { SponsorData } from 'mobx/stores/clawStore';
-import Hero from 'components/Common/Hero';
 import Liquidations from './Liquidations';
 import Mint from './Mint';
 import Manage from './Manage';
 import Redeem from './Redeem';
 import Withdrawals from './Withdrawals';
+import PageHeader from 'components-v2/common/PageHeader';
+import { SponsorData } from 'mobx/model';
 
 export enum INVALID_REASON {
 	OVER_MAXIMUM = 'EXCEED',
@@ -82,8 +74,8 @@ const TABS = {
 };
 
 export const Claws: FC = observer(() => {
-	const { claw: store } = useContext(StoreContext);
-	const { isLoading, sponsorInformationByEMP, syntheticsData } = store;
+	const store = useContext(StoreContext);
+	const { isLoading, sponsorInformationByEMP } = store.claw;
 	const classes = useMainStyles();
 	const [activeTab, setActiveTab] = useState(0);
 
@@ -106,25 +98,24 @@ export const Claws: FC = observer(() => {
 				return <Mint />;
 		}
 	};
-        const [totalWithdrawals, totalLiquidations] = Object.values(toJS(sponsorInformationByEMP))
-                .reduce((
-                        [numWithdrawals, numLiquidations]: [number, number],
-                        { pendingWithdrawal, liquidations }: SponsorData,
-                ) => {
-                        if (liquidations) {
-                                numLiquidations = liquidations.length;
-                        }
-                        if (pendingWithdrawal) {
-                                numWithdrawals++;
-                        }
-                        return [numWithdrawals, numLiquidations];
-                }, [0, 0]);
+	const [totalWithdrawals, totalLiquidations] = Object.values(toJS(sponsorInformationByEMP)).reduce(
+		([numWithdrawals, numLiquidations]: [number, number], { pendingWithdrawal, liquidations }: SponsorData) => {
+			if (liquidations) {
+				numLiquidations = liquidations.length;
+			}
+			if (pendingWithdrawal) {
+				numWithdrawals++;
+			}
+			return [numWithdrawals, numLiquidations];
+		},
+		[0, 0],
+	);
 
 	return (
 		<Container className={classes.root} maxWidth="lg">
 			<Grid container spacing={1} justify="center">
 				<Grid item xs={12}>
-					<Hero title="CLAWs" subtitle="Stablecoin backed by Badger Sett Vaults" />
+					<PageHeader title="CLAWs" subtitle="Stablecoin backed by Badger Sett Vaults" />
 				</Grid>
 				<Grid item xs={12}>
 					<Card>
@@ -145,8 +136,8 @@ export const Claws: FC = observer(() => {
 				</Grid>
 				{totalWithdrawals + totalLiquidations > 0 ? (
 					<Grid item xs={12}>
-						{totalWithdrawals > 0 ? <Withdrawals/> : null}
-						{totalLiquidations > 0 ? <Liquidations/> : null}
+						{totalWithdrawals > 0 ? <Withdrawals /> : null}
+						{totalLiquidations > 0 ? <Liquidations /> : null}
 					</Grid>
 				) : null}
 			</Grid>
