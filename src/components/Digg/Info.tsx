@@ -8,7 +8,6 @@ import Metric from './Metric';
 import { shortenNumbers, calculateNewSupply } from '../../mobx/utils/diggHelpers';
 import BigNumber from 'bignumber.js';
 import { formatPrice } from 'mobx/reducers/statsReducers';
-import deploy from '../../config/deployments/mainnet.json';
 
 const useStyles = makeStyles((theme) => ({
 	before: {
@@ -86,14 +85,6 @@ const Info = observer(() => {
 	} = store;
 	const classes = useStyles();
 	const [nextRebase, setNextRebase] = useState('00:00:00');
-	const newSupply =
-		rebaseStats.oracleRate && rebaseStats.totalSupply
-			? calculateNewSupply(
-					rebaseStats.oracleRate.toNumber(),
-					rebaseStats.totalSupply.toNumber(),
-					rebaseStats.rebaseLag,
-			  )
-			: 0;
 	const rebasePercentage = ((stats.stats.digg - rebaseStats.btcPrice) / rebaseStats.btcPrice) * 10;
 
 	if (!rebaseStats) {

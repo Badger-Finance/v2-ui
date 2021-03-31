@@ -518,6 +518,10 @@ export type ClaimsSymbols = {
 	};
 };
 
+export interface GasPrices {
+	[speed: string]: number;
+}
+
 export interface Network {
 	name: string;
 	networkId: number;
@@ -535,7 +539,7 @@ export interface Network {
 		title: string;
 	}[];
 	settOrder: string[];
-	getGasPrices: Function;
+	getGasPrices: () => Promise<GasPrices>;
 	getNotifyLink: (
 		transaction: any,
 	) => {
@@ -571,7 +575,7 @@ export class BscNetwork implements Network {
 			title: 'PancakeSwap bBadger/BtcB',
 		},
 	];
-	public async getGasPrices() {
+	public async getGasPrices(): Promise<GasPrices> {
 		return { standard: 10 };
 	}
 	public getNotifyLink(transaction: any) {
@@ -619,7 +623,7 @@ export class EthNetwork implements Network {
 			title: 'Sushiswap BADGER/wBTC',
 		},
 	];
-	public async getGasPrices() {
+	public async getGasPrices(): Promise<GasPrices> {
 		const prices = await fetch('https://www.gasnow.org/api/v3/gas/price?utm_source=badgerv2');
 		const result = await prices.json();
 		return {

@@ -21,13 +21,21 @@ import { Status } from 'mobx/stores/bridgeStore';
 import renBTCLogo from 'assets/icons/renBTC.svg';
 import WBTCLogo from 'assets/icons/WBTC.svg';
 import {
-	CURVE_EXCHANGE,
+	ERC20,
 	NETWORK_CONSTANTS,
 	NETWORK_LIST,
 	CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS,
 } from 'config/constants';
 import { bridge_system } from 'config/deployments/mainnet.json';
-import { ValuesProp } from './Common';
+import { BADGER_ADAPTER } from 'config/system/abis/BadgerAdapter';
+import { BTC_GATEWAY } from 'config/system/abis/BtcGateway';
+import { CURVE_EXCHANGE } from 'config/system/abis/CurveExchange';
+
+const MIN_AMOUNT = 0.002;
+// SLIPPAGE_BUFFER increases estimated slippage by 5%.
+const SLIPPAGE_BUFFER = 1.05;
+const MAX_BPS = 10000;
+const UPDATE_INTERVAL_SECONDS = 30 * 1000; // 30 seconds
 
 interface TabPanelProps {
 	children: any;

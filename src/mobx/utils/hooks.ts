@@ -2,7 +2,7 @@ import React from 'react';
 import { StoreContext } from 'mobx/store-context';
 import BigNumber from 'bignumber.js';
 
-export function useConnectWallet() {
+export function useConnectWallet(): () => Promise<void> {
 	const store = React.useContext(StoreContext);
 	const { onboard } = store.wallet;
 
@@ -18,7 +18,7 @@ export function useConnectWallet() {
 	};
 }
 
-export function useBdiggToDigg() {
+export function useBdiggToDigg(): (bDigg: BigNumber) => BigNumber {
 	const store = React.useContext(StoreContext);
 	const { stats, rebaseStats } = store.uiState;
 
@@ -28,4 +28,3 @@ export function useBdiggToDigg() {
 		return bdigg.plus(bdigg.multipliedBy(rebasePercentage));
 	};
 }
-

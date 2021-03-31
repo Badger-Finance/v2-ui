@@ -2,7 +2,6 @@ import BigNumber from 'bignumber.js';
 import Web3 from 'web3';
 import { Contract, ContractSendMethod } from 'web3-eth-contract';
 import { PromiEvent } from 'web3-core';
-import _ from 'lodash';
 import { AbiItem } from 'web3-utils';
 import { BatchConfig, TokenContract, DeployConfig, Network, BscNetwork, EthNetwork } from '../model';
 import { NETWORK_LIST, NETWORK_IDS } from '../../config/constants';
@@ -20,7 +19,7 @@ export const getNetwork = (network?: string): Network => {
 	}
 };
 
-export const getNetworkId = (network: string | undefined) => {
+export const getNetworkId = (network: string | undefined): number => {
 	switch (network) {
 		case NETWORK_LIST.BSC:
 			return 56;
