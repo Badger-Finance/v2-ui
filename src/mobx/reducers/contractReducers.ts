@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js';
 import _ from 'lodash';
-import { NETWORK_CONSTANTS, NETWORK_LIST } from 'config/constants';
+import { NETWORK_CONSTANTS } from 'config/constants';
 import deploy from 'config/deployments/mainnet.json';
 import { batchConfig } from 'mobx/utils/web3';
 import { RootStore } from 'mobx/store';

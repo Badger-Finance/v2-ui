@@ -6,8 +6,8 @@ import AirdropStore from './stores/airdropStore';
 import RebaseStore from './stores/rebaseStore';
 import RewardsStore from './stores/rewardsStore';
 import IbBTCStore from './stores/ibBTCStore';
-import BridgeStore from './stores/bridgeStore';
-import SettStoreV2 from './stores/settStoreV2';
+import TransactionsStore from './stores/transactionsStore';
+import SettStore from './stores/SettStore';
 import { NETWORK_LIST } from '../config/constants';
 import { HoneyPotStore } from './stores/honeyPotStore';
 
@@ -20,8 +20,8 @@ export class RootStore {
 	public rebase: RebaseStore;
 	public rewards: RewardsStore;
 	public ibBTCStore: IbBTCStore;
-	public setts: SettStoreV2;
 	public bridge: BridgeStore;
+	public setts: SettStore;
 	public honeyPot: HoneyPotStore;
 
 	constructor() {
@@ -36,7 +36,7 @@ export class RootStore {
 		// RenVM bridge store.
 		this.bridge = new BridgeStore(this);
 		this.honeyPot = new HoneyPotStore(this);
-		this.setts = new SettStoreV2(this);
+		this.setts = new SettStore(this);
 
 		this.walletRefresh();
 	}
