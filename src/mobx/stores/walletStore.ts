@@ -81,7 +81,6 @@ class WalletStore {
 
 			// call wallet select with that value if it exists
 			if (!!previouslySelectedWallet) {
-				// this.onboard
 				this.onboard.walletSelect(previouslySelectedWallet);
 			}
 			this.notify.config({
