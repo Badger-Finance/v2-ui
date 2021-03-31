@@ -19,15 +19,15 @@ import WBTCLogo from '../../assets/icons/WBTC.svg';
 import BTCLogo from '../../assets/icons/btc.svg';
 import {
 	ERC20,
-	BADGER_ADAPTER,
-	CURVE_EXCHANGE,
-	BTC_GATEWAY,
 	NETWORK_CONSTANTS,
 	NETWORK_LIST,
 	CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS,
 	RENVM_GATEWAY_ADDRESS,
 } from '../../config/constants';
 import { bridge_system } from 'config/deployments/mainnet.json';
+import { BADGER_ADAPTER } from 'config/system/abis/BadgerAdapter';
+import { BTC_GATEWAY } from 'config/system/abis/BtcGateway';
+import { CURVE_EXCHANGE } from 'config/system/abis/CurveExchange';
 
 const MIN_AMOUNT = 0.002;
 // SLIPPAGE_BUFFER increases estimated slippage by 5%.
