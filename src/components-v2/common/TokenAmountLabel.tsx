@@ -14,6 +14,9 @@ const useStyles = makeStyles((theme) => ({
 			justifyContent: 'flex-end',
 		},
 	},
+	balanceText: {
+		wordBreak: 'break-word',
+	},
 }));
 
 export const TokenAmountLabel: FC<Props> = ({ name, balanceLabel = '', balance = '' }) => {
@@ -33,7 +36,7 @@ export const TokenAmountLabel: FC<Props> = ({ name, balanceLabel = '', balance =
 							{balanceLabel}
 						</Typography>
 					</Grid>
-					<Grid item>
+					<Grid item className={classes.balanceText}>
 						<Typography variant="body2" color="textPrimary">
 							{balance}
 						</Typography>
