@@ -2,17 +2,16 @@ import React, { FC, useContext, useState } from 'react';
 import { Box, Button, Container, Grid, MenuItem, Select } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { StoreContext } from 'mobx/store-context';
-
-import TokenAmountLabel from 'components-v2/common/TokenAmountSelector';
-import TokenAmountSelector from 'components-v2/common/TokenAmountLabel';
+import TokenAmountLabel from 'components-v2/common/TokenAmountLabel';
+import TokenAmountSelector from 'components-v2/common/TokenAmountSelector';
 import { scaleToString, Direction } from 'utils/componentHelpers';
 import { useDetails, useError } from './manage.hooks';
-import { ClawDetails, ConnectWalletButton, validateAmountBoundaries } from '../shared';
+import { ClawDetails, ActionButton, validateAmountBoundaries } from '../shared';
 import { ClawParam, useMainStyles } from '../index';
 
 enum Mode {
-        DEPOSIT = 'deposit',
-        WITHDRAW = 'withdraw',
+	DEPOSIT = 'deposit',
+	WITHDRAW = 'withdraw',
 }
 
 const Manage: FC = () => {
@@ -22,40 +21,46 @@ const Manage: FC = () => {
 	const [mode, setMode] = useState<Mode.DEPOSIT | Mode.WITHDRAW>(Mode.DEPOSIT);
 	const [manage, setManageParams] = useState<ClawParam>({});
 	const details = useDetails(mode, manage);
-	const error =  useError(manage);
+	const error = useError(manage);
+
 	const { selectedOption, amount } = manage;
 	const selectedSynthetic = syntheticsDataByEMP.get(selectedOption || '');
 	const bToken = contracts.tokens[selectedSynthetic?.collateralCurrency.toLocaleLowerCase() ?? ''];
-        const decimals = bToken ? bToken.decimals : 18; // Default to 18 decimals.
-        const position = sponsorInformationByEMP.get(selectedOption || '')?.position
+	const decimals = bToken ? bToken.decimals : 18; // Default to 18 decimals.
+	const position = sponsorInformationByEMP.get(selectedOption || '')?.position;
 
-        // handleManage depends on the mode.
-        let balanceLabel = '';
-        let balance = new BigNumber(0);
-        switch (mode) {
-                case Mode.DEPOSIT:
-                        balance = bToken?.balance;
-                        balanceLabel = bToken && `Available ${collaterals.get(bToken.address)}: `;
-                        break;
-                case Mode.WITHDRAW:
-                        balanceLabel = bToken && `Deposited collateral ${collaterals.get(bToken.address)}: `;
-                        if (position) {
-                                balance = position.rawCollateral;
-                        }
-                        break;
-        }
-        const handleManageFns = {
-                [Mode.DEPOSIT]: () => {
-                        const [empAddress, depositAmount] = [selectedOption, amount]
-                        if (!empAddress || !depositAmount) return;
-                        store.deposit({ empAddress, depositAmount });
-                },
-                [Mode.WITHDRAW]: () => {
-                        const [empAddress, collateralAmount] = [selectedOption, amount]
-                        if (!empAddress || !collateralAmount) return;
-                        store.withdraw({ empAddress, collateralAmount });
-                },
-        };
+	// handleManage depends on the mode.
+	let balanceLabel = '';
+	let balance = new BigNumber(0);
+
+	switch (mode) {
+		case Mode.DEPOSIT:
+			balance = bToken?.balance;
+			balanceLabel = bToken && `Available ${collaterals.get(bToken.address)}: `;
+			break;
+		case Mode.WITHDRAW:
+			balanceLabel = bToken && `Deposited collateral ${collaterals.get(bToken.address)}: `;
+			if (position) {
+				balance = position.rawCollateral;
+			}
+			break;
+	}
+
+	const handleManageFns = {
+		[Mode.DEPOSIT]: () => {
+			const [empAddress, depositAmount] = [selectedOption, amount];
+			if (!empAddress || !depositAmount) return;
+			store.actionStore.deposit(empAddress, new BigNumber(depositAmount).multipliedBy(10 ** decimals).toString());
+		},
+		[Mode.WITHDRAW]: () => {
+			const [empAddress, collateralAmount] = [selectedOption, amount];
+			if (!empAddress || !collateralAmount) return;
+			store.actionStore.withdraw(
+				empAddress,
+				new BigNumber(collateralAmount).multipliedBy(10 ** decimals).toString(),
+			);
+		},
+	};
 
 	return (
 		<Container>
@@ -116,9 +121,7 @@ const Manage: FC = () => {
 
 							setManageParams({
 								selectedOption,
-								amount: balance
-                                                                        .multipliedBy(percentage / 100)
-									.toFixed(0, BigNumber.ROUND_DOWN),
+								amount: scaleToString(balance.multipliedBy(percentage / 100), decimals, Direction.Down),
 								error: undefined,
 							});
 						}}
@@ -132,20 +135,11 @@ const Manage: FC = () => {
 				</Grid>
 				<Grid item xs={12}>
 					<Grid container>
-						{!wallet.connectedAddress ? (
-							<ConnectWalletButton />
-						) : (
-							<Button
-								color="primary"
-								variant="contained"
-								disabled={!!error}
-								size="large"
-								className={classes.button}
-                                                                onClick={handleManageFns[mode]}
-							>
-								{error ? error : mode.toLocaleUpperCase()}
-							</Button>
-						)}
+						<ActionButton
+							text={error ? error : mode.toLocaleUpperCase()}
+							disabled={!!error}
+							onClick={handleManageFns[mode]}
+						/>
 					</Grid>
 				</Grid>
 			</Grid>

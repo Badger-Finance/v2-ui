@@ -4,11 +4,11 @@ import { StoreContext } from 'mobx/store-context';
 import BigNumber from 'bignumber.js';
 import { ethers } from 'ethers';
 
-import TokenAmountLabel from 'components-v2/common/TokenAmountSelector';
-import TokenAmountSelector from 'components-v2/common/TokenAmountLabel';
+import TokenAmountLabel from 'components-v2/common/TokenAmountLabel';
+import TokenAmountSelector from 'components-v2/common/TokenAmountSelector';
 import { scaleToString, Direction } from 'utils/componentHelpers';
 import { ClawParam, useMainStyles } from '../index';
-import { ClawDetails, ConnectWalletButton, validateAmountBoundaries } from '../shared';
+import { ClawDetails, ActionButton, validateAmountBoundaries } from '../shared';
 import { useAmountToReceive, useDetails, useError } from './redeem.hooks';
 
 const useStyles = makeStyles((theme) => ({
@@ -44,18 +44,15 @@ const Redeem: FC = () => {
 	const { selectedOption, amount } = redeem;
 	const selectedSynthetic = syntheticsDataByEMP.get(selectedOption || '');
 	const bToken = contracts.tokens[selectedSynthetic?.collateralCurrency.toLocaleLowerCase() ?? ''];
-        const decimals = bToken ? bToken.decimals : 18; // Default to 18 decimals.
+	const decimals = bToken ? bToken.decimals : 18; // Default to 18 decimals.
 	const clawBalance = sponsorInformationByEMP.get(selectedOption || '')?.position.tokensOutstanding;
 	const amountToReceive = useAmountToReceive(redeem, decimals);
 
-        const handleRedeem = () => {
-                const [empAddress, numTokens] = [selectedOption, amount];
-                if (!empAddress || !numTokens) return;
-                store.redeem({
-                        empAddress,
-                        numTokens: new ethers.utils.BigNumber(numTokens).toHexString(),
-                });
-        };
+	const handleRedeem = () => {
+		const [empAddress, numTokens] = [selectedOption, amount];
+		if (!empAddress || !numTokens) return;
+		store.actionStore.redeem(empAddress, new ethers.utils.BigNumber(numTokens).toHexString());
+	};
 
 	return (
 		<Grid container>
@@ -76,7 +73,7 @@ const Redeem: FC = () => {
 						displayAmount={scaleToString(amount, decimals, Direction.Down)}
 						onAmountChange={(amount: string) => {
 							if (!clawBalance || !bToken) return;
-                                                        amount = scaleToString(amount, bToken.decimals, Direction.Up);
+							amount = scaleToString(amount, bToken.decimals, Direction.Up);
 							setRedeemParams({
 								selectedOption,
 								amount,
@@ -98,9 +95,7 @@ const Redeem: FC = () => {
 
 							setRedeemParams({
 								selectedOption,
-								amount: clawBalance
-									.multipliedBy(percentage / 100)
-									.toFixed(0, BigNumber.ROUND_DOWN),
+								amount: clawBalance.multipliedBy(percentage / 100).toFixed(0, BigNumber.ROUND_DOWN),
 								error: undefined,
 							});
 						}}
@@ -144,20 +139,7 @@ const Redeem: FC = () => {
 			</Grid>
 			<Grid item xs={12}>
 				<Grid container>
-					{!wallet.connectedAddress ? (
-						<ConnectWalletButton />
-					) : (
-						<Button
-							color="primary"
-							variant="contained"
-							disabled={!!error}
-                                                        onClick={handleRedeem}
-							size="large"
-							className={mainClasses.button}
-						>
-							{error ? error : 'REDEEM'}
-						</Button>
-					)}
+					<ActionButton text={error ? error : 'REDEEM'} disabled={!!error} onClick={handleRedeem} />
 				</Grid>
 			</Grid>
 		</Grid>
