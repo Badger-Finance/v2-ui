@@ -21,12 +21,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import { ClassNameMap } from '@material-ui/core/styles/withStyles';
 
 import { StoreContext } from 'mobx/store-context';
-import {
-        ClawStore,
-        SponsorData,
-        SyntheticData,
-        Liquidation,
-} from 'mobx/stores/clawStore';
+import { Liquidation, SyntheticData } from 'mobx/model';
+import ClawStore from 'mobx/stores/claw/clawStore';
 
 export const useMainStyles = makeStyles((theme) => ({
 	table: {
@@ -69,93 +65,91 @@ const rows = [
 ];
 
 interface LiquidationRowProps {
-        classes: ClassNameMap;
-        store: ClawStore
-        liquidation: Liquidation;
-        synthetic: SyntheticData;
-        decimals: number;
-};
+	classes: ClassNameMap;
+	store: ClawStore;
+	liquidation: Liquidation;
+	synthetic: SyntheticData;
+	decimals: number;
+}
 
 const LiquidationRow: FC<LiquidationRowProps> = ({
-        store,
-        liquidation,
-        synthetic,
-        classes,
-        decimals,
-} : LiquidationRowProps) => {
-        return (
-                <TableRow hover={true} key={synthetic.name} className={classes.tableRow}/>
-        );
-        // TODO: Hook up liquidation info.
-        //return (
-        //        <TableRow hover={true} key={synthetic.name} className={classes.tableRow}>
-        //                <TableCell>
-        //                        <Typography variant="body1">{row.token}</Typography>
-        //                </TableCell>
-        //                <TableCell>{row.price}</TableCell>
-        //                <TableCell>
-        //                        <Grid container alignItems="center">
-        //                                <Grid item style={{ marginRight: '0.25rem' }}>
-        //                                        <Typography variant="body2">{row.locked}</Typography>
-        //                                </Grid>
-        //                                <Grid item>
-        //                                        <Typography variant="body2" color={'textSecondary'}>
-        //                                                / {row.liquidated}
-        //                                        </Typography>
-        //                                </Grid>
-        //                        </Grid>
-        //                </TableCell>
-        //                <TableCell>{row.initiated}</TableCell>
-        //                <TableCell>
-        //                        {row.status === 'Complete' ? (
-        //                                `${row.status} - ${row.complete}`
-        //                        ) : row.status === 'Invalid' ? (
-        //                                <Tooltip title="Error details go here.">
-        //                                        <Chip
-        //                                                color="primary"
-        //                                                className={classes.redChip}
-        //                                                icon={<InfoOutlinedIcon />}
-        //                                                label={row.status}
-        //                                        />
-        //                                </Tooltip>
-        //                        ) : (
-        //                                <Chip color="primary" label={row.status} />
-        //                        )}
-        //                </TableCell>
-        //                <TableCell align="right">
-        //                        <IconButton color="secondary">
-        //                                <UnfoldMoreTwoTone />
-        //                        </IconButton>
-        //                </TableCell>
-        //        </TableRow>
-        //);
-}
+	store,
+	liquidation,
+	synthetic,
+	classes,
+	decimals,
+}: LiquidationRowProps) => {
+	return <TableRow hover={true} key={synthetic.name} className={classes.tableRow} />;
+	// TODO: Hook up liquidation info.
+	//return (
+	//        <TableRow hover={true} key={synthetic.name} className={classes.tableRow}>
+	//                <TableCell>
+	//                        <Typography variant="body1">{row.token}</Typography>
+	//                </TableCell>
+	//                <TableCell>{row.price}</TableCell>
+	//                <TableCell>
+	//                        <Grid container alignItems="center">
+	//                                <Grid item style={{ marginRight: '0.25rem' }}>
+	//                                        <Typography variant="body2">{row.locked}</Typography>
+	//                                </Grid>
+	//                                <Grid item>
+	//                                        <Typography variant="body2" color={'textSecondary'}>
+	//                                                / {row.liquidated}
+	//                                        </Typography>
+	//                                </Grid>
+	//                        </Grid>
+	//                </TableCell>
+	//                <TableCell>{row.initiated}</TableCell>
+	//                <TableCell>
+	//                        {row.status === 'Complete' ? (
+	//                                `${row.status} - ${row.complete}`
+	//                        ) : row.status === 'Invalid' ? (
+	//                                <Tooltip title="Error details go here.">
+	//                                        <Chip
+	//                                                color="primary"
+	//                                                className={classes.redChip}
+	//                                                icon={<InfoOutlinedIcon />}
+	//                                                label={row.status}
+	//                                        />
+	//                                </Tooltip>
+	//                        ) : (
+	//                                <Chip color="primary" label={row.status} />
+	//                        )}
+	//                </TableCell>
+	//                <TableCell align="right">
+	//                        <IconButton color="secondary">
+	//                                <UnfoldMoreTwoTone />
+	//                        </IconButton>
+	//                </TableCell>
+	//        </TableRow>
+	//);
+};
 
 const Liquidations: FC = observer(() => {
 	const { claw: store, contracts } = useContext(StoreContext);
 	const { isLoading, sponsorInformationByEMP, syntheticsData } = store;
 	const classes = useMainStyles();
-        const sponsorInfo = new Map(Object.entries(toJS(sponsorInformationByEMP)));
-        const synthetics = toJS(syntheticsData);
-        const rows = [];
-        synthetics.forEach((synthetic: SyntheticData) => {
-               const { position } = sponsorInfo.get(synthetic.address);
-               if (!position) return;
-               const bToken = contracts.tokens[synthetic.collateralCurrency.toLocaleLowerCase()]
-               const decimals = bToken ? bToken.decimals : 18;
-               position.liquidations.forEach((liquidation: Liquidation) => {
-                       rows.push(
-                               <LiquidationRow
-                                       key={synthetic.name}
-                                       store={store}
-                                       liquidation={liquidation}
-                                       synthetic={synthetic}
-                                       decimals={decimals}
-                                       classes={classes}
-                                />
-                        );
-                })
-        })
+	const sponsorInfo = new Map(Object.entries(toJS(sponsorInformationByEMP)));
+	const synthetics = toJS(syntheticsData);
+	const rows = [];
+	synthetics.forEach((synthetic: SyntheticData) => {
+		const { position } = sponsorInfo.get(synthetic.address);
+		if (!position) return;
+		const bToken = contracts.tokens[synthetic.collateralCurrency.toLocaleLowerCase()];
+		const decimals = bToken ? bToken.decimals : 18;
+		position.liquidations.forEach((liquidation: Liquidation) => {
+			rows.push(
+				<LiquidationRow
+					key={synthetic.name}
+					store={store}
+					liquidation={liquidation}
+					synthetic={synthetic}
+					decimals={decimals}
+					classes={classes}
+				/>,
+			);
+		});
+	});
 	return (
 		<Box style={{ marginTop: '2rem' }}>
 			<Typography variant="h4">Liquidations</Typography>
@@ -172,8 +166,7 @@ const Liquidations: FC = observer(() => {
 							<TableCell colSpan={2}>Status / Completion</TableCell>
 						</TableRow>
 					</TableHead>
-					<TableBody>
-					</TableBody>
+					<TableBody></TableBody>
 				</Table>
 			</TableContainer>
 		</Box>
