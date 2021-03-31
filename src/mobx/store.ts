@@ -10,7 +10,7 @@ import BridgeStore from './stores/bridgeStore';
 import SettStore from './stores/SettStore';
 import { NETWORK_LIST } from '../config/constants';
 import { HoneyPotStore } from './stores/honeyPotStore';
-import { ClawStore } from './stores/clawStore';
+import { ClawStore } from './stores/claw/clawStore';
 
 export class RootStore {
 	public router: RouterStore<RootStore>;
