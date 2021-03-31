@@ -3,7 +3,6 @@ import Web3 from 'web3';
 import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
-
 import { estimateAndSend } from '../utils/web3';
 import { RootStore } from '../store';
 import _ from 'lodash';
@@ -11,7 +10,6 @@ import { jsonQuery } from '../utils/helpers';
 import { reduceClaims, reduceTimeSinceLastCycle } from '../reducers/statsReducers';
 import { abi as rewardsAbi } from '../../config/system/abis/BadgerTree.json';
 import { abi as diggAbi } from '../../config/system/abis/UFragments.json';
-
 import { badgerTree, digg_system } from '../../config/deployments/mainnet.json';
 
 class RewardsStore {
@@ -63,10 +61,16 @@ class RewardsStore {
 				);
 				if (network.rewards) {
 					const endpointQuery = jsonQuery(`${network.rewards.endpoint}/${checksumAddress}`);
-					endpointQuery!
+					if (!endpointQuery) {
+						return;
+					}
+					endpointQuery
 						.then((proof: any) => {
+							if (!network.rewards) {
+								return;
+							}
 							Promise.all([
-								rewardsTree.methods.getClaimedFor(connectedAddress, network.rewards!.tokens).call(),
+								rewardsTree.methods.getClaimedFor(connectedAddress, network.rewards.tokens).call(),
 								diggToken.methods._sharesPerFragment().call(),
 							])
 								.then((result: any[]) => {

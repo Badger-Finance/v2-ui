@@ -21,7 +21,6 @@ import { EMPTY_DATA, ERC20, NETWORK_CONSTANTS, NETWORK_LIST } from 'config/const
 import { formatAmount } from 'mobx/reducers/statsReducers';
 import BatchCall from 'web3-batch-call';
 import { getApi } from '../utils/apiV2';
-import SettStoreV2 from './settStoreV2';
 
 let batchCall: any = null;
 

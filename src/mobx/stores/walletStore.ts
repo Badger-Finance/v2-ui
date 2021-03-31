@@ -2,23 +2,22 @@ import { extendObservable, action } from 'mobx';
 import Web3 from 'web3';
 import Onboard from 'bnc-onboard';
 import Notify from 'bnc-notify';
-
 import BigNumber from 'bignumber.js';
 import { onboardWalletCheck, getOnboardWallets } from '../../config/wallets';
 import { getNetwork, getNetworkNameFromId } from '../../mobx/utils/web3';
-import _ from 'lodash';
-import { Network } from 'mobx/model';
+import { GasPrices, Network } from 'mobx/model';
 import { RootStore } from 'mobx/store';
+import { API } from 'bnc-onboard/dist/src/interfaces';
 
 class WalletStore {
 	private store: RootStore;
-	public onboard: any;
+	public onboard: API;
 	public notify: any;
-	public provider?: any = null;
+	public provider?: any | null;
 	public connectedAddress = '';
 	public currentBlock?: number;
 	public ethBalance?: BigNumber;
-	public gasPrices: { [index: string]: number };
+	public gasPrices: GasPrices;
 	public network: Network;
 
 	constructor(store: RootStore) {
@@ -42,6 +41,7 @@ class WalletStore {
 			},
 			walletCheck: onboardWalletCheck,
 		};
+		const onboard = Onboard(onboardOptions);
 
 		const notifyOptions: any = {
 			dappId: 'af74a87b-cd08-4f45-83ff-ade6b3859a07',
@@ -55,10 +55,13 @@ class WalletStore {
 			gasPrices: { slow: 51, standard: 75, rapid: 122 },
 			ethBalance: new BigNumber(0),
 			network: this.network,
-			onboard: Onboard(onboardOptions),
+			onboard: onboard,
 			notify: Notify(notifyOptions),
 		});
 
+		// set defaults
+		this.onboard = onboard;
+		this.provider = null;
 		this.init();
 	}
 
@@ -78,6 +81,7 @@ class WalletStore {
 
 			// call wallet select with that value if it exists
 			if (!!previouslySelectedWallet) {
+				// this.onboard
 				this.onboard.walletSelect(previouslySelectedWallet);
 			}
 			this.notify.config({
