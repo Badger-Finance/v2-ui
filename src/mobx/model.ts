@@ -443,6 +443,15 @@ export type RewardNetworkConfig = {
 	tokens: string[];
 };
 
+export type TokenContractInfo = {
+	abi: AbiItem[];
+	methods: {
+		name: string;
+		args?: string[];
+	}[];
+	contracts: string[];
+};
+
 export type TokenNetworkConfig = {
 	curveTokens?: {
 		contracts: string[];
@@ -451,16 +460,7 @@ export type TokenNetworkConfig = {
 		vsToken: string;
 	};
 	priceEndpoints: string[];
-	tokenBatches: [
-		{
-			abi: AbiItem[];
-			methods: {
-				name: string;
-				args?: string[];
-			}[];
-			contracts: string[];
-		},
-	];
+	tokenBatches: TokenContractInfo[];
 	decimals: { [index: string]: number };
 	symbols: { [index: string]: string };
 	names: { [index: string]: string };
@@ -517,16 +517,20 @@ export interface GasPrices {
 	[speed: string]: number;
 }
 
+export interface NotifyLink {
+	link: string;
+}
+
 export interface Network {
 	name: string;
 	networkId: number;
 	fullName: string;
-	tokens: TokenNetworkConfig | undefined;
-	vaults: VaultNetworkConfig | undefined;
-	geysers: GeyserNetworkConfig | undefined;
+	tokens: TokenNetworkConfig;
+	vaults: VaultNetworkConfig;
+	geysers: GeyserNetworkConfig;
 	rebase: RebaseNetworkConfig | undefined;
 	airdrops: AirdropNetworkConfig | undefined;
-	deploy: DeployConfig | undefined;
+	deploy: DeployConfig;
 	rewards: RewardNetworkConfig | undefined;
 	gasEndpoint: string;
 	sidebarTokenLinks: {
@@ -535,11 +539,7 @@ export interface Network {
 	}[];
 	settOrder: string[];
 	getGasPrices: () => Promise<GasPrices>;
-	getNotifyLink: (
-		transaction: any,
-	) => {
-		link: string;
-	};
+	getNotifyLink: (transaction: any) => NotifyLink;
 }
 
 export class BscNetwork implements Network {
@@ -556,9 +556,9 @@ export class BscNetwork implements Network {
 	public readonly gasEndpoint = '';
 	// Deterministic order for displaying setts on the sett list component
 	public readonly settOrder = [
-		this.deploy!.sett_system.vaults['native.bDiggBtcb'],
-		this.deploy!.sett_system.vaults['native.bBadgerBtcb'],
-		this.deploy!.sett_system.vaults['native.pancakeBnbBtcb'],
+		this.deploy.sett_system.vaults['native.bDiggBtcb'],
+		this.deploy.sett_system.vaults['native.bBadgerBtcb'],
+		this.deploy.sett_system.vaults['native.pancakeBnbBtcb'],
 	];
 	public readonly sidebarTokenLinks = [
 		{
@@ -573,7 +573,7 @@ export class BscNetwork implements Network {
 	public async getGasPrices(): Promise<GasPrices> {
 		return { standard: 10 };
 	}
-	public getNotifyLink(transaction: any) {
+	public getNotifyLink(transaction: any): NotifyLink {
 		return { link: `https://bscscan.com//tx/${transaction.hash}` };
 	}
 }
@@ -592,17 +592,17 @@ export class EthNetwork implements Network {
 	public readonly gasEndpoint = 'https://www.gasnow.org/api/v3/gas/price?utm_source=badgerv2';
 	// Deterministic order for displaying setts on the sett list component
 	public readonly settOrder = [
-		this.deploy!.sett_system.vaults['native.digg'],
-		this.deploy!.sett_system.vaults['native.badger'],
-		this.deploy!.sett_system.vaults['native.sushiDiggWbtc'],
-		this.deploy!.sett_system.vaults['native.sushiBadgerWbtc'],
-		this.deploy!.sett_system.vaults['native.sushiWbtcEth'],
-		this.deploy!.sett_system.vaults['native.uniDiggWbtc'],
-		this.deploy!.sett_system.vaults['native.uniBadgerWbtc'],
-		this.deploy!.sett_system.vaults['native.renCrv'],
-		this.deploy!.sett_system.vaults['native.sbtcCrv'],
-		this.deploy!.sett_system.vaults['native.tbtcCrv'],
-		this.deploy!.sett_system.vaults['harvest.renCrv'],
+		this.deploy.sett_system.vaults['native.digg'],
+		this.deploy.sett_system.vaults['native.badger'],
+		this.deploy.sett_system.vaults['native.sushiDiggWbtc'],
+		this.deploy.sett_system.vaults['native.sushiBadgerWbtc'],
+		this.deploy.sett_system.vaults['native.sushiWbtcEth'],
+		this.deploy.sett_system.vaults['native.uniDiggWbtc'],
+		this.deploy.sett_system.vaults['native.uniBadgerWbtc'],
+		this.deploy.sett_system.vaults['native.renCrv'],
+		this.deploy.sett_system.vaults['native.sbtcCrv'],
+		this.deploy.sett_system.vaults['native.tbtcCrv'],
+		this.deploy.sett_system.vaults['harvest.renCrv'],
 	];
 	public readonly sidebarTokenLinks = [
 		{
@@ -629,7 +629,7 @@ export class EthNetwork implements Network {
 		};
 	}
 
-	public getNotifyLink(transaction: any) {
+	public getNotifyLink(transaction: any): NotifyLink {
 		return { link: `https://etherscan.io/tx/${transaction.hash}` };
 	}
 }
