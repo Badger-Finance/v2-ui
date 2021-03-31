@@ -1,6 +1,6 @@
-import { AbiItem } from "web3-utils";
+import { AbiItem } from 'web3-utils';
 
-export const CURVE_EXCHANGE: AbiItem[]  = [
+export const CURVE_EXCHANGE: AbiItem[] = [
 	{
 		name: 'TokenExchange',
 		inputs: [
