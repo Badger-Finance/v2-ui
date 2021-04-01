@@ -52,8 +52,10 @@ export function useAmountToReceive({ selectedOption, amount }: ClawParam, decima
 	if (!amount || !userEmpInformation || !synthetic) return new BigNumber(0);
 
 	const { tokensOutstanding, rawCollateral } = userEmpInformation.position;
-	const fractionRedeemed = new BigNumber(amount).dividedBy(tokensOutstanding);
-	const feeAdjustedCollateral = rawCollateral.multipliedBy(synthetic.cumulativeFeeMultiplier.dividedBy(TEN.pow(decimals)));
+	const fractionRedeemed = new BigNumber(amount).multipliedBy(10 ** decimals).dividedBy(tokensOutstanding);
+	const feeAdjustedCollateral = rawCollateral.multipliedBy(
+		synthetic.cumulativeFeeMultiplier.dividedBy(TEN.pow(decimals)),
+	);
 
 	return fractionRedeemed.multipliedBy(feeAdjustedCollateral);
 }

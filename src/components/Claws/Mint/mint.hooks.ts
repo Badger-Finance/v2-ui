@@ -3,6 +3,7 @@ import BigNumber from 'bignumber.js';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import { StoreContext } from 'mobx/store-context';
+import { scaleToString, Direction } from 'utils/componentHelpers';
 import { ClawParam, INVALID_REASON } from '..';
 
 dayjs.extend(utc);
@@ -39,30 +40,34 @@ export function useMintDetails(collateral: ClawParam, mint: ClawParam) {
 	const store = React.useContext(StoreContext);
 	const collateralToken = store.contracts.tokens[collateral.selectedOption || ''];
 	const synthetics = store.claw.syntheticsDataByEMP.get(mint.selectedOption || '');
+	const price = synthetics && store.setts.getPrice(synthetics.collateralCurrency);
 
-	if (!synthetics || !collateralToken) {
+	if (!synthetics || !collateralToken || !collateral.amount || !mint.amount || !price) {
 		return {
-			'Liquidation Price': '-',
-			'Collateral Ratio - Global': '-',
-			'Collateral Ratio - Minimum': '-',
-			'Collateral Ratio - Current': `-`,
-			Expiration: '-',
-			'Minimum Mint': '-',
+			'Liquidation Price': undefined,
+			'Collateral Ratio - Global': undefined,
+			'Collateral Ratio - Minimum': undefined,
+			'Collateral Ratio - Current': undefined,
+			Expiration: undefined,
+			'Minimum Mint': undefined,
 		};
 	}
 
 	const { globalCollateralizationRatio, minSponsorTokens, collateralRequirement, expirationTimestamp } = synthetics;
-	const precision = 10 ** collateralToken.decimals;
+
+	const precision = collateralToken.decimals;
+	const liquidationPrice = new BigNumber(collateral.amount).multipliedBy(price);
+	const currentCollateralRatio = liquidationPrice.dividedBy(mint.amount);
 
 	return {
-		'Liquidation Price': '1.000 (Still Hardcoded)',
-		'Collateral Ratio - Global': `${globalCollateralizationRatio.dividedBy(precision).toString()}x`,
-		'Collateral Ratio - Minimum': `${collateralRequirement.dividedBy(precision).toString()}x`,
-		'Collateral Ratio - Current': `4x (Still Hardcoded)`,
+		'Liquidation Price': scaleToString(liquidationPrice, precision, Direction.Down),
+		'Collateral Ratio - Global': `${scaleToString(globalCollateralizationRatio, precision, Direction.Down)}x`,
+		'Collateral Ratio - Minimum': `${scaleToString(collateralRequirement, precision, Direction.Down)}x`,
+		'Collateral Ratio - Current': `${currentCollateralRatio.toString()}x`,
 		Expiration: `${dayjs(new Date(expirationTimestamp.toNumber() * 1000))
 			.utc()
 			.format('MMMM DD, YYYY HH:mm')} UTC`,
-		'Minimum Mint': `${minSponsorTokens.dividedBy(precision).toString()} CLAW`,
+		'Minimum Mint': `${scaleToString(minSponsorTokens, precision, Direction.Down)} CLAW`,
 	};
 }
 
