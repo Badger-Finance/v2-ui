@@ -1,5 +1,5 @@
-import React, { FC, useContext, useState } from 'react';
-import { Box, Button, Grid, InputBase, makeStyles, Typography } from '@material-ui/core';
+import React from 'react';
+import { Box, Grid, InputBase, makeStyles, Typography } from '@material-ui/core';
 import { StoreContext } from 'mobx/store-context';
 import BigNumber from 'bignumber.js';
 import { ethers } from 'ethers';
@@ -32,12 +32,12 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const Redeem: FC = () => {
-	const { claw: store, contracts, wallet } = useContext(StoreContext);
+const Redeem = () => {
+	const { claw: store, contracts, wallet } = React.useContext(StoreContext);
 	const { collaterals, claws, syntheticsDataByEMP, sponsorInformationByEMP } = store;
 	const mainClasses = useMainStyles();
 	const classes = useStyles();
-	const [redeem, setRedeemParams] = useState<ClawParam>({});
+	const [redeem, setRedeemParams] = React.useState<ClawParam>({});
 	const details = useDetails(redeem);
 	const error = useError(redeem);
 
@@ -51,7 +51,7 @@ const Redeem: FC = () => {
 	const handleRedeem = () => {
 		const [empAddress, numTokens] = [selectedOption, amount];
 		if (!empAddress || !numTokens) return;
-		store.actionStore.redeem(empAddress, new ethers.utils.BigNumber(numTokens).toHexString());
+		store.actionStore.redeem(empAddress, ethers.utils.parseUnits(numTokens, decimals).toHexString());
 	};
 
 	return (
@@ -68,19 +68,20 @@ const Redeem: FC = () => {
 						</Grid>
 					</Box>
 					<TokenAmountSelector
-						options={claws}
 						placeholder="Select Token"
-						displayAmount={scaleToString(amount, decimals, Direction.Down)}
+						options={claws}
+						selectedOption={selectedOption}
+						displayAmount={amount}
+						disabledOptions={!wallet.connectedAddress}
+						disabledAmount={!selectedOption || !wallet.connectedAddress}
 						onAmountChange={(amount: string) => {
 							if (!clawBalance || !bToken) return;
-							amount = scaleToString(amount, bToken.decimals, Direction.Up);
 							setRedeemParams({
 								selectedOption,
 								amount,
 								error: validateAmountBoundaries({ amount, maximum: clawBalance }),
 							});
 						}}
-						selectedOption={selectedOption}
 						onOptionChange={(selectedOption: string) => {
 							setRedeemParams({
 								selectedOption,
@@ -88,14 +89,14 @@ const Redeem: FC = () => {
 								error: undefined,
 							});
 						}}
-						disabledOptions={!wallet.connectedAddress}
-						disabledAmount={!selectedOption || !wallet.connectedAddress}
 						onApplyPercentage={(percentage) => {
 							if (!clawBalance || !bToken) return;
-
 							setRedeemParams({
 								selectedOption,
-								amount: clawBalance.multipliedBy(percentage / 100).toFixed(0, BigNumber.ROUND_DOWN),
+								amount: clawBalance
+									.multipliedBy(percentage / 100)
+									.dividedBy(10 ** decimals)
+									.toFixed(0, BigNumber.ROUND_DOWN),
 								error: undefined,
 							});
 						}}
