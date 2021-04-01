@@ -1,11 +1,5 @@
-import React, { useContext } from 'react';
-import { Grid, Button, TextField, Typography } from '@material-ui/core';
-import { Token } from 'components/IbBTC/Tokens';
-import { ArrowDownward } from '@material-ui/icons';
-
-import { StoreContext } from 'mobx/store-context';
-import { MIN_AMOUNT } from './constants';
-import { Slippage } from './Common';
+import React from 'react';
+import { Grid, Button } from '@material-ui/core';
 
 interface MintFormProps {
 	values: any;
@@ -27,92 +21,59 @@ export const MintForm = (props: MintFormProps): JSX.Element => {
 	};
 
 	return (
-		<>
-			<Grid container spacing={2} alignItems={'center'} style={{ padding: '.6rem 2rem' }}>
-				<Grid item xs={12}>
-					<TextField
-						variant="outlined"
-						size="medium"
-						value={values.amount}
-						disabled={!!connectedAddress === false}
-						placeholder="0.00"
-						onChange={handleChange('amount')}
-						InputProps={{
-							style: { fontSize: '3rem' },
-							endAdornment: [
-								<div>
-									<Token token={{ symbol: 'BTC', icon: require('assets/icons/btc.svg') }} />
-								</div>,
-							],
-						}}
-					/>
-				</Grid>
-				<Grid item xs={12}>
-					<ArrowDownward />
-				</Grid>
-				<Grid item xs={12}>
-					<Typography variant="body1" color="textSecondary" style={{ textAlign: 'right' }}>
-						Balance: {values.token === 'renBTC' ? renbtcBalance : wbtcBalance}
-					</Typography>
-
-					<div className={classes.row}>
-						<Typography variant="h1">{values.receiveAmount.toFixed(8) || '0.00'}</Typography>
-						{assetSelect()}
+		<Grid container alignItems={'center'}>
+			<Grid item xs={12}>
+				<input
+					inputMode="numeric"
+					placeholder="0.00 BTC"
+					type="text"
+					className={classes.amountInput}
+					onChange={handleChange('amount')}
+					value={values.amount}
+					disabled={!!values.connectedAddress === false}
+				/>
+			</Grid>
+			{values.spacer}
+			{itemContainer('Receive token', assetSelect())}
+			{values.spacer}
+			{itemContainer('Destination', values.shortAddr)}
+			{values.spacer}
+			<Grid item xs={12}>
+				<div className={classes.itemContainer}>
+					<div>You will receive</div>
+					<div className={classes.receiveAmount}>
+						<img
+							src={values.token === 'WBTC' ? values.WBTCLogo : values.renBTCLogo}
+							className={classes.logo2}
+						/>
+						<div>
+							<div>{values.receiveAmount.toFixed(8)}</div>
+							<div>{values.token}</div>
+						</div>
 					</div>
-				</Grid>
-				{values.token === 'WBTC' && (
-					<Slippage
-						values={values}
-						classes={classes}
-						handleChange={handleChange}
-						handleSetMaxSlippage={handleSetMaxSlippage}
-                                                disabled={!!connectedAddress === false}
-					/>
+				</div>
+			</Grid>
+			{values.spacer}
+			{values.token === 'WBTC'
+				? itemContainer('Price impact', Math.abs(values.estimatedSlippage * 100).toFixed(2) + '%')
+				: null}
+			<Grid container justify={'center'}>
+				{!!values.connectedAddress ? (
+					<Button
+						variant="contained"
+						color="primary"
+						className={classes.button}
+						onClick={next}
+						disabled={(values.amount as number) > values.MIN_AMOUNT ? false : true}
+					>
+						Next
+					</Button>
+				) : (
+					<Button variant="contained" color="primary" className={classes.button} onClick={connectWallet}>
+						Connect
+					</Button>
 				)}
 			</Grid>
-			<Grid container spacing={2} alignItems={'center'} style={{ padding: '2rem 0 .5rem' }}>
-				<Grid item xs={12} className={classes.summaryWrapper}>
-					<div className={classes.summaryRow}>
-						<Typography variant="subtitle1">Destination </Typography>
-						<Typography variant="body1">{values.shortAddr || '0x...'}</Typography>
-					</div>
-					{values.token === 'WBTC' && (
-						<div className={classes.summaryRow}>
-							<Typography variant="subtitle1">Price impact: </Typography>
-							<Typography variant="body1">
-								{Math.abs(values.estimatedSlippage * 100).toFixed(2) + '%'}
-							</Typography>
-						</div>
-					)}
-				</Grid>
-			</Grid>
-			<Grid container spacing={2} alignItems={'center'} style={{ padding: '.6rem 2rem' }}>
-				<Grid container justify={'center'}>
-					{!!connectedAddress ? (
-						<Button
-							variant="contained"
-							color="primary"
-							className={classes.button}
-							onClick={next}
-							disabled={(values.amount as number) > MIN_AMOUNT ? false : true}
-							size="large"
-						>
-							Next
-						</Button>
-					) : (
-						<Button
-							fullWidth
-							size="large"
-							variant="contained"
-							color="primary"
-							className={classes.button}
-							onClick={connectWallet}
-						>
-							Connect
-						</Button>
-					)}
-				</Grid>
-			</Grid>
-		</>
+		</Grid>
 	);
 };
