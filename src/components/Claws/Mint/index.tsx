@@ -1,6 +1,5 @@
 import React from 'react';
 import { Grid, Box, Button } from '@material-ui/core';
-import BigNumber from 'bignumber.js';
 import { ethers } from 'ethers';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from 'mobx/store-context';
@@ -10,6 +9,7 @@ import { ClawDetails, ActionButton } from '../shared';
 import { useMainStyles } from '../index';
 import { useError, useMaxClaw, useMintDetails, useValidateClaw } from './mint.hooks';
 import { mintReducer, State } from './mint.reducer';
+import { scaleToString, Direction } from 'utils/componentHelpers';
 
 const initialState: State = { collateral: {}, synthetic: {} };
 
@@ -51,9 +51,10 @@ export const Mint = observer(() => {
 								balanceLabel={
 									collateralToken && `Available ${collaterals.get(collateralToken.address)}`
 								}
-								balance={collateralToken?.balance
-									.dividedBy(10 ** collateralToken.decimals)
-									.toFixed(collateralToken.decimals, BigNumber.ROUND_DOWN)}
+								balance={
+									collateralToken?.balance &&
+									scaleToString(collateralToken.balance, collateralToken.decimals, Direction.Down)
+								}
 							/>
 						</Grid>
 					</Box>
@@ -91,13 +92,11 @@ export const Mint = observer(() => {
 					<Grid item xs={12}>
 						<TokenAmountLabel
 							name="Mintable"
-							balanceLabel={maxClaw ? 'Max CLAW:' : ''}
+							balanceLabel={maxClaw ? 'Maximum CLAW:' : ''}
 							balance={
 								maxClaw &&
 								collateralToken &&
-								`Maximum CLAW: ${maxClaw
-									.toFixed(collateralToken.decimals, BigNumber.ROUND_DOWN)
-									.toString()}`
+								scaleToString(maxClaw, collateralToken.decimals, Direction.Down)
 							}
 						/>
 					</Grid>
