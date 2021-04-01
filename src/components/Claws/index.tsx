@@ -45,11 +45,17 @@ export const useMainStyles = makeStyles((theme) => ({
 		},
 	},
 	details: {
-		width: '50%',
+		width: '100%',
 		marginTop: theme.spacing(2),
 		margin: 'auto',
-		[theme.breakpoints.only('xs')]: {
+		'@media (min-width: 480px) and (max-width: 600px)': {
 			width: '80%',
+		},
+		[theme.breakpoints.between('sm', 'md')]: {
+			width: '60%',
+		},
+		[theme.breakpoints.up('lg')]: {
+			width: '50%',
 		},
 	},
 	button: {
@@ -98,6 +104,7 @@ export const Claws: FC = observer(() => {
 				return <Mint />;
 		}
 	};
+
 	const [totalWithdrawals, totalLiquidations] = Object.values(toJS(sponsorInformationByEMP)).reduce(
 		([numWithdrawals, numLiquidations]: [number, number], { pendingWithdrawal, liquidations }: SponsorData) => {
 			if (liquidations) {

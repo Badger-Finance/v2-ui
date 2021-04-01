@@ -3,7 +3,7 @@ import React, { FC } from 'react';
 import { Grid, Typography, makeStyles } from '@material-ui/core';
 
 interface Props {
-	details: Record<string, string>;
+	details: Record<string, string | undefined>;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -14,7 +14,12 @@ const useStyles = makeStyles((theme) => ({
 		marginTop: theme.spacing(1),
 	},
 	detail: {
+		wordBreak: 'break-word',
 		textAlign: 'end',
+	},
+	placeholder: {
+		wordBreak: 'break-word',
+		textAlign: 'center',
 	},
 	rightMargin: {
 		marginRight: theme.spacing(2),
@@ -31,14 +36,14 @@ export const ClawDetails: FC<Props> = ({ details }) => {
 		<Grid container className={classes.root}>
 			{Object.keys(details).map((key, _index) => (
 				<Grid container className={classes.row} key={`${key}_${_index}`}>
-					<Grid item xs className={[classes.detail, classes.rightMargin].join(' ')}>
+					<Grid item xs={6} className={[classes.detail].join(' ')}>
 						<Typography variant="body2" color="textSecondary">
 							{key}
 						</Typography>
 					</Grid>
-					<Grid item xs className={[classes.detail, classes.leftMargin].join(' ')}>
+					<Grid item xs={6} className={[details[key] ? classes.detail : classes.placeholder].join(' ')}>
 						<Typography variant="body2" color="textPrimary">
-							{details[key]}
+							{details[key] || '-'}
 						</Typography>
 					</Grid>
 				</Grid>
