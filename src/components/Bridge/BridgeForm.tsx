@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useCallback } from 'react';
 import BigNumber from 'bignumber.js';
 import { ethers } from 'ethers';
 import GatewayJS from '@renproject/gateway';
@@ -56,6 +56,20 @@ const formatNonceBytes32 = (nonce: number): string => {
 	return ethers.utils.hexZeroPad(`0x${nonce.toString(16)}`, 32);
 };
 
+// Initial state value that should be reset to initial values on reset.
+const initialStateResettable = {
+	amount: '',
+	receiveAmount: 0,
+	estimatedSlippage: 0,
+	// Default to 0.5%.
+	maxSlippage: '.5',
+	burnAmount: '',
+	btcAddr: '',
+	renFee: 0,
+	badgerFee: 0,
+	step: 1,
+};
+
 export const BridgeForm = observer((props: any) => {
 	const classes = props.classes;
 	const store = useContext(StoreContext);
@@ -82,20 +96,6 @@ export const BridgeForm = observer((props: any) => {
 			shortAddr,
 		},
 	} = store;
-
-	// Initial state value that should be reset to initial values on reset.
-	const initialStateResettable = {
-		amount: '',
-		receiveAmount: 0,
-		estimatedSlippage: 0,
-		// Default to 0.5%.
-		maxSlippage: '.5',
-		burnAmount: '',
-		btcAddr: '',
-		renFee: 0,
-		badgerFee: 0,
-		step: 1,
-	};
 
 	const intialState = {
 		...initialStateResettable,
@@ -142,13 +142,13 @@ export const BridgeForm = observer((props: any) => {
 		}
 	};
 
-	const resetState = () => {
+	const resetState = useCallback(() => {
 		// Reset everything except balances
 		setStates((prevState) => ({
 			...prevState,
 			...initialStateResettable,
 		}));
-	};
+	}, []);
 
 	const handleTabChange = (event: any, newValue: number) => {
 		setStates((prevState) => ({
