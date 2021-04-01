@@ -1,6 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Grid, Button, Checkbox, Tooltip } from '@material-ui/core';
 import InfoIcon from '@material-ui/icons/Info';
+import { StoreContext } from 'mobx/store-context';
+
+import { shortenAddress } from 'utils/componentHelpers';
+import renBTCLogo from 'assets/icons/renBTC.svg';
+import WBTCLogo from 'assets/icons/WBTC.svg';
 
 interface ConfirmFormProps {
 	values: any;
@@ -8,12 +13,16 @@ interface ConfirmFormProps {
 	previousStep: () => void;
 	confirmStep: () => void;
 	classes: any;
-	shortenAddress: (address: string) => string;
 	itemContainer: (label: string, item: any) => JSX.Element;
 }
 
 export const ConfirmForm = (props: ConfirmFormProps): JSX.Element => {
-	const { classes, confirmStep, previousStep, values, shortenAddress, itemContainer } = props;
+	const store = useContext(StoreContext);
+	const {
+		bridge: { renvmMintFee, renvmBurnFee, badgerBurnFee, badgerMintFee, lockNetworkFee, releaseNetworkFee },
+	} = store;
+	const { classes, confirmStep, previousStep, values, itemContainer } = props;
+
 	const [agreement, setAgreement] = useState({
 		ethRequired: false,
 		userError: false,
@@ -32,7 +41,7 @@ export const ConfirmForm = (props: ConfirmFormProps): JSX.Element => {
 		if (values.tabValue == 1) {
 			return values.BTCLogo;
 		} else {
-			return values.token === 'WBTC' ? values.WBTCLogo : values.renBTCLogo;
+			return values.token === 'WBTC' ? WBTCLogo : renBTCLogo;
 		}
 	};
 
@@ -63,7 +72,7 @@ export const ConfirmForm = (props: ConfirmFormProps): JSX.Element => {
 
 	return (
 		<Grid container alignItems={'center'}>
-			<Grid item xs={4}>
+			<Grid item xs={4} style={{ padding: '1rem 0rem' }}>
 				<Button variant="contained" size={'small'} color="primary" onClick={back}>
 					BACK
 				</Button>
@@ -86,10 +95,7 @@ export const ConfirmForm = (props: ConfirmFormProps): JSX.Element => {
 				<div className={classes.itemContainer}>
 					<div>{values.tabValue == 0 ? 'Minting' : 'Releasing'}</div>
 					<div className={classes.receiveAmount}>
-						<img
-							src={values.token === 'WBTC' ? values.WBTCLogo : values.renBTCLogo}
-							className={classes.logo2}
-						/>
+						<img src={values.token === 'WBTC' ? WBTCLogo : renBTCLogo} className={classes.logo2} />
 						<div>
 							<div>{values.token}</div>
 						</div>
@@ -103,22 +109,36 @@ export const ConfirmForm = (props: ConfirmFormProps): JSX.Element => {
 			<Grid item xs={12}>
 				{feeContainer(
 					'RenVM Fee',
-					`RenVM takes a ${values.renvmMintFee * 100}% fee per mint transaction and ${
-						values.renvmBurnFee * 100
+					`RenVM takes a ${renvmMintFee * 100}% fee per mint transaction and ${
+						renvmBurnFee * 100
 					}% per burn transaction. This is shared evenly between all active nodes in the decentralized network.`,
 					`${values.renFee.toFixed(8)} BTC`,
 				)}
 				{feeContainer(
 					'Badger Fee',
-					`Badger takes a ${values.badgerMintFee * 100}% fee per mint transaction and ${
-						values.badgerBurnFee * 100
+					`Badger takes a ${badgerMintFee * 100}% fee per mint transaction and ${
+						badgerBurnFee * 100
 					}% per burn transaction.`,
 					`${values.badgerFee.toFixed(8)} BTC`,
 				)}
 				{feeContainer(
 					'Bitcoin Miner Fee',
-					'The fee required by Bitcoin miners, to move BTC. This does not go RenVM, the Ren or Badger team.',
-					`${values.tabValue == 0 ? values.lockNetworkFee : values.releaseNetworkFee} BTC`,
+					'This fee is paid to Bitcoin miners to move BTC. This does not go to the Ren or Badger team.',
+					`${values.tabValue == 0 ? lockNetworkFee : releaseNetworkFee} BTC`,
+				)}
+				{values.token === 'WBTC' && (
+					<>
+						{feeContainer(
+							'Price Impact of Swap',
+							'The estimated slippage due to swapping renBTC to/from wBTC.',
+							`${Math.abs(values.estimatedSlippage * 100).toFixed(2) + '%'}`,
+						)}
+						{feeContainer(
+							'Max Slippage',
+							'User determined maximum acceptable slippage for swapped renBTC to/from wBTC. If slippage is too high, the swap will fail.',
+							`${Math.abs(parseFloat(values.maxSlippage)).toFixed(2) + '%'}`,
+						)}
+					</>
 				)}
 			</Grid>
 			{values.spacer}
