@@ -6,11 +6,12 @@ import { debounce } from 'utils/componentHelpers';
 import { ZERO } from 'config/constants';
 import { commonStyles } from './index';
 import { BigNumber } from 'bignumber.js';
-import { Tokens } from './Tokens';
+import { Token, Tokens } from './Tokens';
 import { DownArrow } from './DownArrow';
 
 import { TokenModel } from 'mobx/model';
 import { StoreContext } from 'mobx/store-context';
+import { TextField } from '@material-ui/core';
 
 export const Mint = observer((): any => {
 	const store = useContext(StoreContext);
@@ -84,63 +85,64 @@ export const Mint = observer((): any => {
 	};
 
 	return (
-		<Container className={classes.root} maxWidth="lg">
+		<Container className={classes.root}>
 			<div className={classes.outerWrapper}>
-				<Typography variant="caption" className={classes.balance}>
-					Available {selectedToken.symbol}: {selectedToken.formattedBalance}
+				<Typography variant="body1" color="textSecondary" className={classes.balance}>
+					Balance: {selectedToken.formattedBalance}
 				</Typography>
-				<div className={classes.inputWrapper}>
-					<Tokens tokens={tokens} default={selectedToken.symbol} onTokenSelect={handleTokenSelection} />
-					<input
-						className={classes.unstylishInput}
-						onChange={handleInputAmount}
-						type="number"
-						ref={(ref) => (inputRef = ref)}
-						min="0"
-						placeholder="0.0"
-					/>
-
-					<Button className={classes.btnMax} variant="outlined" onClick={useMaxBalance}>
-						max
-					</Button>
-				</div>
+				<TextField
+					variant="outlined"
+					size="medium"
+					placeholder="0.0"
+					onChange={handleInputAmount}
+					InputProps={{
+						style: { fontSize: '3rem' },
+						endAdornment: [
+							<Button size="small" className={classes.btnMax} variant="outlined" onClick={useMaxBalance}>
+								max
+							</Button>,
+							<Tokens tokens={tokens} selected={selectedToken} onTokenSelect={handleTokenSelection} />,
+						],
+					}}
+				/>
 			</div>
 			<div className={classes.outerWrapper}>
 				<DownArrow />
 			</div>
 			<div className={classes.outerWrapper}>
-				<Typography variant="caption" className={classes.balance}>
-					Available {ibBTC.symbol}: {ibBTC.formattedBalance}
+				<Typography variant="body1" color="textSecondary" className={classes.balance}>
+					Balance: {ibBTC.formattedBalance}
 				</Typography>
-				<div className={classes.inputWrapper}>
-					<div className={classes.token}>
-						<img src={ibBTC.icon} className={classes.tokenIcon} alt={ibBTC.name} />
-						<Typography className={classes.tokenLabel} variant="body1">
-							{ibBTC.symbol}
-						</Typography>
-					</div>
-					<input
-						className={classes.unstylishInput}
-						value={outputAmount}
-						placeholder="0.0"
-						type="number"
-						min="0"
-						readOnly
-					/>
+				<div
+					style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '0 1rem 0 1rem' }}
+				>
+					<Typography variant="h1">{outputAmount || '0.00'}</Typography>
+				</div>
+				<div
+					style={{
+						display: 'flex',
+						flexDirection: 'column',
+						alignItems: 'flex-end',
+						marginTop: '-2.5rem',
+						padding: '0 1rem 2rem 1rem',
+					}}
+				>
+					<Token token={ibBTC} />
 				</div>
 			</div>
+
 			<div className={classes.outerWrapper}>
 				<div className={classes.summaryWrapper}>
 					<div className={classes.summaryRow}>
 						<Typography variant="subtitle1">Current Conversion Rate: </Typography>
-						<Typography variant="subtitle1">
+						<Typography variant="body1">
 							1 {selectedToken.symbol} : {conversionRate} {ibBTC.symbol}
 						</Typography>
 					</div>
 
 					<div className={classes.summaryRow}>
 						<Typography variant="subtitle1">Fees: </Typography>
-						<Typography variant="subtitle1">
+						<Typography variant="body1">
 							{fee} {ibBTC.symbol}
 						</Typography>
 					</div>
