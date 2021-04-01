@@ -14,20 +14,18 @@ import { retry } from '@lifeomic/attempt';
 import fbase from 'fbase';
 import { RootStore } from '../store';
 import WalletStore from './walletStore';
-import { RenVMTransaction } from '../model';
+import { RenVMTransaction, Network } from 'mobx/model';
 import {
 	// abis
 	ERC20,
-	BADGER_ADAPTER,
-	CURVE_EXCHANGE,
-	BTC_GATEWAY,
 	// config
 	NETWORK_LIST,
 	NETWORK_CONSTANTS,
-	CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS,
 	RENVM_GATEWAY_ADDRESS,
-	RENVM_NETWORK,
+	FLAGS,
 } from 'config/constants';
+import { BADGER_ADAPTER } from 'config/system/abis/BadgerAdapter';
+import { BTC_GATEWAY } from 'config/system/abis/BtcGateway';
 import { bridge_system } from 'config/deployments/mainnet.json';
 import { shortenAddress } from 'utils/componentHelpers';
 
@@ -40,12 +38,9 @@ export enum Status {
 	PROCESSING,
 }
 
-const DELETED = 'deleted';
 const DECIMALS = 10 ** 8;
 const MAX_BPS = 10000;
 const UPDATE_INTERVAL_SECONDS = 30 * 1000; // 30 seconds
-
-const DocumentReference = firebase.firestore.DocumentReference;
 
 const defaultRetryOptions = {
 	// delay defaults to 200 ms.
@@ -81,6 +76,7 @@ const defaultProps = {
 
 class BridgeStore {
 	private store!: RootStore;
+	private network!: Network;
 	private db!: firebase.firestore.Firestore;
 	private gjs!: GatewayJS;
 	private adapter!: Contract;
@@ -129,16 +125,24 @@ class BridgeStore {
 	public status!: Status;
 
 	constructor(store: RootStore) {
+		if (!FLAGS.BRIDGE_FLAG) return;
+
 		this.store = store;
 		this.db = fbase.firestore();
 		this.gjs = new GatewayJS('mainnet');
+		this.network = this.store.wallet.network;
 
 		extendObservable(this, {
 			...defaultProps,
 		});
 
-		observe(this.store.wallet as WalletStore, 'provider', ({ newValue, oldValue }: IValueDidChange<provider>) => {
+		observe(this.store.wallet as WalletStore, 'network', ({ newValue }: IValueDidChange<Network>) => {
+			this.network = newValue;
+		});
+
+		observe(this.store.wallet as WalletStore, 'provider', ({ newValue }: IValueDidChange<provider>) => {
 			if (!newValue) return;
+
 			const web3 = new Web3(newValue);
 			this.adapter = new web3.eth.Contract(BADGER_ADAPTER, bridge_system['adapter']);
 			this.renbtc = new web3.eth.Contract(
@@ -237,6 +241,9 @@ class BridgeStore {
 		);
 
 		this.updateTimer = setTimeout(() => {
+			// NB: Only ETH supported for now.
+			if (this.network.name !== NETWORK_LIST.ETH) return;
+
 			const { connectedAddress } = this.store.wallet;
 			// So this doesn't race against address changes.
 			if (this.loading) return;
@@ -263,7 +270,7 @@ class BridgeStore {
 	// Fetch tx history from db. There may be uncommitted/incomplete tx in here.
 	_fetchTx = action(async (userAddr: string) => {
 		try {
-			await retry(async (context) => {
+			await retry(async () => {
 				// TODO: Implement paging of results if tx history
 				// bloat starts to become a problem.
 				const results = await this.db
@@ -314,7 +321,7 @@ class BridgeStore {
 				created,
 				deleted: false,
 			};
-			await retry(async (context) => {
+			await retry(async () => {
 				await ref.set(txData);
 				// Update current tx.
 				this.current = txData as RenVMTransaction;
@@ -343,7 +350,7 @@ class BridgeStore {
 			if (deleted) {
 				txData.deleted = true;
 			}
-			await retry(async (context) => {
+			await retry(async () => {
 				await ref.update(txData);
 				// Remove ref after committing to db.
 				this.current = txData as RenVMTransaction;
@@ -359,7 +366,7 @@ class BridgeStore {
 		const { queueNotification } = this.store.uiState;
 
 		try {
-			await retry(async (context) => {
+			await retry(async () => {
 				let gateway: Gateway;
 				if (recover) {
 					const parsedTx = JSON.parse(tx.encodedTx);
@@ -418,7 +425,11 @@ class BridgeStore {
 	_getFees = action(async () => {
 		const { queueNotification } = this.store.uiState;
 		try {
-			await retry(async (context) => {
+			await retry(async () => {
+				// NB: Only ETH supported for now. Check here since network could have
+				// gotten set at any point from init to now and this fails loudly if
+				// on the wrong network.
+				if (this.network.name !== NETWORK_LIST.ETH) return;
 				const [badgerBurnFee, badgerMintFee, renvmBurnFee, renvmMintFee] = (
 					await Promise.all([
 						this.adapter.methods.burnFeeBps().call(),
@@ -440,7 +451,7 @@ class BridgeStore {
 	_getBalances = action(async (userAddr: string) => {
 		const { queueNotification } = this.store.uiState;
 		try {
-			await retry(async (context) => {
+			await retry(async () => {
 				const [renbtcBalance, wbtcBalance] = await Promise.all([
 					this.renbtc.methods.balanceOf(userAddr).call(),
 					this.wbtc.methods.balanceOf(userAddr).call(),
@@ -453,12 +464,12 @@ class BridgeStore {
 		}
 	});
 
-	_getBTCNetworkFees = async () => {
+	_getBTCNetworkFees = async (): Promise<void> => {
 		const { queueNotification } = this.store.uiState;
 		try {
-			await retry(async (context) => {
+			await retry(async () => {
 				// NB: Query fees logic pulled from ren bridge source.
-                                // https://github.com/renproject/bridge/blob/18e5668db9423f2aaa32635c90dcf6269a3b1711/src/utils/walletUtils.ts#L104-L128
+				// https://github.com/renproject/bridge/blob/18e5668db9423f2aaa32635c90dcf6269a3b1711/src/utils/walletUtils.ts#L104-L128
 				const query = {
 					jsonrpc: '2.0',
 					method: 'ren_queryFees',

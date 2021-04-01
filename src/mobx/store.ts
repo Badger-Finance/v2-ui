@@ -6,7 +6,7 @@ import AirdropStore from './stores/airdropStore';
 import RebaseStore from './stores/rebaseStore';
 import RewardsStore from './stores/rewardsStore';
 import IbBTCStore from './stores/ibBTCStore';
-import TransactionsStore from './stores/transactionsStore';
+import BridgeStore from './stores/bridgeStore';
 import SettStore from './stores/SettStore';
 import { NETWORK_LIST } from '../config/constants';
 import { HoneyPotStore } from './stores/honeyPotStore';
@@ -20,8 +20,8 @@ export class RootStore {
 	public rebase: RebaseStore;
 	public rewards: RewardsStore;
 	public ibBTCStore: IbBTCStore;
-	public bridge: BridgeStore;
 	public setts: SettStore;
+	public bridge: BridgeStore;
 	public honeyPot: HoneyPotStore;
 
 	constructor() {
@@ -40,7 +40,6 @@ export class RootStore {
 
 		this.walletRefresh();
 	}
-
 
 	async walletRefresh(): Promise<void> {
 		const chain = this.wallet.network.name;
