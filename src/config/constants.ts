@@ -66,6 +66,7 @@ export const FLAGS = {
 	IBBTC_FLAG: toBool(process.env.REACT_APP_IBBTC_FLAG),
 	BRIDGE_FLAG: toBool(process.env.REACT_APP_BRIDGE_FLAG),
 };
+
 export const ZERO = new BigNumber(0);
 export const TEN = new BigNumber(10);
 export const MAX = Web3.utils.toTwosComplement(-1);

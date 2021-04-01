@@ -1,58 +1,59 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Grid, Button, TextField, Typography } from '@material-ui/core';
-import validate from 'bitcoin-address-validation';
+import { ClassNameMap } from '@material-ui/core/styles/withStyles';
 import { ArrowDownward } from '@material-ui/icons';
+import validate from 'bitcoin-address-validation';
 
 import { StoreContext } from 'mobx/store-context';
 import BTCLogo from 'assets/icons/btc.svg';
 import { MIN_AMOUNT } from './constants';
-import { Slippage } from './Common';
+import { Slippage, ValuesProp } from './Common';
 
 interface ReleaseFormProps {
-	values: any;
-	handleChange: (name: string) => (event: any) => Promise<void>;
+	values: ValuesProp;
+	handleChange(name: string): (event: React.ChangeEvent<HTMLInputElement>) => Promise<void>;
 	handleSetMaxSlippage: (name: string) => () => void;
 	previousStep: () => void;
 	nextStep: () => void;
-	classes: any;
-	updateState: (name: any, value: any) => void;
+	classes: ClassNameMap;
+	updateState: (name: string, value: unknown) => void;
 	assetSelect: () => JSX.Element;
 	connectWallet: () => Promise<void>;
-	calcFees: (inputAmount: any, name: string) => Promise<void>;
+	calcFees: (inputAmount: number, name: string) => Promise<void>;
 }
 
-export const ReleaseForm = (props: ReleaseFormProps): JSX.Element => {
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export const ReleaseForm = ({
+	classes,
+	handleChange,
+	handleSetMaxSlippage,
+	nextStep,
+	values,
+	connectWallet,
+	updateState,
+	assetSelect,
+	calcFees,
+}: ReleaseFormProps): JSX.Element => {
 	const store = useContext(StoreContext);
 	const {
 		wallet: { connectedAddress },
-		bridge: { renbtcBalance, wbtcBalance },
+		bridge: { renbtcBalance, wbtcBalance, bwbtcBalance },
 	} = store;
-	const {
-		classes,
-		handleChange,
-		handleSetMaxSlippage,
-		nextStep,
-		values,
-		connectWallet,
-		updateState,
-		assetSelect,
-		calcFees,
-	} = props;
+
 	const [validAddress, setValidAddress] = useState(false);
-	const next = (e: any) => {
+	const next = (e: React.MouseEvent<HTMLElement>) => {
 		e.preventDefault();
 		nextStep();
 	};
 
-	const setAmount = (amount: any, token: any) => (event: any) => {
+	const setAmount = (amount: number, token: string) => (event: React.MouseEvent<HTMLElement>) => {
 		event.preventDefault();
 		updateState('token', token);
 		calcFees(amount, 'burnAmount');
 	};
 
-	const getSelectedTokenBalance = () => {
-		return values.token === 'renBTC' ? renbtcBalance : wbtcBalance;
-	};
+	const selectedTokenBalance =
+		values.token === 'renBTC' ? renbtcBalance : values.token === 'bWBTC' ? bwbtcBalance : wbtcBalance;
 
 	useEffect(() => {
 		if (validate(values.btcAddr)) {
@@ -62,14 +63,17 @@ export const ReleaseForm = (props: ReleaseFormProps): JSX.Element => {
 		}
 	}, [values.btcAddr]);
 
+	const isWBTC = values.token === 'WBTC' || values.token === 'bWBTC';
+
 	return (
 		<>
 			<Grid container spacing={2} style={{ padding: '.6rem 2rem' }}>
 				<Grid item xs={12} style={{ marginBottom: '.2rem' }}>
 					<Typography variant="body1" color="textSecondary" style={{ textAlign: 'right' }}>
-						Balance: {values.token === 'WBTC' ? wbtcBalance : renbtcBalance}
+						Balance: {selectedTokenBalance}
 					</Typography>
 				</Grid>
+
 				<Grid item xs={12}>
 					<TextField
 						variant="outlined"
@@ -81,9 +85,10 @@ export const ReleaseForm = (props: ReleaseFormProps): JSX.Element => {
 						InputProps={{
 							style: {
 								fontSize: '3rem',
-								color: getSelectedTokenBalance() < values.burnAmount ? 'red' : 'inherit',
+								color: selectedTokenBalance < parseFloat(values.burnAmount) ? 'red' : 'inherit',
 							},
 							endAdornment: [
+								// eslint-disable-next-line react/jsx-key
 								<Button
 									key="asset-select-btn"
 									size="small"
@@ -91,6 +96,7 @@ export const ReleaseForm = (props: ReleaseFormProps): JSX.Element => {
 									variant="outlined"
 									onClick={(e) => {
 										if (values.token === 'renBTC') setAmount(renbtcBalance, 'renBTC')(e);
+										else if (values.token === 'bWBTC') setAmount(bwbtcBalance, 'bWBTC')(e);
 										else setAmount(wbtcBalance, 'WBTC')(e);
 									}}
 								>
@@ -104,6 +110,7 @@ export const ReleaseForm = (props: ReleaseFormProps): JSX.Element => {
 				<Grid item xs={12}>
 					<ArrowDownward />
 				</Grid>
+
 				<Grid item xs={12}>
 					<TextField
 						variant="outlined"
@@ -116,7 +123,8 @@ export const ReleaseForm = (props: ReleaseFormProps): JSX.Element => {
 						onChange={handleChange('btcAddr')}
 					/>
 				</Grid>
-				{values.token === 'WBTC' && (
+
+				{isWBTC && (
 					<Slippage
 						values={values}
 						classes={classes}
@@ -126,6 +134,7 @@ export const ReleaseForm = (props: ReleaseFormProps): JSX.Element => {
 					/>
 				)}
 			</Grid>
+
 			<Grid container spacing={2} style={{ padding: '1rem 0 0' }}>
 				<Grid item xs={12} className={classes.summaryWrapper}>
 					<div className={classes.summaryRow}>
@@ -137,7 +146,8 @@ export const ReleaseForm = (props: ReleaseFormProps): JSX.Element => {
 							</div>
 						</Typography>
 					</div>
-					{values.token === 'WBTC' && (
+
+					{isWBTC && (
 						<div className={classes.summaryRow}>
 							<Typography variant="subtitle1">Price impact: </Typography>
 							<Typography variant="body1">
@@ -147,6 +157,7 @@ export const ReleaseForm = (props: ReleaseFormProps): JSX.Element => {
 					)}
 				</Grid>
 			</Grid>
+
 			<Grid container spacing={2} alignItems={'center'} style={{ padding: '.6rem 2rem' }}>
 				<Grid item xs={12}>
 					{!!connectedAddress ? (
@@ -158,8 +169,8 @@ export const ReleaseForm = (props: ReleaseFormProps): JSX.Element => {
 							size="large"
 							onClick={next}
 							disabled={
-								(values.burnAmount as number) > MIN_AMOUNT &&
-								getSelectedTokenBalance() >= values.burnAmount &&
+								parseFloat(values.burnAmount) > MIN_AMOUNT &&
+								selectedTokenBalance >= parseFloat(values.burnAmount) &&
 								validAddress
 									? false
 									: true

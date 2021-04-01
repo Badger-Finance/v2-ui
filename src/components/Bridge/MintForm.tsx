@@ -1,44 +1,50 @@
 import React, { useContext } from 'react';
 import { Grid, Button, TextField, Typography } from '@material-ui/core';
-import { Token } from 'components/IbBTC/Tokens';
+import { ClassNameMap } from '@material-ui/core/styles/withStyles';
 import { ArrowDownward } from '@material-ui/icons';
 
+import { Token } from 'components/IbBTC/Tokens';
 import { StoreContext } from 'mobx/store-context';
 import { MIN_AMOUNT } from './constants';
-import { Slippage } from './Common';
+import { Slippage, ValuesProp } from './Common';
 
 interface MintFormProps {
-	values: any;
-	handleChange: (name: string) => (event: any) => Promise<void>;
+	values: ValuesProp;
+	handleChange(name: string): (event: React.ChangeEvent<HTMLInputElement>) => Promise<void>;
 	handleSetMaxSlippage: (name: string) => () => void;
 	previousStep: () => void;
 	nextStep: () => void;
-	classes: any;
+	classes: ClassNameMap;
 	assetSelect: () => JSX.Element;
 	connectWallet: () => Promise<void>;
 }
 
-export const MintForm = (props: MintFormProps): JSX.Element => {
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export const MintForm = ({
+	classes,
+	handleChange,
+	handleSetMaxSlippage,
+	nextStep,
+	values,
+	assetSelect,
+	connectWallet,
+}: MintFormProps): JSX.Element => {
 	const store = useContext(StoreContext);
+
 	const {
 		wallet: { connectedAddress },
-		bridge: { renbtcBalance, wbtcBalance },
+		bridge: { renbtcBalance, wbtcBalance, bwbtcBalance, shortAddr },
 	} = store;
-	// prettier-ignore
-	const {
-		classes,
-		handleChange,
-		handleSetMaxSlippage,
-		nextStep,
-		values,
-		assetSelect,
-		connectWallet,
-	} = props;
 
-	const next = (e: any) => {
+	const next = (e: React.MouseEvent<HTMLElement>) => {
 		e.preventDefault();
 		nextStep();
 	};
+
+	const isBTWC = values.token === 'WBTC' || values.token === 'bWBTC';
+
+	const selectedTokenBalance =
+		values.token === 'renBTC' ? renbtcBalance : values.token === 'bWBTC' ? bwbtcBalance : wbtcBalance;
 
 	return (
 		<>
@@ -61,12 +67,14 @@ export const MintForm = (props: MintFormProps): JSX.Element => {
 						}}
 					/>
 				</Grid>
+
 				<Grid item xs={12}>
 					<ArrowDownward />
 				</Grid>
+
 				<Grid item xs={12}>
 					<Typography variant="body1" color="textSecondary" style={{ textAlign: 'right' }}>
-						Balance: {values.token === 'renBTC' ? renbtcBalance : wbtcBalance}
+						Balance: {selectedTokenBalance}
 					</Typography>
 
 					<div className={classes.row}>
@@ -74,7 +82,8 @@ export const MintForm = (props: MintFormProps): JSX.Element => {
 						{assetSelect()}
 					</div>
 				</Grid>
-				{values.token === 'WBTC' && (
+
+				{isBTWC && (
 					<Slippage
 						values={values}
 						classes={classes}
@@ -84,13 +93,15 @@ export const MintForm = (props: MintFormProps): JSX.Element => {
 					/>
 				)}
 			</Grid>
+
 			<Grid container spacing={2} alignItems={'center'} style={{ padding: '2rem 0 .5rem' }}>
 				<Grid item xs={12} className={classes.summaryWrapper}>
 					<div className={classes.summaryRow}>
 						<Typography variant="subtitle1">Destination </Typography>
-						<Typography variant="body1">{values.shortAddr || '0x...'}</Typography>
+						<Typography variant="body1">{shortAddr || '0x...'}</Typography>
 					</div>
-					{values.token === 'WBTC' && (
+
+					{isBTWC && (
 						<div className={classes.summaryRow}>
 							<Typography variant="subtitle1">Price impact: </Typography>
 							<Typography variant="body1">
@@ -100,6 +111,7 @@ export const MintForm = (props: MintFormProps): JSX.Element => {
 					)}
 				</Grid>
 			</Grid>
+
 			<Grid container spacing={2} alignItems={'center'} style={{ padding: '.6rem 2rem' }}>
 				<Grid container justify={'center'}>
 					{!!connectedAddress ? (
@@ -108,7 +120,7 @@ export const MintForm = (props: MintFormProps): JSX.Element => {
 							color="primary"
 							className={classes.button}
 							onClick={next}
-							disabled={(values.amount as number) > MIN_AMOUNT ? false : true}
+							disabled={parseFloat(values.amount) > MIN_AMOUNT ? false : true}
 							size="large"
 						>
 							Next

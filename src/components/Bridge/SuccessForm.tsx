@@ -1,17 +1,20 @@
 import React from 'react';
 import { Grid, Button } from '@material-ui/core';
+import { ClassNameMap } from '@material-ui/core/styles/withStyles';
+
+import { ValuesProp } from './Common';
 
 interface SuccessFormProps {
-	values: any;
-	classes: any;
-	updateState: (name: any, value: any) => void;
+	values: ValuesProp;
+	classes: ClassNameMap;
+	updateState: (name: string, value: unknown) => void;
 	resetState: () => void;
 }
 
 export const SuccessForm = (props: SuccessFormProps): JSX.Element => {
 	const { classes, resetState, values } = props;
 
-	const gotoStart = (e: any) => {
+	const gotoStart = (e: React.MouseEvent<HTMLElement>) => {
 		e.preventDefault();
 		resetState();
 	};
