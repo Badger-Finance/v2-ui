@@ -38,12 +38,9 @@ export enum Status {
 	PROCESSING,
 }
 
-const DELETED = 'deleted';
 const DECIMALS = 10 ** 8;
 const MAX_BPS = 10000;
 const UPDATE_INTERVAL_SECONDS = 30 * 1000; // 30 seconds
-
-const DocumentReference = firebase.firestore.DocumentReference;
 
 const defaultRetryOptions = {
 	// delay defaults to 200 ms.
@@ -139,11 +136,11 @@ class BridgeStore {
 			...defaultProps,
 		});
 
-		observe(this.store.wallet as WalletStore, 'network', ({ newValue, oldValue }: IValueDidChange<Network>) => {
+		observe(this.store.wallet as WalletStore, 'network', ({ newValue }: IValueDidChange<Network>) => {
 			this.network = newValue;
 		});
 
-		observe(this.store.wallet as WalletStore, 'provider', ({ newValue, oldValue }: IValueDidChange<provider>) => {
+		observe(this.store.wallet as WalletStore, 'provider', ({ newValue }: IValueDidChange<provider>) => {
 			if (!newValue) return;
 
 			const web3 = new Web3(newValue);
@@ -273,7 +270,7 @@ class BridgeStore {
 	// Fetch tx history from db. There may be uncommitted/incomplete tx in here.
 	_fetchTx = action(async (userAddr: string) => {
 		try {
-			await retry(async (context) => {
+			await retry(async () => {
 				// TODO: Implement paging of results if tx history
 				// bloat starts to become a problem.
 				const results = await this.db
@@ -324,7 +321,7 @@ class BridgeStore {
 				created,
 				deleted: false,
 			};
-			await retry(async (context) => {
+			await retry(async () => {
 				await ref.set(txData);
 				// Update current tx.
 				this.current = txData as RenVMTransaction;
@@ -353,7 +350,7 @@ class BridgeStore {
 			if (deleted) {
 				txData.deleted = true;
 			}
-			await retry(async (context) => {
+			await retry(async () => {
 				await ref.update(txData);
 				// Remove ref after committing to db.
 				this.current = txData as RenVMTransaction;
@@ -369,7 +366,7 @@ class BridgeStore {
 		const { queueNotification } = this.store.uiState;
 
 		try {
-			await retry(async (context) => {
+			await retry(async () => {
 				let gateway: Gateway;
 				if (recover) {
 					const parsedTx = JSON.parse(tx.encodedTx);
@@ -428,7 +425,7 @@ class BridgeStore {
 	_getFees = action(async () => {
 		const { queueNotification } = this.store.uiState;
 		try {
-			await retry(async (context) => {
+			await retry(async () => {
 				// NB: Only ETH supported for now. Check here since network could have
 				// gotten set at any point from init to now and this fails loudly if
 				// on the wrong network.
@@ -454,7 +451,7 @@ class BridgeStore {
 	_getBalances = action(async (userAddr: string) => {
 		const { queueNotification } = this.store.uiState;
 		try {
-			await retry(async (context) => {
+			await retry(async () => {
 				const [renbtcBalance, wbtcBalance] = await Promise.all([
 					this.renbtc.methods.balanceOf(userAddr).call(),
 					this.wbtc.methods.balanceOf(userAddr).call(),
@@ -467,10 +464,10 @@ class BridgeStore {
 		}
 	});
 
-	_getBTCNetworkFees = async () => {
+	_getBTCNetworkFees = async (): Promise<void> => {
 		const { queueNotification } = this.store.uiState;
 		try {
-			await retry(async (context) => {
+			await retry(async () => {
 				// NB: Query fees logic pulled from ren bridge source.
 				// https://github.com/renproject/bridge/blob/18e5668db9423f2aaa32635c90dcf6269a3b1711/src/utils/walletUtils.ts#L104-L128
 				const query = {

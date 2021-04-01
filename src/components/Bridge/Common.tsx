@@ -22,14 +22,14 @@ export interface ValuesProp {
 }
 
 interface SlippageProps {
-	values: any;
+	values: ValuesProp;
 	classes: ClassNameMap;
 	handleChange(name: string): (event: any) => Promise<void>;
-	handleSetMaxSlippage(newValue: string): void;
+	handleSetMaxSlippage(newValue: string): () => void;
 	disabled: boolean;
 }
 
-export const Slippage = (props: any) => {
+export const Slippage = (props: SlippageProps): JSX.Element => {
 	const { values, classes, handleChange, handleSetMaxSlippage, disabled } = props;
 	return (
 		<Grid item xs={12}>

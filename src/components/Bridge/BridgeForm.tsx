@@ -64,7 +64,7 @@ export const BridgeForm = observer((props: any) => {
 	const {
 		wallet: { connect, connectedAddress, provider, onboard, network },
 		contracts: { getAllowance, increaseAllowance },
-		uiState: { queueNotification, txStatus, setTxStatus },
+		uiState: { queueNotification, setTxStatus },
 		bridge: {
 			status,
 			begin,
@@ -78,9 +78,6 @@ export const BridgeForm = observer((props: any) => {
 			renvmMintFee,
 			lockNetworkFee,
 			releaseNetworkFee,
-
-			renbtcBalance,
-			wbtcBalance,
 
 			shortAddr,
 		},
@@ -205,7 +202,7 @@ export const BridgeForm = observer((props: any) => {
 			resetState();
 			return;
 		}
-	}, [connectedAddress]);
+	}, [connectedAddress, step, resetState]);
 
 	// TODO: Can refactor most of these methods below into the store as well.
 	const deposit = async () => {
@@ -301,7 +298,7 @@ export const BridgeForm = observer((props: any) => {
 			methodSeries.push((callback: any) => increaseAllowance(tokenParam, bridge_system['adapter'], callback));
 		}
 		methodSeries.push(() => withdraw(params));
-		async.series(methodSeries, (err: any, results: any) => {
+		async.series(methodSeries, (err: any) => {
 			setTxStatus(!!err ? 'error' : 'success');
 		});
 	};
@@ -472,7 +469,6 @@ export const BridgeForm = observer((props: any) => {
 								nextStep={nextStep}
 								classes={classes}
 								assetSelect={assetSelect}
-								itemContainer={itemContainer}
 								connectWallet={connectWallet}
 							/>
 						</TabPanel>
@@ -486,7 +482,6 @@ export const BridgeForm = observer((props: any) => {
 								classes={classes}
 								updateState={updateState}
 								assetSelect={assetSelect}
-								itemContainer={itemContainer}
 								connectWallet={connectWallet}
 								calcFees={calcFees}
 							/>

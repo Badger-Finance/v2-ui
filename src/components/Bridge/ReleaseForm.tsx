@@ -17,7 +17,6 @@ interface ReleaseFormProps {
 	classes: any;
 	updateState: (name: any, value: any) => void;
 	assetSelect: () => JSX.Element;
-	itemContainer: (label: string, item: any) => JSX.Element;
 	connectWallet: () => Promise<void>;
 	calcFees: (inputAmount: any, name: string) => Promise<void>;
 }
@@ -37,7 +36,6 @@ export const ReleaseForm = (props: ReleaseFormProps): JSX.Element => {
 		connectWallet,
 		updateState,
 		assetSelect,
-		itemContainer,
 		calcFees,
 	} = props;
 	const [validAddress, setValidAddress] = useState(false);
@@ -87,6 +85,7 @@ export const ReleaseForm = (props: ReleaseFormProps): JSX.Element => {
 							},
 							endAdornment: [
 								<Button
+									key="asset-select-btn"
 									size="small"
 									className={classes.btnMax}
 									variant="outlined"
@@ -97,7 +96,7 @@ export const ReleaseForm = (props: ReleaseFormProps): JSX.Element => {
 								>
 									max
 								</Button>,
-								<div>{assetSelect()}</div>,
+								<div key="asset-select">{assetSelect()}</div>,
 							],
 						}}
 					/>

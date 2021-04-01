@@ -87,7 +87,7 @@ export const Tokens = (props: TokenListProps): any => {
 	);
 };
 
-export const Token = (props: { token: any }) => {
+export const Token = (props: { token: any }): JSX.Element => {
 	return (
 		<div style={{ alignItems: 'center', display: 'flex', flexWrap: 'nowrap', overflow: 'hidden' }}>
 			<img

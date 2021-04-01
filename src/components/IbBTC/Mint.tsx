@@ -98,10 +98,21 @@ export const Mint = observer((): any => {
 					InputProps={{
 						style: { fontSize: '3rem' },
 						endAdornment: [
-							<Button size="small" className={classes.btnMax} variant="outlined" onClick={useMaxBalance}>
+							<Button
+								key="token-select-btn"
+								size="small"
+								className={classes.btnMax}
+								variant="outlined"
+								onClick={useMaxBalance}
+							>
 								max
 							</Button>,
-							<Tokens tokens={tokens} selected={selectedToken} onTokenSelect={handleTokenSelection} />,
+							<Tokens
+								key="token-select"
+								tokens={tokens}
+								selected={selectedToken}
+								onTokenSelect={handleTokenSelection}
+							/>,
 						],
 					}}
 				/>

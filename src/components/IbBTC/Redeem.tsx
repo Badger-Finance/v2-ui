@@ -114,10 +114,16 @@ export const Redeem = observer((): any => {
 					InputProps={{
 						style: { fontSize: '3rem' },
 						endAdornment: [
-							<Button size="small" className={classes.btnMax} variant="outlined" onClick={useMaxBalance}>
+							<Button
+								key="max-btn"
+								size="small"
+								className={classes.btnMax}
+								variant="outlined"
+								onClick={useMaxBalance}
+							>
 								max
 							</Button>,
-							<div>
+							<div key="token">
 								<Token token={ibBTC} />
 							</div>,
 						],

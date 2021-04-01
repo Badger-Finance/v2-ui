@@ -15,7 +15,6 @@ interface MintFormProps {
 	nextStep: () => void;
 	classes: any;
 	assetSelect: () => JSX.Element;
-	itemContainer: (label: string, item: any) => JSX.Element;
 	connectWallet: () => Promise<void>;
 }
 
@@ -25,6 +24,7 @@ export const MintForm = (props: MintFormProps): JSX.Element => {
 		wallet: { connectedAddress },
 		bridge: { renbtcBalance, wbtcBalance },
 	} = store;
+	// prettier-ignore
 	const {
 		classes,
 		handleChange,
@@ -32,7 +32,6 @@ export const MintForm = (props: MintFormProps): JSX.Element => {
 		nextStep,
 		values,
 		assetSelect,
-		itemContainer,
 		connectWallet,
 	} = props;
 
@@ -55,7 +54,7 @@ export const MintForm = (props: MintFormProps): JSX.Element => {
 						InputProps={{
 							style: { fontSize: '3rem' },
 							endAdornment: [
-								<div>
+								<div key="btc">
 									<Token token={{ symbol: 'BTC', icon: require('assets/icons/btc.svg') }} />
 								</div>,
 							],
