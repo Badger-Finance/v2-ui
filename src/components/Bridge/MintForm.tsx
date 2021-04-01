@@ -7,12 +7,24 @@ import { StoreContext } from 'mobx/store-context';
 import { MIN_AMOUNT } from './constants';
 import { Slippage } from './Common';
 
-export const MintForm = (props: any) => {
+interface MintFormProps {
+	values: any;
+	handleChange: (name: string) => (event: any) => Promise<void>;
+	handleSetMaxSlippage: (name: string) => () => void;
+	previousStep: () => void;
+	nextStep: () => void;
+	classes: any;
+	assetSelect: () => JSX.Element;
+	connectWallet: () => Promise<void>;
+}
+
+export const MintForm = (props: MintFormProps): JSX.Element => {
 	const store = useContext(StoreContext);
 	const {
-                wallet: { connectedAddress },
+		wallet: { connectedAddress },
 		bridge: { renbtcBalance, wbtcBalance },
 	} = store;
+	// prettier-ignore
 	const {
 		classes,
 		handleChange,
@@ -20,7 +32,6 @@ export const MintForm = (props: any) => {
 		nextStep,
 		values,
 		assetSelect,
-		itemContainer,
 		connectWallet,
 	} = props;
 
@@ -43,7 +54,7 @@ export const MintForm = (props: any) => {
 						InputProps={{
 							style: { fontSize: '3rem' },
 							endAdornment: [
-								<div>
+								<div key="btc">
 									<Token token={{ symbol: 'BTC', icon: require('assets/icons/btc.svg') }} />
 								</div>,
 							],
@@ -69,7 +80,7 @@ export const MintForm = (props: any) => {
 						classes={classes}
 						handleChange={handleChange}
 						handleSetMaxSlippage={handleSetMaxSlippage}
-                                                disabled={!!connectedAddress === false}
+						disabled={!!connectedAddress === false}
 					/>
 				)}
 			</Grid>

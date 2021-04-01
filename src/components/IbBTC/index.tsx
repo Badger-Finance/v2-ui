@@ -19,8 +19,7 @@ const useStyles = makeStyles((theme) => ({
 		marginBottom: theme.spacing(6),
 	},
 	cardContainer: { justifyContent: 'center', display: 'flex' },
-	card: {
-	},
+	card: {},
 	tabHeader: { background: 'rgba(0,0,0,.2)' },
 }));
 
@@ -37,7 +36,7 @@ export const IbBTC = (): any => {
 					<PageHeader title="ibBTC" subtitle="Interest Bearing Badger Bitcoin." />
 				</Grid>
 
-				<Grid item sm={12} xs={12} md={7} >
+				<Grid item sm={12} xs={12} md={7}>
 					<Card className={classes.card}>
 						<Tabs
 							variant="fullWidth"
@@ -71,7 +70,7 @@ export const commonStyles = makeStyles(() => ({
 		marginBottom: '.4rem',
 		display: 'flex',
 		alignItems: 'center',
-		justifyContent: 'flex-end'
+		justifyContent: 'flex-end',
 	},
 	inputWrapper: {
 		display: 'flex',
@@ -92,7 +91,7 @@ export const commonStyles = makeStyles(() => ({
 	},
 	btnMax: {
 		alignSelf: 'center',
-		marginRight: '.6rem'
+		marginRight: '.6rem',
 	},
 	unstylishInput: {
 		color: 'white',

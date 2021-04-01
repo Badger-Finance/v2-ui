@@ -31,9 +31,9 @@ export const Mint = observer((): any => {
 	const conversionRate =
 		outputAmount && inputAmount
 			? (
-				parseFloat(outputAmount.toString() || selectedToken.mintRate) /
-				parseFloat(inputAmount.toString() || '1')
-			).toFixed(4)
+					parseFloat(outputAmount.toString() || selectedToken.mintRate) /
+					parseFloat(inputAmount.toString() || '1')
+			  ).toFixed(4)
 			: (parseFloat(selectedToken.mintRate) / 1).toFixed(4);
 
 	const _debouncedSetInputAmount = debounce(600, async (val) => {
@@ -80,56 +80,66 @@ export const Mint = observer((): any => {
 			store.ibBTCStore.mint(selectedToken, selectedToken.scale(new BigNumber(inputAmount)), handleMint);
 	};
 
-	const handleMint = (err: any, result: any): void => {
+	const handleMint = (): void => {
 		resetState();
 	};
 
 	return (
-		<Container className={classes.root} >
+		<Container className={classes.root}>
 			<div className={classes.outerWrapper}>
-				<Typography variant="body1" color='textSecondary' className={classes.balance}>
+				<Typography variant="body1" color="textSecondary" className={classes.balance}>
 					Balance: {selectedToken.formattedBalance}
-
-
-
 				</Typography>
 				<TextField
 					variant="outlined"
 					size="medium"
-
 					placeholder="0.0"
 					onChange={handleInputAmount}
 					InputProps={{
 						style: { fontSize: '3rem' },
 						endAdornment: [
-							<Button size="small" className={classes.btnMax} variant="outlined" onClick={useMaxBalance}>
+							<Button
+								key="token-select-btn"
+								size="small"
+								className={classes.btnMax}
+								variant="outlined"
+								onClick={useMaxBalance}
+							>
 								max
-						</Button>,
-							< Tokens
+							</Button>,
+							<Tokens
+								key="token-select"
 								tokens={tokens}
 								selected={selectedToken}
-								onTokenSelect={handleTokenSelection} />]
+								onTokenSelect={handleTokenSelection}
+							/>,
+						],
 					}}
 				/>
-
 			</div>
 			<div className={classes.outerWrapper}>
 				<DownArrow />
 			</div>
-			<div className={classes.outerWrapper} >
-
-				<Typography variant="body1" color='textSecondary' className={classes.balance}>
+			<div className={classes.outerWrapper}>
+				<Typography variant="body1" color="textSecondary" className={classes.balance}>
 					Balance: {ibBTC.formattedBalance}
 				</Typography>
-				<div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '0 1rem 0 1rem' }}>
-					<Typography variant="h1" >
-						{outputAmount || '0.00'}
-					</Typography>
+				<div
+					style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '0 1rem 0 1rem' }}
+				>
+					<Typography variant="h1">{outputAmount || '0.00'}</Typography>
 				</div>
-				<div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', marginTop: '-2.5rem', padding: '0 1rem 2rem 1rem' }}>
-					< Token token={ibBTC} />
+				<div
+					style={{
+						display: 'flex',
+						flexDirection: 'column',
+						alignItems: 'flex-end',
+						marginTop: '-2.5rem',
+						padding: '0 1rem 2rem 1rem',
+					}}
+				>
+					<Token token={ibBTC} />
 				</div>
-
 			</div>
 
 			<div className={classes.outerWrapper}>

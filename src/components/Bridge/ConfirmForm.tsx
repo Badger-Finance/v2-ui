@@ -1,18 +1,28 @@
 import React, { useState, useContext } from 'react';
 import { Grid, Button, Checkbox, Tooltip } from '@material-ui/core';
 import InfoIcon from '@material-ui/icons/Info';
-
 import { StoreContext } from 'mobx/store-context';
+
 import { shortenAddress } from 'utils/componentHelpers';
 import renBTCLogo from 'assets/icons/renBTC.svg';
 import WBTCLogo from 'assets/icons/WBTC.svg';
 
-export const ConfirmForm = (props: any) => {
+interface ConfirmFormProps {
+	values: any;
+	handleChange: (name: string) => (event: any) => Promise<void>;
+	previousStep: () => void;
+	confirmStep: () => void;
+	classes: any;
+	itemContainer: (label: string, item: any) => JSX.Element;
+}
+
+export const ConfirmForm = (props: ConfirmFormProps): JSX.Element => {
 	const store = useContext(StoreContext);
 	const {
 		bridge: { renvmMintFee, renvmBurnFee, badgerBurnFee, badgerMintFee, lockNetworkFee, releaseNetworkFee },
 	} = store;
 	const { classes, confirmStep, previousStep, values, itemContainer } = props;
+
 	const [agreement, setAgreement] = useState({
 		ethRequired: false,
 		userError: false,
@@ -116,20 +126,20 @@ export const ConfirmForm = (props: any) => {
 					'This fee is paid to Bitcoin miners to move BTC. This does not go to the Ren or Badger team.',
 					`${values.tabValue == 0 ? lockNetworkFee : releaseNetworkFee} BTC`,
 				)}
-				{values.token === 'WBTC' &&
-                                        <>
-					feeContainer(
-						'Price Impact of Swap',
-						'The estimated slippage due to swapping renBTC to/from wBTC.',
-						`${Math.abs(values.estimatedSlippage * 100).toFixed(2) + '%'}`,
-					)
-					feeContainer(
-						'Max Slippage',
-						'User determined maximum acceptable slippage for swapped renBTC to/from wBTC. If slippage is too high, the swap will fail.',
-						`${Math.abs(parseFloat(values.maxSlippage)).toFixed(2) + '%'}`,
-					)
-                                        </>
-                                }
+				{values.token === 'WBTC' && (
+					<>
+						{feeContainer(
+							'Price Impact of Swap',
+							'The estimated slippage due to swapping renBTC to/from wBTC.',
+							`${Math.abs(values.estimatedSlippage * 100).toFixed(2) + '%'}`,
+						)}
+						{feeContainer(
+							'Max Slippage',
+							'User determined maximum acceptable slippage for swapped renBTC to/from wBTC. If slippage is too high, the swap will fail.',
+							`${Math.abs(parseFloat(values.maxSlippage)).toFixed(2) + '%'}`,
+						)}
+					</>
+				)}
 			</Grid>
 			{values.spacer}
 			<Grid item xs={12}>

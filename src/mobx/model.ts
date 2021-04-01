@@ -3,10 +3,7 @@ import BigNumber from 'bignumber.js';
 import _ from 'lodash';
 import { AbiItem } from 'web3-utils';
 import Web3 from 'web3';
-import {
-        LockAndMintParamsSimple,
-        BurnAndReleaseParamsSimple,
-} from '@renproject/interfaces';
+import { LockAndMintParamsSimple, BurnAndReleaseParamsSimple } from '@renproject/interfaces';
 
 import { reduceGeyserSchedule } from './reducers/contractReducers';
 import { RootStore } from './store';
@@ -19,6 +16,7 @@ import { getAirdrops } from 'config/system/airdrops';
 import { NETWORK_IDS, NETWORK_LIST } from 'config/constants';
 import { getRewards } from 'config/system/rewards';
 import { ZERO, TEN } from 'config/constants';
+import { CustomNotificationObject, EmitterListener, TransactionData } from 'bnc-notify';
 
 export class Contract {
 	store!: RootStore;
@@ -448,6 +446,15 @@ export type RewardNetworkConfig = {
 	tokens: string[];
 };
 
+export type TokenContractInfo = {
+	abi: AbiItem[];
+	methods: {
+		name: string;
+		args?: string[];
+	}[];
+	contracts: string[];
+};
+
 export type TokenNetworkConfig = {
 	curveTokens?: {
 		contracts: string[];
@@ -456,16 +463,7 @@ export type TokenNetworkConfig = {
 		vsToken: string;
 	};
 	priceEndpoints: string[];
-	tokenBatches: [
-		{
-			abi: AbiItem[];
-			methods: {
-				name: string;
-				args?: string[];
-			}[];
-			contracts: string[];
-		},
-	];
+	tokenBatches: TokenContractInfo[];
 	decimals: { [index: string]: number };
 	symbols: { [index: string]: string };
 	names: { [index: string]: string };
@@ -518,16 +516,24 @@ export type ClaimsSymbols = {
 	};
 };
 
+export interface GasPrices {
+	[speed: string]: number;
+}
+
+export interface NotifyLink extends CustomNotificationObject {
+	link: string;
+}
+
 export interface Network {
 	name: string;
 	networkId: number;
 	fullName: string;
-	tokens: TokenNetworkConfig | undefined;
-	vaults: VaultNetworkConfig | undefined;
-	geysers: GeyserNetworkConfig | undefined;
+	tokens: TokenNetworkConfig;
+	vaults: VaultNetworkConfig;
+	geysers: GeyserNetworkConfig;
 	rebase: RebaseNetworkConfig | undefined;
 	airdrops: AirdropNetworkConfig | undefined;
-	deploy: DeployConfig | undefined;
+	deploy: DeployConfig;
 	rewards: RewardNetworkConfig | undefined;
 	gasEndpoint: string;
 	sidebarTokenLinks: {
@@ -535,12 +541,8 @@ export interface Network {
 		title: string;
 	}[];
 	settOrder: string[];
-	getGasPrices: Function;
-	getNotifyLink: (
-		transaction: any,
-	) => {
-		link: string;
-	};
+	getGasPrices: () => Promise<GasPrices>;
+	getNotifyLink: EmitterListener;
 }
 
 export class BscNetwork implements Network {
@@ -557,9 +559,9 @@ export class BscNetwork implements Network {
 	public readonly gasEndpoint = '';
 	// Deterministic order for displaying setts on the sett list component
 	public readonly settOrder = [
-		this.deploy!.sett_system.vaults['native.bDiggBtcb'],
-		this.deploy!.sett_system.vaults['native.bBadgerBtcb'],
-		this.deploy!.sett_system.vaults['native.pancakeBnbBtcb'],
+		this.deploy.sett_system.vaults['native.bDiggBtcb'],
+		this.deploy.sett_system.vaults['native.bBadgerBtcb'],
+		this.deploy.sett_system.vaults['native.pancakeBnbBtcb'],
 	];
 	public readonly sidebarTokenLinks = [
 		{
@@ -571,10 +573,10 @@ export class BscNetwork implements Network {
 			title: 'PancakeSwap bBadger/BtcB',
 		},
 	];
-	public async getGasPrices() {
+	public async getGasPrices(): Promise<GasPrices> {
 		return { standard: 10 };
 	}
-	public getNotifyLink(transaction: any) {
+	public getNotifyLink(transaction: TransactionData): NotifyLink {
 		return { link: `https://bscscan.com//tx/${transaction.hash}` };
 	}
 }
@@ -593,17 +595,17 @@ export class EthNetwork implements Network {
 	public readonly gasEndpoint = 'https://www.gasnow.org/api/v3/gas/price?utm_source=badgerv2';
 	// Deterministic order for displaying setts on the sett list component
 	public readonly settOrder = [
-		this.deploy!.sett_system.vaults['native.digg'],
-		this.deploy!.sett_system.vaults['native.badger'],
-		this.deploy!.sett_system.vaults['native.sushiDiggWbtc'],
-		this.deploy!.sett_system.vaults['native.sushiBadgerWbtc'],
-		this.deploy!.sett_system.vaults['native.sushiWbtcEth'],
-		this.deploy!.sett_system.vaults['native.uniDiggWbtc'],
-		this.deploy!.sett_system.vaults['native.uniBadgerWbtc'],
-		this.deploy!.sett_system.vaults['native.renCrv'],
-		this.deploy!.sett_system.vaults['native.sbtcCrv'],
-		this.deploy!.sett_system.vaults['native.tbtcCrv'],
-		this.deploy!.sett_system.vaults['harvest.renCrv'],
+		this.deploy.sett_system.vaults['native.digg'],
+		this.deploy.sett_system.vaults['native.badger'],
+		this.deploy.sett_system.vaults['native.sushiDiggWbtc'],
+		this.deploy.sett_system.vaults['native.sushiBadgerWbtc'],
+		this.deploy.sett_system.vaults['native.sushiWbtcEth'],
+		this.deploy.sett_system.vaults['native.uniDiggWbtc'],
+		this.deploy.sett_system.vaults['native.uniBadgerWbtc'],
+		this.deploy.sett_system.vaults['native.renCrv'],
+		this.deploy.sett_system.vaults['native.sbtcCrv'],
+		this.deploy.sett_system.vaults['native.tbtcCrv'],
+		this.deploy.sett_system.vaults['harvest.renCrv'],
 	];
 	public readonly sidebarTokenLinks = [
 		{
@@ -619,7 +621,7 @@ export class EthNetwork implements Network {
 			title: 'Sushiswap BADGER/wBTC',
 		},
 	];
-	public async getGasPrices() {
+	public async getGasPrices(): Promise<GasPrices> {
 		const prices = await fetch('https://www.gasnow.org/api/v3/gas/price?utm_source=badgerv2');
 		const result = await prices.json();
 		return {
@@ -630,7 +632,7 @@ export class EthNetwork implements Network {
 		};
 	}
 
-	public getNotifyLink(transaction: any) {
+	public getNotifyLink(transaction: TransactionData): NotifyLink {
 		return { link: `https://etherscan.io/tx/${transaction.hash}` };
 	}
 }
@@ -678,7 +680,7 @@ export interface SettSummary {
 	asset: string;
 	value: number;
 	tokens: TokenBalance[];
-};
+}
 
 export type ProtocolSummary = {
 	totalValue: number;
@@ -688,20 +690,20 @@ export type ProtocolSummary = {
 export type SettMap = { [contract: string]: Sett };
 
 export type RenVMTransaction = {
-        // ID is the pkey in the db.
-        id: string;
-        userAddr: string;
-        // Nonce monotonically increases per user tx.
-        nonce: number;
-        encodedTx: string; // json encoded tx data.
-        // NB: The web3Provider field is not encoded (for obvious reasons).
-        params: LockAndMintParamsSimple | BurnAndReleaseParamsSimple,
-        status: string;
-        // Record if there was an error processing a tx.
-        error: string;
-        updated: firebase.firestore.Timestamp,
-        created: firebase.firestore.Timestamp,
-        deleted: boolean,
+	// ID is the pkey in the db.
+	id: string;
+	userAddr: string;
+	// Nonce monotonically increases per user tx.
+	nonce: number;
+	encodedTx: string; // json encoded tx data.
+	// NB: The web3Provider field is not encoded (for obvious reasons).
+	params: LockAndMintParamsSimple | BurnAndReleaseParamsSimple;
+	status: string;
+	// Record if there was an error processing a tx.
+	error: string;
+	updated: firebase.firestore.Timestamp;
+	created: firebase.firestore.Timestamp;
+	deleted: boolean;
 };
 
 export interface NFT {

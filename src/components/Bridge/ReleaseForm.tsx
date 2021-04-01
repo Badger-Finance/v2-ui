@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Grid, Button, Input, TextField, Typography } from '@material-ui/core';
+import { Grid, Button, TextField, Typography } from '@material-ui/core';
 import validate from 'bitcoin-address-validation';
-import { Token } from 'components/IbBTC/Tokens';
 import { ArrowDownward } from '@material-ui/icons';
 
 import { StoreContext } from 'mobx/store-context';
@@ -9,10 +8,23 @@ import BTCLogo from 'assets/icons/btc.svg';
 import { MIN_AMOUNT } from './constants';
 import { Slippage } from './Common';
 
-export const ReleaseForm = (props: any) => {
+interface ReleaseFormProps {
+	values: any;
+	handleChange: (name: string) => (event: any) => Promise<void>;
+	handleSetMaxSlippage: (name: string) => () => void;
+	previousStep: () => void;
+	nextStep: () => void;
+	classes: any;
+	updateState: (name: any, value: any) => void;
+	assetSelect: () => JSX.Element;
+	connectWallet: () => Promise<void>;
+	calcFees: (inputAmount: any, name: string) => Promise<void>;
+}
+
+export const ReleaseForm = (props: ReleaseFormProps): JSX.Element => {
 	const store = useContext(StoreContext);
 	const {
-                wallet: { connectedAddress },
+		wallet: { connectedAddress },
 		bridge: { renbtcBalance, wbtcBalance },
 	} = store;
 	const {
@@ -24,7 +36,6 @@ export const ReleaseForm = (props: any) => {
 		connectWallet,
 		updateState,
 		assetSelect,
-		itemContainer,
 		calcFees,
 	} = props;
 	const [validAddress, setValidAddress] = useState(false);
@@ -74,6 +85,7 @@ export const ReleaseForm = (props: any) => {
 							},
 							endAdornment: [
 								<Button
+									key="asset-select-btn"
 									size="small"
 									className={classes.btnMax}
 									variant="outlined"
@@ -84,7 +96,7 @@ export const ReleaseForm = (props: any) => {
 								>
 									max
 								</Button>,
-								<div>{assetSelect()}</div>,
+								<div key="asset-select">{assetSelect()}</div>,
 							],
 						}}
 					/>
@@ -110,7 +122,7 @@ export const ReleaseForm = (props: any) => {
 						classes={classes}
 						handleChange={handleChange}
 						handleSetMaxSlippage={handleSetMaxSlippage}
-                                                disabled={!!connectedAddress === false}
+						disabled={!!connectedAddress === false}
 					/>
 				)}
 			</Grid>

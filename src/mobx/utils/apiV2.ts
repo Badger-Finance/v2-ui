@@ -1,6 +1,6 @@
 import { PriceSummary, ProtocolSummary, Sett } from 'mobx/model';
 
-export const getApi = () => {
+export const getApi = (): string => {
 	if (process.env.NODE_ENV === 'production') {
 		return 'https://api.badger.finance/v2';
 	}

@@ -5,7 +5,7 @@ import { NETWORK_LIST } from '../constants';
 import { GeyserNetworkConfig } from 'mobx/model';
 import { AbiItem } from 'web3-utils';
 
-export const getGeysers = (network?: string): GeyserNetworkConfig | undefined => {
+export const getGeysers = (network?: string): GeyserNetworkConfig => {
 	switch (network) {
 		case NETWORK_LIST.ETH:
 			return {
@@ -95,6 +95,6 @@ export const getGeysers = (network?: string): GeyserNetworkConfig | undefined =>
 				],
 			};
 		default:
-			return undefined;
+			return {};
 	}
 };

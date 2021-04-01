@@ -1,16 +1,13 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useCallback } from 'react';
 import BigNumber from 'bignumber.js';
 import { ethers } from 'ethers';
-import PropTypes from 'prop-types';
 import GatewayJS from '@renproject/gateway';
 import { EthArgs, LockAndMintParamsSimple, BurnAndReleaseParamsSimple } from '@renproject/interfaces';
 import Web3 from 'web3';
-import async, { any } from 'async';
+import async from 'async';
 import { observer } from 'mobx-react-lite';
 import { Grid, Tabs, Tab, FormControl, Select, MenuItem, Typography } from '@material-ui/core';
-import useInterval from '@use-it/interval';
 
-import fbase from 'fbase';
 import { MintForm } from './MintForm';
 import { ReleaseForm } from './ReleaseForm';
 import { ConfirmForm } from './ConfirmForm';
@@ -20,13 +17,9 @@ import { RenVMTransaction } from 'mobx/model';
 import { Status } from 'mobx/stores/bridgeStore';
 import renBTCLogo from 'assets/icons/renBTC.svg';
 import WBTCLogo from 'assets/icons/WBTC.svg';
-import {
-	CURVE_EXCHANGE,
-	NETWORK_CONSTANTS,
-	NETWORK_LIST,
-	CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS,
-} from 'config/constants';
+import { NETWORK_CONSTANTS, NETWORK_LIST, CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS } from 'config/constants';
 import { bridge_system } from 'config/deployments/mainnet.json';
+import { CURVE_EXCHANGE } from 'config/system/abis/CurveExchange';
 import { ValuesProp } from './Common';
 
 interface TabPanelProps {
@@ -63,15 +56,29 @@ const formatNonceBytes32 = (nonce: number): string => {
 	return ethers.utils.hexZeroPad(`0x${nonce.toString(16)}`, 32);
 };
 
+// Initial state value that should be reset to initial values on reset.
+const initialStateResettable = {
+	amount: '',
+	receiveAmount: 0,
+	estimatedSlippage: 0,
+	// Default to 0.5%.
+	maxSlippage: '.5',
+	burnAmount: '',
+	btcAddr: '',
+	renFee: 0,
+	badgerFee: 0,
+	step: 1,
+};
+
 export const BridgeForm = observer((props: any) => {
 	const classes = props.classes;
 	const store = useContext(StoreContext);
 	const spacer = <div className={classes.before} />;
 
 	const {
-		wallet: { connect, connectedAddress, provider, onboard },
+		wallet: { connect, connectedAddress, provider, onboard, network },
 		contracts: { getAllowance, increaseAllowance },
-		uiState: { queueNotification, txStatus, setTxStatus },
+		uiState: { queueNotification, setTxStatus },
 		bridge: {
 			status,
 			begin,
@@ -86,26 +93,9 @@ export const BridgeForm = observer((props: any) => {
 			lockNetworkFee,
 			releaseNetworkFee,
 
-			renbtcBalance,
-			wbtcBalance,
-
 			shortAddr,
 		},
 	} = store;
-
-	// Initial state value that should be reset to initial values on reset.
-	const initialStateResettable = {
-		amount: '',
-		receiveAmount: 0,
-		estimatedSlippage: 0,
-		// Default to 0.5%.
-		maxSlippage: '.5',
-		burnAmount: '',
-		btcAddr: '',
-		renFee: 0,
-		badgerFee: 0,
-		step: 1,
-	};
 
 	const intialState = {
 		...initialStateResettable,
@@ -128,7 +118,7 @@ export const BridgeForm = observer((props: any) => {
 		badgerFee,
 	} = states;
 	// TODO: Refactor values to pull directly from mobx store for values in store.
-	const values : ValuesProp = {
+	const values: ValuesProp = {
 		token,
 		amount,
 		receiveAmount,
@@ -152,13 +142,13 @@ export const BridgeForm = observer((props: any) => {
 		}
 	};
 
-	const resetState = () => {
+	const resetState = useCallback(() => {
 		// Reset everything except balances
 		setStates((prevState) => ({
 			...prevState,
 			...initialStateResettable,
 		}));
-	};
+	}, []);
 
 	const handleTabChange = (event: any, newValue: number) => {
 		setStates((prevState) => ({
@@ -212,7 +202,7 @@ export const BridgeForm = observer((props: any) => {
 			resetState();
 			return;
 		}
-	}, [connectedAddress]);
+	}, [connectedAddress, step, resetState]);
 
 	// TODO: Can refactor most of these methods below into the store as well.
 	const deposit = async () => {
@@ -308,7 +298,7 @@ export const BridgeForm = observer((props: any) => {
 			methodSeries.push((callback: any) => increaseAllowance(tokenParam, bridge_system['adapter'], callback));
 		}
 		methodSeries.push(() => withdraw(params));
-		async.series(methodSeries, (err: any, results: any) => {
+		async.series(methodSeries, (err: any) => {
 			setTxStatus(!!err ? 'error' : 'success');
 		});
 	};
@@ -479,7 +469,6 @@ export const BridgeForm = observer((props: any) => {
 								nextStep={nextStep}
 								classes={classes}
 								assetSelect={assetSelect}
-								itemContainer={itemContainer}
 								connectWallet={connectWallet}
 							/>
 						</TabPanel>
@@ -493,7 +482,6 @@ export const BridgeForm = observer((props: any) => {
 								classes={classes}
 								updateState={updateState}
 								assetSelect={assetSelect}
-								itemContainer={itemContainer}
 								connectWallet={connectWallet}
 								calcFees={calcFees}
 							/>
@@ -528,6 +516,14 @@ export const BridgeForm = observer((props: any) => {
 				return <div></div>;
 		}
 	};
+
+	if (network.name !== NETWORK_LIST.ETH) {
+		return (
+			<Grid container alignItems={'center'} className={classes.padded}>
+				Bridge only supported on ethereum.
+			</Grid>
+		);
+	}
 
 	if (error) {
 		return (

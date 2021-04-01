@@ -3,7 +3,10 @@ import { RootStore } from 'mobx/store';
 
 export const graphQuery = (address: string, store: RootStore): Promise<any>[] => {
 	const { network } = store.wallet;
-	return network.tokens!.priceEndpoints.map((endpoint: any) => {
+	if (!network.tokens) {
+		return [];
+	}
+	return network.tokens.priceEndpoints.map((endpoint: any) => {
 		return fetch(endpoint, {
 			method: 'POST',
 			headers: {
