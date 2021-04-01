@@ -1,4 +1,6 @@
-import React, { FC, useContext, useState } from 'react';
+import React from 'react';
+import { ethers } from 'ethers';
+import { observer } from 'mobx-react-lite';
 import { Box, Button, Container, Grid, MenuItem, Select } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { StoreContext } from 'mobx/store-context';
@@ -14,12 +16,12 @@ enum Mode {
 	WITHDRAW = 'withdraw',
 }
 
-const Manage: FC = () => {
-	const { claw: store, contracts, wallet } = useContext(StoreContext);
+const Manage = observer(() => {
+	const { claw: store, contracts, wallet } = React.useContext(StoreContext);
 	const { collaterals, claws, syntheticsDataByEMP, sponsorInformationByEMP } = store;
 	const classes = useMainStyles();
-	const [mode, setMode] = useState<Mode.DEPOSIT | Mode.WITHDRAW>(Mode.DEPOSIT);
-	const [manage, setManageParams] = useState<ClawParam>({});
+	const [mode, setMode] = React.useState<Mode.DEPOSIT | Mode.WITHDRAW>(Mode.DEPOSIT);
+	const [manage, setManageParams] = React.useState<ClawParam>({});
 	const details = useDetails(mode, manage);
 	const error = useError(manage);
 
@@ -50,15 +52,12 @@ const Manage: FC = () => {
 		[Mode.DEPOSIT]: () => {
 			const [empAddress, depositAmount] = [selectedOption, amount];
 			if (!empAddress || !depositAmount) return;
-			store.actionStore.deposit(empAddress, new BigNumber(depositAmount).multipliedBy(10 ** decimals).toString());
+			store.actionStore.deposit(empAddress, ethers.utils.parseUnits(depositAmount, decimals).toHexString());
 		},
 		[Mode.WITHDRAW]: () => {
 			const [empAddress, collateralAmount] = [selectedOption, amount];
 			if (!empAddress || !collateralAmount) return;
-			store.actionStore.withdraw(
-				empAddress,
-				new BigNumber(collateralAmount).multipliedBy(10 ** decimals).toString(),
-			);
+			store.actionStore.withdraw(empAddress, ethers.utils.parseUnits(collateralAmount, decimals).toHexString());
 		},
 	};
 
@@ -106,7 +105,6 @@ const Manage: FC = () => {
 						disabledAmount={!selectedOption || !wallet.connectedAddress}
 						onAmountChange={(amount: string) => {
 							if (!balance) return;
-
 							setManageParams({
 								selectedOption,
 								amount,
@@ -118,10 +116,12 @@ const Manage: FC = () => {
 						}}
 						onApplyPercentage={(percentage: number) => {
 							if (!balance) return;
-
 							setManageParams({
 								selectedOption,
-								amount: scaleToString(balance.multipliedBy(percentage / 100), decimals, Direction.Down),
+								amount: balance
+									.multipliedBy(percentage / 100)
+									.dividedBy(10 ** decimals)
+									.toFixed(decimals, BigNumber.ROUND_DOWN),
 								error: undefined,
 							});
 						}}
@@ -145,6 +145,6 @@ const Manage: FC = () => {
 			</Grid>
 		</Container>
 	);
-};
+});
 
 export default Manage;
