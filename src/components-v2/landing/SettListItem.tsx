@@ -4,6 +4,7 @@ import { Sett, TokenBalance } from 'mobx/model';
 import { numberWithCommas, usdToCurrency } from 'mobx/utils/helpers';
 import React from 'react';
 import { UnfoldMoreTwoTone } from '@material-ui/icons';
+import CurrencyDisplay from '../common/CurrencyDisplay';
 
 const useStyles = makeStyles((theme) => ({
 	border: {
@@ -60,6 +61,16 @@ const useStyles = makeStyles((theme) => ({
 			borderBottom: 0,
 		},
 	},
+	bnbIcon: {
+		width: 20,
+		height: 20,
+		marginRight: theme.spacing(1)
+	},
+	currencyIcon: {
+		width: 20,
+		height: 20,
+		marginRight: theme.spacing(1)
+	}
 }));
 
 interface SettListItemProps {
@@ -104,6 +115,7 @@ const SettListItem = (props: SettListItemProps): JSX.Element => {
 		}
 	};
 	const { apy, tooltip } = getRoi(sett, period);
+	const displayValue = balanceValue ? balanceValue : usdToCurrency(new BigNumber(sett.value), currency);
 
 	return (
 		<ListItem className={classes.listItem} onClick={() => onOpen()}>
@@ -189,9 +201,7 @@ const SettListItem = (props: SettListItemProps): JSX.Element => {
 					</Typography>
 				</Grid>
 				<Grid item xs={6} md={2}>
-					<Typography variant="body1" color={'textPrimary'}>
-						{balanceValue ? balanceValue : usdToCurrency(new BigNumber(sett.value), currency)}
-					</Typography>
+					<CurrencyDisplay displayValue={displayValue} variant="body1" justify="flex-start" />
 				</Grid>
 				<Grid item xs={12} md={2} style={{ textAlign: 'right' }}>
 					<IconButton color="default">

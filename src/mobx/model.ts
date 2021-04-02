@@ -535,6 +535,7 @@ export interface Network {
 	airdrops: AirdropNetworkConfig | undefined;
 	deploy: DeployConfig;
 	rewards: RewardNetworkConfig | undefined;
+	currency: string;
 	gasEndpoint: string;
 	sidebarTokenLinks: {
 		url: string;
@@ -556,6 +557,7 @@ export class BscNetwork implements Network {
 	public readonly airdrops = getAirdrops(NETWORK_LIST.BSC);
 	public readonly deploy = getNetworkDeploy(NETWORK_LIST.BSC);
 	public readonly rewards = getRewards(NETWORK_LIST.BSC);
+	public readonly currency = 'BNB';
 	public readonly gasEndpoint = '';
 	// Deterministic order for displaying setts on the sett list component
 	public readonly settOrder = [
@@ -592,6 +594,7 @@ export class EthNetwork implements Network {
 	public readonly airdrops = getAirdrops(NETWORK_LIST.ETH);
 	public readonly deploy = getNetworkDeploy(NETWORK_LIST.ETH);
 	public readonly rewards = getRewards(NETWORK_LIST.ETH);
+	public readonly currency = 'ETH';
 	public readonly gasEndpoint = 'https://www.gasnow.org/api/v3/gas/price?utm_source=badgerv2';
 	// Deterministic order for displaying setts on the sett list component
 	public readonly settOrder = [
@@ -715,4 +718,11 @@ export interface NFT {
 	name?: string;
 	image?: string;
 	redirectUrl?: string;
+}
+
+export interface ExchangeRates {
+  usd: number;
+  cad: number;
+  btc: number;
+  bnb: number;
 }
