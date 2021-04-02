@@ -5,6 +5,7 @@ import utc from 'dayjs/plugin/utc';
 import { StoreContext } from 'mobx/store-context';
 import { scaleToString, Direction } from 'utils/componentHelpers';
 import { ClawParam, INVALID_REASON } from '..';
+import { exchangeRates as ethExchangeRates } from 'mobx/utils/helpers';
 
 dayjs.extend(utc);
 
@@ -36,39 +37,59 @@ export function useValidateClaw(mint: ClawParam) {
 	return synthetic.globalCollateralizationRatio.isZero();
 }
 
-export function useMintDetails(collateral: ClawParam, mint: ClawParam) {
+export function useMintDetails(collateral: ClawParam, synthetic: ClawParam) {
 	const store = React.useContext(StoreContext);
 	const collateralToken = store.contracts.tokens[collateral.selectedOption || ''];
-	const synthetics = store.claw.syntheticsDataByEMP.get(mint.selectedOption || '');
-	const price = synthetics && store.setts.getPrice(synthetics.collateralCurrency);
+	const syntheticData = store.claw.syntheticsDataByEMP.get(synthetic.selectedOption || '');
+	const collateralPrice = syntheticData && store.setts.getPrice(syntheticData.collateralCurrency);
 
-	if (!synthetics || !collateralToken || !collateral.amount || !mint.amount || !price) {
-		return {
-			'Liquidation Price': undefined,
-			'Collateral Ratio - Global': undefined,
-			'Collateral Ratio - Minimum': undefined,
-			'Collateral Ratio - Current': undefined,
-			Expiration: undefined,
-			'Minimum Mint': undefined,
-		};
+	if (!syntheticData || !collateralToken || !collateral.amount || !synthetic.amount || !collateralPrice) {
+		return [
+			{ name: 'Liquidation Price' },
+			{ name: 'Collateral Ratio - Global' },
+			{ name: 'Collateral Ratio - Minimum' },
+			{ name: 'Collateral Ratio - Current' },
+			{ name: 'Expiration' },
+			{ name: 'Minimum Mint' },
+		];
 	}
 
-	const { globalCollateralizationRatio, minSponsorTokens, collateralRequirement, expirationTimestamp } = synthetics;
+	const {
+		globalCollateralizationRatio,
+		minSponsorTokens,
+		collateralRequirement,
+		expirationTimestamp,
+	} = syntheticData;
 
-	const precision = collateralToken.decimals;
-	const liquidationPrice = new BigNumber(collateral.amount).multipliedBy(price);
-	const currentCollateralRatio = liquidationPrice.dividedBy(mint.amount);
+	const decimals = collateralToken.decimals;
+	const collateralUsdPrice = collateralPrice.dividedBy(10 ** decimals).multipliedBy(ethExchangeRates.usd);
+	const liquidationPrice = new BigNumber(collateral.amount).multipliedBy(collateralUsdPrice); // Collateral Amount * Collateral Price in USD
+	const currentCollateralRatio = liquidationPrice.dividedBy(synthetic.amount); // Liquidation Price in USD / Synthetic Amount (because they're assume to cost 1$)
 
-	return {
-		'Liquidation Price': scaleToString(liquidationPrice, precision, Direction.Down),
-		'Collateral Ratio - Global': `${scaleToString(globalCollateralizationRatio, precision, Direction.Down)}x`,
-		'Collateral Ratio - Minimum': `${scaleToString(collateralRequirement, precision, Direction.Down)}x`,
-		'Collateral Ratio - Current': `${currentCollateralRatio.toString()}x`,
-		Expiration: `${dayjs(new Date(expirationTimestamp.toNumber() * 1000))
-			.utc()
-			.format('MMMM DD, YYYY HH:mm')} UTC`,
-		'Minimum Mint': `${scaleToString(minSponsorTokens, precision, Direction.Down)} CLAW`,
-	};
+	return [
+		{ name: 'Liquidation Price', text: liquidationPrice.toFixed(decimals, BigNumber.ROUND_DOWN) },
+		{
+			name: 'Collateral Ratio - Global',
+			text: `${scaleToString(globalCollateralizationRatio, decimals, Direction.Down)}x`,
+		},
+		{
+			name: 'Collateral Ratio - Minimum',
+			text: `${scaleToString(collateralRequirement, decimals, Direction.Down)}x`,
+		},
+		{
+			name: 'Collateral Ratio - Current',
+			text: currentCollateralRatio.isFinite()
+				? `${currentCollateralRatio.toFixed(decimals, BigNumber.ROUND_DOWN)}x`
+				: '-',
+		},
+		{
+			name: 'Expiration',
+			text: `${dayjs(new Date(expirationTimestamp.toNumber() * 1000))
+				.utc()
+				.format('MMMM DD, YYYY HH:mm')} UTC`,
+		},
+		{ name: 'Minimum Mint', text: `${scaleToString(minSponsorTokens, decimals, Direction.Down)} CLAW` },
+	];
 }
 
 export function useError(collateral: ClawParam, synthetic: ClawParam) {

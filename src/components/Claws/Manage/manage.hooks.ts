@@ -1,30 +1,33 @@
 import React from 'react';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
+import relativeTime from 'dayjs/plugin/relativeTime';
 import { StoreContext } from 'mobx/store-context';
 import { scaleToString, Direction } from 'utils/componentHelpers';
 import { ClawParam, INVALID_REASON } from '../index';
 import BigNumber from 'bignumber.js';
+import { exchangeRates as ethExchangeRates } from 'mobx/utils/helpers';
 
 dayjs.extend(utc);
+dayjs.extend(relativeTime);
 
-const defaultWithdrawalDetails = {
-	'Withdraw Speed': undefined,
-	'Collateral Ratio - Global': undefined,
-	'Collateral Ratio - Minimum': undefined,
-	'Collateral Ratio - Current': undefined,
-	Expiration: undefined,
-	'Minimum Withdraw': undefined,
-};
+const defaultWithdrawalDetails = [
+	{ name: 'Withdraw Speed' },
+	{ name: 'Collateral Ratio - Global' },
+	{ name: 'Collateral Ratio - Minimum' },
+	{ name: 'Collateral Ratio - Current' },
+	{ name: 'Expiration' },
+	{ name: 'Minimum Withdraw' },
+];
 
-const defaultDepositDetails = {
-	'Liquidation Price': undefined,
-	'Collateral Ratio - Global': undefined,
-	'Collateral Ratio - Minimum': undefined,
-	'Collateral Ratio - Current': undefined,
-	Expiration: undefined,
-	'Minimum Deposit': undefined,
-};
+const defaultDepositDetails = [
+	{ name: 'Liquidation Price' },
+	{ name: 'Collateral Ratio - Global' },
+	{ name: 'Collateral Ratio - Minimum' },
+	{ name: 'Collateral Ratio - Current' },
+	{ name: 'Expiration' },
+	{ name: 'Minimum Deposit' },
+];
 
 export function useError({ selectedOption, amount, error }: ClawParam): string {
 	const { claw, contracts } = React.useContext(StoreContext);
@@ -45,38 +48,61 @@ export function useError({ selectedOption, amount, error }: ClawParam): string {
 export function useDetails(mode: string, manage: ClawParam) {
 	const { claw, contracts, setts } = React.useContext(StoreContext);
 	const isWithdraw = mode === 'withdraw';
-	const synthetic = claw.syntheticsDataByEMP.get(manage.selectedOption || '');
-	const price = synthetic && setts.getPrice(synthetic.collateralCurrency);
-	const bToken = contracts.tokens[synthetic?.collateralCurrency ?? ''];
+	const syntheticData = claw.syntheticsDataByEMP.get(manage.selectedOption || '');
+	const sponsorData = claw.sponsorInformationByEMP.get(manage.selectedOption || '');
+	const price = syntheticData && setts.getPrice(syntheticData.collateralCurrency);
+	const bToken = contracts.tokens[syntheticData?.collateralCurrency ?? ''];
+	const collateralPrice = syntheticData && setts.getPrice(syntheticData.collateralCurrency);
 
-	if (!synthetic || !bToken || !price || !manage.amount) {
+	if (!syntheticData || !bToken || !price || !manage.amount || !collateralPrice || !sponsorData) {
 		return isWithdraw ? defaultWithdrawalDetails : defaultDepositDetails;
 	}
 
-	const { globalCollateralizationRatio, minSponsorTokens, collateralRequirement, expirationTimestamp } = synthetic;
-	const precision = bToken.decimals || 18;
-	const liquidationPrice = new BigNumber(manage.amount).multipliedBy(price);
+	const {
+		globalCollateralizationRatio,
+		minSponsorTokens,
+		collateralRequirement,
+		expirationTimestamp,
+	} = syntheticData;
+
+	const decimals = bToken.decimals || 18;
+	const collateralUsdPrice = collateralPrice.dividedBy(10 ** decimals).multipliedBy(ethExchangeRates.usd);
+	const liquidationPrice = new BigNumber(manage.amount).multipliedBy(collateralUsdPrice);
 	const currentCollateralRatio = liquidationPrice.dividedBy(manage.amount);
+	const withdrawalRequestPassTimestamp = sponsorData.position.withdrawalRequestPassTimestamp.toNumber() * 1000;
+	const withdrawTime = dayjs().isBefore(withdrawalRequestPassTimestamp)
+		? dayjs().to(withdrawalRequestPassTimestamp, true)
+		: undefined;
 
-	const modeSpecificStats = {
-		[isWithdraw ? 'Withdraw Speed' : 'Liquidation Price']: isWithdraw
-			? 'Instant (Still Hardcoded)'
-			: scaleToString(liquidationPrice, precision, Direction.Down),
+	const modeSpecificStats = [
+		{
+			name: isWithdraw ? 'Withdraw Speed' : 'Liquidation Price',
+			text: isWithdraw ? 'Slow' : scaleToString(liquidationPrice, decimals, Direction.Down),
+			subText: isWithdraw ? withdrawTime : undefined,
+		},
 
-		[isWithdraw ? 'Minimum Withdraw' : ' Minimum Deposit']: `${scaleToString(
-			minSponsorTokens,
-			precision,
-			Direction.Down,
-		)} CLAW`,
-	};
+		{
+			name: isWithdraw ? 'Minimum Withdraw' : ' Minimum Deposit',
+			text: `${scaleToString(minSponsorTokens, decimals, Direction.Down)} CLAW`,
+		},
+	];
 
-	return {
+	return [
 		...modeSpecificStats,
-		'Collateral Ratio - Global': `${scaleToString(globalCollateralizationRatio, precision, Direction.Down)}x`,
-		'Collateral Ratio - Minimum': `${scaleToString(collateralRequirement, precision, Direction.Down)}x`,
-		'Collateral Ratio - Current': `${currentCollateralRatio.toString()}x`,
-		Expiration: `${dayjs(new Date(expirationTimestamp.toNumber() * 1000))
-			.utc()
-			.format('MMMM DD, YYYY HH:mm')} UTC`,
-	};
+		{
+			name: 'Collateral Ratio - Global',
+			text: `${scaleToString(globalCollateralizationRatio, decimals, Direction.Down)}x`,
+		},
+		{
+			name: 'Collateral Ratio - Minimum',
+			text: `${scaleToString(collateralRequirement, decimals, Direction.Down)}x`,
+		},
+		{ name: 'Collateral Ratio - Current', text: `${currentCollateralRatio.toString()}x` },
+		{
+			name: 'Expiration',
+			text: `${dayjs(new Date(expirationTimestamp.toNumber() * 1000))
+				.utc()
+				.format('MMMM DD, YYYY HH:mm')} UTC`,
+		},
+	];
 }

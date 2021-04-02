@@ -27,21 +27,27 @@ export function useDetails({ selectedOption }: ClawParam) {
 	const bToken = contracts.tokens[synthetic?.collateralCurrency ?? ''];
 
 	if (!synthetic || !bToken) {
-		return {
-			'Expiration Date': '-',
-			'Expiration Price': '-',
-		};
+		return [{ name: 'Expiration Date' }, { name: 'Expiration Price' }];
 	}
 
-	const { expirationTimestamp } = synthetic;
+	const { expirationTimestamp, expiryPrice } = synthetic;
+
+	// expiry price is zero if synthetic is not expired yet
+	const expirationPrice = expiryPrice.isGreaterThan(0)
+		? `1 ${claw.collaterals.get(bToken.address)} = ${expiryPrice.toString()} ${synthetic.name}`
+		: '-';
+
 	const formattedDate = dayjs(new Date(expirationTimestamp.toNumber() * 1000))
 		.utc()
 		.format('MMMM DD, YYYY HH:mm');
 
-	return {
-		'Expiration Date': `${formattedDate} UTC`,
-		'Expiration Price': `1 ${claw.collaterals.get(bToken.address)} = .000001 wBTCWethSLP (Still Hardcoded)`,
-	};
+	return [
+		{ name: 'Expiration Date', text: `${formattedDate} UTC` },
+		{
+			name: 'Expiration Price',
+			text: expirationPrice,
+		},
+	];
 }
 
 export function useAmountToReceive({ selectedOption, amount }: ClawParam, decimals: number): BigNumber {
