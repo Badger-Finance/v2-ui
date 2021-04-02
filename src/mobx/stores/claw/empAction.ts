@@ -42,7 +42,7 @@ export class EmpAction {
 				connectedAddress,
 				(transaction: PromiEvent<Contract>, error?: Error) => {
 					if (error) {
-						queueNotification(error.message || 'There was an error estimating gas', 'error');
+						queueNotification(this.formatRevertError(error), 'error');
 					}
 					transaction
 						.on('transactionHash', (hash) => {
@@ -82,7 +82,7 @@ export class EmpAction {
 				connectedAddress,
 				(transaction: PromiEvent<Contract>, error?: Error) => {
 					if (error) {
-						queueNotification(error.message || 'There was an error estimating gas', 'error');
+						queueNotification(this.formatRevertError(error), 'error');
 					}
 					transaction
 						.on('transactionHash', (hash) => {
@@ -98,5 +98,25 @@ export class EmpAction {
 				},
 			);
 		});
+	}
+
+	/**
+	 * Helper function that formats RPC errors into human readable messages.
+	 * If something goes wrong while trying to format the error, then the
+	 * non-formatted version is returned
+	 * @param error error from EVM
+	 * @returns formatted error message
+	 */
+	private formatRevertError(error: Error): string {
+		try {
+			const sanitizedError = JSON.parse(
+				error.message.slice(error.message.indexOf('{'), error.message.lastIndexOf('}') + 1),
+			);
+			return sanitizedError.message;
+		} catch (_error) {
+			process.env.NODE_ENV !== 'production' && console.log(_error);
+		}
+
+		return error.message || 'There was an error estimating gas';
 	}
 }
