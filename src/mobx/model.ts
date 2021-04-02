@@ -739,6 +739,7 @@ export interface SyntheticData {
 	// Amount of time (in seconds) a liquidator must wait to liquidate a sponsor
 	// position without a dispute.
 	liquidationLiveness: BigNumber;
+	expiryPrice: BigNumber;
 }
 export interface SponsorData {
 	liquidations: Liquidation[];

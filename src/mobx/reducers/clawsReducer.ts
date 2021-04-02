@@ -88,6 +88,7 @@ function parseSyntheticHexToBigNumber(data: SyntheticData): SyntheticData {
 		withdrawalLiveness,
 		liquidationLiveness,
 		collateralRequirement,
+		expiryPrice,
 		...skipParse
 	} = data;
 
@@ -102,6 +103,7 @@ function parseSyntheticHexToBigNumber(data: SyntheticData): SyntheticData {
 		withdrawalLiveness: new BigNumber((withdrawalLiveness as any).hex),
 		liquidationLiveness: new BigNumber((liquidationLiveness as any).hex),
 		collateralRequirement: new BigNumber((collateralRequirement as any).hex),
+		expiryPrice: new BigNumber((expiryPrice as any).hex),
 	};
 }
 
