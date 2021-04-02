@@ -2,8 +2,13 @@
 import React, { FC } from 'react';
 import { Grid, Typography, makeStyles } from '@material-ui/core';
 
+interface Detail {
+	name: string;
+	text?: string;
+	subText?: string;
+}
 interface Props {
-	details: Record<string, string | undefined>;
+	details: Detail[];
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -29,23 +34,48 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
+const DetailName = ({ name }: Pick<Detail, 'name'>) => {
+	const classes = useStyles();
+
+	return (
+		<Grid item xs={6} className={[classes.detail].join(' ')}>
+			<Typography variant="body2" color="textSecondary">
+				{name}
+			</Typography>
+		</Grid>
+	);
+};
+
+const DetailDescription = ({ text, subText }: Pick<Detail, 'text' | 'subText'>) => {
+	const classes = useStyles();
+
+	return (
+		<Grid item container xs={6} className={[text ? classes.detail : classes.placeholder].join(' ')}>
+			<Grid item xs={12}>
+				<Typography variant="body2" color="textPrimary">
+					{text || '-'}
+				</Typography>
+			</Grid>
+			{subText && (
+				<Grid item xs={12}>
+					<Typography variant="caption" color="textSecondary">
+						{subText}
+					</Typography>
+				</Grid>
+			)}
+		</Grid>
+	);
+};
+
 export const ClawDetails: FC<Props> = ({ details }) => {
 	const classes = useStyles();
 
 	return (
 		<Grid container className={classes.root}>
-			{Object.keys(details).map((key, _index) => (
-				<Grid container className={classes.row} key={`${key}_${_index}`}>
-					<Grid item xs={6} className={[classes.detail].join(' ')}>
-						<Typography variant="body2" color="textSecondary">
-							{key}
-						</Typography>
-					</Grid>
-					<Grid item xs={6} className={[details[key] ? classes.detail : classes.placeholder].join(' ')}>
-						<Typography variant="body2" color="textPrimary">
-							{details[key] || '-'}
-						</Typography>
-					</Grid>
+			{details.map(({ name, text, subText }, index) => (
+				<Grid container className={classes.row} key={`${name}_${index}`}>
+					<DetailName name={name} />
+					<DetailDescription text={text} subText={subText} />
 				</Grid>
 			))}
 		</Grid>
