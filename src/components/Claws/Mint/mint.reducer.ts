@@ -107,19 +107,18 @@ export function mintReducer(state: State, action: ActionType): State {
 		case 'SYNTHETIC_PERCENTAGE_CHANGE': {
 			const { percentage, collateralToken, syntheticData, validateClaw, maxClaw } = action.payload;
 
-			const amount = maxClaw
-				.multipliedBy(percentage / 100)
-				.toFixed(collateralToken.decimals, BigNumber.ROUND_DOWN);
-
+			const amount = maxClaw.multipliedBy(percentage / 100);
 			return {
 				...state,
 				synthetic: {
 					...state.synthetic,
-					amount,
+					amount: amount
+						.dividedBy(10 ** collateralToken.decimals)
+						.toFixed(collateralToken.decimals, BigNumber.ROUND_DOWN),
 					error: validateAmountBoundaries({
 						amount,
 						maximum: validateClaw ? maxClaw : undefined,
-						minimum: syntheticData.minSponsorTokens.dividedBy(10 ** collateralToken.decimals),
+						minimum: syntheticData.minSponsorTokens,
 					}),
 				},
 			};
