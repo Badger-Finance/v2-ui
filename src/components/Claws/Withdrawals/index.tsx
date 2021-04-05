@@ -1,4 +1,4 @@
-import React, { FC, useContext } from 'react';
+import React from 'react';
 import { toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import {
@@ -51,7 +51,7 @@ interface WithdrawalProps {
 	decimals: number;
 }
 
-const Withdrawal: FC<WithdrawalProps> = ({ store, position, synthetic, classes, decimals }: WithdrawalProps) => {
+const Withdrawal = ({ store, position, synthetic, classes, decimals }: WithdrawalProps) => {
 	const amount = scaleToString(position.withdrawalRequestAmount, decimals, Direction.Down);
 	// Scale from unix secs -> ms.
 	const completionDate = new Date(position.withdrawalRequestPassTimestamp.toNumber() * 1000);
@@ -91,8 +91,8 @@ const Withdrawal: FC<WithdrawalProps> = ({ store, position, synthetic, classes, 
 	);
 };
 
-const Withdrawals: FC = observer(() => {
-	const { claw: store, contracts } = useContext(StoreContext);
+const Withdrawals = observer(() => {
+	const { claw: store, contracts } = React.useContext(StoreContext);
 	const { isLoading, sponsorInformationByEMP, syntheticsData } = store;
 	const classes = useMainStyles();
 	const sponsorInfo = new Map(Object.entries(toJS(sponsorInformationByEMP)));

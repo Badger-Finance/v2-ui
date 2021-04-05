@@ -1,11 +1,8 @@
-import React, { FC, useContext } from 'react';
+import React  from 'react';
 import { toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import {
 	Box,
-	Chip,
-	Grid,
-	IconButton,
 	Paper,
 	Table,
 	TableBody,
@@ -13,10 +10,8 @@ import {
 	TableRow,
 	TableContainer,
 	TableHead,
-	Tooltip,
 	Typography,
 } from '@material-ui/core';
-import { InfoOutlined as InfoOutlinedIcon, UnfoldMoreTwoTone } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 import { ClassNameMap } from '@material-ui/core/styles/withStyles';
 
@@ -72,13 +67,7 @@ interface LiquidationRowProps {
 	decimals: number;
 }
 
-const LiquidationRow: FC<LiquidationRowProps> = ({
-	store,
-	liquidation,
-	synthetic,
-	classes,
-	decimals,
-}: LiquidationRowProps) => {
+const LiquidationRow = ({ store, liquidation, synthetic, classes, decimals }: LiquidationRowProps) => {
 	return <TableRow hover={true} key={synthetic.name} className={classes.tableRow} />;
 	// TODO: Hook up liquidation info.
 	//return (
@@ -125,8 +114,8 @@ const LiquidationRow: FC<LiquidationRowProps> = ({
 	//);
 };
 
-const Liquidations: FC = observer(() => {
-	const { claw: store, contracts } = useContext(StoreContext);
+const Liquidations = observer(() => {
+	const { claw: store, contracts } = React.useContext(StoreContext);
 	const { isLoading, sponsorInformationByEMP, syntheticsData } = store;
 	const classes = useMainStyles();
 	const sponsorInfo = new Map(Object.entries(toJS(sponsorInformationByEMP)));
