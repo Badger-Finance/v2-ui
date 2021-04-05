@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js';
-import { ClawParam } from '../index';
-import { validateAmountBoundaries } from '../shared';
+import { validateAmountBoundaries } from 'utils/componentHelpers';
+import { ClawParam } from '../claw-param.model';
 
 export type State = {
 	collateral: ClawParam;

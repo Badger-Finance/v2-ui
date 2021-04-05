@@ -13,17 +13,6 @@ import Withdrawals from './Withdrawals';
 import PageHeader from 'components-v2/common/PageHeader';
 import { SponsorData } from 'mobx/model';
 
-export enum INVALID_REASON {
-	OVER_MAXIMUM = 'EXCEED',
-	UNDER_MINIMUM = 'NOT_MINIMUM',
-}
-
-export interface ClawParam {
-	amount?: string;
-	selectedOption?: string;
-	error?: INVALID_REASON;
-}
-
 export const useMainStyles = makeStyles((theme) => ({
 	root: {
 		marginBottom: theme.spacing(12),

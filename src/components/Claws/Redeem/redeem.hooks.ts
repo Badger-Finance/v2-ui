@@ -5,7 +5,8 @@ import utc from 'dayjs/plugin/utc';
 import { StoreContext } from 'mobx/store-context';
 
 import { TEN } from 'config/constants';
-import { ClawParam, INVALID_REASON } from '..';
+import { ClawParam } from '../claw-param.model';
+import { BOUNDARY_ERROR } from 'utils/componentHelpers';
 
 dayjs.extend(utc);
 
@@ -16,7 +17,7 @@ export function useError({ selectedOption, amount, error }: ClawParam) {
 
 	const tokenError = !bToken && 'Select a token';
 	const amountError = !amount && 'Enter an amount';
-	const collateralError = error === INVALID_REASON.OVER_MAXIMUM && 'Insufficient Collateral';
+	const collateralError = error === BOUNDARY_ERROR.OVER && 'Insufficient Collateral';
 
 	return collateralError || tokenError || amountError;
 }

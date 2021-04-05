@@ -3,9 +3,9 @@ import BigNumber from 'bignumber.js';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import { StoreContext } from 'mobx/store-context';
-import { scaleToString, Direction } from 'utils/componentHelpers';
-import { ClawParam, INVALID_REASON } from '..';
+import { scaleToString, Direction, BOUNDARY_ERROR } from 'utils/componentHelpers';
 import { exchangeRates as ethExchangeRates } from 'mobx/utils/helpers';
+import { ClawParam } from '../claw-param.model';
 
 dayjs.extend(utc);
 
@@ -97,22 +97,21 @@ export function useError(collateral: ClawParam, synthetic: ClawParam) {
 	const collateralToken = store.contracts.tokens[collateral.selectedOption || ''];
 	const collateralName = store.claw.collaterals.get(collateralToken?.address || '') || 'Collateral Token';
 
-	const collateralBalanceError =
-		collateral.error === INVALID_REASON.OVER_MAXIMUM && `Insufficient ${collateralName} balance`;
-	const mintableBalanceError =
-		synthetic.error &&
-		(synthetic.error === INVALID_REASON.OVER_MAXIMUM ? 'Insufficient CLAW balance' : 'Insufficient CLAW amount');
+	const collateralBalanceError = collateral.error === BOUNDARY_ERROR.OVER && `Insufficient ${collateralName} balance`;
+	const insufficientClawBalance = synthetic.error === BOUNDARY_ERROR.OVER && 'Insufficient CLAW balance';
+	const insufficientInputAmount = synthetic.error === BOUNDARY_ERROR.UNDER && 'Insufficient input CLAW amount';
+	const syntheticBalanceError = insufficientClawBalance || insufficientInputAmount;
 	const noCollateral = !collateral.selectedOption && 'Select a Collateral Token';
 	const noCollateralAmount = !collateral.amount && 'Enter collateral amount';
-	const noMintable = !synthetic.selectedOption && 'Select a Mintable CLAW';
-	const noMintableAmount = !synthetic.amount && 'Enter amount to mint';
+	const noSynthetic = !synthetic.selectedOption && 'Select a Mintable CLAW';
+	const noSyntheticAmount = !synthetic.amount && 'Enter amount to mint';
 
 	return (
 		collateralBalanceError ||
-		mintableBalanceError ||
+		syntheticBalanceError ||
 		noCollateral ||
 		noCollateralAmount ||
-		noMintable ||
-		noMintableAmount
+		noSynthetic ||
+		noSyntheticAmount
 	);
 }

@@ -4,12 +4,15 @@ import { StoreContext } from 'mobx/store-context';
 import BigNumber from 'bignumber.js';
 import { ethers } from 'ethers';
 
-import TokenAmountLabel from 'components-v2/common/TokenAmountLabel';
-import TokenAmountSelector from 'components-v2/common/TokenAmountSelector';
+import { TokenAmountLabel } from 'components-v2/common/TokenAmountLabel';
+import { TokenAmountSelector } from 'components-v2/common/TokenAmountSelector';
+import { ClawDetails } from '../ClawDetails';
+import { ActionButton } from '../ActionButton';
 import { scaleToString, Direction } from 'utils/componentHelpers';
-import { ClawParam, useMainStyles } from '../index';
-import { ClawDetails, ActionButton, validateAmountBoundaries } from '../shared';
+import { validateAmountBoundaries } from 'utils/componentHelpers';
+import { useMainStyles } from '../index';
 import { useAmountToReceive, useDetails, useError } from './redeem.hooks';
+import { ClawParam } from '../claw-param.model';
 
 const useStyles = makeStyles((theme) => ({
 	border: {

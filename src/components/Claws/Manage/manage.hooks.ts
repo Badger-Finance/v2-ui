@@ -3,10 +3,10 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { StoreContext } from 'mobx/store-context';
-import { scaleToString, Direction } from 'utils/componentHelpers';
-import { ClawParam, INVALID_REASON } from '../index';
+import { scaleToString, Direction, BOUNDARY_ERROR } from 'utils/componentHelpers';
 import BigNumber from 'bignumber.js';
 import { exchangeRates as ethExchangeRates } from 'mobx/utils/helpers';
+import { ClawParam } from '../claw-param.model';
 
 dayjs.extend(utc);
 dayjs.extend(relativeTime);
@@ -38,7 +38,7 @@ export function useError({ selectedOption, amount, error }: ClawParam): string {
 	const errors: string[] = [];
 	if (!selectedOption) errors.push('Select a Token');
 	if (!amount) errors.push('Enter an amount');
-	if (error === INVALID_REASON.OVER_MAXIMUM) errors.push(`Amount exceeds ${collateralName} balance`);
+	if (error === BOUNDARY_ERROR.OVER) errors.push(`Amount exceeds ${collateralName} balance`);
 
 	if (errors.length === 0) return '';
 

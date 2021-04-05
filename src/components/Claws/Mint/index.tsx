@@ -2,10 +2,12 @@ import React from 'react';
 import { Grid, Box, Button } from '@material-ui/core';
 import { ethers } from 'ethers';
 import { observer } from 'mobx-react-lite';
+
 import { StoreContext } from 'mobx/store-context';
-import TokenAmountLabel from 'components-v2/common/TokenAmountLabel';
-import TokenAmountSelector from 'components-v2/common/TokenAmountSelector';
-import { ClawDetails, ActionButton } from '../shared';
+import { TokenAmountLabel } from 'components-v2/common/TokenAmountLabel';
+import { TokenAmountSelector } from 'components-v2/common/TokenAmountSelector';
+import { ActionButton } from '../ActionButton';
+import { ClawDetails } from '../ClawDetails';
 import { useMainStyles } from '../index';
 import { useError, useMaxClaw, useMintDetails, useValidateClaw } from './mint.hooks';
 import { mintReducer, State } from './mint.reducer';

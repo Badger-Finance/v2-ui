@@ -4,12 +4,15 @@ import { observer } from 'mobx-react-lite';
 import { Box, Button, Container, Grid, MenuItem, Select } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { StoreContext } from 'mobx/store-context';
-import TokenAmountLabel from 'components-v2/common/TokenAmountLabel';
-import TokenAmountSelector from 'components-v2/common/TokenAmountSelector';
-import { scaleToString, Direction } from 'utils/componentHelpers';
+
+import { TokenAmountLabel } from 'components-v2/common/TokenAmountLabel';
+import { TokenAmountSelector } from 'components-v2/common/TokenAmountSelector';
+import { ActionButton } from '../ActionButton';
+import { ClawDetails } from '../ClawDetails';
+import { scaleToString, Direction, validateAmountBoundaries } from 'utils/componentHelpers';
 import { useDetails, useError } from './manage.hooks';
-import { ClawDetails, ActionButton, validateAmountBoundaries } from '../shared';
-import { ClawParam, useMainStyles } from '../index';
+import { useMainStyles } from '..';
+import { ClawParam } from '../claw-param.model';
 
 enum Mode {
 	DEPOSIT = 'deposit',
