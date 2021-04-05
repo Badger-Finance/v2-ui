@@ -365,7 +365,7 @@ export const Sidebar = observer(() => {
 							className={classes.secondaryListItem}
 							onClick={() => window.open('http://shop.badger.finance/')}
 						>
-							<>Sett Shop</>
+							Sett Shop
 						</ListItem>
 					)}
 
