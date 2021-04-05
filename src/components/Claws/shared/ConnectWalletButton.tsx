@@ -1,7 +1,6 @@
+import React from 'react';
 import { Button, makeStyles } from '@material-ui/core';
-import { connectToWallet } from 'components/Sidebar/Wallet';
-import { StoreContext } from 'mobx/store-context';
-import React, { useContext } from 'react';
+import { useConnectWallet } from 'mobx/utils/hooks';
 
 const useStyles = makeStyles((theme) => ({
 	button: {
@@ -17,12 +16,12 @@ const useStyles = makeStyles((theme) => ({
 
 export function ConnectWalletButton() {
 	const classes = useStyles();
-	const store = useContext(StoreContext);
+	const connectWallet = useConnectWallet();
 
 	return (
 		<Button
 			color="primary"
-			onClick={() => connectToWallet(store)}
+			onClick={() => connectWallet()}
 			variant="contained"
 			size="large"
 			className={classes.button}
