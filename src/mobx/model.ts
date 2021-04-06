@@ -757,7 +757,7 @@ export interface Liquidation {
 	 *  - 3 == DisputeSucceeded
 	 *  - 4 == DisputeFailed
 	 */
-	state: BigNumber;
+	state: string;
 	liquidationTime: BigNumber; // Time when liquidation is initiated, needed to get price from Oracle
 	tokensOutstanding: BigNumber; // Synthetic tokens required to be burned by liquidator to initiate dispute
 	lockedCollateral: BigNumber; // Collateral locked by contract and released upon expiry or post-dispute

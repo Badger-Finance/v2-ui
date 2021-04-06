@@ -109,7 +109,6 @@ function parseSyntheticHexToBigNumber(data: SyntheticData): SyntheticData {
 
 function parseLiquidationHexToBigNumber(data: SponsorData['liquidations'][0]): SponsorData['liquidations'][0] {
 	const {
-		state,
 		liquidatedCollateral,
 		tokensOutstanding,
 		lockedCollateral,
@@ -122,7 +121,6 @@ function parseLiquidationHexToBigNumber(data: SponsorData['liquidations'][0]): S
 
 	return {
 		...skipParse,
-		state: new BigNumber((state as any).hex),
 		liquidatedCollateral: new BigNumber((liquidatedCollateral as any).hex),
 		tokensOutstanding: new BigNumber((tokensOutstanding as any).hex),
 		lockedCollateral: new BigNumber((lockedCollateral as any).hex),
