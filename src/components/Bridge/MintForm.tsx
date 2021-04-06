@@ -17,6 +17,7 @@ interface MintFormProps {
 	classes: ClassNameMap;
 	assetSelect: () => JSX.Element;
 	connectWallet: () => Promise<void>;
+	isEarn: boolean;
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -28,6 +29,7 @@ export const MintForm = ({
 	values,
 	assetSelect,
 	connectWallet,
+	isEarn,
 }: MintFormProps): JSX.Element => {
 	const store = useContext(StoreContext);
 
@@ -49,6 +51,17 @@ export const MintForm = ({
 	return (
 		<>
 			<Grid container spacing={2} alignItems={'center'} style={{ padding: '.6rem 2rem' }}>
+				{isEarn && (
+					<Grid item xs={12}>
+						<Typography variant="body1" color="textPrimary" align="left">
+							Mint & Earn deposits your BTC into the selected vault which starts earning more BTC for you
+							passively
+						</Typography>
+					</Grid>
+				)}
+
+				{values.spacer}
+
 				<Grid item xs={12}>
 					<TextField
 						variant="outlined"
@@ -97,9 +110,16 @@ export const MintForm = ({
 			<Grid container spacing={2} alignItems={'center'} style={{ padding: '2rem 0 .5rem' }}>
 				<Grid item xs={12} className={classes.summaryWrapper}>
 					<div className={classes.summaryRow}>
-						<Typography variant="subtitle1">Destination </Typography>
+						<Typography variant="subtitle1">Destination: </Typography>
 						<Typography variant="body1">{shortAddr || '0x...'}</Typography>
 					</div>
+
+					{isEarn && (
+						<div className={classes.summaryRow}>
+							<Typography variant="subtitle1">APY: </Typography>
+							<Typography variant="body1">12.52% (Temp)</Typography>
+						</div>
+					)}
 
 					{isBTWC && (
 						<div className={classes.summaryRow}>

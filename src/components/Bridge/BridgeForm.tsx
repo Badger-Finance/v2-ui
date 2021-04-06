@@ -17,7 +17,7 @@ import { SuccessForm } from './SuccessForm';
 import { ConfirmForm } from './ConfirmForm';
 import { ValuesProp } from './Common';
 import WBTCLogo from 'assets/icons/WBTC.svg';
-import bWBTCLogo from 'assets/icons/bWBTC.svg';
+import bWBTCLogo from 'assets/icons/bwbtc.svg';
 import renBTCLogo from 'assets/icons/renBTC.svg';
 import { NETWORK_LIST, CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS } from 'config/constants';
 import { bridge_system, tokens } from 'config/deployments/mainnet.json';
@@ -157,6 +157,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 	const handleTabChange = (_: unknown, newValue: number) => {
 		setStates((prevState) => ({
 			...prevState,
+			token: newValue !== 1 ? 'renBTC' : 'bWBTC',
 			tabValue: newValue,
 			receiveAmount: 0,
 			burnAmount: '',
@@ -185,9 +186,9 @@ export const BridgeForm = observer(({ classes }: any) => {
 	};
 
 	const confirmStep = () => {
-		if (tabValue === 0) {
+		if (tabValue <= 1) {
 			deposit();
-		} else if (tabValue === 1) {
+		} else if (tabValue === 2) {
 			approveAndWithdraw();
 		}
 	};
@@ -377,9 +378,9 @@ export const BridgeForm = observer(({ classes }: any) => {
 	const calcFees = async (inputAmount: number, name: string) => {
 		let estimatedSlippage = 0; // only need to calculate slippage for wbtc mint/burn
 
-		const renFeeAmount = inputAmount * (tabValue === 0 ? renvmMintFee : renvmBurnFee);
-		const badgerFeeAmount = inputAmount * (tabValue === 0 ? badgerMintFee : badgerBurnFee);
-		const networkFee = tabValue === 0 ? lockNetworkFee : releaseNetworkFee;
+		const renFeeAmount = inputAmount * (tabValue <= 1 ? renvmMintFee : renvmBurnFee);
+		const badgerFeeAmount = inputAmount * (tabValue <= 1 ? badgerMintFee : badgerBurnFee);
+		const networkFee = tabValue <= 1 ? lockNetworkFee : releaseNetworkFee;
 		let amountWithFee = inputAmount - renFeeAmount - badgerFeeAmount - networkFee;
 
 		if (token === 'WBTC' || token === 'bWBTC') {
@@ -450,44 +451,95 @@ export const BridgeForm = observer(({ classes }: any) => {
 				className={classes.tabHeader}
 			>
 				<Tab label="Mint" {...a11yProps(0)} />
-				<Tab label="Release" {...a11yProps(1)} />
+				<Tab label="Mint & Earn" {...a11yProps(1)} />
+				<Tab label="Release" {...a11yProps(2)} />
 			</Tabs>
 		);
 	};
+
 	const assetSelect = () => {
 		return (
 			<FormControl>
-				<Select
-					variant="outlined"
-					onChange={handleChange('token')}
-					value={values.token}
-					className={classes.select}
-					inputProps={{
-						name: 'token',
-						id: 'token-select',
-					}}
-				>
-					<MenuItem value={'renBTC'}>
-						<span className={classes.menuItem}>
-							<img src={renBTCLogo} className={classes.logo} />
-							<span>renBTC</span>
-						</span>
-					</MenuItem>
+				{tabValue === 0 && (
+					<Select
+						variant="outlined"
+						onChange={handleChange('token')}
+						value={values.token}
+						className={classes.select}
+						inputProps={{
+							name: 'token',
+							id: 'token-select',
+						}}
+					>
+						<MenuItem value={'renBTC'}>
+							<span className={classes.menuItem}>
+								<img src={renBTCLogo} className={classes.logo} />
+								<span>renBTC</span>
+							</span>
+						</MenuItem>
 
-					<MenuItem value={'WBTC'}>
-						<span className={classes.menuItem}>
-							<img src={WBTCLogo} className={classes.logo} />
-							<span>WBTC</span>
-						</span>
-					</MenuItem>
+						<MenuItem value={'WBTC'}>
+							<span className={classes.menuItem}>
+								<img src={WBTCLogo} className={classes.logo} />
+								<span>WBTC</span>
+							</span>
+						</MenuItem>
+					</Select>
+				)}
 
-					<MenuItem value={'bWBTC'}>
-						<span className={classes.menuItem}>
-							<img src={bWBTCLogo} className={classes.logo} />
-							<span>bWBTC</span>
-						</span>
-					</MenuItem>
-				</Select>
+				{tabValue === 1 && (
+					<Select
+						variant="outlined"
+						onChange={handleChange('token')}
+						value={values.token}
+						className={classes.select}
+						inputProps={{
+							name: 'token',
+							id: 'token-select',
+						}}
+					>
+						<MenuItem value={'bWBTC'}>
+							<span className={classes.menuItem}>
+								<img src={bWBTCLogo} className={classes.logo} />
+								<span>bWBTC</span>
+							</span>
+						</MenuItem>
+					</Select>
+				)}
+
+				{tabValue === 2 && (
+					<Select
+						variant="outlined"
+						onChange={handleChange('token')}
+						value={values.token}
+						className={classes.select}
+						inputProps={{
+							name: 'token',
+							id: 'token-select',
+						}}
+					>
+						<MenuItem value={'renBTC'}>
+							<span className={classes.menuItem}>
+								<img src={renBTCLogo} className={classes.logo} />
+								<span>renBTC</span>
+							</span>
+						</MenuItem>
+
+						<MenuItem value={'WBTC'}>
+							<span className={classes.menuItem}>
+								<img src={WBTCLogo} className={classes.logo} />
+								<span>WBTC</span>
+							</span>
+						</MenuItem>
+
+						<MenuItem value={'bWBTC'}>
+							<span className={classes.menuItem}>
+								<img src={bWBTCLogo} className={classes.logo} />
+								<span>bWBTC</span>
+							</span>
+						</MenuItem>
+					</Select>
+				)}
 			</FormControl>
 		);
 	};
@@ -511,9 +563,23 @@ export const BridgeForm = observer(({ classes }: any) => {
 								classes={classes}
 								assetSelect={assetSelect}
 								connectWallet={connectWallet}
+								isEarn={false}
 							/>
 						</TabPanel>
 						<TabPanel value={tabValue} index={1}>
+							<MintForm
+								values={values}
+								handleChange={handleChange}
+								handleSetMaxSlippage={handleSetMaxSlippage}
+								previousStep={previousStep}
+								nextStep={nextStep}
+								classes={classes}
+								assetSelect={assetSelect}
+								connectWallet={connectWallet}
+								isEarn={true}
+							/>
+						</TabPanel>
+						<TabPanel value={tabValue} index={2}>
 							<ReleaseForm
 								values={values}
 								handleChange={handleChange}

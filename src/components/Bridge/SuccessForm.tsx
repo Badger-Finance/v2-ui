@@ -22,7 +22,7 @@ export const SuccessForm = (props: SuccessFormProps): JSX.Element => {
 	return (
 		<Grid container alignItems={'center'}>
 			<Grid item xs={12}>
-				<div>{values.tabValue === 0 ? 'Minting' : 'Releasing'} was successful!</div>
+				<div>{values.tabValue <= 1 ? 'Minting' : 'Releasing'} was successful!</div>
 			</Grid>
 			{values.spacer}
 			{values.spacer}

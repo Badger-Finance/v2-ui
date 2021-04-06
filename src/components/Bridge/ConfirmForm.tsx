@@ -4,7 +4,7 @@ import InfoIcon from '@material-ui/icons/Info';
 import { StoreContext } from 'mobx/store-context';
 
 import WBTCLogo from 'assets/icons/WBTC.svg';
-import bWBTCLogo from 'assets/icons/bWBTC.svg';
+import bWBTCLogo from 'assets/icons/bwbtc.svg';
 import renBTCLogo from 'assets/icons/renBTC.svg';
 import { shortenAddress } from 'utils/componentHelpers';
 
@@ -89,7 +89,7 @@ export const ConfirmForm = ({
 			</Grid>
 
 			<Grid item xs={12}>
-				<h3>{values.tabValue === 0 ? 'MINTING' : 'RELEASING'}</h3>
+				<h3>{values.tabValue <= 1 ? 'MINTING' : 'RELEASING'}</h3>
 			</Grid>
 
 			{values.spacer}
@@ -100,14 +100,14 @@ export const ConfirmForm = ({
 					type="text"
 					className={classes.amountInput}
 					disabled={true}
-					value={values.tabValue === 0 ? `${values.amount} BTC` : `${values.burnAmount} ${values.token}`}
+					value={values.tabValue <= 1 ? `${values.amount} BTC` : `${values.burnAmount} ${values.token}`}
 				/>
 			</Grid>
 
 			{values.spacer}
 
 			<Grid item xs={12}>
-				{values.tabValue === 0 && values.token === 'bWBTC' && (
+				{values.tabValue <= 1 && values.token === 'bWBTC' && (
 					<>
 						{feeContainer(
 							'Minting',
@@ -122,9 +122,9 @@ export const ConfirmForm = ({
 					</>
 				)}
 
-				{!(values.tabValue === 0 && values.token === 'bWBTC') && (
+				{!(values.tabValue <= 1 && values.token === 'bWBTC') && (
 					<div className={classes.itemContainer}>
-						<div>{values.tabValue === 0 ? 'Minting' : 'Releasing'}</div>
+						<div>{values.tabValue <= 1 ? 'Minting' : 'Releasing'}</div>
 
 						<div className={classes.receiveAmount}>
 							<img src={selectedTokenImage} className={classes.logo2} />
@@ -196,7 +196,7 @@ export const ConfirmForm = ({
 			</Grid>
 
 			{values.spacer}
-			{values.tabValue === 0 ? (
+			{values.tabValue <= 1 ? (
 				<Grid item xs={12}>
 					<div className={classes.checkboxContainer}>
 						<div>
@@ -236,7 +236,7 @@ export const ConfirmForm = ({
 					variant="contained"
 					color="primary"
 					className={classes.button}
-					disabled={values.tabValue === 0 && !Object.values(agreement).every(Boolean) ? true : false}
+					disabled={values.tabValue <= 1 && !Object.values(agreement).every(Boolean) ? true : false}
 					onClick={confirm}
 				>
 					CONFIRM
