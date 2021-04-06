@@ -158,7 +158,7 @@ class ContractsStore {
 						periods,
 						NETWORK_CONSTANTS[network.name].START_TIME,
 					);
-					console.log('checking build env var: ', process.env.REACT_APP_BUILD_ENV);
+					console.log('checking the build env var: ', process.env.REACT_APP_BUILD_ENV);
 					// if (process.env.REACT_APP_BUILD_ENV !== 'production') {
 					// 	queryResult.slice(-1)[0][test.vaults['yearn.test']] = 10;
 					// 	queryResult.slice(-1)[0][test.assets['yearn.test']] = 15;
