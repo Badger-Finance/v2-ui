@@ -1,5 +1,5 @@
 import React from 'react';
-import { Paper, Typography, makeStyles, Grid } from '@material-ui/core';
+import { Paper, Typography, makeStyles } from '@material-ui/core';
 import { formatPrice } from 'mobx/reducers/statsReducers';
 import { usdToCurrency } from '../../mobx/utils/helpers';
 import Skeleton from '@material-ui/lab/Skeleton';
@@ -24,14 +24,13 @@ const useStyles = makeStyles((theme) => ({
 	bnbIcon: {
 		marginRight: theme.spacing(1),
 		width: 20,
-		height: 20
+		height: 20,
 	},
 	valueContainer: {
 		justifyContent: 'center',
-		alignItems: 'center'
+		alignItems: 'center',
 	},
 }));
-
 
 const CurrencyInfoCard: React.FC<CurrencyInfoCardProps> = (props: CurrencyInfoCardProps) => {
 	const classes = useStyles();

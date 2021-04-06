@@ -109,13 +109,16 @@ export const getExchangeRates = (): Promise<Response> => {
 };
 
 export const getBdiggExchangeRates = async (): Promise<Response> => {
-	return fetch('https://api.coingecko.com/api/v3/simple/price/?ids=badger-sett-digg&vs_currencies=usd,eth,btc,cad,bnb', {
-		method: 'GET',
-		headers: {
-			'Content-Type': 'application/json',
-			Accept: 'application/json',
+	return fetch(
+		'https://api.coingecko.com/api/v3/simple/price/?ids=badger-sett-digg&vs_currencies=usd,eth,btc,cad,bnb',
+		{
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+				Accept: 'application/json',
+			},
 		},
-	}).then((response: any) => response.json());
+	).then((response: any) => response.json());
 };
 
 export const growthQuery = (block: number): Promise<Response> => {
@@ -184,7 +187,6 @@ export const usdToCurrency = (
 			decimals = 5;
 			prefix = '/assets/icons/bnb-white.png';
 			break;
-
 	}
 
 	let suffix = '';

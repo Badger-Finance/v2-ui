@@ -64,13 +64,13 @@ const useStyles = makeStyles((theme) => ({
 	bnbIcon: {
 		width: 20,
 		height: 20,
-		marginRight: theme.spacing(1)
+		marginRight: theme.spacing(1),
 	},
 	currencyIcon: {
 		width: 20,
 		height: 20,
-		marginRight: theme.spacing(1)
-	}
+		marginRight: theme.spacing(1),
+	},
 }));
 
 interface SettListItemProps {

@@ -3,21 +3,21 @@ import { Typography, makeStyles, Grid, GridJustification } from '@material-ui/co
 import { Variant } from '@material-ui/core/styles/createTypography';
 
 const useStyles = makeStyles((theme) => ({
-  currencyIcon: {
+	currencyIcon: {
 		width: 20,
 		height: 20,
-		marginRight: theme.spacing(1)
-	}
+		marginRight: theme.spacing(1),
+	},
 }));
 
 export interface CurrencyDisplayProps {
-  displayValue: string;
-  variant: Variant;
-  justify: GridJustification;
+	displayValue: string;
+	variant: Variant;
+	justify: GridJustification;
 }
 
 const CurrencyDisplay: React.FC<CurrencyDisplayProps> = (props: CurrencyDisplayProps) => {
-	const { displayValue, variant, justify } = props; 
+	const { displayValue, variant, justify } = props;
 	const [icon, displayAmount] = displayValue.split('.png');
 	const hasCurrencyIcon = displayAmount !== undefined;
 	const classes = useStyles();
@@ -28,6 +28,6 @@ const CurrencyDisplay: React.FC<CurrencyDisplayProps> = (props: CurrencyDisplayP
 			<Typography variant={variant}>{hasCurrencyIcon ? displayAmount : displayValue}</Typography>
 		</Grid>
 	);
-}
+};
 
 export default CurrencyDisplay;

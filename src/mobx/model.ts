@@ -721,8 +721,8 @@ export interface NFT {
 }
 
 export interface ExchangeRates {
-  usd: number;
-  cad: number;
-  btc: number;
-  bnb: number;
+	usd: number;
+	cad: number;
+	btc: number;
+	bnb: number;
 }
