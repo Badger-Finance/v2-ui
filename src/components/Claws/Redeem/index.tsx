@@ -75,7 +75,7 @@ const Redeem = () => {
 						options={claws}
 						selectedOption={selectedOption}
 						displayAmount={amount}
-						disabledOptions={!wallet.connectedAddress}
+						disabledOptions={!wallet.connectedAddress || claws.size === 0}
 						disabledAmount={!selectedOption || !wallet.connectedAddress}
 						onAmountChange={(amount: string) => {
 							if (!clawBalance || !bToken) return;

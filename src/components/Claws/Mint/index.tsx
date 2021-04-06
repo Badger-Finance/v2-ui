@@ -66,7 +66,7 @@ export const Mint = observer(() => {
 							displayAmount={collateral.amount}
 							options={collaterals}
 							selectedOption={collateral.selectedOption}
-							disabledOptions={!wallet.connectedAddress}
+							disabledOptions={!wallet.connectedAddress || collaterals.size === 0}
 							disabledAmount={!collateral.selectedOption}
 							onOptionChange={(selectedOption: string) => {
 								dispatch({ type: 'COLLATERAL_OPTION_CHANGE', payload: selectedOption });

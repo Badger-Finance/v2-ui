@@ -104,7 +104,7 @@ const Manage = observer(() => {
 						options={claws}
 						displayAmount={amount}
 						selectedOption={selectedOption}
-						disabledOptions={!wallet.connectedAddress}
+						disabledOptions={!wallet.connectedAddress || claws.size === 0}
 						disabledAmount={!selectedOption || !wallet.connectedAddress}
 						onAmountChange={(amount: string) => {
 							if (!balance) return;
