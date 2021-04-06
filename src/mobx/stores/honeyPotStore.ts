@@ -80,7 +80,7 @@ export class HoneyPotStore {
 			this.poolBalance = new BigNumber(balance);
 		} catch (error) {
 			const message = error?.message || 'There was an error. Please try again later.';
-			process.env.REACT_APP_BUILD_ENV != 'production' && this.store.uiState.queueNotification(message, 'error');
+			process.env.REACT_APP_BUILD_ENV !== 'production' && this.store.uiState.queueNotification(message, 'error');
 		} finally {
 			this.loadingPoolBalance = false;
 		}
