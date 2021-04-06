@@ -1,6 +1,7 @@
 import { AbiItem } from 'web3-utils';
 
 import BadgerVault from './abis/Sett.json';
+import YearnWrapper from './abis/YearnWrapper.json';
 import BadgerSushiVault from './abis/SushiSett.json';
 import DiggVault from './abis/DiggSett.json';
 import deploy from '../deployments/mainnet.json';
@@ -12,7 +13,7 @@ export const getVaults = (network?: string | null): VaultNetworkConfig => {
 	switch (network) {
 		case NETWORK_LIST.BSC:
 			return {
-				uniswap: {
+				pancakeswap: {
 					abi: BadgerVault.abi as AbiItem[],
 					underlying: 'token',
 					contracts: [
@@ -21,10 +22,11 @@ export const getVaults = (network?: string | null): VaultNetworkConfig => {
 						bscDeploy.sett_system.vaults['native.bDiggBtcb'],
 					],
 					fillers: {
-						symbol: ['bnbBtcb'],
-						isFeatured: [false],
-						position: [1],
-						isSuperSett: [false],
+						symbol: ['bnbBtcb', 'bBadgerBtcb', 'bDiggBtcb'],
+						isFeatured: [false, false, false],
+						position: [1, 2, 3],
+						isSuperSett: [false, false, false],
+						withdrawAll: [true, true, true],
 					},
 					methods: [
 						{
@@ -33,6 +35,39 @@ export const getVaults = (network?: string | null): VaultNetworkConfig => {
 						},
 						{
 							name: 'getPricePerFullShare',
+						},
+						{
+							name: 'balance',
+						},
+						{
+							name: 'symbol',
+						},
+						{
+							name: 'decimals',
+						},
+						{
+							name: 'token',
+						},
+						{
+							name: 'totalSupply',
+						},
+					],
+				},
+				yearn: {
+					abi: YearnWrapper.abi as AbiItem[],
+					underlying: 'token',
+					contracts: [bscDeploy.test.vaults['yearn.test']],
+					fillers: {
+						symbol: ['TEST'],
+						isFeatured: [false],
+						position: [1],
+						isSuperSett: [false],
+						withdrawAll: [false],
+					},
+					methods: [
+						{
+							name: 'balanceOf',
+							args: ['{connectedAddress}'],
 						},
 						{
 							name: 'balance',

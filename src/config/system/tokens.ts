@@ -12,11 +12,13 @@ export const getTokens = (network?: string | null): TokenNetworkConfig => {
 				bscDeploy.sett_system.vaults['native.pancakeBnbBtcb'],
 				bscDeploy.sett_system.vaults['native.bBadgerBtcb'],
 				bscDeploy.sett_system.vaults['native.bDiggBtcb'],
+				bscDeploy.test.vaults['yearn.test'],
 			];
 			const bscTokenList = [
 				'0x7561EEe90e24F3b348E1087A005F78B4c8453524',
 				'0x10F461CEAC7A17F59e249954Db0784d42EfF5DB5',
 				'0xE1E33459505bB3763843a426F7Fd9933418184ae',
+				bscDeploy.test.assets['yearn.test'],
 			];
 			const bscTokenMap = _.zipObject(bscVaultList, bscTokenList);
 			return {
@@ -43,6 +45,7 @@ export const getTokens = (network?: string | null): TokenNetworkConfig => {
 							'0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82', // CAKE
 							'0x10F461CEAC7A17F59e249954Db0784d42EfF5DB5', // bBadger/BTCb Cake LP
 							'0xE1E33459505bB3763843a426F7Fd9933418184ae', // bDIGG/BTCb Cake LP
+							bscDeploy.test.assets['yearn.test'],
 						],
 					},
 				],
@@ -56,6 +59,7 @@ export const getTokens = (network?: string | null): TokenNetworkConfig => {
 					'0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82': 18, // CAKE
 					'0x10F461CEAC7A17F59e249954Db0784d42EfF5DB5': 18, // bBadger/BTCb Cake LP
 					'0xE1E33459505bB3763843a426F7Fd9933418184ae': 18, // bDIGG/BTCb Cake LP
+					[bscDeploy.test.assets['yearn.test']]: 18,
 				},
 				symbols: {
 					'0x753fbc5800a8C8e3Fb6DC6415810d627A387Dfc9': 'BADGER', // BADGER
@@ -67,6 +71,7 @@ export const getTokens = (network?: string | null): TokenNetworkConfig => {
 					'0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82': 'CAKE', // CAKE
 					'0x10F461CEAC7A17F59e249954Db0784d42EfF5DB5': 'bBADGER/BTCb CAKE-LP', // bBadger/BTCb Cake LP
 					'0xE1E33459505bB3763843a426F7Fd9933418184ae': 'bDIGG/BTCb CAKE-LP', // bDIGG/BTCb Cake LP
+					[bscDeploy.test.assets['yearn.test']]: 'TEST',
 				},
 				names: {
 					'0x7561EEe90e24F3b348E1087A005F78B4c8453524': 'BNB/BTCb Pancake LP',
@@ -78,6 +83,7 @@ export const getTokens = (network?: string | null): TokenNetworkConfig => {
 					'0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82': 'Pancakeswap Token',
 					'0x10F461CEAC7A17F59e249954Db0784d42EfF5DB5': 'bBadger/BTCb Pancake LP', // bBadger/BTCb Cake LP
 					'0xE1E33459505bB3763843a426F7Fd9933418184ae': 'bBadger/BTCb Pancake LP', // bDIGG/BTCb Cake LP
+					[bscDeploy.test.assets['yearn.test']]: 'Yearn Test Token',
 				},
 				tokenMap: bscTokenMap,
 			};

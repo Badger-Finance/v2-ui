@@ -32,7 +32,6 @@ const UserListDisplay = observer((props: SettListViewProps) => {
 	if (settMap === null) {
 		return <Typography variant="h4">There was an issue loading setts. Try refreshing.</Typography>;
 	}
-
 	const walletListItems = network.settOrder
 		.map((contract) => {
 			const vault = vaults[settMap[contract].vaultToken];
