@@ -57,13 +57,7 @@ export default class SettStore {
 	loadSettList = action(async (load: (chain?: string) => Promise<Sett[] | null>, chain?: string) => {
 		// load interface, or display loading
 		chain = chain ?? NETWORK_LIST.ETH;
-		let settList;
-		// if (process.env.REACT_APP_BUILD_ENV !== 'production') {
-		// 	settList = await load(chain);
-		// 	settList = settList?.concat(testYearnVaultApiResponse);
-		// } else {
-		settList = await load(chain);
-		// }
+		const settList = await load(chain);
 		if (settList) {
 			this.settCache[chain] = settList;
 			this.settMapCache[chain] = this.keySettByContract(settList);
