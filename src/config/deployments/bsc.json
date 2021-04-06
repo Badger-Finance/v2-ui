@@ -37,5 +37,13 @@
 		},
 		"rewards": {}
 	},
-	"geysers": {}
+	"geysers": {},
+	"test": {
+		"assets": {
+			"yearn.test": "0xEd2a8Ab49DcbCb8C27650cC8D5229Cefcad52e2a"
+		},
+		"vaults": {
+			"yearn.test": "0x50b20a12Acb15a413FE76FB82f9E524D3b0E8a69"
+		}
+	}
 }

@@ -20,6 +20,7 @@ import { EMPTY_DATA, ERC20, NETWORK_CONSTANTS, NETWORK_LIST } from 'config/const
 import { formatAmount } from 'mobx/reducers/statsReducers';
 import BatchCall from 'web3-batch-call';
 import { getApi } from '../utils/apiV2';
+import { test } from 'config/deployments/bsc.json';
 
 let batchCall: any = null;
 
@@ -154,6 +155,11 @@ class ContractsStore {
 						periods,
 						NETWORK_CONSTANTS[network.name].START_TIME,
 					);
+					console.log('checking build env var: ', process.env.REACT_APP_BUILD_ENV);
+					// if (process.env.NODE_ENV !== 'production') {
+					// 	queryResult.slice(-1)[0][test.vaults['yearn.test']] = 10;
+					// 	queryResult.slice(-1)[0][test.assets['yearn.test']] = 15;
+					// }
 
 					const prices = _.mapValues(queryResult.pop(), (price: any) => ({
 						ethValue: new BigNumber(price).multipliedBy(1e18),
@@ -363,7 +369,6 @@ class ContractsStore {
 		// calculate amount to withdraw
 		const wrappedAmount = amount.multipliedBy(10 ** vault.decimals);
 		const methodSeries: any = [];
-
 		// withdraw
 		methodSeries.push((callback: any) =>
 			this.withdrawVault(vault, wrappedAmount, wrappedAmount.gte(vault.balance), callback),
@@ -566,8 +571,13 @@ class ContractsStore {
 		const web3 = new Web3(provider);
 		const underlyingContract = new web3.eth.Contract(vault.abi, vault.address);
 
-		let method = underlyingContract.methods.withdraw(amount.toFixed(0, BigNumber.ROUND_HALF_FLOOR));
-		if (all) method = underlyingContract.methods.withdrawAll();
+		// Yearn vaults do not have a withdrawAll method, but allow a withdraw() with no value which will act as
+		// withdrawAll.  This action is flagged by having withdrawAll = false on the vault object.
+		let method = all
+			? vault.withdrawAll
+				? underlyingContract.methods.withdrawAll()
+				: underlyingContract.methods.withdraw()
+			: underlyingContract.methods.withdraw(amount.toFixed(0, BigNumber.ROUND_HALF_FLOOR));
 
 		queueNotification(
 			`Sign the transaction to unwrap ${formatAmount({ amount: amount, token: vault.underlyingToken }, true)} ${

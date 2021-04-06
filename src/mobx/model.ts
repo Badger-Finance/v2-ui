@@ -68,6 +68,7 @@ export class Vault extends Token {
 	public abi!: AbiItem;
 	public super!: boolean;
 	public vaultBalance!: BigNumber;
+	public withdrawAll!: boolean;
 
 	constructor(store: RootStore, address: string, decimals: number, underlyingToken: Token, abi: AbiItem) {
 		super(store, address, decimals);
@@ -79,6 +80,7 @@ export class Vault extends Token {
 		this.vaultBalance = new BigNumber(0);
 		this.abi = abi;
 		this.super = false;
+		this.withdrawAll = true;
 	}
 
 	deposit(amount: BigNumber): void {
@@ -110,8 +112,9 @@ export class Vault extends Token {
 		if (!!payload.balance) this.vaults = payload.balance;
 		if (!!payload.getPricePerFullShare) this.pricePerShare = payload.getPricePerFullShare;
 		if (!!payload.totalSupply) this.holdings = payload.totalSupply;
-		if (!!payload.isSuperSett) this.super = payload.isSuperSett;
+		if ('isSuperSett' in payload) this.super = payload.isSuperSett;
 		if (!!payload.ethValue) this.ethValue = payload.ethValue;
+		if ('withdrawAll' in payload) this.withdrawAll = payload.withdrawAll;
 	}
 }
 
@@ -269,6 +272,7 @@ export type TokenPayload = {
 	balance: Vault[];
 	getPricePerFullShare: BigNumber;
 	isSuperSett: boolean;
+	withdrawAll: boolean;
 };
 
 export type GeyserPayload = {
@@ -403,13 +407,7 @@ export type VaultNetworkConfig = {
 				underlying: string;
 				contracts: string[];
 				fillers: {
-					symbol?: string[];
-					isFeatured?: boolean[];
-					position?: number[];
-					isSuperSett?: boolean[];
-					symbolPrefix?: string[];
-					onsenId?: string[];
-					pairContract?: string[];
+					[index: string]: string[] | boolean[] | number[];
 				};
 				methods: {
 					name: string;
@@ -562,6 +560,7 @@ export class BscNetwork implements Network {
 		this.deploy.sett_system.vaults['native.bDiggBtcb'],
 		this.deploy.sett_system.vaults['native.bBadgerBtcb'],
 		this.deploy.sett_system.vaults['native.pancakeBnbBtcb'],
+		this.deploy.test.vaults['yearn.test'],
 	];
 	public readonly sidebarTokenLinks = [
 		{
@@ -669,6 +668,13 @@ export type ValueSource = {
 	name: string;
 	apy: number;
 	performance: Performance;
+};
+
+export type Performance = {
+	oneDay?: number;
+	threeDay?: number;
+	sevenDay?: number;
+	thirtyDay?: number;
 };
 
 export type TokenBalance = {

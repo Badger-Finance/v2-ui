@@ -5,6 +5,8 @@ import { PriceSummary, Sett, ProtocolSummary, SettMap } from 'mobx/model';
 import { NETWORK_LIST } from 'config/constants';
 import Web3 from 'web3';
 import BigNumber from 'bignumber.js';
+import { testYearnVaultApiResponse } from 'mobx/utils/mockData';
+import { test } from 'config/deployments/bsc.json';
 
 export default class SettStore {
 	private store!: RootStore;
@@ -55,7 +57,13 @@ export default class SettStore {
 	loadSettList = action(async (load: (chain?: string) => Promise<Sett[] | null>, chain?: string) => {
 		// load interface, or display loading
 		chain = chain ?? NETWORK_LIST.ETH;
-		const settList = await load(chain);
+		let settList;
+		// if (process.env.NODE_ENV !== 'production') {
+		// 	settList = await load(chain);
+		// 	settList = settList?.concat(testYearnVaultApiResponse);
+		// } else {
+		settList = await load(chain);
+		// }
 		if (settList) {
 			this.settCache[chain] = settList;
 			this.settMapCache[chain] = this.keySettByContract(settList);
