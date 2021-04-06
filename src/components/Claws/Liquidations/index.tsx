@@ -1,8 +1,6 @@
-import React  from 'react';
-import { toJS } from 'mobx';
+import React from 'react';
 import { observer } from 'mobx-react-lite';
 import {
-	Box,
 	Paper,
 	Table,
 	TableBody,
@@ -11,15 +9,32 @@ import {
 	TableContainer,
 	TableHead,
 	Typography,
+	Container,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { ClassNameMap } from '@material-ui/core/styles/withStyles';
 
 import { StoreContext } from 'mobx/store-context';
 import { Liquidation, SyntheticData } from 'mobx/model';
-import ClawStore from 'mobx/stores/claw/clawStore';
+import { LiquidationRow as LiquidationRow } from './LiquidationRow';
+import { LiquidationDialog } from './LiquidationDialog';
+import BigNumber from 'bignumber.js';
 
-export const useMainStyles = makeStyles((theme) => ({
+interface FocusedLiquidation {
+	liquidation: Liquidation;
+	synthetic: SyntheticData;
+	decimals: number;
+}
+
+const useStyles = makeStyles((theme) => ({
+	container: {
+		width: '100%',
+		marginTop: theme.spacing(4),
+		padding: 0,
+	},
+	tableContainer: {
+		marginTop: theme.spacing(1),
+		padding: theme.spacing(2),
+	},
 	table: {
 		minWidth: 650,
 	},
@@ -42,107 +57,78 @@ export const useMainStyles = makeStyles((theme) => ({
 	},
 }));
 
-function createData(
-	token: string,
-	price: any,
-	locked: any,
-	liquidated: any,
-	initiated: string,
-	status: string,
-	complete: any,
-) {
-	return { token, price, locked, liquidated, initiated, status, complete };
-}
-const rows = [
-	createData('eCLAW FEB29', 1000, 0.013, 0.012, 'February 29, 2021', 'Validating', null),
-	createData('eCLAW FEB29', 1000, 0.013, 0.012, 'February 29, 2021', 'Invalid', null),
-	createData('eCLAW FEB29', 1000, 0.013, 0.012, 'February 29, 2021', 'Complete', 'February 29, 2021'),
+const mockData: Liquidation[] = [
+	{
+		state: 'Uninitialized',
+		liquidationTime: new BigNumber(1618072065),
+		tokensOutstanding: new BigNumber(100).multipliedBy(10 ** 18),
+		lockedCollateral: new BigNumber(100).multipliedBy(10 ** 18),
+		sponsor: '0xC26202cd0428276cC69017Df01137161f0102e55',
+		liquidator: '0xC26202cd0428226cC69017Da01137161f0104da22',
+		liquidatedCollateral: new BigNumber(122).multipliedBy(10 ** 18),
+		rawUnitCollateral: new BigNumber(100).multipliedBy(10 ** 18),
+		disputer: '0xC26202cd0428276cC69017Df01137161f0102e55',
+		settlementPrice: new BigNumber(111).multipliedBy(10 ** 18),
+		finalFee: new BigNumber(33),
+	},
+	{
+		state: 'DisputeFailed',
+		liquidationTime: new BigNumber(1618072065),
+		tokensOutstanding: new BigNumber(100).multipliedBy(10 ** 18),
+		lockedCollateral: new BigNumber(100).multipliedBy(10 ** 18),
+		sponsor: '0xC26202cd0428276cC69017Df01137161f0102e55',
+		liquidator: '0xC26202cd0428226cC69017Da01137161f0104da22',
+		liquidatedCollateral: new BigNumber(122).multipliedBy(10 ** 18),
+		rawUnitCollateral: new BigNumber(100).multipliedBy(10 ** 18),
+		disputer: '0xC26202cd0428276cC69017Df01137161f0102e55',
+		settlementPrice: new BigNumber(111).multipliedBy(10 ** 18),
+		finalFee: new BigNumber(33),
+	},
+	{
+		state: 'PendingDispute',
+		liquidationTime: new BigNumber(1618072065),
+		tokensOutstanding: new BigNumber(100).multipliedBy(10 ** 18),
+		lockedCollateral: new BigNumber(100).multipliedBy(10 ** 18),
+		sponsor: '0xC26202cd0428276cC69017Df01137161f0102e55',
+		liquidator: '0xC26202cd0428226cC69017Da01137161f0104da22',
+		liquidatedCollateral: new BigNumber(122).multipliedBy(10 ** 18),
+		rawUnitCollateral: new BigNumber(100).multipliedBy(10 ** 18),
+		disputer: '0xC26202cd0428276cC69017Df01137161f0102e55',
+		settlementPrice: new BigNumber(111).multipliedBy(10 ** 18),
+		finalFee: new BigNumber(33),
+	},
 ];
-
-interface LiquidationRowProps {
-	classes: ClassNameMap;
-	store: ClawStore;
-	liquidation: Liquidation;
-	synthetic: SyntheticData;
-	decimals: number;
-}
-
-const LiquidationRow = ({ store, liquidation, synthetic, classes, decimals }: LiquidationRowProps) => {
-	return <TableRow hover={true} key={synthetic.name} className={classes.tableRow} />;
-	// TODO: Hook up liquidation info.
-	//return (
-	//        <TableRow hover={true} key={synthetic.name} className={classes.tableRow}>
-	//                <TableCell>
-	//                        <Typography variant="body1">{row.token}</Typography>
-	//                </TableCell>
-	//                <TableCell>{row.price}</TableCell>
-	//                <TableCell>
-	//                        <Grid container alignItems="center">
-	//                                <Grid item style={{ marginRight: '0.25rem' }}>
-	//                                        <Typography variant="body2">{row.locked}</Typography>
-	//                                </Grid>
-	//                                <Grid item>
-	//                                        <Typography variant="body2" color={'textSecondary'}>
-	//                                                / {row.liquidated}
-	//                                        </Typography>
-	//                                </Grid>
-	//                        </Grid>
-	//                </TableCell>
-	//                <TableCell>{row.initiated}</TableCell>
-	//                <TableCell>
-	//                        {row.status === 'Complete' ? (
-	//                                `${row.status} - ${row.complete}`
-	//                        ) : row.status === 'Invalid' ? (
-	//                                <Tooltip title="Error details go here.">
-	//                                        <Chip
-	//                                                color="primary"
-	//                                                className={classes.redChip}
-	//                                                icon={<InfoOutlinedIcon />}
-	//                                                label={row.status}
-	//                                        />
-	//                                </Tooltip>
-	//                        ) : (
-	//                                <Chip color="primary" label={row.status} />
-	//                        )}
-	//                </TableCell>
-	//                <TableCell align="right">
-	//                        <IconButton color="secondary">
-	//                                <UnfoldMoreTwoTone />
-	//                        </IconButton>
-	//                </TableCell>
-	//        </TableRow>
-	//);
-};
 
 const Liquidations = observer(() => {
 	const { claw: store, contracts } = React.useContext(StoreContext);
-	const { isLoading, sponsorInformationByEMP, syntheticsData } = store;
-	const classes = useMainStyles();
-	const sponsorInfo = new Map(Object.entries(toJS(sponsorInformationByEMP)));
-	const synthetics = toJS(syntheticsData);
-	const rows = [];
-	synthetics.forEach((synthetic: SyntheticData) => {
-		const { position } = sponsorInfo.get(synthetic.address);
-		if (!position) return;
+	const classes = useStyles();
+	const [focusedLiquidation, setFocusedLiquidation] = React.useState<FocusedLiquidation | null>(null);
+	const { sponsorInformationByEMP, syntheticsData } = store;
+	const liquidationRows: React.ReactNode[] = [];
+
+	syntheticsData.forEach((synthetic: SyntheticData) => {
+		const sponsorData = sponsorInformationByEMP.get(synthetic.address);
+		if (!sponsorData?.position) return;
 		const bToken = contracts.tokens[synthetic.collateralCurrency];
 		const decimals = bToken ? bToken.decimals : 18;
-		position.liquidations.forEach((liquidation: Liquidation) => {
-			rows.push(
+
+		mockData.forEach((liquidation: Liquidation) => {
+			liquidationRows.push(
 				<LiquidationRow
 					key={synthetic.name}
-					store={store}
 					liquidation={liquidation}
 					synthetic={synthetic}
 					decimals={decimals}
-					classes={classes}
+					onClick={() => setFocusedLiquidation({ liquidation, synthetic, decimals })}
 				/>,
 			);
 		});
 	});
+
 	return (
-		<Box style={{ marginTop: '2rem' }}>
+		<Container className={classes.container}>
 			<Typography variant="h4">Liquidations</Typography>
-			<TableContainer component={Paper} style={{ marginTop: '.5rem', padding: '1rem' }}>
+			<TableContainer component={Paper} className={classes.tableContainer}>
 				<Table className={classes.table} aria-label="simple table">
 					<TableHead>
 						<TableRow className={classes.tableRowSubdued}>
@@ -155,10 +141,19 @@ const Liquidations = observer(() => {
 							<TableCell colSpan={2}>Status / Completion</TableCell>
 						</TableRow>
 					</TableHead>
-					<TableBody></TableBody>
+					<TableBody>{liquidationRows}</TableBody>
 				</Table>
 			</TableContainer>
-		</Box>
+			{focusedLiquidation && (
+				<LiquidationDialog
+					isOpen
+					liquidation={focusedLiquidation.liquidation}
+					synthetic={focusedLiquidation.synthetic}
+					decimals={focusedLiquidation.decimals}
+					onClose={() => setFocusedLiquidation(null)}
+				/>
+			)}
+		</Container>
 	);
 });
 
