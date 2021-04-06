@@ -635,6 +635,15 @@ export class EthNetwork implements Network {
 		return { link: `https://etherscan.io/tx/${transaction.hash}` };
 	}
 }
+
+export type UserPermissions = {
+	viewSettShop: boolean;
+};
+
+export type Eligibility = {
+	isEligible: boolean;
+};
+
 /**
  * Sett and geyser objects will be represented by the same
  * interface. The key difference between a sett and geyser
