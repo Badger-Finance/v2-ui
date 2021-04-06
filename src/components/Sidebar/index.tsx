@@ -150,7 +150,7 @@ export const Sidebar = observer(() => {
 
 	const navigate = (path: Route<RootStore, any, {}>) => {
 		closeSidebar();
-		goTo(path);
+		return goTo(path);
 	}
 
 	return (
