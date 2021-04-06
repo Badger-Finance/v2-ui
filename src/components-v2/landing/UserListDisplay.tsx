@@ -35,7 +35,6 @@ const UserListDisplay = observer((props: SettListViewProps) => {
 	const walletListItems = network.settOrder
 		.map((contract) => {
 			if (!settMap[contract] || !settMap[contract].vaultToken || !vaults[settMap[contract].vaultToken]) {
-				console.log('missing sett map info:', contract, settMap, vaults);
 				return null;
 			}
 			const vault = vaults[settMap[contract].vaultToken];
