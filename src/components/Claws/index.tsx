@@ -1,5 +1,4 @@
 import React, { FC, useContext, useState } from 'react';
-import { toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import { Tab, Card, Tabs, CardContent, Container, Grid, CircularProgress } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -24,6 +23,7 @@ export const useMainStyles = makeStyles((theme) => ({
 	},
 	tabs: {
 		marginBottom: theme.spacing(1),
+		background: 'rgba(0,0,0,.2)',
 	},
 	cardContent: {
 		paddingRight: theme.spacing(2),
@@ -70,7 +70,7 @@ const TABS = {
 
 export const Claws: FC = observer(() => {
 	const store = useContext(StoreContext);
-	const { isLoading, sponsorInformationByEMP } = store.claw;
+	const { isLoading, sponsorInformation } = store.claw;
 	const classes = useMainStyles();
 	const [activeTab, setActiveTab] = useState(0);
 
@@ -94,10 +94,10 @@ export const Claws: FC = observer(() => {
 		}
 	};
 
-	const [totalWithdrawals, totalLiquidations] = Object.values(toJS(sponsorInformationByEMP)).reduce(
-		([numWithdrawals, numLiquidations]: [number, number], { pendingWithdrawal, liquidations }: SponsorData) => {
+	const [totalWithdrawals, totalLiquidations] = sponsorInformation.reduce(
+		([numWithdrawals, numLiquidations], { pendingWithdrawal, liquidations }) => {
 			if (liquidations) {
-				numLiquidations = liquidations.length;
+				numLiquidations += liquidations.length;
 			}
 			if (pendingWithdrawal) {
 				numWithdrawals++;
@@ -115,12 +115,7 @@ export const Claws: FC = observer(() => {
 				</Grid>
 				<Grid item xs={12}>
 					<Card>
-						<Tabs
-							variant="fullWidth"
-							indicatorColor="primary"
-							value={activeTab}
-							style={{ background: 'rgba(0,0,0,.2)', marginBottom: '.5rem' }}
-						>
+						<Tabs variant="fullWidth" indicatorColor="primary" value={activeTab} className={classes.tabs}>
 							<Tab onClick={() => setActiveTab(TABS.MINT)} label="Mint"></Tab>
 							<Tab onClick={() => setActiveTab(TABS.MANAGE)} label="Manage"></Tab>
 							<Tab onClick={() => setActiveTab(TABS.REDEEM)} label="Redeem"></Tab>
@@ -130,12 +125,13 @@ export const Claws: FC = observer(() => {
 						</CardContent>
 					</Card>
 				</Grid>
-				{totalWithdrawals + totalLiquidations > 0 ? (
+				{!isLoading && (
 					<Grid item xs={12}>
-						{totalWithdrawals > 0 ? <Withdrawals /> : null}
-						{totalLiquidations > 0 ? <Liquidations /> : null}
+						<Liquidations />
+						{totalWithdrawals > 0 && <Withdrawals />}
+						{totalLiquidations > 0 && <Liquidations />}
 					</Grid>
-				) : null}
+				)}
 			</Grid>
 		</Container>
 	);
