@@ -56,7 +56,7 @@ export const reduceContractsToStats = (store: RootStore): ContractToStats | unde
 	const { network } = store.wallet;
 
 	if (!tokens) {
-		if (process.env.NODE_ENV !== 'production') console.log('no tokens identified');
+		if (process.env.REACT_APP_BUILD_ENV !== 'production') console.log('no tokens identified');
 		return;
 	}
 
