@@ -119,7 +119,10 @@ class ContractsStore {
 						token.update(contract);
 					});
 				})
-				.catch((error: any) => process.env.NODE_ENV !== 'production' && console.log('batch error: ', error));
+				.catch(
+					(error: any) =>
+						process.env.REACT_APP_BUILD_ENV !== 'production' && console.log('batch error: ', error),
+				);
 		},
 	);
 
@@ -156,7 +159,7 @@ class ContractsStore {
 						NETWORK_CONSTANTS[network.name].START_TIME,
 					);
 					console.log('checking build env var: ', process.env.REACT_APP_BUILD_ENV);
-					// if (process.env.NODE_ENV !== 'production') {
+					// if (process.env.REACT_APP_BUILD_ENV !== 'production') {
 					// 	queryResult.slice(-1)[0][test.vaults['yearn.test']] = 10;
 					// 	queryResult.slice(-1)[0][test.assets['yearn.test']] = 15;
 					// }
@@ -205,7 +208,7 @@ class ContractsStore {
 							: new BigNumber(0.0);
 					});
 				})
-				.catch((error: any) => process.env.NODE_ENV !== 'production' && console.log(error));
+				.catch((error: any) => process.env.REACT_APP_BUILD_ENV !== 'production' && console.log(error));
 		},
 	);
 
@@ -244,7 +247,7 @@ class ContractsStore {
 						});
 					}
 				})
-				.catch((error: any) => process.env.NODE_ENV !== 'production' && console.log(error));
+				.catch((error: any) => process.env.REACT_APP_BUILD_ENV !== 'production' && console.log(error));
 		},
 	);
 

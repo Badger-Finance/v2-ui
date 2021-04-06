@@ -58,7 +58,7 @@ export default class SettStore {
 		// load interface, or display loading
 		chain = chain ?? NETWORK_LIST.ETH;
 		let settList;
-		// if (process.env.NODE_ENV !== 'production') {
+		// if (process.env.REACT_APP_BUILD_ENV !== 'production') {
 		// 	settList = await load(chain);
 		// 	settList = settList?.concat(testYearnVaultApiResponse);
 		// } else {

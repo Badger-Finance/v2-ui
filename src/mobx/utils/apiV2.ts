@@ -1,7 +1,7 @@
 import { Eligibility, PriceSummary, ProtocolSummary, Sett } from 'mobx/model';
 
 export const getApi = (): string => {
-	if (process.env.NODE_ENV === 'production') {
+	if (process.env.REACT_APP_BUILD_ENV === 'production') {
 		return 'https://api.badger.finance/v2';
 	}
 	return 'https://staging-api.badger.finance/v2';
