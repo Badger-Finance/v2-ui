@@ -1,94 +1,184 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import {
-	Button,
-	Dialog,
-	DialogActions,
-	DialogContent,
-	DialogTitle,
-	Divider,
-	Grid,
-	Typography,
-} from '@material-ui/core';
-
-export const useMainStyles = makeStyles((theme) => ({
-	transactionRow: {
-		marginTop: theme.spacing(1),
-	},
-	dialogTitle: {
-		borderBottom: theme.palette.common.white,
-	},
-	dialogContent: {
-		paddingBottom: theme.spacing(2),
-		paddingTop: theme.spacing(0),
-	},
-	dialogActions: {
-		paddingBottom: theme.spacing(2),
-		paddingTop: theme.spacing(2),
-		paddingLeft: theme.spacing(3),
-		paddingRight: theme.spacing(3),
-	},
-	mx: {
-		marginRight: theme.spacing(3),
-		marginLeft: theme.spacing(3),
-	},
-}));
-
-interface TransactionRowProps {
-	header: any;
-	content: any;
-}
-
-const TransactionRow: React.FC<TransactionRowProps> = ({ header, content }) => {
-	const classes = useMainStyles();
-	return (
-		<Grid container spacing={2} className={classes.transactionRow} alignItems="center">
-			<Grid item xs={4}>
-				{header}
-			</Grid>
-			<Grid item xs={8}>
-				<Typography variant="body2" color="textPrimary">
-					{content}
-				</Typography>
-			</Grid>
-		</Grid>
-	);
-};
-
-const transactionRows = [
-	['Token', 'eClaw FEB29'],
-	['Amount', 234.23],
-	['Completes On', 'Feb 29th, 2021 @ 12:00 MST'],
-	['Locked Collateral', 0.013],
-	['Liquidated Collateral', 0.012],
-	['Settlement Price', '$63,393'],
-	['Fee', '$33.33'],
-	['Liquidator', '0x0BC9ce5dE1Ed7a4e31EB1A33Aef43D4d1057F8C6'],
-	['Disputer', '0x0BC9ce5dE1Ed7a4e31EB1A33Aef43D4d1057F8C6'],
-];
+import { Dialog, DialogTitleProps, DialogContent, Divider, Grid, IconButton, Typography } from '@material-ui/core';
+import MuiDialogTitle from '@material-ui/core/DialogTitle';
+import CloseIcon from '@material-ui/icons/Close';
+import { Liquidation, SyntheticData } from 'mobx/model';
+import { Direction, scaleToString } from 'utils/componentHelpers';
 
 interface Props {
 	isOpen?: boolean;
+	liquidation: Liquidation;
+	synthetic: SyntheticData;
+	decimals: number;
+	onClose: () => void;
 }
 
-export const LiquidationDialog: React.FC<Props> = ({ isOpen = false }) => {
-	const classes = useMainStyles();
+interface DialogProps extends DialogTitleProps {
+	onClose: () => void;
+}
+
+const useStyles = makeStyles((theme) => ({
+	dialogTitle: {
+		borderBottom: theme.palette.common.white,
+		margin: 0,
+		padding: theme.spacing(2, 4),
+	},
+	dialogContent: {
+		padding: theme.spacing(3, 4),
+	},
+	closeButton: {
+		position: 'absolute',
+		right: theme.spacing(1),
+		top: theme.spacing(1),
+		color: theme.palette.grey[500],
+	},
+}));
+
+const DialogTitle = (props: DialogProps) => {
+	const classes = useStyles();
+	const { children, onClose, ...other } = props;
+
+	return (
+		<MuiDialogTitle disableTypography className={classes.dialogTitle} {...other}>
+			<Typography variant="h6">{children}</Typography>
+			<IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
+				<CloseIcon />
+			</IconButton>
+		</MuiDialogTitle>
+	);
+};
+
+export const LiquidationDialog = ({ isOpen = false, liquidation, synthetic, decimals, onClose }: Props) => {
+	const classes = useStyles();
+
+	const {
+		rawUnitCollateral,
+		lockedCollateral,
+		liquidatedCollateral,
+		liquidationTime,
+		settlementPrice,
+		liquidator,
+		disputer,
+		finalFee,
+	} = liquidation;
 
 	return (
 		<Dialog maxWidth="sm" fullWidth={true} aria-labelledby="liquidation-dialog" open={isOpen}>
-			<DialogTitle className={classes.dialogTitle} id="liquidation-dialog-title">
-				eCLAW FEB29 Transaction
-			</DialogTitle>
-			<Divider variant="middle" className={classes.mx} />
+			<DialogTitle onClose={onClose}>eCLAW FEB29 Transaction</DialogTitle>
+			<Divider variant="middle" />
 			<DialogContent className={classes.dialogContent}>
-				{transactionRows.map((row) => {
-					return <TransactionRow header={row[0]} content={row[1]}/>
-				})}
+				<Grid container spacing={2} alignItems="center">
+					<Grid item container xs={12}>
+						<Grid item xs={4}>
+							<Typography variant="body2" color="textPrimary">
+								Token
+							</Typography>
+						</Grid>
+						<Grid item xs={8}>
+							<Typography variant="body2" color="textPrimary">
+								{synthetic.name}
+							</Typography>
+						</Grid>
+					</Grid>
+					<Grid item container xs={12}>
+						<Grid item xs={4}>
+							<Typography variant="body2" color="textPrimary">
+								Amount
+							</Typography>
+						</Grid>
+						<Grid item xs={8}>
+							<Typography variant="body2" color="textPrimary">
+								{scaleToString(rawUnitCollateral, decimals, Direction.Down)}
+							</Typography>
+						</Grid>
+					</Grid>
+					<Grid item container xs={12}>
+						<Grid item xs={4}>
+							<Typography variant="body2" color="textPrimary">
+								Completes On
+							</Typography>
+						</Grid>
+						<Grid item xs={8}>
+							<Typography variant="body2" color="textPrimary">
+								{'-'}
+							</Typography>
+						</Grid>
+					</Grid>
+					<Grid item container xs={12}>
+						<Grid item xs={4}>
+							<Typography variant="body2" color="textPrimary">
+								Locked Collateral
+							</Typography>
+						</Grid>
+						<Grid item xs={8}>
+							<Typography variant="body2" color="textPrimary">
+								{scaleToString(lockedCollateral, decimals, Direction.Down)}
+							</Typography>
+						</Grid>
+					</Grid>
+					<Grid item container xs={12}>
+						<Grid item xs={4}>
+							<Typography variant="body2" color="textPrimary">
+								Liquidated Collateral
+							</Typography>
+						</Grid>
+						<Grid item xs={8}>
+							<Typography variant="body2" color="textPrimary">
+								{scaleToString(liquidatedCollateral, decimals, Direction.Down)}
+							</Typography>
+						</Grid>
+					</Grid>
+					<Grid item container xs={12}>
+						<Grid item xs={4}>
+							<Typography variant="body2" color="textPrimary">
+								Settlement Price
+							</Typography>
+						</Grid>
+						<Grid item xs={8}>
+							<Typography variant="body2" color="textPrimary">
+								{scaleToString(settlementPrice, decimals, Direction.Down)}
+							</Typography>
+						</Grid>
+					</Grid>
+					<Grid item container xs={12}>
+						<Grid item xs={4}>
+							<Typography variant="body2" color="textPrimary">
+								Fee
+							</Typography>
+						</Grid>
+						<Grid item xs={8}>
+							<Typography variant="body2" color="textPrimary">
+								{finalFee.toString()}
+							</Typography>
+						</Grid>
+					</Grid>
+					<Grid item container xs={12}>
+						<Grid item xs={4}>
+							<Typography variant="body2" color="textPrimary">
+								Liquidator
+							</Typography>
+						</Grid>
+						<Grid item xs={8}>
+							<Typography variant="body2" color="textPrimary">
+								{liquidator.toString()}
+							</Typography>
+						</Grid>
+					</Grid>
+					<Grid item container xs={12}>
+						<Grid item xs={4}>
+							<Typography variant="body2" color="textPrimary">
+								Disputer
+							</Typography>
+						</Grid>
+						<Grid item xs={8}>
+							<Typography variant="body2" color="textPrimary">
+								{disputer.toString()}
+							</Typography>
+						</Grid>
+					</Grid>
+				</Grid>
 			</DialogContent>
-			<Divider variant="middle" className={classes.mx} />
-			<DialogActions className={classes.dialogActions}>
-				<Button color="primary">Cancel</Button>
-			</DialogActions>
 		</Dialog>
 	);
 };
