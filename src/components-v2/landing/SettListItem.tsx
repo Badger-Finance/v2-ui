@@ -1,4 +1,4 @@
-import { ListItem, makeStyles, Typography, Grid, Tooltip, Chip, IconButton } from '@material-ui/core';
+import { ListItem, makeStyles, Typography, Grid, Tooltip, IconButton } from '@material-ui/core';
 import { BigNumber } from 'bignumber.js';
 import { Sett, TokenBalance } from 'mobx/model';
 import { observer } from 'mobx-react-lite';
@@ -7,6 +7,7 @@ import React, { useContext } from 'react';
 import { UnfoldMoreTwoTone } from '@material-ui/icons';
 import { StoreContext } from 'mobx/store-context';
 import DisabledSettListItem from './DisabledSettListItem';
+import SettBadge from './SettBadge';
 
 const useStyles = makeStyles((theme) => ({
 	border: {
@@ -84,7 +85,7 @@ const SettListItem = observer(
 		const classes = useStyles();
 
 		const { sett, balance, balanceValue, currency, period, onOpen } = props;
-		const displayName = sett.name.replace('Uniswap ', '').replace('Sushiswap ', '').replace('Harvest ', '');
+		const displayName = sett.name.split(' ').length > 1 ? sett.name.split(' ').slice(1).join() : sett.name;
 		const store = useContext(StoreContext);
 		const { user } = store;
 		const { network } = store.wallet;
@@ -147,14 +148,7 @@ const SettListItem = observer(
 										<Typography variant="body2" color="textSecondary">
 											{sett.asset}
 										</Typography>
-										{/^Harvest/i.exec(sett.name) && (
-											<Chip
-												className={classes.chip}
-												label="Harvest"
-												size="small"
-												color="primary"
-											/>
-										)}
+										<SettBadge settName={sett.name.split(' ')[0]} />
 									</Grid>
 								</Grid>
 							</Grid>
