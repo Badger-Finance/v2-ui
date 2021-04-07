@@ -106,7 +106,7 @@ const DisabledSettListItem = (props: DisabledSettListItemProps): JSX.Element => 
 									<Typography variant="body2" color="textSecondary">
 										{sett.asset}
 									</Typography>
-									<SettBadge settName={sett.name} />
+									<SettBadge settName={sett.name.split(' ')[0]} />
 								</Grid>
 							</Grid>
 						</Grid>
