@@ -38,9 +38,7 @@ export function useDetails({ selectedOption }: ClawParam) {
 		? `1 ${claw.collaterals.get(bToken.address)} = ${expiryPrice.toString()} ${synthetic.name}`
 		: '-';
 
-	const formattedDate = dayjs(new Date(expirationTimestamp.toNumber() * 1000))
-		.utc()
-		.format('MMMM DD, YYYY HH:mm');
+	const formattedDate = dayjs(expirationTimestamp.toNumber() * 1000).format('MMMM DD, YYYY HH:mm');
 
 	return [
 		{ name: 'Expiration Date', text: `${formattedDate} UTC` },

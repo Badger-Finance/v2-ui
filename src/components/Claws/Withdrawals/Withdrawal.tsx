@@ -32,9 +32,9 @@ export const Withdrawal = ({ position, synthetic, decimals }: Props) => {
 
 	const amount = scaleToString(position.withdrawalRequestAmount, decimals, Direction.Down);
 	// Scale from unix secs -> ms.
-	const completionDate = dayjs(position.withdrawalRequestPassTimestamp.toNumber() * 1000).utc();
+	const completionDate = dayjs(position.withdrawalRequestPassTimestamp.toNumber() * 1000);
 	const completion = completionDate.format('MMM DD[,] YYYY [@] HH:mm [UTC]');
-	const withdrawalPeriodPassed = completionDate.isBefore(dayjs());
+	const withdrawalPeriodPassed = completionDate.isBefore(dayjs().utc());
 
 	const cancel = () => store.actionStore.cancelWithdrawal(synthetic.address);
 	const withdraw = () => store.actionStore.withdrawPassedRequest(synthetic.address);
