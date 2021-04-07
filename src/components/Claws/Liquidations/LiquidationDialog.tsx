@@ -72,7 +72,7 @@ export const LiquidationDialog = ({ isOpen = false, liquidation, synthetic, deci
 		  );
 
 	return (
-		<Dialog maxWidth="sm" fullWidth={true} aria-labelledby="liquidation-dialog" open={isOpen}>
+		<Dialog maxWidth="sm" fullWidth={true} aria-labelledby="liquidation-dialog" open={isOpen} onClose={onClose}>
 			<DialogTitle onClose={onClose}>eCLAW FEB29 Transaction</DialogTitle>
 			<Divider variant="middle" />
 			<DialogContent className={classes.dialogContent}>
