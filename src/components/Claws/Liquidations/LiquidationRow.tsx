@@ -36,14 +36,14 @@ export const useStyles = makeStyles((theme) => ({
 
 export const LiquidationRow = ({ liquidation, synthetic, decimals, onClick }: Props) => {
 	const classes = useStyles();
-	const { lockedCollateral, liquidatedCollateral, liquidationTime, state } = liquidation;
+	const { lockedCollateral, liquidatedCollateral, liquidationTime, state, settlementPrice } = liquidation;
 
 	return (
 		<TableRow hover={true} className={classes.tableRow}>
 			<TableCell onClick={onClick}>
 				<Typography variant="body1">{synthetic.name}</Typography>
 			</TableCell>
-			<TableCell onClick={onClick}>{'-'}</TableCell>
+			<TableCell onClick={onClick}>{scaleToString(settlementPrice, decimals, Direction.Down)}</TableCell>
 			<TableCell onClick={onClick}>
 				<Grid container alignItems="center">
 					<Grid item style={{ marginRight: '0.25rem' }}>
@@ -60,7 +60,7 @@ export const LiquidationRow = ({ liquidation, synthetic, decimals, onClick }: Pr
 			</TableCell>
 			<TableCell onClick={onClick}>{dayjs(liquidationTime.toNumber() * 1000).format('MMM DD, YYYY')}</TableCell>
 			<TableCell onClick={onClick}>
-				<LiquidationStatus state={state} />
+				<LiquidationStatus liquidation={liquidation} synthetic={synthetic} />
 			</TableCell>
 			<TableCell onClick={onClick} align="right">
 				<IconButton color="secondary">
