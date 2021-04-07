@@ -1,9 +1,10 @@
-import { ListItem, makeStyles, Typography, Grid, Tooltip, Chip, IconButton } from '@material-ui/core';
+import { ListItem, makeStyles, Typography, Grid, Tooltip, IconButton } from '@material-ui/core';
 import { BigNumber } from 'bignumber.js';
 import { Sett, TokenBalance } from 'mobx/model';
 import { numberWithCommas, usdToCurrency } from 'mobx/utils/helpers';
 import React from 'react';
 import { UnfoldMoreTwoTone } from '@material-ui/icons';
+import SettBadge from './SettBadge';
 
 const useStyles = makeStyles((theme) => ({
 	border: {
@@ -80,8 +81,6 @@ const DisabledSettListItem = (props: DisabledSettListItemProps): JSX.Element => 
 	const { apy, tooltip, displayName, sett, balance, balanceValue, currency, disabledTooltip, onOpen } = props;
 
 	return (
-		//TODO: If the user's address is not on the whitelist, return the
-		// DisabledSettListItem
 		<Tooltip
 			enterDelay={0}
 			leaveDelay={300}
@@ -107,9 +106,7 @@ const DisabledSettListItem = (props: DisabledSettListItemProps): JSX.Element => 
 									<Typography variant="body2" color="textSecondary">
 										{sett.asset}
 									</Typography>
-									{/^Harvest/i.exec(sett.name) && (
-										<Chip className={classes.chip} label="Harvest" size="small" color="primary" />
-									)}
+									<SettBadge settName={sett.name} />
 								</Grid>
 							</Grid>
 						</Grid>
