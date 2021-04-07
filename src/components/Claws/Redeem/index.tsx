@@ -13,6 +13,7 @@ import { validateAmountBoundaries } from 'utils/componentHelpers';
 import { useMainStyles } from '../index';
 import { useAmountToReceive, useDetails, useError } from './redeem.hooks';
 import { ClawParam } from '../claw-param.model';
+import dayjs from 'dayjs';
 
 const useStyles = makeStyles((theme) => ({
 	border: {
@@ -50,11 +51,24 @@ const Redeem = () => {
 	const decimals = bToken ? bToken.decimals : 18; // Default to 18 decimals.
 	const clawBalance = sponsorInformationByEMP.get(selectedOption || '')?.position.tokensOutstanding;
 	const amountToReceive = useAmountToReceive(redeem, decimals);
+	const isSyntheticExpired =
+		selectedSynthetic && dayjs(selectedSynthetic.expirationTimestamp.toNumber() * 1000).isBefore(dayjs().utc());
+	const actionText = isSyntheticExpired ? 'SETTLE' : 'REDEEM';
 
 	const handleRedeem = () => {
 		const [empAddress, numTokens] = [selectedOption, amount];
-		if (!empAddress || !numTokens) return;
-		store.actionStore.redeem(empAddress, ethers.utils.parseUnits(numTokens, decimals).toHexString());
+		if (!empAddress || !numTokens || !selectedSynthetic) return;
+
+		const isSyntheticExpired = dayjs(selectedSynthetic.expirationTimestamp.toNumber() * 1000).isBefore(
+			dayjs().utc(),
+		);
+
+		// we settle expire if the synthetic is expired
+		if (isSyntheticExpired) {
+			store.actionStore.settleExpired(empAddress, ethers.utils.parseUnits(numTokens, decimals).toHexString());
+		} else {
+			store.actionStore.redeem(empAddress, ethers.utils.parseUnits(numTokens, decimals).toHexString());
+		}
 	};
 
 	return (
@@ -143,7 +157,7 @@ const Redeem = () => {
 			</Grid>
 			<Grid item xs={12}>
 				<Grid container>
-					<ActionButton text={error ? error : 'REDEEM'} disabled={!!error} onClick={handleRedeem} />
+					<ActionButton text={error ? error : actionText} disabled={!!error} onClick={handleRedeem} />
 				</Grid>
 			</Grid>
 		</Grid>
