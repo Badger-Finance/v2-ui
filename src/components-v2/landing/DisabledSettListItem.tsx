@@ -81,14 +81,7 @@ const DisabledSettListItem = (props: DisabledSettListItemProps): JSX.Element => 
 	const { apy, tooltip, displayName, sett, balance, balanceValue, currency, disabledTooltip, onOpen } = props;
 
 	return (
-		<Tooltip
-			enterDelay={0}
-			leaveDelay={300}
-			arrow
-			placement="left"
-			title={disabledTooltip}
-			onClick={() => onOpen()}
-		>
+		<Tooltip enterDelay={0} leaveDelay={300} arrow placement="top" title={disabledTooltip} onClick={() => onOpen()}>
 			<ListItem disabled className={classes.listItem}>
 				<Grid container className={classes.border}>
 					<Grid item xs={12} md={4} className={classes.name} container>
