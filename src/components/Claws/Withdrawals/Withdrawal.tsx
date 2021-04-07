@@ -5,10 +5,10 @@ import { InfoOutlined as InfoOutlinedIcon } from '@material-ui/icons';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 
-dayjs.extend(utc);
-
 import { StoreContext } from 'mobx/store-context';
 import { scaleToString, Direction } from 'utils/componentHelpers';
+
+dayjs.extend(utc);
 
 interface Props {
 	position: Position;
