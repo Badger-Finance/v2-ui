@@ -63,7 +63,7 @@ export const LiquidationRow = ({ liquidation, synthetic, decimals, onClick }: Pr
 				<LiquidationStatus liquidation={liquidation} synthetic={synthetic} />
 			</TableCell>
 			<TableCell onClick={onClick} align="right">
-				<IconButton color="secondary">
+				<IconButton color="default">
 					<UnfoldMoreTwoTone />
 				</IconButton>
 			</TableCell>
