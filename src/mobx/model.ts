@@ -782,3 +782,11 @@ export interface Position {
 	withdrawalRequestAmount: BigNumber;
 	rawCollateral: BigNumber;
 }
+
+export enum LiquidationStatus {
+	Uninitialized = 'Uninitialized',
+	PreDispute = 'PreDispute',
+	PendingDispute = 'PendingDispute',
+	DisputeSucceeded = 'DisputeSucceeded',
+	DisputeFailed = 'DisputeFailed',
+}
