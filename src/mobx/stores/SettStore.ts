@@ -5,8 +5,6 @@ import { PriceSummary, Sett, ProtocolSummary, SettMap } from 'mobx/model';
 import { NETWORK_LIST } from 'config/constants';
 import Web3 from 'web3';
 import BigNumber from 'bignumber.js';
-import { testYearnVaultApiResponse } from 'mobx/utils/mockData';
-import { test } from 'config/deployments/bsc.json';
 
 export default class SettStore {
 	private store!: RootStore;

@@ -20,7 +20,6 @@ import { EMPTY_DATA, ERC20, NETWORK_CONSTANTS, NETWORK_LIST } from 'config/const
 import { formatAmount } from 'mobx/reducers/statsReducers';
 import BatchCall from 'web3-batch-call';
 import { getApi } from '../utils/apiV2';
-import { test } from 'config/deployments/bsc.json';
 
 let batchCall: any = null;
 
@@ -572,7 +571,7 @@ class ContractsStore {
 
 		// Yearn vaults do not have a withdrawAll method, but allow a withdraw() with no value which will act as
 		// withdrawAll.  This action is flagged by having withdrawAll = false on the vault object.
-		let method = all
+		const method = all
 			? vault.withdrawAll
 				? underlyingContract.methods.withdrawAll()
 				: underlyingContract.methods.withdraw()

@@ -123,6 +123,8 @@ const SettListItem = observer(
 					balance={balance}
 					balanceValue={balanceValue}
 					currency={currency}
+					//TODO: Update link to correct URL
+					onOpen={() => window.open('https://badgerdao.medium.com/', '_blank')}
 					disabledTooltip={
 						'Your address is not included in the whitelist for this vault.  Click this row to be directed to an article to learn more about whitelisting.'
 					}
