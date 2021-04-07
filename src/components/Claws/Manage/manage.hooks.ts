@@ -77,7 +77,7 @@ export function useDetails(mode: string, manage: ClawParam) {
 	const modeSpecificStats = [
 		{
 			name: isWithdraw ? 'Withdraw Speed' : 'Liquidation Price',
-			text: isWithdraw ? 'Slow' : scaleToString(liquidationPrice, decimals, Direction.Down),
+			text: isWithdraw ? 'Slow' : liquidationPrice.toFixed(decimals, BigNumber.ROUND_DOWN),
 			subText: isWithdraw ? withdrawTime : undefined,
 		},
 
