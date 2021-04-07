@@ -359,7 +359,7 @@ export const Sidebar = observer(() => {
 						</ListItemText>
 					</ListItem>
 
-					{user.viewSettShop && (
+					{user.viewSettShop() && (
 						<ListItem
 							button
 							className={classes.secondaryListItem}

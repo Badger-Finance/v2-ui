@@ -159,10 +159,6 @@ class ContractsStore {
 						NETWORK_CONSTANTS[network.name].START_TIME,
 					);
 					console.log('checking the build env var: ', process.env.REACT_APP_BUILD_ENV);
-					// if (process.env.REACT_APP_BUILD_ENV !== 'production') {
-					// 	queryResult.slice(-1)[0][test.vaults['yearn.test']] = 10;
-					// 	queryResult.slice(-1)[0][test.assets['yearn.test']] = 15;
-					// }
 
 					const prices = _.mapValues(queryResult.pop(), (price: any) => ({
 						ethValue: new BigNumber(price).multipliedBy(1e18),

@@ -62,6 +62,7 @@ export const getVaults = (network?: string | null): VaultNetworkConfig => {
 						isFeatured: [false],
 						position: [1],
 						isSuperSett: [false],
+						// withdrawAll = false means there is no withdrawAll() function on the contract and must be handled differently
 						withdrawAll: [false],
 					},
 					methods: [

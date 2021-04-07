@@ -541,6 +541,7 @@ export interface Network {
 	settOrder: string[];
 	getGasPrices: () => Promise<GasPrices>;
 	getNotifyLink: EmitterListener;
+	isWhitelisted: { [index: string]: boolean };
 }
 
 export class BscNetwork implements Network {
@@ -578,6 +579,9 @@ export class BscNetwork implements Network {
 	public getNotifyLink(transaction: TransactionData): NotifyLink {
 		return { link: `https://bscscan.com//tx/${transaction.hash}` };
 	}
+	public readonly isWhitelisted = {
+		[this.deploy.test.vaults['yearn.test']]: true,
+	};
 }
 
 export class EthNetwork implements Network {
@@ -634,6 +638,7 @@ export class EthNetwork implements Network {
 	public getNotifyLink(transaction: TransactionData): NotifyLink {
 		return { link: `https://etherscan.io/tx/${transaction.hash}` };
 	}
+	public readonly isWhitelisted = {};
 }
 
 export type UserPermissions = {
