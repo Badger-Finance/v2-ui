@@ -3,8 +3,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Dialog, DialogTitleProps, DialogContent, Divider, Grid, IconButton, Typography } from '@material-ui/core';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import CloseIcon from '@material-ui/icons/Close';
-import { Liquidation, SyntheticData } from 'mobx/model';
+import { Liquidation, LiquidationStatus, SyntheticData } from 'mobx/model';
 import { Direction, scaleToString } from 'utils/componentHelpers';
+import dayjs from 'dayjs';
 
 interface Props {
 	isOpen?: boolean;
@@ -63,6 +64,13 @@ export const LiquidationDialog = ({ isOpen = false, liquidation, synthetic, deci
 		finalFee,
 	} = liquidation;
 
+	const doesLiquidationHaveDisputes = liquidation.state !== LiquidationStatus.PreDispute;
+	const completesOn = doesLiquidationHaveDisputes
+		? '-'
+		: dayjs(liquidationTime.plus(synthetic.liquidationLiveness).toNumber() * 1000).format(
+				'MMM DD[,] YYYY [@] HH:mm [UTC]',
+		  );
+
 	return (
 		<Dialog maxWidth="sm" fullWidth={true} aria-labelledby="liquidation-dialog" open={isOpen}>
 			<DialogTitle onClose={onClose}>eCLAW FEB29 Transaction</DialogTitle>
@@ -101,7 +109,7 @@ export const LiquidationDialog = ({ isOpen = false, liquidation, synthetic, deci
 						</Grid>
 						<Grid item xs={8}>
 							<Typography variant="body2" color="textPrimary">
-								{'-'}
+								{completesOn}
 							</Typography>
 						</Grid>
 					</Grid>
