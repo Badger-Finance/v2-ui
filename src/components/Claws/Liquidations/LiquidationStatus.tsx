@@ -35,16 +35,32 @@ export const LiquidationStatus = ({ liquidation, synthetic }: Props) => {
 	switch (liquidation.state.toString()) {
 		case Status.Uninitialized:
 		default:
-			return <Chip color="primary" label="Uninitialized" />;
+			return (
+				<Tooltip title="The liquidation is yet to be initialized" placement="right">
+					<Chip icon={<InfoOutlinedIcon />} color="primary" label="Uninitialized" />
+				</Tooltip>
+			);
 		case Status.PreDispute:
-			return <Chip color="primary" label="Pre Dispute" />;
+			return (
+				<Tooltip title="The liquidation is about to be disputed" placement="right">
+					<Chip icon={<InfoOutlinedIcon />} color="primary" label="Pre Dispute" />
+				</Tooltip>
+			);
 		case Status.PendingDispute:
-			return <Chip color="primary" label="Pending Dispute" />;
+			return (
+				<Tooltip title="The liquidation is being disputed" placement="right">
+					<Chip icon={<InfoOutlinedIcon />} color="primary" label="Pending Dispute" />
+				</Tooltip>
+			);
 		case Status.DisputeFailed:
-			return <Chip color="primary" label="Dispute Failed" />;
+			return (
+				<Tooltip title="The liquidation dispute got rejected" placement="right">
+					<Chip icon={<InfoOutlinedIcon />} color="primary" label="Dispute Failed" />
+				</Tooltip>
+			);
 		case Status.DisputeSucceeded:
 			return (
-				<Tooltip title="The dispute was successful and the liquidation was approved" placement="right">
+				<Tooltip title="The liquidation dispute got approved" placement="right">
 					<Chip
 						color="primary"
 						className={classes.redChip}
