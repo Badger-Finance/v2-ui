@@ -25,7 +25,8 @@ export default class UserStore {
 		this.store = store;
 
 		extendObservable(this, {
-			permissions: undefined,
+			permissions: this.permissions,
+			viewSettShop: this.viewSettShop,
 		});
 
 		/**
@@ -41,7 +42,7 @@ export default class UserStore {
 		this.permissions = undefined;
 	}
 
-	get viewSettShop(): boolean {
+	viewSettShop(): boolean {
 		if (!this.permissions) {
 			return false;
 		}
