@@ -1,14 +1,12 @@
 import React from 'react';
-import { Chip, makeStyles, Tooltip } from '@material-ui/core';
+import { Chip, makeStyles, Tooltip, Typography } from '@material-ui/core';
+import dayjs from 'dayjs';
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
-import { Liquidation } from 'mobx/model';
+import { Liquidation, SyntheticData, LiquidationStatus as Status } from 'mobx/model';
 
-enum Status {
-	Uninitialized = 'Uninitialized',
-	PreDispute = 'PreDispute',
-	PendingDispute = 'PendingDispute',
-	DisputeSucceeded = 'DisputeSucceeded',
-	DisputeFailed = 'DisputeFailed',
+interface Props {
+	liquidation: Liquidation;
+	synthetic: SyntheticData;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -18,10 +16,23 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export const LiquidationStatus = ({ state }: Pick<Liquidation, 'state'>) => {
+export const LiquidationStatus = ({ liquidation, synthetic }: Props) => {
 	const classes = useStyles();
+	const isCompleted = isLiquidationCompleted(liquidation, synthetic);
 
-	switch (state.toString()) {
+	if (isCompleted) {
+		const formattedLiquidationTime = dayjs(
+			liquidation.liquidationTime.plus(synthetic.liquidationLiveness).toNumber() * 1000,
+		).format('MMM DD, YYYY');
+
+		return (
+			<Typography variant="body2" color="textPrimary">
+				{`Complete - ${formattedLiquidationTime}`}
+			</Typography>
+		);
+	}
+
+	switch (liquidation.state.toString()) {
 		case Status.Uninitialized:
 		default:
 			return <Chip color="primary" label="Uninitialized" />;
@@ -29,18 +40,23 @@ export const LiquidationStatus = ({ state }: Pick<Liquidation, 'state'>) => {
 			return <Chip color="primary" label="Pre Dispute" />;
 		case Status.PendingDispute:
 			return <Chip color="primary" label="Pending Dispute" />;
-		case Status.DisputeSucceeded:
-			return <Chip color="primary" label="Dispute Succeeded" />;
 		case Status.DisputeFailed:
+			return <Chip color="primary" label="Dispute Failed" />;
+		case Status.DisputeSucceeded:
 			return (
-				<Tooltip title="Error details go here." placement="right">
+				<Tooltip title="The dispute was successful and the liquidation was approved" placement="right">
 					<Chip
 						color="primary"
 						className={classes.redChip}
 						icon={<InfoOutlinedIcon />}
-						label="Dispute Failed"
+						label="Dispute Succeed"
 					/>
 				</Tooltip>
 			);
 	}
 };
+
+function isLiquidationCompleted({ liquidationTime, state }: Liquidation, { liquidationLiveness }: SyntheticData) {
+	const liquidationIsExpired = liquidationTime.plus(liquidationLiveness).toNumber() * 1000 < new Date().getTime();
+	return liquidationIsExpired && state === Status.PreDispute;
+}
