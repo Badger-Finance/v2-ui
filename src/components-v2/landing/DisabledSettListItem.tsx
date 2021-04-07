@@ -2,9 +2,8 @@ import { ListItem, makeStyles, Typography, Grid, Tooltip, Chip, IconButton } fro
 import { BigNumber } from 'bignumber.js';
 import { Sett, TokenBalance } from 'mobx/model';
 import { numberWithCommas, usdToCurrency } from 'mobx/utils/helpers';
-import React, { useContext } from 'react';
+import React from 'react';
 import { UnfoldMoreTwoTone } from '@material-ui/icons';
-import { StoreContext } from 'mobx/store-context';
 
 const useStyles = makeStyles((theme) => ({
 	border: {
@@ -72,17 +71,25 @@ interface DisabledSettListItemProps {
 	balanceValue?: string;
 	currency: string;
 	disabledTooltip: string;
+	onOpen: () => void;
 }
 
 const DisabledSettListItem = (props: DisabledSettListItemProps): JSX.Element => {
 	const classes = useStyles();
 
-	const { apy, tooltip, displayName, sett, balance, balanceValue, currency, disabledTooltip } = props;
+	const { apy, tooltip, displayName, sett, balance, balanceValue, currency, disabledTooltip, onOpen } = props;
 
 	return (
 		//TODO: If the user's address is not on the whitelist, return the
 		// DisabledSettListItem
-		<Tooltip enterDelay={0} leaveDelay={300} arrow placement="left" title={disabledTooltip}>
+		<Tooltip
+			enterDelay={0}
+			leaveDelay={300}
+			arrow
+			placement="left"
+			title={disabledTooltip}
+			onClick={() => onOpen()}
+		>
 			<ListItem disabled className={classes.listItem}>
 				<Grid container className={classes.border}>
 					<Grid item xs={12} md={4} className={classes.name} container>
