@@ -2,10 +2,10 @@ import BigNumber from 'bignumber.js';
 import { validateAmountBoundaries } from 'utils/componentHelpers';
 import { ClawParam } from '../claw-param.model';
 
-export type State = {
+export interface State {
 	collateral: ClawParam;
 	synthetic: ClawParam;
-};
+}
 
 interface CollateralAmountChange {
 	amount: string;
