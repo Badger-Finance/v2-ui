@@ -42,6 +42,23 @@ export class ClawActionStore {
 		}
 	});
 
+	settleExpired = action(async (empAddress: string, numTokens: string) => {
+		const { queueNotification } = this.mainStore.store.uiState;
+		try {
+			const synthetic = this.mainStore.syntheticsDataByEMP.get(empAddress);
+			if (!synthetic) return;
+
+			const action = new EmpAction(this.mainStore.store, empAddress);
+			const redeem = action.methods.settleExpired();
+			await action.approveSpendingIfRequired(synthetic.tokenCurrency, numTokens);
+			await action.execute(redeem, 'Please sign settle expire transaction', 'Redeem success');
+			await this.mainStore.updateBalances();
+		} catch (error) {
+			queueNotification(error?.message || 'There was an error redeeming collateral', 'error');
+			process.env.NODE_ENV !== 'production' && console.log(error);
+		}
+	});
+
 	withdraw = action(async (empAddress: string, collateralAmount: string) => {
 		const { queueNotification } = this.mainStore.store.uiState;
 		try {
