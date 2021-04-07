@@ -9,6 +9,8 @@ import {
 	reduceClaws,
 	EMPS_ADDRESSES,
 	reduceSponsorData,
+	parseSyntheticHexToBigNumber,
+	parseSponsorsHexToBigNumber,
 } from 'mobx/reducers/clawsReducer';
 import { getClawEmpSponsor, getClawEmp } from 'mobx/utils/apiV2';
 
@@ -74,7 +76,7 @@ export class ClawStore {
 			this.clawsByCollateral = reduceClawByCollateral(this);
 			this.claws = reduceClaws();
 		} catch (error) {
-			queueNotification(error?.message || 'There was an error fetching synthetic data', 'error');
+			queueNotification('There was an error fetching synthetic data', 'error');
 		} finally {
 			this.isLoadingSyntheticData = false;
 		}
@@ -83,11 +85,11 @@ export class ClawStore {
 	fetchSponsorData = action(async () => {
 		const { queueNotification } = this.store.uiState;
 		const { connectedAddress } = this.store.wallet;
+		if (!connectedAddress) return;
+
 		try {
 			this.isLoadingSponsorData = true;
-			this.sponsorInformation = await Promise.all(
-				EMPS_ADDRESSES.map((synthetic) => getClawEmpSponsor(synthetic, connectedAddress)),
-			);
+			this.sponsorInformation = await this._getSponsorInformation();
 			this.sponsorInformationByEMP = reduceSponsorData(this);
 		} catch (error) {
 			queueNotification(error?.message || 'There was an error fetching sponsor data', 'error');
@@ -101,14 +103,22 @@ export class ClawStore {
 		await Promise.all([
 			// TODO: We should track loading state for token balances as well.
 			fetchTokens(),
-			this.fetchSponsorData(),
 			this.fetchSyntheticsData(),
+			this.fetchSponsorData(),
 		]);
 	}
 
 	private async _fetchEmps(): Promise<SyntheticData[]> {
 		const claws = await Promise.all(EMPS_ADDRESSES.map((synthetic) => getClawEmp(synthetic)));
-		return claws.map((s, index) => ({ ...s, address: EMPS_ADDRESSES[index] }));
+		return claws.map((s, index) => ({ ...s, address: EMPS_ADDRESSES[index] })).map(parseSyntheticHexToBigNumber);
+	}
+
+	private async _getSponsorInformation() {
+		const sponsorInfo = await Promise.all(
+			EMPS_ADDRESSES.map((synthetic) => getClawEmpSponsor(synthetic, this.store.wallet.connectedAddress)),
+		);
+
+		return sponsorInfo.map(parseSponsorsHexToBigNumber);
 	}
 }
 

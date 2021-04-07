@@ -22,17 +22,55 @@ export function reduceCollaterals({ syntheticsData }: ClawStore): Map<string, st
 
 // [EMPS_ADDRESS: string] => [SYNTHETIC_DATA: SyntheticData]
 export function reduceSyntheticsData({ syntheticsData }: ClawStore): Map<string, SyntheticData> {
-	return syntheticsData.map(parseSyntheticHexToBigNumber).reduce(indexByEmpAddress, new Map());
+	return syntheticsData.reduce(indexByEmpAddress, new Map());
 }
 
 // [EMPS_ADDRESS: string]  =>[SPONSOR_DATA: SponsorData]
 export function reduceSponsorData({ sponsorInformation }: ClawStore): Map<string, SponsorData> {
-	return sponsorInformation.map(parseSponsorsHexToBigNumber).reduce(indexByEmpAddress, new Map());
+	return sponsorInformation.reduce(indexByEmpAddress, new Map());
 }
 
 // [COLLATERAL_ADDRESS: string] => [CLAW: [CLAW_ADDRESS: string] => [CLAW_NAME: string]]
 export function reduceClawByCollateral({ collaterals, syntheticsData }: ClawStore): Map<string, Map<string, string>> {
 	return Array.from(collaterals).reduce(indexClawsByCollateralAddress(syntheticsData), new Map());
+}
+
+export function parseSponsorsHexToBigNumber({ liquidations, position, pendingWithdrawal }: SponsorData): SponsorData {
+	return {
+		pendingWithdrawal,
+		liquidations: liquidations.map(parseLiquidationHexToBigNumber),
+		position: parsePositionHexToBigNumber(position),
+	};
+}
+
+export function parseSyntheticHexToBigNumber(data: SyntheticData): SyntheticData {
+	const {
+		globalCollateralizationRatio,
+		totalPositionCollateral,
+		totalTokensOutstanding,
+		expirationTimestamp,
+		cumulativeFeeMultiplier,
+		minSponsorTokens,
+		withdrawalLiveness,
+		liquidationLiveness,
+		collateralRequirement,
+		expiryPrice,
+		...skipParse
+	} = data;
+
+	return {
+		...skipParse,
+		globalCollateralizationRatio: new BigNumber((globalCollateralizationRatio as any).hex),
+		totalPositionCollateral: new BigNumber((totalPositionCollateral as any).hex),
+		totalTokensOutstanding: new BigNumber((totalTokensOutstanding as any).hex),
+		expirationTimestamp: new BigNumber((expirationTimestamp as any).hex),
+		cumulativeFeeMultiplier: new BigNumber((cumulativeFeeMultiplier as any).hex),
+		minSponsorTokens: new BigNumber((minSponsorTokens as any).hex),
+		withdrawalLiveness: new BigNumber((withdrawalLiveness as any).hex),
+		liquidationLiveness: new BigNumber((liquidationLiveness as any).hex),
+		collateralRequirement: new BigNumber((collateralRequirement as any).hex),
+		expiryPrice: new BigNumber((expiryPrice as any).hex),
+	};
 }
 
 // reducer's helper functions
@@ -65,46 +103,6 @@ function matchesCollateral(collateral: string) {
 function hasTokenInformation({ collateralCurrency }: SyntheticData) {
 	if (!TOKENS) return false;
 	return Object.keys(TOKENS.names).includes(collateralCurrency);
-}
-
-// hex to big number parsers
-
-function parseSponsorsHexToBigNumber({ liquidations, position, pendingWithdrawal }: SponsorData): SponsorData {
-	return {
-		pendingWithdrawal,
-		liquidations: liquidations.map(parseLiquidationHexToBigNumber),
-		position: parsePositionHexToBigNumber(position),
-	};
-}
-
-function parseSyntheticHexToBigNumber(data: SyntheticData): SyntheticData {
-	const {
-		globalCollateralizationRatio,
-		totalPositionCollateral,
-		totalTokensOutstanding,
-		expirationTimestamp,
-		cumulativeFeeMultiplier,
-		minSponsorTokens,
-		withdrawalLiveness,
-		liquidationLiveness,
-		collateralRequirement,
-		expiryPrice,
-		...skipParse
-	} = data;
-
-	return {
-		...skipParse,
-		globalCollateralizationRatio: new BigNumber((globalCollateralizationRatio as any).hex),
-		totalPositionCollateral: new BigNumber((totalPositionCollateral as any).hex),
-		totalTokensOutstanding: new BigNumber((totalTokensOutstanding as any).hex),
-		expirationTimestamp: new BigNumber((expirationTimestamp as any).hex),
-		cumulativeFeeMultiplier: new BigNumber((cumulativeFeeMultiplier as any).hex),
-		minSponsorTokens: new BigNumber((minSponsorTokens as any).hex),
-		withdrawalLiveness: new BigNumber((withdrawalLiveness as any).hex),
-		liquidationLiveness: new BigNumber((liquidationLiveness as any).hex),
-		collateralRequirement: new BigNumber((collateralRequirement as any).hex),
-		expiryPrice: new BigNumber((expiryPrice as any).hex),
-	};
 }
 
 function parseLiquidationHexToBigNumber(data: SponsorData['liquidations'][0]): SponsorData['liquidations'][0] {
