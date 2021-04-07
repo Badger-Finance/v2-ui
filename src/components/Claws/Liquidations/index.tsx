@@ -57,47 +57,47 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const mockData: Liquidation[] = [
-	{
-		state: 'Uninitialized',
-		liquidationTime: new BigNumber(1618072065),
-		tokensOutstanding: new BigNumber(100).multipliedBy(10 ** 18),
-		lockedCollateral: new BigNumber(100).multipliedBy(10 ** 18),
-		sponsor: '0xC26202cd0428276cC69017Df01137161f0102e55',
-		liquidator: '0xC26202cd0428226cC69017Da01137161f0104da22',
-		liquidatedCollateral: new BigNumber(122).multipliedBy(10 ** 18),
-		rawUnitCollateral: new BigNumber(100).multipliedBy(10 ** 18),
-		disputer: '0xC26202cd0428276cC69017Df01137161f0102e55',
-		settlementPrice: new BigNumber(111).multipliedBy(10 ** 18),
-		finalFee: new BigNumber(33),
-	},
-	{
-		state: 'DisputeFailed',
-		liquidationTime: new BigNumber(1618072065),
-		tokensOutstanding: new BigNumber(100).multipliedBy(10 ** 18),
-		lockedCollateral: new BigNumber(100).multipliedBy(10 ** 18),
-		sponsor: '0xC26202cd0428276cC69017Df01137161f0102e55',
-		liquidator: '0xC26202cd0428226cC69017Da01137161f0104da22',
-		liquidatedCollateral: new BigNumber(122).multipliedBy(10 ** 18),
-		rawUnitCollateral: new BigNumber(100).multipliedBy(10 ** 18),
-		disputer: '0xC26202cd0428276cC69017Df01137161f0102e55',
-		settlementPrice: new BigNumber(111).multipliedBy(10 ** 18),
-		finalFee: new BigNumber(33),
-	},
-	{
-		state: 'PendingDispute',
-		liquidationTime: new BigNumber(1618072065),
-		tokensOutstanding: new BigNumber(100).multipliedBy(10 ** 18),
-		lockedCollateral: new BigNumber(100).multipliedBy(10 ** 18),
-		sponsor: '0xC26202cd0428276cC69017Df01137161f0102e55',
-		liquidator: '0xC26202cd0428226cC69017Da01137161f0104da22',
-		liquidatedCollateral: new BigNumber(122).multipliedBy(10 ** 18),
-		rawUnitCollateral: new BigNumber(100).multipliedBy(10 ** 18),
-		disputer: '0xC26202cd0428276cC69017Df01137161f0102e55',
-		settlementPrice: new BigNumber(111).multipliedBy(10 ** 18),
-		finalFee: new BigNumber(33),
-	},
-];
+// const mockData: Liquidation[] = [
+// 	{
+// 		state: 'Uninitialized',
+// 		liquidationTime: new BigNumber(1618072065),
+// 		tokensOutstanding: new BigNumber('100.123456789123456789123').multipliedBy(10 ** 18),
+// 		lockedCollateral: new BigNumber('100.123456789123456789123').multipliedBy(10 ** 18),
+// 		sponsor: '0xC26202cd0428276cC69017Df01137161f0102e55',
+// 		liquidator: '0xC26202cd0428226cC69017Da01137161f0104da22',
+// 		liquidatedCollateral: new BigNumber('122.123456789123456789').multipliedBy(10 ** 18),
+// 		rawUnitCollateral: new BigNumber('100.123456789123456789123').multipliedBy(10 ** 18),
+// 		disputer: '0xC26202cd0428276cC69017Df01137161f0102e55',
+// 		settlementPrice: new BigNumber('111.123456789123456789').multipliedBy(10 ** 18),
+// 		finalFee: new BigNumber(33),
+// 	},
+// 	{
+// 		state: 'DisputeSucceeded',
+// 		liquidationTime: new BigNumber(1618072065),
+// 		tokensOutstanding: new BigNumber('100.123456789123456789123').multipliedBy(10 ** 18),
+// 		lockedCollateral: new BigNumber('100.123456789123456789123').multipliedBy(10 ** 18),
+// 		sponsor: '0xC26202cd0428276cC69017Df01137161f0102e55',
+// 		liquidator: '0xC26202cd0428226cC69017Da01137161f0104da22',
+// 		liquidatedCollateral: new BigNumber('122.123456789123456789').multipliedBy(10 ** 18),
+// 		rawUnitCollateral: new BigNumber('100.123456789123456789123').multipliedBy(10 ** 18),
+// 		disputer: '0xC26202cd0428276cC69017Df01137161f0102e55',
+// 		settlementPrice: new BigNumber('111.123456789123456789').multipliedBy(10 ** 18),
+// 		finalFee: new BigNumber(33),
+// 	},
+// 	{
+// 		state: 'PreDispute',
+// 		liquidationTime: new BigNumber(1612647282),
+// 		tokensOutstanding: new BigNumber('100.123456789123456789123').multipliedBy(10 ** 18),
+// 		lockedCollateral: new BigNumber('100.123456789123456789123').multipliedBy(10 ** 18),
+// 		sponsor: '0xC26202cd0428276cC69017Df01137161f0102e55',
+// 		liquidator: '0xC26202cd0428226cC69017Da01137161f0104da22',
+// 		liquidatedCollateral: new BigNumber('122.123456789123456789').multipliedBy(10 ** 18),
+// 		rawUnitCollateral: new BigNumber('100.123456789123456789123').multipliedBy(10 ** 18),
+// 		disputer: '0xC26202cd0428276cC69017Df01137161f0102e55',
+// 		settlementPrice: new BigNumber('111.123456789123456789').multipliedBy(10 ** 18),
+// 		finalFee: new BigNumber(33),
+// 	},
+// ];
 
 const Liquidations = observer(() => {
 	const { claw: store, contracts } = React.useContext(StoreContext);
@@ -112,7 +112,7 @@ const Liquidations = observer(() => {
 		const bToken = contracts.tokens[synthetic.collateralCurrency];
 		const decimals = bToken ? bToken.decimals : 18;
 
-		mockData.forEach((liquidation: Liquidation) => {
+		sponsorData.liquidations.forEach((liquidation: Liquidation) => {
 			liquidationRows.push(
 				<LiquidationRow
 					key={synthetic.name}
