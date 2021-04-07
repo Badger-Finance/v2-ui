@@ -127,7 +127,6 @@ export const Claws: FC = observer(() => {
 				</Grid>
 				{!isLoading && (
 					<Grid item xs={12}>
-						<Liquidations />
 						{totalWithdrawals > 0 && <Withdrawals />}
 						{totalLiquidations > 0 && <Liquidations />}
 					</Grid>
