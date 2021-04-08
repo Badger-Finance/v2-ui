@@ -152,8 +152,7 @@ export const Sidebar = observer(() => {
 		const now = Date.now();
 		const open = Date.parse('09 Apr 2021 09:00:00 PDT');
 
-		if (now >= open) return true;
-		return false;
+		return now >= open;
 	};
 
 	return (
