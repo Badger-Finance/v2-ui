@@ -72,7 +72,7 @@ export const APP_NAME = 'badgerDAO';
 export const PORTIS_APP_ID = 'cbf7534d-170d-4903-943f-e607dc588b7f';
 export const EMPTY_DATA = '0x';
 export const ZERO_CURRENCY = '0.00000';
-export const SITE_VERSION = 'v2.5.0';
+export const SITE_VERSION = 'v2.5.1';
 export const WC_BRIDGE = 'https://wc-bridge.badger.finance/';
 const toBool = (val: string | undefined): boolean => (val ? val === 'true' : false);
 export const FLAGS = {
@@ -82,9 +82,7 @@ export const FLAGS = {
 export const ZERO = new BigNumber(0);
 export const TEN = new BigNumber(10);
 export const MAX = Web3.utils.toTwosComplement(-1);
-export const BADGER_ADAPTER = require('config/system/abis/BadgerAdapter.json');
-export const CURVE_EXCHANGE = require('config/system/abis/CurveExchange.json');
-export const BTC_GATEWAY = require('config/system/abis/BtcGateway.json');
 
 export const CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS = '0x93054188d876f558f4a66B2EF1d97d16eDf0895B';
 export const RENVM_GATEWAY_ADDRESS = '0xe4b679400F0f267212D5D812B95f58C83243EE71';
+export const RENVM_NETWORK = 'mainnet';

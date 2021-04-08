@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { Select, MenuItem, Typography } from '@material-ui/core';
+import { Typography, Button, Popper, Paper, List, ListItem } from '@material-ui/core';
+import _ from 'lodash';
 import { TokenModel } from 'mobx/model';
+import { ArrowDropDown } from '@material-ui/icons';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
 	noUnderline: {
 		'&:after': {
 			opacity: 0,
@@ -25,37 +27,77 @@ const useStyles = makeStyles(() => ({
 		alignSelf: 'center',
 		margin: '0px 8px 0px 14px',
 	},
+	network: {
+		marginRight: theme.spacing(1),
+		pointerEvents: 'none',
+	},
+	selectButton: {
+		textTransform: 'none',
+		maxWidth: '100vw',
+		minWidth: 'auto',
+	},
+	listItem: {
+		textTransform: 'none',
+	},
 }));
 
 type TokenListProps = {
 	tokens: Array<TokenModel>;
-	default: string;
-	onTokenSelect: EventListener;
+	selected: TokenModel;
+	onTokenSelect: (event: any) => void;
 };
 
 export const Tokens = (props: TokenListProps): any => {
 	const classes = useStyles();
 
-	const [selectedToken, setSelectedToken] = useState<string>(props.default);
-	const handleTokenSelection = (event: any) => {
-		setSelectedToken(event?.target?.value);
-		props.onTokenSelect(event);
+	const [anchorEl, setAnchorEl] = React.useState(null);
+	const open = Boolean(anchorEl);
+
+	const handleClick = (event: any) => {
+		setAnchorEl(anchorEl ? null : event.currentTarget);
+	};
+	const optionClicked = (option: string) => {
+		props.onTokenSelect(option);
 	};
 
-	const tokenItems = props.tokens.map((token) => (
-		<MenuItem value={token.symbol} key={token.symbol}>
-			<div className={classes.token}>
-				<img src={token.icon} className={classes.tokenIcon} alt={token.name} />
-				<Typography className={classes.tokenLabel} variant="body1">
-					{token.symbol}
-				</Typography>
-			</div>
-		</MenuItem>
-	));
-
 	return (
-		<Select name="tokens" className={classes.noUnderline} value={selectedToken} onChange={handleTokenSelection}>
-			{tokenItems}
-		</Select>
+		<>
+			<Button
+				size="small"
+				variant="outlined"
+				endIcon={<ArrowDropDown />}
+				onClick={handleClick}
+				className={classes.selectButton}
+			>
+				<Token token={props.selected} />
+			</Button>
+			<Popper style={{ zIndex: 100000 }} placement="bottom-end" id={'popper'} open={open} anchorEl={anchorEl}>
+				<Paper onMouseLeave={() => setAnchorEl(null)}>
+					<List>
+						{_.map(props.tokens, (token: any) => (
+							<ListItem button onClick={() => optionClicked(token)}>
+								{' '}
+								<Token token={token} />
+							</ListItem>
+						))}
+					</List>
+				</Paper>
+			</Popper>
+		</>
+	);
+};
+
+export const Token = (props: { token: any }): JSX.Element => {
+	return (
+		<div style={{ alignItems: 'center', display: 'flex', flexWrap: 'nowrap', overflow: 'hidden' }}>
+			<img
+				src={props.token.icon}
+				alt={props.token.name}
+				style={{ height: '2rem', marginRight: '.2rem', display: 'block' }}
+			/>
+			<Typography variant="body1" component="div">
+				{props.token.symbol}
+			</Typography>
+		</div>
 	);
 };

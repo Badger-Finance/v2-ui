@@ -1,11 +1,12 @@
 import { extendObservable, action } from 'mobx';
 import { RootStore } from '../store';
 import { getTokenPrices, getTotalValueLocked, listGeysers, listSetts } from 'mobx/utils/apiV2';
-import { PriceSummary, Sett, ProtocolSummary, Network, SettMap } from 'mobx/model';
+import { PriceSummary, Sett, ProtocolSummary, SettMap } from 'mobx/model';
 import { NETWORK_LIST } from 'config/constants';
 import Web3 from 'web3';
+import BigNumber from 'bignumber.js';
 
-export default class SettStoreV2 {
+export default class SettStore {
 	private store!: RootStore;
 
 	// loading: undefined, error: null, present: object
@@ -42,8 +43,10 @@ export default class SettStoreV2 {
 		return this.protocolSummaryCache[this.store.wallet.network.name];
 	}
 
-	getPrice(address: string): number | undefined {
-		return this.priceCache[Web3.utils.toChecksumAddress(address)];
+	getPrice(address: string): BigNumber | undefined {
+		return this.priceCache[Web3.utils.toChecksumAddress(address)]
+			? this.priceCache[Web3.utils.toChecksumAddress(address)]
+			: undefined;
 	}
 
 	loadSetts = action(async (chain?: string): Promise<void> => this.loadSettList(listSetts, chain));
@@ -66,7 +69,7 @@ export default class SettStoreV2 {
 				Object.keys(prices).forEach((key) => {
 					const value = prices[key];
 					if (value) {
-						prices[key] = parseFloat(Web3.utils.toWei(value.toString()));
+						prices[key] = new BigNumber(value).multipliedBy(1e18);
 					}
 				});
 				this.priceCache = {

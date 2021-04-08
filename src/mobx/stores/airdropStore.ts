@@ -1,6 +1,5 @@
 import { extendObservable, action } from 'mobx';
 import Web3 from 'web3';
-
 import { estimateAndSend } from '../utils/web3';
 import BigNumber from 'bignumber.js';
 import { RootStore } from '../store';
@@ -70,14 +69,14 @@ class AirdropStore {
 		);
 
 		queueNotification(`Sign the transaction to claim your airdrop`, 'info');
-		if (!gasPrices) {
+		if (!gasPrices || gasPrices[gasPrice]) {
 			queueNotification(
 				`Error retrieving gas selection - check the gas selector in the top right corner.`,
 				'error',
 			);
 			return;
 		}
-		estimateAndSend(web3, gasPrices![gasPrice], method, connectedAddress, (transaction: PromiEvent<Contract>) => {
+		estimateAndSend(web3, gasPrices[gasPrice], method, connectedAddress, (transaction: PromiEvent<Contract>) => {
 			transaction
 				.on('transactionHash', (hash) => {
 					queueNotification(`Claim submitted.`, 'info', hash);

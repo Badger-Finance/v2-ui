@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import views from '../../config/routes';
-import _ from 'lodash';
 import { useContext } from 'react';
 import { StoreContext } from '../../mobx/store-context';
 import {
@@ -13,6 +12,7 @@ import {
 	ListItemIcon,
 	ListItemText,
 	ListItemSecondaryAction,
+	Tooltip,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { ExpandMore } from '@material-ui/icons';
@@ -40,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
 		flexDirection: 'column',
 		justifyContent: 'space-between',
 		minHeight: '100%',
+		overflow: 'hidden',
 	},
 	drawer: {},
 	listItem: {
@@ -53,6 +54,12 @@ const useStyles = makeStyles((theme) => ({
 	divider: {
 		padding: theme.spacing(2, 2, 1, 2),
 		fontSize: '.8rem',
+	},
+	primarySubListItem: {
+		margin: theme.spacing(0, -999),
+		width: 'auto',
+		border: 0,
+		padding: theme.spacing(1, 1002),
 	},
 	secondaryListItem: {
 		cursor: 'pointer',
@@ -73,10 +80,10 @@ const useStyles = makeStyles((theme) => ({
 		fontWeight: 'bold',
 		backgroundColor: '#070707',
 		borderRadius: theme.shape.borderRadius,
-		margin: theme.spacing(0, 1),
+		margin: theme.spacing(0, -999),
 		width: 'auto',
 		border: 0,
-		padding: theme.spacing(1, 2),
+		padding: theme.spacing(1, 1002),
 		'&:hover': {
 			backgroundColor: '#070707',
 			cursor: 'pointer',
@@ -111,6 +118,42 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
+const SettShopLink = () => {
+	const classes = useStyles();
+
+	const isSettShopOpen = () => {
+		// Sett Shop to open at 9am PDT April 9th
+		const now = Date.now();
+		const open = Date.parse('09 Apr 2021 09:00:00 PDT');
+
+		return now >= open;
+	};
+
+	return isSettShopOpen() ? (
+		<ListItem
+			button
+			className={classes.secondaryListItem}
+			onClick={() => window.open('http://shop.badger.finance/')}
+		>
+			Sett Shop
+		</ListItem>
+	) : (
+		<Tooltip title={'Sett Shop opens at 9am PDT'} placement={'top'} arrow>
+			<ListItem
+				button
+				className={classes.secondaryListItem}
+				onClick={() =>
+					window.open(
+						'https://badgerdao.medium.com/badger-launches-limited-edition-jersey-nft-w-apy-boost-33fd5e394f88',
+					)
+				}
+			>
+				Sett Shop
+			</ListItem>
+		</Tooltip>
+	);
+};
+
 export const Sidebar = observer(() => {
 	const classes = useStyles();
 
@@ -120,6 +163,7 @@ export const Sidebar = observer(() => {
 		uiState: { sidebarOpen, closeSidebar },
 		rewards: { badgerTree },
 		wallet: { network },
+		user,
 	} = store;
 
 	const [expanded, setExpanded] = useState('');
@@ -286,6 +330,47 @@ export const Sidebar = observer(() => {
 									<ListItemText primary="Bridge" />
 								</ListItem>
 							)}
+							<ListItem
+								button
+								className={classes.listItem}
+								onClick={() => setExpanded(expanded === 'badger-zone' ? '' : 'badger-zone')}
+							>
+								<ListItemIcon>
+									<img
+										alt="Badger Arcade"
+										src={'assets/sidebar/gas_station.png'}
+										className={classes.icon}
+									/>
+								</ListItemIcon>
+								<ListItemText primary="Badger Arcade" />
+								<IconButton
+									size="small"
+									className={classes.expand + ' ' + (expanded === 'tokens' ? classes.expandOpen : '')}
+									aria-label="show more"
+								>
+									<ExpandMore />
+								</IconButton>
+							</ListItem>
+							<ListItem>
+								<Collapse
+									in={expanded === 'badger-zone' || store.router.currentPath == '/honey-badger-drop'}
+									timeout="auto"
+									unmountOnExit
+								>
+									<ListItem
+										button
+										className={[
+											store.router.currentPath == '/honey-badger-drop'
+												? classes.activeListItem
+												: '',
+											classes.primarySubListItem,
+										].join(' ')}
+										onClick={() => goTo(views.honeybadgerDrop)}
+									>
+										Honey Badger Drop
+									</ListItem>
+								</Collapse>
+							</ListItem>
 						</>
 					) : (
 						<></>
@@ -310,6 +395,7 @@ export const Sidebar = observer(() => {
 							<div className={classes.smallItemText}>Powered By Nexus Mutual</div>
 						</ListItemText>
 					</ListItem>
+					{user.viewSettShop && <SettShopLink />}
 
 					<ListItem
 						button

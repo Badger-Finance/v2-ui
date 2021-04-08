@@ -1,9 +1,13 @@
 import BigNumber from 'bignumber.js';
 import { RootStore } from 'mobx/store';
+import { ExchangeRates } from 'mobx/model';
 
 export const graphQuery = (address: string, store: RootStore): Promise<any>[] => {
 	const { network } = store.wallet;
-	return network.tokens!.priceEndpoints.map((endpoint: any) => {
+	if (!network.tokens) {
+		return [];
+	}
+	return network.tokens.priceEndpoints.map((endpoint: any) => {
 		return fetch(endpoint, {
 			method: 'POST',
 			headers: {
@@ -95,13 +99,26 @@ export const vanillaQuery = (url: string): Promise<Response> => {
 };
 
 export const getExchangeRates = (): Promise<Response> => {
-	return fetch('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd,cad,btc', {
+	return fetch('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd,cad,btc,bnb', {
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json',
 			Accept: 'application/json',
 		},
 	}).then((response: any) => response.json());
+};
+
+export const getBdiggExchangeRates = async (): Promise<Response> => {
+	return fetch(
+		'https://api.coingecko.com/api/v3/simple/price/?ids=badger-sett-digg&vs_currencies=usd,eth,btc,cad,bnb',
+		{
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+				Accept: 'application/json',
+			},
+		},
+	).then((response: any) => response.json());
 };
 
 export const growthQuery = (block: number): Promise<Response> => {
@@ -126,8 +143,12 @@ export const secondsToBlocks = (seconds: number): number => {
 	return seconds / (1 / (6500 / (24 * 60 * 60)));
 };
 
-export let exchangeRates: any = { usd: 641.69, cad: 776.44, btc: 41.93 };
+export let exchangeRates: ExchangeRates = { usd: 641.69, cad: 776.44, btc: 41.93, bnb: 7.2 };
 getExchangeRates().then((result: any) => (exchangeRates = result.ethereum));
+export let bDiggExchangeRates = { usd: 50405, eth: 30.725832, btc: 0.9456756, cad: 63346 };
+getBdiggExchangeRates().then((result: any) => (bDiggExchangeRates = result['badger-sett-digg']));
+
+// TECH DEBT: Reformat these formatting functions using a factory pattern and delete repeated code
 
 // input: usd value
 // output: formatted currency string
@@ -160,6 +181,11 @@ export const usdToCurrency = (
 		case 'cad':
 			normal = normal.dividedBy(exchangeRates.usd).multipliedBy(exchangeRates.cad);
 			prefix = 'C$';
+			break;
+		case 'bnb':
+			normal = normal.dividedBy(exchangeRates.usd).multipliedBy(exchangeRates.bnb);
+			decimals = 5;
+			prefix = '/assets/icons/bnb-white.png';
 			break;
 	}
 
@@ -211,6 +237,11 @@ export const inCurrency = (
 			prefix = 'C$';
 			decimals = 2;
 			break;
+		case 'bnb':
+			normal = normal.multipliedBy(exchangeRates.bnb);
+			prefix = '/assets/icons/bnb-white.png';
+			decimals = 2;
+			break;
 	}
 
 	let suffix = '';
@@ -221,6 +252,76 @@ export const inCurrency = (
 		suffix = `e-${preferredDecimals}`;
 	} else if (normal.dividedBy(1e4).gt(1)) {
 		decimals = 2;
+	}
+
+	const fixedNormal = noCommas
+		? normal.toFixed(decimals, BigNumber.ROUND_HALF_FLOOR)
+		: numberWithCommas(normal.toFixed(decimals, BigNumber.ROUND_HALF_FLOOR));
+
+	return `${prefix}${fixedNormal}${suffix}`;
+};
+
+interface DiggToCurrencyOptions {
+	amount: BigNumber;
+	currency: 'usd' | 'btc' | 'eth' | 'cad' | 'bnb';
+	hide?: boolean;
+	preferredDecimals?: number;
+	noCommas?: boolean;
+}
+
+/**
+ * Formats an amount in Digg to a specific currency
+ *
+ * @param options amount, currency, hide, preferredDecimals, noCommas
+ * @returns formatted amount
+ */
+export const bDiggToCurrency = ({
+	amount,
+	currency,
+	hide = false,
+	preferredDecimals = 2,
+	noCommas = false,
+}: DiggToCurrencyOptions): string => {
+	if (!amount || amount.isNaN()) return inCurrency(new BigNumber(0), currency, hide, preferredDecimals);
+
+	let normal = amount.dividedBy(1e18);
+	let prefix = '';
+	let decimals = preferredDecimals;
+
+	switch (currency) {
+		case 'usd':
+			normal = normal.multipliedBy(bDiggExchangeRates.usd);
+			decimals = 2;
+			prefix = '$ ';
+			break;
+		case 'btc':
+			normal = normal.multipliedBy(bDiggExchangeRates.btc);
+			decimals = 5;
+			prefix = '₿ ';
+			break;
+		case 'eth':
+			normal = normal.multipliedBy(bDiggExchangeRates.eth);
+			prefix = 'Ξ ';
+			decimals = 5;
+			break;
+		case 'cad':
+			normal = normal.multipliedBy(exchangeRates.cad);
+			decimals = 2;
+			prefix = 'C$';
+		case 'bnb':
+			normal = normal.multipliedBy(exchangeRates.bnb);
+			decimals = 2;
+			prefix = '/assets/icons/bnb-white.png';
+			break;
+	}
+
+	let suffix = '';
+
+	if (normal.gt(0) && normal.lt(10 ** -decimals)) {
+		normal = normal.multipliedBy(10 ** decimals);
+		suffix = `e-${decimals}`;
+	} else if (normal.dividedBy(1e4).gt(1)) {
+		decimals = preferredDecimals;
 	}
 
 	const fixedNormal = noCommas

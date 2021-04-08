@@ -10,9 +10,8 @@ import {
 	reduceContractConfig,
 	reduceGrowth,
 	reduceGrowthQueryConfig,
-	reduceSushiAPIResults,
 } from '../reducers/contractReducers';
-import { Vault, Geyser, Token, Sett } from '../model';
+import { Vault, Geyser, Token } from '../model';
 import { vanillaQuery } from 'mobx/utils/helpers';
 import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
@@ -21,24 +20,26 @@ import { EMPTY_DATA, ERC20, NETWORK_CONSTANTS, NETWORK_LIST } from 'config/const
 import { formatAmount } from 'mobx/reducers/statsReducers';
 import BatchCall from 'web3-batch-call';
 import { getApi } from '../utils/apiV2';
-import SettStoreV2 from './settStoreV2';
 
 let batchCall: any = null;
 
 class ContractsStore {
 	private store!: RootStore;
 
-	public tokens?: any = {}; // inputs to vaults and geysers
-	public vaults?: any = {}; // vaults contract data
-	public geysers?: any = {}; // geyser contract data
+	// inputs to vaults and geysers
+	public tokens: { [address: string]: Token } = {};
+	// vaults contract data
+	public vaults: { [address: string]: Vault } = {};
+	// geyser contract data
+	public geysers: { [address: string]: Geyser } = {};
 
 	constructor(store: RootStore) {
 		this.store = store;
 
 		extendObservable(this, {
-			vaults: {} as { string: Vault },
-			tokens: {} as { string: Token },
-			geysers: {} as { string: Geyser },
+			vaults: this.vaults,
+			tokens: this.tokens,
+			geysers: this.geysers,
 		});
 
 		observe(this.store.wallet, 'currentBlock', (change: any) => {
@@ -72,12 +73,14 @@ class ContractsStore {
 	fetchTokens = action(
 		async (): Promise<void> => {
 			const { connectedAddress, network } = this.store.wallet;
-			if (!network.tokens) {
+			const { tokens } = network;
+
+			if (!tokens) {
 				return;
 			}
 
 			const { batchCall: batch } = reduceContractConfig(
-				network.tokens!.tokenBatches,
+				tokens.tokenBatches,
 				!!connectedAddress && { connectedAddress },
 			);
 
@@ -93,16 +96,16 @@ class ContractsStore {
 						ethValue: new BigNumber(price).multipliedBy(1e18),
 					}));
 					const tokenContracts = _.keyBy(reduceBatchResult(_.flatten(result.slice(1, 2))), 'address');
-					const tokens = _.compact(
+					const updatedTokens = _.compact(
 						_.values(
 							_.defaultsDeep(
 								cgPrices,
 								tokenContracts,
-								_.mapValues(network.tokens!.symbols, (value: string, address: string) => ({
+								_.mapValues(tokens.symbols, (value: string, address: string) => ({
 									address,
 									symbol: value,
 								})),
-								_.mapValues(network.tokens!.names, (value: string, address: string) => ({
+								_.mapValues(tokens.names, (value: string, address: string) => ({
 									address,
 									name: value,
 								})),
@@ -110,7 +113,7 @@ class ContractsStore {
 						),
 					);
 
-					tokens.forEach((contract: any) => {
+					updatedTokens.forEach((contract: any) => {
 						const token = this.getOrCreateToken(contract.address);
 						token.update(contract);
 					});
@@ -127,7 +130,12 @@ class ContractsStore {
 
 			const { connectedAddress, currentBlock, network } = this.store.wallet;
 			const { settList } = this.store.setts;
-			const sushiBatches = network.vaults!['sushiswap'];
+			const { vaults, tokens } = network;
+
+			// tokens are a prequisite for vaults
+			if (!vaults || !tokens) {
+				return;
+			}
 
 			const { defaults, batchCall: batch } = reduceContractConfig(
 				_.map(network.vaults),
@@ -136,7 +144,6 @@ class ContractsStore {
 
 			const { growthQueries, periods } = reduceGrowthQueryConfig(network.name, currentBlock);
 			const settStructure = _.keyBy(settList, 'vaultToken');
-
 			const priceApi = vanillaQuery(`${getApi()}/prices?chain=${network.name}&currency=eth`);
 
 			await Promise.all([batchCall.execute(batch), ...growthQueries, priceApi])
@@ -153,13 +160,9 @@ class ContractsStore {
 					}));
 
 					result.forEach((contract: any, i: number) => {
-						const tokenAddress = network.tokens!.tokenMap[contract.address];
+						const tokenAddress = tokens.tokenMap[contract.address];
 						if (!tokenAddress) {
-							return console.log(
-								network.tokens!.tokenMap[contract.address],
-								network.tokens!.tokenMap,
-								contract.address,
-							);
+							return console.log(tokens.tokenMap[contract.address], tokens.tokenMap, contract.address);
 						}
 						const vault = this.getOrCreateVault(
 							contract.address,
@@ -178,7 +181,7 @@ class ContractsStore {
 						// so we set this to 1
 						contract.getPricePerFullShare =
 							settStructure[vault.address] &&
-							vault.address !== getNetworkDeploy(NETWORK_LIST.ETH)!.sett_system.vaults['native.digg']
+							vault.address !== getNetworkDeploy(NETWORK_LIST.ETH).sett_system.vaults['native.digg']
 								? new BigNumber(settStructure[vault.address].ppfs)
 								: new BigNumber(1);
 						vault.update(
@@ -196,46 +199,6 @@ class ContractsStore {
 							: new BigNumber(0.0);
 					});
 				})
-				.then(async () => {
-					if (!!sushiBatches) {
-						const xSushiQuery = vanillaQuery(sushiBatches!.growthEndpoints![1]);
-						const masterChefQuery = vanillaQuery(
-							// Disable reason: growthEndPoints[2] has a hardcoded value and will never be null for vaultBatches[1]
-							// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-							sushiBatches!.growthEndpoints![2].concat(
-								network.vaults!.sushiswap!.fillers.pairContract
-									? network.vaults!.sushiswap!.fillers.pairContract.join(';')
-									: '',
-							),
-						);
-
-						await Promise.all([masterChefQuery, xSushiQuery]).then((queryResult: any[]) => {
-							const masterChefResult: any = queryResult[0];
-							const newSushiRewards = reduceSushiAPIResults(masterChefResult);
-							network.vaults!.sushiswap!.contracts.forEach((contract: any, i: number) => {
-								const tokenAddress = network.tokens!.tokenMap[contract];
-								const xSushiGrowth =
-									!!newSushiRewards[tokenAddress] &&
-									_.mapValues(newSushiRewards[tokenAddress], (tokens: BigNumber) => {
-										return {
-											amount: tokens,
-											token: this.tokens[NETWORK_CONSTANTS[network.name].TOKENS.XSUSHI_ADDRESS],
-										};
-									});
-								const vault = this.getOrCreateVault(
-									contract,
-									this.tokens[tokenAddress],
-									defaults[contract].abi,
-								);
-								vault.update(
-									_.defaultsDeep(contract, defaults[contract], {
-										growth: _.compact([vault.growth, xSushiGrowth]),
-									}),
-								);
-							});
-						});
-					}
-				})
 				.catch((error: any) => process.env.NODE_ENV !== 'production' && console.log(error));
 		},
 	);
@@ -248,12 +211,14 @@ class ContractsStore {
 			const { connectedAddress, network } = this.store.wallet;
 
 			// Initialization checks
-			if (!network.geysers || (this.vaults && Object.keys(this.vaults).length === 0)) {
+			const { geysers } = network;
+
+			if (!geysers || (this.vaults && Object.keys(this.vaults).length === 0)) {
 				return;
 			}
 
 			const { defaults, batchCall: batch } = reduceContractConfig(
-				network.geysers!.geyserBatches || [],
+				geysers.geyserBatches || [],
 				connectedAddress && { connectedAddress },
 			);
 
@@ -277,24 +242,29 @@ class ContractsStore {
 		},
 	);
 
-	getOrCreateToken = action((address: string) => {
-		const { network } = this.store.wallet;
-		if (!this.tokens[address]) {
-			this.tokens[address] = new Token(this.store, address, network.tokens!.decimals[address]);
-			return this.tokens[address];
-		} else {
-			return this.tokens[address];
-		}
-	});
+	getOrCreateToken = action(
+		(address: string): Token => {
+			const { network } = this.store.wallet;
+			const { tokens } = network;
+			if (!this.tokens[address]) {
+				this.tokens[address] = new Token(this.store, address, tokens.decimals[address]);
+				return this.tokens[address];
+			} else {
+				return this.tokens[address];
+			}
+		},
+	);
+
 	getOrCreateVault = action((address: string, token: Token, abi?: any) => {
 		const { network } = this.store.wallet;
 		if (!this.vaults[address]) {
-			this.vaults[address] = new Vault(this.store, address, network.tokens!.decimals[address], token, abi);
+			this.vaults[address] = new Vault(this.store, address, network.tokens.decimals[address], token, abi);
 			return this.vaults[address];
 		} else {
 			return this.vaults[address];
 		}
 	});
+
 	getOrCreateGeyser = action((address: string, vault: Vault, abi?: any) => {
 		if (!this.vaults[address]) {
 			this.geysers[address] = new Geyser(this.store, address, vault, abi);
@@ -335,6 +305,7 @@ class ContractsStore {
 			},
 		);
 	});
+
 	stake = action((vault: Vault, amount: BigNumber) => {
 		const { setTxStatus, queueNotification } = this.store.uiState;
 
@@ -362,6 +333,7 @@ class ContractsStore {
 			},
 		);
 	});
+
 	unstake = action((vault: Vault, amount: BigNumber) => {
 		const { setTxStatus, queueNotification } = this.store.uiState;
 
@@ -493,6 +465,7 @@ class ContractsStore {
 			},
 		);
 	});
+
 	unstakeGeyser = action((geyser: any, amount: BigNumber, callback: (err: any, result: any) => void) => {
 		const { queueNotification, setTxStatus } = this.store.uiState;
 		const { provider, connectedAddress } = this.store.wallet;
@@ -585,6 +558,7 @@ class ContractsStore {
 			},
 		);
 	});
+
 	withdrawVault = action((vault: any, amount: BigNumber, all = false, callback: (err: any, result: any) => void) => {
 		const { setTxStatus, queueNotification } = this.store.uiState;
 		const { provider, connectedAddress } = this.store.wallet;

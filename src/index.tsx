@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { MobxRouter, startRouter } from 'mobx-router';
-
 import { StoreProvider } from './mobx/store-context';
 
 //material
@@ -25,15 +24,6 @@ import { darkTheme } from './config/ui/dark';
 startRouter(routes, store, {
 	html5history: true, // or false if you want to use hash based routing
 });
-
-// const ErrorMessage: React.FC<FallbackProps> = ({ error }) => {
-// 	return (
-// 		<article>
-// 			<h1>An error has occurred.</h1>
-// 			<p>{error?.message}</p>
-// 		</article>
-// 	);
-// };
 
 ReactDOM.render(
 	<StoreProvider value={store}>
