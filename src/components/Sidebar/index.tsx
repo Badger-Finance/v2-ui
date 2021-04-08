@@ -12,6 +12,7 @@ import {
 	ListItemIcon,
 	ListItemText,
 	ListItemSecondaryAction,
+	Tooltip,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { ExpandMore } from '@material-ui/icons';
@@ -144,6 +145,15 @@ export const Sidebar = observer(() => {
 				</ListItem>
 			);
 		});
+	};
+
+	const isSettShopOpen = () => {
+		// Sett Shop to open at 9am PDT April 9th
+		const now = Date.now();
+		const open = Date.parse('09 Apr 2021 09:00:00 PDT');
+
+		if (now >= open) return true;
+		return false;
 	};
 
 	return (
@@ -358,16 +368,30 @@ export const Sidebar = observer(() => {
 							<div className={classes.smallItemText}>Powered By Nexus Mutual</div>
 						</ListItemText>
 					</ListItem>
-
-					{user.viewSettShop && (
-						<ListItem
-							button
-							className={classes.secondaryListItem}
-							onClick={() => window.open('http://shop.badger.finance/')}
-						>
-							Sett Shop
-						</ListItem>
-					)}
+					{user.viewSettShop &&
+						(isSettShopOpen() ? (
+							<ListItem
+								button
+								className={classes.secondaryListItem}
+								onClick={() => window.open('http://shop.badger.finance/')}
+							>
+								Sett Shop
+							</ListItem>
+						) : (
+							<Tooltip title={'Sett Shop opens at 9am PDT'} placement={'top'} arrow>
+								<ListItem
+									button
+									className={classes.secondaryListItem}
+									onClick={() =>
+										window.open(
+											'https://badgerdao.medium.com/badger-launches-limited-edition-jersey-nft-w-apy-boost-33fd5e394f88',
+										)
+									}
+								>
+									Sett Shop
+								</ListItem>
+							</Tooltip>
+						))}
 
 					<ListItem
 						button
