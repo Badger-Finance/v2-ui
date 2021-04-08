@@ -658,6 +658,15 @@ export type Eligibility = {
 	isEligible: boolean;
 };
 
+export enum Protocol {
+	Curve = 'curve',
+	Sushiswap = 'sushiswap',
+	Uniswap = 'uniswap',
+	Pancakeswap = 'pancakeswap',
+	Yearn = 'yearn',
+	Harvest = 'harvest',
+}
+
 /**
  * Sett and geyser objects will be represented by the same
  * interface. The key difference between a sett and geyser
@@ -665,18 +674,24 @@ export type Eligibility = {
  * have emissions value sources while setts only have the
  * native underlying value source.
  */
-export type Sett = {
-	name: string;
+export interface Sett extends SettSummary {
 	asset: string;
-	value: number;
-	tokens: TokenBalance[];
-	ppfs: number;
 	apy: number;
-	vaultToken: string;
-	underlyingToken: string;
-	sources: ValueSource[];
 	geyser?: Geyser;
-};
+	hasBouncer: boolean;
+	ppfs: number;
+	sources: ValueSource[];
+	tokens: TokenBalance[];
+	underlyingToken: string;
+	vaultToken: string;
+	affiliate?: SettAffiliateData;
+}
+
+export interface SettAffiliateData {
+	availableDepositLimit?: number;
+	protocol: Protocol;
+	depositLimit?: number;
+}
 
 export type ValueSource = {
 	name: string;
@@ -706,9 +721,8 @@ export type PriceSummary = {
 
 export interface SettSummary {
 	name: string;
-	asset: string;
 	value: number;
-	tokens: TokenBalance[];
+	balance: number;
 }
 
 export type ProtocolSummary = {
