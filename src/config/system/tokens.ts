@@ -12,7 +12,7 @@ export const getTokens = (network?: string | null): TokenNetworkConfig => {
 				bscDeploy.sett_system.vaults['native.pancakeBnbBtcb'],
 				bscDeploy.sett_system.vaults['native.bBadgerBtcb'],
 				bscDeploy.sett_system.vaults['native.bDiggBtcb'],
-				bscDeploy.test.vaults['yearn.test'],
+				bscDeploy.test.vaults['yearn.wrapper'],
 			];
 			const bscTokenList = [
 				'0x7561EEe90e24F3b348E1087A005F78B4c8453524',

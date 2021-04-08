@@ -17,6 +17,7 @@ import { NETWORK_IDS, NETWORK_LIST } from 'config/constants';
 import { getRewards } from 'config/system/rewards';
 import { ZERO, TEN } from 'config/constants';
 import { CustomNotificationObject, EmitterListener, TransactionData } from 'bnc-notify';
+import YearnUnderlyingVault from 'config/system/abis/YearnUnderlyingVault.json';
 
 export class Contract {
 	store!: RootStore;
@@ -542,6 +543,7 @@ export interface Network {
 	getGasPrices: () => Promise<GasPrices>;
 	getNotifyLink: EmitterListener;
 	isWhitelisted: { [index: string]: boolean };
+	isWrapper: { [index: string]: { abi: AbiItem[]; address: string } };
 }
 
 export class BscNetwork implements Network {
@@ -561,7 +563,7 @@ export class BscNetwork implements Network {
 		this.deploy.sett_system.vaults['native.bDiggBtcb'],
 		this.deploy.sett_system.vaults['native.bBadgerBtcb'],
 		this.deploy.sett_system.vaults['native.pancakeBnbBtcb'],
-		this.deploy.test.vaults['yearn.test'],
+		this.deploy.test.vaults['yearn.wrapper'],
 	];
 	public readonly sidebarTokenLinks = [
 		{
@@ -580,7 +582,13 @@ export class BscNetwork implements Network {
 		return { link: `https://bscscan.com//tx/${transaction.hash}` };
 	}
 	public readonly isWhitelisted = {
-		[this.deploy.test.vaults['yearn.test']]: true,
+		[this.deploy.test.vaults['yearn.wrapper']]: true,
+	};
+	public readonly isWrapper = {
+		[this.deploy.test.vaults['yearn.wrapper']]: {
+			address: this.deploy.test.vaults['yearn.vault'],
+			abi: YearnUnderlyingVault.abi as AbiItem[],
+		},
 	};
 }
 
@@ -639,6 +647,7 @@ export class EthNetwork implements Network {
 		return { link: `https://etherscan.io/tx/${transaction.hash}` };
 	}
 	public readonly isWhitelisted = {};
+	public readonly isWrapper = {};
 }
 
 export type UserPermissions = {
@@ -649,6 +658,15 @@ export type Eligibility = {
 	isEligible: boolean;
 };
 
+export enum Protocol {
+	Curve = 'curve',
+	Sushiswap = 'sushiswap',
+	Uniswap = 'uniswap',
+	Pancakeswap = 'pancakeswap',
+	Yearn = 'yearn',
+	Harvest = 'harvest',
+}
+
 /**
  * Sett and geyser objects will be represented by the same
  * interface. The key difference between a sett and geyser
@@ -656,18 +674,24 @@ export type Eligibility = {
  * have emissions value sources while setts only have the
  * native underlying value source.
  */
-export type Sett = {
-	name: string;
+export interface Sett extends SettSummary {
 	asset: string;
-	value: number;
-	tokens: TokenBalance[];
-	ppfs: number;
 	apy: number;
-	vaultToken: string;
-	underlyingToken: string;
-	sources: ValueSource[];
 	geyser?: Geyser;
-};
+	hasBouncer: boolean;
+	ppfs: number;
+	sources: ValueSource[];
+	tokens: TokenBalance[];
+	underlyingToken: string;
+	vaultToken: string;
+	affiliate?: SettAffiliateData;
+}
+
+export interface SettAffiliateData {
+	availableDepositLimit?: number;
+	protocol: Protocol;
+	depositLimit?: number;
+}
 
 export type ValueSource = {
 	name: string;
@@ -697,9 +721,8 @@ export type PriceSummary = {
 
 export interface SettSummary {
 	name: string;
-	asset: string;
 	value: number;
-	tokens: TokenBalance[];
+	balance: number;
 }
 
 export type ProtocolSummary = {
