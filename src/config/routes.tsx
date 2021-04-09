@@ -11,7 +11,7 @@ import { RootStore } from '../mobx/store';
 import { Airdrops } from '../components/Airdrops';
 import { Digg } from '../components/Digg';
 import { Locked } from 'components/Common/Locked';
-import { Claws } from 'components/Claws';
+import { Claw } from 'components/Claws';
 
 import { IbBTC } from 'components/IbBTC';
 import { FLAGS } from 'config/constants';
@@ -86,7 +86,7 @@ const routes = {
 	}),
 	claws: new Route<RootStore, QueryParams>({
 		path: '/claws',
-		component: <Claws />,
+		component: <Claw />,
 	}),
 	// account: new Route<RootStore, {
 	// 	account: string;

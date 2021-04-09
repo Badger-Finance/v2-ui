@@ -10,7 +10,6 @@ import Manage from './Manage';
 import Redeem from './Redeem';
 import Withdrawals from './Withdrawals';
 import PageHeader from 'components-v2/common/PageHeader';
-import { SponsorData } from 'mobx/model';
 
 export const useMainStyles = makeStyles((theme) => ({
 	root: {
@@ -68,7 +67,7 @@ const TABS = {
 	REDEEM: 2,
 };
 
-export const Claws: FC = observer(() => {
+export const Claw: FC = observer(() => {
 	const store = useContext(StoreContext);
 	const { isLoading, sponsorInformation } = store.claw;
 	const classes = useMainStyles();
