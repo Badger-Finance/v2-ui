@@ -8,6 +8,8 @@ export const testYearnVaultApiResponse: Sett = {
 	ppfs: 1,
 	value: 150538.70217373536,
 	apy: 20,
+	hasBouncer: true,
+	balance: 100,
 	tokens: [
 		{
 			name: 'Yearn Finance Test Token',

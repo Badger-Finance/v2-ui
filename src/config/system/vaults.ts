@@ -216,6 +216,40 @@ export const getVaults = (network?: string | null): VaultNetworkConfig => {
 						},
 					],
 				},
+				yearn: {
+					abi: YearnWrapper.abi as AbiItem[],
+					underlying: 'token',
+					contracts: [deploy.sett_system.vaults['yearn.wBtc']],
+					fillers: {
+						symbol: ['byvWBTC'],
+						isFeatured: [false],
+						position: [1],
+						isSuperSett: [false],
+						// withdrawAll = false means there is no withdrawAll() function on the contract and must be handled differently
+						withdrawAll: [false],
+					},
+					methods: [
+						{
+							name: 'balanceOf',
+							args: ['{connectedAddress}'],
+						},
+						{
+							name: 'balance',
+						},
+						{
+							name: 'symbol',
+						},
+						{
+							name: 'decimals',
+						},
+						{
+							name: 'token',
+						},
+						{
+							name: 'totalSupply',
+						},
+					],
+				},
 			};
 		default:
 			return {};
