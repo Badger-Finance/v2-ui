@@ -8,7 +8,19 @@ import {
 	WC_BRIDGE,
 } from './constants';
 
-export const getOnboardWallets = (network?: string) => {
+export interface WalletProviderInfo {
+	walletName: string;
+	rpcUrl?: string;
+	bridge?: string;
+	apiKey?: string;
+	label?: string;
+	rpc?: { [networkId: string]: string };
+	appName?: string;
+	appUrl?: string;
+	email?: string;
+}
+
+export const getOnboardWallets = (network?: string): WalletProviderInfo[] => {
 	if (!network) {
 		return [];
 	}

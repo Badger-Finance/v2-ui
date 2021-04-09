@@ -1,12 +1,12 @@
 import { extendObservable, action } from 'mobx';
 import { RootStore } from '../store';
 import { getTokenPrices, getTotalValueLocked, listGeysers, listSetts } from 'mobx/utils/apiV2';
-import { PriceSummary, Sett, ProtocolSummary, Network, SettMap } from 'mobx/model';
+import { PriceSummary, Sett, ProtocolSummary, SettMap } from 'mobx/model';
 import { NETWORK_LIST } from 'config/constants';
 import Web3 from 'web3';
 import BigNumber from 'bignumber.js';
 
-export default class SettStoreV2 {
+export default class SettStore {
 	private store!: RootStore;
 
 	// loading: undefined, error: null, present: object

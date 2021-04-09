@@ -1,39 +1,26 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useCallback } from 'react';
 import BigNumber from 'bignumber.js';
-import PropTypes from 'prop-types';
+import { ethers } from 'ethers';
 import GatewayJS from '@renproject/gateway';
+import { EthArgs, LockAndMintParamsSimple, BurnAndReleaseParamsSimple } from '@renproject/interfaces';
 import Web3 from 'web3';
-import async, { any } from 'async';
+import async from 'async';
 import { observer } from 'mobx-react-lite';
-import { StoreContext } from '../../mobx/store-context';
-import { Grid, Tabs, Tab, FormControl, Select, MenuItem } from '@material-ui/core';
-import useInterval from '@use-it/interval';
+import { Grid, Tabs, Tab, FormControl, Select, MenuItem, Typography } from '@material-ui/core';
+
 import { MintForm } from './MintForm';
 import { ReleaseForm } from './ReleaseForm';
 import { ConfirmForm } from './ConfirmForm';
 import { SuccessForm } from './SuccessForm';
-import { ResumeForm } from './ResumeForm';
-
-import renBTCLogo from '../../assets/icons/renBTC.svg';
-import WBTCLogo from '../../assets/icons/WBTC.svg';
-import BTCLogo from '../../assets/icons/btc.svg';
-import {
-	ERC20,
-	BADGER_ADAPTER,
-	CURVE_EXCHANGE,
-	BTC_GATEWAY,
-	NETWORK_CONSTANTS,
-	NETWORK_LIST,
-	CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS,
-	RENVM_GATEWAY_ADDRESS,
-} from '../../config/constants';
+import { StoreContext } from 'mobx/store-context';
+import { RenVMTransaction } from 'mobx/model';
+import { Status } from 'mobx/stores/bridgeStore';
+import renBTCLogo from 'assets/icons/renBTC.svg';
+import WBTCLogo from 'assets/icons/WBTC.svg';
+import { NETWORK_CONSTANTS, NETWORK_LIST, CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS } from 'config/constants';
 import { bridge_system } from 'config/deployments/mainnet.json';
-
-const MIN_AMOUNT = 0.002;
-// SLIPPAGE_BUFFER increases estimated slippage by 5%.
-const SLIPPAGE_BUFFER = 1.05;
-const MAX_BPS = 10000;
-const UPDATE_INTERVAL_SECONDS = 30 * 1000; // 30 seconds
+import { CURVE_EXCHANGE } from 'config/system/abis/CurveExchange';
+import { ValuesProp } from './Common';
 
 interface TabPanelProps {
 	children: any;
@@ -64,48 +51,55 @@ const a11yProps = (index: number) => {
 	};
 };
 
+// Gateways expects nonce as a bytes32 hex string.
+const formatNonceBytes32 = (nonce: number): string => {
+	return ethers.utils.hexZeroPad(`0x${nonce.toString(16)}`, 32);
+};
+
+// Initial state value that should be reset to initial values on reset.
+const initialStateResettable = {
+	amount: '',
+	receiveAmount: 0,
+	estimatedSlippage: 0,
+	// Default to 0.5%.
+	maxSlippage: '.5',
+	burnAmount: '',
+	btcAddr: '',
+	renFee: 0,
+	badgerFee: 0,
+	step: 1,
+};
+
 export const BridgeForm = observer((props: any) => {
-	const store = useContext(StoreContext);
 	const classes = props.classes;
+	const store = useContext(StoreContext);
 	const spacer = <div className={classes.before} />;
 
 	const {
-		wallet: { connect, connectedAddress, provider, onboard },
+		wallet: { connect, connectedAddress, provider, onboard, network },
 		contracts: { getAllowance, increaseAllowance },
-		uiState: { queueNotification, txStatus, setTxStatus },
-		transactions: { updateTx, removeTx, incompleteTransfer },
-	} = store;
+		uiState: { queueNotification, setTxStatus },
+		bridge: {
+			status,
+			begin,
+			nextNonce,
+			loading,
+			error,
 
-	// Initial state value that should be reset to initial values on reset.
-	const initialStateResettable = {
-		amount: '',
-		receiveAmount: 0,
-		mintReceiveAmount: 0,
-		releaseReceiveAmount: 0,
-		estimatedSlippage: 0,
-		feeAmount: 0.0025,
-		burnAmount: '',
-		btcAddr: '',
-		message: '',
-		error: '',
-		step: 1,
-	};
+			badgerBurnFee,
+			badgerMintFee,
+			renvmBurnFee,
+			renvmMintFee,
+			lockNetworkFee,
+			releaseNetworkFee,
+
+			shortAddr,
+		},
+	} = store;
 
 	const intialState = {
 		...initialStateResettable,
 		token: 'renBTC',
-		renbtcBalance: 0,
-		wbtcBalance: 0,
-		bridgeAddress: bridge_system['adapter'],
-		shortAddr: '',
-		badgerBurnFee: 0,
-		badgerMintFee: 0,
-		renvmBurnFee: 0,
-		renvmMintFee: 0,
-		renFee: 0,
-		badgerFee: 0,
-		lockNetworkFee: 0.001,
-		releaseNetworkFee: 0.001,
 		tabValue: 0, // Keep on same tab even after reset
 	};
 	const [states, setStates] = useState(intialState);
@@ -115,69 +109,30 @@ export const BridgeForm = observer((props: any) => {
 		amount,
 		receiveAmount,
 		step,
-		renbtcBalance,
-		wbtcBalance,
-		message,
-		error,
 		burnAmount,
 		btcAddr,
-		shortAddr,
-		feeAmount,
 		tabValue,
 		estimatedSlippage,
-		badgerBurnFee,
-		badgerMintFee,
-		renvmBurnFee,
-		renvmMintFee,
-		bridgeAddress,
+		maxSlippage,
 		renFee,
 		badgerFee,
-		lockNetworkFee,
-		releaseNetworkFee,
 	} = states;
-	const values = {
+	// TODO: Refactor values to pull directly from mobx store for values in store.
+	const values: ValuesProp = {
 		token,
 		amount,
 		receiveAmount,
 		step,
-		renbtcBalance,
-		wbtcBalance,
-		message,
-		error,
 		burnAmount,
 		btcAddr,
-		provider,
-		connectedAddress,
 		shortAddr,
-		feeAmount,
 		tabValue,
-		renBTCLogo,
-		WBTCLogo,
-		BTCLogo,
 		spacer,
-		MIN_AMOUNT,
 		estimatedSlippage,
-		badgerBurnFee,
-		badgerMintFee,
-		renvmBurnFee,
-		renvmMintFee,
+		maxSlippage,
 		renFee,
 		badgerFee,
-		lockNetworkFee,
-		releaseNetworkFee,
-		bridgeAddress,
 	};
-
-	const gatewayJS = new GatewayJS('mainnet');
-
-	const web3 = new Web3(provider);
-	const adapterContract = new web3.eth.Contract(BADGER_ADAPTER, bridgeAddress);
-	const renbtcToken = new web3.eth.Contract(
-		ERC20.abi as any,
-		NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.RENBTC_ADDRESS,
-	);
-	const wbtcToken = new web3.eth.Contract(ERC20.abi as any, NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.WBTC_ADDRESS);
-	const gatewayContract = new web3.eth.Contract(BTC_GATEWAY, RENVM_GATEWAY_ADDRESS);
 
 	const connectWallet = async () => {
 		if (!(await onboard.walletSelect())) return;
@@ -186,6 +141,14 @@ export const BridgeForm = observer((props: any) => {
 			connect(onboard);
 		}
 	};
+
+	const resetState = useCallback(() => {
+		// Reset everything except balances
+		setStates((prevState) => ({
+			...prevState,
+			...initialStateResettable,
+		}));
+	}, []);
 
 	const handleTabChange = (event: any, newValue: number) => {
 		setStates((prevState) => ({
@@ -197,11 +160,10 @@ export const BridgeForm = observer((props: any) => {
 		}));
 	};
 
-	const resetState = () => {
-		// Reset everything except balances
+	const handleSetMaxSlippage = (newValue: string) => () => {
 		setStates((prevState) => ({
 			...prevState,
-			...initialStateResettable,
+			maxSlippage: newValue,
 		}));
 	};
 
@@ -233,74 +195,6 @@ export const BridgeForm = observer((props: any) => {
 		}));
 	};
 
-	const shortenAddress = (address: string) => {
-		return address.slice(0, 6) + '...' + address.slice(address.length - 6, address.length);
-	};
-
-	const getBtcNetworkFees = async () => {
-		const query = {
-			jsonrpc: '2.0',
-			method: 'ren_queryFees',
-			id: 67,
-			params: {},
-		};
-
-		await fetch('https://lightnode-mainnet.herokuapp.com/', {
-			method: 'POST',
-			body: JSON.stringify(query),
-			headers: { 'Content-Type': 'application/json' },
-		})
-			.then((res) => res.json())
-			.then((json) => {
-				updateState('lockNetworkFee', parseInt(json.result.btc.lock) / 100000000);
-				updateState('releaseNetworkFee', parseInt(json.result.btc.release) / 100000000);
-			});
-	};
-
-	const getFeesFromContract = async () => {
-		if (!connectedAddress) {
-			return;
-		}
-		const [badgerBurnFee, badgerMintFee, renvmBurnFee, renvmMintFee] = (
-			await Promise.all([
-				adapterContract.methods.burnFeeBps().call(),
-				adapterContract.methods.mintFeeBps().call(),
-				gatewayContract.methods.burnFee().call(),
-				gatewayContract.methods.mintFee().call(),
-			])
-		).map((result: number) => result / MAX_BPS);
-
-		setStates((prevState) => ({
-			...prevState,
-			badgerBurnFee,
-			badgerMintFee,
-			renvmBurnFee,
-			renvmMintFee,
-		}));
-	};
-
-	const updateBalance = async () => {
-		if (!connectedAddress) {
-			return;
-		}
-		const [renbtc_Balance, wbtc_Balance] = await Promise.all([
-			renbtcToken.methods.balanceOf(connectedAddress).call(),
-			wbtcToken.methods.balanceOf(connectedAddress).call(),
-		]);
-
-		setStates((prevState) => ({
-			...prevState,
-			renbtcBalance: parseInt(renbtc_Balance.toString()) / 10 ** 8,
-			wbtcBalance: parseInt(wbtc_Balance.toString()) / 10 ** 8,
-		}));
-	};
-
-	useEffect(() => {
-		if (incompleteTransfer) {
-			queueNotification('There is incomplete Transfer', 'info');
-		}
-	}, [incompleteTransfer]);
-
 	useEffect(() => {
 		// Reset to original state if we're disconnected in middle
 		// of transaction.
@@ -308,35 +202,19 @@ export const BridgeForm = observer((props: any) => {
 			resetState();
 			return;
 		}
+	}, [connectedAddress, step, resetState]);
 
-		if (connectedAddress) {
-			setStates((prevState) => ({
-				...prevState,
-				shortAddr: shortenAddress(connectedAddress),
-			}));
-		}
-		getBtcNetworkFees();
-		getFeesFromContract();
-		updateBalance();
-	}, [connectedAddress, shortAddr]);
-
-	useInterval(updateBalance, UPDATE_INTERVAL_SECONDS);
-
+	// TODO: Can refactor most of these methods below into the store as well.
 	const deposit = async () => {
 		const amountSats = new BigNumber(amount).multipliedBy(10 ** 8); // Convert to Satoshis
-		let trade: any = null;
-		let result: any;
-		let commited = false;
-		let completed = false;
-		const contractFn = 'mint';
-		let maxSlippage = 0;
 		let desiredToken = NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.RENBTC_ADDRESS;
+		let maxSlippageBps = 0;
 		if (token === 'WBTC') {
-			// Convert slippage from % to bps.
-			maxSlippage = Math.round(Math.min(estimatedSlippage * SLIPPAGE_BUFFER, 1) * MAX_BPS);
+			// Convert max slippage from % to bps.
+			maxSlippageBps = Math.round(parseFloat(maxSlippage) * 100);
 			desiredToken = NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.WBTC_ADDRESS;
 		}
-		const params: any = [
+		const contractParams: EthArgs = [
 			{
 				name: '_token',
 				type: 'address',
@@ -345,7 +223,7 @@ export const BridgeForm = observer((props: any) => {
 			{
 				name: '_slippage',
 				type: 'uint256',
-				value: maxSlippage,
+				value: maxSlippageBps,
 			},
 			{
 				name: '_destination',
@@ -354,75 +232,29 @@ export const BridgeForm = observer((props: any) => {
 			},
 		];
 
-		try {
-			result = await gatewayJS
-				.open({
-					sendToken: GatewayJS.Tokens.BTC.Btc2Eth,
-					suggestedAmount: amountSats,
-					sendTo: bridgeAddress,
-					contractFn: contractFn,
-					nonce: GatewayJS.utils.randomNonce(),
-					contractParams: params,
-					web3Provider: web3.currentProvider,
-				})
-				.result()
-				.on('status', async (status: any) => {
-					if (status === 'mint_returnedFromRenVM') {
-						queueNotification(
-							'BTC deposit is ready, please sign the transaction to submit to ethereum',
-							'info',
-						);
-					}
-				})
-				.on('transferUpdated', (transfer: any) => {
-					trade = transfer;
-					switch (transfer.status) {
-						case 'mint_committed':
-							if (commited) return;
-							updateTx(connectedAddress, transfer);
-							commited = true;
-						case 'mint_confirmedOnEthereum':
-							if (completed) return;
-							updateTx(connectedAddress, transfer);
-							completed = true;
-						default:
-							updateTx(connectedAddress, transfer);
-					}
-				})
-				.catch((error: any) => {
-					if (error.message !== 'Transfer cancelled by user') {
-						queueNotification(`Mint failed: ${error.message}`, 'error');
-						return;
-					}
-					if (!trade) return;
-					removeTx(trade);
-					queueNotification('Transfer cancelled by user', 'error');
-					resetState();
-				});
-			// [MINT STATUS] mint_returnedFromRenVM // notifiy user need to take action
-			// [MINT STATUS] mint_submittedToEthereum // submited
-			// [MINT STATUS] mint_confirmedOnEthereum
-			if (!trade) return;
-			if (trade.status === 'mint_confirmedOnEthereum') {
-				queueNotification('Mint is successful', 'success');
-				removeTx(trade);
-				nextStep();
-			}
-		} catch (error) {
-			queueNotification(`Mint failed: ${error.message}`, 'error');
-		}
+		const params: LockAndMintParamsSimple = {
+			sendToken: GatewayJS.Tokens.BTC.Btc2Eth,
+			suggestedAmount: amountSats.toString(),
+			sendTo: bridge_system['adapter'],
+			nonce: formatNonceBytes32(nextNonce),
+			contractFn: 'mint',
+			contractParams,
+		};
+
+		await begin({ params } as RenVMTransaction, () => {
+			resetState();
+		});
 	};
 
 	const approveAndWithdraw = async () => {
 		const methodSeries: any = [];
-		const contractFn: any = 'burn';
 		const amountSats = new BigNumber(burnAmount as any).multipliedBy(10 ** 8); // Convert to Satoshis
 		let burnToken = NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.RENBTC_ADDRESS;
-		let maxSlippage = 0;
+		let maxSlippageBps = 0;
 		if (token === 'WBTC') {
 			burnToken = NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.WBTC_ADDRESS;
-			// Convert slippage from % to bps.
-			maxSlippage = Math.round(Math.min(estimatedSlippage * SLIPPAGE_BUFFER, 1) * MAX_BPS);
+			// Convert max slippage from % to bps.
+			maxSlippageBps = Math.round(parseFloat(maxSlippage) * 100);
 		}
 		const params: any = [
 			{
@@ -433,7 +265,7 @@ export const BridgeForm = observer((props: any) => {
 			{
 				name: '_slippage',
 				type: 'uint256',
-				value: maxSlippage,
+				value: maxSlippageBps,
 			},
 			{
 				type: 'bytes',
@@ -443,7 +275,7 @@ export const BridgeForm = observer((props: any) => {
 			{
 				name: '_amount',
 				type: 'uint256',
-				value: amountSats,
+				value: amountSats.toString(),
 			},
 		];
 
@@ -457,70 +289,32 @@ export const BridgeForm = observer((props: any) => {
 		};
 
 		const allowance: number = await new Promise((resolve, reject) => {
-			getAllowance(tokenParam, bridgeAddress, (err: any, result: number) => {
+			getAllowance(tokenParam, bridge_system['adapter'], (err: any, result: number) => {
 				if (err) reject(err);
 				resolve(result);
 			});
 		});
 		if (amountSats.toNumber() > allowance) {
-			methodSeries.push((callback: any) => increaseAllowance(tokenParam, bridgeAddress, callback));
+			methodSeries.push((callback: any) => increaseAllowance(tokenParam, bridge_system['adapter'], callback));
 		}
-		methodSeries.push((callback: any) => withdraw(contractFn, params, callback));
-		async.series(methodSeries, (err: any, results: any) => {
+		methodSeries.push(() => withdraw(params));
+		async.series(methodSeries, (err: any) => {
 			setTxStatus(!!err ? 'error' : 'success');
 		});
 	};
 
-	const withdraw = async (contractFn: any, params: any, callback: any) => {
-		let result: any;
-		let trade: any = null;
-		let commited = false;
-		let completed = false;
+	const withdraw = async (contractParams: EthArgs) => {
+		const params: BurnAndReleaseParamsSimple = {
+			sendToken: GatewayJS.Tokens.BTC.Eth2Btc,
+			sendTo: bridge_system['adapter'],
+			nonce: formatNonceBytes32(nextNonce),
+			contractFn: 'burn',
+			contractParams,
+		};
 
-		result = await gatewayJS
-			.open({
-				sendToken: GatewayJS.Tokens.BTC.Eth2Btc,
-				sendTo: bridgeAddress,
-				contractFn: contractFn,
-				contractParams: params,
-				web3Provider: web3.currentProvider,
-			})
-			.result()
-			.on('status', async (status: any) => {
-				console.info(`[BURN STATUS] ${status}`);
-			})
-			.on('transferUpdated', (transfer: any) => {
-				console.info(`[BURN TRANSFER]`, transfer);
-				trade = transfer;
-				switch (transfer.status) {
-					case 'burn_committed':
-						if (commited) return;
-						updateTx(connectedAddress, transfer);
-						commited = true;
-					case 'burn_returnedFromRenVM':
-						if (completed) return;
-						updateTx(connectedAddress, transfer);
-						completed = true;
-					default:
-						updateTx(connectedAddress, transfer);
-				}
-			})
-			.catch((error: any) => {
-				if (error.message !== 'Transfer cancelled by user') {
-					queueNotification(`Burn error ${error.message}`, 'error');
-					return;
-				}
-				if (!trade) return;
-				removeTx(trade);
-				queueNotification('Transfer cancelled by user', 'error');
-				resetState();
-			});
-		if (!trade) return;
-		if (trade.status === 'burn_returnedFromRenVM') {
-			queueNotification('Release is successful', 'success');
-			nextStep();
-			removeTx(trade);
-		}
+		await begin({ params } as RenVMTransaction, () => {
+			resetState();
+		});
 	};
 
 	const getEstimatedSlippage = async (amount: number, name: string) => {
@@ -529,6 +323,7 @@ export const BridgeForm = observer((props: any) => {
 		}
 
 		try {
+			const web3 = new Web3(provider);
 			const curve = new web3.eth.Contract(CURVE_EXCHANGE, CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS);
 			const amountAfterFeesInSats = new BigNumber(amount.toFixed(8)).multipliedBy(10 ** 8);
 			let swapResult;
@@ -537,7 +332,6 @@ export const BridgeForm = observer((props: any) => {
 			} else if (name === 'burnAmount') {
 				swapResult = await curve.methods.get_dy(1, 0, amountAfterFeesInSats.toString()).call();
 			} else {
-				console.error(`expected mint or burn tx got: ${name}`);
 				return 0;
 			}
 			const swapRatio = new BigNumber(swapResult.toString()).dividedBy(amountAfterFeesInSats).toNumber();
@@ -556,9 +350,10 @@ export const BridgeForm = observer((props: any) => {
 		const renFeeAmount = inputAmount * (tabValue === 0 ? renvmMintFee : renvmBurnFee);
 		const badgerFeeAmount = inputAmount * (tabValue === 0 ? badgerMintFee : badgerBurnFee);
 		const networkFee = tabValue === 0 ? lockNetworkFee : releaseNetworkFee;
-		const amountWithFee = inputAmount - renFeeAmount - badgerFeeAmount - networkFee;
+		let amountWithFee = inputAmount - renFeeAmount - badgerFeeAmount - networkFee;
 		if (token === 'WBTC') {
 			estimatedSlippage = await getEstimatedSlippage(amountWithFee, name);
+			amountWithFee *= 1 - estimatedSlippage;
 		}
 		setStates((prevState) => ({
 			...prevState,
@@ -575,6 +370,14 @@ export const BridgeForm = observer((props: any) => {
 			const inputAmount = event.target.value;
 			if (!isFinite(inputAmount)) return;
 			await calcFees(inputAmount, name);
+		} else if (name === 'maxSlippage') {
+			// TODO: Can do some further validation here.
+			const value = event.target.value;
+			if (!isFinite(value)) return;
+			setStates((prevState) => ({
+				...prevState,
+				[name]: value,
+			}));
 		} else if (name === 'token') {
 			const value = event.target.value;
 			setStates((prevState) => ({
@@ -596,7 +399,7 @@ export const BridgeForm = observer((props: any) => {
 		return (
 			<Grid item xs={12}>
 				<div className={classes.itemContainer}>
-					<div>{label}</div>
+					<Typography variant="subtitle1">{label}</Typography>
 					<div>{item}</div>
 				</div>
 			</Grid>
@@ -606,12 +409,12 @@ export const BridgeForm = observer((props: any) => {
 		return (
 			<Tabs
 				value={tabValue}
+				variant="fullWidth"
 				onChange={handleTabChange}
 				aria-label="Bridge Tabs"
 				indicatorColor="primary"
 				textColor="primary"
-				className={classes.tabsContainer}
-				centered
+				className={classes.tabHeader}
 			>
 				<Tab label="Mint" {...a11yProps(0)} />
 				<Tab label="Release" {...a11yProps(1)} />
@@ -620,31 +423,31 @@ export const BridgeForm = observer((props: any) => {
 	};
 	const assetSelect = () => {
 		return (
-			<Grid item xs={6}>
-				<FormControl>
-					<Select
-						onChange={handleChange('token')}
-						value={values.token}
-						inputProps={{
-							name: 'token',
-							id: 'token-select',
-						}}
-					>
-						<MenuItem value={'renBTC'}>
-							<span className={classes.menuItem}>
-								<img src={renBTCLogo} className={classes.logo} />
-								<span>renBTC</span>
-							</span>
-						</MenuItem>
-						<MenuItem value={'WBTC'}>
-							<span className={classes.menuItem}>
-								<img src={WBTCLogo} className={classes.logo} />
-								<span>WBTC</span>
-							</span>
-						</MenuItem>
-					</Select>
-				</FormControl>
-			</Grid>
+			<FormControl>
+				<Select
+					variant="outlined"
+					onChange={handleChange('token')}
+					value={values.token}
+					className={classes.select}
+					inputProps={{
+						name: 'token',
+						id: 'token-select',
+					}}
+				>
+					<MenuItem value={'renBTC'}>
+						<span className={classes.menuItem}>
+							<img src={renBTCLogo} className={classes.logo} />
+							<span>renBTC</span>
+						</span>
+					</MenuItem>
+					<MenuItem value={'WBTC'}>
+						<span className={classes.menuItem}>
+							<img src={WBTCLogo} className={classes.logo} />
+							<span>WBTC</span>
+						</span>
+					</MenuItem>
+				</Select>
+			</FormControl>
 		);
 	};
 
@@ -661,11 +464,11 @@ export const BridgeForm = observer((props: any) => {
 							<MintForm
 								values={values}
 								handleChange={handleChange}
+								handleSetMaxSlippage={handleSetMaxSlippage}
 								previousStep={previousStep}
 								nextStep={nextStep}
 								classes={classes}
 								assetSelect={assetSelect}
-								itemContainer={itemContainer}
 								connectWallet={connectWallet}
 							/>
 						</TabPanel>
@@ -673,12 +476,12 @@ export const BridgeForm = observer((props: any) => {
 							<ReleaseForm
 								values={values}
 								handleChange={handleChange}
+								handleSetMaxSlippage={handleSetMaxSlippage}
 								previousStep={previousStep}
 								nextStep={nextStep}
 								classes={classes}
 								updateState={updateState}
 								assetSelect={assetSelect}
-								itemContainer={itemContainer}
 								connectWallet={connectWallet}
 								calcFees={calcFees}
 							/>
@@ -694,7 +497,6 @@ export const BridgeForm = observer((props: any) => {
 							previousStep={previousStep}
 							confirmStep={confirmStep}
 							classes={classes}
-							shortenAddress={shortenAddress}
 							itemContainer={itemContainer}
 						/>
 					</Grid>
@@ -715,7 +517,37 @@ export const BridgeForm = observer((props: any) => {
 		}
 	};
 
-	return (
-		<Grid container>{incompleteTransfer ? <ResumeForm values={values} classes={classes} /> : pageSwitcher()}</Grid>
-	);
+	if (network.name !== NETWORK_LIST.ETH) {
+		return (
+			<Grid container alignItems={'center'} className={classes.padded}>
+				Bridge only supported on ethereum.
+			</Grid>
+		);
+	}
+
+	if (error) {
+		return (
+			<Grid container alignItems={'center'} className={classes.padded}>
+				Error: {error.message}
+			</Grid>
+		);
+	}
+
+	if (loading) {
+		return (
+			<Grid container alignItems={'center'} className={classes.padded}>
+				Loading...
+			</Grid>
+		);
+	}
+
+	if (status != Status.IDLE) {
+		return (
+			<Grid container alignItems={'center'} className={classes.padded}>
+				Transaction in progress...
+			</Grid>
+		);
+	}
+
+	return <Grid container>{pageSwitcher()}</Grid>;
 });
