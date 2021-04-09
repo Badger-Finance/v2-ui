@@ -68,6 +68,10 @@ export class ClawStore {
 
 	fetchSyntheticsData = action(async () => {
 		const { queueNotification } = this.store.uiState;
+
+		// the data will be mocked in the tests
+		if (process.env.NODE_ENV === 'test') return;
+
 		try {
 			this.isLoadingSyntheticData = true;
 			this.syntheticsData = await this._fetchEmps();
@@ -85,7 +89,9 @@ export class ClawStore {
 	fetchSponsorData = action(async () => {
 		const { queueNotification } = this.store.uiState;
 		const { connectedAddress } = this.store.wallet;
-		if (!connectedAddress) return;
+
+		// the data will be mocked in the tests
+		if (!connectedAddress || process.env.NODE_ENV === 'test') return;
 
 		try {
 			this.isLoadingSponsorData = true;
