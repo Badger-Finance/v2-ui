@@ -17,7 +17,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { ExpandMore } from '@material-ui/icons';
 import { SITE_VERSION, NETWORK_LIST, FLAGS } from 'config/constants';
 import NetworkWidget from 'components-v2/common/NetworkWidget';
-import { QueryParams, Route } from 'mobx-router';
+import { Route } from 'mobx-router';
 import { RootStore } from 'mobx/store';
 
 const useStyles = makeStyles((theme) => ({
@@ -148,10 +148,10 @@ export const Sidebar = observer(() => {
 		});
 	};
 
-	const navigate = (path: Route<RootStore, any, {}>) => {
+	const navigate = (path: Route<RootStore, any, any>) => {
 		closeSidebar();
 		return goTo(path);
-	}
+	};
 
 	return (
 		<Drawer
