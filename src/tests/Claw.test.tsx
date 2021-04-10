@@ -197,11 +197,6 @@ const mockTokens = {
 	'0x758A43EE2BFf8230eeb784879CdcFF4828F2544D': getMockBslp(),
 };
 
-const mockPrices = {
-	'0x19D97D8fA813EE2f51aD4B4e04EA08bAf4DFfC28': new BigNumber('0x59d594da1e8964'),
-	'0x758A43EE2BFf8230eeb784879CdcFF4828F2544D': new BigNumber('0x14defd105b0a8483de8a00'),
-};
-
 const mockCollaterals = new Map(
 	Object.entries({
 		'0x19D97D8fA813EE2f51aD4B4e04EA08bAf4DFfC28': 'bBADGER',
