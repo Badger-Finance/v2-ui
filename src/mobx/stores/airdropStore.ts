@@ -69,7 +69,7 @@ class AirdropStore {
 		);
 
 		queueNotification(`Sign the transaction to claim your airdrop`, 'info');
-		if (!gasPrices || gasPrices[gasPrice]) {
+		if (!gasPrices || !gasPrices[gasPrice]) {
 			queueNotification(
 				`Error retrieving gas selection - check the gas selector in the top right corner.`,
 				'error',
