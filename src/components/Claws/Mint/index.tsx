@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Box, Button } from '@material-ui/core';
+import { Grid, Box } from '@material-ui/core';
 import { ethers } from 'ethers';
 import { observer } from 'mobx-react-lite';
 
