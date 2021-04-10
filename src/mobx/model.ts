@@ -543,7 +543,6 @@ export interface Network {
 	getGasPrices: () => Promise<GasPrices>;
 	getNotifyLink: EmitterListener;
 	isWhitelisted: { [index: string]: boolean };
-	isWrapper: { [index: string]: { abi: AbiItem[]; address: string } };
 }
 
 export class BscNetwork implements Network {
@@ -584,12 +583,6 @@ export class BscNetwork implements Network {
 	public readonly isWhitelisted = {
 		[this.deploy.test.vaults['yearn.wrapper']]: true,
 	};
-	public readonly isWrapper = {
-		[this.deploy.test.vaults['yearn.wrapper']]: {
-			address: this.deploy.test.vaults['yearn.vault'],
-			abi: YearnUnderlyingVault.abi as AbiItem[],
-		},
-	};
 }
 
 export class EthNetwork implements Network {
@@ -606,6 +599,7 @@ export class EthNetwork implements Network {
 	public readonly gasEndpoint = 'https://www.gasnow.org/api/v3/gas/price?utm_source=badgerv2';
 	// Deterministic order for displaying setts on the sett list component
 	public readonly settOrder = [
+		this.deploy.sett_system.vaults['yearn.wBtc'],
 		this.deploy.sett_system.vaults['native.digg'],
 		this.deploy.sett_system.vaults['native.badger'],
 		this.deploy.sett_system.vaults['native.sushiDiggWbtc'],
@@ -646,8 +640,9 @@ export class EthNetwork implements Network {
 	public getNotifyLink(transaction: TransactionData): NotifyLink {
 		return { link: `https://etherscan.io/tx/${transaction.hash}` };
 	}
-	public readonly isWhitelisted = {};
-	public readonly isWrapper = {};
+	public readonly isWhitelisted = {
+		[this.deploy.sett_system.vaults['yearn.wBtc']]: true,
+	};
 }
 
 export type UserPermissions = {
