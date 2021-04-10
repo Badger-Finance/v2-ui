@@ -63,46 +63,50 @@ export class ClawStore {
 			}
 		});
 
+		this.fetchSyntheticsData = this.fetchSyntheticsData.bind(this);
+		this.fetchSponsorData = this.fetchSponsorData.bind(this);
+
 		this.fetchSyntheticsData();
 	}
 
-	fetchSyntheticsData = action(async () => {
-		const { queueNotification } = this.store.uiState;
+	fetchSyntheticsData() {
+		return action(async () => {
+			const { queueNotification } = this.store.uiState;
 
-		// the data will be mocked in the tests
-		if (process.env.NODE_ENV === 'test') return;
+			try {
+				this.isLoadingSyntheticData = true;
+				this.syntheticsData = await this._fetchEmps();
+				this.syntheticsDataByEMP = reduceSyntheticsData(this);
+				this.collaterals = reduceCollaterals(this);
+				this.clawsByCollateral = reduceClawByCollateral(this);
+				this.claws = reduceClaws();
+			} catch (error) {
+				queueNotification('There was an error fetching synthetic data', 'error');
+			} finally {
+				this.isLoadingSyntheticData = false;
+			}
+		});
+	}
 
-		try {
-			this.isLoadingSyntheticData = true;
-			this.syntheticsData = await this._fetchEmps();
-			this.syntheticsDataByEMP = reduceSyntheticsData(this);
-			this.collaterals = reduceCollaterals(this);
-			this.clawsByCollateral = reduceClawByCollateral(this);
-			this.claws = reduceClaws();
-		} catch (error) {
-			queueNotification('There was an error fetching synthetic data', 'error');
-		} finally {
-			this.isLoadingSyntheticData = false;
-		}
-	});
+	fetchSponsorData() {
+		return action(async () => {
+			const { queueNotification } = this.store.uiState;
+			const { connectedAddress } = this.store.wallet;
 
-	fetchSponsorData = action(async () => {
-		const { queueNotification } = this.store.uiState;
-		const { connectedAddress } = this.store.wallet;
+			// the data will be mocked in the tests
+			if (!connectedAddress) return;
 
-		// the data will be mocked in the tests
-		if (!connectedAddress || process.env.NODE_ENV === 'test') return;
-
-		try {
-			this.isLoadingSponsorData = true;
-			this.sponsorInformation = await this._getSponsorInformation();
-			this.sponsorInformationByEMP = reduceSponsorData(this);
-		} catch (error) {
-			queueNotification(error?.message || 'There was an error fetching sponsor data', 'error');
-		} finally {
-			this.isLoadingSponsorData = false;
-		}
-	});
+			try {
+				this.isLoadingSponsorData = true;
+				this.sponsorInformation = await this._getSponsorInformation();
+				this.sponsorInformationByEMP = reduceSponsorData(this);
+			} catch (error) {
+				queueNotification(error?.message || 'There was an error fetching sponsor data', 'error');
+			} finally {
+				this.isLoadingSponsorData = false;
+			}
+		});
+	}
 
 	async updateBalances() {
 		const { fetchTokens } = this.store.contracts;

@@ -8,6 +8,10 @@ import { NETWORK_IDS, NETWORK_LIST } from 'config/constants';
 import BigNumber from 'bignumber.js';
 import { Token } from 'mobx/model';
 import * as MintHooks from '../components/Claws/Mint/mint.hooks';
+import ClawStore from '../mobx/stores/claw/clawStore';
+
+jest.spyOn(ClawStore.prototype, 'fetchSyntheticsData');
+jest.spyOn(ClawStore.prototype, 'fetchSponsorData');
 
 const collateralAmountToUse = '100.00';
 const syntheticAmountToUse = '150.00';
