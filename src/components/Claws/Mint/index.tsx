@@ -4,14 +4,17 @@ import { ethers } from 'ethers';
 import { observer } from 'mobx-react-lite';
 
 import { StoreContext } from 'mobx/store-context';
-import { TokenAmountLabel } from 'components-v2/common/TokenAmountLabel';
-import { TokenAmountSelector } from 'components-v2/common/TokenAmountSelector';
+import { TokenSelectorLabel } from 'components-v2/common/TokenSelectorLabel';
+import { TokenSelectorWithAmountContainer } from 'components-v2/common/TokenSelectorWithAmountContainer';
 import { ActionButton } from '../ActionButton';
 import { ClawDetails } from '../ClawDetails';
 import { useMainStyles } from '../index';
 import { useError, useMaxClaw, useMintDetails, useValidateClaw } from './mint.hooks';
 import { mintReducer, State } from './mint.reducer';
 import { scaleToString, Direction } from 'utils/componentHelpers';
+import { TokenSelect } from '../../../components-v2/common/TokenSelect';
+import { TokenAmountInput } from '../../../components-v2/common/TokenAmountInput';
+import { PercentageGroup } from '../../../components-v2/common/PercentageGroup';
 
 const initialState: State = { collateral: {}, synthetic: {} };
 
@@ -46,9 +49,9 @@ export const Mint = observer(() => {
 		<Grid container>
 			<Box clone pb={4}>
 				<Grid item xs={12}>
-					<Box clone pb={1}>
-						<Grid item xs={12}>
-							<TokenAmountLabel
+					<TokenSelectorWithAmountContainer
+						tokenBalanceInformation={
+							<TokenSelectorLabel
 								name="Collateral"
 								balanceLabel={
 									collateralToken && `Available ${collaterals.get(collateralToken.address)}`
@@ -58,41 +61,51 @@ export const Mint = observer(() => {
 									scaleToString(collateralToken.balance, collateralToken.decimals, Direction.Down)
 								}
 							/>
-						</Grid>
-					</Box>
-					<Grid item xs={12}>
-						<TokenAmountSelector
-							placeholder="Select Token"
-							displayAmount={collateral.amount}
-							options={collaterals}
-							selectedOption={collateral.selectedOption}
-							disabledOptions={!wallet.connectedAddress || collaterals.size === 0}
-							disabledAmount={!collateral.selectedOption}
-							onOptionChange={(selectedOption: string) => {
-								dispatch({ type: 'COLLATERAL_OPTION_CHANGE', payload: selectedOption });
-							}}
-							onAmountChange={(amount: string) => {
-								if (!collateralToken) return;
-								dispatch({
-									type: 'COLLATERAL_AMOUNT_CHANGE',
-									payload: { amount, collateralToken },
-								});
-							}}
-							onApplyPercentage={(percentage: number) => {
-								if (!collateralToken) return;
-								dispatch({
-									type: 'COLLATERAL_PERCENTAGE_CHANGE',
-									payload: { percentage, collateralToken },
-								});
-							}}
-						/>
-					</Grid>
+						}
+						tokenList={
+							<TokenSelect
+								selectedOption={collateral.selectedOption}
+								options={collaterals}
+								placeholder="Select Token"
+								disabled={!wallet.connectedAddress || collaterals.size === 0}
+								onChange={(selectedOption: string) => {
+									dispatch({ type: 'COLLATERAL_OPTION_CHANGE', payload: selectedOption });
+								}}
+							/>
+						}
+						tokenAmount={
+							<TokenAmountInput
+								value={collateral.amount}
+								disabled={!collateral.selectedOption}
+								onChange={(amount: string) => {
+									if (!collateralToken) return;
+									dispatch({
+										type: 'COLLATERAL_AMOUNT_CHANGE',
+										payload: { amount, collateralToken },
+									});
+								}}
+							/>
+						}
+						percentagesGroup={
+							<PercentageGroup
+								disabled={!collateral.selectedOption}
+								options={[25, 50, 75, 100]}
+								onChange={(percentage: number) => {
+									if (!collateralToken) return;
+									dispatch({
+										type: 'COLLATERAL_PERCENTAGE_CHANGE',
+										payload: { percentage, collateralToken },
+									});
+								}}
+							/>
+						}
+					/>
 				</Grid>
 			</Box>
 			<Grid item xs={12}>
-				<Box clone pb={1}>
-					<Grid item xs={12}>
-						<TokenAmountLabel
+				<TokenSelectorWithAmountContainer
+					tokenBalanceInformation={
+						<TokenSelectorLabel
 							name="Mintable"
 							balanceLabel={maxClaw ? 'Maximum CLAW:' : ''}
 							balance={
@@ -101,44 +114,54 @@ export const Mint = observer(() => {
 								scaleToString(maxClaw, collateralToken.decimals, Direction.Down)
 							}
 						/>
-					</Grid>
-				</Box>
-				<Grid item xs={12}>
-					<TokenAmountSelector
-						placeholder="Select CLAW"
-						displayAmount={synthetic.amount}
-						options={
-							collateral.selectedOption ? clawsByCollateral.get(collateral.selectedOption) : new Map()
-						}
-						selectedOption={synthetic.selectedOption}
-						disabledOptions={!collateral.selectedOption || !collateral.amount}
-						disabledAmount={!collateral.selectedOption || !synthetic.selectedOption}
-						onOptionChange={(selectedOption: string) =>
-							dispatch({ type: 'SYNTHETIC_OPTION_CHANGE', payload: selectedOption })
-						}
-						onAmountChange={(amount: string) => {
-							if (!collateralToken || !synthetic) return;
-							dispatch({
-								type: 'SYNTHETIC_AMOUNT_CHANGE',
-								payload: { amount, collateralToken, synthetic },
-							});
-						}}
-						onApplyPercentage={(percentage: number) => {
-							const syntheticData = syntheticsDataByEMP.get(synthetic.selectedOption || '');
-							if (!syntheticData || !maxClaw || !collateralToken) return;
-							dispatch({
-								type: 'SYNTHETIC_PERCENTAGE_CHANGE',
-								payload: {
-									percentage,
-									maxClaw,
-									syntheticData,
-									collateralToken,
-									validateClaw,
-								},
-							});
-						}}
-					/>
-				</Grid>
+					}
+					tokenList={
+						<TokenSelect
+							placeholder="Select CLAW"
+							selectedOption={synthetic.selectedOption}
+							options={
+								collateral.selectedOption ? clawsByCollateral.get(collateral.selectedOption) : undefined
+							}
+							disabled={!collateral.selectedOption || !collateral.amount}
+							onChange={(selectedOption: string) =>
+								dispatch({ type: 'SYNTHETIC_OPTION_CHANGE', payload: selectedOption })
+							}
+						/>
+					}
+					tokenAmount={
+						<TokenAmountInput
+							value={synthetic.amount}
+							disabled={!collateral.selectedOption || !synthetic.selectedOption}
+							onChange={(amount: string) => {
+								if (!collateralToken || !synthetic) return;
+								dispatch({
+									type: 'SYNTHETIC_AMOUNT_CHANGE',
+									payload: { amount, collateralToken, synthetic },
+								});
+							}}
+						/>
+					}
+					percentagesGroup={
+						<PercentageGroup
+							disabled={!collateral.selectedOption || !synthetic.selectedOption}
+							options={[25, 50, 75, 100]}
+							onChange={(percentage: number) => {
+								const syntheticData = syntheticsDataByEMP.get(synthetic.selectedOption || '');
+								if (!syntheticData || !maxClaw || !collateralToken) return;
+								dispatch({
+									type: 'SYNTHETIC_PERCENTAGE_CHANGE',
+									payload: {
+										percentage,
+										maxClaw,
+										syntheticData,
+										collateralToken,
+										validateClaw,
+									},
+								});
+							}}
+						/>
+					}
+				/>
 			</Grid>
 			<Grid item xs={12}>
 				<Grid container className={classes.details}>

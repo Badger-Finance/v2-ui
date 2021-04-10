@@ -1,18 +1,21 @@
 import React from 'react';
 import { ethers } from 'ethers';
 import { observer } from 'mobx-react-lite';
-import { Box, Button, Container, Grid, MenuItem, Select } from '@material-ui/core';
+import { Box, Container, Grid, MenuItem, Select } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { StoreContext } from 'mobx/store-context';
 
-import { TokenAmountLabel } from 'components-v2/common/TokenAmountLabel';
-import { TokenAmountSelector } from 'components-v2/common/TokenAmountSelector';
+import { TokenSelectorLabel } from 'components-v2/common/TokenSelectorLabel';
+import { TokenSelectorWithAmountContainer } from 'components-v2/common/TokenSelectorWithAmountContainer';
 import { ActionButton } from '../ActionButton';
 import { ClawDetails } from '../ClawDetails';
 import { scaleToString, Direction, validateAmountBoundaries } from 'utils/componentHelpers';
 import { useDetails, useError } from './manage.hooks';
 import { useMainStyles } from '..';
 import { ClawParam } from '../claw-param.model';
+import { TokenSelect } from '../../../components-v2/common/TokenSelect';
+import { TokenAmountInput } from '../../../components-v2/common/TokenAmountInput';
+import { PercentageGroup } from '../../../components-v2/common/PercentageGroup';
 
 enum Mode {
 	DEPOSIT = 'deposit',
@@ -89,46 +92,58 @@ const Manage = observer(() => {
 				</Grid>
 			</Box>
 			<Grid item xs={12}>
-				<Box clone pb={1}>
-					<Grid item xs={12}>
-						<TokenAmountLabel
-							name="Token"
-							balanceLabel={balanceLabel}
-							balance={selectedOption && scaleToString(balance, decimals, Direction.Down)}
-						/>
-					</Grid>
-				</Box>
 				<Grid item xs={12}>
-					<TokenAmountSelector
-						placeholder="Select Token"
-						options={claws}
-						displayAmount={amount}
-						selectedOption={selectedOption}
-						disabledOptions={!wallet.connectedAddress || claws.size === 0}
-						disabledAmount={!selectedOption || !wallet.connectedAddress}
-						onAmountChange={(amount: string) => {
-							if (!balance) return;
-							setManageParams({
-								selectedOption,
-								amount,
-								error: validateAmountBoundaries({
-									amount,
-									maximum: balance,
-								}),
-							});
-						}}
-						onApplyPercentage={(percentage: number) => {
-							if (!balance) return;
-							setManageParams({
-								selectedOption,
-								amount: balance
-									.multipliedBy(percentage / 100)
-									.dividedBy(10 ** decimals)
-									.toFixed(decimals, BigNumber.ROUND_DOWN),
-								error: undefined,
-							});
-						}}
-						onOptionChange={(selectedOption: string) => setManageParams({ selectedOption })}
+					<TokenSelectorWithAmountContainer
+						tokenBalanceInformation={
+							<TokenSelectorLabel
+								name="Token"
+								balanceLabel={balanceLabel}
+								balance={selectedOption && scaleToString(balance, decimals, Direction.Down)}
+							/>
+						}
+						tokenList={
+							<TokenSelect
+								selectedOption={selectedOption}
+								options={claws}
+								placeholder="Select Token"
+								disabled={!wallet.connectedAddress || claws.size === 0}
+								onChange={(selectedOption: string) => setManageParams({ selectedOption })}
+							/>
+						}
+						tokenAmount={
+							<TokenAmountInput
+								value={amount}
+								disabled={!selectedOption || !wallet.connectedAddress}
+								onChange={(amount: string) => {
+									if (!balance) return;
+									setManageParams({
+										selectedOption,
+										amount,
+										error: validateAmountBoundaries({
+											amount,
+											maximum: balance,
+										}),
+									});
+								}}
+							/>
+						}
+						percentagesGroup={
+							<PercentageGroup
+								disabled={!selectedOption || !wallet.connectedAddress}
+								options={[25, 50, 75, 100]}
+								onChange={(percentage: number) => {
+									if (!balance) return;
+									setManageParams({
+										selectedOption,
+										amount: balance
+											.multipliedBy(percentage / 100)
+											.dividedBy(10 ** decimals)
+											.toFixed(decimals, BigNumber.ROUND_DOWN),
+										error: undefined,
+									});
+								}}
+							/>
+						}
 					/>
 				</Grid>
 				<Grid item xs={12}>

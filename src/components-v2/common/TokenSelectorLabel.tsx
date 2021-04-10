@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export const TokenAmountLabel: FC<Props> = ({ name, balanceLabel = '', balance = '' }) => {
+export const TokenSelectorLabel: FC<Props> = ({ name, balanceLabel = '', balance = '' }) => {
 	const classes = useStyles();
 
 	return (
@@ -46,5 +46,3 @@ export const TokenAmountLabel: FC<Props> = ({ name, balanceLabel = '', balance =
 		</Grid>
 	);
 };
-
-export default TokenAmountLabel;

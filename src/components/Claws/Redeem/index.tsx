@@ -3,9 +3,10 @@ import { Box, Grid, InputBase, makeStyles, Typography } from '@material-ui/core'
 import { StoreContext } from 'mobx/store-context';
 import BigNumber from 'bignumber.js';
 import { ethers } from 'ethers';
+import dayjs from 'dayjs';
 
-import { TokenAmountLabel } from 'components-v2/common/TokenAmountLabel';
-import { TokenAmountSelector } from 'components-v2/common/TokenAmountSelector';
+import { TokenSelectorLabel } from 'components-v2/common/TokenSelectorLabel';
+import { TokenSelectorWithAmountContainer } from 'components-v2/common/TokenSelectorWithAmountContainer';
 import { ClawDetails } from '../ClawDetails';
 import { ActionButton } from '../ActionButton';
 import { scaleToString, Direction } from 'utils/componentHelpers';
@@ -13,7 +14,9 @@ import { validateAmountBoundaries } from 'utils/componentHelpers';
 import { useMainStyles } from '../index';
 import { useAmountToReceive, useDetails, useError } from './redeem.hooks';
 import { ClawParam } from '../claw-param.model';
-import dayjs from 'dayjs';
+import { TokenSelect } from '../../../components-v2/common/TokenSelect';
+import { TokenAmountInput } from '../../../components-v2/common/TokenAmountInput';
+import { PercentageGroup } from '../../../components-v2/common/PercentageGroup';
 
 const useStyles = makeStyles((theme) => ({
 	border: {
@@ -75,48 +78,60 @@ const Redeem = () => {
 		<Grid container>
 			<Box clone pb={2}>
 				<Grid item xs={12}>
-					<Box clone pb={1}>
-						<Grid item xs={12}>
-							<TokenAmountLabel
+					<TokenSelectorWithAmountContainer
+						tokenBalanceInformation={
+							<TokenSelectorLabel
 								name="Token"
 								balanceLabel={selectedOption && `Available ${claws.get(selectedOption)}:`}
 								balance={selectedOption && scaleToString(clawBalance, decimals, Direction.Down)}
 							/>
-						</Grid>
-					</Box>
-					<TokenAmountSelector
-						placeholder="Select Token"
-						options={claws}
-						selectedOption={selectedOption}
-						displayAmount={amount}
-						disabledOptions={!wallet.connectedAddress || claws.size === 0}
-						disabledAmount={!selectedOption || !wallet.connectedAddress}
-						onAmountChange={(amount: string) => {
-							if (!clawBalance || !bToken) return;
-							setRedeemParams({
-								selectedOption,
-								amount,
-								error: validateAmountBoundaries({ amount, maximum: clawBalance }),
-							});
-						}}
-						onOptionChange={(selectedOption: string) => {
-							setRedeemParams({
-								selectedOption,
-								amount: undefined,
-								error: undefined,
-							});
-						}}
-						onApplyPercentage={(percentage) => {
-							if (!clawBalance || !bToken) return;
-							setRedeemParams({
-								selectedOption,
-								amount: clawBalance
-									.multipliedBy(percentage / 100)
-									.dividedBy(10 ** decimals)
-									.toFixed(0, BigNumber.ROUND_DOWN),
-								error: undefined,
-							});
-						}}
+						}
+						tokenList={
+							<TokenSelect
+								placeholder="Select Token"
+								selectedOption={selectedOption}
+								options={claws}
+								disabled={!wallet.connectedAddress || claws.size === 0}
+								onChange={(selectedOption: string) => {
+									setRedeemParams({
+										selectedOption,
+										amount: undefined,
+										error: undefined,
+									});
+								}}
+							/>
+						}
+						tokenAmount={
+							<TokenAmountInput
+								value={amount}
+								disabled={!selectedOption || !wallet.connectedAddress}
+								onChange={(amount: string) => {
+									if (!clawBalance || !bToken) return;
+									setRedeemParams({
+										selectedOption,
+										amount,
+										error: validateAmountBoundaries({ amount, maximum: clawBalance }),
+									});
+								}}
+							/>
+						}
+						percentagesGroup={
+							<PercentageGroup
+								disabled={!selectedOption || !wallet.connectedAddress}
+								options={[25, 50, 75, 100]}
+								onChange={(percentage: number) => {
+									if (!clawBalance || !bToken) return;
+									setRedeemParams({
+										selectedOption,
+										amount: clawBalance
+											.multipliedBy(percentage / 100)
+											.dividedBy(10 ** decimals)
+											.toFixed(0, BigNumber.ROUND_DOWN),
+										error: undefined,
+									});
+								}}
+							/>
+						}
 					/>
 				</Grid>
 			</Box>
@@ -125,7 +140,7 @@ const Redeem = () => {
 					<Grid item xs={12} sm={8} className={classes.centered}>
 						<Box clone pb={1}>
 							<Grid item xs={12}>
-								<TokenAmountLabel name="You Receive" />
+								<TokenSelectorLabel name="You Receive" />
 							</Grid>
 						</Box>
 						<Box clone py={1} px={2}>
