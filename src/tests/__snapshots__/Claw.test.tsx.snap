@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Claw Page Renders correctly without connected address 1`] = `
+exports[`Claw Page matches snapshot 1`] = `
 <div>
   <div
     class="MuiContainer-root-7 makeStyles-root-1 MuiContainer-maxWidthLg-13"
@@ -92,7 +92,7 @@ exports[`Claw Page Renders correctly without connected address 1`] = `
               <span
                 class="MuiButton-label-218"
               >
-                0xC2620...0102e55
+                0x1a1a1...a1a1a1a
                 <span
                   class="MuiButton-endIcon-242 MuiButton-iconSizeMedium-244"
                 >
@@ -248,7 +248,6 @@ exports[`Claw Page Renders correctly without connected address 1`] = `
                           >
                             <div
                               class="MuiInputBase-root-178 MuiInputBase-formControl-179"
-                              data-testid="token-selector-options-list"
                             >
                               <div
                                 aria-haspopup="listbox"
@@ -261,6 +260,7 @@ exports[`Claw Page Renders correctly without connected address 1`] = `
                               <input
                                 aria-hidden="true"
                                 class="MuiSelect-nativeInput-162"
+                                placeholder="0.00"
                                 tabindex="-1"
                                 value=""
                               />
@@ -286,7 +286,6 @@ exports[`Claw Page Renders correctly without connected address 1`] = `
                             <input
                               class="MuiInputBase-input-189 MuiInputBase-disabled-181"
                               disabled=""
-                              name="token-selector-amount"
                               pattern="^[0-9]*[.,]?[0-9]*$"
                               placeholder="0.00"
                               type="tel"
@@ -305,7 +304,6 @@ exports[`Claw Page Renders correctly without connected address 1`] = `
                         <div
                           aria-label="text button group"
                           class="MuiButtonGroup-root-319"
-                          data-testid="token-selector-percentages"
                           role="group"
                         >
                           <button
@@ -428,7 +426,6 @@ exports[`Claw Page Renders correctly without connected address 1`] = `
                           >
                             <div
                               class="MuiInputBase-root-178 MuiInputBase-disabled-181 MuiInputBase-formControl-179"
-                              data-testid="token-selector-options-list"
                             >
                               <div
                                 aria-disabled="true"
@@ -441,6 +438,7 @@ exports[`Claw Page Renders correctly without connected address 1`] = `
                               <input
                                 aria-hidden="true"
                                 class="MuiSelect-nativeInput-162"
+                                placeholder="0.00"
                                 tabindex="-1"
                                 value=""
                               />
@@ -466,7 +464,6 @@ exports[`Claw Page Renders correctly without connected address 1`] = `
                             <input
                               class="MuiInputBase-input-189 MuiInputBase-disabled-181"
                               disabled=""
-                              name="token-selector-amount"
                               pattern="^[0-9]*[.,]?[0-9]*$"
                               placeholder="0.00"
                               type="tel"
@@ -485,7 +482,6 @@ exports[`Claw Page Renders correctly without connected address 1`] = `
                         <div
                           aria-label="text button group"
                           class="MuiButtonGroup-root-319"
-                          data-testid="token-selector-percentages"
                           role="group"
                         >
                           <button

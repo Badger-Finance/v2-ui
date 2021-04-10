@@ -1,22 +1,18 @@
 import React from 'react';
-import Web3 from 'web3';
 import { customRender, fireEvent, screen, within } from './Utils';
 import '@testing-library/jest-dom';
 import { StoreProvider } from '../mobx/store-context';
 import store, { RootStore } from '../mobx/store';
 import { Claw } from '../components/Claws/';
 import { NETWORK_IDS, NETWORK_LIST } from 'config/constants';
-import { Direction, scaleToString } from 'utils/componentHelpers';
 import BigNumber from 'bignumber.js';
 import { Token } from 'mobx/model';
 import * as MintHooks from '../components/Claws/Mint/mint.hooks';
 
-// custom RPC server with a mainnet fork that where we have the contracts deployed
-// const clawRpcProvider = new Web3.providers.HttpProvider('http://18.230.192.200:8545');
-// const collateralAmountToUse = '100.00';
-// const syntheticAmountToUse = '150.00';
+const collateralAmountToUse = '100.00';
+const syntheticAmountToUse = '150.00';
 
-function mockUseMaxClaw(value = '123000000000000000000') {
+function mockUseMaxClaw(value = '200000000000000000000') {
 	jest.spyOn(MintHooks, 'useMaxClaw').mockReturnValue(new BigNumber(value));
 }
 
@@ -24,26 +20,24 @@ describe('Claw Page', () => {
 	const testingStore = store;
 
 	beforeAll(() => {
-		// testingStore.wallet.provider = clawRpcProvider;
-		// testingStore.wallet.connectedAddress = '0xC26202cd0428276cC69017Df01137161f0102e55';
-		// testingStore.wallet.network.name = NETWORK_LIST.ETH;
-		// testingStore.wallet.network.networkId = NETWORK_IDS.ETH;
+		testingStore.wallet.connectedAddress = '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a';
+		testingStore.wallet.network.name = NETWORK_LIST.ETH;
+		testingStore.wallet.network.networkId = NETWORK_IDS.ETH;
 		testingStore.contracts.tokens = mockTokens;
 		testingStore.claw.collaterals = mockCollaterals;
 		testingStore.claw.syntheticsData = mockSyntheticData;
 		testingStore.claw.syntheticsDataByEMP = mockSyntheticDataByEmp;
 		testingStore.claw.clawsByCollateral = mockClawsByCollaterals;
-		// testingStore.setts.setPrices(mockPrices);
 	});
 
-	// it('matches snapshot', () => {
-	// 	const { container } = customRender(
-	// 		<StoreProvider value={testingStore}>
-	// 			<Claw />
-	// 		</StoreProvider>,
-	// 	);
-	// 	expect(container).toMatchSnapshot();
-	// });
+	it('matches snapshot', () => {
+		const { container } = customRender(
+			<StoreProvider value={testingStore}>
+				<Claw />
+			</StoreProvider>,
+		);
+		expect(container).toMatchSnapshot();
+	});
 
 	describe('Collateral inputs work fine', () => {
 		beforeEach(() => renderClawPageWithStore(testingStore));
@@ -67,24 +61,22 @@ describe('Claw Page', () => {
 		describe('Interaction works fine', () => {
 			// Select a collateral token
 			beforeEach(() => {
-				const collateralToken = getCollateralToken(testingStore);
 				const collateralTokenSelector = screen.getByRole('button', { name: 'Select Token' });
 
 				// Click the collateral options list
 				fireEvent.mouseDown(collateralTokenSelector);
 				const collateralsListBox = within(screen.getByRole('listbox'));
 				// Select the collateral token from the list
-				fireEvent.click(collateralsListBox.getByText(collateralToken.name));
+				fireEvent.click(collateralsListBox.getByText('bBADGER'));
 			});
 
 			it('selects collateral', () => {
-				const collateralToken = getCollateralToken(testingStore);
 				const [collateralAmountInput] = screen.getAllByRole('textbox');
 
 				// The button with the collateral token name should appear
 				expect(
 					screen.getByRole('button', {
-						name: collateralToken.name,
+						name: 'bBADGER',
 					}),
 				).toBeInTheDocument();
 
@@ -93,9 +85,7 @@ describe('Claw Page', () => {
 			});
 
 			it('displays balance', () => {
-				const collateralToken = getCollateralToken(testingStore);
-				const tokenBalance = scaleToString(collateralToken.balance, collateralToken.decimals, Direction.Down);
-				expect(screen.getByText(tokenBalance)).toBeInTheDocument();
+				expect(screen.getByText('522.378430153821121982')).toBeInTheDocument();
 			});
 
 			it('changes amount', () => {
@@ -107,19 +97,13 @@ describe('Claw Page', () => {
 			});
 
 			it('applies percentage', () => {
-				const collateralToken = getCollateralToken(testingStore);
-				const fiftyPercentTokenBalance = collateralToken.balance
-					.multipliedBy(50 / 100)
-					.dividedBy(10 ** collateralToken.decimals)
-					.toFixed(collateralToken.decimals, BigNumber.ROUND_DOWN);
-
 				const [fiftyPercentCollateralButton] = screen.getAllByRole('button', {
 					name: '50%',
 				});
 
 				expect(fiftyPercentCollateralButton).toBeEnabled();
 				fireEvent.click(fiftyPercentCollateralButton);
-				expect(screen.getByDisplayValue(fiftyPercentTokenBalance)).toBeInTheDocument();
+				expect(screen.getByDisplayValue('261.189215076910560991')).toBeInTheDocument();
 			});
 		});
 	});
@@ -144,7 +128,6 @@ describe('Claw Page', () => {
 
 		describe('Interaction with collateral inputs work fine', () => {
 			beforeEach(() => {
-				const collateralToken = getCollateralToken(testingStore);
 				const collateralTokenSelector = screen.getByRole('button', { name: 'Select Token' });
 				const [collateralAmountInput] = screen.getAllByRole('textbox');
 
@@ -152,7 +135,7 @@ describe('Claw Page', () => {
 				fireEvent.mouseDown(collateralTokenSelector);
 				const collateralsListBox = within(screen.getByRole('listbox'));
 				// Select the collateral token from the list
-				fireEvent.click(collateralsListBox.getByText(collateralToken.name));
+				fireEvent.click(collateralsListBox.getByText('bBADGER'));
 				fireEvent.change(collateralAmountInput, { target: { value: '100' } });
 			});
 
@@ -162,24 +145,22 @@ describe('Claw Page', () => {
 
 			describe('Inputs interactions work fine', () => {
 				beforeEach(() => {
-					const synthetic = getSynthetic(testingStore);
 					const syntheticSelector = screen.getByRole('button', { name: 'Select CLAW' });
 
 					// Click the collateral options list
 					fireEvent.mouseDown(syntheticSelector);
 					const collateralsListBox = within(screen.getByRole('listbox'));
 					// Select the synthetic from the list
-					fireEvent.click(collateralsListBox.getByText(synthetic.name));
+					fireEvent.click(collateralsListBox.getByText('USD/bBadger 5-29'));
 				});
 
 				it('selects synthetic', () => {
-					const synthetic = getSynthetic(testingStore);
 					const [, syntheticAmountInput] = screen.getAllByRole('textbox');
 
 					// The button with the collateral token name should appear
 					expect(
 						screen.getByRole('button', {
-							name: synthetic.name,
+							name: 'USD/bBadger 5-29',
 						}),
 					).toBeInTheDocument();
 
@@ -188,7 +169,7 @@ describe('Claw Page', () => {
 				});
 
 				it('displays correct max eCLAW', () => {
-					expect(screen.getByText('123')).toBeInTheDocument();
+					expect(screen.getByText('200')).toBeInTheDocument();
 				});
 
 				it('changes amount', () => {
@@ -198,13 +179,13 @@ describe('Claw Page', () => {
 					expect(screen.getByDisplayValue(syntheticAmountToUse)).toBeInTheDocument();
 				});
 
-				it('Applies percentage', () => {
+				it('applies percentage', () => {
 					const [, fiftyPercentSyntheticButton] = screen.getAllByRole('button', {
 						name: '50%',
 					});
 					expect(fiftyPercentSyntheticButton).toBeEnabled();
 					fireEvent.click(fiftyPercentSyntheticButton);
-					expect(screen.getByDisplayValue('61.500000000000000000')).toBeInTheDocument();
+					expect(screen.getByDisplayValue('100')).toBeInTheDocument();
 				});
 			});
 		});
