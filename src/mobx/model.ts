@@ -576,7 +576,7 @@ export class BscNetwork implements Network {
 		},
 	];
 	public async getGasPrices(): Promise<GasPrices> {
-		return { standard: 10 };
+		return { standard: 5 };
 	}
 	public getNotifyLink(transaction: TransactionData): NotifyLink {
 		return { link: `https://bscscan.com//tx/${transaction.hash}` };
