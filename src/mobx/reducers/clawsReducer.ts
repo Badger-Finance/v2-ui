@@ -1,5 +1,4 @@
 import BigNumber from 'bignumber.js';
-import { invert as _invert, valuesIn as _valuesIn } from 'lodash';
 import { ClawStore } from 'mobx/stores/claw/clawStore';
 import { getTokens } from 'config/system/tokens';
 import deploy from 'config/deployments/mainnet.json';
@@ -7,11 +6,11 @@ import { SponsorData, SyntheticData } from 'mobx/model';
 import { NETWORK_LIST } from 'config/constants';
 
 const TOKENS = getTokens(NETWORK_LIST.ETH);
-export const EMPS_ADDRESSES = _valuesIn(deploy.claw_system.emps);
+export const EMPS_ADDRESSES = Object.values(deploy.claw_system.emps);
 
 // [EMP_ADDRESS: string] => [EMP_NAME: string]
 export function reduceClaws(): Map<string, string> {
-	const EMPS_BY_ADDRESS = _invert(deploy.claw_system.emps);
+	const EMPS_BY_ADDRESS = invert(deploy.claw_system.emps);
 	return new Map(Object.entries(EMPS_BY_ADDRESS));
 }
 
@@ -138,4 +137,14 @@ function parsePositionHexToBigNumber(data: SponsorData['position']): SponsorData
 		withdrawalRequestAmount: new BigNumber((withdrawalRequestAmount as any).hex),
 		rawCollateral: new BigNumber((rawCollateral as any).hex),
 	};
+}
+
+function invert(json: Record<string, any>) {
+	const ret: Record<string, any> = {};
+	for (const key in json) {
+		// disable reason: https://stackoverflow.com/questions/25723674/javascript-possible-iteration-over-unexpected
+		// noinspection JSUnfilteredForInLoop
+		ret[json[key]] = key;
+	}
+	return ret;
 }
