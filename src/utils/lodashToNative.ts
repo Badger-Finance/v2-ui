@@ -9,18 +9,18 @@ export function keyBy(collection: Array<any> | Record<string, any>, key: string)
 	else return arrayKeyBy(Object.values(collection), key);
 }
 
-export function forIn<T>(obj: Record<string, T>, fun: (val: T) => void) {
+export function forIn<T>(obj: Record<string, T>, fun: (val: T) => void): void {
 	Object.entries(obj || {}).forEach((prop) => {
-		const [_, val] = prop as [string, T];
+		const [_, val] = prop as [string, T]; // eslint-disable-line @typescript-eslint/no-unused-vars
 		fun(val);
 	});
 }
 
-export function compact(arr: Array<any>) {
+export function compact(arr: Array<any>): Array<any> {
 	return arr.filter(Boolean);
 }
 
-export function flatten(arr: Array<any>) {
+export function flatten(arr: Array<any>): Array<any> {
 	return arr.flat();
 }
 
@@ -149,6 +149,7 @@ export function zipObject(props: Array<string>, values: Array<any>): Record<stri
 	return result;
 }
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function isString(value: any): value is string {
 	return typeof value === 'string';
 }

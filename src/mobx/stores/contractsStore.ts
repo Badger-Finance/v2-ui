@@ -10,7 +10,7 @@ import {
 	reduceGrowth,
 	reduceGrowthQueryConfig,
 } from '../reducers/contractReducers';
-import { Vault, Geyser, Token, GeyserPayload } from '../model';
+import { Vault, Geyser, Token, GeyserPayload, TokenPayload } from '../model';
 import { vanillaQuery } from 'mobx/utils/helpers';
 import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
@@ -187,7 +187,7 @@ class ContractsStore {
 						vault.update(
 							defaultsDeep(contract, defaults[contract.address], {
 								growth: compact([vault.growth, growth]),
-							}),
+							}) as TokenPayload,
 						);
 						// update vaultBalance if given
 						vault.vaultBalance = isNaN(parseFloat(result[i].balance))
