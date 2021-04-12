@@ -63,9 +63,6 @@ export class ClawStore {
 			}
 		});
 
-		this.fetchSyntheticsData = this.fetchSyntheticsData.bind(this);
-		this.fetchSponsorData = this.fetchSponsorData.bind(this);
-
 		this.fetchSyntheticsData();
 	}
 
@@ -85,7 +82,7 @@ export class ClawStore {
 			} finally {
 				this.isLoadingSyntheticData = false;
 			}
-		});
+		})();
 	}
 
 	fetchSponsorData() {
@@ -105,7 +102,7 @@ export class ClawStore {
 			} finally {
 				this.isLoadingSponsorData = false;
 			}
-		});
+		})();
 	}
 
 	async updateBalances() {
