@@ -17,7 +17,6 @@ import { NETWORK_IDS, NETWORK_LIST } from 'config/constants';
 import { getRewards } from 'config/system/rewards';
 import { ZERO, TEN } from 'config/constants';
 import { CustomNotificationObject, EmitterListener, TransactionData } from 'bnc-notify';
-import YearnUnderlyingVault from 'config/system/abis/YearnUnderlyingVault.json';
 
 export class Contract {
 	store!: RootStore;

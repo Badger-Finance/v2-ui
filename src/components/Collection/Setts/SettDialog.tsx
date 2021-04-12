@@ -3,9 +3,10 @@ import { VaultDeposit, VaultWithdraw, GeyserUnstake, GeyserStake } from 'compone
 import { VaultSymbol } from 'components/Common/VaultSymbol';
 import { Dialog, DialogTitle, Tab, Tabs, Switch, Typography, makeStyles } from '@material-ui/core';
 import deploy from '../../../config/deployments/mainnet.json';
-import BigNumber from 'bignumber.js';
 import { StoreContext } from '../../../mobx/store-context';
+import SettAbi from 'config/system/abis/SushiSett.json';
 import { NETWORK_LIST } from '../../../config/constants';
+import { Sett, Token, Vault } from 'mobx/model';
 
 const useStyles = makeStyles((theme) => ({
 	title: {
@@ -16,10 +17,14 @@ const useStyles = makeStyles((theme) => ({
 export interface SettDialogProps {
 	dialogProps: {
 		open: boolean;
-		vault: any;
-		sett: any;
+		vault: Vault;
+		sett: Sett;
 	};
 	onClose: () => void;
+}
+
+interface DialogTabProps {
+	sett: Sett;
 }
 
 const SettDialog = (props: SettDialogProps): JSX.Element => {
@@ -30,6 +35,7 @@ const SettDialog = (props: SettDialogProps): JSX.Element => {
 	let { vault } = dialogProps;
 	const store = useContext(StoreContext);
 	const { network } = store.wallet;
+	const { contracts } = store;
 	const classes = useStyles();
 
 	useEffect(() => {
@@ -44,33 +50,37 @@ const SettDialog = (props: SettDialogProps): JSX.Element => {
 	 * TODO: Revist the general structure of downstream data consumption
 	 * This structure is a bit recursive
 	 */
+
 	if (!vault) {
 		// user wallet not connected - populate zero data
-		const decimals = sett.asset == 'digg' ? 9 : 18;
-		vault = {
-			underlyingToken: {
-				balance: new BigNumber(0),
-				decimals: decimals, // decimals do not matter - dividend is 0
-			},
-			geyser: {
-				balance: new BigNumber(0),
-				decimals: decimals, // decimals do not matter - dividend is 0
-				vault: {
-					balance: new BigNumber(0),
-					decimals: decimals, // decimals do not matter - dividend is 0
-					pricePerShare: 1,
-					underlyingToken: {
-						balance: new BigNumber(0),
-						decimals: decimals, // decimals do not matter - dividend is 0
-					},
-				},
-			},
-			balance: new BigNumber(0),
-			decimals: decimals,
-		};
+		vault = contracts.getOrCreateVault('', new Token(store, '', 18), SettAbi.abi);
 	}
 
-	const diggSett = deploy.sett_system.vaults['native.digg'];
+	const DialogTabs = (props: DialogTabProps): JSX.Element => {
+		const { sett } = props;
+
+		// ETH still has staking - below is a list of setts that do not
+		// require it but are on ETH.  We do not want to show the Stake
+		// or Unstake tabs.
+		const noStake: { [sett: string]: boolean } = {
+			[deploy.sett_system.vaults['native.digg']]: true,
+			[deploy.sett_system.vaults['yearn.wBtc']]: true,
+		};
+		return (
+			<Tabs
+				variant="fullWidth"
+				indicatorColor="primary"
+				value={dialogMode}
+				style={{ background: 'rgba(0,0,0,.2)', marginBottom: '1rem' }}
+			>
+				<Tab onClick={() => setDialogMode(0)} label={dialogOut ? 'Withdraw' : 'Deposit'}></Tab>
+				{!noStake[sett.vaultToken] && network.name === NETWORK_LIST.ETH && (
+					<Tab onClick={() => setDialogMode(1)} label={dialogOut ? 'Unstake' : 'Stake'}></Tab>
+				)}
+			</Tabs>
+		);
+	};
+
 	let form = <VaultDeposit vault={vault} />;
 	// TODO: DialogMode should take integer indexes, may be worth enumerating - maybe not
 	if (dialogMode === 0 && dialogOut) form = <VaultWithdraw vault={vault} />;
@@ -98,17 +108,7 @@ const SettDialog = (props: SettDialogProps): JSX.Element => {
 					{sett.asset}
 				</Typography>
 			</DialogTitle>
-			<Tabs
-				variant="fullWidth"
-				indicatorColor="primary"
-				value={dialogMode}
-				style={{ background: 'rgba(0,0,0,.2)', marginBottom: '1rem' }}
-			>
-				<Tab onClick={() => setDialogMode(0)} label={dialogOut ? 'Withdraw' : 'Deposit'}></Tab>
-				{sett.vaultToken !== diggSett && network.name === NETWORK_LIST.ETH && (
-					<Tab onClick={() => setDialogMode(1)} label={dialogOut ? 'Unstake' : 'Stake'}></Tab>
-				)}
-			</Tabs>
+			<DialogTabs sett={sett} />
 			{form}
 		</Dialog>
 	);

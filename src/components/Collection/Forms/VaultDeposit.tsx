@@ -8,6 +8,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Loader } from 'components/Loader';
 import { BigNumber } from 'bignumber.js';
 import { useForm } from 'react-hook-form';
+import { SettAvailableDeposit } from '../Setts/SettAvailableDeposit';
+import { SettMap } from 'mobx/model';
 
 const TEXTFIELD_ID = 'amountField';
 
@@ -27,6 +29,7 @@ export const VaultDeposit = observer((props: any) => {
 
 	const {
 		wallet: { connectedAddress },
+		setts: { settMap },
 	} = store;
 
 	const percentageOfBalance = (percent: number) => {
@@ -55,7 +58,20 @@ export const VaultDeposit = observer((props: any) => {
 		return <Loader />;
 	}
 
-	const canDeposit = !!watch().amount && !!connectedAddress && vault.underlyingToken.balance.gt(0);
+	const availableDepositLimit = (settMap: SettMap | null | undefined, token: string) => {
+		const sett = settMap ? settMap[token] : null;
+		// Deposit limits are only applicable to affiliate wrappers currently
+		// in the future if we wish to add our own deposit limits, we can
+		// create a network variable that has a list of these and check it.
+		if (!sett || !sett.affiliate || !sett.affiliate.availableDepositLimit) return true;
+		else return !(sett.affiliate.availableDepositLimit > 0);
+	};
+
+	const canDeposit =
+		!!watch().amount &&
+		!!connectedAddress &&
+		vault.underlyingToken.balance.gt(0) &&
+		availableDepositLimit(settMap, vault.underlyingToken);
 
 	const renderAmounts = (
 		<ButtonGroup size="small" className={classes.button} disabled={!connectedAddress}>
@@ -76,7 +92,6 @@ export const VaultDeposit = observer((props: any) => {
 	);
 
 	const totalAvailable = percentageOfBalance(100);
-
 	return (
 		<>
 			<DialogContent>
@@ -88,6 +103,12 @@ export const VaultDeposit = observer((props: any) => {
 					</Typography>
 					{renderAmounts}
 				</div>
+				<SettAvailableDeposit
+					settMap={settMap}
+					vault={vault.address}
+					assetName={vault.underlyingToken.symbol}
+				/>
+
 				<TextField
 					autoComplete="off"
 					name="amount"
