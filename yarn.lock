@@ -1868,6 +1868,11 @@
   resolved "https://registry.yarnpkg.com/@ledgerhq/logs/-/logs-5.43.0.tgz#031bad4b8a3525c5e14210afde0bc09c79564026"
   integrity sha512-QWfQjea3ekh9ZU+JeL2tJC9cTKLZ/JrcS0JGatLejpRYxQajvnHvHfh0dbHOKXEaXfCskEPTZ3f1kzuts742GA==
 
+"@lifeomic/attempt@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@lifeomic/attempt/-/attempt-3.0.0.tgz#75fecc204f8b0ac18b5363b4404bb32450f01859"
+  integrity sha512-Ibk4Vfl46dSrhtH5fHsrTA4waAuyP7/qcr3uo0mO70azRc6LWgJILlMy3B1oOvyiN9jQcdqwsThaQkPKLiYKTg==
+
 "@material-ui/core@^4.11.2":
   version "4.11.3"
   resolved "https://registry.yarnpkg.com/@material-ui/core/-/core-4.11.3.tgz#f22e41775b0bd075e36a7a093d43951bf7f63850"
@@ -2143,10 +2148,10 @@
   dependencies:
     "@renproject/sol" "^1.0.1"
 
-"@renproject/gateway@^1.0.13":
-  version "1.0.13"
-  resolved "https://registry.yarnpkg.com/@renproject/gateway/-/gateway-1.0.13.tgz#9a7e235a0ef982769ca58790c889d8d5288e147c"
-  integrity sha512-Xpp/N/kMzGUhGgaZYMTZN6bO7Zpt3Dd1BXWGouFZBmc4kXPSRqTgNeh2pJnQ/9MxetCPv/kPXP1UGiN8Eb4HGQ==
+"@renproject/gateway@1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@renproject/gateway/-/gateway-1.1.0.tgz#540a29ce2722de8c6658ddc0e2fe922e0f82740a"
+  integrity sha512-b+z0pxwbUzlUDtgnJVa7LD1W795A5IUkSlA6vXkydny7K22UiLntDJBS7X/CAqpY5lmFeaMFl2uDGxEOJEoXJA==
   dependencies:
     "@renproject/interfaces" "^1.0.12"
     "@renproject/utils" "^1.0.13"
@@ -7278,6 +7283,13 @@ eslint-plugin-react@^7.22.0:
     resolve "^1.18.1"
     string.prototype.matchall "^4.0.2"
 
+eslint-plugin-unused-imports@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-unused-imports/-/eslint-plugin-unused-imports-1.1.0.tgz#4236063175c83f99cef42ea339a66679d75be19a"
+  integrity sha512-4SLYlkCwAbudvKDKZqn/3KjHlKAoorTxnP7AkAMMXkz59pQCBUjKPEaDv5pQ7fOyfDvLPCJKLowCcTl6HXcCuA==
+  dependencies:
+    eslint-rule-composer "^0.3.0"
+
 eslint-rule-composer@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/eslint-rule-composer/-/eslint-rule-composer-0.3.0.tgz#79320c927b0c5c0d3d3d2b76c8b4a488f25bbaf9"
@@ -9359,6 +9371,11 @@ humanize-url@^1.0.0:
   dependencies:
     normalize-url "^1.0.0"
     strip-url-auth "^1.0.0"
+
+husky@^5.1.3:
+  version "5.1.3"
+  resolved "https://registry.yarnpkg.com/husky/-/husky-5.1.3.tgz#1a0645a4fe3ffc006c4d0d8bd0bcb4c98787cc9d"
+  integrity sha512-fbNJ+Gz5wx2LIBtMweJNY1D7Uc8p1XERi5KNRMccwfQA+rXlxWNSdUxswo0gT8XqxywTIw7Ywm/F4v/O35RdMg==
 
 hyphenate-style-name@^1.0.3:
   version "1.0.4"

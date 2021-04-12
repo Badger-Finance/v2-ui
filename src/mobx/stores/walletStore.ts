@@ -2,22 +2,23 @@ import { extendObservable, action } from 'mobx';
 import Web3 from 'web3';
 import Onboard from 'bnc-onboard';
 import Notify from 'bnc-notify';
-
 import BigNumber from 'bignumber.js';
 import { onboardWalletCheck, getOnboardWallets } from '../../config/wallets';
 import { getNetwork, getNetworkNameFromId } from '../../mobx/utils/web3';
-import { Network } from 'mobx/model';
+import { GasPrices, Network } from 'mobx/model';
 import { RootStore } from 'mobx/store';
+import { API } from 'bnc-onboard/dist/src/interfaces';
+import { API as NotifyAPI } from 'bnc-notify';
 
 class WalletStore {
 	private store: RootStore;
-	public onboard: any;
-	public notify: any;
-	public provider?: any = null;
+	public onboard: API;
+	public notify: NotifyAPI;
+	public provider?: any | null;
 	public connectedAddress = '';
 	public currentBlock?: number;
 	public ethBalance?: BigNumber;
-	public gasPrices: { [index: string]: number };
+	public gasPrices: GasPrices;
 	public network: Network;
 
 	constructor(store: RootStore) {
@@ -41,11 +42,13 @@ class WalletStore {
 			},
 			walletCheck: onboardWalletCheck,
 		};
+		const onboard = Onboard(onboardOptions);
 
 		const notifyOptions: any = {
 			dappId: 'af74a87b-cd08-4f45-83ff-ade6b3859a07',
 			networkId: this.network.networkId,
 		};
+		const notify = Notify(notifyOptions);
 
 		extendObservable(this, {
 			connectedAddress: this.connectedAddress,
@@ -54,10 +57,14 @@ class WalletStore {
 			gasPrices: { slow: 51, standard: 75, rapid: 122 },
 			ethBalance: new BigNumber(0),
 			network: this.network,
-			onboard: Onboard(onboardOptions),
-			notify: Notify(notifyOptions),
+			onboard: onboard,
+			notify: notify,
 		});
 
+		// set defaults
+		this.onboard = onboard;
+		this.notify = notify;
+		this.provider = null;
 		this.init();
 	}
 

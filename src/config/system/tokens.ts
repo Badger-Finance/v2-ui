@@ -5,7 +5,7 @@ import { AbiItem } from 'web3-utils';
 import { TokenNetworkConfig } from 'mobx/model';
 import { zipObject } from '../../utils/lodashToNative';
 
-export const getTokens = (network?: string | null): TokenNetworkConfig | undefined => {
+export const getTokens = (network?: string | null): TokenNetworkConfig => {
 	switch (network) {
 		case NETWORK_LIST.BSC:
 			const bscVaultList = [
@@ -247,6 +247,13 @@ export const getTokens = (network?: string | null): TokenNetworkConfig | undefin
 				tokenMap: tokenMap,
 			};
 		default:
-			return undefined;
+			return {
+				priceEndpoints: [],
+				tokenBatches: [],
+				decimals: {},
+				symbols: {},
+				names: {},
+				tokenMap: {},
+			};
 	}
 };

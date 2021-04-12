@@ -19,7 +19,7 @@ export const getNetwork = (network?: string): Network => {
 	}
 };
 
-export const getNetworkId = (network: string | undefined) => {
+export const getNetworkId = (network: string | undefined): number => {
 	switch (network) {
 		case NETWORK_LIST.BSC:
 			return 56;
@@ -45,14 +45,14 @@ export const getNetworkNameFromId = (network: number): string | undefined => {
 	}
 };
 
-export const getNetworkDeploy = (network?: string | undefined): DeployConfig | undefined => {
+export const getNetworkDeploy = (network?: string | undefined): DeployConfig => {
 	switch (network) {
 		case NETWORK_LIST.BSC:
 			return bscDeploy;
 		case NETWORK_LIST.ETH:
 			return deploy;
 		default:
-			return undefined;
+			return {};
 	}
 };
 

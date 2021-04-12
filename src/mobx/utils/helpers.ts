@@ -1,9 +1,13 @@
 import BigNumber from 'bignumber.js';
 import { RootStore } from 'mobx/store';
+import { ExchangeRates } from 'mobx/model';
 
 export const graphQuery = (address: string, store: RootStore): Promise<any>[] => {
 	const { network } = store.wallet;
-	return network.tokens!.priceEndpoints.map((endpoint: any) => {
+	if (!network.tokens) {
+		return [];
+	}
+	return network.tokens.priceEndpoints.map((endpoint: any) => {
 		return fetch(endpoint, {
 			method: 'POST',
 			headers: {
@@ -95,7 +99,7 @@ export const vanillaQuery = (url: string): Promise<Response> => {
 };
 
 export const getExchangeRates = (): Promise<Response> => {
-	return fetch('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd,cad,btc', {
+	return fetch('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd,cad,btc,bnb', {
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json',
@@ -105,13 +109,16 @@ export const getExchangeRates = (): Promise<Response> => {
 };
 
 export const getBdiggExchangeRates = async (): Promise<Response> => {
-	return fetch('https://api.coingecko.com/api/v3/simple/price/?ids=badger-sett-digg&vs_currencies=usd,eth,btc,cad', {
-		method: 'GET',
-		headers: {
-			'Content-Type': 'application/json',
-			Accept: 'application/json',
+	return fetch(
+		'https://api.coingecko.com/api/v3/simple/price/?ids=badger-sett-digg&vs_currencies=usd,eth,btc,cad,bnb',
+		{
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+				Accept: 'application/json',
+			},
 		},
-	}).then((response: any) => response.json());
+	).then((response: any) => response.json());
 };
 
 export const growthQuery = (block: number): Promise<Response> => {
@@ -136,9 +143,8 @@ export const secondsToBlocks = (seconds: number): number => {
 	return seconds / (1 / (6500 / (24 * 60 * 60)));
 };
 
-export let exchangeRates: any = { usd: 641.69, cad: 776.44, btc: 41.93 };
+export let exchangeRates: ExchangeRates = { usd: 641.69, cad: 776.44, btc: 41.93, bnb: 7.2 };
 getExchangeRates().then((result: any) => (exchangeRates = result.ethereum));
-
 export let bDiggExchangeRates = { usd: 50405, eth: 30.725832, btc: 0.9456756, cad: 63346 };
 getBdiggExchangeRates().then((result: any) => (bDiggExchangeRates = result['badger-sett-digg']));
 
@@ -175,6 +181,11 @@ export const usdToCurrency = (
 		case 'cad':
 			normal = normal.dividedBy(exchangeRates.usd).multipliedBy(exchangeRates.cad);
 			prefix = 'C$';
+			break;
+		case 'bnb':
+			normal = normal.dividedBy(exchangeRates.usd).multipliedBy(exchangeRates.bnb);
+			decimals = 5;
+			prefix = '/assets/icons/bnb-white.png';
 			break;
 	}
 
@@ -226,6 +237,11 @@ export const inCurrency = (
 			prefix = 'C$';
 			decimals = 2;
 			break;
+		case 'bnb':
+			normal = normal.multipliedBy(exchangeRates.bnb);
+			prefix = '/assets/icons/bnb-white.png';
+			decimals = 2;
+			break;
 	}
 
 	let suffix = '';
@@ -247,7 +263,7 @@ export const inCurrency = (
 
 interface DiggToCurrencyOptions {
 	amount: BigNumber;
-	currency: 'usd' | 'btc' | 'eth' | 'cad';
+	currency: 'usd' | 'btc' | 'eth' | 'cad' | 'bnb';
 	hide?: boolean;
 	preferredDecimals?: number;
 	noCommas?: boolean;
@@ -292,6 +308,10 @@ export const bDiggToCurrency = ({
 			normal = normal.multipliedBy(exchangeRates.cad);
 			decimals = 2;
 			prefix = 'C$';
+		case 'bnb':
+			normal = normal.multipliedBy(exchangeRates.bnb);
+			decimals = 2;
+			prefix = '/assets/icons/bnb-white.png';
 			break;
 	}
 

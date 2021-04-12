@@ -3,40 +3,40 @@
 exports[`HoneybadgerDrop Page Renders correctly with connected address 1`] = `
 <div>
   <div
-    class="MuiContainer-root-10 makeStyles-root-1 MuiContainer-maxWidthLg-16"
+    class="MuiContainer-root-11 makeStyles-root-1 MuiContainer-maxWidthLg-17"
   >
     <div
-      class="MuiGrid-root-18 MuiGrid-container-19 MuiGrid-spacing-xs-1-41 MuiGrid-justify-xs-center-36"
+      class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-spacing-xs-1-42 MuiGrid-justify-xs-center-37"
     >
       <div
-        class="MuiGrid-root-18 makeStyles-headerContainer-2 MuiGrid-item-20 MuiGrid-grid-xs-12-64"
+        class="MuiGrid-root-19 makeStyles-headerContainer-2 MuiGrid-item-21 MuiGrid-grid-xs-12-65"
       >
         <div
-          class="makeStyles-headerContainer-122"
+          class="makeStyles-headerContainer-123"
         >
           <div
-            class="makeStyles-headerContent-123"
+            class="makeStyles-headerContent-124"
           >
             <h2
-              class="MuiTypography-root-124 MuiTypography-h2-130 MuiTypography-colorTextPrimary-149"
+              class="MuiTypography-root-125 MuiTypography-h2-131 MuiTypography-colorTextPrimary-150"
             >
-              HONEY DIAMOND HANDS
+              DIAMOND HANDS
             </h2>
             <h6
-              class="MuiTypography-root-124 MuiTypography-subtitle1-135 MuiTypography-colorTextSecondary-150"
+              class="MuiTypography-root-125 MuiTypography-subtitle1-136 MuiTypography-colorTextSecondary-151"
             >
-              MEME Honey Pot 2 - Diamond Hands
+              MEME Honeypot pt. II
             </h6>
           </div>
           <div
-            class="makeStyles-headerWidgets-121"
+            class="makeStyles-headerWidgets-122"
           >
             <div
-              class="MuiInputBase-root-181 MuiOutlinedInput-root-166 MuiInputBase-colorSecondary-190 MuiOutlinedInput-colorSecondary-167 makeStyles-gasSelector-154 MuiInputBase-adornedStart-185 MuiOutlinedInput-adornedStart-170"
+              class="MuiInputBase-root-182 MuiOutlinedInput-root-167 MuiInputBase-colorSecondary-191 MuiOutlinedInput-colorSecondary-168 makeStyles-gasSelector-155 MuiInputBase-adornedStart-186 MuiOutlinedInput-adornedStart-171"
             >
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root-199"
+                class="MuiSvgIcon-root-200"
                 focusable="false"
                 style="cursor: pointer; font-size: 1.2rem; margin-right: .8rem;"
                 viewBox="0 0 24 24"
@@ -47,7 +47,7 @@ exports[`HoneybadgerDrop Page Renders correctly with connected address 1`] = `
               </svg>
               <div
                 aria-haspopup="listbox"
-                class="MuiSelect-root-155 MuiSelect-select-156 MuiSelect-selectMenu-159 MuiSelect-outlined-158 MuiInputBase-input-192 MuiOutlinedInput-input-176 MuiInputBase-inputAdornedStart-196 MuiOutlinedInput-inputAdornedStart-179"
+                class="MuiSelect-root-156 MuiSelect-select-157 MuiSelect-selectMenu-160 MuiSelect-outlined-159 MuiInputBase-input-193 MuiOutlinedInput-input-177 MuiInputBase-inputAdornedStart-197 MuiOutlinedInput-inputAdornedStart-180"
                 role="button"
                 tabindex="0"
               >
@@ -55,13 +55,13 @@ exports[`HoneybadgerDrop Page Renders correctly with connected address 1`] = `
               </div>
               <input
                 aria-hidden="true"
-                class="MuiSelect-nativeInput-165"
+                class="MuiSelect-nativeInput-166"
                 tabindex="-1"
                 value="standard"
               />
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root-199 MuiSelect-icon-161 MuiSelect-iconOutlined-164"
+                class="MuiSvgIcon-root-200 MuiSelect-icon-162 MuiSelect-iconOutlined-165"
                 focusable="false"
                 viewBox="0 0 24 24"
               >
@@ -71,11 +71,11 @@ exports[`HoneybadgerDrop Page Renders correctly with connected address 1`] = `
               </svg>
               <fieldset
                 aria-hidden="true"
-                class="PrivateNotchedOutline-root-212 MuiOutlinedInput-notchedOutline-175"
+                class="PrivateNotchedOutline-root-213 MuiOutlinedInput-notchedOutline-176"
                 style="padding-left: 8px;"
               >
                 <legend
-                  class="PrivateNotchedOutline-legend-213"
+                  class="PrivateNotchedOutline-legend-214"
                   style="width: 0.01px;"
                 >
                   <span>
@@ -85,133 +85,150 @@ exports[`HoneybadgerDrop Page Renders correctly with connected address 1`] = `
               </fieldset>
             </div>
             <button
-              class="MuiButtonBase-root-249 MuiButton-root-220 MuiButton-contained-228 makeStyles-walletButton-219 MuiButton-containedSecondary-230 MuiButton-disableElevation-231"
+              class="MuiButtonBase-root-250 MuiButton-root-221 MuiButton-contained-229 makeStyles-walletButton-220 MuiButton-containedSecondary-231 MuiButton-disableElevation-232"
               tabindex="0"
               type="button"
             >
               <span
-                class="MuiButton-label-221"
+                class="MuiButton-label-222"
               >
                 0x1a1a1...a1a1a1a
                 <span
-                  class="MuiButton-endIcon-245 MuiButton-iconSizeMedium-247"
+                  class="MuiButton-endIcon-246 MuiButton-iconSizeMedium-248"
                 >
                   <div
-                    class="makeStyles-walletDot-216 makeStyles-greenDot-218"
+                    class="makeStyles-walletDot-217 makeStyles-greenDot-219"
                   />
                 </span>
               </span>
               <span
-                class="MuiTouchRipple-root-291"
+                class="MuiTouchRipple-root-301"
               />
             </button>
           </div>
         </div>
       </div>
       <div
-        class="MuiGrid-root-18 MuiGrid-container-19 MuiGrid-spacing-xs-5-45 MuiGrid-item-20 MuiGrid-grid-xs-12-64"
+        class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-spacing-xs-5-46 MuiGrid-item-21 MuiGrid-grid-xs-12-65"
       >
         <div
-          class="MuiGrid-root-18 makeStyles-centerText-4 MuiGrid-container-19 MuiGrid-item-20 MuiGrid-justify-xs-center-36 MuiGrid-grid-xs-12-64"
+          class="MuiGrid-root-19 makeStyles-centerText-254 MuiGrid-container-20 MuiGrid-item-21 MuiGrid-justify-xs-center-37 MuiGrid-grid-xs-12-65"
           style="opacity: 1; webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
         >
           <div
-            class="MuiGrid-root-18 MuiGrid-item-20 MuiGrid-grid-xs-12-64 MuiGrid-grid-sm-8-74 MuiGrid-grid-md-7-87"
+            class="MuiGrid-root-19 MuiGrid-item-21 MuiGrid-grid-xs-12-65 MuiGrid-grid-sm-8-75 MuiGrid-grid-md-7-88"
           >
             <div
-              class="MuiPaper-root-252 makeStyles-mainPapers-5 MuiPaper-elevation0-255 MuiPaper-rounded-253"
+              class="MuiPaper-root-258 makeStyles-mainPapers-255 MuiPaper-elevation0-261 MuiPaper-rounded-259"
             >
               <div
-                class="MuiGrid-root-18 MuiGrid-container-19 MuiGrid-spacing-xs-1-41"
+                class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-spacing-xs-1-42"
               >
                 <div
-                  class="MuiGrid-root-18 MuiGrid-item-20 MuiGrid-grid-xs-12-64"
+                  class="MuiGrid-root-19 MuiGrid-item-21 MuiGrid-grid-xs-12-65"
                 >
                   <p
-                    class="MuiTypography-root-124 MuiTypography-body1-126"
+                    class="MuiTypography-root-125 MuiTypography-body1-127"
                   >
-                    Remaining Honey Pot Pool
+                    Redemption Pool Remaining
                   </p>
                 </div>
                 <div
-                  class="MuiGrid-root-18 MuiGrid-item-20 MuiGrid-grid-xs-12-64"
+                  class="MuiGrid-root-19 MuiGrid-item-21 MuiGrid-grid-xs-12-65"
                 >
                   <h5
-                    class="MuiTypography-root-124 MuiTypography-h5-133 MuiTypography-colorTextPrimary-149"
+                    class="MuiTypography-root-125 MuiTypography-h5-134"
                   >
                     <span
-                      class="MuiSkeleton-root-280 MuiSkeleton-text-281 MuiSkeleton-pulse-284"
-                      style="width: 30%; margin: auto;"
+                      class="MuiSkeleton-root-286 MuiSkeleton-text-287 makeStyles-center-253 MuiSkeleton-pulse-290"
+                      style="width: 30%;"
                     />
                   </h5>
                 </div>
                 <div
-                  class="MuiGrid-root-18 MuiGrid-item-20 MuiGrid-grid-xs-12-64"
+                  class="MuiGrid-root-19 MuiGrid-item-21 MuiGrid-grid-xs-12-65"
                 >
                   <h6
-                    class="MuiTypography-root-124 MuiTypography-subtitle1-135 MuiTypography-colorTextSecondary-150"
+                    class="MuiTypography-root-125 MuiTypography-subtitle1-136"
                   >
                     <span
-                      class="MuiSkeleton-root-280 MuiSkeleton-text-281 MuiSkeleton-pulse-284"
-                      style="width: 30%; margin: auto;"
+                      class="MuiSkeleton-root-286 MuiSkeleton-text-287 makeStyles-center-253 MuiSkeleton-pulse-290"
+                      style="width: 30%;"
                     />
                   </h6>
                 </div>
                 <div
-                  class="MuiGrid-root-18 MuiGrid-item-20 MuiGrid-grid-xs-12-64"
+                  class="MuiGrid-root-19 MuiGrid-item-21 MuiGrid-grid-xs-12-65"
                 >
                   <h6
-                    class="MuiTypography-root-124 MuiTypography-subtitle1-135 MuiTypography-colorTextSecondary-150"
+                    class="MuiTypography-root-125 MuiTypography-subtitle1-136"
                   >
                     <span
-                      class="MuiSkeleton-root-280 MuiSkeleton-text-281 MuiSkeleton-pulse-284"
-                      style="width: 30%; margin: auto;"
+                      class="MuiSkeleton-root-286 MuiSkeleton-text-287 makeStyles-center-253 MuiSkeleton-pulse-290"
+                      style="width: 30%;"
                     />
                   </h6>
                 </div>
               </div>
             </div>
+            <a
+              aria-disabled="false"
+              aria-label="Learn More"
+              class="MuiButtonBase-root-250 MuiButton-root-221 MuiButton-text-223 makeStyles-learnMore-257 MuiButton-textPrimary-224 MuiButton-textSizeSmall-236 MuiButton-sizeSmall-242 MuiButton-fullWidth-244"
+              href="https://badgerdao.medium.com/badger-x-meme-nft-honeypot-part-ii-diamond-hands-7111d38b5df4"
+              tabindex="0"
+              target="_"
+            >
+              <span
+                class="MuiButton-label-222"
+              >
+                Learn More
+              </span>
+              <span
+                class="MuiTouchRipple-root-301"
+              />
+            </a>
           </div>
         </div>
         <div
-          class="MuiGrid-root-18 MuiGrid-container-19 MuiGrid-item-20 MuiGrid-justify-xs-center-36 MuiGrid-grid-xs-12-64"
+          class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-item-21 MuiGrid-justify-xs-center-37 MuiGrid-grid-xs-12-65"
           style="opacity: 1; webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
         >
           <div
-            class="MuiGrid-root-18 makeStyles-holdingsTitle-8 MuiGrid-container-19 MuiGrid-item-20 MuiGrid-grid-xs-12-64"
+            class="MuiGrid-root-19 makeStyles-holdingsTitle-298 MuiGrid-container-20 MuiGrid-item-21 MuiGrid-grid-xs-12-65"
           >
             <p
-              class="MuiTypography-root-124 MuiTypography-body1-126"
+              class="MuiTypography-root-125 MuiTypography-body1-127"
               style="width: 100%;"
             >
               Your Holdings
             </p>
           </div>
           <div
-            class="MuiGrid-root-18 MuiGrid-container-19 MuiGrid-spacing-xs-8-48 MuiGrid-item-20 MuiGrid-justify-xs-space-between-38 MuiGrid-grid-xs-12-64"
+            class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-spacing-xs-8-49 MuiGrid-item-21 MuiGrid-justify-xs-space-between-39 MuiGrid-grid-xs-12-65"
           >
             <div
-              class="MuiGrid-root-18 makeStyles-nftContainer-7 MuiGrid-item-20 MuiGrid-grid-xs-12-64 MuiGrid-grid-sm-6-72 MuiGrid-grid-lg-4-98"
+              class="MuiGrid-root-19 makeStyles-nftContainer-299 MuiGrid-item-21 MuiGrid-grid-xs-12-65 MuiGrid-grid-sm-6-73 MuiGrid-grid-lg-4-99"
             >
               <span
-                class="MuiSkeleton-root-280 MuiSkeleton-rect-282 makeStyles-nftSkeleton-9 MuiSkeleton-pulse-284"
-                style="width: 100%; height: 250px;"
+                class="MuiSkeleton-root-286 MuiSkeleton-rect-288 makeStyles-nftSkeleton-300 MuiSkeleton-pulse-290"
+                style="width: 100%; height: 450px;"
               />
             </div>
             <div
-              class="MuiGrid-root-18 makeStyles-nftContainer-7 MuiGrid-item-20 MuiGrid-grid-xs-12-64 MuiGrid-grid-sm-6-72 MuiGrid-grid-lg-4-98"
+              class="MuiGrid-root-19 makeStyles-nftContainer-299 MuiGrid-item-21 MuiGrid-grid-xs-12-65 MuiGrid-grid-sm-6-73 MuiGrid-grid-lg-4-99"
             >
               <span
-                class="MuiSkeleton-root-280 MuiSkeleton-rect-282 makeStyles-nftSkeleton-9 MuiSkeleton-pulse-284"
-                style="width: 100%; height: 250px;"
+                class="MuiSkeleton-root-286 MuiSkeleton-rect-288 makeStyles-nftSkeleton-300 MuiSkeleton-pulse-290"
+                style="width: 100%; height: 450px;"
               />
             </div>
             <div
-              class="MuiGrid-root-18 makeStyles-nftContainer-7 MuiGrid-item-20 MuiGrid-grid-xs-12-64 MuiGrid-grid-sm-6-72 MuiGrid-grid-lg-4-98"
+              class="MuiGrid-root-19 makeStyles-nftContainer-299 MuiGrid-item-21 MuiGrid-grid-xs-12-65 MuiGrid-grid-sm-6-73 MuiGrid-grid-lg-4-99"
             >
               <span
-                class="MuiSkeleton-root-280 MuiSkeleton-rect-282 makeStyles-nftSkeleton-9 MuiSkeleton-pulse-284"
-                style="width: 100%; height: 250px;"
+                class="MuiSkeleton-root-286 MuiSkeleton-rect-288 makeStyles-nftSkeleton-300 MuiSkeleton-pulse-290"
+                style="width: 100%; height: 450px;"
               />
             </div>
           </div>
@@ -225,40 +242,40 @@ exports[`HoneybadgerDrop Page Renders correctly with connected address 1`] = `
 exports[`HoneybadgerDrop Page Renders correctly with connected address and a balance of NFTs 1`] = `
 <div>
   <div
-    class="MuiContainer-root-10 makeStyles-root-1 MuiContainer-maxWidthLg-16"
+    class="MuiContainer-root-11 makeStyles-root-1 MuiContainer-maxWidthLg-17"
   >
     <div
-      class="MuiGrid-root-18 MuiGrid-container-19 MuiGrid-spacing-xs-1-41 MuiGrid-justify-xs-center-36"
+      class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-spacing-xs-1-42 MuiGrid-justify-xs-center-37"
     >
       <div
-        class="MuiGrid-root-18 makeStyles-headerContainer-2 MuiGrid-item-20 MuiGrid-grid-xs-12-64"
+        class="MuiGrid-root-19 makeStyles-headerContainer-2 MuiGrid-item-21 MuiGrid-grid-xs-12-65"
       >
         <div
-          class="makeStyles-headerContainer-122"
+          class="makeStyles-headerContainer-123"
         >
           <div
-            class="makeStyles-headerContent-123"
+            class="makeStyles-headerContent-124"
           >
             <h2
-              class="MuiTypography-root-124 MuiTypography-h2-130 MuiTypography-colorTextPrimary-149"
+              class="MuiTypography-root-125 MuiTypography-h2-131 MuiTypography-colorTextPrimary-150"
             >
-              HONEY DIAMOND HANDS
+              DIAMOND HANDS
             </h2>
             <h6
-              class="MuiTypography-root-124 MuiTypography-subtitle1-135 MuiTypography-colorTextSecondary-150"
+              class="MuiTypography-root-125 MuiTypography-subtitle1-136 MuiTypography-colorTextSecondary-151"
             >
-              MEME Honey Pot 2 - Diamond Hands
+              MEME Honeypot pt. II
             </h6>
           </div>
           <div
-            class="makeStyles-headerWidgets-121"
+            class="makeStyles-headerWidgets-122"
           >
             <div
-              class="MuiInputBase-root-181 MuiOutlinedInput-root-166 MuiInputBase-colorSecondary-190 MuiOutlinedInput-colorSecondary-167 makeStyles-gasSelector-154 MuiInputBase-adornedStart-185 MuiOutlinedInput-adornedStart-170"
+              class="MuiInputBase-root-182 MuiOutlinedInput-root-167 MuiInputBase-colorSecondary-191 MuiOutlinedInput-colorSecondary-168 makeStyles-gasSelector-155 MuiInputBase-adornedStart-186 MuiOutlinedInput-adornedStart-171"
             >
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root-199"
+                class="MuiSvgIcon-root-200"
                 focusable="false"
                 style="cursor: pointer; font-size: 1.2rem; margin-right: .8rem;"
                 viewBox="0 0 24 24"
@@ -269,7 +286,7 @@ exports[`HoneybadgerDrop Page Renders correctly with connected address and a bal
               </svg>
               <div
                 aria-haspopup="listbox"
-                class="MuiSelect-root-155 MuiSelect-select-156 MuiSelect-selectMenu-159 MuiSelect-outlined-158 MuiInputBase-input-192 MuiOutlinedInput-input-176 MuiInputBase-inputAdornedStart-196 MuiOutlinedInput-inputAdornedStart-179"
+                class="MuiSelect-root-156 MuiSelect-select-157 MuiSelect-selectMenu-160 MuiSelect-outlined-159 MuiInputBase-input-193 MuiOutlinedInput-input-177 MuiInputBase-inputAdornedStart-197 MuiOutlinedInput-inputAdornedStart-180"
                 role="button"
                 tabindex="0"
               >
@@ -277,13 +294,13 @@ exports[`HoneybadgerDrop Page Renders correctly with connected address and a bal
               </div>
               <input
                 aria-hidden="true"
-                class="MuiSelect-nativeInput-165"
+                class="MuiSelect-nativeInput-166"
                 tabindex="-1"
                 value="standard"
               />
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root-199 MuiSelect-icon-161 MuiSelect-iconOutlined-164"
+                class="MuiSvgIcon-root-200 MuiSelect-icon-162 MuiSelect-iconOutlined-165"
                 focusable="false"
                 viewBox="0 0 24 24"
               >
@@ -293,11 +310,11 @@ exports[`HoneybadgerDrop Page Renders correctly with connected address and a bal
               </svg>
               <fieldset
                 aria-hidden="true"
-                class="PrivateNotchedOutline-root-212 MuiOutlinedInput-notchedOutline-175"
+                class="PrivateNotchedOutline-root-213 MuiOutlinedInput-notchedOutline-176"
                 style="padding-left: 8px;"
               >
                 <legend
-                  class="PrivateNotchedOutline-legend-213"
+                  class="PrivateNotchedOutline-legend-214"
                   style="width: 0.01px;"
                 >
                   <span>
@@ -307,133 +324,150 @@ exports[`HoneybadgerDrop Page Renders correctly with connected address and a bal
               </fieldset>
             </div>
             <button
-              class="MuiButtonBase-root-249 MuiButton-root-220 MuiButton-contained-228 makeStyles-walletButton-219 MuiButton-containedSecondary-230 MuiButton-disableElevation-231"
+              class="MuiButtonBase-root-250 MuiButton-root-221 MuiButton-contained-229 makeStyles-walletButton-220 MuiButton-containedSecondary-231 MuiButton-disableElevation-232"
               tabindex="0"
               type="button"
             >
               <span
-                class="MuiButton-label-221"
+                class="MuiButton-label-222"
               >
                 0x1a1a1...a1a1a1a
                 <span
-                  class="MuiButton-endIcon-245 MuiButton-iconSizeMedium-247"
+                  class="MuiButton-endIcon-246 MuiButton-iconSizeMedium-248"
                 >
                   <div
-                    class="makeStyles-walletDot-216 makeStyles-greenDot-218"
+                    class="makeStyles-walletDot-217 makeStyles-greenDot-219"
                   />
                 </span>
               </span>
               <span
-                class="MuiTouchRipple-root-291"
+                class="MuiTouchRipple-root-301"
               />
             </button>
           </div>
         </div>
       </div>
       <div
-        class="MuiGrid-root-18 MuiGrid-container-19 MuiGrid-spacing-xs-5-45 MuiGrid-item-20 MuiGrid-grid-xs-12-64"
+        class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-spacing-xs-5-46 MuiGrid-item-21 MuiGrid-grid-xs-12-65"
       >
         <div
-          class="MuiGrid-root-18 makeStyles-centerText-4 MuiGrid-container-19 MuiGrid-item-20 MuiGrid-justify-xs-center-36 MuiGrid-grid-xs-12-64"
+          class="MuiGrid-root-19 makeStyles-centerText-254 MuiGrid-container-20 MuiGrid-item-21 MuiGrid-justify-xs-center-37 MuiGrid-grid-xs-12-65"
           style="opacity: 1; webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
         >
           <div
-            class="MuiGrid-root-18 MuiGrid-item-20 MuiGrid-grid-xs-12-64 MuiGrid-grid-sm-8-74 MuiGrid-grid-md-7-87"
+            class="MuiGrid-root-19 MuiGrid-item-21 MuiGrid-grid-xs-12-65 MuiGrid-grid-sm-8-75 MuiGrid-grid-md-7-88"
           >
             <div
-              class="MuiPaper-root-252 makeStyles-mainPapers-5 MuiPaper-elevation0-255 MuiPaper-rounded-253"
+              class="MuiPaper-root-258 makeStyles-mainPapers-255 MuiPaper-elevation0-261 MuiPaper-rounded-259"
             >
               <div
-                class="MuiGrid-root-18 MuiGrid-container-19 MuiGrid-spacing-xs-1-41"
+                class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-spacing-xs-1-42"
               >
                 <div
-                  class="MuiGrid-root-18 MuiGrid-item-20 MuiGrid-grid-xs-12-64"
+                  class="MuiGrid-root-19 MuiGrid-item-21 MuiGrid-grid-xs-12-65"
                 >
                   <p
-                    class="MuiTypography-root-124 MuiTypography-body1-126"
+                    class="MuiTypography-root-125 MuiTypography-body1-127"
                   >
-                    Remaining Honey Pot Pool
+                    Redemption Pool Remaining
                   </p>
                 </div>
                 <div
-                  class="MuiGrid-root-18 MuiGrid-item-20 MuiGrid-grid-xs-12-64"
+                  class="MuiGrid-root-19 MuiGrid-item-21 MuiGrid-grid-xs-12-65"
                 >
                   <h5
-                    class="MuiTypography-root-124 MuiTypography-h5-133 MuiTypography-colorTextPrimary-149"
+                    class="MuiTypography-root-125 MuiTypography-h5-134"
                   >
                     <span
-                      class="MuiSkeleton-root-280 MuiSkeleton-text-281 MuiSkeleton-pulse-284"
-                      style="width: 30%; margin: auto;"
+                      class="MuiSkeleton-root-286 MuiSkeleton-text-287 makeStyles-center-253 MuiSkeleton-pulse-290"
+                      style="width: 30%;"
                     />
                   </h5>
                 </div>
                 <div
-                  class="MuiGrid-root-18 MuiGrid-item-20 MuiGrid-grid-xs-12-64"
+                  class="MuiGrid-root-19 MuiGrid-item-21 MuiGrid-grid-xs-12-65"
                 >
                   <h6
-                    class="MuiTypography-root-124 MuiTypography-subtitle1-135 MuiTypography-colorTextSecondary-150"
+                    class="MuiTypography-root-125 MuiTypography-subtitle1-136"
                   >
                     <span
-                      class="MuiSkeleton-root-280 MuiSkeleton-text-281 MuiSkeleton-pulse-284"
-                      style="width: 30%; margin: auto;"
+                      class="MuiSkeleton-root-286 MuiSkeleton-text-287 makeStyles-center-253 MuiSkeleton-pulse-290"
+                      style="width: 30%;"
                     />
                   </h6>
                 </div>
                 <div
-                  class="MuiGrid-root-18 MuiGrid-item-20 MuiGrid-grid-xs-12-64"
+                  class="MuiGrid-root-19 MuiGrid-item-21 MuiGrid-grid-xs-12-65"
                 >
                   <h6
-                    class="MuiTypography-root-124 MuiTypography-subtitle1-135 MuiTypography-colorTextSecondary-150"
+                    class="MuiTypography-root-125 MuiTypography-subtitle1-136"
                   >
                     <span
-                      class="MuiSkeleton-root-280 MuiSkeleton-text-281 MuiSkeleton-pulse-284"
-                      style="width: 30%; margin: auto;"
+                      class="MuiSkeleton-root-286 MuiSkeleton-text-287 makeStyles-center-253 MuiSkeleton-pulse-290"
+                      style="width: 30%;"
                     />
                   </h6>
                 </div>
               </div>
             </div>
+            <a
+              aria-disabled="false"
+              aria-label="Learn More"
+              class="MuiButtonBase-root-250 MuiButton-root-221 MuiButton-text-223 makeStyles-learnMore-257 MuiButton-textPrimary-224 MuiButton-textSizeSmall-236 MuiButton-sizeSmall-242 MuiButton-fullWidth-244"
+              href="https://badgerdao.medium.com/badger-x-meme-nft-honeypot-part-ii-diamond-hands-7111d38b5df4"
+              tabindex="0"
+              target="_"
+            >
+              <span
+                class="MuiButton-label-222"
+              >
+                Learn More
+              </span>
+              <span
+                class="MuiTouchRipple-root-301"
+              />
+            </a>
           </div>
         </div>
         <div
-          class="MuiGrid-root-18 MuiGrid-container-19 MuiGrid-item-20 MuiGrid-justify-xs-center-36 MuiGrid-grid-xs-12-64"
+          class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-item-21 MuiGrid-justify-xs-center-37 MuiGrid-grid-xs-12-65"
           style="opacity: 1; webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
         >
           <div
-            class="MuiGrid-root-18 makeStyles-holdingsTitle-8 MuiGrid-container-19 MuiGrid-item-20 MuiGrid-grid-xs-12-64"
+            class="MuiGrid-root-19 makeStyles-holdingsTitle-298 MuiGrid-container-20 MuiGrid-item-21 MuiGrid-grid-xs-12-65"
           >
             <p
-              class="MuiTypography-root-124 MuiTypography-body1-126"
+              class="MuiTypography-root-125 MuiTypography-body1-127"
               style="width: 100%;"
             >
               Your Holdings
             </p>
           </div>
           <div
-            class="MuiGrid-root-18 MuiGrid-container-19 MuiGrid-spacing-xs-8-48 MuiGrid-item-20 MuiGrid-justify-xs-space-between-38 MuiGrid-grid-xs-12-64"
+            class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-spacing-xs-8-49 MuiGrid-item-21 MuiGrid-justify-xs-space-between-39 MuiGrid-grid-xs-12-65"
           >
             <div
-              class="MuiGrid-root-18 makeStyles-nftContainer-7 MuiGrid-item-20 MuiGrid-grid-xs-12-64 MuiGrid-grid-sm-6-72 MuiGrid-grid-lg-4-98"
+              class="MuiGrid-root-19 makeStyles-nftContainer-299 MuiGrid-item-21 MuiGrid-grid-xs-12-65 MuiGrid-grid-sm-6-73 MuiGrid-grid-lg-4-99"
             >
               <span
-                class="MuiSkeleton-root-280 MuiSkeleton-rect-282 makeStyles-nftSkeleton-9 MuiSkeleton-pulse-284"
-                style="width: 100%; height: 250px;"
+                class="MuiSkeleton-root-286 MuiSkeleton-rect-288 makeStyles-nftSkeleton-300 MuiSkeleton-pulse-290"
+                style="width: 100%; height: 450px;"
               />
             </div>
             <div
-              class="MuiGrid-root-18 makeStyles-nftContainer-7 MuiGrid-item-20 MuiGrid-grid-xs-12-64 MuiGrid-grid-sm-6-72 MuiGrid-grid-lg-4-98"
+              class="MuiGrid-root-19 makeStyles-nftContainer-299 MuiGrid-item-21 MuiGrid-grid-xs-12-65 MuiGrid-grid-sm-6-73 MuiGrid-grid-lg-4-99"
             >
               <span
-                class="MuiSkeleton-root-280 MuiSkeleton-rect-282 makeStyles-nftSkeleton-9 MuiSkeleton-pulse-284"
-                style="width: 100%; height: 250px;"
+                class="MuiSkeleton-root-286 MuiSkeleton-rect-288 makeStyles-nftSkeleton-300 MuiSkeleton-pulse-290"
+                style="width: 100%; height: 450px;"
               />
             </div>
             <div
-              class="MuiGrid-root-18 makeStyles-nftContainer-7 MuiGrid-item-20 MuiGrid-grid-xs-12-64 MuiGrid-grid-sm-6-72 MuiGrid-grid-lg-4-98"
+              class="MuiGrid-root-19 makeStyles-nftContainer-299 MuiGrid-item-21 MuiGrid-grid-xs-12-65 MuiGrid-grid-sm-6-73 MuiGrid-grid-lg-4-99"
             >
               <span
-                class="MuiSkeleton-root-280 MuiSkeleton-rect-282 makeStyles-nftSkeleton-9 MuiSkeleton-pulse-284"
-                style="width: 100%; height: 250px;"
+                class="MuiSkeleton-root-286 MuiSkeleton-rect-288 makeStyles-nftSkeleton-300 MuiSkeleton-pulse-290"
+                style="width: 100%; height: 450px;"
               />
             </div>
           </div>
@@ -447,40 +481,40 @@ exports[`HoneybadgerDrop Page Renders correctly with connected address and a bal
 exports[`HoneybadgerDrop Page Renders correctly without connected address 1`] = `
 <div>
   <div
-    class="MuiContainer-root-10 makeStyles-root-1 MuiContainer-maxWidthLg-16"
+    class="MuiContainer-root-11 makeStyles-root-1 MuiContainer-maxWidthLg-17"
   >
     <div
-      class="MuiGrid-root-18 MuiGrid-container-19 MuiGrid-spacing-xs-1-41 MuiGrid-justify-xs-center-36"
+      class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-spacing-xs-1-42 MuiGrid-justify-xs-center-37"
     >
       <div
-        class="MuiGrid-root-18 makeStyles-headerContainer-2 MuiGrid-item-20 MuiGrid-grid-xs-12-64"
+        class="MuiGrid-root-19 makeStyles-headerContainer-2 MuiGrid-item-21 MuiGrid-grid-xs-12-65"
       >
         <div
-          class="makeStyles-headerContainer-122"
+          class="makeStyles-headerContainer-123"
         >
           <div
-            class="makeStyles-headerContent-123"
+            class="makeStyles-headerContent-124"
           >
             <h2
-              class="MuiTypography-root-124 MuiTypography-h2-130 MuiTypography-colorTextPrimary-149"
+              class="MuiTypography-root-125 MuiTypography-h2-131 MuiTypography-colorTextPrimary-150"
             >
-              HONEY DIAMOND HANDS
+              DIAMOND HANDS
             </h2>
             <h6
-              class="MuiTypography-root-124 MuiTypography-subtitle1-135 MuiTypography-colorTextSecondary-150"
+              class="MuiTypography-root-125 MuiTypography-subtitle1-136 MuiTypography-colorTextSecondary-151"
             >
-              MEME Honey Pot 2 - Diamond Hands
+              MEME Honeypot pt. II
             </h6>
           </div>
           <div
-            class="makeStyles-headerWidgets-121"
+            class="makeStyles-headerWidgets-122"
           >
             <div
-              class="MuiInputBase-root-181 MuiOutlinedInput-root-166 MuiInputBase-colorSecondary-190 MuiOutlinedInput-colorSecondary-167 makeStyles-gasSelector-154 MuiInputBase-adornedStart-185 MuiOutlinedInput-adornedStart-170"
+              class="MuiInputBase-root-182 MuiOutlinedInput-root-167 MuiInputBase-colorSecondary-191 MuiOutlinedInput-colorSecondary-168 makeStyles-gasSelector-155 MuiInputBase-adornedStart-186 MuiOutlinedInput-adornedStart-171"
             >
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root-199"
+                class="MuiSvgIcon-root-200"
                 focusable="false"
                 style="cursor: pointer; font-size: 1.2rem; margin-right: .8rem;"
                 viewBox="0 0 24 24"
@@ -491,7 +525,7 @@ exports[`HoneybadgerDrop Page Renders correctly without connected address 1`] = 
               </svg>
               <div
                 aria-haspopup="listbox"
-                class="MuiSelect-root-155 MuiSelect-select-156 MuiSelect-selectMenu-159 MuiSelect-outlined-158 MuiInputBase-input-192 MuiOutlinedInput-input-176 MuiInputBase-inputAdornedStart-196 MuiOutlinedInput-inputAdornedStart-179"
+                class="MuiSelect-root-156 MuiSelect-select-157 MuiSelect-selectMenu-160 MuiSelect-outlined-159 MuiInputBase-input-193 MuiOutlinedInput-input-177 MuiInputBase-inputAdornedStart-197 MuiOutlinedInput-inputAdornedStart-180"
                 role="button"
                 tabindex="0"
               >
@@ -499,13 +533,13 @@ exports[`HoneybadgerDrop Page Renders correctly without connected address 1`] = 
               </div>
               <input
                 aria-hidden="true"
-                class="MuiSelect-nativeInput-165"
+                class="MuiSelect-nativeInput-166"
                 tabindex="-1"
                 value="standard"
               />
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root-199 MuiSelect-icon-161 MuiSelect-iconOutlined-164"
+                class="MuiSvgIcon-root-200 MuiSelect-icon-162 MuiSelect-iconOutlined-165"
                 focusable="false"
                 viewBox="0 0 24 24"
               >
@@ -515,11 +549,11 @@ exports[`HoneybadgerDrop Page Renders correctly without connected address 1`] = 
               </svg>
               <fieldset
                 aria-hidden="true"
-                class="PrivateNotchedOutline-root-212 MuiOutlinedInput-notchedOutline-175"
+                class="PrivateNotchedOutline-root-213 MuiOutlinedInput-notchedOutline-176"
                 style="padding-left: 8px;"
               >
                 <legend
-                  class="PrivateNotchedOutline-legend-213"
+                  class="PrivateNotchedOutline-legend-214"
                   style="width: 0.01px;"
                 >
                   <span>
@@ -529,75 +563,91 @@ exports[`HoneybadgerDrop Page Renders correctly without connected address 1`] = 
               </fieldset>
             </div>
             <button
-              class="MuiButtonBase-root-249 MuiButton-root-220 MuiButton-contained-228 makeStyles-walletButton-219 MuiButton-containedSecondary-230 MuiButton-disableElevation-231"
+              class="MuiButtonBase-root-250 MuiButton-root-221 MuiButton-contained-229 makeStyles-walletButton-220 MuiButton-containedSecondary-231 MuiButton-disableElevation-232"
               tabindex="0"
               type="button"
             >
               <span
-                class="MuiButton-label-221"
+                class="MuiButton-label-222"
               >
                 Click to connect
                 <span
-                  class="MuiButton-endIcon-245 MuiButton-iconSizeMedium-247"
+                  class="MuiButton-endIcon-246 MuiButton-iconSizeMedium-248"
                 >
                   <div
-                    class="makeStyles-walletDot-216 makeStyles-redDot-217"
+                    class="makeStyles-walletDot-217 makeStyles-redDot-218"
                   />
                 </span>
               </span>
               <span
-                class="MuiTouchRipple-root-280"
+                class="MuiTouchRipple-root-286"
               />
             </button>
           </div>
         </div>
       </div>
       <div
-        class="MuiGrid-root-18 MuiGrid-container-19 MuiGrid-spacing-xs-5-45 MuiGrid-item-20 MuiGrid-grid-xs-12-64"
+        class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-spacing-xs-5-46 MuiGrid-item-21 MuiGrid-grid-xs-12-65"
       >
         <div
-          class="MuiGrid-root-18 makeStyles-centerText-4 MuiGrid-container-19 MuiGrid-item-20 MuiGrid-justify-xs-center-36 MuiGrid-grid-xs-12-64"
+          class="MuiGrid-root-19 makeStyles-centerText-254 MuiGrid-container-20 MuiGrid-item-21 MuiGrid-justify-xs-center-37 MuiGrid-grid-xs-12-65"
           style="opacity: 1; webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
         >
           <div
-            class="MuiGrid-root-18 MuiGrid-item-20 MuiGrid-grid-xs-12-64 MuiGrid-grid-sm-8-74 MuiGrid-grid-md-7-87"
+            class="MuiGrid-root-19 MuiGrid-item-21 MuiGrid-grid-xs-12-65 MuiGrid-grid-sm-8-75 MuiGrid-grid-md-7-88"
           >
             <div
-              class="MuiPaper-root-252 makeStyles-mainPapers-5 MuiPaper-elevation0-255 MuiPaper-rounded-253"
+              class="MuiPaper-root-258 makeStyles-mainPapers-255 MuiPaper-elevation0-261 MuiPaper-rounded-259"
             >
               <div
-                class="MuiGrid-root-18 MuiGrid-container-19 MuiGrid-spacing-xs-1-41"
+                class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-spacing-xs-1-42"
               >
                 <div
-                  class="MuiGrid-root-18 MuiGrid-item-20 MuiGrid-grid-xs-12-64"
+                  class="MuiGrid-root-19 MuiGrid-item-21 MuiGrid-grid-xs-12-65"
                 >
                   <p
-                    class="MuiTypography-root-124 MuiTypography-body1-126"
+                    class="MuiTypography-root-125 MuiTypography-body1-127"
                   >
-                    Remaining Honey Pot Pool
+                    Redemption Pool Remaining
                   </p>
                 </div>
-                
                 <div
-                  class="MuiGrid-root-18 MuiGrid-item-20 MuiGrid-grid-xs-12-64"
+                  class="MuiGrid-root-19 MuiGrid-item-21 MuiGrid-grid-xs-12-65"
                 >
                   <button
-                    class="MuiButtonBase-root-249 MuiButton-root-220 MuiButton-contained-228 makeStyles-redeemButton-6 MuiButton-containedPrimary-229"
+                    class="MuiButtonBase-root-250 MuiButton-root-221 MuiButton-contained-229 makeStyles-redeemButton-256 MuiButton-containedPrimary-230"
                     tabindex="0"
                     type="button"
                   >
                     <span
-                      class="MuiButton-label-221"
+                      class="MuiButton-label-222"
                     >
                       Check Rewards
                     </span>
                     <span
-                      class="MuiTouchRipple-root-280"
+                      class="MuiTouchRipple-root-286"
                     />
                   </button>
                 </div>
               </div>
             </div>
+            <a
+              aria-disabled="false"
+              aria-label="Learn More"
+              class="MuiButtonBase-root-250 MuiButton-root-221 MuiButton-text-223 makeStyles-learnMore-257 MuiButton-textPrimary-224 MuiButton-textSizeSmall-236 MuiButton-sizeSmall-242 MuiButton-fullWidth-244"
+              href="https://badgerdao.medium.com/badger-x-meme-nft-honeypot-part-ii-diamond-hands-7111d38b5df4"
+              tabindex="0"
+              target="_"
+            >
+              <span
+                class="MuiButton-label-222"
+              >
+                Learn More
+              </span>
+              <span
+                class="MuiTouchRipple-root-286"
+              />
+            </a>
           </div>
         </div>
         

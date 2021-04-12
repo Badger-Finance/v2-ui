@@ -3,20 +3,6 @@ import { Box, Button, CircularProgress, Grid, makeStyles, Paper, Typography } fr
 import VolumeOffIcon from '@material-ui/icons/VolumeOff';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 
-interface Props {
-	nftId: string;
-	name: string;
-	balance: string;
-	remaining: string;
-	redemptionRateBdigg: string;
-	redemptionRateUsd: string;
-	image?: string;
-	redirectUrl?: string;
-	disabled?: boolean;
-	loading?: boolean;
-	onRedeem: (id: string) => void;
-}
-
 const useStyles = makeStyles((theme) => ({
 	paper: {
 		padding: theme.spacing(2, 3),
@@ -53,26 +39,47 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const SoundIcon: React.FC<{ muted: boolean; onClick: () => void }> = ({ muted, onClick }) => {
+interface SoundIconProps {
+	muted: boolean;
+	onClick: () => void;
+}
+
+const SoundIcon: React.FC<SoundIconProps> = (props: SoundIconProps) => {
+	const { muted, onClick } = props;
 	const classes = useStyles();
 	const Icon = muted ? VolumeOffIcon : VolumeUpIcon;
 
 	return <Icon className={classes.soundIcon} onClick={onClick} />;
 };
 
-const NftStats: React.FC<Props> = ({
-	nftId,
-	name,
-	balance,
-	remaining,
-	redemptionRateBdigg,
-	redemptionRateUsd,
-	image,
-	redirectUrl,
-	disabled = false,
-	loading = false,
-	onRedeem,
-}) => {
+export interface NftStatsProps {
+	nftId: string;
+	name: string;
+	balance: string;
+	remaining: string;
+	redemptionRateBdigg: string;
+	redemptionRateUsd: string;
+	image?: string;
+	redirectUrl?: string;
+	disabled?: boolean;
+	loading?: boolean;
+	onRedeem: (id: string) => void;
+}
+
+const NftStats: React.FC<NftStatsProps> = (props: NftStatsProps) => {
+	const {
+		nftId,
+		name,
+		balance,
+		remaining,
+		redemptionRateBdigg,
+		redemptionRateUsd,
+		image,
+		redirectUrl,
+		disabled = false,
+		loading = false,
+		onRedeem,
+	} = props;
 	const [muted, setMuted] = React.useState(true);
 	const classes = useStyles();
 

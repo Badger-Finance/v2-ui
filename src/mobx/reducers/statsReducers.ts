@@ -1,7 +1,6 @@
 import BigNumber from 'bignumber.js';
 import { RootStore } from 'mobx/store';
 import Web3 from 'web3';
-
 import { inCurrency, formatTokens } from 'mobx/utils/helpers';
 import { getDiggPerShare } from 'mobx/utils/diggHelpers';
 import {
@@ -43,7 +42,7 @@ export const reduceRebaseToStats = (store: RootStore): RebaseToStats | undefined
 	if (!tokens) return;
 	if (!network.deploy) return;
 
-	const token = tokens[network.deploy!['digg_system']['uFragments']];
+	const token = tokens[network.deploy['digg_system']['uFragments']];
 
 	return {
 		nextRebase: new Date('Jan 23 8:00PM UTC'),
@@ -144,9 +143,9 @@ function calculatePortfolioStats(vaultContracts: any, geyserContracts: any, toke
 		}
 	});
 
-	const badger: Token = tokens[network.deploy!.token];
-	const digg: Token | undefined = network.deploy!.digg_system
-		? tokens[network.deploy!.digg_system.uFragments]
+	const badger: Token = tokens[network.deploy.token];
+	const digg: Token | undefined = network.deploy.digg_system
+		? tokens[network.deploy.digg_system.uFragments]
 		: undefined;
 	const badgerToken = !!badger && !!badger.ethValue ? badger.ethValue : new BigNumber(0);
 	const diggToken = !!digg && !!digg.ethValue ? digg.ethValue : new BigNumber(0);

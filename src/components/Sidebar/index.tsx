@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import views from '../../config/routes';
-import _ from 'lodash';
 import { useContext } from 'react';
 import { StoreContext } from '../../mobx/store-context';
 import {
@@ -127,6 +126,7 @@ export const Sidebar = observer(() => {
 		uiState: { sidebarOpen, closeSidebar },
 		rewards: { badgerTree },
 		wallet: { network },
+		user,
 	} = store;
 
 	const [expanded, setExpanded] = useState('');

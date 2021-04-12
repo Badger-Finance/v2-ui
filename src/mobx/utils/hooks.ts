@@ -1,8 +1,11 @@
 import React from 'react';
 import { StoreContext } from 'mobx/store-context';
-import BigNumber from 'bignumber.js';
 
-export function useConnectWallet() {
+/**
+ * Utility hook that return the a function that upon execution will prompt wallet connection
+ * @returns wallet connection prompt function
+ */
+export function useConnectWallet(): () => void {
 	const store = React.useContext(StoreContext);
 	const { onboard } = store.wallet;
 
@@ -17,15 +20,3 @@ export function useConnectWallet() {
 		}
 	};
 }
-
-export function useBdiggToDigg() {
-	const store = React.useContext(StoreContext);
-	const { stats, rebaseStats } = store.uiState;
-
-	return (bdigg: BigNumber) => {
-		if (!stats.stats.digg || !rebaseStats.btcPrice) return new BigNumber('0');
-		const rebasePercentage = ((stats.stats.digg - rebaseStats.btcPrice) / rebaseStats.btcPrice) * 0.1;
-		return bdigg.plus(bdigg.multipliedBy(rebasePercentage));
-	};
-}
-

@@ -1,29 +1,46 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { observer } from 'mobx-react-lite';
 import { Grid, Container, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { StoreContext } from '../../mobx/store-context';
 import { BridgeForm } from './BridgeForm';
 import PageHeader from 'components-v2/common/PageHeader';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
-		marginTop: theme.spacing(11),
 		[theme.breakpoints.up('md')]: {
-			paddingLeft: theme.spacing(33),
-			marginTop: theme.spacing(2),
+			paddingLeft: theme.spacing(30),
 		},
 	},
+	headerContainer: {
+		marginTop: theme.spacing(3),
+		marginBottom: theme.spacing(6),
+	},
 	statPaper: {
-		padding: theme.spacing(2),
 		textAlign: 'center',
 	},
 	before: {
 		marginTop: theme.spacing(3),
 		width: '100%',
 	},
+	summaryWrapper: {
+		background: 'rgba(20, 20, 20, 0.5)',
+		boxShadow: '0px 0.913793px 3.65517px rgba(0, 0, 0, 0.08)',
+		margin: '0 0px',
+	},
+	summaryRow: {
+		display: 'flex',
+		padding: '1rem 2.4rem',
+
+		justifyContent: 'space-between',
+		'& h6:last-child': {
+			textAlign: 'end',
+		},
+		'& h6:first-child': {
+			textAlign: 'start',
+		},
+	},
 	button: {
-		margin: theme.spacing(1.5, 0, 2),
+		margin: theme.spacing(2, 0, 3),
 		paddingTop: theme.spacing(2),
 		paddingBottom: theme.spacing(2),
 		width: '70%',
@@ -100,34 +117,50 @@ const useStyles = makeStyles((theme) => ({
 		color: theme.palette.text.primary,
 		backgroundColor: theme.palette.background.paper,
 	},
+	tabHeader: { background: 'rgba(0,0,0,.2)' },
+	btnMax: {
+		alignSelf: 'center',
+		marginRight: '.6rem',
+	},
+	padded: {
+		padding: '2rem 2rem',
+	},
+	select: { height: '3rem', overflow: 'hidden', margin: '.3rem 0 0 .6rem' },
+	row: {
+		display: 'flex',
+		justifyContent: 'space-between',
+		flexDirection: 'row',
+		alignItems: 'center',
+		width: '100%',
+		padding: '.5rem 0 0 1rem',
+	},
 }));
 export const Bridge = observer(() => {
-	const store = useContext(StoreContext);
 	const classes = useStyles();
 
 	const spacer = () => <div className={classes.before} />;
 
 	return (
 		<Container className={classes.root}>
-			<Grid container spacing={2} justify="center">
-				<Grid item sm={12} xs={12}>
+			<Grid container spacing={1} justify="center">
+				<Grid item sm={12} xs={12} className={classes.headerContainer}>
 					<PageHeader title="Badger Bitcoin Bridge." subtitle="Powered by RenVM" />
 				</Grid>
-				{spacer()}
 				<Grid item xs={12} md={7}>
-					<Paper className={classes.statPaper}>
+					<Paper className={classes.statPaper} style={{ padding: '1rem 0' }}>
 						<p>
 							RenVM is new technology and{' '}
 							<a
 								className={classes.link}
 								href={'https://github.com/renproject/ren/wiki/Audits'}
 								target={'_blank'}
+								rel={'noreferrer'}
 							>
 								security audits
 							</a>{' '}
-							don't completely eliminate risks.
+							don&apos;t completely eliminate risks.
 							<br />
-							Please don’t supply assets you can’t afford to lose.
+							Please don&apos;t supply assets you can&apos;t afford to lose.
 						</p>
 					</Paper>
 				</Grid>
