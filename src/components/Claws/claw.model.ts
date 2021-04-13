@@ -5,3 +5,9 @@ export interface ClawParam {
 	selectedOption?: string;
 	error?: BOUNDARY_ERROR;
 }
+
+export interface ClawActionDetail {
+	name: string;
+	text?: string;
+	subText?: string;
+}

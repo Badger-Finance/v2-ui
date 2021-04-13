@@ -5,7 +5,7 @@ import utc from 'dayjs/plugin/utc';
 import { StoreContext } from 'mobx/store-context';
 import { scaleToString, Direction, BOUNDARY_ERROR } from 'utils/componentHelpers';
 import { exchangeRates as ethExchangeRates } from 'mobx/utils/helpers';
-import { ClawParam } from '../claw-param.model';
+import { ClawActionDetail, ClawParam } from '../claw.model';
 
 dayjs.extend(utc);
 
@@ -37,7 +37,7 @@ export function useValidateClaw(mint: ClawParam) {
 	return synthetic.globalCollateralizationRatio.isZero();
 }
 
-export function useMintDetails(collateral: ClawParam, synthetic: ClawParam) {
+export function useDetails(collateral: ClawParam, synthetic: ClawParam): ClawActionDetail[] {
 	const store = React.useContext(StoreContext);
 	const collateralToken = store.contracts.tokens[collateral.selectedOption || ''];
 	const syntheticData = store.claw.syntheticsDataByEMP.get(synthetic.selectedOption || '');
@@ -67,19 +67,19 @@ export function useMintDetails(collateral: ClawParam, synthetic: ClawParam) {
 	const currentCollateralRatio = liquidationPrice.dividedBy(synthetic.amount); // Liquidation Price in USD / Synthetic Amount (because they're assume to cost 1$)
 
 	return [
-		{ name: 'Liquidation Price', text: liquidationPrice.toFixed(decimals, BigNumber.ROUND_DOWN) },
+		{ name: 'Liquidation Price', text: `${liquidationPrice.toFixed(decimals, BigNumber.ROUND_DOWN)} $` },
 		{
 			name: 'Collateral Ratio - Global',
-			text: `${scaleToString(globalCollateralizationRatio, decimals, Direction.Down)}x`,
+			text: `${scaleToString(globalCollateralizationRatio, decimals, Direction.Down)} ${collateralToken.name}`,
 		},
 		{
 			name: 'Collateral Ratio - Minimum',
-			text: `${scaleToString(collateralRequirement, decimals, Direction.Down)}x`,
+			text: `${scaleToString(collateralRequirement, decimals, Direction.Down)} $`,
 		},
 		{
 			name: 'Collateral Ratio - Current',
 			text: currentCollateralRatio.isFinite()
-				? `${currentCollateralRatio.toFixed(decimals, BigNumber.ROUND_DOWN)}x`
+				? `${currentCollateralRatio.toFixed(decimals, BigNumber.ROUND_DOWN)} $`
 				: '-',
 		},
 		{

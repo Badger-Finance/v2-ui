@@ -13,7 +13,7 @@ import { scaleToString, Direction } from 'utils/componentHelpers';
 import { validateAmountBoundaries } from 'utils/componentHelpers';
 import { useMainStyles } from '../index';
 import { useAmountToReceive, useDetails, useError } from './redeem.hooks';
-import { ClawParam } from '../claw-param.model';
+import { ClawParam } from '../claw.model';
 import { TokenSelect } from '../../../components-v2/common/TokenSelect';
 import { TokenAmountInput } from '../../../components-v2/common/TokenAmountInput';
 import { PercentageGroup } from '../../../components-v2/common/PercentageGroup';
@@ -126,7 +126,7 @@ const Redeem = () => {
 										amount: clawBalance
 											.multipliedBy(percentage / 100)
 											.dividedBy(10 ** decimals)
-											.toFixed(0, BigNumber.ROUND_DOWN),
+											.toFixed(decimals, BigNumber.ROUND_DOWN),
 										error: undefined,
 									});
 								}}

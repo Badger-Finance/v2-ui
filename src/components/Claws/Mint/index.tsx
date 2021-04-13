@@ -9,7 +9,7 @@ import { TokenSelectorWithAmountContainer } from 'components-v2/common/TokenSele
 import { ActionButton } from '../ActionButton';
 import { ClawDetails } from '../ClawDetails';
 import { useMainStyles } from '../index';
-import { useError, useMaxClaw, useMintDetails, useValidateClaw } from './mint.hooks';
+import { useError, useMaxClaw, useDetails, useValidateClaw } from './mint.hooks';
 import { mintReducer, State } from './mint.reducer';
 import { scaleToString, Direction } from 'utils/componentHelpers';
 import { TokenSelect } from '../../../components-v2/common/TokenSelect';
@@ -26,7 +26,7 @@ export const Mint = observer(() => {
 	const { collateral, synthetic } = state;
 	const error = useError(collateral, synthetic);
 	const maxClaw = useMaxClaw(collateral, synthetic);
-	const mintDetails = useMintDetails(collateral, synthetic);
+	const mintDetails = useDetails(collateral, synthetic);
 	const validateClaw = useValidateClaw(synthetic);
 
 	const collateralToken = contracts.tokens[collateral.selectedOption || ''];

@@ -6,7 +6,7 @@ import { StoreContext } from 'mobx/store-context';
 import { scaleToString, Direction, BOUNDARY_ERROR } from 'utils/componentHelpers';
 import BigNumber from 'bignumber.js';
 import { exchangeRates as ethExchangeRates } from 'mobx/utils/helpers';
-import { ClawParam } from '../claw-param.model';
+import { ClawActionDetail, ClawParam } from '../claw.model';
 
 dayjs.extend(utc);
 dayjs.extend(relativeTime);
@@ -45,7 +45,7 @@ export function useError({ selectedOption, amount, error }: ClawParam): string {
 	return errors.reduce((a, b) => a || b);
 }
 
-export function useDetails(mode: string, manage: ClawParam) {
+export function useDetails(mode: string, manage: ClawParam): ClawActionDetail[] {
 	const { claw, contracts, setts } = React.useContext(StoreContext);
 	const isWithdraw = mode === 'withdraw';
 	const syntheticData = claw.syntheticsDataByEMP.get(manage.selectedOption || '');
@@ -77,7 +77,7 @@ export function useDetails(mode: string, manage: ClawParam) {
 	const modeSpecificStats = [
 		{
 			name: isWithdraw ? 'Withdraw Speed' : 'Liquidation Price',
-			text: isWithdraw ? 'Slow' : liquidationPrice.toFixed(decimals, BigNumber.ROUND_DOWN),
+			text: isWithdraw ? 'Slow' : `${liquidationPrice.toFixed(decimals, BigNumber.ROUND_DOWN)} $`,
 			subText: isWithdraw ? withdrawTime : undefined,
 		},
 
@@ -91,13 +91,13 @@ export function useDetails(mode: string, manage: ClawParam) {
 		...modeSpecificStats,
 		{
 			name: 'Collateral Ratio - Global',
-			text: `${scaleToString(globalCollateralizationRatio, decimals, Direction.Down)}x`,
+			text: `${scaleToString(globalCollateralizationRatio, decimals, Direction.Down)} ${bToken.name}`,
 		},
 		{
 			name: 'Collateral Ratio - Minimum',
-			text: `${scaleToString(collateralRequirement, decimals, Direction.Down)}x`,
+			text: `${scaleToString(collateralRequirement, decimals, Direction.Down)} $`,
 		},
-		{ name: 'Collateral Ratio - Current', text: `${currentCollateralRatio.toString()}x` },
+		{ name: 'Collateral Ratio - Current', text: `${currentCollateralRatio.toString()} $` },
 		{
 			name: 'Expiration',
 			text: `${dayjs(new Date(expirationTimestamp.toNumber() * 1000))

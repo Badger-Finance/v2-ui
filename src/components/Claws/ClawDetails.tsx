@@ -1,14 +1,10 @@
 /* eslint-disable react/prop-types */
 import React, { FC } from 'react';
-import { Grid, Typography, makeStyles, useMediaQuery } from '@material-ui/core';
+import { Grid, Typography, makeStyles } from '@material-ui/core';
+import { ClawActionDetail } from './claw.model';
 
-interface Detail {
-	name: string;
-	text?: string;
-	subText?: string;
-}
 interface Props {
-	details: Detail[];
+	details: ClawActionDetail[];
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -35,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const DetailName = ({ name, text }: Pick<Detail, 'name' | 'text'>) => {
+const DetailName = ({ name }: Pick<ClawActionDetail, 'name'>) => {
 	const classes = useStyles();
 
 	return (
@@ -47,7 +43,7 @@ const DetailName = ({ name, text }: Pick<Detail, 'name' | 'text'>) => {
 	);
 };
 
-const DetailDescription = ({ text, subText }: Pick<Detail, 'text' | 'subText'>) => {
+const DetailDescription = ({ text, subText }: Pick<ClawActionDetail, 'text' | 'subText'>) => {
 	const classes = useStyles();
 	const descriptionClass = text ? classes.detailDescription : classes.placeholder;
 
@@ -76,7 +72,7 @@ export const ClawDetails: FC<Props> = ({ details }) => {
 		<Grid container className={classes.root}>
 			{details.map(({ name, text, subText }, index) => (
 				<Grid container className={classes.row} key={`${name}_${index}`}>
-					<DetailName name={name} text={text} />
+					<DetailName name={name} />
 					<DetailDescription text={text} subText={subText} />
 				</Grid>
 			))}

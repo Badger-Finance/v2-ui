@@ -5,7 +5,7 @@ import utc from 'dayjs/plugin/utc';
 import { StoreContext } from 'mobx/store-context';
 
 import { TEN } from 'config/constants';
-import { ClawParam } from '../claw-param.model';
+import { ClawActionDetail, ClawParam } from '../claw.model';
 import { BOUNDARY_ERROR } from 'utils/componentHelpers';
 
 dayjs.extend(utc);
@@ -22,7 +22,7 @@ export function useError({ selectedOption, amount, error }: ClawParam) {
 	return collateralError || tokenError || amountError;
 }
 
-export function useDetails({ selectedOption }: ClawParam) {
+export function useDetails({ selectedOption }: ClawParam): ClawActionDetail[] {
 	const { claw, contracts } = React.useContext(StoreContext);
 	const synthetic = claw.syntheticsDataByEMP.get(selectedOption || '');
 	const bToken = contracts.tokens[synthetic?.collateralCurrency ?? ''];
