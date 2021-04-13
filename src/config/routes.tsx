@@ -84,8 +84,8 @@ const routes = {
 		path: '/honey-badger-drop',
 		component: <HoneybadgerDrop />,
 	}),
-	claws: new Route<RootStore, QueryParams>({
-		path: '/claws',
+	claw: new Route<RootStore, QueryParams>({
+		path: '/claw',
 		component: <Claw />,
 	}),
 	// account: new Route<RootStore, {

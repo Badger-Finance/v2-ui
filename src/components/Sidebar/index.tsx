@@ -339,11 +339,11 @@ export const Sidebar = observer(() => {
 								className={
 									classes.listItem +
 									' ' +
-									(store.router.currentPath == '/claws' ? classes.activeListItem : '')
+									(store.router.currentPath == '/claw' ? classes.activeListItem : '')
 								}
-								onClick={() => goTo(views.claws)}
+								onClick={() => goTo(views.claw)}
 							>
-								<ListItemText primary="Claws" />
+								<ListItemText primary="Claw" />
 
 								{/* <Chip size="small" label={"Coming soon"} variant="outlined" color="primary" className={classes.rewards} /> */}
 							</ListItem>
