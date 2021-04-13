@@ -114,6 +114,10 @@ describe('Claw - Mint', () => {
 				fireEvent.click(fiftyPercentCollateralButton);
 				expect(screen.getByDisplayValue('261.189215076910560991')).toBeInTheDocument();
 			});
+
+			test('action button is disabled and with "Enter collateral amount" as text', () => {
+				expect(screen.getByRole('button', { name: 'Enter collateral amount' })).toBeDisabled();
+			});
 		});
 	});
 
@@ -201,6 +205,14 @@ describe('Claw - Mint', () => {
 					expect(fiftyPercentSyntheticButton).toBeEnabled();
 					fireEvent.click(fiftyPercentSyntheticButton);
 					expect(screen.getByDisplayValue('100')).toBeInTheDocument();
+				});
+
+				test('on synthetic input action button gets enabled', () => {
+					const [, syntheticAmountInput] = screen.getAllByRole('textbox');
+					// Enter value 100 in the input and check it changes correspondingly
+					fireEvent.change(syntheticAmountInput, { target: { value: syntheticAmountToUse } });
+					expect(screen.getByDisplayValue(syntheticAmountToUse)).toBeInTheDocument();
+					expect(screen.getByRole('button', { name: 'MINT' })).toBeEnabled();
 				});
 			});
 		});

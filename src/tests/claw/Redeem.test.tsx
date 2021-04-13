@@ -109,7 +109,6 @@ describe('Claw - Redeem', () => {
 
 		test('collateral balance to receive is displayed', () => {
 			expect(screen.getByText('bBADGER')).toBeInTheDocument();
-			screen.debug(undefined, 1e18);
 			expect(screen.getByDisplayValue('0.15107035573335676819')).toBeInTheDocument();
 		});
 
