@@ -542,6 +542,7 @@ export interface Network {
 	getGasPrices: () => Promise<GasPrices>;
 	getNotifyLink: EmitterListener;
 	isWhitelisted: { [index: string]: boolean };
+	customDeposit: { [index: string]: boolean };
 }
 
 export class BscNetwork implements Network {
@@ -561,7 +562,7 @@ export class BscNetwork implements Network {
 		this.deploy.sett_system.vaults['native.bDiggBtcb'],
 		this.deploy.sett_system.vaults['native.bBadgerBtcb'],
 		this.deploy.sett_system.vaults['native.pancakeBnbBtcb'],
-		this.deploy.test.vaults['yearn.wrapper'],
+		this.deploy.sett_system.vaults['yearn.wBtc'],
 	];
 	public readonly sidebarTokenLinks = [
 		{
@@ -580,7 +581,10 @@ export class BscNetwork implements Network {
 		return { link: `https://bscscan.com//tx/${transaction.hash}` };
 	}
 	public readonly isWhitelisted = {
-		[this.deploy.test.vaults['yearn.wrapper']]: true,
+		[this.deploy.sett_system.vaults['yearn.wBtc']]: true,
+	};
+	public readonly customDeposit = {
+		[this.deploy.sett_system.vaults['yearn.wBtc']]: true,
 	};
 }
 
@@ -635,11 +639,13 @@ export class EthNetwork implements Network {
 			slow: result.data['slow'] / 1e9,
 		};
 	}
-
 	public getNotifyLink(transaction: TransactionData): NotifyLink {
 		return { link: `https://etherscan.io/tx/${transaction.hash}` };
 	}
 	public readonly isWhitelisted = {
+		[this.deploy.sett_system.vaults['yearn.wBtc']]: true,
+	};
+	public readonly customDeposit = {
 		[this.deploy.sett_system.vaults['yearn.wBtc']]: true,
 	};
 }

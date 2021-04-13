@@ -50,7 +50,6 @@ const SettDialog = (props: SettDialogProps): JSX.Element => {
 	 * TODO: Revist the general structure of downstream data consumption
 	 * This structure is a bit recursive
 	 */
-
 	if (!vault) {
 		// user wallet not connected - populate zero data
 		vault = contracts.getOrCreateVault('', new Token(store, '', 18), SettAbi.abi);
@@ -64,7 +63,6 @@ const SettDialog = (props: SettDialogProps): JSX.Element => {
 		// or Unstake tabs.
 		const noStake: { [sett: string]: boolean } = {
 			[deploy.sett_system.vaults['native.digg']]: true,
-			[deploy.sett_system.vaults['yearn.wBtc']]: true,
 		};
 		return (
 			<Tabs
