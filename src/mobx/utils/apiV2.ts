@@ -1,4 +1,4 @@
-import { Eligibility, PriceSummary, ProtocolSummary, Sett } from 'mobx/model';
+import { Eligibility, PriceSummary, ProtocolSummary, Sett, BouncerProof } from 'mobx/model';
 
 export const getApi = (): string => {
 	if (process.env.REACT_APP_BUILD_ENV === 'production') {
@@ -14,6 +14,7 @@ const listGeysersEndpoint = `${badgerApi}/geysers`;
 const getPricesEndpoint = `${badgerApi}/prices`;
 const getTVLEndpoint = `${badgerApi}/value`;
 const checkShopEndpoint = `${badgerApi}/reward/shop`;
+const getBouncerProofEndpoint = `${badgerApi}/reward/bouncer`;
 
 // api function calls
 export const listSetts = async (chain?: string): Promise<Sett[] | null> => {
@@ -36,6 +37,10 @@ export const getTotalValueLocked = async (network?: string): Promise<ProtocolSum
 
 export const checkShopEligibility = async (address: string): Promise<Eligibility | null> => {
 	return fetchData(() => fetch(`${checkShopEndpoint}/${address}`));
+};
+
+export const fetchBouncerProof = async (address: string): Promise<BouncerProof | null> => {
+	return fetchData(() => fetch(`${getBouncerProofEndpoint}/${address}`));
 };
 
 const fetchData = async <T>(request: () => Promise<Response>): Promise<T | null> => {

@@ -658,6 +658,11 @@ export type Eligibility = {
 	isEligible: boolean;
 };
 
+export type BouncerProof = {
+	address: string;
+	proof: string[];
+};
+
 export enum Protocol {
 	Curve = 'curve',
 	Sushiswap = 'sushiswap',
