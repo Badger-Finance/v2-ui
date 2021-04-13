@@ -56,7 +56,7 @@ export const getVaults = (network?: string | null): VaultNetworkConfig => {
 				yearn: {
 					abi: YearnWrapper.abi as AbiItem[],
 					underlying: 'token',
-					contracts: [bscDeploy.test.vaults['yearn.wrapper']],
+					contracts: [bscDeploy.sett_system.vaults['yearn.wBtc']],
 					fillers: {
 						symbol: ['TEST'],
 						isFeatured: [false],

@@ -76,7 +76,7 @@ export const getTokens = (network?: string | null): TokenNetworkConfig => {
 						'0x7561EEe90e24F3b348E1087A005F78B4c8453524',
 					[bscDeploy.sett_system.vaults['native.bBadgerBtcb']]: '0x10F461CEAC7A17F59e249954Db0784d42EfF5DB5',
 					[bscDeploy.sett_system.vaults['native.bDiggBtcb']]: '0xE1E33459505bB3763843a426F7Fd9933418184ae',
-					[bscDeploy.test.vaults['yearn.wrapper']]: bscDeploy.test.assets['yearn.test'],
+					[bscDeploy.sett_system.vaults['yearn.wBtc']]: bscDeploy.test.assets['yearn.test'],
 				},
 			};
 		case NETWORK_LIST.ETH:
