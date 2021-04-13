@@ -517,15 +517,23 @@ class ContractsStore {
 	depositVault = action((vault: any, amount: BigNumber, all = false, callback: (err: any, result: any) => void) => {
 		const { queueNotification, setTxStatus } = this.store.uiState;
 		const { provider, connectedAddress, network } = this.store.wallet;
+		const { bouncerProof } = this.store.user;
 
 		const web3 = new Web3(provider);
 		const underlyingContract = new web3.eth.Contract(vault.abi, vault.address);
 		let method = underlyingContract.methods.deposit(amount.toFixed(0, BigNumber.ROUND_HALF_FLOOR));
 		if (network.customDeposit[vault.address]) {
-			//TODO: get proof from API for yearn guestlist deposits
-			const proof = '';
-			if (all) method = underlyingContract.methods.deposit(proof);
-			else method = underlyingContract.methods.deposit(amount.toFixed(0, BigNumber.ROUND_HALF_FLOOR), proof);
+			if (process.env.REACT_APP_BUILD_ENV !== 'production') console.log('proof:', bouncerProof);
+			if (!bouncerProof) {
+				queueNotification(`Error loading Badger Bouncer Proof`, 'error');
+				return;
+			}
+			if (all) method = underlyingContract.methods.deposit(bouncerProof);
+			else
+				method = underlyingContract.methods.deposit(
+					amount.toFixed(0, BigNumber.ROUND_HALF_FLOOR),
+					bouncerProof,
+				);
 		} else if (all) method = underlyingContract.methods.depositAll();
 
 		queueNotification(
