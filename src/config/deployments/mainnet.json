@@ -154,8 +154,8 @@
 	},
 	"claw_system": {
 		"emps": {
-			"bClaw": "0x3F9E5Fc63b644797bd703CED7c29b57B1Bf0B220",
-			"sClaw": "0x5E4a8D011ef8d9E8B407cc87c68bD211B7ac72ab"
+			"USD/bBadger 5-29": "0x3F9E5Fc63b644797bd703CED7c29b57B1Bf0B220",
+			"USD-[bwBTC/ETH SLP] 5-29": "0x5E4a8D011ef8d9E8B407cc87c68bD211B7ac72ab"
 		}
 	}
 }
