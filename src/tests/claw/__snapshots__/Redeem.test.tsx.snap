@@ -3,47 +3,47 @@
 exports[`Claw - Redeem matches snapshot 1`] = `
 <div>
   <div
-    class="MuiGrid-root-11 MuiGrid-container-12"
+    class="MuiGrid-root-5 MuiGrid-container-6"
   >
     <div
-      class="MuiGrid-root-11 MuiBox-root-114 MuiBox-root-1 MuiGrid-item-13 MuiGrid-grid-xs-12-57"
+      class="MuiGrid-root-5 MuiBox-root-108 MuiBox-root-1 MuiGrid-item-7 MuiGrid-grid-xs-12-51"
     >
       <div
-        class="MuiGrid-root-11 MuiGrid-container-12"
+        class="MuiGrid-root-5 MuiGrid-container-6"
       >
         <div
-          class="MuiGrid-root-11 MuiBox-root-114 MuiBox-root-2 MuiGrid-item-13 MuiGrid-grid-xs-12-57"
+          class="MuiGrid-root-5 MuiBox-root-108 MuiBox-root-2 MuiGrid-item-7 MuiGrid-grid-xs-12-51"
         >
           <div
-            class="MuiGrid-root-11 MuiGrid-container-12 MuiGrid-spacing-xs-1-34"
+            class="MuiGrid-root-5 MuiGrid-container-6 MuiGrid-spacing-xs-1-28"
           >
             <div
-              class="MuiGrid-root-11 MuiGrid-item-13 MuiGrid-grid-xs-12-57 MuiGrid-grid-sm-6-65"
+              class="MuiGrid-root-5 MuiGrid-item-7 MuiGrid-grid-xs-12-51 MuiGrid-grid-sm-6-59"
             >
               <p
-                class="MuiTypography-root-121 MuiTypography-body2-122 MuiTypography-colorTextSecondary-147"
+                class="MuiTypography-root-115 MuiTypography-body2-116 MuiTypography-colorTextSecondary-141"
               >
                 Token
               </p>
             </div>
             <div
-              class="MuiGrid-root-11 MuiGrid-item-13 MuiGrid-grid-xs-12-57 MuiGrid-grid-sm-6-65"
+              class="MuiGrid-root-5 MuiGrid-item-7 MuiGrid-grid-xs-12-51 MuiGrid-grid-sm-6-59"
             >
               <div
-                class="MuiGrid-root-11 makeStyles-availableText-119 MuiGrid-container-12 MuiGrid-spacing-xs-1-34"
+                class="MuiGrid-root-5 makeStyles-availableText-113 MuiGrid-container-6 MuiGrid-spacing-xs-1-28"
               >
                 <div
-                  class="MuiGrid-root-11 MuiGrid-item-13"
+                  class="MuiGrid-root-5 MuiGrid-item-7"
                 >
                   <p
-                    class="MuiTypography-root-121 MuiTypography-body2-122 MuiTypography-colorTextSecondary-147"
+                    class="MuiTypography-root-115 MuiTypography-body2-116 MuiTypography-colorTextSecondary-141"
                   />
                 </div>
                 <div
-                  class="MuiGrid-root-11 makeStyles-balanceText-120 MuiGrid-item-13"
+                  class="MuiGrid-root-5 makeStyles-balanceText-114 MuiGrid-item-7"
                 >
                   <p
-                    class="MuiTypography-root-121 MuiTypography-body2-122 MuiTypography-colorTextPrimary-146"
+                    class="MuiTypography-root-115 MuiTypography-body2-116 MuiTypography-colorTextPrimary-140"
                   />
                 </div>
               </div>
@@ -51,29 +51,29 @@ exports[`Claw - Redeem matches snapshot 1`] = `
           </div>
         </div>
         <div
-          class="MuiGrid-root-11 MuiGrid-item-13 MuiGrid-grid-xs-12-57"
+          class="MuiGrid-root-5 MuiGrid-item-7 MuiGrid-grid-xs-12-51"
         >
           <div
-            class="MuiGrid-root-11 makeStyles-border-116 MuiBox-root-114 MuiBox-root-3 MuiGrid-container-12 MuiGrid-align-items-xs-center-20 MuiGrid-align-content-xs-center-24"
+            class="MuiGrid-root-5 makeStyles-border-110 MuiBox-root-108 MuiBox-root-3 MuiGrid-container-6 MuiGrid-align-items-xs-center-14 MuiGrid-align-content-xs-center-18"
           >
             <div
-              class="MuiGrid-root-11 MuiGrid-item-13 MuiGrid-grid-xs-12-57 MuiGrid-grid-sm-8-67 MuiGrid-grid-lg-9-96"
+              class="MuiGrid-root-5 MuiGrid-item-7 MuiGrid-grid-xs-12-51 MuiGrid-grid-sm-8-61 MuiGrid-grid-lg-9-90"
             >
               <div
-                class="MuiGrid-root-11 makeStyles-selectContainer-117 MuiGrid-container-12 MuiGrid-spacing-xs-2-35 MuiGrid-align-items-xs-center-20"
+                class="MuiGrid-root-5 makeStyles-selectContainer-111 MuiGrid-container-6 MuiGrid-spacing-xs-2-29 MuiGrid-align-items-xs-center-14"
               >
                 <div
-                  class="MuiGrid-root-11 MuiGrid-item-13 MuiGrid-grid-xs-12-57 MuiGrid-grid-sm-true-59"
+                  class="MuiGrid-root-5 MuiGrid-item-7 MuiGrid-grid-xs-12-51 MuiGrid-grid-sm-true-53"
                 >
                   <div
-                    class="MuiFormControl-root-153 makeStyles-margin-152"
+                    class="MuiFormControl-root-147 makeStyles-margin-146"
                   >
                     <div
-                      class="MuiInputBase-root-168 MuiInputBase-formControl-169"
+                      class="MuiInputBase-root-162 MuiInputBase-formControl-163"
                     >
                       <div
                         aria-haspopup="listbox"
-                        class="MuiSelect-root-157 MuiSelect-select-158 MuiSelect-selectMenu-161 MuiInputBase-input-179"
+                        class="MuiSelect-root-151 MuiSelect-select-152 MuiSelect-selectMenu-155 MuiInputBase-input-173"
                         role="button"
                         tabindex="0"
                       >
@@ -81,14 +81,14 @@ exports[`Claw - Redeem matches snapshot 1`] = `
                       </div>
                       <input
                         aria-hidden="true"
-                        class="MuiSelect-nativeInput-167"
+                        class="MuiSelect-nativeInput-161"
                         placeholder="Select Token"
                         tabindex="-1"
                         value=""
                       />
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root-186 MuiSelect-icon-163"
+                        class="MuiSvgIcon-root-180 MuiSelect-icon-157"
                         focusable="false"
                         viewBox="0 0 24 24"
                       >
@@ -100,13 +100,13 @@ exports[`Claw - Redeem matches snapshot 1`] = `
                   </div>
                 </div>
                 <div
-                  class="MuiGrid-root-11 MuiGrid-item-13 MuiGrid-grid-xs-12-57 MuiGrid-grid-sm-true-59"
+                  class="MuiGrid-root-5 MuiGrid-item-7 MuiGrid-grid-xs-12-51 MuiGrid-grid-sm-true-53"
                 >
                   <div
-                    class="MuiInputBase-root-168 makeStyles-input-199 MuiInputBase-disabled-171 MuiInputBase-fullWidth-178"
+                    class="MuiInputBase-root-162 makeStyles-input-193 MuiInputBase-disabled-165 MuiInputBase-fullWidth-172"
                   >
                     <input
-                      class="MuiInputBase-input-179 MuiInputBase-disabled-171"
+                      class="MuiInputBase-input-173 MuiInputBase-disabled-165"
                       disabled=""
                       pattern="^[0-9]*[.,]?[0-9]*$"
                       placeholder="0.00"
@@ -118,63 +118,63 @@ exports[`Claw - Redeem matches snapshot 1`] = `
               </div>
             </div>
             <div
-              class="MuiGrid-root-11 MuiGrid-item-13 MuiGrid-grid-xs-12-57 MuiGrid-grid-sm-4-63 MuiGrid-grid-lg-3-90"
+              class="MuiGrid-root-5 MuiGrid-item-7 MuiGrid-grid-xs-12-51 MuiGrid-grid-sm-4-57 MuiGrid-grid-lg-3-84"
             >
               <div
-                class="MuiGrid-root-11 MuiGrid-container-12 MuiGrid-justify-xs-flex-end-30"
+                class="MuiGrid-root-5 MuiGrid-container-6 MuiGrid-justify-xs-flex-end-24"
               >
                 <div
                   aria-label="text button group"
-                  class="MuiButtonGroup-root-201"
+                  class="MuiButtonGroup-root-195"
                   role="group"
                 >
                   <button
-                    class="MuiButtonBase-root-254 MuiButton-root-225 MuiButton-text-227 MuiButtonGroup-grouped-207 MuiButtonGroup-groupedHorizontal-208 MuiButtonGroup-groupedText-210 MuiButtonGroup-groupedTextHorizontal-211 MuiButtonGroup-groupedText-210 MuiButtonGroup-disabled-204 makeStyles-button-200 MuiButton-textSizeSmall-240 MuiButton-sizeSmall-246 MuiButton-disableElevation-236 MuiButton-disabled-238 MuiButtonBase-disabled-255"
+                    class="MuiButtonBase-root-248 MuiButton-root-219 MuiButton-text-221 MuiButtonGroup-grouped-201 MuiButtonGroup-groupedHorizontal-202 MuiButtonGroup-groupedText-204 MuiButtonGroup-groupedTextHorizontal-205 MuiButtonGroup-groupedText-204 MuiButtonGroup-disabled-198 makeStyles-button-194 MuiButton-textSizeSmall-234 MuiButton-sizeSmall-240 MuiButton-disableElevation-230 MuiButton-disabled-232 MuiButtonBase-disabled-249"
                     disabled=""
                     tabindex="-1"
                     type="button"
                   >
                     <span
-                      class="MuiButton-label-226"
+                      class="MuiButton-label-220"
                     >
                       25
                       %
                     </span>
                   </button>
                   <button
-                    class="MuiButtonBase-root-254 MuiButton-root-225 MuiButton-text-227 MuiButtonGroup-grouped-207 MuiButtonGroup-groupedHorizontal-208 MuiButtonGroup-groupedText-210 MuiButtonGroup-groupedTextHorizontal-211 MuiButtonGroup-groupedText-210 MuiButtonGroup-disabled-204 makeStyles-button-200 MuiButton-textSizeSmall-240 MuiButton-sizeSmall-246 MuiButton-disableElevation-236 MuiButton-disabled-238 MuiButtonBase-disabled-255"
+                    class="MuiButtonBase-root-248 MuiButton-root-219 MuiButton-text-221 MuiButtonGroup-grouped-201 MuiButtonGroup-groupedHorizontal-202 MuiButtonGroup-groupedText-204 MuiButtonGroup-groupedTextHorizontal-205 MuiButtonGroup-groupedText-204 MuiButtonGroup-disabled-198 makeStyles-button-194 MuiButton-textSizeSmall-234 MuiButton-sizeSmall-240 MuiButton-disableElevation-230 MuiButton-disabled-232 MuiButtonBase-disabled-249"
                     disabled=""
                     tabindex="-1"
                     type="button"
                   >
                     <span
-                      class="MuiButton-label-226"
+                      class="MuiButton-label-220"
                     >
                       50
                       %
                     </span>
                   </button>
                   <button
-                    class="MuiButtonBase-root-254 MuiButton-root-225 MuiButton-text-227 MuiButtonGroup-grouped-207 MuiButtonGroup-groupedHorizontal-208 MuiButtonGroup-groupedText-210 MuiButtonGroup-groupedTextHorizontal-211 MuiButtonGroup-groupedText-210 MuiButtonGroup-disabled-204 makeStyles-button-200 MuiButton-textSizeSmall-240 MuiButton-sizeSmall-246 MuiButton-disableElevation-236 MuiButton-disabled-238 MuiButtonBase-disabled-255"
+                    class="MuiButtonBase-root-248 MuiButton-root-219 MuiButton-text-221 MuiButtonGroup-grouped-201 MuiButtonGroup-groupedHorizontal-202 MuiButtonGroup-groupedText-204 MuiButtonGroup-groupedTextHorizontal-205 MuiButtonGroup-groupedText-204 MuiButtonGroup-disabled-198 makeStyles-button-194 MuiButton-textSizeSmall-234 MuiButton-sizeSmall-240 MuiButton-disableElevation-230 MuiButton-disabled-232 MuiButtonBase-disabled-249"
                     disabled=""
                     tabindex="-1"
                     type="button"
                   >
                     <span
-                      class="MuiButton-label-226"
+                      class="MuiButton-label-220"
                     >
                       75
                       %
                     </span>
                   </button>
                   <button
-                    class="MuiButtonBase-root-254 MuiButton-root-225 MuiButton-text-227 MuiButtonGroup-grouped-207 MuiButtonGroup-groupedHorizontal-208 MuiButtonGroup-groupedText-210 MuiButtonGroup-groupedTextHorizontal-211 MuiButtonGroup-groupedText-210 MuiButtonGroup-disabled-204 makeStyles-button-200 MuiButton-textSizeSmall-240 MuiButton-sizeSmall-246 MuiButton-disableElevation-236 MuiButton-disabled-238 MuiButtonBase-disabled-255"
+                    class="MuiButtonBase-root-248 MuiButton-root-219 MuiButton-text-221 MuiButtonGroup-grouped-201 MuiButtonGroup-groupedHorizontal-202 MuiButtonGroup-groupedText-204 MuiButtonGroup-groupedTextHorizontal-205 MuiButtonGroup-groupedText-204 MuiButtonGroup-disabled-198 makeStyles-button-194 MuiButton-textSizeSmall-234 MuiButton-sizeSmall-240 MuiButton-disableElevation-230 MuiButton-disabled-232 MuiButtonBase-disabled-249"
                     disabled=""
                     tabindex="-1"
                     type="button"
                   >
                     <span
-                      class="MuiButton-label-226"
+                      class="MuiButton-label-220"
                     >
                       100
                       %
@@ -188,83 +188,79 @@ exports[`Claw - Redeem matches snapshot 1`] = `
       </div>
     </div>
     <div
-      class="MuiGrid-root-11 MuiGrid-item-13 MuiGrid-grid-xs-12-57"
+      class="MuiGrid-root-5 MuiGrid-item-7 MuiGrid-grid-xs-12-51"
     >
       <div
-        class="MuiGrid-root-11 makeStyles-details-4 MuiGrid-container-12"
+        class="MuiGrid-root-5 makeStyles-root-251 MuiGrid-container-6"
       >
         <div
-          class="MuiGrid-root-11 makeStyles-root-257 MuiGrid-container-12"
+          class="MuiGrid-root-5 makeStyles-row-252 MuiGrid-container-6"
         >
           <div
-            class="MuiGrid-root-11 makeStyles-row-258 MuiGrid-container-12"
+            class="MuiGrid-root-5 makeStyles-detailName-253 MuiGrid-item-7 MuiGrid-grid-xs-6-45"
           >
-            <div
-              class="MuiGrid-root-11 makeStyles-detailName-259 MuiGrid-item-13 MuiGrid-grid-xs-6-51"
+            <p
+              class="MuiTypography-root-115 MuiTypography-body2-116 MuiTypography-colorTextSecondary-141"
             >
-              <p
-                class="MuiTypography-root-121 MuiTypography-body2-122 MuiTypography-colorTextSecondary-147"
-              >
-                Expiration Date
-              </p>
-            </div>
-            <div
-              class="MuiGrid-root-11 makeStyles-placeholder-261 MuiGrid-container-12 MuiGrid-item-13 MuiGrid-grid-xs-6-51"
-            >
-              <div
-                class="MuiGrid-root-11 MuiGrid-item-13 MuiGrid-grid-xs-12-57"
-              >
-                <p
-                  class="MuiTypography-root-121 MuiTypography-body2-122 MuiTypography-colorTextPrimary-146"
-                >
-                  -
-                </p>
-              </div>
-            </div>
+              Expiration Date
+            </p>
           </div>
           <div
-            class="MuiGrid-root-11 makeStyles-row-258 MuiGrid-container-12"
+            class="MuiGrid-root-5 makeStyles-placeholder-255 MuiGrid-container-6 MuiGrid-item-7 MuiGrid-grid-xs-6-45"
           >
             <div
-              class="MuiGrid-root-11 makeStyles-detailName-259 MuiGrid-item-13 MuiGrid-grid-xs-6-51"
+              class="MuiGrid-root-5 MuiGrid-item-7 MuiGrid-grid-xs-12-51"
             >
               <p
-                class="MuiTypography-root-121 MuiTypography-body2-122 MuiTypography-colorTextSecondary-147"
+                class="MuiTypography-root-115 MuiTypography-body2-116 MuiTypography-colorTextPrimary-140"
               >
-                Expiration Price
+                -
               </p>
             </div>
-            <div
-              class="MuiGrid-root-11 makeStyles-placeholder-261 MuiGrid-container-12 MuiGrid-item-13 MuiGrid-grid-xs-6-51"
+          </div>
+        </div>
+        <div
+          class="MuiGrid-root-5 makeStyles-row-252 MuiGrid-container-6"
+        >
+          <div
+            class="MuiGrid-root-5 makeStyles-detailName-253 MuiGrid-item-7 MuiGrid-grid-xs-6-45"
+          >
+            <p
+              class="MuiTypography-root-115 MuiTypography-body2-116 MuiTypography-colorTextSecondary-141"
             >
-              <div
-                class="MuiGrid-root-11 MuiGrid-item-13 MuiGrid-grid-xs-12-57"
+              Expiration Price
+            </p>
+          </div>
+          <div
+            class="MuiGrid-root-5 makeStyles-placeholder-255 MuiGrid-container-6 MuiGrid-item-7 MuiGrid-grid-xs-6-45"
+          >
+            <div
+              class="MuiGrid-root-5 MuiGrid-item-7 MuiGrid-grid-xs-12-51"
+            >
+              <p
+                class="MuiTypography-root-115 MuiTypography-body2-116 MuiTypography-colorTextPrimary-140"
               >
-                <p
-                  class="MuiTypography-root-121 MuiTypography-body2-122 MuiTypography-colorTextPrimary-146"
-                >
-                  -
-                </p>
-              </div>
+                -
+              </p>
             </div>
           </div>
         </div>
       </div>
     </div>
     <div
-      class="MuiGrid-root-11 MuiGrid-item-13 MuiGrid-grid-xs-12-57"
+      class="MuiGrid-root-5 MuiGrid-item-7 MuiGrid-grid-xs-12-51"
     >
       <div
-        class="MuiGrid-root-11 MuiGrid-container-12"
+        class="MuiGrid-root-5 MuiGrid-container-6"
       >
         <button
-          class="MuiButtonBase-root-254 MuiButton-root-225 MuiButton-contained-233 makeStyles-button-262 MuiButton-containedPrimary-234 MuiButton-containedSizeLarge-245 MuiButton-sizeLarge-247 MuiButton-disabled-238 MuiButtonBase-disabled-255"
+          class="MuiButtonBase-root-248 MuiButton-root-219 MuiButton-contained-227 makeStyles-button-256 MuiButton-containedPrimary-228 MuiButton-containedSizeLarge-239 MuiButton-sizeLarge-241 MuiButton-disabled-232 MuiButtonBase-disabled-249"
           disabled=""
           tabindex="-1"
           type="button"
         >
           <span
-            class="MuiButton-label-226"
+            class="MuiButton-label-220"
           >
             Select a Token
           </span>

@@ -3,47 +3,47 @@
 exports[`Claw - Mint matches snapshot 1`] = `
 <div>
   <div
-    class="MuiGrid-root-7 MuiGrid-container-8"
+    class="MuiGrid-root-1 MuiGrid-container-2"
   >
     <div
-      class="MuiGrid-root-7 MuiBox-root-110 MuiBox-root-111 MuiGrid-item-9 MuiGrid-grid-xs-12-53"
+      class="MuiGrid-root-1 MuiBox-root-104 MuiBox-root-105 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
     >
       <div
-        class="MuiGrid-root-7 MuiGrid-container-8"
+        class="MuiGrid-root-1 MuiGrid-container-2"
       >
         <div
-          class="MuiGrid-root-7 MuiBox-root-110 MuiBox-root-114 MuiGrid-item-9 MuiGrid-grid-xs-12-53"
+          class="MuiGrid-root-1 MuiBox-root-104 MuiBox-root-108 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
         >
           <div
-            class="MuiGrid-root-7 MuiGrid-container-8 MuiGrid-spacing-xs-1-30"
+            class="MuiGrid-root-1 MuiGrid-container-2 MuiGrid-spacing-xs-1-24"
           >
             <div
-              class="MuiGrid-root-7 MuiGrid-item-9 MuiGrid-grid-xs-12-53 MuiGrid-grid-sm-6-61"
+              class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47 MuiGrid-grid-sm-6-55"
             >
               <p
-                class="MuiTypography-root-117 MuiTypography-body2-118 MuiTypography-colorTextSecondary-143"
+                class="MuiTypography-root-111 MuiTypography-body2-112 MuiTypography-colorTextSecondary-137"
               >
                 Collateral
               </p>
             </div>
             <div
-              class="MuiGrid-root-7 MuiGrid-item-9 MuiGrid-grid-xs-12-53 MuiGrid-grid-sm-6-61"
+              class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47 MuiGrid-grid-sm-6-55"
             >
               <div
-                class="MuiGrid-root-7 makeStyles-availableText-115 MuiGrid-container-8 MuiGrid-spacing-xs-1-30"
+                class="MuiGrid-root-1 makeStyles-availableText-109 MuiGrid-container-2 MuiGrid-spacing-xs-1-24"
               >
                 <div
-                  class="MuiGrid-root-7 MuiGrid-item-9"
+                  class="MuiGrid-root-1 MuiGrid-item-3"
                 >
                   <p
-                    class="MuiTypography-root-117 MuiTypography-body2-118 MuiTypography-colorTextSecondary-143"
+                    class="MuiTypography-root-111 MuiTypography-body2-112 MuiTypography-colorTextSecondary-137"
                   />
                 </div>
                 <div
-                  class="MuiGrid-root-7 makeStyles-balanceText-116 MuiGrid-item-9"
+                  class="MuiGrid-root-1 makeStyles-balanceText-110 MuiGrid-item-3"
                 >
                   <p
-                    class="MuiTypography-root-117 MuiTypography-body2-118 MuiTypography-colorTextPrimary-142"
+                    class="MuiTypography-root-111 MuiTypography-body2-112 MuiTypography-colorTextPrimary-136"
                   />
                 </div>
               </div>
@@ -51,29 +51,29 @@ exports[`Claw - Mint matches snapshot 1`] = `
           </div>
         </div>
         <div
-          class="MuiGrid-root-7 MuiGrid-item-9 MuiGrid-grid-xs-12-53"
+          class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
         >
           <div
-            class="MuiGrid-root-7 makeStyles-border-112 MuiBox-root-110 MuiBox-root-147 MuiGrid-container-8 MuiGrid-align-items-xs-center-16 MuiGrid-align-content-xs-center-20"
+            class="MuiGrid-root-1 makeStyles-border-106 MuiBox-root-104 MuiBox-root-141 MuiGrid-container-2 MuiGrid-align-items-xs-center-10 MuiGrid-align-content-xs-center-14"
           >
             <div
-              class="MuiGrid-root-7 MuiGrid-item-9 MuiGrid-grid-xs-12-53 MuiGrid-grid-sm-8-63 MuiGrid-grid-lg-9-92"
+              class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47 MuiGrid-grid-sm-8-57 MuiGrid-grid-lg-9-86"
             >
               <div
-                class="MuiGrid-root-7 makeStyles-selectContainer-113 MuiGrid-container-8 MuiGrid-spacing-xs-2-31 MuiGrid-align-items-xs-center-16"
+                class="MuiGrid-root-1 makeStyles-selectContainer-107 MuiGrid-container-2 MuiGrid-spacing-xs-2-25 MuiGrid-align-items-xs-center-10"
               >
                 <div
-                  class="MuiGrid-root-7 MuiGrid-item-9 MuiGrid-grid-xs-12-53 MuiGrid-grid-sm-true-55"
+                  class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47 MuiGrid-grid-sm-true-49"
                 >
                   <div
-                    class="MuiFormControl-root-149 makeStyles-margin-148"
+                    class="MuiFormControl-root-143 makeStyles-margin-142"
                   >
                     <div
-                      class="MuiInputBase-root-164 MuiInputBase-formControl-165"
+                      class="MuiInputBase-root-158 MuiInputBase-formControl-159"
                     >
                       <div
                         aria-haspopup="listbox"
-                        class="MuiSelect-root-153 MuiSelect-select-154 MuiSelect-selectMenu-157 MuiInputBase-input-175"
+                        class="MuiSelect-root-147 MuiSelect-select-148 MuiSelect-selectMenu-151 MuiInputBase-input-169"
                         role="button"
                         tabindex="0"
                       >
@@ -81,14 +81,14 @@ exports[`Claw - Mint matches snapshot 1`] = `
                       </div>
                       <input
                         aria-hidden="true"
-                        class="MuiSelect-nativeInput-163"
+                        class="MuiSelect-nativeInput-157"
                         placeholder="Select Token"
                         tabindex="-1"
                         value=""
                       />
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root-182 MuiSelect-icon-159"
+                        class="MuiSvgIcon-root-176 MuiSelect-icon-153"
                         focusable="false"
                         viewBox="0 0 24 24"
                       >
@@ -100,13 +100,13 @@ exports[`Claw - Mint matches snapshot 1`] = `
                   </div>
                 </div>
                 <div
-                  class="MuiGrid-root-7 MuiGrid-item-9 MuiGrid-grid-xs-12-53 MuiGrid-grid-sm-true-55"
+                  class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47 MuiGrid-grid-sm-true-49"
                 >
                   <div
-                    class="MuiInputBase-root-164 makeStyles-input-195 MuiInputBase-disabled-167 MuiInputBase-fullWidth-174"
+                    class="MuiInputBase-root-158 makeStyles-input-189 MuiInputBase-disabled-161 MuiInputBase-fullWidth-168"
                   >
                     <input
-                      class="MuiInputBase-input-175 MuiInputBase-disabled-167"
+                      class="MuiInputBase-input-169 MuiInputBase-disabled-161"
                       disabled=""
                       pattern="^[0-9]*[.,]?[0-9]*$"
                       placeholder="0.00"
@@ -118,63 +118,63 @@ exports[`Claw - Mint matches snapshot 1`] = `
               </div>
             </div>
             <div
-              class="MuiGrid-root-7 MuiGrid-item-9 MuiGrid-grid-xs-12-53 MuiGrid-grid-sm-4-59 MuiGrid-grid-lg-3-86"
+              class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47 MuiGrid-grid-sm-4-53 MuiGrid-grid-lg-3-80"
             >
               <div
-                class="MuiGrid-root-7 MuiGrid-container-8 MuiGrid-justify-xs-flex-end-26"
+                class="MuiGrid-root-1 MuiGrid-container-2 MuiGrid-justify-xs-flex-end-20"
               >
                 <div
                   aria-label="text button group"
-                  class="MuiButtonGroup-root-197"
+                  class="MuiButtonGroup-root-191"
                   role="group"
                 >
                   <button
-                    class="MuiButtonBase-root-250 MuiButton-root-221 MuiButton-text-223 MuiButtonGroup-grouped-203 MuiButtonGroup-groupedHorizontal-204 MuiButtonGroup-groupedText-206 MuiButtonGroup-groupedTextHorizontal-207 MuiButtonGroup-groupedText-206 MuiButtonGroup-disabled-200 makeStyles-button-196 MuiButton-textSizeSmall-236 MuiButton-sizeSmall-242 MuiButton-disableElevation-232 MuiButton-disabled-234 MuiButtonBase-disabled-251"
+                    class="MuiButtonBase-root-244 MuiButton-root-215 MuiButton-text-217 MuiButtonGroup-grouped-197 MuiButtonGroup-groupedHorizontal-198 MuiButtonGroup-groupedText-200 MuiButtonGroup-groupedTextHorizontal-201 MuiButtonGroup-groupedText-200 MuiButtonGroup-disabled-194 makeStyles-button-190 MuiButton-textSizeSmall-230 MuiButton-sizeSmall-236 MuiButton-disableElevation-226 MuiButton-disabled-228 MuiButtonBase-disabled-245"
                     disabled=""
                     tabindex="-1"
                     type="button"
                   >
                     <span
-                      class="MuiButton-label-222"
+                      class="MuiButton-label-216"
                     >
                       25
                       %
                     </span>
                   </button>
                   <button
-                    class="MuiButtonBase-root-250 MuiButton-root-221 MuiButton-text-223 MuiButtonGroup-grouped-203 MuiButtonGroup-groupedHorizontal-204 MuiButtonGroup-groupedText-206 MuiButtonGroup-groupedTextHorizontal-207 MuiButtonGroup-groupedText-206 MuiButtonGroup-disabled-200 makeStyles-button-196 MuiButton-textSizeSmall-236 MuiButton-sizeSmall-242 MuiButton-disableElevation-232 MuiButton-disabled-234 MuiButtonBase-disabled-251"
+                    class="MuiButtonBase-root-244 MuiButton-root-215 MuiButton-text-217 MuiButtonGroup-grouped-197 MuiButtonGroup-groupedHorizontal-198 MuiButtonGroup-groupedText-200 MuiButtonGroup-groupedTextHorizontal-201 MuiButtonGroup-groupedText-200 MuiButtonGroup-disabled-194 makeStyles-button-190 MuiButton-textSizeSmall-230 MuiButton-sizeSmall-236 MuiButton-disableElevation-226 MuiButton-disabled-228 MuiButtonBase-disabled-245"
                     disabled=""
                     tabindex="-1"
                     type="button"
                   >
                     <span
-                      class="MuiButton-label-222"
+                      class="MuiButton-label-216"
                     >
                       50
                       %
                     </span>
                   </button>
                   <button
-                    class="MuiButtonBase-root-250 MuiButton-root-221 MuiButton-text-223 MuiButtonGroup-grouped-203 MuiButtonGroup-groupedHorizontal-204 MuiButtonGroup-groupedText-206 MuiButtonGroup-groupedTextHorizontal-207 MuiButtonGroup-groupedText-206 MuiButtonGroup-disabled-200 makeStyles-button-196 MuiButton-textSizeSmall-236 MuiButton-sizeSmall-242 MuiButton-disableElevation-232 MuiButton-disabled-234 MuiButtonBase-disabled-251"
+                    class="MuiButtonBase-root-244 MuiButton-root-215 MuiButton-text-217 MuiButtonGroup-grouped-197 MuiButtonGroup-groupedHorizontal-198 MuiButtonGroup-groupedText-200 MuiButtonGroup-groupedTextHorizontal-201 MuiButtonGroup-groupedText-200 MuiButtonGroup-disabled-194 makeStyles-button-190 MuiButton-textSizeSmall-230 MuiButton-sizeSmall-236 MuiButton-disableElevation-226 MuiButton-disabled-228 MuiButtonBase-disabled-245"
                     disabled=""
                     tabindex="-1"
                     type="button"
                   >
                     <span
-                      class="MuiButton-label-222"
+                      class="MuiButton-label-216"
                     >
                       75
                       %
                     </span>
                   </button>
                   <button
-                    class="MuiButtonBase-root-250 MuiButton-root-221 MuiButton-text-223 MuiButtonGroup-grouped-203 MuiButtonGroup-groupedHorizontal-204 MuiButtonGroup-groupedText-206 MuiButtonGroup-groupedTextHorizontal-207 MuiButtonGroup-groupedText-206 MuiButtonGroup-disabled-200 makeStyles-button-196 MuiButton-textSizeSmall-236 MuiButton-sizeSmall-242 MuiButton-disableElevation-232 MuiButton-disabled-234 MuiButtonBase-disabled-251"
+                    class="MuiButtonBase-root-244 MuiButton-root-215 MuiButton-text-217 MuiButtonGroup-grouped-197 MuiButtonGroup-groupedHorizontal-198 MuiButtonGroup-groupedText-200 MuiButtonGroup-groupedTextHorizontal-201 MuiButtonGroup-groupedText-200 MuiButtonGroup-disabled-194 makeStyles-button-190 MuiButton-textSizeSmall-230 MuiButton-sizeSmall-236 MuiButton-disableElevation-226 MuiButton-disabled-228 MuiButtonBase-disabled-245"
                     disabled=""
                     tabindex="-1"
                     type="button"
                   >
                     <span
-                      class="MuiButton-label-222"
+                      class="MuiButton-label-216"
                     >
                       100
                       %
@@ -188,44 +188,44 @@ exports[`Claw - Mint matches snapshot 1`] = `
       </div>
     </div>
     <div
-      class="MuiGrid-root-7 MuiGrid-item-9 MuiGrid-grid-xs-12-53"
+      class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
     >
       <div
-        class="MuiGrid-root-7 MuiGrid-container-8"
+        class="MuiGrid-root-1 MuiGrid-container-2"
       >
         <div
-          class="MuiGrid-root-7 MuiBox-root-110 MuiBox-root-253 MuiGrid-item-9 MuiGrid-grid-xs-12-53"
+          class="MuiGrid-root-1 MuiBox-root-104 MuiBox-root-247 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
         >
           <div
-            class="MuiGrid-root-7 MuiGrid-container-8 MuiGrid-spacing-xs-1-30"
+            class="MuiGrid-root-1 MuiGrid-container-2 MuiGrid-spacing-xs-1-24"
           >
             <div
-              class="MuiGrid-root-7 MuiGrid-item-9 MuiGrid-grid-xs-12-53 MuiGrid-grid-sm-6-61"
+              class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47 MuiGrid-grid-sm-6-55"
             >
               <p
-                class="MuiTypography-root-117 MuiTypography-body2-118 MuiTypography-colorTextSecondary-143"
+                class="MuiTypography-root-111 MuiTypography-body2-112 MuiTypography-colorTextSecondary-137"
               >
                 Mintable
               </p>
             </div>
             <div
-              class="MuiGrid-root-7 MuiGrid-item-9 MuiGrid-grid-xs-12-53 MuiGrid-grid-sm-6-61"
+              class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47 MuiGrid-grid-sm-6-55"
             >
               <div
-                class="MuiGrid-root-7 makeStyles-availableText-115 MuiGrid-container-8 MuiGrid-spacing-xs-1-30"
+                class="MuiGrid-root-1 makeStyles-availableText-109 MuiGrid-container-2 MuiGrid-spacing-xs-1-24"
               >
                 <div
-                  class="MuiGrid-root-7 MuiGrid-item-9"
+                  class="MuiGrid-root-1 MuiGrid-item-3"
                 >
                   <p
-                    class="MuiTypography-root-117 MuiTypography-body2-118 MuiTypography-colorTextSecondary-143"
+                    class="MuiTypography-root-111 MuiTypography-body2-112 MuiTypography-colorTextSecondary-137"
                   />
                 </div>
                 <div
-                  class="MuiGrid-root-7 makeStyles-balanceText-116 MuiGrid-item-9"
+                  class="MuiGrid-root-1 makeStyles-balanceText-110 MuiGrid-item-3"
                 >
                   <p
-                    class="MuiTypography-root-117 MuiTypography-body2-118 MuiTypography-colorTextPrimary-142"
+                    class="MuiTypography-root-111 MuiTypography-body2-112 MuiTypography-colorTextPrimary-136"
                   />
                 </div>
               </div>
@@ -233,44 +233,44 @@ exports[`Claw - Mint matches snapshot 1`] = `
           </div>
         </div>
         <div
-          class="MuiGrid-root-7 MuiGrid-item-9 MuiGrid-grid-xs-12-53"
+          class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
         >
           <div
-            class="MuiGrid-root-7 makeStyles-border-112 MuiBox-root-110 MuiBox-root-254 MuiGrid-container-8 MuiGrid-align-items-xs-center-16 MuiGrid-align-content-xs-center-20"
+            class="MuiGrid-root-1 makeStyles-border-106 MuiBox-root-104 MuiBox-root-248 MuiGrid-container-2 MuiGrid-align-items-xs-center-10 MuiGrid-align-content-xs-center-14"
           >
             <div
-              class="MuiGrid-root-7 MuiGrid-item-9 MuiGrid-grid-xs-12-53 MuiGrid-grid-sm-8-63 MuiGrid-grid-lg-9-92"
+              class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47 MuiGrid-grid-sm-8-57 MuiGrid-grid-lg-9-86"
             >
               <div
-                class="MuiGrid-root-7 makeStyles-selectContainer-113 MuiGrid-container-8 MuiGrid-spacing-xs-2-31 MuiGrid-align-items-xs-center-16"
+                class="MuiGrid-root-1 makeStyles-selectContainer-107 MuiGrid-container-2 MuiGrid-spacing-xs-2-25 MuiGrid-align-items-xs-center-10"
               >
                 <div
-                  class="MuiGrid-root-7 MuiGrid-item-9 MuiGrid-grid-xs-12-53 MuiGrid-grid-sm-true-55"
+                  class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47 MuiGrid-grid-sm-true-49"
                 >
                   <div
-                    class="MuiFormControl-root-149 makeStyles-margin-148"
+                    class="MuiFormControl-root-143 makeStyles-margin-142"
                   >
                     <div
-                      class="MuiInputBase-root-164 MuiInputBase-disabled-167 MuiInputBase-formControl-165"
+                      class="MuiInputBase-root-158 MuiInputBase-disabled-161 MuiInputBase-formControl-159"
                     >
                       <div
                         aria-disabled="true"
                         aria-haspopup="listbox"
-                        class="MuiSelect-root-153 MuiSelect-select-154 MuiSelect-selectMenu-157 MuiInputBase-input-175 MuiInputBase-disabled-167 MuiSelect-disabled-158"
+                        class="MuiSelect-root-147 MuiSelect-select-148 MuiSelect-selectMenu-151 MuiInputBase-input-169 MuiInputBase-disabled-161 MuiSelect-disabled-152"
                         role="button"
                       >
                         Select CLAW
                       </div>
                       <input
                         aria-hidden="true"
-                        class="MuiSelect-nativeInput-163"
+                        class="MuiSelect-nativeInput-157"
                         placeholder="Select CLAW"
                         tabindex="-1"
                         value=""
                       />
                       <svg
                         aria-hidden="true"
-                        class="MuiSvgIcon-root-182 MuiSelect-icon-159 MuiSelect-disabled-158"
+                        class="MuiSvgIcon-root-176 MuiSelect-icon-153 MuiSelect-disabled-152"
                         focusable="false"
                         viewBox="0 0 24 24"
                       >
@@ -282,13 +282,13 @@ exports[`Claw - Mint matches snapshot 1`] = `
                   </div>
                 </div>
                 <div
-                  class="MuiGrid-root-7 MuiGrid-item-9 MuiGrid-grid-xs-12-53 MuiGrid-grid-sm-true-55"
+                  class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47 MuiGrid-grid-sm-true-49"
                 >
                   <div
-                    class="MuiInputBase-root-164 makeStyles-input-195 MuiInputBase-disabled-167 MuiInputBase-fullWidth-174"
+                    class="MuiInputBase-root-158 makeStyles-input-189 MuiInputBase-disabled-161 MuiInputBase-fullWidth-168"
                   >
                     <input
-                      class="MuiInputBase-input-175 MuiInputBase-disabled-167"
+                      class="MuiInputBase-input-169 MuiInputBase-disabled-161"
                       disabled=""
                       pattern="^[0-9]*[.,]?[0-9]*$"
                       placeholder="0.00"
@@ -300,63 +300,63 @@ exports[`Claw - Mint matches snapshot 1`] = `
               </div>
             </div>
             <div
-              class="MuiGrid-root-7 MuiGrid-item-9 MuiGrid-grid-xs-12-53 MuiGrid-grid-sm-4-59 MuiGrid-grid-lg-3-86"
+              class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47 MuiGrid-grid-sm-4-53 MuiGrid-grid-lg-3-80"
             >
               <div
-                class="MuiGrid-root-7 MuiGrid-container-8 MuiGrid-justify-xs-flex-end-26"
+                class="MuiGrid-root-1 MuiGrid-container-2 MuiGrid-justify-xs-flex-end-20"
               >
                 <div
                   aria-label="text button group"
-                  class="MuiButtonGroup-root-197"
+                  class="MuiButtonGroup-root-191"
                   role="group"
                 >
                   <button
-                    class="MuiButtonBase-root-250 MuiButton-root-221 MuiButton-text-223 MuiButtonGroup-grouped-203 MuiButtonGroup-groupedHorizontal-204 MuiButtonGroup-groupedText-206 MuiButtonGroup-groupedTextHorizontal-207 MuiButtonGroup-groupedText-206 MuiButtonGroup-disabled-200 makeStyles-button-196 MuiButton-textSizeSmall-236 MuiButton-sizeSmall-242 MuiButton-disableElevation-232 MuiButton-disabled-234 MuiButtonBase-disabled-251"
+                    class="MuiButtonBase-root-244 MuiButton-root-215 MuiButton-text-217 MuiButtonGroup-grouped-197 MuiButtonGroup-groupedHorizontal-198 MuiButtonGroup-groupedText-200 MuiButtonGroup-groupedTextHorizontal-201 MuiButtonGroup-groupedText-200 MuiButtonGroup-disabled-194 makeStyles-button-190 MuiButton-textSizeSmall-230 MuiButton-sizeSmall-236 MuiButton-disableElevation-226 MuiButton-disabled-228 MuiButtonBase-disabled-245"
                     disabled=""
                     tabindex="-1"
                     type="button"
                   >
                     <span
-                      class="MuiButton-label-222"
+                      class="MuiButton-label-216"
                     >
                       25
                       %
                     </span>
                   </button>
                   <button
-                    class="MuiButtonBase-root-250 MuiButton-root-221 MuiButton-text-223 MuiButtonGroup-grouped-203 MuiButtonGroup-groupedHorizontal-204 MuiButtonGroup-groupedText-206 MuiButtonGroup-groupedTextHorizontal-207 MuiButtonGroup-groupedText-206 MuiButtonGroup-disabled-200 makeStyles-button-196 MuiButton-textSizeSmall-236 MuiButton-sizeSmall-242 MuiButton-disableElevation-232 MuiButton-disabled-234 MuiButtonBase-disabled-251"
+                    class="MuiButtonBase-root-244 MuiButton-root-215 MuiButton-text-217 MuiButtonGroup-grouped-197 MuiButtonGroup-groupedHorizontal-198 MuiButtonGroup-groupedText-200 MuiButtonGroup-groupedTextHorizontal-201 MuiButtonGroup-groupedText-200 MuiButtonGroup-disabled-194 makeStyles-button-190 MuiButton-textSizeSmall-230 MuiButton-sizeSmall-236 MuiButton-disableElevation-226 MuiButton-disabled-228 MuiButtonBase-disabled-245"
                     disabled=""
                     tabindex="-1"
                     type="button"
                   >
                     <span
-                      class="MuiButton-label-222"
+                      class="MuiButton-label-216"
                     >
                       50
                       %
                     </span>
                   </button>
                   <button
-                    class="MuiButtonBase-root-250 MuiButton-root-221 MuiButton-text-223 MuiButtonGroup-grouped-203 MuiButtonGroup-groupedHorizontal-204 MuiButtonGroup-groupedText-206 MuiButtonGroup-groupedTextHorizontal-207 MuiButtonGroup-groupedText-206 MuiButtonGroup-disabled-200 makeStyles-button-196 MuiButton-textSizeSmall-236 MuiButton-sizeSmall-242 MuiButton-disableElevation-232 MuiButton-disabled-234 MuiButtonBase-disabled-251"
+                    class="MuiButtonBase-root-244 MuiButton-root-215 MuiButton-text-217 MuiButtonGroup-grouped-197 MuiButtonGroup-groupedHorizontal-198 MuiButtonGroup-groupedText-200 MuiButtonGroup-groupedTextHorizontal-201 MuiButtonGroup-groupedText-200 MuiButtonGroup-disabled-194 makeStyles-button-190 MuiButton-textSizeSmall-230 MuiButton-sizeSmall-236 MuiButton-disableElevation-226 MuiButton-disabled-228 MuiButtonBase-disabled-245"
                     disabled=""
                     tabindex="-1"
                     type="button"
                   >
                     <span
-                      class="MuiButton-label-222"
+                      class="MuiButton-label-216"
                     >
                       75
                       %
                     </span>
                   </button>
                   <button
-                    class="MuiButtonBase-root-250 MuiButton-root-221 MuiButton-text-223 MuiButtonGroup-grouped-203 MuiButtonGroup-groupedHorizontal-204 MuiButtonGroup-groupedText-206 MuiButtonGroup-groupedTextHorizontal-207 MuiButtonGroup-groupedText-206 MuiButtonGroup-disabled-200 makeStyles-button-196 MuiButton-textSizeSmall-236 MuiButton-sizeSmall-242 MuiButton-disableElevation-232 MuiButton-disabled-234 MuiButtonBase-disabled-251"
+                    class="MuiButtonBase-root-244 MuiButton-root-215 MuiButton-text-217 MuiButtonGroup-grouped-197 MuiButtonGroup-groupedHorizontal-198 MuiButtonGroup-groupedText-200 MuiButtonGroup-groupedTextHorizontal-201 MuiButtonGroup-groupedText-200 MuiButtonGroup-disabled-194 makeStyles-button-190 MuiButton-textSizeSmall-230 MuiButton-sizeSmall-236 MuiButton-disableElevation-226 MuiButton-disabled-228 MuiButtonBase-disabled-245"
                     disabled=""
                     tabindex="-1"
                     type="button"
                   >
                     <span
-                      class="MuiButton-label-222"
+                      class="MuiButton-label-216"
                     >
                       100
                       %
@@ -370,187 +370,183 @@ exports[`Claw - Mint matches snapshot 1`] = `
       </div>
     </div>
     <div
-      class="MuiGrid-root-7 MuiGrid-item-9 MuiGrid-grid-xs-12-53"
+      class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
     >
       <div
-        class="MuiGrid-root-7 makeStyles-details-4 MuiGrid-container-8"
+        class="MuiGrid-root-1 makeStyles-root-249 MuiGrid-container-2"
       >
         <div
-          class="MuiGrid-root-7 makeStyles-root-255 MuiGrid-container-8"
+          class="MuiGrid-root-1 makeStyles-row-250 MuiGrid-container-2"
         >
           <div
-            class="MuiGrid-root-7 makeStyles-row-256 MuiGrid-container-8"
+            class="MuiGrid-root-1 makeStyles-detailName-251 MuiGrid-item-3 MuiGrid-grid-xs-6-41"
           >
-            <div
-              class="MuiGrid-root-7 makeStyles-detailName-257 MuiGrid-item-9 MuiGrid-grid-xs-6-47"
+            <p
+              class="MuiTypography-root-111 MuiTypography-body2-112 MuiTypography-colorTextSecondary-137"
             >
-              <p
-                class="MuiTypography-root-117 MuiTypography-body2-118 MuiTypography-colorTextSecondary-143"
-              >
-                Liquidation Price
-              </p>
-            </div>
-            <div
-              class="MuiGrid-root-7 makeStyles-placeholder-259 MuiGrid-container-8 MuiGrid-item-9 MuiGrid-grid-xs-6-47"
-            >
-              <div
-                class="MuiGrid-root-7 MuiGrid-item-9 MuiGrid-grid-xs-12-53"
-              >
-                <p
-                  class="MuiTypography-root-117 MuiTypography-body2-118 MuiTypography-colorTextPrimary-142"
-                >
-                  -
-                </p>
-              </div>
-            </div>
+              Liquidation Price
+            </p>
           </div>
           <div
-            class="MuiGrid-root-7 makeStyles-row-256 MuiGrid-container-8"
+            class="MuiGrid-root-1 makeStyles-placeholder-253 MuiGrid-container-2 MuiGrid-item-3 MuiGrid-grid-xs-6-41"
           >
             <div
-              class="MuiGrid-root-7 makeStyles-detailName-257 MuiGrid-item-9 MuiGrid-grid-xs-6-47"
+              class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
             >
               <p
-                class="MuiTypography-root-117 MuiTypography-body2-118 MuiTypography-colorTextSecondary-143"
+                class="MuiTypography-root-111 MuiTypography-body2-112 MuiTypography-colorTextPrimary-136"
               >
-                Collateral Ratio - Global
+                -
               </p>
-            </div>
-            <div
-              class="MuiGrid-root-7 makeStyles-placeholder-259 MuiGrid-container-8 MuiGrid-item-9 MuiGrid-grid-xs-6-47"
-            >
-              <div
-                class="MuiGrid-root-7 MuiGrid-item-9 MuiGrid-grid-xs-12-53"
-              >
-                <p
-                  class="MuiTypography-root-117 MuiTypography-body2-118 MuiTypography-colorTextPrimary-142"
-                >
-                  -
-                </p>
-              </div>
             </div>
           </div>
+        </div>
+        <div
+          class="MuiGrid-root-1 makeStyles-row-250 MuiGrid-container-2"
+        >
           <div
-            class="MuiGrid-root-7 makeStyles-row-256 MuiGrid-container-8"
+            class="MuiGrid-root-1 makeStyles-detailName-251 MuiGrid-item-3 MuiGrid-grid-xs-6-41"
           >
-            <div
-              class="MuiGrid-root-7 makeStyles-detailName-257 MuiGrid-item-9 MuiGrid-grid-xs-6-47"
+            <p
+              class="MuiTypography-root-111 MuiTypography-body2-112 MuiTypography-colorTextSecondary-137"
             >
-              <p
-                class="MuiTypography-root-117 MuiTypography-body2-118 MuiTypography-colorTextSecondary-143"
-              >
-                Collateral Ratio - Minimum
-              </p>
-            </div>
-            <div
-              class="MuiGrid-root-7 makeStyles-placeholder-259 MuiGrid-container-8 MuiGrid-item-9 MuiGrid-grid-xs-6-47"
-            >
-              <div
-                class="MuiGrid-root-7 MuiGrid-item-9 MuiGrid-grid-xs-12-53"
-              >
-                <p
-                  class="MuiTypography-root-117 MuiTypography-body2-118 MuiTypography-colorTextPrimary-142"
-                >
-                  -
-                </p>
-              </div>
-            </div>
+              Collateral Ratio - Global
+            </p>
           </div>
           <div
-            class="MuiGrid-root-7 makeStyles-row-256 MuiGrid-container-8"
+            class="MuiGrid-root-1 makeStyles-placeholder-253 MuiGrid-container-2 MuiGrid-item-3 MuiGrid-grid-xs-6-41"
           >
             <div
-              class="MuiGrid-root-7 makeStyles-detailName-257 MuiGrid-item-9 MuiGrid-grid-xs-6-47"
+              class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
             >
               <p
-                class="MuiTypography-root-117 MuiTypography-body2-118 MuiTypography-colorTextSecondary-143"
+                class="MuiTypography-root-111 MuiTypography-body2-112 MuiTypography-colorTextPrimary-136"
               >
-                Collateral Ratio - Current
+                -
               </p>
-            </div>
-            <div
-              class="MuiGrid-root-7 makeStyles-placeholder-259 MuiGrid-container-8 MuiGrid-item-9 MuiGrid-grid-xs-6-47"
-            >
-              <div
-                class="MuiGrid-root-7 MuiGrid-item-9 MuiGrid-grid-xs-12-53"
-              >
-                <p
-                  class="MuiTypography-root-117 MuiTypography-body2-118 MuiTypography-colorTextPrimary-142"
-                >
-                  -
-                </p>
-              </div>
             </div>
           </div>
+        </div>
+        <div
+          class="MuiGrid-root-1 makeStyles-row-250 MuiGrid-container-2"
+        >
           <div
-            class="MuiGrid-root-7 makeStyles-row-256 MuiGrid-container-8"
+            class="MuiGrid-root-1 makeStyles-detailName-251 MuiGrid-item-3 MuiGrid-grid-xs-6-41"
           >
-            <div
-              class="MuiGrid-root-7 makeStyles-detailName-257 MuiGrid-item-9 MuiGrid-grid-xs-6-47"
+            <p
+              class="MuiTypography-root-111 MuiTypography-body2-112 MuiTypography-colorTextSecondary-137"
             >
-              <p
-                class="MuiTypography-root-117 MuiTypography-body2-118 MuiTypography-colorTextSecondary-143"
-              >
-                Expiration
-              </p>
-            </div>
-            <div
-              class="MuiGrid-root-7 makeStyles-placeholder-259 MuiGrid-container-8 MuiGrid-item-9 MuiGrid-grid-xs-6-47"
-            >
-              <div
-                class="MuiGrid-root-7 MuiGrid-item-9 MuiGrid-grid-xs-12-53"
-              >
-                <p
-                  class="MuiTypography-root-117 MuiTypography-body2-118 MuiTypography-colorTextPrimary-142"
-                >
-                  -
-                </p>
-              </div>
-            </div>
+              Collateral Ratio - Minimum
+            </p>
           </div>
           <div
-            class="MuiGrid-root-7 makeStyles-row-256 MuiGrid-container-8"
+            class="MuiGrid-root-1 makeStyles-placeholder-253 MuiGrid-container-2 MuiGrid-item-3 MuiGrid-grid-xs-6-41"
           >
             <div
-              class="MuiGrid-root-7 makeStyles-detailName-257 MuiGrid-item-9 MuiGrid-grid-xs-6-47"
+              class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
             >
               <p
-                class="MuiTypography-root-117 MuiTypography-body2-118 MuiTypography-colorTextSecondary-143"
+                class="MuiTypography-root-111 MuiTypography-body2-112 MuiTypography-colorTextPrimary-136"
               >
-                Minimum Mint
+                -
               </p>
             </div>
-            <div
-              class="MuiGrid-root-7 makeStyles-placeholder-259 MuiGrid-container-8 MuiGrid-item-9 MuiGrid-grid-xs-6-47"
+          </div>
+        </div>
+        <div
+          class="MuiGrid-root-1 makeStyles-row-250 MuiGrid-container-2"
+        >
+          <div
+            class="MuiGrid-root-1 makeStyles-detailName-251 MuiGrid-item-3 MuiGrid-grid-xs-6-41"
+          >
+            <p
+              class="MuiTypography-root-111 MuiTypography-body2-112 MuiTypography-colorTextSecondary-137"
             >
-              <div
-                class="MuiGrid-root-7 MuiGrid-item-9 MuiGrid-grid-xs-12-53"
+              Collateral Ratio - Current
+            </p>
+          </div>
+          <div
+            class="MuiGrid-root-1 makeStyles-placeholder-253 MuiGrid-container-2 MuiGrid-item-3 MuiGrid-grid-xs-6-41"
+          >
+            <div
+              class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
+            >
+              <p
+                class="MuiTypography-root-111 MuiTypography-body2-112 MuiTypography-colorTextPrimary-136"
               >
-                <p
-                  class="MuiTypography-root-117 MuiTypography-body2-118 MuiTypography-colorTextPrimary-142"
-                >
-                  -
-                </p>
-              </div>
+                -
+              </p>
+            </div>
+          </div>
+        </div>
+        <div
+          class="MuiGrid-root-1 makeStyles-row-250 MuiGrid-container-2"
+        >
+          <div
+            class="MuiGrid-root-1 makeStyles-detailName-251 MuiGrid-item-3 MuiGrid-grid-xs-6-41"
+          >
+            <p
+              class="MuiTypography-root-111 MuiTypography-body2-112 MuiTypography-colorTextSecondary-137"
+            >
+              Expiration
+            </p>
+          </div>
+          <div
+            class="MuiGrid-root-1 makeStyles-placeholder-253 MuiGrid-container-2 MuiGrid-item-3 MuiGrid-grid-xs-6-41"
+          >
+            <div
+              class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
+            >
+              <p
+                class="MuiTypography-root-111 MuiTypography-body2-112 MuiTypography-colorTextPrimary-136"
+              >
+                -
+              </p>
+            </div>
+          </div>
+        </div>
+        <div
+          class="MuiGrid-root-1 makeStyles-row-250 MuiGrid-container-2"
+        >
+          <div
+            class="MuiGrid-root-1 makeStyles-detailName-251 MuiGrid-item-3 MuiGrid-grid-xs-6-41"
+          >
+            <p
+              class="MuiTypography-root-111 MuiTypography-body2-112 MuiTypography-colorTextSecondary-137"
+            >
+              Minimum Mint
+            </p>
+          </div>
+          <div
+            class="MuiGrid-root-1 makeStyles-placeholder-253 MuiGrid-container-2 MuiGrid-item-3 MuiGrid-grid-xs-6-41"
+          >
+            <div
+              class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
+            >
+              <p
+                class="MuiTypography-root-111 MuiTypography-body2-112 MuiTypography-colorTextPrimary-136"
+              >
+                -
+              </p>
             </div>
           </div>
         </div>
       </div>
     </div>
     <div
-      class="MuiGrid-root-7 MuiGrid-item-9 MuiGrid-grid-xs-12-53"
+      class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
     >
       <div
-        class="MuiGrid-root-7 MuiGrid-container-8"
+        class="MuiGrid-root-1 MuiGrid-container-2"
       >
         <button
-          class="MuiButtonBase-root-250 MuiButton-root-221 MuiButton-contained-229 makeStyles-button-260 MuiButton-containedPrimary-230 MuiButton-containedSizeLarge-241 MuiButton-sizeLarge-243 MuiButton-disabled-234 MuiButtonBase-disabled-251"
+          class="MuiButtonBase-root-244 MuiButton-root-215 MuiButton-contained-223 makeStyles-button-254 MuiButton-containedPrimary-224 MuiButton-containedSizeLarge-235 MuiButton-sizeLarge-237 MuiButton-disabled-228 MuiButtonBase-disabled-245"
           disabled=""
           tabindex="-1"
           type="button"
         >
           <span
-            class="MuiButton-label-222"
+            class="MuiButton-label-216"
           >
             Select a Collateral Token
           </span>
