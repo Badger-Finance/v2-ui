@@ -86,7 +86,8 @@ export class ClawStore {
 				this.clawsByCollateral = reduceClawByCollateral(this);
 				this.claws = reduceClaws();
 			} catch (error) {
-				queueNotification('There was an error fetching synthetic data', 'error');
+				queueNotification('There was an error fetching CLAWs synthetic data', 'error');
+				process.env.NODE_ENV !== 'production' && console.error(error);
 			} finally {
 				this.isLoadingSyntheticData = false;
 			}
@@ -105,7 +106,8 @@ export class ClawStore {
 				this.sponsorInformation = await this._getSponsorInformation();
 				this.sponsorInformationByEMP = reduceSponsorData(this);
 			} catch (error) {
-				queueNotification(error?.message || 'There was an error fetching sponsor data', 'error');
+				queueNotification(error?.message || 'There was an error fetching CLAWs sponsor data', 'error');
+				process.env.NODE_ENV !== 'production' && console.error(error);
 			} finally {
 				this.isLoadingSponsorData = false;
 			}
@@ -132,7 +134,9 @@ export class ClawStore {
 
 	private async _fetchEmps(): Promise<SyntheticData[]> {
 		const claws = await Promise.all(EMPS_ADDRESSES.map((synthetic) => getClawEmp(synthetic)));
-		return claws.map((s, index) => ({ ...s, address: EMPS_ADDRESSES[index] })).map(parseSyntheticHexToBigNumber);
+		return claws
+			.map((syntheticData, index) => ({ ...syntheticData, address: EMPS_ADDRESSES[index] }))
+			.map(parseSyntheticHexToBigNumber);
 	}
 
 	private async _getSponsorInformation() {
