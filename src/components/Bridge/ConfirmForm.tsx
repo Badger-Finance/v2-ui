@@ -6,6 +6,7 @@ import { StoreContext } from 'mobx/store-context';
 import WBTCLogo from 'assets/icons/WBTC.svg';
 import bWBTCLogo from 'assets/icons/bwbtc.svg';
 import renBTCLogo from 'assets/icons/renBTC.svg';
+import crvBTCLogo from 'assets/tokens/bcrvRenWBTC.png';
 import { shortenAddress } from 'utils/componentHelpers';
 
 interface ConfirmFormProps {
@@ -77,7 +78,25 @@ export const ConfirmForm = ({
 		);
 	};
 
-	const selectedTokenImage = values.token === 'renBTC' ? renBTCLogo : values.token === 'bWBTC' ? bWBTCLogo : WBTCLogo;
+	const selectedTokenImage = () => {
+		switch (values.token) {
+			case 'renBTC':
+				return renBTCLogo;
+			case 'bWBTC':
+				return bWBTCLogo;
+			case 'WBTC':
+				return WBTCLogo;
+			case 'bCRVrenBTC':
+				return crvBTCLogo;
+			case 'bCRVsBTC':
+				return crvBTCLogo;
+			case 'bCRVtBTC':
+				return crvBTCLogo;
+			default:
+				return renBTCLogo;
+		}
+	};
+
 	const isWBTC = values.token === 'bWBTC' || values.token === 'WBTC';
 
 	return (
@@ -113,7 +132,7 @@ export const ConfirmForm = ({
 							'Minting',
 							`By minting bWBTC, this transaction directly deposits your newly minted wBTC into the Badger wBTC vault. bwBTC represents your position in the vault.`,
 							<div className={classes.receiveAmount}>
-								<img src={selectedTokenImage} className={classes.logo2} />
+								<img src={selectedTokenImage()} className={classes.logo2} />
 								<div>
 									<div>{values.token}</div>
 								</div>
@@ -127,7 +146,7 @@ export const ConfirmForm = ({
 						<div>{values.tabValue <= 1 ? 'Minting' : 'Releasing'}</div>
 
 						<div className={classes.receiveAmount}>
-							<img src={selectedTokenImage} className={classes.logo2} />
+							<img src={selectedTokenImage()} className={classes.logo2} />
 							<div>
 								<div>{values.token}</div>
 							</div>
@@ -185,7 +204,7 @@ export const ConfirmForm = ({
 				<div className={classes.itemContainer}>
 					<div>You will receive</div>
 					<div className={classes.receiveAmount}>
-						<img src={selectedTokenImage} className={classes.logo2} />
+						<img src={selectedTokenImage()} className={classes.logo2} />
 
 						<div>
 							<div>{values.receiveAmount.toFixed(8)}</div>

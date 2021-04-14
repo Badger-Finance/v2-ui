@@ -19,8 +19,9 @@ import { ValuesProp } from './Common';
 import WBTCLogo from 'assets/icons/WBTC.svg';
 import bWBTCLogo from 'assets/icons/bwbtc.svg';
 import renBTCLogo from 'assets/icons/renBTC.svg';
+import crvBTCLogo from 'assets/tokens/bcrvRenWBTC.png';
 import { NETWORK_LIST, CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS } from 'config/constants';
-import { bridge_system, tokens } from 'config/deployments/mainnet.json';
+import { bridge_system, tokens, sett_system } from 'config/deployments/mainnet.json';
 import { CURVE_EXCHANGE } from 'config/system/abis/CurveExchange';
 
 type TabPanelProps = PropsWithChildren<{
@@ -95,7 +96,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 	} = store;
 
 	const initialTokenState: {
-		token: 'renBTC' | 'WBTC' | 'bWBTC';
+		token: 'renBTC' | 'WBTC' | 'bWBTC' | 'bCRVrenBTC' | 'bCRVsBTC' | 'bCRVtBTC';
 	} = {
 		token: 'renBTC',
 	};
@@ -200,6 +201,40 @@ export const BridgeForm = observer(({ classes }: any) => {
 		}));
 	};
 
+	const vaultAddress = () => {
+		switch (token) {
+			case 'bWBTC':
+				return sett_system.vaults['yearn.wBtc'];
+			case 'bCRVrenBTC':
+				return sett_system.vaults['native.renCrv'];
+			case 'bCRVsBTC':
+				return sett_system.vaults['native.sbtcCrv'];
+			case 'bCRVtBTC':
+				return sett_system.vaults['native.tbtcCrv'];
+			default:
+				return '0x0000000000000000000000000000000000000000';
+		}
+	};
+
+	const tokenAddress = () => {
+		switch (token) {
+			case 'renBTC':
+				return tokens.renBTC;
+			case 'WBTC':
+				return tokens.wBTC;
+			case 'bWBTC':
+				return sett_system.vaults['yearn.wBtc'];
+			case 'bCRVrenBTC':
+				return sett_system.vaults['native.renCrv'];
+			case 'bCRVsBTC':
+				return sett_system.vaults['native.sbtcCrv'];
+			case 'bCRVtBTC':
+				return sett_system.vaults['native.tbtcCrv'];
+			default:
+				return '0x0000000000000000000000000000000000000000';
+		}
+	};
+
 	useEffect(() => {
 		// Reset to original state if we're disconnected in middle
 		// of transaction.
@@ -241,10 +276,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 				name: '_vault',
 				type: 'address',
 				// Will check in SC if address is addres(0), if not, will deposit to the desired vault
-				value:
-					token === 'bWBTC'
-						? tokens.bWBTC
-						: '0x0000000000000000000000000000000000000000',
+				value: vaultAddress(),
 			},
 		];
 
@@ -284,10 +316,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 				name: '_vault',
 				type: 'address',
 				// Will check in SC if address is addres(0), if not, will deposit to the desired vault
-				value:
-					token === 'bWBTC'
-						? tokens.bWBTC
-						: '0x0000000000000000000000000000000000000000',
+				value: vaultAddress(),
 			},
 			{
 				name: '_slippage',
@@ -307,12 +336,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 		];
 
 		const tokenParam = {
-			address:
-				token === 'renBTC'
-					? tokens.renBTC
-					: token === 'bWBTC'
-					? tokens.bWBTC
-					: tokens.wBTC,
+			address: tokenAddress(),
 			symbol: token,
 			totalSupply: amountSats,
 		};
@@ -504,6 +528,27 @@ export const BridgeForm = observer(({ classes }: any) => {
 								<span>bWBTC</span>
 							</span>
 						</MenuItem>
+
+						<MenuItem value={'bCRVrenBTC'}>
+							<span className={classes.menuItem}>
+								<img src={crvBTCLogo} className={classes.logo} />
+								<span>bCRVrenBTC</span>
+							</span>
+						</MenuItem>
+
+						<MenuItem value={'bCRVsBTC'}>
+							<span className={classes.menuItem}>
+								<img src={crvBTCLogo} className={classes.logo} />
+								<span>bCRVsBTC</span>
+							</span>
+						</MenuItem>
+
+						<MenuItem value={'bCRVtBTC'}>
+							<span className={classes.menuItem}>
+								<img src={crvBTCLogo} className={classes.logo} />
+								<span>bCRVtBTC</span>
+							</span>
+						</MenuItem>
 					</Select>
 				)}
 
@@ -536,6 +581,27 @@ export const BridgeForm = observer(({ classes }: any) => {
 							<span className={classes.menuItem}>
 								<img src={bWBTCLogo} className={classes.logo} />
 								<span>bWBTC</span>
+							</span>
+						</MenuItem>
+
+						<MenuItem value={'bCRVrenBTC'}>
+							<span className={classes.menuItem}>
+								<img src={crvBTCLogo} className={classes.logo} />
+								<span>bCRVrenBTC</span>
+							</span>
+						</MenuItem>
+
+						<MenuItem value={'bCRVsBTC'}>
+							<span className={classes.menuItem}>
+								<img src={crvBTCLogo} className={classes.logo} />
+								<span>bCRVsBTC</span>
+							</span>
+						</MenuItem>
+
+						<MenuItem value={'bCRVtBTC'}>
+							<span className={classes.menuItem}>
+								<img src={crvBTCLogo} className={classes.logo} />
+								<span>bCRVtBTC</span>
 							</span>
 						</MenuItem>
 					</Select>
