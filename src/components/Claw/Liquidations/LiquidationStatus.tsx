@@ -32,7 +32,7 @@ export const LiquidationStatus = ({ liquidation, synthetic }: Props): JSX.Elemen
 		);
 	}
 
-	switch (liquidation.state.toString()) {
+	switch (liquidation.state) {
 		case Status.Uninitialized:
 		default:
 			return (
