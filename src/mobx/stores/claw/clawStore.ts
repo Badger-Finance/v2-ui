@@ -32,6 +32,7 @@ export class ClawStore {
 	isLoading = false;
 	isLoadingSyntheticData = false;
 	isLoadingSponsorData = false;
+	isLoadingTokens = false;
 
 	constructor(store: RootStore) {
 		this.store = store;
@@ -45,17 +46,22 @@ export class ClawStore {
 			isLoadingSyntheticData: this.isLoadingSyntheticData,
 			syntheticsDataByEMP: this.syntheticsDataByEMP,
 			sponsorInformationByEMP: this.sponsorInformationByEMP,
+			isLoadingTokens: this.isLoadingTokens,
 			collaterals: this.collaterals,
 			claws: this.claws,
 			collateralClawRelation: this.clawsByCollateral,
 		});
 
+		observe(this, 'isLoadingTokens', () => {
+			this.isLoading = this.isLoadingSponsorData || this.isLoadingSyntheticData || this.isLoadingTokens;
+		});
+
 		observe(this, 'isLoadingSponsorData', () => {
-			this.isLoading = this.isLoadingSponsorData || this.isLoadingSyntheticData;
+			this.isLoading = this.isLoadingSponsorData || this.isLoadingSyntheticData || this.isLoadingTokens;
 		});
 
 		observe(this, 'isLoadingSyntheticData', () => {
-			this.isLoading = this.isLoadingSponsorData || this.isLoadingSyntheticData;
+			this.isLoading = this.isLoadingSponsorData || this.isLoadingSyntheticData || this.isLoadingTokens;
 		});
 
 		observe(this.store.wallet, 'connectedAddress', () => {
@@ -107,14 +113,20 @@ export class ClawStore {
 	}
 
 	async updateBalances(): Promise<void> {
-		const { fetchTokens } = this.store.contracts;
-		await Promise.all([
-			// TODO: We should track loading state for token balances as well.
-			fetchTokens(),
-			this.fetchSyntheticsData(),
-			this.fetchSponsorData(),
-		]);
+		await Promise.all([this._loadTokens(), this.fetchSyntheticsData(), this.fetchSponsorData()]);
 	}
+
+	private _loadTokens = action(async () => {
+		const { queueNotification } = this.store.uiState;
+		const { fetchTokens } = this.store.contracts;
+		try {
+			this.isLoadingTokens = true;
+			await fetchTokens();
+		} catch (error) {
+			queueNotification(error?.message || 'There was an error fetching tokens information', 'error');
+			process.env.NODE_ENV !== 'production' && console.error(error);
+		}
+	});
 
 	private async _fetchEmps(): Promise<SyntheticData[]> {
 		const claws = await Promise.all(EMPS_ADDRESSES.map((synthetic) => getClawEmp(synthetic)));
