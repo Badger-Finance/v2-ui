@@ -13,6 +13,7 @@ import {
 	parseSponsorsHexToBigNumber,
 } from 'mobx/reducers/clawsReducer';
 import { getClawEmpSponsor, getClawEmp } from 'mobx/utils/apiV2';
+import { NETWORK_IDS } from '../../../config/constants';
 
 export class ClawStore {
 	store: RootStore;
@@ -59,15 +60,16 @@ export class ClawStore {
 
 		observe(this.store.wallet, 'connectedAddress', () => {
 			if (this.store.wallet.connectedAddress && !this.isLoadingSponsorData) {
-				this.fetchSponsorData();
+				this.fetchSponsorData().then();
 			}
 		});
 
-		this.fetchSyntheticsData();
+		this.fetchSyntheticsData().then();
 	}
 
-	fetchSyntheticsData() {
+	fetchSyntheticsData(): Promise<void> {
 		return action(async () => {
+			if (this.store.wallet.network.networkId !== NETWORK_IDS.ETH) return;
 			const { queueNotification } = this.store.uiState;
 
 			try {
@@ -85,13 +87,12 @@ export class ClawStore {
 		})();
 	}
 
-	fetchSponsorData() {
+	fetchSponsorData(): Promise<void> {
 		return action(async () => {
 			const { queueNotification } = this.store.uiState;
-			const { connectedAddress } = this.store.wallet;
+			const { connectedAddress, network } = this.store.wallet;
 
-			// the data will be mocked in the tests
-			if (!connectedAddress) return;
+			if (!connectedAddress || network.networkId !== NETWORK_IDS.ETH) return;
 
 			try {
 				this.isLoadingSponsorData = true;
@@ -105,7 +106,7 @@ export class ClawStore {
 		})();
 	}
 
-	async updateBalances() {
+	async updateBalances(): Promise<void> {
 		const { fetchTokens } = this.store.contracts;
 		await Promise.all([
 			// TODO: We should track loading state for token balances as well.
