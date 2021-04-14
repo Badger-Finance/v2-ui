@@ -60,10 +60,9 @@ const UserListDisplay = observer((props: SettListViewProps) => {
 
 	const depositListItems = network.settOrder
 		.map((contract) => {
+			if (!settMap[contract]) return null;
 			const vault = vaults[settMap[contract].vaultToken];
-			if (!vault) {
-				return null;
-			}
+			if (!vault) return null;
 			if (vault.balance.gt(0))
 				return (
 					<SettListItem
@@ -82,6 +81,7 @@ const UserListDisplay = observer((props: SettListViewProps) => {
 
 	const vaultListItems = network.settOrder
 		.map((contract) => {
+			if (!settMap[contract]) return null;
 			const vault = vaults[settMap[contract].vaultToken];
 			const geyser = vault?.geyser;
 			if (geyser && geyser.balance.gt(0))
