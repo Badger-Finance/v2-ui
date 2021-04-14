@@ -3,12 +3,12 @@ import '@testing-library/jest-dom';
 import { screen, customRender, fireEvent, within } from '../Utils';
 import { TokenSelect } from '../../components-v2/common/TokenSelect';
 
-test('displays placeholder', () => {
+it('displays placeholder', () => {
 	customRender(<TokenSelect placeholder={'Select Token'} onChange={jest.fn()} />);
 	expect(screen.getByRole('button', { name: 'Select Token' })).toBeInTheDocument();
 });
 
-test('displays options', () => {
+it('displays options', () => {
 	const handleChange = jest.fn();
 	customRender(
 		<TokenSelect
@@ -30,7 +30,7 @@ test('displays options', () => {
 	expect(list.getByText('TestToken')).toBeInTheDocument();
 });
 
-test('returns correct value on change', () => {
+it('returns correct value on change', () => {
 	const handleChange = jest.fn();
 	customRender(
 		<TokenSelect

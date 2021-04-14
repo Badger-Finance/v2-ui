@@ -3,16 +3,7 @@ import '@testing-library/jest-dom';
 import { customRender, fireEvent, screen } from '../Utils';
 import { PercentageGroup } from '../../components-v2/common/PercentageGroup';
 
-test('display options', () => {
-	customRender(<PercentageGroup options={[17]} onChange={jest.fn()} />);
-	expect(
-		screen.getByRole('button', {
-			name: '17%',
-		}),
-	).toBeInTheDocument();
-});
-
-test('handle percentage selection', () => {
+it('display options', () => {
 	customRender(<PercentageGroup options={[25, 50, 75, 100]} onChange={jest.fn()} />);
 	expect(
 		screen.getByRole('button', {
@@ -36,7 +27,7 @@ test('handle percentage selection', () => {
 	);
 });
 
-test('handle percentage selection', () => {
+it('handles percentage selection', () => {
 	const handleChange = jest.fn();
 	customRender(<PercentageGroup options={[25, 50]} onChange={handleChange} />);
 	const percentageButton = screen.getByRole('button', {
