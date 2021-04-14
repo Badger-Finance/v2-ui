@@ -20,7 +20,7 @@ const useStyles = makeStyles(() => ({
  * @param onChange function that handles percentage selection
  * @constructor
  */
-export const PercentageGroup = ({ options = [], disabled = false, onChange }: Props) => {
+export const PercentageGroup = ({ options = [], disabled = false, onChange }: Props): JSX.Element => {
 	const classes = useStyles();
 
 	return (

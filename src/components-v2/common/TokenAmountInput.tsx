@@ -30,7 +30,12 @@ function sanitizeValue(value: string): string {
 	return isNonCalculableValue ? '' : value;
 }
 
-export const TokenAmountInput = ({ value = '', placeholder = '0.00', disabled = false, onChange }: Props) => {
+export const TokenAmountInput = ({
+	value = '',
+	placeholder = '0.00',
+	disabled = false,
+	onChange,
+}: Props): JSX.Element => {
 	const classes = useStyles();
 
 	const handleAmountChange = (event: React.ChangeEvent<{ value: unknown }>) => {

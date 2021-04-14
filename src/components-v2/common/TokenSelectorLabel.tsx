@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export const TokenSelectorLabel: FC<Props> = ({ name, balanceLabel = '', balance = '' }) => {
+export const TokenSelectorLabel: FC<Props> = ({ name, balanceLabel = '', balance = '' }): JSX.Element => {
 	const classes = useStyles();
 
 	return (

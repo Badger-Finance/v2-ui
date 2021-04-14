@@ -38,7 +38,7 @@ export const TokenSelectorWithAmountContainer: FC<Props> = ({
 	tokenList,
 	tokenAmount,
 	percentagesGroup,
-}) => {
+}): JSX.Element => {
 	const classes = useStyles();
 
 	return (

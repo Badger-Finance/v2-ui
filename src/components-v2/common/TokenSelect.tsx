@@ -29,7 +29,7 @@ export const TokenSelect = ({
 	options = new Map<string, string>(),
 	disabled = false,
 	onChange,
-}: Props) => {
+}: Props): JSX.Element => {
 	const classes = useStyles();
 
 	const handleOptionChange = (event: React.ChangeEvent<{ value: unknown }>) => {
