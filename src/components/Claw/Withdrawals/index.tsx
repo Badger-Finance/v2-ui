@@ -84,6 +84,12 @@ const Withdrawals = observer(() => {
 									position={sponsorData.position}
 									synthetic={synthetic}
 									decimals={decimals}
+									onWithdraw={(syntheticAddress) =>
+										store.actionStore.withdrawPassedRequest(syntheticAddress)
+									}
+									onCancel={(syntheticAddress) =>
+										store.actionStore.cancelWithdrawal(syntheticAddress)
+									}
 								/>
 							);
 						})}

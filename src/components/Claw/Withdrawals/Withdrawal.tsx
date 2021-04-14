@@ -5,7 +5,6 @@ import { InfoOutlined as InfoOutlinedIcon } from '@material-ui/icons';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 
-import { StoreContext } from 'mobx/store-context';
 import { scaleToString, Direction } from 'utils/componentHelpers';
 
 dayjs.extend(utc);
@@ -14,6 +13,8 @@ interface Props {
 	position: Position;
 	synthetic: SyntheticData;
 	decimals: number;
+	onWithdraw: (syntheticAddress: string) => void;
+	onCancel: (syntheticAddress: string) => void;
 }
 
 const useStyles = makeStyles(() => ({
@@ -26,18 +27,21 @@ const useStyles = makeStyles(() => ({
 	},
 }));
 
-export const Withdrawal = ({ position, synthetic, decimals }: Props): JSX.Element => {
-	const { claw: store } = React.useContext(StoreContext);
+export const Withdrawal = ({ position, synthetic, decimals, onWithdraw, onCancel }: Props): JSX.Element => {
 	const classes = useStyles();
-
 	const amount = scaleToString(position.withdrawalRequestAmount, decimals, Direction.Down);
 	// Scale from unix secs -> ms.
 	const completionDate = dayjs(position.withdrawalRequestPassTimestamp.toNumber() * 1000);
 	const completion = completionDate.format('MMM DD[,] YYYY [@] HH:mm [UTC]');
 	const withdrawalPeriodPassed = completionDate.isBefore(dayjs().utc());
 
-	const cancel = () => store.actionStore.cancelWithdrawal(synthetic.address);
-	const withdraw = () => store.actionStore.withdrawPassedRequest(synthetic.address);
+	const handleAction = () => {
+		if (withdrawalPeriodPassed) {
+			onWithdraw(synthetic.address);
+		} else {
+			onCancel(synthetic.address);
+		}
+	};
 
 	return (
 		<TableRow key={synthetic.name} className={classes.tableRow}>
@@ -56,12 +60,7 @@ export const Withdrawal = ({ position, synthetic, decimals }: Props): JSX.Elemen
 				<Typography variant="body2">{completion}</Typography>
 			</TableCell>
 			<TableCell align="right">
-				<Button
-					onClick={withdrawalPeriodPassed ? withdraw : cancel}
-					color="primary"
-					variant="outlined"
-					size="small"
-				>
+				<Button onClick={handleAction} color="primary" variant="outlined" size="small">
 					{withdrawalPeriodPassed ? 'Withdraw' : 'Cancel Withdrawal'}
 				</Button>
 			</TableCell>
