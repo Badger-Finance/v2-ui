@@ -51,11 +51,13 @@ const fetchData = async <T>(request: () => Promise<Response>): Promise<T | null>
 };
 
 export const getClawEmp = async (empAddress: string): Promise<SyntheticData> => {
-	return fetch(`http://localhost:3000/v2/claw/emp/${empAddress}`).then((response) => response.json());
+	return fetch(
+		`https://7dt9vo796h.execute-api.us-west-1.amazonaws.com/staging/v2/claw/emp/${empAddress}`,
+	).then((response) => response.json());
 };
 
 export const getClawEmpSponsor = async (empAddress: string, sponsorAddress: string): Promise<SponsorData> => {
-	return await fetch(`http://localhost:3000/v2/claw/emp/${empAddress}/sponsor/${sponsorAddress}`).then((response) =>
-		response.json(),
-	);
+	return await fetch(
+		`https://7dt9vo796h.execute-api.us-west-1.amazonaws.com/staging/v2/claw/emp/${empAddress}/sponsor/${sponsorAddress}`,
+	).then((response) => response.json());
 };
