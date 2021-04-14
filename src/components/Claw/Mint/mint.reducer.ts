@@ -1,6 +1,7 @@
 import BigNumber from 'bignumber.js';
 import { validateAmountBoundaries } from 'utils/componentHelpers';
 import { ClawParam } from '../claw.model';
+import { SyntheticData, Token } from '../../../mobx/model';
 
 export interface State {
 	collateral: ClawParam;
@@ -9,25 +10,25 @@ export interface State {
 
 interface CollateralAmountChange {
 	amount: string;
-	collateralToken: any;
+	collateralToken: Token;
 }
 
 interface CollateralPercentageChange {
 	percentage: number;
-	collateralToken: any;
+	collateralToken: Token;
 }
 
 interface SyntheticAmountChange {
 	amount: string;
-	synthetic: any;
-	collateralToken: any;
+	syntheticData: SyntheticData;
+	collateralToken: Token;
 }
 
 interface SyntheticOptionChange {
 	percentage: number;
-	syntheticData: any;
-	collateralToken: any;
-	maxClaw: any;
+	syntheticData: SyntheticData;
+	collateralToken: Token;
+	maxClaw: BigNumber;
 	validateClaw: boolean;
 }
 
@@ -37,7 +38,8 @@ type ActionType =
 	| { type: 'COLLATERAL_PERCENTAGE_CHANGE'; payload: CollateralPercentageChange }
 	| { type: 'SYNTHETIC_AMOUNT_CHANGE'; payload: SyntheticAmountChange }
 	| { type: 'SYNTHETIC_OPTION_CHANGE'; payload: string }
-	| { type: 'SYNTHETIC_PERCENTAGE_CHANGE'; payload: SyntheticOptionChange };
+	| { type: 'SYNTHETIC_PERCENTAGE_CHANGE'; payload: SyntheticOptionChange }
+	| { type: 'RESET_AMOUNTS' };
 
 export function mintReducer(state: State, action: ActionType): State {
 	switch (action.type) {
@@ -82,7 +84,7 @@ export function mintReducer(state: State, action: ActionType): State {
 			};
 		}
 		case 'SYNTHETIC_AMOUNT_CHANGE': {
-			const { amount, collateralToken, synthetic } = action.payload;
+			const { amount, collateralToken, syntheticData } = action.payload;
 			return {
 				...state,
 				synthetic: {
@@ -90,7 +92,7 @@ export function mintReducer(state: State, action: ActionType): State {
 					amount,
 					error: validateAmountBoundaries({
 						amount: new BigNumber(amount).multipliedBy(10 ** collateralToken.decimals),
-						minimum: synthetic.minSponsorTokens,
+						minimum: syntheticData.minSponsorTokens,
 					}),
 				},
 			};
@@ -120,6 +122,18 @@ export function mintReducer(state: State, action: ActionType): State {
 						maximum: validateClaw ? maxClaw : undefined,
 						minimum: syntheticData.minSponsorTokens,
 					}),
+				},
+			};
+		}
+		case 'RESET_AMOUNTS': {
+			return {
+				collateral: {
+					...state.collateral,
+					amount: undefined,
+				},
+				synthetic: {
+					...state.synthetic,
+					amount: undefined,
 				},
 			};
 		}
