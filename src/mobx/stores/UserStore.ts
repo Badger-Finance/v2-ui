@@ -1,7 +1,7 @@
 import { extendObservable, action, observe } from 'mobx';
 import { RootStore } from '../store';
-import { UserPermissions } from 'mobx/model';
-import { checkShopEligibility, fetchBouncerProof } from 'mobx/utils/apiV2';
+import { UserPermissions, Account } from 'mobx/model';
+import { checkShopEligibility, fetchBouncerProof, getAccountDetails } from 'mobx/utils/apiV2';
 import WalletStore from './walletStore';
 
 /**
@@ -21,14 +21,19 @@ export default class UserStore {
 	// loading: undefined, error: null, present: object
 	private permissions: UserPermissions | undefined | null;
 	public bouncerProof: string[] | undefined | null;
+	public accountDetails: Account | undefined | null;
 
 	constructor(store: RootStore) {
 		this.store = store;
+		this.permissions = undefined;
+		this.bouncerProof = undefined;
+		this.accountDetails = undefined;
 
 		extendObservable(this, {
 			permissions: this.permissions,
 			bouncerProof: this.bouncerProof,
 			viewSettShop: this.viewSettShop,
+			accountDetails: this.accountDetails,
 		});
 
 		/**
@@ -36,14 +41,13 @@ export default class UserStore {
 		 */
 		observe(this.store.wallet as WalletStore, 'connectedAddress', () => {
 			const address = this.store.wallet.connectedAddress;
+			const network = this.store.wallet.network;
 			if (address) {
 				this.getSettShopEligibility(address);
 				this.loadBouncerProof(address);
+				this.loadAccountDetails(address, network.name);
 			}
 		});
-
-		this.permissions = undefined;
-		this.bouncerProof = undefined;
 	}
 
 	viewSettShop(): boolean {
@@ -67,6 +71,15 @@ export default class UserStore {
 			const proof = await fetchBouncerProof(address);
 			if (proof) {
 				this.bouncerProof = proof.proof;
+			}
+		},
+	);
+
+	loadAccountDetails = action(
+		async (address: string, chain?: string): Promise<void> => {
+			const accountDetails = await getAccountDetails(address, chain ? chain : 'eth');
+			if (accountDetails) {
+				this.accountDetails = accountDetails;
 			}
 		},
 	);
