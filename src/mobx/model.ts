@@ -663,6 +663,35 @@ export type BouncerProof = {
 	proof: string[];
 };
 
+export interface Account {
+	id: string;
+	value: number;
+	earnedValue: number;
+	balances: SettBalance[];
+	depositLimits: AccountLimits;
+}
+
+export interface SettBalance {
+	id: string;
+	name: string;
+	asset: string;
+	balance: TokenBalance[];
+	value: number;
+	earnedTokens: TokenBalance[];
+	earnedValue: number;
+}
+
+export interface AccountLimits {
+	[contract: string]: DepositLimit;
+}
+
+export interface DepositLimit {
+	[address: string]: {
+		availble: number;
+		limit: number;
+	};
+}
+
 export enum Protocol {
 	Curve = 'curve',
 	Sushiswap = 'sushiswap',

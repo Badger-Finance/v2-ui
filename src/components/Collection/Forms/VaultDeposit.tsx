@@ -30,6 +30,7 @@ export const VaultDeposit = observer((props: any) => {
 	const {
 		wallet: { connectedAddress },
 		setts: { settMap },
+		user: { accountDetails },
 	} = store;
 
 	const percentageOfBalance = (percent: number) => {
@@ -92,6 +93,9 @@ export const VaultDeposit = observer((props: any) => {
 	);
 
 	const totalAvailable = percentageOfBalance(100);
+
+	console.log('account details: ', accountDetails?.depositLimits);
+
 	return (
 		<>
 			<DialogContent>
