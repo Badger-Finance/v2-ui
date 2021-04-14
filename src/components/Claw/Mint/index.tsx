@@ -5,15 +5,15 @@ import { observer } from 'mobx-react-lite';
 
 import { StoreContext } from 'mobx/store-context';
 import { TokenSelectorLabel } from 'components-v2/common/TokenSelectorLabel';
+import { TokenSelect } from 'components-v2/common/TokenSelect';
+import { TokenAmountInput } from 'components-v2/common/TokenAmountInput';
+import { PercentageGroup } from 'components-v2/common/PercentageGroup';
 import { TokenSelectorWithAmountContainer } from 'components-v2/common/TokenSelectorWithAmountContainer';
 import { ActionButton } from '../ActionButton';
 import { ClawDetails } from '../ClawDetails';
 import { useError, useMaxClaw, useDetails, useValidateClaw } from './mint.hooks';
 import { mintReducer, State } from './mint.reducer';
 import { scaleToString, Direction } from 'utils/componentHelpers';
-import { TokenSelect } from '../../../components-v2/common/TokenSelect';
-import { TokenAmountInput } from '../../../components-v2/common/TokenAmountInput';
-import { PercentageGroup } from '../../../components-v2/common/PercentageGroup';
 
 const initialState: State = { collateral: {}, synthetic: {} };
 

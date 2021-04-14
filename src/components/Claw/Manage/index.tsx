@@ -7,14 +7,14 @@ import { StoreContext } from 'mobx/store-context';
 
 import { TokenSelectorLabel } from 'components-v2/common/TokenSelectorLabel';
 import { TokenSelectorWithAmountContainer } from 'components-v2/common/TokenSelectorWithAmountContainer';
+import { TokenSelect } from 'components-v2/common/TokenSelect';
+import { TokenAmountInput } from 'components-v2/common/TokenAmountInput';
+import { PercentageGroup } from 'components-v2/common/PercentageGroup';
 import { ActionButton } from '../ActionButton';
 import { ClawDetails } from '../ClawDetails';
 import { scaleToString, Direction, validateAmountBoundaries } from 'utils/componentHelpers';
 import { useDetails, useError } from './manage.hooks';
 import { ClawParam } from '../claw.model';
-import { TokenSelect } from '../../../components-v2/common/TokenSelect';
-import { TokenAmountInput } from '../../../components-v2/common/TokenAmountInput';
-import { PercentageGroup } from '../../../components-v2/common/PercentageGroup';
 
 enum Mode {
 	DEPOSIT = 'deposit',
