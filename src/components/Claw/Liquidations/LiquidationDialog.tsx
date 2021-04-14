@@ -50,7 +50,13 @@ const DialogTitle = (props: DialogProps) => {
 	);
 };
 
-export const LiquidationDialog = ({ isOpen = false, liquidation, synthetic, decimals, onClose }: Props) => {
+export const LiquidationDialog = ({
+	isOpen = false,
+	liquidation,
+	synthetic,
+	decimals,
+	onClose,
+}: Props): JSX.Element => {
 	const classes = useStyles();
 
 	const {

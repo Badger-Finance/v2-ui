@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export const LiquidationStatus = ({ liquidation, synthetic }: Props) => {
+export const LiquidationStatus = ({ liquidation, synthetic }: Props): JSX.Element => {
 	const classes = useStyles();
 	const isCompleted = isLiquidationCompleted(liquidation, synthetic);
 

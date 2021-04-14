@@ -26,7 +26,7 @@ const useStyles = makeStyles(() => ({
 	},
 }));
 
-export const Withdrawal = ({ position, synthetic, decimals }: Props) => {
+export const Withdrawal = ({ position, synthetic, decimals }: Props): JSX.Element => {
 	const { claw: store } = React.useContext(StoreContext);
 	const classes = useStyles();
 

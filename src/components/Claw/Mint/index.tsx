@@ -8,7 +8,6 @@ import { TokenSelectorLabel } from 'components-v2/common/TokenSelectorLabel';
 import { TokenSelectorWithAmountContainer } from 'components-v2/common/TokenSelectorWithAmountContainer';
 import { ActionButton } from '../ActionButton';
 import { ClawDetails } from '../ClawDetails';
-import { useMainStyles } from '../index';
 import { useError, useMaxClaw, useDetails, useValidateClaw } from './mint.hooks';
 import { mintReducer, State } from './mint.reducer';
 import { scaleToString, Direction } from 'utils/componentHelpers';
@@ -21,7 +20,6 @@ const initialState: State = { collateral: {}, synthetic: {} };
 export const Mint = observer(() => {
 	const { claw: store, contracts, wallet } = React.useContext(StoreContext);
 	const { collaterals, clawsByCollateral, syntheticsDataByEMP } = store;
-	const classes = useMainStyles();
 	const [state, dispatch] = React.useReducer(mintReducer, initialState);
 	const { collateral, synthetic } = state;
 	const error = useError(collateral, synthetic);
@@ -31,14 +29,14 @@ export const Mint = observer(() => {
 
 	const collateralToken = contracts.tokens[collateral.selectedOption || ''];
 
-	const handleMint = () => {
+	const handleMint = async () => {
 		const [empAddress, mintAmount] = [synthetic.selectedOption, synthetic.amount];
 		const [collateralAddress, collateralAmount] = [collateral.selectedOption, collateral.amount];
 		const decimals: number | undefined = contracts.tokens[collateralAddress || '']?.decimals;
 
 		if (!empAddress || !mintAmount || !decimals || !collateralAmount) return;
 
-		store.actionStore.mint(
+		await store.actionStore.mint(
 			empAddress,
 			ethers.utils.parseUnits(collateralAmount, decimals).toHexString(),
 			ethers.utils.parseUnits(mintAmount, decimals).toHexString(),
@@ -164,9 +162,7 @@ export const Mint = observer(() => {
 				/>
 			</Grid>
 			<Grid item xs={12}>
-				<Grid container className={classes.details}>
-					<ClawDetails details={mintDetails} />
-				</Grid>
+				<ClawDetails details={mintDetails} />
 			</Grid>
 			<Grid item xs={12}>
 				<Grid container>

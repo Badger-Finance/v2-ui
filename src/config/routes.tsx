@@ -11,7 +11,7 @@ import { RootStore } from '../mobx/store';
 import { Airdrops } from '../components/Airdrops';
 import { Digg } from '../components/Digg';
 import { Locked } from 'components/Common/Locked';
-import { Claw } from 'components/Claws';
+import { Claw } from 'components/Claw';
 
 import { IbBTC } from 'components/IbBTC';
 import { FLAGS } from 'config/constants';

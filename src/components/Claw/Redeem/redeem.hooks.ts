@@ -10,7 +10,7 @@ import { BOUNDARY_ERROR } from 'utils/componentHelpers';
 
 dayjs.extend(utc);
 
-export function useError({ selectedOption, amount, error }: ClawParam) {
+export function useError({ selectedOption, amount, error }: ClawParam): string | false {
 	const { claw, contracts } = React.useContext(StoreContext);
 	const synthetic = claw.syntheticsDataByEMP.get(selectedOption || '');
 	const bToken = contracts.tokens[synthetic?.collateralCurrency ?? ''];

@@ -1,4 +1,4 @@
-import React, { FC, useContext, useState } from 'react';
+import React from 'react';
 import { observer } from 'mobx-react-lite';
 import { Tab, Card, Tabs, CardContent, Container, Grid, CircularProgress } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -11,7 +11,7 @@ import Redeem from './Redeem';
 import Withdrawals from './Withdrawals';
 import PageHeader from 'components-v2/common/PageHeader';
 
-export const useMainStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme) => ({
 	root: {
 		marginBottom: theme.spacing(12),
 		marginTop: theme.spacing(11),
@@ -32,29 +32,6 @@ export const useMainStyles = makeStyles((theme) => ({
 			paddingLeft: theme.spacing(3),
 		},
 	},
-	details: {
-		width: '100%',
-		marginTop: theme.spacing(2),
-		margin: 'auto',
-		'@media (min-width: 480px) and (max-width: 600px)': {
-			width: '80%',
-		},
-		[theme.breakpoints.between('sm', 'md')]: {
-			width: '60%',
-		},
-		[theme.breakpoints.up('lg')]: {
-			width: '50%',
-		},
-	},
-	button: {
-		width: '80%',
-		marginTop: theme.spacing(4),
-		marginBottom: theme.spacing(2),
-		margin: 'auto',
-		[theme.breakpoints.only('xs')]: {
-			width: '100%',
-		},
-	},
 	loader: {
 		textAlign: 'center',
 		padding: theme.spacing(20, 0),
@@ -67,11 +44,11 @@ const TABS = {
 	REDEEM: 2,
 };
 
-export const Claw: FC = observer(() => {
-	const store = useContext(StoreContext);
+export const Claw = observer(() => {
+	const store = React.useContext(StoreContext);
 	const { isLoading, sponsorInformation } = store.claw;
-	const classes = useMainStyles();
-	const [activeTab, setActiveTab] = useState(0);
+	const classes = useStyles();
+	const [activeTab, setActiveTab] = React.useState(0);
 
 	const Content = () => {
 		if (isLoading) {
@@ -115,9 +92,9 @@ export const Claw: FC = observer(() => {
 				<Grid item xs={12}>
 					<Card>
 						<Tabs variant="fullWidth" indicatorColor="primary" value={activeTab} className={classes.tabs}>
-							<Tab onClick={() => setActiveTab(TABS.MINT)} label="Mint"></Tab>
-							<Tab onClick={() => setActiveTab(TABS.MANAGE)} label="Manage"></Tab>
-							<Tab onClick={() => setActiveTab(TABS.REDEEM)} label="Redeem"></Tab>
+							<Tab onClick={() => setActiveTab(TABS.MINT)} label="Mint" />
+							<Tab onClick={() => setActiveTab(TABS.MANAGE)} label="Manage" />
+							<Tab onClick={() => setActiveTab(TABS.REDEEM)} label="Redeem" />
 						</Tabs>
 						<CardContent className={classes.cardContent}>
 							<Content />

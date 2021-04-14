@@ -1,7 +1,6 @@
 import React from 'react';
 import { TableCell, Typography, Grid, makeStyles, TableRow, IconButton } from '@material-ui/core';
 import { UnfoldMoreTwoTone } from '@material-ui/icons';
-import BigNumber from 'bignumber.js';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 
@@ -34,9 +33,9 @@ export const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export const LiquidationRow = ({ liquidation, synthetic, decimals, onClick }: Props) => {
+export const LiquidationRow = ({ liquidation, synthetic, decimals, onClick }: Props): JSX.Element => {
 	const classes = useStyles();
-	const { lockedCollateral, liquidatedCollateral, liquidationTime, state, settlementPrice } = liquidation;
+	const { lockedCollateral, liquidatedCollateral, liquidationTime, settlementPrice } = liquidation;
 
 	return (
 		<TableRow hover={true} className={classes.tableRow}>

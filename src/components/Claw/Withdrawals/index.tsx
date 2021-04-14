@@ -1,10 +1,6 @@
 import React from 'react';
-import { toJS } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import {
-	Box,
-	Button,
-	Chip,
 	Container,
 	Grid,
 	Paper,
@@ -14,15 +10,12 @@ import {
 	TableContainer,
 	TableHead,
 	TableRow,
-	Tooltip,
 	Typography,
 } from '@material-ui/core';
-import { InfoOutlined as InfoOutlinedIcon } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { StoreContext } from 'mobx/store-context';
-import { Position, SyntheticData } from 'mobx/model';
-import { scaleToString, Direction } from 'utils/componentHelpers';
+import { SyntheticData } from 'mobx/model';
 import { Withdrawal } from './Withdrawal';
 
 export const useStyles = makeStyles((theme) => ({
@@ -50,7 +43,7 @@ export const useStyles = makeStyles((theme) => ({
 
 const Withdrawals = observer(() => {
 	const { claw: store, contracts } = React.useContext(StoreContext);
-	const { isLoading, sponsorInformationByEMP, syntheticsData } = store;
+	const { sponsorInformationByEMP, syntheticsData } = store;
 	const classes = useStyles();
 
 	return (

@@ -7,16 +7,16 @@ import dayjs from 'dayjs';
 
 import { TokenSelectorLabel } from 'components-v2/common/TokenSelectorLabel';
 import { TokenSelectorWithAmountContainer } from 'components-v2/common/TokenSelectorWithAmountContainer';
+import { TokenSelect } from 'components-v2/common/TokenSelect';
+import { TokenAmountInput } from 'components-v2/common/TokenAmountInput';
+import { PercentageGroup } from 'components-v2/common/PercentageGroup';
 import { ClawDetails } from '../ClawDetails';
 import { ActionButton } from '../ActionButton';
 import { scaleToString, Direction } from 'utils/componentHelpers';
 import { validateAmountBoundaries } from 'utils/componentHelpers';
-import { useMainStyles } from '../index';
 import { useAmountToReceive, useDetails, useError } from './redeem.hooks';
 import { ClawParam } from '../claw.model';
-import { TokenSelect } from '../../../components-v2/common/TokenSelect';
-import { TokenAmountInput } from '../../../components-v2/common/TokenAmountInput';
-import { PercentageGroup } from '../../../components-v2/common/PercentageGroup';
+import { observer } from 'mobx-react-lite';
 
 const useStyles = makeStyles((theme) => ({
 	border: {
@@ -39,10 +39,9 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const Redeem = () => {
+const Redeem = observer(() => {
 	const { claw: store, contracts, wallet } = React.useContext(StoreContext);
 	const { collaterals, claws, syntheticsDataByEMP, sponsorInformationByEMP } = store;
-	const mainClasses = useMainStyles();
 	const classes = useStyles();
 	const [redeem, setRedeemParams] = React.useState<ClawParam>({});
 	const details = useDetails(redeem);
@@ -58,7 +57,7 @@ const Redeem = () => {
 		selectedSynthetic && dayjs(selectedSynthetic.expirationTimestamp.toNumber() * 1000).isBefore(dayjs().utc());
 	const actionText = isSyntheticExpired ? 'SETTLE' : 'REDEEM';
 
-	const handleRedeem = () => {
+	const handleRedeem = async () => {
 		const [empAddress, numTokens] = [selectedOption, amount];
 		if (!empAddress || !numTokens || !selectedSynthetic) return;
 
@@ -68,9 +67,12 @@ const Redeem = () => {
 
 		// we settle expire if the synthetic is expired
 		if (isSyntheticExpired) {
-			store.actionStore.settleExpired(empAddress, ethers.utils.parseUnits(numTokens, decimals).toHexString());
+			await store.actionStore.settleExpired(
+				empAddress,
+				ethers.utils.parseUnits(numTokens, decimals).toHexString(),
+			);
 		} else {
-			store.actionStore.redeem(empAddress, ethers.utils.parseUnits(numTokens, decimals).toHexString());
+			await store.actionStore.redeem(empAddress, ethers.utils.parseUnits(numTokens, decimals).toHexString());
 		}
 	};
 
@@ -166,9 +168,7 @@ const Redeem = () => {
 				</Box>
 			)}
 			<Grid item xs={12}>
-				<Grid container className={mainClasses.details}>
-					<ClawDetails details={details} />
-				</Grid>
+				<ClawDetails details={details} />
 			</Grid>
 			<Grid item xs={12}>
 				<Grid container>
@@ -177,6 +177,6 @@ const Redeem = () => {
 			</Grid>
 		</Grid>
 	);
-};
+});
 
 export default Redeem;

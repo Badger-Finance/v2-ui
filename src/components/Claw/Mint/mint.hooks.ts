@@ -9,7 +9,7 @@ import { ClawActionDetail, ClawParam } from '../claw.model';
 
 dayjs.extend(utc);
 
-export function useMaxClaw(collateral: ClawParam, mint: ClawParam) {
+export function useMaxClaw(collateral: ClawParam, mint: ClawParam): BigNumber | undefined {
 	const store = React.useContext(StoreContext);
 	const collateralToken = store.contracts.tokens[collateral.selectedOption || ''];
 	const synthetic = store.claw.syntheticsDataByEMP.get(mint.selectedOption || '');
@@ -30,7 +30,7 @@ export function useMaxClaw(collateral: ClawParam, mint: ClawParam) {
 
 // THIS IS ONLY FOR TESTING
 // TODO: remove this after testing is done
-export function useValidateClaw(mint: ClawParam) {
+export function useValidateClaw(mint: ClawParam): boolean {
 	const store = React.useContext(StoreContext);
 	const synthetic = store.claw.syntheticsDataByEMP.get(mint.selectedOption || '');
 	if (!synthetic) return false;
@@ -92,7 +92,7 @@ export function useDetails(collateral: ClawParam, synthetic: ClawParam): ClawAct
 	];
 }
 
-export function useError(collateral: ClawParam, synthetic: ClawParam) {
+export function useError(collateral: ClawParam, synthetic: ClawParam): string | false {
 	const store = React.useContext(StoreContext);
 	const collateralToken = store.contracts.tokens[collateral.selectedOption || ''];
 	const collateralName = store.claw.collaterals.get(collateralToken?.address || '') || 'Collateral Token';

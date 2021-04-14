@@ -9,7 +9,18 @@ interface Props {
 
 const useStyles = makeStyles((theme) => ({
 	root: {
-		maxWidth: '100%',
+		width: '100%',
+		marginTop: theme.spacing(2),
+		margin: 'auto',
+		'@media (min-width: 480px) and (max-width: 600px)': {
+			width: '80%',
+		},
+		[theme.breakpoints.between('sm', 'md')]: {
+			width: '60%',
+		},
+		[theme.breakpoints.up('lg')]: {
+			width: '50%',
+		},
 	},
 	row: {
 		marginTop: theme.spacing(1),

@@ -11,7 +11,6 @@ import { ActionButton } from '../ActionButton';
 import { ClawDetails } from '../ClawDetails';
 import { scaleToString, Direction, validateAmountBoundaries } from 'utils/componentHelpers';
 import { useDetails, useError } from './manage.hooks';
-import { useMainStyles } from '..';
 import { ClawParam } from '../claw.model';
 import { TokenSelect } from '../../../components-v2/common/TokenSelect';
 import { TokenAmountInput } from '../../../components-v2/common/TokenAmountInput';
@@ -25,7 +24,6 @@ enum Mode {
 const Manage = observer(() => {
 	const { claw: store, contracts, wallet } = React.useContext(StoreContext);
 	const { collaterals, claws, syntheticsDataByEMP, sponsorInformationByEMP } = store;
-	const classes = useMainStyles();
 	const [mode, setMode] = React.useState<Mode.DEPOSIT | Mode.WITHDRAW>(Mode.DEPOSIT);
 	const [manage, setManageParams] = React.useState<ClawParam>({});
 	const details = useDetails(mode, manage);
@@ -55,15 +53,18 @@ const Manage = observer(() => {
 	}
 
 	const handleManageFns = {
-		[Mode.DEPOSIT]: () => {
+		[Mode.DEPOSIT]: async () => {
 			const [empAddress, depositAmount] = [selectedOption, amount];
 			if (!empAddress || !depositAmount) return;
-			store.actionStore.deposit(empAddress, ethers.utils.parseUnits(depositAmount, decimals).toHexString());
+			await store.actionStore.deposit(empAddress, ethers.utils.parseUnits(depositAmount, decimals).toHexString());
 		},
-		[Mode.WITHDRAW]: () => {
+		[Mode.WITHDRAW]: async () => {
 			const [empAddress, collateralAmount] = [selectedOption, amount];
 			if (!empAddress || !collateralAmount) return;
-			store.actionStore.withdraw(empAddress, ethers.utils.parseUnits(collateralAmount, decimals).toHexString());
+			await store.actionStore.withdraw(
+				empAddress,
+				ethers.utils.parseUnits(collateralAmount, decimals).toHexString(),
+			);
 		},
 	};
 
@@ -147,9 +148,7 @@ const Manage = observer(() => {
 					/>
 				</Grid>
 				<Grid item xs={12}>
-					<Grid container className={classes.details}>
-						<ClawDetails details={details} />
-					</Grid>
+					<ClawDetails details={details} />
 				</Grid>
 				<Grid item xs={12}>
 					<Grid container>

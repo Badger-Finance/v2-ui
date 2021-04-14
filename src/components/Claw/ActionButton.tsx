@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export function ActionButton({ text, onClick, disabled = false }: Props) {
+export const ActionButton = ({ text, onClick, disabled = false }: Props): JSX.Element => {
 	const store = React.useContext(StoreContext);
 	const classes = useStyles();
 	const connect = useConnectWallet();
@@ -52,4 +52,4 @@ export function ActionButton({ text, onClick, disabled = false }: Props) {
 			{text}
 		</Button>
 	);
-}
+};
