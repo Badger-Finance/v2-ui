@@ -111,7 +111,7 @@ export class ClawActionStore {
 			const action = new EmpAction(this.mainStore.store, empAddress);
 			const deposit = action.methods.deposit({ rawValue: depositAmount });
 			await action.approveSpendingIfRequired(synthetic.collateralCurrency, depositAmount);
-			await action.execute(action, 'Please sign deposit transaction', 'Deposit success');
+			await action.execute(deposit, 'Please sign deposit transaction', 'Deposit success');
 			await this.mainStore.updateBalances();
 		} catch (error) {
 			queueNotification(error?.message || 'There was an error depositing collateral', 'error');
