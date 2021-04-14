@@ -125,6 +125,8 @@ export class ClawStore {
 		} catch (error) {
 			queueNotification(error?.message || 'There was an error fetching tokens information', 'error');
 			process.env.NODE_ENV !== 'production' && console.error(error);
+		} finally {
+			this.isLoadingTokens = false;
 		}
 	});
 
