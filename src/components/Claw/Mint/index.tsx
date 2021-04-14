@@ -41,6 +41,8 @@ export const Mint = observer(() => {
 			ethers.utils.parseUnits(collateralAmount, decimals).toHexString(),
 			ethers.utils.parseUnits(mintAmount, decimals).toHexString(),
 		);
+
+		dispatch({ type: 'RESET_AMOUNTS' });
 	};
 
 	return (
