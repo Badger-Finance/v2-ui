@@ -131,10 +131,11 @@ export const Mint = observer(() => {
 							value={synthetic.amount}
 							disabled={!collateral.selectedOption || !synthetic.selectedOption}
 							onChange={(amount: string) => {
-								if (!collateralToken || !synthetic) return;
+								const syntheticData = syntheticsDataByEMP.get(synthetic.selectedOption || '');
+								if (!collateralToken || !syntheticData) return;
 								dispatch({
 									type: 'SYNTHETIC_AMOUNT_CHANGE',
-									payload: { amount, collateralToken, synthetic },
+									payload: { amount, collateralToken, syntheticData },
 								});
 							}}
 						/>
