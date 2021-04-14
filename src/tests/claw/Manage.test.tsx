@@ -10,8 +10,8 @@ import {
 } from './claw.mocks';
 import { customRender, screen, fireEvent, within } from '../Utils';
 import { StoreProvider } from '../../mobx/store-context';
-import Manage from '../../components/Claws/Manage';
-import * as ManageHooks from '../../components/Claws/Manage/manage.hooks';
+import Manage from '../../components/Claw/Manage';
+import * as ManageHooks from '../../components/Claw/Manage/manage.hooks';
 
 describe('Claw - Manage', () => {
 	beforeAll(() => {
