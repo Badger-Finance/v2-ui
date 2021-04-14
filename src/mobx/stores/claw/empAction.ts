@@ -1,6 +1,6 @@
 import Web3 from 'web3';
 import { PromiEvent } from 'web3-core';
-import { Contract } from 'web3-eth-contract';
+import { Contract, ContractSendMethod } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
 import { estimateAndSend } from 'mobx/utils/web3';
 import { RootStore } from 'mobx/store';
@@ -9,18 +9,18 @@ import BigNumber from 'bignumber.js';
 import { ERC20 } from 'config/constants';
 
 export class EmpAction {
-	constructor(private store: RootStore, private empAddress: string) {
+	constructor(private store: RootStore, private readonly empAddress: string) {
 		this.store = store;
 		this.empAddress = empAddress;
 	}
 
-	get methods() {
+	get methods(): any {
 		const web3 = new Web3(this.store.wallet.provider);
 		const emp = new web3.eth.Contract(EMP.abi as AbiItem[], this.empAddress);
 		return emp.methods;
 	}
 
-	async approveSpendingIfRequired(tokenAddress: string, amount: string) {
+	async approveSpendingIfRequired(tokenAddress: string, amount: string): Promise<void> {
 		const { queueNotification } = this.store.uiState;
 		const { provider, connectedAddress } = this.store.wallet;
 		const web3 = new Web3(provider);
@@ -42,7 +42,7 @@ export class EmpAction {
 				connectedAddress,
 				(transaction: PromiEvent<Contract>, error?: Error) => {
 					if (error) {
-						queueNotification(this.formatRevertError(error), 'error');
+						queueNotification(EmpAction.formatRevertError(error), 'error');
 					}
 					transaction
 						.on('transactionHash', (hash) => {
@@ -67,7 +67,7 @@ export class EmpAction {
 	 * @param successMessage optional success message
 	 * @returns EMP transaction promise
 	 */
-	execute(method: any, informationMessage?: string, successMessage?: string) {
+	execute(method: ContractSendMethod, informationMessage?: string, successMessage?: string): Promise<void> {
 		const { provider, connectedAddress } = this.store.wallet;
 		const { queueNotification } = this.store.uiState;
 		const web3 = new Web3(provider);
@@ -82,7 +82,7 @@ export class EmpAction {
 				connectedAddress,
 				(transaction: PromiEvent<Contract>, error?: Error) => {
 					if (error) {
-						queueNotification(this.formatRevertError(error), 'error');
+						queueNotification(EmpAction.formatRevertError(error), 'error');
 					}
 					transaction
 						.on('transactionHash', (hash) => {
@@ -107,7 +107,7 @@ export class EmpAction {
 	 * @param error error from EVM
 	 * @returns formatted error message
 	 */
-	private formatRevertError(error: Error): string {
+	private static formatRevertError(error: Error): string {
 		try {
 			const sanitizedError = JSON.parse(
 				error.message.slice(error.message.indexOf('{'), error.message.lastIndexOf('}') + 1),
