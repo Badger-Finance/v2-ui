@@ -10,8 +10,8 @@ import {
 } from './claw.mocks';
 import { customRender, fireEvent, screen, within } from '../Utils';
 import { StoreProvider } from '../../mobx/store-context';
-import Redeem from '../../components/Claws/Redeem';
-import * as RedeemHooks from '../../components/Claws/Redeem/redeem.hooks';
+import Redeem from '../../components/Claw/Redeem';
+import * as RedeemHooks from '../../components/Claw/Redeem/redeem.hooks';
 
 describe('Claw - Redeem', () => {
 	beforeAll(() => {

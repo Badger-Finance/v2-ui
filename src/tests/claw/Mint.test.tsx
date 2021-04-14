@@ -5,8 +5,8 @@ import { customRender, fireEvent, screen, within } from '../Utils';
 import { StoreProvider } from '../../mobx/store-context';
 import store from '../../mobx/store';
 import ClawStore from '../../mobx/stores/claw/clawStore';
-import Mint from '../../components/Claws/Mint';
-import * as MintHooks from '../../components/Claws/Mint/mint.hooks';
+import Mint from '../../components/Claw/Mint';
+import * as MintHooks from '../../components/Claw/Mint/mint.hooks';
 import {
 	mockClawsByCollaterals,
 	mockCollaterals,
