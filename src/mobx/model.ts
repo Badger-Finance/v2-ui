@@ -686,10 +686,8 @@ export interface AccountLimits {
 }
 
 export interface DepositLimit {
-	[address: string]: {
-		availble: number;
-		limit: number;
-	};
+	available: number;
+	limit: number;
 }
 
 export enum Protocol {

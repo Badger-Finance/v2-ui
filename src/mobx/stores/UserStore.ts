@@ -25,6 +25,9 @@ export default class UserStore {
 
 	constructor(store: RootStore) {
 		this.store = store;
+		this.permissions = undefined;
+		this.bouncerProof = undefined;
+		this.accountDetails = undefined;
 
 		extendObservable(this, {
 			permissions: this.permissions,
@@ -45,10 +48,6 @@ export default class UserStore {
 				this.loadAccountDetails(address, network.name);
 			}
 		});
-
-		this.permissions = undefined;
-		this.bouncerProof = undefined;
-		this.accountDetails = undefined;
 	}
 
 	viewSettShop(): boolean {
@@ -80,7 +79,6 @@ export default class UserStore {
 		async (address: string, chain?: string): Promise<void> => {
 			const accountDetails = await getAccountDetails(address, chain ? chain : 'eth');
 			if (accountDetails) {
-				console.log('setting account details');
 				this.accountDetails = accountDetails;
 			}
 		},

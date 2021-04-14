@@ -64,7 +64,6 @@ export class RootStore {
 			this.contracts.updateProvider();
 			await this.wallet.getGasPrice();
 			await this.contracts.fetchContracts();
-			await this.user.loadAccountDetails(this.wallet.connectedAddress, chain);
 			if (chain === NETWORK_LIST.ETH) {
 				this.uiState.reduceRebase();
 				this.ibBTCStore.init();

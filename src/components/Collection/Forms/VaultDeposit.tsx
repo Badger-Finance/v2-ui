@@ -9,7 +9,6 @@ import { Loader } from 'components/Loader';
 import { BigNumber } from 'bignumber.js';
 import { useForm } from 'react-hook-form';
 import { SettAvailableDeposit } from '../Setts/SettAvailableDeposit';
-import { SettMap } from 'mobx/model';
 
 const TEXTFIELD_ID = 'amountField';
 
@@ -29,7 +28,6 @@ export const VaultDeposit = observer((props: any) => {
 
 	const {
 		wallet: { connectedAddress },
-		setts: { settMap },
 		user: { accountDetails },
 	} = store;
 
@@ -59,20 +57,23 @@ export const VaultDeposit = observer((props: any) => {
 		return <Loader />;
 	}
 
-	const availableDepositLimit = (settMap: SettMap | null | undefined, token: string) => {
-		const sett = settMap ? settMap[token] : null;
+	const availableDepositLimit = (amount: number): boolean => {
 		// Deposit limits are only applicable to affiliate wrappers currently
 		// in the future if we wish to add our own deposit limits, we can
 		// create a network variable that has a list of these and check it.
-		if (!sett || !sett.affiliate || !sett.affiliate.availableDepositLimit) return true;
-		else return !(sett.affiliate.availableDepositLimit > 0);
+		if (!accountDetails || !accountDetails.depositLimits || !accountDetails.depositLimits[vault.address])
+			return true;
+		else {
+			const availableDeposit = accountDetails.depositLimits[vault.address].available;
+			return availableDeposit > 0 && amount <= availableDeposit;
+		}
 	};
 
 	const canDeposit =
 		!!watch().amount &&
 		!!connectedAddress &&
 		vault.underlyingToken.balance.gt(0) &&
-		availableDepositLimit(settMap, vault.underlyingToken);
+		availableDepositLimit(watch().amount);
 
 	const renderAmounts = (
 		<ButtonGroup size="small" className={classes.button} disabled={!connectedAddress}>
@@ -94,8 +95,6 @@ export const VaultDeposit = observer((props: any) => {
 
 	const totalAvailable = percentageOfBalance(100);
 
-	console.log('account details: ', accountDetails?.depositLimits);
-
 	return (
 		<>
 			<DialogContent>
@@ -108,7 +107,7 @@ export const VaultDeposit = observer((props: any) => {
 					{renderAmounts}
 				</div>
 				<SettAvailableDeposit
-					settMap={settMap}
+					accountDetails={accountDetails}
 					vault={vault.address}
 					assetName={vault.underlyingToken.symbol}
 				/>
