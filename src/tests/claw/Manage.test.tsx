@@ -84,10 +84,6 @@ describe('Claw - Manage', () => {
 			expect(screen.getByText('522.378430153821121982')).toBeInTheDocument();
 		});
 
-		test('action button is disabled and with text "Enter an amount"', () => {
-			expect(screen.getByRole('button', { name: 'Enter an amount' })).toBeDisabled();
-		});
-
 		test('synthetic amount can be changed', () => {
 			fireEvent.change(screen.getByRole('textbox'), { target: { value: '123' } });
 			expect(screen.getByDisplayValue('123')).toBeInTheDocument();
@@ -100,6 +96,16 @@ describe('Claw - Manage', () => {
 				}),
 			);
 			expect(screen.getByDisplayValue('261.189215076910560991'));
+		});
+
+		test('action button is disabled and has "Enter a ${tokenName} amount" as text', () => {
+			expect(screen.getByRole('button', { name: 'Enter a bBADGER amount' })).toBeDisabled();
+		});
+
+		test('action button is disabled on zero as amount input and has "Enter a ${tokenName} amount" text', () => {
+			fireEvent.change(screen.getByRole('textbox'), { target: { value: '0' } });
+			expect(screen.getByDisplayValue('0')).toBeInTheDocument();
+			expect(screen.getByRole('button', { name: 'Enter a bBADGER amount' })).toBeDisabled();
 		});
 	});
 

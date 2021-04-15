@@ -102,6 +102,16 @@ describe('Claw - Mint', () => {
 				expect(screen.getByDisplayValue('261.189215076910560991')).toBeInTheDocument();
 			});
 
+			test('token balance percentage can be applied', () => {
+				const [fiftyPercentCollateralButton] = screen.getAllByRole('button', {
+					name: '50%',
+				});
+
+				expect(fiftyPercentCollateralButton).toBeEnabled();
+				fireEvent.click(fiftyPercentCollateralButton);
+				expect(screen.getByDisplayValue('261.189215076910560991')).toBeInTheDocument();
+			});
+
 			test('action button is disabled on amounts bigger that collateral token balance', () => {
 				const [collateralAmountInput] = screen.getAllByRole('textbox');
 				fireEvent.change(collateralAmountInput, { target: { value: '1044.00' } });
@@ -109,8 +119,14 @@ describe('Claw - Mint', () => {
 				expect(screen.getByRole('button', { name: 'Insufficient bBADGER balance' })).toBeDisabled();
 			});
 
-			test('action button is disabled and with "Enter collateral amount" as text', () => {
-				expect(screen.getByRole('button', { name: 'Enter collateral amount' })).toBeDisabled();
+			test('action button is disabled on zero as amount input and has "Enter a ${tokenName} amount" text', () => {
+				const [collateralAmountInput] = screen.getAllByRole('textbox');
+				fireEvent.change(collateralAmountInput, { target: { value: '0' } });
+				expect(screen.getByRole('button', { name: 'Enter a bBADGER amount' })).toBeDisabled();
+			});
+
+			test('action button is disabled and has "Enter a ${tokenName} amount" as text', () => {
+				expect(screen.getByRole('button', { name: 'Enter a bBADGER amount' })).toBeDisabled();
 			});
 		});
 	});

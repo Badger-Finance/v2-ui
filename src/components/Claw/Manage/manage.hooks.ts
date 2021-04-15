@@ -34,12 +34,12 @@ export function useError({ selectedOption, amount, error }: ClawParam): string {
 	const selectedSynthetic = claw.syntheticsDataByEMP.get(selectedOption || '');
 	const bToken = contracts.tokens[selectedSynthetic?.collateralCurrency ?? ''];
 
-	const collateralName = bToken ? claw.collaterals.get(bToken.address) : 'collateral token';
+	const collateralName = bToken ? claw.collaterals.get(bToken.address) : 'Collateral Token';
 	const errors: string[] = [];
 	if (!selectedOption) errors.push('Select a Token');
-	if (!amount) errors.push('Enter an amount');
+	if (!amount) errors.push(`Enter a ${collateralName} amount`);
 	if (error === BOUNDARY_ERROR.OVER) errors.push(`Amount exceeds ${collateralName} balance`);
-	if (error === BOUNDARY_ERROR.UNDER) errors.push(`Insufficient ${collateralName}`);
+	if (error === BOUNDARY_ERROR.UNDER) errors.push(`Enter a ${collateralName} amount`);
 
 	if (errors.length === 0) return '';
 

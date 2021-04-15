@@ -74,14 +74,20 @@ describe('Claw - Redeem', () => {
 			expect(screen.getByText('44177.984375000041211331')).toBeInTheDocument();
 		});
 
-		test('action button is disabled and with text "Enter an amount"', () => {
-			expect(screen.getByRole('button', { name: 'Enter an amount' })).toBeDisabled();
+		test('action button is disabled and has "Enter a ${tokenName} amount" as text', () => {
+			expect(screen.getByRole('button', { name: 'Enter a USD/bBadger 5-29 amount' })).toBeDisabled();
 		});
 
 		test('synthetic amount can be changed', () => {
 			const [amountInput] = screen.getAllByRole('textbox');
 			fireEvent.change(amountInput, { target: { value: '123' } });
 			expect(screen.getByDisplayValue('123')).toBeInTheDocument();
+		});
+
+		test('action button is disabled on zero as amount input and has "Enter a ${tokenName} amount" text', () => {
+			const [amountInput] = screen.getAllByRole('textbox');
+			fireEvent.change(amountInput, { target: { value: '0' } });
+			expect(screen.getByRole('button', { name: 'Enter a USD/bBadger 5-29 amount' })).toBeDisabled();
 		});
 
 		test('synthetic token balance percentage can applied', () => {

@@ -15,10 +15,11 @@ export function useError({ selectedOption, amount, error }: ClawParam): string |
 	const synthetic = claw.syntheticsDataByEMP.get(selectedOption || '');
 	const bToken = contracts.tokens[synthetic?.collateralCurrency ?? ''];
 
+	const syntheticName = synthetic ? synthetic.name : 'Synthetic Token';
 	const tokenError = !bToken && 'Select a Token';
-	const amountError = !amount && 'Enter an amount';
-	const collateralAmountError = error === BOUNDARY_ERROR.UNDER && 'Insufficient Collateral';
-	const collateralBalanceError = error === BOUNDARY_ERROR.OVER && 'Insufficient Collateral Balance';
+	const amountError = !amount && `Enter a ${syntheticName} amount`;
+	const collateralAmountError = error === BOUNDARY_ERROR.UNDER && `Enter a ${syntheticName} amount`;
+	const collateralBalanceError = error === BOUNDARY_ERROR.OVER && `Insufficient ${syntheticName} Balance`;
 
 	return collateralAmountError || collateralBalanceError || tokenError || amountError;
 }

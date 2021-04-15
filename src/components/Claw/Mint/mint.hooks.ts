@@ -95,15 +95,15 @@ export function useDetails(collateral: ClawParam, synthetic: ClawParam): ClawAct
 export function useError(collateral: ClawParam, synthetic: ClawParam): string | false {
 	const store = React.useContext(StoreContext);
 	const collateralToken = store.contracts.tokens[collateral.selectedOption || ''];
-	const collateralName = store.claw.collaterals.get(collateralToken?.address || '') || 'Collateral Token';
+	const collateralName = collateralToken ? collateralToken.name : 'Collateral Token';
 
-	const collateralAmountError = collateral.error === BOUNDARY_ERROR.UNDER && `Insufficient ${collateralName}`;
+	const collateralAmountError = collateral.error === BOUNDARY_ERROR.UNDER && `Enter a ${collateralName} amount`;
 	const collateralBalanceError = collateral.error === BOUNDARY_ERROR.OVER && `Insufficient ${collateralName} balance`;
 	const insufficientClawBalance = synthetic.error === BOUNDARY_ERROR.OVER && 'Insufficient CLAW balance';
 	const insufficientInputAmount = synthetic.error === BOUNDARY_ERROR.UNDER && 'Insufficient input CLAW amount';
 	const syntheticBalanceError = insufficientClawBalance || insufficientInputAmount;
 	const noCollateral = !collateral.selectedOption && 'Select a Collateral Token';
-	const noCollateralAmount = !collateral.amount && 'Enter collateral amount';
+	const noCollateralAmount = !collateral.amount && `Enter a ${collateralName} amount`;
 	const noSynthetic = !synthetic.selectedOption && 'Select a Mintable CLAW';
 	const noSyntheticAmount = !synthetic.amount && 'Enter amount to mint';
 
