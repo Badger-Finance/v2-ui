@@ -79,7 +79,7 @@ export const LiquidationDialog = ({
 
 	return (
 		<Dialog maxWidth="sm" fullWidth={true} aria-labelledby="liquidation-dialog" open={isOpen} onClose={onClose}>
-			<DialogTitle onClose={onClose}>eCLAW FEB29 Transaction</DialogTitle>
+			<DialogTitle onClose={onClose}>{`${synthetic.name} Transaction`}</DialogTitle>
 			<Divider variant="middle" />
 			<DialogContent className={classes.dialogContent}>
 				<Grid container spacing={2} alignItems="center">
