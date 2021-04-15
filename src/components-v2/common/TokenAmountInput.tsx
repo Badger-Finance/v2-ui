@@ -27,11 +27,6 @@ function isValidAmountChange(input: string) {
 	return inputRegex.test(cleanInput);
 }
 
-function sanitizeValue(value: string): string {
-	const isNonCalculableValue = ['', '.'].includes(value) || +value < 0;
-	return isNonCalculableValue ? '' : value;
-}
-
 export const TokenAmountInput = ({
 	value = '',
 	placeholder = '0.00',
@@ -41,9 +36,12 @@ export const TokenAmountInput = ({
 	const classes = useStyles();
 
 	const handleAmountChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-		const input = event.target.value as string;
-		if (!isValidAmountChange(input)) return;
-		onChange(sanitizeValue(input));
+		// replace commas with periods
+		const input = (event.target.value as string).replace(/,/g, '.');
+
+		if (input === '' || isValidAmountChange(input)) {
+			onChange(input);
+		}
 	};
 
 	return (
