@@ -52,7 +52,21 @@ export const mockSyntheticData = [
 export const mockSponsorInformationByEmp = new Map(
 	Object.entries({
 		'0x3F9E5Fc63b644797bd703CED7c29b57B1Bf0B220': {
-			liquidations: [],
+			liquidations: [
+				{
+					state: 'Uninitialized',
+					liquidationTime: new BigNumber(1618072065),
+					tokensOutstanding: new BigNumber('299.299299299299299299').multipliedBy(10 ** 18),
+					lockedCollateral: new BigNumber('467.467467467467467467').multipliedBy(10 ** 18),
+					sponsor: '0xC26202cd0428276cC69017Df01137161f0102e55',
+					liquidator: '0xC26202cd0428226cC69017Da01137161f0104da22',
+					liquidatedCollateral: new BigNumber('395.395395395395395395').multipliedBy(10 ** 18),
+					rawUnitCollateral: new BigNumber('773.773773773773773773').multipliedBy(10 ** 18),
+					disputer: '0xC26202cd0428276cC69017Df01137161f0102e55',
+					settlementPrice: new BigNumber('576.576576576576576576').multipliedBy(10 ** 18),
+					finalFee: new BigNumber(33),
+				},
+			],
 			pendingWithdrawal: true,
 			position: {
 				rawCollateral: new BigNumber('0x2f1025aba69135558'),
@@ -62,7 +76,21 @@ export const mockSponsorInformationByEmp = new Map(
 			},
 		},
 		'0x5E4a8D011ef8d9E8B407cc87c68bD211B7ac72ab': {
-			liquidations: [],
+			liquidations: [
+				{
+					state: 'PreDispute',
+					liquidationTime: new BigNumber(1612647282),
+					tokensOutstanding: new BigNumber('147.147147147147147147').multipliedBy(10 ** 18),
+					lockedCollateral: new BigNumber('264.264264264264264264').multipliedBy(10 ** 18),
+					sponsor: '0xC26202cd0428276cC69017Df01137161f0102e55',
+					liquidator: '0xC26202cd0428226cC69017Da01137161f0104da22',
+					liquidatedCollateral: new BigNumber('613.613613613613613613').multipliedBy(10 ** 18),
+					rawUnitCollateral: new BigNumber('551.551551551551551551').multipliedBy(10 ** 18),
+					disputer: '0xC26202cd0428276cC69017Df01137161f0102e55',
+					settlementPrice: new BigNumber('254.254254254254254254').multipliedBy(10 ** 18),
+					finalFee: new BigNumber(33),
+				},
+			],
 			pendingWithdrawal: true,
 			position: {
 				rawCollateral: new BigNumber('0x24291325f9'),
@@ -103,7 +131,7 @@ export const mockClaws = new Map(
 	}),
 );
 
-export function getMockBbadger() {
+function getMockBbadger(): Token {
 	const bBadger = new Token(store, '0x19D97D8fA813EE2f51aD4B4e04EA08bAf4DFfC28', 18);
 
 	bBadger.update({
@@ -123,7 +151,7 @@ export function getMockBbadger() {
 	return bBadger;
 }
 
-export function getMockBslp() {
+function getMockBslp(): Token {
 	const bSlp = new Token(store, '0x758A43EE2BFf8230eeb784879CdcFF4828F2544D', 18);
 
 	bSlp.update({
