@@ -81,6 +81,12 @@ export function mintReducer(state: State, action: ActionType): State {
 						.multipliedBy(percentage / 100)
 						.dividedBy(10 ** collateralToken.decimals)
 						.toFixed(collateralToken.decimals, BigNumber.ROUND_DOWN),
+					error: validateAmountBoundaries({
+						amount: collateralToken.balance
+							.multipliedBy(percentage / 100)
+							.dividedBy(10 ** collateralToken.decimals),
+						minimum: new BigNumber(1).dividedBy(10 ** collateralToken.decimals),
+					}),
 				},
 			};
 		}

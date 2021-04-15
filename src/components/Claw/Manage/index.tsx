@@ -141,7 +141,10 @@ const Manage = observer(() => {
 											.multipliedBy(percentage / 100)
 											.dividedBy(10 ** decimals)
 											.toFixed(decimals, BigNumber.ROUND_DOWN),
-										error: undefined,
+										error: validateAmountBoundaries({
+											amount: balance.multipliedBy(percentage / 100).dividedBy(10 ** decimals),
+											minimum: new BigNumber(1).dividedBy(10 ** decimals),
+										}),
 									});
 								}}
 							/>
