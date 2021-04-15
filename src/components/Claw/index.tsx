@@ -1,6 +1,6 @@
 import React from 'react';
 import { observer } from 'mobx-react-lite';
-import { Tab, Card, Tabs, CardContent, Container, Grid, CircularProgress } from '@material-ui/core';
+import { Tab, Card, Tabs, CardContent, Container, Grid, CircularProgress, Fade } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { StoreContext } from 'mobx/store-context';
@@ -58,7 +58,9 @@ export const Claw = observer(() => {
 		if (isLoading) {
 			return (
 				<Container className={classes.loader}>
-					<CircularProgress />
+					<Fade in>
+						<CircularProgress />
+					</Fade>
 				</Container>
 			);
 		}
