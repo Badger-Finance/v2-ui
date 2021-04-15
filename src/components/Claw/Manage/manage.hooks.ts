@@ -97,7 +97,12 @@ export function useDetails(mode: string, manage: ClawParam): ClawActionDetail[] 
 			name: 'Collateral Ratio - Minimum',
 			text: `${scaleToString(collateralRequirement, decimals, Direction.Down)} $`,
 		},
-		{ name: 'Collateral Ratio - Current', text: `${currentCollateralRatio.toString()} $` },
+		{
+			name: 'Collateral Ratio - Current',
+			text: currentCollateralRatio.isFinite()
+				? `${currentCollateralRatio.toFixed(decimals, BigNumber.ROUND_DOWN)} $`
+				: '-',
+		},
 		{
 			name: 'Expiration',
 			text: `${dayjs(new Date(expirationTimestamp.toNumber() * 1000))
