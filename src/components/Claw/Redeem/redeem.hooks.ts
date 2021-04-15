@@ -17,9 +17,10 @@ export function useError({ selectedOption, amount, error }: ClawParam): string |
 
 	const tokenError = !bToken && 'Select a Token';
 	const amountError = !amount && 'Enter an amount';
-	const collateralError = error === BOUNDARY_ERROR.OVER && 'Insufficient Collateral';
+	const collateralAmountError = error === BOUNDARY_ERROR.UNDER && 'Insufficient Collateral';
+	const collateralBalanceError = error === BOUNDARY_ERROR.OVER && 'Insufficient Collateral Balance';
 
-	return collateralError || tokenError || amountError;
+	return collateralAmountError || collateralBalanceError || tokenError || amountError;
 }
 
 export function useDetails({ selectedOption }: ClawParam): ClawActionDetail[] {

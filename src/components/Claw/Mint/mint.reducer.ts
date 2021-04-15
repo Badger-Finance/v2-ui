@@ -52,6 +52,7 @@ export function mintReducer(state: State, action: ActionType): State {
 					error: validateAmountBoundaries({
 						amount: new BigNumber(amount).multipliedBy(10 ** collateralToken.decimals),
 						maximum: collateralToken.balance,
+						minimum: new BigNumber(1).dividedBy(10 ** collateralToken.decimals),
 					}),
 				},
 				synthetic: {

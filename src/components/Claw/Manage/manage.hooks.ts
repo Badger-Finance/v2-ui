@@ -39,6 +39,7 @@ export function useError({ selectedOption, amount, error }: ClawParam): string {
 	if (!selectedOption) errors.push('Select a Token');
 	if (!amount) errors.push('Enter an amount');
 	if (error === BOUNDARY_ERROR.OVER) errors.push(`Amount exceeds ${collateralName} balance`);
+	if (error === BOUNDARY_ERROR.UNDER) errors.push(`Insufficient ${collateralName}`);
 
 	if (errors.length === 0) return '';
 

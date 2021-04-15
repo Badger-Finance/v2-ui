@@ -123,6 +123,7 @@ const Manage = observer(() => {
 										error: validateAmountBoundaries({
 											amount,
 											maximum: balance,
+											minimum: new BigNumber(1).dividedBy(10 ** decimals),
 										}),
 									});
 								}}

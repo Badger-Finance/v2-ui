@@ -97,6 +97,7 @@ export function useError(collateral: ClawParam, synthetic: ClawParam): string | 
 	const collateralToken = store.contracts.tokens[collateral.selectedOption || ''];
 	const collateralName = store.claw.collaterals.get(collateralToken?.address || '') || 'Collateral Token';
 
+	const collateralAmountError = collateral.error === BOUNDARY_ERROR.UNDER && `Insufficient ${collateralName}`;
 	const collateralBalanceError = collateral.error === BOUNDARY_ERROR.OVER && `Insufficient ${collateralName} balance`;
 	const insufficientClawBalance = synthetic.error === BOUNDARY_ERROR.OVER && 'Insufficient CLAW balance';
 	const insufficientInputAmount = synthetic.error === BOUNDARY_ERROR.UNDER && 'Insufficient input CLAW amount';
@@ -107,6 +108,7 @@ export function useError(collateral: ClawParam, synthetic: ClawParam): string | 
 	const noSyntheticAmount = !synthetic.amount && 'Enter amount to mint';
 
 	return (
+		collateralAmountError ||
 		collateralBalanceError ||
 		syntheticBalanceError ||
 		noCollateral ||

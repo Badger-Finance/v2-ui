@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const Redeem = observer(() => {
+export const Redeem = observer(() => {
 	const { claw: store, contracts, wallet } = React.useContext(StoreContext);
 	const { collaterals, claws, syntheticsDataByEMP, sponsorInformationByEMP } = store;
 	const classes = useStyles();
@@ -112,7 +112,11 @@ const Redeem = observer(() => {
 									setRedeemParams({
 										selectedOption,
 										amount,
-										error: validateAmountBoundaries({ amount, maximum: clawBalance }),
+										error: validateAmountBoundaries({
+											amount,
+											maximum: clawBalance,
+											minimum: new BigNumber(1).dividedBy(10 ** decimals),
+										}),
 									});
 								}}
 							/>
