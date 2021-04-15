@@ -141,13 +141,3 @@ function parsePositionHexToBigNumber(data: SponsorData['position']): SponsorData
 		rawCollateral: new BigNumber((rawCollateral as any).hex),
 	};
 }
-
-function invert(json: Record<string, any>) {
-	const ret: Record<string, any> = {};
-	for (const key in json) {
-		// disable reason: https://stackoverflow.com/questions/25723674/javascript-possible-iteration-over-unexpected
-		// noinspection JSUnfilteredForInLoop
-		ret[json[key]] = key;
-	}
-	return ret;
-}
