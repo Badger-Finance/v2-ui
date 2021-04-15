@@ -43,10 +43,6 @@ export default class SettStore {
 		return this.protocolSummaryCache[this.store.wallet.network.name];
 	}
 
-	setPrices(prices: PriceSummary) {
-		this.priceCache = prices;
-	}
-
 	getPrice(address: string): BigNumber | undefined {
 		return this.priceCache[Web3.utils.toChecksumAddress(address)]
 			? this.priceCache[Web3.utils.toChecksumAddress(address)]
