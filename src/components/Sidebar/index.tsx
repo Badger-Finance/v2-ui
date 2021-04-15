@@ -295,6 +295,19 @@ export const Sidebar = observer(() => {
 							)}
 							<ListItem
 								button
+								className={
+									classes.listItem +
+									' ' +
+									(store.router.currentPath == '/claw' ? classes.activeListItem : '')
+								}
+								onClick={() => goTo(views.claw)}
+							>
+								<ListItemText primary="Claw" />
+
+								{/* <Chip size="small" label={"Coming soon"} variant="outlined" color="primary" className={classes.rewards} /> */}
+							</ListItem>
+							<ListItem
+								button
 								className={classes.listItem}
 								onClick={() => setExpanded(expanded === 'badger-zone' ? '' : 'badger-zone')}
 							>
@@ -333,19 +346,6 @@ export const Sidebar = observer(() => {
 										Honey Badger Drop
 									</ListItem>
 								</Collapse>
-							</ListItem>
-							<ListItem
-								button
-								className={
-									classes.listItem +
-									' ' +
-									(store.router.currentPath == '/claw' ? classes.activeListItem : '')
-								}
-								onClick={() => goTo(views.claw)}
-							>
-								<ListItemText primary="Claw" />
-
-								{/* <Chip size="small" label={"Coming soon"} variant="outlined" color="primary" className={classes.rewards} /> */}
 							</ListItem>
 						</>
 					) : (
