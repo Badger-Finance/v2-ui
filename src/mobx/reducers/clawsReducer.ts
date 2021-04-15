@@ -9,9 +9,8 @@ const TOKENS = getTokens(NETWORK_LIST.ETH);
 export const EMPS_ADDRESSES = Object.values(deploy.claw_system.emps);
 
 // [EMP_ADDRESS: string] => [EMP_NAME: string]
-export function reduceClaws(): Map<string, string> {
-	const EMPS_BY_ADDRESS = invert(deploy.claw_system.emps);
-	return new Map(Object.entries(EMPS_BY_ADDRESS));
+export function reduceClaws({ syntheticsData }: ClawStore): Map<string, string> {
+	return syntheticsData.reduce(indexEmpNameByAddress, new Map());
 }
 
 // [COLLATERAL_ADDRESS: string] => [COLLATERAL_NAME: string]
@@ -77,6 +76,10 @@ export function parseSyntheticHexToBigNumber(data: SyntheticData): SyntheticData
 function indexByCollateralAddress(collaterals: Map<string, string>, { collateralCurrency }: SyntheticData) {
 	if (!TOKENS) return collaterals;
 	return collaterals.set(collateralCurrency, TOKENS.names[collateralCurrency]);
+}
+
+function indexEmpNameByAddress(addresses: Map<string, string>, { name, address }: SyntheticData) {
+	return addresses.set(address, name);
 }
 
 function indexByEmpAddress<T>(addresses: Map<string, T>, incomingData: T, index: number) {

@@ -84,7 +84,7 @@ export class ClawStore {
 				this.syntheticsDataByEMP = reduceSyntheticsData(this);
 				this.collaterals = reduceCollaterals(this);
 				this.clawsByCollateral = reduceClawByCollateral(this);
-				this.claws = reduceClaws();
+				this.claws = reduceClaws(this);
 			} catch (error) {
 				queueNotification('There was an error fetching CLAWs synthetic data', 'error');
 				process.env.NODE_ENV !== 'production' && console.error(error);
