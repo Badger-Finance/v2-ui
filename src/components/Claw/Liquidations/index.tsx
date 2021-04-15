@@ -72,7 +72,7 @@ const Liquidations = observer(() => {
 		sponsorData.liquidations.forEach((liquidation: Liquidation) => {
 			liquidationRows.push(
 				<LiquidationRow
-					key={synthetic.name}
+					key={liquidation.liquidationTime.toString()}
 					liquidation={liquidation}
 					synthetic={synthetic}
 					decimals={decimals}
