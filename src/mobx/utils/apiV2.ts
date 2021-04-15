@@ -52,12 +52,12 @@ const fetchData = async <T>(request: () => Promise<Response>): Promise<T | null>
 
 export const getClawEmp = async (empAddress: string): Promise<SyntheticData> => {
 	return fetch(
-		`https://7dt9vo796h.execute-api.us-west-1.amazonaws.com/staging/v2/claw/emp/${empAddress}`,
+		`https://fcoaf74n99.execute-api.us-west-1.amazonaws.com/staging/v2/claw/emp/${empAddress}`,
 	).then((response) => response.json());
 };
 
 export const getClawEmpSponsor = async (empAddress: string, sponsorAddress: string): Promise<SponsorData> => {
 	return await fetch(
-		`https://7dt9vo796h.execute-api.us-west-1.amazonaws.com/staging/v2/claw/emp/${empAddress}/sponsor/${sponsorAddress}`,
+		`https://fcoaf74n99.execute-api.us-west-1.amazonaws.com/staging/v2/claw/emp/${empAddress}/sponsor/${sponsorAddress}`,
 	).then((response) => response.json());
 };
