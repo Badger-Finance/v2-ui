@@ -46,11 +46,12 @@ const TABS = {
 
 export const Claw = observer(() => {
 	const store = React.useContext(StoreContext);
+	const { connectedAddress } = store.wallet;
 	const { tokens } = store.contracts;
 	const { isLoading: areClawsLoading, sponsorInformation } = store.claw;
 	const classes = useStyles();
 	const [activeTab, setActiveTab] = React.useState(0);
-	const areTokensLoading = Object.keys(tokens).length === 0;
+	const areTokensLoading = connectedAddress && Object.keys(tokens).length === 0;
 	const isLoading = areClawsLoading || areTokensLoading;
 
 	const Content = () => {
