@@ -56,7 +56,7 @@ export const reduceContractsToStats = (store: RootStore): ContractToStats | unde
 	const { network } = store.wallet;
 
 	if (!tokens) {
-		if (process.env.NODE_ENV !== 'production') console.log('no tokens identified');
+		if (process.env.REACT_APP_BUILD_ENV !== 'production') console.log('no tokens identified');
 		return;
 	}
 
@@ -189,7 +189,10 @@ export function formatBalance(token: Token): string {
 }
 export function formatGeyserBalance(geyser: Geyser): string {
 	return formatTokens(
-		geyser.balance.plus(geyser.vault.balance).multipliedBy(geyser.vault.pricePerShare).dividedBy(1e18),
+		geyser.balance
+			.plus(geyser.vault.balance)
+			.multipliedBy(geyser.vault.pricePerShare)
+			.dividedBy(10 ** geyser.vault.decimals),
 	);
 }
 export function formatGeyserHoldings(vault: Vault): string {
@@ -207,11 +210,12 @@ export function formatTotalStaked(geyser: Geyser): string {
 }
 
 export function formatBalanceStaked(geyser: Geyser): string {
+	const decimals = geyser.vault.symbol === 'byvWBTC' ? 7 : geyser.vault.underlyingToken.decimals;
 	return inCurrency(
 		geyser.balance.dividedBy(10 ** geyser.vault.decimals).multipliedBy(geyser.vault.pricePerShare),
 		'eth',
 		true,
-		geyser.vault.underlyingToken.decimals,
+		decimals,
 	);
 }
 
@@ -230,12 +234,13 @@ export function formatBalanceUnderlying(vault: Vault): string {
 
 export function formatDialogBalanceUnderlying(vault: Vault): string {
 	const diggMultiplier = vault.underlyingToken.symbol === 'DIGG' ? getDiggPerShare(vault) : new BigNumber(1);
+	const decimals = vault.symbol === 'byvWBTC' ? 7 : vault.decimals;
 	return formatTokens(
 		vault.balance
 			.multipliedBy(vault.pricePerShare)
 			.multipliedBy(diggMultiplier)
 			.dividedBy(10 ** vault.decimals),
-		vault.decimals,
+		decimals,
 	);
 }
 
@@ -247,7 +252,14 @@ export function formatHoldingsValue(vault: Vault, currency: string): string {
 export function formatBalanceValue(vault: Vault, currency: string): string {
 	// Only bDIGG shares need to be scaled, DIGG is already the 1:1 underlying
 	const diggMultiplier = vault.symbol === 'bDIGG' ? getDiggPerShare(vault) : new BigNumber(1);
-	return inCurrency(vault.balanceValue().multipliedBy(diggMultiplier).dividedBy(1e18), currency, true);
+	return inCurrency(
+		vault
+			.balanceValue()
+			.multipliedBy(diggMultiplier)
+			.dividedBy(10 ** vault.decimals),
+		currency,
+		true,
+	);
 }
 
 export function formatTokenBalanceValue(token: Token, currency: string): string {
@@ -255,7 +267,14 @@ export function formatTokenBalanceValue(token: Token, currency: string): string 
 }
 
 export function formatGeyserBalanceValue(geyser: Geyser, currency: string): string {
-	return inCurrency(geyser.balanceValue().plus(geyser.vault.balanceValue()).dividedBy(1e18), currency, true);
+	return inCurrency(
+		geyser
+			.balanceValue()
+			.plus(geyser.vault.balanceValue())
+			.dividedBy(10 ** geyser.vault.decimals),
+		currency,
+		true,
+	);
 }
 
 export function formatVaultBalanceValue(vault: Vault, currency: string): string {
