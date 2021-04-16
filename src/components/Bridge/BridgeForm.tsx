@@ -20,7 +20,7 @@ import WBTCLogo from 'assets/icons/WBTC.svg';
 import bWBTCLogo from 'assets/icons/bwbtc.svg';
 import renBTCLogo from 'assets/icons/renBTC.svg';
 import crvBTCLogo from 'assets/tokens/bcrvRenWBTC.png';
-import { NETWORK_LIST, CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS } from 'config/constants';
+import { NETWORK_LIST, CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS, FLAGS } from 'config/constants';
 import { bridge_system, tokens, sett_system } from 'config/deployments/mainnet.json';
 import { CURVE_EXCHANGE } from 'config/system/abis/CurveExchange';
 
@@ -158,7 +158,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 	const handleTabChange = (_: unknown, newValue: number) => {
 		setStates((prevState) => ({
 			...prevState,
-			token: newValue !== 1 ? 'renBTC' : 'bWBTC',
+			token: newValue !== 1 ? 'renBTC' : FLAGS.BWBTC_FLAG ? 'bWBTC' : 'bCRVrenBTC',
 			tabValue: newValue,
 			receiveAmount: 0,
 			burnAmount: '',
@@ -522,12 +522,14 @@ export const BridgeForm = observer(({ classes }: any) => {
 							id: 'token-select',
 						}}
 					>
-						<MenuItem value={'bWBTC'}>
-							<span className={classes.menuItem}>
-								<img src={bWBTCLogo} className={classes.logo} />
-								<span>bWBTC</span>
-							</span>
-						</MenuItem>
+						{FLAGS.BWBTC_FLAG && (
+							<MenuItem value={'bWBTC'}>
+								<span className={classes.menuItem}>
+									<img src={bWBTCLogo} className={classes.logo} />
+									<span>bWBTC</span>
+								</span>
+							</MenuItem>
+						)}
 
 						<MenuItem value={'bCRVrenBTC'}>
 							<span className={classes.menuItem}>
@@ -577,12 +579,14 @@ export const BridgeForm = observer(({ classes }: any) => {
 							</span>
 						</MenuItem>
 
-						<MenuItem value={'bWBTC'}>
-							<span className={classes.menuItem}>
-								<img src={bWBTCLogo} className={classes.logo} />
-								<span>bWBTC</span>
-							</span>
-						</MenuItem>
+						{FLAGS.BWBTC_FLAG && (
+							<MenuItem value={'bWBTC'}>
+								<span className={classes.menuItem}>
+									<img src={bWBTCLogo} className={classes.logo} />
+									<span>bWBTC</span>
+								</span>
+							</MenuItem>
+						)}
 
 						<MenuItem value={'bCRVrenBTC'}>
 							<span className={classes.menuItem}>

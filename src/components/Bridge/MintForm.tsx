@@ -43,7 +43,7 @@ export const MintForm = ({
 		nextStep();
 	};
 
-	const isBTWC = values.token === 'WBTC' || values.token === 'bWBTC';
+	const isWBTC = values.token === 'WBTC' || values.token === 'bWBTC';
 
 	const selectedTokenBalance =
 		values.token === 'renBTC' ? renbtcBalance : values.token === 'bWBTC' ? bwbtcBalance : wbtcBalance;
@@ -96,7 +96,7 @@ export const MintForm = ({
 					</div>
 				</Grid>
 
-				{isBTWC && (
+				{isWBTC && (
 					<Slippage
 						values={values}
 						classes={classes}
@@ -121,7 +121,7 @@ export const MintForm = ({
 						</div>
 					)}
 
-					{isBTWC && (
+					{isWBTC && (
 						<div className={classes.summaryRow}>
 							<Typography variant="subtitle1">Price impact: </Typography>
 							<Typography variant="body1">
