@@ -126,7 +126,6 @@ export const Sidebar = observer(() => {
 		uiState: { sidebarOpen, closeSidebar },
 		rewards: { badgerTree },
 		wallet: { network },
-		user,
 	} = store;
 
 	const [expanded, setExpanded] = useState('');

@@ -68,6 +68,7 @@ export class Vault extends Token {
 	public abi!: AbiItem;
 	public super!: boolean;
 	public vaultBalance!: BigNumber;
+	public withdrawAll!: boolean;
 
 	constructor(store: RootStore, address: string, decimals: number, underlyingToken: Token, abi: AbiItem) {
 		super(store, address, decimals);
@@ -79,6 +80,7 @@ export class Vault extends Token {
 		this.vaultBalance = new BigNumber(0);
 		this.abi = abi;
 		this.super = false;
+		this.withdrawAll = true;
 	}
 
 	deposit(amount: BigNumber): void {
@@ -92,7 +94,7 @@ export class Vault extends Token {
 	holdingsValue(): BigNumber {
 		return this.holdings
 			.multipliedBy(this.pricePerShare)
-			.dividedBy(1e18)
+			.dividedBy(10 ** this.decimals)
 			.multipliedBy(this.underlyingToken.ethValue);
 	}
 
@@ -110,8 +112,9 @@ export class Vault extends Token {
 		if (!!payload.balance) this.vaults = payload.balance;
 		if (!!payload.getPricePerFullShare) this.pricePerShare = payload.getPricePerFullShare;
 		if (!!payload.totalSupply) this.holdings = payload.totalSupply;
-		if (!!payload.isSuperSett) this.super = payload.isSuperSett;
+		if ('isSuperSett' in payload) this.super = payload.isSuperSett;
 		if (!!payload.ethValue) this.ethValue = payload.ethValue;
+		if ('withdrawAll' in payload) this.withdrawAll = payload.withdrawAll;
 	}
 }
 
@@ -269,6 +272,7 @@ export type TokenPayload = {
 	balance: Vault[];
 	getPricePerFullShare: BigNumber;
 	isSuperSett: boolean;
+	withdrawAll: boolean;
 };
 
 export type GeyserPayload = {
@@ -403,13 +407,7 @@ export type VaultNetworkConfig = {
 				underlying: string;
 				contracts: string[];
 				fillers: {
-					symbol?: string[];
-					isFeatured?: boolean[];
-					position?: number[];
-					isSuperSett?: boolean[];
-					symbolPrefix?: string[];
-					onsenId?: string[];
-					pairContract?: string[];
+					[index: string]: string[] | boolean[] | number[];
 				};
 				methods: {
 					name: string;
@@ -544,6 +542,8 @@ export interface Network {
 	settOrder: string[];
 	getGasPrices: () => Promise<GasPrices>;
 	getNotifyLink: EmitterListener;
+	isWhitelisted: { [index: string]: boolean };
+	customDeposit: { [index: string]: boolean };
 }
 
 export class BscNetwork implements Network {
@@ -564,6 +564,7 @@ export class BscNetwork implements Network {
 		this.deploy.sett_system.vaults['native.bDiggBtcb'],
 		this.deploy.sett_system.vaults['native.bBadgerBtcb'],
 		this.deploy.sett_system.vaults['native.pancakeBnbBtcb'],
+		this.deploy.sett_system.vaults['yearn.wBtc'],
 	];
 	public readonly sidebarTokenLinks = [
 		{
@@ -581,6 +582,12 @@ export class BscNetwork implements Network {
 	public getNotifyLink(transaction: TransactionData): NotifyLink {
 		return { link: `https://bscscan.com//tx/${transaction.hash}` };
 	}
+	public readonly isWhitelisted = {
+		[this.deploy.sett_system.vaults['yearn.wBtc']]: true,
+	};
+	public readonly customDeposit = {
+		[this.deploy.sett_system.vaults['yearn.wBtc']]: true,
+	};
 }
 
 export class EthNetwork implements Network {
@@ -598,6 +605,7 @@ export class EthNetwork implements Network {
 	public readonly gasEndpoint = 'https://www.gasnow.org/api/v3/gas/price?utm_source=badgerv2';
 	// Deterministic order for displaying setts on the sett list component
 	public readonly settOrder = [
+		this.deploy.sett_system.vaults['yearn.wBtc'],
 		this.deploy.sett_system.vaults['native.digg'],
 		this.deploy.sett_system.vaults['native.badger'],
 		this.deploy.sett_system.vaults['native.sushiDiggWbtc'],
@@ -634,10 +642,15 @@ export class EthNetwork implements Network {
 			slow: result.data['slow'] / 1e9,
 		};
 	}
-
 	public getNotifyLink(transaction: TransactionData): NotifyLink {
 		return { link: `https://etherscan.io/tx/${transaction.hash}` };
 	}
+	public readonly isWhitelisted = {
+		[this.deploy.sett_system.vaults['yearn.wBtc']]: true,
+	};
+	public readonly customDeposit = {
+		[this.deploy.sett_system.vaults['yearn.wBtc']]: true,
+	};
 }
 
 export type UserPermissions = {
@@ -648,6 +661,47 @@ export type Eligibility = {
 	isEligible: boolean;
 };
 
+export type BouncerProof = {
+	address: string;
+	proof: string[];
+};
+
+export interface Account {
+	id: string;
+	value: number;
+	earnedValue: number;
+	balances: SettBalance[];
+	depositLimits: AccountLimits;
+}
+
+export interface SettBalance {
+	id: string;
+	name: string;
+	asset: string;
+	balance: TokenBalance[];
+	value: number;
+	earnedTokens: TokenBalance[];
+	earnedValue: number;
+}
+
+export interface AccountLimits {
+	[contract: string]: DepositLimit;
+}
+
+export interface DepositLimit {
+	available: number;
+	limit: number;
+}
+
+export enum Protocol {
+	Curve = 'curve',
+	Sushiswap = 'sushiswap',
+	Uniswap = 'uniswap',
+	Pancakeswap = 'pancakeswap',
+	Yearn = 'yearn',
+	Harvest = 'harvest',
+}
+
 /**
  * Sett and geyser objects will be represented by the same
  * interface. The key difference between a sett and geyser
@@ -655,23 +709,36 @@ export type Eligibility = {
  * have emissions value sources while setts only have the
  * native underlying value source.
  */
-export type Sett = {
-	name: string;
+export interface Sett extends SettSummary {
 	asset: string;
-	value: number;
-	tokens: TokenBalance[];
-	ppfs: number;
 	apy: number;
-	vaultToken: string;
-	underlyingToken: string;
-	sources: ValueSource[];
 	geyser?: Geyser;
-};
+	hasBouncer: boolean;
+	ppfs: number;
+	sources: ValueSource[];
+	tokens: TokenBalance[];
+	underlyingToken: string;
+	vaultToken: string;
+	affiliate?: SettAffiliateData;
+}
+
+export interface SettAffiliateData {
+	availableDepositLimit?: number;
+	protocol: Protocol;
+	depositLimit?: number;
+}
 
 export type ValueSource = {
 	name: string;
 	apy: number;
 	performance: Performance;
+};
+
+export type Performance = {
+	oneDay?: number;
+	threeDay?: number;
+	sevenDay?: number;
+	thirtyDay?: number;
 };
 
 export type TokenBalance = {
@@ -689,9 +756,8 @@ export type PriceSummary = {
 
 export interface SettSummary {
 	name: string;
-	asset: string;
 	value: number;
-	tokens: TokenBalance[];
+	balance: number;
 }
 
 export type ProtocolSummary = {

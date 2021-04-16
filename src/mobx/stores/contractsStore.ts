@@ -118,7 +118,10 @@ class ContractsStore {
 						token.update(contract);
 					});
 				})
-				.catch((error: any) => process.env.NODE_ENV !== 'production' && console.log('batch error: ', error));
+				.catch(
+					(error: any) =>
+						process.env.REACT_APP_BUILD_ENV !== 'production' && console.log('batch error: ', error),
+				);
 		},
 	);
 
@@ -154,6 +157,7 @@ class ContractsStore {
 						periods,
 						NETWORK_CONSTANTS[network.name].START_TIME,
 					);
+					console.log('checking the build env var: ', process.env.REACT_APP_BUILD_ENV);
 
 					const prices = _.mapValues(queryResult.pop(), (price: any) => ({
 						ethValue: new BigNumber(price).multipliedBy(1e18),
@@ -199,7 +203,7 @@ class ContractsStore {
 							: new BigNumber(0.0);
 					});
 				})
-				.catch((error: any) => process.env.NODE_ENV !== 'production' && console.log(error));
+				.catch((error: any) => process.env.REACT_APP_BUILD_ENV !== 'production' && console.log(error));
 		},
 	);
 
@@ -238,7 +242,7 @@ class ContractsStore {
 						});
 					}
 				})
-				.catch((error: any) => process.env.NODE_ENV !== 'production' && console.log(error));
+				.catch((error: any) => process.env.REACT_APP_BUILD_ENV !== 'production' && console.log(error));
 		},
 	);
 
@@ -363,7 +367,6 @@ class ContractsStore {
 		// calculate amount to withdraw
 		const wrappedAmount = amount.multipliedBy(10 ** vault.decimals);
 		const methodSeries: any = [];
-
 		// withdraw
 		methodSeries.push((callback: any) =>
 			this.withdrawVault(vault, wrappedAmount, wrappedAmount.gte(vault.balance), callback),
@@ -513,13 +516,25 @@ class ContractsStore {
 
 	depositVault = action((vault: any, amount: BigNumber, all = false, callback: (err: any, result: any) => void) => {
 		const { queueNotification, setTxStatus } = this.store.uiState;
-		const { provider, connectedAddress } = this.store.wallet;
+		const { provider, connectedAddress, network } = this.store.wallet;
+		const { bouncerProof } = this.store.user;
 
 		const web3 = new Web3(provider);
 		const underlyingContract = new web3.eth.Contract(vault.abi, vault.address);
-
 		let method = underlyingContract.methods.deposit(amount.toFixed(0, BigNumber.ROUND_HALF_FLOOR));
-		if (all) method = underlyingContract.methods.depositAll();
+		if (network.customDeposit[vault.address]) {
+			if (process.env.REACT_APP_BUILD_ENV !== 'production') console.log('proof:', bouncerProof);
+			if (!bouncerProof) {
+				queueNotification(`Error loading Badger Bouncer Proof`, 'error');
+				return;
+			}
+			if (all) method = underlyingContract.methods.deposit(bouncerProof);
+			else
+				method = underlyingContract.methods.deposit(
+					amount.toFixed(0, BigNumber.ROUND_HALF_FLOOR),
+					bouncerProof,
+				);
+		} else if (all) method = underlyingContract.methods.depositAll();
 
 		queueNotification(
 			`Sign the transaction to wrap ${formatAmount({ amount: amount, token: vault.underlyingToken })} ${
@@ -566,8 +581,13 @@ class ContractsStore {
 		const web3 = new Web3(provider);
 		const underlyingContract = new web3.eth.Contract(vault.abi, vault.address);
 
-		let method = underlyingContract.methods.withdraw(amount.toFixed(0, BigNumber.ROUND_HALF_FLOOR));
-		if (all) method = underlyingContract.methods.withdrawAll();
+		// Yearn vaults do not have a withdrawAll method, but allow a withdraw() with no value which will act as
+		// withdrawAll.  This action is flagged by having withdrawAll = false on the vault object.
+		const method = all
+			? vault.withdrawAll
+				? underlyingContract.methods.withdrawAll()
+				: underlyingContract.methods.withdraw()
+			: underlyingContract.methods.withdraw(amount.toFixed(0, BigNumber.ROUND_HALF_FLOOR));
 
 		queueNotification(
 			`Sign the transaction to unwrap ${formatAmount({ amount: amount, token: vault.underlyingToken }, true)} ${

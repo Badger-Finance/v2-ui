@@ -1,7 +1,7 @@
-import { Eligibility, PriceSummary, ProtocolSummary, Sett } from 'mobx/model';
+import { Eligibility, PriceSummary, ProtocolSummary, Sett, BouncerProof, Account } from 'mobx/model';
 
 export const getApi = (): string => {
-	if (process.env.NODE_ENV === 'production') {
+	if (process.env.REACT_APP_BUILD_ENV === 'production') {
 		return 'https://api.badger.finance/v2';
 	}
 	return 'https://staging-api.badger.finance/v2';
@@ -14,6 +14,8 @@ const listGeysersEndpoint = `${badgerApi}/geysers`;
 const getPricesEndpoint = `${badgerApi}/prices`;
 const getTVLEndpoint = `${badgerApi}/value`;
 const checkShopEndpoint = `${badgerApi}/reward/shop`;
+const getBouncerProofEndpoint = `${badgerApi}/reward/bouncer`;
+const getAccountDetailsEndpoint = `${badgerApi}/accounts`;
 
 // api function calls
 export const listSetts = async (chain?: string): Promise<Sett[] | null> => {
@@ -36,6 +38,14 @@ export const getTotalValueLocked = async (network?: string): Promise<ProtocolSum
 
 export const checkShopEligibility = async (address: string): Promise<Eligibility | null> => {
 	return fetchData(() => fetch(`${checkShopEndpoint}/${address}`));
+};
+
+export const fetchBouncerProof = async (address: string): Promise<BouncerProof | null> => {
+	return fetchData(() => fetch(`${getBouncerProofEndpoint}/${address}`));
+};
+
+export const getAccountDetails = async (address: string, chain?: string): Promise<Account | null> => {
+	return fetchData(() => fetch(`${getAccountDetailsEndpoint}/${address}?chain=${chain ? chain : 'eth'}`));
 };
 
 const fetchData = async <T>(request: () => Promise<Response>): Promise<T | null> => {
