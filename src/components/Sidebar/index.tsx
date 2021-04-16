@@ -126,7 +126,6 @@ export const Sidebar = observer(() => {
 		uiState: { sidebarOpen, closeSidebar },
 		rewards: { badgerTree },
 		wallet: { network },
-		user,
 	} = store;
 
 	const [expanded, setExpanded] = useState('');
@@ -358,16 +357,6 @@ export const Sidebar = observer(() => {
 							<div className={classes.smallItemText}>Powered By Nexus Mutual</div>
 						</ListItemText>
 					</ListItem>
-
-					{user.viewSettShop() && (
-						<ListItem
-							button
-							className={classes.secondaryListItem}
-							onClick={() => window.open('http://shop.badger.finance/')}
-						>
-							Sett Shop
-						</ListItem>
-					)}
 
 					<ListItem
 						button
