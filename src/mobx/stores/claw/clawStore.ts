@@ -12,7 +12,7 @@ import {
 	parseSyntheticHexToBigNumber,
 	parseSponsorsHexToBigNumber,
 } from 'mobx/reducers/clawsReducer';
-import { getClawEmpSponsor, getClawEmp } from 'mobx/utils/apiV2';
+import { fetchClawEmpSponsor, fetchClawEmp } from 'mobx/utils/apiV2';
 import { NETWORK_IDS } from '../../../config/constants';
 
 export class ClawStore {
@@ -139,18 +139,21 @@ export class ClawStore {
 	});
 
 	private async _fetchEmps(): Promise<SyntheticData[]> {
-		const claws = await Promise.all(EMPS_ADDRESSES.map((synthetic) => getClawEmp(synthetic)));
-		return claws
+		const claws = await Promise.all(EMPS_ADDRESSES.map((synthetic) => fetchClawEmp(synthetic)));
+		const validClaws = claws.filter((syntheticData) => syntheticData !== null) as SyntheticData[];
+
+		return validClaws
 			.map((syntheticData, index) => ({ ...syntheticData, address: EMPS_ADDRESSES[index] }))
 			.map(parseSyntheticHexToBigNumber);
 	}
 
 	private async _getSponsorInformation() {
 		const sponsorInfo = await Promise.all(
-			EMPS_ADDRESSES.map((synthetic) => getClawEmpSponsor(synthetic, this.store.wallet.connectedAddress)),
+			EMPS_ADDRESSES.map((synthetic) => fetchClawEmpSponsor(synthetic, this.store.wallet.connectedAddress)),
 		);
+		const validSponsorInfo = sponsorInfo.filter((information) => information !== null) as SponsorData[];
 
-		return sponsorInfo.map(parseSponsorsHexToBigNumber);
+		return validSponsorInfo.filter(Boolean).map(parseSponsorsHexToBigNumber);
 	}
 }
 

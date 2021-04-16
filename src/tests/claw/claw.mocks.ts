@@ -146,6 +146,7 @@ function getMockBbadger(): Token {
 		balance: [],
 		getPricePerFullShare: new BigNumber('0'),
 		isSuperSett: false,
+		withdrawAll: false,
 	});
 
 	return bBadger;
@@ -166,6 +167,7 @@ function getMockBslp(): Token {
 		balance: [],
 		getPricePerFullShare: new BigNumber('0'),
 		isSuperSett: false,
+		withdrawAll: false,
 	});
 
 	return bSlp;
