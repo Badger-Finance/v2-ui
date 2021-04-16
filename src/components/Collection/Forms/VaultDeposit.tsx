@@ -8,6 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Loader } from 'components/Loader';
 import { BigNumber } from 'bignumber.js';
 import { useForm } from 'react-hook-form';
+import { SettAvailableDeposit } from '../Setts/SettAvailableDeposit';
 
 const TEXTFIELD_ID = 'amountField';
 
@@ -27,6 +28,8 @@ export const VaultDeposit = observer((props: any) => {
 
 	const {
 		wallet: { connectedAddress },
+		user: { accountDetails },
+		setts: { settMap },
 	} = store;
 
 	const percentageOfBalance = (percent: number) => {
@@ -55,7 +58,35 @@ export const VaultDeposit = observer((props: any) => {
 		return <Loader />;
 	}
 
-	const canDeposit = !!watch().amount && !!connectedAddress && vault.underlyingToken.balance.gt(0);
+	const availableDepositLimit = (amount: number): boolean => {
+		// Deposit limits are only applicable to affiliate wrappers currently
+		// in the future if we wish to add our own deposit limits, we can
+		// create a network variable that has a list of these and check it.
+		if (
+			!accountDetails ||
+			!accountDetails.depositLimits ||
+			!accountDetails.depositLimits[vault.address] ||
+			!settMap ||
+			!settMap[vault.address] ||
+			!settMap[vault.address].affiliate ||
+			!settMap[vault.address].affiliate?.availableDepositLimit
+		)
+			return true;
+		else {
+			const availableDeposit = accountDetails.depositLimits[vault.address].available;
+			const totalAvailableDeposit = settMap[vault.address].affiliate?.availableDepositLimit;
+			// We're removing the ts script for this because we check validity in the if statement above
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+			//@ts-ignore
+			return availableDeposit > 1e-8 && amount <= availableDeposit && amount <= totalAvailableDeposit;
+		}
+	};
+
+	const canDeposit =
+		!!watch().amount &&
+		!!connectedAddress &&
+		vault.underlyingToken.balance.gt(0) &&
+		availableDepositLimit(watch().amount);
 
 	const renderAmounts = (
 		<ButtonGroup size="small" className={classes.button} disabled={!connectedAddress}>
@@ -88,6 +119,13 @@ export const VaultDeposit = observer((props: any) => {
 					</Typography>
 					{renderAmounts}
 				</div>
+				<SettAvailableDeposit
+					accountDetails={accountDetails}
+					vault={vault.address}
+					assetName={vault.underlyingToken.symbol}
+					sett={settMap ? settMap[vault.address] : undefined}
+				/>
+
 				<TextField
 					autoComplete="off"
 					name="amount"

@@ -144,15 +144,23 @@ class BridgeStore {
 			if (!newValue) return;
 
 			const web3 = new Web3(newValue);
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+			// @ts-ignore
 			this.adapter = new web3.eth.Contract(BADGER_ADAPTER, bridge_system['adapter']);
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+			// @ts-ignore
 			this.renbtc = new web3.eth.Contract(
 				ERC20.abi as AbiItem[],
 				NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.RENBTC_ADDRESS,
 			);
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+			// @ts-ignore
 			this.wbtc = new web3.eth.Contract(
 				ERC20.abi as AbiItem[],
 				NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.WBTC_ADDRESS,
 			);
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+			// @ts-ignore
 			this.gateway = new web3.eth.Contract(BTC_GATEWAY, RENVM_GATEWAY_ADDRESS);
 			Promise.all([this._getFees(), this._getBTCNetworkFees()]);
 			return;
