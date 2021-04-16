@@ -65,7 +65,7 @@ export const VaultDeposit = observer((props: any) => {
 			return true;
 		else {
 			const availableDeposit = accountDetails.depositLimits[vault.address].available;
-			return availableDeposit > 0 && amount <= availableDeposit;
+			return availableDeposit > 1e-8 && amount <= availableDeposit;
 		}
 	};
 

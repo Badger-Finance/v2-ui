@@ -45,7 +45,6 @@ export const getGeysers = (network?: string): GeyserNetworkConfig => {
 							deploy.geysers['native.uniBadgerWbtc'],
 							deploy.geysers['harvest.renCrv'],
 							deploy.geysers['native.uniDiggWbtc'],
-							//TODO: Update this to the correct address in the deploy file
 							deploy.geysers['yearn.wBtc'],
 						],
 						fillers: {
