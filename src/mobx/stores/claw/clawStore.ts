@@ -70,6 +70,12 @@ export class ClawStore {
 			}
 		});
 
+		observe(this.store.wallet, 'network', () => {
+			if (this.store.wallet.connectedAddress && !this.isLoadingSponsorData) {
+				this.fetchSponsorData().then();
+			}
+		});
+
 		this.fetchSyntheticsData().then();
 	}
 
