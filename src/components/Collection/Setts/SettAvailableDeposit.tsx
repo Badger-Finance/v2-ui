@@ -13,7 +13,9 @@ export const SettAvailableDeposit = (props: DepositLimitProps): JSX.Element => {
 	if (!accountDetails || !vault || !accountDetails.depositLimits[vault]) return <> </>;
 	return (
 		<Typography variant="body2" color="textSecondary" component="div">
-			{`Deposit Limit Remaining: ${accountDetails.depositLimits[vault].available} / ${accountDetails.depositLimits[vault].limit} ${assetName}`}
+			{`Deposit Limit Remaining: ${
+				accountDetails.depositLimits[vault].available > 1e-8 ? accountDetails.depositLimits[vault].available : 0
+			} / ${accountDetails.depositLimits[vault].limit} ${assetName}`}
 		</Typography>
 	);
 };
