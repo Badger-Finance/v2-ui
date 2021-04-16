@@ -94,7 +94,7 @@ export class Vault extends Token {
 	holdingsValue(): BigNumber {
 		return this.holdings
 			.multipliedBy(this.pricePerShare)
-			.dividedBy(1e18)
+			.dividedBy(10 ** this.decimals)
 			.multipliedBy(this.underlyingToken.ethValue);
 	}
 
