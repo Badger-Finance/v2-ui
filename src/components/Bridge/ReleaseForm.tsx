@@ -37,7 +37,7 @@ export const ReleaseForm = ({
 	const store = useContext(StoreContext);
 	const {
 		wallet: { connectedAddress },
-		bridge: { renbtcBalance, wbtcBalance, bwbtcBalance },
+		bridge: { renbtcBalance, wbtcBalance, bwbtcBalance, bCRVrenBTCBalance, bCRVsBTCBalance, bCRVtBTCBalance },
 	} = store;
 
 	const [validAddress, setValidAddress] = useState(false);
@@ -52,8 +52,24 @@ export const ReleaseForm = ({
 		calcFees(amount, 'burnAmount');
 	};
 
-	const selectedTokenBalance =
-		values.token === 'renBTC' ? renbtcBalance : values.token === 'bWBTC' ? bwbtcBalance : wbtcBalance;
+	const selectedTokenBalance = () => {
+		switch (values.token) {
+			case 'renBTC':
+				return renbtcBalance;
+			case 'WBTC':
+				return wbtcBalance;
+			case 'bWBTC':
+				return bwbtcBalance;
+			case 'bCRVrenBTC':
+				return bCRVrenBTCBalance;
+			case 'bCRVsBTC':
+				return bCRVsBTCBalance;
+			case 'bCRVtBTC':
+				return bCRVtBTCBalance;
+			default:
+				return 0;
+		}
+	};
 
 	useEffect(() => {
 		if (validate(values.btcAddr)) {
@@ -70,7 +86,7 @@ export const ReleaseForm = ({
 			<Grid container spacing={2} style={{ padding: '.6rem 2rem' }}>
 				<Grid item xs={12} style={{ marginBottom: '.2rem' }}>
 					<Typography variant="body1" color="textSecondary" style={{ textAlign: 'right' }}>
-						Balance: {selectedTokenBalance}
+						Balance: {selectedTokenBalance()}
 					</Typography>
 				</Grid>
 
@@ -85,7 +101,7 @@ export const ReleaseForm = ({
 						InputProps={{
 							style: {
 								fontSize: '3rem',
-								color: selectedTokenBalance < parseFloat(values.burnAmount) ? 'red' : 'inherit',
+								color: selectedTokenBalance() < parseFloat(values.burnAmount) ? 'red' : 'inherit',
 							},
 							endAdornment: [
 								// eslint-disable-next-line react/jsx-key
@@ -170,7 +186,7 @@ export const ReleaseForm = ({
 							onClick={next}
 							disabled={
 								parseFloat(values.burnAmount) > MIN_AMOUNT &&
-								selectedTokenBalance >= parseFloat(values.burnAmount) &&
+								selectedTokenBalance() >= parseFloat(values.burnAmount) &&
 								validAddress
 									? false
 									: true

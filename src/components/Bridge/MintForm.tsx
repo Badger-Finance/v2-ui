@@ -35,7 +35,15 @@ export const MintForm = ({
 
 	const {
 		wallet: { connectedAddress },
-		bridge: { renbtcBalance, wbtcBalance, bwbtcBalance, shortAddr },
+		bridge: {
+			renbtcBalance,
+			wbtcBalance,
+			bwbtcBalance,
+			bCRVrenBTCBalance,
+			bCRVsBTCBalance,
+			bCRVtBTCBalance,
+			shortAddr,
+		},
 	} = store;
 
 	const next = (e: React.MouseEvent<HTMLElement>) => {
@@ -45,8 +53,24 @@ export const MintForm = ({
 
 	const isWBTC = values.token === 'WBTC' || values.token === 'bWBTC';
 
-	const selectedTokenBalance =
-		values.token === 'renBTC' ? renbtcBalance : values.token === 'bWBTC' ? bwbtcBalance : wbtcBalance;
+	const selectedTokenBalance = () => {
+		switch (values.token) {
+			case 'renBTC':
+				return renbtcBalance;
+			case 'WBTC':
+				return wbtcBalance;
+			case 'bWBTC':
+				return bwbtcBalance;
+			case 'bCRVrenBTC':
+				return bCRVrenBTCBalance;
+			case 'bCRVsBTC':
+				return bCRVsBTCBalance;
+			case 'bCRVtBTC':
+				return bCRVtBTCBalance;
+			default:
+				return 0;
+		}
+	};
 
 	return (
 		<>
@@ -87,7 +111,7 @@ export const MintForm = ({
 
 				<Grid item xs={12}>
 					<Typography variant="body1" color="textSecondary" style={{ textAlign: 'right' }}>
-						Balance: {selectedTokenBalance}
+						Balance: {selectedTokenBalance()}
 					</Typography>
 
 					<div className={classes.row}>
