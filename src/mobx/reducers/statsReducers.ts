@@ -258,7 +258,7 @@ export function formatBalanceValue(vault: Vault, currency: string): string {
 			.multipliedBy(diggMultiplier)
 			.dividedBy(10 ** vault.decimals),
 		currency,
-		true,
+		currency != 'eth',
 	);
 }
 
@@ -273,7 +273,7 @@ export function formatGeyserBalanceValue(geyser: Geyser, currency: string): stri
 			.plus(geyser.vault.balanceValue())
 			.dividedBy(10 ** geyser.vault.decimals),
 		currency,
-		true,
+		currency != 'eth',
 	);
 }
 
