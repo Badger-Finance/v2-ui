@@ -263,7 +263,7 @@ export function formatBalanceValue(vault: Vault, currency: string): string {
 }
 
 export function formatTokenBalanceValue(token: Token, currency: string): string {
-	return inCurrency(token.balanceValue().dividedBy(1e18), currency, true);
+	return inCurrency(token.balanceValue().dividedBy(1e18), currency, currency != 'eth');
 }
 
 export function formatGeyserBalanceValue(geyser: Geyser, currency: string): string {
@@ -282,7 +282,7 @@ export function formatVaultBalanceValue(vault: Vault, currency: string): string 
 }
 
 export function formatPrice(price: BigNumber, currency: string): string {
-	return inCurrency(price.dividedBy(1e18), currency, true);
+	return inCurrency(price.dividedBy(1e18), currency, currency != 'eth');
 }
 
 export function formatNumber(price: BigNumber, currency: string): string {
