@@ -164,7 +164,7 @@ export const Mint = observer((): any => {
 					</Grid>
 				</SummaryGrid>
 			</Grid>
-			<Grid xs={12}>
+			<Grid item xs={12}>
 				<Button
 					fullWidth
 					size="large"
