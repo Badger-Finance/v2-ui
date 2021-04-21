@@ -4,7 +4,7 @@ import InfoIcon from '@material-ui/icons/Info';
 import { StoreContext } from 'mobx/store-context';
 
 import WBTCLogo from 'assets/icons/WBTC.svg';
-import bWBTCLogo from 'assets/icons/bwbtc.svg';
+import bWBTCLogo from 'assets/icons/bWBTC.svg';
 import renBTCLogo from 'assets/icons/renBTC.svg';
 import crvBTCLogo from 'assets/tokens/bcrvRenWBTC.png';
 import { shortenAddress } from 'utils/componentHelpers';

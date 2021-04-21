@@ -2,11 +2,14 @@ import React, { useContext } from 'react';
 import { Grid, Button, TextField, Typography } from '@material-ui/core';
 import { ClassNameMap } from '@material-ui/core/styles/withStyles';
 import { ArrowDownward } from '@material-ui/icons';
+import { toJS } from 'mobx';
 
 import { Token } from 'components/IbBTC/Tokens';
 import { StoreContext } from 'mobx/store-context';
+import { SettMap } from 'mobx/model';
 import { MIN_AMOUNT } from './constants';
 import { Slippage, ValuesProp } from './Common';
+import { sett_system } from 'config/deployments/mainnet.json';
 
 interface MintFormProps {
 	values: ValuesProp;
@@ -35,6 +38,7 @@ export const MintForm = ({
 
 	const {
 		wallet: { connectedAddress },
+        setts: { settMap },
 		bridge: {
 			renbtcBalance,
 			wbtcBalance,
@@ -53,8 +57,8 @@ export const MintForm = ({
 
 	const isWBTC = values.token === 'WBTC' || values.token === 'bWBTC';
 
-	const selectedTokenBalance = () => {
-		switch (values.token) {
+	const selectedTokenBalance = (token: String): number => {
+		switch (token) {
 			case 'renBTC':
 				return renbtcBalance;
 			case 'WBTC':
@@ -71,6 +75,31 @@ export const MintForm = ({
 				return 0;
 		}
 	};
+
+    const getAPY = (token: string, settMap: SettMap | null | undefined): number => {
+        if (!settMap) {
+            return 0;
+        }
+        let address: string = '';
+        switch (token) {
+            // TODO: Add yvault APY after launch.
+            case 'bWBTC':
+                break;
+            case 'bCRVrenBTC':
+                address = sett_system.vaults['native.renCrv'];
+                break;
+            case 'bCRVsBTC':
+                address = sett_system.vaults['native.sbtcCrv'];
+                break;
+            case 'bCRVtBTC':
+                address = sett_system.vaults['native.tbtcCrv'];
+                break;
+        }
+        // No APY for non vault tokens.
+        if (!address) return 0;
+        const sett = settMap[address];
+        return sett ? sett.apy : 0;
+    }
 
 	return (
 		<>
@@ -111,7 +140,7 @@ export const MintForm = ({
 
 				<Grid item xs={12}>
 					<Typography variant="body1" color="textSecondary" style={{ textAlign: 'right' }}>
-						Balance: {selectedTokenBalance()}
+						Balance: {selectedTokenBalance(values.token)}
 					</Typography>
 
 					<div className={classes.row}>
@@ -141,7 +170,7 @@ export const MintForm = ({
 					{isEarn && (
 						<div className={classes.summaryRow}>
 							<Typography variant="subtitle1">APY: </Typography>
-							<Typography variant="body1">12.52% (Temp)</Typography>
+							<Typography variant="body1">{getAPY(values.token, toJS(settMap)).toFixed(2)}%</Typography>
 						</div>
 					)}
 
