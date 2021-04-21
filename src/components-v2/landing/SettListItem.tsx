@@ -7,6 +7,7 @@ import React, { useContext } from 'react';
 import { UnfoldMoreTwoTone } from '@material-ui/icons';
 import { StoreContext } from 'mobx/store-context';
 import DisabledSettListItem from './DisabledSettListItem';
+import CurrencyDisplay from '../common/CurrencyDisplay';
 import SettBadge from './SettBadge';
 
 const useStyles = makeStyles((theme) => ({
@@ -122,6 +123,8 @@ const SettListItem = observer(
 			}
 		};
 		const { apy, tooltip } = getRoi(sett, period);
+		const displayValue = balanceValue ? balanceValue : usdToCurrency(new BigNumber(sett.value), currency);
+
 		return network.isWhitelisted[sett.vaultToken] && !user.viewSettShop() ? (
 			<DisabledSettListItem
 				apy={apy}
@@ -218,9 +221,7 @@ const SettListItem = observer(
 						</Typography>
 					</Grid>
 					<Grid item xs={6} md={2}>
-						<Typography variant="body1" color={'textPrimary'}>
-							{balanceValue ? balanceValue : usdToCurrency(new BigNumber(sett.value), currency)}
-						</Typography>
+						<CurrencyDisplay displayValue={displayValue} variant="body1" justify="flex-start" />
 					</Grid>
 					<Grid item xs={12} md={2} style={{ textAlign: 'right' }}>
 						<IconButton color="default">

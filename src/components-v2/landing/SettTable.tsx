@@ -19,15 +19,16 @@ export interface SettTableProps {
 	tokenTitle: string;
 	period: string;
 	settList: (JSX.Element | null | undefined)[];
+	displayValue: string;
 }
 
 const SettTable = (props: SettTableProps): JSX.Element => {
-	const { title, tokenTitle, period, settList } = props;
+	const { title, tokenTitle, period, settList, displayValue } = props;
 	const classes = useStyles();
 
 	return (
 		<>
-			<TableHeader title={title} tokenTitle={tokenTitle} period={period} />
+			<TableHeader title={title} tokenTitle={tokenTitle} period={period} displayValue={displayValue} />
 			<List className={classes.list}>{settList}</List>
 		</>
 	);
