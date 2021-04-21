@@ -3,7 +3,7 @@
 		"contracts": {
 			"tokens": {
 				"ibBTC": {
-					"address": "0x9A9f2CCfdE556A7E9Ff0848998Aa4a0CFD8863AE",
+					"address": "0x61a18C93B957CaA1dc44710d62AE2A44930D242f",
 					"decimals": 18,
 					"symbol": "ibBTC",
 					"name": "Badger BTC"
@@ -30,7 +30,7 @@
 					"poolId": 2
 				}
 			},
-			"peak": "0xc6e7DF5E7b4f2A278906862b61205850344D4e7d"
+			"peak": "0x1a2a808478B3A4F889EC7Ea5c6E809B17C8Eb9Cf"
 		}
 	}
 }
