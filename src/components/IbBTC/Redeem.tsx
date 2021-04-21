@@ -171,7 +171,7 @@ export const Redeem = observer((): any => {
 							<Typography variant="subtitle1">Current Conversion Rate: </Typography>
 						</Grid>
 						<Grid item xs={6}>
-							<EndAlignText variant="subtitle1">
+							<EndAlignText variant="body1">
 								1 {ibBTC.symbol} : {conversionRate} {selectedToken.symbol}
 							</EndAlignText>
 						</Grid>
