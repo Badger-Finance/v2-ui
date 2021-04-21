@@ -8,6 +8,8 @@ import PageHeader from 'components-v2/common/PageHeader';
 import { Mint } from './Mint';
 import { Redeem } from './Redeem';
 
+type TABS = 'Mint' | 'Redeem';
+
 const useStyles = makeStyles((theme) => ({
 	root: {
 		[theme.breakpoints.up('md')]: {
@@ -19,15 +21,22 @@ const useStyles = makeStyles((theme) => ({
 		marginBottom: theme.spacing(6),
 	},
 	cardContainer: { justifyContent: 'center', display: 'flex' },
-	card: {},
 	tabHeader: { background: 'rgba(0,0,0,.2)' },
+	content: {
+		padding: '40px 24px 32px 24px',
+	},
 }));
 
 export const IbBTC = (): any => {
 	const classes = useStyles();
-	const allTabs = ['Mint', 'Redeem'];
+	const [activeTab, setActiveTab] = useState<TABS>('Mint');
 
-	const [activeTab, setActiveTab] = useState<string>('Mint');
+	const Content = () => (
+		<Container className={classes.content} maxWidth="lg">
+			{activeTab === 'Mint' && <Mint />}
+			{activeTab === 'Redeem' && <Redeem />}
+		</Container>
+	);
 
 	return (
 		<Container className={classes.root} maxWidth="lg">
@@ -37,7 +46,7 @@ export const IbBTC = (): any => {
 				</Grid>
 
 				<Grid item sm={12} xs={12} md={7}>
-					<Card className={classes.card}>
+					<Card>
 						<Tabs
 							variant="fullWidth"
 							className={classes.tabHeader}
@@ -46,108 +55,13 @@ export const IbBTC = (): any => {
 							indicatorColor="primary"
 							value={activeTab}
 						>
-							<Tab onClick={() => setActiveTab(allTabs[0])} value={allTabs[0]} label={allTabs[0]}></Tab>
-							<Tab onClick={() => setActiveTab(allTabs[1])} value={allTabs[1]} label={allTabs[1]}></Tab>
+							<Tab onClick={() => setActiveTab('Mint')} value={'Mint'} label={'Mint'} />
+							<Tab onClick={() => setActiveTab('Redeem')} value={'Redeem'} label={'Redeem'} />
 						</Tabs>
-						{activeTab === allTabs[0] && <Mint />}
-						{activeTab === allTabs[1] && <Redeem />}
+						<Content />
 					</Card>
 				</Grid>
 			</Grid>
 		</Container>
 	);
 };
-
-export const commonStyles = makeStyles(() => ({
-	root: {
-		padding: '40px 24px 32px 24px',
-	},
-	outerWrapper: {
-		display: 'flex',
-		flexDirection: 'column',
-	},
-	balance: {
-		marginBottom: '.4rem',
-		display: 'flex',
-		alignItems: 'center',
-		justifyContent: 'flex-end',
-	},
-	inputWrapper: {
-		display: 'flex',
-		border: '1px solid #6B6B6B',
-		boxShadow: '0px 1px 4px rgba(0, 0, 0, 0.08)',
-		borderRadius: '9px',
-		padding: '18px 20px',
-		minHeight: '82px',
-	},
-	'@media (max-width: 598px)': {
-		inputWrapper: {
-			flexDirection: 'column',
-			padding: '15px',
-		},
-		unstylishInput: {
-			margin: '12px 0px !important',
-		},
-	},
-	btnMax: {
-		alignSelf: 'center',
-		marginRight: '.6rem',
-	},
-	unstylishInput: {
-		color: 'white',
-		fontSize: '18px',
-		lineHeight: '20px',
-		margin: '0px 20px 0px 16px',
-		width: '100%',
-		'&, &:focus, &:active, &[type="number"]': {
-			border: 'none',
-			borderWidth: '0px',
-			outlineOffset: '0px',
-			outlineColor: 'transparent',
-			outlineStyle: 'none',
-
-			boxShadow: 'none',
-			backgroundImage: 'none',
-			backgroundColor: 'transparent',
-
-			'-webkit-box-shadow': 'none',
-			'-moz-box-shadow': 'none',
-			'-moz-appearance': 'textfield',
-		},
-		'&::-webkit-outer-spin-button, &::-webkit-inner-spin-button': {
-			'-webkit-appearance': 'none',
-			margin: 0,
-		},
-		'&::-webkit-input-placeholder, &::-moz-placeholder, &:-ms-input-placeholder, &:-moz-placeholder': {
-			color: '#afafaf',
-		},
-	},
-	token: {
-		display: 'flex',
-	},
-	tokenIcon: {
-		height: '30px',
-		width: '30px',
-		alignSelf: 'center',
-	},
-	tokenLabel: {
-		alignSelf: 'center',
-		margin: '0px 8px 0px 14px',
-	},
-	summaryWrapper: {
-		background: 'rgba(20, 20, 20, 0.5)',
-		boxShadow: '0px 0.913793px 3.65517px rgba(0, 0, 0, 0.08)',
-		margin: '32px -24px',
-		padding: '1.7rem',
-	},
-	summaryRow: {
-		display: 'flex',
-		justifyContent: 'space-between',
-		'& h6:last-child': {
-			textAlign: 'end',
-		},
-		'& h6:first-child': {
-			textAlign: 'start',
-		},
-	},
-}));

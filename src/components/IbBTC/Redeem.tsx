@@ -1,28 +1,31 @@
 import React, { useContext, useState } from 'react';
-import { Container, Button, Typography, TextField } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import red from '@material-ui/core/colors/red';
+import { Button, Typography, Grid } from '@material-ui/core';
 
 import { observer } from 'mobx-react-lite';
 import BigNumber from 'bignumber.js';
 
 import { debounce } from 'utils/componentHelpers';
 import { ZERO } from 'config/constants';
-import { commonStyles } from './index';
 import { Token, Tokens } from './Tokens';
 import { DownArrow } from './DownArrow';
 import { StoreContext } from 'mobx/store-context';
 import { TokenModel } from 'mobx/model';
+import {
+	EndAlignText,
+	InputTokenAmount,
+	BorderedGrid,
+	OutputContentGrid,
+	SummaryGrid,
+	BalanceGrid,
+	InputTokenActionButtonsGrid,
+	OutputBalanceText,
+	OutputAmountText,
+	OutputTokenGrid,
+	ErrorText,
+} from './Common';
 
-const localStyle = makeStyles(() => ({
-	error: {
-		color: red[400],
-	},
-}));
 export const Redeem = observer((): any => {
 	const store = useContext(StoreContext);
-	const classes = commonStyles();
-	const scopedClasses = localStyle();
 
 	const {
 		ibBTCStore: { tokens, ibBTC },
@@ -43,20 +46,28 @@ export const Redeem = observer((): any => {
 					parseFloat(outputAmount.toString() || selectedToken.redeemRate) /
 					parseFloat(inputAmount.toString() || '1')
 			  ).toFixed(4)
-			: (parseFloat(selectedToken.redeemRate) / 1).toFixed(4);
+			: parseFloat(selectedToken.redeemRate).toFixed(4);
 
-	const _debouncedSetInputAmount = debounce(600, (val) => {
-		setInputAmount(val);
-		val = new BigNumber(val);
-		if (val.gt(ZERO))
-			store.ibBTCStore.calcRedeemAmount(selectedToken, selectedToken.scale(val), handleCalcOutputAmount);
-		else {
+	const _debouncedSetInputAmount = debounce(600, (change) => {
+		const input = new BigNumber(change);
+
+		if (!input.gt(ZERO)) {
 			setMaxRedeem('');
 			setIsEnoughToRedeem(true);
 			setOutputAmount('');
 			setFee(initialFee);
+			return;
 		}
+
+		store.ibBTCStore.calcRedeemAmount(selectedToken, selectedToken.scale(input), handleCalcOutputAmount).then();
 	});
+
+	const useMaxBalance = () => {
+		if (inputRef && selectedToken) {
+			setInputAmount((inputRef.value = ibBTC.unscale(ibBTC.balance).toString(10)));
+			store.ibBTCStore.calcRedeemAmount(selectedToken, ibBTC.balance, handleCalcOutputAmount).then();
+		}
+	};
 
 	const handleCalcOutputAmount = (err: any, result: any): void => {
 		if (!err) {
@@ -66,18 +77,17 @@ export const Redeem = observer((): any => {
 			setIsEnoughToRedeem(availableToRedeemed.gt(toBeRedeemed));
 			setOutputAmount(toBeRedeemed.toString(10));
 			setFee(ibBTC.unscale(new BigNumber(result[1])).toFixed(4));
-		} else setOutputAmount('');
+			return;
+		}
+
+		setOutputAmount('');
 	};
 
-	const handleInputAmount = (event: any) => {
-		const nextValue = event?.target?.value;
-		_debouncedSetInputAmount(nextValue);
-	};
-
-	const handleTokenSelection = (event: any) => {
-		const token = tokens.find((token: TokenModel) => token.symbol === event?.target?.value) || tokens[0];
+	const handleTokenSelection = (token: TokenModel) => {
 		setSelectedToken(token);
-		if (inputAmount) store.ibBTCStore.calcRedeemAmount(token, token.scale(inputAmount), handleCalcOutputAmount);
+		if (inputAmount) {
+			store.ibBTCStore.calcMintAmount(token, token.scale(inputAmount), handleCalcOutputAmount).then();
+		}
 	};
 
 	const resetState = () => {
@@ -88,12 +98,10 @@ export const Redeem = observer((): any => {
 		setFee(initialFee);
 	};
 
-	const useMaxBalance = () => {
-		setInputAmount((inputRef.value = ibBTC.unscale(ibBTC.balance).toString(10)));
-		store.ibBTCStore.calcRedeemAmount(selectedToken, ibBTC.balance, handleCalcOutputAmount);
-	};
 	const handleRedeemClick = () => {
-		if (inputAmount) store.ibBTCStore.redeem(selectedToken, ibBTC.scale(new BigNumber(inputAmount)), handleRedeem);
+		if (inputAmount) {
+			store.ibBTCStore.redeem(selectedToken, ibBTC.scale(new BigNumber(inputAmount)), handleRedeem);
+		}
 	};
 
 	const handleRedeem = (): void => {
@@ -101,89 +109,88 @@ export const Redeem = observer((): any => {
 	};
 
 	return (
-		<Container className={classes.root} maxWidth="lg">
-			<div className={classes.outerWrapper}>
-				<Typography variant="body1" color="textSecondary" className={classes.balance}>
-					Balance: {ibBTC.formattedBalance}
-				</Typography>
-				<TextField
-					variant="outlined"
-					size="medium"
-					placeholder="0.0"
-					onChange={handleInputAmount}
-					InputProps={{
-						style: { fontSize: '3rem' },
-						endAdornment: [
-							<Button
-								key="max-btn"
-								size="small"
-								className={classes.btnMax}
-								variant="outlined"
-								onClick={useMaxBalance}
-							>
+		<>
+			<Grid container>
+				<BalanceGrid item xs={12}>
+					<EndAlignText variant="body1" color="textSecondary">
+						Balance: {ibBTC.formattedBalance}
+					</EndAlignText>
+				</BalanceGrid>
+				<BorderedGrid item container xs={12}>
+					<Grid item xs={8} sm={7}>
+						<InputTokenAmount
+							value={inputAmount}
+							placeholder="0.0"
+							onChange={(val) => {
+								setInputAmount(val);
+								_debouncedSetInputAmount(val);
+							}}
+						/>
+					</Grid>
+					<InputTokenActionButtonsGrid item container spacing={1} xs={4} sm={5}>
+						<Grid item>
+							<Button size="small" variant="outlined" onClick={useMaxBalance}>
 								max
-							</Button>,
-							<div key="token">
-								<Token token={ibBTC} />
-							</div>,
-						],
-					}}
-				/>
-			</div>
-			<div className={classes.outerWrapper}>
+							</Button>
+						</Grid>
+						<Grid item>
+							<Token token={ibBTC} />
+						</Grid>
+					</InputTokenActionButtonsGrid>
+				</BorderedGrid>
+			</Grid>
+			<Grid item container alignItems="center" xs={12}>
 				<DownArrow />
-			</div>
-			<div className={classes.outerWrapper}>
-				<Typography variant="body1" color="textSecondary" className={classes.balance}>
-					Balance: {ibBTC.formattedBalance}
-				</Typography>
-				<div
-					style={{
-						display: 'flex',
-						flexDirection: 'column',
-						alignItems: 'flex-start',
-						padding: '0 1rem 0 1rem',
-					}}
-				>
-					<Typography variant="h1">{outputAmount || '0.00'}</Typography>
-				</div>
-				<div
-					style={{
-						display: 'flex',
-						flexDirection: 'column',
-						alignItems: 'flex-end',
-						marginTop: '-2.5rem',
-						padding: '0 0 2rem 1rem',
-					}}
-				>
-					<Tokens tokens={tokens} selected={selectedToken} onTokenSelect={handleTokenSelection} />
-				</div>
-			</div>
-			<div className={classes.outerWrapper}>
-				<div className={classes.summaryWrapper}>
+			</Grid>
+			<Grid container>
+				<Grid item xs={12}>
+					<OutputBalanceText variant="body1" color="textSecondary">
+						Balance: {ibBTC.formattedBalance}
+					</OutputBalanceText>
+				</Grid>
+				<OutputContentGrid container item xs={12}>
+					<Grid item xs={12} sm={7} md={12} lg={7}>
+						<OutputAmountText variant="h1">{outputAmount || '0.00'}</OutputAmountText>
+					</Grid>
+					<OutputTokenGrid item container xs={12} sm={5} md={12} lg={5}>
+						<Tokens tokens={tokens} selected={selectedToken} onTokenSelect={handleTokenSelection} />
+					</OutputTokenGrid>
+				</OutputContentGrid>
+			</Grid>
+			<Grid item xs={12}>
+				<SummaryGrid>
 					{!isEnoughToRedeem && (
-						<div className={classes.summaryRow}>
-							<Typography variant="subtitle1" className={scopedClasses.error}>
+						<Grid item xs={12} container justify="space-between">
+							<ErrorText variant="subtitle1">
 								A maximum of {maxRedeem} {ibBTC.symbol} can be redeemed to {selectedToken.symbol}
-							</Typography>
-						</div>
+							</ErrorText>
+						</Grid>
 					)}
-					<div className={classes.summaryRow}>
-						<Typography variant="subtitle1">Current Conversion Rate: </Typography>
-						<Typography variant="subtitle1">
-							1 {ibBTC.symbol} : {conversionRate} {selectedToken.symbol}
-						</Typography>
-					</div>
-					<div className={classes.summaryRow}>
-						<Typography variant="subtitle1">Fees: </Typography>
-						<Typography variant="subtitle1">
-							{fee} {ibBTC.symbol}
-						</Typography>
-					</div>
-				</div>
-			</div>
-			<div className={classes.outerWrapper}>
+					<Grid item xs={12} container justify="space-between">
+						<Grid item xs={6}>
+							<Typography variant="subtitle1">Current Conversion Rate: </Typography>
+						</Grid>
+						<Grid item xs={6}>
+							<EndAlignText variant="subtitle1">
+								1 {ibBTC.symbol} : {conversionRate} {selectedToken.symbol}
+							</EndAlignText>
+						</Grid>
+					</Grid>
+					<Grid item xs={12} container justify="space-between">
+						<Grid item xs={6}>
+							<Typography variant="subtitle1">Fees: </Typography>
+						</Grid>
+						<Grid item xs={6}>
+							<EndAlignText variant="body1">
+								{fee} {ibBTC.symbol}
+							</EndAlignText>
+						</Grid>
+					</Grid>
+				</SummaryGrid>
+			</Grid>
+			<Grid xs={12}>
 				<Button
+					fullWidth
 					size="large"
 					variant="contained"
 					color="primary"
@@ -192,7 +199,7 @@ export const Redeem = observer((): any => {
 				>
 					REDEEM
 				</Button>
-			</div>
-		</Container>
+			</Grid>
+		</>
 	);
 });
