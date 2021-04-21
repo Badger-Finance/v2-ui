@@ -24,14 +24,12 @@ const SettListDisplay = observer((props: SettListViewProps) => {
 	if (settMap === null) {
 		return <Typography variant="h4">There was an issue loading setts. Try refreshing.</Typography>;
 	}
-	console.log('sett map: ', settMap);
 	const settListItems = network.settOrder
 		.map((contract) => {
 			if (!settMap[contract]) {
 				return;
 			}
 			const vault: Vault = vaults[settMap[contract].vaultToken];
-			if (contract === '0x4b92d19c11435614CD49Af1b589001b7c08cD4D5') console.log('yearn vault: ', vaults, vault);
 			return (
 				<SettListItem
 					sett={settMap[contract]}

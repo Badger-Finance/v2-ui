@@ -34,7 +34,7 @@ const SettDialog = (props: SettDialogProps): JSX.Element => {
 	const { open, sett } = dialogProps;
 	let { vault } = dialogProps;
 	const store = useContext(StoreContext);
-	const { network } = store.wallet;
+	const { network, connectedAddress } = store.wallet;
 	const { contracts } = store;
 	const classes = useStyles();
 
@@ -52,7 +52,7 @@ const SettDialog = (props: SettDialogProps): JSX.Element => {
 	 */
 	if (!vault) {
 		// user wallet not connected - populate zero data
-		console.log('vault not found: ', vault);
+		if (!vault && connectedAddress) console.log('vault not found: ', vault);
 		vault = contracts.getOrCreateVault('', new Token(store, '', 18), SettAbi.abi);
 	}
 
