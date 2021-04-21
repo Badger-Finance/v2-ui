@@ -102,7 +102,7 @@ exports[`Landing Page Clicking portfolio switch shows empty portfolio 1`] = `
                 </span>
               </span>
               <span
-                class="MuiTouchRipple-root-345"
+                class="MuiTouchRipple-root-357"
               />
             </button>
           </div>
@@ -135,7 +135,7 @@ exports[`Landing Page Clicking portfolio switch shows empty portfolio 1`] = `
                   />
                 </span>
                 <span
-                  class="MuiTouchRipple-root-345"
+                  class="MuiTouchRipple-root-357"
                 />
               </span>
               <span
@@ -245,7 +245,7 @@ exports[`Landing Page Clicking portfolio switch shows empty portfolio 1`] = `
         class="MuiGrid-root-18 MuiGrid-item-20 MuiGrid-grid-xs-12-64 MuiGrid-grid-md-4-84"
       >
         <div
-          class="MuiPaper-root-298 makeStyles-infoPaper-297 MuiPaper-elevation2-303 MuiPaper-rounded-299"
+          class="MuiPaper-root-300 makeStyles-infoPaper-297 MuiPaper-elevation2-305 MuiPaper-rounded-301"
         >
           <h6
             class="MuiTypography-root-124 MuiTypography-subtitle1-135 MuiTypography-colorTextPrimary-149"
@@ -253,7 +253,7 @@ exports[`Landing Page Clicking portfolio switch shows empty portfolio 1`] = `
             Total Value Locked
           </h6>
           <span
-            class="MuiSkeleton-root-326 MuiSkeleton-text-327 MuiSkeleton-withChildren-334 MuiSkeleton-fitContent-335 MuiSkeleton-heightAuto-336 MuiSkeleton-wave-332"
+            class="MuiSkeleton-root-328 MuiSkeleton-text-329 MuiSkeleton-withChildren-336 MuiSkeleton-fitContent-337 MuiSkeleton-heightAuto-338 MuiSkeleton-wave-334"
           >
             <h5
               class="MuiTypography-root-124 MuiTypography-h5-133"
@@ -267,7 +267,7 @@ exports[`Landing Page Clicking portfolio switch shows empty portfolio 1`] = `
         class="MuiGrid-root-18 MuiGrid-item-20 MuiGrid-grid-xs-12-64 MuiGrid-grid-md-4-84"
       >
         <div
-          class="MuiPaper-root-298 makeStyles-infoPaper-297 MuiPaper-elevation2-303 MuiPaper-rounded-299"
+          class="MuiPaper-root-300 makeStyles-infoPaper-297 MuiPaper-elevation2-305 MuiPaper-rounded-301"
         >
           <h6
             class="MuiTypography-root-124 MuiTypography-subtitle1-135 MuiTypography-colorTextPrimary-149"
@@ -275,7 +275,7 @@ exports[`Landing Page Clicking portfolio switch shows empty portfolio 1`] = `
             Your Portfolio
           </h6>
           <span
-            class="MuiSkeleton-root-326 MuiSkeleton-text-327 MuiSkeleton-withChildren-334 MuiSkeleton-fitContent-335 MuiSkeleton-heightAuto-336 MuiSkeleton-wave-332"
+            class="MuiSkeleton-root-328 MuiSkeleton-text-329 MuiSkeleton-withChildren-336 MuiSkeleton-fitContent-337 MuiSkeleton-heightAuto-338 MuiSkeleton-wave-334"
           >
             <h5
               class="MuiTypography-root-124 MuiTypography-h5-133"
@@ -289,7 +289,7 @@ exports[`Landing Page Clicking portfolio switch shows empty portfolio 1`] = `
         class="MuiGrid-root-18 MuiGrid-item-20 MuiGrid-grid-xs-12-64 MuiGrid-grid-md-4-84"
       >
         <div
-          class="MuiPaper-root-298 makeStyles-infoPaper-297 MuiPaper-elevation2-303 MuiPaper-rounded-299"
+          class="MuiPaper-root-300 makeStyles-infoPaper-297 MuiPaper-elevation2-305 MuiPaper-rounded-301"
         >
           <h6
             class="MuiTypography-root-124 MuiTypography-subtitle1-135 MuiTypography-colorTextPrimary-149"
@@ -297,7 +297,7 @@ exports[`Landing Page Clicking portfolio switch shows empty portfolio 1`] = `
             Badger Price
           </h6>
           <span
-            class="MuiSkeleton-root-326 MuiSkeleton-text-327 MuiSkeleton-withChildren-334 MuiSkeleton-fitContent-335 MuiSkeleton-heightAuto-336 MuiSkeleton-wave-332"
+            class="MuiSkeleton-root-328 MuiSkeleton-text-329 MuiSkeleton-withChildren-336 MuiSkeleton-fitContent-337 MuiSkeleton-heightAuto-338 MuiSkeleton-wave-334"
           >
             <h5
               class="MuiTypography-root-124 MuiTypography-h5-133"
@@ -309,14 +309,36 @@ exports[`Landing Page Clicking portfolio switch shows empty portfolio 1`] = `
       </div>
     </div>
     <div
-      class="makeStyles-settListContainer-344"
+      class="makeStyles-settListContainer-339"
     >
-      <h6
-        class="MuiTypography-root-124 MuiTypography-subtitle1-135 MuiTypography-colorTextSecondary-150 MuiTypography-alignCenter-140"
-        style="margin: 2rem 0px;"
+      <div
+        class="makeStyles-loaderContainer-340"
       >
-        Your address does not have tokens to deposit.
-      </h6>
+        <div
+          class="MuiCircularProgress-root-342 MuiCircularProgress-colorPrimary-346 MuiCircularProgress-indeterminate-344"
+          role="progressbar"
+          style="width: 60px; height: 60px;"
+        >
+          <svg
+            class="MuiCircularProgress-svg-348"
+            viewBox="22 22 44 44"
+          >
+            <circle
+              class="MuiCircularProgress-circle-349 MuiCircularProgress-circleIndeterminate-351"
+              cx="44"
+              cy="44"
+              fill="none"
+              r="20.2"
+              stroke-width="3.6"
+            />
+          </svg>
+        </div>
+        <p
+          class="MuiTypography-root-124 makeStyles-loaderMessage-341 MuiTypography-body1-126"
+        >
+          Loading Ethereum Setts...
+        </p>
+      </div>
       <div />
     </div>
   </div>
@@ -425,7 +447,7 @@ exports[`Landing Page Renders correctly 1`] = `
                 </span>
               </span>
               <span
-                class="MuiTouchRipple-root-345"
+                class="MuiTouchRipple-root-357"
               />
             </button>
           </div>
@@ -458,7 +480,7 @@ exports[`Landing Page Renders correctly 1`] = `
                   />
                 </span>
                 <span
-                  class="MuiTouchRipple-root-345"
+                  class="MuiTouchRipple-root-357"
                 />
               </span>
               <span
@@ -568,7 +590,7 @@ exports[`Landing Page Renders correctly 1`] = `
         class="MuiGrid-root-18 MuiGrid-item-20 MuiGrid-grid-xs-12-64 MuiGrid-grid-md-4-84"
       >
         <div
-          class="MuiPaper-root-298 makeStyles-infoPaper-297 MuiPaper-elevation2-303 MuiPaper-rounded-299"
+          class="MuiPaper-root-300 makeStyles-infoPaper-297 MuiPaper-elevation2-305 MuiPaper-rounded-301"
         >
           <h6
             class="MuiTypography-root-124 MuiTypography-subtitle1-135 MuiTypography-colorTextPrimary-149"
@@ -576,7 +598,7 @@ exports[`Landing Page Renders correctly 1`] = `
             Total Value Locked
           </h6>
           <span
-            class="MuiSkeleton-root-326 MuiSkeleton-text-327 MuiSkeleton-withChildren-334 MuiSkeleton-fitContent-335 MuiSkeleton-heightAuto-336 MuiSkeleton-wave-332"
+            class="MuiSkeleton-root-328 MuiSkeleton-text-329 MuiSkeleton-withChildren-336 MuiSkeleton-fitContent-337 MuiSkeleton-heightAuto-338 MuiSkeleton-wave-334"
           >
             <h5
               class="MuiTypography-root-124 MuiTypography-h5-133"
@@ -590,7 +612,7 @@ exports[`Landing Page Renders correctly 1`] = `
         class="MuiGrid-root-18 MuiGrid-item-20 MuiGrid-grid-xs-12-64 MuiGrid-grid-md-4-84"
       >
         <div
-          class="MuiPaper-root-298 makeStyles-infoPaper-297 MuiPaper-elevation2-303 MuiPaper-rounded-299"
+          class="MuiPaper-root-300 makeStyles-infoPaper-297 MuiPaper-elevation2-305 MuiPaper-rounded-301"
         >
           <h6
             class="MuiTypography-root-124 MuiTypography-subtitle1-135 MuiTypography-colorTextPrimary-149"
@@ -598,7 +620,7 @@ exports[`Landing Page Renders correctly 1`] = `
             Your Portfolio
           </h6>
           <span
-            class="MuiSkeleton-root-326 MuiSkeleton-text-327 MuiSkeleton-withChildren-334 MuiSkeleton-fitContent-335 MuiSkeleton-heightAuto-336 MuiSkeleton-wave-332"
+            class="MuiSkeleton-root-328 MuiSkeleton-text-329 MuiSkeleton-withChildren-336 MuiSkeleton-fitContent-337 MuiSkeleton-heightAuto-338 MuiSkeleton-wave-334"
           >
             <h5
               class="MuiTypography-root-124 MuiTypography-h5-133"
@@ -612,7 +634,7 @@ exports[`Landing Page Renders correctly 1`] = `
         class="MuiGrid-root-18 MuiGrid-item-20 MuiGrid-grid-xs-12-64 MuiGrid-grid-md-4-84"
       >
         <div
-          class="MuiPaper-root-298 makeStyles-infoPaper-297 MuiPaper-elevation2-303 MuiPaper-rounded-299"
+          class="MuiPaper-root-300 makeStyles-infoPaper-297 MuiPaper-elevation2-305 MuiPaper-rounded-301"
         >
           <h6
             class="MuiTypography-root-124 MuiTypography-subtitle1-135 MuiTypography-colorTextPrimary-149"
@@ -620,7 +642,7 @@ exports[`Landing Page Renders correctly 1`] = `
             Badger Price
           </h6>
           <span
-            class="MuiSkeleton-root-326 MuiSkeleton-text-327 MuiSkeleton-withChildren-334 MuiSkeleton-fitContent-335 MuiSkeleton-heightAuto-336 MuiSkeleton-wave-332"
+            class="MuiSkeleton-root-328 MuiSkeleton-text-329 MuiSkeleton-withChildren-336 MuiSkeleton-fitContent-337 MuiSkeleton-heightAuto-338 MuiSkeleton-wave-334"
           >
             <h5
               class="MuiTypography-root-124 MuiTypography-h5-133"
@@ -632,14 +654,36 @@ exports[`Landing Page Renders correctly 1`] = `
       </div>
     </div>
     <div
-      class="makeStyles-settListContainer-344"
+      class="makeStyles-settListContainer-339"
     >
-      <h6
-        class="MuiTypography-root-124 MuiTypography-subtitle1-135 MuiTypography-colorTextSecondary-150 MuiTypography-alignCenter-140"
-        style="margin: 2rem 0px;"
+      <div
+        class="makeStyles-loaderContainer-340"
       >
-        Loading Badger Setts...
-      </h6>
+        <div
+          class="MuiCircularProgress-root-342 MuiCircularProgress-colorPrimary-346 MuiCircularProgress-indeterminate-344"
+          role="progressbar"
+          style="width: 60px; height: 60px;"
+        >
+          <svg
+            class="MuiCircularProgress-svg-348"
+            viewBox="22 22 44 44"
+          >
+            <circle
+              class="MuiCircularProgress-circle-349 MuiCircularProgress-circleIndeterminate-351"
+              cx="44"
+              cy="44"
+              fill="none"
+              r="20.2"
+              stroke-width="3.6"
+            />
+          </svg>
+        </div>
+        <p
+          class="MuiTypography-root-124 makeStyles-loaderMessage-341 MuiTypography-body1-126"
+        >
+          Loading Ethereum Setts...
+        </p>
+      </div>
       <div />
     </div>
   </div>
