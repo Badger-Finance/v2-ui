@@ -97,7 +97,9 @@ export const ConfirmForm = ({
 		}
 	};
 
-	const isWBTC = values.token === 'bWBTC' || values.token === 'WBTC';
+	const isWBTC = ['bWBTC', 'WBTC'].indexOf(values.token) >= 0;
+
+	const isVault = ['bWBTC', 'bCRVrenBTC', 'bCRVsBTC', 'bCRVtBTC'].indexOf(values.token) >= 0;
 
 	return (
 		<Grid container alignItems={'center'}>
@@ -202,7 +204,7 @@ export const ConfirmForm = ({
 
 			<Grid item xs={12}>
 				<div className={classes.itemContainer}>
-					<div>You will receive</div>
+					<div>You will receive {isVault ? '(approximately)' : ''}</div>
 					<div className={classes.receiveAmount}>
 						<img src={selectedTokenImage()} className={classes.logo2} />
 
