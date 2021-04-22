@@ -17,7 +17,7 @@ import { SuccessForm } from './SuccessForm';
 import { ConfirmForm } from './ConfirmForm';
 import { ValuesProp } from './Common';
 import WBTCLogo from 'assets/icons/WBTC.svg';
-import bWBTCLogo from 'assets/icons/bWBTC.svg';
+import bWBTCLogo from 'assets/icons/bwbtc.svg';
 import renBTCLogo from 'assets/icons/renBTC.svg';
 import crvBTCLogo from 'assets/tokens/bcrvRenWBTC.png';
 import { NETWORK_LIST, CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS, FLAGS } from 'config/constants';

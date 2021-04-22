@@ -111,9 +111,7 @@ export const ReleaseForm = ({
 									className={classes.btnMax}
 									variant="outlined"
 									onClick={(e) => {
-										if (values.token === 'renBTC') setAmount(renbtcBalance, 'renBTC')(e);
-										else if (values.token === 'bWBTC') setAmount(bwbtcBalance, 'bWBTC')(e);
-										else setAmount(wbtcBalance, 'WBTC')(e);
+										setAmount(selectedTokenBalance(), values.token)(e);
 									}}
 								>
 									max
