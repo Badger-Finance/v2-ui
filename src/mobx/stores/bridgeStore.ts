@@ -444,31 +444,33 @@ class BridgeStore {
 		}
 	});
 
-	_getFees = action(async () => {
-		const { queueNotification } = this.store.uiState;
-		try {
-			await retry(async () => {
-				// NB: Only ETH supported for now. Check here since network could have
-				// gotten set at any point from init to now and this fails loudly if
-				// on the wrong network.
-				if (this.network.name !== NETWORK_LIST.ETH) return;
-				const [badgerBurnFee, badgerMintFee, renvmBurnFee, renvmMintFee] = (
-					await Promise.all([
-						this.adapter.methods.burnFeeBps().call(),
-						this.adapter.methods.mintFeeBps().call(),
-						this.gateway.methods.burnFee().call(),
-						this.gateway.methods.mintFee().call(),
-					])
-				).map((result: number) => result / MAX_BPS);
-				this.badgerMintFee = badgerMintFee;
-				this.badgerBurnFee = badgerBurnFee;
-				this.renvmBurnFee = renvmBurnFee;
-				this.renvmMintFee = renvmMintFee;
-			}, defaultRetryOptions);
-		} catch (err) {
-			queueNotification(`Failed to fetch fees: ${err.message}`, 'error');
-		}
-	});
+	_getFees = action(
+		async (): Promise<void> => {
+			const { queueNotification } = this.store.uiState;
+			try {
+				await retry(async () => {
+					// NB: Only ETH supported for now. Check here since network could have
+					// gotten set at any point from init to now and this fails loudly if
+					// on the wrong network.
+					if (this.network.name !== NETWORK_LIST.ETH) return;
+					const [badgerBurnFee, badgerMintFee, renvmBurnFee, renvmMintFee] = (
+						await Promise.all([
+							this.adapter.methods.burnFeeBps().call(),
+							this.adapter.methods.mintFeeBps().call(),
+							this.gateway.methods.burnFee().call(),
+							this.gateway.methods.mintFee().call(),
+						])
+					).map((result: number) => result / MAX_BPS);
+					this.badgerMintFee = badgerMintFee;
+					this.badgerBurnFee = badgerBurnFee;
+					this.renvmBurnFee = renvmBurnFee;
+					this.renvmMintFee = renvmMintFee;
+				}, defaultRetryOptions);
+			} catch (err) {
+				queueNotification(`Failed to fetch fees: ${err.message}`, 'error');
+			}
+		},
+	);
 
 	_getBalances = action(async (userAddr: string) => {
 		const { queueNotification } = this.store.uiState;
@@ -502,33 +504,35 @@ class BridgeStore {
 		}
 	});
 
-	_getBTCNetworkFees = async (): Promise<void> => {
-		const { queueNotification } = this.store.uiState;
-		try {
-			await retry(async () => {
-				// NB: Query fees logic pulled from ren bridge source.
-				// https://github.com/renproject/bridge/blob/18e5668db9423f2aaa32635c90dcf6269a3b1711/src/utils/walletUtils.ts#L104-L128
-				const query = {
-					jsonrpc: '2.0',
-					method: 'ren_queryFees',
-					id: 67,
-					params: {},
-				};
+	_getBTCNetworkFees = action(
+		async (): Promise<void> => {
+			const { queueNotification } = this.store.uiState;
+			try {
+				await retry(async () => {
+					// NB: Query fees logic pulled from ren bridge source.
+					// https://github.com/renproject/bridge/blob/18e5668db9423f2aaa32635c90dcf6269a3b1711/src/utils/walletUtils.ts#L104-L128
+					const query = {
+						jsonrpc: '2.0',
+						method: 'ren_queryFees',
+						id: 67,
+						params: {},
+					};
 
-				const resp = await fetch('https://lightnode-mainnet.herokuapp.com/', {
-					method: 'POST',
-					body: JSON.stringify(query),
-					headers: { 'Content-Type': 'application/json' },
-				});
-				const { result } = await resp.json();
+					const resp = await fetch('https://lightnode-mainnet.herokuapp.com/', {
+						method: 'POST',
+						body: JSON.stringify(query),
+						headers: { 'Content-Type': 'application/json' },
+					});
+					const { result } = await resp.json();
 
-				this.lockNetworkFee = new BigNumber(result.btc.lock).dividedBy(DECIMALS).toNumber();
-				this.releaseNetworkFee = new BigNumber(result.btc.release).dividedBy(DECIMALS).toNumber();
-			}, defaultRetryOptions);
-		} catch (err) {
-			queueNotification(`Failed to fetch BTC network fees: ${err.message}`, 'error');
-		}
-	};
+					this.lockNetworkFee = new BigNumber(result.btc.lock).dividedBy(DECIMALS).toNumber();
+					this.releaseNetworkFee = new BigNumber(result.btc.release).dividedBy(DECIMALS).toNumber();
+				}, defaultRetryOptions);
+			} catch (err) {
+				queueNotification(`Failed to fetch BTC network fees: ${err.message}`, 'error');
+			}
+		},
+	);
 }
 
 const _isTxComplete = function (tx: RenVMTransaction) {
