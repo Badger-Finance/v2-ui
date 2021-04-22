@@ -119,9 +119,6 @@ class RewardsStore {
 			claimableAmounts,
 		);
 
-		console.log('method:', method);
-		console.log('claim amounts:', claimableAmounts);
-
 		queueNotification(`Sign the transaction to claim your earnings`, 'info');
 		if (stake)
 			queueNotification(`You will need to approve 3 transactions in order to wrap & stake your assets`, 'info');
