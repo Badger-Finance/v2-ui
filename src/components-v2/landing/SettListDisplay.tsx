@@ -41,7 +41,15 @@ const SettListDisplay = observer((props: SettListViewProps) => {
 			);
 		})
 		.filter(Boolean);
-	return <SettTable title={'All Setts'} tokenTitle={'Tokens'} period={period} settList={settListItems} />;
+	return (
+		<SettTable
+			title={'All Setts'}
+			displayValue={''}
+			tokenTitle={'Tokens'}
+			period={period}
+			settList={settListItems}
+		/>
+	);
 });
 
 export default SettListDisplay;
