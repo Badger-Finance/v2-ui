@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Grid, Button, TextField, Typography } from '@material-ui/core';
+import { Grid, Button, TextField, Typography, InputBase } from '@material-ui/core';
 import { ClassNameMap } from '@material-ui/core/styles/withStyles';
 import { ArrowDownward } from '@material-ui/icons';
 import validate from 'bitcoin-address-validation';
@@ -90,37 +90,37 @@ export const ReleaseForm = ({
 					</Typography>
 				</Grid>
 
-				<Grid item xs={12}>
-					<TextField
-						variant="outlined"
-						size="medium"
-						value={values.burnAmount}
-						disabled={!!connectedAddress === false}
-						placeholder="0.00"
-						onChange={handleChange('burnAmount')}
-						InputProps={{
-							style: {
+				<Grid item container xs={12} className={classes.focusableBorderedContainer}>
+					<Grid item xs={12} sm={5}>
+						<InputBase
+							value={values.burnAmount}
+							disabled={!!connectedAddress === false}
+							placeholder="0.00"
+							onChange={handleChange('burnAmount')}
+							style={{
 								fontSize: '3rem',
 								color: selectedTokenBalance() < parseFloat(values.burnAmount) ? 'red' : 'inherit',
-							},
-							endAdornment: [
-								// eslint-disable-next-line react/jsx-key
-								<Button
-									key="asset-select-btn"
-									size="small"
-									className={classes.btnMax}
-									variant="outlined"
-									onClick={(e) => {
-										setAmount(selectedTokenBalance(), values.token)(e);
-									}}
-								>
-									max
-								</Button>,
-								<div key="asset-select">{assetSelect()}</div>,
-							],
-						}}
-					/>
+								paddingLeft: 8,
+								paddingBottom: 8,
+							}}
+						/>
+					</Grid>
+					<Grid item container spacing={1} xs={12} sm={7} className={classes.releaseInputContainer}>
+						<Grid item>
+							<Button
+								size="small"
+								variant="outlined"
+								onClick={(e) => {
+									setAmount(selectedTokenBalance(), values.token)(e);
+								}}
+							>
+								max
+							</Button>
+						</Grid>
+						<Grid item>{assetSelect()}</Grid>
+					</Grid>
 				</Grid>
+
 				<Grid item xs={12}>
 					<ArrowDownward />
 				</Grid>

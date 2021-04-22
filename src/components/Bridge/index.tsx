@@ -135,6 +135,24 @@ const useStyles = makeStyles((theme) => ({
 		width: '100%',
 		padding: '.5rem 0 0 1rem',
 	},
+	focusableBorderedContainer: {
+		border: '1px solid #5C5C5C',
+		borderRadius: 8,
+		padding: '18.5px 14px',
+		'&:focus-within': {
+			borderColor: theme.palette.primary.main,
+		},
+	},
+	releaseInputContainer: {
+		alignItems: 'center',
+		justifyContent: 'flex-end',
+		[theme.breakpoints.only('xs')]: {
+			justifyContent: 'space-evenly',
+		},
+	},
+	longText: {
+		wordBreak: 'break-all',
+	},
 }));
 export const Bridge = observer(() => {
 	const classes = useStyles();
