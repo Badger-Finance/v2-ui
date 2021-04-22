@@ -3,7 +3,6 @@ import deploy from '../deployments/mainnet.json';
 import bscDeploy from '../deployments/bsc.json';
 import { AbiItem } from 'web3-utils';
 import { TokenNetworkConfig } from 'mobx/model';
-import { zipObject } from '../../utils/lodashToNative';
 
 export const getTokens = (network?: string | null): TokenNetworkConfig => {
 	switch (network) {

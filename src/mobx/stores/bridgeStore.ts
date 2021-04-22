@@ -210,6 +210,7 @@ class BridgeStore {
 			({ newValue, oldValue }: IValueDidChange<RenVMTransaction | null>) => {
 				const { provider, connectedAddress } = this.store.wallet;
 				if (!provider) return;
+				// TODO: Remove this last lodash reference
 				if (_.isEqual(oldValue, newValue)) return;
 				if (newValue === null) return;
 
