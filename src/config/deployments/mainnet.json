@@ -160,7 +160,7 @@
 	},
 	"bridge_system": {
 		"adapter": "0xcB5c2B0FE765069708f17376981C9aFE56Fed339",
-                "curveTokenWrapper": "0x590B58100097D582FD929811176804618B3dd364",
+		"curveTokenWrapper": "0x590B58100097D582FD929811176804618B3dd364",
 		"logic": {
 			"BadgerBridgeAdapter": "0x19f9Fcc017a85d0cab7A45C64606d25e93F3F2D7"
 		}

@@ -38,7 +38,7 @@ export const MintForm = ({
 
 	const {
 		wallet: { connectedAddress },
-        setts: { settMap },
+		setts: { settMap },
 		bridge: {
 			renbtcBalance,
 			wbtcBalance,
@@ -57,7 +57,7 @@ export const MintForm = ({
 
 	const isWBTC = values.token === 'WBTC' || values.token === 'bWBTC';
 
-	const selectedTokenBalance = (token: String): number => {
+	const selectedTokenBalance = (token: string): number => {
 		switch (token) {
 			case 'renBTC':
 				return renbtcBalance;
@@ -76,30 +76,30 @@ export const MintForm = ({
 		}
 	};
 
-    const getAPY = (token: string, settMap: SettMap | null | undefined): number => {
-        if (!settMap) {
-            return 0;
-        }
-        let address: string = '';
-        switch (token) {
-            // TODO: Add yvault APY after launch.
-            case 'bWBTC':
-                break;
-            case 'bCRVrenBTC':
-                address = sett_system.vaults['native.renCrv'];
-                break;
-            case 'bCRVsBTC':
-                address = sett_system.vaults['native.sbtcCrv'];
-                break;
-            case 'bCRVtBTC':
-                address = sett_system.vaults['native.tbtcCrv'];
-                break;
-        }
-        // No APY for non vault tokens.
-        if (!address) return 0;
-        const sett = settMap[address];
-        return sett ? sett.apy : 0;
-    }
+	const getAPY = (token: string, settMap: SettMap | null | undefined): number => {
+		if (!settMap) {
+			return 0;
+		}
+		let address = '';
+		switch (token) {
+			// TODO: Add yvault APY after launch.
+			case 'bWBTC':
+				break;
+			case 'bCRVrenBTC':
+				address = sett_system.vaults['native.renCrv'];
+				break;
+			case 'bCRVsBTC':
+				address = sett_system.vaults['native.sbtcCrv'];
+				break;
+			case 'bCRVtBTC':
+				address = sett_system.vaults['native.tbtcCrv'];
+				break;
+		}
+		// No APY for non vault tokens.
+		if (!address) return 0;
+		const sett = settMap[address];
+		return sett ? sett.apy : 0;
+	};
 
 	return (
 		<>

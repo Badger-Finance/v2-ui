@@ -130,6 +130,7 @@ const useStyles = makeStyles((theme) => ({
 		display: 'flex',
 		justifyContent: 'space-between',
 		flexDirection: 'row',
+		flexWrap: 'wrap',
 		alignItems: 'center',
 		width: '100%',
 		padding: '.5rem 0 0 1rem',
@@ -147,20 +148,19 @@ export const Bridge = observer(() => {
 					<PageHeader title="Badger Bitcoin Bridge." subtitle="Powered by RenVM" />
 				</Grid>
 				<Grid item xs={12} md={7}>
-					<Paper className={classes.statPaper} style={{ padding: '1rem 0' }}>
+					<Paper className={classes.statPaper} style={{ padding: '1rem' }}>
 						<p>
-							RenVM is new technology and{' '}
+							RenVM is new technology that has undergone robust &nbsp;
 							<a
 								className={classes.link}
 								href={'https://github.com/renproject/ren/wiki/Audits'}
 								target={'_blank'}
 								rel={'noreferrer'}
 							>
-								security audits
-							</a>{' '}
-							don&apos;t completely eliminate risks.
+								security audits.
+							</a>
 							<br />
-							Please don&apos;t supply assets you can&apos;t afford to lose.
+							Please follow the user guide to mitigate risk of lost funds due to error.
 						</p>
 					</Paper>
 				</Grid>
