@@ -522,6 +522,11 @@ export interface NotifyLink extends CustomNotificationObject {
 	link: string;
 }
 
+interface SidebarLink {
+	url: string;
+	title: string;
+}
+
 export interface Network {
 	name: string;
 	networkId: number;
@@ -535,10 +540,8 @@ export interface Network {
 	rewards: RewardNetworkConfig | undefined;
 	currency: string;
 	gasEndpoint: string;
-	sidebarTokenLinks: {
-		url: string;
-		title: string;
-	}[];
+	sidebarTokenLinks: SidebarLink[];
+	sidebarPricingLinks: SidebarLink[];
 	settOrder: string[];
 	getGasPrices: () => Promise<GasPrices>;
 	getNotifyLink: EmitterListener;
@@ -566,7 +569,7 @@ export class BscNetwork implements Network {
 		this.deploy.sett_system.vaults['native.pancakeBnbBtcb'],
 		this.deploy.sett_system.vaults['yearn.wBtc'],
 	];
-	public readonly sidebarTokenLinks = [
+	public readonly sidebarTokenLinks: SidebarLink[] = [
 		{
 			url: 'https://pancakeswap.info/pair/0xE1E33459505bB3763843a426F7Fd9933418184ae',
 			title: 'PancakeSwap bDigg/BtcB',
@@ -574,6 +577,24 @@ export class BscNetwork implements Network {
 		{
 			url: 'https://pancakeswap.info/pair/0x10f461ceac7a17f59e249954db0784d42eff5db5',
 			title: 'PancakeSwap bBadger/BtcB',
+		},
+	];
+	public readonly sidebarPricingLinks: SidebarLink[] = [
+		{
+			url: '',
+			title: 'Badger',
+		},
+		{
+			url: '',
+			title: 'Digg',
+		},
+		{
+			url: '',
+			title: 'bBadger',
+		},
+		{
+			url: '',
+			title: 'bDigg',
 		},
 	];
 	public async getGasPrices(): Promise<GasPrices> {
@@ -630,6 +651,24 @@ export class EthNetwork implements Network {
 		{
 			url: 'https://app.sushiswap.fi/pair/0x110492b31c59716ac47337e616804e3e3adc0b4a',
 			title: 'Sushiswap BADGER/wBTC',
+		},
+	];
+	public readonly sidebarPricingLinks: SidebarLink[] = [
+		{
+			url: '',
+			title: 'Badger',
+		},
+		{
+			url: '',
+			title: 'Digg',
+		},
+		{
+			url: '',
+			title: 'bBadger',
+		},
+		{
+			url: '',
+			title: 'bDigg',
 		},
 	];
 	public async getGasPrices(): Promise<GasPrices> {

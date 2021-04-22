@@ -146,7 +146,7 @@ export const Sidebar = observer(() => {
 	};
 
 	const getPricing = () => {
-		return network.sidebarTokenLinks.map((value) => {
+		return network.sidebarPricingLinks.map((value) => {
 			return (
 				<ListItem
 					button
