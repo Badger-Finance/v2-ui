@@ -33,7 +33,6 @@ export const Header = observer(() => {
 
 	const store = useContext(StoreContext);
 	const {
-		router: { goTo },
 		uiState: { openSidebar, notification },
 		wallet: { notify, network },
 	} = store;
