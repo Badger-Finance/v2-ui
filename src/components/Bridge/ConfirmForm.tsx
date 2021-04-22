@@ -3,6 +3,7 @@ import { Grid, Button, Checkbox, Tooltip } from '@material-ui/core';
 import InfoIcon from '@material-ui/icons/Info';
 import { StoreContext } from 'mobx/store-context';
 
+import btcLogo from 'assets/icons/btc.svg';
 import WBTCLogo from 'assets/icons/WBTC.svg';
 import bWBTCLogo from 'assets/icons/bWBTC.svg';
 import renBTCLogo from 'assets/icons/renBTC.svg';
@@ -206,11 +207,11 @@ export const ConfirmForm = ({
 				<div className={classes.itemContainer}>
 					<div>You will receive {isVault ? '(approximately)' : ''}</div>
 					<div className={classes.receiveAmount}>
-						<img src={selectedTokenImage()} className={classes.logo2} />
+						<img src={values.tabValue == 2 ? btcLogo : selectedTokenImage()} className={classes.logo2} />
 
 						<div>
 							<div>{values.receiveAmount.toFixed(8)}</div>
-							<div>{values.token}</div>
+							<div>{values.tabValue == 2 ? 'BTC' : values.token}</div>
 						</div>
 					</div>
 				</div>
