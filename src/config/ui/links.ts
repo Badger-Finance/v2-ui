@@ -3,8 +3,8 @@ export interface SidebarLink {
 	title: string;
 }
 
-export function sidebarTokenLinks(bsc: boolean): SidebarLink[] {
-	if (bsc === true) {
+export function sidebarTokenLinks(bsc: 'bsc' | 'eth'): SidebarLink[] {
+	if (bsc === 'bsc') {
 		return [
 			{
 				url: 'https://pancakeswap.info/pair/0xE1E33459505bB3763843a426F7Fd9933418184ae',

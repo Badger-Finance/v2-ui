@@ -565,7 +565,7 @@ export class BscNetwork implements Network {
 		this.deploy.sett_system.vaults['native.pancakeBnbBtcb'],
 		this.deploy.sett_system.vaults['yearn.wBtc'],
 	];
-	public readonly sidebarTokenLinks: SidebarLink[] = sidebarTokenLinks(true);
+	public readonly sidebarTokenLinks: SidebarLink[] = sidebarTokenLinks('bsc');
 	public readonly sidebarPricingLinks: SidebarLink[] = sidebarPricingLinks;
 	public async getGasPrices(): Promise<GasPrices> {
 		return { standard: 5 };
@@ -609,7 +609,7 @@ export class EthNetwork implements Network {
 		this.deploy.sett_system.vaults['native.tbtcCrv'],
 		this.deploy.sett_system.vaults['harvest.renCrv'],
 	];
-	public readonly sidebarTokenLinks = sidebarTokenLinks(false);
+	public readonly sidebarTokenLinks = sidebarTokenLinks('eth');
 	public readonly sidebarPricingLinks: SidebarLink[] = sidebarPricingLinks;
 	public async getGasPrices(): Promise<GasPrices> {
 		const prices = await fetch('https://www.gasnow.org/api/v3/gas/price?utm_source=badgerv2');
