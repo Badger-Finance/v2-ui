@@ -1,9 +1,7 @@
-import type { UserConfig } from '@commitlint/types';
-
 const defaultCase = 'lowerCase';
 const defaultMaxLength = 100;
 
-const Configuration: UserConfig = {
+const Configuration = {
 	/*
 	 * Any rules defined here will override rules from @commitlint/config-conventional
 	 */
@@ -25,4 +23,4 @@ const Configuration: UserConfig = {
 	},
 };
 
-module.exports = Configuration;
+export default Configuration;
