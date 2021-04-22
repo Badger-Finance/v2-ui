@@ -143,7 +143,7 @@ export const MintForm = ({
 						Balance: {selectedTokenBalance(values.token)}
 					</Typography>
 
-					<div className={classes.row}>
+					<div className={`${classes.row} ${classes.longText}`}>
 						<Typography variant="h1">{values.receiveAmount.toFixed(8) || '0.00'}</Typography>
 						{assetSelect()}
 					</div>
@@ -162,7 +162,7 @@ export const MintForm = ({
 
 			<Grid container spacing={2} alignItems={'center'} style={{ padding: '2rem 0 .5rem' }}>
 				<Grid item xs={12} className={classes.summaryWrapper}>
-					<div className={classes.summaryRow}>
+					<div className={`${classes.summaryRow} ${classes.longText}`}>
 						<Typography variant="subtitle1">Destination: </Typography>
 						<Typography variant="body1">{shortAddr || '0x...'}</Typography>
 					</div>
