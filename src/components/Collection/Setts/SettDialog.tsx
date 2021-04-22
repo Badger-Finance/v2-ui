@@ -34,6 +34,7 @@ const SettDialog = (props: SettDialogProps): JSX.Element => {
 	const { open, sett } = dialogProps;
 	let { vault } = dialogProps;
 	const store = useContext(StoreContext);
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const { network, connectedAddress } = store.wallet;
 	const { contracts } = store;
 	const classes = useStyles();
