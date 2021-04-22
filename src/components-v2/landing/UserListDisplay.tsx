@@ -108,7 +108,8 @@ const UserListDisplay = observer((props: SettListViewProps) => {
 		<>
 			{displayWallet && (
 				<SettTable
-					title={`Your Wallet - ${walletBalance}`}
+					title={'Your Wallet -'}
+					displayValue={walletBalance}
 					tokenTitle={'Available'}
 					period={period}
 					settList={walletListItems}
@@ -116,7 +117,8 @@ const UserListDisplay = observer((props: SettListViewProps) => {
 			)}
 			{displayDeposit && (
 				<SettTable
-					title={`Your Vault Deposits - ${depositBalance}`}
+					title={'Your Vault Deposits -'}
+					displayValue={depositBalance}
 					tokenTitle={'Available'}
 					period={period}
 					settList={depositListItems}
@@ -124,7 +126,8 @@ const UserListDisplay = observer((props: SettListViewProps) => {
 			)}
 			{displayVault && (
 				<SettTable
-					title={`Your Staked Amounts - ${vaultBalance}`}
+					title={'Your Staked Amounts -'}
+					displayValue={vaultBalance}
 					tokenTitle={'Available'}
 					period={period}
 					settList={vaultListItems}

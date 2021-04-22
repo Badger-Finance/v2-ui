@@ -258,12 +258,12 @@ export function formatBalanceValue(vault: Vault, currency: string): string {
 			.multipliedBy(diggMultiplier)
 			.dividedBy(10 ** vault.decimals),
 		currency,
-		true,
+		currency != 'eth',
 	);
 }
 
 export function formatTokenBalanceValue(token: Token, currency: string): string {
-	return inCurrency(token.balanceValue().dividedBy(1e18), currency, true);
+	return inCurrency(token.balanceValue().dividedBy(1e18), currency, currency != 'eth');
 }
 
 export function formatGeyserBalanceValue(geyser: Geyser, currency: string): string {
@@ -273,7 +273,7 @@ export function formatGeyserBalanceValue(geyser: Geyser, currency: string): stri
 			.plus(geyser.vault.balanceValue())
 			.dividedBy(10 ** geyser.vault.decimals),
 		currency,
-		true,
+		currency != 'eth',
 	);
 }
 
@@ -282,7 +282,7 @@ export function formatVaultBalanceValue(vault: Vault, currency: string): string 
 }
 
 export function formatPrice(price: BigNumber, currency: string): string {
-	return inCurrency(price.dividedBy(1e18), currency, true);
+	return inCurrency(price.dividedBy(1e18), currency, currency != 'eth');
 }
 
 export function formatNumber(price: BigNumber, currency: string): string {
