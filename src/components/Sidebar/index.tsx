@@ -145,6 +145,21 @@ export const Sidebar = observer(() => {
 		});
 	};
 
+	const getPricing = () => {
+		return network.sidebarTokenLinks.map((value) => {
+			return (
+				<ListItem
+					button
+					key={value.title}
+					className={classes.secondarySubListItem}
+					onClick={() => window.open(value.url)}
+				>
+					{value.title}
+				</ListItem>
+			);
+		});
+	};
+
 	return (
 		<Drawer
 			variant={window.innerWidth > 960 ? 'persistent' : 'temporary'}
@@ -392,6 +407,25 @@ export const Sidebar = observer(() => {
 
 					<Collapse in={expanded === 'tokens'} timeout="auto" unmountOnExit>
 						{getTokens()}
+					</Collapse>
+
+					<ListItem
+						button
+						className={classes.secondaryListItem}
+						onClick={() => setExpanded(expanded === 'pricing' ? '' : 'pricing')}
+					>
+						Pricing
+						<IconButton
+							size="small"
+							className={classes.expand + ' ' + (expanded === 'pricing' ? classes.expandOpen : '')}
+							aria-label="show more"
+						>
+							<ExpandMore />
+						</IconButton>
+					</ListItem>
+
+					<Collapse in={expanded === 'pricing'} timeout="auto" unmountOnExit>
+						{getPricing()}
 					</Collapse>
 
 					<ListItem
