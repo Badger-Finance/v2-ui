@@ -21,15 +21,6 @@ const useStyles = makeStyles((theme) => ({
 		alignItems: 'center',
 		flexDirection: 'column',
 	},
-	bnbIcon: {
-		marginRight: theme.spacing(1),
-		width: 20,
-		height: 20,
-	},
-	valueContainer: {
-		justifyContent: 'center',
-		alignItems: 'center',
-	},
 }));
 
 const CurrencyInfoCard: React.FC<CurrencyInfoCardProps> = (props: CurrencyInfoCardProps) => {
