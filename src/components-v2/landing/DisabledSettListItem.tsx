@@ -1,12 +1,9 @@
 import { ListItem, makeStyles, Typography, Grid, Tooltip, IconButton } from '@material-ui/core';
 import { BigNumber } from 'bignumber.js';
 import { Sett, TokenBalance } from 'mobx/model';
-import { observer } from 'mobx-react-lite';
 import { numberWithCommas, usdToCurrency } from 'mobx/utils/helpers';
-import React, { useContext } from 'react';
+import React from 'react';
 import { UnfoldMoreTwoTone } from '@material-ui/icons';
-import { StoreContext } from 'mobx/store-context';
-import DisabledSettListItem from './DisabledSettListItem';
 import SettBadge from './SettBadge';
 
 const useStyles = makeStyles((theme) => ({
@@ -64,80 +61,28 @@ const useStyles = makeStyles((theme) => ({
 			borderBottom: 0,
 		},
 	},
-	bnbIcon: {
-		width: 20,
-		height: 20,
-		marginRight: theme.spacing(1),
-	},
-	currencyIcon: {
-		width: 20,
-		height: 20,
-		marginRight: theme.spacing(1),
-	},
 }));
 
-interface SettListItemProps {
+interface DisabledSettListItemProps {
+	apy: number;
+	tooltip: JSX.Element;
+	displayName: string;
 	sett: Sett;
 	balance?: string;
 	balanceValue?: string;
 	currency: string;
-	period: string;
+	disabledTooltip: string;
 	onOpen: () => void;
 }
 
-interface RoiData {
-	apy: number;
-	tooltip: JSX.Element;
-}
+const DisabledSettListItem = (props: DisabledSettListItemProps): JSX.Element => {
+	const classes = useStyles();
 
-const SettListItem = observer(
-	(props: SettListItemProps): JSX.Element => {
-		const classes = useStyles();
+	const { apy, tooltip, displayName, sett, balance, balanceValue, currency, disabledTooltip, onOpen } = props;
 
-		const { sett, balance, balanceValue, currency, period, onOpen } = props;
-		const displayName = sett.name.split(' ').length > 1 ? sett.name.split(' ').slice(1).join(' ') : sett.name;
-		const store = useContext(StoreContext);
-		const { user } = store;
-		const { network } = store.wallet;
-
-		const getRoi = (sett: Sett, period: string): RoiData => {
-			const getToolTip = (sett: Sett, divisor: number): JSX.Element => {
-				return (
-					<>
-						{sett.sources.map((source) => {
-							const apr = `${(source.apy / divisor).toFixed(2)}% ${source.name}`;
-							return <div key={source.name}>{apr}</div>;
-						})}
-					</>
-				);
-			};
-			if (sett && sett.apy) {
-				if (period === 'month') {
-					return { apy: sett.apy / 12, tooltip: getToolTip(sett, 12) };
-				} else {
-					return { apy: sett.apy, tooltip: getToolTip(sett, 1) };
-				}
-			} else {
-				return { apy: 0, tooltip: <></> };
-			}
-		};
-		const { apy, tooltip } = getRoi(sett, period);
-		return network.isWhitelisted[sett.vaultToken] && !user.viewSettShop() ? (
-			<DisabledSettListItem
-				apy={apy}
-				tooltip={tooltip}
-				displayName={displayName}
-				sett={sett}
-				balance={balance}
-				balanceValue={balanceValue}
-				currency={currency}
-				onOpen={() => {
-					return;
-				}}
-				disabledTooltip={'Your address is not included in the whitelist for this vault.'}
-			/>
-		) : (
-			<ListItem className={classes.listItem} onClick={() => onOpen()}>
+	return (
+		<Tooltip enterDelay={0} leaveDelay={300} arrow placement="top" title={disabledTooltip} onClick={() => onOpen()}>
+			<ListItem disabled className={classes.listItem}>
 				<Grid container className={classes.border}>
 					<Grid item xs={12} md={4} className={classes.name} container>
 						<Grid item>
@@ -229,8 +174,8 @@ const SettListItem = observer(
 					</Grid>
 				</Grid>
 			</ListItem>
-		);
-	},
-);
+		</Tooltip>
+	);
+};
 
-export default SettListItem;
+export default DisabledSettListItem;

@@ -23,7 +23,8 @@
 		"vaults": {
 			"native.pancakeBnbBtcb": "0xaf4B9C4b545D5324904bAa15e29796D2E2f90813",
 			"native.bBadgerBtcb": "0x857F91f735f4B03b19D2b5c6E476C73DB8241F55",
-			"native.bDiggBtcb": "0xa861Ba302674b08f7F2F24381b705870521DDfed"
+			"native.bDiggBtcb": "0xa861Ba302674b08f7F2F24381b705870521DDfed",
+			"yearn.wBtc": "0xB6bd5ae3d5F78A6Bb04bBb031E24fA9C2BbD090d"
 		},
 		"strategies": {
 			"native.pancakeBnbBtcb": "0x120BB9F87bAB3C49b89c7745eDC07FED50786534",
@@ -37,5 +38,11 @@
 		},
 		"rewards": {}
 	},
-	"geysers": {}
+	"geysers": {},
+	"test": {
+		"assets": {
+			"yearn.test": "0xEd2a8Ab49DcbCb8C27650cC8D5229Cefcad52e2a"
+		},
+		"vaults": {}
+	}
 }
