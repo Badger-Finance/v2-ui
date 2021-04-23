@@ -1,6 +1,5 @@
 import firebase from 'firebase';
 import BigNumber from 'bignumber.js';
-import _ from 'lodash';
 import { AbiItem } from 'web3-utils';
 import Web3 from 'web3';
 import { LockAndMintParamsSimple, BurnAndReleaseParamsSimple } from '@renproject/interfaces';
@@ -343,7 +342,7 @@ export type TokenAddressess = {
 };
 
 export type ReducedContractConfig = {
-	defaults: _.Dictionary<any>;
+	defaults: Record<any, any>;
 	batchCall: {
 		namespace: string;
 		addresses: string[];

@@ -24,7 +24,6 @@
 		"d3-time-format": "^3.0.0",
 		"director": "1.2.8",
 		"firebase": "^8.2.3",
-		"lodash": "^4.17.20",
 		"mobx": "^5.15.4",
 		"mobx-react-lite": "^2.0.6",
 		"mobx-router": "^0.2.11",

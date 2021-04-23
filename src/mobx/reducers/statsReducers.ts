@@ -1,5 +1,4 @@
 import BigNumber from 'bignumber.js';
-import _ from 'lodash';
 import { RootStore } from 'mobx/store';
 import Web3 from 'web3';
 import { inCurrency, formatTokens } from 'mobx/utils/helpers';
@@ -20,6 +19,7 @@ import {
 	Network,
 } from '../model';
 import { ZERO_CURRENCY } from 'config/constants';
+import { defaults, forIn } from '../../utils/lodashToNative';
 
 export const reduceTimeSinceLastCycle = (time: string): string => {
 	const timestamp = parseFloat(time) * 1000;
@@ -116,7 +116,7 @@ function calculatePortfolioStats(vaultContracts: any, geyserContracts: any, toke
 	let portfolio = new BigNumber(0);
 	const liqGrowth = new BigNumber(0);
 
-	_.forIn(vaultContracts, (vault: Vault) => {
+	forIn(vaultContracts, (vault: Vault) => {
 		if (!vault.underlyingToken || !vault.underlyingToken.ethValue) return;
 		if (!vault.holdingsValue().isNaN()) tvl = tvl.plus(vault.holdingsValue());
 		if (vault.balance.gt(0) && !vault.balanceValue().isNaN()) {
@@ -132,7 +132,7 @@ function calculatePortfolioStats(vaultContracts: any, geyserContracts: any, toke
 		}
 	});
 
-	_.forIn(geyserContracts, (geyser: Geyser) => {
+	forIn(geyserContracts, (geyser: Geyser) => {
 		if (!geyser.vault) return;
 
 		if (!geyser.vault.underlyingToken) return;
@@ -173,7 +173,7 @@ export function reduceRebase(stats: TokenRebaseStats, base: Token): any {
 		oraclePrice: base.ethValue.multipliedBy(stats.oracleRate),
 		btcPrice: base.ethValue,
 	};
-	return _.defaults(stats, info);
+	return defaults(stats, info);
 }
 
 export function formatSupply(token: Token): string {
@@ -300,7 +300,7 @@ export function formatAmount(amount: Amount, isVault = false): string {
 export function formatGeyserGrowth(geyser: Geyser, period: string): FormattedGeyserGrowth {
 	let total = new BigNumber(0);
 	let tooltip = '';
-	_.map(geyser.rewards, (growth: Growth) => {
+	geyser.rewards.map((growth: Growth) => {
 		const rewards = (growth as any)[period];
 
 		if (!!rewards.amount && !rewards.amount.isNaN() && rewards.amount.gt(0)) {

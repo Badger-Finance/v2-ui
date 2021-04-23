@@ -17,12 +17,12 @@ import {
 import PageHeader from '../components-v2/common/PageHeader';
 import { CLAIMS_SYMBOLS, NETWORK_CONSTANTS, NETWORK_LIST } from 'config/constants';
 import { inCurrency } from '../mobx/utils/helpers';
-import _ from 'lodash';
 import { StoreContext } from '../mobx/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
 import BigNumber from 'bignumber.js';
 import SettList from 'components-v2/landing/SettList';
+import { compact } from '../utils/lodashToNative';
 
 const useStyles = makeStyles((theme) => ({
 	landingContainer: {
@@ -116,7 +116,7 @@ const Landing = observer(() => {
 	const badgerPrice = network.deploy ? setts.getPrice(network.deploy.token) : undefined;
 	const badgerPriceDisplay = badgerPrice ? new BigNumber(badgerPrice) : undefined;
 	const portfolioValue = userConnected ? stats.stats.portfolio : undefined;
-	const rewards = _.compact(availableRewards());
+	const rewards = compact(availableRewards());
 
 	return (
 		<Container className={classes.landingContainer}>

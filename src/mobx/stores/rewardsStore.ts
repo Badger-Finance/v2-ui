@@ -5,12 +5,12 @@ import { Contract } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
 import { estimateAndSend } from '../utils/web3';
 import { RootStore } from '../store';
-import _ from 'lodash';
 import { jsonQuery } from '../utils/helpers';
 import { reduceClaims, reduceTimeSinceLastCycle } from '../reducers/statsReducers';
 import { abi as rewardsAbi } from '../../config/system/abis/BadgerTree.json';
 import { abi as diggAbi } from '../../config/system/abis/UFragments.json';
-import { badgerTree, digg_system } from '../../config/deployments/mainnet.json';
+import { badgerTree, digg_system } from '../../config/deployments/mainnet.json'; // eslint-disable-line
+import { defaults } from '../../utils/lodashToNative';
 
 class RewardsStore {
 	private store!: RootStore;
@@ -53,12 +53,7 @@ class RewardsStore {
 
 		Promise.all(treeMethods)
 			.then((rewardsResponse: any) => {
-				this.badgerTree = _.defaults(
-					{
-						timeSinceLastCycle: reduceTimeSinceLastCycle(rewardsResponse[0]),
-					},
-					this.badgerTree,
-				);
+				this.badgerTree.timeSinceLastCycle = reduceTimeSinceLastCycle(rewardsResponse[0]);
 				if (network.rewards) {
 					const endpointQuery = jsonQuery(`${network.rewards.endpoint}/${checksumAddress}`);
 					if (!endpointQuery) {
@@ -78,7 +73,7 @@ class RewardsStore {
 							])
 								.then((result: any[]) => {
 									if (!proof.error) {
-										this.badgerTree = _.defaults(
+										this.badgerTree = defaults(
 											{
 												cycle: parseInt(proof.cycle, 16),
 												claims: reduceClaims(proof, result[0][0], result[0][1]),
