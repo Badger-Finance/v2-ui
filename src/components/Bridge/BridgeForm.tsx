@@ -24,6 +24,9 @@ import { NETWORK_LIST, CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS, FLAGS } from 'con
 import { bridge_system, tokens, sett_system } from 'config/deployments/mainnet.json';
 import { CURVE_EXCHANGE } from 'config/system/abis/CurveExchange';
 
+const DECIMALS = 10 ** 8;
+const SETT_DECIMALS = 10 ** 18;
+
 type TabPanelProps = PropsWithChildren<{
 	index: number;
 	value: number;
@@ -235,6 +238,20 @@ export const BridgeForm = observer(({ classes }: any) => {
 		}
 	};
 
+	const decimals = () => {
+		switch (token) {
+			case 'bCRVrenBTC':
+			case 'bCRVsBTC':
+			case 'bCRVtBTC':
+				return SETT_DECIMALS;
+			case 'renBTC':
+			case 'WBTC':
+			case 'bWBTC':
+			default:
+				return DECIMALS;
+		}
+	};
+
 	useEffect(() => {
 		// Reset to original state if we're disconnected in middle
 		// of transaction.
@@ -296,7 +313,8 @@ export const BridgeForm = observer(({ classes }: any) => {
 
 	const approveAndWithdraw = async () => {
 		const methodSeries: any = [];
-		const amountSats = new BigNumber(burnAmount as any).multipliedBy(10 ** 8); // Convert to Satoshis
+		// Burn token decimals vary based on token/sett (e.g. most setts are 18 decimals whereas btc variants are 8 decimals)
+		const amountOut = new BigNumber(burnAmount as any).multipliedBy(decimals());
 		let burnToken = tokens.renBTC;
 		let maxSlippageBps = 0;
 
@@ -331,14 +349,14 @@ export const BridgeForm = observer(({ classes }: any) => {
 			{
 				name: '_amount',
 				type: 'uint256',
-				value: amountSats.toString(),
+				value: amountOut.toString(),
 			},
 		];
 
 		const tokenParam = {
 			address: tokenAddress(),
 			symbol: token,
-			totalSupply: amountSats,
+			totalSupply: amountOut,
 		};
 
 		const allowance: number = await new Promise((resolve, reject) => {
@@ -347,7 +365,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 				resolve(result);
 			});
 		});
-		if (amountSats.toNumber() > allowance) {
+		if (amountOut.toNumber() > allowance) {
 			methodSeries.push((callback: (...params: unknown[]) => unknown) =>
 				increaseAllowance(tokenParam, bridge_system['adapter'], callback),
 			);
