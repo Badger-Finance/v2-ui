@@ -9,7 +9,8 @@ import { jsonQuery } from '../utils/helpers';
 import { reduceClaims, reduceTimeSinceLastCycle } from '../reducers/statsReducers';
 import { abi as rewardsAbi } from '../../config/system/abis/BadgerTree.json';
 import { abi as diggAbi } from '../../config/system/abis/UFragments.json';
-import { badgerTree, digg_system } from '../../config/deployments/mainnet.json';
+import { badgerTree, digg_system } from '../../config/deployments/mainnet.json'; // eslint-disable-line
+import { defaults } from '../../utils/lodashToNative';
 
 class RewardsStore {
 	private store!: RootStore;
