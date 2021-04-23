@@ -125,7 +125,7 @@ export const Sidebar = observer(() => {
 		router: { goTo },
 		uiState: { sidebarOpen, closeSidebar },
 		rewards: { badgerTree },
-		wallet: { network },
+		wallet: { network, connectedAddress },
 	} = store;
 
 	const [expanded, setExpanded] = useState('');
@@ -184,10 +184,7 @@ export const Sidebar = observer(() => {
 						</ListItem>
 					)}
 					<Collapse in={expanded === 'advanced'} timeout="auto" unmountOnExit>
-						<ListItem key="network">
-							<ListItemText primary="Current Network" secondary={network.fullName} />
-						</ListItem>
-						{network.name === NETWORK_LIST.ETH && badgerTree && (
+						{network.name === NETWORK_LIST.ETH && badgerTree && connectedAddress ? (
 							<ListItem key="rewards">
 								<ListItemText
 									primary={`Cycle Count: ${badgerTree.cycle}`}
@@ -196,6 +193,10 @@ export const Sidebar = observer(() => {
 										badgerTree.timeSinceLastCycle + ' since last cycle'
 									}
 								/>
+							</ListItem>
+						) : (
+							<ListItem key="rewards">
+								<ListItemText secondary={'Connect address to see cycle information'} />
 							</ListItem>
 						)}
 					</Collapse>

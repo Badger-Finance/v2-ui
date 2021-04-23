@@ -39,13 +39,15 @@ export const GeyserUnstake = observer((props: any) => {
 
 	const setAmount = (percent: number) => {
 		// (document.getElementById(TEXTFIELD_ID)! as HTMLInputElement).value = uiStats.availableFull[percent];
-		setValue(
-			'amount',
-			vault.geyser.balance
-				.dividedBy(10 ** parseInt(vault.decimals))
-				.multipliedBy(percent / 100)
-				.toFixed(parseInt(vault.decimals), BigNumber.ROUND_HALF_FLOOR),
-		);
+		vault.geyser
+			? setValue(
+					'amount',
+					vault.geyser.balance
+						.dividedBy(10 ** parseInt(vault.decimals))
+						.multipliedBy(percent / 100)
+						.toFixed(parseInt(vault.decimals), BigNumber.ROUND_HALF_FLOOR),
+			  )
+			: setValue('amount', new BigNumber(0));
 	};
 
 	const onSubmit = (params: any) => {
@@ -57,7 +59,7 @@ export const GeyserUnstake = observer((props: any) => {
 		return <Loader />;
 	}
 
-	const canUnstake = !!connectedAddress && vault && vault.geyser.balance.gt(0);
+	const canUnstake = !!connectedAddress && vault && vault.geyser && vault.geyser.balance.gt(0);
 
 	const renderAmounts = (
 		<ButtonGroup size="small" className={classes.button} disabled={!connectedAddress}>

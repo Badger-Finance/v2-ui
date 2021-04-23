@@ -29,7 +29,7 @@ export const NETWORK_CONSTANTS: NetworkConstants = {
 		TOKENS: {
 			WBTC_ADDRESS: '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599',
 			WBTC_ADDRESS_LOWER: '0x2260fac5e5542a773aa44fbcfedf7c193bc2c599',
-			XSUSHI_ADDRESS: '0x8798249c2e607446efb7ad49ec89dd1865ff4272',
+			XSUSHI_ADDRESS: '0x8798249c2E607446EfB7Ad49eC89dD1865Ff4272',
 			FARM_ADDRESS: '0xa0246c9032bC3A600820415aE600c6388619A14D',
 			USDC_ADDRESS: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
 			RENBTC_ADDRESS: '0xEB4C2781e4ebA804CE9a9803C67d0893436bB27D',
@@ -72,7 +72,7 @@ export const APP_NAME = 'badgerDAO';
 export const PORTIS_APP_ID = 'cbf7534d-170d-4903-943f-e607dc588b7f';
 export const EMPTY_DATA = '0x';
 export const ZERO_CURRENCY = '0.00000';
-export const SITE_VERSION = 'v2.5.1';
+export const SITE_VERSION = 'v2.5.2';
 export const WC_BRIDGE = 'https://wc-bridge.badger.finance/';
 const toBool = (val: string | undefined): boolean => (val ? val === 'true' : false);
 export const FLAGS = {

@@ -64,17 +64,24 @@ class RewardsStore {
 								return;
 							}
 							Promise.all([
-								rewardsTree.methods.getClaimedFor(connectedAddress, network.rewards.tokens).call(),
+								rewardsTree.methods.getClaimedFor(connectedAddress, proof.tokens).call(),
 								diggToken.methods._sharesPerFragment().call(),
+								rewardsTree.methods
+									.getClaimableFor(connectedAddress, proof.tokens, proof.cumulativeAmounts)
+									.call(),
 							])
 								.then((result: any[]) => {
 									if (!proof.error) {
-										this.badgerTree.cycle = parseInt(proof.cycle, 16) ?? this.badgerTree.cycle;
-										this.badgerTree.claims =
-											reduceClaims(proof, result[0][0], result[0][1]) ?? this.badgerTree.claims;
-										this.badgerTree.sharesPerFragment =
-											result[1] ?? this.badgerTree.sharesPerFragment;
-										this.badgerTree.proof = proof ?? this.badgerTree.proof;
+										this.badgerTree = defaults(
+											{
+												cycle: parseInt(proof.cycle, 16),
+												claims: reduceClaims(proof, result[0][0], result[0][1]),
+												sharesPerFragment: result[1],
+												proof,
+												claimableAmounts: result[2][1],
+											},
+											this.badgerTree,
+										);
 									}
 								})
 								.catch((err) => console.log(err));
@@ -86,11 +93,14 @@ class RewardsStore {
 	});
 
 	claimGeysers = action((stake = false) => {
-		const { proof } = this.badgerTree;
+		const { proof, claimableAmounts } = this.badgerTree;
 		const { provider, gasPrices, connectedAddress } = this.store.wallet;
 		const { queueNotification, gasPrice, setTxStatus } = this.store.uiState;
 
-		if (!connectedAddress) return;
+		if (!connectedAddress || !proof || !claimableAmounts) {
+			queueNotification(`Error retrieving merkle proof.`, 'error');
+			return;
+		}
 
 		const web3 = new Web3(provider);
 		const rewardsTree = new web3.eth.Contract(rewardsAbi as AbiItem[], badgerTree);
@@ -100,6 +110,7 @@ class RewardsStore {
 			proof.index,
 			proof.cycle,
 			proof.proof,
+			claimableAmounts,
 		);
 
 		queueNotification(`Sign the transaction to claim your earnings`, 'info');

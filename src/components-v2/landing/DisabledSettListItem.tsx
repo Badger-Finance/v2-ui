@@ -5,6 +5,7 @@ import { numberWithCommas, usdToCurrency } from 'mobx/utils/helpers';
 import React from 'react';
 import { UnfoldMoreTwoTone } from '@material-ui/icons';
 import SettBadge from './SettBadge';
+import CurrencyDisplay from '../common/CurrencyDisplay';
 
 const useStyles = makeStyles((theme) => ({
 	border: {
@@ -79,6 +80,8 @@ const DisabledSettListItem = (props: DisabledSettListItemProps): JSX.Element => 
 	const classes = useStyles();
 
 	const { apy, tooltip, displayName, sett, balance, balanceValue, currency, disabledTooltip, onOpen } = props;
+
+	const displayValue = balanceValue ? balanceValue : usdToCurrency(new BigNumber(sett.value), currency);
 
 	return (
 		<Tooltip enterDelay={0} leaveDelay={300} arrow placement="top" title={disabledTooltip} onClick={() => onOpen()}>
@@ -164,7 +167,7 @@ const DisabledSettListItem = (props: DisabledSettListItemProps): JSX.Element => 
 					</Grid>
 					<Grid item xs={6} md={2}>
 						<Typography variant="body1" color={'textPrimary'}>
-							{balanceValue ? balanceValue : usdToCurrency(new BigNumber(sett.value), currency)}
+							<CurrencyDisplay displayValue={displayValue} variant="body1" justify="flex-start" />
 						</Typography>
 					</Grid>
 					<Grid item xs={12} md={2} style={{ textAlign: 'right' }}>
