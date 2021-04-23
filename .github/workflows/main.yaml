@@ -14,7 +14,7 @@ jobs:
         with:
           node-version: '15.x'
       - name: Run Commit Lint
-        uses: wagoid/commitlint-github-action@v2
+        uses: wagoid/commitlint-github-action@v3
       - name: Install Dependencies
         run: yarn install --frozen-lockfile
       - name: Run Code Linter
