@@ -1,23 +1,22 @@
-import firebase from 'firebase';
-import BigNumber from 'bignumber.js';
-import _ from 'lodash';
 import { AbiItem } from 'web3-utils';
+import BigNumber from 'bignumber.js';
 import Web3 from 'web3';
+import _ from 'lodash';
+import firebase from 'firebase';
+import { CustomNotificationObject, EmitterListener, TransactionData } from 'bnc-notify';
 import { LockAndMintParamsSimple, BurnAndReleaseParamsSimple } from '@renproject/interfaces';
 
-import { reduceGeyserSchedule } from './reducers/contractReducers';
 import { RootStore } from './store';
+import { getAirdrops } from 'config/system/airdrops';
+import { getGeysers } from '../config/system/geysers';
 import { getNetworkDeploy } from '../mobx/utils/web3';
+import { getRebase } from '../config/system/rebase';
+import { getRewards } from 'config/system/rewards';
+import { SidebarLink, sidebarPricingLinks, sidebarTokenLinks } from 'config/ui/links';
+import { NETWORK_IDS, NETWORK_LIST, ZERO, TEN } from 'config/constants';
 import { getTokens } from '../config/system/tokens';
 import { getVaults } from '../config/system/vaults';
-import { getGeysers } from '../config/system/geysers';
-import { getRebase } from '../config/system/rebase';
-import { getAirdrops } from 'config/system/airdrops';
-import { NETWORK_IDS, NETWORK_LIST } from 'config/constants';
-import { getRewards } from 'config/system/rewards';
-import { ZERO, TEN } from 'config/constants';
-import { CustomNotificationObject, EmitterListener, TransactionData } from 'bnc-notify';
-import { SidebarLink, sidebarPricingLinks, sidebarTokenLinks } from 'config/ui/links';
+import { reduceGeyserSchedule } from './reducers/contractReducers';
 
 export class Contract {
 	store!: RootStore;
@@ -500,9 +499,6 @@ export type NetworkConstants = {
 	[index: string]: {
 		APP_URL: string;
 		RPC_URL: string;
-		TOKENS: {
-			[index: string]: string;
-		};
 		START_BLOCK: number;
 		START_TIME: Date;
 		DEPLOY: DeployConfig | undefined;

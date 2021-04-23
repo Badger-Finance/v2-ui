@@ -20,13 +20,12 @@ import {
 	ERC20,
 	// config
 	NETWORK_LIST,
-	NETWORK_CONSTANTS,
 	RENVM_GATEWAY_ADDRESS,
 	FLAGS,
 } from 'config/constants';
 import { BADGER_ADAPTER } from 'config/system/abis/BadgerAdapter';
 import { BTC_GATEWAY } from 'config/system/abis/BtcGateway';
-import { bridge_system } from 'config/deployments/mainnet.json';
+import { bridge_system, tokens, sett_system } from 'config/deployments/mainnet.json';
 import { shortenAddress } from 'utils/componentHelpers';
 
 export enum Status {
@@ -38,7 +37,10 @@ export enum Status {
 	PROCESSING,
 }
 
+// BTC variants is 8 decimals.
 const DECIMALS = 10 ** 8;
+// Sett tokens are (mostly) 18 decimals.
+const SETT_DECIMALS = 10 ** 18;
 const MAX_BPS = 10000;
 const UPDATE_INTERVAL_SECONDS = 30 * 1000; // 30 seconds
 
@@ -80,8 +82,14 @@ class BridgeStore {
 	private db!: firebase.firestore.Firestore;
 	private gjs!: GatewayJS;
 	private adapter!: Contract;
+
 	private renbtc!: Contract;
 	private wbtc!: Contract;
+	private bwbtc!: Contract;
+	private bCRVrenBTC!: Contract;
+	private bCRVsBTC!: Contract;
+	private bCRVtBTC!: Contract;
+
 	private gateway!: Contract;
 	// Update data like user balances on a timer.
 	private updateTimer!: ReturnType<typeof setTimeout>;
@@ -95,6 +103,10 @@ class BridgeStore {
 
 	public renbtcBalance!: number;
 	public wbtcBalance!: number;
+	public bwbtcBalance!: number;
+	public bCRVrenBTCBalance!: number;
+	public bCRVsBTCBalance!: number;
+	public bCRVtBTCBalance!: number;
 
 	public shortAddr!: string;
 
@@ -149,18 +161,23 @@ class BridgeStore {
 			this.adapter = new web3.eth.Contract(BADGER_ADAPTER, bridge_system['adapter']);
 			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 			// @ts-ignore
-			this.renbtc = new web3.eth.Contract(
-				ERC20.abi as AbiItem[],
-				NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.RENBTC_ADDRESS,
-			);
+			this.renbtc = new web3.eth.Contract(ERC20.abi as AbiItem[], tokens.renBTC);
 			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 			// @ts-ignore
-			this.wbtc = new web3.eth.Contract(
-				ERC20.abi as AbiItem[],
-				NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.WBTC_ADDRESS,
-			);
+			this.wbtc = new web3.eth.Contract(ERC20.abi as AbiItem[], tokens.wBTC);
 			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 			// @ts-ignore
+			this.bwbtc = new web3.eth.Contract(ERC20.abi as AbiItem[], sett_system.vaults['yearn.wBtc']);
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+			// @ts-ignore
+			this.bCRVrenBTC = new web3.eth.Contract(ERC20.abi as AbiItem[], sett_system.vaults['native.renCrv']);
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+			// @ts-ignore
+			this.bCRVsBTC = new web3.eth.Contract(ERC20.abi as AbiItem[], sett_system.vaults['native.sbtcCrv']);
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+			// @ts-ignore
+			this.bCRVtBTC = new web3.eth.Contract(ERC20.abi as AbiItem[], sett_system.vaults['native.tbtcCrv']);
+
 			this.gateway = new web3.eth.Contract(BTC_GATEWAY, RENVM_GATEWAY_ADDRESS);
 			Promise.all([this._getFees(), this._getBTCNetworkFees()]);
 			return;
@@ -430,75 +447,95 @@ class BridgeStore {
 		}
 	});
 
-	_getFees = action(async () => {
-		const { queueNotification } = this.store.uiState;
-		try {
-			await retry(async () => {
-				// NB: Only ETH supported for now. Check here since network could have
-				// gotten set at any point from init to now and this fails loudly if
-				// on the wrong network.
-				if (this.network.name !== NETWORK_LIST.ETH) return;
-				const [badgerBurnFee, badgerMintFee, renvmBurnFee, renvmMintFee] = (
-					await Promise.all([
-						this.adapter.methods.burnFeeBps().call(),
-						this.adapter.methods.mintFeeBps().call(),
-						this.gateway.methods.burnFee().call(),
-						this.gateway.methods.mintFee().call(),
-					])
-				).map((result: number) => result / MAX_BPS);
-				this.badgerMintFee = badgerMintFee;
-				this.badgerBurnFee = badgerBurnFee;
-				this.renvmBurnFee = renvmBurnFee;
-				this.renvmMintFee = renvmMintFee;
-			}, defaultRetryOptions);
-		} catch (err) {
-			queueNotification(`Failed to fetch fees: ${err.message}`, 'error');
-		}
-	});
+	_getFees = action(
+		async (): Promise<void> => {
+			const { queueNotification } = this.store.uiState;
+			try {
+				await retry(async () => {
+					// NB: Only ETH supported for now. Check here since network could have
+					// gotten set at any point from init to now and this fails loudly if
+					// on the wrong network.
+					if (this.network.name !== NETWORK_LIST.ETH) return;
+					const [badgerBurnFee, badgerMintFee, renvmBurnFee, renvmMintFee] = (
+						await Promise.all([
+							this.adapter.methods.burnFeeBps().call(),
+							this.adapter.methods.mintFeeBps().call(),
+							this.gateway.methods.burnFee().call(),
+							this.gateway.methods.mintFee().call(),
+						])
+					).map((result: number) => result / MAX_BPS);
+					this.badgerMintFee = badgerMintFee;
+					this.badgerBurnFee = badgerBurnFee;
+					this.renvmBurnFee = renvmBurnFee;
+					this.renvmMintFee = renvmMintFee;
+				}, defaultRetryOptions);
+			} catch (err) {
+				queueNotification(`Failed to fetch fees: ${err.message}`, 'error');
+			}
+		},
+	);
 
 	_getBalances = action(async (userAddr: string) => {
 		const { queueNotification } = this.store.uiState;
 		try {
 			await retry(async () => {
-				const [renbtcBalance, wbtcBalance] = await Promise.all([
+				const [
+					renbtcBalance,
+					wbtcBalance,
+					bwbtcBalance,
+					bCRVrenBTCBalance,
+					bCRVsBTCBalance,
+					bCRVtBTCBalance,
+				] = await Promise.all([
 					this.renbtc.methods.balanceOf(userAddr).call(),
 					this.wbtc.methods.balanceOf(userAddr).call(),
+					this.bwbtc.methods.balanceOf(userAddr).call(),
+					this.bCRVrenBTC.methods.balanceOf(userAddr).call(),
+					this.bCRVsBTC.methods.balanceOf(userAddr).call(),
+					this.bCRVtBTC.methods.balanceOf(userAddr).call(),
 				]);
+
 				this.renbtcBalance = new BigNumber(renbtcBalance).dividedBy(DECIMALS).toNumber();
 				this.wbtcBalance = new BigNumber(wbtcBalance).dividedBy(DECIMALS).toNumber();
+				this.bwbtcBalance = new BigNumber(bwbtcBalance).dividedBy(DECIMALS).toNumber();
+				this.bCRVrenBTCBalance = new BigNumber(bCRVrenBTCBalance).dividedBy(SETT_DECIMALS).toNumber();
+				this.bCRVsBTCBalance = new BigNumber(bCRVsBTCBalance).dividedBy(SETT_DECIMALS).toNumber();
+				this.bCRVtBTCBalance = new BigNumber(bCRVtBTCBalance).dividedBy(SETT_DECIMALS).toNumber();
 			}, defaultRetryOptions);
 		} catch (err) {
 			queueNotification(`Failed to fetch fees: ${err.message}`, 'error');
 		}
 	});
 
-	_getBTCNetworkFees = async (): Promise<void> => {
-		const { queueNotification } = this.store.uiState;
-		try {
-			await retry(async () => {
-				// NB: Query fees logic pulled from ren bridge source.
-				// https://github.com/renproject/bridge/blob/18e5668db9423f2aaa32635c90dcf6269a3b1711/src/utils/walletUtils.ts#L104-L128
-				const query = {
-					jsonrpc: '2.0',
-					method: 'ren_queryFees',
-					id: 67,
-					params: {},
-				};
+	_getBTCNetworkFees = action(
+		async (): Promise<void> => {
+			const { queueNotification } = this.store.uiState;
+			try {
+				await retry(async () => {
+					// NB: Query fees logic pulled from ren bridge source.
+					// https://github.com/renproject/bridge/blob/18e5668db9423f2aaa32635c90dcf6269a3b1711/src/utils/walletUtils.ts#L104-L128
+					const query = {
+						jsonrpc: '2.0',
+						method: 'ren_queryFees',
+						id: 67,
+						params: {},
+					};
 
-				const resp = await fetch('https://lightnode-mainnet.herokuapp.com/', {
-					method: 'POST',
-					body: JSON.stringify(query),
-					headers: { 'Content-Type': 'application/json' },
-				});
-				const { result } = await resp.json();
+					const resp = await fetch('https://lightnode-mainnet.herokuapp.com/', {
+						method: 'POST',
+						body: JSON.stringify(query),
+						headers: { 'Content-Type': 'application/json' },
+					});
+					const { result } = await resp.json();
 
-				this.lockNetworkFee = new BigNumber(result.btc.lock).dividedBy(DECIMALS).toNumber();
-				this.releaseNetworkFee = new BigNumber(result.btc.release).dividedBy(DECIMALS).toNumber();
-			}, defaultRetryOptions);
-		} catch (err) {
-			queueNotification(`Failed to fetch BTC network fees: ${err.message}`, 'error');
-		}
-	};
+					this.lockNetworkFee = new BigNumber(result.btc.lock).dividedBy(DECIMALS).toNumber();
+					this.releaseNetworkFee = new BigNumber(result.btc.release).dividedBy(DECIMALS).toNumber();
+				}, defaultRetryOptions);
+			} catch (err) {
+				queueNotification(`Failed to fetch BTC network fees: ${err.message}`, 'error');
+			}
+		},
+	);
 }
 
 const _isTxComplete = function (tx: RenVMTransaction) {
