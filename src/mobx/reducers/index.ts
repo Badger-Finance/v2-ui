@@ -1,7 +1,6 @@
 import { extendObservable, action, observe } from 'mobx';
 import { RootStore } from '../store';
 import { reduceAirdrops, reduceContractsToStats, reduceRebase } from './statsReducers';
-import { NETWORK_CONSTANTS, NETWORK_LIST } from 'config/constants';
 import BigNumber from 'bignumber.js';
 import views from 'config/routes';
 
@@ -69,14 +68,13 @@ class UiState {
 			txStatus: undefined,
 		});
 
-		// TODO: refactor this - causes a refresh every 1s
-		// format vaults and geysers to ui
+		// TODO: Check implications of decreasing polling rate
 		setInterval(() => {
 			this.reduceStats();
 			this.reduceRebase();
 			this.reduceAirdrops();
 			this.reduceTreeRewards();
-		}, 1000);
+		}, 10000);
 
 		observe(this.store.wallet as any, 'connectedAddress', () => {
 			if (!this.store.wallet.connectedAddress) this.setHideZeroBal(false);
@@ -115,10 +113,10 @@ class UiState {
 
 	reduceRebase = action(() => {
 		const { tokens } = this.store.contracts;
-		if (!!this.store.rebase.rebase && !!tokens[NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.WBTC_ADDRESS])
+		if (!!this.store.rebase.rebase && !!tokens[this.store.wallet.network.deploy.tokens.wBTC])
 			this.rebaseStats = reduceRebase(
 				this.store.rebase.rebase,
-				tokens[NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.WBTC_ADDRESS],
+				tokens[this.store.wallet.network.deploy.tokens.wBTC],
 			);
 	});
 

@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 import { cleanup } from '@testing-library/react';
 import MockDate from 'mockdate';
 import BigNumber from 'bignumber.js';
-import { START_BLOCK } from '../../config/constants';
+import { NETWORK_LIST, NETWORK_CONSTANTS } from '../../config/constants';
 import store from '../../mobx/store';
 import { growthQuery } from '../../mobx/utils/helpers';
 import {
@@ -18,6 +18,8 @@ import {
 	reduceSushiAPIResults,
 	reduceXSushiROIResults,
 } from '../../mobx/reducers/contractReducers';
+
+const START_BLOCK = NETWORK_CONSTANTS[NETWORK_LIST.ETH].START_BLOCK;
 
 afterEach(cleanup);
 
@@ -60,7 +62,7 @@ describe('reduceBatchResult', () => {
 
 		const expectedData = [
 			{
-				address: '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a',
+				address: '0x1A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1A',
 				balanceOf: new BigNumber(0),
 				decimals: 18,
 				namespace: 'namespace',
@@ -99,8 +101,8 @@ describe('reduceResult', () => {
 	test('Input "" returns ""', () => {
 		expect(reduceResult('')).toEqual('');
 	});
-	test('Input "0x1A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1A" returns "0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a"', () => {
-		expect(reduceResult('0x1A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1A')).toEqual(
+	test('Input "0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a" returns "0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a"', () => {
+		expect(reduceResult('0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a')).toEqual(
 			'0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a',
 		);
 	});
@@ -225,7 +227,7 @@ describe('reduceGrowthQueryConfig', () => {
 			periods,
 			growthQueries: periods.map(growthQuery), // Growth data is dynamically fetched within reducer function
 		};
-		expect(reduceGrowthQueryConfig(12345678)).toEqual(expected);
+		expect(reduceGrowthQueryConfig(NETWORK_LIST.ETH, 12345678)).toEqual(expected);
 	});
 	test('Older block number input is reduced correctly', () => {
 		const periods = [START_BLOCK, START_BLOCK, START_BLOCK, START_BLOCK, START_BLOCK];
@@ -233,7 +235,7 @@ describe('reduceGrowthQueryConfig', () => {
 			periods,
 			growthQueries: periods.map(growthQuery), // Growth data is dynamically fetched within reducer function
 		};
-		expect(reduceGrowthQueryConfig(1234567)).toEqual(expected);
+		expect(reduceGrowthQueryConfig(NETWORK_LIST.ETH, 1234567)).toEqual(expected);
 	});
 	test('Negative block number input is reduced correctly', () => {
 		const periods = [START_BLOCK, START_BLOCK, START_BLOCK, START_BLOCK, START_BLOCK];
@@ -241,21 +243,21 @@ describe('reduceGrowthQueryConfig', () => {
 			periods,
 			growthQueries: periods.map(growthQuery), // Growth data is dynamically fetched within reducer function
 		};
-		expect(reduceGrowthQueryConfig(-12345678)).toEqual(expected);
+		expect(reduceGrowthQueryConfig(NETWORK_LIST.ETH, -12345678)).toEqual(expected);
 	});
 	test('NaN input is reduced correctly', () => {
 		const expected = {
 			periods: [],
 			growthQueries: [],
 		};
-		expect(reduceGrowthQueryConfig(NaN)).toEqual(expected);
+		expect(reduceGrowthQueryConfig(NETWORK_LIST.ETH, NaN)).toEqual(expected);
 	});
 	test('Undefined input is reduced correctly', () => {
 		const expected = {
 			periods: [],
 			growthQueries: [],
 		};
-		expect(reduceGrowthQueryConfig(undefined)).toEqual(expected);
+		expect(reduceGrowthQueryConfig(NETWORK_LIST.ETH, undefined)).toEqual(expected);
 	});
 });
 
@@ -384,17 +386,17 @@ describe('reduceCurveResult', () => {
 
 		const expected = [
 			{
-				address: '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a',
+				address: '0x1A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1A1A',
 				ethValue: new BigNumber(2e-16), // 5e-18*40 = 2e-16
 				virtualPrice: new BigNumber(5e-18), // (55/11)/1e18 = 5e-18
 			},
 			{
-				address: '0x2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b',
+				address: '0x2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B2B',
 				ethValue: new BigNumber(2.4e-16), // 6e-18*40 = 2.4e-16
 				virtualPrice: new BigNumber(6e-18), // (72/12)/1e18 = 6e-18
 			},
 			{
-				address: '0x3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c',
+				address: '0x3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C3C',
 				ethValue: new BigNumber(-4e-16), // -1e-17*40 = -4e-15
 				virtualPrice: new BigNumber(-1e-17), // (-10/1)/1e18 = -1e-17
 			},

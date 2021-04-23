@@ -6,7 +6,7 @@ import { StoreContext } from 'mobx/store-context';
 import { useConnectWallet } from 'mobx/utils/hooks';
 import { Skeleton } from '@material-ui/lab';
 import { observer } from 'mobx-react-lite';
-import { NETWORK_CONSTANTS, NETWORK_LIST } from 'config/constants';
+import { sett_system } from 'config/deployments/mainnet.json';
 import { getDiggPerShare } from 'mobx/utils/diggHelpers';
 
 const useStyles = makeStyles((theme) => ({
@@ -75,7 +75,7 @@ export const PoolBalance = observer(() => {
 	const { connectedAddress } = store.wallet;
 	const { poolBalance, loadingPoolBalance } = store.honeyPot;
 
-	const vault = vaults[NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.BDIGG_ADDRESS];
+	const vault = vaults[sett_system.vaults['native.digg']];
 	const diggMultiplier = vault && getDiggPerShare(vault);
 	const poolBalanceDiggs = poolBalance && diggMultiplier && poolBalance.multipliedBy(diggMultiplier);
 
