@@ -12,6 +12,7 @@ import {
 	defaults,
 	zipObject,
 	isString,
+	isEqual,
 } from '../../utils/lodashToNative';
 import '@testing-library/jest-dom';
 import BigNumber from 'bignumber.js';
@@ -480,5 +481,87 @@ describe('isString', () => {
 
 	test('Returns true for a string input', () => {
 		expect(isString('test')).toEqual(true);
+	});
+});
+
+describe('isEqual', () => {
+	const obj = {
+		'0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a': {
+			name: 'token1',
+			address: '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a',
+			balance: new BigNumber(100),
+			methods: [
+				{
+					name: 'getPricePerFullShare',
+				},
+			],
+		},
+		'0x3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c': {
+			name: 'token3',
+			address: '0x3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c',
+			balance: 200,
+		},
+	};
+
+	const equalsObj = {
+		'0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a': {
+			name: 'token1',
+			address: '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a',
+			balance: new BigNumber(100),
+			methods: [
+				{
+					name: 'getPricePerFullShare',
+				},
+			],
+		},
+		'0x3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c': {
+			name: 'token3',
+			address: '0x3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c',
+			balance: 200,
+		},
+	};
+
+	const diffBigNumberObj = {
+		'0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a': {
+			name: 'token1',
+			address: '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a',
+			balance: new BigNumber(1000),
+			methods: [
+				{
+					name: 'getPricePerFullShare',
+				},
+			],
+		},
+		'0x3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c': {
+			name: 'token3',
+			address: '0x3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c',
+			balance: 200,
+		},
+	};
+
+	const smallObj = {
+		'0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a': {
+			name: 'token1',
+			address: '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a',
+			balance: new BigNumber(100),
+			methods: [
+				{
+					name: 'getPricePerFullShare',
+				},
+			],
+		},
+	};
+
+	test('Objects are equal if they are same reference', () => {
+		expect(isEqual(obj, obj)).toEqual(true);
+	});
+	test('Objects are equal if all keys and values are equal', () => {
+		expect(isEqual(obj, equalsObj)).toEqual(true);
+	});
+	test('Objects are unequal if BigNumbers have different values', () => {
+		expect(isEqual(obj, diffBigNumberObj)).toEqual(false);
+	});
+	test('Objects are unequal if they have different keys', () => {
+		expect(isEqual(obj, smallObj)).toEqual(false);
 	});
 });

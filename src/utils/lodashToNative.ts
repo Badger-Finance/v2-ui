@@ -73,6 +73,7 @@ function baseKeysIn(obj: Record<string, any>): string[] {
 }
 
 // based on lodash src, returns true if value is a prototype object
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 function isPrototype(value: any): boolean {
 	const Ctor = value && value.constructor;
 	const proto = (typeof Ctor === 'function' && Ctor.prototype) || Object.prototype;
@@ -132,6 +133,7 @@ export function defaultsDeep(dest: Record<string, any>, ...sources: Record<strin
 	return dest;
 }
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 function isObject(value: any): boolean {
 	const type = typeof value;
 	return value !== null && value !== undefined && (type === 'object' || type === 'function');
@@ -152,4 +154,48 @@ export function zipObject(props: Array<string>, values: Array<any>): Record<stri
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function isString(value: any): value is string {
 	return typeof value === 'string';
+}
+
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export function isEqual(value: any, other: any): boolean {
+	if (value === other) {
+		return true;
+	}
+	if (value === null || other === null) {
+		return value === null && other === null;
+	}
+	if (value === undefined || other === undefined) {
+		return value === undefined && other === undefined;
+	}
+	if (Array.isArray(value) || Array.isArray(other)) {
+		if (!Array.isArray(value) || !Array.isArray(other)) {
+			return false;
+		}
+		// compare array lengths
+		if (value.length != other.length) {
+			return false;
+		}
+		// compare each element
+		for (let i = 0; i < value.length; i++) {
+			if (!isEqual(value[i], other[i])) {
+				return false;
+			}
+		}
+	} else if (isObject(value) && isObject(other)) {
+		// compare keys
+		const valueKeys: string[] = Object.keys(value);
+		const otherKeys: string[] = Object.keys(other);
+		if (!isEqual(valueKeys, otherKeys)) {
+			return false;
+		}
+		// compare values
+		for (const key of valueKeys) {
+			if (!isEqual(value[key], other[key])) {
+				return false;
+			}
+		}
+	} else {
+		return false;
+	}
+	return true;
 }
