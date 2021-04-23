@@ -11,6 +11,7 @@ import { reduceClaims, reduceTimeSinceLastCycle } from '../reducers/statsReducer
 import { abi as rewardsAbi } from '../../config/system/abis/BadgerTree.json';
 import { abi as diggAbi } from '../../config/system/abis/UFragments.json';
 import { badgerTree, digg_system } from '../../config/deployments/mainnet.json';
+import { RewardNetworkConfig } from '../model';
 
 class RewardsStore {
 	private store!: RootStore;
@@ -60,7 +61,7 @@ class RewardsStore {
 					this.badgerTree,
 				);
 				if (network.rewards) {
-					const endpointQuery = jsonQuery(`${network.rewards.endpoint}/${checksumAddress}`);
+					const endpointQuery = this.getRewards(network.rewards, checksumAddress);
 					if (!endpointQuery) {
 						return;
 					}
@@ -139,6 +140,10 @@ class RewardsStore {
 				});
 		});
 	});
+
+	getRewards(networkRewards: RewardNetworkConfig, checksumAddress: string): Promise<Response> | undefined {
+		return jsonQuery(`${networkRewards.endpoint}/${checksumAddress}`);
+	}
 }
 
 export default RewardsStore;

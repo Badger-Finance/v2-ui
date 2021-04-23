@@ -12,14 +12,13 @@ import {
 	reduceGrowthQueryConfig,
 } from '../reducers/contractReducers';
 import { Vault, Geyser, Token } from '../model';
-import { vanillaQuery } from 'mobx/utils/helpers';
 import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
 import async from 'async';
 import { EMPTY_DATA, ERC20, NETWORK_CONSTANTS, NETWORK_LIST } from 'config/constants';
 import { formatAmount } from 'mobx/reducers/statsReducers';
 import BatchCall from 'web3-batch-call';
-import { getApi } from '../utils/apiV2';
+import { getTokenPrices } from '../utils/apiV2';
 
 let batchCall: any = null;
 
@@ -84,7 +83,7 @@ class ContractsStore {
 				!!connectedAddress && { connectedAddress },
 			);
 
-			const priceApi = vanillaQuery(`${getApi()}/prices?chain=${network.name}&currency=eth`);
+			const priceApi = getTokenPrices(network.name, network.currency);
 			if (!batchCall) {
 				return;
 			}
@@ -147,7 +146,7 @@ class ContractsStore {
 
 			const { growthQueries, periods } = reduceGrowthQueryConfig(network.name, currentBlock);
 			const settStructure = _.keyBy(settList, 'vaultToken');
-			const priceApi = vanillaQuery(`${getApi()}/prices?chain=${network.name}&currency=eth`);
+			const priceApi = getTokenPrices();
 
 			await Promise.all([batchCall.execute(batch), ...growthQueries, priceApi])
 				.then((queryResult: any[]) => {

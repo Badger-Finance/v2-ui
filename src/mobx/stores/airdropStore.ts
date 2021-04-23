@@ -7,6 +7,7 @@ import { jsonQuery } from '../utils/helpers';
 import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
 import { sett_system } from '../../config/deployments/mainnet.json';
+import { AirdropNetworkConfig } from '../model';
 
 class AirdropStore {
 	private store!: RootStore;
@@ -34,7 +35,7 @@ class AirdropStore {
 		);
 		const checksumAddress = connectedAddress.toLowerCase();
 
-		jsonQuery(`${network.airdrops.airdropEndpoint}/gitcoin/${checksumAddress}`)?.then((merkleProof: any) => {
+		this.fetchAirdropsData(network.airdrops, checksumAddress)?.then((merkleProof: any) => {
 			if (!!merkleProof.index) {
 				Promise.all([bBadgerAirdropTree.methods.isClaimed(merkleProof.index).call()]).then((result: any[]) => {
 					this.airdrops = {
@@ -92,6 +93,10 @@ class AirdropStore {
 				});
 		});
 	});
+
+	fetchAirdropsData(config: AirdropNetworkConfig, checksumAddress: string): Promise<Response> | undefined {
+		return jsonQuery(`${config.airdropEndpoint}/gitcoin/${checksumAddress}`);
+	}
 }
 
 export default AirdropStore;
