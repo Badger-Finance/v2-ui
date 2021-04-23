@@ -34,7 +34,7 @@ const SettDialog = (props: SettDialogProps): JSX.Element => {
 	const { open, sett } = dialogProps;
 	let { vault } = dialogProps;
 	const store = useContext(StoreContext);
-	const { network, connectedAddress } = store.wallet;
+	const { network } = store.wallet;
 	const { contracts } = store;
 	const classes = useStyles();
 

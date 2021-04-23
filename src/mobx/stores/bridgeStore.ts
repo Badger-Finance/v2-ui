@@ -20,13 +20,12 @@ import {
 	ERC20,
 	// config
 	NETWORK_LIST,
-	NETWORK_CONSTANTS,
 	RENVM_GATEWAY_ADDRESS,
 	FLAGS,
 } from 'config/constants';
 import { BADGER_ADAPTER } from 'config/system/abis/BadgerAdapter';
 import { BTC_GATEWAY } from 'config/system/abis/BtcGateway';
-import { bridge_system } from 'config/deployments/mainnet.json';
+import { bridge_system, tokens } from 'config/deployments/mainnet.json';
 import { shortenAddress } from 'utils/componentHelpers';
 
 export enum Status {
@@ -149,16 +148,10 @@ class BridgeStore {
 			this.adapter = new web3.eth.Contract(BADGER_ADAPTER, bridge_system['adapter']);
 			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 			// @ts-ignore
-			this.renbtc = new web3.eth.Contract(
-				ERC20.abi as AbiItem[],
-				NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.RENBTC_ADDRESS,
-			);
+			this.renbtc = new web3.eth.Contract(ERC20.abi as AbiItem[], tokens.renBTC);
 			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 			// @ts-ignore
-			this.wbtc = new web3.eth.Contract(
-				ERC20.abi as AbiItem[],
-				NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.WBTC_ADDRESS,
-			);
+			this.wbtc = new web3.eth.Contract(ERC20.abi as AbiItem[], tokens.wBTC);
 			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 			// @ts-ignore
 			this.gateway = new web3.eth.Contract(BTC_GATEWAY, RENVM_GATEWAY_ADDRESS);
