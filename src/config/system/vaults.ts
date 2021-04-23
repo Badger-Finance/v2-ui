@@ -147,9 +147,9 @@ export const getVaults = (network?: string | null): VaultNetworkConfig => {
 						symbolPrefix: ['sushi', 'sushi', 'sushi'],
 						onsenId: ['103', '21', '73'],
 						pairContract: [
-							'0xCEfF51756c56CeFFCA006cD410B03FFC46dd3a58',
-							'0x110492b31c59716AC47337E616804E3E3AdC0b4a',
-							'0x9a13867048e01c663ce8Ce2fE0cDAE69Ff9F35E3',
+							deploy.tokens['sushi.wBTC-WETH'],
+							deploy.tokens['sushi.wBTC-BADGER'],
+							deploy.tokens['sushi.wBTC-DIGG'],
 						],
 					},
 					methods: [

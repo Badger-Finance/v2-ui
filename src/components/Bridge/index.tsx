@@ -130,9 +130,28 @@ const useStyles = makeStyles((theme) => ({
 		display: 'flex',
 		justifyContent: 'space-between',
 		flexDirection: 'row',
+		flexWrap: 'wrap',
 		alignItems: 'center',
 		width: '100%',
 		padding: '.5rem 0 0 1rem',
+	},
+	focusableBorderedContainer: {
+		border: '1px solid #5C5C5C',
+		borderRadius: 8,
+		padding: '18.5px 14px',
+		'&:focus-within': {
+			borderColor: theme.palette.primary.main,
+		},
+	},
+	releaseInputContainer: {
+		alignItems: 'center',
+		justifyContent: 'flex-end',
+		[theme.breakpoints.only('xs')]: {
+			justifyContent: 'space-evenly',
+		},
+	},
+	longText: {
+		wordBreak: 'break-all',
 	},
 }));
 export const Bridge = observer(() => {
@@ -147,20 +166,19 @@ export const Bridge = observer(() => {
 					<PageHeader title="Badger Bitcoin Bridge." subtitle="Powered by RenVM" />
 				</Grid>
 				<Grid item xs={12} md={7}>
-					<Paper className={classes.statPaper} style={{ padding: '1rem 0' }}>
+					<Paper className={classes.statPaper} style={{ padding: '1rem' }}>
 						<p>
-							RenVM is new technology and{' '}
+							RenVM is new technology that has undergone robust &nbsp;
 							<a
 								className={classes.link}
 								href={'https://github.com/renproject/ren/wiki/Audits'}
 								target={'_blank'}
 								rel={'noreferrer'}
 							>
-								security audits
-							</a>{' '}
-							don&apos;t completely eliminate risks.
+								security audits.
+							</a>
 							<br />
-							Please don&apos;t supply assets you can&apos;t afford to lose.
+							Please follow the user guide to mitigate risk of lost funds due to error.
 						</p>
 					</Paper>
 				</Grid>
