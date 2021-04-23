@@ -167,10 +167,7 @@ export function isEqual(value: any, other: any): boolean {
 	if (value === undefined || other === undefined) {
 		return value === undefined && other === undefined;
 	}
-	if (Array.isArray(value) || Array.isArray(other)) {
-		if (!Array.isArray(value) || !Array.isArray(other)) {
-			return false;
-		}
+	if (Array.isArray(value) && Array.isArray(other)) {
 		// compare array lengths
 		if (value.length != other.length) {
 			return false;
@@ -185,8 +182,13 @@ export function isEqual(value: any, other: any): boolean {
 		// compare keys
 		const valueKeys: string[] = Object.keys(value);
 		const otherKeys: string[] = Object.keys(other);
-		if (!isEqual(valueKeys, otherKeys)) {
+		if (valueKeys.length != otherKeys.length) {
 			return false;
+		}
+		for (let i = 0; i < value.length; i++) {
+			if (value[i] !== other[i]) {
+				return false;
+			}
 		}
 		// compare values
 		for (const key of valueKeys) {
