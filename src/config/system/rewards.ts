@@ -1,8 +1,9 @@
-import { NETWORK_CONSTANTS, NETWORK_LIST } from '../constants';
+import { NETWORK_LIST } from '../constants';
 import { RewardNetworkConfig } from 'mobx/model';
 import BadgerTree from './abis/BadgerTree.json';
 import { AbiItem } from 'web3-utils';
 import { getApi } from '../../mobx/utils/apiV2';
+import { badgerTree, tokens, sett_system } from '../deployments/mainnet.json';
 
 export const getRewards = (network?: string): RewardNetworkConfig | undefined => {
 	switch (network) {
@@ -10,16 +11,16 @@ export const getRewards = (network?: string): RewardNetworkConfig | undefined =>
 			return {
 				endpoint: `${getApi()}/reward/tree`,
 				network: 1,
-				contract: '0x660802Fc641b154aBA66a62137e71f331B6d787A',
+				contract: badgerTree,
 				abi: BadgerTree.abi as AbiItem[],
 				tokens: [
-					NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.BADGER_ADDRESS, // $BADGER
-					NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.DIGG_ADDRESS, // $DIGG
-					NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.BBADGER_ADDRESS, // $bBadger
-					NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.BDIGG_ADDRESS, // $bDigg
-					NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.XSUSHI_ADDRESS, // $xSUSHI
-					NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.FARM_ADDRESS, // $FARM
-					NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.USDC_ADDRESS, // $USDC
+					tokens.badger, // $BADGER
+					tokens.digg, // $DIGG
+					sett_system.vaults['native.badger'], // $bBadger
+					sett_system.vaults['native.digg'], // $bDigg
+					tokens.xsushi, // $xSUSHI
+					tokens.farm, // $FARM
+					tokens.usdc, // $USDC
 				],
 			};
 		default:

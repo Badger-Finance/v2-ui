@@ -17,8 +17,8 @@ import { RenVMTransaction } from 'mobx/model';
 import { Status } from 'mobx/stores/bridgeStore';
 import renBTCLogo from 'assets/icons/renBTC.svg';
 import WBTCLogo from 'assets/icons/WBTC.svg';
-import { NETWORK_CONSTANTS, NETWORK_LIST, CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS } from 'config/constants';
-import { bridge_system } from 'config/deployments/mainnet.json';
+import { NETWORK_LIST, CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS } from 'config/constants';
+import { bridge_system, tokens } from 'config/deployments/mainnet.json';
 import { CURVE_EXCHANGE } from 'config/system/abis/CurveExchange';
 import { ValuesProp } from './Common';
 
@@ -207,12 +207,12 @@ export const BridgeForm = observer((props: any) => {
 	// TODO: Can refactor most of these methods below into the store as well.
 	const deposit = async () => {
 		const amountSats = new BigNumber(amount).multipliedBy(10 ** 8); // Convert to Satoshis
-		let desiredToken = NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.RENBTC_ADDRESS;
+		let desiredToken = tokens.renBTC;
 		let maxSlippageBps = 0;
 		if (token === 'WBTC') {
 			// Convert max slippage from % to bps.
 			maxSlippageBps = Math.round(parseFloat(maxSlippage) * 100);
-			desiredToken = NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.WBTC_ADDRESS;
+			desiredToken = tokens.wBTC;
 		}
 		const contractParams: EthArgs = [
 			{
@@ -249,10 +249,10 @@ export const BridgeForm = observer((props: any) => {
 	const approveAndWithdraw = async () => {
 		const methodSeries: any = [];
 		const amountSats = new BigNumber(burnAmount as any).multipliedBy(10 ** 8); // Convert to Satoshis
-		let burnToken = NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.RENBTC_ADDRESS;
+		let burnToken = tokens.renBTC;
 		let maxSlippageBps = 0;
 		if (token === 'WBTC') {
-			burnToken = NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.WBTC_ADDRESS;
+			burnToken = tokens.wBTC;
 			// Convert max slippage from % to bps.
 			maxSlippageBps = Math.round(parseFloat(maxSlippage) * 100);
 		}
@@ -280,10 +280,7 @@ export const BridgeForm = observer((props: any) => {
 		];
 
 		const tokenParam = {
-			address:
-				token === 'renBTC'
-					? NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.RENBTC_ADDRESS
-					: NETWORK_CONSTANTS[NETWORK_LIST.ETH].TOKENS.WBTC_ADDRESS,
+			address: token === 'renBTC' ? tokens.renBTC : tokens.wBTC,
 			symbol: token,
 			totalSupply: amountSats,
 		};
