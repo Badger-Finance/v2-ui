@@ -37,7 +37,10 @@ export enum Status {
 	PROCESSING,
 }
 
+// BTC variants is 8 decimals.
 const DECIMALS = 10 ** 8;
+// Sett tokens are (mostly) 18 decimals.
+const SETT_DECIMALS = 10 ** 18;
 const MAX_BPS = 10000;
 const UPDATE_INTERVAL_SECONDS = 30 * 1000; // 30 seconds
 
@@ -495,9 +498,9 @@ class BridgeStore {
 				this.renbtcBalance = new BigNumber(renbtcBalance).dividedBy(DECIMALS).toNumber();
 				this.wbtcBalance = new BigNumber(wbtcBalance).dividedBy(DECIMALS).toNumber();
 				this.bwbtcBalance = new BigNumber(bwbtcBalance).dividedBy(DECIMALS).toNumber();
-				this.bCRVrenBTCBalance = new BigNumber(bCRVrenBTCBalance).dividedBy(DECIMALS).toNumber();
-				this.bCRVsBTCBalance = new BigNumber(bCRVsBTCBalance).dividedBy(DECIMALS).toNumber();
-				this.bCRVtBTCBalance = new BigNumber(bCRVtBTCBalance).dividedBy(DECIMALS).toNumber();
+				this.bCRVrenBTCBalance = new BigNumber(bCRVrenBTCBalance).dividedBy(SETT_DECIMALS).toNumber();
+				this.bCRVsBTCBalance = new BigNumber(bCRVsBTCBalance).dividedBy(SETT_DECIMALS).toNumber();
+				this.bCRVtBTCBalance = new BigNumber(bCRVtBTCBalance).dividedBy(SETT_DECIMALS).toNumber();
 			}, defaultRetryOptions);
 		} catch (err) {
 			queueNotification(`Failed to fetch fees: ${err.message}`, 'error');
