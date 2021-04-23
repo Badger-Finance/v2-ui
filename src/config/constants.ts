@@ -61,11 +61,15 @@ export const EMPTY_DATA = '0x';
 export const ZERO_CURRENCY = '0.00000';
 export const SITE_VERSION = 'v2.5.2';
 export const WC_BRIDGE = 'https://wc-bridge.badger.finance/';
+
 const toBool = (val: string | undefined): boolean => (val ? val === 'true' : false);
+
 export const FLAGS = {
 	IBBTC_FLAG: toBool(process.env.REACT_APP_IBBTC_FLAG),
 	BRIDGE_FLAG: toBool(process.env.REACT_APP_BRIDGE_FLAG),
+	BWBTC_FLAG: toBool(process.env.REACT_APP_BRIDGE_BWBTC),
 };
+
 export const ZERO = new BigNumber(0);
 export const TEN = new BigNumber(10);
 export const MAX = Web3.utils.toTwosComplement(-1);
