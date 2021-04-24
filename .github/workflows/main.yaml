@@ -18,7 +18,7 @@ jobs:
         with:
           configFile: './commitlint.config.js'
           firstParent: false
-          failOnWarnings: true
+          failOnWarnings: false
       - name: Install Dependencies
         run: yarn install --frozen-lockfile
       - name: Run Code Linter
