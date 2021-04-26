@@ -11,20 +11,19 @@ export interface ValuesProp {
 	step: number;
 	burnAmount: string;
 	btcAddr: string;
-	shortAddr: string;
 	tabValue: number;
-	// TODO: Needs react Element type.
-	spacer: any;
+	spacer: JSX.Element;
 	estimatedSlippage: number;
 	maxSlippage: string;
 	renFee: number;
 	badgerFee: number;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 interface SlippageProps {
 	values: ValuesProp;
 	classes: ClassNameMap;
-	handleChange(name: string): (event: any) => Promise<void>;
+	handleChange(name: string): (event: React.ChangeEvent<HTMLInputElement>) => Promise<void>;
 	handleSetMaxSlippage(newValue: string): () => void;
 	disabled: boolean;
 }

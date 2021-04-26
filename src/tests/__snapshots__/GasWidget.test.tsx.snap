@@ -28,11 +28,11 @@ exports[`GasWidget Opens gas menu upon click and "rapid" is selected properly 1`
       <li
         aria-disabled="false"
         class="MuiButtonBase-root-110 MuiListItem-root-99 MuiMenuItem-root-95 MuiMenuItem-gutters-96 MuiListItem-gutters-106 MuiListItem-button-107"
-        data-value="slow"
+        data-value="rapid"
         role="option"
         tabindex="-1"
       >
-        51
+        122
         <span
           class="MuiTouchRipple-root-113"
         />
@@ -53,11 +53,11 @@ exports[`GasWidget Opens gas menu upon click and "rapid" is selected properly 1`
       <li
         aria-disabled="false"
         class="MuiButtonBase-root-110 MuiListItem-root-99 MuiMenuItem-root-95 MuiMenuItem-gutters-96 MuiListItem-gutters-106 MuiListItem-button-107"
-        data-value="rapid"
+        data-value="slow"
         role="option"
         tabindex="-1"
       >
-        122
+        51
         <span
           class="MuiTouchRipple-root-113"
         />
