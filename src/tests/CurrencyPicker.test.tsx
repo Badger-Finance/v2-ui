@@ -25,6 +25,6 @@ describe('CurrencyPicker', () => {
 		await act(async () => {
 			await fireEvent.mouseDown(screen.getByRole('button'));
 		});
-		expect(await screen.getByRole('presentation')).toMatchSnapshot();
+		expect(await screen.findByRole('presentation')).toMatchSnapshot();
 	});
 });

@@ -285,10 +285,7 @@ export const Sidebar = observer(() => {
 									onClick={() => goTo(views.bridge)}
 								>
 									<ListItemIcon>
-										<img
-											src={require('assets/sidebar/icon-badger-bridge.svg')}
-											className={classes.icon}
-										/>
+										<img src="/assets/sidebar/icon-badger-bridge.svg" className={classes.icon} />
 									</ListItemIcon>
 									<ListItemText primary="Bridge" />
 								</ListItem>

@@ -23,8 +23,8 @@ describe('SamplePicker', () => {
 				<SamplePicker />
 			</StoreProvider>,
 		);
-		act(() => {
-			fireEvent.mouseDown(screen.getByRole('button'));
+		await act(async () => {
+			await fireEvent.mouseDown(screen.getByRole('button'));
 		});
 		expect(await screen.findByRole('presentation')).toMatchSnapshot();
 	});
