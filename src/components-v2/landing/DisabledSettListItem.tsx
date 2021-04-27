@@ -166,9 +166,7 @@ const DisabledSettListItem = (props: DisabledSettListItemProps): JSX.Element => 
 						</Typography>
 					</Grid>
 					<Grid item xs={6} md={2}>
-						<Typography variant="body1" color={'textPrimary'}>
-							<CurrencyDisplay displayValue={displayValue} variant="body1" justify="flex-start" />
-						</Typography>
+						<CurrencyDisplay displayValue={displayValue} variant="body1" justify="flex-start" />
 					</Grid>
 					<Grid item xs={12} md={2} style={{ textAlign: 'right' }}>
 						<IconButton color="default">

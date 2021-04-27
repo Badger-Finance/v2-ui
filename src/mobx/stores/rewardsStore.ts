@@ -10,7 +10,9 @@ import { jsonQuery } from '../utils/helpers';
 import { reduceClaims, reduceTimeSinceLastCycle } from '../reducers/statsReducers';
 import { abi as rewardsAbi } from '../../config/system/abis/BadgerTree.json';
 import { abi as diggAbi } from '../../config/system/abis/UFragments.json';
-import { badgerTree, digg_system } from '../../config/deployments/mainnet.json';
+import { badgerTree, digg_system, tokens } from '../../config/deployments/mainnet.json';
+import { ClaimMap } from '../../components-v2/landing/RewardsModal';
+import BigNumber from 'bignumber.js';
 
 class RewardsStore {
 	private store!: RootStore;
@@ -82,7 +84,7 @@ class RewardsStore {
 											{
 												cycle: parseInt(proof.cycle, 16),
 												claims: reduceClaims(proof, result[0][0], result[0][1]),
-												sharesPerFragment: result[1],
+												sharesPerFragment: new BigNumber(result[1]),
 												proof,
 												claimableAmounts: result[2][1],
 											},
@@ -98,15 +100,33 @@ class RewardsStore {
 			.catch((err) => console.log(err));
 	});
 
-	claimGeysers = action((stake = false) => {
+	claimGeysers = action((stake = false, claimMap: ClaimMap | undefined) => {
 		const { proof, claimableAmounts } = this.badgerTree;
 		const { provider, gasPrices, connectedAddress } = this.store.wallet;
 		const { queueNotification, gasPrice, setTxStatus } = this.store.uiState;
+
+		if (!claimMap) return;
 
 		if (!connectedAddress || !proof || !claimableAmounts) {
 			queueNotification(`Error retrieving merkle proof.`, 'error');
 			return;
 		}
+
+		const amountsToClaim: BigNumber[] = [];
+
+		proof.tokens.map((address: string) => {
+			if (address === tokens.digg)
+				claimMap[address] = new BigNumber(claimMap[address])
+					.multipliedBy(this.badgerTree.sharesPerFragment)
+					.multipliedBy(1e9);
+
+			const amount = claimMap[address] ? claimMap[address] : new BigNumber('0');
+			// We check to see if the number is greater than the claimable amount due to
+			// rounding on the UI.
+			new BigNumber(amount).gt(new BigNumber(claimableAmounts[proof.tokens.indexOf(address)]))
+				? amountsToClaim.push(claimableAmounts[proof.tokens.indexOf(address)])
+				: amountsToClaim.push(amount);
+		});
 
 		const web3 = new Web3(provider);
 		const rewardsTree = new web3.eth.Contract(rewardsAbi as AbiItem[], badgerTree);
@@ -116,7 +136,7 @@ class RewardsStore {
 			proof.index,
 			proof.cycle,
 			proof.proof,
-			claimableAmounts,
+			amountsToClaim,
 		);
 
 		queueNotification(`Sign the transaction to claim your earnings`, 'info');
