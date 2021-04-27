@@ -24,13 +24,16 @@ module.exports = {
 		'@typescript-eslint/': 'off',
 		'@typescript-eslint/explicit-function-return-type': 'off',
 		'@typescript-eslint/no-explicit-any': 'off',
-		"react-hooks/rules-of-hooks": "error", // Checks rules of Hooks
-		"react-hooks/exhaustive-deps": "warn", // Checks effect dependencies
+		'react-hooks/rules-of-hooks': 'error', // Checks rules of Hooks
+		'react-hooks/exhaustive-deps': 'warn', // Checks effect dependencies
 		'react/display-name': [0, { ignoreTranspilerName: true }],
 		'no-empty-pattern': 'warn',
 		'unused-imports/no-unused-imports-ts': 'error',
-		"prettier/prettier": ["error",{
-			"endOfLine": "auto"}
-		  ]
+		'prettier/prettier': [
+			'error',
+			{
+				endOfLine: 'auto',
+			},
+		],
 	},
 };
