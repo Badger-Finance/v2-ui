@@ -68,7 +68,13 @@ class RewardsStore {
 					}
 					endpointQuery
 						.then((proof: any) => {
-							if (!network.rewards) {
+							if (!network.rewards || proof.status === 404) {
+								this.badgerTree = _.defaults(
+									{
+										claims: [],
+									},
+									this.badgerTree,
+								);
 								return;
 							}
 							Promise.all([
@@ -79,7 +85,7 @@ class RewardsStore {
 									.call(),
 							])
 								.then((result: any[]) => {
-									if (!proof.error) {
+									if (!proof.error && this.badgerTree) {
 										this.badgerTree = _.defaults(
 											{
 												cycle: parseInt(proof.cycle, 16),

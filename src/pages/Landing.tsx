@@ -91,8 +91,10 @@ const Landing = observer(() => {
 				<Grid item xs={12} className={classes.widgetContainer}>
 					<div>{userConnected && <WalletSlider />}</div>
 					<div className={classes.pickerContainer}>
-						{!!network.rewards && !!connectedAddress && badgerTree && badgerTree.claims.length > 0 && (
+						{!!network.rewards && !!connectedAddress && badgerTree && badgerTree.claims.length > 0 ? (
 							<RewardsModal />
+						) : (
+							<> </>
 						)}
 						<SamplePicker />
 						<CurrencyPicker />

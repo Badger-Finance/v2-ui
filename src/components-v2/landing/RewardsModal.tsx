@@ -91,7 +91,7 @@ export const RewardsModal = observer(() => {
 	};
 
 	const availableRewards = () => {
-		if (!badgerTree || !badgerTree.claims) return;
+		if (!badgerTree || !badgerTree.claims) return [];
 		const elements = badgerTree.claims.map((claim: any[]) => {
 			const { network } = store.wallet;
 			const claimAddress: string = claim[0];
@@ -121,9 +121,8 @@ export const RewardsModal = observer(() => {
 		return elements;
 	};
 
-	const rewards = availableRewards().filter(Boolean);
-
-	return (
+	const rewards: JSX.Element[] = availableRewards().filter(Boolean);
+	return rewards.length > 0 ? (
 		<div>
 			<ButtonGroup className={classes.openModalButton} size="small" variant="outlined" color="primary">
 				<Button variant="contained" onClick={handleOpen}>
@@ -180,6 +179,8 @@ export const RewardsModal = observer(() => {
 				</Fade>
 			</Modal>
 		</div>
+	) : (
+		<> </>
 	);
 });
 
