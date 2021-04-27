@@ -606,7 +606,7 @@ export class EthNetwork implements Network {
 		this.deploy.sett_system.vaults['harvest.renCrv'],
 	];
 	public readonly sidebarTokenLinks = sidebarTokenLinks('eth');
-	public readonly sidebarPricingLinks: SidebarLink[] = sidebarPricingLinks;
+	public readonly sidebarPricingLinks = sidebarPricingLinks;
 	public async getGasPrices(): Promise<GasPrices> {
 		const prices = await fetch('https://www.gasnow.org/api/v3/gas/price?utm_source=badgerv2');
 		const result = await prices.json();

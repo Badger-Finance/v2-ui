@@ -26,7 +26,7 @@ export function sidebarTokenLinks(bsc: 'bsc' | 'eth'): SidebarLink[] {
 			title: 'Uniswap BADGER/wBTC',
 		},
 		{
-			url: 'https://app.sushiswap.fi/pair/0x110492b31c59716ac47337e616804e3e3adc0b4a',
+			url: 'https://analytics.sushi.com/pairs/0x110492b31c59716ac47337e616804e3e3adc0b4a',
 			title: 'Sushiswap BADGER/wBTC',
 		},
 	];
