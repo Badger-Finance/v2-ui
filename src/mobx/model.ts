@@ -561,8 +561,8 @@ export class BscNetwork implements Network {
 		this.deploy.sett_system.vaults['native.pancakeBnbBtcb'],
 		this.deploy.sett_system.vaults['yearn.wBtc'],
 	];
-	public readonly sidebarTokenLinks: SidebarLink[] = sidebarTokenLinks('bsc');
-	public readonly sidebarPricingLinks: SidebarLink[] = sidebarPricingLinks;
+	public readonly sidebarTokenLinks = sidebarTokenLinks('bsc');
+	public readonly sidebarPricingLinks = sidebarPricingLinks;
 	public async getGasPrices(): Promise<GasPrices> {
 		return { standard: 5 };
 	}
