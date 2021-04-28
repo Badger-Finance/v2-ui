@@ -16,12 +16,18 @@ import addresses from 'config/ibBTC/addresses.json';
 import BadgerBtcPeak from 'config/system/abis/BadgerBtcPeak.json';
 import { ZERO, MAX, FLAGS } from 'config/constants';
 
+interface IbBTCApyInfo {
+	fromLastDay: number;
+	fromLastWeek: number;
+}
+
 class IbBTCStore {
 	private store!: RootStore;
 	private config!: typeof addresses.mainnet;
 
 	public tokens: Array<TokenModel> = [];
 	public ibBTC: TokenModel;
+	apyInfo?: IbBTCApyInfo;
 
 	constructor(store: RootStore) {
 		this.store = store;
@@ -31,6 +37,7 @@ class IbBTCStore {
 		extendObservable(this, {
 			tokens: [],
 			ibBTC: null,
+			apyInfo: this.apyInfo,
 		});
 
 		this.ibBTC = new TokenModel(this.store, token_config['ibBTC']);
@@ -84,26 +91,39 @@ class IbBTCStore {
 
 		if (!provider) return;
 
-		const day = 5760;
-		const web3 = new Web3(provider);
-		const ibBTC = new web3.eth.Contract(ibBTCConfig.abi as AbiItem[], this.ibBTC.address);
-		const nowBlock = await web3.eth.getBlock('latest');
-		const { number } = nowBlock;
+		try {
+			const dailyBlocks = 5760; // Block in 24 hrs = 86400 / 15
+			const weeklyBlocks = dailyBlocks * 7;
+			const web3 = new Web3(provider);
+			const ibBTC = new web3.eth.Contract(ibBTCConfig.abi as AbiItem[], this.ibBTC.address);
+			const nowBlock = await web3.eth.getBlock('latest');
+			const { number: currentBlock } = nowBlock;
 
-		console.log({ number });
+			const [dayOldBlock, weekOldBlock, currentPPS, dayOldPPS, weekOldPPS] = await Promise.all([
+				web3.eth.getBlock(currentBlock - dailyBlocks),
+				web3.eth.getBlock(currentBlock - weeklyBlocks),
+				ibBTC.methods.getPricePerFullShare().call(),
+				ibBTC.methods.getPricePerFullShare().call({}, currentBlock - dailyBlocks),
+				ibBTC.methods.getPricePerFullShare().call({}, currentBlock - weeklyBlocks),
+			]);
 
-		const [oldBlock, now, old] = await Promise.all([
-			web3.eth.getBlock(number - day),
-			ibBTC.methods.getPricePerFullShare().call(),
-			ibBTC.methods.getPricePerFullShare().call({}, number - day),
-		]);
+			const earnedInDay =
+				parseFloat(web3.utils.fromWei(currentPPS)) / parseFloat(web3.utils.fromWei(dayOldPPS)) - 1;
+			const earnedInWeek =
+				parseFloat(web3.utils.fromWei(currentPPS)) / parseFloat(web3.utils.fromWei(weekOldPPS)) - 1;
+			const multiplier = 3153600000;
 
-		const earnedInDay = parseFloat(web3.utils.fromWei(now)) / parseFloat(web3.utils.fromWei(old)) - 1;
-		const multiplier = 3153600000;
-		const dailyPY = (earnedInDay * multiplier) / (Number(nowBlock.timestamp) - Number(oldBlock.timestamp));
-		const apy = dailyPY * 365;
+			const dailyPY = (earnedInDay * multiplier) / (Number(nowBlock.timestamp) - Number(dayOldBlock.timestamp));
+			const weeklyPY =
+				(earnedInWeek * multiplier) / (Number(nowBlock.timestamp) - Number(weekOldBlock.timestamp));
 
-		console.log({ apy, oldBlock, now, old, earnedInDay, dailyPY });
+			this.apyInfo = {
+				fromLastDay: dailyPY * 365,
+				fromLastWeek: weeklyPY * 52,
+			};
+		} catch (error) {
+			process.env.NODE_ENV !== 'production' && console.error(error);
+		}
 	});
 
 	resetBalances = action((): void => {
