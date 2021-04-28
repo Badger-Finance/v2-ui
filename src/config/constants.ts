@@ -69,6 +69,7 @@ export const FLAGS = {
 	BRIDGE_FLAG: toBool(process.env.REACT_APP_BRIDGE_FLAG),
 	BWBTC_FLAG: toBool(process.env.REACT_APP_BRIDGE_BWBTC),
 	GEYSER_FLAG: toBool(process.env.REACT_APP_GEYSER_ENABLED),
+	EXPERIMENTAL_VAULTS: toBool(process.env.REACT_APP_EXPERIMENTAL_VAULTS),
 };
 
 export const ZERO = new BigNumber(0);

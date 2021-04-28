@@ -114,12 +114,16 @@ export const VaultDeposit = observer((props: any) => {
 					</Typography>
 					{renderAmounts}
 				</div>
-				<SettAvailableDeposit
-					accountDetails={accountDetails}
-					vault={vault.address}
-					assetName={vault.underlyingToken.symbol}
-					sett={settMap ? settMap[vault.address] : undefined}
-				/>
+				{network.cappedDeposit[vault.address] ? (
+					<SettAvailableDeposit
+						accountDetails={accountDetails}
+						vault={vault.address}
+						assetName={vault.underlyingToken.symbol}
+						sett={settMap ? settMap[vault.address] : undefined}
+					/>
+				) : (
+					<></>
+				)}
 
 				<TextField
 					autoComplete="off"

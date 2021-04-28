@@ -571,12 +571,8 @@ export class BscNetwork implements Network {
 	public getNotifyLink(transaction: TransactionData): NotifyLink {
 		return { link: `https://bscscan.com//tx/${transaction.hash}` };
 	}
-	public readonly isWhitelisted = {
-		[this.deploy.sett_system.vaults['yearn.wBtc']]: true,
-	};
-	public readonly cappedDeposit = {
-		[this.deploy.sett_system.vaults['yearn.wBtc']]: true,
-	};
+	public readonly isWhitelisted = {};
+	public readonly cappedDeposit = {};
 	public readonly uncappedDeposit = {};
 }
 
