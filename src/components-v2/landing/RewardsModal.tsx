@@ -126,7 +126,7 @@ export const RewardsModal = observer(() => {
 		<div>
 			<ButtonGroup className={classes.openModalButton} size="small" variant="outlined" color="primary">
 				<Button variant="contained" onClick={handleOpen}>
-					CLAIM
+					CLAIM REWARDS
 				</Button>
 			</ButtonGroup>
 
