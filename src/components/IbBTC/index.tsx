@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { observer } from 'mobx-react-lite';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { Container, Grid, Tabs, Tab, Card } from '@material-ui/core';
@@ -7,6 +8,8 @@ import { Container, Grid, Tabs, Tab, Card } from '@material-ui/core';
 import PageHeader from 'components-v2/common/PageHeader';
 import { Mint } from './Mint';
 import { Redeem } from './Redeem';
+import { TokenApy } from '../../components-v2/common/TokenApy';
+import { StoreContext } from '../../mobx/store-context';
 
 type TABS = 'Mint' | 'Redeem';
 
@@ -15,6 +18,7 @@ const useStyles = makeStyles((theme) => ({
 		[theme.breakpoints.up('md')]: {
 			paddingLeft: theme.spacing(30),
 		},
+		marginBottom: theme.spacing(4),
 	},
 	headerContainer: {
 		marginTop: theme.spacing(3),
@@ -25,11 +29,17 @@ const useStyles = makeStyles((theme) => ({
 	content: {
 		padding: '40px 24px 32px 24px',
 	},
+	apyInformation: {
+		marginBottom: theme.spacing(4),
+	},
 }));
 
-export const IbBTC = (): any => {
+export const IbBTC = observer((): any => {
+	const { ibBTCStore } = React.useContext(StoreContext);
 	const classes = useStyles();
 	const [activeTab, setActiveTab] = useState<TABS>('Mint');
+
+	console.log('apy =>', ibBTCStore.apyInfo && { ...ibBTCStore.apyInfo });
 
 	const Content = () => (
 		<Container className={classes.content} maxWidth="lg">
@@ -43,6 +53,18 @@ export const IbBTC = (): any => {
 			<Grid container spacing={1} justify="center">
 				<Grid item sm={12} xs={12} className={classes.headerContainer}>
 					<PageHeader title="ibBTC" subtitle="Interest Bearing Badger Bitcoin." />
+				</Grid>
+
+				<Grid item sm={12} xs={12} md={7} className={classes.apyInformation}>
+					<TokenApy
+						logo={ibBTCStore.ibBTC.icon}
+						apyFromLastDay={
+							ibBTCStore.apyInfo ? ibBTCStore.apyInfo.fromLastDay.toFixed(3) + '%' : undefined
+						}
+						apyFromLastWeek={
+							ibBTCStore.apyInfo ? ibBTCStore.apyInfo.fromLastWeek.toFixed(3) + '%' : undefined
+						}
+					/>
 				</Grid>
 
 				<Grid item sm={12} xs={12} md={7}>
@@ -64,4 +86,4 @@ export const IbBTC = (): any => {
 			</Grid>
 		</Container>
 	);
-};
+});
