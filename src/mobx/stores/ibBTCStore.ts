@@ -11,6 +11,7 @@ import { TokenModel } from 'mobx/model';
 import { estimateAndSend } from 'mobx/utils/web3';
 
 import SETT from 'config/system/abis/Sett.json';
+import ibBTCConfig from 'config/system/abis/ibBTC.json';
 import addresses from 'config/ibBTC/addresses.json';
 import BadgerBtcPeak from 'config/system/abis/BadgerBtcPeak.json';
 import { ZERO, MAX, FLAGS } from 'config/constants';
@@ -52,6 +53,7 @@ class IbBTCStore {
 		if (!!connectedAddress) this.fetchBalances();
 		else this.resetBalances();
 		this.fetchConversionRates();
+		this.fetchIbbtcApy();
 	});
 
 	validate = action((amount: BigNumber, token: TokenModel): boolean | void => {
@@ -76,6 +78,33 @@ class IbBTCStore {
 			this.ibBTC.balance = await this.fetchBalance(this.ibBTC);
 		},
 	);
+
+	fetchIbbtcApy = action(async () => {
+		const { provider } = this.store.wallet;
+
+		if (!provider) return;
+
+		const day = 5760;
+		const web3 = new Web3(provider);
+		const ibBTC = new web3.eth.Contract(ibBTCConfig.abi as AbiItem[], this.ibBTC.address);
+		const nowBlock = await web3.eth.getBlock('latest');
+		const { number } = nowBlock;
+
+		console.log({ number });
+
+		const [oldBlock, now, old] = await Promise.all([
+			web3.eth.getBlock(number - day),
+			ibBTC.methods.getPricePerFullShare().call(),
+			ibBTC.methods.getPricePerFullShare().call({}, number - day),
+		]);
+
+		const earnedInDay = parseFloat(web3.utils.fromWei(now)) / parseFloat(web3.utils.fromWei(old)) - 1;
+		const multiplier = 3153600000;
+		const dailyPY = (earnedInDay * multiplier) / (Number(nowBlock.timestamp) - Number(oldBlock.timestamp));
+		const apy = dailyPY * 365;
+
+		console.log({ apy, oldBlock, now, old, earnedInDay, dailyPY });
+	});
 
 	resetBalances = action((): void => {
 		// ZERO balance for all tokens
