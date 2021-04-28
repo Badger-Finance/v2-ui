@@ -33,7 +33,21 @@ const routes = {
 	}),
 	home: new Route<RootStore>({
 		path: '/',
-		component: <Landing />,
+		component: <Landing experimental={false} />,
+		onEnter: (_, params, store) => {
+			store.rewards.fetchSettRewards();
+		},
+		beforeExit: () => {
+			//
+		},
+		onParamsChange: () => {
+			//
+		},
+	}),
+
+	experimental: new Route<RootStore>({
+		path: '/experimental',
+		component: <Landing experimental={true} />,
 		onEnter: (_, params, store) => {
 			store.rewards.fetchSettRewards();
 		},

@@ -716,6 +716,7 @@ export interface Sett extends SettSummary {
 	underlyingToken: string;
 	vaultToken: string;
 	affiliate?: SettAffiliateData;
+	experimental: boolean;
 }
 
 export interface SettAffiliateData {
