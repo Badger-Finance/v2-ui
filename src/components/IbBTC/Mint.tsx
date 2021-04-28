@@ -30,8 +30,6 @@ export const Mint = observer((): any => {
 		ibBTCStore: { tokens, ibBTC },
 	} = store;
 
-	let inputRef: any;
-
 	const [selectedToken, setSelectedToken] = useState<TokenModel>(tokens[0]);
 	const [inputAmount, setInputAmount] = useState<string>();
 	const [outputAmount, setOutputAmount] = useState<string>();
@@ -70,14 +68,14 @@ export const Mint = observer((): any => {
 	};
 
 	const resetState = () => {
-		setInputAmount((inputRef.value = ''));
+		setInputAmount('');
 		setOutputAmount('');
 		setFee(initialFee);
 	};
 
 	const useMaxBalance = () => {
-		if (inputRef) {
-			setInputAmount((inputRef.value = selectedToken.unscale(selectedToken.balance).toString(10)));
+		if (selectedToken.balance.gt(ZERO)) {
+			setInputAmount(selectedToken.unscale(selectedToken.balance).toString(10));
 			store.ibBTCStore.calcMintAmount(selectedToken, selectedToken.balance, handleCalcOutputAmount).then();
 		}
 	};

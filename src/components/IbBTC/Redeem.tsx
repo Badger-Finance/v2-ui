@@ -31,8 +31,6 @@ export const Redeem = observer((): any => {
 		ibBTCStore: { tokens, ibBTC },
 	} = store;
 
-	let inputRef: any;
-
 	const [selectedToken, setSelectedToken] = useState<TokenModel>(tokens[0]);
 	const [inputAmount, setInputAmount] = useState<string>();
 	const [outputAmount, setOutputAmount] = useState<string>();
@@ -63,8 +61,8 @@ export const Redeem = observer((): any => {
 	});
 
 	const useMaxBalance = () => {
-		if (inputRef && selectedToken) {
-			setInputAmount((inputRef.value = ibBTC.unscale(ibBTC.balance).toString(10)));
+		if (ibBTC.balance.gt(ZERO) && selectedToken) {
+			setInputAmount(ibBTC.unscale(ibBTC.balance).toString(10));
 			store.ibBTCStore.calcRedeemAmount(selectedToken, ibBTC.balance, handleCalcOutputAmount).then();
 		}
 	};
@@ -91,7 +89,7 @@ export const Redeem = observer((): any => {
 	};
 
 	const resetState = () => {
-		setInputAmount((inputRef.value = ''));
+		setInputAmount('');
 		setOutputAmount('');
 		setMaxRedeem('');
 		setIsEnoughToRedeem(true);
