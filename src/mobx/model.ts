@@ -531,7 +531,8 @@ export interface Network {
 	getGasPrices: () => Promise<GasPrices>;
 	getNotifyLink: EmitterListener;
 	isWhitelisted: { [index: string]: boolean };
-	customDeposit: { [index: string]: boolean };
+	cappedDeposit: { [index: string]: boolean };
+	uncappedDeposit: { [index: string]: boolean };
 }
 
 export class BscNetwork implements Network {
@@ -573,9 +574,10 @@ export class BscNetwork implements Network {
 	public readonly isWhitelisted = {
 		[this.deploy.sett_system.vaults['yearn.wBtc']]: true,
 	};
-	public readonly customDeposit = {
+	public readonly cappedDeposit = {
 		[this.deploy.sett_system.vaults['yearn.wBtc']]: true,
 	};
+	public readonly uncappedDeposit = {};
 }
 
 export class EthNetwork implements Network {
@@ -636,9 +638,10 @@ export class EthNetwork implements Network {
 	public readonly isWhitelisted = {
 		[this.deploy.sett_system.vaults['yearn.wBtc']]: true,
 	};
-	public readonly customDeposit = {
+	public readonly cappedDeposit = {
 		[this.deploy.sett_system.vaults['yearn.wBtc']]: true,
 	};
+	public readonly uncappedDeposit = {};
 }
 
 export type UserPermissions = {
