@@ -15,7 +15,6 @@ import { getRewards } from 'config/system/rewards';
 import { NETWORK_IDS, NETWORK_LIST, ZERO, TEN } from 'config/constants';
 import { getTokens } from '../config/system/tokens';
 import { getVaults } from '../config/system/vaults';
-import { reduceGeyserSchedule } from './reducers/contractReducers';
 
 export class Contract {
 	store!: RootStore;
@@ -158,9 +157,6 @@ export class Geyser extends Contract {
 	update(payload: GeyserPayload): void {
 		if (!!payload.totalStaked) this.holdings = payload.totalStaked;
 		if (!!payload.totalStakedFor) this.balance = payload.totalStakedFor;
-		if (!!payload.getUnlockSchedulesFor) {
-			this.rewards = reduceGeyserSchedule(payload.getUnlockSchedulesFor, this.store);
-		}
 	}
 }
 
@@ -224,6 +220,7 @@ export interface Growth {
 	month: Amount;
 	year: Amount;
 }
+
 export interface Amount {
 	token: Token;
 	amount: BigNumber;
@@ -277,7 +274,6 @@ export type TokenPayload = {
 export type GeyserPayload = {
 	totalStaked: BigNumber;
 	totalStakedFor: BigNumber;
-	getUnlockSchedulesFor: Schedules;
 };
 
 export type Schedules = {
@@ -309,10 +305,6 @@ export type ReducedAirdops = {
 		token: any;
 	};
 };
-
-export type FormattedGeyserGrowth = { total: BigNumber; tooltip: string };
-
-export type FormattedVaultGrowth = { roi: string; roiTooltip: string };
 
 export type ReducedSushiROIResults = {
 	day: BigNumber;

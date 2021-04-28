@@ -9,12 +9,9 @@ import {
 	Amount,
 	Geyser,
 	Token,
-	Growth,
 	RebaseToStats,
 	ContractToStats,
 	ReducedAirdops,
-	FormattedGeyserGrowth,
-	FormattedVaultGrowth,
 	ReduceAirdropsProps,
 	TokenRebaseStats,
 	Network,
@@ -153,21 +150,6 @@ function calculatePortfolioStats(vaultContracts: any, geyserContracts: any, toke
 	return { tvl, portfolio, wallet, deposits, badgerToken, diggToken, bDigg, liqGrowth, vaultDeposits };
 }
 
-function formatPercentage(ratio: BigNumber) {
-	if (ratio.multipliedBy(1e2).lt(1e-2) && ratio.gt(0)) return ratio.multipliedBy(1e2).toFixed(4);
-	else return ratio.multipliedBy(1e2).toFixed(2);
-}
-function formatReturn(amount: Amount, geyser: Geyser) {
-	const returnValue = amount.amount.dividedBy(10 ** amount.token.decimals).multipliedBy(amount.token.ethValue);
-	const geyserValue = geyser.holdingsValue();
-
-	let total = returnValue.dividedBy(geyserValue);
-	total = total.isNaN() ? new BigNumber(Infinity) : total;
-	const tooltip = formatPercentage(total);
-
-	return { total, tooltip };
-}
-
 export function reduceRebase(stats: TokenRebaseStats, base: Token): any {
 	const info = {
 		oraclePrice: base.ethValue.multipliedBy(stats.oracleRate),
@@ -295,56 +277,4 @@ export function formatAmount(amount: Amount, isVault = false): string {
 		decimals = 18;
 	}
 	return inCurrency(amount.amount.dividedBy(10 ** decimals), 'eth', true, amount.token.decimals);
-}
-
-export function formatGeyserGrowth(geyser: Geyser, period: string): FormattedGeyserGrowth {
-	let total = new BigNumber(0);
-	let tooltip = '';
-	_.map(geyser.rewards, (growth: Growth) => {
-		const rewards = (growth as any)[period];
-
-		if (!!rewards.amount && !rewards.amount.isNaN() && rewards.amount.gt(0)) {
-			const geyserRewards = formatReturn(rewards, geyser);
-			total = total.plus(geyserRewards.total);
-			if (geyserRewards.tooltip !== '') tooltip += ' + ' + geyserRewards.tooltip + `% ${rewards.token.symbol}`;
-		}
-	});
-	return { total, tooltip };
-}
-
-export function formatVaultGrowth(vault: Vault, period: string): FormattedVaultGrowth {
-	const roiArray = !!vault.growth
-		? vault.growth.map((growth: Growth) => {
-				return (
-					!!(growth as any)[period] && {
-						tooltip:
-							formatPercentage((growth as any)[period].amount) +
-							'% ' +
-							(growth as any)[period].token.symbol,
-						total: (growth as any)[period].amount,
-					}
-				);
-		  })
-		: [];
-
-	let total = new BigNumber(0);
-	let tooltip = '';
-	roiArray.forEach((payload: any) => {
-		total = total.plus(payload.total);
-		tooltip += ' + ' + payload.tooltip;
-	});
-
-	if (!!vault.geyser) {
-		const geyserGrowth = formatGeyserGrowth(vault.geyser, period);
-
-		tooltip += geyserGrowth.tooltip;
-		total = total.plus(geyserGrowth.total);
-	}
-
-	total = total.isNaN() || total.isEqualTo(0) ? new BigNumber(Infinity) : total;
-
-	return {
-		roi: formatPercentage(total) + '%',
-		roiTooltip: tooltip.slice(3),
-	};
 }
