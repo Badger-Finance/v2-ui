@@ -14,11 +14,14 @@ export const BalanceGrid = styled(Grid)(({ theme }) => ({
 	padding: theme.spacing(1, 0),
 }));
 
-export const BorderedGrid = styled(Grid)({
+export const BorderedFocusableContainerGrid = styled(Grid)(({ theme }) => ({
 	border: '1px solid #5C5C5C',
 	borderRadius: 8,
 	padding: '18.5px 14px',
-});
+	'&:focus-within': {
+		borderColor: theme.palette.primary.main,
+	},
+}));
 
 export const InputTokenActionButtonsGrid = styled(Grid)(({ theme }) => ({
 	alignItems: 'center',

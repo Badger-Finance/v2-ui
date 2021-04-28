@@ -13,7 +13,7 @@ import { StoreContext } from 'mobx/store-context';
 import {
 	EndAlignText,
 	InputTokenAmount,
-	BorderedGrid,
+	BorderedFocusableContainerGrid,
 	OutputContentGrid,
 	SummaryGrid,
 	BalanceGrid,
@@ -97,7 +97,7 @@ export const Mint = observer((): any => {
 						Balance: {selectedToken.formattedBalance}
 					</EndAlignText>
 				</BalanceGrid>
-				<BorderedGrid item container xs={12}>
+				<BorderedFocusableContainerGrid item container xs={12}>
 					<Grid item xs={12} sm={5}>
 						<InputTokenAmount
 							value={inputAmount}
@@ -118,7 +118,7 @@ export const Mint = observer((): any => {
 							<Tokens tokens={tokens} selected={selectedToken} onTokenSelect={handleTokenSelection} />
 						</Grid>
 					</InputTokenActionButtonsGrid>
-				</BorderedGrid>
+				</BorderedFocusableContainerGrid>
 			</Grid>
 			<Grid item container alignItems="center" xs={12}>
 				<DownArrow />

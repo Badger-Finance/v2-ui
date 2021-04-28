@@ -13,7 +13,7 @@ import { TokenModel } from 'mobx/model';
 import {
 	EndAlignText,
 	InputTokenAmount,
-	BorderedGrid,
+	BorderedFocusableContainerGrid,
 	OutputContentGrid,
 	SummaryGrid,
 	BalanceGrid,
@@ -114,7 +114,7 @@ export const Redeem = observer((): any => {
 						Balance: {ibBTC.formattedBalance}
 					</EndAlignText>
 				</BalanceGrid>
-				<BorderedGrid item container xs={12}>
+				<BorderedFocusableContainerGrid item container xs={12}>
 					<Grid item xs={8} sm={7}>
 						<InputTokenAmount
 							value={inputAmount}
@@ -135,7 +135,7 @@ export const Redeem = observer((): any => {
 							<Token token={ibBTC} />
 						</Grid>
 					</InputTokenActionButtonsGrid>
-				</BorderedGrid>
+				</BorderedFocusableContainerGrid>
 			</Grid>
 			<Grid item container alignItems="center" xs={12}>
 				<DownArrow />
