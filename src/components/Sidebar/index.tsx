@@ -137,7 +137,7 @@ export const Sidebar = observer(() => {
 					button
 					key={value.title}
 					className={classes.secondarySubListItem}
-					onClick={() => window.open(value.url)}
+					onClick={() => window.open(value.url.toString())}
 				>
 					{value.title}
 				</ListItem>
@@ -152,7 +152,7 @@ export const Sidebar = observer(() => {
 					button
 					key={value.title}
 					className={classes.secondarySubListItem}
-					onClick={() => window.open(value.url)}
+					onClick={() => window.open(value.url.toString())}
 				>
 					{value.title}
 				</ListItem>
