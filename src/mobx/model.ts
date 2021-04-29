@@ -99,7 +99,7 @@ export class Vault extends Token {
 	balanceValue(): BigNumber {
 		return this.balance
 			.multipliedBy(this.pricePerShare)
-			.dividedBy(1e18)
+			.dividedBy(10 ** this.decimals)
 			.multipliedBy(this.underlyingToken.ethValue);
 	}
 
@@ -142,14 +142,14 @@ export class Geyser extends Contract {
 
 	holdingsValue(): BigNumber {
 		return this.holdings
-			.dividedBy(1e18)
+			.dividedBy(10 ** this.vault.decimals)
 			.multipliedBy(this.vault.pricePerShare)
 			.multipliedBy(this.vault.underlyingToken.ethValue);
 	}
 
 	balanceValue(): BigNumber {
 		return this.balance
-			.dividedBy(1e18)
+			.dividedBy(10 ** this.vault.decimals)
 			.multipliedBy(this.vault.pricePerShare)
 			.multipliedBy(this.vault.underlyingToken.ethValue);
 	}
@@ -633,13 +633,11 @@ export class EthNetwork implements Network {
 	public getNotifyLink(transaction: TransactionData): NotifyLink {
 		return { link: `https://etherscan.io/tx/${transaction.hash}` };
 	}
-	public readonly isWhitelisted = {
+	public readonly isWhitelisted = {};
+	public readonly cappedDeposit = {};
+	public readonly uncappedDeposit = {
 		[this.deploy.sett_system.vaults['yearn.wBtc']]: true,
 	};
-	public readonly cappedDeposit = {
-		[this.deploy.sett_system.vaults['yearn.wBtc']]: true,
-	};
-	public readonly uncappedDeposit = {};
 	public readonly newVaults = {
 		[this.deploy.sett_system.vaults['yearn.wBtc']]: ['Expected ROI', '100% @ $100m', '40% @ $500m', '25% @ $1b'],
 	};
