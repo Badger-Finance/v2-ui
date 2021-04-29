@@ -639,7 +639,7 @@ export class EthNetwork implements Network {
 		[this.deploy.sett_system.vaults['yearn.wBtc']]: true,
 	};
 	public readonly newVaults = {
-		[this.deploy.sett_system.vaults['yearn.wBtc']]: ['Expected ROI', '60% @ $100m', '30% @ $400m', '25% @ $1b'],
+		[this.deploy.sett_system.vaults['yearn.wBtc']]: ['Expected ROI', '60% @ $100m', '30% @ $400m', '24% @ $1b'],
 	};
 }
 
