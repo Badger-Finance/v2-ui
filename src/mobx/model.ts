@@ -766,7 +766,7 @@ export type SettMap = { [contract: string]: Sett };
 export type RenVMTransaction = {
 	// ID is the pkey in the db.
 	id: string;
-	userAddr: string;
+	user: string;
 	// Nonce monotonically increases per user tx.
 	nonce: number;
 	encodedTx: string; // json encoded tx data.
