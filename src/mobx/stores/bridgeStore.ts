@@ -193,7 +193,6 @@ class BridgeStore {
 			({ newValue, oldValue }: IValueDidChange<string>) => {
 				if (oldValue === newValue) return;
 				// Set shortened addr.
-				this.shortAddr = shortenAddress(newValue);
 				this.reload();
 			},
 		);
@@ -278,6 +277,8 @@ class BridgeStore {
 		// NB: Only ETH supported for now.
 		if (this.network.name !== NETWORK_LIST.ETH) return;
 		if (!provider) return;
+
+		this.shortAddr = shortenAddress(connectedAddress);
 
 		// Fetch old transactions and reload any incomplete tx.
 		this.loading = true;
@@ -439,9 +440,11 @@ class BridgeStore {
 							break;
 						case LockAndMintStatus.ConfirmedOnEthereum:
 							queueNotification('Mint is successful', 'success');
+							this._updateTx(tx, true);
 							break;
 						case BurnAndReleaseStatus.ConfirmedOnEthereum:
 							queueNotification('Release is completed', 'success');
+							this._updateTx(tx, true);
 							break;
 					}
 				})
