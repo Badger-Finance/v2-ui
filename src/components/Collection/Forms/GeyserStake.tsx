@@ -8,6 +8,7 @@ import { Loader } from '../../Loader';
 import { BigNumber } from 'bignumber.js';
 import { useForm } from 'react-hook-form';
 import { formatDialogBalanceUnderlying } from 'mobx/reducers/statsReducers';
+import { FLAGS } from '../../../config/constants';
 
 const TEXTFIELD_ID = 'amountField';
 
@@ -55,7 +56,7 @@ export const GeyserStake = observer((props: any) => {
 		return <Loader />;
 	}
 
-	const canDeposit = !!watch().amount && !!connectedAddress && vault.balance.gt(0);
+	const canDeposit = !!watch().amount && !!connectedAddress && vault.balance.gt(0) && FLAGS.GEYSER_FLAG;
 
 	const renderAmounts = (
 		<ButtonGroup size="small" className={classes.button} disabled={!connectedAddress}>
@@ -97,28 +98,45 @@ export const GeyserStake = observer((props: any) => {
 				<TextField
 					autoComplete="off"
 					name="amount"
-					disabled={!connectedAddress}
+					disabled={!connectedAddress || !FLAGS.GEYSER_FLAG}
 					inputRef={register}
 					id={TEXTFIELD_ID}
 					className={classes.field}
 					variant="outlined"
 					fullWidth
-					placeholder="Type an amount to stake"
+					placeholder={
+						FLAGS.GEYSER_FLAG ? 'Type an amount to stake' : 'Staking requirements have been removed.'
+					}
 				/>
 			</DialogContent>
 			<DialogActions>
-				<Button
-					aria-label="Stake"
-					size="large"
-					disabled={!canDeposit}
-					onClick={handleSubmit(onSubmit)}
-					variant="contained"
-					color="primary"
-					fullWidth
-					className={classes.button}
-				>
-					Stake
-				</Button>
+				{FLAGS.GEYSER_FLAG ? (
+					<Button
+						aria-label="Stake"
+						size="large"
+						disabled={!canDeposit}
+						onClick={handleSubmit(onSubmit)}
+						variant="contained"
+						color="primary"
+						fullWidth
+						className={classes.button}
+					>
+						Stake
+					</Button>
+				) : (
+					<Button
+						aria-label="Stake"
+						size="large"
+						disabled={!canDeposit}
+						onClick={handleSubmit(onSubmit)}
+						variant="contained"
+						color="primary"
+						fullWidth
+						className={classes.button}
+					>
+						Staking Disabled
+					</Button>
+				)}
 			</DialogActions>
 		</>
 	);

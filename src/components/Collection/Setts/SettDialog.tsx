@@ -52,7 +52,7 @@ const SettDialog = (props: SettDialogProps): JSX.Element => {
 	 */
 	if (!vault) {
 		// user wallet not connected - populate zero data
-		vault = contracts.getOrCreateVault('', new Token(store, '', 18), SettAbi.abi);
+		vault = contracts.getOrCreateVault(sett.vaultToken, new Token(store, sett.underlyingToken, 18), SettAbi.abi);
 	}
 
 	const DialogTabs = (props: DialogTabProps): JSX.Element => {
