@@ -341,7 +341,8 @@ class BridgeStore {
 			const txData = {
 				...tx,
 				id: ref.id,
-				user: connectedAddress,
+				// NB: Always store lowercase user addr.
+				user: connectedAddress.toLowerCase(),
 				nonce: this.nextNonce,
 				created,
 				deleted: false,
@@ -391,55 +392,53 @@ class BridgeStore {
 		const { queueNotification } = this.store.uiState;
 
 		try {
-			await retry(async () => {
-				let gateway: Gateway;
-				if (recover) {
-					const parsedTx = JSON.parse(tx.encodedTx);
-					gateway = this.gjs.recoverTransfer(provider, parsedTx, parsedTx.id).pause();
-				} else {
-					gateway = this.gjs.open({
-						...toJS(tx).params,
-						web3Provider: provider,
-					});
-				}
-				await gateway
-					.result()
-					.on('status', async (status: LockAndMintStatus | BurnAndReleaseStatus) => {
-						switch (status) {
-							case LockAndMintStatus.ReturnedFromRenVM:
-								queueNotification(
-									'Deposit is ready, please sign the transaction to submit to ethereum',
-									'info',
-								);
-								break;
-							case LockAndMintStatus.ConfirmedOnEthereum:
-								queueNotification('Mint is successful', 'success');
-								break;
-							case BurnAndReleaseStatus.ConfirmedOnEthereum:
-								queueNotification('Release is completed', 'success');
-								break;
-						}
-					})
-					.on('transferUpdated', async (event: LockAndMintEvent | BurnAndReleaseEvent) => {
-						if (event.archived) return;
-						const txData = {
-							...tx,
-							encodedTx: JSON.stringify(event),
-							status: event.status,
-						};
-						await this._updateTx(txData);
-					})
-					.catch((err: Error) => {
-						if (err.message === 'Transfer cancelled by user') {
-							this._updateTx(tx, true);
-							queueNotification(`${err.message}.`, 'info');
-							return;
-						}
+			let gateway: Gateway;
+			if (recover) {
+				const parsedTx = JSON.parse(tx.encodedTx);
+				gateway = this.gjs.recoverTransfer(provider, parsedTx, parsedTx.id).pause();
+			} else {
+				gateway = this.gjs.open({
+					...toJS(tx).params,
+					web3Provider: provider,
+				});
+			}
+			await gateway
+				.result()
+				.on('status', async (status: LockAndMintStatus | BurnAndReleaseStatus) => {
+					switch (status) {
+						case LockAndMintStatus.ReturnedFromRenVM:
+							queueNotification(
+								'Deposit is ready, please sign the transaction to submit to ethereum',
+								'info',
+							);
+							break;
+						case LockAndMintStatus.ConfirmedOnEthereum:
+							queueNotification('Mint is successful', 'success');
+							break;
+						case BurnAndReleaseStatus.ConfirmedOnEthereum:
+							queueNotification('Release is completed', 'success');
+							break;
+					}
+				})
+				.on('transferUpdated', async (event: LockAndMintEvent | BurnAndReleaseEvent) => {
+					if (event.archived) return;
+					const txData = {
+						...tx,
+						encodedTx: JSON.stringify(event),
+						status: event.status,
+					};
+					await this._updateTx(txData);
+				})
+				.catch((err: Error) => {
+					if (err.message === 'Transfer cancelled by user') {
+						this._updateTx(tx, true);
+						queueNotification(`${err.message}.`, 'info');
+						return;
+					}
 
-						this._updateTx(tx, true, err);
-						queueNotification(`${err.message}.`, 'error');
-					});
-			}, defaultRetryOptions);
+					this._updateTx(tx, true, err);
+					queueNotification(`${err.message}.`, 'error');
+				});
 		} catch (err) {
 			queueNotification(`Failed to open tx: ${err.message}`, 'error');
 			// Blocking error if err on open/recover.
