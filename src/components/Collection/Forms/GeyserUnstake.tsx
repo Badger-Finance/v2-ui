@@ -31,7 +31,7 @@ export const GeyserUnstake = observer((props: any) => {
 	} = store;
 
 	const percentageOfBalance = (percent: number) => {
-		return vault.geyser.balance
+		return vault?.geyser?.balance
 			.dividedBy(10 ** vault.decimals)
 			.multipliedBy(percent / 100)
 			.toFixed(parseInt(vault.decimals), BigNumber.ROUND_HALF_FLOOR);
