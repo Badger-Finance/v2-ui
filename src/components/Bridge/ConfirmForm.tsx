@@ -133,11 +133,11 @@ export const ConfirmForm = ({
 					<>
 						{feeContainer(
 							'Minting',
-							`By minting bWBTC, this transaction directly deposits your newly minted wBTC into the Badger wBTC vault. bwBTC represents your position in the vault.`,
+							`By minting byvWBTC, this transaction directly deposits your newly minted wBTC into the Badger wBTC vault. byvWBTC represents your position in the vault.`,
 							<div className={classes.receiveAmount}>
 								<img src={selectedTokenImage()} className={classes.logo2} />
 								<div>
-									<div>{values.token}</div>
+									<div>{values.token == 'bWBTC' ? 'byvWBTC' : values.token}</div>
 								</div>
 							</div>,
 						)}
@@ -151,7 +151,7 @@ export const ConfirmForm = ({
 						<div className={classes.receiveAmount}>
 							<img src={selectedTokenImage()} className={classes.logo2} />
 							<div>
-								<div>{values.token}</div>
+								<div>{values.token == 'bWBTC' ? 'byvWBTC' : values.token}</div>
 							</div>
 						</div>
 					</div>
@@ -211,7 +211,9 @@ export const ConfirmForm = ({
 
 						<div>
 							<div>{values.receiveAmount.toFixed(8)}</div>
-							<div>{values.tabValue == 2 ? 'BTC' : values.token}</div>
+							<div>
+								{values.tabValue == 2 ? 'BTC' : values.token == 'bWBTC' ? 'byvWBTC' : values.token}
+							</div>
 						</div>
 					</div>
 				</div>

@@ -170,7 +170,11 @@ export const MintForm = ({
 					{isEarn && (
 						<div className={classes.summaryRow}>
 							<Typography variant="subtitle1">APY: </Typography>
-							<Typography variant="body1">{getAPY(values.token, toJS(settMap)).toFixed(2)}%</Typography>
+							<Typography variant="body1">
+								{values.token == 'bWBTC'
+									? '✨ New Vault ✨'
+									: getAPY(values.token, toJS(settMap)).toFixed(2) + '%'}
+							</Typography>
 						</div>
 					)}
 
