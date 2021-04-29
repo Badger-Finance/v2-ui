@@ -544,7 +544,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 							<MenuItem value={'bWBTC'}>
 								<span className={classes.menuItem}>
 									<img src={bWBTCLogo} className={classes.logo} />
-									<span>bWBTC</span>
+									<span>byvWBTC</span>
 								</span>
 							</MenuItem>
 						)}
@@ -594,7 +594,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 							<MenuItem value={'bWBTC'}>
 								<span className={classes.menuItem}>
 									<img src={bWBTCLogo} className={classes.logo} />
-									<span>bWBTC</span>
+									<span>byvWBTC</span>
 								</span>
 							</MenuItem>
 						)}

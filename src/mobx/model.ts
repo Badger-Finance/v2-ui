@@ -99,7 +99,7 @@ export class Vault extends Token {
 	balanceValue(): BigNumber {
 		return this.balance
 			.multipliedBy(this.pricePerShare)
-			.dividedBy(1e18)
+			.dividedBy(10 ** this.decimals)
 			.multipliedBy(this.underlyingToken.ethValue);
 	}
 
@@ -142,14 +142,14 @@ export class Geyser extends Contract {
 
 	holdingsValue(): BigNumber {
 		return this.holdings
-			.dividedBy(1e18)
+			.dividedBy(10 ** this.vault.decimals)
 			.multipliedBy(this.vault.pricePerShare)
 			.multipliedBy(this.vault.underlyingToken.ethValue);
 	}
 
 	balanceValue(): BigNumber {
 		return this.balance
-			.dividedBy(1e18)
+			.dividedBy(10 ** this.vault.decimals)
 			.multipliedBy(this.vault.pricePerShare)
 			.multipliedBy(this.vault.underlyingToken.ethValue);
 	}

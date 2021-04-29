@@ -82,8 +82,8 @@ export const MintForm = ({
 		}
 		let address = '';
 		switch (token) {
-			// TODO: Add yvault APY after launch.
 			case 'bWBTC':
+				address = sett_system.vaults['yearn.wBtc'];
 				break;
 			case 'bCRVrenBTC':
 				address = sett_system.vaults['native.renCrv'];
