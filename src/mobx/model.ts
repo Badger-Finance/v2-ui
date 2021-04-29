@@ -624,7 +624,7 @@ export class EthNetwork implements Network {
 			title: 'Uniswap BADGER/wBTC',
 		},
 		{
-			url: 'https://app.sushiswap.fi/pair/0x110492b31c59716ac47337e616804e3e3adc0b4a',
+			url: 'https://analytics.sushi.com/pairs/0x110492b31c59716ac47337e616804e3e3adc0b4a',
 			title: 'Sushiswap BADGER/wBTC',
 		},
 	];
@@ -766,7 +766,7 @@ export type SettMap = { [contract: string]: Sett };
 export type RenVMTransaction = {
 	// ID is the pkey in the db.
 	id: string;
-	userAddr: string;
+	user: string;
 	// Nonce monotonically increases per user tx.
 	nonce: number;
 	encodedTx: string; // json encoded tx data.
