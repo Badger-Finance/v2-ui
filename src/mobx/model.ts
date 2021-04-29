@@ -633,13 +633,11 @@ export class EthNetwork implements Network {
 	public getNotifyLink(transaction: TransactionData): NotifyLink {
 		return { link: `https://etherscan.io/tx/${transaction.hash}` };
 	}
-	public readonly isWhitelisted = {
+	public readonly isWhitelisted = {};
+	public readonly cappedDeposit = {};
+	public readonly uncappedDeposit = {
 		[this.deploy.sett_system.vaults['yearn.wBtc']]: true,
 	};
-	public readonly cappedDeposit = {
-		[this.deploy.sett_system.vaults['yearn.wBtc']]: true,
-	};
-	public readonly uncappedDeposit = {};
 	public readonly newVaults = {
 		[this.deploy.sett_system.vaults['yearn.wBtc']]: ['Expected ROI', '100% @ $100m', '40% @ $500m', '25% @ $1b'],
 	};
