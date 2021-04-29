@@ -409,11 +409,10 @@ class BridgeStore {
 			}
 			await retry(async () => {
 				await ref.update(txData);
-				// if (deleted) {
-				//   // Remove current ref if deleted.
-				//   this.current = null;
-				//   return;
-				// }
+				// TODO: Can remove this after we remove duplicate listeners (due to switching networks/addrs).
+				// We avoid setting current tx if we're already in IDLE state since completion/update can
+				// be racy, esp if we have duplicate listeners.
+				if (this.status == Status.IDLE) return;
 				this.current = {
 					...this.current,
 					...txData,
