@@ -17,7 +17,7 @@ import { SuccessForm } from './SuccessForm';
 import { ConfirmForm } from './ConfirmForm';
 import { ValuesProp } from './Common';
 import WBTCLogo from 'assets/icons/WBTC.svg';
-import bWBTCLogo from 'assets/icons/bWBTC.svg';
+import bWBTCLogo from 'assets/icons/byvWBTC.svg';
 import renBTCLogo from 'assets/icons/renBTC.svg';
 import crvBTCLogo from 'assets/tokens/bcrvRenWBTC.png';
 import { NETWORK_LIST, CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS, FLAGS } from 'config/constants';
@@ -99,7 +99,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 	} = store;
 
 	const initialTokenState: {
-		token: 'renBTC' | 'WBTC' | 'bWBTC' | 'bCRVrenBTC' | 'bCRVsBTC' | 'bCRVtBTC';
+		token: 'renBTC' | 'WBTC' | 'byvWBTC' | 'bCRVrenBTC' | 'bCRVsBTC' | 'bCRVtBTC';
 	} = {
 		token: 'renBTC',
 	};
@@ -161,7 +161,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 	const handleTabChange = (_: unknown, newValue: number) => {
 		setStates((prevState) => ({
 			...prevState,
-			token: newValue !== 1 ? 'renBTC' : FLAGS.BWBTC_FLAG ? 'bWBTC' : 'bCRVrenBTC',
+			token: newValue !== 1 ? 'renBTC' : FLAGS.BWBTC_FLAG ? 'byvWBTC' : 'bCRVrenBTC',
 			tabValue: newValue,
 			receiveAmount: 0,
 			burnAmount: '',
@@ -206,7 +206,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 
 	const vaultAddress = () => {
 		switch (token) {
-			case 'bWBTC':
+			case 'byvWBTC':
 				return sett_system.vaults['yearn.wBtc'];
 			case 'bCRVrenBTC':
 				return sett_system.vaults['native.renCrv'];
@@ -225,7 +225,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 				return tokens.renBTC;
 			case 'WBTC':
 				return tokens.wBTC;
-			case 'bWBTC':
+			case 'byvWBTC':
 				return sett_system.vaults['yearn.wBtc'];
 			case 'bCRVrenBTC':
 				return sett_system.vaults['native.renCrv'];
@@ -246,7 +246,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 				return SETT_DECIMALS;
 			case 'renBTC':
 			case 'WBTC':
-			case 'bWBTC':
+			case 'byvWBTC':
 			default:
 				return DECIMALS;
 		}
@@ -267,7 +267,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 		let desiredToken = tokens.renBTC;
 		let maxSlippageBps = 0;
 
-		if (token === 'WBTC' || token === 'bWBTC') {
+		if (token === 'WBTC' || token === 'byvWBTC') {
 			// Convert max slippage from % to bps.
 			maxSlippageBps = Math.round(parseFloat(maxSlippage) * 100);
 			desiredToken = tokens.wBTC;
@@ -318,7 +318,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 		let burnToken = tokens.renBTC;
 		let maxSlippageBps = 0;
 
-		if (token === 'WBTC' || token === 'bWBTC') {
+		if (token === 'WBTC' || token === 'byvWBTC') {
 			burnToken = tokens.wBTC;
 			// Convert max slippage from % to bps.
 			maxSlippageBps = Math.round(parseFloat(maxSlippage) * 100);
@@ -425,7 +425,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 		const networkFee = tabValue <= 1 ? lockNetworkFee : releaseNetworkFee;
 		let amountWithFee = inputAmount - renFeeAmount - badgerFeeAmount - networkFee;
 
-		if (token === 'WBTC' || token === 'bWBTC') {
+		if (token === 'WBTC' || token === 'byvWBTC') {
 			estimatedSlippage = await getEstimatedSlippage(amountWithFee, name);
 			amountWithFee *= 1 - estimatedSlippage;
 		}
