@@ -240,14 +240,7 @@ export function formatHoldingsValue(vault: Vault, currency: string): string {
 export function formatBalanceValue(vault: Vault, currency: string): string {
 	// Only bDIGG shares need to be scaled, DIGG is already the 1:1 underlying
 	const diggMultiplier = vault.symbol === 'bDIGG' ? getDiggPerShare(vault) : new BigNumber(1);
-	return inCurrency(
-		vault
-			.balanceValue()
-			.multipliedBy(diggMultiplier)
-			.dividedBy(10 ** vault.decimals),
-		currency,
-		currency != 'eth',
-	);
+	return inCurrency(vault.balanceValue().multipliedBy(diggMultiplier).dividedBy(1e18), currency, currency != 'eth');
 }
 
 export function formatTokenBalanceValue(token: Token, currency: string): string {
