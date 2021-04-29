@@ -168,7 +168,7 @@ export const Bridge = observer(() => {
 				<Grid item xs={12} md={7}>
 					<Paper className={classes.statPaper} style={{ padding: '1rem' }}>
 						<p>
-							RenVM is new technology that has undergone robust &nbsp;
+							RenVM is new technology that has undergone robust&nbsp;
 							<a
 								className={classes.link}
 								href={'https://github.com/renproject/ren/wiki/Audits'}
@@ -178,7 +178,18 @@ export const Bridge = observer(() => {
 								security audits.
 							</a>
 							<br />
-							Please follow the user guide to mitigate risk of lost funds due to error.
+							Please follow the&nbsp;
+							<a
+								className={classes.link}
+								href={
+									'https://badgerdao.medium.com/bring-your-btc-to-defi-through-the-badger-bitcoin-bridge-881e69f85b2e'
+								}
+								target={'_blank'}
+								rel={'noreferrer'}
+							>
+								user guide
+							</a>
+							&nbsp;to mitigate risk of lost funds due to error.
 						</p>
 					</Paper>
 				</Grid>

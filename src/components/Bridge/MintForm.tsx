@@ -39,15 +39,7 @@ export const MintForm = ({
 	const {
 		wallet: { connectedAddress, network },
 		setts: { settMap },
-		bridge: {
-			renbtcBalance,
-			wbtcBalance,
-			byvwbtcBalance,
-			bCRVrenBTCBalance,
-			bCRVsBTCBalance,
-			bCRVtBTCBalance,
-			shortAddr,
-		},
+		bridge: { shortAddr },
 	} = store;
 
 	const next = (e: React.MouseEvent<HTMLElement>) => {
@@ -56,25 +48,6 @@ export const MintForm = ({
 	};
 
 	const isWBTC = values.token === 'WBTC' || values.token === 'byvWBTC';
-
-	const selectedTokenBalance = (token: string): number => {
-		switch (token) {
-			case 'renBTC':
-				return renbtcBalance;
-			case 'WBTC':
-				return wbtcBalance;
-			case 'byvWBTC':
-				return byvwbtcBalance;
-			case 'bCRVrenBTC':
-				return bCRVrenBTCBalance;
-			case 'bCRVsBTC':
-				return bCRVsBTCBalance;
-			case 'bCRVtBTC':
-				return bCRVtBTCBalance;
-			default:
-				return 0;
-		}
-	};
 
 	const getAPY = (token: string, settMap: SettMap | null | undefined): number => {
 		if (!settMap) {
@@ -149,10 +122,6 @@ export const MintForm = ({
 				</Grid>
 
 				<Grid item xs={12}>
-					<Typography variant="body1" color="textSecondary" style={{ textAlign: 'right' }}>
-						Balance: {selectedTokenBalance(values.token)}
-					</Typography>
-
 					<div className={`${classes.row} ${classes.longText}`}>
 						<Typography variant="h1">{values.receiveAmount.toFixed(8) || '0.00'}</Typography>
 						{assetSelect()}
