@@ -87,7 +87,7 @@ export const Airdrops = observer(() => {
 				button: 'Uniswap',
 				button2: 'Sushiswap',
 				href: 'https://info.uniswap.org/pair/0xcd7989894bc033581532d2cd88da5db0a4b12859',
-				href2: 'https://app.sushiswap.fi/pair/0x110492b31c59716ac47337e616804e3e3adc0b4a',
+				href2: 'https://analytics.sushi.com/pairs/0x110492b31c59716ac47337e616804e3e3adc0b4a',
 				copy: 'Provide liquidity and stake LP in vaults.',
 			},
 			{
@@ -95,7 +95,7 @@ export const Airdrops = observer(() => {
 				button: 'Uniswap',
 				button2: 'Sushiswap',
 				href: 'https://info.uniswap.org/pair/0xE86204c4eDDd2f70eE00EAd6805f917671F56c52',
-				href2: 'https://sushiswap.vision/pair/0x9a13867048e01c663ce8ce2fe0cdae69ff9f35e3',
+				href2: 'https://analytics.sushi.com/pairs/0x9a13867048e01c663ce8ce2fe0cdae69ff9f35e3',
 				copy: 'Provide liquidity and stake LP in vaults.',
 			},
 			{

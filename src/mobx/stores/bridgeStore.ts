@@ -55,6 +55,7 @@ const defaultRetryOptions = {
 };
 
 const defaultProps = {
+	openGateway: null,
 	history: [],
 	nextNonce: 0,
 	current: null,
@@ -81,6 +82,7 @@ class BridgeStore {
 	private network!: Network;
 	private db!: firebase.firestore.Firestore;
 	private gjs!: GatewayJS;
+	private openGateway!: Gateway | null;
 	private adapter!: Contract;
 
 	private renbtc!: Contract;
@@ -148,8 +150,10 @@ class BridgeStore {
 			...defaultProps,
 		});
 
-		observe(this.store.wallet as WalletStore, 'network', ({ newValue }: IValueDidChange<Network>) => {
+		observe(this.store.wallet as WalletStore, 'network', ({ newValue, oldValue }: IValueDidChange<Network>) => {
+			if (oldValue === newValue) return;
 			this.network = newValue;
+			this.reload();
 		});
 
 		observe(this.store.wallet as WalletStore, 'provider', ({ newValue }: IValueDidChange<provider>) => {
@@ -187,23 +191,10 @@ class BridgeStore {
 			this.store.wallet as WalletStore,
 			'connectedAddress',
 			({ newValue, oldValue }: IValueDidChange<string>) => {
-				const { queueNotification } = this.store.uiState;
-				const { provider } = this.store.wallet;
-				if (!provider) return;
 				if (oldValue === newValue) return;
-				this.reset();
-
 				// Set shortened addr.
 				this.shortAddr = shortenAddress(newValue);
-				// Fetch old transactions and reload any incomplete tx.
-				this.loading = true;
-				Promise.all([this._fetchTx(newValue), this._getBalances(newValue)])
-					.catch((err: Error) => {
-						queueNotification(`Failed to fetch bridge data: ${err.message}`, 'error');
-					})
-					.finally(() => {
-						this.loading = false;
-					});
+				this.reload();
 			},
 		);
 
@@ -277,7 +268,33 @@ class BridgeStore {
 		}, UPDATE_INTERVAL_SECONDS);
 	}
 
+	reload = action(() => {
+		// Always reset first on reload even though we may not be loading any data.
+		this.reset();
+
+		const { queueNotification } = this.store.uiState;
+		const { provider, connectedAddress } = this.store.wallet;
+
+		// NB: Only ETH supported for now.
+		if (this.network.name !== NETWORK_LIST.ETH) return;
+		if (!provider) return;
+
+		// Fetch old transactions and reload any incomplete tx.
+		this.loading = true;
+		Promise.all([this._fetchTx(connectedAddress), this._getBalances(connectedAddress)])
+			.catch((err: Error) => {
+				queueNotification(`Failed to fetch bridge data: ${err.message}`, 'error');
+			})
+			.finally(() => {
+				this.loading = false;
+			});
+	});
+
 	reset = action(() => {
+		if (this.openGateway) {
+			this.openGateway.close();
+		}
+
 		Object.entries(defaultProps).forEach(([k, v]) => {
 			(this as any)[k] = v;
 		});
@@ -300,7 +317,7 @@ class BridgeStore {
 				// bloat starts to become a problem.
 				const results = await this.db
 					.collection('transactions')
-					.where('user', '==', userAddr)
+					.where('user', '==', userAddr.toLowerCase())
 					.orderBy('nonce', 'desc')
 					.get();
 
@@ -341,7 +358,8 @@ class BridgeStore {
 			const txData = {
 				...tx,
 				id: ref.id,
-				user: connectedAddress,
+				// NB: Always store lowercase user addr.
+				user: connectedAddress.toLowerCase(),
 				nonce: this.nextNonce,
 				created,
 				deleted: false,
@@ -378,7 +396,10 @@ class BridgeStore {
 			await retry(async () => {
 				await ref.update(txData);
 				// Remove ref after committing to db.
-				this.current = txData as RenVMTransaction;
+				this.current = {
+					...this.current,
+					...txData,
+				} as RenVMTransaction;
 			}, defaultRetryOptions);
 		} catch (err) {
 			queueNotification(`Failed to update tx in db: ${err.message}`, 'error');
@@ -390,56 +411,59 @@ class BridgeStore {
 		const { provider } = this.store.wallet;
 		const { queueNotification } = this.store.uiState;
 
-		try {
-			await retry(async () => {
-				let gateway: Gateway;
-				if (recover) {
-					const parsedTx = JSON.parse(tx.encodedTx);
-					gateway = this.gjs.recoverTransfer(provider, parsedTx, parsedTx.id).pause();
-				} else {
-					gateway = this.gjs.open({
-						...toJS(tx).params,
-						web3Provider: provider,
-					});
-				}
-				await gateway
-					.result()
-					.on('status', async (status: LockAndMintStatus | BurnAndReleaseStatus) => {
-						switch (status) {
-							case LockAndMintStatus.ReturnedFromRenVM:
-								queueNotification(
-									'Deposit is ready, please sign the transaction to submit to ethereum',
-									'info',
-								);
-								break;
-							case LockAndMintStatus.ConfirmedOnEthereum:
-								queueNotification('Mint is successful', 'success');
-								break;
-							case BurnAndReleaseStatus.ConfirmedOnEthereum:
-								queueNotification('Release is completed', 'success');
-								break;
-						}
-					})
-					.on('transferUpdated', async (event: LockAndMintEvent | BurnAndReleaseEvent) => {
-						if (event.archived) return;
-						const txData = {
-							...tx,
-							encodedTx: JSON.stringify(event),
-							status: event.status,
-						};
-						await this._updateTx(txData);
-					})
-					.catch((err: Error) => {
-						if (err.message === 'Transfer cancelled by user') {
-							this._updateTx(tx, true);
-							queueNotification(`${err.message}.`, 'info');
-							return;
-						}
+		// NB: Should not happen but just as a safety check.
+		if (this.openGateway) {
+			this.openGateway.close();
+			this.openGateway = null;
+		}
 
-						this._updateTx(tx, true, err);
-						queueNotification(`${err.message}.`, 'error');
-					});
-			}, defaultRetryOptions);
+		try {
+			if (recover) {
+				const parsedTx = JSON.parse(tx.encodedTx);
+				this.openGateway = this.gjs.recoverTransfer(provider, parsedTx, parsedTx.id).pause();
+			} else {
+				this.openGateway = this.gjs.open({
+					...toJS(tx).params,
+					web3Provider: provider,
+				});
+			}
+			await this.openGateway
+				.result()
+				.on('status', async (status: LockAndMintStatus | BurnAndReleaseStatus) => {
+					switch (status) {
+						case LockAndMintStatus.ReturnedFromRenVM:
+							queueNotification(
+								'Deposit is ready, please sign the transaction to submit to ethereum',
+								'info',
+							);
+							break;
+						case LockAndMintStatus.ConfirmedOnEthereum:
+							queueNotification('Mint is successful', 'success');
+							break;
+						case BurnAndReleaseStatus.ConfirmedOnEthereum:
+							queueNotification('Release is completed', 'success');
+							break;
+					}
+				})
+				.on('transferUpdated', async (event: LockAndMintEvent | BurnAndReleaseEvent) => {
+					if (event.archived) return;
+					const txData = {
+						...tx,
+						encodedTx: JSON.stringify(event),
+						status: event.status,
+					};
+					await this._updateTx(txData);
+				})
+				.catch((err: Error) => {
+					if (err.message === 'Transfer cancelled by user') {
+						this._updateTx(tx, true);
+						queueNotification(`${err.message}.`, 'info');
+						return;
+					}
+
+					this._updateTx(tx, true, err);
+					queueNotification(`${err.message}.`, 'error');
+				});
 		} catch (err) {
 			queueNotification(`Failed to open tx: ${err.message}`, 'error');
 			// Blocking error if err on open/recover.
@@ -479,6 +503,10 @@ class BridgeStore {
 		const { queueNotification } = this.store.uiState;
 		try {
 			await retry(async () => {
+				// NB: Only ETH supported for now. Check here since network could have
+				// gotten set at any point from init to now and this fails loudly if
+				// on the wrong network.
+				if (this.network.name !== NETWORK_LIST.ETH) return;
 				const [
 					renbtcBalance,
 					wbtcBalance,
