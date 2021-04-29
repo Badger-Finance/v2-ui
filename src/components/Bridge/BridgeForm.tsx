@@ -17,7 +17,7 @@ import { SuccessForm } from './SuccessForm';
 import { ConfirmForm } from './ConfirmForm';
 import { ValuesProp } from './Common';
 import WBTCLogo from 'assets/icons/WBTC.svg';
-import bWBTCLogo from 'assets/icons/byvWBTC.svg';
+import byvWBTCLogo from 'assets/icons/byvWBTC.svg';
 import renBTCLogo from 'assets/icons/renBTC.svg';
 import crvBTCLogo from 'assets/tokens/bcrvRenWBTC.png';
 import { NETWORK_LIST, CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS, FLAGS } from 'config/constants';
@@ -541,9 +541,9 @@ export const BridgeForm = observer(({ classes }: any) => {
 						}}
 					>
 						{FLAGS.BWBTC_FLAG && (
-							<MenuItem value={'bWBTC'}>
+							<MenuItem value={'byvWBTC'}>
 								<span className={classes.menuItem}>
-									<img src={bWBTCLogo} className={classes.logo} />
+									<img src={byvWBTCLogo} className={classes.logo} />
 									<span>byvWBTC</span>
 								</span>
 							</MenuItem>
@@ -591,9 +591,9 @@ export const BridgeForm = observer(({ classes }: any) => {
 						</MenuItem>
 
 						{FLAGS.BWBTC_FLAG && (
-							<MenuItem value={'bWBTC'}>
+							<MenuItem value={'byvWBTC'}>
 								<span className={classes.menuItem}>
-									<img src={bWBTCLogo} className={classes.logo} />
+									<img src={byvWBTCLogo} className={classes.logo} />
 									<span>byvWBTC</span>
 								</span>
 							</MenuItem>
