@@ -5,7 +5,7 @@ import async from 'async';
 import BigNumber from 'bignumber.js';
 import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
-import { AbiItem } from 'web3-utils';
+import { AbiItem, toHex, toBN } from 'web3-utils';
 import Web3 from 'web3';
 import { TokenModel } from 'mobx/model';
 import { estimateAndSend } from 'mobx/utils/web3';
@@ -209,7 +209,8 @@ class IbBTCStore {
 
 			const web3 = new Web3(provider);
 			const tokenContract = new web3.eth.Contract(SETT.abi as AbiItem[], underlyingAsset.address);
-			const method = tokenContract.methods.increaseAllowance(spender, amount);
+			const hexAmount = toHex(toBN(amount as any));
+			const method = tokenContract.methods.increaseAllowance(spender, hexAmount);
 
 			queueNotification(`Sign the transaction to allow Badger to spend your ${underlyingAsset.symbol}`, 'info');
 
@@ -270,12 +271,14 @@ class IbBTCStore {
 
 			const web3 = new Web3(provider);
 			const peakContract = new web3.eth.Contract(BadgerBtcPeak.abi as AbiItem[], this.config.contracts.peak);
-			const method = peakContract.methods.calcMint(inToken.poolId, amount);
+			const hexAmount = toHex(toBN(amount as any));
+			const method = peakContract.methods.calcMint(inToken.poolId, hexAmount);
 
 			try {
 				const result = await method.call();
 				callback(null, result);
 			} catch (err) {
+				console.log('error =>', err);
 				queueNotification(err.message, 'error');
 				callback(err, null);
 			}
@@ -288,7 +291,8 @@ class IbBTCStore {
 
 		const web3 = new Web3(provider);
 		const peakContract = new web3.eth.Contract(BadgerBtcPeak.abi as AbiItem[], this.config.contracts.peak);
-		const method = peakContract.methods.mint(inToken.poolId, amount);
+		const hexAmount = toHex(toBN(amount as any));
+		const method = peakContract.methods.mint(inToken.poolId, hexAmount);
 
 		estimateAndSend(
 			web3,
@@ -329,7 +333,8 @@ class IbBTCStore {
 
 			const web3 = new Web3(provider);
 			const peakContract = new web3.eth.Contract(BadgerBtcPeak.abi as AbiItem[], this.config.contracts.peak);
-			const method = peakContract.methods.calcRedeem(outToken.poolId, amount);
+			const hexAmount = toHex(toBN(amount as any));
+			const method = peakContract.methods.calcRedeem(outToken.poolId, hexAmount);
 
 			try {
 				const result = await method.call();
@@ -347,7 +352,8 @@ class IbBTCStore {
 
 		const web3 = new Web3(provider);
 		const peakContract = new web3.eth.Contract(BadgerBtcPeak.abi as AbiItem[], this.config.contracts.peak);
-		const method = peakContract.methods.redeem(outToken.poolId, amount);
+		const hexAmount = toHex(toBN(amount as any));
+		const method = peakContract.methods.redeem(outToken.poolId, hexAmount);
 
 		estimateAndSend(
 			web3,
