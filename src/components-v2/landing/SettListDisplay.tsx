@@ -9,34 +9,36 @@ import { SettListViewProps } from './SettListView';
 import SettTable from './SettTable';
 
 const SettListDisplay = observer((props: SettListViewProps) => {
-	const { onOpen } = props;
+	const { onOpen, experimental } = props;
 	const store = useContext(StoreContext);
 	const {
-		setts: { settMap },
+		setts: { settMap, experimentalMap },
 		uiState: { currency, period },
 		contracts: { vaults },
 		wallet: { network },
 	} = store;
 
-	if (settMap === undefined) {
+	const currentSettMap = experimental ? experimentalMap : settMap;
+
+	if (currentSettMap === undefined) {
 		return <Loader message={`Loading ${network.fullName} Setts...`} />;
 	}
-	if (settMap === null) {
+	if (currentSettMap === null) {
 		return <Typography variant="h4">There was an issue loading setts. Try refreshing.</Typography>;
 	}
 	const settListItems = network.settOrder
 		.map((contract) => {
-			if (!settMap[contract]) {
+			if (!currentSettMap[contract]) {
 				return;
 			}
-			const vault: Vault = vaults[settMap[contract].vaultToken];
+			const vault: Vault = vaults[currentSettMap[contract].vaultToken];
 			return (
 				<SettListItem
-					sett={settMap[contract]}
-					key={settMap[contract].name}
+					sett={currentSettMap[contract]}
+					key={currentSettMap[contract].name}
 					currency={currency}
 					period={period}
-					onOpen={() => onOpen(vault, settMap[contract])}
+					onOpen={() => onOpen(vault, currentSettMap[contract])}
 				/>
 			);
 		})
@@ -46,6 +48,7 @@ const SettListDisplay = observer((props: SettListViewProps) => {
 			title={'All Setts'}
 			displayValue={''}
 			tokenTitle={'Tokens'}
+			experimental={experimental}
 			period={period}
 			settList={settListItems}
 		/>

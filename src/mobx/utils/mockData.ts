@@ -6,6 +6,7 @@ export const testYearnVaultApiResponse: Sett = {
 	vaultToken: '0x50b20a12Acb15a413FE76FB82f9E524D3b0E8a69',
 	underlyingToken: '0xEd2a8Ab49DcbCb8C27650cC8D5229Cefcad52e2a',
 	ppfs: 1,
+	experimental: true,
 	value: 150538.70217373536,
 	apy: 20,
 	hasBouncer: true,

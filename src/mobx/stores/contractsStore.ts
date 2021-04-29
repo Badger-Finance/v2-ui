@@ -521,7 +521,12 @@ class ContractsStore {
 		const web3 = new Web3(provider);
 		const underlyingContract = new web3.eth.Contract(vault.abi, vault.address);
 		let method = underlyingContract.methods.deposit(amount.toFixed(0, BigNumber.ROUND_HALF_FLOOR));
-		if (network.customDeposit[vault.address]) {
+		// Uncapped deposits on a wrapper still require an empty proof
+		if (network.uncappedDeposit[vault.address]) {
+			if (all) method = underlyingContract.methods.deposit([]);
+			else method = underlyingContract.methods.deposit(amount.toFixed(0, BigNumber.ROUND_HALF_FLOOR), []);
+		}
+		if (network.cappedDeposit[vault.address]) {
 			if (process.env.REACT_APP_BUILD_ENV !== 'production') console.log('proof:', bouncerProof);
 			if (!bouncerProof) {
 				queueNotification(`Error loading Badger Bouncer Proof`, 'error');
