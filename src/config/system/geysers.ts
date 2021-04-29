@@ -20,14 +20,6 @@ export const getGeysers = (network?: string): GeyserNetworkConfig => {
 								args: ['{connectedAddress}'],
 							},
 							{
-								name: 'getUnlockSchedulesFor',
-								args: [deploy.token],
-							},
-							{
-								name: 'getUnlockSchedulesFor',
-								args: [deploy.digg_system.uFragments],
-							},
-							{
 								name: 'totalStaked',
 							},
 							{
@@ -60,14 +52,6 @@ export const getGeysers = (network?: string): GeyserNetworkConfig => {
 							{
 								name: 'totalStakedFor',
 								args: ['{connectedAddress}'],
-							},
-							{
-								name: 'getUnlockSchedulesFor',
-								args: [deploy.token],
-							},
-							{
-								name: 'getUnlockSchedulesFor',
-								args: [deploy.digg_system.uFragments],
 							},
 							{
 								name: 'totalStaked',
