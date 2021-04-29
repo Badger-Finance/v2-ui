@@ -14,7 +14,7 @@ import SETT from 'config/system/abis/Sett.json';
 import ibBTCConfig from 'config/system/abis/ibBTC.json';
 import addresses from 'config/ibBTC/addresses.json';
 import BadgerBtcPeak from 'config/system/abis/BadgerBtcPeak.json';
-import { ZERO, MAX, FLAGS } from 'config/constants';
+import { ZERO, MAX, FLAGS, NETWORK_IDS } from 'config/constants';
 
 interface IbBTCApyInfo {
 	fromLastDay: number;
@@ -55,8 +55,9 @@ class IbBTCStore {
 	}
 
 	init = action((): void => {
-		if (!FLAGS.IBBTC_FLAG) return;
-		const { connectedAddress } = this.store.wallet;
+		const { connectedAddress, network } = this.store.wallet;
+		if (!FLAGS.IBBTC_FLAG || network.networkId !== NETWORK_IDS.ETH) return;
+
 		if (!!connectedAddress) this.fetchBalances();
 		else this.resetBalances();
 		this.fetchConversionRates();
