@@ -214,7 +214,7 @@ class BridgeStore {
 			 *   - incomplete tx: already persisted renvm tx data but tx has not been completed
 			 */
 			({ newValue, oldValue }: IValueDidChange<RenVMTransaction | null>) => {
-				const { provider, connectedAddress } = this.store.wallet;
+				const { provider } = this.store.wallet;
 				if (!provider) return;
 				if (_.isEqual(oldValue, newValue)) return;
 				if (newValue === null) return;
@@ -225,14 +225,7 @@ class BridgeStore {
 				if (this.status == Status.PROCESSING) {
 					// No-op if tx processing not complete.
 					if (!_isTxComplete(newValue)) return;
-
-					// Execute any done cb if set.
-					if (this.done) this.done();
-					// Remove if completed.
-					this.current = null;
-					// TODO: This can be optimized to return from offset (currently fetches all).
-					this.fetchTx(connectedAddress);
-					this.status = Status.IDLE;
+					this.complete();
 					return;
 				}
 
@@ -313,6 +306,20 @@ class BridgeStore {
 		this.current = newTx;
 		this.done = done;
 	});
+
+	// Complete tx processing.
+	_complete = (): void => {
+		const { connectedAddress } = this.store.wallet;
+		// Execute any done cb if set.
+		if (this.done) this.done();
+		// Remove if completed.
+		this.current = null;
+		// TODO: This can be optimized to return from offset (currently fetches all).
+		this.fetchTx(connectedAddress);
+		this.status = Status.IDLE;
+	};
+
+	complete = action(this._complete);
 
 	_fetchTx = async (userAddr: string): Promise<void> => {
 		try {
@@ -450,11 +457,13 @@ class BridgeStore {
 							break;
 						case LockAndMintStatus.ConfirmedOnEthereum:
 							queueNotification('Mint is successful', 'success');
-							this._updateTx(tx, true);
+							// TODO: Can remove this after we remove duplicate listeners (due to switching networks/addrs).
+							this._complete();
 							break;
 						case BurnAndReleaseStatus.ConfirmedOnEthereum:
 							queueNotification('Release is completed', 'success');
-							this._updateTx(tx, true);
+							// TODO: Can remove this after we remove duplicate listeners (due to switching networks/addrs).
+							this._complete();
 							break;
 					}
 				})
