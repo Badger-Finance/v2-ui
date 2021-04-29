@@ -183,7 +183,6 @@ class BridgeStore {
 			this.bCRVtBTC = new web3.eth.Contract(ERC20.abi as AbiItem[], sett_system.vaults['native.tbtcCrv']);
 
 			this.gateway = new web3.eth.Contract(BTC_GATEWAY, RENVM_GATEWAY_ADDRESS);
-			Promise.all([this._getFees(), this._getBTCNetworkFees()]);
 			return;
 		});
 
@@ -193,7 +192,6 @@ class BridgeStore {
 			({ newValue, oldValue }: IValueDidChange<string>) => {
 				if (oldValue === newValue) return;
 				// Set shortened addr.
-				this.shortAddr = shortenAddress(newValue);
 				this.reload();
 			},
 		);
@@ -216,7 +214,7 @@ class BridgeStore {
 			 *   - incomplete tx: already persisted renvm tx data but tx has not been completed
 			 */
 			({ newValue, oldValue }: IValueDidChange<RenVMTransaction | null>) => {
-				const { provider, connectedAddress } = this.store.wallet;
+				const { provider } = this.store.wallet;
 				if (!provider) return;
 				if (_.isEqual(oldValue, newValue)) return;
 				if (newValue === null) return;
@@ -227,32 +225,25 @@ class BridgeStore {
 				if (this.status == Status.PROCESSING) {
 					// No-op if tx processing not complete.
 					if (!_isTxComplete(newValue)) return;
-
-					// Execute any done cb if set.
-					if (this.done) this.done();
-					// Remove if completed.
-					this.current = null;
-					// TODO: This can be optimized to return from offset (currently fetches all).
-					this._fetchTx(connectedAddress);
-					this.status = Status.IDLE;
+					this.complete();
 					return;
 				}
 
 				this.status = Status.INITIALIZING;
 				// Check if needs init (new tx).
 				if (newValue.created === undefined) {
-					this._initTx(newValue);
+					this.initTx(newValue);
 					return;
 				}
 
 				this.status = Status.PROCESSING;
 				// Check if uncommitted (open tx).
 				if (!newValue.encodedTx) {
-					this._openTx(newValue);
+					this.openTx(newValue);
 					return;
 				}
 				// Incomplete tx (recover tx).
-				this._openTx(newValue, true);
+				this.openTx(newValue, true);
 			},
 		);
 
@@ -279,9 +270,16 @@ class BridgeStore {
 		if (this.network.name !== NETWORK_LIST.ETH) return;
 		if (!provider) return;
 
-		// Fetch old transactions and reload any incomplete tx.
+		this.shortAddr = shortenAddress(connectedAddress);
+
 		this.loading = true;
-		Promise.all([this._fetchTx(connectedAddress), this._getBalances(connectedAddress)])
+		Promise.all([
+			// Fetch old transactions and reload any incomplete tx.
+			this._fetchTx(connectedAddress),
+			this._getBalances(connectedAddress),
+			this._getFees(),
+			this._getBTCNetworkFees(),
+		])
 			.catch((err: Error) => {
 				queueNotification(`Failed to fetch bridge data: ${err.message}`, 'error');
 			})
@@ -309,8 +307,21 @@ class BridgeStore {
 		this.done = done;
 	});
 
-	// Fetch tx history from db. There may be uncommitted/incomplete tx in here.
-	_fetchTx = action(async (userAddr: string) => {
+	// Complete tx processing.
+	_complete = (): void => {
+		const { connectedAddress } = this.store.wallet;
+		// Execute any done cb if set.
+		if (this.done) this.done();
+		// Remove if completed.
+		this.current = null;
+		// TODO: This can be optimized to return from offset (currently fetches all).
+		this.fetchTx(connectedAddress);
+		this.status = Status.IDLE;
+	};
+
+	complete = action(this._complete);
+
+	_fetchTx = async (userAddr: string): Promise<void> => {
 		try {
 			await retry(async () => {
 				// TODO: Implement paging of results if tx history
@@ -345,9 +356,12 @@ class BridgeStore {
 		} catch (err) {
 			this.error = err;
 		}
-	});
+	};
 
-	_initTx = action(async (tx: RenVMTransaction) => {
+	// Fetch tx history from db. There may be uncommitted/incomplete tx in here.
+	fetchTx = action(this._fetchTx);
+
+	initTx = action(async (tx: RenVMTransaction) => {
 		const { queueNotification } = this.store.uiState;
 		const { connectedAddress } = this.store.wallet;
 
@@ -395,7 +409,10 @@ class BridgeStore {
 			}
 			await retry(async () => {
 				await ref.update(txData);
-				// Remove ref after committing to db.
+				// TODO: Can remove this after we remove duplicate listeners (due to switching networks/addrs).
+				// We avoid setting current tx if we're already in IDLE state since completion/update can
+				// be racy, esp if we have duplicate listeners.
+				if (this.status == Status.IDLE) return;
 				this.current = {
 					...this.current,
 					...txData,
@@ -407,7 +424,7 @@ class BridgeStore {
 		}
 	});
 
-	_openTx = action(async (tx: RenVMTransaction, recover?: boolean) => {
+	openTx = action(async (tx: RenVMTransaction, recover?: boolean) => {
 		const { provider } = this.store.wallet;
 		const { queueNotification } = this.store.uiState;
 
@@ -439,9 +456,13 @@ class BridgeStore {
 							break;
 						case LockAndMintStatus.ConfirmedOnEthereum:
 							queueNotification('Mint is successful', 'success');
+							// TODO: Can remove this after we remove duplicate listeners (due to switching networks/addrs).
+							this._complete();
 							break;
 						case BurnAndReleaseStatus.ConfirmedOnEthereum:
 							queueNotification('Release is completed', 'success');
+							// TODO: Can remove this after we remove duplicate listeners (due to switching networks/addrs).
+							this._complete();
 							break;
 					}
 				})
@@ -471,35 +492,33 @@ class BridgeStore {
 		}
 	});
 
-	_getFees = action(
-		async (): Promise<void> => {
-			const { queueNotification } = this.store.uiState;
-			try {
-				await retry(async () => {
-					// NB: Only ETH supported for now. Check here since network could have
-					// gotten set at any point from init to now and this fails loudly if
-					// on the wrong network.
-					if (this.network.name !== NETWORK_LIST.ETH) return;
-					const [badgerBurnFee, badgerMintFee, renvmBurnFee, renvmMintFee] = (
-						await Promise.all([
-							this.adapter.methods.burnFeeBps().call(),
-							this.adapter.methods.mintFeeBps().call(),
-							this.gateway.methods.burnFee().call(),
-							this.gateway.methods.mintFee().call(),
-						])
-					).map((result: number) => result / MAX_BPS);
-					this.badgerMintFee = badgerMintFee;
-					this.badgerBurnFee = badgerBurnFee;
-					this.renvmBurnFee = renvmBurnFee;
-					this.renvmMintFee = renvmMintFee;
-				}, defaultRetryOptions);
-			} catch (err) {
-				queueNotification(`Failed to fetch fees: ${err.message}`, 'error');
-			}
-		},
-	);
+	_getFees = async (): Promise<void> => {
+		const { queueNotification } = this.store.uiState;
+		try {
+			await retry(async () => {
+				// NB: Only ETH supported for now. Check here since network could have
+				// gotten set at any point from init to now and this fails loudly if
+				// on the wrong network.
+				if (this.network.name !== NETWORK_LIST.ETH) return;
+				const [badgerBurnFee, badgerMintFee, renvmBurnFee, renvmMintFee] = (
+					await Promise.all([
+						this.adapter.methods.burnFeeBps().call(),
+						this.adapter.methods.mintFeeBps().call(),
+						this.gateway.methods.burnFee().call(),
+						this.gateway.methods.mintFee().call(),
+					])
+				).map((result: number) => result / MAX_BPS);
+				this.badgerMintFee = badgerMintFee;
+				this.badgerBurnFee = badgerBurnFee;
+				this.renvmBurnFee = renvmBurnFee;
+				this.renvmMintFee = renvmMintFee;
+			}, defaultRetryOptions);
+		} catch (err) {
+			queueNotification(`Failed to fetch fees: ${err.message}`, 'error');
+		}
+	};
 
-	_getBalances = action(async (userAddr: string) => {
+	_getBalances = async (userAddr: string): Promise<void> => {
 		const { queueNotification } = this.store.uiState;
 		try {
 			await retry(async () => {
@@ -533,37 +552,35 @@ class BridgeStore {
 		} catch (err) {
 			queueNotification(`Failed to fetch fees: ${err.message}`, 'error');
 		}
-	});
+	};
 
-	_getBTCNetworkFees = action(
-		async (): Promise<void> => {
-			const { queueNotification } = this.store.uiState;
-			try {
-				await retry(async () => {
-					// NB: Query fees logic pulled from ren bridge source.
-					// https://github.com/renproject/bridge/blob/18e5668db9423f2aaa32635c90dcf6269a3b1711/src/utils/walletUtils.ts#L104-L128
-					const query = {
-						jsonrpc: '2.0',
-						method: 'ren_queryFees',
-						id: 67,
-						params: {},
-					};
+	_getBTCNetworkFees = async (): Promise<void> => {
+		const { queueNotification } = this.store.uiState;
+		try {
+			await retry(async () => {
+				// NB: Query fees logic pulled from ren bridge source.
+				// https://github.com/renproject/bridge/blob/18e5668db9423f2aaa32635c90dcf6269a3b1711/src/utils/walletUtils.ts#L104-L128
+				const query = {
+					jsonrpc: '2.0',
+					method: 'ren_queryFees',
+					id: 67,
+					params: {},
+				};
 
-					const resp = await fetch('https://lightnode-mainnet.herokuapp.com/', {
-						method: 'POST',
-						body: JSON.stringify(query),
-						headers: { 'Content-Type': 'application/json' },
-					});
-					const { result } = await resp.json();
+				const resp = await fetch('https://lightnode-mainnet.herokuapp.com/', {
+					method: 'POST',
+					body: JSON.stringify(query),
+					headers: { 'Content-Type': 'application/json' },
+				});
+				const { result } = await resp.json();
 
-					this.lockNetworkFee = new BigNumber(result.btc.lock).dividedBy(DECIMALS).toNumber();
-					this.releaseNetworkFee = new BigNumber(result.btc.release).dividedBy(DECIMALS).toNumber();
-				}, defaultRetryOptions);
-			} catch (err) {
-				queueNotification(`Failed to fetch BTC network fees: ${err.message}`, 'error');
-			}
-		},
-	);
+				this.lockNetworkFee = new BigNumber(result.btc.lock).dividedBy(DECIMALS).toNumber();
+				this.releaseNetworkFee = new BigNumber(result.btc.release).dividedBy(DECIMALS).toNumber();
+			}, defaultRetryOptions);
+		} catch (err) {
+			queueNotification(`Failed to fetch BTC network fees: ${err.message}`, 'error');
+		}
+	};
 }
 
 const _isTxComplete = function (tx: RenVMTransaction) {
