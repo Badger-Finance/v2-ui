@@ -27,7 +27,7 @@ export const VaultDeposit = observer((props: any) => {
 	const { register, handleSubmit, watch, setValue } = useForm({ mode: 'all' });
 
 	const {
-		wallet: { connectedAddress },
+		wallet: { connectedAddress, network },
 		user: { accountDetails },
 		setts: { settMap },
 	} = store;
@@ -59,27 +59,22 @@ export const VaultDeposit = observer((props: any) => {
 	}
 
 	const availableDepositLimit = (amount: number): boolean => {
-		// Deposit limits are only applicable to affiliate wrappers currently
-		// in the future if we wish to add our own deposit limits, we can
-		// create a network variable that has a list of these and check it.
-		if (
-			!accountDetails ||
-			!accountDetails.depositLimits ||
-			!accountDetails.depositLimits[vault.address] ||
-			!settMap ||
-			!settMap[vault.address] ||
-			!settMap[vault.address].affiliate ||
-			!settMap[vault.address].affiliate?.availableDepositLimit
-		)
-			return true;
-		else {
-			const availableDeposit = accountDetails.depositLimits[vault.address].available;
-			const totalAvailableDeposit = settMap[vault.address].affiliate?.availableDepositLimit;
-			// We're removing the ts script for this because we check validity in the if statement above
-			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-			//@ts-ignore
-			return availableDeposit > 1e-8 && amount <= availableDeposit && amount <= totalAvailableDeposit;
-		}
+		// Deposit limits are defined in the network model and coded into the
+		// cappedDeposit object.  If a vault is present there, there is a deposit
+		// limit.
+		if (!network.cappedDeposit[vault.address]) return true;
+
+		const availableDeposit = accountDetails?.depositLimits[vault.address].available;
+		const totalAvailableDeposit = settMap ? settMap[vault.address]?.affiliate?.availableDepositLimit : undefined;
+
+		if (!availableDeposit || !totalAvailableDeposit) return true;
+
+		return (
+			availableDeposit > 1e-8 &&
+			totalAvailableDeposit > 1e-8 &&
+			amount <= availableDeposit &&
+			amount <= totalAvailableDeposit
+		);
 	};
 
 	const canDeposit =
@@ -119,12 +114,16 @@ export const VaultDeposit = observer((props: any) => {
 					</Typography>
 					{renderAmounts}
 				</div>
-				<SettAvailableDeposit
-					accountDetails={accountDetails}
-					vault={vault.address}
-					assetName={vault.underlyingToken.symbol}
-					sett={settMap ? settMap[vault.address] : undefined}
-				/>
+				{network.cappedDeposit[vault.address] ? (
+					<SettAvailableDeposit
+						accountDetails={accountDetails}
+						vault={vault.address}
+						assetName={vault.underlyingToken.symbol}
+						sett={settMap ? settMap[vault.address] : undefined}
+					/>
+				) : (
+					<></>
+				)}
 
 				<TextField
 					autoComplete="off"
