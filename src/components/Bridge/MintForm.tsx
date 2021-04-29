@@ -42,7 +42,7 @@ export const MintForm = ({
 		bridge: {
 			renbtcBalance,
 			wbtcBalance,
-			bwbtcBalance,
+			byvwbtcBalance,
 			bCRVrenBTCBalance,
 			bCRVsBTCBalance,
 			bCRVtBTCBalance,
@@ -55,7 +55,7 @@ export const MintForm = ({
 		nextStep();
 	};
 
-	const isWBTC = values.token === 'WBTC' || values.token === 'bWBTC';
+	const isWBTC = values.token === 'WBTC' || values.token === 'byvWBTC';
 
 	const selectedTokenBalance = (token: string): number => {
 		switch (token) {
@@ -63,8 +63,8 @@ export const MintForm = ({
 				return renbtcBalance;
 			case 'WBTC':
 				return wbtcBalance;
-			case 'bWBTC':
-				return bwbtcBalance;
+			case 'byvWBTC':
+				return byvwbtcBalance;
 			case 'bCRVrenBTC':
 				return bCRVrenBTCBalance;
 			case 'bCRVsBTC':
@@ -82,7 +82,7 @@ export const MintForm = ({
 		}
 		let address = '';
 		switch (token) {
-			case 'bWBTC':
+			case 'byvWBTC':
 				address = sett_system.vaults['yearn.wBtc'];
 				break;
 			case 'bCRVrenBTC':
@@ -171,7 +171,7 @@ export const MintForm = ({
 						<div className={classes.summaryRow}>
 							<Typography variant="subtitle1">APY: </Typography>
 							<Typography variant="body1">
-								{values.token == 'bWBTC'
+								{values.token == 'byvWBTC'
 									? '✨ New Vault ✨'
 									: getAPY(values.token, toJS(settMap)).toFixed(2) + '%'}
 							</Typography>

@@ -105,7 +105,7 @@ class BridgeStore {
 
 	public renbtcBalance!: number;
 	public wbtcBalance!: number;
-	public bwbtcBalance!: number;
+	public byvwbtcBalance!: number;
 	public bCRVrenBTCBalance!: number;
 	public bCRVsBTCBalance!: number;
 	public bCRVtBTCBalance!: number;
@@ -529,7 +529,7 @@ class BridgeStore {
 				const [
 					renbtcBalance,
 					wbtcBalance,
-					bwbtcBalance,
+					byvwbtcBalance,
 					bCRVrenBTCBalance,
 					bCRVsBTCBalance,
 					bCRVtBTCBalance,
@@ -544,7 +544,7 @@ class BridgeStore {
 
 				this.renbtcBalance = new BigNumber(renbtcBalance).dividedBy(DECIMALS).toNumber();
 				this.wbtcBalance = new BigNumber(wbtcBalance).dividedBy(DECIMALS).toNumber();
-				this.bwbtcBalance = new BigNumber(bwbtcBalance).dividedBy(DECIMALS).toNumber();
+				this.byvwbtcBalance = new BigNumber(byvwbtcBalance).dividedBy(DECIMALS).toNumber();
 				this.bCRVrenBTCBalance = new BigNumber(bCRVrenBTCBalance).dividedBy(SETT_DECIMALS).toNumber();
 				this.bCRVsBTCBalance = new BigNumber(bCRVsBTCBalance).dividedBy(SETT_DECIMALS).toNumber();
 				this.bCRVtBTCBalance = new BigNumber(bCRVtBTCBalance).dividedBy(SETT_DECIMALS).toNumber();

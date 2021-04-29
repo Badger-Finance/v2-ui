@@ -5,7 +5,7 @@ import { StoreContext } from 'mobx/store-context';
 
 import btcLogo from 'assets/icons/btc.svg';
 import WBTCLogo from 'assets/icons/WBTC.svg';
-import bWBTCLogo from 'assets/icons/bWBTC.svg';
+import byvWBTCLogo from 'assets/icons/byvWBTC.svg';
 import renBTCLogo from 'assets/icons/renBTC.svg';
 import crvBTCLogo from 'assets/tokens/bcrvRenWBTC.png';
 import { shortenAddress } from 'utils/componentHelpers';
@@ -83,8 +83,8 @@ export const ConfirmForm = ({
 		switch (values.token) {
 			case 'renBTC':
 				return renBTCLogo;
-			case 'bWBTC':
-				return bWBTCLogo;
+			case 'byvWBTC':
+				return byvWBTCLogo;
 			case 'WBTC':
 				return WBTCLogo;
 			case 'bCRVrenBTC':
@@ -98,9 +98,9 @@ export const ConfirmForm = ({
 		}
 	};
 
-	const isWBTC = ['bWBTC', 'WBTC'].indexOf(values.token) >= 0;
+	const isWBTC = ['byvWBTC', 'WBTC'].indexOf(values.token) >= 0;
 
-	const isVault = ['bWBTC', 'bCRVrenBTC', 'bCRVsBTC', 'bCRVtBTC'].indexOf(values.token) >= 0;
+	const isVault = ['byvWBTC', 'bCRVrenBTC', 'bCRVsBTC', 'bCRVtBTC'].indexOf(values.token) >= 0;
 
 	return (
 		<Grid container alignItems={'center'}>
@@ -129,7 +129,7 @@ export const ConfirmForm = ({
 			{values.spacer}
 
 			<Grid item xs={12}>
-				{values.tabValue <= 1 && values.token === 'bWBTC' && (
+				{values.tabValue <= 1 && values.token === 'byvWBTC' && (
 					<>
 						{feeContainer(
 							'Minting',
@@ -137,21 +137,21 @@ export const ConfirmForm = ({
 							<div className={classes.receiveAmount}>
 								<img src={selectedTokenImage()} className={classes.logo2} />
 								<div>
-									<div>{values.token == 'bWBTC' ? 'byvWBTC' : values.token}</div>
+									<div>{values.token}</div>
 								</div>
 							</div>,
 						)}
 					</>
 				)}
 
-				{!(values.tabValue <= 1 && values.token === 'bWBTC') && (
+				{!(values.tabValue <= 1 && values.token === 'byvWBTC') && (
 					<div className={classes.itemContainer}>
 						<div>{values.tabValue <= 1 ? 'Minting' : 'Releasing'}</div>
 
 						<div className={classes.receiveAmount}>
 							<img src={selectedTokenImage()} className={classes.logo2} />
 							<div>
-								<div>{values.token == 'bWBTC' ? 'byvWBTC' : values.token}</div>
+								<div>{values.token}</div>
 							</div>
 						</div>
 					</div>
@@ -211,9 +211,7 @@ export const ConfirmForm = ({
 
 						<div>
 							<div>{values.receiveAmount.toFixed(8)}</div>
-							<div>
-								{values.tabValue == 2 ? 'BTC' : values.token == 'bWBTC' ? 'byvWBTC' : values.token}
-							</div>
+							<div>{values.tabValue == 2 ? 'BTC' : values.token}</div>
 						</div>
 					</div>
 				</div>
