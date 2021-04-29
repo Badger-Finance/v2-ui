@@ -131,7 +131,6 @@ function calculatePortfolioStats(vaultContracts: any, geyserContracts: any, toke
 
 	_.forIn(geyserContracts, (geyser: Geyser) => {
 		if (!geyser.vault) return;
-
 		if (!geyser.vault.underlyingToken) return;
 
 		if (!!geyser.balance.gt(0) && !geyser.balanceValue().isNaN()) {
@@ -228,7 +227,14 @@ export function formatDialogBalanceUnderlying(vault: Vault): string {
 
 export function formatHoldingsValue(vault: Vault, currency: string): string {
 	const diggMultiplier = vault.underlyingToken.symbol === 'DIGG' ? getDiggPerShare(vault) : new BigNumber(1);
-	return inCurrency(vault.holdingsValue().multipliedBy(diggMultiplier).dividedBy(1e18), currency, true);
+	return inCurrency(
+		vault
+			.holdingsValue()
+			.multipliedBy(diggMultiplier)
+			.dividedBy(10 ** vault.decimals),
+		currency,
+		true,
+	);
 }
 
 export function formatBalanceValue(vault: Vault, currency: string): string {
@@ -250,17 +256,14 @@ export function formatTokenBalanceValue(token: Token, currency: string): string 
 
 export function formatGeyserBalanceValue(geyser: Geyser, currency: string): string {
 	return inCurrency(
-		geyser
-			.balanceValue()
-			.plus(geyser.vault.balanceValue())
-			.dividedBy(10 ** geyser.vault.decimals),
+		geyser.balanceValue().plus(geyser.vault.balanceValue()).dividedBy(1e18),
 		currency,
 		currency != 'eth',
 	);
 }
 
 export function formatVaultBalanceValue(vault: Vault, currency: string): string {
-	return inCurrency(vault.balanceValue().dividedBy(1e18), currency, true);
+	return inCurrency(vault.balanceValue().dividedBy(10 ** vault.decimals), currency, true);
 }
 
 export function formatPrice(price: BigNumber, currency: string): string {
