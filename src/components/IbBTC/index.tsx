@@ -39,8 +39,6 @@ export const IbBTC = observer((): any => {
 	const classes = useStyles();
 	const [activeTab, setActiveTab] = useState<TABS>('Mint');
 
-	console.log('apy =>', ibBTCStore.apyInfo && { ...ibBTCStore.apyInfo });
-
 	const Content = () => (
 		<Container className={classes.content} maxWidth="lg">
 			{activeTab === 'Mint' && <Mint />}

@@ -278,7 +278,6 @@ class IbBTCStore {
 				const result = await method.call();
 				callback(null, result);
 			} catch (err) {
-				console.log('error =>', err);
 				queueNotification(err.message, 'error');
 				callback(err, null);
 			}
