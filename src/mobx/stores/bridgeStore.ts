@@ -87,7 +87,7 @@ class BridgeStore {
 
 	private renbtc!: Contract;
 	private wbtc!: Contract;
-	private bwbtc!: Contract;
+	private byvwbtc!: Contract;
 	private bCRVrenBTC!: Contract;
 	private bCRVsBTC!: Contract;
 	private bCRVtBTC!: Contract;
@@ -105,7 +105,7 @@ class BridgeStore {
 
 	public renbtcBalance!: number;
 	public wbtcBalance!: number;
-	public bwbtcBalance!: number;
+	public byvwbtcBalance!: number;
 	public bCRVrenBTCBalance!: number;
 	public bCRVsBTCBalance!: number;
 	public bCRVtBTCBalance!: number;
@@ -171,7 +171,7 @@ class BridgeStore {
 			this.wbtc = new web3.eth.Contract(ERC20.abi as AbiItem[], tokens.wBTC);
 			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 			// @ts-ignore
-			this.bwbtc = new web3.eth.Contract(ERC20.abi as AbiItem[], sett_system.vaults['yearn.wBtc']);
+			this.byvwbtc = new web3.eth.Contract(ERC20.abi as AbiItem[], sett_system.vaults['yearn.wBtc']);
 			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 			// @ts-ignore
 			this.bCRVrenBTC = new web3.eth.Contract(ERC20.abi as AbiItem[], sett_system.vaults['native.renCrv']);
@@ -529,14 +529,14 @@ class BridgeStore {
 				const [
 					renbtcBalance,
 					wbtcBalance,
-					bwbtcBalance,
+					byvwbtcBalance,
 					bCRVrenBTCBalance,
 					bCRVsBTCBalance,
 					bCRVtBTCBalance,
 				] = await Promise.all([
 					this.renbtc.methods.balanceOf(userAddr).call(),
 					this.wbtc.methods.balanceOf(userAddr).call(),
-					this.bwbtc.methods.balanceOf(userAddr).call(),
+					this.byvwbtc.methods.balanceOf(userAddr).call(),
 					this.bCRVrenBTC.methods.balanceOf(userAddr).call(),
 					this.bCRVsBTC.methods.balanceOf(userAddr).call(),
 					this.bCRVtBTC.methods.balanceOf(userAddr).call(),
@@ -544,7 +544,7 @@ class BridgeStore {
 
 				this.renbtcBalance = new BigNumber(renbtcBalance).dividedBy(DECIMALS).toNumber();
 				this.wbtcBalance = new BigNumber(wbtcBalance).dividedBy(DECIMALS).toNumber();
-				this.bwbtcBalance = new BigNumber(bwbtcBalance).dividedBy(DECIMALS).toNumber();
+				this.byvwbtcBalance = new BigNumber(byvwbtcBalance).dividedBy(DECIMALS).toNumber();
 				this.bCRVrenBTCBalance = new BigNumber(bCRVrenBTCBalance).dividedBy(SETT_DECIMALS).toNumber();
 				this.bCRVsBTCBalance = new BigNumber(bCRVsBTCBalance).dividedBy(SETT_DECIMALS).toNumber();
 				this.bCRVtBTCBalance = new BigNumber(bCRVtBTCBalance).dividedBy(SETT_DECIMALS).toNumber();
