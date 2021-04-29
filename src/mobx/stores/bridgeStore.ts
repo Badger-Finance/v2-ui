@@ -317,7 +317,7 @@ class BridgeStore {
 				// bloat starts to become a problem.
 				const results = await this.db
 					.collection('transactions')
-					.where('user', '==', userAddr)
+					.where('user', '==', userAddr.toLowerCase())
 					.orderBy('nonce', 'desc')
 					.get();
 
