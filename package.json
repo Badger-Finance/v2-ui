@@ -98,5 +98,10 @@
 		"react-scripts": "4.0.3",
 		"react-test-renderer": "^17.0.1",
 		"typescript": "^3.8.3"
+	},
+	"peerDependencies": {
+		"@babel/core": "^7.14.0",
+		"@babel/runtime": "^7.14.0",
+		"@testing-library/dom": "^7.30.4"
 	}
 }
