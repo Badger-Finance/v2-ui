@@ -57,6 +57,7 @@ export const IbBTC = observer((): any => {
 
 				<Grid item sm={12} xs={12} md={7} className={classes.apyInformation}>
 					<TokenApy
+						name={ibBTCStore.ibBTC.symbol}
 						logo={ibBTCStore.ibBTC.icon}
 						apyFromLastDay={
 							ibBTCStore.apyInfo ? ibBTCStore.apyInfo.fromLastDay.toFixed(3) + '%' : undefined

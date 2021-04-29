@@ -4,6 +4,7 @@ import { Skeleton } from '@material-ui/lab';
 import { Theme } from '@material-ui/core/styles';
 
 interface Props {
+	name: string;
 	logo: string;
 	apyFromLastDay?: string;
 	apyFromLastWeek?: string;
@@ -36,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export const TokenApy = ({ logo, apyFromLastDay, apyFromLastWeek }: Props): JSX.Element => {
+export const TokenApy = ({ name, logo, apyFromLastDay, apyFromLastWeek }: Props): JSX.Element => {
 	const isDisplayXs = useMediaQuery((theme: Theme) => theme.breakpoints.only('xs'));
 	const classes = useStyles();
 
@@ -44,14 +45,14 @@ export const TokenApy = ({ logo, apyFromLastDay, apyFromLastWeek }: Props): JSX.
 		<Grid container component={Paper} className={classes.container}>
 			<Grid item container alignItems="center" xs={12} sm className={classes.token}>
 				<img src={logo} alt="APY Token Logo" className={classes.logo} />
-				<Typography variant="h5">APY</Typography>
+				<Typography variant="h6">{`${name} APY`}</Typography>
 			</Grid>
 
 			{!isDisplayXs && <Divider orientation="vertical" flexItem />}
 
 			<Grid item container xs className={classes.apyInfoContainer}>
 				<Grid item xs={12}>
-					<Typography variant="h5">
+					<Typography variant="h6">
 						{apyFromLastDay ? apyFromLastDay : <Skeleton role="loader" className={classes.loader} />}
 					</Typography>
 				</Grid>
@@ -64,7 +65,7 @@ export const TokenApy = ({ logo, apyFromLastDay, apyFromLastWeek }: Props): JSX.
 
 			<Grid item container xs className={classes.apyInfoContainer}>
 				<Grid item xs={12}>
-					<Typography variant="h5">
+					<Typography variant="h6">
 						{apyFromLastWeek ? apyFromLastWeek : <Skeleton role="loader" className={classes.loader} />}
 					</Typography>
 				</Grid>
