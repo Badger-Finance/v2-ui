@@ -227,14 +227,16 @@ export interface RewardMerkleClaim {
 	boost: BigNumber;
 	user: string;
 	tokens: string[];
-	cumulativeAmounts: BigNumber[];
+	cumulativeAmounts: string[];
 	proof: string[];
 	node: string;
 }
 
-export interface TreeClaimData {
-	tokens: string[];
-	amounts: string[];
+export type TreeClaimData = [string[], BigNumber[]];
+
+export interface UserClaimData {
+	token: string;
+	amount: BigNumber;
 }
 
 export interface Amount {

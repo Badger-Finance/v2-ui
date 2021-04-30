@@ -1,7 +1,6 @@
 import BigNumber from 'bignumber.js';
 import _ from 'lodash';
 import { RootStore } from 'mobx/store';
-import Web3 from 'web3';
 import { inCurrency, formatTokens } from 'mobx/utils/helpers';
 import { getDiggPerShare } from 'mobx/utils/diggHelpers';
 import {
@@ -15,6 +14,9 @@ import {
 	ReduceAirdropsProps,
 	TokenRebaseStats,
 	Network,
+	RewardMerkleClaim,
+	TreeClaimData,
+	UserClaimData,
 } from '../model';
 import { ZERO_CURRENCY } from 'config/constants';
 
@@ -76,20 +78,24 @@ export const reduceContractsToStats = (store: RootStore): ContractToStats | unde
 	};
 };
 
-// Disable Reason: Only instance feeds a value obtained from a require() statement that always returns a type any
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const reduceClaims = (merkleProof: any, rewardAddresses: any[], claimedRewards: any[]): Amount | never[] => {
-	if (!merkleProof.cumulativeAmounts) {
+export const reduceClaims = (proof: RewardMerkleClaim, claimedRewards: TreeClaimData): UserClaimData[] => {
+	if (!proof.cumulativeAmounts) {
 		return [];
 	}
-	return merkleProof.cumulativeAmounts.map((amount: number, i: number) => {
-		return [
-			merkleProof.tokens[i],
-			new BigNumber(amount).minus(
-				claimedRewards[rewardAddresses.indexOf(Web3.utils.toChecksumAddress(merkleProof.tokens[i]))],
-			),
-		];
-	});
+
+	const claimableTokens = proof.cumulativeAmounts.length;
+	const tokenClaims = [];
+
+	const amounts = claimedRewards[1];
+	for (let i = 0; i < claimableTokens; i++) {
+		const token = proof.tokens[i];
+		const claimed = amounts[i];
+		const earned = new BigNumber(proof.cumulativeAmounts[i]);
+		const amount = earned.minus(claimed);
+		tokenClaims.push({ token, amount });
+	}
+
+	return tokenClaims;
 };
 
 export const reduceAirdrops = (airdrops: ReduceAirdropsProps, store: RootStore): ReducedAirdops => {

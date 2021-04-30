@@ -23,6 +23,7 @@ import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
 import BigNumber from 'bignumber.js';
 import SettList from 'components-v2/landing/SettList';
+import { UserClaimData } from 'mobx/model';
 
 const useStyles = makeStyles((theme) => ({
 	landingContainer: {
@@ -90,19 +91,21 @@ const Landing = observer((props: LandingProps) => {
 	const userConnected = !!connectedAddress;
 
 	const availableRewards = () => {
-		if (!badgerTree || !badgerTree.claims) return;
-		return badgerTree.claims.map((claim: any[]) => {
+		if (!badgerTree || !badgerTree.claims || !badgerTree.claims.length) {
+			return;
+		}
+		return badgerTree.claims.map((claim: UserClaimData) => {
 			const { network } = store.wallet;
-			const claimAddress: string = claim[0];
-			const claimValue = claim
-				? claim[1].dividedBy(
-						claimAddress === network.deploy.tokens.digg
-							? badgerTree.sharesPerFragment * 1e9
-							: claimAddress === network.deploy.tokens.usdc
-							? 1e6
-							: 1e18,
-				  )
-				: claim[1];
+			const claimAddress = claim.token;
+
+			// todo: support token data lookup for decimals etc.
+			const decimals =
+				claimAddress === network.deploy.tokens.digg
+					? badgerTree.sharesPerFragment * 1e9
+					: claimAddress === network.deploy.tokens.usdc
+					? 1e6
+					: 1e18;
+			const claimValue = claim.amount.dividedBy(decimals);
 			const claimDisplay = inCurrency(claimValue, 'eth', true);
 			return (
 				parseFloat(claimDisplay) > 0 && (
@@ -181,9 +184,7 @@ const Landing = observer((props: LandingProps) => {
 									<ButtonGroup size="small" variant="outlined" color="primary">
 										<Button
 											className={classes.marginTop}
-											onClick={() => {
-												claimGeysers(false);
-											}}
+											onClick={() => claimGeysers()}
 											variant="contained"
 										>
 											Claim
