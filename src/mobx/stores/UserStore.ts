@@ -1,7 +1,7 @@
 import { extendObservable, action, observe } from 'mobx';
 import { RootStore } from '../store';
-import { UserPermissions, Account } from 'mobx/model';
-import { checkShopEligibility, fetchBouncerProof, getAccountDetails } from 'mobx/utils/apiV2';
+import { UserPermissions, Account, RewardMerkleClaim } from 'mobx/model';
+import { checkShopEligibility, fetchBouncerProof, fetchClaimProof, getAccountDetails } from 'mobx/utils/apiV2';
 import WalletStore from './walletStore';
 
 /**
@@ -20,6 +20,7 @@ export default class UserStore {
 
 	// loading: undefined, error: null, present: object
 	private permissions: UserPermissions | undefined | null;
+	public claimProof: RewardMerkleClaim | undefined | null;
 	public bouncerProof: string[] | undefined | null;
 	public accountDetails: Account | undefined | null;
 
@@ -34,6 +35,7 @@ export default class UserStore {
 			bouncerProof: this.bouncerProof,
 			viewSettShop: this.viewSettShop,
 			accountDetails: this.accountDetails,
+			claimProof: this.claimProof,
 		});
 
 		/**
@@ -46,6 +48,7 @@ export default class UserStore {
 				this.getSettShopEligibility(address);
 				this.loadBouncerProof(address);
 				this.loadAccountDetails(address, network.name);
+				this.loadClaimProof(address);
 			}
 		});
 	}
@@ -71,6 +74,15 @@ export default class UserStore {
 			const proof = await fetchBouncerProof(address);
 			if (proof) {
 				this.bouncerProof = proof.proof;
+			}
+		},
+	);
+
+	loadClaimProof = action(
+		async (address: string): Promise<void> => {
+			const proof = await fetchClaimProof(address);
+			if (proof) {
+				this.claimProof = proof;
 			}
 		},
 	);
