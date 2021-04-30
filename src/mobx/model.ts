@@ -187,7 +187,7 @@ export class TokenModel extends Contract {
 		return this.unscale(this.balance).toFixed(3);
 	}
 
-	public get icon(): string {
+	public get icon(): any {
 		return require(`assets/tokens/${this.symbol}.png`);
 	}
 

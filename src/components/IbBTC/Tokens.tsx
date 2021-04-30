@@ -90,7 +90,7 @@ export const Token = (props: { token: any }): JSX.Element => {
 	return (
 		<div style={{ alignItems: 'center', display: 'flex', flexWrap: 'nowrap', overflow: 'hidden' }}>
 			<img
-				src={props.token.icon}
+				src={props.token.icon.default}
 				alt={props.token.name}
 				style={{ height: '2rem', marginRight: '.2rem', display: 'block' }}
 			/>
