@@ -222,14 +222,19 @@ export interface Growth {
 }
 
 export interface RewardMerkleClaim {
-	index: BigNumber;
-	cycle: BigNumber;
+	index: string;
+	cycle: string;
 	boost: BigNumber;
 	user: string;
 	tokens: string[];
 	cumulativeAmounts: BigNumber[];
 	proof: string[];
 	node: string;
+}
+
+export interface TreeClaimData {
+	tokens: string[];
+	amounts: string[];
 }
 
 export interface Amount {

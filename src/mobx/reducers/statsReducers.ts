@@ -18,11 +18,9 @@ import {
 } from '../model';
 import { ZERO_CURRENCY } from 'config/constants';
 
-export const reduceTimeSinceLastCycle = (time: string): string => {
-	const timestamp = parseFloat(time) * 1000;
-
-	const now = Date.now();
-	const timeSinceLastCycle = Math.abs(now - timestamp);
+export const reduceTimeSinceLastCycle = (time: number): string => {
+	const timestamp = time * 1000;
+	const timeSinceLastCycle = Math.abs(Date.now() - timestamp);
 	return (
 		Math.floor(timeSinceLastCycle / (60 * 60 * 1000)) +
 		'h ' +
@@ -81,7 +79,9 @@ export const reduceContractsToStats = (store: RootStore): ContractToStats | unde
 // Disable Reason: Only instance feeds a value obtained from a require() statement that always returns a type any
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const reduceClaims = (merkleProof: any, rewardAddresses: any[], claimedRewards: any[]): Amount | never[] => {
-	if (!merkleProof.cumulativeAmounts) return [];
+	if (!merkleProof.cumulativeAmounts) {
+		return [];
+	}
 	return merkleProof.cumulativeAmounts.map((amount: number, i: number) => {
 		return [
 			merkleProof.tokens[i],
