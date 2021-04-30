@@ -84,7 +84,7 @@ export const Redeem = observer((): any => {
 	const handleTokenSelection = (token: TokenModel) => {
 		setSelectedToken(token);
 		if (inputAmount) {
-			store.ibBTCStore.calcMintAmount(token, token.scale(inputAmount), handleCalcOutputAmount).then();
+			store.ibBTCStore.calcRedeemAmount(token, token.scale(inputAmount), handleCalcOutputAmount).then();
 		}
 	};
 
