@@ -1,6 +1,7 @@
 import { ListItem, makeStyles, Typography, Grid, Tooltip, IconButton } from '@material-ui/core';
 import { BigNumber } from 'bignumber.js';
-import { Sett, TokenBalance } from 'mobx/model';
+import { TokenBalance } from 'mobx/model';
+import { SettListItemProps } from './SettListItem';
 import { numberWithCommas, usdToCurrency } from 'mobx/utils/helpers';
 import React from 'react';
 import { UnfoldMoreTwoTone } from '@material-ui/icons';
@@ -64,16 +65,11 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-interface DisabledSettListItemProps {
-	apy: number;
+interface DisabledSettListItemProps extends SettListItemProps {
+	apy: number | string;
 	tooltip: JSX.Element;
 	displayName: string;
-	sett: Sett;
-	balance?: string;
-	balanceValue?: string;
-	currency: string;
 	disabledTooltip: string;
-	onOpen: () => void;
 }
 
 const DisabledSettListItem = (props: DisabledSettListItemProps): JSX.Element => {
@@ -156,7 +152,7 @@ const DisabledSettListItem = (props: DisabledSettListItemProps): JSX.Element => 
 					<Grid item xs={6} md={2}>
 						<Tooltip enterDelay={0} leaveDelay={300} arrow placement="left" title={tooltip}>
 							<Typography style={{ cursor: 'default' }} variant="body1" color={'textPrimary'}>
-								{apy.toFixed(2)}%
+								{typeof apy === 'number' ? `${apy.toFixed(2)}%` : apy}
 							</Typography>
 						</Tooltip>
 					</Grid>

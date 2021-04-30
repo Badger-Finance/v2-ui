@@ -59,9 +59,14 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const Landing = observer(() => {
+interface LandingProps {
+	experimental: boolean;
+}
+
+const Landing = observer((props: LandingProps) => {
 	const classes = useStyles();
 	const store = useContext(StoreContext);
+	const { experimental } = props;
 
 	const {
 		wallet: { connectedAddress, network },
@@ -83,10 +88,14 @@ const Landing = observer(() => {
 			{/* Landing Metrics Cards */}
 			<Grid container spacing={1} justify="center">
 				<Grid item xs={12} className={classes.headerContainer}>
-					<PageHeader
-						title="Sett Vaults"
-						subtitle="Powerful Bitcoin strategies. Automatic staking rewards."
-					/>
+					{experimental ? (
+						<PageHeader title="Experimental Vaults" subtitle="New vaults to dip your toes in.  Ape safe." />
+					) : (
+						<PageHeader
+							title="Sett Vaults"
+							subtitle="Powerful Bitcoin strategies. Automatic staking rewards."
+						/>
+					)}
 				</Grid>
 				<Grid item xs={12} className={classes.widgetContainer}>
 					<div>{userConnected && <WalletSlider />}</div>
@@ -118,7 +127,7 @@ const Landing = observer(() => {
 				</Grid>
 			</Grid>
 
-			<SettList />
+			<SettList experimental={experimental} />
 		</Container>
 	);
 });
