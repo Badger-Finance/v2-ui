@@ -102,9 +102,11 @@ class IbBTCStore {
 	fetchBalances = action(
 		async (): Promise<void> => {
 			// Fetch balance for all tokens
-			this.tokens.forEach(async (token) => {
+			// TODO: promise.all this
+			for (const token of this.tokens) {
 				token.balance = await this.fetchBalance(token);
-			});
+			}
+
 			this.ibBTC.balance = await this.fetchBalance(this.ibBTC);
 		},
 	);
@@ -159,34 +161,35 @@ class IbBTCStore {
 
 	fetchConversionRates = action(
 		async (): Promise<void> => {
-			// Fetch mintRate, redeemRate and set to respected token
 			const { provider } = this.store.wallet;
-			if (provider) {
-				this.tokens.forEach(async (token) => {
-					this.fetchMintRate(token);
-					this.fetchRedeemRate(token);
-				});
-			}
+			if (!provider) return;
+
+			// Fetch mintRate, redeemRate and set to respected token
+			await this.tokens.map((token) => Promise.all([this.fetchMintRate(token), this.fetchRedeemRate(token)]));
 		},
 	);
 
-	fetchMintRate = action((token: TokenModel): void => {
-		const callback = (err: any, result: any): void => {
-			if (!err) token.mintRate = token.unscale(new BigNumber(result[0])).toString(10);
-			else token.mintRate = '0';
-		};
+	fetchMintRate = action(
+		async (token: TokenModel): Promise<void> => {
+			const callback = (err: any, result: any): void => {
+				if (!err) token.mintRate = token.unscale(new BigNumber(result[0])).toString(10);
+				else token.mintRate = '0';
+			};
 
-		this.calcMintAmount(token, token.scale(new BigNumber(1)), callback);
-	});
+			await this.calcMintAmount(token, token.scale(new BigNumber(1)), callback);
+		},
+	);
 
-	fetchRedeemRate = action((token: TokenModel): void => {
-		const callback = (err: any, result: any): void => {
-			if (!err) token.redeemRate = token.unscale(new BigNumber(result[0])).toString(10);
-			else token.redeemRate = '0';
-		};
+	fetchRedeemRate = action(
+		async (token: TokenModel): Promise<void> => {
+			const callback = (err: any, result: any): void => {
+				if (!err) token.redeemRate = token.unscale(new BigNumber(result[0])).toString(10);
+				else token.redeemRate = '0';
+			};
 
-		this.calcRedeemAmount(token, token.scale(new BigNumber(1)), callback);
-	});
+			await this.calcRedeemAmount(token, token.scale(new BigNumber(1)), callback);
+		},
+	);
 
 	fetchBalance = action(
 		async (token: TokenModel): Promise<BigNumber> => {
