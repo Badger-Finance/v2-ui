@@ -67,17 +67,17 @@ class RewardsStore {
 				{
 					timeSinceLastCycle: reduceTimeSinceLastCycle(timestamp),
 					cycle,
-					claims: reduceClaims(claimProof, claimed.tokens, claimed.amounts),
+					claims: reduceClaims(claimProof, claimed),
 					sharesPerFragment: sharesPerFragment,
-					claimProof,
-					claimableAmounts: claimable.amounts,
+					proof: claimProof,
+					claimableAmounts: claimable[1],
 				},
 				this.badgerTree,
 			);
 		},
 	);
 
-	claimGeysers = action((stake = false) => {
+	claimGeysers = action(() => {
 		const { proof, claimableAmounts } = this.badgerTree;
 		const { provider, gasPrices, connectedAddress } = this.store.wallet;
 		const { queueNotification, gasPrice, setTxStatus } = this.store.uiState;
@@ -99,8 +99,6 @@ class RewardsStore {
 		);
 
 		queueNotification(`Sign the transaction to claim your earnings`, 'info');
-		if (stake)
-			queueNotification(`You will need to approve 3 transactions in order to wrap & stake your assets`, 'info');
 		estimateAndSend(web3, gasPrices[gasPrice], method, connectedAddress, (transaction: PromiEvent<Contract>) => {
 			transaction
 				.on('transactionHash', (hash) => {
