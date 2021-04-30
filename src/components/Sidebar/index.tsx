@@ -17,6 +17,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { ExpandMore } from '@material-ui/icons';
 import { SITE_VERSION, NETWORK_LIST, FLAGS } from 'config/constants';
 import NetworkWidget from 'components-v2/common/NetworkWidget';
+import ibBTCLogo from 'assets/sidebar/ibBTC.png';
 
 const useStyles = makeStyles((theme) => ({
 	logo: {
@@ -267,7 +268,7 @@ export const Sidebar = observer(() => {
 									<ListItemIcon>
 										<img
 											alt="Interest Bearing Badger Bitcoin Icon"
-											src={require('assets/sidebar/ibBTC.png')}
+											src={ibBTCLogo}
 											className={classes.icon}
 										/>
 									</ListItemIcon>
