@@ -33,7 +33,7 @@ export const Mint = observer((): any => {
 	const [selectedToken, setSelectedToken] = useState<TokenModel>(tokens[0]);
 	const [inputAmount, setInputAmount] = useState<string>();
 	const [outputAmount, setOutputAmount] = useState<string>();
-	const initialFee = (1 - parseFloat(selectedToken.mintRate)).toFixed(3);
+	const initialFee = Math.max(1 - parseFloat(selectedToken.mintRate), 0).toFixed(3);
 	const [fee, setFee] = useState<string>(initialFee);
 	const conversionRate =
 		outputAmount && inputAmount

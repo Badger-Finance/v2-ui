@@ -34,7 +34,7 @@ export const Redeem = observer((): any => {
 	const [selectedToken, setSelectedToken] = useState<TokenModel>(tokens[0]);
 	const [inputAmount, setInputAmount] = useState<string>();
 	const [outputAmount, setOutputAmount] = useState<string>();
-	const initialFee = (1 - parseFloat(selectedToken.redeemRate)).toFixed(3);
+	const initialFee = Math.max(1 - parseFloat(selectedToken.redeemRate), 0).toFixed(3);
 	const [fee, setFee] = useState<string>(initialFee);
 	const [isEnoughToRedeem, setIsEnoughToRedeem] = useState<boolean>(true);
 	const [maxRedeem, setMaxRedeem] = useState<string>();
