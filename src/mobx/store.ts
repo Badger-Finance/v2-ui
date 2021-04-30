@@ -52,17 +52,14 @@ export class RootStore {
 			this.wallet.getGasPrice(),
 			this.contracts.updateProvider(),
 		];
+		refreshData.push(this.setts.loadSetts(chain));
 		if (chain === NETWORK_LIST.ETH) {
-			refreshData.push(this.setts.loadGeysers(chain));
 			refreshData.push(this.rebase.fetchRebaseStats());
-		} else {
-			refreshData.push(this.setts.loadSetts(chain));
 		}
 		await Promise.all(refreshData);
 
 		if (this.wallet.connectedAddress) {
 			this.contracts.updateProvider();
-			await this.wallet.getGasPrice();
 			await this.contracts.fetchContracts();
 			if (chain === NETWORK_LIST.ETH) {
 				this.uiState.reduceRebase();

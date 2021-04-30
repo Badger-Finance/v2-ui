@@ -6,7 +6,6 @@ import { AbiItem } from 'web3-utils';
 import { estimateAndSend } from '../utils/web3';
 import { RootStore } from '../store';
 import _ from 'lodash';
-import { jsonQuery } from '../utils/helpers';
 import { reduceClaims, reduceTimeSinceLastCycle } from '../reducers/statsReducers';
 import { abi as rewardsAbi } from '../../config/system/abis/BadgerTree.json';
 import { abi as diggAbi } from '../../config/system/abis/UFragments.json';
@@ -33,12 +32,14 @@ class RewardsStore {
 
 	fetchSettRewards = action(() => {
 		const { provider, connectedAddress, network } = this.store.wallet;
+		const { claimProof } = this.store.user;
 
-		if (!connectedAddress) return;
+		if (!connectedAddress || !claimProof) {
+			return;
+		}
 
 		const web3 = new Web3(provider);
 		const rewardsTree = new web3.eth.Contract(rewardsAbi as AbiItem[], badgerTree);
-		const checksumAddress = Web3.utils.toChecksumAddress(connectedAddress);
 		const diggToken = new web3.eth.Contract(diggAbi as AbiItem[], digg_system.uFragments);
 
 		if (!network.rewards) {
@@ -60,39 +61,26 @@ class RewardsStore {
 					this.badgerTree,
 				);
 				if (network.rewards) {
-					const endpointQuery = jsonQuery(`${network.rewards.endpoint}/${checksumAddress}`);
-					if (!endpointQuery) {
-						return;
-					}
-					endpointQuery
-						.then((proof: any) => {
-							if (!network.rewards) {
-								return;
-							}
-							Promise.all([
-								rewardsTree.methods.getClaimedFor(connectedAddress, proof.tokens).call(),
-								diggToken.methods._sharesPerFragment().call(),
-								rewardsTree.methods
-									.getClaimableFor(connectedAddress, proof.tokens, proof.cumulativeAmounts)
-									.call(),
-							])
-								.then((result: any[]) => {
-									if (!proof.error) {
-										this.badgerTree = _.defaults(
-											{
-												cycle: parseInt(proof.cycle, 16),
-												claims: reduceClaims(proof, result[0][0], result[0][1]),
-												sharesPerFragment: result[1],
-												proof,
-												claimableAmounts: result[2][1],
-											},
-											this.badgerTree,
-										);
-									}
-								})
-								.catch((err) => console.log(err));
+					Promise.all([
+						rewardsTree.methods.getClaimedFor(connectedAddress, claimProof.tokens).call(),
+						diggToken.methods._sharesPerFragment().call(),
+						rewardsTree.methods
+							.getClaimableFor(connectedAddress, claimProof.tokens, claimProof.cumulativeAmounts)
+							.call(),
+					])
+						.then((result: any[]) => {
+							this.badgerTree = _.defaults(
+								{
+									cycle: parseInt(claimProof.cycle, 16),
+									claims: reduceClaims(claimProof, result[0][0], result[0][1]),
+									sharesPerFragment: result[1],
+									claimProof,
+									claimableAmounts: result[2][1],
+								},
+								this.badgerTree,
+							);
 						})
-						.catch((err) => console.log('error: ', err));
+						.catch((err) => console.log(err));
 				}
 			})
 			.catch((err) => console.log(err));
