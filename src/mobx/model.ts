@@ -237,6 +237,17 @@ export interface Growth {
 	year: Amount;
 }
 
+export interface RewardMerkleClaim {
+	index: BigNumber;
+	cycle: BigNumber;
+	boost: BigNumber;
+	user: string;
+	tokens: string[];
+	cumulativeAmounts: BigNumber[];
+	proof: string[];
+	node: string;
+}
+
 export interface Amount {
 	token: Token;
 	amount: BigNumber;
@@ -760,7 +771,8 @@ export interface SettAffiliateData {
 
 export type ValueSource = {
 	name: string;
-	apy: number;
+	apy?: number;
+	apr: number;
 	performance: Performance;
 };
 
