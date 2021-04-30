@@ -12,19 +12,6 @@ const tokens = [
 	new TokenModel(store, addresses.mainnet.contracts.tokens['btbtc/sbtcCrv']),
 ];
 
-// this is a workaround for the 'TypeError: document.createRange is not a function' error using the tooltip
-// see https://github.com/mui-org/material-ui/issues/15726
-(global as any).document.createRange = () => ({
-	// eslint-disable-next-line @typescript-eslint/no-empty-function
-	setStart: () => {},
-	// eslint-disable-next-line @typescript-eslint/no-empty-function
-	setEnd: () => {},
-	commonAncestorContainer: {
-		nodeName: 'BODY',
-		ownerDocument: document,
-	},
-});
-
 it('starts with the first token as default value', () => {
 	customRender(<Tokens selected={tokens[0]} tokens={tokens} onTokenSelect={jest.fn()} />);
 	expect(screen.getByRole('button', { name: `${tokens[0].name} ${tokens[0].symbol}` })).toBeInTheDocument();
