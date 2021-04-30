@@ -3,6 +3,7 @@ import { RootStore } from '../store';
 import { UserPermissions, Account, RewardMerkleClaim } from 'mobx/model';
 import { checkShopEligibility, fetchBouncerProof, fetchClaimProof, getAccountDetails } from 'mobx/utils/apiV2';
 import WalletStore from './walletStore';
+import Web3 from 'web3';
 
 /**
  * TODO: Aggregation of user specific information will move here.
@@ -80,7 +81,7 @@ export default class UserStore {
 
 	loadClaimProof = action(
 		async (address: string): Promise<void> => {
-			const proof = await fetchClaimProof(address);
+			const proof = await fetchClaimProof(Web3.utils.toChecksumAddress(address));
 			if (proof) {
 				this.claimProof = proof;
 			}

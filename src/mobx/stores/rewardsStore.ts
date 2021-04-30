@@ -5,11 +5,13 @@ import { Contract } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
 import { estimateAndSend } from '../utils/web3';
 import { RootStore } from '../store';
-import _ from 'lodash';
-import { reduceClaims, reduceTimeSinceLastCycle } from '../reducers/statsReducers';
 import { abi as rewardsAbi } from '../../config/system/abis/BadgerTree.json';
 import { abi as diggAbi } from '../../config/system/abis/UFragments.json';
 import { badgerTree, digg_system } from '../../config/deployments/mainnet.json';
+import BigNumber from 'bignumber.js';
+import { TreeClaimData } from 'mobx/model';
+import { reduceClaims, reduceTimeSinceLastCycle } from 'mobx/reducers/statsReducers';
+import _ from 'lodash';
 
 class RewardsStore {
 	private store!: RootStore;
@@ -30,61 +32,50 @@ class RewardsStore {
 		setInterval(this.fetchSettRewards, 6e4);
 	}
 
-	fetchSettRewards = action(() => {
-		const { provider, connectedAddress, network } = this.store.wallet;
-		const { claimProof } = this.store.user;
+	fetchSettRewards = action(
+		async (): Promise<void> => {
+			const { provider, connectedAddress, network } = this.store.wallet;
+			const { claimProof } = this.store.user;
 
-		if (!connectedAddress || !claimProof) {
-			return;
-		}
+			if (!connectedAddress || !claimProof || !network.rewards) {
+				this.badgerTree = undefined;
+				return;
+			}
 
-		const web3 = new Web3(provider);
-		const rewardsTree = new web3.eth.Contract(rewardsAbi as AbiItem[], badgerTree);
-		const diggToken = new web3.eth.Contract(diggAbi as AbiItem[], digg_system.uFragments);
+			const web3 = new Web3(provider);
+			const rewardsTree = new web3.eth.Contract(rewardsAbi as AbiItem[], badgerTree);
+			const diggToken = new web3.eth.Contract(diggAbi as AbiItem[], digg_system.uFragments);
 
-		if (!network.rewards) {
-			this.badgerTree = undefined;
-			return;
-		}
+			const [timestamp, cycle, claimed, claimable, sharesPerFragment]: [
+				number,
+				number,
+				TreeClaimData,
+				TreeClaimData,
+				BigNumber,
+			] = await Promise.all([
+				rewardsTree.methods.lastPublishTimestamp().call(),
+				rewardsTree.methods.currentCycle().call(),
+				rewardsTree.methods.getClaimedFor(connectedAddress, claimProof.tokens).call(),
+				rewardsTree.methods
+					.getClaimableFor(connectedAddress, claimProof.tokens, claimProof.cumulativeAmounts)
+					.call(),
+				diggToken.methods._sharesPerFragment().call(),
+			]);
 
-		const treeMethods = [
-			rewardsTree.methods.lastPublishTimestamp().call(),
-			rewardsTree.methods.merkleContentHash().call(),
-		];
-
-		Promise.all(treeMethods)
-			.then((rewardsResponse: any) => {
-				this.badgerTree = _.defaults(
-					{
-						timeSinceLastCycle: reduceTimeSinceLastCycle(rewardsResponse[0]),
-					},
-					this.badgerTree,
-				);
-				if (network.rewards) {
-					Promise.all([
-						rewardsTree.methods.getClaimedFor(connectedAddress, claimProof.tokens).call(),
-						diggToken.methods._sharesPerFragment().call(),
-						rewardsTree.methods
-							.getClaimableFor(connectedAddress, claimProof.tokens, claimProof.cumulativeAmounts)
-							.call(),
-					])
-						.then((result: any[]) => {
-							this.badgerTree = _.defaults(
-								{
-									cycle: parseInt(claimProof.cycle, 16),
-									claims: reduceClaims(claimProof, result[0][0], result[0][1]),
-									sharesPerFragment: result[1],
-									claimProof,
-									claimableAmounts: result[2][1],
-								},
-								this.badgerTree,
-							);
-						})
-						.catch((err) => console.log(err));
-				}
-			})
-			.catch((err) => console.log(err));
-	});
+			// TODO: introduce typing in badger tree
+			this.badgerTree = _.defaults(
+				{
+					timeSinceLastCycle: reduceTimeSinceLastCycle(timestamp),
+					cycle,
+					claims: reduceClaims(claimProof, claimed.tokens, claimed.amounts),
+					sharesPerFragment: sharesPerFragment,
+					claimProof,
+					claimableAmounts: claimable.amounts,
+				},
+				this.badgerTree,
+			);
+		},
+	);
 
 	claimGeysers = action((stake = false) => {
 		const { proof, claimableAmounts } = this.badgerTree;
