@@ -143,7 +143,7 @@ export const Redeem = observer((): any => {
 			<Grid container>
 				<Grid item xs={12}>
 					<OutputBalanceText variant="body1" color="textSecondary">
-						Balance: {ibBTC.formattedBalance}
+						Balance: {selectedToken.formattedBalance}
 					</OutputBalanceText>
 				</Grid>
 				<OutputContentGrid container item xs={12}>

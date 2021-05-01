@@ -28,9 +28,22 @@
 					"symbol": "btbtc/sbtcCrv",
 					"name": "Badger t-btc/sbtcCrv",
 					"poolId": 2
+				},
+				"byvWbtc": {
+					"address": "0x4b92d19c11435614cd49af1b589001b7c08cd4d5",
+					"decimals": 8,
+					"symbol": "byvWbtc",
+					"name": "Badger WBTC yVault"
 				}
 			},
-			"peak": "0x1a2a808478B3A4F889EC7Ea5c6E809B17C8Eb9Cf"
+			"BadgerSettPeak": {
+				"supportedTokens": ["bcrvRenWSBTC", "bcrvRenWBTC", "btbtc/sbtcCrv"],
+				"address": "0x1a2a808478B3A4F889EC7Ea5c6E809B17C8Eb9Cf"
+			},
+			"yearnWBTCPeak": {
+				"supportedTokens": ["byvWbtc"],
+				"address": "0x4A679253410272dd5232B3Ff7cF5dbB88f295319"
+			}
 		}
 	}
 }

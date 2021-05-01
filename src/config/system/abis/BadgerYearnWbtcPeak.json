@@ -1,10 +1,7 @@
 {
 	"abi": [
 		{
-			"inputs": [
-				{ "internalType": "uint256", "name": "poolId", "type": "uint256" },
-				{ "internalType": "uint256", "name": "inAmount", "type": "uint256" }
-			],
+			"inputs": [{ "internalType": "uint256", "name": "inAmount", "type": "uint256" }],
 			"name": "calcMint",
 			"outputs": [
 				{ "internalType": "uint256", "name": "bBTC", "type": "uint256" },
@@ -15,7 +12,6 @@
 		},
 		{
 			"inputs": [
-				{ "internalType": "uint256", "name": "poolId", "type": "uint256" },
 				{ "internalType": "uint256", "name": "inAmount", "type": "uint256" },
 				{ "internalType": "bytes32[]", "name": "merkleProof", "type": "bytes32[]" }
 			],
@@ -25,10 +21,7 @@
 			"type": "function"
 		},
 		{
-			"inputs": [
-				{ "internalType": "uint256", "name": "poolId", "type": "uint256" },
-				{ "internalType": "uint256", "name": "bBtc", "type": "uint256" }
-			],
+			"inputs": [{ "internalType": "uint256", "name": "bBtc", "type": "uint256" }],
 			"name": "calcRedeem",
 			"outputs": [
 				{ "internalType": "uint256", "name": "sett", "type": "uint256" },
@@ -39,10 +32,7 @@
 			"type": "function"
 		},
 		{
-			"inputs": [
-				{ "internalType": "uint256", "name": "poolId", "type": "uint256" },
-				{ "internalType": "uint256", "name": "inAmount", "type": "uint256" }
-			],
+			"inputs": [{ "internalType": "uint256", "name": "inAmount", "type": "uint256" }],
 			"name": "redeem",
 			"outputs": [{ "internalType": "uint256", "name": "outAmount", "type": "uint256" }],
 			"stateMutability": "nonpayable",

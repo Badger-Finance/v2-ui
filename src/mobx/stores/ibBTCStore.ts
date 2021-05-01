@@ -14,12 +14,15 @@ import SETT from 'config/system/abis/Sett.json';
 import ibBTCConfig from 'config/system/abis/ibBTC.json';
 import addresses from 'config/ibBTC/addresses.json';
 import BadgerBtcPeak from 'config/system/abis/BadgerBtcPeak.json';
+import BadgerYearnWbtcPeak from 'config/system/abis/BadgerYearnWbtcPeak.json';
 import { ZERO, MAX, FLAGS, NETWORK_IDS } from 'config/constants';
 
 interface IbBTCApyInfo {
 	fromLastDay: number;
 	fromLastWeek: number;
 }
+
+type PeakType = { address: string; isYearnWBTCPeak: boolean; abi: any };
 
 class IbBTCStore {
 	private store!: RootStore;
@@ -45,6 +48,7 @@ class IbBTCStore {
 			new TokenModel(this.store, token_config['bcrvRenWSBTC']),
 			new TokenModel(this.store, token_config['bcrvRenWBTC']),
 			new TokenModel(this.store, token_config['btbtc/sbtcCrv']),
+			new TokenModel(this.store, token_config['byvWbtc']),
 		];
 
 		observe(this.store.wallet as any, 'connectedAddress', () => {
@@ -63,6 +67,24 @@ class IbBTCStore {
 		this.fetchConversionRates();
 		this.fetchIbbtcApy();
 	});
+
+	getPeakForToken = action(
+		(symbol: string): PeakType => {
+			const peak: PeakType = {
+				address: this.config.contracts.BadgerSettPeak.address,
+				isYearnWBTCPeak: false,
+				abi: BadgerBtcPeak.abi,
+			};
+			if (this.config.contracts.yearnWBTCPeak.supportedTokens.includes(symbol)) {
+				peak.address = this.config.contracts.yearnWBTCPeak.address;
+				peak.isYearnWBTCPeak = true;
+				peak.abi = BadgerYearnWbtcPeak.abi;
+			}
+
+			// Curve Peak as default peak
+			return peak;
+		},
+	);
 
 	validate = action((amount: BigNumber, token: TokenModel): boolean | void => {
 		const { queueNotification } = this.store.uiState;
@@ -243,15 +265,16 @@ class IbBTCStore {
 
 		if (!this.validate(amount, inToken)) return;
 
+		const peak = this.getPeakForToken(inToken.symbol);
 		const methodSeries: any = [];
 		async.parallel(
-			[(callback: any) => this.getAllowance(inToken, this.config.contracts.peak, callback)],
+			[(callback: any) => this.getAllowance(inToken, peak.address, callback)],
 			(err: any, allowances: any) => {
 				// make sure we have allowance
 				if (amount.gt(allowances[0]))
 					methodSeries.push((callback: any) =>
 						// skip amount to approve max
-						this.increaseAllowance(inToken, this.config.contracts.peak, callback),
+						this.increaseAllowance(inToken, peak.address, callback),
 					);
 				methodSeries.push((callback: any) => this.mintBBTC(inToken, amount, callback));
 				setTxStatus('pending');
@@ -270,10 +293,13 @@ class IbBTCStore {
 
 			if (!provider) return queueNotification('Please connect a wallet', 'error');
 
+			const peak = this.getPeakForToken(inToken.symbol);
 			const web3 = new Web3(provider);
-			const peakContract = new web3.eth.Contract(BadgerBtcPeak.abi as AbiItem[], this.config.contracts.peak);
+			const peakContract = new web3.eth.Contract(peak.abi as AbiItem[], peak.address);
 			const hexAmount = toHex(toBN(amount as any));
-			const method = peakContract.methods.calcMint(inToken.poolId, hexAmount);
+			let method = null;
+			if (peak.isYearnWBTCPeak) method = peakContract.methods.calcMint(hexAmount);
+			else method = peakContract.methods.calcMint(inToken.poolId, hexAmount);
 
 			try {
 				const result = await method.call();
@@ -289,10 +315,14 @@ class IbBTCStore {
 		const { queueNotification, setTxStatus } = this.store.uiState;
 		const { provider, connectedAddress } = this.store.wallet;
 
+		const peak = this.getPeakForToken(inToken.symbol);
 		const web3 = new Web3(provider);
-		const peakContract = new web3.eth.Contract(BadgerBtcPeak.abi as AbiItem[], this.config.contracts.peak);
+		const peakContract = new web3.eth.Contract(peak.abi as AbiItem[], peak.address);
 		const hexAmount = toHex(toBN(amount as any));
-		const method = peakContract.methods.mint(inToken.poolId, hexAmount);
+		const merkleProof: any[] = [];
+		let method = null;
+		if (peak.isYearnWBTCPeak) method = peakContract.methods.mint(hexAmount, merkleProof);
+		else method = peakContract.methods.mint(inToken.poolId, hexAmount, merkleProof);
 
 		estimateAndSend(
 			web3,
@@ -331,10 +361,13 @@ class IbBTCStore {
 
 			if (!provider) return queueNotification('Please connect a wallet', 'error');
 
+			const peak = this.getPeakForToken(outToken.symbol);
 			const web3 = new Web3(provider);
-			const peakContract = new web3.eth.Contract(BadgerBtcPeak.abi as AbiItem[], this.config.contracts.peak);
+			const peakContract = new web3.eth.Contract(peak.abi as AbiItem[], peak.address);
 			const hexAmount = toHex(toBN(amount as any));
-			const method = peakContract.methods.calcRedeem(outToken.poolId, hexAmount);
+			let method = null;
+			if (peak.isYearnWBTCPeak) method = peakContract.methods.calcRedeem(hexAmount);
+			else method = peakContract.methods.calcRedeem(outToken.poolId, hexAmount);
 
 			try {
 				const result = await method.call();
@@ -350,10 +383,13 @@ class IbBTCStore {
 		const { queueNotification, setTxStatus } = this.store.uiState;
 		const { provider, connectedAddress } = this.store.wallet;
 
+		const peak = this.getPeakForToken(outToken.symbol);
 		const web3 = new Web3(provider);
-		const peakContract = new web3.eth.Contract(BadgerBtcPeak.abi as AbiItem[], this.config.contracts.peak);
+		const peakContract = new web3.eth.Contract(peak.abi as AbiItem[], peak.address);
 		const hexAmount = toHex(toBN(amount as any));
-		const method = peakContract.methods.redeem(outToken.poolId, hexAmount);
+		let method = null;
+		if (peak.isYearnWBTCPeak) method = peakContract.methods.redeem(hexAmount);
+		else method = peakContract.methods.redeem(outToken.poolId, hexAmount);
 
 		estimateAndSend(
 			web3,
