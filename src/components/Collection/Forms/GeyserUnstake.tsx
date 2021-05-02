@@ -9,6 +9,7 @@ import { Loader } from '../../Loader';
 import { BigNumber } from 'bignumber.js';
 import { useForm } from 'react-hook-form';
 import { formatBalanceStaked } from 'mobx/reducers/statsReducers';
+import { inCurrency } from 'mobx/utils/helpers';
 
 const TEXTFIELD_ID = 'amountField';
 
@@ -93,10 +94,14 @@ export const GeyserUnstake = observer((props: any) => {
 				>
 					<div>
 						<Typography variant="body2" color={'textSecondary'} style={{ marginBottom: '.2rem' }}>
-							Underlying {vault.underlyingToken.symbol}: {formatBalanceStaked(vault.geyser)}
+							Underlying {vault.underlyingToken.symbol}:{' '}
+							{!!connectedAddress && !!vault && !!vault.geyser
+								? formatBalanceStaked(vault.geyser)
+								: inCurrency(new BigNumber(0), 'eth', true)}
 						</Typography>
 						<Typography variant="body1" color={'textSecondary'} style={{ marginBottom: '.2rem' }}>
-							Staked {vault.symbol}: {totalAvailable}
+							Staked {vault.symbol}:{' '}
+							{connectedAddress ? totalAvailable : inCurrency(new BigNumber(0), 'eth', true)}
 						</Typography>
 					</div>
 					{renderAmounts}
