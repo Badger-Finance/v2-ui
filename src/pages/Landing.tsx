@@ -42,6 +42,8 @@ const useStyles = makeStyles((theme) => ({
 		marginBottom: theme.spacing(3),
 		marginLeft: 'auto',
 		marginRight: 'auto',
+		display: 'flex',
+		flexDirection: 'column',
 	},
 	widgetContainer: {
 		display: 'flex',
@@ -68,6 +70,13 @@ const useStyles = makeStyles((theme) => ({
 	},
 	pickerContainer: {
 		marginRight: theme.spacing(1),
+	},
+	announcementButton: {
+		marginTop: theme.spacing(1),
+		width: '75%',
+		marginLeft: 'auto',
+		marginRight: 'auto',
+		pointerEvents: 'none',
 	},
 }));
 
@@ -191,6 +200,14 @@ const Landing = observer((props: LandingProps) => {
 									</ButtonGroup>
 								</List>
 							</Paper>
+							<Button
+								className={classes.announcementButton}
+								size="small"
+								variant="outlined"
+								color="primary"
+							>
+								Note: New Vaults may take up to 2 weeks from launch to reach full efficiency.
+							</Button>
 						</Grid>
 					</>
 				)}
