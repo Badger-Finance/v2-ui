@@ -189,7 +189,8 @@ export const Bridge = observer(() => {
 							>
 								user guide
 							</a>
-							&nbsp;to mitigate risk of lost funds due to error.
+							&nbsp;to learn more about the incentives to use the bridge, the Bridge Mining Program and to
+							mitigate risk of lost funds due to error.
 						</p>
 					</Paper>
 				</Grid>
