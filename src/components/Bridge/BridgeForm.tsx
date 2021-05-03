@@ -161,7 +161,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 	const handleTabChange = (_: unknown, newValue: number) => {
 		setStates((prevState) => ({
 			...prevState,
-			token: newValue !== 1 ? 'renBTC' : FLAGS.BWBTC_FLAG ? 'byvWBTC' : 'bCRVrenBTC',
+			token: newValue !== 1 ? 'renBTC' : FLAGS.WBTC_FLAG ? 'byvWBTC' : 'bCRVrenBTC',
 			tabValue: newValue,
 			receiveAmount: 0,
 			burnAmount: '',
@@ -520,12 +520,14 @@ export const BridgeForm = observer(({ classes }: any) => {
 							</span>
 						</MenuItem>
 
-						<MenuItem value={'WBTC'}>
-							<span className={classes.menuItem}>
-								<img src={WBTCLogo} className={classes.logo} />
-								<span>WBTC</span>
-							</span>
-						</MenuItem>
+						{FLAGS.WBTC_FLAG && (
+							<MenuItem value={'WBTC'}>
+								<span className={classes.menuItem}>
+									<img src={WBTCLogo} className={classes.logo} />
+									<span>WBTC</span>
+								</span>
+							</MenuItem>
+						)}
 					</Select>
 				)}
 
@@ -540,7 +542,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 							id: 'token-select',
 						}}
 					>
-						{FLAGS.BWBTC_FLAG && (
+						{FLAGS.WBTC_FLAG && (
 							<MenuItem value={'byvWBTC'}>
 								<span className={classes.menuItem}>
 									<img src={byvWBTCLogo} className={classes.logo} />
@@ -590,7 +592,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 							</span>
 						</MenuItem>
 
-						{FLAGS.BWBTC_FLAG && (
+						{FLAGS.WBTC_FLAG && (
 							<MenuItem value={'byvWBTC'}>
 								<span className={classes.menuItem}>
 									<img src={byvWBTCLogo} className={classes.logo} />
