@@ -18,6 +18,7 @@ import {
 	reduceSushiAPIResults,
 	reduceXSushiROIResults,
 } from '../../mobx/reducers/contractReducers';
+import { Token } from 'mobx/model';
 
 const START_BLOCK = NETWORK_CONSTANTS[NETWORK_LIST.ETH].START_BLOCK;
 
@@ -540,18 +541,13 @@ describe('reduceGrowth', () => {
 describe('reduceGeyserSchedule', () => {
 	// Create store with mock token objects
 	const mockStore = store;
-	mockStore.contracts.tokens['0x798D1bE841a82a273720CE31c822C61a67a601C3'] = {
-		address: '0x798D1bE841a82a273720CE31c822C61a67a601C3',
-		data: 'Token0',
-	};
-	mockStore.contracts.tokens['0x3472A5A71965499acd81997a54BBA8D852C6E53d'] = {
-		address: '0x3472A5A71965499acd81997a54BBA8D852C6E53d',
-		data: 'Token1',
-	};
-	mockStore.contracts.tokens['0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a'] = {
-		address: '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a',
-		data: 'Token2',
-	};
+	const token1 = new Token(mockStore, '0x798D1bE841a82a273720CE31c822C61a67a601C3', 18);
+	const token2 = new Token(mockStore, '0x3472A5A71965499acd81997a54BBA8D852C6E53d', 18);
+	const token3 = new Token(mockStore, '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a', 18);
+
+	mockStore.contracts.tokens['0x798D1bE841a82a273720CE31c822C61a67a601C3'] = token1;
+	mockStore.contracts.tokens['0x3472A5A71965499acd81997a54BBA8D852C6E53d'] = token2;
+	mockStore.contracts.tokens['0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a'] = token3;
 
 	test('Mock data set is reduced correctly - No Special case', () => {
 		const schedules = {
@@ -565,31 +561,19 @@ describe('reduceGeyserSchedule', () => {
 			{
 				day: {
 					amount: new BigNumber(864000), // 20/(1607019097-1607019095) = 10 -> 10 * 60 * 60 * 24
-					token: {
-						address: '0x3472A5A71965499acd81997a54BBA8D852C6E53d',
-						data: 'Token1',
-					},
+					token: token2,
 				},
 				week: {
 					amount: new BigNumber(6048000), // 20/(1607019097-1607019095) = 10 -> 10 * 60 * 60 * 24 * 7
-					token: {
-						address: '0x3472A5A71965499acd81997a54BBA8D852C6E53d',
-						data: 'Token1',
-					},
+					token: token2,
 				},
 				month: {
 					amount: new BigNumber(25920000), // 20/(1607019097-1607019095) = 10 -> 10 * 60 * 60 * 24 * 30
-					token: {
-						address: '0x3472A5A71965499acd81997a54BBA8D852C6E53d',
-						data: 'Token1',
-					},
+					token: token2,
 				},
 				year: {
 					amount: new BigNumber(315360000), // 20/(1607019097-1607019095) = 10 -> 10 * 60 * 60 * 24 * 365
-					token: {
-						address: '0x3472A5A71965499acd81997a54BBA8D852C6E53d',
-						data: 'Token1',
-					},
+					token: token2,
 				},
 			},
 		];
@@ -628,40 +612,28 @@ describe('reduceGeyserSchedule', () => {
 					amount: new BigNumber('202057195719116761014131368840160399203956123241542784248853484086980000000')
 						.dividedBy(28948022309329048855892746252171976963317496166410141009864396001)
 						.multipliedBy(60 * 60 * 24),
-					token: {
-						address: '0x798D1bE841a82a273720CE31c822C61a67a601C3',
-						data: 'Token0',
-					},
+					token: token1,
 				},
 				week: {
 					// 4811183999999999.809848477567965088 - Done programatically to preserve BigNumber integrity
 					amount: new BigNumber('202057195719116761014131368840160399203956123241542784248853484086980000000')
 						.dividedBy(28948022309329048855892746252171976963317496166410141009864396001)
 						.multipliedBy(60 * 60 * 24 * 7),
-					token: {
-						address: '0x798D1bE841a82a273720CE31c822C61a67a601C3',
-						data: 'Token0',
-					},
+					token: token1,
 				},
 				month: {
 					// 20619359999999999.18506490386270752 - Done programatically to preserve BigNumber integrity
 					amount: new BigNumber('202057195719116761014131368840160399203956123241542784248853484086980000000')
 						.dividedBy(28948022309329048855892746252171976963317496166410141009864396001)
 						.multipliedBy(60 * 60 * 24 * 30),
-					token: {
-						address: '0x798D1bE841a82a273720CE31c822C61a67a601C3',
-						data: 'Token0',
-					},
+					token: token1,
 				},
 				year: {
 					// 250868879999999990.08495633032960816 - Done programatically to preserve BigNumber integrity
 					amount: new BigNumber('202057195719116761014131368840160399203956123241542784248853484086980000000')
 						.dividedBy(28948022309329048855892746252171976963317496166410141009864396001)
 						.multipliedBy(60 * 60 * 24 * 365),
-					token: {
-						address: '0x798D1bE841a82a273720CE31c822C61a67a601C3',
-						data: 'Token0',
-					},
+					token: token1,
 				},
 			},
 		];
@@ -688,31 +660,19 @@ describe('reduceGeyserSchedule', () => {
 			{
 				day: {
 					amount: new BigNumber(0).dividedBy(0), // Locked = 0 and duration = 0
-					token: {
-						address: '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a',
-						data: 'Token2',
-					},
+					token: token3,
 				},
 				week: {
 					amount: new BigNumber(0).dividedBy(0), // Locked = 0 and duration = 0
-					token: {
-						address: '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a',
-						data: 'Token2',
-					},
+					token: token3,
 				},
 				month: {
 					amount: new BigNumber(0).dividedBy(0), // Locked = 0 and duration = 0
-					token: {
-						address: '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a',
-						data: 'Token2',
-					},
+					token: token3,
 				},
 				year: {
 					amount: new BigNumber(20).dividedBy(3).multipliedBy(60 * 60 * 24 * 365), // periodAllTime.start = startTime
-					token: {
-						address: '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a',
-						data: 'Token2',
-					},
+					token: token3,
 				},
 			},
 		];
