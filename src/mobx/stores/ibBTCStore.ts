@@ -61,7 +61,7 @@ class IbBTCStore {
 		const { connectedAddress, network } = this.store.wallet;
 		if (!FLAGS.IBBTC_FLAG || network.networkId !== NETWORK_IDS.ETH) return;
 
-		if (!!connectedAddress) this.fetchBalances();
+		if (!!connectedAddress) this.fetchTokensBalance();
 		else this.resetBalances();
 		this.fetchConversionRates();
 		this.fetchIbbtcApy();
@@ -98,12 +98,18 @@ class IbBTCStore {
 		return true;
 	});
 
-	fetchBalances = action(
+	fetchTokensBalance = action(
 		async (): Promise<void> => {
-			// Fetch balance for all tokens
-			// TODO: promise.all this
-			for (const token of this.tokens) {
-				token.balance = await this.fetchBalance(token);
+			const fetchTargetTokensBalance = this.tokens.map((token) => this.fetchBalance(token));
+
+			const [ibtcBalance, ...targetTokensBalance] = await Promise.all([
+				this.fetchBalance(this.ibBTC),
+				...fetchTargetTokensBalance,
+			]);
+
+			this.ibBTC.balance = ibtcBalance;
+			for (let index = 0; index < targetTokensBalance.length; index++) {
+				this.tokens[index].balance = targetTokensBalance[index];
 			}
 		},
 	);
