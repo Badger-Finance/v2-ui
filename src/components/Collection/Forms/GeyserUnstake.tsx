@@ -3,6 +3,7 @@ import { observer } from 'mobx-react-lite';
 
 import { StoreContext } from '../../../mobx/store-context';
 import { Button, DialogContent, TextField, DialogActions, ButtonGroup } from '@material-ui/core';
+import { Skeleton } from '@material-ui/lab';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Loader } from '../../Loader';
@@ -18,6 +19,14 @@ const useStyles = makeStyles((theme) => ({
 	},
 	field: {
 		margin: theme.spacing(1, 0, 1),
+	},
+	balanceDiv: {
+		flexGrow: 1,
+	},
+	skeleton: {
+		display: 'inline-flex',
+		width: '25%',
+		paddingLeft: theme.spacing(1),
 	},
 }));
 export const GeyserUnstake = observer((props: any) => {
@@ -91,12 +100,22 @@ export const GeyserUnstake = observer((props: any) => {
 				<div
 					style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap' }}
 				>
-					<div>
+					<div className={classes.balanceDiv}>
 						<Typography variant="body2" color={'textSecondary'} style={{ marginBottom: '.2rem' }}>
-							Underlying {vault.underlyingToken.symbol}: {formatBalanceStaked(vault.geyser)}
+							Underlying {vault.underlyingToken.symbol}:{' '}
+							{!!connectedAddress && !!vault && !!vault.geyser ? (
+								formatBalanceStaked(vault.geyser)
+							) : (
+								<Skeleton animation="wave" className={classes.skeleton} />
+							)}
 						</Typography>
 						<Typography variant="body1" color={'textSecondary'} style={{ marginBottom: '.2rem' }}>
-							Staked {vault.symbol}: {totalAvailable}
+							Staked {vault.symbol}:{' '}
+							{connectedAddress && totalAvailable ? (
+								totalAvailable
+							) : (
+								<Skeleton animation="wave" className={classes.skeleton} />
+							)}
 						</Typography>
 					</div>
 					{renderAmounts}
