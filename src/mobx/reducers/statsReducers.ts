@@ -215,13 +215,12 @@ export function formatBalanceUnderlying(vault: Vault): string {
 
 export function formatDialogBalanceUnderlying(vault: Vault): string {
 	const diggMultiplier = vault.underlyingToken.symbol === 'DIGG' ? getDiggPerShare(vault) : new BigNumber(1);
-	const decimals = vault.symbol === 'byvWBTC' ? 7 : vault.decimals;
 	return formatTokens(
 		vault.balance
 			.multipliedBy(vault.pricePerShare)
 			.multipliedBy(diggMultiplier)
 			.dividedBy(10 ** vault.decimals),
-		decimals,
+		vault.decimals,
 	);
 }
 
