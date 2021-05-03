@@ -1,10 +1,9 @@
 import { RootStore } from 'mobx/store';
 import { extendObservable, action, observe } from 'mobx';
-import async from 'async';
 
 import BigNumber from 'bignumber.js';
 import { PromiEvent } from 'web3-core';
-import { Contract } from 'web3-eth-contract';
+import { Contract, ContractSendMethod } from 'web3-eth-contract';
 import { AbiItem, toHex, toBN } from 'web3-utils';
 import Web3 from 'web3';
 import { TokenModel } from 'mobx/model';
@@ -106,8 +105,6 @@ class IbBTCStore {
 			for (const token of this.tokens) {
 				token.balance = await this.fetchBalance(token);
 			}
-
-			this.ibBTC.balance = await this.fetchBalance(this.ibBTC);
 		},
 	);
 
@@ -205,41 +202,26 @@ class IbBTCStore {
 		},
 	);
 
-	getAllowance = action(
-		async (underlyingAsset: TokenModel, spender: string, callback: (err: any, result: any) => void) => {
-			const { queueNotification } = this.store.uiState;
-			const { provider, connectedAddress } = this.store.wallet;
-			const web3 = new Web3(provider);
-			const tokenContract = new web3.eth.Contract(SETT.abi as AbiItem[], underlyingAsset.address);
-			const method = tokenContract.methods.allowance(connectedAddress, spender);
+	getAllowance = action(async (underlyingAsset: TokenModel, spender: string) => {
+		const { provider, connectedAddress } = this.store.wallet;
+		const web3 = new Web3(provider);
+		const tokenContract = new web3.eth.Contract(SETT.abi as AbiItem[], underlyingAsset.address);
+		const method = tokenContract.methods.allowance(connectedAddress, spender);
+		return method.call();
+	});
 
-			try {
-				const result = await method.call();
-				callback(null, result);
-			} catch (err) {
-				queueNotification(err.message, 'error');
-				callback(err, null);
-			}
-		},
-	);
+	increaseAllowance = action((underlyingAsset: TokenModel, spender: string, amount: BigNumber | string = MAX) => {
+		const { queueNotification, setTxStatus } = this.store.uiState;
+		const { provider, connectedAddress } = this.store.wallet;
 
-	increaseAllowance = action(
-		(
-			underlyingAsset: TokenModel,
-			spender: string,
-			callback: (err: any, result: any) => void,
-			amount: BigNumber | string = MAX,
-		) => {
-			const { queueNotification, setTxStatus } = this.store.uiState;
-			const { provider, connectedAddress } = this.store.wallet;
+		const web3 = new Web3(provider);
+		const tokenContract = new web3.eth.Contract(SETT.abi as AbiItem[], underlyingAsset.address);
+		const hexAmount = toHex(toBN(amount as any));
+		const method = tokenContract.methods.increaseAllowance(spender, hexAmount);
 
-			const web3 = new Web3(provider);
-			const tokenContract = new web3.eth.Contract(SETT.abi as AbiItem[], underlyingAsset.address);
-			const hexAmount = toHex(toBN(amount as any));
-			const method = tokenContract.methods.increaseAllowance(spender, hexAmount);
+		queueNotification(`Sign the transaction to allow Badger to spend your ${underlyingAsset.symbol}`, 'info');
 
-			queueNotification(`Sign the transaction to allow Badger to spend your ${underlyingAsset.symbol}`, 'info');
-
+		return new Promise((resolve, reject) => {
 			estimateAndSend(
 				web3,
 				this.store.wallet.gasPrices[this.store.uiState.gasPrice],
@@ -252,41 +234,40 @@ class IbBTCStore {
 						})
 						.on('receipt', () => {
 							queueNotification(`${underlyingAsset.symbol} allowance increased.`, 'success');
-							callback(null, {});
+							resolve();
 						})
 						.catch((error: any) => {
-							queueNotification(error.message, 'error');
 							setTxStatus('error');
+							reject(error);
 						});
 				},
 			);
-		},
-	);
+		});
+	});
 
-	mint = action((inToken: TokenModel, amount: BigNumber, callback: (err: any, result: any) => void) => {
-		const { setTxStatus } = this.store.uiState;
+	mint = action(async (inToken: TokenModel, amount: BigNumber, callback: (err: any, result: any) => void) => {
+		const { setTxStatus, queueNotification } = this.store.uiState;
 
 		if (!this.validate(amount, inToken)) return;
 
-		const peak = this.getPeakForToken(inToken.symbol);
-		const methodSeries: any = [];
-		async.parallel(
-			[(callback: any) => this.getAllowance(inToken, peak.address, callback)],
-			(err: any, allowances: any) => {
-				// make sure we have allowance
-				if (amount.gt(allowances[0]))
-					methodSeries.push((callback: any) =>
-						// skip amount to approve max
-						this.increaseAllowance(inToken, peak.address, callback),
-					);
-				methodSeries.push((callback: any) => this.mintBBTC(inToken, amount, callback));
-				setTxStatus('pending');
-				async.series(methodSeries, (err: any, results: any) => {
-					setTxStatus(!!err ? 'error' : 'success');
-					callback(err, results);
-				});
-			},
-		);
+		try {
+			const peak = this.getPeakForToken(inToken.symbol);
+			const allowance = await this.getAllowance(inToken, peak.address);
+
+			// make sure we have allowance
+			if (amount.gt(allowance)) {
+				await this.increaseAllowance(inToken, peak.address);
+			}
+
+			setTxStatus('pending');
+			await this.mintBBTC(inToken, amount);
+			setTxStatus('success');
+			callback(null, {});
+		} catch (error) {
+			process.env.NODE_ENV !== 'production' && console.error(error);
+			setTxStatus('error');
+			queueNotification(`There was an error minting ${inToken.symbol}. Please try again later.`, 'error');
+		}
 	});
 
 	calcMintAmount = action(
@@ -296,11 +277,11 @@ class IbBTCStore {
 
 			if (!provider) return queueNotification('Please connect a wallet', 'error');
 
+			let method: ContractSendMethod;
 			const peak = this.getPeakForToken(inToken.symbol);
 			const web3 = new Web3(provider);
 			const peakContract = new web3.eth.Contract(peak.abi as AbiItem[], peak.address);
 			const hexAmount = toHex(toBN(amount as any));
-			let method = null;
 			if (peak.isYearnWBTCPeak) method = peakContract.methods.calcMint(hexAmount);
 			else method = peakContract.methods.calcMint(inToken.poolId, hexAmount);
 
@@ -314,41 +295,43 @@ class IbBTCStore {
 		},
 	);
 
-	mintBBTC = action((inToken: TokenModel, amount: BigNumber, callback: (err: any, result: any) => void) => {
+	mintBBTC = action((inToken: TokenModel, amount: BigNumber) => {
 		const { queueNotification, setTxStatus } = this.store.uiState;
 		const { provider, connectedAddress } = this.store.wallet;
 
+		let method: ContractSendMethod;
 		const peak = this.getPeakForToken(inToken.symbol);
 		const web3 = new Web3(provider);
 		const peakContract = new web3.eth.Contract(peak.abi as AbiItem[], peak.address);
 		const hexAmount = toHex(toBN(amount as any));
-		const merkleProof: any[] = [];
-		let method = null;
+		const merkleProof = this.store.user.bouncerProof || [];
 		if (peak.isYearnWBTCPeak) method = peakContract.methods.mint(hexAmount, merkleProof);
 		else method = peakContract.methods.mint(inToken.poolId, hexAmount, merkleProof);
 
-		estimateAndSend(
-			web3,
-			this.store.wallet.gasPrices[this.store.uiState.gasPrice],
-			method,
-			connectedAddress,
-			(transaction: PromiEvent<Contract>) => {
-				transaction
-					.on('transactionHash', (hash) => {
-						queueNotification(`Mint submitted.`, 'info', hash);
-					})
-					.on('receipt', () => {
-						queueNotification(`Successfully minted ${this.ibBTC.symbol}`, 'success');
-						this.init();
-						callback(null, {});
-					})
-					.catch((error: any) => {
-						this.init();
-						queueNotification(error.message, 'error');
-						setTxStatus('error');
-					});
-			},
-		);
+		return new Promise((resolve, reject) => {
+			estimateAndSend(
+				web3,
+				this.store.wallet.gasPrices[this.store.uiState.gasPrice],
+				method,
+				connectedAddress,
+				(transaction: PromiEvent<Contract>) => {
+					transaction
+						.on('transactionHash', (hash) => {
+							queueNotification(`Mint submitted.`, 'info', hash);
+						})
+						.on('receipt', () => {
+							queueNotification(`Successfully minted ${this.ibBTC.symbol}`, 'success');
+							this.init();
+							resolve();
+						})
+						.catch((error: any) => {
+							this.init();
+							setTxStatus('error');
+							reject(error);
+						});
+				},
+			);
+		});
 	});
 
 	redeem = action((outToken: TokenModel, amount: BigNumber, callback: (err: any, result: any) => void) => {
