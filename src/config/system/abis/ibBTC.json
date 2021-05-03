@@ -87,13 +87,6 @@
 			"type": "function"
 		},
 		{
-			"inputs": [],
-			"name": "getPricePerFullShare",
-			"outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-			"stateMutability": "view",
-			"type": "function"
-		},
-		{
 			"inputs": [
 				{ "internalType": "address", "name": "spender", "type": "address" },
 				{ "internalType": "uint256", "name": "addedValue", "type": "uint256" }
@@ -118,6 +111,20 @@
 			"name": "name",
 			"outputs": [{ "internalType": "string", "name": "", "type": "string" }],
 			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "pricePerShare",
+			"outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [{ "internalType": "address", "name": "_core", "type": "address" }],
+			"name": "switchCore",
+			"outputs": [],
+			"stateMutability": "nonpayable",
 			"type": "function"
 		},
 		{

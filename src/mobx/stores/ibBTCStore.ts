@@ -127,9 +127,9 @@ class IbBTCStore {
 			const [dayOldBlock, weekOldBlock, currentPPS, dayOldPPS, weekOldPPS] = await Promise.all([
 				web3.eth.getBlock(currentBlock - dailyBlocks),
 				web3.eth.getBlock(currentBlock - weeklyBlocks),
-				ibBTC.methods.getPricePerFullShare().call(),
-				ibBTC.methods.getPricePerFullShare().call({}, currentBlock - dailyBlocks),
-				ibBTC.methods.getPricePerFullShare().call({}, currentBlock - weeklyBlocks),
+				ibBTC.methods.pricePerShare().call(),
+				ibBTC.methods.pricePerShare().call({}, currentBlock - dailyBlocks),
+				ibBTC.methods.pricePerShare().call({}, currentBlock - weeklyBlocks),
 			]);
 
 			const earnedInDay =
