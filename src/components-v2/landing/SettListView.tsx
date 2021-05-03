@@ -7,11 +7,12 @@ import UserListDisplay from './UserListDisplay';
 
 export interface SettListViewProps {
 	onOpen: (vault: Vault, sett: Sett) => void;
+	experimental: boolean;
 }
 
 const SettListView = observer((props: SettListViewProps) => {
 	const store = useContext(StoreContext);
-	const { onOpen } = props;
+	const { onOpen, experimental } = props;
 
 	const {
 		uiState: { hideZeroBal },
@@ -21,9 +22,9 @@ const SettListView = observer((props: SettListViewProps) => {
 	return (
 		<>
 			{hideZeroBal && connectedAddress ? (
-				<UserListDisplay onOpen={onOpen} />
+				<UserListDisplay experimental={experimental} onOpen={onOpen} />
 			) : (
-				<SettListDisplay onOpen={onOpen} />
+				<SettListDisplay experimental={experimental} onOpen={onOpen} />
 			)}
 		</>
 	);

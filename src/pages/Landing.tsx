@@ -42,6 +42,8 @@ const useStyles = makeStyles((theme) => ({
 		marginBottom: theme.spacing(3),
 		marginLeft: 'auto',
 		marginRight: 'auto',
+		display: 'flex',
+		flexDirection: 'column',
 	},
 	widgetContainer: {
 		display: 'flex',
@@ -69,11 +71,21 @@ const useStyles = makeStyles((theme) => ({
 	pickerContainer: {
 		marginRight: theme.spacing(1),
 	},
+	announcementButton: {
+		marginTop: theme.spacing(3),
+		width: '50%',
+		pointerEvents: 'none',
+	},
 }));
 
-const Landing = observer(() => {
+interface LandingProps {
+	experimental: boolean;
+}
+
+const Landing = observer((props: LandingProps) => {
 	const classes = useStyles();
 	const store = useContext(StoreContext);
+	const { experimental } = props;
 
 	const {
 		wallet: { connectedAddress, network },
@@ -123,10 +135,14 @@ const Landing = observer(() => {
 			{/* Landing Metrics Cards */}
 			<Grid container spacing={1} justify="center">
 				<Grid item xs={12} className={classes.headerContainer}>
-					<PageHeader
-						title="Sett Vaults"
-						subtitle="Powerful Bitcoin strategies. Automatic staking rewards."
-					/>
+					{experimental ? (
+						<PageHeader title="Experimental Vaults" subtitle="New vaults to dip your toes in.  Ape safe." />
+					) : (
+						<PageHeader
+							title="Sett Vaults"
+							subtitle="Powerful Bitcoin strategies. Automatic staking rewards."
+						/>
+					)}
 				</Grid>
 				<Grid item xs={12} className={classes.widgetContainer}>
 					<div>{userConnected && <WalletSlider />}</div>
@@ -151,6 +167,12 @@ const Landing = observer(() => {
 				<Grid item xs={12} md={userConnected ? 4 : 6}>
 					<CurrencyInfoCard title="Badger Price" value={badgerPriceDisplay} currency={currency} />
 				</Grid>
+			</Grid>
+
+			<Grid container spacing={1} justify="center">
+				<Button className={classes.announcementButton} size="small" variant="outlined" color="primary">
+					Note: New Vaults may take up to 2 weeks from launch to reach full efficiency.
+				</Button>
 			</Grid>
 
 			{/* Landing Claim Functionality */}
@@ -185,8 +207,7 @@ const Landing = observer(() => {
 						</Grid>
 					</>
 				)}
-
-			<SettList />
+			<SettList experimental={experimental} />
 		</Container>
 	);
 });

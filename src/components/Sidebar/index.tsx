@@ -329,6 +329,20 @@ export const Sidebar = observer(() => {
 									>
 										Honey Badger Drop
 									</ListItem>
+									{FLAGS.EXPERIMENTAL_VAULTS && (
+										<ListItem
+											button
+											className={[
+												store.router.currentPath == '/experimental'
+													? classes.activeListItem
+													: '',
+												classes.primarySubListItem,
+											].join(' ')}
+											onClick={() => goTo(views.experimental)}
+										>
+											Experimental Vaults
+										</ListItem>
+									)}
 								</Collapse>
 							</ListItem>
 						</>

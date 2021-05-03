@@ -37,7 +37,7 @@ export const ReleaseForm = ({
 	const store = useContext(StoreContext);
 	const {
 		wallet: { connectedAddress },
-		bridge: { renbtcBalance, wbtcBalance, bwbtcBalance, bCRVrenBTCBalance, bCRVsBTCBalance, bCRVtBTCBalance },
+		bridge: { renbtcBalance, wbtcBalance, byvwbtcBalance, bCRVrenBTCBalance, bCRVsBTCBalance, bCRVtBTCBalance },
 	} = store;
 
 	const [validAddress, setValidAddress] = useState(false);
@@ -58,8 +58,8 @@ export const ReleaseForm = ({
 				return renbtcBalance;
 			case 'WBTC':
 				return wbtcBalance;
-			case 'bWBTC':
-				return bwbtcBalance;
+			case 'byvWBTC':
+				return byvwbtcBalance;
 			case 'bCRVrenBTC':
 				return bCRVrenBTCBalance;
 			case 'bCRVsBTC':
@@ -79,7 +79,7 @@ export const ReleaseForm = ({
 		}
 	}, [values.btcAddr]);
 
-	const isWBTC = values.token === 'WBTC' || values.token === 'bWBTC';
+	const isWBTC = values.token === 'WBTC' || values.token === 'byvWBTC';
 
 	return (
 		<>

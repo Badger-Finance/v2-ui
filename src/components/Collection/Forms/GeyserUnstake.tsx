@@ -31,7 +31,7 @@ export const GeyserUnstake = observer((props: any) => {
 	} = store;
 
 	const percentageOfBalance = (percent: number) => {
-		return vault.geyser.balance
+		return vault?.geyser?.balance
 			.dividedBy(10 ** vault.decimals)
 			.multipliedBy(percent / 100)
 			.toFixed(parseInt(vault.decimals), BigNumber.ROUND_HALF_FLOOR);
@@ -59,7 +59,9 @@ export const GeyserUnstake = observer((props: any) => {
 		return <Loader />;
 	}
 
-	const canUnstake = !!connectedAddress && vault && vault.geyser && vault.geyser.balance.gt(0);
+	const canUnstake = () => {
+		return !!connectedAddress && vault?.geyser?.balance.gt(0);
+	};
 
 	const renderAmounts = (
 		<ButtonGroup size="small" className={classes.button} disabled={!connectedAddress}>
@@ -69,7 +71,9 @@ export const GeyserUnstake = observer((props: any) => {
 					onClick={() => {
 						setAmount(amount);
 					}}
-					variant={!!canUnstake && watch().amount === percentageOfBalance(amount) ? 'contained' : 'outlined'}
+					variant={
+						!!canUnstake() && watch().amount === percentageOfBalance(amount) ? 'contained' : 'outlined'
+					}
 					color="default"
 					key={amount}
 				>
