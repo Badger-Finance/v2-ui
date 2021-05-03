@@ -43,7 +43,7 @@ export const GeyserStake = observer((props: any) => {
 		return vault.balance
 			.dividedBy(10 ** vault.decimals)
 			.multipliedBy(percent / 100)
-			.toFixed(18, BigNumber.ROUND_HALF_FLOOR);
+			.toFixed(vault.decimals, BigNumber.ROUND_HALF_FLOOR);
 	};
 
 	const setAmount = (percent: number) => {
@@ -52,7 +52,7 @@ export const GeyserStake = observer((props: any) => {
 			vault.balance
 				.dividedBy(10 ** vault.decimals)
 				.multipliedBy(percent / 100)
-				.toFixed(18, BigNumber.ROUND_HALF_FLOOR),
+				.toFixed(vault.decimals, BigNumber.ROUND_HALF_FLOOR),
 		);
 	};
 
