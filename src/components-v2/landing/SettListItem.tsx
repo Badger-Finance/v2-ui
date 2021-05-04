@@ -96,7 +96,7 @@ const SettListItem = observer(
 				return (
 					<>
 						{sett.sources.map((source) => {
-							const apr = `${(source.apy / divisor).toFixed(2)}% ${source.name}`;
+							const apr = `${(source.apr / divisor).toFixed(2)}% ${source.name}`;
 							return <div key={source.name}>{apr}</div>;
 						})}
 					</>
@@ -116,7 +116,7 @@ const SettListItem = observer(
 			// If the vault is in the newVaults property, the ROI is not displaying properly due
 			// to harvesting. Display the New Vault identifier and the list of provided projected
 			// ROIs in the network object.
-			if (network.newVaults[sett.vaultToken]) {
+			if (false && network.newVaults[sett.vaultToken]) {
 				return {
 					apy: '✨ New Vault ✨',
 					tooltip: getNewVaultToolTip(),

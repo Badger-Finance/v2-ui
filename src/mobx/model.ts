@@ -220,6 +220,15 @@ export class TokenModel extends Contract {
 	}
 }
 
+export interface BadgerTree {
+	cycle: string;
+	timeSinceLastCycle: string;
+	sharesPerFragment: BigNumber | undefined;
+	proof: RewardMerkleClaim | undefined;
+	claims: UserClaimData[] | undefined;
+	claimableAmounts: BigNumber[] | undefined;
+}
+
 interface TokenConfig {
 	address: string;
 	name: string;
@@ -235,6 +244,24 @@ export interface Growth {
 	week: Amount;
 	month: Amount;
 	year: Amount;
+}
+
+export interface RewardMerkleClaim {
+	index: string;
+	cycle: string;
+	boost: BigNumber;
+	user: string;
+	tokens: string[];
+	cumulativeAmounts: string[];
+	proof: string[];
+	node: string;
+}
+
+export type TreeClaimData = [string[], BigNumber[]];
+
+export interface UserClaimData {
+	token: string;
+	amount: BigNumber;
 }
 
 export interface Amount {
@@ -760,7 +787,8 @@ export interface SettAffiliateData {
 
 export type ValueSource = {
 	name: string;
-	apy: number;
+	apy?: number;
+	apr: number;
 	performance: Performance;
 };
 
