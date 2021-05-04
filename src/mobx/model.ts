@@ -15,6 +15,7 @@ import { getRewards } from 'config/system/rewards';
 import { NETWORK_IDS, NETWORK_LIST, ZERO, TEN } from 'config/constants';
 import { getTokens } from '../config/system/tokens';
 import { getVaults } from '../config/system/vaults';
+import { getStrategies } from '../config/system/strategies';
 
 export class Contract {
 	store!: RootStore;
@@ -158,6 +159,21 @@ export class Geyser extends Contract {
 		if (!!payload.totalStaked) this.holdings = payload.totalStaked;
 		if (!!payload.totalStakedFor) this.balance = payload.totalStakedFor;
 	}
+}
+
+export interface StrategyConfig {
+	name: string;
+	address: string;
+	fees: FeeConfig;
+	strategyLink: string;
+}
+
+export interface StrategyNetworkConfig {
+	[vaultAddress: string]: StrategyConfig;
+}
+
+export interface FeeConfig {
+	[feeName: string]: BigNumber;
 }
 
 export class TokenModel extends Contract {
@@ -534,7 +550,22 @@ export interface Network {
 	cappedDeposit: { [index: string]: boolean };
 	uncappedDeposit: { [index: string]: boolean };
 	newVaults: { [index: string]: string[] };
+	strategies: StrategyNetworkConfig;
+	getFees: (vaultAddress: string) => string[];
 }
+
+const _getFees = (strategy: StrategyConfig) => {
+	const feeList: string[] = [];
+	if (!strategy) return [];
+	// fees are stored in BIPs on the contract, dividing by 10**2 makes them readable %
+	Object.keys(strategy.fees).forEach((key) => {
+		const value = strategy.fees[key];
+		if (value.gt(0)) {
+			feeList.push(`${key}:  ${value.dividedBy(10 ** 2).toString()}%`);
+		}
+	});
+	return feeList;
+};
 
 export class BscNetwork implements Network {
 	public readonly name = NETWORK_LIST.BSC;
@@ -576,6 +607,10 @@ export class BscNetwork implements Network {
 	public readonly cappedDeposit = {};
 	public readonly uncappedDeposit = {};
 	public readonly newVaults = {};
+	public readonly strategies = getStrategies(NETWORK_LIST.BSC);
+	public getFees(vaultAddress: string): string[] {
+		return _getFees(this.strategies[vaultAddress]);
+	}
 }
 
 export class EthNetwork implements Network {
@@ -641,6 +676,10 @@ export class EthNetwork implements Network {
 	public readonly newVaults = {
 		[this.deploy.sett_system.vaults['yearn.wBtc']]: ['Expected ROI', '60% @ $100m', '30% @ $400m', '24% @ $1b'],
 	};
+	public readonly strategies = getStrategies(NETWORK_LIST.ETH);
+	public getFees(vaultAddress: string): string[] {
+		return _getFees(this.strategies[vaultAddress]);
+	}
 }
 
 export type UserPermissions = {
