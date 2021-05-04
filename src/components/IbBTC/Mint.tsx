@@ -22,6 +22,7 @@ import {
 	OutputAmountText,
 	OutputTokenGrid,
 } from './Common';
+import { useInitialInformation } from './ibbtc.hooks';
 
 export const Mint = observer((): any => {
 	const store = useContext(StoreContext);
@@ -33,10 +34,7 @@ export const Mint = observer((): any => {
 	const [selectedToken, setSelectedToken] = useState<TokenModel>(tokens[0]);
 	const [inputAmount, setInputAmount] = useState<string>();
 	const [outputAmount, setOutputAmount] = useState<string>();
-
-	const initialFee = Math.max(1 - parseFloat(selectedToken.mintRate), 0).toFixed(3);
-	const initialConversionRate = parseFloat(selectedToken.mintRate).toFixed(4);
-
+	const { initialFee, initialConversionRate } = useInitialInformation(selectedToken.mintRate, selectedToken.mintRate);
 	const [conversionRate, setConversionRate] = useState(initialConversionRate);
 	const [fee, setFee] = useState<string>(initialFee);
 
@@ -48,7 +46,7 @@ export const Mint = observer((): any => {
 	};
 
 	const setMintInformation = (inputAmount: BigNumber, outputAmount: BigNumber, fee: BigNumber): void => {
-		setOutputAmount(ibBTC.unscale(outputAmount).toString(10));
+		setOutputAmount(ibBTC.unscale(outputAmount).toString());
 		setFee(ibBTC.unscale(fee).toFixed(4));
 		setConversionRate(outputAmount.dividedBy(inputAmount).toFixed(4));
 	};
@@ -71,7 +69,7 @@ export const Mint = observer((): any => {
 
 	const useMaxBalance = async () => {
 		if (selectedToken.balance.gt(ZERO)) {
-			setInputAmount(selectedToken.unscale(selectedToken.balance).toString(10));
+			setInputAmount(selectedToken.unscale(selectedToken.balance).toString());
 			const { bBTC, fee } = await store.ibBTCStore.calcMintAmount(selectedToken, selectedToken.balance);
 			setMintInformation(selectedToken.balance, bBTC, fee);
 		}
@@ -88,7 +86,7 @@ export const Mint = observer((): any => {
 		setSelectedToken(token);
 		if (inputAmount) {
 			const { bBTC, fee } = await store.ibBTCStore.calcMintAmount(token, token.scale(inputAmount));
-			setOutputAmount(ibBTC.unscale(bBTC).toString(10));
+			setOutputAmount(ibBTC.unscale(bBTC).toString());
 			setFee(ibBTC.unscale(fee).toFixed(4));
 		}
 	};
