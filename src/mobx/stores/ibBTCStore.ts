@@ -21,7 +21,16 @@ interface IbBTCApyInfo {
 	fromLastWeek: number;
 }
 
-type PeakType = { address: string; isYearnWBTCPeak: boolean; abi: any };
+interface MintAmountCalculation {
+	bBTC: BigNumber;
+	fee: BigNumber;
+}
+
+interface PeakType {
+	address: string;
+	isYearnWBTCPeak: boolean;
+	abi: any;
+}
 
 class IbBTCStore {
 	private store!: RootStore;
@@ -174,12 +183,12 @@ class IbBTCStore {
 
 	fetchMintRate = action(
 		async (token: TokenModel): Promise<void> => {
-			const callback = (err: any, result: any): void => {
-				if (!err) token.mintRate = token.unscale(new BigNumber(result[0])).toString(10);
-				else token.mintRate = '0';
-			};
-
-			await this.calcMintAmount(token, token.scale(new BigNumber(1)), callback);
+			try {
+				const { bBTC } = await this.calcMintAmount(token, token.scale(new BigNumber(1)));
+				token.mintRate = token.unscale(new BigNumber(bBTC)).toString(10);
+			} catch (e) {
+				token.mintRate = '0';
+			}
 		},
 	);
 
@@ -251,7 +260,7 @@ class IbBTCStore {
 		});
 	});
 
-	mint = action(async (inToken: TokenModel, amount: BigNumber, callback: (err: any, result: any) => void) => {
+	mint = action(async (inToken: TokenModel, amount: BigNumber) => {
 		const { setTxStatus, queueNotification } = this.store.uiState;
 
 		if (!this.validate(amount, inToken)) return;
@@ -268,7 +277,6 @@ class IbBTCStore {
 			setTxStatus('pending');
 			await this.mintBBTC(inToken, amount);
 			setTxStatus('success');
-			callback(null, {});
 		} catch (error) {
 			process.env.NODE_ENV !== 'production' && console.error(error);
 			setTxStatus('error');
@@ -276,13 +284,17 @@ class IbBTCStore {
 		}
 	});
 
-	calcMintAmount = action(
-		async (inToken: TokenModel, amount: BigNumber, callback: (err: any, result: any) => void) => {
-			const { queueNotification } = this.store.uiState;
-			const { provider } = this.store.wallet;
+	calcMintAmount = async (inToken: TokenModel, amount: BigNumber): Promise<MintAmountCalculation> => {
+		const { queueNotification } = this.store.uiState;
+		const { provider } = this.store.wallet;
+		const fallbackResponse = { bBTC: this.ibBTC.scale('0'), fee: this.ibBTC.scale('0') };
 
-			if (!provider) return queueNotification('Please connect a wallet', 'error');
+		if (!provider) {
+			queueNotification('Please connect a wallet', 'error');
+			return fallbackResponse;
+		}
 
+		try {
 			let method: ContractSendMethod;
 			const peak = this.getPeakForToken(inToken.symbol);
 			const web3 = new Web3(provider);
@@ -290,16 +302,14 @@ class IbBTCStore {
 			const hexAmount = toHex(toBN(amount as any));
 			if (peak.isYearnWBTCPeak) method = peakContract.methods.calcMint(hexAmount);
 			else method = peakContract.methods.calcMint(inToken.poolId, hexAmount);
-
-			try {
-				const result = await method.call();
-				callback(null, result);
-			} catch (err) {
-				queueNotification(err.message, 'error');
-				callback(err, null);
-			}
-		},
-	);
+			const { bBTC, fee } = await method.call();
+			return { bBTC: new BigNumber(bBTC), fee: new BigNumber(fee) };
+		} catch (error) {
+			process.env.NODE_ENV !== 'production' && console.error(error);
+			queueNotification('There was an error calculating mint amount. Please try again later', 'error');
+			return fallbackResponse;
+		}
+	};
 
 	mintBBTC = action((inToken: TokenModel, amount: BigNumber) => {
 		const { queueNotification, setTxStatus } = this.store.uiState;

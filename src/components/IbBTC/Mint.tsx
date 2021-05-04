@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { Button, Typography, Grid } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
 
@@ -33,60 +33,64 @@ export const Mint = observer((): any => {
 	const [selectedToken, setSelectedToken] = useState<TokenModel>(tokens[0]);
 	const [inputAmount, setInputAmount] = useState<string>();
 	const [outputAmount, setOutputAmount] = useState<string>();
+
 	const initialFee = Math.max(1 - parseFloat(selectedToken.mintRate), 0).toFixed(3);
+	const initialConversionRate = parseFloat(selectedToken.mintRate).toFixed(4);
+
+	const [conversionRate, setConversionRate] = useState(initialConversionRate);
 	const [fee, setFee] = useState<string>(initialFee);
-	const conversionRate =
-		outputAmount && inputAmount
-			? (
-					parseFloat(outputAmount.toString() || selectedToken.mintRate) /
-					parseFloat(inputAmount.toString() || '1')
-			  ).toFixed(4)
-			: parseFloat(selectedToken.mintRate).toFixed(4);
-
-	const _debouncedSetInputAmount = debounce(600, async (change) => {
-		const input = new BigNumber(change);
-		if (input.gt(ZERO))
-			await store.ibBTCStore.calcMintAmount(selectedToken, selectedToken.scale(input), handleCalcOutputAmount);
-		else {
-			setOutputAmount('');
-			setFee(initialFee);
-		}
-	});
-
-	const handleCalcOutputAmount = (err: any, result: any): void => {
-		if (!err) {
-			setOutputAmount(ibBTC.unscale(new BigNumber(result[0])).toString(10));
-			setFee(ibBTC.unscale(new BigNumber(result[1])).toFixed(4));
-		} else setOutputAmount('');
-	};
-
-	const handleTokenSelection = (token: TokenModel) => {
-		setSelectedToken(token);
-		if (inputAmount) {
-			store.ibBTCStore.calcMintAmount(token, token.scale(inputAmount), handleCalcOutputAmount).then();
-		}
-	};
 
 	const resetState = () => {
 		setInputAmount('');
 		setOutputAmount('');
 		setFee(initialFee);
+		setConversionRate(initialConversionRate);
 	};
 
-	const useMaxBalance = () => {
+	const setMintInformation = (inputAmount: BigNumber, outputAmount: BigNumber, fee: BigNumber): void => {
+		setOutputAmount(ibBTC.unscale(outputAmount).toString(10));
+		setFee(ibBTC.unscale(fee).toFixed(4));
+		setConversionRate(outputAmount.dividedBy(inputAmount).toFixed(4));
+	};
+
+	const handleInputAmountChange = useRef(
+		debounce(600, async (change: string) => {
+			const input = new BigNumber(change);
+
+			if (!input.gt(ZERO)) {
+				setOutputAmount('');
+				setFee(initialFee);
+				setConversionRate(initialConversionRate);
+				return;
+			}
+
+			const { bBTC, fee } = await store.ibBTCStore.calcMintAmount(selectedToken, selectedToken.scale(input));
+			setMintInformation(selectedToken.scale(input), bBTC, fee);
+		}),
+	).current;
+
+	const useMaxBalance = async () => {
 		if (selectedToken.balance.gt(ZERO)) {
 			setInputAmount(selectedToken.unscale(selectedToken.balance).toString(10));
-			store.ibBTCStore.calcMintAmount(selectedToken, selectedToken.balance, handleCalcOutputAmount).then();
-		}
-	};
-	const handleMintClick = () => {
-		if (inputAmount) {
-			store.ibBTCStore.mint(selectedToken, selectedToken.scale(new BigNumber(inputAmount)), handleMint);
+			const { bBTC, fee } = await store.ibBTCStore.calcMintAmount(selectedToken, selectedToken.balance);
+			setMintInformation(selectedToken.balance, bBTC, fee);
 		}
 	};
 
-	const handleMint = (): void => {
-		resetState();
+	const handleMintClick = async () => {
+		if (inputAmount) {
+			await store.ibBTCStore.mint(selectedToken, selectedToken.scale(new BigNumber(inputAmount)));
+			resetState();
+		}
+	};
+
+	const handleTokenSelection = async (token: TokenModel) => {
+		setSelectedToken(token);
+		if (inputAmount) {
+			const { bBTC, fee } = await store.ibBTCStore.calcMintAmount(token, token.scale(inputAmount));
+			setOutputAmount(ibBTC.unscale(bBTC).toString(10));
+			setFee(ibBTC.unscale(fee).toFixed(4));
+		}
 	};
 
 	return (
@@ -104,7 +108,7 @@ export const Mint = observer((): any => {
 							placeholder="0.0"
 							onChange={(val) => {
 								setInputAmount(val);
-								_debouncedSetInputAmount(val);
+								handleInputAmountChange(val);
 							}}
 						/>
 					</Grid>
