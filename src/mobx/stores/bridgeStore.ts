@@ -160,6 +160,8 @@ class BridgeStore {
 			if (!newValue) return;
 
 			const web3 = new Web3(newValue);
+			// We're disabling these because the web3-eth-contract package has not been updated to
+			// be compatible with the updated web3 package
 			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 			// @ts-ignore
 			this.adapter = new web3.eth.Contract(BADGER_ADAPTER, bridge_system['adapter']);

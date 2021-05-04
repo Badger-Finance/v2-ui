@@ -43,6 +43,8 @@ const useStyles = makeStyles((theme) => ({
 		marginBottom: theme.spacing(3),
 		marginLeft: 'auto',
 		marginRight: 'auto',
+		display: 'flex',
+		flexDirection: 'column',
 	},
 	widgetContainer: {
 		display: 'flex',
@@ -69,6 +71,11 @@ const useStyles = makeStyles((theme) => ({
 	},
 	pickerContainer: {
 		marginRight: theme.spacing(1),
+	},
+	announcementButton: {
+		marginTop: theme.spacing(3),
+		width: '50%',
+		pointerEvents: 'none',
 	},
 }));
 
@@ -165,6 +172,12 @@ const Landing = observer((props: LandingProps) => {
 				</Grid>
 			</Grid>
 
+			<Grid container spacing={1} justify="center">
+				<Button className={classes.announcementButton} size="small" variant="outlined" color="primary">
+					Note: New Vaults may take up to 2 weeks from launch to reach full efficiency.
+				</Button>
+			</Grid>
+
 			{/* Landing Claim Functionality */}
 			{!!network.rewards &&
 				!!connectedAddress &&
@@ -195,7 +208,6 @@ const Landing = observer((props: LandingProps) => {
 						</Grid>
 					</>
 				)}
-
 			<SettList experimental={experimental} />
 		</Container>
 	);
