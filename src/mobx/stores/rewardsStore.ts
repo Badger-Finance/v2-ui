@@ -42,6 +42,7 @@ class RewardsStore {
 				return;
 			}
 
+			this.badgerTree = RewardsStore.defaultTree;
 			const web3 = new Web3(provider);
 			const rewardsTree = new web3.eth.Contract(rewardsAbi as AbiItem[], badgerTree);
 			const diggToken = new web3.eth.Contract(diggAbi as AbiItem[], digg_system.uFragments);

@@ -47,6 +47,12 @@ class ContractsStore {
 				this.fetchContracts();
 			}
 		});
+
+		observe(this.store.wallet, 'connectedAddress', () => {
+			if (this.store.wallet.connectedAddress) {
+				this.fetchContracts();
+			}
+		});
 	}
 
 	updateProvider = action(() => {
@@ -565,11 +571,9 @@ class ContractsStore {
 							'success',
 						);
 						this.fetchContracts();
-						this.fetchContracts();
 						callback(null, {});
 					})
 					.catch((error: any) => {
-						this.fetchContracts();
 						this.fetchContracts();
 						queueNotification(error.message, 'error');
 						setTxStatus('error');
@@ -619,11 +623,9 @@ class ContractsStore {
 							'success',
 						);
 						this.fetchContracts();
-						this.fetchContracts();
 						callback(null, {});
 					})
 					.catch((error: any) => {
-						this.fetchContracts();
 						this.fetchContracts();
 						queueNotification(error.message, 'error');
 						setTxStatus('error');
