@@ -10,8 +10,6 @@ import { Mint } from '../../components/IbBTC/Mint';
 import { Snackbar } from '../../components/Snackbar';
 import { Header } from '../../components/Header';
 
-jest.useRealTimers();
-
 const tokensConfig = addresses.mainnet.contracts.tokens;
 const mockIbBTC = new TokenModel(store, tokensConfig['ibBTC']);
 const mockTokens = [
@@ -66,6 +64,7 @@ it('displays output ibBTC when mint amount is inputted', async () => {
 	);
 
 	fireEvent.change(screen.getByRole('textbox'), { target: { value: '12' } });
+	jest.runAllTimers();
 	await screen.findByRole('heading', { level: 1, name: '11.988' });
 	expect(screen.getByText('1 bcrvRenWSBTC : 0.9990 ibBTC')).toBeInTheDocument(); // conversion rate
 	expect(await screen.findByText('0.0120 ibBTC')).toBeInTheDocument(); // fees
