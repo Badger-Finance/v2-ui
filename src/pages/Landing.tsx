@@ -97,18 +97,19 @@ const Landing = observer((props: LandingProps) => {
 	const { protocolSummary } = setts;
 	const userConnected = !!connectedAddress;
 
-	const availableRewards = () => {
-		if (!badgerTree || !badgerTree.claims || !badgerTree.claims.length) {
-			return;
+	const availableRewards = (): (JSX.Element | boolean)[] => {
+		const { claims, sharesPerFragment } = badgerTree;
+		if (!claims || !sharesPerFragment) {
+			return [];
 		}
-		return badgerTree.claims.map((claim: UserClaimData) => {
+		return claims.map((claim: UserClaimData): JSX.Element | boolean => {
 			const { network } = store.wallet;
 			const claimAddress = claim.token;
 
 			// todo: support token data lookup for decimals etc.
 			const decimals =
 				claimAddress === network.deploy.tokens.digg
-					? badgerTree.sharesPerFragment * 1e9
+					? sharesPerFragment.multipliedBy(1e9)
 					: claimAddress === network.deploy.tokens.usdc
 					? 1e6
 					: 1e18;
@@ -181,7 +182,7 @@ const Landing = observer((props: LandingProps) => {
 			{/* Landing Claim Functionality */}
 			{!!network.rewards &&
 				!!connectedAddress &&
-				badgerTree &&
+				badgerTree.claims &&
 				rewards.length > 0 &&
 				badgerTree.claims.length > 0 && (
 					<>

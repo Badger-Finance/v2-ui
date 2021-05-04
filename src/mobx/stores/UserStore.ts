@@ -84,6 +84,7 @@ export default class UserStore {
 			const proof = await fetchClaimProof(Web3.utils.toChecksumAddress(address));
 			if (proof) {
 				this.claimProof = proof;
+				this.store.rewards.fetchSettRewards();
 			}
 		},
 	);

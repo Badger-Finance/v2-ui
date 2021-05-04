@@ -125,6 +125,7 @@ class UiState {
 		const { network } = this.store.wallet;
 		window.localStorage.setItem(`${network.name}-selectedGasPrice`, gasPrice);
 	});
+
 	setHideZeroBal = action((hide: boolean) => {
 		this.hideZeroBal = hide;
 		const { network } = this.store.wallet;
@@ -137,11 +138,13 @@ class UiState {
 		const { network } = this.store.wallet;
 		window.localStorage.setItem(`${network.name}-selectedCurrency`, currency);
 	});
+
 	setPeriod = action((period: string) => {
 		this.period = period;
 		const { network } = this.store.wallet;
 		window.localStorage.setItem(`${network.name}-selectedPeriod`, period);
 	});
+
 	unlockApp = action((password: string) => {
 		this.locked = !(password === 'BADger');
 
@@ -150,9 +153,11 @@ class UiState {
 
 		if (!this.locked) this.store.router.goTo(views.home);
 	});
+
 	openSidebar = action(() => {
 		this.sidebarOpen = true;
 	});
+
 	closeSidebar = action(() => {
 		this.sidebarOpen = window.innerWidth >= 960;
 	});
