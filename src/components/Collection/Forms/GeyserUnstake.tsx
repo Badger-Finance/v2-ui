@@ -3,6 +3,7 @@ import { observer } from 'mobx-react-lite';
 
 import { StoreContext } from '../../../mobx/store-context';
 import { Button, DialogContent, TextField, DialogActions, ButtonGroup } from '@material-ui/core';
+import { Skeleton } from '@material-ui/lab';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Loader } from '../../Loader';
@@ -19,6 +20,14 @@ const useStyles = makeStyles((theme) => ({
 	field: {
 		margin: theme.spacing(1, 0, 1),
 	},
+	balanceDiv: {
+		flexGrow: 1,
+	},
+	skeleton: {
+		display: 'inline-flex',
+		width: '25%',
+		paddingLeft: theme.spacing(1),
+	},
 }));
 export const GeyserUnstake = observer((props: any) => {
 	const store = useContext(StoreContext);
@@ -31,7 +40,7 @@ export const GeyserUnstake = observer((props: any) => {
 	} = store;
 
 	const percentageOfBalance = (percent: number) => {
-		return vault.geyser.balance
+		return vault?.geyser?.balance
 			.dividedBy(10 ** vault.decimals)
 			.multipliedBy(percent / 100)
 			.toFixed(parseInt(vault.decimals), BigNumber.ROUND_HALF_FLOOR);
@@ -39,13 +48,15 @@ export const GeyserUnstake = observer((props: any) => {
 
 	const setAmount = (percent: number) => {
 		// (document.getElementById(TEXTFIELD_ID)! as HTMLInputElement).value = uiStats.availableFull[percent];
-		setValue(
-			'amount',
-			vault.geyser.balance
-				.dividedBy(10 ** parseInt(vault.decimals))
-				.multipliedBy(percent / 100)
-				.toFixed(parseInt(vault.decimals), BigNumber.ROUND_HALF_FLOOR),
-		);
+		vault.geyser
+			? setValue(
+					'amount',
+					vault.geyser.balance
+						.dividedBy(10 ** parseInt(vault.decimals))
+						.multipliedBy(percent / 100)
+						.toFixed(parseInt(vault.decimals), BigNumber.ROUND_HALF_FLOOR),
+			  )
+			: setValue('amount', new BigNumber(0));
 	};
 
 	const onSubmit = (params: any) => {
@@ -57,7 +68,9 @@ export const GeyserUnstake = observer((props: any) => {
 		return <Loader />;
 	}
 
-	const canUnstake = !!connectedAddress && vault && vault.geyser.balance.gt(0);
+	const canUnstake = () => {
+		return !!connectedAddress && vault?.geyser?.balance.gt(0);
+	};
 
 	const renderAmounts = (
 		<ButtonGroup size="small" className={classes.button} disabled={!connectedAddress}>
@@ -67,7 +80,9 @@ export const GeyserUnstake = observer((props: any) => {
 					onClick={() => {
 						setAmount(amount);
 					}}
-					variant={!!canUnstake && watch().amount === percentageOfBalance(amount) ? 'contained' : 'outlined'}
+					variant={
+						!!canUnstake() && watch().amount === percentageOfBalance(amount) ? 'contained' : 'outlined'
+					}
 					color="default"
 					key={amount}
 				>
@@ -85,12 +100,22 @@ export const GeyserUnstake = observer((props: any) => {
 				<div
 					style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap' }}
 				>
-					<div>
+					<div className={classes.balanceDiv}>
 						<Typography variant="body2" color={'textSecondary'} style={{ marginBottom: '.2rem' }}>
-							Underlying {vault.underlyingToken.symbol}: {formatBalanceStaked(vault.geyser)}
+							Underlying {vault.underlyingToken.symbol}:{' '}
+							{!!connectedAddress && !!vault && !!vault.geyser ? (
+								formatBalanceStaked(vault.geyser)
+							) : (
+								<Skeleton animation="wave" className={classes.skeleton} />
+							)}
 						</Typography>
 						<Typography variant="body1" color={'textSecondary'} style={{ marginBottom: '.2rem' }}>
-							Staked {vault.symbol}: {totalAvailable}
+							Staked {vault.symbol}:{' '}
+							{connectedAddress && totalAvailable ? (
+								totalAvailable
+							) : (
+								<Skeleton animation="wave" className={classes.skeleton} />
+							)}
 						</Typography>
 					</div>
 					{renderAmounts}

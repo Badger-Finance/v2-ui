@@ -1,6 +1,7 @@
 import { AbiItem } from 'web3-utils';
 
 import BadgerVault from './abis/Sett.json';
+import YearnWrapper from './abis/YearnWrapper.json';
 import BadgerSushiVault from './abis/SushiSett.json';
 import DiggVault from './abis/DiggSett.json';
 import deploy from '../deployments/mainnet.json';
@@ -12,7 +13,7 @@ export const getVaults = (network?: string | null): VaultNetworkConfig => {
 	switch (network) {
 		case NETWORK_LIST.BSC:
 			return {
-				uniswap: {
+				pancakeswap: {
 					abi: BadgerVault.abi as AbiItem[],
 					underlying: 'token',
 					contracts: [
@@ -21,10 +22,11 @@ export const getVaults = (network?: string | null): VaultNetworkConfig => {
 						bscDeploy.sett_system.vaults['native.bDiggBtcb'],
 					],
 					fillers: {
-						symbol: ['bnbBtcb'],
-						isFeatured: [false],
-						position: [1],
-						isSuperSett: [false],
+						symbol: ['bnbBtcb', 'bBadgerBtcb', 'bDiggBtcb'],
+						isFeatured: [false, false, false],
+						position: [1, 2, 3],
+						isSuperSett: [false, false, false],
+						withdrawAll: [true, true, true],
 					},
 					methods: [
 						{
@@ -33,6 +35,40 @@ export const getVaults = (network?: string | null): VaultNetworkConfig => {
 						},
 						{
 							name: 'getPricePerFullShare',
+						},
+						{
+							name: 'balance',
+						},
+						{
+							name: 'symbol',
+						},
+						{
+							name: 'decimals',
+						},
+						{
+							name: 'token',
+						},
+						{
+							name: 'totalSupply',
+						},
+					],
+				},
+				yearn: {
+					abi: YearnWrapper.abi as AbiItem[],
+					underlying: 'token',
+					contracts: [bscDeploy.sett_system.vaults['yearn.wBtc']],
+					fillers: {
+						symbol: ['TEST'],
+						isFeatured: [false],
+						position: [1],
+						isSuperSett: [false],
+						// withdrawAll = false means there is no withdrawAll() function on the contract and must be handled differently
+						withdrawAll: [false],
+					},
+					methods: [
+						{
+							name: 'balanceOf',
+							args: ['{connectedAddress}'],
 						},
 						{
 							name: 'balance',
@@ -111,9 +147,9 @@ export const getVaults = (network?: string | null): VaultNetworkConfig => {
 						symbolPrefix: ['sushi', 'sushi', 'sushi'],
 						onsenId: ['103', '21', '73'],
 						pairContract: [
-							'0xCEfF51756c56CeFFCA006cD410B03FFC46dd3a58',
-							'0x110492b31c59716AC47337E616804E3E3AdC0b4a',
-							'0x9a13867048e01c663ce8Ce2fE0cDAE69Ff9F35E3',
+							deploy.tokens['sushi.wBTC-WETH'],
+							deploy.tokens['sushi.wBTC-BADGER'],
+							deploy.tokens['sushi.wBTC-DIGG'],
 						],
 					},
 					methods: [
@@ -177,6 +213,40 @@ export const getVaults = (network?: string | null): VaultNetworkConfig => {
 						},
 						{
 							name: 'token',
+						},
+					],
+				},
+				yearn: {
+					abi: YearnWrapper.abi as AbiItem[],
+					underlying: 'token',
+					contracts: [deploy.sett_system.vaults['yearn.wBtc']],
+					fillers: {
+						symbol: ['byvWBTC'],
+						isFeatured: [false],
+						position: [1],
+						isSuperSett: [false],
+						// withdrawAll = false means there is no withdrawAll() function on the contract and must be handled differently
+						withdrawAll: [false],
+					},
+					methods: [
+						{
+							name: 'balanceOf',
+							args: ['{connectedAddress}'],
+						},
+						{
+							name: 'balance',
+						},
+						{
+							name: 'symbol',
+						},
+						{
+							name: 'decimals',
+						},
+						{
+							name: 'token',
+						},
+						{
+							name: 'totalSupply',
 						},
 					],
 				},

@@ -12,6 +12,7 @@ export default class SettStore {
 	// loading: undefined, error: null, present: object
 	private settCache: { [chain: string]: Sett[] | undefined | null };
 	private settMapCache: { [chain: string]: SettMap | undefined | null };
+	private experimentalMapCache: { [chain: string]: SettMap | undefined | null };
 	private protocolSummaryCache: { [chain: string]: ProtocolSummary | undefined | null };
 	private priceCache: PriceSummary;
 
@@ -22,11 +23,13 @@ export default class SettStore {
 			settCache: undefined,
 			protocolSummaryCache: undefined,
 			settMapCache: undefined,
+			experimentalMapCache: undefined,
 			priceCache: undefined,
 		});
 
 		this.settCache = {};
 		this.settMapCache = {};
+		this.experimentalMapCache = {};
 		this.protocolSummaryCache = {};
 		this.priceCache = {};
 	}
@@ -37,6 +40,10 @@ export default class SettStore {
 
 	get settMap(): SettMap | undefined | null {
 		return this.settMapCache[this.store.wallet.network.name];
+	}
+
+	get experimentalMap(): SettMap | undefined | null {
+		return this.experimentalMapCache[this.store.wallet.network.name];
 	}
 
 	get protocolSummary(): ProtocolSummary | undefined | null {
@@ -58,7 +65,7 @@ export default class SettStore {
 		const settList = await load(chain);
 		if (settList) {
 			this.settCache[chain] = settList;
-			this.settMapCache[chain] = this.keySettByContract(settList);
+			[this.settMapCache[chain], this.experimentalMapCache[chain]] = this.keySettByContract(settList);
 		}
 	});
 
@@ -92,12 +99,15 @@ export default class SettStore {
 
 	// HELPERS
 	// Input: Array of Sett objects
-	// Output: Object keyed by the sett contract
-	keySettByContract = action((settList: Sett[] | undefined | null): { [geyser: string]: Sett } => {
+	// Output: Objects keyed by the sett address and experimental flag
+	keySettByContract = action((settList: Sett[] | undefined | null): { [geyser: string]: Sett }[] => {
 		const map: { [geyser: string]: Sett } = {};
+		const experimentalMap: { [geyser: string]: Sett } = {};
 		if (settList) {
-			settList.forEach((sett) => (map[sett.vaultToken] = sett));
+			settList.forEach((sett) =>
+				sett.experimental ? (experimentalMap[sett.vaultToken] = sett) : (map[sett.vaultToken] = sett),
+			);
 		}
-		return map;
+		return [map, experimentalMap];
 	});
 }

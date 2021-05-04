@@ -1,4 +1,4 @@
-import { List, makeStyles } from '@material-ui/core';
+import { List, makeStyles, Typography } from '@material-ui/core';
 import TableHeader from 'components/Collection/Setts/TableHeader';
 import React from 'react';
 
@@ -19,15 +19,24 @@ export interface SettTableProps {
 	tokenTitle: string;
 	period: string;
 	settList: (JSX.Element | null | undefined)[];
+	displayValue: string;
+	experimental: boolean;
 }
 
 const SettTable = (props: SettTableProps): JSX.Element => {
-	const { title, tokenTitle, period, settList } = props;
+	const { title, tokenTitle, period, settList, displayValue, experimental } = props;
 	const classes = useStyles();
+
+	if (experimental && settList.length === 0)
+		return (
+			<Typography align="center" variant="subtitle1" color="textSecondary">
+				There are currently no experimental vaults. Check back to ape later.
+			</Typography>
+		);
 
 	return (
 		<>
-			<TableHeader title={title} tokenTitle={tokenTitle} period={period} />
+			<TableHeader title={title} tokenTitle={tokenTitle} period={period} displayValue={displayValue} />
 			<List className={classes.list}>{settList}</List>
 		</>
 	);

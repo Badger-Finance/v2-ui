@@ -125,8 +125,7 @@ export const Sidebar = observer(() => {
 		router: { goTo },
 		uiState: { sidebarOpen, closeSidebar },
 		rewards: { badgerTree },
-		wallet: { network },
-		user,
+		wallet: { network, connectedAddress },
 	} = store;
 
 	const [expanded, setExpanded] = useState('');
@@ -185,10 +184,7 @@ export const Sidebar = observer(() => {
 						</ListItem>
 					)}
 					<Collapse in={expanded === 'advanced'} timeout="auto" unmountOnExit>
-						<ListItem key="network">
-							<ListItemText primary="Current Network" secondary={network.fullName} />
-						</ListItem>
-						{network.name === NETWORK_LIST.ETH && badgerTree && (
+						{network.name === NETWORK_LIST.ETH && badgerTree && connectedAddress ? (
 							<ListItem key="rewards">
 								<ListItemText
 									primary={`Cycle Count: ${badgerTree.cycle}`}
@@ -197,6 +193,10 @@ export const Sidebar = observer(() => {
 										badgerTree.timeSinceLastCycle + ' since last cycle'
 									}
 								/>
+							</ListItem>
+						) : (
+							<ListItem key="rewards">
+								<ListItemText secondary={'Connect address to see cycle information'} />
 							</ListItem>
 						)}
 					</Collapse>
@@ -285,10 +285,7 @@ export const Sidebar = observer(() => {
 									onClick={() => goTo(views.bridge)}
 								>
 									<ListItemIcon>
-										<img
-											src={require('assets/sidebar/icon-badger-bridge.svg')}
-											className={classes.icon}
-										/>
+										<img src="/assets/sidebar/icon-badger-bridge.svg" className={classes.icon} />
 									</ListItemIcon>
 									<ListItemText primary="Bridge" />
 								</ListItem>
@@ -332,6 +329,20 @@ export const Sidebar = observer(() => {
 									>
 										Honey Badger Drop
 									</ListItem>
+									{FLAGS.EXPERIMENTAL_VAULTS && (
+										<ListItem
+											button
+											className={[
+												store.router.currentPath == '/experimental'
+													? classes.activeListItem
+													: '',
+												classes.primarySubListItem,
+											].join(' ')}
+											onClick={() => goTo(views.experimental)}
+										>
+											Experimental Vaults
+										</ListItem>
+									)}
 								</Collapse>
 							</ListItem>
 						</>
@@ -358,16 +369,6 @@ export const Sidebar = observer(() => {
 							<div className={classes.smallItemText}>Powered By Nexus Mutual</div>
 						</ListItemText>
 					</ListItem>
-
-					{user.viewSettShop && (
-						<ListItem
-							button
-							className={classes.secondaryListItem}
-							onClick={() => window.open('http://shop.badger.finance/')}
-						>
-							Sett Shop
-						</ListItem>
-					)}
 
 					<ListItem
 						button

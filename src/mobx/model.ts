@@ -1,22 +1,20 @@
-import firebase from 'firebase';
-import BigNumber from 'bignumber.js';
-import _ from 'lodash';
 import { AbiItem } from 'web3-utils';
+import BigNumber from 'bignumber.js';
 import Web3 from 'web3';
+import _ from 'lodash';
+import firebase from 'firebase';
+import { CustomNotificationObject, EmitterListener, TransactionData } from 'bnc-notify';
 import { LockAndMintParamsSimple, BurnAndReleaseParamsSimple } from '@renproject/interfaces';
 
-import { reduceGeyserSchedule } from './reducers/contractReducers';
 import { RootStore } from './store';
+import { getAirdrops } from 'config/system/airdrops';
+import { getGeysers } from '../config/system/geysers';
 import { getNetworkDeploy } from '../mobx/utils/web3';
+import { getRebase } from '../config/system/rebase';
+import { getRewards } from 'config/system/rewards';
+import { NETWORK_IDS, NETWORK_LIST, ZERO, TEN } from 'config/constants';
 import { getTokens } from '../config/system/tokens';
 import { getVaults } from '../config/system/vaults';
-import { getGeysers } from '../config/system/geysers';
-import { getRebase } from '../config/system/rebase';
-import { getAirdrops } from 'config/system/airdrops';
-import { NETWORK_IDS, NETWORK_LIST } from 'config/constants';
-import { getRewards } from 'config/system/rewards';
-import { ZERO, TEN } from 'config/constants';
-import { CustomNotificationObject, EmitterListener, TransactionData } from 'bnc-notify';
 
 export class Contract {
 	store!: RootStore;
@@ -68,6 +66,7 @@ export class Vault extends Token {
 	public abi!: AbiItem;
 	public super!: boolean;
 	public vaultBalance!: BigNumber;
+	public withdrawAll!: boolean;
 
 	constructor(store: RootStore, address: string, decimals: number, underlyingToken: Token, abi: AbiItem) {
 		super(store, address, decimals);
@@ -79,6 +78,7 @@ export class Vault extends Token {
 		this.vaultBalance = new BigNumber(0);
 		this.abi = abi;
 		this.super = false;
+		this.withdrawAll = true;
 	}
 
 	deposit(amount: BigNumber): void {
@@ -92,14 +92,14 @@ export class Vault extends Token {
 	holdingsValue(): BigNumber {
 		return this.holdings
 			.multipliedBy(this.pricePerShare)
-			.dividedBy(1e18)
+			.dividedBy(10 ** this.decimals)
 			.multipliedBy(this.underlyingToken.ethValue);
 	}
 
 	balanceValue(): BigNumber {
 		return this.balance
 			.multipliedBy(this.pricePerShare)
-			.dividedBy(1e18)
+			.dividedBy(10 ** this.decimals)
 			.multipliedBy(this.underlyingToken.ethValue);
 	}
 
@@ -110,8 +110,9 @@ export class Vault extends Token {
 		if (!!payload.balance) this.vaults = payload.balance;
 		if (!!payload.getPricePerFullShare) this.pricePerShare = payload.getPricePerFullShare;
 		if (!!payload.totalSupply) this.holdings = payload.totalSupply;
-		if (!!payload.isSuperSett) this.super = payload.isSuperSett;
+		if ('isSuperSett' in payload) this.super = payload.isSuperSett;
 		if (!!payload.ethValue) this.ethValue = payload.ethValue;
+		if ('withdrawAll' in payload) this.withdrawAll = payload.withdrawAll;
 	}
 }
 
@@ -141,14 +142,14 @@ export class Geyser extends Contract {
 
 	holdingsValue(): BigNumber {
 		return this.holdings
-			.dividedBy(1e18)
+			.dividedBy(10 ** this.vault.decimals)
 			.multipliedBy(this.vault.pricePerShare)
 			.multipliedBy(this.vault.underlyingToken.ethValue);
 	}
 
 	balanceValue(): BigNumber {
 		return this.balance
-			.dividedBy(1e18)
+			.dividedBy(10 ** this.vault.decimals)
 			.multipliedBy(this.vault.pricePerShare)
 			.multipliedBy(this.vault.underlyingToken.ethValue);
 	}
@@ -156,9 +157,6 @@ export class Geyser extends Contract {
 	update(payload: GeyserPayload): void {
 		if (!!payload.totalStaked) this.holdings = payload.totalStaked;
 		if (!!payload.totalStakedFor) this.balance = payload.totalStakedFor;
-		if (!!payload.getUnlockSchedulesFor) {
-			this.rewards = reduceGeyserSchedule(payload.getUnlockSchedulesFor, this.store);
-		}
 	}
 }
 
@@ -222,6 +220,7 @@ export interface Growth {
 	month: Amount;
 	year: Amount;
 }
+
 export interface Amount {
 	token: Token;
 	amount: BigNumber;
@@ -269,12 +268,12 @@ export type TokenPayload = {
 	balance: Vault[];
 	getPricePerFullShare: BigNumber;
 	isSuperSett: boolean;
+	withdrawAll: boolean;
 };
 
 export type GeyserPayload = {
 	totalStaked: BigNumber;
 	totalStakedFor: BigNumber;
-	getUnlockSchedulesFor: Schedules;
 };
 
 export type Schedules = {
@@ -306,10 +305,6 @@ export type ReducedAirdops = {
 		token: any;
 	};
 };
-
-export type FormattedGeyserGrowth = { total: BigNumber; tooltip: string };
-
-export type FormattedVaultGrowth = { roi: string; roiTooltip: string };
 
 export type ReducedSushiROIResults = {
 	day: BigNumber;
@@ -403,13 +398,7 @@ export type VaultNetworkConfig = {
 				underlying: string;
 				contracts: string[];
 				fillers: {
-					symbol?: string[];
-					isFeatured?: boolean[];
-					position?: number[];
-					isSuperSett?: boolean[];
-					symbolPrefix?: string[];
-					onsenId?: string[];
-					pairContract?: string[];
+					[index: string]: string[] | boolean[] | number[];
 				};
 				methods: {
 					name: string;
@@ -501,9 +490,6 @@ export type NetworkConstants = {
 	[index: string]: {
 		APP_URL: string;
 		RPC_URL: string;
-		TOKENS: {
-			[index: string]: string;
-		};
 		START_BLOCK: number;
 		START_TIME: Date;
 		DEPLOY: DeployConfig | undefined;
@@ -544,6 +530,10 @@ export interface Network {
 	settOrder: string[];
 	getGasPrices: () => Promise<GasPrices>;
 	getNotifyLink: EmitterListener;
+	isWhitelisted: { [index: string]: boolean };
+	cappedDeposit: { [index: string]: boolean };
+	uncappedDeposit: { [index: string]: boolean };
+	newVaults: { [index: string]: string[] };
 }
 
 export class BscNetwork implements Network {
@@ -564,6 +554,7 @@ export class BscNetwork implements Network {
 		this.deploy.sett_system.vaults['native.bDiggBtcb'],
 		this.deploy.sett_system.vaults['native.bBadgerBtcb'],
 		this.deploy.sett_system.vaults['native.pancakeBnbBtcb'],
+		this.deploy.sett_system.vaults['yearn.wBtc'],
 	];
 	public readonly sidebarTokenLinks = [
 		{
@@ -576,11 +567,15 @@ export class BscNetwork implements Network {
 		},
 	];
 	public async getGasPrices(): Promise<GasPrices> {
-		return { standard: 10 };
+		return { standard: 5 };
 	}
 	public getNotifyLink(transaction: TransactionData): NotifyLink {
 		return { link: `https://bscscan.com//tx/${transaction.hash}` };
 	}
+	public readonly isWhitelisted = {};
+	public readonly cappedDeposit = {};
+	public readonly uncappedDeposit = {};
+	public readonly newVaults = {};
 }
 
 export class EthNetwork implements Network {
@@ -598,6 +593,7 @@ export class EthNetwork implements Network {
 	public readonly gasEndpoint = 'https://www.gasnow.org/api/v3/gas/price?utm_source=badgerv2';
 	// Deterministic order for displaying setts on the sett list component
 	public readonly settOrder = [
+		this.deploy.sett_system.vaults['yearn.wBtc'],
 		this.deploy.sett_system.vaults['native.digg'],
 		this.deploy.sett_system.vaults['native.badger'],
 		this.deploy.sett_system.vaults['native.sushiDiggWbtc'],
@@ -620,7 +616,7 @@ export class EthNetwork implements Network {
 			title: 'Uniswap BADGER/wBTC',
 		},
 		{
-			url: 'https://app.sushiswap.fi/pair/0x110492b31c59716ac47337e616804e3e3adc0b4a',
+			url: 'https://analytics.sushi.com/pairs/0x110492b31c59716ac47337e616804e3e3adc0b4a',
 			title: 'Sushiswap BADGER/wBTC',
 		},
 	];
@@ -634,10 +630,17 @@ export class EthNetwork implements Network {
 			slow: result.data['slow'] / 1e9,
 		};
 	}
-
 	public getNotifyLink(transaction: TransactionData): NotifyLink {
 		return { link: `https://etherscan.io/tx/${transaction.hash}` };
 	}
+	public readonly isWhitelisted = {};
+	public readonly cappedDeposit = {};
+	public readonly uncappedDeposit = {
+		[this.deploy.sett_system.vaults['yearn.wBtc']]: true,
+	};
+	public readonly newVaults = {
+		[this.deploy.sett_system.vaults['yearn.wBtc']]: ['Expected ROI', '60% @ $100m', '30% @ $400m', '24% @ $1b'],
+	};
 }
 
 export type UserPermissions = {
@@ -648,6 +651,47 @@ export type Eligibility = {
 	isEligible: boolean;
 };
 
+export type BouncerProof = {
+	address: string;
+	proof: string[];
+};
+
+export interface Account {
+	id: string;
+	value: number;
+	earnedValue: number;
+	balances: SettBalance[];
+	depositLimits: AccountLimits;
+}
+
+export interface SettBalance {
+	id: string;
+	name: string;
+	asset: string;
+	balance: TokenBalance[];
+	value: number;
+	earnedTokens: TokenBalance[];
+	earnedValue: number;
+}
+
+export interface AccountLimits {
+	[contract: string]: DepositLimit;
+}
+
+export interface DepositLimit {
+	available: number;
+	limit: number;
+}
+
+export enum Protocol {
+	Curve = 'curve',
+	Sushiswap = 'sushiswap',
+	Uniswap = 'uniswap',
+	Pancakeswap = 'pancakeswap',
+	Yearn = 'yearn',
+	Harvest = 'harvest',
+}
+
 /**
  * Sett and geyser objects will be represented by the same
  * interface. The key difference between a sett and geyser
@@ -655,23 +699,37 @@ export type Eligibility = {
  * have emissions value sources while setts only have the
  * native underlying value source.
  */
-export type Sett = {
-	name: string;
+export interface Sett extends SettSummary {
 	asset: string;
-	value: number;
-	tokens: TokenBalance[];
-	ppfs: number;
 	apy: number;
-	vaultToken: string;
-	underlyingToken: string;
-	sources: ValueSource[];
 	geyser?: Geyser;
-};
+	hasBouncer: boolean;
+	ppfs: number;
+	sources: ValueSource[];
+	tokens: TokenBalance[];
+	underlyingToken: string;
+	vaultToken: string;
+	affiliate?: SettAffiliateData;
+	experimental: boolean;
+}
+
+export interface SettAffiliateData {
+	availableDepositLimit?: number;
+	protocol: Protocol;
+	depositLimit?: number;
+}
 
 export type ValueSource = {
 	name: string;
 	apy: number;
 	performance: Performance;
+};
+
+export type Performance = {
+	oneDay?: number;
+	threeDay?: number;
+	sevenDay?: number;
+	thirtyDay?: number;
 };
 
 export type TokenBalance = {
@@ -689,9 +747,8 @@ export type PriceSummary = {
 
 export interface SettSummary {
 	name: string;
-	asset: string;
 	value: number;
-	tokens: TokenBalance[];
+	balance: number;
 }
 
 export type ProtocolSummary = {
@@ -704,7 +761,7 @@ export type SettMap = { [contract: string]: Sett };
 export type RenVMTransaction = {
 	// ID is the pkey in the db.
 	id: string;
-	userAddr: string;
+	user: string;
 	// Nonce monotonically increases per user tx.
 	nonce: number;
 	encodedTx: string; // json encoded tx data.

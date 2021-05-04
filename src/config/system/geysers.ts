@@ -20,14 +20,6 @@ export const getGeysers = (network?: string): GeyserNetworkConfig => {
 								args: ['{connectedAddress}'],
 							},
 							{
-								name: 'getUnlockSchedulesFor',
-								args: [deploy.token],
-							},
-							{
-								name: 'getUnlockSchedulesFor',
-								args: [deploy.digg_system.uFragments],
-							},
-							{
 								name: 'totalStaked',
 							},
 							{
@@ -45,6 +37,7 @@ export const getGeysers = (network?: string): GeyserNetworkConfig => {
 							deploy.geysers['native.uniBadgerWbtc'],
 							deploy.geysers['harvest.renCrv'],
 							deploy.geysers['native.uniDiggWbtc'],
+							deploy.geysers['yearn.wBtc'],
 						],
 						fillers: {
 							isFeatured: [false, false, false, false, true, true, true],
@@ -59,14 +52,6 @@ export const getGeysers = (network?: string): GeyserNetworkConfig => {
 							{
 								name: 'totalStakedFor',
 								args: ['{connectedAddress}'],
-							},
-							{
-								name: 'getUnlockSchedulesFor',
-								args: [deploy.token],
-							},
-							{
-								name: 'getUnlockSchedulesFor',
-								args: [deploy.digg_system.uFragments],
 							},
 							{
 								name: 'totalStaked',

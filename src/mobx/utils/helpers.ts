@@ -308,6 +308,7 @@ export const bDiggToCurrency = ({
 			normal = normal.multipliedBy(exchangeRates.cad);
 			decimals = 2;
 			prefix = 'C$';
+			break;
 		case 'bnb':
 			normal = normal.multipliedBy(exchangeRates.bnb);
 			decimals = 2;
