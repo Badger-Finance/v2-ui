@@ -17,8 +17,8 @@ import BadgerYearnWbtcPeak from 'config/system/abis/BadgerYearnWbtcPeak.json';
 import { ZERO, MAX, FLAGS, NETWORK_IDS } from 'config/constants';
 
 interface IbBTCApyInfo {
-	fromLastDay: number;
-	fromLastWeek: number;
+	fromLastDay: number | null;
+	fromLastWeek: number | null;
 }
 
 interface MintAmountCalculation {
@@ -165,7 +165,11 @@ class IbBTCStore {
 				fromLastWeek: weeklyPY * 52,
 			};
 		} catch (error) {
-			process.env.NODE_ENV !== 'production' && console.error(error);
+			process.env.NODE_ENV !== 'production' && console.log('Error while getting ibBTC APY', error);
+			this.apyInfo = {
+				fromLastDay: null,
+				fromLastWeek: null,
+			};
 		}
 	});
 

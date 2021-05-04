@@ -58,10 +58,14 @@ export const IbBTC = observer((): any => {
 						name={ibBTCStore.ibBTC.symbol}
 						logo={ibBTCStore.ibBTC.icon.default}
 						apyFromLastDay={
-							ibBTCStore.apyInfo ? ibBTCStore.apyInfo.fromLastDay.toFixed(3) + '%' : undefined
+							ibBTCStore.apyInfo?.fromLastDay
+								? ibBTCStore.apyInfo.fromLastDay.toFixed(3) + '%'
+								: undefined
 						}
 						apyFromLastWeek={
-							ibBTCStore.apyInfo ? ibBTCStore.apyInfo.fromLastWeek.toFixed(3) + '%' : undefined
+							ibBTCStore.apyInfo?.fromLastWeek
+								? ibBTCStore.apyInfo.fromLastWeek.toFixed(3) + '%'
+								: undefined
 						}
 					/>
 				</Grid>

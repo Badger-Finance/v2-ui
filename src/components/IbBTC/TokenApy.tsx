@@ -8,6 +8,7 @@ interface Props {
 	logo: string;
 	apyFromLastDay?: string;
 	apyFromLastWeek?: string;
+	loading?: boolean;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -37,7 +38,13 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export const TokenApy = ({ name, logo, apyFromLastDay, apyFromLastWeek }: Props): JSX.Element => {
+export const TokenApy = ({
+	name,
+	logo,
+	apyFromLastDay = 'N/A',
+	apyFromLastWeek = 'N/A',
+	loading = false,
+}: Props): JSX.Element => {
 	const isDisplayXs = useMediaQuery((theme: Theme) => theme.breakpoints.only('xs'));
 	const classes = useStyles();
 
@@ -53,7 +60,7 @@ export const TokenApy = ({ name, logo, apyFromLastDay, apyFromLastWeek }: Props)
 			<Grid item container xs className={classes.apyInfoContainer}>
 				<Grid item xs={12}>
 					<Typography variant="h6">
-						{apyFromLastDay ? apyFromLastDay : <Skeleton role="loader" className={classes.loader} />}
+						{loading ? <Skeleton role="loader" className={classes.loader} /> : apyFromLastDay}
 					</Typography>
 				</Grid>
 				<Grid item xs={12}>
@@ -66,7 +73,7 @@ export const TokenApy = ({ name, logo, apyFromLastDay, apyFromLastWeek }: Props)
 			<Grid item container xs className={classes.apyInfoContainer}>
 				<Grid item xs={12}>
 					<Typography variant="h6">
-						{apyFromLastWeek ? apyFromLastWeek : <Skeleton role="loader" className={classes.loader} />}
+						{loading ? <Skeleton role="loader" className={classes.loader} /> : apyFromLastWeek}
 					</Typography>
 				</Grid>
 				<Grid item xs={12}>
