@@ -8,7 +8,7 @@ import { Container, Grid, Tabs, Tab, Card } from '@material-ui/core';
 import PageHeader from 'components-v2/common/PageHeader';
 import { Mint } from './Mint';
 import { Redeem } from './Redeem';
-import { TokenApy } from '../../components-v2/common/TokenApy';
+import { TokenApy } from './TokenApy';
 import { StoreContext } from '../../mobx/store-context';
 
 type TABS = 'Mint' | 'Redeem';

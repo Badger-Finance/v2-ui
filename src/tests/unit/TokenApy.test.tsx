@@ -1,7 +1,7 @@
 import React from 'react';
 import '@testing-library/jest-dom';
 import { customRender, screen } from '../Utils';
-import { TokenApy } from '../../components-v2/common/TokenApy';
+import { TokenApy } from '../../components/IbBTC/TokenApy';
 import { CssBaseline, ThemeProvider } from '@material-ui/core';
 import { darkTheme } from '../../config/ui/dark';
 
