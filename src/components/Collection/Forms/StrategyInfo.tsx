@@ -113,6 +113,9 @@ export const StrategyInfo = (props: FeeListProps): JSX.Element => {
 						<Typography variant="caption">
 							- Management Fees are charged on the entire principal over the course of a year
 						</Typography>
+						<Typography variant="caption">
+							- Both Performance and Management Fees are factored into all ROI calculations
+						</Typography>
 						<Divider className={classes.divider} />
 						<List className={classes.rewardsContainer}>
 							{feeList.length > 0 ? (
