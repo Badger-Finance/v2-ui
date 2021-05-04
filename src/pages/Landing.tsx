@@ -99,7 +99,6 @@ const Landing = observer((props: LandingProps) => {
 
 	const availableRewards = (): (JSX.Element | boolean)[] => {
 		const { claims, sharesPerFragment } = badgerTree;
-		console.log({ claims });
 		if (!claims || !sharesPerFragment) {
 			return [];
 		}
