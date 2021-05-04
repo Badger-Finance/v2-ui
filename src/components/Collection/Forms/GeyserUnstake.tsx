@@ -10,6 +10,7 @@ import { Loader } from '../../Loader';
 import { BigNumber } from 'bignumber.js';
 import { useForm } from 'react-hook-form';
 import { formatBalanceStaked } from 'mobx/reducers/statsReducers';
+import { StrategyInfo } from './StrategyInfo';
 
 const TEXTFIELD_ID = 'amountField';
 
@@ -36,7 +37,7 @@ export const GeyserUnstake = observer((props: any) => {
 	const { register, handleSubmit, watch, setValue } = useForm({ mode: 'all' });
 
 	const {
-		wallet: { connectedAddress },
+		wallet: { connectedAddress, network },
 	} = store;
 
 	const percentageOfBalance = (percent: number) => {
@@ -120,6 +121,9 @@ export const GeyserUnstake = observer((props: any) => {
 					</div>
 					{renderAmounts}
 				</div>
+
+				<StrategyInfo vaultAddress={vault.address} network={network} />
+
 				<TextField
 					autoComplete="off"
 					name="amount"
