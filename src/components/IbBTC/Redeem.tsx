@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { Button, Typography, Grid } from '@material-ui/core';
 
 import { observer } from 'mobx-react-lite';
@@ -23,6 +23,7 @@ import {
 	OutputTokenGrid,
 	ErrorText,
 } from './Common';
+import { useInitialInformation } from './ibbtc.hooks';
 
 export const Redeem = observer((): any => {
 	const store = useContext(StoreContext);
@@ -34,59 +35,14 @@ export const Redeem = observer((): any => {
 	const [selectedToken, setSelectedToken] = useState<TokenModel>(tokens[0]);
 	const [inputAmount, setInputAmount] = useState<string>();
 	const [outputAmount, setOutputAmount] = useState<string>();
-	const initialFee = Math.max(1 - parseFloat(selectedToken.redeemRate), 0).toFixed(3);
+	const { initialFee, initialConversionRate } = useInitialInformation(
+		selectedToken.redeemRate,
+		selectedToken.mintRate,
+	);
+	const [conversionRate, setConversionRate] = useState(initialConversionRate);
 	const [fee, setFee] = useState<string>(initialFee);
 	const [isEnoughToRedeem, setIsEnoughToRedeem] = useState<boolean>(true);
 	const [maxRedeem, setMaxRedeem] = useState<string>();
-	const conversionRate =
-		outputAmount && inputAmount
-			? (
-					parseFloat(outputAmount.toString() || selectedToken.redeemRate) /
-					parseFloat(inputAmount.toString() || '1')
-			  ).toFixed(4)
-			: parseFloat(selectedToken.redeemRate).toFixed(4);
-
-	const _debouncedSetInputAmount = debounce(600, (change) => {
-		const input = new BigNumber(change);
-
-		if (!input.gt(ZERO)) {
-			setMaxRedeem('');
-			setIsEnoughToRedeem(true);
-			setOutputAmount('');
-			setFee(initialFee);
-			return;
-		}
-
-		store.ibBTCStore.calcRedeemAmount(selectedToken, selectedToken.scale(input), handleCalcOutputAmount).then();
-	});
-
-	const useMaxBalance = () => {
-		if (ibBTC.balance.gt(ZERO) && selectedToken) {
-			setInputAmount(ibBTC.unscale(ibBTC.balance).toString(10));
-			store.ibBTCStore.calcRedeemAmount(selectedToken, ibBTC.balance, handleCalcOutputAmount).then();
-		}
-	};
-
-	const handleCalcOutputAmount = (err: any, result: any): void => {
-		if (!err) {
-			const toBeRedeemed = selectedToken.unscale(new BigNumber(result[0]));
-			const availableToRedeemed = ibBTC.unscale(new BigNumber(result.max));
-			setMaxRedeem(availableToRedeemed.toFixed(4));
-			setIsEnoughToRedeem(availableToRedeemed.gt(toBeRedeemed));
-			setOutputAmount(toBeRedeemed.toString(10));
-			setFee(ibBTC.unscale(new BigNumber(result[1])).toFixed(4));
-			return;
-		}
-
-		setOutputAmount('');
-	};
-
-	const handleTokenSelection = (token: TokenModel) => {
-		setSelectedToken(token);
-		if (inputAmount) {
-			store.ibBTCStore.calcRedeemAmount(token, token.scale(inputAmount), handleCalcOutputAmount).then();
-		}
-	};
 
 	const resetState = () => {
 		setInputAmount('');
@@ -96,14 +52,59 @@ export const Redeem = observer((): any => {
 		setFee(initialFee);
 	};
 
-	const handleRedeemClick = () => {
-		if (inputAmount) {
-			store.ibBTCStore.redeem(selectedToken, ibBTC.scale(new BigNumber(inputAmount)), handleRedeem);
+	const setRedeemInformation = (inputAmount: BigNumber, redeemAmount: BigNumber, max: BigNumber, fee: BigNumber) => {
+		const toBeRedeemed = selectedToken.unscale(redeemAmount);
+		const availableToRedeemed = ibBTC.unscale(max);
+
+		setMaxRedeem(availableToRedeemed.toFixed(4));
+		setIsEnoughToRedeem(availableToRedeemed.gt(toBeRedeemed));
+		setOutputAmount(toBeRedeemed.toString());
+		setFee(ibBTC.unscale(fee).toFixed(4));
+		setConversionRate(redeemAmount.dividedBy(inputAmount).toFixed(4));
+	};
+
+	const useMaxBalance = async () => {
+		if (ibBTC.balance.gt(ZERO) && selectedToken) {
+			setInputAmount(ibBTC.unscale(ibBTC.balance).toString());
+			const { sett, max, fee } = await store.ibBTCStore.calcRedeemAmount(selectedToken, ibBTC.balance);
+			setRedeemInformation(ibBTC.balance, sett, max, fee);
 		}
 	};
 
-	const handleRedeem = (): void => {
-		resetState();
+	const handleInputAmountChange = useRef(
+		debounce(600, async (change) => {
+			const input = new BigNumber(change);
+
+			if (!input.gt(ZERO)) {
+				setMaxRedeem('');
+				setIsEnoughToRedeem(true);
+				setOutputAmount('');
+				setFee(initialFee);
+				setConversionRate(initialConversionRate);
+				return;
+			}
+
+			const { sett, fee, max } = await store.ibBTCStore.calcRedeemAmount(
+				selectedToken,
+				selectedToken.scale(input),
+			);
+			setRedeemInformation(selectedToken.scale(input), sett, max, fee);
+		}),
+	).current;
+
+	const handleTokenSelection = async (token: TokenModel) => {
+		setSelectedToken(token);
+		if (inputAmount) {
+			const { sett, max, fee } = await store.ibBTCStore.calcRedeemAmount(token, token.scale(inputAmount));
+			setRedeemInformation(token.scale(inputAmount), sett, max, fee);
+		}
+	};
+
+	const handleRedeemClick = async () => {
+		if (inputAmount) {
+			await store.ibBTCStore.redeem(selectedToken, ibBTC.scale(new BigNumber(inputAmount)));
+			resetState();
+		}
 	};
 
 	return (
@@ -121,7 +122,7 @@ export const Redeem = observer((): any => {
 							placeholder="0.0"
 							onChange={(val) => {
 								setInputAmount(val);
-								_debouncedSetInputAmount(val);
+								handleInputAmountChange(val);
 							}}
 						/>
 					</Grid>

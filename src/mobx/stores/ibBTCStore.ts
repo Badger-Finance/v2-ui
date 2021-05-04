@@ -26,6 +26,12 @@ interface MintAmountCalculation {
 	fee: BigNumber;
 }
 
+interface RedeemAmountCalculation {
+	fee: BigNumber;
+	max: BigNumber;
+	sett: BigNumber;
+}
+
 interface PeakType {
 	address: string;
 	isYearnWBTCPeak: boolean;
@@ -185,8 +191,8 @@ class IbBTCStore {
 		async (token: TokenModel): Promise<void> => {
 			try {
 				const { bBTC } = await this.calcMintAmount(token, token.scale(new BigNumber(1)));
-				token.mintRate = token.unscale(new BigNumber(bBTC)).toString(10);
-			} catch (e) {
+				token.mintRate = token.unscale(bBTC).toString();
+			} catch (error) {
 				token.mintRate = '0';
 			}
 		},
@@ -194,12 +200,12 @@ class IbBTCStore {
 
 	fetchRedeemRate = action(
 		async (token: TokenModel): Promise<void> => {
-			const callback = (err: any, result: any): void => {
-				if (!err) token.redeemRate = token.unscale(new BigNumber(result[0])).toString(10);
-				else token.redeemRate = '0';
-			};
-
-			await this.calcRedeemAmount(token, token.scale(new BigNumber(1)), callback);
+			try {
+				const { sett } = await this.calcRedeemAmount(token, token.scale(new BigNumber(1)));
+				token.redeemRate = token.unscale(sett).toString();
+			} catch (error) {
+				token.redeemRate = '0';
+			}
 		},
 	);
 
@@ -350,71 +356,79 @@ class IbBTCStore {
 		});
 	});
 
-	redeem = action((outToken: TokenModel, amount: BigNumber, callback: (err: any, result: any) => void) => {
+	redeem = action((outToken: TokenModel, amount: BigNumber) => {
 		if (!this.validate(amount, this.ibBTC)) return;
-
-		this.redeemBBTC(outToken, amount, callback);
+		return this.redeemBBTC(outToken, amount);
 	});
 
-	calcRedeemAmount = action(
-		async (outToken: TokenModel, amount: BigNumber, callback: (err: any, result: any) => void) => {
-			const { queueNotification } = this.store.uiState;
-			const { provider } = this.store.wallet;
+	calcRedeemAmount = async (outToken: TokenModel, amount: BigNumber): Promise<RedeemAmountCalculation> => {
+		const { queueNotification } = this.store.uiState;
+		const { provider } = this.store.wallet;
+		const fallbackResponse = {
+			fee: this.ibBTC.scale('0'),
+			max: this.ibBTC.scale('0'),
+			sett: this.ibBTC.scale('0'),
+		};
 
-			if (!provider) return queueNotification('Please connect a wallet', 'error');
+		if (!provider) {
+			queueNotification('Please connect a wallet', 'error');
+			return fallbackResponse;
+		}
 
+		try {
+			let method: ContractSendMethod;
 			const peak = this.getPeakForToken(outToken.symbol);
 			const web3 = new Web3(provider);
 			const peakContract = new web3.eth.Contract(peak.abi as AbiItem[], peak.address);
 			const hexAmount = toHex(toBN(amount as any));
-			let method = null;
 			if (peak.isYearnWBTCPeak) method = peakContract.methods.calcRedeem(hexAmount);
 			else method = peakContract.methods.calcRedeem(outToken.poolId, hexAmount);
+			const { fee, max, sett } = await method.call();
 
-			try {
-				const result = await method.call();
-				callback(null, result);
-			} catch (err) {
-				queueNotification(err.message, 'error');
-				callback(err, null);
-			}
-		},
-	);
+			return { fee: new BigNumber(fee), max: new BigNumber(max), sett: new BigNumber(sett) };
+		} catch (error) {
+			process.env.NODE_ENV !== 'production' && console.error(error);
+			queueNotification('There was an error calculating redeem amount. Please try again later', 'error');
+			return fallbackResponse;
+		}
+	};
 
-	redeemBBTC = action((outToken: TokenModel, amount: BigNumber, callback: (err: any, result: any) => void) => {
+	redeemBBTC = action((outToken: TokenModel, amount: BigNumber) => {
 		const { queueNotification, setTxStatus } = this.store.uiState;
 		const { provider, connectedAddress } = this.store.wallet;
 
+		let method: ContractSendMethod;
 		const peak = this.getPeakForToken(outToken.symbol);
 		const web3 = new Web3(provider);
 		const peakContract = new web3.eth.Contract(peak.abi as AbiItem[], peak.address);
 		const hexAmount = toHex(toBN(amount as any));
-		let method = null;
 		if (peak.isYearnWBTCPeak) method = peakContract.methods.redeem(hexAmount);
 		else method = peakContract.methods.redeem(outToken.poolId, hexAmount);
 
-		estimateAndSend(
-			web3,
-			this.store.wallet.gasPrices[this.store.uiState.gasPrice],
-			method,
-			connectedAddress,
-			(transaction: PromiEvent<Contract>) => {
-				transaction
-					.on('transactionHash', (hash) => {
-						queueNotification(`Redeem submitted.`, 'info', hash);
-					})
-					.on('receipt', () => {
-						queueNotification(`Successfully redeemed ${outToken.symbol}`, 'success');
-						this.init();
-						callback(null, {});
-					})
-					.catch((error: any) => {
-						this.init();
-						queueNotification(error.message, 'error');
-						setTxStatus('error');
-					});
-			},
-		);
+		return new Promise((resolve, reject) => {
+			estimateAndSend(
+				web3,
+				this.store.wallet.gasPrices[this.store.uiState.gasPrice],
+				method,
+				connectedAddress,
+				(transaction: PromiEvent<Contract>) => {
+					transaction
+						.on('transactionHash', (hash) => {
+							queueNotification(`Redeem submitted.`, 'info', hash);
+							resolve();
+						})
+						.on('receipt', () => {
+							queueNotification(`Successfully redeemed ${outToken.symbol}`, 'success');
+							this.init();
+						})
+						.catch((error: any) => {
+							this.init();
+							setTxStatus('error');
+							reject(error);
+						});
+				},
+			);
+		});
 	});
 }
 
