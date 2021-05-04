@@ -220,6 +220,15 @@ export class TokenModel extends Contract {
 	}
 }
 
+export interface BadgerTree {
+	cycle: string;
+	timeSinceLastCycle: string;
+	sharesPerFragment: BigNumber | undefined;
+	proof: RewardMerkleClaim | undefined;
+	claims: UserClaimData[] | undefined;
+	claimableAmounts: BigNumber[] | undefined;
+}
+
 interface TokenConfig {
 	address: string;
 	name: string;
