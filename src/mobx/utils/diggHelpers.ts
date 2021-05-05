@@ -27,13 +27,6 @@ export const calculateNewSupply = (oracleRate: number, currentSupply: number, re
 	return currentSupply + rebaseAmount;
 };
 
-// for calculating seconds until next rebase timing, used with setInterval for countdown effect
-// export const getRebaseCountdown = (minRebaseDurationSec: number, lastRebaseTimestampSec: number) => {
-// 	const now = Math.floor(Date.now() / 1000);
-// 	const diff = minRebaseDurationSec - (now - lastRebaseTimestampSec);
-// 	return diff <= 0 ? 0 : diff;
-// };
-
 export const getNextRebase = (minRebaseDurationSec: number, lastRebaseTimestampSec: number): Date => {
 	const nextRebase = minRebaseDurationSec + lastRebaseTimestampSec;
 	return new Date(nextRebase * 1000);

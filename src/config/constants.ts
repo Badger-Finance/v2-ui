@@ -2,9 +2,9 @@ import Web3 from 'web3';
 import BigNumber from 'bignumber.js';
 import importedErc20 from '../config/system/abis/ERC20.json';
 import importedBscErc20 from '../config/system/abis/BscErc20.json';
-import { getNetworkDeploy } from '../mobx/utils/web3';
 import { tokens, sett_system } from './deployments/mainnet.json';
 import { NetworkConstants, ClaimsSymbols } from '../mobx/model';
+import { getNetworkDeploy } from 'mobx/utils/network';
 
 export enum NETWORK_LIST {
 	BSC = 'bsc',

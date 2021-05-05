@@ -74,7 +74,6 @@ const useStyles = makeStyles((theme) => ({
 	},
 	announcementButton: {
 		marginTop: theme.spacing(3),
-		width: '50%',
 		pointerEvents: 'none',
 	},
 }));

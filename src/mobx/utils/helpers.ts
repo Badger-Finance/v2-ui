@@ -121,24 +121,6 @@ export const getBdiggExchangeRates = async (): Promise<Response> => {
 	).then((response: any) => response.json());
 };
 
-export const growthQuery = (block: number): Promise<Response> => {
-	return fetch(`https://api.thegraph.com/subgraphs/name/m4azey/badger-finance`, {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-			Accept: 'application/json',
-		},
-		body: JSON.stringify({
-			query: `
-			{
-			vaults(block:{number:${block}}) {
-				id, pricePerFullShare
-			}
-		}`,
-		}),
-	}).then((data) => data.json());
-};
-
 export const secondsToBlocks = (seconds: number): number => {
 	return seconds / (1 / (6500 / (24 * 60 * 60)));
 };
