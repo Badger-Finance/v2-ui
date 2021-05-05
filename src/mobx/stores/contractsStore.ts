@@ -1,25 +1,21 @@
 import { extendObservable, action, observe } from 'mobx';
 import Web3 from 'web3';
 import { AbiItem } from 'web3-utils';
-import { estimateAndSend, getNetworkDeploy } from '../utils/web3';
+import { estimateAndSend } from '../utils/web3';
 import BigNumber from 'bignumber.js';
 import { RootStore } from '../store';
-import {
-	reduceBatchResult,
-	reduceContractConfig,
-	reduceGrowth,
-	reduceGrowthQueryConfig,
-} from '../reducers/contractReducers';
-import { Vault, Geyser, Token, GeyserPayload, TokenPayload } from '../model';
+import { reduceBatchResult, reduceContractConfig } from '../reducers/contractReducers';
+import { Vault, Geyser, Token, GeyserPayload } from '../model';
 import { vanillaQuery } from 'mobx/utils/helpers';
 import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
 import async from 'async';
-import { EMPTY_DATA, ERC20, NETWORK_CONSTANTS, NETWORK_LIST } from 'config/constants';
+import { EMPTY_DATA, ERC20, NETWORK_LIST } from 'config/constants';
 import { formatAmount } from 'mobx/reducers/statsReducers';
 import BatchCall from 'web3-batch-call';
 import { getApi } from '../utils/apiV2';
 import { compact, defaultsDeep, flatten, keyBy, mapValues, values } from '../../utils/lodashToNative';
+import { getNetworkDeploy } from 'mobx/utils/network';
 
 let batchCall: any = null;
 
@@ -137,7 +133,7 @@ class ContractsStore {
 				return;
 			}
 
-			const { connectedAddress, currentBlock, network } = this.store.wallet;
+			const { connectedAddress, network } = this.store.wallet;
 			const { settList } = this.store.setts;
 			const { vaults, tokens } = network;
 
@@ -151,20 +147,13 @@ class ContractsStore {
 				connectedAddress && { connectedAddress },
 			);
 
-			const { growthQueries, periods } = reduceGrowthQueryConfig(network.name, currentBlock);
 			const settStructure = keyBy(settList ?? [], 'vaultToken');
 			const priceApi = vanillaQuery(`${getApi()}/prices?chain=${network.name}&currency=eth`);
 
-			await Promise.all([batchCall.execute(batch), ...growthQueries, priceApi])
+			await Promise.all([batchCall.execute(batch), priceApi])
 				.then((queryResult: any[]) => {
 					const result = reduceBatchResult(queryResult[0]);
-					const vaultGrowth = reduceGrowth(
-						queryResult.slice(1, growthQueries.length + 1),
-						periods,
-						NETWORK_CONSTANTS[network.name].START_TIME,
-					);
-
-					const prices = mapValues(queryResult.pop(), (price: any) => ({
+					const prices = mapValues(queryResult[1], (price: any) => ({
 						ethValue: new BigNumber(price).multipliedBy(1e18),
 					}));
 
@@ -178,12 +167,6 @@ class ContractsStore {
 							this.tokens[tokenAddress],
 							defaults[contract.address].abi,
 						);
-						const growth =
-							!!vaultGrowth[contract.address] &&
-							mapValues(vaultGrowth[contract.address], (tokens: BigNumber) => ({
-								amount: tokens,
-								token: this.tokens[tokenAddress],
-							}));
 
 						// update ppfs from ppfs api
 						// digg ppfs is handled differently than other setts
@@ -193,11 +176,6 @@ class ContractsStore {
 							vault.address !== getNetworkDeploy(NETWORK_LIST.ETH).sett_system.vaults['native.digg']
 								? new BigNumber(settStructure[vault.address].ppfs)
 								: new BigNumber(1);
-						vault.update(
-							defaultsDeep(contract, defaults[contract.address], {
-								growth: compact([vault.growth, growth]),
-							}) as TokenPayload,
-						);
 						// update vaultBalance if given
 						vault.vaultBalance = isNaN(parseFloat(result[i].balance))
 							? new BigNumber(0.0)

@@ -26,12 +26,10 @@ const routes = {
 		path: '/',
 		component: <Landing experimental={false} />,
 	}),
-
 	experimental: new Route<RootStore>({
 		path: '/experimental',
 		component: FLAGS.EXPERIMENTAL_VAULTS ? <Landing experimental={true} /> : <></>,
 	}),
-
 	airdrops: new Route<RootStore, QueryParams>({
 		path: '/airdrops',
 		component: <Airdrops />,
@@ -46,6 +44,10 @@ const routes = {
 			store.rebase.fetchRebaseStats();
 		},
 	}),
+	honeybadgerDrop: new Route<RootStore, QueryParams>({
+		path: '/honey-badger-drop',
+		component: <HoneybadgerDrop />,
+	}),
 	IbBTC: new Route<RootStore, QueryParams>({
 		path: '/ibBTC',
 		component: FLAGS.IBBTC_FLAG ? <IbBTC /> : <></>,
@@ -54,9 +56,6 @@ const routes = {
 		path: '/bridge',
 		component: FLAGS.BRIDGE_FLAG ? <Bridge /> : <></>,
 	}),
-	honeybadgerDrop: new Route<RootStore, QueryParams>({
-		path: '/honey-badger-drop',
-		component: <HoneybadgerDrop />,
-	}),
 };
+
 export default routes;
