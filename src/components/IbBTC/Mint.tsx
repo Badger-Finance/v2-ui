@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 import { Button, Typography, Grid } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
 
@@ -22,7 +22,6 @@ import {
 	OutputAmountText,
 	OutputTokenGrid,
 } from './Common';
-import { useInitialInformation } from './ibbtc.hooks';
 
 export const Mint = observer((): any => {
 	const store = useContext(StoreContext);
@@ -31,63 +30,69 @@ export const Mint = observer((): any => {
 		ibBTCStore: { tokens, ibBTC },
 	} = store;
 
-	const [selectedToken, setSelectedToken] = useState<TokenModel>(tokens[0]);
+	const [selectedToken, setSelectedToken] = useState(tokens[0]);
 	const [inputAmount, setInputAmount] = useState<string>();
 	const [outputAmount, setOutputAmount] = useState<string>();
-	const { initialFee, initialConversionRate } = useInitialInformation(selectedToken.mintRate, selectedToken.mintRate);
-	const [conversionRate, setConversionRate] = useState(initialConversionRate);
-	const [fee, setFee] = useState<string>(initialFee);
+	const [conversionRate, setConversionRate] = useState(parseFloat(selectedToken.mintRate).toFixed(4));
+	const [fee, setFee] = useState('0.000');
+
+	console.log({ tokens, ibBTC, apy: store.ibBTCStore.apyUsingLastDay, conversionRate, selectedToken });
 
 	const resetState = () => {
 		setInputAmount('');
 		setOutputAmount('');
-		setFee(initialFee);
-		setConversionRate(initialConversionRate);
+		setFee('0.00');
+		setConversionRate(parseFloat(selectedToken.mintRate).toFixed(4));
 	};
 
 	const setMintInformation = (inputAmount: BigNumber, outputAmount: BigNumber, fee: BigNumber): void => {
-		setOutputAmount(ibBTC.unscale(outputAmount).toString());
-		setFee(ibBTC.unscale(fee).toFixed(4));
+		setOutputAmount(outputAmount.toString());
+		setFee(fee.toFixed(4));
 		setConversionRate(outputAmount.dividedBy(inputAmount).toFixed(4));
 	};
 
-	const handleInputAmountChange = useRef(
+	// reason: the plugin does not recognize the dependency inside the debounce function
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	const handleInputAmountChange = useCallback(
 		debounce(600, async (change: string) => {
 			const input = new BigNumber(change);
 
 			if (!input.gt(ZERO)) {
 				setOutputAmount('');
-				setFee(initialFee);
-				setConversionRate(initialConversionRate);
+				setFee('0.00');
+				setConversionRate(parseFloat(selectedToken.mintRate).toFixed(4));
 				return;
 			}
 
 			const { bBTC, fee } = await store.ibBTCStore.calcMintAmount(selectedToken, selectedToken.scale(input));
-			setMintInformation(selectedToken.scale(input), bBTC, fee);
+			setMintInformation(input, ibBTC.unscale(bBTC), ibBTC.unscale(fee));
 		}),
-	).current;
+		[selectedToken],
+	);
 
-	const useMaxBalance = async () => {
+	const handleApplyMaxBalance = async () => {
 		if (selectedToken.balance.gt(ZERO)) {
 			setInputAmount(selectedToken.unscale(selectedToken.balance).toString());
 			const { bBTC, fee } = await store.ibBTCStore.calcMintAmount(selectedToken, selectedToken.balance);
-			setMintInformation(selectedToken.balance, bBTC, fee);
+			setMintInformation(selectedToken.unscale(selectedToken.balance), ibBTC.unscale(bBTC), ibBTC.unscale(fee));
+		}
+	};
+
+	const handleTokenChange = async (token: TokenModel) => {
+		setSelectedToken(token);
+		if (inputAmount) {
+			const { bBTC, fee } = await store.ibBTCStore.calcMintAmount(
+				selectedToken,
+				selectedToken.scale(inputAmount),
+			);
+			setMintInformation(new BigNumber(inputAmount), ibBTC.unscale(bBTC), ibBTC.unscale(fee));
 		}
 	};
 
 	const handleMintClick = async () => {
 		if (inputAmount) {
-			await store.ibBTCStore.mint(selectedToken, selectedToken.scale(new BigNumber(inputAmount)));
+			await store.ibBTCStore.mint(selectedToken, selectedToken.scale(inputAmount));
 			resetState();
-		}
-	};
-
-	const handleTokenSelection = async (token: TokenModel) => {
-		setSelectedToken(token);
-		if (inputAmount) {
-			const { bBTC, fee } = await store.ibBTCStore.calcMintAmount(token, token.scale(inputAmount));
-			setOutputAmount(ibBTC.unscale(bBTC).toString());
-			setFee(ibBTC.unscale(fee).toFixed(4));
 		}
 	};
 
@@ -112,12 +117,12 @@ export const Mint = observer((): any => {
 					</Grid>
 					<InputTokenActionButtonsGrid item container spacing={1} xs={12} sm={7}>
 						<Grid item>
-							<Button size="small" variant="outlined" onClick={useMaxBalance}>
+							<Button size="small" variant="outlined" onClick={handleApplyMaxBalance}>
 								max
 							</Button>
 						</Grid>
 						<Grid item>
-							<Tokens tokens={tokens} selected={selectedToken} onTokenSelect={handleTokenSelection} />
+							<Tokens tokens={tokens} selected={selectedToken} onTokenSelect={handleTokenChange} />
 						</Grid>
 					</InputTokenActionButtonsGrid>
 				</BorderedFocusableContainerGrid>

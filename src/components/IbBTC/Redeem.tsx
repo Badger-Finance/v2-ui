@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 import { Button, Typography, Grid } from '@material-ui/core';
 
 import { observer } from 'mobx-react-lite';
@@ -23,7 +23,6 @@ import {
 	OutputTokenGrid,
 	ErrorText,
 } from './Common';
-import { useInitialInformation } from './ibbtc.hooks';
 
 export const Redeem = observer((): any => {
 	const store = useContext(StoreContext);
@@ -32,16 +31,12 @@ export const Redeem = observer((): any => {
 		ibBTCStore: { tokens, ibBTC },
 	} = store;
 
-	const [selectedToken, setSelectedToken] = useState<TokenModel>(tokens[0]);
+	const [selectedToken, setSelectedToken] = useState(tokens[0]);
 	const [inputAmount, setInputAmount] = useState<string>();
 	const [outputAmount, setOutputAmount] = useState<string>();
-	const { initialFee, initialConversionRate } = useInitialInformation(
-		selectedToken.redeemRate,
-		selectedToken.mintRate,
-	);
-	const [conversionRate, setConversionRate] = useState(initialConversionRate);
-	const [fee, setFee] = useState<string>(initialFee);
-	const [isEnoughToRedeem, setIsEnoughToRedeem] = useState<boolean>(true);
+	const [conversionRate, setConversionRate] = useState(parseFloat(selectedToken.mintRate).toFixed(4));
+	const [fee, setFee] = useState('0.000');
+	const [isEnoughToRedeem, setIsEnoughToRedeem] = useState(true);
 	const [maxRedeem, setMaxRedeem] = useState<string>();
 
 	const resetState = () => {
@@ -49,29 +44,21 @@ export const Redeem = observer((): any => {
 		setOutputAmount('');
 		setMaxRedeem('');
 		setIsEnoughToRedeem(true);
-		setFee(initialFee);
+		setFee('0.000');
+		setConversionRate(parseFloat(selectedToken.mintRate).toFixed(4));
 	};
 
 	const setRedeemInformation = (inputAmount: BigNumber, redeemAmount: BigNumber, max: BigNumber, fee: BigNumber) => {
-		const toBeRedeemed = selectedToken.unscale(redeemAmount);
-		const availableToRedeemed = ibBTC.unscale(max);
-
-		setMaxRedeem(availableToRedeemed.toFixed(4));
-		setIsEnoughToRedeem(availableToRedeemed.gt(toBeRedeemed));
-		setOutputAmount(toBeRedeemed.toString());
-		setFee(ibBTC.unscale(fee).toFixed(4));
+		setMaxRedeem(max.toFixed(4));
+		setIsEnoughToRedeem(max.gt(redeemAmount));
+		setOutputAmount(redeemAmount.toString());
+		setFee(fee.toFixed(4));
 		setConversionRate(redeemAmount.dividedBy(inputAmount).toFixed(4));
 	};
 
-	const useMaxBalance = async () => {
-		if (ibBTC.balance.gt(ZERO) && selectedToken) {
-			setInputAmount(ibBTC.unscale(ibBTC.balance).toString());
-			const { sett, max, fee } = await store.ibBTCStore.calcRedeemAmount(selectedToken, ibBTC.balance);
-			setRedeemInformation(ibBTC.balance, sett, max, fee);
-		}
-	};
-
-	const handleInputAmountChange = useRef(
+	// reason: the plugin does not recognize the dependency inside the debounce function
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	const handleInputAmountChange = useCallback(
 		debounce(600, async (change) => {
 			const input = new BigNumber(change);
 
@@ -79,30 +66,46 @@ export const Redeem = observer((): any => {
 				setMaxRedeem('');
 				setIsEnoughToRedeem(true);
 				setOutputAmount('');
-				setFee(initialFee);
-				setConversionRate(initialConversionRate);
+				setFee('0.000');
+				setConversionRate(parseFloat(selectedToken.mintRate).toFixed(4));
 				return;
 			}
 
-			const { sett, fee, max } = await store.ibBTCStore.calcRedeemAmount(
-				selectedToken,
-				selectedToken.scale(input),
-			);
-			setRedeemInformation(selectedToken.scale(input), sett, max, fee);
+			const { sett, fee, max } = await store.ibBTCStore.calcRedeemAmount(selectedToken, ibBTC.scale(input));
+			setRedeemInformation(input, selectedToken.unscale(sett), ibBTC.unscale(max), ibBTC.unscale(fee));
 		}),
-	).current;
+		[selectedToken],
+	);
 
-	const handleTokenSelection = async (token: TokenModel) => {
+	const handleApplyMaxBalance = async () => {
+		if (ibBTC.balance.gt(ZERO) && selectedToken) {
+			setInputAmount(ibBTC.unscale(ibBTC.balance).toString());
+			const { sett, max, fee } = await store.ibBTCStore.calcRedeemAmount(selectedToken, ibBTC.balance);
+			setRedeemInformation(
+				ibBTC.unscale(ibBTC.balance),
+				selectedToken.unscale(sett),
+				ibBTC.unscale(max),
+				ibBTC.unscale(fee),
+			);
+		}
+	};
+
+	const handleTokenChange = async (token: TokenModel) => {
 		setSelectedToken(token);
 		if (inputAmount) {
-			const { sett, max, fee } = await store.ibBTCStore.calcRedeemAmount(token, token.scale(inputAmount));
-			setRedeemInformation(token.scale(inputAmount), sett, max, fee);
+			const { sett, max, fee } = await store.ibBTCStore.calcRedeemAmount(selectedToken, ibBTC.scale(inputAmount));
+			setRedeemInformation(
+				new BigNumber(inputAmount),
+				selectedToken.unscale(sett),
+				ibBTC.unscale(max),
+				ibBTC.unscale(fee),
+			);
 		}
 	};
 
 	const handleRedeemClick = async () => {
 		if (inputAmount) {
-			await store.ibBTCStore.redeem(selectedToken, ibBTC.scale(new BigNumber(inputAmount)));
+			await store.ibBTCStore.redeem(selectedToken, ibBTC.scale(inputAmount));
 			resetState();
 		}
 	};
@@ -128,7 +131,7 @@ export const Redeem = observer((): any => {
 					</Grid>
 					<InputTokenActionButtonsGrid item container spacing={1} xs={4} sm={5}>
 						<Grid item>
-							<Button size="small" variant="outlined" onClick={useMaxBalance}>
+							<Button size="small" variant="outlined" onClick={handleApplyMaxBalance}>
 								max
 							</Button>
 						</Grid>
@@ -152,7 +155,7 @@ export const Redeem = observer((): any => {
 						<OutputAmountText variant="h1">{outputAmount || '0.00'}</OutputAmountText>
 					</Grid>
 					<OutputTokenGrid item container xs={12} sm={5} md={12} lg={5}>
-						<Tokens tokens={tokens} selected={selectedToken} onTokenSelect={handleTokenSelection} />
+						<Tokens tokens={tokens} selected={selectedToken} onTokenSelect={handleTokenChange} />
 					</OutputTokenGrid>
 				</OutputContentGrid>
 			</Grid>
