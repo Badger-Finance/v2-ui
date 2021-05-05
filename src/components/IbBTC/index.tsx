@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { observer } from 'mobx-react-lite';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { Container, Grid, Tabs, Tab, Card } from '@material-ui/core';
@@ -33,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export const IbBTC = observer((): any => {
+export const IbBTC = (): any => {
 	const classes = useStyles();
 	const [activeTab, setActiveTab] = useState<TABS>('Mint');
 
@@ -74,4 +73,4 @@ export const IbBTC = observer((): any => {
 			</Grid>
 		</Container>
 	);
-});
+};
