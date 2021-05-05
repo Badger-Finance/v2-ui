@@ -170,9 +170,7 @@ export const Mint = observer((): any => {
 							<Typography variant="subtitle1">Total Mint Amount: </Typography>
 						</Grid>
 						<Grid item xs={6}>
-							<EndAlignText variant="body1">
-								{`${totalMint} ${ibBTC.symbol}`}
-							</EndAlignText>
+							<EndAlignText variant="body1">{`${totalMint} ${ibBTC.symbol}`}</EndAlignText>
 						</Grid>
 					</Grid>
 				</SummaryGrid>
