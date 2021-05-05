@@ -5,7 +5,7 @@ import { estimateAndSend } from '../utils/web3';
 import BigNumber from 'bignumber.js';
 import { RootStore } from '../store';
 import { reduceBatchResult, reduceContractConfig } from '../reducers/contractReducers';
-import { Vault, Geyser, Token, GeyserPayload } from '../model';
+import { Vault, Geyser, Token, GeyserPayload, TokenPayload } from '../model';
 import { vanillaQuery } from 'mobx/utils/helpers';
 import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
@@ -176,6 +176,13 @@ class ContractsStore {
 						vault.ethValue = prices[contract.address].ethValue
 							? prices[contract.address].ethValue
 							: new BigNumber(0.0);
+
+						// DO NOT REMOVE - somehow this updates vault positions...
+						vault.update(
+							defaultsDeep(contract, defaults[contract.address], {
+								growth: compact([vault.growth]),
+							}) as TokenPayload,
+						);
 					});
 				})
 				.catch((error: any) => process.env.REACT_APP_BUILD_ENV !== 'production' && console.log(error));
