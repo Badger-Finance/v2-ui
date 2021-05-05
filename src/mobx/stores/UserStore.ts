@@ -55,7 +55,9 @@ export default class UserStore {
 	}
 
 	viewSettShop(): boolean {
-		if (!this.permissions) return false;
+		if (!this.permissions) {
+			return false;
+		}
 		return this.permissions.viewSettShop;
 	}
 

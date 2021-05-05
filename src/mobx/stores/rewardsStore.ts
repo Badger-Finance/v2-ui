@@ -33,6 +33,8 @@ class RewardsStore {
 		});
 	}
 
+	resetRewards = action(() => (this.badgerTree = RewardsStore.defaultTree));
+
 	fetchSettRewards = action(
 		async (): Promise<void> => {
 			const { provider, connectedAddress, network } = this.store.wallet;

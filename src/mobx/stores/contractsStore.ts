@@ -1,4 +1,4 @@
-import { extendObservable, action, observe } from 'mobx';
+import { extendObservable, action } from 'mobx';
 import Web3 from 'web3';
 import { AbiItem } from 'web3-utils';
 import { estimateAndSend } from '../utils/web3';
@@ -36,18 +36,6 @@ class ContractsStore {
 			vaults: this.vaults,
 			tokens: this.tokens,
 			geysers: this.geysers,
-		});
-
-		observe(this.store.wallet, 'currentBlock', (change: any) => {
-			if (!!change.oldValue) {
-				this.fetchContracts();
-			}
-		});
-
-		observe(this.store.wallet, 'connectedAddress', () => {
-			if (this.store.wallet.connectedAddress) {
-				this.fetchContracts();
-			}
 		});
 	}
 
@@ -159,8 +147,12 @@ class ContractsStore {
 
 					result.forEach((contract: any, i: number) => {
 						const tokenAddress = tokens.tokenMap[contract.address];
-						if (!tokenAddress) {
-							return console.log(tokens.tokenMap[contract.address], tokens.tokenMap, contract.address);
+						if (!tokenAddress || !this.tokens[tokenAddress]) {
+							return console.log({
+								token: tokens.tokenMap[contract.address],
+								map: tokens.tokenMap,
+								address: contract.address,
+							});
 						}
 						const vault = this.getOrCreateVault(
 							contract.address,

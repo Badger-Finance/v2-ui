@@ -46,6 +46,8 @@ export class RootStore {
 
 	async walletRefresh(): Promise<void> {
 		const chain = this.wallet.network.name;
+		this.rewards.resetRewards();
+		this.uiState.resetPortfolio();
 
 		const refreshData = [
 			this.setts.loadAssets(chain),
