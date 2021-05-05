@@ -36,8 +36,6 @@ export const Mint = observer((): any => {
 	const [conversionRate, setConversionRate] = useState(parseFloat(selectedToken.mintRate).toFixed(4));
 	const [fee, setFee] = useState('0.000');
 
-	console.log({ tokens, ibBTC, apy: store.ibBTCStore.apyUsingLastDay, conversionRate, selectedToken });
-
 	const resetState = () => {
 		setInputAmount('');
 		setOutputAmount('');
