@@ -1,5 +1,5 @@
 import { RootStore } from 'mobx/store';
-import { extendObservable, action, observe } from 'mobx';
+import { extendObservable, action, observe, decorate, observable } from 'mobx';
 
 import BigNumber from 'bignumber.js';
 import { PromiEvent } from 'web3-core';
@@ -32,6 +32,8 @@ interface PeakType {
 	isYearnWBTCPeak: boolean;
 	abi: any;
 }
+
+decorate(TokenModel, { balance: observable, redeemRate: observable, mintRate: observable });
 
 class IbBTCStore {
 	private readonly store: RootStore;
