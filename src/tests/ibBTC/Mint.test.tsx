@@ -55,7 +55,6 @@ it('displays output ibBTC when mint amount is inputted', async () => {
 
 	store.ibBTCStore.ibBTC = mockIbBTC;
 	store.ibBTCStore.tokens = mockTokens;
-	store.ibBTCStore.tokens[0].mintRate = '1.015331878285475322';
 	store.ibBTCStore.calcMintAmount = mockCalcMintAmount;
 	customRender(
 		<StoreProvider value={store}>
@@ -66,8 +65,9 @@ it('displays output ibBTC when mint amount is inputted', async () => {
 	fireEvent.change(screen.getByRole('textbox'), { target: { value: '12' } });
 	jest.runAllTimers();
 	await screen.findByRole('heading', { level: 1, name: '11.988' });
-	expect(screen.getByText('1 bcrvRenWSBTC : 0.9990 ibBTC')).toBeInTheDocument(); // conversion rate
+	expect(screen.getByText('1 bcrvRenWSBTC : 1 ibBTC')).toBeInTheDocument(); // conversion rate
 	expect(await screen.findByText('0.0120 ibBTC')).toBeInTheDocument(); // fees
+	expect(await screen.findByText('11.976 ibBTC')).toBeInTheDocument(); // total amount
 });
 
 it('handles not connected balance', () => {

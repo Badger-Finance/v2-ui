@@ -33,20 +33,20 @@ export const Mint = observer((): any => {
 	const [selectedToken, setSelectedToken] = useState(tokens[0]);
 	const [inputAmount, setInputAmount] = useState<string>();
 	const [outputAmount, setOutputAmount] = useState<string>();
-	const [conversionRate, setConversionRate] = useState(parseFloat(selectedToken.mintRate).toFixed(4));
 	const [fee, setFee] = useState('0.000');
+	const [totalMint, setTotalMint] = useState('0.00');
 
 	const resetState = () => {
 		setInputAmount('');
 		setOutputAmount('');
 		setFee('0.00');
-		setConversionRate(parseFloat(selectedToken.mintRate).toFixed(4));
+		setTotalMint('0.00');
 	};
 
 	const setMintInformation = (inputAmount: BigNumber, outputAmount: BigNumber, fee: BigNumber): void => {
 		setOutputAmount(outputAmount.toString());
 		setFee(fee.toFixed(4));
-		setConversionRate(outputAmount.dividedBy(inputAmount).toFixed(4));
+		setTotalMint(outputAmount.minus(fee).toString());
 	};
 
 	// reason: the plugin does not recognize the dependency inside the debounce function
@@ -58,7 +58,7 @@ export const Mint = observer((): any => {
 			if (!input.gt(ZERO)) {
 				setOutputAmount('');
 				setFee('0.00');
-				setConversionRate(parseFloat(selectedToken.mintRate).toFixed(4));
+				setTotalMint('0.00');
 				return;
 			}
 
@@ -151,7 +151,7 @@ export const Mint = observer((): any => {
 						</Grid>
 						<Grid item xs={6}>
 							<EndAlignText variant="body1">
-								1 {selectedToken.symbol} : {conversionRate} {ibBTC.symbol}
+								1 {selectedToken.symbol} : 1 {ibBTC.symbol}
 							</EndAlignText>
 						</Grid>
 					</Grid>
@@ -162,6 +162,16 @@ export const Mint = observer((): any => {
 						<Grid item xs={6}>
 							<EndAlignText variant="body1">
 								{fee} {ibBTC.symbol}
+							</EndAlignText>
+						</Grid>
+					</Grid>
+					<Grid item xs={12} container justify="space-between">
+						<Grid item xs={6}>
+							<Typography variant="subtitle1">Total Mint Amount: </Typography>
+						</Grid>
+						<Grid item xs={6}>
+							<EndAlignText variant="body1">
+								{`${totalMint} ${ibBTC.symbol}`}
 							</EndAlignText>
 						</Grid>
 					</Grid>

@@ -34,7 +34,7 @@ export const Redeem = observer((): any => {
 	const [selectedToken, setSelectedToken] = useState(tokens[0]);
 	const [inputAmount, setInputAmount] = useState<string>();
 	const [outputAmount, setOutputAmount] = useState<string>();
-	const [conversionRate, setConversionRate] = useState(parseFloat(selectedToken.mintRate).toFixed(4));
+	const [totalRedeem, setTotalRedeem] = useState('0.00');
 	const [fee, setFee] = useState('0.000');
 	const [isEnoughToRedeem, setIsEnoughToRedeem] = useState(true);
 	const [maxRedeem, setMaxRedeem] = useState<string>();
@@ -45,7 +45,7 @@ export const Redeem = observer((): any => {
 		setMaxRedeem('');
 		setIsEnoughToRedeem(true);
 		setFee('0.000');
-		setConversionRate(parseFloat(selectedToken.mintRate).toFixed(4));
+		setTotalRedeem('0.00');
 	};
 
 	const setRedeemInformation = (inputAmount: BigNumber, redeemAmount: BigNumber, max: BigNumber, fee: BigNumber) => {
@@ -53,7 +53,7 @@ export const Redeem = observer((): any => {
 		setIsEnoughToRedeem(max.gt(redeemAmount));
 		setOutputAmount(redeemAmount.toString());
 		setFee(fee.toFixed(4));
-		setConversionRate(redeemAmount.dividedBy(inputAmount).toFixed(4));
+		setTotalRedeem(redeemAmount.minus(fee).toString());
 	};
 
 	// reason: the plugin does not recognize the dependency inside the debounce function
@@ -67,7 +67,7 @@ export const Redeem = observer((): any => {
 				setIsEnoughToRedeem(true);
 				setOutputAmount('');
 				setFee('0.000');
-				setConversionRate(parseFloat(selectedToken.mintRate).toFixed(4));
+				setTotalRedeem('0.00');
 				return;
 			}
 
@@ -174,7 +174,7 @@ export const Redeem = observer((): any => {
 						</Grid>
 						<Grid item xs={6}>
 							<EndAlignText variant="body1">
-								1 {ibBTC.symbol} : {conversionRate} {selectedToken.symbol}
+								1 {ibBTC.symbol} : 1 {selectedToken.symbol}
 							</EndAlignText>
 						</Grid>
 					</Grid>
@@ -186,6 +186,14 @@ export const Redeem = observer((): any => {
 							<EndAlignText variant="body1">
 								{fee} {ibBTC.symbol}
 							</EndAlignText>
+						</Grid>
+					</Grid>
+					<Grid item xs={12} container justify="space-between">
+						<Grid item xs={6}>
+							<Typography variant="subtitle1">Total Redeem Amount: </Typography>
+						</Grid>
+						<Grid item xs={6}>
+							<EndAlignText variant="body1">{`${totalRedeem} ${selectedToken.symbol}`}</EndAlignText>
 						</Grid>
 					</Grid>
 				</SummaryGrid>

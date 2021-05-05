@@ -59,8 +59,9 @@ it('displays output balance when redeem amount is inputted', async () => {
 	fireEvent.change(screen.getByRole('textbox'), { target: { value: '12' } });
 	jest.runAllTimers();
 	await screen.findByRole('heading', { level: 1, name: '11.988' });
-	expect(await screen.findByText('1 ibBTC : 0.9990 bcrvRenWSBTC')).toBeInTheDocument(); // conversion rate
+	expect(await screen.findByText('1 ibBTC : 1 bcrvRenWSBTC')).toBeInTheDocument(); // conversion rate
 	expect(await screen.findByText('0.0120 ibBTC')).toBeInTheDocument(); // fees
+	expect(await screen.findByText('11.976 bcrvRenWSBTC')).toBeInTheDocument(); // total amount
 });
 
 it('handles exceeding ibBTC redeem input amount', async () => {
