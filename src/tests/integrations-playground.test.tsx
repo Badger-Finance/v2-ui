@@ -1,8 +1,7 @@
-import Ganache from 'ganache-core';
+import ganacheProvider from './integrations-provider';
 import Web3 from 'web3';
 import '@testing-library/jest-dom';
 import BatchCall from 'web3-batch-call';
-
 import { mockApi } from './utils/apiV2';
 import { RootStore } from '../mobx/store';
 import { EthNetwork } from '../mobx/model';
@@ -17,17 +16,14 @@ mockApi();
 
 const PRIV_KEY = '0x990b68b61853f6418233b1f502a220a8770bb38849d9bd8fc552ed55f5899365';
 
-const provider = Ganache.provider({
+const provider = ganacheProvider({
 	fork: 'https://mainnet.infura.io/v3/4c06e2847e1d456ea30506468ad0be5c',
 	network_id: 1,
-	accounts: [
-		{
-			secretKey: PRIV_KEY,
-			balance: Web3.utils.toHex(1000),
-		},
-	],
+	accounts: [{ secretKey: PRIV_KEY, balance: Web3.utils.toHex(1000) }],
 });
+
 const web3 = new Web3(provider as any);
+test('woop', () => {});
 
 jest.spyOn(EthNetwork.prototype, 'getGasPrices').mockReturnValue(
 	Promise.resolve({
