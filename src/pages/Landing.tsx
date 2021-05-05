@@ -17,12 +17,12 @@ import {
 import PageHeader from '../components-v2/common/PageHeader';
 import { CLAIMS_SYMBOLS } from 'config/constants';
 import { inCurrency } from '../mobx/utils/helpers';
-import _ from 'lodash';
 import { StoreContext } from '../mobx/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
 import BigNumber from 'bignumber.js';
 import SettList from 'components-v2/landing/SettList';
+import { compact } from '../utils/lodashToNative';
 import { UserClaimData } from 'mobx/model';
 
 const useStyles = makeStyles((theme) => ({
@@ -74,7 +74,6 @@ const useStyles = makeStyles((theme) => ({
 	},
 	announcementButton: {
 		marginTop: theme.spacing(3),
-		width: '50%',
 		pointerEvents: 'none',
 	},
 }));
@@ -132,7 +131,7 @@ const Landing = observer((props: LandingProps) => {
 	const badgerPrice = network.deploy ? setts.getPrice(network.deploy.token) : undefined;
 	const badgerPriceDisplay = badgerPrice ? new BigNumber(badgerPrice) : undefined;
 	const portfolioValue = userConnected ? stats.stats.portfolio : undefined;
-	const rewards = _.compact(availableRewards());
+	const rewards = compact(availableRewards());
 
 	return (
 		<Container className={classes.landingContainer}>

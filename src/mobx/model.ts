@@ -1,21 +1,20 @@
-import { AbiItem } from 'web3-utils';
-import BigNumber from 'bignumber.js';
-import Web3 from 'web3';
-import _ from 'lodash';
 import firebase from 'firebase';
+import BigNumber from 'bignumber.js';
+import { AbiItem } from 'web3-utils';
+import Web3 from 'web3';
 import { CustomNotificationObject, EmitterListener, TransactionData } from 'bnc-notify';
 import { LockAndMintParamsSimple, BurnAndReleaseParamsSimple } from '@renproject/interfaces';
 
 import { RootStore } from './store';
 import { getAirdrops } from 'config/system/airdrops';
 import { getGeysers } from '../config/system/geysers';
-import { getNetworkDeploy } from '../mobx/utils/web3';
 import { getRebase } from '../config/system/rebase';
 import { getRewards } from 'config/system/rewards';
 import { NETWORK_IDS, NETWORK_LIST, ZERO, TEN } from 'config/constants';
 import { getTokens } from '../config/system/tokens';
 import { getVaults } from '../config/system/vaults';
 import { getStrategies } from '../config/system/strategies';
+import { getNetworkDeploy } from './utils/network';
 
 export class Contract {
 	store!: RootStore;
@@ -269,15 +268,6 @@ export interface Amount {
 	amount: BigNumber;
 }
 
-export type SushiAPIResults = {
-	pairs: {
-		address: any;
-		aprDay: number | string | BigNumber;
-		aprMonthly: number | string | BigNumber;
-		aprYear_without_lockup: number | string | BigNumber;
-	}[];
-};
-
 export type ReduceAirdropsProps = {
 	digg?: BigNumber;
 	merkleProof?: any;
@@ -349,20 +339,9 @@ export type ReducedAirdops = {
 	};
 };
 
-export type ReducedSushiROIResults = {
-	day: BigNumber;
-	week: BigNumber;
-	month: BigNumber;
-	year: BigNumber;
-};
-
 export type MethodConfigPayload = { [index: string]: string };
 
-export type ReducedGrowthQueryConfig = { periods: number[]; growthQueries: any };
-
 export type ReducedCurveResult = { address: any; virtualPrice: BigNumber; ethValue: BigNumber }[];
-
-export type ReducedGrowth = { [x: string]: { day: any; week: any; month: any; year: any } };
 
 export type TokenAddressessConfig = {
 	underlying: any;
@@ -377,7 +356,7 @@ export type TokenAddressess = {
 };
 
 export type ReducedContractConfig = {
-	defaults: _.Dictionary<any>;
+	defaults: Record<any, any>;
 	batchCall: {
 		namespace: string;
 		addresses: string[];
@@ -535,7 +514,7 @@ export type NetworkConstants = {
 		RPC_URL: string;
 		START_BLOCK: number;
 		START_TIME: Date;
-		DEPLOY: DeployConfig | undefined;
+		DEPLOY: DeployConfig;
 	};
 };
 
@@ -722,12 +701,19 @@ export type BouncerProof = {
 	proof: string[];
 };
 
+export interface BoostMultipliers {
+	[contract: string]: number;
+}
+
 export interface Account {
 	id: string;
+	boost: number;
+	multipliers: BoostMultipliers;
+	depositLimits: AccountLimits;
+	// currently unused below
 	value: number;
 	earnedValue: number;
 	balances: SettBalance[];
-	depositLimits: AccountLimits;
 }
 
 export interface SettBalance {

@@ -39,6 +39,7 @@ class RewardsStore {
 			const { claimProof } = this.store.user;
 
 			if (!connectedAddress || !claimProof || !network.rewards) {
+				this.badgerTree = RewardsStore.defaultTree;
 				return;
 			}
 

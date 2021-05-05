@@ -85,6 +85,8 @@ export default class UserStore {
 			if (proof) {
 				this.claimProof = proof;
 				this.store.rewards.fetchSettRewards();
+			} else {
+				this.claimProof = undefined;
 			}
 		},
 	);

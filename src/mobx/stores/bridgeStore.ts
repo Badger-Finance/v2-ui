@@ -4,7 +4,6 @@ import { Contract } from 'web3-eth-contract';
 import BigNumber from 'bignumber.js';
 import { provider } from 'web3-core';
 import { AbiItem } from 'web3-utils';
-import _ from 'lodash';
 import GatewayJS from '@renproject/gateway';
 import { Gateway } from '@renproject/gateway';
 import { LockAndMintStatus, BurnAndReleaseStatus, LockAndMintEvent, BurnAndReleaseEvent } from '@renproject/interfaces';
@@ -27,6 +26,7 @@ import { BADGER_ADAPTER } from 'config/system/abis/BadgerAdapter';
 import { BTC_GATEWAY } from 'config/system/abis/BtcGateway';
 import { bridge_system, tokens, sett_system } from 'config/deployments/mainnet.json';
 import { shortenAddress } from 'utils/componentHelpers';
+import { isEqual } from '../../utils/lodashToNative';
 
 export enum Status {
 	// Idle means we are ready to begin a new tx.
@@ -219,7 +219,8 @@ class BridgeStore {
 			({ newValue, oldValue }: IValueDidChange<RenVMTransaction | null>) => {
 				const { provider } = this.store.wallet;
 				if (!provider) return;
-				if (_.isEqual(oldValue, newValue)) return;
+				// TODO: Remove this last lodash reference
+				if (isEqual(oldValue, newValue)) return;
 				if (newValue === null) return;
 
 				// Each lifecycle method updates the current tx after it finishes.
