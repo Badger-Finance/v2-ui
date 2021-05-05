@@ -1,11 +1,11 @@
-import { extendObservable, action, observe } from 'mobx';
+import { extendObservable, action } from 'mobx';
 import Web3 from 'web3';
 import { AbiItem } from 'web3-utils';
 import { estimateAndSend } from '../utils/web3';
 import BigNumber from 'bignumber.js';
 import { RootStore } from '../store';
 import { reduceBatchResult, reduceContractConfig } from '../reducers/contractReducers';
-import { Vault, Geyser, Token, GeyserPayload } from '../model';
+import { Vault, Geyser, Token, GeyserPayload, TokenPayload } from '../model';
 import { vanillaQuery } from 'mobx/utils/helpers';
 import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
@@ -36,18 +36,6 @@ class ContractsStore {
 			vaults: this.vaults,
 			tokens: this.tokens,
 			geysers: this.geysers,
-		});
-
-		observe(this.store.wallet, 'currentBlock', (change: any) => {
-			if (!!change.oldValue) {
-				this.fetchContracts();
-			}
-		});
-
-		observe(this.store.wallet, 'connectedAddress', () => {
-			if (this.store.wallet.connectedAddress) {
-				this.fetchContracts();
-			}
 		});
 	}
 
@@ -159,8 +147,12 @@ class ContractsStore {
 
 					result.forEach((contract: any, i: number) => {
 						const tokenAddress = tokens.tokenMap[contract.address];
-						if (!tokenAddress) {
-							return console.log(tokens.tokenMap[contract.address], tokens.tokenMap, contract.address);
+						if (!tokenAddress || !this.tokens[tokenAddress]) {
+							return console.log({
+								token: tokens.tokenMap[contract.address],
+								map: tokens.tokenMap,
+								address: contract.address,
+							});
 						}
 						const vault = this.getOrCreateVault(
 							contract.address,
@@ -184,6 +176,13 @@ class ContractsStore {
 						vault.ethValue = prices[contract.address].ethValue
 							? prices[contract.address].ethValue
 							: new BigNumber(0.0);
+
+						// DO NOT REMOVE - somehow this updates vault positions...
+						vault.update(
+							defaultsDeep(contract, defaults[contract.address], {
+								growth: compact([vault.growth]),
+							}) as TokenPayload,
+						);
 					});
 				})
 				.catch((error: any) => process.env.REACT_APP_BUILD_ENV !== 'production' && console.log(error));
