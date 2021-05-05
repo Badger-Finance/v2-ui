@@ -9,8 +9,10 @@ import Web3 from 'web3';
 import { TokenModel } from 'mobx/model';
 import { estimateAndSend } from 'mobx/utils/web3';
 
-import SETT from 'config/system/abis/Sett.json';
+import yearnConfig from 'config/system/abis/YearnWrapper.json';
+import settConfig from 'config/system/abis/Sett.json';
 import ibBTCConfig from 'config/system/abis/ibBTC.json';
+import badgerPeakSwap from 'config/system/abis/BadgerBtcPeakSwap.json';
 import addresses from 'config/ibBTC/addresses.json';
 import BadgerBtcPeak from 'config/system/abis/BadgerBtcPeak.json';
 import BadgerYearnWbtcPeak from 'config/system/abis/BadgerYearnWbtcPeak.json';
@@ -80,6 +82,43 @@ class IbBTCStore {
 		this.fetchConversionRates().then();
 		this.fetchIbbtcApy().then();
 	});
+
+	/**
+	 * Calculates redeem conversion rate from a token using the following criteria
+	 * for byvWBTCPeak => [bBtc.pricePerShare / 100] / byvWBTC.pricePerShare
+	 * for BadgerPeak => [bBtc.pricePerShare * 1e36] / [sett.getPricePerFullShare] / swap.get_virtual_price]
+	 * @param token token to be used in calculation
+	 */
+	getRedeemConversionRate = async (token: TokenModel): Promise<BigNumber> => {
+		const { provider } = this.store.wallet;
+		if (!provider) return ZERO;
+
+		const { isYearnWBTCPeak, address, abi } = this.getPeakForToken(token.symbol);
+		const web3 = new Web3(provider);
+		const ibBTC = new web3.eth.Contract(ibBTCConfig.abi as AbiItem[], this.ibBTC.address);
+		const ibBTCPricePerShare = await ibBTC.methods.pricePerShare().call();
+
+		if (isYearnWBTCPeak) {
+			const yearnToken = new web3.eth.Contract(yearnConfig.abi as AbiItem[], token.address);
+			const yearnTokenPricePerShare = await yearnToken.methods.pricePerShare().call();
+			return new BigNumber(ibBTCPricePerShare).dividedBy(100).dividedBy(yearnTokenPricePerShare);
+		}
+
+		const badgerBtcPeak = new web3.eth.Contract(abi, address);
+		const settToken = new web3.eth.Contract(settConfig.abi as AbiItem[], token.address);
+		const { swap: swapAddress } = await badgerBtcPeak.methods.pools(token.poolId).call();
+		const swapContract = new web3.eth.Contract(badgerPeakSwap.abi as AbiItem[], swapAddress);
+
+		const [settTokenPricePerShare, swapVirtualPrice] = await Promise.all([
+			settToken.methods.getPricePerFullShare().call(),
+			swapContract.methods.get_virtual_price().call(),
+		]);
+
+		return new BigNumber(ibBTCPricePerShare)
+			.multipliedBy(1e36)
+			.dividedBy(settTokenPricePerShare)
+			.dividedBy(swapVirtualPrice);
+	};
 
 	getPeakForToken = (symbol: string): PeakType => {
 		const peak: PeakType = {
@@ -182,7 +221,7 @@ class IbBTCStore {
 			if (!connectedAddress) return ZERO;
 
 			const web3 = new Web3(provider);
-			const tokenContract = new web3.eth.Contract(SETT.abi as AbiItem[], token.address);
+			const tokenContract = new web3.eth.Contract(settConfig.abi as AbiItem[], token.address);
 			let balance = tokenContract.methods.balanceOf(connectedAddress);
 			balance = await balance.call();
 
@@ -193,7 +232,7 @@ class IbBTCStore {
 	getAllowance = action(async (underlyingAsset: TokenModel, spender: string) => {
 		const { provider, connectedAddress } = this.store.wallet;
 		const web3 = new Web3(provider);
-		const tokenContract = new web3.eth.Contract(SETT.abi as AbiItem[], underlyingAsset.address);
+		const tokenContract = new web3.eth.Contract(settConfig.abi as AbiItem[], underlyingAsset.address);
 		const method = tokenContract.methods.allowance(connectedAddress, spender);
 		return method.call();
 	});
@@ -203,7 +242,7 @@ class IbBTCStore {
 		const { provider, connectedAddress } = this.store.wallet;
 
 		const web3 = new Web3(provider);
-		const tokenContract = new web3.eth.Contract(SETT.abi as AbiItem[], underlyingAsset.address);
+		const tokenContract = new web3.eth.Contract(settConfig.abi as AbiItem[], underlyingAsset.address);
 		const hexAmount = toHex(toBN(amount as any));
 		const method = tokenContract.methods.increaseAllowance(spender, hexAmount);
 
