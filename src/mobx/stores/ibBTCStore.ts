@@ -81,23 +81,21 @@ class IbBTCStore {
 		this.fetchIbbtcApy().then();
 	});
 
-	getPeakForToken = action(
-		(symbol: string): PeakType => {
-			const peak: PeakType = {
-				address: this.config.contracts.BadgerSettPeak.address,
-				isYearnWBTCPeak: false,
-				abi: BadgerBtcPeak.abi,
-			};
-			if (this.config.contracts.yearnWBTCPeak.supportedTokens.includes(symbol)) {
-				peak.address = this.config.contracts.yearnWBTCPeak.address;
-				peak.isYearnWBTCPeak = true;
-				peak.abi = BadgerYearnWbtcPeak.abi;
-			}
+	getPeakForToken = (symbol: string): PeakType => {
+		const peak: PeakType = {
+			address: this.config.contracts.BadgerSettPeak.address,
+			isYearnWBTCPeak: false,
+			abi: BadgerBtcPeak.abi,
+		};
+		if (this.config.contracts.yearnWBTCPeak.supportedTokens.includes(symbol)) {
+			peak.address = this.config.contracts.yearnWBTCPeak.address;
+			peak.isYearnWBTCPeak = true;
+			peak.abi = BadgerYearnWbtcPeak.abi;
+		}
 
-			// Curve Peak as default peak
-			return peak;
-		},
-	);
+		// Curve Peak as default peak
+		return peak;
+	};
 
 	validate = action((amount: BigNumber, token: TokenModel): boolean | void => {
 		const { queueNotification } = this.store.uiState;
