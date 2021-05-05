@@ -38,6 +38,7 @@ export const Redeem = observer((): any => {
 	const [fee, setFee] = useState('0.000');
 	const [isEnoughToRedeem, setIsEnoughToRedeem] = useState(true);
 	const [maxRedeem, setMaxRedeem] = useState<string>();
+	const [conversionRate, setConversionRate] = useState('1');
 
 	const resetState = () => {
 		setInputAmount('');
@@ -48,12 +49,18 @@ export const Redeem = observer((): any => {
 		setTotalRedeem('0.00');
 	};
 
-	const setRedeemInformation = (inputAmount: BigNumber, redeemAmount: BigNumber, max: BigNumber, fee: BigNumber) => {
+	const setRedeemInformation = (
+		redeemAmount: BigNumber,
+		max: BigNumber,
+		fee: BigNumber,
+		conversionRate: BigNumber,
+	) => {
 		setMaxRedeem(max.toFixed(4));
 		setIsEnoughToRedeem(max.gt(redeemAmount));
 		setOutputAmount(redeemAmount.toString());
 		setFee(fee.toFixed(4));
 		setTotalRedeem(redeemAmount.toString());
+		setConversionRate(conversionRate.toString());
 	};
 
 	// reason: the plugin does not recognize the dependency inside the debounce function
@@ -71,8 +78,17 @@ export const Redeem = observer((): any => {
 				return;
 			}
 
-			const { sett, fee, max } = await store.ibBTCStore.calcRedeemAmount(selectedToken, ibBTC.scale(input));
-			setRedeemInformation(input, selectedToken.unscale(sett), ibBTC.unscale(max), ibBTC.unscale(fee));
+			const [{ sett, fee, max }, conversionRate] = await Promise.all([
+				store.ibBTCStore.calcRedeemAmount(selectedToken, ibBTC.scale(input)),
+				store.ibBTCStore.getRedeemConversionRate(selectedToken),
+			]);
+
+			setRedeemInformation(
+				selectedToken.unscale(sett),
+				ibBTC.unscale(max),
+				ibBTC.unscale(fee),
+				selectedToken.unscale(conversionRate),
+			);
 		}),
 		[selectedToken],
 	);
@@ -80,12 +96,17 @@ export const Redeem = observer((): any => {
 	const handleApplyMaxBalance = async () => {
 		if (ibBTC.balance.gt(ZERO) && selectedToken) {
 			setInputAmount(ibBTC.unscale(ibBTC.balance).toString());
-			const { sett, max, fee } = await store.ibBTCStore.calcRedeemAmount(selectedToken, ibBTC.balance);
+
+			const [{ sett, fee, max }, conversionRate] = await Promise.all([
+				store.ibBTCStore.calcRedeemAmount(selectedToken, ibBTC.balance),
+				store.ibBTCStore.getRedeemConversionRate(selectedToken),
+			]);
+
 			setRedeemInformation(
-				ibBTC.unscale(ibBTC.balance),
 				selectedToken.unscale(sett),
 				ibBTC.unscale(max),
 				ibBTC.unscale(fee),
+				selectedToken.unscale(conversionRate),
 			);
 		}
 	};
@@ -93,12 +114,16 @@ export const Redeem = observer((): any => {
 	const handleTokenChange = async (token: TokenModel) => {
 		setSelectedToken(token);
 		if (inputAmount) {
-			const { sett, max, fee } = await store.ibBTCStore.calcRedeemAmount(selectedToken, ibBTC.scale(inputAmount));
+			const [{ sett, fee, max }, conversionRate] = await Promise.all([
+				store.ibBTCStore.calcRedeemAmount(selectedToken, ibBTC.scale(inputAmount)),
+				store.ibBTCStore.getRedeemConversionRate(token),
+			]);
+
 			setRedeemInformation(
-				new BigNumber(inputAmount),
 				selectedToken.unscale(sett),
 				ibBTC.unscale(max),
 				ibBTC.unscale(fee),
+				token.unscale(conversionRate),
 			);
 		}
 	};
@@ -174,7 +199,7 @@ export const Redeem = observer((): any => {
 						</Grid>
 						<Grid item xs={6}>
 							<EndAlignText variant="body1">
-								1 {ibBTC.symbol} : 1 {selectedToken.symbol}
+								1 {ibBTC.symbol} : {conversionRate} {selectedToken.symbol}
 							</EndAlignText>
 						</Grid>
 					</Grid>
