@@ -8,8 +8,7 @@ import { Container, Grid, Tabs, Tab, Card } from '@material-ui/core';
 import PageHeader from 'components-v2/common/PageHeader';
 import { Mint } from './Mint';
 import { Redeem } from './Redeem';
-import { TokenApy } from './TokenApy';
-import { StoreContext } from '../../mobx/store-context';
+import { IbbtcApy } from './IbbtcApy';
 
 type TABS = 'Mint' | 'Redeem';
 
@@ -35,7 +34,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const IbBTC = observer((): any => {
-	const { ibBTCStore } = React.useContext(StoreContext);
 	const classes = useStyles();
 	const [activeTab, setActiveTab] = useState<TABS>('Mint');
 
@@ -54,20 +52,7 @@ export const IbBTC = observer((): any => {
 				</Grid>
 
 				<Grid item sm={12} xs={12} md={7} className={classes.apyInformation}>
-					<TokenApy
-						name={ibBTCStore.ibBTC.symbol}
-						logo={ibBTCStore.ibBTC.icon.default}
-						apyFromLastDay={
-							ibBTCStore.apyInfo?.fromLastDay
-								? ibBTCStore.apyInfo.fromLastDay.toFixed(3) + '%'
-								: undefined
-						}
-						apyFromLastWeek={
-							ibBTCStore.apyInfo?.fromLastWeek
-								? ibBTCStore.apyInfo.fromLastWeek.toFixed(3) + '%'
-								: undefined
-						}
-					/>
+					<IbbtcApy />
 				</Grid>
 
 				<Grid item sm={12} xs={12} md={7}>

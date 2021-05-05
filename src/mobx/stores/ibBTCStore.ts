@@ -16,11 +16,6 @@ import BadgerBtcPeak from 'config/system/abis/BadgerBtcPeak.json';
 import BadgerYearnWbtcPeak from 'config/system/abis/BadgerYearnWbtcPeak.json';
 import { ZERO, MAX, FLAGS, NETWORK_IDS } from 'config/constants';
 
-interface IbBTCApyInfo {
-	fromLastDay: number | null;
-	fromLastWeek: number | null;
-}
-
 interface MintAmountCalculation {
 	bBTC: BigNumber;
 	fee: BigNumber;
@@ -39,12 +34,13 @@ interface PeakType {
 }
 
 class IbBTCStore {
-	private store!: RootStore;
-	private config!: typeof addresses.mainnet;
+	private readonly store: RootStore;
+	private config: typeof addresses.mainnet;
 
 	public tokens: Array<TokenModel> = [];
 	public ibBTC: TokenModel;
-	apyInfo?: IbBTCApyInfo;
+	public apyUsingLastDay?: string;
+	public apyUsingLastWeek?: string;
 
 	constructor(store: RootStore) {
 		this.store = store;
@@ -54,7 +50,8 @@ class IbBTCStore {
 		extendObservable(this, {
 			tokens: [],
 			ibBTC: null,
-			apyInfo: this.apyInfo,
+			apyUsingLastDay: this.apyUsingLastDay,
+			apyUsingLastWeek: this.apyUsingLastWeek,
 		});
 
 		this.ibBTC = new TokenModel(this.store, token_config['ibBTC']);
@@ -62,7 +59,7 @@ class IbBTCStore {
 			new TokenModel(this.store, token_config['bcrvRenWSBTC']),
 			new TokenModel(this.store, token_config['bcrvRenWBTC']),
 			new TokenModel(this.store, token_config['btbtc/sbtcCrv']),
-			new TokenModel(this.store, token_config['byvWbtc']),
+			new TokenModel(this.store, token_config['byvWBTC']),
 		];
 
 		observe(this.store.wallet as any, 'connectedAddress', () => {
@@ -76,10 +73,10 @@ class IbBTCStore {
 		const { connectedAddress, network } = this.store.wallet;
 		if (!FLAGS.IBBTC_FLAG || network.networkId !== NETWORK_IDS.ETH) return;
 
-		if (!!connectedAddress) this.fetchTokensBalance();
+		if (!!connectedAddress) this.fetchTokensBalance().then();
 		else this.resetBalances();
-		this.fetchConversionRates();
-		this.fetchIbbtcApy();
+		this.fetchConversionRates().then();
+		this.fetchIbbtcApy().then();
 	});
 
 	getPeakForToken = action(
@@ -130,47 +127,13 @@ class IbBTCStore {
 	);
 
 	fetchIbbtcApy = action(async () => {
-		const { provider } = this.store.wallet;
+		const dayOldBlock = 5760; // Block in 24 hrs = 86400 / 15
+		const weekOldBlock = dayOldBlock * 7;
+		const apyFromLastDay = await this.fetchIbbtApyFromTimestamp(dayOldBlock);
+		const apyFromLastWeek = await this.fetchIbbtApyFromTimestamp(weekOldBlock);
 
-		if (!provider) return;
-
-		try {
-			const dailyBlocks = 5760; // Block in 24 hrs = 86400 / 15
-			const weeklyBlocks = dailyBlocks * 7;
-			const web3 = new Web3(provider);
-			const ibBTC = new web3.eth.Contract(ibBTCConfig.abi as AbiItem[], this.ibBTC.address);
-			const nowBlock = await web3.eth.getBlock('latest');
-			const { number: currentBlock } = nowBlock;
-
-			const [dayOldBlock, weekOldBlock, currentPPS, dayOldPPS, weekOldPPS] = await Promise.all([
-				web3.eth.getBlock(currentBlock - dailyBlocks),
-				web3.eth.getBlock(currentBlock - weeklyBlocks),
-				ibBTC.methods.pricePerShare().call(),
-				ibBTC.methods.pricePerShare().call({}, currentBlock - dailyBlocks),
-				ibBTC.methods.pricePerShare().call({}, currentBlock - weeklyBlocks),
-			]);
-
-			const earnedInDay =
-				parseFloat(web3.utils.fromWei(currentPPS)) / parseFloat(web3.utils.fromWei(dayOldPPS)) - 1;
-			const earnedInWeek =
-				parseFloat(web3.utils.fromWei(currentPPS)) / parseFloat(web3.utils.fromWei(weekOldPPS)) - 1;
-			const multiplier = 3153600000;
-
-			const dailyPY = (earnedInDay * multiplier) / (Number(nowBlock.timestamp) - Number(dayOldBlock.timestamp));
-			const weeklyPY =
-				(earnedInWeek * multiplier) / (Number(nowBlock.timestamp) - Number(weekOldBlock.timestamp));
-
-			this.apyInfo = {
-				fromLastDay: dailyPY * 365,
-				fromLastWeek: weeklyPY * 52,
-			};
-		} catch (error) {
-			process.env.NODE_ENV !== 'production' && console.log('Error while getting ibBTC APY', error);
-			this.apyInfo = {
-				fromLastDay: null,
-				fromLastWeek: null,
-			};
-		}
+		this.apyUsingLastDay = apyFromLastDay === null ? 'N/A' : `${(apyFromLastDay * 365).toFixed(3)}%`;
+		this.apyUsingLastWeek = apyFromLastWeek === null ? 'N/A' : `${(apyFromLastWeek * 52).toFixed(3)}%`;
 	});
 
 	resetBalances = action((): void => {
@@ -194,8 +157,8 @@ class IbBTCStore {
 	fetchMintRate = action(
 		async (token: TokenModel): Promise<void> => {
 			try {
-				const { bBTC } = await this.calcMintAmount(token, token.scale(new BigNumber(1)));
-				token.mintRate = token.unscale(bBTC).toString();
+				const { bBTC } = await this.calcMintAmount(token, token.scale('1'));
+				token.mintRate = this.ibBTC.unscale(bBTC).toString();
 			} catch (error) {
 				token.mintRate = '0';
 			}
@@ -205,7 +168,7 @@ class IbBTCStore {
 	fetchRedeemRate = action(
 		async (token: TokenModel): Promise<void> => {
 			try {
-				const { sett } = await this.calcRedeemAmount(token, token.scale(new BigNumber(1)));
+				const { sett } = await this.calcRedeemAmount(token, token.scale('1'));
 				token.redeemRate = token.unscale(sett).toString();
 			} catch (error) {
 				token.redeemRate = '0';
@@ -434,6 +397,36 @@ class IbBTCStore {
 			);
 		});
 	});
+
+	private async fetchIbbtApyFromTimestamp(timestamp: number): Promise<number | null> {
+		const { provider } = this.store.wallet;
+
+		if (!provider) {
+			process.env.NODE_ENV !== 'production' && console.log('No provider available');
+			return null;
+		}
+
+		const multiplier = 3153600000;
+		const web3 = new Web3(provider);
+		const ibBTC = new web3.eth.Contract(ibBTCConfig.abi as AbiItem[], this.ibBTC.address);
+		const nowBlock = await web3.eth.getBlock('latest');
+		const { number: currentBlock } = nowBlock;
+		const currentPPS = await ibBTC.methods.pricePerShare().call();
+
+		try {
+			const [oldBlock, oldPPS] = await Promise.all([
+				web3.eth.getBlock(currentBlock - timestamp),
+				ibBTC.methods.pricePerShare().call({}, currentBlock - timestamp),
+			]);
+
+			const earnRatio = parseFloat(web3.utils.fromWei(currentPPS)) / parseFloat(web3.utils.fromWei(oldPPS)) - 1;
+			return (earnRatio * multiplier) / (Number(nowBlock.timestamp) - Number(oldBlock.timestamp));
+		} catch (error) {
+			process.env.NODE_ENV !== 'production' &&
+				console.error(`Error while getting ibBTC APY from block ${currentBlock - timestamp}: ${error}`);
+			return null;
+		}
+	}
 }
 
 export default IbBTCStore;
