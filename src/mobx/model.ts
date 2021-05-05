@@ -1,8 +1,7 @@
-import { AbiItem } from 'web3-utils';
-import BigNumber from 'bignumber.js';
-import Web3 from 'web3';
-import _ from 'lodash';
 import firebase from 'firebase';
+import BigNumber from 'bignumber.js';
+import { AbiItem } from 'web3-utils';
+import Web3 from 'web3';
 import { CustomNotificationObject, EmitterListener, TransactionData } from 'bnc-notify';
 import { LockAndMintParamsSimple, BurnAndReleaseParamsSimple } from '@renproject/interfaces';
 
@@ -377,7 +376,7 @@ export type TokenAddressess = {
 };
 
 export type ReducedContractConfig = {
-	defaults: _.Dictionary<any>;
+	defaults: Record<any, any>;
 	batchCall: {
 		namespace: string;
 		addresses: string[];

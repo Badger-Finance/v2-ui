@@ -4,14 +4,13 @@ import { AbiItem } from 'web3-utils';
 import { estimateAndSend, getNetworkDeploy } from '../utils/web3';
 import BigNumber from 'bignumber.js';
 import { RootStore } from '../store';
-import _ from 'lodash';
 import {
 	reduceBatchResult,
 	reduceContractConfig,
 	reduceGrowth,
 	reduceGrowthQueryConfig,
 } from '../reducers/contractReducers';
-import { Vault, Geyser, Token } from '../model';
+import { Vault, Geyser, Token, GeyserPayload, TokenPayload } from '../model';
 import { vanillaQuery } from 'mobx/utils/helpers';
 import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
@@ -20,6 +19,7 @@ import { EMPTY_DATA, ERC20, NETWORK_CONSTANTS, NETWORK_LIST } from 'config/const
 import { formatAmount } from 'mobx/reducers/statsReducers';
 import BatchCall from 'web3-batch-call';
 import { getApi } from '../utils/apiV2';
+import { compact, defaultsDeep, flatten, keyBy, mapValues, values } from '../../utils/lodashToNative';
 
 let batchCall: any = null;
 
@@ -98,20 +98,20 @@ class ContractsStore {
 			// clean this up, but force async
 			await Promise.all([priceApi, batchCall.execute(batch)])
 				.then((result: any[]) => {
-					const cgPrices = _.mapValues(result.slice(0, 1)[0], (price: any) => ({
+					const cgPrices = mapValues(result.slice(0, 1)[0], (price: any) => ({
 						ethValue: new BigNumber(price).multipliedBy(1e18),
 					}));
-					const tokenContracts = _.keyBy(reduceBatchResult(_.flatten(result.slice(1, 2))), 'address');
-					const updatedTokens = _.compact(
-						_.values(
-							_.defaultsDeep(
+					const tokenContracts = keyBy(reduceBatchResult(flatten(result.slice(1, 2))), 'address');
+					const updatedTokens = compact(
+						values(
+							defaultsDeep(
 								cgPrices,
 								tokenContracts,
-								_.mapValues(tokens.symbols, (value: string, address: string) => ({
+								mapValues(tokens.symbols, (value: string, address: string) => ({
 									address,
 									symbol: value,
 								})),
-								_.mapValues(tokens.names, (value: string, address: string) => ({
+								mapValues(tokens.names, (value: string, address: string) => ({
 									address,
 									name: value,
 								})),
@@ -147,12 +147,12 @@ class ContractsStore {
 			}
 
 			const { defaults, batchCall: batch } = reduceContractConfig(
-				_.map(network.vaults),
+				values(network.vaults ?? {}),
 				connectedAddress && { connectedAddress },
 			);
 
 			const { growthQueries, periods } = reduceGrowthQueryConfig(network.name, currentBlock);
-			const settStructure = _.keyBy(settList, 'vaultToken');
+			const settStructure = keyBy(settList ?? [], 'vaultToken');
 			const priceApi = vanillaQuery(`${getApi()}/prices?chain=${network.name}&currency=eth`);
 
 			await Promise.all([batchCall.execute(batch), ...growthQueries, priceApi])
@@ -164,7 +164,7 @@ class ContractsStore {
 						NETWORK_CONSTANTS[network.name].START_TIME,
 					);
 
-					const prices = _.mapValues(queryResult.pop(), (price: any) => ({
+					const prices = mapValues(queryResult.pop(), (price: any) => ({
 						ethValue: new BigNumber(price).multipliedBy(1e18),
 					}));
 
@@ -180,7 +180,7 @@ class ContractsStore {
 						);
 						const growth =
 							!!vaultGrowth[contract.address] &&
-							_.mapValues(vaultGrowth[contract.address], (tokens: BigNumber) => ({
+							mapValues(vaultGrowth[contract.address], (tokens: BigNumber) => ({
 								amount: tokens,
 								token: this.tokens[tokenAddress],
 							}));
@@ -194,9 +194,9 @@ class ContractsStore {
 								? new BigNumber(settStructure[vault.address].ppfs)
 								: new BigNumber(1);
 						vault.update(
-							_.defaultsDeep(contract, defaults[contract.address], {
-								growth: _.compact([vault.growth, growth]),
-							}),
+							defaultsDeep(contract, defaults[contract.address], {
+								growth: compact([vault.growth, growth]),
+							}) as TokenPayload,
 						);
 						// update vaultBalance if given
 						vault.vaultBalance = isNaN(parseFloat(result[i].balance))
@@ -243,7 +243,7 @@ class ContractsStore {
 								this.vaults[vaultAddress],
 								defaults[contract.address].abi,
 							);
-							geyser.update(_.defaultsDeep(contract, defaults[contract.address]));
+							geyser.update(defaultsDeep(contract, defaults[contract.address]) as GeyserPayload);
 						});
 					}
 				})
