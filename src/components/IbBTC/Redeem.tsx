@@ -53,7 +53,7 @@ export const Redeem = observer((): any => {
 		setIsEnoughToRedeem(max.gt(redeemAmount));
 		setOutputAmount(redeemAmount.toString());
 		setFee(fee.toFixed(4));
-		setTotalRedeem(redeemAmount.minus(fee).toString());
+		setTotalRedeem(redeemAmount.toString());
 	};
 
 	// reason: the plugin does not recognize the dependency inside the debounce function

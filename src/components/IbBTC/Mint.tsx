@@ -46,7 +46,7 @@ export const Mint = observer((): any => {
 	const setMintInformation = (inputAmount: BigNumber, outputAmount: BigNumber, fee: BigNumber): void => {
 		setOutputAmount(outputAmount.toString());
 		setFee(fee.toFixed(4));
-		setTotalMint(outputAmount.minus(fee).toString());
+		setTotalMint(outputAmount.toString());
 	};
 
 	// reason: the plugin does not recognize the dependency inside the debounce function
