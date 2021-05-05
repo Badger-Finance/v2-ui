@@ -3,6 +3,7 @@ import { Divider, Grid, makeStyles, Paper, Typography, useMediaQuery } from '@ma
 import { Skeleton } from '@material-ui/lab';
 import { Theme } from '@material-ui/core/styles';
 import { StoreContext } from '../../mobx/store-context';
+import { observer } from 'mobx-react-lite';
 
 const useStyles = makeStyles((theme) => ({
 	container: {
@@ -31,52 +32,54 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export const IbbtcApy = (): JSX.Element => {
-	const { ibBTCStore } = React.useContext(StoreContext);
-	const { ibBTC, apyUsingLastDay, apyUsingLastWeek } = ibBTCStore;
-	const isDisplayXs = useMediaQuery((theme: Theme) => theme.breakpoints.only('xs'));
-	const classes = useStyles();
+export const IbbtcApy = observer(
+	(): JSX.Element => {
+		const { ibBTCStore } = React.useContext(StoreContext);
+		const { ibBTC, apyUsingLastDay, apyUsingLastWeek } = ibBTCStore;
+		const isDisplayXs = useMediaQuery((theme: Theme) => theme.breakpoints.only('xs'));
+		const classes = useStyles();
 
-	return (
-		<Grid container component={Paper} className={classes.container}>
-			<Grid item container alignItems="center" xs={12} sm className={classes.token}>
-				<img src={ibBTC.icon.default} alt="APY Token Logo" className={classes.logo} />
-				<Typography variant="h6">{`${ibBTC.symbol} APY`}</Typography>
+		return (
+			<Grid container component={Paper} className={classes.container}>
+				<Grid item container alignItems="center" xs={12} sm className={classes.token}>
+					<img src={ibBTC.icon.default} alt="APY Token Logo" className={classes.logo} />
+					<Typography variant="h6">{`${ibBTC.symbol} APY`}</Typography>
+				</Grid>
+
+				{!isDisplayXs && <Divider orientation="vertical" flexItem />}
+
+				<Grid item container xs className={classes.apyInfoContainer}>
+					<Grid item xs={12}>
+						<Typography variant="h6">
+							{apyUsingLastDay !== undefined ? (
+								apyUsingLastDay
+							) : (
+								<Skeleton role="loader" className={classes.loader} />
+							)}
+						</Typography>
+					</Grid>
+					<Grid item xs={12}>
+						<Typography variant="caption">Sampled from last 24 hrs</Typography>
+					</Grid>
+				</Grid>
+
+				<Divider orientation="vertical" flexItem />
+
+				<Grid item container xs className={classes.apyInfoContainer}>
+					<Grid item xs={12}>
+						<Typography variant="h6">
+							{apyUsingLastWeek !== undefined ? (
+								apyUsingLastWeek
+							) : (
+								<Skeleton role="loader" className={classes.loader} />
+							)}
+						</Typography>
+					</Grid>
+					<Grid item xs={12}>
+						<Typography variant="caption">Sampled from last week</Typography>
+					</Grid>
+				</Grid>
 			</Grid>
-
-			{!isDisplayXs && <Divider orientation="vertical" flexItem />}
-
-			<Grid item container xs className={classes.apyInfoContainer}>
-				<Grid item xs={12}>
-					<Typography variant="h6">
-						{apyUsingLastDay !== undefined ? (
-							apyUsingLastDay
-						) : (
-							<Skeleton role="loader" className={classes.loader} />
-						)}
-					</Typography>
-				</Grid>
-				<Grid item xs={12}>
-					<Typography variant="caption">Sampled from last 24 hrs</Typography>
-				</Grid>
-			</Grid>
-
-			<Divider orientation="vertical" flexItem />
-
-			<Grid item container xs className={classes.apyInfoContainer}>
-				<Grid item xs={12}>
-					<Typography variant="h6">
-						{apyUsingLastWeek !== undefined ? (
-							apyUsingLastWeek
-						) : (
-							<Skeleton role="loader" className={classes.loader} />
-						)}
-					</Typography>
-				</Grid>
-				<Grid item xs={12}>
-					<Typography variant="caption">Sampled from last week</Typography>
-				</Grid>
-			</Grid>
-		</Grid>
-	);
-};
+		);
+	},
+);
