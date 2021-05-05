@@ -35,6 +35,7 @@ export const Mint = observer((): any => {
 	const [outputAmount, setOutputAmount] = useState<string>();
 	const [fee, setFee] = useState('0.000');
 	const [totalMint, setTotalMint] = useState('0.00');
+	const [conversionRate, setConversionRate] = useState('1');
 
 	const resetState = () => {
 		setInputAmount('');
@@ -47,6 +48,7 @@ export const Mint = observer((): any => {
 		setOutputAmount(outputAmount.toString());
 		setFee(fee.toFixed(4));
 		setTotalMint(outputAmount.toString());
+		setConversionRate(outputAmount.plus(fee).dividedBy(inputAmount).toString());
 	};
 
 	// reason: the plugin does not recognize the dependency inside the debounce function
@@ -151,7 +153,7 @@ export const Mint = observer((): any => {
 						</Grid>
 						<Grid item xs={6}>
 							<EndAlignText variant="body1">
-								1 {selectedToken.symbol} : 1 {ibBTC.symbol}
+								1 {selectedToken.symbol} : {conversionRate} {ibBTC.symbol}
 							</EndAlignText>
 						</Grid>
 					</Grid>
