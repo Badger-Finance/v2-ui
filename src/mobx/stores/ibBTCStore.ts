@@ -47,13 +47,6 @@ class IbBTCStore {
 		this.config = addresses.mainnet;
 		const token_config = this.config.contracts.tokens;
 
-		extendObservable(this, {
-			tokens: [],
-			ibBTC: null,
-			apyUsingLastDay: this.apyUsingLastDay,
-			apyUsingLastWeek: this.apyUsingLastWeek,
-		});
-
 		this.ibBTC = new TokenModel(this.store, token_config['ibBTC']);
 		this.tokens = [
 			new TokenModel(this.store, token_config['bcrvRenWSBTC']),
@@ -61,6 +54,13 @@ class IbBTCStore {
 			new TokenModel(this.store, token_config['btbtc/sbtcCrv']),
 			new TokenModel(this.store, token_config['byvWBTC']),
 		];
+
+		extendObservable(this, {
+			tokens: this.tokens,
+			ibBTC: this.ibBTC,
+			apyUsingLastDay: this.apyUsingLastDay,
+			apyUsingLastWeek: this.apyUsingLastWeek,
+		});
 
 		observe(this.store.wallet as any, 'connectedAddress', () => {
 			this.init();
