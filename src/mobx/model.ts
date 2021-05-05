@@ -1,10 +1,7 @@
 import firebase from 'firebase';
 import BigNumber from 'bignumber.js';
 import { AbiItem } from 'web3-utils';
-import BigNumber from 'bignumber.js';
 import Web3 from 'web3';
-import _ from 'lodash';
-import firebase from 'firebase';
 import { CustomNotificationObject, EmitterListener, TransactionData } from 'bnc-notify';
 import { LockAndMintParamsSimple, BurnAndReleaseParamsSimple } from '@renproject/interfaces';
 
@@ -17,7 +14,7 @@ import { getRewards } from 'config/system/rewards';
 import { NETWORK_IDS, NETWORK_LIST, ZERO, TEN } from 'config/constants';
 import { getTokens } from '../config/system/tokens';
 import { getVaults } from '../config/system/vaults';
-import { reduceGeyserSchedule } from './reducers/contractReducers';
+import { getStrategies } from '../config/system/strategies';
 
 export class Contract {
 	store!: RootStore;
@@ -102,7 +99,7 @@ export class Vault extends Token {
 	balanceValue(): BigNumber {
 		return this.balance
 			.multipliedBy(this.pricePerShare)
-			.dividedBy(1e18)
+			.dividedBy(10 ** this.decimals)
 			.multipliedBy(this.underlyingToken.ethValue);
 	}
 
@@ -145,14 +142,14 @@ export class Geyser extends Contract {
 
 	holdingsValue(): BigNumber {
 		return this.holdings
-			.dividedBy(1e18)
+			.dividedBy(10 ** this.vault.decimals)
 			.multipliedBy(this.vault.pricePerShare)
 			.multipliedBy(this.vault.underlyingToken.ethValue);
 	}
 
 	balanceValue(): BigNumber {
 		return this.balance
-			.dividedBy(1e18)
+			.dividedBy(10 ** this.vault.decimals)
 			.multipliedBy(this.vault.pricePerShare)
 			.multipliedBy(this.vault.underlyingToken.ethValue);
 	}
@@ -160,10 +157,22 @@ export class Geyser extends Contract {
 	update(payload: GeyserPayload): void {
 		if (!!payload.totalStaked) this.holdings = payload.totalStaked;
 		if (!!payload.totalStakedFor) this.balance = payload.totalStakedFor;
-		if (!!payload.getUnlockSchedulesFor) {
-			this.rewards = reduceGeyserSchedule(payload.getUnlockSchedulesFor, this.store);
-		}
 	}
+}
+
+export interface StrategyConfig {
+	name: string;
+	address: string;
+	fees: FeeConfig;
+	strategyLink: string;
+}
+
+export interface StrategyNetworkConfig {
+	[vaultAddress: string]: StrategyConfig;
+}
+
+export interface FeeConfig {
+	[feeName: string]: BigNumber;
 }
 
 export class TokenModel extends Contract {
@@ -210,6 +219,15 @@ export class TokenModel extends Contract {
 	}
 }
 
+export interface BadgerTree {
+	cycle: string;
+	timeSinceLastCycle: string;
+	sharesPerFragment: BigNumber | undefined;
+	proof: RewardMerkleClaim | undefined;
+	claims: UserClaimData[] | undefined;
+	claimableAmounts: BigNumber[] | undefined;
+}
+
 interface TokenConfig {
 	address: string;
 	name: string;
@@ -226,6 +244,25 @@ export interface Growth {
 	month: Amount;
 	year: Amount;
 }
+
+export interface RewardMerkleClaim {
+	index: string;
+	cycle: string;
+	boost: BigNumber;
+	user: string;
+	tokens: string[];
+	cumulativeAmounts: string[];
+	proof: string[];
+	node: string;
+}
+
+export type TreeClaimData = [string[], BigNumber[]];
+
+export interface UserClaimData {
+	token: string;
+	amount: BigNumber;
+}
+
 export interface Amount {
 	token: Token;
 	amount: BigNumber;
@@ -279,7 +316,6 @@ export type TokenPayload = {
 export type GeyserPayload = {
 	totalStaked: BigNumber;
 	totalStakedFor: BigNumber;
-	getUnlockSchedulesFor: Schedules;
 };
 
 export type Schedules = {
@@ -311,10 +347,6 @@ export type ReducedAirdops = {
 		token: any;
 	};
 };
-
-export type FormattedGeyserGrowth = { total: BigNumber; tooltip: string };
-
-export type FormattedVaultGrowth = { roi: string; roiTooltip: string };
 
 export type ReducedSushiROIResults = {
 	day: BigNumber;
@@ -541,8 +573,25 @@ export interface Network {
 	getGasPrices: () => Promise<GasPrices>;
 	getNotifyLink: EmitterListener;
 	isWhitelisted: { [index: string]: boolean };
-	customDeposit: { [index: string]: boolean };
+	cappedDeposit: { [index: string]: boolean };
+	uncappedDeposit: { [index: string]: boolean };
+	newVaults: { [index: string]: string[] };
+	strategies: StrategyNetworkConfig;
+	getFees: (vaultAddress: string) => string[];
 }
+
+const _getFees = (strategy: StrategyConfig) => {
+	const feeList: string[] = [];
+	if (!strategy) return [];
+	// fees are stored in BIPs on the contract, dividing by 10**2 makes them readable %
+	Object.keys(strategy.fees).forEach((key) => {
+		const value = strategy.fees[key];
+		if (value.gt(0)) {
+			feeList.push(`${key}:  ${value.dividedBy(10 ** 2).toString()}%`);
+		}
+	});
+	return feeList;
+};
 
 export class BscNetwork implements Network {
 	public readonly name = NETWORK_LIST.BSC;
@@ -580,12 +629,14 @@ export class BscNetwork implements Network {
 	public getNotifyLink(transaction: TransactionData): NotifyLink {
 		return { link: `https://bscscan.com//tx/${transaction.hash}` };
 	}
-	public readonly isWhitelisted = {
-		[this.deploy.sett_system.vaults['yearn.wBtc']]: true,
-	};
-	public readonly customDeposit = {
-		[this.deploy.sett_system.vaults['yearn.wBtc']]: true,
-	};
+	public readonly isWhitelisted = {};
+	public readonly cappedDeposit = {};
+	public readonly uncappedDeposit = {};
+	public readonly newVaults = {};
+	public readonly strategies = getStrategies(NETWORK_LIST.BSC);
+	public getFees(vaultAddress: string): string[] {
+		return _getFees(this.strategies[vaultAddress]);
+	}
 }
 
 export class EthNetwork implements Network {
@@ -643,12 +694,18 @@ export class EthNetwork implements Network {
 	public getNotifyLink(transaction: TransactionData): NotifyLink {
 		return { link: `https://etherscan.io/tx/${transaction.hash}` };
 	}
-	public readonly isWhitelisted = {
+	public readonly isWhitelisted = {};
+	public readonly cappedDeposit = {};
+	public readonly uncappedDeposit = {
 		[this.deploy.sett_system.vaults['yearn.wBtc']]: true,
 	};
-	public readonly customDeposit = {
-		[this.deploy.sett_system.vaults['yearn.wBtc']]: true,
+	public readonly newVaults = {
+		[this.deploy.sett_system.vaults['yearn.wBtc']]: ['Expected ROI', '60% @ $100m', '30% @ $400m', '24% @ $1b'],
 	};
+	public readonly strategies = getStrategies(NETWORK_LIST.ETH);
+	public getFees(vaultAddress: string): string[] {
+		return _getFees(this.strategies[vaultAddress]);
+	}
 }
 
 export type UserPermissions = {
@@ -718,6 +775,7 @@ export interface Sett extends SettSummary {
 	underlyingToken: string;
 	vaultToken: string;
 	affiliate?: SettAffiliateData;
+	experimental: boolean;
 }
 
 export interface SettAffiliateData {
@@ -728,7 +786,8 @@ export interface SettAffiliateData {
 
 export type ValueSource = {
 	name: string;
-	apy: number;
+	apy?: number;
+	apr: number;
 	performance: Performance;
 };
 
@@ -768,7 +827,7 @@ export type SettMap = { [contract: string]: Sett };
 export type RenVMTransaction = {
 	// ID is the pkey in the db.
 	id: string;
-	userAddr: string;
+	user: string;
 	// Nonce monotonically increases per user tx.
 	nonce: number;
 	encodedTx: string; // json encoded tx data.

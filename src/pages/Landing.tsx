@@ -23,6 +23,7 @@ import React, { useContext } from 'react';
 import BigNumber from 'bignumber.js';
 import SettList from 'components-v2/landing/SettList';
 import { compact } from '../utils/lodashToNative';
+import { UserClaimData } from 'mobx/model';
 
 const useStyles = makeStyles((theme) => ({
 	landingContainer: {
@@ -42,6 +43,8 @@ const useStyles = makeStyles((theme) => ({
 		marginBottom: theme.spacing(3),
 		marginLeft: 'auto',
 		marginRight: 'auto',
+		display: 'flex',
+		flexDirection: 'column',
 	},
 	widgetContainer: {
 		display: 'flex',
@@ -69,11 +72,21 @@ const useStyles = makeStyles((theme) => ({
 	pickerContainer: {
 		marginRight: theme.spacing(1),
 	},
+	announcementButton: {
+		marginTop: theme.spacing(3),
+		width: '50%',
+		pointerEvents: 'none',
+	},
 }));
 
-const Landing = observer(() => {
+interface LandingProps {
+	experimental: boolean;
+}
+
+const Landing = observer((props: LandingProps) => {
 	const classes = useStyles();
 	const store = useContext(StoreContext);
+	const { experimental } = props;
 
 	const {
 		wallet: { connectedAddress, network },
@@ -84,20 +97,23 @@ const Landing = observer(() => {
 	const { protocolSummary } = setts;
 	const userConnected = !!connectedAddress;
 
-	const availableRewards = () => {
-		if (!badgerTree || !badgerTree.claims) return;
-		return badgerTree.claims.map((claim: any[]) => {
+	const availableRewards = (): (JSX.Element | boolean)[] => {
+		const { claims, sharesPerFragment } = badgerTree;
+		if (!claims || !sharesPerFragment) {
+			return [];
+		}
+		return claims.map((claim: UserClaimData): JSX.Element | boolean => {
 			const { network } = store.wallet;
-			const claimAddress: string = claim[0];
-			const claimValue = claim
-				? claim[1].dividedBy(
-						claimAddress === network.deploy.tokens.digg
-							? badgerTree.sharesPerFragment * 1e9
-							: claimAddress === network.deploy.tokens.usdc
-							? 1e6
-							: 1e18,
-				  )
-				: claim[1];
+			const claimAddress = claim.token;
+
+			// todo: support token data lookup for decimals etc.
+			const decimals =
+				claimAddress === network.deploy.tokens.digg
+					? sharesPerFragment.multipliedBy(1e9)
+					: claimAddress === network.deploy.tokens.usdc
+					? 1e6
+					: 1e18;
+			const claimValue = claim.amount.dividedBy(decimals);
 			const claimDisplay = inCurrency(claimValue, 'eth', true);
 			return (
 				parseFloat(claimDisplay) > 0 && (
@@ -123,10 +139,14 @@ const Landing = observer(() => {
 			{/* Landing Metrics Cards */}
 			<Grid container spacing={1} justify="center">
 				<Grid item xs={12} className={classes.headerContainer}>
-					<PageHeader
-						title="Sett Vaults"
-						subtitle="Powerful Bitcoin strategies. Automatic staking rewards."
-					/>
+					{experimental ? (
+						<PageHeader title="Experimental Vaults" subtitle="New vaults to dip your toes in.  Ape safe." />
+					) : (
+						<PageHeader
+							title="Sett Vaults"
+							subtitle="Powerful Bitcoin strategies. Automatic staking rewards."
+						/>
+					)}
 				</Grid>
 				<Grid item xs={12} className={classes.widgetContainer}>
 					<div>{userConnected && <WalletSlider />}</div>
@@ -153,10 +173,16 @@ const Landing = observer(() => {
 				</Grid>
 			</Grid>
 
+			<Grid container spacing={1} justify="center">
+				<Button className={classes.announcementButton} size="small" variant="outlined" color="primary">
+					Note: New Vaults may take up to 2 weeks from launch to reach full efficiency.
+				</Button>
+			</Grid>
+
 			{/* Landing Claim Functionality */}
 			{!!network.rewards &&
 				!!connectedAddress &&
-				badgerTree &&
+				badgerTree.claims &&
 				rewards.length > 0 &&
 				badgerTree.claims.length > 0 && (
 					<>
@@ -172,9 +198,7 @@ const Landing = observer(() => {
 									<ButtonGroup size="small" variant="outlined" color="primary">
 										<Button
 											className={classes.marginTop}
-											onClick={() => {
-												claimGeysers(false);
-											}}
+											onClick={() => claimGeysers()}
 											variant="contained"
 										>
 											Claim
@@ -185,8 +209,7 @@ const Landing = observer(() => {
 						</Grid>
 					</>
 				)}
-
-			<SettList />
+			<SettList experimental={experimental} />
 		</Container>
 	);
 });

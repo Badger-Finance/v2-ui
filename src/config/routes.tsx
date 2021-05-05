@@ -21,28 +21,15 @@ const routes = {
 	locked: new Route<RootStore>({
 		path: '/locked',
 		component: <Locked />,
-		onEnter: () => {
-			//
-		},
-		beforeExit: () => {
-			//
-		},
-		onParamsChange: () => {
-			//
-		},
 	}),
 	home: new Route<RootStore>({
 		path: '/',
-		component: <Landing />,
-		onEnter: (_, params, store) => {
-			store.rewards.fetchSettRewards();
-		},
-		beforeExit: () => {
-			//
-		},
-		onParamsChange: () => {
-			//
-		},
+		component: <Landing experimental={false} />,
+	}),
+
+	experimental: new Route<RootStore>({
+		path: '/experimental',
+		component: FLAGS.EXPERIMENTAL_VAULTS ? <Landing experimental={true} /> : <></>,
 	}),
 
 	airdrops: new Route<RootStore, QueryParams>({
@@ -51,24 +38,12 @@ const routes = {
 		onEnter: (_, params, store) => {
 			store.airdrops.fetchAirdrops();
 		},
-		beforeExit: () => {
-			//
-		},
-		onParamsChange: () => {
-			// store.uiState.setVault(collection, id)
-		},
 	}),
 	digg: new Route<RootStore, QueryParams>({
 		path: '/digg',
 		component: <Digg />,
 		onEnter: (_, params, store) => {
 			store.rebase.fetchRebaseStats();
-		},
-		beforeExit: () => {
-			//
-		},
-		onParamsChange: () => {
-			// store.uiState.setVault(collection, id)
 		},
 	}),
 	IbBTC: new Route<RootStore, QueryParams>({
@@ -83,20 +58,5 @@ const routes = {
 		path: '/honey-badger-drop',
 		component: <HoneybadgerDrop />,
 	}),
-	// account: new Route<RootStore, {
-	// 	account: string;
-	// }>({
-	// 	path: '/accounts/:account',
-	// 	component: <Account />,
-	// 	onEnter: (_, { account }) => {
-	// 		console.log(`entering account: ${account}!`);
-	// 	},
-	// 	beforeExit: () => {
-	// 		console.log('exiting account!');
-	// 	},
-	// 	onParamsChange: (route, params) => {
-	// 		console.log('params changed to', params);
-	// 	}
-	// }),
 };
 export default routes;
