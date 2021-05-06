@@ -230,7 +230,7 @@ export const Redeem = observer((): any => {
 					variant="contained"
 					color="primary"
 					onClick={handleRedeemClick}
-					disabled={!isEnoughToRedeem || !inputAmount}
+					disabled={!isEnoughToRedeem || !inputAmount || !outputAmount}
 				>
 					REDEEM
 				</Button>
