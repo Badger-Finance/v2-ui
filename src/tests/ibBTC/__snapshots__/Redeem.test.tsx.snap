@@ -22,10 +22,11 @@ exports[`ibBTC Redeem handles exceeding ibBTC redeem input amount 1`] = `
         class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-8-43 MuiGrid-grid-sm-7-56"
       >
         <div
-          class="MuiInputBase-root-141 NumericInput-root-139 makeStyles-input-140 MuiInputBase-fullWidth-151"
+          class="MuiInputBase-root-141 NumericInput-root-139 makeStyles-input-140 MuiInputBase-disabled-144 MuiInputBase-fullWidth-151"
         >
           <input
-            class="MuiInputBase-input-152"
+            class="MuiInputBase-input-152 MuiInputBase-disabled-144"
+            disabled=""
             pattern="^[0-9]*[.,]?[0-9]*$"
             placeholder="0.0"
             type="tel"
@@ -272,16 +273,18 @@ exports[`ibBTC Redeem handles exceeding ibBTC redeem input amount 1`] = `
     class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
   >
     <button
-      class="MuiButtonBase-root-190 MuiButton-root-161 MuiButton-contained-169 MuiButton-containedPrimary-170 MuiButton-containedSizeLarge-181 MuiButton-sizeLarge-183 MuiButton-disabled-174 MuiButton-fullWidth-184 MuiButtonBase-disabled-191"
-      disabled=""
-      tabindex="-1"
+      class="MuiButtonBase-root-190 MuiButton-root-161 MuiButton-contained-169 MuiButton-containedPrimary-170 MuiButton-containedSizeLarge-181 MuiButton-sizeLarge-183 MuiButton-fullWidth-184"
+      tabindex="0"
       type="button"
     >
       <span
         class="MuiButton-label-162"
       >
-        REDEEM
+        Connect Wallet
       </span>
+      <span
+        class="MuiTouchRipple-root-219"
+      />
     </button>
   </div>
 </div>

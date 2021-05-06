@@ -22,10 +22,11 @@ exports[`ibBTC Mint displays output ibBTC when mint amount is inputted 1`] = `
         class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47 MuiGrid-grid-sm-5-54"
       >
         <div
-          class="MuiInputBase-root-141 NumericInput-root-139 makeStyles-input-140 MuiInputBase-fullWidth-151"
+          class="MuiInputBase-root-141 NumericInput-root-139 makeStyles-input-140 MuiInputBase-disabled-144 MuiInputBase-fullWidth-151"
         >
           <input
-            class="MuiInputBase-input-152"
+            class="MuiInputBase-input-152 MuiInputBase-disabled-144"
+            disabled=""
             pattern="^[0-9]*[.,]?[0-9]*$"
             placeholder="0.0"
             type="tel"
@@ -264,7 +265,7 @@ exports[`ibBTC Mint displays output ibBTC when mint amount is inputted 1`] = `
       <span
         class="MuiButton-label-162"
       >
-        MINT
+        Connect Wallet
       </span>
       <span
         class="MuiTouchRipple-root-219"
