@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useState } from 'react';
-import { Button, Typography, Grid, Tooltip } from '@material-ui/core';
+import { Button, Typography, Grid } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
 
 import { debounce } from 'utils/componentHelpers';
@@ -21,13 +21,14 @@ import {
 	OutputBalanceText,
 	OutputAmountText,
 	OutputTokenGrid,
+	ErrorText,
 } from './Common';
 
 export const Mint = observer((): any => {
 	const store = useContext(StoreContext);
 
 	const {
-		ibBTCStore: { tokens, ibBTC, mintBlockerMessage },
+		ibBTCStore: { tokens, ibBTC },
 	} = store;
 
 	const [selectedToken, setSelectedToken] = useState(tokens[0]);
@@ -36,19 +37,27 @@ export const Mint = observer((): any => {
 	const [fee, setFee] = useState('0.000');
 	const [totalMint, setTotalMint] = useState('0.00');
 	const [conversionRate, setConversionRate] = useState('1');
+	const [mintBlocker, setMintBlocker] = useState<string | null>(null);
 
 	const resetState = () => {
 		setInputAmount('');
 		setOutputAmount('');
 		setFee('0.00');
 		setTotalMint('0.00');
+		setMintBlocker(null);
 	};
 
-	const setMintInformation = (inputAmount: BigNumber, outputAmount: BigNumber, fee: BigNumber): void => {
+	const setMintInformation = (
+		inputAmount: BigNumber,
+		outputAmount: BigNumber,
+		fee: BigNumber,
+		blocker: string | null,
+	): void => {
 		setOutputAmount(outputAmount.toString());
 		setFee(fee.toFixed(4));
 		setTotalMint(outputAmount.toString());
 		setConversionRate(outputAmount.plus(fee).dividedBy(inputAmount).toString());
+		setMintBlocker(blocker);
 	};
 
 	// reason: the plugin does not recognize the dependency inside the debounce function
@@ -61,11 +70,13 @@ export const Mint = observer((): any => {
 				setOutputAmount('');
 				setFee('0.00');
 				setTotalMint('0.00');
+				setMintBlocker(null);
 				return;
 			}
 
 			const { bBTC, fee } = await store.ibBTCStore.calcMintAmount(selectedToken, selectedToken.scale(input));
-			setMintInformation(input, ibBTC.unscale(bBTC), ibBTC.unscale(fee));
+			const mintBlocker = await store.ibBTCStore.getMintValidation(bBTC, selectedToken);
+			setMintInformation(input, ibBTC.unscale(bBTC), ibBTC.unscale(fee), mintBlocker);
 		}),
 		[selectedToken],
 	);
@@ -74,18 +85,22 @@ export const Mint = observer((): any => {
 		if (selectedToken.balance.gt(ZERO)) {
 			setInputAmount(selectedToken.unscale(selectedToken.balance).toString());
 			const { bBTC, fee } = await store.ibBTCStore.calcMintAmount(selectedToken, selectedToken.balance);
-			setMintInformation(selectedToken.unscale(selectedToken.balance), ibBTC.unscale(bBTC), ibBTC.unscale(fee));
+			const mintBlocker = await store.ibBTCStore.getMintValidation(bBTC, selectedToken);
+			setMintInformation(
+				selectedToken.unscale(selectedToken.balance),
+				ibBTC.unscale(bBTC),
+				ibBTC.unscale(fee),
+				mintBlocker,
+			);
 		}
 	};
 
 	const handleTokenChange = async (token: TokenModel) => {
 		setSelectedToken(token);
 		if (inputAmount) {
-			const { bBTC, fee } = await store.ibBTCStore.calcMintAmount(
-				selectedToken,
-				selectedToken.scale(inputAmount),
-			);
-			setMintInformation(new BigNumber(inputAmount), ibBTC.unscale(bBTC), ibBTC.unscale(fee));
+			const { bBTC, fee } = await store.ibBTCStore.calcMintAmount(token, token.scale(inputAmount));
+			const mintBlocker = await store.ibBTCStore.getMintValidation(bBTC, token);
+			setMintInformation(new BigNumber(inputAmount), ibBTC.unscale(bBTC), ibBTC.unscale(fee), mintBlocker);
 		}
 	};
 
@@ -147,6 +162,11 @@ export const Mint = observer((): any => {
 			</Grid>
 			<Grid item xs={12}>
 				<SummaryGrid>
+					{mintBlocker && (
+						<Grid item xs={12} container>
+							<ErrorText variant="subtitle1">{mintBlocker}</ErrorText>
+						</Grid>
+					)}
 					<Grid item xs={12} container justify="space-between">
 						<Grid item xs={6}>
 							<Typography variant="subtitle1">Current Conversion Rate: </Typography>
@@ -178,26 +198,16 @@ export const Mint = observer((): any => {
 				</SummaryGrid>
 			</Grid>
 			<Grid item xs={12}>
-				{mintBlockerMessage ? (
-					<Tooltip title={mintBlockerMessage} arrow>
-						<span>
-							<Button fullWidth size="large" variant="contained" color="primary" disabled>
-								MINT
-							</Button>
-						</span>
-					</Tooltip>
-				) : (
-					<Button
-						fullWidth
-						size="large"
-						variant="contained"
-						color="primary"
-						onClick={handleMintClick}
-						disabled={!inputAmount || !outputAmount}
-					>
-						MINT
-					</Button>
-				)}
+				<Button
+					fullWidth
+					size="large"
+					variant="contained"
+					color="primary"
+					onClick={handleMintClick}
+					disabled={!inputAmount || !outputAmount || !!mintBlocker}
+				>
+					MINT
+				</Button>
 			</Grid>
 		</>
 	);
