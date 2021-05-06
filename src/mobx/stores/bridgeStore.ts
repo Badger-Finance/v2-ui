@@ -497,7 +497,7 @@ class BridgeStore {
 	});
 
 	_getFees = async (): Promise<void> => {
-		//const { queueNotification } = this.store.uiState;
+		const { queueNotification } = this.store.uiState;
 		try {
 			await retry(async () => {
 				// NB: Only ETH supported for now. Check here since network could have
@@ -518,13 +518,13 @@ class BridgeStore {
 				this.renvmMintFee = renvmMintFee;
 			}, defaultRetryOptions);
 		} catch (err) {
-			//queueNotification(`Failed to fetch fees: ${err.message}`, 'error');
+			queueNotification(`Failed to fetch fees: ${err.message}`, 'error');
 			console.log(err.message);
 		}
 	};
 
 	_getBalances = async (userAddr: string): Promise<void> => {
-		//const { queueNotification } = this.store.uiState;
+		const { queueNotification } = this.store.uiState;
 		try {
 			await retry(async () => {
 				// NB: Only ETH supported for now. Check here since network could have
@@ -555,7 +555,7 @@ class BridgeStore {
 				this.bCRVtBTCBalance = new BigNumber(bCRVtBTCBalance).dividedBy(SETT_DECIMALS).toNumber();
 			}, defaultRetryOptions);
 		} catch (err) {
-			//queueNotification(`Failed to fetch fees: ${err.message}`, 'error');
+			queueNotification(`Failed to fetch fees: ${err.message}`, 'error');
 			console.log(err.message);
 		}
 	};
