@@ -1,9 +1,8 @@
-import ganacheProvider from './integrations-provider';
+import ganacheProvider from '../utils/integrations-provider';
 import Web3 from 'web3';
 import '@testing-library/jest-dom';
 import BatchCall from 'web3-batch-call';
 import { mockApi } from './utils/apiV2';
-import { RootStore } from '../mobx/store';
 import { EthNetwork } from '../mobx/model';
 import { reduceBatchResult, reduceContractConfig } from '../mobx/reducers/contractReducers';
 import { getTokenPrices } from '../mobx/utils/apiV2';
@@ -23,7 +22,11 @@ const provider = ganacheProvider({
 });
 
 const web3 = new Web3(provider as any);
-test('woop', () => {});
+test('woop', () => {
+	const connectedAddress = web3.eth.accounts.privateKeyToAccount(PRIV_KEY).address;
+	console.log(connectedAddress);
+	console.log('Mock provider works!');
+});
 
 jest.spyOn(EthNetwork.prototype, 'getGasPrices').mockReturnValue(
 	Promise.resolve({
@@ -34,17 +37,9 @@ jest.spyOn(EthNetwork.prototype, 'getGasPrices').mockReturnValue(
 	}),
 );
 
-it('times out', async () => {
-	const rootStore = new RootStore();
-	rootStore.wallet.connectedAddress = web3.eth.accounts.privateKeyToAccount(PRIV_KEY).address;
-	rootStore.wallet.provider = provider;
-	rootStore.contracts.updateProvider();
-	await rootStore.contracts.fetchTokens();
-	console.log('contracts =>', rootStore.contracts.tokens);
-});
-
 it('does not time out', async () => {
 	const connectedAddress = web3.eth.accounts.privateKeyToAccount(PRIV_KEY).address;
+	console.log(connectedAddress);
 	const network = new EthNetwork();
 	const tokens = network.tokens;
 

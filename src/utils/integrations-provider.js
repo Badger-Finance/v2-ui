@@ -1,12 +1,12 @@
 'use strict';
 
-const globalObject = require('the-global-object');
-const memdown = require('memdown');
-const encode = require('encoding-down');
-const { Buffer } = require('buffer');
-const BN = require('bn.js/lib/bn.js');
+import memdown from 'memdown';
+import encode from 'encoding-down';
+import { Buffer } from 'buffer';
+import { prototype } from 'bn.js/lib/bn.js';
+import Provider from 'ganache-core/lib/provider';
 
-BN.prototype.toBuffer = function (endian, length) {
+prototype.toBuffer = function (endian, length) {
 	return this.toArrayLike(Buffer, endian, length);
 };
 const { binding } = process;
@@ -16,7 +16,6 @@ process.binding = () => ({
 		errno: {},
 	},
 });
-const Provider = require('ganache-core/lib/provider');
 
 process.binding = binding;
 class BrowserProvider extends Provider {
@@ -29,7 +28,9 @@ class BrowserProvider extends Provider {
 		);
 	}
 }
+// Disable reason: Javascript file
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 const provider = (o) => new BrowserProvider(o);
 provider.BrowserProvider = BrowserProvider;
 
-module.exports = provider;
+export default provider;
