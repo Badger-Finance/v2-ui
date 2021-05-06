@@ -79,8 +79,8 @@ export class HoneyPotStore {
 			const balance = await bDigg.methods.balanceOf(mainnet.honeypotMeme).call();
 			this.poolBalance = new BigNumber(balance);
 		} catch (error) {
-			const message = error?.message || 'There was an error. Please try again later.';
-			process.env.REACT_APP_BUILD_ENV !== 'production' && this.store.uiState.queueNotification(message, 'error');
+			//const message = error?.message || 'There was an error. Please try again later.';
+			//process.env.REACT_APP_BUILD_ENV !== 'production' && this.store.uiState.queueNotification(message, 'error');
 		} finally {
 			this.loadingPoolBalance = false;
 		}
@@ -128,8 +128,8 @@ export class HoneyPotStore {
 				redirectUrl: nftAssetsByTokenId[nft.tokenId].redirectUrl,
 			}));
 		} catch (error) {
-			const message = error?.message || 'There was an error. Please try again later.';
-			this.store.uiState.queueNotification(message, 'error');
+			//const message = error?.message || 'There was an error. Please try again later.';
+			//this.store.uiState.queueNotification(message, 'error');
 			process.env.REACT_APP_BUILD_ENV != 'production' && console.error(error);
 		} finally {
 			this.loadingNfts = false;
