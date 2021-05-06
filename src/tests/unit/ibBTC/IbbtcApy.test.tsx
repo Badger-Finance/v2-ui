@@ -10,7 +10,7 @@ import { darkTheme } from '../../../config/ui/dark';
 import { StoreProvider } from '../../../mobx/store-context';
 import store from '../../../mobx/store';
 
-it('displays loading state', () => {
+it('displays N/A state', () => {
 	store.ibBTCStore.ibBTC = new TokenModel(store, addresses.mainnet.contracts.tokens.ibBTC);
 	customRender(
 		<StoreProvider value={store}>
@@ -20,7 +20,7 @@ it('displays loading state', () => {
 			</ThemeProvider>
 		</StoreProvider>,
 	);
-	expect(screen.getAllByRole('loader')).toHaveLength(2);
+	expect(screen.getAllByText('N/A')).toHaveLength(2);
 });
 
 it('displays logo and name', () => {
@@ -55,3 +55,19 @@ it('displays APY information', () => {
 	expect(screen.getByText('18.234%')).toBeInTheDocument();
 	expect(screen.getByText('Sampled from last week')).toBeInTheDocument();
 });
+
+// This test requires of a Mock Web3 Provider which is being implemented in a separate branch
+
+// it('displays loading state', () => {
+// 	store.wallet.connectedAddress = '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a';
+// 	store.ibBTCStore.ibBTC = new TokenModel(store, addresses.mainnet.contracts.tokens.ibBTC);
+// 	customRender(
+// 		<StoreProvider value={store}>
+// 			<ThemeProvider theme={darkTheme}>
+// 				<CssBaseline />
+// 				<IbbtcApy />
+// 			</ThemeProvider>
+// 		</StoreProvider>,
+// 	);
+// 	expect(screen.getAllByRole('loader')).toHaveLength(2);
+// });
