@@ -115,12 +115,12 @@ export const Redeem = observer((): any => {
 		setSelectedToken(token);
 		if (inputAmount) {
 			const [{ sett, fee, max }, conversionRate] = await Promise.all([
-				store.ibBTCStore.calcRedeemAmount(selectedToken, ibBTC.scale(inputAmount)),
+				store.ibBTCStore.calcRedeemAmount(token, ibBTC.scale(inputAmount)),
 				store.ibBTCStore.getRedeemConversionRate(token),
 			]);
 
 			setRedeemInformation(
-				selectedToken.unscale(sett),
+				token.unscale(sett),
 				ibBTC.unscale(max),
 				ibBTC.unscale(fee),
 				token.unscale(conversionRate),
