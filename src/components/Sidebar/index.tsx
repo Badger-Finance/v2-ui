@@ -18,6 +18,8 @@ import { ExpandMore } from '@material-ui/icons';
 import { SITE_VERSION, NETWORK_LIST, FLAGS } from 'config/constants';
 import NetworkWidget from 'components-v2/common/NetworkWidget';
 import ibBTCLogo from 'assets/tokens/ibBTC.png';
+import { Route } from 'mobx-router';
+import { RootStore } from 'mobx/store';
 
 const useStyles = makeStyles((theme) => ({
 	logo: {
@@ -146,6 +148,11 @@ export const Sidebar = observer(() => {
 		});
 	};
 
+	const navigate = (path: Route<RootStore, any, any>) => {
+		closeSidebar();
+		return goTo(path);
+	};
+
 	return (
 		<Drawer
 			variant={window.innerWidth > 960 ? 'persistent' : 'temporary'}
@@ -205,8 +212,7 @@ export const Sidebar = observer(() => {
 					<ListItem
 						button
 						onClick={() => {
-							closeSidebar();
-							goTo(views.home);
+							navigate(views.home);
 						}}
 						className={
 							classes.listItem + ' ' + (store.router.currentPath === '/' ? classes.activeListItem : '')
@@ -226,7 +232,7 @@ export const Sidebar = observer(() => {
 									' ' +
 									(store.router.currentPath == '/airdrops' ? classes.activeListItem : '')
 								}
-								onClick={() => goTo(views.airdrops)}
+								onClick={() => navigate(views.airdrops)}
 							>
 								<ListItemIcon>
 									<img
@@ -244,7 +250,7 @@ export const Sidebar = observer(() => {
 									' ' +
 									(store.router.currentPath == '/digg' ? classes.activeListItem : '')
 								}
-								onClick={() => goTo(views.digg)}
+								onClick={() => navigate(views.digg)}
 							>
 								<ListItemIcon>
 									<img
@@ -263,7 +269,7 @@ export const Sidebar = observer(() => {
 										' ' +
 										(store.router.currentPath == '/ibBTC' ? classes.activeListItem : '')
 									}
-									onClick={() => goTo(views.IbBTC)}
+									onClick={() => navigate(views.IbBTC)}
 								>
 									<ListItemIcon>
 										<img
@@ -283,7 +289,7 @@ export const Sidebar = observer(() => {
 										' ' +
 										(store.router.currentPath == '/bridge' ? classes.activeListItem : '')
 									}
-									onClick={() => goTo(views.bridge)}
+									onClick={() => navigate(views.bridge)}
 								>
 									<ListItemIcon>
 										<img src="/assets/sidebar/icon-badger-bridge.svg" className={classes.icon} />
@@ -326,7 +332,7 @@ export const Sidebar = observer(() => {
 												: '',
 											classes.primarySubListItem,
 										].join(' ')}
-										onClick={() => goTo(views.honeybadgerDrop)}
+										onClick={() => navigate(views.honeybadgerDrop)}
 									>
 										Honey Badger Drop
 									</ListItem>

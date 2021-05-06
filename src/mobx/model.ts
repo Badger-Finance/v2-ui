@@ -1,20 +1,20 @@
-import { AbiItem } from 'web3-utils';
-import BigNumber from 'bignumber.js';
-import Web3 from 'web3';
-import _ from 'lodash';
 import firebase from 'firebase';
+import BigNumber from 'bignumber.js';
+import { AbiItem } from 'web3-utils';
+import Web3 from 'web3';
 import { CustomNotificationObject, EmitterListener, TransactionData } from 'bnc-notify';
 import { LockAndMintParamsSimple, BurnAndReleaseParamsSimple } from '@renproject/interfaces';
 
 import { RootStore } from './store';
 import { getAirdrops } from 'config/system/airdrops';
 import { getGeysers } from '../config/system/geysers';
-import { getNetworkDeploy } from '../mobx/utils/web3';
 import { getRebase } from '../config/system/rebase';
 import { getRewards } from 'config/system/rewards';
 import { NETWORK_IDS, NETWORK_LIST, ZERO, TEN } from 'config/constants';
 import { getTokens } from '../config/system/tokens';
 import { getVaults } from '../config/system/vaults';
+import { getStrategies } from '../config/system/strategies';
+import { getNetworkDeploy } from './utils/network';
 
 export class Contract {
 	store!: RootStore;
@@ -160,6 +160,21 @@ export class Geyser extends Contract {
 	}
 }
 
+export interface StrategyConfig {
+	name: string;
+	address: string;
+	fees: FeeConfig;
+	strategyLink: string;
+}
+
+export interface StrategyNetworkConfig {
+	[vaultAddress: string]: StrategyConfig;
+}
+
+export interface FeeConfig {
+	[feeName: string]: BigNumber;
+}
+
 export class TokenModel extends Contract {
 	public name: string;
 	public symbol: string;
@@ -204,6 +219,15 @@ export class TokenModel extends Contract {
 	}
 }
 
+export interface BadgerTree {
+	cycle: string;
+	timeSinceLastCycle: string;
+	sharesPerFragment: BigNumber | undefined;
+	proof: RewardMerkleClaim | undefined;
+	claims: UserClaimData[] | undefined;
+	claimableAmounts: BigNumber[] | undefined;
+}
+
 interface TokenConfig {
 	address: string;
 	name: string;
@@ -221,19 +245,28 @@ export interface Growth {
 	year: Amount;
 }
 
+export interface RewardMerkleClaim {
+	index: string;
+	cycle: string;
+	boost: BigNumber;
+	user: string;
+	tokens: string[];
+	cumulativeAmounts: string[];
+	proof: string[];
+	node: string;
+}
+
+export type TreeClaimData = [string[], BigNumber[]];
+
+export interface UserClaimData {
+	token: string;
+	amount: BigNumber;
+}
+
 export interface Amount {
 	token: Token;
 	amount: BigNumber;
 }
-
-export type SushiAPIResults = {
-	pairs: {
-		address: any;
-		aprDay: number | string | BigNumber;
-		aprMonthly: number | string | BigNumber;
-		aprYear_without_lockup: number | string | BigNumber;
-	}[];
-};
 
 export type ReduceAirdropsProps = {
 	digg?: BigNumber;
@@ -306,20 +339,9 @@ export type ReducedAirdops = {
 	};
 };
 
-export type ReducedSushiROIResults = {
-	day: BigNumber;
-	week: BigNumber;
-	month: BigNumber;
-	year: BigNumber;
-};
-
 export type MethodConfigPayload = { [index: string]: string };
 
-export type ReducedGrowthQueryConfig = { periods: number[]; growthQueries: any };
-
 export type ReducedCurveResult = { address: any; virtualPrice: BigNumber; ethValue: BigNumber }[];
-
-export type ReducedGrowth = { [x: string]: { day: any; week: any; month: any; year: any } };
 
 export type TokenAddressessConfig = {
 	underlying: any;
@@ -334,7 +356,7 @@ export type TokenAddressess = {
 };
 
 export type ReducedContractConfig = {
-	defaults: _.Dictionary<any>;
+	defaults: Record<any, any>;
 	batchCall: {
 		namespace: string;
 		addresses: string[];
@@ -492,7 +514,7 @@ export type NetworkConstants = {
 		RPC_URL: string;
 		START_BLOCK: number;
 		START_TIME: Date;
-		DEPLOY: DeployConfig | undefined;
+		DEPLOY: DeployConfig;
 	};
 };
 
@@ -534,7 +556,22 @@ export interface Network {
 	cappedDeposit: { [index: string]: boolean };
 	uncappedDeposit: { [index: string]: boolean };
 	newVaults: { [index: string]: string[] };
+	strategies: StrategyNetworkConfig;
+	getFees: (vaultAddress: string) => string[];
 }
+
+const _getFees = (strategy: StrategyConfig) => {
+	const feeList: string[] = [];
+	if (!strategy) return [];
+	// fees are stored in BIPs on the contract, dividing by 10**2 makes them readable %
+	Object.keys(strategy.fees).forEach((key) => {
+		const value = strategy.fees[key];
+		if (value.gt(0)) {
+			feeList.push(`${key}:  ${value.dividedBy(10 ** 2).toString()}%`);
+		}
+	});
+	return feeList;
+};
 
 export class BscNetwork implements Network {
 	public readonly name = NETWORK_LIST.BSC;
@@ -576,6 +613,10 @@ export class BscNetwork implements Network {
 	public readonly cappedDeposit = {};
 	public readonly uncappedDeposit = {};
 	public readonly newVaults = {};
+	public readonly strategies = getStrategies(NETWORK_LIST.BSC);
+	public getFees(vaultAddress: string): string[] {
+		return _getFees(this.strategies[vaultAddress]);
+	}
 }
 
 export class EthNetwork implements Network {
@@ -641,6 +682,10 @@ export class EthNetwork implements Network {
 	public readonly newVaults = {
 		[this.deploy.sett_system.vaults['yearn.wBtc']]: ['Expected ROI', '60% @ $100m', '30% @ $400m', '24% @ $1b'],
 	};
+	public readonly strategies = getStrategies(NETWORK_LIST.ETH);
+	public getFees(vaultAddress: string): string[] {
+		return _getFees(this.strategies[vaultAddress]);
+	}
 }
 
 export type UserPermissions = {
@@ -656,12 +701,19 @@ export type BouncerProof = {
 	proof: string[];
 };
 
+export interface BoostMultipliers {
+	[contract: string]: number;
+}
+
 export interface Account {
 	id: string;
+	boost: number;
+	multipliers: BoostMultipliers;
+	depositLimits: AccountLimits;
+	// currently unused below
 	value: number;
 	earnedValue: number;
 	balances: SettBalance[];
-	depositLimits: AccountLimits;
 }
 
 export interface SettBalance {
@@ -721,7 +773,8 @@ export interface SettAffiliateData {
 
 export type ValueSource = {
 	name: string;
-	apy: number;
+	apy?: number;
+	apr: number;
 	performance: Performance;
 };
 

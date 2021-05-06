@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { VaultDeposit, VaultWithdraw, GeyserUnstake, GeyserStake } from 'components/Collection/Forms';
+import { VaultDeposit, VaultWithdraw, GeyserUnstake } from 'components/Collection/Forms';
 import { VaultSymbol } from 'components/Common/VaultSymbol';
 import { Dialog, DialogTitle, Tab, Tabs, Switch, Typography, makeStyles } from '@material-ui/core';
 import deploy from '../../../config/deployments/mainnet.json';
@@ -58,9 +58,6 @@ const SettDialog = (props: SettDialogProps): JSX.Element => {
 	const DialogTabs = (props: DialogTabProps): JSX.Element => {
 		const { sett } = props;
 
-		// ETH still has staking - below is a list of setts that do not
-		// require it but are on ETH.  We do not want to show the Stake
-		// or Unstake tabs.
 		const noStake: { [sett: string]: boolean } = {
 			[deploy.sett_system.vaults['native.digg']]: true,
 		};
@@ -72,8 +69,9 @@ const SettDialog = (props: SettDialogProps): JSX.Element => {
 				style={{ background: 'rgba(0,0,0,.2)', marginBottom: '1rem' }}
 			>
 				<Tab onClick={() => setDialogMode(0)} label={dialogOut ? 'Withdraw' : 'Deposit'}></Tab>
-				{!noStake[sett.vaultToken] && network.name === NETWORK_LIST.ETH && (
-					<Tab onClick={() => setDialogMode(1)} label={dialogOut ? 'Unstake' : 'Stake'}></Tab>
+				{/* Staking has been removed, so we removed the 'Stake' tab, but left the 'Unstake' tab so people could remove funds */}
+				{!noStake[sett.vaultToken] && network.name === NETWORK_LIST.ETH && dialogOut && (
+					<Tab onClick={() => setDialogMode(1)} label={'Unstake'}></Tab>
 				)}
 			</Tabs>
 		);
@@ -82,7 +80,6 @@ const SettDialog = (props: SettDialogProps): JSX.Element => {
 	let form = <VaultDeposit vault={vault} />;
 	// TODO: DialogMode should take integer indexes, may be worth enumerating - maybe not
 	if (dialogMode === 0 && dialogOut) form = <VaultWithdraw vault={vault} />;
-	else if (dialogMode == 1 && !dialogOut) form = <GeyserStake vault={vault} />;
 	else if (dialogMode == 1 && dialogOut) form = <GeyserUnstake vault={vault} />;
 
 	return (
@@ -93,6 +90,7 @@ const SettDialog = (props: SettDialogProps): JSX.Element => {
 					<Switch
 						checked={!dialogOut}
 						onChange={() => {
+							if (dialogOut) setDialogMode(0);
 							setDialogOut(!dialogOut);
 						}}
 						color="primary"

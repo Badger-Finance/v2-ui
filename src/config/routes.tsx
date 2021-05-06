@@ -25,19 +25,11 @@ const routes = {
 	home: new Route<RootStore>({
 		path: '/',
 		component: <Landing experimental={false} />,
-		onEnter: (_, params, store) => {
-			store.rewards.fetchSettRewards();
-		},
 	}),
-
 	experimental: new Route<RootStore>({
 		path: '/experimental',
 		component: FLAGS.EXPERIMENTAL_VAULTS ? <Landing experimental={true} /> : <></>,
-		onEnter: (_, params, store) => {
-			store.rewards.fetchSettRewards();
-		},
 	}),
-
 	airdrops: new Route<RootStore, QueryParams>({
 		path: '/airdrops',
 		component: <Airdrops />,
@@ -52,6 +44,10 @@ const routes = {
 			store.rebase.fetchRebaseStats();
 		},
 	}),
+	honeybadgerDrop: new Route<RootStore, QueryParams>({
+		path: '/honey-badger-drop',
+		component: <HoneybadgerDrop />,
+	}),
 	IbBTC: new Route<RootStore, QueryParams>({
 		path: '/ibBTC',
 		component: FLAGS.IBBTC_FLAG ? <IbBTC /> : <></>,
@@ -60,9 +56,6 @@ const routes = {
 		path: '/bridge',
 		component: FLAGS.BRIDGE_FLAG ? <Bridge /> : <></>,
 	}),
-	honeybadgerDrop: new Route<RootStore, QueryParams>({
-		path: '/honey-badger-drop',
-		component: <HoneybadgerDrop />,
-	}),
 };
+
 export default routes;

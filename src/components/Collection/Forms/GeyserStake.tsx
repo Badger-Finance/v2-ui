@@ -8,6 +8,7 @@ import { Loader } from '../../Loader';
 import { BigNumber } from 'bignumber.js';
 import { useForm } from 'react-hook-form';
 import { formatDialogBalanceUnderlying } from 'mobx/reducers/statsReducers';
+import { Skeleton } from '@material-ui/lab';
 import { FLAGS } from '../../../config/constants';
 
 const TEXTFIELD_ID = 'amountField';
@@ -18,6 +19,14 @@ const useStyles = makeStyles((theme) => ({
 	},
 	field: {
 		margin: theme.spacing(1, 0, 1),
+	},
+	balanceDiv: {
+		flexGrow: 1,
+	},
+	skeleton: {
+		display: 'inline-flex',
+		width: '25%',
+		paddingLeft: theme.spacing(1),
 	},
 }));
 export const GeyserStake = observer((props: any) => {
@@ -34,7 +43,7 @@ export const GeyserStake = observer((props: any) => {
 		return vault.balance
 			.dividedBy(10 ** vault.decimals)
 			.multipliedBy(percent / 100)
-			.toFixed(18, BigNumber.ROUND_HALF_FLOOR);
+			.toFixed(vault.decimals, BigNumber.ROUND_HALF_FLOOR);
 	};
 
 	const setAmount = (percent: number) => {
@@ -43,7 +52,7 @@ export const GeyserStake = observer((props: any) => {
 			vault.balance
 				.dividedBy(10 ** vault.decimals)
 				.multipliedBy(percent / 100)
-				.toFixed(18, BigNumber.ROUND_HALF_FLOOR),
+				.toFixed(vault.decimals, BigNumber.ROUND_HALF_FLOOR),
 		);
 	};
 
@@ -84,12 +93,22 @@ export const GeyserStake = observer((props: any) => {
 				<div
 					style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap' }}
 				>
-					<div>
+					<div className={classes.balanceDiv}>
 						<Typography variant="body2" color={'textSecondary'} style={{ marginBottom: '.2rem' }}>
-							Underlying {vault.underlyingToken.symbol}: {formatDialogBalanceUnderlying(vault)}
+							Underlying {vault.underlyingToken.symbol}:{' '}
+							{!!connectedAddress ? (
+								formatDialogBalanceUnderlying(vault)
+							) : (
+								<Skeleton animation="wave" className={classes.skeleton} />
+							)}
 						</Typography>
 						<Typography variant="body1" color={'textSecondary'} style={{ marginBottom: '.2rem' }}>
-							Available {vault.symbol}: {totalAvailable}
+							Available {vault.symbol}:{' '}
+							{!!connectedAddress && !!totalAvailable ? (
+								totalAvailable
+							) : (
+								<Skeleton animation="wave" className={classes.skeleton} />
+							)}
 						</Typography>
 					</div>
 					{renderAmounts}

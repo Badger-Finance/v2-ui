@@ -3,7 +3,11 @@ import { RootStore } from '../store';
 import { reduceAirdrops, reduceContractsToStats, reduceRebase } from './statsReducers';
 import BigNumber from 'bignumber.js';
 import views from 'config/routes';
+import WalletStore from 'mobx/stores/walletStore';
 
+/**
+ * TODO: save this class' poor soul
+ */
 class UiState {
 	private readonly store!: RootStore;
 
@@ -11,7 +15,7 @@ class UiState {
 	public period!: string;
 
 	/**
-	 * TODO: Add types.
+	 * TODO: Add types. soon. :(
 	 */
 	public collection: any;
 	public stats?: any;
@@ -68,16 +72,10 @@ class UiState {
 			txStatus: undefined,
 		});
 
-		// TODO: Check implications of decreasing polling rate
-		setInterval(() => {
-			this.reduceStats();
-			this.reduceRebase();
-			this.reduceAirdrops();
-			this.reduceTreeRewards();
-		}, 10000);
-
-		observe(this.store.wallet as any, 'connectedAddress', () => {
-			if (!this.store.wallet.connectedAddress) this.setHideZeroBal(false);
+		observe(this.store.wallet as WalletStore, 'connectedAddress', () => {
+			if (!this.store.wallet.connectedAddress) {
+				this.setHideZeroBal(false);
+			}
 		});
 
 		// hide the sidebar
@@ -85,6 +83,9 @@ class UiState {
 			this.sidebarOpen = window.innerWidth >= 960;
 		};
 	}
+
+	// TODO: centralize all user data (wallet, permissions, proofs, etc.)
+	resetPortfolio = action(() => (this.stats.stats.portfolio = undefined));
 
 	queueNotification = action((message: string, variant: string, hash: any = false) => {
 		this.notification = { message, variant, persist: false, hash: hash };
@@ -125,6 +126,7 @@ class UiState {
 		const { network } = this.store.wallet;
 		window.localStorage.setItem(`${network.name}-selectedGasPrice`, gasPrice);
 	});
+
 	setHideZeroBal = action((hide: boolean) => {
 		this.hideZeroBal = hide;
 		const { network } = this.store.wallet;
@@ -137,11 +139,13 @@ class UiState {
 		const { network } = this.store.wallet;
 		window.localStorage.setItem(`${network.name}-selectedCurrency`, currency);
 	});
+
 	setPeriod = action((period: string) => {
 		this.period = period;
 		const { network } = this.store.wallet;
 		window.localStorage.setItem(`${network.name}-selectedPeriod`, period);
 	});
+
 	unlockApp = action((password: string) => {
 		this.locked = !(password === 'BADger');
 
@@ -150,9 +154,11 @@ class UiState {
 
 		if (!this.locked) this.store.router.goTo(views.home);
 	});
+
 	openSidebar = action(() => {
 		this.sidebarOpen = true;
 	});
+
 	closeSidebar = action(() => {
 		this.sidebarOpen = window.innerWidth >= 960;
 	});

@@ -5,10 +5,12 @@ import { StoreContext } from 'mobx/store-context';
 import { Button, DialogContent, TextField, DialogActions, ButtonGroup } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { Skeleton } from '@material-ui/lab';
 import { Loader } from 'components/Loader';
 import { BigNumber } from 'bignumber.js';
 import { useForm } from 'react-hook-form';
 import { SettAvailableDeposit } from '../Setts/SettAvailableDeposit';
+import { StrategyInfo } from './StrategyInfo';
 
 const TEXTFIELD_ID = 'amountField';
 
@@ -16,8 +18,20 @@ const useStyles = makeStyles((theme) => ({
 	button: {
 		marginBottom: theme.spacing(1),
 	},
+	feeButton: {
+		marginBottom: theme.spacing(1),
+		marginLeft: theme.spacing(3),
+	},
 	field: {
 		margin: theme.spacing(1, 0, 1),
+	},
+	balanceDiv: {
+		flexGrow: 1,
+	},
+	skeleton: {
+		display: 'inline-flex',
+		width: '25%',
+		paddingLeft: theme.spacing(1),
 	},
 }));
 export const VaultDeposit = observer((props: any) => {
@@ -84,7 +98,7 @@ export const VaultDeposit = observer((props: any) => {
 		availableDepositLimit(watch().amount);
 
 	const renderAmounts = (
-		<ButtonGroup size="small" className={classes.button} disabled={!connectedAddress}>
+		<ButtonGroup size="small" className={classes.feeButton} disabled={!connectedAddress}>
 			{[25, 50, 75, 100].map((amount: number) => (
 				<Button
 					aria-label={`${amount}%`}
@@ -109,9 +123,17 @@ export const VaultDeposit = observer((props: any) => {
 				<div
 					style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap' }}
 				>
-					<Typography variant="body1" color={'textSecondary'} style={{ marginBottom: '.2rem' }}>
-						Available: {totalAvailable}
-					</Typography>
+					<div className={classes.balanceDiv}>
+						<Typography variant="body1" color={'textSecondary'} style={{ marginBottom: '.2rem' }}>
+							Available:{' '}
+							{!!connectedAddress && !!totalAvailable ? (
+								totalAvailable
+							) : (
+								<Skeleton animation="wave" className={classes.skeleton} />
+							)}
+						</Typography>
+					</div>
+
 					{renderAmounts}
 				</div>
 				{network.cappedDeposit[vault.address] ? (
@@ -124,6 +146,8 @@ export const VaultDeposit = observer((props: any) => {
 				) : (
 					<></>
 				)}
+
+				<StrategyInfo vaultAddress={vault.address} network={network} />
 
 				<TextField
 					autoComplete="off"
