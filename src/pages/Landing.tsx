@@ -17,12 +17,13 @@ import {
 import PageHeader from '../components-v2/common/PageHeader';
 import { CLAIMS_SYMBOLS } from 'config/constants';
 import { inCurrency } from '../mobx/utils/helpers';
-import _ from 'lodash';
 import { StoreContext } from '../mobx/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
 import BigNumber from 'bignumber.js';
 import SettList from 'components-v2/landing/SettList';
+import { compact } from '../utils/lodashToNative';
+import { UserClaimData } from 'mobx/model';
 
 const useStyles = makeStyles((theme) => ({
 	landingContainer: {
@@ -42,6 +43,8 @@ const useStyles = makeStyles((theme) => ({
 		marginBottom: theme.spacing(3),
 		marginLeft: 'auto',
 		marginRight: 'auto',
+		display: 'flex',
+		flexDirection: 'column',
 	},
 	widgetContainer: {
 		display: 'flex',
@@ -69,6 +72,10 @@ const useStyles = makeStyles((theme) => ({
 	pickerContainer: {
 		marginRight: theme.spacing(1),
 	},
+	announcementButton: {
+		marginTop: theme.spacing(3),
+		pointerEvents: 'none',
+	},
 }));
 
 interface LandingProps {
@@ -89,20 +96,23 @@ const Landing = observer((props: LandingProps) => {
 	const { protocolSummary } = setts;
 	const userConnected = !!connectedAddress;
 
-	const availableRewards = () => {
-		if (!badgerTree || !badgerTree.claims) return;
-		return badgerTree.claims.map((claim: any[]) => {
+	const availableRewards = (): (JSX.Element | boolean)[] => {
+		const { claims, sharesPerFragment } = badgerTree;
+		if (!claims || !sharesPerFragment) {
+			return [];
+		}
+		return claims.map((claim: UserClaimData): JSX.Element | boolean => {
 			const { network } = store.wallet;
-			const claimAddress: string = claim[0];
-			const claimValue = claim
-				? claim[1].dividedBy(
-						claimAddress === network.deploy.tokens.digg
-							? badgerTree.sharesPerFragment * 1e9
-							: claimAddress === network.deploy.tokens.usdc
-							? 1e6
-							: 1e18,
-				  )
-				: claim[1];
+			const claimAddress = claim.token;
+
+			// todo: support token data lookup for decimals etc.
+			const decimals =
+				claimAddress === network.deploy.tokens.digg
+					? sharesPerFragment.multipliedBy(1e9)
+					: claimAddress === network.deploy.tokens.usdc
+					? 1e6
+					: 1e18;
+			const claimValue = claim.amount.dividedBy(decimals);
 			const claimDisplay = inCurrency(claimValue, 'eth', true);
 			return (
 				parseFloat(claimDisplay) > 0 && (
@@ -121,7 +131,7 @@ const Landing = observer((props: LandingProps) => {
 	const badgerPrice = network.deploy ? setts.getPrice(network.deploy.token) : undefined;
 	const badgerPriceDisplay = badgerPrice ? new BigNumber(badgerPrice) : undefined;
 	const portfolioValue = userConnected ? stats.stats.portfolio : undefined;
-	const rewards = _.compact(availableRewards());
+	const rewards = compact(availableRewards());
 
 	return (
 		<Container className={classes.landingContainer}>
@@ -162,10 +172,16 @@ const Landing = observer((props: LandingProps) => {
 				</Grid>
 			</Grid>
 
+			<Grid container spacing={1} justify="center">
+				<Button className={classes.announcementButton} size="small" variant="outlined" color="primary">
+					Note: New Vaults may take up to 2 weeks from launch to reach full efficiency.
+				</Button>
+			</Grid>
+
 			{/* Landing Claim Functionality */}
 			{!!network.rewards &&
 				!!connectedAddress &&
-				badgerTree &&
+				badgerTree.claims &&
 				rewards.length > 0 &&
 				badgerTree.claims.length > 0 && (
 					<>
@@ -181,9 +197,7 @@ const Landing = observer((props: LandingProps) => {
 									<ButtonGroup size="small" variant="outlined" color="primary">
 										<Button
 											className={classes.marginTop}
-											onClick={() => {
-												claimGeysers(false);
-											}}
+											onClick={() => claimGeysers()}
 											variant="contained"
 										>
 											Claim
@@ -194,7 +208,6 @@ const Landing = observer((props: LandingProps) => {
 						</Grid>
 					</>
 				)}
-
 			<SettList experimental={experimental} />
 		</Container>
 	);

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Grid, Button, TextField, Typography } from '@material-ui/core';
+import { Grid, Button, TextField, Typography, Tooltip } from '@material-ui/core';
 import { ClassNameMap } from '@material-ui/core/styles/withStyles';
 import { ArrowDownward } from '@material-ui/icons';
 import { toJS } from 'mobx';
@@ -37,17 +37,9 @@ export const MintForm = ({
 	const store = useContext(StoreContext);
 
 	const {
-		wallet: { connectedAddress },
+		wallet: { connectedAddress, network },
 		setts: { settMap },
-		bridge: {
-			renbtcBalance,
-			wbtcBalance,
-			byvwbtcBalance,
-			bCRVrenBTCBalance,
-			bCRVsBTCBalance,
-			bCRVtBTCBalance,
-			shortAddr,
-		},
+		bridge: { shortAddr },
 	} = store;
 
 	const next = (e: React.MouseEvent<HTMLElement>) => {
@@ -56,25 +48,6 @@ export const MintForm = ({
 	};
 
 	const isWBTC = values.token === 'WBTC' || values.token === 'byvWBTC';
-
-	const selectedTokenBalance = (token: string): number => {
-		switch (token) {
-			case 'renBTC':
-				return renbtcBalance;
-			case 'WBTC':
-				return wbtcBalance;
-			case 'byvWBTC':
-				return byvwbtcBalance;
-			case 'bCRVrenBTC':
-				return bCRVrenBTCBalance;
-			case 'bCRVsBTC':
-				return bCRVsBTCBalance;
-			case 'bCRVtBTC':
-				return bCRVtBTCBalance;
-			default:
-				return 0;
-		}
-	};
 
 	const getAPY = (token: string, settMap: SettMap | null | undefined): number => {
 		if (!settMap) {
@@ -99,6 +72,16 @@ export const MintForm = ({
 		if (!address) return 0;
 		const sett = settMap[address];
 		return sett ? sett.apy : 0;
+	};
+
+	const getNewVaultToolTip = (): JSX.Element => {
+		return (
+			<>
+				{network.newVaults[sett_system.vaults['yearn.wBtc']].map((source) => {
+					return <div key={source}>{source}</div>;
+				})}
+			</>
+		);
 	};
 
 	return (
@@ -139,10 +122,6 @@ export const MintForm = ({
 				</Grid>
 
 				<Grid item xs={12}>
-					<Typography variant="body1" color="textSecondary" style={{ textAlign: 'right' }}>
-						Balance: {selectedTokenBalance(values.token)}
-					</Typography>
-
 					<div className={`${classes.row} ${classes.longText}`}>
 						<Typography variant="h1">{values.receiveAmount.toFixed(8) || '0.00'}</Typography>
 						{assetSelect()}
@@ -167,13 +146,26 @@ export const MintForm = ({
 						<Typography variant="body1">{shortAddr || '0x...'}</Typography>
 					</div>
 
-					{isEarn && (
+					{isEarn && values.token == 'byvWBTC' && (
+						<div className={classes.summaryRow}>
+							<Typography variant="subtitle1">APY: </Typography>
+							<Tooltip
+								enterDelay={0}
+								leaveDelay={300}
+								arrow
+								placement="left"
+								title={getNewVaultToolTip()}
+							>
+								<Typography variant="body1">{'✨ New Vault ✨'}</Typography>
+							</Tooltip>
+						</div>
+					)}
+
+					{isEarn && !(values.token == 'byvWBTC') && (
 						<div className={classes.summaryRow}>
 							<Typography variant="subtitle1">APY: </Typography>
 							<Typography variant="body1">
-								{values.token == 'byvWBTC'
-									? '✨ New Vault ✨'
-									: getAPY(values.token, toJS(settMap)).toFixed(2) + '%'}
+								{getAPY(values.token, toJS(settMap)).toFixed(2) + '%'}
 							</Typography>
 						</div>
 					)}

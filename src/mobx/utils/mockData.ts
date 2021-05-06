@@ -24,7 +24,7 @@ export const testYearnVaultApiResponse: Sett = {
 	sources: [
 		{
 			name: 'Yearn Test Fees',
-			apy: 30.317345943834848,
+			apr: 30.317345943834848,
 			performance: {
 				oneDay: 23.073893311001424,
 				threeDay: 30.317345943834848,

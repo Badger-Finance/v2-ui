@@ -96,7 +96,7 @@ const SettListItem = observer(
 				return (
 					<>
 						{sett.sources.map((source) => {
-							const apr = `${(source.apy / divisor).toFixed(2)}% ${source.name}`;
+							const apr = `${(source.apr / divisor).toFixed(2)}% ${source.name}`;
 							return <div key={source.name}>{apr}</div>;
 						})}
 					</>

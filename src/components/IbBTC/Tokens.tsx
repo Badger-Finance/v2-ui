@@ -2,7 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { Typography, Button, Popper, Paper, List, ListItem } from '@material-ui/core';
-import _ from 'lodash';
+import { map } from '../../utils/lodashToNative';
 import { TokenModel } from 'mobx/model';
 import { ArrowDropDown } from '@material-ui/icons';
 
@@ -74,7 +74,7 @@ export const Tokens = (props: TokenListProps): any => {
 			<Popper style={{ zIndex: 100000 }} placement="bottom-end" id={'popper'} open={open} anchorEl={anchorEl}>
 				<Paper onMouseLeave={() => setAnchorEl(null)}>
 					<List>
-						{_.map(props.tokens, (token: any) => (
+						{map(props.tokens, (token: any) => (
 							<ListItem button onClick={() => optionClicked(token)}>
 								{' '}
 								<Token token={token} />
