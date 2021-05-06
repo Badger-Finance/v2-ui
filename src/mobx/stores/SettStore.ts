@@ -1,4 +1,4 @@
-import { extendObservable, action } from 'mobx';
+import { extendObservable, action, observe } from 'mobx';
 import { RootStore } from '../store';
 import { getTokenPrices, getTotalValueLocked, listSetts } from 'mobx/utils/apiV2';
 import { PriceSummary, Sett, ProtocolSummary, SettMap } from 'mobx/model';
@@ -25,6 +25,14 @@ export default class SettStore {
 			settMapCache: undefined,
 			experimentalMapCache: undefined,
 			priceCache: undefined,
+		});
+
+		observe(this.store.wallet, 'currentBlock', async (change: any) => {
+			if (!!change.oldValue) {
+				await this.loadPrices();
+				await this.loadAssets();
+				await this.loadSetts();
+			}
 		});
 
 		this.settCache = {};
