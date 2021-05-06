@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ibBTC Redeem handles exceeding ibBTC redeem input amount 1`] = `
+exports[`ibBTC Redeem displays output balance when redeem amount is inputted 1`] = `
 <div>
   <div
     class="MuiGrid-root-1 MuiGrid-container-2"
@@ -30,7 +30,7 @@ exports[`ibBTC Redeem handles exceeding ibBTC redeem input amount 1`] = `
             pattern="^[0-9]*[.,]?[0-9]*$"
             placeholder="0.0"
             type="tel"
-            value="20"
+            value="12"
           />
         </div>
       </div>
@@ -124,7 +124,7 @@ exports[`ibBTC Redeem handles exceeding ibBTC redeem input amount 1`] = `
         <h1
           class="MuiTypography-root-107 WithStyles(ForwardRef(Typography))-root-198 WithStyles(ForwardRef(Typography))-root-199 MuiTypography-h1-112"
         >
-          20
+          11.988
         </h1>
       </div>
       <div
@@ -180,21 +180,6 @@ exports[`ibBTC Redeem handles exceeding ibBTC redeem input amount 1`] = `
       class="MuiGrid-root-1 WithStyles(ForwardRef(Grid))-root-218"
     >
       <div
-        class="MuiGrid-root-1 MuiGrid-container-2 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
-      >
-        <h6
-          class="MuiTypography-root-107 WithStyles(ForwardRef(Typography))-root-229 MuiTypography-subtitle1-118"
-        >
-          A maximum of 
-          10
-           
-          ibBTC
-           can be redeemed to 
-          bcrvRenWSBTC
-          .
-        </h6>
-      </div>
-      <div
         class="MuiGrid-root-1 MuiGrid-container-2 MuiGrid-item-3 MuiGrid-justify-xs-space-between-21 MuiGrid-grid-xs-12-47"
       >
         <div
@@ -215,7 +200,7 @@ exports[`ibBTC Redeem handles exceeding ibBTC redeem input amount 1`] = `
             1 
             ibBTC
              : 
-            0
+            1
              
             bcrvRenWSBTC
           </p>
@@ -263,7 +248,7 @@ exports[`ibBTC Redeem handles exceeding ibBTC redeem input amount 1`] = `
           <p
             class="MuiTypography-root-107 WithStyles(ForwardRef(Typography))-root-106 MuiTypography-body1-109"
           >
-            20 bcrvRenWSBTC
+            11.988 bcrvRenWSBTC
           </p>
         </div>
       </div>
