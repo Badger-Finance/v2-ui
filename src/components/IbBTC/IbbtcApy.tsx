@@ -51,11 +51,7 @@ export const IbbtcApy = observer(
 				<Grid item container xs className={classes.apyInfoContainer}>
 					<Grid item xs={12}>
 						<Typography variant="h6">
-							{apyUsingLastDay !== undefined ? (
-								apyUsingLastDay
-							) : (
-								<Skeleton role="loader" className={classes.loader} />
-							)}
+							{apyUsingLastDay ? apyUsingLastDay : <Skeleton role="loader" className={classes.loader} />}
 						</Typography>
 					</Grid>
 					<Grid item xs={12}>
@@ -68,7 +64,7 @@ export const IbbtcApy = observer(
 				<Grid item container xs className={classes.apyInfoContainer}>
 					<Grid item xs={12}>
 						<Typography variant="h6">
-							{apyUsingLastWeek !== undefined ? (
+							{apyUsingLastWeek ? (
 								apyUsingLastWeek
 							) : (
 								<Skeleton role="loader" className={classes.loader} />
