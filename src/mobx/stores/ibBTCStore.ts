@@ -9,6 +9,7 @@ import Web3 from 'web3';
 import { TokenModel } from 'mobx/model';
 import { estimateAndSend } from 'mobx/utils/web3';
 
+import { ZERO, MAX, FLAGS, NETWORK_IDS } from 'config/constants';
 import yearnConfig from 'config/system/abis/YearnWrapper.json';
 import settConfig from 'config/system/abis/Sett.json';
 import ibBTCConfig from 'config/system/abis/ibBTC.json';
@@ -16,7 +17,8 @@ import badgerPeakSwap from 'config/system/abis/BadgerBtcPeakSwap.json';
 import addresses from 'config/ibBTC/addresses.json';
 import BadgerBtcPeak from 'config/system/abis/BadgerBtcPeak.json';
 import BadgerYearnWbtcPeak from 'config/system/abis/BadgerYearnWbtcPeak.json';
-import { ZERO, MAX, FLAGS, NETWORK_IDS } from 'config/constants';
+import guessListConfig from 'config/system/abis/BadgerBtcPeakGuestList.json';
+import coreConfig from 'config/system/abis/BadgerBtcPeakCore.json';
 
 interface MintAmountCalculation {
 	bBTC: BigNumber;
@@ -45,6 +47,7 @@ class IbBTCStore {
 	public ibBTC: TokenModel;
 	public apyUsingLastDay?: string;
 	public apyUsingLastWeek?: string;
+	public mintBlockerMessage?: string;
 
 	constructor(store: RootStore) {
 		this.store = store;
@@ -64,6 +67,7 @@ class IbBTCStore {
 			ibBTC: this.ibBTC,
 			apyUsingLastDay: this.apyUsingLastDay,
 			apyUsingLastWeek: this.apyUsingLastWeek,
+			mintBlockerMessage: this.mintBlockerMessage,
 		});
 
 		observe(this.store.wallet as any, 'connectedAddress', () => {
@@ -76,6 +80,10 @@ class IbBTCStore {
 	init(): void {
 		const { connectedAddress, network } = this.store.wallet;
 		if (!FLAGS.IBBTC_FLAG || network.networkId !== NETWORK_IDS.ETH) return;
+
+		if (!this.store.user.bouncerProof) {
+			this.mintBlockerMessage = `You are not part of the guest list yet. Don't lose hope, please try and come back later.`;
+		}
 
 		if (!!connectedAddress) this.fetchTokensBalance().then();
 		else this.resetBalances();
@@ -163,18 +171,79 @@ class IbBTCStore {
 		this.ibBTC.balance = ZERO;
 	});
 
-	validate = action((amount: BigNumber, token: TokenModel): boolean | void => {
+	isValidAmount = action((amount: BigNumber, token: TokenModel): boolean => {
 		const { queueNotification } = this.store.uiState;
-		const { connectedAddress } = this.store.wallet;
+		const { connectedAddress, provider } = this.store.wallet;
 
-		if (!connectedAddress) return queueNotification('Please connect a wallet', 'error');
-		if (!amount || amount.isNaN() || amount.lte(0))
-			return queueNotification('Please enter a valid amount', 'error');
-		if (amount.gt(token.balance))
-			return queueNotification(`You have insufficient balance of ${token.symbol}`, 'error');
+		if (!connectedAddress || !provider) {
+			queueNotification('Please connect a wallet', 'error');
+			return false;
+		}
+
+		if (!amount || amount.isNaN() || amount.lte(0)) {
+			queueNotification('Please enter a valid amount', 'error');
+			return false;
+		}
+
+		if (amount.gt(token.balance)) {
+			queueNotification(`You have insufficient balance of ${token.symbol}`, 'error');
+			return false;
+		}
 
 		return true;
 	});
+
+	isValidMint = action(
+		async (amount: BigNumber, token: TokenModel): Promise<boolean> => {
+			const { queueNotification } = this.store.uiState;
+			const { connectedAddress, provider } = this.store.wallet;
+			const { abi: peakAbi, address: peakAddress } = this.getPeakForToken(token.symbol);
+
+			if (!this.store.user.bouncerProof) {
+				this.mintBlockerMessage = `You are not part of the guest list yet. Don't lose hope, please try and come back later.`;
+				return false;
+			}
+
+			try {
+				const web3 = new Web3(provider);
+				const peak = new web3.eth.Contract(peakAbi, peakAddress);
+				const coreAddress = await peak.methods.core().call();
+				const core = new web3.eth.Contract(coreConfig.abi as AbiItem[], coreAddress);
+				const guessListAddress = await core.methods.guestList().call();
+				const guessList = new web3.eth.Contract(guessListConfig.abi as AbiItem[], guessListAddress);
+				const [userRemaining, totalRemaining] = await Promise.all([
+					guessList.methods.remainingUserDepositAllowed(connectedAddress).call(),
+					guessList.methods.remainingTotalDepositAllowed().call(),
+				]);
+
+				if (amount.gt(userRemaining)) {
+					queueNotification(
+						`You have reached your maximum mint amount limit: ${token.unscale(userRemaining)} ${
+							token.symbol
+						}`,
+						'error',
+					);
+					return false;
+				}
+
+				if (amount.gt(totalRemaining)) {
+					queueNotification(
+						`The global maximum mint amount limit has been reached: ${token.unscale(userRemaining)} ${
+							token.symbol
+						}`,
+						'error',
+					);
+					return false;
+				}
+			} catch (error) {
+				process.env.NODE_ENV !== 'production' && console.error(error);
+				queueNotification('There was an error validating mint amount. Please try again later', 'error');
+				return false;
+			}
+
+			return true;
+		},
+	);
 
 	getPeakForToken(symbol: string): PeakType {
 		const peak: PeakType = {
@@ -279,7 +348,8 @@ class IbBTCStore {
 	async mint(inToken: TokenModel, amount: BigNumber): Promise<void> {
 		const { setTxStatus, queueNotification } = this.store.uiState;
 
-		if (!this.validate(amount, inToken)) return;
+		if (!this.isValidAmount(amount, inToken)) return;
+		if (!(await this.isValidMint(amount, inToken))) return;
 
 		try {
 			const peak = this.getPeakForToken(inToken.symbol);
@@ -300,8 +370,8 @@ class IbBTCStore {
 		}
 	}
 	async redeem(outToken: TokenModel, amount: BigNumber): Promise<void> {
-		if (!this.validate(amount, this.ibBTC)) return;
-		return this.redeemBBTC(outToken, amount);
+		if (!this.isValidAmount(amount, this.ibBTC)) return;
+		await this.redeemBBTC(outToken, amount);
 	}
 
 	async calcMintAmount(inToken: TokenModel, amount: BigNumber): Promise<MintAmountCalculation> {

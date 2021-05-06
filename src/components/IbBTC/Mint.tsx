@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useState } from 'react';
-import { Button, Typography, Grid } from '@material-ui/core';
+import { Button, Typography, Grid, Tooltip } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
 
 import { debounce } from 'utils/componentHelpers';
@@ -27,7 +27,7 @@ export const Mint = observer((): any => {
 	const store = useContext(StoreContext);
 
 	const {
-		ibBTCStore: { tokens, ibBTC },
+		ibBTCStore: { tokens, ibBTC, mintBlockerMessage },
 	} = store;
 
 	const [selectedToken, setSelectedToken] = useState(tokens[0]);
@@ -178,16 +178,26 @@ export const Mint = observer((): any => {
 				</SummaryGrid>
 			</Grid>
 			<Grid item xs={12}>
-				<Button
-					fullWidth
-					size="large"
-					variant="contained"
-					color="primary"
-					onClick={handleMintClick}
-					disabled={!inputAmount}
-				>
-					MINT
-				</Button>
+				{mintBlockerMessage ? (
+					<Tooltip title={mintBlockerMessage} arrow>
+						<span>
+							<Button fullWidth size="large" variant="contained" color="primary" disabled>
+								MINT
+							</Button>
+						</span>
+					</Tooltip>
+				) : (
+					<Button
+						fullWidth
+						size="large"
+						variant="contained"
+						color="primary"
+						onClick={handleMintClick}
+						disabled={!inputAmount || !outputAmount}
+					>
+						MINT
+					</Button>
+				)}
 			</Grid>
 		</>
 	);
