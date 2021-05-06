@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useState } from 'react';
-import { Button, Typography, Grid } from '@material-ui/core';
+import { Button, Typography, Grid, Tooltip } from '@material-ui/core';
 
 import { observer } from 'mobx-react-lite';
 import BigNumber from 'bignumber.js';
@@ -10,6 +10,7 @@ import { Token, Tokens } from './Tokens';
 import { DownArrow } from './DownArrow';
 import { StoreContext } from 'mobx/store-context';
 import { TokenModel } from 'mobx/model';
+import { useConnectWallet } from 'mobx/utils/hooks';
 import {
 	EndAlignText,
 	InputTokenAmount,
@@ -24,11 +25,43 @@ import {
 	ErrorText,
 } from './Common';
 
+const ActionButton = observer(
+	({ children }): JSX.Element => {
+		const store = useContext(StoreContext);
+		const { bouncerProof } = store.user;
+		const { connectedAddress } = store.wallet;
+		const connectWallet = useConnectWallet();
+
+		if (!connectedAddress) {
+			return (
+				<Button fullWidth size="large" variant="contained" color="primary" onClick={connectWallet}>
+					Connect Wallet
+				</Button>
+			);
+		}
+
+		if (!bouncerProof) {
+			return (
+				<Tooltip arrow placement="top" title="You are not part of the guest list yet. Please try again later.">
+					<span>
+						<Button fullWidth size="large" variant="contained" color="primary" disabled>
+							REDEEM
+						</Button>
+					</span>
+				</Tooltip>
+			);
+		}
+
+		return <>{children}</>;
+	},
+);
+
 export const Redeem = observer((): any => {
 	const store = useContext(StoreContext);
 
 	const {
 		ibBTCStore: { tokens, ibBTC },
+		wallet: { connectedAddress },
 	} = store;
 
 	const [selectedToken, setSelectedToken] = useState(tokens[0]);
@@ -147,6 +180,7 @@ export const Redeem = observer((): any => {
 					<Grid item xs={8} sm={7}>
 						<InputTokenAmount
 							value={inputAmount}
+							disabled={!connectedAddress}
 							placeholder="0.0"
 							onChange={(val) => {
 								setInputAmount(val);
@@ -224,16 +258,18 @@ export const Redeem = observer((): any => {
 				</SummaryGrid>
 			</Grid>
 			<Grid item xs={12}>
-				<Button
-					fullWidth
-					size="large"
-					variant="contained"
-					color="primary"
-					onClick={handleRedeemClick}
-					disabled={!isEnoughToRedeem || !inputAmount || !outputAmount}
-				>
-					REDEEM
-				</Button>
+				<ActionButton>
+					<Button
+						fullWidth
+						size="large"
+						variant="contained"
+						color="primary"
+						onClick={handleRedeemClick}
+						disabled={!isEnoughToRedeem || !inputAmount || !outputAmount}
+					>
+						REDEEM
+					</Button>
+				</ActionButton>
 			</Grid>
 		</>
 	);

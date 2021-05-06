@@ -45,8 +45,8 @@ class IbBTCStore {
 
 	public tokens: Array<TokenModel> = [];
 	public ibBTC: TokenModel;
-	public apyUsingLastDay?: string;
-	public apyUsingLastWeek?: string;
+	public apyUsingLastDay?: string | null;
+	public apyUsingLastWeek?: string | null;
 
 	constructor(store: RootStore) {
 		this.store = store;
@@ -79,8 +79,12 @@ class IbBTCStore {
 		const { connectedAddress, network } = this.store.wallet;
 		if (!FLAGS.IBBTC_FLAG || network.networkId !== NETWORK_IDS.ETH) return;
 
-		if (!!connectedAddress) this.fetchTokensBalance().then();
-		else this.resetBalances();
+		if (!connectedAddress) {
+			this.resetBalances();
+			return;
+		}
+
+		this.fetchTokensBalance().then();
 		this.fetchConversionRates().then();
 		this.fetchIbbtcApy().then();
 	}
@@ -107,8 +111,8 @@ class IbBTCStore {
 		const apyFromLastDay = await this.fetchIbbtApyFromTimestamp(dayOldBlock);
 		const apyFromLastWeek = await this.fetchIbbtApyFromTimestamp(weekOldBlock);
 
-		this.apyUsingLastDay = apyFromLastDay === null ? 'N/A' : `${(apyFromLastDay * 365).toFixed(3)}%`;
-		this.apyUsingLastWeek = apyFromLastWeek === null ? 'N/A' : `${(apyFromLastWeek * 52).toFixed(3)}%`;
+		this.apyUsingLastDay = apyFromLastDay !== null ? `${(apyFromLastDay * 365).toFixed(3)}%` : null;
+		this.apyUsingLastWeek = apyFromLastWeek !== null ? `${(apyFromLastWeek * 52).toFixed(3)}%` : null;
 	});
 
 	fetchConversionRates = action(
@@ -167,12 +171,6 @@ class IbBTCStore {
 
 	isValidAmount = action((amount: BigNumber, token: TokenModel): boolean => {
 		const { queueNotification } = this.store.uiState;
-		const { connectedAddress, provider } = this.store.wallet;
-
-		if (!connectedAddress || !provider) {
-			queueNotification('Please connect a wallet', 'error');
-			return false;
-		}
 
 		if (!amount || amount.isNaN() || amount.lte(0)) {
 			queueNotification('Please enter a valid amount', 'error');
@@ -208,9 +206,9 @@ class IbBTCStore {
 		const { connectedAddress, provider } = this.store.wallet;
 		const { abi: peakAbi, address: peakAddress } = this.getPeakForToken(token.symbol);
 
-		// TODO: uncomment this for production release
-		if (!this.store.user.bouncerProof) {
-			// return `You are not part of the guest list yet. Please be patient and try to come back later.`;
+		if (!connectedAddress) {
+			queueNotification('Please connect a wallet', 'error');
+			return null;
 		}
 
 		try {
@@ -426,6 +424,11 @@ class IbBTCStore {
 		const { queueNotification, setTxStatus } = this.store.uiState;
 		const { provider, connectedAddress } = this.store.wallet;
 
+		if (!this.store.user.bouncerProof) {
+			queueNotification('You are not part of the guest list yet. Please try again later', 'error');
+			return;
+		}
+
 		let method: ContractSendMethod;
 		const peak = this.getPeakForToken(inToken.symbol);
 		const web3 = new Web3(provider);
@@ -501,12 +504,6 @@ class IbBTCStore {
 
 	private async fetchIbbtApyFromTimestamp(timestamp: number): Promise<number | null> {
 		const { provider } = this.store.wallet;
-
-		if (!provider) {
-			process.env.NODE_ENV !== 'production' && console.log('No provider available');
-			return null;
-		}
-
 		const multiplier = 3153600000;
 		const web3 = new Web3(provider);
 		const ibBTC = new web3.eth.Contract(ibBTCConfig.abi as AbiItem[], this.ibBTC.address);

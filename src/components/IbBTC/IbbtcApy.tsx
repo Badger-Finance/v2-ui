@@ -34,10 +34,12 @@ const useStyles = makeStyles((theme) => ({
 
 export const IbbtcApy = observer(
 	(): JSX.Element => {
-		const { ibBTCStore } = React.useContext(StoreContext);
+		const { ibBTCStore, wallet } = React.useContext(StoreContext);
+		const { connectedAddress } = wallet;
 		const { ibBTC, apyUsingLastDay, apyUsingLastWeek } = ibBTCStore;
-		const isDisplayXs = useMediaQuery((theme: Theme) => theme.breakpoints.only('xs'));
 		const classes = useStyles();
+		const isDisplayXs = useMediaQuery((theme: Theme) => theme.breakpoints.only('xs'));
+		const loadingApy = connectedAddress && (apyUsingLastDay === undefined || apyUsingLastWeek === undefined);
 
 		return (
 			<Grid container component={Paper} className={classes.container}>
@@ -51,7 +53,11 @@ export const IbbtcApy = observer(
 				<Grid item container xs className={classes.apyInfoContainer}>
 					<Grid item xs={12}>
 						<Typography variant="h6">
-							{apyUsingLastDay ? apyUsingLastDay : <Skeleton role="loader" className={classes.loader} />}
+							{loadingApy ? (
+								<Skeleton role="loader" className={classes.loader} />
+							) : (
+								apyUsingLastDay || 'N/A'
+							)}
 						</Typography>
 					</Grid>
 					<Grid item xs={12}>
@@ -64,10 +70,10 @@ export const IbbtcApy = observer(
 				<Grid item container xs className={classes.apyInfoContainer}>
 					<Grid item xs={12}>
 						<Typography variant="h6">
-							{apyUsingLastWeek ? (
-								apyUsingLastWeek
-							) : (
+							{loadingApy ? (
 								<Skeleton role="loader" className={classes.loader} />
+							) : (
+								apyUsingLastWeek || 'N/A'
 							)}
 						</Typography>
 					</Grid>
