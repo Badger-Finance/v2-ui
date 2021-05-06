@@ -55,12 +55,12 @@ export const Redeem = observer((): any => {
 		fee: BigNumber,
 		conversionRate: BigNumber,
 	) => {
-		setMaxRedeem(max.toFixed(4));
+		setMaxRedeem(max.toFixed());
 		setIsEnoughToRedeem(max.gt(redeemAmount));
-		setOutputAmount(redeemAmount.toString());
-		setFee(fee.toFixed(4));
-		setTotalRedeem(redeemAmount.toString());
-		setConversionRate(conversionRate.toString());
+		setOutputAmount(redeemAmount.toFixed());
+		setFee(fee.toFixed());
+		setTotalRedeem(redeemAmount.toFixed());
+		setConversionRate(conversionRate.toFixed());
 	};
 
 	// reason: the plugin does not recognize the dependency inside the debounce function
