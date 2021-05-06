@@ -17,40 +17,46 @@ import { SettListViewProps } from './SettListView';
 import SettTable from './SettTable';
 
 const UserListDisplay = observer((props: SettListViewProps) => {
-	const { onOpen } = props;
+	const { onOpen, experimental } = props;
 	const store = useContext(StoreContext);
 	const {
-		setts: { settMap },
+		setts: { settMap, experimentalMap },
 		uiState: { currency, period, stats },
 		contracts: { vaults },
 		wallet: { network },
 	} = store;
 
-	if (settMap === undefined) {
+	const currentSettMap = experimental ? experimentalMap : settMap;
+
+	if (currentSettMap === undefined) {
 		return <Loader message={`Loading ${network.fullName} Setts...`} />;
 	}
-	if (settMap === null) {
+	if (currentSettMap === null) {
 		return <Typography variant="h4">There was an issue loading setts. Try refreshing.</Typography>;
 	}
 	const walletListItems = network.settOrder
 		.map((contract) => {
-			if (!settMap[contract] || !settMap[contract].vaultToken || !vaults[settMap[contract].vaultToken]) {
+			if (
+				!currentSettMap[contract] ||
+				!currentSettMap[contract].vaultToken ||
+				!vaults[currentSettMap[contract].vaultToken]
+			) {
 				return null;
 			}
-			const vault = vaults[settMap[contract].vaultToken];
+			const vault = vaults[currentSettMap[contract].vaultToken];
 			if (!vault) {
 				return null;
 			}
 			if (vault.underlyingToken.balance.gt(0)) {
 				return (
 					<SettListItem
-						key={`wallet-${settMap[contract].name}`}
-						sett={settMap[contract]}
+						key={`wallet-${currentSettMap[contract].name}`}
+						sett={currentSettMap[contract]}
 						balance={formatBalance(vault.underlyingToken)}
 						balanceValue={formatTokenBalanceValue(vault.underlyingToken, currency)}
 						currency={currency}
 						period={period}
-						onOpen={() => onOpen(vault, settMap[contract])}
+						onOpen={() => onOpen(vault, currentSettMap[contract])}
 					/>
 				);
 			}
@@ -60,19 +66,19 @@ const UserListDisplay = observer((props: SettListViewProps) => {
 
 	const depositListItems = network.settOrder
 		.map((contract) => {
-			if (!settMap[contract]) return null;
-			const vault = vaults[settMap[contract].vaultToken];
+			if (!currentSettMap[contract]) return null;
+			const vault = vaults[currentSettMap[contract].vaultToken];
 			if (!vault) return null;
 			if (vault.balance.gt(0))
 				return (
 					<SettListItem
-						key={`deposit-${settMap[contract].name}`}
-						sett={settMap[contract]}
+						key={`deposit-${currentSettMap[contract].name}`}
+						sett={currentSettMap[contract]}
 						balance={formatBalanceUnderlying(vault)}
 						balanceValue={formatBalanceValue(vault, currency)}
 						currency={currency}
 						period={period}
-						onOpen={() => onOpen(vault, settMap[contract])}
+						onOpen={() => onOpen(vault, currentSettMap[contract])}
 					/>
 				);
 		})
@@ -81,19 +87,19 @@ const UserListDisplay = observer((props: SettListViewProps) => {
 
 	const vaultListItems = network.settOrder
 		.map((contract) => {
-			if (!settMap[contract]) return null;
-			const vault = vaults[settMap[contract].vaultToken];
+			if (!currentSettMap[contract]) return null;
+			const vault = vaults[currentSettMap[contract].vaultToken];
 			const geyser = vault?.geyser;
 			if (geyser && geyser.balance.gt(0))
 				return (
 					<SettListItem
-						key={`deposit-${settMap[contract].name}`}
-						sett={settMap[contract]}
+						key={`deposit-${currentSettMap[contract].name}`}
+						sett={currentSettMap[contract]}
 						balance={formatGeyserBalance(geyser)}
 						balanceValue={formatGeyserBalanceValue(geyser, currency)}
 						currency={currency}
 						period={period}
-						onOpen={() => onOpen(vault, settMap[contract])}
+						onOpen={() => onOpen(vault, currentSettMap[contract])}
 					/>
 				);
 		})
@@ -112,6 +118,7 @@ const UserListDisplay = observer((props: SettListViewProps) => {
 					displayValue={walletBalance}
 					tokenTitle={'Available'}
 					period={period}
+					experimental={experimental}
 					settList={walletListItems}
 				/>
 			)}
@@ -121,6 +128,7 @@ const UserListDisplay = observer((props: SettListViewProps) => {
 					displayValue={depositBalance}
 					tokenTitle={'Available'}
 					period={period}
+					experimental={experimental}
 					settList={depositListItems}
 				/>
 			)}
@@ -130,6 +138,7 @@ const UserListDisplay = observer((props: SettListViewProps) => {
 					displayValue={vaultBalance}
 					tokenTitle={'Available'}
 					period={period}
+					experimental={experimental}
 					settList={vaultListItems}
 				/>
 			)}

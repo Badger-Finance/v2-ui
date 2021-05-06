@@ -46,23 +46,23 @@ export class RootStore {
 
 	async walletRefresh(): Promise<void> {
 		const chain = this.wallet.network.name;
+		this.rewards.resetRewards();
+		this.uiState.resetPortfolio();
+
 		const refreshData = [
 			this.setts.loadAssets(chain),
 			this.setts.loadPrices(chain),
 			this.wallet.getGasPrice(),
 			this.contracts.updateProvider(),
+			this.setts.loadSetts(chain),
 		];
 		if (chain === NETWORK_LIST.ETH) {
-			refreshData.push(this.setts.loadGeysers(chain));
 			refreshData.push(this.rebase.fetchRebaseStats());
-		} else {
-			refreshData.push(this.setts.loadSetts(chain));
 		}
 		await Promise.all(refreshData);
 
 		if (this.wallet.connectedAddress) {
 			this.contracts.updateProvider();
-			await this.wallet.getGasPrice();
 			await this.contracts.fetchContracts();
 			if (chain === NETWORK_LIST.ETH) {
 				this.uiState.reduceRebase();

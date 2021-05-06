@@ -5,10 +5,12 @@ import { StoreContext } from 'mobx/store-context';
 import { Button, DialogContent, TextField, DialogActions, ButtonGroup } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { Skeleton } from '@material-ui/lab';
 import { Loader } from 'components/Loader';
 import { BigNumber } from 'bignumber.js';
 import { useForm } from 'react-hook-form';
 import { SettAvailableDeposit } from '../Setts/SettAvailableDeposit';
+import { StrategyInfo } from './StrategyInfo';
 
 const TEXTFIELD_ID = 'amountField';
 
@@ -16,8 +18,20 @@ const useStyles = makeStyles((theme) => ({
 	button: {
 		marginBottom: theme.spacing(1),
 	},
+	feeButton: {
+		marginBottom: theme.spacing(1),
+		marginLeft: theme.spacing(3),
+	},
 	field: {
 		margin: theme.spacing(1, 0, 1),
+	},
+	balanceDiv: {
+		flexGrow: 1,
+	},
+	skeleton: {
+		display: 'inline-flex',
+		width: '25%',
+		paddingLeft: theme.spacing(1),
 	},
 }));
 export const VaultDeposit = observer((props: any) => {
@@ -27,7 +41,7 @@ export const VaultDeposit = observer((props: any) => {
 	const { register, handleSubmit, watch, setValue } = useForm({ mode: 'all' });
 
 	const {
-		wallet: { connectedAddress },
+		wallet: { connectedAddress, network },
 		user: { accountDetails },
 		setts: { settMap },
 	} = store;
@@ -59,27 +73,22 @@ export const VaultDeposit = observer((props: any) => {
 	}
 
 	const availableDepositLimit = (amount: number): boolean => {
-		// Deposit limits are only applicable to affiliate wrappers currently
-		// in the future if we wish to add our own deposit limits, we can
-		// create a network variable that has a list of these and check it.
-		if (
-			!accountDetails ||
-			!accountDetails.depositLimits ||
-			!accountDetails.depositLimits[vault.address] ||
-			!settMap ||
-			!settMap[vault.address] ||
-			!settMap[vault.address].affiliate ||
-			!settMap[vault.address].affiliate?.availableDepositLimit
-		)
-			return true;
-		else {
-			const availableDeposit = accountDetails.depositLimits[vault.address].available;
-			const totalAvailableDeposit = settMap[vault.address].affiliate?.availableDepositLimit;
-			// We're removing the ts script for this because we check validity in the if statement above
-			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-			//@ts-ignore
-			return availableDeposit > 1e-8 && amount <= availableDeposit && amount <= totalAvailableDeposit;
-		}
+		// Deposit limits are defined in the network model and coded into the
+		// cappedDeposit object.  If a vault is present there, there is a deposit
+		// limit.
+		if (!network.cappedDeposit[vault.address]) return true;
+
+		const availableDeposit = accountDetails?.depositLimits[vault.address].available;
+		const totalAvailableDeposit = settMap ? settMap[vault.address]?.affiliate?.availableDepositLimit : undefined;
+
+		if (!availableDeposit || !totalAvailableDeposit) return true;
+
+		return (
+			availableDeposit > 1e-8 &&
+			totalAvailableDeposit > 1e-8 &&
+			amount <= availableDeposit &&
+			amount <= totalAvailableDeposit
+		);
 	};
 
 	const canDeposit =
@@ -89,7 +98,7 @@ export const VaultDeposit = observer((props: any) => {
 		availableDepositLimit(watch().amount);
 
 	const renderAmounts = (
-		<ButtonGroup size="small" className={classes.button} disabled={!connectedAddress}>
+		<ButtonGroup size="small" className={classes.feeButton} disabled={!connectedAddress}>
 			{[25, 50, 75, 100].map((amount: number) => (
 				<Button
 					aria-label={`${amount}%`}
@@ -114,17 +123,31 @@ export const VaultDeposit = observer((props: any) => {
 				<div
 					style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap' }}
 				>
-					<Typography variant="body1" color={'textSecondary'} style={{ marginBottom: '.2rem' }}>
-						Available: {totalAvailable}
-					</Typography>
+					<div className={classes.balanceDiv}>
+						<Typography variant="body1" color={'textSecondary'} style={{ marginBottom: '.2rem' }}>
+							Available:{' '}
+							{!!connectedAddress && !!totalAvailable ? (
+								totalAvailable
+							) : (
+								<Skeleton animation="wave" className={classes.skeleton} />
+							)}
+						</Typography>
+					</div>
+
 					{renderAmounts}
 				</div>
-				<SettAvailableDeposit
-					accountDetails={accountDetails}
-					vault={vault.address}
-					assetName={vault.underlyingToken.symbol}
-					sett={settMap ? settMap[vault.address] : undefined}
-				/>
+				{network.cappedDeposit[vault.address] ? (
+					<SettAvailableDeposit
+						accountDetails={accountDetails}
+						vault={vault.address}
+						assetName={vault.underlyingToken.symbol}
+						sett={settMap ? settMap[vault.address] : undefined}
+					/>
+				) : (
+					<></>
+				)}
+
+				<StrategyInfo vaultAddress={vault.address} network={network} />
 
 				<TextField
 					autoComplete="off"

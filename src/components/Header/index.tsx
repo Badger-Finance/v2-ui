@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
-import views from '../../config/routes';
 import { useContext } from 'react';
 import { StoreContext } from '../../mobx/store-context';
 import { Toolbar, AppBar, IconButton } from '@material-ui/core';
@@ -34,7 +33,6 @@ export const Header = observer(() => {
 
 	const store = useContext(StoreContext);
 	const {
-		router: { goTo },
 		uiState: { openSidebar, notification },
 		wallet: { notify, network },
 	} = store;
@@ -58,7 +56,7 @@ export const Header = observer(() => {
 
 	return (
 		<AppBar className={classes.appBar} color="primary">
-			<Toolbar className={classes.toolbar} onClick={() => goTo(views.home, { collection: 'badger' })}>
+			<Toolbar className={classes.toolbar}>
 				<img alt="Badger Header Logo" src={'assets/badger-full.png'} className={classes.logo} />
 
 				<IconButton className={classes.menuButton} onClick={() => openSidebar()}>

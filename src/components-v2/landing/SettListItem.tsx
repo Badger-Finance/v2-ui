@@ -67,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-interface SettListItemProps {
+export interface SettListItemProps {
 	sett: Sett;
 	balance?: string;
 	balanceValue?: string;
@@ -77,7 +77,7 @@ interface SettListItemProps {
 }
 
 interface RoiData {
-	apy: number;
+	apy: number | string;
 	tooltip: JSX.Element;
 }
 
@@ -96,13 +96,32 @@ const SettListItem = observer(
 				return (
 					<>
 						{sett.sources.map((source) => {
-							const apr = `${(source.apy / divisor).toFixed(2)}% ${source.name}`;
+							const apr = `${(source.apr / divisor).toFixed(2)}% ${source.name}`;
 							return <div key={source.name}>{apr}</div>;
 						})}
 					</>
 				);
 			};
-			if (sett && sett.apy) {
+
+			const getNewVaultToolTip = (): JSX.Element => {
+				return (
+					<>
+						{network.newVaults[sett.vaultToken].map((source) => {
+							return <div key={source}>{source}</div>;
+						})}
+					</>
+				);
+			};
+
+			// If the vault is in the newVaults property, the ROI is not displaying properly due
+			// to harvesting. Display the New Vault identifier and the list of provided projected
+			// ROIs in the network object.
+			if (network.newVaults[sett.vaultToken]) {
+				return {
+					apy: '✨ New Vault ✨',
+					tooltip: getNewVaultToolTip(),
+				};
+			} else if (sett && sett.apy) {
 				if (period === 'month') {
 					return { apy: sett.apy / 12, tooltip: getToolTip(sett, 12) };
 				} else {
@@ -112,6 +131,7 @@ const SettListItem = observer(
 				return { apy: 0, tooltip: <></> };
 			}
 		};
+
 		const { apy, tooltip } = getRoi(sett, period);
 		const displayValue = balanceValue ? balanceValue : usdToCurrency(new BigNumber(sett.value), currency);
 
@@ -124,6 +144,7 @@ const SettListItem = observer(
 				balance={balance}
 				balanceValue={balanceValue}
 				currency={currency}
+				period={period}
 				onOpen={() => {
 					return;
 				}}
@@ -201,7 +222,7 @@ const SettListItem = observer(
 					<Grid item xs={6} md={2}>
 						<Tooltip enterDelay={0} leaveDelay={300} arrow placement="left" title={tooltip}>
 							<Typography style={{ cursor: 'default' }} variant="body1" color={'textPrimary'}>
-								{apy.toFixed(2)}%
+								{typeof apy === 'number' ? `${apy.toFixed(2)}%` : apy}
 							</Typography>
 						</Tooltip>
 					</Grid>

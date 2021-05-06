@@ -1,7 +1,5 @@
 import BigNumber from 'bignumber.js';
-import _ from 'lodash';
 import { RootStore } from 'mobx/store';
-import Web3 from 'web3';
 import { inCurrency, formatTokens } from 'mobx/utils/helpers';
 import { getDiggPerShare } from 'mobx/utils/diggHelpers';
 import {
@@ -9,23 +7,22 @@ import {
 	Amount,
 	Geyser,
 	Token,
-	Growth,
 	RebaseToStats,
 	ContractToStats,
 	ReducedAirdops,
-	FormattedGeyserGrowth,
-	FormattedVaultGrowth,
 	ReduceAirdropsProps,
 	TokenRebaseStats,
 	Network,
+	RewardMerkleClaim,
+	TreeClaimData,
+	UserClaimData,
 } from '../model';
 import { ZERO_CURRENCY } from 'config/constants';
+import { defaults, forIn } from '../../utils/lodashToNative';
 
-export const reduceTimeSinceLastCycle = (time: string): string => {
-	const timestamp = parseFloat(time) * 1000;
-
-	const now = Date.now();
-	const timeSinceLastCycle = Math.abs(now - timestamp);
+export const reduceTimeSinceLastCycle = (time: number): string => {
+	const timestamp = time * 1000;
+	const timeSinceLastCycle = Math.abs(Date.now() - timestamp);
 	return (
 		Math.floor(timeSinceLastCycle / (60 * 60 * 1000)) +
 		'h ' +
@@ -81,18 +78,24 @@ export const reduceContractsToStats = (store: RootStore): ContractToStats | unde
 	};
 };
 
-// Disable Reason: Only instance feeds a value obtained from a require() statement that always returns a type any
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const reduceClaims = (merkleProof: any, rewardAddresses: any[], claimedRewards: any[]): Amount | never[] => {
-	if (!merkleProof.cumulativeAmounts) return [];
-	return merkleProof.cumulativeAmounts.map((amount: number, i: number) => {
-		return [
-			merkleProof.tokens[i],
-			new BigNumber(amount).minus(
-				claimedRewards[rewardAddresses.indexOf(Web3.utils.toChecksumAddress(merkleProof.tokens[i]))],
-			),
-		];
-	});
+export const reduceClaims = (proof: RewardMerkleClaim, claimedRewards: TreeClaimData): UserClaimData[] => {
+	if (!proof.cumulativeAmounts) {
+		return [];
+	}
+
+	const claimableTokens = proof.cumulativeAmounts.length;
+	const tokenClaims = [];
+
+	const amounts = claimedRewards[1];
+	for (let i = 0; i < claimableTokens; i++) {
+		const token = proof.tokens[i];
+		const claimed = amounts[i];
+		const earned = new BigNumber(proof.cumulativeAmounts[i]);
+		const amount = earned.minus(claimed);
+		tokenClaims.push({ token, amount });
+	}
+
+	return tokenClaims;
 };
 
 export const reduceAirdrops = (airdrops: ReduceAirdropsProps, store: RootStore): ReducedAirdops => {
@@ -116,7 +119,7 @@ function calculatePortfolioStats(vaultContracts: any, geyserContracts: any, toke
 	let portfolio = new BigNumber(0);
 	const liqGrowth = new BigNumber(0);
 
-	_.forIn(vaultContracts, (vault: Vault) => {
+	forIn(vaultContracts, (vault: Vault) => {
 		if (!vault.underlyingToken || !vault.underlyingToken.ethValue) return;
 		if (!vault.holdingsValue().isNaN()) tvl = tvl.plus(vault.holdingsValue());
 		if (vault.balance.gt(0) && !vault.balanceValue().isNaN()) {
@@ -132,9 +135,8 @@ function calculatePortfolioStats(vaultContracts: any, geyserContracts: any, toke
 		}
 	});
 
-	_.forIn(geyserContracts, (geyser: Geyser) => {
+	forIn(geyserContracts, (geyser: Geyser) => {
 		if (!geyser.vault) return;
-
 		if (!geyser.vault.underlyingToken) return;
 
 		if (!!geyser.balance.gt(0) && !geyser.balanceValue().isNaN()) {
@@ -153,27 +155,12 @@ function calculatePortfolioStats(vaultContracts: any, geyserContracts: any, toke
 	return { tvl, portfolio, wallet, deposits, badgerToken, diggToken, bDigg, liqGrowth, vaultDeposits };
 }
 
-function formatPercentage(ratio: BigNumber) {
-	if (ratio.multipliedBy(1e2).lt(1e-2) && ratio.gt(0)) return ratio.multipliedBy(1e2).toFixed(4);
-	else return ratio.multipliedBy(1e2).toFixed(2);
-}
-function formatReturn(amount: Amount, geyser: Geyser) {
-	const returnValue = amount.amount.dividedBy(10 ** amount.token.decimals).multipliedBy(amount.token.ethValue);
-	const geyserValue = geyser.holdingsValue();
-
-	let total = returnValue.dividedBy(geyserValue);
-	total = total.isNaN() ? new BigNumber(Infinity) : total;
-	const tooltip = formatPercentage(total);
-
-	return { total, tooltip };
-}
-
 export function reduceRebase(stats: TokenRebaseStats, base: Token): any {
 	const info = {
 		oraclePrice: base.ethValue.multipliedBy(stats.oracleRate),
 		btcPrice: base.ethValue,
 	};
-	return _.defaults(stats, info);
+	return defaults(stats, info);
 }
 
 export function formatSupply(token: Token): string {
@@ -234,32 +221,31 @@ export function formatBalanceUnderlying(vault: Vault): string {
 
 export function formatDialogBalanceUnderlying(vault: Vault): string {
 	const diggMultiplier = vault.underlyingToken.symbol === 'DIGG' ? getDiggPerShare(vault) : new BigNumber(1);
-	const decimals = vault.symbol === 'byvWBTC' ? 7 : vault.decimals;
 	return formatTokens(
 		vault.balance
 			.multipliedBy(vault.pricePerShare)
 			.multipliedBy(diggMultiplier)
 			.dividedBy(10 ** vault.decimals),
-		decimals,
+		vault.decimals,
 	);
 }
 
 export function formatHoldingsValue(vault: Vault, currency: string): string {
 	const diggMultiplier = vault.underlyingToken.symbol === 'DIGG' ? getDiggPerShare(vault) : new BigNumber(1);
-	return inCurrency(vault.holdingsValue().multipliedBy(diggMultiplier).dividedBy(1e18), currency, true);
+	return inCurrency(
+		vault
+			.holdingsValue()
+			.multipliedBy(diggMultiplier)
+			.dividedBy(10 ** vault.decimals),
+		currency,
+		true,
+	);
 }
 
 export function formatBalanceValue(vault: Vault, currency: string): string {
 	// Only bDIGG shares need to be scaled, DIGG is already the 1:1 underlying
 	const diggMultiplier = vault.symbol === 'bDIGG' ? getDiggPerShare(vault) : new BigNumber(1);
-	return inCurrency(
-		vault
-			.balanceValue()
-			.multipliedBy(diggMultiplier)
-			.dividedBy(10 ** vault.decimals),
-		currency,
-		currency != 'eth',
-	);
+	return inCurrency(vault.balanceValue().multipliedBy(diggMultiplier).dividedBy(1e18), currency, currency != 'eth');
 }
 
 export function formatTokenBalanceValue(token: Token, currency: string): string {
@@ -268,17 +254,14 @@ export function formatTokenBalanceValue(token: Token, currency: string): string 
 
 export function formatGeyserBalanceValue(geyser: Geyser, currency: string): string {
 	return inCurrency(
-		geyser
-			.balanceValue()
-			.plus(geyser.vault.balanceValue())
-			.dividedBy(10 ** geyser.vault.decimals),
+		geyser.balanceValue().plus(geyser.vault.balanceValue()).dividedBy(1e18),
 		currency,
 		currency != 'eth',
 	);
 }
 
 export function formatVaultBalanceValue(vault: Vault, currency: string): string {
-	return inCurrency(vault.balanceValue().dividedBy(1e18), currency, true);
+	return inCurrency(vault.balanceValue().dividedBy(10 ** vault.decimals), currency, true);
 }
 
 export function formatPrice(price: BigNumber, currency: string): string {
@@ -295,56 +278,4 @@ export function formatAmount(amount: Amount, isVault = false): string {
 		decimals = 18;
 	}
 	return inCurrency(amount.amount.dividedBy(10 ** decimals), 'eth', true, amount.token.decimals);
-}
-
-export function formatGeyserGrowth(geyser: Geyser, period: string): FormattedGeyserGrowth {
-	let total = new BigNumber(0);
-	let tooltip = '';
-	_.map(geyser.rewards, (growth: Growth) => {
-		const rewards = (growth as any)[period];
-
-		if (!!rewards.amount && !rewards.amount.isNaN() && rewards.amount.gt(0)) {
-			const geyserRewards = formatReturn(rewards, geyser);
-			total = total.plus(geyserRewards.total);
-			if (geyserRewards.tooltip !== '') tooltip += ' + ' + geyserRewards.tooltip + `% ${rewards.token.symbol}`;
-		}
-	});
-	return { total, tooltip };
-}
-
-export function formatVaultGrowth(vault: Vault, period: string): FormattedVaultGrowth {
-	const roiArray = !!vault.growth
-		? vault.growth.map((growth: Growth) => {
-				return (
-					!!(growth as any)[period] && {
-						tooltip:
-							formatPercentage((growth as any)[period].amount) +
-							'% ' +
-							(growth as any)[period].token.symbol,
-						total: (growth as any)[period].amount,
-					}
-				);
-		  })
-		: [];
-
-	let total = new BigNumber(0);
-	let tooltip = '';
-	roiArray.forEach((payload: any) => {
-		total = total.plus(payload.total);
-		tooltip += ' + ' + payload.tooltip;
-	});
-
-	if (!!vault.geyser) {
-		const geyserGrowth = formatGeyserGrowth(vault.geyser, period);
-
-		tooltip += geyserGrowth.tooltip;
-		total = total.plus(geyserGrowth.total);
-	}
-
-	total = total.isNaN() || total.isEqualTo(0) ? new BigNumber(Infinity) : total;
-
-	return {
-		roi: formatPercentage(total) + '%',
-		roiTooltip: tooltip.slice(3),
-	};
 }

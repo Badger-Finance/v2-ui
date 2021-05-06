@@ -12,8 +12,13 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const SettList = observer(() => {
+export interface SettListProps {
+	experimental: boolean;
+}
+
+const SettList = observer((props: SettListProps) => {
 	const classes = useStyles();
+	const { experimental } = props;
 
 	const [dialogProps, setDialogProps] = useState({ open: false, vault: undefined as any, sett: undefined as any });
 	const onOpen = (vault: Vault, sett: any): void => setDialogProps({ vault: vault, open: true, sett: sett });
@@ -21,7 +26,7 @@ const SettList = observer(() => {
 
 	return (
 		<div className={classes.settListContainer}>
-			<SettListView onOpen={onOpen} />
+			<SettListView experimental={experimental} onOpen={onOpen} />
 			<SettDialog dialogProps={dialogProps} onClose={onClose} />
 		</div>
 	);
