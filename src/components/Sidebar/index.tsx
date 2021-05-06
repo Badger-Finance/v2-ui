@@ -278,7 +278,7 @@ export const Sidebar = observer(() => {
 											className={classes.icon}
 										/>
 									</ListItemIcon>
-									<ListItemText primary="ibBTC" />
+									<ListItemText primary="Interest Bearing BTC" />
 								</ListItem>
 							)}
 							{FLAGS.BRIDGE_FLAG && (
