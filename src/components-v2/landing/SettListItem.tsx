@@ -116,7 +116,7 @@ const SettListItem = observer(
 			// If the vault is in the newVaults property, the ROI is not displaying properly due
 			// to harvesting. Display the New Vault identifier and the list of provided projected
 			// ROIs in the network object.
-			if (false && network.newVaults[sett.vaultToken]) {
+			if (network.newVaults[sett.vaultToken]) {
 				return {
 					apy: '✨ New Vault ✨',
 					tooltip: getNewVaultToolTip(),
