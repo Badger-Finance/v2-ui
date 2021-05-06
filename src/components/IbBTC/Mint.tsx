@@ -69,15 +69,15 @@ export const Mint = observer(
 		const [inputAmount, setInputAmount] = useState<string>();
 		const [outputAmount, setOutputAmount] = useState<string>();
 		const [fee, setFee] = useState('0.000');
-		const [totalMint, setTotalMint] = useState('0.00');
+		const [totalMint, setTotalMint] = useState('0.000');
 		const [conversionRate, setConversionRate] = useState('1');
 		const [mintBlocker, setMintBlocker] = useState<string | null>(null);
 
 		const resetState = () => {
 			setInputAmount('');
 			setOutputAmount('');
-			setFee('0.00');
-			setTotalMint('0.00');
+			setFee('0.000');
+			setTotalMint('0.000');
 			setMintBlocker(null);
 		};
 
@@ -102,8 +102,8 @@ export const Mint = observer(
 
 				if (!input.gt(ZERO)) {
 					setOutputAmount('');
-					setFee('0.00');
-					setTotalMint('0.00');
+					setFee('0.000');
+					setTotalMint('0.000');
 					setMintBlocker(null);
 					return;
 				}
@@ -158,7 +158,7 @@ export const Mint = observer(
 							<InputTokenAmount
 								disabled={!connectedAddress}
 								value={inputAmount}
-								placeholder="0.0"
+								placeholder="0.000"
 								onChange={(val) => {
 									setInputAmount(val);
 									handleInputAmountChange(val);
@@ -188,7 +188,7 @@ export const Mint = observer(
 					</Grid>
 					<OutputContentGrid container item xs={12}>
 						<Grid item xs={12} sm={9} md={12} lg={10}>
-							<OutputAmountText variant="h1">{outputAmount || '0.00'}</OutputAmountText>
+							<OutputAmountText variant="h1">{outputAmount || '0.000'}</OutputAmountText>
 						</Grid>
 						<OutputTokenGrid item container xs={12} sm={3} md={12} lg={2}>
 							<Token token={ibBTC} />

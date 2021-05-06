@@ -67,7 +67,7 @@ export const Redeem = observer((): any => {
 	const [selectedToken, setSelectedToken] = useState(tokens[0]);
 	const [inputAmount, setInputAmount] = useState<string>();
 	const [outputAmount, setOutputAmount] = useState<string>();
-	const [totalRedeem, setTotalRedeem] = useState('0.00');
+	const [totalRedeem, setTotalRedeem] = useState('0.000');
 	const [fee, setFee] = useState('0.000');
 	const [isEnoughToRedeem, setIsEnoughToRedeem] = useState(true);
 	const [maxRedeem, setMaxRedeem] = useState<string>();
@@ -79,7 +79,7 @@ export const Redeem = observer((): any => {
 		setMaxRedeem('');
 		setIsEnoughToRedeem(true);
 		setFee('0.000');
-		setTotalRedeem('0.00');
+		setTotalRedeem('0.000');
 	};
 
 	const setRedeemInformation = (
@@ -107,7 +107,7 @@ export const Redeem = observer((): any => {
 				setIsEnoughToRedeem(true);
 				setOutputAmount('');
 				setFee('0.000');
-				setTotalRedeem('0.00');
+				setTotalRedeem('0.000');
 				return;
 			}
 
@@ -181,7 +181,7 @@ export const Redeem = observer((): any => {
 						<InputTokenAmount
 							value={inputAmount}
 							disabled={!connectedAddress}
-							placeholder="0.0"
+							placeholder="0.000"
 							onChange={(val) => {
 								setInputAmount(val);
 								handleInputAmountChange(val);
@@ -211,7 +211,7 @@ export const Redeem = observer((): any => {
 				</Grid>
 				<OutputContentGrid container item xs={12}>
 					<Grid item xs={12} sm={7} md={12} lg={7}>
-						<OutputAmountText variant="h1">{outputAmount || '0.00'}</OutputAmountText>
+						<OutputAmountText variant="h1">{outputAmount || '0.000'}</OutputAmountText>
 					</Grid>
 					<OutputTokenGrid item container xs={12} sm={5} md={12} lg={5}>
 						<Tokens tokens={tokens} selected={selectedToken} onTokenSelect={handleTokenChange} />
