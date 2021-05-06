@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import { observer } from 'mobx-react-lite';
+import { StoreContext } from 'mobx/store-context';
 
 import { Container, Grid, Tabs, Tab, Card } from '@material-ui/core';
+import { NETWORK_LIST } from 'config/constants';
 
 // Local Components
 import PageHeader from 'components-v2/common/PageHeader';
@@ -30,11 +33,19 @@ const useStyles = makeStyles((theme) => ({
 	apyInformation: {
 		marginBottom: theme.spacing(4),
 	},
+	before: {
+		marginTop: theme.spacing(5),
+		width: '100%',
+	},
 }));
 
-export const IbBTC = (): any => {
+export const IbBTC = observer(() => {
 	const classes = useStyles();
 	const [activeTab, setActiveTab] = useState<TABS>('Mint');
+
+	const store = useContext(StoreContext);
+	const { network } = store.wallet;
+	const spacer = () => <div className={classes.before} />;
 
 	const Content = () => (
 		<Container className={classes.content} maxWidth="lg">
@@ -50,27 +61,38 @@ export const IbBTC = (): any => {
 					<PageHeader title="ibBTC" subtitle="Interest Bearing Badger Bitcoin." />
 				</Grid>
 
-				<Grid item sm={12} xs={12} md={7} className={classes.apyInformation}>
-					<IbbtcApy />
-				</Grid>
+				{network.name === NETWORK_LIST.ETH ? (
+					<>
+						<Grid item sm={12} xs={12} md={7} className={classes.apyInformation}>
+							<IbbtcApy />
+						</Grid>
 
-				<Grid item sm={12} xs={12} md={7}>
-					<Card>
-						<Tabs
-							variant="fullWidth"
-							className={classes.tabHeader}
-							textColor="primary"
-							aria-label="IbBTC Tabs"
-							indicatorColor="primary"
-							value={activeTab}
-						>
-							<Tab onClick={() => setActiveTab('Mint')} value={'Mint'} label={'Mint'} />
-							<Tab onClick={() => setActiveTab('Redeem')} value={'Redeem'} label={'Redeem'} />
-						</Tabs>
-						<Content />
-					</Card>
-				</Grid>
+						<Grid item sm={12} xs={12} md={7}>
+							<Card>
+								<Tabs
+									variant="fullWidth"
+									className={classes.tabHeader}
+									textColor="primary"
+									aria-label="IbBTC Tabs"
+									indicatorColor="primary"
+									value={activeTab}
+								>
+									<Tab onClick={() => setActiveTab('Mint')} value={'Mint'} label={'Mint'} />
+									<Tab onClick={() => setActiveTab('Redeem')} value={'Redeem'} label={'Redeem'} />
+								</Tabs>
+								<Content />
+							</Card>
+						</Grid>
+					</>
+				) : (
+					<>
+						<Grid item xs={12}>
+							ibBTC minting and redeeming is available on ETH Mainnet only.
+						</Grid>
+					</>
+				)}
+				{spacer()}
 			</Grid>
 		</Container>
 	);
-};
+});
