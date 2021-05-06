@@ -228,11 +228,6 @@ class IbBTCStore {
 				guessList.methods.totalDepositCap().call(),
 			]);
 
-			console.log({
-				userRemaining: this.ibBTC.unscale(userRemaining).toString(),
-				totalRemaining: this.ibBTC.unscale(totalRemaining).toString(),
-			});
-
 			if (amount.gt(userRemaining)) {
 				return `Your current mint amount limit is ${this.ibBTC.unscale(userRemaining)} ${
 					this.ibBTC.symbol
