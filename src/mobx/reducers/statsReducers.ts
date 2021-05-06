@@ -1,7 +1,5 @@
 import BigNumber from 'bignumber.js';
-import _ from 'lodash';
 import { RootStore } from 'mobx/store';
-import Web3 from 'web3';
 import { inCurrency, formatTokens } from 'mobx/utils/helpers';
 import { getDiggPerShare } from 'mobx/utils/diggHelpers';
 import {
@@ -15,14 +13,16 @@ import {
 	ReduceAirdropsProps,
 	TokenRebaseStats,
 	Network,
+	RewardMerkleClaim,
+	TreeClaimData,
+	UserClaimData,
 } from '../model';
 import { ZERO_CURRENCY } from 'config/constants';
+import { defaults, forIn } from '../../utils/lodashToNative';
 
-export const reduceTimeSinceLastCycle = (time: string): string => {
-	const timestamp = parseFloat(time) * 1000;
-
-	const now = Date.now();
-	const timeSinceLastCycle = Math.abs(now - timestamp);
+export const reduceTimeSinceLastCycle = (time: number): string => {
+	const timestamp = time * 1000;
+	const timeSinceLastCycle = Math.abs(Date.now() - timestamp);
 	return (
 		Math.floor(timeSinceLastCycle / (60 * 60 * 1000)) +
 		'h ' +
@@ -78,18 +78,24 @@ export const reduceContractsToStats = (store: RootStore): ContractToStats | unde
 	};
 };
 
-// Disable Reason: Only instance feeds a value obtained from a require() statement that always returns a type any
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const reduceClaims = (merkleProof: any, rewardAddresses: any[], claimedRewards: any[]): Amount | never[] => {
-	if (!merkleProof.cumulativeAmounts) return [];
-	return merkleProof.cumulativeAmounts.map((amount: number, i: number) => {
-		return [
-			merkleProof.tokens[i],
-			new BigNumber(amount).minus(
-				claimedRewards[rewardAddresses.indexOf(Web3.utils.toChecksumAddress(merkleProof.tokens[i]))],
-			),
-		];
-	});
+export const reduceClaims = (proof: RewardMerkleClaim, claimedRewards: TreeClaimData): UserClaimData[] => {
+	if (!proof.cumulativeAmounts) {
+		return [];
+	}
+
+	const claimableTokens = proof.cumulativeAmounts.length;
+	const tokenClaims = [];
+
+	const amounts = claimedRewards[1];
+	for (let i = 0; i < claimableTokens; i++) {
+		const token = proof.tokens[i];
+		const claimed = amounts[i];
+		const earned = new BigNumber(proof.cumulativeAmounts[i]);
+		const amount = earned.minus(claimed);
+		tokenClaims.push({ token, amount });
+	}
+
+	return tokenClaims;
 };
 
 export const reduceAirdrops = (airdrops: ReduceAirdropsProps, store: RootStore): ReducedAirdops => {
@@ -113,7 +119,7 @@ function calculatePortfolioStats(vaultContracts: any, geyserContracts: any, toke
 	let portfolio = new BigNumber(0);
 	const liqGrowth = new BigNumber(0);
 
-	_.forIn(vaultContracts, (vault: Vault) => {
+	forIn(vaultContracts, (vault: Vault) => {
 		if (!vault.underlyingToken || !vault.underlyingToken.ethValue) return;
 		if (!vault.holdingsValue().isNaN()) tvl = tvl.plus(vault.holdingsValue());
 		if (vault.balance.gt(0) && !vault.balanceValue().isNaN()) {
@@ -129,7 +135,7 @@ function calculatePortfolioStats(vaultContracts: any, geyserContracts: any, toke
 		}
 	});
 
-	_.forIn(geyserContracts, (geyser: Geyser) => {
+	forIn(geyserContracts, (geyser: Geyser) => {
 		if (!geyser.vault) return;
 		if (!geyser.vault.underlyingToken) return;
 
@@ -154,7 +160,7 @@ export function reduceRebase(stats: TokenRebaseStats, base: Token): any {
 		oraclePrice: base.ethValue.multipliedBy(stats.oracleRate),
 		btcPrice: base.ethValue,
 	};
-	return _.defaults(stats, info);
+	return defaults(stats, info);
 }
 
 export function formatSupply(token: Token): string {
