@@ -203,7 +203,7 @@ export class TokenModel extends Contract {
 	}
 
 	public get icon(): any {
-		return `/assets/icons/${this.symbol.toLowerCase()}.png`;
+		return `/assets/icons/${this.symbol.toLowerCase()}.svg`;
 	}
 
 	public formatAmount(amount: BigNumber | string): string {

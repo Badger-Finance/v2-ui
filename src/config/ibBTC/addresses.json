@@ -5,34 +5,34 @@
 				"ibBTC": {
 					"address": "0xc4E15973E6fF2A35cC804c2CF9D2a1b817a8b40F",
 					"decimals": 18,
-					"symbol": "ibbtc",
+					"symbol": "ibBTC",
 					"name": "Interest-Bearing BTC"
 				},
 				"bcrvRenWSBTC": {
 					"address": "0xd04c48A53c111300aD41190D63681ed3dAd998eC",
 					"decimals": 18,
-					"symbol": "bcrvrenwsbtc",
+					"symbol": "bcrvRenWSBTC",
 					"name": "Badger crvRenWSBTC",
 					"poolId": 1
 				},
 				"bcrvRenWBTC": {
 					"address": "0x6dEf55d2e18486B9dDfaA075bc4e4EE0B28c1545",
 					"decimals": 18,
-					"symbol": "bcrvrenwbtc",
+					"symbol": "bcrvRenWBTC",
 					"name": "Badger crvRenWBTC",
 					"poolId": 0
 				},
 				"btbtc/sbtcCrv": {
 					"address": "0xb9D076fDe463dbc9f915E5392F807315Bf940334",
 					"decimals": 18,
-					"symbol": "tbtccrv",
+					"symbol": "btBTCCrv",
 					"name": "Badger t-btc/sbtcCrv",
 					"poolId": 2
 				},
 				"byvWBTC": {
 					"address": "0x4b92d19c11435614CD49Af1b589001b7c08cD4D5",
 					"decimals": 8,
-					"symbol": "byvwbtc",
+					"symbol": "byvWBTC",
 					"name": "Badger WBTC yVault"
 				}
 			},
