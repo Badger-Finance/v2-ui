@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-function isValidChange(input: string) {
+function isValidChange(input: string): boolean {
 	// matches one or many digits followed by an option single "." appearance that's followed by one or more digits
 	const inputRegex = RegExp(`^\\d*(?:\\\\[.])?\\d*$`);
 	// remove any non-numeric invalid characters

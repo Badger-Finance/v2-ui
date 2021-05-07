@@ -89,7 +89,7 @@ class IbBTCStore {
 			return;
 		}
 
-		this.fetchTokensBalance().then();
+		this.fetchTokensBalances().then();
 		this.fetchConversionRates().then();
 		this.fetchIbbtcApy().then();
 		this.fetchFees().then();
@@ -103,7 +103,7 @@ class IbBTCStore {
 		},
 	);
 
-	fetchTokensBalance = action(
+	fetchTokensBalances = action(
 		async (): Promise<void> => {
 			const fetchTargetTokensBalance = this.tokens.map((token) => this.fetchBalance(token));
 
@@ -120,7 +120,7 @@ class IbBTCStore {
 	);
 
 	fetchIbbtcApy = action(async () => {
-		const dayOldBlock = 5760; // Block in 24 hrs = 86400 / 15
+		const dayOldBlock = 86400 / 15; // [Seconds in a day / EVM block time ratio]
 		const weekOldBlock = dayOldBlock * 7;
 		const apyFromLastDay = await this.fetchIbbtApyFromTimestamp(dayOldBlock);
 		const apyFromLastWeek = await this.fetchIbbtApyFromTimestamp(weekOldBlock);
@@ -135,7 +135,11 @@ class IbBTCStore {
 			if (!provider) return;
 
 			// Fetch mintRate, redeemRate and set to respected token
-			await this.tokens.map((token) => Promise.all([this.fetchMintRate(token), this.fetchRedeemRate(token)]));
+			const tokensRateInformation = this.tokens.map((token) =>
+				Promise.all([this.fetchMintRate(token), this.fetchRedeemRate(token)]),
+			);
+
+			await Promise.all(tokensRateInformation);
 		},
 	);
 
@@ -542,7 +546,7 @@ class IbBTCStore {
 
 	private async fetchIbbtApyFromTimestamp(timestamp: number): Promise<number | null> {
 		const { provider } = this.store.wallet;
-		const multiplier = 3153600000;
+		const multiplier = 3153600000; // seconds in a year * 100%
 		const web3 = new Web3(provider);
 		const ibBTC = new web3.eth.Contract(ibBTCConfig.abi as AbiItem[], this.ibBTC.address);
 		const nowBlock = await web3.eth.getBlock('latest');

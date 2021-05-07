@@ -1,5 +1,6 @@
 import React, { useCallback, useContext, useState } from 'react';
 import { Button, Typography, Grid, Tooltip } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 
 import { observer } from 'mobx-react-lite';
 import BigNumber from 'bignumber.js';
@@ -23,6 +24,12 @@ import {
 	OutputTokenGrid,
 	ErrorText,
 } from './Common';
+
+const useStyles = makeStyles((theme) => ({
+	outputContent: {
+		marginTop: theme.spacing(4),
+	},
+}));
 
 const ActionButton = observer(
 	({ children }): JSX.Element => {
@@ -57,6 +64,7 @@ const ActionButton = observer(
 
 export const Redeem = observer((): any => {
 	const store = useContext(StoreContext);
+	const classes = useStyles();
 
 	const {
 		ibBTCStore: { tokens, ibBTC, redeemFee },
@@ -202,7 +210,7 @@ export const Redeem = observer((): any => {
 			<Grid item container alignItems="center" xs={12}>
 				<DownArrow />
 			</Grid>
-			<Grid container>
+			<Grid container className={classes.outputContent}>
 				<OutputContentGrid container item xs={12}>
 					<Grid item xs={12} sm={7} md={12} lg={7}>
 						<OutputAmountText variant="h1">{outputAmount || '0.000'}</OutputAmountText>
