@@ -2,6 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { Typography, Button, Popper, Paper, List, ListItem } from '@material-ui/core';
+import _ from 'lodash';
 import { TokenModel } from 'mobx/model';
 import { ArrowDropDown } from '@material-ui/icons';
 
@@ -32,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	selectButton: {
 		textTransform: 'none',
-		maxWidth: '100%',
+		maxWidth: '100vw',
 		minWidth: 'auto',
 	},
 	listItem: {
@@ -43,10 +44,10 @@ const useStyles = makeStyles((theme) => ({
 type TokenListProps = {
 	tokens: Array<TokenModel>;
 	selected: TokenModel;
-	onTokenSelect: (token: TokenModel) => void;
+	onTokenSelect: (event: any) => void;
 };
 
-export const Tokens = ({ tokens, selected, onTokenSelect }: TokenListProps): any => {
+export const Tokens = (props: TokenListProps): any => {
 	const classes = useStyles();
 
 	const [anchorEl, setAnchorEl] = React.useState(null);
@@ -54,6 +55,9 @@ export const Tokens = ({ tokens, selected, onTokenSelect }: TokenListProps): any
 
 	const handleClick = (event: any) => {
 		setAnchorEl(anchorEl ? null : event.currentTarget);
+	};
+	const optionClicked = (option: string) => {
+		props.onTokenSelect(option);
 	};
 
 	return (
@@ -65,20 +69,13 @@ export const Tokens = ({ tokens, selected, onTokenSelect }: TokenListProps): any
 				onClick={handleClick}
 				className={classes.selectButton}
 			>
-				<Token token={selected} />
+				<Token token={props.selected} />
 			</Button>
 			<Popper style={{ zIndex: 100000 }} placement="bottom-end" id={'popper'} open={open} anchorEl={anchorEl}>
 				<Paper onMouseLeave={() => setAnchorEl(null)}>
 					<List>
-						{tokens.map((token) => (
-							<ListItem
-								key={token.address}
-								button
-								onClick={() => {
-									onTokenSelect(token);
-									setAnchorEl(null);
-								}}
-							>
+						{_.map(props.tokens, (token: any) => (
+							<ListItem button onClick={() => optionClicked(token)}>
 								{' '}
 								<Token token={token} />
 							</ListItem>

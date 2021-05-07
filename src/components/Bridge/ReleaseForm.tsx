@@ -5,10 +5,9 @@ import { ArrowDownward } from '@material-ui/icons';
 import validate from 'bitcoin-address-validation';
 
 import { StoreContext } from 'mobx/store-context';
+import BTCLogo from 'assets/icons/btc.svg';
 import { MIN_AMOUNT } from './constants';
 import { Slippage, ValuesProp } from './Common';
-
-const BTCLogo = '/assets/icons/btc.svg';
 
 interface ReleaseFormProps {
 	values: ValuesProp;

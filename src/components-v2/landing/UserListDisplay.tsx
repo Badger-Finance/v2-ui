@@ -1,6 +1,5 @@
-import { makeStyles, Typography } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 import { Loader } from 'components/Loader';
-import { FLAGS } from 'config/constants';
 import { observer } from 'mobx-react-lite';
 import {
 	formatBalance,
@@ -17,20 +16,7 @@ import SettListItem from './SettListItem';
 import { SettListViewProps } from './SettListView';
 import SettTable from './SettTable';
 
-const useStyles = makeStyles((theme) => ({
-	badgerHeadIcon: {
-		marginRight: theme.spacing(1),
-	},
-	boostContainer: {
-		display: 'flex',
-		justifyContent: 'center',
-		alignItems: 'center',
-		marginBottom: theme.spacing(4),
-	},
-}));
-
 const UserListDisplay = observer((props: SettListViewProps) => {
-	const classes = useStyles();
 	const { onOpen, experimental } = props;
 	const store = useContext(StoreContext);
 	const {
@@ -38,7 +24,6 @@ const UserListDisplay = observer((props: SettListViewProps) => {
 		uiState: { currency, period, stats },
 		contracts: { vaults },
 		wallet: { network },
-		user: { accountDetails },
 	} = store;
 
 	const currentSettMap = experimental ? experimentalMap : settMap;
@@ -127,17 +112,6 @@ const UserListDisplay = observer((props: SettListViewProps) => {
 
 	return (
 		<>
-			{FLAGS.BADGER_BOOST_FLAG && accountDetails && (
-				<div className={classes.boostContainer}>
-					<img
-						className={classes.badgerHeadIcon}
-						src="./assets/icons/badger_head.svg"
-						height={25}
-						width={25}
-					/>
-					<Typography variant="h5">Badger Boost: {accountDetails.boost.toFixed(2)}</Typography>
-				</div>
-			)}
 			{displayWallet && (
 				<SettTable
 					title={'Your Wallet -'}
