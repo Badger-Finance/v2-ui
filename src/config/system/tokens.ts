@@ -162,6 +162,8 @@ export const getTokens = (network?: string | null): TokenNetworkConfig => {
 					[deploy.sett_system.vaults['native.sushiDiggWbtc']]: 18,
 					[deploy.tokens.xsushi]: 18,
 					[deploy.sett_system.vaults['yearn.wBtc']]: 8,
+					[deploy.tokens.ibBTC]: 18,
+					[deploy.tokens['sushi.ibBTC-wBTC']]: 18,
 				},
 				symbols: {
 					[deploy.tokens.sushi]: 'SUSHI',
@@ -178,6 +180,8 @@ export const getTokens = (network?: string | null): TokenNetworkConfig => {
 					[deploy.tokens['sushi.wBTC-WETH']]: 'wbtcWethSLP',
 					[deploy.tokens['uni.wBTC-DIGG']]: 'wbtcDiggUNI-V2',
 					[deploy.tokens.xsushi]: 'xSUSHI',
+					[deploy.tokens.ibBTC]: 'ibBTC',
+					[deploy.tokens['sushi.ibBTC-wBTC']]: 'ibBTCwBTCSLP',
 
 					[deploy.sett_system.vaults['native.renCrv']]: 'bcrvRenWBTC',
 					[deploy.sett_system.vaults['native.badger']]: 'bBADGER',
@@ -189,6 +193,7 @@ export const getTokens = (network?: string | null): TokenNetworkConfig => {
 					[deploy.sett_system.vaults['native.tbtcCrv']]: 'btbtc/sbtcCrv',
 					[deploy.sett_system.vaults['native.sbtcCrv']]: 'bcrvRenWSBTC',
 					[deploy.sett_system.vaults['yearn.wBtc']]: 'byvWBTC',
+					[deploy.sett_system.vaults['native.sushiibBTCwBTC']]: 'bibBTCwBTC',
 				},
 				names: {
 					[deploy.tokens.sushi]: 'SUSHI',
@@ -205,6 +210,7 @@ export const getTokens = (network?: string | null): TokenNetworkConfig => {
 					[deploy.tokens['uni.wBTC-BADGER']]: 'wBTC/Badger Uni LP',
 					[deploy.tokens['sushi.wBTC-WETH']]: 'wBTC/wETH Sushi LP',
 					[deploy.tokens.xsushi]: 'xSUSHI',
+					[deploy.tokens.ibBTC]: 'ibBTC',
 
 					[deploy.sett_system.vaults['native.renCrv']]: 'bcrvRenWBTC',
 					[deploy.sett_system.vaults['native.badger']]: 'bBADGER',
@@ -230,6 +236,7 @@ export const getTokens = (network?: string | null): TokenNetworkConfig => {
 					[deploy.sett_system.vaults['native.uniDiggWbtc']]: deploy.tokens['uni.wBTC-DIGG'],
 					[deploy.sett_system.vaults['native.tbtcCrv']]: deploy.tokens['curve.tBTC-sBTC'],
 					[deploy.sett_system.vaults['yearn.wBtc']]: deploy.tokens.wBTC,
+					[deploy.sett_system.vaults['native.sushiibBTCwBTC']]: deploy.tokens['sushi.ibBTC-wBTC'],
 				},
 			};
 		default:

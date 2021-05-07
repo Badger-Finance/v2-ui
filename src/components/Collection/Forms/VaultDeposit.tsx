@@ -10,12 +10,17 @@ import { Loader } from 'components/Loader';
 import { BigNumber } from 'bignumber.js';
 import { useForm } from 'react-hook-form';
 import { SettAvailableDeposit } from '../Setts/SettAvailableDeposit';
+import { StrategyInfo } from './StrategyInfo';
 
 const TEXTFIELD_ID = 'amountField';
 
 const useStyles = makeStyles((theme) => ({
 	button: {
 		marginBottom: theme.spacing(1),
+	},
+	feeButton: {
+		marginBottom: theme.spacing(1),
+		marginLeft: theme.spacing(3),
 	},
 	field: {
 		margin: theme.spacing(1, 0, 1),
@@ -93,7 +98,7 @@ export const VaultDeposit = observer((props: any) => {
 		availableDepositLimit(watch().amount);
 
 	const renderAmounts = (
-		<ButtonGroup size="small" className={classes.button} disabled={!connectedAddress}>
+		<ButtonGroup size="small" className={classes.feeButton} disabled={!connectedAddress}>
 			{[25, 50, 75, 100].map((amount: number) => (
 				<Button
 					aria-label={`${amount}%`}
@@ -141,6 +146,8 @@ export const VaultDeposit = observer((props: any) => {
 				) : (
 					<></>
 				)}
+
+				<StrategyInfo vaultAddress={vault.address} network={network} />
 
 				<TextField
 					autoComplete="off"
