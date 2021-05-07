@@ -50,6 +50,10 @@ export default class UserStore {
 				this.loadBouncerProof(address);
 				this.loadAccountDetails(address, network.name);
 				this.loadClaimProof(address);
+			} else {
+				this.permissions = undefined;
+				this.bouncerProof = undefined;
+				this.accountDetails = undefined;
 			}
 		});
 	}

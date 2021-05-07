@@ -754,7 +754,10 @@ export enum Protocol {
 export interface Sett extends SettSummary {
 	asset: string;
 	apy: number;
-	geyser?: Geyser;
+	apr: number;
+	minApr?: number;
+	maxApr?: number;
+	boostable: boolean;
 	hasBouncer: boolean;
 	ppfs: number;
 	sources: ValueSource[];
@@ -773,9 +776,13 @@ export interface SettAffiliateData {
 
 export type ValueSource = {
 	name: string;
-	apy?: number;
+	apy: number;
 	apr: number;
 	performance: Performance;
+	boostable: boolean;
+	harvestable: boolean;
+	minApr: number;
+	maxApr: number;
 };
 
 export type Performance = {
