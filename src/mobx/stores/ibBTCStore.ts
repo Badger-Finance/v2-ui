@@ -120,7 +120,7 @@ class IbBTCStore {
 	);
 
 	fetchIbbtcApy = action(async () => {
-		const dayOldBlock = 86400 / 13; // [Seconds in a day / EVM block time ratio]
+		const dayOldBlock = 86400 / 15; // [Seconds in a day / EVM block time ratio]
 		const weekOldBlock = dayOldBlock * 7;
 		const apyFromLastDay = await this.fetchIbbtApyFromTimestamp(dayOldBlock);
 		const apyFromLastWeek = await this.fetchIbbtApyFromTimestamp(weekOldBlock);
