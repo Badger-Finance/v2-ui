@@ -51,12 +51,12 @@ export default function TableHeader(props: TableHeaderProps): JSX.Element {
 					{tokenTitle}
 				</Typography>
 			</Grid>
-			<Grid item xs={12} sm={4} md={2} className={classes.hiddenMobile}>
+			<Grid item xs={12} sm={4} md={3} className={classes.hiddenMobile}>
 				<Typography variant="body2" color="textSecondary">
 					{samplePeriods[period]} ROI
 				</Typography>
 			</Grid>
-			<Grid item xs={12} sm={6} md={2} className={classes.hiddenMobile}>
+			<Grid item xs={12} sm={6} md={3} className={classes.hiddenMobile}>
 				<Typography variant="body2" color="textSecondary">
 					Value
 				</Typography>

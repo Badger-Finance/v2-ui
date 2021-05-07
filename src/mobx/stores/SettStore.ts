@@ -59,9 +59,7 @@ export default class SettStore {
 	}
 
 	getPrice(address: string): BigNumber | undefined {
-		return this.priceCache[Web3.utils.toChecksumAddress(address)]
-			? this.priceCache[Web3.utils.toChecksumAddress(address)]
-			: undefined;
+		return this.priceCache[Web3.utils.toChecksumAddress(address)] ?? undefined;
 	}
 
 	loadSetts = action(async (chain?: string): Promise<void> => this.loadSettList(listSetts, chain));
@@ -71,13 +69,17 @@ export default class SettStore {
 		chain = chain ?? NETWORK_LIST.ETH;
 		const settList = await load(chain);
 		if (settList) {
-			settList.forEach((sett) =>
+			settList.forEach((sett) => {
+				// TODO: remove fill-ins once api + ui is upgraded in tandem
+				if (sett.apy) {
+					sett.apr = sett.apy;
+				}
 				sett.sources.forEach((source) => {
 					if (source.apy) {
 						source.apr = source.apy;
 					}
-				}),
-			);
+				});
+			});
 			this.settCache[chain] = settList;
 			[this.settMapCache[chain], this.experimentalMapCache[chain]] = this.keySettByContract(settList);
 		}

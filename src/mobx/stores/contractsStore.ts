@@ -148,6 +148,13 @@ class ContractsStore {
 					result.forEach((contract: any, i: number) => {
 						const tokenAddress = tokens.tokenMap[contract.address];
 						if (!tokenAddress || !this.tokens[tokenAddress]) {
+							if (process.env.REACT_APP_BUILD_ENV !== 'production') {
+								console.log({
+									token: tokens.tokenMap[contract.address],
+									map: tokens.tokenMap,
+									address: contract.address,
+								});
+							}
 							return;
 						}
 						const vault = this.getOrCreateVault(
