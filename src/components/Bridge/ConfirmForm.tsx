@@ -3,12 +3,13 @@ import { Grid, Button, Checkbox, Tooltip } from '@material-ui/core';
 import InfoIcon from '@material-ui/icons/Info';
 import { StoreContext } from 'mobx/store-context';
 
-import btcLogo from 'assets/icons/btc.svg';
-import WBTCLogo from 'assets/icons/WBTC.svg';
-import byvWBTCLogo from 'assets/icons/byvWBTC.svg';
-import renBTCLogo from 'assets/icons/renBTC.svg';
-import crvBTCLogo from 'assets/tokens/bcrvRenWBTC.svg';
 import { shortenAddress } from 'utils/componentHelpers';
+
+const btcLogo = '/assets/icons/btc.svg';
+const WBTCLogo = '/assets/icons/wbtc.svg';
+const byvWBTCLogo = '/assets/icons/byvwbtc.svg';
+const renBTCLogo = '/assets/icons/renbtc.svg';
+const crvBTCLogo = '/assets/tokens/bcrvrenwbtc.png';
 
 interface ConfirmFormProps {
 	values: any;

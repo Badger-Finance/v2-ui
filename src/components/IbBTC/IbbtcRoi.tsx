@@ -44,7 +44,7 @@ export const IbbtcRoi = observer(
 		return (
 			<Grid container component={Paper} className={classes.container}>
 				<Grid item container alignItems="center" xs={12} sm className={classes.token}>
-					<img src={ibBTC.icon.default} alt="ROI Token Logo" className={classes.logo} />
+					<img src={ibBTC.icon} alt="ROI Token Logo" className={classes.logo} />
 					<Typography variant="h6">{`${ibBTC.symbol} ROI`}</Typography>
 				</Grid>
 

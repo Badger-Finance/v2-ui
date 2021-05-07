@@ -25,7 +25,7 @@
 				"btbtc/sbtcCrv": {
 					"address": "0xb9D076fDe463dbc9f915E5392F807315Bf940334",
 					"decimals": 18,
-					"symbol": "btbtc/sbtcCrv",
+					"symbol": "btBTCCrv",
 					"name": "Badger t-btc/sbtcCrv",
 					"poolId": 2
 				},

@@ -203,7 +203,7 @@ export class TokenModel extends Contract {
 	}
 
 	public get icon(): any {
-		return require(`assets/tokens/${this.symbol}.svg`);
+		return `/assets/icons/${this.symbol.toLowerCase()}.svg`;
 	}
 
 	public formatAmount(amount: BigNumber | string): string {
@@ -444,7 +444,6 @@ export type GeyserNetworkConfig = {
 			isFeatured?: boolean[];
 			isSuperSett?: boolean[];
 			getStakingToken?: string[];
-			onsenId?: string[];
 		};
 	}[];
 };
@@ -634,6 +633,7 @@ export class EthNetwork implements Network {
 	public readonly gasEndpoint = 'https://www.gasnow.org/api/v3/gas/price?utm_source=badgerv2';
 	// Deterministic order for displaying setts on the sett list component
 	public readonly settOrder = [
+		this.deploy.sett_system.vaults['native.sushiibBTCwBTC'],
 		this.deploy.sett_system.vaults['yearn.wBtc'],
 		this.deploy.sett_system.vaults['native.digg'],
 		this.deploy.sett_system.vaults['native.badger'],
@@ -681,6 +681,9 @@ export class EthNetwork implements Network {
 	};
 	public readonly newVaults = {
 		[this.deploy.sett_system.vaults['yearn.wBtc']]: ['Expected ROI', '60% @ $100m', '30% @ $400m', '24% @ $1b'],
+		[this.deploy.sett_system.vaults['native.sushiibBTCwBTC']]: [
+			'New vault ROIs are determined once there is enough historical data',
+		],
 	};
 	public readonly strategies = getStrategies(NETWORK_LIST.ETH);
 	public getFees(vaultAddress: string): string[] {

@@ -17,7 +17,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import { ExpandMore } from '@material-ui/icons';
 import { SITE_VERSION, NETWORK_LIST, FLAGS } from 'config/constants';
 import NetworkWidget from 'components-v2/common/NetworkWidget';
-import ibBTCLogo from 'assets/sidebar/ibBTC.svg';
 import { Route } from 'mobx-router';
 import { RootStore } from 'mobx/store';
 
@@ -274,7 +273,7 @@ export const Sidebar = observer(() => {
 									<ListItemIcon>
 										<img
 											alt="Interest Bearing Badger Bitcoin Icon"
-											src={ibBTCLogo}
+											src={'assets/sidebar/ibbtc-white.svg'}
 											className={classes.icon}
 										/>
 									</ListItemIcon>
