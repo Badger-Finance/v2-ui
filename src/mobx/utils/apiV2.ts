@@ -1,4 +1,4 @@
-import { Eligibility, PriceSummary, ProtocolSummary, Sett, BouncerProof, Account, RewardMerkleClaim } from 'mobx/model';
+import { Eligibility, PriceSummary, ProtocolSummary, Sett, BouncerProof, Account } from 'mobx/model';
 
 export const getApi = (): string => {
 	if (process.env.REACT_APP_BUILD_ENV === 'production') {
@@ -10,16 +10,20 @@ const badgerApi = getApi();
 
 // api endpoints
 const listSettsEndpoint = `${badgerApi}/setts`;
+const listGeysersEndpoint = `${badgerApi}/geysers`;
 const getPricesEndpoint = `${badgerApi}/prices`;
 const getTVLEndpoint = `${badgerApi}/value`;
 const checkShopEndpoint = `${badgerApi}/reward/shop`;
 const getBouncerProofEndpoint = `${badgerApi}/reward/bouncer`;
 const getAccountDetailsEndpoint = `${badgerApi}/accounts`;
-const getClaimProofEndpoint = `${badgerApi}/reward/tree`;
 
 // api function calls
 export const listSetts = async (chain?: string): Promise<Sett[] | null> => {
 	return fetchData(() => fetch(`${listSettsEndpoint}${chain ? `?chain=${chain}` : ''}`));
+};
+
+export const listGeysers = async (chain?: string): Promise<Sett[] | null> => {
+	return fetchData(() => fetch(`${listGeysersEndpoint}${chain ? `?chain=${chain}` : ''}`));
 };
 
 export const getTokenPrices = async (chain?: string, currency?: string): Promise<PriceSummary | null> => {
@@ -42,10 +46,6 @@ export const fetchBouncerProof = async (address: string): Promise<BouncerProof |
 
 export const getAccountDetails = async (address: string, chain?: string): Promise<Account | null> => {
 	return fetchData(() => fetch(`${getAccountDetailsEndpoint}/${address}?chain=${chain ? chain : 'eth'}`));
-};
-
-export const fetchClaimProof = async (address: string): Promise<RewardMerkleClaim | null> => {
-	return fetchData(() => fetch(`${getClaimProofEndpoint}/${address}`));
 };
 
 const fetchData = async <T>(request: () => Promise<Response>): Promise<T | null> => {

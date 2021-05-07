@@ -1,82 +1,104 @@
-import { extendObservable, action } from 'mobx';
+import { extendObservable, action, observe } from 'mobx';
 import Web3 from 'web3';
 import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
 import { estimateAndSend } from '../utils/web3';
 import { RootStore } from '../store';
+import _ from 'lodash';
+import { jsonQuery } from '../utils/helpers';
+import { reduceClaims, reduceTimeSinceLastCycle } from '../reducers/statsReducers';
 import { abi as rewardsAbi } from '../../config/system/abis/BadgerTree.json';
 import { abi as diggAbi } from '../../config/system/abis/UFragments.json';
 import { badgerTree, digg_system } from '../../config/deployments/mainnet.json';
-import BigNumber from 'bignumber.js';
-import { BadgerTree, TreeClaimData } from 'mobx/model';
-import { reduceClaims, reduceTimeSinceLastCycle } from 'mobx/reducers/statsReducers';
 
 class RewardsStore {
 	private store!: RootStore;
-	private static defaultTree: BadgerTree = {
-		cycle: '...',
-		timeSinceLastCycle: '0h 0m',
-		proof: undefined,
-		sharesPerFragment: undefined,
-		claimableAmounts: undefined,
-		claims: undefined,
-	};
-	public badgerTree: BadgerTree;
+
+	public badgerTree?: any; // geyser contract data
 
 	constructor(store: RootStore) {
 		this.store = store;
-		this.badgerTree = RewardsStore.defaultTree;
 
 		extendObservable(this, {
-			badgerTree: this.badgerTree,
+			badgerTree: { cycle: '...', timeSinceLastCycle: '0h 0m', claims: [0] },
 		});
+
+		observe(this.store.wallet, 'connectedAddress', () => {
+			if (!!this.store.wallet.network.rewards) this.fetchSettRewards();
+		});
+
+		setInterval(this.fetchSettRewards, 6e4);
 	}
 
-	resetRewards = action(() => (this.badgerTree = RewardsStore.defaultTree));
+	fetchSettRewards = action(() => {
+		const { provider, connectedAddress, network } = this.store.wallet;
 
-	fetchSettRewards = action(
-		async (): Promise<void> => {
-			const { provider, connectedAddress, network } = this.store.wallet;
-			const { claimProof } = this.store.user;
+		if (!connectedAddress) return;
 
-			if (!connectedAddress || !claimProof || !network.rewards) {
-				this.badgerTree = RewardsStore.defaultTree;
-				return;
-			}
+		const web3 = new Web3(provider);
+		const rewardsTree = new web3.eth.Contract(rewardsAbi as AbiItem[], badgerTree);
+		const checksumAddress = Web3.utils.toChecksumAddress(connectedAddress);
+		const diggToken = new web3.eth.Contract(diggAbi as AbiItem[], digg_system.uFragments);
 
-			this.badgerTree = RewardsStore.defaultTree;
-			const web3 = new Web3(provider);
-			const rewardsTree = new web3.eth.Contract(rewardsAbi as AbiItem[], badgerTree);
-			const diggToken = new web3.eth.Contract(diggAbi as AbiItem[], digg_system.uFragments);
+		if (!network.rewards) {
+			this.badgerTree = undefined;
+			return;
+		}
 
-			const [timestamp, cycle, claimed, claimable, sharesPerFragment]: [
-				number,
-				number,
-				TreeClaimData,
-				TreeClaimData,
-				number,
-			] = await Promise.all([
-				rewardsTree.methods.lastPublishTimestamp().call(),
-				rewardsTree.methods.currentCycle().call(),
-				rewardsTree.methods.getClaimedFor(connectedAddress, claimProof.tokens).call(),
-				rewardsTree.methods
-					.getClaimableFor(connectedAddress, claimProof.tokens, claimProof.cumulativeAmounts)
-					.call(),
-				diggToken.methods._sharesPerFragment().call(),
-			]);
-			this.badgerTree = {
-				cycle: cycle.toString(),
-				timeSinceLastCycle: reduceTimeSinceLastCycle(timestamp),
-				proof: claimProof,
-				sharesPerFragment: new BigNumber(sharesPerFragment),
-				claims: reduceClaims(claimProof, claimed),
-				claimableAmounts: claimable[1],
-			};
-		},
-	);
+		const treeMethods = [
+			rewardsTree.methods.lastPublishTimestamp().call(),
+			rewardsTree.methods.merkleContentHash().call(),
+		];
 
-	claimGeysers = action(() => {
+		Promise.all(treeMethods)
+			.then((rewardsResponse: any) => {
+				this.badgerTree = _.defaults(
+					{
+						timeSinceLastCycle: reduceTimeSinceLastCycle(rewardsResponse[0]),
+					},
+					this.badgerTree,
+				);
+				if (network.rewards) {
+					const endpointQuery = jsonQuery(`${network.rewards.endpoint}/${checksumAddress}`);
+					if (!endpointQuery) {
+						return;
+					}
+					endpointQuery
+						.then((proof: any) => {
+							if (!network.rewards) {
+								return;
+							}
+							Promise.all([
+								rewardsTree.methods.getClaimedFor(connectedAddress, proof.tokens).call(),
+								diggToken.methods._sharesPerFragment().call(),
+								rewardsTree.methods
+									.getClaimableFor(connectedAddress, proof.tokens, proof.cumulativeAmounts)
+									.call(),
+							])
+								.then((result: any[]) => {
+									if (!proof.error) {
+										this.badgerTree = _.defaults(
+											{
+												cycle: parseInt(proof.cycle, 16),
+												claims: reduceClaims(proof, result[0][0], result[0][1]),
+												sharesPerFragment: result[1],
+												proof,
+												claimableAmounts: result[2][1],
+											},
+											this.badgerTree,
+										);
+									}
+								})
+								.catch((err) => console.log(err));
+						})
+						.catch((err) => console.log('error: ', err));
+				}
+			})
+			.catch((err) => console.log(err));
+	});
+
+	claimGeysers = action((stake = false) => {
 		const { proof, claimableAmounts } = this.badgerTree;
 		const { provider, gasPrices, connectedAddress } = this.store.wallet;
 		const { queueNotification, gasPrice, setTxStatus } = this.store.uiState;
@@ -98,6 +120,8 @@ class RewardsStore {
 		);
 
 		queueNotification(`Sign the transaction to claim your earnings`, 'info');
+		if (stake)
+			queueNotification(`You will need to approve 3 transactions in order to wrap & stake your assets`, 'info');
 		estimateAndSend(web3, gasPrices[gasPrice], method, connectedAddress, (transaction: PromiEvent<Contract>) => {
 			transaction
 				.on('transactionHash', (hash) => {

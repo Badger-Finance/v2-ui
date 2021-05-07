@@ -74,6 +74,7 @@ export const getGeysers = (network?: string): GeyserNetworkConfig => {
 								deploy.sett_system.vaults['native.sushiWbtcEth'],
 								deploy.sett_system.vaults['native.sushiBadgerWbtc'],
 							],
+							onsenId: ['103', '21', '73'],
 						},
 					},
 				],

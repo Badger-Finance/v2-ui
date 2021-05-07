@@ -11,7 +11,7 @@ import '@testing-library/jest-dom';
 import BigNumber from 'bignumber.js';
 import { Token, Vault } from '../../mobx/model';
 import { AbiItem } from 'web3-utils';
-import store from 'mobx/store';
+import { RootStore } from '../../mobx/store';
 
 describe('calculateNewSupply', () => {
 	const UPPER_LIMIT = 1.05 * 1e18;
@@ -103,10 +103,10 @@ describe('getDiggPerShare', () => {
 	const abi: AbiItem = { type: 'constructor' };
 	// Mock Vault object
 	const vault = new Vault(
-		store,
+		new RootStore(),
 		'0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a',
 		18,
-		new Token(store, '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a', 18),
+		new Token(new RootStore(), '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a', 18),
 		abi,
 	);
 
@@ -145,10 +145,10 @@ describe('getDiggPerShare', () => {
 	test('vaultBalance = 0 & totalSupply = 1000, returns 0', () => {
 		// Creating new vault to reset value of vaultBalance to its default, 0
 		const vault2 = new Vault(
-			store,
+			new RootStore(),
 			'0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a',
 			18,
-			new Token(store, '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a', 18),
+			new Token(new RootStore(), '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a', 18),
 			abi,
 		);
 		vault2.totalSupply = new BigNumber(1000);

@@ -4,11 +4,11 @@ import Onboard from 'bnc-onboard';
 import Notify from 'bnc-notify';
 import BigNumber from 'bignumber.js';
 import { onboardWalletCheck, getOnboardWallets } from '../../config/wallets';
+import { getNetwork, getNetworkNameFromId } from '../../mobx/utils/web3';
 import { GasPrices, Network } from 'mobx/model';
 import { RootStore } from 'mobx/store';
 import { API } from 'bnc-onboard/dist/src/interfaces';
 import { API as NotifyAPI } from 'bnc-notify';
-import { getNetwork, getNetworkNameFromId } from 'mobx/utils/network';
 
 class WalletStore {
 	private store: RootStore;
@@ -95,7 +95,7 @@ class WalletStore {
 	walletReset = action(() => {
 		try {
 			this.setProvider(null);
-			this.setAddress(null);
+			this.setAddress('');
 			window.localStorage.removeItem('selectedWallet');
 		} catch (err) {
 			console.log(err);
@@ -145,7 +145,7 @@ class WalletStore {
 
 	setAddress = action((address: any) => {
 		this.connectedAddress = address;
-		this.store.walletRefresh();
+		this.getCurrentBlock();
 	});
 
 	cacheWallet = action((wallet: any) => {

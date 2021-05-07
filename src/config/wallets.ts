@@ -46,6 +46,7 @@ export const getOnboardWallets = (network?: string): WalletProviderInfo[] => {
 					bridge: WC_BRIDGE,
 				},
 				{ walletName: 'walletLink', rpcUrl: NETWORK_CONSTANTS[NETWORK_LIST.ETH].RPC_URL, appName: APP_NAME },
+				{ walletName: 'dapper' },
 				{
 					walletName: 'portis',
 					apiKey: PORTIS_APP_ID,
@@ -67,6 +68,7 @@ export const getOnboardWallets = (network?: string): WalletProviderInfo[] => {
 				{ walletName: 'operaTouch' },
 				{ walletName: 'torus' },
 				{ walletName: 'status' },
+				{ walletName: 'unilogin' },
 				{ walletName: 'imToken', rpcUrl: NETWORK_CONSTANTS[NETWORK_LIST.ETH].RPC_URL },
 				{ walletName: 'meetone' },
 				{ walletName: 'mykey', rpcUrl: NETWORK_CONSTANTS[NETWORK_LIST.ETH].RPC_URL },

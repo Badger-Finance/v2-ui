@@ -9,7 +9,7 @@ import { AirdropNetworkConfig } from '../../mobx/model';
 import { getApi } from 'mobx/utils/apiV2';
 import { NETWORK_LIST } from '../constants';
 
-export const getAirdrops = (network?: string): AirdropNetworkConfig | undefined => {
+export const getAirdrops = (network?: string | undefined): AirdropNetworkConfig | undefined => {
 	switch (network) {
 		case NETWORK_LIST.ETH:
 			return {

@@ -16,7 +16,7 @@ describe('Landing Page', () => {
 	test('Renders correctly', () => {
 		const { container } = customRender(
 			<StoreProvider value={connectedStore}>
-				<Landing experimental={false} />
+				<Landing />
 			</StoreProvider>,
 		);
 		expect(container).toMatchSnapshot();
@@ -25,7 +25,7 @@ describe('Landing Page', () => {
 	test('Clicking portfolio switch shows empty portfolio', async () => {
 		const { container } = customRender(
 			<StoreProvider value={connectedStore}>
-				<Landing experimental={false} />
+				<Landing />
 			</StoreProvider>,
 		);
 		// Clicks on switch
