@@ -20,7 +20,6 @@ import {
 	// config
 	NETWORK_LIST,
 	RENVM_GATEWAY_ADDRESS,
-	FLAGS,
 } from 'config/constants';
 import { BADGER_ADAPTER } from 'config/system/abis/BadgerAdapter';
 import { BTC_GATEWAY } from 'config/system/abis/BtcGateway';
@@ -139,8 +138,6 @@ class BridgeStore {
 	public status!: Status;
 
 	constructor(store: RootStore) {
-		if (!FLAGS.BRIDGE_FLAG) return;
-
 		this.store = store;
 		this.db = fbase.firestore();
 		this.gjs = new GatewayJS('mainnet');
