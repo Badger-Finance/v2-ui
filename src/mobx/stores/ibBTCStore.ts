@@ -63,6 +63,8 @@ class IbBTCStore {
 			new TokenModel(this.store, token_config['btbtc/sbtcCrv']),
 			new TokenModel(this.store, token_config['byvWBTC']),
 		];
+		this.mintFee = new BigNumber(0);
+		this.redeemFee = new BigNumber(0);
 
 		extendObservable(this, {
 			tokens: this.tokens,
