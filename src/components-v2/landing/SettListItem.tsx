@@ -140,7 +140,6 @@ const SettListItem = observer(
 
 		const { apr, tooltip } = getRoi(sett, period);
 		const displayValue = balanceValue ? balanceValue : usdToCurrency(new BigNumber(sett.value), currency);
-		console.log(tooltip);
 
 		let userApr: number | undefined = undefined;
 		const multiplier = user.accountDetails?.multipliers[sett.vaultToken];
