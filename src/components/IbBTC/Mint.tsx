@@ -87,10 +87,10 @@ export const Mint = observer(
 			fee: BigNumber,
 			blocker: string | null,
 		): void => {
-			setOutputAmount(outputAmount.toFixed());
-			setFee(fee.toFixed());
-			setTotalMint(outputAmount.toFixed());
-			setConversionRate(outputAmount.plus(fee).dividedBy(inputAmount).toFixed());
+			setOutputAmount(outputAmount.toFixed(6, BigNumber.ROUND_HALF_FLOOR));
+			setFee(fee.toFixed(6, BigNumber.ROUND_HALF_FLOOR));
+			setTotalMint(outputAmount.toFixed(6, BigNumber.ROUND_HALF_FLOOR));
+			setConversionRate(outputAmount.plus(fee).dividedBy(inputAmount).toFixed(6, BigNumber.ROUND_HALF_FLOOR));
 			setMintBlocker(blocker);
 		};
 

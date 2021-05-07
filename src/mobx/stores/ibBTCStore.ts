@@ -229,6 +229,10 @@ class IbBTCStore {
 			return null;
 		}
 
+		if (!this.store.user.bouncerProof) {
+			return null; // do not display errors for non guests, they won't be able to mint anyways
+		}
+
 		try {
 			const web3 = new Web3(provider);
 			const peak = new web3.eth.Contract(peakAbi, peakAddress);
@@ -244,20 +248,17 @@ class IbBTCStore {
 				guessList.methods.totalDepositCap().call(),
 			]);
 
+			const userLimit = this.ibBTC.unscale(userRemaining).toFixed(6, BigNumber.ROUND_HALF_FLOOR);
+			const allUsersLimit = this.ibBTC.unscale(totalRemaining).toFixed(6, BigNumber.ROUND_HALF_FLOOR);
+			const individualLimit = this.ibBTC.unscale(userDepositCap).toFixed(6, BigNumber.ROUND_HALF_FLOOR);
+			const globalLimit = this.ibBTC.unscale(totalDepositCap).toFixed(6, BigNumber.ROUND_HALF_FLOOR);
+
 			if (amount.gt(userRemaining)) {
-				return `Your current mint amount limit is ${this.ibBTC.unscale(userRemaining)} ${
-					this.ibBTC.symbol
-				}. \nIndividual total mint amount limit is currently ${this.ibBTC.unscale(userDepositCap)} ${
-					this.ibBTC.symbol
-				}.`;
+				return `Your current mint amount limit is ${userLimit} ${this.ibBTC.symbol}.\nIndividual total mint amount limit is currently ${individualLimit} ${this.ibBTC.symbol}.`;
 			}
 
 			if (amount.gt(totalRemaining)) {
-				return `The current global mint amount limit is ${this.ibBTC.unscale(totalRemaining)} ${
-					this.ibBTC.symbol
-				}. \nGlobal total mint amount is currently ${this.ibBTC.unscale(totalDepositCap)} ${
-					this.ibBTC.symbol
-				}.`;
+				return `The current global mint amount limit is ${allUsersLimit} ${this.ibBTC.symbol}. \nGlobal total mint amount is currently ${globalLimit} ${this.ibBTC.symbol}.`;
 			}
 		} catch (error) {
 			process.env.NODE_ENV !== 'production' && console.error(error);
