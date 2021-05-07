@@ -1,5 +1,5 @@
 import { RootStore } from 'mobx/store';
-import { extendObservable, action, observe, decorate, observable } from 'mobx';
+import { extendObservable, action, observe } from 'mobx';
 
 import BigNumber from 'bignumber.js';
 import { PromiEvent } from 'web3-core';
@@ -37,8 +37,6 @@ interface PeakType {
 	isYearnWBTCPeak: boolean;
 	abi: any;
 }
-
-decorate(TokenModel, { balance: observable, redeemRate: observable, mintRate: observable });
 
 class IbBTCStore {
 	private readonly store: RootStore;
@@ -92,7 +90,6 @@ class IbBTCStore {
 		}
 
 		this.fetchTokensBalances().then();
-		this.fetchConversionRates().then();
 		this.fetchIbbtcApy().then();
 		this.fetchFees().then();
 	}
@@ -130,42 +127,6 @@ class IbBTCStore {
 		this.apyUsingLastDay = apyFromLastDay !== null ? `${(apyFromLastDay * 365).toFixed(3)}%` : null;
 		this.apyUsingLastWeek = apyFromLastWeek !== null ? `${(apyFromLastWeek * 52).toFixed(3)}%` : null;
 	});
-
-	fetchConversionRates = action(
-		async (): Promise<void> => {
-			const { provider } = this.store.wallet;
-			if (!provider) return;
-
-			// Fetch mintRate, redeemRate and set to respected token
-			const tokensRateInformation = this.tokens.map((token) =>
-				Promise.all([this.fetchMintRate(token), this.fetchRedeemRate(token)]),
-			);
-
-			await Promise.all(tokensRateInformation);
-		},
-	);
-
-	fetchMintRate = action(
-		async (token: TokenModel): Promise<void> => {
-			try {
-				const { bBTC } = await this.calcMintAmount(token, token.scale('1'));
-				token.mintRate = this.ibBTC.unscale(bBTC).toFixed(6, BigNumber.ROUND_HALF_FLOOR);
-			} catch (error) {
-				token.mintRate = '0.000';
-			}
-		},
-	);
-
-	fetchRedeemRate = action(
-		async (token: TokenModel): Promise<void> => {
-			try {
-				const { sett } = await this.calcRedeemAmount(token, token.scale('1'));
-				token.redeemRate = token.unscale(sett).toFixed(6, BigNumber.ROUND_HALF_FLOOR);
-			} catch (error) {
-				token.redeemRate = '0.000';
-			}
-		},
-	);
 
 	fetchBalance = action(
 		async (token: TokenModel): Promise<BigNumber> => {
@@ -555,6 +516,10 @@ class IbBTCStore {
 		const nowBlock = await web3.eth.getBlock('latest');
 		const { number: currentBlock } = nowBlock;
 		const currentPPS = await ibBTC.methods.pricePerShare().call();
+
+		if (!provider) {
+			return null;
+		}
 
 		try {
 			const [oldBlock, oldPPS] = await Promise.all([

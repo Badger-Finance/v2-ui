@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { Button, Typography, Grid, Tooltip } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -178,6 +178,17 @@ export const Redeem = observer((): any => {
 			resetState();
 		}
 	};
+
+	useEffect(() => {
+		const init = async () => {
+			if (!connectedAddress) return;
+			const initialToken = store.ibBTCStore.tokens[0];
+			const conversionRate = await store.ibBTCStore.getRedeemConversionRate(initialToken);
+			setConversionRate(initialToken.unscale(conversionRate).toFixed(6, BigNumber.ROUND_HALF_FLOOR));
+		};
+
+		init().then();
+	}, [store.ibBTCStore, connectedAddress]);
 
 	return (
 		<>

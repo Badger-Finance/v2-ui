@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { Button, Typography, Grid, Tooltip } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
 
@@ -70,7 +70,7 @@ export const Mint = observer(
 		const [outputAmount, setOutputAmount] = useState<string>();
 		const [fee, setFee] = useState('0.000');
 		const [totalMint, setTotalMint] = useState('0.000');
-		const [conversionRate, setConversionRate] = useState(selectedToken.mintRate);
+		const [conversionRate, setConversionRate] = useState('1.000000');
 		const [mintBlocker, setMintBlocker] = useState<string | null>(null);
 
 		const resetState = () => {
@@ -144,6 +144,17 @@ export const Mint = observer(
 				resetState();
 			}
 		};
+
+		useEffect(() => {
+			const init = async () => {
+				if (!connectedAddress) return;
+				const initialToken = store.ibBTCStore.tokens[0];
+				const { bBTC, fee } = await store.ibBTCStore.calcMintAmount(initialToken, initialToken.scale('1'));
+				setConversionRate(initialToken.unscale(bBTC.plus(fee)).toFixed(6, BigNumber.ROUND_HALF_FLOOR));
+			};
+
+			init().then();
+		}, [store.ibBTCStore, connectedAddress]);
 
 		return (
 			<>
