@@ -1,5 +1,6 @@
 import { makeStyles, Typography } from '@material-ui/core';
 import { Loader } from 'components/Loader';
+import { FLAGS } from 'config/constants';
 import { observer } from 'mobx-react-lite';
 import {
 	formatBalance,
@@ -126,7 +127,7 @@ const UserListDisplay = observer((props: SettListViewProps) => {
 
 	return (
 		<>
-			{accountDetails && (
+			{FLAGS.BADGER_BOOST_FLAG && accountDetails && (
 				<div className={classes.boostContainer}>
 					<img
 						className={classes.badgerHeadIcon}
