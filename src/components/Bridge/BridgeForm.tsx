@@ -19,7 +19,7 @@ import { ValuesProp } from './Common';
 import WBTCLogo from 'assets/icons/WBTC.svg';
 import byvWBTCLogo from 'assets/icons/byvWBTC.svg';
 import renBTCLogo from 'assets/icons/renBTC.svg';
-import crvBTCLogo from 'assets/tokens/bcrvRenWBTC.png';
+import crvBTCLogo from 'assets/tokens/bcrvRenWBTC.svg';
 import { NETWORK_LIST, CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS, FLAGS } from 'config/constants';
 import { bridge_system, tokens, sett_system } from 'config/deployments/mainnet.json';
 import { CURVE_EXCHANGE } from 'config/system/abis/CurveExchange';

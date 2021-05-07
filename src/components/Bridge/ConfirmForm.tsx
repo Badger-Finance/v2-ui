@@ -7,7 +7,7 @@ import btcLogo from 'assets/icons/btc.svg';
 import WBTCLogo from 'assets/icons/WBTC.svg';
 import byvWBTCLogo from 'assets/icons/byvWBTC.svg';
 import renBTCLogo from 'assets/icons/renBTC.svg';
-import crvBTCLogo from 'assets/tokens/bcrvRenWBTC.png';
+import crvBTCLogo from 'assets/tokens/bcrvRenWBTC.svg';
 import { shortenAddress } from 'utils/componentHelpers';
 
 interface ConfirmFormProps {
