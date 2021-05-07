@@ -19,7 +19,6 @@ import {
 	SummaryGrid,
 	BalanceGrid,
 	InputTokenActionButtonsGrid,
-	OutputBalanceText,
 	OutputAmountText,
 	OutputTokenGrid,
 	ErrorText,
@@ -204,11 +203,6 @@ export const Redeem = observer((): any => {
 				<DownArrow />
 			</Grid>
 			<Grid container>
-				<Grid item xs={12}>
-					<OutputBalanceText variant="body1" color="textSecondary">
-						Balance: {selectedToken.formattedBalance}
-					</OutputBalanceText>
-				</Grid>
 				<OutputContentGrid container item xs={12}>
 					<Grid item xs={12} sm={7} md={12} lg={7}>
 						<OutputAmountText variant="h1">{outputAmount || '0.000'}</OutputAmountText>

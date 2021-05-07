@@ -27,7 +27,6 @@ describe('ibBTC Redeem', () => {
 
 	it('displays ibBTC balance and output token balance', () => {
 		store.ibBTCStore.ibBTC.balance = store.ibBTCStore.ibBTC.scale('10');
-		store.ibBTCStore.tokens[0].balance = store.ibBTCStore.tokens[0].scale('5');
 		customRender(
 			<StoreProvider value={store}>
 				<Redeem />
@@ -35,7 +34,6 @@ describe('ibBTC Redeem', () => {
 		);
 
 		expect(screen.getByText('Balance: 10.000')).toBeInTheDocument();
-		expect(screen.getByText('Balance: 5.000')).toBeInTheDocument();
 	});
 
 	it('can apply max balance', async () => {

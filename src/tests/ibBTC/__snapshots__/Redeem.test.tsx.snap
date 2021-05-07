@@ -51,7 +51,7 @@ exports[`ibBTC Redeem displays output balance when redeem amount is inputted 1`]
               max
             </span>
             <span
-              class="MuiTouchRipple-root-219"
+              class="MuiTouchRipple-root-217"
             />
           </button>
         </div>
@@ -106,32 +106,22 @@ exports[`ibBTC Redeem displays output balance when redeem amount is inputted 1`]
     class="MuiGrid-root-1 MuiGrid-container-2"
   >
     <div
-      class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
-    >
-      <p
-        class="MuiTypography-root-107 WithStyles(ForwardRef(Typography))-root-194 WithStyles(ForwardRef(Typography))-root-195 MuiTypography-body1-109 MuiTypography-colorTextSecondary-133"
-      >
-        Balance: 
-        0.000
-      </p>
-    </div>
-    <div
-      class="MuiGrid-root-1 WithStyles(ForwardRef(Grid))-root-196 WithStyles(ForwardRef(Grid))-root-197 MuiGrid-container-2 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
+      class="MuiGrid-root-1 WithStyles(ForwardRef(Grid))-root-194 WithStyles(ForwardRef(Grid))-root-195 MuiGrid-container-2 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
     >
       <div
         class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47 MuiGrid-grid-sm-7-56 MuiGrid-grid-md-12-75 MuiGrid-grid-lg-7-84"
       >
         <h1
-          class="MuiTypography-root-107 WithStyles(ForwardRef(Typography))-root-198 WithStyles(ForwardRef(Typography))-root-199 MuiTypography-h1-112"
+          class="MuiTypography-root-107 WithStyles(ForwardRef(Typography))-root-196 WithStyles(ForwardRef(Typography))-root-197 MuiTypography-h1-112"
         >
           11.988
         </h1>
       </div>
       <div
-        class="MuiGrid-root-1 WithStyles(ForwardRef(Grid))-root-200 WithStyles(ForwardRef(Grid))-root-201 MuiGrid-container-2 MuiGrid-item-3 MuiGrid-grid-xs-12-47 MuiGrid-grid-sm-5-54 MuiGrid-grid-md-12-75 MuiGrid-grid-lg-5-82"
+        class="MuiGrid-root-1 WithStyles(ForwardRef(Grid))-root-198 WithStyles(ForwardRef(Grid))-root-199 MuiGrid-container-2 MuiGrid-item-3 MuiGrid-grid-xs-12-47 MuiGrid-grid-sm-5-54 MuiGrid-grid-md-12-75 MuiGrid-grid-lg-5-82"
       >
         <button
-          class="MuiButtonBase-root-190 MuiButton-root-161 MuiButton-outlined-166 makeStyles-selectButton-207 MuiButton-outlinedSizeSmall-178 MuiButton-sizeSmall-182"
+          class="MuiButtonBase-root-190 MuiButton-root-161 MuiButton-outlined-166 makeStyles-selectButton-205 MuiButton-outlinedSizeSmall-178 MuiButton-sizeSmall-182"
           tabindex="0"
           type="button"
         >
@@ -156,7 +146,7 @@ exports[`ibBTC Redeem displays output balance when redeem amount is inputted 1`]
             >
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root-209"
+                class="MuiSvgIcon-root-207"
                 focusable="false"
                 viewBox="0 0 24 24"
               >
@@ -167,7 +157,7 @@ exports[`ibBTC Redeem displays output balance when redeem amount is inputted 1`]
             </span>
           </span>
           <span
-            class="MuiTouchRipple-root-219"
+            class="MuiTouchRipple-root-217"
           />
         </button>
       </div>
@@ -177,7 +167,7 @@ exports[`ibBTC Redeem displays output balance when redeem amount is inputted 1`]
     class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
   >
     <div
-      class="MuiGrid-root-1 WithStyles(ForwardRef(Grid))-root-218"
+      class="MuiGrid-root-1 WithStyles(ForwardRef(Grid))-root-216"
     >
       <div
         class="MuiGrid-root-1 MuiGrid-container-2 MuiGrid-item-3 MuiGrid-justify-xs-space-between-21 MuiGrid-grid-xs-12-47"
@@ -268,7 +258,7 @@ exports[`ibBTC Redeem displays output balance when redeem amount is inputted 1`]
         Connect Wallet
       </span>
       <span
-        class="MuiTouchRipple-root-219"
+        class="MuiTouchRipple-root-217"
       />
     </button>
   </div>
