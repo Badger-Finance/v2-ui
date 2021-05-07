@@ -519,6 +519,7 @@ class BridgeStore {
 			}, defaultRetryOptions);
 		} catch (err) {
 			queueNotification(`Failed to fetch fees: ${err.message}`, 'error');
+			console.log(err.message);
 		}
 	};
 
@@ -555,6 +556,7 @@ class BridgeStore {
 			}, defaultRetryOptions);
 		} catch (err) {
 			queueNotification(`Failed to fetch fees: ${err.message}`, 'error');
+			console.log(err.message);
 		}
 	};
 

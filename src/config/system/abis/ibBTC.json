@@ -1,7 +1,7 @@
 {
 	"abi": [
 		{
-			"inputs": [{ "internalType": "contract IERC20", "name": "_token", "type": "address" }],
+			"inputs": [{ "internalType": "address", "name": "_core", "type": "address" }],
 			"stateMutability": "nonpayable",
 			"type": "constructor"
 		},
@@ -47,22 +47,25 @@
 		},
 		{
 			"inputs": [{ "internalType": "address", "name": "account", "type": "address" }],
-			"name": "approveContractAccess",
+			"name": "balanceOf",
+			"outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{ "internalType": "address", "name": "account", "type": "address" },
+				{ "internalType": "uint256", "name": "amount", "type": "uint256" }
+			],
+			"name": "burn",
 			"outputs": [],
 			"stateMutability": "nonpayable",
 			"type": "function"
 		},
 		{
 			"inputs": [],
-			"name": "balance",
-			"outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-			"stateMutability": "view",
-			"type": "function"
-		},
-		{
-			"inputs": [{ "internalType": "address", "name": "account", "type": "address" }],
-			"name": "balanceOf",
-			"outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+			"name": "core",
+			"outputs": [{ "internalType": "address", "name": "", "type": "address" }],
 			"stateMutability": "view",
 			"type": "function"
 		},
@@ -84,20 +87,6 @@
 			"type": "function"
 		},
 		{
-			"inputs": [{ "internalType": "uint256", "name": "_amount", "type": "uint256" }],
-			"name": "deposit",
-			"outputs": [],
-			"stateMutability": "nonpayable",
-			"type": "function"
-		},
-		{
-			"inputs": [],
-			"name": "getPricePerFullShare",
-			"outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-			"stateMutability": "view",
-			"type": "function"
-		},
-		{
 			"inputs": [
 				{ "internalType": "address", "name": "spender", "type": "address" },
 				{ "internalType": "uint256", "name": "addedValue", "type": "uint256" }
@@ -108,10 +97,34 @@
 			"type": "function"
 		},
 		{
+			"inputs": [
+				{ "internalType": "address", "name": "account", "type": "address" },
+				{ "internalType": "uint256", "name": "amount", "type": "uint256" }
+			],
+			"name": "mint",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
 			"inputs": [],
 			"name": "name",
 			"outputs": [{ "internalType": "string", "name": "", "type": "string" }],
 			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "pricePerShare",
+			"outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [{ "internalType": "address", "name": "_core", "type": "address" }],
+			"name": "switchCore",
+			"outputs": [],
+			"stateMutability": "nonpayable",
 			"type": "function"
 		},
 		{
@@ -148,14 +161,6 @@
 			"outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
 			"stateMutability": "nonpayable",
 			"type": "function"
-		},
-		{
-			"inputs": [{ "internalType": "uint256", "name": "_shares", "type": "uint256" }],
-			"name": "withdraw",
-			"outputs": [],
-			"stateMutability": "nonpayable",
-			"type": "function"
-		},
-		{ "inputs": [], "name": "withdrawAll", "outputs": [], "stateMutability": "nonpayable", "type": "function" }
+		}
 	]
 }

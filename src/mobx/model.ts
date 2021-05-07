@@ -202,7 +202,7 @@ export class TokenModel extends Contract {
 		return this.unscale(this.balance).toFixed(3);
 	}
 
-	public get icon(): string {
+	public get icon(): any {
 		return require(`assets/tokens/${this.symbol}.png`);
 	}
 
@@ -844,4 +844,9 @@ export interface ExchangeRates {
 	cad: number;
 	btc: number;
 	bnb: number;
+}
+
+export interface ibBTCFees {
+	mintFee: BigNumber;
+	redeemFee: BigNumber;
 }

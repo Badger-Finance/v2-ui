@@ -408,3 +408,5 @@ export function marketChartStats(
 
 	return { high, low, avg, median };
 }
+
+export const toHex = (amount: BigNumber): string => '0x' + amount.toString(16);
