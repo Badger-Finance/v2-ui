@@ -71,7 +71,7 @@ export const MintForm = ({
 		// No APY for non vault tokens.
 		if (!address) return 0;
 		const sett = settMap[address];
-		return sett ? sett.apy : 0;
+		return sett ? sett.apr : 0;
 	};
 
 	const getNewVaultToolTip = (): JSX.Element => {
