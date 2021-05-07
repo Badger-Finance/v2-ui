@@ -61,7 +61,7 @@ export const Mint = observer(
 		const store = useContext(StoreContext);
 
 		const {
-			ibBTCStore: { tokens, ibBTC },
+			ibBTCStore: { tokens, ibBTC, mintFee },
 			wallet: { connectedAddress },
 		} = store;
 
@@ -218,7 +218,17 @@ export const Mint = observer(
 							</Grid>
 							<Grid item xs={6}>
 								<EndAlignText variant="body1">
-									{fee} {ibBTC.symbol}
+									<Tooltip
+										enterDelay={0}
+										leaveDelay={300}
+										arrow
+										placement="left"
+										title={'Mint Fee: ' + mintFee + '%'}
+									>
+										<span>
+											{fee} {ibBTC.symbol}
+										</span>
+									</Tooltip>
 								</EndAlignText>
 							</Grid>
 						</Grid>

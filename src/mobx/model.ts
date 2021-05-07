@@ -845,3 +845,8 @@ export interface ExchangeRates {
 	btc: number;
 	bnb: number;
 }
+
+export interface ibBTCFees {
+	mintFee: BigNumber;
+	redeemFee: BigNumber;
+}

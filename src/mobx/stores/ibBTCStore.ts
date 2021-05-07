@@ -6,7 +6,7 @@ import { PromiEvent } from 'web3-core';
 import { Contract, ContractSendMethod } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
 import Web3 from 'web3';
-import { TokenModel } from 'mobx/model';
+import { ibBTCFees, TokenModel } from 'mobx/model';
 import { estimateAndSend } from 'mobx/utils/web3';
 
 import { ZERO, MAX, FLAGS, NETWORK_IDS } from 'config/constants';
@@ -47,6 +47,8 @@ class IbBTCStore {
 	public ibBTC: TokenModel;
 	public apyUsingLastDay?: string | null;
 	public apyUsingLastWeek?: string | null;
+	public mintFee?: BigNumber;
+	public redeemFee?: BigNumber;
 
 	constructor(store: RootStore) {
 		this.store = store;
@@ -66,6 +68,8 @@ class IbBTCStore {
 			ibBTC: this.ibBTC,
 			apyUsingLastDay: this.apyUsingLastDay,
 			apyUsingLastWeek: this.apyUsingLastWeek,
+			mintFee: this.mintFee,
+			redeemFee: this.redeemFee,
 		});
 
 		observe(this.store.wallet as any, 'connectedAddress', () => {
@@ -87,7 +91,16 @@ class IbBTCStore {
 		this.fetchTokensBalance().then();
 		this.fetchConversionRates().then();
 		this.fetchIbbtcApy().then();
+		this.fetchFees().then();
 	}
+
+	fetchFees = action(
+		async (): Promise<void> => {
+			const fees = await this.getFees();
+			this.mintFee = fees.mintFee;
+			this.redeemFee = fees.redeemFee;
+		},
+	);
 
 	fetchTokensBalance = action(
 		async (): Promise<void> => {
@@ -284,6 +297,35 @@ class IbBTCStore {
 			.multipliedBy(1e36)
 			.dividedBy(settTokenPricePerShare)
 			.dividedBy(swapVirtualPrice);
+	}
+
+	async getFees(): Promise<ibBTCFees> {
+		const { provider } = this.store.wallet;
+		if (!provider) {
+			return {
+				mintFee: new BigNumber(0),
+				redeemFee: new BigNumber(0),
+			};
+		}
+
+		const web3 = new Web3(provider);
+		const ibBTC = new web3.eth.Contract(ibBTCConfig.abi as AbiItem[], this.ibBTC.address);
+		const coreAddress = await ibBTC.methods.core().call();
+		const core = new web3.eth.Contract(coreConfig.abi as AbiItem[], coreAddress);
+		const mintFee = await core.methods.mintFee().call();
+		const redeemFee = await core.methods.redeemFee().call();
+
+		if (mintFee && redeemFee) {
+			return {
+				mintFee: new BigNumber(mintFee).dividedBy(100),
+				redeemFee: new BigNumber(redeemFee).dividedBy(100),
+			};
+		} else {
+			return {
+				mintFee: new BigNumber(0),
+				redeemFee: new BigNumber(0),
+			};
+		}
 	}
 
 	async getAllowance(underlyingAsset: TokenModel, spender: string): Promise<BigNumber> {
