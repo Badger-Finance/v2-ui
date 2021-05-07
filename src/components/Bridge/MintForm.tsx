@@ -148,7 +148,7 @@ export const MintForm = ({
 
 					{isEarn && values.token == 'byvWBTC' && (
 						<div className={classes.summaryRow}>
-							<Typography variant="subtitle1">APY: </Typography>
+							<Typography variant="subtitle1">ROI: </Typography>
 							<Tooltip
 								enterDelay={0}
 								leaveDelay={300}
@@ -163,7 +163,7 @@ export const MintForm = ({
 
 					{isEarn && !(values.token == 'byvWBTC') && (
 						<div className={classes.summaryRow}>
-							<Typography variant="subtitle1">APY: </Typography>
+							<Typography variant="subtitle1">ROI: </Typography>
 							<Typography variant="body1">
 								{getAPY(values.token, toJS(settMap)).toFixed(2) + '%'}
 							</Typography>

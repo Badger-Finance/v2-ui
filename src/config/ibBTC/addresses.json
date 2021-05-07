@@ -13,14 +13,14 @@
 					"decimals": 18,
 					"symbol": "bcrvrenwsbtc",
 					"name": "Badger crvRenWSBTC",
-					"poolId": 0
+					"poolId": 1
 				},
 				"bcrvRenWBTC": {
 					"address": "0x6dEf55d2e18486B9dDfaA075bc4e4EE0B28c1545",
 					"decimals": 18,
 					"symbol": "bcrvrenwbtc",
 					"name": "Badger crvRenWBTC",
-					"poolId": 1
+					"poolId": 0
 				},
 				"btbtc/sbtcCrv": {
 					"address": "0xb9D076fDe463dbc9f915E5392F807315Bf940334",
