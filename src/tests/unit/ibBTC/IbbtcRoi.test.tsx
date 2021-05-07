@@ -4,7 +4,7 @@ import '@testing-library/jest-dom';
 import { TokenModel } from '../../../mobx/model';
 import addresses from 'config/ibBTC/addresses.json';
 import { customRender, screen } from '../../Utils';
-import { IbbtcApy } from '../../../components/IbBTC/IbbtcApy';
+import { IbbtcRoi } from '../../../components/IbBTC/IbbtcRoi';
 import { CssBaseline, ThemeProvider } from '@material-ui/core';
 import { darkTheme } from '../../../config/ui/dark';
 import { StoreProvider } from '../../../mobx/store-context';
@@ -16,7 +16,7 @@ it('displays N/A state', () => {
 		<StoreProvider value={store}>
 			<ThemeProvider theme={darkTheme}>
 				<CssBaseline />
-				<IbbtcApy />
+				<IbbtcRoi />
 			</ThemeProvider>
 		</StoreProvider>,
 	);
@@ -29,12 +29,12 @@ it('displays logo and name', () => {
 		<StoreProvider value={store}>
 			<ThemeProvider theme={darkTheme}>
 				<CssBaseline />
-				<IbbtcApy />
+				<IbbtcRoi />
 			</ThemeProvider>
 		</StoreProvider>,
 	);
-	expect(screen.getByText(`${store.ibBTCStore.ibBTC.symbol} APY`)).toBeInTheDocument();
-	expect(screen.getByAltText('APY Token Logo')).toBeInTheDocument();
+	expect(screen.getByText(`${store.ibBTCStore.ibBTC.symbol} ROI`)).toBeInTheDocument();
+	expect(screen.getByAltText('ROI Token Logo')).toBeInTheDocument();
 });
 
 it('displays APY information', () => {
@@ -46,7 +46,7 @@ it('displays APY information', () => {
 		<StoreProvider value={store}>
 			<ThemeProvider theme={darkTheme}>
 				<CssBaseline />
-				<IbbtcApy />
+				<IbbtcRoi />
 			</ThemeProvider>
 		</StoreProvider>,
 	);
@@ -65,7 +65,7 @@ it('displays APY information', () => {
 // 		<StoreProvider value={store}>
 // 			<ThemeProvider theme={darkTheme}>
 // 				<CssBaseline />
-// 				<IbbtcApy />
+// 				<IbbtcRoi />
 // 			</ThemeProvider>
 // 		</StoreProvider>,
 // 	);

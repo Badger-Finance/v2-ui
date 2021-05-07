@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export const IbbtcApy = observer(
+export const IbbtcRoi = observer(
 	(): JSX.Element => {
 		const { ibBTCStore, wallet } = React.useContext(StoreContext);
 		const { connectedAddress } = wallet;
@@ -44,8 +44,8 @@ export const IbbtcApy = observer(
 		return (
 			<Grid container component={Paper} className={classes.container}>
 				<Grid item container alignItems="center" xs={12} sm className={classes.token}>
-					<img src={ibBTC.icon.default} alt="APY Token Logo" className={classes.logo} />
-					<Typography variant="h6">{`${ibBTC.symbol} APY`}</Typography>
+					<img src={ibBTC.icon.default} alt="ROI Token Logo" className={classes.logo} />
+					<Typography variant="h6">{`${ibBTC.symbol} ROI`}</Typography>
 				</Grid>
 
 				{!isDisplayXs && <Divider orientation="vertical" flexItem />}
