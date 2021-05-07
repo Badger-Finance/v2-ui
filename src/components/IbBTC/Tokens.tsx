@@ -71,7 +71,14 @@ export const Tokens = ({ tokens, selected, onTokenSelect }: TokenListProps): any
 				<Paper onMouseLeave={() => setAnchorEl(null)}>
 					<List>
 						{tokens.map((token) => (
-							<ListItem key={token.address} button onClick={() => onTokenSelect(token)}>
+							<ListItem
+								key={token.address}
+								button
+								onClick={() => {
+									onTokenSelect(token);
+									setAnchorEl(null);
+								}}
+							>
 								{' '}
 								<Token token={token} />
 							</ListItem>
