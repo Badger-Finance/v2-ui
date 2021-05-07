@@ -273,29 +273,27 @@ export const Sidebar = observer(() => {
 									<ListItemIcon>
 										<img
 											alt="Interest Bearing Badger Bitcoin Icon"
-											src={require('assets/sidebar/ibBTC.png')}
+											src={'assets/sidebar/ibbtc-white.svg'}
 											className={classes.icon}
 										/>
 									</ListItemIcon>
-									<ListItemText primary="ibBTC" />
+									<ListItemText primary="Interest Bearing BTC" />
 								</ListItem>
 							)}
-							{FLAGS.BRIDGE_FLAG && (
-								<ListItem
-									button
-									className={
-										classes.listItem +
-										' ' +
-										(store.router.currentPath == '/bridge' ? classes.activeListItem : '')
-									}
-									onClick={() => navigate(views.bridge)}
-								>
-									<ListItemIcon>
-										<img src="/assets/sidebar/icon-badger-bridge.svg" className={classes.icon} />
-									</ListItemIcon>
-									<ListItemText primary="Bridge" />
-								</ListItem>
-							)}
+							<ListItem
+								button
+								className={
+									classes.listItem +
+									' ' +
+									(store.router.currentPath == '/bridge' ? classes.activeListItem : '')
+								}
+								onClick={() => navigate(views.bridge)}
+							>
+								<ListItemIcon>
+									<img src="/assets/sidebar/icon-badger-bridge.svg" className={classes.icon} />
+								</ListItemIcon>
+								<ListItemText primary="Bridge" />
+							</ListItem>
 							<ListItem
 								button
 								className={classes.listItem}

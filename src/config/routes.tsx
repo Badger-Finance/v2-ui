@@ -54,7 +54,7 @@ const routes = {
 	}),
 	bridge: new Route<RootStore, QueryParams>({
 		path: '/bridge',
-		component: FLAGS.BRIDGE_FLAG ? <Bridge /> : <></>,
+		component: <Bridge />,
 	}),
 };
 

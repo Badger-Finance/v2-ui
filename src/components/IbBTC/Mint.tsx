@@ -1,175 +1,273 @@
-import React, { useContext, useState } from 'react';
-import { Container, Button, Typography } from '@material-ui/core';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { Button, Typography, Grid, Tooltip } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
 
 import { debounce } from 'utils/componentHelpers';
 import { ZERO } from 'config/constants';
-import { commonStyles } from './index';
 import { BigNumber } from 'bignumber.js';
 import { Token, Tokens } from './Tokens';
 import { DownArrow } from './DownArrow';
 
 import { TokenModel } from 'mobx/model';
 import { StoreContext } from 'mobx/store-context';
-import { TextField } from '@material-ui/core';
+import { useConnectWallet } from 'mobx/utils/hooks';
+import {
+	EndAlignText,
+	InputTokenAmount,
+	BorderedFocusableContainerGrid,
+	OutputContentGrid,
+	SummaryGrid,
+	BalanceGrid,
+	InputTokenActionButtonsGrid,
+	OutputBalanceText,
+	OutputAmountText,
+	OutputTokenGrid,
+	ErrorText,
+} from './Common';
 
-export const Mint = observer((): any => {
-	const store = useContext(StoreContext);
-	const classes = commonStyles();
+const ActionButton = observer(
+	({ children }): JSX.Element => {
+		const store = useContext(StoreContext);
+		const { bouncerProof } = store.user;
+		const { connectedAddress } = store.wallet;
+		const connectWallet = useConnectWallet();
 
-	const {
-		ibBTCStore: { tokens, ibBTC },
-	} = store;
-
-	let inputRef: any;
-
-	const [selectedToken, setSelectedToken] = useState<TokenModel>(tokens[0]);
-	const [inputAmount, setInputAmount] = useState<string>();
-	const [outputAmount, setOutputAmount] = useState<string>();
-	const initialFee = (1 - parseFloat(selectedToken.mintRate)).toFixed(3);
-	const [fee, setFee] = useState<string>(initialFee);
-	const conversionRate =
-		outputAmount && inputAmount
-			? (
-					parseFloat(outputAmount.toString() || selectedToken.mintRate) /
-					parseFloat(inputAmount.toString() || '1')
-			  ).toFixed(4)
-			: (parseFloat(selectedToken.mintRate) / 1).toFixed(4);
-
-	const _debouncedSetInputAmount = debounce(600, async (val) => {
-		setInputAmount(val);
-		val = new BigNumber(val);
-		if (val.gt(ZERO))
-			store.ibBTCStore.calcMintAmount(selectedToken, selectedToken.scale(val), handleCalcOutputAmount);
-		else {
-			setOutputAmount('');
-			setFee(initialFee);
-		}
-	});
-
-	const handleCalcOutputAmount = (err: any, result: any): void => {
-		if (!err) {
-			setOutputAmount(ibBTC.unscale(new BigNumber(result[0])).toString(10));
-			setFee(ibBTC.unscale(new BigNumber(result[1])).toFixed(4));
-		} else setOutputAmount('');
-	};
-
-	const handleInputAmount = (event: any) => {
-		const nextValue = event?.target?.value;
-		_debouncedSetInputAmount(nextValue);
-	};
-
-	const handleTokenSelection = (event: any) => {
-		const token = tokens.find((token: TokenModel) => token.symbol === event?.target?.value) || tokens[0];
-		setSelectedToken(token);
-		if (inputAmount) store.ibBTCStore.calcMintAmount(token, token.scale(inputAmount), handleCalcOutputAmount);
-	};
-
-	const resetState = () => {
-		setInputAmount((inputRef.value = ''));
-		setOutputAmount('');
-		setFee(initialFee);
-	};
-
-	const useMaxBalance = () => {
-		setInputAmount((inputRef.value = selectedToken.unscale(selectedToken.balance).toString(10)));
-		store.ibBTCStore.calcMintAmount(selectedToken, selectedToken.balance, handleCalcOutputAmount);
-	};
-	const handleMintClick = () => {
-		if (inputAmount)
-			store.ibBTCStore.mint(selectedToken, selectedToken.scale(new BigNumber(inputAmount)), handleMint);
-	};
-
-	const handleMint = (): void => {
-		resetState();
-	};
-
-	return (
-		<Container className={classes.root}>
-			<div className={classes.outerWrapper}>
-				<Typography variant="body1" color="textSecondary" className={classes.balance}>
-					Balance: {selectedToken.formattedBalance}
-				</Typography>
-				<TextField
-					variant="outlined"
-					size="medium"
-					placeholder="0.0"
-					onChange={handleInputAmount}
-					InputProps={{
-						style: { fontSize: '3rem' },
-						endAdornment: [
-							<Button
-								key="token-select-btn"
-								size="small"
-								className={classes.btnMax}
-								variant="outlined"
-								onClick={useMaxBalance}
-							>
-								max
-							</Button>,
-							<Tokens
-								key="token-select"
-								tokens={tokens}
-								selected={selectedToken}
-								onTokenSelect={handleTokenSelection}
-							/>,
-						],
-					}}
-				/>
-			</div>
-			<div className={classes.outerWrapper}>
-				<DownArrow />
-			</div>
-			<div className={classes.outerWrapper}>
-				<Typography variant="body1" color="textSecondary" className={classes.balance}>
-					Balance: {ibBTC.formattedBalance}
-				</Typography>
-				<div
-					style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '0 1rem 0 1rem' }}
-				>
-					<Typography variant="h1">{outputAmount || '0.00'}</Typography>
-				</div>
-				<div
-					style={{
-						display: 'flex',
-						flexDirection: 'column',
-						alignItems: 'flex-end',
-						marginTop: '-2.5rem',
-						padding: '0 1rem 2rem 1rem',
-					}}
-				>
-					<Token token={ibBTC} />
-				</div>
-			</div>
-
-			<div className={classes.outerWrapper}>
-				<div className={classes.summaryWrapper}>
-					<div className={classes.summaryRow}>
-						<Typography variant="subtitle1">Current Conversion Rate: </Typography>
-						<Typography variant="body1">
-							1 {selectedToken.symbol} : {conversionRate} {ibBTC.symbol}
-						</Typography>
-					</div>
-
-					<div className={classes.summaryRow}>
-						<Typography variant="subtitle1">Fees: </Typography>
-						<Typography variant="body1">
-							{fee} {ibBTC.symbol}
-						</Typography>
-					</div>
-				</div>
-			</div>
-			<div className={classes.outerWrapper}>
-				<Button
-					size="large"
-					variant="contained"
-					color="primary"
-					onClick={handleMintClick}
-					disabled={!inputAmount}
-				>
-					MINT
+		if (!connectedAddress) {
+			return (
+				<Button fullWidth size="large" variant="contained" color="primary" onClick={connectWallet}>
+					Connect Wallet
 				</Button>
-			</div>
-		</Container>
-	);
-});
+			);
+		}
+
+		if (!bouncerProof) {
+			return (
+				<Tooltip arrow placement="top" title="You are not part of the guest list yet. Please try again later.">
+					<span>
+						<Button fullWidth size="large" variant="contained" color="primary" disabled>
+							MINT
+						</Button>
+					</span>
+				</Tooltip>
+			);
+		}
+
+		return <>{children}</>;
+	},
+);
+
+export const Mint = observer(
+	(): JSX.Element => {
+		const store = useContext(StoreContext);
+
+		const {
+			ibBTCStore: { tokens, ibBTC, mintFeePercent },
+			wallet: { connectedAddress },
+		} = store;
+
+		const [selectedToken, setSelectedToken] = useState(tokens[0]);
+		const [inputAmount, setInputAmount] = useState<string>();
+		const [outputAmount, setOutputAmount] = useState<string>();
+		const [fee, setFee] = useState('0.000');
+		const [totalMint, setTotalMint] = useState('0.000');
+		const [conversionRate, setConversionRate] = useState('1.000000');
+		const [mintBlocker, setMintBlocker] = useState<string | null>(null);
+
+		const resetState = () => {
+			setInputAmount('');
+			setOutputAmount('');
+			setFee('0.000');
+			setTotalMint('0.000');
+			setMintBlocker(null);
+		};
+
+		const setMintInformation = (
+			inputAmount: BigNumber,
+			outputAmount: BigNumber,
+			fee: BigNumber,
+			blocker: string | null,
+		): void => {
+			setOutputAmount(outputAmount.toFixed(6, BigNumber.ROUND_HALF_FLOOR));
+			setFee(fee.toFixed(6, BigNumber.ROUND_HALF_FLOOR));
+			setTotalMint(outputAmount.toFixed(6, BigNumber.ROUND_HALF_FLOOR));
+			setConversionRate(outputAmount.plus(fee).dividedBy(inputAmount).toFixed(6, BigNumber.ROUND_HALF_FLOOR));
+			setMintBlocker(blocker);
+		};
+
+		// reason: the plugin does not recognize the dependency inside the debounce function
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+		const handleInputAmountChange = useCallback(
+			debounce(600, async (change: string) => {
+				const input = new BigNumber(change);
+
+				if (!input.gt(ZERO)) {
+					setOutputAmount('');
+					setFee('0.000');
+					setTotalMint('0.000');
+					setMintBlocker(null);
+					return;
+				}
+
+				const { bBTC, fee } = await store.ibBTCStore.calcMintAmount(selectedToken, selectedToken.scale(input));
+				const mintBlocker = await store.ibBTCStore.getMintValidation(bBTC, selectedToken);
+				setMintInformation(input, ibBTC.unscale(bBTC), ibBTC.unscale(fee), mintBlocker);
+			}),
+			[selectedToken],
+		);
+
+		const handleApplyMaxBalance = async () => {
+			if (selectedToken.balance.gt(ZERO)) {
+				setInputAmount(selectedToken.unscale(selectedToken.balance).toString());
+				const { bBTC, fee } = await store.ibBTCStore.calcMintAmount(selectedToken, selectedToken.balance);
+				const mintBlocker = await store.ibBTCStore.getMintValidation(bBTC, selectedToken);
+				setMintInformation(
+					selectedToken.unscale(selectedToken.balance),
+					ibBTC.unscale(bBTC),
+					ibBTC.unscale(fee),
+					mintBlocker,
+				);
+			}
+		};
+
+		const handleTokenChange = async (token: TokenModel) => {
+			setSelectedToken(token);
+			if (inputAmount) {
+				const { bBTC, fee } = await store.ibBTCStore.calcMintAmount(token, token.scale(inputAmount));
+				const mintBlocker = await store.ibBTCStore.getMintValidation(bBTC, token);
+				setMintInformation(new BigNumber(inputAmount), ibBTC.unscale(bBTC), ibBTC.unscale(fee), mintBlocker);
+			}
+		};
+
+		const handleMintClick = async () => {
+			if (inputAmount) {
+				await store.ibBTCStore.mint(selectedToken, selectedToken.scale(inputAmount));
+				resetState();
+			}
+		};
+
+		useEffect(() => {
+			const init = async () => {
+				if (!connectedAddress) return;
+				const initialToken = store.ibBTCStore.tokens[0];
+				const { bBTC, fee } = await store.ibBTCStore.calcMintAmount(initialToken, initialToken.scale('1'));
+				setConversionRate(initialToken.unscale(bBTC.plus(fee)).toFixed(6, BigNumber.ROUND_HALF_FLOOR));
+			};
+
+			init().then();
+		}, [store.ibBTCStore, connectedAddress]);
+
+		return (
+			<>
+				<Grid container>
+					<BalanceGrid item xs={12}>
+						<EndAlignText variant="body1" color="textSecondary">
+							Balance: {selectedToken.formattedBalance}
+						</EndAlignText>
+					</BalanceGrid>
+					<BorderedFocusableContainerGrid item container xs={12}>
+						<Grid item xs={12} sm={5}>
+							<InputTokenAmount
+								disabled={!connectedAddress}
+								value={inputAmount}
+								placeholder="0.000"
+								onChange={(val) => {
+									setInputAmount(val);
+									handleInputAmountChange(val);
+								}}
+							/>
+						</Grid>
+						<InputTokenActionButtonsGrid item container spacing={1} xs={12} sm={7}>
+							<Grid item>
+								<Button size="small" variant="outlined" onClick={handleApplyMaxBalance}>
+									max
+								</Button>
+							</Grid>
+							<Grid item>
+								<Tokens tokens={tokens} selected={selectedToken} onTokenSelect={handleTokenChange} />
+							</Grid>
+						</InputTokenActionButtonsGrid>
+					</BorderedFocusableContainerGrid>
+				</Grid>
+				<Grid item container alignItems="center" xs={12}>
+					<DownArrow />
+				</Grid>
+				<Grid container>
+					<Grid item xs={12}>
+						<OutputBalanceText variant="body1" color="textSecondary">
+							Balance: {ibBTC.formattedBalance}
+						</OutputBalanceText>
+					</Grid>
+					<OutputContentGrid container item xs={12}>
+						<Grid item xs={12} sm={9} md={12} lg={10}>
+							<OutputAmountText variant="h1">{outputAmount || '0.000'}</OutputAmountText>
+						</Grid>
+						<OutputTokenGrid item container xs={12} sm={3} md={12} lg={2}>
+							<Token token={ibBTC} />
+						</OutputTokenGrid>
+					</OutputContentGrid>
+				</Grid>
+				<Grid item xs={12}>
+					<SummaryGrid>
+						{mintBlocker && (
+							<Grid item xs={12} container>
+								<ErrorText variant="subtitle1">{mintBlocker}</ErrorText>
+							</Grid>
+						)}
+						<Grid item xs={12} container justify="space-between">
+							<Grid item xs={6}>
+								<Typography variant="subtitle1">Current Conversion Rate: </Typography>
+							</Grid>
+							<Grid item xs={6}>
+								<EndAlignText variant="body1">
+									1 {selectedToken.symbol} : {conversionRate} {ibBTC.symbol}
+								</EndAlignText>
+							</Grid>
+						</Grid>
+						<Grid item xs={12} container justify="space-between">
+							<Grid item xs={6}>
+								<Typography variant="subtitle1">Fees: </Typography>
+							</Grid>
+							<Grid item xs={6}>
+								<EndAlignText variant="body1">
+									<Tooltip
+										enterDelay={0}
+										leaveDelay={300}
+										arrow
+										placement="left"
+										title={'Mint Fee: ' + mintFeePercent + '%'}
+									>
+										<span>
+											{fee} {ibBTC.symbol}
+										</span>
+									</Tooltip>
+								</EndAlignText>
+							</Grid>
+						</Grid>
+						<Grid item xs={12} container justify="space-between">
+							<Grid item xs={6}>
+								<Typography variant="subtitle1">Total Mint Amount: </Typography>
+							</Grid>
+							<Grid item xs={6}>
+								<EndAlignText variant="body1">{`${totalMint} ${ibBTC.symbol}`}</EndAlignText>
+							</Grid>
+						</Grid>
+					</SummaryGrid>
+				</Grid>
+				<Grid item xs={12}>
+					<ActionButton>
+						<Button
+							fullWidth
+							size="large"
+							variant="contained"
+							color="primary"
+							onClick={handleMintClick}
+							disabled={!inputAmount || !outputAmount || !!mintBlocker}
+						>
+							MINT
+						</Button>
+					</ActionButton>
+				</Grid>
+			</>
+		);
+	},
+);
