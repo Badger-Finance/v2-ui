@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { Button, Typography, Grid, Tooltip } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -67,8 +67,9 @@ export const Redeem = observer((): any => {
 	const classes = useStyles();
 
 	const {
-		ibBTCStore: { tokens, ibBTC, redeemFee },
+		ibBTCStore: { tokens, ibBTC, redeemFeePercent },
 		wallet: { connectedAddress },
+		user: { bouncerProof },
 	} = store;
 
 	const [selectedToken, setSelectedToken] = useState(tokens[0]);
@@ -78,7 +79,10 @@ export const Redeem = observer((): any => {
 	const [fee, setFee] = useState('0.000');
 	const [isEnoughToRedeem, setIsEnoughToRedeem] = useState(true);
 	const [maxRedeem, setMaxRedeem] = useState<string>();
-	const [conversionRate, setConversionRate] = useState('1');
+	const [conversionRate, setConversionRate] = useState(selectedToken.redeemRate);
+
+	// do not display errors for non guests, they won't be able to redeem anyways
+	const showError = bouncerProof && !isEnoughToRedeem;
 
 	const resetState = () => {
 		setInputAmount('');
@@ -95,12 +99,12 @@ export const Redeem = observer((): any => {
 		fee: BigNumber,
 		conversionRate: BigNumber,
 	) => {
-		setMaxRedeem(max.toFixed());
+		setMaxRedeem(max.toFixed(6, BigNumber.ROUND_HALF_FLOOR));
 		setIsEnoughToRedeem(max.gt(redeemAmount));
-		setOutputAmount(redeemAmount.toFixed());
-		setFee(fee.toFixed());
-		setTotalRedeem(redeemAmount.toFixed());
-		setConversionRate(conversionRate.toFixed());
+		setOutputAmount(redeemAmount.toFixed(6, BigNumber.ROUND_HALF_FLOOR));
+		setFee(fee.toFixed(6, BigNumber.ROUND_HALF_FLOOR));
+		setTotalRedeem(redeemAmount.toFixed(6, BigNumber.ROUND_HALF_FLOOR));
+		setConversionRate(conversionRate.toFixed(6, BigNumber.ROUND_HALF_FLOOR));
 	};
 
 	// reason: the plugin does not recognize the dependency inside the debounce function
@@ -175,6 +179,17 @@ export const Redeem = observer((): any => {
 		}
 	};
 
+	useEffect(() => {
+		const init = async () => {
+			if (!connectedAddress) return;
+			const initialToken = store.ibBTCStore.tokens[0];
+			const conversionRate = await store.ibBTCStore.getRedeemConversionRate(initialToken);
+			setConversionRate(initialToken.unscale(conversionRate).toFixed(6, BigNumber.ROUND_HALF_FLOOR));
+		};
+
+		init().then();
+	}, [store.ibBTCStore, connectedAddress]);
+
 	return (
 		<>
 			<Grid container>
@@ -222,7 +237,7 @@ export const Redeem = observer((): any => {
 			</Grid>
 			<Grid item xs={12}>
 				<SummaryGrid>
-					{!isEnoughToRedeem && (
+					{showError && (
 						<Grid item xs={12} container>
 							<ErrorText variant="subtitle1">
 								A maximum of {maxRedeem} {ibBTC.symbol} can be redeemed to {selectedToken.symbol}.
@@ -250,7 +265,7 @@ export const Redeem = observer((): any => {
 									leaveDelay={300}
 									arrow
 									placement="left"
-									title={'Redeem Fee: ' + redeemFee + '%'}
+									title={'Redeem Fee: ' + redeemFeePercent + '%'}
 								>
 									<span>
 										{fee} {ibBTC.symbol}

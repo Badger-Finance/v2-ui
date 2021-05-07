@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { Button, Typography, Grid, Tooltip } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
 
@@ -61,7 +61,7 @@ export const Mint = observer(
 		const store = useContext(StoreContext);
 
 		const {
-			ibBTCStore: { tokens, ibBTC, mintFee },
+			ibBTCStore: { tokens, ibBTC, mintFeePercent },
 			wallet: { connectedAddress },
 		} = store;
 
@@ -70,7 +70,7 @@ export const Mint = observer(
 		const [outputAmount, setOutputAmount] = useState<string>();
 		const [fee, setFee] = useState('0.000');
 		const [totalMint, setTotalMint] = useState('0.000');
-		const [conversionRate, setConversionRate] = useState('1');
+		const [conversionRate, setConversionRate] = useState('1.000000');
 		const [mintBlocker, setMintBlocker] = useState<string | null>(null);
 
 		const resetState = () => {
@@ -87,10 +87,10 @@ export const Mint = observer(
 			fee: BigNumber,
 			blocker: string | null,
 		): void => {
-			setOutputAmount(outputAmount.toFixed());
-			setFee(fee.toFixed());
-			setTotalMint(outputAmount.toFixed());
-			setConversionRate(outputAmount.plus(fee).dividedBy(inputAmount).toFixed());
+			setOutputAmount(outputAmount.toFixed(6, BigNumber.ROUND_HALF_FLOOR));
+			setFee(fee.toFixed(6, BigNumber.ROUND_HALF_FLOOR));
+			setTotalMint(outputAmount.toFixed(6, BigNumber.ROUND_HALF_FLOOR));
+			setConversionRate(outputAmount.plus(fee).dividedBy(inputAmount).toFixed(6, BigNumber.ROUND_HALF_FLOOR));
 			setMintBlocker(blocker);
 		};
 
@@ -144,6 +144,17 @@ export const Mint = observer(
 				resetState();
 			}
 		};
+
+		useEffect(() => {
+			const init = async () => {
+				if (!connectedAddress) return;
+				const initialToken = store.ibBTCStore.tokens[0];
+				const { bBTC, fee } = await store.ibBTCStore.calcMintAmount(initialToken, initialToken.scale('1'));
+				setConversionRate(initialToken.unscale(bBTC.plus(fee)).toFixed(6, BigNumber.ROUND_HALF_FLOOR));
+			};
+
+			init().then();
+		}, [store.ibBTCStore, connectedAddress]);
 
 		return (
 			<>
@@ -223,7 +234,7 @@ export const Mint = observer(
 										leaveDelay={300}
 										arrow
 										placement="left"
-										title={'Mint Fee: ' + mintFee + '%'}
+										title={'Mint Fee: ' + mintFeePercent + '%'}
 									>
 										<span>
 											{fee} {ibBTC.symbol}

@@ -1,5 +1,5 @@
 import { RootStore } from 'mobx/store';
-import { extendObservable, action, observe, decorate, observable } from 'mobx';
+import { extendObservable, action, observe } from 'mobx';
 
 import BigNumber from 'bignumber.js';
 import { PromiEvent } from 'web3-core';
@@ -38,8 +38,6 @@ interface PeakType {
 	abi: any;
 }
 
-decorate(TokenModel, { balance: observable, redeemRate: observable, mintRate: observable });
-
 class IbBTCStore {
 	private readonly store: RootStore;
 	private config: typeof addresses.mainnet;
@@ -48,8 +46,8 @@ class IbBTCStore {
 	public ibBTC: TokenModel;
 	public apyUsingLastDay?: string | null;
 	public apyUsingLastWeek?: string | null;
-	public mintFee?: BigNumber;
-	public redeemFee?: BigNumber;
+	public mintFeePercent?: BigNumber;
+	public redeemFeePercent?: BigNumber;
 
 	constructor(store: RootStore) {
 		this.store = store;
@@ -63,14 +61,16 @@ class IbBTCStore {
 			new TokenModel(this.store, token_config['btbtc/sbtcCrv']),
 			new TokenModel(this.store, token_config['byvWBTC']),
 		];
+		this.mintFeePercent = new BigNumber(0);
+		this.redeemFeePercent = new BigNumber(0);
 
 		extendObservable(this, {
 			tokens: this.tokens,
 			ibBTC: this.ibBTC,
 			apyUsingLastDay: this.apyUsingLastDay,
 			apyUsingLastWeek: this.apyUsingLastWeek,
-			mintFee: this.mintFee,
-			redeemFee: this.redeemFee,
+			mintFeePercent: this.mintFeePercent,
+			redeemFeePercent: this.redeemFeePercent,
 		});
 
 		observe(this.store.wallet as any, 'connectedAddress', () => {
@@ -90,7 +90,6 @@ class IbBTCStore {
 		}
 
 		this.fetchTokensBalances().then();
-		this.fetchConversionRates().then();
 		this.fetchIbbtcApy().then();
 		this.fetchFees().then();
 	}
@@ -98,8 +97,8 @@ class IbBTCStore {
 	fetchFees = action(
 		async (): Promise<void> => {
 			const fees = await this.getFees();
-			this.mintFee = fees.mintFee;
-			this.redeemFee = fees.redeemFee;
+			this.mintFeePercent = fees.mintFeePercent;
+			this.redeemFeePercent = fees.redeemFeePercent;
 		},
 	);
 
@@ -128,42 +127,6 @@ class IbBTCStore {
 		this.apyUsingLastDay = apyFromLastDay !== null ? `${(apyFromLastDay * 365).toFixed(3)}%` : null;
 		this.apyUsingLastWeek = apyFromLastWeek !== null ? `${(apyFromLastWeek * 52).toFixed(3)}%` : null;
 	});
-
-	fetchConversionRates = action(
-		async (): Promise<void> => {
-			const { provider } = this.store.wallet;
-			if (!provider) return;
-
-			// Fetch mintRate, redeemRate and set to respected token
-			const tokensRateInformation = this.tokens.map((token) =>
-				Promise.all([this.fetchMintRate(token), this.fetchRedeemRate(token)]),
-			);
-
-			await Promise.all(tokensRateInformation);
-		},
-	);
-
-	fetchMintRate = action(
-		async (token: TokenModel): Promise<void> => {
-			try {
-				const { bBTC } = await this.calcMintAmount(token, token.scale('1'));
-				token.mintRate = this.ibBTC.unscale(bBTC).toString();
-			} catch (error) {
-				token.mintRate = '0';
-			}
-		},
-	);
-
-	fetchRedeemRate = action(
-		async (token: TokenModel): Promise<void> => {
-			try {
-				const { sett } = await this.calcRedeemAmount(token, token.scale('1'));
-				token.redeemRate = token.unscale(sett).toString();
-			} catch (error) {
-				token.redeemRate = '0';
-			}
-		},
-	);
 
 	fetchBalance = action(
 		async (token: TokenModel): Promise<BigNumber> => {
@@ -229,6 +192,10 @@ class IbBTCStore {
 			return null;
 		}
 
+		if (!this.store.user.bouncerProof) {
+			return null; // do not display errors for non guests, they won't be able to mint anyways
+		}
+
 		try {
 			const web3 = new Web3(provider);
 			const peak = new web3.eth.Contract(peakAbi, peakAddress);
@@ -244,20 +211,17 @@ class IbBTCStore {
 				guessList.methods.totalDepositCap().call(),
 			]);
 
+			const userLimit = this.ibBTC.unscale(userRemaining).toFixed(6, BigNumber.ROUND_HALF_FLOOR);
+			const allUsersLimit = this.ibBTC.unscale(totalRemaining).toFixed(6, BigNumber.ROUND_HALF_FLOOR);
+			const individualLimit = this.ibBTC.unscale(userDepositCap).toFixed(6, BigNumber.ROUND_HALF_FLOOR);
+			const globalLimit = this.ibBTC.unscale(totalDepositCap).toFixed(6, BigNumber.ROUND_HALF_FLOOR);
+
 			if (amount.gt(userRemaining)) {
-				return `Your current mint amount limit is ${this.ibBTC.unscale(userRemaining)} ${
-					this.ibBTC.symbol
-				}. \nIndividual total mint amount limit is currently ${this.ibBTC.unscale(userDepositCap)} ${
-					this.ibBTC.symbol
-				}.`;
+				return `Your current mint amount limit is ${userLimit} ${this.ibBTC.symbol}.\nIndividual total mint amount limit is currently ${individualLimit} ${this.ibBTC.symbol}.`;
 			}
 
 			if (amount.gt(totalRemaining)) {
-				return `The current global mint amount limit is ${this.ibBTC.unscale(totalRemaining)} ${
-					this.ibBTC.symbol
-				}. \nGlobal total mint amount is currently ${this.ibBTC.unscale(totalDepositCap)} ${
-					this.ibBTC.symbol
-				}.`;
+				return `The current global mint amount limit is ${allUsersLimit} ${this.ibBTC.symbol}. \nGlobal total mint amount is currently ${globalLimit} ${this.ibBTC.symbol}.`;
 			}
 		} catch (error) {
 			process.env.NODE_ENV !== 'production' && console.error(error);
@@ -308,8 +272,8 @@ class IbBTCStore {
 		const { provider } = this.store.wallet;
 		if (!provider) {
 			return {
-				mintFee: new BigNumber(0),
-				redeemFee: new BigNumber(0),
+				mintFeePercent: new BigNumber(0),
+				redeemFeePercent: new BigNumber(0),
 			};
 		}
 
@@ -317,18 +281,18 @@ class IbBTCStore {
 		const ibBTC = new web3.eth.Contract(ibBTCConfig.abi as AbiItem[], this.ibBTC.address);
 		const coreAddress = await ibBTC.methods.core().call();
 		const core = new web3.eth.Contract(coreConfig.abi as AbiItem[], coreAddress);
-		const mintFee = await core.methods.mintFee().call();
-		const redeemFee = await core.methods.redeemFee().call();
+		const mintFeePercent = await core.methods.mintFee().call();
+		const redeemFeePercent = await core.methods.redeemFee().call();
 
-		if (mintFee && redeemFee) {
+		if (mintFeePercent && redeemFeePercent) {
 			return {
-				mintFee: new BigNumber(mintFee).dividedBy(100),
-				redeemFee: new BigNumber(redeemFee).dividedBy(100),
+				mintFeePercent: new BigNumber(mintFeePercent).dividedBy(100),
+				redeemFeePercent: new BigNumber(redeemFeePercent).dividedBy(100),
 			};
 		} else {
 			return {
-				mintFee: new BigNumber(0),
-				redeemFee: new BigNumber(0),
+				mintFeePercent: new BigNumber(0),
+				redeemFeePercent: new BigNumber(0),
 			};
 		}
 	}
@@ -552,6 +516,10 @@ class IbBTCStore {
 		const nowBlock = await web3.eth.getBlock('latest');
 		const { number: currentBlock } = nowBlock;
 		const currentPPS = await ibBTC.methods.pricePerShare().call();
+
+		if (!provider) {
+			return null;
+		}
 
 		try {
 			const [oldBlock, oldPPS] = await Promise.all([
