@@ -1,21 +1,25 @@
-import { extendObservable, action } from 'mobx';
+import { extendObservable, action, observe } from 'mobx';
 import Web3 from 'web3';
 import { AbiItem } from 'web3-utils';
-import { estimateAndSend } from '../utils/web3';
+import { estimateAndSend, getNetworkDeploy } from '../utils/web3';
 import BigNumber from 'bignumber.js';
 import { RootStore } from '../store';
-import { reduceBatchResult, reduceContractConfig } from '../reducers/contractReducers';
-import { Vault, Geyser, Token, GeyserPayload, TokenPayload } from '../model';
+import _ from 'lodash';
+import {
+	reduceBatchResult,
+	reduceContractConfig,
+	reduceGrowth,
+	reduceGrowthQueryConfig,
+} from '../reducers/contractReducers';
+import { Vault, Geyser, Token } from '../model';
 import { vanillaQuery } from 'mobx/utils/helpers';
 import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
 import async from 'async';
-import { EMPTY_DATA, ERC20, NETWORK_LIST } from 'config/constants';
+import { EMPTY_DATA, ERC20, NETWORK_CONSTANTS, NETWORK_LIST } from 'config/constants';
 import { formatAmount } from 'mobx/reducers/statsReducers';
 import BatchCall from 'web3-batch-call';
 import { getApi } from '../utils/apiV2';
-import { compact, defaultsDeep, flatten, keyBy, mapValues, values } from '../../utils/lodashToNative';
-import { getNetworkDeploy } from 'mobx/utils/network';
 
 let batchCall: any = null;
 
@@ -36,6 +40,12 @@ class ContractsStore {
 			vaults: this.vaults,
 			tokens: this.tokens,
 			geysers: this.geysers,
+		});
+
+		observe(this.store.wallet, 'currentBlock', (change: any) => {
+			if (!!change.oldValue) {
+				this.fetchContracts();
+			}
 		});
 	}
 
@@ -82,20 +92,20 @@ class ContractsStore {
 			// clean this up, but force async
 			await Promise.all([priceApi, batchCall.execute(batch)])
 				.then((result: any[]) => {
-					const cgPrices = mapValues(result.slice(0, 1)[0], (price: any) => ({
+					const cgPrices = _.mapValues(result.slice(0, 1)[0], (price: any) => ({
 						ethValue: new BigNumber(price).multipliedBy(1e18),
 					}));
-					const tokenContracts = keyBy(reduceBatchResult(flatten(result.slice(1, 2))), 'address');
-					const updatedTokens = compact(
-						values(
-							defaultsDeep(
+					const tokenContracts = _.keyBy(reduceBatchResult(_.flatten(result.slice(1, 2))), 'address');
+					const updatedTokens = _.compact(
+						_.values(
+							_.defaultsDeep(
 								cgPrices,
 								tokenContracts,
-								mapValues(tokens.symbols, (value: string, address: string) => ({
+								_.mapValues(tokens.symbols, (value: string, address: string) => ({
 									address,
 									symbol: value,
 								})),
-								mapValues(tokens.names, (value: string, address: string) => ({
+								_.mapValues(tokens.names, (value: string, address: string) => ({
 									address,
 									name: value,
 								})),
@@ -121,7 +131,7 @@ class ContractsStore {
 				return;
 			}
 
-			const { connectedAddress, network } = this.store.wallet;
+			const { connectedAddress, currentBlock, network } = this.store.wallet;
 			const { settList } = this.store.setts;
 			const { vaults, tokens } = network;
 
@@ -131,37 +141,43 @@ class ContractsStore {
 			}
 
 			const { defaults, batchCall: batch } = reduceContractConfig(
-				values(network.vaults ?? {}),
+				_.map(network.vaults),
 				connectedAddress && { connectedAddress },
 			);
 
-			const settStructure = keyBy(settList ?? [], 'vaultToken');
+			const { growthQueries, periods } = reduceGrowthQueryConfig(network.name, currentBlock);
+			const settStructure = _.keyBy(settList, 'vaultToken');
 			const priceApi = vanillaQuery(`${getApi()}/prices?chain=${network.name}&currency=eth`);
 
-			await Promise.all([batchCall.execute(batch), priceApi])
+			await Promise.all([batchCall.execute(batch), ...growthQueries, priceApi])
 				.then((queryResult: any[]) => {
 					const result = reduceBatchResult(queryResult[0]);
-					const prices = mapValues(queryResult[1], (price: any) => ({
+					const vaultGrowth = reduceGrowth(
+						queryResult.slice(1, growthQueries.length + 1),
+						periods,
+						NETWORK_CONSTANTS[network.name].START_TIME,
+					);
+
+					const prices = _.mapValues(queryResult.pop(), (price: any) => ({
 						ethValue: new BigNumber(price).multipliedBy(1e18),
 					}));
 
 					result.forEach((contract: any, i: number) => {
 						const tokenAddress = tokens.tokenMap[contract.address];
-						if (!tokenAddress || !this.tokens[tokenAddress]) {
-							if (process.env.REACT_APP_BUILD_ENV !== 'production') {
-								console.log({
-									token: tokens.tokenMap[contract.address],
-									map: tokens.tokenMap,
-									address: contract.address,
-								});
-							}
-							return;
+						if (!tokenAddress) {
+							return console.log(tokens.tokenMap[contract.address], tokens.tokenMap, contract.address);
 						}
 						const vault = this.getOrCreateVault(
 							contract.address,
 							this.tokens[tokenAddress],
 							defaults[contract.address].abi,
 						);
+						const growth =
+							!!vaultGrowth[contract.address] &&
+							_.mapValues(vaultGrowth[contract.address], (tokens: BigNumber) => ({
+								amount: tokens,
+								token: this.tokens[tokenAddress],
+							}));
 
 						// update ppfs from ppfs api
 						// digg ppfs is handled differently than other setts
@@ -171,6 +187,11 @@ class ContractsStore {
 							vault.address !== getNetworkDeploy(NETWORK_LIST.ETH).sett_system.vaults['native.digg']
 								? new BigNumber(settStructure[vault.address].ppfs)
 								: new BigNumber(1);
+						vault.update(
+							_.defaultsDeep(contract, defaults[contract.address], {
+								growth: _.compact([vault.growth, growth]),
+							}),
+						);
 						// update vaultBalance if given
 						vault.vaultBalance = isNaN(parseFloat(result[i].balance))
 							? new BigNumber(0.0)
@@ -179,13 +200,6 @@ class ContractsStore {
 						vault.ethValue = prices[contract.address].ethValue
 							? prices[contract.address].ethValue
 							: new BigNumber(0.0);
-
-						// DO NOT REMOVE - somehow this updates vault positions...
-						vault.update(
-							defaultsDeep(contract, defaults[contract.address], {
-								growth: compact([vault.growth]),
-							}) as TokenPayload,
-						);
 					});
 				})
 				.catch((error: any) => process.env.REACT_APP_BUILD_ENV !== 'production' && console.log(error));
@@ -223,7 +237,7 @@ class ContractsStore {
 								this.vaults[vaultAddress],
 								defaults[contract.address].abi,
 							);
-							geyser.update(defaultsDeep(contract, defaults[contract.address]) as GeyserPayload);
+							geyser.update(_.defaultsDeep(contract, defaults[contract.address]));
 						});
 					}
 				})
@@ -551,9 +565,11 @@ class ContractsStore {
 							'success',
 						);
 						this.fetchContracts();
+						this.fetchContracts();
 						callback(null, {});
 					})
 					.catch((error: any) => {
+						this.fetchContracts();
 						this.fetchContracts();
 						queueNotification(error.message, 'error');
 						setTxStatus('error');
@@ -603,9 +619,11 @@ class ContractsStore {
 							'success',
 						);
 						this.fetchContracts();
+						this.fetchContracts();
 						callback(null, {});
 					})
 					.catch((error: any) => {
+						this.fetchContracts();
 						this.fetchContracts();
 						queueNotification(error.message, 'error');
 						setTxStatus('error');

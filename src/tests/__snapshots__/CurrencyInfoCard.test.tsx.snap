@@ -3,18 +3,18 @@
 exports[`CurrencyInfoCard Renders correctly 1`] = `
 <div>
   <div
-    class="MuiPaper-root-2 makeStyles-infoPaper-1 MuiPaper-elevation2-7 MuiPaper-rounded-3"
+    class="MuiPaper-root-4 makeStyles-infoPaper-1 MuiPaper-elevation2-9 MuiPaper-rounded-5"
   >
     <h6
-      class="MuiTypography-root-30 MuiTypography-subtitle1-41 MuiTypography-colorTextPrimary-55"
+      class="MuiTypography-root-32 MuiTypography-subtitle1-43 MuiTypography-colorTextPrimary-57"
     >
       Test Price
     </h6>
     <div
-      class="MuiGrid-root-61 MuiGrid-container-62 MuiGrid-align-items-xs-center-70 MuiGrid-justify-xs-center-79"
+      class="MuiGrid-root-63 MuiGrid-container-64 MuiGrid-align-items-xs-center-72 MuiGrid-justify-xs-center-81"
     >
       <h5
-        class="MuiTypography-root-30 MuiTypography-h5-39"
+        class="MuiTypography-root-32 MuiTypography-h5-41"
       >
         $40.00
       </h5>
