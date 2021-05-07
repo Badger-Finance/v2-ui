@@ -679,12 +679,7 @@ export class EthNetwork implements Network {
 	public readonly uncappedDeposit = {
 		[this.deploy.sett_system.vaults['yearn.wBtc']]: true,
 	};
-	public readonly newVaults = {
-		[this.deploy.sett_system.vaults['yearn.wBtc']]: ['Expected ROI', '60% @ $100m', '30% @ $400m', '24% @ $1b'],
-		[this.deploy.sett_system.vaults['native.sushiibBTCwBTC']]: [
-			'New vault ROIs are determined once there is enough historical data',
-		],
-	};
+	public readonly newVaults = {};
 	public readonly strategies = getStrategies(NETWORK_LIST.ETH);
 	public getFees(vaultAddress: string): string[] {
 		return _getFees(this.strategies[vaultAddress]);
