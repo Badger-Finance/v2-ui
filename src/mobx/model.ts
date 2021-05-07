@@ -194,8 +194,8 @@ export class TokenModel extends Contract {
 		// This will be fetched and set at initialization using 1 unit of mint and redeem
 		// to show current conversion rate from token to ibBTC and from ibBTC to token
 		// by fetchConversionRates()
-		this.mintRate = '0';
-		this.redeemRate = '0';
+		this.mintRate = '0.000';
+		this.redeemRate = '0.000';
 	}
 
 	public get formattedBalance(): string {

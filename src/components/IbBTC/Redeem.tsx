@@ -79,7 +79,7 @@ export const Redeem = observer((): any => {
 	const [fee, setFee] = useState('0.000');
 	const [isEnoughToRedeem, setIsEnoughToRedeem] = useState(true);
 	const [maxRedeem, setMaxRedeem] = useState<string>();
-	const [conversionRate, setConversionRate] = useState('1');
+	const [conversionRate, setConversionRate] = useState(selectedToken.redeemRate);
 
 	// do not display errors for non guests, they won't be able to redeem anyways
 	const showError = bouncerProof && !isEnoughToRedeem;

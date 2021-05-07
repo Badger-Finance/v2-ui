@@ -70,7 +70,7 @@ export const Mint = observer(
 		const [outputAmount, setOutputAmount] = useState<string>();
 		const [fee, setFee] = useState('0.000');
 		const [totalMint, setTotalMint] = useState('0.000');
-		const [conversionRate, setConversionRate] = useState('1');
+		const [conversionRate, setConversionRate] = useState(selectedToken.mintRate);
 		const [mintBlocker, setMintBlocker] = useState<string | null>(null);
 
 		const resetState = () => {

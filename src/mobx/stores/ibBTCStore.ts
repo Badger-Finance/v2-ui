@@ -147,9 +147,9 @@ class IbBTCStore {
 		async (token: TokenModel): Promise<void> => {
 			try {
 				const { bBTC } = await this.calcMintAmount(token, token.scale('1'));
-				token.mintRate = this.ibBTC.unscale(bBTC).toString();
+				token.mintRate = this.ibBTC.unscale(bBTC).toFixed(6, BigNumber.ROUND_HALF_FLOOR);
 			} catch (error) {
-				token.mintRate = '0';
+				token.mintRate = '0.000';
 			}
 		},
 	);
@@ -158,9 +158,9 @@ class IbBTCStore {
 		async (token: TokenModel): Promise<void> => {
 			try {
 				const { sett } = await this.calcRedeemAmount(token, token.scale('1'));
-				token.redeemRate = token.unscale(sett).toString();
+				token.redeemRate = token.unscale(sett).toFixed(6, BigNumber.ROUND_HALF_FLOOR);
 			} catch (error) {
-				token.redeemRate = '0';
+				token.redeemRate = '0.000';
 			}
 		},
 	);
