@@ -10,7 +10,7 @@ import { NETWORK_LIST } from 'config/constants';
 import PageHeader from 'components-v2/common/PageHeader';
 import { Mint } from './Mint';
 import { Redeem } from './Redeem';
-import { IbbtcRoi } from './IbbtcRoi';
+// import { IbbtcRoi } from './IbbtcRoi';
 
 type TABS = 'Mint' | 'Redeem';
 
@@ -63,9 +63,9 @@ export const IbBTC = observer(() => {
 
 				{network.name === NETWORK_LIST.ETH ? (
 					<>
-						<Grid item sm={12} xs={12} md={7} className={classes.apyInformation}>
-							<IbbtcRoi />
-						</Grid>
+						{/*<Grid item sm={12} xs={12} md={7} className={classes.apyInformation}>*/}
+						{/*	<IbbtcRoi />*/}
+						{/*</Grid>*/}
 
 						<Grid item sm={12} xs={12} md={7}>
 							<Card>
