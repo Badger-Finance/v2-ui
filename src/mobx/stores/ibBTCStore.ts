@@ -124,8 +124,8 @@ class IbBTCStore {
 		const apyFromLastDay = await this.fetchIbbtApyFromTimestamp(dayOldBlock);
 		const apyFromLastWeek = await this.fetchIbbtApyFromTimestamp(weekOldBlock);
 
-		this.apyUsingLastDay = apyFromLastDay !== null ? `${(apyFromLastDay * 365).toFixed(3)}%` : null;
-		this.apyUsingLastWeek = apyFromLastWeek !== null ? `${(apyFromLastWeek * 52).toFixed(3)}%` : null;
+		this.apyUsingLastDay = apyFromLastDay !== null ? `${apyFromLastDay.toFixed(3)}%` : null;
+		this.apyUsingLastWeek = apyFromLastWeek !== null ? `${apyFromLastWeek.toFixed(3)}%` : null;
 	});
 
 	fetchBalance = action(
