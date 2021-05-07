@@ -19,6 +19,7 @@ import BadgerBtcPeak from 'config/system/abis/BadgerBtcPeak.json';
 import BadgerYearnWbtcPeak from 'config/system/abis/BadgerYearnWbtcPeak.json';
 import guessListConfig from 'config/system/abis/BadgerBtcPeakGuestList.json';
 import coreConfig from 'config/system/abis/BadgerBtcPeakCore.json';
+import { toHex } from '../utils/helpers';
 
 interface MintAmountCalculation {
 	bBTC: BigNumber;
@@ -417,8 +418,8 @@ class IbBTCStore {
 			const peak = this.getPeakForToken(inToken.symbol);
 			const web3 = new Web3(provider);
 			const peakContract = new web3.eth.Contract(peak.abi as AbiItem[], peak.address);
-			if (peak.isYearnWBTCPeak) method = peakContract.methods.calcMint(amount);
-			else method = peakContract.methods.calcMint(inToken.poolId, amount);
+			if (peak.isYearnWBTCPeak) method = peakContract.methods.calcMint(toHex(amount));
+			else method = peakContract.methods.calcMint(inToken.poolId, toHex(amount));
 			const { bBTC, fee } = await method.call();
 			return { bBTC: new BigNumber(bBTC), fee: new BigNumber(fee) };
 		} catch (error) {
@@ -447,8 +448,8 @@ class IbBTCStore {
 			const peak = this.getPeakForToken(outToken.symbol);
 			const web3 = new Web3(provider);
 			const peakContract = new web3.eth.Contract(peak.abi as AbiItem[], peak.address);
-			if (peak.isYearnWBTCPeak) method = peakContract.methods.calcRedeem(amount);
-			else method = peakContract.methods.calcRedeem(outToken.poolId, amount);
+			if (peak.isYearnWBTCPeak) method = peakContract.methods.calcRedeem(toHex(amount));
+			else method = peakContract.methods.calcRedeem(outToken.poolId, toHex(amount));
 			const { fee, max, sett } = await method.call();
 
 			return { fee: new BigNumber(fee), max: new BigNumber(max), sett: new BigNumber(sett) };
@@ -473,8 +474,8 @@ class IbBTCStore {
 		const web3 = new Web3(provider);
 		const peakContract = new web3.eth.Contract(peak.abi as AbiItem[], peak.address);
 		const merkleProof = this.store.user.bouncerProof || [];
-		if (peak.isYearnWBTCPeak) method = peakContract.methods.mint(amount, merkleProof);
-		else method = peakContract.methods.mint(inToken.poolId, amount, merkleProof);
+		if (peak.isYearnWBTCPeak) method = peakContract.methods.mint(toHex(amount), merkleProof);
+		else method = peakContract.methods.mint(inToken.poolId, toHex(amount), merkleProof);
 
 		return new Promise((resolve, reject) => {
 			estimateAndSend(
@@ -510,8 +511,8 @@ class IbBTCStore {
 		const peak = this.getPeakForToken(outToken.symbol);
 		const web3 = new Web3(provider);
 		const peakContract = new web3.eth.Contract(peak.abi as AbiItem[], peak.address);
-		if (peak.isYearnWBTCPeak) method = peakContract.methods.redeem(amount);
-		else method = peakContract.methods.redeem(outToken.poolId, amount);
+		if (peak.isYearnWBTCPeak) method = peakContract.methods.redeem(toHex(amount));
+		else method = peakContract.methods.redeem(outToken.poolId, toHex(amount));
 
 		return new Promise((resolve, reject) => {
 			estimateAndSend(
