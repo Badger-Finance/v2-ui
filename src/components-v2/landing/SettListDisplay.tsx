@@ -29,7 +29,6 @@ const SettListDisplay = observer((props: SettListViewProps) => {
 	const settListItems = network.settOrder
 		.map((contract) => {
 			if (!currentSettMap[contract]) {
-				console.log('token not found:', currentSettMap, contract, currentSettMap[contract]);
 				return;
 			}
 			const vault: Vault = vaults[currentSettMap[contract].vaultToken];

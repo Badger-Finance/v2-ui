@@ -83,7 +83,6 @@ export default class SettStore {
 			this.settCache[chain] = settList;
 			[this.settMapCache[chain], this.experimentalMapCache[chain]] = this.keySettByContract(settList);
 		}
-		console.log('sett list loaded: ', this.settMapCache[chain], this.experimentalMap);
 	});
 
 	loadPrices = action(
