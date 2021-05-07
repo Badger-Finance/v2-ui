@@ -67,7 +67,7 @@ export const Redeem = observer((): any => {
 	const classes = useStyles();
 
 	const {
-		ibBTCStore: { tokens, ibBTC, redeemFee },
+		ibBTCStore: { tokens, ibBTC, redeemFeePercent },
 		wallet: { connectedAddress },
 		user: { bouncerProof },
 	} = store;
@@ -254,7 +254,7 @@ export const Redeem = observer((): any => {
 									leaveDelay={300}
 									arrow
 									placement="left"
-									title={'Redeem Fee: ' + redeemFee + '%'}
+									title={'Redeem Fee: ' + redeemFeePercent + '%'}
 								>
 									<span>
 										{fee} {ibBTC.symbol}

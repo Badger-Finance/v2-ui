@@ -48,8 +48,8 @@ class IbBTCStore {
 	public ibBTC: TokenModel;
 	public apyUsingLastDay?: string | null;
 	public apyUsingLastWeek?: string | null;
-	public mintFee?: BigNumber;
-	public redeemFee?: BigNumber;
+	public mintFeePercent?: BigNumber;
+	public redeemFeePercent?: BigNumber;
 
 	constructor(store: RootStore) {
 		this.store = store;
@@ -63,16 +63,16 @@ class IbBTCStore {
 			new TokenModel(this.store, token_config['btbtc/sbtcCrv']),
 			new TokenModel(this.store, token_config['byvWBTC']),
 		];
-		this.mintFee = new BigNumber(0);
-		this.redeemFee = new BigNumber(0);
+		this.mintFeePercent = new BigNumber(0);
+		this.redeemFeePercent = new BigNumber(0);
 
 		extendObservable(this, {
 			tokens: this.tokens,
 			ibBTC: this.ibBTC,
 			apyUsingLastDay: this.apyUsingLastDay,
 			apyUsingLastWeek: this.apyUsingLastWeek,
-			mintFee: this.mintFee,
-			redeemFee: this.redeemFee,
+			mintFeePercent: this.mintFeePercent,
+			redeemFeePercent: this.redeemFeePercent,
 		});
 
 		observe(this.store.wallet as any, 'connectedAddress', () => {
@@ -100,8 +100,8 @@ class IbBTCStore {
 	fetchFees = action(
 		async (): Promise<void> => {
 			const fees = await this.getFees();
-			this.mintFee = fees.mintFee;
-			this.redeemFee = fees.redeemFee;
+			this.mintFeePercent = fees.mintFeePercent;
+			this.redeemFeePercent = fees.redeemFeePercent;
 		},
 	);
 
@@ -311,8 +311,8 @@ class IbBTCStore {
 		const { provider } = this.store.wallet;
 		if (!provider) {
 			return {
-				mintFee: new BigNumber(0),
-				redeemFee: new BigNumber(0),
+				mintFeePercent: new BigNumber(0),
+				redeemFeePercent: new BigNumber(0),
 			};
 		}
 
@@ -320,18 +320,18 @@ class IbBTCStore {
 		const ibBTC = new web3.eth.Contract(ibBTCConfig.abi as AbiItem[], this.ibBTC.address);
 		const coreAddress = await ibBTC.methods.core().call();
 		const core = new web3.eth.Contract(coreConfig.abi as AbiItem[], coreAddress);
-		const mintFee = await core.methods.mintFee().call();
-		const redeemFee = await core.methods.redeemFee().call();
+		const mintFeePercent = await core.methods.mintFee().call();
+		const redeemFeePercent = await core.methods.redeemFee().call();
 
-		if (mintFee && redeemFee) {
+		if (mintFeePercent && redeemFeePercent) {
 			return {
-				mintFee: new BigNumber(mintFee).dividedBy(100),
-				redeemFee: new BigNumber(redeemFee).dividedBy(100),
+				mintFeePercent: new BigNumber(mintFeePercent).dividedBy(100),
+				redeemFeePercent: new BigNumber(redeemFeePercent).dividedBy(100),
 			};
 		} else {
 			return {
-				mintFee: new BigNumber(0),
-				redeemFee: new BigNumber(0),
+				mintFeePercent: new BigNumber(0),
+				redeemFeePercent: new BigNumber(0),
 			};
 		}
 	}

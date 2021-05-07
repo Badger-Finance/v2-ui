@@ -854,6 +854,6 @@ export interface ExchangeRates {
 }
 
 export interface ibBTCFees {
-	mintFee: BigNumber;
-	redeemFee: BigNumber;
+	mintFeePercent: BigNumber;
+	redeemFeePercent: BigNumber;
 }

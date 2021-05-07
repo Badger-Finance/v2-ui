@@ -61,7 +61,7 @@ export const Mint = observer(
 		const store = useContext(StoreContext);
 
 		const {
-			ibBTCStore: { tokens, ibBTC, mintFee },
+			ibBTCStore: { tokens, ibBTC, mintFeePercent },
 			wallet: { connectedAddress },
 		} = store;
 
@@ -223,7 +223,7 @@ export const Mint = observer(
 										leaveDelay={300}
 										arrow
 										placement="left"
-										title={'Mint Fee: ' + mintFee + '%'}
+										title={'Mint Fee: ' + mintFeePercent + '%'}
 									>
 										<span>
 											{fee} {ibBTC.symbol}
