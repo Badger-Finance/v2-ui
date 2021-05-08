@@ -8,7 +8,6 @@ import { StoreContext } from 'mobx/store-context';
 import DisabledSettListItem from './DisabledSettListItem';
 import CurrencyDisplay from '../common/CurrencyDisplay';
 import SettBadge from './SettBadge';
-import { FLAGS } from 'config/constants';
 
 const useStyles = makeStyles((theme) => ({
 	border: {
@@ -247,7 +246,7 @@ const SettListItem = observer(
 								{apr}
 							</Typography>
 						</Tooltip>
-						{FLAGS.BADGER_BOOST_FLAG && !isNewVault && userApr && (
+						{!isNewVault && userApr && (
 							<Typography style={{ cursor: 'default' }} variant="caption" color={'textPrimary'}>
 								my: {userApr.toFixed(2)}%
 							</Typography>
