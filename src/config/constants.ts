@@ -49,6 +49,7 @@ export const CLAIMS_SYMBOLS: ClaimsSymbols = {
 		[tokens.digg]: 'Digg',
 		[sett_system.vaults['native.badger']]: 'bBadger',
 		[sett_system.vaults['native.digg']]: 'bDigg',
+		[tokens.defiDollar]: 'Defi Dollar',
 	},
 };
 
