@@ -168,6 +168,7 @@ export const getTokens = (network?: string | null): TokenNetworkConfig => {
 					[deploy.tokens.ibBTC]: 18,
 					[deploy.tokens['sushi.ibBTC-wBTC']]: 18,
 					[deploy.sett_system.vaults['native.sushiibBTCwBTC']]: 18,
+					[deploy.tokens['defiDollar']]: 18,
 				},
 				symbols: {
 					[deploy.tokens.sushi]: 'SUSHI',
@@ -186,6 +187,7 @@ export const getTokens = (network?: string | null): TokenNetworkConfig => {
 					[deploy.tokens.xsushi]: 'xSUSHI',
 					[deploy.tokens.ibBTC]: 'ibBTC',
 					[deploy.tokens['sushi.ibBTC-wBTC']]: 'ibBTCwBTCSLP',
+					[deploy.tokens['defiDollar']]: 'DFD',
 
 					[deploy.sett_system.vaults['native.renCrv']]: 'bcrvRenWBTC',
 					[deploy.sett_system.vaults['native.badger']]: 'bBADGER',
@@ -215,6 +217,7 @@ export const getTokens = (network?: string | null): TokenNetworkConfig => {
 					[deploy.tokens['sushi.wBTC-WETH']]: 'wBTC/wETH Sushi LP',
 					[deploy.tokens.xsushi]: 'xSUSHI',
 					[deploy.tokens.ibBTC]: 'ibBTC',
+					[deploy.tokens['defiDollar']]: 'Defi Dollar',
 
 					[deploy.sett_system.vaults['native.renCrv']]: 'bcrvRenWBTC',
 					[deploy.sett_system.vaults['native.badger']]: 'bBADGER',
