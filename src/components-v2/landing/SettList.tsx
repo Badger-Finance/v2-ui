@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { makeStyles } from '@material-ui/core';
-import { Vault } from '../../mobx/model';
+import { Sett, Vault } from '../../mobx/model';
 import SettDialog from '../../components/Collection/Setts/SettDialog';
 import SettListView from './SettListView';
 
@@ -21,7 +21,7 @@ const SettList = observer((props: SettListProps) => {
 	const { experimental } = props;
 
 	const [dialogProps, setDialogProps] = useState({ open: false, vault: undefined as any, sett: undefined as any });
-	const onOpen = (vault: Vault, sett: any): void => setDialogProps({ vault: vault, open: true, sett: sett });
+	const onOpen = (vault: Vault, sett: Sett): void => setDialogProps({ vault: vault, open: true, sett: sett });
 	const onClose = () => setDialogProps({ ...dialogProps, open: false });
 
 	return (

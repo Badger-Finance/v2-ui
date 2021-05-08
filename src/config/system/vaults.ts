@@ -101,6 +101,7 @@ export const getVaults = (network?: string | null): VaultNetworkConfig => {
 						deploy.sett_system.vaults['native.uniBadgerWbtc'],
 						deploy.sett_system.vaults['harvest.renCrv'],
 						deploy.sett_system.vaults['native.uniDiggWbtc'],
+						deploy.sett_system.vaults['native.sushiibBTCwBTC'],
 					],
 					fillers: {
 						symbol: ['badger', 'renCrv', 'sbtcCrv', 'tbtcCrv', 'uniBadgerWbtc', 'renCrv', 'uniDiggWbtc'],
@@ -140,6 +141,7 @@ export const getVaults = (network?: string | null): VaultNetworkConfig => {
 						deploy.sett_system.vaults['native.sushiWbtcEth'],
 						deploy.sett_system.vaults['native.sushiBadgerWbtc'],
 						deploy.sett_system.vaults['native.sushiDiggWbtc'],
+						deploy.sett_system.vaults['native.sushiibBTCwBTC'],
 					],
 					fillers: {
 						isFeatured: [false, true, true],

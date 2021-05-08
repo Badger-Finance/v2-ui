@@ -8,7 +8,6 @@ export const getNetwork = (network?: string): Network => {
 		case NETWORK_LIST.BSC:
 			return new BscNetwork();
 		case NETWORK_LIST.ETH:
-			return new EthNetwork();
 		default:
 			return new EthNetwork();
 	}

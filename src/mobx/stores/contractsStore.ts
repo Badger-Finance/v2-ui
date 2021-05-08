@@ -171,10 +171,12 @@ class ContractsStore {
 							vault.address !== getNetworkDeploy(NETWORK_LIST.ETH).sett_system.vaults['native.digg']
 								? new BigNumber(settStructure[vault.address].ppfs)
 								: new BigNumber(1);
+
 						// update vaultBalance if given
 						vault.vaultBalance = isNaN(parseFloat(result[i].balance))
 							? new BigNumber(0.0)
 							: new BigNumber(result[i].balance);
+
 						// update vault Eth Value if given
 						vault.ethValue = prices[contract.address].ethValue
 							? prices[contract.address].ethValue
