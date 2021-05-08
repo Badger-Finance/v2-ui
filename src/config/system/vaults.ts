@@ -140,6 +140,7 @@ export const getVaults = (network?: string | null): VaultNetworkConfig => {
 						deploy.sett_system.vaults['native.sushiWbtcEth'],
 						deploy.sett_system.vaults['native.sushiBadgerWbtc'],
 						deploy.sett_system.vaults['native.sushiDiggWbtc'],
+						deploy.sett_system.vaults['native.sushiibBTCwBTC'],
 					],
 					fillers: {
 						isFeatured: [false, true, true],

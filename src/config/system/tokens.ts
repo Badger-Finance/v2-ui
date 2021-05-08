@@ -134,6 +134,9 @@ export const getTokens = (network?: string | null): TokenNetworkConfig => {
 							deploy.tokens['uni.wBTC-DIGG'],
 							deploy.sett_system.vaults['native.sushiDiggWbtc'],
 							deploy.tokens.xsushi,
+							deploy.tokens.ibBTC,
+							deploy.tokens['sushi.ibBTC-wBTC'],
+							deploy.sett_system.vaults['native.sushiibBTCwBTC'],
 						],
 					},
 				],
@@ -164,6 +167,7 @@ export const getTokens = (network?: string | null): TokenNetworkConfig => {
 					[deploy.sett_system.vaults['yearn.wBtc']]: 8,
 					[deploy.tokens.ibBTC]: 18,
 					[deploy.tokens['sushi.ibBTC-wBTC']]: 18,
+					[deploy.sett_system.vaults['native.sushiibBTCwBTC']]: 18,
 				},
 				symbols: {
 					[deploy.tokens.sushi]: 'SUSHI',
@@ -222,6 +226,7 @@ export const getTokens = (network?: string | null): TokenNetworkConfig => {
 					[deploy.sett_system.vaults['native.tbtcCrv']]: 'btbtc/sbtcCrv',
 					[deploy.sett_system.vaults['native.sbtcCrv']]: 'bcrvRenWSBTC',
 					[deploy.sett_system.vaults['yearn.wBtc']]: 'byvWBTC',
+					[deploy.sett_system.vaults['native.sushiibBTCwBTC']]: 'bSLP',
 				},
 				tokenMap: {
 					[deploy.sett_system.vaults['native.sushiDiggWbtc']]: deploy.tokens['sushi.wBTC-DIGG'],
