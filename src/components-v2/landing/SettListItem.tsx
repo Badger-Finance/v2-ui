@@ -32,6 +32,11 @@ const useStyles = makeStyles((theme) => ({
 			display: 'none',
 		},
 	},
+	desktopSpacer: {
+		[theme.breakpoints.down('md')]: {
+			display: 'none',
+		},
+	},
 	name: {
 		[theme.breakpoints.down('sm')]: {
 			marginBottom: theme.spacing(2),
@@ -67,6 +72,9 @@ const useStyles = makeStyles((theme) => ({
 	},
 	centerGrid: {
 		textAlign: 'center',
+		[theme.breakpoints.down('md')]: {
+			textAlign: 'left',
+		},
 	},
 }));
 
@@ -246,7 +254,7 @@ const SettListItem = observer(
 						)}
 					</Grid>
 					{/* Intentionally Empty Grid Space */}
-					<Grid item xs={6} md={1} />
+					<Grid item xs={6} md={1} className={classes.desktopSpacer} />
 					<Grid item className={classes.mobileLabel} xs={6}>
 						<Typography variant="body2" color={'textSecondary'}>
 							Value
