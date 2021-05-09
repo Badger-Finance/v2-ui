@@ -41,9 +41,6 @@ const routes = {
 	digg: new Route<RootStore, QueryParams>({
 		path: '/digg',
 		component: <Digg />,
-		onEnter: (_, params, store) => {
-			store.rebase.fetchRebaseStats();
-		},
 	}),
 	honeybadgerDrop: new Route<RootStore, QueryParams>({
 		path: '/honey-badger-drop',

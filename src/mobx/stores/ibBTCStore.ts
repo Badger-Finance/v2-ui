@@ -1,14 +1,10 @@
 import { RootStore } from 'mobx/store';
 import { extendObservable, action, observe } from 'mobx';
-
 import BigNumber from 'bignumber.js';
-import { PromiEvent } from 'web3-core';
-import { Contract, ContractSendMethod } from 'web3-eth-contract';
+import { ContractSendMethod } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
 import Web3 from 'web3';
 import { ibBTCFees, MintLimits, TokenModel } from 'mobx/model';
-import { estimateAndSend } from 'mobx/utils/web3';
-
 import { ZERO, MAX, FLAGS, NETWORK_IDS } from 'config/constants';
 import yearnConfig from 'config/system/abis/YearnWrapper.json';
 import settConfig from 'config/system/abis/Sett.json';
@@ -20,6 +16,8 @@ import BadgerYearnWbtcPeak from 'config/system/abis/BadgerYearnWbtcPeak.json';
 import guessListConfig from 'config/system/abis/BadgerBtcPeakGuestList.json';
 import coreConfig from 'config/system/abis/BadgerBtcPeakCore.json';
 import { toHex } from '../utils/helpers';
+import { getSendOptions } from 'mobx/utils/web3';
+import { TransactionReceipt } from 'web3-core';
 
 interface MintAmountCalculation {
 	bBTC: BigNumber;
@@ -353,28 +351,23 @@ class IbBTCStore {
 
 		queueNotification(`Sign the transaction to allow Badger to spend your ${underlyingAsset.symbol}`, 'info');
 
-		return new Promise((resolve, reject) => {
-			estimateAndSend(
-				web3,
-				this.store.wallet.gasPrices[this.store.uiState.gasPrice],
-				method,
-				connectedAddress,
-				(transaction: PromiEvent<Contract>) => {
-					transaction
-						.on('transactionHash', (hash) => {
-							queueNotification(`Transaction submitted.`, 'info', hash);
-						})
-						.on('receipt', () => {
-							queueNotification(`${underlyingAsset.symbol} allowance increased.`, 'success');
-							resolve();
-						})
-						.catch((error: any) => {
-							setTxStatus('error');
-							reject(error);
-						});
-				},
-			);
-		});
+		const gasPrice = this.store.wallet.gasPrices[this.store.uiState.gasPrice];
+		const options = await getSendOptions(method, connectedAddress, gasPrice);
+		await method
+			.send(options)
+			/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
+			.on('transactionHash', (_hash: string) => {
+				// TODO: Hash seems to do nothing - investigate this?
+				queueNotification(`Transaction submitted.`, 'info');
+			})
+			/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
+			.on('receipt', (_receipt: TransactionReceipt) => {
+				queueNotification(`${underlyingAsset.symbol} allowance increased.`, 'success');
+			})
+			.on('error', (error: Error) => {
+				queueNotification(error.message, 'error');
+				setTxStatus('error');
+			});
 	}
 
 	async mint(inToken: TokenModel, amount: BigNumber): Promise<void> {
@@ -488,30 +481,24 @@ class IbBTCStore {
 		if (peak.isYearnWBTCPeak) method = peakContract.methods.mint(toHex(amount), merkleProof);
 		else method = peakContract.methods.mint(inToken.poolId, toHex(amount), merkleProof);
 
-		return new Promise((resolve, reject) => {
-			estimateAndSend(
-				web3,
-				this.store.wallet.gasPrices[this.store.uiState.gasPrice],
-				method,
-				connectedAddress,
-				(transaction: PromiEvent<Contract>) => {
-					transaction
-						.on('transactionHash', (hash) => {
-							queueNotification(`Mint submitted.`, 'info', hash);
-						})
-						.on('receipt', () => {
-							queueNotification(`Successfully minted ${this.ibBTC.symbol}`, 'success');
-							this.init();
-							resolve();
-						})
-						.catch((error: any) => {
-							this.init();
-							setTxStatus('error');
-							reject(error);
-						});
-				},
-			);
-		});
+		const gasPrice = this.store.wallet.gasPrices[this.store.uiState.gasPrice];
+		const options = await getSendOptions(method, connectedAddress, gasPrice);
+		await method
+			.send(options)
+			/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
+			.on('transactionHash', (_hash: string) => {
+				// TODO: Hash seems to do nothing - investigate this?
+				queueNotification(`Mint submitted.`, 'info');
+			})
+			/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
+			.on('receipt', (_receipt: TransactionReceipt) => {
+				queueNotification(`Successfully minted ${this.ibBTC.symbol}`, 'success');
+				this.init();
+			})
+			.on('error', (error: Error) => {
+				queueNotification(error.message, 'error');
+				setTxStatus('error');
+			});
 	}
 
 	async redeemBBTC(outToken: TokenModel, amount: BigNumber): Promise<void> {
@@ -525,30 +512,25 @@ class IbBTCStore {
 		if (peak.isYearnWBTCPeak) method = peakContract.methods.redeem(toHex(amount));
 		else method = peakContract.methods.redeem(outToken.poolId, toHex(amount));
 
-		return new Promise((resolve, reject) => {
-			estimateAndSend(
-				web3,
-				this.store.wallet.gasPrices[this.store.uiState.gasPrice],
-				method,
-				connectedAddress,
-				(transaction: PromiEvent<Contract>) => {
-					transaction
-						.on('transactionHash', (hash) => {
-							queueNotification(`Redeem submitted.`, 'info', hash);
-							resolve();
-						})
-						.on('receipt', () => {
-							queueNotification(`Successfully redeemed ${outToken.symbol}`, 'success');
-							this.init();
-						})
-						.catch((error: any) => {
-							this.init();
-							setTxStatus('error');
-							reject(error);
-						});
-				},
-			);
-		});
+		const gasPrice = this.store.wallet.gasPrices[this.store.uiState.gasPrice];
+		const options = await getSendOptions(method, connectedAddress, gasPrice);
+		await method
+			.send(options)
+			/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
+			.on('transactionHash', (_hash: string) => {
+				// TODO: Hash seems to do nothing - investigate this?
+				queueNotification(`Redeem submitted.`, 'info');
+			})
+			/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
+			.on('receipt', (_receipt: TransactionReceipt) => {
+				queueNotification(`Successfully redeemed ${outToken.symbol}`, 'success');
+				this.init();
+			})
+			.on('error', (error: Error) => {
+				this.init();
+				queueNotification(error.message, 'error');
+				setTxStatus('error');
+			});
 	}
 
 	private async fetchIbbtApyFromTimestamp(timestamp: number): Promise<number | null> {

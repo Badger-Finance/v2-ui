@@ -3,9 +3,11 @@ import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import BigNumber from 'bignumber.js';
 import { CLAIMS_SYMBOLS } from 'config/constants';
 import { observer } from 'mobx-react-lite';
+import { TokenBalance } from 'mobx/model/token-balance';
 import { StoreContext } from 'mobx/store-context';
 import { inCurrency } from 'mobx/utils/helpers';
 import React, { useState, useContext } from 'react';
+import { getToken } from 'web3/config/token-config';
 import { UserClaimData } from '../../mobx/model';
 import { RewardsModalItem } from './RewardsModalItem';
 
@@ -73,6 +75,7 @@ export const RewardsModal = observer(() => {
 	const store = useContext(StoreContext);
 	const { badgerTree, claimGeysers } = store.rewards;
 	const { currency } = store.uiState;
+	const { setts, rewards } = store;
 
 	const [open, setOpen] = useState(false);
 	const [claimMap, setClaimMap] = useState<ClaimMap | undefined>(undefined);
@@ -109,37 +112,26 @@ export const RewardsModal = observer(() => {
 		const elements = claims
 			.map((claim: UserClaimData): JSX.Element | boolean => {
 				const { network } = store.wallet;
-				const { getOrCreateToken } = store.contracts;
-				const token = getOrCreateToken(claim.token);
-
-				// NOTE: Digg handles the raw amounts differently due to rebasing
-				// so we cannot naively use decimals here.
-				const decimals =
-					token.address === network.deploy.tokens.digg
-						? sharesPerFragment.multipliedBy(1e9)
-						: 10 ** token.decimals;
-
-				const claimValue = claim.amount.dividedBy(decimals);
-				const claimDisplay = inCurrency(claimValue, 'eth', true);
-				if (!!!isNaN(parseFloat(claimValue.toString())))
-					tcv = claimValue.multipliedBy(token.ethValue.dividedBy(1e18)).plus(tcv);
+				const token = getToken(claim.token);
+				if (!token) {
+					return false;
+				}
+				const tokenPrice = setts.getPrice(token.address);
+				const tokenBalance = new TokenBalance(rewards, token, claim.amount, tokenPrice);
+				if (tokenBalance.balance.eq(0) || tokenBalance.value.eq(0)) {
+					return false;
+				}
+				tcv = tokenBalance.value.plus(tcv);
 				return (
-					parseFloat(claimDisplay) > 0 && (
-						<RewardsModalItem
-							key={token.address}
-							amount={claimDisplay}
-							value={inCurrency(
-								claimValue.multipliedBy(token.ethValue.dividedBy(1e18)),
-								currency,
-								true,
-								2,
-							)}
-							address={token.address}
-							symbol={CLAIMS_SYMBOLS[network.name][token.address]}
-							onChange={handleClaimMap}
-							maxFlag={maxFlag}
-						/>
-					)
+					<RewardsModalItem
+						key={token.address}
+						amount={tokenBalance.balanceDisplay()}
+						value={tokenBalance.balanceValueDisplay(currency)}
+						address={token.address}
+						symbol={CLAIMS_SYMBOLS[network.name][token.address]}
+						onChange={handleClaimMap}
+						maxFlag={maxFlag}
+					/>
 				);
 			})
 			.filter(Boolean);
@@ -147,13 +139,15 @@ export const RewardsModal = observer(() => {
 		return elements ? { totalClaimValue: tcv, rewards: elements } : false;
 	};
 
-	const rewardReturn = availableRewards();
-	if (typeof rewardReturn === 'boolean') return <> </>;
+	const rewardReturn: RewardReturn | boolean = availableRewards();
+	if (typeof rewardReturn === 'boolean') {
+		return <></>;
+	}
 
-	const rewards = rewardReturn.rewards;
+	const userRewards = rewardReturn.rewards;
 	const totalClaimValue = rewardReturn.totalClaimValue;
 
-	return rewards.length > 0 ? (
+	return userRewards.length > 0 ? (
 		<div>
 			<Typography variant="caption" className={classes.amountDisplay}>
 				{inCurrency(totalClaimValue, currency, true, 2)} in Rewards

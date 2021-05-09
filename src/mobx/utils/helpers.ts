@@ -1,52 +1,6 @@
 import BigNumber from 'bignumber.js';
-import { RootStore } from 'mobx/store';
 import { ExchangeRates } from 'mobx/model';
 import { ZERO } from '../../config/constants';
-
-export const graphQuery = (address: string, store: RootStore): Promise<any>[] => {
-	const { network } = store.wallet;
-	if (!network.tokens) {
-		return [];
-	}
-	return network.tokens.priceEndpoints.map((endpoint: any) => {
-		return fetch(endpoint, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				Accept: 'application/json',
-			},
-			body: JSON.stringify({
-				query: `{  
-					token(id: "${address.toLowerCase()}") {
-						id
-						derivedETH
-						symbol
-						name
-					}
-					pair(id: "${address.toLowerCase()}") {
-						id
-						reserveETH
-						totalSupply
-						reserve0
-						reserve1
-						token0{
-							id
-							name
-							symbol
-							derivedETH
-						  }
-						   token1{
-							id
-							name
-							symbol
-							derivedETH
-						  }
-					}
-				}`,
-			}),
-		}).then((response: any) => response.json());
-	});
-};
 
 export const jsonQuery = (url: string | undefined): Promise<Response> | undefined => {
 	if (!url) return;
@@ -361,11 +315,6 @@ const reduceMarketChart = (data: any[], range: number, maxDate: Date) => {
 		// in ascending order up to the max date requested
 		if (range <= 90) date.setHours(maxDate.getHours() - (data.length - index));
 		else date.setDate(maxDate.getDate() - (data.length - index));
-
-		// let change = value[1]
-		// if (chart === 'total_volumes') {
-		// 	change = change / 1e9
-		// }
 
 		return {
 			date: date,

@@ -78,17 +78,18 @@ const Landing = observer((props: LandingProps) => {
 	const {
 		wallet: { connectedAddress, network },
 		rewards: { badgerTree },
-		uiState: { stats, currency },
+		uiState: { currency },
+		setts,
+		user,
 	} = store;
-	const { setts } = store;
 	const { protocolSummary } = setts;
 	const userConnected = !!connectedAddress;
 
 	const totalValueLocked = protocolSummary ? new BigNumber(protocolSummary.totalValue) : undefined;
 	const badgerPrice = network.deploy ? setts.getPrice(network.deploy.token) : undefined;
-	const badgerPriceDisplay = badgerPrice ? new BigNumber(badgerPrice) : undefined;
-	const portfolioValue = userConnected ? stats.stats.portfolio : undefined;
+	const portfolioValue = userConnected && !user.loadingBalances ? user.portfolioValue() : undefined;
 
+	const hasRewards = new Boolean(!!network.rewards && !!connectedAddress && badgerTree && badgerTree.claims);
 	return (
 		<Container className={classes.landingContainer}>
 			{/* Landing Metrics Cards */}
@@ -106,22 +107,13 @@ const Landing = observer((props: LandingProps) => {
 				<Grid item xs={12} className={classes.widgetContainer}>
 					<div>{userConnected && <WalletSlider />}</div>
 					<div className={classes.pickerContainer}>
-						{!!network.rewards && !!connectedAddress && badgerTree && badgerTree.claims ? (
-							<RewardsModal />
-						) : (
-							<> </>
-						)}
+						{hasRewards && <RewardsModal />}
 						<SamplePicker />
 						<CurrencyPicker />
 					</div>
 				</Grid>
 				<Grid item xs={12} md={userConnected ? 4 : 6}>
-					<CurrencyInfoCard
-						title="Total Value Locked"
-						value={totalValueLocked}
-						currency={currency}
-						isUsd={true}
-					/>
+					<CurrencyInfoCard title="Total Value Locked" value={totalValueLocked} currency={currency} />
 				</Grid>
 				{userConnected && (
 					<Grid item xs={12} md={4}>
@@ -129,7 +121,7 @@ const Landing = observer((props: LandingProps) => {
 					</Grid>
 				)}
 				<Grid item xs={12} md={userConnected ? 4 : 6}>
-					<CurrencyInfoCard title="Badger Price" value={badgerPriceDisplay} currency={currency} />
+					<CurrencyInfoCard title="Badger Price" value={badgerPrice} currency={currency} />
 				</Grid>
 			</Grid>
 
