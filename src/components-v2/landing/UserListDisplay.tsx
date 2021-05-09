@@ -17,7 +17,8 @@ import { SettListViewProps } from './SettListView';
 import SettTable from './SettTable';
 
 const useStyles = makeStyles((theme) => ({
-	badgerHeadIcon: {
+	boostIcon: {
+		marginLeft: theme.spacing(1),
 		marginRight: theme.spacing(1),
 	},
 	boostContainer: {
@@ -128,13 +129,9 @@ const UserListDisplay = observer((props: SettListViewProps) => {
 		<>
 			{accountDetails && (
 				<div className={classes.boostContainer}>
-					<img
-						className={classes.badgerHeadIcon}
-						src="./assets/icons/badger_head.svg"
-						height={25}
-						width={25}
-					/>
+					<img className={classes.boostIcon} src="./assets/icons/badger_head.svg" height={25} width={25} />
 					<Typography variant="h5">Badger Boost: {accountDetails.boost.toFixed(2)}</Typography>
+					<img className={classes.boostIcon} src="./assets/icons/badger_saiyan.png" height={28} width={28} />
 				</div>
 			)}
 			{displayWallet && (

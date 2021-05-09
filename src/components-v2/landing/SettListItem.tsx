@@ -248,7 +248,7 @@ const SettListItem = observer(
 						</Tooltip>
 						{!isNewVault && userApr && (
 							<Typography style={{ cursor: 'default' }} variant="caption" color={'textPrimary'}>
-								my: {userApr.toFixed(2)}%
+								My Boost: {userApr.toFixed(2)}%
 							</Typography>
 						)}
 					</Grid>
