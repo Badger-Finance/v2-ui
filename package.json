@@ -18,6 +18,7 @@
 		"bitcoin-address-validation": "^1.0.2",
 		"bnc-notify": "^1.6.0",
 		"bnc-onboard": "^1.25.0",
+		"clsx": "^1.1.1",
 		"d3-scale": "^3.2.3",
 		"d3-shape": "^2.0.0",
 		"d3-time-format": "^3.0.0",
