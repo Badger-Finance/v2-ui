@@ -106,7 +106,7 @@ class WalletStore {
 		const walletState = wsOnboard.getState();
 		this.checkNetwork(walletState.network);
 		this.setProvider(walletState.wallet.provider);
-		this.connectedAddress = '0xfd9a6cd1670fe8eb4012d8abb9cdf25741a6ff04'; // walletState.address;
+		this.connectedAddress = walletState.address;
 		this.onboard = wsOnboard;
 		this.store.walletRefresh();
 	});
