@@ -9,6 +9,7 @@ import {
 	TablePagination,
 	Paper,
 } from '@material-ui/core';
+import { Pagination } from '@material-ui/lab';
 import { observer } from 'mobx-react-lite';
 import { LeaderBoardCell } from './styles';
 import { StoreContext } from 'mobx/store-context';
@@ -96,7 +97,7 @@ const LeaderBoard = observer(() => {
 					</TableBody>
 				</Table>
 			</TableContainer>
-			{leaderBoard.data && (
+			{leaderBoard.data && window.innerWidth >= 960 && (
 				<div className={classes.pageContainer}>
 					<TablePagination
 						rowsPerPageOptions={[20, 50, 100]}
@@ -107,6 +108,17 @@ const LeaderBoard = observer(() => {
 						page={leaderBoard.data.page}
 						onChangePage={(_event, page) => leaderBoard.setPage(page)}
 						onChangeRowsPerPage={(event) => leaderBoard.setSize(parseInt(event.target.value, 10))}
+					/>
+				</div>
+			)}
+			{leaderBoard.data && window.innerWidth < 960 && (
+				<div className={classes.pageContainer}>
+					<Pagination
+						count={leaderBoard.data.count}
+						variant="outlined"
+						color="primary"
+						page={leaderBoard.data.page}
+						onChange={(_event: any, page: number) => leaderBoard.setPage(page)}
 					/>
 				</div>
 			)}
