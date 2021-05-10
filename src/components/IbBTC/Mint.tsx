@@ -25,6 +25,13 @@ import {
 	ErrorText,
 } from './Common';
 
+type MintInformation = {
+	inputAmount: BigNumber;
+	outputAmount: BigNumber;
+	fee: BigNumber;
+	blocker: string | null;
+};
+
 const ActionButton = observer(
 	({ children }): JSX.Element => {
 		const store = useContext(StoreContext);
@@ -81,12 +88,7 @@ export const Mint = observer(
 			setMintBlocker(null);
 		};
 
-		const setMintInformation = (
-			inputAmount: BigNumber,
-			outputAmount: BigNumber,
-			fee: BigNumber,
-			blocker: string | null,
-		): void => {
+		const setMintInformation = ({ inputAmount, outputAmount, fee, blocker }: MintInformation): void => {
 			setOutputAmount(outputAmount.toFixed(6, BigNumber.ROUND_HALF_FLOOR));
 			setFee(fee.toFixed(6, BigNumber.ROUND_HALF_FLOOR));
 			setTotalMint(outputAmount.toFixed(6, BigNumber.ROUND_HALF_FLOOR));
@@ -110,7 +112,13 @@ export const Mint = observer(
 
 				const { bBTC, fee } = await store.ibBTCStore.calcMintAmount(selectedToken, selectedToken.scale(input));
 				const mintBlocker = await store.ibBTCStore.getMintValidation(bBTC, selectedToken);
-				setMintInformation(input, ibBTC.unscale(bBTC), ibBTC.unscale(fee), mintBlocker);
+
+				setMintInformation({
+					inputAmount: input,
+					outputAmount: ibBTC.unscale(bBTC),
+					fee: ibBTC.unscale(fee),
+					blocker: mintBlocker,
+				});
 			}),
 			[selectedToken],
 		);
@@ -120,12 +128,13 @@ export const Mint = observer(
 				setInputAmount(selectedToken.unscale(selectedToken.balance).toString());
 				const { bBTC, fee } = await store.ibBTCStore.calcMintAmount(selectedToken, selectedToken.balance);
 				const mintBlocker = await store.ibBTCStore.getMintValidation(bBTC, selectedToken);
-				setMintInformation(
-					selectedToken.unscale(selectedToken.balance),
-					ibBTC.unscale(bBTC),
-					ibBTC.unscale(fee),
-					mintBlocker,
-				);
+
+				setMintInformation({
+					inputAmount: selectedToken.unscale(selectedToken.balance),
+					outputAmount: ibBTC.unscale(bBTC),
+					fee: ibBTC.unscale(fee),
+					blocker: mintBlocker,
+				});
 			}
 		};
 
@@ -134,7 +143,13 @@ export const Mint = observer(
 			if (inputAmount) {
 				const { bBTC, fee } = await store.ibBTCStore.calcMintAmount(token, token.scale(inputAmount));
 				const mintBlocker = await store.ibBTCStore.getMintValidation(bBTC, token);
-				setMintInformation(new BigNumber(inputAmount), ibBTC.unscale(bBTC), ibBTC.unscale(fee), mintBlocker);
+
+				setMintInformation({
+					inputAmount: new BigNumber(inputAmount),
+					outputAmount: ibBTC.unscale(bBTC),
+					fee: ibBTC.unscale(fee),
+					blocker: mintBlocker,
+				});
 			}
 		};
 
