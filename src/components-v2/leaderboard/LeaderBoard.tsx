@@ -29,9 +29,6 @@ const useStyles = makeStyles((theme) => ({
 		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'center',
-		[theme.breakpoints.down('sm')]: {
-			overflow: 'auto',
-		},
 	},
 	paginationButton: {
 		marginLeft: theme.spacing(1),
@@ -50,6 +47,15 @@ const useStyles = makeStyles((theme) => ({
 	bodyText: {
 		[theme.breakpoints.down('sm')]: {
 			fontSize: '0.8rem',
+		},
+	},
+	pagination: {
+		toolbar: {
+			flexWrap: 'wrap',
+			justifyContent: 'center',
+		},
+		[theme.breakpoints.down('sm')]: {
+			marginTop: theme.spacing(1),
 		},
 	},
 }));
@@ -99,8 +105,8 @@ const LeaderBoard = observer(() => {
 			{leaderBoard.data && (
 				<div className={classes.pageContainer}>
 					<TablePagination
+						className={classes.pagination}
 						rowsPerPageOptions={[20, 50, 100]}
-						size="small"
 						component="div"
 						count={leaderBoard.data.count}
 						rowsPerPage={leaderBoard.data.size}
