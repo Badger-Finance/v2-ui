@@ -86,11 +86,13 @@ export const Redeem = observer((): any => {
 	const [selectedToken, setSelectedToken] = useState(tokens[0]);
 	const [inputAmount, setInputAmount] = useState<string>();
 	const [outputAmount, setOutputAmount] = useState<string>();
+	const [conversionRate, setConversionRate] = useState<string>();
+	const [maxRedeem, setMaxRedeem] = useState<string>();
 	const [totalRedeem, setTotalRedeem] = useState('0.000');
 	const [fee, setFee] = useState('0.000');
 	const [isEnoughToRedeem, setIsEnoughToRedeem] = useState(true);
-	const [maxRedeem, setMaxRedeem] = useState<string>();
-	const [conversionRate, setConversionRate] = useState(selectedToken.redeemRate);
+
+	const displayedConversionRate = conversionRate || selectedToken.redeemRate;
 
 	// do not display errors for non guests, they won't be able to redeem anyways
 	const showError = bouncerProof && !isEnoughToRedeem;
@@ -125,6 +127,7 @@ export const Redeem = observer((): any => {
 				setOutputAmount('');
 				setFee('0.000');
 				setTotalRedeem('0.000');
+				setConversionRate(selectedToken.redeemRate);
 				return;
 			}
 
@@ -273,7 +276,7 @@ export const Redeem = observer((): any => {
 						</Grid>
 						<Grid item xs={6}>
 							<EndAlignText variant="body1">
-								1 {ibBTC.symbol} : {conversionRate} {selectedToken.symbol}
+								1 {ibBTC.symbol} : {displayedConversionRate} {selectedToken.symbol}
 							</EndAlignText>
 						</Grid>
 					</Grid>
