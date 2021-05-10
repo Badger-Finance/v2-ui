@@ -246,7 +246,7 @@ export const Redeem = observer((): any => {
 					{showError && (
 						<Grid item xs={12} container>
 							<ErrorText variant="subtitle1">
-								A maximum of {maxRedeem} {ibBTC.symbol} can be redeemed to {selectedToken.symbol}.
+								A maximum of {maxRedeem} {ibBTC.symbol} can be redeemed for {selectedToken.symbol}.
 							</ErrorText>
 						</Grid>
 					)}
