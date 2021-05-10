@@ -37,6 +37,9 @@ const useStyles = makeStyles((theme) => ({
 	outputContent: {
 		marginTop: theme.spacing(4),
 	},
+	maxAmount: {
+		cursor: 'pointer',
+	},
 }));
 
 const ActionButton = observer(
@@ -246,7 +249,21 @@ export const Redeem = observer((): any => {
 					{showError && (
 						<Grid item xs={12} container>
 							<ErrorText variant="subtitle1">
-								A maximum of {maxRedeem} {ibBTC.symbol} can be redeemed for {selectedToken.symbol}.
+								<span>A maximum of </span>
+								<span
+									className={classes.maxAmount}
+									onClick={() => {
+										if (!maxRedeem) return;
+										setInputAmount(maxRedeem);
+										handleInputAmountChange(maxRedeem);
+									}}
+								>
+									{maxRedeem}
+								</span>
+								<span>
+									{' '}
+									{ibBTC.symbol} can be redeemed for {selectedToken.symbol}.
+								</span>
 							</ErrorText>
 						</Grid>
 					)}
