@@ -74,7 +74,7 @@ const BoostLeaderBoard = observer(() => {
 				)}
 				<div className={classes.description}>
 					<Typography>
-						Deposit Badger or DIGG to increase your APY and rewards from 1 to 3x. See how you compare to
+						Deposit Badger or DIGG to increase your ROI and rewards from 1 to 3x. See how you compare to
 						fellow Badgers and compete for a higher boost.
 					</Typography>
 				</div>
