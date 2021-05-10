@@ -706,6 +706,7 @@ export interface BoostMultipliers {
 export interface Account {
 	id: string;
 	boost: number;
+	boostRank: number;
 	multipliers: BoostMultipliers;
 	depositLimits: AccountLimits;
 	// currently unused below
@@ -854,4 +855,18 @@ export interface ExchangeRates {
 export interface ibBTCFees {
 	mintFeePercent: BigNumber;
 	redeemFeePercent: BigNumber;
+}
+
+export interface LeaderBoardEntry {
+	rank: number;
+	address: string;
+	boost: string;
+}
+
+export interface LeaderBoardData {
+	data: LeaderBoardEntry[];
+	page: number;
+	size: number;
+	count: number;
+	maxPage: number;
 }

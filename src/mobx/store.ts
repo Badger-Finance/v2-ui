@@ -11,6 +11,7 @@ import SettStore from './stores/SettStore';
 import { NETWORK_LIST } from '../config/constants';
 import { HoneyPotStore } from './stores/honeyPotStore';
 import UserStore from './stores/UserStore';
+import { LeaderBoardStore } from './stores/LeaderBoardStore';
 
 export class RootStore {
 	public router: RouterStore<RootStore>;
@@ -25,6 +26,7 @@ export class RootStore {
 	public bridge: BridgeStore;
 	public honeyPot: HoneyPotStore;
 	public user: UserStore;
+	public leaderBoard: LeaderBoardStore;
 
 	constructor() {
 		this.router = new RouterStore<RootStore>(this);
@@ -40,6 +42,7 @@ export class RootStore {
 		this.honeyPot = new HoneyPotStore(this);
 		this.setts = new SettStore(this);
 		this.user = new UserStore(this);
+		this.leaderBoard = new LeaderBoardStore(this);
 
 		this.walletRefresh();
 	}
