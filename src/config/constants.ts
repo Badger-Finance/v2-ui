@@ -49,6 +49,7 @@ export const CLAIMS_SYMBOLS: ClaimsSymbols = {
 		[tokens.digg]: 'Digg',
 		[sett_system.vaults['native.badger']]: 'bBadger',
 		[sett_system.vaults['native.digg']]: 'bDigg',
+		[tokens.defiDollar]: 'Defi Dollar',
 	},
 };
 
@@ -66,7 +67,6 @@ const toBool = (val: string | undefined): boolean => (val ? val === 'true' : fal
 
 export const FLAGS = {
 	IBBTC_FLAG: toBool(process.env.REACT_APP_IBBTC_FLAG),
-	BRIDGE_FLAG: toBool(process.env.REACT_APP_BRIDGE_FLAG),
 	WBTC_FLAG: toBool(process.env.REACT_APP_BRIDGE_WBTC),
 	GEYSER_FLAG: toBool(process.env.REACT_APP_GEYSER_ENABLED),
 	EXPERIMENTAL_VAULTS: toBool(process.env.REACT_APP_EXPERIMENTAL_VAULTS),

@@ -194,16 +194,16 @@ export class TokenModel extends Contract {
 		// This will be fetched and set at initialization using 1 unit of mint and redeem
 		// to show current conversion rate from token to ibBTC and from ibBTC to token
 		// by fetchConversionRates()
-		this.mintRate = '0';
-		this.redeemRate = '0';
+		this.mintRate = '0.000';
+		this.redeemRate = '0.000';
 	}
 
 	public get formattedBalance(): string {
 		return this.unscale(this.balance).toFixed(3);
 	}
 
-	public get icon(): string {
-		return require(`assets/tokens/${this.symbol}.png`);
+	public get icon(): any {
+		return `/assets/icons/${this.symbol.toLowerCase()}.svg`;
 	}
 
 	public formatAmount(amount: BigNumber | string): string {
@@ -444,7 +444,6 @@ export type GeyserNetworkConfig = {
 			isFeatured?: boolean[];
 			isSuperSett?: boolean[];
 			getStakingToken?: string[];
-			onsenId?: string[];
 		};
 	}[];
 };
@@ -634,6 +633,7 @@ export class EthNetwork implements Network {
 	public readonly gasEndpoint = 'https://www.gasnow.org/api/v3/gas/price?utm_source=badgerv2';
 	// Deterministic order for displaying setts on the sett list component
 	public readonly settOrder = [
+		this.deploy.sett_system.vaults['native.sushiibBTCwBTC'],
 		this.deploy.sett_system.vaults['yearn.wBtc'],
 		this.deploy.sett_system.vaults['native.digg'],
 		this.deploy.sett_system.vaults['native.badger'],
@@ -679,9 +679,7 @@ export class EthNetwork implements Network {
 	public readonly uncappedDeposit = {
 		[this.deploy.sett_system.vaults['yearn.wBtc']]: true,
 	};
-	public readonly newVaults = {
-		[this.deploy.sett_system.vaults['yearn.wBtc']]: ['Expected ROI', '60% @ $100m', '30% @ $400m', '24% @ $1b'],
-	};
+	public readonly newVaults = {};
 	public readonly strategies = getStrategies(NETWORK_LIST.ETH);
 	public getFees(vaultAddress: string): string[] {
 		return _getFees(this.strategies[vaultAddress]);
@@ -708,6 +706,7 @@ export interface BoostMultipliers {
 export interface Account {
 	id: string;
 	boost: number;
+	boostRank: number;
 	multipliers: BoostMultipliers;
 	depositLimits: AccountLimits;
 	// currently unused below
@@ -754,7 +753,10 @@ export enum Protocol {
 export interface Sett extends SettSummary {
 	asset: string;
 	apy: number;
-	geyser?: Geyser;
+	apr: number;
+	minApr?: number;
+	maxApr?: number;
+	boostable: boolean;
 	hasBouncer: boolean;
 	ppfs: number;
 	sources: ValueSource[];
@@ -773,9 +775,13 @@ export interface SettAffiliateData {
 
 export type ValueSource = {
 	name: string;
-	apy?: number;
+	apy: number;
 	apr: number;
 	performance: Performance;
+	boostable: boolean;
+	harvestable: boolean;
+	minApr: number;
+	maxApr: number;
 };
 
 export type Performance = {
@@ -844,4 +850,23 @@ export interface ExchangeRates {
 	cad: number;
 	btc: number;
 	bnb: number;
+}
+
+export interface ibBTCFees {
+	mintFeePercent: BigNumber;
+	redeemFeePercent: BigNumber;
+}
+
+export interface LeaderBoardEntry {
+	rank: number;
+	address: string;
+	boost: string;
+}
+
+export interface LeaderBoardData {
+	data: LeaderBoardEntry[];
+	page: number;
+	size: number;
+	count: number;
+	maxPage: number;
 }

@@ -46,28 +46,6 @@ export const graphQuery = (address: string, store: RootStore): Promise<any>[] =>
 		}).then((response: any) => response.json());
 	});
 };
-export const chefQueries = (pairs: any[], contracts: any[], growthEndpoint: string): Promise<any>[] => {
-	return pairs.map((pair: any) => {
-		return fetch(growthEndpoint, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				Accept: 'application/json',
-			},
-			body: JSON.stringify({
-				query: `{
-					masterChefs {
-						pools(where: {id:"${contracts[pair].onsenId}"}) {
-							allocPoint
-							slpBalance
-						}
-						totalAllocPoint
-					}
-				}`,
-			}),
-		}).then((response: any) => response.json());
-	});
-};
 
 export const jsonQuery = (url: string | undefined): Promise<Response> | undefined => {
 	if (!url) return;
@@ -408,3 +386,5 @@ export function marketChartStats(
 
 	return { high, low, avg, median };
 }
+
+export const toHex = (amount: BigNumber): string => '0x' + amount.toString(16);

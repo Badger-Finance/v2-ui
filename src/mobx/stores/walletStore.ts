@@ -95,7 +95,7 @@ class WalletStore {
 	walletReset = action(() => {
 		try {
 			this.setProvider(null);
-			this.setAddress('');
+			this.setAddress(null);
 			window.localStorage.removeItem('selectedWallet');
 		} catch (err) {
 			console.log(err);

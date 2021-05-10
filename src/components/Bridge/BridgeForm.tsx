@@ -16,16 +16,16 @@ import { StoreContext } from 'mobx/store-context';
 import { SuccessForm } from './SuccessForm';
 import { ConfirmForm } from './ConfirmForm';
 import { ValuesProp } from './Common';
-import WBTCLogo from 'assets/icons/WBTC.svg';
-import byvWBTCLogo from 'assets/icons/byvWBTC.svg';
-import renBTCLogo from 'assets/icons/renBTC.svg';
-import crvBTCLogo from 'assets/tokens/bcrvRenWBTC.png';
 import { NETWORK_LIST, CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS, FLAGS } from 'config/constants';
 import { bridge_system, tokens, sett_system } from 'config/deployments/mainnet.json';
 import { CURVE_EXCHANGE } from 'config/system/abis/CurveExchange';
 
 const DECIMALS = 10 ** 8;
 const SETT_DECIMALS = 10 ** 18;
+const WBTCLogo = '/assets/icons/WBTC.svg';
+const byvWBTCLogo = '/assets/icons/byvwbtc.svg';
+const renBTCLogo = '/assets/icons/renBTC.svg';
+const crvBTCLogo = '/assets/icons/bcrvrenwbtc.png';
 
 type TabPanelProps = PropsWithChildren<{
 	index: number;
