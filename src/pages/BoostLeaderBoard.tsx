@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	viewContainer: {
 		textAlign: 'center',
+		marginTop: theme.spacing(2),
 		marginBottom: theme.spacing(2),
 	},
 }));
@@ -42,7 +43,7 @@ const BoostLeaderBoard = observer(() => {
 			queueNotification(`Your address is currently unranked.`, 'info');
 			return;
 		}
-		leaderBoard.setPage(Math.floor(accountDetails.boostRank / leaderBoard.data.size) - 1);
+		leaderBoard.setPage(Math.ceil(accountDetails.boostRank / leaderBoard.data.size) - 1);
 	};
 
 	return (
@@ -52,7 +53,9 @@ const BoostLeaderBoard = observer(() => {
 				<BadgerBoost />
 				{accountDetails && (
 					<div className={classes.viewContainer}>
-						<Button onClick={viewRank}>view</Button>
+						<Button onClick={viewRank} color="primary" variant="outlined">
+							view
+						</Button>
 					</div>
 				)}
 				<LeaderBoard />
