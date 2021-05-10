@@ -37,6 +37,21 @@ const useStyles = makeStyles((theme) => ({
 		marginLeft: theme.spacing(1),
 		marginRight: theme.spacing(1),
 	},
+	headerRow: {
+		marginBottom: theme.spacing(1),
+	},
+	headerText: {
+		fontSize: '1.3rem',
+		paddingBottom: theme.spacing(2),
+		[theme.breakpoints.down('sm')]: {
+			fontSize: '1rem',
+		},
+	},
+	bodyText: {
+		[theme.breakpoints.down('sm')]: {
+			fontSize: '0.8rem',
+		},
+	},
 }));
 
 const LeaderBoard = observer(() => {
@@ -48,11 +63,17 @@ const LeaderBoard = observer(() => {
 		<Paper className={classes.leaderboardPaper}>
 			<TableContainer>
 				<Table size="small">
-					<TableHead>
+					<TableHead className={classes.headerRow}>
 						<TableRow>
-							<LeaderBoardCell align="center">Rank</LeaderBoardCell>
-							<LeaderBoardCell align="center">Address</LeaderBoardCell>
-							<LeaderBoardCell align="center">Boost</LeaderBoardCell>
+							<LeaderBoardCell align="center" className={classes.headerText}>
+								Rank
+							</LeaderBoardCell>
+							<LeaderBoardCell align="center" className={classes.headerText}>
+								Address
+							</LeaderBoardCell>
+							<LeaderBoardCell align="center" className={classes.headerText}>
+								Boost
+							</LeaderBoardCell>
 						</TableRow>
 					</TableHead>
 					<TableBody>
@@ -60,9 +81,13 @@ const LeaderBoard = observer(() => {
 							leaderBoard.data.data.map((entry) => {
 								return (
 									<TableRow key={entry.rank}>
-										<LeaderBoardCell align="center">{entry.rank}</LeaderBoardCell>
-										<LeaderBoardCell align="center">{entry.address}</LeaderBoardCell>
-										<LeaderBoardCell align="center">
+										<LeaderBoardCell align="center" className={classes.bodyText}>
+											{entry.rank}
+										</LeaderBoardCell>
+										<LeaderBoardCell align="center" className={classes.bodyText}>
+											{entry.address}
+										</LeaderBoardCell>
+										<LeaderBoardCell align="center" className={classes.bodyText}>
 											{parseFloat(entry.boost).toFixed(10)}
 										</LeaderBoardCell>
 									</TableRow>
@@ -75,6 +100,7 @@ const LeaderBoard = observer(() => {
 				<div className={classes.pageContainer}>
 					<TablePagination
 						rowsPerPageOptions={[20, 50, 100]}
+						size="small"
 						component="div"
 						count={leaderBoard.data.count}
 						rowsPerPage={leaderBoard.data.size}
