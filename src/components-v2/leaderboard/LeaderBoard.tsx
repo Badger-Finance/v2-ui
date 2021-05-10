@@ -14,6 +14,7 @@ import { observer } from 'mobx-react-lite';
 import { LeaderBoardCell } from './styles';
 import { StoreContext } from 'mobx/store-context';
 import { Loader } from 'components/Loader';
+import clsx from 'clsx';
 
 const useStyles = makeStyles((theme) => ({
 	leaderboardPaper: {
@@ -53,12 +54,27 @@ const useStyles = makeStyles((theme) => ({
 			fontSize: '0.8rem',
 		},
 	},
+	userAddress: {
+		color: '#F2A52B',
+	},
+	icon: {
+		height: '20px',
+		width: '20px',
+		marginLeft: '-35px',
+		position: 'absolute',
+	},
+	rankContainer: {
+		display: 'flex',
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
 }));
 
 const LeaderBoard = observer(() => {
 	const classes = useStyles();
 	const store = useContext(StoreContext);
-	const { leaderBoard } = store;
+	const { leaderBoard, user } = store;
+	const { accountDetails } = user;
 
 	const _leaderboard = () => {
 		const mobileBreakpoint = window.innerWidth < 960;
@@ -116,15 +132,33 @@ const LeaderBoard = observer(() => {
 					<TableBody>
 						{leaderBoard.data &&
 							leaderBoard.data.data.map((entry) => {
+								const myRank = entry.rank === accountDetails?.boostRank;
 								return (
 									<TableRow key={entry.rank}>
-										<LeaderBoardCell align="center" className={classes.bodyText}>
-											{entry.rank}
+										<LeaderBoardCell
+											align="center"
+											className={clsx(classes.bodyText, myRank && classes.userAddress)}
+										>
+											<div className={classes.rankContainer}>
+												{myRank && (
+													<img
+														src="./assets/icons/badger_saiyan.png"
+														className={classes.icon}
+													/>
+												)}
+												{entry.rank}
+											</div>
 										</LeaderBoardCell>
-										<LeaderBoardCell align="center" className={classes.bodyText}>
+										<LeaderBoardCell
+											align="center"
+											className={clsx(classes.bodyText, myRank && classes.userAddress)}
+										>
 											{entry.address}
 										</LeaderBoardCell>
-										<LeaderBoardCell align="center" className={classes.bodyText}>
+										<LeaderBoardCell
+											align="center"
+											className={clsx(classes.bodyText, myRank && classes.userAddress)}
+										>
 											{parseFloat(entry.boost).toFixed(10)}
 										</LeaderBoardCell>
 									</TableRow>
