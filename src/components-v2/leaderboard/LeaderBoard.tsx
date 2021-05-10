@@ -117,8 +117,9 @@ const LeaderBoard = observer(() => {
 						count={leaderBoard.data.count}
 						variant="outlined"
 						color="primary"
-						page={leaderBoard.data.page}
-						onChange={(_event: any, page: number) => leaderBoard.setPage(page)}
+						size="small"
+						page={leaderBoard.data.page + 1}
+						onChange={(_event: any, page: number) => leaderBoard.setPage(page - 1)}
 					/>
 				</div>
 			)}
