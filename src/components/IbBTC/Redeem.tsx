@@ -25,6 +25,14 @@ import {
 	ErrorText,
 } from './Common';
 
+type RedeemInformation = {
+	inputAmount: BigNumber;
+	redeemAmount: BigNumber;
+	max: BigNumber;
+	fee: BigNumber;
+	conversionRate: BigNumber;
+};
+
 const useStyles = makeStyles((theme) => ({
 	outputContent: {
 		marginTop: theme.spacing(4),
@@ -93,14 +101,9 @@ export const Redeem = observer((): any => {
 		setTotalRedeem('0.000');
 	};
 
-	const setRedeemInformation = (
-		redeemAmount: BigNumber,
-		max: BigNumber,
-		fee: BigNumber,
-		conversionRate: BigNumber,
-	) => {
+	const setRedeemInformation = ({ inputAmount, redeemAmount, max, fee, conversionRate }: RedeemInformation) => {
 		setMaxRedeem(max.toFixed(6, BigNumber.ROUND_HALF_FLOOR));
-		setIsEnoughToRedeem(max.gt(redeemAmount));
+		setIsEnoughToRedeem(max.gt(inputAmount));
 		setOutputAmount(redeemAmount.toFixed(6, BigNumber.ROUND_HALF_FLOOR));
 		setFee(fee.toFixed(6, BigNumber.ROUND_HALF_FLOOR));
 		setTotalRedeem(redeemAmount.toFixed(6, BigNumber.ROUND_HALF_FLOOR));
@@ -127,12 +130,13 @@ export const Redeem = observer((): any => {
 				store.ibBTCStore.getRedeemConversionRate(selectedToken),
 			]);
 
-			setRedeemInformation(
-				selectedToken.unscale(sett),
-				ibBTC.unscale(max),
-				ibBTC.unscale(fee),
-				selectedToken.unscale(conversionRate),
-			);
+			setRedeemInformation({
+				inputAmount: input,
+				redeemAmount: selectedToken.unscale(sett),
+				max: ibBTC.unscale(max),
+				fee: ibBTC.unscale(fee),
+				conversionRate: selectedToken.unscale(conversionRate),
+			});
 		}),
 		[selectedToken],
 	);
@@ -146,12 +150,13 @@ export const Redeem = observer((): any => {
 				store.ibBTCStore.getRedeemConversionRate(selectedToken),
 			]);
 
-			setRedeemInformation(
-				selectedToken.unscale(sett),
-				ibBTC.unscale(max),
-				ibBTC.unscale(fee),
-				selectedToken.unscale(conversionRate),
-			);
+			setRedeemInformation({
+				inputAmount: ibBTC.unscale(ibBTC.balance),
+				redeemAmount: selectedToken.unscale(sett),
+				max: ibBTC.unscale(max),
+				fee: ibBTC.unscale(fee),
+				conversionRate: selectedToken.unscale(conversionRate),
+			});
 		}
 	};
 
@@ -163,12 +168,13 @@ export const Redeem = observer((): any => {
 				store.ibBTCStore.getRedeemConversionRate(token),
 			]);
 
-			setRedeemInformation(
-				token.unscale(sett),
-				ibBTC.unscale(max),
-				ibBTC.unscale(fee),
-				token.unscale(conversionRate),
-			);
+			setRedeemInformation({
+				inputAmount: new BigNumber(inputAmount),
+				redeemAmount: token.unscale(sett),
+				max: ibBTC.unscale(max),
+				fee: ibBTC.unscale(fee),
+				conversionRate: token.unscale(conversionRate),
+			});
 		}
 	};
 
