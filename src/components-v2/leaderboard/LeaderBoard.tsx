@@ -62,6 +62,11 @@ const useStyles = makeStyles((theme) => ({
 		width: '20px',
 		marginLeft: '-35px',
 		position: 'absolute',
+		[theme.breakpoints.down('sm')]: {
+			height: '15px',
+			width: '15px',
+			marginLeft: '-25px',
+		},
 	},
 	rankContainer: {
 		display: 'flex',

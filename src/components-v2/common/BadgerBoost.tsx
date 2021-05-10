@@ -35,9 +35,6 @@ const useStyles = makeStyles((theme) => ({
 		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'center',
-		[theme.breakpoints.down('sm')]: {
-			marginBottom: theme.spacing(2),
-		},
 	},
 	boostInfo: {
 		flexDirection: 'column',
