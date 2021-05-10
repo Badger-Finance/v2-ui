@@ -69,7 +69,7 @@ const LeaderBoard = observer(() => {
 			return (
 				<div className={classes.pageContainer}>
 					<Pagination
-						count={leaderBoard.data.count}
+						count={Math.ceil(leaderBoard.data.count / leaderBoard.data.size)}
 						variant="outlined"
 						color="primary"
 						size="small"
