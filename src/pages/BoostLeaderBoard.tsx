@@ -1,4 +1,4 @@
-import { Button, Container, makeStyles } from '@material-ui/core';
+import { Button, Container, makeStyles, Typography } from '@material-ui/core';
 import PageHeader from 'components-v2/common/PageHeader';
 import LeaderBoard from 'components-v2/leaderboard/LeaderBoard';
 import { observer } from 'mobx-react-lite';
@@ -25,6 +25,20 @@ const useStyles = makeStyles((theme) => ({
 		textAlign: 'center',
 		marginTop: theme.spacing(2),
 		marginBottom: theme.spacing(2),
+	},
+	description: {
+		width: '75%',
+		margin: 'auto',
+		marginBottom: theme.spacing(2),
+		[theme.breakpoints.down('sm')]: {
+			width: '80%',
+		},
+	},
+	viewButton: {
+		fontSize: '.8rem',
+		[theme.breakpoints.down('sm')]: {
+			fontSize: '.6rem',
+		},
 	},
 }));
 
@@ -53,11 +67,17 @@ const BoostLeaderBoard = observer(() => {
 				<BadgerBoost />
 				{accountDetails && (
 					<div className={classes.viewContainer}>
-						<Button onClick={viewRank} color="primary" variant="outlined">
+						<Button onClick={viewRank} color="primary" variant="outlined" className={classes.viewButton}>
 							view
 						</Button>
 					</div>
 				)}
+				<div className={classes.description}>
+					<Typography>
+						Deposit Badger or DIGG to increase your APY and rewards from 1 to 3x. See how you compare to
+						fellow Badgers and compete for a higher boost.
+					</Typography>
+				</div>
 				<LeaderBoard />
 			</div>
 		</Container>

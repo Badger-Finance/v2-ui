@@ -9,6 +9,7 @@ import {
 	TablePagination,
 	Paper,
 } from '@material-ui/core';
+import { Pagination } from '@material-ui/lab';
 import { observer } from 'mobx-react-lite';
 import { LeaderBoardCell } from './styles';
 import { StoreContext } from 'mobx/store-context';
@@ -61,6 +62,11 @@ const useStyles = makeStyles((theme) => ({
 		width: '20px',
 		marginLeft: '-35px',
 		position: 'absolute',
+		[theme.breakpoints.down('sm')]: {
+			height: '15px',
+			width: '15px',
+			marginLeft: '-25px',
+		},
 	},
 	rankContainer: {
 		display: 'flex',
@@ -74,6 +80,42 @@ const LeaderBoard = observer(() => {
 	const store = useContext(StoreContext);
 	const { leaderBoard, user } = store;
 	const { accountDetails } = user;
+
+	const _leaderboard = () => {
+		const mobileBreakpoint = window.innerWidth < 960;
+
+		if (!leaderBoard.data) return <></>;
+
+		if (mobileBreakpoint) {
+			return (
+				<div className={classes.pageContainer}>
+					<Pagination
+						count={Math.ceil(leaderBoard.data.count / leaderBoard.data.size)}
+						variant="outlined"
+						color="primary"
+						size="small"
+						page={leaderBoard.data.page + 1}
+						onChange={(_event: any, page: number) => leaderBoard.setPage(page - 1)}
+					/>
+				</div>
+			);
+		} else {
+			return (
+				<div className={classes.pageContainer}>
+					<TablePagination
+						rowsPerPageOptions={[20, 50, 100]}
+						size="small"
+						component="div"
+						count={leaderBoard.data.count}
+						rowsPerPage={leaderBoard.data.size}
+						page={leaderBoard.data.page}
+						onChangePage={(_event, page) => leaderBoard.setPage(page)}
+						onChangeRowsPerPage={(event) => leaderBoard.setSize(parseInt(event.target.value, 10))}
+					/>
+				</div>
+			);
+		}
+	};
 
 	return (
 		<Paper className={classes.leaderboardPaper}>
@@ -130,20 +172,8 @@ const LeaderBoard = observer(() => {
 					</TableBody>
 				</Table>
 			</TableContainer>
-			{leaderBoard.data && (
-				<div className={classes.pageContainer}>
-					<TablePagination
-						rowsPerPageOptions={[20, 50, 100]}
-						size="small"
-						component="div"
-						count={leaderBoard.data.count}
-						rowsPerPage={leaderBoard.data.size}
-						page={leaderBoard.data.page}
-						onChangePage={(_event, page) => leaderBoard.setPage(page)}
-						onChangeRowsPerPage={(event) => leaderBoard.setSize(parseInt(event.target.value, 10))}
-					/>
-				</div>
-			)}
+
+			{leaderBoard.data && _leaderboard()}
 			{!leaderBoard.data && (
 				<div className={classes.pageContainer}>
 					<Loader message="Loading LeaderBoard..." />
