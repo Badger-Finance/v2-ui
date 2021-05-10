@@ -70,7 +70,6 @@ export const FLAGS = {
 	WBTC_FLAG: toBool(process.env.REACT_APP_BRIDGE_WBTC),
 	GEYSER_FLAG: toBool(process.env.REACT_APP_GEYSER_ENABLED),
 	EXPERIMENTAL_VAULTS: toBool(process.env.REACT_APP_EXPERIMENTAL_VAULTS),
-	BADGER_BOOST_FLAG: toBool(process.env.REACT_APP_BADGER_BOOST),
 };
 
 export const ZERO = new BigNumber(0);

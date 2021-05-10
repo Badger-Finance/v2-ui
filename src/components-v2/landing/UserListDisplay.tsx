@@ -1,6 +1,6 @@
 import { makeStyles, Typography } from '@material-ui/core';
+import clsx from 'clsx';
 import { Loader } from 'components/Loader';
-import { FLAGS } from 'config/constants';
 import { observer } from 'mobx-react-lite';
 import {
 	formatBalance,
@@ -18,14 +18,55 @@ import { SettListViewProps } from './SettListView';
 import SettTable from './SettTable';
 
 const useStyles = makeStyles((theme) => ({
-	badgerHeadIcon: {
-		marginRight: theme.spacing(1),
+	icon: {
+		marginLeft: theme.spacing(4),
+		marginRight: theme.spacing(4),
+		marginBottom: theme.spacing(4),
+		[theme.breakpoints.down('sm')]: {
+			marginLeft: theme.spacing(2),
+			marginRight: theme.spacing(2),
+			marginBottom: theme.spacing(2),
+		},
+	},
+	boostIcon: {
+		height: 55,
+		width: 55,
+		[theme.breakpoints.down('sm')]: {
+			height: 38,
+			width: 38,
+		},
+	},
+	headIcon: {
+		height: 48,
+		width: 48,
+		[theme.breakpoints.down('sm')]: {
+			height: 30,
+			width: 30,
+		},
 	},
 	boostContainer: {
 		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'center',
-		marginBottom: theme.spacing(4),
+		marginBottom: theme.spacing(3),
+		[theme.breakpoints.down('sm')]: {
+			marginBottom: theme.spacing(2),
+		},
+	},
+	boostInfo: {
+		flexDirection: 'column',
+	},
+	boostText: {
+		fontSize: '2.5rem',
+		[theme.breakpoints.down('sm')]: {
+			fontSize: '1.4rem',
+		},
+	},
+	boostRankText: {
+		fontSize: '1.3rem',
+		[theme.breakpoints.down('sm')]: {
+			fontSize: '0.8rem',
+		},
 	},
 }));
 
@@ -127,15 +168,14 @@ const UserListDisplay = observer((props: SettListViewProps) => {
 
 	return (
 		<>
-			{FLAGS.BADGER_BOOST_FLAG && accountDetails && (
+			{accountDetails && (
 				<div className={classes.boostContainer}>
-					<img
-						className={classes.badgerHeadIcon}
-						src="./assets/icons/badger_head.svg"
-						height={25}
-						width={25}
-					/>
-					<Typography variant="h5">Badger Boost: {accountDetails.boost.toFixed(2)}</Typography>
+					<img className={clsx(classes.icon, classes.headIcon)} src="./assets/icons/badger_head.svg" />
+					<div className={clsx(classes.boostInfo, classes.boostContainer)}>
+						<Typography className={classes.boostText}>Boost: {accountDetails.boost.toFixed(2)}</Typography>
+						<Typography className={classes.boostRankText}>Rank: {accountDetails.boostRank}</Typography>
+					</div>
+					<img className={clsx(classes.icon, classes.boostIcon)} src="./assets/icons/badger_saiyan.png" />
 				</div>
 			)}
 			{displayWallet && (
