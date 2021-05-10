@@ -60,6 +60,42 @@ const LeaderBoard = observer(() => {
 	const store = useContext(StoreContext);
 	const { leaderBoard } = store;
 
+	const _leaderboard = () => {
+		const mobileBreakpoint = window.innerWidth < 960;
+
+		if (!leaderBoard.data) return <></>;
+
+		if (mobileBreakpoint) {
+			return (
+				<div className={classes.pageContainer}>
+					<Pagination
+						count={leaderBoard.data.count}
+						variant="outlined"
+						color="primary"
+						size="small"
+						page={leaderBoard.data.page + 1}
+						onChange={(_event: any, page: number) => leaderBoard.setPage(page - 1)}
+					/>
+				</div>
+			);
+		} else {
+			return (
+				<div className={classes.pageContainer}>
+					<TablePagination
+						rowsPerPageOptions={[20, 50, 100]}
+						size="small"
+						component="div"
+						count={leaderBoard.data.count}
+						rowsPerPage={leaderBoard.data.size}
+						page={leaderBoard.data.page}
+						onChangePage={(_event, page) => leaderBoard.setPage(page)}
+						onChangeRowsPerPage={(event) => leaderBoard.setSize(parseInt(event.target.value, 10))}
+					/>
+				</div>
+			);
+		}
+	};
+
 	return (
 		<Paper className={classes.leaderboardPaper}>
 			<TableContainer>
@@ -97,32 +133,8 @@ const LeaderBoard = observer(() => {
 					</TableBody>
 				</Table>
 			</TableContainer>
-			{leaderBoard.data && window.innerWidth >= 960 && (
-				<div className={classes.pageContainer}>
-					<TablePagination
-						rowsPerPageOptions={[20, 50, 100]}
-						size="small"
-						component="div"
-						count={leaderBoard.data.count}
-						rowsPerPage={leaderBoard.data.size}
-						page={leaderBoard.data.page}
-						onChangePage={(_event, page) => leaderBoard.setPage(page)}
-						onChangeRowsPerPage={(event) => leaderBoard.setSize(parseInt(event.target.value, 10))}
-					/>
-				</div>
-			)}
-			{leaderBoard.data && window.innerWidth < 960 && (
-				<div className={classes.pageContainer}>
-					<Pagination
-						count={leaderBoard.data.count}
-						variant="outlined"
-						color="primary"
-						size="small"
-						page={leaderBoard.data.page + 1}
-						onChange={(_event: any, page: number) => leaderBoard.setPage(page - 1)}
-					/>
-				</div>
-			)}
+
+			{leaderBoard.data && _leaderboard()}
 			{!leaderBoard.data && (
 				<div className={classes.pageContainer}>
 					<Loader message="Loading LeaderBoard..." />
