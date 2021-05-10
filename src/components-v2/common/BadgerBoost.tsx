@@ -6,13 +6,13 @@ import { StoreContext } from 'mobx/store-context';
 
 const useStyles = makeStyles((theme) => ({
 	icon: {
+		display: 'flex',
+		alignItems: 'center',
 		marginLeft: theme.spacing(4),
 		marginRight: theme.spacing(4),
-		marginBottom: theme.spacing(4),
 		[theme.breakpoints.down('sm')]: {
 			marginLeft: theme.spacing(2),
 			marginRight: theme.spacing(2),
-			marginBottom: theme.spacing(2),
 		},
 	},
 	boostIcon: {
@@ -35,7 +35,6 @@ const useStyles = makeStyles((theme) => ({
 		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'center',
-		marginBottom: theme.spacing(3),
 		[theme.breakpoints.down('sm')]: {
 			marginBottom: theme.spacing(2),
 		},
