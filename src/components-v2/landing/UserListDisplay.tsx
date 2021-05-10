@@ -1,4 +1,4 @@
-import { Typography } from '@material-ui/core';
+import { makeStyles, Typography } from '@material-ui/core';
 import { Loader } from 'components/Loader';
 import { observer } from 'mobx-react-lite';
 import {
@@ -17,7 +17,14 @@ import { SettListViewProps } from './SettListView';
 import SettTable from './SettTable';
 import BadgerBoost from '../common/BadgerBoost';
 
+const useStyles = makeStyles((theme) => ({
+	boostContainer: {
+		paddingBottom: theme.spacing(4),
+	},
+}));
+
 const UserListDisplay = observer((props: SettListViewProps) => {
+	const classes = useStyles();
 	const { onOpen, experimental } = props;
 	const store = useContext(StoreContext);
 	const {
@@ -113,7 +120,9 @@ const UserListDisplay = observer((props: SettListViewProps) => {
 
 	return (
 		<>
-			<BadgerBoost />
+			<div className={classes.boostContainer}>
+				<BadgerBoost />
+			</div>
 			{displayWallet && (
 				<SettTable
 					title={'Your Wallet -'}
