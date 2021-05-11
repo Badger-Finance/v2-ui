@@ -153,7 +153,7 @@ export const Redeem = observer((): any => {
 
 	const handleApplyMaxBalance = async () => {
 		if (ibBTC.balance.gt(ZERO) && selectedToken) {
-			setInputAmount(ibBTC.unscale(ibBTC.balance).toString());
+			setInputAmount(ibBTC.unscale(ibBTC.balance).toFixed(ibBTC.decimals, BigNumber.ROUND_HALF_FLOOR));
 
 			const [{ sett, fee, max }, conversionRate] = await Promise.all([
 				store.ibBTCStore.calcRedeemAmount(selectedToken, ibBTC.balance),
@@ -249,7 +249,7 @@ export const Redeem = observer((): any => {
 								<span
 									className={classes.maxAmount}
 									onClick={async () => {
-										setInputAmount(maxRedeem.toFixed(6, BigNumber.ROUND_HALF_FLOOR));
+										setInputAmount(maxRedeem.toFixed(ibBTC.decimals, BigNumber.ROUND_HALF_FLOOR));
 										await calculateRedeem(maxRedeem);
 									}}
 								>
