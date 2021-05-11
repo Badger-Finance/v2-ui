@@ -87,7 +87,7 @@ export const Redeem = observer((): any => {
 	const [inputAmount, setInputAmount] = useState<string>();
 	const [outputAmount, setOutputAmount] = useState<string>();
 	const [conversionRate, setConversionRate] = useState<string>();
-	const [maxRedeem, setMaxRedeem] = useState<string>();
+	const [maxRedeem, setMaxRedeem] = useState<BigNumber>();
 	const [totalRedeem, setTotalRedeem] = useState('0.000');
 	const [fee, setFee] = useState('0.000');
 	const [isEnoughToRedeem, setIsEnoughToRedeem] = useState(true);
@@ -100,19 +100,34 @@ export const Redeem = observer((): any => {
 	const resetState = () => {
 		setInputAmount('');
 		setOutputAmount('');
-		setMaxRedeem('');
+		setMaxRedeem(undefined);
 		setIsEnoughToRedeem(true);
 		setFee('0.000');
 		setTotalRedeem('0.000');
 	};
 
 	const setRedeemInformation = ({ inputAmount, redeemAmount, max, fee, conversionRate }: RedeemInformation) => {
-		setMaxRedeem(max.toFixed(6, BigNumber.ROUND_HALF_FLOOR));
-		setIsEnoughToRedeem(max.gt(inputAmount));
+		setMaxRedeem(max);
+		setIsEnoughToRedeem(max.gte(inputAmount));
 		setOutputAmount(redeemAmount.toFixed(6, BigNumber.ROUND_HALF_FLOOR));
 		setFee(fee.toFixed(6, BigNumber.ROUND_HALF_FLOOR));
 		setTotalRedeem(redeemAmount.toFixed(6, BigNumber.ROUND_HALF_FLOOR));
 		setConversionRate(conversionRate.toFixed(6, BigNumber.ROUND_HALF_FLOOR));
+	};
+
+	const calculateRedeem = async (input: BigNumber) => {
+		const [{ sett, fee, max }, conversionRate] = await Promise.all([
+			store.ibBTCStore.calcRedeemAmount(selectedToken, ibBTC.scale(input)),
+			store.ibBTCStore.getRedeemConversionRate(selectedToken),
+		]);
+
+		setRedeemInformation({
+			inputAmount: input,
+			redeemAmount: selectedToken.unscale(sett),
+			max: ibBTC.unscale(max),
+			fee: ibBTC.unscale(fee),
+			conversionRate: selectedToken.unscale(conversionRate),
+		});
 	};
 
 	// reason: the plugin does not recognize the dependency inside the debounce function
@@ -122,7 +137,7 @@ export const Redeem = observer((): any => {
 			const input = new BigNumber(change);
 
 			if (!input.gt(ZERO)) {
-				setMaxRedeem('');
+				setMaxRedeem(undefined);
 				setIsEnoughToRedeem(true);
 				setOutputAmount('');
 				setFee('0.000');
@@ -131,18 +146,7 @@ export const Redeem = observer((): any => {
 				return;
 			}
 
-			const [{ sett, fee, max }, conversionRate] = await Promise.all([
-				store.ibBTCStore.calcRedeemAmount(selectedToken, ibBTC.scale(input)),
-				store.ibBTCStore.getRedeemConversionRate(selectedToken),
-			]);
-
-			setRedeemInformation({
-				inputAmount: input,
-				redeemAmount: selectedToken.unscale(sett),
-				max: ibBTC.unscale(max),
-				fee: ibBTC.unscale(fee),
-				conversionRate: selectedToken.unscale(conversionRate),
-			});
+			await calculateRedeem(input);
 		}),
 		[selectedToken],
 	);
@@ -249,19 +253,18 @@ export const Redeem = observer((): any => {
 			</Grid>
 			<Grid item xs={12}>
 				<SummaryGrid>
-					{showError && (
+					{showError && maxRedeem && (
 						<Grid item xs={12} container>
 							<ErrorText variant="subtitle1">
 								<span>A maximum of </span>
 								<span
 									className={classes.maxAmount}
-									onClick={() => {
-										if (!maxRedeem) return;
-										setInputAmount(maxRedeem);
-										handleInputAmountChange(maxRedeem);
+									onClick={async () => {
+										setInputAmount(maxRedeem.toFixed(6, BigNumber.ROUND_HALF_FLOOR));
+										await calculateRedeem(maxRedeem);
 									}}
 								>
-									{maxRedeem}
+									{maxRedeem.toFixed(6, BigNumber.ROUND_HALF_FLOOR)}
 								</span>
 								<span>
 									{' '}
