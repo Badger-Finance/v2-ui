@@ -91,6 +91,7 @@ class IbBTCStore {
 
 		this.fetchTokensBalances().then();
 		this.fetchIbbtcApy().then();
+		this.fetchConversionRates().then();
 		this.fetchFees().then();
 	}
 
@@ -139,6 +140,42 @@ class IbBTCStore {
 			balance = await balance.call();
 
 			return new BigNumber(balance);
+		},
+	);
+
+	fetchConversionRates = action(
+		async (): Promise<void> => {
+			const { provider } = this.store.wallet;
+			if (!provider) return;
+
+			// Fetch mintRate, redeemRate and set to respected token
+			const tokensRateInformation = this.tokens.map((token) =>
+				Promise.all([this.fetchMintRate(token), this.fetchRedeemRate(token)]),
+			);
+
+			await Promise.all(tokensRateInformation);
+		},
+	);
+
+	fetchMintRate = action(
+		async (token: TokenModel): Promise<void> => {
+			try {
+				const { bBTC, fee } = await this.calcMintAmount(token, token.scale('1'));
+				token.mintRate = this.ibBTC.unscale(bBTC.plus(fee)).toFixed(6, BigNumber.ROUND_HALF_FLOOR);
+			} catch (error) {
+				token.mintRate = '0.000';
+			}
+		},
+	);
+
+	fetchRedeemRate = action(
+		async (token: TokenModel): Promise<void> => {
+			try {
+				const { sett, fee } = await this.calcRedeemAmount(token, token.scale('1'));
+				token.redeemRate = token.unscale(sett.plus(fee)).toFixed(6, BigNumber.ROUND_HALF_FLOOR);
+			} catch (error) {
+				token.redeemRate = '0.000';
+			}
 		},
 	);
 

@@ -16,6 +16,7 @@ import { IbBTC } from 'components/IbBTC';
 import { FLAGS } from 'config/constants';
 import { Bridge } from '../components/Bridge';
 import { HoneybadgerDrop } from 'components/HoneybadgerDrop';
+import BoostLeaderBoard from 'pages/BoostLeaderBoard';
 
 const routes = {
 	locked: new Route<RootStore>({
@@ -55,6 +56,10 @@ const routes = {
 	bridge: new Route<RootStore, QueryParams>({
 		path: '/bridge',
 		component: <Bridge />,
+	}),
+	boostLeaderBoard: new Route<RootStore, QueryParams>({
+		path: '/leaderboard',
+		component: <BoostLeaderBoard />,
 	}),
 };
 

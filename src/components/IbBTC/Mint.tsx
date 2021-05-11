@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 import { Button, Typography, Grid, Tooltip } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
 
@@ -24,6 +24,13 @@ import {
 	OutputTokenGrid,
 	ErrorText,
 } from './Common';
+
+type MintInformation = {
+	inputAmount: BigNumber;
+	outputAmount: BigNumber;
+	fee: BigNumber;
+	blocker: string | null;
+};
 
 const ActionButton = observer(
 	({ children }): JSX.Element => {
@@ -68,10 +75,12 @@ export const Mint = observer(
 		const [selectedToken, setSelectedToken] = useState(tokens[0]);
 		const [inputAmount, setInputAmount] = useState<string>();
 		const [outputAmount, setOutputAmount] = useState<string>();
+		const [conversionRate, setConversionRate] = useState<string>();
+		const [mintBlocker, setMintBlocker] = useState<string | null>(null);
 		const [fee, setFee] = useState('0.000');
 		const [totalMint, setTotalMint] = useState('0.000');
-		const [conversionRate, setConversionRate] = useState('1.000000');
-		const [mintBlocker, setMintBlocker] = useState<string | null>(null);
+
+		const displayedConversionRate = conversionRate || selectedToken.mintRate;
 
 		const resetState = () => {
 			setInputAmount('');
@@ -79,14 +88,10 @@ export const Mint = observer(
 			setFee('0.000');
 			setTotalMint('0.000');
 			setMintBlocker(null);
+			setConversionRate(selectedToken.mintRate);
 		};
 
-		const setMintInformation = (
-			inputAmount: BigNumber,
-			outputAmount: BigNumber,
-			fee: BigNumber,
-			blocker: string | null,
-		): void => {
+		const setMintInformation = ({ inputAmount, outputAmount, fee, blocker }: MintInformation): void => {
 			setOutputAmount(outputAmount.toFixed(6, BigNumber.ROUND_HALF_FLOOR));
 			setFee(fee.toFixed(6, BigNumber.ROUND_HALF_FLOOR));
 			setTotalMint(outputAmount.toFixed(6, BigNumber.ROUND_HALF_FLOOR));
@@ -105,12 +110,19 @@ export const Mint = observer(
 					setFee('0.000');
 					setTotalMint('0.000');
 					setMintBlocker(null);
+					setConversionRate(selectedToken.mintRate);
 					return;
 				}
 
 				const { bBTC, fee } = await store.ibBTCStore.calcMintAmount(selectedToken, selectedToken.scale(input));
 				const mintBlocker = await store.ibBTCStore.getMintValidation(bBTC, selectedToken);
-				setMintInformation(input, ibBTC.unscale(bBTC), ibBTC.unscale(fee), mintBlocker);
+
+				setMintInformation({
+					inputAmount: input,
+					outputAmount: ibBTC.unscale(bBTC),
+					fee: ibBTC.unscale(fee),
+					blocker: mintBlocker,
+				});
 			}),
 			[selectedToken],
 		);
@@ -120,12 +132,13 @@ export const Mint = observer(
 				setInputAmount(selectedToken.unscale(selectedToken.balance).toString());
 				const { bBTC, fee } = await store.ibBTCStore.calcMintAmount(selectedToken, selectedToken.balance);
 				const mintBlocker = await store.ibBTCStore.getMintValidation(bBTC, selectedToken);
-				setMintInformation(
-					selectedToken.unscale(selectedToken.balance),
-					ibBTC.unscale(bBTC),
-					ibBTC.unscale(fee),
-					mintBlocker,
-				);
+
+				setMintInformation({
+					inputAmount: selectedToken.unscale(selectedToken.balance),
+					outputAmount: ibBTC.unscale(bBTC),
+					fee: ibBTC.unscale(fee),
+					blocker: mintBlocker,
+				});
 			}
 		};
 
@@ -134,7 +147,13 @@ export const Mint = observer(
 			if (inputAmount) {
 				const { bBTC, fee } = await store.ibBTCStore.calcMintAmount(token, token.scale(inputAmount));
 				const mintBlocker = await store.ibBTCStore.getMintValidation(bBTC, token);
-				setMintInformation(new BigNumber(inputAmount), ibBTC.unscale(bBTC), ibBTC.unscale(fee), mintBlocker);
+
+				setMintInformation({
+					inputAmount: new BigNumber(inputAmount),
+					outputAmount: ibBTC.unscale(bBTC),
+					fee: ibBTC.unscale(fee),
+					blocker: mintBlocker,
+				});
 			}
 		};
 
@@ -144,17 +163,6 @@ export const Mint = observer(
 				resetState();
 			}
 		};
-
-		useEffect(() => {
-			const init = async () => {
-				if (!connectedAddress) return;
-				const initialToken = store.ibBTCStore.tokens[0];
-				const { bBTC, fee } = await store.ibBTCStore.calcMintAmount(initialToken, initialToken.scale('1'));
-				setConversionRate(initialToken.unscale(bBTC.plus(fee)).toFixed(6, BigNumber.ROUND_HALF_FLOOR));
-			};
-
-			init().then();
-		}, [store.ibBTCStore, connectedAddress]);
 
 		return (
 			<>
@@ -219,7 +227,7 @@ export const Mint = observer(
 							</Grid>
 							<Grid item xs={6}>
 								<EndAlignText variant="body1">
-									1 {selectedToken.symbol} : {conversionRate} {ibBTC.symbol}
+									1 {selectedToken.symbol} : {displayedConversionRate} {ibBTC.symbol}
 								</EndAlignText>
 							</Grid>
 						</Grid>

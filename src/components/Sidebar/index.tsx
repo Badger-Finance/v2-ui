@@ -19,6 +19,7 @@ import { SITE_VERSION, NETWORK_LIST, FLAGS } from 'config/constants';
 import NetworkWidget from 'components-v2/common/NetworkWidget';
 import { Route } from 'mobx-router';
 import { RootStore } from 'mobx/store';
+import clsx from 'clsx';
 
 const useStyles = makeStyles((theme) => ({
 	logo: {
@@ -321,6 +322,17 @@ export const Sidebar = observer(() => {
 									timeout="auto"
 									unmountOnExit
 								>
+									<ListItem
+										button
+										className={clsx(
+											store.router.currentPath == '/leaderboard'
+												? classes.activeListItem
+												: classes.primarySubListItem,
+										)}
+										onClick={() => navigate(views.boostLeaderBoard)}
+									>
+										Boost Leaderboard
+									</ListItem>
 									<ListItem
 										button
 										className={[
