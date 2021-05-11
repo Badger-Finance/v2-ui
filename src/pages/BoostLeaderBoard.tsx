@@ -45,20 +45,8 @@ const useStyles = makeStyles((theme) => ({
 const BoostLeaderBoard = observer(() => {
 	const classes = useStyles();
 	const store = useContext(StoreContext);
-	const { leaderBoard, user, uiState } = store;
+	const { user } = store;
 	const { accountDetails } = user;
-	const { queueNotification } = uiState;
-
-	const viewRank = (): void => {
-		if (!accountDetails || !leaderBoard.data) {
-			return;
-		}
-		if (accountDetails.boostRank > leaderBoard.data.count) {
-			queueNotification(`Your address is currently unranked.`, 'info');
-			return;
-		}
-		leaderBoard.setPage(Math.ceil(accountDetails.boostRank / leaderBoard.data.size) - 1);
-	};
 
 	return (
 		<Container className={classes.rootContainer}>
@@ -67,8 +55,17 @@ const BoostLeaderBoard = observer(() => {
 				<BadgerBoost />
 				{accountDetails && (
 					<div className={classes.viewContainer}>
-						<Button onClick={viewRank} color="primary" variant="outlined" className={classes.viewButton}>
-							view
+						<Button
+							onClick={() =>
+								window.open(
+									'https://medium.com/@badgerdao/introducing-badger-boost-v1-and-leaderboard-d1e15343b3ec',
+								)
+							}
+							color="primary"
+							variant="outlined"
+							className={classes.viewButton}
+						>
+							How does it work?
 						</Button>
 					</div>
 				)}

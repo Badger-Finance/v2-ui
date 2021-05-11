@@ -8,6 +8,7 @@ import {
 	makeStyles,
 	TablePagination,
 	Paper,
+	Link,
 } from '@material-ui/core';
 import { Pagination } from '@material-ui/lab';
 import { observer } from 'mobx-react-lite';
@@ -18,7 +19,7 @@ import clsx from 'clsx';
 
 const useStyles = makeStyles((theme) => ({
 	leaderboardPaper: {
-		paddingTop: theme.spacing(3),
+		paddingTop: theme.spacing(2),
 		marginBottom: theme.spacing(5),
 		[theme.breakpoints.down('sm')]: {
 			marginTop: theme.spacing(2),
@@ -38,6 +39,13 @@ const useStyles = makeStyles((theme) => ({
 	paginationButton: {
 		marginLeft: theme.spacing(1),
 		marginRight: theme.spacing(1),
+	},
+	viewButton: {
+		marginLeft: theme.spacing(6),
+		fontSize: '.8rem',
+		[theme.breakpoints.down('sm')]: {
+			fontSize: '.6rem',
+		},
 	},
 	headerRow: {
 		marginBottom: theme.spacing(1),
@@ -78,8 +86,9 @@ const useStyles = makeStyles((theme) => ({
 const LeaderBoard = observer(() => {
 	const classes = useStyles();
 	const store = useContext(StoreContext);
-	const { leaderBoard, user } = store;
+	const { leaderBoard, user, uiState } = store;
 	const { accountDetails } = user;
+	const { queueNotification } = uiState;
 
 	const _leaderboard = () => {
 		const mobileBreakpoint = window.innerWidth < 960;
@@ -117,9 +126,23 @@ const LeaderBoard = observer(() => {
 		}
 	};
 
+	const viewRank = (): void => {
+		if (!accountDetails || !leaderBoard.data) {
+			return;
+		}
+		if (accountDetails.boostRank > leaderBoard.data.count) {
+			queueNotification(`Your address is currently unranked.`, 'info');
+			return;
+		}
+		leaderBoard.setPage(Math.ceil(accountDetails.boostRank / leaderBoard.data.size) - 1);
+	};
+
 	return (
 		<Paper className={classes.leaderboardPaper}>
 			<TableContainer>
+				<Link onClick={viewRank} component="button" variant="body2" className={classes.viewButton}>
+					Show My Rank
+				</Link>
 				<Table size="small">
 					<TableHead className={classes.headerRow}>
 						<TableRow>
