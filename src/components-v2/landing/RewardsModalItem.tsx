@@ -21,15 +21,15 @@ const useStyles = makeStyles((theme: Theme) =>
 		modalItem: {
 			paddingBottom: theme.spacing(2),
 		},
+		claimableContainer: {
+			marginTop: 'auto',
+			marginBottom: 'auto',
+		},
 		currencyText: {
-			marginTop: '14px',
-			marginLeft: '5px',
+			marginTop: '-5px',
 			position: 'absolute',
 		},
-		currencySymbol: {
-			position: 'absolute',
-			marginTop: '-4px',
-		},
+		currencySymbol: { marginLeft: theme.spacing(1) },
 		currencyAmount: {},
 	}),
 );
@@ -74,11 +74,13 @@ export const RewardsModalItem = observer(
 				direction="row"
 				justify="space-between"
 			>
-				<Grid>
-					<Typography className={classes.currencyAmount}>{amount}</Typography>
-					<Typography variant="subtitle2" color="textSecondary" className={classes.currencySymbol}>
-						{symbol}
-					</Typography>
+				<Grid className={classes.claimableContainer}>
+					<Grid container direction="row">
+						<Typography className={classes.currencyAmount}>{amount}</Typography>
+						<Typography variant="subtitle2" color="textSecondary" className={classes.currencySymbol}>
+							{symbol}
+						</Typography>
+					</Grid>
 					<Typography variant="caption" className={classes.currencyText} color="textSecondary">
 						{value}
 					</Typography>
