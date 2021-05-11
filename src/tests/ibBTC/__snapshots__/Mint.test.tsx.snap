@@ -51,7 +51,7 @@ exports[`ibBTC Mint displays output ibBTC when mint amount is inputted 1`] = `
               max
             </span>
             <span
-              class="MuiTouchRipple-root-219"
+              class="MuiTouchRipple-root-230"
             />
           </button>
         </div>
@@ -71,6 +71,7 @@ exports[`ibBTC Mint displays output ibBTC when mint amount is inputted 1`] = `
               >
                 <img
                   alt="Badger crvRenWSBTC"
+                  src="/assets/icons/bcrvrenwsbtc.svg"
                   style="height: 2rem; margin-right: .2rem; display: block;"
                 />
                 <div
@@ -95,7 +96,7 @@ exports[`ibBTC Mint displays output ibBTC when mint amount is inputted 1`] = `
               </span>
             </span>
             <span
-              class="MuiTouchRipple-root-219"
+              class="MuiTouchRipple-root-230"
             />
           </button>
         </div>
@@ -151,7 +152,7 @@ exports[`ibBTC Mint displays output ibBTC when mint amount is inputted 1`] = `
         <h1
           class="MuiTypography-root-107 WithStyles(ForwardRef(Typography))-root-214 WithStyles(ForwardRef(Typography))-root-215 MuiTypography-h1-112"
         >
-          11.988
+          11.988000
         </h1>
       </div>
       <div
@@ -162,6 +163,7 @@ exports[`ibBTC Mint displays output ibBTC when mint amount is inputted 1`] = `
         >
           <img
             alt="Interest-Bearing BTC"
+            src="/assets/icons/ibbtc.svg"
             style="height: 2rem; margin-right: .2rem; display: block;"
           />
           <div
@@ -200,7 +202,7 @@ exports[`ibBTC Mint displays output ibBTC when mint amount is inputted 1`] = `
             1 
             bcrvRenWSBTC
              : 
-            1
+            1.000000
              
             ibBTC
           </p>
@@ -224,9 +226,14 @@ exports[`ibBTC Mint displays output ibBTC when mint amount is inputted 1`] = `
           <p
             class="MuiTypography-root-107 WithStyles(ForwardRef(Typography))-root-106 MuiTypography-body1-109"
           >
-            0.012
-             
-            ibBTC
+            <span
+              class=""
+              title="Mint Fee: 0%"
+            >
+              0.012000
+               
+              ibBTC
+            </span>
           </p>
         </div>
       </div>
@@ -248,7 +255,7 @@ exports[`ibBTC Mint displays output ibBTC when mint amount is inputted 1`] = `
           <p
             class="MuiTypography-root-107 WithStyles(ForwardRef(Typography))-root-106 MuiTypography-body1-109"
           >
-            11.988 ibBTC
+            11.988000 ibBTC
           </p>
         </div>
       </div>
@@ -268,7 +275,7 @@ exports[`ibBTC Mint displays output ibBTC when mint amount is inputted 1`] = `
         Connect Wallet
       </span>
       <span
-        class="MuiTouchRipple-root-219"
+        class="MuiTouchRipple-root-230"
       />
     </button>
   </div>
