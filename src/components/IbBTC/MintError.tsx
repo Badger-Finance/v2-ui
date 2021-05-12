@@ -32,7 +32,7 @@ export const MintError = observer(({ token, amount, onUserLimitClick }: Props): 
 
 	const { userLimit, individualLimit, globalLimit, allUsersLimit } = tokenLimit;
 
-	if (amount.gte(userLimit)) {
+	if (amount.gt(userLimit)) {
 		return (
 			<Fade in>
 				<Grid container>
@@ -56,7 +56,7 @@ export const MintError = observer(({ token, amount, onUserLimitClick }: Props): 
 		);
 	}
 
-	if (amount.gte(allUsersLimit)) {
+	if (amount.gt(allUsersLimit)) {
 		return (
 			<Fade in>
 				<Grid container>
