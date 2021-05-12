@@ -36,8 +36,7 @@ describe('ibBTC Mint', () => {
 	});
 
 	it('can apply max balance', async () => {
-		store.ibBTCStore.getMintValidation = jest.fn().mockReturnValue(null);
-		customRender(
+		const { container } = customRender(
 			<StoreProvider value={store}>
 				<Mint />
 			</StoreProvider>,
@@ -45,12 +44,11 @@ describe('ibBTC Mint', () => {
 		await act(async () => {
 			fireEvent.click(screen.getByRole('button', { name: /max/i }));
 		});
-		expect(screen.getByRole('textbox')).toHaveValue('5');
+		expect(container).toMatchSnapshot();
 	});
 
 	it('displays output ibBTC when mint amount is inputted', async () => {
 		jest.useFakeTimers();
-		store.ibBTCStore.getMintValidation = jest.fn().mockReturnValue(null);
 		store.ibBTCStore.calcMintAmount = jest.fn().mockReturnValue({
 			bBTC: mockIbBTC.scale('11.988'),
 			fee: mockIbBTC.scale('0.0120'),
