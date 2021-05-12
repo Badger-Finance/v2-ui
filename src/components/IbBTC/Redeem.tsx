@@ -106,7 +106,7 @@ export const Redeem = observer((): any => {
 		setTotalRedeem('0.000');
 	};
 
-	const setRedeemInformation = ({ inputAmount, redeemAmount, max, fee, conversionRate }: RedeemInformation) => {
+	const setRedeemInformation = ({ inputAmount, redeemAmount, max, fee, conversionRate }: RedeemInformation): void => {
 		setMaxRedeem(max);
 		setIsEnoughToRedeem(max.gte(inputAmount));
 		setOutputAmount(redeemAmount.toFixed(6, BigNumber.ROUND_HALF_FLOOR));
@@ -115,7 +115,7 @@ export const Redeem = observer((): any => {
 		setConversionRate(conversionRate.toFixed(6, BigNumber.ROUND_HALF_FLOOR));
 	};
 
-	const calculateRedeem = async (input: BigNumber) => {
+	const calculateRedeem = async (input: BigNumber): Promise<void> => {
 		const [{ sett, fee, max }, conversionRate] = await Promise.all([
 			store.ibBTCStore.calcRedeemAmount(selectedToken, ibBTC.scale(input)),
 			store.ibBTCStore.getRedeemConversionRate(selectedToken),
@@ -133,25 +133,28 @@ export const Redeem = observer((): any => {
 	// reason: the plugin does not recognize the dependency inside the debounce function
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	const handleInputAmountChange = useCallback(
-		debounce(600, async (change) => {
-			const input = new BigNumber(change);
+		debounce(
+			600,
+			async (change): Promise<void> => {
+				const input = new BigNumber(change);
 
-			if (!input.gt(ZERO)) {
-				setMaxRedeem(undefined);
-				setIsEnoughToRedeem(true);
-				setOutputAmount('');
-				setFee('0.000');
-				setTotalRedeem('0.000');
-				setConversionRate(selectedToken.redeemRate);
-				return;
-			}
+				if (!input.gt(ZERO)) {
+					setMaxRedeem(undefined);
+					setIsEnoughToRedeem(true);
+					setOutputAmount('');
+					setFee('0.000');
+					setTotalRedeem('0.000');
+					setConversionRate(selectedToken.redeemRate);
+					return;
+				}
 
-			await calculateRedeem(input);
-		}),
+				await calculateRedeem(input);
+			},
+		),
 		[selectedToken],
 	);
 
-	const handleApplyMaxBalance = async () => {
+	const handleApplyMaxBalance = async (): Promise<void> => {
 		if (ibBTC.balance.gt(ZERO) && selectedToken) {
 			setInputAmount(ibBTC.unscale(ibBTC.balance).toFixed(ibBTC.decimals, BigNumber.ROUND_HALF_FLOOR));
 
@@ -170,7 +173,7 @@ export const Redeem = observer((): any => {
 		}
 	};
 
-	const handleTokenChange = async (token: TokenModel) => {
+	const handleTokenChange = async (token: TokenModel): Promise<void> => {
 		setSelectedToken(token);
 		if (inputAmount) {
 			const [{ sett, fee, max }, conversionRate] = await Promise.all([
@@ -188,7 +191,7 @@ export const Redeem = observer((): any => {
 		}
 	};
 
-	const handleRedeemClick = async () => {
+	const handleRedeemClick = async (): Promise<void> => {
 		if (inputAmount) {
 			await store.ibBTCStore.redeem(selectedToken, ibBTC.scale(inputAmount));
 			resetState();

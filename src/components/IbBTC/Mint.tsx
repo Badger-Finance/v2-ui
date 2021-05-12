@@ -107,7 +107,7 @@ export const Mint = observer(
 			setConversionRate(outputAmount.plus(fee).dividedBy(inputAmount).toFixed(6, BigNumber.ROUND_HALF_FLOOR));
 		};
 
-		const calculateMintInformation = async (input: BigNumber) => {
+		const calculateMintInformation = async (input: BigNumber): Promise<void> => {
 			const { bBTC, fee } = await store.ibBTCStore.calcMintAmount(selectedToken, selectedToken.scale(input));
 
 			setMintInformation({
@@ -120,23 +120,26 @@ export const Mint = observer(
 		// reason: the plugin does not recognize the dependency inside the debounce function
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 		const handleInputAmountChange = useCallback(
-			debounce(600, async (change: string) => {
-				const input = new BigNumber(change);
+			debounce(
+				600,
+				async (change: string): Promise<void> => {
+					const input = new BigNumber(change);
 
-				if (!input.gt(ZERO)) {
-					setOutputAmount('');
-					setFee('0.000');
-					setTotalMint('0.000');
-					setConversionRate(selectedToken.mintRate);
-					return;
-				}
+					if (!input.gt(ZERO)) {
+						setOutputAmount('');
+						setFee('0.000');
+						setTotalMint('0.000');
+						setConversionRate(selectedToken.mintRate);
+						return;
+					}
 
-				await calculateMintInformation(input);
-			}),
+					await calculateMintInformation(input);
+				},
+			),
 			[selectedToken],
 		);
 
-		const handleApplyMaxBalance = async () => {
+		const handleApplyMaxBalance = async (): Promise<void> => {
 			if (selectedToken.balance.gt(ZERO)) {
 				setInputAmount(
 					selectedToken
@@ -153,7 +156,7 @@ export const Mint = observer(
 			}
 		};
 
-		const handleTokenChange = async (token: TokenModel) => {
+		const handleTokenChange = async (token: TokenModel): Promise<void> => {
 			setSelectedToken(token);
 			if (inputAmount) {
 				const { bBTC, fee } = await store.ibBTCStore.calcMintAmount(token, token.scale(inputAmount));
@@ -166,7 +169,7 @@ export const Mint = observer(
 			}
 		};
 
-		const handleMintClick = async () => {
+		const handleMintClick = async (): Promise<void> => {
 			if (inputAmount) {
 				await store.ibBTCStore.mint(selectedToken, selectedToken.scale(inputAmount));
 				resetState();
