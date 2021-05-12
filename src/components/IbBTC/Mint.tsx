@@ -85,26 +85,21 @@ export const Mint = observer(
 		const [selectedToken, setSelectedToken] = useState(tokens[0]);
 		const [inputAmount, setInputAmount] = useState<string>();
 		const [outputAmount, setOutputAmount] = useState<string>();
-		const [conversionRate, setConversionRate] = useState<string>();
 		const [fee, setFee] = useState('0.000');
 		const [totalMint, setTotalMint] = useState('0.000');
 		const mintError = useMintError(selectedToken, outputAmount);
-
-		const displayedConversionRate = conversionRate || selectedToken.mintRate;
 
 		const resetState = () => {
 			setInputAmount('');
 			setOutputAmount('');
 			setFee('0.000');
 			setTotalMint('0.000');
-			setConversionRate(selectedToken.mintRate);
 		};
 
-		const setMintInformation = ({ inputAmount, outputAmount, fee }: MintInformation): void => {
+		const setMintInformation = ({ outputAmount, fee }: MintInformation): void => {
 			setOutputAmount(outputAmount.toFixed(6, BigNumber.ROUND_HALF_FLOOR));
 			setFee(fee.toFixed(6, BigNumber.ROUND_HALF_FLOOR));
 			setTotalMint(outputAmount.toFixed(6, BigNumber.ROUND_HALF_FLOOR));
-			setConversionRate(outputAmount.plus(fee).dividedBy(inputAmount).toFixed(6, BigNumber.ROUND_HALF_FLOOR));
 		};
 
 		const calculateMintInformation = async (input: BigNumber): Promise<void> => {
@@ -129,7 +124,6 @@ export const Mint = observer(
 						setOutputAmount('');
 						setFee('0.000');
 						setTotalMint('0.000');
-						setConversionRate(selectedToken.mintRate);
 						return;
 					}
 
@@ -248,7 +242,7 @@ export const Mint = observer(
 							</Grid>
 							<Grid item xs={6}>
 								<EndAlignText variant="body1">
-									1 {selectedToken.symbol} : {displayedConversionRate} {ibBTC.symbol}
+									1 {selectedToken.symbol} : {selectedToken.mintRate} {ibBTC.symbol}
 								</EndAlignText>
 							</Grid>
 						</Grid>
