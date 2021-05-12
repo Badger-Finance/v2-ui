@@ -22,15 +22,19 @@ const useStyles = makeStyles((theme: Theme) =>
 			paddingBottom: theme.spacing(2),
 		},
 		claimableContainer: {
+			paddingTop: '5px',
+			overflowY: 'auto',
+		},
+		currencySymbol: {},
+		currencyContainer: {
+			position: 'relative',
+			top: '-5px',
+		},
+		currencyValue: {
 			marginTop: 'auto',
-			marginBottom: 'auto',
+			marginBottom: '1px',
+			paddingLeft: '5px',
 		},
-		currencyText: {
-			marginTop: '-5px',
-			position: 'absolute',
-		},
-		currencySymbol: { marginLeft: theme.spacing(1) },
-		currencyAmount: {},
 	}),
 );
 
@@ -75,15 +79,15 @@ export const RewardsModalItem = observer(
 				justify="space-between"
 			>
 				<Grid className={classes.claimableContainer}>
-					<Grid container direction="row">
-						<Typography className={classes.currencyAmount}>{amount}</Typography>
-						<Typography variant="subtitle2" color="textSecondary" className={classes.currencySymbol}>
-							{symbol}
+					<Typography variant="subtitle2" color="textSecondary" className={classes.currencySymbol}>
+						{symbol}
+					</Typography>
+					<Grid container direction="row" className={classes.currencyContainer}>
+						<Typography>{amount}</Typography>
+						<Typography className={classes.currencyValue} variant="caption" color="textSecondary">
+							({value})
 						</Typography>
 					</Grid>
-					<Typography variant="caption" className={classes.currencyText} color="textSecondary">
-						{value}
-					</Typography>
 				</Grid>
 				<TextField
 					id={`${symbol}-claim-amount`}
