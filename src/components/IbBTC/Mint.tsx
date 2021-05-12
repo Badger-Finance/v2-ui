@@ -25,17 +25,6 @@ import {
 } from './Common';
 import { MintError } from './MintError';
 
-const useMintError = (token: TokenModel, amount = ''): boolean => {
-	const store = useContext(StoreContext);
-	const { mintLimits, ibBTC } = store.ibBTCStore;
-	const tokenLimit = mintLimits?.get(token.symbol);
-	const input = ibBTC.scale(amount);
-
-	if (!tokenLimit) return false;
-
-	return input.gt(tokenLimit.userLimit) || input.gt(tokenLimit.allUsersLimit);
-};
-
 const ActionButton = observer(
 	({ children }): JSX.Element => {
 		const store = useContext(StoreContext);
@@ -79,9 +68,10 @@ export const Mint = observer(
 		const [selectedToken, setSelectedToken] = useState(tokens[0]);
 		const [inputAmount, setInputAmount] = useState<string>();
 		const [outputAmount, setOutputAmount] = useState<string>();
+		const [isValidMint, setIsValidMint] = useState(false);
 		const [fee, setFee] = useState('0.000');
 		const [totalMint, setTotalMint] = useState('0.000');
-		const mintError = useMintError(selectedToken, outputAmount);
+		const shouldDisplayError = !!inputAmount && !isValidMint;
 
 		const resetState = () => {
 			setInputAmount('');
@@ -96,9 +86,12 @@ export const Mint = observer(
 			setTotalMint(outputAmount.toFixed(6, BigNumber.ROUND_HALF_FLOOR));
 		};
 
-		const calculateMintInformation = async (input: BigNumber): Promise<void> => {
-			const { bBTC, fee } = await store.ibBTCStore.calcMintAmount(selectedToken, selectedToken.scale(input));
+		const calculateMintInformation = async (input: BigNumber, token: TokenModel): Promise<void> => {
+			const { bBTC, fee } = await store.ibBTCStore.calcMintAmount(token, input);
+			const isValid = store.ibBTCStore.isValidMint(token, bBTC);
+
 			setMintInformation(ibBTC.unscale(bBTC), ibBTC.unscale(fee));
+			setIsValidMint(isValid);
 		};
 
 		// reason: the plugin does not recognize the dependency inside the debounce function
@@ -116,7 +109,7 @@ export const Mint = observer(
 						return;
 					}
 
-					await calculateMintInformation(input);
+					await calculateMintInformation(selectedToken.scale(input), selectedToken);
 				},
 			),
 			[selectedToken],
@@ -129,16 +122,14 @@ export const Mint = observer(
 						.unscale(selectedToken.balance)
 						.toFixed(selectedToken.decimals, BigNumber.ROUND_HALF_FLOOR),
 				);
-				const { bBTC, fee } = await store.ibBTCStore.calcMintAmount(selectedToken, selectedToken.balance);
-				setMintInformation(ibBTC.unscale(bBTC), ibBTC.unscale(fee));
+				await calculateMintInformation(selectedToken.balance, selectedToken);
 			}
 		};
 
 		const handleTokenChange = async (token: TokenModel): Promise<void> => {
 			setSelectedToken(token);
 			if (inputAmount) {
-				const { bBTC, fee } = await store.ibBTCStore.calcMintAmount(token, token.scale(inputAmount));
-				setMintInformation(ibBTC.unscale(bBTC), ibBTC.unscale(fee));
+				await calculateMintInformation(token.scale(inputAmount), token);
 			}
 		};
 
@@ -201,19 +192,8 @@ export const Mint = observer(
 				</Grid>
 				<Grid item xs={12}>
 					<SummaryGrid>
-						{mintError && (
-							<MintError
-								amount={ibBTC.scale(inputAmount || '0')}
-								token={selectedToken}
-								onUserLimitClick={async (limit) => {
-									setInputAmount(
-										selectedToken
-											.unscale(limit)
-											.toFixed(selectedToken.decimals, BigNumber.ROUND_HALF_DOWN),
-									);
-									await calculateMintInformation(selectedToken.unscale(limit));
-								}}
-							/>
+						{shouldDisplayError && (
+							<MintError amount={ibBTC.scale(inputAmount || '0')} token={selectedToken} />
 						)}
 						<Grid item xs={12} container justify="space-between">
 							<Grid item xs={6}>
@@ -263,7 +243,7 @@ export const Mint = observer(
 							variant="contained"
 							color="primary"
 							onClick={handleMintClick}
-							disabled={!inputAmount || !outputAmount || mintError}
+							disabled={!inputAmount || !outputAmount || !isValidMint}
 						>
 							MINT
 						</Button>
