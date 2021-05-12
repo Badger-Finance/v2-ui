@@ -870,3 +870,10 @@ export interface LeaderBoardData {
 	count: number;
 	maxPage: number;
 }
+
+export interface MintLimits {
+	userLimit: BigNumber;
+	allUsersLimit: BigNumber;
+	individualLimit: BigNumber;
+	globalLimit: BigNumber;
+}

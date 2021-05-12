@@ -83,9 +83,7 @@ export const EndAlignText = styled(Typography)({
 
 export const ErrorText = styled(Typography)({
 	color: red[400],
-	whiteSpace: 'pre-wrap',
 	wordBreak: 'break-all',
-	'-moz-white-space': 'pre-wrap',
 });
 
 export const InputTokenAmount = styled(NumericInput)({
