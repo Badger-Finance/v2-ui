@@ -88,7 +88,7 @@ export const Mint = observer(
 		const [conversionRate, setConversionRate] = useState<string>();
 		const [fee, setFee] = useState('0.000');
 		const [totalMint, setTotalMint] = useState('0.000');
-		const mintError = useMintError(selectedToken, inputAmount);
+		const mintError = useMintError(selectedToken, outputAmount);
 
 		const displayedConversionRate = conversionRate || selectedToken.mintRate;
 
