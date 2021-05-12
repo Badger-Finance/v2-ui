@@ -223,6 +223,14 @@ class IbBTCStore {
 		return true;
 	});
 
+	isValidMint(token: TokenModel, amount: BigNumber): boolean {
+		const tokenLimit = this.mintLimits?.get(token.symbol);
+
+		if (!tokenLimit) return false;
+
+		return amount.lte(tokenLimit.userLimit) && amount.lte(tokenLimit.allUsersLimit);
+	}
+
 	getPeakForToken(symbol: string): PeakType {
 		const peak: PeakType = {
 			address: this.config.contracts.BadgerSettPeak.address,
