@@ -229,20 +229,8 @@ export const Redeem = observer((): any => {
 					{showError && maxRedeem && (
 						<Grid item xs={12} container>
 							<ErrorText variant="subtitle1">
-								<span>A maximum of </span>
-								<span
-									className={classes.maxAmount}
-									onClick={async () => {
-										setInputAmount(maxRedeem.toFixed(ibBTC.decimals, BigNumber.ROUND_HALF_FLOOR));
-										await calculateRedeem(maxRedeem);
-									}}
-								>
-									{maxRedeem.toFixed(6, BigNumber.ROUND_HALF_FLOOR)}
-								</span>
-								<span>
-									{' '}
-									{ibBTC.symbol} can be redeemed for {selectedToken.symbol}.
-								</span>
+								A maximum of {maxRedeem.toFixed(6, BigNumber.ROUND_HALF_FLOOR)} {ibBTC.symbol} can be
+								redeemed for {selectedToken.symbol}.
 							</ErrorText>
 						</Grid>
 					)}
