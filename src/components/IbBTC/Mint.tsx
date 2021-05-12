@@ -25,12 +25,6 @@ import {
 } from './Common';
 import { MintError } from './MintError';
 
-type MintInformation = {
-	inputAmount: BigNumber;
-	outputAmount: BigNumber;
-	fee: BigNumber;
-};
-
 const useMintError = (token: TokenModel, amount = ''): boolean => {
 	const store = useContext(StoreContext);
 	const { mintLimits, ibBTC } = store.ibBTCStore;
@@ -96,7 +90,7 @@ export const Mint = observer(
 			setTotalMint('0.000');
 		};
 
-		const setMintInformation = ({ outputAmount, fee }: MintInformation): void => {
+		const setMintInformation = (outputAmount: BigNumber, fee: BigNumber): void => {
 			setOutputAmount(outputAmount.toFixed(6, BigNumber.ROUND_HALF_FLOOR));
 			setFee(fee.toFixed(6, BigNumber.ROUND_HALF_FLOOR));
 			setTotalMint(outputAmount.toFixed(6, BigNumber.ROUND_HALF_FLOOR));
@@ -104,12 +98,7 @@ export const Mint = observer(
 
 		const calculateMintInformation = async (input: BigNumber): Promise<void> => {
 			const { bBTC, fee } = await store.ibBTCStore.calcMintAmount(selectedToken, selectedToken.scale(input));
-
-			setMintInformation({
-				inputAmount: input,
-				outputAmount: ibBTC.unscale(bBTC),
-				fee: ibBTC.unscale(fee),
-			});
+			setMintInformation(ibBTC.unscale(bBTC), ibBTC.unscale(fee));
 		};
 
 		// reason: the plugin does not recognize the dependency inside the debounce function
@@ -141,12 +130,7 @@ export const Mint = observer(
 						.toFixed(selectedToken.decimals, BigNumber.ROUND_HALF_FLOOR),
 				);
 				const { bBTC, fee } = await store.ibBTCStore.calcMintAmount(selectedToken, selectedToken.balance);
-
-				setMintInformation({
-					inputAmount: selectedToken.unscale(selectedToken.balance),
-					outputAmount: ibBTC.unscale(bBTC),
-					fee: ibBTC.unscale(fee),
-				});
+				setMintInformation(ibBTC.unscale(bBTC), ibBTC.unscale(fee));
 			}
 		};
 
@@ -154,12 +138,7 @@ export const Mint = observer(
 			setSelectedToken(token);
 			if (inputAmount) {
 				const { bBTC, fee } = await store.ibBTCStore.calcMintAmount(token, token.scale(inputAmount));
-
-				setMintInformation({
-					inputAmount: new BigNumber(inputAmount),
-					outputAmount: ibBTC.unscale(bBTC),
-					fee: ibBTC.unscale(fee),
-				});
+				setMintInformation(ibBTC.unscale(bBTC), ibBTC.unscale(fee));
 			}
 		};
 
