@@ -60,12 +60,16 @@ export const MintError = observer(({ token, amount, onUserLimitClick }: Props): 
 		return (
 			<Fade in>
 				<Grid container>
-					<ErrorText>
+					<ErrorText
+						variant="subtitle1"
+						className={classes.userLimit}
+						onClick={() => onUserLimitClick(allUsersLimit)}
+					>
 						{`The current global mint amount limit is ${ibBTC
 							.unscale(allUsersLimit)
 							.toFixed(6, BigNumber.ROUND_HALF_FLOOR)} ${ibBTC.symbol}.`}
 					</ErrorText>
-					<ErrorText>
+					<ErrorText variant="subtitle1">
 						{`Global total mint amount is currently ${ibBTC
 							.unscale(globalLimit)
 							.toFixed(6, BigNumber.ROUND_HALF_FLOOR)} ${ibBTC.symbol}.`}
