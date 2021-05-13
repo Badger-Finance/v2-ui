@@ -73,7 +73,6 @@ export class RootStore {
 				this.rewards.fetchSettRewards();
 				this.uiState.reduceTreeRewards();
 				this.airdrops.fetchAirdrops();
-				this.uiState.reduceAirdrops();
 			}
 			this.uiState.reduceStats();
 		}
