@@ -7,9 +7,10 @@ import { estimateAndSend } from '../utils/web3';
 import { RootStore } from '../store';
 import { abi as rewardsAbi } from '../../config/system/abis/BadgerTree.json';
 import { abi as diggAbi } from '../../config/system/abis/UFragments.json';
-import { badgerTree, digg_system } from '../../config/deployments/mainnet.json';
+import { badgerTree, digg_system, tokens } from '../../config/deployments/mainnet.json';
 import BigNumber from 'bignumber.js';
 import { BadgerTree, TreeClaimData } from 'mobx/model';
+import { ClaimMap } from '../../components-v2/landing/RewardsModal';
 import { reduceClaims, reduceTimeSinceLastCycle } from 'mobx/reducers/statsReducers';
 
 class RewardsStore {
@@ -76,15 +77,30 @@ class RewardsStore {
 		},
 	);
 
-	claimGeysers = action(() => {
+	claimGeysers = action((claimMap: ClaimMap | undefined) => {
 		const { proof, claimableAmounts } = this.badgerTree;
 		const { provider, gasPrices, connectedAddress } = this.store.wallet;
 		const { queueNotification, gasPrice, setTxStatus } = this.store.uiState;
 
-		if (!connectedAddress || !proof || !claimableAmounts) {
+		if (!connectedAddress || !proof || !claimableAmounts || !claimMap) {
 			queueNotification(`Error retrieving merkle proof.`, 'error');
 			return;
 		}
+
+		const amountsToClaim: BigNumber[] = [];
+		proof.tokens.map((address: string) => {
+			if (address === tokens.digg && !!this.badgerTree.sharesPerFragment)
+				claimMap[address] = new BigNumber(claimMap[address])
+					.multipliedBy(this.badgerTree.sharesPerFragment)
+					.multipliedBy(1e9);
+
+			const amount = claimMap[address] ? claimMap[address] : new BigNumber('0');
+			// We check to see if the number is greater than the claimable amount due to
+			// rounding on the UI.
+			new BigNumber(amount).gt(new BigNumber(claimableAmounts[proof.tokens.indexOf(address)]))
+				? amountsToClaim.push(claimableAmounts[proof.tokens.indexOf(address)])
+				: amountsToClaim.push(amount);
+		});
 
 		const web3 = new Web3(provider);
 		const rewardsTree = new web3.eth.Contract(rewardsAbi as AbiItem[], badgerTree);
@@ -94,7 +110,7 @@ class RewardsStore {
 			proof.index,
 			proof.cycle,
 			proof.proof,
-			claimableAmounts,
+			amountsToClaim,
 		);
 
 		queueNotification(`Sign the transaction to claim your earnings`, 'info');
