@@ -303,7 +303,7 @@ export const formatTokens = (value: BigNumber, decimals = 5, scientific = false)
 		if (value.gt(0) && value.lt(10 ** -decimals)) {
 			if (!scientific) return '< 0.00001';
 			const normalizedValue = value.multipliedBy(10 ** decimals);
-			return `${numberWithCommas(normalizedValue.toFixed(decimals, BigNumber.ROUND_HALF_FLOOR))} e-${decimals}`;
+			return `${numberWithCommas(normalizedValue.toFixed(decimals, BigNumber.ROUND_HALF_FLOOR))}e-${decimals}`;
 		} else if (value.dividedBy(1e4).gt(1)) {
 			decimals = 2;
 		}
