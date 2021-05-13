@@ -292,7 +292,7 @@ export const bDiggToCurrency = ({
 	return `${prefix}${fixedNormal}${suffix}`;
 };
 
-export const formatTokens = (value: BigNumber, decimals = 5): string => {
+export const formatTokens = (value: BigNumber, decimals = 5, scientific = false): string => {
 	if (!value || value.isNaN()) {
 		let formattedZero = '0.';
 		for (let i = 0; i < decimals; i++) {
@@ -301,7 +301,9 @@ export const formatTokens = (value: BigNumber, decimals = 5): string => {
 		return formattedZero;
 	} else {
 		if (value.gt(0) && value.lt(10 ** -decimals)) {
-			return '< 0.00001';
+			if (!scientific) return '< 0.00001';
+			const normalizedValue = value.multipliedBy(10 ** decimals);
+			return `${numberWithCommas(normalizedValue.toFixed(decimals, BigNumber.ROUND_HALF_FLOOR))} e-${decimals}`;
 		} else if (value.dividedBy(1e4).gt(1)) {
 			decimals = 2;
 		}
