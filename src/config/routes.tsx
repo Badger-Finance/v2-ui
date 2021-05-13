@@ -15,7 +15,7 @@ import { Locked } from 'components/Common/Locked';
 import { IbBTC } from 'components/IbBTC';
 import { FLAGS } from 'config/constants';
 import { Bridge } from '../components/Bridge';
-import { HoneybadgerDrop } from 'components/HoneybadgerDrop';
+import HoneybadgerDrop from '../components/HoneybadgerDrop/index';
 import BoostLeaderBoard from 'pages/BoostLeaderBoard';
 
 const routes = {

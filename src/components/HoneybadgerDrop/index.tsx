@@ -55,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export const HoneybadgerDrop: React.FC = observer(() => {
+const HoneybadgerDrop: React.FC = observer(() => {
 	const store = React.useContext(StoreContext);
 	const classes = useStyles();
 

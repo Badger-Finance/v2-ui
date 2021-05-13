@@ -26,7 +26,7 @@
 		"firebase": "^8.2.3",
 		"mobx": "^5.15.4",
 		"mobx-react-lite": "^2.0.6",
-		"mobx-router": "^0.2.11",
+		"mobx-router": "^0.3.0",
 		"node-gyp": "^8.0.0",
 		"notistack": "^1.0.2",
 		"react": "^16.13.1",
