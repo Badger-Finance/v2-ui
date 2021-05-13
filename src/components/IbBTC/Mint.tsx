@@ -113,6 +113,7 @@ export const Mint = observer(
 					const input = new BigNumber(change);
 
 					if (!input.gt(ZERO)) {
+						setInputAmount(undefined);
 						setOutputAmount(undefined);
 						setFee('0.000');
 						setTotalMint('0.000');
@@ -145,6 +146,7 @@ export const Mint = observer(
 
 		const handleTokenChange = async (token: TokenModel): Promise<void> => {
 			setSelectedToken(token);
+			setMintLimits(undefined);
 			if (inputAmount?.displayValue) {
 				setInputAmount({
 					...inputAmount,
