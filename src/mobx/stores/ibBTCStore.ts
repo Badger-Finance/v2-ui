@@ -402,7 +402,16 @@ class IbBTCStore {
 	}
 	async redeem(outToken: TokenModel, amount: BigNumber): Promise<void> {
 		if (!this.isValidAmount(amount, this.ibBTC)) return;
-		await this.redeemBBTC(outToken, amount);
+
+		try {
+			await this.redeemBBTC(outToken, amount);
+		} catch (error) {
+			process.env.NODE_ENV !== 'production' && console.error(error);
+			this.store.uiState.queueNotification(
+				`There was an error redeeming ${outToken.symbol}. Please try again later.`,
+				'error',
+			);
+		}
 	}
 
 	async calcMintAmount(inToken: TokenModel, amount: BigNumber): Promise<MintAmountCalculation> {
