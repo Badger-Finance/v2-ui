@@ -10,7 +10,7 @@ import { DownArrow } from './DownArrow';
 
 import { MintLimits, TokenModel } from 'mobx/model';
 import { StoreContext } from 'mobx/store-context';
-import { formatTokens } from 'mobx/utils/helpers';
+import { formatWithDecimals } from 'mobx/utils/helpers';
 import { useConnectWallet } from 'mobx/utils/hooks';
 import {
 	EndAlignText,
@@ -88,9 +88,9 @@ export const Mint = observer(
 		};
 
 		const setMintInformation = (inputAmount: BigNumber, outputAmount: BigNumber, fee: BigNumber): void => {
-			setFee(formatTokens(fee, 6, true));
-			setTotalMint(formatTokens(outputAmount, 6, true));
-			setOutputAmount(formatTokens(outputAmount, 6, true));
+			setFee(formatWithDecimals(fee, 6));
+			setTotalMint(formatWithDecimals(outputAmount, 6));
+			setOutputAmount(formatWithDecimals(outputAmount, 6));
 			setConversionRate(outputAmount.plus(fee).dividedBy(inputAmount).toFixed(6, BigNumber.ROUND_HALF_FLOOR));
 		};
 
