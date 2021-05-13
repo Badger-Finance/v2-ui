@@ -1,6 +1,7 @@
 import BigNumber from 'bignumber.js';
 import { RootStore } from 'mobx/store';
 import { ExchangeRates } from 'mobx/model';
+import { ZERO } from '../../config/constants';
 
 export const graphQuery = (address: string, store: RootStore): Promise<any>[] => {
 	const { network } = store.wallet;
@@ -292,7 +293,7 @@ export const bDiggToCurrency = ({
 	return `${prefix}${fixedNormal}${suffix}`;
 };
 
-export const formatTokens = (value: BigNumber, decimals = 5, scientific = false): string => {
+export const formatTokens = (value: BigNumber, decimals = 5): string => {
 	if (!value || value.isNaN()) {
 		let formattedZero = '0.';
 		for (let i = 0; i < decimals; i++) {
@@ -301,14 +302,26 @@ export const formatTokens = (value: BigNumber, decimals = 5, scientific = false)
 		return formattedZero;
 	} else {
 		if (value.gt(0) && value.lt(10 ** -decimals)) {
-			if (!scientific) return '< 0.00001';
-			const normalizedValue = value.multipliedBy(10 ** decimals);
-			return `${numberWithCommas(normalizedValue.toFixed(decimals, BigNumber.ROUND_HALF_FLOOR))}e-${decimals}`;
+			return '< 0.00001';
 		} else if (value.dividedBy(1e4).gt(1)) {
 			decimals = 2;
 		}
 		return numberWithCommas(value.toFixed(decimals, BigNumber.ROUND_HALF_FLOOR));
 	}
+};
+
+// Simpler version of formatTokens
+export const formatWithDecimals = (amount: BigNumber, decimals: number): string => {
+	if (amount.isNaN() || amount.isZero()) {
+		return ZERO.toFixed(decimals, BigNumber.ROUND_HALF_FLOOR);
+	}
+
+	if (amount.lt(10 ** -decimals)) {
+		const normalizedValue = amount.multipliedBy(10 ** decimals);
+		return `${normalizedValue.toFixed(decimals, BigNumber.ROUND_HALF_FLOOR)}e-${decimals}`;
+	}
+
+	return amount.toFixed(decimals, BigNumber.ROUND_HALF_FLOOR);
 };
 
 export const numberWithCommas = (x: string): string => {
