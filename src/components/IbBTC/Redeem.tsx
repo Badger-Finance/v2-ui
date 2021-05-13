@@ -12,6 +12,7 @@ import { DownArrow } from './DownArrow';
 import { StoreContext } from 'mobx/store-context';
 import { TokenModel } from 'mobx/model';
 import { useConnectWallet } from 'mobx/utils/hooks';
+import { formatTokens } from 'mobx/utils/helpers';
 import {
 	EndAlignText,
 	InputTokenAmount,
@@ -110,11 +111,10 @@ export const Redeem = observer((): any => {
 	};
 
 	const setRedeemInformation = ({ inputAmount, redeemAmount, max, fee, conversionRate }: RedeemInformation): void => {
-		setMaxRedeem(max);
 		setIsEnoughToRedeem(max.gte(inputAmount));
-		setOutputAmount(redeemAmount.toFixed(6, BigNumber.ROUND_HALF_FLOOR));
-		setFee(fee.toFixed(6, BigNumber.ROUND_HALF_FLOOR));
-		setTotalRedeem(redeemAmount.toFixed(6, BigNumber.ROUND_HALF_FLOOR));
+		setOutputAmount(formatTokens(redeemAmount, 6));
+		setFee(formatTokens(fee, 6));
+		setTotalRedeem(formatTokens(redeemAmount, 6));
 		setConversionRate(conversionRate.toFixed(6, BigNumber.ROUND_HALF_FLOOR));
 	};
 
@@ -124,6 +124,7 @@ export const Redeem = observer((): any => {
 			store.ibBTCStore.getRedeemConversionRate(token),
 		]);
 
+		setMaxRedeem(max);
 		setRedeemInformation({
 			inputAmount: ibBTC.unscale(ibBTCAmount),
 			redeemAmount: token.unscale(sett),
@@ -142,6 +143,7 @@ export const Redeem = observer((): any => {
 				const input = new BigNumber(change);
 
 				if (!input.gt(ZERO)) {
+					setInputAmount(undefined);
 					setMaxRedeem(undefined);
 					setIsEnoughToRedeem(true);
 					setOutputAmount('');
@@ -159,11 +161,19 @@ export const Redeem = observer((): any => {
 	const handleApplyMaxBalance = async (): Promise<void> => {
 		if (ibBTC.balance.gt(ZERO) && selectedToken) {
 			setInputAmount({
-				displayValue: ibBTC.unscale(ibBTC.balance).toFixed(6, BigNumber.ROUND_HALF_FLOOR),
+				displayValue: ibBTC.unscale(ibBTC.balance).toFixed(ibBTC.decimals, BigNumber.ROUND_HALF_FLOOR),
 				actualValue: ibBTC.balance,
 			});
 			await calculateRedeem(ibBTC.balance, selectedToken);
 		}
+	};
+
+	const handleLimitClick = async (limit: BigNumber): Promise<void> => {
+		setInputAmount({
+			displayValue: ibBTC.unscale(limit).toFixed(ibBTC.decimals, BigNumber.ROUND_HALF_FLOOR),
+			actualValue: limit,
+		});
+		await calculateRedeem(limit, selectedToken);
 	};
 
 	const handleTokenChange = async (token: TokenModel): Promise<void> => {
@@ -233,8 +243,20 @@ export const Redeem = observer((): any => {
 					{showError && maxRedeem && (
 						<Grid item xs={12} container>
 							<ErrorText variant="subtitle1">
-								A maximum of {maxRedeem.toFixed(6, BigNumber.ROUND_HALF_FLOOR)} {ibBTC.symbol} can be
-								redeemed for {selectedToken.symbol}.
+								<span>A maximum of </span>
+								<Tooltip
+									className={classes.maxAmount}
+									title="Apply limit"
+									arrow
+									placement="top"
+									onClick={() => handleLimitClick(maxRedeem)}
+								>
+									<span>{formatTokens(ibBTC.unscale(maxRedeem), 6)}</span>
+								</Tooltip>
+								<span>
+									{' '}
+									{ibBTC.symbol} can be redeemed for {selectedToken.symbol}.
+								</span>
 							</ErrorText>
 						</Grid>
 					)}
