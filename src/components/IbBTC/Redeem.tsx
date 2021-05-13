@@ -12,7 +12,7 @@ import { DownArrow } from './DownArrow';
 import { StoreContext } from 'mobx/store-context';
 import { TokenModel } from 'mobx/model';
 import { useConnectWallet } from 'mobx/utils/hooks';
-import { formatWithDecimals } from 'mobx/utils/helpers';
+import { toFixedDecimals } from 'mobx/utils/helpers';
 import {
 	EndAlignText,
 	InputTokenAmount,
@@ -112,9 +112,9 @@ export const Redeem = observer((): any => {
 
 	const setRedeemInformation = ({ inputAmount, redeemAmount, max, fee, conversionRate }: RedeemInformation): void => {
 		setIsEnoughToRedeem(max.gte(inputAmount));
-		setOutputAmount(formatWithDecimals(redeemAmount, 6));
-		setFee(formatWithDecimals(fee, 6));
-		setTotalRedeem(formatWithDecimals(redeemAmount, 6));
+		setOutputAmount(toFixedDecimals(redeemAmount, 6));
+		setFee(toFixedDecimals(fee, 6));
+		setTotalRedeem(toFixedDecimals(redeemAmount, 6));
 		setConversionRate(conversionRate.toFixed(6, BigNumber.ROUND_HALF_FLOOR));
 	};
 
@@ -251,7 +251,7 @@ export const Redeem = observer((): any => {
 									placement="top"
 									onClick={() => handleLimitClick(maxRedeem)}
 								>
-									<span>{formatWithDecimals(ibBTC.unscale(maxRedeem), 6)}</span>
+									<span>{toFixedDecimals(ibBTC.unscale(maxRedeem), 6)}</span>
 								</Tooltip>
 								<span>
 									{' '}

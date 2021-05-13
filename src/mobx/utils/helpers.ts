@@ -310,8 +310,7 @@ export const formatTokens = (value: BigNumber, decimals = 5): string => {
 	}
 };
 
-// Simpler version of formatTokens
-export const formatWithDecimals = (amount: BigNumber, decimals: number): string => {
+export const toFixedDecimals = (amount: BigNumber, decimals: number): string => {
 	if (amount.isNaN() || amount.isZero()) {
 		return ZERO.toFixed(decimals, BigNumber.ROUND_HALF_FLOOR);
 	}

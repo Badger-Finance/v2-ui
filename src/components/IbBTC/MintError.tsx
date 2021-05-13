@@ -5,7 +5,7 @@ import { Grid, makeStyles, Tooltip } from '@material-ui/core';
 
 import { MintLimits, TokenModel } from 'mobx/model';
 import { StoreContext } from 'mobx/store-context';
-import { formatWithDecimals } from 'mobx/utils/helpers';
+import { toFixedDecimals } from 'mobx/utils/helpers';
 import { ErrorText } from './Common';
 
 interface Props {
@@ -43,7 +43,7 @@ export const MintError = observer(({ token, amount, limits, onUserLimitClick }: 
 					placement="top"
 					onClick={() => onUserLimitClick(userLimit)}
 				>
-					<span>{`${formatWithDecimals(token.unscale(userLimit), 6)} `}</span>
+					<span>{`${toFixedDecimals(token.unscale(userLimit), 6)} `}</span>
 				</Tooltip>
 				<span>{`${token.symbol}.`}</span>
 			</ErrorText>
@@ -66,7 +66,7 @@ export const MintError = observer(({ token, amount, limits, onUserLimitClick }: 
 					placement="top"
 					onClick={() => onUserLimitClick(allUsersLimit)}
 				>
-					<span>{`${formatWithDecimals(token.unscale(allUsersLimit), 6)}`}</span>
+					<span>{`${toFixedDecimals(token.unscale(allUsersLimit), 6)}`}</span>
 				</Tooltip>
 				<span> {token.symbol}.</span>
 			</ErrorText>
