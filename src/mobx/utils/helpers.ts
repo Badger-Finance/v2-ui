@@ -310,6 +310,12 @@ export const formatTokens = (value: BigNumber, decimals = 5): string => {
 	}
 };
 
+/**
+ * Converts a bignumber instance to a string equivalent with the provided number of decimals.
+ * If the amount is smaller than 10 ** decimals, scientific notation is used.
+ * @param amount amount to be converted
+ * @param decimals decimals the the converted amount will have
+ */
 export const toFixedDecimals = (amount: BigNumber, decimals: number): string => {
 	if (amount.isNaN() || amount.isZero()) {
 		return ZERO.toFixed(decimals, BigNumber.ROUND_HALF_FLOOR);
