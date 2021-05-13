@@ -33,6 +33,11 @@ type RedeemInformation = {
 	conversionRate: BigNumber;
 };
 
+type InputAmount = {
+	displayValue: string;
+	actualValue: BigNumber;
+};
+
 const useStyles = makeStyles((theme) => ({
 	outputContent: {
 		marginTop: theme.spacing(4),
@@ -84,7 +89,7 @@ export const Redeem = observer((): any => {
 	} = store;
 
 	const [selectedToken, setSelectedToken] = useState(tokens[0]);
-	const [inputAmount, setInputAmount] = useState<string>();
+	const [inputAmount, setInputAmount] = useState<InputAmount>();
 	const [outputAmount, setOutputAmount] = useState<string>();
 	const [conversionRate, setConversionRate] = useState<string>();
 	const [maxRedeem, setMaxRedeem] = useState<BigNumber>();
@@ -96,8 +101,8 @@ export const Redeem = observer((): any => {
 	const showError = bouncerProof && !isEnoughToRedeem;
 
 	const resetState = () => {
-		setInputAmount('');
-		setOutputAmount('');
+		setInputAmount(undefined);
+		setOutputAmount(undefined);
 		setMaxRedeem(undefined);
 		setIsEnoughToRedeem(true);
 		setFee('0.000');
@@ -153,7 +158,10 @@ export const Redeem = observer((): any => {
 
 	const handleApplyMaxBalance = async (): Promise<void> => {
 		if (ibBTC.balance.gt(ZERO) && selectedToken) {
-			setInputAmount(ibBTC.unscale(ibBTC.balance).toFixed(ibBTC.decimals, BigNumber.ROUND_HALF_FLOOR));
+			setInputAmount({
+				displayValue: ibBTC.unscale(ibBTC.balance).toFixed(6, BigNumber.ROUND_HALF_FLOOR),
+				actualValue: ibBTC.balance,
+			});
 			await calculateRedeem(ibBTC.balance, selectedToken);
 		}
 	};
@@ -161,13 +169,13 @@ export const Redeem = observer((): any => {
 	const handleTokenChange = async (token: TokenModel): Promise<void> => {
 		setSelectedToken(token);
 		if (inputAmount) {
-			await calculateRedeem(ibBTC.scale(inputAmount), token);
+			await calculateRedeem(inputAmount.actualValue, token);
 		}
 	};
 
 	const handleRedeemClick = async (): Promise<void> => {
 		if (inputAmount) {
-			await store.ibBTCStore.redeem(selectedToken, ibBTC.scale(inputAmount));
+			await store.ibBTCStore.redeem(selectedToken, inputAmount.actualValue);
 			resetState();
 		}
 	};
@@ -183,11 +191,14 @@ export const Redeem = observer((): any => {
 				<BorderedFocusableContainerGrid item container xs={12}>
 					<Grid item xs={8} sm={7}>
 						<InputTokenAmount
-							value={inputAmount}
+							value={inputAmount?.displayValue}
 							disabled={!connectedAddress}
 							placeholder="0.000"
 							onChange={(val) => {
-								setInputAmount(val);
+								setInputAmount({
+									displayValue: val,
+									actualValue: ibBTC.scale(val),
+								});
 								handleInputAmountChange(val);
 							}}
 						/>
