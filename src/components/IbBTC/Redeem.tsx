@@ -143,10 +143,9 @@ export const Redeem = observer((): any => {
 				const input = new BigNumber(change);
 
 				if (!input.gt(ZERO)) {
-					setInputAmount(undefined);
+					setOutputAmount(undefined);
 					setMaxRedeem(undefined);
 					setIsEnoughToRedeem(true);
-					setOutputAmount('');
 					setFee('0.000');
 					setTotalRedeem('0.000');
 					return;
