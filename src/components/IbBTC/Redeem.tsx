@@ -145,6 +145,7 @@ export const Redeem = observer((): any => {
 					setMaxRedeem(undefined);
 					setIsEnoughToRedeem(true);
 					setOutputAmount('');
+					setInputAmount(undefined);
 					setFee('0.000');
 					setTotalRedeem('0.000');
 					return;
