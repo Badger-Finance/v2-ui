@@ -48,7 +48,6 @@ class IbBTCStore {
 	public apyUsingLastWeek?: string | null;
 	public mintFeePercent?: BigNumber;
 	public redeemFeePercent?: BigNumber;
-	public mintLimits?: Map<string, MintLimits>;
 
 	constructor(store: RootStore) {
 		this.store = store;
@@ -90,7 +89,6 @@ class IbBTCStore {
 			return;
 		}
 		this.fetchTokensBalances().then();
-		this.fetchTokensMintLimits().then();
 		this.fetchIbbtcApy().then();
 		this.fetchConversionRates().then();
 		this.fetchFees().then();
@@ -119,25 +117,6 @@ class IbBTCStore {
 			}
 		},
 	);
-
-	fetchTokensMintLimits = action(async () => {
-		try {
-			const tokensLimit = new Map<string, MintLimits>();
-			const limits = await Promise.all(this.tokens.map((token) => this.getMintLimit(token)));
-
-			for (let index = 0; index < limits.length; index++) {
-				tokensLimit.set(this.tokens[index].symbol, limits[index]);
-			}
-
-			this.mintLimits = tokensLimit;
-		} catch (error) {
-			process.env.NODE_ENV !== 'production' && console.error(error);
-			this.store.uiState.queueNotification(
-				`There was an error getting mint limits. Please try again later.`,
-				'error',
-			);
-		}
-	});
 
 	fetchIbbtcApy = action(async () => {
 		const dayOldBlock = 86400 / 15; // [Seconds in a day / EVM block time ratio]
@@ -261,11 +240,18 @@ class IbBTCStore {
 			guessList.methods.totalDepositCap().call(),
 		]);
 
+		const [userLimit, allUsersLimit, individualLimit, globalLimit] = await Promise.all([
+			this.bBTCToSett(new BigNumber(userRemaining), token),
+			this.bBTCToSett(new BigNumber(totalRemaining), token),
+			this.bBTCToSett(new BigNumber(userDepositCap), token),
+			this.bBTCToSett(new BigNumber(totalDepositCap), token),
+		]);
+
 		return {
-			userLimit: new BigNumber(userRemaining),
-			allUsersLimit: new BigNumber(totalRemaining),
-			individualLimit: new BigNumber(userDepositCap),
-			globalLimit: new BigNumber(totalDepositCap),
+			userLimit,
+			allUsersLimit,
+			individualLimit,
+			globalLimit,
 		};
 	}
 
