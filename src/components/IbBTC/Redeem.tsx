@@ -30,6 +30,7 @@ type RedeemInformation = {
 	redeemAmount: BigNumber;
 	max: BigNumber;
 	fee: BigNumber;
+	conversionRate: BigNumber;
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -85,6 +86,7 @@ export const Redeem = observer((): any => {
 	const [selectedToken, setSelectedToken] = useState(tokens[0]);
 	const [inputAmount, setInputAmount] = useState<string>();
 	const [outputAmount, setOutputAmount] = useState<string>();
+	const [conversionRate, setConversionRate] = useState<string>();
 	const [maxRedeem, setMaxRedeem] = useState<BigNumber>();
 	const [totalRedeem, setTotalRedeem] = useState('0.000');
 	const [fee, setFee] = useState('0.000');
@@ -102,22 +104,27 @@ export const Redeem = observer((): any => {
 		setTotalRedeem('0.000');
 	};
 
-	const setRedeemInformation = ({ inputAmount, redeemAmount, max, fee }: RedeemInformation): void => {
+	const setRedeemInformation = ({ inputAmount, redeemAmount, max, fee, conversionRate }: RedeemInformation): void => {
 		setMaxRedeem(max);
 		setIsEnoughToRedeem(max.gte(inputAmount));
 		setOutputAmount(redeemAmount.toFixed(6, BigNumber.ROUND_HALF_FLOOR));
 		setFee(fee.toFixed(6, BigNumber.ROUND_HALF_FLOOR));
 		setTotalRedeem(redeemAmount.toFixed(6, BigNumber.ROUND_HALF_FLOOR));
+		setConversionRate(conversionRate.toFixed(6, BigNumber.ROUND_HALF_FLOOR));
 	};
 
-	const calculateRedeem = async (input: BigNumber): Promise<void> => {
-		const { sett, fee, max } = await store.ibBTCStore.calcRedeemAmount(selectedToken, ibBTC.scale(input));
+	const calculateRedeem = async (ibBTCAmount: BigNumber, token: TokenModel): Promise<void> => {
+		const [{ sett, fee, max }, conversionRate] = await Promise.all([
+			store.ibBTCStore.calcRedeemAmount(token, ibBTCAmount),
+			store.ibBTCStore.getRedeemConversionRate(token),
+		]);
 
 		setRedeemInformation({
-			inputAmount: input,
-			redeemAmount: selectedToken.unscale(sett),
+			inputAmount: ibBTC.unscale(ibBTCAmount),
+			redeemAmount: token.unscale(sett),
 			max: ibBTC.unscale(max),
 			fee: ibBTC.unscale(fee),
+			conversionRate: token.unscale(conversionRate),
 		});
 	};
 
@@ -138,7 +145,7 @@ export const Redeem = observer((): any => {
 					return;
 				}
 
-				await calculateRedeem(input);
+				await calculateRedeem(ibBTC.scale(input), selectedToken);
 			},
 		),
 		[selectedToken],
@@ -147,28 +154,14 @@ export const Redeem = observer((): any => {
 	const handleApplyMaxBalance = async (): Promise<void> => {
 		if (ibBTC.balance.gt(ZERO) && selectedToken) {
 			setInputAmount(ibBTC.unscale(ibBTC.balance).toFixed(ibBTC.decimals, BigNumber.ROUND_HALF_FLOOR));
-			const { sett, fee, max } = await store.ibBTCStore.calcRedeemAmount(selectedToken, ibBTC.balance);
-
-			setRedeemInformation({
-				inputAmount: ibBTC.unscale(ibBTC.balance),
-				redeemAmount: selectedToken.unscale(sett),
-				max: ibBTC.unscale(max),
-				fee: ibBTC.unscale(fee),
-			});
+			await calculateRedeem(ibBTC.balance, selectedToken);
 		}
 	};
 
 	const handleTokenChange = async (token: TokenModel): Promise<void> => {
 		setSelectedToken(token);
 		if (inputAmount) {
-			const { sett, fee, max } = await store.ibBTCStore.calcRedeemAmount(token, ibBTC.scale(inputAmount));
-
-			setRedeemInformation({
-				inputAmount: new BigNumber(inputAmount),
-				redeemAmount: token.unscale(sett),
-				max: ibBTC.unscale(max),
-				fee: ibBTC.unscale(fee),
-			});
+			await calculateRedeem(ibBTC.scale(inputAmount), token);
 		}
 	};
 
@@ -240,7 +233,7 @@ export const Redeem = observer((): any => {
 						</Grid>
 						<Grid item xs={6}>
 							<EndAlignText variant="body1">
-								1 {ibBTC.symbol} : {selectedToken.redeemRate} {selectedToken.symbol}
+								1 {ibBTC.symbol} : {conversionRate || selectedToken.redeemRate} {selectedToken.symbol}
 							</EndAlignText>
 						</Grid>
 					</Grid>

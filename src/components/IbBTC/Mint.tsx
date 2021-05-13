@@ -69,6 +69,7 @@ export const Mint = observer(
 		const [inputAmount, setInputAmount] = useState<string>();
 		const [outputAmount, setOutputAmount] = useState<string>();
 		const [isValidMint, setIsValidMint] = useState(false);
+		const [conversionRate, setConversionRate] = useState<string>();
 		const [fee, setFee] = useState('0.000');
 		const [totalMint, setTotalMint] = useState('0.000');
 		const shouldDisplayError = !!inputAmount && !isValidMint;
@@ -80,17 +81,18 @@ export const Mint = observer(
 			setTotalMint('0.000');
 		};
 
-		const setMintInformation = (outputAmount: BigNumber, fee: BigNumber): void => {
+		const setMintInformation = (inputAmount: BigNumber, outputAmount: BigNumber, fee: BigNumber): void => {
 			setOutputAmount(outputAmount.toFixed(6, BigNumber.ROUND_HALF_FLOOR));
 			setFee(fee.toFixed(6, BigNumber.ROUND_HALF_FLOOR));
 			setTotalMint(outputAmount.toFixed(6, BigNumber.ROUND_HALF_FLOOR));
+			setConversionRate(outputAmount.plus(fee).dividedBy(inputAmount).toFixed(6, BigNumber.ROUND_HALF_FLOOR));
 		};
 
 		const calculateMintInformation = async (input: BigNumber, token: TokenModel): Promise<void> => {
 			const { bBTC, fee } = await store.ibBTCStore.calcMintAmount(token, input);
 			const isValid = store.ibBTCStore.isValidMint(token, bBTC);
 
-			setMintInformation(ibBTC.unscale(bBTC), ibBTC.unscale(fee));
+			setMintInformation(token.unscale(input), ibBTC.unscale(bBTC), ibBTC.unscale(fee));
 			setIsValidMint(isValid);
 		};
 
@@ -201,7 +203,7 @@ export const Mint = observer(
 							</Grid>
 							<Grid item xs={6}>
 								<EndAlignText variant="body1">
-									1 {selectedToken.symbol} : {selectedToken.mintRate} {ibBTC.symbol}
+									1 {selectedToken.symbol} : {conversionRate || selectedToken.mintRate} {ibBTC.symbol}
 								</EndAlignText>
 							</Grid>
 						</Grid>
