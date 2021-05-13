@@ -127,9 +127,7 @@ export const Mint = observer(
 
 		const handleLimitClick = async (settLimit: BigNumber): Promise<void> => {
 			setInputAmount({
-				displayValue: selectedToken
-					.unscale(settLimit)
-					.toFixed(selectedToken.decimals, BigNumber.ROUND_HALF_FLOOR),
+				displayValue: selectedToken.unscale(settLimit).toFixed(6, BigNumber.ROUND_HALF_FLOOR),
 				actualValue: settLimit,
 			});
 			await calculateMintInformation(settLimit, selectedToken);
@@ -218,7 +216,7 @@ export const Mint = observer(
 				</Grid>
 				<Grid item xs={12}>
 					<SummaryGrid>
-						{inputAmount && mintLimits && (
+						{!isValidMint && inputAmount && mintLimits && (
 							<MintError
 								amount={inputAmount.actualValue}
 								limits={mintLimits}
