@@ -121,7 +121,6 @@ export const RewardsModal = observer(() => {
 
 				const claimValue = claim.amount.dividedBy(decimals);
 				const claimDisplay = inCurrency(claimValue, 'eth', true);
-				console.log('check:', token.address, claimValue.toString(), token.ethValue.toString(), tcv);
 				if (!!!isNaN(parseFloat(claimValue.toString())))
 					tcv = claimValue.multipliedBy(token.ethValue.dividedBy(1e18)).plus(tcv);
 				return (
@@ -153,7 +152,6 @@ export const RewardsModal = observer(() => {
 
 	const rewards = rewardReturn.rewards;
 	const totalClaimValue = rewardReturn.totalClaimValue;
-	console.log('total claimed:', totalClaimValue.toString());
 
 	return rewards.length > 0 ? (
 		<div>

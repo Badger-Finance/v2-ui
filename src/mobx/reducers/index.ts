@@ -1,6 +1,6 @@
 import { extendObservable, action, observe } from 'mobx';
 import { RootStore } from '../store';
-import { reduceAirdrops, reduceContractsToStats, reduceRebase } from './statsReducers';
+import { reduceContractsToStats, reduceRebase } from './statsReducers';
 import BigNumber from 'bignumber.js';
 import views from 'config/routes';
 import WalletStore from 'mobx/stores/walletStore';
@@ -106,10 +106,6 @@ class UiState {
 
 	reduceTreeRewards = action(() => {
 		this.treeStats = this.store.rewards.badgerTree;
-	});
-
-	reduceAirdrops = action(() => {
-		this.airdropStats = reduceAirdrops(this.store.airdrops.airdrops, this.store);
 	});
 
 	reduceRebase = action(() => {

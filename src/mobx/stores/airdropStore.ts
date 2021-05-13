@@ -6,18 +6,27 @@ import { RootStore } from '../store';
 import { jsonQuery } from '../utils/helpers';
 import { PromiEvent } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
-import { sett_system } from '../../config/deployments/mainnet.json';
+import { AbiItem } from 'web3-utils';
+
+export interface AirdropInformation {
+	token: string;
+	amount: BigNumber;
+	proof: any;
+	airdropAbi: AbiItem[];
+	airdropContract: string;
+}
 
 class AirdropStore {
 	private store!: RootStore;
 
-	public airdrops?: any; // geyser contract data
+	public airdrops: AirdropInformation[];
 
 	constructor(store: RootStore) {
 		this.store = store;
+		this.airdrops = [];
 
 		extendObservable(this, {
-			airdrops: {},
+			airdrops: this.airdrops,
 		});
 	}
 
@@ -26,30 +35,38 @@ class AirdropStore {
 		if (!connectedAddress) return;
 		if (!network.airdrops) return;
 
-		const bBadgerAddress = sett_system.vaults['native.badger'];
 		const web3 = new Web3(provider);
-		const bBadgerAirdropTree = new web3.eth.Contract(
-			network.airdrops.airdropsConfig[bBadgerAddress].airdropAbi,
-			network.airdrops.airdropsConfig[bBadgerAddress].airdropContract,
-		);
-		const checksumAddress = connectedAddress.toLowerCase();
+		this.airdrops = [];
 
-		jsonQuery(`${network.airdrops.airdropEndpoint}/gitcoin/${checksumAddress}`)?.then((merkleProof: any) => {
-			if (!!merkleProof.index) {
-				Promise.all([bBadgerAirdropTree.methods.isClaimed(merkleProof.index).call()]).then((result: any[]) => {
-					this.airdrops = {
-						bBadger: !result[0] ? new BigNumber(merkleProof.amount) : new BigNumber(0),
-						merkleProof,
-					};
-				});
-			} else {
-				this.airdrops = { bBadger: null };
-			}
+		// For each active airdrop in airdrops.ts:
+		// Call API to get merkle proof
+		// Check if claimed
+		// Set airdrop
+		network.airdrops.forEach((airdrop) => {
+			if (!airdrop.active) return;
+			// TODO: merkleproof typing
+			jsonQuery(`${airdrop.endpoint}/${connectedAddress}`)?.then((merkleProof: any) => {
+				if (!!merkleProof.index || merkleProof.index === 0) {
+					const contract = new web3.eth.Contract(airdrop.airdropAbi, airdrop.airdropContract);
+					// TODO: response typing
+					Promise.all([contract.methods.isClaimed(merkleProof.index).call()]).then((result: any[]) => {
+						if (!result[0]) {
+							this.airdrops.push({
+								token: airdrop.token,
+								amount: new BigNumber(merkleProof.amount),
+								airdropContract: airdrop.airdropContract,
+								airdropAbi: airdrop.airdropAbi,
+								proof: merkleProof,
+							});
+						}
+					});
+				}
+			});
 		});
 	});
 
-	claimAirdrops = action((contract: string) => {
-		const { merkleProof } = this.airdrops;
+	// TODO: merkle proof typing
+	claimAirdrops = action((airdropContract: string, airdropAbi: AbiItem[], proof: any) => {
 		const { provider, gasPrices, connectedAddress, network } = this.store.wallet;
 		const { queueNotification, gasPrice, setTxStatus } = this.store.uiState;
 
@@ -57,16 +74,8 @@ class AirdropStore {
 		if (!network.airdrops) return;
 
 		const web3 = new Web3(provider);
-		const airdropTree = new web3.eth.Contract(
-			network.airdrops.airdropsConfig[contract].airdropAbi,
-			network.airdrops.airdropsConfig[contract].airdropContract,
-		);
-		const method = airdropTree.methods.claim(
-			merkleProof.index,
-			connectedAddress,
-			merkleProof.amount,
-			merkleProof.proof,
-		);
+		const airdropTree = new web3.eth.Contract(airdropAbi, airdropContract);
+		const method = airdropTree.methods.claim(proof.index, connectedAddress, proof.amount, proof.proof);
 
 		queueNotification(`Sign the transaction to claim your airdrop`, 'info');
 		if (!gasPrices || !gasPrices[gasPrice]) {
