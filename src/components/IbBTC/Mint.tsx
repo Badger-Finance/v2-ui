@@ -88,9 +88,9 @@ export const Mint = observer(
 		};
 
 		const setMintInformation = (inputAmount: BigNumber, outputAmount: BigNumber, fee: BigNumber): void => {
-			setFee(formatTokens(fee, 6));
-			setTotalMint(formatTokens(outputAmount));
-			setOutputAmount(formatTokens(outputAmount));
+			setFee(formatTokens(fee, 6, true));
+			setTotalMint(formatTokens(outputAmount, 6, true));
+			setOutputAmount(formatTokens(outputAmount, 6, true));
 			setConversionRate(outputAmount.plus(fee).dividedBy(inputAmount).toFixed(6, BigNumber.ROUND_HALF_FLOOR));
 		};
 
