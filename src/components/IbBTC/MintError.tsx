@@ -1,7 +1,7 @@
 import React from 'react';
 import { observer } from 'mobx-react-lite';
 import BigNumber from 'bignumber.js';
-import { Fade, Grid, makeStyles, Tooltip } from '@material-ui/core';
+import { Grid, makeStyles, Tooltip } from '@material-ui/core';
 
 import { MintLimits, TokenModel } from 'mobx/model';
 import { StoreContext } from 'mobx/store-context';
@@ -33,53 +33,49 @@ export const MintError = observer(({ token, amount, limits, onUserLimitClick }: 
 	const { userLimit, individualLimit, globalLimit, allUsersLimit } = limits;
 
 	const UserLimit = () => (
-		<Fade in>
-			<Grid container>
-				<ErrorText variant="subtitle1">
-					<span>{`Your current mint amount limit is `}</span>
-					<Tooltip
-						arrow
-						className={classes.userLimit}
-						title="Apply amount"
-						placement="top"
-						onClick={() => onUserLimitClick(userLimit)}
-					>
-						<span>{`${formatTokens(token.unscale(userLimit), 6)} `}</span>
-					</Tooltip>
-					<span>{`${token.symbol}.`}</span>
-				</ErrorText>
-				<ErrorText variant="subtitle1">
-					{`Individual total mint amount limit is currently ${token
-						.unscale(individualLimit)
-						.toFixed(6, BigNumber.ROUND_HALF_FLOOR)} ${token.symbol}.`}
-				</ErrorText>
-			</Grid>
-		</Fade>
+		<Grid container>
+			<ErrorText variant="subtitle1">
+				<span>{`Your current mint amount limit is `}</span>
+				<Tooltip
+					arrow
+					className={classes.userLimit}
+					title="Apply amount"
+					placement="top"
+					onClick={() => onUserLimitClick(userLimit)}
+				>
+					<span>{`${formatTokens(token.unscale(userLimit), 6, true)} `}</span>
+				</Tooltip>
+				<span>{`${token.symbol}.`}</span>
+			</ErrorText>
+			<ErrorText variant="subtitle1">
+				{`Individual total mint amount limit is currently ${token
+					.unscale(individualLimit)
+					.toFixed(6, BigNumber.ROUND_HALF_FLOOR)} ${token.symbol}.`}
+			</ErrorText>
+		</Grid>
 	);
 
 	const GlobalLimit = () => (
-		<Fade in>
-			<Grid container>
-				<ErrorText variant="subtitle1">
-					<span>{`The current global mint amount limit is `}</span>
-					<Tooltip
-						arrow
-						className={classes.userLimit}
-						title="Apply amount"
-						placement="top"
-						onClick={() => onUserLimitClick(allUsersLimit)}
-					>
-						<span>{`${formatTokens(token.unscale(allUsersLimit), 6)}`}</span>
-					</Tooltip>
-					<span> {token.symbol}.</span>
-				</ErrorText>
-				<ErrorText variant="subtitle1">
-					{`Global total mint amount is currently ${token
-						.unscale(globalLimit)
-						.toFixed(6, BigNumber.ROUND_HALF_FLOOR)} ${token.symbol}.`}
-				</ErrorText>
-			</Grid>
-		</Fade>
+		<Grid container>
+			<ErrorText variant="subtitle1">
+				<span>{`The current global mint amount limit is `}</span>
+				<Tooltip
+					arrow
+					className={classes.userLimit}
+					title="Apply amount"
+					placement="top"
+					onClick={() => onUserLimitClick(allUsersLimit)}
+				>
+					<span>{`${formatTokens(token.unscale(allUsersLimit), 6, true)}`}</span>
+				</Tooltip>
+				<span> {token.symbol}.</span>
+			</ErrorText>
+			<ErrorText variant="subtitle1">
+				{`Global total mint amount is currently ${token
+					.unscale(globalLimit)
+					.toFixed(6, BigNumber.ROUND_HALF_FLOOR)} ${token.symbol}.`}
+			</ErrorText>
+		</Grid>
 	);
 
 	if (amount.gt(userLimit)) {

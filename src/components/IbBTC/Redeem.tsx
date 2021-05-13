@@ -112,9 +112,9 @@ export const Redeem = observer((): any => {
 
 	const setRedeemInformation = ({ inputAmount, redeemAmount, max, fee, conversionRate }: RedeemInformation): void => {
 		setIsEnoughToRedeem(max.gte(inputAmount));
-		setOutputAmount(formatTokens(redeemAmount, 6));
-		setFee(formatTokens(fee, 6));
-		setTotalRedeem(formatTokens(redeemAmount, 6));
+		setOutputAmount(formatTokens(redeemAmount, 6, true));
+		setFee(formatTokens(fee, 6, true));
+		setTotalRedeem(formatTokens(redeemAmount, 6, true));
 		setConversionRate(conversionRate.toFixed(6, BigNumber.ROUND_HALF_FLOOR));
 	};
 
@@ -251,7 +251,7 @@ export const Redeem = observer((): any => {
 									placement="top"
 									onClick={() => handleLimitClick(maxRedeem)}
 								>
-									<span>{formatTokens(ibBTC.unscale(maxRedeem), 6)}</span>
+									<span>{formatTokens(ibBTC.unscale(maxRedeem), 6, true)}</span>
 								</Tooltip>
 								<span>
 									{' '}
