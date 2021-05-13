@@ -283,15 +283,24 @@ class IbBTCStore {
 		const { provider } = this.store.wallet;
 		if (!provider) return ZERO;
 
-		const { isYearnWBTCPeak, address, abi } = this.getPeakForToken(token.symbol);
 		const web3 = new Web3(provider);
 		const ibBTC = new web3.eth.Contract(ibBTCConfig.abi as AbiItem[], this.ibBTC.address);
 		const ibBTCPricePerShare = await ibBTC.methods.pricePerShare().call();
 
+		return this.ibBTCToSett(new BigNumber(ibBTCPricePerShare), token);
+	}
+
+	async ibBTCToSett(amount: BigNumber, token: TokenModel): Promise<BigNumber> {
+		const { provider } = this.store.wallet;
+		if (!provider) return ZERO;
+
+		const { isYearnWBTCPeak, address, abi } = this.getPeakForToken(token.symbol);
+		const web3 = new Web3(provider);
+
 		if (isYearnWBTCPeak) {
 			const yearnToken = new web3.eth.Contract(yearnConfig.abi as AbiItem[], token.address);
 			const yearnTokenPricePerShare = await yearnToken.methods.pricePerShare().call();
-			return new BigNumber(ibBTCPricePerShare).dividedBy(100).dividedBy(yearnTokenPricePerShare);
+			return amount.dividedBy(100).dividedBy(yearnTokenPricePerShare);
 		}
 
 		const badgerBtcPeak = new web3.eth.Contract(abi, address);
@@ -304,10 +313,7 @@ class IbBTCStore {
 			swapContract.methods.get_virtual_price().call(),
 		]);
 
-		return new BigNumber(ibBTCPricePerShare)
-			.multipliedBy(1e36)
-			.dividedBy(settTokenPricePerShare)
-			.dividedBy(swapVirtualPrice);
+		return amount.multipliedBy(1e36).dividedBy(settTokenPricePerShare).dividedBy(swapVirtualPrice);
 	}
 
 	async getFees(): Promise<ibBTCFees> {
