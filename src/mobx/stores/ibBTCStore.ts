@@ -6,7 +6,7 @@ import { PromiEvent } from 'web3-core';
 import { Contract, ContractSendMethod } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
 import Web3 from 'web3';
-import { ibBTCFees, TokenModel } from 'mobx/model';
+import { ibBTCFees, MintLimits, TokenModel } from 'mobx/model';
 import { estimateAndSend } from 'mobx/utils/web3';
 
 import { ZERO, MAX, FLAGS, NETWORK_IDS } from 'config/constants';
@@ -48,6 +48,7 @@ class IbBTCStore {
 	public apyUsingLastWeek?: string | null;
 	public mintFeePercent?: BigNumber;
 	public redeemFeePercent?: BigNumber;
+	public mintLimits?: Map<string, MintLimits>;
 
 	constructor(store: RootStore) {
 		this.store = store;
@@ -88,9 +89,10 @@ class IbBTCStore {
 			this.resetBalances();
 			return;
 		}
-
 		this.fetchTokensBalances().then();
+		this.fetchTokensMintLimits().then();
 		this.fetchIbbtcApy().then();
+		this.fetchConversionRates().then();
 		this.fetchFees().then();
 	}
 
@@ -118,6 +120,25 @@ class IbBTCStore {
 		},
 	);
 
+	fetchTokensMintLimits = action(async () => {
+		try {
+			const tokensLimit = new Map<string, MintLimits>();
+			const limits = await Promise.all(this.tokens.map((token) => this.getMintLimit(token)));
+
+			for (let index = 0; index < limits.length; index++) {
+				tokensLimit.set(this.tokens[index].symbol, limits[index]);
+			}
+
+			this.mintLimits = tokensLimit;
+		} catch (error) {
+			process.env.NODE_ENV !== 'production' && console.error(error);
+			this.store.uiState.queueNotification(
+				`There was an error getting mint limits. Please try again later.`,
+				'error',
+			);
+		}
+	});
+
 	fetchIbbtcApy = action(async () => {
 		const dayOldBlock = 86400 / 15; // [Seconds in a day / EVM block time ratio]
 		const weekOldBlock = dayOldBlock * 7;
@@ -139,6 +160,42 @@ class IbBTCStore {
 			balance = await balance.call();
 
 			return new BigNumber(balance);
+		},
+	);
+
+	fetchConversionRates = action(
+		async (): Promise<void> => {
+			const { provider } = this.store.wallet;
+			if (!provider) return;
+
+			// Fetch mintRate, redeemRate and set to respected token
+			const tokensRateInformation = this.tokens.map((token) =>
+				Promise.all([this.fetchMintRate(token), this.fetchRedeemRate(token)]),
+			);
+
+			await Promise.all(tokensRateInformation);
+		},
+	);
+
+	fetchMintRate = action(
+		async (token: TokenModel): Promise<void> => {
+			try {
+				const { bBTC, fee } = await this.calcMintAmount(token, token.scale('1'));
+				token.mintRate = this.ibBTC.unscale(bBTC.plus(fee)).toFixed(6, BigNumber.ROUND_HALF_FLOOR);
+			} catch (error) {
+				token.mintRate = '0.000';
+			}
+		},
+	);
+
+	fetchRedeemRate = action(
+		async (token: TokenModel): Promise<void> => {
+			try {
+				const { sett, fee } = await this.calcRedeemAmount(token, token.scale('1'));
+				token.redeemRate = token.unscale(sett.plus(fee)).toFixed(6, BigNumber.ROUND_HALF_FLOOR);
+			} catch (error) {
+				token.redeemRate = '0.000';
+			}
 		},
 	);
 
@@ -182,53 +239,30 @@ class IbBTCStore {
 		return peak;
 	}
 
-	async getMintValidation(amount: BigNumber, token: TokenModel): Promise<string | null> {
-		const { queueNotification } = this.store.uiState;
+	async getMintLimit(token: TokenModel): Promise<MintLimits> {
 		const { connectedAddress, provider } = this.store.wallet;
 		const { abi: peakAbi, address: peakAddress } = this.getPeakForToken(token.symbol);
 
-		if (!connectedAddress) {
-			queueNotification('Please connect a wallet', 'error');
-			return null;
-		}
+		const web3 = new Web3(provider);
+		const peak = new web3.eth.Contract(peakAbi, peakAddress);
+		const coreAddress = await peak.methods.core().call();
+		const core = new web3.eth.Contract(coreConfig.abi as AbiItem[], coreAddress);
+		const guessListAddress = await core.methods.guestList().call();
+		const guessList = new web3.eth.Contract(guessListConfig.abi as AbiItem[], guessListAddress);
 
-		if (!this.store.user.bouncerProof) {
-			return null; // do not display errors for non guests, they won't be able to mint anyways
-		}
+		const [userRemaining, totalRemaining, userDepositCap, totalDepositCap] = await Promise.all([
+			guessList.methods.remainingUserDepositAllowed(connectedAddress).call(),
+			guessList.methods.remainingTotalDepositAllowed().call(),
+			guessList.methods.userDepositCap().call(),
+			guessList.methods.totalDepositCap().call(),
+		]);
 
-		try {
-			const web3 = new Web3(provider);
-			const peak = new web3.eth.Contract(peakAbi, peakAddress);
-			const coreAddress = await peak.methods.core().call();
-			const core = new web3.eth.Contract(coreConfig.abi as AbiItem[], coreAddress);
-			const guessListAddress = await core.methods.guestList().call();
-			const guessList = new web3.eth.Contract(guessListConfig.abi as AbiItem[], guessListAddress);
-
-			const [userRemaining, totalRemaining, userDepositCap, totalDepositCap] = await Promise.all([
-				guessList.methods.remainingUserDepositAllowed(connectedAddress).call(),
-				guessList.methods.remainingTotalDepositAllowed().call(),
-				guessList.methods.userDepositCap().call(),
-				guessList.methods.totalDepositCap().call(),
-			]);
-
-			const userLimit = this.ibBTC.unscale(userRemaining).toFixed(6, BigNumber.ROUND_HALF_FLOOR);
-			const allUsersLimit = this.ibBTC.unscale(totalRemaining).toFixed(6, BigNumber.ROUND_HALF_FLOOR);
-			const individualLimit = this.ibBTC.unscale(userDepositCap).toFixed(6, BigNumber.ROUND_HALF_FLOOR);
-			const globalLimit = this.ibBTC.unscale(totalDepositCap).toFixed(6, BigNumber.ROUND_HALF_FLOOR);
-
-			if (amount.gt(userRemaining)) {
-				return `Your current mint amount limit is ${userLimit} ${this.ibBTC.symbol}.\nIndividual total mint amount limit is currently ${individualLimit} ${this.ibBTC.symbol}.`;
-			}
-
-			if (amount.gt(totalRemaining)) {
-				return `The current global mint amount limit is ${allUsersLimit} ${this.ibBTC.symbol}. \nGlobal total mint amount is currently ${globalLimit} ${this.ibBTC.symbol}.`;
-			}
-		} catch (error) {
-			process.env.NODE_ENV !== 'production' && console.error(error);
-			queueNotification('There was an error validating mint amount. Please try again later', 'error');
-		}
-
-		return null;
+		return {
+			userLimit: new BigNumber(userRemaining),
+			allUsersLimit: new BigNumber(totalRemaining),
+			individualLimit: new BigNumber(userDepositCap),
+			globalLimit: new BigNumber(totalDepositCap),
+		};
 	}
 
 	/**

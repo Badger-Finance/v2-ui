@@ -38,7 +38,7 @@ describe('ibBTC Redeem', () => {
 
 	it('can apply max balance', async () => {
 		store.ibBTCStore.ibBTC.balance = store.ibBTCStore.ibBTC.scale('5');
-		customRender(
+		const { container } = customRender(
 			<StoreProvider value={store}>
 				<Redeem />
 			</StoreProvider>,
@@ -46,7 +46,7 @@ describe('ibBTC Redeem', () => {
 		await act(async () => {
 			await fireEvent.click(screen.getByRole('button', { name: /max/i }));
 		});
-		expect(screen.getByRole('textbox')).toHaveValue('5');
+		expect(container).toMatchSnapshot();
 	});
 
 	it('handles not connected wallet', () => {
@@ -70,7 +70,7 @@ describe('ibBTC Redeem', () => {
 		);
 
 		fireEvent.change(screen.getByRole('textbox'), { target: { value: '12' } });
-		await screen.findByRole('heading', { level: 1, name: '11.988' });
+		await screen.findByRole('heading', { level: 1, name: '11.988000' });
 		expect(container).toMatchSnapshot();
 	});
 
