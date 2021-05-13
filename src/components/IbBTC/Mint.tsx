@@ -88,11 +88,11 @@ export const Mint = observer(
 			setConversionRate(outputAmount.plus(fee).dividedBy(inputAmount).toFixed(6, BigNumber.ROUND_HALF_FLOOR));
 		};
 
-		const calculateMintInformation = async (input: BigNumber, token: TokenModel): Promise<void> => {
-			const { bBTC, fee } = await store.ibBTCStore.calcMintAmount(token, input);
-			const isValid = store.ibBTCStore.isValidMint(token, bBTC);
+		const calculateMintInformation = async (settTokenAmount: BigNumber, settToken: TokenModel): Promise<void> => {
+			const { bBTC, fee } = await store.ibBTCStore.calcMintAmount(settToken, settTokenAmount);
+			const isValid = store.ibBTCStore.isValidMint(settToken, bBTC);
 
-			setMintInformation(token.unscale(input), ibBTC.unscale(bBTC), ibBTC.unscale(fee));
+			setMintInformation(settToken.unscale(settTokenAmount), ibBTC.unscale(bBTC), ibBTC.unscale(fee));
 			setIsValidMint(isValid);
 		};
 
