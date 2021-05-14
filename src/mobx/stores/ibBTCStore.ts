@@ -267,7 +267,7 @@ class IbBTCStore {
 	}
 
 	/**
-	 * Calculates the settToken amount equivalent rate a ibBTC amount using the following criteria
+	 * Calculates the settToken amount equivalent  of an ibBTC amount using the following criteria
 	 * for byvWBTCPeak => [amount/ 100] / byvWBTC.pricePerShare
 	 * for BadgerPeak => [amount* 1e36] / [sett.getPricePerFullShare] / swap.get_virtual_price]
 	 * @param amount amount that will be converted
