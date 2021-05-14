@@ -30,7 +30,7 @@ exports[`ibBTC Redeem can apply max balance 1`] = `
             pattern="^[0-9]*[.,]?[0-9]*$"
             placeholder="0.000"
             type="tel"
-            value="5.000000000000000000"
+            value="5.000000"
           />
         </div>
       </div>

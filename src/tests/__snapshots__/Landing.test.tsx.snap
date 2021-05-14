@@ -152,6 +152,7 @@ exports[`Landing Page Clicking portfolio switch shows empty portfolio 1`] = `
         <div
           class="makeStyles-pickerContainer-9"
         >
+           
           <div
             class="MuiInputBase-root-182 MuiOutlinedInput-root-167 makeStyles-samplePicker-285"
             style="margin-top: auto; margin-bottom: auto;"
@@ -515,6 +516,7 @@ exports[`Landing Page Renders correctly 1`] = `
         <div
           class="makeStyles-pickerContainer-9"
         >
+           
           <div
             class="MuiInputBase-root-182 MuiOutlinedInput-root-167 makeStyles-samplePicker-285"
             style="margin-top: auto; margin-bottom: auto;"
