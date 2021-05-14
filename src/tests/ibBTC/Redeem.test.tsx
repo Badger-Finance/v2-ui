@@ -61,7 +61,7 @@ describe('ibBTC Redeem', () => {
 	});
 
 	it('displays output balance when redeem amount is inputted', async () => {
-		jest.useFakeTimers();
+		jest.setTimeout(8000); // Test timesout when running full test suite
 		store.ibBTCStore.getRedeemConversionRate = jest.fn().mockReturnValue(store.ibBTCStore.tokens[0].scale('1'));
 		const { container } = customRender(
 			<StoreProvider value={store}>
