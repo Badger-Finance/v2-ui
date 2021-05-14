@@ -1,5 +1,5 @@
 import React from 'react';
-import { customRender, act, cleanup, fireEvent, screen, waitFor } from './Utils';
+import { customRender, act, cleanup, fireEvent, screen } from './Utils';
 import WalletWidget from '../components-v2/common/WalletWidget';
 import '@testing-library/jest-dom';
 import { StoreProvider } from '../mobx/store-context';
