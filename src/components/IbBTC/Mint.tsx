@@ -137,7 +137,7 @@ export const Mint = observer(
 
 		const handleTokenChange = async (token: TokenModel): Promise<void> => {
 			setSelectedToken(token);
-			if (inputAmount) {
+			if (inputAmount?.displayValue) {
 				setInputAmount({
 					...inputAmount,
 					actualValue: token.scale(inputAmount.displayValue),
@@ -147,7 +147,7 @@ export const Mint = observer(
 		};
 
 		const handleMintClick = async (): Promise<void> => {
-			if (inputAmount) {
+			if (inputAmount?.actualValue && !inputAmount.actualValue.isNaN()) {
 				await store.ibBTCStore.mint(selectedToken, inputAmount.actualValue);
 				resetState();
 			}
