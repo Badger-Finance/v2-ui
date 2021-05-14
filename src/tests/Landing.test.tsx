@@ -4,28 +4,13 @@ import Landing from '../pages/Landing';
 import '@testing-library/jest-dom';
 import { StoreProvider } from '../mobx/store-context';
 import store from '../mobx/store';
-import ganacheProvider from '../utils/integrations-provider';
-import Web3 from 'web3';
 
 afterEach(cleanup);
 
-const PRIV_KEY = '0x990b68b61853f6418233b1f502a220a8770bb38849d9bd8fc552ed55f5899365';
-
-const provider = ganacheProvider({
-	fork: 'https://mainnet.infura.io/v3/4c06e2847e1d456ea30506468ad0be5c',
-	network_id: 1,
-	accounts: [{ secretKey: PRIV_KEY, balance: Web3.utils.toHex(1000) }],
-});
-const web3 = new Web3(provider as any);
-
 describe('Landing Page', () => {
 	const connectedStore = store;
-
-	beforeEach(() => {
-		act(() => {
-			connectedStore.wallet.connectedAddress = web3.eth.accounts.privateKeyToAccount(PRIV_KEY).address;
-			connectedStore.wallet.provider = provider;
-		});
+	act(() => {
+		connectedStore.wallet.connectedAddress = '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a';
 	});
 
 	test('Renders correctly', () => {

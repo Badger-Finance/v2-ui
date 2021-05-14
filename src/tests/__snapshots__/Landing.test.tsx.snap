@@ -92,7 +92,7 @@ exports[`Landing Page Clicking portfolio switch shows empty portfolio 1`] = `
               <span
                 class="MuiButton-label-222"
               >
-                0x47b77...16f3564
+                0x1a1a1...a1a1a1a
                 <span
                   class="MuiButton-endIcon-246 MuiButton-iconSizeMedium-248"
                 >
@@ -456,7 +456,7 @@ exports[`Landing Page Renders correctly 1`] = `
               <span
                 class="MuiButton-label-222"
               >
-                0x47b77...16f3564
+                0x1a1a1...a1a1a1a
                 <span
                   class="MuiButton-endIcon-246 MuiButton-iconSizeMedium-248"
                 >
