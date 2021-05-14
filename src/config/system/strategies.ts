@@ -184,7 +184,8 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 						['Strategist Performance Fee']: new BigNumber(1000),
 						['Withdraw Fee']: new BigNumber(50),
 					},
-					strategyLink: 'https://badger.wiki/Strategies',
+					strategyLink:
+						'https://badger.wiki/Strategies-7bf5b27a451242538f02855ca5aaf4e4#418b98a05da849a3a8dd97f74f8c0c80',
 				},
 			};
 	}
