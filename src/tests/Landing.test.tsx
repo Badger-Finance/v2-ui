@@ -16,12 +16,16 @@ const provider = ganacheProvider({
 	network_id: 1,
 	accounts: [{ secretKey: PRIV_KEY, balance: Web3.utils.toHex(1000) }],
 });
+const web3 = new Web3(provider as any);
 
 describe('Landing Page', () => {
 	const connectedStore = store;
-	act(() => {
-		connectedStore.wallet.connectedAddress = '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a';
-		connectedStore.wallet.provider = provider;
+
+	beforeEach(() => {
+		act(() => {
+			connectedStore.wallet.connectedAddress = web3.eth.accounts.privateKeyToAccount(PRIV_KEY).address;
+			connectedStore.wallet.provider = provider;
+		});
 	});
 
 	test('Renders correctly', () => {
