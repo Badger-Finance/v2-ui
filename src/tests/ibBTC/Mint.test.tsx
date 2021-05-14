@@ -48,7 +48,6 @@ describe('ibBTC Mint', () => {
 	});
 
 	it('displays output ibBTC when mint amount is inputted', async () => {
-		jest.useFakeTimers();
 		store.ibBTCStore.calcMintAmount = jest.fn().mockReturnValue({
 			bBTC: mockIbBTC.scale('11.988'),
 			fee: mockIbBTC.scale('0.0120'),
