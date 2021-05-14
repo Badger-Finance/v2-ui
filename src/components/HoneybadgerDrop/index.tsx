@@ -3,8 +3,7 @@ import { Container, Grid, makeStyles } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from 'mobx/store-context';
 import PageHeader from 'components-v2/common/PageHeader';
-import { NETWORK_IDS } from 'config/constants';
-import routes from 'config/routes';
+import { NETWORK_LIST } from 'config/constants';
 import { NftList } from './NftList';
 import { PoolBalance } from './PoolBalance';
 
@@ -61,20 +60,26 @@ const HoneybadgerDrop: React.FC = observer(() => {
 
 	const { network, connectedAddress } = store.wallet;
 
-	if (network.networkId !== NETWORK_IDS.ETH) {
-		store.router.goTo(routes.home);
-	}
-
 	return (
 		<Container className={classes.root}>
 			<Grid container spacing={1} justify="center">
 				<Grid item xs={12} className={classes.headerContainer}>
 					<PageHeader title="DIAMOND HANDS" subtitle="MEME Honeypot pt. II" />
 				</Grid>
-				<Grid item xs={12} container spacing={5}>
-					<PoolBalance />
-					{connectedAddress && <NftList />}
-				</Grid>
+				{network.name === NETWORK_LIST.ETH ? (
+					<>
+						<Grid item xs={12} container spacing={5}>
+							<PoolBalance />
+							{connectedAddress && <NftList />}
+						</Grid>
+					</>
+				) : (
+					<>
+						<Grid item xs={12}>
+							The Honey Badger Drop - Diamond Hands - is available on ETH Mainnet only.
+						</Grid>
+					</>
+				)}
 			</Grid>
 		</Container>
 	);

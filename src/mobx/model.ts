@@ -409,8 +409,12 @@ export type AirdropsConfig = {
 };
 
 export type AirdropNetworkConfig = {
-	airdropEndpoint: string;
-	airdropsConfig: AirdropsConfig;
+	active: boolean;
+	endpoint: string;
+	token: string;
+	tokenAbi: AbiItem[];
+	airdropContract: string;
+	airdropAbi: AbiItem[];
 };
 
 export type VaultNetworkConfig = {
@@ -539,7 +543,7 @@ export interface Network {
 	vaults: VaultNetworkConfig;
 	geysers: GeyserNetworkConfig;
 	rebase: RebaseNetworkConfig | undefined;
-	airdrops: AirdropNetworkConfig | undefined;
+	airdrops: AirdropNetworkConfig[];
 	deploy: DeployConfig;
 	rewards: RewardNetworkConfig | undefined;
 	currency: string;

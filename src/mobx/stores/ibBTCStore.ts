@@ -191,8 +191,8 @@ class IbBTCStore {
 	fetchRedeemRate = action(
 		async (token: TokenModel): Promise<void> => {
 			try {
-				const { sett, fee } = await this.calcRedeemAmount(token, token.scale('1'));
-				token.redeemRate = token.unscale(sett.plus(fee)).toFixed(6, BigNumber.ROUND_HALF_FLOOR);
+				const redeemRate = await this.getRedeemConversionRate(token);
+				token.redeemRate = token.unscale(redeemRate).toFixed(6, BigNumber.ROUND_HALF_FLOOR);
 			} catch (error) {
 				token.redeemRate = '0.000';
 			}
@@ -222,6 +222,14 @@ class IbBTCStore {
 
 		return true;
 	});
+
+	isValidMint(token: TokenModel, amount: BigNumber): boolean {
+		const tokenLimit = this.mintLimits?.get(token.symbol);
+
+		if (!tokenLimit) return false;
+
+		return amount.lte(tokenLimit.userLimit) && amount.lte(tokenLimit.allUsersLimit);
+	}
 
 	getPeakForToken(symbol: string): PeakType {
 		const peak: PeakType = {

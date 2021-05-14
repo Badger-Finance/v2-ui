@@ -17,7 +17,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import { StoreContext } from '../../mobx/store-context';
 import views from '../../config/routes';
 import { inCurrency } from '../../mobx/utils/helpers';
-import { sett_system } from '../../config/deployments/mainnet.json';
 import PageHeader from '../../components-v2/common/PageHeader';
 
 const useStyles = makeStyles((theme) => ({
@@ -59,9 +58,9 @@ export const Airdrops = observer(() => {
 	const {
 		router: { goTo },
 		wallet: { connectedAddress },
-		airdrops: { claimAirdrops },
-		uiState: { airdropStats },
+		airdrops: { claimAirdrops, airdrops },
 		setts: { settMap },
+		contracts: { getOrCreateToken },
 	} = store;
 
 	let maxNativeApy: number | undefined = undefined;
@@ -150,6 +149,43 @@ export const Airdrops = observer(() => {
 		));
 	};
 
+	const _airdrops = () => {
+		if (!airdrops || airdrops.length === 0) return <Typography>Your address has no airdrops to claim.</Typography>;
+		return airdrops.map((airdrop) => {
+			const token = getOrCreateToken(airdrop.token);
+			return (
+				<ListItem key={airdrop.token} style={{ margin: 0, padding: 0 }}>
+					<ListItemText
+						primary={
+							!!connectedAddress
+								? inCurrency(
+										airdrop.amount.dividedBy(10 ** token.decimals),
+										'eth',
+										true,
+										token.decimals,
+								  )
+								: '0.00000'
+						}
+						secondary={`${token.name} available to claim`}
+					/>
+					<ListItemSecondaryAction>
+						<ButtonGroup disabled={!airdrop.amount.gt(0)} size="small" variant="outlined" color="primary">
+							<Button
+								aria-label="Claim"
+								onClick={() => {
+									claimAirdrops(airdrop.airdropContract, airdrop.airdropAbi, airdrop.proof);
+								}}
+								variant="contained"
+							>
+								Claim
+							</Button>
+						</ButtonGroup>
+					</ListItemSecondaryAction>
+				</ListItem>
+			);
+		});
+	};
+
 	return (
 		<Container className={classes.root}>
 			<Grid container spacing={1} justify="flex-start">
@@ -167,39 +203,8 @@ export const Airdrops = observer(() => {
 				<Grid item xs={12} md={6}>
 					<Paper className={classes.statPaper}>
 						<List style={{ padding: 0 }}>
-							<ListItem style={{ margin: 0, padding: 0 }}>
-								<ListItemText
-									primary={
-										!!connectedAddress && !!airdropStats.bBadger
-											? inCurrency(
-													airdropStats.bBadger.amount.dividedBy(10 ** 18),
-													'eth',
-													true,
-													18,
-											  )
-											: '0.00000'
-									}
-									secondary="bBadger available to claim"
-								/>
-								<ListItemSecondaryAction>
-									<ButtonGroup
-										disabled={airdropStats.bBadger ? !airdropStats.bBadger.amount.gt(0) : true}
-										size="small"
-										variant="outlined"
-										color="primary"
-									>
-										<Button
-											aria-label="Claim"
-											onClick={() => {
-												claimAirdrops(sett_system.vaults['native.badger']);
-											}}
-											variant="contained"
-										>
-											Claim
-										</Button>
-									</ButtonGroup>
-								</ListItemSecondaryAction>
-							</ListItem>
+							{/* Airdrop List */}
+							{_airdrops()}
 						</List>
 					</Paper>
 				</Grid>

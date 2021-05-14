@@ -2,28 +2,15 @@ import CurrencyInfoCard from '../components-v2/common/CurrencyInfoCard';
 import CurrencyPicker from '../components-v2/landing/CurrencyPicker';
 import SamplePicker from '../components-v2/landing/SamplePicker';
 import WalletSlider from '../components-v2/landing/WalletSlider';
-import {
-	Grid,
-	Container,
-	makeStyles,
-	ListItemText,
-	Typography,
-	Paper,
-	List,
-	ListItem,
-	Button,
-	ButtonGroup,
-} from '@material-ui/core';
+import { Grid, Container, makeStyles, Button } from '@material-ui/core';
 import PageHeader from '../components-v2/common/PageHeader';
-import { CLAIMS_SYMBOLS } from 'config/constants';
-import { inCurrency } from '../mobx/utils/helpers';
+
 import { StoreContext } from '../mobx/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
 import BigNumber from 'bignumber.js';
 import SettList from 'components-v2/landing/SettList';
-import { compact } from '../utils/lodashToNative';
-import { UserClaimData } from 'mobx/model';
+import { RewardsModal } from '../components-v2/landing/RewardsModal';
 
 const useStyles = makeStyles((theme) => ({
 	landingContainer: {
@@ -70,6 +57,7 @@ const useStyles = makeStyles((theme) => ({
 		flexWrap: 'wrap',
 	},
 	pickerContainer: {
+		display: 'flex',
 		marginRight: theme.spacing(1),
 	},
 	announcementButton: {
@@ -89,49 +77,17 @@ const Landing = observer((props: LandingProps) => {
 
 	const {
 		wallet: { connectedAddress, network },
-		rewards: { claimGeysers, badgerTree },
+		rewards: { badgerTree },
 		uiState: { stats, currency },
 	} = store;
 	const { setts } = store;
 	const { protocolSummary } = setts;
 	const userConnected = !!connectedAddress;
 
-	const availableRewards = (): (JSX.Element | boolean)[] => {
-		const { claims, sharesPerFragment } = badgerTree;
-		if (!claims || !sharesPerFragment) {
-			return [];
-		}
-		return claims.map((claim: UserClaimData): JSX.Element | boolean => {
-			const { network } = store.wallet;
-			const claimAddress = claim.token;
-
-			// todo: support token data lookup for decimals etc.
-			const decimals =
-				claimAddress === network.deploy.tokens.digg
-					? sharesPerFragment.multipliedBy(1e9)
-					: claimAddress === network.deploy.tokens.usdc
-					? 1e6
-					: 1e18;
-			const claimValue = claim.amount.dividedBy(decimals);
-			const claimDisplay = inCurrency(claimValue, 'eth', true);
-			return (
-				parseFloat(claimDisplay) > 0 && (
-					<ListItemText
-						key={claimAddress}
-						primary={claimDisplay}
-						className={classes.rewardText}
-						secondary={`${CLAIMS_SYMBOLS[network.name][claimAddress]} Available to Claim`}
-					/>
-				)
-			);
-		});
-	};
-
 	const totalValueLocked = protocolSummary ? new BigNumber(protocolSummary.totalValue) : undefined;
 	const badgerPrice = network.deploy ? setts.getPrice(network.deploy.token) : undefined;
 	const badgerPriceDisplay = badgerPrice ? new BigNumber(badgerPrice) : undefined;
 	const portfolioValue = userConnected ? stats.stats.portfolio : undefined;
-	const rewards = compact(availableRewards());
 
 	return (
 		<Container className={classes.landingContainer}>
@@ -150,6 +106,11 @@ const Landing = observer((props: LandingProps) => {
 				<Grid item xs={12} className={classes.widgetContainer}>
 					<div>{userConnected && <WalletSlider />}</div>
 					<div className={classes.pickerContainer}>
+						{!!network.rewards && !!connectedAddress && badgerTree && badgerTree.claims ? (
+							<RewardsModal />
+						) : (
+							<> </>
+						)}
 						<SamplePicker />
 						<CurrencyPicker />
 					</div>
@@ -178,36 +139,6 @@ const Landing = observer((props: LandingProps) => {
 				</Button>
 			</Grid>
 
-			{/* Landing Claim Functionality */}
-			{!!network.rewards &&
-				!!connectedAddress &&
-				badgerTree.claims &&
-				rewards.length > 0 &&
-				badgerTree.claims.length > 0 && (
-					<>
-						<Grid item xs={12} style={{ textAlign: 'center', paddingBottom: 0 }}>
-							<Typography className={classes.marginTop} variant="subtitle1" color="textPrimary">
-								Available Rewards:
-							</Typography>
-						</Grid>
-						<Grid className={classes.rewardContainer} item xs={12} md={6}>
-							<Paper className={classes.statPaper}>
-								<List style={{ padding: 0, textAlign: 'center' }}>
-									<ListItem className={classes.rewardItem}>{rewards}</ListItem>
-									<ButtonGroup size="small" variant="outlined" color="primary">
-										<Button
-											className={classes.marginTop}
-											onClick={() => claimGeysers()}
-											variant="contained"
-										>
-											Claim
-										</Button>
-									</ButtonGroup>
-								</List>
-							</Paper>
-						</Grid>
-					</>
-				)}
 			<SettList experimental={experimental} />
 		</Container>
 	);
