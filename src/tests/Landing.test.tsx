@@ -9,9 +9,8 @@ afterEach(cleanup);
 
 describe('Landing Page', () => {
 	const connectedStore = store;
-	act(() => {
-		connectedStore.wallet.connectedAddress = '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a';
-	});
+
+	connectedStore.wallet.connectedAddress = '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a';
 
 	test('Renders correctly', () => {
 		const { container } = customRender(
