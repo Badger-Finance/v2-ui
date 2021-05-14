@@ -23,6 +23,7 @@ describe('ibBTC Redeem', () => {
 			max: store.ibBTCStore.ibBTC.scale('15'),
 			sett: store.ibBTCStore.tokens[0].scale('11.988'),
 		});
+		store.ibBTCStore.getRedeemConversionRate = jest.fn().mockReturnValue(store.ibBTCStore.tokens[0].scale('1'));
 	});
 
 	it('displays ibBTC balance and output token balance', () => {
@@ -62,7 +63,6 @@ describe('ibBTC Redeem', () => {
 
 	it('displays output balance when redeem amount is inputted', async () => {
 		jest.setTimeout(8000); // Test timesout when running full test suite
-		store.ibBTCStore.getRedeemConversionRate = jest.fn().mockReturnValue(store.ibBTCStore.tokens[0].scale('1'));
 		const { container } = customRender(
 			<StoreProvider value={store}>
 				<Redeem />

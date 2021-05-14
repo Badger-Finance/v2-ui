@@ -22,7 +22,7 @@ const provider = ganacheProvider({
 });
 
 const web3 = new Web3(provider as any);
-test('woop', () => {
+test.skip('woop', () => {
 	const connectedAddress = web3.eth.accounts.privateKeyToAccount(PRIV_KEY).address;
 	console.log(connectedAddress);
 	console.log('Mock provider works!');
@@ -37,7 +37,7 @@ jest.spyOn(EthNetwork.prototype, 'getGasPrices').mockReturnValue(
 	}),
 );
 
-it('does not time out', async () => {
+it.skip('does not time out', async () => {
 	const connectedAddress = web3.eth.accounts.privateKeyToAccount(PRIV_KEY).address;
 	console.log(connectedAddress);
 	const network = new EthNetwork();
