@@ -145,7 +145,6 @@ export const Redeem = observer((): any => {
 					setMaxRedeem(undefined);
 					setIsEnoughToRedeem(true);
 					setOutputAmount('');
-					setInputAmount(undefined);
 					setFee('0.000');
 					setTotalRedeem('0.000');
 					return;
@@ -169,13 +168,13 @@ export const Redeem = observer((): any => {
 
 	const handleTokenChange = async (token: TokenModel): Promise<void> => {
 		setSelectedToken(token);
-		if (inputAmount) {
+		if (inputAmount?.actualValue && !inputAmount.actualValue.isNaN()) {
 			await calculateRedeem(inputAmount.actualValue, token);
 		}
 	};
 
 	const handleRedeemClick = async (): Promise<void> => {
-		if (inputAmount) {
+		if (inputAmount?.actualValue && !inputAmount.actualValue.isNaN()) {
 			await store.ibBTCStore.redeem(selectedToken, inputAmount.actualValue);
 			resetState();
 		}
