@@ -1,84 +1,35 @@
 import React from 'react';
-import { customRender, fireEvent, cleanup, screen, act } from './Utils';
+import { customRender } from './Utils';
 import Landing from '../pages/Landing';
 import '@testing-library/jest-dom';
 import { StoreProvider } from '../mobx/store-context';
 import store from '../mobx/store';
-import { TokenModel } from 'mobx/model';
-import addresses from 'config/ibBTC/addresses.json';
+import { EthNetwork } from 'mobx/model';
 import BigNumber from 'bignumber.js';
-
-const tokensConfig = addresses.mainnet.contracts.tokens;
-const mockIbBTC = new TokenModel(store, tokensConfig['ibBTC']);
+import { mockApi } from './utils/apiV2';
 
 describe('Landing Page', () => {
-	const connectedStore = store;
-	connectedStore.ibBTCStore.ibBTC = mockIbBTC;
 
-	connectedStore.wallet.connectedAddress = '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a';
-
-	afterEach(cleanup);
-
-	test('Renders correctly', () => {
-		const { container } = customRender(
-			<StoreProvider value={connectedStore}>
-				<Landing experimental={false} />
-			</StoreProvider>,
+	beforeEach(() => {
+		jest.spyOn(EthNetwork.prototype, 'getGasPrices').mockReturnValue(
+			Promise.resolve({
+				rapid: 153000000000 / 1e9,
+				fast: 147000000000 / 1e9,
+				standard: 140000000000 / 1e9,
+				slow: 127000000000 / 1e9,
+			}),
 		);
-		expect(container).toMatchSnapshot();
+		jest.spyOn(store.setts, 'getPrice').mockReturnValue(new BigNumber(1e16));
+		mockApi();
 	});
 
-	test('Clicking portfolio switch shows empty portfolio', async () => {
-		connectedStore.ibBTCStore.getMintLimit = jest.fn().mockReturnValue({
-			userLimit: new BigNumber('5000000000'),
-			allUsersLimit: new BigNumber('10000000000'),
-			individualLimit: new BigNumber('5000000000'),
-			globalLimit: new BigNumber('10000000000'),
-		});
-		jest.spyOn(connectedStore.ibBTCStore, 'fetchBalance').mockImplementation(async () => {
-			return new BigNumber('100');
-		});
-		jest.spyOn(connectedStore.honeyPot, 'fetchNFTS').mockImplementation(async () => {
-			new Promise(() => {
-				return;
-			});
-		});
-		jest.spyOn(connectedStore.ibBTCStore, 'init').mockImplementation(() => {
-			return;
-		});
+	test('Renders correctly', async () => {
 		const { container } = customRender(
-			<StoreProvider value={connectedStore}>
-				<Landing experimental={false} />
-			</StoreProvider>,
-		);
-		// Clicks on switch
-		await act(async () => {
-			await fireEvent.click(screen.getByText('Portfolio View'));
-		});
-		expect(container).toMatchSnapshot();
-	});
-
-	// TODO: Create a mock Web3 provider to emulate connection and test further interactions
-	/* 
-	test('Selecting different currency changes displayed currency', async () => {
-		store.wallet.connectedAddress = '';
-		const { getByRole, findByText } = render(
 			<StoreProvider value={store}>
-				<Landing />
+				<Landing experimental={false} />
 			</StoreProvider>,
 		);
-		// Opens currency menu
-		await fireEvent.mouseDown(getByRole('button', { name: defaultCurrency }));
-
-		// Checks that CAD is in menu
-		const currency = await findByText('CAD');
-		expect(currency).toBeVisible;
-
-		// Selects CAD
-		await fireEvent.click(currency);
-
-		// Finds ocurrance of C$
-		const ocurrance = await findByText(/C\$/i);
-		expect(ocurrance).toBeVisible;
-	}); */
+		//await screen.findByText('All Setts');
+		expect(container).toMatchSnapshot();
+	});
 });
