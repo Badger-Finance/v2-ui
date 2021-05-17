@@ -17,7 +17,18 @@ describe('Landing Page', () => {
 
 	connectedStore.wallet.connectedAddress = '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a';
 
-	beforeEach(() => {
+	afterEach(cleanup);
+
+	test('Renders correctly', () => {
+		const { container } = customRender(
+			<StoreProvider value={connectedStore}>
+				<Landing experimental={false} />
+			</StoreProvider>,
+		);
+		expect(container).toMatchSnapshot();
+	});
+
+	test('Clicking portfolio switch shows empty portfolio', async () => {
 		connectedStore.ibBTCStore.getMintLimit = jest.fn().mockReturnValue({
 			userLimit: new BigNumber('5000000000'),
 			allUsersLimit: new BigNumber('10000000000'),
@@ -35,20 +46,6 @@ describe('Landing Page', () => {
 		jest.spyOn(connectedStore.ibBTCStore, 'init').mockImplementation(() => {
 			return;
 		});
-	});
-
-	afterEach(cleanup);
-
-	test('Renders correctly', () => {
-		const { container } = customRender(
-			<StoreProvider value={connectedStore}>
-				<Landing experimental={false} />
-			</StoreProvider>,
-		);
-		expect(container).toMatchSnapshot();
-	});
-
-	test('Clicking portfolio switch shows empty portfolio', async () => {
 		const { container } = customRender(
 			<StoreProvider value={connectedStore}>
 				<Landing experimental={false} />
