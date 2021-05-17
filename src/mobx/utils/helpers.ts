@@ -1,6 +1,7 @@
 import BigNumber from 'bignumber.js';
 import { RootStore } from 'mobx/store';
 import { ExchangeRates } from 'mobx/model';
+import { ZERO } from '../../config/constants';
 
 export const graphQuery = (address: string, store: RootStore): Promise<any>[] => {
 	const { network } = store.wallet;
@@ -307,6 +308,25 @@ export const formatTokens = (value: BigNumber, decimals = 5): string => {
 		}
 		return numberWithCommas(value.toFixed(decimals, BigNumber.ROUND_HALF_FLOOR));
 	}
+};
+
+/**
+ * Converts a bignumber instance to a string equivalent with the provided number of decimals.
+ * If the amount is smaller than 10 ** decimals, scientific notation is used.
+ * @param amount amount to be converted
+ * @param decimals decimals the the converted amount will have
+ */
+export const toFixedDecimals = (amount: BigNumber, decimals: number): string => {
+	if (amount.isNaN() || amount.isZero()) {
+		return ZERO.toFixed(decimals, BigNumber.ROUND_HALF_FLOOR);
+	}
+
+	if (amount.lt(10 ** -decimals)) {
+		const normalizedValue = amount.multipliedBy(10 ** decimals);
+		return `${normalizedValue.toFixed(decimals, BigNumber.ROUND_HALF_FLOOR)}e-${decimals}`;
+	}
+
+	return amount.toFixed(decimals, BigNumber.ROUND_HALF_FLOOR);
 };
 
 export const numberWithCommas = (x: string): string => {

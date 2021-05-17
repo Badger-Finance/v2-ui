@@ -48,7 +48,6 @@ class IbBTCStore {
 	public apyUsingLastWeek?: string | null;
 	public mintFeePercent?: BigNumber;
 	public redeemFeePercent?: BigNumber;
-	public mintLimits?: Map<string, MintLimits>;
 
 	constructor(store: RootStore) {
 		this.store = store;
@@ -90,7 +89,6 @@ class IbBTCStore {
 			return;
 		}
 		this.fetchTokensBalances().then();
-		this.fetchTokensMintLimits().then();
 		this.fetchIbbtcApy().then();
 		this.fetchConversionRates().then();
 		this.fetchFees().then();
@@ -119,25 +117,6 @@ class IbBTCStore {
 			}
 		},
 	);
-
-	fetchTokensMintLimits = action(async () => {
-		try {
-			const tokensLimit = new Map<string, MintLimits>();
-			const limits = await Promise.all(this.tokens.map((token) => this.getMintLimit(token)));
-
-			for (let index = 0; index < limits.length; index++) {
-				tokensLimit.set(this.tokens[index].symbol, limits[index]);
-			}
-
-			this.mintLimits = tokensLimit;
-		} catch (error) {
-			process.env.NODE_ENV !== 'production' && console.error(error);
-			this.store.uiState.queueNotification(
-				`There was an error getting mint limits. Please try again later.`,
-				'error',
-			);
-		}
-	});
 
 	fetchIbbtcApy = action(async () => {
 		const dayOldBlock = 86400 / 15; // [Seconds in a day / EVM block time ratio]
@@ -223,12 +202,8 @@ class IbBTCStore {
 		return true;
 	});
 
-	isValidMint(token: TokenModel, amount: BigNumber): boolean {
-		const tokenLimit = this.mintLimits?.get(token.symbol);
-
-		if (!tokenLimit) return false;
-
-		return amount.lte(tokenLimit.userLimit) && amount.lte(tokenLimit.allUsersLimit);
+	isValidMint(amount: BigNumber, limits: MintLimits): boolean {
+		return amount.lte(limits.userLimit) && amount.lte(limits.allUsersLimit);
 	}
 
 	getPeakForToken(symbol: string): PeakType {
@@ -265,33 +240,50 @@ class IbBTCStore {
 			guessList.methods.totalDepositCap().call(),
 		]);
 
+		const [userLimit, allUsersLimit, individualLimit, globalLimit] = await Promise.all([
+			this.bBTCToSett(new BigNumber(userRemaining), token),
+			this.bBTCToSett(new BigNumber(totalRemaining), token),
+			this.bBTCToSett(new BigNumber(userDepositCap), token),
+			this.bBTCToSett(new BigNumber(totalDepositCap), token),
+		]);
+
 		return {
-			userLimit: new BigNumber(userRemaining),
-			allUsersLimit: new BigNumber(totalRemaining),
-			individualLimit: new BigNumber(userDepositCap),
-			globalLimit: new BigNumber(totalDepositCap),
+			userLimit,
+			allUsersLimit,
+			individualLimit,
+			globalLimit,
 		};
 	}
 
+	async getRedeemConversionRate(token: TokenModel): Promise<BigNumber> {
+		const { provider } = this.store.wallet;
+		if (!provider) return ZERO;
+
+		const web3 = new Web3(provider);
+		const ibBTC = new web3.eth.Contract(ibBTCConfig.abi as AbiItem[], this.ibBTC.address);
+		const ibBTCPricePerShare = await ibBTC.methods.pricePerShare().call();
+
+		return this.bBTCToSett(new BigNumber(ibBTCPricePerShare), token);
+	}
+
 	/**
-	 * Calculates redeem conversion rate from a token using the following criteria
-	 * for byvWBTCPeak => [bBtc.pricePerShare / 100] / byvWBTC.pricePerShare
-	 * for BadgerPeak => [bBtc.pricePerShare * 1e36] / [sett.getPricePerFullShare] / swap.get_virtual_price]
+	 * Calculates the settToken amount equivalent  of an ibBTC amount using the following criteria
+	 * for byvWBTCPeak => [amount/ 100] / byvWBTC.pricePerShare
+	 * for BadgerPeak => [amount* 1e36] / [sett.getPricePerFullShare] / swap.get_virtual_price]
+	 * @param amount amount that will be converted
 	 * @param token token to be used in calculation
 	 */
-	async getRedeemConversionRate(token: TokenModel): Promise<BigNumber> {
+	async bBTCToSett(amount: BigNumber, token: TokenModel): Promise<BigNumber> {
 		const { provider } = this.store.wallet;
 		if (!provider) return ZERO;
 
 		const { isYearnWBTCPeak, address, abi } = this.getPeakForToken(token.symbol);
 		const web3 = new Web3(provider);
-		const ibBTC = new web3.eth.Contract(ibBTCConfig.abi as AbiItem[], this.ibBTC.address);
-		const ibBTCPricePerShare = await ibBTC.methods.pricePerShare().call();
 
 		if (isYearnWBTCPeak) {
 			const yearnToken = new web3.eth.Contract(yearnConfig.abi as AbiItem[], token.address);
 			const yearnTokenPricePerShare = await yearnToken.methods.pricePerShare().call();
-			return new BigNumber(ibBTCPricePerShare).dividedBy(100).dividedBy(yearnTokenPricePerShare);
+			return amount.dividedToIntegerBy(100).dividedToIntegerBy(yearnTokenPricePerShare);
 		}
 
 		const badgerBtcPeak = new web3.eth.Contract(abi, address);
@@ -299,15 +291,15 @@ class IbBTCStore {
 		const { swap: swapAddress } = await badgerBtcPeak.methods.pools(token.poolId).call();
 		const swapContract = new web3.eth.Contract(badgerPeakSwap.abi as AbiItem[], swapAddress);
 
-		const [settTokenPricePerShare, swapVirtualPrice] = await Promise.all([
+		const [settTokenPricePerFullShare, swapVirtualPrice] = await Promise.all([
 			settToken.methods.getPricePerFullShare().call(),
 			swapContract.methods.get_virtual_price().call(),
 		]);
 
-		return new BigNumber(ibBTCPricePerShare)
+		return amount
 			.multipliedBy(1e36)
-			.dividedBy(settTokenPricePerShare)
-			.dividedBy(swapVirtualPrice);
+			.dividedToIntegerBy(settTokenPricePerFullShare)
+			.dividedToIntegerBy(swapVirtualPrice);
 	}
 
 	async getFees(): Promise<ibBTCFees> {
@@ -410,7 +402,16 @@ class IbBTCStore {
 	}
 	async redeem(outToken: TokenModel, amount: BigNumber): Promise<void> {
 		if (!this.isValidAmount(amount, this.ibBTC)) return;
-		await this.redeemBBTC(outToken, amount);
+
+		try {
+			await this.redeemBBTC(outToken, amount);
+		} catch (error) {
+			process.env.NODE_ENV !== 'production' && console.error(error);
+			this.store.uiState.queueNotification(
+				`There was an error redeeming ${outToken.symbol}. Please try again later.`,
+				'error',
+			);
+		}
 	}
 
 	async calcMintAmount(inToken: TokenModel, amount: BigNumber): Promise<MintAmountCalculation> {

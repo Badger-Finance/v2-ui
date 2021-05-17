@@ -1,67 +1,88 @@
 import React from 'react';
 import { observer } from 'mobx-react-lite';
 import BigNumber from 'bignumber.js';
-import { Fade, Grid } from '@material-ui/core';
+import { Grid, makeStyles, Tooltip } from '@material-ui/core';
 
-import { TokenModel } from 'mobx/model';
+import { MintLimits, TokenModel } from 'mobx/model';
 import { StoreContext } from 'mobx/store-context';
+import { toFixedDecimals } from 'mobx/utils/helpers';
 import { ErrorText } from './Common';
 
 interface Props {
 	token: TokenModel;
 	amount: BigNumber;
+	limits: MintLimits;
+	onUserLimitClick: (limit: BigNumber) => void;
 }
 
-export const MintError = observer(({ token, amount }: Props): JSX.Element | null => {
-	const store = React.useContext(StoreContext);
-	const { bouncerProof } = store.user;
-	const { ibBTC, mintLimits } = store.ibBTCStore;
-	const tokenLimit = mintLimits?.get(token.symbol);
+const useStyles = makeStyles(() => ({
+	userLimit: {
+		cursor: 'pointer',
+	},
+}));
 
-	if (!tokenLimit || !bouncerProof) {
+export const MintError = observer(({ token, amount, limits, onUserLimitClick }: Props): JSX.Element | null => {
+	const store = React.useContext(StoreContext);
+	const classes = useStyles();
+	const { bouncerProof } = store.user;
+
+	if (!bouncerProof) {
 		return null;
 	}
 
-	const { userLimit, individualLimit, globalLimit, allUsersLimit } = tokenLimit;
+	const { userLimit, individualLimit, globalLimit, allUsersLimit } = limits;
+
+	const UserLimit = () => (
+		<Grid container>
+			<ErrorText variant="subtitle1">
+				<span>{`Your current mint amount limit is `}</span>
+				<Tooltip
+					arrow
+					className={classes.userLimit}
+					title="Apply amount"
+					placement="top"
+					onClick={() => onUserLimitClick(userLimit)}
+				>
+					<span>{`${toFixedDecimals(token.unscale(userLimit), 6)} `}</span>
+				</Tooltip>
+				<span>{`${token.symbol}.`}</span>
+			</ErrorText>
+			<ErrorText variant="subtitle1">
+				{`Individual total mint amount limit is currently ${token
+					.unscale(individualLimit)
+					.toFixed(6, BigNumber.ROUND_HALF_FLOOR)} ${token.symbol}.`}
+			</ErrorText>
+		</Grid>
+	);
+
+	const GlobalLimit = () => (
+		<Grid container>
+			<ErrorText variant="subtitle1">
+				<span>{`The current global mint amount limit is `}</span>
+				<Tooltip
+					arrow
+					className={classes.userLimit}
+					title="Apply amount"
+					placement="top"
+					onClick={() => onUserLimitClick(allUsersLimit)}
+				>
+					<span>{`${toFixedDecimals(token.unscale(allUsersLimit), 6)}`}</span>
+				</Tooltip>
+				<span> {token.symbol}.</span>
+			</ErrorText>
+			<ErrorText variant="subtitle1">
+				{`Global total mint amount is currently ${token
+					.unscale(globalLimit)
+					.toFixed(6, BigNumber.ROUND_HALF_FLOOR)} ${token.symbol}.`}
+			</ErrorText>
+		</Grid>
+	);
 
 	if (amount.gt(userLimit)) {
-		return (
-			<Fade in>
-				<Grid container>
-					<ErrorText variant="subtitle1">
-						{`Your current mint amount limit is ${ibBTC
-							.unscale(userLimit)
-							.toFixed(6, BigNumber.ROUND_HALF_FLOOR)}
-					${ibBTC.symbol}.`}
-					</ErrorText>
-					<ErrorText variant="subtitle1">
-						{`Individual total mint amount limit is currently ${ibBTC
-							.unscale(individualLimit)
-							.toFixed(6, BigNumber.ROUND_HALF_FLOOR)} ${ibBTC.symbol}.`}
-					</ErrorText>
-				</Grid>
-			</Fade>
-		);
+		return userLimit.lt(allUsersLimit) ? <UserLimit /> : <GlobalLimit />;
 	}
 
-	if (amount.gt(allUsersLimit)) {
-		return (
-			<Fade in>
-				<Grid container>
-					<ErrorText variant="subtitle1">
-						{`The current global mint amount limit is ${ibBTC
-							.unscale(allUsersLimit)
-							.toFixed(6, BigNumber.ROUND_HALF_FLOOR)} ${ibBTC.symbol}.`}
-					</ErrorText>
-					<ErrorText variant="subtitle1">
-						{`Global total mint amount is currently ${ibBTC
-							.unscale(globalLimit)
-							.toFixed(6, BigNumber.ROUND_HALF_FLOOR)} ${ibBTC.symbol}.`}
-					</ErrorText>
-				</Grid>
-			</Fade>
-		);
-	}
+	if (amount.gt(allUsersLimit)) return <GlobalLimit />;
 
 	return null;
 });
