@@ -192,7 +192,7 @@ export const RewardsModal = observer(() => {
 								Enter an amount to claim
 							</Typography>
 						</Grid>
-						<div className={classes.rewardsContainer}>{rewards}</div>
+						<div className={classes.rewardsContainer}>{userRewards}</div>
 						<Button
 							className={classes.claimButton}
 							onClick={() => {
