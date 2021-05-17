@@ -32,6 +32,9 @@ describe('Landing Page', () => {
 				return;
 			});
 		});
+		jest.spyOn(connectedStore.ibBTCStore, 'init').mockImplementation(() => {
+			return;
+		});
 	});
 
 	afterEach(cleanup);
