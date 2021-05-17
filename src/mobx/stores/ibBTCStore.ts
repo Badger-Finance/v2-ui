@@ -17,7 +17,6 @@ import guessListConfig from 'config/system/abis/BadgerBtcPeakGuestList.json';
 import coreConfig from 'config/system/abis/BadgerBtcPeakCore.json';
 import { toHex } from '../utils/helpers';
 import { getSendOptions } from 'mobx/utils/web3';
-import { TransactionReceipt } from 'web3-core';
 
 interface MintAmountCalculation {
 	bBTC: BigNumber;
@@ -355,13 +354,10 @@ class IbBTCStore {
 		const options = await getSendOptions(method, connectedAddress, gasPrice);
 		await method
 			.send(options)
-			/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
 			.on('transactionHash', (_hash: string) => {
-				// TODO: Hash seems to do nothing - investigate this?
-				queueNotification(`Transaction submitted.`, 'info');
+				queueNotification(`Transaction submitted.`, 'info', _hash);
 			})
-			/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-			.on('receipt', (_receipt: TransactionReceipt) => {
+			.on('receipt', () => {
 				queueNotification(`${underlyingAsset.symbol} allowance increased.`, 'success');
 			})
 			.on('error', (error: Error) => {
@@ -485,13 +481,10 @@ class IbBTCStore {
 		const options = await getSendOptions(method, connectedAddress, gasPrice);
 		await method
 			.send(options)
-			/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
 			.on('transactionHash', (_hash: string) => {
-				// TODO: Hash seems to do nothing - investigate this?
-				queueNotification(`Mint submitted.`, 'info');
+				queueNotification(`Mint submitted.`, 'info', _hash);
 			})
-			/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-			.on('receipt', (_receipt: TransactionReceipt) => {
+			.on('receipt', () => {
 				queueNotification(`Successfully minted ${this.ibBTC.symbol}`, 'success');
 				this.init();
 			})
@@ -516,13 +509,10 @@ class IbBTCStore {
 		const options = await getSendOptions(method, connectedAddress, gasPrice);
 		await method
 			.send(options)
-			/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
 			.on('transactionHash', (_hash: string) => {
-				// TODO: Hash seems to do nothing - investigate this?
-				queueNotification(`Redeem submitted.`, 'info');
+				queueNotification(`Redeem submitted.`, 'info', _hash);
 			})
-			/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-			.on('receipt', (_receipt: TransactionReceipt) => {
+			.on('receipt', () => {
 				queueNotification(`Successfully redeemed ${outToken.symbol}`, 'success');
 				this.init();
 			})

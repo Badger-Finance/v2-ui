@@ -9,7 +9,6 @@ import { abi as scarcityPoolABI } from 'config/system/abis/BadgerScarcityPool.js
 import { abi as memeLtdABI } from 'config/system/abis/MemeLtd.json';
 import { NFT } from 'mobx/model';
 import { getSendOptions } from 'mobx/utils/web3';
-import { TransactionReceipt } from 'web3-core';
 
 const nftAssetsByTokenId: Record<string, Pick<NFT, 'name' | 'image' | 'redirectUrl' | 'totalSupply'>> = {
 	'205': {
@@ -161,13 +160,10 @@ export class HoneyPotStore {
 			const options = await getSendOptions(redeem, connectedAddress, price);
 			await redeem
 				.send(options)
-				/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
 				.on('transactionHash', (_hash: string) => {
-					// TODO: Hash seems to do nothing - investigate this?
-					queueNotification(`Redemption submitted.`, 'info');
+					queueNotification(`Redemption submitted.`, 'info', _hash);
 				})
-				/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-				.on('receipt', (_receipt: TransactionReceipt) => {
+				.on('receipt', () => {
 					queueNotification(`NFT Redeemed.`, 'success');
 					this.fetchPoolBalance();
 					this.fetchNFTS();
@@ -177,9 +173,7 @@ export class HoneyPotStore {
 					setTxStatus('error');
 				})
 				.finally(() => {
-					// console.log({ nftBeingRedeemed: Array.from(this.nftBeingRedeemed), tokenId });
 					this.nftBeingRedeemed = this.nftBeingRedeemed.filter((id) => id !== tokenId);
-					// console.log({ nftBeingRedeemed: Array.from(this.nftBeingRedeemed) });
 				});
 		} catch (error) {
 			const message = error?.message || 'There was an error. Please try again later.';
