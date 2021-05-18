@@ -71,6 +71,7 @@ class RebaseStore {
 			nextRebase: getNextRebase(minRebaseTimeIntervalSec, lastRebaseTimestampSec),
 			pastRebase: rebaseLog,
 		};
+		this.store.uiState.reduceRebase();
 	});
 }
 

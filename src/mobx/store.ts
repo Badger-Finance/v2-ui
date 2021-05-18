@@ -64,7 +64,6 @@ export class RootStore {
 		if (this.wallet.connectedAddress) {
 			this.user.updateBalances();
 			if (chain === NETWORK_LIST.ETH) {
-				this.uiState.reduceRebase();
 				this.ibBTCStore.init();
 				this.airdrops.fetchAirdrops();
 			}
