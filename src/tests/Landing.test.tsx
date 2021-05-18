@@ -9,6 +9,7 @@ import BigNumber from 'bignumber.js';
 import { mockApi } from './utils/apiV2';
 
 describe('Landing Page', () => {
+
 	beforeEach(() => {
 		jest.spyOn(EthNetwork.prototype, 'getGasPrices').mockReturnValue(
 			Promise.resolve({
