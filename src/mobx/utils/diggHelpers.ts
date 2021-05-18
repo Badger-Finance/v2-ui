@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js';
 import Web3 from 'web3';
 import { AbiItem } from 'web3-utils';
 import { provider } from 'web3-core';
-import { Vault, Network } from '../model';
+import { Network } from '../model';
 import { numberWithCommas } from './helpers';
 
 const UPPER_LIMIT = 1.05 * 1e18;
@@ -80,6 +80,7 @@ export const shortenNumbers = (value: BigNumber, prefix: string, preferredDecima
 	return `${prefix} ${fixedNormal}${suffix}`;
 };
 
+// TODO: Capture some typing
 export const getRebaseLogs = async (provider: provider, network: Network): Promise<any> => {
 	// Disable reason: 'web3-eth-contract' object can only be imported with the required method since it
 	// is exported using 'module.exports'
@@ -99,10 +100,4 @@ export const getRebaseLogs = async (provider: provider, network: Network): Promi
 
 export const getPercentageChange = (newValue: BigNumber, originalValue: BigNumber): number => {
 	return newValue.minus(originalValue).dividedBy(originalValue).multipliedBy(100).toNumber();
-};
-
-export const getDiggPerShare = (vault: Vault): number | BigNumber => {
-	if (!vault.vaultBalance) return 1;
-	if (!vault.totalSupply) return 1;
-	return vault.vaultBalance.dividedBy(vault.totalSupply.dividedBy(1e9));
 };

@@ -1,12 +1,11 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { VaultDeposit, VaultWithdraw, GeyserUnstake } from 'components/Collection/Forms';
+import { GeyserUnstake, VaultDeposit, VaultWithdraw } from 'components/Collection/Forms';
 import { VaultSymbol } from 'components/Common/VaultSymbol';
 import { Dialog, DialogTitle, Tab, Tabs, Switch, Typography, makeStyles } from '@material-ui/core';
 import deploy from '../../../config/deployments/mainnet.json';
 import { StoreContext } from '../../../mobx/store-context';
-import SettAbi from 'config/system/abis/SushiSett.json';
 import { NETWORK_LIST } from '../../../config/constants';
-import { Sett, Token, Vault } from 'mobx/model';
+import { Sett } from 'mobx/model';
 
 const useStyles = makeStyles((theme) => ({
 	title: {
@@ -17,7 +16,6 @@ const useStyles = makeStyles((theme) => ({
 export interface SettDialogProps {
 	dialogProps: {
 		open: boolean;
-		vault: Vault;
 		sett: Sett;
 	};
 	onClose: () => void;
@@ -32,10 +30,9 @@ const SettDialog = (props: SettDialogProps): JSX.Element => {
 	const [dialogOut, setDialogOut] = useState(false);
 	const { dialogProps, onClose } = props;
 	const { open, sett } = dialogProps;
-	let { vault } = dialogProps;
+
 	const store = useContext(StoreContext);
-	const { network } = store.wallet;
-	const { contracts } = store;
+	const { network, connectedAddress } = store.wallet;
 	const classes = useStyles();
 
 	useEffect(() => {
@@ -45,15 +42,6 @@ const SettDialog = (props: SettDialogProps): JSX.Element => {
 		}
 	}, [open]);
 	if (!open) return <div />;
-
-	/**
-	 * TODO: Revist the general structure of downstream data consumption
-	 * This structure is a bit recursive
-	 */
-	if (!vault) {
-		// user wallet not connected - populate zero data
-		vault = contracts.getOrCreateVault(sett.vaultToken, new Token(store, sett.underlyingToken, 18), SettAbi.abi);
-	}
 
 	const DialogTabs = (props: DialogTabProps): JSX.Element => {
 		const { sett } = props;
@@ -77,10 +65,31 @@ const SettDialog = (props: SettDialogProps): JSX.Element => {
 		);
 	};
 
-	let form = <VaultDeposit vault={vault} />;
-	// TODO: DialogMode should take integer indexes, may be worth enumerating - maybe not
-	if (dialogMode === 0 && dialogOut) form = <VaultWithdraw vault={vault} />;
-	else if (dialogMode == 1 && dialogOut) form = <GeyserUnstake vault={vault} />;
+	const badgerSett = network.setts.find((knownSett) => knownSett.vaultToken.address === sett.vaultToken);
+	if (!badgerSett) {
+		return <></>;
+	}
+
+	let form: JSX.Element;
+	switch (dialogMode) {
+		case 0:
+			if (dialogOut) {
+				form = <VaultWithdraw sett={sett} badgerSett={badgerSett} />;
+			} else {
+				form = <VaultDeposit sett={sett} badgerSett={badgerSett} />;
+			}
+			break;
+		case 1:
+			if (dialogOut) {
+				form = <GeyserUnstake sett={sett} badgerSett={badgerSett} />;
+			} else {
+				form = <></>;
+			}
+			break;
+		default:
+			form = <></>;
+			break;
+	}
 
 	return (
 		<Dialog key={'dialog'} fullWidth maxWidth={'sm'} open={open} onClose={onClose}>
@@ -94,6 +103,7 @@ const SettDialog = (props: SettDialogProps): JSX.Element => {
 							setDialogOut(!dialogOut);
 						}}
 						color="primary"
+						disabled={!connectedAddress}
 					/>
 				</div>
 				<VaultSymbol token={sett} iconName={sett.asset.toLowerCase()} />

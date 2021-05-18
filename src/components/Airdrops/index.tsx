@@ -16,8 +16,9 @@ import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { StoreContext } from '../../mobx/store-context';
 import views from '../../config/routes';
-import { inCurrency } from '../../mobx/utils/helpers';
 import PageHeader from '../../components-v2/common/PageHeader';
+import { getToken } from 'web3/config/token-config';
+import { inCurrency } from 'mobx/utils/helpers';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -60,7 +61,6 @@ export const Airdrops = observer(() => {
 		wallet: { connectedAddress },
 		airdrops: { claimAirdrops, airdrops },
 		setts: { settMap },
-		contracts: { getOrCreateToken },
 	} = store;
 
 	let maxNativeApy: number | undefined = undefined;
@@ -150,9 +150,14 @@ export const Airdrops = observer(() => {
 	};
 
 	const _airdrops = () => {
-		if (!airdrops || airdrops.length === 0) return <Typography>Your address has no airdrops to claim.</Typography>;
+		if (!airdrops || airdrops.length === 0) {
+			return <Typography>Your address has no airdrops to claim.</Typography>;
+		}
 		return airdrops.map((airdrop) => {
-			const token = getOrCreateToken(airdrop.token);
+			const token = getToken(airdrop.token);
+			if (!token) {
+				return null;
+			}
 			return (
 				<ListItem key={airdrop.token} style={{ margin: 0, padding: 0 }}>
 					<ListItemText

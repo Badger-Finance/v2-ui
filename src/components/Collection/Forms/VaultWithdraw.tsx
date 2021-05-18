@@ -1,16 +1,14 @@
 import React, { useContext } from 'react';
 import { observer } from 'mobx-react-lite';
-
 import { StoreContext } from 'mobx/store-context';
 import { Button, DialogContent, TextField, DialogActions, ButtonGroup } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Skeleton } from '@material-ui/lab';
-import { Loader } from 'components/Loader';
-import { BigNumber } from 'bignumber.js';
 import { useForm } from 'react-hook-form';
-import { formatDialogBalanceUnderlying } from 'mobx/reducers/statsReducers';
 import { StrategyInfo } from './StrategyInfo';
+import { SettModalProps } from './VaultDeposit';
+import { TokenBalance } from 'mobx/model/token-balance';
 
 const TEXTFIELD_ID = 'amountField';
 
@@ -30,44 +28,41 @@ const useStyles = makeStyles((theme) => ({
 		paddingLeft: theme.spacing(1),
 	},
 }));
-export const VaultWithdraw = observer((props: any) => {
+
+export const VaultWithdraw = observer((props: SettModalProps) => {
 	const store = useContext(StoreContext);
 	const classes = useStyles();
-	const { vault } = props;
+	const { sett, badgerSett } = props;
 	const { register, handleSubmit, watch, setValue } = useForm({ mode: 'all' });
 
 	const {
 		wallet: { connectedAddress, network },
+		user: { settBalances },
+		setts: { settMap },
+		contracts,
+		rewards,
 	} = store;
 
-	const percentageOfBalance = (percent: number) => {
-		return vault.balance
-			.dividedBy(10 ** vault.decimals)
-			.multipliedBy(percent / 100)
-			.toFixed(vault.decimals, BigNumber.ROUND_HALF_FLOOR);
+	const userBalance = settBalances[badgerSett.vaultToken.address];
+	const settPpfs = settMap ? settMap[badgerSett.vaultToken.address].ppfs : 1;
+	const underlying = userBalance.tokenBalance.multipliedBy(settPpfs);
+	const underlyingBalance = new TokenBalance(rewards, userBalance.token, underlying, userBalance.price);
+
+	// TODO: Clean up duplicate logic in all these components
+	const percentageOfBalance = (percent: number): string => {
+		return userBalance.scaledBalanceDisplay(percent);
 	};
 
 	const setAmount = (percent: number) => {
-		setValue(
-			'amount',
-			vault.balance
-				.dividedBy(10 ** vault.decimals)
-				.multipliedBy(percent / 100)
-				.toFixed(vault.decimals, BigNumber.ROUND_HALF_FLOOR),
-		);
+		setValue('amount', percentageOfBalance(percent));
 	};
 
 	const onSubmit = (params: any) => {
-		const amount = new BigNumber(params.amount);
-		vault.withdraw(amount);
+		const withdrawBalance = TokenBalance.fromBalance(userBalance, params.amount);
+		contracts.withdraw(sett, badgerSett, userBalance, withdrawBalance);
 	};
 
-	if (!vault) {
-		return <Loader />;
-	}
-
-	const canDeposit = !!watch().amount && !!connectedAddress && vault.balance.gt(0);
-
+	const canDeposit = !!watch().amount && !!connectedAddress && userBalance.balance.gt(0);
 	const renderAmounts = (
 		<ButtonGroup size="small" className={classes.button} disabled={!connectedAddress}>
 			{[25, 50, 75, 100].map((amount: number) => (
@@ -96,15 +91,15 @@ export const VaultWithdraw = observer((props: any) => {
 				>
 					<div className={classes.balanceDiv}>
 						<Typography variant="body2" color={'textSecondary'} style={{ marginBottom: '.2rem' }}>
-							Underlying {vault.underlyingToken.symbol}:{' '}
+							Underlying {sett.asset}:{' '}
 							{!!connectedAddress ? (
-								formatDialogBalanceUnderlying(vault)
+								underlyingBalance.balanceDisplay()
 							) : (
 								<Skeleton animation="wave" className={classes.skeleton} />
 							)}
 						</Typography>
 						<Typography variant="body1" color={'textSecondary'} style={{ marginBottom: '.2rem' }}>
-							Deposited {vault.symbol}:{' '}
+							Deposited {`b${sett.asset}`}:{' '}
 							{!!connectedAddress && !!totalAvailable ? (
 								totalAvailable
 							) : (
@@ -114,9 +109,7 @@ export const VaultWithdraw = observer((props: any) => {
 					</div>
 					{renderAmounts}
 				</div>
-
-				<StrategyInfo vaultAddress={vault.address} network={network} />
-
+				<StrategyInfo vaultAddress={badgerSett.vaultToken.address} network={network} />
 				<TextField
 					autoComplete="off"
 					name="amount"
