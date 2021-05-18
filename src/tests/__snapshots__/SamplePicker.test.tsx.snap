@@ -63,7 +63,6 @@ exports[`SamplePicker Renders correctly 1`] = `
 <div>
   <div
     class="MuiInputBase-root-39 MuiOutlinedInput-root-24 makeStyles-samplePicker-1"
-    style="margin-top: auto; margin-bottom: auto;"
     title="ROI combines the appreciation of the vault with its $BADGER or $DIGG emissions. All numbers are an approximation based on historical data."
   >
     <div

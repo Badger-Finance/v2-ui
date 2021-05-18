@@ -5,13 +5,9 @@ import {
 	toHHMMSS,
 	shortenNumbers,
 	getPercentageChange,
-	getDiggPerShare,
 } from '../../mobx/utils/diggHelpers';
 import '@testing-library/jest-dom';
 import BigNumber from 'bignumber.js';
-import { Token, Vault } from '../../mobx/model';
-import { AbiItem } from 'web3-utils';
-import store from 'mobx/store';
 
 describe('calculateNewSupply', () => {
 	const UPPER_LIMIT = 1.05 * 1e18;
@@ -95,63 +91,5 @@ describe('getPercentageChange', () => {
 		[new BigNumber(100), new BigNumber(100), 0],
 	])('getPercentageChange(%f, %f) returns %f', (newValue, originalValue, expected) => {
 		expect(getPercentageChange(newValue, originalValue)).toBe(expected);
-	});
-});
-
-describe('getDiggPerShare', () => {
-	// Mock abi object
-	const abi: AbiItem = { type: 'constructor' };
-	// Mock Vault object
-	const vault = new Vault(
-		store,
-		'0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a',
-		18,
-		new Token(store, '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a', 18),
-		abi,
-	);
-
-	test('vaultBalance = totalSupply = undefined, returns 1', () => {
-		expect(getDiggPerShare(vault)).toEqual(1);
-	});
-	test('vaultBalance = 1000 & totalSupply = undefined, returns 1', () => {
-		vault.vaultBalance = new BigNumber(1000);
-		expect(getDiggPerShare(vault)).toEqual(1);
-	});
-	test('vaultBalance = NaN & totalSupply = 1000, returns NaN', () => {
-		vault.vaultBalance = new BigNumber(NaN);
-		vault.totalSupply = new BigNumber(1000);
-		expect(getDiggPerShare(vault)).toEqual(new BigNumber(NaN));
-	});
-	test('vaultBalance = 0.000005 & totalSupply = 1000, returns 5', () => {
-		vault.vaultBalance = new BigNumber(0.000005);
-		vault.totalSupply = new BigNumber(1000);
-		expect(getDiggPerShare(vault)).toEqual(new BigNumber(5));
-	});
-	test('vaultBalance = -0.000005 & totalSupply = 1000, returns -5', () => {
-		vault.vaultBalance = new BigNumber(-0.000005);
-		vault.totalSupply = new BigNumber(1000);
-		expect(getDiggPerShare(vault)).toEqual(new BigNumber(-5));
-	});
-	test('vaultBalance = 0.000005 & totalSupply = -1000, returns -5', () => {
-		vault.vaultBalance = new BigNumber(0.000005);
-		vault.totalSupply = new BigNumber(-1000);
-		expect(getDiggPerShare(vault)).toEqual(new BigNumber(-5));
-	});
-	test('vaultBalance = 1000 & totalSupply = 0, returns Infinity', () => {
-		vault.vaultBalance = new BigNumber(1000);
-		vault.totalSupply = new BigNumber(0);
-		expect(getDiggPerShare(vault)).toEqual(new BigNumber(Infinity));
-	});
-	test('vaultBalance = 0 & totalSupply = 1000, returns 0', () => {
-		// Creating new vault to reset value of vaultBalance to its default, 0
-		const vault2 = new Vault(
-			store,
-			'0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a',
-			18,
-			new Token(store, '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a', 18),
-			abi,
-		);
-		vault2.totalSupply = new BigNumber(1000);
-		expect(getDiggPerShare(vault2)).toEqual(new BigNumber(0));
 	});
 });

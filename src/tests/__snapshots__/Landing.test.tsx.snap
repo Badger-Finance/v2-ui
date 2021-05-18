@@ -3,40 +3,40 @@
 exports[`Landing Page Renders correctly 1`] = `
 <div>
   <div
-    class="MuiContainer-root-11 makeStyles-landingContainer-1 MuiContainer-maxWidthLg-17"
+    class="MuiContainer-root-12 makeStyles-landingContainer-1 MuiContainer-maxWidthLg-18"
   >
     <div
-      class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-spacing-xs-1-42 MuiGrid-justify-xs-center-37"
+      class="MuiGrid-root-20 MuiGrid-container-21 MuiGrid-spacing-xs-1-43 MuiGrid-justify-xs-center-38"
     >
       <div
-        class="MuiGrid-root-19 makeStyles-headerContainer-2 MuiGrid-item-21 MuiGrid-grid-xs-12-65"
+        class="MuiGrid-root-20 makeStyles-headerContainer-2 MuiGrid-item-22 MuiGrid-grid-xs-12-66"
       >
         <div
-          class="makeStyles-headerContainer-123"
+          class="makeStyles-headerContainer-124"
         >
           <div
-            class="makeStyles-headerContent-124"
+            class="makeStyles-headerContent-125"
           >
             <h2
-              class="MuiTypography-root-125 MuiTypography-h2-131 MuiTypography-colorTextPrimary-150"
+              class="MuiTypography-root-126 MuiTypography-h2-132 MuiTypography-colorTextPrimary-151"
             >
               Sett Vaults
             </h2>
             <h6
-              class="MuiTypography-root-125 MuiTypography-subtitle1-136 MuiTypography-colorTextSecondary-151"
+              class="MuiTypography-root-126 MuiTypography-subtitle1-137 MuiTypography-colorTextSecondary-152"
             >
               Powerful Bitcoin strategies. Automatic staking rewards.
             </h6>
           </div>
           <div
-            class="makeStyles-headerWidgets-122"
+            class="makeStyles-headerWidgets-123"
           >
             <div
-              class="MuiInputBase-root-182 MuiOutlinedInput-root-167 MuiInputBase-colorSecondary-191 MuiOutlinedInput-colorSecondary-168 makeStyles-gasSelector-155 MuiInputBase-adornedStart-186 MuiOutlinedInput-adornedStart-171"
+              class="MuiInputBase-root-183 MuiOutlinedInput-root-168 MuiInputBase-colorSecondary-192 MuiOutlinedInput-colorSecondary-169 makeStyles-gasSelector-156 MuiInputBase-adornedStart-187 MuiOutlinedInput-adornedStart-172"
             >
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root-200"
+                class="MuiSvgIcon-root-201"
                 focusable="false"
                 style="cursor: pointer; font-size: 1.2rem; margin-right: .8rem;"
                 viewBox="0 0 24 24"
@@ -47,7 +47,7 @@ exports[`Landing Page Renders correctly 1`] = `
               </svg>
               <div
                 aria-haspopup="listbox"
-                class="MuiSelect-root-156 MuiSelect-select-157 MuiSelect-selectMenu-160 MuiSelect-outlined-159 MuiInputBase-input-193 MuiOutlinedInput-input-177 MuiInputBase-inputAdornedStart-197 MuiOutlinedInput-inputAdornedStart-180"
+                class="MuiSelect-root-157 MuiSelect-select-158 MuiSelect-selectMenu-161 MuiSelect-outlined-160 MuiInputBase-input-194 MuiOutlinedInput-input-178 MuiInputBase-inputAdornedStart-198 MuiOutlinedInput-inputAdornedStart-181"
                 role="button"
                 tabindex="0"
               >
@@ -55,13 +55,13 @@ exports[`Landing Page Renders correctly 1`] = `
               </div>
               <input
                 aria-hidden="true"
-                class="MuiSelect-nativeInput-166"
+                class="MuiSelect-nativeInput-167"
                 tabindex="-1"
                 value="standard"
               />
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root-200 MuiSelect-icon-162 MuiSelect-iconOutlined-165"
+                class="MuiSvgIcon-root-201 MuiSelect-icon-163 MuiSelect-iconOutlined-166"
                 focusable="false"
                 viewBox="0 0 24 24"
               >
@@ -71,11 +71,11 @@ exports[`Landing Page Renders correctly 1`] = `
               </svg>
               <fieldset
                 aria-hidden="true"
-                class="PrivateNotchedOutline-root-213 MuiOutlinedInput-notchedOutline-176"
+                class="PrivateNotchedOutline-root-214 MuiOutlinedInput-notchedOutline-177"
                 style="padding-left: 8px;"
               >
                 <legend
-                  class="PrivateNotchedOutline-legend-214"
+                  class="PrivateNotchedOutline-legend-215"
                   style="width: 0.01px;"
                 >
                   <span>
@@ -85,45 +85,45 @@ exports[`Landing Page Renders correctly 1`] = `
               </fieldset>
             </div>
             <button
-              class="MuiButtonBase-root-250 MuiButton-root-221 MuiButton-contained-229 makeStyles-walletButton-220 MuiButton-containedSecondary-231 MuiButton-disableElevation-232"
+              class="MuiButtonBase-root-251 MuiButton-root-222 MuiButton-contained-230 makeStyles-walletButton-221 MuiButton-containedSecondary-232 MuiButton-disableElevation-233"
               tabindex="0"
               type="button"
             >
               <span
-                class="MuiButton-label-222"
+                class="MuiButton-label-223"
               >
                 Click to connect
                 <span
-                  class="MuiButton-endIcon-246 MuiButton-iconSizeMedium-248"
+                  class="MuiButton-endIcon-247 MuiButton-iconSizeMedium-249"
                 >
                   <div
-                    class="makeStyles-walletDot-217 makeStyles-redDot-218"
+                    class="makeStyles-walletDot-218 makeStyles-redDot-219"
                   />
                 </span>
               </span>
               <span
-                class="MuiTouchRipple-root-325"
+                class="MuiTouchRipple-root-337"
               />
             </button>
           </div>
         </div>
       </div>
       <div
-        class="MuiGrid-root-19 makeStyles-widgetContainer-5 MuiGrid-item-21 MuiGrid-grid-xs-12-65"
+        class="MuiGrid-root-20 makeStyles-widgetContainer-5 MuiGrid-item-22 MuiGrid-grid-xs-12-66"
       >
-        <div />
         <div
-          class="makeStyles-pickerContainer-9"
+          class="makeStyles-walletContainer-9"
+        />
+        <div
+          class="makeStyles-pickerContainer-10"
         >
-           
           <div
-            class="MuiInputBase-root-182 MuiOutlinedInput-root-167 makeStyles-samplePicker-253"
-            style="margin-top: auto; margin-bottom: auto;"
+            class="MuiInputBase-root-183 MuiOutlinedInput-root-168 makeStyles-samplePicker-265"
             title="ROI combines the appreciation of the vault with its $BADGER or $DIGG emissions. All numbers are an approximation based on historical data."
           >
             <div
               aria-haspopup="listbox"
-              class="MuiSelect-root-156 MuiSelect-select-157 MuiSelect-selectMenu-160 MuiSelect-outlined-159 MuiInputBase-input-193 MuiOutlinedInput-input-177"
+              class="MuiSelect-root-157 MuiSelect-select-158 MuiSelect-selectMenu-161 MuiSelect-outlined-160 MuiInputBase-input-194 MuiOutlinedInput-input-178"
               role="button"
               tabindex="0"
             >
@@ -131,13 +131,13 @@ exports[`Landing Page Renders correctly 1`] = `
             </div>
             <input
               aria-hidden="true"
-              class="MuiSelect-nativeInput-166"
+              class="MuiSelect-nativeInput-167"
               tabindex="-1"
               value="year"
             />
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root-200 MuiSelect-icon-162 MuiSelect-iconOutlined-165"
+              class="MuiSvgIcon-root-201 MuiSelect-icon-163 MuiSelect-iconOutlined-166"
               focusable="false"
               viewBox="0 0 24 24"
             >
@@ -147,11 +147,11 @@ exports[`Landing Page Renders correctly 1`] = `
             </svg>
             <fieldset
               aria-hidden="true"
-              class="PrivateNotchedOutline-root-213 MuiOutlinedInput-notchedOutline-176"
+              class="PrivateNotchedOutline-root-214 MuiOutlinedInput-notchedOutline-177"
               style="padding-left: 8px;"
             >
               <legend
-                class="PrivateNotchedOutline-legend-214"
+                class="PrivateNotchedOutline-legend-215"
                 style="width: 0.01px;"
               >
                 <span>
@@ -161,12 +161,11 @@ exports[`Landing Page Renders correctly 1`] = `
             </fieldset>
           </div>
           <div
-            class="MuiInputBase-root-182 MuiOutlinedInput-root-167 makeStyles-currencyPicker-265"
-            style="margin-top: auto; margin-bottom: auto;"
+            class="MuiInputBase-root-183 MuiOutlinedInput-root-168 makeStyles-currencyPicker-277"
           >
             <div
               aria-haspopup="listbox"
-              class="MuiSelect-root-156 MuiSelect-select-157 MuiSelect-selectMenu-160 MuiSelect-outlined-159 MuiInputBase-input-193 MuiOutlinedInput-input-177"
+              class="MuiSelect-root-157 MuiSelect-select-158 MuiSelect-selectMenu-161 MuiSelect-outlined-160 MuiInputBase-input-194 MuiOutlinedInput-input-178"
               role="button"
               tabindex="0"
             >
@@ -174,13 +173,13 @@ exports[`Landing Page Renders correctly 1`] = `
             </div>
             <input
               aria-hidden="true"
-              class="MuiSelect-nativeInput-166"
+              class="MuiSelect-nativeInput-167"
               tabindex="-1"
               value="usd"
             />
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root-200 MuiSelect-icon-162 MuiSelect-iconOutlined-165"
+              class="MuiSvgIcon-root-201 MuiSelect-icon-163 MuiSelect-iconOutlined-166"
               focusable="false"
               viewBox="0 0 24 24"
             >
@@ -190,11 +189,11 @@ exports[`Landing Page Renders correctly 1`] = `
             </svg>
             <fieldset
               aria-hidden="true"
-              class="PrivateNotchedOutline-root-213 MuiOutlinedInput-notchedOutline-176"
+              class="PrivateNotchedOutline-root-214 MuiOutlinedInput-notchedOutline-177"
               style="padding-left: 8px;"
             >
               <legend
-                class="PrivateNotchedOutline-legend-214"
+                class="PrivateNotchedOutline-legend-215"
                 style="width: 0.01px;"
               >
                 <span>
@@ -206,21 +205,21 @@ exports[`Landing Page Renders correctly 1`] = `
         </div>
       </div>
       <div
-        class="MuiGrid-root-19 MuiGrid-item-21 MuiGrid-grid-xs-12-65 MuiGrid-grid-md-6-87"
+        class="MuiGrid-root-20 MuiGrid-item-22 MuiGrid-grid-xs-12-66 MuiGrid-grid-md-6-88"
       >
         <div
-          class="MuiPaper-root-267 makeStyles-infoPaper-266 MuiPaper-elevation2-272 MuiPaper-rounded-268"
+          class="MuiPaper-root-279 makeStyles-infoPaper-278 MuiPaper-elevation2-284 MuiPaper-rounded-280"
         >
           <h6
-            class="MuiTypography-root-125 MuiTypography-subtitle1-136 MuiTypography-colorTextPrimary-150"
+            class="MuiTypography-root-126 MuiTypography-subtitle1-137 MuiTypography-colorTextPrimary-151"
           >
             Total Value Locked
           </h6>
           <span
-            class="MuiSkeleton-root-295 MuiSkeleton-text-296 MuiSkeleton-withChildren-303 MuiSkeleton-fitContent-304 MuiSkeleton-heightAuto-305 MuiSkeleton-wave-301"
+            class="MuiSkeleton-root-307 MuiSkeleton-text-308 MuiSkeleton-withChildren-315 MuiSkeleton-fitContent-316 MuiSkeleton-heightAuto-317 MuiSkeleton-wave-313"
           >
             <h5
-              class="MuiTypography-root-125 MuiTypography-h5-134"
+              class="MuiTypography-root-126 MuiTypography-h5-135"
             >
               Placeholder
             </h5>
@@ -228,63 +227,63 @@ exports[`Landing Page Renders correctly 1`] = `
         </div>
       </div>
       <div
-        class="MuiGrid-root-19 MuiGrid-item-21 MuiGrid-grid-xs-12-65 MuiGrid-grid-md-6-87"
+        class="MuiGrid-root-20 MuiGrid-item-22 MuiGrid-grid-xs-12-66 MuiGrid-grid-md-6-88"
       >
         <div
-          class="MuiPaper-root-267 makeStyles-infoPaper-266 MuiPaper-elevation2-272 MuiPaper-rounded-268"
+          class="MuiPaper-root-279 makeStyles-infoPaper-278 MuiPaper-elevation2-284 MuiPaper-rounded-280"
         >
           <h6
-            class="MuiTypography-root-125 MuiTypography-subtitle1-136 MuiTypography-colorTextPrimary-150"
+            class="MuiTypography-root-126 MuiTypography-subtitle1-137 MuiTypography-colorTextPrimary-151"
           >
             Badger Price
           </h6>
           <div
-            class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-align-items-xs-center-28 MuiGrid-justify-xs-center-37"
+            class="MuiGrid-root-20 MuiGrid-container-21 MuiGrid-align-items-xs-center-29 MuiGrid-justify-xs-center-38"
           >
             <h5
-              class="MuiTypography-root-125 MuiTypography-h5-134"
+              class="MuiTypography-root-126 MuiTypography-h5-135"
             >
-              $6.42
+              $6,416,900,000,000,000,000.00
             </h5>
           </div>
         </div>
       </div>
     </div>
     <div
-      class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-spacing-xs-1-42 MuiGrid-justify-xs-center-37"
+      class="MuiGrid-root-20 MuiGrid-container-21 MuiGrid-spacing-xs-1-43 MuiGrid-justify-xs-center-38"
     >
       <button
-        class="MuiButtonBase-root-250 MuiButton-root-221 MuiButton-outlined-226 makeStyles-announcementButton-10 MuiButton-outlinedPrimary-227 MuiButton-outlinedSizeSmall-238 MuiButton-sizeSmall-242"
+        class="MuiButtonBase-root-251 MuiButton-root-222 MuiButton-outlined-227 makeStyles-announcementButton-11 MuiButton-outlinedPrimary-228 MuiButton-outlinedSizeSmall-239 MuiButton-sizeSmall-243"
         tabindex="0"
         type="button"
       >
         <span
-          class="MuiButton-label-222"
+          class="MuiButton-label-223"
         >
           Note: New Vaults may take up to 2 weeks from launch to reach full efficiency.
         </span>
         <span
-          class="MuiTouchRipple-root-325"
+          class="MuiTouchRipple-root-337"
         />
       </button>
     </div>
     <div
-      class="makeStyles-settListContainer-307"
+      class="makeStyles-settListContainer-319"
     >
       <div
-        class="makeStyles-loaderContainer-308"
+        class="makeStyles-loaderContainer-320"
       >
         <div
-          class="MuiCircularProgress-root-310 MuiCircularProgress-colorPrimary-314 MuiCircularProgress-indeterminate-312"
+          class="MuiCircularProgress-root-322 MuiCircularProgress-colorPrimary-326 MuiCircularProgress-indeterminate-324"
           role="progressbar"
           style="width: 60px; height: 60px;"
         >
           <svg
-            class="MuiCircularProgress-svg-316"
+            class="MuiCircularProgress-svg-328"
             viewBox="22 22 44 44"
           >
             <circle
-              class="MuiCircularProgress-circle-317 MuiCircularProgress-circleIndeterminate-319"
+              class="MuiCircularProgress-circle-329 MuiCircularProgress-circleIndeterminate-331"
               cx="44"
               cy="44"
               fill="none"
@@ -294,7 +293,7 @@ exports[`Landing Page Renders correctly 1`] = `
           </svg>
         </div>
         <p
-          class="MuiTypography-root-125 makeStyles-loaderMessage-309 MuiTypography-body1-127"
+          class="MuiTypography-root-126 makeStyles-loaderMessage-321 MuiTypography-body1-128"
         >
           Loading Ethereum Setts...
         </p>
