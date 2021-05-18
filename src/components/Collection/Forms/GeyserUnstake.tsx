@@ -1,15 +1,14 @@
 import React, { useContext } from 'react';
 import { observer } from 'mobx-react-lite';
-
 import { StoreContext } from '../../../mobx/store-context';
 import { Button, DialogContent, TextField, DialogActions, ButtonGroup } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { Loader } from '../../Loader';
-import { BigNumber } from 'bignumber.js';
 import { useForm } from 'react-hook-form';
-import { formatBalanceStaked } from 'mobx/reducers/statsReducers';
+import { StrategyInfo } from './StrategyInfo';
+import { SettModalProps } from './VaultDeposit';
+import { TokenBalance } from 'mobx/model/token-balance';
 
 const TEXTFIELD_ID = 'amountField';
 
@@ -28,48 +27,67 @@ const useStyles = makeStyles((theme) => ({
 		width: '25%',
 		paddingLeft: theme.spacing(1),
 	},
+	noGeyser: {
+		display: 'flex',
+		justifyContent: 'center',
+		alignItems: 'center',
+		marginTop: theme.spacing(3),
+		marginBottom: theme.spacing(5),
+		flexDirection: 'column',
+	},
+	saiyanIcon: {
+		height: '82px',
+		width: '82px',
+		marginTop: theme.spacing(5),
+		marginBottom: theme.spacing(1),
+	},
 }));
-export const GeyserUnstake = observer((props: any) => {
+
+export const GeyserUnstake = observer((props: SettModalProps) => {
 	const store = useContext(StoreContext);
 	const classes = useStyles();
-	const { vault } = props;
 	const { register, handleSubmit, watch, setValue } = useForm({ mode: 'all' });
+	const { sett, badgerSett } = props;
 
 	const {
-		wallet: { connectedAddress },
+		wallet: { connectedAddress, network },
+		user: { geyserBalances },
+		contracts,
+		rewards,
+		setts: { settMap },
 	} = store;
 
-	const percentageOfBalance = (percent: number) => {
-		return vault?.geyser?.balance
-			.dividedBy(10 ** vault.decimals)
-			.multipliedBy(percent / 100)
-			.toFixed(parseInt(vault.decimals), BigNumber.ROUND_HALF_FLOOR);
+	if (!badgerSett.geyser) {
+		return (
+			<div className={classes.noGeyser}>
+				<Typography>{`${sett.name} has no geyser.`}</Typography>
+				<img src={'./assets/icons/badger_saiyan.png'} className={classes.saiyanIcon} />
+				<Typography>{'Rewards are earned from Sett deposits.'}</Typography>
+			</div>
+		);
+	}
+
+	const userBalance = geyserBalances[badgerSett.geyser];
+	const settPpfs = settMap ? settMap[badgerSett.vaultToken.address].ppfs : 1;
+	const underlying = userBalance.tokenBalance.multipliedBy(settPpfs);
+	const underlyingBalance = new TokenBalance(rewards, userBalance.token, underlying, userBalance.price);
+
+	// remove rendudant code
+	const percentageOfBalance = (percent: number): string => {
+		return userBalance.scaledBalanceDisplay(percent);
 	};
 
 	const setAmount = (percent: number) => {
-		// (document.getElementById(TEXTFIELD_ID)! as HTMLInputElement).value = uiStats.availableFull[percent];
-		vault.geyser
-			? setValue(
-					'amount',
-					vault.geyser.balance
-						.dividedBy(10 ** parseInt(vault.decimals))
-						.multipliedBy(percent / 100)
-						.toFixed(parseInt(vault.decimals), BigNumber.ROUND_HALF_FLOOR),
-			  )
-			: setValue('amount', new BigNumber(0));
+		setValue('amount', percentageOfBalance(percent));
 	};
 
 	const onSubmit = (params: any) => {
-		const amount = new BigNumber(params.amount);
-		vault.geyser.unstake(amount);
+		const unstakeBalance = TokenBalance.fromBalance(userBalance, params.amount);
+		contracts.unstake(sett, badgerSett, userBalance, unstakeBalance);
 	};
 
-	if (!vault) {
-		return <Loader />;
-	}
-
 	const canUnstake = () => {
-		return !!connectedAddress && vault?.geyser?.balance.gt(0);
+		return !!connectedAddress && userBalance.balance.gt(0);
 	};
 
 	const renderAmounts = (
@@ -102,15 +120,15 @@ export const GeyserUnstake = observer((props: any) => {
 				>
 					<div className={classes.balanceDiv}>
 						<Typography variant="body2" color={'textSecondary'} style={{ marginBottom: '.2rem' }}>
-							Underlying {vault.underlyingToken.symbol}:{' '}
-							{!!connectedAddress && !!vault && !!vault.geyser ? (
-								formatBalanceStaked(vault.geyser)
+							Underlying {sett.asset}:{' '}
+							{!!connectedAddress ? (
+								underlyingBalance.balanceDisplay()
 							) : (
 								<Skeleton animation="wave" className={classes.skeleton} />
 							)}
 						</Typography>
 						<Typography variant="body1" color={'textSecondary'} style={{ marginBottom: '.2rem' }}>
-							Staked {vault.symbol}:{' '}
+							Staked {`b${sett.asset}`}:{' '}
 							{connectedAddress && totalAvailable ? (
 								totalAvailable
 							) : (
@@ -120,6 +138,9 @@ export const GeyserUnstake = observer((props: any) => {
 					</div>
 					{renderAmounts}
 				</div>
+
+				<StrategyInfo vaultAddress={badgerSett.vaultToken.address} network={network} />
+
 				<TextField
 					autoComplete="off"
 					name="amount"

@@ -1,144 +1,147 @@
-import { extendObservable, action, observe } from 'mobx';
+import { extendObservable, action } from 'mobx';
 import Web3 from 'web3';
-import { PromiEvent } from 'web3-core';
-import { Contract } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
-import { estimateAndSend } from '../utils/web3';
 import { RootStore } from '../store';
-import _ from 'lodash';
-import { jsonQuery } from '../utils/helpers';
-import { reduceClaims, reduceTimeSinceLastCycle } from '../reducers/statsReducers';
 import { abi as rewardsAbi } from '../../config/system/abis/BadgerTree.json';
 import { abi as diggAbi } from '../../config/system/abis/UFragments.json';
-import { badgerTree, digg_system } from '../../config/deployments/mainnet.json';
+import { badgerTree, digg_system, tokens } from '../../config/deployments/mainnet.json';
+import BigNumber from 'bignumber.js';
+import { BadgerTree, TreeClaimData } from 'mobx/model';
+import { ClaimMap } from '../../components-v2/landing/RewardsModal';
+import { reduceClaims, reduceTimeSinceLastCycle } from 'mobx/reducers/statsReducers';
+import { TransactionReceipt } from 'web3-core';
+import { getSendOptions } from 'mobx/utils/web3';
 
 class RewardsStore {
 	private store!: RootStore;
-
-	public badgerTree?: any; // geyser contract data
+	private static defaultTree: BadgerTree = {
+		cycle: '...',
+		timeSinceLastCycle: '0h 0m',
+		proof: undefined,
+		sharesPerFragment: undefined,
+		claimableAmounts: undefined,
+		claims: undefined,
+	};
+	public badgerTree: BadgerTree;
 
 	constructor(store: RootStore) {
 		this.store = store;
+		this.badgerTree = RewardsStore.defaultTree;
 
 		extendObservable(this, {
-			badgerTree: { cycle: '...', timeSinceLastCycle: '0h 0m', claims: [0] },
+			badgerTree: this.badgerTree,
 		});
-
-		observe(this.store.wallet, 'connectedAddress', () => {
-			if (!!this.store.wallet.network.rewards) this.fetchSettRewards();
-		});
-
-		setInterval(this.fetchSettRewards, 6e4);
 	}
 
-	fetchSettRewards = action(() => {
-		const { provider, connectedAddress, network } = this.store.wallet;
+	sharesPerFragment = (): BigNumber | undefined => {
+		return this.badgerTree.sharesPerFragment;
+	};
 
-		if (!connectedAddress) return;
+	resetRewards = action(() => (this.badgerTree = RewardsStore.defaultTree));
 
-		const web3 = new Web3(provider);
-		const rewardsTree = new web3.eth.Contract(rewardsAbi as AbiItem[], badgerTree);
-		const checksumAddress = Web3.utils.toChecksumAddress(connectedAddress);
-		const diggToken = new web3.eth.Contract(diggAbi as AbiItem[], digg_system.uFragments);
+	fetchSettRewards = action(
+		async (): Promise<void> => {
+			const { provider, connectedAddress, network } = this.store.wallet;
+			const { claimProof } = this.store.user;
 
-		if (!network.rewards) {
-			this.badgerTree = undefined;
-			return;
-		}
+			if (!connectedAddress || !claimProof || !network.rewards) {
+				this.badgerTree = RewardsStore.defaultTree;
+				return;
+			}
 
-		const treeMethods = [
-			rewardsTree.methods.lastPublishTimestamp().call(),
-			rewardsTree.methods.merkleContentHash().call(),
-		];
+			this.badgerTree = RewardsStore.defaultTree;
+			const web3 = new Web3(provider);
+			const rewardsTree = new web3.eth.Contract(rewardsAbi as AbiItem[], badgerTree);
+			const diggToken = new web3.eth.Contract(diggAbi as AbiItem[], digg_system.uFragments);
 
-		Promise.all(treeMethods)
-			.then((rewardsResponse: any) => {
-				this.badgerTree = _.defaults(
-					{
-						timeSinceLastCycle: reduceTimeSinceLastCycle(rewardsResponse[0]),
-					},
-					this.badgerTree,
-				);
-				if (network.rewards) {
-					const endpointQuery = jsonQuery(`${network.rewards.endpoint}/${checksumAddress}`);
-					if (!endpointQuery) {
-						return;
-					}
-					endpointQuery
-						.then((proof: any) => {
-							if (!network.rewards) {
-								return;
-							}
-							Promise.all([
-								rewardsTree.methods.getClaimedFor(connectedAddress, proof.tokens).call(),
-								diggToken.methods._sharesPerFragment().call(),
-								rewardsTree.methods
-									.getClaimableFor(connectedAddress, proof.tokens, proof.cumulativeAmounts)
-									.call(),
-							])
-								.then((result: any[]) => {
-									if (!proof.error) {
-										this.badgerTree = _.defaults(
-											{
-												cycle: parseInt(proof.cycle, 16),
-												claims: reduceClaims(proof, result[0][0], result[0][1]),
-												sharesPerFragment: result[1],
-												proof,
-												claimableAmounts: result[2][1],
-											},
-											this.badgerTree,
-										);
-									}
-								})
-								.catch((err) => console.log(err));
-						})
-						.catch((err) => console.log('error: ', err));
-				}
-			})
-			.catch((err) => console.log(err));
-	});
+			const [timestamp, cycle, claimed, claimable, sharesPerFragment]: [
+				number,
+				number,
+				TreeClaimData,
+				TreeClaimData,
+				number,
+			] = await Promise.all([
+				rewardsTree.methods.lastPublishTimestamp().call(),
+				rewardsTree.methods.currentCycle().call(),
+				rewardsTree.methods.getClaimedFor(connectedAddress, claimProof.tokens).call(),
+				rewardsTree.methods
+					.getClaimableFor(connectedAddress, claimProof.tokens, claimProof.cumulativeAmounts)
+					.call(),
+				diggToken.methods._sharesPerFragment().call(),
+			]);
+			this.badgerTree = {
+				cycle: cycle.toString(),
+				timeSinceLastCycle: reduceTimeSinceLastCycle(timestamp),
+				proof: claimProof,
+				sharesPerFragment: new BigNumber(sharesPerFragment),
+				claims: reduceClaims(claimProof, claimed),
+				claimableAmounts: claimable[1],
+			};
 
-	claimGeysers = action((stake = false) => {
-		const { proof, claimableAmounts } = this.badgerTree;
-		const { provider, gasPrices, connectedAddress } = this.store.wallet;
-		const { queueNotification, gasPrice, setTxStatus } = this.store.uiState;
+			this.store.uiState.reduceTreeRewards();
+		},
+	);
 
-		if (!connectedAddress || !proof || !claimableAmounts) {
-			queueNotification(`Error retrieving merkle proof.`, 'error');
-			return;
-		}
+	claimGeysers = action(
+		async (claimMap: ClaimMap | undefined): Promise<void> => {
+			const { proof, claimableAmounts } = this.badgerTree;
+			const { provider, gasPrices, connectedAddress } = this.store.wallet;
+			const { queueNotification, gasPrice, setTxStatus } = this.store.uiState;
 
-		const web3 = new Web3(provider);
-		const rewardsTree = new web3.eth.Contract(rewardsAbi as AbiItem[], badgerTree);
-		const method = rewardsTree.methods.claim(
-			proof.tokens,
-			proof.cumulativeAmounts,
-			proof.index,
-			proof.cycle,
-			proof.proof,
-			claimableAmounts,
-		);
+			if (!connectedAddress || !proof || !claimableAmounts || !claimMap) {
+				queueNotification(`Error retrieving merkle proof.`, 'error');
+				return;
+			}
 
-		queueNotification(`Sign the transaction to claim your earnings`, 'info');
-		if (stake)
-			queueNotification(`You will need to approve 3 transactions in order to wrap & stake your assets`, 'info');
-		estimateAndSend(web3, gasPrices[gasPrice], method, connectedAddress, (transaction: PromiEvent<Contract>) => {
-			transaction
-				.on('transactionHash', (hash) => {
-					queueNotification(`Claim submitted.`, 'info', hash);
+			const amountsToClaim: BigNumber[] = [];
+			proof.tokens.map((address: string) => {
+				if (address === tokens.digg && !!this.badgerTree.sharesPerFragment)
+					claimMap[address] = new BigNumber(claimMap[address])
+						.multipliedBy(this.badgerTree.sharesPerFragment)
+						.multipliedBy(1e9);
+
+				const amount = claimMap[address] ? claimMap[address] : new BigNumber('0');
+				// We check to see if the number is greater than the claimable amount due to
+				// rounding on the UI.
+				new BigNumber(amount).gt(new BigNumber(claimableAmounts[proof.tokens.indexOf(address)]))
+					? amountsToClaim.push(claimableAmounts[proof.tokens.indexOf(address)])
+					: amountsToClaim.push(amount);
+			});
+
+			const web3 = new Web3(provider);
+			const rewardsTree = new web3.eth.Contract(rewardsAbi as AbiItem[], badgerTree);
+			const method = rewardsTree.methods.claim(
+				proof.tokens,
+				proof.cumulativeAmounts,
+				proof.index,
+				proof.cycle,
+				proof.proof,
+				amountsToClaim,
+			);
+
+			queueNotification(`Sign the transaction to claim your earnings`, 'info');
+
+			const price = gasPrices[gasPrice];
+			const options = await getSendOptions(method, connectedAddress, price);
+			await method
+				.send(options)
+				/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
+				.on('transactionHash', (_hash: string) => {
+					// TODO: Hash seems to do nothing - investigate this?
+					queueNotification(`Claim submitted.`, 'info');
 				})
-				.on('receipt', () => {
+				/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
+				.on('receipt', (_receipt: TransactionReceipt) => {
 					queueNotification(`Rewards claimed.`, 'success');
 					this.fetchSettRewards();
-					this.store.contracts.fetchContracts();
+					this.store.user.updateBalances();
 				})
-				.catch((error: any) => {
-					this.store.contracts.fetchContracts();
+				.on('error', (error: Error) => {
 					queueNotification(error.message, 'error');
 					setTxStatus('error');
 				});
-		});
-	});
+		},
+	);
 }
 
 export default RewardsStore;

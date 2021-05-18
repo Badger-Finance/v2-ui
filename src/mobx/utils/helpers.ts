@@ -1,73 +1,6 @@
 import BigNumber from 'bignumber.js';
-import { RootStore } from 'mobx/store';
 import { ExchangeRates } from 'mobx/model';
-
-export const graphQuery = (address: string, store: RootStore): Promise<any>[] => {
-	const { network } = store.wallet;
-	if (!network.tokens) {
-		return [];
-	}
-	return network.tokens.priceEndpoints.map((endpoint: any) => {
-		return fetch(endpoint, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				Accept: 'application/json',
-			},
-			body: JSON.stringify({
-				query: `{  
-					token(id: "${address.toLowerCase()}") {
-						id
-						derivedETH
-						symbol
-						name
-					}
-					pair(id: "${address.toLowerCase()}") {
-						id
-						reserveETH
-						totalSupply
-						reserve0
-						reserve1
-						token0{
-							id
-							name
-							symbol
-							derivedETH
-						  }
-						   token1{
-							id
-							name
-							symbol
-							derivedETH
-						  }
-					}
-				}`,
-			}),
-		}).then((response: any) => response.json());
-	});
-};
-export const chefQueries = (pairs: any[], contracts: any[], growthEndpoint: string): Promise<any>[] => {
-	return pairs.map((pair: any) => {
-		return fetch(growthEndpoint, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				Accept: 'application/json',
-			},
-			body: JSON.stringify({
-				query: `{
-					masterChefs {
-						pools(where: {id:"${contracts[pair].onsenId}"}) {
-							allocPoint
-							slpBalance
-						}
-						totalAllocPoint
-					}
-				}`,
-			}),
-		}).then((response: any) => response.json());
-	});
-};
+import { ZERO } from '../../config/constants';
 
 export const jsonQuery = (url: string | undefined): Promise<Response> | undefined => {
 	if (!url) return;
@@ -119,24 +52,6 @@ export const getBdiggExchangeRates = async (): Promise<Response> => {
 			},
 		},
 	).then((response: any) => response.json());
-};
-
-export const growthQuery = (block: number): Promise<Response> => {
-	return fetch(`https://api.thegraph.com/subgraphs/name/m4azey/badger-finance`, {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json',
-			Accept: 'application/json',
-		},
-		body: JSON.stringify({
-			query: `
-			{
-			vaults(block:{number:${block}}) {
-				id, pricePerFullShare
-			}
-		}`,
-		}),
-	}).then((data) => data.json());
 };
 
 export const secondsToBlocks = (seconds: number): number => {
@@ -349,6 +264,25 @@ export const formatTokens = (value: BigNumber, decimals = 5): string => {
 	}
 };
 
+/**
+ * Converts a bignumber instance to a string equivalent with the provided number of decimals.
+ * If the amount is smaller than 10 ** decimals, scientific notation is used.
+ * @param amount amount to be converted
+ * @param decimals decimals the the converted amount will have
+ */
+export const toFixedDecimals = (amount: BigNumber, decimals: number): string => {
+	if (amount.isNaN() || amount.isZero()) {
+		return ZERO.toFixed(decimals, BigNumber.ROUND_HALF_FLOOR);
+	}
+
+	if (amount.lt(10 ** -decimals)) {
+		const normalizedValue = amount.multipliedBy(10 ** decimals);
+		return `${normalizedValue.toFixed(decimals, BigNumber.ROUND_HALF_FLOOR)}e-${decimals}`;
+	}
+
+	return amount.toFixed(decimals, BigNumber.ROUND_HALF_FLOOR);
+};
+
 export const numberWithCommas = (x: string): string => {
 	const parts = x.toString().split('.');
 	parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -381,11 +315,6 @@ const reduceMarketChart = (data: any[], range: number, maxDate: Date) => {
 		// in ascending order up to the max date requested
 		if (range <= 90) date.setHours(maxDate.getHours() - (data.length - index));
 		else date.setDate(maxDate.getDate() - (data.length - index));
-
-		// let change = value[1]
-		// if (chart === 'total_volumes') {
-		// 	change = change / 1e9
-		// }
 
 		return {
 			date: date,
@@ -426,3 +355,5 @@ export function marketChartStats(
 
 	return { high, low, avg, median };
 }
+
+export const toHex = (amount: BigNumber): string => '0x' + amount.toString(16);

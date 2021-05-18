@@ -1,9 +1,12 @@
 import { extendObservable, action, observe } from 'mobx';
 import { RootStore } from '../store';
-import { reduceAirdrops, reduceContractsToStats, reduceRebase } from './statsReducers';
 import BigNumber from 'bignumber.js';
 import views from 'config/routes';
+import WalletStore from 'mobx/stores/walletStore';
 
+/**
+ * TODO: save this class' poor soul
+ */
 class UiState {
 	private readonly store!: RootStore;
 
@@ -11,7 +14,7 @@ class UiState {
 	public period!: string;
 
 	/**
-	 * TODO: Add types.
+	 * TODO: Add types. soon. :(
 	 */
 	public collection: any;
 	public stats?: any;
@@ -54,13 +57,9 @@ class UiState {
 				oraclePrice: new BigNumber(1),
 				btcPrice: new BigNumber(0),
 			},
-
-			treeStats: { claims: [] },
 			airdropStats: {},
-
 			currency: window.localStorage.getItem(`${network.name}-selectedCurrency`) || 'usd',
 			period: window.localStorage.getItem(`${network.name}-selectedPeriod`) || 'year',
-
 			sidebarOpen: !!window && window.innerWidth > 960,
 			hideZeroBal: !!window.localStorage.getItem(`${network.name}-hideZeroBal`),
 			notification: {},
@@ -68,16 +67,10 @@ class UiState {
 			txStatus: undefined,
 		});
 
-		// TODO: Check implications of decreasing polling rate
-		setInterval(() => {
-			this.reduceStats();
-			this.reduceRebase();
-			this.reduceAirdrops();
-			this.reduceTreeRewards();
-		}, 10000);
-
-		observe(this.store.wallet as any, 'connectedAddress', () => {
-			if (!this.store.wallet.connectedAddress) this.setHideZeroBal(false);
+		observe(this.store.wallet as WalletStore, 'connectedAddress', () => {
+			if (!this.store.wallet.connectedAddress) {
+				this.setHideZeroBal(false);
+			}
 		});
 
 		// hide the sidebar
@@ -86,38 +79,32 @@ class UiState {
 		};
 	}
 
-	queueNotification = action((message: string, variant: string, hash: any = false) => {
+	queueNotification = action((message: string, variant: string, hash?: string) => {
 		this.notification = { message, variant, persist: false, hash: hash };
 	});
 
+	// TODO: this does nothing?
 	setTxStatus = action((status?: string) => {
 		this.txStatus = status;
-	});
-
-	reduceStats = action(() => {
-		try {
-			const newStats = reduceContractsToStats(this.store);
-			this.stats = !!newStats ? reduceContractsToStats(this.store) : this.stats;
-		} catch (err) {
-			console.log('error reducing stats', err);
-		}
 	});
 
 	reduceTreeRewards = action(() => {
 		this.treeStats = this.store.rewards.badgerTree;
 	});
 
-	reduceAirdrops = action(() => {
-		this.airdropStats = reduceAirdrops(this.store.airdrops.airdrops, this.store);
-	});
-
 	reduceRebase = action(() => {
-		const { tokens } = this.store.contracts;
-		if (!!this.store.rebase.rebase && !!tokens[this.store.wallet.network.deploy.tokens.wBTC])
-			this.rebaseStats = reduceRebase(
-				this.store.rebase.rebase,
-				tokens[this.store.wallet.network.deploy.tokens.wBTC],
-			);
+		const rebaseInfo = this.store.rebase.rebase;
+		const wbtc = this.store.wallet.network.deploy.tokens.wBTC;
+		const wbtcPrice = this.store.setts.getPrice(wbtc);
+
+		if (!!rebaseInfo) {
+			this.rebaseStats = {
+				oraclePrice: wbtcPrice.times(rebaseInfo.oracleRate),
+				btcPrice: wbtcPrice,
+				totalSupply: rebaseInfo.totalSupply,
+				nextRebase: rebaseInfo.nextRebase,
+			};
+		}
 	});
 
 	setGasPrice = action((gasPrice: string) => {
@@ -125,6 +112,7 @@ class UiState {
 		const { network } = this.store.wallet;
 		window.localStorage.setItem(`${network.name}-selectedGasPrice`, gasPrice);
 	});
+
 	setHideZeroBal = action((hide: boolean) => {
 		this.hideZeroBal = hide;
 		const { network } = this.store.wallet;
@@ -137,11 +125,13 @@ class UiState {
 		const { network } = this.store.wallet;
 		window.localStorage.setItem(`${network.name}-selectedCurrency`, currency);
 	});
+
 	setPeriod = action((period: string) => {
 		this.period = period;
 		const { network } = this.store.wallet;
 		window.localStorage.setItem(`${network.name}-selectedPeriod`, period);
 	});
+
 	unlockApp = action((password: string) => {
 		this.locked = !(password === 'BADger');
 
@@ -150,9 +140,11 @@ class UiState {
 
 		if (!this.locked) this.store.router.goTo(views.home);
 	});
+
 	openSidebar = action(() => {
 		this.sidebarOpen = true;
 	});
+
 	closeSidebar = action(() => {
 		this.sidebarOpen = window.innerWidth >= 960;
 	});

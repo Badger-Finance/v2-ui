@@ -2,27 +2,15 @@ import CurrencyInfoCard from '../components-v2/common/CurrencyInfoCard';
 import CurrencyPicker from '../components-v2/landing/CurrencyPicker';
 import SamplePicker from '../components-v2/landing/SamplePicker';
 import WalletSlider from '../components-v2/landing/WalletSlider';
-import {
-	Grid,
-	Container,
-	makeStyles,
-	ListItemText,
-	Typography,
-	Paper,
-	List,
-	ListItem,
-	Button,
-	ButtonGroup,
-} from '@material-ui/core';
+import { Grid, Container, makeStyles, Button } from '@material-ui/core';
 import PageHeader from '../components-v2/common/PageHeader';
-import { CLAIMS_SYMBOLS } from 'config/constants';
-import { inCurrency } from '../mobx/utils/helpers';
-import _ from 'lodash';
+
 import { StoreContext } from '../mobx/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
 import BigNumber from 'bignumber.js';
 import SettList from 'components-v2/landing/SettList';
+import { RewardsModal } from '../components-v2/landing/RewardsModal';
 
 const useStyles = makeStyles((theme) => ({
 	landingContainer: {
@@ -68,12 +56,22 @@ const useStyles = makeStyles((theme) => ({
 		padding: 0,
 		flexWrap: 'wrap',
 	},
+	walletContainer: {
+		[theme.breakpoints.down('xs')]: {
+			marginTop: theme.spacing(1),
+		},
+	},
 	pickerContainer: {
+		display: 'flex',
 		marginRight: theme.spacing(1),
+		alignItems: 'flex-end',
+		[theme.breakpoints.down('xs')]: {
+			marginBottom: theme.spacing(2),
+			marginTop: theme.spacing(-1),
+		},
 	},
 	announcementButton: {
 		marginTop: theme.spacing(3),
-		width: '50%',
 		pointerEvents: 'none',
 	},
 }));
@@ -89,47 +87,19 @@ const Landing = observer((props: LandingProps) => {
 
 	const {
 		wallet: { connectedAddress, network },
-		rewards: { claimGeysers, badgerTree },
-		uiState: { stats, currency },
+		rewards: { badgerTree },
+		uiState: { currency },
+		setts,
+		user,
 	} = store;
-	const { setts } = store;
 	const { protocolSummary } = setts;
 	const userConnected = !!connectedAddress;
 
-	const availableRewards = () => {
-		if (!badgerTree || !badgerTree.claims) return;
-		return badgerTree.claims.map((claim: any[]) => {
-			const { network } = store.wallet;
-			const claimAddress: string = claim[0];
-			const claimValue = claim
-				? claim[1].dividedBy(
-						claimAddress === network.deploy.tokens.digg
-							? badgerTree.sharesPerFragment * 1e9
-							: claimAddress === network.deploy.tokens.usdc
-							? 1e6
-							: 1e18,
-				  )
-				: claim[1];
-			const claimDisplay = inCurrency(claimValue, 'eth', true);
-			return (
-				parseFloat(claimDisplay) > 0 && (
-					<ListItemText
-						key={claimAddress}
-						primary={claimDisplay}
-						className={classes.rewardText}
-						secondary={`${CLAIMS_SYMBOLS[network.name][claimAddress]} Available to Claim`}
-					/>
-				)
-			);
-		});
-	};
-
 	const totalValueLocked = protocolSummary ? new BigNumber(protocolSummary.totalValue) : undefined;
 	const badgerPrice = network.deploy ? setts.getPrice(network.deploy.token) : undefined;
-	const badgerPriceDisplay = badgerPrice ? new BigNumber(badgerPrice) : undefined;
-	const portfolioValue = userConnected ? stats.stats.portfolio : undefined;
-	const rewards = _.compact(availableRewards());
+	const portfolioValue = userConnected && !user.loadingBalances ? user.portfolioValue() : undefined;
 
+	const hasRewards = new Boolean(!!network.rewards && !!connectedAddress && badgerTree && badgerTree.claims);
 	return (
 		<Container className={classes.landingContainer}>
 			{/* Landing Metrics Cards */}
@@ -145,19 +115,15 @@ const Landing = observer((props: LandingProps) => {
 					)}
 				</Grid>
 				<Grid item xs={12} className={classes.widgetContainer}>
-					<div>{userConnected && <WalletSlider />}</div>
+					<div className={classes.walletContainer}>{userConnected && <WalletSlider />}</div>
 					<div className={classes.pickerContainer}>
+						{hasRewards && <RewardsModal />}
 						<SamplePicker />
 						<CurrencyPicker />
 					</div>
 				</Grid>
 				<Grid item xs={12} md={userConnected ? 4 : 6}>
-					<CurrencyInfoCard
-						title="Total Value Locked"
-						value={totalValueLocked}
-						currency={currency}
-						isUsd={true}
-					/>
+					<CurrencyInfoCard title="Total Value Locked" value={totalValueLocked} currency={currency} />
 				</Grid>
 				{userConnected && (
 					<Grid item xs={12} md={4}>
@@ -165,7 +131,7 @@ const Landing = observer((props: LandingProps) => {
 					</Grid>
 				)}
 				<Grid item xs={12} md={userConnected ? 4 : 6}>
-					<CurrencyInfoCard title="Badger Price" value={badgerPriceDisplay} currency={currency} />
+					<CurrencyInfoCard title="Badger Price" value={badgerPrice} currency={currency} />
 				</Grid>
 			</Grid>
 
@@ -175,38 +141,6 @@ const Landing = observer((props: LandingProps) => {
 				</Button>
 			</Grid>
 
-			{/* Landing Claim Functionality */}
-			{!!network.rewards &&
-				!!connectedAddress &&
-				badgerTree &&
-				rewards.length > 0 &&
-				badgerTree.claims.length > 0 && (
-					<>
-						<Grid item xs={12} style={{ textAlign: 'center', paddingBottom: 0 }}>
-							<Typography className={classes.marginTop} variant="subtitle1" color="textPrimary">
-								Available Rewards:
-							</Typography>
-						</Grid>
-						<Grid className={classes.rewardContainer} item xs={12} md={6}>
-							<Paper className={classes.statPaper}>
-								<List style={{ padding: 0, textAlign: 'center' }}>
-									<ListItem className={classes.rewardItem}>{rewards}</ListItem>
-									<ButtonGroup size="small" variant="outlined" color="primary">
-										<Button
-											className={classes.marginTop}
-											onClick={() => {
-												claimGeysers(false);
-											}}
-											variant="contained"
-										>
-											Claim
-										</Button>
-									</ButtonGroup>
-								</List>
-							</Paper>
-						</Grid>
-					</>
-				)}
 			<SettList experimental={experimental} />
 		</Container>
 	);

@@ -1,108 +1,23 @@
 import BigNumber from 'bignumber.js';
 import Web3 from 'web3';
-import { Contract, ContractSendMethod } from 'web3-eth-contract';
-import { PromiEvent } from 'web3-core';
-import { AbiItem } from 'web3-utils';
-import { BatchConfig, TokenContract, DeployConfig, Network, BscNetwork, EthNetwork } from '../model';
-import { NETWORK_LIST, NETWORK_IDS } from '../../config/constants';
-import deploy from '../../config/deployments/mainnet.json';
-import bscDeploy from '../../config/deployments/bsc.json';
+import { ContractSendMethod, EstimateGasOptions, SendOptions } from 'web3-eth-contract';
+import { TokenContract } from '../model';
 
-export const getNetwork = (network?: string): Network => {
-	switch (network) {
-		case NETWORK_LIST.BSC:
-			return new BscNetwork();
-		case NETWORK_LIST.ETH:
-			return new EthNetwork();
-		default:
-			return new EthNetwork();
-	}
-};
-
-export const getNetworkId = (network: string | undefined): number => {
-	switch (network) {
-		case NETWORK_LIST.BSC:
-			return 56;
-		// case NETWORK_LIST.XDAI:
-		// 	return 100;
-		// case NETWORK_LIST.FTM:
-		// 	return 250;
-		// case NETWORK_LIST.MATIC:
-		// 	return 137;
-		default:
-			return 1;
-	}
-};
-
-export const getNetworkNameFromId = (network: number): string | undefined => {
-	switch (network) {
-		case NETWORK_IDS.BSC:
-			return NETWORK_LIST.BSC;
-		case NETWORK_IDS.ETH:
-			return NETWORK_LIST.ETH;
-		default:
-			return undefined;
-	}
-};
-
-export const getNetworkDeploy = (network?: string | undefined): DeployConfig => {
-	switch (network) {
-		case NETWORK_LIST.BSC:
-			return bscDeploy;
-		case NETWORK_LIST.ETH:
-			return deploy;
-		default:
-			return {};
-	}
-};
-
-export const estimateAndSend = (
-	web3: Web3,
-	gasPrice: number,
+export const getSendOptions = async (
 	method: ContractSendMethod,
-	address: string,
-	// eslint-disable-next-line autofix/no-unused-vars
-	callback: (transaction: PromiEvent<Contract>) => void,
-): void => {
+	from: string,
+	gasPrice: number,
+): Promise<SendOptions> => {
 	const gasWei = new BigNumber(gasPrice.toFixed(0));
-
-	method.estimateGas(
-		{
-			from: address,
-			gas: gasWei.toNumber(),
-		},
-		(error: any, gasLimit: number) => {
-			callback(
-				method.send({
-					from: address,
-					gas: Math.floor(gasLimit * 1.2),
-					gasPrice: gasWei.multipliedBy(1e9).toFixed(0),
-				}),
-			);
-		},
-	);
-};
-
-export const batchConfig = (namespace: string, addresses: any[], methods: any[], abi: AbiItem): BatchConfig => {
-	let readMethods = {};
-	let abiFile = {};
-
-	if (methods.length > 0)
-		readMethods = {
-			readMethods: methods,
-		};
-	if (!!abi)
-		abiFile = {
-			abi: abi,
-		};
+	const options: EstimateGasOptions = {
+		from,
+		gas: gasWei.toNumber(),
+	};
+	const limit = await method.estimateGas(options);
 	return {
-		namespace,
-		addresses: addresses.map((address: string) => Web3.utils.toChecksumAddress(address)),
-		allReadMethods: false,
-		groupByNamespace: true,
-		logging: false,
-		...readMethods,
-		...abiFile,
+		from,
+		gas: Math.floor(limit * 1.2),
+		gasPrice: gasWei.multipliedBy(1e9).toFixed(0),
 	};
 };
 

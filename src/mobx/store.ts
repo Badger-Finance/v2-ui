@@ -11,6 +11,7 @@ import SettStore from './stores/SettStore';
 import { NETWORK_LIST } from '../config/constants';
 import { HoneyPotStore } from './stores/honeyPotStore';
 import UserStore from './stores/UserStore';
+import { LeaderBoardStore } from './stores/LeaderBoardStore';
 
 export class RootStore {
 	public router: RouterStore<RootStore>;
@@ -25,6 +26,7 @@ export class RootStore {
 	public bridge: BridgeStore;
 	public honeyPot: HoneyPotStore;
 	public user: UserStore;
+	public leaderBoard: LeaderBoardStore;
 
 	constructor() {
 		this.router = new RouterStore<RootStore>(this);
@@ -40,39 +42,31 @@ export class RootStore {
 		this.honeyPot = new HoneyPotStore(this);
 		this.setts = new SettStore(this);
 		this.user = new UserStore(this);
-
-		this.walletRefresh();
+		this.leaderBoard = new LeaderBoardStore(this);
 	}
 
 	async walletRefresh(): Promise<void> {
 		const chain = this.wallet.network.name;
+		this.rewards.resetRewards();
+
 		const refreshData = [
 			this.setts.loadAssets(chain),
 			this.setts.loadPrices(chain),
 			this.wallet.getGasPrice(),
-			this.contracts.updateProvider(),
+			this.setts.loadSetts(chain),
 		];
 		if (chain === NETWORK_LIST.ETH) {
-			refreshData.push(this.setts.loadGeysers(chain));
 			refreshData.push(this.rebase.fetchRebaseStats());
-		} else {
-			refreshData.push(this.setts.loadSetts(chain));
+			refreshData.push(this.rewards.fetchSettRewards());
 		}
 		await Promise.all(refreshData);
 
 		if (this.wallet.connectedAddress) {
-			this.contracts.updateProvider();
-			await this.wallet.getGasPrice();
-			await this.contracts.fetchContracts();
+			this.user.updateBalances();
 			if (chain === NETWORK_LIST.ETH) {
-				this.uiState.reduceRebase();
 				this.ibBTCStore.init();
-				this.rewards.fetchSettRewards();
-				this.uiState.reduceTreeRewards();
 				this.airdrops.fetchAirdrops();
-				this.uiState.reduceAirdrops();
 			}
-			this.uiState.reduceStats();
 		}
 	}
 }

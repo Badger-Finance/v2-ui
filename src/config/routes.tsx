@@ -16,6 +16,7 @@ import { IbBTC } from 'components/IbBTC';
 import { FLAGS } from 'config/constants';
 import { Bridge } from '../components/Bridge';
 import { HoneybadgerDrop } from 'components/HoneybadgerDrop';
+import BoostLeaderBoard from 'pages/BoostLeaderBoard';
 
 const routes = {
 	locked: new Route<RootStore>({
@@ -25,19 +26,11 @@ const routes = {
 	home: new Route<RootStore>({
 		path: '/',
 		component: <Landing experimental={false} />,
-		onEnter: (_, params, store) => {
-			store.rewards.fetchSettRewards();
-		},
 	}),
-
 	experimental: new Route<RootStore>({
 		path: '/experimental',
 		component: FLAGS.EXPERIMENTAL_VAULTS ? <Landing experimental={true} /> : <></>,
-		onEnter: (_, params, store) => {
-			store.rewards.fetchSettRewards();
-		},
 	}),
-
 	airdrops: new Route<RootStore, QueryParams>({
 		path: '/airdrops',
 		component: <Airdrops />,
@@ -48,9 +41,10 @@ const routes = {
 	digg: new Route<RootStore, QueryParams>({
 		path: '/digg',
 		component: <Digg />,
-		onEnter: (_, params, store) => {
-			store.rebase.fetchRebaseStats();
-		},
+	}),
+	honeybadgerDrop: new Route<RootStore, QueryParams>({
+		path: '/honey-badger-drop',
+		component: <HoneybadgerDrop />,
 	}),
 	IbBTC: new Route<RootStore, QueryParams>({
 		path: '/ibBTC',
@@ -58,11 +52,12 @@ const routes = {
 	}),
 	bridge: new Route<RootStore, QueryParams>({
 		path: '/bridge',
-		component: FLAGS.BRIDGE_FLAG ? <Bridge /> : <></>,
+		component: <Bridge />,
 	}),
-	honeybadgerDrop: new Route<RootStore, QueryParams>({
-		path: '/honey-badger-drop',
-		component: <HoneybadgerDrop />,
+	boostLeaderBoard: new Route<RootStore, QueryParams>({
+		path: '/leaderboard',
+		component: <BoostLeaderBoard />,
 	}),
 };
+
 export default routes;

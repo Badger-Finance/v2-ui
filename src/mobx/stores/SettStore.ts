@@ -1,6 +1,6 @@
-import { extendObservable, action } from 'mobx';
+import { extendObservable, action, observe, IValueDidChange } from 'mobx';
 import { RootStore } from '../store';
-import { getTokenPrices, getTotalValueLocked, listGeysers, listSetts } from 'mobx/utils/apiV2';
+import { getTokenPrices, getTotalValueLocked, listSetts } from 'mobx/utils/apiV2';
 import { PriceSummary, Sett, ProtocolSummary, SettMap } from 'mobx/model';
 import { NETWORK_LIST } from 'config/constants';
 import Web3 from 'web3';
@@ -27,11 +27,19 @@ export default class SettStore {
 			priceCache: undefined,
 		});
 
+		observe(this.store.wallet, 'currentBlock', async (change: IValueDidChange<number | undefined>) => {
+			if (change.oldValue !== change.newValue) {
+				this.refresh();
+			}
+		});
+
 		this.settCache = {};
 		this.settMapCache = {};
 		this.experimentalMapCache = {};
 		this.protocolSummaryCache = {};
 		this.priceCache = {};
+
+		this.refresh();
 	}
 
 	get settList(): Sett[] | undefined | null {
@@ -50,34 +58,37 @@ export default class SettStore {
 		return this.protocolSummaryCache[this.store.wallet.network.name];
 	}
 
-	getPrice(address: string): BigNumber | undefined {
-		return this.priceCache[Web3.utils.toChecksumAddress(address)]
-			? this.priceCache[Web3.utils.toChecksumAddress(address)]
-			: undefined;
+	getPrice(address: string): BigNumber {
+		return this.priceCache[Web3.utils.toChecksumAddress(address)] ?? new BigNumber(0);
 	}
 
-	loadSetts = action(async (chain?: string): Promise<void> => this.loadSettList(listSetts, chain));
-	loadGeysers = action(async (chain?: string): Promise<void> => this.loadSettList(listGeysers, chain));
-
-	loadSettList = action(async (load: (chain?: string) => Promise<Sett[] | null>, chain?: string) => {
-		// load interface, or display loading
-		chain = chain ?? NETWORK_LIST.ETH;
-		const settList = await load(chain);
-		if (settList) {
-			this.settCache[chain] = settList;
-			[this.settMapCache[chain], this.experimentalMapCache[chain]] = this.keySettByContract(settList);
+	private refresh(): void {
+		const network = this.store.wallet.network;
+		if (network) {
+			this.loadSetts(network.name);
+			this.loadPrices(network.name);
+			this.loadAssets(network.name);
 		}
-	});
+	}
+
+	loadSetts = action(
+		async (chain?: string): Promise<void> => {
+			chain = chain ?? NETWORK_LIST.ETH;
+			const settList = await listSetts(chain);
+			if (settList) {
+				this.settCache[chain] = settList;
+				[this.settMapCache[chain], this.experimentalMapCache[chain]] = this.keySettByContract(settList);
+			}
+		},
+	);
 
 	loadPrices = action(
 		async (network?: string): Promise<void> => {
 			const prices = await getTokenPrices(network);
 			if (prices) {
-				Object.keys(prices).forEach((key) => {
-					const value = prices[key];
-					if (value) {
-						prices[key] = new BigNumber(value).multipliedBy(1e18);
-					}
+				Object.entries(prices).forEach((entry) => {
+					const [key, value] = entry;
+					prices[key] = new BigNumber(value);
 				});
 				this.priceCache = {
 					...this.priceCache,

@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from 'mobx/store-context';
-import { Sett, Vault } from '../../mobx/model';
+import { Sett } from '../../mobx/model';
 import SettListDisplay from './SettListDisplay';
 import UserListDisplay from './UserListDisplay';
 
 export interface SettListViewProps {
-	onOpen: (vault: Vault, sett: Sett) => void;
+	onOpen: (sett: Sett) => void;
 	experimental: boolean;
 }
 
@@ -19,13 +19,11 @@ const SettListView = observer((props: SettListViewProps) => {
 		wallet: { connectedAddress },
 	} = store;
 
+	const showUserDisplay = hideZeroBal && connectedAddress;
 	return (
 		<>
-			{hideZeroBal && connectedAddress ? (
-				<UserListDisplay experimental={experimental} onOpen={onOpen} />
-			) : (
-				<SettListDisplay experimental={experimental} onOpen={onOpen} />
-			)}
+			{showUserDisplay && <UserListDisplay experimental={experimental} onOpen={onOpen} />}
+			{!showUserDisplay && <SettListDisplay experimental={experimental} onOpen={onOpen} />}
 		</>
 	);
 });

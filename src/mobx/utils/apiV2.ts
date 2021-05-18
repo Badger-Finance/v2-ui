@@ -1,4 +1,13 @@
-import { Eligibility, PriceSummary, ProtocolSummary, Sett, BouncerProof, Account } from 'mobx/model';
+import {
+	Eligibility,
+	PriceSummary,
+	ProtocolSummary,
+	Sett,
+	BouncerProof,
+	Account,
+	RewardMerkleClaim,
+	LeaderBoardData,
+} from 'mobx/model';
 
 export const getApi = (): string => {
 	if (process.env.REACT_APP_BUILD_ENV === 'production') {
@@ -10,20 +19,17 @@ const badgerApi = getApi();
 
 // api endpoints
 const listSettsEndpoint = `${badgerApi}/setts`;
-const listGeysersEndpoint = `${badgerApi}/geysers`;
 const getPricesEndpoint = `${badgerApi}/prices`;
 const getTVLEndpoint = `${badgerApi}/value`;
 const checkShopEndpoint = `${badgerApi}/reward/shop`;
 const getBouncerProofEndpoint = `${badgerApi}/reward/bouncer`;
 const getAccountDetailsEndpoint = `${badgerApi}/accounts`;
+const getClaimProofEndpoint = `${badgerApi}/reward/tree`;
+const getLeaderBoardDataEndpoint = `${badgerApi}/leaderboards`;
 
 // api function calls
 export const listSetts = async (chain?: string): Promise<Sett[] | null> => {
 	return fetchData(() => fetch(`${listSettsEndpoint}${chain ? `?chain=${chain}` : ''}`));
-};
-
-export const listGeysers = async (chain?: string): Promise<Sett[] | null> => {
-	return fetchData(() => fetch(`${listGeysersEndpoint}${chain ? `?chain=${chain}` : ''}`));
 };
 
 export const getTokenPrices = async (chain?: string, currency?: string): Promise<PriceSummary | null> => {
@@ -33,7 +39,7 @@ export const getTokenPrices = async (chain?: string, currency?: string): Promise
 };
 
 export const getTotalValueLocked = async (network?: string): Promise<ProtocolSummary | null> => {
-	return fetchData(() => fetch(`${getTVLEndpoint}?chain=${network ? network : 'eth'}`));
+	return fetchData(() => fetch(`${getTVLEndpoint}?chain=${network ? network : 'eth'}&currency=eth`));
 };
 
 export const checkShopEligibility = async (address: string): Promise<Eligibility | null> => {
@@ -48,13 +54,22 @@ export const getAccountDetails = async (address: string, chain?: string): Promis
 	return fetchData(() => fetch(`${getAccountDetailsEndpoint}/${address}?chain=${chain ? chain : 'eth'}`));
 };
 
+export const fetchClaimProof = async (address: string): Promise<RewardMerkleClaim | null> => {
+	return fetchData(() => fetch(`${getClaimProofEndpoint}/${address}`));
+};
+
+export const fetchLeaderBoardData = async (page: number, size: number): Promise<LeaderBoardData | null> => {
+	return fetchData(() => fetch(`${getLeaderBoardDataEndpoint}?page=${page}&size=${size}`));
+};
+
 const fetchData = async <T>(request: () => Promise<Response>): Promise<T | null> => {
 	try {
 		const response = await request();
 		if (!response.ok) {
 			return null;
 		}
-		return response.json();
+		// purposefully await to use try / catch
+		return await response.json();
 	} catch {
 		return null;
 	}
