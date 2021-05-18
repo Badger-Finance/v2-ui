@@ -56,9 +56,19 @@ const useStyles = makeStyles((theme) => ({
 		padding: 0,
 		flexWrap: 'wrap',
 	},
+	walletContainer: {
+		[theme.breakpoints.down('xs')]: {
+			marginTop: theme.spacing(1),
+		},
+	},
 	pickerContainer: {
 		display: 'flex',
 		marginRight: theme.spacing(1),
+		alignItems: 'flex-end',
+		[theme.breakpoints.down('xs')]: {
+			marginBottom: theme.spacing(2),
+			marginTop: theme.spacing(-1),
+		},
 	},
 	announcementButton: {
 		marginTop: theme.spacing(3),
@@ -105,7 +115,7 @@ const Landing = observer((props: LandingProps) => {
 					)}
 				</Grid>
 				<Grid item xs={12} className={classes.widgetContainer}>
-					<div>{userConnected && <WalletSlider />}</div>
+					<div className={classes.walletContainer}>{userConnected && <WalletSlider />}</div>
 					<div className={classes.pickerContainer}>
 						{hasRewards && <RewardsModal />}
 						<SamplePicker />

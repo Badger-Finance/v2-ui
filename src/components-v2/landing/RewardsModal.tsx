@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme: Theme) =>
 			width: '100%',
 			marginTop: theme.spacing(2),
 		},
-		openModalButton: { marginRight: theme.spacing(1) },
+		openModalButton: { marginRight: theme.spacing(1), height: '1.8rem' },
 		maxAllButton: {
 			maxWidth: '25%',
 			marginLeft: 'auto',
@@ -56,7 +56,14 @@ const useStyles = makeStyles((theme: Theme) =>
 			marginTop: theme.spacing(1),
 		},
 		amountDisplay: {
+			marginTop: 'auto',
+			marginBottom: 'auto',
 			paddingRight: theme.spacing(1),
+		},
+		widgetContainer: {
+			[theme.breakpoints.down('xs')]: {
+				marginBottom: theme.spacing(2),
+			},
 		},
 	}),
 );
@@ -148,15 +155,17 @@ export const RewardsModal = observer(() => {
 	const totalClaimValue = rewardReturn.totalClaimValue;
 
 	return userRewards.length > 0 ? (
-		<div>
-			<Typography variant="caption" className={classes.amountDisplay}>
-				{inCurrency(totalClaimValue, currency, true, 2)} in Rewards
-			</Typography>
-			<ButtonGroup className={classes.openModalButton} size="small" variant="outlined" color="primary">
-				<Button variant="contained" onClick={handleOpen}>
-					CLAIM REWARDS
-				</Button>
-			</ButtonGroup>
+		<Grid>
+			<Grid container direction="column">
+				<Typography variant="caption" className={classes.amountDisplay}>
+					{inCurrency(totalClaimValue, currency, true, 2)} in Rewards
+				</Typography>
+				<ButtonGroup className={classes.openModalButton} size="small" variant="outlined" color="primary">
+					<Button variant="contained" onClick={handleOpen}>
+						CLAIM REWARDS
+					</Button>
+				</ButtonGroup>
+			</Grid>
 
 			<Modal
 				aria-labelledby="claim-modal"
@@ -206,7 +215,7 @@ export const RewardsModal = observer(() => {
 					</div>
 				</Fade>
 			</Modal>
-		</div>
+		</Grid>
 	) : (
 		<> </>
 	);
