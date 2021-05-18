@@ -51,7 +51,7 @@ exports[`Landing Page Renders correctly 1`] = `
                 role="button"
                 tabindex="0"
               >
-                75
+                52
               </div>
               <input
                 aria-hidden="true"
@@ -272,33 +272,1714 @@ exports[`Landing Page Renders correctly 1`] = `
       class="makeStyles-settListContainer-307"
     >
       <div
-        class="makeStyles-loaderContainer-308"
+        class="MuiGrid-root-19 makeStyles-headerContainer-336 MuiGrid-container-20"
       >
         <div
-          class="MuiCircularProgress-root-310 MuiCircularProgress-colorPrimary-314 MuiCircularProgress-indeterminate-312"
-          role="progressbar"
-          style="width: 60px; height: 60px;"
+          class="MuiGrid-root-19 makeStyles-vauleItem-337 MuiGrid-container-20 MuiGrid-spacing-xs-1-42 MuiGrid-item-21 MuiGrid-grid-xs-12-65 MuiGrid-grid-sm-4-71"
         >
-          <svg
-            class="MuiCircularProgress-svg-316"
-            viewBox="22 22 44 44"
+          <div
+            class="MuiGrid-root-19 MuiGrid-item-21"
           >
-            <circle
-              class="MuiCircularProgress-circle-317 MuiCircularProgress-circleIndeterminate-319"
-              cx="44"
-              cy="44"
-              fill="none"
-              r="20.2"
-              stroke-width="3.6"
-            />
-          </svg>
+            <p
+              class="MuiTypography-root-125 MuiTypography-body1-127 MuiTypography-colorTextPrimary-150"
+            >
+              All Setts
+            </p>
+          </div>
+          <div
+            class="MuiGrid-root-19 MuiGrid-item-21"
+          >
+            <div
+              class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-align-items-xs-center-28"
+            >
+              <p
+                class="MuiTypography-root-125 MuiTypography-body1-127"
+              />
+            </div>
+          </div>
         </div>
-        <p
-          class="MuiTypography-root-125 makeStyles-loaderMessage-309 MuiTypography-body1-127"
+        <div
+          class="MuiGrid-root-19 makeStyles-hiddenMobile-338 MuiGrid-item-21 MuiGrid-grid-xs-12-65 MuiGrid-grid-sm-4-71 MuiGrid-grid-md-2-83"
         >
-          Loading Ethereum Setts...
-        </p>
+          <p
+            class="MuiTypography-root-125 MuiTypography-body2-126 MuiTypography-colorTextSecondary-151"
+          >
+            Tokens
+          </p>
+        </div>
+        <div
+          class="MuiGrid-root-19 makeStyles-hiddenMobile-338 MuiGrid-item-21 MuiGrid-grid-xs-12-65 MuiGrid-grid-sm-4-71 MuiGrid-grid-md-3-84"
+        >
+          <p
+            class="MuiTypography-root-125 MuiTypography-body2-126 MuiTypography-colorTextSecondary-151"
+          >
+            Yearly
+             ROI
+          </p>
+        </div>
+        <div
+          class="MuiGrid-root-19 makeStyles-hiddenMobile-338 MuiGrid-item-21 MuiGrid-grid-xs-12-65 MuiGrid-grid-sm-6-73 MuiGrid-grid-md-3-84"
+        >
+          <p
+            class="MuiTypography-root-125 MuiTypography-body2-126 MuiTypography-colorTextSecondary-151"
+          >
+            Value
+          </p>
+        </div>
       </div>
+      <ul
+        class="MuiList-root-339 makeStyles-list-335 MuiList-padding-340"
+      >
+        <li
+          class="MuiListItem-root-352 makeStyles-listItem-350 MuiListItem-gutters-359"
+        >
+          <div
+            class="MuiGrid-root-19 makeStyles-border-343 MuiGrid-container-20"
+          >
+            <div
+              class="MuiGrid-root-19 makeStyles-name-346 MuiGrid-container-20 MuiGrid-item-21 MuiGrid-grid-xs-12-65 MuiGrid-grid-md-4-85"
+            >
+              <div
+                class="MuiGrid-root-19 MuiGrid-item-21"
+              >
+                <img
+                  alt="Badger Sushiswap Wrapped BTC/ibBTC Vault Symbol"
+                  class="makeStyles-symbol-348"
+                  src="/assets/icons/slp-ibbtc-wbtc.png"
+                />
+              </div>
+              <div
+                class="MuiGrid-root-19 MuiGrid-item-21"
+              >
+                <div
+                  class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-direction-xs-column-23"
+                >
+                  <p
+                    class="MuiTypography-root-125 MuiTypography-body1-127"
+                  >
+                    Wrapped BTC/ibBTC
+                  </p>
+                  <div
+                    class="MuiGrid-root-19 MuiGrid-container-20"
+                  >
+                    <p
+                      class="MuiTypography-root-125 MuiTypography-body2-126 MuiTypography-colorTextSecondary-151"
+                    >
+                      SLP-IBBTC-WBTC
+                    </p>
+                     
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-item-21 MuiGrid-grid-xs-12-65 MuiGrid-grid-md-2-83"
+            >
+              <div
+                class="MuiGrid-root-19 makeStyles-mobileLabel-344 MuiGrid-item-21 MuiGrid-grid-xs-6-59"
+              >
+                <p
+                  class="MuiTypography-root-125 MuiTypography-body2-126 MuiTypography-colorTextSecondary-151"
+                >
+                  Tokens Deposited
+                </p>
+              </div>
+              <div
+                class="MuiGrid-root-19 MuiGrid-item-21 MuiGrid-grid-xs-6-59 MuiGrid-grid-md-12-93"
+              >
+                <div
+                  class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-align-items-xs-center-28"
+                >
+                  <img
+                    alt="Wrapped BTC symbol"
+                    class="makeStyles-tokenSymbol-349"
+                    src="/assets/icons/wbtc-small.png"
+                  />
+                  <p
+                    class="MuiTypography-root-125 MuiTypography-body1-127"
+                  >
+                    191
+                  </p>
+                </div>
+                <div
+                  class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-align-items-xs-center-28"
+                >
+                  <img
+                    alt="Interest-Bearing BTC symbol"
+                    class="makeStyles-tokenSymbol-349"
+                    src="/assets/icons/ibbtc-small.png"
+                  />
+                  <p
+                    class="MuiTypography-root-125 MuiTypography-body1-127"
+                  >
+                    185
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root-19 makeStyles-mobileLabel-344 MuiGrid-item-21 MuiGrid-grid-xs-6-59"
+            >
+              <p
+                class="MuiTypography-root-125 MuiTypography-body2-126 MuiTypography-colorTextSecondary-151"
+              >
+                ROI
+              </p>
+            </div>
+            <div
+              class="MuiGrid-root-19 makeStyles-centerGrid-351 MuiGrid-item-21 MuiGrid-grid-xs-6-59 MuiGrid-grid-md-2-83"
+            >
+              <p
+                class="MuiTypography-root-125 MuiTypography-body1-127 MuiTypography-colorTextPrimary-150"
+                style="cursor: default;"
+              >
+                58.96% - 118.80%
+              </p>
+            </div>
+            <div
+              class="MuiGrid-root-19 makeStyles-desktopSpacer-345 MuiGrid-item-21 MuiGrid-grid-xs-6-59 MuiGrid-grid-md-1-82"
+            />
+            <div
+              class="MuiGrid-root-19 makeStyles-mobileLabel-344 MuiGrid-item-21 MuiGrid-grid-xs-6-59"
+            >
+              <p
+                class="MuiTypography-root-125 MuiTypography-body2-126 MuiTypography-colorTextSecondary-151"
+              >
+                Value
+              </p>
+            </div>
+            <div
+              class="MuiGrid-root-19 MuiGrid-item-21 MuiGrid-grid-xs-6-59 MuiGrid-grid-md-3-84"
+            >
+              <div
+                class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-align-items-xs-center-28"
+              >
+                <p
+                  class="MuiTypography-root-125 MuiTypography-body1-127"
+                >
+                  $16,774,984.81
+                </p>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li
+          class="MuiListItem-root-352 makeStyles-listItem-350 MuiListItem-gutters-359"
+        >
+          <div
+            class="MuiGrid-root-19 makeStyles-border-343 MuiGrid-container-20"
+          >
+            <div
+              class="MuiGrid-root-19 makeStyles-name-346 MuiGrid-container-20 MuiGrid-item-21 MuiGrid-grid-xs-12-65 MuiGrid-grid-md-4-85"
+            >
+              <div
+                class="MuiGrid-root-19 MuiGrid-item-21"
+              >
+                <img
+                  alt="Badger Yearn WBTC Vault Symbol"
+                  class="makeStyles-symbol-348"
+                  src="/assets/icons/byvwbtc.png"
+                />
+              </div>
+              <div
+                class="MuiGrid-root-19 MuiGrid-item-21"
+              >
+                <div
+                  class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-direction-xs-column-23"
+                >
+                  <p
+                    class="MuiTypography-root-125 MuiTypography-body1-127"
+                  >
+                    WBTC
+                  </p>
+                  <div
+                    class="MuiGrid-root-19 MuiGrid-container-20"
+                  >
+                    <p
+                      class="MuiTypography-root-125 MuiTypography-body2-126 MuiTypography-colorTextSecondary-151"
+                    >
+                      byvWBTC
+                    </p>
+                    <div
+                      class="MuiChip-root-364 makeStyles-chip-363 MuiChip-colorPrimary-366 MuiChip-sizeSmall-365"
+                      style="background-color: rgb(6, 87, 249); color: white;"
+                    >
+                      <span
+                        class="MuiChip-label-386 MuiChip-labelSmall-387"
+                      >
+                        Yearn
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-item-21 MuiGrid-grid-xs-12-65 MuiGrid-grid-md-2-83"
+            >
+              <div
+                class="MuiGrid-root-19 makeStyles-mobileLabel-344 MuiGrid-item-21 MuiGrid-grid-xs-6-59"
+              >
+                <p
+                  class="MuiTypography-root-125 MuiTypography-body2-126 MuiTypography-colorTextSecondary-151"
+                >
+                  Tokens Deposited
+                </p>
+              </div>
+              <div
+                class="MuiGrid-root-19 MuiGrid-item-21 MuiGrid-grid-xs-6-59 MuiGrid-grid-md-12-93"
+              >
+                <div
+                  class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-align-items-xs-center-28"
+                >
+                  <img
+                    alt="Wrapped Bitcoin symbol"
+                    class="makeStyles-tokenSymbol-349"
+                    src="/assets/icons/byvwbtc.png"
+                  />
+                  <p
+                    class="MuiTypography-root-125 MuiTypography-body1-127"
+                  >
+                    7,645
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root-19 makeStyles-mobileLabel-344 MuiGrid-item-21 MuiGrid-grid-xs-6-59"
+            >
+              <p
+                class="MuiTypography-root-125 MuiTypography-body2-126 MuiTypography-colorTextSecondary-151"
+              >
+                ROI
+              </p>
+            </div>
+            <div
+              class="MuiGrid-root-19 makeStyles-centerGrid-351 MuiGrid-item-21 MuiGrid-grid-xs-6-59 MuiGrid-grid-md-2-83"
+            >
+              <p
+                class="MuiTypography-root-125 MuiTypography-body1-127 MuiTypography-colorTextPrimary-150"
+                style="cursor: default;"
+              >
+                9.56% - 20.10%
+              </p>
+            </div>
+            <div
+              class="MuiGrid-root-19 makeStyles-desktopSpacer-345 MuiGrid-item-21 MuiGrid-grid-xs-6-59 MuiGrid-grid-md-1-82"
+            />
+            <div
+              class="MuiGrid-root-19 makeStyles-mobileLabel-344 MuiGrid-item-21 MuiGrid-grid-xs-6-59"
+            >
+              <p
+                class="MuiTypography-root-125 MuiTypography-body2-126 MuiTypography-colorTextSecondary-151"
+              >
+                Value
+              </p>
+            </div>
+            <div
+              class="MuiGrid-root-19 MuiGrid-item-21 MuiGrid-grid-xs-6-59 MuiGrid-grid-md-3-84"
+            >
+              <div
+                class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-align-items-xs-center-28"
+              >
+                <p
+                  class="MuiTypography-root-125 MuiTypography-body1-127"
+                >
+                  $340,680,520.10
+                </p>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li
+          class="MuiListItem-root-352 makeStyles-listItem-350 MuiListItem-gutters-359"
+        >
+          <div
+            class="MuiGrid-root-19 makeStyles-border-343 MuiGrid-container-20"
+          >
+            <div
+              class="MuiGrid-root-19 makeStyles-name-346 MuiGrid-container-20 MuiGrid-item-21 MuiGrid-grid-xs-12-65 MuiGrid-grid-md-4-85"
+            >
+              <div
+                class="MuiGrid-root-19 MuiGrid-item-21"
+              >
+                <img
+                  alt="Badger Digg Vault Symbol"
+                  class="makeStyles-symbol-348"
+                  src="/assets/icons/digg.png"
+                />
+              </div>
+              <div
+                class="MuiGrid-root-19 MuiGrid-item-21"
+              >
+                <div
+                  class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-direction-xs-column-23"
+                >
+                  <p
+                    class="MuiTypography-root-125 MuiTypography-body1-127"
+                  >
+                    Digg
+                  </p>
+                  <div
+                    class="MuiGrid-root-19 MuiGrid-container-20"
+                  >
+                    <p
+                      class="MuiTypography-root-125 MuiTypography-body2-126 MuiTypography-colorTextSecondary-151"
+                    >
+                      DIGG
+                    </p>
+                     
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-item-21 MuiGrid-grid-xs-12-65 MuiGrid-grid-md-2-83"
+            >
+              <div
+                class="MuiGrid-root-19 makeStyles-mobileLabel-344 MuiGrid-item-21 MuiGrid-grid-xs-6-59"
+              >
+                <p
+                  class="MuiTypography-root-125 MuiTypography-body2-126 MuiTypography-colorTextSecondary-151"
+                >
+                  Tokens Deposited
+                </p>
+              </div>
+              <div
+                class="MuiGrid-root-19 MuiGrid-item-21 MuiGrid-grid-xs-6-59 MuiGrid-grid-md-12-93"
+              >
+                <div
+                  class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-align-items-xs-center-28"
+                >
+                  <img
+                    alt="Digg symbol"
+                    class="makeStyles-tokenSymbol-349"
+                    src="/assets/icons/digg.png"
+                  />
+                  <p
+                    class="MuiTypography-root-125 MuiTypography-body1-127"
+                  >
+                    485
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root-19 makeStyles-mobileLabel-344 MuiGrid-item-21 MuiGrid-grid-xs-6-59"
+            >
+              <p
+                class="MuiTypography-root-125 MuiTypography-body2-126 MuiTypography-colorTextSecondary-151"
+              >
+                ROI
+              </p>
+            </div>
+            <div
+              class="MuiGrid-root-19 makeStyles-centerGrid-351 MuiGrid-item-21 MuiGrid-grid-xs-6-59 MuiGrid-grid-md-2-83"
+            >
+              <p
+                class="MuiTypography-root-125 MuiTypography-body1-127 MuiTypography-colorTextPrimary-150"
+                style="cursor: default;"
+              >
+                34.61%
+              </p>
+            </div>
+            <div
+              class="MuiGrid-root-19 makeStyles-desktopSpacer-345 MuiGrid-item-21 MuiGrid-grid-xs-6-59 MuiGrid-grid-md-1-82"
+            />
+            <div
+              class="MuiGrid-root-19 makeStyles-mobileLabel-344 MuiGrid-item-21 MuiGrid-grid-xs-6-59"
+            >
+              <p
+                class="MuiTypography-root-125 MuiTypography-body2-126 MuiTypography-colorTextSecondary-151"
+              >
+                Value
+              </p>
+            </div>
+            <div
+              class="MuiGrid-root-19 MuiGrid-item-21 MuiGrid-grid-xs-6-59 MuiGrid-grid-md-3-84"
+            >
+              <div
+                class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-align-items-xs-center-28"
+              >
+                <p
+                  class="MuiTypography-root-125 MuiTypography-body1-127"
+                >
+                  $20,800,286.92
+                </p>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li
+          class="MuiListItem-root-352 makeStyles-listItem-350 MuiListItem-gutters-359"
+        >
+          <div
+            class="MuiGrid-root-19 makeStyles-border-343 MuiGrid-container-20"
+          >
+            <div
+              class="MuiGrid-root-19 makeStyles-name-346 MuiGrid-container-20 MuiGrid-item-21 MuiGrid-grid-xs-12-65 MuiGrid-grid-md-4-85"
+            >
+              <div
+                class="MuiGrid-root-19 MuiGrid-item-21"
+              >
+                <img
+                  alt="Badger Badger Vault Symbol"
+                  class="makeStyles-symbol-348"
+                  src="/assets/icons/badger.png"
+                />
+              </div>
+              <div
+                class="MuiGrid-root-19 MuiGrid-item-21"
+              >
+                <div
+                  class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-direction-xs-column-23"
+                >
+                  <p
+                    class="MuiTypography-root-125 MuiTypography-body1-127"
+                  >
+                    Badger
+                  </p>
+                  <div
+                    class="MuiGrid-root-19 MuiGrid-container-20"
+                  >
+                    <p
+                      class="MuiTypography-root-125 MuiTypography-body2-126 MuiTypography-colorTextSecondary-151"
+                    >
+                      BADGER
+                    </p>
+                     
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-item-21 MuiGrid-grid-xs-12-65 MuiGrid-grid-md-2-83"
+            >
+              <div
+                class="MuiGrid-root-19 makeStyles-mobileLabel-344 MuiGrid-item-21 MuiGrid-grid-xs-6-59"
+              >
+                <p
+                  class="MuiTypography-root-125 MuiTypography-body2-126 MuiTypography-colorTextSecondary-151"
+                >
+                  Tokens Deposited
+                </p>
+              </div>
+              <div
+                class="MuiGrid-root-19 MuiGrid-item-21 MuiGrid-grid-xs-6-59 MuiGrid-grid-md-12-93"
+              >
+                <div
+                  class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-align-items-xs-center-28"
+                >
+                  <img
+                    alt="Badger symbol"
+                    class="makeStyles-tokenSymbol-349"
+                    src="/assets/icons/badger.png"
+                  />
+                  <p
+                    class="MuiTypography-root-125 MuiTypography-body1-127"
+                  >
+                    3,670,950
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root-19 makeStyles-mobileLabel-344 MuiGrid-item-21 MuiGrid-grid-xs-6-59"
+            >
+              <p
+                class="MuiTypography-root-125 MuiTypography-body2-126 MuiTypography-colorTextSecondary-151"
+              >
+                ROI
+              </p>
+            </div>
+            <div
+              class="MuiGrid-root-19 makeStyles-centerGrid-351 MuiGrid-item-21 MuiGrid-grid-xs-6-59 MuiGrid-grid-md-2-83"
+            >
+              <p
+                class="MuiTypography-root-125 MuiTypography-body1-127 MuiTypography-colorTextPrimary-150"
+                style="cursor: default;"
+              >
+                4.86%
+              </p>
+            </div>
+            <div
+              class="MuiGrid-root-19 makeStyles-desktopSpacer-345 MuiGrid-item-21 MuiGrid-grid-xs-6-59 MuiGrid-grid-md-1-82"
+            />
+            <div
+              class="MuiGrid-root-19 makeStyles-mobileLabel-344 MuiGrid-item-21 MuiGrid-grid-xs-6-59"
+            >
+              <p
+                class="MuiTypography-root-125 MuiTypography-body2-126 MuiTypography-colorTextSecondary-151"
+              >
+                Value
+              </p>
+            </div>
+            <div
+              class="MuiGrid-root-19 MuiGrid-item-21 MuiGrid-grid-xs-6-59 MuiGrid-grid-md-3-84"
+            >
+              <div
+                class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-align-items-xs-center-28"
+              >
+                <p
+                  class="MuiTypography-root-125 MuiTypography-body1-127"
+                >
+                  $92,764,901.90
+                </p>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li
+          class="MuiListItem-root-352 makeStyles-listItem-350 MuiListItem-gutters-359"
+        >
+          <div
+            class="MuiGrid-root-19 makeStyles-border-343 MuiGrid-container-20"
+          >
+            <div
+              class="MuiGrid-root-19 makeStyles-name-346 MuiGrid-container-20 MuiGrid-item-21 MuiGrid-grid-xs-12-65 MuiGrid-grid-md-4-85"
+            >
+              <div
+                class="MuiGrid-root-19 MuiGrid-item-21"
+              >
+                <img
+                  alt="Badger Sushiswap Wrapped BTC/Digg Vault Symbol"
+                  class="makeStyles-symbol-348"
+                  src="/assets/icons/slp-digg-wbtc.png"
+                />
+              </div>
+              <div
+                class="MuiGrid-root-19 MuiGrid-item-21"
+              >
+                <div
+                  class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-direction-xs-column-23"
+                >
+                  <p
+                    class="MuiTypography-root-125 MuiTypography-body1-127"
+                  >
+                    Wrapped BTC/Digg
+                  </p>
+                  <div
+                    class="MuiGrid-root-19 MuiGrid-container-20"
+                  >
+                    <p
+                      class="MuiTypography-root-125 MuiTypography-body2-126 MuiTypography-colorTextSecondary-151"
+                    >
+                      SLP-DIGG-WBTC
+                    </p>
+                     
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-item-21 MuiGrid-grid-xs-12-65 MuiGrid-grid-md-2-83"
+            >
+              <div
+                class="MuiGrid-root-19 makeStyles-mobileLabel-344 MuiGrid-item-21 MuiGrid-grid-xs-6-59"
+              >
+                <p
+                  class="MuiTypography-root-125 MuiTypography-body2-126 MuiTypography-colorTextSecondary-151"
+                >
+                  Tokens Deposited
+                </p>
+              </div>
+              <div
+                class="MuiGrid-root-19 MuiGrid-item-21 MuiGrid-grid-xs-6-59 MuiGrid-grid-md-12-93"
+              >
+                <div
+                  class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-align-items-xs-center-28"
+                >
+                  <img
+                    alt="Wrapped BTC symbol"
+                    class="makeStyles-tokenSymbol-349"
+                    src="/assets/icons/wbtc-small.png"
+                  />
+                  <p
+                    class="MuiTypography-root-125 MuiTypography-body1-127"
+                  >
+                    124
+                  </p>
+                </div>
+                <div
+                  class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-align-items-xs-center-28"
+                >
+                  <img
+                    alt="Digg symbol"
+                    class="makeStyles-tokenSymbol-349"
+                    src="/assets/icons/digg-small.png"
+                  />
+                  <p
+                    class="MuiTypography-root-125 MuiTypography-body1-127"
+                  >
+                    129
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root-19 makeStyles-mobileLabel-344 MuiGrid-item-21 MuiGrid-grid-xs-6-59"
+            >
+              <p
+                class="MuiTypography-root-125 MuiTypography-body2-126 MuiTypography-colorTextSecondary-151"
+              >
+                ROI
+              </p>
+            </div>
+            <div
+              class="MuiGrid-root-19 makeStyles-centerGrid-351 MuiGrid-item-21 MuiGrid-grid-xs-6-59 MuiGrid-grid-md-2-83"
+            >
+              <p
+                class="MuiTypography-root-125 MuiTypography-body1-127 MuiTypography-colorTextPrimary-150"
+                style="cursor: default;"
+              >
+                133.85%
+              </p>
+            </div>
+            <div
+              class="MuiGrid-root-19 makeStyles-desktopSpacer-345 MuiGrid-item-21 MuiGrid-grid-xs-6-59 MuiGrid-grid-md-1-82"
+            />
+            <div
+              class="MuiGrid-root-19 makeStyles-mobileLabel-344 MuiGrid-item-21 MuiGrid-grid-xs-6-59"
+            >
+              <p
+                class="MuiTypography-root-125 MuiTypography-body2-126 MuiTypography-colorTextSecondary-151"
+              >
+                Value
+              </p>
+            </div>
+            <div
+              class="MuiGrid-root-19 MuiGrid-item-21 MuiGrid-grid-xs-6-59 MuiGrid-grid-md-3-84"
+            >
+              <div
+                class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-align-items-xs-center-28"
+              >
+                <p
+                  class="MuiTypography-root-125 MuiTypography-body1-127"
+                >
+                  $11,083,240.68
+                </p>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li
+          class="MuiListItem-root-352 makeStyles-listItem-350 MuiListItem-gutters-359"
+        >
+          <div
+            class="MuiGrid-root-19 makeStyles-border-343 MuiGrid-container-20"
+          >
+            <div
+              class="MuiGrid-root-19 makeStyles-name-346 MuiGrid-container-20 MuiGrid-item-21 MuiGrid-grid-xs-12-65 MuiGrid-grid-md-4-85"
+            >
+              <div
+                class="MuiGrid-root-19 MuiGrid-item-21"
+              >
+                <img
+                  alt="Badger Sushiswap Wrapped BTC/Badger Vault Symbol"
+                  class="makeStyles-symbol-348"
+                  src="/assets/icons/slp-badger-wbtc.png"
+                />
+              </div>
+              <div
+                class="MuiGrid-root-19 MuiGrid-item-21"
+              >
+                <div
+                  class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-direction-xs-column-23"
+                >
+                  <p
+                    class="MuiTypography-root-125 MuiTypography-body1-127"
+                  >
+                    Wrapped BTC/Badger
+                  </p>
+                  <div
+                    class="MuiGrid-root-19 MuiGrid-container-20"
+                  >
+                    <p
+                      class="MuiTypography-root-125 MuiTypography-body2-126 MuiTypography-colorTextSecondary-151"
+                    >
+                      SLP-BADGER-WBTC
+                    </p>
+                     
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-item-21 MuiGrid-grid-xs-12-65 MuiGrid-grid-md-2-83"
+            >
+              <div
+                class="MuiGrid-root-19 makeStyles-mobileLabel-344 MuiGrid-item-21 MuiGrid-grid-xs-6-59"
+              >
+                <p
+                  class="MuiTypography-root-125 MuiTypography-body2-126 MuiTypography-colorTextSecondary-151"
+                >
+                  Tokens Deposited
+                </p>
+              </div>
+              <div
+                class="MuiGrid-root-19 MuiGrid-item-21 MuiGrid-grid-xs-6-59 MuiGrid-grid-md-12-93"
+              >
+                <div
+                  class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-align-items-xs-center-28"
+                >
+                  <img
+                    alt="Wrapped BTC symbol"
+                    class="makeStyles-tokenSymbol-349"
+                    src="/assets/icons/wbtc-small.png"
+                  />
+                  <p
+                    class="MuiTypography-root-125 MuiTypography-body1-127"
+                  >
+                    236
+                  </p>
+                </div>
+                <div
+                  class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-align-items-xs-center-28"
+                >
+                  <img
+                    alt="Badger symbol"
+                    class="makeStyles-tokenSymbol-349"
+                    src="/assets/icons/badger-small.png"
+                  />
+                  <p
+                    class="MuiTypography-root-125 MuiTypography-body1-127"
+                  >
+                    419,702
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root-19 makeStyles-mobileLabel-344 MuiGrid-item-21 MuiGrid-grid-xs-6-59"
+            >
+              <p
+                class="MuiTypography-root-125 MuiTypography-body2-126 MuiTypography-colorTextSecondary-151"
+              >
+                ROI
+              </p>
+            </div>
+            <div
+              class="MuiGrid-root-19 makeStyles-centerGrid-351 MuiGrid-item-21 MuiGrid-grid-xs-6-59 MuiGrid-grid-md-2-83"
+            >
+              <p
+                class="MuiTypography-root-125 MuiTypography-body1-127 MuiTypography-colorTextPrimary-150"
+                style="cursor: default;"
+              >
+                75.93%
+              </p>
+            </div>
+            <div
+              class="MuiGrid-root-19 makeStyles-desktopSpacer-345 MuiGrid-item-21 MuiGrid-grid-xs-6-59 MuiGrid-grid-md-1-82"
+            />
+            <div
+              class="MuiGrid-root-19 makeStyles-mobileLabel-344 MuiGrid-item-21 MuiGrid-grid-xs-6-59"
+            >
+              <p
+                class="MuiTypography-root-125 MuiTypography-body2-126 MuiTypography-colorTextSecondary-151"
+              >
+                Value
+              </p>
+            </div>
+            <div
+              class="MuiGrid-root-19 MuiGrid-item-21 MuiGrid-grid-xs-6-59 MuiGrid-grid-md-3-84"
+            >
+              <div
+                class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-align-items-xs-center-28"
+              >
+                <p
+                  class="MuiTypography-root-125 MuiTypography-body1-127"
+                >
+                  $21,124,868.07
+                </p>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li
+          class="MuiListItem-root-352 makeStyles-listItem-350 MuiListItem-gutters-359"
+        >
+          <div
+            class="MuiGrid-root-19 makeStyles-border-343 MuiGrid-container-20"
+          >
+            <div
+              class="MuiGrid-root-19 makeStyles-name-346 MuiGrid-container-20 MuiGrid-item-21 MuiGrid-grid-xs-12-65 MuiGrid-grid-md-4-85"
+            >
+              <div
+                class="MuiGrid-root-19 MuiGrid-item-21"
+              >
+                <img
+                  alt="Badger Sushiswap Wrapped BTC/Wrapped Ether Vault Symbol"
+                  class="makeStyles-symbol-348"
+                  src="/assets/icons/slp-wbtc-eth.png"
+                />
+              </div>
+              <div
+                class="MuiGrid-root-19 MuiGrid-item-21"
+              >
+                <div
+                  class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-direction-xs-column-23"
+                >
+                  <p
+                    class="MuiTypography-root-125 MuiTypography-body1-127"
+                  >
+                    Wrapped BTC/Wrapped Ether
+                  </p>
+                  <div
+                    class="MuiGrid-root-19 MuiGrid-container-20"
+                  >
+                    <p
+                      class="MuiTypography-root-125 MuiTypography-body2-126 MuiTypography-colorTextSecondary-151"
+                    >
+                      SLP-WBTC-ETH
+                    </p>
+                     
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-item-21 MuiGrid-grid-xs-12-65 MuiGrid-grid-md-2-83"
+            >
+              <div
+                class="MuiGrid-root-19 makeStyles-mobileLabel-344 MuiGrid-item-21 MuiGrid-grid-xs-6-59"
+              >
+                <p
+                  class="MuiTypography-root-125 MuiTypography-body2-126 MuiTypography-colorTextSecondary-151"
+                >
+                  Tokens Deposited
+                </p>
+              </div>
+              <div
+                class="MuiGrid-root-19 MuiGrid-item-21 MuiGrid-grid-xs-6-59 MuiGrid-grid-md-12-93"
+              >
+                <div
+                  class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-align-items-xs-center-28"
+                >
+                  <img
+                    alt="Wrapped BTC symbol"
+                    class="makeStyles-tokenSymbol-349"
+                    src="/assets/icons/wbtc-small.png"
+                  />
+                  <p
+                    class="MuiTypography-root-125 MuiTypography-body1-127"
+                  >
+                    556
+                  </p>
+                </div>
+                <div
+                  class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-align-items-xs-center-28"
+                >
+                  <img
+                    alt="Wrapped Ether symbol"
+                    class="makeStyles-tokenSymbol-349"
+                    src="/assets/icons/weth-small.png"
+                  />
+                  <p
+                    class="MuiTypography-root-125 MuiTypography-body1-127"
+                  >
+                    7,375
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root-19 makeStyles-mobileLabel-344 MuiGrid-item-21 MuiGrid-grid-xs-6-59"
+            >
+              <p
+                class="MuiTypography-root-125 MuiTypography-body2-126 MuiTypography-colorTextSecondary-151"
+              >
+                ROI
+              </p>
+            </div>
+            <div
+              class="MuiGrid-root-19 makeStyles-centerGrid-351 MuiGrid-item-21 MuiGrid-grid-xs-6-59 MuiGrid-grid-md-2-83"
+            >
+              <p
+                class="MuiTypography-root-125 MuiTypography-body1-127 MuiTypography-colorTextPrimary-150"
+                style="cursor: default;"
+              >
+                33.66% - 51.02%
+              </p>
+            </div>
+            <div
+              class="MuiGrid-root-19 makeStyles-desktopSpacer-345 MuiGrid-item-21 MuiGrid-grid-xs-6-59 MuiGrid-grid-md-1-82"
+            />
+            <div
+              class="MuiGrid-root-19 makeStyles-mobileLabel-344 MuiGrid-item-21 MuiGrid-grid-xs-6-59"
+            >
+              <p
+                class="MuiTypography-root-125 MuiTypography-body2-126 MuiTypography-colorTextSecondary-151"
+              >
+                Value
+              </p>
+            </div>
+            <div
+              class="MuiGrid-root-19 MuiGrid-item-21 MuiGrid-grid-xs-6-59 MuiGrid-grid-md-3-84"
+            >
+              <div
+                class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-align-items-xs-center-28"
+              >
+                <p
+                  class="MuiTypography-root-125 MuiTypography-body1-127"
+                >
+                  $49,588,739.11
+                </p>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li
+          class="MuiListItem-root-352 makeStyles-listItem-350 MuiListItem-gutters-359"
+        >
+          <div
+            class="MuiGrid-root-19 makeStyles-border-343 MuiGrid-container-20"
+          >
+            <div
+              class="MuiGrid-root-19 makeStyles-name-346 MuiGrid-container-20 MuiGrid-item-21 MuiGrid-grid-xs-12-65 MuiGrid-grid-md-4-85"
+            >
+              <div
+                class="MuiGrid-root-19 MuiGrid-item-21"
+              >
+                <img
+                  alt="Badger Uniswap Wrapped BTC/Digg Vault Symbol"
+                  class="makeStyles-symbol-348"
+                  src="/assets/icons/digg-wbtc.png"
+                />
+              </div>
+              <div
+                class="MuiGrid-root-19 MuiGrid-item-21"
+              >
+                <div
+                  class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-direction-xs-column-23"
+                >
+                  <p
+                    class="MuiTypography-root-125 MuiTypography-body1-127"
+                  >
+                    Wrapped BTC/Digg
+                  </p>
+                  <div
+                    class="MuiGrid-root-19 MuiGrid-container-20"
+                  >
+                    <p
+                      class="MuiTypography-root-125 MuiTypography-body2-126 MuiTypography-colorTextSecondary-151"
+                    >
+                      DIGG-WBTC
+                    </p>
+                     
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-item-21 MuiGrid-grid-xs-12-65 MuiGrid-grid-md-2-83"
+            >
+              <div
+                class="MuiGrid-root-19 makeStyles-mobileLabel-344 MuiGrid-item-21 MuiGrid-grid-xs-6-59"
+              >
+                <p
+                  class="MuiTypography-root-125 MuiTypography-body2-126 MuiTypography-colorTextSecondary-151"
+                >
+                  Tokens Deposited
+                </p>
+              </div>
+              <div
+                class="MuiGrid-root-19 MuiGrid-item-21 MuiGrid-grid-xs-6-59 MuiGrid-grid-md-12-93"
+              >
+                <div
+                  class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-align-items-xs-center-28"
+                >
+                  <img
+                    alt="Wrapped BTC symbol"
+                    class="makeStyles-tokenSymbol-349"
+                    src="/assets/icons/wbtc-small.png"
+                  />
+                  <p
+                    class="MuiTypography-root-125 MuiTypography-body1-127"
+                  >
+                    105
+                  </p>
+                </div>
+                <div
+                  class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-align-items-xs-center-28"
+                >
+                  <img
+                    alt="Digg symbol"
+                    class="makeStyles-tokenSymbol-349"
+                    src="/assets/icons/digg-small.png"
+                  />
+                  <p
+                    class="MuiTypography-root-125 MuiTypography-body1-127"
+                  >
+                    109
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root-19 makeStyles-mobileLabel-344 MuiGrid-item-21 MuiGrid-grid-xs-6-59"
+            >
+              <p
+                class="MuiTypography-root-125 MuiTypography-body2-126 MuiTypography-colorTextSecondary-151"
+              >
+                ROI
+              </p>
+            </div>
+            <div
+              class="MuiGrid-root-19 makeStyles-centerGrid-351 MuiGrid-item-21 MuiGrid-grid-xs-6-59 MuiGrid-grid-md-2-83"
+            >
+              <p
+                class="MuiTypography-root-125 MuiTypography-body1-127 MuiTypography-colorTextPrimary-150"
+                style="cursor: default;"
+              >
+                141.27%
+              </p>
+            </div>
+            <div
+              class="MuiGrid-root-19 makeStyles-desktopSpacer-345 MuiGrid-item-21 MuiGrid-grid-xs-6-59 MuiGrid-grid-md-1-82"
+            />
+            <div
+              class="MuiGrid-root-19 makeStyles-mobileLabel-344 MuiGrid-item-21 MuiGrid-grid-xs-6-59"
+            >
+              <p
+                class="MuiTypography-root-125 MuiTypography-body2-126 MuiTypography-colorTextSecondary-151"
+              >
+                Value
+              </p>
+            </div>
+            <div
+              class="MuiGrid-root-19 MuiGrid-item-21 MuiGrid-grid-xs-6-59 MuiGrid-grid-md-3-84"
+            >
+              <div
+                class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-align-items-xs-center-28"
+              >
+                <p
+                  class="MuiTypography-root-125 MuiTypography-body1-127"
+                >
+                  $9,345,264.18
+                </p>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li
+          class="MuiListItem-root-352 makeStyles-listItem-350 MuiListItem-gutters-359"
+        >
+          <div
+            class="MuiGrid-root-19 makeStyles-border-343 MuiGrid-container-20"
+          >
+            <div
+              class="MuiGrid-root-19 makeStyles-name-346 MuiGrid-container-20 MuiGrid-item-21 MuiGrid-grid-xs-12-65 MuiGrid-grid-md-4-85"
+            >
+              <div
+                class="MuiGrid-root-19 MuiGrid-item-21"
+              >
+                <img
+                  alt="Badger Uniswap Wrapped BTC/Badger Vault Symbol"
+                  class="makeStyles-symbol-348"
+                  src="/assets/icons/badger-wbtc.png"
+                />
+              </div>
+              <div
+                class="MuiGrid-root-19 MuiGrid-item-21"
+              >
+                <div
+                  class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-direction-xs-column-23"
+                >
+                  <p
+                    class="MuiTypography-root-125 MuiTypography-body1-127"
+                  >
+                    Wrapped BTC/Badger
+                  </p>
+                  <div
+                    class="MuiGrid-root-19 MuiGrid-container-20"
+                  >
+                    <p
+                      class="MuiTypography-root-125 MuiTypography-body2-126 MuiTypography-colorTextSecondary-151"
+                    >
+                      BADGER-WBTC
+                    </p>
+                     
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-item-21 MuiGrid-grid-xs-12-65 MuiGrid-grid-md-2-83"
+            >
+              <div
+                class="MuiGrid-root-19 makeStyles-mobileLabel-344 MuiGrid-item-21 MuiGrid-grid-xs-6-59"
+              >
+                <p
+                  class="MuiTypography-root-125 MuiTypography-body2-126 MuiTypography-colorTextSecondary-151"
+                >
+                  Tokens Deposited
+                </p>
+              </div>
+              <div
+                class="MuiGrid-root-19 MuiGrid-item-21 MuiGrid-grid-xs-6-59 MuiGrid-grid-md-12-93"
+              >
+                <div
+                  class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-align-items-xs-center-28"
+                >
+                  <img
+                    alt="Wrapped BTC symbol"
+                    class="makeStyles-tokenSymbol-349"
+                    src="/assets/icons/wbtc-small.png"
+                  />
+                  <p
+                    class="MuiTypography-root-125 MuiTypography-body1-127"
+                  >
+                    156
+                  </p>
+                </div>
+                <div
+                  class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-align-items-xs-center-28"
+                >
+                  <img
+                    alt="Badger symbol"
+                    class="makeStyles-tokenSymbol-349"
+                    src="/assets/icons/badger-small.png"
+                  />
+                  <p
+                    class="MuiTypography-root-125 MuiTypography-body1-127"
+                  >
+                    279,086
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root-19 makeStyles-mobileLabel-344 MuiGrid-item-21 MuiGrid-grid-xs-6-59"
+            >
+              <p
+                class="MuiTypography-root-125 MuiTypography-body2-126 MuiTypography-colorTextSecondary-151"
+              >
+                ROI
+              </p>
+            </div>
+            <div
+              class="MuiGrid-root-19 makeStyles-centerGrid-351 MuiGrid-item-21 MuiGrid-grid-xs-6-59 MuiGrid-grid-md-2-83"
+            >
+              <p
+                class="MuiTypography-root-125 MuiTypography-body1-127 MuiTypography-colorTextPrimary-150"
+                style="cursor: default;"
+              >
+                60.80%
+              </p>
+            </div>
+            <div
+              class="MuiGrid-root-19 makeStyles-desktopSpacer-345 MuiGrid-item-21 MuiGrid-grid-xs-6-59 MuiGrid-grid-md-1-82"
+            />
+            <div
+              class="MuiGrid-root-19 makeStyles-mobileLabel-344 MuiGrid-item-21 MuiGrid-grid-xs-6-59"
+            >
+              <p
+                class="MuiTypography-root-125 MuiTypography-body2-126 MuiTypography-colorTextSecondary-151"
+              >
+                Value
+              </p>
+            </div>
+            <div
+              class="MuiGrid-root-19 MuiGrid-item-21 MuiGrid-grid-xs-6-59 MuiGrid-grid-md-3-84"
+            >
+              <div
+                class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-align-items-xs-center-28"
+              >
+                <p
+                  class="MuiTypography-root-125 MuiTypography-body1-127"
+                >
+                  $14,010,894.13
+                </p>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li
+          class="MuiListItem-root-352 makeStyles-listItem-350 MuiListItem-gutters-359"
+        >
+          <div
+            class="MuiGrid-root-19 makeStyles-border-343 MuiGrid-container-20"
+          >
+            <div
+              class="MuiGrid-root-19 makeStyles-name-346 MuiGrid-container-20 MuiGrid-item-21 MuiGrid-grid-xs-12-65 MuiGrid-grid-md-4-85"
+            >
+              <div
+                class="MuiGrid-root-19 MuiGrid-item-21"
+              >
+                <img
+                  alt="Badger Curve.fi crvRenWBTC Vault Symbol"
+                  class="makeStyles-symbol-348"
+                  src="/assets/icons/renbtccrv.png"
+                />
+              </div>
+              <div
+                class="MuiGrid-root-19 MuiGrid-item-21"
+              >
+                <div
+                  class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-direction-xs-column-23"
+                >
+                  <p
+                    class="MuiTypography-root-125 MuiTypography-body1-127"
+                  >
+                    crvRenWBTC
+                  </p>
+                  <div
+                    class="MuiGrid-root-19 MuiGrid-container-20"
+                  >
+                    <p
+                      class="MuiTypography-root-125 MuiTypography-body2-126 MuiTypography-colorTextSecondary-151"
+                    >
+                      renBTCCRV
+                    </p>
+                     
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-item-21 MuiGrid-grid-xs-12-65 MuiGrid-grid-md-2-83"
+            >
+              <div
+                class="MuiGrid-root-19 makeStyles-mobileLabel-344 MuiGrid-item-21 MuiGrid-grid-xs-6-59"
+              >
+                <p
+                  class="MuiTypography-root-125 MuiTypography-body2-126 MuiTypography-colorTextSecondary-151"
+                >
+                  Tokens Deposited
+                </p>
+              </div>
+              <div
+                class="MuiGrid-root-19 MuiGrid-item-21 MuiGrid-grid-xs-6-59 MuiGrid-grid-md-12-93"
+              >
+                <div
+                  class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-align-items-xs-center-28"
+                >
+                  <img
+                    alt="Curve.fi: renCrv Token symbol"
+                    class="makeStyles-tokenSymbol-349"
+                    src="/assets/icons/renbtccrv.png"
+                  />
+                  <p
+                    class="MuiTypography-root-125 MuiTypography-body1-127"
+                  >
+                    3,120
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root-19 makeStyles-mobileLabel-344 MuiGrid-item-21 MuiGrid-grid-xs-6-59"
+            >
+              <p
+                class="MuiTypography-root-125 MuiTypography-body2-126 MuiTypography-colorTextSecondary-151"
+              >
+                ROI
+              </p>
+            </div>
+            <div
+              class="MuiGrid-root-19 makeStyles-centerGrid-351 MuiGrid-item-21 MuiGrid-grid-xs-6-59 MuiGrid-grid-md-2-83"
+            >
+              <p
+                class="MuiTypography-root-125 MuiTypography-body1-127 MuiTypography-colorTextPrimary-150"
+                style="cursor: default;"
+              >
+                5.74% - 11.99%
+              </p>
+            </div>
+            <div
+              class="MuiGrid-root-19 makeStyles-desktopSpacer-345 MuiGrid-item-21 MuiGrid-grid-xs-6-59 MuiGrid-grid-md-1-82"
+            />
+            <div
+              class="MuiGrid-root-19 makeStyles-mobileLabel-344 MuiGrid-item-21 MuiGrid-grid-xs-6-59"
+            >
+              <p
+                class="MuiTypography-root-125 MuiTypography-body2-126 MuiTypography-colorTextSecondary-151"
+              >
+                Value
+              </p>
+            </div>
+            <div
+              class="MuiGrid-root-19 MuiGrid-item-21 MuiGrid-grid-xs-6-59 MuiGrid-grid-md-3-84"
+            >
+              <div
+                class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-align-items-xs-center-28"
+              >
+                <p
+                  class="MuiTypography-root-125 MuiTypography-body1-127"
+                >
+                  $139,033,676.10
+                </p>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li
+          class="MuiListItem-root-352 makeStyles-listItem-350 MuiListItem-gutters-359"
+        >
+          <div
+            class="MuiGrid-root-19 makeStyles-border-343 MuiGrid-container-20"
+          >
+            <div
+              class="MuiGrid-root-19 makeStyles-name-346 MuiGrid-container-20 MuiGrid-item-21 MuiGrid-grid-xs-12-65 MuiGrid-grid-md-4-85"
+            >
+              <div
+                class="MuiGrid-root-19 MuiGrid-item-21"
+              >
+                <img
+                  alt="Badger Curve.fi renBTC/wBTC/sBTC Vault Symbol"
+                  class="makeStyles-symbol-348"
+                  src="/assets/icons/sbtccrv.png"
+                />
+              </div>
+              <div
+                class="MuiGrid-root-19 MuiGrid-item-21"
+              >
+                <div
+                  class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-direction-xs-column-23"
+                >
+                  <p
+                    class="MuiTypography-root-125 MuiTypography-body1-127"
+                  >
+                    renBTC/wBTC/sBTC
+                  </p>
+                  <div
+                    class="MuiGrid-root-19 MuiGrid-container-20"
+                  >
+                    <p
+                      class="MuiTypography-root-125 MuiTypography-body2-126 MuiTypography-colorTextSecondary-151"
+                    >
+                      sBTCCRV
+                    </p>
+                     
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-item-21 MuiGrid-grid-xs-12-65 MuiGrid-grid-md-2-83"
+            >
+              <div
+                class="MuiGrid-root-19 makeStyles-mobileLabel-344 MuiGrid-item-21 MuiGrid-grid-xs-6-59"
+              >
+                <p
+                  class="MuiTypography-root-125 MuiTypography-body2-126 MuiTypography-colorTextSecondary-151"
+                >
+                  Tokens Deposited
+                </p>
+              </div>
+              <div
+                class="MuiGrid-root-19 MuiGrid-item-21 MuiGrid-grid-xs-6-59 MuiGrid-grid-md-12-93"
+              >
+                <div
+                  class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-align-items-xs-center-28"
+                >
+                  <img
+                    alt="Curve.fi renBTC/wBTC/sBTC symbol"
+                    class="makeStyles-tokenSymbol-349"
+                    src="/assets/icons/sbtccrv.png"
+                  />
+                  <p
+                    class="MuiTypography-root-125 MuiTypography-body1-127"
+                  >
+                    1,606
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root-19 makeStyles-mobileLabel-344 MuiGrid-item-21 MuiGrid-grid-xs-6-59"
+            >
+              <p
+                class="MuiTypography-root-125 MuiTypography-body2-126 MuiTypography-colorTextSecondary-151"
+              >
+                ROI
+              </p>
+            </div>
+            <div
+              class="MuiGrid-root-19 makeStyles-centerGrid-351 MuiGrid-item-21 MuiGrid-grid-xs-6-59 MuiGrid-grid-md-2-83"
+            >
+              <p
+                class="MuiTypography-root-125 MuiTypography-body1-127 MuiTypography-colorTextPrimary-150"
+                style="cursor: default;"
+              >
+                5.35% - 10.68%
+              </p>
+            </div>
+            <div
+              class="MuiGrid-root-19 makeStyles-desktopSpacer-345 MuiGrid-item-21 MuiGrid-grid-xs-6-59 MuiGrid-grid-md-1-82"
+            />
+            <div
+              class="MuiGrid-root-19 makeStyles-mobileLabel-344 MuiGrid-item-21 MuiGrid-grid-xs-6-59"
+            >
+              <p
+                class="MuiTypography-root-125 MuiTypography-body2-126 MuiTypography-colorTextSecondary-151"
+              >
+                Value
+              </p>
+            </div>
+            <div
+              class="MuiGrid-root-19 MuiGrid-item-21 MuiGrid-grid-xs-6-59 MuiGrid-grid-md-3-84"
+            >
+              <div
+                class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-align-items-xs-center-28"
+              >
+                <p
+                  class="MuiTypography-root-125 MuiTypography-body1-127"
+                >
+                  $71,918,406.72
+                </p>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li
+          class="MuiListItem-root-352 makeStyles-listItem-350 MuiListItem-gutters-359"
+        >
+          <div
+            class="MuiGrid-root-19 makeStyles-border-343 MuiGrid-container-20"
+          >
+            <div
+              class="MuiGrid-root-19 makeStyles-name-346 MuiGrid-container-20 MuiGrid-item-21 MuiGrid-grid-xs-12-65 MuiGrid-grid-md-4-85"
+            >
+              <div
+                class="MuiGrid-root-19 MuiGrid-item-21"
+              >
+                <img
+                  alt="Badger Curve.fi tBTC/sBTCCrv LP Vault Symbol"
+                  class="makeStyles-symbol-348"
+                  src="/assets/icons/tbtccrv.png"
+                />
+              </div>
+              <div
+                class="MuiGrid-root-19 MuiGrid-item-21"
+              >
+                <div
+                  class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-direction-xs-column-23"
+                >
+                  <p
+                    class="MuiTypography-root-125 MuiTypography-body1-127"
+                  >
+                    tBTC/sBTCCrv LP
+                  </p>
+                  <div
+                    class="MuiGrid-root-19 MuiGrid-container-20"
+                  >
+                    <p
+                      class="MuiTypography-root-125 MuiTypography-body2-126 MuiTypography-colorTextSecondary-151"
+                    >
+                      tBTCCRV
+                    </p>
+                     
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-item-21 MuiGrid-grid-xs-12-65 MuiGrid-grid-md-2-83"
+            >
+              <div
+                class="MuiGrid-root-19 makeStyles-mobileLabel-344 MuiGrid-item-21 MuiGrid-grid-xs-6-59"
+              >
+                <p
+                  class="MuiTypography-root-125 MuiTypography-body2-126 MuiTypography-colorTextSecondary-151"
+                >
+                  Tokens Deposited
+                </p>
+              </div>
+              <div
+                class="MuiGrid-root-19 MuiGrid-item-21 MuiGrid-grid-xs-6-59 MuiGrid-grid-md-12-93"
+              >
+                <div
+                  class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-align-items-xs-center-28"
+                >
+                  <img
+                    alt="Curve.fi tBTC/sbtcCrv symbol"
+                    class="makeStyles-tokenSymbol-349"
+                    src="/assets/icons/tbtccrv.png"
+                  />
+                  <p
+                    class="MuiTypography-root-125 MuiTypography-body1-127"
+                  >
+                    1,434
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root-19 makeStyles-mobileLabel-344 MuiGrid-item-21 MuiGrid-grid-xs-6-59"
+            >
+              <p
+                class="MuiTypography-root-125 MuiTypography-body2-126 MuiTypography-colorTextSecondary-151"
+              >
+                ROI
+              </p>
+            </div>
+            <div
+              class="MuiGrid-root-19 makeStyles-centerGrid-351 MuiGrid-item-21 MuiGrid-grid-xs-6-59 MuiGrid-grid-md-2-83"
+            >
+              <p
+                class="MuiTypography-root-125 MuiTypography-body1-127 MuiTypography-colorTextPrimary-150"
+                style="cursor: default;"
+              >
+                7.69% - 13.51%
+              </p>
+            </div>
+            <div
+              class="MuiGrid-root-19 makeStyles-desktopSpacer-345 MuiGrid-item-21 MuiGrid-grid-xs-6-59 MuiGrid-grid-md-1-82"
+            />
+            <div
+              class="MuiGrid-root-19 makeStyles-mobileLabel-344 MuiGrid-item-21 MuiGrid-grid-xs-6-59"
+            >
+              <p
+                class="MuiTypography-root-125 MuiTypography-body2-126 MuiTypography-colorTextSecondary-151"
+              >
+                Value
+              </p>
+            </div>
+            <div
+              class="MuiGrid-root-19 MuiGrid-item-21 MuiGrid-grid-xs-6-59 MuiGrid-grid-md-3-84"
+            >
+              <div
+                class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-align-items-xs-center-28"
+              >
+                <p
+                  class="MuiTypography-root-125 MuiTypography-body1-127"
+                >
+                  $64,048,431.12
+                </p>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li
+          class="MuiListItem-root-352 makeStyles-listItem-350 MuiListItem-gutters-359"
+        >
+          <div
+            class="MuiGrid-root-19 makeStyles-border-343 MuiGrid-container-20"
+          >
+            <div
+              class="MuiGrid-root-19 makeStyles-name-346 MuiGrid-container-20 MuiGrid-item-21 MuiGrid-grid-xs-12-65 MuiGrid-grid-md-4-85"
+            >
+              <div
+                class="MuiGrid-root-19 MuiGrid-item-21"
+              >
+                <img
+                  alt="Badger Harvest Curve.fi crvRenWBTC Vault Symbol"
+                  class="makeStyles-symbol-348"
+                  src="/assets/icons/hrenbtccrv.png"
+                />
+              </div>
+              <div
+                class="MuiGrid-root-19 MuiGrid-item-21"
+              >
+                <div
+                  class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-direction-xs-column-23"
+                >
+                  <p
+                    class="MuiTypography-root-125 MuiTypography-body1-127"
+                  >
+                    Curve.fi crvRenWBTC
+                  </p>
+                  <div
+                    class="MuiGrid-root-19 MuiGrid-container-20"
+                  >
+                    <p
+                      class="MuiTypography-root-125 MuiTypography-body2-126 MuiTypography-colorTextSecondary-151"
+                    >
+                      hrenBTCCRV
+                    </p>
+                    <div
+                      class="MuiChip-root-364 makeStyles-chip-363 MuiChip-colorPrimary-366 MuiChip-sizeSmall-365"
+                      style="background-color: rgb(238, 191, 101);"
+                    >
+                      <span
+                        class="MuiChip-label-386 MuiChip-labelSmall-387"
+                      >
+                        Harvest
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-item-21 MuiGrid-grid-xs-12-65 MuiGrid-grid-md-2-83"
+            >
+              <div
+                class="MuiGrid-root-19 makeStyles-mobileLabel-344 MuiGrid-item-21 MuiGrid-grid-xs-6-59"
+              >
+                <p
+                  class="MuiTypography-root-125 MuiTypography-body2-126 MuiTypography-colorTextSecondary-151"
+                >
+                  Tokens Deposited
+                </p>
+              </div>
+              <div
+                class="MuiGrid-root-19 MuiGrid-item-21 MuiGrid-grid-xs-6-59 MuiGrid-grid-md-12-93"
+              >
+                <div
+                  class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-align-items-xs-center-28"
+                >
+                  <img
+                    alt="Curve.fi: renCrv Token symbol"
+                    class="makeStyles-tokenSymbol-349"
+                    src="/assets/icons/hrenbtccrv.png"
+                  />
+                  <p
+                    class="MuiTypography-root-125 MuiTypography-body1-127"
+                  >
+                    881
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root-19 makeStyles-mobileLabel-344 MuiGrid-item-21 MuiGrid-grid-xs-6-59"
+            >
+              <p
+                class="MuiTypography-root-125 MuiTypography-body2-126 MuiTypography-colorTextSecondary-151"
+              >
+                ROI
+              </p>
+            </div>
+            <div
+              class="MuiGrid-root-19 makeStyles-centerGrid-351 MuiGrid-item-21 MuiGrid-grid-xs-6-59 MuiGrid-grid-md-2-83"
+            >
+              <p
+                class="MuiTypography-root-125 MuiTypography-body1-127 MuiTypography-colorTextPrimary-150"
+                style="cursor: default;"
+              >
+                2.08%
+              </p>
+            </div>
+            <div
+              class="MuiGrid-root-19 makeStyles-desktopSpacer-345 MuiGrid-item-21 MuiGrid-grid-xs-6-59 MuiGrid-grid-md-1-82"
+            />
+            <div
+              class="MuiGrid-root-19 makeStyles-mobileLabel-344 MuiGrid-item-21 MuiGrid-grid-xs-6-59"
+            >
+              <p
+                class="MuiTypography-root-125 MuiTypography-body2-126 MuiTypography-colorTextSecondary-151"
+              >
+                Value
+              </p>
+            </div>
+            <div
+              class="MuiGrid-root-19 MuiGrid-item-21 MuiGrid-grid-xs-6-59 MuiGrid-grid-md-3-84"
+            >
+              <div
+                class="MuiGrid-root-19 MuiGrid-container-20 MuiGrid-align-items-xs-center-28"
+              >
+                <p
+                  class="MuiTypography-root-125 MuiTypography-body1-127"
+                >
+                  $39,260,554.22
+                </p>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
       <div />
     </div>
   </div>
