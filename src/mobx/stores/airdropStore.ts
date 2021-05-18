@@ -1,12 +1,11 @@
 import { extendObservable, action } from 'mobx';
 import Web3 from 'web3';
-import { estimateAndSend } from '../utils/web3';
 import BigNumber from 'bignumber.js';
 import { RootStore } from '../store';
 import { jsonQuery } from '../utils/helpers';
-import { PromiEvent } from 'web3-core';
-import { Contract } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
+import { getSendOptions } from 'mobx/utils/web3';
+import { TransactionReceipt } from 'web3-core';
 
 export interface AirdropInformation {
 	token: string;
@@ -66,41 +65,47 @@ class AirdropStore {
 	});
 
 	// TODO: merkle proof typing
-	claimAirdrops = action((airdropContract: string, airdropAbi: AbiItem[], proof: any) => {
-		const { provider, gasPrices, connectedAddress, network } = this.store.wallet;
-		const { queueNotification, gasPrice, setTxStatus } = this.store.uiState;
+	claimAirdrops = action(
+		async (airdropContract: string, airdropAbi: AbiItem[], proof: any): Promise<void> => {
+			const { provider, gasPrices, connectedAddress, network } = this.store.wallet;
+			const { queueNotification, gasPrice, setTxStatus } = this.store.uiState;
 
-		if (!connectedAddress) return;
-		if (!network.airdrops) return;
+			if (!connectedAddress || !network.airdrops) {
+				return;
+			}
 
-		const web3 = new Web3(provider);
-		const airdropTree = new web3.eth.Contract(airdropAbi, airdropContract);
-		const method = airdropTree.methods.claim(proof.index, connectedAddress, proof.amount, proof.proof);
+			const web3 = new Web3(provider);
+			const airdropTree = new web3.eth.Contract(airdropAbi, airdropContract);
+			const method = airdropTree.methods.claim(proof.index, connectedAddress, proof.amount, proof.proof);
 
-		queueNotification(`Sign the transaction to claim your airdrop`, 'info');
-		if (!gasPrices || !gasPrices[gasPrice]) {
-			queueNotification(
-				`Error retrieving gas selection - check the gas selector in the top right corner.`,
-				'error',
-			);
-			return;
-		}
-		estimateAndSend(web3, gasPrices[gasPrice], method, connectedAddress, (transaction: PromiEvent<Contract>) => {
-			transaction
-				.on('transactionHash', (hash) => {
-					queueNotification(`Claim submitted.`, 'info', hash);
+			queueNotification(`Sign the transaction to claim your airdrop`, 'info');
+			if (!gasPrices || !gasPrices[gasPrice]) {
+				queueNotification(
+					`Error retrieving gas selection - check the gas selector in the top right corner.`,
+					'error',
+				);
+				return;
+			}
+
+			const price = gasPrices[gasPrice];
+			const options = await getSendOptions(method, connectedAddress, price);
+			await method
+				.send(options)
+				.on('transactionHash', (_hash: string) => {
+					// TODO: Hash seems to do nothing - investigate this?
+					queueNotification(`Claim submitted.`, 'info', _hash);
 				})
-				.on('receipt', () => {
-					queueNotification(`Rewards claimed.`, 'success');
-					this.store.contracts.fetchContracts();
+				/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
+				.on('receipt', (_receipt: TransactionReceipt) => {
+					queueNotification(`Airdrop claimed.`, 'success');
+					this.store.user.updateBalances();
 				})
-				.catch((error: any) => {
-					this.store.contracts.fetchContracts();
+				.on('error', (error: Error) => {
 					queueNotification(error.message, 'error');
 					setTxStatus('error');
 				});
-		});
-	});
+		},
+	);
 }
 
 export default AirdropStore;

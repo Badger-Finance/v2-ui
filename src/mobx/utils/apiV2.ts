@@ -39,7 +39,7 @@ export const getTokenPrices = async (chain?: string, currency?: string): Promise
 };
 
 export const getTotalValueLocked = async (network?: string): Promise<ProtocolSummary | null> => {
-	return fetchData(() => fetch(`${getTVLEndpoint}?chain=${network ? network : 'eth'}`));
+	return fetchData(() => fetch(`${getTVLEndpoint}?chain=${network ? network : 'eth'}&currency=eth`));
 };
 
 export const checkShopEligibility = async (address: string): Promise<Eligibility | null> => {
