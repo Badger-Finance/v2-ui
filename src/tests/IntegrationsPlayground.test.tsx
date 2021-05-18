@@ -4,8 +4,6 @@ import '@testing-library/jest-dom';
 import { mockApi } from './utils/apiV2';
 import { EthNetwork } from '../mobx/model';
 
-jest.useFakeTimers();
-jest.setTimeout(5 * 60000);
 mockApi();
 
 const PRIV_KEY = '0x990b68b61853f6418233b1f502a220a8770bb38849d9bd8fc552ed55f5899365';
