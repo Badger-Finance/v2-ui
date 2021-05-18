@@ -11,6 +11,7 @@ import { ClaimMap } from '../../components-v2/landing/RewardsModal';
 import { reduceClaims, reduceTimeSinceLastCycle } from 'mobx/reducers/statsReducers';
 import { TransactionReceipt } from 'web3-core';
 import { getSendOptions } from 'mobx/utils/web3';
+import { getToken } from '../../web3/config/token-config';
 
 class RewardsStore {
 	private store!: RootStore;
@@ -95,18 +96,28 @@ class RewardsStore {
 
 			const amountsToClaim: BigNumber[] = [];
 			proof.tokens.map((address: string) => {
-				if (address === tokens.digg && !!this.badgerTree.sharesPerFragment)
+				const token = getToken(address);
+				if (!token) return;
+				if (address === tokens.digg && !!this.badgerTree.sharesPerFragment) {
 					claimMap[address] = new BigNumber(claimMap[address])
-						.multipliedBy(this.badgerTree.sharesPerFragment)
+						.multipliedBy(new BigNumber(1).dividedBy(this.badgerTree.sharesPerFragment))
 						.multipliedBy(1e9);
+				} else if (address !== tokens.digg) {
+					claimMap[address] = new BigNumber(claimMap[address]).multipliedBy(10 ** token.decimals);
+				}
 
 				const amount = claimMap[address] ? claimMap[address] : new BigNumber('0');
+				const maxAmount = new BigNumber(claimableAmounts[proof.tokens.indexOf(address)]);
+
 				// We check to see if the number is greater than the claimable amount due to
 				// rounding on the UI.
-				new BigNumber(amount).gt(new BigNumber(claimableAmounts[proof.tokens.indexOf(address)]))
-					? amountsToClaim.push(claimableAmounts[proof.tokens.indexOf(address)])
-					: amountsToClaim.push(amount);
+				amount.gt(maxAmount) ? amountsToClaim.push(maxAmount) : amountsToClaim.push(amount);
 			});
+
+			if (amountsToClaim.length < proof.tokens.length) {
+				queueNotification(`Error retrieving tokens for claiming.`, 'error');
+				return;
+			}
 
 			const web3 = new Web3(provider);
 			const rewardsTree = new web3.eth.Contract(rewardsAbi as AbiItem[], badgerTree);

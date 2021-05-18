@@ -147,9 +147,26 @@ const ethSettDefinitions: BadgerSett[] = [
 		geyser: ETH_DEPLOY.geysers['native.sbtcCrv'],
 	},
 ];
+
+const ethRewards = [
+	{
+		address: ETH_DEPLOY.tokens['farm'],
+		decimals: 18,
+	},
+	{
+		address: ETH_DEPLOY.tokens['xsushi'],
+		decimals: 18,
+	},
+	{
+		address: ETH_DEPLOY.tokens['usdc'],
+		decimals: 6,
+	},
+];
+
 export const ethSetts = toSettConfig(ethSettDefinitions);
 
-const ethTokens = ethSetts.flatMap((sett) => [sett.depositToken, sett.vaultToken]);
+const ethTokens = ethSetts.flatMap((sett) => [sett.depositToken, sett.vaultToken]).concat(ethRewards);
+
 export const ethProtocolTokens: ProtocolTokens = toRecord(ethTokens, 'address');
 
 export const getEthereumBatchRequests = (userAddress: string): BatchCallRequest[] => {
