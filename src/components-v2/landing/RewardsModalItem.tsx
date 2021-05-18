@@ -16,7 +16,11 @@ const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
 		claimInput: {
 			[theme.breakpoints.up('md')]: { paddingLeft: theme.spacing(6) },
-			[theme.breakpoints.down('md')]: { paddingLeft: theme.spacing(2), maxWidth: '66%' },
+			[theme.breakpoints.down('md')]: { paddingLeft: theme.spacing(2) },
+		},
+		claimInputContainer: {
+			marginTop: 'auto',
+			marginBottom: 'auto',
 		},
 		modalItem: {
 			paddingBottom: theme.spacing(2),
@@ -29,11 +33,10 @@ const useStyles = makeStyles((theme: Theme) =>
 		currencyContainer: {
 			position: 'relative',
 			top: '-5px',
+			overflow: 'hidden',
 		},
 		currencyValue: {
-			marginTop: 'auto',
-			marginBottom: '1px',
-			paddingLeft: '5px',
+			marginTop: '-5px',
 		},
 	}),
 );
@@ -78,33 +81,45 @@ export const RewardsModalItem = observer(
 				direction="row"
 				justify="space-between"
 			>
-				<Grid className={classes.claimableContainer}>
-					<Typography variant="subtitle2" color="textSecondary" className={classes.currencySymbol}>
-						{symbol}
-					</Typography>
-					<Grid container direction="row" className={classes.currencyContainer}>
-						<Typography>{amount}</Typography>
-						<Typography className={classes.currencyValue} variant="caption" color="textSecondary">
-							({value})
+				<Grid item xs={6} md={4}>
+					<Grid className={classes.claimableContainer}>
+						<Typography variant="subtitle2" color="textSecondary" className={classes.currencySymbol}>
+							{symbol}
 						</Typography>
+						<Grid container direction="column" className={classes.currencyContainer}>
+							<Typography>{amount}</Typography>
+							<Typography className={classes.currencyValue} variant="caption" color="textSecondary">
+								({value})
+							</Typography>
+						</Grid>
 					</Grid>
 				</Grid>
-				<TextField
-					id={`${symbol}-claim-amount`}
-					className={classes.claimInput}
-					variant="outlined"
-					value={inputAmount}
-					error={formError}
-					size={window.innerWidth >= 960 ? 'medium' : 'small'}
-					onChange={handleInputAmount}
-					InputProps={{
-						endAdornment: [
-							<Button key="token-select-btn" size="small" variant="outlined" onClick={useMaxBalance}>
-								max
-							</Button>,
-						],
-					}}
-				/>
+				<Grid item xs={6} md={8} className={classes.claimInputContainer}>
+					<TextField
+						id={`${symbol}-claim-amount`}
+						className={classes.claimInput}
+						variant="outlined"
+						value={inputAmount}
+						error={formError}
+						size={window.innerWidth >= 960 ? 'medium' : 'small'}
+						onChange={handleInputAmount}
+						InputProps={{
+							endAdornment:
+								window.innerWidth >= 960
+									? [
+											<Button
+												key="token-select-btn"
+												size="small"
+												variant="outlined"
+												onClick={useMaxBalance}
+											>
+												max
+											</Button>,
+									  ]
+									: [],
+						}}
+					/>
+				</Grid>
 			</Grid>
 		);
 	},

@@ -8,6 +8,10 @@ const useStyles = makeStyles((theme) => ({
 		height: '1.8rem',
 		overflow: 'hidden',
 		marginLeft: theme.spacing(1),
+		[theme.breakpoints.up('sm')]: {
+			marginTop: 'auto',
+			marginBottom: 'auto',
+		},
 	},
 }));
 
@@ -25,7 +29,6 @@ const CurrencyPicker = observer(() => {
 			value={currency}
 			onChange={(v: any) => setCurrency(v.target.value)}
 			className={classes.currencyPicker}
-			style={{ marginTop: 'auto', marginBottom: 'auto' }}
 		>
 			<MenuItem value={'usd'}>USD</MenuItem>
 			<MenuItem value={'cad'}>CAD</MenuItem>

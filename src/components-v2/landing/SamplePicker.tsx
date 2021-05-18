@@ -3,10 +3,14 @@ import { Select, MenuItem, Tooltip, makeStyles } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
 	samplePicker: {
 		height: '1.8rem',
 		overflow: 'hidden',
+		[theme.breakpoints.up('sm')]: {
+			marginTop: 'auto',
+			marginBottom: 'auto',
+		},
 	},
 }));
 
@@ -31,7 +35,6 @@ const SamplePicker = observer(() => {
 				value={period}
 				onChange={(v: any) => setPeriod(v.target.value)}
 				className={classes.samplePicker}
-				style={{ marginTop: 'auto', marginBottom: 'auto' }}
 			>
 				<MenuItem value={'month'}>MONTH</MenuItem>
 				<MenuItem value={'year'}>YEAR</MenuItem>
