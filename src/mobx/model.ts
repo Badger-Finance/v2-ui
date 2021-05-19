@@ -8,6 +8,7 @@ import { RootStore } from './store';
 import { getAirdrops } from 'config/system/airdrops';
 import { getRebase } from '../config/system/rebase';
 import { getRewards } from 'config/system/rewards';
+import { SidebarLink, sidebarPricingLinks, sidebarTokenLinks } from 'config/ui/links';
 import { NETWORK_IDS, NETWORK_LIST, ZERO, TEN } from 'config/constants';
 import { getStrategies } from '../config/system/strategies';
 import { getNetworkDeploy } from './utils/network';
@@ -358,10 +359,8 @@ export interface Network {
 	rewards: RewardNetworkConfig | undefined;
 	currency: string;
 	gasEndpoint: string;
-	sidebarTokenLinks: {
-		url: string;
-		title: string;
-	}[];
+	sidebarTokenLinks: SidebarLink[];
+	sidebarPricingLinks: SidebarLink[];
 	settOrder: string[];
 	getGasPrices: () => Promise<GasPrices>;
 	getNotifyLink: EmitterListener;
@@ -406,16 +405,8 @@ export class BscNetwork implements Network {
 		this.deploy.sett_system.vaults['native.pancakeBnbBtcb'],
 		this.deploy.sett_system.vaults['yearn.wBtc'],
 	];
-	readonly sidebarTokenLinks = [
-		{
-			url: 'https://pancakeswap.info/pair/0xE1E33459505bB3763843a426F7Fd9933418184ae',
-			title: 'PancakeSwap bDigg/BtcB',
-		},
-		{
-			url: 'https://pancakeswap.info/pair/0x10f461ceac7a17f59e249954db0784d42eff5db5',
-			title: 'PancakeSwap bBadger/BtcB',
-		},
-	];
+	public readonly sidebarTokenLinks = sidebarTokenLinks(NETWORK_LIST.BSC);
+	public readonly sidebarPricingLinks = sidebarPricingLinks;
 	public async getGasPrices(): Promise<GasPrices> {
 		return { standard: 5 };
 	}
@@ -461,20 +452,8 @@ export class EthNetwork implements Network {
 		this.deploy.sett_system.vaults['native.tbtcCrv'],
 		this.deploy.sett_system.vaults['harvest.renCrv'],
 	];
-	readonly sidebarTokenLinks = [
-		{
-			url: 'https://matcha.xyz/markets/BADGER',
-			title: 'BADGER',
-		},
-		{
-			url: 'https://info.uniswap.org/pair/0xcd7989894bc033581532d2cd88da5db0a4b12859',
-			title: 'Uniswap BADGER/wBTC',
-		},
-		{
-			url: 'https://analytics.sushi.com/pairs/0x110492b31c59716ac47337e616804e3e3adc0b4a',
-			title: 'Sushiswap BADGER/wBTC',
-		},
-	];
+	public readonly sidebarTokenLinks = sidebarTokenLinks(NETWORK_LIST.ETH);
+	public readonly sidebarPricingLinks = sidebarPricingLinks;
 	public async getGasPrices(): Promise<GasPrices> {
 		const prices = await fetch('https://www.gasnow.org/api/v3/gas/price?utm_source=badgerv2');
 		const result = await prices.json();
