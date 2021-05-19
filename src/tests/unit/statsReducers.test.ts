@@ -26,3 +26,154 @@ describe('getPercentageChange', () => {
 		expect(reduceTimeSinceLastCycle(time)).toBe(expected);
 	});
 });
+
+describe('reduceClaims', () => {
+	test('Claims with normal values are reduced correctly', () => {
+		const proof: RewardMerkleClaim = {
+			index: '',
+			cycle: '',
+			boost: new BigNumber(1),
+			user: '1',
+			tokens: ['token1', 'token2'],
+			cumulativeAmounts: ['100', '200'],
+			proof: ['', ''],
+			node: '',
+		};
+		const claimedRewards: TreeClaimData = [
+			['0x111', '0x222'],
+			[new BigNumber(1), new BigNumber(2)],
+		];
+		const expected: UserClaimData[] = [
+			{ amount: new BigNumber(99), token: 'token1' },
+			{ amount: new BigNumber(198), token: 'token2' },
+		];
+		expect(reduceClaims(proof, claimedRewards)).toEqual(expected);
+	});
+	test('Claims with same claimed and earned values are reduced correctly', () => {
+		const proof: RewardMerkleClaim = {
+			index: '',
+			cycle: '',
+			boost: new BigNumber(1),
+			user: '1',
+			tokens: ['token1', 'token2'],
+			cumulativeAmounts: ['100', '200'],
+			proof: ['', ''],
+			node: '',
+		};
+		const claimedRewards: TreeClaimData = [
+			['0x111', '0x222'],
+			[new BigNumber(100), new BigNumber(200)],
+		];
+		const expected: UserClaimData[] = [
+			{ amount: new BigNumber(0), token: 'token1' },
+			{ amount: new BigNumber(0), token: 'token2' },
+		];
+		expect(reduceClaims(proof, claimedRewards)).toEqual(expected);
+	});
+	test('Claims with negative claimed values are reduced correctly', () => {
+		const proof: RewardMerkleClaim = {
+			index: '',
+			cycle: '',
+			boost: new BigNumber(1),
+			user: '1',
+			tokens: ['token1', 'token2'],
+			cumulativeAmounts: ['100', '200'],
+			proof: ['', ''],
+			node: '',
+		};
+		const claimedRewards: TreeClaimData = [
+			['0x111', '0x222'],
+			[new BigNumber(-1), new BigNumber(-2)],
+		];
+		const expected: UserClaimData[] = [
+			{ amount: new BigNumber(101), token: 'token1' },
+			{ amount: new BigNumber(202), token: 'token2' },
+		];
+		expect(reduceClaims(proof, claimedRewards)).toEqual(expected);
+	});
+	test('Claims with empty earned values are reduced correctly', () => {
+		const proof: RewardMerkleClaim = {
+			index: '',
+			cycle: '',
+			boost: new BigNumber(1),
+			user: '1',
+			tokens: ['token1', 'token2'],
+			cumulativeAmounts: ['', ''],
+			proof: ['', ''],
+			node: '',
+		};
+		const claimedRewards: TreeClaimData = [
+			['0x111', '0x222'],
+			[new BigNumber(1), new BigNumber(2)],
+		];
+		const expected: UserClaimData[] = [
+			{ amount: new BigNumber(NaN), token: 'token1' },
+			{ amount: new BigNumber(NaN), token: 'token2' },
+		];
+		expect(reduceClaims(proof, claimedRewards)).toEqual(expected);
+	});
+	test('Claims with NaN claimed values are reduced correctly', () => {
+		const proof: RewardMerkleClaim = {
+			index: '',
+			cycle: '',
+			boost: new BigNumber(1),
+			user: '1',
+			tokens: ['token1', 'token2'],
+			cumulativeAmounts: ['100', '200'],
+			proof: ['', ''],
+			node: '',
+		};
+		const claimedRewards: TreeClaimData = [
+			['0x111', '0x222'],
+			[new BigNumber(NaN), new BigNumber(NaN)],
+		];
+		const expected: UserClaimData[] = [
+			{ amount: new BigNumber(NaN), token: 'token1' },
+			{ amount: new BigNumber(NaN), token: 'token2' },
+		];
+		expect(reduceClaims(proof, claimedRewards)).toEqual(expected);
+	});
+	test('Claims with different array sizes are reduced correctly 1', () => {
+		const proof: RewardMerkleClaim = {
+			index: '',
+			cycle: '',
+			boost: new BigNumber(1),
+			user: '1',
+			tokens: ['token1', 'token2', 'token3'],
+			cumulativeAmounts: ['100', '200', '300'],
+			proof: ['', ''],
+			node: '',
+		};
+		const claimedRewards: TreeClaimData = [
+			['0x111', '0x222'],
+			[new BigNumber(1), new BigNumber(2)],
+		];
+		const expected: UserClaimData[] = [
+			{ amount: new BigNumber(99), token: 'token1' },
+			{ amount: new BigNumber(198), token: 'token2' },
+			{ amount: new BigNumber(NaN), token: 'token3' },
+		];
+		expect(reduceClaims(proof, claimedRewards)).toEqual(expected);
+	});
+	test('Claims with different array sizes are reduced correctly 2', () => {
+		const proof: RewardMerkleClaim = {
+			index: '',
+			cycle: '',
+			boost: new BigNumber(1),
+			user: '1',
+			tokens: ['token1', 'token2'],
+			cumulativeAmounts: ['100', '200'],
+			proof: ['', ''],
+			node: '',
+		};
+		const claimedRewards: TreeClaimData = [
+			['0x111', '0x222', '0x333'],
+			[new BigNumber(1), new BigNumber(2), new BigNumber(3)],
+		];
+		const expected: UserClaimData[] = [
+			{ amount: new BigNumber(99), token: 'token1' },
+			{ amount: new BigNumber(198), token: 'token2' },
+		];
+		expect(reduceClaims(proof, claimedRewards)).toEqual(expected);
+	});
+});
