@@ -1,12 +1,12 @@
 import React from 'react';
 import '@testing-library/jest-dom';
-
 import addresses from 'config/ibBTC/addresses.json';
 import store from 'mobx/store';
 import { StoreProvider } from '../../mobx/store-context';
 import { TokenModel } from '../../mobx/model';
-import { customRender, screen, fireEvent, act } from '../Utils';
+import { customRender, screen, fireEvent, cleanup, act } from '../Utils';
 import { Mint } from '../../components/IbBTC/Mint';
+import BigNumber from 'bignumber.js';
 
 const tokensConfig = addresses.mainnet.contracts.tokens;
 const mockIbBTC = new TokenModel(store, tokensConfig['ibBTC']);
@@ -22,7 +22,16 @@ describe('ibBTC Mint', () => {
 		store.ibBTCStore.tokens = mockTokens;
 		store.ibBTCStore.tokens[0].balance = store.ibBTCStore.tokens[0].scale('5');
 		store.ibBTCStore.ibBTC.balance = mockIbBTC.scale('10');
+
+		store.ibBTCStore.getMintLimit = jest.fn().mockReturnValue({
+			userLimit: new BigNumber(50e8),
+			allUsersLimit: new BigNumber(100e8),
+			individualLimit: new BigNumber(25e8),
+			globalLimit: new BigNumber(75e8),
+		});
 	});
+
+	afterEach(cleanup);
 
 	it('displays token input balance and ibBTC balance', () => {
 		customRender(
@@ -48,7 +57,6 @@ describe('ibBTC Mint', () => {
 	});
 
 	it('displays output ibBTC when mint amount is inputted', async () => {
-		jest.useFakeTimers();
 		store.ibBTCStore.calcMintAmount = jest.fn().mockReturnValue({
 			bBTC: mockIbBTC.scale('11.988'),
 			fee: mockIbBTC.scale('0.0120'),
@@ -59,7 +67,6 @@ describe('ibBTC Mint', () => {
 				<Mint />
 			</StoreProvider>,
 		);
-
 		fireEvent.change(screen.getByRole('textbox'), { target: { value: '12' } });
 		await screen.findByRole('heading', { level: 1, name: '11.988000' });
 		expect(container).toMatchSnapshot();

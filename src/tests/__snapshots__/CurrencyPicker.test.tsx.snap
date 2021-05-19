@@ -87,7 +87,6 @@ exports[`CurrencyPicker Renders correctly 1`] = `
 <div>
   <div
     class="MuiInputBase-root-28 MuiOutlinedInput-root-13 makeStyles-currencyPicker-1"
-    style="margin-top: auto; margin-bottom: auto;"
   >
     <div
       aria-haspopup="listbox"
