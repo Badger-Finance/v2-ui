@@ -6,8 +6,8 @@ import { observer } from 'mobx-react-lite';
 import { Loader } from '../Loader';
 import Metric from './Metric';
 import { shortenNumbers } from '../../mobx/utils/diggHelpers';
-import BigNumber from 'bignumber.js';
-import { formatPrice } from 'mobx/reducers/statsReducers';
+import { inCurrency } from 'mobx/utils/helpers';
+import { ETH_DEPLOY } from 'web3/config/eth-config';
 
 const useStyles = makeStyles((theme) => ({
 	before: {
@@ -81,6 +81,7 @@ const useStyles = makeStyles((theme) => ({
 const Info = observer(() => {
 	const store = useContext(StoreContext);
 	const {
+		setts: { settMap },
 		uiState: { rebaseStats, currency, stats },
 	} = store;
 	const classes = useStyles();
@@ -100,19 +101,20 @@ const Info = observer(() => {
 		}
 	}, 1000);
 
+	const ppfs = settMap ? settMap[ETH_DEPLOY.sett_system.vaults['native.digg']].ppfs : undefined;
 	const spacer = () => <div className={classes.before} />;
 	return (
 		<>
 			<Grid item xs={6} md={6}>
 				<Metric
 					metric="BTC Price"
-					value={rebaseStats.btcPrice > 0 ? formatPrice(rebaseStats.btcPrice, currency) : '-'}
+					value={rebaseStats.btcPrice > 0 ? inCurrency(rebaseStats.btcPrice, currency) : '-'}
 				/>
 			</Grid>
 			<Grid item xs={6} md={6}>
 				<Metric
 					metric="DIGG Price"
-					value={stats.stats.digg > 0 ? formatPrice(stats.stats.digg || new BigNumber(0), currency) : '-'}
+					value={rebaseStats.oraclePrice > 0 ? inCurrency(rebaseStats.oraclePrice, currency) : '-'}
 				/>
 			</Grid>
 			<Grid item xs={12} md={6}>
@@ -127,9 +129,7 @@ const Info = observer(() => {
 			{spacer()}
 			<Grid item xs={12} md={6} style={{ textAlign: 'center' }}>
 				<Paper className={classes.darkPaper}>
-					<Typography variant="body1">
-						1 bDIGG = {!!stats.stats.bDigg ? stats.stats.bDigg.toFixed(9) : '...'} DIGG
-					</Typography>
+					<Typography variant="body1">1 bDIGG = {!!ppfs ? ppfs.toFixed(9) : '...'} DIGG</Typography>
 					<Typography variant="body2">
 						Potential Rebase ={' '}
 						<span

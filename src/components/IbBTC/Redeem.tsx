@@ -12,6 +12,7 @@ import { DownArrow } from './DownArrow';
 import { StoreContext } from 'mobx/store-context';
 import { TokenModel } from 'mobx/model';
 import { useConnectWallet } from 'mobx/utils/hooks';
+import { toFixedDecimals } from 'mobx/utils/helpers';
 import {
 	EndAlignText,
 	InputTokenAmount,
@@ -31,6 +32,11 @@ type RedeemInformation = {
 	max: BigNumber;
 	fee: BigNumber;
 	conversionRate: BigNumber;
+};
+
+type InputAmount = {
+	displayValue: string;
+	actualValue: BigNumber;
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -84,7 +90,7 @@ export const Redeem = observer((): any => {
 	} = store;
 
 	const [selectedToken, setSelectedToken] = useState(tokens[0]);
-	const [inputAmount, setInputAmount] = useState<string>();
+	const [inputAmount, setInputAmount] = useState<InputAmount>();
 	const [outputAmount, setOutputAmount] = useState<string>();
 	const [conversionRate, setConversionRate] = useState<string>();
 	const [maxRedeem, setMaxRedeem] = useState<BigNumber>();
@@ -92,105 +98,93 @@ export const Redeem = observer((): any => {
 	const [fee, setFee] = useState('0.000');
 	const [isEnoughToRedeem, setIsEnoughToRedeem] = useState(true);
 
-	const displayedConversionRate = conversionRate || selectedToken.redeemRate;
-
 	// do not display errors for non guests, they won't be able to redeem anyways
 	const showError = bouncerProof && !isEnoughToRedeem;
 
 	const resetState = () => {
-		setInputAmount('');
-		setOutputAmount('');
+		setInputAmount(undefined);
+		setOutputAmount(undefined);
 		setMaxRedeem(undefined);
 		setIsEnoughToRedeem(true);
 		setFee('0.000');
 		setTotalRedeem('0.000');
 	};
 
-	const setRedeemInformation = ({ inputAmount, redeemAmount, max, fee, conversionRate }: RedeemInformation) => {
-		setMaxRedeem(max);
+	const setRedeemInformation = ({ inputAmount, redeemAmount, max, fee, conversionRate }: RedeemInformation): void => {
 		setIsEnoughToRedeem(max.gte(inputAmount));
-		setOutputAmount(redeemAmount.toFixed(6, BigNumber.ROUND_HALF_FLOOR));
-		setFee(fee.toFixed(6, BigNumber.ROUND_HALF_FLOOR));
-		setTotalRedeem(redeemAmount.toFixed(6, BigNumber.ROUND_HALF_FLOOR));
+		setOutputAmount(toFixedDecimals(redeemAmount, 6));
+		setFee(toFixedDecimals(fee, 6));
+		setTotalRedeem(toFixedDecimals(redeemAmount, 6));
 		setConversionRate(conversionRate.toFixed(6, BigNumber.ROUND_HALF_FLOOR));
 	};
 
-	const calculateRedeem = async (input: BigNumber) => {
+	const calculateRedeem = async (ibBTCAmount: BigNumber, token: TokenModel): Promise<void> => {
 		const [{ sett, fee, max }, conversionRate] = await Promise.all([
-			store.ibBTCStore.calcRedeemAmount(selectedToken, ibBTC.scale(input)),
-			store.ibBTCStore.getRedeemConversionRate(selectedToken),
+			store.ibBTCStore.calcRedeemAmount(token, ibBTCAmount),
+			store.ibBTCStore.getRedeemConversionRate(token),
 		]);
 
+		setMaxRedeem(max);
 		setRedeemInformation({
-			inputAmount: input,
-			redeemAmount: selectedToken.unscale(sett),
+			inputAmount: ibBTC.unscale(ibBTCAmount),
+			redeemAmount: token.unscale(sett),
 			max: ibBTC.unscale(max),
 			fee: ibBTC.unscale(fee),
-			conversionRate: selectedToken.unscale(conversionRate),
+			conversionRate: token.unscale(conversionRate),
 		});
 	};
 
 	// reason: the plugin does not recognize the dependency inside the debounce function
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	const handleInputAmountChange = useCallback(
-		debounce(600, async (change) => {
-			const input = new BigNumber(change);
+		debounce(
+			600,
+			async (change): Promise<void> => {
+				const input = new BigNumber(change);
 
-			if (!input.gt(ZERO)) {
-				setMaxRedeem(undefined);
-				setIsEnoughToRedeem(true);
-				setOutputAmount('');
-				setFee('0.000');
-				setTotalRedeem('0.000');
-				setConversionRate(selectedToken.redeemRate);
-				return;
-			}
+				if (!input.gt(ZERO)) {
+					setOutputAmount(undefined);
+					setMaxRedeem(undefined);
+					setIsEnoughToRedeem(true);
+					setFee('0.000');
+					setTotalRedeem('0.000');
+					return;
+				}
 
-			await calculateRedeem(input);
-		}),
+				await calculateRedeem(ibBTC.scale(input), selectedToken);
+			},
+		),
 		[selectedToken],
 	);
 
-	const handleApplyMaxBalance = async () => {
+	const handleApplyMaxBalance = async (): Promise<void> => {
 		if (ibBTC.balance.gt(ZERO) && selectedToken) {
-			setInputAmount(ibBTC.unscale(ibBTC.balance).toString());
-
-			const [{ sett, fee, max }, conversionRate] = await Promise.all([
-				store.ibBTCStore.calcRedeemAmount(selectedToken, ibBTC.balance),
-				store.ibBTCStore.getRedeemConversionRate(selectedToken),
-			]);
-
-			setRedeemInformation({
-				inputAmount: ibBTC.unscale(ibBTC.balance),
-				redeemAmount: selectedToken.unscale(sett),
-				max: ibBTC.unscale(max),
-				fee: ibBTC.unscale(fee),
-				conversionRate: selectedToken.unscale(conversionRate),
+			setInputAmount({
+				displayValue: ibBTC.unscale(ibBTC.balance).toFixed(ibBTC.decimals, BigNumber.ROUND_HALF_FLOOR),
+				actualValue: ibBTC.balance,
 			});
+			await calculateRedeem(ibBTC.balance, selectedToken);
 		}
 	};
 
-	const handleTokenChange = async (token: TokenModel) => {
+	const handleLimitClick = async (limit: BigNumber): Promise<void> => {
+		setInputAmount({
+			displayValue: ibBTC.unscale(limit).toFixed(ibBTC.decimals, BigNumber.ROUND_HALF_FLOOR),
+			actualValue: limit,
+		});
+		await calculateRedeem(limit, selectedToken);
+	};
+
+	const handleTokenChange = async (token: TokenModel): Promise<void> => {
 		setSelectedToken(token);
-		if (inputAmount) {
-			const [{ sett, fee, max }, conversionRate] = await Promise.all([
-				store.ibBTCStore.calcRedeemAmount(token, ibBTC.scale(inputAmount)),
-				store.ibBTCStore.getRedeemConversionRate(token),
-			]);
-
-			setRedeemInformation({
-				inputAmount: new BigNumber(inputAmount),
-				redeemAmount: token.unscale(sett),
-				max: ibBTC.unscale(max),
-				fee: ibBTC.unscale(fee),
-				conversionRate: token.unscale(conversionRate),
-			});
+		if (inputAmount?.actualValue && !inputAmount.actualValue.isNaN()) {
+			await calculateRedeem(inputAmount.actualValue, token);
 		}
 	};
 
-	const handleRedeemClick = async () => {
-		if (inputAmount) {
-			await store.ibBTCStore.redeem(selectedToken, ibBTC.scale(inputAmount));
+	const handleRedeemClick = async (): Promise<void> => {
+		if (inputAmount?.actualValue && !inputAmount.actualValue.isNaN()) {
+			await store.ibBTCStore.redeem(selectedToken, inputAmount.actualValue);
 			resetState();
 		}
 	};
@@ -206,11 +200,14 @@ export const Redeem = observer((): any => {
 				<BorderedFocusableContainerGrid item container xs={12}>
 					<Grid item xs={8} sm={7}>
 						<InputTokenAmount
-							value={inputAmount}
+							value={inputAmount?.displayValue}
 							disabled={!connectedAddress}
 							placeholder="0.000"
 							onChange={(val) => {
-								setInputAmount(val);
+								setInputAmount({
+									displayValue: val,
+									actualValue: ibBTC.scale(val),
+								});
 								handleInputAmountChange(val);
 							}}
 						/>
@@ -246,15 +243,15 @@ export const Redeem = observer((): any => {
 						<Grid item xs={12} container>
 							<ErrorText variant="subtitle1">
 								<span>A maximum of </span>
-								<span
+								<Tooltip
 									className={classes.maxAmount}
-									onClick={async () => {
-										setInputAmount(maxRedeem.toFixed(6, BigNumber.ROUND_HALF_FLOOR));
-										await calculateRedeem(maxRedeem);
-									}}
+									title="Apply limit"
+									arrow
+									placement="top"
+									onClick={() => handleLimitClick(maxRedeem)}
 								>
-									{maxRedeem.toFixed(6, BigNumber.ROUND_HALF_FLOOR)}
-								</span>
+									<span>{toFixedDecimals(ibBTC.unscale(maxRedeem), 6)}</span>
+								</Tooltip>
 								<span>
 									{' '}
 									{ibBTC.symbol} can be redeemed for {selectedToken.symbol}.
@@ -268,7 +265,7 @@ export const Redeem = observer((): any => {
 						</Grid>
 						<Grid item xs={6}>
 							<EndAlignText variant="body1">
-								1 {ibBTC.symbol} : {displayedConversionRate} {selectedToken.symbol}
+								1 {ibBTC.symbol} : {conversionRate || selectedToken.redeemRate} {selectedToken.symbol}
 							</EndAlignText>
 						</Grid>
 					</Grid>

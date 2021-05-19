@@ -4,17 +4,19 @@ import { AbiItem } from 'web3-utils';
 import Web3 from 'web3';
 import { CustomNotificationObject, EmitterListener, TransactionData } from 'bnc-notify';
 import { LockAndMintParamsSimple, BurnAndReleaseParamsSimple } from '@renproject/interfaces';
-
 import { RootStore } from './store';
 import { getAirdrops } from 'config/system/airdrops';
-import { getGeysers } from '../config/system/geysers';
 import { getRebase } from '../config/system/rebase';
 import { getRewards } from 'config/system/rewards';
+import { SidebarLink, sidebarPricingLinks, sidebarTokenLinks } from 'config/ui/links';
 import { NETWORK_IDS, NETWORK_LIST, ZERO, TEN } from 'config/constants';
-import { getTokens } from '../config/system/tokens';
-import { getVaults } from '../config/system/vaults';
 import { getStrategies } from '../config/system/strategies';
 import { getNetworkDeploy } from './utils/network';
+import { BadgerSett } from './model/badger-sett';
+import { BatchCallRequest } from 'web3/interface/batch-call-request';
+import { ethSetts, ethProtocolTokens, getEthereumBatchRequests } from 'web3/config/eth-config';
+import { bscSetts, bscProtocolTokens, getBinanceSmartChainBatchRequests } from 'web3/config/bsc-config';
+import { ProtocolTokens } from 'web3/interface/protocol-token';
 
 export class Contract {
 	store!: RootStore;
@@ -23,140 +25,6 @@ export class Contract {
 	constructor(store: RootStore, address: string) {
 		this.store = store;
 		this.address = address;
-	}
-}
-export class Token extends Contract {
-	public balance!: BigNumber;
-	public decimals!: number;
-	public totalSupply!: BigNumber;
-	public symbol!: string;
-	public name!: string;
-	public ethValue!: BigNumber;
-	public vaults!: Vault[];
-
-	constructor(store: RootStore, address: string, decimals: number) {
-		super(store, address);
-		this.balance = new BigNumber(0);
-		this.ethValue = new BigNumber(0);
-		this.decimals = decimals;
-		this.vaults = [];
-	}
-
-	balanceValue(): BigNumber {
-		return this.balance.dividedBy(10 ** this.decimals).multipliedBy(this.ethValue);
-	}
-
-	update(payload: TokenPayload): void {
-		if (!!payload.balanceOf) this.balance = payload.balanceOf;
-		if (!!payload.decimals) this.decimals = payload.decimals;
-		if (!!payload.symbol) this.symbol = payload.symbol;
-		if (!!payload.ethValue) this.ethValue = payload.ethValue;
-		if (!!payload.totalSupply) this.totalSupply = payload.totalSupply;
-		if (!!payload.name) this.name = payload.name;
-	}
-}
-
-export class Vault extends Token {
-	public position!: number;
-	public holdings!: BigNumber;
-	public underlyingToken!: Token;
-	public growth!: Growth[];
-	public geyser!: Geyser;
-	public pricePerShare!: BigNumber;
-	public abi!: AbiItem;
-	public super!: boolean;
-	public vaultBalance!: BigNumber;
-	public withdrawAll!: boolean;
-
-	constructor(store: RootStore, address: string, decimals: number, underlyingToken: Token, abi: AbiItem) {
-		super(store, address, decimals);
-		this.pricePerShare = new BigNumber(1);
-		this.underlyingToken = underlyingToken;
-		this.underlyingToken.vaults.push(this);
-		this.decimals = 18;
-		this.holdings = new BigNumber(0);
-		this.vaultBalance = new BigNumber(0);
-		this.abi = abi;
-		this.super = false;
-		this.withdrawAll = true;
-	}
-
-	deposit(amount: BigNumber): void {
-		this.store.contracts.deposit(this, amount);
-	}
-
-	withdraw(amount: BigNumber): void {
-		this.store.contracts.withdraw(this, amount);
-	}
-
-	holdingsValue(): BigNumber {
-		return this.holdings
-			.multipliedBy(this.pricePerShare)
-			.dividedBy(10 ** this.decimals)
-			.multipliedBy(this.underlyingToken.ethValue);
-	}
-
-	balanceValue(): BigNumber {
-		return this.balance
-			.multipliedBy(this.pricePerShare)
-			.dividedBy(10 ** this.decimals)
-			.multipliedBy(this.underlyingToken.ethValue);
-	}
-
-	update(payload: TokenPayload): void {
-		super.update(payload);
-		if (!!payload.position) this.position = payload.position;
-		if (!!payload.growth) this.growth = payload.growth;
-		if (!!payload.balance) this.vaults = payload.balance;
-		if (!!payload.getPricePerFullShare) this.pricePerShare = payload.getPricePerFullShare;
-		if (!!payload.totalSupply) this.holdings = payload.totalSupply;
-		if ('isSuperSett' in payload) this.super = payload.isSuperSett;
-		if (!!payload.ethValue) this.ethValue = payload.ethValue;
-		if ('withdrawAll' in payload) this.withdrawAll = payload.withdrawAll;
-	}
-}
-
-export class Geyser extends Contract {
-	public vault!: Vault;
-	public holdings!: BigNumber;
-	public balance!: BigNumber;
-	public rewards!: Growth[];
-	public abi!: AbiItem;
-
-	constructor(store: RootStore, address: string, vault: Vault, abi: AbiItem) {
-		super(store, address);
-		this.vault = vault;
-		this.vault.geyser = this;
-		this.holdings = new BigNumber(0);
-		this.balance = new BigNumber(0);
-		this.abi = abi;
-	}
-
-	stake(amount: BigNumber): void {
-		this.store.contracts.stake(this.vault, amount);
-	}
-
-	unstake(amount: BigNumber): void {
-		this.store.contracts.unstake(this.vault, amount);
-	}
-
-	holdingsValue(): BigNumber {
-		return this.holdings
-			.dividedBy(10 ** this.vault.decimals)
-			.multipliedBy(this.vault.pricePerShare)
-			.multipliedBy(this.vault.underlyingToken.ethValue);
-	}
-
-	balanceValue(): BigNumber {
-		return this.balance
-			.dividedBy(10 ** this.vault.decimals)
-			.multipliedBy(this.vault.pricePerShare)
-			.multipliedBy(this.vault.underlyingToken.ethValue);
-	}
-
-	update(payload: GeyserPayload): void {
-		if (!!payload.totalStaked) this.holdings = payload.totalStaked;
-		if (!!payload.totalStakedFor) this.balance = payload.totalStakedFor;
 	}
 }
 
@@ -238,13 +106,6 @@ interface TokenConfig {
 	redeemRate?: string;
 }
 
-export interface Growth {
-	day: Amount;
-	week: Amount;
-	month: Amount;
-	year: Amount;
-}
-
 export interface RewardMerkleClaim {
 	index: string;
 	cycle: string;
@@ -263,57 +124,15 @@ export interface UserClaimData {
 	amount: BigNumber;
 }
 
-export interface Amount {
-	token: Token;
-	amount: BigNumber;
-}
-
 export type ReduceAirdropsProps = {
 	digg?: BigNumber;
 	merkleProof?: any;
 	bBadger?: BigNumber;
 };
 
-export type TokenRebaseStats = {
-	totalSupply: BigNumber;
-	decimals: number;
-	lastRebaseTimestampSec: number;
-	minRebaseTimeIntervalSec: number;
-	rebaseLag: any;
-	epoch: any;
-	inRebaseWindow: boolean;
-	rebaseWindowLengthSec: number;
-	oracleRate: BigNumber;
-	derivedEth: any;
-	nextRebase: Date;
-	pastRebase: any;
-};
-
-export type TokenPayload = {
-	balanceOf: BigNumber;
-	decimals: number;
-	symbol: string;
-	ethValue: BigNumber;
-	totalSupply: BigNumber;
-	name: string;
-	position: number;
-	growth: Growth[];
-	balance: Vault[];
-	getPricePerFullShare: BigNumber;
-	isSuperSett: boolean;
-	withdrawAll: boolean;
-};
-
-export type GeyserPayload = {
-	totalStaked: BigNumber;
-	totalStakedFor: BigNumber;
-};
-
 export type Schedules = {
 	[index: string]: string[][];
 };
-
-export type RebaseToStats = { nextRebase: Date; oracleRate: string; totalSupply: string | boolean };
 
 export type ContractToStats = {
 	stats: {
@@ -374,14 +193,6 @@ export type ContractMethodsConfig = {
 	walletMethods: string[];
 };
 
-export type BatchConfig = {
-	namespace: string;
-	addresses: string[];
-	allReadMethods: boolean;
-	groupByNamespace: boolean;
-	logging: boolean;
-};
-
 export type ReducedGraphResults = {
 	address: string;
 	ethValue: BigNumber;
@@ -409,8 +220,12 @@ export type AirdropsConfig = {
 };
 
 export type AirdropNetworkConfig = {
-	airdropEndpoint: string;
-	airdropsConfig: AirdropsConfig;
+	active: boolean;
+	endpoint: string;
+	token: string;
+	tokenAbi: AbiItem[];
+	airdropContract: string;
+	airdropAbi: AbiItem[];
 };
 
 export type VaultNetworkConfig = {
@@ -535,19 +350,17 @@ export interface Network {
 	name: string;
 	networkId: number;
 	fullName: string;
-	tokens: TokenNetworkConfig;
-	vaults: VaultNetworkConfig;
-	geysers: GeyserNetworkConfig;
+	setts: BadgerSett[];
+	batchRequests: (address: string) => BatchCallRequest[];
+	tokens: ProtocolTokens;
 	rebase: RebaseNetworkConfig | undefined;
-	airdrops: AirdropNetworkConfig | undefined;
+	airdrops: AirdropNetworkConfig[];
 	deploy: DeployConfig;
 	rewards: RewardNetworkConfig | undefined;
 	currency: string;
 	gasEndpoint: string;
-	sidebarTokenLinks: {
-		url: string;
-		title: string;
-	}[];
+	sidebarTokenLinks: SidebarLink[];
+	sidebarPricingLinks: SidebarLink[];
 	settOrder: string[];
 	getGasPrices: () => Promise<GasPrices>;
 	getNotifyLink: EmitterListener;
@@ -573,66 +386,58 @@ const _getFees = (strategy: StrategyConfig) => {
 };
 
 export class BscNetwork implements Network {
-	public readonly name = NETWORK_LIST.BSC;
-	public readonly networkId = NETWORK_IDS.BSC;
-	public readonly fullName = 'Binance Smart Chain';
-	public readonly tokens = getTokens(NETWORK_LIST.BSC);
-	public readonly vaults = getVaults(NETWORK_LIST.BSC);
-	public readonly geysers = getGeysers(NETWORK_LIST.BSC);
-	public readonly rebase = getRebase(NETWORK_LIST.BSC);
-	public readonly airdrops = getAirdrops(NETWORK_LIST.BSC);
-	public readonly deploy = getNetworkDeploy(NETWORK_LIST.BSC);
-	public readonly rewards = getRewards(NETWORK_LIST.BSC);
-	public readonly currency = 'BNB';
-	public readonly gasEndpoint = '';
+	readonly name = NETWORK_LIST.BSC;
+	readonly networkId = NETWORK_IDS.BSC;
+	readonly fullName = 'Binance Smart Chain';
+	readonly setts = bscSetts;
+	readonly batchRequests = getBinanceSmartChainBatchRequests;
+	readonly tokens = bscProtocolTokens;
+	readonly rebase = getRebase(NETWORK_LIST.BSC);
+	readonly airdrops = getAirdrops(NETWORK_LIST.BSC);
+	readonly deploy = getNetworkDeploy(NETWORK_LIST.BSC);
+	readonly rewards = getRewards(NETWORK_LIST.BSC);
+	readonly currency = 'BNB';
+	readonly gasEndpoint = '';
 	// Deterministic order for displaying setts on the sett list component
-	public readonly settOrder = [
+	readonly settOrder = [
 		this.deploy.sett_system.vaults['native.bDiggBtcb'],
 		this.deploy.sett_system.vaults['native.bBadgerBtcb'],
 		this.deploy.sett_system.vaults['native.pancakeBnbBtcb'],
 		this.deploy.sett_system.vaults['yearn.wBtc'],
 	];
-	public readonly sidebarTokenLinks = [
-		{
-			url: 'https://pancakeswap.info/pair/0xE1E33459505bB3763843a426F7Fd9933418184ae',
-			title: 'PancakeSwap bDigg/BtcB',
-		},
-		{
-			url: 'https://pancakeswap.info/pair/0x10f461ceac7a17f59e249954db0784d42eff5db5',
-			title: 'PancakeSwap bBadger/BtcB',
-		},
-	];
+	public readonly sidebarTokenLinks = sidebarTokenLinks(NETWORK_LIST.BSC);
+	public readonly sidebarPricingLinks = sidebarPricingLinks;
 	public async getGasPrices(): Promise<GasPrices> {
 		return { standard: 5 };
 	}
 	public getNotifyLink(transaction: TransactionData): NotifyLink {
 		return { link: `https://bscscan.com//tx/${transaction.hash}` };
 	}
-	public readonly isWhitelisted = {};
-	public readonly cappedDeposit = {};
-	public readonly uncappedDeposit = {};
-	public readonly newVaults = {};
-	public readonly strategies = getStrategies(NETWORK_LIST.BSC);
+	readonly isWhitelisted = {};
+	readonly cappedDeposit = {};
+	readonly uncappedDeposit = {};
+	readonly newVaults = {};
+	readonly strategies = getStrategies(NETWORK_LIST.BSC);
 	public getFees(vaultAddress: string): string[] {
 		return _getFees(this.strategies[vaultAddress]);
 	}
 }
 
 export class EthNetwork implements Network {
-	public readonly name = NETWORK_LIST.ETH;
-	public readonly networkId = NETWORK_IDS.ETH;
-	public readonly fullName = 'Ethereum';
-	public readonly tokens = getTokens(NETWORK_LIST.ETH);
-	public readonly vaults = getVaults(NETWORK_LIST.ETH);
-	public readonly geysers = getGeysers(NETWORK_LIST.ETH);
-	public readonly rebase = getRebase(NETWORK_LIST.ETH);
-	public readonly airdrops = getAirdrops(NETWORK_LIST.ETH);
-	public readonly deploy = getNetworkDeploy(NETWORK_LIST.ETH);
-	public readonly rewards = getRewards(NETWORK_LIST.ETH);
-	public readonly currency = 'ETH';
-	public readonly gasEndpoint = 'https://www.gasnow.org/api/v3/gas/price?utm_source=badgerv2';
+	readonly name = NETWORK_LIST.ETH;
+	readonly networkId = NETWORK_IDS.ETH;
+	readonly fullName = 'Ethereum';
+	readonly setts = ethSetts;
+	readonly batchRequests = getEthereumBatchRequests;
+	readonly tokens = ethProtocolTokens;
+	readonly rebase = getRebase(NETWORK_LIST.ETH);
+	readonly airdrops = getAirdrops(NETWORK_LIST.ETH);
+	readonly deploy = getNetworkDeploy(NETWORK_LIST.ETH);
+	readonly rewards = getRewards(NETWORK_LIST.ETH);
+	readonly currency = 'ETH';
+	readonly gasEndpoint = 'https://www.gasnow.org/api/v3/gas/price?utm_source=badgerv2';
 	// Deterministic order for displaying setts on the sett list component
-	public readonly settOrder = [
+	readonly settOrder = [
 		this.deploy.sett_system.vaults['native.sushiibBTCwBTC'],
 		this.deploy.sett_system.vaults['yearn.wBtc'],
 		this.deploy.sett_system.vaults['native.digg'],
@@ -647,20 +452,8 @@ export class EthNetwork implements Network {
 		this.deploy.sett_system.vaults['native.tbtcCrv'],
 		this.deploy.sett_system.vaults['harvest.renCrv'],
 	];
-	public readonly sidebarTokenLinks = [
-		{
-			url: 'https://matcha.xyz/markets/BADGER',
-			title: 'BADGER',
-		},
-		{
-			url: 'https://info.uniswap.org/pair/0xcd7989894bc033581532d2cd88da5db0a4b12859',
-			title: 'Uniswap BADGER/wBTC',
-		},
-		{
-			url: 'https://analytics.sushi.com/pairs/0x110492b31c59716ac47337e616804e3e3adc0b4a',
-			title: 'Sushiswap BADGER/wBTC',
-		},
-	];
+	public readonly sidebarTokenLinks = sidebarTokenLinks(NETWORK_LIST.ETH);
+	public readonly sidebarPricingLinks = sidebarPricingLinks;
 	public async getGasPrices(): Promise<GasPrices> {
 		const prices = await fetch('https://www.gasnow.org/api/v3/gas/price?utm_source=badgerv2');
 		const result = await prices.json();
@@ -674,13 +467,13 @@ export class EthNetwork implements Network {
 	public getNotifyLink(transaction: TransactionData): NotifyLink {
 		return { link: `https://etherscan.io/tx/${transaction.hash}` };
 	}
-	public readonly isWhitelisted = {};
-	public readonly cappedDeposit = {};
-	public readonly uncappedDeposit = {
+	readonly isWhitelisted = {};
+	readonly cappedDeposit = {};
+	readonly uncappedDeposit = {
 		[this.deploy.sett_system.vaults['yearn.wBtc']]: true,
 	};
-	public readonly newVaults = {};
-	public readonly strategies = getStrategies(NETWORK_LIST.ETH);
+	readonly newVaults = {};
+	readonly strategies = getStrategies(NETWORK_LIST.ETH);
 	public getFees(vaultAddress: string): string[] {
 		return _getFees(this.strategies[vaultAddress]);
 	}
@@ -801,7 +594,7 @@ export type TokenBalance = {
 };
 
 export type PriceSummary = {
-	[address: string]: BigNumber | undefined;
+	[address: string]: BigNumber;
 };
 
 export interface SettSummary {
@@ -869,4 +662,11 @@ export interface LeaderBoardData {
 	size: number;
 	count: number;
 	maxPage: number;
+}
+
+export interface MintLimits {
+	userLimit: BigNumber;
+	allUsersLimit: BigNumber;
+	individualLimit: BigNumber;
+	globalLimit: BigNumber;
 }

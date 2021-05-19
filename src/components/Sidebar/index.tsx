@@ -140,7 +140,22 @@ export const Sidebar = observer(() => {
 					button
 					key={value.title}
 					className={classes.secondarySubListItem}
-					onClick={() => window.open(value.url)}
+					onClick={() => window.open(value.url.toString())}
+				>
+					{value.title}
+				</ListItem>
+			);
+		});
+	};
+
+	const getPricing = () => {
+		return network.sidebarPricingLinks.map((value) => {
+			return (
+				<ListItem
+					button
+					key={value.title}
+					className={classes.secondarySubListItem}
+					onClick={() => window.open(value.url.toString())}
 				>
 					{value.title}
 				</ListItem>
@@ -419,6 +434,25 @@ export const Sidebar = observer(() => {
 
 					<Collapse in={expanded === 'tokens'} timeout="auto" unmountOnExit>
 						{getTokens()}
+					</Collapse>
+
+					<ListItem
+						button
+						className={classes.secondaryListItem}
+						onClick={() => setExpanded(expanded === 'pricing' ? '' : 'pricing')}
+					>
+						Pricing
+						<IconButton
+							size="small"
+							className={classes.expand + ' ' + (expanded === 'pricing' ? classes.expandOpen : '')}
+							aria-label="show more"
+						>
+							<ExpandMore />
+						</IconButton>
+					</ListItem>
+
+					<Collapse in={expanded === 'pricing'} timeout="auto" unmountOnExit>
+						{getPricing()}
 					</Collapse>
 
 					<ListItem

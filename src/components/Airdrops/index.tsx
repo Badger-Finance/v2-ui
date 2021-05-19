@@ -16,9 +16,9 @@ import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { StoreContext } from '../../mobx/store-context';
 import views from '../../config/routes';
-import { inCurrency } from '../../mobx/utils/helpers';
-import { sett_system } from '../../config/deployments/mainnet.json';
 import PageHeader from '../../components-v2/common/PageHeader';
+import { getToken } from 'web3/config/token-config';
+import { inCurrency } from 'mobx/utils/helpers';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -59,8 +59,7 @@ export const Airdrops = observer(() => {
 	const {
 		router: { goTo },
 		wallet: { connectedAddress },
-		airdrops: { claimAirdrops },
-		uiState: { airdropStats },
+		airdrops: { claimAirdrops, airdrops },
 		setts: { settMap },
 	} = store;
 
@@ -86,7 +85,7 @@ export const Airdrops = observer(() => {
 				title: 'Badger Liquidity',
 				button: 'Uniswap',
 				button2: 'Sushiswap',
-				href: 'https://info.uniswap.org/pair/0xcd7989894bc033581532d2cd88da5db0a4b12859',
+				href: 'https://v2.info.uniswap.org/pair/0xcd7989894bc033581532d2cd88da5db0a4b12859',
 				href2: 'https://analytics.sushi.com/pairs/0x110492b31c59716ac47337e616804e3e3adc0b4a',
 				copy: 'Provide liquidity and stake LP in vaults.',
 			},
@@ -94,7 +93,7 @@ export const Airdrops = observer(() => {
 				title: 'Digg Liquidity',
 				button: 'Uniswap',
 				button2: 'Sushiswap',
-				href: 'https://info.uniswap.org/pair/0xE86204c4eDDd2f70eE00EAd6805f917671F56c52',
+				href: 'https://v2.info.uniswap.org/pair/0xE86204c4eDDd2f70eE00EAd6805f917671F56c52',
 				href2: 'https://analytics.sushi.com/pairs/0x9a13867048e01c663ce8ce2fe0cdae69ff9f35e3',
 				copy: 'Provide liquidity and stake LP in vaults.',
 			},
@@ -150,6 +149,48 @@ export const Airdrops = observer(() => {
 		));
 	};
 
+	const _airdrops = () => {
+		if (!airdrops || airdrops.length === 0) {
+			return <Typography>Your address has no airdrops to claim.</Typography>;
+		}
+		return airdrops.map((airdrop) => {
+			const token = getToken(airdrop.token);
+			if (!token) {
+				return null;
+			}
+			return (
+				<ListItem key={airdrop.token} style={{ margin: 0, padding: 0 }}>
+					<ListItemText
+						primary={
+							!!connectedAddress
+								? inCurrency(
+										airdrop.amount.dividedBy(10 ** token.decimals),
+										'eth',
+										true,
+										token.decimals,
+								  )
+								: '0.00000'
+						}
+						secondary={`${token.name} available to claim`}
+					/>
+					<ListItemSecondaryAction>
+						<ButtonGroup disabled={!airdrop.amount.gt(0)} size="small" variant="outlined" color="primary">
+							<Button
+								aria-label="Claim"
+								onClick={() => {
+									claimAirdrops(airdrop.airdropContract, airdrop.airdropAbi, airdrop.proof);
+								}}
+								variant="contained"
+							>
+								Claim
+							</Button>
+						</ButtonGroup>
+					</ListItemSecondaryAction>
+				</ListItem>
+			);
+		});
+	};
+
 	return (
 		<Container className={classes.root}>
 			<Grid container spacing={1} justify="flex-start">
@@ -167,39 +208,8 @@ export const Airdrops = observer(() => {
 				<Grid item xs={12} md={6}>
 					<Paper className={classes.statPaper}>
 						<List style={{ padding: 0 }}>
-							<ListItem style={{ margin: 0, padding: 0 }}>
-								<ListItemText
-									primary={
-										!!connectedAddress && !!airdropStats.bBadger
-											? inCurrency(
-													airdropStats.bBadger.amount.dividedBy(10 ** 18),
-													'eth',
-													true,
-													18,
-											  )
-											: '0.00000'
-									}
-									secondary="bBadger available to claim"
-								/>
-								<ListItemSecondaryAction>
-									<ButtonGroup
-										disabled={airdropStats.bBadger ? !airdropStats.bBadger.amount.gt(0) : true}
-										size="small"
-										variant="outlined"
-										color="primary"
-									>
-										<Button
-											aria-label="Claim"
-											onClick={() => {
-												claimAirdrops(sett_system.vaults['native.badger']);
-											}}
-											variant="contained"
-										>
-											Claim
-										</Button>
-									</ButtonGroup>
-								</ListItemSecondaryAction>
-							</ListItem>
+							{/* Airdrop List */}
+							{_airdrops()}
 						</List>
 					</Paper>
 				</Grid>

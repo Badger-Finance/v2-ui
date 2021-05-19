@@ -7,7 +7,6 @@ import { useConnectWallet } from 'mobx/utils/hooks';
 import { Skeleton } from '@material-ui/lab';
 import { observer } from 'mobx-react-lite';
 import { sett_system } from 'config/deployments/mainnet.json';
-import { getDiggPerShare } from 'mobx/utils/diggHelpers';
 
 const useStyles = makeStyles((theme) => ({
 	center: {
@@ -70,14 +69,9 @@ export const PoolBalance = observer(() => {
 	// triggers the reduceStats method that's needed for the
 	// bDIGG <> DIGG exchange
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const { stats } = store.uiState;
-	const { vaults } = store.contracts;
-	const { connectedAddress } = store.wallet;
+	const { setts } = store;
 	const { poolBalance, loadingPoolBalance } = store.honeyPot;
-
-	const vault = vaults[sett_system.vaults['native.digg']];
-	const diggMultiplier = vault && getDiggPerShare(vault);
-	const poolBalanceDiggs = poolBalance && diggMultiplier && poolBalance.multipliedBy(diggMultiplier);
+	const { connectedAddress } = store.wallet;
 
 	if (!connectedAddress) {
 		return (
@@ -96,7 +90,7 @@ export const PoolBalance = observer(() => {
 		);
 	}
 
-	if (loadingPoolBalance || !poolBalance || !poolBalanceDiggs) {
+	if (loadingPoolBalance || !poolBalance || !setts.settMap) {
 		return (
 			<Container>
 				<Grid item xs={12}>
@@ -118,6 +112,8 @@ export const PoolBalance = observer(() => {
 		);
 	}
 
+	const diggMultiplier = setts.settMap[sett_system.vaults['native.digg']].ppfs;
+	const poolBalanceDiggs = poolBalance.multipliedBy(diggMultiplier);
 	return (
 		<Container>
 			<Grid item xs={12}>

@@ -8,8 +8,9 @@ import { BigNumber } from 'bignumber.js';
 import { Token, Tokens } from './Tokens';
 import { DownArrow } from './DownArrow';
 
-import { TokenModel } from 'mobx/model';
+import { MintLimits, TokenModel } from 'mobx/model';
 import { StoreContext } from 'mobx/store-context';
+import { toFixedDecimals } from 'mobx/utils/helpers';
 import { useConnectWallet } from 'mobx/utils/hooks';
 import {
 	EndAlignText,
@@ -22,14 +23,12 @@ import {
 	OutputBalanceText,
 	OutputAmountText,
 	OutputTokenGrid,
-	ErrorText,
 } from './Common';
+import { MintError } from './MintError';
 
-type MintInformation = {
-	inputAmount: BigNumber;
-	outputAmount: BigNumber;
-	fee: BigNumber;
-	blocker: string | null;
+type InputAmount = {
+	displayValue: string;
+	actualValue: BigNumber;
 };
 
 const ActionButton = observer(
@@ -73,93 +72,92 @@ export const Mint = observer(
 		} = store;
 
 		const [selectedToken, setSelectedToken] = useState(tokens[0]);
-		const [inputAmount, setInputAmount] = useState<string>();
+		const [inputAmount, setInputAmount] = useState<InputAmount>();
 		const [outputAmount, setOutputAmount] = useState<string>();
+		const [mintLimits, setMintLimits] = useState<MintLimits>();
+		const [isValidMint, setIsValidMint] = useState(false);
 		const [conversionRate, setConversionRate] = useState<string>();
-		const [mintBlocker, setMintBlocker] = useState<string | null>(null);
 		const [fee, setFee] = useState('0.000');
 		const [totalMint, setTotalMint] = useState('0.000');
 
-		const displayedConversionRate = conversionRate || selectedToken.mintRate;
-
 		const resetState = () => {
-			setInputAmount('');
-			setOutputAmount('');
+			setInputAmount(undefined);
+			setOutputAmount(undefined);
 			setFee('0.000');
 			setTotalMint('0.000');
-			setMintBlocker(null);
-			setConversionRate(selectedToken.mintRate);
 		};
 
-		const setMintInformation = ({ inputAmount, outputAmount, fee, blocker }: MintInformation): void => {
-			setOutputAmount(outputAmount.toFixed(6, BigNumber.ROUND_HALF_FLOOR));
-			setFee(fee.toFixed(6, BigNumber.ROUND_HALF_FLOOR));
-			setTotalMint(outputAmount.toFixed(6, BigNumber.ROUND_HALF_FLOOR));
+		const setMintInformation = (inputAmount: BigNumber, outputAmount: BigNumber, fee: BigNumber): void => {
+			setFee(toFixedDecimals(fee, 6));
+			setTotalMint(toFixedDecimals(outputAmount, 6));
+			setOutputAmount(toFixedDecimals(outputAmount, 6));
 			setConversionRate(outputAmount.plus(fee).dividedBy(inputAmount).toFixed(6, BigNumber.ROUND_HALF_FLOOR));
-			setMintBlocker(blocker);
+		};
+
+		const calculateMintInformation = async (settTokenAmount: BigNumber, settToken: TokenModel): Promise<void> => {
+			const { bBTC, fee } = await store.ibBTCStore.calcMintAmount(settToken, settTokenAmount);
+			const mintLimits = await store.ibBTCStore.getMintLimit(settToken);
+			const isValid = store.ibBTCStore.isValidMint(settTokenAmount, mintLimits);
+
+			setMintInformation(settToken.unscale(settTokenAmount), ibBTC.unscale(bBTC), ibBTC.unscale(fee));
+			setMintLimits(mintLimits);
+			setIsValidMint(isValid);
 		};
 
 		// reason: the plugin does not recognize the dependency inside the debounce function
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 		const handleInputAmountChange = useCallback(
-			debounce(600, async (change: string) => {
-				const input = new BigNumber(change);
+			debounce(
+				600,
+				async (change: string): Promise<void> => {
+					const input = new BigNumber(change);
 
-				if (!input.gt(ZERO)) {
-					setOutputAmount('');
-					setFee('0.000');
-					setTotalMint('0.000');
-					setMintBlocker(null);
-					setConversionRate(selectedToken.mintRate);
-					return;
-				}
+					if (!input.gt(ZERO)) {
+						setOutputAmount(undefined);
+						setFee('0.000');
+						setTotalMint('0.000');
+						return;
+					}
 
-				const { bBTC, fee } = await store.ibBTCStore.calcMintAmount(selectedToken, selectedToken.scale(input));
-				const mintBlocker = await store.ibBTCStore.getMintValidation(bBTC, selectedToken);
-
-				setMintInformation({
-					inputAmount: input,
-					outputAmount: ibBTC.unscale(bBTC),
-					fee: ibBTC.unscale(fee),
-					blocker: mintBlocker,
-				});
-			}),
+					await calculateMintInformation(selectedToken.scale(input), selectedToken);
+				},
+			),
 			[selectedToken],
 		);
 
-		const handleApplyMaxBalance = async () => {
+		const handleLimitClick = async (settLimit: BigNumber): Promise<void> => {
+			setInputAmount({
+				displayValue: selectedToken.unscale(settLimit).toFixed(6, BigNumber.ROUND_HALF_FLOOR),
+				actualValue: settLimit,
+			});
+			await calculateMintInformation(settLimit, selectedToken);
+		};
+
+		const handleApplyMaxBalance = async (): Promise<void> => {
 			if (selectedToken.balance.gt(ZERO)) {
-				setInputAmount(selectedToken.unscale(selectedToken.balance).toString());
-				const { bBTC, fee } = await store.ibBTCStore.calcMintAmount(selectedToken, selectedToken.balance);
-				const mintBlocker = await store.ibBTCStore.getMintValidation(bBTC, selectedToken);
-
-				setMintInformation({
-					inputAmount: selectedToken.unscale(selectedToken.balance),
-					outputAmount: ibBTC.unscale(bBTC),
-					fee: ibBTC.unscale(fee),
-					blocker: mintBlocker,
+				setInputAmount({
+					displayValue: selectedToken.unscale(selectedToken.balance).toFixed(6, BigNumber.ROUND_HALF_FLOOR),
+					actualValue: selectedToken.balance,
 				});
+				await calculateMintInformation(selectedToken.balance, selectedToken);
 			}
 		};
 
-		const handleTokenChange = async (token: TokenModel) => {
+		const handleTokenChange = async (token: TokenModel): Promise<void> => {
 			setSelectedToken(token);
-			if (inputAmount) {
-				const { bBTC, fee } = await store.ibBTCStore.calcMintAmount(token, token.scale(inputAmount));
-				const mintBlocker = await store.ibBTCStore.getMintValidation(bBTC, token);
-
-				setMintInformation({
-					inputAmount: new BigNumber(inputAmount),
-					outputAmount: ibBTC.unscale(bBTC),
-					fee: ibBTC.unscale(fee),
-					blocker: mintBlocker,
+			setMintLimits(undefined);
+			if (inputAmount?.displayValue) {
+				setInputAmount({
+					...inputAmount,
+					actualValue: token.scale(inputAmount.displayValue),
 				});
+				await calculateMintInformation(token.scale(inputAmount.displayValue), token);
 			}
 		};
 
-		const handleMintClick = async () => {
-			if (inputAmount) {
-				await store.ibBTCStore.mint(selectedToken, selectedToken.scale(inputAmount));
+		const handleMintClick = async (): Promise<void> => {
+			if (inputAmount?.actualValue && !inputAmount.actualValue.isNaN()) {
+				await store.ibBTCStore.mint(selectedToken, inputAmount.actualValue);
 				resetState();
 			}
 		};
@@ -176,10 +174,13 @@ export const Mint = observer(
 						<Grid item xs={12} sm={5}>
 							<InputTokenAmount
 								disabled={!connectedAddress}
-								value={inputAmount}
+								value={inputAmount?.displayValue}
 								placeholder="0.000"
 								onChange={(val) => {
-									setInputAmount(val);
+									setInputAmount({
+										displayValue: val,
+										actualValue: selectedToken.scale(val),
+									});
 									handleInputAmountChange(val);
 								}}
 							/>
@@ -216,10 +217,13 @@ export const Mint = observer(
 				</Grid>
 				<Grid item xs={12}>
 					<SummaryGrid>
-						{mintBlocker && (
-							<Grid item xs={12} container>
-								<ErrorText variant="subtitle1">{mintBlocker}</ErrorText>
-							</Grid>
+						{!isValidMint && inputAmount && mintLimits && (
+							<MintError
+								amount={inputAmount.actualValue}
+								limits={mintLimits}
+								token={selectedToken}
+								onUserLimitClick={handleLimitClick}
+							/>
 						)}
 						<Grid item xs={12} container justify="space-between">
 							<Grid item xs={6}>
@@ -227,7 +231,7 @@ export const Mint = observer(
 							</Grid>
 							<Grid item xs={6}>
 								<EndAlignText variant="body1">
-									1 {selectedToken.symbol} : {displayedConversionRate} {ibBTC.symbol}
+									1 {selectedToken.symbol} : {conversionRate || selectedToken.mintRate} {ibBTC.symbol}
 								</EndAlignText>
 							</Grid>
 						</Grid>
@@ -269,7 +273,7 @@ export const Mint = observer(
 							variant="contained"
 							color="primary"
 							onClick={handleMintClick}
-							disabled={!inputAmount || !outputAmount || !!mintBlocker}
+							disabled={!inputAmount || !outputAmount || !isValidMint}
 						>
 							MINT
 						</Button>

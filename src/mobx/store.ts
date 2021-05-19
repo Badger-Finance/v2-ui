@@ -43,39 +43,30 @@ export class RootStore {
 		this.setts = new SettStore(this);
 		this.user = new UserStore(this);
 		this.leaderBoard = new LeaderBoardStore(this);
-
-		this.walletRefresh();
 	}
 
 	async walletRefresh(): Promise<void> {
 		const chain = this.wallet.network.name;
 		this.rewards.resetRewards();
-		this.uiState.resetPortfolio();
 
 		const refreshData = [
 			this.setts.loadAssets(chain),
 			this.setts.loadPrices(chain),
 			this.wallet.getGasPrice(),
-			this.contracts.updateProvider(),
 			this.setts.loadSetts(chain),
 		];
 		if (chain === NETWORK_LIST.ETH) {
 			refreshData.push(this.rebase.fetchRebaseStats());
+			refreshData.push(this.rewards.fetchSettRewards());
 		}
 		await Promise.all(refreshData);
 
 		if (this.wallet.connectedAddress) {
-			this.contracts.updateProvider();
-			await this.contracts.fetchContracts();
+			this.user.updateBalances();
 			if (chain === NETWORK_LIST.ETH) {
-				this.uiState.reduceRebase();
 				this.ibBTCStore.init();
-				this.rewards.fetchSettRewards();
-				this.uiState.reduceTreeRewards();
 				this.airdrops.fetchAirdrops();
-				this.uiState.reduceAirdrops();
 			}
-			this.uiState.reduceStats();
 		}
 	}
 }

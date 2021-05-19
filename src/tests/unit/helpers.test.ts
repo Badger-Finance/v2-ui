@@ -1,4 +1,11 @@
-import { formatTokens, inCurrency, usdToCurrency, numberWithCommas, exchangeRates } from '../../mobx/utils/helpers';
+import {
+	formatTokens,
+	inCurrency,
+	usdToCurrency,
+	numberWithCommas,
+	exchangeRates,
+	toFixedDecimals,
+} from '../../mobx/utils/helpers';
 import '@testing-library/jest-dom';
 import BigNumber from 'bignumber.js';
 
@@ -131,5 +138,18 @@ describe('numberWithCommas', () => {
 		['-1000000.00', '-1,000,000.00'],
 	])('formatTokens(%s) returns %s', (x, expected) => {
 		expect(numberWithCommas(x)).toBe(expected);
+	});
+});
+
+describe('toFixedDecimals', () => {
+	test.each([
+		[new BigNumber(1000000), 2, '1000000.00'],
+		[new BigNumber(1234567.891234), 3, '1234567.891'],
+		[new BigNumber(0.0000435645), 3, '0.044e-3'],
+		[new BigNumber(0.000001), 9, '0.000001000'],
+		[new BigNumber(1234567.891234), 8, '1234567.89123400'],
+		[new BigNumber(0), 5, '0.00000'],
+	])('toFixedDecimals(%f, %i) returns %s', (value, decimals, expected) => {
+		expect(toFixedDecimals(value, decimals)).toBe(expected);
 	});
 });
