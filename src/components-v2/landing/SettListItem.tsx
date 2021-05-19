@@ -1,14 +1,13 @@
-import { ListItem, makeStyles, Typography, Grid, Tooltip, IconButton } from '@material-ui/core';
-import { BigNumber } from 'bignumber.js';
+import { ListItem, makeStyles, Typography, Grid, Tooltip } from '@material-ui/core';
 import { Sett, TokenBalance } from 'mobx/model';
 import { observer } from 'mobx-react-lite';
 import { numberWithCommas, usdToCurrency } from 'mobx/utils/helpers';
 import React, { useContext } from 'react';
-import { UnfoldMoreTwoTone } from '@material-ui/icons';
 import { StoreContext } from 'mobx/store-context';
 import DisabledSettListItem from './DisabledSettListItem';
 import CurrencyDisplay from '../common/CurrencyDisplay';
 import SettBadge from './SettBadge';
+import BigNumber from 'bignumber.js';
 
 const useStyles = makeStyles((theme) => ({
 	border: {
@@ -29,6 +28,11 @@ const useStyles = makeStyles((theme) => ({
 		textAlign: 'right',
 		paddingRight: theme.spacing(2),
 		[theme.breakpoints.up('md')]: {
+			display: 'none',
+		},
+	},
+	desktopSpacer: {
+		[theme.breakpoints.down('md')]: {
 			display: 'none',
 		},
 	},
@@ -65,6 +69,12 @@ const useStyles = makeStyles((theme) => ({
 			borderBottom: 0,
 		},
 	},
+	centerGrid: {
+		textAlign: 'center',
+		[theme.breakpoints.down('md')]: {
+			textAlign: 'left',
+		},
+	},
 }));
 
 export interface SettListItemProps {
@@ -77,7 +87,7 @@ export interface SettListItemProps {
 }
 
 interface RoiData {
-	apy: number | string;
+	apr: string;
 	tooltip: JSX.Element;
 }
 
@@ -90,6 +100,7 @@ const SettListItem = observer(
 		const store = useContext(StoreContext);
 		const { user } = store;
 		const { network } = store.wallet;
+		const isNewVault = !!network.newVaults[sett.vaultToken];
 
 		const getRoi = (sett: Sett, period: string): RoiData => {
 			const getToolTip = (sett: Sett, divisor: number): JSX.Element => {
@@ -116,28 +127,39 @@ const SettListItem = observer(
 			// If the vault is in the newVaults property, the ROI is not displaying properly due
 			// to harvesting. Display the New Vault identifier and the list of provided projected
 			// ROIs in the network object.
-			if (network.newVaults[sett.vaultToken]) {
+			if (isNewVault) {
 				return {
-					apy: '✨ New Vault ✨',
+					apr: '✨ New Vault ✨',
 					tooltip: getNewVaultToolTip(),
 				};
-			} else if (sett && sett.apy) {
-				if (period === 'month') {
-					return { apy: sett.apy / 12, tooltip: getToolTip(sett, 12) };
+			} else if (sett && sett.apr) {
+				const divisor = period === 'month' ? 12 : 1;
+				let apr;
+				if (sett.boostable && sett.minApr && sett.maxApr) {
+					apr = `${(sett.minApr / divisor).toFixed(2)}% - ${(sett.maxApr / divisor).toFixed(2)}%`;
 				} else {
-					return { apy: sett.apy, tooltip: getToolTip(sett, 1) };
+					apr = `${(sett.apr / divisor).toFixed(2)}%`;
 				}
+				return { apr, tooltip: getToolTip(sett, divisor) };
 			} else {
-				return { apy: 0, tooltip: <></> };
+				return { apr: '0%', tooltip: <></> };
 			}
 		};
 
-		const { apy, tooltip } = getRoi(sett, period);
+		const { apr, tooltip } = getRoi(sett, period);
 		const displayValue = balanceValue ? balanceValue : usdToCurrency(new BigNumber(sett.value), currency);
+
+		let userApr: number | undefined = undefined;
+		const multiplier = user.accountDetails?.multipliers[sett.vaultToken];
+		if (multiplier) {
+			userApr = sett.sources
+				.map((source) => (source.boostable ? source.apr * multiplier : source.apr))
+				.reduce((total, apr) => (total += apr), 0);
+		}
 
 		return network.isWhitelisted[sett.vaultToken] && !user.viewSettShop() ? (
 			<DisabledSettListItem
-				apy={apy}
+				apy={apr}
 				tooltip={tooltip}
 				displayName={displayName}
 				sett={sett}
@@ -213,31 +235,32 @@ const SettListItem = observer(
 								})}
 						</Grid>
 					</Grid>
-
 					<Grid item className={classes.mobileLabel} xs={6}>
 						<Typography variant="body2" color={'textSecondary'}>
 							{'ROI'}
 						</Typography>
 					</Grid>
-					<Grid item xs={6} md={2}>
+					<Grid item xs={6} md={2} className={classes.centerGrid}>
 						<Tooltip enterDelay={0} leaveDelay={300} arrow placement="left" title={tooltip}>
 							<Typography style={{ cursor: 'default' }} variant="body1" color={'textPrimary'}>
-								{typeof apy === 'number' ? `${apy.toFixed(2)}%` : apy}
+								{apr}
 							</Typography>
 						</Tooltip>
+						{!isNewVault && userApr && (
+							<Typography style={{ cursor: 'default' }} variant="caption" color={'textPrimary'}>
+								My Boost: {userApr.toFixed(2)}%
+							</Typography>
+						)}
 					</Grid>
+					{/* Intentionally Empty Grid Space */}
+					<Grid item xs={6} md={1} className={classes.desktopSpacer} />
 					<Grid item className={classes.mobileLabel} xs={6}>
 						<Typography variant="body2" color={'textSecondary'}>
 							Value
 						</Typography>
 					</Grid>
-					<Grid item xs={6} md={2}>
+					<Grid item xs={6} md={3}>
 						<CurrencyDisplay displayValue={displayValue} variant="body1" justify="flex-start" />
-					</Grid>
-					<Grid item xs={12} md={2} style={{ textAlign: 'right' }}>
-						<IconButton color="default">
-							<UnfoldMoreTwoTone />
-						</IconButton>
 					</Grid>
 				</Grid>
 			</ListItem>

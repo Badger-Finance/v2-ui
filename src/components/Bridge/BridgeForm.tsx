@@ -4,7 +4,6 @@ import { ethers } from 'ethers';
 import GatewayJS from '@renproject/gateway';
 import { EthArgs, LockAndMintParamsSimple, BurnAndReleaseParamsSimple } from '@renproject/interfaces';
 import Web3 from 'web3';
-import async from 'async';
 import { observer } from 'mobx-react-lite';
 import { Grid, Tabs, Tab, FormControl, Select, MenuItem, Typography } from '@material-ui/core';
 
@@ -16,16 +15,16 @@ import { StoreContext } from 'mobx/store-context';
 import { SuccessForm } from './SuccessForm';
 import { ConfirmForm } from './ConfirmForm';
 import { ValuesProp } from './Common';
-import WBTCLogo from 'assets/icons/WBTC.svg';
-import byvWBTCLogo from 'assets/icons/byvWBTC.svg';
-import renBTCLogo from 'assets/icons/renBTC.svg';
-import crvBTCLogo from 'assets/tokens/bcrvRenWBTC.png';
 import { NETWORK_LIST, CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS, FLAGS } from 'config/constants';
 import { bridge_system, tokens, sett_system } from 'config/deployments/mainnet.json';
 import { CURVE_EXCHANGE } from 'config/system/abis/CurveExchange';
 
 const DECIMALS = 10 ** 8;
 const SETT_DECIMALS = 10 ** 18;
+const WBTCLogo = '/assets/icons/WBTC.svg';
+const byvWBTCLogo = '/assets/icons/byvwbtc.svg';
+const renBTCLogo = '/assets/icons/renBTC.svg';
+const crvBTCLogo = '/assets/icons/bcrvrenwbtc.png';
 
 type TabPanelProps = PropsWithChildren<{
 	index: number;
@@ -312,7 +311,6 @@ export const BridgeForm = observer(({ classes }: any) => {
 	};
 
 	const approveAndWithdraw = async () => {
-		const methodSeries: any = [];
 		// Burn token decimals vary based on token/sett (e.g. most setts are 18 decimals whereas btc variants are 8 decimals)
 		const amountOut = new BigNumber(burnAmount as any).multipliedBy(decimals());
 		let burnToken = tokens.renBTC;
@@ -357,23 +355,20 @@ export const BridgeForm = observer(({ classes }: any) => {
 			address: tokenAddress(),
 			symbol: token,
 			totalSupply: amountOut,
+			decimals: 0,
 		};
 
-		const allowance: number = await new Promise((resolve, reject) => {
-			getAllowance(tokenParam, bridge_system['adapter'], (err: unknown | undefined, result: number) => {
-				if (err) reject(err);
-				resolve(result);
-			});
-		});
-		if (amountOut.toNumber() > allowance) {
-			methodSeries.push((callback: (...params: unknown[]) => unknown) =>
-				increaseAllowance(tokenParam, bridge_system['adapter'], callback),
-			);
+		const allowance = await getAllowance(tokenParam, bridge_system.adapter);
+		if (amountOut.gt(allowance.balance)) {
+			try {
+				await increaseAllowance(tokenParam, bridge_system.adapter);
+				setTxStatus('pending');
+				await withdraw(params);
+				setTxStatus('success');
+			} catch (err) {
+				setTxStatus('error');
+			}
 		}
-		methodSeries.push(() => withdraw(params));
-		async.series(methodSeries, (err?: unknown) => {
-			setTxStatus(!!err ? 'error' : 'success');
-		});
 	};
 
 	const withdraw = async (contractParams: EthArgs) => {

@@ -3,34 +3,47 @@
 		"contracts": {
 			"tokens": {
 				"ibBTC": {
-					"address": "0x9A9f2CCfdE556A7E9Ff0848998Aa4a0CFD8863AE",
+					"address": "0xc4E15973E6fF2A35cC804c2CF9D2a1b817a8b40F",
 					"decimals": 18,
 					"symbol": "ibBTC",
-					"name": "Badger BTC"
+					"name": "Interest-Bearing BTC"
 				},
 				"bcrvRenWSBTC": {
-					"address": "0xd04c48a53c111300ad41190d63681ed3dad998ec",
+					"address": "0xd04c48A53c111300aD41190D63681ed3dAd998eC",
 					"decimals": 18,
 					"symbol": "bcrvRenWSBTC",
 					"name": "Badger crvRenWSBTC",
-					"poolId": 0
+					"poolId": 1
 				},
 				"bcrvRenWBTC": {
-					"address": "0x6def55d2e18486b9ddfaa075bc4e4ee0b28c1545",
+					"address": "0x6dEf55d2e18486B9dDfaA075bc4e4EE0B28c1545",
 					"decimals": 18,
 					"symbol": "bcrvRenWBTC",
 					"name": "Badger crvRenWBTC",
-					"poolId": 1
+					"poolId": 0
 				},
 				"btbtc/sbtcCrv": {
-					"address": "0xb9d076fde463dbc9f915e5392f807315bf940334",
+					"address": "0xb9D076fDe463dbc9f915E5392F807315Bf940334",
 					"decimals": 18,
-					"symbol": "btbtc/sbtcCrv",
+					"symbol": "btBTCCrv",
 					"name": "Badger t-btc/sbtcCrv",
 					"poolId": 2
+				},
+				"byvWBTC": {
+					"address": "0x4b92d19c11435614CD49Af1b589001b7c08cD4D5",
+					"decimals": 8,
+					"symbol": "byvWBTC",
+					"name": "Badger WBTC yVault"
 				}
 			},
-			"peak": "0xc6e7DF5E7b4f2A278906862b61205850344D4e7d"
+			"BadgerSettPeak": {
+				"supportedTokens": ["bcrvRenWSBTC", "bcrvRenWBTC", "btbtc/sbtcCrv"],
+				"address": "0x41671BA1abcbA387b9b2B752c205e22e916BE6e3"
+			},
+			"yearnWBTCPeak": {
+				"supportedTokens": ["byvWBTC"],
+				"address": "0x825218beD8BE0B30be39475755AceE0250C50627"
+			}
 		}
 	}
 }

@@ -9,6 +9,8 @@ export const testYearnVaultApiResponse: Sett = {
 	experimental: true,
 	value: 150538.70217373536,
 	apy: 20,
+	apr: 20,
+	boostable: false,
 	hasBouncer: true,
 	balance: 100,
 	tokens: [
@@ -24,6 +26,7 @@ export const testYearnVaultApiResponse: Sett = {
 	sources: [
 		{
 			name: 'Yearn Test Fees',
+			apy: 30.317345943834848,
 			apr: 30.317345943834848,
 			performance: {
 				oneDay: 23.073893311001424,
@@ -31,6 +34,10 @@ export const testYearnVaultApiResponse: Sett = {
 				sevenDay: 34.36788052934882,
 				thirtyDay: 58.477799920203815,
 			},
+			boostable: false,
+			harvestable: false,
+			minApr: 30.317345943834848,
+			maxApr: 30.317345943834848,
 		},
 	],
 };

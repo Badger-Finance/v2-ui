@@ -19,6 +19,7 @@ import { SITE_VERSION, NETWORK_LIST, FLAGS } from 'config/constants';
 import NetworkWidget from 'components-v2/common/NetworkWidget';
 import { Route } from 'mobx-router';
 import { RootStore } from 'mobx/store';
+import clsx from 'clsx';
 
 const useStyles = makeStyles((theme) => ({
 	logo: {
@@ -288,29 +289,27 @@ export const Sidebar = observer(() => {
 									<ListItemIcon>
 										<img
 											alt="Interest Bearing Badger Bitcoin Icon"
-											src={require('assets/sidebar/ibBTC.png')}
+											src={'assets/sidebar/ibbtc-white.svg'}
 											className={classes.icon}
 										/>
 									</ListItemIcon>
-									<ListItemText primary="ibBTC" />
+									<ListItemText primary="Interest Bearing BTC" />
 								</ListItem>
 							)}
-							{FLAGS.BRIDGE_FLAG && (
-								<ListItem
-									button
-									className={
-										classes.listItem +
-										' ' +
-										(store.router.currentPath == '/bridge' ? classes.activeListItem : '')
-									}
-									onClick={() => navigate(views.bridge)}
-								>
-									<ListItemIcon>
-										<img src="/assets/sidebar/icon-badger-bridge.svg" className={classes.icon} />
-									</ListItemIcon>
-									<ListItemText primary="Bridge" />
-								</ListItem>
-							)}
+							<ListItem
+								button
+								className={
+									classes.listItem +
+									' ' +
+									(store.router.currentPath == '/bridge' ? classes.activeListItem : '')
+								}
+								onClick={() => navigate(views.bridge)}
+							>
+								<ListItemIcon>
+									<img src="/assets/sidebar/icon-badger-bridge.svg" className={classes.icon} />
+								</ListItemIcon>
+								<ListItemText primary="Bridge" />
+							</ListItem>
 							<ListItem
 								button
 								className={classes.listItem}
@@ -338,6 +337,17 @@ export const Sidebar = observer(() => {
 									timeout="auto"
 									unmountOnExit
 								>
+									<ListItem
+										button
+										className={clsx(
+											store.router.currentPath == '/leaderboard'
+												? classes.activeListItem
+												: classes.primarySubListItem,
+										)}
+										onClick={() => navigate(views.boostLeaderBoard)}
+									>
+										Boost Leaderboard
+									</ListItem>
 									<ListItem
 										button
 										className={[

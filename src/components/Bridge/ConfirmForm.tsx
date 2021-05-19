@@ -3,12 +3,13 @@ import { Grid, Button, Checkbox, Tooltip } from '@material-ui/core';
 import InfoIcon from '@material-ui/icons/Info';
 import { StoreContext } from 'mobx/store-context';
 
-import btcLogo from 'assets/icons/btc.svg';
-import WBTCLogo from 'assets/icons/WBTC.svg';
-import byvWBTCLogo from 'assets/icons/byvWBTC.svg';
-import renBTCLogo from 'assets/icons/renBTC.svg';
-import crvBTCLogo from 'assets/tokens/bcrvRenWBTC.png';
 import { shortenAddress } from 'utils/componentHelpers';
+
+const btcLogo = '/assets/icons/btc.svg';
+const WBTCLogo = '/assets/icons/wbtc.svg';
+const byvWBTCLogo = '/assets/icons/byvwbtc.svg';
+const renBTCLogo = '/assets/icons/renbtc.svg';
+const crvBTCLogo = '/assets/tokens/bcrvrenwbtc.png';
 
 interface ConfirmFormProps {
 	values: any;
@@ -37,6 +38,8 @@ export const ConfirmForm = ({
 			releaseNetworkFee,
 			shortAddr,
 		},
+		wallet: { gasPrices },
+		uiState: { gasPrice },
 	} = store;
 
 	const [agreement, setAgreement] = useState({
@@ -95,6 +98,28 @@ export const ConfirmForm = ({
 				return crvBTCLogo;
 			default:
 				return renBTCLogo;
+		}
+	};
+
+	// Estimated units of gas required to mint each of the following.
+	// These values were taken from a sample of already processed txes.
+	// TODO: These need to be recorded for non ETH networks as well when
+	// bridge expands to other networks.
+	const estimatedGasUnitsETH = (): number => {
+		switch (values.token) {
+			case 'renBTC':
+				return 210000;
+			case 'WBTC':
+				return 550000;
+			case 'byvWBTC':
+				return 650000;
+			case 'bCRVrenBTC':
+			case 'bCRVsBTC':
+				return 500000;
+			case 'bCRVtBTC':
+				return 600000;
+			default:
+				return 0;
 		}
 	};
 
@@ -184,8 +209,15 @@ export const ConfirmForm = ({
 				{feeContainer(
 					'Bitcoin Miner Fee',
 					'This fee is paid to Bitcoin miners to move BTC. This does not go to the Ren or Badger team.',
-					`${values.tabValue == 0 ? lockNetworkFee : releaseNetworkFee} BTC`,
+					`${values.tabValue <= 1 ? lockNetworkFee : releaseNetworkFee} BTC`,
 				)}
+
+				{values.tabValue <= 1 &&
+					feeContainer(
+						'Estimated Gas Fee',
+						'This estimated network fee that goes to the destination network. This does not go to the Ren or Badger team.',
+						`${(estimatedGasUnitsETH() * gasPrices[gasPrice]) / 1e9} ETH`,
+					)}
 				{isWBTC && (
 					<>
 						{feeContainer(

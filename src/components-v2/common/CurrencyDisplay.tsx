@@ -11,14 +11,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export interface CurrencyDisplayProps {
-	displayValue: string;
+	displayValue?: string;
 	variant: Variant;
 	justify: GridJustification;
 }
 
-const CurrencyDisplay: React.FC<CurrencyDisplayProps> = (props: CurrencyDisplayProps) => {
+const CurrencyDisplay = (props: CurrencyDisplayProps): JSX.Element => {
 	const { displayValue, variant, justify } = props;
-	const [icon, displayAmount] = displayValue.split('.png');
+	const [icon, displayAmount] = displayValue ? displayValue.split('.png') : [undefined, undefined];
 	const hasCurrencyIcon = displayAmount !== undefined;
 	const classes = useStyles();
 

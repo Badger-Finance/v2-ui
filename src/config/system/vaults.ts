@@ -140,16 +140,17 @@ export const getVaults = (network?: string | null): VaultNetworkConfig => {
 						deploy.sett_system.vaults['native.sushiWbtcEth'],
 						deploy.sett_system.vaults['native.sushiBadgerWbtc'],
 						deploy.sett_system.vaults['native.sushiDiggWbtc'],
+						deploy.sett_system.vaults['native.sushiibBTCwBTC'],
 					],
 					fillers: {
-						isFeatured: [false, true],
-						position: [5, 4, 3],
-						symbolPrefix: ['sushi', 'sushi', 'sushi'],
-						onsenId: ['103', '21', '73'],
+						isFeatured: [false, true, true],
+						position: [5, 4, 3, 6],
+						symbolPrefix: ['sushi', 'sushi', 'sushi', 'sushi'],
 						pairContract: [
 							deploy.tokens['sushi.wBTC-WETH'],
 							deploy.tokens['sushi.wBTC-BADGER'],
 							deploy.tokens['sushi.wBTC-DIGG'],
+							deploy.tokens['sushi.ibBTC-wBTC'],
 						],
 					},
 					methods: [

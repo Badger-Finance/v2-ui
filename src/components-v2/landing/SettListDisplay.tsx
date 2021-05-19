@@ -2,7 +2,6 @@ import { Typography } from '@material-ui/core';
 import SettListItem from 'components-v2/landing/SettListItem';
 import { Loader } from 'components/Loader';
 import { observer } from 'mobx-react-lite';
-import { Vault } from 'mobx/model';
 import { StoreContext } from 'mobx/store-context';
 import React, { useContext } from 'react';
 import { SettListViewProps } from './SettListView';
@@ -14,7 +13,6 @@ const SettListDisplay = observer((props: SettListViewProps) => {
 	const {
 		setts: { settMap, experimentalMap },
 		uiState: { currency, period },
-		contracts: { vaults },
 		wallet: { network },
 	} = store;
 
@@ -31,14 +29,13 @@ const SettListDisplay = observer((props: SettListViewProps) => {
 			if (!currentSettMap[contract]) {
 				return;
 			}
-			const vault: Vault = vaults[currentSettMap[contract].vaultToken];
 			return (
 				<SettListItem
 					sett={currentSettMap[contract]}
 					key={currentSettMap[contract].name}
 					currency={currency}
 					period={period}
-					onOpen={() => onOpen(vault, currentSettMap[contract])}
+					onOpen={() => onOpen(currentSettMap[contract])}
 				/>
 			);
 		})
