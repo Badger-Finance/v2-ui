@@ -94,7 +94,7 @@ class RewardsStore {
 				return;
 			}
 
-			const amountsToClaim: BigNumber[] = [];
+			const amountsToClaim: string[] = [];
 			proof.tokens.map((address: string) => {
 				const token = getToken(address);
 				if (!token) return;
@@ -111,7 +111,9 @@ class RewardsStore {
 
 				// We check to see if the number is greater than the claimable amount due to
 				// rounding on the UI.
-				amount.gt(maxAmount) ? amountsToClaim.push(maxAmount) : amountsToClaim.push(amount);
+				amount.gt(maxAmount)
+					? amountsToClaim.push(maxAmount.toString())
+					: amountsToClaim.push(amount.toString());
 			});
 
 			if (amountsToClaim.length < proof.tokens.length) {
