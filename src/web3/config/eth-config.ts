@@ -18,6 +18,7 @@ const ethSettDefinitions: BadgerSett[] = [
 			address: ETH_DEPLOY.sett_system.vaults['native.sushiDiggWbtc'],
 			decimals: 18,
 		},
+		geyser: ETH_DEPLOY.geysers['native.sushiDiggWbtc'],
 	},
 	{
 		depositToken: {
@@ -28,6 +29,7 @@ const ethSettDefinitions: BadgerSett[] = [
 			address: ETH_DEPLOY.sett_system.vaults['native.sushiBadgerWbtc'],
 			decimals: 18,
 		},
+		geyser: ETH_DEPLOY.geysers['native.sushiBadgerWbtc'],
 	},
 	{
 		depositToken: {
@@ -38,6 +40,7 @@ const ethSettDefinitions: BadgerSett[] = [
 			address: ETH_DEPLOY.sett_system.vaults['native.sushiWbtcEth'],
 			decimals: 18,
 		},
+		geyser: ETH_DEPLOY.geysers['native.sushiWbtcEth'],
 	},
 	{
 		depositToken: {
@@ -101,6 +104,7 @@ const ethSettDefinitions: BadgerSett[] = [
 			address: ETH_DEPLOY.sett_system.vaults['yearn.wBtc'],
 			decimals: 8,
 		},
+		geyser: ETH_DEPLOY.geysers['yearn.wBtc'],
 	},
 	{
 		depositToken: {
