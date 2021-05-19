@@ -31,7 +31,7 @@ export function sidebarTokenLinks(bsc: NETWORK_LIST): SidebarLink[] {
 					title: 'BADGER',
 				},
 				{
-					url: new URL('https://info.uniswap.org/pair/0xcd7989894bc033581532d2cd88da5db0a4b12859'),
+					url: new URL('https://v2.info.uniswap.org/pair/0xcd7989894bc033581532d2cd88da5db0a4b12859'),
 					title: 'Uniswap BADGER/wBTC',
 				},
 				{
