@@ -17,6 +17,10 @@ import { ETH_DEPLOY } from 'web3/config/eth-config';
 import { mockToken } from 'mobx/model/badger-token';
 import { DEBUG } from 'config/constants';
 
+// We set the exponential BigNumber to 1 billion decimals to handle Digg claims
+// as they are very large numbers when converted to shares
+BigNumber.config({ EXPONENTIAL_AT: 1e9 });
+
 class RewardsStore {
 	private store!: RootStore;
 	private static defaultTree: BadgerTree = {
