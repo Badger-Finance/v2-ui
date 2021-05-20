@@ -176,6 +176,17 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 					strategyLink:
 						'https://badger.wiki/Strategies-7bf5b27a451242538f02855ca5aaf4e4#8dbbd221e429409db3b487da966a14b8',
 				},
+				[deploy.sett_system.vaults['native.sushiibBTCwBTC']]: {
+					name: '',
+					address: deploy.sett_system.vaults['native.sushiibBTCwBTC'],
+					fees: {
+						['DAO Performance Fee']: new BigNumber(1000),
+						['Strategist Performance Fee']: new BigNumber(1000),
+						['Withdraw Fee']: new BigNumber(50),
+					},
+					strategyLink:
+						'https://badger.wiki/Strategies-7bf5b27a451242538f02855ca5aaf4e4#418b98a05da849a3a8dd97f74f8c0c80',
+				},
 			};
 	}
 };
