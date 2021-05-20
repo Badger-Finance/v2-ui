@@ -28,9 +28,15 @@ export class TokenBalance {
 	 * a requested precision threshold (< 0.001 balance display).
 	 */
 	static fromBalance(tokenBalance: TokenBalance, balance: string): TokenBalance {
-		const scalar = new BigNumber(Math.pow(10, tokenBalance.token.decimals));
-		const amount = new BigNumber(balance).multipliedBy(scalar);
-		return new TokenBalance(tokenBalance.store, tokenBalance.token, amount, tokenBalance.price);
+		const { token, store, price } = tokenBalance;
+		let divisor = new BigNumber(1);
+		const isDigg = token.address === ETH_DEPLOY.tokens.digg;
+		if (isDigg && store.badgerTree.sharesPerFragment) {
+			divisor = store.badgerTree.sharesPerFragment;
+		}
+		const scalar = new BigNumber(Math.pow(10, token.decimals));
+		const amount = new BigNumber(balance).multipliedBy(scalar).dividedBy(divisor);
+		return new TokenBalance(store, token, amount, price);
 	}
 
 	get value(): BigNumber {
@@ -49,7 +55,7 @@ export class TokenBalance {
 	balanceDisplay(precision?: number): string {
 		const decimals = precision || this.token.decimals;
 		const min = `0.${'0'.repeat(decimals - 1)}1`;
-		const minBalance = TokenBalance.fromBalance(this, min);
+		const minBalance = this.store.balanceFromString(this.token.address, min);
 		const minTokenBalance = minBalance.tokenBalance;
 		if (this.tokenBalance.gt(0) && this.tokenBalance.lt(minTokenBalance)) {
 			return `< ${min}`;

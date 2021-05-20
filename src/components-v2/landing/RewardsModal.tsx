@@ -69,7 +69,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export interface ClaimMap {
-	[address: string]: BigNumber;
+	[address: string]: TokenBalance;
 }
 
 interface RewardReturn {
@@ -88,13 +88,15 @@ export const RewardsModal = observer(() => {
 	const [claimMap, setClaimMap] = useState<ClaimMap | undefined>(undefined);
 	const [maxFlag, setMaxFlag] = useState(false);
 
-	const handleOpen = () => {
-		if (!badgerTree || !badgerTree.claims) return;
-		let initialClaimMap = {};
+	const handleOpen = (): void => {
+		if (!badgerTree || !badgerTree.claims) {
+			return;
+		}
+		const initialClaimMap: ClaimMap = {};
 		badgerTree.claims.map((claim: UserClaimData) => {
-			initialClaimMap = { ...initialClaimMap, [claim.token]: claim.amount };
+			initialClaimMap[claim.token] = store.rewards.tokenBalance(claim.token, claim.amount);
 		});
-		setClaimMap({ ...initialClaimMap });
+		setClaimMap(initialClaimMap);
 		setOpen(true);
 	};
 
@@ -103,7 +105,8 @@ export const RewardsModal = observer(() => {
 	};
 
 	const handleClaimMap = (address: string, amount: string) => {
-		setClaimMap({ ...claimMap, [address]: new BigNumber(amount) });
+		const balance = store.rewards.balanceFromString(address, amount);
+		setClaimMap({ ...claimMap, [address]: balance });
 	};
 
 	const maxAll = () => {
@@ -166,7 +169,6 @@ export const RewardsModal = observer(() => {
 					</Button>
 				</ButtonGroup>
 			</Grid>
-
 			<Modal
 				aria-labelledby="claim-modal"
 				aria-describedby="Claim your rewards"

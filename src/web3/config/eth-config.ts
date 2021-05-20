@@ -150,6 +150,17 @@ const ethSettDefinitions: BadgerSett[] = [
 		},
 		geyser: ETH_DEPLOY.geysers['native.sbtcCrv'],
 	},
+	{
+		depositToken: {
+			address: ETH_DEPLOY.tokens.digg,
+			decimals: 9,
+			symbol: 'DIGG',
+		},
+		vaultToken: {
+			address: ETH_DEPLOY.sett_system.vaults['experimental.digg'],
+			decimals: 18,
+		},
+	},
 ];
 
 const ethRewards = [
