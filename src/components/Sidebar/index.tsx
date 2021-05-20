@@ -168,6 +168,11 @@ export const Sidebar = observer(() => {
 		return goTo(path);
 	};
 
+	const getItemClass = (path: string, listClass: string, styles?: string[]): string => {
+		const isActive = store.router.currentPath == path;
+		return clsx(isActive ? classes.activeListItem : listClass, ...(styles ? styles : []));
+	};
+
 	return (
 		<Drawer
 			variant={window.innerWidth > 960 ? 'persistent' : 'temporary'}
@@ -226,12 +231,10 @@ export const Sidebar = observer(() => {
 
 					<ListItem
 						button
+						className={getItemClass('/', classes.listItem)}
 						onClick={() => {
 							navigate(views.home);
 						}}
-						className={
-							classes.listItem + ' ' + (store.router.currentPath === '/' ? classes.activeListItem : '')
-						}
 					>
 						<ListItemIcon>
 							<img alt="Badger Setts Logo" className={classes.icon} src={'assets/sidebar/sett.png'} />
@@ -242,11 +245,7 @@ export const Sidebar = observer(() => {
 						<>
 							<ListItem
 								button
-								className={
-									classes.listItem +
-									' ' +
-									(store.router.currentPath == '/airdrops' ? classes.activeListItem : '')
-								}
+								className={getItemClass('/airdrops', classes.listItem)}
 								onClick={() => navigate(views.airdrops)}
 							>
 								<ListItemIcon>
@@ -260,11 +259,7 @@ export const Sidebar = observer(() => {
 							</ListItem>
 							<ListItem
 								button
-								className={
-									classes.listItem +
-									' ' +
-									(store.router.currentPath == '/digg' ? classes.activeListItem : '')
-								}
+								className={getItemClass('/digg', classes.listItem)}
 								onClick={() => navigate(views.digg)}
 							>
 								<ListItemIcon>
@@ -279,11 +274,7 @@ export const Sidebar = observer(() => {
 							{FLAGS.IBBTC_FLAG && (
 								<ListItem
 									button
-									className={
-										classes.listItem +
-										' ' +
-										(store.router.currentPath == '/ibBTC' ? classes.activeListItem : '')
-									}
+									className={getItemClass('/ibBTC', classes.listItem)}
 									onClick={() => navigate(views.IbBTC)}
 								>
 									<ListItemIcon>
@@ -337,43 +328,29 @@ export const Sidebar = observer(() => {
 									timeout="auto"
 									unmountOnExit
 								>
+									{FLAGS.EXPERIMENTAL_VAULTS && (
+										<ListItem
+											button
+											className={getItemClass('/experimental', classes.primarySubListItem)}
+											onClick={() => goTo(views.experimental)}
+										>
+											Experimental Vaults
+										</ListItem>
+									)}
 									<ListItem
 										button
-										className={clsx(
-											store.router.currentPath == '/leaderboard'
-												? classes.activeListItem
-												: classes.primarySubListItem,
-										)}
+										className={getItemClass('/leaderboard', classes.primarySubListItem)}
 										onClick={() => navigate(views.boostLeaderBoard)}
 									>
 										Boost Leaderboard
 									</ListItem>
 									<ListItem
 										button
-										className={[
-											store.router.currentPath == '/honey-badger-drop'
-												? classes.activeListItem
-												: '',
-											classes.primarySubListItem,
-										].join(' ')}
+										className={getItemClass('/honey-badger-drop', classes.primarySubListItem)}
 										onClick={() => navigate(views.honeybadgerDrop)}
 									>
 										Honey Badger Drop
 									</ListItem>
-									{FLAGS.EXPERIMENTAL_VAULTS && (
-										<ListItem
-											button
-											className={[
-												store.router.currentPath == '/experimental'
-													? classes.activeListItem
-													: '',
-												classes.primarySubListItem,
-											].join(' ')}
-											onClick={() => goTo(views.experimental)}
-										>
-											Experimental Vaults
-										</ListItem>
-									)}
 								</Collapse>
 							</ListItem>
 						</>

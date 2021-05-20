@@ -54,7 +54,6 @@ export const GeyserUnstake = observer((props: SettModalProps) => {
 		user: { geyserBalances },
 		contracts,
 		rewards,
-		setts: { settMap },
 	} = store;
 
 	if (!badgerSett.geyser) {
@@ -68,8 +67,7 @@ export const GeyserUnstake = observer((props: SettModalProps) => {
 	}
 
 	const userBalance = geyserBalances[badgerSett.geyser];
-	const settPpfs = settMap ? settMap[badgerSett.vaultToken.address].ppfs : 1;
-	const underlying = userBalance.tokenBalance.multipliedBy(settPpfs);
+	const underlying = userBalance.tokenBalance.multipliedBy(sett.ppfs);
 	const underlyingBalance = new TokenBalance(rewards, userBalance.token, underlying, userBalance.price);
 
 	// remove rendudant code
