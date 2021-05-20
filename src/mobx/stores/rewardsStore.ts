@@ -15,7 +15,6 @@ import { getToken } from '../../web3/config/token-config';
 import { TokenBalance } from 'mobx/model/token-balance';
 import { ETH_DEPLOY } from 'web3/config/eth-config';
 import { mockToken } from 'mobx/model/badger-token';
-import { DEBUG } from 'config/constants';
 
 class RewardsStore {
 	private store!: RootStore;
@@ -43,9 +42,6 @@ class RewardsStore {
 		const tokenPrice = this.store.setts.getPrice(token);
 		if (!badgerToken || !tokenPrice) {
 			const amount = new BigNumber(balance);
-			if (DEBUG) {
-				console.log({ message: 'Unable to create token balance.', token, amount, badgerToken, tokenPrice });
-			}
 			return new TokenBalance(this, mockToken(token), amount, new BigNumber(0));
 		}
 		let multiplier = new BigNumber(1);
@@ -62,9 +58,6 @@ class RewardsStore {
 		const badgerToken = getToken(token);
 		const tokenPrice = this.store.setts.getPrice(token);
 		if (!badgerToken || !tokenPrice) {
-			if (DEBUG) {
-				console.log({ message: 'Unable to create token balance.', token, amount, badgerToken, tokenPrice });
-			}
 			return new TokenBalance(this, mockToken(token), amount, new BigNumber(0));
 		}
 		return new TokenBalance(this, badgerToken, amount, tokenPrice);

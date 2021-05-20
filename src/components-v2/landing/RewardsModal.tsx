@@ -88,7 +88,7 @@ export const RewardsModal = observer(() => {
 	const [claimMap, setClaimMap] = useState<ClaimMap | undefined>(undefined);
 	const [maxFlag, setMaxFlag] = useState(false);
 
-	const handleOpen = () => {
+	const handleOpen = (): void => {
 		if (!badgerTree || !badgerTree.claims) {
 			return;
 		}
@@ -169,7 +169,6 @@ export const RewardsModal = observer(() => {
 					</Button>
 				</ButtonGroup>
 			</Grid>
-
 			<Modal
 				aria-labelledby="claim-modal"
 				aria-describedby="Claim your rewards"
