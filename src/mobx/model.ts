@@ -451,6 +451,7 @@ export class EthNetwork implements Network {
 		this.deploy.sett_system.vaults['native.sbtcCrv'],
 		this.deploy.sett_system.vaults['native.tbtcCrv'],
 		this.deploy.sett_system.vaults['harvest.renCrv'],
+		this.deploy.sett_system.vaults['experimental.digg'],
 	];
 	public readonly sidebarTokenLinks = sidebarTokenLinks(NETWORK_LIST.ETH);
 	public readonly sidebarPricingLinks = sidebarPricingLinks;

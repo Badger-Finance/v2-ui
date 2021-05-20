@@ -129,18 +129,26 @@ export default class UserStore {
 		switch (namespace) {
 			case ContractNamespace.Sett:
 				const settAddress = Web3.utils.toChecksumAddress(sett.vaultToken.address);
-				return this.settBalances[settAddress];
+				return this.getOrDefaultBalance(this.settBalances, settAddress);
 			case ContractNamespace.Geyser:
 				if (!sett.geyser) {
 					throw new Error(`${sett.vaultToken.address} does not have a geyser`);
 				}
 				const geyserAdress = Web3.utils.toChecksumAddress(sett.geyser);
-				return this.geyserBalances[geyserAdress];
+				return this.getOrDefaultBalance(this.geyserBalances, geyserAdress);
 			case ContractNamespace.Token:
 			default:
 				const tokenAddress = Web3.utils.toChecksumAddress(sett.depositToken.address);
-				return this.tokenBalances[tokenAddress];
+				return this.getOrDefaultBalance(this.tokenBalances, tokenAddress);
 		}
+	}
+
+	private getOrDefaultBalance(balances: UserBalances, token: string): TokenBalance {
+		const balance = balances[token];
+		if (!balance) {
+			return this.store.rewards.mockBalance(token);
+		}
+		return balance;
 	}
 
 	updateBalances = action(
@@ -251,7 +259,7 @@ export default class UserStore {
 	private getDepositToken = (sett: BadgerSett): BadgerToken => sett.depositToken;
 	private getSettToken = (sett: BadgerSett): BadgerToken => sett.vaultToken;
 	/* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */
-	private getGeyserMockToken = (sett: BadgerSett): BadgerToken => mockToken(sett.geyser!);
+	private getGeyserMockToken = (sett: BadgerSett): BadgerToken => mockToken(sett.geyser!, sett.vaultToken.decimals);
 
 	/* User Data Retrieval */
 

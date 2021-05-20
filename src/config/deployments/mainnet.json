@@ -89,7 +89,8 @@
 			"native.uniDiggWbtc": "0xC17078FDd324CC473F8175Dc5290fae5f2E84714",
 			"native.sushiDiggWbtc": "0x88128580ACdD9c04Ce47AFcE196875747bF2A9f6",
 			"yearn.wBtc": "0x4b92d19c11435614CD49Af1b589001b7c08cD4D5",
-			"native.sushiibBTCwBTC": "0x8a8FFec8f4A0C8c9585Da95D9D97e8Cd6de273DE"
+			"native.sushiibBTCwBTC": "0x8a8FFec8f4A0C8c9585Da95D9D97e8Cd6de273DE",
+			"experimental.digg": "0x608b6D82eb121F3e5C0baeeD32d81007B916E83C"
 		},
 		"strategies": {
 			"native.badger": "0x75b8E21BD623012Efb3b69E1B562465A68944eE6",

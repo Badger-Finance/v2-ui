@@ -4,7 +4,7 @@ import { AbiItem } from 'web3-utils';
 import { RootStore } from '../store';
 import { abi as rewardsAbi } from '../../config/system/abis/BadgerTree.json';
 import { abi as diggAbi } from '../../config/system/abis/UFragments.json';
-import { badgerTree, digg_system, tokens } from '../../config/deployments/mainnet.json';
+import { badgerTree, digg_system } from '../../config/deployments/mainnet.json';
 import BigNumber from 'bignumber.js';
 import { BadgerTree, TreeClaimData } from 'mobx/model';
 import { ClaimMap } from '../../components-v2/landing/RewardsModal';
@@ -12,6 +12,10 @@ import { reduceClaims, reduceTimeSinceLastCycle } from 'mobx/reducers/statsReduc
 import { TransactionReceipt } from 'web3-core';
 import { getSendOptions } from 'mobx/utils/web3';
 import { getToken } from '../../web3/config/token-config';
+import { TokenBalance } from 'mobx/model/token-balance';
+import { ETH_DEPLOY } from 'web3/config/eth-config';
+import { mockToken } from 'mobx/model/badger-token';
+import { DEBUG } from 'config/constants';
 
 class RewardsStore {
 	private store!: RootStore;
@@ -32,6 +36,42 @@ class RewardsStore {
 		extendObservable(this, {
 			badgerTree: this.badgerTree,
 		});
+	}
+
+	balanceFromString(token: string, balance: string): TokenBalance {
+		const badgerToken = getToken(token);
+		const tokenPrice = this.store.setts.getPrice(token);
+		if (!badgerToken || !tokenPrice) {
+			const amount = new BigNumber(balance);
+			if (DEBUG) {
+				console.log({ message: 'Unable to create token balance.', token, amount, badgerToken, tokenPrice });
+			}
+			return new TokenBalance(this, mockToken(token), amount, new BigNumber(0));
+		}
+		let multiplier = new BigNumber(1);
+		const isDigg = badgerToken.address === ETH_DEPLOY.tokens.digg;
+		if (isDigg && this.badgerTree.sharesPerFragment) {
+			multiplier = this.badgerTree.sharesPerFragment;
+		}
+		const scalar = new BigNumber(Math.pow(10, badgerToken.decimals));
+		const amount = new BigNumber(balance).multipliedBy(scalar).multipliedBy(multiplier);
+		return new TokenBalance(this, badgerToken, amount, tokenPrice);
+	}
+
+	tokenBalance(token: string, amount: BigNumber): TokenBalance {
+		const badgerToken = getToken(token);
+		const tokenPrice = this.store.setts.getPrice(token);
+		if (!badgerToken || !tokenPrice) {
+			if (DEBUG) {
+				console.log({ message: 'Unable to create token balance.', token, amount, badgerToken, tokenPrice });
+			}
+			return new TokenBalance(this, mockToken(token), amount, new BigNumber(0));
+		}
+		return new TokenBalance(this, badgerToken, amount, tokenPrice);
+	}
+
+	mockBalance(token: string): TokenBalance {
+		return this.balanceFromString(token, '0');
 	}
 
 	sharesPerFragment = (): BigNumber | undefined => {
@@ -95,23 +135,15 @@ class RewardsStore {
 			}
 
 			const amountsToClaim: BigNumber[] = [];
-			proof.tokens.map((address: string) => {
+			proof.tokens.forEach((address: string): void => {
 				const token = getToken(address);
-				if (!token) return;
-				if (address === tokens.digg && !!this.badgerTree.sharesPerFragment) {
-					claimMap[address] = new BigNumber(claimMap[address])
-						.multipliedBy(new BigNumber(1).dividedBy(this.badgerTree.sharesPerFragment))
-						.multipliedBy(1e9);
-				} else if (address !== tokens.digg) {
-					claimMap[address] = new BigNumber(claimMap[address]).multipliedBy(10 ** token.decimals);
+				if (!token) {
+					return;
 				}
-
-				const amount = claimMap[address] ? claimMap[address] : new BigNumber('0');
+				const claimBalance = claimMap[token.address] ?? this.mockBalance(token.address);
 				const maxAmount = new BigNumber(claimableAmounts[proof.tokens.indexOf(address)]);
-
-				// We check to see if the number is greater than the claimable amount due to
-				// rounding on the UI.
-				amount.gt(maxAmount) ? amountsToClaim.push(maxAmount) : amountsToClaim.push(amount);
+				const claimAmount = claimBalance.tokenBalance.gt(maxAmount) ? maxAmount : claimBalance.tokenBalance;
+				amountsToClaim.push(claimAmount);
 			});
 
 			if (amountsToClaim.length < proof.tokens.length) {

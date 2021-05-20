@@ -62,6 +62,14 @@ export default class SettStore {
 		return this.priceCache[Web3.utils.toChecksumAddress(address)] ?? new BigNumber(0);
 	}
 
+	getSett(address: string): Sett | undefined {
+		const settMap: SettMap = {
+			...this.settMap,
+			...this.experimentalMap,
+		};
+		return settMap[Web3.utils.toChecksumAddress(address)];
+	}
+
 	private refresh(): void {
 		const network = this.store.wallet.network;
 		if (network) {
