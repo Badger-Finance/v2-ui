@@ -304,6 +304,12 @@ export const BridgeForm = observer(({ classes }: any) => {
 			contractFn: 'mint',
 			contractParams,
 		};
+		// NB: We explicitly set the gas limit for tbtc mints since estimateGas underestimates the gas needed.
+		if (token === 'bCRVtBTC') {
+			params.txConfig = {
+				gas: 1000000,
+			};
+		}
 
 		await begin({ params } as RenVMTransaction, () => {
 			resetState();
@@ -559,6 +565,13 @@ export const BridgeForm = observer(({ classes }: any) => {
 								<span>bCRVsBTC</span>
 							</span>
 						</MenuItem>
+
+						<MenuItem value={'bCRVtBTC'}>
+							<span className={classes.menuItem}>
+								<img src={crvBTCLogo} className={classes.logo} />
+								<span>bCRVtBTC</span>
+							</span>
+						</MenuItem>
 					</Select>
 				)}
 
@@ -607,6 +620,13 @@ export const BridgeForm = observer(({ classes }: any) => {
 							<span className={classes.menuItem}>
 								<img src={crvBTCLogo} className={classes.logo} />
 								<span>bCRVsBTC</span>
+							</span>
+						</MenuItem>
+
+						<MenuItem value={'bCRVtBTC'}>
+							<span className={classes.menuItem}>
+								<img src={crvBTCLogo} className={classes.logo} />
+								<span>bCRVtBTC</span>
 							</span>
 						</MenuItem>
 					</Select>
