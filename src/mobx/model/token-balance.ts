@@ -55,7 +55,7 @@ export class TokenBalance {
 	balanceDisplay(precision?: number): string {
 		const decimals = precision || this.token.decimals;
 		const min = `0.${'0'.repeat(decimals - 1)}1`;
-		const minBalance = TokenBalance.fromBalance(this, min);
+		const minBalance = this.store.balanceFromString(this.token.address, min);
 		const minTokenBalance = minBalance.tokenBalance;
 		if (this.tokenBalance.gt(0) && this.tokenBalance.lt(minTokenBalance)) {
 			return `< ${min}`;
