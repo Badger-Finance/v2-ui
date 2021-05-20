@@ -63,7 +63,8 @@ export const RewardsModalItem = observer(
 		}, [maxFlag]);
 
 		const handleInputAmount = (event: React.ChangeEvent<HTMLInputElement>) => {
-			const newVal = event.target.value === '.' ? '0.' : event.target.value;
+			let newVal = event.target.value === '.' ? '0.' : event.target.value;
+			if (newVal === '') newVal = '0';
 			if (isNaN(Number(newVal))) return;
 			new BigNumber(newVal).gt(new BigNumber(amount)) ? setFormError(true) : setFormError(false);
 			setInputAmount(newVal);
