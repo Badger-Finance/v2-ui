@@ -93,7 +93,7 @@ export interface BadgerTree {
 	sharesPerFragment: BigNumber | undefined;
 	proof: RewardMerkleClaim | undefined;
 	claims: UserClaimData[] | undefined;
-	claimableAmounts: BigNumber[] | undefined;
+	claimableAmounts: string[] | undefined;
 }
 
 interface TokenConfig {
@@ -117,7 +117,7 @@ export interface RewardMerkleClaim {
 	node: string;
 }
 
-export type TreeClaimData = [string[], BigNumber[]];
+export type TreeClaimData = [string[], string[]];
 
 export interface UserClaimData {
 	token: string;

@@ -127,15 +127,18 @@ class RewardsStore {
 				return;
 			}
 
-			const amountsToClaim: BigNumber[] = [];
+			const amountsToClaim: string[] = [];
 			proof.tokens.forEach((address: string): void => {
 				const token = getToken(address);
 				if (!token) {
 					return;
 				}
-				const claimBalance = claimMap[token.address] ?? this.mockBalance(token.address);
-				const maxAmount = new BigNumber(claimableAmounts[proof.tokens.indexOf(address)]);
-				const claimAmount = claimBalance.tokenBalance.gt(maxAmount) ? maxAmount : claimBalance.tokenBalance;
+				const claimBalance = (claimMap[token.address] ?? this.mockBalance(token.address)).tokenBalance;
+				const claimableAmount = claimableAmounts[proof.tokens.indexOf(address)];
+				let claimAmount = claimBalance.toFixed(0);
+				if (claimBalance.gt(new BigNumber(claimableAmount))) {
+					claimAmount = claimableAmount;
+				}
 				amountsToClaim.push(claimAmount);
 			});
 
