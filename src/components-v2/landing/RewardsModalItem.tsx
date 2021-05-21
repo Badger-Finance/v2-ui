@@ -5,6 +5,7 @@ import { observer } from 'mobx-react-lite';
 
 export interface RewardsModalItemProps {
 	amount: string;
+	display: string;
 	value: string;
 	symbol: string;
 	address: string;
@@ -44,7 +45,7 @@ const useStyles = makeStyles((theme: Theme) =>
 export const RewardsModalItem = observer(
 	(props: RewardsModalItemProps): JSX.Element => {
 		const classes = useStyles();
-		const { amount, value, address, maxFlag, symbol, onChange } = props;
+		const { amount, display, value, address, maxFlag, symbol, onChange } = props;
 
 		const [inputAmount, setInputAmount] = useState(amount);
 		const [formError, setFormError] = useState(false);
@@ -88,7 +89,7 @@ export const RewardsModalItem = observer(
 							{symbol}
 						</Typography>
 						<Grid container direction="column" className={classes.currencyContainer}>
-							<Typography>{amount}</Typography>
+							<Typography>{display}</Typography>
 							<Typography className={classes.currencyValue} variant="caption" color="textSecondary">
 								({value})
 							</Typography>
