@@ -73,10 +73,9 @@ export class TokenBalance {
 	}
 
 	scale(scalar: BigNumber): TokenBalance {
-		this.balance = this.balance.multipliedBy(scalar);
-		this.tokenBalance = this.tokenBalance.multipliedBy(scalar);
-		this.price = this.price.dividedBy(scalar);
-		return this;
+		const tokenBalance = this.tokenBalance.multipliedBy(scalar);
+		const price = this.price.dividedBy(scalar);
+		return new TokenBalance(this.store, this.token, tokenBalance, price);
 	}
 
 	private formatBalance(store: RewardsStore, token: BadgerToken, balance: BigNumber): BigNumber {
