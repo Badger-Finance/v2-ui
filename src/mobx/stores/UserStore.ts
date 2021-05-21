@@ -52,10 +52,9 @@ export default class UserStore {
 		observe(this.store.wallet as WalletStore, 'connectedAddress', () => {
 			const address = this.store.wallet.connectedAddress;
 			const network = this.store.wallet.network;
+			this.reset(true);
 			if (address) {
 				this.init(address, network);
-			} else {
-				this.reset(true);
 			}
 		});
 

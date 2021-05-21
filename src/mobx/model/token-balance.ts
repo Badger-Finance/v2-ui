@@ -56,8 +56,7 @@ export class TokenBalance {
 		const decimals = precision || this.token.decimals;
 		const min = `0.${'0'.repeat(decimals - 1)}1`;
 		const minBalance = this.store.balanceFromString(this.token.address, min);
-		const minTokenBalance = minBalance.tokenBalance;
-		if (this.tokenBalance.gt(0) && this.tokenBalance.lt(minTokenBalance)) {
+		if (this.balance.gt(0) && this.balance.lt(minBalance.balance)) {
 			return `< ${min}`;
 		}
 		return this.balance.toFixed(decimals);
@@ -71,6 +70,13 @@ export class TokenBalance {
 
 	balanceValueDisplay(currency: string): string {
 		return inCurrency(this.value, currency);
+	}
+
+	scale(scalar: BigNumber): TokenBalance {
+		this.balance = this.balance.multipliedBy(scalar);
+		this.tokenBalance = this.tokenBalance.multipliedBy(scalar);
+		this.price = this.price.dividedBy(scalar);
+		return this;
 	}
 
 	private formatBalance(store: RewardsStore, token: BadgerToken, balance: BigNumber): BigNumber {
