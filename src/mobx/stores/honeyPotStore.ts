@@ -7,10 +7,8 @@ import { ERC20, NETWORK_IDS } from 'config/constants';
 import mainnet from 'config/deployments/mainnet.json';
 import { abi as scarcityPoolABI } from 'config/system/abis/BadgerScarcityPool.json';
 import { abi as memeLtdABI } from 'config/system/abis/MemeLtd.json';
-import { estimateAndSend } from 'mobx/utils/web3';
-import { PromiEvent } from 'web3-core';
-import { Contract } from 'web3-eth-contract';
 import { NFT } from 'mobx/model';
+import { getSendOptions } from 'mobx/utils/web3';
 
 const nftAssetsByTokenId: Record<string, Pick<NFT, 'name' | 'image' | 'redirectUrl' | 'totalSupply'>> = {
 	'205': {
@@ -158,32 +156,25 @@ export class HoneyPotStore {
 
 			queueNotification(`Sign the transaction to redeem your NFT`, 'info');
 
-			estimateAndSend(
-				web3,
-				gasPrices[gasPrice],
-				redeem,
-				connectedAddress,
-				(transaction: PromiEvent<Contract>) => {
-					transaction
-						.on('transactionHash', (hash) => {
-							queueNotification(`Redemption submitted.`, 'info', hash);
-						})
-						.on('receipt', () => {
-							queueNotification(`NFT Redeemed.`, 'success');
-							this.fetchPoolBalance();
-							this.fetchNFTS();
-						})
-						.catch((error: any) => {
-							queueNotification(error.message, 'error');
-							setTxStatus('error');
-						})
-						.finally(() => {
-							console.log({ nftBeingRedeemed: Array.from(this.nftBeingRedeemed), tokenId });
-							this.nftBeingRedeemed = this.nftBeingRedeemed.filter((id) => id !== tokenId);
-							console.log({ nftBeingRedeemed: Array.from(this.nftBeingRedeemed) });
-						});
-				},
-			);
+			const price = gasPrices[gasPrice];
+			const options = await getSendOptions(redeem, connectedAddress, price);
+			await redeem
+				.send(options)
+				.on('transactionHash', (_hash: string) => {
+					queueNotification(`Redemption submitted.`, 'info', _hash);
+				})
+				.on('receipt', () => {
+					queueNotification(`NFT Redeemed.`, 'success');
+					this.fetchPoolBalance();
+					this.fetchNFTS();
+				})
+				.on('error', (error: Error) => {
+					queueNotification(error.message, 'error');
+					setTxStatus('error');
+				})
+				.finally(() => {
+					this.nftBeingRedeemed = this.nftBeingRedeemed.filter((id) => id !== tokenId);
+				});
 		} catch (error) {
 			const message = error?.message || 'There was an error. Please try again later.';
 			this.store.uiState.queueNotification(message, 'error');

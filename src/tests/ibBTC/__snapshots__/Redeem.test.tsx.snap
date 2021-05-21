@@ -1,5 +1,277 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`ibBTC Redeem can apply max balance 1`] = `
+<div>
+  <div
+    class="MuiGrid-root-3 MuiGrid-container-4"
+  >
+    <div
+      class="MuiGrid-root-3 WithStyles(ForwardRef(Grid))-root-106 WithStyles(ForwardRef(Grid))-root-107 MuiGrid-item-5 MuiGrid-grid-xs-12-49"
+    >
+      <p
+        class="MuiTypography-root-109 WithStyles(ForwardRef(Typography))-root-108 MuiTypography-body1-111 MuiTypography-colorTextSecondary-135"
+      >
+        Balance: 
+        5.000
+      </p>
+    </div>
+    <div
+      class="MuiGrid-root-3 WithStyles(ForwardRef(Grid))-root-139 WithStyles(ForwardRef(Grid))-root-140 MuiGrid-container-4 MuiGrid-item-5 MuiGrid-grid-xs-12-49"
+    >
+      <div
+        class="MuiGrid-root-3 MuiGrid-item-5 MuiGrid-grid-xs-8-45 MuiGrid-grid-sm-7-58"
+      >
+        <div
+          class="MuiInputBase-root-143 NumericInput-root-141 makeStyles-input-142 MuiInputBase-disabled-146 MuiInputBase-fullWidth-153"
+        >
+          <input
+            class="MuiInputBase-input-154 MuiInputBase-disabled-146"
+            disabled=""
+            pattern="^[0-9]*[.,]?[0-9]*$"
+            placeholder="0.000"
+            type="tel"
+            value="5.000000000000000000"
+          />
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-3 WithStyles(ForwardRef(Grid))-root-161 WithStyles(ForwardRef(Grid))-root-162 MuiGrid-container-4 MuiGrid-spacing-xs-1-26 MuiGrid-item-5 MuiGrid-grid-xs-4-41 MuiGrid-grid-sm-5-56"
+      >
+        <div
+          class="MuiGrid-root-3 MuiGrid-item-5"
+        >
+          <button
+            class="MuiButtonBase-root-192 MuiButton-root-163 MuiButton-outlined-168 MuiButton-outlinedSizeSmall-180 MuiButton-sizeSmall-184"
+            tabindex="0"
+            type="button"
+          >
+            <span
+              class="MuiButton-label-164"
+            >
+              max
+            </span>
+            <span
+              class="MuiTouchRipple-root-230"
+            />
+          </button>
+        </div>
+        <div
+          class="MuiGrid-root-3 MuiGrid-item-5"
+        >
+          <div
+            style="align-items: center; display: flex; flex-wrap: nowrap; overflow: hidden;"
+          >
+            <img
+              alt="Interest-Bearing BTC"
+              src="/assets/icons/ibbtc.svg"
+              style="height: 2rem; margin-right: .2rem; display: block;"
+            />
+            <div
+              class="MuiTypography-root-109 MuiTypography-body1-111"
+            >
+              ibBTC
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="MuiGrid-root-3 MuiGrid-container-4 MuiGrid-item-5 MuiGrid-align-items-xs-center-12 MuiGrid-grid-xs-12-49"
+  >
+    <svg
+      class="makeStyles-arrowDown-195"
+      fill="none"
+      height="18"
+      viewBox="0 0 13 18"
+      width="13"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        clip-rule="evenodd"
+        d="M6.5 15.2138L11.6295 10L13 11.3931L6.5 18L-6.08938e-08 11.3931L1.37054 10L6.5 15.2138Z"
+        fill="white"
+        fill-rule="evenodd"
+      />
+      <line
+        stroke="white"
+        stroke-width="2"
+        x1="6.5"
+        x2="6.5"
+        y1="16"
+        y2="4.37114e-08"
+      />
+    </svg>
+  </div>
+  <div
+    class="MuiGrid-root-3 makeStyles-outputContent-1 MuiGrid-container-4"
+  >
+    <div
+      class="MuiGrid-root-3 WithStyles(ForwardRef(Grid))-root-196 WithStyles(ForwardRef(Grid))-root-197 MuiGrid-container-4 MuiGrid-item-5 MuiGrid-grid-xs-12-49"
+    >
+      <div
+        class="MuiGrid-root-3 MuiGrid-item-5 MuiGrid-grid-xs-12-49 MuiGrid-grid-sm-7-58 MuiGrid-grid-md-12-77 MuiGrid-grid-lg-7-86"
+      >
+        <h1
+          class="MuiTypography-root-109 WithStyles(ForwardRef(Typography))-root-198 WithStyles(ForwardRef(Typography))-root-199 MuiTypography-h1-114"
+        >
+          11.988000
+        </h1>
+      </div>
+      <div
+        class="MuiGrid-root-3 WithStyles(ForwardRef(Grid))-root-200 WithStyles(ForwardRef(Grid))-root-201 MuiGrid-container-4 MuiGrid-item-5 MuiGrid-grid-xs-12-49 MuiGrid-grid-sm-5-56 MuiGrid-grid-md-12-77 MuiGrid-grid-lg-5-84"
+      >
+        <button
+          class="MuiButtonBase-root-192 MuiButton-root-163 MuiButton-outlined-168 makeStyles-selectButton-207 MuiButton-outlinedSizeSmall-180 MuiButton-sizeSmall-184"
+          tabindex="0"
+          type="button"
+        >
+          <span
+            class="MuiButton-label-164"
+          >
+            <div
+              style="align-items: center; display: flex; flex-wrap: nowrap; overflow: hidden;"
+            >
+              <img
+                alt="Badger crvRenWSBTC"
+                src="/assets/icons/bcrvrenwsbtc.svg"
+                style="height: 2rem; margin-right: .2rem; display: block;"
+              />
+              <div
+                class="MuiTypography-root-109 MuiTypography-body1-111"
+              >
+                bcrvRenWSBTC
+              </div>
+            </div>
+            <span
+              class="MuiButton-endIcon-188 MuiButton-iconSizeSmall-189"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root-209"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M7 10l5 5 5-5z"
+                />
+              </svg>
+            </span>
+          </span>
+          <span
+            class="MuiTouchRipple-root-230"
+          />
+        </button>
+      </div>
+    </div>
+  </div>
+  <div
+    class="MuiGrid-root-3 MuiGrid-item-5 MuiGrid-grid-xs-12-49"
+  >
+    <div
+      class="MuiGrid-root-3 WithStyles(ForwardRef(Grid))-root-218"
+    >
+      <div
+        class="MuiGrid-root-3 MuiGrid-container-4 MuiGrid-item-5 MuiGrid-justify-xs-space-between-23 MuiGrid-grid-xs-12-49"
+      >
+        <div
+          class="MuiGrid-root-3 MuiGrid-item-5 MuiGrid-grid-xs-6-43"
+        >
+          <h6
+            class="MuiTypography-root-109 MuiTypography-subtitle1-120"
+          >
+            Current Conversion Rate: 
+          </h6>
+        </div>
+        <div
+          class="MuiGrid-root-3 MuiGrid-item-5 MuiGrid-grid-xs-6-43"
+        >
+          <p
+            class="MuiTypography-root-109 WithStyles(ForwardRef(Typography))-root-108 MuiTypography-body1-111"
+          >
+            1 
+            ibBTC
+             : 
+            1.000000
+             
+            bcrvRenWSBTC
+          </p>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-3 MuiGrid-container-4 MuiGrid-item-5 MuiGrid-justify-xs-space-between-23 MuiGrid-grid-xs-12-49"
+      >
+        <div
+          class="MuiGrid-root-3 MuiGrid-item-5 MuiGrid-grid-xs-6-43"
+        >
+          <h6
+            class="MuiTypography-root-109 MuiTypography-subtitle1-120"
+          >
+            Fees: 
+          </h6>
+        </div>
+        <div
+          class="MuiGrid-root-3 MuiGrid-item-5 MuiGrid-grid-xs-6-43"
+        >
+          <p
+            class="MuiTypography-root-109 WithStyles(ForwardRef(Typography))-root-108 MuiTypography-body1-111"
+          >
+            <span
+              class=""
+              title="Redeem Fee: 0%"
+            >
+              0.012000
+               
+              ibBTC
+            </span>
+          </p>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-3 MuiGrid-container-4 MuiGrid-item-5 MuiGrid-justify-xs-space-between-23 MuiGrid-grid-xs-12-49"
+      >
+        <div
+          class="MuiGrid-root-3 MuiGrid-item-5 MuiGrid-grid-xs-6-43"
+        >
+          <h6
+            class="MuiTypography-root-109 MuiTypography-subtitle1-120"
+          >
+            Total Redeem Amount: 
+          </h6>
+        </div>
+        <div
+          class="MuiGrid-root-3 MuiGrid-item-5 MuiGrid-grid-xs-6-43"
+        >
+          <p
+            class="MuiTypography-root-109 WithStyles(ForwardRef(Typography))-root-108 MuiTypography-body1-111"
+          >
+            11.988000 bcrvRenWSBTC
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="MuiGrid-root-3 MuiGrid-item-5 MuiGrid-grid-xs-12-49"
+  >
+    <button
+      class="MuiButtonBase-root-192 MuiButton-root-163 MuiButton-contained-171 MuiButton-containedPrimary-172 MuiButton-containedSizeLarge-183 MuiButton-sizeLarge-185 MuiButton-fullWidth-186"
+      tabindex="0"
+      type="button"
+    >
+      <span
+        class="MuiButton-label-164"
+      >
+        Connect Wallet
+      </span>
+      <span
+        class="MuiTouchRipple-root-230"
+      />
+    </button>
+  </div>
+</div>
+`;
+
 exports[`ibBTC Redeem displays output balance when redeem amount is inputted 1`] = `
 <div>
   <div

@@ -6,10 +6,10 @@ import { customRender } from './Utils';
 
 describe('CurrencyInfoCard', () => {
 	test('Renders correctly', () => {
-		const displayPrice = new BigNumber(40);
+		const displayPrice = new BigNumber(1);
 		const currency = 'usd';
 		const { container } = customRender(
-			<CurrencyInfoCard title="Test Price" value={displayPrice} currency={currency} isUsd={true} />,
+			<CurrencyInfoCard title="Test Price" value={displayPrice} currency={currency} />,
 		);
 		expect(container).toMatchSnapshot();
 	});

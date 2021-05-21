@@ -440,8 +440,11 @@ class BridgeStore {
 				const parsedTx = JSON.parse(tx.encodedTx);
 				this.openGateway = this.gjs.recoverTransfer(provider, parsedTx, parsedTx.id).pause();
 			} else {
+				const parsedTx = toJS(tx);
+				// This invariant check throws on failure.
+				checkUserAddrInvariantAndThrow(parsedTx);
 				this.openGateway = this.gjs.open({
-					...toJS(tx).params,
+					...parsedTx.params,
 					web3Provider: provider,
 				});
 			}
@@ -592,6 +595,16 @@ const _isTxComplete = function (tx: RenVMTransaction) {
 		tx.status === BurnAndReleaseStatus.ReturnedFromRenVM ||
 		tx.deleted === true
 	);
+};
+
+// Invariant check on matching _user address w/ connectedAddress of the tx.
+const checkUserAddrInvariantAndThrow = (tx: RenVMTransaction) => {
+	if (tx.params.contractFn !== 'mint') return;
+
+	const user = tx.params.contractParams?.find(({ name }) => name === '_user');
+	if (user?.value !== tx.user) {
+		throw `Mint destination (${user}) does not match connected address (${tx.user})`;
+	}
 };
 
 export default BridgeStore;

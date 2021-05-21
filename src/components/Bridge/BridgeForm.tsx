@@ -4,7 +4,6 @@ import { ethers } from 'ethers';
 import GatewayJS from '@renproject/gateway';
 import { EthArgs, LockAndMintParamsSimple, BurnAndReleaseParamsSimple } from '@renproject/interfaces';
 import Web3 from 'web3';
-import async from 'async';
 import { observer } from 'mobx-react-lite';
 import { Grid, Tabs, Tab, FormControl, Select, MenuItem, Typography } from '@material-ui/core';
 
@@ -305,6 +304,12 @@ export const BridgeForm = observer(({ classes }: any) => {
 			contractFn: 'mint',
 			contractParams,
 		};
+		// NB: We explicitly set the gas limit for tbtc mints since estimateGas underestimates the gas needed.
+		if (token === 'bCRVtBTC') {
+			params.txConfig = {
+				gas: 1000000,
+			};
+		}
 
 		await begin({ params } as RenVMTransaction, () => {
 			resetState();
@@ -312,7 +317,6 @@ export const BridgeForm = observer(({ classes }: any) => {
 	};
 
 	const approveAndWithdraw = async () => {
-		const methodSeries: any = [];
 		// Burn token decimals vary based on token/sett (e.g. most setts are 18 decimals whereas btc variants are 8 decimals)
 		const amountOut = new BigNumber(burnAmount as any).multipliedBy(decimals());
 		let burnToken = tokens.renBTC;
@@ -357,23 +361,20 @@ export const BridgeForm = observer(({ classes }: any) => {
 			address: tokenAddress(),
 			symbol: token,
 			totalSupply: amountOut,
+			decimals: 0,
 		};
 
-		const allowance: number = await new Promise((resolve, reject) => {
-			getAllowance(tokenParam, bridge_system['adapter'], (err: unknown | undefined, result: number) => {
-				if (err) reject(err);
-				resolve(result);
-			});
-		});
-		if (amountOut.toNumber() > allowance) {
-			methodSeries.push((callback: (...params: unknown[]) => unknown) =>
-				increaseAllowance(tokenParam, bridge_system['adapter'], callback),
-			);
+		const allowance = await getAllowance(tokenParam, bridge_system.adapter);
+		if (amountOut.gt(allowance.balance)) {
+			try {
+				await increaseAllowance(tokenParam, bridge_system.adapter);
+				setTxStatus('pending');
+				await withdraw(params);
+				setTxStatus('success');
+			} catch (err) {
+				setTxStatus('error');
+			}
 		}
-		methodSeries.push(() => withdraw(params));
-		async.series(methodSeries, (err?: unknown) => {
-			setTxStatus(!!err ? 'error' : 'success');
-		});
 	};
 
 	const withdraw = async (contractParams: EthArgs) => {
@@ -564,6 +565,13 @@ export const BridgeForm = observer(({ classes }: any) => {
 								<span>bCRVsBTC</span>
 							</span>
 						</MenuItem>
+
+						<MenuItem value={'bCRVtBTC'}>
+							<span className={classes.menuItem}>
+								<img src={crvBTCLogo} className={classes.logo} />
+								<span>bCRVtBTC</span>
+							</span>
+						</MenuItem>
 					</Select>
 				)}
 
@@ -612,6 +620,13 @@ export const BridgeForm = observer(({ classes }: any) => {
 							<span className={classes.menuItem}>
 								<img src={crvBTCLogo} className={classes.logo} />
 								<span>bCRVsBTC</span>
+							</span>
+						</MenuItem>
+
+						<MenuItem value={'bCRVtBTC'}>
+							<span className={classes.menuItem}>
+								<img src={crvBTCLogo} className={classes.logo} />
+								<span>bCRVtBTC</span>
 							</span>
 						</MenuItem>
 					</Select>

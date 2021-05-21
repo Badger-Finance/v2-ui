@@ -1,16 +1,20 @@
 import { extendObservable, action } from 'mobx';
 import Web3 from 'web3';
-import { PromiEvent } from 'web3-core';
-import { Contract } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
-import { estimateAndSend } from '../utils/web3';
 import { RootStore } from '../store';
 import { abi as rewardsAbi } from '../../config/system/abis/BadgerTree.json';
 import { abi as diggAbi } from '../../config/system/abis/UFragments.json';
 import { badgerTree, digg_system } from '../../config/deployments/mainnet.json';
 import BigNumber from 'bignumber.js';
 import { BadgerTree, TreeClaimData } from 'mobx/model';
+import { ClaimMap } from '../../components-v2/landing/RewardsModal';
 import { reduceClaims, reduceTimeSinceLastCycle } from 'mobx/reducers/statsReducers';
+import { TransactionReceipt } from 'web3-core';
+import { getSendOptions } from 'mobx/utils/web3';
+import { getToken } from '../../web3/config/token-config';
+import { TokenBalance } from 'mobx/model/token-balance';
+import { ETH_DEPLOY } from 'web3/config/eth-config';
+import { mockToken } from 'mobx/model/badger-token';
 
 class RewardsStore {
 	private store!: RootStore;
@@ -32,6 +36,40 @@ class RewardsStore {
 			badgerTree: this.badgerTree,
 		});
 	}
+
+	balanceFromString(token: string, balance: string): TokenBalance {
+		const badgerToken = getToken(token);
+		const tokenPrice = this.store.setts.getPrice(token);
+		if (!badgerToken || !tokenPrice) {
+			const amount = new BigNumber(balance);
+			return new TokenBalance(this, mockToken(token), amount, new BigNumber(0));
+		}
+		let multiplier = new BigNumber(1);
+		const isDigg = badgerToken.address === ETH_DEPLOY.tokens.digg;
+		if (isDigg && this.badgerTree.sharesPerFragment) {
+			multiplier = this.badgerTree.sharesPerFragment;
+		}
+		const scalar = new BigNumber(Math.pow(10, badgerToken.decimals));
+		const amount = new BigNumber(balance).multipliedBy(scalar).multipliedBy(multiplier);
+		return new TokenBalance(this, badgerToken, amount, tokenPrice);
+	}
+
+	tokenBalance(token: string, amount: BigNumber): TokenBalance {
+		const badgerToken = getToken(token);
+		const tokenPrice = this.store.setts.getPrice(token);
+		if (!badgerToken || !tokenPrice) {
+			return new TokenBalance(this, mockToken(token), amount, new BigNumber(0));
+		}
+		return new TokenBalance(this, badgerToken, amount, tokenPrice);
+	}
+
+	mockBalance(token: string): TokenBalance {
+		return this.balanceFromString(token, '0');
+	}
+
+	sharesPerFragment = (): BigNumber | undefined => {
+		return this.badgerTree.sharesPerFragment;
+	};
 
 	resetRewards = action(() => (this.badgerTree = RewardsStore.defaultTree));
 
@@ -73,48 +111,76 @@ class RewardsStore {
 				claims: reduceClaims(claimProof, claimed),
 				claimableAmounts: claimable[1],
 			};
+
+			this.store.uiState.reduceTreeRewards();
 		},
 	);
 
-	claimGeysers = action(() => {
-		const { proof, claimableAmounts } = this.badgerTree;
-		const { provider, gasPrices, connectedAddress } = this.store.wallet;
-		const { queueNotification, gasPrice, setTxStatus } = this.store.uiState;
+	claimGeysers = action(
+		async (claimMap: ClaimMap | undefined): Promise<void> => {
+			const { proof, claimableAmounts } = this.badgerTree;
+			const { provider, gasPrices, connectedAddress } = this.store.wallet;
+			const { queueNotification, gasPrice, setTxStatus } = this.store.uiState;
 
-		if (!connectedAddress || !proof || !claimableAmounts) {
-			queueNotification(`Error retrieving merkle proof.`, 'error');
-			return;
-		}
+			if (!connectedAddress || !proof || !claimableAmounts || !claimMap) {
+				queueNotification(`Error retrieving merkle proof.`, 'error');
+				return;
+			}
 
-		const web3 = new Web3(provider);
-		const rewardsTree = new web3.eth.Contract(rewardsAbi as AbiItem[], badgerTree);
-		const method = rewardsTree.methods.claim(
-			proof.tokens,
-			proof.cumulativeAmounts,
-			proof.index,
-			proof.cycle,
-			proof.proof,
-			claimableAmounts,
-		);
+			const amountsToClaim: string[] = [];
+			proof.tokens.forEach((address: string): void => {
+				const token = getToken(address);
+				if (!token) {
+					return;
+				}
+				const claimBalance = (claimMap[token.address] ?? this.mockBalance(token.address)).tokenBalance;
+				const claimableAmount = claimableAmounts[proof.tokens.indexOf(address)];
+				let claimAmount = claimBalance.toFixed(0);
+				if (claimBalance.gt(new BigNumber(claimableAmount))) {
+					claimAmount = claimableAmount;
+				}
+				amountsToClaim.push(claimAmount);
+			});
 
-		queueNotification(`Sign the transaction to claim your earnings`, 'info');
-		estimateAndSend(web3, gasPrices[gasPrice], method, connectedAddress, (transaction: PromiEvent<Contract>) => {
-			transaction
-				.on('transactionHash', (hash) => {
-					queueNotification(`Claim submitted.`, 'info', hash);
+			if (amountsToClaim.length < proof.tokens.length) {
+				queueNotification(`Error retrieving tokens for claiming.`, 'error');
+				return;
+			}
+
+			const web3 = new Web3(provider);
+			const rewardsTree = new web3.eth.Contract(rewardsAbi as AbiItem[], badgerTree);
+			const method = rewardsTree.methods.claim(
+				proof.tokens,
+				proof.cumulativeAmounts,
+				proof.index,
+				proof.cycle,
+				proof.proof,
+				amountsToClaim,
+			);
+
+			queueNotification(`Sign the transaction to claim your earnings`, 'info');
+
+			const price = gasPrices[gasPrice];
+			const options = await getSendOptions(method, connectedAddress, price);
+			await method
+				.send(options)
+				/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
+				.on('transactionHash', (_hash: string) => {
+					// TODO: Hash seems to do nothing - investigate this?
+					queueNotification(`Claim submitted.`, 'info');
 				})
-				.on('receipt', () => {
+				/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
+				.on('receipt', (_receipt: TransactionReceipt) => {
 					queueNotification(`Rewards claimed.`, 'success');
 					this.fetchSettRewards();
-					this.store.contracts.fetchContracts();
+					this.store.user.updateBalances();
 				})
-				.catch((error: any) => {
-					this.store.contracts.fetchContracts();
+				.on('error', (error: Error) => {
 					queueNotification(error.message, 'error');
 					setTxStatus('error');
 				});
-		});
-	});
+		},
+	);
 }
 
 export default RewardsStore;

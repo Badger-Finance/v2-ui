@@ -16,7 +16,7 @@ exports[`CurrencyInfoCard Renders correctly 1`] = `
       <h5
         class="MuiTypography-root-30 MuiTypography-h5-39"
       >
-        $40.00
+        $641.69
       </h5>
     </div>
   </div>

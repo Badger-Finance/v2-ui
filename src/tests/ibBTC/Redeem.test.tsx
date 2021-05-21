@@ -23,6 +23,7 @@ describe('ibBTC Redeem', () => {
 			max: store.ibBTCStore.ibBTC.scale('15'),
 			sett: store.ibBTCStore.tokens[0].scale('11.988'),
 		});
+		store.ibBTCStore.getRedeemConversionRate = jest.fn().mockReturnValue(store.ibBTCStore.tokens[0].scale('1'));
 	});
 
 	it('displays ibBTC balance and output token balance', () => {
@@ -38,7 +39,7 @@ describe('ibBTC Redeem', () => {
 
 	it('can apply max balance', async () => {
 		store.ibBTCStore.ibBTC.balance = store.ibBTCStore.ibBTC.scale('5');
-		customRender(
+		const { container } = customRender(
 			<StoreProvider value={store}>
 				<Redeem />
 			</StoreProvider>,
@@ -46,7 +47,7 @@ describe('ibBTC Redeem', () => {
 		await act(async () => {
 			await fireEvent.click(screen.getByRole('button', { name: /max/i }));
 		});
-		expect(screen.getByRole('textbox')).toHaveValue('5');
+		expect(container).toMatchSnapshot();
 	});
 
 	it('handles not connected wallet', () => {
@@ -61,8 +62,7 @@ describe('ibBTC Redeem', () => {
 	});
 
 	it('displays output balance when redeem amount is inputted', async () => {
-		jest.useFakeTimers();
-		store.ibBTCStore.getRedeemConversionRate = jest.fn().mockReturnValue(store.ibBTCStore.tokens[0].scale('1'));
+		jest.setTimeout(8000); // Test timesout when running full test suite
 		const { container } = customRender(
 			<StoreProvider value={store}>
 				<Redeem />

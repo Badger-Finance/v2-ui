@@ -1,5 +1,4 @@
 import { ListItem, makeStyles, Typography, Grid, Tooltip } from '@material-ui/core';
-import { BigNumber } from 'bignumber.js';
 import { Sett, TokenBalance } from 'mobx/model';
 import { observer } from 'mobx-react-lite';
 import { numberWithCommas, usdToCurrency } from 'mobx/utils/helpers';
@@ -8,6 +7,7 @@ import { StoreContext } from 'mobx/store-context';
 import DisabledSettListItem from './DisabledSettListItem';
 import CurrencyDisplay from '../common/CurrencyDisplay';
 import SettBadge from './SettBadge';
+import BigNumber from 'bignumber.js';
 
 const useStyles = makeStyles((theme) => ({
 	border: {
@@ -74,6 +74,11 @@ const useStyles = makeStyles((theme) => ({
 		[theme.breakpoints.down('md')]: {
 			textAlign: 'left',
 		},
+	},
+	vaultIcon: {
+		display: 'flex',
+		justifyContent: 'center',
+		alignItems: 'center',
 	},
 }));
 
@@ -176,7 +181,7 @@ const SettListItem = observer(
 			<ListItem className={classes.listItem} onClick={() => onOpen()}>
 				<Grid container className={classes.border}>
 					<Grid item xs={12} md={4} className={classes.name} container>
-						<Grid item>
+						<Grid item className={classes.vaultIcon}>
 							<img
 								alt={`Badger ${sett.name} Vault Symbol`}
 								className={classes.symbol}

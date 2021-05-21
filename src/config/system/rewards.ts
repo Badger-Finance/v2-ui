@@ -14,13 +14,14 @@ export const getRewards = (network?: string): RewardNetworkConfig | undefined =>
 				contract: badgerTree,
 				abi: BadgerTree.abi as AbiItem[],
 				tokens: [
-					tokens.badger, // $BADGER
-					tokens.digg, // $DIGG
-					sett_system.vaults['native.badger'], // $bBadger
-					sett_system.vaults['native.digg'], // $bDigg
-					tokens.xsushi, // $xSUSHI
-					tokens.farm, // $FARM
-					tokens.usdc, // $USDC
+					tokens.badger,
+					tokens.digg,
+					sett_system.vaults['native.badger'],
+					sett_system.vaults['native.digg'],
+					tokens.xsushi,
+					tokens.farm,
+					tokens.usdc,
+					tokens.defiDollar,
 				],
 			};
 		default:
