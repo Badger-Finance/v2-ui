@@ -5,7 +5,7 @@ import BigNumber from 'bignumber.js';
 import { RootStore } from '../store';
 import { TransactionReceipt } from 'web3-core';
 import { ContractSendMethod } from 'web3-eth-contract';
-import { EMPTY_DATA, ERC20, GEYSER_ABI, MAX, SETT_ABI } from 'config/constants';
+import { EMPTY_DATA, ERC20, GEYSER_ABI, MAX, SETT_ABI, YEARN_ABI } from 'config/constants';
 import { TokenBalance } from 'mobx/model/token-balance';
 import { BadgerSett } from 'mobx/model/badger-sett';
 import { BadgerToken } from 'mobx/model/badger-token';
@@ -179,6 +179,7 @@ class ContractsStore {
 
 		const web3 = new Web3(provider);
 		const settContract = new web3.eth.Contract(SETT_ABI, sett.vaultToken);
+		const yearnContract = new web3.eth.Contract(YEARN_ABI, sett.vaultToken);
 		const depositBalance = amount.tokenBalance.toFixed(0, BigNumber.ROUND_HALF_FLOOR);
 		let method: ContractSendMethod = settContract.methods.deposit(depositBalance);
 
@@ -186,9 +187,9 @@ class ContractsStore {
 		// Uncapped deposits on a wrapper still require an empty proof
 		if (network.uncappedDeposit[sett.vaultToken]) {
 			if (all) {
-				method = settContract.methods.deposit([]);
+				method = yearnContract.methods.deposit([]);
 			} else {
-				method = settContract.methods.deposit(depositBalance, []);
+				method = yearnContract.methods.deposit(depositBalance, []);
 			}
 		}
 		if (network.cappedDeposit[sett.vaultToken]) {
