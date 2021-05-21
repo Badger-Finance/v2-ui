@@ -176,6 +176,10 @@ const ethRewards = [
 		address: ETH_DEPLOY.tokens['usdc'],
 		decimals: 6,
 	},
+	{
+		address: ETH_DEPLOY.tokens['defiDollar'],
+		decimals: 18,
+	},
 ];
 
 export const ethSetts = toSettConfig(ethSettDefinitions);
