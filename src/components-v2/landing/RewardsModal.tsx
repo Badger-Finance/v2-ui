@@ -136,6 +136,7 @@ export const RewardsModal = observer(() => {
 					<RewardsModalItem
 						key={token.address}
 						amount={tokenBalance.balanceDisplay()}
+						display={tokenBalance.balanceDisplay(5)}
 						value={tokenBalance.balanceValueDisplay(currency)}
 						address={token.address}
 						symbol={CLAIMS_SYMBOLS[network.name][token.address]}
