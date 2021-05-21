@@ -4,6 +4,7 @@ import { Loader } from 'components/Loader';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from 'mobx/store-context';
 import React, { useContext } from 'react';
+import Web3 from 'web3';
 import { SettListViewProps } from './SettListView';
 import SettTable from './SettTable';
 
@@ -24,18 +25,20 @@ const SettListDisplay = observer((props: SettListViewProps) => {
 	if (currentSettMap === null) {
 		return <Typography variant="h4">There was an issue loading setts. Try refreshing.</Typography>;
 	}
+
 	const settListItems = network.settOrder
 		.map((contract) => {
-			if (!currentSettMap[contract]) {
+			const sett = currentSettMap[Web3.utils.toChecksumAddress(contract)];
+			if (!sett) {
 				return;
 			}
 			return (
 				<SettListItem
-					sett={currentSettMap[contract]}
-					key={currentSettMap[contract].name}
+					sett={sett}
+					key={sett.name}
 					currency={currency}
 					period={period}
-					onOpen={() => onOpen(currentSettMap[contract])}
+					onOpen={() => onOpen(sett)}
 				/>
 			);
 		})
@@ -45,7 +48,6 @@ const SettListDisplay = observer((props: SettListViewProps) => {
 			title={'All Setts'}
 			displayValue={''}
 			tokenTitle={'Tokens'}
-			experimental={experimental}
 			period={period}
 			settList={settListItems}
 		/>

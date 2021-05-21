@@ -6,7 +6,7 @@ export interface BadgerToken extends Contract {
 	symbol?: string;
 }
 
-export const mockToken = (contract: string): BadgerToken => ({
+export const mockToken = (contract: string, decimals?: number): BadgerToken => ({
 	address: contract,
-	decimals: 18,
+	decimals: decimals || 18,
 });

@@ -38,14 +38,13 @@ export const VaultWithdraw = observer((props: SettModalProps) => {
 	const {
 		wallet: { connectedAddress, network },
 		user: { settBalances },
-		setts: { settMap },
 		contracts,
 		rewards,
 	} = store;
 
 	const userBalance = settBalances[badgerSett.vaultToken.address];
-	const settPpfs = settMap ? settMap[badgerSett.vaultToken.address].ppfs : 1;
-	const underlying = userBalance.tokenBalance.multipliedBy(settPpfs);
+	const underlying = userBalance.tokenBalance.multipliedBy(sett.ppfs);
+	const underlyingSymbol = badgerSett.depositToken.symbol || sett.asset;
 	const underlyingBalance = new TokenBalance(rewards, userBalance.token, underlying, userBalance.price);
 
 	// TODO: Clean up duplicate logic in all these components
@@ -91,7 +90,7 @@ export const VaultWithdraw = observer((props: SettModalProps) => {
 				>
 					<div className={classes.balanceDiv}>
 						<Typography variant="body2" color={'textSecondary'} style={{ marginBottom: '.2rem' }}>
-							Underlying {sett.asset}:{' '}
+							Underlying {underlyingSymbol}:{' '}
 							{!!connectedAddress ? (
 								underlyingBalance.balanceDisplay()
 							) : (

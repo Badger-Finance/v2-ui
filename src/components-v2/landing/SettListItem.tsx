@@ -75,6 +75,11 @@ const useStyles = makeStyles((theme) => ({
 			textAlign: 'left',
 		},
 	},
+	vaultIcon: {
+		display: 'flex',
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
 }));
 
 export interface SettListItemProps {
@@ -176,7 +181,7 @@ const SettListItem = observer(
 			<ListItem className={classes.listItem} onClick={() => onOpen()}>
 				<Grid container className={classes.border}>
 					<Grid item xs={12} md={4} className={classes.name} container>
-						<Grid item>
+						<Grid item className={classes.vaultIcon}>
 							<img
 								alt={`Badger ${sett.name} Vault Symbol`}
 								className={classes.symbol}

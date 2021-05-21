@@ -11,6 +11,7 @@ import { inCurrency } from 'mobx/utils/helpers';
 import { ContractNamespace } from 'web3/config/contract-namespace';
 import { Sett } from 'mobx/model';
 import { TokenBalance } from 'mobx/model/token-balance';
+import BigNumber from 'bignumber.js';
 
 const useStyles = makeStyles((theme) => ({
 	boostContainer: {
@@ -78,14 +79,15 @@ const UserListDisplay = observer((props: SettListViewProps) => {
 			walletList.push(walletItem);
 		}
 
-		const settBalance = user.getBalance(ContractNamespace.Sett, badgerSett);
+		const scalar = new BigNumber(sett.ppfs);
+		const settBalance = user.getBalance(ContractNamespace.Sett, badgerSett).scale(scalar);
 		const settItem = createSettListItem(ContractNamespace.Sett, sett, settBalance, currency, period, onOpen);
 		if (settItem) {
 			settList.push(settItem);
 		}
 
 		if (badgerSett.geyser) {
-			const geyserBalance = user.getBalance(ContractNamespace.Geyser, badgerSett);
+			const geyserBalance = user.getBalance(ContractNamespace.Geyser, badgerSett).scale(scalar);
 			const geyserItem = createSettListItem(
 				ContractNamespace.Geyser,
 				sett,
@@ -100,9 +102,9 @@ const UserListDisplay = observer((props: SettListViewProps) => {
 		}
 	});
 
-	const displayWallet = user.walletValue().gt(0);
-	const displayDeposit = user.settValue().gt(0);
-	const displayVault = user.geyserValue().gt(0);
+	const displayWallet = walletList.length > 0;
+	const displayDeposit = settList.length > 0;
+	const displayVault = geyserList.length > 0;
 
 	return (
 		<>
@@ -115,7 +117,6 @@ const UserListDisplay = observer((props: SettListViewProps) => {
 					displayValue={inCurrency(user.walletValue(), currency)}
 					tokenTitle={'Available'}
 					period={period}
-					experimental={experimental}
 					settList={walletList}
 				/>
 			)}
@@ -125,7 +126,6 @@ const UserListDisplay = observer((props: SettListViewProps) => {
 					displayValue={inCurrency(user.settValue(), currency)}
 					tokenTitle={'Available'}
 					period={period}
-					experimental={experimental}
 					settList={settList}
 				/>
 			)}
@@ -135,7 +135,6 @@ const UserListDisplay = observer((props: SettListViewProps) => {
 					displayValue={inCurrency(user.geyserValue(), currency)}
 					tokenTitle={'Available'}
 					period={period}
-					experimental={experimental}
 					settList={geyserList}
 				/>
 			)}

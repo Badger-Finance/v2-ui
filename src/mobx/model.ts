@@ -93,7 +93,7 @@ export interface BadgerTree {
 	sharesPerFragment: BigNumber | undefined;
 	proof: RewardMerkleClaim | undefined;
 	claims: UserClaimData[] | undefined;
-	claimableAmounts: BigNumber[] | undefined;
+	claimableAmounts: string[] | undefined;
 }
 
 interface TokenConfig {
@@ -117,7 +117,7 @@ export interface RewardMerkleClaim {
 	node: string;
 }
 
-export type TreeClaimData = [string[], BigNumber[]];
+export type TreeClaimData = [string[], string[]];
 
 export interface UserClaimData {
 	token: string;
@@ -451,6 +451,7 @@ export class EthNetwork implements Network {
 		this.deploy.sett_system.vaults['native.sbtcCrv'],
 		this.deploy.sett_system.vaults['native.tbtcCrv'],
 		this.deploy.sett_system.vaults['harvest.renCrv'],
+		this.deploy.sett_system.vaults['experimental.digg'],
 	];
 	public readonly sidebarTokenLinks = sidebarTokenLinks(NETWORK_LIST.ETH);
 	public readonly sidebarPricingLinks = sidebarPricingLinks;

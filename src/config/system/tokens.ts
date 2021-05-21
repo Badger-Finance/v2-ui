@@ -137,6 +137,7 @@ export const getTokens = (network?: string | null): TokenNetworkConfig => {
 							deploy.tokens.ibBTC,
 							deploy.tokens['sushi.ibBTC-wBTC'],
 							deploy.sett_system.vaults['native.sushiibBTCwBTC'],
+							deploy.tokens.defiDollar,
 						],
 					},
 				],
