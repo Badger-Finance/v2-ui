@@ -13,11 +13,13 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
+export interface DialogProps {
+	open: boolean;
+	sett?: Sett;
+}
+
 export interface SettDialogProps {
-	dialogProps: {
-		open: boolean;
-		sett: Sett;
-	};
+	dialogProps: DialogProps;
 	onClose: () => void;
 }
 
@@ -25,7 +27,7 @@ interface DialogTabProps {
 	sett: Sett;
 }
 
-const SettDialog = (props: SettDialogProps): JSX.Element => {
+const SettDialog = (props: SettDialogProps): JSX.Element | null => {
 	const [dialogMode, setDialogMode] = useState(0);
 	const [dialogOut, setDialogOut] = useState(false);
 	const { dialogProps, onClose } = props;
@@ -41,7 +43,10 @@ const SettDialog = (props: SettDialogProps): JSX.Element => {
 			reset();
 		}
 	}, [open]);
-	if (!open) return <div />;
+
+	if (!open || !sett) {
+		return null;
+	}
 
 	const DialogTabs = (props: DialogTabProps): JSX.Element => {
 		const { sett } = props;
