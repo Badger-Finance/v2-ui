@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Grid, Button, TextField, Typography, Tooltip } from '@material-ui/core';
+import { Grid, Button, TextField, Typography } from '@material-ui/core';
 import { ClassNameMap } from '@material-ui/core/styles/withStyles';
 import { ArrowDownward } from '@material-ui/icons';
 import { toJS } from 'mobx';
@@ -37,7 +37,7 @@ export const MintForm = ({
 	const store = useContext(StoreContext);
 
 	const {
-		wallet: { connectedAddress, network },
+		wallet: { connectedAddress },
 		setts: { settMap },
 		bridge: { shortAddr },
 	} = store;
@@ -72,16 +72,6 @@ export const MintForm = ({
 		if (!address) return 0;
 		const sett = settMap[address];
 		return sett ? sett.apr : 0;
-	};
-
-	const getNewVaultToolTip = (): JSX.Element => {
-		return (
-			<>
-				{network.newVaults[sett_system.vaults['yearn.wBtc']].map((source) => {
-					return <div key={source}>{source}</div>;
-				})}
-			</>
-		);
 	};
 
 	return (
@@ -146,22 +136,7 @@ export const MintForm = ({
 						<Typography variant="body1">{shortAddr || '0x...'}</Typography>
 					</div>
 
-					{isEarn && values.token == 'byvWBTC' && (
-						<div className={classes.summaryRow}>
-							<Typography variant="subtitle1">ROI: </Typography>
-							<Tooltip
-								enterDelay={0}
-								leaveDelay={300}
-								arrow
-								placement="left"
-								title={getNewVaultToolTip()}
-							>
-								<Typography variant="body1">{'✨ New Vault ✨'}</Typography>
-							</Tooltip>
-						</div>
-					)}
-
-					{isEarn && !(values.token == 'byvWBTC') && (
+					{isEarn && (
 						<div className={classes.summaryRow}>
 							<Typography variant="subtitle1">ROI: </Typography>
 							<Typography variant="body1">
