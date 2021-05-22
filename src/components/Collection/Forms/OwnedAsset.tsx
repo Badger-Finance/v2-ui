@@ -7,13 +7,17 @@ import { StoreContext } from 'mobx/store-context';
 import { SettModalProps } from './VaultDeposit';
 import { styled } from '@material-ui/core/styles';
 
+interface Props extends SettModalProps {
+	prefix: string;
+}
+
 const StyledSkeleton = styled(Skeleton)(({ theme }) => ({
 	display: 'inline-flex',
 	width: '25%',
 	paddingLeft: theme.spacing(1),
 }));
 
-export const DepositedAsset = observer(({ sett, badgerSett }: SettModalProps) => {
+export const OwnedAsset = observer(({ prefix, sett, badgerSett }: Props) => {
 	const store = useContext(StoreContext);
 
 	const {
@@ -27,7 +31,7 @@ export const DepositedAsset = observer(({ sett, badgerSett }: SettModalProps) =>
 
 	return (
 		<Typography variant="body1" color={'textSecondary'}>
-			Deposited {`b${sett.asset}`}: {isLoading ? <StyledSkeleton animation="wave" /> : totalAvailable}
+			{`${prefix} b${sett.asset}`}: {isLoading ? <StyledSkeleton animation="wave" /> : totalAvailable}
 		</Typography>
 	);
 });

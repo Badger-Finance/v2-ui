@@ -10,7 +10,7 @@ import { PercentageSelector } from 'components-v2/common/PercentageSelector';
 import { useNumericInput } from 'utils/useNumericInput';
 import { ActionButton, AmountTextField, AssetInformationContainer, PercentagesContainer } from './Common';
 import { UnderlyingAsset } from './UnderlyingAsset';
-import { DepositedAsset } from './DepositedAsset';
+import { OwnedAsset } from './OwnedAsset';
 
 export const VaultWithdraw = observer((props: SettModalProps) => {
 	const store = useContext(StoreContext);
@@ -26,7 +26,7 @@ export const VaultWithdraw = observer((props: SettModalProps) => {
 	} = store;
 
 	const userBalance = settBalances[badgerSett.vaultToken.address];
-	const canDeposit = connectedAddress && !!amount && userBalance.balance.gt(0);
+	const canDeposit = !!connectedAddress && !!amount && userBalance.balance.gt(0);
 
 	const handlePercentageChange = (percent: number) => {
 		setPercentage(percent);
@@ -48,13 +48,13 @@ export const VaultWithdraw = observer((props: SettModalProps) => {
 							<UnderlyingAsset sett={sett} badgerSett={badgerSett} />
 						</AssetInformationContainer>
 						<AssetInformationContainer item xs={12}>
-							<DepositedAsset sett={sett} badgerSett={badgerSett} />
+							<OwnedAsset prefix="Deposited" sett={sett} badgerSett={badgerSett} />
 						</AssetInformationContainer>
 					</Grid>
 					<PercentagesContainer item xs={12} sm={5}>
 						<PercentageSelector
 							size="small"
-							selectedOption={percentage}
+							selectedOption={canDeposit ? percentage : undefined}
 							options={[25, 50, 75, 100]}
 							disabled={!connectedAddress}
 							onChange={handlePercentageChange}
