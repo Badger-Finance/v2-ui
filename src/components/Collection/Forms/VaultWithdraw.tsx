@@ -1,16 +1,16 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from 'mobx/store-context';
-import { Button, DialogContent, TextField, DialogActions, ButtonGroup } from '@material-ui/core';
-import { Typography } from '@material-ui/core';
+import { Button, DialogContent, TextField, DialogActions, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { Skeleton } from '@material-ui/lab';
-import { useForm } from 'react-hook-form';
-import { StrategyInfo } from './StrategyInfo';
-import { SettModalProps } from './VaultDeposit';
-import { TokenBalance } from 'mobx/model/token-balance';
 
-const TEXTFIELD_ID = 'amountField';
+import { TokenBalance } from 'mobx/model/token-balance';
+import { SettModalProps } from './VaultDeposit';
+import { StrategyInfo } from './StrategyInfo';
+import { PercentageSelector } from 'components-v2/common/PercentageSelector';
+import { useNumericInput } from 'utils/useNumericInput';
+import { UnderlyingAsset } from './UnderlyingAsset';
+import { DepositedAsset } from './DepositedAsset';
 
 const useStyles = makeStyles((theme) => ({
 	button: {
@@ -19,13 +19,23 @@ const useStyles = makeStyles((theme) => ({
 	field: {
 		margin: theme.spacing(1, 0, 1),
 	},
-	balanceDiv: {
-		flexGrow: 1,
-	},
 	skeleton: {
 		display: 'inline-flex',
 		width: '25%',
 		paddingLeft: theme.spacing(1),
+	},
+	balanceInformation: {
+		marginBottom: theme.spacing(1),
+		[theme.breakpoints.only('xs')]: {
+			textAlign: 'center',
+		},
+	},
+	percentageContainer: {
+		marginBottom: theme.spacing(1),
+		textAlign: 'center',
+		[theme.breakpoints.up('sm')]: {
+			textAlign: 'end',
+		},
 	},
 }));
 
@@ -33,92 +43,63 @@ export const VaultWithdraw = observer((props: SettModalProps) => {
 	const store = useContext(StoreContext);
 	const classes = useStyles();
 	const { sett, badgerSett } = props;
-	const { register, handleSubmit, watch, setValue } = useForm({ mode: 'all' });
+	const [amount, setAmount] = useState<string>();
+	const [percentage, setPercentage] = useState<number>();
+	const { type, pattern, onValidChange } = useNumericInput();
 
 	const {
 		wallet: { connectedAddress, network },
 		user: { settBalances },
 		contracts,
-		rewards,
 	} = store;
 
 	const userBalance = settBalances[badgerSett.vaultToken.address];
-	const underlying = userBalance.tokenBalance.multipliedBy(sett.ppfs);
-	const underlyingSymbol = badgerSett.depositToken.symbol || sett.asset;
-	const underlyingBalance = new TokenBalance(rewards, userBalance.token, underlying, userBalance.price);
+	const canDeposit = connectedAddress && !!amount && userBalance.balance.gt(0);
 
-	// TODO: Clean up duplicate logic in all these components
-	const percentageOfBalance = (percent: number): string => {
-		return userBalance.scaledBalanceDisplay(percent);
+	const handlePercentageChange = (percent: number) => {
+		setPercentage(percent);
+		setAmount(userBalance.scaledBalanceDisplay(percent));
 	};
 
-	const setAmount = (percent: number) => {
-		setValue('amount', percentageOfBalance(percent));
+	const handleSubmit = () => {
+		if (!amount) return;
+		const withdrawBalance = TokenBalance.fromBalance(userBalance, amount);
+		contracts.withdraw(sett, badgerSett, userBalance, withdrawBalance).then();
 	};
-
-	const onSubmit = (params: any) => {
-		const withdrawBalance = TokenBalance.fromBalance(userBalance, params.amount);
-		contracts.withdraw(sett, badgerSett, userBalance, withdrawBalance);
-	};
-
-	const canDeposit = !!watch().amount && !!connectedAddress && userBalance.balance.gt(0);
-	const renderAmounts = (
-		<ButtonGroup size="small" className={classes.button} disabled={!connectedAddress}>
-			{[25, 50, 75, 100].map((amount: number) => (
-				<Button
-					aria-label={`${amount}%`}
-					onClick={() => {
-						setAmount(amount);
-					}}
-					variant={!!canDeposit && watch().amount === percentageOfBalance(amount) ? 'contained' : 'outlined'}
-					color="default"
-					key={amount}
-				>
-					{amount}%
-				</Button>
-			))}
-		</ButtonGroup>
-	);
-
-	const totalAvailable = percentageOfBalance(100);
 
 	return (
 		<>
 			<DialogContent>
-				<div
-					style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap' }}
-				>
-					<div className={classes.balanceDiv}>
-						<Typography variant="body2" color={'textSecondary'} style={{ marginBottom: '.2rem' }}>
-							Underlying {underlyingSymbol}:{' '}
-							{!!connectedAddress ? (
-								underlyingBalance.balanceDisplay()
-							) : (
-								<Skeleton animation="wave" className={classes.skeleton} />
-							)}
-						</Typography>
-						<Typography variant="body1" color={'textSecondary'} style={{ marginBottom: '.2rem' }}>
-							Deposited {`b${sett.asset}`}:{' '}
-							{!!connectedAddress && !!totalAvailable ? (
-								totalAvailable
-							) : (
-								<Skeleton animation="wave" className={classes.skeleton} />
-							)}
-						</Typography>
-					</div>
-					{renderAmounts}
-				</div>
+				<Grid container spacing={1}>
+					<Grid item container xs={12} sm={7}>
+						<Grid item xs={12} className={classes.balanceInformation}>
+							<UnderlyingAsset sett={sett} badgerSett={badgerSett} />
+						</Grid>
+						<Grid item xs={12} className={classes.balanceInformation}>
+							<DepositedAsset sett={sett} badgerSett={badgerSett} />
+						</Grid>
+					</Grid>
+					<Grid item xs={12} sm={5} className={classes.percentageContainer}>
+						<PercentageSelector
+							size="small"
+							selectedOption={percentage}
+							options={[25, 50, 75, 100]}
+							disabled={!connectedAddress}
+							onChange={handlePercentageChange}
+						/>
+					</Grid>
+				</Grid>
 				<StrategyInfo vaultAddress={badgerSett.vaultToken.address} network={network} />
 				<TextField
-					autoComplete="off"
-					name="amount"
-					disabled={!connectedAddress}
-					inputRef={register}
-					id={TEXTFIELD_ID}
-					className={classes.field}
-					variant="outlined"
 					fullWidth
+					variant="outlined"
 					placeholder="Type an amount to withdraw"
+					disabled={!connectedAddress}
+					className={classes.field}
+					type={type}
+					inputProps={{ pattern }}
+					value={amount || ''}
+					onChange={onValidChange(setAmount)}
 				/>
 			</DialogContent>
 			<DialogActions>
@@ -126,7 +107,7 @@ export const VaultWithdraw = observer((props: SettModalProps) => {
 					aria-label="Withdraw"
 					size="large"
 					disabled={!canDeposit}
-					onClick={handleSubmit(onSubmit)}
+					onClick={handleSubmit}
 					variant="contained"
 					color="primary"
 					fullWidth
