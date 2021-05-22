@@ -56,7 +56,7 @@ export const VaultDeposit = observer((props: SettModalProps) => {
 	const store = useContext(StoreContext);
 	const [amount, setAmount] = useState<string>();
 	const [percentage, setPercentage] = useState<number>();
-	const { type, pattern, onValidChange } = useNumericInput();
+	const { onValidChange, ...inputProps } = useNumericInput();
 
 	const {
 		wallet: { connectedAddress, network },
@@ -122,8 +122,7 @@ export const VaultDeposit = observer((props: SettModalProps) => {
 					variant="outlined"
 					fullWidth
 					placeholder="Type an amount to deposit"
-					type={type}
-					inputProps={{ pattern }}
+					inputProps={inputProps}
 					value={amount || ''}
 					onChange={onValidChange(setAmount)}
 				/>

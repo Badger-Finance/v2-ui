@@ -84,7 +84,7 @@ export const Redeem = observer((): any => {
 	const [totalRedeem, setTotalRedeem] = useState('0.000');
 	const [fee, setFee] = useState('0.000');
 	const [isEnoughToRedeem, setIsEnoughToRedeem] = useState(true);
-	const { onValidChange, type, pattern } = useNumericInput();
+	const { onValidChange, ...inputProps } = useNumericInput();
 
 	const resetState = () => {
 		setInputAmount(undefined);
@@ -193,8 +193,7 @@ export const Redeem = observer((): any => {
 				<BorderedFocusableContainerGrid item container xs={12}>
 					<Grid item xs={8} sm={7}>
 						<InputTokenAmount
-							type={type}
-							inputProps={{ pattern }}
+							inputProps={inputProps}
 							value={inputAmount?.displayValue || ''}
 							disabled={!connectedAddress}
 							placeholder="0.000"

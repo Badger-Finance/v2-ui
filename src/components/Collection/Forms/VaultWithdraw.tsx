@@ -17,7 +17,7 @@ export const VaultWithdraw = observer((props: SettModalProps) => {
 	const { sett, badgerSett } = props;
 	const [amount, setAmount] = useState<string>();
 	const [percentage, setPercentage] = useState<number>();
-	const { type, pattern, onValidChange } = useNumericInput();
+	const { onValidChange, ...inputProps } = useNumericInput();
 
 	const {
 		wallet: { connectedAddress, network },
@@ -67,8 +67,7 @@ export const VaultWithdraw = observer((props: SettModalProps) => {
 					variant="outlined"
 					placeholder="Type an amount to withdraw"
 					disabled={!connectedAddress}
-					type={type}
-					inputProps={{ pattern }}
+					inputProps={inputProps}
 					value={amount || ''}
 					onChange={onValidChange(setAmount)}
 				/>

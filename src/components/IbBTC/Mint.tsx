@@ -67,7 +67,7 @@ export const Mint = observer(
 		const [conversionRate, setConversionRate] = useState<string>();
 		const [fee, setFee] = useState('0.000');
 		const [totalMint, setTotalMint] = useState('0.000');
-		const { onValidChange, type, pattern } = useNumericInput();
+		const { onValidChange, ...inputProps } = useNumericInput();
 
 		const resetState = () => {
 			setInputAmount(undefined);
@@ -170,8 +170,7 @@ export const Mint = observer(
 					<BorderedFocusableContainerGrid item container xs={12}>
 						<Grid item xs={12} sm={5}>
 							<InputTokenAmount
-								type={type}
-								inputProps={{ pattern }}
+								inputProps={inputProps}
 								disabled={!connectedAddress}
 								value={inputAmount?.displayValue || ''}
 								placeholder="0.000"

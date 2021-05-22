@@ -1,5 +1,5 @@
 import { SetStateAction, ChangeEvent } from 'react';
-
+import { InputProps } from '@material-ui/core';
 /**
  * Functions that will be triggered on valid changes
  */
@@ -12,8 +12,13 @@ type ChangeHandler = (change: string) => void | SetStateAction<string>;
  * @property onValidChange - a function to register a handler function to execute upon successful validation
  */
 interface NumericInputProps {
-	type: string;
-	pattern: string;
+	autoComplete: InputProps['autoComplete'];
+	inputMode: InputProps['inputMode'];
+	maxLength: HTMLInputElement['maxLength'];
+	minLength: HTMLInputElement['minLength'];
+	pattern: HTMLInputElement['pattern'];
+	spellCheck: HTMLInputElement['spellcheck'];
+	type: HTMLInputElement['type'];
 	onValidChange: (onChange: ChangeHandler) => (event: ChangeEvent<{ value: unknown }>) => void;
 }
 
@@ -40,8 +45,13 @@ export const useNumericInput = (): NumericInputProps => {
 	};
 
 	return {
-		type: 'tel',
-		pattern: "'^[0-9]*[.,]?[0-9]*$'",
+		autoComplete: 'off',
+		inputMode: 'decimal',
+		type: 'text',
+		pattern: '^[0-9]*[.,]?[0-9]*$',
+		minLength: 1,
+		maxLength: 79,
+		spellCheck: false,
 		onValidChange,
 	};
 };
