@@ -1,169 +1,101 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { observer } from 'mobx-react-lite';
-import { StoreContext } from '../../../mobx/store-context';
-import { Button, DialogContent, TextField, DialogActions, ButtonGroup } from '@material-ui/core';
-import { Skeleton } from '@material-ui/lab';
-import { Typography } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import { useForm } from 'react-hook-form';
-import { StrategyInfo } from './StrategyInfo';
-import { SettModalProps } from './VaultDeposit';
+import { DialogContent, DialogActions, Grid } from '@material-ui/core';
+
 import { TokenBalance } from 'mobx/model/token-balance';
-
-const TEXTFIELD_ID = 'amountField';
-
-const useStyles = makeStyles((theme) => ({
-	button: {
-		marginBottom: theme.spacing(1),
-	},
-	field: {
-		margin: theme.spacing(1, 0, 1),
-	},
-	balanceDiv: {
-		flexGrow: 1,
-	},
-	skeleton: {
-		display: 'inline-flex',
-		width: '25%',
-		paddingLeft: theme.spacing(1),
-	},
-	noGeyser: {
-		display: 'flex',
-		justifyContent: 'center',
-		alignItems: 'center',
-		marginTop: theme.spacing(3),
-		marginBottom: theme.spacing(5),
-		flexDirection: 'column',
-	},
-	saiyanIcon: {
-		height: '82px',
-		width: '82px',
-		marginTop: theme.spacing(5),
-		marginBottom: theme.spacing(1),
-	},
-}));
+import { SettModalProps } from './VaultDeposit';
+import { StoreContext } from 'mobx/store-context';
+import { ActionButton, AmountTextField, AssetInformationContainer, PercentagesContainer } from './Common';
+import { UnderlyingAsset } from './UnderlyingAsset';
+import { OwnedAsset } from './OwnedAsset';
+import { StrategyInfo } from './StrategyInfo';
+import { NoGeyser } from './NoGeyser';
+import { useNumericInput } from 'utils/useNumericInput';
+import { PercentageSelector } from 'components-v2/common/PercentageSelector';
 
 export const GeyserUnstake = observer((props: SettModalProps) => {
 	const store = useContext(StoreContext);
-	const classes = useStyles();
-	const { register, handleSubmit, watch, setValue } = useForm({ mode: 'all' });
 	const { sett, badgerSett } = props;
+	const [amount, setAmount] = useState<string>();
+	const [percentage, setPercentage] = useState<number>();
+	const { type, pattern, onValidChange } = useNumericInput();
 
 	const {
 		wallet: { connectedAddress, network },
 		user: { geyserBalances },
 		contracts,
-		rewards,
 	} = store;
 
 	if (!badgerSett.geyser) {
 		return (
-			<div className={classes.noGeyser}>
-				<Typography>{`${sett.name} has no geyser.`}</Typography>
-				<img src={'./assets/icons/badger_saiyan.png'} className={classes.saiyanIcon} />
-				<Typography>{'Rewards are earned from Sett deposits.'}</Typography>
-			</div>
+			<DialogContent>
+				<NoGeyser settName={sett.name} />
+			</DialogContent>
 		);
 	}
 
 	const userBalance = geyserBalances[badgerSett.geyser];
-	const underlying = userBalance.tokenBalance.multipliedBy(sett.ppfs);
-	const underlyingBalance = new TokenBalance(rewards, userBalance.token, underlying, userBalance.price);
+	const canUnstake = !!connectedAddress && !!amount && userBalance.balance.gt(0);
 
-	// remove rendudant code
-	const percentageOfBalance = (percent: number): string => {
-		return userBalance.scaledBalanceDisplay(percent);
+	const handlePercentageChange = (percent: number) => {
+		setPercentage(percent);
+		setAmount(userBalance.scaledBalanceDisplay(percent));
 	};
 
-	const setAmount = (percent: number) => {
-		setValue('amount', percentageOfBalance(percent));
+	const handleSubmit = () => {
+		if (!amount) return;
+		const unstakeBalance = TokenBalance.fromBalance(userBalance, amount);
+		contracts.unstake(sett, badgerSett, userBalance, unstakeBalance).then();
 	};
-
-	const onSubmit = (params: any) => {
-		const unstakeBalance = TokenBalance.fromBalance(userBalance, params.amount);
-		contracts.unstake(sett, badgerSett, userBalance, unstakeBalance);
-	};
-
-	const canUnstake = () => {
-		return !!connectedAddress && userBalance.balance.gt(0);
-	};
-
-	const renderAmounts = (
-		<ButtonGroup size="small" className={classes.button} disabled={!connectedAddress}>
-			{[25, 50, 75, 100].map((amount: number) => (
-				<Button
-					aria-label={`${amount}%`}
-					onClick={() => {
-						setAmount(amount);
-					}}
-					variant={
-						!!canUnstake() && watch().amount === percentageOfBalance(amount) ? 'contained' : 'outlined'
-					}
-					color="default"
-					key={amount}
-				>
-					{amount}%
-				</Button>
-			))}
-		</ButtonGroup>
-	);
-
-	const totalAvailable = percentageOfBalance(100);
 
 	return (
 		<>
 			<DialogContent>
-				<div
-					style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap' }}
-				>
-					<div className={classes.balanceDiv}>
-						<Typography variant="body2" color={'textSecondary'} style={{ marginBottom: '.2rem' }}>
-							Underlying {sett.asset}:{' '}
-							{!!connectedAddress ? (
-								underlyingBalance.balanceDisplay()
-							) : (
-								<Skeleton animation="wave" className={classes.skeleton} />
-							)}
-						</Typography>
-						<Typography variant="body1" color={'textSecondary'} style={{ marginBottom: '.2rem' }}>
-							Staked {`b${sett.asset}`}:{' '}
-							{connectedAddress && totalAvailable ? (
-								totalAvailable
-							) : (
-								<Skeleton animation="wave" className={classes.skeleton} />
-							)}
-						</Typography>
-					</div>
-					{renderAmounts}
-				</div>
+				<Grid container spacing={1}>
+					<Grid item container xs={12} sm={7}>
+						<AssetInformationContainer item xs={12}>
+							<UnderlyingAsset sett={sett} badgerSett={badgerSett} />
+						</AssetInformationContainer>
+						<AssetInformationContainer item xs={12}>
+							<OwnedAsset prefix="Staked" sett={sett} badgerSett={badgerSett} />
+						</AssetInformationContainer>
+					</Grid>
+					<PercentagesContainer item xs={12} sm={5}>
+						<PercentageSelector
+							size="small"
+							selectedOption={canUnstake ? percentage : undefined}
+							options={[25, 50, 75, 100]}
+							disabled={!connectedAddress}
+							onChange={handlePercentageChange}
+						/>
+					</PercentagesContainer>
+				</Grid>
 
 				<StrategyInfo vaultAddress={badgerSett.vaultToken.address} network={network} />
 
-				<TextField
-					autoComplete="off"
-					name="amount"
-					disabled={!connectedAddress}
-					inputRef={register}
-					id={TEXTFIELD_ID}
-					className={classes.field}
-					variant="outlined"
+				<AmountTextField
 					fullWidth
+					disabled={!connectedAddress}
+					variant="outlined"
 					placeholder="Type an amount to unstake"
+					type={type}
+					inputProps={{ pattern }}
+					value={amount || ''}
+					onChange={onValidChange(setAmount)}
 				/>
 			</DialogContent>
 			<DialogActions>
-				<Button
+				<ActionButton
 					aria-label="Unstake"
 					size="large"
 					disabled={!canUnstake}
-					onClick={handleSubmit(onSubmit)}
+					onClick={handleSubmit}
 					variant="contained"
 					color="primary"
 					fullWidth
-					className={classes.button}
 				>
 					Unstake
-				</Button>
+				</ActionButton>
 			</DialogActions>
 		</>
 	);
