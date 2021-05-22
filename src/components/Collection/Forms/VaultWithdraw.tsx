@@ -19,11 +19,6 @@ const useStyles = makeStyles((theme) => ({
 	field: {
 		margin: theme.spacing(1, 0, 1),
 	},
-	skeleton: {
-		display: 'inline-flex',
-		width: '25%',
-		paddingLeft: theme.spacing(1),
-	},
 	balanceInformation: {
 		marginBottom: theme.spacing(1),
 		[theme.breakpoints.only('xs')]: {
