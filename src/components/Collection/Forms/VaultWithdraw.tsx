@@ -1,42 +1,19 @@
 import React, { useContext, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from 'mobx/store-context';
-import { Button, DialogContent, TextField, DialogActions, Grid } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { DialogContent, DialogActions, Grid } from '@material-ui/core';
 
 import { TokenBalance } from 'mobx/model/token-balance';
 import { SettModalProps } from './VaultDeposit';
 import { StrategyInfo } from './StrategyInfo';
 import { PercentageSelector } from 'components-v2/common/PercentageSelector';
 import { useNumericInput } from 'utils/useNumericInput';
+import { ActionButton, AmountTextField, AssetInformationContainer, PercentagesContainer } from './Common';
 import { UnderlyingAsset } from './UnderlyingAsset';
 import { DepositedAsset } from './DepositedAsset';
 
-const useStyles = makeStyles((theme) => ({
-	button: {
-		marginBottom: theme.spacing(1),
-	},
-	field: {
-		margin: theme.spacing(1, 0, 1),
-	},
-	balanceInformation: {
-		marginBottom: theme.spacing(1),
-		[theme.breakpoints.only('xs')]: {
-			textAlign: 'center',
-		},
-	},
-	percentageContainer: {
-		marginBottom: theme.spacing(1),
-		textAlign: 'center',
-		[theme.breakpoints.up('sm')]: {
-			textAlign: 'end',
-		},
-	},
-}));
-
 export const VaultWithdraw = observer((props: SettModalProps) => {
 	const store = useContext(StoreContext);
-	const classes = useStyles();
 	const { sett, badgerSett } = props;
 	const [amount, setAmount] = useState<string>();
 	const [percentage, setPercentage] = useState<number>();
@@ -67,14 +44,14 @@ export const VaultWithdraw = observer((props: SettModalProps) => {
 			<DialogContent>
 				<Grid container spacing={1}>
 					<Grid item container xs={12} sm={7}>
-						<Grid item xs={12} className={classes.balanceInformation}>
+						<AssetInformationContainer item xs={12}>
 							<UnderlyingAsset sett={sett} badgerSett={badgerSett} />
-						</Grid>
-						<Grid item xs={12} className={classes.balanceInformation}>
+						</AssetInformationContainer>
+						<AssetInformationContainer item xs={12}>
 							<DepositedAsset sett={sett} badgerSett={badgerSett} />
-						</Grid>
+						</AssetInformationContainer>
 					</Grid>
-					<Grid item xs={12} sm={5} className={classes.percentageContainer}>
+					<PercentagesContainer item xs={12} sm={5}>
 						<PercentageSelector
 							size="small"
 							selectedOption={percentage}
@@ -82,15 +59,14 @@ export const VaultWithdraw = observer((props: SettModalProps) => {
 							disabled={!connectedAddress}
 							onChange={handlePercentageChange}
 						/>
-					</Grid>
+					</PercentagesContainer>
 				</Grid>
 				<StrategyInfo vaultAddress={badgerSett.vaultToken.address} network={network} />
-				<TextField
+				<AmountTextField
 					fullWidth
 					variant="outlined"
 					placeholder="Type an amount to withdraw"
 					disabled={!connectedAddress}
-					className={classes.field}
 					type={type}
 					inputProps={{ pattern }}
 					value={amount || ''}
@@ -98,7 +74,7 @@ export const VaultWithdraw = observer((props: SettModalProps) => {
 				/>
 			</DialogContent>
 			<DialogActions>
-				<Button
+				<ActionButton
 					aria-label="Withdraw"
 					size="large"
 					disabled={!canDeposit}
@@ -106,10 +82,9 @@ export const VaultWithdraw = observer((props: SettModalProps) => {
 					variant="contained"
 					color="primary"
 					fullWidth
-					className={classes.button}
 				>
 					Withdraw
-				</Button>
+				</ActionButton>
 			</DialogActions>
 		</>
 	);
