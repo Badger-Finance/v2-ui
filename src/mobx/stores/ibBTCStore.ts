@@ -464,11 +464,6 @@ class IbBTCStore {
 		const { queueNotification, setTxStatus } = this.store.uiState;
 		const { provider, connectedAddress } = this.store.wallet;
 
-		if (!this.store.user.bouncerProof) {
-			queueNotification('You are not part of the guest list yet. Please try again later', 'error');
-			return;
-		}
-
 		let method: ContractSendMethod;
 		const peak = this.getPeakForToken(inToken.symbol);
 		const web3 = new Web3(provider);

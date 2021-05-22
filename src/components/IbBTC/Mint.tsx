@@ -34,7 +34,6 @@ type InputAmount = {
 const ActionButton = observer(
 	({ children }): JSX.Element => {
 		const store = useContext(StoreContext);
-		const { bouncerProof } = store.user;
 		const { connectedAddress } = store.wallet;
 		const connectWallet = useConnectWallet();
 
@@ -43,18 +42,6 @@ const ActionButton = observer(
 				<Button fullWidth size="large" variant="contained" color="primary" onClick={connectWallet}>
 					Connect Wallet
 				</Button>
-			);
-		}
-
-		if (!bouncerProof) {
-			return (
-				<Tooltip arrow placement="top" title="You are not part of the guest list yet. Please try again later.">
-					<span>
-						<Button fullWidth size="large" variant="contained" color="primary" disabled>
-							MINT
-						</Button>
-					</span>
-				</Tooltip>
 			);
 		}
 

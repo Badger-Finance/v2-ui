@@ -51,7 +51,6 @@ const useStyles = makeStyles((theme) => ({
 const ActionButton = observer(
 	({ children }): JSX.Element => {
 		const store = useContext(StoreContext);
-		const { bouncerProof } = store.user;
 		const { connectedAddress } = store.wallet;
 		const connectWallet = useConnectWallet();
 
@@ -60,18 +59,6 @@ const ActionButton = observer(
 				<Button fullWidth size="large" variant="contained" color="primary" onClick={connectWallet}>
 					Connect Wallet
 				</Button>
-			);
-		}
-
-		if (!bouncerProof) {
-			return (
-				<Tooltip arrow placement="top" title="You are not part of the guest list yet. Please try again later.">
-					<span>
-						<Button fullWidth size="large" variant="contained" color="primary" disabled>
-							REDEEM
-						</Button>
-					</span>
-				</Tooltip>
 			);
 		}
 
@@ -86,7 +73,6 @@ export const Redeem = observer((): any => {
 	const {
 		ibBTCStore: { tokens, ibBTC, redeemFeePercent },
 		wallet: { connectedAddress },
-		user: { bouncerProof },
 	} = store;
 
 	const [selectedToken, setSelectedToken] = useState(tokens[0]);
@@ -97,9 +83,6 @@ export const Redeem = observer((): any => {
 	const [totalRedeem, setTotalRedeem] = useState('0.000');
 	const [fee, setFee] = useState('0.000');
 	const [isEnoughToRedeem, setIsEnoughToRedeem] = useState(true);
-
-	// do not display errors for non guests, they won't be able to redeem anyways
-	const showError = bouncerProof && !isEnoughToRedeem;
 
 	const resetState = () => {
 		setInputAmount(undefined);
@@ -239,7 +222,7 @@ export const Redeem = observer((): any => {
 			</Grid>
 			<Grid item xs={12}>
 				<SummaryGrid>
-					{showError && maxRedeem && (
+					{!isEnoughToRedeem && maxRedeem && (
 						<Grid item xs={12} container>
 							<ErrorText variant="subtitle1">
 								<span>A maximum of </span>
