@@ -77,6 +77,11 @@ export const VaultDeposit = observer((props: SettModalProps) => {
 	const hasAvailableDeposit = useHasAvailableDepositLimit(vaultToken, amount);
 	const canDeposit = !!amount && !!connectedAddress && userBalance.balance.gt(0) && hasAvailableDeposit;
 
+	const handleAmountChange = (change: string) => {
+		setAmount(change);
+		setPercentage(undefined);
+	};
+
 	const handlePercentageChange = (percent: number) => {
 		setPercentage(percent);
 		setAmount(userBalance.scaledBalanceDisplay(percent));
@@ -124,7 +129,7 @@ export const VaultDeposit = observer((props: SettModalProps) => {
 					placeholder="Type an amount to deposit"
 					inputProps={inputProps}
 					value={amount || ''}
-					onChange={onValidChange(setAmount)}
+					onChange={onValidChange(handleAmountChange)}
 				/>
 			</DialogContent>
 			<DialogActions>

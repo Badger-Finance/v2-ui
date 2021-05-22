@@ -37,6 +37,11 @@ export const GeyserUnstake = observer((props: SettModalProps) => {
 	const userBalance = geyserBalances[badgerSett.geyser];
 	const canUnstake = !!connectedAddress && !!amount && userBalance.balance.gt(0);
 
+	const handleAmountChange = (change: string) => {
+		setAmount(change);
+		setPercentage(undefined);
+	};
+
 	const handlePercentageChange = (percent: number) => {
 		setPercentage(percent);
 		setAmount(userBalance.scaledBalanceDisplay(percent));
@@ -80,7 +85,7 @@ export const GeyserUnstake = observer((props: SettModalProps) => {
 					placeholder="Type an amount to unstake"
 					inputProps={inputProps}
 					value={amount || ''}
-					onChange={onValidChange(setAmount)}
+					onChange={onValidChange(handleAmountChange)}
 				/>
 			</DialogContent>
 			<DialogActions>
