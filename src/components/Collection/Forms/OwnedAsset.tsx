@@ -26,12 +26,12 @@ export const OwnedAsset = observer(({ prefix, sett, badgerSett }: Props) => {
 	} = store;
 
 	const userBalance = settBalances[badgerSett.vaultToken.address];
-	const totalAvailable = userBalance.scaledBalanceDisplay();
-	const isLoading = !connectedAddress || !totalAvailable;
+	const isLoading = !connectedAddress || !userBalance;
 
 	return (
 		<Typography variant="body1" color={'textSecondary'}>
-			{`${prefix} b${sett.asset}`}: {isLoading ? <StyledSkeleton animation="wave" /> : totalAvailable}
+			{`${prefix} b${sett.asset}`}:{' '}
+			{isLoading ? <StyledSkeleton animation="wave" /> : userBalance.scaledBalanceDisplay()}
 		</Typography>
 	);
 });
