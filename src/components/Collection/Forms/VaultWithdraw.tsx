@@ -16,7 +16,6 @@ export const VaultWithdraw = observer((props: SettModalProps) => {
 	const store = useContext(StoreContext);
 	const { sett, badgerSett } = props;
 	const [amount, setAmount] = useState<string>();
-	const [percentage, setPercentage] = useState<number>();
 	const { onValidChange, ...inputProps } = useNumericInput();
 
 	const {
@@ -28,13 +27,7 @@ export const VaultWithdraw = observer((props: SettModalProps) => {
 	const userBalance = settBalances[badgerSett.vaultToken.address];
 	const canDeposit = !!connectedAddress && !!amount && userBalance.balance.gt(0);
 
-	const handleAmountChange = (change: string) => {
-		setAmount(change);
-		setPercentage(undefined);
-	};
-
 	const handlePercentageChange = (percent: number) => {
-		setPercentage(percent);
 		setAmount(userBalance.scaledBalanceDisplay(percent));
 	};
 
@@ -59,7 +52,6 @@ export const VaultWithdraw = observer((props: SettModalProps) => {
 					<PercentagesContainer item xs={12} sm={5}>
 						<PercentageSelector
 							size="small"
-							selectedOption={canDeposit ? percentage : undefined}
 							options={[25, 50, 75, 100]}
 							disabled={!connectedAddress}
 							onChange={handlePercentageChange}
@@ -74,7 +66,7 @@ export const VaultWithdraw = observer((props: SettModalProps) => {
 					disabled={!connectedAddress}
 					inputProps={inputProps}
 					value={amount || ''}
-					onChange={onValidChange(handleAmountChange)}
+					onChange={onValidChange(setAmount)}
 				/>
 			</DialogContent>
 			<DialogActions>

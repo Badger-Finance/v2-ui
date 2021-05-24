@@ -55,7 +55,6 @@ const useHasAvailableDepositLimit = (vaultToken: BadgerToken, amount = '0'): boo
 export const VaultDeposit = observer((props: SettModalProps) => {
 	const store = useContext(StoreContext);
 	const [amount, setAmount] = useState<string>();
-	const [percentage, setPercentage] = useState<number>();
 	const { onValidChange, ...inputProps } = useNumericInput();
 
 	const {
@@ -77,13 +76,7 @@ export const VaultDeposit = observer((props: SettModalProps) => {
 	const hasAvailableDeposit = useHasAvailableDepositLimit(vaultToken, amount);
 	const canDeposit = !!amount && !!connectedAddress && userBalance.balance.gt(0) && hasAvailableDeposit;
 
-	const handleAmountChange = (change: string) => {
-		setAmount(change);
-		setPercentage(undefined);
-	};
-
 	const handlePercentageChange = (percent: number) => {
-		setPercentage(percent);
 		setAmount(userBalance.scaledBalanceDisplay(percent));
 	};
 
@@ -103,7 +96,6 @@ export const VaultDeposit = observer((props: SettModalProps) => {
 					<PercentagesContainer item xs={12} sm={5}>
 						<PercentageSelector
 							size="small"
-							selectedOption={canDeposit ? percentage : undefined}
 							options={[25, 50, 75, 100]}
 							disabled={!connectedAddress}
 							onChange={handlePercentageChange}
@@ -129,7 +121,7 @@ export const VaultDeposit = observer((props: SettModalProps) => {
 					placeholder="Type an amount to deposit"
 					inputProps={inputProps}
 					value={amount || ''}
-					onChange={onValidChange(handleAmountChange)}
+					onChange={onValidChange(setAmount)}
 				/>
 			</DialogContent>
 			<DialogActions>
