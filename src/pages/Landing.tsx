@@ -98,8 +98,8 @@ const Landing = observer((props: LandingProps) => {
 	const totalValueLocked = protocolSummary ? new BigNumber(protocolSummary.totalValue) : undefined;
 	const badgerPrice = network.deploy ? setts.getPrice(network.deploy.token) : undefined;
 	const portfolioValue = userConnected && !user.loadingBalances ? user.portfolioValue() : undefined;
+	const hasRewards = Boolean(!!network.rewards && !!connectedAddress && badgerTree && badgerTree.claims);
 
-	const hasRewards = new Boolean(!!network.rewards && !!connectedAddress && badgerTree && badgerTree.claims);
 	return (
 		<Container className={classes.landingContainer}>
 			{/* Landing Metrics Cards */}
