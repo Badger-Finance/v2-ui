@@ -35,8 +35,13 @@ class ContractsStore {
 		}
 
 		const allowance = await this.getAllowance(badgerSett.depositToken, badgerSett.vaultToken.address);
+
 		if (amount.gt(allowance.balance)) {
-			await this.increaseAllowance(badgerSett.depositToken, badgerSett.vaultToken.address);
+			const depositToken: BadgerToken = {
+				...badgerSett.depositToken,
+				symbol: badgerSett.depositToken.symbol || sett.asset, //fallback symbol
+			};
+			await this.increaseAllowance(depositToken, badgerSett.vaultToken.address);
 		}
 
 		await this.depositVault(sett, depositAmount);
