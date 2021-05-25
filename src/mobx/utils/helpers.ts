@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js';
 import { ExchangeRates } from 'mobx/model';
-import { ZERO } from '../../config/constants';
+import { TEN, ZERO } from '../../config/constants';
 
 export const jsonQuery = (url: string | undefined): Promise<Response> | undefined => {
 	if (!url) return;
@@ -356,4 +356,5 @@ export function marketChartStats(
 	return { high, low, avg, median };
 }
 
+export const unscale = (amount: BigNumber, decimals: number): BigNumber => amount.dividedBy(TEN.pow(decimals));
 export const toHex = (amount: BigNumber): string => '0x' + amount.toString(16);
