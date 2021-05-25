@@ -146,7 +146,9 @@ class ContractsStore {
 		const unstakeBalance = amount.tokenBalance.toFixed(0, BigNumber.ROUND_HALF_FLOOR);
 		const method = geyserContract.methods.unstake(unstakeBalance, EMPTY_DATA);
 
-		const unstakeAmount = `${amount.balanceDisplay()} b${sett.asset}`;
+		const { tokenBalance, token } = amount;
+		const displayAmount = toFixedDecimals(unscale(tokenBalance, token.decimals), token.decimals);
+		const unstakeAmount = `${displayAmount} b${sett.asset}`;
 		const unstakeMessage = `Sign the transaction to unstake ${unstakeAmount}`;
 		queueNotification(unstakeMessage, 'info');
 
