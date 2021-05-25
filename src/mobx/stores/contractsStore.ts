@@ -10,6 +10,7 @@ import { TokenBalance } from 'mobx/model/token-balance';
 import { BadgerSett } from 'mobx/model/badger-sett';
 import { BadgerToken } from 'mobx/model/badger-token';
 import { Sett } from 'mobx/model';
+import { toFixedDecimals, unscale } from '../utils/helpers';
 
 /**
  * TODO: A clear pattern emerges on these contract interactions.
@@ -209,7 +210,9 @@ class ContractsStore {
 			method = settContract.methods.depositAll();
 		}
 
-		const depositAmount = `${amount.balanceDisplay()} ${sett.asset}`;
+		const { tokenBalance, token } = amount;
+		const displayAmount = toFixedDecimals(unscale(tokenBalance, token.decimals), token.decimals);
+		const depositAmount = `${displayAmount} ${sett.asset}`;
 		const depositMessage = `Sign the transaction to wrap ${depositAmount}`;
 		queueNotification(depositMessage, 'info');
 
@@ -245,7 +248,9 @@ class ContractsStore {
 		const withdrawBalance = amount.tokenBalance.toFixed(0, BigNumber.ROUND_HALF_FLOOR);
 		const method = underlyingContract.methods.withdraw(withdrawBalance);
 
-		const withdrawAmount = `${amount.balanceDisplay()} b${sett.asset}`;
+		const { tokenBalance, token } = amount;
+		const displayAmount = toFixedDecimals(unscale(tokenBalance, token.decimals), token.decimals);
+		const withdrawAmount = `${displayAmount} b${sett.asset}`;
 		const withdrawMessage = `Sign the transaction to unwrap ${withdrawAmount}`;
 		queueNotification(withdrawMessage, 'info');
 
