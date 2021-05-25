@@ -13,12 +13,10 @@ const ethSettDefinitions: BadgerSett[] = [
 		depositToken: {
 			address: ETH_DEPLOY.tokens['sushi.wBTC-DIGG'],
 			decimals: 18,
-			symbol: 'wBTC-DIGG',
 		},
 		vaultToken: {
 			address: ETH_DEPLOY.sett_system.vaults['native.sushiDiggWbtc'],
 			decimals: 18,
-			symbol: 'sushiDiggWbtc',
 		},
 		geyser: ETH_DEPLOY.geysers['native.sushiDiggWbtc'],
 	},
@@ -26,12 +24,10 @@ const ethSettDefinitions: BadgerSett[] = [
 		depositToken: {
 			address: ETH_DEPLOY.tokens['sushi.wBTC-BADGER'],
 			decimals: 18,
-			symbol: 'wBTC-BADGER',
 		},
 		vaultToken: {
 			address: ETH_DEPLOY.sett_system.vaults['native.sushiBadgerWbtc'],
 			decimals: 18,
-			symbol: 'sushiBadgerWbtc',
 		},
 		geyser: ETH_DEPLOY.geysers['native.sushiBadgerWbtc'],
 	},
@@ -39,12 +35,10 @@ const ethSettDefinitions: BadgerSett[] = [
 		depositToken: {
 			address: ETH_DEPLOY.tokens['sushi.wBTC-WETH'],
 			decimals: 18,
-			symbol: 'wBTC-WETH',
 		},
 		vaultToken: {
 			address: ETH_DEPLOY.sett_system.vaults['native.sushiWbtcEth'],
 			decimals: 18,
-			symbol: 'sushiWbtcEth',
 		},
 		geyser: ETH_DEPLOY.geysers['native.sushiWbtcEth'],
 	},
@@ -52,24 +46,20 @@ const ethSettDefinitions: BadgerSett[] = [
 		depositToken: {
 			address: ETH_DEPLOY.tokens['sushi.ibBTC-wBTC'],
 			decimals: 18,
-			symbol: 'ibBTC-wBTC',
 		},
 		vaultToken: {
 			address: ETH_DEPLOY.sett_system.vaults['native.sushiibBTCwBTC'],
 			decimals: 18,
-			symbol: 'sushiibBTCwBTC',
 		},
 	},
 	{
 		depositToken: {
 			address: ETH_DEPLOY.tokens['uni.wBTC-BADGER'],
 			decimals: 18,
-			symbol: 'wBTC-BADGER',
 		},
 		vaultToken: {
 			address: ETH_DEPLOY.sett_system.vaults['native.uniBadgerWbtc'],
 			decimals: 18,
-			symbol: 'uniBadgerWbtc',
 		},
 		geyser: ETH_DEPLOY.geysers['native.uniBadgerWbtc'],
 	},
@@ -77,12 +67,10 @@ const ethSettDefinitions: BadgerSett[] = [
 		depositToken: {
 			address: ETH_DEPLOY.tokens['uni.wBTC-DIGG'],
 			decimals: 18,
-			symbol: 'wBTC-DIGG',
 		},
 		vaultToken: {
 			address: ETH_DEPLOY.sett_system.vaults['native.uniDiggWbtc'],
 			decimals: 18,
-			symbol: 'uniDiggWbtc',
 		},
 		geyser: ETH_DEPLOY.geysers['native.uniDiggWbtc'],
 	},
@@ -90,12 +78,10 @@ const ethSettDefinitions: BadgerSett[] = [
 		depositToken: {
 			address: ETH_DEPLOY.tokens.badger,
 			decimals: 18,
-			symbol: 'BADGER',
 		},
 		vaultToken: {
 			address: ETH_DEPLOY.sett_system.vaults['native.badger'],
 			decimals: 18,
-			symbol: 'BADGER',
 		},
 		geyser: ETH_DEPLOY.geysers['native.badger'],
 	},
@@ -103,24 +89,20 @@ const ethSettDefinitions: BadgerSett[] = [
 		depositToken: {
 			address: ETH_DEPLOY.tokens.digg,
 			decimals: 9,
-			symbol: 'DIGG',
 		},
 		vaultToken: {
 			address: ETH_DEPLOY.sett_system.vaults['native.digg'],
 			decimals: 18,
-			symbol: 'DIGG',
 		},
 	},
 	{
 		depositToken: {
 			address: ETH_DEPLOY.tokens.wBTC,
 			decimals: 8,
-			symbol: 'wBTC',
 		},
 		vaultToken: {
 			address: ETH_DEPLOY.sett_system.vaults['yearn.wBtc'],
 			decimals: 8,
-			symbol: 'wBTC',
 		},
 		geyser: ETH_DEPLOY.geysers['yearn.wBtc'],
 	},
@@ -128,12 +110,10 @@ const ethSettDefinitions: BadgerSett[] = [
 		depositToken: {
 			address: ETH_DEPLOY.tokens['curve.renWBTC'],
 			decimals: 18,
-			symbol: 'renWBTC',
 		},
 		vaultToken: {
 			address: ETH_DEPLOY.sett_system.vaults['native.renCrv'],
 			decimals: 18,
-			symbol: 'renCrv',
 		},
 		geyser: ETH_DEPLOY.geysers['native.renCrv'],
 	},
@@ -141,12 +121,10 @@ const ethSettDefinitions: BadgerSett[] = [
 		depositToken: {
 			address: ETH_DEPLOY.tokens['curve.renWBTC'],
 			decimals: 18,
-			symbol: 'renWBTC',
 		},
 		vaultToken: {
 			address: ETH_DEPLOY.sett_system.vaults['harvest.renCrv'],
 			decimals: 18,
-			symbol: 'renCrv',
 		},
 		geyser: ETH_DEPLOY.geysers['harvest.renCrv'],
 	},
@@ -154,12 +132,10 @@ const ethSettDefinitions: BadgerSett[] = [
 		depositToken: {
 			address: ETH_DEPLOY.tokens['curve.tBTC-sBTC'],
 			decimals: 18,
-			symbol: 'tBTC-sBTC',
 		},
 		vaultToken: {
 			address: ETH_DEPLOY.sett_system.vaults['native.tbtcCrv'],
 			decimals: 18,
-			symbol: 'tbtcCrv',
 		},
 		geyser: ETH_DEPLOY.geysers['native.tbtcCrv'],
 	},
@@ -167,12 +143,10 @@ const ethSettDefinitions: BadgerSett[] = [
 		depositToken: {
 			address: ETH_DEPLOY.tokens['curve.renWSBTC'],
 			decimals: 18,
-			symbol: 'renWSBTC',
 		},
 		vaultToken: {
 			address: ETH_DEPLOY.sett_system.vaults['native.sbtcCrv'],
 			decimals: 18,
-			symbol: 'sbtcCrv',
 		},
 		geyser: ETH_DEPLOY.geysers['native.sbtcCrv'],
 	},
@@ -185,7 +159,6 @@ const ethSettDefinitions: BadgerSett[] = [
 		vaultToken: {
 			address: ETH_DEPLOY.sett_system.vaults['experimental.digg'],
 			decimals: 18,
-			symbol: 'DIGG',
 		},
 	},
 ];

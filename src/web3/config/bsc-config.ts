@@ -13,36 +13,30 @@ export const bscSetts: BadgerSett[] = [
 		depositToken: {
 			address: BSC_DEPLOY.tokens['pancake.BTCB-BNB'],
 			decimals: 18,
-			symbol: 'BTCB-BNB',
 		},
 		vaultToken: {
 			address: BSC_DEPLOY.sett_system.vaults['native.pancakeBnbBtcb'],
 			decimals: 18,
-			symbol: 'pancakeBnbBtcb',
 		},
 	},
 	{
 		depositToken: {
 			address: BSC_DEPLOY.tokens['pancake.bBADGER-BTCB'],
 			decimals: 18,
-			symbol: 'bBADGER-BTCB',
 		},
 		vaultToken: {
 			address: BSC_DEPLOY.sett_system.vaults['native.bBadgerBtcb'],
 			decimals: 18,
-			symbol: 'bBadgerBtcb',
 		},
 	},
 	{
 		depositToken: {
 			address: BSC_DEPLOY.tokens['pancake.bDIGG-BTCB'],
 			decimals: 18,
-			symbol: 'bDIGG-BTCB',
 		},
 		vaultToken: {
 			address: BSC_DEPLOY.sett_system.vaults['native.bDiggBtcb'],
 			decimals: 18,
-			symbol: 'bDiggBtcb',
 		},
 	},
 ];
