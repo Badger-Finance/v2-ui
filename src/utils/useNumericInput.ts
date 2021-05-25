@@ -7,18 +7,19 @@ type ChangeHandler = (change: string) => void | SetStateAction<string>;
 
 /**
  * Props needed to implement numeric validation on inputs
- * @property type - the type that input should have
- * @property pattern - the pattern that the input should have
+ * @property inputProps - props that should be injected to the inputs
  * @property onValidChange - a function to register a handler function to execute upon successful validation
  */
 interface NumericInputProps {
-	autoComplete: InputProps['autoComplete'];
-	inputMode: InputProps['inputMode'];
-	maxLength: HTMLInputElement['maxLength'];
-	minLength: HTMLInputElement['minLength'];
-	pattern: HTMLInputElement['pattern'];
-	spellCheck: HTMLInputElement['spellcheck'];
-	type: HTMLInputElement['type'];
+	inputProps: {
+		autoComplete: InputProps['autoComplete'];
+		inputMode: InputProps['inputMode'];
+		maxLength: HTMLInputElement['maxLength'];
+		minLength: HTMLInputElement['minLength'];
+		pattern: HTMLInputElement['pattern'];
+		spellCheck: HTMLInputElement['spellcheck'];
+		type: HTMLInputElement['type'];
+	};
 	onValidChange: (onChange: ChangeHandler) => (event: ChangeEvent<{ value: unknown }>) => void;
 }
 
@@ -45,13 +46,15 @@ export const useNumericInput = (): NumericInputProps => {
 	};
 
 	return {
-		autoComplete: 'off',
-		inputMode: 'decimal',
-		type: 'text',
-		pattern: '^[0-9]*[.,]?[0-9]*$',
-		minLength: 1,
-		maxLength: 79,
-		spellCheck: false,
+		inputProps: {
+			autoComplete: 'off',
+			inputMode: 'decimal',
+			type: 'text',
+			pattern: '^[0-9]*[.,]?[0-9]*$',
+			minLength: 1,
+			maxLength: 79,
+			spellCheck: false,
+		},
 		onValidChange,
 	};
 };

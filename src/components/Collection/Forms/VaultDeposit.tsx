@@ -61,7 +61,7 @@ const useHasAvailableDepositLimit = (vaultToken: BadgerToken, amount = '0'): boo
 export const VaultDeposit = observer((props: SettModalProps) => {
 	const store = useContext(StoreContext);
 	const [amount, setAmount] = useState<string>();
-	const { onValidChange, ...inputProps } = useNumericInput();
+	const { onValidChange, inputProps } = useNumericInput();
 
 	const {
 		wallet: { connectedAddress, network },

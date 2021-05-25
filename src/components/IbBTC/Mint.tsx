@@ -67,7 +67,7 @@ export const Mint = observer(
 		const [conversionRate, setConversionRate] = useState<string>();
 		const [fee, setFee] = useState('0.000');
 		const [totalMint, setTotalMint] = useState('0.000');
-		const { onValidChange, ...inputProps } = useNumericInput();
+		const { onValidChange, inputProps } = useNumericInput();
 
 		const resetState = () => {
 			setInputAmount(undefined);

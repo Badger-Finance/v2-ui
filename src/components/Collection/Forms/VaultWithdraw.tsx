@@ -21,7 +21,7 @@ export const VaultWithdraw = observer((props: SettModalProps) => {
 	const store = useContext(StoreContext);
 	const { sett, badgerSett } = props;
 	const [amount, setAmount] = useState<string>();
-	const { onValidChange, ...inputProps } = useNumericInput();
+	const { onValidChange, inputProps } = useNumericInput();
 
 	const {
 		wallet: { connectedAddress, network },

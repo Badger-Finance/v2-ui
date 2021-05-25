@@ -84,7 +84,7 @@ export const Redeem = observer((): any => {
 	const [totalRedeem, setTotalRedeem] = useState('0.000');
 	const [fee, setFee] = useState('0.000');
 	const [isEnoughToRedeem, setIsEnoughToRedeem] = useState(true);
-	const { onValidChange, ...inputProps } = useNumericInput();
+	const { onValidChange, inputProps } = useNumericInput();
 
 	const resetState = () => {
 		setInputAmount(undefined);
