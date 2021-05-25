@@ -8,9 +8,14 @@ import { SettModalProps } from './VaultDeposit';
 import { StrategyInfo } from './StrategyInfo';
 import { PercentageSelector } from 'components-v2/common/PercentageSelector';
 import { useNumericInput } from 'utils/useNumericInput';
-import { ActionButton, AmountTextField, AssetInformationContainer, PercentagesContainer } from './Common';
-import { UnderlyingAsset } from './UnderlyingAsset';
-import { OwnedAsset } from './OwnedAsset';
+import {
+	ActionButton,
+	AmountTextField,
+	AssetInformationContainer,
+	BalanceInformation,
+	PercentagesContainer,
+	TextSkeleton,
+} from './Common';
 
 export const VaultWithdraw = observer((props: SettModalProps) => {
 	const store = useContext(StoreContext);
@@ -22,9 +27,13 @@ export const VaultWithdraw = observer((props: SettModalProps) => {
 		wallet: { connectedAddress, network },
 		user: { settBalances },
 		contracts,
+		rewards,
 	} = store;
 
 	const userBalance = settBalances[badgerSett.vaultToken.address];
+	const underlying = userBalance.tokenBalance.multipliedBy(sett.ppfs);
+	const underlyingSymbol = badgerSett.depositToken.symbol || sett.asset;
+	const underlyingBalance = new TokenBalance(rewards, userBalance.token, underlying, userBalance.price);
 	const canDeposit = !!connectedAddress && !!amount && userBalance.balance.gt(0);
 
 	const handlePercentageChange = (percent: number) => {
@@ -43,10 +52,28 @@ export const VaultWithdraw = observer((props: SettModalProps) => {
 				<Grid container spacing={1}>
 					<Grid item container xs={12} sm={7}>
 						<AssetInformationContainer item xs={12}>
-							<UnderlyingAsset sett={sett} badgerSett={badgerSett} />
+							<BalanceInformation variant="body2" color="textSecondary" display="inline">
+								{`Underlying ${underlyingSymbol}: `}
+							</BalanceInformation>
+							<BalanceInformation variant="body2" color="textSecondary" display="inline">
+								{!connectedAddress ? (
+									<TextSkeleton animation="wave" />
+								) : (
+									underlyingBalance.balanceDisplay()
+								)}
+							</BalanceInformation>
 						</AssetInformationContainer>
 						<AssetInformationContainer item xs={12}>
-							<OwnedAsset prefix="Deposited" sett={sett} badgerSett={badgerSett} />
+							<BalanceInformation variant="body1" color="textSecondary" display="inline">
+								{`Deposited b${sett.asset}: `}
+							</BalanceInformation>
+							<BalanceInformation variant="body1" color="textSecondary" display="inline">
+								{!connectedAddress || !userBalance ? (
+									<TextSkeleton animation="wave" />
+								) : (
+									userBalance.scaledBalanceDisplay()
+								)}
+							</BalanceInformation>
 						</AssetInformationContainer>
 					</Grid>
 					<PercentagesContainer item xs={12} sm={5}>

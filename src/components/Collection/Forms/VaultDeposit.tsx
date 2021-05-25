@@ -14,8 +14,14 @@ import { StrategyInfo } from './StrategyInfo';
 import { PercentageSelector } from 'components-v2/common/PercentageSelector';
 import { NoWalletConnected } from './NoWalletConnected';
 import { useNumericInput } from 'utils/useNumericInput';
-import { ActionButton, AmountTextField, AssetInformationContainer, PercentagesContainer } from './Common';
-import { OwnedAsset } from './OwnedAsset';
+import {
+	ActionButton,
+	AmountTextField,
+	AssetInformationContainer,
+	BalanceInformation,
+	PercentagesContainer,
+	TextSkeleton,
+} from './Common';
 
 export interface SettModalProps {
 	sett: Sett;
@@ -91,7 +97,16 @@ export const VaultDeposit = observer((props: SettModalProps) => {
 			<DialogContent>
 				<Grid container spacing={1}>
 					<AssetInformationContainer item xs={12} sm={7}>
-						<OwnedAsset prefix="Available" sett={sett} badgerSett={badgerSett} />
+						<BalanceInformation variant="body1" color="textSecondary" display="inline">
+							{`Available: `}
+						</BalanceInformation>
+						<BalanceInformation variant="body1" color="textSecondary" display="inline">
+							{!connectedAddress || !userBalance ? (
+								<TextSkeleton animation="wave" />
+							) : (
+								userBalance.scaledBalanceDisplay()
+							)}
+						</BalanceInformation>
 					</AssetInformationContainer>
 					<PercentagesContainer item xs={12} sm={5}>
 						<PercentageSelector

@@ -5,9 +5,14 @@ import { DialogContent, DialogActions, Grid } from '@material-ui/core';
 import { TokenBalance } from 'mobx/model/token-balance';
 import { SettModalProps } from './VaultDeposit';
 import { StoreContext } from 'mobx/store-context';
-import { ActionButton, AmountTextField, AssetInformationContainer, PercentagesContainer } from './Common';
-import { UnderlyingAsset } from './UnderlyingAsset';
-import { OwnedAsset } from './OwnedAsset';
+import {
+	ActionButton,
+	AmountTextField,
+	AssetInformationContainer,
+	BalanceInformation,
+	PercentagesContainer,
+	TextSkeleton,
+} from './Common';
 import { StrategyInfo } from './StrategyInfo';
 import { NoGeyser } from './NoGeyser';
 import { useNumericInput } from 'utils/useNumericInput';
@@ -23,6 +28,7 @@ export const GeyserUnstake = observer((props: SettModalProps) => {
 		wallet: { connectedAddress, network },
 		user: { geyserBalances },
 		contracts,
+		rewards,
 	} = store;
 
 	if (!badgerSett.geyser) {
@@ -34,6 +40,8 @@ export const GeyserUnstake = observer((props: SettModalProps) => {
 	}
 
 	const userBalance = geyserBalances[badgerSett.geyser];
+	const underlying = userBalance.tokenBalance.multipliedBy(sett.ppfs);
+	const underlyingBalance = new TokenBalance(rewards, userBalance.token, underlying, userBalance.price);
 	const canUnstake = !!connectedAddress && !!amount && userBalance.balance.gt(0);
 
 	const handlePercentageChange = (percent: number) => {
@@ -52,10 +60,28 @@ export const GeyserUnstake = observer((props: SettModalProps) => {
 				<Grid container spacing={1}>
 					<Grid item container xs={12} sm={7}>
 						<AssetInformationContainer item xs={12}>
-							<UnderlyingAsset sett={sett} badgerSett={badgerSett} />
+							<BalanceInformation variant="body2" color="textSecondary" display="inline">
+								{`Underlying ${sett.asset}: `}
+							</BalanceInformation>
+							<BalanceInformation variant="body2" color="textSecondary" display="inline">
+								{!connectedAddress ? (
+									<TextSkeleton animation="wave" />
+								) : (
+									underlyingBalance.balanceDisplay()
+								)}
+							</BalanceInformation>
 						</AssetInformationContainer>
 						<AssetInformationContainer item xs={12}>
-							<OwnedAsset prefix="Staked" sett={sett} badgerSett={badgerSett} />
+							<BalanceInformation variant="body1" color="textSecondary" display="inline">
+								{`Staked b${sett.asset}: `}
+							</BalanceInformation>
+							<BalanceInformation variant="body1" color="textSecondary" display="inline">
+								{!connectedAddress || !userBalance ? (
+									<TextSkeleton animation="wave" />
+								) : (
+									userBalance.scaledBalanceDisplay()
+								)}
+							</BalanceInformation>
 						</AssetInformationContainer>
 					</Grid>
 					<PercentagesContainer item xs={12} sm={5}>
