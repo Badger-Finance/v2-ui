@@ -25,6 +25,7 @@ import {
 	OutputTokenGrid,
 	ErrorText,
 } from './Common';
+import { useNumericInput } from '../../utils/useNumericInput';
 
 type RedeemInformation = {
 	inputAmount: BigNumber;
@@ -83,6 +84,7 @@ export const Redeem = observer((): any => {
 	const [totalRedeem, setTotalRedeem] = useState('0.000');
 	const [fee, setFee] = useState('0.000');
 	const [isEnoughToRedeem, setIsEnoughToRedeem] = useState(true);
+	const { onValidChange, inputProps } = useNumericInput();
 
 	const resetState = () => {
 		setInputAmount(undefined);
@@ -117,9 +119,17 @@ export const Redeem = observer((): any => {
 		});
 	};
 
+	const handleInputChange = (change: string) => {
+		setInputAmount({
+			displayValue: change,
+			actualValue: ibBTC.scale(change),
+		});
+		debounceInputAmountChange(change);
+	};
+
 	// reason: the plugin does not recognize the dependency inside the debounce function
 	// eslint-disable-next-line react-hooks/exhaustive-deps
-	const handleInputAmountChange = useCallback(
+	const debounceInputAmountChange = useCallback(
 		debounce(
 			600,
 			async (change): Promise<void> => {
@@ -183,16 +193,11 @@ export const Redeem = observer((): any => {
 				<BorderedFocusableContainerGrid item container xs={12}>
 					<Grid item xs={8} sm={7}>
 						<InputTokenAmount
-							value={inputAmount?.displayValue}
+							inputProps={inputProps}
+							value={inputAmount?.displayValue || ''}
 							disabled={!connectedAddress}
 							placeholder="0.000"
-							onChange={(val) => {
-								setInputAmount({
-									displayValue: val,
-									actualValue: ibBTC.scale(val),
-								});
-								handleInputAmountChange(val);
-							}}
+							onChange={onValidChange(handleInputChange)}
 						/>
 					</Grid>
 					<InputTokenActionButtonsGrid item container spacing={1} xs={4} sm={5}>

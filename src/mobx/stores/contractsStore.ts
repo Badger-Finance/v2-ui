@@ -3,19 +3,14 @@ import { AbiItem } from 'web3-utils';
 import { getSendOptions } from '../utils/web3';
 import BigNumber from 'bignumber.js';
 import { RootStore } from '../store';
-import { TransactionReceipt } from 'web3-core';
 import { ContractSendMethod } from 'web3-eth-contract';
 import { EMPTY_DATA, ERC20, GEYSER_ABI, MAX, SETT_ABI, YEARN_ABI } from 'config/constants';
 import { TokenBalance } from 'mobx/model/token-balance';
 import { BadgerSett } from 'mobx/model/badger-sett';
 import { BadgerToken } from 'mobx/model/badger-token';
 import { Sett } from 'mobx/model';
+import { toFixedDecimals, unscale } from '../utils/helpers';
 
-/**
- * TODO: A clear pattern emerges on these contract interactions.
- * Refactor all methods to accept payload arguments to augment the flow
- * of the underlying web3 calls + notification messages.
- */
 class ContractsStore {
 	private store!: RootStore;
 
@@ -40,8 +35,13 @@ class ContractsStore {
 		}
 
 		const allowance = await this.getAllowance(badgerSett.depositToken, badgerSett.vaultToken.address);
+
 		if (amount.gt(allowance.balance)) {
-			await this.increaseAllowance(badgerSett.depositToken, badgerSett.vaultToken.address);
+			const depositToken: BadgerToken = {
+				...badgerSett.depositToken,
+				symbol: badgerSett.depositToken.symbol || sett.asset, //fallback symbol
+			};
+			await this.increaseAllowance(depositToken, badgerSett.vaultToken.address);
 		}
 
 		await this.depositVault(sett, depositAmount);
@@ -88,7 +88,7 @@ class ContractsStore {
 
 	increaseAllowance = async (token: BadgerToken, contract: string): Promise<void> => {
 		const { queueNotification } = this.store.uiState;
-		const { provider, connectedAddress } = this.store.wallet;
+		const { provider } = this.store.wallet;
 
 		const web3 = new Web3(provider);
 		const underlyingContract = new web3.eth.Contract(ERC20.abi as AbiItem[], token.address);
@@ -97,28 +97,11 @@ class ContractsStore {
 
 		queueNotification(`Sign the transaction to allow Badger to spend your ${token.symbol}`, 'info');
 
-		// TODO: provide some useful look up / gas tooling
-		const gasPrice = this.store.wallet.gasPrices[this.store.uiState.gasPrice];
-		const options = await getSendOptions(method, connectedAddress, gasPrice);
-
-		let completed = false;
-		await method
-			.send(options)
-			/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-			.on('transactionHash', (_hash: string) => {
-				// TODO: Hash seems to do nothing - investigate this?
-				queueNotification(`Transaction submitted.`, 'info');
-			})
-			/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-			.on('receipt', (_receipt: TransactionReceipt) => {
-				if (!completed) {
-					queueNotification(`${token.symbol} allowance increased`, 'success');
-					completed = true;
-				}
-			})
-			.on('error', (error: Error) => {
-				queueNotification(error.message, 'error');
-			});
+		await this.executeMethod(
+			method,
+			`Sign the transaction to allow Badger to spend your ${token.symbol}`,
+			`${token.symbol} allowance increased`,
+		);
 	};
 
 	getAllowance = async (token: BadgerToken, spender: string): Promise<TokenBalance> => {
@@ -133,8 +116,7 @@ class ContractsStore {
 	};
 
 	unstakeGeyser = async (sett: Sett, badgerSett: BadgerSett, amount: TokenBalance): Promise<void> => {
-		const { queueNotification } = this.store.uiState;
-		const { provider, connectedAddress } = this.store.wallet;
+		const { provider } = this.store.wallet;
 
 		if (!badgerSett.geyser) {
 			return;
@@ -145,36 +127,17 @@ class ContractsStore {
 		const unstakeBalance = amount.tokenBalance.toFixed(0, BigNumber.ROUND_HALF_FLOOR);
 		const method = geyserContract.methods.unstake(unstakeBalance, EMPTY_DATA);
 
-		const unstakeAmount = `${amount.balanceDisplay()} b${sett.asset}`;
+		const { tokenBalance, token } = amount;
+		const displayAmount = toFixedDecimals(unscale(tokenBalance, token.decimals), token.decimals);
+		const unstakeAmount = `${displayAmount} b${sett.asset}`;
 		const unstakeMessage = `Sign the transaction to unstake ${unstakeAmount}`;
-		queueNotification(unstakeMessage, 'info');
 
-		const gasPrice = this.store.wallet.gasPrices[this.store.uiState.gasPrice];
-		const options = await getSendOptions(method, connectedAddress, gasPrice);
-
-		let completed = false;
-		await method
-			.send(options)
-			/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-			.on('transactionHash', (_hash: string) => {
-				queueNotification(`Withdraw submitted.`, 'info');
-			})
-			/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-			.on('receipt', (_receipt: TransactionReceipt) => {
-				if (!completed) {
-					queueNotification(`Successfully unstaked ${unstakeAmount}`, 'info');
-					completed = true;
-				}
-				this.store.user.updateBalances();
-			})
-			.on('error', (error: Error) => {
-				queueNotification(error.message, 'error');
-			});
+		await this.executeMethod(method, unstakeMessage, `Successfully unstaked ${unstakeAmount}`);
 	};
 
-	depositVault = async (sett: Sett, amount: TokenBalance, all?: boolean): Promise<void> => {
+	depositVault = async (sett: Sett, amount: TokenBalance, depositAll?: boolean): Promise<void> => {
 		const { queueNotification } = this.store.uiState;
-		const { provider, connectedAddress, network } = this.store.wallet;
+		const { provider, network } = this.store.wallet;
 		const { bouncerProof } = this.store.user;
 
 		const web3 = new Web3(provider);
@@ -186,68 +149,55 @@ class ContractsStore {
 		// TODO: Clean this up, too many branches
 		// Uncapped deposits on a wrapper still require an empty proof
 		if (network.uncappedDeposit[sett.vaultToken]) {
-			if (all) {
+			if (depositAll) {
 				method = yearnContract.methods.deposit([]);
 			} else {
 				method = yearnContract.methods.deposit(depositBalance, []);
 			}
 		}
+
 		if (network.cappedDeposit[sett.vaultToken]) {
-			if (process.env.REACT_APP_BUILD_ENV !== 'production') {
-				console.log('proof:', bouncerProof);
-			}
 			if (!bouncerProof) {
 				queueNotification(`Error loading Badger Bouncer Proof`, 'error');
 				return;
 			}
-			if (all) {
+
+			if (depositAll) {
 				method = settContract.methods.deposit(bouncerProof);
 			} else {
 				method = settContract.methods.deposit(depositBalance, bouncerProof);
 			}
-		} else if (all) {
+		} else if (depositAll) {
 			method = settContract.methods.depositAll();
 		}
 
-		const depositAmount = `${amount.balanceDisplay()} ${sett.asset}`;
+		const { tokenBalance, token } = amount;
+		const displayAmount = toFixedDecimals(unscale(tokenBalance, token.decimals), token.decimals);
+		const depositAmount = `${displayAmount} ${sett.asset}`;
 		const depositMessage = `Sign the transaction to wrap ${depositAmount}`;
-		queueNotification(depositMessage, 'info');
 
-		const gasPrice = this.store.wallet.gasPrices[this.store.uiState.gasPrice];
-		const options = await getSendOptions(method, connectedAddress, gasPrice);
-
-		let completed = false;
-		await method
-			.send(options)
-			/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-			.on('transactionHash', (_hash: string) => {
-				queueNotification(`Deposit submitted.`, 'info');
-			})
-			/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-			.on('receipt', (_receipt: TransactionReceipt) => {
-				if (!completed) {
-					queueNotification(`Successfully deposited ${depositAmount}`, 'info');
-					completed = true;
-				}
-				this.store.user.updateBalances();
-			})
-			.on('error', (error: Error) => {
-				queueNotification(error.message, 'error');
-			});
+		await this.executeMethod(method, depositMessage, `Successfully deposited ${depositAmount}`);
 	};
 
 	withdrawVault = async (sett: Sett, badgerSett: BadgerSett, amount: TokenBalance): Promise<void> => {
-		const { queueNotification } = this.store.uiState;
-		const { provider, connectedAddress } = this.store.wallet;
+		const { provider } = this.store.wallet;
 
 		const web3 = new Web3(provider);
 		const underlyingContract = new web3.eth.Contract(SETT_ABI, badgerSett.vaultToken.address);
 		const withdrawBalance = amount.tokenBalance.toFixed(0, BigNumber.ROUND_HALF_FLOOR);
 		const method = underlyingContract.methods.withdraw(withdrawBalance);
 
-		const withdrawAmount = `${amount.balanceDisplay()} b${sett.asset}`;
+		const { tokenBalance, token } = amount;
+		const displayAmount = toFixedDecimals(unscale(tokenBalance, token.decimals), token.decimals);
+		const withdrawAmount = `${displayAmount} b${sett.asset}`;
 		const withdrawMessage = `Sign the transaction to unwrap ${withdrawAmount}`;
-		queueNotification(withdrawMessage, 'info');
+
+		await this.executeMethod(method, withdrawMessage, `Successfully withdrew ${withdrawAmount}`);
+	};
+
+	private async executeMethod(method: ContractSendMethod, infoMessage: string, successMessage: string) {
+		const { queueNotification } = this.store.uiState;
+		const { connectedAddress } = this.store.wallet;
 
 		const gasPrice = this.store.wallet.gasPrices[this.store.uiState.gasPrice];
 		const options = await getSendOptions(method, connectedAddress, gasPrice);
@@ -255,14 +205,12 @@ class ContractsStore {
 		let completed = false;
 		await method
 			.send(options)
-			/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
 			.on('transactionHash', (_hash: string) => {
-				queueNotification(`Withdraw submitted.`, 'info');
+				queueNotification(infoMessage, 'info', _hash);
 			})
-			/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-			.on('receipt', (_receipt: TransactionReceipt) => {
+			.on('receipt', () => {
 				if (!completed) {
-					queueNotification(`Successfully withdrew ${withdrawAmount}`, 'info');
+					queueNotification(successMessage, 'info');
 					completed = true;
 				}
 				this.store.user.updateBalances();
@@ -270,7 +218,7 @@ class ContractsStore {
 			.on('error', (error: Error) => {
 				queueNotification(error.message, 'error');
 			});
-	};
+	}
 }
 
 export default ContractsStore;
