@@ -38,7 +38,7 @@ export const SettDialog = ({ open = false, sett, onClose }: SettDialogProps): JS
 		};
 	}, []);
 
-	const Content = () => {
+	const Content = (): JSX.Element | null => {
 		if (!badgerSett) return null;
 
 		return (
