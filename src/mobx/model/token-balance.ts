@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js';
 import RewardsStore from 'mobx/stores/rewardsStore';
-import { inCurrency } from 'mobx/utils/helpers';
+import { inCurrency, minBalance } from 'mobx/utils/helpers';
 import { ETH_DEPLOY } from 'web3/config/eth-config';
 import { BadgerToken } from './badger-token';
 
@@ -16,7 +16,7 @@ export class TokenBalance {
 		this.token = token;
 		this.tokenBalance = balance;
 		this.price = price;
-		this.balance = this.formatBalance(store, token, balance);
+		this.balance = balance.dividedBy(Math.pow(10, token.decimals));
 	}
 
 	/**
@@ -54,10 +54,8 @@ export class TokenBalance {
 	 */
 	balanceDisplay(precision?: number): string {
 		const decimals = precision || this.token.decimals;
-		const min = `0.${'0'.repeat(decimals - 1)}1`;
-		const minBalance = this.store.balanceFromString(this.token.address, min);
-		if (this.balance.gt(0) && this.balance.lt(minBalance.balance)) {
-			return `< ${min}`;
+		if (this.balance.gt(0) && this.balance.lt(minBalance(decimals))) {
+			return `< 0.${'0'.repeat(decimals - 1)}1`;
 		}
 		return this.balance.toFixed(decimals);
 	}
@@ -76,15 +74,5 @@ export class TokenBalance {
 		const tokenBalance = this.tokenBalance.multipliedBy(scalar);
 		const price = this.price.dividedBy(scalar);
 		return new TokenBalance(this.store, this.token, tokenBalance, price);
-	}
-
-	private formatBalance(store: RewardsStore, token: BadgerToken, balance: BigNumber): BigNumber {
-		const decimalDivisor = Math.pow(10, token.decimals);
-		let divisor = new BigNumber(1);
-		const isDigg = token.address === ETH_DEPLOY.tokens.digg;
-		if (isDigg && store.badgerTree.sharesPerFragment) {
-			divisor = store.badgerTree.sharesPerFragment;
-		}
-		return balance.dividedBy(decimalDivisor).dividedBy(divisor);
 	}
 }

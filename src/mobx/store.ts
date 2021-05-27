@@ -46,9 +46,12 @@ export class RootStore {
 	}
 
 	async walletRefresh(): Promise<void> {
+		if (!this.wallet.connectedAddress) {
+			return;
+		}
+
 		const chain = this.wallet.network.name;
 		this.rewards.resetRewards();
-
 		const refreshData = [
 			this.setts.loadAssets(chain),
 			this.setts.loadPrices(chain),
@@ -62,7 +65,6 @@ export class RootStore {
 		await Promise.all(refreshData);
 
 		if (this.wallet.connectedAddress) {
-			this.user.updateBalances();
 			if (chain === NETWORK_LIST.ETH) {
 				this.ibBTCStore.init();
 				this.airdrops.fetchAirdrops();
