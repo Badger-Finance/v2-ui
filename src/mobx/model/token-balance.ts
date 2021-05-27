@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js';
 import RewardsStore from 'mobx/stores/rewardsStore';
-import { inCurrency } from 'mobx/utils/helpers';
+import { inCurrency, minBalance } from 'mobx/utils/helpers';
 import { ETH_DEPLOY } from 'web3/config/eth-config';
 import { BadgerToken } from './badger-token';
 
@@ -54,9 +54,8 @@ export class TokenBalance {
 	 */
 	balanceDisplay(precision?: number): string {
 		const decimals = precision || this.token.decimals;
-		const min = `0.${'0'.repeat(decimals - 1)}1`;
-		if (this.balance.gt(0) && this.balance.lt(new BigNumber(min))) {
-			return `< ${min}`;
+		if (this.balance.gt(0) && this.balance.lt(minBalance(decimals))) {
+			return `< 0.${'0'.repeat(decimals - 1)}1`;
 		}
 		return this.balance.toFixed(decimals);
 	}
