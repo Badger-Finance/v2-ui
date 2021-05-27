@@ -50,8 +50,9 @@ const useHasAvailableDepositLimit = (vaultToken: BadgerToken, amount = '0'): boo
 	if (!availableDeposit || !totalAvailableDeposit) return true;
 	const inputAmount = new BigNumber(amount);
 
+	// TODO: revisit this response on the api side to include decimals or something and avoid setting fixed amounts
 	return (
-		availableDeposit > 1e-8 &&
+		availableDeposit > 1e-8 && //  amounts being specific to wbtc
 		totalAvailableDeposit > 1e-8 &&
 		inputAmount.lte(availableDeposit) &&
 		inputAmount.lte(totalAvailableDeposit)
