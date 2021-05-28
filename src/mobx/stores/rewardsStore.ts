@@ -43,13 +43,13 @@ class RewardsStore {
 			const amount = new BigNumber(balance);
 			return new TokenBalance(this, mockToken(token), amount, new BigNumber(0));
 		}
-		let multiplier = new BigNumber(1);
+		let dvisor = new BigNumber(1);
 		const isDigg = badgerToken.address === ETH_DEPLOY.tokens.digg;
 		if (isDigg && this.badgerTree.sharesPerFragment) {
-			multiplier = this.badgerTree.sharesPerFragment;
+			dvisor = this.badgerTree.sharesPerFragment;
 		}
 		const scalar = new BigNumber(Math.pow(10, badgerToken.decimals));
-		const amount = new BigNumber(balance).multipliedBy(scalar).dividedBy(multiplier);
+		const amount = new BigNumber(balance).multipliedBy(scalar).dividedBy(dvisor);
 		return new TokenBalance(this, badgerToken, amount, tokenPrice);
 	}
 
