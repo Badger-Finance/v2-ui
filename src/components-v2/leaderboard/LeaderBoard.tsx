@@ -18,6 +18,7 @@ import { LeaderBoardCell } from './styles';
 import { StoreContext } from 'mobx/store-context';
 import { Loader } from 'components/Loader';
 import clsx from 'clsx';
+import { FLAGS } from 'config/constants';
 
 const useStyles = makeStyles((theme) => ({
 	leaderboardPaper: {
@@ -45,6 +46,13 @@ const useStyles = makeStyles((theme) => ({
 	viewButton: {
 		marginLeft: theme.spacing(4),
 		fontSize: '.8rem',
+		[theme.breakpoints.down('sm')]: {
+			fontSize: '.6rem',
+			marginLeft: theme.spacing(2),
+		},
+	},
+	viewButtonNoBoost: {
+		marginLeft: theme.spacing(6),
 		[theme.breakpoints.down('sm')]: {
 			marginLeft: theme.spacing(2),
 		},
@@ -77,6 +85,11 @@ const useStyles = makeStyles((theme) => ({
 			height: '15px',
 			width: '15px',
 			marginLeft: '-40px',
+		},
+	},
+	iconNoBoost: {
+		[theme.breakpoints.down('sm')]: {
+			marginLeft: '-60px',
 		},
 	},
 	rankContainer: {
@@ -154,9 +167,16 @@ const LeaderBoard = observer(() => {
 	return (
 		<Paper className={classes.leaderboardPaper}>
 			<TableContainer>
-				<Link onClick={viewRank} component="button" variant="body2" className={classes.viewButton}>
-					Show My Rank
-				</Link>
+				{accountDetails && (
+					<Link
+						onClick={viewRank}
+						component="button"
+						variant="body2"
+						className={clsx(classes.viewButton, !FLAGS.BOOST_V2 && classes.viewButtonNoBoost)}
+					>
+						Show My Rank
+					</Link>
+				)}
 				<Table size="small" className={classes.leaderboardTable}>
 					<TableHead className={classes.headerRow}>
 						<TableRow>
@@ -169,9 +189,11 @@ const LeaderBoard = observer(() => {
 							<LeaderBoardCell align="center" className={classes.headerText}>
 								Boost
 							</LeaderBoardCell>
-							<LeaderBoardCell align="center" className={classes.headerText}>
-								Stake Ratio
-							</LeaderBoardCell>
+							{FLAGS.BOOST_V2 && (
+								<LeaderBoardCell align="center" className={classes.headerText}>
+									Stake Ratio
+								</LeaderBoardCell>
+							)}
 						</TableRow>
 					</TableHead>
 					<TableBody>
@@ -188,7 +210,10 @@ const LeaderBoard = observer(() => {
 												{myRank && (
 													<img
 														src="./assets/icons/badger_saiyan.png"
-														className={classes.icon}
+														className={clsx(
+															classes.icon,
+															!FLAGS.BOOST_V2 && classes.iconNoBoost,
+														)}
 													/>
 												)}
 												{entry.rank}
@@ -206,12 +231,14 @@ const LeaderBoard = observer(() => {
 										>
 											{parseFloat(entry.boost).toFixed(boostDecimals)}
 										</LeaderBoardCell>
-										<LeaderBoardCell
-											align="center"
-											className={clsx(classes.bodyText, myRank && classes.userAddress)}
-										>
-											{parseFloat(entry.stakeRatio).toFixed(ratioDecimals)}
-										</LeaderBoardCell>
+										{FLAGS.BOOST_V2 && (
+											<LeaderBoardCell
+												align="center"
+												className={clsx(classes.bodyText, myRank && classes.userAddress)}
+											>
+												{parseFloat(entry.stakeRatio).toFixed(ratioDecimals)}
+											</LeaderBoardCell>
+										)}
 									</TableRow>
 								);
 							})}
