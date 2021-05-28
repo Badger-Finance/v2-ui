@@ -30,9 +30,9 @@ export class ZapPeak implements IbbtcVaultPeak {
 		return this.peakContract.methods.calcMint(this.referenceToken.address, toHex(amount));
 	}
 
-	getMintMethod(amount: BigNumber): ContractSendMethod {
-		// TODO: handle this special condition
-		return this.peakContract.methods.mint(this.referenceToken.poolId, 'idx', toHex(amount), 'fee');
+	async getMintMethod(amount: BigNumber): Promise<ContractSendMethod> {
+		const { poolId, idx } = await this.getCalcMintMethod(amount).call();
+		return this.peakContract.methods.mint(poolId, idx, toHex(amount), 'fee');
 	}
 
 	getCalcRedeemMethod(): ContractSendMethod {

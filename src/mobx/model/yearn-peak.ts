@@ -36,7 +36,7 @@ export class YearnPeak implements IbbtcVaultPeak {
 		return this.peakContract.methods.calcRedeem(toHex(amount));
 	}
 
-	getMintMethod(amount: BigNumber): ContractSendMethod {
+	async getMintMethod(amount: BigNumber): Promise<ContractSendMethod> {
 		const merkleProof = this.store.user.bouncerProof || [];
 		return this.peakContract.methods.mint(toHex(amount), merkleProof);
 	}

@@ -352,7 +352,7 @@ class IbBTCStore {
 
 	async mintBBTC(inToken: TokenModel, amount: BigNumber): Promise<void> {
 		const peak = IbbtcVaultPeakFactory.createIbbtcVaultPeakForToken(this.store, inToken);
-		const method = peak.getMintMethod(amount);
+		const method = await peak.getMintMethod(amount);
 		await this.executeMethod(method, 'Mint submitted', `Successfully minted ${this.ibBTC.symbol}`);
 	}
 
