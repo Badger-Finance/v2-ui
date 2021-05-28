@@ -8,6 +8,7 @@ const useStyles = makeStyles((theme) => ({
 		justifyContent: 'center',
 		alignItems: 'center',
 		marginTop: theme.spacing(10),
+		marginBottom: theme.spacing(10),
 		flexDirection: 'column',
 	},
 	loaderMessage: {
