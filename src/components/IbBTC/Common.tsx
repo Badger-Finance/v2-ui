@@ -1,6 +1,5 @@
 import { styled } from '@material-ui/core/styles';
-import { Grid, Typography } from '@material-ui/core';
-import { NumericInput } from '../../components-v2/common/NumericInput';
+import { Grid, InputBase, Typography } from '@material-ui/core';
 import red from '@material-ui/core/colors/red';
 
 export const SummaryGrid = styled(Grid)({
@@ -86,7 +85,7 @@ export const ErrorText = styled(Typography)({
 	wordBreak: 'break-all',
 });
 
-export const InputTokenAmount = styled(NumericInput)({
+export const InputTokenAmount = styled(InputBase)({
 	fontSize: '3rem',
 	fontWeight: 500,
 	'&::-webkit-input-placeholder, &::-moz-placeholder, &:-ms-input-placeholder, &:-moz-placeholder': {

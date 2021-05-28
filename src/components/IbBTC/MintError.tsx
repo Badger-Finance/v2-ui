@@ -1,10 +1,8 @@
 import React from 'react';
-import { observer } from 'mobx-react-lite';
 import BigNumber from 'bignumber.js';
 import { Grid, makeStyles, Tooltip } from '@material-ui/core';
 
 import { MintLimits, TokenModel } from 'mobx/model';
-import { StoreContext } from 'mobx/store-context';
 import { toFixedDecimals } from 'mobx/utils/helpers';
 import { ErrorText } from './Common';
 
@@ -21,15 +19,8 @@ const useStyles = makeStyles(() => ({
 	},
 }));
 
-export const MintError = observer(({ token, amount, limits, onUserLimitClick }: Props): JSX.Element | null => {
-	const store = React.useContext(StoreContext);
+export const MintError = ({ token, amount, limits, onUserLimitClick }: Props): JSX.Element | null => {
 	const classes = useStyles();
-	const { bouncerProof } = store.user;
-
-	if (!bouncerProof) {
-		return null;
-	}
-
 	const { userLimit, individualLimit, globalLimit, allUsersLimit } = limits;
 
 	const UserLimit = () => (
@@ -85,4 +76,4 @@ export const MintError = observer(({ token, amount, limits, onUserLimitClick }: 
 	if (amount.gt(allUsersLimit)) return <GlobalLimit />;
 
 	return null;
-});
+};

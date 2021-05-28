@@ -88,3 +88,6 @@ export const CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS = '0x93054188d876f558f4a66B2
 export const RENVM_GATEWAY_ADDRESS = '0xe4b679400F0f267212D5D812B95f58C83243EE71';
 export const RENVM_NETWORK = 'mainnet';
 export const DEBUG = process.env.NODE_ENV !== 'production';
+
+// time constants
+export const ONE_MIN_MS = 60 * 1000;

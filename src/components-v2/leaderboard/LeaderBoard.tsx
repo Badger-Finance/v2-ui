@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 		justifyContent: 'center',
 		alignItems: 'center',
 		[theme.breakpoints.down('sm')]: {
-			overflow: 'auto',
+			marginTop: theme.spacing(2),
 		},
 	},
 	paginationButton: {
@@ -41,10 +41,10 @@ const useStyles = makeStyles((theme) => ({
 		marginRight: theme.spacing(1),
 	},
 	viewButton: {
-		marginLeft: theme.spacing(6),
+		marginLeft: theme.spacing(4),
 		fontSize: '.8rem',
 		[theme.breakpoints.down('sm')]: {
-			fontSize: '.6rem',
+			marginLeft: theme.spacing(2),
 		},
 	},
 	headerRow: {
@@ -54,7 +54,8 @@ const useStyles = makeStyles((theme) => ({
 		fontSize: '1.3rem',
 		paddingBottom: theme.spacing(2),
 		[theme.breakpoints.down('sm')]: {
-			fontSize: '1rem',
+			fontSize: '0.8rem',
+			paddingBottom: theme.spacing(0),
 		},
 	},
 	bodyText: {
@@ -90,10 +91,12 @@ const LeaderBoard = observer(() => {
 	const { accountDetails } = user;
 	const { queueNotification } = uiState;
 
-	const _leaderboard = () => {
+	const pagination = (): JSX.Element | null => {
 		const mobileBreakpoint = window.innerWidth < 960;
 
-		if (!leaderBoard.data) return <></>;
+		if (!leaderBoard.data) {
+			return null;
+		}
 
 		if (mobileBreakpoint) {
 			return (
@@ -155,6 +158,9 @@ const LeaderBoard = observer(() => {
 							<LeaderBoardCell align="center" className={classes.headerText}>
 								Boost
 							</LeaderBoardCell>
+							<LeaderBoardCell align="center" className={classes.headerText}>
+								Stake Ratio
+							</LeaderBoardCell>
 						</TableRow>
 					</TableHead>
 					<TableBody>
@@ -189,6 +195,12 @@ const LeaderBoard = observer(() => {
 										>
 											{parseFloat(entry.boost).toFixed(10)}
 										</LeaderBoardCell>
+										<LeaderBoardCell
+											align="center"
+											className={clsx(classes.bodyText, myRank && classes.userAddress)}
+										>
+											{parseFloat(entry.stakeRatio).toFixed(5)}
+										</LeaderBoardCell>
 									</TableRow>
 								);
 							})}
@@ -196,7 +208,7 @@ const LeaderBoard = observer(() => {
 				</Table>
 			</TableContainer>
 
-			{leaderBoard.data && _leaderboard()}
+			{leaderBoard.data && pagination()}
 			{!leaderBoard.data && (
 				<div className={classes.pageContainer}>
 					<Loader message="Loading LeaderBoard..." />
