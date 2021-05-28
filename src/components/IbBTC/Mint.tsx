@@ -8,12 +8,13 @@ import { BigNumber } from 'bignumber.js';
 import { Token, Tokens } from './Tokens';
 import { DownArrow } from './DownArrow';
 
-import { MintLimits, TokenModel } from 'mobx/model';
+import { TokenModel } from 'mobx/model';
 import { StoreContext } from 'mobx/store-context';
 import { toFixedDecimals } from 'mobx/utils/helpers';
 import { useConnectWallet } from 'mobx/utils/hooks';
 import {
 	EndAlignText,
+	InputTokenAmount,
 	BorderedFocusableContainerGrid,
 	OutputContentGrid,
 	SummaryGrid,
@@ -22,9 +23,7 @@ import {
 	OutputBalanceText,
 	OutputAmountText,
 	OutputTokenGrid,
-	InputTokenAmount,
 } from './Common';
-import { MintError } from './MintError';
 import { useNumericInput } from '../../utils/useNumericInput';
 
 type InputAmount = {
@@ -62,8 +61,6 @@ export const Mint = observer(
 		const [selectedToken, setSelectedToken] = useState(tokens[0]);
 		const [inputAmount, setInputAmount] = useState<InputAmount>();
 		const [outputAmount, setOutputAmount] = useState<string>();
-		const [mintLimits, setMintLimits] = useState<MintLimits>();
-		const [isValidMint, setIsValidMint] = useState(false);
 		const [conversionRate, setConversionRate] = useState<string>();
 		const [fee, setFee] = useState('0.000');
 		const [totalMint, setTotalMint] = useState('0.000');
@@ -85,12 +82,7 @@ export const Mint = observer(
 
 		const calculateMintInformation = async (settTokenAmount: BigNumber, settToken: TokenModel): Promise<void> => {
 			const { bBTC, fee } = await store.ibBTCStore.calcMintAmount(settToken, settTokenAmount);
-			const mintLimits = await store.ibBTCStore.getMintLimit(settToken);
-			const isValid = store.ibBTCStore.isValidMint(settTokenAmount, mintLimits);
-
 			setMintInformation(settToken.unscale(settTokenAmount), ibBTC.unscale(bBTC), ibBTC.unscale(fee));
-			setMintLimits(mintLimits);
-			setIsValidMint(isValid);
 		};
 
 		const handleInputChange = (change: string) => {
@@ -122,14 +114,6 @@ export const Mint = observer(
 			[selectedToken],
 		);
 
-		const handleLimitClick = async (settLimit: BigNumber): Promise<void> => {
-			setInputAmount({
-				displayValue: selectedToken.unscale(settLimit).toFixed(6, BigNumber.ROUND_HALF_FLOOR),
-				actualValue: settLimit,
-			});
-			await calculateMintInformation(settLimit, selectedToken);
-		};
-
 		const handleApplyMaxBalance = async (): Promise<void> => {
 			if (selectedToken.balance.gt(ZERO)) {
 				setInputAmount({
@@ -142,7 +126,6 @@ export const Mint = observer(
 
 		const handleTokenChange = async (token: TokenModel): Promise<void> => {
 			setSelectedToken(token);
-			setMintLimits(undefined);
 			if (inputAmount?.displayValue) {
 				setInputAmount({
 					...inputAmount,
@@ -209,14 +192,6 @@ export const Mint = observer(
 				</Grid>
 				<Grid item xs={12}>
 					<SummaryGrid>
-						{!isValidMint && inputAmount && mintLimits && (
-							<MintError
-								amount={inputAmount.actualValue}
-								limits={mintLimits}
-								token={selectedToken}
-								onUserLimitClick={handleLimitClick}
-							/>
-						)}
 						<Grid item xs={12} container justify="space-between">
 							<Grid item xs={6}>
 								<Typography variant="subtitle1">Current Conversion Rate: </Typography>
@@ -265,7 +240,7 @@ export const Mint = observer(
 							variant="contained"
 							color="primary"
 							onClick={handleMintClick}
-							disabled={!inputAmount || !outputAmount || !isValidMint}
+							disabled={!inputAmount || !outputAmount}
 						>
 							MINT
 						</Button>
