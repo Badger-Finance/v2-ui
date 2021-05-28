@@ -90,6 +90,7 @@ export default class SettStore {
 				this.loadAssets(network.name),
 			]);
 			this.initialized = true;
+			this.store.user.refresh();
 		}
 	}
 
@@ -116,8 +117,6 @@ export default class SettStore {
 					...this.priceCache,
 					...prices,
 				};
-				this.initialized = true;
-				this.store.user.refresh();
 			}
 		},
 	);
