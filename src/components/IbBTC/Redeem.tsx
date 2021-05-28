@@ -72,11 +72,11 @@ export const Redeem = observer((): any => {
 	const classes = useStyles();
 
 	const {
-		ibBTCStore: { tokens, ibBTC, redeemFeePercent },
+		ibBTCStore: { redeemOptions, ibBTC, redeemFeePercent },
 		wallet: { connectedAddress },
 	} = store;
 
-	const [selectedToken, setSelectedToken] = useState(tokens[0]);
+	const [selectedToken, setSelectedToken] = useState(redeemOptions[0]);
 	const [inputAmount, setInputAmount] = useState<InputAmount>();
 	const [outputAmount, setOutputAmount] = useState<string>();
 	const [conversionRate, setConversionRate] = useState<string>();
@@ -221,7 +221,7 @@ export const Redeem = observer((): any => {
 						<OutputAmountText variant="h1">{outputAmount || '0.000'}</OutputAmountText>
 					</Grid>
 					<OutputTokenGrid item container xs={12} sm={5} md={12} lg={5}>
-						<Tokens tokens={tokens} selected={selectedToken} onTokenSelect={handleTokenChange} />
+						<Tokens tokens={redeemOptions} selected={selectedToken} onTokenSelect={handleTokenChange} />
 					</OutputTokenGrid>
 				</OutputContentGrid>
 			</Grid>

@@ -54,11 +54,11 @@ export const Mint = observer(
 		const store = useContext(StoreContext);
 
 		const {
-			ibBTCStore: { tokens, ibBTC, mintFeePercent },
+			ibBTCStore: { ibBTC, mintFeePercent, mintOptions },
 			wallet: { connectedAddress },
 		} = store;
 
-		const [selectedToken, setSelectedToken] = useState(tokens[0]);
+		const [selectedToken, setSelectedToken] = useState(mintOptions[0]);
 		const [inputAmount, setInputAmount] = useState<InputAmount>();
 		const [outputAmount, setOutputAmount] = useState<string>();
 		const [conversionRate, setConversionRate] = useState<string>();
@@ -167,7 +167,11 @@ export const Mint = observer(
 								</Button>
 							</Grid>
 							<Grid item>
-								<Tokens tokens={tokens} selected={selectedToken} onTokenSelect={handleTokenChange} />
+								<Tokens
+									tokens={mintOptions}
+									selected={selectedToken}
+									onTokenSelect={handleTokenChange}
+								/>
 							</Grid>
 						</InputTokenActionButtonsGrid>
 					</BorderedFocusableContainerGrid>

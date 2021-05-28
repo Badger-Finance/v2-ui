@@ -29,8 +29,6 @@ class IbBTCStore {
 	private config: typeof addresses.mainnet;
 
 	public tokens: Array<TokenModel> = [];
-	public mintOptions: TokenModel[] = [];
-	public redeemOptions: TokenModel[] = [];
 	public ibBTC: TokenModel;
 	public apyUsingLastDay?: string | null;
 	public apyUsingLastWeek?: string | null;
@@ -48,6 +46,8 @@ class IbBTCStore {
 			new TokenModel(this.store, token_config['bcrvRenWBTC']),
 			new TokenModel(this.store, token_config['btbtc/sbtcCrv']),
 			new TokenModel(this.store, token_config['byvWBTC']),
+			new TokenModel(this.store, token_config['renBTC']),
+			new TokenModel(this.store, token_config['WBTC']),
 		];
 		this.mintFeePercent = new BigNumber(0);
 		this.redeemFeePercent = new BigNumber(0);
@@ -66,6 +66,16 @@ class IbBTCStore {
 		});
 
 		if (!!this.store.wallet.connectedAddress) this.init();
+	}
+
+	// just to have the same pattern as redeem options, currently all peaks can mint
+	get mintOptions(): TokenModel[] {
+		return this.tokens;
+	}
+
+	// currently the zap contract does not support redeem
+	get redeemOptions(): TokenModel[] {
+		return this.tokens.filter(({ symbol }) => !this.config.contracts.ZapPeak.supportedTokens.includes(symbol));
 	}
 
 	init(): void {
@@ -135,12 +145,9 @@ class IbBTCStore {
 			const { provider } = this.store.wallet;
 			if (!provider) return;
 
-			// Fetch mintRate, redeemRate and set to respected token
-			const tokensRateInformation = this.tokens.map((token) =>
-				Promise.all([this.fetchMintRate(token), this.fetchRedeemRate(token)]),
-			);
-
-			await Promise.all(tokensRateInformation);
+			const fetchMintRates = this.mintOptions.map((token) => this.fetchMintRate(token));
+			const fetchRedeemRates = this.redeemOptions.map((token) => this.fetchRedeemRate(token));
+			await Promise.all([...fetchMintRates, ...fetchRedeemRates]);
 		},
 	);
 
