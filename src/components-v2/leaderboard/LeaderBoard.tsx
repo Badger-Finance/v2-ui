@@ -9,6 +9,8 @@ import {
 	TablePagination,
 	Paper,
 	Link,
+	useTheme,
+	useMediaQuery,
 } from '@material-ui/core';
 import { Pagination } from '@material-ui/lab';
 import { observer } from 'mobx-react-lite';
@@ -74,7 +76,7 @@ const useStyles = makeStyles((theme) => ({
 		[theme.breakpoints.down('sm')]: {
 			height: '15px',
 			width: '15px',
-			marginLeft: '-60px',
+			marginLeft: '-40px',
 		},
 	},
 	rankContainer: {
@@ -82,9 +84,16 @@ const useStyles = makeStyles((theme) => ({
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
+	leaderboardTable: {
+		[theme.breakpoints.down('sm')]: {
+			marginLeft: theme.spacing(1),
+		},
+	},
 }));
 
 const LeaderBoard = observer(() => {
+	const theme = useTheme();
+	const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 	const classes = useStyles();
 	const store = useContext(StoreContext);
 	const { leaderBoard, user, uiState } = store;
@@ -140,13 +149,15 @@ const LeaderBoard = observer(() => {
 		leaderBoard.setPage(Math.ceil(accountDetails.boostRank / leaderBoard.data.size) - 1);
 	};
 
+	const boostDecimals = isMobile ? 5 : 10;
+	const ratioDecimals = isMobile ? 2 : 5;
 	return (
 		<Paper className={classes.leaderboardPaper}>
 			<TableContainer>
 				<Link onClick={viewRank} component="button" variant="body2" className={classes.viewButton}>
 					Show My Rank
 				</Link>
-				<Table size="small">
+				<Table size="small" className={classes.leaderboardTable}>
 					<TableHead className={classes.headerRow}>
 						<TableRow>
 							<LeaderBoardCell align="center" className={classes.headerText}>
@@ -193,13 +204,13 @@ const LeaderBoard = observer(() => {
 											align="center"
 											className={clsx(classes.bodyText, myRank && classes.userAddress)}
 										>
-											{parseFloat(entry.boost).toFixed(10)}
+											{parseFloat(entry.boost).toFixed(boostDecimals)}
 										</LeaderBoardCell>
 										<LeaderBoardCell
 											align="center"
 											className={clsx(classes.bodyText, myRank && classes.userAddress)}
 										>
-											{parseFloat(entry.stakeRatio).toFixed(5)}
+											{parseFloat(entry.stakeRatio).toFixed(ratioDecimals)}
 										</LeaderBoardCell>
 									</TableRow>
 								);
