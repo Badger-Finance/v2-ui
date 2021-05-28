@@ -5,6 +5,7 @@ import { PriceSummary, Sett, ProtocolSummary, SettMap } from 'mobx/model';
 import { NETWORK_LIST } from 'config/constants';
 import Web3 from 'web3';
 import BigNumber from 'bignumber.js';
+import WalletStore from './walletStore';
 
 export default class SettStore {
 	private store!: RootStore;
@@ -15,6 +16,7 @@ export default class SettStore {
 	private experimentalMapCache: { [chain: string]: SettMap | undefined | null };
 	private protocolSummaryCache: { [chain: string]: ProtocolSummary | undefined | null };
 	private priceCache: PriceSummary;
+	public initialized: boolean;
 
 	constructor(store: RootStore) {
 		this.store = store;
@@ -33,11 +35,20 @@ export default class SettStore {
 			}
 		});
 
+		/**
+		 * Update user store on change of network.
+		 */
+		observe(this.store.wallet as WalletStore, 'network', () => {
+			this.initialized = false;
+			this.refresh();
+		});
+
 		this.settCache = {};
 		this.settMapCache = {};
 		this.experimentalMapCache = {};
 		this.protocolSummaryCache = {};
 		this.priceCache = {};
+		this.initialized = false;
 
 		this.refresh();
 	}
@@ -70,12 +81,16 @@ export default class SettStore {
 		return settMap[Web3.utils.toChecksumAddress(address)];
 	}
 
-	private refresh(): void {
+	private async refresh(): Promise<void> {
 		const network = this.store.wallet.network;
 		if (network) {
-			this.loadSetts(network.name);
-			this.loadPrices(network.name);
-			this.loadAssets(network.name);
+			await Promise.all([
+				this.loadSetts(network.name),
+				this.loadPrices(network.name),
+				this.loadAssets(network.name),
+			]);
+			this.initialized = true;
+			this.store.user.refresh();
 		}
 	}
 

@@ -106,8 +106,9 @@ const SettListItem = observer(
 		const { user } = store;
 		const { network } = store.wallet;
 		const isNewVault = !!network.newVaults[sett.vaultToken];
+		const divisor = period === 'month' ? 12 : 1;
 
-		const getRoi = (sett: Sett, period: string): RoiData => {
+		const getRoi = (sett: Sett): RoiData => {
 			const getToolTip = (sett: Sett, divisor: number): JSX.Element => {
 				return (
 					<>
@@ -138,7 +139,6 @@ const SettListItem = observer(
 					tooltip: getNewVaultToolTip(),
 				};
 			} else if (sett && sett.apr) {
-				const divisor = period === 'month' ? 12 : 1;
 				let apr;
 				if (sett.boostable && sett.minApr && sett.maxApr) {
 					apr = `${(sett.minApr / divisor).toFixed(2)}% - ${(sett.maxApr / divisor).toFixed(2)}%`;
@@ -151,15 +151,16 @@ const SettListItem = observer(
 			}
 		};
 
-		const { apr, tooltip } = getRoi(sett, period);
+		const { apr, tooltip } = getRoi(sett);
 		const displayValue = balanceValue ? balanceValue : usdToCurrency(new BigNumber(sett.value), currency);
 
 		let userApr: number | undefined = undefined;
 		const multiplier = user.accountDetails?.multipliers[sett.vaultToken];
 		if (multiplier) {
-			userApr = sett.sources
-				.map((source) => (source.boostable ? source.apr * multiplier : source.apr))
-				.reduce((total, apr) => (total += apr), 0);
+			userApr =
+				sett.sources
+					.map((source) => (source.boostable ? source.apr * multiplier : source.apr))
+					.reduce((total, apr) => (total += apr), 0) / divisor;
 		}
 
 		return network.isWhitelisted[sett.vaultToken] && !user.viewSettShop() ? (
