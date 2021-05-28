@@ -49,6 +49,7 @@ export class TokenModel extends Contract {
 	public decimals: number;
 	public balance: BigNumber;
 	public poolId?: number | undefined;
+	public curvePoolIndex?: number | undefined; // curve pool token index
 	public mintRate: string;
 	public redeemRate: string;
 
