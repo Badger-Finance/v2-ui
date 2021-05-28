@@ -18,6 +18,7 @@ import { LeaderBoardCell } from './styles';
 import { StoreContext } from 'mobx/store-context';
 import { Loader } from 'components/Loader';
 import clsx from 'clsx';
+import { FLAGS } from 'config/constants';
 
 const useStyles = makeStyles((theme) => ({
 	leaderboardPaper: {
@@ -169,9 +170,11 @@ const LeaderBoard = observer(() => {
 							<LeaderBoardCell align="center" className={classes.headerText}>
 								Boost
 							</LeaderBoardCell>
-							<LeaderBoardCell align="center" className={classes.headerText}>
-								Stake Ratio
-							</LeaderBoardCell>
+							{FLAGS.BOOST_V2 && (
+								<LeaderBoardCell align="center" className={classes.headerText}>
+									Stake Ratio
+								</LeaderBoardCell>
+							)}
 						</TableRow>
 					</TableHead>
 					<TableBody>
@@ -206,12 +209,14 @@ const LeaderBoard = observer(() => {
 										>
 											{parseFloat(entry.boost).toFixed(boostDecimals)}
 										</LeaderBoardCell>
-										<LeaderBoardCell
-											align="center"
-											className={clsx(classes.bodyText, myRank && classes.userAddress)}
-										>
-											{parseFloat(entry.stakeRatio).toFixed(ratioDecimals)}
-										</LeaderBoardCell>
+										{FLAGS.BOOST_V2 && (
+											<LeaderBoardCell
+												align="center"
+												className={clsx(classes.bodyText, myRank && classes.userAddress)}
+											>
+												{parseFloat(entry.stakeRatio).toFixed(ratioDecimals)}
+											</LeaderBoardCell>
+										)}
 									</TableRow>
 								);
 							})}
