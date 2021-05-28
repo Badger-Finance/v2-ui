@@ -286,11 +286,8 @@ class IbBTCStore {
 			});
 	}
 
-	async mint(inToken: TokenModel, amount: BigNumber, slippage?: BigNumber): Promise<void> {
+	async mint(inToken: TokenModel, amount: BigNumber): Promise<void> {
 		const { setTxStatus, queueNotification } = this.store.uiState;
-
-		if (!this.isValidAmount(inToken, amount, slippage)) return;
-
 		try {
 			const peak = IbbtcVaultPeakFactory.createIbbtcVaultPeakForToken(this.store, inToken);
 			const allowance = await this.getAllowance(inToken, peak.address);
@@ -310,8 +307,6 @@ class IbBTCStore {
 		}
 	}
 	async redeem(outToken: TokenModel, amount: BigNumber): Promise<void> {
-		if (!this.isValidAmount(this.ibBTC, amount)) return;
-
 		try {
 			await this.redeemBBTC(outToken, amount);
 		} catch (error) {
