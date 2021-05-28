@@ -47,6 +47,13 @@ const useStyles = makeStyles((theme) => ({
 		marginLeft: theme.spacing(4),
 		fontSize: '.8rem',
 		[theme.breakpoints.down('sm')]: {
+			fontSize: '.6rem',
+			marginLeft: theme.spacing(2),
+		},
+	},
+	viewButtonNoBoost: {
+		marginLeft: theme.spacing(6),
+		[theme.breakpoints.down('sm')]: {
 			marginLeft: theme.spacing(2),
 		},
 	},
@@ -78,6 +85,11 @@ const useStyles = makeStyles((theme) => ({
 			height: '15px',
 			width: '15px',
 			marginLeft: '-40px',
+		},
+	},
+	iconNoBoost: {
+		[theme.breakpoints.down('sm')]: {
+			marginLeft: '-60px',
 		},
 	},
 	rankContainer: {
@@ -156,7 +168,12 @@ const LeaderBoard = observer(() => {
 		<Paper className={classes.leaderboardPaper}>
 			<TableContainer>
 				{accountDetails && (
-					<Link onClick={viewRank} component="button" variant="body2" className={classes.viewButton}>
+					<Link
+						onClick={viewRank}
+						component="button"
+						variant="body2"
+						className={clsx(classes.viewButton, !FLAGS.BOOST_V2 && classes.viewButtonNoBoost)}
+					>
 						Show My Rank
 					</Link>
 				)}
@@ -193,7 +210,10 @@ const LeaderBoard = observer(() => {
 												{myRank && (
 													<img
 														src="./assets/icons/badger_saiyan.png"
-														className={classes.icon}
+														className={clsx(
+															classes.icon,
+															!FLAGS.BOOST_V2 && classes.iconNoBoost,
+														)}
 													/>
 												)}
 												{entry.rank}
