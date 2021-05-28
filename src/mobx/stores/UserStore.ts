@@ -64,7 +64,6 @@ export default class UserStore {
 					this.loadBouncerProof(address);
 					this.loadAccountDetails(address, network.name);
 					this.loadClaimProof(address);
-					this.refresh();
 				}
 			}
 		});
@@ -81,7 +80,7 @@ export default class UserStore {
 
 	/* State Mutation Functions */
 
-	private refresh(): void {
+	refresh(): void {
 		const provider = this.store.wallet.provider;
 		if (provider) {
 			const newOptions = {
@@ -146,9 +145,14 @@ export default class UserStore {
 	updateBalances = action(
 		async (cached?: boolean): Promise<void> => {
 			const { connectedAddress, network } = this.store.wallet;
+			const { setts } = this.store;
 
-			// only allow one set of calls at a time, blocked by a loading guard
-			if (!connectedAddress || this.loadingBalances) {
+			/**
+			 * only allow one set of calls at a time, blocked by a loading guard
+			 * do not update balances without prices available, price updates will trigger
+			 * balance display updates
+			 */
+			if (!connectedAddress || !setts.initialized || this.loadingBalances) {
 				return;
 			}
 			this.loadingBalances = true;
