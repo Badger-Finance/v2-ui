@@ -155,9 +155,11 @@ const LeaderBoard = observer(() => {
 	return (
 		<Paper className={classes.leaderboardPaper}>
 			<TableContainer>
-				<Link onClick={viewRank} component="button" variant="body2" className={classes.viewButton}>
-					Show My Rank
-				</Link>
+				{accountDetails && (
+					<Link onClick={viewRank} component="button" variant="body2" className={classes.viewButton}>
+						Show My Rank
+					</Link>
+				)}
 				<Table size="small" className={classes.leaderboardTable}>
 					<TableHead className={classes.headerRow}>
 						<TableRow>
