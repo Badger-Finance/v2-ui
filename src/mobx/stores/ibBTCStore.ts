@@ -181,7 +181,11 @@ class IbBTCStore {
 		this.ibBTC.balance = ZERO;
 	});
 
-	isValidAmount(amount: BigNumber, token: TokenModel): boolean {
+	isZapToken(token: TokenModel): boolean {
+		return this.config.contracts.ZapPeak.supportedTokens.includes(token.symbol);
+	}
+
+	isValidAmount(token: TokenModel, amount: BigNumber, slippage?: BigNumber): boolean {
 		const { queueNotification } = this.store.uiState;
 
 		if (!amount || amount.isNaN() || amount.lte(0)) {
@@ -191,6 +195,11 @@ class IbBTCStore {
 
 		if (amount.gt(token.balance)) {
 			queueNotification(`You have insufficient balance of ${token.symbol}`, 'error');
+			return false;
+		}
+
+		if (this.isZapToken(token) && (slippage?.isNaN() || slippage?.lte(0))) {
+			queueNotification('Please enter a valid slippage value', 'error');
 			return false;
 		}
 
@@ -277,10 +286,10 @@ class IbBTCStore {
 			});
 	}
 
-	async mint(inToken: TokenModel, amount: BigNumber): Promise<void> {
+	async mint(inToken: TokenModel, amount: BigNumber, slippage?: BigNumber): Promise<void> {
 		const { setTxStatus, queueNotification } = this.store.uiState;
 
-		if (!this.isValidAmount(amount, inToken)) return;
+		if (!this.isValidAmount(inToken, amount, slippage)) return;
 
 		try {
 			const peak = IbbtcVaultPeakFactory.createIbbtcVaultPeakForToken(this.store, inToken);
@@ -301,7 +310,7 @@ class IbBTCStore {
 		}
 	}
 	async redeem(outToken: TokenModel, amount: BigNumber): Promise<void> {
-		if (!this.isValidAmount(amount, this.ibBTC)) return;
+		if (!this.isValidAmount(this.ibBTC, amount)) return;
 
 		try {
 			await this.redeemBBTC(outToken, amount);
