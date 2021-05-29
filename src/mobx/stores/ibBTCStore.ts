@@ -299,7 +299,7 @@ class IbBTCStore {
 			await this.mintBBTC(inToken, amount, slippage);
 		} catch (error) {
 			process.env.NODE_ENV !== 'production' && console.error(error);
-			queueNotification(`There was an error minting ${inToken.symbol}. Please try again later.`, 'error');
+			queueNotification(`There was an error minting ${this.ibBTC.symbol}. Please try again later.`, 'error');
 		}
 	}
 	async redeem(outToken: TokenModel, amount: BigNumber): Promise<void> {
