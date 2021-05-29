@@ -62,13 +62,13 @@ class RewardsStore {
 			const amount = new BigNumber(balance);
 			return new TokenBalance(this, mockToken(token), amount, new BigNumber(0));
 		}
-		let divisor = new BigNumber(1);
+		let multiplier = new BigNumber(1);
 		const isDigg = badgerToken.address === ETH_DEPLOY.tokens.digg;
 		if (isDigg && this.badgerTree.sharesPerFragment) {
-			divisor = this.badgerTree.sharesPerFragment;
+			multiplier = this.badgerTree.sharesPerFragment;
 		}
 		const scalar = new BigNumber(Math.pow(10, badgerToken.decimals));
-		const amount = new BigNumber(balance).multipliedBy(scalar).dividedBy(divisor);
+		const amount = new BigNumber(balance).multipliedBy(scalar).multipliedBy(multiplier);
 		return new TokenBalance(this, badgerToken, amount, tokenPrice);
 	}
 
@@ -146,7 +146,7 @@ class RewardsStore {
 		async (claimMap: ClaimMap | undefined): Promise<void> => {
 			const { proof, claimableAmounts } = this.badgerTree;
 			const { provider, gasPrices, connectedAddress } = this.store.wallet;
-			const { queueNotification, gasPrice, setTxStatus } = this.store.uiState;
+			const { queueNotification, gasPrice } = this.store.uiState;
 
 			if (!connectedAddress || !proof || !claimableAmounts || !claimMap) {
 				queueNotification(`Error retrieving merkle proof.`, 'error');
@@ -200,7 +200,6 @@ class RewardsStore {
 				})
 				.on('error', (error: Error) => {
 					queueNotification(error.message, 'error');
-					setTxStatus('error');
 				});
 		},
 	);

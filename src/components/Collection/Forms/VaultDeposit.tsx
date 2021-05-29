@@ -88,9 +88,11 @@ export const VaultDeposit = observer((props: SettModalProps) => {
 	};
 
 	const handleSubmit = () => {
-		if (!amount) return;
+		if (!amount) {
+			return;
+		}
 		const depositBalance = TokenBalance.fromBalance(userBalance, amount);
-		contracts.deposit(sett, badgerSett, userBalance, depositBalance).then();
+		contracts.deposit(sett, badgerSett, userBalance, depositBalance);
 	};
 
 	return (

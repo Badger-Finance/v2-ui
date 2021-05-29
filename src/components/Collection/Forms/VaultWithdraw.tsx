@@ -41,9 +41,11 @@ export const VaultWithdraw = observer((props: SettModalProps) => {
 	};
 
 	const handleSubmit = () => {
-		if (!amount) return;
+		if (!amount) {
+			return;
+		}
 		const withdrawBalance = TokenBalance.fromBalance(userBalance, amount);
-		contracts.withdraw(sett, badgerSett, userBalance, withdrawBalance).then();
+		contracts.withdraw(sett, badgerSett, userBalance, withdrawBalance);
 	};
 
 	return (
