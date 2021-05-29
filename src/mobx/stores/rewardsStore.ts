@@ -18,18 +18,18 @@ import { mockToken } from 'mobx/model/badger-token';
 /**
  * TODO: Clean up reward store in favor of a more unified integration w/ user store.
  * Create a more generalized ProtocolStore - holding token information surrounding Badger.
- * 
+ *
  * i.e.
  *   - Digg information (sharesPerFragment, rebase data etc.)
  *   - Badger tree information (current cycle, time since last cycle)
  *   - Token information (token symbol, decimals, name)
  *   - etc.
- * 
- * This may overlap some with RebaseStore - this would be a good opporunity to rewrite that 
+ *
+ * This may overlap some with RebaseStore - this would be a good opporunity to rewrite that
  * store to achieve:
  *   - more readble code
  *   - more unified data processing
- * 
+ *
  * This may involve creating a more generalized way of handling web3 providers and batch call.
  * Currently, batch call is used in multiple stores - ideally this could be routed via single web3
  * provider, or batch call object to standardize configurations.
@@ -95,7 +95,7 @@ class RewardsStore {
 		return this.badgerTree.sharesPerFragment;
 	};
 
-	resetRewards = action(async (): Promise<void> => {
+	resetRewards = action((): void => {
 		this.badgerTree = RewardsStore.defaultTree;
 	});
 
