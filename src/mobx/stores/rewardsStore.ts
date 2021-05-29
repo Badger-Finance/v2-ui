@@ -9,7 +9,6 @@ import BigNumber from 'bignumber.js';
 import { BadgerTree, TreeClaimData } from 'mobx/model';
 import { ClaimMap } from '../../components-v2/landing/RewardsModal';
 import { reduceClaims, reduceTimeSinceLastCycle } from 'mobx/reducers/statsReducers';
-import { TransactionReceipt } from 'web3-core';
 import { getSendOptions } from 'mobx/utils/web3';
 import { getToken } from '../../web3/config/token-config';
 import { TokenBalance } from 'mobx/model/token-balance';
@@ -44,23 +43,29 @@ class RewardsStore {
 			const amount = new BigNumber(balance);
 			return new TokenBalance(this, mockToken(token), amount, new BigNumber(0));
 		}
-		let multiplier = new BigNumber(1);
+		let divisor = new BigNumber(1);
 		const isDigg = badgerToken.address === ETH_DEPLOY.tokens.digg;
 		if (isDigg && this.badgerTree.sharesPerFragment) {
-			multiplier = this.badgerTree.sharesPerFragment;
+			divisor = this.badgerTree.sharesPerFragment;
 		}
 		const scalar = new BigNumber(Math.pow(10, badgerToken.decimals));
-		const amount = new BigNumber(balance).multipliedBy(scalar).multipliedBy(multiplier);
+		const amount = new BigNumber(balance).multipliedBy(scalar).dividedBy(divisor);
 		return new TokenBalance(this, badgerToken, amount, tokenPrice);
 	}
 
 	tokenBalance(token: string, amount: BigNumber): TokenBalance {
 		const badgerToken = getToken(token);
 		const tokenPrice = this.store.setts.getPrice(token);
-		if (!badgerToken || !tokenPrice) {
-			return new TokenBalance(this, mockToken(token), amount, new BigNumber(0));
+		let scalar = new BigNumber(1);
+		const isDigg = token === ETH_DEPLOY.tokens.digg;
+		if (isDigg && this.badgerTree.sharesPerFragment) {
+			scalar = this.badgerTree.sharesPerFragment;
 		}
-		return new TokenBalance(this, badgerToken, amount, tokenPrice);
+		const balance = amount.dividedBy(scalar);
+		if (!badgerToken || !tokenPrice) {
+			return new TokenBalance(this, mockToken(token), balance, new BigNumber(0));
+		}
+		return new TokenBalance(this, badgerToken, balance, tokenPrice);
 	}
 
 	mockBalance(token: string): TokenBalance {
@@ -164,13 +169,10 @@ class RewardsStore {
 			const options = await getSendOptions(method, connectedAddress, price);
 			await method
 				.send(options)
-				/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
 				.on('transactionHash', (_hash: string) => {
-					// TODO: Hash seems to do nothing - investigate this?
-					queueNotification(`Claim submitted.`, 'info');
+					queueNotification(`Claim submitted.`, 'info', _hash);
 				})
-				/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-				.on('receipt', (_receipt: TransactionReceipt) => {
+				.on('receipt', () => {
 					queueNotification(`Rewards claimed.`, 'success');
 					this.fetchSettRewards();
 					this.store.user.updateBalances();

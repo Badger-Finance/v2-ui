@@ -14,7 +14,6 @@ import { toFixedDecimals } from 'mobx/utils/helpers';
 import { useConnectWallet } from 'mobx/utils/hooks';
 import {
 	EndAlignText,
-	InputTokenAmount,
 	BorderedFocusableContainerGrid,
 	OutputContentGrid,
 	SummaryGrid,
@@ -23,8 +22,10 @@ import {
 	OutputBalanceText,
 	OutputAmountText,
 	OutputTokenGrid,
+	InputTokenAmount,
 } from './Common';
 import { MintError } from './MintError';
+import { useNumericInput } from '../../utils/useNumericInput';
 
 type InputAmount = {
 	displayValue: string;
@@ -34,7 +35,6 @@ type InputAmount = {
 const ActionButton = observer(
 	({ children }): JSX.Element => {
 		const store = useContext(StoreContext);
-		const { bouncerProof } = store.user;
 		const { connectedAddress } = store.wallet;
 		const connectWallet = useConnectWallet();
 
@@ -43,18 +43,6 @@ const ActionButton = observer(
 				<Button fullWidth size="large" variant="contained" color="primary" onClick={connectWallet}>
 					Connect Wallet
 				</Button>
-			);
-		}
-
-		if (!bouncerProof) {
-			return (
-				<Tooltip arrow placement="top" title="You are not part of the guest list yet. Please try again later.">
-					<span>
-						<Button fullWidth size="large" variant="contained" color="primary" disabled>
-							MINT
-						</Button>
-					</span>
-				</Tooltip>
 			);
 		}
 
@@ -79,6 +67,7 @@ export const Mint = observer(
 		const [conversionRate, setConversionRate] = useState<string>();
 		const [fee, setFee] = useState('0.000');
 		const [totalMint, setTotalMint] = useState('0.000');
+		const { onValidChange, inputProps } = useNumericInput();
 
 		const resetState = () => {
 			setInputAmount(undefined);
@@ -104,9 +93,17 @@ export const Mint = observer(
 			setIsValidMint(isValid);
 		};
 
+		const handleInputChange = (change: string) => {
+			setInputAmount({
+				displayValue: change,
+				actualValue: selectedToken.scale(change),
+			});
+			debounceInputAmountChange(change);
+		};
+
 		// reason: the plugin does not recognize the dependency inside the debounce function
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-		const handleInputAmountChange = useCallback(
+		const debounceInputAmountChange = useCallback(
 			debounce(
 				600,
 				async (change: string): Promise<void> => {
@@ -173,16 +170,11 @@ export const Mint = observer(
 					<BorderedFocusableContainerGrid item container xs={12}>
 						<Grid item xs={12} sm={5}>
 							<InputTokenAmount
+								inputProps={inputProps}
 								disabled={!connectedAddress}
-								value={inputAmount?.displayValue}
+								value={inputAmount?.displayValue || ''}
 								placeholder="0.000"
-								onChange={(val) => {
-									setInputAmount({
-										displayValue: val,
-										actualValue: selectedToken.scale(val),
-									});
-									handleInputAmountChange(val);
-								}}
+								onChange={onValidChange(handleInputChange)}
 							/>
 						</Grid>
 						<InputTokenActionButtonsGrid item container spacing={1} xs={12} sm={7}>

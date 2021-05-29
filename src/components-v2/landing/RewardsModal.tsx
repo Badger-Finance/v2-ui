@@ -82,7 +82,6 @@ export const RewardsModal = observer(() => {
 	const store = useContext(StoreContext);
 	const { badgerTree, claimGeysers } = store.rewards;
 	const { currency } = store.uiState;
-	const { setts, rewards } = store;
 
 	const [open, setOpen] = useState(false);
 	const [claimMap, setClaimMap] = useState<ClaimMap | undefined>(undefined);
@@ -126,8 +125,7 @@ export const RewardsModal = observer(() => {
 				if (!token) {
 					return false;
 				}
-				const tokenPrice = setts.getPrice(token.address);
-				const tokenBalance = new TokenBalance(rewards, token, claim.amount, tokenPrice);
+				const tokenBalance = store.rewards.tokenBalance(token.address, claim.amount);
 				if (tokenBalance.balance.eq(0) || tokenBalance.value.eq(0)) {
 					return false;
 				}

@@ -20,8 +20,6 @@ class RebaseStore {
 		extendObservable(this, {
 			rebase: {},
 		});
-
-		this.fetchRebaseStats();
 	}
 
 	fetchRebaseStats = action(async () => {

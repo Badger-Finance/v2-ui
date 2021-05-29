@@ -68,7 +68,7 @@ export const APP_NAME = 'badgerDAO';
 export const PORTIS_APP_ID = 'cbf7534d-170d-4903-943f-e607dc588b7f';
 export const EMPTY_DATA = '0x';
 export const ZERO_CURRENCY = '0.00000';
-export const SITE_VERSION = 'v2.7.0';
+export const SITE_VERSION = 'v2.7.1';
 export const WC_BRIDGE = 'https://wc-bridge.badger.finance/';
 
 const toBool = (val: string | undefined): boolean => (val ? val === 'true' : false);
@@ -78,6 +78,7 @@ export const FLAGS = {
 	WBTC_FLAG: toBool(process.env.REACT_APP_BRIDGE_WBTC),
 	GEYSER_FLAG: toBool(process.env.REACT_APP_GEYSER_ENABLED),
 	EXPERIMENTAL_VAULTS: toBool(process.env.REACT_APP_EXPERIMENTAL_VAULTS),
+	BOOST_V2: toBool(process.env.REACT_APP_BOOST_V2),
 };
 
 export const ZERO = new BigNumber(0);
@@ -88,3 +89,6 @@ export const CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS = '0x93054188d876f558f4a66B2
 export const RENVM_GATEWAY_ADDRESS = '0xe4b679400F0f267212D5D812B95f58C83243EE71';
 export const RENVM_NETWORK = 'mainnet';
 export const DEBUG = process.env.NODE_ENV !== 'production';
+
+// time constants
+export const ONE_MIN_MS = 60 * 1000;

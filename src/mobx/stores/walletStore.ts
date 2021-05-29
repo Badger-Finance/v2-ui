@@ -92,8 +92,11 @@ class WalletStore {
 		},
 	);
 
-	walletReset = action(() => {
+	walletReset = action((): void => {
 		try {
+			if (this.store.user.loadingBalances) {
+				return;
+			}
 			this.setProvider(null);
 			this.setAddress(null);
 			window.localStorage.removeItem('selectedWallet');
