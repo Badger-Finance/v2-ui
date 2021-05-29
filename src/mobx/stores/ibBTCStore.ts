@@ -261,7 +261,7 @@ class IbBTCStore {
 		spender: string,
 		amount: BigNumber | string = MAX,
 	): Promise<void> {
-		const { queueNotification, setTxStatus } = this.store.uiState;
+		const { queueNotification } = this.store.uiState;
 		const { provider, connectedAddress } = this.store.wallet;
 
 		const web3 = new Web3(provider);
@@ -281,13 +281,12 @@ class IbBTCStore {
 				queueNotification(`${underlyingAsset.symbol} allowance increased.`, 'success');
 			})
 			.on('error', (error: Error) => {
-				queueNotification(error.message, 'error');
-				setTxStatus('error');
+				throw error;
 			});
 	}
 
-	async mint(inToken: TokenModel, amount: BigNumber): Promise<void> {
-		const { setTxStatus, queueNotification } = this.store.uiState;
+	async mint(inToken: TokenModel, amount: BigNumber, slippage: BigNumber): Promise<void> {
+		const { queueNotification } = this.store.uiState;
 		try {
 			const peak = IbbtcVaultPeakFactory.createIbbtcVaultPeakForToken(this.store, inToken);
 			const allowance = await this.getAllowance(inToken, peak.address);
@@ -297,12 +296,9 @@ class IbBTCStore {
 				await this.increaseAllowance(inToken, peak.address);
 			}
 
-			setTxStatus('pending');
-			await this.mintBBTC(inToken, amount);
-			setTxStatus('success');
+			await this.mintBBTC(inToken, amount, slippage);
 		} catch (error) {
 			process.env.NODE_ENV !== 'production' && console.error(error);
-			setTxStatus('error');
 			queueNotification(`There was an error minting ${inToken.symbol}. Please try again later.`, 'error');
 		}
 	}
@@ -354,9 +350,9 @@ class IbBTCStore {
 		}
 	}
 
-	async mintBBTC(inToken: TokenModel, amount: BigNumber): Promise<void> {
+	async mintBBTC(inToken: TokenModel, amount: BigNumber, slippage: BigNumber): Promise<void> {
 		const peak = IbbtcVaultPeakFactory.createIbbtcVaultPeakForToken(this.store, inToken);
-		const method = await peak.getMintMethod(amount);
+		const method = await peak.getMintMethod(amount, slippage);
 		await this.executeMethod(method, 'Mint submitted', `Successfully minted ${this.ibBTC.symbol}`);
 	}
 
@@ -386,8 +382,7 @@ class IbBTCStore {
 				this.init();
 			})
 			.on('error', (error: Error) => {
-				this.init();
-				queueNotification(error.message, 'error');
+				throw error;
 			});
 	}
 

@@ -1,5 +1,16 @@
 import React, { useCallback, useContext, useState } from 'react';
-import { Button, Typography, Grid, Tooltip } from '@material-ui/core';
+import {
+	Button,
+	Typography,
+	Grid,
+	InputAdornment,
+	Tooltip,
+	Radio,
+	RadioGroup,
+	FormControlLabel,
+	OutlinedInput,
+} from '@material-ui/core';
+import { makeStyles, styled } from '@material-ui/core/styles';
 import { observer } from 'mobx-react-lite';
 
 import { debounce } from 'utils/componentHelpers';
@@ -25,6 +36,25 @@ import {
 	OutputTokenGrid,
 } from './Common';
 import { useNumericInput } from '../../utils/useNumericInput';
+
+const SlippageContainer = styled(Grid)(({ theme }) => ({
+	marginTop: theme.spacing(1),
+	[theme.breakpoints.only('xs')]: {
+		marginTop: theme.spacing(2),
+	},
+}));
+
+const StyledRadioGroup = styled(RadioGroup)(({ theme }) => ({
+	flexDirection: 'row',
+	marginLeft: theme.spacing(2),
+}));
+
+const useStyles = makeStyles({
+	customSlippage: {
+		padding: 8,
+		width: 30,
+	},
+});
 
 type InputAmount = {
 	displayValue: string;
@@ -52,6 +82,7 @@ const ActionButton = observer(
 export const Mint = observer(
 	(): JSX.Element => {
 		const store = useContext(StoreContext);
+		const classes = useStyles();
 
 		const {
 			ibBTCStore: { ibBTC, mintFeePercent, mintOptions },
@@ -64,7 +95,10 @@ export const Mint = observer(
 		const [conversionRate, setConversionRate] = useState<string>();
 		const [fee, setFee] = useState('0.000');
 		const [totalMint, setTotalMint] = useState('0.000');
+		const [slippage, setSlippage] = useState<string | undefined>('1');
+		const [customSlippage, setCustomSlippage] = useState<string>();
 		const { onValidChange, inputProps } = useNumericInput();
+		const showSlippage = store.ibBTCStore.isZapToken(selectedToken);
 
 		const resetState = () => {
 			setInputAmount(undefined);
@@ -91,6 +125,16 @@ export const Mint = observer(
 				actualValue: selectedToken.scale(change),
 			});
 			debounceInputAmountChange(change);
+		};
+
+		const handleCustomSlippageChange = (change: string) => {
+			setSlippage(undefined);
+			setCustomSlippage(change);
+		};
+
+		const handleSlippageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+			setCustomSlippage(undefined);
+			setSlippage((event.target as HTMLInputElement).value);
 		};
 
 		// reason: the plugin does not recognize the dependency inside the debounce function
@@ -137,7 +181,15 @@ export const Mint = observer(
 
 		const handleMintClick = async (): Promise<void> => {
 			if (inputAmount?.actualValue && !inputAmount.actualValue.isNaN()) {
-				await store.ibBTCStore.mint(selectedToken, inputAmount.actualValue);
+				const mintSlippage = new BigNumber(slippage || customSlippage || '');
+				const isValidAmount = store.ibBTCStore.isValidAmount(
+					selectedToken,
+					inputAmount.actualValue,
+					mintSlippage,
+				);
+
+				if (!isValidAmount) return;
+				await store.ibBTCStore.mint(selectedToken, inputAmount.actualValue, mintSlippage);
 				resetState();
 			}
 		};
@@ -175,6 +227,28 @@ export const Mint = observer(
 							</Grid>
 						</InputTokenActionButtonsGrid>
 					</BorderedFocusableContainerGrid>
+					{showSlippage && (
+						<SlippageContainer item container xs={12} alignItems="center">
+							<Typography variant="body1" color="textSecondary">
+								Max slippage:
+							</Typography>
+							<StyledRadioGroup
+								aria-label="slippage-percentage"
+								name="slippage-percentage"
+								value={slippage || ''}
+								onChange={handleSlippageChange}
+							>
+								<FormControlLabel value="0.5" control={<Radio color="primary" />} label="0.5%" />
+								<FormControlLabel value="1" control={<Radio color="primary" />} label="1%" />
+							</StyledRadioGroup>
+							<OutlinedInput
+								value={customSlippage || ''}
+								onChange={onValidChange(handleCustomSlippageChange)}
+								inputProps={{ className: classes.customSlippage, ...inputProps }}
+								endAdornment={<InputAdornment position="end">%</InputAdornment>}
+							/>
+						</SlippageContainer>
+					)}
 				</Grid>
 				<Grid item container alignItems="center" xs={12}>
 					<DownArrow />

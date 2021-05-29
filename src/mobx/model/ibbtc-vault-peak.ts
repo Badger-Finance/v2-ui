@@ -11,6 +11,6 @@ export interface IbbtcVaultPeak {
 	getCalcMintMethod(amount: BigNumber): ContractSendMethod;
 	getCalcRedeemMethod(amount: BigNumber): ContractSendMethod;
 	getRedeemMethod(amount: BigNumber): ContractSendMethod;
-	getMintMethod(amount: BigNumber): Promise<ContractSendMethod>;
+	getMintMethod(amount: BigNumber, slippage: BigNumber): Promise<ContractSendMethod>;
 	bBTCToSett(amount: BigNumber): Promise<BigNumber>;
 }
