@@ -3,47 +3,42 @@
 exports[`ibBTC Mint can apply max balance 1`] = `
 <div>
   <div
-    class="MuiGrid-root-2 MuiGrid-container-3"
+    class="MuiGrid-root-1 MuiGrid-container-2"
   >
     <div
-      class="MuiGrid-root-2 WithStyles(ForwardRef(Grid))-root-105 WithStyles(ForwardRef(Grid))-root-106 MuiGrid-item-4 MuiGrid-grid-xs-12-48"
+      class="MuiGrid-root-1 WithStyles(ForwardRef(Grid))-root-104 WithStyles(ForwardRef(Grid))-root-105 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
     >
       <p
-        class="MuiTypography-root-108 WithStyles(ForwardRef(Typography))-root-107 MuiTypography-body1-110 MuiTypography-colorTextSecondary-134"
+        class="MuiTypography-root-107 WithStyles(ForwardRef(Typography))-root-106 MuiTypography-body1-109 MuiTypography-colorTextSecondary-133"
       >
         Balance: 
         5.000
       </p>
     </div>
     <div
-      class="MuiGrid-root-2 WithStyles(ForwardRef(Grid))-root-138 WithStyles(ForwardRef(Grid))-root-139 MuiGrid-container-3 MuiGrid-item-4 MuiGrid-grid-xs-12-48"
+      class="MuiGrid-root-1 WithStyles(ForwardRef(Grid))-root-137 WithStyles(ForwardRef(Grid))-root-138 MuiGrid-container-2 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
     >
       <div
-        class="MuiGrid-root-2 MuiGrid-item-4 MuiGrid-grid-xs-12-48 MuiGrid-grid-sm-5-55"
+        class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47 MuiGrid-grid-sm-5-54"
       >
         <div
-          class="MuiInputBase-root-141 WithStyles(ForwardRef(InputBase))-root-140 MuiInputBase-disabled-144"
+          class="MuiInputBase-root-141 NumericInput-root-139 makeStyles-input-140 MuiInputBase-disabled-144 MuiInputBase-fullWidth-151"
         >
           <input
-            autocomplete="off"
             class="MuiInputBase-input-152 MuiInputBase-disabled-144"
             disabled=""
-            inputmode="decimal"
-            maxlength="79"
-            minlength="1"
             pattern="^[0-9]*[.,]?[0-9]*$"
             placeholder="0.000"
-            spellcheck="false"
-            type="text"
+            type="tel"
             value="5.000000"
           />
         </div>
       </div>
       <div
-        class="MuiGrid-root-2 WithStyles(ForwardRef(Grid))-root-159 WithStyles(ForwardRef(Grid))-root-160 MuiGrid-container-3 MuiGrid-spacing-xs-1-25 MuiGrid-item-4 MuiGrid-grid-xs-12-48 MuiGrid-grid-sm-7-57"
+        class="MuiGrid-root-1 WithStyles(ForwardRef(Grid))-root-159 WithStyles(ForwardRef(Grid))-root-160 MuiGrid-container-2 MuiGrid-spacing-xs-1-24 MuiGrid-item-3 MuiGrid-grid-xs-12-47 MuiGrid-grid-sm-7-56"
       >
         <div
-          class="MuiGrid-root-2 MuiGrid-item-4"
+          class="MuiGrid-root-1 MuiGrid-item-3"
         >
           <button
             class="MuiButtonBase-root-190 MuiButton-root-161 MuiButton-outlined-166 MuiButton-outlinedSizeSmall-178 MuiButton-sizeSmall-182"
@@ -61,7 +56,7 @@ exports[`ibBTC Mint can apply max balance 1`] = `
           </button>
         </div>
         <div
-          class="MuiGrid-root-2 MuiGrid-item-4"
+          class="MuiGrid-root-1 MuiGrid-item-3"
         >
           <button
             class="MuiButtonBase-root-190 MuiButton-root-161 MuiButton-outlined-166 makeStyles-selectButton-198 MuiButton-outlinedSizeSmall-178 MuiButton-sizeSmall-182"
@@ -80,7 +75,7 @@ exports[`ibBTC Mint can apply max balance 1`] = `
                   style="height: 2rem; margin-right: .2rem; display: block;"
                 />
                 <div
-                  class="MuiTypography-root-108 MuiTypography-body1-110"
+                  class="MuiTypography-root-107 MuiTypography-body1-109"
                 >
                   bcrvRenWSBTC
                 </div>
@@ -109,7 +104,7 @@ exports[`ibBTC Mint can apply max balance 1`] = `
     </div>
   </div>
   <div
-    class="MuiGrid-root-2 MuiGrid-container-3 MuiGrid-item-4 MuiGrid-align-items-xs-center-11 MuiGrid-grid-xs-12-48"
+    class="MuiGrid-root-1 MuiGrid-container-2 MuiGrid-item-3 MuiGrid-align-items-xs-center-10 MuiGrid-grid-xs-12-47"
   >
     <svg
       class="makeStyles-arrowDown-209"
@@ -136,32 +131,32 @@ exports[`ibBTC Mint can apply max balance 1`] = `
     </svg>
   </div>
   <div
-    class="MuiGrid-root-2 MuiGrid-container-3"
+    class="MuiGrid-root-1 MuiGrid-container-2"
   >
     <div
-      class="MuiGrid-root-2 MuiGrid-item-4 MuiGrid-grid-xs-12-48"
+      class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
     >
       <p
-        class="MuiTypography-root-108 WithStyles(ForwardRef(Typography))-root-210 WithStyles(ForwardRef(Typography))-root-211 MuiTypography-body1-110 MuiTypography-colorTextSecondary-134"
+        class="MuiTypography-root-107 WithStyles(ForwardRef(Typography))-root-210 WithStyles(ForwardRef(Typography))-root-211 MuiTypography-body1-109 MuiTypography-colorTextSecondary-133"
       >
         Balance: 
         10.000
       </p>
     </div>
     <div
-      class="MuiGrid-root-2 WithStyles(ForwardRef(Grid))-root-212 WithStyles(ForwardRef(Grid))-root-213 MuiGrid-container-3 MuiGrid-item-4 MuiGrid-grid-xs-12-48"
+      class="MuiGrid-root-1 WithStyles(ForwardRef(Grid))-root-212 WithStyles(ForwardRef(Grid))-root-213 MuiGrid-container-2 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
     >
       <div
-        class="MuiGrid-root-2 MuiGrid-item-4 MuiGrid-grid-xs-12-48 MuiGrid-grid-sm-9-59 MuiGrid-grid-md-12-76 MuiGrid-grid-lg-10-88"
+        class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47 MuiGrid-grid-sm-9-58 MuiGrid-grid-md-12-75 MuiGrid-grid-lg-10-87"
       >
         <h1
-          class="MuiTypography-root-108 WithStyles(ForwardRef(Typography))-root-214 WithStyles(ForwardRef(Typography))-root-215 MuiTypography-h1-113"
+          class="MuiTypography-root-107 WithStyles(ForwardRef(Typography))-root-214 WithStyles(ForwardRef(Typography))-root-215 MuiTypography-h1-112"
         >
-          0.000
+          0.000000
         </h1>
       </div>
       <div
-        class="MuiGrid-root-2 WithStyles(ForwardRef(Grid))-root-216 WithStyles(ForwardRef(Grid))-root-217 MuiGrid-container-3 MuiGrid-item-4 MuiGrid-grid-xs-12-48 MuiGrid-grid-sm-3-53 MuiGrid-grid-md-12-76 MuiGrid-grid-lg-2-80"
+        class="MuiGrid-root-1 WithStyles(ForwardRef(Grid))-root-216 WithStyles(ForwardRef(Grid))-root-217 MuiGrid-container-2 MuiGrid-item-3 MuiGrid-grid-xs-12-47 MuiGrid-grid-sm-3-52 MuiGrid-grid-md-12-75 MuiGrid-grid-lg-2-79"
       >
         <div
           style="align-items: center; display: flex; flex-wrap: nowrap; overflow: hidden;"
@@ -172,7 +167,7 @@ exports[`ibBTC Mint can apply max balance 1`] = `
             style="height: 2rem; margin-right: .2rem; display: block;"
           />
           <div
-            class="MuiTypography-root-108 MuiTypography-body1-110"
+            class="MuiTypography-root-107 MuiTypography-body1-109"
           >
             ibBTC
           </div>
@@ -181,61 +176,61 @@ exports[`ibBTC Mint can apply max balance 1`] = `
     </div>
   </div>
   <div
-    class="MuiGrid-root-2 MuiGrid-item-4 MuiGrid-grid-xs-12-48"
+    class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
   >
     <div
-      class="MuiGrid-root-2 WithStyles(ForwardRef(Grid))-root-218"
+      class="MuiGrid-root-1 WithStyles(ForwardRef(Grid))-root-218"
     >
       <div
-        class="MuiGrid-root-2 MuiGrid-container-3 MuiGrid-item-4 MuiGrid-justify-xs-space-between-22 MuiGrid-grid-xs-12-48"
+        class="MuiGrid-root-1 MuiGrid-container-2 MuiGrid-item-3 MuiGrid-justify-xs-space-between-21 MuiGrid-grid-xs-12-47"
       >
         <div
-          class="MuiGrid-root-2 MuiGrid-item-4 MuiGrid-grid-xs-6-42"
+          class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-6-41"
         >
           <h6
-            class="MuiTypography-root-108 MuiTypography-subtitle1-119"
+            class="MuiTypography-root-107 MuiTypography-subtitle1-118"
           >
             Current Conversion Rate: 
           </h6>
         </div>
         <div
-          class="MuiGrid-root-2 MuiGrid-item-4 MuiGrid-grid-xs-6-42"
+          class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-6-41"
         >
           <p
-            class="MuiTypography-root-108 WithStyles(ForwardRef(Typography))-root-107 MuiTypography-body1-110"
+            class="MuiTypography-root-107 WithStyles(ForwardRef(Typography))-root-106 MuiTypography-body1-109"
           >
             1 
             bcrvRenWSBTC
              : 
-            0.000
+            0.000000
              
             ibBTC
           </p>
         </div>
       </div>
       <div
-        class="MuiGrid-root-2 MuiGrid-container-3 MuiGrid-item-4 MuiGrid-justify-xs-space-between-22 MuiGrid-grid-xs-12-48"
+        class="MuiGrid-root-1 MuiGrid-container-2 MuiGrid-item-3 MuiGrid-justify-xs-space-between-21 MuiGrid-grid-xs-12-47"
       >
         <div
-          class="MuiGrid-root-2 MuiGrid-item-4 MuiGrid-grid-xs-6-42"
+          class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-6-41"
         >
           <h6
-            class="MuiTypography-root-108 MuiTypography-subtitle1-119"
+            class="MuiTypography-root-107 MuiTypography-subtitle1-118"
           >
             Fees: 
           </h6>
         </div>
         <div
-          class="MuiGrid-root-2 MuiGrid-item-4 MuiGrid-grid-xs-6-42"
+          class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-6-41"
         >
           <p
-            class="MuiTypography-root-108 WithStyles(ForwardRef(Typography))-root-107 MuiTypography-body1-110"
+            class="MuiTypography-root-107 WithStyles(ForwardRef(Typography))-root-106 MuiTypography-body1-109"
           >
             <span
               class=""
               title="Mint Fee: 0%"
             >
-              0.000
+              0.000000
                
               ibBTC
             </span>
@@ -243,31 +238,31 @@ exports[`ibBTC Mint can apply max balance 1`] = `
         </div>
       </div>
       <div
-        class="MuiGrid-root-2 MuiGrid-container-3 MuiGrid-item-4 MuiGrid-justify-xs-space-between-22 MuiGrid-grid-xs-12-48"
+        class="MuiGrid-root-1 MuiGrid-container-2 MuiGrid-item-3 MuiGrid-justify-xs-space-between-21 MuiGrid-grid-xs-12-47"
       >
         <div
-          class="MuiGrid-root-2 MuiGrid-item-4 MuiGrid-grid-xs-6-42"
+          class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-6-41"
         >
           <h6
-            class="MuiTypography-root-108 MuiTypography-subtitle1-119"
+            class="MuiTypography-root-107 MuiTypography-subtitle1-118"
           >
             Total Mint Amount: 
           </h6>
         </div>
         <div
-          class="MuiGrid-root-2 MuiGrid-item-4 MuiGrid-grid-xs-6-42"
+          class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-6-41"
         >
           <p
-            class="MuiTypography-root-108 WithStyles(ForwardRef(Typography))-root-107 MuiTypography-body1-110"
+            class="MuiTypography-root-107 WithStyles(ForwardRef(Typography))-root-106 MuiTypography-body1-109"
           >
-            0.000 ibBTC
+            0.000000 ibBTC
           </p>
         </div>
       </div>
     </div>
   </div>
   <div
-    class="MuiGrid-root-2 MuiGrid-item-4 MuiGrid-grid-xs-12-48"
+    class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
   >
     <button
       class="MuiButtonBase-root-190 MuiButton-root-161 MuiButton-contained-169 MuiButton-containedPrimary-170 MuiButton-containedSizeLarge-181 MuiButton-sizeLarge-183 MuiButton-fullWidth-184"
@@ -290,47 +285,42 @@ exports[`ibBTC Mint can apply max balance 1`] = `
 exports[`ibBTC Mint displays output ibBTC when mint amount is inputted 1`] = `
 <div>
   <div
-    class="MuiGrid-root-2 MuiGrid-container-3"
+    class="MuiGrid-root-1 MuiGrid-container-2"
   >
     <div
-      class="MuiGrid-root-2 WithStyles(ForwardRef(Grid))-root-105 WithStyles(ForwardRef(Grid))-root-106 MuiGrid-item-4 MuiGrid-grid-xs-12-48"
+      class="MuiGrid-root-1 WithStyles(ForwardRef(Grid))-root-104 WithStyles(ForwardRef(Grid))-root-105 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
     >
       <p
-        class="MuiTypography-root-108 WithStyles(ForwardRef(Typography))-root-107 MuiTypography-body1-110 MuiTypography-colorTextSecondary-134"
+        class="MuiTypography-root-107 WithStyles(ForwardRef(Typography))-root-106 MuiTypography-body1-109 MuiTypography-colorTextSecondary-133"
       >
         Balance: 
         5.000
       </p>
     </div>
     <div
-      class="MuiGrid-root-2 WithStyles(ForwardRef(Grid))-root-138 WithStyles(ForwardRef(Grid))-root-139 MuiGrid-container-3 MuiGrid-item-4 MuiGrid-grid-xs-12-48"
+      class="MuiGrid-root-1 WithStyles(ForwardRef(Grid))-root-137 WithStyles(ForwardRef(Grid))-root-138 MuiGrid-container-2 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
     >
       <div
-        class="MuiGrid-root-2 MuiGrid-item-4 MuiGrid-grid-xs-12-48 MuiGrid-grid-sm-5-55"
+        class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47 MuiGrid-grid-sm-5-54"
       >
         <div
-          class="MuiInputBase-root-141 WithStyles(ForwardRef(InputBase))-root-140 MuiInputBase-disabled-144"
+          class="MuiInputBase-root-141 NumericInput-root-139 makeStyles-input-140 MuiInputBase-disabled-144 MuiInputBase-fullWidth-151"
         >
           <input
-            autocomplete="off"
             class="MuiInputBase-input-152 MuiInputBase-disabled-144"
             disabled=""
-            inputmode="decimal"
-            maxlength="79"
-            minlength="1"
             pattern="^[0-9]*[.,]?[0-9]*$"
             placeholder="0.000"
-            spellcheck="false"
-            type="text"
+            type="tel"
             value="12"
           />
         </div>
       </div>
       <div
-        class="MuiGrid-root-2 WithStyles(ForwardRef(Grid))-root-159 WithStyles(ForwardRef(Grid))-root-160 MuiGrid-container-3 MuiGrid-spacing-xs-1-25 MuiGrid-item-4 MuiGrid-grid-xs-12-48 MuiGrid-grid-sm-7-57"
+        class="MuiGrid-root-1 WithStyles(ForwardRef(Grid))-root-159 WithStyles(ForwardRef(Grid))-root-160 MuiGrid-container-2 MuiGrid-spacing-xs-1-24 MuiGrid-item-3 MuiGrid-grid-xs-12-47 MuiGrid-grid-sm-7-56"
       >
         <div
-          class="MuiGrid-root-2 MuiGrid-item-4"
+          class="MuiGrid-root-1 MuiGrid-item-3"
         >
           <button
             class="MuiButtonBase-root-190 MuiButton-root-161 MuiButton-outlined-166 MuiButton-outlinedSizeSmall-178 MuiButton-sizeSmall-182"
@@ -348,7 +338,7 @@ exports[`ibBTC Mint displays output ibBTC when mint amount is inputted 1`] = `
           </button>
         </div>
         <div
-          class="MuiGrid-root-2 MuiGrid-item-4"
+          class="MuiGrid-root-1 MuiGrid-item-3"
         >
           <button
             class="MuiButtonBase-root-190 MuiButton-root-161 MuiButton-outlined-166 makeStyles-selectButton-198 MuiButton-outlinedSizeSmall-178 MuiButton-sizeSmall-182"
@@ -367,7 +357,7 @@ exports[`ibBTC Mint displays output ibBTC when mint amount is inputted 1`] = `
                   style="height: 2rem; margin-right: .2rem; display: block;"
                 />
                 <div
-                  class="MuiTypography-root-108 MuiTypography-body1-110"
+                  class="MuiTypography-root-107 MuiTypography-body1-109"
                 >
                   bcrvRenWSBTC
                 </div>
@@ -396,7 +386,7 @@ exports[`ibBTC Mint displays output ibBTC when mint amount is inputted 1`] = `
     </div>
   </div>
   <div
-    class="MuiGrid-root-2 MuiGrid-container-3 MuiGrid-item-4 MuiGrid-align-items-xs-center-11 MuiGrid-grid-xs-12-48"
+    class="MuiGrid-root-1 MuiGrid-container-2 MuiGrid-item-3 MuiGrid-align-items-xs-center-10 MuiGrid-grid-xs-12-47"
   >
     <svg
       class="makeStyles-arrowDown-209"
@@ -423,32 +413,32 @@ exports[`ibBTC Mint displays output ibBTC when mint amount is inputted 1`] = `
     </svg>
   </div>
   <div
-    class="MuiGrid-root-2 MuiGrid-container-3"
+    class="MuiGrid-root-1 MuiGrid-container-2"
   >
     <div
-      class="MuiGrid-root-2 MuiGrid-item-4 MuiGrid-grid-xs-12-48"
+      class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
     >
       <p
-        class="MuiTypography-root-108 WithStyles(ForwardRef(Typography))-root-210 WithStyles(ForwardRef(Typography))-root-211 MuiTypography-body1-110 MuiTypography-colorTextSecondary-134"
+        class="MuiTypography-root-107 WithStyles(ForwardRef(Typography))-root-210 WithStyles(ForwardRef(Typography))-root-211 MuiTypography-body1-109 MuiTypography-colorTextSecondary-133"
       >
         Balance: 
         10.000
       </p>
     </div>
     <div
-      class="MuiGrid-root-2 WithStyles(ForwardRef(Grid))-root-212 WithStyles(ForwardRef(Grid))-root-213 MuiGrid-container-3 MuiGrid-item-4 MuiGrid-grid-xs-12-48"
+      class="MuiGrid-root-1 WithStyles(ForwardRef(Grid))-root-212 WithStyles(ForwardRef(Grid))-root-213 MuiGrid-container-2 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
     >
       <div
-        class="MuiGrid-root-2 MuiGrid-item-4 MuiGrid-grid-xs-12-48 MuiGrid-grid-sm-9-59 MuiGrid-grid-md-12-76 MuiGrid-grid-lg-10-88"
+        class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47 MuiGrid-grid-sm-9-58 MuiGrid-grid-md-12-75 MuiGrid-grid-lg-10-87"
       >
         <h1
-          class="MuiTypography-root-108 WithStyles(ForwardRef(Typography))-root-214 WithStyles(ForwardRef(Typography))-root-215 MuiTypography-h1-113"
+          class="MuiTypography-root-107 WithStyles(ForwardRef(Typography))-root-214 WithStyles(ForwardRef(Typography))-root-215 MuiTypography-h1-112"
         >
           11.988000
         </h1>
       </div>
       <div
-        class="MuiGrid-root-2 WithStyles(ForwardRef(Grid))-root-216 WithStyles(ForwardRef(Grid))-root-217 MuiGrid-container-3 MuiGrid-item-4 MuiGrid-grid-xs-12-48 MuiGrid-grid-sm-3-53 MuiGrid-grid-md-12-76 MuiGrid-grid-lg-2-80"
+        class="MuiGrid-root-1 WithStyles(ForwardRef(Grid))-root-216 WithStyles(ForwardRef(Grid))-root-217 MuiGrid-container-2 MuiGrid-item-3 MuiGrid-grid-xs-12-47 MuiGrid-grid-sm-3-52 MuiGrid-grid-md-12-75 MuiGrid-grid-lg-2-79"
       >
         <div
           style="align-items: center; display: flex; flex-wrap: nowrap; overflow: hidden;"
@@ -459,7 +449,7 @@ exports[`ibBTC Mint displays output ibBTC when mint amount is inputted 1`] = `
             style="height: 2rem; margin-right: .2rem; display: block;"
           />
           <div
-            class="MuiTypography-root-108 MuiTypography-body1-110"
+            class="MuiTypography-root-107 MuiTypography-body1-109"
           >
             ibBTC
           </div>
@@ -468,28 +458,28 @@ exports[`ibBTC Mint displays output ibBTC when mint amount is inputted 1`] = `
     </div>
   </div>
   <div
-    class="MuiGrid-root-2 MuiGrid-item-4 MuiGrid-grid-xs-12-48"
+    class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
   >
     <div
-      class="MuiGrid-root-2 WithStyles(ForwardRef(Grid))-root-218"
+      class="MuiGrid-root-1 WithStyles(ForwardRef(Grid))-root-218"
     >
       <div
-        class="MuiGrid-root-2 MuiGrid-container-3 MuiGrid-item-4 MuiGrid-justify-xs-space-between-22 MuiGrid-grid-xs-12-48"
+        class="MuiGrid-root-1 MuiGrid-container-2 MuiGrid-item-3 MuiGrid-justify-xs-space-between-21 MuiGrid-grid-xs-12-47"
       >
         <div
-          class="MuiGrid-root-2 MuiGrid-item-4 MuiGrid-grid-xs-6-42"
+          class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-6-41"
         >
           <h6
-            class="MuiTypography-root-108 MuiTypography-subtitle1-119"
+            class="MuiTypography-root-107 MuiTypography-subtitle1-118"
           >
             Current Conversion Rate: 
           </h6>
         </div>
         <div
-          class="MuiGrid-root-2 MuiGrid-item-4 MuiGrid-grid-xs-6-42"
+          class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-6-41"
         >
           <p
-            class="MuiTypography-root-108 WithStyles(ForwardRef(Typography))-root-107 MuiTypography-body1-110"
+            class="MuiTypography-root-107 WithStyles(ForwardRef(Typography))-root-106 MuiTypography-body1-109"
           >
             1 
             bcrvRenWSBTC
@@ -501,22 +491,22 @@ exports[`ibBTC Mint displays output ibBTC when mint amount is inputted 1`] = `
         </div>
       </div>
       <div
-        class="MuiGrid-root-2 MuiGrid-container-3 MuiGrid-item-4 MuiGrid-justify-xs-space-between-22 MuiGrid-grid-xs-12-48"
+        class="MuiGrid-root-1 MuiGrid-container-2 MuiGrid-item-3 MuiGrid-justify-xs-space-between-21 MuiGrid-grid-xs-12-47"
       >
         <div
-          class="MuiGrid-root-2 MuiGrid-item-4 MuiGrid-grid-xs-6-42"
+          class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-6-41"
         >
           <h6
-            class="MuiTypography-root-108 MuiTypography-subtitle1-119"
+            class="MuiTypography-root-107 MuiTypography-subtitle1-118"
           >
             Fees: 
           </h6>
         </div>
         <div
-          class="MuiGrid-root-2 MuiGrid-item-4 MuiGrid-grid-xs-6-42"
+          class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-6-41"
         >
           <p
-            class="MuiTypography-root-108 WithStyles(ForwardRef(Typography))-root-107 MuiTypography-body1-110"
+            class="MuiTypography-root-107 WithStyles(ForwardRef(Typography))-root-106 MuiTypography-body1-109"
           >
             <span
               class=""
@@ -530,22 +520,22 @@ exports[`ibBTC Mint displays output ibBTC when mint amount is inputted 1`] = `
         </div>
       </div>
       <div
-        class="MuiGrid-root-2 MuiGrid-container-3 MuiGrid-item-4 MuiGrid-justify-xs-space-between-22 MuiGrid-grid-xs-12-48"
+        class="MuiGrid-root-1 MuiGrid-container-2 MuiGrid-item-3 MuiGrid-justify-xs-space-between-21 MuiGrid-grid-xs-12-47"
       >
         <div
-          class="MuiGrid-root-2 MuiGrid-item-4 MuiGrid-grid-xs-6-42"
+          class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-6-41"
         >
           <h6
-            class="MuiTypography-root-108 MuiTypography-subtitle1-119"
+            class="MuiTypography-root-107 MuiTypography-subtitle1-118"
           >
             Total Mint Amount: 
           </h6>
         </div>
         <div
-          class="MuiGrid-root-2 MuiGrid-item-4 MuiGrid-grid-xs-6-42"
+          class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-6-41"
         >
           <p
-            class="MuiTypography-root-108 WithStyles(ForwardRef(Typography))-root-107 MuiTypography-body1-110"
+            class="MuiTypography-root-107 WithStyles(ForwardRef(Typography))-root-106 MuiTypography-body1-109"
           >
             11.988000 ibBTC
           </p>
@@ -554,7 +544,7 @@ exports[`ibBTC Mint displays output ibBTC when mint amount is inputted 1`] = `
     </div>
   </div>
   <div
-    class="MuiGrid-root-2 MuiGrid-item-4 MuiGrid-grid-xs-12-48"
+    class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
   >
     <button
       class="MuiButtonBase-root-190 MuiButton-root-161 MuiButton-contained-169 MuiButton-containedPrimary-170 MuiButton-containedSizeLarge-181 MuiButton-sizeLarge-183 MuiButton-fullWidth-184"

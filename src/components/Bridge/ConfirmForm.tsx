@@ -6,9 +6,9 @@ import { StoreContext } from 'mobx/store-context';
 import { shortenAddress } from 'utils/componentHelpers';
 
 const btcLogo = '/assets/icons/btc.svg';
-const WBTCLogo = '/assets/icons/wbtc.svg';
+const WBTCLogo = '/assets/icons/WBTC.svg';
 const byvWBTCLogo = '/assets/icons/byvwbtc.svg';
-const renBTCLogo = '/assets/icons/renbtc.svg';
+const renBTCLogo = '/assets/icons/renBTC.svg';
 const crvBTCLogo = '/assets/icons/bcrvrenwbtc.png';
 
 interface ConfirmFormProps {

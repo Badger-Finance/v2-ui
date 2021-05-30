@@ -1,16 +1,5 @@
 import React, { useCallback, useContext, useState } from 'react';
-import {
-	Button,
-	Typography,
-	Grid,
-	InputAdornment,
-	Tooltip,
-	Radio,
-	RadioGroup,
-	FormControlLabel,
-	OutlinedInput,
-} from '@material-ui/core';
-import { makeStyles, styled } from '@material-ui/core/styles';
+import { Button, Typography, Grid, Tooltip } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
 
 import { debounce } from 'utils/componentHelpers';
@@ -19,13 +8,12 @@ import { BigNumber } from 'bignumber.js';
 import { Token, Tokens } from './Tokens';
 import { DownArrow } from './DownArrow';
 
-import { TokenModel } from 'mobx/model';
+import { MintLimits, TokenModel } from 'mobx/model';
 import { StoreContext } from 'mobx/store-context';
 import { toFixedDecimals } from 'mobx/utils/helpers';
 import { useConnectWallet } from 'mobx/utils/hooks';
 import {
 	EndAlignText,
-	InputTokenAmount,
 	BorderedFocusableContainerGrid,
 	OutputContentGrid,
 	SummaryGrid,
@@ -34,27 +22,10 @@ import {
 	OutputBalanceText,
 	OutputAmountText,
 	OutputTokenGrid,
+	InputTokenAmount,
 } from './Common';
+import { MintError } from './MintError';
 import { useNumericInput } from '../../utils/useNumericInput';
-
-const SlippageContainer = styled(Grid)(({ theme }) => ({
-	marginTop: theme.spacing(1),
-	[theme.breakpoints.only('xs')]: {
-		marginTop: theme.spacing(2),
-	},
-}));
-
-const StyledRadioGroup = styled(RadioGroup)(({ theme }) => ({
-	flexDirection: 'row',
-	marginLeft: theme.spacing(2),
-}));
-
-const useStyles = makeStyles({
-	customSlippage: {
-		padding: 8,
-		width: 30,
-	},
-});
 
 type InputAmount = {
 	displayValue: string;
@@ -82,23 +53,21 @@ const ActionButton = observer(
 export const Mint = observer(
 	(): JSX.Element => {
 		const store = useContext(StoreContext);
-		const classes = useStyles();
 
 		const {
-			ibBTCStore: { ibBTC, mintFeePercent, mintOptions },
+			ibBTCStore: { tokens, ibBTC, mintFeePercent },
 			wallet: { connectedAddress },
 		} = store;
 
-		const [selectedToken, setSelectedToken] = useState(mintOptions[0]);
+		const [selectedToken, setSelectedToken] = useState(tokens[0]);
 		const [inputAmount, setInputAmount] = useState<InputAmount>();
 		const [outputAmount, setOutputAmount] = useState<string>();
+		const [mintLimits, setMintLimits] = useState<MintLimits>();
+		const [isValidMint, setIsValidMint] = useState(false);
 		const [conversionRate, setConversionRate] = useState<string>();
 		const [fee, setFee] = useState('0.000');
 		const [totalMint, setTotalMint] = useState('0.000');
-		const [slippage, setSlippage] = useState<string | undefined>('1');
-		const [customSlippage, setCustomSlippage] = useState<string>();
 		const { onValidChange, inputProps } = useNumericInput();
-		const showSlippage = store.ibBTCStore.isZapToken(selectedToken);
 
 		const resetState = () => {
 			setInputAmount(undefined);
@@ -116,7 +85,12 @@ export const Mint = observer(
 
 		const calculateMintInformation = async (settTokenAmount: BigNumber, settToken: TokenModel): Promise<void> => {
 			const { bBTC, fee } = await store.ibBTCStore.calcMintAmount(settToken, settTokenAmount);
+			const mintLimits = await store.ibBTCStore.getMintLimit(settToken);
+			const isValid = store.ibBTCStore.isValidMint(settTokenAmount, mintLimits);
+
 			setMintInformation(settToken.unscale(settTokenAmount), ibBTC.unscale(bBTC), ibBTC.unscale(fee));
+			setMintLimits(mintLimits);
+			setIsValidMint(isValid);
 		};
 
 		const handleInputChange = (change: string) => {
@@ -125,16 +99,6 @@ export const Mint = observer(
 				actualValue: selectedToken.scale(change),
 			});
 			debounceInputAmountChange(change);
-		};
-
-		const handleCustomSlippageChange = (change: string) => {
-			setSlippage(undefined);
-			setCustomSlippage(change);
-		};
-
-		const handleSlippageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-			setCustomSlippage(undefined);
-			setSlippage((event.target as HTMLInputElement).value);
 		};
 
 		// reason: the plugin does not recognize the dependency inside the debounce function
@@ -158,6 +122,14 @@ export const Mint = observer(
 			[selectedToken],
 		);
 
+		const handleLimitClick = async (settLimit: BigNumber): Promise<void> => {
+			setInputAmount({
+				displayValue: selectedToken.unscale(settLimit).toFixed(6, BigNumber.ROUND_HALF_FLOOR),
+				actualValue: settLimit,
+			});
+			await calculateMintInformation(settLimit, selectedToken);
+		};
+
 		const handleApplyMaxBalance = async (): Promise<void> => {
 			if (selectedToken.balance.gt(ZERO)) {
 				setInputAmount({
@@ -170,6 +142,7 @@ export const Mint = observer(
 
 		const handleTokenChange = async (token: TokenModel): Promise<void> => {
 			setSelectedToken(token);
+			setMintLimits(undefined);
 			if (inputAmount?.displayValue) {
 				setInputAmount({
 					...inputAmount,
@@ -181,15 +154,7 @@ export const Mint = observer(
 
 		const handleMintClick = async (): Promise<void> => {
 			if (inputAmount?.actualValue && !inputAmount.actualValue.isNaN()) {
-				const mintSlippage = new BigNumber(slippage || customSlippage || '');
-				const isValidAmount = store.ibBTCStore.isValidAmount(
-					selectedToken,
-					inputAmount.actualValue,
-					mintSlippage,
-				);
-
-				if (!isValidAmount) return;
-				await store.ibBTCStore.mint(selectedToken, inputAmount.actualValue, mintSlippage);
+				await store.ibBTCStore.mint(selectedToken, inputAmount.actualValue);
 				resetState();
 			}
 		};
@@ -219,36 +184,10 @@ export const Mint = observer(
 								</Button>
 							</Grid>
 							<Grid item>
-								<Tokens
-									tokens={mintOptions}
-									selected={selectedToken}
-									onTokenSelect={handleTokenChange}
-								/>
+								<Tokens tokens={tokens} selected={selectedToken} onTokenSelect={handleTokenChange} />
 							</Grid>
 						</InputTokenActionButtonsGrid>
 					</BorderedFocusableContainerGrid>
-					{showSlippage && (
-						<SlippageContainer item container xs={12} alignItems="center">
-							<Typography variant="body1" color="textSecondary">
-								Max slippage:
-							</Typography>
-							<StyledRadioGroup
-								aria-label="slippage-percentage"
-								name="slippage-percentage"
-								value={slippage || ''}
-								onChange={handleSlippageChange}
-							>
-								<FormControlLabel value="0.5" control={<Radio color="primary" />} label="0.5%" />
-								<FormControlLabel value="1" control={<Radio color="primary" />} label="1%" />
-							</StyledRadioGroup>
-							<OutlinedInput
-								value={customSlippage || ''}
-								onChange={onValidChange(handleCustomSlippageChange)}
-								inputProps={{ className: classes.customSlippage, ...inputProps }}
-								endAdornment={<InputAdornment position="end">%</InputAdornment>}
-							/>
-						</SlippageContainer>
-					)}
 				</Grid>
 				<Grid item container alignItems="center" xs={12}>
 					<DownArrow />
@@ -270,6 +209,14 @@ export const Mint = observer(
 				</Grid>
 				<Grid item xs={12}>
 					<SummaryGrid>
+						{!isValidMint && inputAmount && mintLimits && (
+							<MintError
+								amount={inputAmount.actualValue}
+								limits={mintLimits}
+								token={selectedToken}
+								onUserLimitClick={handleLimitClick}
+							/>
+						)}
 						<Grid item xs={12} container justify="space-between">
 							<Grid item xs={6}>
 								<Typography variant="subtitle1">Current Conversion Rate: </Typography>
@@ -318,7 +265,7 @@ export const Mint = observer(
 							variant="contained"
 							color="primary"
 							onClick={handleMintClick}
-							disabled={!inputAmount || !outputAmount}
+							disabled={!inputAmount || !outputAmount || !isValidMint}
 						>
 							MINT
 						</Button>
