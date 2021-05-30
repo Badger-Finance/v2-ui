@@ -1,7 +1,6 @@
 import BigNumber from 'bignumber.js';
 import RewardsStore from 'mobx/stores/rewardsStore';
 import { inCurrency, minBalance } from 'mobx/utils/helpers';
-import { ETH_DEPLOY } from 'web3/config/eth-config';
 import { BadgerToken } from './badger-token';
 
 export class TokenBalance {
@@ -26,16 +25,12 @@ export class TokenBalance {
 	 *   TokenBalance.fromBalance(A, A.balanceDisplay()) = A;
 	 * Above does not hold true given a balance display of balance below a
 	 * a requested precision threshold (< 0.001 balance display).
+	 * Does not work with digg share conversion - only fragments support.
 	 */
 	static fromBalance(tokenBalance: TokenBalance, balance: string): TokenBalance {
 		const { token, store, price } = tokenBalance;
-		let divisor = new BigNumber(1);
-		const isDigg = token.address === ETH_DEPLOY.tokens.digg;
-		if (isDigg && store.badgerTree.sharesPerFragment) {
-			divisor = store.badgerTree.sharesPerFragment;
-		}
 		const scalar = new BigNumber(Math.pow(10, token.decimals));
-		const amount = new BigNumber(balance).multipliedBy(scalar).dividedBy(divisor);
+		const amount = new BigNumber(balance).multipliedBy(scalar);
 		return new TokenBalance(store, token, amount, price);
 	}
 

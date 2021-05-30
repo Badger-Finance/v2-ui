@@ -82,11 +82,11 @@ const Info = observer(() => {
 	const store = useContext(StoreContext);
 	const {
 		setts: { settMap },
-		uiState: { rebaseStats, currency, stats },
+		uiState: { rebaseStats, currency },
 	} = store;
 	const classes = useStyles();
 	const [nextRebase, setNextRebase] = useState('00:00:00');
-	const rebasePercentage = ((stats.stats.digg - rebaseStats.btcPrice) / rebaseStats.btcPrice) * 10;
+	const rebasePercentage = ((rebaseStats.oraclePrice - rebaseStats.btcPrice) / rebaseStats.btcPrice) * 10;
 
 	if (!rebaseStats) {
 		return <Loader />;
