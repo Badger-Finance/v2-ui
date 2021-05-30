@@ -48,12 +48,12 @@ export const GeyserUnstake = observer((props: SettModalProps) => {
 		setAmount(userBalance.scaledBalanceDisplay(percent));
 	};
 
-	const handleSubmit = () => {
+	const handleSubmit = async (): Promise<void> => {
 		if (!amount) {
 			return;
 		}
 		const unstakeBalance = TokenBalance.fromBalance(userBalance, amount);
-		contracts.unstake(sett, badgerSett, userBalance, unstakeBalance);
+		await contracts.unstake(sett, badgerSett, userBalance, unstakeBalance);
 	};
 
 	return (
