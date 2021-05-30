@@ -87,10 +87,12 @@ export const VaultDeposit = observer((props: SettModalProps) => {
 		setAmount(userBalance.scaledBalanceDisplay(percent));
 	};
 
-	const handleSubmit = () => {
-		if (!amount) return;
+	const handleSubmit = async (): Promise<void> => {
+		if (!amount) {
+			return;
+		}
 		const depositBalance = TokenBalance.fromBalance(userBalance, amount);
-		contracts.deposit(sett, badgerSett, userBalance, depositBalance).then();
+		await contracts.deposit(sett, badgerSett, userBalance, depositBalance);
 	};
 
 	return (

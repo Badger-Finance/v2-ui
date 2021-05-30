@@ -169,7 +169,6 @@ export default class UserStore {
 
 			// construct & execute batch requests
 			const batchRequests = network.batchRequests(connectedAddress);
-
 			if (!batchRequests || batchRequests.length === 0) {
 				return;
 			}
