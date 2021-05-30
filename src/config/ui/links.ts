@@ -38,6 +38,18 @@ export function sidebarTokenLinks(bsc: NETWORK_LIST): SidebarLink[] {
 					url: new URL('https://analytics.sushi.com/pairs/0x110492b31c59716ac47337e616804e3e3adc0b4a'),
 					title: 'Sushiswap BADGER/wBTC',
 				},
+				{
+					url: new URL('https://analytics.sushi.com/pairs/0x18d98d452072ac2eb7b74ce3db723374360539f1'),
+					title: 'Sushiswap ibBTC/wBTC',
+				},
+				{
+					url: new URL('https://v2.info.uniswap.org/pair/0xe86204c4eddd2f70ee00ead6805f917671f56c52'),
+					title: 'Uniswap DIGG/wBTC',
+				},
+				{
+					url: new URL('https://analytics.sushi.com/pairs/0x9a13867048e01c663ce8ce2fe0cdae69ff9f35e3'),
+					title: 'Sushiswap DIGG/wBTC',
+				},
 			];
 	}
 }

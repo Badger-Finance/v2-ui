@@ -15,6 +15,25 @@ import { TokenBalance } from 'mobx/model/token-balance';
 import { ETH_DEPLOY } from 'web3/config/eth-config';
 import { mockToken } from 'mobx/model/badger-token';
 
+/**
+ * TODO: Clean up reward store in favor of a more unified integration w/ user store.
+ * Create a more generalized ProtocolStore - holding token information surrounding Badger.
+ *
+ * i.e.
+ *   - Digg information (sharesPerFragment, rebase data etc.)
+ *   - Badger tree information (current cycle, time since last cycle)
+ *   - Token information (token symbol, decimals, name)
+ *   - etc.
+ *
+ * This may overlap some with RebaseStore - this would be a good opporunity to rewrite that
+ * store to achieve:
+ *   - more readble code
+ *   - more unified data processing
+ *
+ * This may involve creating a more generalized way of handling web3 providers and batch call.
+ * Currently, batch call is used in multiple stores - ideally this could be routed via single web3
+ * provider, or batch call object to standardize configurations.
+ */
 class RewardsStore {
 	private store!: RootStore;
 	private static defaultTree: BadgerTree = {
@@ -43,13 +62,13 @@ class RewardsStore {
 			const amount = new BigNumber(balance);
 			return new TokenBalance(this, mockToken(token), amount, new BigNumber(0));
 		}
-		let divisor = new BigNumber(1);
+		let multiplier = new BigNumber(1);
 		const isDigg = badgerToken.address === ETH_DEPLOY.tokens.digg;
 		if (isDigg && this.badgerTree.sharesPerFragment) {
-			divisor = this.badgerTree.sharesPerFragment;
+			multiplier = this.badgerTree.sharesPerFragment;
 		}
 		const scalar = new BigNumber(Math.pow(10, badgerToken.decimals));
-		const amount = new BigNumber(balance).multipliedBy(scalar).dividedBy(divisor);
+		const amount = new BigNumber(balance).multipliedBy(scalar).multipliedBy(multiplier);
 		return new TokenBalance(this, badgerToken, amount, tokenPrice);
 	}
 
@@ -76,7 +95,9 @@ class RewardsStore {
 		return this.badgerTree.sharesPerFragment;
 	};
 
-	resetRewards = action(() => (this.badgerTree = RewardsStore.defaultTree));
+	resetRewards = action((): void => {
+		this.badgerTree = RewardsStore.defaultTree;
+	});
 
 	fetchSettRewards = action(
 		async (): Promise<void> => {
@@ -125,7 +146,7 @@ class RewardsStore {
 		async (claimMap: ClaimMap | undefined): Promise<void> => {
 			const { proof, claimableAmounts } = this.badgerTree;
 			const { provider, gasPrices, connectedAddress } = this.store.wallet;
-			const { queueNotification, gasPrice, setTxStatus } = this.store.uiState;
+			const { queueNotification, gasPrice } = this.store.uiState;
 
 			if (!connectedAddress || !proof || !claimableAmounts || !claimMap) {
 				queueNotification(`Error retrieving merkle proof.`, 'error');
@@ -179,7 +200,6 @@ class RewardsStore {
 				})
 				.on('error', (error: Error) => {
 					queueNotification(error.message, 'error');
-					setTxStatus('error');
 				});
 		},
 	);

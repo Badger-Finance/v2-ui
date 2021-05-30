@@ -40,10 +40,12 @@ export const VaultWithdraw = observer((props: SettModalProps) => {
 		setAmount(userBalance.scaledBalanceDisplay(percent));
 	};
 
-	const handleSubmit = () => {
-		if (!amount) return;
+	const handleSubmit = async (): Promise<void> => {
+		if (!amount) {
+			return;
+		}
 		const withdrawBalance = TokenBalance.fromBalance(userBalance, amount);
-		contracts.withdraw(sett, badgerSett, userBalance, withdrawBalance).then();
+		await contracts.withdraw(sett, badgerSett, userBalance, withdrawBalance);
 	};
 
 	return (
