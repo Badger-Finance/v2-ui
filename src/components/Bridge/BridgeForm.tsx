@@ -21,9 +21,9 @@ import { CURVE_EXCHANGE } from 'config/system/abis/CurveExchange';
 
 const DECIMALS = 10 ** 8;
 const SETT_DECIMALS = 10 ** 18;
-const WBTCLogo = '/assets/icons/WBTC.svg';
+const WBTCLogo = '/assets/icons/wbtc.svg';
 const byvWBTCLogo = '/assets/icons/byvwbtc.svg';
-const renBTCLogo = '/assets/icons/renBTC.svg';
+const renBTCLogo = '/assets/icons/renbtc.svg';
 const crvBTCLogo = '/assets/icons/bcrvrenwbtc.png';
 
 type TabPanelProps = PropsWithChildren<{
