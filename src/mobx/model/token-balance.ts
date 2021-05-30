@@ -55,12 +55,6 @@ export class TokenBalance {
 		return this.balance.toFixed(decimals);
 	}
 
-	scaledBalanceDisplay(percent?: number): string {
-		const scalar = percent ? percent / 100 : 1;
-		const scaledBalance = this.balance.multipliedBy(scalar);
-		return scaledBalance.toFixed(this.token.decimals, BigNumber.ROUND_HALF_FLOOR);
-	}
-
 	balanceValueDisplay(currency: string): string {
 		return inCurrency(this.value, currency);
 	}
@@ -69,5 +63,10 @@ export class TokenBalance {
 		const tokenBalance = this.tokenBalance.multipliedBy(scalar);
 		const price = this.price.dividedBy(scalar);
 		return new TokenBalance(this.store, this.token, tokenBalance, price);
+	}
+
+	scaledBalanceDisplay(percent: number): string {
+		const scaledBalance = this.scale(new BigNumber(percent / 100));
+		return scaledBalance.balanceDisplay();
 	}
 }
