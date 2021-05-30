@@ -13,23 +13,20 @@ describe('token-balance', () => {
 		if (!token) {
 			throw Error(`Require ${address} token defined`);
 		}
-		const amount = balance || randomValue() * Math.pow(10, token.decimals);
-		const price = cost || randomValue(10, 35000);
-		return new TokenBalance(store.rewards, token, new BigNumber(amount), new BigNumber(price));
+    const scalar = Math.pow(10, token.decimals);
+		const amount = balance !== undefined ? balance : randomValue();
+		const price = cost !== undefined ? cost : randomValue(10, 35000);
+		return new TokenBalance(store.rewards, token, new BigNumber(amount * scalar), new BigNumber(price));
 	};
 
 	const verifyScaledBalance = (mockBalance: TokenBalance, scaledBalance: TokenBalance, scalar: BigNumber): void => {
 		const expectedBalance = mockBalance.balance.multipliedBy(scalar);
 		const expectedTokenBalance = mockBalance.tokenBalance.multipliedBy(scalar);
 		const expectedValue = mockBalance.value.multipliedBy(scalar);
-		expect(scaledBalance.balance).toMatchObject(expectedBalance);
-		expect(scaledBalance.tokenBalance).toMatchObject(expectedTokenBalance);
-		expect(scaledBalance.value).toMatchObject(expectedValue);
+		expect(scaledBalance.balance).toEqual(expectedBalance);
+		expect(scaledBalance.tokenBalance).toEqual(expectedTokenBalance);
+		expect(scaledBalance.value).toEqual(expectedValue);
 	};
-
-	// describe('contructor', () => {
-
-	// });
 
 	describe('fromBalance', () => {
 		it('converts a visual balance string into a token balance representation', () => {
@@ -84,7 +81,7 @@ describe('token-balance', () => {
 				const amount = randomValue();
 				const mockBalance = randomTokenBalance(amount);
 				const decimals = 5;
-				const displayString = amount.toFixed(mockBalance.token.decimals);
+				const displayString = amount.toFixed(decimals);
 				expect(mockBalance.balanceDisplay(decimals)).toEqual(displayString);
 			});
 		});
@@ -106,6 +103,7 @@ describe('token-balance', () => {
 				const mockBalance = randomTokenBalance(1);
 				const scalar = new BigNumber(randomValue(0, 0.99));
 				const scaledBalance = mockBalance.scale(scalar);
+				console.log({ balance: mockBalance.balanceDisplay(), scalar: scalar.toFixed() });
 				verifyScaledBalance(mockBalance, scaledBalance, scalar);
 			});
 		});
