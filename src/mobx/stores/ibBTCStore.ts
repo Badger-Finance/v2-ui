@@ -4,19 +4,14 @@ import BigNumber from 'bignumber.js';
 import { ContractSendMethod } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
 import Web3 from 'web3';
-import { ibBTCFees, MintLimits, TokenModel } from 'mobx/model';
+import { ibBTCFees, TokenModel } from 'mobx/model';
 import { ZERO, MAX, FLAGS, NETWORK_IDS } from 'config/constants';
-import yearnConfig from 'config/system/abis/YearnWrapper.json';
 import settConfig from 'config/system/abis/Sett.json';
 import ibBTCConfig from 'config/system/abis/ibBTC.json';
-import badgerPeakSwap from 'config/system/abis/BadgerBtcPeakSwap.json';
 import addresses from 'config/ibBTC/addresses.json';
-import BadgerBtcPeak from 'config/system/abis/BadgerBtcPeak.json';
-import BadgerYearnWbtcPeak from 'config/system/abis/BadgerYearnWbtcPeak.json';
-import guessListConfig from 'config/system/abis/BadgerBtcPeakGuestList.json';
 import coreConfig from 'config/system/abis/BadgerBtcPeakCore.json';
-import { toHex } from '../utils/helpers';
 import { getSendOptions } from 'mobx/utils/web3';
+import { IbbtcVaultPeakFactory } from '../ibbtc-vault-peak-factory';
 
 interface MintAmountCalculation {
 	bBTC: BigNumber;
@@ -27,12 +22,6 @@ interface RedeemAmountCalculation {
 	fee: BigNumber;
 	max: BigNumber;
 	sett: BigNumber;
-}
-
-interface PeakType {
-	address: string;
-	isYearnWBTCPeak: boolean;
-	abi: any;
 }
 
 class IbBTCStore {
@@ -57,6 +46,8 @@ class IbBTCStore {
 			new TokenModel(this.store, token_config['bcrvRenWBTC']),
 			new TokenModel(this.store, token_config['btbtc/sbtcCrv']),
 			new TokenModel(this.store, token_config['byvWBTC']),
+			new TokenModel(this.store, token_config['renBTC']),
+			new TokenModel(this.store, token_config['WBTC']),
 		];
 		this.mintFeePercent = new BigNumber(0);
 		this.redeemFeePercent = new BigNumber(0);
@@ -75,6 +66,16 @@ class IbBTCStore {
 		});
 
 		if (!!this.store.wallet.connectedAddress) this.init();
+	}
+
+	// just to have the same pattern as redeem options, currently all peaks can mint
+	get mintOptions(): TokenModel[] {
+		return this.tokens;
+	}
+
+	// currently the zap contract does not support redeem
+	get redeemOptions(): TokenModel[] {
+		return this.tokens.filter(({ symbol }) => !this.config.contracts.ZapPeak.supportedTokens.includes(symbol));
 	}
 
 	init(): void {
@@ -144,12 +145,9 @@ class IbBTCStore {
 			const { provider } = this.store.wallet;
 			if (!provider) return;
 
-			// Fetch mintRate, redeemRate and set to respected token
-			const tokensRateInformation = this.tokens.map((token) =>
-				Promise.all([this.fetchMintRate(token), this.fetchRedeemRate(token)]),
-			);
-
-			await Promise.all(tokensRateInformation);
+			const fetchMintRates = this.mintOptions.map((token) => this.fetchMintRate(token));
+			const fetchRedeemRates = this.redeemOptions.map((token) => this.fetchRedeemRate(token));
+			await Promise.all([...fetchMintRates, ...fetchRedeemRates]);
 		},
 	);
 
@@ -183,7 +181,11 @@ class IbBTCStore {
 		this.ibBTC.balance = ZERO;
 	});
 
-	isValidAmount = action((amount: BigNumber, token: TokenModel): boolean => {
+	isZapToken(token: TokenModel): boolean {
+		return this.config.contracts.ZapPeak.supportedTokens.includes(token.symbol);
+	}
+
+	isValidAmount(token: TokenModel, amount: BigNumber, slippage?: BigNumber): boolean {
 		const { queueNotification } = this.store.uiState;
 
 		if (!amount || amount.isNaN() || amount.lte(0)) {
@@ -196,60 +198,12 @@ class IbBTCStore {
 			return false;
 		}
 
-		return true;
-	});
-
-	isValidMint(amount: BigNumber, limits: MintLimits): boolean {
-		return amount.lte(limits.userLimit) && amount.lte(limits.allUsersLimit);
-	}
-
-	getPeakForToken(symbol: string): PeakType {
-		const peak: PeakType = {
-			address: this.config.contracts.BadgerSettPeak.address,
-			isYearnWBTCPeak: false,
-			abi: BadgerBtcPeak.abi,
-		};
-		if (this.config.contracts.yearnWBTCPeak.supportedTokens.includes(symbol)) {
-			peak.address = this.config.contracts.yearnWBTCPeak.address;
-			peak.isYearnWBTCPeak = true;
-			peak.abi = BadgerYearnWbtcPeak.abi;
+		if (this.isZapToken(token) && (slippage?.isNaN() || slippage?.lte(0))) {
+			queueNotification('Please enter a valid slippage value', 'error');
+			return false;
 		}
 
-		// Curve Peak as default peak
-		return peak;
-	}
-
-	async getMintLimit(token: TokenModel): Promise<MintLimits> {
-		const { connectedAddress, provider } = this.store.wallet;
-		const { abi: peakAbi, address: peakAddress } = this.getPeakForToken(token.symbol);
-
-		const web3 = new Web3(provider);
-		const peak = new web3.eth.Contract(peakAbi, peakAddress);
-		const coreAddress = await peak.methods.core().call();
-		const core = new web3.eth.Contract(coreConfig.abi as AbiItem[], coreAddress);
-		const guessListAddress = await core.methods.guestList().call();
-		const guessList = new web3.eth.Contract(guessListConfig.abi as AbiItem[], guessListAddress);
-
-		const [userRemaining, totalRemaining, userDepositCap, totalDepositCap] = await Promise.all([
-			guessList.methods.remainingUserDepositAllowed(connectedAddress).call(),
-			guessList.methods.remainingTotalDepositAllowed().call(),
-			guessList.methods.userDepositCap().call(),
-			guessList.methods.totalDepositCap().call(),
-		]);
-
-		const [userLimit, allUsersLimit, individualLimit, globalLimit] = await Promise.all([
-			this.bBTCToSett(new BigNumber(userRemaining), token),
-			this.bBTCToSett(new BigNumber(totalRemaining), token),
-			this.bBTCToSett(new BigNumber(userDepositCap), token),
-			this.bBTCToSett(new BigNumber(totalDepositCap), token),
-		]);
-
-		return {
-			userLimit,
-			allUsersLimit,
-			individualLimit,
-			globalLimit,
-		};
+		return true;
 	}
 
 	async getRedeemConversionRate(token: TokenModel): Promise<BigNumber> {
@@ -260,43 +214,9 @@ class IbBTCStore {
 		const ibBTC = new web3.eth.Contract(ibBTCConfig.abi as AbiItem[], this.ibBTC.address);
 		const ibBTCPricePerShare = await ibBTC.methods.pricePerShare().call();
 
-		return this.bBTCToSett(new BigNumber(ibBTCPricePerShare), token);
-	}
-
-	/**
-	 * Calculates the settToken amount equivalent  of an ibBTC amount using the following criteria
-	 * for byvWBTCPeak => [amount/ 100] / byvWBTC.pricePerShare
-	 * for BadgerPeak => [amount* 1e36] / [sett.getPricePerFullShare] / swap.get_virtual_price]
-	 * @param amount amount that will be converted
-	 * @param token token to be used in calculation
-	 */
-	async bBTCToSett(amount: BigNumber, token: TokenModel): Promise<BigNumber> {
-		const { provider } = this.store.wallet;
-		if (!provider) return ZERO;
-
-		const { isYearnWBTCPeak, address, abi } = this.getPeakForToken(token.symbol);
-		const web3 = new Web3(provider);
-
-		if (isYearnWBTCPeak) {
-			const yearnToken = new web3.eth.Contract(yearnConfig.abi as AbiItem[], token.address);
-			const yearnTokenPricePerShare = await yearnToken.methods.pricePerShare().call();
-			return amount.dividedToIntegerBy(100).dividedToIntegerBy(yearnTokenPricePerShare);
-		}
-
-		const badgerBtcPeak = new web3.eth.Contract(abi, address);
-		const settToken = new web3.eth.Contract(settConfig.abi as AbiItem[], token.address);
-		const { swap: swapAddress } = await badgerBtcPeak.methods.pools(token.poolId).call();
-		const swapContract = new web3.eth.Contract(badgerPeakSwap.abi as AbiItem[], swapAddress);
-
-		const [settTokenPricePerFullShare, swapVirtualPrice] = await Promise.all([
-			settToken.methods.getPricePerFullShare().call(),
-			swapContract.methods.get_virtual_price().call(),
-		]);
-
-		return amount
-			.multipliedBy(1e36)
-			.dividedToIntegerBy(settTokenPricePerFullShare)
-			.dividedToIntegerBy(swapVirtualPrice);
+		return IbbtcVaultPeakFactory.createIbbtcVaultPeakForToken(this.store, token).bBTCToSett(
+			new BigNumber(ibBTCPricePerShare),
+		);
 	}
 
 	async getFees(): Promise<ibBTCFees> {
@@ -341,7 +261,7 @@ class IbBTCStore {
 		spender: string,
 		amount: BigNumber | string = MAX,
 	): Promise<void> {
-		const { queueNotification, setTxStatus } = this.store.uiState;
+		const { queueNotification } = this.store.uiState;
 		const { provider, connectedAddress } = this.store.wallet;
 
 		const web3 = new Web3(provider);
@@ -361,18 +281,14 @@ class IbBTCStore {
 				queueNotification(`${underlyingAsset.symbol} allowance increased.`, 'success');
 			})
 			.on('error', (error: Error) => {
-				queueNotification(error.message, 'error');
-				setTxStatus('error');
+				throw error;
 			});
 	}
 
-	async mint(inToken: TokenModel, amount: BigNumber): Promise<void> {
-		const { setTxStatus, queueNotification } = this.store.uiState;
-
-		if (!this.isValidAmount(amount, inToken)) return;
-
+	async mint(inToken: TokenModel, amount: BigNumber, slippage: BigNumber): Promise<void> {
+		const { queueNotification } = this.store.uiState;
 		try {
-			const peak = this.getPeakForToken(inToken.symbol);
+			const peak = IbbtcVaultPeakFactory.createIbbtcVaultPeakForToken(this.store, inToken);
 			const allowance = await this.getAllowance(inToken, peak.address);
 
 			// make sure we have allowance
@@ -380,18 +296,13 @@ class IbBTCStore {
 				await this.increaseAllowance(inToken, peak.address);
 			}
 
-			setTxStatus('pending');
-			await this.mintBBTC(inToken, amount);
-			setTxStatus('success');
+			await this.mintBBTC(inToken, amount, slippage);
 		} catch (error) {
 			process.env.NODE_ENV !== 'production' && console.error(error);
-			setTxStatus('error');
-			queueNotification(`There was an error minting ${inToken.symbol}. Please try again later.`, 'error');
+			queueNotification(`There was an error minting ${this.ibBTC.symbol}. Please try again later.`, 'error');
 		}
 	}
 	async redeem(outToken: TokenModel, amount: BigNumber): Promise<void> {
-		if (!this.isValidAmount(amount, this.ibBTC)) return;
-
 		try {
 			await this.redeemBBTC(outToken, amount);
 		} catch (error) {
@@ -405,21 +316,11 @@ class IbBTCStore {
 
 	async calcMintAmount(inToken: TokenModel, amount: BigNumber): Promise<MintAmountCalculation> {
 		const { queueNotification } = this.store.uiState;
-		const { provider } = this.store.wallet;
 		const fallbackResponse = { bBTC: this.ibBTC.scale('0'), fee: this.ibBTC.scale('0') };
 
-		if (!provider) {
-			queueNotification('Please connect a wallet', 'error');
-			return fallbackResponse;
-		}
-
 		try {
-			let method: ContractSendMethod;
-			const peak = this.getPeakForToken(inToken.symbol);
-			const web3 = new Web3(provider);
-			const peakContract = new web3.eth.Contract(peak.abi as AbiItem[], peak.address);
-			if (peak.isYearnWBTCPeak) method = peakContract.methods.calcMint(toHex(amount));
-			else method = peakContract.methods.calcMint(inToken.poolId, toHex(amount));
+			const peak = IbbtcVaultPeakFactory.createIbbtcVaultPeakForToken(this.store, inToken);
+			const method = peak.getCalcMintMethod(amount);
 			const { bBTC, fee } = await method.call();
 			return { bBTC: new BigNumber(bBTC), fee: new BigNumber(fee) };
 		} catch (error) {
@@ -431,27 +332,16 @@ class IbBTCStore {
 
 	async calcRedeemAmount(outToken: TokenModel, amount: BigNumber): Promise<RedeemAmountCalculation> {
 		const { queueNotification } = this.store.uiState;
-		const { provider } = this.store.wallet;
 		const fallbackResponse = {
 			fee: this.ibBTC.scale('0'),
 			max: this.ibBTC.scale('0'),
 			sett: this.ibBTC.scale('0'),
 		};
 
-		if (!provider) {
-			queueNotification('Please connect a wallet', 'error');
-			return fallbackResponse;
-		}
-
 		try {
-			let method: ContractSendMethod;
-			const peak = this.getPeakForToken(outToken.symbol);
-			const web3 = new Web3(provider);
-			const peakContract = new web3.eth.Contract(peak.abi as AbiItem[], peak.address);
-			if (peak.isYearnWBTCPeak) method = peakContract.methods.calcRedeem(toHex(amount));
-			else method = peakContract.methods.calcRedeem(outToken.poolId, toHex(amount));
+			const peak = IbbtcVaultPeakFactory.createIbbtcVaultPeakForToken(this.store, outToken);
+			const method = peak.getCalcRedeemMethod(amount);
 			const { fee, max, sett } = await method.call();
-
 			return { fee: new BigNumber(fee), max: new BigNumber(max), sett: new BigNumber(sett) };
 		} catch (error) {
 			process.env.NODE_ENV !== 'production' && console.error(error);
@@ -460,61 +350,39 @@ class IbBTCStore {
 		}
 	}
 
-	async mintBBTC(inToken: TokenModel, amount: BigNumber): Promise<void> {
-		const { queueNotification, setTxStatus } = this.store.uiState;
-		const { provider, connectedAddress } = this.store.wallet;
-
-		let method: ContractSendMethod;
-		const peak = this.getPeakForToken(inToken.symbol);
-		const web3 = new Web3(provider);
-		const peakContract = new web3.eth.Contract(peak.abi as AbiItem[], peak.address);
-		const merkleProof = this.store.user.bouncerProof || [];
-		if (peak.isYearnWBTCPeak) method = peakContract.methods.mint(toHex(amount), merkleProof);
-		else method = peakContract.methods.mint(inToken.poolId, toHex(amount), merkleProof);
-
-		const gasPrice = this.store.wallet.gasPrices[this.store.uiState.gasPrice];
-		const options = await getSendOptions(method, connectedAddress, gasPrice);
-		await method
-			.send(options)
-			.on('transactionHash', (_hash: string) => {
-				queueNotification(`Mint submitted.`, 'info', _hash);
-			})
-			.on('receipt', () => {
-				queueNotification(`Successfully minted ${this.ibBTC.symbol}`, 'success');
-				this.init();
-			})
-			.on('error', (error: Error) => {
-				queueNotification(error.message, 'error');
-				setTxStatus('error');
-			});
+	async mintBBTC(inToken: TokenModel, amount: BigNumber, slippage: BigNumber): Promise<void> {
+		const peak = IbbtcVaultPeakFactory.createIbbtcVaultPeakForToken(this.store, inToken);
+		const method = await peak.getMintMethod(amount, slippage);
+		await this.executeMethod(method, 'Mint submitted', `Successfully minted ${this.ibBTC.symbol}`);
 	}
 
 	async redeemBBTC(outToken: TokenModel, amount: BigNumber): Promise<void> {
-		const { queueNotification, setTxStatus } = this.store.uiState;
-		const { provider, connectedAddress } = this.store.wallet;
+		const peak = IbbtcVaultPeakFactory.createIbbtcVaultPeakForToken(this.store, outToken);
+		const method = peak.getRedeemMethod(amount);
+		await this.executeMethod(method, 'Redeem submitted', `Successfully redeemed ${outToken.symbol}`);
+	}
 
-		let method: ContractSendMethod;
-		const peak = this.getPeakForToken(outToken.symbol);
-		const web3 = new Web3(provider);
-		const peakContract = new web3.eth.Contract(peak.abi as AbiItem[], peak.address);
-		if (peak.isYearnWBTCPeak) method = peakContract.methods.redeem(toHex(amount));
-		else method = peakContract.methods.redeem(outToken.poolId, toHex(amount));
-
+	private async executeMethod(
+		method: ContractSendMethod,
+		infoMessage: string,
+		successMessage: string,
+	): Promise<void> {
+		const { connectedAddress } = this.store.wallet;
+		const { queueNotification } = this.store.uiState;
 		const gasPrice = this.store.wallet.gasPrices[this.store.uiState.gasPrice];
 		const options = await getSendOptions(method, connectedAddress, gasPrice);
+
 		await method
 			.send(options)
 			.on('transactionHash', (_hash: string) => {
-				queueNotification(`Redeem submitted.`, 'info', _hash);
+				queueNotification(infoMessage, 'info', _hash);
 			})
 			.on('receipt', () => {
-				queueNotification(`Successfully redeemed ${outToken.symbol}`, 'success');
+				queueNotification(successMessage, 'success');
 				this.init();
 			})
 			.on('error', (error: Error) => {
-				this.init();
-				queueNotification(error.message, 'error');
-				setTxStatus('error');
+				throw error;
 			});
 	}
 
