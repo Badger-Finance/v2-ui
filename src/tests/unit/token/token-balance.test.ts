@@ -13,7 +13,7 @@ describe('token-balance', () => {
 		if (!token) {
 			throw Error(`Require ${address} token defined`);
 		}
-    const scalar = Math.pow(10, token.decimals);
+		const scalar = Math.pow(10, token.decimals);
 		const amount = balance !== undefined ? balance : randomValue();
 		const price = cost !== undefined ? cost : randomValue(10, 35000);
 		return new TokenBalance(store.rewards, token, new BigNumber(amount * scalar), new BigNumber(price));
@@ -71,7 +71,7 @@ describe('token-balance', () => {
 			it('displays balance, with token decimals', () => {
 				const amount = randomValue();
 				const mockBalance = randomTokenBalance(amount);
-				const displayString = amount.toFixed(mockBalance.token.decimals);
+				const displayString = new BigNumber(amount).toFixed(mockBalance.token.decimals);
 				expect(mockBalance.balanceDisplay()).toEqual(displayString);
 			});
 		});
@@ -81,7 +81,7 @@ describe('token-balance', () => {
 				const amount = randomValue();
 				const mockBalance = randomTokenBalance(amount);
 				const decimals = 5;
-				const displayString = amount.toFixed(decimals);
+				const displayString = new BigNumber(amount).toFixed(decimals);
 				expect(mockBalance.balanceDisplay(decimals)).toEqual(displayString);
 			});
 		});
@@ -98,12 +98,11 @@ describe('token-balance', () => {
 	});
 
 	describe('scale', () => {
-		describe('scalar below 1', () => {
-			it('scales the balance down', () => {
+		describe('scalar does not equal 1', () => {
+			it('scales the balance in the appropriate scalar amount', () => {
 				const mockBalance = randomTokenBalance(1);
-				const scalar = new BigNumber(randomValue(0, 0.99));
+				const scalar = new BigNumber(randomValue(0, 2));
 				const scaledBalance = mockBalance.scale(scalar);
-				console.log({ balance: mockBalance.balanceDisplay(), scalar: scalar.toFixed() });
 				verifyScaledBalance(mockBalance, scaledBalance, scalar);
 			});
 		});
@@ -116,34 +115,27 @@ describe('token-balance', () => {
 				expect(scaledBalance).toMatchObject(mockBalance);
 			});
 		});
-
-		describe('scalar above 1', () => {
-			it('scales the balance up', () => {
-				const mockBalance = randomTokenBalance(1);
-				const scalar = new BigNumber(1.01);
-				const scaledBalance = mockBalance.scale(scalar);
-				verifyScaledBalance(mockBalance, scaledBalance, scalar);
-			});
-		});
 	});
 
 	describe('scaledBalanceDisplay', () => {
 		describe('scale up', () => {
 			it('scales the balance up', () => {
-				const percent = randomValue(200, 500);
+				const percent = randomValue(250, 500);
 				const amount = randomValue(1.01, 5);
 				const mockBalance = randomTokenBalance(amount);
-				const displayString = ((amount * percent) / 100).toFixed(mockBalance.token.decimals);
+				const expectedTokenBalance = mockBalance.balance.multipliedBy(new BigNumber(percent / 100));
+				const displayString = expectedTokenBalance.toFixed(mockBalance.token.decimals);
 				expect(mockBalance.scaledBalanceDisplay(percent)).toEqual(displayString);
 			});
 		});
 
 		describe('scale down', () => {
 			it('scales the balance up', () => {
-				const percent = randomValue(20, 50);
+				const percent = randomValue(35, 50);
 				const amount = randomValue(1.01, 5);
 				const mockBalance = randomTokenBalance(amount);
-				const displayString = ((amount * percent) / 100).toFixed(mockBalance.token.decimals);
+				const expectedTokenBalance = mockBalance.balance.multipliedBy(new BigNumber(percent / 100));
+				const displayString = expectedTokenBalance.toFixed(mockBalance.token.decimals);
 				expect(mockBalance.scaledBalanceDisplay(percent)).toEqual(displayString);
 			});
 		});

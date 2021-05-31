@@ -61,8 +61,7 @@ export class TokenBalance {
 
 	scale(scalar: BigNumber): TokenBalance {
 		const tokenBalance = this.tokenBalance.multipliedBy(scalar);
-		const price = this.price.dividedBy(scalar);
-		return new TokenBalance(this.store, this.token, tokenBalance, price);
+		return new TokenBalance(this.store, this.token, tokenBalance, this.price);
 	}
 
 	scaledBalanceDisplay(percent: number): string {
