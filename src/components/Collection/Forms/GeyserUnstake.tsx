@@ -81,7 +81,7 @@ export const GeyserUnstake = observer((props: SettModalProps) => {
 								{!connectedAddress || !userBalance ? (
 									<TextSkeleton animation="wave" />
 								) : (
-									userBalance.scaledBalanceDisplay()
+									userBalance.balanceDisplay()
 								)}
 							</BalanceInformation>
 						</AssetInformationContainer>

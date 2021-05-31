@@ -22,36 +22,41 @@ exports[`ibBTC Mint can apply max balance 1`] = `
         class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47 MuiGrid-grid-sm-5-54"
       >
         <div
-          class="MuiInputBase-root-141 NumericInput-root-139 makeStyles-input-140 MuiInputBase-disabled-144 MuiInputBase-fullWidth-151"
+          class="MuiInputBase-root-140 WithStyles(ForwardRef(InputBase))-root-139 MuiInputBase-disabled-143"
         >
           <input
-            class="MuiInputBase-input-152 MuiInputBase-disabled-144"
+            autocomplete="off"
+            class="MuiInputBase-input-151 MuiInputBase-disabled-143"
             disabled=""
+            inputmode="decimal"
+            maxlength="79"
+            minlength="1"
             pattern="^[0-9]*[.,]?[0-9]*$"
             placeholder="0.000"
-            type="tel"
+            spellcheck="false"
+            type="text"
             value="5.000000"
           />
         </div>
       </div>
       <div
-        class="MuiGrid-root-1 WithStyles(ForwardRef(Grid))-root-159 WithStyles(ForwardRef(Grid))-root-160 MuiGrid-container-2 MuiGrid-spacing-xs-1-24 MuiGrid-item-3 MuiGrid-grid-xs-12-47 MuiGrid-grid-sm-7-56"
+        class="MuiGrid-root-1 WithStyles(ForwardRef(Grid))-root-158 WithStyles(ForwardRef(Grid))-root-159 MuiGrid-container-2 MuiGrid-spacing-xs-1-24 MuiGrid-item-3 MuiGrid-grid-xs-12-47 MuiGrid-grid-sm-7-56"
       >
         <div
           class="MuiGrid-root-1 MuiGrid-item-3"
         >
           <button
-            class="MuiButtonBase-root-190 MuiButton-root-161 MuiButton-outlined-166 MuiButton-outlinedSizeSmall-178 MuiButton-sizeSmall-182"
+            class="MuiButtonBase-root-189 MuiButton-root-160 MuiButton-outlined-165 MuiButton-outlinedSizeSmall-177 MuiButton-sizeSmall-181"
             tabindex="0"
             type="button"
           >
             <span
-              class="MuiButton-label-162"
+              class="MuiButton-label-161"
             >
               max
             </span>
             <span
-              class="MuiTouchRipple-root-230"
+              class="MuiTouchRipple-root-229"
             />
           </button>
         </div>
@@ -59,12 +64,12 @@ exports[`ibBTC Mint can apply max balance 1`] = `
           class="MuiGrid-root-1 MuiGrid-item-3"
         >
           <button
-            class="MuiButtonBase-root-190 MuiButton-root-161 MuiButton-outlined-166 makeStyles-selectButton-198 MuiButton-outlinedSizeSmall-178 MuiButton-sizeSmall-182"
+            class="MuiButtonBase-root-189 MuiButton-root-160 MuiButton-outlined-165 makeStyles-selectButton-197 MuiButton-outlinedSizeSmall-177 MuiButton-sizeSmall-181"
             tabindex="0"
             type="button"
           >
             <span
-              class="MuiButton-label-162"
+              class="MuiButton-label-161"
             >
               <div
                 style="align-items: center; display: flex; flex-wrap: nowrap; overflow: hidden;"
@@ -81,11 +86,11 @@ exports[`ibBTC Mint can apply max balance 1`] = `
                 </div>
               </div>
               <span
-                class="MuiButton-endIcon-186 MuiButton-iconSizeSmall-187"
+                class="MuiButton-endIcon-185 MuiButton-iconSizeSmall-186"
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root-200"
+                  class="MuiSvgIcon-root-199"
                   focusable="false"
                   viewBox="0 0 24 24"
                 >
@@ -96,7 +101,7 @@ exports[`ibBTC Mint can apply max balance 1`] = `
               </span>
             </span>
             <span
-              class="MuiTouchRipple-root-230"
+              class="MuiTouchRipple-root-229"
             />
           </button>
         </div>
@@ -107,7 +112,7 @@ exports[`ibBTC Mint can apply max balance 1`] = `
     class="MuiGrid-root-1 MuiGrid-container-2 MuiGrid-item-3 MuiGrid-align-items-xs-center-10 MuiGrid-grid-xs-12-47"
   >
     <svg
-      class="makeStyles-arrowDown-209"
+      class="makeStyles-arrowDown-208"
       fill="none"
       height="18"
       viewBox="0 0 13 18"
@@ -137,26 +142,26 @@ exports[`ibBTC Mint can apply max balance 1`] = `
       class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
     >
       <p
-        class="MuiTypography-root-107 WithStyles(ForwardRef(Typography))-root-210 WithStyles(ForwardRef(Typography))-root-211 MuiTypography-body1-109 MuiTypography-colorTextSecondary-133"
+        class="MuiTypography-root-107 WithStyles(ForwardRef(Typography))-root-209 WithStyles(ForwardRef(Typography))-root-210 MuiTypography-body1-109 MuiTypography-colorTextSecondary-133"
       >
         Balance: 
         10.000
       </p>
     </div>
     <div
-      class="MuiGrid-root-1 WithStyles(ForwardRef(Grid))-root-212 WithStyles(ForwardRef(Grid))-root-213 MuiGrid-container-2 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
+      class="MuiGrid-root-1 WithStyles(ForwardRef(Grid))-root-211 WithStyles(ForwardRef(Grid))-root-212 MuiGrid-container-2 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
     >
       <div
         class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47 MuiGrid-grid-sm-9-58 MuiGrid-grid-md-12-75 MuiGrid-grid-lg-10-87"
       >
         <h1
-          class="MuiTypography-root-107 WithStyles(ForwardRef(Typography))-root-214 WithStyles(ForwardRef(Typography))-root-215 MuiTypography-h1-112"
+          class="MuiTypography-root-107 WithStyles(ForwardRef(Typography))-root-213 WithStyles(ForwardRef(Typography))-root-214 MuiTypography-h1-112"
         >
           0.000000
         </h1>
       </div>
       <div
-        class="MuiGrid-root-1 WithStyles(ForwardRef(Grid))-root-216 WithStyles(ForwardRef(Grid))-root-217 MuiGrid-container-2 MuiGrid-item-3 MuiGrid-grid-xs-12-47 MuiGrid-grid-sm-3-52 MuiGrid-grid-md-12-75 MuiGrid-grid-lg-2-79"
+        class="MuiGrid-root-1 WithStyles(ForwardRef(Grid))-root-215 WithStyles(ForwardRef(Grid))-root-216 MuiGrid-container-2 MuiGrid-item-3 MuiGrid-grid-xs-12-47 MuiGrid-grid-sm-3-52 MuiGrid-grid-md-12-75 MuiGrid-grid-lg-2-79"
       >
         <div
           style="align-items: center; display: flex; flex-wrap: nowrap; overflow: hidden;"
@@ -179,8 +184,33 @@ exports[`ibBTC Mint can apply max balance 1`] = `
     class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
   >
     <div
-      class="MuiGrid-root-1 WithStyles(ForwardRef(Grid))-root-218"
+      class="MuiGrid-root-1 WithStyles(ForwardRef(Grid))-root-217"
     >
+      <div
+        class="MuiGrid-root-1 MuiGrid-container-2"
+      >
+        <h6
+          class="MuiTypography-root-107 WithStyles(ForwardRef(Typography))-root-240 MuiTypography-subtitle1-118"
+        >
+          <span>
+            Your current mint amount limit is 
+          </span>
+          <span
+            class="makeStyles-userLimit-239"
+            title="Apply amount"
+          >
+            0.005000e-6 
+          </span>
+          <span>
+            bcrvRenWSBTC.
+          </span>
+        </h6>
+        <h6
+          class="MuiTypography-root-107 WithStyles(ForwardRef(Typography))-root-240 MuiTypography-subtitle1-118"
+        >
+          Individual total mint amount limit is currently 0.000000 bcrvRenWSBTC.
+        </h6>
+      </div>
       <div
         class="MuiGrid-root-1 MuiGrid-container-2 MuiGrid-item-3 MuiGrid-justify-xs-space-between-21 MuiGrid-grid-xs-12-47"
       >
@@ -265,17 +295,17 @@ exports[`ibBTC Mint can apply max balance 1`] = `
     class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
   >
     <button
-      class="MuiButtonBase-root-190 MuiButton-root-161 MuiButton-contained-169 MuiButton-containedPrimary-170 MuiButton-containedSizeLarge-181 MuiButton-sizeLarge-183 MuiButton-fullWidth-184"
+      class="MuiButtonBase-root-189 MuiButton-root-160 MuiButton-contained-168 MuiButton-containedPrimary-169 MuiButton-containedSizeLarge-180 MuiButton-sizeLarge-182 MuiButton-fullWidth-183"
       tabindex="0"
       type="button"
     >
       <span
-        class="MuiButton-label-162"
+        class="MuiButton-label-161"
       >
         Connect Wallet
       </span>
       <span
-        class="MuiTouchRipple-root-230"
+        class="MuiTouchRipple-root-229"
       />
     </button>
   </div>
@@ -304,36 +334,41 @@ exports[`ibBTC Mint displays output ibBTC when mint amount is inputted 1`] = `
         class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47 MuiGrid-grid-sm-5-54"
       >
         <div
-          class="MuiInputBase-root-141 NumericInput-root-139 makeStyles-input-140 MuiInputBase-disabled-144 MuiInputBase-fullWidth-151"
+          class="MuiInputBase-root-140 WithStyles(ForwardRef(InputBase))-root-139 MuiInputBase-disabled-143"
         >
           <input
-            class="MuiInputBase-input-152 MuiInputBase-disabled-144"
+            autocomplete="off"
+            class="MuiInputBase-input-151 MuiInputBase-disabled-143"
             disabled=""
+            inputmode="decimal"
+            maxlength="79"
+            minlength="1"
             pattern="^[0-9]*[.,]?[0-9]*$"
             placeholder="0.000"
-            type="tel"
+            spellcheck="false"
+            type="text"
             value="12"
           />
         </div>
       </div>
       <div
-        class="MuiGrid-root-1 WithStyles(ForwardRef(Grid))-root-159 WithStyles(ForwardRef(Grid))-root-160 MuiGrid-container-2 MuiGrid-spacing-xs-1-24 MuiGrid-item-3 MuiGrid-grid-xs-12-47 MuiGrid-grid-sm-7-56"
+        class="MuiGrid-root-1 WithStyles(ForwardRef(Grid))-root-158 WithStyles(ForwardRef(Grid))-root-159 MuiGrid-container-2 MuiGrid-spacing-xs-1-24 MuiGrid-item-3 MuiGrid-grid-xs-12-47 MuiGrid-grid-sm-7-56"
       >
         <div
           class="MuiGrid-root-1 MuiGrid-item-3"
         >
           <button
-            class="MuiButtonBase-root-190 MuiButton-root-161 MuiButton-outlined-166 MuiButton-outlinedSizeSmall-178 MuiButton-sizeSmall-182"
+            class="MuiButtonBase-root-189 MuiButton-root-160 MuiButton-outlined-165 MuiButton-outlinedSizeSmall-177 MuiButton-sizeSmall-181"
             tabindex="0"
             type="button"
           >
             <span
-              class="MuiButton-label-162"
+              class="MuiButton-label-161"
             >
               max
             </span>
             <span
-              class="MuiTouchRipple-root-230"
+              class="MuiTouchRipple-root-229"
             />
           </button>
         </div>
@@ -341,12 +376,12 @@ exports[`ibBTC Mint displays output ibBTC when mint amount is inputted 1`] = `
           class="MuiGrid-root-1 MuiGrid-item-3"
         >
           <button
-            class="MuiButtonBase-root-190 MuiButton-root-161 MuiButton-outlined-166 makeStyles-selectButton-198 MuiButton-outlinedSizeSmall-178 MuiButton-sizeSmall-182"
+            class="MuiButtonBase-root-189 MuiButton-root-160 MuiButton-outlined-165 makeStyles-selectButton-197 MuiButton-outlinedSizeSmall-177 MuiButton-sizeSmall-181"
             tabindex="0"
             type="button"
           >
             <span
-              class="MuiButton-label-162"
+              class="MuiButton-label-161"
             >
               <div
                 style="align-items: center; display: flex; flex-wrap: nowrap; overflow: hidden;"
@@ -363,11 +398,11 @@ exports[`ibBTC Mint displays output ibBTC when mint amount is inputted 1`] = `
                 </div>
               </div>
               <span
-                class="MuiButton-endIcon-186 MuiButton-iconSizeSmall-187"
+                class="MuiButton-endIcon-185 MuiButton-iconSizeSmall-186"
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root-200"
+                  class="MuiSvgIcon-root-199"
                   focusable="false"
                   viewBox="0 0 24 24"
                 >
@@ -378,7 +413,7 @@ exports[`ibBTC Mint displays output ibBTC when mint amount is inputted 1`] = `
               </span>
             </span>
             <span
-              class="MuiTouchRipple-root-230"
+              class="MuiTouchRipple-root-229"
             />
           </button>
         </div>
@@ -389,7 +424,7 @@ exports[`ibBTC Mint displays output ibBTC when mint amount is inputted 1`] = `
     class="MuiGrid-root-1 MuiGrid-container-2 MuiGrid-item-3 MuiGrid-align-items-xs-center-10 MuiGrid-grid-xs-12-47"
   >
     <svg
-      class="makeStyles-arrowDown-209"
+      class="makeStyles-arrowDown-208"
       fill="none"
       height="18"
       viewBox="0 0 13 18"
@@ -419,26 +454,26 @@ exports[`ibBTC Mint displays output ibBTC when mint amount is inputted 1`] = `
       class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
     >
       <p
-        class="MuiTypography-root-107 WithStyles(ForwardRef(Typography))-root-210 WithStyles(ForwardRef(Typography))-root-211 MuiTypography-body1-109 MuiTypography-colorTextSecondary-133"
+        class="MuiTypography-root-107 WithStyles(ForwardRef(Typography))-root-209 WithStyles(ForwardRef(Typography))-root-210 MuiTypography-body1-109 MuiTypography-colorTextSecondary-133"
       >
         Balance: 
         10.000
       </p>
     </div>
     <div
-      class="MuiGrid-root-1 WithStyles(ForwardRef(Grid))-root-212 WithStyles(ForwardRef(Grid))-root-213 MuiGrid-container-2 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
+      class="MuiGrid-root-1 WithStyles(ForwardRef(Grid))-root-211 WithStyles(ForwardRef(Grid))-root-212 MuiGrid-container-2 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
     >
       <div
         class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47 MuiGrid-grid-sm-9-58 MuiGrid-grid-md-12-75 MuiGrid-grid-lg-10-87"
       >
         <h1
-          class="MuiTypography-root-107 WithStyles(ForwardRef(Typography))-root-214 WithStyles(ForwardRef(Typography))-root-215 MuiTypography-h1-112"
+          class="MuiTypography-root-107 WithStyles(ForwardRef(Typography))-root-213 WithStyles(ForwardRef(Typography))-root-214 MuiTypography-h1-112"
         >
           11.988000
         </h1>
       </div>
       <div
-        class="MuiGrid-root-1 WithStyles(ForwardRef(Grid))-root-216 WithStyles(ForwardRef(Grid))-root-217 MuiGrid-container-2 MuiGrid-item-3 MuiGrid-grid-xs-12-47 MuiGrid-grid-sm-3-52 MuiGrid-grid-md-12-75 MuiGrid-grid-lg-2-79"
+        class="MuiGrid-root-1 WithStyles(ForwardRef(Grid))-root-215 WithStyles(ForwardRef(Grid))-root-216 MuiGrid-container-2 MuiGrid-item-3 MuiGrid-grid-xs-12-47 MuiGrid-grid-sm-3-52 MuiGrid-grid-md-12-75 MuiGrid-grid-lg-2-79"
       >
         <div
           style="align-items: center; display: flex; flex-wrap: nowrap; overflow: hidden;"
@@ -461,8 +496,33 @@ exports[`ibBTC Mint displays output ibBTC when mint amount is inputted 1`] = `
     class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
   >
     <div
-      class="MuiGrid-root-1 WithStyles(ForwardRef(Grid))-root-218"
+      class="MuiGrid-root-1 WithStyles(ForwardRef(Grid))-root-217"
     >
+      <div
+        class="MuiGrid-root-1 MuiGrid-container-2"
+      >
+        <h6
+          class="MuiTypography-root-107 WithStyles(ForwardRef(Typography))-root-240 MuiTypography-subtitle1-118"
+        >
+          <span>
+            Your current mint amount limit is 
+          </span>
+          <span
+            class="makeStyles-userLimit-239"
+            title="Apply amount"
+          >
+            0.005000e-6 
+          </span>
+          <span>
+            bcrvRenWSBTC.
+          </span>
+        </h6>
+        <h6
+          class="MuiTypography-root-107 WithStyles(ForwardRef(Typography))-root-240 MuiTypography-subtitle1-118"
+        >
+          Individual total mint amount limit is currently 0.000000 bcrvRenWSBTC.
+        </h6>
+      </div>
       <div
         class="MuiGrid-root-1 MuiGrid-container-2 MuiGrid-item-3 MuiGrid-justify-xs-space-between-21 MuiGrid-grid-xs-12-47"
       >
@@ -547,17 +607,17 @@ exports[`ibBTC Mint displays output ibBTC when mint amount is inputted 1`] = `
     class="MuiGrid-root-1 MuiGrid-item-3 MuiGrid-grid-xs-12-47"
   >
     <button
-      class="MuiButtonBase-root-190 MuiButton-root-161 MuiButton-contained-169 MuiButton-containedPrimary-170 MuiButton-containedSizeLarge-181 MuiButton-sizeLarge-183 MuiButton-fullWidth-184"
+      class="MuiButtonBase-root-189 MuiButton-root-160 MuiButton-contained-168 MuiButton-containedPrimary-169 MuiButton-containedSizeLarge-180 MuiButton-sizeLarge-182 MuiButton-fullWidth-183"
       tabindex="0"
       type="button"
     >
       <span
-        class="MuiButton-label-162"
+        class="MuiButton-label-161"
       >
         Connect Wallet
       </span>
       <span
-        class="MuiTouchRipple-root-230"
+        class="MuiTouchRipple-root-229"
       />
     </button>
   </div>

@@ -93,7 +93,8 @@ export const RewardsModal = observer(() => {
 		}
 		const initialClaimMap: ClaimMap = {};
 		badgerTree.claims.map((claim: UserClaimData) => {
-			initialClaimMap[claim.token] = store.rewards.tokenBalance(claim.token, claim.amount);
+			const mockBalance = store.rewards.mockBalance(claim.token);
+			initialClaimMap[claim.token] = TokenBalance.fromBalance(mockBalance, claim.amount.toFixed());
 		});
 		setClaimMap(initialClaimMap);
 		setOpen(true);
