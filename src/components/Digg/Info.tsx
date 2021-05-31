@@ -87,6 +87,7 @@ const Info = observer(() => {
 	const classes = useStyles();
 	const [nextRebase, setNextRebase] = useState('00:00:00');
 	const rebasePercentage = ((rebaseStats.oraclePrice - rebaseStats.btcPrice) / rebaseStats.btcPrice) * 10;
+	const showRebase = rebasePercentage && isFinite(rebasePercentage);
 
 	if (!rebaseStats) {
 		return <Loader />;
@@ -101,6 +102,11 @@ const Info = observer(() => {
 		}
 	}, 1000);
 
+	let rebaseStyle = {};
+	if (showRebase) {
+		const rebaseTextColor = rebasePercentage > 0 ? 'green' : 'red';
+		rebaseStyle = { color: rebaseTextColor };
+	}
 	const ppfs = settMap ? settMap[ETH_DEPLOY.sett_system.vaults['native.digg']].ppfs : undefined;
 	const spacer = () => <div className={classes.before} />;
 	return (
@@ -132,11 +138,7 @@ const Info = observer(() => {
 					<Typography variant="body1">1 bDIGG = {!!ppfs ? ppfs.toFixed(9) : '...'} DIGG</Typography>
 					<Typography variant="body2">
 						Potential Rebase ={' '}
-						<span
-							style={
-								!!rebasePercentage ? (rebasePercentage > 0 ? { color: 'green' } : { color: 'red' }) : {}
-							}
-						>{`${rebasePercentage ? rebasePercentage.toFixed(5) : '-'}%`}</span>
+						<span style={rebaseStyle}>{`${showRebase ? rebasePercentage.toFixed(5) : '-'}%`}</span>
 					</Typography>
 				</Paper>
 				<Button
