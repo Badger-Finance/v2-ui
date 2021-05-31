@@ -5,7 +5,7 @@ import { ContractSendMethod } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
 import Web3 from 'web3';
 import { ibBTCFees, TokenModel } from 'mobx/model';
-import { ZERO, MAX, FLAGS, NETWORK_IDS } from 'config/constants';
+import { ZERO, MAX, FLAGS, NETWORK_IDS, ERC20_ABI } from 'config/constants';
 import settConfig from 'config/system/abis/Sett.json';
 import ibBTCConfig from 'config/system/abis/ibBTC.json';
 import addresses from 'config/ibBTC/addresses.json';
@@ -262,11 +262,8 @@ class IbBTCStore {
 		amount: BigNumber | string = MAX,
 	): Promise<void> {
 		const { queueNotification } = this.store.uiState;
-		const { provider, connectedAddress } = this.store.wallet;
-
-		const web3 = new Web3(provider);
-		const tokenContract = new web3.eth.Contract(settConfig.abi as AbiItem[], underlyingAsset.address);
-		const method = tokenContract.methods.increaseAllowance(spender, amount);
+		const { connectedAddress } = this.store.wallet;
+		const method = this.getApprovalMethod(underlyingAsset, spender, amount);
 
 		queueNotification(`Sign the transaction to allow Badger to spend your ${underlyingAsset.symbol}`, 'info');
 
@@ -360,6 +357,20 @@ class IbBTCStore {
 		const peak = IbbtcVaultPeakFactory.createIbbtcVaultPeakForToken(this.store, outToken);
 		const method = peak.getRedeemMethod(amount);
 		await this.executeMethod(method, 'Redeem submitted', `Successfully redeemed ${outToken.symbol}`);
+	}
+
+	private getApprovalMethod(token: TokenModel, spender: string, amount: BigNumber | string = MAX) {
+		const { provider } = this.store.wallet;
+		const web3 = new Web3(provider);
+
+		if (token.symbol === this.config.contracts.tokens.WBTC.symbol) {
+			return new web3.eth.Contract(ERC20_ABI as AbiItem[], token.address).methods.approve(spender, amount);
+		}
+
+		return new web3.eth.Contract(settConfig.abi as AbiItem[], token.address).methods.increaseAllowance(
+			spender,
+			amount,
+		);
 	}
 
 	private async executeMethod(
