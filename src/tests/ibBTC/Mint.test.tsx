@@ -22,13 +22,6 @@ describe('ibBTC Mint', () => {
 		store.ibBTCStore.tokens = mockTokens;
 		store.ibBTCStore.tokens[0].balance = store.ibBTCStore.tokens[0].scale('5');
 		store.ibBTCStore.ibBTC.balance = mockIbBTC.scale('10');
-
-		store.ibBTCStore.getMintLimit = jest.fn().mockReturnValue({
-			userLimit: new BigNumber(50e8),
-			allUsersLimit: new BigNumber(100e8),
-			individualLimit: new BigNumber(25e8),
-			globalLimit: new BigNumber(75e8),
-		});
 	});
 
 	afterEach(cleanup);
@@ -45,6 +38,10 @@ describe('ibBTC Mint', () => {
 	});
 
 	it('can apply max balance', async () => {
+		store.ibBTCStore.calcMintAmount = jest.fn().mockReturnValue({
+			bBTC: mockIbBTC.scale('11.988'),
+			fee: mockIbBTC.scale('0.0120'),
+		});
 		const { container } = customRender(
 			<StoreProvider value={store}>
 				<Mint />

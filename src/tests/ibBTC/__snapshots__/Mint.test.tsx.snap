@@ -157,7 +157,7 @@ exports[`ibBTC Mint can apply max balance 1`] = `
         <h1
           class="MuiTypography-root-108 WithStyles(ForwardRef(Typography))-root-214 WithStyles(ForwardRef(Typography))-root-215 MuiTypography-h1-113"
         >
-          0.000
+          11.988000
         </h1>
       </div>
       <div
@@ -207,7 +207,7 @@ exports[`ibBTC Mint can apply max balance 1`] = `
             1 
             bcrvRenWSBTC
              : 
-            0.000
+            2.400000
              
             ibBTC
           </p>
@@ -235,7 +235,7 @@ exports[`ibBTC Mint can apply max balance 1`] = `
               class=""
               title="Mint Fee: 0%"
             >
-              0.000
+              0.012000
                
               ibBTC
             </span>
@@ -260,7 +260,7 @@ exports[`ibBTC Mint can apply max balance 1`] = `
           <p
             class="MuiTypography-root-108 WithStyles(ForwardRef(Typography))-root-107 MuiTypography-body1-110"
           >
-            0.000 ibBTC
+            11.988000 ibBTC
           </p>
         </div>
       </div>
