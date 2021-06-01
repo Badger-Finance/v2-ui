@@ -6,7 +6,6 @@ import { StoreProvider } from '../../mobx/store-context';
 import { TokenModel } from '../../mobx/model';
 import { customRender, screen, fireEvent, cleanup, act } from '../Utils';
 import { Mint } from '../../components/IbBTC/Mint';
-import BigNumber from 'bignumber.js';
 
 const tokensConfig = addresses.mainnet.contracts.tokens;
 const mockIbBTC = new TokenModel(store, tokensConfig['ibBTC']);
