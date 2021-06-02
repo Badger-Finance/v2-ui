@@ -41,14 +41,22 @@ class IbBTCStore {
 		const token_config = this.config.contracts.tokens;
 
 		this.ibBTC = new TokenModel(this.store, token_config['ibBTC']);
-		this.tokens = [
-			new TokenModel(this.store, token_config['bcrvRenWSBTC']),
-			new TokenModel(this.store, token_config['bcrvRenWBTC']),
-			new TokenModel(this.store, token_config['btbtc/sbtcCrv']),
-			new TokenModel(this.store, token_config['byvWBTC']),
-			new TokenModel(this.store, token_config['renBTC']),
-			new TokenModel(this.store, token_config['WBTC']),
-		];
+
+		this.tokens = FLAGS.IBBTC_OPTIONS_FLAG
+			? [
+					new TokenModel(this.store, token_config['bcrvRenWSBTC']),
+					new TokenModel(this.store, token_config['bcrvRenWBTC']),
+					new TokenModel(this.store, token_config['btbtc/sbtcCrv']),
+					new TokenModel(this.store, token_config['byvWBTC']),
+					new TokenModel(this.store, token_config['renBTC']),
+					new TokenModel(this.store, token_config['WBTC']),
+			  ]
+			: [
+					new TokenModel(this.store, token_config['bcrvRenWSBTC']),
+					new TokenModel(this.store, token_config['bcrvRenWBTC']),
+					new TokenModel(this.store, token_config['btbtc/sbtcCrv']),
+					new TokenModel(this.store, token_config['byvWBTC']),
+			  ];
 		this.mintFeePercent = new BigNumber(0);
 		this.redeemFeePercent = new BigNumber(0);
 
