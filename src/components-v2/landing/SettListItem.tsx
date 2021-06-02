@@ -225,7 +225,6 @@ const SettListItem = observer(
 										sett.tokens.length === 1
 											? `${sett.asset.toLowerCase()}`
 											: `${tokenBalance.symbol.toLowerCase()}-small`;
-									console.log(iconName);
 									const icon = `/assets/icons/${iconName}.png`;
 									const displayDecimals = tokenBalance.balance > 1 ? 0 : 4;
 									const balanceDisplay = tokenBalance.balance.toFixed(displayDecimals);
