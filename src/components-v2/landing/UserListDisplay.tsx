@@ -80,14 +80,14 @@ const UserListDisplay = observer((props: SettListViewProps) => {
 		}
 
 		const scalar = new BigNumber(sett.ppfs);
-		const settBalance = user.getBalance(ContractNamespace.Sett, badgerSett).scale(scalar);
+		const settBalance = user.getBalance(ContractNamespace.Sett, badgerSett).scale(scalar, true);
 		const settItem = createSettListItem(ContractNamespace.Sett, sett, settBalance, currency, period, onOpen);
 		if (settItem) {
 			settList.push(settItem);
 		}
 
 		if (badgerSett.geyser) {
-			const geyserBalance = user.getBalance(ContractNamespace.Geyser, badgerSett).scale(scalar);
+			const geyserBalance = user.getBalance(ContractNamespace.Geyser, badgerSett).scale(scalar, true);
 			const geyserItem = createSettListItem(
 				ContractNamespace.Geyser,
 				sett,

@@ -59,9 +59,15 @@ export class TokenBalance {
 		return inCurrency(this.value, currency);
 	}
 
-	scale(scalar: BigNumber): TokenBalance {
+	/**
+	 * Scale token balance by a given scalar.
+	 * Conversions to bTokens can utilize this function with scalePrice
+	 * to effectively convert balances using ppfs as the given scalar.
+	 */
+	scale(scalar: BigNumber, scalePrice?: boolean): TokenBalance {
 		const tokenBalance = this.tokenBalance.multipliedBy(scalar);
-		return new TokenBalance(this.store, this.token, tokenBalance, this.price);
+		const price = scalePrice ? this.price.dividedBy(scalar) : this.price;
+		return new TokenBalance(this.store, this.token, tokenBalance, price);
 	}
 
 	scaledBalanceDisplay(percent: number): string {
