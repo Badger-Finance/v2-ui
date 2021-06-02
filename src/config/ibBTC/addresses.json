@@ -34,15 +34,31 @@
 					"decimals": 8,
 					"symbol": "byvWBTC",
 					"name": "Badger WBTC yVault"
+				},
+				"renBTC": {
+					"address": "0xeb4c2781e4eba804ce9a9803c67d0893436bb27d",
+					"decimals": 8,
+					"symbol": "renBTC",
+					"name": "Ren Project renBTC"
+				},
+				"WBTC": {
+					"address": "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599",
+					"decimals": 8,
+					"symbol": "WBTC",
+					"name": "Wrapped Bitcoin"
 				}
 			},
 			"BadgerSettPeak": {
-				"supportedTokens": ["bcrvRenWSBTC", "bcrvRenWBTC", "btbtc/sbtcCrv"],
+				"supportedTokens": ["bcrvRenWSBTC", "bcrvRenWBTC", "btBTCCrv"],
 				"address": "0x41671BA1abcbA387b9b2B752c205e22e916BE6e3"
 			},
 			"yearnWBTCPeak": {
 				"supportedTokens": ["byvWBTC"],
 				"address": "0x825218beD8BE0B30be39475755AceE0250C50627"
+			},
+			"ZapPeak": {
+				"supportedTokens": ["renBTC", "WBTC"],
+				"address": "0xb3188E8D8A539f3573431778598551f6D113D0Fa"
 			}
 		}
 	}
