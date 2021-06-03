@@ -4,7 +4,6 @@ import SamplePicker from '../components-v2/landing/SamplePicker';
 import WalletSlider from '../components-v2/landing/WalletSlider';
 import { Grid, Container, makeStyles, Button } from '@material-ui/core';
 import PageHeader from '../components-v2/common/PageHeader';
-
 import { StoreContext } from '../mobx/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
@@ -87,7 +86,6 @@ const Landing = observer((props: LandingProps) => {
 
 	const {
 		wallet: { connectedAddress, network },
-		rewards: { badgerTree },
 		uiState: { currency },
 		setts,
 		user,
@@ -98,7 +96,6 @@ const Landing = observer((props: LandingProps) => {
 	const totalValueLocked = protocolSummary ? new BigNumber(protocolSummary.totalValue) : undefined;
 	const badgerPrice = network.deploy ? setts.getPrice(network.deploy.token) : undefined;
 	const portfolioValue = userConnected && !user.loadingBalances ? user.portfolioValue() : undefined;
-	const hasRewards = Boolean(!!network.rewards && !!connectedAddress && badgerTree && badgerTree.claims);
 
 	return (
 		<Container className={classes.landingContainer}>
@@ -117,7 +114,7 @@ const Landing = observer((props: LandingProps) => {
 				<Grid item xs={12} className={classes.widgetContainer}>
 					<div className={classes.walletContainer}>{userConnected && <WalletSlider />}</div>
 					<div className={classes.pickerContainer}>
-						{hasRewards && <RewardsModal />}
+						<RewardsModal />
 						<SamplePicker />
 						<CurrencyPicker />
 					</div>

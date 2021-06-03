@@ -1,14 +1,13 @@
 import { Backdrop, Button, ButtonGroup, Fade, Grid, Modal, Typography } from '@material-ui/core';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import BigNumber from 'bignumber.js';
+import { Loader } from 'components/Loader';
 import { CLAIMS_SYMBOLS } from 'config/constants';
 import { observer } from 'mobx-react-lite';
 import { TokenBalance } from 'mobx/model/token-balance';
 import { StoreContext } from 'mobx/store-context';
 import { inCurrency } from 'mobx/utils/helpers';
-import React, { useState, useContext } from 'react';
-import { getToken } from 'web3/config/token-config';
-import { UserClaimData } from '../../mobx/model';
+import React, { useState, useContext, useEffect } from 'react';
 import { RewardsModalItem } from './RewardsModalItem';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -65,115 +64,140 @@ const useStyles = makeStyles((theme: Theme) =>
 				marginBottom: theme.spacing(2),
 			},
 		},
+		claimContainer: {
+			display: 'flex',
+			flexDirection: 'column',
+			marginBottom: '-2px',
+		},
+		loaderContainer: {
+			display: 'flex',
+			justifyContent: 'space-between',
+			marginRight: theme.spacing(3),
+			marginBottom: theme.spacing(0.3),
+			width: '125px',
+		},
 	}),
 );
 
+export interface ClaimMapEntry {
+	balance: TokenBalance;
+	visualBalance: string;
+}
+
 export interface ClaimMap {
-	[address: string]: TokenBalance;
+	[address: string]: ClaimMapEntry;
 }
 
-interface RewardReturn {
-	totalClaimValue: BigNumber;
-	rewards: (JSX.Element | boolean)[];
+export interface RewardsModalProps {
+	loading: boolean;
 }
 
-export const RewardsModal = observer(() => {
+export const RewardsModal = observer((): JSX.Element | null => {
 	const classes = useStyles();
 	const store = useContext(StoreContext);
-	const { badgerTree, claimGeysers } = store.rewards;
+	const { badgerTree, claimGeysers, loadingRewards } = store.rewards;
 	const { currency } = store.uiState;
+	const { network, connectedAddress } = store.wallet;
 
 	const [open, setOpen] = useState(false);
-	const [claimMap, setClaimMap] = useState<ClaimMap | undefined>(undefined);
-	const [maxFlag, setMaxFlag] = useState(false);
+	const [maxFlag, setMaxFlag] = useState(true);
+	const [maxBalances, setMaxBalances] = useState<ClaimMap>({});
+	const [claimMap, setClaimMap] = useState<ClaimMap>({});
 
-	const handleOpen = (): void => {
-		if (!badgerTree || !badgerTree.claims) {
-			return;
-		}
-		const initialClaimMap: ClaimMap = {};
-		badgerTree.claims.map((claim: UserClaimData) => {
-			const mockBalance = store.rewards.mockBalance(claim.token);
-			initialClaimMap[claim.token] = TokenBalance.fromBalance(mockBalance, claim.amount.toFixed());
-		});
-		setClaimMap(initialClaimMap);
-		setOpen(true);
-	};
+	useEffect(() => {
+		const balances = Object.fromEntries(
+			badgerTree.claims.map((claim) => {
+				const entry = {
+					balance: claim,
+					visualBalance: claim.balanceDisplay(),
+				};
+				return [claim.token.address, entry];
+			}),
+		);
+		setMaxBalances(balances);
+		setClaimMap(balances);
+	}, [badgerTree.claims]);
 
-	const handleClose = () => {
-		setOpen(false);
-	};
-
-	const handleClaimMap = (address: string, amount: string) => {
-		const balance = store.rewards.balanceFromString(address, amount);
-		setClaimMap({ ...claimMap, [address]: balance });
-	};
-
-	const maxAll = () => {
-		setMaxFlag(!maxFlag);
-	};
-
-	const availableRewards = (): RewardReturn | boolean => {
-		const { claims, sharesPerFragment } = badgerTree;
-		if (!claims || !sharesPerFragment) {
-			return false;
-		}
-		let tcv = new BigNumber(0);
-		const elements = claims
-			.map((claim: UserClaimData): JSX.Element | boolean => {
-				const { network } = store.wallet;
-				const token = getToken(claim.token);
-				if (!token) {
-					return false;
-				}
-				const tokenBalance = store.rewards.tokenBalance(token.address, claim.amount);
-				if (tokenBalance.balance.eq(0) || tokenBalance.value.eq(0)) {
-					return false;
-				}
-				tcv = tokenBalance.value.plus(tcv);
-				return (
-					<RewardsModalItem
-						key={token.address}
-						amount={tokenBalance.balanceDisplay()}
-						display={tokenBalance.balanceDisplay(5)}
-						value={tokenBalance.balanceValueDisplay(currency)}
-						address={token.address}
-						symbol={CLAIMS_SYMBOLS[network.name][token.address]}
-						onChange={handleClaimMap}
-						maxFlag={maxFlag}
-					/>
-				);
-			})
-			.filter(Boolean);
-
-		return elements ? { totalClaimValue: tcv, rewards: elements } : false;
-	};
-
-	const rewardReturn: RewardReturn | boolean = availableRewards();
-	if (typeof rewardReturn === 'boolean') {
-		return <></>;
+	if (!connectedAddress) {
+		return null;
 	}
 
-	const userRewards = rewardReturn.rewards;
-	const totalClaimValue = rewardReturn.totalClaimValue;
+	if (loadingRewards) {
+		return (
+			<div className={classes.loaderContainer}>
+				<Typography variant="caption">Loading Rewards</Typography>
+				<Loader size={15} />
+			</div>
+		);
+	}
 
-	return userRewards.length > 0 ? (
-		<Grid>
-			<Grid container direction="column">
+	const isMaxed = (token: string): boolean =>
+		claimMap[token].balance.tokenBalance.eq(maxBalances[token].balance.tokenBalance);
+
+	const handleClaimMap = (address: string, amount: string): void => {
+		const isMax = amount === maxBalances[address].visualBalance;
+		let entry: ClaimMapEntry;
+		if (isMax) {
+			entry = maxBalances[address];
+		} else {
+			const balance = store.rewards.balanceFromString(address, amount);
+			entry = { balance, visualBalance: amount };
+		}
+		setClaimMap({ ...claimMap, [address]: entry });
+		if (!isMaxed(address)) {
+			setMaxFlag(false);
+		}
+	};
+
+	const maxAll = (): void => {
+		setClaimMap(maxBalances);
+		setMaxFlag(true);
+	};
+
+	const claimableValue = badgerTree.claims.reduce((total, balance) => total.plus(balance.value), new BigNumber(0));
+	const claimItems = badgerTree.claims
+		.filter((claim) => {
+			const entry = claimMap[claim.token.address];
+			return entry && entry.balance.tokenBalance.gt(0);
+		})
+		.map((claim) => {
+			const { token } = claim;
+			const maxClaim = maxBalances[token.address];
+			const currentClaim = claimMap[token.address].balance;
+			const currentClaimDisplay = claimMap[token.address].visualBalance;
+			return (
+				<RewardsModalItem
+					key={token.address}
+					amount={currentClaimDisplay}
+					maxAmount={maxClaim.visualBalance}
+					display={currentClaim.balanceDisplay(5)}
+					value={currentClaim.balanceValueDisplay(currency)}
+					address={token.address}
+					symbol={CLAIMS_SYMBOLS[network.name][token.address]}
+					onChange={handleClaimMap}
+					maxFlag={isMaxed(token.address)}
+				/>
+			);
+		});
+
+	const hasRewards = claimableValue.gt(0);
+	return (
+		<div className={classes.claimContainer}>
+			{hasRewards && (
 				<Typography variant="caption" className={classes.amountDisplay}>
-					{inCurrency(totalClaimValue, currency, true, 2)} in Rewards
+					{inCurrency(claimableValue, currency, true, 2)} in Rewards
 				</Typography>
-				<ButtonGroup className={classes.openModalButton} size="small" variant="outlined" color="primary">
-					<Button variant="contained" onClick={handleOpen}>
-						CLAIM REWARDS
-					</Button>
-				</ButtonGroup>
-			</Grid>
+			)}
+			<ButtonGroup className={classes.openModalButton} size="small" variant="outlined" color="primary">
+				<Button variant="contained" onClick={() => setOpen(true)} disabled={!hasRewards}>
+					CLAIM REWARDS
+				</Button>
+			</ButtonGroup>
 			<Modal
 				aria-labelledby="claim-modal"
 				aria-describedby="Claim your rewards"
 				open={open}
-				onClose={handleClose}
+				onClose={() => setOpen(false)}
 				className={classes.modal}
 				closeAfterTransition
 				BackdropComponent={Backdrop}
@@ -191,6 +215,7 @@ export const RewardsModal = observer(() => {
 							key="max-all-btn"
 							size="small"
 							variant="outlined"
+							disabled={maxFlag}
 							onClick={maxAll}
 						>
 							MAX ALL
@@ -203,12 +228,10 @@ export const RewardsModal = observer(() => {
 								Enter an amount to claim
 							</Typography>
 						</Grid>
-						<div className={classes.rewardsContainer}>{userRewards}</div>
+						<div className={classes.rewardsContainer}>{claimItems}</div>
 						<Button
 							className={classes.claimButton}
-							onClick={() => {
-								claimGeysers(claimMap);
-							}}
+							onClick={() => claimGeysers(claimMap)}
 							variant="contained"
 							color="primary"
 						>
@@ -217,8 +240,6 @@ export const RewardsModal = observer(() => {
 					</div>
 				</Fade>
 			</Modal>
-		</Grid>
-	) : (
-		<> </>
+		</div>
 	);
 });

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Grid, Typography, TextField, Button, createStyles, makeStyles, Theme } from '@material-ui/core';
+import { Grid, Typography, TextField, Button, createStyles, makeStyles, Theme, Tooltip } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { observer } from 'mobx-react-lite';
 
 export interface RewardsModalItemProps {
 	amount: string;
+	maxAmount: string;
 	display: string;
 	value: string;
 	symbol: string;
@@ -15,16 +16,16 @@ export interface RewardsModalItemProps {
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
-		claimInput: {
-			[theme.breakpoints.up('md')]: { paddingLeft: theme.spacing(6) },
-			[theme.breakpoints.down('md')]: { paddingLeft: theme.spacing(2) },
-		},
 		claimInputContainer: {
 			marginTop: 'auto',
 			marginBottom: 'auto',
+			textAlign: 'end',
 		},
 		modalItem: {
 			paddingBottom: theme.spacing(2),
+			[theme.breakpoints.up('sm')]: {
+				width: '505px',
+			},
 		},
 		claimableContainer: {
 			paddingTop: '5px',
@@ -39,42 +40,59 @@ const useStyles = makeStyles((theme: Theme) =>
 		currencyValue: {
 			marginTop: '-5px',
 		},
+		maxButton: {
+			marginLeft: theme.spacing(1),
+		},
+		modalField: {
+			[theme.breakpoints.up('sm')]: {
+				width: '325px',
+			},
+		},
 	}),
 );
 
 export const RewardsModalItem = observer(
 	(props: RewardsModalItemProps): JSX.Element => {
 		const classes = useStyles();
-		const { amount, display, value, address, maxFlag, symbol, onChange } = props;
+		const { amount, maxAmount, display, value, address, maxFlag, symbol, onChange } = props;
 
 		const [inputAmount, setInputAmount] = useState(amount);
 		const [formError, setFormError] = useState(false);
 		useEffect(() => {
-			if (onChange) {
-				onChange(address, inputAmount);
-			}
+			onChange(address, inputAmount);
 			// Disable Reason: There is no need to handle these deps
 			// eslint-disable-next-line react-hooks/exhaustive-deps
 		}, [inputAmount]);
 
 		useEffect(() => {
-			setInputAmount(amount);
+			if (maxFlag) {
+				setInputAmount(maxAmount);
+			}
+			setFormError(false);
 			// Disable Reason: There is no need to handle these deps
 			// eslint-disable-next-line react-hooks/exhaustive-deps
 		}, [maxFlag]);
 
-		const handleInputAmount = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const handleInputAmount = (event: React.ChangeEvent<HTMLInputElement>): void => {
 			let newVal = event.target.value === '.' ? '0.' : event.target.value;
-			if (newVal === '') newVal = '0';
-			if (isNaN(Number(newVal))) return;
-			new BigNumber(newVal).gt(new BigNumber(amount)) ? setFormError(true) : setFormError(false);
+			if (newVal === '') {
+				newVal = '0';
+			}
+			if (isNaN(parseFloat(newVal))) {
+				return;
+			}
+			const isValid = new BigNumber(newVal).gt(new BigNumber(amount));
+			setFormError(isValid);
 			setInputAmount(newVal);
 		};
 
 		const useMaxBalance = () => {
-			setInputAmount(amount);
+			setInputAmount(maxAmount);
 		};
 
+		// ignore 0, or miniscule balances
+		const disableInput = parseFloat(maxAmount) === 0 || maxAmount.includes('<');
+		const tooltip = disableInput ? 'Cannot claim rewards of less than 1 wei' : '';
 		return (
 			<Grid
 				key={`${symbol}-claim-amount`}
@@ -83,7 +101,7 @@ export const RewardsModalItem = observer(
 				direction="row"
 				justify="space-between"
 			>
-				<Grid item xs={6} md={4}>
+				<Grid item xs={6} sm={3}>
 					<Grid className={classes.claimableContainer}>
 						<Typography variant="subtitle2" color="textSecondary" className={classes.currencySymbol}>
 							{symbol}
@@ -96,31 +114,35 @@ export const RewardsModalItem = observer(
 						</Grid>
 					</Grid>
 				</Grid>
-				<Grid item xs={6} md={8} className={classes.claimInputContainer}>
-					<TextField
-						id={`${symbol}-claim-amount`}
-						className={classes.claimInput}
-						variant="outlined"
-						value={inputAmount}
-						error={formError}
-						size={window.innerWidth >= 960 ? 'medium' : 'small'}
-						onChange={handleInputAmount}
-						InputProps={{
-							endAdornment:
-								window.innerWidth >= 960
-									? [
-											<Button
-												key="token-select-btn"
-												size="small"
-												variant="outlined"
-												onClick={useMaxBalance}
-											>
-												max
-											</Button>,
-									  ]
-									: [],
-						}}
-					/>
+				<Grid item xs={6} sm={9} className={classes.claimInputContainer}>
+					<Tooltip title={tooltip} placement="left" arrow>
+						<TextField
+							id={`${symbol}-claim-amount`}
+							variant="outlined"
+							disabled={disableInput}
+							value={inputAmount}
+							error={formError}
+							className={classes.modalField}
+							size={window.innerWidth >= 960 ? 'medium' : 'small'}
+							onChange={handleInputAmount}
+							InputProps={{
+								endAdornment:
+									window.innerWidth >= 960 && !maxFlag
+										? [
+												<Button
+													key="token-select-btn"
+													size="small"
+													variant="outlined"
+													onClick={useMaxBalance}
+													className={classes.maxButton}
+												>
+													max
+												</Button>,
+										  ]
+										: [],
+							}}
+						/>
+					</Tooltip>
 				</Grid>
 			</Grid>
 		);

@@ -13,12 +13,12 @@ import { getNetworkFromProvider } from 'mobx/utils/helpers';
 
 class WalletStore {
 	private store: RootStore;
+	private prevAddress: string | undefined;
 	public onboard: API;
 	public notify: NotifyAPI;
 	public provider?: any | null;
 	public connectedAddress = '';
 	public currentBlock?: number;
-	public ethBalance?: BigNumber;
 	public gasPrices: GasPrices;
 	public network: Network;
 
@@ -110,6 +110,7 @@ class WalletStore {
 			if (this.store.user.loadingBalances) {
 				return;
 			}
+			this.prevAddress = this.connectedAddress;
 			this.setProvider(null);
 			this.setAddress('');
 			window.localStorage.removeItem('selectedWallet');
@@ -120,11 +121,12 @@ class WalletStore {
 
 	connect = action((wsOnboard: any) => {
 		const walletState = wsOnboard.getState();
-		this.onboard = wsOnboard;
-		this.checkNetwork(walletState.network);
 		this.setProvider(walletState.wallet.provider);
-		this.setAddress(walletState.address);
-		this.store.walletRefresh();
+		this.onboard = wsOnboard;
+		// change of adress trigger onboard event subscription, reconnecting does not.
+		if (this.prevAddress == walletState.address) {
+			this.setAddress(walletState.address);
+		}
 	});
 
 	getCurrentBlock = action(() => {
@@ -135,15 +137,6 @@ class WalletStore {
 		web3.eth.getBlockNumber().then((value: number) => {
 			this.currentBlock = value - 50;
 		});
-		this.getEthBalance();
-	});
-
-	getEthBalance = action(() => {
-		const web3 = new Web3(this.provider);
-		!!this.connectedAddress &&
-			web3.eth.getBalance(this.connectedAddress).then((value: string) => {
-				this.ethBalance = new BigNumber(value);
-			});
 	});
 
 	getGasPrice = action(async () => {
@@ -159,14 +152,16 @@ class WalletStore {
 		this.getCurrentBlock();
 	});
 
-	setAddress = action((address: any) => {
-		if (!this.checkSupportedNetwork()) {
-			this.connectedAddress = '';
-			return;
-		}
-		this.connectedAddress = address;
-		this.store.walletRefresh();
-	});
+	setAddress = action(
+		async (address: string): Promise<void> => {
+			if (!this.checkSupportedNetwork()) {
+				this.connectedAddress = '';
+				return;
+			}
+			this.connectedAddress = address;
+			await this.store.walletRefresh();
+		},
+	);
 
 	cacheWallet = action((wallet: any) => {
 		this.setProvider(wallet.provider);

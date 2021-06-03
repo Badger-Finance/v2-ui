@@ -219,7 +219,7 @@ export default class UserStore {
 		token: CallResult,
 		getToken: (sett: BadgerSett) => BadgerToken,
 	): void => {
-		const { setts, wallet, rewards } = this.store;
+		const { setts, wallet } = this.store;
 		const { network } = wallet;
 		const balanceResults = token.balanceOf || token.totalStakedFor;
 		if (!balanceResults || balanceResults.length === 0) {
@@ -237,7 +237,7 @@ export default class UserStore {
 		}
 		const tokenPrice = setts.getPrice(pricingToken);
 		const key = Web3.utils.toChecksumAddress(balanceToken.address);
-		userBalances[key] = new TokenBalance(rewards, balanceToken, balance, tokenPrice);
+		userBalances[key] = new TokenBalance(balanceToken, balance, tokenPrice);
 	};
 
 	/* Token Balance Accessors */
@@ -274,7 +274,7 @@ export default class UserStore {
 			const proof = await fetchClaimProof(Web3.utils.toChecksumAddress(address));
 			if (proof) {
 				this.claimProof = proof;
-				this.store.rewards.fetchSettRewards();
+				await this.store.rewards.fetchSettRewards();
 			} else {
 				this.claimProof = undefined;
 			}
