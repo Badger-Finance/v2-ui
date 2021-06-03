@@ -1,7 +1,6 @@
 import React, { PropsWithChildren, ReactNode, useContext, useState, useEffect, useCallback } from 'react';
 import BigNumber from 'bignumber.js';
 import { ethers } from 'ethers';
-import GatewayJS from '@renproject/gateway';
 import { EthArgs, LockAndMintParamsSimple, BurnAndReleaseParamsSimple } from '@renproject/interfaces';
 import Web3 from 'web3';
 import { observer } from 'mobx-react-lite';
@@ -297,7 +296,6 @@ export const BridgeForm = observer(({ classes }: any) => {
 		];
 
 		const params: LockAndMintParamsSimple = {
-			sendToken: GatewayJS.Tokens.BTC.Btc2Eth,
 			suggestedAmount: amountSats.toString(),
 			sendTo: bridge_system['adapter'],
 			nonce: formatNonceBytes32(nextNonce),
@@ -379,7 +377,6 @@ export const BridgeForm = observer(({ classes }: any) => {
 
 	const withdraw = async (contractParams: EthArgs) => {
 		const params: BurnAndReleaseParamsSimple = {
-			sendToken: GatewayJS.Tokens.BTC.Eth2Btc,
 			sendTo: bridge_system['adapter'],
 			nonce: formatNonceBytes32(nextNonce),
 			contractFn: 'burn',

@@ -436,18 +436,49 @@ class BridgeStore {
 		}
 
 		try {
-			if (recover) {
-				const parsedTx = JSON.parse(tx.encodedTx);
-				this.openGateway = this.gjs.recoverTransfer(provider, parsedTx, parsedTx.id).pause();
-			} else {
-				const parsedTx = toJS(tx);
-				// This invariant check throws on failure.
-				checkUserAddrInvariantAndThrow(parsedTx);
-				this.openGateway = this.gjs.open({
-					...parsedTx.params,
-					web3Provider: provider,
+			const parsedTx = toJS(tx);
+			await window.ethereum.enable();
+			const provider = new ethers.providers.Web3Provider(window.ethereum);
+			provider.getSigner();
+			const signer = provider.getSigner();
+			const address = await signer.getAddress();
+
+			const network = 'testnet'; // null out for prod
+			const renJS = new RenJS(network);
+
+			if (parsedTx.contractFn === 'mint') {
+				const lockAndMint = await renJS.lockAndMint({
+					// TODO: should these ("BTC", Bitcoin()) be parameterized?
+					asset: 'BTC',
+					from: Bitcoin(),
+					// TODO: should Ethereum be parameterized?
+					to: Ethereum(provider.provider).Contract(parsedTx),
+				});
+
+				mint.on('deposit', async (deposit) => {
+					// TODO: sync these to state
+					await deposit
+						.confirmed()
+						.on('target', (confs, target) => console.log(`${confs}/${target} confirmations`))
+						.on('confirmation', (confs, target) => console.log(`${confs}/${target} confirmations`));
+
+					await deposit.signed().on('status', (status) => console.log(`Status: ${status}`));
+
+					await deposit.mint().on('transactionHash', (txHash) => console.log(`Mint tx: ${txHash}`));
+				});
+			} else if (parsedTx.contractFn === 'burn') {
+				const burnAndRelease = await renJS.burnAndRelease({
+					// TODO: should these ("BTC", Bitcoin()) be parameterized?
+					asset: 'BTC',
+					to: Bitcoin(),
+					// TODO: should Ethereum be parameterized?
+					from: Ethereum(provider.provider).Contract(parsedTx),
 				});
 			}
+
+			console.log(`Deposit BTC to ${lockAndMint.gatewayAddress}`);
+
+			lockAndMint.on('deposit', RenJS.defaultDepositHandler);
 			await this.openGateway
 				.result()
 				.on('status', async (status: LockAndMintStatus | BurnAndReleaseStatus) => {
