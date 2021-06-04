@@ -21,7 +21,6 @@ class UiState {
 	public claims?: any;
 	public vaultStats: any;
 	public geyserStats: any;
-	public treeStats: any;
 	public airdropStats: any;
 	public rebaseStats: any;
 	public sidebarOpen!: boolean;
@@ -86,10 +85,6 @@ class UiState {
 	// TODO: this does nothing?
 	setTxStatus = action((status?: string) => {
 		this.txStatus = status;
-	});
-
-	reduceTreeRewards = action(() => {
-		this.treeStats = this.store.rewards.badgerTree;
 	});
 
 	reduceRebase = action(() => {

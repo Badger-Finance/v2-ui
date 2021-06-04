@@ -28,7 +28,6 @@ export const GeyserUnstake = observer((props: SettModalProps) => {
 		wallet: { connectedAddress, network },
 		user: { geyserBalances },
 		contracts,
-		rewards,
 	} = store;
 
 	if (!badgerSett.geyser) {
@@ -41,7 +40,7 @@ export const GeyserUnstake = observer((props: SettModalProps) => {
 
 	const userBalance = geyserBalances[badgerSett.geyser];
 	const underlying = userBalance.tokenBalance.multipliedBy(sett.ppfs);
-	const underlyingBalance = new TokenBalance(rewards, userBalance.token, underlying, userBalance.price);
+	const underlyingBalance = new TokenBalance(userBalance.token, underlying, userBalance.price);
 	const canUnstake = !!connectedAddress && !!amount && userBalance.balance.gt(0);
 
 	const handlePercentageChange = (percent: number) => {

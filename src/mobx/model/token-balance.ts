@@ -1,17 +1,14 @@
 import BigNumber from 'bignumber.js';
-import RewardsStore from 'mobx/stores/rewardsStore';
 import { inCurrency, minBalance } from 'mobx/utils/helpers';
 import { BadgerToken } from './badger-token';
 
 export class TokenBalance {
-	private store: RewardsStore;
 	readonly token: BadgerToken;
 	public tokenBalance: BigNumber;
 	public balance: BigNumber;
 	public price: BigNumber;
 
-	constructor(store: RewardsStore, token: BadgerToken, balance: BigNumber, price: BigNumber) {
-		this.store = store;
+	constructor(token: BadgerToken, balance: BigNumber, price: BigNumber) {
 		this.token = token;
 		this.tokenBalance = balance;
 		this.price = price;
@@ -28,10 +25,10 @@ export class TokenBalance {
 	 * Does not work with digg share conversion - only fragments support.
 	 */
 	static fromBalance(tokenBalance: TokenBalance, balance: string): TokenBalance {
-		const { token, store, price } = tokenBalance;
+		const { token, price } = tokenBalance;
 		const scalar = new BigNumber(Math.pow(10, token.decimals));
 		const amount = new BigNumber(balance).multipliedBy(scalar);
-		return new TokenBalance(store, token, amount, price);
+		return new TokenBalance(token, amount, price);
 	}
 
 	get value(): BigNumber {
@@ -67,7 +64,7 @@ export class TokenBalance {
 	scale(scalar: BigNumber, scalePrice?: boolean): TokenBalance {
 		const tokenBalance = this.tokenBalance.multipliedBy(scalar);
 		const price = scalePrice ? this.price.dividedBy(scalar) : this.price;
-		return new TokenBalance(this.store, this.token, tokenBalance, price);
+		return new TokenBalance(this.token, tokenBalance, price);
 	}
 
 	scaledBalanceDisplay(percent: number): string {

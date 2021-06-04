@@ -1,12 +1,12 @@
 import { ListItem, makeStyles, Typography, Grid, Tooltip, IconButton } from '@material-ui/core';
 import { BigNumber } from 'bignumber.js';
-import { TokenBalance } from 'mobx/model';
 import { SettListItemProps } from './SettListItem';
 import { numberWithCommas, usdToCurrency } from 'mobx/utils/helpers';
 import React from 'react';
 import { UnfoldMoreTwoTone } from '@material-ui/icons';
 import SettBadge from './SettBadge';
 import CurrencyDisplay from '../common/CurrencyDisplay';
+import { SettTokenBalance } from 'mobx/model';
 
 const useStyles = makeStyles((theme) => ({
 	border: {
@@ -122,7 +122,7 @@ const DisabledSettListItem = (props: DisabledSettListItemProps): JSX.Element => 
 								</Grid>
 							)}
 							{!balance &&
-								sett.tokens.map((tokenBalance: TokenBalance, index: number) => {
+								sett.tokens.map((tokenBalance: SettTokenBalance, index: number) => {
 									const iconName =
 										sett.tokens.length === 1
 											? `${sett.asset.toLowerCase()}`
