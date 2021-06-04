@@ -337,6 +337,13 @@ export const Sidebar = observer(() => {
 									)}
 									<ListItem
 										button
+										className={getItemClass('/boost', classes.primarySubListItem)}
+										onClick={() => navigate(views.boost)}
+									>
+										Boost Optimizer
+									</ListItem>
+									<ListItem
+										button
 										className={getItemClass('/leaderboard', classes.primarySubListItem)}
 										onClick={() => navigate(views.boostLeaderBoard)}
 									>

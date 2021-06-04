@@ -22,7 +22,7 @@ export const Boost = observer(() => {
 
 	return (
 		<Container className={classes.root}>
-			<Grid container spacing={1} justify="flex-start">
+			<Grid container spacing={1} justify="center">
 				<Grid item xs={12} className={classes.headerContainer}>
 					<PageHeader title="Boost Optimizer" subtitle="Calculate the amounts required for your boost." />
 				</Grid>

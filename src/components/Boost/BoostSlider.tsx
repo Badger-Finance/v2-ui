@@ -32,6 +32,9 @@ const CustomSlider = withStyles((theme) => ({
 		opacity: 1,
 		width: '4px !important',
 	},
+	track: {
+		width: '4px !important',
+	},
 }))(Slider);
 
 function ThumbComponent(props: any) {
