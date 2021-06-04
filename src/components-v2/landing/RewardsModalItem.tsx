@@ -67,8 +67,8 @@ export const RewardsModalItem = observer(
 		useEffect(() => {
 			if (maxFlag) {
 				setInputAmount(maxAmount);
+				setFormError(false);
 			}
-			setFormError(false);
 			// Disable Reason: There is no need to handle these deps
 			// eslint-disable-next-line react-hooks/exhaustive-deps
 		}, [maxFlag]);
@@ -78,8 +78,8 @@ export const RewardsModalItem = observer(
 			if (newVal && isNaN(parseFloat(newVal))) {
 				return;
 			}
-			const isValid = new BigNumber(newVal).gt(new BigNumber(maxAmount));
-			setFormError(isValid);
+			const isValid = new BigNumber(newVal).lte(new BigNumber(maxAmount));
+			setFormError(!isValid);
 			setInputAmount(newVal);
 		};
 

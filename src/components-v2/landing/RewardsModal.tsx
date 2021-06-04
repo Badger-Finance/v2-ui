@@ -181,6 +181,15 @@ export const RewardsModal = observer((): JSX.Element | null => {
 			);
 		});
 
+	let canSubmit = true;
+	// update if typescript has a stream::allMatch
+	Object.entries(claimMap).forEach((entry) => {
+		const [key, value] = entry;
+		const max = maxBalances[key];
+		if (value.balance.tokenBalance.gt(max.balance.tokenBalance)) {
+			canSubmit = false;
+		}
+	});
 	const hasRewards = claimableValue.gt(0);
 	return (
 		<div className={classes.claimContainer}>
@@ -231,6 +240,7 @@ export const RewardsModal = observer((): JSX.Element | null => {
 						</Grid>
 						<div className={classes.rewardsContainer}>{claimItems}</div>
 						<Button
+							disabled={!canSubmit}
 							className={classes.claimButton}
 							onClick={() => claimGeysers(claimMap)}
 							variant="contained"
