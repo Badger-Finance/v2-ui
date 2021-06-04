@@ -12,7 +12,7 @@ import addresses from 'config/ibBTC/addresses.json';
 import coreConfig from 'config/system/abis/BadgerBtcPeakCore.json';
 import { getSendOptions } from 'mobx/utils/web3';
 import { IbbtcVaultPeakFactory } from '../ibbtc-vault-peak-factory';
-import { getNetworkNameFromId } from 'mobx/utils/network';
+import { getNetworkFromProvider } from 'mobx/utils/helpers';
 
 interface MintAmountCalculation {
 	bBTC: BigNumber;
@@ -43,10 +43,7 @@ class IbBTCStore {
 		const token_config = this.config.contracts.tokens;
 
 		this.ibBTC = new TokenModel(this.store, token_config['ibBTC']);
-		const provider = this.store.wallet.provider;
-		this.network = provider
-			? getNetworkNameFromId(parseInt(new BigNumber(provider.chainId, 16).toString(10)))
-			: undefined;
+		this.network = getNetworkFromProvider(this.store.wallet.provider);
 
 		this.tokens = FLAGS.IBBTC_OPTIONS_FLAG
 			? [

@@ -12,8 +12,7 @@ import { NETWORK_LIST } from '../config/constants';
 import { HoneyPotStore } from './stores/honeyPotStore';
 import UserStore from './stores/UserStore';
 import { LeaderBoardStore } from './stores/LeaderBoardStore';
-import { getNetworkNameFromId } from './utils/network';
-import BigNumber from 'bignumber.js';
+import { getNetworkFromProvider } from './utils/helpers';
 
 export class RootStore {
 	public router: RouterStore<RootStore>;
@@ -52,10 +51,7 @@ export class RootStore {
 			return;
 		}
 
-		const provider = this.wallet.provider;
-		const chain = provider
-			? getNetworkNameFromId(parseInt(new BigNumber(provider.chainId, 16).toString(10)))
-			: undefined;
+		const chain = getNetworkFromProvider(this.wallet.provider);
 
 		if (chain) {
 			this.rewards.resetRewards();

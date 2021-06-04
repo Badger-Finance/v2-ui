@@ -9,6 +9,7 @@ import { RootStore } from 'mobx/store';
 import { API } from 'bnc-onboard/dist/src/interfaces';
 import { API as NotifyAPI } from 'bnc-notify';
 import { getNetwork, getNetworkNameFromId } from 'mobx/utils/network';
+import { getNetworkFromProvider } from 'mobx/utils/helpers';
 
 class WalletStore {
 	private store: RootStore;
@@ -172,16 +173,19 @@ class WalletStore {
 		window.localStorage.setItem('selectedWallet', wallet.name);
 	});
 
+	// Check to see if the wallet's connected network matches the currently defined network
+	// if it doesn't, set to the proper network
 	checkNetwork = action((network: number) => {
-		// Check to see if the wallet's connected network matches the currently defined network
-		// if it doesn't, set to the proper network
-		const newNetwork = getNetworkNameFromId(network);
-
-		if (!this.checkSupportedNetwork(newNetwork)) {
+		// If this returns undefined, the network is not supported.
+		if (!getNetworkNameFromId(network)) {
+			this.store.uiState.queueNotification('Connecting to an unsupported network', 'error');
+			this.walletReset();
+			return;
 		}
+		const newNetwork = getNetwork(getNetworkNameFromId(network));
 
-		if (network !== this.network.networkId && !!newNetwork) {
-			this.network = getNetwork(newNetwork);
+		if (newNetwork.networkId !== this.network.networkId) {
+			this.network = newNetwork;
 			this.store.walletRefresh();
 			this.getGasPrice();
 			this.getCurrentBlock();
@@ -209,10 +213,7 @@ class WalletStore {
 	// Reason: blocknative does not type their provider, must be any
 	// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 	checkSupportedNetwork = (provider?: any): boolean => {
-		const checkProvider = provider ?? this.provider;
-		const name = checkProvider
-			? getNetworkNameFromId(parseInt(new BigNumber(checkProvider.chainId, 16).toString(10)))
-			: undefined;
+		const name = getNetworkFromProvider(provider ?? this.provider);
 
 		return !!name;
 	};

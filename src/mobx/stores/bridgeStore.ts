@@ -26,7 +26,7 @@ import { BTC_GATEWAY } from 'config/system/abis/BtcGateway';
 import { bridge_system, tokens, sett_system } from 'config/deployments/mainnet.json';
 import { shortenAddress } from 'utils/componentHelpers';
 import { isEqual } from '../../utils/lodashToNative';
-import { getNetworkNameFromId } from 'mobx/utils/network';
+import { getNetworkFromProvider } from 'mobx/utils/helpers';
 
 export enum Status {
 	// Idle means we are ready to begin a new tx.
@@ -144,10 +144,7 @@ class BridgeStore {
 		this.gjs = new GatewayJS('mainnet');
 		// M50: by default the network ID is set to ethereum.  We should check the provider to ensure the
 		// connected wallet is using ETH network, not the site.
-		const provider = this.store.wallet.provider;
-		this.network = provider
-			? getNetworkNameFromId(parseInt(new BigNumber(provider.chainId, 16).toString(10)))
-			: undefined;
+		this.network = getNetworkFromProvider(this.store.wallet.provider);
 
 		extendObservable(this, {
 			...defaultProps,
