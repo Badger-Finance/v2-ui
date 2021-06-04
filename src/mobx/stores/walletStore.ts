@@ -13,12 +13,12 @@ import { getNetworkFromProvider } from 'mobx/utils/helpers';
 
 class WalletStore {
 	private store: RootStore;
+	private prevAddress: string | undefined;
 	public onboard: API;
 	public notify: NotifyAPI;
 	public provider?: any | null;
 	public connectedAddress = '';
 	public currentBlock?: number;
-	public ethBalance?: BigNumber;
 	public gasPrices: GasPrices;
 	public network: Network;
 
@@ -110,6 +110,7 @@ class WalletStore {
 			if (this.store.user.loadingBalances) {
 				return;
 			}
+			this.prevAddress = this.connectedAddress;
 			this.setProvider(null);
 			this.setAddress('');
 			window.localStorage.removeItem('selectedWallet');
@@ -119,12 +120,15 @@ class WalletStore {
 	});
 
 	connect = action((wsOnboard: any) => {
-		const walletState = wsOnboard.getState();
 		this.onboard = wsOnboard;
-		this.checkNetwork(walletState.network);
+		const walletState = wsOnboard.getState();
 		this.setProvider(walletState.wallet.provider);
-		this.setAddress(walletState.address);
-		this.store.walletRefresh();
+		// change of adress trigger onboard event subscription, reconnecting does not.
+		if (this.prevAddress == this.connectedAddress) {
+			this.setAddress(walletState.address);
+		} else {
+			this.checkNetwork(walletState.network);
+		}
 	});
 
 	getCurrentBlock = action(() => {
@@ -135,15 +139,6 @@ class WalletStore {
 		web3.eth.getBlockNumber().then((value: number) => {
 			this.currentBlock = value - 50;
 		});
-		this.getEthBalance();
-	});
-
-	getEthBalance = action(() => {
-		const web3 = new Web3(this.provider);
-		!!this.connectedAddress &&
-			web3.eth.getBalance(this.connectedAddress).then((value: string) => {
-				this.ethBalance = new BigNumber(value);
-			});
 	});
 
 	getGasPrice = action(async () => {
@@ -159,14 +154,21 @@ class WalletStore {
 		this.getCurrentBlock();
 	});
 
-	setAddress = action((address: any) => {
-		if (!this.checkSupportedNetwork()) {
-			this.connectedAddress = '';
-			return;
-		}
-		this.connectedAddress = address;
-		this.store.walletRefresh();
-	});
+	setAddress = action(
+		async (address: string): Promise<void> => {
+			if (!this.checkSupportedNetwork()) {
+				this.connectedAddress = '';
+				return;
+			}
+			const walletState = this.onboard.getState();
+			const validNetwork = this.checkNetwork(walletState.network);
+			if (!validNetwork) {
+				return;
+			}
+			this.connectedAddress = address;
+			await this.store.walletRefresh();
+		},
+	);
 
 	cacheWallet = action((wallet: any) => {
 		this.setProvider(wallet.provider);
@@ -175,21 +177,22 @@ class WalletStore {
 
 	// Check to see if the wallet's connected network matches the currently defined network
 	// if it doesn't, set to the proper network
-	checkNetwork = action((network: number) => {
+	checkNetwork = action((network: number): boolean => {
 		// If this returns undefined, the network is not supported.
 		if (!getNetworkNameFromId(network)) {
 			this.store.uiState.queueNotification('Connecting to an unsupported network', 'error');
 			this.walletReset();
-			return;
+			return false;
 		}
-		const newNetwork = getNetwork(getNetworkNameFromId(network));
 
+		const newNetwork = getNetwork(getNetworkNameFromId(network));
 		if (newNetwork.networkId !== this.network.networkId) {
 			this.network = newNetwork;
 			this.store.walletRefresh();
 			this.getGasPrice();
 			this.getCurrentBlock();
 		}
+		return true;
 	});
 
 	setNetwork = action((network: string): void => {

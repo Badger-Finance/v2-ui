@@ -106,13 +106,12 @@ class ContractsStore {
 
 	getAllowance = async (token: BadgerToken, spender: string): Promise<TokenBalance> => {
 		const { provider, connectedAddress } = this.store.wallet;
-		const { rewards } = this.store;
 
 		const web3 = new Web3(provider);
 		const underlyingContract = new web3.eth.Contract(ERC20.abi as AbiItem[], token.address);
 		const allowance = await underlyingContract.methods.allowance(connectedAddress, spender).call();
 
-		return new TokenBalance(rewards, token, new BigNumber(allowance), new BigNumber(0));
+		return new TokenBalance(token, new BigNumber(allowance), new BigNumber(0));
 	};
 
 	unstakeGeyser = async (sett: Sett, badgerSett: BadgerSett, amount: TokenBalance): Promise<void> => {

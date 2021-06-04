@@ -102,7 +102,7 @@ exports[`Landing Page Renders correctly 1`] = `
                 </span>
               </span>
               <span
-                class="MuiTouchRipple-root-325"
+                class="MuiTouchRipple-root-339"
               />
             </button>
           </div>
@@ -118,7 +118,7 @@ exports[`Landing Page Renders correctly 1`] = `
           class="makeStyles-pickerContainer-10"
         >
           <div
-            class="MuiInputBase-root-183 MuiOutlinedInput-root-168 makeStyles-samplePicker-254"
+            class="MuiInputBase-root-183 MuiOutlinedInput-root-168 makeStyles-samplePicker-267"
             title="ROI combines the appreciation of the vault with its $BADGER or $DIGG emissions. All numbers are an approximation based on historical data."
           >
             <div
@@ -161,7 +161,7 @@ exports[`Landing Page Renders correctly 1`] = `
             </fieldset>
           </div>
           <div
-            class="MuiInputBase-root-183 MuiOutlinedInput-root-168 makeStyles-currencyPicker-266"
+            class="MuiInputBase-root-183 MuiOutlinedInput-root-168 makeStyles-currencyPicker-279"
           >
             <div
               aria-haspopup="listbox"
@@ -208,7 +208,7 @@ exports[`Landing Page Renders correctly 1`] = `
         class="MuiGrid-root-20 MuiGrid-item-22 MuiGrid-grid-xs-12-66 MuiGrid-grid-md-6-88"
       >
         <div
-          class="MuiPaper-root-268 makeStyles-infoPaper-267 MuiPaper-elevation2-273 MuiPaper-rounded-269"
+          class="MuiPaper-root-281 makeStyles-infoPaper-280 MuiPaper-elevation2-286 MuiPaper-rounded-282"
         >
           <h6
             class="MuiTypography-root-126 MuiTypography-subtitle1-137 MuiTypography-colorTextPrimary-151"
@@ -216,7 +216,7 @@ exports[`Landing Page Renders correctly 1`] = `
             Total Value Locked
           </h6>
           <span
-            class="MuiSkeleton-root-296 MuiSkeleton-text-297 MuiSkeleton-withChildren-304 MuiSkeleton-fitContent-305 MuiSkeleton-heightAuto-306 MuiSkeleton-wave-302"
+            class="MuiSkeleton-root-309 MuiSkeleton-text-310 MuiSkeleton-withChildren-317 MuiSkeleton-fitContent-318 MuiSkeleton-heightAuto-319 MuiSkeleton-wave-315"
           >
             <h5
               class="MuiTypography-root-126 MuiTypography-h5-135"
@@ -230,7 +230,7 @@ exports[`Landing Page Renders correctly 1`] = `
         class="MuiGrid-root-20 MuiGrid-item-22 MuiGrid-grid-xs-12-66 MuiGrid-grid-md-6-88"
       >
         <div
-          class="MuiPaper-root-268 makeStyles-infoPaper-267 MuiPaper-elevation2-273 MuiPaper-rounded-269"
+          class="MuiPaper-root-281 makeStyles-infoPaper-280 MuiPaper-elevation2-286 MuiPaper-rounded-282"
         >
           <h6
             class="MuiTypography-root-126 MuiTypography-subtitle1-137 MuiTypography-colorTextPrimary-151"
@@ -263,27 +263,27 @@ exports[`Landing Page Renders correctly 1`] = `
           Note: New Vaults may take up to 2 weeks from launch to reach full efficiency.
         </span>
         <span
-          class="MuiTouchRipple-root-325"
+          class="MuiTouchRipple-root-339"
         />
       </button>
     </div>
     <div
-      class="makeStyles-settListContainer-308"
+      class="makeStyles-settListContainer-321"
     >
       <div
-        class="makeStyles-loaderContainer-309"
+        class="makeStyles-loaderContainer-322"
       >
         <div
-          class="MuiCircularProgress-root-311 MuiCircularProgress-colorPrimary-315 MuiCircularProgress-indeterminate-313"
+          class="MuiCircularProgress-root-325 MuiCircularProgress-colorPrimary-329 MuiCircularProgress-indeterminate-327"
           role="progressbar"
           style="width: 60px; height: 60px;"
         >
           <svg
-            class="MuiCircularProgress-svg-317"
+            class="MuiCircularProgress-svg-331"
             viewBox="22 22 44 44"
           >
             <circle
-              class="MuiCircularProgress-circle-318 MuiCircularProgress-circleIndeterminate-320"
+              class="MuiCircularProgress-circle-332 MuiCircularProgress-circleIndeterminate-334"
               cx="44"
               cy="44"
               fill="none"
@@ -293,7 +293,7 @@ exports[`Landing Page Renders correctly 1`] = `
           </svg>
         </div>
         <p
-          class="MuiTypography-root-126 makeStyles-loaderMessage-310 MuiTypography-body1-128"
+          class="MuiTypography-root-126 makeStyles-loaderMessage-323 MuiTypography-body1-128"
         >
           Loading Ethereum Setts...
         </p>

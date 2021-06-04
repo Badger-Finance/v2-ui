@@ -63,7 +63,7 @@ export class RootStore {
 			];
 			if (chain === NETWORK_LIST.ETH) {
 				refreshData.push(this.rebase.fetchRebaseStats());
-				refreshData.push(this.rewards.fetchSettRewards());
+				refreshData.push(this.rewards.loadTreeData());
 			}
 			await Promise.all(refreshData);
 

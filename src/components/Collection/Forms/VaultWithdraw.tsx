@@ -27,13 +27,12 @@ export const VaultWithdraw = observer((props: SettModalProps) => {
 		wallet: { connectedAddress, network },
 		user: { settBalances },
 		contracts,
-		rewards,
 	} = store;
 
 	const userBalance = settBalances[badgerSett.vaultToken.address];
 	const underlying = userBalance.tokenBalance.multipliedBy(sett.ppfs);
 	const underlyingSymbol = badgerSett.depositToken.symbol || sett.asset;
-	const underlyingBalance = new TokenBalance(rewards, userBalance.token, underlying, userBalance.price);
+	const underlyingBalance = new TokenBalance(userBalance.token, underlying, userBalance.price);
 	const canDeposit = !!connectedAddress && !!amount && userBalance.balance.gt(0);
 
 	const handlePercentageChange = (percent: number) => {

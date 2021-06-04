@@ -1,3 +1,4 @@
+import { WalletCheckModal } from 'bnc-onboard/dist/src/interfaces';
 import { getNetworkNameFromId } from 'mobx/utils/network';
 import {
 	CONTACT_EMAIL,
@@ -80,7 +81,7 @@ export const getOnboardWallets = (network?: string): WalletProviderInfo[] => {
 };
 
 const supportedNetwork = () => {
-	return async (stateAndHelpers: { network: number }) => {
+	return async (stateAndHelpers: { network: number }): Promise<WalletCheckModal | undefined> => {
 		const { network } = stateAndHelpers;
 		const networkName = getNetworkNameFromId(network);
 		if (!networkName || !Object.values(NETWORK_LIST).includes(networkName as NETWORK_LIST)) {
