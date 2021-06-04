@@ -5,13 +5,14 @@ import { ContractSendMethod } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
 import Web3 from 'web3';
 import { ibBTCFees, TokenModel } from 'mobx/model';
-import { ZERO, MAX, FLAGS, NETWORK_IDS, ERC20_ABI } from 'config/constants';
+import { ZERO, MAX, FLAGS, ERC20_ABI, NETWORK_LIST } from 'config/constants';
 import settConfig from 'config/system/abis/Sett.json';
 import ibBTCConfig from 'config/system/abis/ibBTC.json';
 import addresses from 'config/ibBTC/addresses.json';
 import coreConfig from 'config/system/abis/BadgerBtcPeakCore.json';
 import { getSendOptions } from 'mobx/utils/web3';
 import { IbbtcVaultPeakFactory } from '../ibbtc-vault-peak-factory';
+import { getNetworkFromProvider } from 'mobx/utils/helpers';
 
 interface MintAmountCalculation {
 	bBTC: BigNumber;
@@ -27,6 +28,7 @@ interface RedeemAmountCalculation {
 class IbBTCStore {
 	private readonly store: RootStore;
 	private config: typeof addresses.mainnet;
+	private network: string | undefined;
 
 	public tokens: Array<TokenModel> = [];
 	public ibBTC: TokenModel;
@@ -41,6 +43,7 @@ class IbBTCStore {
 		const token_config = this.config.contracts.tokens;
 
 		this.ibBTC = new TokenModel(this.store, token_config['ibBTC']);
+		this.network = getNetworkFromProvider(this.store.wallet.provider);
 
 		this.tokens = FLAGS.IBBTC_OPTIONS_FLAG
 			? [
@@ -87,8 +90,10 @@ class IbBTCStore {
 	}
 
 	init(): void {
-		const { connectedAddress, network } = this.store.wallet;
-		if (!FLAGS.IBBTC_FLAG || network.networkId !== NETWORK_IDS.ETH) return;
+		const { connectedAddress } = this.store.wallet;
+		// M50: by default the network ID is set to ethereum.  We should check the provider to ensure the
+		// connected wallet is using ETH network, not the site.
+		if (!FLAGS.IBBTC_FLAG || this.network !== NETWORK_LIST.ETH) return;
 
 		if (!connectedAddress) {
 			this.resetBalances();

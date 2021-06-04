@@ -12,6 +12,7 @@ import { NETWORK_LIST } from '../config/constants';
 import { HoneyPotStore } from './stores/honeyPotStore';
 import UserStore from './stores/UserStore';
 import { LeaderBoardStore } from './stores/LeaderBoardStore';
+import { getNetworkFromProvider } from './utils/helpers';
 
 export class RootStore {
 	public router: RouterStore<RootStore>;
@@ -50,24 +51,27 @@ export class RootStore {
 			return;
 		}
 
-		const chain = this.wallet.network.name;
-		this.rewards.resetRewards();
-		const refreshData = [
-			this.setts.loadAssets(chain),
-			this.setts.loadPrices(chain),
-			this.wallet.getGasPrice(),
-			this.setts.loadSetts(chain),
-		];
-		if (chain === NETWORK_LIST.ETH) {
-			refreshData.push(this.rebase.fetchRebaseStats());
-			refreshData.push(this.rewards.fetchSettRewards());
-		}
-		await Promise.all(refreshData);
+		const chain = getNetworkFromProvider(this.wallet.provider);
 
-		if (this.wallet.connectedAddress) {
+		if (chain) {
+			this.rewards.resetRewards();
+			const refreshData = [
+				this.setts.loadAssets(chain),
+				this.setts.loadPrices(chain),
+				this.wallet.getGasPrice(),
+				this.setts.loadSetts(chain),
+			];
 			if (chain === NETWORK_LIST.ETH) {
-				this.ibBTCStore.init();
-				this.airdrops.fetchAirdrops();
+				refreshData.push(this.rebase.fetchRebaseStats());
+				refreshData.push(this.rewards.loadTreeData());
+			}
+			await Promise.all(refreshData);
+
+			if (this.wallet.connectedAddress) {
+				if (chain === NETWORK_LIST.ETH) {
+					this.ibBTCStore.init();
+					this.airdrops.fetchAirdrops();
+				}
 			}
 		}
 	}

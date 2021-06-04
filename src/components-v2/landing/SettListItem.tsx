@@ -1,5 +1,5 @@
 import { ListItem, makeStyles, Typography, Grid, Tooltip } from '@material-ui/core';
-import { Sett, TokenBalance } from 'mobx/model';
+import { Sett, SettTokenBalance } from 'mobx/model';
 import { observer } from 'mobx-react-lite';
 import { numberWithCommas, usdToCurrency } from 'mobx/utils/helpers';
 import React, { useContext } from 'react';
@@ -220,7 +220,7 @@ const SettListItem = observer(
 								</Grid>
 							)}
 							{!balance &&
-								sett.tokens.map((tokenBalance: TokenBalance, index: number) => {
+								sett.tokens.map((tokenBalance: SettTokenBalance, index: number) => {
 									const iconName =
 										sett.tokens.length === 1
 											? `${sett.asset.toLowerCase()}`

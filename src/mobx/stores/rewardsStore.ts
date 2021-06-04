@@ -7,13 +7,15 @@ import { abi as diggAbi } from '../../config/system/abis/UFragments.json';
 import { badgerTree, digg_system } from '../../config/deployments/mainnet.json';
 import BigNumber from 'bignumber.js';
 import { BadgerTree, TreeClaimData } from 'mobx/model';
-import { ClaimMap } from '../../components-v2/landing/RewardsModal';
 import { reduceClaims, reduceTimeSinceLastCycle } from 'mobx/reducers/statsReducers';
 import { getSendOptions } from 'mobx/utils/web3';
 import { getToken } from '../../web3/config/token-config';
 import { TokenBalance } from 'mobx/model/token-balance';
 import { ETH_DEPLOY } from 'web3/config/eth-config';
 import { mockToken } from 'mobx/model/badger-token';
+import { NETWORK_LIST } from 'config/constants';
+import { getNetworkFromProvider } from 'mobx/utils/helpers';
+import { ClaimMap } from 'components-v2/landing/RewardsModal';
 
 /**
  * TODO: Clean up reward store in favor of a more unified integration w/ user store.
@@ -41,35 +43,52 @@ class RewardsStore {
 		timeSinceLastCycle: '0h 0m',
 		proof: undefined,
 		sharesPerFragment: undefined,
-		claimableAmounts: undefined,
-		claims: undefined,
+		claimableAmounts: [],
+		claims: [],
+		amounts: [],
 	};
 	public badgerTree: BadgerTree;
+	public loadingRewards: boolean;
 
 	constructor(store: RootStore) {
 		this.store = store;
 		this.badgerTree = RewardsStore.defaultTree;
+		this.loadingRewards = false;
 
 		extendObservable(this, {
 			badgerTree: this.badgerTree,
+			loadingRewards: this.loadingRewards,
 		});
 	}
 
+	// TODO: refactor various functions for a more unified approach
 	balanceFromString(token: string, balance: string): TokenBalance {
 		const badgerToken = getToken(token);
 		const tokenPrice = this.store.setts.getPrice(token);
 		if (!badgerToken || !tokenPrice) {
 			const amount = new BigNumber(balance);
-			return new TokenBalance(this, mockToken(token), amount, new BigNumber(0));
-		}
-		let multiplier = new BigNumber(1);
-		const isDigg = badgerToken.address === ETH_DEPLOY.tokens.digg;
-		if (isDigg && this.badgerTree.sharesPerFragment) {
-			multiplier = this.badgerTree.sharesPerFragment;
+			return new TokenBalance(mockToken(token), amount, new BigNumber(0));
 		}
 		const scalar = new BigNumber(Math.pow(10, badgerToken.decimals));
-		const amount = new BigNumber(balance).multipliedBy(scalar).multipliedBy(multiplier);
-		return new TokenBalance(this, badgerToken, amount, tokenPrice);
+		const amount = new BigNumber(balance).multipliedBy(scalar);
+		return new TokenBalance(badgerToken, amount, tokenPrice);
+	}
+
+	// TODO: refactor various functions for a more unified approach
+	balanceFromProof(token: string, balance: string): TokenBalance {
+		const claimToken = getToken(token);
+		const tokenPrice = this.store.setts.getPrice(token);
+		if (!claimToken || !tokenPrice) {
+			const amount = new BigNumber(balance);
+			return new TokenBalance(mockToken(token), amount, new BigNumber(0));
+		}
+		let divisor = new BigNumber(1);
+		const isDigg = claimToken.address === ETH_DEPLOY.tokens.digg;
+		if (isDigg && this.badgerTree.sharesPerFragment) {
+			divisor = this.badgerTree.sharesPerFragment;
+		}
+		const amount = new BigNumber(balance).dividedBy(divisor);
+		return new TokenBalance(claimToken, amount, tokenPrice);
 	}
 
 	tokenBalance(token: string, amount: BigNumber): TokenBalance {
@@ -82,9 +101,9 @@ class RewardsStore {
 		}
 		const balance = amount.dividedBy(scalar);
 		if (!badgerToken || !tokenPrice) {
-			return new TokenBalance(this, mockToken(token), balance, new BigNumber(0));
+			return new TokenBalance(mockToken(token), balance, new BigNumber(0));
 		}
-		return new TokenBalance(this, badgerToken, balance, tokenPrice);
+		return new TokenBalance(badgerToken, balance, tokenPrice);
 	}
 
 	mockBalance(token: string): TokenBalance {
@@ -96,74 +115,106 @@ class RewardsStore {
 	};
 
 	resetRewards = action((): void => {
-		this.badgerTree = RewardsStore.defaultTree;
+		this.badgerTree.claimableAmounts = [];
+		this.badgerTree.claims = [];
+		this.badgerTree.amounts = [];
+		this.badgerTree.proof = undefined;
 	});
+
+	loadTreeData = action(
+		async (): Promise<void> => {
+			const { provider } = this.store.wallet;
+
+			if (this.loadingRewards) {
+				return;
+			}
+			this.resetRewards();
+			this.loadingRewards = true;
+
+			const web3 = new Web3(provider);
+			const rewardsTree = new web3.eth.Contract(rewardsAbi as AbiItem[], badgerTree);
+			const diggToken = new web3.eth.Contract(diggAbi as AbiItem[], digg_system.uFragments);
+
+			const [timestamp, cycle, sharesPerFragment]: [number, number, number] = await Promise.all([
+				rewardsTree.methods.lastPublishTimestamp().call(),
+				rewardsTree.methods.currentCycle().call(),
+				diggToken.methods._sharesPerFragment().call(),
+			]);
+
+			this.badgerTree.cycle = cycle.toString();
+			this.badgerTree.timeSinceLastCycle = reduceTimeSinceLastCycle(timestamp);
+			this.badgerTree.sharesPerFragment = new BigNumber(sharesPerFragment);
+			await this.fetchSettRewards();
+		},
+	);
 
 	fetchSettRewards = action(
 		async (): Promise<void> => {
 			const { provider, connectedAddress, network } = this.store.wallet;
 			const { claimProof } = this.store.user;
 
-			if (!connectedAddress || !claimProof || !network.rewards) {
-				this.badgerTree = RewardsStore.defaultTree;
+			// M50: Rewards only live on ETH, make sure provider is an ETH mainnet one.
+			const networkName = getNetworkFromProvider(provider);
+			if (!connectedAddress || !claimProof || !network.rewards || networkName !== NETWORK_LIST.ETH) {
+				this.resetRewards();
+				this.loadingRewards = false;
 				return;
 			}
 
-			this.badgerTree = RewardsStore.defaultTree;
 			const web3 = new Web3(provider);
 			const rewardsTree = new web3.eth.Contract(rewardsAbi as AbiItem[], badgerTree);
-			const diggToken = new web3.eth.Contract(diggAbi as AbiItem[], digg_system.uFragments);
-
-			const [timestamp, cycle, claimed, claimable, sharesPerFragment]: [
-				number,
-				number,
-				TreeClaimData,
-				TreeClaimData,
-				number,
-			] = await Promise.all([
-				rewardsTree.methods.lastPublishTimestamp().call(),
-				rewardsTree.methods.currentCycle().call(),
-				rewardsTree.methods.getClaimedFor(connectedAddress, claimProof.tokens).call(),
-				rewardsTree.methods
-					.getClaimableFor(connectedAddress, claimProof.tokens, claimProof.cumulativeAmounts)
-					.call(),
-				diggToken.methods._sharesPerFragment().call(),
-			]);
-			this.badgerTree = {
-				cycle: cycle.toString(),
-				timeSinceLastCycle: reduceTimeSinceLastCycle(timestamp),
-				proof: claimProof,
-				sharesPerFragment: new BigNumber(sharesPerFragment),
-				claims: reduceClaims(claimProof, claimed),
-				claimableAmounts: claimable[1],
-			};
-
-			this.store.uiState.reduceTreeRewards();
+			const claimed: TreeClaimData = await rewardsTree.methods
+				.getClaimedFor(connectedAddress, claimProof.tokens)
+				.call();
+			this.badgerTree.claimableAmounts = claimProof.cumulativeAmounts;
+			this.badgerTree.claims = reduceClaims(claimProof, claimed, true);
+			this.badgerTree.amounts = reduceClaims(claimProof, claimed);
+			this.badgerTree.proof = claimProof;
+			this.loadingRewards = false;
 		},
 	);
 
 	claimGeysers = action(
-		async (claimMap: ClaimMap | undefined): Promise<void> => {
-			const { proof, claimableAmounts } = this.badgerTree;
+		async (claimMap: ClaimMap): Promise<void> => {
+			const { proof, amounts, sharesPerFragment } = this.badgerTree;
 			const { provider, gasPrices, connectedAddress } = this.store.wallet;
 			const { queueNotification, gasPrice } = this.store.uiState;
 
-			if (!connectedAddress || !proof || !claimableAmounts || !claimMap) {
-				queueNotification(`Error retrieving merkle proof.`, 'error');
+			if (!connectedAddress || !sharesPerFragment) {
+				return;
+			}
+
+			if (!proof || !claimMap) {
+				queueNotification(`Error retrieving reward data.`, 'error');
 				return;
 			}
 
 			const amountsToClaim: string[] = [];
-			proof.tokens.forEach((address: string): void => {
+			proof.tokens.forEach((address: string, index: number): void => {
 				const token = getToken(address);
 				if (!token) {
 					return;
 				}
-				const claimBalance = (claimMap[token.address] ?? this.mockBalance(token.address)).tokenBalance;
-				const claimableAmount = claimableAmounts[proof.tokens.indexOf(address)];
+
+				const claimEntry = claimMap[token.address];
+				const claimableAmount = amounts[index].tokenBalance;
+				let claimBalance;
+
+				if (claimEntry) {
+					claimBalance = claimEntry.balance.tokenBalance;
+				} else {
+					claimBalance = this.mockBalance(token.address).tokenBalance;
+				}
+
 				let claimAmount = claimBalance.toFixed(0);
-				if (claimBalance.gt(new BigNumber(claimableAmount))) {
-					claimAmount = claimableAmount;
+				if (token.address === ETH_DEPLOY.tokens.digg) {
+					claimBalance = claimBalance
+						.multipliedBy(Math.pow(10, token.decimals))
+						.multipliedBy(sharesPerFragment);
+				}
+
+				if (claimBalance.gt(claimableAmount)) {
+					claimAmount = claimableAmount.toFixed();
 				}
 				amountsToClaim.push(claimAmount);
 			});
