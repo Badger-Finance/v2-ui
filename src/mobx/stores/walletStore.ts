@@ -9,6 +9,7 @@ import { RootStore } from 'mobx/store';
 import { API } from 'bnc-onboard/dist/src/interfaces';
 import { API as NotifyAPI } from 'bnc-notify';
 import { getNetwork, getNetworkNameFromId } from 'mobx/utils/network';
+import { getNetworkFromProvider } from 'mobx/utils/helpers';
 
 class WalletStore {
 	private store: RootStore;
@@ -79,12 +80,24 @@ class WalletStore {
 			setInterval(() => {
 				this.getCurrentBlock();
 			}, 5000 * 60);
-
 			const previouslySelectedWallet = window.localStorage.getItem('selectedWallet');
 
 			// call wallet select with that value if it exists
 			if (!!previouslySelectedWallet) {
-				this.onboard.walletSelect(previouslySelectedWallet);
+				const walletSelected = await this.onboard.walletSelect(previouslySelectedWallet);
+				let walletReady = false;
+				try {
+					walletReady = await this.onboard.walletCheck();
+				} catch (err) {
+					this.onboard.walletReset();
+					return;
+				}
+
+				if (walletSelected && walletReady) {
+					this.connect(this.onboard);
+				} else {
+					this.walletReset();
+				}
 			}
 			this.notify.config({
 				darkMode: true, // (default: false)
@@ -98,7 +111,7 @@ class WalletStore {
 				return;
 			}
 			this.setProvider(null);
-			this.setAddress(null);
+			this.setAddress('');
 			window.localStorage.removeItem('selectedWallet');
 		} catch (err) {
 			console.log(err);
@@ -107,10 +120,10 @@ class WalletStore {
 
 	connect = action((wsOnboard: any) => {
 		const walletState = wsOnboard.getState();
+		this.onboard = wsOnboard;
 		this.checkNetwork(walletState.network);
 		this.setProvider(walletState.wallet.provider);
-		this.connectedAddress = walletState.address;
-		this.onboard = wsOnboard;
+		this.setAddress(walletState.address);
 		this.store.walletRefresh();
 	});
 
@@ -147,6 +160,10 @@ class WalletStore {
 	});
 
 	setAddress = action((address: any) => {
+		if (!this.checkSupportedNetwork()) {
+			this.connectedAddress = '';
+			return;
+		}
 		this.connectedAddress = address;
 		this.store.walletRefresh();
 	});
@@ -156,11 +173,19 @@ class WalletStore {
 		window.localStorage.setItem('selectedWallet', wallet.name);
 	});
 
+	// Check to see if the wallet's connected network matches the currently defined network
+	// if it doesn't, set to the proper network
 	checkNetwork = action((network: number) => {
-		// Check to see if the wallet's connected network matches the currently defined network
-		// if it doesn't, set to the proper network
-		if (network !== this.network.networkId) {
-			this.network = getNetwork(getNetworkNameFromId(network));
+		// If this returns undefined, the network is not supported.
+		if (!getNetworkNameFromId(network)) {
+			this.store.uiState.queueNotification('Connecting to an unsupported network', 'error');
+			this.walletReset();
+			return;
+		}
+		const newNetwork = getNetwork(getNetworkNameFromId(network));
+
+		if (newNetwork.networkId !== this.network.networkId) {
+			this.network = newNetwork;
 			this.store.walletRefresh();
 			this.getGasPrice();
 			this.getCurrentBlock();
@@ -179,6 +204,19 @@ class WalletStore {
 	isCached = action(() => {
 		return !!this.connectedAddress || !!window.localStorage.getItem('selectedWallet');
 	});
+
+	/* Network should be checked based on the provider.  You can either provide a provider
+	 * if the current one is not set or it's a new one, or use the current set provider by
+	 * not passing in a value.
+	 * @param provider = optional web3 provider to check if valid
+	 */
+	// Reason: blocknative does not type their provider, must be any
+	// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+	checkSupportedNetwork = (provider?: any): boolean => {
+		const name = getNetworkFromProvider(provider ?? this.provider);
+
+		return !!name;
+	};
 }
 
 export default WalletStore;

@@ -11,19 +11,19 @@ import { getNetworkDeploy } from 'mobx/utils/network';
 import { AbiItem } from 'web3-utils';
 
 export enum NETWORK_LIST {
+	ETH = 'eth',
 	BSC = 'bsc',
 	// MATIC = 'matic',
 	// FTM = 'ftm',
 	// XDAI = 'xdai',
-	ETH = 'eth',
 }
 
 export enum NETWORK_IDS {
 	ETH = 1,
 	BSC = 56,
-	MATIC = 137,
-	FTM = 250,
-	XDAI = 100,
+	// MATIC = 137,
+	// FTM = 250,
+	// XDAI = 100,
 }
 
 export const NETWORK_CONSTANTS: NetworkConstants = {
