@@ -74,14 +74,11 @@ export const RewardsModalItem = observer(
 		}, [maxFlag]);
 
 		const handleInputAmount = (event: React.ChangeEvent<HTMLInputElement>): void => {
-			let newVal = event.target.value === '.' ? '0.' : event.target.value;
-			if (newVal === '') {
-				newVal = '0';
-			}
-			if (isNaN(parseFloat(newVal))) {
+			const newVal = event.target.value === '.' ? '0.' : event.target.value;
+			if (newVal && isNaN(parseFloat(newVal))) {
 				return;
 			}
-			const isValid = new BigNumber(newVal).gt(new BigNumber(amount));
+			const isValid = new BigNumber(newVal).gt(new BigNumber(maxAmount));
 			setFormError(isValid);
 			setInputAmount(newVal);
 		};
@@ -107,7 +104,7 @@ export const RewardsModalItem = observer(
 							{symbol}
 						</Typography>
 						<Grid container direction="column" className={classes.currencyContainer}>
-							<Typography>{display}</Typography>
+							<Typography>{!inputAmount ? 0 : display}</Typography>
 							<Typography className={classes.currencyValue} variant="caption" color="textSecondary">
 								({value})
 							</Typography>
