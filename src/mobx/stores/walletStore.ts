@@ -120,12 +120,14 @@ class WalletStore {
 	});
 
 	connect = action((wsOnboard: any) => {
+		this.onboard = wsOnboard;
 		const walletState = wsOnboard.getState();
 		this.setProvider(walletState.wallet.provider);
-		this.onboard = wsOnboard;
 		// change of adress trigger onboard event subscription, reconnecting does not.
-		if (this.prevAddress == walletState.address) {
+		if (this.prevAddress == this.connectedAddress) {
 			this.setAddress(walletState.address);
+		} else {
+			this.checkNetwork(walletState.network);
 		}
 	});
 
@@ -158,6 +160,11 @@ class WalletStore {
 				this.connectedAddress = '';
 				return;
 			}
+			const walletState = this.onboard.getState();
+			const validNetwork = this.checkNetwork(walletState.network);
+			if (!validNetwork) {
+				return;
+			}
 			this.connectedAddress = address;
 			await this.store.walletRefresh();
 		},
@@ -170,21 +177,22 @@ class WalletStore {
 
 	// Check to see if the wallet's connected network matches the currently defined network
 	// if it doesn't, set to the proper network
-	checkNetwork = action((network: number) => {
+	checkNetwork = action((network: number): boolean => {
 		// If this returns undefined, the network is not supported.
 		if (!getNetworkNameFromId(network)) {
 			this.store.uiState.queueNotification('Connecting to an unsupported network', 'error');
 			this.walletReset();
-			return;
+			return false;
 		}
-		const newNetwork = getNetwork(getNetworkNameFromId(network));
 
+		const newNetwork = getNetwork(getNetworkNameFromId(network));
 		if (newNetwork.networkId !== this.network.networkId) {
 			this.network = newNetwork;
 			this.store.walletRefresh();
 			this.getGasPrice();
 			this.getCurrentBlock();
 		}
+		return true;
 	});
 
 	setNetwork = action((network: string): void => {
