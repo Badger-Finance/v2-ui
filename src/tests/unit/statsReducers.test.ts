@@ -2,7 +2,10 @@ import '@testing-library/jest-dom';
 import { reduceTimeSinceLastCycle, reduceClaims } from '../../mobx/reducers/statsReducers';
 import MockDate from 'mockdate';
 import BigNumber from 'bignumber.js';
-import { RewardMerkleClaim, TreeClaimData, UserClaimData } from 'mobx/model';
+import { RewardMerkleClaim, TreeClaimData } from 'mobx/model';
+import { TokenBalance } from 'mobx/model/token-balance';
+import { ETH_DEPLOY } from 'web3/config/eth-config';
+import store from 'mobx/store';
 
 describe('getPercentageChange', () => {
 	beforeEach(() => {
@@ -28,24 +31,28 @@ describe('getPercentageChange', () => {
 });
 
 describe('reduceClaims', () => {
+	const badger = ETH_DEPLOY.tokens.badger;
+	const digg = ETH_DEPLOY.tokens.digg;
+	const wbtc = ETH_DEPLOY.tokens.wBTC;
+
 	test('Claims with normal values are reduced correctly', () => {
 		const proof: RewardMerkleClaim = {
 			index: '',
 			cycle: '',
 			boost: new BigNumber(1),
 			user: '1',
-			tokens: ['token1', 'token2'],
+			tokens: [badger, digg],
 			cumulativeAmounts: ['100', '200'],
 			proof: ['', ''],
 			node: '',
 		};
 		const claimedRewards: TreeClaimData = [
 			['0x111', '0x222'],
-			[new BigNumber(1), new BigNumber(2)],
+			['1', '2'],
 		];
-		const expected: UserClaimData[] = [
-			{ amount: new BigNumber(99), token: 'token1' },
-			{ amount: new BigNumber(198), token: 'token2' },
+		const expected: TokenBalance[] = [
+			store.rewards.balanceFromProof(badger, '99'),
+			store.rewards.balanceFromProof(digg, '198'),
 		];
 		expect(reduceClaims(proof, claimedRewards)).toEqual(expected);
 	});
@@ -55,18 +62,18 @@ describe('reduceClaims', () => {
 			cycle: '',
 			boost: new BigNumber(1),
 			user: '1',
-			tokens: ['token1', 'token2'],
+			tokens: [badger, digg],
 			cumulativeAmounts: ['100', '200'],
 			proof: ['', ''],
 			node: '',
 		};
 		const claimedRewards: TreeClaimData = [
 			['0x111', '0x222'],
-			[new BigNumber(100), new BigNumber(200)],
+			['100', '200'],
 		];
-		const expected: UserClaimData[] = [
-			{ amount: new BigNumber(0), token: 'token1' },
-			{ amount: new BigNumber(0), token: 'token2' },
+		const expected: TokenBalance[] = [
+			store.rewards.balanceFromProof(badger, '0'),
+			store.rewards.balanceFromProof(digg, '0'),
 		];
 		expect(reduceClaims(proof, claimedRewards)).toEqual(expected);
 	});
@@ -76,18 +83,18 @@ describe('reduceClaims', () => {
 			cycle: '',
 			boost: new BigNumber(1),
 			user: '1',
-			tokens: ['token1', 'token2'],
+			tokens: [badger, digg],
 			cumulativeAmounts: ['100', '200'],
 			proof: ['', ''],
 			node: '',
 		};
 		const claimedRewards: TreeClaimData = [
 			['0x111', '0x222'],
-			[new BigNumber(-1), new BigNumber(-2)],
+			['-1', '-2'],
 		];
-		const expected: UserClaimData[] = [
-			{ amount: new BigNumber(101), token: 'token1' },
-			{ amount: new BigNumber(202), token: 'token2' },
+		const expected: TokenBalance[] = [
+			store.rewards.balanceFromProof(badger, '101'),
+			store.rewards.balanceFromProof(digg, '202'),
 		];
 		expect(reduceClaims(proof, claimedRewards)).toEqual(expected);
 	});
@@ -97,18 +104,18 @@ describe('reduceClaims', () => {
 			cycle: '',
 			boost: new BigNumber(1),
 			user: '1',
-			tokens: ['token1', 'token2'],
+			tokens: [badger, digg],
 			cumulativeAmounts: ['', ''],
 			proof: ['', ''],
 			node: '',
 		};
 		const claimedRewards: TreeClaimData = [
 			['0x111', '0x222'],
-			[new BigNumber(1), new BigNumber(2)],
+			['1', '2'],
 		];
-		const expected: UserClaimData[] = [
-			{ amount: new BigNumber(NaN), token: 'token1' },
-			{ amount: new BigNumber(NaN), token: 'token2' },
+		const expected: TokenBalance[] = [
+			store.rewards.balanceFromProof(badger, 'NaN'),
+			store.rewards.balanceFromProof(digg, 'NaN'),
 		];
 		expect(reduceClaims(proof, claimedRewards)).toEqual(expected);
 	});
@@ -118,18 +125,18 @@ describe('reduceClaims', () => {
 			cycle: '',
 			boost: new BigNumber(1),
 			user: '1',
-			tokens: ['token1', 'token2'],
+			tokens: [badger, digg],
 			cumulativeAmounts: ['100', '200'],
 			proof: ['', ''],
 			node: '',
 		};
 		const claimedRewards: TreeClaimData = [
 			['0x111', '0x222'],
-			[new BigNumber(NaN), new BigNumber(NaN)],
+			['NaN', 'NaN'],
 		];
-		const expected: UserClaimData[] = [
-			{ amount: new BigNumber(NaN), token: 'token1' },
-			{ amount: new BigNumber(NaN), token: 'token2' },
+		const expected: TokenBalance[] = [
+			store.rewards.balanceFromProof(badger, 'NaN'),
+			store.rewards.balanceFromProof(digg, 'NaN'),
 		];
 		expect(reduceClaims(proof, claimedRewards)).toEqual(expected);
 	});
@@ -139,19 +146,19 @@ describe('reduceClaims', () => {
 			cycle: '',
 			boost: new BigNumber(1),
 			user: '1',
-			tokens: ['token1', 'token2', 'token3'],
+			tokens: [badger, digg, wbtc],
 			cumulativeAmounts: ['100', '200', '300'],
 			proof: ['', ''],
 			node: '',
 		};
 		const claimedRewards: TreeClaimData = [
 			['0x111', '0x222'],
-			[new BigNumber(1), new BigNumber(2)],
+			['1', '2'],
 		];
-		const expected: UserClaimData[] = [
-			{ amount: new BigNumber(99), token: 'token1' },
-			{ amount: new BigNumber(198), token: 'token2' },
-			{ amount: new BigNumber(NaN), token: 'token3' },
+		const expected: TokenBalance[] = [
+			store.rewards.balanceFromProof(badger, '99'),
+			store.rewards.balanceFromProof(digg, '198'),
+			store.rewards.balanceFromProof(wbtc, 'NaN'),
 		];
 		expect(reduceClaims(proof, claimedRewards)).toEqual(expected);
 	});
@@ -161,18 +168,18 @@ describe('reduceClaims', () => {
 			cycle: '',
 			boost: new BigNumber(1),
 			user: '1',
-			tokens: ['token1', 'token2'],
+			tokens: [badger, digg],
 			cumulativeAmounts: ['100', '200'],
 			proof: ['', ''],
 			node: '',
 		};
 		const claimedRewards: TreeClaimData = [
 			['0x111', '0x222', '0x333'],
-			[new BigNumber(1), new BigNumber(2), new BigNumber(3)],
+			['1', '2', '3'],
 		];
-		const expected: UserClaimData[] = [
-			{ amount: new BigNumber(99), token: 'token1' },
-			{ amount: new BigNumber(198), token: 'token2' },
+		const expected: TokenBalance[] = [
+			store.rewards.balanceFromProof(badger, '99'),
+			store.rewards.balanceFromProof(digg, '198'),
 		];
 		expect(reduceClaims(proof, claimedRewards)).toEqual(expected);
 	});

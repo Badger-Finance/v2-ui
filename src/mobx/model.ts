@@ -17,6 +17,7 @@ import { BatchCallRequest } from 'web3/interface/batch-call-request';
 import { ethSetts, ethProtocolTokens, getEthereumBatchRequests } from 'web3/config/eth-config';
 import { bscSetts, bscProtocolTokens, getBinanceSmartChainBatchRequests } from 'web3/config/bsc-config';
 import { ProtocolTokens } from 'web3/interface/protocol-token';
+import { TokenBalance } from './model/token-balance';
 
 export class Contract {
 	store!: RootStore;
@@ -92,8 +93,9 @@ export interface BadgerTree {
 	timeSinceLastCycle: string;
 	sharesPerFragment: BigNumber | undefined;
 	proof: RewardMerkleClaim | undefined;
-	claims: UserClaimData[] | undefined;
-	claimableAmounts: string[] | undefined;
+	claims: TokenBalance[];
+	amounts: TokenBalance[];
+	claimableAmounts: string[];
 }
 
 interface TokenConfig {
@@ -118,11 +120,6 @@ export interface RewardMerkleClaim {
 }
 
 export type TreeClaimData = [string[], string[]];
-
-export interface UserClaimData {
-	token: string;
-	amount: BigNumber;
-}
 
 export type ReduceAirdropsProps = {
 	digg?: BigNumber;
@@ -513,9 +510,9 @@ export interface SettBalance {
 	id: string;
 	name: string;
 	asset: string;
-	balance: TokenBalance[];
+	balance: SettTokenBalance[];
 	value: number;
-	earnedTokens: TokenBalance[];
+	earnedTokens: SettTokenBalance[];
 	earnedValue: number;
 }
 
@@ -554,7 +551,7 @@ export interface Sett extends SettSummary {
 	hasBouncer: boolean;
 	ppfs: number;
 	sources: ValueSource[];
-	tokens: TokenBalance[];
+	tokens: SettTokenBalance[];
 	underlyingToken: string;
 	vaultToken: string;
 	affiliate?: SettAffiliateData;
@@ -585,7 +582,7 @@ export type Performance = {
 	thirtyDay?: number;
 };
 
-export type TokenBalance = {
+export type SettTokenBalance = {
 	address: string;
 	name: string;
 	symbol: string;
