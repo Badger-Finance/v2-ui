@@ -14,6 +14,8 @@ import { getToken } from '../../web3/config/token-config';
 import { TokenBalance } from 'mobx/model/token-balance';
 import { ETH_DEPLOY } from 'web3/config/eth-config';
 import { mockToken } from 'mobx/model/badger-token';
+import { NETWORK_LIST } from 'config/constants';
+import { getNetworkNameFromId } from 'mobx/utils/network';
 
 /**
  * TODO: Clean up reward store in favor of a more unified integration w/ user store.
@@ -104,7 +106,11 @@ class RewardsStore {
 			const { provider, connectedAddress, network } = this.store.wallet;
 			const { claimProof } = this.store.user;
 
-			if (!connectedAddress || !claimProof || !network.rewards) {
+			// M50: Rewards only live on ETH, make sure provider is an ETH mainnet one.
+			const networkName = provider
+				? getNetworkNameFromId(parseInt(new BigNumber(provider.chainId, 16).toString(10)))
+				: null;
+			if (!connectedAddress || !claimProof || !network.rewards || networkName !== NETWORK_LIST.ETH) {
 				this.badgerTree = RewardsStore.defaultTree;
 				return;
 			}

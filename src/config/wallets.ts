@@ -1,3 +1,4 @@
+import { getNetworkNameFromId } from 'mobx/utils/network';
 import {
 	CONTACT_EMAIL,
 	APP_NAME,
@@ -78,7 +79,23 @@ export const getOnboardWallets = (network?: string): WalletProviderInfo[] => {
 	}
 };
 
+const supportedNetwork = () => {
+	return async (stateAndHelpers: { network: number }) => {
+		const { network } = stateAndHelpers;
+		const networkName = getNetworkNameFromId(network);
+		if (!networkName || !Object.values(NETWORK_LIST).includes(networkName as NETWORK_LIST)) {
+			const networkMembers = Object.values(NETWORK_LIST).map((key) => ' '.concat(key.toUpperCase()));
+			return {
+				heading: `You're connected to an unsupported network`,
+				description: `Switch your network to one of the supported networks:${networkMembers}`,
+				eventCode: 'networkCheck',
+			};
+		}
+	};
+};
+
 export const onboardWalletCheck = [
+	supportedNetwork(),
 	{ checkName: 'derivationPath' },
 	{ checkName: 'accounts' },
 	{ checkName: 'connect' },
