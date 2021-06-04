@@ -158,7 +158,8 @@ export const RewardsModal = observer((): JSX.Element | null => {
 	const claimItems = badgerTree.claims
 		.filter((claim) => {
 			const entry = claimMap[claim.token.address];
-			return entry && entry.balance.tokenBalance.gt(0);
+			const claimable = maxBalances[claim.token.address];
+			return entry && claimable.balance.tokenBalance.gt(0);
 		})
 		.map((claim) => {
 			const { token } = claim;
