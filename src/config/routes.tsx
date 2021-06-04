@@ -57,6 +57,10 @@ const routes = {
 		path: '/boost-optimizer',
 		component: FLAGS.BOOST_OPTIMIZER ? <BoostOptimizer /> : <></>,
 	}),
+	boost: new Route<RootStore, QueryParams>({
+		path: '/boost',
+		component: <Boost />,
+	}),
 	digg: new Route<RootStore, QueryParams>({
 		path: '/digg',
 		component: <Digg />,
