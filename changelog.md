@@ -2,7 +2,7 @@
 
 ### v2.7.5 - 06/04/2021
 - fixed an issue causing a large amount off errors when connecting to unsupported networks
-- fixed an issue affecting rewards claims to fail when attempting to claim less than 1 wei of digg
+- fixed an issue causing rewards claims to fail when attempting to claim less than 1 wei of digg
 
 ### v2.7.4 - 06/02/2021
 - fixed an issue causing underlying tokens value to display using vault token prices
