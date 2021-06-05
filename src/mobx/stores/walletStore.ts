@@ -179,13 +179,13 @@ class WalletStore {
 	// if it doesn't, set to the proper network
 	checkNetwork = action((network: number): boolean => {
 		// If this returns undefined, the network is not supported.
-		if (!getNetworkNameFromId(network)) {
+		const connectedNetwork = getNetworkNameFromId(network);
+		if (!connectedNetwork) {
 			this.store.uiState.queueNotification('Connecting to an unsupported network', 'error');
 			this.walletReset();
 			return false;
 		}
-
-		const newNetwork = getNetwork(getNetworkNameFromId(network));
+		const newNetwork = getNetwork(connectedNetwork);
 		if (newNetwork.networkId !== this.network.networkId) {
 			this.network = newNetwork;
 			this.store.walletRefresh();
@@ -217,7 +217,6 @@ class WalletStore {
 	// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 	checkSupportedNetwork = (provider?: any): boolean => {
 		const name = getNetworkFromProvider(provider ?? this.provider);
-
 		return !!name;
 	};
 }

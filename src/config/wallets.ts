@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { WalletCheckModal } from 'bnc-onboard/dist/src/interfaces';
+=======
+import { StateAndHelpers } from 'bnc-onboard/dist/src/interfaces';
+>>>>>>> b15148b0 (bugfix: remedy walletconnect issue)
 import { getNetworkNameFromId } from 'mobx/utils/network';
 import {
 	CONTACT_EMAIL,
@@ -81,9 +85,9 @@ export const getOnboardWallets = (network?: string): WalletProviderInfo[] => {
 };
 
 const supportedNetwork = () => {
-	return async (stateAndHelpers: { network: number }): Promise<WalletCheckModal | undefined> => {
-		const { network } = stateAndHelpers;
-		const networkName = getNetworkNameFromId(network);
+	return async (stateAndHelpers: StateAndHelpers) => {
+		const { network, appNetworkId } = stateAndHelpers;
+		const networkName = getNetworkNameFromId(network || appNetworkId);
 		if (!networkName || !Object.values(NETWORK_LIST).includes(networkName as NETWORK_LIST)) {
 			const networkMembers = Object.values(NETWORK_LIST).map((key) => ' '.concat(key.toUpperCase()));
 			return {
