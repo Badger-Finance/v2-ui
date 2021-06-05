@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import { WalletCheckModal } from 'bnc-onboard/dist/src/interfaces';
-=======
 import { StateAndHelpers } from 'bnc-onboard/dist/src/interfaces';
->>>>>>> b15148b0 (bugfix: remedy walletconnect issue)
 import { getNetworkNameFromId } from 'mobx/utils/network';
 import {
 	CONTACT_EMAIL,
