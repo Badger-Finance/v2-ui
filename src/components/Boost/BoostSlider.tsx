@@ -1,7 +1,6 @@
 import React from 'react';
-import { observer } from 'mobx-react-lite';
 import { withStyles } from '@material-ui/core/styles';
-import Slider from '@material-ui/core/Slider';
+import Slider, { SliderProps } from '@material-ui/core/Slider';
 
 const CustomSlider = withStyles((theme) => ({
 	thumb: {
@@ -47,6 +46,15 @@ function ThumbComponent(props: any) {
 	);
 }
 
-export const BoostSlider = observer(() => {
-	return <CustomSlider orientation="vertical" ThumbComponent={ThumbComponent} min={1} max={100} defaultValue={1} />;
-});
+export const BoostSlider = (props: SliderProps): JSX.Element => {
+	return (
+		<CustomSlider
+			{...props}
+			orientation="vertical"
+			ThumbComponent={ThumbComponent}
+			min={1}
+			max={100}
+			defaultValue={1}
+		/>
+	);
+};

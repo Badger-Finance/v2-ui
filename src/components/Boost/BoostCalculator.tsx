@@ -37,6 +37,12 @@ const useStyles = makeStyles((theme) => ({
 	boostValue: {
 		marginLeft: 12,
 	},
+	boostSlider: {
+		padding: '0 22px !important',
+	},
+	settInformation: {
+		textAlign: 'center',
+	},
 }));
 
 export const BoostCalculator = observer(() => {
@@ -56,22 +62,22 @@ export const BoostCalculator = observer(() => {
 				</Grid>
 			</Grid>
 			<Divider className={classes.divider} />
-			<Grid item xs={12} container justify="center" className={classes.content}>
-				<Grid item container xs={3} alignItems="center" justify="center">
-					<Grid item justify="center" style={{ textAlign: 'center' }}>
+			<Grid item xs={12} container className={classes.content}>
+				<Grid item container xs alignItems="center" justify="center">
+					<Grid item justify="center" className={classes.settInformation}>
 						<Typography variant="h6">Native: </Typography>
-						<BorderedText variant="h6">$10,000</BorderedText>
+						<BorderedText variant="h6">$5,000</BorderedText>
 					</Grid>
 				</Grid>
-				<Grid item container xs>
-					<BoostSlider />
+				<Grid item container xs={7} justify="center">
+					<BoostSlider className={classes.boostSlider} />
 					<BoostBadge />
-					<BoostSlider />
+					<BoostSlider className={classes.boostSlider} />
 				</Grid>
-				<Grid item container xs={3} alignItems="center" justify="center">
-					<Grid item justify="center" style={{ textAlign: 'center' }}>
+				<Grid item container xs alignItems="center" justify="center">
+					<Grid item justify="center" className={classes.settInformation}>
 						<Typography variant="h6">Non Native: </Typography>
-						<BorderedText variant="h6">$5,000</BorderedText>
+						<BorderedText variant="h6">$10,000</BorderedText>
 					</Grid>
 				</Grid>
 			</Grid>
