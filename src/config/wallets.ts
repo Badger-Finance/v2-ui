@@ -8,6 +8,7 @@ import {
 	NETWORK_LIST,
 	NETWORK_IDS,
 	WC_BRIDGE,
+	RPC_WALLETS,
 } from './constants';
 
 export interface WalletProviderInfo {
@@ -24,14 +25,7 @@ export interface WalletProviderInfo {
 
 export const isRpcWallet = (walletName: string | null): boolean => {
 	if (!walletName) return false;
-	const rpcWallets: { [index: string]: boolean } = {
-		ledger: true,
-		WalletConnect: true,
-		walletLink: true,
-		trezor: true,
-		lattice: true,
-	};
-	return rpcWallets[walletName] ?? false;
+	return RPC_WALLETS[walletName] ?? false;
 };
 
 export const getOnboardWallets = (network?: string): WalletProviderInfo[] => {
