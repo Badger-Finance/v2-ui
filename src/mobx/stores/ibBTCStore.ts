@@ -130,13 +130,13 @@ class IbBTCStore {
 	);
 
 	fetchIbbtcApy = action(async () => {
-		const dayOldBlock = 86400 / 15; // [Seconds in a day / EVM block time ratio]
+		const dayOldBlock = 86400; // [Seconds in a day]
 		const weekOldBlock = dayOldBlock * 7;
 		const apyFromLastDay = await this.fetchIbbtApyFromTimestamp(dayOldBlock);
 		const apyFromLastWeek = await this.fetchIbbtApyFromTimestamp(weekOldBlock);
 
-		this.apyUsingLastDay = apyFromLastDay !== null ? `${apyFromLastDay.toFixed(3)}%` : null;
-		this.apyUsingLastWeek = apyFromLastWeek !== null ? `${apyFromLastWeek.toFixed(3)}%` : null;
+		this.apyUsingLastDay = apyFromLastDay !== null ? `${apyFromLastDay}%` : null;
+		this.apyUsingLastWeek = apyFromLastWeek !== null ? `${apyFromLastWeek}%` : null;
 	});
 
 	fetchBalance = action(
@@ -410,31 +410,25 @@ class IbBTCStore {
 			});
 	}
 
-	private async fetchIbbtApyFromTimestamp(timestamp: number): Promise<number | null> {
-		const { provider } = this.store.wallet;
-		if (!provider) {
+	private async fetchIbbtApyFromTimestamp(timestamp: number): Promise<string | null> {
+		const { provider, currentBlock } = this.store.wallet;
+		if (!provider || !currentBlock) {
 			return null;
 		}
-
-		const multiplier = 3153600000; // seconds in a year * 100%
+		const secondsPerYear = new BigNumber(31536000);
 		const web3 = new Web3(provider);
-		const timestampBlocks = Math.floor(timestamp / 15); // M50: timestamp in seconds / approx. eth block time
 		const ibBTC = new web3.eth.Contract(ibBTCConfig.abi as AbiItem[], this.ibBTC.address);
-		const nowBlock = await web3.eth.getBlock('latest');
-		const { number: currentBlock } = nowBlock;
-		const currentPPS = await ibBTC.methods.pricePerShare().call();
+		const currentPPS = new BigNumber(await ibBTC.methods.pricePerShare().call());
 
 		try {
-			const [oldBlock, oldPPS] = await Promise.all([
-				web3.eth.getBlock(currentBlock - timestampBlocks),
-				ibBTC.methods.pricePerShare().call({}, currentBlock - timestampBlocks),
-			]);
-
-			const earnRatio = parseFloat(web3.utils.fromWei(currentPPS)) / parseFloat(web3.utils.fromWei(oldPPS)) - 1;
-			return (earnRatio * multiplier) / (Number(nowBlock.timestamp) - Number(oldBlock.timestamp));
+			const targetBlock = currentBlock - Math.floor(timestamp / 15);
+			const oldPPS = new BigNumber(await ibBTC.methods.pricePerShare().call({}, targetBlock));
+			const ppsGrowth = currentPPS.minus(oldPPS).dividedBy(oldPPS);
+			const growthPerSecond = ppsGrowth.multipliedBy(secondsPerYear.dividedBy(timestamp));
+			return growthPerSecond.multipliedBy(1e2).toFixed(3);
 		} catch (error) {
 			process.env.NODE_ENV !== 'production' &&
-				console.error(`Error while getting ibBTC APY from block ${currentBlock - timestampBlocks}: ${error}`);
+				console.error(`Error while getting ibBTC APY from block ${currentBlock - timestamp}: ${error}`);
 			return null;
 		}
 	}

@@ -124,7 +124,9 @@ class WalletStore {
 		const walletState = wsOnboard.getState();
 		this.setProvider(walletState.wallet.provider);
 		// change of adress trigger onboard event subscription, reconnecting does not.
-		if (this.prevAddress !== this.connectedAddress) {
+		// TODO: fix root cause of this, this fix introduces an error when disconnecting and reconnecting
+		// the same wallet address.
+		if (this.prevAddress == this.connectedAddress) {
 			this.setAddress(walletState.address);
 		} else {
 			this.checkNetwork(walletState.network);
@@ -179,11 +181,10 @@ class WalletStore {
 	// if it doesn't, set to the proper network
 	checkNetwork = action((network: number): boolean => {
 		// M50: Some onboard wallets don't have providers, we mock in the app network to fill in the gap here
-		const walletName = this.onboard.getState().wallet.name;
+		const walletState = this.onboard.getState();
+		const walletName = walletState.wallet.name;
 		// If this returns undefined, the network is not supported.
-		const connectedNetwork = getNetworkNameFromId(
-			isRpcWallet(walletName) ? this.onboard.getState().appNetworkId : network,
-		);
+		const connectedNetwork = getNetworkNameFromId(isRpcWallet(walletName) ? walletState.appNetworkId : network);
 
 		if (!connectedNetwork) {
 			this.store.uiState.queueNotification('Connecting to an unsupported network', 'error');
