@@ -7,8 +7,6 @@ import {
 	TableBody,
 	makeStyles,
 	TablePagination,
-	Paper,
-	Link,
 	useTheme,
 	useMediaQuery,
 } from '@material-ui/core';
@@ -21,14 +19,6 @@ import clsx from 'clsx';
 import { FLAGS } from 'config/constants';
 
 const useStyles = makeStyles((theme) => ({
-	leaderboardPaper: {
-		paddingTop: theme.spacing(2),
-		marginBottom: theme.spacing(5),
-		[theme.breakpoints.down('sm')]: {
-			marginTop: theme.spacing(2),
-			paddingTop: theme.spacing(1),
-		},
-	},
 	pageContainer: {
 		marginTop: theme.spacing(1),
 		paddingBottom: theme.spacing(2),
@@ -61,10 +51,10 @@ const useStyles = makeStyles((theme) => ({
 		marginBottom: theme.spacing(1),
 	},
 	headerText: {
-		fontSize: '1.3rem',
+		fontSize: '24px',
 		paddingBottom: theme.spacing(2),
 		[theme.breakpoints.down('sm')]: {
-			fontSize: '0.8rem',
+			fontSize: '20px',
 			paddingBottom: theme.spacing(0),
 		},
 	},
@@ -94,7 +84,6 @@ const useStyles = makeStyles((theme) => ({
 	},
 	rankContainer: {
 		display: 'flex',
-		justifyContent: 'center',
 		alignItems: 'center',
 	},
 	leaderboardTable: {
@@ -109,9 +98,8 @@ const LeaderBoard = observer(() => {
 	const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 	const classes = useStyles();
 	const store = useContext(StoreContext);
-	const { leaderBoard, user, uiState } = store;
+	const { leaderBoard, user } = store;
 	const { accountDetails } = user;
-	const { queueNotification } = uiState;
 
 	const pagination = (): JSX.Element | null => {
 		const mobileBreakpoint = window.innerWidth < 960;
@@ -151,46 +139,36 @@ const LeaderBoard = observer(() => {
 		}
 	};
 
-	const viewRank = (): void => {
-		if (!accountDetails || !leaderBoard.data) {
-			return;
-		}
-		if (accountDetails.boostRank > leaderBoard.data.count) {
-			queueNotification(`Your address is currently unranked.`, 'info');
-			return;
-		}
-		leaderBoard.setPage(Math.ceil(accountDetails.boostRank / leaderBoard.data.size) - 1);
-	};
+	// const viewRank = (): void => {
+	// 	if (!accountDetails || !leaderBoard.data) {
+	// 		return;
+	// 	}
+	// 	if (accountDetails.boostRank > leaderBoard.data.count) {
+	// 		queueNotification(`Your address is currently unranked.`, 'info');
+	// 		return;
+	// 	}
+	// 	leaderBoard.setPage(Math.ceil(accountDetails.boostRank / leaderBoard.data.size) - 1);
+	// };
 
 	const boostDecimals = isMobile ? 5 : 10;
 	const ratioDecimals = isMobile ? 2 : 5;
 	return (
-		<Paper className={classes.leaderboardPaper}>
+		<>
 			<TableContainer>
-				{accountDetails && (
-					<Link
-						onClick={viewRank}
-						component="button"
-						variant="body2"
-						className={clsx(classes.viewButton, !FLAGS.BOOST_V2 && classes.viewButtonNoBoost)}
-					>
-						Show My Rank
-					</Link>
-				)}
 				<Table size="small" className={classes.leaderboardTable}>
 					<TableHead className={classes.headerRow}>
 						<TableRow>
-							<LeaderBoardCell align="center" className={classes.headerText}>
+							<LeaderBoardCell align="left" className={classes.headerText}>
 								Rank
 							</LeaderBoardCell>
-							<LeaderBoardCell align="center" className={classes.headerText}>
+							<LeaderBoardCell align="left" className={classes.headerText}>
 								Address
 							</LeaderBoardCell>
-							<LeaderBoardCell align="center" className={classes.headerText}>
+							<LeaderBoardCell align="left" className={classes.headerText}>
 								Boost
 							</LeaderBoardCell>
 							{FLAGS.BOOST_V2 && (
-								<LeaderBoardCell align="center" className={classes.headerText}>
+								<LeaderBoardCell align="left" className={classes.headerText}>
 									Stake Ratio
 								</LeaderBoardCell>
 							)}
@@ -203,7 +181,7 @@ const LeaderBoard = observer(() => {
 								return (
 									<TableRow key={entry.rank}>
 										<LeaderBoardCell
-											align="center"
+											align="left"
 											className={clsx(classes.bodyText, myRank && classes.userAddress)}
 										>
 											<div className={classes.rankContainer}>
@@ -220,20 +198,20 @@ const LeaderBoard = observer(() => {
 											</div>
 										</LeaderBoardCell>
 										<LeaderBoardCell
-											align="center"
+											align="left"
 											className={clsx(classes.bodyText, myRank && classes.userAddress)}
 										>
 											{entry.address}
 										</LeaderBoardCell>
 										<LeaderBoardCell
-											align="center"
+											align="left"
 											className={clsx(classes.bodyText, myRank && classes.userAddress)}
 										>
 											{parseFloat(entry.boost).toFixed(boostDecimals)}
 										</LeaderBoardCell>
 										{FLAGS.BOOST_V2 && (
 											<LeaderBoardCell
-												align="center"
+												align="left"
 												className={clsx(classes.bodyText, myRank && classes.userAddress)}
 											>
 												{parseFloat(entry.stakeRatio).toFixed(ratioDecimals)}
@@ -245,14 +223,13 @@ const LeaderBoard = observer(() => {
 					</TableBody>
 				</Table>
 			</TableContainer>
-
 			{leaderBoard.data && pagination()}
 			{!leaderBoard.data && (
 				<div className={classes.pageContainer}>
 					<Loader message="Loading LeaderBoard..." />
 				</div>
 			)}
-		</Paper>
+		</>
 	);
 });
 
