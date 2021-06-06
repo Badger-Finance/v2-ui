@@ -255,6 +255,45 @@ export const Sidebar = observer(() => {
 							</ListItem>
 							<ListItem
 								button
+								className={classes.listItem}
+								onClick={() => setExpanded(expanded === 'boosts' ? '' : 'boosts')}
+							>
+								<ListItemIcon>
+									<img alt="Boosts" src={'assets/sidebar/gas_station.png'} className={classes.icon} />
+								</ListItemIcon>
+								<ListItemText primary="Boosts" />
+								<IconButton
+									size="small"
+									className={classes.expand + ' ' + (expanded === 'tokens' ? classes.expandOpen : '')}
+									aria-label="show more"
+								>
+									<ExpandMore />
+								</IconButton>
+							</ListItem>
+							<Collapse
+								in={expanded === 'boosts' || store.router.currentPath == '/leaderboard'}
+								timeout="auto"
+								unmountOnExit
+							>
+								<ListItem
+									button
+									className={getItemClass('/leaderboard', classes.primarySubListItem)}
+									onClick={() => navigate(views.boostLeaderBoard)}
+								>
+									Boost Leaderboard
+								</ListItem>
+								{FLAGS.BOOST_OPTIMIZER && (
+									<ListItem
+										button
+										className={getItemClass('/boost', classes.primarySubListItem)}
+										onClick={() => navigate(views.boost)}
+									>
+										Boost Optimizer
+									</ListItem>
+								)}
+							</Collapse>
+							<ListItem
+								button
 								className={getItemClass('/digg', classes.listItem)}
 								onClick={() => navigate(views.digg)}
 							>
@@ -329,21 +368,12 @@ export const Sidebar = observer(() => {
 									>
 										Experimental Vaults
 									</ListItem>
-									{FLAGS.BOOST_OPTIMIZER && (
-										<ListItem
-											button
-											className={getItemClass('/boost', classes.primarySubListItem)}
-											onClick={() => navigate(views.boost)}
-										>
-											Boost Optimizer
-										</ListItem>
-									)}
 									<ListItem
 										button
-										className={getItemClass('/leaderboard', classes.primarySubListItem)}
-										onClick={() => navigate(views.boostLeaderBoard)}
+										className={getItemClass('/airdrops', classes.primarySubListItem)}
+										onClick={() => navigate(views.airdrops)}
 									>
-										Boost Leaderboard
+										Airdrops
 									</ListItem>
 									<ListItem
 										button
@@ -351,13 +381,6 @@ export const Sidebar = observer(() => {
 										onClick={() => navigate(views.honeybadgerDrop)}
 									>
 										Honey Badger Drop
-									</ListItem>
-									<ListItem
-										button
-										className={getItemClass('/airdrops', classes.primarySubListItem)}
-										onClick={() => navigate(views.airdrops)}
-									>
-										Airdrops
 									</ListItem>
 								</Collapse>
 							</ListItem>
