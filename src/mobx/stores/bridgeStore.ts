@@ -63,6 +63,7 @@ const defaultProps = {
 	loading: false,
 	done: null,
 	error: null,
+	network: undefined,
 
 	badgerBurnFee: 0,
 	badgerMintFee: 0,

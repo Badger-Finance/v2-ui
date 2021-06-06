@@ -39,7 +39,10 @@ const WalletWidget = observer(() => {
 		if (store.uiState.sidebarOpen) {
 			store.uiState.closeSidebar();
 		}
-		if (!(await onboard.walletSelect())) return;
+		if (!(await onboard.walletSelect())) {
+			console.log('error connecting');
+			return;
+		}
 		const readyToTransact = await onboard.walletCheck();
 		if (readyToTransact) {
 			store.wallet.connect(onboard);

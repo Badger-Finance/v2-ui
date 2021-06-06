@@ -43,7 +43,6 @@ class IbBTCStore {
 		const token_config = this.config.contracts.tokens;
 
 		this.ibBTC = new TokenModel(this.store, token_config['ibBTC']);
-		this.network = getNetworkFromProvider(this.store.wallet.provider);
 
 		this.tokens = FLAGS.IBBTC_OPTIONS_FLAG
 			? [
@@ -93,7 +92,8 @@ class IbBTCStore {
 		const { connectedAddress } = this.store.wallet;
 		// M50: by default the network ID is set to ethereum.  We should check the provider to ensure the
 		// connected wallet is using ETH network, not the site.
-		if (!FLAGS.IBBTC_FLAG || this.network !== NETWORK_LIST.ETH) return;
+		const network = getNetworkFromProvider(this.store.wallet.provider);
+		if (!FLAGS.IBBTC_FLAG || network !== NETWORK_LIST.ETH) return;
 
 		if (!connectedAddress) {
 			this.resetBalances();
@@ -104,6 +104,11 @@ class IbBTCStore {
 		this.fetchConversionRates().then();
 		this.fetchFees().then();
 	}
+
+	setApy = action((apyFromLastDay?: number | null, apyFromLastWeek?: number | null) => {
+		this.apyUsingLastDay = apyFromLastDay ? `${apyFromLastDay.toFixed(3)}%` : null;
+		this.apyUsingLastWeek = apyFromLastWeek ? `${apyFromLastWeek.toFixed(3)}%` : null;
+	});
 
 	fetchFees = action(
 		async (): Promise<void> => {
@@ -135,8 +140,9 @@ class IbBTCStore {
 		const apyFromLastDay = await this.fetchIbbtApyFromTimestamp(dayOldBlock);
 		const apyFromLastWeek = await this.fetchIbbtApyFromTimestamp(weekOldBlock);
 
-		this.apyUsingLastDay = apyFromLastDay !== null ? `${apyFromLastDay.toFixed(3)}%` : null;
-		this.apyUsingLastWeek = apyFromLastWeek !== null ? `${apyFromLastWeek.toFixed(3)}%` : null;
+		this.setApy(apyFromLastDay, apyFromLastWeek);
+		// this.apyUsingLastDay = apyFromLastDay !== null ? `${apyFromLastDay.toFixed(3)}%` : null;
+		// this.apyUsingLastWeek = apyFromLastWeek !== null ? `${apyFromLastWeek.toFixed(3)}%` : null;
 	});
 
 	fetchBalance = action(
@@ -411,26 +417,22 @@ class IbBTCStore {
 	}
 
 	private async fetchIbbtApyFromTimestamp(timestamp: number): Promise<number | null> {
-		const { provider } = this.store.wallet;
+		const { provider, currentBlock } = this.store.wallet;
+		if (!provider || !currentBlock) return null;
 		const multiplier = 3153600000; // seconds in a year * 100%
 		const web3 = new Web3(provider);
 		const ibBTC = new web3.eth.Contract(ibBTCConfig.abi as AbiItem[], this.ibBTC.address);
-		const nowBlock = await web3.eth.getBlock('latest');
-		const { number: currentBlock } = nowBlock;
 		const currentPPS = await ibBTC.methods.pricePerShare().call();
-
-		if (!provider) {
-			return null;
-		}
+		const now = Math.floor(new Date().getTime() / 1000); // get current timestamp to calculate divisor
 
 		try {
 			const [oldBlock, oldPPS] = await Promise.all([
-				web3.eth.getBlock(currentBlock - timestamp),
+				web3.eth.getBlock(currentBlock - Math.floor(timestamp / 15)),
 				ibBTC.methods.pricePerShare().call({}, currentBlock - timestamp),
 			]);
 
 			const earnRatio = parseFloat(web3.utils.fromWei(currentPPS)) / parseFloat(web3.utils.fromWei(oldPPS)) - 1;
-			return (earnRatio * multiplier) / (Number(nowBlock.timestamp) - Number(oldBlock.timestamp));
+			return (earnRatio * multiplier) / (Number(now) - Number(oldBlock.timestamp));
 		} catch (error) {
 			process.env.NODE_ENV !== 'production' &&
 				console.error(`Error while getting ibBTC APY from block ${currentBlock - timestamp}: ${error}`);
