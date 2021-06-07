@@ -10,6 +10,14 @@ import { NetworkConstants, ClaimsSymbols } from '../mobx/model';
 import { getNetworkDeploy } from 'mobx/utils/network';
 import { AbiItem } from 'web3-utils';
 
+export const RPC_WALLETS: { [index: string]: boolean } = {
+	ledger: true,
+	WalletConnect: true,
+	walletLink: true,
+	trezor: true,
+	lattice: true,
+};
+
 export enum NETWORK_LIST {
 	ETH = 'eth',
 	BSC = 'bsc',
@@ -68,7 +76,7 @@ export const APP_NAME = 'badgerDAO';
 export const PORTIS_APP_ID = 'cbf7534d-170d-4903-943f-e607dc588b7f';
 export const EMPTY_DATA = '0x';
 export const ZERO_CURRENCY = '0.00000';
-export const SITE_VERSION = 'v2.7.5';
+export const SITE_VERSION = 'v2.7.6';
 export const WC_BRIDGE = 'https://wc-bridge.badger.finance/';
 
 const toBool = (val: string | undefined): boolean => (val ? val === 'true' : false);
