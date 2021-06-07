@@ -2,4 +2,4 @@
 . "$(dirname "$0")/_/husky.sh"
 . "$(dirname "$0")/common.sh"
 
-yarn eslint "**/*.{js,jsx,json,ts,tsx}" --fix --no-error-on-unmatched-pattern --ignore-pattern node_modules/ --ignore-pattern build/ --max-warnings=0
+yarn lint
