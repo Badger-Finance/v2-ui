@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js';
 import { AbiItem } from 'web3-utils';
 import Web3 from 'web3';
 import { CustomNotificationObject, EmitterListener, TransactionData } from 'bnc-notify';
-import { LockAndMintParamsSimple, BurnAndReleaseParamsSimple } from '@renproject/interfaces';
+import { LockAndMintParams, BurnAndReleaseParams } from '@renproject/interfaces';
 import { RootStore } from './store';
 import { getAirdrops } from 'config/system/airdrops';
 import { getRebase } from '../config/system/rebase';
@@ -616,7 +616,7 @@ export type RenVMTransaction = {
 	nonce: number;
 	encodedTx: string; // json encoded tx data.
 	// NB: The web3Provider field is not encoded (for obvious reasons).
-	params: LockAndMintParamsSimple | BurnAndReleaseParamsSimple;
+	params: LockAndMintParams | BurnAndReleaseParams;
 	status: string;
 	// Record if there was an error processing a tx.
 	error: string;

@@ -1,7 +1,7 @@
 import React, { PropsWithChildren, ReactNode, useContext, useState, useEffect, useCallback } from 'react';
 import BigNumber from 'bignumber.js';
 import { ethers } from 'ethers';
-import { EthArgs, LockAndMintParamsSimple, BurnAndReleaseParamsSimple } from '@renproject/interfaces';
+import { EthArgs, ContractCall, LockAndMintParams, BurnAndReleaseParams } from '@renproject/interfaces';
 import Web3 from 'web3';
 import { observer } from 'mobx-react-lite';
 import { Grid, Tabs, Tab, FormControl, Select, MenuItem, Typography } from '@material-ui/core';
@@ -261,7 +261,6 @@ export const BridgeForm = observer(({ classes }: any) => {
 
 	// TODO: Can refactor most of these methods below into the store as well.
 	const deposit = async () => {
-		const amountSats = new BigNumber(amount).multipliedBy(10 ** 8); // Convert to Satoshis
 		let desiredToken = tokens.renBTC;
 		let maxSlippageBps = 0;
 
@@ -295,8 +294,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 			},
 		];
 
-		const params: LockAndMintParamsSimple = {
-			suggestedAmount: amountSats.toString(),
+		const params: LockAndMintParams<ContractCall> = {
 			sendTo: bridge_system['adapter'],
 			nonce: formatNonceBytes32(nextNonce),
 			contractFn: 'mint',
@@ -376,7 +374,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 	};
 
 	const withdraw = async (contractParams: EthArgs) => {
-		const params: BurnAndReleaseParamsSimple = {
+		const params: BurnAndReleaseParams = {
 			sendTo: bridge_system['adapter'],
 			nonce: formatNonceBytes32(nextNonce),
 			contractFn: 'burn',

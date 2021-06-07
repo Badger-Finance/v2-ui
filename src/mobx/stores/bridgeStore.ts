@@ -4,9 +4,9 @@ import { Contract } from 'web3-eth-contract';
 import BigNumber from 'bignumber.js';
 import { provider } from 'web3-core';
 import { AbiItem } from 'web3-utils';
-import GatewayJS from '@renproject/gateway';
-import { Gateway } from '@renproject/gateway';
-import { LockAndMintStatus, BurnAndReleaseStatus, LockAndMintEvent, BurnAndReleaseEvent } from '@renproject/interfaces';
+import RenJS from '@renproject/ren';
+import { Bitcoin, Ethereum } from '@renproject/chains';
+import { LockAndMintStatus, BurnAndReleaseStatus } from '@renproject/interfaces';
 import { extendObservable, action, observe, IValueDidChange, toJS } from 'mobx';
 import { retry } from '@lifeomic/attempt';
 
@@ -55,7 +55,6 @@ const defaultRetryOptions = {
 };
 
 const defaultProps = {
-	openGateway: null,
 	history: [],
 	nextNonce: 0,
 	current: null,
@@ -82,8 +81,7 @@ class BridgeStore {
 	private store!: RootStore;
 	private network!: string | undefined;
 	private db!: firebase.firestore.Firestore;
-	private gjs!: GatewayJS;
-	private openGateway!: Gateway | null;
+	private gjs!: RenJS;
 	private adapter!: Contract;
 
 	private renbtc!: Contract;
@@ -142,7 +140,8 @@ class BridgeStore {
 	constructor(store: RootStore) {
 		this.store = store;
 		this.db = fbase.firestore();
-		this.gjs = new GatewayJS('mainnet');
+		const network = 'testnet'; // null out for prod
+		this.gjs = new RenJS(network);
 		// M50: by default the network ID is set to ethereum.  We should check the provider to ensure the
 		// connected wallet is using ETH network, not the site.
 		this.network = getNetworkFromProvider(this.store.wallet.provider);
@@ -294,10 +293,6 @@ class BridgeStore {
 	});
 
 	reset = action(() => {
-		if (this.openGateway) {
-			this.openGateway.close();
-		}
-
 		Object.entries(defaultProps).forEach(([k, v]) => {
 			(this as any)[k] = v;
 		});
@@ -433,12 +428,6 @@ class BridgeStore {
 		const { provider } = this.store.wallet;
 		const { queueNotification } = this.store.uiState;
 
-		// NB: Should not happen but just as a safety check.
-		if (this.openGateway) {
-			this.openGateway.close();
-			this.openGateway = null;
-		}
-
 		try {
 			const parsedTx = toJS(tx);
 			await window.ethereum.enable();
@@ -447,11 +436,8 @@ class BridgeStore {
 			const signer = provider.getSigner();
 			const address = await signer.getAddress();
 
-			const network = 'testnet'; // null out for prod
-			const renJS = new RenJS(network);
-
 			if (parsedTx.contractFn === 'mint') {
-				const lockAndMint = await renJS.lockAndMint({
+				const lockAndMint = await this.gjs.lockAndMint({
 					// TODO: should these ("BTC", Bitcoin()) be parameterized?
 					asset: 'BTC',
 					from: Bitcoin(),
@@ -459,7 +445,7 @@ class BridgeStore {
 					to: Ethereum(provider.provider).Contract(parsedTx),
 				});
 
-				mint.on('deposit', async (deposit) => {
+				lockAndMint.on('deposit', async (deposit) => {
 					// TODO: sync these to state
 					await deposit
 						.confirmed()
@@ -471,59 +457,33 @@ class BridgeStore {
 					await deposit.mint().on('transactionHash', (txHash) => console.log(`Mint tx: ${txHash}`));
 				});
 			} else if (parsedTx.contractFn === 'burn') {
-				const burnAndRelease = await renJS.burnAndRelease({
+				const burnAndRelease = await this.jgs.burnAndRelease({
 					// TODO: should these ("BTC", Bitcoin()) be parameterized?
 					asset: 'BTC',
 					to: Bitcoin(),
 					// TODO: should Ethereum be parameterized?
 					from: Ethereum(provider.provider).Contract(parsedTx),
 				});
+
+				let confirmations = 0;
+				await burnAndRelease
+					.burn()
+					// Ethereum transaction confirmations.
+					.on('confirmation', (confs) => {
+						confirmations = confs;
+					})
+					// Print Ethereum transaction hash.
+					.on('transactionHash', (txHash) => this.log(`txHash: ${String(txHash)}`));
+
+				await burnAndRelease
+					.release()
+					// Print RenVM status - "pending", "confirming" or "done".
+					.on('status', (status) =>
+						status === 'confirming' ? this.log(`${status} (${confirmations}/15)`) : this.log(status),
+					)
+					// Print RenVM transaction hash
+					.on('txHash', this.log);
 			}
-
-			console.log(`Deposit BTC to ${lockAndMint.gatewayAddress}`);
-
-			lockAndMint.on('deposit', RenJS.defaultDepositHandler);
-			await this.openGateway
-				.result()
-				.on('status', async (status: LockAndMintStatus | BurnAndReleaseStatus) => {
-					switch (status) {
-						case LockAndMintStatus.ReturnedFromRenVM:
-							queueNotification(
-								'Deposit is ready, please sign the transaction to submit to ethereum',
-								'info',
-							);
-							break;
-						case LockAndMintStatus.ConfirmedOnEthereum:
-							queueNotification('Mint is successful', 'success');
-							// TODO: Can remove this after we remove duplicate listeners (due to switching networks/addrs).
-							this._complete();
-							break;
-						case BurnAndReleaseStatus.ConfirmedOnEthereum:
-							queueNotification('Release is completed', 'success');
-							// TODO: Can remove this after we remove duplicate listeners (due to switching networks/addrs).
-							this._complete();
-							break;
-					}
-				})
-				.on('transferUpdated', async (event: LockAndMintEvent | BurnAndReleaseEvent) => {
-					if (event.archived) return;
-					const txData = {
-						...tx,
-						encodedTx: JSON.stringify(event),
-						status: event.status,
-					};
-					await this._updateTx(txData);
-				})
-				.catch((err: Error) => {
-					if (err.message === 'Transfer cancelled by user') {
-						this._updateTx(tx, true);
-						queueNotification(`${err.message}.`, 'info');
-						return;
-					}
-
-					this._updateTx(tx, true, err);
-					queueNotification(`${err.message}.`, 'error');
-				});
 		} catch (err) {
 			queueNotification(`Failed to open tx: ${err.message}`, 'error');
 			// Blocking error if err on open/recover.
