@@ -3,7 +3,7 @@ import Web3 from 'web3';
 import Onboard from 'bnc-onboard';
 import Notify from 'bnc-notify';
 import BigNumber from 'bignumber.js';
-import { onboardWalletCheck, getOnboardWallets } from '../../config/wallets';
+import { onboardWalletCheck, getOnboardWallets, isRpcWallet } from '../../config/wallets';
 import { GasPrices, Network } from 'mobx/model';
 import { RootStore } from 'mobx/store';
 import { API } from 'bnc-onboard/dist/src/interfaces';
@@ -124,6 +124,8 @@ class WalletStore {
 		const walletState = wsOnboard.getState();
 		this.setProvider(walletState.wallet.provider);
 		// change of adress trigger onboard event subscription, reconnecting does not.
+		// TODO: fix root cause of this, this fix introduces an error when disconnecting and reconnecting
+		// the same wallet address.
 		if (this.prevAddress == this.connectedAddress) {
 			this.setAddress(walletState.address);
 		} else {
@@ -178,8 +180,12 @@ class WalletStore {
 	// Check to see if the wallet's connected network matches the currently defined network
 	// if it doesn't, set to the proper network
 	checkNetwork = action((network: number): boolean => {
+		// M50: Some onboard wallets don't have providers, we mock in the app network to fill in the gap here
+		const walletState = this.onboard.getState();
+		const walletName = walletState.wallet.name;
 		// If this returns undefined, the network is not supported.
-		const connectedNetwork = getNetworkNameFromId(network);
+		const connectedNetwork = getNetworkNameFromId(isRpcWallet(walletName) ? walletState.appNetworkId : network);
+
 		if (!connectedNetwork) {
 			this.store.uiState.queueNotification('Connecting to an unsupported network', 'error');
 			this.walletReset();

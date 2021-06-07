@@ -10,6 +10,14 @@ import { NetworkConstants, ClaimsSymbols } from '../mobx/model';
 import { getNetworkDeploy } from 'mobx/utils/network';
 import { AbiItem } from 'web3-utils';
 
+export const RPC_WALLETS: { [index: string]: boolean } = {
+	ledger: true,
+	WalletConnect: true,
+	walletLink: true,
+	trezor: true,
+	lattice: true,
+};
+
 export enum NETWORK_LIST {
 	ETH = 'eth',
 	BSC = 'bsc',
