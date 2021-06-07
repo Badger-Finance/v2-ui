@@ -5,13 +5,14 @@ import { ContractSendMethod } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
 import Web3 from 'web3';
 import { ibBTCFees, TokenModel } from 'mobx/model';
-import { ZERO, MAX, FLAGS, NETWORK_IDS, ERC20_ABI } from 'config/constants';
+import { ZERO, MAX, FLAGS, ERC20_ABI, NETWORK_LIST } from 'config/constants';
 import settConfig from 'config/system/abis/Sett.json';
 import ibBTCConfig from 'config/system/abis/ibBTC.json';
 import addresses from 'config/ibBTC/addresses.json';
 import coreConfig from 'config/system/abis/BadgerBtcPeakCore.json';
 import { getSendOptions } from 'mobx/utils/web3';
 import { IbbtcVaultPeakFactory } from '../ibbtc-vault-peak-factory';
+import { getNetworkFromProvider } from 'mobx/utils/helpers';
 
 interface MintAmountCalculation {
 	bBTC: BigNumber;
@@ -27,6 +28,7 @@ interface RedeemAmountCalculation {
 class IbBTCStore {
 	private readonly store: RootStore;
 	private config: typeof addresses.mainnet;
+	private network: string | undefined;
 
 	public tokens: Array<TokenModel> = [];
 	public ibBTC: TokenModel;
@@ -87,8 +89,11 @@ class IbBTCStore {
 	}
 
 	init(): void {
-		const { connectedAddress, network } = this.store.wallet;
-		if (!FLAGS.IBBTC_FLAG || network.networkId !== NETWORK_IDS.ETH) return;
+		const { connectedAddress } = this.store.wallet;
+		// M50: by default the network ID is set to ethereum.  We should check the provider to ensure the
+		// connected wallet is using ETH network, not the site.
+		const network = getNetworkFromProvider(this.store.wallet.provider);
+		if (!FLAGS.IBBTC_FLAG || network !== NETWORK_LIST.ETH) return;
 
 		if (!connectedAddress) {
 			this.resetBalances();
@@ -125,13 +130,13 @@ class IbBTCStore {
 	);
 
 	fetchIbbtcApy = action(async () => {
-		const dayOldBlock = 86400 / 15; // [Seconds in a day / EVM block time ratio]
+		const dayOldBlock = 86400; // [Seconds in a day]
 		const weekOldBlock = dayOldBlock * 7;
 		const apyFromLastDay = await this.fetchIbbtApyFromTimestamp(dayOldBlock);
 		const apyFromLastWeek = await this.fetchIbbtApyFromTimestamp(weekOldBlock);
 
-		this.apyUsingLastDay = apyFromLastDay !== null ? `${apyFromLastDay.toFixed(3)}%` : null;
-		this.apyUsingLastWeek = apyFromLastWeek !== null ? `${apyFromLastWeek.toFixed(3)}%` : null;
+		this.apyUsingLastDay = apyFromLastDay !== null ? `${apyFromLastDay}%` : null;
+		this.apyUsingLastWeek = apyFromLastWeek !== null ? `${apyFromLastWeek}%` : null;
 	});
 
 	fetchBalance = action(
@@ -405,27 +410,22 @@ class IbBTCStore {
 			});
 	}
 
-	private async fetchIbbtApyFromTimestamp(timestamp: number): Promise<number | null> {
-		const { provider } = this.store.wallet;
-		const multiplier = 3153600000; // seconds in a year * 100%
-		const web3 = new Web3(provider);
-		const ibBTC = new web3.eth.Contract(ibBTCConfig.abi as AbiItem[], this.ibBTC.address);
-		const nowBlock = await web3.eth.getBlock('latest');
-		const { number: currentBlock } = nowBlock;
-		const currentPPS = await ibBTC.methods.pricePerShare().call();
-
-		if (!provider) {
+	private async fetchIbbtApyFromTimestamp(timestamp: number): Promise<string | null> {
+		const { provider, currentBlock } = this.store.wallet;
+		if (!provider || !currentBlock) {
 			return null;
 		}
+		const secondsPerYear = new BigNumber(31536000);
+		const web3 = new Web3(provider);
+		const ibBTC = new web3.eth.Contract(ibBTCConfig.abi as AbiItem[], this.ibBTC.address);
+		const currentPPS = new BigNumber(await ibBTC.methods.pricePerShare().call());
 
 		try {
-			const [oldBlock, oldPPS] = await Promise.all([
-				web3.eth.getBlock(currentBlock - timestamp),
-				ibBTC.methods.pricePerShare().call({}, currentBlock - timestamp),
-			]);
-
-			const earnRatio = parseFloat(web3.utils.fromWei(currentPPS)) / parseFloat(web3.utils.fromWei(oldPPS)) - 1;
-			return (earnRatio * multiplier) / (Number(nowBlock.timestamp) - Number(oldBlock.timestamp));
+			const targetBlock = currentBlock - Math.floor(timestamp / 15);
+			const oldPPS = new BigNumber(await ibBTC.methods.pricePerShare().call({}, targetBlock));
+			const ppsGrowth = currentPPS.minus(oldPPS).dividedBy(oldPPS);
+			const growthPerSecond = ppsGrowth.multipliedBy(secondsPerYear.dividedBy(timestamp));
+			return growthPerSecond.multipliedBy(1e2).toFixed(3);
 		} catch (error) {
 			process.env.NODE_ENV !== 'production' &&
 				console.error(`Error while getting ibBTC APY from block ${currentBlock - timestamp}: ${error}`);

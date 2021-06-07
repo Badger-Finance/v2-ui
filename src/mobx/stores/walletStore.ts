@@ -3,21 +3,22 @@ import Web3 from 'web3';
 import Onboard from 'bnc-onboard';
 import Notify from 'bnc-notify';
 import BigNumber from 'bignumber.js';
-import { onboardWalletCheck, getOnboardWallets } from '../../config/wallets';
+import { onboardWalletCheck, getOnboardWallets, isRpcWallet } from '../../config/wallets';
 import { GasPrices, Network } from 'mobx/model';
 import { RootStore } from 'mobx/store';
 import { API } from 'bnc-onboard/dist/src/interfaces';
 import { API as NotifyAPI } from 'bnc-notify';
 import { getNetwork, getNetworkNameFromId } from 'mobx/utils/network';
+import { getNetworkFromProvider } from 'mobx/utils/helpers';
 
 class WalletStore {
 	private store: RootStore;
+	private prevAddress: string | undefined;
 	public onboard: API;
 	public notify: NotifyAPI;
 	public provider?: any | null;
 	public connectedAddress = '';
 	public currentBlock?: number;
-	public ethBalance?: BigNumber;
 	public gasPrices: GasPrices;
 	public network: Network;
 
@@ -79,12 +80,24 @@ class WalletStore {
 			setInterval(() => {
 				this.getCurrentBlock();
 			}, 5000 * 60);
-
 			const previouslySelectedWallet = window.localStorage.getItem('selectedWallet');
 
 			// call wallet select with that value if it exists
 			if (!!previouslySelectedWallet) {
-				this.onboard.walletSelect(previouslySelectedWallet);
+				const walletSelected = await this.onboard.walletSelect(previouslySelectedWallet);
+				let walletReady = false;
+				try {
+					walletReady = await this.onboard.walletCheck();
+				} catch (err) {
+					this.onboard.walletReset();
+					return;
+				}
+
+				if (walletSelected && walletReady) {
+					this.connect(this.onboard);
+				} else {
+					this.walletReset();
+				}
 			}
 			this.notify.config({
 				darkMode: true, // (default: false)
@@ -97,8 +110,9 @@ class WalletStore {
 			if (this.store.user.loadingBalances) {
 				return;
 			}
+			this.prevAddress = this.connectedAddress;
 			this.setProvider(null);
-			this.setAddress(null);
+			this.setAddress('');
 			window.localStorage.removeItem('selectedWallet');
 		} catch (err) {
 			console.log(err);
@@ -106,12 +120,17 @@ class WalletStore {
 	});
 
 	connect = action((wsOnboard: any) => {
-		const walletState = wsOnboard.getState();
-		this.checkNetwork(walletState.network);
-		this.setProvider(walletState.wallet.provider);
-		this.connectedAddress = walletState.address;
 		this.onboard = wsOnboard;
-		this.store.walletRefresh();
+		const walletState = wsOnboard.getState();
+		this.setProvider(walletState.wallet.provider);
+		// change of adress trigger onboard event subscription, reconnecting does not.
+		// TODO: fix root cause of this, this fix introduces an error when disconnecting and reconnecting
+		// the same wallet address.
+		if (this.prevAddress == this.connectedAddress) {
+			this.setAddress(walletState.address);
+		} else {
+			this.checkNetwork(walletState.network);
+		}
 	});
 
 	getCurrentBlock = action(() => {
@@ -122,15 +141,6 @@ class WalletStore {
 		web3.eth.getBlockNumber().then((value: number) => {
 			this.currentBlock = value - 50;
 		});
-		this.getEthBalance();
-	});
-
-	getEthBalance = action(() => {
-		const web3 = new Web3(this.provider);
-		!!this.connectedAddress &&
-			web3.eth.getBalance(this.connectedAddress).then((value: string) => {
-				this.ethBalance = new BigNumber(value);
-			});
 	});
 
 	getGasPrice = action(async () => {
@@ -146,25 +156,49 @@ class WalletStore {
 		this.getCurrentBlock();
 	});
 
-	setAddress = action((address: any) => {
-		this.connectedAddress = address;
-		this.store.walletRefresh();
-	});
+	setAddress = action(
+		async (address: string): Promise<void> => {
+			if (!this.checkSupportedNetwork()) {
+				this.connectedAddress = '';
+				return;
+			}
+			const walletState = this.onboard.getState();
+			const validNetwork = this.checkNetwork(walletState.network);
+			if (!validNetwork) {
+				return;
+			}
+			this.connectedAddress = address;
+			await this.store.walletRefresh();
+		},
+	);
 
 	cacheWallet = action((wallet: any) => {
 		this.setProvider(wallet.provider);
 		window.localStorage.setItem('selectedWallet', wallet.name);
 	});
 
-	checkNetwork = action((network: number) => {
-		// Check to see if the wallet's connected network matches the currently defined network
-		// if it doesn't, set to the proper network
-		if (network !== this.network.networkId) {
-			this.network = getNetwork(getNetworkNameFromId(network));
+	// Check to see if the wallet's connected network matches the currently defined network
+	// if it doesn't, set to the proper network
+	checkNetwork = action((network: number): boolean => {
+		// M50: Some onboard wallets don't have providers, we mock in the app network to fill in the gap here
+		const walletState = this.onboard.getState();
+		const walletName = walletState.wallet.name;
+		// If this returns undefined, the network is not supported.
+		const connectedNetwork = getNetworkNameFromId(isRpcWallet(walletName) ? walletState.appNetworkId : network);
+
+		if (!connectedNetwork) {
+			this.store.uiState.queueNotification('Connecting to an unsupported network', 'error');
+			this.walletReset();
+			return false;
+		}
+		const newNetwork = getNetwork(connectedNetwork);
+		if (newNetwork.networkId !== this.network.networkId) {
+			this.network = newNetwork;
 			this.store.walletRefresh();
 			this.getGasPrice();
 			this.getCurrentBlock();
 		}
+		return true;
 	});
 
 	setNetwork = action((network: string): void => {
@@ -179,6 +213,18 @@ class WalletStore {
 	isCached = action(() => {
 		return !!this.connectedAddress || !!window.localStorage.getItem('selectedWallet');
 	});
+
+	/* Network should be checked based on the provider.  You can either provide a provider
+	 * if the current one is not set or it's a new one, or use the current set provider by
+	 * not passing in a value.
+	 * @param provider = optional web3 provider to check if valid
+	 */
+	// Reason: blocknative does not type their provider, must be any
+	// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+	checkSupportedNetwork = (provider?: any): boolean => {
+		const name = getNetworkFromProvider(provider ?? this.provider);
+		return !!name;
+	};
 }
 
 export default WalletStore;

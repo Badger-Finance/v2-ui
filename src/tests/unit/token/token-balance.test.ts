@@ -1,6 +1,5 @@
 import BigNumber from 'bignumber.js';
 import { TokenBalance } from 'mobx/model/token-balance';
-import store from 'mobx/store';
 import { randomValue } from 'tests/utils/random';
 import { protocolTokens } from 'web3/config/token-config';
 
@@ -16,7 +15,7 @@ describe('token-balance', () => {
 		const scalar = Math.pow(10, token.decimals);
 		const amount = balance !== undefined ? balance : randomValue();
 		const price = cost !== undefined ? cost : randomValue(10, 35000);
-		return new TokenBalance(store.rewards, token, new BigNumber(amount * scalar), new BigNumber(price));
+		return new TokenBalance(token, new BigNumber(amount * scalar), new BigNumber(price));
 	};
 
 	const verifyScaledBalance = (mockBalance: TokenBalance, scaledBalance: TokenBalance, scalar: BigNumber): void => {
@@ -69,7 +68,7 @@ describe('token-balance', () => {
 
 		describe('given a balance with no precision', () => {
 			it('displays balance, with token decimals', () => {
-				const amount = randomValue();
+				const amount = 3.655;
 				const mockBalance = randomTokenBalance(amount);
 				const displayString = new BigNumber(amount).toFixed(mockBalance.token.decimals);
 				expect(mockBalance.balanceDisplay()).toEqual(displayString);
@@ -78,7 +77,7 @@ describe('token-balance', () => {
 
 		describe('given a balance with precision', () => {
 			it('displays balance, with precision decimals', () => {
-				const amount = randomValue();
+				const amount = 3.655;
 				const mockBalance = randomTokenBalance(amount);
 				const decimals = 5;
 				const displayString = new BigNumber(amount).toFixed(decimals);

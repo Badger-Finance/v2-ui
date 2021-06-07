@@ -1,6 +1,7 @@
 import BigNumber from 'bignumber.js';
 import { ExchangeRates } from 'mobx/model';
 import { TEN, ZERO } from '../../config/constants';
+import { getNetworkNameFromId } from './network';
 
 export const jsonQuery = (url: string | undefined): Promise<Response> | undefined => {
 	if (!url) return;
@@ -355,6 +356,12 @@ export function marketChartStats(
 
 	return { high, low, avg, median };
 }
+
+// Reason: blocknative does not type their provider, must be any
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export const getNetworkFromProvider = (provider: any): string | undefined => {
+	return provider ? getNetworkNameFromId(parseInt(new BigNumber(provider.chainId, 16).toString(10))) : undefined;
+};
 
 export const unscale = (amount: BigNumber, decimals: number): BigNumber => amount.dividedBy(TEN.pow(decimals));
 export const toHex = (amount: BigNumber): string => '0x' + amount.toString(16);

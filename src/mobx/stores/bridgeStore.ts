@@ -26,6 +26,7 @@ import { BTC_GATEWAY } from 'config/system/abis/BtcGateway';
 import { bridge_system, tokens, sett_system } from 'config/deployments/mainnet.json';
 import { shortenAddress } from 'utils/componentHelpers';
 import { isEqual } from '../../utils/lodashToNative';
+import { getNetworkFromProvider } from 'mobx/utils/helpers';
 
 export enum Status {
 	// Idle means we are ready to begin a new tx.
@@ -62,6 +63,7 @@ const defaultProps = {
 	loading: false,
 	done: null,
 	error: null,
+	network: undefined,
 
 	badgerBurnFee: 0,
 	badgerMintFee: 0,
@@ -78,7 +80,7 @@ const defaultProps = {
 
 class BridgeStore {
 	private store!: RootStore;
-	private network!: Network;
+	private network!: string | undefined;
 	private db!: firebase.firestore.Firestore;
 	private gjs!: GatewayJS;
 	private openGateway!: Gateway | null;
@@ -141,15 +143,17 @@ class BridgeStore {
 		this.store = store;
 		this.db = fbase.firestore();
 		this.gjs = new GatewayJS('mainnet');
-		this.network = this.store.wallet.network;
+		// M50: by default the network ID is set to ethereum.  We should check the provider to ensure the
+		// connected wallet is using ETH network, not the site.
+		this.network = getNetworkFromProvider(this.store.wallet.provider);
 
 		extendObservable(this, {
 			...defaultProps,
 		});
 
 		observe(this.store.wallet as WalletStore, 'network', ({ newValue, oldValue }: IValueDidChange<Network>) => {
-			if (oldValue === newValue) return;
-			this.network = newValue;
+			if (oldValue && oldValue === newValue) return;
+			this.network = newValue.name;
 			this.reload();
 		});
 
@@ -250,7 +254,7 @@ class BridgeStore {
 
 		this.updateTimer = setTimeout(() => {
 			// NB: Only ETH supported for now.
-			if (this.network.name !== NETWORK_LIST.ETH) return;
+			if (this.network !== NETWORK_LIST.ETH) return;
 
 			const { connectedAddress } = this.store.wallet;
 			// So this doesn't race against address changes.
@@ -268,7 +272,7 @@ class BridgeStore {
 		const { provider, connectedAddress } = this.store.wallet;
 
 		// NB: Only ETH supported for now.
-		if (this.network.name !== NETWORK_LIST.ETH) return;
+		if (this.network !== NETWORK_LIST.ETH) return;
 		if (!provider) return;
 
 		this.shortAddr = shortenAddress(connectedAddress);
@@ -534,7 +538,7 @@ class BridgeStore {
 				// NB: Only ETH supported for now. Check here since network could have
 				// gotten set at any point from init to now and this fails loudly if
 				// on the wrong network.
-				if (this.network.name !== NETWORK_LIST.ETH) return;
+				if (this.network !== NETWORK_LIST.ETH) return;
 				const [badgerBurnFee, badgerMintFee, renvmBurnFee, renvmMintFee] = (
 					await Promise.all([
 						this.adapter.methods.burnFeeBps().call(),
@@ -561,7 +565,7 @@ class BridgeStore {
 				// NB: Only ETH supported for now. Check here since network could have
 				// gotten set at any point from init to now and this fails loudly if
 				// on the wrong network.
-				if (this.network.name !== NETWORK_LIST.ETH) return;
+				if (this.network !== NETWORK_LIST.ETH) return;
 				const [
 					renbtcBalance,
 					wbtcBalance,
