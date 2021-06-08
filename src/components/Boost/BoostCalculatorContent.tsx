@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { useCallback } from 'react';
+import React from 'react';
 import { Box, Grid, Typography, useMediaQuery, useTheme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { BoostBadgerAnimation } from './BoostBadgerAnimation';
@@ -40,10 +40,8 @@ export const BoostCalculatorContainer: React.FC<BoostCalculatorContainerProps> =
 	const theme = useTheme();
 	const smallScreen = useMediaQuery(theme.breakpoints.down(706));
 
-	const handleNativeSliderChange = useCallback((event, slideValue) => onNativeChange(slideValue), [onNativeChange]);
-	const handleNonNativeSliderChange = useCallback((event, slideValue) => onNonNativeChange(slideValue), [
-		onNonNativeChange,
-	]);
+	const handleNativeSliderChange = (event: Event, slideValue: number) => onNativeChange(slideValue);
+	const handleNonNativeSliderChange = (event: Event, slideValue: number) => onNonNativeChange(slideValue);
 
 	const badgerSliders = (
 		<Box display="flex" flexDirection="row" alignItems="stretch" justifyContent="center">
