@@ -1,17 +1,19 @@
 import { extendObservable, action, observe, IValueDidChange } from 'mobx';
 import { RootStore } from '../store';
-import { getTokenPrices, getTotalValueLocked, listSetts } from 'mobx/utils/apiV2';
+import { getTokenPrices, getTokens, getTotalValueLocked, listSetts } from 'mobx/utils/apiV2';
 import { PriceSummary, Sett, ProtocolSummary, SettMap } from 'mobx/model';
 import { NETWORK_LIST } from 'config/constants';
 import Web3 from 'web3';
 import BigNumber from 'bignumber.js';
 import WalletStore from './walletStore';
+import { TokenConfig } from 'mobx/model/token-config';
 
 export default class SettStore {
 	private store!: RootStore;
 
 	// loading: undefined, error: null, present: object
 	private settCache: { [chain: string]: Sett[] | undefined | null };
+	private tokenCache: { [chain: string]: TokenConfig | undefined | null };
 	private settMapCache: { [chain: string]: SettMap | undefined | null };
 	private experimentalMapCache: { [chain: string]: SettMap | undefined | null };
 	private protocolSummaryCache: { [chain: string]: ProtocolSummary | undefined | null };
@@ -23,6 +25,7 @@ export default class SettStore {
 
 		extendObservable(this, {
 			settCache: undefined,
+			tokenCache: undefined,
 			protocolSummaryCache: undefined,
 			settMapCache: undefined,
 			experimentalMapCache: undefined,
@@ -44,6 +47,7 @@ export default class SettStore {
 		});
 
 		this.settCache = {};
+		this.tokenCache = {};
 		this.settMapCache = {};
 		this.experimentalMapCache = {};
 		this.protocolSummaryCache = {};
@@ -86,6 +90,7 @@ export default class SettStore {
 		if (network) {
 			await Promise.all([
 				this.loadSetts(network.name),
+				this.loadTokens(network.name),
 				this.loadPrices(network.name),
 				this.loadAssets(network.name),
 			]);
@@ -101,6 +106,16 @@ export default class SettStore {
 			if (settList) {
 				this.settCache[chain] = settList;
 				[this.settMapCache[chain], this.experimentalMapCache[chain]] = this.keySettByContract(settList);
+			}
+		},
+	);
+
+	loadTokens = action(
+		async (chain?: string): Promise<void> => {
+			chain = chain ?? NETWORK_LIST.ETH;
+			const tokenConfig = await getTokens(chain);
+			if (tokenConfig) {
+				this.tokenCache[chain] = tokenConfig;
 			}
 		},
 	);
