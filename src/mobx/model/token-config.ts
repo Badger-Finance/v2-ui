@@ -1,5 +1,5 @@
-import { Token } from "./token";
+import { Token } from './token';
 
 export interface TokenConfig {
-  [address: string]: Token;
+	[address: string]: Token;
 }
