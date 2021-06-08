@@ -448,6 +448,10 @@ export class EthNetwork implements Network {
 		this.deploy.sett_system.vaults['native.sbtcCrv'],
 		this.deploy.sett_system.vaults['native.tbtcCrv'],
 		this.deploy.sett_system.vaults['harvest.renCrv'],
+		this.deploy.sett_system.vaults['native.hbtcCrv'],
+		this.deploy.sett_system.vaults['native.pbtcCrv'],
+		this.deploy.sett_system.vaults['native.obtcCrv'],
+		this.deploy.sett_system.vaults['native.bbtcCrv'],
 		this.deploy.sett_system.vaults['experimental.digg'],
 	];
 	public readonly sidebarTokenLinks = sidebarTokenLinks(NETWORK_LIST.ETH);

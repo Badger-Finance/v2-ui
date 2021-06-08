@@ -18,6 +18,7 @@ import { ValuesProp } from './Common';
 import { NETWORK_LIST, CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS, FLAGS } from 'config/constants';
 import { bridge_system, tokens, sett_system } from 'config/deployments/mainnet.json';
 import { CURVE_EXCHANGE } from 'config/system/abis/CurveExchange';
+import { connectWallet } from 'mobx/utils/helpers';
 
 const DECIMALS = 10 ** 8;
 const SETT_DECIMALS = 10 ** 18;
@@ -141,12 +142,8 @@ export const BridgeForm = observer(({ classes }: any) => {
 		badgerFee,
 	};
 
-	const connectWallet = async () => {
-		if (!(await onboard.walletSelect())) return;
-		const readyToTransact = await onboard.walletCheck();
-		if (readyToTransact) {
-			connect(onboard);
-		}
+	const handleConnect = async () => {
+		await connectWallet(onboard, connect);
 	};
 
 	const resetState = useCallback(() => {
@@ -653,7 +650,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 								nextStep={nextStep}
 								classes={classes}
 								assetSelect={assetSelect}
-								connectWallet={connectWallet}
+								connectWallet={handleConnect}
 								isEarn={false}
 							/>
 						</TabPanel>
@@ -666,7 +663,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 								nextStep={nextStep}
 								classes={classes}
 								assetSelect={assetSelect}
-								connectWallet={connectWallet}
+								connectWallet={handleConnect}
 								isEarn={true}
 							/>
 						</TabPanel>
@@ -680,7 +677,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 								classes={classes}
 								updateState={updateState}
 								assetSelect={assetSelect}
-								connectWallet={connectWallet}
+								connectWallet={handleConnect}
 								calcFees={calcFees}
 							/>
 						</TabPanel>

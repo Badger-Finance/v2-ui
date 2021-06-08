@@ -13,7 +13,6 @@ import { getNetworkFromProvider } from 'mobx/utils/helpers';
 
 class WalletStore {
 	private store: RootStore;
-	private prevAddress: string | undefined;
 	public onboard: API;
 	public notify: NotifyAPI;
 	public provider?: any | null;
@@ -110,7 +109,7 @@ class WalletStore {
 			if (this.store.user.loadingBalances) {
 				return;
 			}
-			this.prevAddress = this.connectedAddress;
+			this.onboard.walletReset();
 			this.setProvider(null);
 			this.setAddress('');
 			window.localStorage.removeItem('selectedWallet');
@@ -123,14 +122,7 @@ class WalletStore {
 		this.onboard = wsOnboard;
 		const walletState = wsOnboard.getState();
 		this.setProvider(walletState.wallet.provider);
-		// change of adress trigger onboard event subscription, reconnecting does not.
-		// TODO: fix root cause of this, this fix introduces an error when disconnecting and reconnecting
-		// the same wallet address.
-		if (this.prevAddress == this.connectedAddress) {
-			this.setAddress(walletState.address);
-		} else {
-			this.checkNetwork(walletState.network);
-		}
+		this.setAddress(walletState.address);
 	});
 
 	getCurrentBlock = action(() => {
@@ -158,17 +150,12 @@ class WalletStore {
 
 	setAddress = action(
 		async (address: string): Promise<void> => {
-			if (!this.checkSupportedNetwork()) {
+			if (this.checkSupportedNetwork()) {
+				this.connectedAddress = address;
+				await this.store.walletRefresh();
+			} else {
 				this.connectedAddress = '';
-				return;
 			}
-			const walletState = this.onboard.getState();
-			const validNetwork = this.checkNetwork(walletState.network);
-			if (!validNetwork) {
-				return;
-			}
-			this.connectedAddress = address;
-			await this.store.walletRefresh();
 		},
 	);
 
@@ -183,12 +170,12 @@ class WalletStore {
 		// M50: Some onboard wallets don't have providers, we mock in the app network to fill in the gap here
 		const walletState = this.onboard.getState();
 		const walletName = walletState.wallet.name;
+		if (!walletName) return false;
 		// If this returns undefined, the network is not supported.
 		const connectedNetwork = getNetworkNameFromId(isRpcWallet(walletName) ? walletState.appNetworkId : network);
 
 		if (!connectedNetwork) {
 			this.store.uiState.queueNotification('Connecting to an unsupported network', 'error');
-			this.walletReset();
 			return false;
 		}
 		const newNetwork = getNetwork(connectedNetwork);

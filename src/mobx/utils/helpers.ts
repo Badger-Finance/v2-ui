@@ -2,6 +2,7 @@ import BigNumber from 'bignumber.js';
 import { ExchangeRates } from 'mobx/model';
 import { TEN, ZERO } from '../../config/constants';
 import { getNetworkNameFromId } from './network';
+import { API } from 'bnc-onboard/dist/src/interfaces';
 
 export const jsonQuery = (url: string | undefined): Promise<Response> | undefined => {
 	if (!url) return;
@@ -366,3 +367,18 @@ export const getNetworkFromProvider = (provider: any): string | undefined => {
 export const unscale = (amount: BigNumber, decimals: number): BigNumber => amount.dividedBy(TEN.pow(decimals));
 export const toHex = (amount: BigNumber): string => '0x' + amount.toString(16);
 export const minBalance = (decimals: number): BigNumber => new BigNumber(`0.${'0'.repeat(decimals - 1)}1`);
+
+/* Easy interface to check to see if wallet selection is handled and ready to connect
+ * via onboard.js.  To be reused if connect buttons are displayed in multiple components
+ * @param onboard = instance of the onboard.js API
+ * @param connect = connect function from the wallet store
+ */
+export const connectWallet = async (onboard: API, connect: (wsOnboard: any) => void): Promise<void> => {
+	const walletSelected = await onboard.walletSelect();
+	if (walletSelected) {
+		const readyToTransact = await onboard.walletCheck();
+		if (readyToTransact) {
+			connect(onboard);
+		}
+	}
+};
