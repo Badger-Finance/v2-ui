@@ -3,6 +3,7 @@ import { Button, makeStyles } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
 import clsx from 'clsx';
+import { connectWallet } from '../../mobx/utils/helpers';
 
 const useStyles = makeStyles((theme) => ({
 	walletDot: {
@@ -39,13 +40,8 @@ const WalletWidget = observer(() => {
 		if (store.uiState.sidebarOpen) {
 			store.uiState.closeSidebar();
 		}
-		if (!(await onboard.walletSelect())) {
-			return;
-		}
-		const readyToTransact = await onboard.walletCheck();
-		if (readyToTransact) {
-			store.wallet.connect(onboard);
-		}
+
+		connectWallet(onboard, store.wallet.connect);
 	};
 
 	return (

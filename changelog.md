@@ -1,5 +1,10 @@
 # v2 UI Changelog
 
+### v2.7.7 - 06/08/2021
+
+-   fixed wallet and assets recognition issues from the Badger Bridge
+-   fixed issues on wallet disconnect and reconnect and improved connection handling
+
 ### v2.7.6 - 06/07/2021
 
 -   handle wallet connections that do not have a provider associated with them
