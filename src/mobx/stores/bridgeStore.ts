@@ -154,11 +154,13 @@ class BridgeStore {
 		observe(this.store.wallet as WalletStore, 'network', ({ newValue, oldValue }: IValueDidChange<Network>) => {
 			if (oldValue && oldValue === newValue) return;
 			this.network = newValue.name;
-			this.reload();
+			this.reload(this.network);
 		});
 
 		observe(this.store.wallet as WalletStore, 'provider', ({ newValue }: IValueDidChange<provider>) => {
 			if (!newValue) return;
+
+			this.network = getNetworkFromProvider(this.store.wallet.provider);
 
 			const web3 = new Web3(newValue);
 			// We're disabling these because the web3-eth-contract package has not been updated to
@@ -196,7 +198,7 @@ class BridgeStore {
 			({ newValue, oldValue }: IValueDidChange<string>) => {
 				if (oldValue === newValue) return;
 				// Set shortened addr.
-				this.reload();
+				this.reload(this.network);
 			},
 		);
 
@@ -264,7 +266,7 @@ class BridgeStore {
 		}, UPDATE_INTERVAL_SECONDS);
 	}
 
-	reload = action(() => {
+	reload = action((network?: string) => {
 		// Always reset first on reload even though we may not be loading any data.
 		this.reset();
 
@@ -272,6 +274,7 @@ class BridgeStore {
 		const { provider, connectedAddress } = this.store.wallet;
 
 		// NB: Only ETH supported for now.
+		if (network != null) this.network = network;
 		if (this.network !== NETWORK_LIST.ETH) return;
 		if (!provider) return;
 
