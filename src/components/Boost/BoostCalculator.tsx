@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { Divider, Grid, Paper, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -47,6 +47,14 @@ const useStyles = makeStyles((theme) => ({
 
 export const BoostCalculator = observer(() => {
 	const classes = useStyles();
+	const [native, setNative] = useState(0);
+
+	const handleNativeSliderChange = useCallback(
+		(event, slideValue) => {
+			setNative(slideValue);
+		},
+		[setNative],
+	);
 
 	return (
 		<Grid container component={Paper} className={classes.rootContainer}>
@@ -70,8 +78,12 @@ export const BoostCalculator = observer(() => {
 					</Grid>
 				</Grid>
 				<Grid item container xs={7} justify="center">
-					<BoostSlider className={classes.boostSlider} />
-					<BoostBadge />
+					<BoostSlider
+						className={classes.boostSlider}
+						value={native}
+						onChange={handleNativeSliderChange as any}
+					/>
+					<BoostBadge value={native} />
 					<BoostSlider className={classes.boostSlider} />
 				</Grid>
 				<Grid item container xs alignItems="center" justify="center">

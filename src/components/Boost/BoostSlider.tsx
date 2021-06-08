@@ -46,15 +46,6 @@ function ThumbComponent(props: any) {
 	);
 }
 
-export const BoostSlider = (props: SliderProps): JSX.Element => {
-	return (
-		<CustomSlider
-			{...props}
-			orientation="vertical"
-			ThumbComponent={ThumbComponent}
-			min={1}
-			max={100}
-			defaultValue={1}
-		/>
-	);
+export const BoostSlider: React.FC<SliderProps> = (props) => {
+	return <CustomSlider {...props} orientation="vertical" ThumbComponent={ThumbComponent} />;
 };
