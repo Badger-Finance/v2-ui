@@ -1,7 +1,8 @@
 import React, { PropsWithChildren, ReactNode, useContext, useState, useEffect, useCallback } from 'react';
 import BigNumber from 'bignumber.js';
 import { ethers } from 'ethers';
-import { EthArgs, ContractCall, LockAndMintParams, BurnAndReleaseParams } from '@renproject/interfaces';
+import { Bitcoin, Ethereum } from '@renproject/chains';
+import { EthArgs, LockAndMintParams, BurnAndReleaseParams } from '@renproject/interfaces';
 import Web3 from 'web3';
 import { observer } from 'mobx-react-lite';
 import { Grid, Tabs, Tab, FormControl, Select, MenuItem, Typography } from '@material-ui/core';
@@ -294,20 +295,27 @@ export const BridgeForm = observer(({ classes }: any) => {
 			},
 		];
 
-		const params: LockAndMintParams<ContractCall> = {
-			sendTo: bridge_system['adapter'],
-			nonce: formatNonceBytes32(nextNonce),
-			contractFn: 'mint',
-			contractParams,
-		};
+		let txConfig;
 		// NB: We explicitly set the gas limit for tbtc mints since estimateGas underestimates the gas needed.
 		if (token === 'bCRVtBTC') {
-			params.txConfig = {
+			txConfig = {
 				gas: 1000000,
 			};
 		}
 
-		await begin({ params } as RenVMTransaction, () => {
+		const params: LockAndMintParams = {
+			asset: 'BTC',
+			from: Bitcoin(),
+			to: Ethereum(provider.provider).Contract({
+				sendTo: bridge_system['adapter'],
+				contractFn: 'mint',
+				contractParams,
+				txConfig,
+			}),
+			nonce: formatNonceBytes32(nextNonce),
+		};
+
+		await begin({ params, contractFn: 'mint' } as RenVMTransaction, () => {
 			resetState();
 		});
 	};
@@ -324,7 +332,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 			maxSlippageBps = Math.round(parseFloat(maxSlippage) * 100);
 		}
 
-		const params = [
+		const params: EthArgs = [
 			{
 				name: '_token',
 				type: 'address',
@@ -374,14 +382,23 @@ export const BridgeForm = observer(({ classes }: any) => {
 	};
 
 	const withdraw = async (contractParams: EthArgs) => {
+		const address = (contractParams.filter((p) => p.name === '_to')[0] || {}).value;
+		if (!address) {
+			// TODO: handle?
+			return;
+		}
 		const params: BurnAndReleaseParams = {
-			sendTo: bridge_system['adapter'],
+			asset: 'BTC',
+			to: Bitcoin().Address(address),
+			from: Ethereum(provider.provider).Contract({
+				sendTo: bridge_system['adapter'],
+				contractFn: 'burn',
+				contractParams,
+			}),
 			nonce: formatNonceBytes32(nextNonce),
-			contractFn: 'burn',
-			contractParams,
 		};
 
-		await begin({ params } as RenVMTransaction, () => {
+		await begin({ params, contractFn: 'burn' } as RenVMTransaction, () => {
 			resetState();
 		});
 	};

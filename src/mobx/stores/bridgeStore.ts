@@ -5,8 +5,13 @@ import BigNumber from 'bignumber.js';
 import { provider } from 'web3-core';
 import { AbiItem } from 'web3-utils';
 import RenJS from '@renproject/ren';
-import { Bitcoin, Ethereum } from '@renproject/chains';
-import { LockAndMintStatus, BurnAndReleaseStatus } from '@renproject/interfaces';
+import { LockAndMintDeposit } from '@renproject/ren/build/main';
+import {
+	LockAndMintStatus,
+	LockAndMintParams,
+	BurnAndReleaseStatus,
+	BurnAndReleaseParams,
+} from '@renproject/interfaces';
 import { extendObservable, action, observe, IValueDidChange, toJS } from 'mobx';
 import { retry } from '@lifeomic/attempt';
 
@@ -437,15 +442,10 @@ class BridgeStore {
 			const address = await signer.getAddress();
 
 			if (parsedTx.contractFn === 'mint') {
-				const lockAndMint = await this.gjs.lockAndMint({
-					// TODO: should these ("BTC", Bitcoin()) be parameterized?
-					asset: 'BTC',
-					from: Bitcoin(),
-					// TODO: should Ethereum be parameterized?
-					to: Ethereum(provider.provider).Contract(parsedTx),
-				});
+				const lockAndMint = await this.gjs.lockAndMint(parsedTx.params as LockAndMintParams);
 
-				lockAndMint.on('deposit', async (deposit) => {
+				// TODO: fix lockandmintdeposit import
+				lockAndMint.on('deposit', async (deposit: LockAndMintDeposit) => {
 					// TODO: sync these to state
 					await deposit
 						.confirmed()
@@ -457,13 +457,7 @@ class BridgeStore {
 					await deposit.mint().on('transactionHash', (txHash) => console.log(`Mint tx: ${txHash}`));
 				});
 			} else if (parsedTx.contractFn === 'burn') {
-				const burnAndRelease = await this.jgs.burnAndRelease({
-					// TODO: should these ("BTC", Bitcoin()) be parameterized?
-					asset: 'BTC',
-					to: Bitcoin(),
-					// TODO: should Ethereum be parameterized?
-					from: Ethereum(provider.provider).Contract(parsedTx),
-				});
+				const burnAndRelease = await this.gjs.burnAndRelease(parsedTx.params as BurnAndReleaseParams);
 
 				let confirmations = 0;
 				await burnAndRelease
@@ -473,16 +467,16 @@ class BridgeStore {
 						confirmations = confs;
 					})
 					// Print Ethereum transaction hash.
-					.on('transactionHash', (txHash) => this.log(`txHash: ${String(txHash)}`));
+					.on('transactionHash', (txHash) => console.log(`txHash: ${String(txHash)}`));
 
 				await burnAndRelease
 					.release()
 					// Print RenVM status - "pending", "confirming" or "done".
 					.on('status', (status) =>
-						status === 'confirming' ? this.log(`${status} (${confirmations}/15)`) : this.log(status),
+						status === 'confirming' ? console.log(`${status} (${confirmations}/15)`) : console.log(status),
 					)
 					// Print RenVM transaction hash
-					.on('txHash', this.log);
+					.on('txHash', console.log);
 			}
 		} catch (err) {
 			queueNotification(`Failed to open tx: ${err.message}`, 'error');
@@ -594,7 +588,7 @@ const _isTxComplete = function (tx: RenVMTransaction) {
 
 // Invariant check on matching _user address w/ connectedAddress of the tx.
 const checkUserAddrInvariantAndThrow = (tx: RenVMTransaction) => {
-	if (tx.params.contractFn !== 'mint') return;
+	if (tx.contractFn !== 'mint') return;
 
 	const user = tx.params.contractParams?.find(({ name }) => name === '_user');
 	if (user?.value !== tx.user) {
