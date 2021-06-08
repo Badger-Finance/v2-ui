@@ -36,10 +36,10 @@ const useStyles = makeStyles((theme) => ({
 		transformOrigin: 'center',
 	},
 	boostLeft: {
-		left: '32%',
+		left: '31.5%',
 	},
 	boostRight: {
-		right: '32%',
+		right: '31.5%',
 	},
 	boostEyeStar: {
 		position: 'absolute',
@@ -67,7 +67,7 @@ type BoostBadgeProps = {
 };
 
 // eslint-disable-next-line react/prop-types
-export const BoostBadge: React.FC<BoostBadgeProps> = ({ value }) => {
+export const BoostBadgerAnimation: React.FC<BoostBadgeProps> = ({ value }) => {
 	const classes = useStyles();
 	const { container, eyes } = getStyles(value);
 

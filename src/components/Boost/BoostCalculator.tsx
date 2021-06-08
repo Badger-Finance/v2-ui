@@ -1,10 +1,8 @@
-import React, { useCallback, useState } from 'react';
-import { observer } from 'mobx-react-lite';
+import React, { useState } from 'react';
 import { Divider, Grid, Paper, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { BoostBadge } from './BoostBadge';
-import { BoostSlider } from './BoostSlider';
 import { BorderedText } from './Common';
+import { BoostCalculatorContainer } from './BoostCalculatorContent';
 
 const useStyles = makeStyles((theme) => ({
 	rootContainer: {
@@ -19,9 +17,6 @@ const useStyles = makeStyles((theme) => ({
 		marginBottom: theme.spacing(2),
 		textAlign: 'center',
 	},
-	content: {
-		marginBottom: 24,
-	},
 	divider: {
 		[theme.breakpoints.down('sm')]: {
 			marginTop: theme.spacing(1),
@@ -30,34 +25,21 @@ const useStyles = makeStyles((theme) => ({
 		marginTop: theme.spacing(1),
 		marginBottom: theme.spacing(5),
 	},
-
 	boostText: {
 		fontSize: theme.spacing(4),
 	},
 	boostValue: {
 		marginLeft: 12,
 	},
-	boostSlider: {
-		padding: '0 22px !important',
-	},
-	settInformation: {
-		textAlign: 'center',
-	},
 }));
 
-export const BoostCalculator = observer(() => {
+export const BoostCalculator: React.FC = () => {
 	const classes = useStyles();
 	const [native, setNative] = useState(0);
-
-	const handleNativeSliderChange = useCallback(
-		(event, slideValue) => {
-			setNative(slideValue);
-		},
-		[setNative],
-	);
+	const [nonNative, setNonNative] = useState(0);
 
 	return (
-		<Grid container component={Paper} className={classes.rootContainer}>
+		<Paper className={classes.rootContainer}>
 			<Grid item container justify="center" spacing={3} className={classes.header}>
 				<Grid item container justify="center" alignItems="center" xs={12}>
 					<Typography className={classes.boostText}>Boost: </Typography>
@@ -70,29 +52,12 @@ export const BoostCalculator = observer(() => {
 				</Grid>
 			</Grid>
 			<Divider className={classes.divider} />
-			<Grid item xs={12} container className={classes.content}>
-				<Grid item container xs alignItems="center" justify="center">
-					<Grid item justify="center" className={classes.settInformation}>
-						<Typography variant="h6">Native: </Typography>
-						<BorderedText variant="h6">$5,000</BorderedText>
-					</Grid>
-				</Grid>
-				<Grid item container xs={7} justify="center">
-					<BoostSlider
-						className={classes.boostSlider}
-						value={native}
-						onChange={handleNativeSliderChange as any}
-					/>
-					<BoostBadge value={native} />
-					<BoostSlider className={classes.boostSlider} />
-				</Grid>
-				<Grid item container xs alignItems="center" justify="center">
-					<Grid item justify="center" className={classes.settInformation}>
-						<Typography variant="h6">Non Native: </Typography>
-						<BorderedText variant="h6">$10,000</BorderedText>
-					</Grid>
-				</Grid>
-			</Grid>
-		</Grid>
+			<BoostCalculatorContainer
+				native={native}
+				nonNative={nonNative}
+				onNativeChange={setNative}
+				onNonNativeChange={setNonNative}
+			/>
+		</Paper>
 	);
-});
+};
