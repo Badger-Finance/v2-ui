@@ -122,9 +122,6 @@ class WalletStore {
 		this.onboard = wsOnboard;
 		const walletState = wsOnboard.getState();
 		this.setProvider(walletState.wallet.provider);
-		// change of adress trigger onboard event subscription, reconnecting does not.
-		// TODO: fix root cause of this, this fix introduces an error when disconnecting and reconnecting
-		// the same wallet address.
 		this.setAddress(walletState.address);
 	});
 
