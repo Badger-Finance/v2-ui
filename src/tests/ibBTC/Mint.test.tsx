@@ -63,7 +63,9 @@ describe('ibBTC Mint', () => {
 				<Mint />
 			</StoreProvider>,
 		);
-		fireEvent.change(screen.getByRole('textbox'), { target: { value: '12' } });
+		act(() => {
+			fireEvent.change(screen.getByRole('textbox'), { target: { value: '12' } });
+		});
 		await screen.findByRole('heading', { level: 1, name: '11.988000' });
 		expect(container).toMatchSnapshot();
 	});

@@ -62,14 +62,14 @@ describe('ibBTC Redeem', () => {
 	});
 
 	it('displays output balance when redeem amount is inputted', async () => {
-		jest.setTimeout(8000); // Test timesout when running full test suite
 		const { container } = customRender(
 			<StoreProvider value={store}>
 				<Redeem />
 			</StoreProvider>,
 		);
-
-		fireEvent.change(screen.getByRole('textbox'), { target: { value: '12' } });
+		act(() => {
+			fireEvent.change(screen.getByRole('textbox'), { target: { value: '12' } });
+		});
 		await screen.findByRole('heading', { level: 1, name: '11.988000' });
 		expect(container).toMatchSnapshot();
 	});
