@@ -1,8 +1,14 @@
-import React, { useState } from 'react';
-import { Divider, Grid, Paper, Typography } from '@material-ui/core';
+import React, { useContext, useEffect, useState } from 'react';
+import { observer } from 'mobx-react-lite';
+import BigNumber from 'bignumber.js';
+import { Button, Divider, Grid, Paper, Typography } from '@material-ui/core';
+import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
-import { BorderedText } from './Common';
+
 import { BoostCalculatorContainer } from './BoostCalculatorContent';
+import { StoreContext } from '../../mobx/store-context';
+import { Skeleton } from '@material-ui/lab';
+import { useConnectWallet } from '../../mobx/utils/hooks';
 
 const useStyles = makeStyles((theme) => ({
 	rootContainer: {
@@ -28,36 +34,93 @@ const useStyles = makeStyles((theme) => ({
 	boostText: {
 		fontSize: theme.spacing(4),
 	},
+	boostValueBorder: {
+		display: 'inline-block',
+		boxSizing: 'border-box',
+		padding: theme.spacing(1),
+		border: '1px solid #5B5B5A',
+		borderRadius: 8,
+		textAlign: 'center',
+	},
 	boostValue: {
 		marginLeft: 12,
 	},
+	rankValue: {
+		marginLeft: 6,
+	},
 }));
 
-export const BoostCalculator: React.FC = () => {
-	const classes = useStyles();
-	const [native, setNative] = useState(0);
-	const [nonNative, setNonNative] = useState(0);
+export const BoostCalculator = observer(
+	(): JSX.Element => {
+		const {
+			wallet: { connectedAddress },
+			user: { accountDetails },
+			boostOptimizer: { nativeHoldings, nonNativeHoldings },
+		} = useContext(StoreContext);
+		const classes = useStyles();
+		const connectWallet = useConnectWallet();
+		const [boost, setBoost] = useState<number>();
+		const [rank, setRank] = useState<number>();
+		const [native, setNative] = useState<string>();
+		const [nonNative, setNonNative] = useState<string>();
 
-	return (
-		<Paper className={classes.rootContainer}>
-			<Grid item container justify="center" spacing={3} className={classes.header}>
-				<Grid item container justify="center" alignItems="center" xs={12}>
-					<Typography className={classes.boostText}>Boost: </Typography>
-					<BorderedText className={classes.boostValue} variant="h5">
-						1.98
-					</BorderedText>
+		// load store values as defaults
+		useEffect(() => {
+			if (accountDetails && (boost === undefined || rank === undefined)) {
+				setBoost(accountDetails.boost);
+				setRank(accountDetails.boostRank);
+			}
+		}, [boost, rank, accountDetails]);
+
+		useEffect(() => {
+			if (nativeHoldings && native === undefined) {
+				setNative(nativeHoldings.toFixed(3, BigNumber.ROUND_HALF_FLOOR));
+			}
+		}, [native, nativeHoldings]);
+
+		useEffect(() => {
+			if (nonNativeHoldings && nonNative === undefined) {
+				setNonNative(nonNativeHoldings.toFixed(3, BigNumber.ROUND_HALF_FLOOR));
+			}
+		}, [nonNative, nonNativeHoldings]);
+
+		if (!connectedAddress) {
+			return (
+				<Paper className={classes.rootContainer}>
+					<Button fullWidth size="large" variant="contained" color="primary" onClick={connectWallet}>
+						Connect Wallet
+					</Button>
+				</Paper>
+			);
+		}
+
+		return (
+			<Paper className={classes.rootContainer}>
+				<Grid item container justify="center" spacing={3} className={classes.header}>
+					<Grid item container justify="center" alignItems="center" xs={12}>
+						<Typography className={classes.boostText}>Boost: </Typography>
+						<Typography
+							className={clsx(classes.boostValue, boost && classes.boostValueBorder)}
+							variant="h5"
+						>
+							{boost?.toFixed(2) || <Skeleton width={35} />}
+						</Typography>
+					</Grid>
+					<Grid item container justify="center" alignItems="center" xs={12}>
+						<Typography color="textSecondary">Rank: </Typography>
+						<Typography color="textSecondary" className={classes.rankValue}>
+							{rank || <Skeleton width={35} />}
+						</Typography>
+					</Grid>
 				</Grid>
-				<Grid item xs={12} style={{ padding: 0 }}>
-					<Typography color="textSecondary">Rank: 501</Typography>
-				</Grid>
-			</Grid>
-			<Divider className={classes.divider} />
-			<BoostCalculatorContainer
-				native={native}
-				nonNative={nonNative}
-				onNativeChange={setNative}
-				onNonNativeChange={setNonNative}
-			/>
-		</Paper>
-	);
-};
+				<Divider className={classes.divider} />
+				<BoostCalculatorContainer
+					native={native || ''}
+					nonNative={nonNative || ''}
+					onNativeChange={setNative}
+					onNonNativeChange={setNonNative}
+				/>
+			</Paper>
+		);
+	},
+);
