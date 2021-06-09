@@ -9,6 +9,7 @@ import { tokens, sett_system } from './deployments/mainnet.json';
 import { NetworkConstants, ClaimsSymbols } from '../mobx/model';
 import { getNetworkDeploy } from 'mobx/utils/network';
 import { AbiItem } from 'web3-utils';
+import { PartialAttemptOptions } from '@lifeomic/attempt';
 
 export const RPC_WALLETS: { [index: string]: boolean } = {
 	ledger: true,
@@ -82,7 +83,6 @@ export const WC_BRIDGE = 'https://wc-bridge.badger.finance/';
 const toBool = (val: string | undefined): boolean => (val ? val.toLowerCase() === 'true' : false);
 
 export const FLAGS = {
-	IBBTC_FLAG: toBool(process.env.REACT_APP_IBBTC_FLAG),
 	WBTC_FLAG: toBool(process.env.REACT_APP_BRIDGE_WBTC),
 	GEYSER_FLAG: toBool(process.env.REACT_APP_GEYSER_ENABLED),
 	EXPERIMENTAL_VAULTS: toBool(process.env.REACT_APP_EXPERIMENTAL_VAULTS),
@@ -102,3 +102,14 @@ export const DEBUG = process.env.NODE_ENV !== 'production';
 
 // time constants
 export const ONE_MIN_MS = 60 * 1000;
+export const baseRetryOptions = {
+	// delay defaults to 200 ms.
+	// delay grows exponentially by factor each attempt.
+	factor: 1.5,
+	// delay grows up until max delay.
+	maxDelay: 1000,
+	// maxAttempts to make before giving up.
+	maxAttempts: 3,
+};
+export const defaultRetryOptions: PartialAttemptOptions<void> = baseRetryOptions;
+export const getDefaultRetryOptions = <T>(): PartialAttemptOptions<T> => baseRetryOptions;

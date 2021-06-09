@@ -58,7 +58,7 @@ export interface NftStatsProps {
 	balance: string;
 	remaining: string;
 	redemptionRateBdigg: string;
-	redemptionRateUsd: string;
+	redemptionRateUsd: string | undefined;
 	image?: string;
 	redirectUrl?: string;
 	disabled?: boolean;

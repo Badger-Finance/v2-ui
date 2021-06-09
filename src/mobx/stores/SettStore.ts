@@ -1,10 +1,9 @@
 import { extendObservable, action, observe, IValueDidChange } from 'mobx';
 import { RootStore } from '../store';
-import { getTokenPrices, getTokens, getTotalValueLocked, listSetts } from 'mobx/utils/apiV2';
-import { PriceSummary, Sett, ProtocolSummary, SettMap } from 'mobx/model';
+import { getTokens, getTotalValueLocked, listSetts } from 'mobx/utils/apiV2';
+import { Sett, ProtocolSummary, SettMap } from 'mobx/model';
 import { NETWORK_LIST } from 'config/constants';
 import Web3 from 'web3';
-import BigNumber from 'bignumber.js';
 import WalletStore from './walletStore';
 import { TokenConfig } from 'mobx/model/token-config';
 import { Token } from 'mobx/model/token';
@@ -18,7 +17,6 @@ export default class SettStore {
 	private settMapCache: { [chain: string]: SettMap | undefined | null };
 	private experimentalMapCache: { [chain: string]: SettMap | undefined | null };
 	private protocolSummaryCache: { [chain: string]: ProtocolSummary | undefined | null };
-	private priceCache: PriceSummary;
 	public initialized: boolean;
 
 	constructor(store: RootStore) {
@@ -52,7 +50,6 @@ export default class SettStore {
 		this.settMapCache = {};
 		this.experimentalMapCache = {};
 		this.protocolSummaryCache = {};
-		this.priceCache = {};
 		this.initialized = false;
 
 		this.refresh();
@@ -72,10 +69,6 @@ export default class SettStore {
 
 	get protocolSummary(): ProtocolSummary | undefined | null {
 		return this.protocolSummaryCache[this.store.wallet.network.name];
-	}
-
-	getPrice(address: string): BigNumber {
-		return this.priceCache[Web3.utils.toChecksumAddress(address)] ?? new BigNumber(0);
 	}
 
 	getSett(address: string): Sett | undefined {
@@ -102,7 +95,6 @@ export default class SettStore {
 			await Promise.all([
 				this.loadSetts(network.name),
 				this.loadTokens(network.name),
-				this.loadPrices(network.name),
 				this.loadAssets(network.name),
 			]);
 			this.initialized = true;
@@ -127,22 +119,6 @@ export default class SettStore {
 			const tokenConfig = await getTokens(chain);
 			if (tokenConfig) {
 				this.tokenCache[chain] = tokenConfig;
-			}
-		},
-	);
-
-	loadPrices = action(
-		async (network?: string): Promise<void> => {
-			const prices = await getTokenPrices(network);
-			if (prices) {
-				Object.entries(prices).forEach((entry) => {
-					const [key, value] = entry;
-					prices[key] = new BigNumber(value);
-				});
-				this.priceCache = {
-					...this.priceCache,
-					...prices,
-				};
 			}
 		},
 	);
