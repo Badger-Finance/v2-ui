@@ -7,6 +7,7 @@ import Web3 from 'web3';
 import BigNumber from 'bignumber.js';
 import WalletStore from './walletStore';
 import { TokenConfig } from 'mobx/model/token-config';
+import { Token } from 'mobx/model/token';
 
 export default class SettStore {
 	private store!: RootStore;
@@ -83,6 +84,16 @@ export default class SettStore {
 			...this.experimentalMap,
 		};
 		return settMap[Web3.utils.toChecksumAddress(address)];
+	}
+
+	getToken(address: string): Token | undefined {
+		const network = this.store.wallet.network;
+		const tokens = this.tokenCache[network.name];
+		const tokenAddress = Web3.utils.toChecksumAddress(address);
+		if (!tokens || !tokens[tokenAddress]) {
+			return;
+		}
+		return tokens[tokenAddress];
 	}
 
 	private async refresh(): Promise<void> {
