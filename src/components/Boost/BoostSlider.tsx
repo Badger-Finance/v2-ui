@@ -25,7 +25,6 @@ const CustomSlider = withStyles((theme) => ({
 			marginBottom: 1,
 		},
 	},
-	active: {},
 	rail: {
 		color: '#6B6B6B',
 		opacity: 1,
@@ -36,7 +35,7 @@ const CustomSlider = withStyles((theme) => ({
 	},
 }))(Slider);
 
-function ThumbComponent(props: any) {
+function ThumbComponent(props: React.HTMLProps<HTMLDivElement>) {
 	return (
 		<div {...props}>
 			<div className="bar" />
