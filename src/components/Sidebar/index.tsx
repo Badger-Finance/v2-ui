@@ -259,7 +259,7 @@ export const Sidebar = observer(() => {
 								onClick={() => setExpanded(expanded === 'boosts' ? '' : 'boosts')}
 							>
 								<ListItemIcon>
-									<img alt="Boosts" src={'assets/sidebar/gas_station.png'} className={classes.icon} />
+									<img alt="Boosts" src={'assets/sidebar/boosts.png'} className={classes.icon} />
 								</ListItemIcon>
 								<ListItemText primary="Boosts" />
 								<IconButton
