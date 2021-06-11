@@ -1,13 +1,39 @@
-/* eslint-disable react/prop-types */
 import React from 'react';
-import { Box, Grid, InputAdornment, Typography, useMediaQuery, useTheme } from '@material-ui/core';
+import { Button, Grid, InputAdornment, Typography, useMediaQuery, useTheme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { BoostBadgerAnimation } from './BoostBadgerAnimation';
-import { BoostSlider } from './BoostSlider';
 import { useNumericInput } from '../../utils/useNumericInput';
 import { AssetInput } from './Common';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
+import BigNumber from 'bignumber.js';
+
+const useAssetInputStyles = (currentValue: BigNumber.Value, holdings?: BigNumber.Value) => {
+	return makeStyles((theme) => {
+		currentValue = new BigNumber(currentValue);
+		holdings = new BigNumber(holdings || 0);
+
+		let fontColor = currentValue.isNaN() ? theme.palette.text.secondary : theme.palette.text.primary;
+		if (currentValue.gt(holdings)) fontColor = '#74D189 ';
+		if (currentValue.lt(holdings)) fontColor = '#F44336';
+
+		return {
+			assetColor: {
+				color: fontColor,
+			},
+			dollarAdornment: {
+				margin: '0px 0px 0px 2px',
+				'& > *': {
+					fontSize: 20,
+					color: fontColor,
+					[theme.breakpoints.down(500)]: {
+						fontSize: 24,
+					},
+				},
+			},
+		};
+	});
+};
 
 const useStyles = makeStyles((theme) => ({
 	content: {
@@ -22,7 +48,22 @@ const useStyles = makeStyles((theme) => ({
 		height: 'auto !important',
 	},
 	settInformation: {
+		width: '100%',
 		textAlign: 'center',
+	},
+	actionButton: {
+		borderRadius: 2,
+		height: 48,
+		[theme.breakpoints.up(500)]: {
+			width: 28,
+			height: 28,
+			minWidth: 28,
+		},
+	},
+	actionImage: {
+		[theme.breakpoints.down(500)]: {
+			width: 16,
+		},
 	},
 }));
 
@@ -42,39 +83,79 @@ export const BoostCalculatorContainer = observer(
 		const { native, nonNative, onNonNativeChange, onNativeChange } = props;
 		const classes = useStyles();
 		const { onValidChange, inputProps } = useNumericInput();
+		const nativeAssetClasses = useAssetInputStyles(native, nativeHoldings)();
 		const theme = useTheme();
 		const smallScreen = useMediaQuery(theme.breakpoints.down(706));
+		const extraSmallScreen = useMediaQuery(theme.breakpoints.down(500));
+		const nonNativeAssetClasses = useAssetInputStyles(nonNative, nonNativeHoldings)();
 
-		const handleNativeSliderChange = (event: Event, slideValue: number) => onNativeChange(String(slideValue));
-		const handleNonNativeSliderChange = (event: Event, slideValue: number) => onNonNativeChange(String(slideValue));
+		const boostRatio = new BigNumber(native).dividedToIntegerBy(nonNative);
+		const boostRatioPercentage = boostRatio.dividedToIntegerBy(3).multipliedBy(100);
+		const badgerScore = Math.min(boostRatioPercentage.toNumber(), 100);
 
-		const badgerSliders = (
-			<Box display="flex" flexDirection="row" alignItems="stretch" justifyContent="center">
-				<BoostSlider
-					disabled={!nativeHoldings || !nonNativeHoldings}
-					className={classes.boostSlider}
-					value={Number(0)}
-					onChange={handleNativeSliderChange as any}
-				/>
-				<BoostBadgerAnimation value={Number(0)} />
-				<BoostSlider
-					disabled={!nativeHoldings || !nonNativeHoldings}
-					className={classes.boostSlider}
-					value={Number(0)}
-					onChange={handleNonNativeSliderChange as any}
-				/>
-			</Box>
-		);
+		const handleIncreaseNative = () => {
+			if (native) {
+				onNativeChange(new BigNumber(native).multipliedBy(1.1).toString());
+			}
+		};
+
+		const handleDecreaseNative = () => {
+			if (native) {
+				onNativeChange(new BigNumber(native).multipliedBy(0.9).toString());
+			}
+		};
+
+		const handleIncreaseNonNative = () => {
+			if (nonNative) {
+				onNonNativeChange(new BigNumber(nonNative).multipliedBy(1.1).toString());
+			}
+		};
+
+		const handleDecreaseNonNative = () => {
+			if (nonNative) {
+				onNonNativeChange(new BigNumber(nonNative).multipliedBy(0.9).toString());
+			}
+		};
 
 		const nativeBox = (
 			<Grid item className={classes.settInformation}>
 				<Typography variant="h6">Native: </Typography>
 				<AssetInput
+					classes={{ adornedStart: nativeAssetClasses.assetColor }}
+					className={nativeAssetClasses.assetColor}
 					disabled={!nativeHoldings}
 					value={native}
 					placeholder="10,000"
 					inputProps={inputProps}
-					startAdornment={<InputAdornment position="start">$</InputAdornment>}
+					fullWidth={extraSmallScreen}
+					startAdornment={
+						<>
+							<Button className={classes.actionButton} onClick={handleIncreaseNative}>
+								<img
+									className={classes.actionImage}
+									src="/assets/icons/boost-up.svg"
+									alt="increase native holdings"
+								/>
+							</Button>
+							<InputAdornment
+								classes={{
+									root: nativeAssetClasses.dollarAdornment,
+								}}
+								position="start"
+							>
+								$
+							</InputAdornment>
+						</>
+					}
+					endAdornment={
+						<Button className={classes.actionButton} onClick={handleDecreaseNative}>
+							<img
+								className={classes.actionImage}
+								src="/assets/icons/boost-down.svg"
+								alt="decrease native holdings"
+							/>
+						</Button>
+					}
 					onChange={onValidChange(onNativeChange)}
 				/>
 			</Grid>
@@ -84,11 +165,40 @@ export const BoostCalculatorContainer = observer(
 			<Grid item className={classes.settInformation}>
 				<Typography variant="h6">Non Native: </Typography>
 				<AssetInput
+					className={nonNativeAssetClasses.assetColor}
 					disabled={!nonNativeHoldings}
 					value={nonNative}
 					placeholder="5,000"
 					inputProps={inputProps}
-					startAdornment={<InputAdornment position="start">$</InputAdornment>}
+					fullWidth={extraSmallScreen}
+					startAdornment={
+						<>
+							<Button className={classes.actionButton} onClick={handleIncreaseNonNative}>
+								<img
+									className={classes.actionImage}
+									src="/assets/icons/boost-up.svg"
+									alt="increase non-native holdings"
+								/>
+							</Button>
+							<InputAdornment
+								classes={{
+									root: nonNativeAssetClasses.dollarAdornment,
+								}}
+								position="start"
+							>
+								$
+							</InputAdornment>
+						</>
+					}
+					endAdornment={
+						<Button className={classes.actionButton} onClick={handleDecreaseNonNative}>
+							<img
+								className={classes.actionImage}
+								src="/assets/icons/boost-down.svg"
+								alt="decrease non-native holdings"
+							/>
+						</Button>
+					}
 					onChange={onValidChange(onNonNativeChange)}
 				/>
 			</Grid>
@@ -98,12 +208,12 @@ export const BoostCalculatorContainer = observer(
 			return (
 				<Grid container spacing={4} className={classes.content} alignItems="center" justify="center">
 					<Grid item xs={12}>
-						{badgerSliders}
+						<BoostBadgerAnimation score={badgerScore} />
 					</Grid>
-					<Grid item xs={6}>
+					<Grid item xs={extraSmallScreen ? 12 : 6}>
 						{nativeBox}
 					</Grid>
-					<Grid item xs={6}>
+					<Grid item xs={extraSmallScreen ? 12 : 6}>
 						{nonNativeBox}
 					</Grid>
 				</Grid>
@@ -115,8 +225,8 @@ export const BoostCalculatorContainer = observer(
 				<Grid item xs>
 					{nativeBox}
 				</Grid>
-				<Grid item xs={7}>
-					{badgerSliders}
+				<Grid item xs={6}>
+					<BoostBadgerAnimation score={badgerScore} />
 				</Grid>
 				<Grid item xs>
 					{nonNativeBox}

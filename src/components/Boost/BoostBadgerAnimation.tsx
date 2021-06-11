@@ -8,6 +8,7 @@ const useStyles = makeStyles((theme) => ({
 		borderRadius: 8,
 		width: 240,
 		height: 240,
+		maxWidth: '100%',
 		display: 'flex',
 		alignItems: 'center',
 		justifyContent: 'center',
@@ -48,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 type BoostBadgeProps = {
-	value: number;
+	score: number;
 };
 
 const useAnimatedStyles = (value: number) => {
@@ -58,11 +59,12 @@ const useAnimatedStyles = (value: number) => {
 
 	return makeStyles(() => ({
 		container: {
+			margin: 'auto',
 			background: `hsl(${hue}deg,88%,56%)`,
 		},
 		eyes: {
 			transform: `scale(${scale})`,
-			animation: '$glow 1.5s ease-in-out infinite alternate',
+			animation: '$glow 1s ease-in-out infinite alternate',
 			background: `radial-gradient(hsla(${hue}deg,100%,76%,${opacity}),hsla(${hue}deg,88%,56%,0) 80%)`,
 		},
 		'@keyframes glow': {
@@ -72,9 +74,9 @@ const useAnimatedStyles = (value: number) => {
 	}));
 };
 
-export const BoostBadgerAnimation = ({ value }: BoostBadgeProps): JSX.Element => {
+export const BoostBadgerAnimation = ({ score }: BoostBadgeProps): JSX.Element => {
 	const classes = useStyles();
-	const animatedClasses = useAnimatedStyles(value)();
+	const animatedClasses = useAnimatedStyles(score)();
 
 	const eyesImage = <img src={'assets/badger-eyes.png'} alt="Badger Eyes" className={classes.boostEyeStar} />;
 
