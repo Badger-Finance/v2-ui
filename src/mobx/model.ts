@@ -651,6 +651,10 @@ export interface ExchangeRates {
 	bnb: number;
 }
 
+export interface BDiggExchangeRates extends ExchangeRates {
+	eth: number;
+}
+
 export interface ibBTCFees {
 	mintFeePercent: BigNumber;
 	redeemFeePercent: BigNumber;

@@ -23,16 +23,9 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-type SubmetricData = {
-	title: string;
-	value: string;
-	change?: boolean;
-};
-
 type MetricProps = {
 	metric: string;
-	value: string;
-	submetrics?: Array<SubmetricData>;
+	value: string | undefined;
 };
 
 const Metric = observer((props: MetricProps) => {
@@ -43,9 +36,6 @@ const Metric = observer((props: MetricProps) => {
 		<Paper className={classes.statPaper} elevation={3}>
 			<Typography variant="subtitle1">{metric}</Typography>
 			<Typography variant="h5">{value || '...'}</Typography>
-			{/* <List className={classes.submetricContainer}>
-				{submetrics?.map(submetric => <SubMetric title={submetric.title} value={submetric.value} change={submetric.change} />)}
-			</List> */}
 		</Paper>
 	);
 });
