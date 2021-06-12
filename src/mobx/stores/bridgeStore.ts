@@ -438,12 +438,11 @@ class BridgeStore {
             const fromClass = COIN_STRING_TO_CLASS[parsedTx.params.from];
             const toClass = COIN_STRING_TO_CLASS[parsedTx.params.to];
             if (parsedTx.params.contractFn === 'mint') {
-              const toAddress = parsedTx.params.find(d => d.name === '_user')?.value;
               const mint = await renJS.lockAndMint({
                 asset: parsedTx.params.asset,
                 from: from(),
                 to: to(web3.currentProvider).Contract({
-                  sendTo: toAddress,
+                  sendTo: parsedTx.params.sendTo,
                   // Is this right? It used to be 'mint'. Now it's deposit?
                   contractFn: 'deposit',
                   contractParams: parsedTx.params.contractParams,
@@ -471,32 +470,13 @@ class BridgeStore {
               });
             } else if (parsedTx.params.contractFn === 'burn') {
               // TODO: is this supposed to be _to or _vault?
-              const toAddress = parsedTx.params.find(d => d.name === '_to')?.value;
               const burnAndRelease = await renJS.burnAndRelease({
                 asset: parsedTx.params.asset,
                 to: to().Address(toAddress),
                 from: from()(web3.currentProvider).Contract({
-                  sendTo: contractAddress,
-                  
+                  sendTo: parsedTx.params.sendTo,
                   contractFn: "withdraw",
-                  
-                  contractParams: [
-                    {
-                      type: "bytes",
-                      name: "_msg",
-                      value: Buffer.from(`Withdrawing ${amount} BTC`),
-                    },
-                    {
-                      type: "bytes",
-                      name: "_to",
-                      value: Buffer.from(btcAddress),
-                    },
-                    {
-                      type: "uint256",
-                      name: "_amount",
-                      value: RenJS.utils.toSmallestUnit(amount, 8),
-                    },
-                  ],
+                  contractParams: parsedTx.params.contractParams,
                 })),
               });
             } else {
