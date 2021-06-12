@@ -442,6 +442,7 @@ class BridgeStore {
 			const address = await signer.getAddress();
 
 			if (parsedTx.contractFn === 'mint') {
+				checkUserAddrInvariantAndThrow(parsedTx);
 				const lockAndMint = await this.gjs.lockAndMint(parsedTx.params as LockAndMintParams);
 
 				// TODO: fix lockandmintdeposit import
@@ -588,7 +589,7 @@ const _isTxComplete = function (tx: RenVMTransaction) {
 
 // Invariant check on matching _user address w/ connectedAddress of the tx.
 const checkUserAddrInvariantAndThrow = (tx: RenVMTransaction) => {
-	if (tx.contractFn !== 'mint') return;
+	if (tx.params.contractFn !== 'mint') return;
 
 	const user = tx.params.contractParams?.find(({ name }) => name === '_user');
 	if (user?.value !== tx.user) {

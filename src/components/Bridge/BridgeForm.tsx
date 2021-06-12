@@ -301,7 +301,6 @@ export const BridgeForm = observer(({ classes }: any) => {
 			txConfig = {
 				gas: 1000000,
 			};
-		}
 
 		const params: LockAndMintParams = {
 			asset: 'BTC',
