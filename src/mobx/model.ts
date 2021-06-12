@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js';
 import { AbiItem } from 'web3-utils';
 import Web3 from 'web3';
 import { CustomNotificationObject, EmitterListener, TransactionData } from 'bnc-notify';
-import { LockAndMintParamsSimple, BurnAndReleaseParamsSimple } from '@renproject/interfaces';
+import { TransferParamsCommon, ContractCall } from '@renproject/interfaces';
 import { RootStore } from './store';
 import { getAirdrops } from 'config/system/airdrops';
 import { getRebase } from '../config/system/rebase';
@@ -616,6 +616,13 @@ export type ProtocolSummary = {
 
 export type SettMap = { [contract: string]: Sett };
 
+export type Coin = 'Bitcoin' | 'Ethereum';
+
+export interface RenVMParams extends TransferParamsCommon, ContractCall {
+	from: Coin;
+	to: Coin;
+}
+
 export type RenVMTransaction = {
 	// ID is the pkey in the db.
 	id: string;
@@ -624,7 +631,7 @@ export type RenVMTransaction = {
 	nonce: number;
 	encodedTx: string; // json encoded tx data.
 	// NB: The web3Provider field is not encoded (for obvious reasons).
-	params: LockAndMintParamsSimple | BurnAndReleaseParamsSimple;
+	params: RenVMParams;
 	status: string;
 	// Record if there was an error processing a tx.
 	error: string;

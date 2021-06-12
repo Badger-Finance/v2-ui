@@ -4,9 +4,9 @@ import { Contract } from 'web3-eth-contract';
 import BigNumber from 'bignumber.js';
 import { provider } from 'web3-core';
 import { AbiItem } from 'web3-utils';
-import GatewayJS from '@renproject/gateway';
-import { Gateway } from '@renproject/gateway';
-import { LockAndMintStatus, BurnAndReleaseStatus, LockAndMintEvent, BurnAndReleaseEvent } from '@renproject/interfaces';
+import { Bitcoin, Ethereum } from '@renproject/chains';
+import RenJS from '@renproject/ren';
+import { LockAndMintStatus, BurnAndReleaseStatus } from '@renproject/interfaces';
 import { extendObservable, action, observe, IValueDidChange, toJS } from 'mobx';
 import { retry } from '@lifeomic/attempt';
 
@@ -38,6 +38,12 @@ export enum Status {
 	PROCESSING,
 }
 
+// TODO: handle other coins
+const COIN_STRING_TO_CLASS = {
+  'Bitcoin': Bitcoin,
+  'Ethereum': Ethereum,
+}
+
 // BTC variants is 8 decimals.
 const DECIMALS = 10 ** 8;
 // Sett tokens are (mostly) 18 decimals.
@@ -46,7 +52,6 @@ const MAX_BPS = 10000;
 const UPDATE_INTERVAL_SECONDS = 30 * 1000; // 30 seconds
 
 const defaultProps = {
-	openGateway: null,
 	history: [],
 	nextNonce: 0,
 	current: null,
@@ -73,8 +78,7 @@ class BridgeStore {
 	private store!: RootStore;
 	private network!: string | undefined;
 	private db!: firebase.firestore.Firestore;
-	private gjs!: GatewayJS;
-	private openGateway!: Gateway | null;
+	private renJS: RenJS;
 	private adapter!: Contract;
 
 	private renbtc!: Contract;
@@ -132,8 +136,9 @@ class BridgeStore {
 
 	constructor(store: RootStore) {
 		this.store = store;
-		this.db = fbase.firestore();
-		this.gjs = new GatewayJS('mainnet');
+	  this.db = fbase.firestore();
+          // TODO: delete 'testnet' and use default when going to prod
+		this.renJS = new RenJS('testnet');
 		// NB: At construction time, the value of wallet provider is unset so we cannot fetch network
 		// from provider. Align network init logic w/ how it works in the walletStore.
 		const network = getNetwork();
@@ -205,9 +210,9 @@ class BridgeStore {
 			/*
 			 * The lifecycle of a tx is as follows:
 			 *   - initialize a tx (persist gatewayJS params and nonce into db)
-			 *   - open gjs and kick off renVM tx
+			 *   - open renjs and kick off renVM tx
 			 *   - commit renVM tx data to db
-			 *   - listen/perform updates via gjs
+			 *   - listen/perform updates via renjs
 			 *
 			 * On failure/restart, if the last tx is uncommitted or incomplete
 			 * then it is set is `current` tx and we enter this lifecycle.
@@ -291,10 +296,6 @@ class BridgeStore {
 	});
 
 	reset = action(() => {
-		if (this.openGateway) {
-			this.openGateway.close();
-		}
-
 		Object.entries(defaultProps).forEach(([k, v]) => {
 			(this as any)[k] = v;
 		});
@@ -304,7 +305,7 @@ class BridgeStore {
 	begin = action((newTx: RenVMTransaction, done: () => void) => {
 		// Cannot concurrently execute tx.
 		if (this.current) return;
-		// NB: When we begin a new tx, only the gjs params are specified.
+		// NB: When we begin a new tx, only the renjs params are specified.
 		this.current = newTx;
 		this.done = done;
 	});
@@ -430,66 +431,77 @@ class BridgeStore {
 		const { provider } = this.store.wallet;
 		const { queueNotification } = this.store.uiState;
 
-		// NB: Should not happen but just as a safety check.
-		if (this.openGateway) {
-			this.openGateway.close();
-			this.openGateway = null;
-		}
+	  try {
+            // TODO: figure out how to recover from transaction
+	    const parsedTx = JSON.parse(tx.encodedTx);
+            const web3 = (window as any).web3;
+            const fromClass = COIN_STRING_TO_CLASS[parsedTx.params.from];
+            const toClass = COIN_STRING_TO_CLASS[parsedTx.params.to];
+            if (parsedTx.params.contractFn === 'mint') {
+              const toAddress = parsedTx.params.find(d => d.name === '_user')?.value;
+              const mint = await renJS.lockAndMint({
+                asset: parsedTx.params.asset,
+                from: from(),
+                to: to(web3.currentProvider).Contract({
+                  sendTo: toAddress,
+                  // Is this right? It used to be 'mint'. Now it's deposit?
+                  contractFn: 'deposit',
+                  contractParams: parsedTx.params.contractParams,
+                  nonce: parsedTx.params.nonce,
+                }),
+              });
 
-		try {
-			if (recover) {
-				const parsedTx = JSON.parse(tx.encodedTx);
-				this.openGateway = this.gjs.recoverTransfer(provider, parsedTx, parsedTx.id).pause();
-			} else {
-				const parsedTx = toJS(tx);
-				// This invariant check throws on failure.
-				checkUserAddrInvariantAndThrow(parsedTx);
-				this.openGateway = this.gjs.open({
-					...parsedTx.params,
-					web3Provider: provider,
-				});
-			}
-			await this.openGateway
-				.result()
-				.on('status', async (status: LockAndMintStatus | BurnAndReleaseStatus) => {
-					switch (status) {
-						case LockAndMintStatus.ReturnedFromRenVM:
-							queueNotification(
-								'Deposit is ready, please sign the transaction to submit to ethereum',
-								'info',
-							);
-							break;
-						case LockAndMintStatus.ConfirmedOnEthereum:
-							queueNotification('Mint is successful', 'success');
-							// TODO: Can remove this after we remove duplicate listeners (due to switching networks/addrs).
-							this._complete();
-							break;
-						case BurnAndReleaseStatus.ConfirmedOnEthereum:
-							queueNotification('Release is completed', 'success');
-							// TODO: Can remove this after we remove duplicate listeners (due to switching networks/addrs).
-							this._complete();
-							break;
-					}
-				})
-				.on('transferUpdated', async (event: LockAndMintEvent | BurnAndReleaseEvent) => {
-					if (event.archived) return;
-					const txData = {
-						...tx,
-						encodedTx: JSON.stringify(event),
-						status: event.status,
-					};
-					await this._updateTx(txData);
-				})
-				.catch((err: Error) => {
-					if (err.message === 'Transfer cancelled by user') {
-						this._updateTx(tx, true);
-						queueNotification(`${err.message}.`, 'info');
-						return;
-					}
+              mint.on("deposit", async (deposit) => {
+                // Details of the deposit are available from `deposit.depositDetails`.
 
-					this._updateTx(tx, true, err);
-					queueNotification(`${err.message}.`, 'error');
-				});
+                const hash = deposit.txHash();
+                const console.log = (msg) => this.log(`[${hash.slice(0, 8)}][${deposit.status}] ${msg}`);
+
+                await deposit.confirmed()
+                .on("target", (confs, target) => console.log(`${confs}/${target} confirmations`))
+                .on("confirmation", (confs, target) => console.log(`${confs}/${target} confirmations`));
+
+                await deposit.signed()
+                // Print RenVM status - "pending", "confirming" or "done".
+                .on("status", (status) => console.log(`Status: ${status}`));
+
+                await deposit.mint()
+                // Print Ethereum transaction hash.
+                .on("transactionHash", (txHash) => console.log(`Mint tx: ${txHash}`));
+              });
+            } else if (parsedTx.params.contractFn === 'burn') {
+              // TODO: is this supposed to be _to or _vault?
+              const toAddress = parsedTx.params.find(d => d.name === '_to')?.value;
+              const burnAndRelease = await renJS.burnAndRelease({
+                asset: parsedTx.params.asset,
+                to: to().Address(toAddress),
+                from: from()(web3.currentProvider).Contract({
+                  sendTo: contractAddress,
+                  
+                  contractFn: "withdraw",
+                  
+                  contractParams: [
+                    {
+                      type: "bytes",
+                      name: "_msg",
+                      value: Buffer.from(`Withdrawing ${amount} BTC`),
+                    },
+                    {
+                      type: "bytes",
+                      name: "_to",
+                      value: Buffer.from(btcAddress),
+                    },
+                    {
+                      type: "uint256",
+                      name: "_amount",
+                      value: RenJS.utils.toSmallestUnit(amount, 8),
+                    },
+                  ],
+                })),
+              });
+            } else {
+              throw new Error('Unknown contract function: '+parsedTx.params.contractFn);
+            }
 		} catch (err) {
 			queueNotification(`Failed to open tx: ${err.message}`, 'error');
 			// Blocking error if err on open/recover.
@@ -583,6 +595,7 @@ class BridgeStore {
 }
 
 const _isTxComplete = function (tx: RenVMTransaction) {
+  // TODO: fix these checks
 	return (
 		tx.status === LockAndMintStatus.ConfirmedOnEthereum ||
 		tx.status === BurnAndReleaseStatus.ReturnedFromRenVM ||

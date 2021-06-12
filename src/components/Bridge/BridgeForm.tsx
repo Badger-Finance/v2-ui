@@ -1,15 +1,14 @@
 import React, { PropsWithChildren, ReactNode, useContext, useState, useEffect, useCallback } from 'react';
 import BigNumber from 'bignumber.js';
 import { ethers } from 'ethers';
-import GatewayJS from '@renproject/gateway';
-import { EthArgs, LockAndMintParamsSimple, BurnAndReleaseParamsSimple } from '@renproject/interfaces';
+import { EthArgs } from '@renproject/interfaces';
 import Web3 from 'web3';
 import { observer } from 'mobx-react-lite';
 import { Grid, Tabs, Tab, FormControl, Select, MenuItem, Typography } from '@material-ui/core';
 
 import { MintForm } from './MintForm';
 import { ReleaseForm } from './ReleaseForm';
-import { RenVMTransaction } from 'mobx/model';
+import { RenVMTransaction, RenVMParams } from 'mobx/model';
 import { Status } from 'mobx/stores/bridgeStore';
 import { StoreContext } from 'mobx/store-context';
 import { SuccessForm } from './SuccessForm';
@@ -293,9 +292,10 @@ export const BridgeForm = observer(({ classes }: any) => {
 			},
 		];
 
-		const params: LockAndMintParamsSimple = {
-			sendToken: GatewayJS.Tokens.BTC.Btc2Eth,
-			suggestedAmount: amountSats.toString(),
+		const params: RenVMParams = {
+			asset: 'BTC',
+			from: 'Bitcoin',
+			to: 'Ethereum',
 			sendTo: bridge_system['adapter'],
 			nonce: formatNonceBytes32(nextNonce),
 			contractFn: 'mint',
@@ -325,7 +325,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 			maxSlippageBps = Math.round(parseFloat(maxSlippage) * 100);
 		}
 
-		const params = [
+		const params: EthArgs = [
 			{
 				name: '_token',
 				type: 'address',
@@ -375,8 +375,10 @@ export const BridgeForm = observer(({ classes }: any) => {
 	};
 
 	const withdraw = async (contractParams: EthArgs) => {
-		const params: BurnAndReleaseParamsSimple = {
-			sendToken: GatewayJS.Tokens.BTC.Eth2Btc,
+		const params: RenVMParams = {
+			asset: 'BTC',
+			from: 'Ethereum',
+			to: 'Bitcoin',
 			sendTo: bridge_system['adapter'],
 			nonce: formatNonceBytes32(nextNonce),
 			contractFn: 'burn',
