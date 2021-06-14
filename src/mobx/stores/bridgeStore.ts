@@ -591,7 +591,6 @@ class BridgeStore {
 }
 
 const _isTxComplete = function (tx: RenVMTransaction) {
-	// TODO: fix these checks
 	return (
 		tx.status === LockAndMintStatus.ConfirmedOnEthereum ||
 		tx.status === BurnAndReleaseStatus.ReturnedFromRenVM ||
