@@ -616,12 +616,7 @@ export type ProtocolSummary = {
 
 export type SettMap = { [contract: string]: Sett };
 
-export type Coin = 'Bitcoin' | 'Ethereum';
-
-export interface RenVMParams extends TransferParamsCommon, ContractCall {
-	from: Coin;
-	to: Coin;
-}
+export interface RenVMParams extends TransferParamsCommon, ContractCall {}
 
 export type RenVMTransaction = {
 	// ID is the pkey in the db.

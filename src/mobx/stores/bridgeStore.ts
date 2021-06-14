@@ -6,8 +6,8 @@ import { provider } from 'web3-core';
 import { AbiItem } from 'web3-utils';
 import { Bitcoin, Ethereum } from '@renproject/chains';
 import RenJS from '@renproject/ren';
-import { LockAndMintStatus, BurnAndReleaseStatus } from '@renproject/interfaces';
-import { extendObservable, action, observe, IValueDidChange, toJS } from 'mobx';
+import { EthArg, LockAndMintStatus, BurnAndReleaseStatus } from '@renproject/interfaces';
+import { extendObservable, action, observe, IValueDidChange } from 'mobx';
 import { retry } from '@lifeomic/attempt';
 
 import fbase from 'fbase';
@@ -36,12 +36,6 @@ export enum Status {
 	INITIALIZING,
 	// Currently processing a tx (can only process one at a time).
 	PROCESSING,
-}
-
-// TODO: handle other coins
-const COIN_STRING_TO_CLASS = {
-  'Bitcoin': Bitcoin,
-  'Ethereum': Ethereum,
 }
 
 // BTC variants is 8 decimals.
@@ -136,8 +130,8 @@ class BridgeStore {
 
 	constructor(store: RootStore) {
 		this.store = store;
-	  this.db = fbase.firestore();
-          // TODO: delete 'testnet' and use default when going to prod
+		this.db = fbase.firestore();
+		// TODO: delete 'testnet' and use default when going to prod
 		this.renJS = new RenJS('testnet');
 		// NB: At construction time, the value of wallet provider is unset so we cannot fetch network
 		// from provider. Align network init logic w/ how it works in the walletStore.
@@ -428,60 +422,82 @@ class BridgeStore {
 	});
 
 	openTx = action(async (tx: RenVMTransaction, recover?: boolean) => {
-		const { provider } = this.store.wallet;
 		const { queueNotification } = this.store.uiState;
 
-	  try {
-            // TODO: figure out how to recover from transaction
-	    const parsedTx = JSON.parse(tx.encodedTx);
-            const web3 = (window as any).web3;
-            const fromClass = COIN_STRING_TO_CLASS[parsedTx.params.from];
-            const toClass = COIN_STRING_TO_CLASS[parsedTx.params.to];
-            if (parsedTx.params.contractFn === 'mint') {
-              const mint = await renJS.lockAndMint({
-                asset: parsedTx.params.asset,
-                from: from(),
-                to: to(web3.currentProvider).Contract({
-                  sendTo: parsedTx.params.sendTo,
-                  // Is this right? It used to be 'mint'. Now it's deposit?
-                  contractFn: 'deposit',
-                  contractParams: parsedTx.params.contractParams,
-                  nonce: parsedTx.params.nonce,
-                }),
-              });
+		//TODO: how to recover?
+		try {
+			// TODO: figure out how to recover from transaction
+			const parsedTx = JSON.parse(tx.encodedTx);
+			const web3 = (window as any).web3;
+			if (parsedTx.params.contractFn === 'mint') {
+				checkUserAddrInvariantAndThrow(parsedTx);
+				const mint = await this.renJS.lockAndMint({
+					asset: parsedTx.params.asset,
+					from: Bitcoin(),
+					nonce: parsedTx.params.nonce,
+					to: Ethereum(web3.currentProvider).Contract({
+						sendTo: parsedTx.params.sendTo,
+						// Is this right? It used to be 'mint'. Now it's deposit?
+						contractFn: 'deposit',
+						contractParams: parsedTx.params.contractParams,
+					}),
+				});
 
-              mint.on("deposit", async (deposit) => {
-                // Details of the deposit are available from `deposit.depositDetails`.
+				mint.on('deposit', async (deposit) => {
+					// Details of the deposit are available from `deposit.depositDetails`.
 
-                const hash = deposit.txHash();
-                const console.log = (msg) => this.log(`[${hash.slice(0, 8)}][${deposit.status}] ${msg}`);
+					const hash = deposit.txHash();
+					const depositLog = (msg: string) => console.log(`[${hash.slice(0, 8)}][${deposit.status}] ${msg}`);
 
-                await deposit.confirmed()
-                .on("target", (confs, target) => console.log(`${confs}/${target} confirmations`))
-                .on("confirmation", (confs, target) => console.log(`${confs}/${target} confirmations`));
+					await deposit
+						.confirmed()
+						.on('target', (target) => {
+							depositLog(`waiting for ${target} confirmations`);
+						})
+						.on('confirmation', (confs, target) => depositLog(`${confs}/${target} confirmations`));
 
-                await deposit.signed()
-                // Print RenVM status - "pending", "confirming" or "done".
-                .on("status", (status) => console.log(`Status: ${status}`));
+					await deposit
+						.signed()
+						// Print RenVM status - "pending", "confirming" or "done".
+						.on('status', (status) => depositLog(`Status: ${status}`));
 
-                await deposit.mint()
-                // Print Ethereum transaction hash.
-                .on("transactionHash", (txHash) => console.log(`Mint tx: ${txHash}`));
-              });
-            } else if (parsedTx.params.contractFn === 'burn') {
-              // TODO: is this supposed to be _to or _vault?
-              const burnAndRelease = await renJS.burnAndRelease({
-                asset: parsedTx.params.asset,
-                to: to().Address(toAddress),
-                from: from()(web3.currentProvider).Contract({
-                  sendTo: parsedTx.params.sendTo,
-                  contractFn: "withdraw",
-                  contractParams: parsedTx.params.contractParams,
-                })),
-              });
-            } else {
-              throw new Error('Unknown contract function: '+parsedTx.params.contractFn);
-            }
+					await deposit
+						.mint()
+						// Print Ethereum transaction hash.
+						.on('transactionHash', (txHash) => depositLog(`Mint tx: ${txHash}`));
+				});
+			} else if (parsedTx.params.contractFn === 'burn') {
+				const toAddress = parsedTx.params.contractParams.find((p: EthArg) => p.name === '_to').value;
+				const burnAndRelease = await this.renJS.burnAndRelease({
+					asset: parsedTx.params.asset,
+					to: Bitcoin().Address(toAddress),
+					from: Ethereum(web3.currentProvider).Contract({
+						sendTo: parsedTx.params.sendTo,
+						contractFn: 'withdraw',
+						contractParams: parsedTx.params.contractParams,
+					}),
+				});
+				let confirmations = 0;
+				await burnAndRelease
+					.burn()
+					// Ethereum transaction confirmations.
+					.on('confirmation', (confs) => {
+						confirmations = confs;
+					})
+					// Print Ethereum transaction hash.
+					.on('transactionHash', (txHash) => console.log(`txHash: ${String(txHash)}`));
+
+				await burnAndRelease
+					.release()
+					// Print RenVM status - "pending", "confirming" or "done".
+					.on('status', (status) =>
+						status === 'confirming' ? console.log(`${status} (${confirmations}/15)`) : console.log(status),
+					)
+					// Print RenVM transaction hash
+					.on('txHash', console.log);
+			} else {
+				throw new Error('Unknown contract function: ' + parsedTx.params.contractFn);
+			}
 		} catch (err) {
 			queueNotification(`Failed to open tx: ${err.message}`, 'error');
 			// Blocking error if err on open/recover.
@@ -575,7 +591,7 @@ class BridgeStore {
 }
 
 const _isTxComplete = function (tx: RenVMTransaction) {
-  // TODO: fix these checks
+	// TODO: fix these checks
 	return (
 		tx.status === LockAndMintStatus.ConfirmedOnEthereum ||
 		tx.status === BurnAndReleaseStatus.ReturnedFromRenVM ||

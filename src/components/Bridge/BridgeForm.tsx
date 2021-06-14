@@ -258,7 +258,6 @@ export const BridgeForm = observer(({ classes }: any) => {
 
 	// TODO: Can refactor most of these methods below into the store as well.
 	const deposit = async () => {
-		const amountSats = new BigNumber(amount).multipliedBy(10 ** 8); // Convert to Satoshis
 		let desiredToken = tokens.renBTC;
 		let maxSlippageBps = 0;
 
@@ -294,12 +293,10 @@ export const BridgeForm = observer(({ classes }: any) => {
 
 		const params: RenVMParams = {
 			asset: 'BTC',
-			from: 'Bitcoin',
-			to: 'Ethereum',
 			sendTo: bridge_system['adapter'],
-			nonce: formatNonceBytes32(nextNonce),
 			contractFn: 'mint',
 			contractParams,
+			nonce: formatNonceBytes32(nextNonce),
 		};
 		// NB: We explicitly set the gas limit for tbtc mints since estimateGas underestimates the gas needed.
 		if (token === 'bCRVtBTC') {
@@ -377,10 +374,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 	const withdraw = async (contractParams: EthArgs) => {
 		const params: RenVMParams = {
 			asset: 'BTC',
-			from: 'Ethereum',
-			to: 'Bitcoin',
 			sendTo: bridge_system['adapter'],
-			nonce: formatNonceBytes32(nextNonce),
 			contractFn: 'burn',
 			contractParams,
 		};
