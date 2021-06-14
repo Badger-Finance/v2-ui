@@ -64,7 +64,7 @@ class RewardsStore {
 	// TODO: refactor various functions for a more unified approach
 	balanceFromString(token: string, balance: string): TokenBalance {
 		const badgerToken = getToken(token);
-		const tokenPrice = this.store.setts.getPrice(token);
+		const tokenPrice = this.store.prices.getPrice(token);
 		if (!badgerToken || !tokenPrice) {
 			const amount = new BigNumber(balance);
 			return new TokenBalance(mockToken(token), amount, new BigNumber(0));
@@ -77,7 +77,7 @@ class RewardsStore {
 	// TODO: refactor various functions for a more unified approach
 	balanceFromProof(token: string, balance: string): TokenBalance {
 		const claimToken = getToken(token);
-		const tokenPrice = this.store.setts.getPrice(token);
+		const tokenPrice = this.store.prices.getPrice(token);
 		if (!claimToken || !tokenPrice) {
 			const amount = new BigNumber(balance);
 			return new TokenBalance(mockToken(token), amount, new BigNumber(0));
@@ -93,7 +93,7 @@ class RewardsStore {
 
 	tokenBalance(token: string, amount: BigNumber): TokenBalance {
 		const badgerToken = getToken(token);
-		const tokenPrice = this.store.setts.getPrice(token);
+		const tokenPrice = this.store.prices.getPrice(token);
 		let scalar = new BigNumber(1);
 		const isDigg = token === ETH_DEPLOY.tokens.digg;
 		if (isDigg && this.badgerTree.sharesPerFragment) {

@@ -21,16 +21,18 @@ export const UnderlyingAsset = observer(({ sett, badgerSett }: SettModalProps) =
 		wallet: { connectedAddress },
 		user: { settBalances },
 		setts: { settMap },
+		setts,
 	} = store;
 
 	const userBalance = settBalances[badgerSett.vaultToken.address];
 	const settPpfs = settMap ? settMap[badgerSett.vaultToken.address].ppfs : 1;
 	const underlying = userBalance.tokenBalance.multipliedBy(settPpfs);
 	const underlyingBalance = new TokenBalance(userBalance.token, underlying, userBalance.price);
+	const underlyingSymbol = setts.getToken(badgerSett.depositToken.address)?.symbol || sett.asset;
 
 	return (
 		<Typography variant="body2" color={'textSecondary'}>
-			Underlying {sett.asset}:{' '}
+			Underlying {underlyingSymbol}:{' '}
 			{connectedAddress ? underlyingBalance.balanceDisplay() : <StyledSkeleton animation="wave" />}
 		</Typography>
 	);

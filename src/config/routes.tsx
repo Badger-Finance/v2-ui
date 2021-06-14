@@ -1,17 +1,10 @@
 import React from 'react';
-
-//models
 import { QueryParams, Route } from 'mobx-router';
-
-// pages
 import Landing from '../pages/Landing';
-
-//components
 import { RootStore } from '../mobx/store';
 import { Airdrops } from '../components/Airdrops';
 import { Digg } from '../components/Digg';
 import { Locked } from 'components/Common/Locked';
-
 import { IbBTC } from 'components/IbBTC';
 import { FLAGS } from 'config/constants';
 import { Bridge } from '../components/Bridge';
@@ -34,9 +27,7 @@ const routes = {
 	airdrops: new Route<RootStore, QueryParams>({
 		path: '/airdrops',
 		component: <Airdrops />,
-		onEnter: (_, params, store) => {
-			store.airdrops.fetchAirdrops();
-		},
+		onEnter: (_route, _params, store) => store.airdrops.fetchAirdrops(),
 	}),
 	digg: new Route<RootStore, QueryParams>({
 		path: '/digg',
@@ -48,7 +39,8 @@ const routes = {
 	}),
 	IbBTC: new Route<RootStore, QueryParams>({
 		path: '/ibBTC',
-		component: FLAGS.IBBTC_FLAG ? <IbBTC /> : <></>,
+		component: <IbBTC />,
+		onEnter: (_route, _params, store) => store.ibBTCStore.init(),
 	}),
 	bridge: new Route<RootStore, QueryParams>({
 		path: '/bridge',

@@ -19,7 +19,7 @@ export interface SettTableProps {
 	tokenTitle: string;
 	period: string;
 	settList: (JSX.Element | null | undefined)[];
-	displayValue: string;
+	displayValue: string | undefined;
 }
 
 const SettTable = (props: SettTableProps): JSX.Element => {
