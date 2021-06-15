@@ -240,13 +240,7 @@ class BridgeStore {
 				}
 
 				this.status = Status.PROCESSING;
-				// Check if uncommitted (open tx).
-				if (!newValue.encodedTx) {
-					this.openTx(newValue);
-					return;
-				}
-				// Incomplete tx (recover tx).
-				this.openTx(newValue, true);
+				this.openTx(newValue);
 			},
 		);
 
@@ -324,7 +318,8 @@ class BridgeStore {
 				// TODO: Implement paging of results if tx history
 				// bloat starts to become a problem.
 				const results = await this.db
-					.collection('transactions')
+					// Use a new collection for renvm2 just in case of collision
+					.collection('transactions2')
 					.where('user', '==', userAddr.toLowerCase())
 					.orderBy('nonce', 'desc')
 					.get();
@@ -421,12 +416,10 @@ class BridgeStore {
 		}
 	});
 
-	openTx = action(async (tx: RenVMTransaction, recover?: boolean) => {
+	openTx = action(async (tx: RenVMTransaction) => {
 		const { queueNotification } = this.store.uiState;
 
-		//TODO: how to recover?
 		try {
-			// TODO: figure out how to recover from transaction
 			const parsedTx = JSON.parse(tx.encodedTx);
 			const web3 = (window as any).web3;
 			if (parsedTx.params.contractFn === 'mint') {
@@ -438,7 +431,7 @@ class BridgeStore {
 					to: Ethereum(web3.currentProvider).Contract({
 						sendTo: parsedTx.params.sendTo,
 						// Is this right? It used to be 'mint'. Now it's deposit?
-						contractFn: 'deposit',
+						contractFn: parsedTx.params.contractFn,
 						contractParams: parsedTx.params.contractParams,
 					}),
 				});
@@ -458,8 +451,13 @@ class BridgeStore {
 
 					await deposit
 						.signed()
-						// Print RenVM status - "pending", "confirming" or "done".
-						.on('status', (status) => depositLog(`Status: ${status}`));
+						// Store RenVM status - "pending", "confirming" or "done".
+						.on('status', (status) =>
+							this._updateTx({
+								...parsedTx,
+								status: status,
+							}),
+						);
 
 					await deposit
 						.mint()
@@ -473,28 +471,37 @@ class BridgeStore {
 					to: Bitcoin().Address(toAddress),
 					from: Ethereum(web3.currentProvider).Contract({
 						sendTo: parsedTx.params.sendTo,
-						contractFn: 'withdraw',
+						contractFn: parsedTx.params.contractFn,
 						contractParams: parsedTx.params.contractParams,
 					}),
+					// When recovering, this will be set
+					txHash: parsedTx.txHash,
+					// or this will be set
+					transaction: parsedTx.mintChainHash,
 				});
-				let confirmations = 0;
-				await burnAndRelease
-					.burn()
-					// Ethereum transaction confirmations.
-					.on('confirmation', (confs) => {
-						confirmations = confs;
-					})
-					// Print Ethereum transaction hash.
-					.on('transactionHash', (txHash) => console.log(`txHash: ${String(txHash)}`));
+				await burnAndRelease.burn().on('transactionHash', (txHash) =>
+					this._updateTx({
+						...parsedTx,
+						mintChainHash: txHash,
+					}),
+				);
 
 				await burnAndRelease
 					.release()
-					// Print RenVM status - "pending", "confirming" or "done".
+					// Store RenVM status - "pending", "confirming" or "done".
 					.on('status', (status) =>
-						status === 'confirming' ? console.log(`${status} (${confirmations}/15)`) : console.log(status),
+						this._updateTx({
+							...parsedTx,
+							status: status,
+						}),
 					)
-					// Print RenVM transaction hash
-					.on('txHash', console.log);
+					// Store RenVM transaction hash for recovery
+					.on('txHash', (txHash: string) =>
+						this._updateTx({
+							...parsedTx,
+							txHash,
+						}),
+					);
 			} else {
 				throw new Error('Unknown contract function: ' + parsedTx.params.contractFn);
 			}

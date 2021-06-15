@@ -627,6 +627,8 @@ export type RenVMTransaction = {
 	encodedTx: string; // json encoded tx data.
 	// NB: The web3Provider field is not encoded (for obvious reasons).
 	params: RenVMParams;
+	txHash?: string;
+	mintChainHash?: string;
 	status: string;
 	// Record if there was an error processing a tx.
 	error: string;
