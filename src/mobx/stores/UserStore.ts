@@ -131,7 +131,7 @@ export default class UserStore {
 		} else {
 			hasGeysers = Object.keys(this.geyserBalances).length > 0;
 		}
-		
+
 		return !this.loadingBalances && hasTokens && hasSetts && hasGeysers;
 	}
 
