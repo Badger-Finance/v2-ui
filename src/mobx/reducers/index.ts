@@ -90,7 +90,7 @@ class UiState {
 	reduceRebase = action(() => {
 		const rebaseInfo = this.store.rebase.rebase;
 		const wbtc = this.store.wallet.network.deploy.tokens.wBTC;
-		const wbtcPrice = this.store.setts.getPrice(wbtc);
+		const wbtcPrice = this.store.prices.getPrice(wbtc);
 
 		if (!!rebaseInfo) {
 			this.rebaseStats = {
