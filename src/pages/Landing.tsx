@@ -88,15 +88,14 @@ const Landing = observer((props: LandingProps) => {
 		wallet: { connectedAddress, network },
 		uiState: { currency },
 		setts,
-		prices,
 		user,
 	} = store;
 	const { protocolSummary } = setts;
 	const userConnected = !!connectedAddress;
 
 	const totalValueLocked = protocolSummary ? new BigNumber(protocolSummary.totalValue) : undefined;
-	const badgerPrice = network.deploy ? prices.getPrice(network.deploy.token) : undefined;
-	const portfolioValue = userConnected && user.initialized ? user.portfolioValue : undefined;
+	const badgerPrice = network.deploy ? setts.getPrice(network.deploy.token) : undefined;
+	const portfolioValue = userConnected && !user.loadingBalances ? user.portfolioValue() : undefined;
 
 	return (
 		<Container className={classes.landingContainer}>

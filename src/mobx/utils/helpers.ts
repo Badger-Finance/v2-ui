@@ -1,9 +1,8 @@
 import BigNumber from 'bignumber.js';
-import { DEBUG, getDefaultRetryOptions, TEN, ZERO } from '../../config/constants';
+import { ExchangeRates } from 'mobx/model';
+import { TEN, ZERO } from '../../config/constants';
 import { getNetworkNameFromId } from './network';
 import { API } from 'bnc-onboard/dist/src/interfaces';
-import store from 'mobx/store';
-import { retry } from '@lifeomic/attempt';
 
 export const jsonQuery = (url: string | undefined): Promise<Response> | undefined => {
 	if (!url) return;
@@ -34,9 +33,37 @@ export const vanillaQuery = (url: string): Promise<Response> => {
 	}).then((response: any) => response.json());
 };
 
+export const getExchangeRates = (): Promise<Response> => {
+	return fetch('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd,cad,btc,bnb', {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json',
+			Accept: 'application/json',
+		},
+	}).then((response: any) => response.json());
+};
+
+export const getBdiggExchangeRates = async (): Promise<Response> => {
+	return fetch(
+		'https://api.coingecko.com/api/v3/simple/price/?ids=badger-sett-digg&vs_currencies=usd,eth,btc,cad,bnb',
+		{
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+				Accept: 'application/json',
+			},
+		},
+	).then((response: any) => response.json());
+};
+
 export const secondsToBlocks = (seconds: number): number => {
 	return seconds / (1 / (6500 / (24 * 60 * 60)));
 };
+
+export let exchangeRates: ExchangeRates = { usd: 641.69, cad: 776.44, btc: 41.93, bnb: 7.2 };
+getExchangeRates().then((result: any) => (exchangeRates = result.ethereum));
+export let bDiggExchangeRates = { usd: 50405, eth: 30.725832, btc: 0.9456756, cad: 63346 };
+getBdiggExchangeRates().then((result: any) => (bDiggExchangeRates = result['badger-sett-digg']));
 
 // TECH DEBT: Reformat these formatting functions using a factory pattern and delete repeated code
 
@@ -48,11 +75,8 @@ export const usdToCurrency = (
 	hide = false,
 	preferredDecimals = 2,
 	noCommas = false,
-): string | undefined => {
-	const exchangeRates = store.prices.exchangeRates;
-	if (!exchangeRates || value.isNaN()) {
-		return;
-	}
+): string => {
+	if (!value || value.isNaN()) return inCurrency(new BigNumber(0), currency, hide, preferredDecimals);
 
 	let normal = value;
 	let prefix = !hide ? '$' : '';
@@ -106,11 +130,8 @@ export const inCurrency = (
 	hide = false,
 	preferredDecimals = 5,
 	noCommas = false,
-): string | undefined => {
-	const exchangeRates = store.prices.exchangeRates;
-	if (!exchangeRates || value.isNaN()) {
-		return;
-	}
+): string => {
+	if (!value || value.isNaN()) return inCurrency(new BigNumber(0), currency, hide, preferredDecimals);
 
 	let normal = value;
 	let prefix = !hide ? 'Ξ ' : '';
@@ -174,13 +195,11 @@ interface DiggToCurrencyOptions {
 export const bDiggToCurrency = ({
 	amount,
 	currency,
+	hide = false,
 	preferredDecimals = 2,
 	noCommas = false,
-}: DiggToCurrencyOptions): string | undefined => {
-	const bDiggExchangeRates = store.prices.bDiggExchangeRates;
-	if (!bDiggExchangeRates || amount.isNaN()) {
-		return;
-	}
+}: DiggToCurrencyOptions): string => {
+	if (!amount || amount.isNaN()) return inCurrency(new BigNumber(0), currency, hide, preferredDecimals);
 
 	let normal = amount.dividedBy(1e18);
 	let prefix = '';
@@ -203,12 +222,12 @@ export const bDiggToCurrency = ({
 			decimals = 5;
 			break;
 		case 'cad':
-			normal = normal.multipliedBy(bDiggExchangeRates.cad);
+			normal = normal.multipliedBy(exchangeRates.cad);
 			decimals = 2;
 			prefix = 'C$';
 			break;
 		case 'bnb':
-			normal = normal.multipliedBy(bDiggExchangeRates.bnb);
+			normal = normal.multipliedBy(exchangeRates.bnb);
 			decimals = 2;
 			prefix = '/assets/icons/bnb-white.png';
 			break;
@@ -339,31 +358,6 @@ export function marketChartStats(
 	return { high, low, avg, median };
 }
 
-export const fetchData = async <T>(
-	url: string,
-	errMessage: string,
-	accessor?: (res: any) => T,
-): Promise<T | undefined> => {
-	const retryOptions = getDefaultRetryOptions<T>();
-	return retry(async () => {
-		const res = await fetch(url, {
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json',
-				Accept: 'application/json',
-			},
-		});
-		if (!res.ok) {
-			if (DEBUG) {
-				store.uiState.queueNotification(errMessage, 'error');
-			}
-			return;
-		}
-		const obj = await res.json();
-		return accessor ? accessor(obj) : obj;
-	}, retryOptions);
-};
-
 // Reason: blocknative does not type their provider, must be any
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const getNetworkFromProvider = (provider: any): string | undefined => {
@@ -381,7 +375,7 @@ export const minBalance = (decimals: number): BigNumber => new BigNumber(`0.${'0
  */
 export const connectWallet = async (onboard: API, connect: (wsOnboard: any) => void): Promise<void> => {
 	const walletSelected = await onboard.walletSelect();
-	if (walletSelected && onboard.getState().network) {
+	if (walletSelected) {
 		const readyToTransact = await onboard.walletCheck();
 		if (readyToTransact) {
 			connect(onboard);

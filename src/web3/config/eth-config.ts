@@ -161,46 +161,6 @@ const ethSettDefinitions: BadgerSett[] = [
 			decimals: 18,
 		},
 	},
-	{
-		depositToken: {
-			address: ETH_DEPLOY.tokens['curve.hBTC'],
-			decimals: 19,
-		},
-		vaultToken: {
-			address: ETH_DEPLOY.sett_system.vaults['native.hbtcCrv'],
-			decimals: 18,
-		},
-	},
-	{
-		depositToken: {
-			address: ETH_DEPLOY.tokens['curve.pBTC'],
-			decimals: 19,
-		},
-		vaultToken: {
-			address: ETH_DEPLOY.sett_system.vaults['native.pbtcCrv'],
-			decimals: 18,
-		},
-	},
-	{
-		depositToken: {
-			address: ETH_DEPLOY.tokens['curve.oBTC'],
-			decimals: 19,
-		},
-		vaultToken: {
-			address: ETH_DEPLOY.sett_system.vaults['native.obtcCrv'],
-			decimals: 18,
-		},
-	},
-	{
-		depositToken: {
-			address: ETH_DEPLOY.tokens['curve.renWBTC'],
-			decimals: 19,
-		},
-		vaultToken: {
-			address: ETH_DEPLOY.sett_system.vaults['native.bbtcCrv'],
-			decimals: 18,
-		},
-	},
 ];
 
 const ethRewards = [

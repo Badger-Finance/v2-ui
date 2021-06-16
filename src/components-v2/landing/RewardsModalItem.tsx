@@ -7,7 +7,7 @@ export interface RewardsModalItemProps {
 	amount: string;
 	maxAmount: string;
 	display: string;
-	value: string | undefined;
+	value: string;
 	symbol: string;
 	address: string;
 	maxFlag: boolean;

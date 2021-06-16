@@ -18,7 +18,7 @@ describe('Landing Page', () => {
 				slow: 127000000000 / 1e9,
 			}),
 		);
-		jest.spyOn(store.prices, 'getPrice').mockReturnValue(new BigNumber(1e16));
+		jest.spyOn(store.setts, 'getPrice').mockReturnValue(new BigNumber(1e16));
 		mockApi();
 	});
 

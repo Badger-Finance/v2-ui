@@ -100,39 +100,20 @@ export default class UserStore {
 		return this.permissions.viewSettShop;
 	}
 
-	get portfolioValue(): BigNumber {
-		return this.walletValue.plus(this.settValue).plus(this.geyserValue);
+	portfolioValue(): BigNumber {
+		return this.walletValue().plus(this.settValue()).plus(this.geyserValue());
 	}
 
-	get walletValue(): BigNumber {
+	walletValue(): BigNumber {
 		return Object.values(this.tokenBalances).reduce((total, token) => total.plus(token.value), new BigNumber(0));
 	}
 
-	get settValue(): BigNumber {
+	settValue(): BigNumber {
 		return Object.values(this.settBalances).reduce((total, sett) => total.plus(sett.value), new BigNumber(0));
 	}
 
-	get geyserValue(): BigNumber {
+	geyserValue(): BigNumber {
 		return Object.values(this.geyserBalances).reduce((total, geyser) => total.plus(geyser.value), new BigNumber(0));
-	}
-
-	get initialized(): boolean {
-		const hasTokens = Object.keys(this.tokenBalances).length > 0;
-		const hasSetts = Object.keys(this.settBalances).length > 0;
-		let hasGeysers = false;
-
-		const { network, connectedAddress } = this.store.wallet;
-		const geyserRequests = network
-			.batchRequests(connectedAddress)
-			.find((req) => req.namespace === ContractNamespace.Geyser);
-		/* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */
-		if (geyserRequests!.addresses && geyserRequests!.addresses.length === 0) {
-			hasGeysers = true;
-		} else {
-			hasGeysers = Object.keys(this.geyserBalances).length > 0;
-		}
-
-		return !this.loadingBalances && hasTokens && hasSetts && hasGeysers;
 	}
 
 	getBalance(namespace: ContractNamespace, sett: BadgerSett): TokenBalance {
@@ -238,7 +219,7 @@ export default class UserStore {
 		token: CallResult,
 		getToken: (sett: BadgerSett) => BadgerToken,
 	): void => {
-		const { prices, wallet } = this.store;
+		const { setts, wallet } = this.store;
 		const { network } = wallet;
 		const balanceResults = token.balanceOf || token.totalStakedFor;
 		if (!balanceResults || balanceResults.length === 0) {
@@ -254,7 +235,7 @@ export default class UserStore {
 		if (sett.geyser && sett.geyser === pricingToken) {
 			pricingToken = sett.vaultToken.address;
 		}
-		const tokenPrice = prices.getPrice(pricingToken);
+		const tokenPrice = setts.getPrice(pricingToken);
 		const key = Web3.utils.toChecksumAddress(balanceToken.address);
 		userBalances[key] = new TokenBalance(balanceToken, balance, tokenPrice);
 	};

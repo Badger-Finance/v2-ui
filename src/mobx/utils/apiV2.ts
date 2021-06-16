@@ -8,7 +8,6 @@ import {
 	RewardMerkleClaim,
 	LeaderBoardData,
 } from 'mobx/model';
-import { TokenConfig } from 'mobx/model/token-config';
 
 export const getApi = (): string => {
 	if (process.env.REACT_APP_BUILD_ENV === 'production') {
@@ -20,7 +19,6 @@ const badgerApi = getApi();
 
 // api endpoints
 const listSettsEndpoint = `${badgerApi}/setts`;
-const getTokensEndpoint = `${badgerApi}/tokens`;
 const getPricesEndpoint = `${badgerApi}/prices`;
 const getTVLEndpoint = `${badgerApi}/value`;
 const checkShopEndpoint = `${badgerApi}/reward/shop`;
@@ -32,10 +30,6 @@ const getLeaderBoardDataEndpoint = `${badgerApi}/leaderboards`;
 // api function calls
 export const listSetts = async (chain?: string): Promise<Sett[] | null> => {
 	return fetchData(() => fetch(`${listSettsEndpoint}${chain ? `?chain=${chain}` : ''}`));
-};
-
-export const getTokens = async (chain?: string): Promise<TokenConfig | null> => {
-	return fetchData(() => fetch(`${getTokensEndpoint}${chain ? `?chain=${chain}` : ''}`));
 };
 
 export const getTokenPrices = async (chain?: string, currency?: string): Promise<PriceSummary | null> => {

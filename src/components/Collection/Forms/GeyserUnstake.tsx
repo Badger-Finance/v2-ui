@@ -28,7 +28,6 @@ export const GeyserUnstake = observer((props: SettModalProps) => {
 		wallet: { connectedAddress, network },
 		user: { geyserBalances },
 		contracts,
-		setts,
 	} = store;
 
 	if (!badgerSett.geyser) {
@@ -43,8 +42,6 @@ export const GeyserUnstake = observer((props: SettModalProps) => {
 	const underlying = userBalance.tokenBalance.multipliedBy(sett.ppfs);
 	const underlyingBalance = new TokenBalance(userBalance.token, underlying, userBalance.price);
 	const canUnstake = !!connectedAddress && !!amount && userBalance.balance.gt(0);
-	const underlyingSymbol = setts.getToken(badgerSett.depositToken.address)?.symbol || sett.asset;
-	const vaultSymbol = setts.getToken(badgerSett.vaultToken.address)?.symbol || sett.asset;
 
 	const handlePercentageChange = (percent: number) => {
 		setAmount(userBalance.scaledBalanceDisplay(percent));
@@ -65,7 +62,7 @@ export const GeyserUnstake = observer((props: SettModalProps) => {
 					<Grid item container xs={12} sm={7}>
 						<AssetInformationContainer item xs={12}>
 							<BalanceInformation variant="body2" color="textSecondary" display="inline">
-								{`Underlying ${underlyingSymbol}: `}
+								{`Underlying ${sett.asset}: `}
 							</BalanceInformation>
 							<BalanceInformation variant="body2" color="textSecondary" display="inline">
 								{!connectedAddress ? (
@@ -77,7 +74,7 @@ export const GeyserUnstake = observer((props: SettModalProps) => {
 						</AssetInformationContainer>
 						<AssetInformationContainer item xs={12}>
 							<BalanceInformation variant="body1" color="textSecondary" display="inline">
-								{`Staked ${vaultSymbol}: `}
+								{`Staked b${sett.asset}: `}
 							</BalanceInformation>
 							<BalanceInformation variant="body1" color="textSecondary" display="inline">
 								{!connectedAddress || !userBalance ? (
