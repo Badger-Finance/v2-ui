@@ -1,35 +1,39 @@
 import React from 'react';
-import { Button, Grid, InputAdornment, Typography, useMediaQuery, useTheme } from '@material-ui/core';
+import { Button, Grid, Typography, useMediaQuery, useTheme, withStyles } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { BoostBadgerAnimation } from './BoostBadgerAnimation';
-import { useNumericInput } from '../../utils/useNumericInput';
-import { AssetInput } from './Common';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
 import BigNumber from 'bignumber.js';
+import { formatWithoutExtraZeros, getColorFromComparison } from './utils';
+import { Skeleton } from '@material-ui/lab';
+import { HoldingAssetInput } from './HoldingAssetInput';
+import { numberWithCommas } from '../../mobx/utils/helpers';
+import clsx from 'clsx';
 
-const useAssetInputStyles = (currentValue: BigNumber.Value, holdings?: BigNumber.Value) => {
+const BoostLoader = withStyles(() => ({
+	root: {
+		margin: 'auto',
+		width: 240,
+		height: 240,
+		borderRadius: 8,
+	},
+}))(Skeleton);
+
+const useAssetInputStyles = (currentValue: string, holdings?: BigNumber.Value) => {
 	return makeStyles((theme) => {
-		currentValue = new BigNumber(currentValue);
-		holdings = new BigNumber(holdings || 0);
-
-		let fontColor = currentValue.isNaN() ? theme.palette.text.secondary : theme.palette.text.primary;
-		if (currentValue.gt(holdings)) fontColor = '#74D189 ';
-		if (currentValue.lt(holdings)) fontColor = '#F44336';
+		const defaultColor = currentValue ? theme.palette.text.primary : theme.palette.text.secondary;
+		const fontColor = getColorFromComparison({
+			toCompareValue: currentValue,
+			toBeComparedValue: holdings || 0,
+			greaterCaseColor: '#74D189',
+			lessCaseColor: theme.palette.error.main,
+			defaultColor,
+		});
 
 		return {
 			assetColor: {
 				color: fontColor,
-			},
-			dollarAdornment: {
-				margin: '0px 0px 0px 2px',
-				'& > *': {
-					fontSize: 20,
-					color: fontColor,
-					[theme.breakpoints.down(500)]: {
-						fontSize: 24,
-					},
-				},
 			},
 		};
 	});
@@ -42,10 +46,6 @@ const useStyles = makeStyles((theme) => ({
 		[theme.breakpoints.down('sm')]: {
 			marginBottom: 0,
 		},
-	},
-	boostSlider: {
-		padding: '0 22px !important',
-		height: 'auto !important',
 	},
 	settInformation: {
 		width: '100%',
@@ -65,71 +65,120 @@ const useStyles = makeStyles((theme) => ({
 			width: 16,
 		},
 	},
+	valueToAddContainer: {
+		marginTop: 8,
+	},
+	valueToAddText: {
+		fontSize: 12,
+	},
+	amountToAdd: {
+		cursor: 'pointer',
+		color: '#74D189',
+	},
+	resetCalculation: {
+		marginTop: 16,
+		textAlign: 'center',
+		textTransform: 'none',
+	},
+	resetCalculationText: {
+		display: 'inline-block',
+		textDecoration: 'underline',
+	},
+	resetCalculationIcon: {
+		marginRight: 6,
+	},
 }));
 
 type BoostCalculatorContainerProps = {
 	native: string;
+	nativeToAdd?: string;
 	nonNative: string;
 	onNativeChange(value: string): void;
 	onNonNativeChange(value: string): void;
+	onReset(): void;
 };
 
 export const BoostCalculatorContainer = observer(
 	(props: BoostCalculatorContainerProps): JSX.Element => {
-		const {
-			boostOptimizer: { nativeHoldings, nonNativeHoldings },
-		} = React.useContext(StoreContext);
+		const { boostOptimizer } = React.useContext(StoreContext);
+		const { nativeHoldings, nonNativeHoldings } = boostOptimizer;
 
-		const { native, nonNative, onNonNativeChange, onNativeChange } = props;
+		const { native, nonNative, nativeToAdd, onNonNativeChange, onNativeChange, onReset } = props;
 		const classes = useStyles();
-		const { onValidChange, inputProps } = useNumericInput();
 		const nativeAssetClasses = useAssetInputStyles(native, nativeHoldings)();
 		const theme = useTheme();
 		const smallScreen = useMediaQuery(theme.breakpoints.down(706));
 		const extraSmallScreen = useMediaQuery(theme.breakpoints.down(500));
 		const nonNativeAssetClasses = useAssetInputStyles(nonNative, nonNativeHoldings)();
 
-		const boostRatio = new BigNumber(native).dividedToIntegerBy(nonNative);
-		const boostRatioPercentage = boostRatio.dividedToIntegerBy(3).multipliedBy(100);
-		const badgerScore = Math.min(boostRatioPercentage.toNumber(), 100);
+		const isThereRemainingToAdd = nativeToAdd && Number(nativeToAdd) > Number(native);
+		const remainingNativeToAdd = isThereRemainingToAdd ? Number(nativeToAdd) - Number(native) : undefined;
+		const isLoading = !nativeHoldings || !nonNativeHoldings;
+		const boostRatio = boostOptimizer.calculateBoostRatio(native, nonNative);
+		const badgerScore = Math.max(boostRatio / 3, 0);
+		const badgerScoreRatio = Math.min(badgerScore * 100, 100);
+
+		const handleApplyRemaining = () => {
+			if (native && remainingNativeToAdd) {
+				onNativeChange(formatWithoutExtraZeros(new BigNumber(native).plus(remainingNativeToAdd)));
+			}
+		};
 
 		const handleIncreaseNative = () => {
 			if (native) {
-				onNativeChange(new BigNumber(native).multipliedBy(1.1).toString());
+				onNativeChange(formatWithoutExtraZeros(new BigNumber(native).plus(1000)));
 			}
 		};
 
 		const handleDecreaseNative = () => {
 			if (native) {
-				onNativeChange(new BigNumber(native).multipliedBy(0.9).toString());
+				const decrementedNative = new BigNumber(native).minus(1000);
+				onNativeChange(formatWithoutExtraZeros(BigNumber.max(decrementedNative, 0)));
 			}
 		};
 
 		const handleIncreaseNonNative = () => {
 			if (nonNative) {
-				onNonNativeChange(new BigNumber(nonNative).multipliedBy(1.1).toString());
+				onNonNativeChange(formatWithoutExtraZeros(new BigNumber(nonNative).plus(1000)));
 			}
 		};
 
 		const handleDecreaseNonNative = () => {
 			if (nonNative) {
-				onNonNativeChange(new BigNumber(nonNative).multipliedBy(0.9).toString());
+				const decrementedNonNative = new BigNumber(nonNative).minus(1000);
+				onNonNativeChange(formatWithoutExtraZeros(BigNumber.max(decrementedNonNative, 0)));
 			}
 		};
+
+		const badgerScoreContent = (
+			<>
+				{isLoading ? <BoostLoader variant="rect" /> : <BoostBadgerAnimation score={badgerScoreRatio} />}
+				<Grid container justify="center">
+					<Button className={classes.resetCalculation} color="primary" onClick={onReset}>
+						<img
+							className={classes.resetCalculationIcon}
+							src="assets/icons/reset-boost.svg"
+							alt="reset boost"
+						/>
+						<Typography className={classes.resetCalculationText} variant="subtitle1" color="primary">
+							Reset Calculation
+						</Typography>
+					</Button>
+				</Grid>
+			</>
+		);
 
 		const nativeBox = (
 			<Grid item className={classes.settInformation}>
 				<Typography variant="h6">Native: </Typography>
-				<AssetInput
-					classes={{ adornedStart: nativeAssetClasses.assetColor }}
-					className={nativeAssetClasses.assetColor}
-					disabled={!nativeHoldings}
+				<HoldingAssetInput
+					disabled={isLoading}
 					value={native}
-					placeholder="10,000"
-					inputProps={inputProps}
+					placeholder="$10,000"
 					fullWidth={extraSmallScreen}
-					startAdornment={
-						<>
+					InputProps={{
+						className: nativeAssetClasses.assetColor,
+						startAdornment: (
 							<Button className={classes.actionButton} onClick={handleIncreaseNative}>
 								<img
 									className={classes.actionImage}
@@ -137,42 +186,42 @@ export const BoostCalculatorContainer = observer(
 									alt="increase native holdings"
 								/>
 							</Button>
-							<InputAdornment
-								classes={{
-									root: nativeAssetClasses.dollarAdornment,
-								}}
-								position="start"
-							>
-								$
-							</InputAdornment>
-						</>
-					}
-					endAdornment={
-						<Button className={classes.actionButton} onClick={handleDecreaseNative}>
-							<img
-								className={classes.actionImage}
-								src="/assets/icons/boost-down.svg"
-								alt="decrease native holdings"
-							/>
-						</Button>
-					}
-					onChange={onValidChange(onNativeChange)}
+						),
+						endAdornment: (
+							<Button className={classes.actionButton} onClick={handleDecreaseNative}>
+								<img
+									className={classes.actionImage}
+									src="/assets/icons/boost-down.svg"
+									alt="decrease native holdings"
+								/>
+							</Button>
+						),
+					}}
+					onChange={onNativeChange}
 				/>
+				{remainingNativeToAdd && (
+					<Grid className={classes.valueToAddContainer} container direction="column">
+						<Typography className={classes.valueToAddText}>Value to Add</Typography>
+						<Typography
+							className={clsx(classes.valueToAddText, classes.amountToAdd)}
+							onClick={handleApplyRemaining}
+						>{`+$${numberWithCommas(remainingNativeToAdd.toFixed(3).toString())}`}</Typography>
+					</Grid>
+				)}
 			</Grid>
 		);
 
 		const nonNativeBox = (
 			<Grid item className={classes.settInformation}>
 				<Typography variant="h6">Non Native: </Typography>
-				<AssetInput
-					className={nonNativeAssetClasses.assetColor}
-					disabled={!nonNativeHoldings}
+				<HoldingAssetInput
+					disabled={isLoading}
 					value={nonNative}
-					placeholder="5,000"
-					inputProps={inputProps}
+					placeholder="$5,000"
 					fullWidth={extraSmallScreen}
-					startAdornment={
-						<>
+					InputProps={{
+						className: nonNativeAssetClasses.assetColor,
+						startAdornment: (
 							<Button className={classes.actionButton} onClick={handleIncreaseNonNative}>
 								<img
 									className={classes.actionImage}
@@ -180,26 +229,18 @@ export const BoostCalculatorContainer = observer(
 									alt="increase non-native holdings"
 								/>
 							</Button>
-							<InputAdornment
-								classes={{
-									root: nonNativeAssetClasses.dollarAdornment,
-								}}
-								position="start"
-							>
-								$
-							</InputAdornment>
-						</>
-					}
-					endAdornment={
-						<Button className={classes.actionButton} onClick={handleDecreaseNonNative}>
-							<img
-								className={classes.actionImage}
-								src="/assets/icons/boost-down.svg"
-								alt="decrease non-native holdings"
-							/>
-						</Button>
-					}
-					onChange={onValidChange(onNonNativeChange)}
+						),
+						endAdornment: (
+							<Button className={classes.actionButton} onClick={handleDecreaseNonNative}>
+								<img
+									className={classes.actionImage}
+									src="/assets/icons/boost-down.svg"
+									alt="decrease non-native holdings"
+								/>
+							</Button>
+						),
+					}}
+					onChange={onNonNativeChange}
 				/>
 			</Grid>
 		);
@@ -208,7 +249,7 @@ export const BoostCalculatorContainer = observer(
 			return (
 				<Grid container spacing={4} className={classes.content} alignItems="center" justify="center">
 					<Grid item xs={12}>
-						<BoostBadgerAnimation score={badgerScore} />
+						{badgerScoreContent}
 					</Grid>
 					<Grid item xs={extraSmallScreen ? 12 : 6}>
 						{nativeBox}
@@ -226,7 +267,7 @@ export const BoostCalculatorContainer = observer(
 					{nativeBox}
 				</Grid>
 				<Grid item xs={6}>
-					<BoostBadgerAnimation score={badgerScore} />
+					{badgerScoreContent}
 				</Grid>
 				<Grid item xs>
 					{nonNativeBox}
