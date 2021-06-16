@@ -54,6 +54,10 @@ const useStyles = makeStyles((theme) => ({
 		},
 		padding: theme.spacing(1, 3),
 	},
+	collapseWrapper: {
+		paddingLeft: theme.spacing(2),
+		paddingRight: theme.spacing(2),
+	},
 	divider: {
 		padding: theme.spacing(2, 2, 1, 2),
 		fontSize: '.8rem',
@@ -271,6 +275,7 @@ export const Sidebar = observer(() => {
 								</IconButton>
 							</ListItem>
 							<Collapse
+								classes={{ wrapper: classes.collapseWrapper }}
 								in={expanded === 'boosts' || store.router.currentPath == '/leaderboard'}
 								timeout="auto"
 								unmountOnExit
@@ -355,12 +360,13 @@ export const Sidebar = observer(() => {
 									<ExpandMore />
 								</IconButton>
 							</ListItem>
-							<ListItem>
-								<Collapse
-									in={expanded === 'badger-zone' || store.router.currentPath == '/honey-badger-drop'}
-									timeout="auto"
-									unmountOnExit
-								>
+							<Collapse
+								classes={{ wrapper: classes.collapseWrapper }}
+								in={expanded === 'badger-zone' || store.router.currentPath == '/honey-badger-drop'}
+								timeout="auto"
+								unmountOnExit
+							>
+
 									<ListItem
 										button
 										className={getItemClass('/experimental', classes.primarySubListItem)}
@@ -368,22 +374,22 @@ export const Sidebar = observer(() => {
 									>
 										Experimental Vaults
 									</ListItem>
-									<ListItem
-										button
-										className={getItemClass('/airdrops', classes.primarySubListItem)}
-										onClick={() => navigate(views.airdrops)}
-									>
-										Airdrops
-									</ListItem>
-									<ListItem
-										button
-										className={getItemClass('/honey-badger-drop', classes.primarySubListItem)}
-										onClick={() => navigate(views.honeybadgerDrop)}
-									>
-										Honey Badger Drop
-									</ListItem>
-								</Collapse>
-							</ListItem>
+
+								<ListItem
+									button
+									className={getItemClass('/airdrops', classes.primarySubListItem)}
+									onClick={() => navigate(views.airdrops)}
+								>
+									Airdrops
+								</ListItem>
+								<ListItem
+									button
+									className={getItemClass('/honey-badger-drop', classes.primarySubListItem)}
+									onClick={() => navigate(views.honeybadgerDrop)}
+								>
+									Honey Badger Drop
+								</ListItem>
+							</Collapse>
 						</>
 					) : (
 						<></>
