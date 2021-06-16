@@ -176,8 +176,6 @@ class WalletStore {
 
 		if (!connectedNetwork) {
 			this.store.uiState.queueNotification('Connecting to an unsupported network', 'error');
-			this.onboard.walletReset();
-			window.localStorage.removeItem('selectedWallet');
 			return false;
 		}
 		const newNetwork = getNetwork(connectedNetwork);

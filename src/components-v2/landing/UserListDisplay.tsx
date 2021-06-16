@@ -114,7 +114,7 @@ const UserListDisplay = observer((props: SettListViewProps) => {
 			{displayWallet && (
 				<SettTable
 					title={'Your Wallet -'}
-					displayValue={inCurrency(user.walletValue, currency)}
+					displayValue={inCurrency(user.walletValue(), currency)}
 					tokenTitle={'Available'}
 					period={period}
 					settList={walletList}
@@ -123,7 +123,7 @@ const UserListDisplay = observer((props: SettListViewProps) => {
 			{displayDeposit && (
 				<SettTable
 					title={'Your Vault Deposits -'}
-					displayValue={inCurrency(user.settValue, currency)}
+					displayValue={inCurrency(user.settValue(), currency)}
 					tokenTitle={'Available'}
 					period={period}
 					settList={settList}
@@ -132,7 +132,7 @@ const UserListDisplay = observer((props: SettListViewProps) => {
 			{displayVault && (
 				<SettTable
 					title={'Your Staked Amounts -'}
-					displayValue={inCurrency(user.geyserValue, currency)}
+					displayValue={inCurrency(user.geyserValue(), currency)}
 					tokenTitle={'Available'}
 					period={period}
 					settList={geyserList}
