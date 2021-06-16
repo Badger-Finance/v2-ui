@@ -1,6 +1,6 @@
 # v2 UI Changelog
 
-### v2.7.8 - 06/14/2021
+### v2.7.8 - 06/15/2021
 
 -   fixed an issue allowing connections to unsupported networks
 -   fixed an issue causing all token prices to convert incorrectly sporadically
