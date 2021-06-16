@@ -119,9 +119,9 @@ export default class UserStore {
 	get initialized(): boolean {
 		const hasTokens = Object.keys(this.tokenBalances).length > 0;
 		const hasSetts = Object.keys(this.settBalances).length > 0;
-		const { network, connectedAddress } = this.store.wallet;
-
 		let hasGeysers = false;
+
+		const { network, connectedAddress } = this.store.wallet;
 		const geyserRequests = network
 			.batchRequests(connectedAddress)
 			.find((req) => req.namespace === ContractNamespace.Geyser);
@@ -131,6 +131,7 @@ export default class UserStore {
 		} else {
 			hasGeysers = Object.keys(this.geyserBalances).length > 0;
 		}
+		
 		return !this.loadingBalances && hasTokens && hasSetts && hasGeysers;
 	}
 
