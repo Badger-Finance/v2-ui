@@ -55,6 +55,8 @@ const defaultProps = {
 	error: null,
 	network: undefined,
 
+	renVMStatus: null,
+
 	badgerBurnFee: 0,
 	badgerMintFee: 0,
 	renvmBurnFee: 0,
@@ -127,6 +129,8 @@ class BridgeStore {
 	public error!: Error | null;
 	public loading!: boolean;
 	public status!: Status;
+
+	public renVMStatus!: LockAndMintStatus | BurnAndReleaseStatus | null;
 
 	constructor(store: RootStore) {
 		this.store = store;
@@ -455,7 +459,7 @@ class BridgeStore {
 						.on('status', (status) =>
 							this._updateTx({
 								...parsedTx,
-								status: status,
+								renVMStatus: status,
 							}),
 						);
 
@@ -492,7 +496,7 @@ class BridgeStore {
 					.on('status', (status) =>
 						this._updateTx({
 							...parsedTx,
-							status: status,
+							renVMStatus: status,
 						}),
 					)
 					// Store RenVM transaction hash for recovery
