@@ -22,7 +22,7 @@ interface TableHeaderProps {
 	title: string;
 	tokenTitle: string;
 	period: string;
-	displayValue: string;
+	displayValue: string | undefined;
 }
 
 export default function TableHeader(props: TableHeaderProps): JSX.Element {

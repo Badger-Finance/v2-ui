@@ -271,22 +271,20 @@ export const Sidebar = observer(() => {
 								</ListItemIcon>
 								<ListItemText primary="Digg" />
 							</ListItem>
-							{FLAGS.IBBTC_FLAG && (
-								<ListItem
-									button
-									className={getItemClass('/ibBTC', classes.listItem)}
-									onClick={() => navigate(views.IbBTC)}
-								>
-									<ListItemIcon>
-										<img
-											alt="Interest Bearing Badger Bitcoin Icon"
-											src={'assets/sidebar/ibbtc-white.svg'}
-											className={classes.icon}
-										/>
-									</ListItemIcon>
-									<ListItemText primary="Interest Bearing BTC" />
-								</ListItem>
-							)}
+							<ListItem
+								button
+								className={getItemClass('/ibBTC', classes.listItem)}
+								onClick={() => navigate(views.IbBTC)}
+							>
+								<ListItemIcon>
+									<img
+										alt="Interest Bearing Badger Bitcoin Icon"
+										src={'assets/sidebar/ibbtc-white.svg'}
+										className={classes.icon}
+									/>
+								</ListItemIcon>
+								<ListItemText primary="Interest Bearing BTC" />
+							</ListItem>
 							<ListItem
 								button
 								className={

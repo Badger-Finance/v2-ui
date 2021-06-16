@@ -9,7 +9,7 @@ import { getAirdrops } from 'config/system/airdrops';
 import { getRebase } from '../config/system/rebase';
 import { getRewards } from 'config/system/rewards';
 import { SidebarLink, sidebarPricingLinks, sidebarTokenLinks } from 'config/ui/links';
-import { NETWORK_IDS, NETWORK_LIST, ZERO, TEN } from 'config/constants';
+import { NETWORK_IDS, NETWORK_LIST, ZERO, TEN, FLAGS } from 'config/constants';
 import { getStrategies } from '../config/system/strategies';
 import { getNetworkDeploy } from './utils/network';
 import { BadgerSett } from './model/badger-sett';
@@ -448,6 +448,14 @@ export class EthNetwork implements Network {
 		this.deploy.sett_system.vaults['native.sbtcCrv'],
 		this.deploy.sett_system.vaults['native.tbtcCrv'],
 		this.deploy.sett_system.vaults['harvest.renCrv'],
+		...(FLAGS.CONVEX_SETTS
+			? [
+					this.deploy.sett_system.vaults['native.hbtcCrv'],
+					this.deploy.sett_system.vaults['native.pbtcCrv'],
+					this.deploy.sett_system.vaults['native.obtcCrv'],
+					this.deploy.sett_system.vaults['native.bbtcCrv'],
+			  ]
+			: []),
 		this.deploy.sett_system.vaults['experimental.digg'],
 	];
 	public readonly sidebarTokenLinks = sidebarTokenLinks(NETWORK_LIST.ETH);
@@ -641,6 +649,10 @@ export interface ExchangeRates {
 	cad: number;
 	btc: number;
 	bnb: number;
+}
+
+export interface BDiggExchangeRates extends ExchangeRates {
+	eth: number;
 }
 
 export interface ibBTCFees {

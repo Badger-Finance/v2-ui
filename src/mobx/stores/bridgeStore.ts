@@ -15,6 +15,7 @@ import { RootStore } from '../store';
 import WalletStore from './walletStore';
 import { RenVMTransaction, Network } from 'mobx/model';
 import {
+	defaultRetryOptions,
 	// abis
 	ERC20,
 	// config
@@ -43,16 +44,6 @@ const DECIMALS = 10 ** 8;
 const SETT_DECIMALS = 10 ** 18;
 const MAX_BPS = 10000;
 const UPDATE_INTERVAL_SECONDS = 30 * 1000; // 30 seconds
-
-const defaultRetryOptions = {
-	// delay defaults to 200 ms.
-	// delay grows exponentially by factor each attempt.
-	factor: 1.5,
-	// delay grows up until max delay.
-	maxDelay: 1000,
-	// maxAttempts to make before giving up.
-	maxAttempts: 3,
-};
 
 const defaultProps = {
 	openGateway: null,

@@ -10,15 +10,15 @@ exports[`CurrencyInfoCard Renders correctly 1`] = `
     >
       Test Price
     </h6>
-    <div
-      class="MuiGrid-root-61 MuiGrid-container-62 MuiGrid-align-items-xs-center-70 MuiGrid-justify-xs-center-79"
+    <span
+      class="MuiSkeleton-root-60 MuiSkeleton-text-61 MuiSkeleton-withChildren-68 MuiSkeleton-fitContent-69 MuiSkeleton-heightAuto-70 MuiSkeleton-wave-66"
     >
       <h5
         class="MuiTypography-root-30 MuiTypography-h5-39"
       >
-        $641.69
+        Placeholder
       </h5>
-    </div>
+    </span>
   </div>
 </div>
 `;

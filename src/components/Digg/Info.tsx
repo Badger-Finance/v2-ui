@@ -112,16 +112,10 @@ const Info = observer(() => {
 	return (
 		<>
 			<Grid item xs={6} md={6}>
-				<Metric
-					metric="BTC Price"
-					value={rebaseStats.btcPrice > 0 ? inCurrency(rebaseStats.btcPrice, currency) : '-'}
-				/>
+				<Metric metric="BTC Price" value={inCurrency(rebaseStats.btcPrice, currency)} />
 			</Grid>
 			<Grid item xs={6} md={6}>
-				<Metric
-					metric="DIGG Price"
-					value={rebaseStats.oraclePrice > 0 ? inCurrency(rebaseStats.oraclePrice, currency) : '-'}
-				/>
+				<Metric metric="DIGG Price" value={inCurrency(rebaseStats.oraclePrice, currency)} />
 			</Grid>
 			<Grid item xs={12} md={6}>
 				<Metric
