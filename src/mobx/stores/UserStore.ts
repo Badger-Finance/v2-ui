@@ -119,7 +119,18 @@ export default class UserStore {
 	get initialized(): boolean {
 		const hasTokens = Object.keys(this.tokenBalances).length > 0;
 		const hasSetts = Object.keys(this.settBalances).length > 0;
-		const hasGeysers = Object.keys(this.geyserBalances).length > 0;
+		const { network, connectedAddress } = this.store.wallet;
+
+		let hasGeysers = false;
+		const geyserRequests = network
+			.batchRequests(connectedAddress)
+			.find((req) => req.namespace === ContractNamespace.Geyser);
+		/* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */
+		if (geyserRequests!.addresses && geyserRequests!.addresses.length === 0) {
+			hasGeysers = true;
+		} else {
+			hasGeysers = Object.keys(this.geyserBalances).length > 0;
+		}
 		return !this.loadingBalances && hasTokens && hasSetts && hasGeysers;
 	}
 
