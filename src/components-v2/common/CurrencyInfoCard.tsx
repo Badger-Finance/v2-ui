@@ -25,7 +25,7 @@ const CurrencyInfoCard: React.FC<CurrencyInfoCardProps> = (props: CurrencyInfoCa
 	const classes = useStyles();
 	const { title, value, currency } = props;
 
-	const displayValue = value ? inCurrency(value, currency) : undefined;
+	const displayValue = inCurrency(value ?? new BigNumber(''), currency);
 	return (
 		<Paper elevation={2} className={classes.infoPaper}>
 			<Typography variant="subtitle1" color="textPrimary">

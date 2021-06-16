@@ -1,21 +1,22 @@
 import { extendObservable, action, observe, IValueDidChange } from 'mobx';
 import { RootStore } from '../store';
-import { getTokenPrices, getTotalValueLocked, listSetts } from 'mobx/utils/apiV2';
-import { PriceSummary, Sett, ProtocolSummary, SettMap } from 'mobx/model';
+import { getTokens, getTotalValueLocked, listSetts } from 'mobx/utils/apiV2';
+import { Sett, ProtocolSummary, SettMap } from 'mobx/model';
 import { NETWORK_LIST } from 'config/constants';
 import Web3 from 'web3';
-import BigNumber from 'bignumber.js';
 import WalletStore from './walletStore';
+import { TokenConfig } from 'mobx/model/token-config';
+import { Token } from 'mobx/model/token';
 
 export default class SettStore {
 	private store!: RootStore;
 
 	// loading: undefined, error: null, present: object
 	private settCache: { [chain: string]: Sett[] | undefined | null };
+	private tokenCache: { [chain: string]: TokenConfig | undefined | null };
 	private settMapCache: { [chain: string]: SettMap | undefined | null };
 	private experimentalMapCache: { [chain: string]: SettMap | undefined | null };
 	private protocolSummaryCache: { [chain: string]: ProtocolSummary | undefined | null };
-	private priceCache: PriceSummary;
 	public initialized: boolean;
 
 	constructor(store: RootStore) {
@@ -23,6 +24,7 @@ export default class SettStore {
 
 		extendObservable(this, {
 			settCache: undefined,
+			tokenCache: undefined,
 			protocolSummaryCache: undefined,
 			settMapCache: undefined,
 			experimentalMapCache: undefined,
@@ -44,10 +46,10 @@ export default class SettStore {
 		});
 
 		this.settCache = {};
+		this.tokenCache = {};
 		this.settMapCache = {};
 		this.experimentalMapCache = {};
 		this.protocolSummaryCache = {};
-		this.priceCache = {};
 		this.initialized = false;
 
 		this.refresh();
@@ -69,10 +71,6 @@ export default class SettStore {
 		return this.protocolSummaryCache[this.store.wallet.network.name];
 	}
 
-	getPrice(address: string): BigNumber {
-		return this.priceCache[Web3.utils.toChecksumAddress(address)] ?? new BigNumber(0);
-	}
-
 	getSett(address: string): Sett | undefined {
 		const settMap: SettMap = {
 			...this.settMap,
@@ -81,12 +79,22 @@ export default class SettStore {
 		return settMap[Web3.utils.toChecksumAddress(address)];
 	}
 
+	getToken(address: string): Token | undefined {
+		const network = this.store.wallet.network;
+		const tokens = this.tokenCache[network.name];
+		const tokenAddress = Web3.utils.toChecksumAddress(address);
+		if (!tokens || !tokens[tokenAddress]) {
+			return;
+		}
+		return tokens[tokenAddress];
+	}
+
 	private async refresh(): Promise<void> {
 		const network = this.store.wallet.network;
 		if (network) {
 			await Promise.all([
 				this.loadSetts(network.name),
-				this.loadPrices(network.name),
+				this.loadTokens(network.name),
 				this.loadAssets(network.name),
 			]);
 			this.initialized = true;
@@ -105,18 +113,12 @@ export default class SettStore {
 		},
 	);
 
-	loadPrices = action(
-		async (network?: string): Promise<void> => {
-			const prices = await getTokenPrices(network);
-			if (prices) {
-				Object.entries(prices).forEach((entry) => {
-					const [key, value] = entry;
-					prices[key] = new BigNumber(value);
-				});
-				this.priceCache = {
-					...this.priceCache,
-					...prices,
-				};
+	loadTokens = action(
+		async (chain?: string): Promise<void> => {
+			chain = chain ?? NETWORK_LIST.ETH;
+			const tokenConfig = await getTokens(chain);
+			if (tokenConfig) {
+				this.tokenCache[chain] = tokenConfig;
 			}
 		},
 	);
