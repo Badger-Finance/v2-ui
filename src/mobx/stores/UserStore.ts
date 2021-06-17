@@ -16,6 +16,8 @@ import { CallResult } from 'web3/interface/call-result';
 import { DEBUG, ONE_MIN_MS } from 'config/constants';
 import { UserBalanceCache } from 'mobx/model/user-balance-cache';
 import { CachedUserBalances } from 'mobx/model/cached-user-balances';
+import { createBatchCallRequest } from 'web3/config/config-utils';
+import { MethodResult } from 'web3/interface/method-result';
 
 export default class UserStore {
 	private store!: RootStore;
@@ -199,7 +201,8 @@ export default class UserStore {
 
 			// filter batch requests by namespace
 			const userTokens = callResults.filter((result) => result.namespace === ContractNamespace.Token);
-			const userSetts = callResults.filter((result) => result.namespace === ContractNamespace.Sett);
+			const userGeneralSetts = callResults.filter((result) => result.namespace === ContractNamespace.Sett);
+			const userGuardedSetts = callResults.filter((result) => result.namespace === ContractNamespace.GaurdedSett);
 			const userGeysers = callResults.filter((result) => result.namespace === ContractNamespace.Geyser);
 
 			const tokenBalances: UserBalances = {};
@@ -208,8 +211,21 @@ export default class UserStore {
 
 			// update all user balances
 			userTokens.forEach((token) => this.updateUserBalance(tokenBalances, token, this.getDepositToken));
-			userSetts.forEach((sett) => this.updateUserBalance(settBalances, sett, this.getSettToken));
+			userGeneralSetts.forEach((sett) => this.updateUserBalance(settBalances, sett, this.getSettToken));
+			userGuardedSetts.forEach((sett) => this.updateUserBalance(settBalances, sett, this.getSettToken));
 			userGeysers.forEach((geyser) => this.updateUserBalance(geyserBalances, geyser, this.getGeyserMockToken));
+
+			const guestLists = userGuardedSetts
+				.filter((sett): sett is CallResult => !!sett.guestList)
+				.map((sett) => sett.guestList)
+				.filter((result): result is MethodResult[] => !!result && result.length > 0)
+				.map((result) => result[0].value);
+			const guestListRequests = createBatchCallRequest(guestLists, ContractNamespace.GuestList, connectedAddress);
+			console.log(guestListRequests);
+			const guestListResults: CallResult[] = await this.batchCall.execute([guestListRequests]);
+			if (DEBUG) {
+				console.log(guestListResults);
+			}
 
 			const result = {
 				key: cacheKey,

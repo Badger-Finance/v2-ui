@@ -163,7 +163,7 @@ const SettListItem = observer(
 					.reduce((total, apr) => (total += apr), 0) / divisor;
 		}
 
-		return network.isWhitelisted[sett.vaultToken] && !user.viewSettShop() ? (
+		return network.cappedDeposit[sett.vaultToken] && !user.viewSettShop() ? (
 			<DisabledSettListItem
 				apy={apr}
 				tooltip={tooltip}

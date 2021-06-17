@@ -5,6 +5,8 @@ import { Deploy } from 'web3/interface/deploy';
 import { BadgerSett } from 'mobx/model/badger-sett';
 import { toRecord } from './token-config';
 import { ProtocolTokens } from 'web3/interface/protocol-token';
+import { EthNetwork } from 'mobx/model';
+import Web3 from 'web3';
 
 export const ETH_DEPLOY = deploy as Deploy;
 
@@ -229,8 +231,16 @@ const ethTokens = ethSetts.flatMap((sett) => [sett.depositToken, sett.vaultToken
 export const ethProtocolTokens: ProtocolTokens = toRecord(ethTokens, 'address');
 
 export const getEthereumBatchRequests = (userAddress: string): BatchCallRequest[] => {
+	const gaurdedDesposits = Object.fromEntries(
+		Object.entries(new EthNetwork().cappedDeposit).map((entry) => [
+			Web3.utils.toChecksumAddress(entry[0]),
+			entry[1],
+		]),
+	);
 	const tokenAddresses = ethSetts.map((sett) => sett.depositToken.address);
 	const settAddresses = ethSetts.map((sett) => sett.vaultToken.address);
+	const generalSetts = settAddresses.filter((sett) => !gaurdedDesposits[sett]);
+	const guardedSetts = settAddresses.filter((sett) => gaurdedDesposits[sett]);
 	const geyserAddresses = ethSetts.map((sett) => sett.geyser).filter((geyser): geyser is string => !!geyser);
-	return createChainBatchConfig(tokenAddresses, settAddresses, geyserAddresses, userAddress);
+	return createChainBatchConfig(tokenAddresses, generalSetts, guardedSetts, geyserAddresses, userAddress);
 };
