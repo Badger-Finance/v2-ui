@@ -177,7 +177,7 @@ export const Redeem = observer((): any => {
 
 	const handleRedeemClick = async (): Promise<void> => {
 		if (inputAmount?.actualValue && !inputAmount.actualValue.isNaN()) {
-			const isValidAmount = store.ibBTCStore.isValidAmount(selectedToken, inputAmount.actualValue);
+			const isValidAmount = store.ibBTCStore.isValidAmount(ibBTC, inputAmount.actualValue);
 			if (!isValidAmount) return;
 			await store.ibBTCStore.redeem(selectedToken, inputAmount.actualValue);
 			resetState();
