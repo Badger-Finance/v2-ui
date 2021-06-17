@@ -1,9 +1,9 @@
 import React from 'react';
-import { TextField, TextFieldProps } from '@material-ui/core';
+import { Button, TextField, TextFieldProps } from '@material-ui/core';
 import NumberFormat from 'react-number-format';
 import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles((theme) => ({
+const useInputStyles = makeStyles((theme) => ({
 	input: {
 		padding: '8px 4px',
 		fontSize: 20,
@@ -21,6 +21,23 @@ const useStyles = makeStyles((theme) => ({
 	},
 	notchedOutline: {
 		borderWidth: 2,
+	},
+}));
+
+const useButtonStyles = makeStyles((theme) => ({
+	actionButton: {
+		borderRadius: 2,
+		[theme.breakpoints.up(500)]: {
+			width: 32,
+			height: 32,
+			minWidth: 32,
+		},
+	},
+	actionImage: {
+		width: 12,
+		[theme.breakpoints.down(500)]: {
+			width: 16,
+		},
 	},
 }));
 
@@ -55,17 +72,48 @@ const CurrencyInput = (props: CurrencyInputProps): JSX.Element => {
 
 interface HoldingAssetProps extends Omit<TextFieldProps, 'onChange'> {
 	onChange: (change: string) => void;
+	onIncrement: () => void;
+	onReduction: () => void;
 }
 
-export const HoldingAssetInput = ({ onChange, InputProps, ...props }: HoldingAssetProps): JSX.Element => {
-	const classes = useStyles();
+export const HoldingAssetInput = ({
+	onChange,
+	onIncrement,
+	onReduction,
+	InputProps,
+	...materialButtonProps
+}: HoldingAssetProps): JSX.Element => {
+	const inputClasses = useInputStyles();
+	const buttonClasses = useButtonStyles();
 
 	return (
 		<TextField
-			{...props}
+			{...materialButtonProps}
 			onChange={(event) => onChange(event.target.value as string)}
 			// the "any" is because of the onChange type handler
-			InputProps={{ ...InputProps, classes, inputComponent: CurrencyInput as any }}
+			InputProps={{
+				...InputProps,
+				startAdornment: (
+					<Button className={buttonClasses.actionButton} onClick={onIncrement}>
+						<img
+							className={buttonClasses.actionImage}
+							src="/assets/icons/boost-up.svg"
+							alt="increase native holdings"
+						/>
+					</Button>
+				),
+				endAdornment: (
+					<Button className={buttonClasses.actionButton} onClick={onReduction}>
+						<img
+							className={buttonClasses.actionImage}
+							src="/assets/icons/boost-down.svg"
+							alt="decrease native holdings"
+						/>
+					</Button>
+				),
+				classes: inputClasses,
+				inputComponent: CurrencyInput as any,
+			}}
 			variant="outlined"
 		/>
 	);

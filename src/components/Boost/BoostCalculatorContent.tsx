@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Grid, Typography, useMediaQuery, useTheme, withStyles } from '@material-ui/core';
+import { Grid, Typography, useMediaQuery, useTheme, withStyles } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { BoostBadgerAnimation } from './BoostBadgerAnimation';
 import { observer } from 'mobx-react-lite';
@@ -51,20 +51,6 @@ const useStyles = makeStyles((theme) => ({
 		width: '100%',
 		textAlign: 'center',
 	},
-	actionButton: {
-		borderRadius: 2,
-		height: 48,
-		[theme.breakpoints.up(500)]: {
-			width: 28,
-			height: 28,
-			minWidth: 28,
-		},
-	},
-	actionImage: {
-		[theme.breakpoints.down(500)]: {
-			width: 16,
-		},
-	},
 	valueToAddContainer: {
 		marginTop: 8,
 	},
@@ -95,14 +81,13 @@ type BoostCalculatorContainerProps = {
 	nonNative: string;
 	onNativeChange(value: string): void;
 	onNonNativeChange(value: string): void;
-	onReset(): void;
 };
 
 export const BoostCalculatorContainer = observer(
 	(props: BoostCalculatorContainerProps): JSX.Element => {
 		const { boostOptimizer } = React.useContext(StoreContext);
 		const { nativeHoldings, nonNativeHoldings } = boostOptimizer;
-		const { native, nonNative, nativeToAdd, onNonNativeChange, onNativeChange, onReset } = props;
+		const { native, nonNative, nativeToAdd, onNonNativeChange, onNativeChange } = props;
 
 		const classes = useStyles();
 		const nativeAssetClasses = useAssetInputStyles(native, nativeHoldings)();
@@ -132,10 +117,10 @@ export const BoostCalculatorContainer = observer(
 			}
 		};
 
-		const handleDecreaseNative = () => {
+		const handleReduceNative = () => {
 			if (native) {
-				const decrementedNative = new BigNumber(native).minus(1000);
-				onNativeChange(formatWithoutExtraZeros(BigNumber.max(decrementedNative, 0)));
+				const reducedNative = new BigNumber(native).minus(1000);
+				onNativeChange(formatWithoutExtraZeros(BigNumber.max(reducedNative, 0)));
 			}
 		};
 
@@ -145,29 +130,17 @@ export const BoostCalculatorContainer = observer(
 			}
 		};
 
-		const handleDecreaseNonNative = () => {
+		const handleReduceNonNative = () => {
 			if (nonNative) {
-				const decrementedNonNative = new BigNumber(nonNative).minus(1000);
-				onNonNativeChange(formatWithoutExtraZeros(BigNumber.max(decrementedNonNative, 0)));
+				const reducedNonNative = new BigNumber(nonNative).minus(1000);
+				onNonNativeChange(formatWithoutExtraZeros(BigNumber.max(reducedNonNative, 0)));
 			}
 		};
 
-		const badgerScoreContent = (
-			<>
-				{isLoading ? <BoostLoader variant="rect" /> : <BoostBadgerAnimation score={badgerScoreRatio} />}
-				<Grid container justify="center">
-					<Button className={classes.resetCalculation} color="primary" onClick={onReset}>
-						<img
-							className={classes.resetCalculationIcon}
-							src="assets/icons/reset-boost.svg"
-							alt="reset boost"
-						/>
-						<Typography className={classes.resetCalculationText} variant="subtitle1" color="primary">
-							Reset Calculation
-						</Typography>
-					</Button>
-				</Grid>
-			</>
+		const badgerScoreContent = isLoading ? (
+			<BoostLoader variant="rect" />
+		) : (
+			<BoostBadgerAnimation score={badgerScoreRatio} />
 		);
 
 		const nativeBox = (
@@ -180,26 +153,10 @@ export const BoostCalculatorContainer = observer(
 					fullWidth={extraSmallScreen}
 					InputProps={{
 						className: nativeAssetClasses.assetColor,
-						startAdornment: (
-							<Button className={classes.actionButton} onClick={handleIncreaseNative}>
-								<img
-									className={classes.actionImage}
-									src="/assets/icons/boost-up.svg"
-									alt="increase native holdings"
-								/>
-							</Button>
-						),
-						endAdornment: (
-							<Button className={classes.actionButton} onClick={handleDecreaseNative}>
-								<img
-									className={classes.actionImage}
-									src="/assets/icons/boost-down.svg"
-									alt="decrease native holdings"
-								/>
-							</Button>
-						),
 					}}
 					onChange={onNativeChange}
+					onIncrement={handleIncreaseNative}
+					onReduction={handleReduceNative}
 				/>
 				{remainingNativeToAdd && (
 					<Grid className={classes.valueToAddContainer} container direction="column">
@@ -223,33 +180,17 @@ export const BoostCalculatorContainer = observer(
 					fullWidth={extraSmallScreen}
 					InputProps={{
 						className: nonNativeAssetClasses.assetColor,
-						startAdornment: (
-							<Button className={classes.actionButton} onClick={handleIncreaseNonNative}>
-								<img
-									className={classes.actionImage}
-									src="/assets/icons/boost-up.svg"
-									alt="increase non-native holdings"
-								/>
-							</Button>
-						),
-						endAdornment: (
-							<Button className={classes.actionButton} onClick={handleDecreaseNonNative}>
-								<img
-									className={classes.actionImage}
-									src="/assets/icons/boost-down.svg"
-									alt="decrease non-native holdings"
-								/>
-							</Button>
-						),
 					}}
 					onChange={onNonNativeChange}
+					onIncrement={handleIncreaseNonNative}
+					onReduction={handleReduceNonNative}
 				/>
 			</Grid>
 		);
 
 		if (smallScreen) {
 			return (
-				<Grid container spacing={4} className={classes.content} alignItems="center" justify="center">
+				<Grid container spacing={4} className={classes.content}>
 					<Grid item xs={12}>
 						{badgerScoreContent}
 					</Grid>
@@ -264,7 +205,7 @@ export const BoostCalculatorContainer = observer(
 		}
 
 		return (
-			<Grid container className={classes.content} alignItems="center" justify="center">
+			<Grid container className={classes.content}>
 				<Grid item xs>
 					{nativeBox}
 				</Grid>
