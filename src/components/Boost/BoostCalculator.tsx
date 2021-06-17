@@ -12,32 +12,52 @@ import { formatWithoutExtraZeros, getColorFromComparison } from './utils';
 import clsx from 'clsx';
 import { useNumericInput } from '../../utils/useNumericInput';
 
-const useBoostStyles = (currentBoost: string, boost: BigNumber.Value) => {
-	return makeStyles((theme) => ({
-		fontColor: {
-			color: getColorFromComparison({
-				toCompareValue: currentBoost,
-				toBeComparedValue: boost,
-				greaterCaseColor: '#74D189',
-				lessCaseColor: theme.palette.error.main,
-				defaultColor: theme.palette.text.secondary,
-			}),
-		},
-	}));
+const useBoostStyles = (currentBoost?: string, boost?: BigNumber.Value) => {
+	return makeStyles((theme) => {
+		if (!currentBoost || !boost) {
+			return {
+				fontColor: {
+					color: theme.palette.text.secondary,
+				},
+			};
+		}
+
+		return {
+			fontColor: {
+				color: getColorFromComparison({
+					toCompareValue: currentBoost,
+					toBeComparedValue: boost,
+					greaterCaseColor: '#74D189',
+					lessCaseColor: theme.palette.error.main,
+					defaultColor: theme.palette.text.secondary,
+				}),
+			},
+		};
+	});
 };
 
-const useRankStyles = (currentRank: string, rank: BigNumber.Value) => {
-	return makeStyles((theme) => ({
-		fontColor: {
-			color: getColorFromComparison({
-				toCompareValue: currentRank,
-				toBeComparedValue: rank,
-				greaterCaseColor: theme.palette.error.main,
-				lessCaseColor: '#74D189',
-				defaultColor: theme.palette.text.secondary,
-			}),
-		},
-	}));
+const useRankStyles = (currentRank?: string, rank?: BigNumber.Value) => {
+	return makeStyles((theme) => {
+		if (!currentRank || !rank) {
+			return {
+				fontColor: {
+					color: theme.palette.text.secondary,
+				},
+			};
+		}
+
+		return {
+			fontColor: {
+				color: getColorFromComparison({
+					toCompareValue: currentRank,
+					toBeComparedValue: rank,
+					greaterCaseColor: theme.palette.error.main,
+					lessCaseColor: '#74D189',
+					defaultColor: theme.palette.text.secondary,
+				}),
+			},
+		};
+	});
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -109,16 +129,18 @@ export const BoostCalculator = observer(
 		const classes = useStyles();
 		const { onValidChange, inputProps } = useNumericInput();
 		const connectWallet = useConnectWallet();
-		const boostClasses = useBoostStyles(boost || '', accountDetails?.boost || '')();
-		const rankClasses = useRankStyles(rank || '', accountDetails?.boostRank || '')();
-		const validBoost = boost && isValidBoost(boost);
+		const boostClasses = useBoostStyles(boost, accountDetails?.boost)();
+		const rankClasses = useRankStyles(rank, accountDetails?.boostRank)();
+
+		const validBoost = boost !== undefined ? isValidBoost(boost) : true; // evaluate only after loaded
 
 		const updateBoostAndRank = (newNative: string, newNonNative: string) => {
 			const newBoostRatio = boostOptimizer.calculateBoostRatio(newNative, newNonNative);
-			const newRank = boostOptimizer.calculateLeaderBoardSlot(newBoostRatio);
+			const newRank = newBoostRatio ? boostOptimizer.calculateLeaderBoardSlot(newBoostRatio) : undefined;
 
-			console.log('newBoostRatio =>', newBoostRatio);
-			console.log('rank =>', newRank + 1);
+			if (!newBoostRatio || !newRank) {
+				return;
+			}
 
 			setBoost(newBoostRatio.toFixed(2));
 			setRank((newRank + 1).toString()); // +1 because the position is zero index

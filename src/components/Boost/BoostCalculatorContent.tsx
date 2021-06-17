@@ -102,8 +102,8 @@ export const BoostCalculatorContainer = observer(
 	(props: BoostCalculatorContainerProps): JSX.Element => {
 		const { boostOptimizer } = React.useContext(StoreContext);
 		const { nativeHoldings, nonNativeHoldings } = boostOptimizer;
-
 		const { native, nonNative, nativeToAdd, onNonNativeChange, onNativeChange, onReset } = props;
+
 		const classes = useStyles();
 		const nativeAssetClasses = useAssetInputStyles(native, nativeHoldings)();
 		const theme = useTheme();
@@ -111,11 +111,13 @@ export const BoostCalculatorContainer = observer(
 		const extraSmallScreen = useMediaQuery(theme.breakpoints.down(500));
 		const nonNativeAssetClasses = useAssetInputStyles(nonNative, nonNativeHoldings)();
 
+		const isLoading = !nativeHoldings || !nonNativeHoldings;
+
 		const isThereRemainingToAdd = nativeToAdd && Number(nativeToAdd) > Number(native);
 		const remainingNativeToAdd = isThereRemainingToAdd ? Number(nativeToAdd) - Number(native) : undefined;
-		const isLoading = !nativeHoldings || !nonNativeHoldings;
+
 		const boostRatio = boostOptimizer.calculateBoostRatio(native, nonNative);
-		const badgerScore = Math.max(boostRatio / 3, 0);
+		const badgerScore = boostRatio ? Math.max(boostRatio / 3, 0) : 0;
 		const badgerScoreRatio = Math.min(badgerScore * 100, 100);
 
 		const handleApplyRemaining = () => {
