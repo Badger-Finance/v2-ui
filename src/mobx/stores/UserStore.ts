@@ -143,6 +143,7 @@ export default class UserStore {
 	getBalance(namespace: ContractNamespace, sett: BadgerSett): TokenBalance {
 		switch (namespace) {
 			case ContractNamespace.Sett:
+			case ContractNamespace.GaurdedSett:
 				const settAddress = Web3.utils.toChecksumAddress(sett.vaultToken.address);
 				return this.getOrDefaultBalance(this.settBalances, settAddress);
 			case ContractNamespace.Geyser:

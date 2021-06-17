@@ -195,7 +195,7 @@ const ethSettDefinitions: BadgerSett[] = [
 	},
 	{
 		depositToken: {
-			address: ETH_DEPLOY.tokens['curve.renWBTC'],
+			address: ETH_DEPLOY.tokens['curve.bBTC'],
 			decimals: 18,
 		},
 		vaultToken: {

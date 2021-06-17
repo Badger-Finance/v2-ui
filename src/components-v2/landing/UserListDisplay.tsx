@@ -21,7 +21,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const createSettListItem = (
-	namespace: ContractNamespace,
 	sett: Sett,
 	itemBalance: TokenBalance,
 	currency: string,
@@ -33,7 +32,7 @@ const createSettListItem = (
 	}
 	return (
 		<SettListItem
-			key={`${namespace}-${sett.name}`}
+			key={itemBalance.token.address}
 			sett={sett}
 			balance={itemBalance.balanceDisplay(5)}
 			balanceValue={itemBalance.balanceValueDisplay(currency)}
@@ -76,28 +75,23 @@ const UserListDisplay = observer((props: SettListViewProps) => {
 		}
 
 		const walletBalance = user.getBalance(ContractNamespace.Token, badgerSett);
-		const walletItem = createSettListItem(ContractNamespace.Token, sett, walletBalance, currency, period, onOpen);
+		const walletItem = createSettListItem(sett, walletBalance, currency, period, onOpen);
 		if (walletItem) {
 			walletList.push(walletItem);
 		}
 
 		const scalar = new BigNumber(sett.ppfs);
-		const settBalance = user.getBalance(ContractNamespace.Sett, badgerSett).scale(scalar, true);
-		const settItem = createSettListItem(ContractNamespace.Sett, sett, settBalance, currency, period, onOpen);
+		const generalBalance = user.getBalance(ContractNamespace.Sett, badgerSett).scale(scalar, true);
+		const guardedBalance = user.getBalance(ContractNamespace.GaurdedSett, badgerSett).scale(scalar, true);
+		const settBalance = generalBalance ?? guardedBalance;
+		const settItem = createSettListItem(sett, settBalance, currency, period, onOpen);
 		if (settItem) {
 			settList.push(settItem);
 		}
 
 		if (badgerSett.geyser) {
 			const geyserBalance = user.getBalance(ContractNamespace.Geyser, badgerSett).scale(scalar, true);
-			const geyserItem = createSettListItem(
-				ContractNamespace.Geyser,
-				sett,
-				geyserBalance,
-				currency,
-				period,
-				onOpen,
-			);
+			const geyserItem = createSettListItem(sett, geyserBalance, currency, period, onOpen);
 			if (geyserItem) {
 				geyserList.push(geyserItem);
 			}

@@ -45,9 +45,14 @@ export const VaultDeposit = observer((props: SettModalProps) => {
 
 	const userBalance = user.getBalance(ContractNamespace.Token, badgerSett);
 	const vaultCaps = user.vaultCaps[sett.vaultToken];
-	const vaultCanDeposit = vaultCaps.vaultCap.tokenBalance.gte(userBalance.tokenBalance);
-	const userCanDeposit = vaultCaps.userCap.tokenBalance.gte(userBalance.tokenBalance) && userBalance.balance.gt(0);
-	const canDeposit = !!amount && vaultCanDeposit && userCanDeposit;
+
+	let canDeposit = !!amount;
+	if (canDeposit && vaultCaps) {
+		const vaultCanDeposit = vaultCaps.vaultCap.tokenBalance.gte(userBalance.tokenBalance);
+		const userCanDeposit =
+			vaultCaps.userCap.tokenBalance.gte(userBalance.tokenBalance) && userBalance.balance.gt(0);
+		canDeposit = vaultCanDeposit && userCanDeposit;
+	}
 
 	const handlePercentageChange = (percent: number) => {
 		setAmount(userBalance.scaledBalanceDisplay(percent));

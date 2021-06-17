@@ -456,7 +456,7 @@ export class EthNetwork implements Network {
 					this.deploy.sett_system.vaults['native.bbtcCrv'],
 			  ]
 			: []),
-		this.deploy.sett_system.vaults['experimental.digg'],
+		...(FLAGS.STABILIZATION_SETTS ? [this.deploy.sett_system.vaults['experimental.digg']] : []),
 	];
 	public readonly sidebarTokenLinks = sidebarTokenLinks(NETWORK_LIST.ETH);
 	public readonly sidebarPricingLinks = sidebarPricingLinks;
