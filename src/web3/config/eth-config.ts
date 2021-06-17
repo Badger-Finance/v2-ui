@@ -166,7 +166,7 @@ const ethSettDefinitions: BadgerSett[] = [
 	{
 		depositToken: {
 			address: ETH_DEPLOY.tokens['curve.hBTC'],
-			decimals: 19,
+			decimals: 18,
 		},
 		vaultToken: {
 			address: ETH_DEPLOY.sett_system.vaults['native.hbtcCrv'],
@@ -176,7 +176,7 @@ const ethSettDefinitions: BadgerSett[] = [
 	{
 		depositToken: {
 			address: ETH_DEPLOY.tokens['curve.pBTC'],
-			decimals: 19,
+			decimals: 18,
 		},
 		vaultToken: {
 			address: ETH_DEPLOY.sett_system.vaults['native.pbtcCrv'],
@@ -186,7 +186,7 @@ const ethSettDefinitions: BadgerSett[] = [
 	{
 		depositToken: {
 			address: ETH_DEPLOY.tokens['curve.oBTC'],
-			decimals: 19,
+			decimals: 18,
 		},
 		vaultToken: {
 			address: ETH_DEPLOY.sett_system.vaults['native.obtcCrv'],
@@ -196,7 +196,7 @@ const ethSettDefinitions: BadgerSett[] = [
 	{
 		depositToken: {
 			address: ETH_DEPLOY.tokens['curve.renWBTC'],
-			decimals: 19,
+			decimals: 18,
 		},
 		vaultToken: {
 			address: ETH_DEPLOY.sett_system.vaults['native.bbtcCrv'],

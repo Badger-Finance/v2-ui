@@ -66,8 +66,6 @@ export const VaultDeposit = observer((props: SettModalProps) => {
 
 	const {
 		wallet: { connectedAddress, network },
-		user: { accountDetails },
-		setts: { settMap },
 		contracts,
 		user,
 	} = store;
@@ -120,16 +118,6 @@ export const VaultDeposit = observer((props: SettModalProps) => {
 						/>
 					</PercentagesContainer>
 				</Grid>
-
-				{network.cappedDeposit[vaultToken.address] && (
-					<SettAvailableDeposit
-						accountDetails={accountDetails}
-						vault={vaultToken.address}
-						assetName={sett.name}
-						sett={settMap ? settMap[vaultToken.address] : undefined}
-					/>
-				)}
-
 				<StrategyInfo vaultAddress={vaultToken.address} network={network} />
 
 				<AmountTextField
@@ -155,6 +143,7 @@ export const VaultDeposit = observer((props: SettModalProps) => {
 					Deposit
 				</ActionButton>
 			</DialogActions>
+			{sett.hasBouncer && <SettAvailableDeposit vaultCapInfo={user.vaultCaps[vaultToken.address]} />}
 		</>
 	);
 });

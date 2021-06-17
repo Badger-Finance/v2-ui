@@ -12,6 +12,7 @@ import { ContractNamespace } from 'web3/config/contract-namespace';
 import { Sett } from 'mobx/model';
 import { TokenBalance } from 'mobx/model/token-balance';
 import BigNumber from 'bignumber.js';
+import Web3 from 'web3';
 
 const useStyles = makeStyles((theme) => ({
 	boostContainer: {
@@ -67,8 +68,9 @@ const UserListDisplay = observer((props: SettListViewProps) => {
 	const geyserList: JSX.Element[] = [];
 
 	network.settOrder.forEach((contract) => {
-		const sett = currentSettMap[contract];
-		const badgerSett = network.setts.find((sett) => sett.vaultToken.address === contract);
+		const contractAddress = Web3.utils.toChecksumAddress(contract);
+		const sett = currentSettMap[contractAddress];
+		const badgerSett = network.setts.find((sett) => sett.vaultToken.address === contractAddress);
 		if (!sett || !badgerSett) {
 			return null;
 		}
