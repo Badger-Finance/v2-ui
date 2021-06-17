@@ -113,7 +113,7 @@ export const BoostCalculatorContainer = observer(
 
 		const isLoading = !nativeHoldings || !nonNativeHoldings;
 
-		const isThereRemainingToAdd = nativeToAdd && Number(nativeToAdd) > Number(native);
+		const isThereRemainingToAdd = nativeToAdd ? Number(nativeToAdd) > Number(native) : undefined;
 		const remainingNativeToAdd = isThereRemainingToAdd ? Number(nativeToAdd) - Number(native) : undefined;
 
 		const boostRatio = boostOptimizer.calculateBoostRatio(native, nonNative);
