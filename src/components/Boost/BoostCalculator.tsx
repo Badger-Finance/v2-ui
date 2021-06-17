@@ -1,76 +1,23 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import BigNumber from 'bignumber.js';
-import { Button, Divider, Grid, OutlinedInput, Paper, Typography, withStyles } from '@material-ui/core';
+import { Button, Divider, Grid, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { BoostCalculatorContainer } from './BoostCalculatorContent';
 import { StoreContext } from '../../mobx/store-context';
-import { Skeleton } from '@material-ui/lab';
 import { useConnectWallet } from '../../mobx/utils/hooks';
-import { formatWithoutExtraZeros, getColorFromComparison } from './utils';
-import clsx from 'clsx';
-import { useNumericInput } from '../../utils/useNumericInput';
-
-const useBoostStyles = (currentBoost?: string, boost?: BigNumber.Value) => {
-	return makeStyles((theme) => {
-		if (!currentBoost || !boost) {
-			return {
-				fontColor: {
-					color: theme.palette.text.secondary,
-				},
-			};
-		}
-
-		return {
-			fontColor: {
-				color: getColorFromComparison({
-					toCompareValue: currentBoost,
-					toBeComparedValue: boost,
-					greaterCaseColor: '#74D189',
-					lessCaseColor: theme.palette.error.main,
-					defaultColor: theme.palette.text.secondary,
-				}),
-			},
-		};
-	});
-};
-
-const useRankStyles = (currentRank?: string, rank?: BigNumber.Value) => {
-	return makeStyles((theme) => {
-		if (!currentRank || !rank) {
-			return {
-				fontColor: {
-					color: theme.palette.text.secondary,
-				},
-			};
-		}
-
-		return {
-			fontColor: {
-				color: getColorFromComparison({
-					toCompareValue: currentRank,
-					toBeComparedValue: rank,
-					greaterCaseColor: theme.palette.error.main,
-					lessCaseColor: '#74D189',
-					defaultColor: theme.palette.text.secondary,
-				}),
-			},
-		};
-	});
-};
+import { formatWithoutExtraZeros } from './utils';
+import { BoostCalculatorHeader } from './BoostCalculatorHeader';
 
 const useStyles = makeStyles((theme) => ({
-	rootContainer: {
+	calculatorContainer: {
 		margin: 'auto',
 		width: '100%',
 		boxSizing: 'border-box',
 		padding: theme.spacing(3),
 		maxWidth: 650,
 		flexDirection: 'column',
-	},
-	header: {
-		padding: theme.spacing(2),
 	},
 	divider: {
 		[theme.breakpoints.down('sm')]: {
@@ -80,59 +27,24 @@ const useStyles = makeStyles((theme) => ({
 		marginTop: theme.spacing(2),
 		marginBottom: theme.spacing(5),
 	},
-	boostText: {
-		fontSize: theme.spacing(4),
-	},
-	rankContainer: {
-		marginTop: 4,
-	},
-	rankValue: {
-		marginLeft: 6,
-	},
-	invalidBoost: {
-		color: theme.palette.error.main,
-	},
 }));
-
-const BoostInput = withStyles(() => ({
-	root: {
-		marginLeft: 12,
-		maxWidth: 60,
-	},
-	input: {
-		fontSize: 21,
-		padding: 8,
-		textAlign: 'center',
-	},
-	notchedOutline: {
-		borderWidth: 2,
-	},
-}))(OutlinedInput);
-
-const isValidBoost = (boost: string) => Number(boost) >= 1 && Number(boost) <= 3;
 
 export const BoostCalculator = observer(
 	(): JSX.Element => {
 		const {
 			wallet: { connectedAddress },
-			user: { accountDetails },
 			boostOptimizer,
 		} = useContext(StoreContext);
+
+		const { nativeHoldings, nonNativeHoldings } = boostOptimizer;
+		const classes = useStyles();
+		const connectWallet = useConnectWallet();
 
 		const [boost, setBoost] = useState<string>();
 		const [rank, setRank] = useState<string>();
 		const [native, setNative] = useState<string>();
 		const [nonNative, setNonNative] = useState<string>();
 		const [nativeToAdd, setNativeToAdd] = useState<string>();
-
-		const { nativeHoldings, nonNativeHoldings } = boostOptimizer;
-		const classes = useStyles();
-		const { onValidChange, inputProps } = useNumericInput();
-		const connectWallet = useConnectWallet();
-		const boostClasses = useBoostStyles(boost, accountDetails?.boost)();
-		const rankClasses = useRankStyles(rank, accountDetails?.boostRank)();
-
-		const validBoost = boost !== undefined ? isValidBoost(boost) : true; // evaluate only after loaded
 
 		const updateBoostAndRank = (newNative: string, newNonNative: string) => {
 			const newBoostRatio = boostOptimizer.calculateBoostRatio(newNative, newNonNative);
@@ -144,14 +56,6 @@ export const BoostCalculator = observer(
 
 			setBoost(newBoostRatio.toFixed(2));
 			setRank((newRank + 1).toString()); // +1 because the position is zero index
-		};
-
-		const handleReset = () => {
-			if (nativeHoldings && nonNativeHoldings) {
-				setNative(formatWithoutExtraZeros(nativeHoldings, 3));
-				setNonNative(formatWithoutExtraZeros(nonNativeHoldings, 3));
-				setNativeToAdd(undefined);
-			}
 		};
 
 		const handleBoostChange = (updatedBoost: string) => {
@@ -195,7 +99,7 @@ export const BoostCalculator = observer(
 
 		if (!connectedAddress) {
 			return (
-				<Paper className={classes.rootContainer}>
+				<Paper className={classes.calculatorContainer}>
 					<Button fullWidth size="large" variant="contained" color="primary" onClick={connectWallet}>
 						Connect Wallet
 					</Button>
@@ -204,40 +108,21 @@ export const BoostCalculator = observer(
 		}
 
 		return (
-			<Paper className={classes.rootContainer}>
-				<Grid container direction="column" justify="center" spacing={3} className={classes.header}>
-					<Grid container justify="center" alignItems="center">
-						<Typography className={classes.boostText}>Boost: </Typography>
-						<BoostInput
-							className={validBoost ? boostClasses.fontColor : classes.invalidBoost}
-							disabled={!accountDetails}
-							error={!validBoost}
-							inputProps={inputProps}
-							placeholder="1.00"
-							onChange={onValidChange(handleBoostChange)}
-							value={boost || ''}
+			<Grid container spacing={2}>
+				<Grid item xs={12} md>
+					<Paper className={classes.calculatorContainer}>
+						<BoostCalculatorHeader boost={boost} rank={rank} onBoostChange={handleBoostChange} />
+						<Divider className={classes.divider} />
+						<BoostCalculatorContainer
+							native={native || ''}
+							nonNative={nonNative || ''}
+							nativeToAdd={nativeToAdd}
+							onNativeChange={handleNativeChange}
+							onNonNativeChange={handleNonNativeChange}
 						/>
-					</Grid>
-					<Grid className={classes.rankContainer} container justify="center" alignItems="center">
-						<Typography color="textSecondary">Rank: </Typography>
-						<Typography
-							color="textSecondary"
-							className={clsx(classes.rankValue, rank !== undefined && rankClasses.fontColor)}
-						>
-							{rank || <Skeleton width={35} />}
-						</Typography>
-					</Grid>
+					</Paper>
 				</Grid>
-				<Divider className={classes.divider} />
-				<BoostCalculatorContainer
-					native={native || ''}
-					nonNative={nonNative || ''}
-					nativeToAdd={nativeToAdd}
-					onNativeChange={handleNativeChange}
-					onNonNativeChange={handleNonNativeChange}
-					onReset={handleReset}
-				/>
-			</Paper>
+			</Grid>
 		);
 	},
 );
