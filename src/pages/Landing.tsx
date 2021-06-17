@@ -133,11 +133,13 @@ const Landing = observer((props: LandingProps) => {
 				</Grid>
 			</Grid>
 
-			<Grid container spacing={1} justify="center">
-				<Button className={classes.announcementButton} size="small" variant="outlined" color="primary">
-					Note: New Vaults may take up to 2 weeks from launch to reach full efficiency.
-				</Button>
-			</Grid>
+			{experimental && (
+				<Grid container spacing={1} justify="center">
+					<Button className={classes.announcementButton} size="small" variant="outlined" color="primary">
+						Note: New Vaults may take up to 2 weeks from launch to reach full efficiency.
+					</Button>
+				</Grid>
+			)}
 
 			<SettList experimental={experimental} />
 		</Container>

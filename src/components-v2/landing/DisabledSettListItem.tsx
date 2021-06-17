@@ -1,9 +1,8 @@
-import { ListItem, makeStyles, Typography, Grid, Tooltip, IconButton } from '@material-ui/core';
+import { ListItem, makeStyles, Typography, Grid, Tooltip } from '@material-ui/core';
 import { BigNumber } from 'bignumber.js';
 import { SettListItemProps } from './SettListItem';
 import { numberWithCommas, usdToCurrency } from 'mobx/utils/helpers';
 import React from 'react';
-import { UnfoldMoreTwoTone } from '@material-ui/icons';
 import SettBadge from './SettBadge';
 import CurrencyDisplay from '../common/CurrencyDisplay';
 import { SettTokenBalance } from 'mobx/model';
@@ -61,6 +60,17 @@ const useStyles = makeStyles((theme) => ({
 		padding: 0,
 		'&:last-child div': {
 			borderBottom: 0,
+		},
+	},
+	desktopSpacer: {
+		[theme.breakpoints.down('md')]: {
+			display: 'none',
+		},
+	},
+	centerGrid: {
+		textAlign: 'center',
+		[theme.breakpoints.down('md')]: {
+			textAlign: 'left',
 		},
 	},
 }));
@@ -143,31 +153,27 @@ const DisabledSettListItem = (props: DisabledSettListItemProps): JSX.Element => 
 								})}
 						</Grid>
 					</Grid>
-
 					<Grid item className={classes.mobileLabel} xs={6}>
 						<Typography variant="body2" color={'textSecondary'}>
 							{'ROI'}
 						</Typography>
 					</Grid>
-					<Grid item xs={6} md={2}>
+					<Grid item xs={6} md={2} className={classes.centerGrid}>
 						<Tooltip enterDelay={0} leaveDelay={300} arrow placement="left" title={tooltip}>
 							<Typography style={{ cursor: 'default' }} variant="body1" color={'textPrimary'}>
 								{typeof apy === 'number' ? `${apy.toFixed(2)}%` : apy}
 							</Typography>
 						</Tooltip>
 					</Grid>
+					{/* Intentionally Empty Grid Space */}
+					<Grid item xs={6} md={1} className={classes.desktopSpacer} />
 					<Grid item className={classes.mobileLabel} xs={6}>
 						<Typography variant="body2" color={'textSecondary'}>
 							Value
 						</Typography>
 					</Grid>
-					<Grid item xs={6} md={2}>
+					<Grid item xs={6} md={3}>
 						<CurrencyDisplay displayValue={displayValue} variant="body1" justify="flex-start" />
-					</Grid>
-					<Grid item xs={12} md={2} style={{ textAlign: 'right' }}>
-						<IconButton color="default">
-							<UnfoldMoreTwoTone />
-						</IconButton>
 					</Grid>
 				</Grid>
 			</ListItem>

@@ -456,7 +456,7 @@ export class EthNetwork implements Network {
 					this.deploy.sett_system.vaults['native.bbtcCrv'],
 			  ]
 			: []),
-		this.deploy.sett_system.vaults['experimental.digg'],
+		...(FLAGS.STABILIZATION_SETTS ? [this.deploy.sett_system.vaults['experimental.digg']] : []),
 	];
 	public readonly sidebarTokenLinks = sidebarTokenLinks(NETWORK_LIST.ETH);
 	public readonly sidebarPricingLinks = sidebarPricingLinks;
@@ -474,7 +474,16 @@ export class EthNetwork implements Network {
 		return { link: `https://etherscan.io/tx/${transaction.hash}` };
 	}
 	readonly isWhitelisted = {};
-	readonly cappedDeposit = {};
+	readonly cappedDeposit: { [address: string]: boolean } = {
+		...(FLAGS.CONVEX_SETTS
+			? {
+					[this.deploy.sett_system.vaults['native.hbtcCrv']]: true,
+					[this.deploy.sett_system.vaults['native.pbtcCrv']]: true,
+					[this.deploy.sett_system.vaults['native.obtcCrv']]: true,
+					[this.deploy.sett_system.vaults['native.bbtcCrv']]: true,
+			  }
+			: {}),
+	};
 	readonly uncappedDeposit = {
 		[this.deploy.sett_system.vaults['yearn.wBtc']]: true,
 	};

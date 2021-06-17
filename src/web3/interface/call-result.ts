@@ -8,4 +8,9 @@ export interface CallResult {
 	// defined expected call values
 	balanceOf?: MethodResult[];
 	totalStakedFor?: MethodResult[];
+	guestList?: MethodResult[];
+	remainingTotalDepositAllowed?: MethodResult[];
+	remainingUserDepositAllowed?: MethodResult[];
+	totalDepositCap?: MethodResult[];
+	userDepositCap?: MethodResult[];
 }
