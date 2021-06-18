@@ -73,6 +73,16 @@ const useStyles = makeStyles((theme) => ({
 	resetCalculationIcon: {
 		marginRight: 6,
 	},
+	infoBox: {
+		marginTop: theme.spacing(2),
+		border: '1px solid #6B6A6A',
+		padding: 8,
+		borderRadius: 8,
+		textAlign: 'start',
+	},
+	infoText: {
+		fontSize: 12,
+	},
 }));
 
 type BoostCalculatorContainerProps = {
@@ -97,6 +107,8 @@ export const BoostCalculatorContainer = observer(
 		const nonNativeAssetClasses = useAssetInputStyles(nonNative, nonNativeHoldings)();
 
 		const isLoading = !nativeHoldings || !nonNativeHoldings;
+		const showEmptyNonNativeMessage = Number(nonNative) === 0;
+		const showReducedNonNativeMessage = nonNative ? nonNativeHoldings?.gt(nonNative) : false;
 
 		const isThereRemainingToAdd = nativeToAdd ? Number(nativeToAdd) > Number(native) : undefined;
 		const remainingNativeToAdd = isThereRemainingToAdd ? Number(nativeToAdd) - Number(native) : undefined;
@@ -148,7 +160,6 @@ export const BoostCalculatorContainer = observer(
 				<Typography variant="h6">Native: </Typography>
 				<HoldingAssetInput
 					disabled={isLoading}
-					value={native}
 					placeholder="$10,000"
 					fullWidth={extraSmallScreen}
 					InputProps={{
@@ -157,6 +168,7 @@ export const BoostCalculatorContainer = observer(
 					onChange={onNativeChange}
 					onIncrement={handleIncreaseNative}
 					onReduction={handleReduceNative}
+					value={native}
 				/>
 				{remainingNativeToAdd && (
 					<Grid className={classes.valueToAddContainer} container direction="column">
@@ -175,7 +187,6 @@ export const BoostCalculatorContainer = observer(
 				<Typography variant="h6">Non Native: </Typography>
 				<HoldingAssetInput
 					disabled={isLoading}
-					value={nonNative}
 					placeholder="$5,000"
 					fullWidth={extraSmallScreen}
 					InputProps={{
@@ -184,7 +195,22 @@ export const BoostCalculatorContainer = observer(
 					onChange={onNonNativeChange}
 					onIncrement={handleIncreaseNonNative}
 					onReduction={handleReduceNonNative}
+					value={nonNative}
 				/>
+				{showReducedNonNativeMessage && (
+					<Grid className={classes.infoBox}>
+						<Typography className={classes.infoText} color="textSecondary">
+							While reducing Non-Native may increase your boost, your gross yield will be smaller.
+						</Typography>
+					</Grid>
+				)}
+				{showEmptyNonNativeMessage && (
+					<Grid className={classes.infoBox}>
+						<Typography className={classes.infoText} color="textSecondary">
+							You need to have Non Native assets in order to improve your boost
+						</Typography>
+					</Grid>
+				)}
 			</Grid>
 		);
 
@@ -209,7 +235,7 @@ export const BoostCalculatorContainer = observer(
 				<Grid item xs>
 					{nativeBox}
 				</Grid>
-				<Grid item xs={6}>
+				<Grid item xs={5}>
 					{badgerScoreContent}
 				</Grid>
 				<Grid item xs>

@@ -1,12 +1,11 @@
 import React, { useContext } from 'react';
-import { Grid, OutlinedInput, Typography, withStyles } from '@material-ui/core';
-import { Skeleton } from '@material-ui/lab';
-import clsx from 'clsx';
+import { Button, Grid, OutlinedInput, Typography, withStyles } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import BigNumber from 'bignumber.js';
 import { getColorFromComparison } from './utils';
 import { StoreContext } from '../../mobx/store-context';
 import { useNumericInput } from '../../utils/useNumericInput';
+import clsx from 'clsx';
 
 const BoostInput = withStyles(() => ({
 	root: {
@@ -47,35 +46,10 @@ const useBoostStyles = (currentBoost?: string, boost?: BigNumber.Value) => {
 	});
 };
 
-const useRankStyles = (currentRank?: string, rank?: BigNumber.Value) => {
-	return makeStyles((theme) => {
-		if (!currentRank || !rank) {
-			return {
-				fontColor: {
-					color: theme.palette.text.secondary,
-				},
-			};
-		}
-
-		return {
-			fontColor: {
-				color: getColorFromComparison({
-					toCompareValue: currentRank,
-					toBeComparedValue: rank,
-					greaterCaseColor: theme.palette.error.main,
-					lessCaseColor: '#74D189',
-					defaultColor: theme.palette.text.secondary,
-				}),
-			},
-		};
-	});
-};
-
 const useStyles = makeStyles((theme) => ({
 	header: {
-		padding: theme.spacing(2),
+		height: 50,
 	},
-
 	boostText: {
 		fontSize: theme.spacing(4),
 	},
@@ -85,8 +59,27 @@ const useStyles = makeStyles((theme) => ({
 	rankValue: {
 		marginLeft: 6,
 	},
+	boostContainer: {
+		textAlign: 'center',
+	},
 	invalidBoost: {
 		color: theme.palette.error.main,
+	},
+	estimatedEarningsContainer: {
+		marginRight: 10,
+	},
+	estimatedEarningsText: {
+		fontSize: 12,
+		textTransform: 'uppercase',
+	},
+	estimatedEarningsAmount: {
+		fontSize: 20,
+	},
+	resetCalculations: {
+		textAlign: 'end',
+	},
+	resetButton: {
+		height: 34,
 	},
 }));
 
@@ -94,11 +87,11 @@ const isValidBoost = (boost: string) => Number(boost) >= 1 && Number(boost) <= 3
 
 interface Props {
 	boost?: string;
-	rank?: string;
 	onBoostChange: (change: string) => void;
+	onReset: () => void;
 }
 
-export const BoostCalculatorHeader = ({ boost, rank, onBoostChange }: Props): JSX.Element => {
+export const BoostCalculatorHeader = ({ boost, onBoostChange, onReset }: Props): JSX.Element => {
 	const {
 		user: { accountDetails },
 	} = useContext(StoreContext);
@@ -106,13 +99,29 @@ export const BoostCalculatorHeader = ({ boost, rank, onBoostChange }: Props): JS
 	const { onValidChange, inputProps } = useNumericInput();
 	const classes = useStyles();
 	const boostClasses = useBoostStyles(boost, accountDetails?.boost)();
-	const rankClasses = useRankStyles(rank, accountDetails?.boostRank)();
 	const validBoost = boost !== undefined ? isValidBoost(boost) : true; // evaluate only after loaded
 
 	return (
-		<Grid container direction="column" justify="center" spacing={3} className={classes.header}>
-			<Grid container justify="center" alignItems="center">
-				<Typography className={classes.boostText}>Boost: </Typography>
+		<Grid container className={classes.header} alignItems="center">
+			<Grid item container xs>
+				<Grid item className={classes.estimatedEarningsContainer}>
+					<Typography className={classes.estimatedEarningsText} color="textSecondary">
+						Estimated
+					</Typography>
+					<Typography className={classes.estimatedEarningsText} color="textSecondary">
+						Earnings:
+					</Typography>
+				</Grid>
+				<Grid item>
+					<Typography className={clsx(classes.estimatedEarningsText, classes.estimatedEarningsAmount)}>
+						$5,630
+					</Typography>
+				</Grid>
+			</Grid>
+			<Grid item xs={5} className={classes.boostContainer}>
+				<Typography display="inline" className={classes.boostText}>
+					Boost:
+				</Typography>
 				<BoostInput
 					className={validBoost ? boostClasses.fontColor : classes.invalidBoost}
 					disabled={!accountDetails}
@@ -123,14 +132,16 @@ export const BoostCalculatorHeader = ({ boost, rank, onBoostChange }: Props): JS
 					value={boost || ''}
 				/>
 			</Grid>
-			<Grid className={classes.rankContainer} container justify="center" alignItems="center">
-				<Typography color="textSecondary">Rank: </Typography>
-				<Typography
-					color="textSecondary"
-					className={clsx(classes.rankValue, rank !== undefined && rankClasses.fontColor)}
+			<Grid item xs className={classes.resetCalculations}>
+				<Button
+					className={classes.resetButton}
+					color="primary"
+					variant="outlined"
+					size="small"
+					onClick={onReset}
 				>
-					{rank || <Skeleton width={35} />}
-				</Typography>
+					Reset Calculations
+				</Button>
 			</Grid>
 		</Grid>
 	);

@@ -8,6 +8,7 @@ import { BoostCalculatorContainer } from './BoostCalculatorContent';
 import { StoreContext } from '../../mobx/store-context';
 import { useConnectWallet } from '../../mobx/utils/hooks';
 import { formatWithoutExtraZeros } from './utils';
+import { BoostLeaderBoardRank } from './BoostLeaderBoardRank';
 import { BoostCalculatorHeader } from './BoostCalculatorHeader';
 
 const useStyles = makeStyles((theme) => ({
@@ -16,16 +17,16 @@ const useStyles = makeStyles((theme) => ({
 		width: '100%',
 		boxSizing: 'border-box',
 		padding: theme.spacing(3),
-		maxWidth: 650,
 		flexDirection: 'column',
+		[theme.breakpoints.up('sm')]: {
+			height: 453,
+		},
 	},
 	divider: {
 		[theme.breakpoints.down('sm')]: {
-			marginTop: theme.spacing(1),
-			marginBottom: theme.spacing(2),
+			margin: theme.spacing(1, 0),
 		},
-		marginTop: theme.spacing(2),
-		marginBottom: theme.spacing(5),
+		margin: theme.spacing(3, 0),
 	},
 }));
 
@@ -56,6 +57,14 @@ export const BoostCalculator = observer(
 
 			setBoost(newBoostRatio.toFixed(2));
 			setRank((newRank + 1).toString()); // +1 because the position is zero index
+		};
+
+		const handleReset = () => {
+			if (nativeHoldings && nonNativeHoldings) {
+				setNative(formatWithoutExtraZeros(nativeHoldings, 3));
+				setNonNative(formatWithoutExtraZeros(nonNativeHoldings, 3));
+				setNativeToAdd(undefined);
+			}
 		};
 
 		const handleBoostChange = (updatedBoost: string) => {
@@ -110,17 +119,28 @@ export const BoostCalculator = observer(
 		return (
 			<Grid container spacing={2}>
 				<Grid item xs={12} md>
-					<Paper className={classes.calculatorContainer}>
-						<BoostCalculatorHeader boost={boost} rank={rank} onBoostChange={handleBoostChange} />
+					<Grid container component={Paper} className={classes.calculatorContainer}>
+						<Grid item>
+							<BoostCalculatorHeader
+								boost={boost}
+								onBoostChange={handleBoostChange}
+								onReset={handleReset}
+							/>
+						</Grid>
 						<Divider className={classes.divider} />
-						<BoostCalculatorContainer
-							native={native || ''}
-							nonNative={nonNative || ''}
-							nativeToAdd={nativeToAdd}
-							onNativeChange={handleNativeChange}
-							onNonNativeChange={handleNonNativeChange}
-						/>
-					</Paper>
+						<Grid item xs>
+							<BoostCalculatorContainer
+								native={native || ''}
+								nonNative={nonNative || ''}
+								nativeToAdd={nativeToAdd}
+								onNativeChange={handleNativeChange}
+								onNonNativeChange={handleNonNativeChange}
+							/>
+						</Grid>
+					</Grid>
+				</Grid>
+				<Grid item xs={12} md={3}>
+					<BoostLeaderBoardRank rank={rank} />
 				</Grid>
 			</Grid>
 		);

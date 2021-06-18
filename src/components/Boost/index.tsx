@@ -15,10 +15,8 @@ const useStyles = makeStyles((theme) => ({
 		marginTop: theme.spacing(3),
 		marginBottom: theme.spacing(3),
 	},
-	footerContainer: {
-		textAlign: 'center',
-		textDecoration: 'underline',
-		padding: theme.spacing(2) + 'px !important',
+	boostLink: {
+		fontWeight: 'bold',
 	},
 }));
 
@@ -29,13 +27,16 @@ export const Boost = observer(() => {
 		<Container className={classes.root}>
 			<Grid container spacing={1} justify="center">
 				<Grid item xs={12} className={classes.headerContainer}>
-					<PageHeader title="Boost Optimizer" subtitle="Calculate the amounts required for your boost." />
+					<PageHeader
+						title="Badger Boost Optimizer"
+						subtitle="Use this tool to determine the amount you need to deposit in order to hit your desired boost ratio."
+					/>
+					<Link href="#" color="primary" className={classes.boostLink}>
+						How does boosts work?
+					</Link>
 				</Grid>
 				<Grid item xs={12}>
 					<BoostCalculator />
-				</Grid>
-				<Grid item xs={12} className={classes.footerContainer}>
-					<Link>How Does Boosts Work?</Link>
 				</Grid>
 			</Grid>
 		</Container>
