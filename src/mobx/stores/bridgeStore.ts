@@ -56,6 +56,7 @@ const defaultProps = {
 	network: undefined,
 
 	renVMStatus: null,
+	mintGateway: null,
 
 	badgerBurnFee: 0,
 	badgerMintFee: 0,
@@ -131,6 +132,7 @@ class BridgeStore {
 	public status!: Status;
 
 	public renVMStatus!: LockAndMintStatus | BurnAndReleaseStatus | null;
+	public mintGateway!: string | null;
 
 	constructor(store: RootStore) {
 		this.store = store;
@@ -438,6 +440,10 @@ class BridgeStore {
 						contractFn: parsedTx.params.contractFn,
 						contractParams: parsedTx.params.contractParams,
 					}),
+				});
+				this._updateState({
+					...parsedTx,
+					mintGateway: mint.gatewayAddress,
 				});
 
 				mint.on('deposit', async (deposit) => {

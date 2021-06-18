@@ -4,7 +4,7 @@ import { ethers } from 'ethers';
 import { EthArgs, LockAndMintStatus, BurnAndReleaseStatus } from '@renproject/interfaces';
 import Web3 from 'web3';
 import { observer } from 'mobx-react-lite';
-import { Grid, Modal, Tabs, Tab, FormControl, Select, MenuItem, Typography } from '@material-ui/core';
+import { Grid, Modal, TextField, Tabs, Tab, FormControl, Select, MenuItem, Typography } from '@material-ui/core';
 
 import { MintForm } from './MintForm';
 import { ReleaseForm } from './ReleaseForm';
@@ -25,6 +25,121 @@ const WBTCLogo = '/assets/icons/wbtc.svg';
 const byvWBTCLogo = '/assets/icons/byvwbtc.svg';
 const renBTCLogo = '/assets/icons/renbtc.svg';
 const crvBTCLogo = '/assets/icons/bcrvrenwbtc.png';
+const btcLogo = '/assets/icons/btc.svg';
+
+function MintStatusDisplay({
+	status,
+	bitcoinAddress,
+	classes,
+	amount,
+}: {
+	amount: string;
+	status: LockAndMintStatus;
+	bitcoinAddress: string;
+	classes: { logo: string };
+}) {
+	let transactionStatus = null;
+	let step = 0;
+	switch (status) {
+		case LockAndMintStatus.Committed:
+			transactionStatus = 'Committed';
+			step = 0;
+			break;
+		case LockAndMintStatus.Deposited:
+			transactionStatus = 'Deposited';
+			step = 1;
+			break;
+		case LockAndMintStatus.Confirmed:
+			transactionStatus = 'Confirmed';
+			step = 2;
+			break;
+		case LockAndMintStatus.SubmittedToRenVM:
+			transactionStatus = 'Submitted to RenVM';
+			step = 3;
+			break;
+		case LockAndMintStatus.ReturnedFromRenVM:
+			transactionStatus = 'Returned from RenVM';
+			step = 4;
+			break;
+		case LockAndMintStatus.SubmittedToLockChain:
+			transactionStatus = 'Submitted to lock chain';
+			step = 5;
+			break;
+		case LockAndMintStatus.ConfirmedOnLockChain:
+			transactionStatus = 'Confirmed on lock chain';
+			step = 6;
+			break;
+		case LockAndMintStatus.SubmittedToEthereum:
+			transactionStatus = 'Submitted to Ethereum';
+			step = 7;
+			break;
+		case LockAndMintStatus.ConfirmedOnEthereum:
+			transactionStatus = 'Confirmed on Ethereum';
+			step = 8;
+			break;
+	}
+
+	if (step === 0) {
+		return (
+			<div>
+				<img src={btcLogo} className={classes.logo} />
+				<h1>Send {amount} BTC to</h1>
+				<TextField value={bitcoinAddress} />
+			</div>
+		);
+	}
+
+	return <div>{transactionStatus}</div>;
+}
+
+function BurnStatusDisplay({ status }: { classes: { logo: string }; status: BurnAndReleaseStatus }) {
+	let transactionStatus = '';
+	let step = 0;
+	switch (status) {
+		case BurnAndReleaseStatus.Committed:
+			transactionStatus = 'Committed';
+			step = 0;
+			break;
+		case BurnAndReleaseStatus.SubmittedToLockChain:
+			transactionStatus = 'Submitted to lock chain';
+			step = 1;
+			break;
+		case BurnAndReleaseStatus.ConfirmedOnLockChain:
+			transactionStatus = 'Confirmed on lock chain';
+			step = 2;
+			break;
+		case BurnAndReleaseStatus.SubmittedToRenVM:
+			transactionStatus = 'Submitted to RenVM';
+			step = 3;
+			break;
+		case BurnAndReleaseStatus.ReturnedFromRenVM:
+			transactionStatus = 'Returned from RenVM';
+			step = 4;
+			break;
+		case BurnAndReleaseStatus.NoBurnFound:
+			transactionStatus = 'No burn found';
+			step = 5;
+			break;
+		case BurnAndReleaseStatus.SubmittedToEthereum:
+			transactionStatus = 'Submitted to Ethereum';
+			step = 6;
+			break;
+		case BurnAndReleaseStatus.ConfirmedOnEthereum:
+			transactionStatus = 'Confirmed on Ethereum';
+			step = 7;
+			break;
+		default:
+			transactionStatus = 'Unknown';
+			console.error(`Unknown RenVM status: ${status}`);
+	}
+
+	return (
+		<div>
+			{step}
+			{transactionStatus}
+		</div>
+	);
+}
 
 type TabPanelProps = PropsWithChildren<{
 	index: number;
@@ -733,70 +848,16 @@ export const BridgeForm = observer(({ classes }: any) => {
 		);
 	}
 
-	let transactionStatus = null;
-	switch (renVMStatus) {
-		case LockAndMintStatus.Committed:
-			transactionStatus = 'Committed';
-			break;
-		case LockAndMintStatus.Deposited:
-			transactionStatus = 'Deposited';
-			break;
-		case LockAndMintStatus.Confirmed:
-			transactionStatus = 'Confirmed';
-			break;
-		case LockAndMintStatus.SubmittedToRenVM:
-			transactionStatus = 'Submitted to RenVM';
-			break;
-		case LockAndMintStatus.ReturnedFromRenVM:
-			transactionStatus = 'Returned from RenVM';
-			break;
-		case LockAndMintStatus.SubmittedToLockChain:
-			transactionStatus = 'Submitted to lock chain';
-			break;
-		case LockAndMintStatus.ConfirmedOnLockChain:
-			transactionStatus = 'Confirmed on lock chain';
-			break;
-		case LockAndMintStatus.SubmittedToEthereum:
-			transactionStatus = 'Submitted to Ethereum';
-			break;
-		case LockAndMintStatus.ConfirmedOnEthereum:
-			transactionStatus = 'Confirmed on Ethereum';
-			break;
-		case BurnAndReleaseStatus.Committed:
-			transactionStatus = 'Committed';
-			break;
-		case BurnAndReleaseStatus.SubmittedToLockChain:
-			transactionStatus = 'Submitted to lock chain';
-			break;
-		case BurnAndReleaseStatus.ConfirmedOnLockChain:
-			transactionStatus = 'Confirmed on lock chain';
-			break;
-		case BurnAndReleaseStatus.SubmittedToRenVM:
-			transactionStatus = 'Submitted to RenVM';
-			break;
-		case BurnAndReleaseStatus.ReturnedFromRenVM:
-			transactionStatus = 'Returned from RenVM';
-			break;
-		case BurnAndReleaseStatus.NoBurnFound:
-			transactionStatus = 'No burn found';
-			break;
-		case BurnAndReleaseStatus.SubmittedToEthereum:
-			transactionStatus = 'Submitted to Ethereum';
-			break;
-		case BurnAndReleaseStatus.ConfirmedOnEthereum:
-			transactionStatus = 'Confirmed on Ethereum';
-			break;
-		default:
-			transactionStatus = 'Unknown';
-			console.error(`Unknown RenVM status: ${renVMStatus}`);
-	}
-
 	if (status != Status.IDLE) {
 		return (
 			<Grid container alignItems={'center'} className={classes.padded}>
 				Transaction in progress...
 				<Modal open={true}>
-					<p>{transactionStatus}</p>
+					{isMint ? (
+						<MintStatusDisplay classes={classes} amount={amount} status={renVMStatus} />
+					) : (
+						<BurnStatusDisplay classes={classes} status={renVMStatus} />
+					)}
 				</Modal>
 			</Grid>
 		);
