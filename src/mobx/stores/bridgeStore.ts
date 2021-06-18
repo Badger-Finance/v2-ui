@@ -365,7 +365,7 @@ class BridgeStore {
 
 		try {
 			const created = firebase.firestore.Timestamp.fromDate(new Date(Date.now()));
-			const ref = this.db.collection('transactions').doc();
+			const ref = this.db.collection('transactions2').doc();
 			// At this point we should only have are the tx params.
 			const txData = {
 				...tx,
@@ -394,7 +394,7 @@ class BridgeStore {
 
 		try {
 			const updated = firebase.firestore.Timestamp.fromDate(new Date(Date.now()));
-			const ref = this.db.collection('transactions').doc(tx.id);
+			const ref = this.db.collection('transactions2').doc(tx.id);
 			const txData = {
 				...tx,
 				updated,
