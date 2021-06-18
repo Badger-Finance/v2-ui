@@ -241,6 +241,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 			begin,
 			loading,
 			error,
+			calcMintAndRedeemPath,
 
 			badgerBurnFee,
 			badgerMintFee,
@@ -255,7 +256,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 	} = store;
 
 	const initialTokenState: {
-		token: 'renBTC' | 'WBTC' | 'byvWBTC' | 'bCRVrenBTC' | 'bCRVsBTC' | 'bCRVtBTC';
+		token: 'renBTC' | 'WBTC' | 'byvWBTC' | 'bCRVrenBTC' | 'bCRVsBTC' | 'bCRVtBTC' | 'ibBTC';
 	} = {
 		token: 'renBTC',
 	};
@@ -355,7 +356,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 			[name]: value,
 		}));
 	};
-
+	//not sure if there's a better way to do this than this ugly nested switch statement
 	const vaultAddress = () => {
 		switch (token) {
 			case 'byvWBTC':
@@ -366,6 +367,19 @@ export const BridgeForm = observer(({ classes }: any) => {
 				return sett_system.vaults['native.sbtcCrv'];
 			case 'bCRVtBTC':
 				return sett_system.vaults['native.tbtcCrv'];
+			case 'ibBTC':
+				switch (poolId) {
+					case 0:
+						return sett_system.vaults['native.renCrv'];
+					case 1:
+						return sett_system.vaults['native.sbtcCrv'];
+					case 2:
+						return sett_system.vaults['native.renCrv'];
+					case 3:
+						return sett_system.vaults['yearn.wBtc'];
+					default:
+						return '0x0000000000000000000000000000000000000000';
+				}
 			default:
 				return '0x0000000000000000000000000000000000000000';
 		}
@@ -423,6 +437,14 @@ export const BridgeForm = observer(({ classes }: any) => {
 			maxSlippageBps = Math.round(parseFloat(maxSlippage) * 100);
 			desiredToken = tokens.wBTC;
 		}
+		let ibBTCFlag = false;
+		if (token === 'ibBTC') {
+			ibBTCFlag = true;
+			await calcMintAndRedeemPath(desiredToken.toString(), amountSats);
+			console.log('token is ibbtc');
+		}
+
+		console.log(poolId);
 
 		const contractParams: EthArgs = [
 			{
@@ -446,7 +468,13 @@ export const BridgeForm = observer(({ classes }: any) => {
 				// Will check in SC if address is addres(0), if not, will deposit to the desired vault
 				value: vaultAddress(),
 			},
+			{
+				name: '_mintIbbtc',
+				type: 'bool',
+				value: ibBTCFlag,
+			},
 		];
+		console.log(contractParams);
 
 		const params: RenVMParams = {
 			asset: 'BTC',
@@ -713,6 +741,13 @@ export const BridgeForm = observer(({ classes }: any) => {
 								<span>bCRVtBTC</span>
 							</span>
 						</MenuItem>
+
+						<MenuItem value={'ibBTC'}>
+							<span className={classes.menuItem}>
+								<img src={crvBTCLogo} className={classes.logo} />
+								<span>ibBTC</span>
+							</span>
+						</MenuItem>
 					</Select>
 				)}
 
@@ -768,6 +803,13 @@ export const BridgeForm = observer(({ classes }: any) => {
 								<span>bCRVtBTC</span>
 							</span>
 						</MenuItem>
+
+						<MenuItem value={'ibBTC'}>
+							<span className={classes.menuItem}>
+								<img src={crvBTCLogo} className={classes.logo} />
+								<span>ibBTC</span>
+							</span>
+						</MenuItem>
 					</Select>
 				)}
 			</FormControl>
@@ -792,7 +834,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 								nextStep={nextStep}
 								classes={classes}
 								assetSelect={assetSelect}
-								connectWallet={handleConnect}
+								connectWallet={connectWallet}
 								isEarn={false}
 							/>
 						</TabPanel>
@@ -805,7 +847,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 								nextStep={nextStep}
 								classes={classes}
 								assetSelect={assetSelect}
-								connectWallet={handleConnect}
+								connectWallet={connectWallet}
 								isEarn={true}
 							/>
 						</TabPanel>
@@ -819,7 +861,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 								classes={classes}
 								updateState={updateState}
 								assetSelect={assetSelect}
-								connectWallet={handleConnect}
+								connectWallet={connectWallet}
 								calcFees={calcFees}
 							/>
 						</TabPanel>
