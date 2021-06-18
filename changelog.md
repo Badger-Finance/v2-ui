@@ -1,5 +1,9 @@
 # v2 UI Changelog
 
+### Hotfix - 06/17/2021
+
+-   fixed an issue with ibBTC redeem validation that was blocking all redeems
+
 ### v2.7.8 - 06/15/2021
 
 -   fixed an issue allowing connections to unsupported networks

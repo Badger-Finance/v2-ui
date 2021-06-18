@@ -1,5 +1,6 @@
 import React from 'react';
 import { Chip, makeStyles } from '@material-ui/core';
+import { CSSProperties } from '@material-ui/styles';
 
 interface SettBadgeProps {
 	settName: string;
@@ -12,33 +13,22 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const SettBadge = (props: SettBadgeProps): JSX.Element => {
+const SettBadge = (props: SettBadgeProps): JSX.Element | null => {
 	const { settName } = props;
 	const classes = useStyles();
+
+	let style: CSSProperties | undefined;
 	switch (settName) {
 		case 'Harvest':
-			return (
-				<Chip
-					className={classes.chip}
-					label={settName}
-					size="small"
-					color="primary"
-					style={{ backgroundColor: '#eebf65' }}
-				/>
-			);
+			style = { backgroundColor: '#eebf65' };
+			break;
 		case 'Yearn':
-			return (
-				<Chip
-					className={classes.chip}
-					label={settName}
-					size="small"
-					color="primary"
-					style={{ backgroundColor: '#0657f9', color: 'white' }}
-				/>
-			);
+			style = { backgroundColor: '#0657f9', color: 'white' };
+			break;
 		default:
-			return <> </>;
+			return null;
 	}
+	return <Chip className={classes.chip} label={settName} size="small" color="primary" style={style} />;
 };
 
 export default SettBadge;

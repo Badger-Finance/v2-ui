@@ -163,7 +163,8 @@ const SettListItem = observer(
 					.reduce((total, apr) => (total += apr), 0) / divisor;
 		}
 
-		return network.isWhitelisted[sett.vaultToken] && !user.viewSettShop() ? (
+		// TODO: Clean up no access implementation, too much duplication
+		return sett.hasBouncer && !user.viewSettShop() ? (
 			<DisabledSettListItem
 				apy={apr}
 				tooltip={tooltip}

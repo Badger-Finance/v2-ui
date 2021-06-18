@@ -62,6 +62,9 @@ export class TokenBalance {
 	 * to effectively convert balances using ppfs as the given scalar.
 	 */
 	scale(scalar: BigNumber, scalePrice?: boolean): TokenBalance {
+		if (this.tokenBalance.eq(0)) {
+			return this;
+		}
 		const tokenBalance = this.tokenBalance.multipliedBy(scalar);
 		const price = scalePrice ? this.price.dividedBy(scalar) : this.price;
 		return new TokenBalance(this.token, tokenBalance, price);

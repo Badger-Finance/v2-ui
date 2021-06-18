@@ -16,6 +16,9 @@ const useStyles = makeStyles((theme) => ({
 		display: 'flex',
 		alignItems: 'flex-end',
 	},
+	roiText: {
+		marginLeft: theme.spacing(6),
+	},
 }));
 
 interface TableHeaderProps {
@@ -52,7 +55,7 @@ export default function TableHeader(props: TableHeaderProps): JSX.Element {
 				</Typography>
 			</Grid>
 			<Grid item xs={12} sm={4} md={3} className={classes.hiddenMobile}>
-				<Typography variant="body2" color="textSecondary">
+				<Typography variant="body2" color="textSecondary" className={classes.roiText}>
 					{samplePeriods[period]} ROI
 				</Typography>
 			</Grid>
