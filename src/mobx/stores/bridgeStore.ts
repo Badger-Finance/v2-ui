@@ -9,20 +9,24 @@ import { extendObservable, action, observe, IValueDidChange, toJS } from 'mobx';
 import { retry } from '@lifeomic/attempt';
 import { RootStore } from '../RootStore';
 import {
-	defaultRetryOptions,
 	// abis
 	ERC20,
 	RENVM_GATEWAY_ADDRESS,
 } from 'config/constants';
 import { BADGER_ADAPTER } from 'config/system/abis/BadgerAdapter';
 import { BTC_GATEWAY } from 'config/system/abis/BtcGateway';
-import { bridge_system, tokens, sett_system } from 'config/deployments/mainnet.json';
+import { bridge_system, tokens, sett_system, defi_dollar } from 'config/deployments/mainnet.json';
+import { shortenAddress } from 'utils/componentHelpers';
 import { isEqual } from '../../utils/lodashToNative';
 import { RenVMTransaction } from '../model/bridge/renVMTransaction';
 import { defaultNetwork } from 'config/networks.config';
 import { REN_FEES_ENDPOINT } from '../../config/constants';
 import { Network } from '@badger-dao/sdk';
 import storage from '../../utils/storage';
+
+//testing
+import { abi } from 'config/system/abis/ZapPeak.json';
+//import { ZAP_PEAK } from 'config/system/abis/ZapPeak';
 
 export enum Status {
 	// Idle means we are ready to begin a new tx.
@@ -41,6 +45,16 @@ const DECIMALS = 10 ** 8;
 const SETT_DECIMALS = 10 ** 18;
 const MAX_BPS = 10000;
 const UPDATE_INTERVAL_SECONDS = 30 * 1000; // 30 seconds
+
+const defaultRetryOptions = {
+	// delay defaults to 200 ms.
+	// delay grows exponentially by factor each attempt.
+	factor: 1.5,
+	// delay grows up until max delay.
+	maxDelay: 1000,
+	// maxAttempts to make before giving up.
+	maxAttempts: 3,
+};
 
 const defaultProps = {
 	history: [],
@@ -62,6 +76,8 @@ const defaultProps = {
 	wbtcBalance: 0,
 
 	shortAddr: '',
+
+	poolId: null,
 };
 
 const supportedBridgeNetworks: string[] = [Network.Ethereum];
@@ -71,6 +87,7 @@ class BridgeStore {
 	private network!: string | undefined;
 	private renJS: RenJS;
 	private adapter!: Contract;
+	private zapPeak!: Contract;
 
 	private renbtc!: Contract;
 	private wbtc!: Contract;
@@ -96,6 +113,8 @@ class BridgeStore {
 	public bCRVrenBTCBalance!: number;
 	public bCRVsBTCBalance!: number;
 	public bCRVtBTCBalance!: number;
+
+	public poolId!: number;
 
 	public shortAddr!: string;
 
@@ -226,6 +245,7 @@ class BridgeStore {
 			this._getFees(),
 			this._getRenFees(),
 			this._getBTCNetworkFees(),
+			//this._calcMintAndRedeemPath('0xEB4C2781e4ebA804CE9a9803C67d0893436bB27D', 10),
 		])
 			.catch((err: Error) => {
 				console.error(err);
@@ -619,6 +639,40 @@ class BridgeStore {
 			queueNotification(`Failed to fetch BTC network fees: ${err.message}`, 'error');
 		}
 	};
+
+	calcMintAndRedeemPath = action(async (token: string, amount: BigNumber) => {
+		const { queueNotification } = this.store.uiState;
+		try {
+			await retry(async () => {
+				//const optimalPath = await Promise.all([this.zapPeak.methods.calcMint(token, amount).call()]);
+				const optimalPath = await this.zapPeak.methods.calcMint(token, amount).call();
+				console.log(optimalPath);
+				this.poolId = parseInt(optimalPath['poolId']);
+				console.log(this.poolId);
+			}, defaultRetryOptions);
+		} catch (err) {
+			queueNotification(`Failed to fetch optimal PoolID: ${err.message}`, 'error');
+			console.log(err.message);
+		}
+	});
+	/*
+	calcMintAndRedeemPath = action(
+		async (token: string, amount: BigNumber): Promise<void> => {
+			const { queueNotification } = this.store.uiState;
+			try {
+				await retry(async () => {
+					//const optimalPath = await Promise.all([this.zapPeak.methods.calcMint(token, amount).call()]);
+					const optimalPath = await this.zapPeak.methods.calcMint(token, amount).call();
+					console.log(optimalPath);
+					this.poolId = optimalPath['poolId'];
+				}, defaultRetryOptions);
+			} catch (err) {
+				queueNotification(`Failed to fetch optimal PoolID: ${err.message}`, 'error');
+				console.log(err.message);
+			}
+		},
+	);
+	*/
 }
 
 const _isTxComplete = function (tx: RenVMTransaction) {
