@@ -34,9 +34,9 @@ function MintStatusDisplay({
 	amount,
 }: {
 	amount: string;
-	status: LockAndMintStatus;
-	bitcoinAddress: string;
-	classes: { logo: string };
+	status: LockAndMintStatus | null;
+	bitcoinAddress: string | null;
+	classes: { logo: string; elephant: string };
 }) {
 	let transactionStatus = null;
 	let step = 0;
@@ -92,7 +92,7 @@ function MintStatusDisplay({
 	return <div>{transactionStatus}</div>;
 }
 
-function BurnStatusDisplay({ status }: { classes: { logo: string }; status: BurnAndReleaseStatus }) {
+function BurnStatusDisplay({ status }: { classes: { logo: string }; status: BurnAndReleaseStatus | null }) {
 	let transactionStatus = '';
 	let step = 0;
 	switch (status) {
@@ -198,7 +198,6 @@ export const BridgeForm = observer(({ classes }: any) => {
 		uiState: { queueNotification, setTxStatus },
 		bridge: {
 			status,
-			renVMStatus,
 			begin,
 			nextNonce,
 			loading,
@@ -210,6 +209,10 @@ export const BridgeForm = observer(({ classes }: any) => {
 			renvmMintFee,
 			lockNetworkFee,
 			releaseNetworkFee,
+
+			renVMStatus,
+			mintGateway,
+			current,
 		},
 	} = store;
 
@@ -852,13 +855,20 @@ export const BridgeForm = observer(({ classes }: any) => {
 		return (
 			<Grid container alignItems={'center'} className={classes.padded}>
 				Transaction in progress...
-				<Modal open={true}>
-					{isMint ? (
-						<MintStatusDisplay classes={classes} amount={amount} status={renVMStatus} />
-					) : (
-						<BurnStatusDisplay classes={classes} status={renVMStatus} />
-					)}
-				</Modal>
+				{current && (
+					<Modal open={true}>
+						{current.params.contractFn === 'mint' ? (
+							<MintStatusDisplay
+								classes={classes}
+								amount={amount}
+								status={renVMStatus as LockAndMintStatus | null}
+								bitcoinAddress={mintGateway}
+							/>
+						) : (
+							<BurnStatusDisplay classes={classes} status={renVMStatus as BurnAndReleaseStatus | null} />
+						)}
+					</Modal>
+				)}
 			</Grid>
 		);
 	}

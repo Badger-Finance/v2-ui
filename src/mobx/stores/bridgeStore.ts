@@ -441,7 +441,7 @@ class BridgeStore {
 						contractParams: parsedTx.params.contractParams,
 					}),
 				});
-				this._updateState({
+				this._updateTx({
 					...parsedTx,
 					mintGateway: mint.gatewayAddress,
 				});
