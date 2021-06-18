@@ -55,9 +55,6 @@ const defaultProps = {
 	error: null,
 	network: undefined,
 
-	renVMStatus: null,
-	mintGateway: null,
-
 	badgerBurnFee: 0,
 	badgerMintFee: 0,
 	renvmBurnFee: 0,
@@ -130,9 +127,6 @@ class BridgeStore {
 	public error!: Error | null;
 	public loading!: boolean;
 	public status!: Status;
-
-	public renVMStatus!: LockAndMintStatus | BurnAndReleaseStatus | null;
-	public mintGateway!: string | null;
 
 	constructor(store: RootStore) {
 		this.store = store;
@@ -402,7 +396,7 @@ class BridgeStore {
 				status: tx.status ? tx.status : '',
 				// Just enough params from the transaction to be able to recover
 				encodedTx: JSON.stringify(
-					(({ params, txHash, mintChainHash }) => ({ params, txHash, mintChainHash }))(tx),
+					(({ user, params, txHash, mintChainHash }) => ({ user, params, txHash, mintChainHash }))(tx),
 				),
 			};
 			// Deletion is a soft delete.
@@ -445,10 +439,11 @@ class BridgeStore {
 						contractParams: parsedTx.params.contractParams,
 					}),
 				});
-				this._updateTx({
+				await this._updateTx({
 					...parsedTx,
 					mintGateway: mint.gatewayAddress,
 				});
+				console.log(mint, mint.gatewayAddress, this.store.bridge, 'here');
 
 				mint.on('deposit', async (deposit) => {
 					// Details of the deposit are available from `deposit.depositDetails`.
@@ -526,6 +521,7 @@ class BridgeStore {
 				throw new Error('Unknown contract function: ' + parsedTx.params.contractFn);
 			}
 		} catch (err) {
+			console.error(err);
 			queueNotification(`Failed to open tx: ${err.message}`, 'error');
 			// Blocking error if err on open/recover.
 			this.error = err;
@@ -631,7 +627,7 @@ const checkUserAddrInvariantAndThrow = (tx: RenVMTransaction) => {
 
 	const user = tx.params.contractParams?.find(({ name }) => name === '_user');
 	if (user?.value !== tx.user) {
-		throw `Mint destination (${user}) does not match connected address (${tx.user})`;
+		throw `Mint destination (${user?.value}) does not match connected address (${tx.user})`;
 	}
 };
 

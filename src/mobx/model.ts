@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js';
 import { AbiItem } from 'web3-utils';
 import Web3 from 'web3';
 import { CustomNotificationObject, EmitterListener, TransactionData } from 'bnc-notify';
-import { TransferParamsCommon, ContractCall } from '@renproject/interfaces';
+import { TransferParamsCommon, ContractCall, LockAndMintStatus, BurnAndReleaseStatus } from '@renproject/interfaces';
 import { RootStore } from './store';
 import { getAirdrops } from 'config/system/airdrops';
 import { getRebase } from '../config/system/rebase';
@@ -627,6 +627,8 @@ export type RenVMTransaction = {
 	encodedTx: string; // json encoded tx data.
 	// NB: The web3Provider field is not encoded (for obvious reasons).
 	params: RenVMParams;
+	renVMStatus: LockAndMintStatus | BurnAndReleaseStatus | null;
+	mintGateway: string | null;
 	txHash?: string;
 	mintChainHash?: string;
 	status: string;
