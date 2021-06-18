@@ -33,7 +33,8 @@
 		"DROPT-1": "0x02660B54750eFab874fb43B4B613C135c7815EeF",
 		"curve.hBTC": "0xb19059ebb43466C323583928285a49f558E572Fd",
 		"curve.pBTC": "0xDE5331AC4B3630f94853Ff322B66407e0D6331E8",
-		"curve.oBTC": "0x410e3E86ef427e30B9235497143881f717d93c2A"
+		"curve.oBTC": "0x2fE94ea3d5d4a175184081439753DE15AeF9d614",
+		"curve.bBTC": "0x410e3E86ef427e30B9235497143881f717d93c2A"
 	},
 	"logic": {
 		"SmartVesting": "0x07c0E4f4C977a29c46Fb26597ea8C9105ca50b42",
@@ -94,10 +95,10 @@
 			"yearn.wBtc": "0x4b92d19c11435614CD49Af1b589001b7c08cD4D5",
 			"native.sushiibBTCwBTC": "0x8a8FFec8f4A0C8c9585Da95D9D97e8Cd6de273DE",
 			"experimental.digg": "0x608b6D82eb121F3e5C0baeeD32d81007B916E83C",
-			"native.hbtcCrv": "0x8c76970747afd5398e958bdfada4cf0b9fca16c4",
-			"native.pbtcCrv": "0x55912d0cf83b75c492e761932abc4db4a5cb1b17",
-			"native.obtcCrv": "0xf349c0faa80fc1870306ac093f75934078e28991",
-			"native.bbtcCrv": "0x5dce29e92b1b939f8e8c60dcf15bde82a85be4a9"
+			"native.hbtcCrv": "0x8c76970747afd5398e958bDfadA4cf0B9FcA16c4",
+			"native.pbtcCrv": "0x55912D0Cf83B75c492E761932ABc4DB4a5CB1b17",
+			"native.obtcCrv": "0xf349c0faA80fC1870306Ac093f75934078e28991",
+			"native.bbtcCrv": "0x5Dce29e92b1b939F8E8C60DcF15BDE82A85be4a9"
 		},
 		"strategies": {
 			"native.badger": "0x75b8E21BD623012Efb3b69E1B562465A68944eE6",

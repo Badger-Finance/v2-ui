@@ -250,24 +250,6 @@ exports[`Landing Page Renders correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiGrid-root-20 MuiGrid-container-21 MuiGrid-spacing-xs-1-43 MuiGrid-justify-xs-center-38"
-    >
-      <button
-        class="MuiButtonBase-root-251 MuiButton-root-222 MuiButton-outlined-227 makeStyles-announcementButton-11 MuiButton-outlinedPrimary-228 MuiButton-outlinedSizeSmall-239 MuiButton-sizeSmall-243"
-        tabindex="0"
-        type="button"
-      >
-        <span
-          class="MuiButton-label-223"
-        >
-          Note: New Vaults may take up to 2 weeks from launch to reach full efficiency.
-        </span>
-        <span
-          class="MuiTouchRipple-root-338"
-        />
-      </button>
-    </div>
-    <div
       class="makeStyles-settListContainer-320"
     >
       <div
