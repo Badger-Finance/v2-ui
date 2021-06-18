@@ -6,8 +6,8 @@ import { provider } from 'web3-core';
 import { AbiItem } from 'web3-utils';
 import { Bitcoin, Ethereum } from '@renproject/chains';
 import RenJS from '@renproject/ren';
-import { EthArg, LockAndMintStatus, BurnAndReleaseStatus } from '@renproject/interfaces';
-import { extendObservable, action, observe, IValueDidChange } from 'mobx';
+import { EthArg, TxStatus, LockAndMintStatus, BurnAndReleaseStatus } from '@renproject/interfaces';
+import { extendObservable, action, observe, IValueDidChange, toJS } from 'mobx';
 import { retry } from '@lifeomic/attempt';
 
 import fbase from 'fbase';
@@ -400,6 +400,10 @@ class BridgeStore {
 				updated,
 				error: err && err.message ? err.message : '',
 				status: tx.status ? tx.status : '',
+				// Just enough params from the transaction to be able to recover
+				encodedTx: JSON.stringify(
+					(({ params, txHash, mintChainHash }) => ({ params, txHash, mintChainHash }))(tx),
+				),
 			};
 			// Deletion is a soft delete.
 			if (deleted) {
@@ -426,7 +430,7 @@ class BridgeStore {
 		const { queueNotification } = this.store.uiState;
 
 		try {
-			const parsedTx = JSON.parse(tx.encodedTx);
+			const parsedTx = tx.encodedTx ? JSON.parse(tx.encodedTx) : toJS(tx);
 			const web3 = (window as any).web3;
 			if (parsedTx.params.contractFn === 'mint') {
 				checkUserAddrInvariantAndThrow(parsedTx);
@@ -462,12 +466,15 @@ class BridgeStore {
 					await deposit
 						.signed()
 						// Store RenVM status - "pending", "confirming" or "done".
-						.on('status', (status) =>
-							this._updateTx({
+						.on('status', (status) => {
+							if (status === TxStatus.TxStatusDone) {
+								this._complete();
+							}
+							return this._updateTx({
 								...parsedTx,
-								renVMStatus: status,
-							}),
-						);
+								renVMStatus: deposit.status,
+							});
+						});
 
 					await deposit
 						.mint()
@@ -499,12 +506,15 @@ class BridgeStore {
 				await burnAndRelease
 					.release()
 					// Store RenVM status - "pending", "confirming" or "done".
-					.on('status', (status) =>
-						this._updateTx({
+					.on('status', (status) => {
+						if (status === TxStatus.TxStatusDone) {
+							this._complete();
+						}
+						return this._updateTx({
 							...parsedTx,
-							renVMStatus: status,
-						}),
-					)
+							renVMStatus: burnAndRelease.status,
+						});
+					})
 					// Store RenVM transaction hash for recovery
 					.on('txHash', (txHash: string) =>
 						this._updateTx({
