@@ -450,6 +450,7 @@ export class EthNetwork implements Network {
 		this.deploy.sett_system.vaults['harvest.renCrv'],
 		...(FLAGS.CONVEX_SETTS
 			? [
+					this.deploy.sett_system.vaults['native.tricryptoCrv'],
 					this.deploy.sett_system.vaults['native.hbtcCrv'],
 					this.deploy.sett_system.vaults['native.pbtcCrv'],
 					this.deploy.sett_system.vaults['native.obtcCrv'],
@@ -477,6 +478,7 @@ export class EthNetwork implements Network {
 	readonly cappedDeposit: { [address: string]: boolean } = {
 		...(FLAGS.CONVEX_SETTS
 			? {
+					[this.deploy.sett_system.vaults['native.tricryptoCrv']]: true,
 					[this.deploy.sett_system.vaults['native.hbtcCrv']]: true,
 					[this.deploy.sett_system.vaults['native.pbtcCrv']]: true,
 					[this.deploy.sett_system.vaults['native.obtcCrv']]: true,
