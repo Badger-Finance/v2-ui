@@ -445,7 +445,7 @@ class BridgeStore {
 				});
 				console.log(mint, mint.gatewayAddress, this.store.bridge, 'here');
 
-				mint.on('deposit', async (deposit) => {
+				await mint.on('deposit', async (deposit) => {
 					// Details of the deposit are available from `deposit.depositDetails`.
 
 					const hash = deposit.txHash();
@@ -471,10 +471,14 @@ class BridgeStore {
 							});
 						});
 
-					await deposit
-						.mint()
-						// Print Ethereum transaction hash.
-						.on('transactionHash', (txHash) => depositLog(`Mint tx: ${txHash}`));
+					try {
+						await deposit
+							.mint()
+							// Print Ethereum transaction hash.
+							.on('transactionHash', (txHash) => depositLog(`Mint tx: ${txHash}`));
+					} catch (e) {
+						queueNotification(`Failed to complete transaction: ${e.message}`, 'error');
+					}
 				});
 			} else if (parsedTx.params.contractFn === 'burn') {
 				const toAddress = parsedTx.params.contractParams.find((p: EthArg) => p.name === '_to').value;

@@ -85,7 +85,7 @@ function MintStatusDisplay({
 			<div>
 				<img src={btcLogo} className={classes.logo} />
 				<h1>Send {amount} BTC to</h1>
-				<TextField value={bitcoinAddress} disabled={true} />
+				<TextField fullWidth={true} value={bitcoinAddress} disabled={true} />
 			</div>
 		);
 	}
@@ -150,6 +150,7 @@ const useStyles = makeStyles((theme) => ({
 		border: '2px solid #000',
 		boxShadow: theme.shadows[5],
 		padding: theme.spacing(2, 4, 3),
+		textAlign: 'center',
 	},
 }));
 
@@ -203,8 +204,8 @@ const initialStateResettable = {
 export const BridgeForm = observer(({ classes }: any) => {
 	const modalClasses = useStyles();
 	const [modalStyle] = React.useState({
-		top: `50%`,
-		left: `50%`,
+		top: '30%',
+		left: '50%',
 		transform: `translate(-50%, -50%)`,
 	});
 	const store = useContext(StoreContext);
