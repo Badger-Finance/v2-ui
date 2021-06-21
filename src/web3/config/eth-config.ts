@@ -203,6 +203,16 @@ const ethSettDefinitions: BadgerSett[] = [
 			decimals: 18,
 		},
 	},
+	{
+		depositToken: {
+			address: ETH_DEPLOY.tokens['curve.tricrypto'],
+			decimals: 18,
+		},
+		vaultToken: {
+			address: ETH_DEPLOY.sett_system.vaults['native.tricryptoCrv'],
+			decimals: 18,
+		},
+	},
 ];
 
 const ethRewards = [

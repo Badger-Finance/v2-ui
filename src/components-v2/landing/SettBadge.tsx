@@ -26,7 +26,7 @@ const SettBadge = (props: SettBadgeProps): JSX.Element | null => {
 			style = { backgroundColor: '#0657f9', color: 'white' };
 			break;
 		case 'Convex':
-			style = { backgroundColor: '#1682FE', color: 'white' };
+			style = { backgroundColor: '#459c77', color: 'white' };
 			break;
 		default:
 			return null;

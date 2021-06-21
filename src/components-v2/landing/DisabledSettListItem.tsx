@@ -90,7 +90,14 @@ const DisabledSettListItem = (props: DisabledSettListItemProps): JSX.Element => 
 	const displayValue = balanceValue ? balanceValue : usdToCurrency(new BigNumber(sett.value), currency);
 
 	return (
-		<Tooltip enterDelay={0} leaveDelay={300} arrow placement="top" title={disabledTooltip} onClick={() => onOpen()}>
+		<Tooltip
+			enterDelay={0}
+			leaveDelay={300}
+			arrow
+			placement="top-end"
+			title={disabledTooltip}
+			onClick={() => onOpen()}
+		>
 			<ListItem disabled className={classes.listItem}>
 				<Grid container className={classes.border}>
 					<Grid item xs={12} md={4} className={classes.name} container>
