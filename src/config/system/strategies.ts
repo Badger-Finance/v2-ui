@@ -182,7 +182,7 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 					fees: {
 						['DAO Performance Fee']: new BigNumber(1000),
 						['Strategist Performance Fee']: new BigNumber(1000),
-						['Withdraw Fee']: new BigNumber(50),
+						['Withdraw Fee']: new BigNumber(20),
 					},
 					strategyLink:
 						'https://badger.wiki/Strategies-7bf5b27a451242538f02855ca5aaf4e4#418b98a05da849a3a8dd97f74f8c0c80',
