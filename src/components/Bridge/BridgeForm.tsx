@@ -80,7 +80,7 @@ function MintStatusDisplay({
 
 	if (step === 0) {
 		return (
-			<div>
+			<React.Fragment>
 				<img src={btcLogo} className={classes.logo} />
 				<h1>Send {amount} BTC to</h1>
 				{bitcoinAddress ? (
@@ -88,11 +88,11 @@ function MintStatusDisplay({
 				) : (
 					<p>Loading address</p>
 				)}
-			</div>
+			</React.Fragment>
 		);
 	}
 
-	return <div>{transactionStatus}</div>;
+	return <React.Fragment>{transactionStatus}</React.Fragment>;
 }
 
 function BurnStatusDisplay({ status }: { classes: { logo: string }; status: BurnAndReleaseStatus | null }) {
@@ -137,10 +137,10 @@ function BurnStatusDisplay({ status }: { classes: { logo: string }; status: Burn
 	}
 
 	return (
-		<div>
+		<React.Fragment>
 			{step}
 			{transactionStatus}
-		</div>
+		</React.Fragment>
 	);
 }
 
@@ -847,19 +847,24 @@ export const BridgeForm = observer(({ classes }: any) => {
 
 	if (status !== Status.IDLE) {
 		return (
-			<Grid container alignItems={'center'} className={classes.padded}>
-				{!current ? (
-					'Loading...'
-				) : current.params.contractFn === 'mint' ? (
-					<MintStatusDisplay
-						classes={classes}
-						amount={amount}
-						status={current.renVMStatus as LockAndMintStatus | null}
-						bitcoinAddress={current.mintGateway}
-					/>
-				) : (
-					<BurnStatusDisplay classes={classes} status={current.renVMStatus as BurnAndReleaseStatus | null} />
-				)}
+			<Grid container alignItems={'center'} className={classes.padded} xs={12}>
+				<Grid item xs={12} className={classes.cardContainer}>
+					{!current ? (
+						'Loading...'
+					) : current.params.contractFn === 'mint' ? (
+						<MintStatusDisplay
+							classes={classes}
+							amount={amount}
+							status={current.renVMStatus as LockAndMintStatus | null}
+							bitcoinAddress={current.mintGateway}
+						/>
+					) : (
+						<BurnStatusDisplay
+							classes={classes}
+							status={current.renVMStatus as BurnAndReleaseStatus | null}
+						/>
+					)}
+				</Grid>
 			</Grid>
 		);
 	}

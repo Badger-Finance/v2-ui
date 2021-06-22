@@ -6,7 +6,7 @@ import { provider } from 'web3-core';
 import { AbiItem } from 'web3-utils';
 import { Bitcoin, Ethereum } from '@renproject/chains';
 import RenJS from '@renproject/ren';
-import { EthArg, TxStatus, LockAndMintStatus, BurnAndReleaseStatus } from '@renproject/interfaces';
+import { EthArg, LockAndMintStatus, BurnAndReleaseStatus } from '@renproject/interfaces';
 import { extendObservable, action, observe, IValueDidChange, toJS } from 'mobx';
 import { retry } from '@lifeomic/attempt';
 
@@ -452,37 +452,29 @@ class BridgeStore {
 					// Details of the deposit are available from `deposit.depositDetails`.
 
 					const hash = deposit.txHash();
-					const depositLog = (msg: string) => console.log(`[${hash.slice(0, 8)}][${deposit.status}] ${msg}`);
+					const depositLog = (msg: string) => {
+						console.log(`[${hash.slice(0, 8)}][${deposit.status}] ${msg}`);
+						return this._updateTx({ ...parsedTx, status: deposit.status });
+					};
 
 					try {
 						await deposit
 							.confirmed()
-							.on('target', (target) => {
-								depositLog(`waiting for ${target} confirmations`);
-							})
+							.on('target', (target) => depositLog(`waiting for ${target} confirmations`))
 							.on('confirmation', (confs, target) => depositLog(`${confs}/${target} confirmations`));
 
-						await deposit
-							.signed()
-							// Store RenVM status - "pending", "confirming" or "done".
-							.on('status', (status) => {
-								if (status === TxStatus.TxStatusDone) {
-									this._complete();
-								}
-								return this._updateTx({
-									...parsedTx,
-									status: status,
-									renVMStatus: deposit.status,
-								});
-							});
+						await deposit.signed();
 
 						await deposit
 							.mint()
 							// Print Ethereum transaction hash.
 							.on('transactionHash', (txHash) => depositLog(`Mint tx: ${txHash}`));
+
+						await this._updateTx({ ...parsedTx, status: deposit.status }, true);
+						this._complete();
 					} catch (e) {
 						console.error(e);
-						this._updateTx(parsedTx, true, e);
+						await this._updateTx(parsedTx, true, e);
 						queueNotification(`Failed to complete transaction: ${e.message}`, 'error');
 						this._complete();
 					}
@@ -507,33 +499,26 @@ class BridgeStore {
 					await burnAndRelease.burn().on('transactionHash', (txHash) =>
 						this._updateTx({
 							...parsedTx,
+							status: burnAndRelease.status,
 							mintChainHash: txHash,
 						}),
 					);
 
 					await burnAndRelease
 						.release()
-						// Store RenVM status - "pending", "confirming" or "done".
-						.on('status', (status) => {
-							if (status === TxStatus.TxStatusDone) {
-								this._complete();
-							}
-							return this._updateTx({
-								...parsedTx,
-								status: status,
-								renVMStatus: burnAndRelease.status,
-							});
-						})
 						// Store RenVM transaction hash for recovery
 						.on('txHash', (txHash: string) =>
 							this._updateTx({
 								...parsedTx,
 								txHash,
+								status: burnAndRelease.status,
 							}),
 						);
+					await this._updateTx({ ...parsedTx, status: burnAndRelease.status }, true);
+					this._complete();
 				} catch (e) {
 					console.error(e);
-					this._updateTx(parsedTx, true, e);
+					await this._updateTx(parsedTx, true, e);
 					queueNotification(`Failed to complete transaction: ${e.message}`, 'error');
 					this._complete();
 				}
