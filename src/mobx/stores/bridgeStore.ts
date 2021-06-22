@@ -396,7 +396,14 @@ class BridgeStore {
 				status: tx.status ? tx.status : '',
 				// Just enough params from the transaction to be able to recover
 				encodedTx: JSON.stringify(
-					(({ user, params, txHash, mintChainHash }) => ({ user, params, txHash, mintChainHash }))(tx),
+					(({ user, params, txHash, status, mintChainHash, id }) => ({
+						user,
+						params,
+						txHash,
+						status,
+						mintChainHash,
+						id,
+					}))(tx),
 				),
 			};
 			// Deletion is a soft delete.
@@ -416,6 +423,7 @@ class BridgeStore {
 			}, defaultRetryOptions);
 		} catch (err) {
 			queueNotification(`Failed to update tx in db: ${err.message}`, 'error');
+			console.error(err, 'YOOOOOO');
 			this.error = err;
 		}
 	});
@@ -434,16 +442,15 @@ class BridgeStore {
 					nonce: parsedTx.params.nonce,
 					to: Ethereum(web3.currentProvider).Contract({
 						sendTo: parsedTx.params.sendTo,
-						// Is this right? It used to be 'mint'. Now it's deposit?
 						contractFn: parsedTx.params.contractFn,
 						contractParams: parsedTx.params.contractParams,
 					}),
 				});
+				console.log(parsedTx);
 				await this._updateTx({
 					...parsedTx,
 					mintGateway: mint.gatewayAddress,
 				});
-				console.log(mint, mint.gatewayAddress, this.store.bridge, 'here');
 
 				await mint.on('deposit', async (deposit) => {
 					// Details of the deposit are available from `deposit.depositDetails`.
@@ -478,6 +485,7 @@ class BridgeStore {
 							.on('transactionHash', (txHash) => depositLog(`Mint tx: ${txHash}`));
 					} catch (e) {
 						queueNotification(`Failed to complete transaction: ${e.message}`, 'error');
+						this._complete();
 					}
 				});
 			} else if (parsedTx.params.contractFn === 'burn') {

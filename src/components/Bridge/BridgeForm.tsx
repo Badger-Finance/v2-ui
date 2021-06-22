@@ -85,7 +85,11 @@ function MintStatusDisplay({
 			<div>
 				<img src={btcLogo} className={classes.logo} />
 				<h1>Send {amount} BTC to</h1>
-				<TextField fullWidth={true} value={bitcoinAddress} disabled={true} />
+				{bitcoinAddress ? (
+					<TextField fullWidth={true} value={bitcoinAddress} disabled={true} />
+				) : (
+					<p>Loading address</p>
+				)}
 			</div>
 		);
 	}
@@ -868,7 +872,8 @@ export const BridgeForm = observer(({ classes }: any) => {
 		);
 	}
 
-	if (status != Status.IDLE) {
+	console.log(status);
+	if (status !== Status.IDLE) {
 		return (
 			<Grid container alignItems={'center'} className={classes.padded}>
 				Transaction in progress...
