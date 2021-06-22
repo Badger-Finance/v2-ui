@@ -633,7 +633,7 @@ export type RenVMTransaction = {
 	// ID is the pkey in the db.
 	id: string;
 	user: string;
-	nonce: Buffer;
+	nonce: string;
 	encodedTx: string; // json encoded tx data.
 	// NB: The web3Provider field is not encoded (for obvious reasons).
 	params: RenVMParams;

@@ -3,8 +3,7 @@ import BigNumber from 'bignumber.js';
 import { EthArgs, LockAndMintStatus, BurnAndReleaseStatus } from '@renproject/interfaces';
 import Web3 from 'web3';
 import { observer } from 'mobx-react-lite';
-import { Grid, Modal, TextField, Tabs, Tab, FormControl, Select, MenuItem, Typography } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { Grid, TextField, Tabs, Tab, FormControl, Select, MenuItem, Typography } from '@material-ui/core';
 
 import { MintForm } from './MintForm';
 import { ReleaseForm } from './ReleaseForm';
@@ -145,18 +144,6 @@ function BurnStatusDisplay({ status }: { classes: { logo: string }; status: Burn
 	);
 }
 
-const useStyles = makeStyles((theme) => ({
-	paper: {
-		position: 'absolute',
-		width: 400,
-		backgroundColor: theme.palette.background.paper,
-		border: '2px solid #000',
-		boxShadow: theme.shadows[5],
-		padding: theme.spacing(2, 4, 3),
-		textAlign: 'center',
-	},
-}));
-
 type TabPanelProps = PropsWithChildren<{
 	index: number;
 	value: number;
@@ -200,12 +187,6 @@ const initialStateResettable = {
 };
 
 export const BridgeForm = observer(({ classes }: any) => {
-	const modalClasses = useStyles();
-	const [modalStyle] = React.useState({
-		top: '30%',
-		left: '50%',
-		transform: `translate(-50%, -50%)`,
-	});
 	const store = useContext(StoreContext);
 	const spacer = <div className={classes.before} />;
 
@@ -864,29 +845,20 @@ export const BridgeForm = observer(({ classes }: any) => {
 		);
 	}
 
-	console.log(status);
 	if (status !== Status.IDLE) {
 		return (
 			<Grid container alignItems={'center'} className={classes.padded}>
-				Transaction in progress...
-				{current && (
-					<Modal open={true}>
-						<div className={modalClasses.paper} style={modalStyle}>
-							{current.params.contractFn === 'mint' ? (
-								<MintStatusDisplay
-									classes={classes}
-									amount={amount}
-									status={current.renVMStatus as LockAndMintStatus | null}
-									bitcoinAddress={current.mintGateway}
-								/>
-							) : (
-								<BurnStatusDisplay
-									classes={classes}
-									status={current.renVMStatus as BurnAndReleaseStatus | null}
-								/>
-							)}
-						</div>
-					</Modal>
+				{!current ? (
+					'Loading...'
+				) : current.params.contractFn === 'mint' ? (
+					<MintStatusDisplay
+						classes={classes}
+						amount={amount}
+						status={current.renVMStatus as LockAndMintStatus | null}
+						bitcoinAddress={current.mintGateway}
+					/>
+				) : (
+					<BurnStatusDisplay classes={classes} status={current.renVMStatus as BurnAndReleaseStatus | null} />
 				)}
 			</Grid>
 		);

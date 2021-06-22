@@ -274,6 +274,7 @@ class BridgeStore {
 			this._getBTCNetworkFees(),
 		])
 			.catch((err: Error) => {
+				console.error(err);
 				queueNotification(`Failed to fetch bridge data: ${err.message}`, 'error');
 			})
 			.finally(() => {
@@ -340,6 +341,7 @@ class BridgeStore {
 				}
 			}, defaultRetryOptions);
 		} catch (err) {
+			console.error(err);
 			this.error = err;
 		}
 	};
@@ -360,7 +362,7 @@ class BridgeStore {
 				id: ref.id,
 				// NB: Always store lowercase user addr.
 				user: connectedAddress.toLowerCase(),
-				nonce: RenJS.utils.randomNonce(),
+				nonce: JSON.stringify(RenJS.utils.randomNonce()),
 				created,
 				deleted: false,
 			};
@@ -370,6 +372,7 @@ class BridgeStore {
 				this.current = txData as RenVMTransaction;
 			}, defaultRetryOptions);
 		} catch (err) {
+			console.error(err);
 			queueNotification(`Failed to initialize tx in db: ${err.message}`, 'error');
 			this.error = err;
 		}
@@ -388,13 +391,15 @@ class BridgeStore {
 				status: tx.status ? tx.status : '',
 				// Just enough params from the transaction to be able to recover
 				encodedTx: JSON.stringify(
-					(({ user, params, txHash, status, mintChainHash, id }) => ({
+					(({ user, params, txHash, status, renVMStatus, mintChainHash, id, nonce }: RenVMTransaction) => ({
 						user,
 						params,
 						txHash,
 						status,
+						renVMStatus,
 						mintChainHash,
 						id,
+						nonce,
 					}))(tx),
 				),
 			};
@@ -414,8 +419,8 @@ class BridgeStore {
 				} as RenVMTransaction;
 			}, defaultRetryOptions);
 		} catch (err) {
+			console.error(err);
 			queueNotification(`Failed to update tx in db: ${err.message}`, 'error');
-			console.error(err, 'YOOOOOO');
 			this.error = err;
 		}
 	});
@@ -431,14 +436,13 @@ class BridgeStore {
 				const mint = await this.renJS.lockAndMint({
 					asset: parsedTx.params.asset,
 					from: Bitcoin(),
-					nonce: parsedTx.params.nonce,
+					nonce: Buffer.from(JSON.parse(parsedTx.nonce)),
 					to: Ethereum(web3.currentProvider).Contract({
 						sendTo: parsedTx.params.sendTo,
 						contractFn: parsedTx.params.contractFn,
 						contractParams: parsedTx.params.contractParams,
 					}),
 				});
-				console.log(parsedTx);
 				await this._updateTx({
 					...parsedTx,
 					mintGateway: mint.gatewayAddress,
@@ -450,32 +454,35 @@ class BridgeStore {
 					const hash = deposit.txHash();
 					const depositLog = (msg: string) => console.log(`[${hash.slice(0, 8)}][${deposit.status}] ${msg}`);
 
-					await deposit
-						.confirmed()
-						.on('target', (target) => {
-							depositLog(`waiting for ${target} confirmations`);
-						})
-						.on('confirmation', (confs, target) => depositLog(`${confs}/${target} confirmations`));
-
-					await deposit
-						.signed()
-						// Store RenVM status - "pending", "confirming" or "done".
-						.on('status', (status) => {
-							if (status === TxStatus.TxStatusDone) {
-								this._complete();
-							}
-							return this._updateTx({
-								...parsedTx,
-								renVMStatus: deposit.status,
-							});
-						});
-
 					try {
+						await deposit
+							.confirmed()
+							.on('target', (target) => {
+								depositLog(`waiting for ${target} confirmations`);
+							})
+							.on('confirmation', (confs, target) => depositLog(`${confs}/${target} confirmations`));
+
+						await deposit
+							.signed()
+							// Store RenVM status - "pending", "confirming" or "done".
+							.on('status', (status) => {
+								if (status === TxStatus.TxStatusDone) {
+									this._complete();
+								}
+								return this._updateTx({
+									...parsedTx,
+									status: status,
+									renVMStatus: deposit.status,
+								});
+							});
+
 						await deposit
 							.mint()
 							// Print Ethereum transaction hash.
 							.on('transactionHash', (txHash) => depositLog(`Mint tx: ${txHash}`));
 					} catch (e) {
+						console.error(e);
+						this._updateTx(parsedTx, true, e);
 						queueNotification(`Failed to complete transaction: ${e.message}`, 'error');
 						this._complete();
 					}
@@ -495,32 +502,41 @@ class BridgeStore {
 					// or this will be set
 					transaction: parsedTx.mintChainHash,
 				});
-				await burnAndRelease.burn().on('transactionHash', (txHash) =>
-					this._updateTx({
-						...parsedTx,
-						mintChainHash: txHash,
-					}),
-				);
 
-				await burnAndRelease
-					.release()
-					// Store RenVM status - "pending", "confirming" or "done".
-					.on('status', (status) => {
-						if (status === TxStatus.TxStatusDone) {
-							this._complete();
-						}
-						return this._updateTx({
-							...parsedTx,
-							renVMStatus: burnAndRelease.status,
-						});
-					})
-					// Store RenVM transaction hash for recovery
-					.on('txHash', (txHash: string) =>
+				try {
+					await burnAndRelease.burn().on('transactionHash', (txHash) =>
 						this._updateTx({
 							...parsedTx,
-							txHash,
+							mintChainHash: txHash,
 						}),
 					);
+
+					await burnAndRelease
+						.release()
+						// Store RenVM status - "pending", "confirming" or "done".
+						.on('status', (status) => {
+							if (status === TxStatus.TxStatusDone) {
+								this._complete();
+							}
+							return this._updateTx({
+								...parsedTx,
+								status: status,
+								renVMStatus: burnAndRelease.status,
+							});
+						})
+						// Store RenVM transaction hash for recovery
+						.on('txHash', (txHash: string) =>
+							this._updateTx({
+								...parsedTx,
+								txHash,
+							}),
+						);
+				} catch (e) {
+					console.error(e);
+					this._updateTx(parsedTx, true, e);
+					queueNotification(`Failed to complete transaction: ${e.message}`, 'error');
+					this._complete();
+				}
 			} else {
 				throw new Error('Unknown contract function: ' + parsedTx.params.contractFn);
 			}
@@ -550,8 +566,8 @@ class BridgeStore {
 				this.renvmMintFee = renvmMintFee;
 			}, defaultRetryOptions);
 		} catch (err) {
+			console.error(err);
 			queueNotification(`Failed to fetch fees: ${err.message}`, 'error');
-			console.log(err.message);
 		}
 	};
 
@@ -583,8 +599,8 @@ class BridgeStore {
 				this.bCRVtBTCBalance = new BigNumber(bCRVtBTCBalance).dividedBy(SETT_DECIMALS).toNumber();
 			}, defaultRetryOptions);
 		} catch (err) {
+			console.error(err);
 			queueNotification(`Failed to fetch fees: ${err.message}`, 'error');
-			console.log(err.message);
 		}
 	};
 
@@ -612,6 +628,7 @@ class BridgeStore {
 				this.releaseNetworkFee = new BigNumber(result.btc.release).dividedBy(DECIMALS).toNumber();
 			}, defaultRetryOptions);
 		} catch (err) {
+			console.error(err);
 			queueNotification(`Failed to fetch BTC network fees: ${err.message}`, 'error');
 		}
 	};
