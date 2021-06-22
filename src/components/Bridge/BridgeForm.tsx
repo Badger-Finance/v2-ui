@@ -1,6 +1,5 @@
 import React, { PropsWithChildren, ReactNode, useContext, useState, useEffect, useCallback } from 'react';
 import BigNumber from 'bignumber.js';
-import { ethers } from 'ethers';
 import { EthArgs, LockAndMintStatus, BurnAndReleaseStatus } from '@renproject/interfaces';
 import Web3 from 'web3';
 import { observer } from 'mobx-react-lite';
@@ -186,11 +185,6 @@ const a11yProps = (index: number) => {
 	};
 };
 
-// Gateways expects nonce as a bytes32 hex string.
-const formatNonceBytes32 = (nonce: number): string => {
-	return ethers.utils.hexZeroPad(`0x${nonce.toString(16)}`, 32);
-};
-
 // Initial state value that should be reset to initial values on reset.
 const initialStateResettable = {
 	amount: '',
@@ -222,7 +216,6 @@ export const BridgeForm = observer(({ classes }: any) => {
 		bridge: {
 			status,
 			begin,
-			nextNonce,
 			loading,
 			error,
 
@@ -436,7 +429,6 @@ export const BridgeForm = observer(({ classes }: any) => {
 			sendTo: bridge_system['adapter'],
 			contractFn: 'mint',
 			contractParams,
-			nonce: formatNonceBytes32(nextNonce),
 		};
 		// NB: We explicitly set the gas limit for tbtc mints since estimateGas underestimates the gas needed.
 		if (token === 'bCRVtBTC') {

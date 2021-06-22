@@ -47,7 +47,6 @@ const UPDATE_INTERVAL_SECONDS = 30 * 1000; // 30 seconds
 
 const defaultProps = {
 	history: [],
-	nextNonce: 0,
 	current: null,
 	status: Status.IDLE,
 	loading: false,
@@ -102,7 +101,6 @@ class BridgeStore {
 
 	public shortAddr!: string;
 
-	public nextNonce!: number;
 	// current holds current in process renvm tx.
 	public current!: RenVMTransaction | null;
 	// done is an optional callback to execute on completion.
@@ -321,7 +319,7 @@ class BridgeStore {
 					// Use a new collection for renvm2 just in case of collision
 					.collection('transactions2')
 					.where('user', '==', userAddr.toLowerCase())
-					.orderBy('nonce', 'desc')
+					.orderBy('created', 'desc')
 					.get();
 
 				const transactions: RenVMTransaction[] = [];
@@ -339,10 +337,6 @@ class BridgeStore {
 					if (!_isTxComplete(tx)) {
 						this.current = tx;
 					}
-
-					// Nonce defaults to value of 0. If no results then assume
-					// there are no transactions for the user.
-					this.nextNonce = tx.nonce + 1;
 				}
 			}, defaultRetryOptions);
 		} catch (err) {
@@ -366,7 +360,7 @@ class BridgeStore {
 				id: ref.id,
 				// NB: Always store lowercase user addr.
 				user: connectedAddress.toLowerCase(),
-				nonce: this.nextNonce,
+				nonce: RenJS.utils.randomNonce(),
 				created,
 				deleted: false,
 			};
@@ -374,8 +368,6 @@ class BridgeStore {
 				await ref.set(txData);
 				// Update current tx.
 				this.current = txData as RenVMTransaction;
-				// Increment nonce.
-				this.nextNonce++;
 			}, defaultRetryOptions);
 		} catch (err) {
 			queueNotification(`Failed to initialize tx in db: ${err.message}`, 'error');
