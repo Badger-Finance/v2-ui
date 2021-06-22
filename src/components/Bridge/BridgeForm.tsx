@@ -1,9 +1,21 @@
 import React, { PropsWithChildren, ReactNode, useContext, useState, useEffect, useCallback } from 'react';
 import BigNumber from 'bignumber.js';
-import { EthArgs, LockAndMintStatus, BurnAndReleaseStatus } from '@renproject/interfaces';
+import { EthArgs } from '@renproject/interfaces';
+import { BurnAndReleaseStatus } from '@renproject/ren/build/main/burnAndRelease';
+import { DepositStatus, DepositStatusIndex } from '@renproject/ren/build/main/lockAndMint';
 import Web3 from 'web3';
 import { observer } from 'mobx-react-lite';
-import { Grid, TextField, Tabs, Tab, FormControl, Select, MenuItem, Typography } from '@material-ui/core';
+import {
+	Grid,
+	CircularProgress,
+	TextField,
+	Tabs,
+	Tab,
+	FormControl,
+	Select,
+	MenuItem,
+	Typography,
+} from '@material-ui/core';
 
 import { MintForm } from './MintForm';
 import { ReleaseForm } from './ReleaseForm';
@@ -33,52 +45,15 @@ function MintStatusDisplay({
 	amount,
 }: {
 	amount: string;
-	status: LockAndMintStatus | null;
+	status: DepositStatus | null;
 	bitcoinAddress: string | null;
 	classes: { logo: string; elephant: string };
 }) {
-	let transactionStatus = null;
-	let step = 0;
-	switch (status) {
-		case LockAndMintStatus.Committed:
-			transactionStatus = 'Committed';
-			step = 0;
-			break;
-		case LockAndMintStatus.Deposited:
-			transactionStatus = 'Deposited';
-			step = 1;
-			break;
-		case LockAndMintStatus.Confirmed:
-			transactionStatus = 'Confirmed';
-			step = 2;
-			break;
-		case LockAndMintStatus.SubmittedToRenVM:
-			transactionStatus = 'Submitted to RenVM';
-			step = 3;
-			break;
-		case LockAndMintStatus.ReturnedFromRenVM:
-			transactionStatus = 'Returned from RenVM';
-			step = 4;
-			break;
-		case LockAndMintStatus.SubmittedToLockChain:
-			transactionStatus = 'Submitted to lock chain';
-			step = 5;
-			break;
-		case LockAndMintStatus.ConfirmedOnLockChain:
-			transactionStatus = 'Confirmed on lock chain';
-			step = 6;
-			break;
-		case LockAndMintStatus.SubmittedToEthereum:
-			transactionStatus = 'Submitted to Ethereum';
-			step = 7;
-			break;
-		case LockAndMintStatus.ConfirmedOnEthereum:
-			transactionStatus = 'Confirmed on Ethereum';
-			step = 8;
-			break;
+	if (status === DepositStatus.Reverted) {
+		return <div>Transaction reverted.</div>;
 	}
 
-	if (step === 0) {
+	if (status === null) {
 		return (
 			<React.Fragment>
 				<img src={btcLogo} className={classes.logo} />
@@ -92,54 +67,34 @@ function MintStatusDisplay({
 		);
 	}
 
-	return <React.Fragment>{transactionStatus}</React.Fragment>;
+	return (
+		<React.Fragment>
+			<CircularProgress variant="determinate" value={(DepositStatusIndex[status] + 1) * 25} />
+			<div>Transaction {status}.</div>
+		</React.Fragment>
+	);
 }
 
 function BurnStatusDisplay({ status }: { classes: { logo: string }; status: BurnAndReleaseStatus | null }) {
-	let transactionStatus = '';
-	let step = 0;
-	switch (status) {
-		case BurnAndReleaseStatus.Committed:
-			transactionStatus = 'Committed';
-			step = 0;
-			break;
-		case BurnAndReleaseStatus.SubmittedToLockChain:
-			transactionStatus = 'Submitted to lock chain';
-			step = 1;
-			break;
-		case BurnAndReleaseStatus.ConfirmedOnLockChain:
-			transactionStatus = 'Confirmed on lock chain';
-			step = 2;
-			break;
-		case BurnAndReleaseStatus.SubmittedToRenVM:
-			transactionStatus = 'Submitted to RenVM';
-			step = 3;
-			break;
-		case BurnAndReleaseStatus.ReturnedFromRenVM:
-			transactionStatus = 'Returned from RenVM';
-			step = 4;
-			break;
-		case BurnAndReleaseStatus.NoBurnFound:
-			transactionStatus = 'No burn found';
-			step = 5;
-			break;
-		case BurnAndReleaseStatus.SubmittedToEthereum:
-			transactionStatus = 'Submitted to Ethereum';
-			step = 6;
-			break;
-		case BurnAndReleaseStatus.ConfirmedOnEthereum:
-			transactionStatus = 'Confirmed on Ethereum';
-			step = 7;
-			break;
-		default:
-			transactionStatus = 'Unknown';
-			console.error(`Unknown RenVM status: ${status}`);
+	if (status === BurnAndReleaseStatus.Reverted) {
+		return <div>Transaction reverted.</div>;
 	}
+
+	if (status === null) {
+		return <div>Loading</div>;
+	}
+
+	const statusIndex: Record<BurnAndReleaseStatus, number> = {
+		pending: 0,
+		burned: 1,
+		released: 2,
+		reverted: 3,
+	};
 
 	return (
 		<React.Fragment>
-			{step}
-			{transactionStatus}
+			<CircularProgress variant="determinate" value={(statusIndex[status] + 1) * 33} />
+			<div>Transaction {status}.</div>
 		</React.Fragment>
 	);
 }
@@ -855,7 +810,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 						<MintStatusDisplay
 							classes={classes}
 							amount={amount}
-							status={current.renVMStatus as LockAndMintStatus | null}
+							status={current.renVMStatus as DepositStatus | null}
 							bitcoinAddress={current.mintGateway}
 						/>
 					) : (
