@@ -5,6 +5,7 @@ import importedSett from '../config/system/abis/Sett.json';
 import importedGeyser from '../config/system/abis/BadgerGeyser.json';
 import importedBscErc20 from '../config/system/abis/BscErc20.json';
 import importedYearnSett from '../config/system/abis/YearnWrapper.json';
+import importedGuestList from '../config/system/abis/GuestList.json';
 import { tokens, sett_system } from './deployments/mainnet.json';
 import { NetworkConstants, ClaimsSymbols } from '../mobx/model';
 import { getNetworkDeploy } from 'mobx/utils/network';
@@ -72,12 +73,13 @@ export const ERC20_ABI = importedErc20.abi as AbiItem[];
 export const SETT_ABI = importedSett.abi as AbiItem[];
 export const YEARN_ABI = importedYearnSett.abi as AbiItem[];
 export const GEYSER_ABI = importedGeyser.abi as AbiItem[];
+export const GUEST_LIST_ABI = importedGuestList.abi as AbiItem[];
 export const BSC_ERC20 = importedBscErc20;
 export const APP_NAME = 'badgerDAO';
 export const PORTIS_APP_ID = 'cbf7534d-170d-4903-943f-e607dc588b7f';
 export const EMPTY_DATA = '0x';
 export const ZERO_CURRENCY = '0.00000';
-export const SITE_VERSION = 'v2.7.7';
+export const SITE_VERSION = 'v2.7.8';
 export const WC_BRIDGE = 'https://wc-bridge.badger.finance/';
 
 const toBool = (val: string | undefined): boolean => (val ? val.toLowerCase() === 'true' : false);
@@ -89,6 +91,7 @@ export const FLAGS = {
 	BOOST_V2: toBool(process.env.REACT_APP_BOOST_V2),
 	IBBTC_OPTIONS_FLAG: toBool(process.env.REACT_APP_IBBTC_OPTIONS_FLAG),
 	CONVEX_SETTS: toBool(process.env.REACT_APP_CONVEX_SETTS),
+	STABILIZATION_SETTS: toBool(process.env.REACT_APP_STABILIZATION_SETTS),
 };
 
 export const ZERO = new BigNumber(0);

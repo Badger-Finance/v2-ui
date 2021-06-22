@@ -1,4 +1,4 @@
-import { ERC20_ABI, GEYSER_ABI, SETT_ABI } from 'config/constants';
+import { ERC20_ABI, GEYSER_ABI, GUEST_LIST_ABI, SETT_ABI } from 'config/constants';
 import { BadgerSett } from 'mobx/model/badger-sett';
 import Web3 from 'web3';
 import { AbiItem } from 'web3-utils';
@@ -6,14 +6,18 @@ import { BatchCallRequest } from 'web3/interface/batch-call-request';
 import { ReadMethod } from 'web3/interface/read-method';
 import { ContractNamespace } from './contract-namespace';
 
-const createBatchCallRequest = (
+export const createBatchCallRequest = (
 	tokens: string[],
 	namespace: ContractNamespace,
 	userAddress: string,
 ): BatchCallRequest => {
 	let abi: AbiItem[];
 	switch (namespace) {
+		case ContractNamespace.GuestList:
+			abi = GUEST_LIST_ABI;
+			break;
 		case ContractNamespace.Sett:
+		case ContractNamespace.GaurdedSett:
 			abi = SETT_ABI;
 			break;
 		case ContractNamespace.Geyser:
@@ -40,6 +44,15 @@ const getReadMethods = (namespace: ContractNamespace, userAddress: string): Read
 	switch (namespace) {
 		case ContractNamespace.Geyser:
 			return [{ name: 'totalStakedFor', args: [userAddress] }];
+		case ContractNamespace.GaurdedSett:
+			return [{ name: 'balanceOf', args: [userAddress] }, { name: 'guestList' }];
+		case ContractNamespace.GuestList:
+			return [
+				{ name: 'remainingTotalDepositAllowed' },
+				{ name: 'remainingUserDepositAllowed', args: [userAddress] },
+				{ name: 'totalDepositCap' },
+				{ name: 'userDepositCap' },
+			];
 		case ContractNamespace.Sett:
 		case ContractNamespace.Token:
 		default:
@@ -49,13 +62,15 @@ const getReadMethods = (namespace: ContractNamespace, userAddress: string): Read
 
 export const createChainBatchConfig = (
 	tokenAddresses: string[],
-	settAddresses: string[],
+	generalSettAddresses: string[],
+	guardedSettAddresses: string[],
 	geyserAddresses: string[],
 	userAddress: string,
 ): BatchCallRequest[] => {
 	return [
 		createBatchCallRequest(tokenAddresses, ContractNamespace.Token, userAddress),
-		createBatchCallRequest(settAddresses, ContractNamespace.Sett, userAddress),
+		createBatchCallRequest(generalSettAddresses, ContractNamespace.Sett, userAddress),
+		createBatchCallRequest(guardedSettAddresses, ContractNamespace.GaurdedSett, userAddress),
 		createBatchCallRequest(geyserAddresses, ContractNamespace.Geyser, userAddress),
 	];
 };

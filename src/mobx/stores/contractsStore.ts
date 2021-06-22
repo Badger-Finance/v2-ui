@@ -160,7 +160,6 @@ class ContractsStore {
 				queueNotification(`Error loading Badger Bouncer Proof`, 'error');
 				return;
 			}
-
 			if (depositAll) {
 				method = settContract.methods.deposit(bouncerProof);
 			} else {

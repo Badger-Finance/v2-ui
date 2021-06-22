@@ -1,29 +1,63 @@
 import React from 'react';
-import { Typography } from '@material-ui/core';
-import { Account, Sett } from 'mobx/model';
+import { makeStyles, Typography } from '@material-ui/core';
+import { VaultCap } from 'mobx/model/vault-cap';
+
+const useStyles = makeStyles((theme) => ({
+	limitsContainer: {
+		display: 'flex',
+		justifyContent: 'space-around',
+		alignItems: 'center',
+		marginBottom: theme.spacing(2),
+		[theme.breakpoints.down('xs')]: {
+			flexDirection: 'column',
+			marginBottom: theme.spacing(1),
+		},
+	},
+	depositContainer: {
+		display: 'flex',
+		flexDirection: 'column',
+		justifyContent: 'center',
+		alignItems: 'center',
+		[theme.breakpoints.down('xs')]: {
+			marginBottom: theme.spacing(1),
+		},
+	},
+}));
 
 export interface DepositLimitProps {
-	accountDetails: Account | null | undefined;
-	vault: string | null | undefined;
-	assetName: string;
-	sett: Sett | null | undefined;
+	vaultCapInfo: VaultCap;
 }
 
-export const SettAvailableDeposit = (props: DepositLimitProps): JSX.Element => {
-	const { accountDetails, vault, assetName, sett } = props;
-	if (!accountDetails || !vault || !accountDetails.depositLimits[vault]) return <> </>;
+export const SettAvailableDeposit = (props: DepositLimitProps): JSX.Element | null => {
+	const displayDecimals = 4;
+	const classes = useStyles();
+	const { vaultCapInfo } = props;
+	if (!vaultCapInfo) {
+		return null;
+	}
+	const { vaultCap, totalVaultCap, userCap, totalUserCap, asset } = vaultCapInfo;
 	return (
-		<div>
-			<Typography variant="body2" color="textSecondary" component="div">
-				{`Personal Deposit Limit Remaining: ${
-					accountDetails.depositLimits[vault].available > 1e-8
-						? accountDetails.depositLimits[vault].available
-						: 0
-				} / ${accountDetails.depositLimits[vault].limit} ${assetName}`}
-			</Typography>
-			<Typography variant="body2" color="textSecondary" component="div">
-				{`Total Deposit Limit Remaining: ${sett?.affiliate?.availableDepositLimit} / ${sett?.affiliate?.depositLimit} ${assetName}`}
-			</Typography>
+		<div className={classes.limitsContainer}>
+			<div className={classes.depositContainer}>
+				<Typography align="center" variant="body2" color="textSecondary">
+					User Deposit Limit Remaining:{' '}
+				</Typography>
+				<Typography align="center" variant="body2" color="textSecondary" component="div">
+					{`${userCap.balanceDisplay(displayDecimals)} / ${totalUserCap.balanceDisplay(
+						displayDecimals,
+					)} ${asset}`}
+				</Typography>
+			</div>
+			<div className={classes.depositContainer}>
+				<Typography align="center" variant="body2" color="textSecondary">
+					Total Deposit Limit Remaining:{' '}
+				</Typography>
+				<Typography align="center" variant="body2" color="textSecondary" component="div">
+					{`${vaultCap.balanceDisplay(displayDecimals)} / ${totalVaultCap.balanceDisplay(
+						displayDecimals,
+					)} ${asset}`}
+				</Typography>
+			</div>
 		</div>
 	);
 };

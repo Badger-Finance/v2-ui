@@ -479,9 +479,9 @@ export const Sidebar = observer(() => {
 					<ListItem
 						button
 						className={classes.secondaryListItem}
-						onClick={() => window.open('https://app.gitbook.com/@badger-finance/s/badger-finance/')}
+						onClick={() => window.open('https://badger.wiki/')}
 					>
-						Docs
+						Wiki
 					</ListItem>
 					<ListItem
 						button
