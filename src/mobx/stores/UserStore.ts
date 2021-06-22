@@ -13,7 +13,7 @@ import { TokenBalance } from 'mobx/model/token-balance';
 import { BadgerSett } from 'mobx/model/badger-sett';
 import { BadgerToken, mockToken } from 'mobx/model/badger-token';
 import { CallResult } from 'web3/interface/call-result';
-import { DEBUG, ONE_MIN_MS } from 'config/constants';
+import { DEBUG, ONE_MIN_MS, ZERO_ADDR } from 'config/constants';
 import { UserBalanceCache } from 'mobx/model/user-balance-cache';
 import { CachedUserBalances } from 'mobx/model/cached-user-balances';
 import { createBatchCallRequest } from 'web3/config/config-utils';
@@ -226,6 +226,9 @@ export default class UserStore {
 						return;
 					}
 					const guestList = sett.guestList[0].value;
+					if (guestList === ZERO_ADDR) {
+						return;
+					}
 					guestListLookup[guestList] = sett.address;
 					return guestList;
 				})
