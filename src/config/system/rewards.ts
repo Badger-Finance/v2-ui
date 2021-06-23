@@ -22,6 +22,8 @@ export const getRewards = (network?: string): RewardNetworkConfig | undefined =>
 					tokens.farm,
 					tokens.usdc,
 					tokens.defiDollar,
+					sett_system.vaults['native.cvxCrv'],
+					sett_system.vaults['native.cvx'],
 				],
 			};
 		default:
