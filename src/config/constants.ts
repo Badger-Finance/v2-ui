@@ -64,6 +64,8 @@ export const CLAIMS_SYMBOLS: ClaimsSymbols = {
 		[sett_system.vaults['native.badger']]: 'bBadger',
 		[sett_system.vaults['native.digg']]: 'bDigg',
 		[tokens.defiDollar]: 'Defi Dollar',
+		[sett_system.vaults['native.cvx']]: 'bCVX',
+		[sett_system.vaults['native.cvxCrv']]: 'bcvxCRV',
 	},
 };
 

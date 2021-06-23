@@ -201,8 +201,7 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 					name: '',
 					address: deploy.sett_system.vaults['native.hbtcCrv'],
 					fees: {
-						['DAO Performance Fee']: new BigNumber(1000),
-						['Strategist Performance Fee']: new BigNumber(1000),
+						['DAO Performance Fee']: new BigNumber(3000),
 						['Withdraw Fee']: new BigNumber(20),
 					},
 					strategyLink:
@@ -212,8 +211,7 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 					name: '',
 					address: deploy.sett_system.vaults['native.pbtcCrv'],
 					fees: {
-						['DAO Performance Fee']: new BigNumber(1000),
-						['Strategist Performance Fee']: new BigNumber(1000),
+						['DAO Performance Fee']: new BigNumber(3000),
 						['Withdraw Fee']: new BigNumber(20),
 					},
 					strategyLink:
@@ -223,8 +221,7 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 					name: '',
 					address: deploy.sett_system.vaults['native.obtcCrv'],
 					fees: {
-						['DAO Performance Fee']: new BigNumber(1000),
-						['Strategist Performance Fee']: new BigNumber(1000),
+						['DAO Performance Fee']: new BigNumber(3000),
 						['Withdraw Fee']: new BigNumber(20),
 					},
 					strategyLink:
@@ -234,8 +231,7 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 					name: '',
 					address: deploy.sett_system.vaults['native.bbtcCrv'],
 					fees: {
-						['DAO Performance Fee']: new BigNumber(1000),
-						['Strategist Performance Fee']: new BigNumber(1000),
+						['DAO Performance Fee']: new BigNumber(3000),
 						['Withdraw Fee']: new BigNumber(20),
 					},
 					strategyLink:
@@ -245,8 +241,7 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 					name: '',
 					address: deploy.sett_system.vaults['native.tricryptoCrv'],
 					fees: {
-						['DAO Performance Fee']: new BigNumber(1000),
-						['Strategist Performance Fee']: new BigNumber(1000),
+						['DAO Performance Fee']: new BigNumber(3000),
 						['Withdraw Fee']: new BigNumber(20),
 					},
 					strategyLink:
@@ -257,8 +252,7 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 					address: deploy.sett_system.vaults['native.cvxCrv'],
 					fees: {
 						['DAO Performance Fee']: new BigNumber(1000),
-						['Strategist Performance Fee']: new BigNumber(1000),
-						['Withdraw Fee']: new BigNumber(20),
+						['Withdraw Fee']: new BigNumber(10),
 					},
 					strategyLink:
 						'https://badger.wiki/Strategies-7bf5b27a451242538f02855ca5aaf4e4#51d48102bc4847a6a5a1a059c4b827b3',
@@ -268,8 +262,7 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 					address: deploy.sett_system.vaults['native.cvx'],
 					fees: {
 						['DAO Performance Fee']: new BigNumber(1000),
-						['Strategist Performance Fee']: new BigNumber(1000),
-						['Withdraw Fee']: new BigNumber(20),
+						['Withdraw Fee']: new BigNumber(10),
 					},
 					strategyLink:
 						'https://badger.wiki/Strategies-7bf5b27a451242538f02855ca5aaf4e4#1346adfaad7946eebd29a17fb4f6e8b7',
