@@ -92,6 +92,7 @@ export const FLAGS = {
 	IBBTC_OPTIONS_FLAG: toBool(process.env.REACT_APP_IBBTC_OPTIONS_FLAG),
 	CONVEX_SETTS: toBool(process.env.REACT_APP_CONVEX_SETTS),
 	STABILIZATION_SETTS: toBool(process.env.REACT_APP_STABILIZATION_SETTS),
+	BOOST_OPTIMIZER: toBool(process.env.REACT_APP_BOOST_OPTIMIZER),
 };
 
 export const ZERO = new BigNumber(0);
@@ -102,6 +103,7 @@ export const CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS = '0x93054188d876f558f4a66B2
 export const RENVM_GATEWAY_ADDRESS = '0xe4b679400F0f267212D5D812B95f58C83243EE71';
 export const RENVM_NETWORK = 'mainnet';
 export const DEBUG = process.env.NODE_ENV !== 'production';
+export const ZERO_ADDR = '0x0000000000000000000000000000000000000000';
 
 // time constants
 export const ONE_MIN_MS = 60 * 1000;

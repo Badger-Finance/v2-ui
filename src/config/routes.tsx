@@ -3,6 +3,7 @@ import { QueryParams, Route } from 'mobx-router';
 import Landing from '../pages/Landing';
 import { RootStore } from '../mobx/store';
 import { Airdrops } from '../components/Airdrops';
+import { Boost } from '../components/Boost';
 import { Digg } from '../components/Digg';
 import { Locked } from 'components/Common/Locked';
 import { IbBTC } from 'components/IbBTC';
@@ -28,6 +29,10 @@ const routes = {
 		path: '/airdrops',
 		component: <Airdrops />,
 		onEnter: (_route, _params, store) => store.airdrops.fetchAirdrops(),
+	}),
+	boost: new Route<RootStore, QueryParams>({
+		path: '/boost',
+		component: FLAGS.BOOST_OPTIMIZER ? <Boost /> : <></>,
 	}),
 	digg: new Route<RootStore, QueryParams>({
 		path: '/digg',
