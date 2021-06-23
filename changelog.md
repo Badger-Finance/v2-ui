@@ -1,5 +1,11 @@
 # v2 UI Changelog
 
+### v2.8.0 - 06/23/2021
+
+-   introduced experimental vaults to the badger arcade
+-   added 5 new experimental convex vaults
+-   added 2 new experimental convex helper vaults
+
 ### Hotfix - 06/17/2021
 
 -   fixed an issue with ibBTC redeem validation that was blocking all redeems
