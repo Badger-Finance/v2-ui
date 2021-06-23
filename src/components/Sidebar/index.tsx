@@ -335,13 +335,15 @@ export const Sidebar = observer(() => {
 											Experimental Vaults
 										</ListItem>
 									)}
-									<ListItem
-										button
-										className={getItemClass('/boost', classes.primarySubListItem)}
-										onClick={() => navigate(views.boost)}
-									>
-										Boost Optimizer
-									</ListItem>
+									{FLAGS.BOOST_OPTIMIZER && (
+										<ListItem
+											button
+											className={getItemClass('/boost', classes.primarySubListItem)}
+											onClick={() => navigate(views.boost)}
+										>
+											Boost Optimizer
+										</ListItem>
+									)}
 									<ListItem
 										button
 										className={getItemClass('/leaderboard', classes.primarySubListItem)}
