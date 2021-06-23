@@ -32,7 +32,7 @@ const routes = {
 	}),
 	boost: new Route<RootStore, QueryParams>({
 		path: '/boost',
-		component: FLAGS.BOOST_CALCULATOR ? <Boost /> : <></>,
+		component: FLAGS.BOOST_OPTIMIZER ? <Boost /> : <></>,
 	}),
 	digg: new Route<RootStore, QueryParams>({
 		path: '/digg',

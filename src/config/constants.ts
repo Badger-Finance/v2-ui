@@ -92,7 +92,7 @@ export const FLAGS = {
 	IBBTC_OPTIONS_FLAG: toBool(process.env.REACT_APP_IBBTC_OPTIONS_FLAG),
 	CONVEX_SETTS: toBool(process.env.REACT_APP_CONVEX_SETTS),
 	STABILIZATION_SETTS: toBool(process.env.REACT_APP_STABILIZATION_SETTS),
-	BOOST_CALCULATOR: toBool(process.env.REACT_APP_BOOST_CALCULATOR),
+	BOOST_OPTIMIZER: toBool(process.env.REACT_APP_BOOST_OPTIMIZER),
 };
 
 export const ZERO = new BigNumber(0);
