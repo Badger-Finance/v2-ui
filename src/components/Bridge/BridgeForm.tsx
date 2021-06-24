@@ -53,7 +53,7 @@ function MintStatusDisplay({
 		return <div>Transaction reverted.</div>;
 	}
 
-	if (status === null) {
+	if (!status) {
 		return (
 			<React.Fragment>
 				<img src={btcLogo} className={classes.logo} />
@@ -80,7 +80,7 @@ function BurnStatusDisplay({ status }: { classes: { logo: string }; status: Burn
 		return <div>Transaction reverted.</div>;
 	}
 
-	if (status === null) {
+	if (!status) {
 		return <div>Loading</div>;
 	}
 
@@ -436,6 +436,9 @@ export const BridgeForm = observer(({ classes }: any) => {
 			} catch (err) {
 				setTxStatus('error');
 			}
+		} else {
+			console.log(amountOut.toString(), allowance.balance.toString());
+			queueNotification('Amount exceeds allowance', 'error');
 		}
 	};
 
