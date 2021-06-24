@@ -1,22 +1,26 @@
 import React from 'react';
 import { Grid, Typography, useMediaQuery, useTheme, withStyles } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { BoostBadgerAnimation } from './BoostBadgerAnimation';
+import { BoostBadgerAnimation } from './ScoreAnimation';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
 import BigNumber from 'bignumber.js';
-import { formatWithoutExtraZeros, getColorFromComparison } from './utils';
+import { formatWithoutExtraZeros, getColorFromComparison, percentageBetweenRange } from './utils';
 import { Skeleton } from '@material-ui/lab';
 import { HoldingAssetInput } from './HoldingAssetInput';
 import { numberWithCommas } from '../../mobx/utils/helpers';
 import clsx from 'clsx';
 
-const BoostLoader = withStyles(() => ({
+const BoostLoader = withStyles((theme) => ({
 	root: {
 		margin: 'auto',
 		width: 240,
 		height: 240,
 		borderRadius: 8,
+		[theme.breakpoints.down('sm')]: {
+			width: 160,
+			height: 160,
+		},
 	},
 }))(Skeleton);
 
@@ -86,6 +90,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 type BoostCalculatorContainerProps = {
+	boost: string;
 	native: string;
 	nativeToAdd?: string;
 	nonNative: string;
@@ -97,7 +102,7 @@ export const BoostCalculatorContainer = observer(
 	(props: BoostCalculatorContainerProps): JSX.Element => {
 		const { boostOptimizer } = React.useContext(StoreContext);
 		const { nativeHoldings, nonNativeHoldings } = boostOptimizer;
-		const { native, nonNative, nativeToAdd, onNonNativeChange, onNativeChange } = props;
+		const { boost, native, nonNative, nativeToAdd, onNonNativeChange, onNativeChange } = props;
 
 		const classes = useStyles();
 		const nativeAssetClasses = useAssetInputStyles(native, nativeHoldings)();
@@ -112,10 +117,8 @@ export const BoostCalculatorContainer = observer(
 
 		const isThereRemainingToAdd = nativeToAdd ? Number(nativeToAdd) > Number(native) : undefined;
 		const remainingNativeToAdd = isThereRemainingToAdd ? Number(nativeToAdd) - Number(native) : undefined;
-
-		const boostRatio = boostOptimizer.calculateBoostRatio(native, nonNative);
-		const badgerScore = boostRatio ? Math.max(boostRatio / 3, 0) : 0;
-		const badgerScoreRatio = Math.min(badgerScore * 100, 100);
+		const sanitizedBoost = Math.min(Number(boost), 3);
+		const badgerScore = percentageBetweenRange(sanitizedBoost, 3, 1);
 
 		const handleApplyRemaining = () => {
 			if (native && remainingNativeToAdd) {
@@ -152,7 +155,7 @@ export const BoostCalculatorContainer = observer(
 		const badgerScoreContent = isLoading ? (
 			<BoostLoader variant="rect" />
 		) : (
-			<BoostBadgerAnimation score={badgerScoreRatio} />
+			<BoostBadgerAnimation score={badgerScore} />
 		);
 
 		const nativeBox = (
