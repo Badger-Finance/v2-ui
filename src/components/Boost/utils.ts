@@ -32,3 +32,10 @@ export const formatWithoutExtraZeros = (
 ): string => {
 	return Number(new BigNumber(amount).toFixed(decimals, strategy)).toString();
 };
+
+/**
+ * Calculates the percentage of a given point within a range
+ */
+export const percentageBetweenRange = (point: number, upperLimit: number, lowerLimit: number): number => {
+	return ((point - lowerLimit) / (upperLimit - lowerLimit)) * 100;
+};
