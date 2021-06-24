@@ -2,7 +2,7 @@ import React from 'react';
 import { observer } from 'mobx-react-lite';
 import { Grid, Container, Link } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { BoostCalculator } from './BoostCalculator';
+import { Calculator } from './Calculator';
 import PageHeader from '../../components-v2/common/PageHeader';
 
 const useStyles = makeStyles((theme) => ({
@@ -36,7 +36,7 @@ export const Boost = observer(() => {
 					</Link>
 				</Grid>
 				<Grid item xs={12}>
-					<BoostCalculator />
+					<Calculator />
 				</Grid>
 			</Grid>
 		</Container>
