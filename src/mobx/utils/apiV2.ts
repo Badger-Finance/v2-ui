@@ -7,6 +7,7 @@ import {
 	Account,
 	RewardMerkleClaim,
 	LeaderBoardData,
+	LeaderBoardEntry,
 } from 'mobx/model';
 import { TokenConfig } from 'mobx/model/token-config';
 
@@ -66,6 +67,10 @@ export const fetchClaimProof = async (address: string): Promise<RewardMerkleClai
 
 export const fetchLeaderBoardData = async (page: number, size: number): Promise<LeaderBoardData | null> => {
 	return fetchData(() => fetch(`${getLeaderBoardDataEndpoint}?page=${page}&size=${size}`));
+};
+
+export const fetchCompleteLeaderBoardData = async (): Promise<LeaderBoardEntry[] | null> => {
+	return fetchData(() => fetch(`${getLeaderBoardDataEndpoint}/complete`));
 };
 
 const fetchData = async <T>(request: () => Promise<Response>): Promise<T | null> => {

@@ -12,8 +12,9 @@ import { NETWORK_LIST } from '../config/constants';
 import { HoneyPotStore } from './stores/honeyPotStore';
 import UserStore from './stores/UserStore';
 import { LeaderBoardStore } from './stores/LeaderBoardStore';
-import { getNetworkFromProvider } from './utils/helpers';
+import { BoostOptimizerStore } from './stores/boostOptimizerStore';
 import PricesStore from './stores/PricesStore';
+import { getNetworkFromProvider } from './utils/helpers';
 
 export class RootStore {
 	public router: RouterStore<RootStore>;
@@ -29,6 +30,7 @@ export class RootStore {
 	public honeyPot: HoneyPotStore;
 	public user: UserStore;
 	public leaderBoard: LeaderBoardStore;
+	public boostOptimizer: BoostOptimizerStore;
 	public prices: PricesStore;
 
 	constructor() {
@@ -46,6 +48,7 @@ export class RootStore {
 		this.setts = new SettStore(this);
 		this.user = new UserStore(this);
 		this.leaderBoard = new LeaderBoardStore(this);
+		this.boostOptimizer = new BoostOptimizerStore(this);
 		this.prices = new PricesStore(this);
 	}
 
