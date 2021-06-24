@@ -454,7 +454,7 @@ class BridgeStore {
 					const hash = deposit.txHash();
 					const depositLog = (msg: string) => {
 						console.log(`[${hash.slice(0, 8)}][${deposit.status}] ${msg}`);
-						return this._updateTx({ ...parsedTx, status: deposit.status });
+						return this._updateTx({ ...parsedTx, renVMStatus: deposit.status });
 					};
 
 					try {
@@ -470,7 +470,7 @@ class BridgeStore {
 							// Print Ethereum transaction hash.
 							.on('transactionHash', (txHash) => depositLog(`Mint tx: ${txHash}`));
 
-						await this._updateTx({ ...parsedTx, status: deposit.status }, true);
+						await this._updateTx({ ...parsedTx, renVMStatus: deposit.status }, true);
 						this._complete();
 					} catch (e) {
 						console.error(e);
@@ -499,7 +499,7 @@ class BridgeStore {
 					await burnAndRelease.burn().on('transactionHash', (txHash) =>
 						this._updateTx({
 							...parsedTx,
-							status: burnAndRelease.status,
+							renVMStatus: burnAndRelease.status,
 							mintChainHash: txHash,
 						}),
 					);
@@ -511,10 +511,10 @@ class BridgeStore {
 							this._updateTx({
 								...parsedTx,
 								txHash,
-								status: burnAndRelease.status,
+								renVMStatus: burnAndRelease.status,
 							}),
 						);
-					await this._updateTx({ ...parsedTx, status: burnAndRelease.status }, true);
+					await this._updateTx({ ...parsedTx, renVMStatus: burnAndRelease.status }, true);
 					this._complete();
 				} catch (e) {
 					console.error(e);
@@ -569,11 +569,11 @@ class BridgeStore {
 					bCRVtBTCBalance,
 				] = await Promise.all([
 					this.renbtc.methods.balanceOf(userAddr).call(),
-					this.wbtc.methods.balanceOf(userAddr).call(),
-					this.byvwbtc.methods.balanceOf(userAddr).call(),
-					this.bCRVrenBTC.methods.balanceOf(userAddr).call(),
-					this.bCRVsBTC.methods.balanceOf(userAddr).call(),
-					this.bCRVtBTC.methods.balanceOf(userAddr).call(),
+					0, //this.wbtc.methods.balanceOf(userAddr).call(),
+					0, //this.byvwbtc.methods.balanceOf(userAddr).call(),
+					0, //this.bCRVrenBTC.methods.balanceOf(userAddr).call(),
+					0, //this.bCRVsBTC.methods.balanceOf(userAddr).call(),
+					0, //this.bCRVtBTC.methods.balanceOf(userAddr).call(),
 				]);
 
 				this.renbtcBalance = new BigNumber(renbtcBalance).dividedBy(DECIMALS).toNumber();
