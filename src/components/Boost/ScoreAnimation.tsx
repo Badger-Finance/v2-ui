@@ -13,6 +13,10 @@ const useStyles = makeStyles((theme) => ({
 		alignItems: 'center',
 		justifyContent: 'center',
 		position: 'relative',
+		[theme.breakpoints.down('sm')]: {
+			width: 160,
+			height: 160,
+		},
 	},
 	boost: {
 		display: 'flex',
@@ -35,12 +39,21 @@ const useStyles = makeStyles((theme) => ({
 		top: '46%',
 		mixBlendMode: 'hard-light',
 		transformOrigin: 'center',
+		[theme.breakpoints.down('sm')]: {
+			top: '43%',
+		},
 	},
 	boostLeft: {
 		left: '31.5%',
+		[theme.breakpoints.down('sm')]: {
+			left: '29%',
+		},
 	},
 	boostRight: {
 		right: '31.5%',
+		[theme.breakpoints.down('sm')]: {
+			right: '29%',
+		},
 	},
 	boostEyeStar: {
 		position: 'absolute',
