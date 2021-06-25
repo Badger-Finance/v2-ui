@@ -2,8 +2,13 @@ import React from 'react';
 import { BoxProps } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
+import { percentageBetweenRange } from './utils';
 
-const useStyles = (backgroundColor: string) => {
+const useStyles = (boost: number) => {
+	const sanitizedBoost = Math.min(boost, 3);
+	const badgerScore = percentageBetweenRange(sanitizedBoost, 3, 1);
+	const hue = 33 + badgerScore * 3.27;
+
 	return makeStyles(() => ({
 		container: {
 			width: '100%',
@@ -13,7 +18,7 @@ const useStyles = (backgroundColor: string) => {
 			alignItems: 'center',
 			justifyContent: 'center',
 			position: 'relative',
-			background: backgroundColor,
+			background: `hsl(${hue}deg,88%,56%)`,
 		},
 		boostImage: {
 			width: '60%',
@@ -22,11 +27,11 @@ const useStyles = (backgroundColor: string) => {
 };
 
 interface Props extends BoxProps {
-	backgroundColor: string;
+	boost: number;
 }
 
-export const BadgerBoostImage = ({ backgroundColor, className, ...boxProps }: Props): JSX.Element => {
-	const classes = useStyles(backgroundColor)();
+export const BadgerBoostImage = ({ boost, className, ...boxProps }: Props): JSX.Element => {
+	const classes = useStyles(boost)();
 
 	return (
 		<div className={clsx(className, classes.container)} {...boxProps}>
