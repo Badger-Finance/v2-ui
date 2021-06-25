@@ -427,18 +427,16 @@ export const BridgeForm = observer(({ classes }: any) => {
 		};
 
 		const allowance = await getAllowance(tokenParam, bridge_system.adapter);
-		if (amountOut.gt(allowance.balance)) {
-			try {
+
+		try {
+			if (amountOut.gt(allowance.balance)) {
 				await increaseAllowance(tokenParam, bridge_system.adapter);
-				setTxStatus('pending');
-				await withdraw(params);
-				setTxStatus('success');
-			} catch (err) {
-				setTxStatus('error');
 			}
-		} else {
-			console.log(amountOut.toString(), allowance.balance.toString());
-			queueNotification('Amount exceeds allowance', 'error');
+			setTxStatus('pending');
+			await withdraw(params);
+			setTxStatus('success');
+		} catch (err) {
+			setTxStatus('error');
 		}
 	};
 
