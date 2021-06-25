@@ -17,10 +17,13 @@ const useStyles = makeStyles((theme) => ({
 	},
 	boostLink: {
 		fontWeight: 'bold',
+		[theme.breakpoints.down('xs')]: {
+			display: 'none',
+		},
 	},
 }));
 
-export const Boost = observer(() => {
+export const BoostOptimizer = observer(() => {
 	const classes = useStyles();
 
 	return (
@@ -31,7 +34,13 @@ export const Boost = observer(() => {
 						title="Badger Boost Optimizer"
 						subtitle="Use this tool to determine the amount you need to deposit in order to hit your desired boost ratio."
 					/>
-					<Link href="#" color="primary" className={classes.boostLink}>
+					<Link
+						target="_blank"
+						rel="noopener noreferrer"
+						href="https://badger.wiki/badger-boost"
+						color="primary"
+						className={classes.boostLink}
+					>
 						How does boosts work?
 					</Link>
 				</Grid>
