@@ -260,7 +260,10 @@ export const Sidebar = observer(() => {
 							<ListItem
 								button
 								className={classes.listItem}
-								onClick={() => setExpanded(expanded === 'boosts' ? '' : 'boosts')}
+								onClick={() => {
+									setExpanded(expanded === 'boosts' ? '' : 'boosts');
+									navigate(views.boostOptimizer).then();
+								}}
 							>
 								<ListItemIcon>
 									<img alt="Boosts" src={'assets/sidebar/boosts.png'} className={classes.icon} />
@@ -276,7 +279,11 @@ export const Sidebar = observer(() => {
 							</ListItem>
 							<Collapse
 								classes={{ wrapper: classes.collapseWrapper }}
-								in={expanded === 'boosts' || store.router.currentPath == '/leaderboard'}
+								in={
+									expanded === 'boosts' ||
+									store.router.currentPath === '/leaderboard' ||
+									store.router.currentPath === '/boost-optimizer'
+								}
 								timeout="auto"
 								unmountOnExit
 							>
@@ -290,8 +297,8 @@ export const Sidebar = observer(() => {
 								{FLAGS.BOOST_OPTIMIZER && (
 									<ListItem
 										button
-										className={getItemClass('/boost', classes.primarySubListItem)}
-										onClick={() => navigate(views.boost)}
+										className={getItemClass('/boost-optimizer', classes.primarySubListItem)}
+										onClick={() => navigate(views.boostOptimizer)}
 									>
 										Boost Optimizer
 									</ListItem>
