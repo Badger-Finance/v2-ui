@@ -48,17 +48,24 @@ export const Calculator = observer(
 		const [nonNative, setNonNative] = useState<string>();
 		const [nativeToAdd, setNativeToAdd] = useState<string>();
 
-		const calculateNewBoost = (targetBoost: number) => {
-			if (!native || !nonNative || !accountDetails) return;
+		const calculateNewBoost = useCallback(
+			(targetBoost: number) => {
+				if (!native || !nonNative || !accountDetails) return;
 
-			if (targetBoost > accountDetails.boost) {
-				const toMatchBoost = boostOptimizer.calculateNativeToMatchBoost(native, nonNative, Number(targetBoost));
+				if (targetBoost > accountDetails.boost) {
+					const toMatchBoost = boostOptimizer.calculateNativeToMatchBoost(
+						native,
+						nonNative,
+						Number(targetBoost),
+					);
 
-				if (toMatchBoost && toMatchBoost.gt(0)) {
-					setNativeToAdd(toMatchBoost.toFixed(3, BigNumber.ROUND_HALF_FLOOR));
+					if (toMatchBoost && toMatchBoost.gt(0)) {
+						setNativeToAdd(toMatchBoost.toFixed(3, BigNumber.ROUND_HALF_FLOOR));
+					}
 				}
-			}
-		};
+			},
+			[native, nonNative, accountDetails, boostOptimizer],
+		);
 
 		// reason: the plugin does not recognize the dependency inside the debounce function
 		// eslint-disable-next-line react-hooks/exhaustive-deps
