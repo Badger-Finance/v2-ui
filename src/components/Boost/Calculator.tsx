@@ -48,58 +48,73 @@ export const Calculator = observer(
 		const [nonNative, setNonNative] = useState<string>();
 		const [nativeToAdd, setNativeToAdd] = useState<string>();
 
+		const calculateNewBoost = (targetBoost: number) => {
+			if (!native || !nonNative || !accountDetails) return;
+
+			if (targetBoost > accountDetails.boost) {
+				const toMatchBoost = boostOptimizer.calculateNativeToMatchBoost(native, nonNative, Number(targetBoost));
+
+				if (toMatchBoost && toMatchBoost.gt(0)) {
+					setNativeToAdd(toMatchBoost.toFixed(3, BigNumber.ROUND_HALF_FLOOR));
+				}
+			}
+		};
+
 		// reason: the plugin does not recognize the dependency inside the debounce function
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 		const debounceBoostChange = useCallback(
 			debounce(
 				600,
-				async (updatedBoost: string): Promise<void> => {
-					if (!nonNative || !accountDetails) return;
-
-					if (Number(updatedBoost) > accountDetails.boost) {
-						const toMatchBoost = boostOptimizer.calculateNativeToMatchBoost(
-							Number(updatedBoost),
-							nonNative,
-						);
-
-						console.log('toMatchBoost =>', toMatchBoost?.toString());
-
-						if (toMatchBoost && toMatchBoost.gt(0)) {
-							setNativeToAdd(toMatchBoost.toFixed(3, BigNumber.ROUND_HALF_FLOOR));
-						}
-					}
+				async (updatedBoost: number): Promise<void> => {
+					calculateNewBoost(updatedBoost);
 				},
 			),
-			[boost, nonNative],
+			[calculateNewBoost],
 		);
 
 		const updateBoostAndRank = (newNative: string, newNonNative: string) => {
-			const newBoostRatio = boostOptimizer.calculateBoostRatio(newNative, newNonNative);
-			const newRank = newBoostRatio ? boostOptimizer.calculateLeaderBoardSlot(newBoostRatio) : undefined;
+			const newBoostRatio = boostOptimizer.calculateBoost(newNative, newNonNative);
+			const newRank = boostOptimizer.calculateRank(newNative, newNonNative);
 
 			if (!newBoostRatio || !newRank) {
 				return;
 			}
 
 			setBoost(newBoostRatio.toFixed(2));
-			setRank((newRank + 1).toString()); // +1 because the position is zero index
+			setRank(newRank.toString()); // +1 because the position is zero index
 		};
 
 		const handleReset = () => {
-			if (nativeHoldings && nonNativeHoldings) {
+			if (nativeHoldings && nonNativeHoldings && accountDetails) {
 				setNative(formatWithoutExtraZeros(nativeHoldings, 3));
 				setNonNative(formatWithoutExtraZeros(nonNativeHoldings, 3));
 				setNativeToAdd(undefined);
+				setBoost(accountDetails.boost.toFixed(2));
+				setRank(accountDetails.boostRank.toString());
 			}
+		};
+
+		const handleRankJump = (rankBoost: number) => {
+			if (!native || !nonNative || Number(nonNative) === 0) return;
+
+			const newRank = boostOptimizer.calculateRankFromBoost(rankBoost);
+
+			if (newRank) {
+				setRank(String(newRank));
+			}
+
+			setBoost(rankBoost.toFixed(2));
+			calculateNewBoost(rankBoost);
 		};
 
 		const handleBoostChange = (updatedBoost: string) => {
 			setBoost(updatedBoost);
-			debounceBoostChange(updatedBoost);
+			debounceBoostChange(Number(updatedBoost));
 		};
 
 		const handleNativeChange = (change: string) => {
 			setNative(change);
+			setNativeToAdd(undefined);
 
 			if (nonNative) {
 				updateBoostAndRank(change, nonNative);
@@ -108,6 +123,7 @@ export const Calculator = observer(
 
 		const handleNonNativeChange = (change: string) => {
 			setNonNative(change);
+			setNativeToAdd(undefined);
 
 			if (native) {
 				updateBoostAndRank(native, change);
@@ -116,6 +132,14 @@ export const Calculator = observer(
 
 		// load store holdings by default once they're available
 		useEffect(() => {
+			if (accountDetails && boost === undefined) {
+				setBoost(accountDetails.boost.toFixed(2));
+			}
+
+			if (accountDetails && rank === undefined) {
+				setRank(String(accountDetails.boostRank));
+			}
+
 			if (nativeHoldings && native === undefined) {
 				setNative(formatWithoutExtraZeros(nativeHoldings, 3));
 			}
@@ -123,7 +147,7 @@ export const Calculator = observer(
 			if (nonNativeHoldings && nonNative === undefined) {
 				setNonNative(formatWithoutExtraZeros(nonNativeHoldings, 3));
 			}
-		}, [native, nativeHoldings, nonNative, nonNativeHoldings]);
+		}, [boost, rank, native, nonNative, accountDetails, nativeHoldings, nonNativeHoldings]);
 
 		if (!connectedAddress) {
 			return (
@@ -141,6 +165,7 @@ export const Calculator = observer(
 					<Grid container component={Paper} className={classes.calculatorContainer}>
 						<Grid item>
 							<CalculatorHeader
+								accountBoost={accountDetails?.boost}
 								boost={boost}
 								disableBoost={!nonNative || Number(nonNative) === 0}
 								onBoostChange={handleBoostChange}
@@ -148,7 +173,7 @@ export const Calculator = observer(
 							/>
 						</Grid>
 						<Divider className={classes.divider} />
-						<Grid item xs>
+						<Grid item container xs direction="column" justify="center">
 							<BoostCalculatorContainer
 								boost={boost || '1'}
 								native={native || ''}
@@ -161,7 +186,7 @@ export const Calculator = observer(
 					</Grid>
 				</Grid>
 				<Grid item xs={12} lg={3}>
-					<LeaderBoardRank rank={rank} boost={boost} />
+					<LeaderBoardRank rank={rank} boost={boost} onRankJump={handleRankJump} />
 				</Grid>
 			</Grid>
 		);

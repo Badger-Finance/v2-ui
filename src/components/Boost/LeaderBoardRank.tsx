@@ -1,78 +1,22 @@
 import React from 'react';
-import { observer } from 'mobx-react-lite';
 import BigNumber from 'bignumber.js';
-import { Button, Divider, Grid, Paper, Typography } from '@material-ui/core';
+import { Button, ButtonBase, Divider, Grid, Paper, Tooltip, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Skeleton } from '@material-ui/lab';
 
 import { RankLevel } from './RankLevel';
 import { getColorFromComparison } from './utils';
-import { StoreContext } from '../../mobx/store-context';
 import { BadgerBoostImage } from './BadgerBoostImage';
 import { RankProgressBar } from './RankProgressBar';
 import { RankConnector } from './RankConnector';
+import { BADGER_RANKS, getRankFromBoost } from './ranks';
+import { observer } from 'mobx-react-lite';
+import { StoreContext } from '../../mobx/store-context';
+import routes from '../../config/routes';
 
-type BadgerRank = {
-	name: string;
-	color: string;
-	boost: number;
-};
-
-const BADGER_RANKS: BadgerRank[] = [
-	{
-		name: 'Basic Badger',
-		color: '#F2A52B',
-		boost: 1.0,
-	},
-	{
-		name: 'Neo Badger',
-		color: '#75D089',
-		boost: 1.4,
-	},
-	{
-		name: 'Hero Badger',
-		color: '#40C7FE',
-		boost: 1.8,
-	},
-	{
-		name: 'Hyper Badger',
-		color: '#F22CDF',
-		boost: 2.2,
-	},
-	{
-		name: 'Frenzy Badger',
-		color: '#F22C31',
-		boost: 2.6,
-	},
-];
-
-const getBadgerLevelFromBoost = (currentBoost: number): BadgerRank => {
-	if (currentBoost < BADGER_RANKS[0].boost) {
-		return BADGER_RANKS[0];
-	}
-
-	for (let index = 0; index < BADGER_RANKS.length; index++) {
-		const currentBadgerLevel = BADGER_RANKS[index];
-		const nextBadgerLevel = BADGER_RANKS[index + 1];
-
-		// boost has reached last level
-		if (!nextBadgerLevel) {
-			return currentBadgerLevel;
-		}
-
-		// make sure the boost is within this range (inclusive on left limit but exclusive or right one)
-		if (currentBoost >= currentBadgerLevel.boost && currentBoost < nextBadgerLevel.boost) {
-			return currentBadgerLevel;
-		}
-	}
-
-	// first level as default
-	return BADGER_RANKS[0];
-};
-
-const useRankStyles = (currentRank?: string, rank?: BigNumber.Value) => {
+const useRankStyles = (currentRank?: string, accountRank?: BigNumber.Value) => {
 	return makeStyles((theme) => {
-		if (!currentRank || !rank) {
+		if (!currentRank || !accountRank) {
 			return {
 				fontColor: {
 					color: theme.palette.text.primary,
@@ -80,11 +24,13 @@ const useRankStyles = (currentRank?: string, rank?: BigNumber.Value) => {
 			};
 		}
 
+		// console.log({ currentRank, accountRank });
+
 		return {
 			fontColor: {
 				color: getColorFromComparison({
 					toCompareValue: currentRank,
-					toBeComparedValue: rank,
+					toBeComparedValue: accountRank,
 					greaterCaseColor: theme.palette.error.main,
 					lessCaseColor: '#74D189',
 					defaultColor: theme.palette.text.primary,
@@ -132,44 +78,86 @@ const useStyles = makeStyles((theme) => ({
 		justifyContent: 'flex-end',
 		marginTop: theme.spacing(2),
 	},
+	placeholderProgressBar: {
+		position: 'relative',
+		alignSelf: 'stretch',
+		width: 4,
+		backgroundColor: 'rgba(255, 255, 255, 0.1)',
+	},
+	lockedRankItem: {
+		opacity: 0.5,
+	},
+	unlockedRankItem: {
+		opacity: 1,
+	},
 }));
 
 interface Props {
 	rank?: string;
 	boost?: string;
+	onRankJump: (boost: number) => void;
 }
 
 export const LeaderBoardRank = observer(
-	({ rank, boost = '1' }: Props): JSX.Element => {
+	({ boost = '1', rank, onRankJump }: Props): JSX.Element => {
 		const {
+			router,
 			user: { accountDetails },
 		} = React.useContext(StoreContext);
 
-		const currentBadgerLevel = getBadgerLevelFromBoost(Number(boost));
-
 		const classes = useStyles();
-		const rankClasses = useRankStyles(rank, accountDetails?.boostRank)();
-		const accountBoost = accountDetails?.boost || 1;
+		const accountRank = accountDetails?.boostRank;
+		const accountBoost = accountDetails?.boost;
+		const currentBadgerLevel = getRankFromBoost(Number(boost));
+		const rankClasses = useRankStyles(rank, accountRank)();
 
 		const Ranks = BADGER_RANKS.slice() //reverse mutates array
 			.reverse()
-			.map((rank) => (
-				<Grid container alignItems="flex-end" key={`${rank.boost}_${rank.name}`}>
-					<Grid item>
-						<RankConnector boost={Number(boost)} accountBoost={accountBoost} rankBoost={rank.boost} />
+			.map((rank) => {
+				// don't display obtained classes on base rank
+				const isObtained = accountBoost ? accountBoost > 1 && accountBoost >= rank.boost : false;
+				const isLocked = Number(boost) < rank.boost;
+				const isCurrentBoost = Number(boost) === rank.boost;
+
+				const rankItem = (
+					<Grid container alignItems="flex-end">
+						<Grid item>
+							<RankConnector
+								boost={Number(boost)}
+								accountBoost={accountBoost || 1}
+								rankBoost={rank.boost}
+							/>
+						</Grid>
+						<Grid item>
+							<ButtonBase disabled={isCurrentBoost} onClick={() => onRankJump(rank.boost)}>
+								<RankLevel
+									key={`${rank.boost}_${rank.name}`}
+									name={rank.name}
+									boost={rank.boost}
+									obtained={isObtained}
+									locked={isLocked}
+								/>
+							</ButtonBase>
+						</Grid>
 					</Grid>
-					<Grid item>
-						<RankLevel
+				);
+
+				if (!isCurrentBoost) {
+					return (
+						<Tooltip
+							title="Jump to rank"
+							arrow
+							placement="left"
+							color="primary"
 							key={`${rank.boost}_${rank.name}`}
-							name={rank.name}
-							color={rank.color}
-							boost={rank.boost}
-							obtained={accountBoost > 1 && accountBoost >= rank.boost}
-							locked={Number(boost) < rank.boost}
-						/>
-					</Grid>
-				</Grid>
-			));
+						>
+							{rankItem}
+						</Tooltip>
+					);
+				}
+
+				return rankItem;
+			});
 
 		return (
 			<Grid container component={Paper} className={classes.root}>
@@ -184,7 +172,7 @@ export const LeaderBoardRank = observer(
 							{rank ? `#${rank}` : <Skeleton width={35} />}
 						</Typography>
 						<div className={classes.currentLevelImgContainer}>
-							<BadgerBoostImage backgroundColor={currentBadgerLevel.color} />
+							<BadgerBoostImage boost={currentBadgerLevel.boost} />
 						</div>
 						<Typography display="inline" className={rankClasses.fontColor}>
 							{currentBadgerLevel.name}
@@ -193,12 +181,24 @@ export const LeaderBoardRank = observer(
 				</Grid>
 				<Divider className={classes.divider} />
 				<Grid item container>
-					<RankProgressBar boost={Number(boost)} accountBoost={accountBoost} />
+					{accountBoost ? (
+						<RankProgressBar boost={Number(boost)} accountBoost={accountBoost} />
+					) : (
+						<div className={classes.placeholderProgressBar} />
+					)}
 					<div>{Ranks}</div>
 				</Grid>
 
 				<Grid item className={classes.viewLeaderBoardContainer} xs>
-					<Button fullWidth color="primary" variant="outlined" size="small">
+					<Button
+						fullWidth
+						color="primary"
+						variant="outlined"
+						size="small"
+						onClick={() => {
+							router.goTo(routes.boostLeaderBoard);
+						}}
+					>
 						View Leaderboard
 					</Button>
 				</Grid>
