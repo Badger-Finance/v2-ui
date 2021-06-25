@@ -3,8 +3,15 @@ import { makeStyles } from '@material-ui/core/styles';
 import { getColorFromComparison } from './utils';
 
 const useRankConnectorStyles = (currentBoost: number, accountBoost: number, rankLevelBoost: number) => {
-	const isLocked = rankLevelBoost > Math.max(currentBoost, accountBoost);
+	const upperLimit = Math.max(currentBoost, accountBoost);
+	const lowerLimit = Math.min(currentBoost, accountBoost);
+
+	const differenceSection = upperLimit - lowerLimit;
+	const isLocked = rankLevelBoost > upperLimit;
 	const isObtained = accountBoost >= rankLevelBoost;
+
+	// only show difference on connectors of ranks that are above the current boost
+	const shouldShowNegativeChange = rankLevelBoost > upperLimit - differenceSection;
 
 	return makeStyles((theme) => {
 		let backgroundColor: string;
@@ -16,7 +23,7 @@ const useRankConnectorStyles = (currentBoost: number, accountBoost: number, rank
 				toCompareValue: currentBoost,
 				toBeComparedValue: accountBoost,
 				greaterCaseColor: isObtained ? theme.palette.primary.main : '#74D189',
-				lessCaseColor: theme.palette.error.main,
+				lessCaseColor: shouldShowNegativeChange ? theme.palette.error.main : theme.palette.primary.main,
 				defaultColor: theme.palette.primary.main,
 			});
 		}
