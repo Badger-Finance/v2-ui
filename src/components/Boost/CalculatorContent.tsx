@@ -129,9 +129,12 @@ export const BoostCalculatorContainer = observer(
 
 		const currentBadgerLevel = getRankNumberFromBoost(Number(boost));
 		const nextBadgerLevel = BADGER_RANKS[currentBadgerLevel + 1];
+
 		const amountToReachNextLevel = nextBadgerLevel
 			? boostOptimizer.calculateNativeToMatchBoost(native, nonNative, nextBadgerLevel.boost)
 			: null;
+
+		const shouldShowAmountToReachNextLevel = amountToReachNextLevel?.gt(native);
 
 		const handleApplyRemaining = () => {
 			if (native && nativeToAdd) {
@@ -193,7 +196,7 @@ export const BoostCalculatorContainer = observer(
 					onReduction={handleReduceNative}
 					value={native}
 				/>
-				{nextBadgerLevel && amountToReachNextLevel && (
+				{nextBadgerLevel && amountToReachNextLevel && shouldShowAmountToReachNextLevel && (
 					<Grid className={classes.infoBox}>
 						<Typography className={classes.infoText} color="textSecondary">
 							Deposit
