@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Typography, useMediaQuery, useTheme, withStyles } from '@material-ui/core';
+import { Grid, Tooltip, Typography, useMediaQuery, useTheme, withStyles } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { BoostBadgerAnimation } from './ScoreAnimation';
 import { observer } from 'mobx-react-lite';
@@ -8,8 +8,8 @@ import BigNumber from 'bignumber.js';
 import { formatWithoutExtraZeros, getColorFromComparison, percentageBetweenRange } from './utils';
 import { Skeleton } from '@material-ui/lab';
 import { HoldingAssetInput } from './HoldingAssetInput';
-import { numberWithCommas } from '../../mobx/utils/helpers';
 import clsx from 'clsx';
+import { BADGER_RANKS, getRankNumberFromBoost } from './ranks';
 
 const BoostLoader = withStyles((theme) => ({
 	root: {
@@ -66,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
 		color: '#74D189',
 	},
 	resetCalculation: {
-		marginTop: 16,
+		marginTop: theme.spacing(2),
 		textAlign: 'center',
 		textTransform: 'none',
 	},
@@ -80,12 +80,21 @@ const useStyles = makeStyles((theme) => ({
 	infoBox: {
 		marginTop: theme.spacing(2),
 		border: '1px solid #6B6A6A',
-		padding: 8,
+		padding: theme.spacing(1),
 		borderRadius: 8,
 		textAlign: 'start',
 	},
 	infoText: {
 		fontSize: 12,
+	},
+	nextLevelName: {
+		color: '#3FC7FE',
+	},
+	amountToNextLevel: {
+		cursor: 'pointer',
+	},
+	assetInput: {
+		marginTop: theme.spacing(1),
 	},
 }));
 
@@ -115,14 +124,24 @@ export const BoostCalculatorContainer = observer(
 		const showEmptyNonNativeMessage = Number(nonNative) === 0;
 		const showReducedNonNativeMessage = nonNative ? nonNativeHoldings?.gt(nonNative) : false;
 
-		const isThereRemainingToAdd = nativeToAdd ? Number(nativeToAdd) > Number(native) : undefined;
-		const remainingNativeToAdd = isThereRemainingToAdd ? Number(nativeToAdd) - Number(native) : undefined;
 		const sanitizedBoost = Math.min(Number(boost), 3);
 		const badgerScore = percentageBetweenRange(sanitizedBoost, 3, 1);
 
+		const currentBadgerLevel = getRankNumberFromBoost(Number(boost));
+		const nextBadgerLevel = BADGER_RANKS[currentBadgerLevel + 1];
+		const amountToReachNextLevel = nextBadgerLevel
+			? boostOptimizer.calculateNativeToMatchBoost(native, nonNative, nextBadgerLevel.boost)
+			: null;
+
 		const handleApplyRemaining = () => {
-			if (native && remainingNativeToAdd) {
-				onNativeChange(formatWithoutExtraZeros(new BigNumber(native).plus(remainingNativeToAdd)));
+			if (native && nativeToAdd) {
+				onNativeChange(formatWithoutExtraZeros(new BigNumber(native).plus(nativeToAdd)));
+			}
+		};
+
+		const handleApplyNextLevelAmount = () => {
+			if (native && amountToReachNextLevel) {
+				onNativeChange(formatWithoutExtraZeros(new BigNumber(native).plus(amountToReachNextLevel)));
 			}
 		};
 
@@ -162,6 +181,7 @@ export const BoostCalculatorContainer = observer(
 			<Grid item className={classes.settInformation}>
 				<Typography variant="h6">Native: </Typography>
 				<HoldingAssetInput
+					className={classes.assetInput}
 					disabled={isLoading}
 					placeholder="$10,000"
 					fullWidth={extraSmallScreen}
@@ -173,13 +193,28 @@ export const BoostCalculatorContainer = observer(
 					onReduction={handleReduceNative}
 					value={native}
 				/>
-				{remainingNativeToAdd && (
+				{nextBadgerLevel && amountToReachNextLevel && (
+					<Grid className={classes.infoBox}>
+						<Typography className={classes.infoText} color="textSecondary">
+							Deposit
+							<Tooltip title="Apply" arrow placement="top" color="primary">
+								<span
+									className={classes.amountToNextLevel}
+									onClick={handleApplyNextLevelAmount}
+								>{` $${formatWithoutExtraZeros(amountToReachNextLevel, 3)} `}</span>
+							</Tooltip>
+							more Native to reach next rank:
+							<span className={classes.nextLevelName}>{` ${nextBadgerLevel.name}`}</span>
+						</Typography>
+					</Grid>
+				)}
+				{nativeToAdd && (
 					<Grid className={classes.valueToAddContainer} container direction="column">
 						<Typography className={classes.valueToAddText}>Value to Add</Typography>
 						<Typography
 							className={clsx(classes.valueToAddText, classes.amountToAdd)}
 							onClick={handleApplyRemaining}
-						>{`+$${numberWithCommas(remainingNativeToAdd.toFixed(3).toString())}`}</Typography>
+						>{`+$${formatWithoutExtraZeros(nativeToAdd, 3)}`}</Typography>
 					</Grid>
 				)}
 			</Grid>
@@ -189,6 +224,7 @@ export const BoostCalculatorContainer = observer(
 			<Grid item className={classes.settInformation}>
 				<Typography variant="h6">Non Native: </Typography>
 				<HoldingAssetInput
+					className={classes.assetInput}
 					disabled={isLoading}
 					placeholder="$5,000"
 					fullWidth={extraSmallScreen}
@@ -203,7 +239,7 @@ export const BoostCalculatorContainer = observer(
 				{showReducedNonNativeMessage && (
 					<Grid className={classes.infoBox}>
 						<Typography className={classes.infoText} color="textSecondary">
-							While reducing Non-Native may increase your boost, your gross yield will be smaller.
+							While reducing Non-Native may increase your boost, your gross yield will be smaller
 						</Typography>
 					</Grid>
 				)}
@@ -219,7 +255,7 @@ export const BoostCalculatorContainer = observer(
 
 		if (smallScreen) {
 			return (
-				<Grid container spacing={4} className={classes.content}>
+				<Grid container spacing={2} className={classes.content}>
 					<Grid item xs={12}>
 						{badgerScoreContent}
 					</Grid>
