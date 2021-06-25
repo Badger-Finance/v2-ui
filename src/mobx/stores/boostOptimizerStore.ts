@@ -10,7 +10,7 @@ import { fetchCompleteLeaderBoardData } from '../utils/apiV2';
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 
 export class BoostOptimizerStore {
-	leaderBoard: LeaderBoardEntry[] | null = null;
+	leaderBoard?: LeaderBoardEntry[];
 
 	constructor(private store: RootStore) {
 		this.store = store;
@@ -23,7 +23,11 @@ export class BoostOptimizerStore {
 	}
 
 	async loadLeaderBoard(): Promise<void> {
-		this.leaderBoard = await fetchCompleteLeaderBoardData();
+		const fetchedLeaderBoard = await fetchCompleteLeaderBoardData();
+
+		if (fetchedLeaderBoard) {
+			this.leaderBoard = fetchedLeaderBoard;
+		}
 	}
 
 	get nativeHoldings(): BigNumber | undefined {
@@ -60,7 +64,7 @@ export class BoostOptimizerStore {
 		return badgerHoldings.plus(diggBalanceHoldings).multipliedBy(exchangeRates.usd);
 	}
 
-	calculateLeaderBoardSlot(boost: number): number | undefined {
+	calculateRankFromBoost(boost: number): number | undefined {
 		if (!this.leaderBoard) return;
 
 		for (let index = 0; index < this.leaderBoard.length; index++) {
@@ -72,44 +76,87 @@ export class BoostOptimizerStore {
 		return this.leaderBoard.length - 1;
 	}
 
-	calculateBoostRatio(native: string, nonNative: string): number | undefined {
+	calculateRank(native: string, nonNative: string): number | undefined {
+		if (!this.leaderBoard || !this.store.user.accountDetails) return;
+
+		const boostRatio = this.calculateBoostRatio(native, nonNative);
+
+		if (boostRatio === -1) {
+			return this.store.user.accountDetails.boostRank;
+		}
+
+		for (let index = 0; index < this.leaderBoard.length; index++) {
+			if (boostRatio > Number(this.leaderBoard[index].stakeRatio)) {
+				return index;
+			}
+		}
+
+		return this.leaderBoard.length - 1;
+	}
+
+	calculateBoost(native: string, nonNative: string): number | undefined {
 		if (!this.leaderBoard) return;
 
+		const rank = this.calculateRank(native, nonNative);
+
+		if (!rank) {
+			return;
+		}
+
+		const leaderboardRankLerp = 1 - rank / this.leaderBoard.length;
+		return Math.min(lerp(1, 3, leaderboardRankLerp), 3);
+	}
+
+	calculateNativeToMatchBoost(native: string, nonNative: string, desiredBoost: number): BigNumber | undefined {
+		if (!this.leaderBoard) return;
+
+		const boostRatio = this.calculateBoostRatio(native, nonNative);
+
+		if (boostRatio === -1) {
+			return;
+		}
+
+		const boostList = this.leaderBoard.map((l) => Number(l.boost));
+		const positionToOvertake = this.getSmallestValueGreaterThanLimit(desiredBoost, boostList);
+
+		if (positionToOvertake === -1) {
+			return;
+		}
+
+		const positionToOvertakeRatio = Number(this.leaderBoard[positionToOvertake].stakeRatio);
+		const ratioToTargetBoost = positionToOvertakeRatio - boostRatio;
+
+		const nativeRequired = new BigNumber(nonNative).multipliedBy(ratioToTargetBoost);
+
+		// +10% of overestimation for error margin
+		return nativeRequired.multipliedBy(1.1);
+	}
+
+	private calculateBoostRatio = (native: string, nonNative: string): number => {
 		const boostRatio = new BigNumber(native).dividedBy(nonNative);
 
 		// handle 0/0 and x/0 division
 		if (boostRatio.isNaN() || !boostRatio.isFinite()) {
-			return 1;
+			return -1;
 		}
 
-		const leaderboardSlot = this.calculateLeaderBoardSlot(boostRatio.toNumber());
+		return boostRatio.toNumber();
+	};
 
-		if (!leaderboardSlot) {
-			return;
-		}
+	private getSmallestValueGreaterThanLimit = (limit: number, list: number[]): number => {
+		let positionToOvertake = -1;
 
-		const leaderboardRankLerp = 1 - leaderboardSlot / this.leaderBoard.length;
-		return Math.min(lerp(1, 3, leaderboardRankLerp), 3);
-	}
-
-	calculateNativeToMatchBoost(desiredBoost: number): BigNumber | undefined {
-		if (!this.nonNativeHoldings || !this.leaderBoard) return;
-
-		if (this.nonNativeHoldings.eq(0)) {
-			return new BigNumber(0);
-		}
-
-		let positionToOvertake = this.leaderBoard.length - 1;
-		const invertedLeaderBoard = this.leaderBoard.sort((a, b) => Number(a.boost) - Number(b.boost));
-
-		for (let index = 0; index < invertedLeaderBoard.length; index++) {
-			if (Number(invertedLeaderBoard[index].boost) >= desiredBoost) {
-				positionToOvertake = index;
-				break;
+		for (let i = 0; i < list.length; i++) {
+			if (list[i] >= limit) {
+				if (positionToOvertake == -1)
+					// check whether its the first value above the limit in the list
+					positionToOvertake = i;
+				else if (list[positionToOvertake] > list[i])
+					//compare the current value with the previous smallest value
+					positionToOvertake = i;
 			}
 		}
 
-		const amountToGetToPosition = Number(invertedLeaderBoard[positionToOvertake].boost) - desiredBoost;
-		return this.nonNativeHoldings.multipliedBy(amountToGetToPosition);
-	}
+		return positionToOvertake;
+	};
 }
