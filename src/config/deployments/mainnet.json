@@ -179,7 +179,7 @@
 		"diggDistributor": "0x5E79958EfbB8AFdeDB6EC7107110F329e4EAfffA"
 	},
 	"bridge_system": {
-		"adapter": "0x3CaF2644735ca73667300cC2Afb957609D9377Ca",
+		"adapter": "0xcB5c2B0FE765069708f17376981C9aFE56Fed339",
 		"curveTokenWrapper": "0x70579665c61CD49501d40C941C6E428d466ADD55",
 		"logic": {
 			"BadgerBridgeAdapter": "0x8e38bbc7ff0D5253f7379290ACD88154257591Ff"
