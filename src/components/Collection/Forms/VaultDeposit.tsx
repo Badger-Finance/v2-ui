@@ -49,7 +49,7 @@ export const VaultDeposit = observer((props: SettModalProps) => {
 
 	let canDeposit = !!amount;
 	if (canDeposit && vaultCaps) {
-		const vaultHasSpace = vaultCaps.vaultCap.tokenBalance.gte('0');
+		const vaultHasSpace = vaultCaps.vaultCap.tokenBalance.gte(depositBalance.tokenBalance);
 		const userHasSpace = vaultCaps.userCap.tokenBalance.gte(depositBalance.tokenBalance);
 		const userHasBalance = userBalance.tokenBalance.gte(depositBalance.tokenBalance);
 		canDeposit = vaultHasSpace && userHasSpace && userHasBalance;
