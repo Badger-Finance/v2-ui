@@ -44,13 +44,14 @@ export const VaultDeposit = observer((props: SettModalProps) => {
 	}
 
 	const userBalance = user.getBalance(ContractNamespace.Token, badgerSett);
+	const depositBalance = TokenBalance.fromBalance(userBalance, amount ?? '0');
 	const vaultCaps = user.vaultCaps[sett.vaultToken];
 
 	let canDeposit = !!amount;
 	if (canDeposit && vaultCaps) {
-		const vaultCanDeposit = vaultCaps.vaultCap.tokenBalance.gte(userBalance.tokenBalance);
+		const vaultCanDeposit = vaultCaps.vaultCap.tokenBalance.gte('0');
 		const userCanDeposit =
-			vaultCaps.userCap.tokenBalance.gte(userBalance.tokenBalance) && userBalance.balance.gt(0);
+			vaultCaps.userCap.tokenBalance.gte(depositBalance.tokenBalance) && userBalance.balance.gt(0);
 		canDeposit = vaultCanDeposit && userCanDeposit;
 	}
 
@@ -62,7 +63,6 @@ export const VaultDeposit = observer((props: SettModalProps) => {
 		if (!amount) {
 			return;
 		}
-		const depositBalance = TokenBalance.fromBalance(userBalance, amount);
 		await contracts.deposit(sett, badgerSett, userBalance, depositBalance);
 	};
 
