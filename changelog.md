@@ -1,5 +1,9 @@
 # v2 UI Changelog
 
+### Hotfix - 06/28/2021
+
+-   fixed an issue causing users to not be able to deposit into gaurded setts when their wallet balance exceeded the cap
+
 ### v2.8.0 - 06/23/2021
 
 -   introduced experimental vaults to the badger arcade
