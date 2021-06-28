@@ -5,6 +5,9 @@ import { BadgerBoostImage } from './BadgerBoostImage';
 import clsx from 'clsx';
 
 const useStyles = makeStyles((theme) => ({
+	root: {
+		textAlign: 'start',
+	},
 	fullWidthImage: {
 		width: '100%',
 		height: '100%',
@@ -55,7 +58,7 @@ export const RankLevel = ({ name, boost, obtained = false, locked = true }: Prop
 	const classes = useStyles();
 
 	return (
-		<Grid container className={clsx(locked && classes.locked)}>
+		<Grid container className={clsx(locked && classes.locked, classes.root)}>
 			<div className={clsx(classes.boostImageContainer)}>
 				<BadgerBoostImage className={clsx(classes.softBorder, obtained && classes.obtained)} boost={boost} />
 			</div>
