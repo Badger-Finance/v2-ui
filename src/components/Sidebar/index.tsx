@@ -262,7 +262,6 @@ export const Sidebar = observer(() => {
 								className={classes.listItem}
 								onClick={() => {
 									setExpanded(expanded === 'boosts' ? '' : 'boosts');
-									navigate(views.boostOptimizer).then();
 								}}
 							>
 								<ListItemIcon>
@@ -271,7 +270,7 @@ export const Sidebar = observer(() => {
 								<ListItemText primary="Boosts" />
 								<IconButton
 									size="small"
-									className={classes.expand + ' ' + (expanded === 'tokens' ? classes.expandOpen : '')}
+									className={clsx(classes.expand, expanded === 'tokens' && classes.expandOpen)}
 									aria-label="show more"
 								>
 									<ExpandMore />
