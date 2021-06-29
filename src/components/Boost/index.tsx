@@ -32,7 +32,7 @@ export const BoostOptimizer = observer(() => {
 				<Grid item xs={12} className={classes.headerContainer}>
 					<PageHeader
 						title="Badger Boost Optimizer"
-						subtitle="Use this tool to determine the amount you need to deposit in order to hit your desired boost ratio."
+						subtitle="Determine deposits needed in order to hit your desired boost ratio."
 					/>
 					<Link
 						target="_blank"
