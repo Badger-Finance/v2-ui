@@ -1,7 +1,7 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import BigNumber from 'bignumber.js';
-import { Button, Divider, Grid, Paper } from '@material-ui/core';
+import { Button, Divider, Grid, Paper, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { BoostCalculatorContainer } from './CalculatorContent';
@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
 		padding: theme.spacing(3),
 		flexDirection: 'column',
 		[theme.breakpoints.up('md')]: {
-			height: 465,
+			height: 470,
 		},
 	},
 	divider: {
@@ -27,6 +27,18 @@ const useStyles = makeStyles((theme) => ({
 			margin: theme.spacing(3, 0, 0, 1),
 		},
 		margin: theme.spacing(3, 0),
+	},
+	placeholderContainer: {
+		width: '50%',
+		margin: 'auto',
+		padding: theme.spacing(3),
+		textAlign: 'center',
+		[theme.breakpoints.down('xs')]: {
+			width: '100%',
+		},
+	},
+	placeholderText: {
+		marginBottom: theme.spacing(2),
 	},
 }));
 
@@ -60,7 +72,7 @@ export const Calculator = observer(
 					);
 
 					if (toMatchBoost && toMatchBoost.gt(0)) {
-						setNativeToAdd(toMatchBoost.toFixed(3, BigNumber.ROUND_HALF_FLOOR));
+						setNativeToAdd(toMatchBoost.toFixed(3, BigNumber.ROUND_HALF_CEIL));
 					}
 				}
 			},
@@ -158,7 +170,10 @@ export const Calculator = observer(
 
 		if (!connectedAddress) {
 			return (
-				<Paper className={classes.calculatorContainer}>
+				<Paper className={classes.placeholderContainer}>
+					<Typography className={classes.placeholderText}>
+						In order to use the boost optimizer you need to connect your wallet
+					</Typography>
 					<Button fullWidth size="large" variant="contained" color="primary" onClick={connectWallet}>
 						Connect Wallet
 					</Button>
