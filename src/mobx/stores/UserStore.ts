@@ -13,9 +13,12 @@ import { TokenBalance } from 'mobx/model/token-balance';
 import { BadgerSett } from 'mobx/model/badger-sett';
 import { BadgerToken, mockToken } from 'mobx/model/badger-token';
 import { CallResult } from 'web3/interface/call-result';
-import { DEBUG, ONE_MIN_MS } from 'config/constants';
+import { DEBUG, ONE_MIN_MS, ZERO_ADDR } from 'config/constants';
 import { UserBalanceCache } from 'mobx/model/user-balance-cache';
 import { CachedUserBalances } from 'mobx/model/cached-user-balances';
+import { createBatchCallRequest } from 'web3/config/config-utils';
+import { VaultCaps } from 'mobx/model/vault-cap copy';
+import { VaultCap } from 'mobx/model/vault-cap';
 
 export default class UserStore {
 	private store!: RootStore;
@@ -30,6 +33,7 @@ export default class UserStore {
 	public tokenBalances: UserBalances = {};
 	public settBalances: UserBalances = {};
 	public geyserBalances: UserBalances = {};
+	public vaultCaps: VaultCaps = {};
 	public loadingBalances: boolean;
 
 	constructor(store: RootStore) {
@@ -46,6 +50,7 @@ export default class UserStore {
 			tokenBalances: this.tokenBalances,
 			settBalances: this.settBalances,
 			geyserBalances: this.geyserBalances,
+			vaultCaps: this.vaultCaps,
 			loadingBalances: this.loadingBalances,
 		});
 
@@ -100,25 +105,45 @@ export default class UserStore {
 		return this.permissions.viewSettShop;
 	}
 
-	portfolioValue(): BigNumber {
-		return this.walletValue().plus(this.settValue()).plus(this.geyserValue());
+	get portfolioValue(): BigNumber {
+		return this.walletValue.plus(this.settValue).plus(this.geyserValue);
 	}
 
-	walletValue(): BigNumber {
+	get walletValue(): BigNumber {
 		return Object.values(this.tokenBalances).reduce((total, token) => total.plus(token.value), new BigNumber(0));
 	}
 
-	settValue(): BigNumber {
+	get settValue(): BigNumber {
 		return Object.values(this.settBalances).reduce((total, sett) => total.plus(sett.value), new BigNumber(0));
 	}
 
-	geyserValue(): BigNumber {
+	get geyserValue(): BigNumber {
 		return Object.values(this.geyserBalances).reduce((total, geyser) => total.plus(geyser.value), new BigNumber(0));
+	}
+
+	get initialized(): boolean {
+		const hasTokens = Object.keys(this.tokenBalances).length > 0;
+		const hasSetts = Object.keys(this.settBalances).length > 0;
+		let hasGeysers = false;
+
+		const { network, connectedAddress } = this.store.wallet;
+		const geyserRequests = network
+			.batchRequests(connectedAddress)
+			.find((req) => req.namespace === ContractNamespace.Geyser);
+		/* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */
+		if (geyserRequests!.addresses && geyserRequests!.addresses.length === 0) {
+			hasGeysers = true;
+		} else {
+			hasGeysers = Object.keys(this.geyserBalances).length > 0;
+		}
+
+		return !this.loadingBalances && hasTokens && hasSetts && hasGeysers;
 	}
 
 	getBalance(namespace: ContractNamespace, sett: BadgerSett): TokenBalance {
 		switch (namespace) {
 			case ContractNamespace.Sett:
+			case ContractNamespace.GaurdedSett:
 				const settAddress = Web3.utils.toChecksumAddress(sett.vaultToken.address);
 				return this.getOrDefaultBalance(this.settBalances, settAddress);
 			case ContractNamespace.Geyser:
@@ -180,7 +205,8 @@ export default class UserStore {
 
 			// filter batch requests by namespace
 			const userTokens = callResults.filter((result) => result.namespace === ContractNamespace.Token);
-			const userSetts = callResults.filter((result) => result.namespace === ContractNamespace.Sett);
+			const userGeneralSetts = callResults.filter((result) => result.namespace === ContractNamespace.Sett);
+			const userGuardedSetts = callResults.filter((result) => result.namespace === ContractNamespace.GaurdedSett);
 			const userGeysers = callResults.filter((result) => result.namespace === ContractNamespace.Geyser);
 
 			const tokenBalances: UserBalances = {};
@@ -189,14 +215,78 @@ export default class UserStore {
 
 			// update all user balances
 			userTokens.forEach((token) => this.updateUserBalance(tokenBalances, token, this.getDepositToken));
-			userSetts.forEach((sett) => this.updateUserBalance(settBalances, sett, this.getSettToken));
+			userGeneralSetts.forEach((sett) => this.updateUserBalance(settBalances, sett, this.getSettToken));
+			userGuardedSetts.forEach((sett) => this.updateUserBalance(settBalances, sett, this.getSettToken));
 			userGeysers.forEach((geyser) => this.updateUserBalance(geyserBalances, geyser, this.getGeyserMockToken));
+
+			const guestListLookup: Record<string, string> = {};
+			const guestLists = userGuardedSetts
+				.map((sett) => {
+					if (!sett.address || !sett.guestList || sett.guestList.length === 0) {
+						return;
+					}
+					const guestList = sett.guestList[0].value;
+					if (guestList === ZERO_ADDR) {
+						return;
+					}
+					guestListLookup[guestList] = sett.address;
+					return guestList;
+				})
+				.filter((list): list is string => !!list);
+			const guestListRequests = createBatchCallRequest(guestLists, ContractNamespace.GuestList, connectedAddress);
+			const guestListResults: CallResult[] = await this.batchCall.execute([guestListRequests]);
+			if (DEBUG) {
+				console.log(guestListResults);
+			}
+			const vaultCaps: VaultCaps = Object.fromEntries(
+				guestListResults
+					.map((result) => {
+						if (
+							!result.address ||
+							!result.remainingTotalDepositAllowed ||
+							!result.remainingUserDepositAllowed ||
+							!result.totalDepositCap ||
+							!result.userDepositCap
+						) {
+							return;
+						}
+						const vaultAddress = guestListLookup[result.address];
+						const vault = this.store.setts.getSett(vaultAddress);
+						if (!vault) {
+							return;
+						}
+						const depositToken = this.store.setts.getToken(vault.underlyingToken);
+						if (!depositToken) {
+							return;
+						}
+						const remainingTotalDepositAllowed = result.remainingTotalDepositAllowed[0].value;
+						const totalDepositCap = result.totalDepositCap[0].value;
+						const remainingUserDepositAllowed = result.remainingUserDepositAllowed[0].value;
+						const userDepositCap = result.userDepositCap[0].value;
+						const cap: VaultCap = {
+							vaultCap: this.store.rewards.balanceFromProof(
+								depositToken.address,
+								remainingTotalDepositAllowed,
+							),
+							totalVaultCap: this.store.rewards.balanceFromProof(depositToken.address, totalDepositCap),
+							userCap: this.store.rewards.balanceFromProof(
+								depositToken.address,
+								remainingUserDepositAllowed,
+							),
+							totalUserCap: this.store.rewards.balanceFromProof(depositToken.address, userDepositCap),
+							asset: depositToken.symbol,
+						};
+						return [vault.vaultToken, cap];
+					})
+					.filter((value): value is [] => !!value),
+			);
 
 			const result = {
 				key: cacheKey,
 				tokens: tokenBalances,
 				setts: settBalances,
 				geysers: geyserBalances,
+				vaultCaps,
 				expiry: Date.now() + 5 * ONE_MIN_MS,
 			};
 			this.userBalanceCache[cacheKey] = result;
@@ -206,10 +296,11 @@ export default class UserStore {
 	);
 
 	private setBalances = (balances: CachedUserBalances): void => {
-		const { tokens, setts, geysers } = balances;
+		const { tokens, setts, geysers, vaultCaps } = balances;
 		this.tokenBalances = tokens;
 		this.settBalances = setts;
 		this.geyserBalances = geysers;
+		this.vaultCaps = vaultCaps;
 	};
 
 	/* Update Balance Helpers */
@@ -219,7 +310,7 @@ export default class UserStore {
 		token: CallResult,
 		getToken: (sett: BadgerSett) => BadgerToken,
 	): void => {
-		const { setts, wallet } = this.store;
+		const { prices, wallet } = this.store;
 		const { network } = wallet;
 		const balanceResults = token.balanceOf || token.totalStakedFor;
 		if (!balanceResults || balanceResults.length === 0) {
@@ -235,7 +326,7 @@ export default class UserStore {
 		if (sett.geyser && sett.geyser === pricingToken) {
 			pricingToken = sett.vaultToken.address;
 		}
-		const tokenPrice = setts.getPrice(pricingToken);
+		const tokenPrice = prices.getPrice(pricingToken);
 		const key = Web3.utils.toChecksumAddress(balanceToken.address);
 		userBalances[key] = new TokenBalance(balanceToken, balance, tokenPrice);
 	};

@@ -271,22 +271,20 @@ export const Sidebar = observer(() => {
 								</ListItemIcon>
 								<ListItemText primary="Digg" />
 							</ListItem>
-							{FLAGS.IBBTC_FLAG && (
-								<ListItem
-									button
-									className={getItemClass('/ibBTC', classes.listItem)}
-									onClick={() => navigate(views.IbBTC)}
-								>
-									<ListItemIcon>
-										<img
-											alt="Interest Bearing Badger Bitcoin Icon"
-											src={'assets/sidebar/ibbtc-white.svg'}
-											className={classes.icon}
-										/>
-									</ListItemIcon>
-									<ListItemText primary="Interest Bearing BTC" />
-								</ListItem>
-							)}
+							<ListItem
+								button
+								className={getItemClass('/ibBTC', classes.listItem)}
+								onClick={() => navigate(views.IbBTC)}
+							>
+								<ListItemIcon>
+									<img
+										alt="Interest Bearing Badger Bitcoin Icon"
+										src={'assets/sidebar/ibbtc-white.svg'}
+										className={classes.icon}
+									/>
+								</ListItemIcon>
+								<ListItemText primary="Interest Bearing BTC" />
+							</ListItem>
 							<ListItem
 								button
 								className={
@@ -335,6 +333,15 @@ export const Sidebar = observer(() => {
 											onClick={() => goTo(views.experimental)}
 										>
 											Experimental Vaults
+										</ListItem>
+									)}
+									{FLAGS.BOOST_OPTIMIZER && (
+										<ListItem
+											button
+											className={getItemClass('/boost', classes.primarySubListItem)}
+											onClick={() => navigate(views.boost)}
+										>
+											Boost Optimizer
 										</ListItem>
 									)}
 									<ListItem
@@ -481,9 +488,9 @@ export const Sidebar = observer(() => {
 					<ListItem
 						button
 						className={classes.secondaryListItem}
-						onClick={() => window.open('https://app.gitbook.com/@badger-finance/s/badger-finance/')}
+						onClick={() => window.open('https://badger.wiki/')}
 					>
-						Docs
+						Wiki
 					</ListItem>
 					<ListItem
 						button

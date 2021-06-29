@@ -1,5 +1,5 @@
 import { RootStore } from 'mobx/store';
-import { extendObservable, action, observe } from 'mobx';
+import { extendObservable, action } from 'mobx';
 import BigNumber from 'bignumber.js';
 import { ContractSendMethod } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
@@ -28,7 +28,7 @@ interface RedeemAmountCalculation {
 class IbBTCStore {
 	private readonly store: RootStore;
 	private config: typeof addresses.mainnet;
-	private network: string | undefined;
+	private initialized = false;
 
 	public tokens: Array<TokenModel> = [];
 	public ibBTC: TokenModel;
@@ -70,12 +70,6 @@ class IbBTCStore {
 			mintFeePercent: this.mintFeePercent,
 			redeemFeePercent: this.redeemFeePercent,
 		});
-
-		observe(this.store.wallet as any, 'connectedAddress', () => {
-			this.init();
-		});
-
-		if (!!this.store.wallet.connectedAddress) this.init();
 	}
 
 	// just to have the same pattern as redeem options, currently all peaks can mint
@@ -93,7 +87,9 @@ class IbBTCStore {
 		// M50: by default the network ID is set to ethereum.  We should check the provider to ensure the
 		// connected wallet is using ETH network, not the site.
 		const network = getNetworkFromProvider(this.store.wallet.provider);
-		if (!FLAGS.IBBTC_FLAG || network !== NETWORK_LIST.ETH) return;
+		if (this.initialized || network !== NETWORK_LIST.ETH) {
+			return;
+		}
 
 		if (!connectedAddress) {
 			this.resetBalances();
@@ -103,6 +99,7 @@ class IbBTCStore {
 		this.fetchIbbtcApy().then();
 		this.fetchConversionRates().then();
 		this.fetchFees().then();
+		this.initialized = true;
 	}
 
 	fetchFees = action(

@@ -88,14 +88,15 @@ const Landing = observer((props: LandingProps) => {
 		wallet: { connectedAddress, network },
 		uiState: { currency },
 		setts,
+		prices,
 		user,
 	} = store;
 	const { protocolSummary } = setts;
 	const userConnected = !!connectedAddress;
 
 	const totalValueLocked = protocolSummary ? new BigNumber(protocolSummary.totalValue) : undefined;
-	const badgerPrice = network.deploy ? setts.getPrice(network.deploy.token) : undefined;
-	const portfolioValue = userConnected && !user.loadingBalances ? user.portfolioValue() : undefined;
+	const badgerPrice = network.deploy ? prices.getPrice(network.deploy.token) : undefined;
+	const portfolioValue = userConnected && user.initialized ? user.portfolioValue : undefined;
 
 	return (
 		<Container className={classes.landingContainer}>
@@ -132,11 +133,13 @@ const Landing = observer((props: LandingProps) => {
 				</Grid>
 			</Grid>
 
-			<Grid container spacing={1} justify="center">
-				<Button className={classes.announcementButton} size="small" variant="outlined" color="primary">
-					Note: New Vaults may take up to 2 weeks from launch to reach full efficiency.
-				</Button>
-			</Grid>
+			{experimental && (
+				<Grid container spacing={1} justify="center">
+					<Button className={classes.announcementButton} size="small" variant="outlined" color="primary">
+						Note: New Vaults may take up to 2 weeks from launch to reach full efficiency.
+					</Button>
+				</Grid>
+			)}
 
 			<SettList experimental={experimental} />
 		</Container>

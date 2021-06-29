@@ -47,5 +47,5 @@ export const bscProtocolTokens: ProtocolTokens = toRecord(bscTokens, 'address');
 export const getBinanceSmartChainBatchRequests = (userAddress: string): BatchCallRequest[] => {
 	const tokenAddresses = bscSetts.map((sett) => sett.depositToken.address);
 	const settAddresses = bscSetts.map((sett) => sett.vaultToken.address);
-	return createChainBatchConfig(tokenAddresses, settAddresses, [], userAddress);
+	return createChainBatchConfig(tokenAddresses, settAddresses, [], [], userAddress);
 };

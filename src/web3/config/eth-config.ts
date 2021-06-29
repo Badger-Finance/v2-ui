@@ -5,6 +5,8 @@ import { Deploy } from 'web3/interface/deploy';
 import { BadgerSett } from 'mobx/model/badger-sett';
 import { toRecord } from './token-config';
 import { ProtocolTokens } from 'web3/interface/protocol-token';
+import { EthNetwork } from 'mobx/model';
+import Web3 from 'web3';
 
 export const ETH_DEPLOY = deploy as Deploy;
 
@@ -161,6 +163,76 @@ const ethSettDefinitions: BadgerSett[] = [
 			decimals: 18,
 		},
 	},
+	{
+		depositToken: {
+			address: ETH_DEPLOY.tokens['curve.hBTC'],
+			decimals: 18,
+		},
+		vaultToken: {
+			address: ETH_DEPLOY.sett_system.vaults['native.hbtcCrv'],
+			decimals: 18,
+		},
+	},
+	{
+		depositToken: {
+			address: ETH_DEPLOY.tokens['curve.pBTC'],
+			decimals: 18,
+		},
+		vaultToken: {
+			address: ETH_DEPLOY.sett_system.vaults['native.pbtcCrv'],
+			decimals: 18,
+		},
+	},
+	{
+		depositToken: {
+			address: ETH_DEPLOY.tokens['curve.oBTC'],
+			decimals: 18,
+		},
+		vaultToken: {
+			address: ETH_DEPLOY.sett_system.vaults['native.obtcCrv'],
+			decimals: 18,
+		},
+	},
+	{
+		depositToken: {
+			address: ETH_DEPLOY.tokens['curve.bBTC'],
+			decimals: 18,
+		},
+		vaultToken: {
+			address: ETH_DEPLOY.sett_system.vaults['native.bbtcCrv'],
+			decimals: 18,
+		},
+	},
+	{
+		depositToken: {
+			address: ETH_DEPLOY.tokens['curve.tricrypto'],
+			decimals: 18,
+		},
+		vaultToken: {
+			address: ETH_DEPLOY.sett_system.vaults['native.tricryptoCrv'],
+			decimals: 18,
+		},
+	},
+	{
+		depositToken: {
+			address: ETH_DEPLOY.tokens['cvx'],
+			decimals: 18,
+		},
+		vaultToken: {
+			address: ETH_DEPLOY.sett_system.vaults['native.cvx'],
+			decimals: 18,
+		},
+	},
+	{
+		depositToken: {
+			address: ETH_DEPLOY.tokens['cvxCRV'],
+			decimals: 18,
+		},
+		vaultToken: {
+			address: ETH_DEPLOY.sett_system.vaults['native.cvxCrv'],
+			decimals: 18,
+		},
+	},
 ];
 
 const ethRewards = [
@@ -189,8 +261,16 @@ const ethTokens = ethSetts.flatMap((sett) => [sett.depositToken, sett.vaultToken
 export const ethProtocolTokens: ProtocolTokens = toRecord(ethTokens, 'address');
 
 export const getEthereumBatchRequests = (userAddress: string): BatchCallRequest[] => {
+	const gaurdedDesposits = Object.fromEntries(
+		Object.entries(new EthNetwork().cappedDeposit).map((entry) => [
+			Web3.utils.toChecksumAddress(entry[0]),
+			entry[1],
+		]),
+	);
 	const tokenAddresses = ethSetts.map((sett) => sett.depositToken.address);
 	const settAddresses = ethSetts.map((sett) => sett.vaultToken.address);
+	const generalSetts = settAddresses.filter((sett) => !gaurdedDesposits[sett]);
+	const guardedSetts = settAddresses.filter((sett) => gaurdedDesposits[sett]);
 	const geyserAddresses = ethSetts.map((sett) => sett.geyser).filter((geyser): geyser is string => !!geyser);
-	return createChainBatchConfig(tokenAddresses, settAddresses, geyserAddresses, userAddress);
+	return createChainBatchConfig(tokenAddresses, generalSetts, guardedSetts, geyserAddresses, userAddress);
 };

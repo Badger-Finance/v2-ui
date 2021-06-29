@@ -9,7 +9,7 @@ import { getAirdrops } from 'config/system/airdrops';
 import { getRebase } from '../config/system/rebase';
 import { getRewards } from 'config/system/rewards';
 import { SidebarLink, sidebarPricingLinks, sidebarTokenLinks } from 'config/ui/links';
-import { NETWORK_IDS, NETWORK_LIST, ZERO, TEN } from 'config/constants';
+import { NETWORK_IDS, NETWORK_LIST, ZERO, TEN, FLAGS } from 'config/constants';
 import { getStrategies } from '../config/system/strategies';
 import { getNetworkDeploy } from './utils/network';
 import { BadgerSett } from './model/badger-sett';
@@ -448,7 +448,18 @@ export class EthNetwork implements Network {
 		this.deploy.sett_system.vaults['native.sbtcCrv'],
 		this.deploy.sett_system.vaults['native.tbtcCrv'],
 		this.deploy.sett_system.vaults['harvest.renCrv'],
-		this.deploy.sett_system.vaults['experimental.digg'],
+		...(FLAGS.CONVEX_SETTS
+			? [
+					this.deploy.sett_system.vaults['native.cvxCrv'],
+					this.deploy.sett_system.vaults['native.cvx'],
+					this.deploy.sett_system.vaults['native.tricryptoCrv'],
+					this.deploy.sett_system.vaults['native.hbtcCrv'],
+					this.deploy.sett_system.vaults['native.pbtcCrv'],
+					this.deploy.sett_system.vaults['native.obtcCrv'],
+					this.deploy.sett_system.vaults['native.bbtcCrv'],
+			  ]
+			: []),
+		...(FLAGS.STABILIZATION_SETTS ? [this.deploy.sett_system.vaults['experimental.digg']] : []),
 	];
 	public readonly sidebarTokenLinks = sidebarTokenLinks(NETWORK_LIST.ETH);
 	public readonly sidebarPricingLinks = sidebarPricingLinks;
@@ -466,7 +477,19 @@ export class EthNetwork implements Network {
 		return { link: `https://etherscan.io/tx/${transaction.hash}` };
 	}
 	readonly isWhitelisted = {};
-	readonly cappedDeposit = {};
+	readonly cappedDeposit: { [address: string]: boolean } = {
+		...(FLAGS.CONVEX_SETTS
+			? {
+					[this.deploy.sett_system.vaults['native.cvxCrv']]: true,
+					[this.deploy.sett_system.vaults['native.cvx']]: true,
+					[this.deploy.sett_system.vaults['native.tricryptoCrv']]: true,
+					[this.deploy.sett_system.vaults['native.hbtcCrv']]: true,
+					[this.deploy.sett_system.vaults['native.pbtcCrv']]: true,
+					[this.deploy.sett_system.vaults['native.obtcCrv']]: true,
+					[this.deploy.sett_system.vaults['native.bbtcCrv']]: true,
+			  }
+			: {}),
+	};
 	readonly uncappedDeposit = {
 		[this.deploy.sett_system.vaults['yearn.wBtc']]: true,
 	};
@@ -641,6 +664,10 @@ export interface ExchangeRates {
 	cad: number;
 	btc: number;
 	bnb: number;
+}
+
+export interface BDiggExchangeRates extends ExchangeRates {
+	eth: number;
 }
 
 export interface ibBTCFees {

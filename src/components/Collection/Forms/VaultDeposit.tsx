@@ -2,9 +2,6 @@ import React, { useContext, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from 'mobx/store-context';
 import { DialogContent, DialogActions, Grid } from '@material-ui/core';
-import BigNumber from 'bignumber.js';
-
-import { BadgerToken } from 'mobx/model/badger-token';
 import { BadgerSett } from 'mobx/model/badger-sett';
 import { Sett } from 'mobx/model';
 import { TokenBalance } from 'mobx/model/token-balance';
@@ -28,37 +25,6 @@ export interface SettModalProps {
 	badgerSett: BadgerSett;
 }
 
-const useHasAvailableDepositLimit = (vaultToken: BadgerToken, amount = '0'): boolean => {
-	const store = useContext(StoreContext);
-
-	const {
-		wallet: { network },
-		user: { accountDetails },
-		setts: { settMap },
-	} = store;
-
-	// Deposit limits are defined in the network model and coded into the
-	// cappedDeposit object.  If a vault is present there, there is a deposit
-	// limit.
-	if (!network.cappedDeposit[vaultToken.address]) {
-		return true;
-	}
-
-	const availableDeposit = accountDetails?.depositLimits[vaultToken.address].available;
-	const totalAvailableDeposit = settMap ? settMap[vaultToken.address]?.affiliate?.availableDepositLimit : undefined;
-
-	if (!availableDeposit || !totalAvailableDeposit) return true;
-	const inputAmount = new BigNumber(amount);
-
-	// TODO: revisit this response on the api side to include decimals or something and avoid setting fixed amounts
-	return (
-		availableDeposit > 1e-8 && //  amounts being specific to wbtc
-		totalAvailableDeposit > 1e-8 &&
-		inputAmount.lte(availableDeposit) &&
-		inputAmount.lte(totalAvailableDeposit)
-	);
-};
-
 export const VaultDeposit = observer((props: SettModalProps) => {
 	const store = useContext(StoreContext);
 	const [amount, setAmount] = useState<string>();
@@ -66,8 +32,6 @@ export const VaultDeposit = observer((props: SettModalProps) => {
 
 	const {
 		wallet: { connectedAddress, network },
-		user: { accountDetails },
-		setts: { settMap },
 		contracts,
 		user,
 	} = store;
@@ -80,8 +44,16 @@ export const VaultDeposit = observer((props: SettModalProps) => {
 	}
 
 	const userBalance = user.getBalance(ContractNamespace.Token, badgerSett);
-	const hasAvailableDeposit = useHasAvailableDepositLimit(vaultToken, amount);
-	const canDeposit = !!amount && !!connectedAddress && userBalance.balance.gt(0) && hasAvailableDeposit;
+	const depositBalance = TokenBalance.fromBalance(userBalance, amount ?? '0');
+	const vaultCaps = user.vaultCaps[sett.vaultToken];
+
+	let canDeposit = !!amount;
+	if (canDeposit && vaultCaps) {
+		const vaultHasSpace = vaultCaps.vaultCap.tokenBalance.gte(depositBalance.tokenBalance);
+		const userHasSpace = vaultCaps.userCap.tokenBalance.gte(depositBalance.tokenBalance);
+		const userHasBalance = userBalance.tokenBalance.gte(depositBalance.tokenBalance);
+		canDeposit = vaultHasSpace && userHasSpace && userHasBalance;
+	}
 
 	const handlePercentageChange = (percent: number) => {
 		setAmount(userBalance.scaledBalanceDisplay(percent));
@@ -91,7 +63,6 @@ export const VaultDeposit = observer((props: SettModalProps) => {
 		if (!amount) {
 			return;
 		}
-		const depositBalance = TokenBalance.fromBalance(userBalance, amount);
 		await contracts.deposit(sett, badgerSett, userBalance, depositBalance);
 	};
 
@@ -120,16 +91,6 @@ export const VaultDeposit = observer((props: SettModalProps) => {
 						/>
 					</PercentagesContainer>
 				</Grid>
-
-				{network.cappedDeposit[vaultToken.address] && (
-					<SettAvailableDeposit
-						accountDetails={accountDetails}
-						vault={vaultToken.address}
-						assetName={sett.name}
-						sett={settMap ? settMap[vaultToken.address] : undefined}
-					/>
-				)}
-
 				<StrategyInfo vaultAddress={vaultToken.address} network={network} />
 
 				<AmountTextField
@@ -155,6 +116,7 @@ export const VaultDeposit = observer((props: SettModalProps) => {
 					Deposit
 				</ActionButton>
 			</DialogActions>
+			{sett.hasBouncer && <SettAvailableDeposit vaultCapInfo={user.vaultCaps[vaultToken.address]} />}
 		</>
 	);
 });

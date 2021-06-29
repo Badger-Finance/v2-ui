@@ -91,7 +91,7 @@ const supportedNetwork = () => {
 			return {
 				heading: `Unsupported Network`,
 				description: `Switch your network to one of the supported networks:${networkMembers}`,
-				eventCode: 'networkCheck',
+				eventCode: 'network',
 			};
 		}
 	};

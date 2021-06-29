@@ -1,5 +1,29 @@
 # v2 UI Changelog
 
+### Hotfix - 06/28/2021
+
+-   fixed an issue causing users to not be able to deposit into gaurded setts when their wallet balance exceeded the cap
+
+### v2.8.0 - 06/23/2021
+
+-   introduced experimental vaults to the badger arcade
+-   added 5 new experimental convex vaults
+-   added 2 new experimental convex helper vaults
+
+### Hotfix - 06/17/2021
+
+-   fixed an issue with ibBTC redeem validation that was blocking all redeems
+
+### v2.7.8 - 06/15/2021
+
+-   fixed an issue allowing connections to unsupported networks
+-   fixed an issue causing all token prices to convert incorrectly sporadically
+
+### v2.7.7 - 06/08/2021
+
+-   fixed wallet and assets recognition issues from the Badger Bridge
+-   fixed issues on wallet disconnect and reconnect and improved connection handling
+
 ### v2.7.6 - 06/07/2021
 
 -   handle wallet connections that do not have a provider associated with them

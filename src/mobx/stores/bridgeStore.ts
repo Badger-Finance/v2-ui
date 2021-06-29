@@ -15,6 +15,7 @@ import { RootStore } from '../store';
 import WalletStore from './walletStore';
 import { RenVMTransaction, Network } from 'mobx/model';
 import {
+	defaultRetryOptions,
 	// abis
 	ERC20,
 	// config
@@ -26,7 +27,7 @@ import { BTC_GATEWAY } from 'config/system/abis/BtcGateway';
 import { bridge_system, tokens, sett_system } from 'config/deployments/mainnet.json';
 import { shortenAddress } from 'utils/componentHelpers';
 import { isEqual } from '../../utils/lodashToNative';
-import { getNetworkFromProvider } from 'mobx/utils/helpers';
+import { getNetwork } from 'mobx/utils/network';
 
 export enum Status {
 	// Idle means we are ready to begin a new tx.
@@ -43,16 +44,6 @@ const DECIMALS = 10 ** 8;
 const SETT_DECIMALS = 10 ** 18;
 const MAX_BPS = 10000;
 const UPDATE_INTERVAL_SECONDS = 30 * 1000; // 30 seconds
-
-const defaultRetryOptions = {
-	// delay defaults to 200 ms.
-	// delay grows exponentially by factor each attempt.
-	factor: 1.5,
-	// delay grows up until max delay.
-	maxDelay: 1000,
-	// maxAttempts to make before giving up.
-	maxAttempts: 3,
-};
 
 const defaultProps = {
 	openGateway: null,
@@ -143,17 +134,21 @@ class BridgeStore {
 		this.store = store;
 		this.db = fbase.firestore();
 		this.gjs = new GatewayJS('mainnet');
-		// M50: by default the network ID is set to ethereum.  We should check the provider to ensure the
-		// connected wallet is using ETH network, not the site.
-		this.network = getNetworkFromProvider(this.store.wallet.provider);
+		// NB: At construction time, the value of wallet provider is unset so we cannot fetch network
+		// from provider. Align network init logic w/ how it works in the walletStore.
+		const network = getNetwork();
+		this.network = network ? network.name : '';
 
 		extendObservable(this, {
 			...defaultProps,
 		});
 
-		observe(this.store.wallet as WalletStore, 'network', ({ newValue, oldValue }: IValueDidChange<Network>) => {
-			if (oldValue && oldValue === newValue) return;
+		observe(this.store.wallet as WalletStore, 'network', ({ newValue }: IValueDidChange<Network>) => {
+			if (!newValue) return;
+
 			this.network = newValue.name;
+			// NB: Only ETH supported for now.
+			if (this.network !== NETWORK_LIST.ETH) return;
 			this.reload();
 		});
 
@@ -195,7 +190,11 @@ class BridgeStore {
 			'connectedAddress',
 			({ newValue, oldValue }: IValueDidChange<string>) => {
 				if (oldValue === newValue) return;
+				if (!newValue) return;
 				// Set shortened addr.
+				const { network } = this.store.wallet;
+				// NB: Only ETH supported for now.
+				if (network.name !== NETWORK_LIST.ETH) return;
 				this.reload();
 			},
 		);
@@ -271,8 +270,6 @@ class BridgeStore {
 		const { queueNotification } = this.store.uiState;
 		const { provider, connectedAddress } = this.store.wallet;
 
-		// NB: Only ETH supported for now.
-		if (this.network !== NETWORK_LIST.ETH) return;
 		if (!provider) return;
 
 		this.shortAddr = shortenAddress(connectedAddress);
@@ -504,10 +501,6 @@ class BridgeStore {
 		const { queueNotification } = this.store.uiState;
 		try {
 			await retry(async () => {
-				// NB: Only ETH supported for now. Check here since network could have
-				// gotten set at any point from init to now and this fails loudly if
-				// on the wrong network.
-				if (this.network !== NETWORK_LIST.ETH) return;
 				const [badgerBurnFee, badgerMintFee, renvmBurnFee, renvmMintFee] = (
 					await Promise.all([
 						this.adapter.methods.burnFeeBps().call(),
@@ -531,10 +524,6 @@ class BridgeStore {
 		const { queueNotification } = this.store.uiState;
 		try {
 			await retry(async () => {
-				// NB: Only ETH supported for now. Check here since network could have
-				// gotten set at any point from init to now and this fails loudly if
-				// on the wrong network.
-				if (this.network !== NETWORK_LIST.ETH) return;
 				const [
 					renbtcBalance,
 					wbtcBalance,

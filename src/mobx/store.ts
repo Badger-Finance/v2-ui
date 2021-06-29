@@ -12,6 +12,8 @@ import { NETWORK_LIST } from '../config/constants';
 import { HoneyPotStore } from './stores/honeyPotStore';
 import UserStore from './stores/UserStore';
 import { LeaderBoardStore } from './stores/LeaderBoardStore';
+import { BoostOptimizerStore } from './stores/boostOptimizerStore';
+import PricesStore from './stores/PricesStore';
 import { getNetworkFromProvider } from './utils/helpers';
 
 export class RootStore {
@@ -28,6 +30,8 @@ export class RootStore {
 	public honeyPot: HoneyPotStore;
 	public user: UserStore;
 	public leaderBoard: LeaderBoardStore;
+	public boostOptimizer: BoostOptimizerStore;
+	public prices: PricesStore;
 
 	constructor() {
 		this.router = new RouterStore<RootStore>(this);
@@ -44,6 +48,8 @@ export class RootStore {
 		this.setts = new SettStore(this);
 		this.user = new UserStore(this);
 		this.leaderBoard = new LeaderBoardStore(this);
+		this.boostOptimizer = new BoostOptimizerStore(this);
+		this.prices = new PricesStore(this);
 	}
 
 	async walletRefresh(): Promise<void> {
@@ -55,12 +61,7 @@ export class RootStore {
 
 		if (chain) {
 			this.rewards.resetRewards();
-			const refreshData = [
-				this.setts.loadAssets(chain),
-				this.setts.loadPrices(chain),
-				this.wallet.getGasPrice(),
-				this.setts.loadSetts(chain),
-			];
+			const refreshData = [this.setts.loadAssets(chain), this.wallet.getGasPrice(), this.setts.loadSetts(chain)];
 			if (chain === NETWORK_LIST.ETH) {
 				refreshData.push(this.rebase.fetchRebaseStats());
 				refreshData.push(this.rewards.loadTreeData());
