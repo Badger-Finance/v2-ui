@@ -10,6 +10,7 @@ import { Skeleton } from '@material-ui/lab';
 import { HoldingAssetInput } from './HoldingAssetInput';
 import clsx from 'clsx';
 import { BADGER_RANKS, getRankNumberFromBoost } from './ranks';
+import { numberWithCommas } from '../../mobx/utils/helpers';
 
 const BoostLoader = withStyles((theme) => ({
 	root: {
@@ -114,15 +115,16 @@ export const BoostCalculatorContainer = observer(
 		const { boost, native, nonNative, nativeToAdd, onNonNativeChange, onNativeChange } = props;
 
 		const classes = useStyles();
-		const nativeAssetClasses = useAssetInputStyles(native, nativeHoldings)();
 		const theme = useTheme();
 		const smallScreen = useMediaQuery(theme.breakpoints.down(706));
 		const extraSmallScreen = useMediaQuery(theme.breakpoints.down(500));
+		const nativeAssetClasses = useAssetInputStyles(native, nativeHoldings)();
 		const nonNativeAssetClasses = useAssetInputStyles(nonNative, nonNativeHoldings)();
 
 		const isLoading = !nativeHoldings || !nonNativeHoldings;
 		const showEmptyNonNativeMessage = Number(nonNative) === 0;
 		const showReducedNonNativeMessage = nonNative ? nonNativeHoldings?.gt(nonNative) : false;
+		const showNativeToAdd = nativeToAdd && Number(nativeToAdd) !== 0;
 
 		const sanitizedBoost = Math.min(Number(boost), 3);
 		const badgerScore = percentageBetweenRange(sanitizedBoost, 3, 1);
@@ -134,7 +136,7 @@ export const BoostCalculatorContainer = observer(
 			? boostOptimizer.calculateNativeToMatchBoost(native, nonNative, nextBadgerLevel.boost)
 			: null;
 
-		const shouldShowAmountToReachNextLevel = amountToReachNextLevel?.gt(native);
+		const shouldShowAmountToReachNextLevel = native && Number(native) !== 0 && amountToReachNextLevel?.gt(native);
 
 		const handleApplyRemaining = () => {
 			if (native && nativeToAdd) {
@@ -204,20 +206,20 @@ export const BoostCalculatorContainer = observer(
 								<span
 									className={classes.amountToNextLevel}
 									onClick={handleApplyNextLevelAmount}
-								>{` $${formatWithoutExtraZeros(amountToReachNextLevel, 3)} `}</span>
+								>{` $${numberWithCommas(formatWithoutExtraZeros(amountToReachNextLevel, 3))} `}</span>
 							</Tooltip>
 							more Native to reach next rank:
 							<span className={classes.nextLevelName}>{` ${nextBadgerLevel.name}`}</span>
 						</Typography>
 					</Grid>
 				)}
-				{nativeToAdd && (
+				{nativeToAdd && showNativeToAdd && (
 					<Grid className={classes.valueToAddContainer} container direction="column">
 						<Typography className={classes.valueToAddText}>Value to Add</Typography>
 						<Typography
 							className={clsx(classes.valueToAddText, classes.amountToAdd)}
 							onClick={handleApplyRemaining}
-						>{`+$${formatWithoutExtraZeros(nativeToAdd, 3)}`}</Typography>
+						>{`+$${numberWithCommas(formatWithoutExtraZeros(nativeToAdd, 3))}`}</Typography>
 					</Grid>
 				)}
 			</Grid>
