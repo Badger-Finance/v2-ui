@@ -391,12 +391,23 @@ class BridgeStore {
 				status: tx.status ? tx.status : '',
 				// Just enough params from the transaction to be able to recover
 				encodedTx: JSON.stringify(
-					(({ user, params, txHash, status, renVMStatus, mintChainHash, id, nonce }: RenVMTransaction) => ({
+					(({
 						user,
 						params,
 						txHash,
 						status,
 						renVMStatus,
+						renVMMessage,
+						mintChainHash,
+						id,
+						nonce,
+					}: RenVMTransaction) => ({
+						user,
+						params,
+						txHash,
+						status,
+						renVMStatus,
+						renVMMessage,
 						mintChainHash,
 						id,
 						nonce,
@@ -454,14 +465,14 @@ class BridgeStore {
 					const hash = deposit.txHash();
 					const depositLog = (msg: string) => {
 						console.log(`[${hash.slice(0, 8)}][${deposit.status}] ${msg}`);
-						return this._updateTx({ ...parsedTx, renVMStatus: deposit.status });
+						return this._updateTx({ ...parsedTx, renVMStatus: deposit.status, renVMMessage: msg });
 					};
 
 					try {
 						await deposit
 							.confirmed()
-							.on('target', (target) => depositLog(`waiting for ${target} confirmations`))
-							.on('confirmation', (confs, target) => depositLog(`${confs}/${target} confirmations`));
+							.on('target', (target) => depositLog(`Waiting for ${target} confirmations.`))
+							.on('confirmation', (confs, target) => depositLog(`${confs}/${target} confirmations.`));
 
 						await deposit.signed();
 

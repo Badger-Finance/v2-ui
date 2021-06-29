@@ -642,6 +642,7 @@ export type RenVMTransaction = {
 	// NB: The web3Provider field is not encoded (for obvious reasons).
 	params: RenVMParams;
 	renVMStatus: LockAndMintStatus | BurnAndReleaseStatus | null;
+	renVMMessage?: string;
 	mintGateway: string | null;
 	txHash?: string;
 	mintChainHash?: string;

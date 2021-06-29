@@ -40,11 +40,13 @@ const btcLogo = '/assets/icons/btc.svg';
 
 function MintStatusDisplay({
 	status,
+	message,
 	bitcoinAddress,
 	classes,
 	amount,
 }: {
 	amount: string;
+	message?: string;
 	status: DepositStatus | null;
 	bitcoinAddress: string | null;
 	classes: { logo: string; elephant: string };
@@ -63,6 +65,7 @@ function MintStatusDisplay({
 				) : (
 					<p>Loading address</p>
 				)}
+				{message && <div>{message}</div>}
 			</React.Fragment>
 		);
 	}
@@ -71,6 +74,7 @@ function MintStatusDisplay({
 		<React.Fragment>
 			<CircularProgress variant="determinate" value={(DepositStatusIndex[status] + 1) * 25} />
 			<div>Transaction {status}.</div>
+			{message && <div>{message}</div>}
 		</React.Fragment>
 	);
 }
@@ -812,6 +816,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 							classes={classes}
 							amount={amount}
 							status={current.renVMStatus as DepositStatus | null}
+							message={current.renVMMessage}
 							bitcoinAddress={current.mintGateway}
 						/>
 					) : (
