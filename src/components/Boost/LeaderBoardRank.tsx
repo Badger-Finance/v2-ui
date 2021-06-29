@@ -1,16 +1,15 @@
 import React from 'react';
 import BigNumber from 'bignumber.js';
-import { Button, ButtonBase, Divider, Grid, Paper, Tooltip, Typography } from '@material-ui/core';
+import { Button, Divider, Grid, Paper, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Skeleton } from '@material-ui/lab';
+import { observer } from 'mobx-react-lite';
 
-import { RankLevel } from './RankLevel';
 import { getColorFromComparison } from './utils';
 import { BadgerBoostImage } from './BadgerBoostImage';
 import { RankProgressBar } from './RankProgressBar';
-import { RankConnector } from './RankConnector';
-import { BADGER_RANKS, getRankFromBoost } from './ranks';
-import { observer } from 'mobx-react-lite';
+import { getRankFromBoost } from './ranks';
+import { RankList } from './RankList';
 import { StoreContext } from '../../mobx/store-context';
 import routes from '../../config/routes';
 
@@ -23,8 +22,6 @@ const useRankStyles = (currentRank?: string, accountRank?: BigNumber.Value) => {
 				},
 			};
 		}
-
-		// console.log({ currentRank, accountRank });
 
 		return {
 			fontColor: {
@@ -47,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
 		boxSizing: 'border-box',
 		padding: theme.spacing(3),
 		flexDirection: 'column',
-		height: 465,
+		height: 470,
 	},
 	header: {
 		height: 50,
@@ -111,54 +108,6 @@ export const LeaderBoardRank = observer(
 		const currentBadgerLevel = getRankFromBoost(Number(boost));
 		const rankClasses = useRankStyles(rank, accountRank)();
 
-		const Ranks = BADGER_RANKS.slice() //reverse mutates array
-			.reverse()
-			.map((rank) => {
-				// don't display obtained classes on base rank
-				const isObtained = accountBoost ? accountBoost > 1 && accountBoost >= rank.boost : false;
-				const isLocked = Number(boost) < rank.boost;
-				const isCurrentBoost = Number(boost) === rank.boost;
-
-				const rankItem = (
-					<Grid container alignItems="flex-end">
-						<Grid item>
-							<RankConnector
-								boost={Number(boost)}
-								accountBoost={accountBoost || 1}
-								rankBoost={rank.boost}
-							/>
-						</Grid>
-						<Grid item>
-							<ButtonBase disabled={isCurrentBoost} onClick={() => onRankJump(rank.boost)}>
-								<RankLevel
-									key={`${rank.boost}_${rank.name}`}
-									name={rank.name}
-									boost={rank.boost}
-									obtained={isObtained}
-									locked={isLocked}
-								/>
-							</ButtonBase>
-						</Grid>
-					</Grid>
-				);
-
-				if (!isCurrentBoost) {
-					return (
-						<Tooltip
-							title="Jump to rank"
-							arrow
-							placement="left"
-							color="primary"
-							key={`${rank.boost}_${rank.name}`}
-						>
-							{rankItem}
-						</Tooltip>
-					);
-				}
-
-				return rankItem;
-			});
-
 		return (
 			<Grid container component={Paper} className={classes.root}>
 				<Grid container className={classes.header}>
@@ -186,7 +135,9 @@ export const LeaderBoardRank = observer(
 					) : (
 						<div className={classes.placeholderProgressBar} />
 					)}
-					<div>{Ranks}</div>
+					<div>
+						<RankList currentBoost={boost} accountBoost={accountBoost} onRankJump={onRankJump} />
+					</div>
 				</Grid>
 
 				<Grid item className={classes.viewLeaderBoardContainer} xs>
