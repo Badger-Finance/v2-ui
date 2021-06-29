@@ -6,9 +6,6 @@ import { LeaderBoardEntry } from '../model';
 import { extendObservable } from 'mobx';
 import { fetchCompleteLeaderBoardData } from '../utils/apiV2';
 
-// linear interpolation
-const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
-
 export class BoostOptimizerStore {
 	leaderBoard?: LeaderBoardEntry[];
 
@@ -30,7 +27,28 @@ export class BoostOptimizerStore {
 		}
 	}
 
+	/**
+	 *  Value of BADGER Balance plus value of DIGG Balance represented in USD
+	 */
 	get nativeHoldings(): BigNumber | undefined {
+		const { exchangeRates } = this.store.prices;
+		const badgerBalance = this.store.user.tokenBalances[deploy.tokens.badger];
+		const diggBalance = this.store.user.tokenBalances[deploy.tokens.digg];
+
+		if (!badgerBalance || !diggBalance || !exchangeRates) return;
+
+		const badgerPrice = this.store.prices.getPrice(deploy.tokens.badger);
+		const badgerHoldings = badgerBalance.balance.multipliedBy(badgerPrice);
+		const diggPrice = this.store.prices.getPrice(deploy.tokens.digg);
+		const diggBalanceHoldings = diggBalance.balance.multipliedBy(diggPrice);
+
+		return badgerHoldings.plus(diggBalanceHoldings).multipliedBy(exchangeRates.usd);
+	}
+
+	/**
+	 * Value of non-native staked sett positions represented in USD
+	 */
+	get nonNativeHoldings(): BigNumber | undefined {
 		if (!this.store.user.accountDetails || !this.store.prices.exchangeRates) return;
 
 		let holdings = new BigNumber(0);
@@ -49,26 +67,15 @@ export class BoostOptimizerStore {
 		return holdings.multipliedBy(this.store.prices.exchangeRates.usd);
 	}
 
-	get nonNativeHoldings(): BigNumber | undefined {
-		const { exchangeRates } = this.store.prices;
-		const badgerBalance = this.store.user.tokenBalances[deploy.tokens.badger];
-		const diggBalance = this.store.user.tokenBalances[deploy.tokens.digg];
-
-		if (!badgerBalance || !diggBalance || !exchangeRates) return;
-
-		const badgerPrice = this.store.prices.getPrice(deploy.tokens.badger);
-		const badgerHoldings = badgerBalance.balance.multipliedBy(badgerPrice);
-		const diggPrice = this.store.prices.getPrice(deploy.tokens.digg);
-		const diggBalanceHoldings = diggBalance.balance.multipliedBy(diggPrice);
-
-		return badgerHoldings.plus(diggBalanceHoldings).multipliedBy(exchangeRates.usd);
-	}
-
+	/**
+	 * Calculates what rank position would a specific boost have in the leaderboard
+	 * @param boost target boost
+	 */
 	calculateRankFromBoost(boost: number): number | undefined {
 		if (!this.leaderBoard) return;
 
 		for (let index = 0; index < this.leaderBoard.length; index++) {
-			if (boost > Number(this.leaderBoard[index].boost)) {
+			if (boost >= Number(this.leaderBoard[index].boost)) {
 				return index;
 			}
 		}
@@ -76,6 +83,13 @@ export class BoostOptimizerStore {
 		return this.leaderBoard.length - 1;
 	}
 
+	/**
+	 * Calculates what rank position given native and native balances.
+	 * This is done by determining first the boost ratio of the balances and then
+	 * searching in the leaderboard which is the first slot that holds a bigger ratio.
+	 * @param native native's balance
+	 * @param nonNative non native's balance
+	 */
 	calculateRank(native: string, nonNative: string): number | undefined {
 		if (!this.leaderBoard || !this.store.user.accountDetails) return;
 
@@ -85,28 +99,41 @@ export class BoostOptimizerStore {
 			return this.store.user.accountDetails.boostRank;
 		}
 
-		for (let index = 0; index < this.leaderBoard.length; index++) {
-			if (boostRatio > Number(this.leaderBoard[index].stakeRatio)) {
-				return index;
-			}
-		}
-
-		return this.leaderBoard.length - 1;
+		return this.findPositionInLeaderboardFromBoostRatio(boostRatio);
 	}
 
+	/**
+	 * Calculate user boost given native and non native balances.
+	 * Boost is determined using the rank the boost ratio would have in the leaderboard and then searching
+	 * in the leaderboard the first slot that holds a bigger boost ratio
+	 * @param native native's balance
+	 * @param nonNative non-native's balance
+	 */
 	calculateBoost(native: string, nonNative: string): number | undefined {
 		if (!this.leaderBoard) return;
 
-		const rank = this.calculateRank(native, nonNative);
+		const boostRatio = this.calculateBoostRatio(native, nonNative);
 
-		if (!rank) {
+		if (boostRatio === -1) {
+			return 1;
+		}
+
+		const positionInLeaderboard = this.findPositionInLeaderboardFromBoostRatio(boostRatio);
+
+		if (positionInLeaderboard === undefined) {
 			return;
 		}
 
-		const leaderboardRankLerp = 1 - rank / this.leaderBoard.length;
-		return Math.min(lerp(1, 3, leaderboardRankLerp), 3);
+		return Number(this.leaderBoard[positionInLeaderboard].boost);
 	}
 
+	/**
+	 * Calculate how much USD would be required in native assets to match a desired boost given
+	 * a set of native and non-native balances.
+	 * @param native native's balance
+	 * @param nonNative non-native's balance
+	 * @param desiredBoost target boost
+	 */
 	calculateNativeToMatchBoost(native: string, nonNative: string, desiredBoost: number): BigNumber | undefined {
 		if (!this.leaderBoard) return;
 
@@ -116,22 +143,25 @@ export class BoostOptimizerStore {
 			return;
 		}
 
-		const boostList = this.leaderBoard.map((l) => Number(l.boost));
-		const positionToOvertake = this.getSmallestValueGreaterThanLimit(desiredBoost, boostList);
+		const rankUsingDesiredBoost = this.findPositionInLeaderboardFromBoost(desiredBoost);
 
-		if (positionToOvertake === -1) {
+		if (rankUsingDesiredBoost === undefined) {
 			return;
 		}
 
-		const positionToOvertakeRatio = Number(this.leaderBoard[positionToOvertake].stakeRatio);
-		const ratioToTargetBoost = positionToOvertakeRatio - boostRatio;
+		const positionToOvertakeRatio = this.leaderBoard[rankUsingDesiredBoost].stakeRatio;
+		const ratioToTargetBoost = BigNumber.max(new BigNumber(positionToOvertakeRatio).minus(boostRatio), 0);
 
-		const nativeRequired = new BigNumber(nonNative).multipliedBy(ratioToTargetBoost);
-
-		// +10% of overestimation for error margin
-		return nativeRequired.multipliedBy(1.1);
+		return ratioToTargetBoost.multipliedBy(nonNative).multipliedBy(1.1);
 	}
 
+	/**
+	 * Calculates boost ration using the following formula:
+	 * [$ value of BADGER Balance + $ value of DIGG Balance] / [$ value of non-native staked sett positions].
+	 * The higher the value of your native positions against your non-native positions, the higher your Badger Ratio.
+	 * @param native
+	 * @param nonNative
+	 */
 	private calculateBoostRatio = (native: string, nonNative: string): number => {
 		const boostRatio = new BigNumber(native).dividedBy(nonNative);
 
@@ -143,20 +173,27 @@ export class BoostOptimizerStore {
 		return boostRatio.toNumber();
 	};
 
-	private getSmallestValueGreaterThanLimit = (limit: number, list: number[]): number => {
-		let positionToOvertake = -1;
+	private findPositionInLeaderboardFromBoostRatio = (boostRatio: number): number | undefined => {
+		if (!this.leaderBoard) return;
 
-		for (let i = 0; i < list.length; i++) {
-			if (list[i] >= limit) {
-				if (positionToOvertake == -1)
-					// check whether its the first value above the limit in the list
-					positionToOvertake = i;
-				else if (list[positionToOvertake] > list[i])
-					//compare the current value with the previous smallest value
-					positionToOvertake = i;
+		for (let index = 0; index < this.leaderBoard.length; index++) {
+			if (boostRatio >= Number(this.leaderBoard[index].stakeRatio)) {
+				return index;
 			}
 		}
 
-		return positionToOvertake;
+		return this.leaderBoard.length - 1;
+	};
+
+	private findPositionInLeaderboardFromBoost = (boost: number): number | undefined => {
+		if (!this.leaderBoard) return;
+
+		for (let index = 0; index < this.leaderBoard.length; index++) {
+			if (boost >= Number(this.leaderBoard[index].boost)) {
+				return index;
+			}
+		}
+
+		return this.leaderBoard.length - 1;
 	};
 }
