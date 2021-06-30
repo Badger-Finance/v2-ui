@@ -73,7 +73,7 @@ export class BoostOptimizerStore {
 	 * @param native native's balance
 	 * @param nonNative non native's balance
 	 */
-	calculateRank(native: string, nonNative: string): number | undefined {
+	calculateRank(native: BigNumber.Value, nonNative: BigNumber.Value): number | undefined {
 		const { accountDetails } = this.store.user;
 		const { completeBoard: leaderBoard } = this.store.leaderBoard;
 
@@ -97,7 +97,7 @@ export class BoostOptimizerStore {
 	 * @param native native's balance
 	 * @param nonNative non-native's balance
 	 */
-	calculateBoost(native: string, nonNative: string): number | undefined {
+	calculateBoost(native: BigNumber.Value, nonNative: BigNumber.Value): number | undefined {
 		const { completeBoard: leaderBoard } = this.store.leaderBoard;
 
 		if (!leaderBoard) {
@@ -126,7 +126,11 @@ export class BoostOptimizerStore {
 	 * @param nonNative non-native's balance
 	 * @param desiredBoost target boost
 	 */
-	calculateNativeToMatchBoost(native: string, nonNative: string, desiredBoost: number): BigNumber | undefined {
+	calculateNativeToMatchBoost(
+		native: BigNumber.Value,
+		nonNative: BigNumber.Value,
+		desiredBoost: number,
+	): BigNumber | undefined {
 		const { completeBoard: leaderBoard } = this.store.leaderBoard;
 
 		if (!leaderBoard) {
@@ -158,7 +162,7 @@ export class BoostOptimizerStore {
 	 * @param native
 	 * @param nonNative
 	 */
-	private calculateBoostRatio = (native: string, nonNative: string): number => {
+	private calculateBoostRatio = (native: BigNumber.Value, nonNative: BigNumber.Value): number => {
 		const boostRatio = new BigNumber(native).dividedBy(nonNative);
 
 		// handle 0/0 and x/0 division
