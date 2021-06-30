@@ -356,6 +356,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 			[name]: value,
 		}));
 	};
+
 	//not sure if there's a better way to do this than this ugly nested switch statement
 	const vaultAddress = (poolId?: number) => {
 		switch (token) {
@@ -479,7 +480,6 @@ export const BridgeForm = observer(({ classes }: any) => {
 				value: ibBTCFlag,
 			},
 		];
-		console.log(contractParams);
 
 		const params: RenVMParams = {
 			asset: 'BTC',
@@ -532,7 +532,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 				name: '_vault',
 				type: 'address',
 				// Will check in SC if address is addres(0), if not, will deposit to the desired vault
-				value: vaultAddress(),
+				value: vaultAddress(poolId),
 			},
 			{
 				name: '_slippage',
@@ -868,7 +868,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 								nextStep={nextStep}
 								classes={classes}
 								assetSelect={assetSelect}
-								connectWallet={connectWallet}
+								connectWallet={handleConnect}
 								isEarn={false}
 							/>
 						</TabPanel>
@@ -881,7 +881,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 								nextStep={nextStep}
 								classes={classes}
 								assetSelect={assetSelect}
-								connectWallet={connectWallet}
+								connectWallet={handleConnect}
 								isEarn={true}
 							/>
 						</TabPanel>
@@ -895,7 +895,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 								classes={classes}
 								updateState={updateState}
 								assetSelect={assetSelect}
-								connectWallet={connectWallet}
+								connectWallet={handleConnect}
 								calcFees={calcFees}
 							/>
 						</TabPanel>
