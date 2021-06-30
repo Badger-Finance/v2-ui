@@ -241,7 +241,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 			begin,
 			loading,
 			error,
-			calcMintAndRedeemPath,
+			calcMintOrRedeemPath,
 
 			badgerBurnFee,
 			badgerMintFee,
@@ -357,7 +357,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 		}));
 	};
 	//not sure if there's a better way to do this than this ugly nested switch statement
-	const vaultAddress = () => {
+	const vaultAddress = (poolId?: number) => {
 		switch (token) {
 			case 'byvWBTC':
 				return sett_system.vaults['yearn.wBtc'];
@@ -399,6 +399,8 @@ export const BridgeForm = observer(({ classes }: any) => {
 				return sett_system.vaults['native.sbtcCrv'];
 			case 'bCRVtBTC':
 				return sett_system.vaults['native.tbtcCrv'];
+			case 'ibBTC':
+				return tokens.ibBTC;
 			default:
 				return '0x0000000000000000000000000000000000000000';
 		}
@@ -437,14 +439,17 @@ export const BridgeForm = observer(({ classes }: any) => {
 			maxSlippageBps = Math.round(parseFloat(maxSlippage) * 100);
 			desiredToken = tokens.wBTC;
 		}
+
 		let ibBTCFlag = false;
+		let poolId = undefined;
 		if (token === 'ibBTC') {
 			ibBTCFlag = true;
-			await calcMintAndRedeemPath(desiredToken.toString(), amountSats);
-			console.log('token is ibbtc');
+			const [id, amount, optToken] = await calcMintOrRedeemPath(amountSats, true);
+			if (optToken !== undefined && id !== undefined) {
+				desiredToken = optToken;
+				poolId = parseInt(id);
+			}
 		}
-
-		console.log(poolId);
 
 		const contractParams: EthArgs = [
 			{
@@ -466,7 +471,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 				name: '_vault',
 				type: 'address',
 				// Will check in SC if address is addres(0), if not, will deposit to the desired vault
-				value: vaultAddress(),
+				value: vaultAddress(poolId),
 			},
 			{
 				name: '_mintIbbtc',
@@ -506,6 +511,17 @@ export const BridgeForm = observer(({ classes }: any) => {
 			maxSlippageBps = Math.round(parseFloat(maxSlippage) * 100);
 		}
 
+		let ibBTCFlag = false;
+		let poolId = undefined;
+		if (token === 'ibBTC') {
+			ibBTCFlag = true;
+			const [id, amount, optToken] = await calcMintOrRedeemPath(amountOut, false);
+			if (optToken !== undefined && id !== undefined) {
+				burnToken = optToken;
+				poolId = parseInt(id);
+			}
+		}
+
 		const params: EthArgs = [
 			{
 				name: '_token',
@@ -532,6 +548,11 @@ export const BridgeForm = observer(({ classes }: any) => {
 				name: '_amount',
 				type: 'uint256',
 				value: amountOut.toString(),
+			},
+			{
+				name: '_burnIbbtc',
+				type: 'bool',
+				value: ibBTCFlag,
 			},
 		];
 
@@ -602,6 +623,19 @@ export const BridgeForm = observer(({ classes }: any) => {
 		if (token === 'WBTC' || token === 'byvWBTC') {
 			estimatedSlippage = await getEstimatedSlippage(amountWithFee, name);
 			amountWithFee *= 1 - estimatedSlippage;
+		}
+
+		//backspacing in the textbox caused issues without the second part of if statement
+		if (token === 'ibBTC' && inputAmount.toString() !== '') {
+			const bigInputAmount = new BigNumber(inputAmount);
+			let mintBool = true;
+			if (name === 'burnAmount') {
+				mintBool = false;
+			}
+			const [id, amount, optToken] = await calcMintOrRedeemPath(bigInputAmount, mintBool);
+			if (amount !== undefined) {
+				amountWithFee = Number(amount);
+			}
 		}
 
 		setStates((prevState) => ({

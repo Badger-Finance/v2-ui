@@ -75,8 +75,6 @@ const defaultProps = {
 	wbtcBalance: 0,
 
 	shortAddr: '',
-
-	poolId: null,
 };
 
 class BridgeStore {
@@ -111,8 +109,6 @@ class BridgeStore {
 	public bCRVrenBTCBalance!: number;
 	public bCRVsBTCBalance!: number;
 	public bCRVtBTCBalance!: number;
-
-	public poolId!: number;
 
 	public shortAddr!: string;
 
@@ -234,7 +230,6 @@ class BridgeStore {
 			this._getFees(),
 			this._getRenFees(),
 			this._getBTCNetworkFees(),
-			//this._calcMintAndRedeemPath('0xEB4C2781e4ebA804CE9a9803C67d0893436bB27D', 10),
 		])
 			.catch((err: Error) => {
 				console.error(err);
@@ -657,39 +652,75 @@ class BridgeStore {
 		}
 	};
 
-	calcMintAndRedeemPath = action(async (token: string, amount: BigNumber) => {
+	calcMintOrRedeemPath_TEMP = action(async (token: string, amount: BigNumber, mintOrRedeem: boolean) => {
 		const { queueNotification } = this.store.uiState;
+		let poolId = undefined;
+		let ibbtcAmount = 0;
 		try {
 			await retry(async () => {
-				//const optimalPath = await Promise.all([this.zapPeak.methods.calcMint(token, amount).call()]);
-				const optimalPath = await this.zapPeak.methods.calcMint(token, amount).call();
-				console.log(optimalPath);
-				this.poolId = parseInt(optimalPath['poolId']);
-				console.log(this.poolId);
+				if (mintOrRedeem) {
+					const optimalPath = await this.zapPeak.methods.calcMint(token, amount).call();
+					poolId = parseInt(optimalPath['poolId']);
+					ibbtcAmount = parseInt(optimalPath['bBTC']);
+				} else {
+					const optimalPath = await this.zapPeak.methods.calcRedeem(token, amount).call();
+					poolId = parseInt(optimalPath['poolId']);
+					ibbtcAmount = parseInt(optimalPath['bBTC']);
+				}
 			}, defaultRetryOptions);
 		} catch (err) {
 			queueNotification(`Failed to fetch optimal PoolID: ${err.message}`, 'error');
 			console.log(err.message);
 		}
+		return [poolId, ibbtcAmount];
 	});
-	/*
-	calcMintAndRedeemPath = action(
-		async (token: string, amount: BigNumber): Promise<void> => {
-			const { queueNotification } = this.store.uiState;
-			try {
-				await retry(async () => {
-					//const optimalPath = await Promise.all([this.zapPeak.methods.calcMint(token, amount).call()]);
-					const optimalPath = await this.zapPeak.methods.calcMint(token, amount).call();
-					console.log(optimalPath);
-					this.poolId = optimalPath['poolId'];
-				}, defaultRetryOptions);
-			} catch (err) {
-				queueNotification(`Failed to fetch optimal PoolID: ${err.message}`, 'error');
-				console.log(err.message);
-			}
-		},
-	);
-	*/
+
+	calcMintOrRedeemPath = async (amount: BigNumber, mintOrRedeem: boolean) => {
+		const { queueNotification } = this.store.uiState;
+		let poolId = undefined;
+		let tokenAmount = 0;
+		let optimalToken = undefined;
+		try {
+			await retry(async () => {
+				if (mintOrRedeem) {
+					//mint
+					const optimalPathRenbtc = await this.zapPeak.methods.calcMint(tokens.renBTC, amount).call();
+					const optimalPathWbtc = await this.zapPeak.methods.calcMint(tokens.wBTC, amount).call();
+					const ibbtcAmountRenbtc = optimalPathRenbtc['bBTC'];
+					const ibbtcAmountWbtc = optimalPathWbtc['bBTC'];
+					//pick wbtc or renbtc based on return values
+					if (ibbtcAmountRenbtc > ibbtcAmountWbtc) {
+						poolId = parseInt(optimalPathRenbtc['poolId']);
+						tokenAmount = ibbtcAmountRenbtc;
+						optimalToken = tokens.renBTC;
+					} else {
+						poolId = parseInt(optimalPathWbtc['poolId']);
+						tokenAmount = ibbtcAmountWbtc;
+						optimalToken = tokens.wBTC;
+					}
+				} else {
+					//burn
+					const optimalPathRenbtc = await this.zapPeak.methods.calcRedeem(tokens.renBTC, amount).call();
+					const optimalPathWbtc = await this.zapPeak.methods.calcRedeem(tokens.wBTC, amount).call();
+					const renbtcAmount = optimalPathRenbtc['bBTC'];
+					const wbtcAmount = optimalPathWbtc['bBTC'];
+					if (renbtcAmount > wbtcAmount) {
+						poolId = optimalPathRenbtc['poolId'];
+						tokenAmount = renbtcAmount;
+						optimalToken = tokens.renBTC;
+					} else {
+						poolId = optimalPathWbtc['poolId'];
+						tokenAmount = wbtcAmount;
+						optimalToken = tokens.wBTC;
+					}
+				}
+			}, defaultRetryOptions);
+		} catch (err) {
+			queueNotification(`Failed to fetch optimal PoolID: ${err.message}`, 'error');
+			console.log(err.message);
+		}
+		return [poolId, new BigNumber(tokenAmount).dividedBy(DECIMALS).toString(), optimalToken];
+	};
 }
 
 const _isTxComplete = function (tx: RenVMTransaction) {
