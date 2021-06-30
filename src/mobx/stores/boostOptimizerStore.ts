@@ -2,29 +2,10 @@ import BigNumber from 'bignumber.js';
 
 import deploy from '../../config/deployments/mainnet.json';
 import { RootStore } from '../store';
-import { LeaderBoardEntry } from '../model';
-import { extendObservable } from 'mobx';
-import { fetchCompleteLeaderBoardData } from '../utils/apiV2';
 
 export class BoostOptimizerStore {
-	leaderBoard?: LeaderBoardEntry[];
-
 	constructor(private store: RootStore) {
 		this.store = store;
-
-		extendObservable(this, {
-			leaderBoard: this.leaderBoard,
-		});
-
-		this.loadLeaderBoard().then();
-	}
-
-	async loadLeaderBoard(): Promise<void> {
-		const fetchedLeaderBoard = await fetchCompleteLeaderBoardData();
-
-		if (fetchedLeaderBoard) {
-			this.leaderBoard = fetchedLeaderBoard;
-		}
 	}
 
 	/**
@@ -72,15 +53,17 @@ export class BoostOptimizerStore {
 	 * @param boost target boost
 	 */
 	calculateRankFromBoost(boost: number): number | undefined {
-		if (!this.leaderBoard) return;
+		const { completeBoard: leaderBoard } = this.store.leaderBoard;
 
-		for (let index = 0; index < this.leaderBoard.length; index++) {
-			if (boost >= Number(this.leaderBoard[index].boost)) {
+		if (!leaderBoard) return;
+
+		for (let index = 0; index < leaderBoard.length; index++) {
+			if (boost >= Number(leaderBoard[index].boost)) {
 				return index;
 			}
 		}
 
-		return this.leaderBoard.length - 1;
+		return leaderBoard.length - 1;
 	}
 
 	/**
@@ -91,12 +74,17 @@ export class BoostOptimizerStore {
 	 * @param nonNative non native's balance
 	 */
 	calculateRank(native: string, nonNative: string): number | undefined {
-		if (!this.leaderBoard || !this.store.user.accountDetails) return;
+		const { accountDetails } = this.store.user;
+		const { completeBoard: leaderBoard } = this.store.leaderBoard;
+
+		if (!leaderBoard || !accountDetails) {
+			return;
+		}
 
 		const boostRatio = this.calculateBoostRatio(native, nonNative);
 
 		if (boostRatio === -1) {
-			return this.store.user.accountDetails.boostRank;
+			return accountDetails.boostRank;
 		}
 
 		return this.findPositionInLeaderboardFromBoostRatio(boostRatio);
@@ -110,7 +98,11 @@ export class BoostOptimizerStore {
 	 * @param nonNative non-native's balance
 	 */
 	calculateBoost(native: string, nonNative: string): number | undefined {
-		if (!this.leaderBoard) return;
+		const { completeBoard: leaderBoard } = this.store.leaderBoard;
+
+		if (!leaderBoard) {
+			return;
+		}
 
 		const boostRatio = this.calculateBoostRatio(native, nonNative);
 
@@ -124,7 +116,7 @@ export class BoostOptimizerStore {
 			return;
 		}
 
-		return Number(this.leaderBoard[positionInLeaderboard].boost);
+		return Number(leaderBoard[positionInLeaderboard].boost);
 	}
 
 	/**
@@ -135,7 +127,11 @@ export class BoostOptimizerStore {
 	 * @param desiredBoost target boost
 	 */
 	calculateNativeToMatchBoost(native: string, nonNative: string, desiredBoost: number): BigNumber | undefined {
-		if (!this.leaderBoard) return;
+		const { completeBoard: leaderBoard } = this.store.leaderBoard;
+
+		if (!leaderBoard) {
+			return;
+		}
 
 		const boostRatio = this.calculateBoostRatio(native, nonNative);
 
@@ -149,7 +145,7 @@ export class BoostOptimizerStore {
 			return;
 		}
 
-		const positionToOvertakeRatio = this.leaderBoard[rankUsingDesiredBoost].stakeRatio;
+		const positionToOvertakeRatio = leaderBoard[rankUsingDesiredBoost].stakeRatio;
 		const ratioToTargetBoost = BigNumber.max(new BigNumber(positionToOvertakeRatio).minus(boostRatio), 0);
 
 		return ratioToTargetBoost.multipliedBy(nonNative).multipliedBy(1.1);
@@ -174,26 +170,34 @@ export class BoostOptimizerStore {
 	};
 
 	private findPositionInLeaderboardFromBoostRatio = (boostRatio: number): number | undefined => {
-		if (!this.leaderBoard) return;
+		const { completeBoard: leaderBoard } = this.store.leaderBoard;
 
-		for (let index = 0; index < this.leaderBoard.length; index++) {
-			if (boostRatio >= Number(this.leaderBoard[index].stakeRatio)) {
+		if (!leaderBoard) {
+			return;
+		}
+
+		for (let index = 0; index < leaderBoard.length; index++) {
+			if (boostRatio >= Number(leaderBoard[index].stakeRatio)) {
 				return index;
 			}
 		}
 
-		return this.leaderBoard.length - 1;
+		return leaderBoard.length - 1;
 	};
 
 	private findPositionInLeaderboardFromBoost = (boost: number): number | undefined => {
-		if (!this.leaderBoard) return;
+		const { completeBoard: leaderBoard } = this.store.leaderBoard;
 
-		for (let index = 0; index < this.leaderBoard.length; index++) {
-			if (boost >= Number(this.leaderBoard[index].boost)) {
+		if (!leaderBoard) {
+			return;
+		}
+
+		for (let index = 0; index < leaderBoard.length; index++) {
+			if (boost >= Number(leaderBoard[index].boost)) {
 				return index;
 			}
 		}
 
-		return this.leaderBoard.length - 1;
+		return leaderBoard.length - 1;
 	};
 }
