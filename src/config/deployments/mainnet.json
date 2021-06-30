@@ -236,6 +236,9 @@
 			"BadgerBridgeAdapter": "0x8e38bbc7ff0D5253f7379290ACD88154257591Ff"
 		}
 	},
+	"defi_dollar": {
+		"zap": "0xb3188E8D8A539f3573431778598551f6D113D0Fa"
+	},
 	"airdrops": {
 		"gitcoinRound8": "0xD17C7effa924B55951E0F6d555b3a3ea34451179"
 	},
