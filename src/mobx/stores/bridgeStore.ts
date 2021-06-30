@@ -11,6 +11,7 @@ import { retry } from '@lifeomic/attempt';
 import fbase from 'fbase';
 import { RootStore } from '../RootStore';
 import {
+	defaultRetryOptions,
 	// abis
 	ERC20,
 	RENVM_GATEWAY_ADDRESS,
@@ -27,7 +28,6 @@ import { Network } from '@badger-dao/sdk';
 
 //testing
 import { abi } from 'config/system/abis/ZapPeak.json';
-//import { ZAP_PEAK } from 'config/system/abis/ZapPeak';
 
 export enum Status {
 	// Idle means we are ready to begin a new tx.
@@ -44,16 +44,6 @@ const DECIMALS = 10 ** 8;
 const SETT_DECIMALS = 10 ** 18;
 const MAX_BPS = 10000;
 const UPDATE_INTERVAL_SECONDS = 30 * 1000; // 30 seconds
-
-const defaultRetryOptions = {
-	// delay defaults to 200 ms.
-	// delay grows exponentially by factor each attempt.
-	factor: 1.5,
-	// delay grows up until max delay.
-	maxDelay: 1000,
-	// maxAttempts to make before giving up.
-	maxAttempts: 3,
-};
 
 const defaultProps = {
 	history: [],
@@ -651,29 +641,6 @@ class BridgeStore {
 			queueNotification(`Failed to fetch BTC network fees: ${err.message}`, 'error');
 		}
 	};
-
-	calcMintOrRedeemPath_TEMP = action(async (token: string, amount: BigNumber, mintOrRedeem: boolean) => {
-		const { queueNotification } = this.store.uiState;
-		let poolId = undefined;
-		let ibbtcAmount = 0;
-		try {
-			await retry(async () => {
-				if (mintOrRedeem) {
-					const optimalPath = await this.zapPeak.methods.calcMint(token, amount).call();
-					poolId = parseInt(optimalPath['poolId']);
-					ibbtcAmount = parseInt(optimalPath['bBTC']);
-				} else {
-					const optimalPath = await this.zapPeak.methods.calcRedeem(token, amount).call();
-					poolId = parseInt(optimalPath['poolId']);
-					ibbtcAmount = parseInt(optimalPath['bBTC']);
-				}
-			}, defaultRetryOptions);
-		} catch (err) {
-			queueNotification(`Failed to fetch optimal PoolID: ${err.message}`, 'error');
-			console.log(err.message);
-		}
-		return [poolId, ibbtcAmount];
-	});
 
 	calcMintOrRedeemPath = async (amount: BigNumber, mintOrRedeem: boolean) => {
 		const { queueNotification } = this.store.uiState;
