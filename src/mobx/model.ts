@@ -672,6 +672,12 @@ export interface LeaderBoardData {
 	maxPage: number;
 }
 
+export interface LeaderboardRank {
+	name: string;
+	boostRangeStart: number;
+	boostRangeEnd: number;
+}
+
 export interface MintLimits {
 	userLimit: BigNumber;
 	allUsersLimit: BigNumber;

@@ -7,7 +7,7 @@ import importedBscErc20 from '../config/system/abis/BscErc20.json';
 import importedYearnSett from '../config/system/abis/YearnWrapper.json';
 import importedGuestList from '../config/system/abis/GuestList.json';
 import { tokens, sett_system } from './deployments/mainnet.json';
-import { NetworkConstants, ClaimsSymbols } from '../mobx/model';
+import { NetworkConstants, ClaimsSymbols, LeaderboardRank } from '../mobx/model';
 import { getNetworkDeploy } from 'mobx/utils/network';
 import { AbiItem } from 'web3-utils';
 import { PartialAttemptOptions } from '@lifeomic/attempt';
@@ -118,3 +118,31 @@ export const baseRetryOptions = {
 };
 export const defaultRetryOptions: PartialAttemptOptions<void> = baseRetryOptions;
 export const getDefaultRetryOptions = <T>(): PartialAttemptOptions<T> => baseRetryOptions;
+
+export const LEADERBOARD_RANKS: LeaderboardRank[] = [
+	{
+		name: 'Frenzy Badger',
+		boostRangeStart: 2.6,
+		boostRangeEnd: 3,
+	},
+	{
+		name: 'Hyper Badger',
+		boostRangeStart: 2.2,
+		boostRangeEnd: 2.6,
+	},
+	{
+		name: 'Hero Badger',
+		boostRangeStart: 1.8,
+		boostRangeEnd: 2.2,
+	},
+	{
+		name: 'Neo Badger',
+		boostRangeStart: 1.4,
+		boostRangeEnd: 1.8,
+	},
+	{
+		name: 'Basic Badger',
+		boostRangeStart: 1,
+		boostRangeEnd: 1.4,
+	},
+];

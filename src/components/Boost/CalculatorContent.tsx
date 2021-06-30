@@ -5,12 +5,13 @@ import { BoostBadgerAnimation } from './ScoreAnimation';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
 import BigNumber from 'bignumber.js';
-import { formatWithoutExtraZeros, getColorFromComparison, percentageBetweenRange } from './utils';
+import { getColorFromComparison } from './utils';
 import { Skeleton } from '@material-ui/lab';
 import { HoldingAssetInput } from './HoldingAssetInput';
 import clsx from 'clsx';
-import { BADGER_RANKS, getRankNumberFromBoost } from './ranks';
-import { numberWithCommas } from '../../mobx/utils/helpers';
+import { formatWithoutExtraZeros, numberWithCommas } from '../../mobx/utils/helpers';
+import { getRankNumberFromBoost, percentageBetweenRange } from '../../utils/componentHelpers';
+import { LEADERBOARD_RANKS } from '../../config/constants';
 
 const BoostLoader = withStyles((theme) => ({
 	root: {
@@ -130,10 +131,10 @@ export const BoostCalculatorContainer = observer(
 		const badgerScore = percentageBetweenRange(sanitizedBoost, 3, 1);
 
 		const currentBadgerLevel = getRankNumberFromBoost(Number(boost));
-		const nextBadgerLevel = BADGER_RANKS[currentBadgerLevel + 1];
+		const nextBadgerLevel = LEADERBOARD_RANKS[currentBadgerLevel - 1];
 
 		const amountToReachNextLevel = nextBadgerLevel
-			? boostOptimizer.calculateNativeToMatchBoost(native, nonNative, nextBadgerLevel.boost)
+			? boostOptimizer.calculateNativeToMatchBoost(native, nonNative, nextBadgerLevel.boostRangeStart)
 			: null;
 
 		const shouldShowAmountToReachNextLevel = native && Number(native) !== 0 && amountToReachNextLevel?.gt(native);

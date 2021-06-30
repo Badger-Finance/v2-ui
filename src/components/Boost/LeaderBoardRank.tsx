@@ -8,10 +8,10 @@ import { observer } from 'mobx-react-lite';
 import { getColorFromComparison } from './utils';
 import { BadgerBoostImage } from './BadgerBoostImage';
 import { RankProgressBar } from './RankProgressBar';
-import { getRankFromBoost } from './ranks';
 import { RankList } from './RankList';
 import { StoreContext } from '../../mobx/store-context';
 import routes from '../../config/routes';
+import { getRankFromBoost } from '../../utils/componentHelpers';
 
 const useRankStyles = (currentRank?: string, accountRank?: BigNumber.Value) => {
 	return makeStyles((theme) => {
@@ -121,7 +121,7 @@ export const LeaderBoardRank = observer(
 							{rank ? `#${rank}` : <Skeleton width={35} />}
 						</Typography>
 						<div className={classes.currentLevelImgContainer}>
-							<BadgerBoostImage boost={currentBadgerLevel.boost} />
+							<BadgerBoostImage boost={currentBadgerLevel.boostRangeStart} />
 						</div>
 						<Typography display="inline" className={rankClasses.fontColor}>
 							{currentBadgerLevel.name}
