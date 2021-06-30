@@ -155,7 +155,7 @@ class ContractsStore {
 			}
 		}
 
-		if (network.cappedDeposit[sett.vaultToken]) {
+		if (sett.hasBouncer) {
 			if (!bouncerProof) {
 				queueNotification(`Error loading Badger Bouncer Proof`, 'error');
 				return;
