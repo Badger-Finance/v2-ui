@@ -7,10 +7,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import { BoostCalculatorContainer } from './CalculatorContent';
 import { StoreContext } from '../../mobx/store-context';
 import { useConnectWallet } from '../../mobx/utils/hooks';
-import { formatWithoutExtraZeros } from './utils';
 import { LeaderBoardRank } from './LeaderBoardRank';
 import { CalculatorHeader } from './CalculatorHeader';
 import { debounce } from '../../utils/componentHelpers';
+import { formatWithoutExtraZeros } from '../../mobx/utils/helpers';
 
 const useStyles = makeStyles((theme) => ({
 	calculatorContainer: {
