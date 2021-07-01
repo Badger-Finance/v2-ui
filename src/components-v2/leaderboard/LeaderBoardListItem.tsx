@@ -1,11 +1,7 @@
 import React from 'react';
 import { Box, Typography, ListItem, Grid, makeStyles, useMediaQuery, useTheme } from '@material-ui/core';
-import { observer } from 'mobx-react-lite';
-import { BoostBadgerAnimation } from '../../components/Boost/BoostBadgerAnimation';
-// import { StoreContext } from 'mobx/store-context';
-// import { Loader } from 'components/Loader';
-// import clsx from 'clsx';
-// import { FLAGS } from 'config/constants';
+import clsx from 'clsx';
+import { BadgerBoostImage } from '../../components/Boost/BadgerBoostImage';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -13,8 +9,10 @@ const useStyles = makeStyles((theme) => ({
 		paddingTop: '0.25rem',
 	},
 	boostBadgerContainer: {
-		width: '40px',
-		marginRight: '8px',
+		width: 40,
+		height: 40,
+		marginRight: 8,
+		borderRadius: 4,
 	},
 	leaderboardRow: {
 		backgroundColor: theme.palette.background.default,
@@ -35,68 +33,103 @@ const useStyles = makeStyles((theme) => ({
 	leadingNone: {
 		lineHeight: 1,
 	},
+	usersRank: {
+		boxShadow: '0px 0px 8px rgba(242, 165, 43, 0.25)',
+		border: '1px solid rgba(242, 165, 43, 0.5)',
+		borderRadius: 4,
+	},
+	rangeText: {
+		color: 'rgba(255, 255, 255, 0.3)',
+	},
+	userRankBadge: {
+		backgroundColor: theme.palette.primary.main,
+		color: theme.palette.common.black,
+		fontSize: 9,
+		padding: '2px 4px',
+		borderRadius: 4,
+		marginLeft: 4,
+		textTransform: 'uppercase',
+		fontWeight: 500,
+	},
 }));
 
 export interface LeaderBoardListItemProps {
-	value: number;
-	rank: string;
-	badgers: number;
-	rankingRange: Array<number>;
-	boostRange: Array<number>;
+	name: string;
+	usersAmount: number;
+	rankingRangeStart: number;
+	rankingRangeEnd: number;
+	boostRangeStart: number;
+	boostRangeEnd: number;
+	isUserInRank?: boolean;
 }
 
-const LeaderBoardListItem = observer(
-	(props: LeaderBoardListItemProps): JSX.Element => {
-		const classes = useStyles();
+export const LeaderBoardListItem = (props: LeaderBoardListItemProps): JSX.Element => {
+	const classes = useStyles();
 
-		const { value, rank, badgers, rankingRange, boostRange } = props;
-		const theme = useTheme();
-		const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+	const {
+		name,
+		usersAmount,
+		rankingRangeStart,
+		rankingRangeEnd,
+		boostRangeStart,
+		boostRangeEnd,
+		isUserInRank = false,
+	} = props;
+	const theme = useTheme();
+	const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-		return (
-			<ListItem disableGutters className={classes.root}>
-				<Grid container alignItems="center" className={classes.leaderboardRow}>
-					<Grid item xs={12} md={4}>
-						<Box display="flex" alignItems="center">
-							<Box className={classes.boostBadgerContainer}>
-								<BoostBadgerAnimation value={value} />
-							</Box>
-							<Box>
-								<Typography variant="body1" className={classes.leadingNone}>
-									{rank.charAt(0).toUpperCase()} Badgers
-								</Typography>
-								<Typography variant="caption" color="textSecondary" className={classes.leadingNone}>
-									{`${rankingRange[0]} - ${rankingRange[1]}`}
-								</Typography>
-							</Box>
+	return (
+		<ListItem disableGutters className={classes.root}>
+			<Grid
+				container
+				alignItems="center"
+				className={clsx(classes.leaderboardRow, isUserInRank && classes.usersRank)}
+			>
+				<Grid item xs={12} md={5} lg={4}>
+					<Grid container alignItems="center">
+						<Box className={classes.boostBadgerContainer}>
+							<BadgerBoostImage boost={boostRangeStart} />
 						</Box>
-					</Grid>
-					<Grid item xs={12} md={4}>
-						<Box
-							display="flex"
-							alignItems="center"
-							justifyContent="space-between"
-							className={classes.mobileRow}
-						>
-							{isMobile && <Typography>Badgers</Typography>}
-							{badgers}
-						</Box>
-					</Grid>
-					<Grid item xs={12} md={4}>
-						<Box
-							display="flex"
-							alignItems="center"
-							justifyContent="space-between"
-							className={classes.mobileRow}
-						>
-							{isMobile && <Typography>Boost Range</Typography>}
-							{`${boostRange[0]} - ${boostRange[1]}`}
+						<Box>
+							<Box display="flex" alignItems="center">
+								<Typography variant="body2">{name}</Typography>
+								{isUserInRank && <span className={classes.userRankBadge}>YOU</span>}
+							</Box>
+							<Typography variant="caption" color="textSecondary" className={classes.rangeText}>
+								{`${rankingRangeStart} - ${rankingRangeEnd}`}
+							</Typography>
 						</Box>
 					</Grid>
 				</Grid>
-			</ListItem>
-		);
-	},
-);
-
-export default LeaderBoardListItem;
+				<Grid
+					className={classes.mobileRow}
+					item
+					container
+					alignItems="center"
+					justify="space-between"
+					xs={12}
+					md
+				>
+					<>
+						{isMobile && <Typography>Badgers</Typography>}
+						{usersAmount}
+					</>
+				</Grid>
+				<Grid
+					className={classes.mobileRow}
+					item
+					container
+					alignItems="center"
+					justify="space-between"
+					xs={12}
+					md
+				>
+					<>
+						{isMobile && <Typography>Boost Range</Typography>}
+						{`${boostRangeStart.toFixed(2)} - ${boostRangeEnd.toFixed(2)}`}
+					</>
+				</Grid>
+			</Grid>
+		</ListItem>
+	);
+};
