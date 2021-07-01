@@ -33,7 +33,7 @@ const routes = {
 		component: (
 			<Landing
 				title="Guarded Vaults"
-				subtitle="Proven Bitcoin strategies. Public vault launchpad."
+				subtitle="New vaults to dip your toes in. Ape safe."
 				state={SettState.Guarded}
 			/>
 		),
