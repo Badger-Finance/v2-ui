@@ -61,8 +61,8 @@ export const LeaderboardAccountInformation = observer(
 
 		if (nextBadgerLevel && nativeHoldings && nonNativeHoldings) {
 			amountToReachNextRank = boostOptimizer.calculateNativeToMatchBoost(
-				nativeHoldings.toString(),
-				nonNativeHoldings.toString(),
+				nativeHoldings,
+				nonNativeHoldings,
 				nextBadgerLevel.boostRangeStart,
 			);
 		}
