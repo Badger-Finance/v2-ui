@@ -10,6 +10,7 @@ import React, { useContext } from 'react';
 import BigNumber from 'bignumber.js';
 import SettList from 'components-v2/landing/SettList';
 import { RewardsModal } from '../components-v2/landing/RewardsModal';
+import { SettState } from 'mobx/model';
 
 const useStyles = makeStyles((theme) => ({
 	landingContainer: {
@@ -76,13 +77,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface LandingProps {
-	experimental: boolean;
+	title: string;
+	subtitle?: string;
+	state: SettState;
 }
 
 const Landing = observer((props: LandingProps) => {
 	const classes = useStyles();
 	const store = useContext(StoreContext);
-	const { experimental } = props;
+	const { title, subtitle, state } = props;
 
 	const {
 		wallet: { connectedAddress, network },
@@ -103,14 +106,14 @@ const Landing = observer((props: LandingProps) => {
 			{/* Landing Metrics Cards */}
 			<Grid container spacing={1} justify="center">
 				<Grid item xs={12} className={classes.headerContainer}>
-					{experimental ? (
-						<PageHeader title="Experimental Vaults" subtitle="New vaults to dip your toes in.  Ape safe." />
+					<PageHeader title={title} subtitle={subtitle} />
+					{/* {experimental ? (
 					) : (
 						<PageHeader
 							title="Sett Vaults"
 							subtitle="Powerful Bitcoin strategies. Automatic staking rewards."
 						/>
-					)}
+					)} */}
 				</Grid>
 				<Grid item xs={12} className={classes.widgetContainer}>
 					<div className={classes.walletContainer}>{userConnected && <WalletSlider />}</div>
@@ -133,7 +136,7 @@ const Landing = observer((props: LandingProps) => {
 				</Grid>
 			</Grid>
 
-			{experimental && (
+			{state !== SettState.Open && (
 				<Grid container spacing={1} justify="center">
 					<Button className={classes.announcementButton} size="small" variant="outlined" color="primary">
 						Note: New Vaults may take up to 2 weeks from launch to reach full efficiency.
@@ -141,7 +144,7 @@ const Landing = observer((props: LandingProps) => {
 				</Grid>
 			)}
 
-			<SettList experimental={experimental} />
+			<SettList state={state} />
 		</Container>
 	);
 });

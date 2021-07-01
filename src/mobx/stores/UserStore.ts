@@ -122,13 +122,17 @@ export default class UserStore {
 	}
 
 	get initialized(): boolean {
+		const { settMap } = this.store.setts;
+		if (!settMap) {
+			return false;
+		}
 		const hasTokens = Object.keys(this.tokenBalances).length > 0;
 		const hasSetts = Object.keys(this.settBalances).length > 0;
 		let hasGeysers = false;
 
 		const { network, connectedAddress } = this.store.wallet;
 		const geyserRequests = network
-			.batchRequests(connectedAddress)
+			.batchRequests(settMap, connectedAddress)
 			.find((req) => req.namespace === ContractNamespace.Geyser);
 		/* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */
 		if (geyserRequests!.addresses && geyserRequests!.addresses.length === 0) {
@@ -177,7 +181,7 @@ export default class UserStore {
 			 * do not update balances without prices available or a provider, price updates
 			 * will trigger balance display updates
 			 */
-			if (!connectedAddress || !setts.initialized || this.loadingBalances || !provider) {
+			if (!connectedAddress || !setts.initialized || this.loadingBalances || !provider || !setts.settMap) {
 				return;
 			}
 			this.loadingBalances = true;
@@ -193,7 +197,7 @@ export default class UserStore {
 			}
 
 			// construct & execute batch requests
-			const batchRequests = network.batchRequests(connectedAddress);
+			const batchRequests = network.batchRequests(setts.settMap, connectedAddress);
 			if (!batchRequests || batchRequests.length === 0) {
 				return;
 			}

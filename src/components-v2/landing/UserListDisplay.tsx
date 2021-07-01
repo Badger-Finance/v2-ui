@@ -18,6 +18,10 @@ const useStyles = makeStyles((theme) => ({
 	boostContainer: {
 		paddingBottom: theme.spacing(4),
 	},
+	messageContainer: {
+		paddingTop: theme.spacing(4),
+		textAlign: 'center',
+	},
 }));
 
 const createSettListItem = (
@@ -45,21 +49,25 @@ const createSettListItem = (
 
 const UserListDisplay = observer((props: SettListViewProps) => {
 	const classes = useStyles();
-	const { onOpen, experimental } = props;
+	const { onOpen, state } = props;
 	const store = useContext(StoreContext);
 	const {
-		setts: { settMap, experimentalMap },
+		setts,
 		uiState: { currency, period },
 		wallet: { network },
 		user,
 	} = store;
 
-	const currentSettMap = experimental ? experimentalMap : settMap;
+	const currentSettMap = setts.getSettMap(state);
 	if (currentSettMap === undefined || user.loadingBalances) {
 		return <Loader message={`Loading My ${network.fullName} Setts...`} />;
 	}
 	if (currentSettMap === null) {
-		return <Typography variant="h4">There was an issue loading setts. Try refreshing.</Typography>;
+		return (
+			<div className={classes.messageContainer}>
+				<Typography variant="h4">There was an issue loading setts. Try refreshing.</Typography>
+			</div>
+		);
 	}
 
 	const walletList: JSX.Element[] = [];

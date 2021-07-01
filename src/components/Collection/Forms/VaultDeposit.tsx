@@ -116,7 +116,7 @@ export const VaultDeposit = observer((props: SettModalProps) => {
 					Deposit
 				</ActionButton>
 			</DialogActions>
-			{sett.hasBouncer && <SettAvailableDeposit vaultCapInfo={user.vaultCaps[vaultToken.address]} />}
+			{user.vaultCaps[sett.vaultToken] && <SettAvailableDeposit vaultCapInfo={user.vaultCaps[sett.vaultToken]} />}
 		</>
 	);
 });

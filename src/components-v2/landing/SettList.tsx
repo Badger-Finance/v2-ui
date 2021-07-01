@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { makeStyles } from '@material-ui/core';
 
-import { Sett } from 'mobx/model';
+import { Sett, SettState } from 'mobx/model';
 import SettDialog from 'components/Collection/Setts/SettDialog';
 import SettListView from './SettListView';
 
@@ -14,12 +14,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export interface SettListProps {
-	experimental: boolean;
+	state: SettState;
 }
 
 const SettList = observer((props: SettListProps) => {
 	const classes = useStyles();
-	const { experimental } = props;
+	const { state } = props;
 
 	const [open, setOpen] = useState(false);
 	const [sett, setSett] = useState<Sett>();
@@ -36,7 +36,7 @@ const SettList = observer((props: SettListProps) => {
 
 	return (
 		<div className={classes.settListContainer}>
-			<SettListView experimental={experimental} onOpen={handleOpen} />
+			<SettListView state={state} onOpen={handleOpen} />
 			{sett && <SettDialog open={open} sett={sett} onClose={handleClose} />}
 		</div>
 	);

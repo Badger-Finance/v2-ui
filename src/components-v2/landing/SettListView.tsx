@@ -1,18 +1,18 @@
 import React, { useContext } from 'react';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from 'mobx/store-context';
-import { Sett } from '../../mobx/model';
+import { Sett, SettState } from '../../mobx/model';
 import SettListDisplay from './SettListDisplay';
 import UserListDisplay from './UserListDisplay';
 
 export interface SettListViewProps {
 	onOpen: (sett: Sett) => void;
-	experimental: boolean;
+	state: SettState;
 }
 
 const SettListView = observer((props: SettListViewProps) => {
 	const store = useContext(StoreContext);
-	const { onOpen, experimental } = props;
+	const { onOpen, state } = props;
 
 	const {
 		uiState: { hideZeroBal },
@@ -22,8 +22,8 @@ const SettListView = observer((props: SettListViewProps) => {
 	const showUserDisplay = hideZeroBal && connectedAddress;
 	return (
 		<>
-			{showUserDisplay && <UserListDisplay experimental={experimental} onOpen={onOpen} />}
-			{!showUserDisplay && <SettListDisplay experimental={experimental} onOpen={onOpen} />}
+			{showUserDisplay && <UserListDisplay state={state} onOpen={onOpen} />}
+			{!showUserDisplay && <SettListDisplay state={state} onOpen={onOpen} />}
 		</>
 	);
 });
