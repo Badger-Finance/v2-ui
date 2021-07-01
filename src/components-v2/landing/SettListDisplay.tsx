@@ -57,7 +57,7 @@ const SettListDisplay = observer((props: SettListViewProps) => {
 		.filter(Boolean);
 
 	if (settListItems.length === 0) {
-		return <NoVaults state={state} />;
+		return <NoVaults state={state} network={network.fullName} />;
 	}
 	return (
 		<SettTable

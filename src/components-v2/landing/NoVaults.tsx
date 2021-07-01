@@ -9,13 +9,13 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export default function NoVaults(props: { state: SettState }): JSX.Element {
+export default function NoVaults(props: { state: SettState; network: string }): JSX.Element {
 	const classes = useStyles();
-	const { state } = props;
+	const { state, network } = props;
 	return (
 		<div className={classes.messageContainer}>
 			<img src={'/assets/icons/builder.png'} />
-			<Typography variant="h4">{`There are currently no ${state} vaults.`}</Typography>
+			<Typography variant="h4">{`There are currently no ${state} vaults on ${network}.`}</Typography>
 		</div>
 	);
 }
