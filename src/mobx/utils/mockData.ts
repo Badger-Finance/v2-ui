@@ -1,4 +1,4 @@
-import { Sett } from 'mobx/model';
+import { Sett, SettState } from 'mobx/model';
 
 export const testYearnVaultApiResponse: Sett = {
 	name: 'Test Yearn Vault',
@@ -8,7 +8,6 @@ export const testYearnVaultApiResponse: Sett = {
 	ppfs: 1,
 	experimental: true,
 	value: 150538.70217373536,
-	apy: 20,
 	apr: 20,
 	boostable: false,
 	hasBouncer: true,
@@ -40,4 +39,5 @@ export const testYearnVaultApiResponse: Sett = {
 			maxApr: 30.317345943834848,
 		},
 	],
+	state: SettState.Open,
 };
