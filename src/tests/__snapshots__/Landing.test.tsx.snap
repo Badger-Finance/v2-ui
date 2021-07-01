@@ -19,7 +19,14 @@ exports[`Landing Page Renders correctly 1`] = `
           >
             <h2
               class="MuiTypography-root-126 MuiTypography-h2-132 MuiTypography-colorTextPrimary-151"
-            />
+            >
+              Test Bitcoin Strategies
+            </h2>
+            <h6
+              class="MuiTypography-root-126 MuiTypography-subtitle1-137 MuiTypography-colorTextSecondary-152"
+            >
+              Snapshots are great. Landing looks good.
+            </h6>
           </div>
           <div
             class="makeStyles-headerWidgets-123"
@@ -241,24 +248,6 @@ exports[`Landing Page Renders correctly 1`] = `
           </span>
         </div>
       </div>
-    </div>
-    <div
-      class="MuiGrid-root-20 MuiGrid-container-21 MuiGrid-spacing-xs-1-43 MuiGrid-justify-xs-center-38"
-    >
-      <button
-        class="MuiButtonBase-root-251 MuiButton-root-222 MuiButton-outlined-227 makeStyles-announcementButton-11 MuiButton-outlinedPrimary-228 MuiButton-outlinedSizeSmall-239 MuiButton-sizeSmall-243"
-        tabindex="0"
-        type="button"
-      >
-        <span
-          class="MuiButton-label-223"
-        >
-          Note: New Vaults may take up to 2 weeks from launch to reach full efficiency.
-        </span>
-        <span
-          class="MuiTouchRipple-root-339"
-        />
-      </button>
     </div>
     <div
       class="makeStyles-settListContainer-320"

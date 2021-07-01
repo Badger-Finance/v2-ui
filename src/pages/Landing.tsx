@@ -107,13 +107,6 @@ const Landing = observer((props: LandingProps) => {
 			<Grid container spacing={1} justify="center">
 				<Grid item xs={12} className={classes.headerContainer}>
 					<PageHeader title={title} subtitle={subtitle} />
-					{/* {experimental ? (
-					) : (
-						<PageHeader
-							title="Sett Vaults"
-							subtitle="Powerful Bitcoin strategies. Automatic staking rewards."
-						/>
-					)} */}
 				</Grid>
 				<Grid item xs={12} className={classes.widgetContainer}>
 					<div className={classes.walletContainer}>{userConnected && <WalletSlider />}</div>
