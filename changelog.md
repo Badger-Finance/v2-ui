@@ -1,5 +1,9 @@
 # v2 UI Changelog
 
+### v2.8.1 - 07/01/2021
+
+-   introduced guarded vaults to the app
+
 ### Hotfix - 06/30/2021
 
 -   fixed an issue stopping deposits on unguarded setts
