@@ -14,8 +14,8 @@ import { getStrategies } from '../config/system/strategies';
 import { getNetworkDeploy } from './utils/network';
 import { BadgerSett } from './model/badger-sett';
 import { BatchCallRequest } from 'web3/interface/batch-call-request';
-import { ethSetts, ethProtocolTokens, getEthereumBatchRequests } from 'web3/config/eth-config';
-import { bscSetts, bscProtocolTokens, getBinanceSmartChainBatchRequests } from 'web3/config/bsc-config';
+import { ethSetts, ethProtocolTokens, getEthereumBatchRequests, getNetworkBatchRequests } from 'web3/config/eth-config';
+import { bscSetts, bscProtocolTokens } from 'web3/config/bsc-config';
 import { ProtocolTokens } from 'web3/interface/protocol-token';
 import { TokenBalance } from './model/token-balance';
 
@@ -348,7 +348,7 @@ export interface Network {
 	networkId: number;
 	fullName: string;
 	setts: BadgerSett[];
-	batchRequests: (address: string) => BatchCallRequest[];
+	batchRequests: (setts: SettMap, address: string) => BatchCallRequest[];
 	tokens: ProtocolTokens;
 	rebase: RebaseNetworkConfig | undefined;
 	airdrops: AirdropNetworkConfig[];
@@ -387,7 +387,7 @@ export class BscNetwork implements Network {
 	readonly networkId = NETWORK_IDS.BSC;
 	readonly fullName = 'Binance Smart Chain';
 	readonly setts = bscSetts;
-	readonly batchRequests = getBinanceSmartChainBatchRequests;
+	readonly batchRequests = getNetworkBatchRequests;
 	readonly tokens = bscProtocolTokens;
 	readonly rebase = getRebase(NETWORK_LIST.BSC);
 	readonly airdrops = getAirdrops(NETWORK_LIST.BSC);
@@ -448,17 +448,13 @@ export class EthNetwork implements Network {
 		this.deploy.sett_system.vaults['native.sbtcCrv'],
 		this.deploy.sett_system.vaults['native.tbtcCrv'],
 		this.deploy.sett_system.vaults['harvest.renCrv'],
-		...(FLAGS.CONVEX_SETTS
-			? [
-					this.deploy.sett_system.vaults['native.cvxCrv'],
-					this.deploy.sett_system.vaults['native.cvx'],
-					this.deploy.sett_system.vaults['native.tricryptoCrv'],
-					this.deploy.sett_system.vaults['native.hbtcCrv'],
-					this.deploy.sett_system.vaults['native.pbtcCrv'],
-					this.deploy.sett_system.vaults['native.obtcCrv'],
-					this.deploy.sett_system.vaults['native.bbtcCrv'],
-			  ]
-			: []),
+		this.deploy.sett_system.vaults['native.cvxCrv'],
+		this.deploy.sett_system.vaults['native.cvx'],
+		this.deploy.sett_system.vaults['native.tricryptoCrv'],
+		this.deploy.sett_system.vaults['native.hbtcCrv'],
+		this.deploy.sett_system.vaults['native.pbtcCrv'],
+		this.deploy.sett_system.vaults['native.obtcCrv'],
+		this.deploy.sett_system.vaults['native.bbtcCrv'],
 		...(FLAGS.STABILIZATION_SETTS ? [this.deploy.sett_system.vaults['experimental.digg']] : []),
 	];
 	public readonly sidebarTokenLinks = sidebarTokenLinks(NETWORK_LIST.ETH);
@@ -477,17 +473,7 @@ export class EthNetwork implements Network {
 		return { link: `https://etherscan.io/tx/${transaction.hash}` };
 	}
 	readonly isWhitelisted = {};
-	readonly cappedDeposit: { [address: string]: boolean } = {
-		...(FLAGS.CONVEX_SETTS
-			? {
-					[this.deploy.sett_system.vaults['native.tricryptoCrv']]: true,
-					[this.deploy.sett_system.vaults['native.hbtcCrv']]: true,
-					[this.deploy.sett_system.vaults['native.pbtcCrv']]: true,
-					[this.deploy.sett_system.vaults['native.obtcCrv']]: true,
-					[this.deploy.sett_system.vaults['native.bbtcCrv']]: true,
-			  }
-			: {}),
-	};
+	readonly cappedDeposit = {};
 	readonly uncappedDeposit = {
 		[this.deploy.sett_system.vaults['yearn.wBtc']]: true,
 	};
@@ -555,28 +541,26 @@ export enum Protocol {
 	Harvest = 'harvest',
 }
 
-/**
- * Sett and geyser objects will be represented by the same
- * interface. The key difference between a sett and geyser
- * is the value sources which populate the entity. Geyser will
- * have emissions value sources while setts only have the
- * native underlying value source.
- */
+export enum SettState {
+	Open = 'open',
+	Guarded = 'guarded',
+	Experimental = 'experimental',
+}
+
 export interface Sett extends SettSummary {
-	asset: string;
-	apy: number;
 	apr: number;
-	minApr?: number;
-	maxApr?: number;
+	asset: string;
 	boostable: boolean;
+	experimental: boolean;
 	hasBouncer: boolean;
+	maxApr?: number;
+	minApr?: number;
 	ppfs: number;
 	sources: ValueSource[];
+	state: SettState;
 	tokens: SettTokenBalance[];
 	underlyingToken: string;
 	vaultToken: string;
-	affiliate?: SettAffiliateData;
-	experimental: boolean;
 }
 
 export interface SettAffiliateData {

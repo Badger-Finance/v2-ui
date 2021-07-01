@@ -20,6 +20,7 @@ import NetworkWidget from 'components-v2/common/NetworkWidget';
 import { Route } from 'mobx-router';
 import { RootStore } from 'mobx/store';
 import clsx from 'clsx';
+import SecurityIcon from '@material-ui/icons/Security';
 
 const useStyles = makeStyles((theme) => ({
 	logo: {
@@ -228,7 +229,6 @@ export const Sidebar = observer(() => {
 							</ListItem>
 						)}
 					</Collapse>
-
 					<ListItem
 						button
 						className={getItemClass('/', classes.listItem)}
@@ -245,17 +245,13 @@ export const Sidebar = observer(() => {
 						<>
 							<ListItem
 								button
-								className={getItemClass('/airdrops', classes.listItem)}
-								onClick={() => navigate(views.airdrops)}
+								className={getItemClass('/guarded', classes.listItem)}
+								onClick={() => goTo(views.guarded)}
 							>
 								<ListItemIcon>
-									<img
-										alt="Badger Airdrop Icon"
-										src={'assets/sidebar/airdrop.png'}
-										className={classes.icon}
-									/>
+									<SecurityIcon fontSize="small" />
 								</ListItemIcon>
-								<ListItemText primary="Airdrops" />
+								<ListItemText primary="Guarded Vaults" />
 							</ListItem>
 							<ListItem
 								button
@@ -326,15 +322,13 @@ export const Sidebar = observer(() => {
 									timeout="auto"
 									unmountOnExit
 								>
-									{FLAGS.EXPERIMENTAL_VAULTS && (
-										<ListItem
-											button
-											className={getItemClass('/experimental', classes.primarySubListItem)}
-											onClick={() => goTo(views.experimental)}
-										>
-											Experimental Vaults
-										</ListItem>
-									)}
+									<ListItem
+										button
+										className={getItemClass('/experimental', classes.primarySubListItem)}
+										onClick={() => navigate(views.experimental)}
+									>
+										Experimental Vaults
+									</ListItem>
 									{FLAGS.BOOST_OPTIMIZER && (
 										<ListItem
 											button
@@ -357,6 +351,13 @@ export const Sidebar = observer(() => {
 										onClick={() => navigate(views.honeybadgerDrop)}
 									>
 										Honey Badger Drop
+									</ListItem>
+									<ListItem
+										button
+										className={getItemClass('/airdrops', classes.primarySubListItem)}
+										onClick={() => navigate(views.airdrops)}
+									>
+										Airdrops
 									</ListItem>
 								</Collapse>
 							</ListItem>

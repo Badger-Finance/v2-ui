@@ -11,6 +11,7 @@ import { FLAGS } from 'config/constants';
 import { Bridge } from '../components/Bridge';
 import HoneybadgerDrop from '../components/HoneybadgerDrop/index';
 import BoostLeaderBoard from 'pages/BoostLeaderBoard';
+import { SettState } from 'mobx/model';
 
 const routes = {
 	locked: new Route<RootStore>({
@@ -19,11 +20,33 @@ const routes = {
 	}),
 	home: new Route<RootStore>({
 		path: '/',
-		component: <Landing experimental={false} />,
+		component: (
+			<Landing
+				title="Sett Vaults"
+				subtitle="Powerful Bitcoin strategies. Automatic staking rewards."
+				state={SettState.Open}
+			/>
+		),
+	}),
+	guarded: new Route<RootStore>({
+		path: '/guarded',
+		component: (
+			<Landing
+				title="Guarded Vaults"
+				subtitle="New vaults to dip your toes in. Ape safe."
+				state={SettState.Guarded}
+			/>
+		),
 	}),
 	experimental: new Route<RootStore>({
 		path: '/experimental',
-		component: FLAGS.EXPERIMENTAL_VAULTS ? <Landing experimental={true} /> : <></>,
+		component: (
+			<Landing
+				title="Experimental Vaults"
+				subtitle="Novel Bitcoin strategies. Bleeding edge innovation."
+				state={SettState.Experimental}
+			/>
+		),
 	}),
 	airdrops: new Route<RootStore, QueryParams>({
 		path: '/airdrops',

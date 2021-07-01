@@ -65,8 +65,8 @@ export const Airdrops = observer(() => {
 
 	let maxNativeApy: number | undefined = undefined;
 	if (settMap && settMap.digg && settMap.badger) {
-		const diggApy = settMap.digg.apy;
-		const badgerApy = settMap.badger.apy;
+		const diggApy = settMap.digg.apr;
+		const badgerApy = settMap.badger.apr;
 		maxNativeApy = Math.max(diggApy, badgerApy);
 	}
 
