@@ -90,6 +90,7 @@ interface Props {
 	disableBoost?: boolean;
 	onBoostChange: (change: string) => void;
 	onReset: () => void;
+	onLockedBoostClick: () => void;
 }
 
 export const CalculatorHeader = ({
@@ -98,6 +99,7 @@ export const CalculatorHeader = ({
 	disableBoost = false,
 	onBoostChange,
 	onReset,
+	onLockedBoostClick,
 }: Props): JSX.Element => {
 	const { onValidChange, inputProps } = useNumericInput();
 	const classes = useStyles();
@@ -105,6 +107,7 @@ export const CalculatorHeader = ({
 	const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 	const boostClasses = useBoostStyles(boost, accountBoost)();
 	const validBoost = boost !== undefined ? isValidBoost(boost) : true; // evaluate only after loaded
+	const isLocked = disableBoost || accountBoost === undefined;
 
 	return (
 		<Grid container spacing={isMobile ? 2 : 0} className={classes.header} alignItems="center">
@@ -114,12 +117,17 @@ export const CalculatorHeader = ({
 				</Typography>
 				<BoostInput
 					className={validBoost ? boostClasses.fontColor : classes.invalidBoost}
-					disabled={disableBoost || accountBoost === undefined}
+					disabled={isLocked}
 					error={!validBoost}
 					inputProps={inputProps}
 					placeholder="1.00"
 					onChange={onValidChange(onBoostChange)}
 					value={boost || ''}
+					onClick={() => {
+						if (isLocked) {
+							onLockedBoostClick();
+						}
+					}}
 				/>
 				<Tooltip
 					title={

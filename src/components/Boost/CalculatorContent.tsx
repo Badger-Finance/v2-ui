@@ -98,6 +98,23 @@ const useStyles = makeStyles((theme) => ({
 	assetInput: {
 		marginTop: theme.spacing(1),
 	},
+	bounce: {
+		animation: '$bounce 1s ease-in-out 1',
+	},
+	'@keyframes bounce': {
+		'0%': {
+			transform: 'translateY(0)',
+		},
+		'30%': {
+			transform: 'translateY(-5px)',
+		},
+		'50%': {
+			transform: 'translateY(0)',
+		},
+		'100%': {
+			transform: 'translateY(0)',
+		},
+	},
 }));
 
 type BoostCalculatorContainerProps = {
@@ -105,15 +122,26 @@ type BoostCalculatorContainerProps = {
 	native: string;
 	nativeToAdd?: string;
 	nonNative: string;
+	showMessageBounce?: boolean;
 	onNativeChange(value: string): void;
 	onNonNativeChange(value: string): void;
+	onBounceAnimationEnd(): void;
 };
 
 export const BoostCalculatorContainer = observer(
 	(props: BoostCalculatorContainerProps): JSX.Element => {
 		const { boostOptimizer } = React.useContext(StoreContext);
 		const { nativeHoldings, nonNativeHoldings } = boostOptimizer;
-		const { boost, native, nonNative, nativeToAdd, onNonNativeChange, onNativeChange } = props;
+		const {
+			boost,
+			native,
+			nonNative,
+			nativeToAdd,
+			onNonNativeChange,
+			onNativeChange,
+			onBounceAnimationEnd,
+			showMessageBounce = false,
+		} = props;
 
 		const classes = useStyles();
 		const theme = useTheme();
@@ -250,7 +278,10 @@ export const BoostCalculatorContainer = observer(
 					</Grid>
 				)}
 				{showEmptyNonNativeMessage && (
-					<Grid className={classes.infoBox}>
+					<Grid
+						className={clsx(classes.infoBox, showMessageBounce && classes.bounce)}
+						onAnimationEnd={onBounceAnimationEnd}
+					>
 						<Typography className={classes.infoText} color="textSecondary">
 							You need to have Non Native assets in order to improve your boost
 						</Typography>

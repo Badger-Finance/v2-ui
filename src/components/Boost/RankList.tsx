@@ -7,16 +7,25 @@ import { LEADERBOARD_RANKS } from '../../config/constants';
 interface Props {
 	currentBoost?: string;
 	accountBoost?: number;
-	onRankJump: (boost: number) => void;
+	onRankClick: (boost: number) => void;
+	onLockedRankClick: () => void;
 }
 
-export const RankList = ({ currentBoost, accountBoost, onRankJump }: Props): JSX.Element => {
+export const RankList = ({ currentBoost, accountBoost, onRankClick, onLockedRankClick }: Props): JSX.Element => {
 	return (
 		<>
 			{LEADERBOARD_RANKS.map((rank) => {
 				const isObtained = accountBoost ? accountBoost > 1 && accountBoost >= rank.boostRangeStart : false;
 				const isLocked = Number(currentBoost) < rank.boostRangeStart;
 				const isCurrentBoost = Number(currentBoost) === rank.boostRangeStart;
+
+				const handleClick = () => {
+					if (isLocked) {
+						onLockedRankClick();
+					} else {
+						onRankClick(rank.boostRangeStart);
+					}
+				};
 
 				const rankItem = (
 					<Grid container alignItems="flex-end">
@@ -28,7 +37,7 @@ export const RankList = ({ currentBoost, accountBoost, onRankJump }: Props): JSX
 							/>
 						</Grid>
 						<Grid item>
-							<ButtonBase disabled={isCurrentBoost} onClick={() => onRankJump(rank.boostRangeStart)}>
+							<ButtonBase onClick={handleClick}>
 								<RankLevel
 									key={`${rank.boostRangeStart}_${rank.name}`}
 									name={rank.name}

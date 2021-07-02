@@ -59,6 +59,7 @@ export const Calculator = observer(
 		const [native, setNative] = useState<string>();
 		const [nonNative, setNonNative] = useState<string>();
 		const [nativeToAdd, setNativeToAdd] = useState<string>();
+		const [showBouncingMessage, setShowBouncingMessage] = useState(false);
 
 		const calculateNewBoost = useCallback(
 			(targetBoost: number) => {
@@ -192,6 +193,7 @@ export const Calculator = observer(
 								disableBoost={!nonNative || Number(nonNative) === 0}
 								onBoostChange={handleBoostChange}
 								onReset={handleReset}
+								onLockedBoostClick={() => setShowBouncingMessage(true)}
 							/>
 						</Grid>
 						<Divider className={classes.divider} />
@@ -201,14 +203,21 @@ export const Calculator = observer(
 								native={native || ''}
 								nonNative={nonNative || ''}
 								nativeToAdd={nativeToAdd}
+								showMessageBounce={showBouncingMessage}
 								onNativeChange={handleNativeChange}
 								onNonNativeChange={handleNonNativeChange}
+								onBounceAnimationEnd={() => setShowBouncingMessage(false)}
 							/>
 						</Grid>
 					</Grid>
 				</Grid>
 				<Grid item xs={12} lg={3}>
-					<LeaderBoardRank rank={rank} boost={boost} onRankJump={handleRankJump} />
+					<LeaderBoardRank
+						rank={rank}
+						boost={boost}
+						onRankClick={handleRankJump}
+						onLockedRankClick={() => setShowBouncingMessage(true)}
+					/>
 				</Grid>
 			</Grid>
 		);

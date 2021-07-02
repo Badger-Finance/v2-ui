@@ -92,11 +92,12 @@ const useStyles = makeStyles((theme) => ({
 interface Props {
 	rank?: string;
 	boost?: string;
-	onRankJump: (boost: number) => void;
+	onRankClick: (boost: number) => void;
+	onLockedRankClick: () => void;
 }
 
 export const LeaderBoardRank = observer(
-	({ boost = '1', rank, onRankJump }: Props): JSX.Element => {
+	({ boost = '1', rank, onRankClick, onLockedRankClick }: Props): JSX.Element => {
 		const {
 			router,
 			user: { accountDetails },
@@ -136,7 +137,12 @@ export const LeaderBoardRank = observer(
 						<div className={classes.placeholderProgressBar} />
 					)}
 					<div>
-						<RankList currentBoost={boost} accountBoost={accountBoost} onRankJump={onRankJump} />
+						<RankList
+							currentBoost={boost}
+							accountBoost={accountBoost}
+							onRankClick={onRankClick}
+							onLockedRankClick={onLockedRankClick}
+						/>
 					</div>
 				</Grid>
 
