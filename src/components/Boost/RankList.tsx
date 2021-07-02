@@ -3,6 +3,11 @@ import { ButtonBase, Grid, Tooltip } from '@material-ui/core';
 import { RankConnector } from './RankConnector';
 import { RankLevel } from './RankLevel';
 import { LEADERBOARD_RANKS } from '../../config/constants';
+import { styled } from '@material-ui/core/styles';
+
+const StyledButtonBase = styled(ButtonBase)({
+	width: '100%',
+});
 
 interface Props {
 	currentBoost?: string;
@@ -36,8 +41,8 @@ export const RankList = ({ currentBoost, accountBoost, onRankClick, onLockedRank
 								rankBoost={rank.boostRangeStart}
 							/>
 						</Grid>
-						<Grid item>
-							<ButtonBase onClick={handleClick}>
+						<Grid item xs>
+							<StyledButtonBase onClick={handleClick}>
 								<RankLevel
 									key={`${rank.boostRangeStart}_${rank.name}`}
 									name={rank.name}
@@ -45,7 +50,7 @@ export const RankList = ({ currentBoost, accountBoost, onRankClick, onLockedRank
 									obtained={isObtained}
 									locked={isLocked}
 								/>
-							</ButtonBase>
+							</StyledButtonBase>
 						</Grid>
 					</Grid>
 				);

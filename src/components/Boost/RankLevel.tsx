@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
 		height: '100%',
 	},
 	badgerLevelInfoContainer: {
-		margin: '8px auto',
+		margin: '8px 0px',
 	},
 	badgerLevelBoost: {
 		fontSize: 10,

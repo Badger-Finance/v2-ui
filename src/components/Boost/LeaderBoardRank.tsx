@@ -136,14 +136,14 @@ export const LeaderBoardRank = observer(
 					) : (
 						<div className={classes.placeholderProgressBar} />
 					)}
-					<div>
+					<Grid item xs>
 						<RankList
 							currentBoost={boost}
 							accountBoost={accountBoost}
 							onRankClick={onRankClick}
 							onLockedRankClick={onLockedRankClick}
 						/>
-					</div>
+					</Grid>
 				</Grid>
 
 				<Grid item className={classes.viewLeaderBoardContainer} xs>
