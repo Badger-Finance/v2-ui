@@ -69,6 +69,7 @@ export default class UserStore {
 					this.loadBouncerProof(address);
 					this.loadAccountDetails(address, network.name);
 					this.loadClaimProof(address);
+					this.updateBalances(true);
 				}
 			}
 		});
