@@ -372,15 +372,13 @@ export const Sidebar = observer(() => {
 								timeout="auto"
 								unmountOnExit
 							>
-
-									<ListItem
-										button
-										className={getItemClass('/experimental', classes.primarySubListItem)}
-										onClick={() => navigate(views.experimental)}
-									>
-										Experimental Vaults
-									</ListItem>
-
+								<ListItem
+									button
+									className={getItemClass('/experimental', classes.primarySubListItem)}
+									onClick={() => navigate(views.experimental)}
+								>
+									Experimental Vaults
+								</ListItem>
 								<ListItem
 									button
 									className={getItemClass('/airdrops', classes.primarySubListItem)}
