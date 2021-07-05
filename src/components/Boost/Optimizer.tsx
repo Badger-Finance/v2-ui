@@ -102,7 +102,7 @@ export const Optimizer = observer(
 			}
 
 			setBoost(newBoostRatio.toFixed(2));
-			setRank((newRank + 1).toString()); // +1 because the position is zero index
+			setRank(newRank.toString());
 		};
 
 		const handleReset = () => {
