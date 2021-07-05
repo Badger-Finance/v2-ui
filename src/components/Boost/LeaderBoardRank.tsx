@@ -93,11 +93,10 @@ interface Props {
 	rank?: string;
 	boost?: string;
 	onRankClick: (boost: number) => void;
-	onLockedRankClick: () => void;
 }
 
 export const LeaderBoardRank = observer(
-	({ boost = '1', rank, onRankClick, onLockedRankClick }: Props): JSX.Element => {
+	({ boost = '1', rank, onRankClick }: Props): JSX.Element => {
 		const {
 			router,
 			user: { accountDetails },
@@ -137,12 +136,7 @@ export const LeaderBoardRank = observer(
 						<div className={classes.placeholderProgressBar} />
 					)}
 					<Grid item xs>
-						<RankList
-							currentBoost={boost}
-							accountBoost={accountBoost}
-							onRankClick={onRankClick}
-							onLockedRankClick={onLockedRankClick}
-						/>
+						<RankList currentBoost={boost} accountBoost={accountBoost} onRankClick={onRankClick} />
 					</Grid>
 				</Grid>
 

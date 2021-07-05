@@ -4,13 +4,14 @@ import BigNumber from 'bignumber.js';
 import { Button, Divider, Grid, Paper, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { BoostCalculatorContainer } from './CalculatorContent';
+import { OptimizerBody } from './OptimizerBody';
 import { StoreContext } from '../../mobx/store-context';
 import { useConnectWallet } from '../../mobx/utils/hooks';
 import { LeaderBoardRank } from './LeaderBoardRank';
-import { CalculatorHeader } from './CalculatorHeader';
+import { OptimizerHeader } from './OptimizerHeader';
 import { debounce } from '../../utils/componentHelpers';
 import { formatWithoutExtraZeros } from '../../mobx/utils/helpers';
+import { isValidBoost } from './utils';
 
 const useStyles = makeStyles((theme) => ({
 	calculatorContainer: {
@@ -42,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export const Calculator = observer(
+export const Optimizer = observer(
 	(): JSX.Element => {
 		const {
 			user: { accountDetails },
@@ -101,7 +102,7 @@ export const Calculator = observer(
 			}
 
 			setBoost(newBoostRatio.toFixed(2));
-			setRank(newRank.toString()); // +1 because the position is zero index
+			setRank((newRank + 1).toString()); // +1 because the position is zero index
 		};
 
 		const handleReset = () => {
@@ -114,8 +115,11 @@ export const Calculator = observer(
 			}
 		};
 
-		const handleRankJump = (rankBoost: number) => {
-			if (!native || !nonNative || Number(nonNative) === 0) return;
+		const handleRankClick = (rankBoost: number) => {
+			if (!nonNative || Number(nonNative) === 0) {
+				setShowBouncingMessage(true);
+				return;
+			}
 
 			const newRank = boostOptimizer.calculateRankFromBoost(rankBoost);
 
@@ -128,6 +132,11 @@ export const Calculator = observer(
 		};
 
 		const handleBoostChange = (updatedBoost: string) => {
+			if (!isValidBoost(updatedBoost)) {
+				setBoost(updatedBoost);
+				return;
+			}
+
 			setBoost(updatedBoost);
 			debounceBoostChange(Number(updatedBoost));
 		};
@@ -187,7 +196,7 @@ export const Calculator = observer(
 				<Grid item xs={12} lg>
 					<Grid container component={Paper} className={classes.calculatorContainer}>
 						<Grid item>
-							<CalculatorHeader
+							<OptimizerHeader
 								accountBoost={accountDetails?.boost}
 								boost={boost}
 								disableBoost={!nonNative || Number(nonNative) === 0}
@@ -198,7 +207,7 @@ export const Calculator = observer(
 						</Grid>
 						<Divider className={classes.divider} />
 						<Grid item container xs direction="column" justify="center">
-							<BoostCalculatorContainer
+							<OptimizerBody
 								boost={boost || '1'}
 								native={native || ''}
 								nonNative={nonNative || ''}
@@ -212,12 +221,7 @@ export const Calculator = observer(
 					</Grid>
 				</Grid>
 				<Grid item xs={12} lg={3}>
-					<LeaderBoardRank
-						rank={rank}
-						boost={boost}
-						onRankClick={handleRankJump}
-						onLockedRankClick={() => setShowBouncingMessage(true)}
-					/>
+					<LeaderBoardRank rank={rank} boost={boost} onRankClick={handleRankClick} />
 				</Grid>
 			</Grid>
 		);
