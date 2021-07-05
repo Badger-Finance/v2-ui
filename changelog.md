@@ -1,6 +1,6 @@
 # v2 UI Changelog
 
-### Hotfix - 06/30/2021
+### Hotfix - 07/05/2021
 
 -   updated digg oracle
 
