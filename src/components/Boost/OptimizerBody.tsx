@@ -128,7 +128,7 @@ type BoostCalculatorContainerProps = {
 	onBounceAnimationEnd(): void;
 };
 
-export const BoostCalculatorContainer = observer(
+export const OptimizerBody = observer(
 	(props: BoostCalculatorContainerProps): JSX.Element => {
 		const { boostOptimizer } = React.useContext(StoreContext);
 		const { nativeHoldings, nonNativeHoldings } = boostOptimizer;

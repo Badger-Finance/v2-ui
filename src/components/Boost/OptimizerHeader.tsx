@@ -13,7 +13,7 @@ import InfoIcon from '@material-ui/icons/Info';
 import { makeStyles, styled } from '@material-ui/core/styles';
 import BigNumber from 'bignumber.js';
 
-import { getColorFromComparison } from './utils';
+import { getColorFromComparison, isValidBoost } from './utils';
 import { useNumericInput } from '../../utils/useNumericInput';
 
 const StyledInfoIcon = styled(InfoIcon)(({ theme }) => ({
@@ -82,8 +82,6 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const isValidBoost = (boost: string) => Number(boost) >= 1 && Number(boost) <= 3;
-
 interface Props {
 	boost?: string;
 	accountBoost?: number;
@@ -93,7 +91,7 @@ interface Props {
 	onLockedBoostClick: () => void;
 }
 
-export const CalculatorHeader = ({
+export const OptimizerHeader = ({
 	boost,
 	accountBoost,
 	disableBoost = false,

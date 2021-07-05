@@ -2,7 +2,7 @@ import React from 'react';
 import { observer } from 'mobx-react-lite';
 import { Grid, Container, Link } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { Calculator } from './Calculator';
+import { Optimizer } from './Optimizer';
 import PageHeader from '../../components-v2/common/PageHeader';
 
 const useStyles = makeStyles((theme) => ({
@@ -45,7 +45,7 @@ export const BoostOptimizer = observer(() => {
 					</Link>
 				</Grid>
 				<Grid item xs={12}>
-					<Calculator />
+					<Optimizer />
 				</Grid>
 			</Grid>
 		</Container>
