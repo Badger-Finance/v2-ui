@@ -3,6 +3,7 @@
 ### Hotfix - 07/05/2021
 
 -   updated digg oracle
+-   fixed an issue causing account balance updates to be delayed 
 
 ### v2.8.1 - 07/01/2021
 
