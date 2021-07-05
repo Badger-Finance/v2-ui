@@ -1,6 +1,5 @@
 import { extendObservable, action, observe } from 'mobx';
 import { RootStore } from '../store';
-import BigNumber from 'bignumber.js';
 import views from 'config/routes';
 import WalletStore from 'mobx/stores/walletStore';
 
@@ -17,19 +16,12 @@ class UiState {
 	 * TODO: Add types. soon. :(
 	 */
 	public collection: any;
-	public stats?: any;
-	public claims?: any;
-	public vaultStats: any;
-	public geyserStats: any;
 	public airdropStats: any;
-	public rebaseStats: any;
 	public sidebarOpen!: boolean;
 	public hideZeroBal!: boolean;
 	public notification: any = {};
 	public gasPrice!: string;
-
 	public locked!: boolean;
-
 	public txStatus?: string;
 
 	constructor(store: RootStore) {
@@ -39,23 +31,7 @@ class UiState {
 		extendObservable(this, {
 			collection: {},
 			locked: window.localStorage.getItem('locked') === 'YES',
-			stats: {
-				stats: {
-					tvl: new BigNumber(0),
-					wallet: new BigNumber(0),
-					deposits: new BigNumber(0),
-					portfolio: undefined,
-					badger: new BigNumber(0),
-					digg: new BigNumber(0),
-					bDigg: new BigNumber(1),
-					vaultDeposits: new BigNumber(0),
-				},
-			},
 			claims: [0, 0, 0],
-			rebaseStats: {
-				oraclePrice: new BigNumber(1),
-				btcPrice: new BigNumber(0),
-			},
 			airdropStats: {},
 			currency: window.localStorage.getItem(`${network.name}-selectedCurrency`) || 'usd',
 			period: window.localStorage.getItem(`${network.name}-selectedPeriod`) || 'year',
@@ -85,21 +61,6 @@ class UiState {
 	// TODO: this does nothing?
 	setTxStatus = action((status?: string) => {
 		this.txStatus = status;
-	});
-
-	reduceRebase = action(() => {
-		const rebaseInfo = this.store.rebase.rebase;
-		const wbtc = this.store.wallet.network.deploy.tokens.wBTC;
-		const wbtcPrice = this.store.prices.getPrice(wbtc);
-
-		if (!!rebaseInfo) {
-			this.rebaseStats = {
-				oraclePrice: wbtcPrice.times(rebaseInfo.oracleRate),
-				btcPrice: wbtcPrice,
-				totalSupply: rebaseInfo.totalSupply,
-				nextRebase: rebaseInfo.nextRebase,
-			};
-		}
 	});
 
 	setGasPrice = action((gasPrice: string) => {

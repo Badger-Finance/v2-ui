@@ -36,6 +36,7 @@ export const SettAvailableDeposit = (props: DepositLimitProps): JSX.Element | nu
 		return null;
 	}
 	const { vaultCap, totalVaultCap, userCap, totalUserCap, asset } = vaultCapInfo;
+	const displayUserCap = vaultCap.tokenBalance.lte(userCap.tokenBalance) ? vaultCap : userCap;
 	return (
 		<div className={classes.limitsContainer}>
 			<div className={classes.depositContainer}>
@@ -43,7 +44,7 @@ export const SettAvailableDeposit = (props: DepositLimitProps): JSX.Element | nu
 					User Deposit Limit Remaining:{' '}
 				</Typography>
 				<Typography align="center" variant="body2" color="textSecondary" component="div">
-					{`${userCap.balanceDisplay(displayDecimals)} / ${totalUserCap.balanceDisplay(
+					{`${displayUserCap.balanceDisplay(displayDecimals)} / ${totalUserCap.balanceDisplay(
 						displayDecimals,
 					)} ${asset}`}
 				</Typography>
