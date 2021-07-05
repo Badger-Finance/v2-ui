@@ -1,5 +1,9 @@
 # v2 UI Changelog
 
+### Hotfix - 07/05/2021
+
+-   updated digg oracle
+
 ### v2.8.1 - 07/01/2021
 
 -   introduced guarded vaults to the app
