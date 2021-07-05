@@ -82,29 +82,35 @@ const Info = observer(() => {
 	const store = useContext(StoreContext);
 	const {
 		setts: { settMap },
-		uiState: { rebaseStats, currency },
+		uiState: { currency },
+		rebase: { rebase },
+		wallet: { network },
+		prices,
 	} = store;
 	const classes = useStyles();
 	const [nextRebase, setNextRebase] = useState('00:00:00');
-	const rebasePercentage = ((rebaseStats.oraclePrice - rebaseStats.btcPrice) / rebaseStats.btcPrice) * 10;
-	const showRebase = rebasePercentage && isFinite(rebasePercentage);
-
-	if (!rebaseStats) {
-		return <Loader />;
-	}
-
 	useInterval(() => {
-		if (!!rebaseStats && !!rebaseStats.nextRebase) {
+		if (!!rebase && !!rebase.nextRebase) {
 			const zero = new Date(0);
 
-			zero.setTime(rebaseStats.nextRebase.getTime() - new Date().getTime());
+			zero.setTime(rebase.nextRebase.getTime() - new Date().getTime());
 			setNextRebase(zero.toISOString().substr(11, 8));
 		}
 	}, 1000);
 
+	if (!rebase) {
+		return <Loader message="Loading DIGG data..." />;
+	}
+
+	const wbtc = network.deploy.tokens.wBTC;
+	const wbtcPrice = prices.getPrice(wbtc);
+	const oraclePrice = rebase.oracleRate.multipliedBy(wbtcPrice);
+	const rebasePercent = oraclePrice.minus(wbtcPrice).dividedBy(wbtcPrice).multipliedBy(10);
+	const showRebase = rebasePercent && isFinite(rebasePercent.toNumber());
+
 	let rebaseStyle = {};
 	if (showRebase) {
-		const rebaseTextColor = rebasePercentage > 0 ? 'green' : 'red';
+		const rebaseTextColor = rebasePercent.gt(0) ? 'green' : 'red';
 		rebaseStyle = { color: rebaseTextColor };
 	}
 	const ppfs = settMap ? settMap[ETH_DEPLOY.sett_system.vaults['native.digg']].ppfs : undefined;
@@ -112,15 +118,15 @@ const Info = observer(() => {
 	return (
 		<>
 			<Grid item xs={6} md={6}>
-				<Metric metric="BTC Price" value={inCurrency(rebaseStats.btcPrice, currency)} />
+				<Metric metric="BTC Price" value={inCurrency(wbtcPrice, currency)} />
 			</Grid>
 			<Grid item xs={6} md={6}>
-				<Metric metric="DIGG Price" value={inCurrency(rebaseStats.oraclePrice, currency)} />
+				<Metric metric="DIGG Price" value={inCurrency(oraclePrice, currency)} />
 			</Grid>
 			<Grid item xs={12} md={6}>
 				<Metric
 					metric="Total Supply"
-					value={rebaseStats.totalSupply ? shortenNumbers(rebaseStats.totalSupply, '', 2) : '-'}
+					value={rebase.totalSupply ? shortenNumbers(rebase.totalSupply, '', 2) : '-'}
 				/>
 			</Grid>
 			<Grid item xs={6} md={6}>
@@ -132,7 +138,7 @@ const Info = observer(() => {
 					<Typography variant="body1">1 bDIGG = {!!ppfs ? ppfs.toFixed(9) : '...'} DIGG</Typography>
 					<Typography variant="body2">
 						Potential Rebase ={' '}
-						<span style={rebaseStyle}>{`${showRebase ? rebasePercentage.toFixed(5) : '-'}%`}</span>
+						<span style={rebaseStyle}>{`${showRebase ? rebasePercent.toFixed(5) : '-'}%`}</span>
 					</Typography>
 				</Paper>
 				<Button
