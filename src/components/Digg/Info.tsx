@@ -133,7 +133,7 @@ const Info = observer(() => {
 	const wbtcPrice = prices.getPrice(ETH_DEPLOY.tokens.wBTC);
 	const diggPrice = rebase.oracleRate.multipliedBy(wbtcPrice);
 	const priceDelta = rebase.oracleRate.minus(1);
-	const rebasePercent = priceDelta.gt(0.05) ? priceDelta.multipliedBy(10) : new BigNumber(0);
+	const rebasePercent = priceDelta.gt(0.05) || priceDelta.lt(-0.05) ? priceDelta.multipliedBy(10) : new BigNumber(0);
 	const lastRebase = new Date(rebase.lastRebaseTimestampSec * 1000);
 
 	const rebaseTextColor = rebasePercent.gt(0) ? '#5efc82' : 'red';
