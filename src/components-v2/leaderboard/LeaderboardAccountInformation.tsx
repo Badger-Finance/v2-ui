@@ -111,7 +111,7 @@ export const LeaderboardAccountInformation = observer(
 							</Button>
 						)}
 					</Grid>
-					{nonNativeHoldings && nonNativeHoldings.eq(0) && (
+					{nonNativeHoldings !== undefined && nonNativeHoldings === 0 && (
 						<Grid item xs={12}>
 							<Typography className={classes.amountToNextRank} color="textSecondary">
 								Add Non Native assets to be able to improve your boost
