@@ -17,7 +17,7 @@ export class BoostOptimizerStore {
 	/**
 	 *  Value of BADGER Balance plus value of DIGG Balance represented in USD
 	 */
-	get nativeHoldings(): BigNumber | undefined {
+	get nativeHoldings(): number | undefined {
 		const { exchangeRates } = this.store.prices;
 		const badgerBalance = this.store.user.tokenBalances[deploy.tokens.badger];
 		const diggBalance = this.store.user.tokenBalances[deploy.tokens.digg];
@@ -29,13 +29,13 @@ export class BoostOptimizerStore {
 		const diggPrice = this.store.prices.getPrice(deploy.tokens.digg);
 		const diggBalanceHoldings = diggBalance.balance.multipliedBy(diggPrice);
 
-		return badgerHoldings.plus(diggBalanceHoldings).multipliedBy(exchangeRates.usd);
+		return badgerHoldings.plus(diggBalanceHoldings).multipliedBy(exchangeRates.usd).toNumber();
 	}
 
 	/**
 	 * Value of non-native staked sett positions represented in USD
 	 */
-	get nonNativeHoldings(): BigNumber | undefined {
+	get nonNativeHoldings(): number | undefined {
 		if (!this.store.user.accountDetails || !this.store.prices.exchangeRates) return;
 
 		let holdings = new BigNumber(0);
@@ -51,7 +51,7 @@ export class BoostOptimizerStore {
 			}
 		}
 
-		return holdings.multipliedBy(this.store.prices.exchangeRates.usd);
+		return holdings.multipliedBy(this.store.prices.exchangeRates.usd).toNumber();
 	}
 
 	/**

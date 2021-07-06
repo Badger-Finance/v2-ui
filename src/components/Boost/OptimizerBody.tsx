@@ -26,12 +26,12 @@ const BoostLoader = withStyles((theme) => ({
 	},
 }))(Skeleton);
 
-const useAssetInputStyles = (currentValue: string, holdings?: BigNumber.Value) => {
+const useAssetInputStyles = (currentValue: string, holdings: BigNumber.Value = 0) => {
 	return makeStyles((theme) => {
 		const defaultColor = currentValue ? theme.palette.text.primary : theme.palette.text.secondary;
 		const fontColor = getColorFromComparison({
 			toCompareValue: currentValue,
-			toBeComparedValue: holdings || 0,
+			toBeComparedValue: formatWithoutExtraZeros(holdings, 4),
 			greaterCaseColor: '#74D189',
 			lessCaseColor: theme.palette.error.main,
 			defaultColor,
@@ -43,6 +43,38 @@ const useAssetInputStyles = (currentValue: string, holdings?: BigNumber.Value) =
 			},
 		};
 	});
+};
+
+const useValueIsGreater = (a?: number | string, b?: number | string): boolean => {
+	if (a === undefined || b === undefined) {
+		return false;
+	}
+
+	return Number(a) > Number(b);
+};
+
+const useAmountToReachNextLeaderboardRank = (
+	boost: string,
+	native: BigNumber.Value,
+	nonNative: BigNumber.Value,
+): BigNumber | undefined => {
+	const { boostOptimizer } = React.useContext(StoreContext);
+	const currentBadgerLevel = getRankNumberFromBoost(Number(boost));
+	const nextBadgerLevel = LEADERBOARD_RANKS[currentBadgerLevel - 1];
+
+	if (!nextBadgerLevel) {
+		return undefined;
+	}
+
+	return boostOptimizer.calculateNativeToMatchBoost(native, nonNative, nextBadgerLevel.boostRangeStart);
+};
+
+const useShouldAmountReachNextLevel = (native: string, amountToReachNextLevel?: BigNumber): boolean => {
+	if (!native || !amountToReachNextLevel) {
+		return false;
+	}
+
+	return Number(native) !== 0 && amountToReachNextLevel.gt(native);
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -150,9 +182,9 @@ export const OptimizerBody = observer(
 		const nativeAssetClasses = useAssetInputStyles(native, nativeHoldings)();
 		const nonNativeAssetClasses = useAssetInputStyles(nonNative, nonNativeHoldings)();
 
-		const isLoading = !nativeHoldings || !nonNativeHoldings;
+		const isLoading = nativeHoldings === undefined || nonNativeHoldings === undefined;
 		const showEmptyNonNativeMessage = Number(nonNative) === 0;
-		const showReducedNonNativeMessage = nonNative ? nonNativeHoldings?.gt(nonNative) : false;
+		const showReducedNonNativeMessage = useValueIsGreater(nonNativeHoldings, nonNative);
 		const showNativeToAdd = nativeToAdd && Number(nativeToAdd) !== 0;
 
 		const sanitizedBoost = Math.min(Number(boost), 3);
@@ -161,48 +193,50 @@ export const OptimizerBody = observer(
 		const currentBadgerLevel = getRankNumberFromBoost(Number(boost));
 		const nextBadgerLevel = LEADERBOARD_RANKS[currentBadgerLevel - 1];
 
-		const amountToReachNextLevel = nextBadgerLevel
-			? boostOptimizer.calculateNativeToMatchBoost(native, nonNative, nextBadgerLevel.boostRangeStart)
-			: null;
-
-		const shouldShowAmountToReachNextLevel = native && Number(native) !== 0 && amountToReachNextLevel?.gt(native);
+		const amountToReachNextLevel = useAmountToReachNextLeaderboardRank(boost, native, nonNative);
+		const shouldShowAmountToReachNextLevel = useShouldAmountReachNextLevel(native, amountToReachNextLevel);
 
 		const handleApplyRemaining = () => {
-			if (native && nativeToAdd) {
-				onNativeChange(formatWithoutExtraZeros(new BigNumber(native).plus(nativeToAdd)));
-			}
+			if (isLoading || !native || !nativeToAdd) return;
+
+			const increasedNative = Number(native) + Number(nativeToAdd);
+			onNativeChange(increasedNative.toString());
 		};
 
 		const handleApplyNextLevelAmount = () => {
-			if (native && amountToReachNextLevel) {
-				onNativeChange(formatWithoutExtraZeros(new BigNumber(native).plus(amountToReachNextLevel)));
-			}
+			if (isLoading || !native || !amountToReachNextLevel) return;
+
+			onNativeChange(formatWithoutExtraZeros(amountToReachNextLevel.plus(native)));
 		};
 
 		const handleIncreaseNative = () => {
-			if (native) {
-				onNativeChange(formatWithoutExtraZeros(new BigNumber(native).plus(1000)));
-			}
+			if (isLoading || !native) return;
+
+			const increasedNative = Number(native) + 1000;
+			onNativeChange(increasedNative.toString());
 		};
 
 		const handleReduceNative = () => {
-			if (native) {
-				const reducedNative = new BigNumber(native).minus(1000);
-				onNativeChange(formatWithoutExtraZeros(BigNumber.max(reducedNative, 0)));
-			}
+			if (isLoading || !native) return;
+
+			const reducedNative = Number(native) - 1000;
+			const sanitizedReducedNative = Math.max(reducedNative, 0);
+			onNativeChange(sanitizedReducedNative.toString());
 		};
 
 		const handleIncreaseNonNative = () => {
-			if (nonNative) {
-				onNonNativeChange(formatWithoutExtraZeros(new BigNumber(nonNative).plus(1000)));
-			}
+			if (isLoading || !nonNative) return;
+
+			const increaseNonNative = Number(nonNative) + 1000;
+			onNonNativeChange(increaseNonNative.toString());
 		};
 
 		const handleReduceNonNative = () => {
-			if (nonNative) {
-				const reducedNonNative = new BigNumber(nonNative).minus(1000);
-				onNonNativeChange(formatWithoutExtraZeros(BigNumber.max(reducedNonNative, 0)));
-			}
+			if (isLoading || !nonNative) return;
+
+			const reducedNonNative = Number(nonNative) - 1000;
+			const sanitizedReducedNonNative = Math.max(reducedNonNative, 0);
+			onNonNativeChange(sanitizedReducedNonNative.toString());
 		};
 
 		const badgerScoreContent = isLoading ? (

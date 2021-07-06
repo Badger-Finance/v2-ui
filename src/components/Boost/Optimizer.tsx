@@ -106,13 +106,15 @@ export const Optimizer = observer(
 		};
 
 		const handleReset = () => {
-			if (nativeHoldings && nonNativeHoldings && accountDetails) {
-				setNative(formatWithoutExtraZeros(nativeHoldings, 3));
-				setNonNative(formatWithoutExtraZeros(nonNativeHoldings, 3));
-				setNativeToAdd(undefined);
-				setBoost(accountDetails.boost.toFixed(2));
-				setRank(accountDetails.boostRank.toString());
+			if (nativeHoldings === undefined || nonNativeHoldings === undefined || !accountDetails) {
+				return;
 			}
+
+			setNative(formatWithoutExtraZeros(nativeHoldings, 4));
+			setNonNative(formatWithoutExtraZeros(nonNativeHoldings, 4));
+			setNativeToAdd(undefined);
+			setBoost(accountDetails.boost.toFixed(2));
+			setRank(accountDetails.boostRank.toString());
 		};
 
 		const handleRankClick = (rankBoost: number) => {
@@ -169,12 +171,12 @@ export const Optimizer = observer(
 				setRank(String(accountDetails.boostRank));
 			}
 
-			if (nativeHoldings && native === undefined) {
-				setNative(formatWithoutExtraZeros(nativeHoldings, 3));
+			if (nativeHoldings !== undefined && native === undefined) {
+				setNative(formatWithoutExtraZeros(nativeHoldings, 4));
 			}
 
-			if (nonNativeHoldings && nonNative === undefined) {
-				setNonNative(formatWithoutExtraZeros(nonNativeHoldings, 3));
+			if (nonNativeHoldings !== undefined && nonNative === undefined) {
+				setNonNative(formatWithoutExtraZeros(nonNativeHoldings, 4));
 			}
 		}, [boost, rank, native, nonNative, accountDetails, nativeHoldings, nonNativeHoldings]);
 
