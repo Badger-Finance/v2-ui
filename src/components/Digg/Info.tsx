@@ -1,4 +1,4 @@
-import { Grid, Typography, Paper, makeStyles, Button } from '@material-ui/core';
+import { Grid, Paper, makeStyles, Button, Typography } from '@material-ui/core';
 import React, { useState, useContext } from 'react';
 import { StoreContext } from '../../mobx/store-context';
 import useInterval from '@use-it/interval';
@@ -8,12 +8,11 @@ import Metric from './Metric';
 import { shortenNumbers } from '../../mobx/utils/diggHelpers';
 import { inCurrency } from 'mobx/utils/helpers';
 import { ETH_DEPLOY } from 'web3/config/eth-config';
+import { InfoItem } from './InfoItem';
+import BigNumber from 'bignumber.js';
+import NoWallet from 'components/Common/NoWallet';
 
 const useStyles = makeStyles((theme) => ({
-	before: {
-		marginTop: theme.spacing(3),
-		width: '100%',
-	},
 	statPaper: {
 		padding: theme.spacing(2),
 		textAlign: 'center',
@@ -21,8 +20,13 @@ const useStyles = makeStyles((theme) => ({
 	},
 	darkPaper: {
 		padding: theme.spacing(2),
-		textAlign: 'center',
 		boxShadow: 'none',
+		display: 'flex',
+		width: '99%',
+		flexDirection: 'column',
+		alignItems: 'center',
+		marginTop: theme.spacing(2),
+		marginBottom: theme.spacing(2),
 		background: theme.palette.secondary.main,
 	},
 	darkActions: {
@@ -76,6 +80,22 @@ const useStyles = makeStyles((theme) => ({
 			margin: 0,
 		},
 	},
+	metricsContainer: {
+		display: 'flex',
+		justifyContent: 'space-around',
+		width: '100%',
+		padding: theme.spacing(2),
+		[theme.breakpoints.down('sm')]: {
+			flexDirection: 'column',
+		},
+	},
+	updatedAt: {
+		marginBottom: theme.spacing(1),
+	},
+	learnMoreButton: {
+		marginBottom: theme.spacing(2.5),
+		width: '135px',
+	},
 }));
 
 const Info = observer(() => {
@@ -84,11 +104,13 @@ const Info = observer(() => {
 		setts: { settMap },
 		uiState: { currency },
 		rebase: { rebase },
-		wallet: { network },
+		wallet: { connectedAddress },
 		prices,
 	} = store;
+
 	const classes = useStyles();
 	const [nextRebase, setNextRebase] = useState('00:00:00');
+
 	useInterval(() => {
 		if (!!rebase && !!rebase.nextRebase) {
 			const zero = new Date(0);
@@ -98,30 +120,35 @@ const Info = observer(() => {
 		}
 	}, 1000);
 
-	if (!rebase) {
+	if (!connectedAddress) {
+		return <NoWallet message="Connect wallet to see DIGG rebase statistics." />;
+	}
+
+	if (!rebase || !settMap) {
 		return <Loader message="Loading DIGG data..." />;
 	}
 
-	const wbtc = network.deploy.tokens.wBTC;
-	const wbtcPrice = prices.getPrice(wbtc);
-	const oraclePrice = rebase.oracleRate.multipliedBy(wbtcPrice);
-	const rebasePercent = oraclePrice.minus(wbtcPrice).dividedBy(wbtcPrice).multipliedBy(10);
-	const showRebase = rebasePercent && isFinite(rebasePercent.toNumber());
+	// reference implementation
+	// https://badger-finance.gitbook.io/badger-finance/digg/digg-faq
+	const wbtcPrice = prices.getPrice(ETH_DEPLOY.tokens.wBTC);
+	const diggPrice = rebase.oracleRate.multipliedBy(wbtcPrice);
+	const priceDelta = rebase.oracleRate.minus(1);
+	const rebasePercent = priceDelta.gt(0.05) || priceDelta.lt(-0.05) ? priceDelta.multipliedBy(10) : new BigNumber(0);
+	const lastRebase = new Date(rebase.lastRebaseTimestampSec * 1000);
 
-	let rebaseStyle = {};
-	if (showRebase) {
-		const rebaseTextColor = rebasePercent.gt(0) ? 'green' : 'red';
-		rebaseStyle = { color: rebaseTextColor };
-	}
-	const ppfs = settMap ? settMap[ETH_DEPLOY.sett_system.vaults['native.digg']].ppfs : undefined;
-	const spacer = () => <div className={classes.before} />;
+	const rebaseTextColor = rebasePercent.gt(0) ? '#5efc82' : 'red';
+	const rebaseStyle = { color: rebaseTextColor };
+	const sign = rebasePercent.gt(0) ? '+' : '-';
+	const rebaseDisplay = `${sign}${rebasePercent.toFixed(6)}%`;
+	const ppfs = settMap[ETH_DEPLOY.sett_system.vaults['native.digg']].ppfs;
+
 	return (
 		<>
-			<Grid item xs={6} md={6}>
+			<Grid item xs={12} md={6}>
 				<Metric metric="BTC Price" value={inCurrency(wbtcPrice, currency)} />
 			</Grid>
-			<Grid item xs={6} md={6}>
-				<Metric metric="DIGG Price" value={inCurrency(oraclePrice, currency)} />
+			<Grid item xs={12} md={6}>
+				<Metric metric="DIGG Price" value={inCurrency(diggPrice, currency)} />
 			</Grid>
 			<Grid item xs={12} md={6}>
 				<Metric
@@ -129,31 +156,33 @@ const Info = observer(() => {
 					value={rebase.totalSupply ? shortenNumbers(rebase.totalSupply, '', 2) : '-'}
 				/>
 			</Grid>
-			<Grid item xs={6} md={6}>
+			<Grid item xs={12} md={6}>
 				<Metric metric="Time To Rebase" value={nextRebase} />
 			</Grid>
-			{spacer()}
-			<Grid item xs={12} md={6} style={{ textAlign: 'center' }}>
-				<Paper className={classes.darkPaper}>
-					<Typography variant="body1">1 bDIGG = {!!ppfs ? ppfs.toFixed(9) : '...'} DIGG</Typography>
-					<Typography variant="body2">
-						Potential Rebase ={' '}
-						<span style={rebaseStyle}>{`${showRebase ? rebasePercent.toFixed(5) : '-'}%`}</span>
-					</Typography>
-				</Paper>
-				<Button
-					aria-label="Learn More"
-					variant="text"
-					fullWidth
-					size="small"
-					color="primary"
-					href="https://badger.finance/digg"
-					target="_"
-				>
-					Learn More
-				</Button>
-			</Grid>
-			{spacer()}
+			<Paper className={classes.darkPaper}>
+				<div className={classes.metricsContainer}>
+					<InfoItem metric="bDIGG Multiplier">{!!ppfs ? ppfs.toFixed(9) : '...'}</InfoItem>
+					<InfoItem metric="Potential Rebase">
+						<span style={rebaseStyle}>{rebaseDisplay}</span>
+					</InfoItem>
+					<InfoItem metric="Oracle Rate">{rebase.oracleRate.toFixed()}</InfoItem>
+				</div>
+				<Typography variant="caption" className={classes.updatedAt}>
+					Last Updated {lastRebase.toLocaleString()}
+				</Typography>
+			</Paper>
+			<Button
+				aria-label="Learn More"
+				variant="contained"
+				fullWidth
+				size="small"
+				color="primary"
+				href="https://badger.finance/digg"
+				target="_"
+				className={classes.learnMoreButton}
+			>
+				Learn More
+			</Button>
 		</>
 	);
 });

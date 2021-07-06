@@ -1,5 +1,9 @@
 # v2 UI Changelog
 
+### v2.8.2 - 07/06/2021
+
+-   updated digg chainlink oracle contract, exposed some more rebase information
+
 ### Hotfix - 07/05/2021
 
 -   updated digg oracle

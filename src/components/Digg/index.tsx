@@ -12,20 +12,16 @@ const useStyles = makeStyles((theme) => ({
 		[theme.breakpoints.up('md')]: {
 			paddingLeft: theme.spacing(30),
 		},
+		marginBottom: theme.spacing(5),
 	},
 	headerContainer: {
 		marginTop: theme.spacing(3),
 		marginBottom: theme.spacing(3),
 	},
-	before: {
-		marginTop: theme.spacing(5),
-		width: '100%',
-	},
 }));
 
 export const Digg = observer(() => {
 	const classes = useStyles();
-	const spacer = () => <div className={classes.before} />;
 	const store = useContext(StoreContext);
 	const { network } = store.wallet;
 
@@ -49,7 +45,6 @@ export const Digg = observer(() => {
 						</Grid>
 					</>
 				)}
-				{spacer()}
 			</Grid>
 		</Container>
 	);
