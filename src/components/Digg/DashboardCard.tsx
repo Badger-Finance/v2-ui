@@ -1,10 +1,11 @@
-import { Button, ButtonGroup, Card, CardContent, Tabs, Tab, CardHeader, CircularProgress } from '@material-ui/core';
+import { Button, ButtonGroup, Card, CardContent, Tabs, Tab, CardHeader } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import React, { useState, useEffect } from 'react';
 
 import AreaChart from './AreaChart';
 import { observer } from 'mobx-react-lite';
 import { fetchDiggChart } from '../../mobx/utils/helpers';
+import { Loader } from 'components/Loader';
 
 const useStyles = makeStyles((theme) => ({
 	chartHeader: {
@@ -113,7 +114,7 @@ const DashboardCard = observer(() => {
 					minHeight: '10rem',
 				}}
 			>
-				<CircularProgress />
+				<Loader message="Loading DIGG charts..." />
 			</CardContent>
 		</Card>
 	);
