@@ -16,6 +16,7 @@ import {
 	AmountTextField,
 	AssetInformationContainer,
 	BalanceInformation,
+	LoaderSpinner,
 	PercentagesContainer,
 	TextSkeleton,
 } from './Common';
@@ -47,6 +48,7 @@ export const VaultDeposit = observer((props: SettModalProps) => {
 	const depositBalance = TokenBalance.fromBalance(userBalance, amount ?? '0');
 	const vaultCaps = user.vaultCaps[sett.vaultToken];
 
+	const isLoading = contracts.settsBeingDeposited.findIndex((_sett) => _sett.name === sett.name) >= 0;
 	let canDeposit = !!amount && depositBalance.tokenBalance.gt(0);
 	if (canDeposit && vaultCaps) {
 		const vaultHasSpace = vaultCaps.vaultCap.tokenBalance.gte(depositBalance.tokenBalance);
@@ -106,13 +108,20 @@ export const VaultDeposit = observer((props: SettModalProps) => {
 				<ActionButton
 					aria-label="Deposit"
 					size="large"
-					disabled={!canDeposit}
+					disabled={isLoading || !canDeposit}
 					onClick={handleSubmit}
 					variant="contained"
 					color="primary"
 					fullWidth
 				>
-					Deposit
+					{isLoading ? (
+						<>
+							Deposit In Process
+							<LoaderSpinner size={20} />
+						</>
+					) : (
+						'Deposit'
+					)}
 				</ActionButton>
 			</DialogActions>
 			{user.vaultCaps[sett.vaultToken] && <SettAvailableDeposit vaultCapInfo={user.vaultCaps[sett.vaultToken]} />}
