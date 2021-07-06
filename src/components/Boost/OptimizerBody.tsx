@@ -206,7 +206,7 @@ export const OptimizerBody = observer(
 		const handleApplyNextLevelAmount = () => {
 			if (isLoading || !native || !amountToReachNextLevel) return;
 
-			onNativeChange(formatWithoutExtraZeros(amountToReachNextLevel.plus(native)));
+			onNativeChange(formatWithoutExtraZeros(amountToReachNextLevel.plus(native), 4));
 		};
 
 		const handleIncreaseNative = () => {
