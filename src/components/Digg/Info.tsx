@@ -10,6 +10,7 @@ import { inCurrency } from 'mobx/utils/helpers';
 import { ETH_DEPLOY } from 'web3/config/eth-config';
 import { InfoItem } from './InfoItem';
 import BigNumber from 'bignumber.js';
+import NoWallet from 'components/Common/NoWallet';
 
 const useStyles = makeStyles((theme) => ({
 	statPaper: {
@@ -103,10 +104,13 @@ const Info = observer(() => {
 		setts: { settMap },
 		uiState: { currency },
 		rebase: { rebase },
+		wallet: { connectedAddress },
 		prices,
 	} = store;
+
 	const classes = useStyles();
 	const [nextRebase, setNextRebase] = useState('00:00:00');
+
 	useInterval(() => {
 		if (!!rebase && !!rebase.nextRebase) {
 			const zero = new Date(0);
@@ -116,7 +120,11 @@ const Info = observer(() => {
 		}
 	}, 1000);
 
-	if (!rebase) {
+	if (!connectedAddress) {
+		return <NoWallet message="Connect wallet to see DIGG rebase statistics." />;
+	}
+
+	if (!rebase || !settMap) {
 		return <Loader message="Loading DIGG data..." />;
 	}
 
@@ -125,19 +133,15 @@ const Info = observer(() => {
 	const wbtcPrice = prices.getPrice(ETH_DEPLOY.tokens.wBTC);
 	const diggPrice = rebase.oracleRate.multipliedBy(wbtcPrice);
 	const priceDelta = rebase.oracleRate.minus(1);
+	const rebasePercent = priceDelta.gt(0.05) ? priceDelta.multipliedBy(10) : new BigNumber(0);
 	const lastRebase = new Date(rebase.lastRebaseTimestampSec * 1000);
-	const rebasePercent = new BigNumber(1).plus(priceDelta.dividedBy(10));
-	const showRebase = rebasePercent && isFinite(rebasePercent.toNumber());
 
-	let rebaseDisplay = '-';
-	let rebaseStyle = {};
-	if (showRebase) {
-		const rebaseTextColor = rebasePercent.gt(0) ? '#5efc82' : 'red';
-		rebaseStyle = { color: rebaseTextColor };
-		const sign = rebasePercent.gt(0) ? '+' : '-';
-		rebaseDisplay = `${sign}${rebasePercent.toFixed(6)}%`;
-	}
-	const ppfs = settMap ? settMap[ETH_DEPLOY.sett_system.vaults['native.digg']].ppfs : undefined;
+	const rebaseTextColor = rebasePercent.gt(0) ? '#5efc82' : 'red';
+	const rebaseStyle = { color: rebaseTextColor };
+	const sign = rebasePercent.gt(0) ? '+' : '-';
+	const rebaseDisplay = `${sign}${rebasePercent.toFixed(6)}%`;
+	const ppfs = settMap[ETH_DEPLOY.sett_system.vaults['native.digg']].ppfs;
+
 	return (
 		<>
 			<Grid item xs={12} md={6}>
