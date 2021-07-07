@@ -129,8 +129,7 @@ class BridgeStore {
 	constructor(store: RootStore) {
 		this.store = store;
 		this.db = fbase.firestore();
-		// TODO: delete 'testnet' and use default when going to prod
-		this.renJS = new RenJS('testnet');
+		this.renJS = new RenJS('mainnet');
 		// NB: At construction time, the value of wallet provider is unset so we cannot fetch network
 		// from provider. Align network init logic w/ how it works in the walletStore.
 		const network = getNetwork();
@@ -580,11 +579,11 @@ class BridgeStore {
 					bCRVtBTCBalance,
 				] = await Promise.all([
 					this.renbtc.methods.balanceOf(userAddr).call(),
-					0, //this.wbtc.methods.balanceOf(userAddr).call(),
-					0, //this.byvwbtc.methods.balanceOf(userAddr).call(),
-					0, //this.bCRVrenBTC.methods.balanceOf(userAddr).call(),
-					0, //this.bCRVsBTC.methods.balanceOf(userAddr).call(),
-					0, //this.bCRVtBTC.methods.balanceOf(userAddr).call(),
+					this.wbtc.methods.balanceOf(userAddr).call(),
+					this.byvwbtc.methods.balanceOf(userAddr).call(),
+					this.bCRVrenBTC.methods.balanceOf(userAddr).call(),
+					this.bCRVsBTC.methods.balanceOf(userAddr).call(),
+					this.bCRVtBTC.methods.balanceOf(userAddr).call(),
 				]);
 
 				this.renbtcBalance = new BigNumber(renbtcBalance).dividedBy(DECIMALS).toNumber();
