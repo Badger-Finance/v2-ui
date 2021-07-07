@@ -1,5 +1,10 @@
 # v2 UI Changelog
 
+### v2.8.3 - 07/08/2021
+
+-   unguard convex setts
+-   informational updates to digg rebase percent display
+
 ### v2.8.2 - 07/06/2021
 
 -   updated digg chainlink oracle contract, exposed some more rebase information
