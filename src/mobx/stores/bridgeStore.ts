@@ -441,7 +441,7 @@ class BridgeStore {
 
 		try {
 			const parsedTx = tx.encodedTx ? JSON.parse(tx.encodedTx) : toJS(tx);
-			const web3 = (window as any).web3;
+			const web3 = new Web3(this.store.wallet.provider);
 			if (parsedTx.params.contractFn === 'mint') {
 				checkUserAddrInvariantAndThrow(parsedTx);
 				const mint = await this.renJS.lockAndMint({
