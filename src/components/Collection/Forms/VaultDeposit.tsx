@@ -44,14 +44,15 @@ export const VaultDeposit = observer((props: SettModalProps) => {
 	}
 
 	const userBalance = user.getBalance(ContractNamespace.Token, badgerSett);
+	const depositBalance = TokenBalance.fromBalance(userBalance, amount ?? '0');
 	const vaultCaps = user.vaultCaps[sett.vaultToken];
 
-	let canDeposit = !!amount;
+	let canDeposit = !!amount && depositBalance.tokenBalance.gt(0);
 	if (canDeposit && vaultCaps) {
-		const vaultCanDeposit = vaultCaps.vaultCap.tokenBalance.gte(userBalance.tokenBalance);
-		const userCanDeposit =
-			vaultCaps.userCap.tokenBalance.gte(userBalance.tokenBalance) && userBalance.balance.gt(0);
-		canDeposit = vaultCanDeposit && userCanDeposit;
+		const vaultHasSpace = vaultCaps.vaultCap.tokenBalance.gte(depositBalance.tokenBalance);
+		const userHasSpace = vaultCaps.userCap.tokenBalance.gte(depositBalance.tokenBalance);
+		const userHasBalance = userBalance.tokenBalance.gte(depositBalance.tokenBalance);
+		canDeposit = vaultHasSpace && userHasSpace && userHasBalance;
 	}
 
 	const handlePercentageChange = (percent: number) => {
@@ -62,7 +63,6 @@ export const VaultDeposit = observer((props: SettModalProps) => {
 		if (!amount) {
 			return;
 		}
-		const depositBalance = TokenBalance.fromBalance(userBalance, amount);
 		await contracts.deposit(sett, badgerSett, userBalance, depositBalance);
 	};
 
@@ -92,7 +92,6 @@ export const VaultDeposit = observer((props: SettModalProps) => {
 					</PercentagesContainer>
 				</Grid>
 				<StrategyInfo vaultAddress={vaultToken.address} network={network} />
-
 				<AmountTextField
 					disabled={!connectedAddress}
 					variant="outlined"
@@ -116,7 +115,7 @@ export const VaultDeposit = observer((props: SettModalProps) => {
 					Deposit
 				</ActionButton>
 			</DialogActions>
-			{sett.hasBouncer && <SettAvailableDeposit vaultCapInfo={user.vaultCaps[vaultToken.address]} />}
+			{user.vaultCaps[sett.vaultToken] && <SettAvailableDeposit vaultCapInfo={user.vaultCaps[sett.vaultToken]} />}
 		</>
 	);
 });

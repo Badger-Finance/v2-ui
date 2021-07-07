@@ -1,6 +1,6 @@
 import UFragments from './abis/UFragments.json';
 import UFragmentsPolicy from './abis/UFragmentsPolicy.json';
-import MedianOracle from './abis/MedianOracle.json';
+import ChainlinkPricefeed from './abis/ChainlinkPricefeed.json';
 import Orchestrator from './abis/Orchestrator.json';
 import { digg_system } from '../deployments/mainnet.json';
 import { RebaseNetworkConfig } from '../../mobx/model';
@@ -30,14 +30,18 @@ export const getRebase = (network?: string | null): RebaseNetworkConfig | undefi
 						namespace: 'policy',
 					},
 					{
-						addresses: [digg_system.marketMedianOracle],
-						abi: MedianOracle.abi as AbiItem[],
+						addresses: [digg_system.chainlinkPriceFeed],
+						abi: ChainlinkPricefeed.abi as AbiItem[],
 						groupByNamespace: true,
 						namespace: 'oracle',
 						readMethods: [
 							{
-								name: 'providerReports',
-								args: [digg_system.centralizedOracle, 0],
+								name: 'latestAnswer',
+								args: [],
+							},
+							{
+								name: 'latestTimestamp',
+								args: [],
 							},
 						],
 					},

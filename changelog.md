@@ -1,5 +1,32 @@
 # v2 UI Changelog
 
+### v2.8.2 - 07/06/2021
+
+-   updated digg chainlink oracle contract, exposed some more rebase information
+
+### Hotfix - 07/05/2021
+
+-   updated digg oracle
+-   fixed an issue causing account balance updates to be delayed 
+
+### v2.8.1 - 07/01/2021
+
+-   introduced guarded vaults to the app
+
+### Hotfix - 06/30/2021
+
+-   fixed an issue stopping deposits on unguarded setts
+
+### Hotfix - 06/28/2021
+
+-   fixed an issue causing users to not be able to deposit into guarded setts when their wallet balance exceeded the cap
+
+### v2.8.0 - 06/23/2021
+
+-   introduced experimental vaults to the badger arcade
+-   added 5 new experimental convex vaults
+-   added 2 new experimental convex helper vaults
+
 ### Hotfix - 06/17/2021
 
 -   fixed an issue with ibBTC redeem validation that was blocking all redeems

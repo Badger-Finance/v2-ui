@@ -23,10 +23,10 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-type MetricProps = {
+export interface MetricProps {
 	metric: string;
-	value: string | undefined;
-};
+	value?: string;
+}
 
 const Metric = observer((props: MetricProps) => {
 	const { metric, value } = props;

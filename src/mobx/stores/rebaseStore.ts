@@ -11,14 +11,13 @@ let batchCall: any = null;
 
 class RebaseStore {
 	private store!: RootStore;
-
-	public rebase?: RebaseInfo; // rebase contract data
+	public rebase?: RebaseInfo;
 
 	constructor(store: RootStore) {
 		this.store = store;
 
 		extendObservable(this, {
-			rebase: {},
+			rebase: this.rebase,
 		});
 	}
 
@@ -47,12 +46,12 @@ class RebaseStore {
 		const diggData = await batchCall.execute(network.rebase.digg);
 		const keyedResult = groupBy(diggData, (v) => v.namespace);
 
-		if (!keyedResult.token || !keyedResult.token[0].decimals || !keyedResult.oracle[0].providerReports[0].value) {
+		if (!keyedResult.token || !keyedResult.token[0].decimals || !keyedResult.oracle[0].latestAnswer[0].value) {
 			return;
 		}
 
 		const minRebaseTimeIntervalSec = parseInt(keyedResult.policy[0].minRebaseTimeIntervalSec[0].value);
-		const lastRebaseTimestampSec = parseInt(keyedResult.policy[0].lastRebaseTimestampSec[0].value);
+		const lastRebaseTimestampSec = parseInt(keyedResult.oracle[0].latestTimestamp[0].value);
 		const decimals = parseInt(keyedResult.token[0].decimals[0].value);
 		this.rebase = {
 			totalSupply: new BigNumber(keyedResult.token[0].totalSupply[0].value).dividedBy(Math.pow(10, decimals)),
@@ -64,12 +63,11 @@ class RebaseStore {
 			inRebaseWindow: false,
 			rebaseWindowLengthSec: parseInt(keyedResult.policy[0].rebaseWindowLengthSec[0].value),
 			oracleRate: !!keyedResult.oracle
-				? new BigNumber(keyedResult.oracle[0].providerReports[0].value.payload).dividedBy(1e18)
+				? new BigNumber(keyedResult.oracle[0].latestAnswer[0].value).dividedBy(1e8)
 				: new BigNumber(1),
 			nextRebase: getNextRebase(minRebaseTimeIntervalSec, lastRebaseTimestampSec),
 			pastRebase: rebaseLog,
 		};
-		this.store.uiState.reduceRebase();
 	});
 }
 

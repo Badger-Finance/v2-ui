@@ -176,7 +176,9 @@
 		"centralizedOracle": "0x72dc16CFa95beB42aeebD2B10F22E55bD17Ce976",
 		"daoDiggTimelock": "0x5A54Ca44e8F5A1A695f8621f15Bfa159a140bB61",
 		"diggTeamVesting": "0x124FD4A9bd4914b32c77C9AE51819b1181dbb3D4",
-		"diggDistributor": "0x5E79958EfbB8AFdeDB6EC7107110F329e4EAfffA"
+		"diggDistributor": "0x5E79958EfbB8AFdeDB6EC7107110F329e4EAfffA",
+		"chainlinkOracle": "0xe49CA29a3AD94713Fc14f065125E74906a6503BB",
+		"chainlinkPriceFeed": "0x418a6C98CD5B8275955f08F0b8C1c6838c8b1685"
 	},
 	"bridge_system": {
 		"adapter": "0xcB5c2B0FE765069708f17376981C9aFE56Fed339",

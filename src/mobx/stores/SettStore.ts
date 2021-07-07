@@ -1,33 +1,32 @@
 import { extendObservable, action, observe, IValueDidChange } from 'mobx';
 import { RootStore } from '../store';
 import { getTokens, getTotalValueLocked, listSetts } from 'mobx/utils/apiV2';
-import { Sett, ProtocolSummary, SettMap } from 'mobx/model';
+import { Sett, ProtocolSummary, SettMap, SettState } from 'mobx/model';
 import { NETWORK_LIST } from 'config/constants';
 import Web3 from 'web3';
 import WalletStore from './walletStore';
-import { TokenConfig } from 'mobx/model/token-config';
 import { Token } from 'mobx/model/token';
+import { TokenCache } from './interface/token-cache';
+import { SettCache } from './interface/sett-cache';
+import { ProtocolSummaryCache } from './interface/protocol-summary-cache';
+import { TokenConfig } from 'mobx/model/token-config';
 
 export default class SettStore {
 	private store!: RootStore;
 
 	// loading: undefined, error: null, present: object
-	private settCache: { [chain: string]: Sett[] | undefined | null };
-	private tokenCache: { [chain: string]: TokenConfig | undefined | null };
-	private settMapCache: { [chain: string]: SettMap | undefined | null };
-	private experimentalMapCache: { [chain: string]: SettMap | undefined | null };
-	private protocolSummaryCache: { [chain: string]: ProtocolSummary | undefined | null };
+	private tokenCache: TokenCache;
+	private settCache: SettCache;
+	private protocolSummaryCache: ProtocolSummaryCache;
 	public initialized: boolean;
 
 	constructor(store: RootStore) {
 		this.store = store;
 
 		extendObservable(this, {
-			settCache: undefined,
 			tokenCache: undefined,
 			protocolSummaryCache: undefined,
-			settMapCache: undefined,
-			experimentalMapCache: undefined,
+			settCache: undefined,
 			priceCache: undefined,
 		});
 
@@ -45,38 +44,40 @@ export default class SettStore {
 			this.refresh();
 		});
 
-		this.settCache = {};
 		this.tokenCache = {};
-		this.settMapCache = {};
-		this.experimentalMapCache = {};
+		this.settCache = {};
 		this.protocolSummaryCache = {};
 		this.initialized = false;
 
 		this.refresh();
 	}
 
-	get settList(): Sett[] | undefined | null {
-		return this.settCache[this.store.wallet.network.name];
-	}
-
 	get settMap(): SettMap | undefined | null {
-		return this.settMapCache[this.store.wallet.network.name];
-	}
-
-	get experimentalMap(): SettMap | undefined | null {
-		return this.experimentalMapCache[this.store.wallet.network.name];
+		return this.settCache[this.store.wallet.network.name];
 	}
 
 	get protocolSummary(): ProtocolSummary | undefined | null {
 		return this.protocolSummaryCache[this.store.wallet.network.name];
 	}
 
+	get tokenConfig(): TokenConfig | undefined | null {
+		return this.tokenCache[this.store.wallet.network.name];
+	}
+
 	getSett(address: string): Sett | undefined {
-		const settMap: SettMap = {
-			...this.settMap,
-			...this.experimentalMap,
-		};
-		return settMap[Web3.utils.toChecksumAddress(address)];
+		if (!this.settMap) {
+			return;
+		}
+		return this.settMap[Web3.utils.toChecksumAddress(address)];
+	}
+
+	getSettMap(state: SettState): SettMap | undefined | null {
+		const network = this.store.wallet.network;
+		const setts = this.settCache[network.name];
+		if (!setts) {
+			return setts;
+		}
+		return Object.fromEntries(Object.entries(setts).filter((entry) => entry[1].state === state));
 	}
 
 	getToken(address: string): Token | undefined {
@@ -107,8 +108,9 @@ export default class SettStore {
 			chain = chain ?? NETWORK_LIST.ETH;
 			const settList = await listSetts(chain);
 			if (settList) {
-				this.settCache[chain] = settList;
-				[this.settMapCache[chain], this.experimentalMapCache[chain]] = this.keySettByContract(settList);
+				this.settCache[chain] = Object.fromEntries(settList.map((sett) => [sett.vaultToken, sett]));
+			} else {
+				this.settCache[chain] = null;
 			}
 		},
 	);
@@ -119,6 +121,8 @@ export default class SettStore {
 			const tokenConfig = await getTokens(chain);
 			if (tokenConfig) {
 				this.tokenCache[chain] = tokenConfig;
+			} else {
+				this.tokenCache[chain] = null;
 			}
 		},
 	);
@@ -129,21 +133,9 @@ export default class SettStore {
 			const protocolSummary = await getTotalValueLocked(chain);
 			if (protocolSummary) {
 				this.protocolSummaryCache[chain] = protocolSummary;
+			} else {
+				this.protocolSummaryCache[chain] = null;
 			}
 		},
 	);
-
-	// HELPERS
-	// Input: Array of Sett objects
-	// Output: Objects keyed by the sett address and experimental flag
-	keySettByContract = action((settList: Sett[] | undefined | null): { [geyser: string]: Sett }[] => {
-		const map: { [geyser: string]: Sett } = {};
-		const experimentalMap: { [geyser: string]: Sett } = {};
-		if (settList) {
-			settList.forEach((sett) =>
-				sett.experimental ? (experimentalMap[sett.vaultToken] = sett) : (map[sett.vaultToken] = sett),
-			);
-		}
-		return [map, experimentalMap];
-	});
 }

@@ -64,6 +64,8 @@ export const CLAIMS_SYMBOLS: ClaimsSymbols = {
 		[sett_system.vaults['native.badger']]: 'bBadger',
 		[sett_system.vaults['native.digg']]: 'bDigg',
 		[tokens.defiDollar]: 'Defi Dollar',
+		[sett_system.vaults['native.cvx']]: 'bCVX',
+		[sett_system.vaults['native.cvxCrv']]: 'bcvxCRV',
 	},
 };
 
@@ -79,7 +81,7 @@ export const APP_NAME = 'badgerDAO';
 export const PORTIS_APP_ID = 'cbf7534d-170d-4903-943f-e607dc588b7f';
 export const EMPTY_DATA = '0x';
 export const ZERO_CURRENCY = '0.00000';
-export const SITE_VERSION = 'v2.7.8';
+export const SITE_VERSION = 'v2.8.2';
 export const WC_BRIDGE = 'https://wc-bridge.badger.finance/';
 
 const toBool = (val: string | undefined): boolean => (val ? val.toLowerCase() === 'true' : false);
@@ -87,10 +89,8 @@ const toBool = (val: string | undefined): boolean => (val ? val.toLowerCase() ==
 export const FLAGS = {
 	WBTC_FLAG: toBool(process.env.REACT_APP_BRIDGE_WBTC),
 	GEYSER_FLAG: toBool(process.env.REACT_APP_GEYSER_ENABLED),
-	EXPERIMENTAL_VAULTS: toBool(process.env.REACT_APP_EXPERIMENTAL_VAULTS),
 	BOOST_V2: toBool(process.env.REACT_APP_BOOST_V2),
 	IBBTC_OPTIONS_FLAG: toBool(process.env.REACT_APP_IBBTC_OPTIONS_FLAG),
-	CONVEX_SETTS: toBool(process.env.REACT_APP_CONVEX_SETTS),
 	STABILIZATION_SETTS: toBool(process.env.REACT_APP_STABILIZATION_SETTS),
 	BOOST_OPTIMIZER: toBool(process.env.REACT_APP_BOOST_OPTIMIZER),
 };

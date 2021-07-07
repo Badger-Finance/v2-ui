@@ -4,7 +4,7 @@ import Landing from '../pages/Landing';
 import '@testing-library/jest-dom';
 import { StoreProvider } from '../mobx/store-context';
 import store from '../mobx/store';
-import { EthNetwork } from 'mobx/model';
+import { EthNetwork, SettState } from 'mobx/model';
 import BigNumber from 'bignumber.js';
 import { mockApi } from './utils/apiV2';
 
@@ -25,10 +25,13 @@ describe('Landing Page', () => {
 	test('Renders correctly', async () => {
 		const { container } = customRender(
 			<StoreProvider value={store}>
-				<Landing experimental={false} />
+				<Landing
+					title="Test Bitcoin Strategies"
+					subtitle="Snapshots are great. Landing looks good."
+					state={SettState.Open}
+				/>
 			</StoreProvider>,
 		);
-		//await screen.findByText('All Setts');
 		expect(container).toMatchSnapshot();
 	});
 });
