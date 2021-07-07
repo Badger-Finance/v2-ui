@@ -114,7 +114,6 @@ const Info = observer(() => {
 	useInterval(() => {
 		if (!!rebase && !!rebase.nextRebase) {
 			const zero = new Date(0);
-
 			zero.setTime(rebase.nextRebase.getTime() - new Date().getTime());
 			setNextRebase(zero.toISOString().substr(11, 8));
 		}
@@ -134,10 +133,8 @@ const Info = observer(() => {
 	const diggPrice = rebase.oracleRate.multipliedBy(wbtcPrice);
 	const priceDelta = rebase.oracleRate.minus(1);
 	const rebasePercent = priceDelta.gt(0.05) || priceDelta.lt(-0.05) ? priceDelta.multipliedBy(10) : new BigNumber(0);
-	const answerTimestamp = rebase.latestAnswerTimestamp * 1000;
-	const twoHours = 1000 * 60 * 60 * 2;
-	const isValidTwap = Date.now() - answerTimestamp <= twoHours;
-	const lastRebase = new Date(answerTimestamp);
+	const lastOracleUpdate = new Date(rebase.latestAnswerTimestamp * 1000);
+	const isValidTwap = rebase.lastRebaseTimestampSec < rebase.latestAnswerTimestamp;
 
 	const rebaseTextColor = rebasePercent.gt(0) ? '#5efc82' : 'red';
 	const rebaseStyle = { color: rebaseTextColor };
@@ -171,7 +168,7 @@ const Info = observer(() => {
 					<InfoItem metric="Oracle Rate">{rebase.oracleRate.toFixed()}</InfoItem>
 				</div>
 				<Typography variant="caption" className={classes.updatedAt}>
-					Last Updated {lastRebase.toLocaleString()}
+					Last Updated {lastOracleUpdate.toLocaleString()}
 				</Typography>
 			</Paper>
 			<Button
