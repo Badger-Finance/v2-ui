@@ -18,13 +18,13 @@ interface Props {
 export const RankList = ({ currentBoost, accountBoost, onRankClick }: Props): JSX.Element => {
 	return (
 		<>
-			{LEADERBOARD_RANKS.map((rank) => {
+			{LEADERBOARD_RANKS.map((rank, index) => {
 				const isObtained = accountBoost ? accountBoost > 1 && accountBoost >= rank.boostRangeStart : false;
 				const isLocked = Number(currentBoost) < rank.boostRangeStart;
 				const isCurrentBoost = Number(currentBoost) === rank.boostRangeStart;
 
 				const rankItem = (
-					<Grid container alignItems="flex-end">
+					<Grid container alignItems="flex-end" key={`${index}_${rank.boostRangeStart}_${rank.name}`}>
 						<Grid item>
 							<RankConnector
 								boost={Number(currentBoost)}
@@ -35,7 +35,6 @@ export const RankList = ({ currentBoost, accountBoost, onRankClick }: Props): JS
 						<Grid item xs>
 							<StyledButtonBase onClick={() => onRankClick(rank.boostRangeStart)}>
 								<RankLevel
-									key={`${rank.boostRangeStart}_${rank.name}`}
 									name={rank.name}
 									boost={rank.boostRangeStart}
 									obtained={isObtained}
@@ -53,7 +52,7 @@ export const RankList = ({ currentBoost, accountBoost, onRankClick }: Props): JS
 							arrow
 							placement="left"
 							color="primary"
-							key={`${rank.boostRangeStart}_${rank.name}`}
+							key={`${index}_${rank.name}_${rank.boostRangeStart}`}
 						>
 							{rankItem}
 						</Tooltip>
