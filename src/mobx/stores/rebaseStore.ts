@@ -51,13 +51,14 @@ class RebaseStore {
 		}
 
 		const minRebaseTimeIntervalSec = parseInt(keyedResult.policy[0].minRebaseTimeIntervalSec[0].value);
-		const lastRebaseTimestampSec = parseInt(keyedResult.oracle[0].latestTimestamp[0].value);
+		const lastRebaseTimestampSec = parseInt(keyedResult.policy[0].lastRebaseTimestampSec[0].value);
+		const latestAnswerTimestamp = parseInt(keyedResult.oracle[0].latestTimestamp[0].value);
 		const decimals = parseInt(keyedResult.token[0].decimals[0].value);
 		this.rebase = {
 			totalSupply: new BigNumber(keyedResult.token[0].totalSupply[0].value).dividedBy(Math.pow(10, decimals)),
-			decimals,
 			lastRebaseTimestampSec,
 			minRebaseTimeIntervalSec,
+			latestAnswerTimestamp,
 			rebaseLag: keyedResult.policy[0].rebaseLag[0].value,
 			epoch: keyedResult.policy[0].epoch[0].value,
 			inRebaseWindow: false,

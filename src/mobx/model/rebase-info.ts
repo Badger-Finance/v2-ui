@@ -2,9 +2,9 @@ import BigNumber from 'bignumber.js';
 
 export interface RebaseInfo {
 	totalSupply: BigNumber;
-	decimals: number;
 	lastRebaseTimestampSec: number;
 	minRebaseTimeIntervalSec: number;
+	latestAnswerTimestamp: number;
 	rebaseLag: any;
 	epoch: any;
 	inRebaseWindow: boolean;

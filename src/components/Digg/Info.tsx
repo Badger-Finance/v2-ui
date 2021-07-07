@@ -134,7 +134,10 @@ const Info = observer(() => {
 	const diggPrice = rebase.oracleRate.multipliedBy(wbtcPrice);
 	const priceDelta = rebase.oracleRate.minus(1);
 	const rebasePercent = priceDelta.gt(0.05) || priceDelta.lt(-0.05) ? priceDelta.multipliedBy(10) : new BigNumber(0);
-	const lastRebase = new Date(rebase.lastRebaseTimestampSec * 1000);
+	const answerTimestamp = rebase.latestAnswerTimestamp * 1000;
+	const twoHours = 1000 * 60 * 60 * 2;
+	const isValidTwap = Date.now() - answerTimestamp <= twoHours;
+	const lastRebase = new Date(answerTimestamp);
 
 	const rebaseTextColor = rebasePercent.gt(0) ? '#5efc82' : 'red';
 	const rebaseStyle = { color: rebaseTextColor };
@@ -162,7 +165,7 @@ const Info = observer(() => {
 			<Paper className={classes.darkPaper}>
 				<div className={classes.metricsContainer}>
 					<InfoItem metric="bDIGG Multiplier">{!!ppfs ? ppfs.toFixed(9) : '...'}</InfoItem>
-					<InfoItem metric="Potential Rebase">
+					<InfoItem metric={`${isValidTwap ? 'Potential' : 'Previous'} Rebase`}>
 						<span style={rebaseStyle}>{rebaseDisplay}</span>
 					</InfoItem>
 					<InfoItem metric="Oracle Rate">{rebase.oracleRate.toFixed()}</InfoItem>
