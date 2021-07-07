@@ -241,7 +241,7 @@ export class BoostOptimizerStore {
 	): BigNumber => {
 		const userBoostSuperior = Number(slotSuperior.boost);
 		const userBoostInferior = Number(slotInferior.boost);
-		const stakeRatioFromBoost = percentageBetweenRange(desiredBoost, userBoostSuperior, userBoostInferior);
+		const stakeRatioFromBoost = percentageBetweenRange(desiredBoost, userBoostSuperior, userBoostInferior) / 100;
 
 		const userStakeRatioSuperior = Number(slotSuperior.stakeRatio);
 		const userStakeRatioInferior = Number(slotInferior.stakeRatio);
