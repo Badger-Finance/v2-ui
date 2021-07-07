@@ -102,8 +102,10 @@ const useStyles = makeStyles((theme) => ({
 		fontSize: '0.8rem',
 	},
 	infoIconButton: {
+		marginLeft: theme.spacing(1),
 		cursor: 'pointer',
 		color: 'inherit',
+		padding: '0px',
 	},
 	infoIcon: {
 		height: '20px',
