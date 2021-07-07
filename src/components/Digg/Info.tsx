@@ -162,7 +162,7 @@ const Info = observer(() => {
 			Potential rebase is only shown when Chainlink Oracle data is updated prior to rebase.
 			<br />
 			<br />
-			Click for current rebase data.
+			Click for estimated current rebase data based off an unofficial 24 hour TWAP.
 		</div>
 	);
 

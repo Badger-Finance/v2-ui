@@ -47,7 +47,7 @@ class RebaseStore {
 		const keyedResult = groupBy(diggData, (v) => v.namespace);
 		const { policy, token, oracle } = keyedResult;
 
-		if (!token || !policy || !oracle) {
+		if (!this.hasCallResults(token) || !this.hasCallResults(policy) || !this.hasCallResults(oracle)) {
 			return;
 		}
 
@@ -73,6 +73,10 @@ class RebaseStore {
 			pastRebase: rebaseLog,
 		};
 	});
+
+	private hasCallResults(results: any[]): boolean {
+		return !!results && results.length > 0;
+	}
 }
 
 export default RebaseStore;
