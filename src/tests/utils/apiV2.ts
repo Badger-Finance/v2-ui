@@ -192,6 +192,8 @@ export function mockApi(): void {
 			multipliers: {
 				'0x2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b': 1,
 			},
+			nativeBalance: 100,
+			nonNativeBalance: 10,
 		}),
 	);
 }

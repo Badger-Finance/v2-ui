@@ -1,13 +1,17 @@
 import { action, extendObservable } from 'mobx';
-import { LeaderBoardData } from 'mobx/model';
+import { LeaderBoardData, LeaderBoardEntry } from 'mobx/model';
 import { RootStore } from 'mobx/store';
-import { fetchLeaderBoardData } from 'mobx/utils/apiV2';
+import { fetchCompleteLeaderBoardData, fetchLeaderBoardData } from 'mobx/utils/apiV2';
 
 export class LeaderBoardStore {
 	private store: RootStore;
 
 	private page: number;
 	private size: number;
+
+	public completeBoard?: LeaderBoardEntry[];
+
+	// TODO: deprecate in favor of complete board in upcoming leaderboard changes
 	public data: LeaderBoardData | undefined | null;
 
 	constructor(store: RootStore) {
@@ -19,8 +23,19 @@ export class LeaderBoardStore {
 			data: this.data,
 		});
 
+		this.loadCompleteBoard();
 		this.loadData();
 	}
+
+	loadCompleteBoard = action(
+		async (): Promise<void> => {
+			const fetchedLeaderBoard = await fetchCompleteLeaderBoardData();
+
+			if (fetchedLeaderBoard) {
+				this.completeBoard = fetchedLeaderBoard;
+			}
+		},
+	);
 
 	loadData = action(
 		async (): Promise<void> => {
