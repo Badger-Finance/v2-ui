@@ -505,6 +505,8 @@ export interface Account {
 	id: string;
 	boost: number;
 	boostRank: number;
+	nativeBalance: number;
+	nonNativeBalance: number;
 	multipliers: BoostMultipliers;
 	depositLimits: AccountLimits;
 	// currently unused below

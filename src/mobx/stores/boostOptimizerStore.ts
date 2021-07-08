@@ -1,6 +1,5 @@
 import BigNumber from 'bignumber.js';
 
-import deploy from '../../config/deployments/mainnet.json';
 import { RootStore } from '../store';
 import { percentageBetweenRange } from '../../utils/componentHelpers';
 import { LeaderBoardEntry } from '../model';
@@ -12,46 +11,6 @@ const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 export class BoostOptimizerStore {
 	constructor(private store: RootStore) {
 		this.store = store;
-	}
-
-	/**
-	 *  Value of BADGER Balance plus value of DIGG Balance represented in USD
-	 */
-	get nativeHoldings(): number | undefined {
-		const { exchangeRates } = this.store.prices;
-		const badgerBalance = this.store.user.tokenBalances[deploy.tokens.badger];
-		const diggBalance = this.store.user.tokenBalances[deploy.tokens.digg];
-
-		if (!badgerBalance || !diggBalance || !exchangeRates) return;
-
-		const badgerPrice = this.store.prices.getPrice(deploy.tokens.badger);
-		const badgerHoldings = badgerBalance.balance.multipliedBy(badgerPrice);
-		const diggPrice = this.store.prices.getPrice(deploy.tokens.digg);
-		const diggBalanceHoldings = diggBalance.balance.multipliedBy(diggPrice);
-
-		return badgerHoldings.plus(diggBalanceHoldings).multipliedBy(exchangeRates.usd).toNumber();
-	}
-
-	/**
-	 * Value of non-native staked sett positions represented in USD
-	 */
-	get nonNativeHoldings(): number | undefined {
-		if (!this.store.user.accountDetails || !this.store.prices.exchangeRates) return;
-
-		let holdings = new BigNumber(0);
-		const userAccountDetails = this.store.user.accountDetails.multipliers;
-		const settTokens = Object.keys(userAccountDetails);
-
-		for (const settToken of settTokens) {
-			const settPrice = this.store.prices.getPrice(settToken);
-			const settBalance = this.store.user.settBalances[settToken]?.balance;
-
-			if (settPrice && settBalance) {
-				holdings = holdings.plus(settBalance.multipliedBy(settPrice));
-			}
-		}
-
-		return holdings.multipliedBy(this.store.prices.exchangeRates.usd).toNumber();
 	}
 
 	/**
