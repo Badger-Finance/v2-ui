@@ -9,7 +9,7 @@ import { HoldingAssetInput } from './HoldingAssetInput';
 import { formatWithoutExtraZeros, numberWithCommas } from '../../mobx/utils/helpers';
 import { getRankNumberFromBoost } from '../../utils/componentHelpers';
 import { LEADERBOARD_RANKS } from '../../config/constants';
-import { useAssetInputStyles } from './utils';
+import { isValidBoost, useAssetInputStyles } from './utils';
 import { StoreContext } from '../../mobx/store-context';
 
 const useStyles = makeStyles((theme) => ({
@@ -107,7 +107,7 @@ export const NativeBox = observer((props: Props) => {
 	const extraSmallScreen = useMediaQuery(theme.breakpoints.down(500));
 	const nativeAssetClasses = useAssetInputStyles(nativeBalance, nativeHoldings)();
 
-	const showNativeToAdd = nativeToAdd && Number(nativeToAdd) !== 0;
+	const showNativeToAdd = nativeToAdd && Number(nativeToAdd) !== 0 && isValidBoost(currentBoost);
 	const currentBadgerLevel = getRankNumberFromBoost(Number(currentBoost));
 	const nextBadgerLevel = LEADERBOARD_RANKS[currentBadgerLevel - 1];
 	const amountToReachNextLevel = useAmountToReachNextLeaderboardRank(currentBoost, nativeBalance, nonNativeBalance);
