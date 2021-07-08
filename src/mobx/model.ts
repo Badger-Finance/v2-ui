@@ -435,15 +435,6 @@ export class EthNetwork implements Network {
 	readonly gasEndpoint = 'https://www.gasnow.org/api/v3/gas/price?utm_source=badgerv2';
 	// Deterministic order for displaying setts on the sett list component
 	readonly settOrder = [
-		this.deploy.sett_system.vaults['native.sushiibBTCwBTC'],
-		this.deploy.sett_system.vaults['yearn.wBtc'],
-		this.deploy.sett_system.vaults['native.digg'],
-		this.deploy.sett_system.vaults['native.badger'],
-		this.deploy.sett_system.vaults['native.sushiDiggWbtc'],
-		this.deploy.sett_system.vaults['native.sushiBadgerWbtc'],
-		this.deploy.sett_system.vaults['native.sushiWbtcEth'],
-		this.deploy.sett_system.vaults['native.uniDiggWbtc'],
-		this.deploy.sett_system.vaults['native.uniBadgerWbtc'],
 		this.deploy.sett_system.vaults['native.cvxCrv'],
 		this.deploy.sett_system.vaults['native.cvx'],
 		this.deploy.sett_system.vaults['native.tricryptoCrv'],
@@ -454,6 +445,15 @@ export class EthNetwork implements Network {
 		this.deploy.sett_system.vaults['native.pbtcCrv'],
 		this.deploy.sett_system.vaults['native.obtcCrv'],
 		this.deploy.sett_system.vaults['native.bbtcCrv'],
+		this.deploy.sett_system.vaults['native.sushiibBTCwBTC'],
+		this.deploy.sett_system.vaults['yearn.wBtc'],
+		this.deploy.sett_system.vaults['native.digg'],
+		this.deploy.sett_system.vaults['native.badger'],
+		this.deploy.sett_system.vaults['native.sushiDiggWbtc'],
+		this.deploy.sett_system.vaults['native.sushiBadgerWbtc'],
+		this.deploy.sett_system.vaults['native.sushiWbtcEth'],
+		this.deploy.sett_system.vaults['native.uniDiggWbtc'],
+		this.deploy.sett_system.vaults['native.uniBadgerWbtc'],
 		this.deploy.sett_system.vaults['harvest.renCrv'],
 		...(FLAGS.STABILIZATION_SETTS ? [this.deploy.sett_system.vaults['experimental.digg']] : []),
 	];
