@@ -267,7 +267,7 @@ export const Sidebar = observer(() => {
 								<ListItemIcon>
 									<img alt="Boosts" src={'assets/sidebar/boosts.png'} className={classes.icon} />
 								</ListItemIcon>
-								<ListItemText primary="Boosts" />
+								<ListItemText primary="Boost" />
 								<IconButton
 									size="small"
 									className={clsx(classes.expand, expanded === 'tokens' && classes.expandOpen)}
@@ -286,13 +286,6 @@ export const Sidebar = observer(() => {
 								timeout="auto"
 								unmountOnExit
 							>
-								<ListItem
-									button
-									className={getItemClass('/leaderboard', classes.primarySubListItem)}
-									onClick={() => navigate(views.boostLeaderBoard)}
-								>
-									Boost Leaderboard
-								</ListItem>
 								{FLAGS.BOOST_OPTIMIZER && (
 									<ListItem
 										button
@@ -302,6 +295,13 @@ export const Sidebar = observer(() => {
 										Boost Optimizer
 									</ListItem>
 								)}
+								<ListItem
+									button
+									className={getItemClass('/leaderboard', classes.primarySubListItem)}
+									onClick={() => navigate(views.boostLeaderBoard)}
+								>
+									Boost Leaderboard
+								</ListItem>
 							</Collapse>
 							<ListItem
 								button
