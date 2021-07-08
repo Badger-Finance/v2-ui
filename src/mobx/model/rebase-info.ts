@@ -2,12 +2,13 @@ import BigNumber from 'bignumber.js';
 
 export interface RebaseInfo {
 	totalSupply: BigNumber;
-	decimals: number;
-	lastRebaseTimestampSec: number;
-	minRebaseTimeIntervalSec: number;
-	rebaseLag: any;
-	epoch: any;
+	latestRebase: number;
+	minRebaseInterval: number;
+	latestAnswer: number;
 	inRebaseWindow: boolean;
+	rebaseLag: number;
+
+	epoch: any;
 	rebaseWindowLengthSec: number;
 	oracleRate: BigNumber;
 	nextRebase: Date;

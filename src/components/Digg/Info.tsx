@@ -1,4 +1,4 @@
-import { Grid, Paper, makeStyles, Button, Typography } from '@material-ui/core';
+import { Grid, Paper, makeStyles, Button, Typography, Tooltip, IconButton } from '@material-ui/core';
 import React, { useState, useContext } from 'react';
 import { StoreContext } from '../../mobx/store-context';
 import useInterval from '@use-it/interval';
@@ -11,6 +11,7 @@ import { ETH_DEPLOY } from 'web3/config/eth-config';
 import { InfoItem } from './InfoItem';
 import BigNumber from 'bignumber.js';
 import NoWallet from 'components/Common/NoWallet';
+import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 
 const useStyles = makeStyles((theme) => ({
 	statPaper: {
@@ -96,6 +97,20 @@ const useStyles = makeStyles((theme) => ({
 		marginBottom: theme.spacing(2.5),
 		width: '135px',
 	},
+	twapTooltip: {
+		textAlign: 'center',
+		fontSize: '0.8rem',
+	},
+	infoIconButton: {
+		marginLeft: theme.spacing(1),
+		cursor: 'pointer',
+		color: 'inherit',
+		padding: '0px',
+	},
+	infoIcon: {
+		height: '20px',
+		width: '20px',
+	},
 }));
 
 const Info = observer(() => {
@@ -114,7 +129,6 @@ const Info = observer(() => {
 	useInterval(() => {
 		if (!!rebase && !!rebase.nextRebase) {
 			const zero = new Date(0);
-
 			zero.setTime(rebase.nextRebase.getTime() - new Date().getTime());
 			setNextRebase(zero.toISOString().substr(11, 8));
 		}
@@ -134,13 +148,23 @@ const Info = observer(() => {
 	const diggPrice = rebase.oracleRate.multipliedBy(wbtcPrice);
 	const priceDelta = rebase.oracleRate.minus(1);
 	const rebasePercent = priceDelta.gt(0.05) || priceDelta.lt(-0.05) ? priceDelta.multipliedBy(10) : new BigNumber(0);
-	const lastRebase = new Date(rebase.lastRebaseTimestampSec * 1000);
+	const lastOracleUpdate = new Date(rebase.latestAnswer * 1000);
+	const isValidTwap = rebase.latestRebase < rebase.latestAnswer;
 
 	const rebaseTextColor = rebasePercent.gt(0) ? '#5efc82' : 'red';
 	const rebaseStyle = { color: rebaseTextColor };
 	const sign = rebasePercent.gt(0) ? '+' : '-';
 	const rebaseDisplay = `${sign}${rebasePercent.toFixed(6)}%`;
 	const ppfs = settMap[ETH_DEPLOY.sett_system.vaults['native.digg']].ppfs;
+
+	const invalidTwap = (
+		<div className={classes.twapTooltip}>
+			Potential rebase is only shown when Chainlink Oracle data is updated prior to rebase.
+			<br />
+			<br />
+			Click for estimated current rebase data based off an unofficial 24 hour TWAP.
+		</div>
+	);
 
 	return (
 		<>
@@ -162,13 +186,25 @@ const Info = observer(() => {
 			<Paper className={classes.darkPaper}>
 				<div className={classes.metricsContainer}>
 					<InfoItem metric="bDIGG Multiplier">{!!ppfs ? ppfs.toFixed(9) : '...'}</InfoItem>
-					<InfoItem metric="Potential Rebase">
-						<span style={rebaseStyle}>{rebaseDisplay}</span>
+					<InfoItem metric={`${isValidTwap ? 'Potential' : 'Previous'} Rebase`}>
+						<div style={rebaseStyle} className={classes.rebasePaper}>
+							<span>{rebaseDisplay}</span>
+							{!isValidTwap && (
+								<Tooltip arrow title={invalidTwap} placement="right">
+									<IconButton
+										className={classes.infoIconButton}
+										onClick={() => window.open('https://digg.finance/#info', '_blank')}
+									>
+										<HelpOutlineIcon className={classes.infoIcon} />
+									</IconButton>
+								</Tooltip>
+							)}
+						</div>
 					</InfoItem>
 					<InfoItem metric="Oracle Rate">{rebase.oracleRate.toFixed()}</InfoItem>
 				</div>
 				<Typography variant="caption" className={classes.updatedAt}>
-					Last Updated {lastRebase.toLocaleString()}
+					Last Updated {lastOracleUpdate.toLocaleString()}
 				</Typography>
 			</Paper>
 			<Button
