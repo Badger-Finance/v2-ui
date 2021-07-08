@@ -1,17 +1,17 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import BigNumber from 'bignumber.js';
-import { Button, Divider, Grid, Paper, Typography } from '@material-ui/core';
+import { Divider, Grid, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { OptimizerBody } from './OptimizerBody';
 import { StoreContext } from '../../mobx/store-context';
-import { useConnectWallet } from '../../mobx/utils/hooks';
 import { LeaderBoardRank } from './LeaderBoardRank';
 import { OptimizerHeader } from './OptimizerHeader';
 import { debounce } from '../../utils/componentHelpers';
 import { formatWithoutExtraZeros } from '../../mobx/utils/helpers';
 import { isValidBoost } from './utils';
+import NoWallet from '../Common/NoWallet';
 
 const useStyles = makeStyles((theme) => ({
 	calculatorContainer: {
@@ -52,8 +52,6 @@ export const Optimizer = observer(
 		} = useContext(StoreContext);
 
 		const classes = useStyles();
-		const connectWallet = useConnectWallet();
-
 		const [boost, setBoost] = useState<string>();
 		const [rank, setRank] = useState<string>();
 		const [native, setNative] = useState<string>();
@@ -169,16 +167,7 @@ export const Optimizer = observer(
 		}, [accountDetails]);
 
 		if (!connectedAddress) {
-			return (
-				<Paper className={classes.placeholderContainer}>
-					<Typography className={classes.placeholderText}>
-						In order to use the boost optimizer you need to connect your wallet
-					</Typography>
-					<Button fullWidth size="large" variant="contained" color="primary" onClick={connectWallet}>
-						Connect Wallet
-					</Button>
-				</Paper>
-			);
+			return <NoWallet message="Please connect your wallet to use the optimizer" />;
 		}
 
 		return (
