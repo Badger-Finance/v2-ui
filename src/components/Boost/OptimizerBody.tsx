@@ -1,17 +1,15 @@
 import React from 'react';
-import { Grid, Tooltip, Typography, useMediaQuery, useTheme, withStyles } from '@material-ui/core';
+import { Grid, useMediaQuery, useTheme, withStyles } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { BoostBadgerAnimation } from './ScoreAnimation';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
-import BigNumber from 'bignumber.js';
-import { getColorFromComparison } from './utils';
 import { Skeleton } from '@material-ui/lab';
-import { HoldingAssetInput } from './HoldingAssetInput';
-import clsx from 'clsx';
-import { formatWithoutExtraZeros, numberWithCommas } from '../../mobx/utils/helpers';
-import { getRankNumberFromBoost, percentageBetweenRange } from '../../utils/componentHelpers';
-import { LEADERBOARD_RANKS } from '../../config/constants';
+import { formatWithoutExtraZeros } from '../../mobx/utils/helpers';
+import { percentageBetweenRange } from '../../utils/componentHelpers';
+import { NativeBox } from './NativeBox';
+import BigNumber from 'bignumber.js';
+import { NonNativeBox } from './NonNativeBox';
 
 const BoostLoader = withStyles((theme) => ({
 	root: {
@@ -26,125 +24,12 @@ const BoostLoader = withStyles((theme) => ({
 	},
 }))(Skeleton);
 
-const useAssetInputStyles = (currentValue: string, holdings: BigNumber.Value = 0) => {
-	return makeStyles((theme) => {
-		const defaultColor = currentValue ? theme.palette.text.primary : theme.palette.text.secondary;
-		const fontColor = getColorFromComparison({
-			toCompareValue: currentValue,
-			toBeComparedValue: formatWithoutExtraZeros(holdings, 4),
-			greaterCaseColor: '#74D189',
-			lessCaseColor: theme.palette.error.main,
-			defaultColor,
-		});
-
-		return {
-			assetColor: {
-				color: fontColor,
-			},
-		};
-	});
-};
-
-const useValueIsGreater = (a?: number | string, b?: number | string): boolean => {
-	if (a === undefined || b === undefined) {
-		return false;
-	}
-
-	return Number(a) > Number(b);
-};
-
-const useAmountToReachNextLeaderboardRank = (
-	boost: string,
-	native: BigNumber.Value,
-	nonNative: BigNumber.Value,
-): BigNumber | undefined => {
-	const { boostOptimizer } = React.useContext(StoreContext);
-	const currentBadgerLevel = getRankNumberFromBoost(Number(boost));
-	const nextBadgerLevel = LEADERBOARD_RANKS[currentBadgerLevel - 1];
-
-	if (!nextBadgerLevel) {
-		return undefined;
-	}
-
-	return boostOptimizer.calculateNativeToMatchBoost(native, nonNative, nextBadgerLevel.boostRangeStart);
-};
-
-const useShouldAmountReachNextLevel = (native: string, amountToReachNextLevel?: BigNumber): boolean => {
-	if (!native || !amountToReachNextLevel) {
-		return false;
-	}
-
-	return Number(native) !== 0 && amountToReachNextLevel.gt(native);
-};
-
 const useStyles = makeStyles((theme) => ({
 	content: {
 		marginTop: theme.spacing(2),
 		marginBottom: theme.spacing(3),
 		[theme.breakpoints.down('sm')]: {
 			marginBottom: 0,
-		},
-	},
-	settInformation: {
-		width: '100%',
-		textAlign: 'center',
-	},
-	valueToAddContainer: {
-		marginTop: 8,
-	},
-	valueToAddText: {
-		fontSize: 12,
-	},
-	amountToAdd: {
-		cursor: 'pointer',
-		color: '#74D189',
-	},
-	resetCalculation: {
-		marginTop: theme.spacing(2),
-		textAlign: 'center',
-		textTransform: 'none',
-	},
-	resetCalculationText: {
-		display: 'inline-block',
-		textDecoration: 'underline',
-	},
-	resetCalculationIcon: {
-		marginRight: 6,
-	},
-	infoBox: {
-		marginTop: theme.spacing(2),
-		border: '1px solid #6B6A6A',
-		padding: theme.spacing(1),
-		borderRadius: 8,
-		textAlign: 'start',
-	},
-	infoText: {
-		fontSize: 12,
-	},
-	nextLevelName: {
-		color: '#3FC7FE',
-	},
-	amountToNextLevel: {
-		cursor: 'pointer',
-	},
-	assetInput: {
-		marginTop: theme.spacing(1),
-	},
-	bounce: {
-		animation: '$bounce 1s ease-in-out 1',
-	},
-	'@keyframes bounce': {
-		'0%': {
-			transform: 'translateY(0)',
-		},
-		'30%': {
-			transform: 'translateY(-5px)',
-		},
-		'50%': {
-			transform: 'translateY(0)',
-		},
-		'100%': {
-			transform: 'translateY(0)',
 		},
 	},
 }));
@@ -162,8 +47,10 @@ type BoostCalculatorContainerProps = {
 
 export const OptimizerBody = observer(
 	(props: BoostCalculatorContainerProps): JSX.Element => {
-		const { boostOptimizer } = React.useContext(StoreContext);
-		const { nativeHoldings, nonNativeHoldings } = boostOptimizer;
+		const {
+			user: { accountDetails },
+		} = React.useContext(StoreContext);
+
 		const {
 			boost,
 			native,
@@ -179,32 +66,20 @@ export const OptimizerBody = observer(
 		const theme = useTheme();
 		const smallScreen = useMediaQuery(theme.breakpoints.down(706));
 		const extraSmallScreen = useMediaQuery(theme.breakpoints.down(500));
-		const nativeAssetClasses = useAssetInputStyles(native, nativeHoldings)();
-		const nonNativeAssetClasses = useAssetInputStyles(nonNative, nonNativeHoldings)();
 
-		const isLoading = nativeHoldings === undefined || nonNativeHoldings === undefined;
-		const showEmptyNonNativeMessage = Number(nonNative) === 0;
-		const showReducedNonNativeMessage = useValueIsGreater(nonNativeHoldings, nonNative);
-		const showNativeToAdd = nativeToAdd && Number(nativeToAdd) !== 0;
-
+		const isLoading = !accountDetails;
 		const sanitizedBoost = Math.min(Number(boost), 3);
 		const badgerScore = percentageBetweenRange(sanitizedBoost, 3, 1);
 
-		const currentBadgerLevel = getRankNumberFromBoost(Number(boost));
-		const nextBadgerLevel = LEADERBOARD_RANKS[currentBadgerLevel - 1];
+		const handleApplyRemaining = (amountToAdd: string) => {
+			if (isLoading || !native) return;
 
-		const amountToReachNextLevel = useAmountToReachNextLeaderboardRank(boost, native, nonNative);
-		const shouldShowAmountToReachNextLevel = useShouldAmountReachNextLevel(native, amountToReachNextLevel);
-
-		const handleApplyRemaining = () => {
-			if (isLoading || !native || !nativeToAdd) return;
-
-			const increasedNative = Number(native) + Number(nativeToAdd);
+			const increasedNative = Number(native) + Number(amountToAdd);
 			onNativeChange(increasedNative.toString());
 		};
 
-		const handleApplyNextLevelAmount = () => {
-			if (isLoading || !native || !amountToReachNextLevel) return;
+		const handleApplyNextLevelAmount = (amountToReachNextLevel: BigNumber) => {
+			if (isLoading || !native) return;
 
 			onNativeChange(formatWithoutExtraZeros(amountToReachNextLevel.plus(native), 4));
 		};
@@ -246,82 +121,30 @@ export const OptimizerBody = observer(
 		);
 
 		const nativeBox = (
-			<Grid item className={classes.settInformation}>
-				<Typography variant="h6">Native: </Typography>
-				<HoldingAssetInput
-					className={classes.assetInput}
-					disabled={isLoading}
-					placeholder="$10,000"
-					fullWidth={extraSmallScreen}
-					InputProps={{
-						className: nativeAssetClasses.assetColor,
-					}}
-					onChange={onNativeChange}
-					onIncrement={handleIncreaseNative}
-					onReduction={handleReduceNative}
-					value={native}
-				/>
-				{nextBadgerLevel && amountToReachNextLevel && shouldShowAmountToReachNextLevel && (
-					<Grid className={classes.infoBox}>
-						<Typography className={classes.infoText} color="textSecondary">
-							Deposit
-							<Tooltip title="Apply" arrow placement="top" color="primary">
-								<span
-									className={classes.amountToNextLevel}
-									onClick={handleApplyNextLevelAmount}
-								>{` $${numberWithCommas(formatWithoutExtraZeros(amountToReachNextLevel, 3))} `}</span>
-							</Tooltip>
-							more Native to reach next rank:
-							<span className={classes.nextLevelName}>{` ${nextBadgerLevel.name}`}</span>
-						</Typography>
-					</Grid>
-				)}
-				{nativeToAdd && showNativeToAdd && (
-					<Grid className={classes.valueToAddContainer} container direction="column">
-						<Typography className={classes.valueToAddText}>Value to Add</Typography>
-						<Typography
-							className={clsx(classes.valueToAddText, classes.amountToAdd)}
-							onClick={handleApplyRemaining}
-						>{`+$${numberWithCommas(formatWithoutExtraZeros(nativeToAdd, 3))}`}</Typography>
-					</Grid>
-				)}
-			</Grid>
+			<NativeBox
+				currentBoost={boost}
+				nativeBalance={native}
+				nonNativeBalance={nonNative}
+				isLoading={isLoading}
+				nativeToAdd={nativeToAdd}
+				onChange={onNativeChange}
+				onIncrement={handleIncreaseNative}
+				onReduction={handleReduceNative}
+				onApplyNextLevelAmount={handleApplyNextLevelAmount}
+				onApplyNativeToAdd={handleApplyRemaining}
+			/>
 		);
 
 		const nonNativeBox = (
-			<Grid item className={classes.settInformation}>
-				<Typography variant="h6">Non Native: </Typography>
-				<HoldingAssetInput
-					className={classes.assetInput}
-					disabled={isLoading}
-					placeholder="$5,000"
-					fullWidth={extraSmallScreen}
-					InputProps={{
-						className: nonNativeAssetClasses.assetColor,
-					}}
-					onChange={onNonNativeChange}
-					onIncrement={handleIncreaseNonNative}
-					onReduction={handleReduceNonNative}
-					value={nonNative}
-				/>
-				{showReducedNonNativeMessage && (
-					<Grid className={classes.infoBox}>
-						<Typography className={classes.infoText} color="textSecondary">
-							While reducing Non-Native may increase your boost, your gross yield will be smaller
-						</Typography>
-					</Grid>
-				)}
-				{showEmptyNonNativeMessage && (
-					<Grid
-						className={clsx(classes.infoBox, showMessageBounce && classes.bounce)}
-						onAnimationEnd={onBounceAnimationEnd}
-					>
-						<Typography className={classes.infoText} color="textSecondary">
-							You need to have Non Native assets in order to improve your boost
-						</Typography>
-					</Grid>
-				)}
-			</Grid>
+			<NonNativeBox
+				isLoading={isLoading}
+				nonNativeBalance={nonNative}
+				showMessageBounce={showMessageBounce}
+				onChange={onNonNativeChange}
+				onIncrement={handleIncreaseNonNative}
+				onReduction={handleReduceNonNative}
+				onBounceAnimationEnd={onBounceAnimationEnd}
+			/>
 		);
 
 		if (smallScreen) {

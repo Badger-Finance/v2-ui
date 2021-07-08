@@ -51,7 +51,6 @@ export const Optimizer = observer(
 			boostOptimizer,
 		} = useContext(StoreContext);
 
-		const { nativeHoldings, nonNativeHoldings } = boostOptimizer;
 		const classes = useStyles();
 		const connectWallet = useConnectWallet();
 
@@ -106,12 +105,10 @@ export const Optimizer = observer(
 		};
 
 		const handleReset = () => {
-			if (nativeHoldings === undefined || nonNativeHoldings === undefined || !accountDetails) {
-				return;
-			}
+			if (!accountDetails) return;
 
-			setNative(formatWithoutExtraZeros(nativeHoldings, 4));
-			setNonNative(formatWithoutExtraZeros(nonNativeHoldings, 4));
+			setNative(formatWithoutExtraZeros(accountDetails.nativeBalance, 4));
+			setNonNative(formatWithoutExtraZeros(accountDetails.nonNativeBalance, 4));
 			setNativeToAdd(undefined);
 			setBoost(accountDetails.boost.toFixed(2));
 			setRank(accountDetails.boostRank.toString());
@@ -163,22 +160,13 @@ export const Optimizer = observer(
 
 		// load store holdings by default once they're available
 		useEffect(() => {
-			if (accountDetails && boost === undefined) {
-				setBoost(accountDetails.boost.toFixed(2));
-			}
+			if (!accountDetails) return;
 
-			if (accountDetails && rank === undefined) {
-				setRank(String(accountDetails.boostRank));
-			}
-
-			if (nativeHoldings !== undefined && native === undefined) {
-				setNative(formatWithoutExtraZeros(nativeHoldings, 4));
-			}
-
-			if (nonNativeHoldings !== undefined && nonNative === undefined) {
-				setNonNative(formatWithoutExtraZeros(nonNativeHoldings, 4));
-			}
-		}, [boost, rank, native, nonNative, accountDetails, nativeHoldings, nonNativeHoldings]);
+			setBoost(accountDetails.boost.toFixed(2));
+			setRank(String(accountDetails.boostRank));
+			setNative(formatWithoutExtraZeros(accountDetails.nativeBalance, 4));
+			setNonNative(formatWithoutExtraZeros(accountDetails.nonNativeBalance, 4));
+		}, [accountDetails]);
 
 		if (!connectedAddress) {
 			return (

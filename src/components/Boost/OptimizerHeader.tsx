@@ -11,10 +11,10 @@ import {
 } from '@material-ui/core';
 import InfoIcon from '@material-ui/icons/Info';
 import { makeStyles, styled } from '@material-ui/core/styles';
-import BigNumber from 'bignumber.js';
 
 import { getColorFromComparison, isValidBoost } from './utils';
 import { useNumericInput } from '../../utils/useNumericInput';
+import { formatWithoutExtraZeros } from '../../mobx/utils/helpers';
 
 const StyledInfoIcon = styled(InfoIcon)(({ theme }) => ({
 	marginLeft: theme.spacing(1),
@@ -36,7 +36,7 @@ const BoostInput = withStyles(() => ({
 	},
 }))(OutlinedInput);
 
-const useBoostStyles = (currentBoost?: string, boost?: BigNumber.Value) => {
+const useBoostStyles = (currentBoost?: string, boost = 0) => {
 	return makeStyles((theme) => {
 		if (!currentBoost || !boost) {
 			return {
@@ -50,7 +50,7 @@ const useBoostStyles = (currentBoost?: string, boost?: BigNumber.Value) => {
 			fontColor: {
 				color: getColorFromComparison({
 					toCompareValue: currentBoost,
-					toBeComparedValue: boost,
+					toBeComparedValue: formatWithoutExtraZeros(boost, 2),
 					greaterCaseColor: '#74D189',
 					lessCaseColor: theme.palette.error.main,
 					defaultColor: theme.palette.text.secondary,
