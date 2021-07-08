@@ -381,7 +381,7 @@ export const minBalance = (decimals: number): BigNumber => new BigNumber(`0.${'0
  */
 export const connectWallet = async (onboard: API, connect: (wsOnboard: any) => void): Promise<void> => {
 	const walletSelected = await onboard.walletSelect();
-	if (walletSelected && onboard.getState().network) {
+	if (walletSelected) {
 		const readyToTransact = await onboard.walletCheck();
 		if (readyToTransact) {
 			connect(onboard);
