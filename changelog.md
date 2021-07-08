@@ -1,5 +1,10 @@
 # v2 UI Changelog
 
+### Hotfix - 07/08/2021
+
+-   update checks during wallet connection to allow for non-provider wallets to connect
+-   update RPC link
+
 ### v2.8.3 - 07/08/2021
 
 -   unguard convex setts
@@ -12,7 +17,7 @@
 ### Hotfix - 07/05/2021
 
 -   updated digg oracle
--   fixed an issue causing account balance updates to be delayed 
+-   fixed an issue causing account balance updates to be delayed
 
 ### v2.8.1 - 07/01/2021
 

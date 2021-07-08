@@ -7,7 +7,6 @@ import {
 	NETWORK_CONSTANTS,
 	NETWORK_LIST,
 	NETWORK_IDS,
-	WC_BRIDGE,
 	RPC_WALLETS,
 } from './constants';
 
@@ -51,7 +50,6 @@ export const getOnboardWallets = (network?: string): WalletProviderInfo[] => {
 						['1']: NETWORK_CONSTANTS[NETWORK_LIST.ETH].RPC_URL,
 						[NETWORK_IDS.BSC.toString()]: NETWORK_CONSTANTS[NETWORK_LIST.BSC].RPC_URL,
 					},
-					bridge: WC_BRIDGE,
 				},
 				{ walletName: 'walletLink', rpcUrl: NETWORK_CONSTANTS[NETWORK_LIST.ETH].RPC_URL, appName: APP_NAME },
 				{
