@@ -151,9 +151,17 @@ const Info = observer(() => {
 	const lastOracleUpdate = new Date(rebase.latestAnswer * 1000);
 	const isValidTwap = rebase.latestRebase < rebase.latestAnswer;
 
-	const rebaseTextColor = rebasePercent.gt(0) ? '#5efc82' : 'red';
-	const rebaseStyle = { color: rebaseTextColor };
-	const sign = rebasePercent.gt(0) ? '+' : '-';
+	const pickRebaseOption = (positive: string, negative: string, neutral?: string): string => {
+		if (rebasePercent.gt(0)) {
+			return positive;
+		}
+		if (rebasePercent.lt(0)) {
+			return negative;
+		}
+		return neutral ?? '';
+	};
+	const rebaseStyle = { color: pickRebaseOption('#5efc82', 'red', 'inherit') };
+	const sign = pickRebaseOption('+', '-');
 	const rebaseDisplay = `${sign}${rebasePercent.toFixed(6)}%`;
 	const ppfs = settMap[ETH_DEPLOY.sett_system.vaults['native.digg']].ppfs;
 

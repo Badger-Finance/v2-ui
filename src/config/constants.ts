@@ -39,7 +39,7 @@ export enum NETWORK_IDS {
 export const NETWORK_CONSTANTS: NetworkConstants = {
 	[NETWORK_LIST.ETH]: {
 		APP_URL: 'https://app.badger.finance/',
-		RPC_URL: 'https://eth-mainnet.alchemyapi.io/v2/ZPhpI9buZLLAvjR44hryTAhiC5V-HueZ',
+		RPC_URL: 'https://spring-delicate-paper.quiknode.pro/d1fafe068249a34a1b2c9dc4b36ad92fbcf9fb8c/',
 		START_BLOCK: 11381216,
 		START_TIME: new Date('Dec 03 2020 06:11:35 PM UTC'),
 		DEPLOY: getNetworkDeploy(NETWORK_LIST.ETH),
