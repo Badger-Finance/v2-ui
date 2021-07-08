@@ -47,11 +47,10 @@ export const LeaderboardAccountInformation = observer(
 		const connectWallet = useConnectWallet();
 		const classes = useStyles();
 
-		const nativeHoldings = boostOptimizer.nativeHoldings;
-		const nonNativeHoldings = boostOptimizer.nonNativeHoldings;
-
 		const boost = user.accountDetails?.boost;
 		const rank = user.accountDetails?.boostRank;
+		const nativeHoldings = user.accountDetails?.nativeBalance;
+		const nonNativeHoldings = user.accountDetails?.nonNativeBalance;
 
 		const currentBadgerLevel = boost ? getRankNumberFromBoost(boost) : undefined;
 		const nextBadgerLevel =
@@ -78,7 +77,7 @@ export const LeaderboardAccountInformation = observer(
 							Boost:
 						</Typography>
 						<Typography variant="h2" display="inline" className={classes.headerValueText}>
-							{boost !== undefined ? boost : infoPlaceholder}
+							{boost !== undefined ? boost.toFixed(2) : infoPlaceholder}
 						</Typography>
 					</Grid>
 					<Grid container item xs={12} alignItems="center" className={classes.justifyCenterOnMobile}>
