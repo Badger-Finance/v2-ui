@@ -225,6 +225,7 @@ const initialStateResettable = {
 	renFee: 0,
 	badgerFee: 0,
 	step: 1,
+	ibbtcFee: 0,
 };
 
 export const BridgeForm = observer(({ classes }: any) => {
@@ -242,6 +243,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 			loading,
 			error,
 			calcMintOrRedeemPath,
+			calcIbbtcFees,
 
 			badgerBurnFee,
 			badgerMintFee,
@@ -281,6 +283,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 		maxSlippage,
 		renFee,
 		badgerFee,
+		ibbtcFee,
 	} = states;
 
 	// TODO: Refactor values to pull directly from mobx store for values in store.
@@ -297,6 +300,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 		maxSlippage,
 		renFee,
 		badgerFee,
+		ibbtcFee,
 	};
 
 	const handleConnect = async () => {
@@ -625,6 +629,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 			amountWithFee *= 1 - estimatedSlippage;
 		}
 
+		let ibbtcFees = 0;
 		//backspacing in the textbox caused issues without the second part of if statement
 		if (token === 'ibBTC' && inputAmount.toString() !== '') {
 			const bigInputAmount = new BigNumber(inputAmount);
@@ -636,6 +641,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 			if (amount !== undefined) {
 				amountWithFee = Number(amount);
 			}
+			ibbtcFees = await calcIbbtcFees(inputAmount, mintBool);
 		}
 
 		setStates((prevState) => ({
@@ -644,6 +650,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 			receiveAmount: amountWithFee < 0 ? 0 : amountWithFee,
 			renFee: renFeeAmount,
 			badgerFee: badgerFeeAmount,
+			ibbtcFee: ibbtcFees,
 			estimatedSlippage,
 		}));
 	};

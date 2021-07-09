@@ -124,6 +124,7 @@ export const ConfirmForm = ({
 	};
 
 	const isWBTC = ['byvWBTC', 'WBTC'].indexOf(values.token) >= 0;
+	const isIbbtc = ['ibBTC'].indexOf(values.token) >= 0;
 
 	const isVault = ['byvWBTC', 'bCRVrenBTC', 'bCRVsBTC', 'bCRVtBTC'].indexOf(values.token) >= 0;
 
@@ -239,6 +240,12 @@ export const ConfirmForm = ({
 						)}
 					</>
 				)}
+				{isIbbtc &&
+					feeContainer(
+						'IbBTC Fee',
+						'This fee is paid to Defi Dollar when minting and redeeming IbBTC. This does not go to the Ren or Badger team.',
+						`${values.ibbtcFee} BTC`,
+					)}
 			</Grid>
 			{values.spacer}
 
