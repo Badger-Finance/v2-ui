@@ -33,7 +33,6 @@ export const getNetworkNameFromId = (network: number): string | undefined => {
 	switch (network) {
 		case NETWORK_IDS.BSC:
 			return NETWORK_LIST.BSC;
-		case 42: // kovan testnet
 		case NETWORK_IDS.ETH:
 			return NETWORK_LIST.ETH;
 		default:
