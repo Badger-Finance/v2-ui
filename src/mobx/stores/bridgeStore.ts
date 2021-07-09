@@ -27,6 +27,7 @@ import storage from '../../utils/storage';
 
 //testing
 import { abi } from 'config/system/abis/ZapPeak.json';
+import coreConfig from 'config/system/abis/BadgerBtcPeakCore.json';
 
 export enum Status {
 	// Idle means we are ready to begin a new tx.
@@ -76,6 +77,9 @@ class BridgeStore {
 	private renJS: RenJS;
 	private adapter!: Contract;
 	private zapPeak!: Contract;
+	private badgerPeak!: Contract;
+	private byvWbtcPeak!: Contract;
+	private core!: Contract;
 
 	private renbtc!: Contract;
 	private wbtc!: Contract;
@@ -623,6 +627,26 @@ class BridgeStore {
 			console.error(err);
 			queueNotification(`Failed to fetch BTC network fees: ${err.message}`, 'error');
 		}
+	};
+
+	calcIbbtcFees = async (amount: number, mintBool: boolean) => {
+		const { queueNotification } = this.store.uiState;
+		let fee = 0;
+		try {
+			await retry(async () => {
+				if (mintBool === true) {
+					const mintFee = await this.core.methods.mintFee().call();
+					fee = (amount * mintFee) / 100;
+				} else {
+					const redeemFee = await this.core.methods.redeemFee().call();
+					const pricePerShare = await this.core.methods.pricePerShare().call();
+					fee = (amount * pricePerShare * redeemFee) / 1e20;
+				}
+			}, defaultRetryOptions);
+		} catch (err) {
+			queueNotification(`Failed to fetch ibBTC fees: ${err.message}`, 'error');
+		}
+		return fee;
 	};
 
 	calcMintOrRedeemPath = async (amount: BigNumber, mintOrRedeem: boolean) => {
