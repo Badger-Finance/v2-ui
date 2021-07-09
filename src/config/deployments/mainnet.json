@@ -253,7 +253,8 @@
 		}
 	},
 	"defi_dollar": {
-		"zap": "0xb3188E8D8A539f3573431778598551f6D113D0Fa"
+		"zap": "0xb3188E8D8A539f3573431778598551f6D113D0Fa",
+		"core": "0x2A8facc9D49fBc3ecFf569847833C380A13418a8"
 	},
 	"airdrops": {
 		"gitcoinRound8": "0xD17C7effa924B55951E0F6d555b3a3ea34451179"
