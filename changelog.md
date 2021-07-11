@@ -1,5 +1,9 @@
 # v2 UI Changelog
 
+### Hotfix - 07/11/2021
+
+-   update convex sett fees
+
 ### Hotfix - 07/08/2021
 
 -   update checks during wallet connection to allow for non-provider wallets to connect
