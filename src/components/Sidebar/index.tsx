@@ -54,6 +54,10 @@ const useStyles = makeStyles((theme) => ({
 		},
 		padding: theme.spacing(1, 3),
 	},
+	collapseWrapper: {
+		paddingLeft: theme.spacing(2),
+		paddingRight: theme.spacing(2),
+	},
 	divider: {
 		padding: theme.spacing(2, 2, 1, 2),
 		fontSize: '.8rem',
@@ -255,6 +259,52 @@ export const Sidebar = observer(() => {
 							</ListItem>
 							<ListItem
 								button
+								className={classes.listItem}
+								onClick={() => {
+									setExpanded(expanded === 'boosts' ? '' : 'boosts');
+								}}
+							>
+								<ListItemIcon>
+									<img alt="Boosts" src={'assets/sidebar/boosts.png'} className={classes.icon} />
+								</ListItemIcon>
+								<ListItemText primary="Boost" />
+								<IconButton
+									size="small"
+									className={clsx(classes.expand, expanded === 'tokens' && classes.expandOpen)}
+									aria-label="show more"
+								>
+									<ExpandMore />
+								</IconButton>
+							</ListItem>
+							<Collapse
+								classes={{ wrapper: classes.collapseWrapper }}
+								in={
+									expanded === 'boosts' ||
+									store.router.currentPath === '/leaderboard' ||
+									store.router.currentPath === '/boost-optimizer'
+								}
+								timeout="auto"
+								unmountOnExit
+							>
+								{FLAGS.BOOST_OPTIMIZER && (
+									<ListItem
+										button
+										className={getItemClass('/boost-optimizer', classes.primarySubListItem)}
+										onClick={() => navigate(views.boostOptimizer)}
+									>
+										Boost Optimizer
+									</ListItem>
+								)}
+								<ListItem
+									button
+									className={getItemClass('/leaderboard', classes.primarySubListItem)}
+									onClick={() => navigate(views.boostLeaderBoard)}
+								>
+									Boost Leaderboard
+								</ListItem>
+							</Collapse>
+							<ListItem
+								button
 								className={getItemClass('/digg', classes.listItem)}
 								onClick={() => navigate(views.digg)}
 							>
@@ -316,51 +366,34 @@ export const Sidebar = observer(() => {
 									<ExpandMore />
 								</IconButton>
 							</ListItem>
-							<ListItem>
-								<Collapse
-									in={expanded === 'badger-zone' || store.router.currentPath == '/honey-badger-drop'}
-									timeout="auto"
-									unmountOnExit
+							<Collapse
+								classes={{ wrapper: classes.collapseWrapper }}
+								in={expanded === 'badger-zone' || store.router.currentPath == '/honey-badger-drop'}
+								timeout="auto"
+								unmountOnExit
+							>
+								<ListItem
+									button
+									className={getItemClass('/experimental', classes.primarySubListItem)}
+									onClick={() => navigate(views.experimental)}
 								>
-									<ListItem
-										button
-										className={getItemClass('/experimental', classes.primarySubListItem)}
-										onClick={() => navigate(views.experimental)}
-									>
-										Experimental Vaults
-									</ListItem>
-									{FLAGS.BOOST_OPTIMIZER && (
-										<ListItem
-											button
-											className={getItemClass('/boost', classes.primarySubListItem)}
-											onClick={() => navigate(views.boost)}
-										>
-											Boost Optimizer
-										</ListItem>
-									)}
-									<ListItem
-										button
-										className={getItemClass('/leaderboard', classes.primarySubListItem)}
-										onClick={() => navigate(views.boostLeaderBoard)}
-									>
-										Boost Leaderboard
-									</ListItem>
-									<ListItem
-										button
-										className={getItemClass('/honey-badger-drop', classes.primarySubListItem)}
-										onClick={() => navigate(views.honeybadgerDrop)}
-									>
-										Honey Badger Drop
-									</ListItem>
-									<ListItem
-										button
-										className={getItemClass('/airdrops', classes.primarySubListItem)}
-										onClick={() => navigate(views.airdrops)}
-									>
-										Airdrops
-									</ListItem>
-								</Collapse>
-							</ListItem>
+									Experimental Vaults
+								</ListItem>
+								<ListItem
+									button
+									className={getItemClass('/airdrops', classes.primarySubListItem)}
+									onClick={() => navigate(views.airdrops)}
+								>
+									Airdrops
+								</ListItem>
+								<ListItem
+									button
+									className={getItemClass('/honey-badger-drop', classes.primarySubListItem)}
+									onClick={() => navigate(views.honeybadgerDrop)}
+								>
+									Honey Badger Drop
+								</ListItem>
+							</Collapse>
 						</>
 					) : (
 						<></>

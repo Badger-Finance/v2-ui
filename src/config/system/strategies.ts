@@ -201,8 +201,8 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 					name: '',
 					address: deploy.sett_system.vaults['native.hbtcCrv'],
 					fees: {
-						['DAO Performance Fee']: new BigNumber(3000),
-						['Withdraw Fee']: new BigNumber(20),
+						['DAO Performance Fee']: new BigNumber(2000),
+						['Withdraw Fee']: new BigNumber(50),
 					},
 					strategyLink:
 						'https://badger.wiki/Strategies-7bf5b27a451242538f02855ca5aaf4e4#56cd7b65cd384740aa9f339bf3ee2597',
@@ -211,8 +211,8 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 					name: '',
 					address: deploy.sett_system.vaults['native.pbtcCrv'],
 					fees: {
-						['DAO Performance Fee']: new BigNumber(3000),
-						['Withdraw Fee']: new BigNumber(20),
+						['DAO Performance Fee']: new BigNumber(2000),
+						['Withdraw Fee']: new BigNumber(50),
 					},
 					strategyLink:
 						'https://badger.wiki/Strategies-7bf5b27a451242538f02855ca5aaf4e4#39a0decd933b4869b98c9276118b9d39',
@@ -221,8 +221,8 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 					name: '',
 					address: deploy.sett_system.vaults['native.obtcCrv'],
 					fees: {
-						['DAO Performance Fee']: new BigNumber(3000),
-						['Withdraw Fee']: new BigNumber(20),
+						['DAO Performance Fee']: new BigNumber(2000),
+						['Withdraw Fee']: new BigNumber(50),
 					},
 					strategyLink:
 						'https://badger.wiki/Strategies-7bf5b27a451242538f02855ca5aaf4e4#82d72e94cb3b49f0836d8197ad13bc36',
@@ -231,8 +231,8 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 					name: '',
 					address: deploy.sett_system.vaults['native.bbtcCrv'],
 					fees: {
-						['DAO Performance Fee']: new BigNumber(3000),
-						['Withdraw Fee']: new BigNumber(20),
+						['DAO Performance Fee']: new BigNumber(2000),
+						['Withdraw Fee']: new BigNumber(50),
 					},
 					strategyLink:
 						'https://badger.wiki/Strategies-7bf5b27a451242538f02855ca5aaf4e4#fe4a64edc830472da5a700d0fc30716c',
@@ -241,8 +241,8 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 					name: '',
 					address: deploy.sett_system.vaults['native.tricryptoCrv'],
 					fees: {
-						['DAO Performance Fee']: new BigNumber(3000),
-						['Withdraw Fee']: new BigNumber(20),
+						['DAO Performance Fee']: new BigNumber(2000),
+						['Withdraw Fee']: new BigNumber(50),
 					},
 					strategyLink:
 						'https://badger.wiki/Strategies-7bf5b27a451242538f02855ca5aaf4e4#f03b01a576d241aa9d9cee153876c976',

@@ -505,6 +505,8 @@ export interface Account {
 	id: string;
 	boost: number;
 	boostRank: number;
+	nativeBalance: number;
+	nonNativeBalance: number;
 	multipliers: BoostMultipliers;
 	depositLimits: AccountLimits;
 	// currently unused below
@@ -670,6 +672,12 @@ export interface LeaderBoardData {
 	size: number;
 	count: number;
 	maxPage: number;
+}
+
+export interface LeaderboardRank {
+	name: string;
+	boostRangeStart: number;
+	boostRangeEnd: number;
 }
 
 export interface MintLimits {
