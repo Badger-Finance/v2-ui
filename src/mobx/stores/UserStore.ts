@@ -202,7 +202,7 @@ export default class UserStore {
 			if (!batchRequests || batchRequests.length === 0) {
 				return;
 			}
-
+			this.refresh();
 			const callResults: CallResult[] = await this.batchCall.execute(batchRequests);
 			if (DEBUG) {
 				console.log({ network: network.name, callResults });
