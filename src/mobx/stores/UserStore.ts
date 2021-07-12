@@ -79,14 +79,14 @@ export default class UserStore {
 		 */
 		observe(this.store.wallet as WalletStore, 'network', () => {
 			if (!this.loadingBalances) {
-				this.refresh();
+				this.refreshBalances();
 			}
 		});
 	}
 
 	/* State Mutation Functions */
 
-	refresh(): void {
+	refreshBalances(): void {
 		this.refreshProvider();
 		this.updateBalances(true);
 	}
