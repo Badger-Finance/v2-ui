@@ -1,5 +1,9 @@
 # v2 UI Changelog
 
+### Hotfix - 07/12/2021
+
+-   add refresh when connecting wallet to set provider correctly
+
 ### Hotfix - 07/11/2021
 
 -   update convex sett fees
