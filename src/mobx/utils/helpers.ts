@@ -272,6 +272,15 @@ export const numberWithCommas = (x: string): string => {
 	return parts.join('.');
 };
 
+// using Number() removes extra zeros
+export const formatWithoutExtraZeros = (
+	amount: BigNumber.Value,
+	decimals = 6,
+	strategy = BigNumber.ROUND_HALF_FLOOR,
+): string => {
+	return Number(new BigNumber(amount).toFixed(decimals, strategy)).toString();
+};
+
 export const fetchDiggChart = (chart: string, range: number, callback: (marketChart: any) => void): void => {
 	const to = new Date();
 	const from = new Date();
@@ -366,13 +375,14 @@ export const fetchData = async <T>(
 
 // Reason: blocknative does not type their provider, must be any
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const getNetworkFromProvider = (provider: any): string | undefined => {
+export const getNetworkFromProvider = (provider?: any): string | undefined => {
 	return provider ? getNetworkNameFromId(parseInt(new BigNumber(provider.chainId, 16).toString(10))) : undefined;
 };
 
 export const unscale = (amount: BigNumber, decimals: number): BigNumber => amount.dividedBy(TEN.pow(decimals));
 export const toHex = (amount: BigNumber): string => '0x' + amount.toString(16);
 export const minBalance = (decimals: number): BigNumber => new BigNumber(`0.${'0'.repeat(decimals - 1)}1`);
+export const isWithinRange = (value: number, min: number, max: number): boolean => value >= min && value < max;
 
 /* Easy interface to check to see if wallet selection is handled and ready to connect
  * via onboard.js.  To be reused if connect buttons are displayed in multiple components
