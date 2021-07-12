@@ -259,6 +259,48 @@ export const Sidebar = observer(() => {
 							</ListItem>
 							<ListItem
 								button
+								className={getItemClass('/digg', classes.listItem)}
+								onClick={() => navigate(views.digg)}
+							>
+								<ListItemIcon>
+									<img
+										alt="Badger Digg Icon"
+										src={'assets/sidebar/digg-white.png'}
+										className={classes.icon}
+									/>
+								</ListItemIcon>
+								<ListItemText primary="Digg" />
+							</ListItem>
+							<ListItem
+								button
+								className={getItemClass('/ibBTC', classes.listItem)}
+								onClick={() => navigate(views.IbBTC)}
+							>
+								<ListItemIcon>
+									<img
+										alt="Interest Bearing Badger Bitcoin Icon"
+										src={'assets/sidebar/ibbtc-white.svg'}
+										className={classes.icon}
+									/>
+								</ListItemIcon>
+								<ListItemText primary="Interest Bearing BTC" />
+							</ListItem>
+							<ListItem
+								button
+								className={
+									classes.listItem +
+									' ' +
+									(store.router.currentPath == '/bridge' ? classes.activeListItem : '')
+								}
+								onClick={() => navigate(views.bridge)}
+							>
+								<ListItemIcon>
+									<img src="/assets/sidebar/icon-badger-bridge.svg" className={classes.icon} />
+								</ListItemIcon>
+								<ListItemText primary="Bridge" />
+							</ListItem>
+							<ListItem
+								button
 								className={classes.listItem}
 								onClick={() => {
 									setExpanded(expanded === 'boosts' ? '' : 'boosts');
@@ -303,48 +345,6 @@ export const Sidebar = observer(() => {
 									Boost Leaderboard
 								</ListItem>
 							</Collapse>
-							<ListItem
-								button
-								className={getItemClass('/digg', classes.listItem)}
-								onClick={() => navigate(views.digg)}
-							>
-								<ListItemIcon>
-									<img
-										alt="Badger Digg Icon"
-										src={'assets/sidebar/digg-white.png'}
-										className={classes.icon}
-									/>
-								</ListItemIcon>
-								<ListItemText primary="Digg" />
-							</ListItem>
-							<ListItem
-								button
-								className={getItemClass('/ibBTC', classes.listItem)}
-								onClick={() => navigate(views.IbBTC)}
-							>
-								<ListItemIcon>
-									<img
-										alt="Interest Bearing Badger Bitcoin Icon"
-										src={'assets/sidebar/ibbtc-white.svg'}
-										className={classes.icon}
-									/>
-								</ListItemIcon>
-								<ListItemText primary="Interest Bearing BTC" />
-							</ListItem>
-							<ListItem
-								button
-								className={
-									classes.listItem +
-									' ' +
-									(store.router.currentPath == '/bridge' ? classes.activeListItem : '')
-								}
-								onClick={() => navigate(views.bridge)}
-							>
-								<ListItemIcon>
-									<img src="/assets/sidebar/icon-badger-bridge.svg" className={classes.icon} />
-								</ListItemIcon>
-								<ListItemText primary="Bridge" />
-							</ListItem>
 							<ListItem
 								button
 								className={classes.listItem}
