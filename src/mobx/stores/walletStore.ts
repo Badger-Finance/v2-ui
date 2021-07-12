@@ -125,6 +125,15 @@ class WalletStore {
 		this.setAddress(walletState.address);
 	});
 
+	getCurrentNetwork(): string | undefined {
+		// not all the providers have the chainId prop available so we use the app network id as fallback
+		if (!this.provider || !this.provider.chainId) {
+			return getNetworkNameFromId(this.onboard.getState().appNetworkId);
+		}
+
+		return getNetworkFromProvider(this.provider);
+	}
+
 	getCurrentBlock = action(() => {
 		if (!this.provider) {
 			return;
@@ -150,7 +159,9 @@ class WalletStore {
 
 	setAddress = action(
 		async (address: string): Promise<void> => {
-			if (this.checkSupportedNetwork()) {
+			const isCurrentNetworkSupported = Boolean(this.getCurrentNetwork());
+
+			if (isCurrentNetworkSupported) {
 				this.connectedAddress = address;
 				await this.store.walletRefresh();
 			} else {
