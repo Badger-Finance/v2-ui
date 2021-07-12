@@ -79,14 +79,19 @@ export default class UserStore {
 		 */
 		observe(this.store.wallet as WalletStore, 'network', () => {
 			if (!this.loadingBalances) {
-				this.refresh();
+				this.refreshBalances();
 			}
 		});
 	}
 
 	/* State Mutation Functions */
 
-	refresh(): void {
+	refreshBalances(): void {
+		this.refreshProvider();
+		this.updateBalances(true);
+	}
+
+	refreshProvider(): void {
 		const provider = this.store.wallet.provider;
 		if (provider) {
 			const newOptions = {
@@ -94,7 +99,6 @@ export default class UserStore {
 			};
 			this.batchCall = new BatchCall(newOptions);
 		}
-		this.updateBalances(true);
 	}
 
 	/* Read Variables */
@@ -202,7 +206,7 @@ export default class UserStore {
 			if (!batchRequests || batchRequests.length === 0) {
 				return;
 			}
-			this.refresh();
+			this.refreshProvider();
 			const callResults: CallResult[] = await this.batchCall.execute(batchRequests);
 			if (DEBUG) {
 				console.log({ network: network.name, callResults });

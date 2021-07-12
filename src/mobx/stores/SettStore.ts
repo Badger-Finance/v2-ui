@@ -99,7 +99,7 @@ export default class SettStore {
 				this.loadAssets(network.name),
 			]);
 			this.initialized = true;
-			this.store.user.refresh();
+			this.store.user.refreshBalances();
 		}
 	}
 
