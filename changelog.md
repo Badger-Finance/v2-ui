@@ -3,6 +3,8 @@
 ### Hotfix - 07/12/2021
 
 -   add refresh when connecting wallet to set provider correctly
+-   remove double negative on digg rebase display
+-   reorder sidebar
 
 ### Hotfix - 07/11/2021
 
