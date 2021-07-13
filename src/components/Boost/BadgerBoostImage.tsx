@@ -2,13 +2,8 @@ import React from 'react';
 import { BoxProps } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
-import { percentageBetweenRange } from '../../utils/componentHelpers';
 
-const useStyles = (boost: number) => {
-	const sanitizedBoost = Math.min(boost, 3);
-	const badgerScore = percentageBetweenRange(sanitizedBoost, 3, 1);
-	const hue = 33 + badgerScore * 3.27;
-
+const useStyles = (signatureColor: string) => {
 	return makeStyles(() => ({
 		container: {
 			width: '100%',
@@ -18,7 +13,7 @@ const useStyles = (boost: number) => {
 			alignItems: 'center',
 			justifyContent: 'center',
 			position: 'relative',
-			background: `hsl(${hue}deg,88%,56%)`,
+			background: signatureColor,
 		},
 		boostImage: {
 			width: '60%',
@@ -27,11 +22,11 @@ const useStyles = (boost: number) => {
 };
 
 interface Props extends BoxProps {
-	boost: number;
+	signatureColor: string;
 }
 
-export const BadgerBoostImage = ({ boost, className, ...boxProps }: Props): JSX.Element => {
-	const classes = useStyles(boost)();
+export const BadgerBoostImage = ({ signatureColor, className, ...boxProps }: Props): JSX.Element => {
+	const classes = useStyles(signatureColor)();
 
 	return (
 		<div className={clsx(className, classes.container)} {...boxProps}>

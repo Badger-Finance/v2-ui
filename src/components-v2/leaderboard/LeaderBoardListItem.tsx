@@ -53,13 +53,14 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export interface LeaderBoardListItemProps {
+interface LeaderBoardListItemProps {
 	name: string;
 	usersAmount: number;
 	rankingRangeStart: number;
 	rankingRangeEnd: number;
 	boostRangeStart: number;
 	boostRangeEnd: number;
+	signatureColor: string;
 	isUserInRank?: boolean;
 }
 
@@ -73,6 +74,7 @@ export const LeaderBoardListItem = (props: LeaderBoardListItemProps): JSX.Elemen
 		rankingRangeEnd,
 		boostRangeStart,
 		boostRangeEnd,
+		signatureColor,
 		isUserInRank = false,
 	} = props;
 	const theme = useTheme();
@@ -88,7 +90,7 @@ export const LeaderBoardListItem = (props: LeaderBoardListItemProps): JSX.Elemen
 				<Grid item xs={12} md={5} lg={4}>
 					<Grid container alignItems="center">
 						<Box className={classes.boostBadgerContainer}>
-							<BadgerBoostImage boost={boostRangeStart} />
+							<BadgerBoostImage signatureColor={signatureColor} />
 						</Box>
 						<Box>
 							<Box display="flex" alignItems="center">

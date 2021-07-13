@@ -678,6 +678,7 @@ export interface LeaderboardRank {
 	name: string;
 	boostRangeStart: number;
 	boostRangeEnd: number;
+	signatureColor: string;
 }
 
 export interface MintLimits {
