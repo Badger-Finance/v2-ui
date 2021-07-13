@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	boostLeft: {
-		left: '31.5%',
+		left: '32.2%',
 		[theme.breakpoints.down('sm')]: {
 			left: '29%',
 		},
@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
 	boostRight: {
 		right: '31.5%',
 		[theme.breakpoints.down('sm')]: {
-			right: '29%',
+			right: '28.5%',
 		},
 	},
 	boostEyeStar: {
@@ -80,7 +80,7 @@ const useAnimatedStyles = (boost: number) => {
 			transform: `scale(${scale})`,
 			animation: '$glow 1s ease-in-out infinite alternate',
 			background: `radial-gradient(${rankFromBoost.signatureColor}, transparent ${
-				rankFromBoost.boostRangeEnd * 15
+				rankFromBoost.boostRangeEnd * 25
 			}%)`,
 		},
 		'@keyframes glow': {
