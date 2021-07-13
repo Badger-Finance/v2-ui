@@ -64,6 +64,7 @@ export const LeaderboardRanks = observer(
 							rankingRangeEnd={rank.lastSlotPosition}
 							boostRangeStart={rank.boostRangeStart}
 							boostRangeEnd={rank.boostRangeEnd}
+							signatureColor={rank.signatureColor}
 							isUserInRank={isUserInRank}
 						/>
 					);

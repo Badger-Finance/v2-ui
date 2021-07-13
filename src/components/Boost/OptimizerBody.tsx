@@ -6,7 +6,6 @@ import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
 import { Skeleton } from '@material-ui/lab';
 import { formatWithoutExtraZeros } from '../../mobx/utils/helpers';
-import { percentageBetweenRange } from '../../utils/componentHelpers';
 import { NativeBox } from './NativeBox';
 import BigNumber from 'bignumber.js';
 import { NonNativeBox } from './NonNativeBox';
@@ -69,7 +68,6 @@ export const OptimizerBody = observer(
 
 		const isLoading = !accountDetails;
 		const sanitizedBoost = Math.min(Number(boost), 3);
-		const badgerScore = percentageBetweenRange(sanitizedBoost, 3, 1);
 
 		const handleApplyRemaining = (amountToAdd: string) => {
 			if (isLoading || !native) return;
@@ -117,7 +115,7 @@ export const OptimizerBody = observer(
 		const badgerScoreContent = isLoading ? (
 			<BoostLoader variant="rect" />
 		) : (
-			<BoostBadgerAnimation score={badgerScore} />
+			<BoostBadgerAnimation boost={sanitizedBoost} />
 		);
 
 		const nativeBox = (

@@ -124,25 +124,30 @@ export const LEADERBOARD_RANKS: LeaderboardRank[] = [
 		name: 'Frenzy Badger',
 		boostRangeStart: 2.6,
 		boostRangeEnd: 3,
+		signatureColor: '#F44336',
 	},
 	{
 		name: 'Hyper Badger',
 		boostRangeStart: 2.2,
 		boostRangeEnd: 2.6,
+		signatureColor: '#A274D1',
 	},
 	{
 		name: 'Hero Badger',
 		boostRangeStart: 1.8,
 		boostRangeEnd: 2.2,
+		signatureColor: '#40C6FF',
 	},
 	{
 		name: 'Neo Badger',
 		boostRangeStart: 1.4,
 		boostRangeEnd: 1.8,
+		signatureColor: '#74D189',
 	},
 	{
 		name: 'Basic Badger',
 		boostRangeStart: 1,
 		boostRangeEnd: 1.4,
+		signatureColor: '#F2A52B',
 	},
 ];

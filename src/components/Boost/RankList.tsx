@@ -40,6 +40,7 @@ export const RankList = ({ currentBoost, accountBoost, onRankClick }: Props): JS
 								<RankLevel
 									name={rank.name}
 									boost={rank.boostRangeStart}
+									signatureColor={rank.signatureColor}
 									obtained={isObtained}
 									locked={isLocked}
 								/>
