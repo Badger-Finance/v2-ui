@@ -1,5 +1,9 @@
 # v2 UI Changelog
 
+### Hotfix - 07/13/2021
+
+-   use onboard's app network id as fallback in case the provider's chain id is not available while getting wallet's network
+
 ### Hotfix - 07/12/2021
 
 -   add refresh when connecting wallet to set provider correctly
