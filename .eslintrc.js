@@ -1,15 +1,6 @@
 module.exports = {
 	parser: '@typescript-eslint/parser', // Specifies the ESLint parser
-	plugins: [
-		'autofix',
-		'react',
-		'react-hooks',
-		'@typescript-eslint',
-		'prettier',
-		'unused-imports',
-		'promise',
-		'no-floating-promise',
-	],
+	plugins: ['autofix', 'react', 'react-hooks', '@typescript-eslint', 'prettier', 'unused-imports', 'promise'],
 	parserOptions: {
 		ecmaVersion: 2020, // Allows for the parsing of modern ECMAScript features
 		sourceType: 'module', // Allows for the use of imports
@@ -45,6 +36,5 @@ module.exports = {
 				endOfLine: 'auto',
 			},
 		],
-		'no-floating-promise/no-floating-promise': 2,
 	},
 };
