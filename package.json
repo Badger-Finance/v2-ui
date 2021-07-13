@@ -85,6 +85,8 @@
 		"eslint-config-prettier": "^7.1.0",
 		"eslint-plugin-autofix": "^1.0.3",
 		"eslint-plugin-prettier": "^3.3.1",
+		"eslint-plugin-promise": "^5.1.0",
+		"eslint-plugin-no-floating-promise": "^1.0.2",
 		"eslint-plugin-react": "^7.22.0",
 		"eslint-plugin-react-hooks": "^4.2.0",
 		"eslint-plugin-unused-imports": "^1.1.0",
