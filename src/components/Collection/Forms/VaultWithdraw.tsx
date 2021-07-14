@@ -13,6 +13,7 @@ import {
 	AmountTextField,
 	AssetInformationContainer,
 	BalanceInformation,
+	LoaderSpinner,
 	PercentagesContainer,
 	TextSkeleton,
 } from './Common';
@@ -31,11 +32,14 @@ export const VaultWithdraw = observer((props: SettModalProps) => {
 	} = store;
 
 	const userBalance = settBalances[badgerSett.vaultToken.address];
+	const vaultSymbol = setts.getToken(badgerSett.vaultToken.address)?.symbol || sett.asset;
+
 	const underlying = userBalance.tokenBalance.multipliedBy(sett.ppfs);
 	const underlyingBalance = new TokenBalance(userBalance.token, underlying, userBalance.price);
-	const canDeposit = !!connectedAddress && !!amount && userBalance.balance.gt(0);
 	const underlyingSymbol = setts.getToken(badgerSett.depositToken.address)?.symbol || sett.asset;
-	const vaultSymbol = setts.getToken(badgerSett.vaultToken.address)?.symbol || sett.asset;
+
+	const isLoading = contracts.settsBeingWithdrawn.findIndex((_sett) => _sett.name === sett.name) >= 0;
+	const canDeposit = !!connectedAddress && !!amount && userBalance.balance.gt(0);
 
 	const handlePercentageChange = (percent: number) => {
 		setAmount(userBalance.scaledBalanceDisplay(percent));
@@ -103,13 +107,20 @@ export const VaultWithdraw = observer((props: SettModalProps) => {
 				<ActionButton
 					aria-label="Withdraw"
 					size="large"
-					disabled={!canDeposit}
+					disabled={isLoading || !canDeposit}
 					onClick={handleSubmit}
 					variant="contained"
 					color="primary"
 					fullWidth
 				>
-					Withdraw
+					{isLoading ? (
+						<>
+							Withdraw In Progress
+							<LoaderSpinner size={20} />
+						</>
+					) : (
+						'Withdraw'
+					)}
 				</ActionButton>
 			</DialogActions>
 		</>

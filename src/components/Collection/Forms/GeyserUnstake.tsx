@@ -10,6 +10,7 @@ import {
 	AmountTextField,
 	AssetInformationContainer,
 	BalanceInformation,
+	LoaderSpinner,
 	PercentagesContainer,
 	TextSkeleton,
 } from './Common';
@@ -40,11 +41,14 @@ export const GeyserUnstake = observer((props: SettModalProps) => {
 	}
 
 	const userBalance = geyserBalances[badgerSett.geyser];
+	const vaultSymbol = setts.getToken(badgerSett.vaultToken.address)?.symbol || sett.asset;
+
 	const underlying = userBalance.tokenBalance.multipliedBy(sett.ppfs);
 	const underlyingBalance = new TokenBalance(userBalance.token, underlying, userBalance.price);
-	const canUnstake = !!connectedAddress && !!amount && userBalance.balance.gt(0);
 	const underlyingSymbol = setts.getToken(badgerSett.depositToken.address)?.symbol || sett.asset;
-	const vaultSymbol = setts.getToken(badgerSett.vaultToken.address)?.symbol || sett.asset;
+
+	const isLoading = contracts.settsBeingUnstaked.findIndex((_sett) => _sett.name === sett.name) >= 0;
+	const canUnstake = !!connectedAddress && !!amount && userBalance.balance.gt(0);
 
 	const handlePercentageChange = (percent: number) => {
 		setAmount(userBalance.scaledBalanceDisplay(percent));
@@ -114,13 +118,20 @@ export const GeyserUnstake = observer((props: SettModalProps) => {
 				<ActionButton
 					aria-label="Unstake"
 					size="large"
-					disabled={!canUnstake}
+					disabled={isLoading || !canUnstake}
 					onClick={handleSubmit}
 					variant="contained"
 					color="primary"
 					fullWidth
 				>
-					Unstake
+					{isLoading ? (
+						<>
+							Unstaking In Progress
+							<LoaderSpinner size={20} />
+						</>
+					) : (
+						'Unstake'
+					)}
 				</ActionButton>
 			</DialogActions>
 		</>
