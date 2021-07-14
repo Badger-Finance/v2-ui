@@ -115,7 +115,7 @@ export const VaultWithdraw = observer((props: SettModalProps) => {
 				>
 					{isLoading ? (
 						<>
-							Withdraw In Process
+							Withdraw In Progress
 							<LoaderSpinner size={20} />
 						</>
 					) : (

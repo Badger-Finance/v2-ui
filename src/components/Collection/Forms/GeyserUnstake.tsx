@@ -126,7 +126,7 @@ export const GeyserUnstake = observer((props: SettModalProps) => {
 				>
 					{isLoading ? (
 						<>
-							Unstaking In Process
+							Unstaking In Progress
 							<LoaderSpinner size={20} />
 						</>
 					) : (

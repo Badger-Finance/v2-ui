@@ -116,7 +116,7 @@ export const VaultDeposit = observer((props: SettModalProps) => {
 				>
 					{isLoading ? (
 						<>
-							Deposit In Process
+							Deposit In Progress
 							<LoaderSpinner size={20} />
 						</>
 					) : (
