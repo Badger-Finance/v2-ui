@@ -2,7 +2,7 @@
 
 exports[`CurrencyPicker Opens menu upon click 1`] = `
 <div
-  class="MuiPopover-root-57"
+  class="MuiPopover-root-58"
   id="menu-"
   role="presentation"
   style="position: fixed; z-index: 1300; right: 0px; bottom: 0px; top: 0px; left: 0px;"
@@ -16,62 +16,62 @@ exports[`CurrencyPicker Opens menu upon click 1`] = `
     tabindex="0"
   />
   <div
-    class="MuiPaper-root-63 MuiMenu-paper-55 MuiPopover-paper-58 MuiPaper-elevation8-74 MuiPaper-rounded-64"
+    class="MuiPaper-root-64 MuiMenu-paper-56 MuiPopover-paper-59 MuiPaper-elevation8-75 MuiPaper-rounded-65"
     style="opacity: 1; transform: none; min-width: 0; transition: opacity 0ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,transform 0ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; top: 16px; left: 16px; transform-origin: -16px -16px;"
     tabindex="-1"
   >
     <ul
-      class="MuiList-root-91 MuiMenu-list-56 MuiList-padding-92"
+      class="MuiList-root-92 MuiMenu-list-57 MuiList-padding-93"
       role="listbox"
       tabindex="-1"
     >
       <li
         aria-disabled="false"
         aria-selected="true"
-        class="MuiButtonBase-root-110 MuiListItem-root-99 MuiMenuItem-root-95 MuiMenuItem-selected-97 MuiMenuItem-gutters-96 MuiListItem-gutters-106 MuiListItem-button-107 MuiListItem-selected-109 MuiButtonBase-focusVisible-112 MuiListItem-focusVisible-101"
+        class="MuiButtonBase-root-111 MuiListItem-root-100 MuiMenuItem-root-96 makeStyles-menuItem-2 MuiMenuItem-selected-98 MuiMenuItem-gutters-97 MuiListItem-gutters-107 MuiListItem-button-108 MuiListItem-selected-110 MuiButtonBase-focusVisible-113 MuiListItem-focusVisible-102"
         data-value="usd"
         role="option"
         tabindex="0"
       >
         USD
         <span
-          class="MuiTouchRipple-root-113"
+          class="MuiTouchRipple-root-114"
         />
       </li>
       <li
         aria-disabled="false"
-        class="MuiButtonBase-root-110 MuiListItem-root-99 MuiMenuItem-root-95 MuiMenuItem-gutters-96 MuiListItem-gutters-106 MuiListItem-button-107"
+        class="MuiButtonBase-root-111 MuiListItem-root-100 MuiMenuItem-root-96 makeStyles-menuItem-2 MuiMenuItem-gutters-97 MuiListItem-gutters-107 MuiListItem-button-108"
         data-value="cad"
         role="option"
         tabindex="-1"
       >
         CAD
         <span
-          class="MuiTouchRipple-root-113"
+          class="MuiTouchRipple-root-114"
         />
       </li>
       <li
         aria-disabled="false"
-        class="MuiButtonBase-root-110 MuiListItem-root-99 MuiMenuItem-root-95 MuiMenuItem-gutters-96 MuiListItem-gutters-106 MuiListItem-button-107"
+        class="MuiButtonBase-root-111 MuiListItem-root-100 MuiMenuItem-root-96 makeStyles-menuItem-2 MuiMenuItem-gutters-97 MuiListItem-gutters-107 MuiListItem-button-108"
         data-value="btc"
         role="option"
         tabindex="-1"
       >
         BTC
         <span
-          class="MuiTouchRipple-root-113"
+          class="MuiTouchRipple-root-114"
         />
       </li>
       <li
         aria-disabled="false"
-        class="MuiButtonBase-root-110 MuiListItem-root-99 MuiMenuItem-root-95 MuiMenuItem-gutters-96 MuiListItem-gutters-106 MuiListItem-button-107"
+        class="MuiButtonBase-root-111 MuiListItem-root-100 MuiMenuItem-root-96 makeStyles-menuItem-2 MuiMenuItem-gutters-97 MuiListItem-gutters-107 MuiListItem-button-108"
         data-value="eth"
         role="option"
         tabindex="-1"
       >
-        ETH
+        eth
         <span
-          class="MuiTouchRipple-root-113"
+          class="MuiTouchRipple-root-114"
         />
       </li>
     </ul>
@@ -86,11 +86,11 @@ exports[`CurrencyPicker Opens menu upon click 1`] = `
 exports[`CurrencyPicker Renders correctly 1`] = `
 <div>
   <div
-    class="MuiInputBase-root-28 MuiOutlinedInput-root-13 makeStyles-currencyPicker-1"
+    class="MuiInputBase-root-29 MuiOutlinedInput-root-14 makeStyles-currencyPicker-1"
   >
     <div
       aria-haspopup="listbox"
-      class="MuiSelect-root-2 MuiSelect-select-3 MuiSelect-selectMenu-6 MuiSelect-outlined-5 MuiInputBase-input-39 MuiOutlinedInput-input-23"
+      class="MuiSelect-root-3 MuiSelect-select-4 MuiSelect-selectMenu-7 MuiSelect-outlined-6 MuiInputBase-input-40 MuiOutlinedInput-input-24"
       role="button"
       tabindex="0"
     >
@@ -98,13 +98,13 @@ exports[`CurrencyPicker Renders correctly 1`] = `
     </div>
     <input
       aria-hidden="true"
-      class="MuiSelect-nativeInput-12"
+      class="MuiSelect-nativeInput-13"
       tabindex="-1"
       value="usd"
     />
     <svg
       aria-hidden="true"
-      class="MuiSvgIcon-root-46 MuiSelect-icon-8 MuiSelect-iconOutlined-11"
+      class="MuiSvgIcon-root-47 MuiSelect-icon-9 MuiSelect-iconOutlined-12"
       focusable="false"
       viewBox="0 0 24 24"
     >
@@ -114,11 +114,11 @@ exports[`CurrencyPicker Renders correctly 1`] = `
     </svg>
     <fieldset
       aria-hidden="true"
-      class="PrivateNotchedOutline-root-59 MuiOutlinedInput-notchedOutline-22"
+      class="PrivateNotchedOutline-root-60 MuiOutlinedInput-notchedOutline-23"
       style="padding-left: 8px;"
     >
       <legend
-        class="PrivateNotchedOutline-legend-60"
+        class="PrivateNotchedOutline-legend-61"
         style="width: 0.01px;"
       >
         <span>

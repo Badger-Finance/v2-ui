@@ -8,10 +8,14 @@ const useStyles = makeStyles((theme) => ({
 		height: '1.8rem',
 		overflow: 'hidden',
 		marginLeft: theme.spacing(1),
+		textTransform: 'uppercase',
 		[theme.breakpoints.up('sm')]: {
 			marginTop: 'auto',
 			marginBottom: 'auto',
 		},
+	},
+	menuItem: {
+		textTransform: 'uppercase',
 	},
 }));
 
@@ -30,10 +34,18 @@ const CurrencyPicker = observer(() => {
 			onChange={(v: any) => setCurrency(v.target.value)}
 			className={classes.currencyPicker}
 		>
-			<MenuItem value={'usd'}>USD</MenuItem>
-			<MenuItem value={'cad'}>CAD</MenuItem>
-			<MenuItem value={'btc'}>BTC</MenuItem>
-			<MenuItem value={network.currency.toLowerCase()}>{network.currency}</MenuItem>
+			<MenuItem className={classes.menuItem} value={'usd'}>
+				USD
+			</MenuItem>
+			<MenuItem className={classes.menuItem} value={'cad'}>
+				CAD
+			</MenuItem>
+			<MenuItem className={classes.menuItem} value={'btc'}>
+				BTC
+			</MenuItem>
+			<MenuItem className={classes.menuItem} value={network.currency.toLowerCase()}>
+				{network.currency}
+			</MenuItem>
 		</Select>
 	);
 });

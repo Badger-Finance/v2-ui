@@ -102,7 +102,7 @@ exports[`Landing Page Renders correctly 1`] = `
                 </span>
               </span>
               <span
-                class="MuiTouchRipple-root-339"
+                class="MuiTouchRipple-root-340"
               />
             </button>
           </div>
@@ -208,7 +208,7 @@ exports[`Landing Page Renders correctly 1`] = `
         class="MuiGrid-root-20 MuiGrid-item-22 MuiGrid-grid-xs-12-66 MuiGrid-grid-md-6-88"
       >
         <div
-          class="MuiPaper-root-281 makeStyles-infoPaper-280 MuiPaper-elevation2-286 MuiPaper-rounded-282"
+          class="MuiPaper-root-282 makeStyles-infoPaper-281 MuiPaper-elevation2-287 MuiPaper-rounded-283"
         >
           <h6
             class="MuiTypography-root-126 MuiTypography-subtitle1-137 MuiTypography-colorTextPrimary-151"
@@ -216,7 +216,7 @@ exports[`Landing Page Renders correctly 1`] = `
             Total Value Locked
           </h6>
           <span
-            class="MuiSkeleton-root-309 MuiSkeleton-text-310 MuiSkeleton-withChildren-317 MuiSkeleton-fitContent-318 MuiSkeleton-heightAuto-319 MuiSkeleton-wave-315"
+            class="MuiSkeleton-root-310 MuiSkeleton-text-311 MuiSkeleton-withChildren-318 MuiSkeleton-fitContent-319 MuiSkeleton-heightAuto-320 MuiSkeleton-wave-316"
           >
             <h5
               class="MuiTypography-root-126 MuiTypography-h5-135"
@@ -230,7 +230,7 @@ exports[`Landing Page Renders correctly 1`] = `
         class="MuiGrid-root-20 MuiGrid-item-22 MuiGrid-grid-xs-12-66 MuiGrid-grid-md-6-88"
       >
         <div
-          class="MuiPaper-root-281 makeStyles-infoPaper-280 MuiPaper-elevation2-286 MuiPaper-rounded-282"
+          class="MuiPaper-root-282 makeStyles-infoPaper-281 MuiPaper-elevation2-287 MuiPaper-rounded-283"
         >
           <h6
             class="MuiTypography-root-126 MuiTypography-subtitle1-137 MuiTypography-colorTextPrimary-151"
@@ -238,7 +238,7 @@ exports[`Landing Page Renders correctly 1`] = `
             Badger Price
           </h6>
           <span
-            class="MuiSkeleton-root-309 MuiSkeleton-text-310 MuiSkeleton-withChildren-317 MuiSkeleton-fitContent-318 MuiSkeleton-heightAuto-319 MuiSkeleton-wave-315"
+            class="MuiSkeleton-root-310 MuiSkeleton-text-311 MuiSkeleton-withChildren-318 MuiSkeleton-fitContent-319 MuiSkeleton-heightAuto-320 MuiSkeleton-wave-316"
           >
             <h5
               class="MuiTypography-root-126 MuiTypography-h5-135"
@@ -250,22 +250,22 @@ exports[`Landing Page Renders correctly 1`] = `
       </div>
     </div>
     <div
-      class="makeStyles-settListContainer-320"
+      class="makeStyles-settListContainer-321"
     >
       <div
-        class="makeStyles-loaderContainer-322"
+        class="makeStyles-loaderContainer-323"
       >
         <div
-          class="MuiCircularProgress-root-325 MuiCircularProgress-colorPrimary-329 MuiCircularProgress-indeterminate-327"
+          class="MuiCircularProgress-root-326 MuiCircularProgress-colorPrimary-330 MuiCircularProgress-indeterminate-328"
           role="progressbar"
           style="width: 60px; height: 60px;"
         >
           <svg
-            class="MuiCircularProgress-svg-331"
+            class="MuiCircularProgress-svg-332"
             viewBox="22 22 44 44"
           >
             <circle
-              class="MuiCircularProgress-circle-332 MuiCircularProgress-circleIndeterminate-334"
+              class="MuiCircularProgress-circle-333 MuiCircularProgress-circleIndeterminate-335"
               cx="44"
               cy="44"
               fill="none"
@@ -275,7 +275,7 @@ exports[`Landing Page Renders correctly 1`] = `
           </svg>
         </div>
         <p
-          class="MuiTypography-root-126 makeStyles-loaderMessage-323 MuiTypography-body1-128"
+          class="MuiTypography-root-126 makeStyles-loaderMessage-324 MuiTypography-body1-128"
         >
           Loading Ethereum Setts...
         </p>

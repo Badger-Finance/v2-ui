@@ -13,6 +13,7 @@ import { Sett } from 'mobx/model';
 import { TokenBalance } from 'mobx/model/token-balance';
 import BigNumber from 'bignumber.js';
 import Web3 from 'web3';
+import { Currency } from '../../mobx/model/currency';
 
 const useStyles = makeStyles((theme) => ({
 	boostContainer: {
@@ -27,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 const createSettListItem = (
 	sett: Sett,
 	itemBalance: TokenBalance,
-	currency: string,
+	currency: Currency,
 	period: string,
 	onOpen: (sett: Sett) => void,
 ): JSX.Element | null => {

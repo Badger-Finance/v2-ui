@@ -4,6 +4,7 @@ import { getNetworkNameFromId } from './network';
 import { API } from 'bnc-onboard/dist/src/interfaces';
 import store from 'mobx/store';
 import { retry } from '@lifeomic/attempt';
+import { Currency } from '../model/currency';
 
 export const jsonQuery = (url: string | undefined): Promise<Response> | undefined => {
 	if (!url) return;
@@ -44,7 +45,7 @@ export const secondsToBlocks = (seconds: number): number => {
 // output: formatted currency string
 export const usdToCurrency = (
 	value: BigNumber,
-	currency: string,
+	currency: Currency,
 	hide = false,
 	preferredDecimals = 2,
 	noCommas = false,
@@ -102,7 +103,7 @@ export const usdToCurrency = (
 // output: formatted currency string
 export const inCurrency = (
 	value: BigNumber,
-	currency: string,
+	currency: Currency,
 	hide = false,
 	preferredDecimals = 5,
 	noCommas = false,
@@ -159,7 +160,7 @@ export const inCurrency = (
 
 interface DiggToCurrencyOptions {
 	amount: BigNumber;
-	currency: 'usd' | 'btc' | 'eth' | 'cad' | 'bnb';
+	currency: Currency;
 	hide?: boolean;
 	preferredDecimals?: number;
 	noCommas?: boolean;

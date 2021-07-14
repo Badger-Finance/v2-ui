@@ -8,6 +8,7 @@ import DisabledSettListItem from './DisabledSettListItem';
 import CurrencyDisplay from '../common/CurrencyDisplay';
 import SettBadge from './SettBadge';
 import BigNumber from 'bignumber.js';
+import { Currency } from '../../mobx/model/currency';
 
 const useStyles = makeStyles((theme) => ({
 	border: {
@@ -86,7 +87,7 @@ export interface SettListItemProps {
 	sett: Sett;
 	balance?: string;
 	balanceValue?: string;
-	currency: string;
+	currency: Currency;
 	period: string;
 	onOpen: () => void;
 }

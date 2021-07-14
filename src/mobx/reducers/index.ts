@@ -2,6 +2,7 @@ import { extendObservable, action, observe } from 'mobx';
 import { RootStore } from '../store';
 import views from 'config/routes';
 import WalletStore from 'mobx/stores/walletStore';
+import { Currency } from '../model/currency';
 
 /**
  * TODO: save this class' poor soul
@@ -9,7 +10,7 @@ import WalletStore from 'mobx/stores/walletStore';
 class UiState {
 	private readonly store!: RootStore;
 
-	public currency!: string;
+	public currency!: Currency;
 	public period!: string;
 
 	/**
@@ -76,7 +77,7 @@ class UiState {
 		else window.localStorage.removeItem(`${network.name}-hideZeroBal`);
 	});
 
-	setCurrency = action((currency: string) => {
+	setCurrency = action((currency: Currency) => {
 		this.currency = currency;
 		const { network } = this.store.wallet;
 		window.localStorage.setItem(`${network.name}-selectedCurrency`, currency);

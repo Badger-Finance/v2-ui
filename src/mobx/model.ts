@@ -18,6 +18,7 @@ import { ethSetts, ethProtocolTokens, getEthereumBatchRequests, getNetworkBatchR
 import { bscSetts, bscProtocolTokens } from 'web3/config/bsc-config';
 import { ProtocolTokens } from 'web3/interface/protocol-token';
 import { TokenBalance } from './model/token-balance';
+import { Currency } from './model/currency';
 
 export class Contract {
 	store!: RootStore;
@@ -354,7 +355,7 @@ export interface Network {
 	airdrops: AirdropNetworkConfig[];
 	deploy: DeployConfig;
 	rewards: RewardNetworkConfig | undefined;
-	currency: string;
+	currency: Currency;
 	gasEndpoint: string;
 	sidebarTokenLinks: SidebarLink[];
 	sidebarPricingLinks: SidebarLink[];
@@ -393,7 +394,7 @@ export class BscNetwork implements Network {
 	readonly airdrops = getAirdrops(NETWORK_LIST.BSC);
 	readonly deploy = getNetworkDeploy(NETWORK_LIST.BSC);
 	readonly rewards = getRewards(NETWORK_LIST.BSC);
-	readonly currency = 'BNB';
+	readonly currency = 'bnb';
 	readonly gasEndpoint = '';
 	// Deterministic order for displaying setts on the sett list component
 	readonly settOrder = [
@@ -431,7 +432,7 @@ export class EthNetwork implements Network {
 	readonly airdrops = getAirdrops(NETWORK_LIST.ETH);
 	readonly deploy = getNetworkDeploy(NETWORK_LIST.ETH);
 	readonly rewards = getRewards(NETWORK_LIST.ETH);
-	readonly currency = 'ETH';
+	readonly currency = 'eth';
 	readonly gasEndpoint = 'https://www.gasnow.org/api/v3/gas/price?utm_source=badgerv2';
 	// Deterministic order for displaying setts on the sett list component
 	readonly settOrder = [

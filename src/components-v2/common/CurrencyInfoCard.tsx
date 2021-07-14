@@ -4,11 +4,12 @@ import { inCurrency } from '../../mobx/utils/helpers';
 import Skeleton from '@material-ui/lab/Skeleton';
 import BigNumber from 'bignumber.js';
 import CurrencyDisplay from './CurrencyDisplay';
+import { Currency } from '../../mobx/model/currency';
 
 export interface CurrencyInfoCardProps {
 	title: string;
 	value?: BigNumber;
-	currency: string;
+	currency: Currency;
 }
 
 const useStyles = makeStyles((theme) => ({
