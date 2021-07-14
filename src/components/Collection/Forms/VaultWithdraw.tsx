@@ -17,7 +17,6 @@ import {
 	PercentagesContainer,
 	TextSkeleton,
 } from './Common';
-import { toJS } from 'mobx';
 
 export const VaultWithdraw = observer((props: SettModalProps) => {
 	const store = useContext(StoreContext);
@@ -41,8 +40,6 @@ export const VaultWithdraw = observer((props: SettModalProps) => {
 
 	const isLoading = contracts.settsBeingWithdrawn.findIndex((_sett) => _sett.name === sett.name) >= 0;
 	const canDeposit = !!connectedAddress && !!amount && userBalance.balance.gt(0);
-
-	console.log('settsBeingWithdrawn =>', toJS(contracts.settsBeingWithdrawn));
 
 	const handlePercentageChange = (percent: number) => {
 		setAmount(userBalance.scaledBalanceDisplay(percent));
