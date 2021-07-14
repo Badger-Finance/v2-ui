@@ -2,7 +2,7 @@
 
 ### Hotfix - 07/14/2021
 
--   reset currency to usd when network when the wallet network changes
+-   reset currency to usd when the wallet's network changes
 
 ### Hotfix - 07/13/2021
 
