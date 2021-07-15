@@ -12,7 +12,7 @@ const useStyles = makeStyles(() => ({
 	},
 }));
 
-const useProgressStyles = (currentBoost: number, accountBoost: number) => {
+const useProgressStyles = (currentBoost: number, accountBoost: number, rangeStart: number, rangeEnd: number) => {
 	return makeStyles((theme) => {
 		const upperLimit = Math.max(currentBoost, accountBoost); // current boost can be greater than account boost
 		const lowerLimit = Math.min(currentBoost, accountBoost);
@@ -20,11 +20,11 @@ const useProgressStyles = (currentBoost: number, accountBoost: number) => {
 		const sanitizedMax = Math.min(upperLimit, 3); // no matter the input the max boost is 3
 		const sanitizedMin = Math.max(lowerLimit, 1); // no matter the input the min boost is 1
 
-		const rawBarHeight = percentageBetweenRange(sanitizedMax, 3, 1);
+		const rawBarHeight = percentageBetweenRange(sanitizedMax, rangeEnd, rangeStart);
 		const sanitizedBarHeight = Math.min(rawBarHeight, 100);
 
 		// calculate the height of the difference section between the current boost and account boost
-		const differenceSectionHeight = percentageBetweenRange(sanitizedMin, sanitizedMax, 1);
+		const differenceSectionHeight = percentageBetweenRange(sanitizedMin, sanitizedMax, rangeStart);
 
 		// show whether the difference is positive or negative
 		const differenceColor = getColorFromComparison({
@@ -50,11 +50,13 @@ const useProgressStyles = (currentBoost: number, accountBoost: number) => {
 interface Props {
 	boost: number;
 	accountBoost: number;
+	rangeStart: number;
+	rangeEnd: number;
 }
 
-export const RankProgressBar = ({ boost, accountBoost }: Props): JSX.Element => {
+export const RankProgressBar = ({ boost, accountBoost, rangeStart, rangeEnd }: Props): JSX.Element => {
 	const classes = useStyles();
-	const progressClasses = useProgressStyles(Number(boost), accountBoost)();
+	const progressClasses = useProgressStyles(boost, accountBoost, rangeStart, rangeEnd)();
 
 	return (
 		<div className={classes.rankBar}>

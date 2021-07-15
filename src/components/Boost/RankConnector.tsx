@@ -47,7 +47,7 @@ interface Props {
 }
 
 export const RankConnector = ({ boost, accountBoost, rankBoost }: Props): JSX.Element => {
-	const classes = useRankConnectorStyles(Number(boost), accountBoost, rankBoost)();
+	const classes = useRankConnectorStyles(boost, accountBoost, rankBoost)();
 
 	return <div className={classes.connector} />;
 };

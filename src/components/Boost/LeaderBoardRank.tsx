@@ -7,7 +7,6 @@ import { observer } from 'mobx-react-lite';
 
 import { getColorFromComparison } from './utils';
 import { BadgerBoostImage } from './BadgerBoostImage';
-import { RankProgressBar } from './RankProgressBar';
 import { RankList } from './RankList';
 import { StoreContext } from '../../mobx/store-context';
 import routes from '../../config/routes';
@@ -130,13 +129,8 @@ export const LeaderBoardRank = observer(
 				</Grid>
 				<Divider className={classes.divider} />
 				<Grid item container>
-					{accountBoost ? (
-						<RankProgressBar boost={Number(boost)} accountBoost={accountBoost} />
-					) : (
-						<div className={classes.placeholderProgressBar} />
-					)}
 					<Grid item xs>
-						<RankList currentBoost={boost} accountBoost={accountBoost} onRankClick={onRankClick} />
+						<RankList currentBoost={Number(boost)} accountBoost={accountBoost} onRankClick={onRankClick} />
 					</Grid>
 				</Grid>
 
