@@ -178,6 +178,7 @@ export const Sidebar = observer(() => {
 		return clsx(isActive ? classes.activeListItem : listClass, ...additionalClasses);
 	};
 
+	// TODO: Deprecate this in favor of router integration https://github.com/Badger-Finance/v2-ui/issues/709
 	const getCollapsableItemClasses = (
 		collapseKey: string,
 		childrenRoutes: string[],
