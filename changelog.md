@@ -1,5 +1,9 @@
 # v2 UI Changelog
 
+### Hotfix - 07/14/2021
+
+-   reset currency to usd when the wallet's network changes
+
 ### Hotfix - 07/13/2021
 
 -   use onboard's app network id as fallback in case the provider's chain id is not available while getting wallet's network

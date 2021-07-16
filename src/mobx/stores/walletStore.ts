@@ -1,4 +1,4 @@
-import { extendObservable, action } from 'mobx';
+import { extendObservable, action, observe } from 'mobx';
 import Web3 from 'web3';
 import Onboard from 'bnc-onboard';
 import Notify from 'bnc-notify';
@@ -60,6 +60,11 @@ class WalletStore {
 			network: this.network,
 			onboard: onboard,
 			notify: notify,
+		});
+
+		observe(this, 'network', () => {
+			// whenever network changes reset currency back to default usd
+			this.store.uiState.currency = 'usd';
 		});
 
 		// set defaults
