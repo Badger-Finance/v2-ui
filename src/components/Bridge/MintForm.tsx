@@ -34,6 +34,8 @@ export const MintForm = ({
 	isEarn,
 }: MintFormProps): JSX.Element => {
 	const store = useContext(StoreContext);
+	const { ibBTCStore } = React.useContext(StoreContext);
+	const { ibBTC, apyUsingLastDay, apyUsingLastWeek } = ibBTCStore;
 
 	const {
 		onboard,
@@ -67,6 +69,8 @@ export const MintForm = ({
 				address = sett_system.vaults['native.tbtcCrv'];
 				break;
 		}
+		if (token === 'ibBTC' && apyUsingLastWeek !== undefined && apyUsingLastWeek !== null)
+			return parseFloat(apyUsingLastWeek);
 		// No APY for non vault tokens.
 		if (!address) return 0;
 		const sett = settMap[address];

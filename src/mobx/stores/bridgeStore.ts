@@ -653,15 +653,16 @@ class BridgeStore {
 			await retry(async () => {
 				if (mintBool === true) {
 					const mintFee = await this.core.methods.mintFee().call();
-					fee = (amount * mintFee) / 100;
+					fee = (amount * mintFee) / 10000;
 				} else {
 					const redeemFee = await this.core.methods.redeemFee().call();
 					const pricePerShare = await this.core.methods.pricePerShare().call();
-					fee = (amount * pricePerShare * redeemFee) / 1e20;
+					fee = (amount * pricePerShare * redeemFee) / 1e22;
 				}
 			}, defaultRetryOptions);
 		} catch (err) {
 			queueNotification(`Failed to fetch ibBTC fees: ${err.message}`, 'error');
+			console.log(err.message);
 		}
 		return fee;
 	};
@@ -710,7 +711,7 @@ class BridgeStore {
 			queueNotification(`Failed to fetch optimal PoolID: ${err.message}`, 'error');
 			console.log(err.message);
 		}
-		return [poolId, new BigNumber(tokenAmount).dividedBy(DECIMALS).toString(), optimalToken];
+		return [poolId, new BigNumber(tokenAmount).dividedBy(SETT_DECIMALS).toString(), optimalToken];
 	};
 }
 
