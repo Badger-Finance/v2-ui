@@ -1,24 +1,26 @@
 import { extendObservable, action, observe } from 'mobx';
 import { RootStore } from '../store';
-import { UserPermissions, Account, RewardMerkleClaim } from 'mobx/model';
 import { checkShopEligibility, fetchBouncerProof, fetchClaimProof, getAccountDetails } from 'mobx/utils/apiV2';
 import WalletStore from './walletStore';
 import Web3 from 'web3';
-import { UserBalances } from 'mobx/model/user-balances';
+import { UserBalances } from 'mobx/model/account/user-balances';
 import BatchCall from 'web3-batch-call';
 import { BatchCallClient } from 'web3/interface/batch-call-client';
 import BigNumber from 'bignumber.js';
 import { ContractNamespace } from 'web3/config/contract-namespace';
-import { TokenBalance } from 'mobx/model/token-balance';
-import { BadgerSett } from 'mobx/model/badger-sett';
-import { BadgerToken, mockToken } from 'mobx/model/badger-token';
+import { TokenBalance } from 'mobx/model/tokens/token-balance';
+import { BadgerSett } from 'mobx/model/vaults/badger-sett';
+import { BadgerToken, mockToken } from 'mobx/model/tokens/badger-token';
 import { CallResult } from 'web3/interface/call-result';
 import { DEBUG, ONE_MIN_MS, ZERO_ADDR } from 'config/constants';
-import { UserBalanceCache } from 'mobx/model/user-balance-cache';
-import { CachedUserBalances } from 'mobx/model/cached-user-balances';
+import { UserBalanceCache } from 'mobx/model/account/user-balance-cache';
+import { CachedUserBalances } from 'mobx/model/account/cached-user-balances';
 import { createBatchCallRequest } from 'web3/config/config-utils';
-import { VaultCaps } from 'mobx/model/vault-cap copy';
-import { VaultCap } from 'mobx/model/vault-cap';
+import { VaultCaps } from 'mobx/model/vaults/vault-cap copy';
+import { VaultCap } from 'mobx/model/vaults/vault-cap';
+import { Account } from '../model/account/account';
+import { RewardMerkleClaim } from '../model/rewards/reward-merkle-claim';
+import { UserPermissions } from '../model/account/userPermissions';
 
 export default class UserStore {
 	private store!: RootStore;
@@ -55,7 +57,7 @@ export default class UserStore {
 		});
 
 		/**
-		 * Update user store on change of address.
+		 * Update account store on change of address.
 		 */
 		observe(this.store.wallet as WalletStore, 'connectedAddress', () => {
 			if (!this.loadingBalances) {
@@ -75,7 +77,7 @@ export default class UserStore {
 		});
 
 		/**
-		 * Update user store on change of network.
+		 * Update account store on change of network.
 		 */
 		observe(this.store.wallet as WalletStore, 'network', () => {
 			if (!this.loadingBalances) {
@@ -222,7 +224,7 @@ export default class UserStore {
 			const settBalances: UserBalances = {};
 			const geyserBalances: UserBalances = {};
 
-			// update all user balances
+			// update all account balances
 			userTokens.forEach((token) => this.updateUserBalance(tokenBalances, token, this.getDepositToken));
 			userGeneralSetts.forEach((sett) => this.updateUserBalance(settBalances, sett, this.getSettToken));
 			userGuardedSetts.forEach((sett) => this.updateUserBalance(settBalances, sett, this.getSettToken));

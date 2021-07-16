@@ -7,8 +7,8 @@ import { ERC20, NETWORK_IDS } from 'config/constants';
 import mainnet from 'config/deployments/mainnet.json';
 import { abi as scarcityPoolABI } from 'config/system/abis/BadgerScarcityPool.json';
 import { abi as memeLtdABI } from 'config/system/abis/MemeLtd.json';
-import { NFT } from 'mobx/model';
 import { getSendOptions } from 'mobx/utils/web3';
+import { NFT } from '../model/boost/NFT';
 
 const nftAssetsByTokenId: Record<string, Pick<NFT, 'name' | 'image' | 'redirectUrl' | 'totalSupply'>> = {
 	'205': {

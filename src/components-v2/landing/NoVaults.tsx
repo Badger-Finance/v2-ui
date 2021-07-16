@@ -1,6 +1,6 @@
 import { makeStyles, Typography } from '@material-ui/core';
-import { SettState } from 'mobx/model';
 import React from 'react';
+import { SettState } from '../../mobx/model/setts/sett-state';
 
 const useStyles = makeStyles((theme) => ({
 	messageContainer: {

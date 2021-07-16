@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { DialogContent, DialogActions, Grid } from '@material-ui/core';
 
-import { TokenBalance } from 'mobx/model/token-balance';
+import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { SettModalProps } from './VaultDeposit';
 import { StoreContext } from 'mobx/store-context';
 import {

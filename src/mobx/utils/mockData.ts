@@ -1,4 +1,5 @@
-import { Sett, SettState } from 'mobx/model';
+import { SettState } from '../model/setts/sett-state';
+import { Sett } from '../model/setts/sett';
 
 export const testYearnVaultApiResponse: Sett = {
 	name: 'Test Yearn Vault',

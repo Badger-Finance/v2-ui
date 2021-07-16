@@ -1,4 +1,4 @@
-import { BadgerSett } from 'mobx/model/badger-sett';
+import { BadgerSett } from 'mobx/model/vaults/badger-sett';
 import { BatchCallRequest } from 'web3/interface/batch-call-request';
 import { Deploy } from 'web3/interface/deploy';
 import { ProtocolTokens } from 'web3/interface/protocol-token';

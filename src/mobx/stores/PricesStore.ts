@@ -2,11 +2,14 @@ import { retry } from '@lifeomic/attempt';
 import BigNumber from 'bignumber.js';
 import { defaultRetryOptions } from 'config/constants';
 import { action, extendObservable, IValueDidChange, observe } from 'mobx';
-import { BDiggExchangeRates, ExchangeRates, Network, PriceSummary } from 'mobx/model';
 import { RootStore } from 'mobx/store';
 import { getTokenPrices } from 'mobx/utils/apiV2';
 import { fetchData } from 'mobx/utils/helpers';
 import Web3 from 'web3';
+import { Network } from '../model/network/network';
+import { ExchangeRates } from '../model/system-config/exchange-rates';
+import { BDiggExchangeRates } from '../model/system-config/bDigg-exchange-rates';
+import { PriceSummary } from '../model/system-config/price-summary';
 
 export default class PricesStore {
 	private store: RootStore;

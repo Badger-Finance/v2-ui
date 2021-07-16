@@ -1,13 +1,13 @@
-import { IbbtcVaultPeak } from './model/ibbtc-vault-peak';
-import { TokenModel } from './model';
+import { IbbtcVaultPeak } from './model/vaults/ibbtc-vault-peak';
 import { RootStore } from './store';
 import addresses from 'config/ibBTC/addresses.json';
-import { ZapPeak } from './model/zap-peak';
-import { YearnPeak } from './model/yearn-peak';
-import { BadgerPeak } from './model/badger-peak';
+import { ZapPeak } from './model/vaults/zap-peak';
+import { YearnPeak } from './model/vaults/yearn-peak';
+import { BadgerPeak } from './model/vaults/badger-peak';
+import { IbbtcOptionToken } from './model/tokens/ibbtc-option-token';
 
 export class IbbtcVaultPeakFactory {
-	static createIbbtcVaultPeakForToken(store: RootStore, token: TokenModel): IbbtcVaultPeak {
+	static createIbbtcVaultPeakForToken(store: RootStore, token: IbbtcOptionToken): IbbtcVaultPeak {
 		if (addresses.mainnet.contracts.ZapPeak.supportedTokens.includes(token.symbol)) {
 			return new ZapPeak(store, token);
 		}

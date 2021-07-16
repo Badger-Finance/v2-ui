@@ -5,12 +5,12 @@ import BigNumber from 'bignumber.js';
 import { RootStore } from '../store';
 import { ContractSendMethod, SendOptions } from 'web3-eth-contract';
 import { EMPTY_DATA, ERC20, GEYSER_ABI, MAX, SETT_ABI, YEARN_ABI } from 'config/constants';
-import { TokenBalance } from 'mobx/model/token-balance';
-import { BadgerSett } from 'mobx/model/badger-sett';
-import { BadgerToken } from 'mobx/model/badger-token';
-import { Sett } from 'mobx/model';
+import { TokenBalance } from 'mobx/model/tokens/token-balance';
+import { BadgerSett } from 'mobx/model/vaults/badger-sett';
+import { BadgerToken } from 'mobx/model/tokens/badger-token';
 import { toFixedDecimals, unscale } from '../utils/helpers';
 import { action, extendObservable } from 'mobx';
+import { Sett } from '../model/setts/sett';
 
 class ContractsStore {
 	private store!: RootStore;

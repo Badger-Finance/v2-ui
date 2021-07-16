@@ -13,7 +13,7 @@ yarn
 yarn start
 ```
 
-This will expose the app on `localhost:3000` and use the network to which your connected wallet is direct to. The networks available are the completed classes in the `mobx/model.ts` file.
+This will expose the app on `localhost:3000` and use the network to which your connected wallet is direct to. The networks available are the completed classes in the `mobx/model/network` folder.
 
 ## How To:
 
@@ -28,7 +28,7 @@ _Note: The API must be updated for both the sett information and the pricing inf
 -   A vault is added by updating the configurations of:
 -   `config/system/tokens.ts` - Update config to include the new tokens (including underlying, any LP tokens and the vault token)
 -   `config/system/vaults.ts` - Add the vault to the config file
--   `mobx/model.ts` - Add vault to the `settOrder` property on the network it is for
+-   Add vault to the `settOrder` property on the network it is for
 -   Add images to `public/assets/icons` - Include both the underlying tokens and the vault tokens. Filenames should match the `asset` property in the setts API return and named in all lowercase letters
 
 #### Tokens

@@ -4,9 +4,10 @@ import Landing from '../pages/Landing';
 import '@testing-library/jest-dom';
 import { StoreProvider } from '../mobx/store-context';
 import store from '../mobx/store';
-import { EthNetwork, SettState } from 'mobx/model';
 import BigNumber from 'bignumber.js';
 import { mockApi } from './utils/apiV2';
+import { EthNetwork } from '../mobx/model/network/ethNetwork';
+import { SettState } from '../mobx/model/setts/sett-state';
 
 describe('Landing Page', () => {
 	beforeEach(() => {

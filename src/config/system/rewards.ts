@@ -1,9 +1,9 @@
 import { NETWORK_LIST } from '../constants';
-import { RewardNetworkConfig } from 'mobx/model';
 import BadgerTree from './abis/BadgerTree.json';
 import { AbiItem } from 'web3-utils';
 import { getApi } from '../../mobx/utils/apiV2';
 import { badgerTree, tokens, sett_system } from '../deployments/mainnet.json';
+import { RewardNetworkConfig } from '../../mobx/model/network/reward-network-config';
 
 export const getRewards = (network?: string): RewardNetworkConfig | undefined => {
 	switch (network) {

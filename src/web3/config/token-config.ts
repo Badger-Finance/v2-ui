@@ -1,4 +1,4 @@
-import { BadgerToken } from 'mobx/model/badger-token';
+import { BadgerToken } from 'mobx/model/tokens/badger-token';
 import { ProtocolTokens } from 'web3/interface/protocol-token';
 import { bscProtocolTokens } from './bsc-config';
 import { ethProtocolTokens } from './eth-config';

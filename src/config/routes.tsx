@@ -11,7 +11,7 @@ import { FLAGS } from 'config/constants';
 import { Bridge } from '../components/Bridge';
 import HoneybadgerDrop from '../components/HoneybadgerDrop/index';
 import BoostLeaderBoard from 'pages/BoostLeaderBoard';
-import { SettState } from 'mobx/model';
+import { SettState } from '../mobx/model/setts/sett-state';
 
 const routes = {
 	locked: new Route<RootStore>({

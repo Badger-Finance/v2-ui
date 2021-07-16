@@ -2,14 +2,14 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import store from '../../../mobx/store';
 import addresses from 'config/ibBTC/addresses.json';
-import { TokenModel } from '../../../mobx/model';
 import { Tokens } from '../../../components/IbBTC/Tokens';
 import { customRender, screen, fireEvent, within } from '../../Utils';
+import { IbbtcOptionToken } from '../../../mobx/model/tokens/ibbtc-option-token';
 
 const tokens = [
-	new TokenModel(store, addresses.mainnet.contracts.tokens['bcrvRenWSBTC']),
-	new TokenModel(store, addresses.mainnet.contracts.tokens['bcrvRenWBTC']),
-	new TokenModel(store, addresses.mainnet.contracts.tokens['btbtc/sbtcCrv']),
+	new IbbtcOptionToken(store, addresses.mainnet.contracts.tokens['bcrvRenWSBTC']),
+	new IbbtcOptionToken(store, addresses.mainnet.contracts.tokens['bcrvRenWBTC']),
+	new IbbtcOptionToken(store, addresses.mainnet.contracts.tokens['btbtc/sbtcCrv']),
 ];
 
 it('starts with the first token as default value', () => {

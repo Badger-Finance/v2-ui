@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles, Typography } from '@material-ui/core';
-import { VaultCap } from 'mobx/model/vault-cap';
+import { VaultCap } from 'mobx/model/vaults/vault-cap';
 
 const useStyles = makeStyles((theme) => ({
 	limitsContainer: {

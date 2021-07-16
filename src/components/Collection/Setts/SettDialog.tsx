@@ -3,9 +3,9 @@ import { Dialog, DialogTitle, Switch, Typography, makeStyles, Grid } from '@mate
 
 import { VaultSymbol } from 'components/Common/VaultSymbol';
 import { StoreContext } from 'mobx/store-context';
-import { Sett } from 'mobx/model';
 import { SettWithdraw } from './SettWithdraw';
 import { SettDeposit } from './SettDeposit';
+import { Sett } from '../../../mobx/model/setts/sett';
 
 type DialogMode = 'deposit' | 'withdraw';
 

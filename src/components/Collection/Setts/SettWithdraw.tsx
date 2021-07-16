@@ -1,12 +1,12 @@
 import React, { useContext, useState } from 'react';
 import { styled, Tab, Tabs } from '@material-ui/core';
 
-import { Sett } from 'mobx/model';
-import { BadgerSett } from 'mobx/model/badger-sett';
+import { BadgerSett } from 'mobx/model/vaults/badger-sett';
 import { StoreContext } from 'mobx/store-context';
 import deploy from 'config/deployments/mainnet.json';
 import { NETWORK_LIST } from 'config/constants';
 import { GeyserUnstake, VaultWithdraw } from '../Forms';
+import { Sett } from '../../../mobx/model/setts/sett';
 
 type WithdrawMode = 'withdraw' | 'unstake';
 
