@@ -7,10 +7,12 @@ import importedBscErc20 from '../config/system/abis/BscErc20.json';
 import importedYearnSett from '../config/system/abis/YearnWrapper.json';
 import importedGuestList from '../config/system/abis/GuestList.json';
 import { tokens, sett_system } from './deployments/mainnet.json';
-import { NetworkConstants, ClaimsSymbols, LeaderboardRank } from '../mobx/model';
 import { getNetworkDeploy } from 'mobx/utils/network';
 import { AbiItem } from 'web3-utils';
 import { PartialAttemptOptions } from '@lifeomic/attempt';
+import { NetworkConstants } from 'mobx/model/network/network-constants';
+import { ClaimsSymbols } from 'mobx/model/rewards/claims-symbols';
+import { LeaderboardRank } from 'mobx/model/boost/leaderboard-rank';
 
 export const RPC_WALLETS: { [index: string]: boolean } = {
 	ledger: true,

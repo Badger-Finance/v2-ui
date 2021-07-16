@@ -5,7 +5,7 @@ import BigNumber from 'bignumber.js';
 import { RootStore } from '../store';
 import { getNextRebase, getRebaseLogs } from '../utils/diggHelpers';
 import { groupBy } from '../../utils/lodashToNative';
-import { RebaseInfo } from 'mobx/model/rebase-info';
+import { RebaseInfo } from 'mobx/model/tokens/rebase-info';
 
 let batchCall: any = null;
 

@@ -9,7 +9,6 @@ import { Grid, Tabs, Tab, FormControl, Select, MenuItem, Typography } from '@mat
 
 import { MintForm } from './MintForm';
 import { ReleaseForm } from './ReleaseForm';
-import { RenVMTransaction } from 'mobx/model';
 import { Status } from 'mobx/stores/bridgeStore';
 import { StoreContext } from 'mobx/store-context';
 import { SuccessForm } from './SuccessForm';
@@ -19,6 +18,7 @@ import { NETWORK_LIST, CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS, FLAGS } from 'con
 import { bridge_system, tokens, sett_system } from 'config/deployments/mainnet.json';
 import { CURVE_EXCHANGE } from 'config/system/abis/CurveExchange';
 import { connectWallet } from 'mobx/utils/helpers';
+import { RenVMTransaction } from '../../mobx/model/bridge/renVMTransaction';
 
 const DECIMALS = 10 ** 8;
 const SETT_DECIMALS = 10 ** 18;

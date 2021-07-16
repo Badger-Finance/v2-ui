@@ -1,9 +1,10 @@
 import { action, extendObservable } from 'mobx';
-import { LeaderboardRank as CoreLeaderboardRank, LeaderBoardEntry } from 'mobx/model';
 import { RootStore } from 'mobx/store';
 import { fetchCompleteLeaderBoardData } from 'mobx/utils/apiV2';
 import { isWithinRange } from '../utils/helpers';
 import { LEADERBOARD_RANKS } from '../../config/constants';
+import { LeaderBoardEntry } from '../model/boost/leaderboard-entry';
+import { LeaderboardRank as CoreLeaderboardRank } from '../model/boost/leaderboard-rank';
 
 interface LeaderboardRank extends CoreLeaderboardRank {
 	usersAmount: number;

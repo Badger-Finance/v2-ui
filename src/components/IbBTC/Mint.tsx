@@ -19,7 +19,6 @@ import { BigNumber } from 'bignumber.js';
 import { Token, Tokens } from './Tokens';
 import { DownArrow } from './DownArrow';
 
-import { TokenModel } from 'mobx/model';
 import { StoreContext } from 'mobx/store-context';
 import { toFixedDecimals } from 'mobx/utils/helpers';
 import { useConnectWallet } from 'mobx/utils/hooks';
@@ -36,6 +35,7 @@ import {
 	OutputTokenGrid,
 } from './Common';
 import { useNumericInput } from '../../utils/useNumericInput';
+import { IbbtcOptionToken } from '../../mobx/model/tokens/ibbtc-option-token';
 
 const SlippageContainer = styled(Grid)(({ theme }) => ({
 	marginTop: theme.spacing(1),
@@ -114,7 +114,10 @@ export const Mint = observer(
 			setConversionRate(outputAmount.plus(fee).dividedBy(inputAmount).toFixed(6, BigNumber.ROUND_HALF_FLOOR));
 		};
 
-		const calculateMintInformation = async (settTokenAmount: BigNumber, settToken: TokenModel): Promise<void> => {
+		const calculateMintInformation = async (
+			settTokenAmount: BigNumber,
+			settToken: IbbtcOptionToken,
+		): Promise<void> => {
 			const { bBTC, fee } = await store.ibBTCStore.calcMintAmount(settToken, settTokenAmount);
 			setMintInformation(settToken.unscale(settTokenAmount), ibBTC.unscale(bBTC), ibBTC.unscale(fee));
 		};
@@ -168,7 +171,7 @@ export const Mint = observer(
 			}
 		};
 
-		const handleTokenChange = async (token: TokenModel): Promise<void> => {
+		const handleTokenChange = async (token: IbbtcOptionToken): Promise<void> => {
 			setSelectedToken(token);
 			if (inputAmount?.displayValue) {
 				setInputAmount({

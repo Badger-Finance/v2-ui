@@ -4,12 +4,13 @@ import Onboard from 'bnc-onboard';
 import Notify from 'bnc-notify';
 import BigNumber from 'bignumber.js';
 import { onboardWalletCheck, getOnboardWallets, isRpcWallet } from '../../config/wallets';
-import { GasPrices, Network } from 'mobx/model';
 import { RootStore } from 'mobx/store';
 import { API } from 'bnc-onboard/dist/src/interfaces';
 import { API as NotifyAPI } from 'bnc-notify';
 import { getNetwork, getNetworkNameFromId } from 'mobx/utils/network';
 import { getNetworkFromProvider } from 'mobx/utils/helpers';
+import { Network } from '../model/network/network';
+import { GasPrices } from '../model/system-config/gas-prices';
 
 class WalletStore {
 	private store: RootStore;

@@ -6,19 +6,20 @@ import { abi as rewardsAbi } from '../../config/system/abis/BadgerTree.json';
 import { abi as diggAbi } from '../../config/system/abis/UFragments.json';
 import { badgerTree, digg_system } from '../../config/deployments/mainnet.json';
 import BigNumber from 'bignumber.js';
-import { BadgerTree, TreeClaimData } from 'mobx/model';
 import { reduceClaims, reduceTimeSinceLastCycle } from 'mobx/reducers/statsReducers';
 import { getSendOptions } from 'mobx/utils/web3';
 import { getToken } from '../../web3/config/token-config';
-import { TokenBalance } from 'mobx/model/token-balance';
+import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { ETH_DEPLOY } from 'web3/config/eth-config';
-import { mockToken } from 'mobx/model/badger-token';
+import { mockToken } from 'mobx/model/tokens/badger-token';
 import { NETWORK_LIST } from 'config/constants';
 import { getNetworkFromProvider } from 'mobx/utils/helpers';
 import { ClaimMap } from 'components-v2/landing/RewardsModal';
+import { BadgerTree } from '../model/rewards/badger-tree';
+import { TreeClaimData } from '../model/rewards/tree-claim-data';
 
 /**
- * TODO: Clean up reward store in favor of a more unified integration w/ user store.
+ * TODO: Clean up reward store in favor of a more unified integration w/ account store.
  * Create a more generalized ProtocolStore - holding token information surrounding Badger.
  *
  * i.e.

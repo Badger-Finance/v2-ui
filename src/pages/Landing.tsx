@@ -10,7 +10,7 @@ import React, { useContext } from 'react';
 import BigNumber from 'bignumber.js';
 import SettList from 'components-v2/landing/SettList';
 import { RewardsModal } from '../components-v2/landing/RewardsModal';
-import { SettState } from 'mobx/model';
+import { SettState } from '../mobx/model/setts/sett-state';
 
 const useStyles = makeStyles((theme) => ({
 	landingContainer: {

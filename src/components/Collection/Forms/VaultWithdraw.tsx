@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite';
 import { StoreContext } from 'mobx/store-context';
 import { DialogContent, DialogActions, Grid } from '@material-ui/core';
 
-import { TokenBalance } from 'mobx/model/token-balance';
+import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { SettModalProps } from './VaultDeposit';
 import { StrategyInfo } from './StrategyInfo';
 import { PercentageSelector } from 'components-v2/common/PercentageSelector';

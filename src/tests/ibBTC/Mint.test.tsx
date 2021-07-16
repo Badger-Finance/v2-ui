@@ -3,16 +3,16 @@ import '@testing-library/jest-dom';
 import addresses from 'config/ibBTC/addresses.json';
 import store from 'mobx/store';
 import { StoreProvider } from '../../mobx/store-context';
-import { TokenModel } from '../../mobx/model';
 import { customRender, screen, fireEvent, cleanup, act } from '../Utils';
 import { Mint } from '../../components/IbBTC/Mint';
+import { IbbtcOptionToken } from '../../mobx/model/tokens/ibbtc-option-token';
 
 const tokensConfig = addresses.mainnet.contracts.tokens;
-const mockIbBTC = new TokenModel(store, tokensConfig['ibBTC']);
+const mockIbBTC = new IbbtcOptionToken(store, tokensConfig['ibBTC']);
 const mockTokens = [
-	new TokenModel(store, tokensConfig['bcrvRenWSBTC']), // default option on the list
-	new TokenModel(store, tokensConfig['bcrvRenWBTC']),
-	new TokenModel(store, tokensConfig['btbtc/sbtcCrv']),
+	new IbbtcOptionToken(store, tokensConfig['bcrvRenWSBTC']), // default option on the list
+	new IbbtcOptionToken(store, tokensConfig['bcrvRenWBTC']),
+	new IbbtcOptionToken(store, tokensConfig['btbtc/sbtcCrv']),
 ];
 
 describe('ibBTC Mint', () => {

@@ -2,12 +2,13 @@ import React from 'react';
 import BigNumber from 'bignumber.js';
 import { Grid, makeStyles, Tooltip } from '@material-ui/core';
 
-import { MintLimits, TokenModel } from 'mobx/model';
 import { toFixedDecimals } from 'mobx/utils/helpers';
 import { ErrorText } from './Common';
+import { IbbtcOptionToken } from '../../mobx/model/tokens/ibbtc-option-token';
+import { MintLimits } from '../../mobx/model/strategies/mint-limits';
 
 interface Props {
-	token: TokenModel;
+	token: IbbtcOptionToken;
 	amount: BigNumber;
 	limits: MintLimits;
 	onUserLimitClick: (limit: BigNumber) => void;

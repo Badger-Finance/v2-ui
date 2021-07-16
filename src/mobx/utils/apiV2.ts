@@ -1,15 +1,13 @@
-import {
-	Eligibility,
-	PriceSummary,
-	ProtocolSummary,
-	Sett,
-	BouncerProof,
-	Account,
-	RewardMerkleClaim,
-	LeaderBoardData,
-	LeaderBoardEntry,
-} from 'mobx/model';
-import { TokenConfig } from 'mobx/model/token-config';
+import { TokenConfigRecord } from 'mobx/model/tokens/token-config-record';
+import { Account } from '../model/account/account';
+import { Sett } from '../model/setts/sett';
+import { RewardMerkleClaim } from '../model/rewards/reward-merkle-claim';
+import { BouncerProof } from '../model/rewards/bouncer-proof';
+import { Eligibility } from '../model/rewards/eligibility';
+import { LeaderBoardEntry } from '../model/boost/leaderboard-entry';
+import { LeaderBoardData } from '../model/boost/leaderboard-data';
+import { ProtocolSummary } from '../model/system-config/protocol-summary';
+import { PriceSummary } from '../model/system-config/price-summary';
 
 export const getApi = (): string => {
 	if (process.env.REACT_APP_BUILD_ENV === 'production') {
@@ -35,7 +33,7 @@ export const listSetts = async (chain?: string): Promise<Sett[] | null> => {
 	return fetchData(() => fetch(`${listSettsEndpoint}${chain ? `?chain=${chain}` : ''}`));
 };
 
-export const getTokens = async (chain?: string): Promise<TokenConfig | null> => {
+export const getTokens = async (chain?: string): Promise<TokenConfigRecord | null> => {
 	return fetchData(() => fetch(`${getTokensEndpoint}${chain ? `?chain=${chain}` : ''}`));
 };
 

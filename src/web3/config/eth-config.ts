@@ -2,10 +2,11 @@ import { createChainBatchConfig, toSettConfig } from './config-utils';
 import deploy from '../../config/deployments/mainnet.json';
 import { BatchCallRequest } from 'web3/interface/batch-call-request';
 import { Deploy } from 'web3/interface/deploy';
-import { BadgerSett } from 'mobx/model/badger-sett';
+import { BadgerSett } from 'mobx/model/vaults/badger-sett';
 import { toRecord } from './token-config';
 import { ProtocolTokens } from 'web3/interface/protocol-token';
-import { SettMap, SettState } from 'mobx/model';
+import { SettState } from '../../mobx/model/setts/sett-state';
+import { SettMap } from '../../mobx/model/setts/sett-map';
 
 export const ETH_DEPLOY = deploy as Deploy;
 

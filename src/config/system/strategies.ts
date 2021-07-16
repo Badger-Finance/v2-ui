@@ -1,8 +1,8 @@
 import deploy from '../deployments/mainnet.json';
 import bscDeploy from '../deployments/bsc.json';
-import { StrategyNetworkConfig } from 'mobx/model';
-import { NETWORK_LIST } from '../../config/constants';
+import { NETWORK_LIST } from '../constants';
 import BigNumber from 'bignumber.js';
+import { StrategyNetworkConfig } from '../../mobx/model/strategies/strategy-network-config';
 
 export const getStrategies = (network?: string | null): StrategyNetworkConfig => {
 	switch (network) {

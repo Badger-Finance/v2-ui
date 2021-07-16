@@ -1,6 +1,6 @@
-import { LeaderboardRank } from '../mobx/model';
 import { LEADERBOARD_RANKS } from '../config/constants';
 import { isWithinRange } from '../mobx/utils/helpers';
+import { LeaderboardRank } from '../mobx/model/boost/leaderboard-rank';
 
 export const debounce = (n: number, fn: (...params: any[]) => any, immediate = false): any => {
 	let timer: any = undefined;
