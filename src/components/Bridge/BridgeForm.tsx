@@ -695,7 +695,7 @@ export const BridgeForm = observer(({ classes, tabValue, setTabValue }: any) => 
 		let ibbtcFees = 0;
 		//backspacing in the textbox caused issues without the second part of if statement
 		if (token === 'ibBTC' && inputAmount.toString() !== '') {
-			const bigInputAmount = new BigNumber(inputAmount);
+			const bigInputAmount = new BigNumber(inputAmount * 1e8);
 			let mintBool = true;
 			if (name === 'burnAmount') {
 				mintBool = false;
@@ -705,6 +705,7 @@ export const BridgeForm = observer(({ classes, tabValue, setTabValue }: any) => 
 				amountWithFee = Number(amount);
 			}
 			ibbtcFees = await calcIbbtcFees(inputAmount, mintBool);
+			ibbtcFees = parseFloat(ibbtcFees.toPrecision(6));
 		}
 
 		setStates((prevState) => ({
