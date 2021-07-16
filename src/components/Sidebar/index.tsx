@@ -19,7 +19,7 @@ import { SITE_VERSION, NETWORK_LIST, FLAGS } from 'config/constants';
 import NetworkWidget from 'components-v2/common/NetworkWidget';
 import { Route } from 'mobx-router';
 import { RootStore } from 'mobx/store';
-import clsx from 'clsx';
+import clsx, { ClassValue } from 'clsx';
 import SecurityIcon from '@material-ui/icons/Security';
 
 const useStyles = makeStyles((theme) => ({
@@ -173,9 +173,22 @@ export const Sidebar = observer(() => {
 		return goTo(path);
 	};
 
-	const getItemClass = (path: string, listClass: string, styles?: string[]): string => {
+	const getItemClass = (path: string, listClass: string, ...additionalClasses: ClassValue[]): string => {
 		const isActive = store.router.currentPath == path;
-		return clsx(isActive ? classes.activeListItem : listClass, ...(styles ? styles : []));
+		return clsx(isActive ? classes.activeListItem : listClass, ...additionalClasses);
+	};
+
+	// TODO: Deprecate this in favor of router integration https://github.com/Badger-Finance/v2-ui/issues/709
+	const getCollapsableItemClasses = (
+		collapseKey: string,
+		childrenRoutes: string[],
+		...additionalClasses: ClassValue[]
+	) => {
+		const isNotCollapsed = expanded !== collapseKey;
+		const isAnyChildrenActiveRoute = childrenRoutes.includes(store.router.currentPath);
+		const shouldCollapseBeActive = isNotCollapsed && isAnyChildrenActiveRoute;
+
+		return clsx(classes.listItem, shouldCollapseBeActive && classes.activeListItem, ...additionalClasses);
 	};
 
 	return (
@@ -301,7 +314,7 @@ export const Sidebar = observer(() => {
 							</ListItem>
 							<ListItem
 								button
-								className={classes.listItem}
+								className={getCollapsableItemClasses('boosts', ['/boost-optimizer', '/leaderboard'])}
 								onClick={() => {
 									setExpanded(expanded === 'boosts' ? '' : 'boosts');
 								}}
@@ -320,11 +333,7 @@ export const Sidebar = observer(() => {
 							</ListItem>
 							<Collapse
 								classes={{ wrapper: classes.collapseWrapper }}
-								in={
-									expanded === 'boosts' ||
-									store.router.currentPath === '/leaderboard' ||
-									store.router.currentPath === '/boost-optimizer'
-								}
+								in={expanded === 'boosts'}
 								timeout="auto"
 								unmountOnExit
 							>
@@ -347,7 +356,12 @@ export const Sidebar = observer(() => {
 							</Collapse>
 							<ListItem
 								button
-								className={classes.listItem}
+								className={getCollapsableItemClasses('badger-zone', [
+									'/honey-badger-drop',
+									'/experimental',
+									'/airdrops',
+									'/honey-badger-drop',
+								])}
 								onClick={() => setExpanded(expanded === 'badger-zone' ? '' : 'badger-zone')}
 							>
 								<ListItemIcon>
@@ -368,7 +382,7 @@ export const Sidebar = observer(() => {
 							</ListItem>
 							<Collapse
 								classes={{ wrapper: classes.collapseWrapper }}
-								in={expanded === 'badger-zone' || store.router.currentPath == '/honey-badger-drop'}
+								in={expanded === 'badger-zone'}
 								timeout="auto"
 								unmountOnExit
 							>
