@@ -53,7 +53,7 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 						['Withdraw Fee']: new BigNumber(0),
 					},
 					strategyLink:
-						'https://badger.wiki/Strategies-7bf5b27a451242538f02855ca5aaf4e4#fe02e2fa6ea446ca9b975d1eecf3120c',
+						'https://badgerwiki.notion.site/Strategies-7bf5b27a451242538f02855ca5aaf4e4#fe02e2fa6ea446ca9b975d1eecf3120c',
 				},
 				[deploy.sett_system.vaults['native.renCrv']]: {
 					name: 'StrategyCurveGauge',
@@ -64,7 +64,7 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 						['Withdraw Fee']: new BigNumber(50),
 					},
 					strategyLink:
-						'https://badger.wiki/Strategies-7bf5b27a451242538f02855ca5aaf4e4#2304f0f6a0684aee82853f9635211ec9',
+						'https://badgerwiki.notion.site/Strategies-7bf5b27a451242538f02855ca5aaf4e4#2304f0f6a0684aee82853f9635211ec9',
 				},
 				[deploy.sett_system.vaults['native.sbtcCrv']]: {
 					name: 'StrategyCurveGauge',
@@ -75,7 +75,7 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 						['Withdraw Fee']: new BigNumber(50),
 					},
 					strategyLink:
-						'https://badger.wiki/Strategies-7bf5b27a451242538f02855ca5aaf4e4#ce634a6ad4b0486288180d775a1552ab',
+						'https://badgerwiki.notion.site/Strategies-7bf5b27a451242538f02855ca5aaf4e4#ce634a6ad4b0486288180d775a1552ab',
 				},
 				[deploy.sett_system.vaults['native.tbtcCrv']]: {
 					name: 'StrategyCurveGauge',
@@ -86,7 +86,7 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 						['Withdraw Fee']: new BigNumber(50),
 					},
 					strategyLink:
-						'https://badger.wiki/Strategies-7bf5b27a451242538f02855ca5aaf4e4#cba0515b901e423d892f9c0cf66b272f',
+						'https://badgerwiki.notion.site/Strategies-7bf5b27a451242538f02855ca5aaf4e4#cba0515b901e423d892f9c0cf66b272f',
 				},
 				[deploy.sett_system.vaults['native.uniBadgerWbtc']]: {
 					name: '',
@@ -97,7 +97,7 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 						['Withdraw Fee']: new BigNumber(0),
 					},
 					strategyLink:
-						'https://badger.wiki/Strategies-7bf5b27a451242538f02855ca5aaf4e4#9da96d000b3e49cc92f04a49dd08a9bd',
+						'https://badgerwiki.notion.site/Strategies-7bf5b27a451242538f02855ca5aaf4e4#9da96d000b3e49cc92f04a49dd08a9bd',
 				},
 				[deploy.sett_system.vaults['harvest.renCrv']]: {
 					name: '',
@@ -108,7 +108,7 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 						['Withdraw Fee']: new BigNumber(50),
 					},
 					strategyLink:
-						'https://badger.wiki/Strategies-7bf5b27a451242538f02855ca5aaf4e4#e774231a9777465f9615e1c18d7fd151',
+						'https://badgerwiki.notion.site/Strategies-7bf5b27a451242538f02855ca5aaf4e4#e774231a9777465f9615e1c18d7fd151',
 				},
 				[deploy.sett_system.vaults['native.sushiWbtcEth']]: {
 					name: '',
@@ -119,7 +119,7 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 						['Withdraw Fee']: new BigNumber(50),
 					},
 					strategyLink:
-						'https://badger.wiki/Strategies-7bf5b27a451242538f02855ca5aaf4e4#2f5ee4a857754023af1fdba144a0c1be',
+						'https://badgerwiki.notion.site/Strategies-7bf5b27a451242538f02855ca5aaf4e4#2f5ee4a857754023af1fdba144a0c1be',
 				},
 				[deploy.sett_system.vaults['native.sushiBadgerWbtc']]: {
 					name: '',
@@ -130,7 +130,7 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 						['Withdraw Fee']: new BigNumber(50),
 					},
 					strategyLink:
-						'https://badger.wiki/Strategies-7bf5b27a451242538f02855ca5aaf4e4#46bfa12ac9d24b9bb7d28d1f9bc3256a',
+						'https://badgerwiki.notion.site/Strategies-7bf5b27a451242538f02855ca5aaf4e4#46bfa12ac9d24b9bb7d28d1f9bc3256a',
 				},
 				[deploy.sett_system.vaults['native.digg']]: {
 					name: '',
@@ -141,7 +141,7 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 						['Withdraw Fee']: new BigNumber(0),
 					},
 					strategyLink:
-						'https://badger.wiki/Strategies-7bf5b27a451242538f02855ca5aaf4e4#b63c02c4f27f43229624da8abb377be2',
+						'https://badgerwiki.notion.site/Strategies-7bf5b27a451242538f02855ca5aaf4e4#b63c02c4f27f43229624da8abb377be2',
 				},
 				[deploy.sett_system.vaults['native.uniDiggWbtc']]: {
 					name: '',
@@ -152,7 +152,7 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 						['Withdraw Fee']: new BigNumber(0),
 					},
 					strategyLink:
-						'https://badger.wiki/Strategies-7bf5b27a451242538f02855ca5aaf4e4#e6043ad7d2a94df39eee74a235f3faf8',
+						'https://badgerwiki.notion.site/Strategies-7bf5b27a451242538f02855ca5aaf4e4#e6043ad7d2a94df39eee74a235f3faf8',
 				},
 				[deploy.sett_system.vaults['native.sushiDiggWbtc']]: {
 					name: '',
@@ -163,7 +163,7 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 						['Withdraw Fee']: new BigNumber(0),
 					},
 					strategyLink:
-						'https://badger.wiki/Strategies-7bf5b27a451242538f02855ca5aaf4e4#e1a46fc7a95d4f73b586435f45586748',
+						'https://badgerwiki.notion.site/Strategies-7bf5b27a451242538f02855ca5aaf4e4#e1a46fc7a95d4f73b586435f45586748',
 				},
 				[deploy.sett_system.vaults['yearn.wBtc']]: {
 					name: '',
@@ -174,7 +174,7 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 						['Withdraw Fee']: new BigNumber(50),
 					},
 					strategyLink:
-						'https://badger.wiki/Strategies-7bf5b27a451242538f02855ca5aaf4e4#8dbbd221e429409db3b487da966a14b8',
+						'https://badgerwiki.notion.site/Strategies-7bf5b27a451242538f02855ca5aaf4e4#8dbbd221e429409db3b487da966a14b8',
 				},
 				[deploy.sett_system.vaults['native.sushiibBTCwBTC']]: {
 					name: '',
@@ -185,7 +185,7 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 						['Withdraw Fee']: new BigNumber(20),
 					},
 					strategyLink:
-						'https://badger.wiki/Strategies-7bf5b27a451242538f02855ca5aaf4e4#418b98a05da849a3a8dd97f74f8c0c80',
+						'https://badgerwiki.notion.site/Strategies-7bf5b27a451242538f02855ca5aaf4e4#418b98a05da849a3a8dd97f74f8c0c80',
 				},
 				[deploy.sett_system.vaults['experimental.digg']]: {
 					name: '',
@@ -205,7 +205,7 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 						['Withdraw Fee']: new BigNumber(50),
 					},
 					strategyLink:
-						'https://badger.wiki/Strategies-7bf5b27a451242538f02855ca5aaf4e4#56cd7b65cd384740aa9f339bf3ee2597',
+						'https://badgerwiki.notion.site/Strategies-7bf5b27a451242538f02855ca5aaf4e4#56cd7b65cd384740aa9f339bf3ee2597',
 				},
 				[deploy.sett_system.vaults['native.pbtcCrv']]: {
 					name: '',
@@ -215,7 +215,7 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 						['Withdraw Fee']: new BigNumber(50),
 					},
 					strategyLink:
-						'https://badger.wiki/Strategies-7bf5b27a451242538f02855ca5aaf4e4#39a0decd933b4869b98c9276118b9d39',
+						'https://badgerwiki.notion.site/Strategies-7bf5b27a451242538f02855ca5aaf4e4#39a0decd933b4869b98c9276118b9d39',
 				},
 				[deploy.sett_system.vaults['native.obtcCrv']]: {
 					name: '',
@@ -225,7 +225,7 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 						['Withdraw Fee']: new BigNumber(50),
 					},
 					strategyLink:
-						'https://badger.wiki/Strategies-7bf5b27a451242538f02855ca5aaf4e4#82d72e94cb3b49f0836d8197ad13bc36',
+						'https://badgerwiki.notion.site/Strategies-7bf5b27a451242538f02855ca5aaf4e4#82d72e94cb3b49f0836d8197ad13bc36',
 				},
 				[deploy.sett_system.vaults['native.bbtcCrv']]: {
 					name: '',
@@ -235,7 +235,7 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 						['Withdraw Fee']: new BigNumber(50),
 					},
 					strategyLink:
-						'https://badger.wiki/Strategies-7bf5b27a451242538f02855ca5aaf4e4#fe4a64edc830472da5a700d0fc30716c',
+						'https://badgerwiki.notion.site/Strategies-7bf5b27a451242538f02855ca5aaf4e4#fe4a64edc830472da5a700d0fc30716c',
 				},
 				[deploy.sett_system.vaults['native.tricryptoCrv']]: {
 					name: '',
@@ -245,7 +245,7 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 						['Withdraw Fee']: new BigNumber(50),
 					},
 					strategyLink:
-						'https://badger.wiki/Strategies-7bf5b27a451242538f02855ca5aaf4e4#f03b01a576d241aa9d9cee153876c976',
+						'https://badgerwiki.notion.site/Strategies-7bf5b27a451242538f02855ca5aaf4e4#f03b01a576d241aa9d9cee153876c976',
 				},
 				[deploy.sett_system.vaults['native.cvxCrv']]: {
 					name: '',
@@ -255,7 +255,7 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 						['Withdraw Fee']: new BigNumber(10),
 					},
 					strategyLink:
-						'https://badger.wiki/Strategies-7bf5b27a451242538f02855ca5aaf4e4#51d48102bc4847a6a5a1a059c4b827b3',
+						'https://badgerwiki.notion.site/Strategies-7bf5b27a451242538f02855ca5aaf4e4#51d48102bc4847a6a5a1a059c4b827b3',
 				},
 				[deploy.sett_system.vaults['native.cvx']]: {
 					name: '',
@@ -265,7 +265,7 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 						['Withdraw Fee']: new BigNumber(10),
 					},
 					strategyLink:
-						'https://badger.wiki/Strategies-7bf5b27a451242538f02855ca5aaf4e4#1346adfaad7946eebd29a17fb4f6e8b7',
+						'https://badgerwiki.notion.site/Strategies-7bf5b27a451242538f02855ca5aaf4e4#1346adfaad7946eebd29a17fb4f6e8b7',
 				},
 			};
 	}
