@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, makeStyles } from '@material-ui/core';
 import PageHeader from 'components-v2/common/PageHeader';
-import { LeaderBoard } from 'components-v2/leaderboard/LeaderBoard';
+import LeaderBoard from 'components-v2/leaderboard/LeaderBoard';
 
 const useStyles = makeStyles((theme) => ({
 	rootContainer: {

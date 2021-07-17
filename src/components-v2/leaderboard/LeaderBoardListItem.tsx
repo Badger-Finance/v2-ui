@@ -64,7 +64,7 @@ interface LeaderBoardListItemProps {
 	isUserInRank?: boolean;
 }
 
-export const LeaderBoardListItem = (props: LeaderBoardListItemProps): JSX.Element => {
+const LeaderBoardListItem = (props: LeaderBoardListItemProps): JSX.Element => {
 	const classes = useStyles();
 
 	const {
@@ -135,3 +135,5 @@ export const LeaderBoardListItem = (props: LeaderBoardListItemProps): JSX.Elemen
 		</ListItem>
 	);
 };
+
+export default LeaderBoardListItem;

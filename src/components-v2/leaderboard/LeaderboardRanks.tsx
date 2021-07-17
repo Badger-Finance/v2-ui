@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
-import { LeaderBoardListItem } from './LeaderBoardListItem';
+import LeaderBoardListItem from './LeaderBoardListItem';
 import { isWithinRange } from '../../mobx/utils/helpers';
 import { Grid, ListItem } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
@@ -23,12 +23,13 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export const LeaderboardRanks = observer(
+const LeaderboardRanks = observer(
 	(): JSX.Element => {
+		const store = useContext(StoreContext);
 		const {
 			leaderBoard: { ranks },
 			user: { accountDetails },
-		} = useContext(StoreContext);
+		} = store;
 		const classes = useStyles();
 
 		if (!ranks) {
@@ -73,3 +74,5 @@ export const LeaderboardRanks = observer(
 		);
 	},
 );
+
+export default LeaderboardRanks;
