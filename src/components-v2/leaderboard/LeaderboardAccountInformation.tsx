@@ -26,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
 	infoContainer: {
 		display: 'flex',
 		flexDirection: 'column',
+		justifyContent: 'center',
 	},
 }));
 
