@@ -2,7 +2,7 @@ import LeaderboardRanks from 'components-v2/leaderboard/LeaderboardRanks';
 import { LeaderBoardEntry } from 'mobx/model/boost/leaderboard-entry';
 import store from 'mobx/store';
 import React from 'react';
-import { TEST_ADDRESS, verifyComponent } from 'tests/utils/snapshots';
+import { TEST_ADDRESS, checkSnapshot } from 'tests/utils/snapshots';
 
 describe('LeaderboardRanks', () => {
 	const getLeaderboard = (length?: number): LeaderBoardEntry[] => {
@@ -20,14 +20,14 @@ describe('LeaderboardRanks', () => {
 	};
 
 	describe('No ranks loaded', () => {
-		it('Displays loading skeletons', () => verifyComponent(<LeaderboardRanks />));
+		it('Displays loading skeletons', () => checkSnapshot(<LeaderboardRanks />));
 	});
 
 	describe('No user connected, ranks loaded', () => {
 		it('Displays the leaderboard with no styling', () => {
 			const { leaderBoard } = store;
 			leaderBoard.ranks = leaderBoard.retrieveRanksInformation(getLeaderboard());
-			verifyComponent(<LeaderboardRanks />);
+			checkSnapshot(<LeaderboardRanks />);
 		});
 	});
 
@@ -54,7 +54,7 @@ describe('LeaderboardRanks', () => {
 			};
 			const { leaderBoard } = store;
 			leaderBoard.ranks = leaderBoard.retrieveRanksInformation(getLeaderboard(200));
-			verifyComponent(<LeaderboardRanks />);
+			checkSnapshot(<LeaderboardRanks />);
 		});
 	});
 });

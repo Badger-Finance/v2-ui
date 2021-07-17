@@ -1,11 +1,11 @@
 import BoostSuggestion from 'components-v2/leaderboard/BoostSuggestion';
 import store from 'mobx/store';
 import React from 'react';
-import { TEST_ADDRESS, verifyComponent } from 'tests/utils/snapshots';
+import { TEST_ADDRESS, checkSnapshot } from 'tests/utils/snapshots';
 
 describe('BoostSuggestion', () => {
 	describe('No user details available', () => {
-		it('Does not display', () => verifyComponent(<BoostSuggestion />));
+		it('Does not display', () => checkSnapshot(<BoostSuggestion />));
 	});
 
 	describe('User with some non native balance', () => {
@@ -22,7 +22,7 @@ describe('BoostSuggestion', () => {
 				earnedValue: 0,
 				balances: [],
 			};
-			verifyComponent(<BoostSuggestion />);
+			checkSnapshot(<BoostSuggestion />);
 		});
 	});
 
@@ -40,7 +40,7 @@ describe('BoostSuggestion', () => {
 				earnedValue: 0,
 				balances: [],
 			};
-			verifyComponent(<BoostSuggestion />);
+			checkSnapshot(<BoostSuggestion />);
 		});
 	});
 });

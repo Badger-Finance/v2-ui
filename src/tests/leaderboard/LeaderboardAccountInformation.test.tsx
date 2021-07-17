@@ -1,17 +1,17 @@
 import LeaderboardAccountInformation from 'components-v2/leaderboard/LeaderboardAccountInformation';
 import store from 'mobx/store';
 import React from 'react';
-import { TEST_ADDRESS, verifyComponent } from 'tests/utils/snapshots';
+import { TEST_ADDRESS, checkSnapshot } from 'tests/utils/snapshots';
 
 describe('LeaderboardAccountInformation', () => {
 	describe('No user connected', () => {
-		it('Displays fields as N/A', () => verifyComponent(<LeaderboardAccountInformation />));
+		it('Displays fields as N/A', () => checkSnapshot(<LeaderboardAccountInformation />));
 	});
 
 	describe('User connected, no data loaded', () => {
 		it('Displays fields as loading skeletons', () => {
 			store.wallet.connectedAddress = TEST_ADDRESS;
-			verifyComponent(<LeaderboardAccountInformation />);
+			checkSnapshot(<LeaderboardAccountInformation />);
 		});
 	});
 
@@ -30,7 +30,7 @@ describe('LeaderboardAccountInformation', () => {
 				earnedValue: 0,
 				balances: [],
 			};
-			verifyComponent(<LeaderboardAccountInformation />);
+			checkSnapshot(<LeaderboardAccountInformation />);
 		});
 	});
 });
