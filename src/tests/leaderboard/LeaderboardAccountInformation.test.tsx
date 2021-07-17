@@ -1,0 +1,36 @@
+import LeaderboardAccountInformation from 'components-v2/leaderboard/LeaderboardAccountInformation';
+import store from 'mobx/store';
+import React from 'react';
+import { TEST_ADDRESS, verifyComponent } from 'tests/utils/snapshots';
+
+describe('LeaderboardAccountInformation', () => {
+	describe('No user connected', () => {
+		it('Displays fields as N/A', () => verifyComponent(<LeaderboardAccountInformation />));
+	});
+
+	describe('User connected, no data loaded', () => {
+		it('Displays fields as loading skeletons', () => {
+			store.wallet.connectedAddress = TEST_ADDRESS;
+			verifyComponent(<LeaderboardAccountInformation />);
+		});
+	});
+
+	describe('User connected, data loaded', () => {
+		it('Displays user rank, and boost', () => {
+			store.wallet.connectedAddress = TEST_ADDRESS;
+			store.user.accountDetails = {
+				id: TEST_ADDRESS,
+				boost: 2,
+				boostRank: 10,
+				nativeBalance: 0,
+				nonNativeBalance: 10,
+				multipliers: {},
+				depositLimits: {},
+				value: 0,
+				earnedValue: 0,
+				balances: [],
+			};
+			verifyComponent(<LeaderboardAccountInformation />);
+		});
+	});
+});

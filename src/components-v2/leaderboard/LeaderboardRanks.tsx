@@ -51,11 +51,11 @@ const LeaderboardRanks = observer(
 		return (
 			<>
 				{ranks.map((rank, index) => {
+					let isUserInRank = false;
 					const userBoost = accountDetails?.boost;
-					const isUserInRank = userBoost
-						? isWithinRange(userBoost, rank.boostRangeStart, rank.boostRangeEnd)
-						: false;
-
+					if (userBoost) {
+						isUserInRank = isWithinRange(userBoost, rank.boostRangeStart, rank.boostRangeEnd);
+					}
 					return (
 						<LeaderBoardListItem
 							key={`${rank.boostRangeStart}_${rank.name}_${index}`}

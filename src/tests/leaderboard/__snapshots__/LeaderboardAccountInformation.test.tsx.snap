@@ -1,0 +1,192 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LeaderboardAccountInformation No user connected Displays fields as N/A 1`] = `
+<div>
+  <div
+    class="MuiGrid-root-5 MuiGrid-container-6"
+  >
+    <div
+      class="MuiGrid-root-5 makeStyles-boostContainer-2 MuiGrid-container-6 MuiGrid-item-7 MuiGrid-align-items-xs-center-14 MuiGrid-grid-xs-12-51 MuiGrid-grid-sm-true-53"
+    >
+      <div
+        class="MuiGrid-root-5 makeStyles-justifyCenterOnMobile-1 MuiGrid-container-6 MuiGrid-item-7 MuiGrid-align-items-xs-center-14 MuiGrid-grid-xs-12-51"
+      >
+        <h2
+          class="MuiTypography-root-108 MuiTypography-h2-114 MuiTypography-displayInline-136"
+        >
+          Boost:
+        </h2>
+        <h2
+          class="MuiTypography-root-108 makeStyles-headerValueText-3 MuiTypography-h2-114 MuiTypography-displayInline-136"
+        >
+          N/A
+        </h2>
+      </div>
+      <div
+        class="MuiGrid-root-5 makeStyles-justifyCenterOnMobile-1 MuiGrid-container-6 MuiGrid-item-7 MuiGrid-align-items-xs-center-14 MuiGrid-grid-xs-12-51"
+      >
+        <h6
+          class="MuiTypography-root-108 MuiTypography-h6-118 MuiTypography-colorTextSecondary-134 MuiTypography-displayInline-136"
+        >
+          Rank:
+        </h6>
+        <h6
+          class="MuiTypography-root-108 makeStyles-headerValueText-3 MuiTypography-h6-118 MuiTypography-colorTextSecondary-134 MuiTypography-displayInline-136"
+        >
+          N/A
+        </h6>
+      </div>
+    </div>
+    <div
+      class="makeStyles-infoContainer-4"
+    >
+      <button
+        class="MuiButtonBase-root-168 MuiButton-root-139 MuiButton-contained-147 MuiButton-containedPrimary-148"
+        tabindex="0"
+        type="button"
+      >
+        <span
+          class="MuiButton-label-140"
+        >
+          Connect Wallet
+        </span>
+        <span
+          class="MuiTouchRipple-root-175"
+        />
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`LeaderboardAccountInformation User connected, data loaded Displays user rank, and boost 1`] = `
+<div>
+  <div
+    class="MuiGrid-root-5 MuiGrid-container-6"
+  >
+    <div
+      class="MuiGrid-root-5 makeStyles-boostContainer-2 MuiGrid-container-6 MuiGrid-item-7 MuiGrid-align-items-xs-center-14 MuiGrid-grid-xs-12-51 MuiGrid-grid-sm-true-53"
+    >
+      <div
+        class="MuiGrid-root-5 makeStyles-justifyCenterOnMobile-1 MuiGrid-container-6 MuiGrid-item-7 MuiGrid-align-items-xs-center-14 MuiGrid-grid-xs-12-51"
+      >
+        <h2
+          class="MuiTypography-root-108 MuiTypography-h2-114 MuiTypography-displayInline-136"
+        >
+          Boost:
+        </h2>
+        <h2
+          class="MuiTypography-root-108 makeStyles-headerValueText-3 MuiTypography-h2-114 MuiTypography-displayInline-136"
+        >
+          2.00
+        </h2>
+      </div>
+      <div
+        class="MuiGrid-root-5 makeStyles-justifyCenterOnMobile-1 MuiGrid-container-6 MuiGrid-item-7 MuiGrid-align-items-xs-center-14 MuiGrid-grid-xs-12-51"
+      >
+        <h6
+          class="MuiTypography-root-108 MuiTypography-h6-118 MuiTypography-colorTextSecondary-134 MuiTypography-displayInline-136"
+        >
+          Rank:
+        </h6>
+        <h6
+          class="MuiTypography-root-108 makeStyles-headerValueText-3 MuiTypography-h6-118 MuiTypography-colorTextSecondary-134 MuiTypography-displayInline-136"
+        >
+          10
+        </h6>
+      </div>
+    </div>
+    <div
+      class="makeStyles-infoContainer-4"
+    >
+      <div
+        class="makeStyles-buttonContainer-138"
+      >
+        <button
+          class="MuiButtonBase-root-168 MuiButton-root-139 MuiButton-contained-147 MuiButton-containedPrimary-148"
+          tabindex="0"
+          type="button"
+        >
+          <span
+            class="MuiButton-label-140"
+          >
+            Calculate Boost
+          </span>
+          <span
+            class="MuiTouchRipple-root-175"
+          />
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`LeaderboardAccountInformation User connected, no data loaded Displays fields as loading skeletons 1`] = `
+<div>
+  <div
+    class="MuiGrid-root-5 MuiGrid-container-6"
+  >
+    <div
+      class="MuiGrid-root-5 makeStyles-boostContainer-2 MuiGrid-container-6 MuiGrid-item-7 MuiGrid-align-items-xs-center-14 MuiGrid-grid-xs-12-51 MuiGrid-grid-sm-true-53"
+    >
+      <div
+        class="MuiGrid-root-5 makeStyles-justifyCenterOnMobile-1 MuiGrid-container-6 MuiGrid-item-7 MuiGrid-align-items-xs-center-14 MuiGrid-grid-xs-12-51"
+      >
+        <h2
+          class="MuiTypography-root-108 MuiTypography-h2-114 MuiTypography-displayInline-136"
+        >
+          Boost:
+        </h2>
+        <h2
+          class="MuiTypography-root-108 makeStyles-headerValueText-3 MuiTypography-h2-114 MuiTypography-displayInline-136"
+        >
+          <span
+            class="MuiSkeleton-root-138 MuiSkeleton-text-139 MuiSkeleton-pulse-142"
+            style="width: 30px;"
+          />
+        </h2>
+      </div>
+      <div
+        class="MuiGrid-root-5 makeStyles-justifyCenterOnMobile-1 MuiGrid-container-6 MuiGrid-item-7 MuiGrid-align-items-xs-center-14 MuiGrid-grid-xs-12-51"
+      >
+        <h6
+          class="MuiTypography-root-108 MuiTypography-h6-118 MuiTypography-colorTextSecondary-134 MuiTypography-displayInline-136"
+        >
+          Rank:
+        </h6>
+        <h6
+          class="MuiTypography-root-108 makeStyles-headerValueText-3 MuiTypography-h6-118 MuiTypography-colorTextSecondary-134 MuiTypography-displayInline-136"
+        >
+          <span
+            class="MuiSkeleton-root-138 MuiSkeleton-text-139 MuiSkeleton-pulse-142"
+            style="width: 30px;"
+          />
+        </h6>
+      </div>
+    </div>
+    <div
+      class="makeStyles-infoContainer-4"
+    >
+      <div
+        class="makeStyles-buttonContainer-149"
+      >
+        <button
+          class="MuiButtonBase-root-179 MuiButton-root-150 MuiButton-contained-158 MuiButton-containedPrimary-159"
+          tabindex="0"
+          type="button"
+        >
+          <span
+            class="MuiButton-label-151"
+          >
+            Calculate Boost
+          </span>
+          <span
+            class="MuiTouchRipple-root-186"
+          />
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;

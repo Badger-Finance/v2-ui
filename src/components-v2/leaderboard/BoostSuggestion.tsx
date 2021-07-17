@@ -17,7 +17,7 @@ const BoostSuggestion = observer((): JSX.Element | null => {
 	const { accountDetails } = user;
 	const classes = useStyles();
 
-	if (!accountDetails || accountDetails.nonNativeBalance === 0) {
+	if (!accountDetails || accountDetails.nonNativeBalance > 0) {
 		return null;
 	}
 
