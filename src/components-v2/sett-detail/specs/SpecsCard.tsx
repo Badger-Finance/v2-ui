@@ -6,7 +6,7 @@ import { Claims } from './Claims';
 import { Harvests } from './Harvests';
 import { Fees } from './Fees';
 
-export const InformationCard = (): JSX.Element => {
+export const SpecsCard = (): JSX.Element => {
 	return (
 		<CardContainer>
 			<Value />
