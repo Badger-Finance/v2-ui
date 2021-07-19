@@ -1,0 +1,238 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Information Card displays sett information 1`] = `
+<div>
+  <div
+    class="MuiPaper-root-4 MuiCard-root-3 WithStyles(ForwardRef(Card))-root-1 WithStyles(ForwardRef(Card))-root-2 MuiPaper-elevation1-8 MuiPaper-rounded-5"
+  >
+    <div
+      class="MuiGrid-root-34 makeStyles-root-32 MuiGrid-container-35"
+    >
+      <p
+        class="MuiTypography-root-137 MuiTypography-body1-139"
+      >
+        Value
+      </p>
+      <hr
+        class="MuiDivider-root-169 WithStyles(ForwardRef(Divider))-root-167 WithStyles(ForwardRef(Divider))-root-168"
+      />
+      <p
+        class="MuiTypography-root-137 makeStyles-amount-33 MuiTypography-body1-139"
+      >
+        $7,921,648.24
+      </p>
+    </div>
+    <div
+      class="MuiGrid-root-34 makeStyles-root-176 MuiGrid-container-35"
+    >
+      <p
+        class="MuiTypography-root-137 MuiTypography-body1-139"
+      >
+        Tokens
+      </p>
+      <hr
+        class="MuiDivider-root-169 WithStyles(ForwardRef(Divider))-root-167 WithStyles(ForwardRef(Divider))-root-182"
+      />
+      <div
+        class="MuiGrid-root-34 MuiGrid-container-35"
+      >
+        <div
+          class="MuiGrid-root-34 makeStyles-tokenSpec-178 MuiGrid-container-35 MuiGrid-justify-xs-space-between-54"
+        >
+          <div
+            class="MuiBox-root-183 MuiBox-root-184"
+          >
+            <div
+              class="makeStyles-tokenImageContainer-180"
+            >
+              <img
+                alt="wbtc-icon"
+                class="makeStyles-tokenImage-181"
+                src="/assets/icons/wbtc.svg"
+              />
+            </div>
+            <p
+              class="MuiTypography-root-137 makeStyles-specName-177 makeStyles-tokenName-179 MuiTypography-body1-139 MuiTypography-colorTextSecondary-163 MuiTypography-displayInline-165"
+            >
+              WBTC
+            </p>
+          </div>
+          <h6
+            class="MuiTypography-root-137 MuiTypography-subtitle2-149 MuiTypography-displayInline-165"
+          >
+            114
+          </h6>
+        </div>
+        <div
+          class="MuiGrid-root-34 makeStyles-tokenSpec-178 MuiGrid-container-35 MuiGrid-justify-xs-space-between-54"
+        >
+          <div
+            class="MuiBox-root-183 MuiBox-root-185"
+          >
+            <div
+              class="makeStyles-tokenImageContainer-180"
+            >
+              <img
+                alt="digg-icon"
+                class="makeStyles-tokenImage-181"
+                src="/assets/icons/digg.png"
+              />
+            </div>
+            <p
+              class="MuiTypography-root-137 makeStyles-specName-177 makeStyles-tokenName-179 MuiTypography-body1-139 MuiTypography-colorTextSecondary-163 MuiTypography-displayInline-165"
+            >
+              DIGG
+            </p>
+          </div>
+          <h6
+            class="MuiTypography-root-137 MuiTypography-subtitle2-149 MuiTypography-displayInline-165"
+          >
+            123
+          </h6>
+        </div>
+        <div
+          class="MuiGrid-root-34 MuiGrid-container-35 MuiGrid-justify-xs-space-between-54"
+        >
+          <p
+            class="MuiTypography-root-137 makeStyles-specName-177 MuiTypography-body1-139 MuiTypography-colorTextSecondary-163 MuiTypography-displayInline-165"
+          >
+            Token Ratio
+          </p>
+          <h6
+            class="MuiTypography-root-137 MuiTypography-subtitle2-149 MuiTypography-displayInline-165"
+          >
+            1.0789
+          </h6>
+        </div>
+      </div>
+    </div>
+    <div
+      class="MuiGrid-root-34 makeStyles-root-186 MuiGrid-container-35"
+    >
+      <p
+        class="MuiTypography-root-137 MuiTypography-body1-139"
+      >
+        Claims
+      </p>
+      <hr
+        class="MuiDivider-root-169 WithStyles(ForwardRef(Divider))-root-167 WithStyles(ForwardRef(Divider))-root-192"
+      />
+      <div
+        class="MuiGrid-root-34 MuiGrid-container-35 MuiGrid-align-items-xs-center-43"
+      >
+        <div
+          class="MuiGrid-root-34 MuiGrid-container-35 MuiGrid-item-36 MuiGrid-grid-xs-9-77"
+        >
+          <p
+            class="MuiTypography-root-137 makeStyles-rewardsFrequency-187 MuiTypography-body1-139 MuiTypography-colorTextSecondary-163"
+          >
+            Reward Frequency
+          </p>
+          <span
+            class="MuiTypography-root-137 makeStyles-frequencyDetail-188 MuiTypography-caption-140 MuiTypography-colorTextSecondary-163"
+          >
+            This Sett’s rewards are currently taking longer than usual.
+          </span>
+          <a
+            class="MuiTypography-root-137 MuiLink-root-193 MuiLink-underlineHover-195 makeStyles-infoLink-189 MuiTypography-colorPrimary-160"
+          >
+            See more
+          </a>
+        </div>
+        <div
+          class="MuiGrid-root-34 makeStyles-rewardContainer-191 MuiGrid-item-36 MuiGrid-grid-xs-true-68"
+        >
+          <p
+            class="MuiTypography-root-137 makeStyles-reward-190 MuiTypography-body1-139 MuiTypography-displayInline-165"
+          >
+            ~2 Hours
+          </p>
+        </div>
+      </div>
+    </div>
+    <div
+      class="MuiGrid-root-34 makeStyles-root-199 MuiGrid-container-35"
+    >
+      <p
+        class="MuiTypography-root-137 MuiTypography-body1-139"
+      >
+        Harvests
+      </p>
+      <hr
+        class="MuiDivider-root-169 WithStyles(ForwardRef(Divider))-root-167 WithStyles(ForwardRef(Divider))-root-204"
+      />
+      <div
+        class="MuiGrid-root-34 MuiGrid-container-35 MuiGrid-align-items-xs-center-43"
+      >
+        <div
+          class="MuiGrid-root-34 MuiGrid-container-35 MuiGrid-item-36 MuiGrid-grid-xs-9-77"
+        >
+          <p
+            class="MuiTypography-root-137 makeStyles-harvestFrequency-200 MuiTypography-body1-139 MuiTypography-colorTextSecondary-163"
+          >
+            Harvest Frequency
+          </p>
+          <a
+            class="MuiTypography-root-137 MuiLink-root-193 MuiLink-underlineHover-195 makeStyles-infoLink-201 MuiTypography-colorPrimary-160"
+          >
+            See Sett Harvest Stats
+          </a>
+        </div>
+        <div
+          class="MuiGrid-root-34 makeStyles-harvestContainer-203 MuiGrid-item-36 MuiGrid-grid-xs-true-68"
+        >
+          <p
+            class="MuiTypography-root-137 makeStyles-harvest-202 MuiTypography-body1-139 MuiTypography-displayInline-165"
+          >
+            ~24 Hours
+          </p>
+        </div>
+      </div>
+    </div>
+    <div
+      class="MuiGrid-root-34 MuiGrid-container-35"
+    >
+      <p
+        class="MuiTypography-root-137 MuiTypography-body1-139"
+      >
+        Fees
+      </p>
+      <hr
+        class="MuiDivider-root-169 WithStyles(ForwardRef(Divider))-root-167 WithStyles(ForwardRef(Divider))-root-206"
+      />
+      <div
+        class="MuiGrid-root-34 MuiGrid-container-35"
+      >
+        <div
+          class="MuiGrid-root-34 MuiGrid-container-35 MuiGrid-justify-xs-space-between-54"
+        >
+          <p
+            class="MuiTypography-root-137 makeStyles-specName-205 MuiTypography-body1-139 MuiTypography-colorTextSecondary-163 MuiTypography-displayInline-165"
+          >
+            Withdrawal Fee
+          </p>
+          <h6
+            class="MuiTypography-root-137 MuiTypography-subtitle2-149 MuiTypography-displayInline-165"
+          >
+            0.5%
+          </h6>
+        </div>
+        <div
+          class="MuiGrid-root-34 MuiGrid-container-35 MuiGrid-justify-xs-space-between-54"
+        >
+          <p
+            class="MuiTypography-root-137 makeStyles-specName-205 MuiTypography-body1-139 MuiTypography-colorTextSecondary-163 MuiTypography-displayInline-165"
+          >
+            Performance Fee
+          </p>
+          <h6
+            class="MuiTypography-root-137 MuiTypography-subtitle2-149 MuiTypography-displayInline-165"
+          >
+            20.0%
+          </h6>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
