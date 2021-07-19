@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NativeRankSuggestion No user details available Does not display 1`] = `<div />`;
+
+exports[`NativeRankSuggestion User with a positive amount to reach next rank Displays a suggestion for to increase native balance 1`] = `<div />`;
+
+exports[`NativeRankSuggestion User with no amount to reach next rank Does not display 1`] = `<div />`;
+
+exports[`NativeRankSuggestion User with zero to reach next rank Does not display 1`] = `<div />`;

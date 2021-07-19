@@ -1,19 +1,14 @@
 import React, { useContext } from 'react';
-import { Button, Grid, Typography } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
-import { formatWithoutExtraZeros, numberWithCommas } from '../../mobx/utils/helpers';
-import { useConnectWallet } from '../../mobx/utils/hooks';
-import routes from '../../config/routes';
 import { Skeleton } from '@material-ui/lab';
-import { getRankNumberFromBoost } from '../../utils/componentHelpers';
-import { LEADERBOARD_RANKS } from '../../config/constants';
+import BoostSuggestion from './BoostSuggestion';
+import NativeRankSuggestion from './NativeRankSuggestion';
+import ViewBoostButton from './ViewBoostButton';
 
 const useStyles = makeStyles((theme) => ({
-	amountToNextRank: {
-		fontSize: 12,
-	},
 	justifyCenterOnMobile: {
 		[theme.breakpoints.down('xs')]: {
 			justifyContent: 'center',
@@ -25,46 +20,23 @@ const useStyles = makeStyles((theme) => ({
 			marginBottom: 16,
 		},
 	},
-	calculateBoostContainer: {
-		[theme.breakpoints.down('xs')]: {
-			marginBottom: 8,
-		},
-	},
-	amountToNextRankContainer: {
-		textAlign: 'end',
-		[theme.breakpoints.down('xs')]: {
-			textAlign: 'center',
-		},
-	},
 	headerValueText: {
 		marginLeft: theme.spacing(1),
 	},
+	infoContainer: {
+		display: 'flex',
+		flexDirection: 'column',
+		justifyContent: 'center',
+	},
 }));
 
-export const LeaderboardAccountInformation = observer(
+const LeaderboardAccountInformation = observer(
 	(): JSX.Element => {
-		const { boostOptimizer, user, router, wallet } = useContext(StoreContext);
-		const connectWallet = useConnectWallet();
+		const { user, wallet } = useContext(StoreContext);
 		const classes = useStyles();
 
 		const boost = user.accountDetails?.boost;
 		const rank = user.accountDetails?.boostRank;
-		const nativeHoldings = user.accountDetails?.nativeBalance;
-		const nonNativeHoldings = user.accountDetails?.nonNativeBalance;
-
-		const currentBadgerLevel = boost ? getRankNumberFromBoost(boost) : undefined;
-		const nextBadgerLevel =
-			currentBadgerLevel !== undefined ? LEADERBOARD_RANKS[currentBadgerLevel - 1] : undefined;
-
-		let amountToReachNextRank;
-
-		if (nextBadgerLevel && nativeHoldings && nonNativeHoldings) {
-			amountToReachNextRank = boostOptimizer.calculateNativeToMatchBoost(
-				nativeHoldings,
-				nonNativeHoldings,
-				nextBadgerLevel.boostRangeStart,
-			);
-		}
 
 		// Show N/A when wallet is not connected otherwise show loading skeleton
 		const infoPlaceholder = !wallet.connectedAddress ? 'N/A' : <Skeleton width={30} />;
@@ -94,45 +66,14 @@ export const LeaderboardAccountInformation = observer(
 						</Typography>
 					</Grid>
 				</Grid>
-				<Grid item container xs={12} sm className={classes.amountToNextRankContainer} alignItems="center">
-					<Grid item xs={12} className={classes.calculateBoostContainer}>
-						{wallet.connectedAddress ? (
-							<Button
-								color="primary"
-								variant="contained"
-								onClick={() => router.goTo(routes.boostOptimizer)}
-							>
-								Calculate Boost
-							</Button>
-						) : (
-							<Button color="primary" variant="contained" onClick={connectWallet}>
-								Connect Wallet
-							</Button>
-						)}
-					</Grid>
-					{nonNativeHoldings !== undefined && nonNativeHoldings === 0 && (
-						<Grid item xs={12}>
-							<Typography className={classes.amountToNextRank} color="textSecondary">
-								Add Non Native assets to be able to improve your boost
-							</Typography>
-						</Grid>
-					)}
-					{amountToReachNextRank && amountToReachNextRank.gt(0) && (
-						<Grid item xs={12}>
-							<Typography className={classes.amountToNextRank} color="textSecondary">
-								<Typography className={classes.amountToNextRank} color="textPrimary" component="span">
-									{`$${numberWithCommas(formatWithoutExtraZeros(amountToReachNextRank, 3))}`}
-								</Typography>
-								{` more `}
-								<Typography className={classes.amountToNextRank} color="textPrimary" component="span">
-									NATIVE
-								</Typography>{' '}
-								to next rank
-							</Typography>
-						</Grid>
-					)}
-				</Grid>
+				<div className={classes.infoContainer}>
+					<ViewBoostButton />
+					<BoostSuggestion />
+					<NativeRankSuggestion />
+				</div>
 			</Grid>
 		);
 	},
 );
+
+export default LeaderboardAccountInformation;

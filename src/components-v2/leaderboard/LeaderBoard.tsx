@@ -1,7 +1,7 @@
 import React from 'react';
 import { makeStyles, Paper, Grid, Divider, Typography, Link } from '@material-ui/core';
-import { LeaderboardAccountInformation } from './LeaderboardAccountInformation';
-import { LeaderboardRanks } from './LeaderboardRanks';
+import LeaderboardAccountInformation from './LeaderboardAccountInformation';
+import LeaderboardRanks from './LeaderboardRanks';
 
 const useStyles = makeStyles((theme) => ({
 	leaderboardPaper: {
@@ -22,9 +22,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export const LeaderBoard = (): JSX.Element => {
+export default function LeaderBoard(): JSX.Element {
 	const classes = useStyles();
-
 	return (
 		<Grid container className={classes.leaderboardPaper} component={Paper}>
 			<LeaderboardAccountInformation />
@@ -56,4 +55,4 @@ export const LeaderBoard = (): JSX.Element => {
 			<LeaderboardRanks />
 		</Grid>
 	);
-};
+}

@@ -40,7 +40,7 @@ export class LeaderBoardStore {
 		},
 	);
 
-	private retrieveRanksInformation = (leaderBoard: LeaderBoardEntry[]): LeaderboardRank[] => {
+	retrieveRanksInformation = (leaderBoard: LeaderBoardEntry[]): LeaderboardRank[] => {
 		const ranks: LeaderboardRank[] = LEADERBOARD_RANKS.map((rank) => ({
 			...rank,
 			usersAmount: 0,
