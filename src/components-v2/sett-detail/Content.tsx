@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid, makeStyles } from '@material-ui/core';
-import { InformationCard } from './information-card/InformationCard';
+import { SpecsCard } from './specs/SpecsCard';
 
 const useStyles = makeStyles((theme) => ({
 	content: {
@@ -18,7 +18,7 @@ export const Content = (): JSX.Element => {
 	return (
 		<Grid container className={classes.content}>
 			<Grid item xs={12} lg={4}>
-				<InformationCard />
+				<SpecsCard />
 			</Grid>
 		</Grid>
 	);
