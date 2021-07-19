@@ -1,10 +1,7 @@
-import { Button, Container, makeStyles, Typography } from '@material-ui/core';
+import React from 'react';
+import { Container, makeStyles } from '@material-ui/core';
 import PageHeader from 'components-v2/common/PageHeader';
 import LeaderBoard from 'components-v2/leaderboard/LeaderBoard';
-import { observer } from 'mobx-react-lite';
-import BadgerBoost from '../components-v2/common/BadgerBoost';
-import React, { useContext } from 'react';
-import { StoreContext } from 'mobx/store-context';
 
 const useStyles = makeStyles((theme) => ({
 	rootContainer: {
@@ -42,43 +39,17 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const BoostLeaderBoard = observer(() => {
+const BoostLeaderBoard = (): JSX.Element => {
 	const classes = useStyles();
-	const store = useContext(StoreContext);
-	const { user } = store;
-	const { accountDetails } = user;
 
 	return (
 		<Container className={classes.rootContainer}>
 			<PageHeader title="Badger Boost Leader Board" subtitle="Who is the fiercest Badger?" />
 			<div className={classes.leaderboardContainer}>
-				<BadgerBoost />
-				{accountDetails && (
-					<div className={classes.viewContainer}>
-						<Button
-							onClick={() =>
-								window.open(
-									'https://medium.com/@badgerdao/introducing-badger-boost-v1-and-leaderboard-d1e15343b3ec',
-								)
-							}
-							color="primary"
-							variant="outlined"
-							className={classes.viewButton}
-						>
-							How does it work?
-						</Button>
-					</div>
-				)}
-				<div className={classes.description}>
-					<Typography>
-						Deposit Badger or DIGG to increase your ROI and rewards from 1 to 3x. See how you compare to
-						fellow Badgers and compete for a higher boost.
-					</Typography>
-				</div>
 				<LeaderBoard />
 			</div>
 		</Container>
 	);
-});
+};
 
 export default BoostLeaderBoard;

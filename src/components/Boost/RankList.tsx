@@ -33,10 +33,14 @@ export const RankList = ({ currentBoost, accountBoost, onRankClick }: Props): JS
 							/>
 						</Grid>
 						<Grid item xs>
-							<StyledButtonBase onClick={() => onRankClick(rank.boostRangeStart)}>
+							<StyledButtonBase
+								onClick={() => onRankClick(rank.boostRangeStart)}
+								aria-label={`${rank.name} Rank`}
+							>
 								<RankLevel
 									name={rank.name}
 									boost={rank.boostRangeStart}
+									signatureColor={rank.signatureColor}
 									obtained={isObtained}
 									locked={isLocked}
 								/>

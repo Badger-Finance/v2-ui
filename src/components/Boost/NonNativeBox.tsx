@@ -103,6 +103,9 @@ export const NonNativeBox = observer((props: Props) => {
 				onIncrement={onIncrement}
 				onReduction={onReduction}
 				value={nonNativeBalance}
+				inputProps={{ 'aria-label': 'non native holdings amount' }}
+				increaseAlt="increase non native holdings"
+				decreaseAlt="decrease non native holdings"
 			/>
 			{showReducedNonNativeMessage && (
 				<Grid className={classes.infoBox}>

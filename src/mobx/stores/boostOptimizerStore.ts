@@ -2,8 +2,8 @@ import BigNumber from 'bignumber.js';
 
 import { RootStore } from '../store';
 import { percentageBetweenRange } from '../../utils/componentHelpers';
-import { LeaderBoardEntry } from '../model';
 import { ZERO } from '../../config/constants';
+import { LeaderBoardEntry } from '../model/boost/leaderboard-entry';
 
 // linear interpolation
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
@@ -56,7 +56,7 @@ export class BoostOptimizerStore {
 	}
 
 	/**
-	 * Calculate user boost given native and non native balances.
+	 * Calculate account boost given native and non native balances.
 	 * Boost is determined using the rank the boost ratio would have in the leaderboard and then searching
 	 * in the leaderboard the first slot that holds a bigger boost ratio
 	 * @param native native's balance

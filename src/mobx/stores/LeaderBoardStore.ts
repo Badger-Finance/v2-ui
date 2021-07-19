@@ -1,74 +1,77 @@
 import { action, extendObservable } from 'mobx';
-import { LeaderBoardData, LeaderBoardEntry } from 'mobx/model';
 import { RootStore } from 'mobx/store';
-import { fetchCompleteLeaderBoardData, fetchLeaderBoardData } from 'mobx/utils/apiV2';
+import { fetchCompleteLeaderBoardData } from 'mobx/utils/apiV2';
+import { isWithinRange } from '../utils/helpers';
+import { LEADERBOARD_RANKS } from '../../config/constants';
+import { LeaderBoardEntry } from '../model/boost/leaderboard-entry';
+import { LeaderboardRank as CoreLeaderboardRank } from '../model/boost/leaderboard-rank';
+
+interface LeaderboardRank extends CoreLeaderboardRank {
+	usersAmount: number;
+	firstSlotPosition: number;
+	lastSlotPosition: number;
+}
 
 export class LeaderBoardStore {
 	private store: RootStore;
 
-	private page: number;
-	private size: number;
-
 	public completeBoard?: LeaderBoardEntry[];
-
-	// TODO: deprecate in favor of complete board in upcoming leaderboard changes
-	public data: LeaderBoardData | undefined | null;
+	public ranks?: LeaderboardRank[];
 
 	constructor(store: RootStore) {
 		this.store = store;
-		this.page = 0;
-		this.size = 20;
 
 		extendObservable(this, {
-			data: this.data,
+			completeBoard: this.completeBoard,
+			ranks: this.ranks,
 		});
 
-		this.loadCompleteBoard();
 		this.loadData();
 	}
 
-	loadCompleteBoard = action(
+	loadData = action(
 		async (): Promise<void> => {
 			const fetchedLeaderBoard = await fetchCompleteLeaderBoardData();
 
 			if (fetchedLeaderBoard) {
 				this.completeBoard = fetchedLeaderBoard;
+				this.ranks = this.retrieveRanksInformation(fetchedLeaderBoard);
 			}
 		},
 	);
 
-	loadData = action(
-		async (): Promise<void> => {
-			this.data = await fetchLeaderBoardData(this.page, this.size);
-		},
-	);
+	retrieveRanksInformation = (leaderBoard: LeaderBoardEntry[]): LeaderboardRank[] => {
+		const ranks: LeaderboardRank[] = LEADERBOARD_RANKS.map((rank) => ({
+			...rank,
+			usersAmount: 0,
+			firstSlotPosition: 0,
+			lastSlotPosition: 0,
+		}));
 
-	nextPage = action(() => {
-		if (this.data && this.page < this.data.maxPage) {
-			this.page += 1;
-			this.loadData();
+		// check in which rank each leaderboard entry belongs
+		for (const leaderBoardEntry of leaderBoard) {
+			for (const rankEntry of ranks) {
+				if (isWithinRange(Number(leaderBoardEntry.boost), rankEntry.boostRangeStart, rankEntry.boostRangeEnd)) {
+					rankEntry.usersAmount++;
+					break;
+				}
+			}
 		}
-	});
 
-	prevPage = action(() => {
-		if (this.data && this.page >= 1) {
-			this.page -= 1;
-			this.loadData();
-		}
-	});
+		// calculate the range of each rank in the leaderboard entries
+		// e.g: the frenzy badgers consist of the badgers from the 1th slot to the 124th slot
+		for (let i = 0; i < ranks.length; i++) {
+			let usersInRank = ranks[i].usersAmount;
 
-	setPage = action((page: number) => {
-		if (this.data && page >= 0 && page <= this.data.maxPage) {
-			this.page = page;
-			this.loadData();
-		}
-	});
+			for (let j = 0; j < i; j++) {
+				usersInRank += ranks[j].usersAmount;
+			}
 
-	setSize = action((size: number) => {
-		if (this.data) {
-			this.page = 0;
-			this.size = size;
-			this.loadData();
+			// +1 to replace zero index based position
+			ranks[i].firstSlotPosition = ranks[i - 1]?.lastSlotPosition || 1; // start where last rank ended
+			ranks[i].lastSlotPosition = usersInRank + 1;
 		}
-	});
+
+		return ranks;
+	};
 }

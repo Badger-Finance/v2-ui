@@ -1,5 +1,4 @@
 import { ListItem, makeStyles, Typography, Grid, Tooltip } from '@material-ui/core';
-import { Sett, SettTokenBalance } from 'mobx/model';
 import { observer } from 'mobx-react-lite';
 import { numberWithCommas, usdToCurrency } from 'mobx/utils/helpers';
 import React, { useContext } from 'react';
@@ -8,6 +7,8 @@ import DisabledSettListItem from './DisabledSettListItem';
 import CurrencyDisplay from '../common/CurrencyDisplay';
 import SettBadge from './SettBadge';
 import BigNumber from 'bignumber.js';
+import { Sett } from '../../mobx/model/setts/sett';
+import { SettTokenBalance } from '../../mobx/model/setts/sett-token-balance';
 
 const useStyles = makeStyles((theme) => ({
 	border: {

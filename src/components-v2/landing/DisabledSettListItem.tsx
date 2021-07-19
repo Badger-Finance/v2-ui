@@ -5,7 +5,7 @@ import { numberWithCommas, usdToCurrency } from 'mobx/utils/helpers';
 import React from 'react';
 import SettBadge from './SettBadge';
 import CurrencyDisplay from '../common/CurrencyDisplay';
-import { SettTokenBalance } from 'mobx/model';
+import { SettTokenBalance } from '../../mobx/model/setts/sett-token-balance';
 
 const useStyles = makeStyles((theme) => ({
 	border: {

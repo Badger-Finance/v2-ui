@@ -13,7 +13,6 @@ import { retry } from '@lifeomic/attempt';
 import fbase from 'fbase';
 import { RootStore } from '../store';
 import WalletStore from './walletStore';
-import { RenVMTransaction, Network } from 'mobx/model';
 import {
 	defaultRetryOptions,
 	// abis
@@ -28,6 +27,8 @@ import { bridge_system, tokens, sett_system } from 'config/deployments/mainnet.j
 import { shortenAddress } from 'utils/componentHelpers';
 import { isEqual } from '../../utils/lodashToNative';
 import { getNetwork } from 'mobx/utils/network';
+import { Network } from '../model/network/network';
+import { RenVMTransaction } from '../model/bridge/renVMTransaction';
 
 export enum Status {
 	// Idle means we are ready to begin a new tx.
@@ -85,7 +86,7 @@ class BridgeStore {
 	private bCRVtBTC!: Contract;
 
 	private gateway!: Contract;
-	// Update data like user balances on a timer.
+	// Update data like account balances on a timer.
 	private updateTimer!: ReturnType<typeof setTimeout>;
 
 	public badgerBurnFee!: number;
@@ -351,7 +352,7 @@ class BridgeStore {
 					}
 
 					// Nonce defaults to value of 0. If no results then assume
-					// there are no transactions for the user.
+					// there are no transactions for the account.
 					this.nextNonce = tx.nonce + 1;
 				}
 			}, defaultRetryOptions);
@@ -374,7 +375,7 @@ class BridgeStore {
 			const txData = {
 				...tx,
 				id: ref.id,
-				// NB: Always store lowercase user addr.
+				// NB: Always store lowercase account addr.
 				user: connectedAddress.toLowerCase(),
 				nonce: this.nextNonce,
 				created,
@@ -481,7 +482,7 @@ class BridgeStore {
 					await this._updateTx(txData);
 				})
 				.catch((err: Error) => {
-					if (err.message === 'Transfer cancelled by user') {
+					if (err.message === 'Transfer cancelled by account') {
 						this._updateTx(tx, true);
 						queueNotification(`${err.message}.`, 'info');
 						return;

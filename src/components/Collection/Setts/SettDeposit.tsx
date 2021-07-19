@@ -1,8 +1,8 @@
 import React from 'react';
 import { styled, Tab, Tabs } from '@material-ui/core';
 import { VaultDeposit } from '../Forms';
-import { Sett } from 'mobx/model';
-import { BadgerSett } from 'mobx/model/badger-sett';
+import { BadgerSett } from 'mobx/model/vaults/badger-sett';
+import { Sett } from '../../../mobx/model/setts/sett';
 
 interface Props {
 	sett: Sett;

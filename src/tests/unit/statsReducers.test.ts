@@ -2,10 +2,11 @@ import '@testing-library/jest-dom';
 import { reduceTimeSinceLastCycle, reduceClaims } from '../../mobx/reducers/statsReducers';
 import MockDate from 'mockdate';
 import BigNumber from 'bignumber.js';
-import { RewardMerkleClaim, TreeClaimData } from 'mobx/model';
-import { TokenBalance } from 'mobx/model/token-balance';
+import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { ETH_DEPLOY } from 'web3/config/eth-config';
 import store from 'mobx/store';
+import { RewardMerkleClaim } from '../../mobx/model/rewards/reward-merkle-claim';
+import { TreeClaimData } from '../../mobx/model/rewards/tree-claim-data';
 
 describe('getPercentageChange', () => {
 	beforeEach(() => {

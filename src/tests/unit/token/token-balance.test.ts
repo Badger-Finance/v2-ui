@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js';
-import { TokenBalance } from 'mobx/model/token-balance';
+import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { randomValue } from 'tests/utils/random';
 import { protocolTokens } from 'web3/config/token-config';
 

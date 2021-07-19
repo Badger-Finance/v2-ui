@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Network } from '../../../mobx/model';
 import { Button, Backdrop, Modal, Fade, Typography, Divider, List, ListItem } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { Network } from '../../../mobx/model/network/network';
 
 export interface FeeListProps {
 	vaultAddress: string;

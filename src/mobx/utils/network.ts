@@ -1,7 +1,10 @@
-import { NETWORK_LIST, NETWORK_IDS } from 'config/constants';
-import { BscNetwork, EthNetwork, DeployConfig, Network } from 'mobx/model';
+import { NETWORK_IDS, NETWORK_LIST } from 'config/constants';
 import deploy from '../../config/deployments/mainnet.json';
 import bscDeploy from '../../config/deployments/bsc.json';
+import { Network } from '../model/network/network';
+import { BscNetwork } from '../model/network/bscNetwork';
+import { EthNetwork } from '../model/network/ethNetwork';
+import { DeployConfig } from '../model/system-config/deploy-config';
 
 export const getNetwork = (network?: string): Network => {
 	switch (network) {

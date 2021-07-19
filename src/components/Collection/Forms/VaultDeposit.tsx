@@ -2,9 +2,8 @@ import React, { useContext, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from 'mobx/store-context';
 import { DialogContent, DialogActions, Grid } from '@material-ui/core';
-import { BadgerSett } from 'mobx/model/badger-sett';
-import { Sett } from 'mobx/model';
-import { TokenBalance } from 'mobx/model/token-balance';
+import { BadgerSett } from 'mobx/model/vaults/badger-sett';
+import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { ContractNamespace } from 'web3/config/contract-namespace';
 import { SettAvailableDeposit } from '../Setts/SettAvailableDeposit';
 import { StrategyInfo } from './StrategyInfo';
@@ -16,9 +15,11 @@ import {
 	AmountTextField,
 	AssetInformationContainer,
 	BalanceInformation,
+	LoaderSpinner,
 	PercentagesContainer,
 	TextSkeleton,
 } from './Common';
+import { Sett } from '../../../mobx/model/setts/sett';
 
 export interface SettModalProps {
 	sett: Sett;
@@ -47,6 +48,7 @@ export const VaultDeposit = observer((props: SettModalProps) => {
 	const depositBalance = TokenBalance.fromBalance(userBalance, amount ?? '0');
 	const vaultCaps = user.vaultCaps[sett.vaultToken];
 
+	const isLoading = contracts.settsBeingDeposited.findIndex((_sett) => _sett.name === sett.name) >= 0;
 	let canDeposit = !!amount && depositBalance.tokenBalance.gt(0);
 	if (canDeposit && vaultCaps) {
 		const vaultHasSpace = vaultCaps.vaultCap.tokenBalance.gte(depositBalance.tokenBalance);
@@ -106,13 +108,20 @@ export const VaultDeposit = observer((props: SettModalProps) => {
 				<ActionButton
 					aria-label="Deposit"
 					size="large"
-					disabled={!canDeposit}
+					disabled={isLoading || !canDeposit}
 					onClick={handleSubmit}
 					variant="contained"
 					color="primary"
 					fullWidth
 				>
-					Deposit
+					{isLoading ? (
+						<>
+							Deposit In Progress
+							<LoaderSpinner size={20} />
+						</>
+					) : (
+						'Deposit'
+					)}
 				</ActionButton>
 			</DialogActions>
 			{user.vaultCaps[sett.vaultToken] && <SettAvailableDeposit vaultCapInfo={user.vaultCaps[sett.vaultToken]} />}
