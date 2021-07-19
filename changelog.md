@@ -1,5 +1,9 @@
 # v2 UI Changelog
 
+### Hotfix - 07/17/2021
+
+-   update links to strategies
+
 ### Hotfix - 07/14/2021
 
 -   reset currency to usd when the wallet's network changes
