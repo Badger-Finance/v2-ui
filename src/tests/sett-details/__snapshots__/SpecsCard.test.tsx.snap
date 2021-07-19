@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Information Card displays sett information 1`] = `
+exports[`Specs Section displays sett information 1`] = `
 <div>
   <div
     class="MuiPaper-root-4 MuiCard-root-3 WithStyles(ForwardRef(Card))-root-1 WithStyles(ForwardRef(Card))-root-2 MuiPaper-elevation1-8 MuiPaper-rounded-5"
