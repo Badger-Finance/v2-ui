@@ -4,14 +4,9 @@ import { SpecsCard } from './specs/SpecsCard';
 import { Description } from './Description';
 import { ActionButtons } from './ActionButtons';
 import { Breadcrumb } from './Breadcrumb';
+import {LayoutContainer} from "../common/Containers";
 
 const useStyles = makeStyles((theme) => ({
-	content: {
-		margin: 'auto',
-		[theme.breakpoints.up('md')]: {
-			marginTop: theme.spacing(2),
-		},
-	},
 	descriptionSection: {
 		justifyContent: 'space-between',
 		marginBottom: theme.spacing(5),
@@ -26,7 +21,7 @@ export const Content = (): JSX.Element => {
 	const canFitActionButtons = useMediaQuery(useTheme().breakpoints.up(680));
 
 	return (
-		<Grid container className={classes.content}>
+		<LayoutContainer>
 			<Grid container className={classes.breadcrumbContainer}>
 				<Breadcrumb />
 			</Grid>
@@ -37,6 +32,6 @@ export const Content = (): JSX.Element => {
 			<Grid item xs={12} lg={4}>
 				<SpecsCard />
 			</Grid>
-		</Grid>
+		</LayoutContainer>
 	);
 };
