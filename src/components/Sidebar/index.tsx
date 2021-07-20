@@ -24,7 +24,7 @@ import { RootStore } from 'mobx/store';
 import clsx, { ClassValue } from 'clsx';
 import SecurityIcon from '@material-ui/icons/Security';
 
-const drawerWidth = 240;
+const DRAWER_WIDTH = 240;
 
 const useStyles = makeStyles((theme) => ({
 	contentRoot: {
@@ -33,13 +33,13 @@ const useStyles = makeStyles((theme) => ({
 		justifyContent: 'space-between',
 	},
 	drawer: {
-		[theme.breakpoints.up('lg')]: {
-			width: drawerWidth,
+		[theme.breakpoints.up('md')]: {
+			width: DRAWER_WIDTH,
 			flexShrink: 0,
 		},
 	},
 	drawerPaper: {
-		width: drawerWidth,
+		width: DRAWER_WIDTH,
 	},
 	logo: {
 		height: '2.4rem',
@@ -560,7 +560,7 @@ export const Sidebar = observer(() => {
 
 	return (
 		<nav className={classes.drawer}>
-			<Hidden lgUp>
+			<Hidden mdUp>
 				<Drawer
 					variant="temporary"
 					anchor="left"
@@ -576,7 +576,7 @@ export const Sidebar = observer(() => {
 					{drawerContent}
 				</Drawer>
 			</Hidden>
-			<Hidden mdDown>
+			<Hidden smDown>
 				<Drawer
 					classes={{
 						paper: classes.drawerPaper,
