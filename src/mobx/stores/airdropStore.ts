@@ -2,15 +2,16 @@ import { extendObservable, action } from 'mobx';
 import Web3 from 'web3';
 import BigNumber from 'bignumber.js';
 import { RootStore } from '../store';
-import { jsonQuery } from '../utils/helpers';
+import { fetchData } from '../utils/helpers';
 import { AbiItem } from 'web3-utils';
 import { getSendOptions } from 'mobx/utils/web3';
 import { TransactionReceipt } from 'web3-core';
+import { AirdropMerkleClaim } from 'mobx/model/rewards/airdrop-merkle-claim';
 
 export interface AirdropInformation {
 	token: string;
 	amount: BigNumber;
-	proof: any;
+	proof: AirdropMerkleClaim;
 	airdropAbi: AbiItem[];
 	airdropContract: string;
 }
@@ -29,7 +30,7 @@ class AirdropStore {
 		});
 	}
 
-	fetchAirdrops = action(() => {
+	fetchAirdrops = action(async () => {
 		const { provider, connectedAddress, network } = this.store.wallet;
 		if (!connectedAddress) return;
 		if (!network.airdrops) return;
@@ -41,27 +42,31 @@ class AirdropStore {
 		// Call API to get merkle proof
 		// Check if claimed
 		// Set airdrop
-		network.airdrops.forEach((airdrop) => {
-			if (!airdrop.active) return;
-			// TODO: merkleproof typing
-			jsonQuery(`${airdrop.endpoint}/${connectedAddress}`)?.then((merkleProof: any) => {
-				if (!!merkleProof.index || merkleProof.index === 0) {
-					const contract = new web3.eth.Contract(airdrop.airdropAbi, airdrop.airdropContract);
-					// TODO: response typing
-					Promise.all([contract.methods.isClaimed(merkleProof.index).call()]).then((result: any[]) => {
-						if (!result[0]) {
-							this.airdrops.push({
-								token: airdrop.token,
-								amount: new BigNumber(merkleProof.amount),
-								airdropContract: airdrop.airdropContract,
-								airdropAbi: airdrop.airdropAbi,
-								proof: merkleProof,
-							});
-						}
+		await Promise.all(
+			network.airdrops.map(async (airdrop) => {
+				if (!airdrop.active) {
+					return;
+				}
+				const proof = await fetchData<AirdropMerkleClaim>(
+					`${airdrop.endpoint}/${connectedAddress}`,
+					'Unable to retrieve airdrop proof!',
+				);
+				if (!proof) {
+					return;
+				}
+				const contract = new web3.eth.Contract(airdrop.airdropAbi, airdrop.airdropContract);
+				const claimed = await contract.methods.isClaimed(proof.index).call();
+				if (!claimed[0]) {
+					this.airdrops.push({
+						token: airdrop.token,
+						amount: new BigNumber(proof.amount),
+						airdropContract: airdrop.airdropContract,
+						airdropAbi: airdrop.airdropAbi,
+						proof: proof,
 					});
 				}
-			});
-		});
+			}),
+		);
 	});
 
 	// TODO: merkle proof typing

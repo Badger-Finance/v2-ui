@@ -144,13 +144,13 @@ class BridgeStore {
 			...defaultProps,
 		});
 
-		observe(this.store.wallet as WalletStore, 'network', ({ newValue }: IValueDidChange<Network>) => {
+		observe(this.store.wallet as WalletStore, 'network', async ({ newValue }: IValueDidChange<Network>) => {
 			if (!newValue) return;
 
 			this.network = newValue.name;
 			// NB: Only ETH supported for now.
 			if (this.network !== NETWORK_LIST.ETH) return;
-			this.reload();
+			await this.reload();
 		});
 
 		observe(this.store.wallet as WalletStore, 'provider', ({ newValue }: IValueDidChange<provider>) => {
@@ -189,14 +189,14 @@ class BridgeStore {
 		observe(
 			this.store.wallet as WalletStore,
 			'connectedAddress',
-			({ newValue, oldValue }: IValueDidChange<string>) => {
+			async ({ newValue, oldValue }: IValueDidChange<string>) => {
 				if (oldValue === newValue) return;
 				if (!newValue) return;
 				// Set shortened addr.
 				const { network } = this.store.wallet;
 				// NB: Only ETH supported for now.
 				if (network.name !== NETWORK_LIST.ETH) return;
-				this.reload();
+				await this.reload();
 			},
 		);
 
@@ -264,7 +264,7 @@ class BridgeStore {
 		}, UPDATE_INTERVAL_SECONDS);
 	}
 
-	reload = action(() => {
+	reload = action(async () => {
 		// Always reset first on reload even though we may not be loading any data.
 		this.reset();
 
@@ -276,19 +276,18 @@ class BridgeStore {
 		this.shortAddr = shortenAddress(connectedAddress);
 
 		this.loading = true;
-		Promise.all([
-			// Fetch old transactions and reload any incomplete tx.
-			this._fetchTx(connectedAddress),
-			this._getBalances(connectedAddress),
-			this._getFees(),
-			this._getBTCNetworkFees(),
-		])
-			.catch((err: Error) => {
-				queueNotification(`Failed to fetch bridge data: ${err.message}`, 'error');
-			})
-			.finally(() => {
-				this.loading = false;
-			});
+		try {
+			await Promise.all([
+				// Fetch old transactions and reload any incomplete tx.
+				this._fetchTx(connectedAddress),
+				this._getBalances(connectedAddress),
+				this._getFees(),
+				this._getBTCNetworkFees(),
+			]);
+		} catch (err) {
+			queueNotification(`Failed to fetch bridge data: ${err.message}`, 'error');
+		}
+		this.loading = false;
 	});
 
 	reset = action(() => {
