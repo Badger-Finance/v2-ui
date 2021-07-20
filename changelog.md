@@ -1,6 +1,6 @@
 # v2 UI Changelog
 
-### v2.8.4 - 07/20/2021
+### v2.8.4 - 07/22/2021
 
 -   update boost leaderboard visualization
 -   release badger boost optimizer
