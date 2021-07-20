@@ -6,9 +6,12 @@ import { observer } from 'mobx-react-lite';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
-		[theme.breakpoints.up('md')]: {
-			paddingLeft: 115,
+		[theme.breakpoints.only('md')]: {
+			paddingLeft: 300,
 			paddingTop: theme.spacing(3),
+		},
+		[theme.breakpoints.up('lg')]: {
+			paddingLeft: 115,
 		},
 	},
 }));
