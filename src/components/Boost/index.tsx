@@ -7,15 +7,6 @@ import PageHeader from '../../components-v2/common/PageHeader';
 import { HeaderContainer, LayoutContainer } from '../../components-v2/common/Containers';
 
 const useStyles = makeStyles((theme) => ({
-	root: {
-		[theme.breakpoints.up('md')]: {
-			paddingLeft: theme.spacing(30),
-		},
-	},
-	headerContainer: {
-		marginTop: theme.spacing(3),
-		marginBottom: theme.spacing(3),
-	},
 	boostLink: {
 		fontWeight: 'bold',
 		[theme.breakpoints.down('xs')]: {

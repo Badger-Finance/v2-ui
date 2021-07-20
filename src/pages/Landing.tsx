@@ -11,13 +11,9 @@ import BigNumber from 'bignumber.js';
 import SettList from 'components-v2/landing/SettList';
 import { RewardsModal } from '../components-v2/landing/RewardsModal';
 import { SettState } from '../mobx/model/setts/sett-state';
-import { LayoutContainer } from '../components-v2/common/Containers';
+import { HeaderContainer, LayoutContainer } from '../components-v2/common/Containers';
 
 const useStyles = makeStyles((theme) => ({
-	headerContainer: {
-		marginTop: theme.spacing(3),
-		marginBottom: theme.spacing(3),
-	},
 	marginTop: {
 		marginTop: theme.spacing(3),
 	},
@@ -101,9 +97,9 @@ const Landing = observer((props: LandingProps) => {
 		<LayoutContainer>
 			{/* Landing Metrics Cards */}
 			<Grid container spacing={1} justify="center">
-				<Grid item xs={12} className={classes.headerContainer}>
+				<HeaderContainer item xs={12}>
 					<PageHeader title={title} subtitle={subtitle} />
-				</Grid>
+				</HeaderContainer>
 				<Grid item xs={12} className={classes.widgetContainer}>
 					<div className={classes.walletContainer}>{userConnected && <WalletSlider />}</div>
 					<div className={classes.pickerContainer}>
