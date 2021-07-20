@@ -2,7 +2,7 @@ import CurrencyInfoCard from '../components-v2/common/CurrencyInfoCard';
 import CurrencyPicker from '../components-v2/landing/CurrencyPicker';
 import SamplePicker from '../components-v2/landing/SamplePicker';
 import WalletSlider from '../components-v2/landing/WalletSlider';
-import { Grid, Container, makeStyles, Button } from '@material-ui/core';
+import { Grid, makeStyles, Button } from '@material-ui/core';
 import PageHeader from '../components-v2/common/PageHeader';
 import { StoreContext } from '../mobx/store-context';
 import { observer } from 'mobx-react-lite';
@@ -11,13 +11,9 @@ import BigNumber from 'bignumber.js';
 import SettList from 'components-v2/landing/SettList';
 import { RewardsModal } from '../components-v2/landing/RewardsModal';
 import { SettState } from '../mobx/model/setts/sett-state';
+import { LayoutContainer } from '../components-v2/common/Containers';
 
 const useStyles = makeStyles((theme) => ({
-	landingContainer: {
-		[theme.breakpoints.up('md')]: {
-			paddingLeft: theme.spacing(30),
-		},
-	},
 	headerContainer: {
 		marginTop: theme.spacing(3),
 		marginBottom: theme.spacing(3),
@@ -102,7 +98,7 @@ const Landing = observer((props: LandingProps) => {
 	const portfolioValue = userConnected && user.initialized ? user.portfolioValue : undefined;
 
 	return (
-		<Container className={classes.landingContainer}>
+		<LayoutContainer>
 			{/* Landing Metrics Cards */}
 			<Grid container spacing={1} justify="center">
 				<Grid item xs={12} className={classes.headerContainer}>
@@ -138,7 +134,7 @@ const Landing = observer((props: LandingProps) => {
 			)}
 
 			<SettList state={state} />
-		</Container>
+		</LayoutContainer>
 	);
 });
 

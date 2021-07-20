@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { MobxRouter, startRouter } from 'mobx-router';
+import { startRouter } from 'mobx-router';
 import { StoreProvider } from './mobx/store-context';
 
 //material
-import { Container, CssBaseline } from '@material-ui/core';
+import { CssBaseline } from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { Snackbar } from './components/Snackbar';
 
@@ -13,8 +13,7 @@ import store from './mobx/store';
 
 //router
 import routes from './config/routes';
-import { Sidebar } from './components/Sidebar';
-import { Header } from './components/Header';
+import { App } from './components/App';
 
 //css
 import './assets/css/onboard-override.css';
@@ -30,11 +29,7 @@ ReactDOM.render(
 		<ThemeProvider theme={darkTheme}>
 			<CssBaseline />
 			<Snackbar>
-				<Header />
-				<Container maxWidth={false}>
-					<MobxRouter store={store} />
-				</Container>
-				<Sidebar />
+				<App />
 			</Snackbar>
 		</ThemeProvider>
 	</StoreProvider>,
