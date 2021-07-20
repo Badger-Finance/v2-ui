@@ -62,7 +62,6 @@ const useStyles = makeStyles((theme) => ({
 		},
 		padding: theme.spacing(1, 3),
 	},
-	collapseWrapper: {},
 	divider: {
 		padding: theme.spacing(2, 2, 1, 2),
 		fontSize: '.8rem',
@@ -329,12 +328,7 @@ export const Sidebar = observer(() => {
 									<ExpandMore />
 								</IconButton>
 							</ListItem>
-							<Collapse
-								classes={{ wrapper: classes.collapseWrapper }}
-								in={expanded === 'boosts'}
-								timeout="auto"
-								unmountOnExit
-							>
+							<Collapse in={expanded === 'boosts'} timeout="auto" unmountOnExit>
 								{FLAGS.BOOST_OPTIMIZER && (
 									<ListItem
 										button
@@ -380,12 +374,7 @@ export const Sidebar = observer(() => {
 									<ExpandMore />
 								</IconButton>
 							</ListItem>
-							<Collapse
-								classes={{ wrapper: classes.collapseWrapper }}
-								in={expanded === 'badger-zone'}
-								timeout="auto"
-								unmountOnExit
-							>
+							<Collapse in={expanded === 'badger-zone'} timeout="auto" unmountOnExit>
 								<ListItem
 									button
 									classes={{ gutters: classes.subItemGutters }}
