@@ -3,13 +3,13 @@
 exports[`Landing Page Renders correctly 1`] = `
 <div>
   <div
-    class="MuiContainer-root-12 makeStyles-landingContainer-1 MuiContainer-maxWidthLg-18"
+    class="MuiContainer-root-12 WithStyles(ForwardRef(Container))-root-11 MuiContainer-maxWidthLg-18"
   >
     <div
       class="MuiGrid-root-20 MuiGrid-container-21 MuiGrid-spacing-xs-1-43 MuiGrid-justify-xs-center-38"
     >
       <div
-        class="MuiGrid-root-20 makeStyles-headerContainer-2 MuiGrid-item-22 MuiGrid-grid-xs-12-66"
+        class="MuiGrid-root-20 makeStyles-headerContainer-1 MuiGrid-item-22 MuiGrid-grid-xs-12-66"
       >
         <div
           class="makeStyles-headerContainer-124"
@@ -109,13 +109,13 @@ exports[`Landing Page Renders correctly 1`] = `
         </div>
       </div>
       <div
-        class="MuiGrid-root-20 makeStyles-widgetContainer-5 MuiGrid-item-22 MuiGrid-grid-xs-12-66"
+        class="MuiGrid-root-20 makeStyles-widgetContainer-4 MuiGrid-item-22 MuiGrid-grid-xs-12-66"
       >
         <div
-          class="makeStyles-walletContainer-9"
+          class="makeStyles-walletContainer-8"
         />
         <div
-          class="makeStyles-pickerContainer-10"
+          class="makeStyles-pickerContainer-9"
         >
           <div
             class="MuiInputBase-root-183 MuiOutlinedInput-root-168 makeStyles-samplePicker-267"
