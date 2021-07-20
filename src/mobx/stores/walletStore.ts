@@ -140,14 +140,13 @@ class WalletStore {
 		return getNetworkFromProvider(this.provider);
 	}
 
-	getCurrentBlock = action(() => {
+	getCurrentBlock = action(async () => {
 		if (!this.provider) {
 			return;
 		}
 		const web3 = new Web3(this.provider);
-		web3.eth.getBlockNumber().then((value: number) => {
-			this.currentBlock = value - 50;
-		});
+		const block = await web3.eth.getBlockNumber();
+		this.currentBlock = block - 50;
 	});
 
 	getGasPrice = action(async () => {

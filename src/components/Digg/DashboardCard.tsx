@@ -33,13 +33,11 @@ const DashboardCard = observer(() => {
 	useEffect(componentDidMount, []);
 	const [title, setGraphSelected] = useState<string>('Total Volume');
 
-	const handleChangeRange = (range: number) => {
+	const handleChangeRange = async (range: number) => {
 		const chart = title === 'Price' ? 'prices' : title === 'Total Volume' ? 'total_volumes' : 'market_caps';
-
-		fetchDiggChart(chart, range, (marketData: any) => {
-			setChartData(marketData);
-			setRange(range);
-		});
+		const diggChartData = await fetchDiggChart(chart, range);
+		setChartData(diggChartData);
+		setRange(range);
 	};
 	useEffect(() => {
 		handleChangeRange(range);

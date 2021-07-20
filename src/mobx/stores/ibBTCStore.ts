@@ -4,7 +4,7 @@ import BigNumber from 'bignumber.js';
 import { ContractSendMethod } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
 import Web3 from 'web3';
-import { ZERO, MAX, FLAGS, ERC20_ABI, NETWORK_LIST } from 'config/constants';
+import { ZERO, MAX, FLAGS, ERC20_ABI, NETWORK_LIST, DEBUG } from 'config/constants';
 import settConfig from 'config/system/abis/Sett.json';
 import ibBTCConfig from 'config/system/abis/ibBTC.json';
 import addresses from 'config/ibBTC/addresses.json';
@@ -96,10 +96,17 @@ class IbBTCStore {
 			this.resetBalances();
 			return;
 		}
-		this.fetchTokensBalances().then();
-		this.fetchIbbtcApy().then();
-		this.fetchConversionRates().then();
-		this.fetchFees().then();
+		Promise.all([
+			this.fetchTokensBalances(),
+			this.fetchIbbtcApy(),
+			this.fetchConversionRates(),
+			this.fetchFees(),
+		]).catch((err) => {
+			if (DEBUG) {
+				console.error(err);
+			}
+			return;
+		});
 		this.initialized = true;
 	}
 

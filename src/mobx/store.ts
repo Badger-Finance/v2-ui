@@ -74,7 +74,7 @@ export class RootStore {
 			if (this.wallet.connectedAddress) {
 				if (network === NETWORK_LIST.ETH) {
 					this.ibBTCStore.init();
-					this.airdrops.fetchAirdrops();
+					await this.airdrops.fetchAirdrops();
 				}
 			}
 		}
