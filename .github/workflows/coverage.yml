@@ -3,8 +3,6 @@ name: Test Coverage
 on:
   pull_request:
     branches: [ development ]
-  push:
-    branches: [ test-coverage ]
 
 jobs:
   coverage:
@@ -17,4 +15,4 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           threshold: 80
           package-manager: yarn
-          test-script: yarn test --silent --ci --coverage --coverageReporters="text" --coverageReporters="text-summary"
+          test-script: yarn test:coverage

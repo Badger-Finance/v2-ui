@@ -48,6 +48,7 @@
 		"start": "react-scripts start",
 		"build": "react-scripts --max_old_space_size=4096 build",
 		"test": "react-scripts test --watchAll=false",
+		"test:coverage": "react-scripts test --silent --ci --coverage --watchAll=false --coverageReporters=\"text\" --coverageReporters=\"text-summary\" --json --outputFile=report.json",
 		"eject": "react-scripts eject",
 		"predeploy": "npm run build",
 		"deploy": "gh-pages -d build",
