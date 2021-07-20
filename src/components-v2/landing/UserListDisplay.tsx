@@ -9,10 +9,10 @@ import SettTable from './SettTable';
 import BadgerBoost from '../common/BadgerBoost';
 import { inCurrency } from 'mobx/utils/helpers';
 import { ContractNamespace } from 'web3/config/contract-namespace';
-import { Sett } from 'mobx/model';
-import { TokenBalance } from 'mobx/model/token-balance';
+import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import BigNumber from 'bignumber.js';
 import Web3 from 'web3';
+import { Sett } from '../../mobx/model/setts/sett';
 
 const useStyles = makeStyles((theme) => ({
 	boostContainer: {

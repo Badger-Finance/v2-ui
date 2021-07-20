@@ -50,17 +50,21 @@ const useStyles = makeStyles((theme) => ({
 interface Props {
 	name: string;
 	boost: number;
+	signatureColor: string;
 	obtained?: boolean;
 	locked?: boolean;
 }
 
-export const RankLevel = ({ name, boost, obtained = false, locked = true }: Props): JSX.Element => {
+export const RankLevel = ({ name, boost, signatureColor, obtained = false, locked = true }: Props): JSX.Element => {
 	const classes = useStyles();
 
 	return (
 		<Grid container className={clsx(locked && classes.locked, classes.root)}>
 			<div className={clsx(classes.boostImageContainer)}>
-				<BadgerBoostImage className={clsx(classes.softBorder, obtained && classes.obtained)} boost={boost} />
+				<BadgerBoostImage
+					className={clsx(classes.softBorder, obtained && classes.obtained)}
+					signatureColor={signatureColor}
+				/>
 			</div>
 			<div className={classes.badgerLevelInfoContainer}>
 				<Typography variant="body2">{name}</Typography>

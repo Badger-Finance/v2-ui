@@ -1,5 +1,5 @@
 import { styled } from '@material-ui/core/styles';
-import { Button, Grid, TextField, Typography } from '@material-ui/core';
+import { Button, CircularProgress, Grid, TextField, Typography } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 
 export const ActionButton = styled(Button)(({ theme }) => ({
@@ -33,4 +33,8 @@ export const TextSkeleton = styled(Skeleton)(({ theme }) => ({
 
 export const BalanceInformation = styled(Typography)(({ theme }) => ({
 	marginBottom: theme.spacing(1),
+}));
+
+export const LoaderSpinner = styled(CircularProgress)(({ theme }) => ({
+	marginLeft: theme.spacing(1),
 }));

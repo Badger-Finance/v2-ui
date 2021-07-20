@@ -140,6 +140,9 @@ export const NativeBox = observer((props: Props) => {
 				onIncrement={onIncrement}
 				onReduction={onReduction}
 				value={nativeBalance}
+				inputProps={{ 'aria-label': 'native holdings amount' }}
+				increaseAlt="increase native holdings"
+				decreaseAlt="decrease native holdings"
 			/>
 			{nextBadgerLevel && amountToReachNextLevel && shouldShowAmountToReachNextLevel && (
 				<Grid className={classes.infoBox}>

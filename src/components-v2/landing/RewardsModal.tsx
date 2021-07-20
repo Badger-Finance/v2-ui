@@ -4,7 +4,7 @@ import BigNumber from 'bignumber.js';
 import { Loader } from 'components/Loader';
 import { CLAIMS_SYMBOLS } from 'config/constants';
 import { observer } from 'mobx-react-lite';
-import { TokenBalance } from 'mobx/model/token-balance';
+import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { StoreContext } from 'mobx/store-context';
 import { inCurrency } from 'mobx/utils/helpers';
 import React, { useState, useContext, useEffect } from 'react';

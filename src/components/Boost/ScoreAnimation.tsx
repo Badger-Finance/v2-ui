@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { getRankFromBoost, percentageBetweenRange } from '../../utils/componentHelpers';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -44,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	boostLeft: {
-		left: '31.5%',
+		left: '32.2%',
 		[theme.breakpoints.down('sm')]: {
 			left: '29%',
 		},
@@ -52,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
 	boostRight: {
 		right: '31.5%',
 		[theme.breakpoints.down('sm')]: {
-			right: '29%',
+			right: '28.5%',
 		},
 	},
 	boostEyeStar: {
@@ -62,23 +63,25 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 type BoostBadgeProps = {
-	score: number;
+	boost: number;
 };
 
-const useAnimatedStyles = (value: number) => {
-	const hue = 33 + value * 3.27;
-	const opacity = value * 0.01;
-	const scale = 0.75 + value / 40;
+const useAnimatedStyles = (boost: number) => {
+	const score = percentageBetweenRange(boost, 3, 1);
+	const scale = 0.75 + score / 40;
+	const rankFromBoost = getRankFromBoost(boost);
 
 	return makeStyles(() => ({
 		container: {
 			margin: 'auto',
-			background: `hsl(${hue}deg,88%,56%)`,
+			background: rankFromBoost.signatureColor,
 		},
 		eyes: {
 			transform: `scale(${scale})`,
 			animation: '$glow 1s ease-in-out infinite alternate',
-			background: `radial-gradient(hsla(${hue}deg,100%,76%,${opacity}),hsla(${hue}deg,88%,56%,0) 80%)`,
+			background: `radial-gradient(${rankFromBoost.signatureColor}, transparent ${
+				rankFromBoost.boostRangeEnd * 25
+			}%)`,
 		},
 		'@keyframes glow': {
 			'0%': { transform: `scale(${scale})` },
@@ -87,9 +90,9 @@ const useAnimatedStyles = (value: number) => {
 	}));
 };
 
-export const BoostBadgerAnimation = ({ score }: BoostBadgeProps): JSX.Element => {
+export const BoostBadgerAnimation = ({ boost }: BoostBadgeProps): JSX.Element => {
 	const classes = useStyles();
-	const animatedClasses = useAnimatedStyles(score)();
+	const animatedClasses = useAnimatedStyles(boost)();
 
 	const eyesImage = <img src={'assets/badger-eyes.png'} alt="Badger Eyes" className={classes.boostEyeStar} />;
 

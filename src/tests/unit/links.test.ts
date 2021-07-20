@@ -1,6 +1,7 @@
 import { NETWORK_LIST } from 'config/constants';
 import { sidebarTokenLinks, SidebarLink } from 'config/ui/links';
-import { BscNetwork, EthNetwork } from 'mobx/model';
+import { BscNetwork } from '../../mobx/model/network/bscNetwork';
+import { EthNetwork } from '../../mobx/model/network/ethNetwork';
 
 describe('sidebarTokenLinks', () => {
 	test('sidebarTokenLinks(BSC) returns SidebarLink[]!', () => {

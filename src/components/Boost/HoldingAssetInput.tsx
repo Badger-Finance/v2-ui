@@ -77,12 +77,16 @@ const CurrencyInput = (props: CurrencyInputProps): JSX.Element => {
 };
 
 interface HoldingAssetProps extends Omit<TextFieldProps, 'onChange'> {
+	increaseAlt?: string;
+	decreaseAlt?: string;
 	onChange: (change: string) => void;
 	onIncrement: () => void;
 	onReduction: () => void;
 }
 
 export const HoldingAssetInput = ({
+	increaseAlt,
+	decreaseAlt,
 	onChange,
 	onIncrement,
 	onReduction,
@@ -103,17 +107,13 @@ export const HoldingAssetInput = ({
 						<img
 							className={buttonClasses.actionImage}
 							src="/assets/icons/boost-down.svg"
-							alt="decrease native holdings"
+							alt={decreaseAlt}
 						/>
 					</Button>
 				),
 				endAdornment: (
 					<Button className={buttonClasses.actionButton} onClick={onIncrement}>
-						<img
-							className={buttonClasses.actionImage}
-							src="/assets/icons/boost-up.svg"
-							alt="increase native holdings"
-						/>
+						<img className={buttonClasses.actionImage} src="/assets/icons/boost-up.svg" alt={increaseAlt} />
 					</Button>
 				),
 				classes: inputClasses,

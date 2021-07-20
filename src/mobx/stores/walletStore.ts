@@ -1,15 +1,16 @@
-import { extendObservable, action } from 'mobx';
+import { extendObservable, action, observe } from 'mobx';
 import Web3 from 'web3';
 import Onboard from 'bnc-onboard';
 import Notify from 'bnc-notify';
 import BigNumber from 'bignumber.js';
 import { onboardWalletCheck, getOnboardWallets, isRpcWallet } from '../../config/wallets';
-import { GasPrices, Network } from 'mobx/model';
 import { RootStore } from 'mobx/store';
 import { API } from 'bnc-onboard/dist/src/interfaces';
 import { API as NotifyAPI } from 'bnc-notify';
 import { getNetwork, getNetworkNameFromId } from 'mobx/utils/network';
 import { getNetworkFromProvider } from 'mobx/utils/helpers';
+import { Network } from '../model/network/network';
+import { GasPrices } from '../model/system-config/gas-prices';
 
 class WalletStore {
 	private store: RootStore;
@@ -59,6 +60,11 @@ class WalletStore {
 			network: this.network,
 			onboard: onboard,
 			notify: notify,
+		});
+
+		observe(this, 'network', () => {
+			// whenever network changes reset currency back to default usd
+			this.store.uiState.currency = 'usd';
 		});
 
 		// set defaults
@@ -125,6 +131,15 @@ class WalletStore {
 		this.setAddress(walletState.address);
 	});
 
+	getCurrentNetwork(): string | undefined {
+		// not all the providers have the chainId prop available so we use the app network id as fallback
+		if (!this.provider || !this.provider.chainId) {
+			return getNetworkNameFromId(this.onboard.getState().appNetworkId);
+		}
+
+		return getNetworkFromProvider(this.provider);
+	}
+
 	getCurrentBlock = action(() => {
 		if (!this.provider) {
 			return;
@@ -150,7 +165,9 @@ class WalletStore {
 
 	setAddress = action(
 		async (address: string): Promise<void> => {
-			if (this.checkSupportedNetwork()) {
+			const isCurrentNetworkSupported = Boolean(this.getCurrentNetwork());
+
+			if (isCurrentNetworkSupported) {
 				this.connectedAddress = address;
 				await this.store.walletRefresh();
 			} else {

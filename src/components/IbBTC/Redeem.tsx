@@ -10,7 +10,6 @@ import { ZERO } from 'config/constants';
 import { Token, Tokens } from './Tokens';
 import { DownArrow } from './DownArrow';
 import { StoreContext } from 'mobx/store-context';
-import { TokenModel } from 'mobx/model';
 import { useConnectWallet } from 'mobx/utils/hooks';
 import { toFixedDecimals } from 'mobx/utils/helpers';
 import {
@@ -26,6 +25,7 @@ import {
 	ErrorText,
 } from './Common';
 import { useNumericInput } from '../../utils/useNumericInput';
+import { IbbtcOptionToken } from '../../mobx/model/tokens/ibbtc-option-token';
 
 type RedeemInformation = {
 	inputAmount: BigNumber;
@@ -103,7 +103,7 @@ export const Redeem = observer((): any => {
 		setConversionRate(conversionRate.toFixed(6, BigNumber.ROUND_HALF_FLOOR));
 	};
 
-	const calculateRedeem = async (ibBTCAmount: BigNumber, token: TokenModel): Promise<void> => {
+	const calculateRedeem = async (ibBTCAmount: BigNumber, token: IbbtcOptionToken): Promise<void> => {
 		const [{ sett, fee, max }, conversionRate] = await Promise.all([
 			store.ibBTCStore.calcRedeemAmount(token, ibBTCAmount),
 			store.ibBTCStore.getRedeemConversionRate(token),
@@ -168,7 +168,7 @@ export const Redeem = observer((): any => {
 		await calculateRedeem(limit, selectedToken);
 	};
 
-	const handleTokenChange = async (token: TokenModel): Promise<void> => {
+	const handleTokenChange = async (token: IbbtcOptionToken): Promise<void> => {
 		setSelectedToken(token);
 		if (inputAmount?.actualValue && !inputAmount.actualValue.isNaN()) {
 			await calculateRedeem(inputAmount.actualValue, token);

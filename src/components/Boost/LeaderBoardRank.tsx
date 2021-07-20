@@ -121,7 +121,7 @@ export const LeaderBoardRank = observer(
 							{rank ? `#${rank}` : <Skeleton width={35} />}
 						</Typography>
 						<div className={classes.currentLevelImgContainer}>
-							<BadgerBoostImage boost={currentBadgerLevel.boostRangeStart} />
+							<BadgerBoostImage signatureColor={currentBadgerLevel.signatureColor} />
 						</div>
 						<Typography display="inline" className={rankClasses.fontColor}>
 							{currentBadgerLevel.name}

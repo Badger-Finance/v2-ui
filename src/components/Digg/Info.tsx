@@ -161,7 +161,7 @@ const Info = observer(() => {
 		return neutral ?? '';
 	};
 	const rebaseStyle = { color: pickRebaseOption('#5efc82', 'red', 'inherit') };
-	const sign = pickRebaseOption('+', '-');
+	const sign = pickRebaseOption('+', '');
 	const rebaseDisplay = `${sign}${rebasePercent.toFixed(6)}%`;
 	const ppfs = settMap[ETH_DEPLOY.sett_system.vaults['native.digg']].ppfs;
 

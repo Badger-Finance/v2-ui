@@ -11,7 +11,7 @@ import {
 	FormHelperText,
 	Input,
 } from '@material-ui/core';
-import { NFT } from 'mobx/model';
+import { NFT } from '../../mobx/model/boost/NFT';
 
 interface SelectorProps {
 	isOpen?: boolean;

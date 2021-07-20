@@ -7,10 +7,12 @@ import importedBscErc20 from '../config/system/abis/BscErc20.json';
 import importedYearnSett from '../config/system/abis/YearnWrapper.json';
 import importedGuestList from '../config/system/abis/GuestList.json';
 import { tokens, sett_system } from './deployments/mainnet.json';
-import { NetworkConstants, ClaimsSymbols, LeaderboardRank } from '../mobx/model';
 import { getNetworkDeploy } from 'mobx/utils/network';
 import { AbiItem } from 'web3-utils';
 import { PartialAttemptOptions } from '@lifeomic/attempt';
+import { NetworkConstants } from 'mobx/model/network/network-constants';
+import { ClaimsSymbols } from 'mobx/model/rewards/claims-symbols';
+import { LeaderboardRank } from 'mobx/model/boost/leaderboard-rank';
 
 export const RPC_WALLETS: { [index: string]: boolean } = {
 	ledger: true,
@@ -124,25 +126,30 @@ export const LEADERBOARD_RANKS: LeaderboardRank[] = [
 		name: 'Frenzy Badger',
 		boostRangeStart: 2.6,
 		boostRangeEnd: 3,
+		signatureColor: '#F44336',
 	},
 	{
 		name: 'Hyper Badger',
 		boostRangeStart: 2.2,
 		boostRangeEnd: 2.6,
+		signatureColor: '#A274D1',
 	},
 	{
 		name: 'Hero Badger',
 		boostRangeStart: 1.8,
 		boostRangeEnd: 2.2,
+		signatureColor: '#40C6FF',
 	},
 	{
 		name: 'Neo Badger',
 		boostRangeStart: 1.4,
 		boostRangeEnd: 1.8,
+		signatureColor: '#74D189',
 	},
 	{
 		name: 'Basic Badger',
 		boostRangeStart: 1,
 		boostRangeEnd: 1.4,
+		signatureColor: '#F2A52B',
 	},
 ];

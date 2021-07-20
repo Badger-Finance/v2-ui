@@ -14,7 +14,6 @@ import UserStore from './stores/UserStore';
 import { LeaderBoardStore } from './stores/LeaderBoardStore';
 import { BoostOptimizerStore } from './stores/boostOptimizerStore';
 import PricesStore from './stores/PricesStore';
-import { getNetworkFromProvider } from './utils/helpers';
 
 export class RootStore {
 	public router: RouterStore<RootStore>;
@@ -57,19 +56,23 @@ export class RootStore {
 			return;
 		}
 
-		const chain = getNetworkFromProvider(this.wallet.provider);
+		const network = this.wallet.getCurrentNetwork();
 
-		if (chain) {
+		if (network) {
 			this.rewards.resetRewards();
-			const refreshData = [this.setts.loadAssets(chain), this.wallet.getGasPrice(), this.setts.loadSetts(chain)];
-			if (chain === NETWORK_LIST.ETH) {
+			const refreshData = [
+				this.setts.loadAssets(network),
+				this.wallet.getGasPrice(),
+				this.setts.loadSetts(network),
+			];
+			if (network === NETWORK_LIST.ETH) {
 				refreshData.push(this.rebase.fetchRebaseStats());
 				refreshData.push(this.rewards.loadTreeData());
 			}
 			await Promise.all(refreshData);
 
 			if (this.wallet.connectedAddress) {
-				if (chain === NETWORK_LIST.ETH) {
+				if (network === NETWORK_LIST.ETH) {
 					this.ibBTCStore.init();
 					this.airdrops.fetchAirdrops();
 				}

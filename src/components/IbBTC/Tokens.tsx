@@ -2,8 +2,8 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { Typography, Button, Popper, Paper, List, ListItem } from '@material-ui/core';
-import { TokenModel } from 'mobx/model';
 import { ArrowDropDown } from '@material-ui/icons';
+import { IbbtcOptionToken } from '../../mobx/model/tokens/ibbtc-option-token';
 
 const useStyles = makeStyles((theme) => ({
 	noUnderline: {
@@ -41,9 +41,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 type TokenListProps = {
-	tokens: Array<TokenModel>;
-	selected: TokenModel;
-	onTokenSelect: (token: TokenModel) => void;
+	tokens: Array<IbbtcOptionToken>;
+	selected: IbbtcOptionToken;
+	onTokenSelect: (token: IbbtcOptionToken) => void;
 };
 
 export const Tokens = ({ tokens, selected, onTokenSelect }: TokenListProps): any => {

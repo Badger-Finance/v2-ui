@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BoostSuggestion No user details available Does not display 1`] = `<div />`;
+
+exports[`BoostSuggestion User with no non native balance Displays a suggestion to increase non native balance 1`] = `
+<div>
+  <div
+    class="makeStyles-suggestionContainer-1"
+  >
+    <p
+      class="MuiTypography-root-3 makeStyles-amountToNextRank-2 MuiTypography-body1-5 MuiTypography-colorTextSecondary-29"
+    >
+      Add Non Native assets to be able to improve your boost
+    </p>
+  </div>
+</div>
+`;
+
+exports[`BoostSuggestion User with some non native balance Does not display 1`] = `<div />`;

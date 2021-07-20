@@ -6,7 +6,7 @@ import { styled } from '@material-ui/core/styles';
 
 import { SettModalProps } from './VaultDeposit';
 import { StoreContext } from 'mobx/store-context';
-import { TokenBalance } from 'mobx/model/token-balance';
+import { TokenBalance } from 'mobx/model/tokens/token-balance';
 
 const StyledSkeleton = styled(Skeleton)(({ theme }) => ({
 	display: 'inline-flex',
