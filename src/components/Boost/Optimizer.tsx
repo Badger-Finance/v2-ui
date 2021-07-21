@@ -61,21 +61,24 @@ export const Optimizer = observer(
 
 		const calculateNewBoost = useCallback(
 			(targetBoost: number) => {
-				if (!native || !nonNative || !accountDetails) return;
+				if (!native || !nonNative) return;
 
-				if (targetBoost > accountDetails.boost) {
-					const toMatchBoost = boostOptimizer.calculateNativeToMatchBoost(
-						native,
-						nonNative,
-						Number(targetBoost),
-					);
+				const boostWithCurrentAssets = boostOptimizer.calculateBoost(native, nonNative);
 
-					if (toMatchBoost && toMatchBoost.gt(0)) {
-						setNativeToAdd(toMatchBoost.toFixed(3, BigNumber.ROUND_HALF_CEIL));
-					}
+				// user has selected a boost that is less or equal to the boost with current assets so
+				// there's no need to calculate how much money is needed
+				if (boostWithCurrentAssets !== undefined && boostWithCurrentAssets >= targetBoost) {
+					setNativeToAdd(undefined);
+					return;
+				}
+
+				const toMatchBoost = boostOptimizer.calculateNativeToMatchBoost(native, nonNative, Number(targetBoost));
+
+				if (toMatchBoost && toMatchBoost.gt(0)) {
+					setNativeToAdd(toMatchBoost.toFixed(3, BigNumber.ROUND_HALF_CEIL));
 				}
 			},
-			[native, nonNative, accountDetails, boostOptimizer],
+			[native, nonNative, boostOptimizer],
 		);
 
 		// reason: the plugin does not recognize the dependency inside the debounce function
@@ -131,6 +134,7 @@ export const Optimizer = observer(
 		const handleBoostChange = (updatedBoost: string) => {
 			if (!isValidBoost(updatedBoost)) {
 				setBoost(updatedBoost);
+				setNativeToAdd(undefined);
 				return;
 			}
 
