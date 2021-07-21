@@ -209,7 +209,7 @@ const Info = observer(() => {
 							)}
 						</div>
 					</InfoItem>
-					<InfoItem metric="Oracle Rate">{rebase.oracleRate.toFixed()}</InfoItem>
+					<InfoItem metric="Oracle Rate">{rebase.oracleRate.toFixed(8)}</InfoItem>
 				</div>
 				<Typography variant="caption" className={classes.updatedAt}>
 					Last Updated {lastOracleUpdate.toLocaleString()}
