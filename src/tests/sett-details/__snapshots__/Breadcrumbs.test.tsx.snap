@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Breadcrumb displays sett breadcrumb 1`] = `
+<div>
+  <nav
+    aria-label="breadcrumb"
+    class="MuiTypography-root-6 MuiBreadcrumbs-root-2 MuiTypography-body1-8 MuiTypography-colorTextSecondary-32"
+  >
+    <ol
+      class="MuiBreadcrumbs-ol-3"
+    >
+      <li
+        class="MuiBreadcrumbs-li-4"
+      >
+        <a
+          class="MuiTypography-root-6 MuiLink-root-36 MuiLink-underlineHover-38 makeStyles-breadcrumbsItem-1 MuiTypography-colorInherit-28"
+          href="/"
+        >
+          Setts
+        </a>
+      </li>
+      <li
+        aria-hidden="true"
+        class="MuiBreadcrumbs-separator-5"
+      >
+        <svg
+          aria-hidden="true"
+          class="MuiSvgIcon-root-42 MuiSvgIcon-fontSizeSmall-49"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+          />
+        </svg>
+      </li>
+      <li
+        class="MuiBreadcrumbs-li-4"
+      >
+        <p
+          class="MuiTypography-root-6 makeStyles-breadcrumbsItem-1 MuiTypography-body1-8 MuiTypography-colorTextSecondary-32"
+        >
+          Wrapped BTC/DIGG Sett
+        </p>
+      </li>
+    </ol>
+  </nav>
+</div>
+`;
