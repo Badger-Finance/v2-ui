@@ -10,7 +10,7 @@ import { HeaderContainer, LayoutContainer } from '../../components-v2/common/Con
 
 export const Digg = observer(() => {
 	const store = useContext(StoreContext);
-	const { network } = store.wallet;
+	const { network } = store.network;
 
 	return (
 		<LayoutContainer>
@@ -18,7 +18,7 @@ export const Digg = observer(() => {
 				<HeaderContainer item xs={12}>
 					<PageHeader title="DIGG" subtitle="Pegged to Bitcoin. Governed by BadgerDAO." />
 				</HeaderContainer>
-				{network.name === NETWORK_LIST.ETH ? (
+				{network.symbol === NETWORK_LIST.ETH ? (
 					<>
 						<Info />
 						<Grid item xs={12}>

@@ -79,7 +79,8 @@ export const BridgeForm = observer(({ classes }: any) => {
 	const spacer = <div className={classes.before} />;
 
 	const {
-		wallet: { connect, connectedAddress, provider, onboard, network },
+		network: { network },
+		wallet: { connect, connectedAddress, provider, onboard },
 		contracts: { getAllowance, increaseAllowance },
 		uiState: { queueNotification, setTxStatus },
 		bridge: {
@@ -712,7 +713,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 		}
 	};
 
-	if (network.name !== NETWORK_LIST.ETH) {
+	if (network.symbol !== NETWORK_LIST.ETH) {
 		return (
 			<Grid container alignItems={'center'} className={classes.padded}>
 				The Badger Bridge is only supported on Ethereum Mainnet.

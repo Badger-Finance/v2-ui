@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js';
 
-import { RootStore } from '../store';
+import { RootStore } from '../RootStore';
 import { percentageBetweenRange } from '../../utils/componentHelpers';
 import { ZERO } from '../../config/constants';
 import { LeaderBoardEntry } from '../model/boost/leaderboard-entry';

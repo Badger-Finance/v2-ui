@@ -3,7 +3,7 @@ import { customRender, screen, fireEvent, act } from './Utils';
 import SamplePicker from '../components-v2/landing/SamplePicker';
 import '@testing-library/jest-dom';
 import { StoreProvider } from '../mobx/store-context';
-import store from '../mobx/store';
+import store from '../mobx/RootStore';
 
 describe('SamplePicker', () => {
 	const testStore = store;

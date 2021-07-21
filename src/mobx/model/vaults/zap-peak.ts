@@ -6,7 +6,7 @@ import BigNumber from 'bignumber.js';
 import zapConfig from 'config/system/abis/ZapPeak.json';
 import addresses from 'config/ibBTC/addresses.json';
 import { IbbtcVaultPeak, PeakType } from './ibbtc-vault-peak';
-import { RootStore } from '../../store';
+import { RootStore } from '../../RootStore';
 import { toHex } from '../../utils/helpers';
 import { IbbtcOptionToken } from '../tokens/ibbtc-option-token';
 

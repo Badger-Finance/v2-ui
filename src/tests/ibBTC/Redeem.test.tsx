@@ -2,7 +2,7 @@ import React from 'react';
 import '@testing-library/jest-dom';
 
 import addresses from 'config/ibBTC/addresses.json';
-import store from 'mobx/store';
+import store from 'mobx/RootStore';
 import { StoreProvider } from '../../mobx/store-context';
 import { customRender, screen, fireEvent, act } from '../Utils';
 import { Redeem } from '../../components/IbBTC/Redeem';

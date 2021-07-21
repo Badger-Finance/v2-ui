@@ -11,7 +11,8 @@ import { HeaderContainer, LayoutContainer } from '../../components-v2/common/Con
 const HoneybadgerDrop: React.FC = observer(() => {
 	const store = React.useContext(StoreContext);
 
-	const { network, connectedAddress } = store.wallet;
+	const { network } = store.network;
+	const { connectedAddress } = store.wallet;
 
 	return (
 		<LayoutContainer>
@@ -19,7 +20,7 @@ const HoneybadgerDrop: React.FC = observer(() => {
 				<HeaderContainer item xs={12}>
 					<PageHeader title="DIAMOND HANDS" subtitle="MEME Honeypot pt. II" />
 				</HeaderContainer>
-				{network.name === NETWORK_LIST.ETH ? (
+				{network.symbol === NETWORK_LIST.ETH ? (
 					<>
 						<Grid item xs={12} container spacing={5}>
 							<PoolBalance />

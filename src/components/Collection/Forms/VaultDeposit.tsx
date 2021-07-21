@@ -32,7 +32,8 @@ export const VaultDeposit = observer((props: SettModalProps) => {
 	const { onValidChange, inputProps } = useNumericInput();
 
 	const {
-		wallet: { connectedAddress, network },
+		wallet: { connectedAddress },
+		network: { network },
 		contracts,
 		user,
 	} = store;

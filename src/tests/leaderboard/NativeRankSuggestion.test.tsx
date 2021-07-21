@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js';
 import NativeRankSuggestion from 'components-v2/leaderboard/NativeRankSuggestion';
-import store from 'mobx/store';
+import store from 'mobx/RootStore';
 import React from 'react';
 import { checkSnapshot } from 'tests/utils/snapshots';
 

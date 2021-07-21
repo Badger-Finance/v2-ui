@@ -19,9 +19,10 @@ import { ExpandMore } from '@material-ui/icons';
 import { SITE_VERSION, NETWORK_LIST, FLAGS } from 'config/constants';
 import NetworkWidget from 'components-v2/common/NetworkWidget';
 import { Route } from 'mobx-router';
-import { RootStore } from 'mobx/store';
+import { RootStore } from 'mobx/RootStore';
 import clsx, { ClassValue } from 'clsx';
 import SecurityIcon from '@material-ui/icons/Security';
+import { sidebarPricingLinks } from 'config/ui/links';
 
 const DRAWER_WIDTH = 240;
 
@@ -137,7 +138,8 @@ export const Sidebar = observer(() => {
 		router: { goTo },
 		uiState: { sidebarOpen, closeSidebar },
 		rewards: { badgerTree },
-		wallet: { network, connectedAddress },
+		wallet: { connectedAddress },
+		network: { network },
 	} = store;
 
 	const [expanded, setExpanded] = useState('');
@@ -158,7 +160,7 @@ export const Sidebar = observer(() => {
 	};
 
 	const getPricing = () => {
-		return network.sidebarPricingLinks.map((value) => {
+		return sidebarPricingLinks.map((value) => {
 			return (
 				<ListItem
 					button
