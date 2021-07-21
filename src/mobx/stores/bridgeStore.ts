@@ -29,8 +29,10 @@ import { Network } from '@badger-dao/sdk';
 //testing
 import { abi } from 'config/system/abis/ZapPeak.json';
 import coreConfig from 'config/system/abis/BadgerBtcPeakCore.json';
-import { Network } from '../model/network/network';
 import { RenVMTransaction } from '../model/bridge/renVMTransaction';
+import { defaultNetwork } from 'config/networks.config';
+import { NetworkStore } from './NetworkStore';
+import { Network } from 'mobx/model/network/network';
 
 export enum Status {
 	// Idle means we are ready to begin a new tx.
