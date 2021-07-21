@@ -12,6 +12,8 @@ import {
 	ListItemIcon,
 	ListItemText,
 	ListItemSecondaryAction,
+	Grid,
+	Hidden,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { ExpandMore } from '@material-ui/icons';
@@ -22,7 +24,23 @@ import { RootStore } from 'mobx/store';
 import clsx, { ClassValue } from 'clsx';
 import SecurityIcon from '@material-ui/icons/Security';
 
+const DRAWER_WIDTH = 240;
+
 const useStyles = makeStyles((theme) => ({
+	contentRoot: {
+		height: '100%',
+		flexDirection: 'column',
+		justifyContent: 'space-between',
+	},
+	drawer: {
+		[theme.breakpoints.up('md')]: {
+			width: DRAWER_WIDTH,
+			flexShrink: 0,
+		},
+	},
+	drawerPaper: {
+		width: DRAWER_WIDTH,
+	},
 	logo: {
 		height: '2.4rem',
 		width: 'auto',
@@ -36,16 +54,6 @@ const useStyles = makeStyles((theme) => ({
 		color: 'inherit',
 		textDecoration: 'none',
 	},
-	root: {
-		padding: theme.spacing(0),
-		width: theme.spacing(30),
-		display: 'flex',
-		flexDirection: 'column',
-		justifyContent: 'space-between',
-		minHeight: '100%',
-		overflow: 'hidden',
-	},
-	drawer: {},
 	listItem: {
 		cursor: 'pointer',
 		'&:hover': {
@@ -54,19 +62,13 @@ const useStyles = makeStyles((theme) => ({
 		},
 		padding: theme.spacing(1, 3),
 	},
-	collapseWrapper: {
-		paddingLeft: theme.spacing(2),
-		paddingRight: theme.spacing(2),
-	},
 	divider: {
 		padding: theme.spacing(2, 2, 1, 2),
 		fontSize: '.8rem',
 	},
 	primarySubListItem: {
-		margin: theme.spacing(0, -999),
 		width: 'auto',
 		border: 0,
-		padding: theme.spacing(1, 1002),
 	},
 	secondaryListItem: {
 		cursor: 'pointer',
@@ -80,21 +82,18 @@ const useStyles = makeStyles((theme) => ({
 		cursor: 'pointer',
 		justifyContent: 'space-between',
 		background: ' rgba(0, 0, 0, .2)',
-		'&:hover': {},
 		padding: theme.spacing(0.5, 2, 0.5, 3),
 	},
 	activeListItem: {
 		fontWeight: 'bold',
 		backgroundColor: '#070707',
-		borderRadius: theme.shape.borderRadius,
-		margin: theme.spacing(0, -999),
 		width: 'auto',
 		border: 0,
-		padding: theme.spacing(1, 1002),
 		'&:hover': {
 			backgroundColor: '#070707',
 			cursor: 'pointer',
 		},
+		padding: theme.spacing(1, 3),
 	},
 	currency: {
 		marginTop: theme.spacing(1),
@@ -122,6 +121,10 @@ const useStyles = makeStyles((theme) => ({
 	},
 	smallItemText: {
 		fontSize: '11px',
+	},
+	subItemGutters: {
+		paddingLeft: theme.spacing(5),
+		paddingRight: theme.spacing(5),
 	},
 }));
 
@@ -191,15 +194,9 @@ export const Sidebar = observer(() => {
 		return clsx(classes.listItem, shouldCollapseBeActive && classes.activeListItem, ...additionalClasses);
 	};
 
-	return (
-		<Drawer
-			variant={window.innerWidth > 960 ? 'persistent' : 'temporary'}
-			anchor="left"
-			open={sidebarOpen}
-			className={classes.drawer}
-			onClose={() => closeSidebar()}
-		>
-			<div className={classes.root}>
+	const drawerContent = (
+		<Grid container className={classes.contentRoot}>
+			<Grid item>
 				<List>
 					<ListItem button className={classes.listItem}>
 						<img alt="Badger Logo" src={'assets/badger-logo.png'} className={classes.logo} />
@@ -331,15 +328,11 @@ export const Sidebar = observer(() => {
 									<ExpandMore />
 								</IconButton>
 							</ListItem>
-							<Collapse
-								classes={{ wrapper: classes.collapseWrapper }}
-								in={expanded === 'boosts'}
-								timeout="auto"
-								unmountOnExit
-							>
+							<Collapse in={expanded === 'boosts'} timeout="auto" unmountOnExit>
 								{FLAGS.BOOST_OPTIMIZER && (
 									<ListItem
 										button
+										classes={{ gutters: classes.subItemGutters }}
 										className={getItemClass('/boost-optimizer', classes.primarySubListItem)}
 										onClick={() => navigate(views.boostOptimizer)}
 									>
@@ -348,6 +341,7 @@ export const Sidebar = observer(() => {
 								)}
 								<ListItem
 									button
+									classes={{ gutters: classes.subItemGutters }}
 									className={getItemClass('/leaderboard', classes.primarySubListItem)}
 									onClick={() => navigate(views.boostLeaderBoard)}
 								>
@@ -380,14 +374,10 @@ export const Sidebar = observer(() => {
 									<ExpandMore />
 								</IconButton>
 							</ListItem>
-							<Collapse
-								classes={{ wrapper: classes.collapseWrapper }}
-								in={expanded === 'badger-zone'}
-								timeout="auto"
-								unmountOnExit
-							>
+							<Collapse in={expanded === 'badger-zone'} timeout="auto" unmountOnExit>
 								<ListItem
 									button
+									classes={{ gutters: classes.subItemGutters }}
 									className={getItemClass('/experimental', classes.primarySubListItem)}
 									onClick={() => navigate(views.experimental)}
 								>
@@ -395,6 +385,7 @@ export const Sidebar = observer(() => {
 								</ListItem>
 								<ListItem
 									button
+									classes={{ gutters: classes.subItemGutters }}
 									className={getItemClass('/airdrops', classes.primarySubListItem)}
 									onClick={() => navigate(views.airdrops)}
 								>
@@ -402,6 +393,7 @@ export const Sidebar = observer(() => {
 								</ListItem>
 								<ListItem
 									button
+									classes={{ gutters: classes.subItemGutters }}
 									className={getItemClass('/honey-badger-drop', classes.primarySubListItem)}
 									onClick={() => navigate(views.honeybadgerDrop)}
 								>
@@ -413,7 +405,8 @@ export const Sidebar = observer(() => {
 						<></>
 					)}
 				</List>
-
+			</Grid>
+			<Grid item>
 				<List>
 					<ListItem
 						button
@@ -550,7 +543,39 @@ export const Sidebar = observer(() => {
 						Developer Program
 					</ListItem>
 				</List>
-			</div>
-		</Drawer>
+			</Grid>
+		</Grid>
+	);
+
+	return (
+		<nav className={classes.drawer}>
+			<Hidden mdUp>
+				<Drawer
+					variant="temporary"
+					anchor="left"
+					open={sidebarOpen}
+					onClose={() => closeSidebar()}
+					classes={{
+						paper: classes.drawerPaper,
+					}}
+					ModalProps={{
+						keepMounted: true, // Better open performance on mobile.
+					}}
+				>
+					{drawerContent}
+				</Drawer>
+			</Hidden>
+			<Hidden smDown>
+				<Drawer
+					classes={{
+						paper: classes.drawerPaper,
+					}}
+					variant="permanent"
+					open
+				>
+					{drawerContent}
+				</Drawer>
+			</Hidden>
+		</nav>
 	);
 });

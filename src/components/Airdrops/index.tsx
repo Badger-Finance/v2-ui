@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 import { observer } from 'mobx-react-lite';
 import {
 	Grid,
-	Container,
 	ButtonGroup,
 	Button,
 	Paper,
@@ -19,17 +18,9 @@ import views from '../../config/routes';
 import PageHeader from '../../components-v2/common/PageHeader';
 import { getToken } from 'web3/config/token-config';
 import { inCurrency } from 'mobx/utils/helpers';
+import { HeaderContainer, LayoutContainer } from '../../components-v2/common/Containers';
 
 const useStyles = makeStyles((theme) => ({
-	root: {
-		[theme.breakpoints.up('md')]: {
-			paddingLeft: theme.spacing(30),
-		},
-	},
-	headerContainer: {
-		marginTop: theme.spacing(3),
-		marginBottom: theme.spacing(3),
-	},
 	buttonGroup: {
 		marginRight: theme.spacing(2),
 		[theme.breakpoints.up('md')]: {
@@ -192,14 +183,14 @@ export const Airdrops = observer(() => {
 	};
 
 	return (
-		<Container className={classes.root}>
+		<LayoutContainer>
 			<Grid container spacing={1} justify="flex-start">
-				<Grid item xs={12} className={classes.headerContainer}>
+				<HeaderContainer item xs={12}>
 					<PageHeader
 						title="Community Rules."
 						subtitle="BadgerDAO is dedicated to building products and infrastructure to bring Bitcoin to DeFi."
 					/>
-				</Grid>
+				</HeaderContainer>
 				<Grid item xs={12}>
 					<Typography variant="subtitle1" align="left">
 						Available Airdrops:
@@ -220,6 +211,6 @@ export const Airdrops = observer(() => {
 			</Grid>
 
 			{spacer()}
-		</Container>
+		</LayoutContainer>
 	);
 });

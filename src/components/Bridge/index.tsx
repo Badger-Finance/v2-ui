@@ -1,20 +1,12 @@
 import React from 'react';
 import { observer } from 'mobx-react-lite';
-import { Grid, Container, Paper } from '@material-ui/core';
+import { Grid, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { BridgeForm } from './BridgeForm';
 import PageHeader from 'components-v2/common/PageHeader';
+import { HeaderContainer, LayoutContainer } from '../../components-v2/common/Containers';
 
 const useStyles = makeStyles((theme) => ({
-	root: {
-		[theme.breakpoints.up('md')]: {
-			paddingLeft: theme.spacing(30),
-		},
-	},
-	headerContainer: {
-		marginTop: theme.spacing(3),
-		marginBottom: theme.spacing(6),
-	},
 	statPaper: {
 		textAlign: 'center',
 	},
@@ -160,11 +152,11 @@ export const Bridge = observer(() => {
 	const spacer = () => <div className={classes.before} />;
 
 	return (
-		<Container className={classes.root}>
+		<LayoutContainer>
 			<Grid container spacing={1} justify="center">
-				<Grid item sm={12} xs={12} className={classes.headerContainer}>
+				<HeaderContainer item xs={12}>
 					<PageHeader title="Badger Bitcoin Bridge." subtitle="Powered by RenVM" />
-				</Grid>
+				</HeaderContainer>
 				<Grid item xs={12} md={7}>
 					<Paper className={classes.statPaper} style={{ padding: '1rem' }}>
 						<p>
@@ -200,6 +192,6 @@ export const Bridge = observer(() => {
 					</Paper>
 				</Grid>
 			</Grid>
-		</Container>
+		</LayoutContainer>
 	);
 });
