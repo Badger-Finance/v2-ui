@@ -1,5 +1,5 @@
 import { extendObservable, action, observe } from 'mobx';
-import { RootStore } from '../store';
+import { RootStore } from '../RootStore';
 import views from 'config/routes';
 import WalletStore from 'mobx/stores/walletStore';
 
@@ -26,7 +26,7 @@ class UiState {
 
 	constructor(store: RootStore) {
 		this.store = store;
-		const { network } = store.wallet;
+		const { network } = store.network;
 
 		extendObservable(this, {
 			collection: {},
@@ -65,26 +65,26 @@ class UiState {
 
 	setGasPrice = action((gasPrice: string) => {
 		this.gasPrice = gasPrice;
-		const { network } = this.store.wallet;
+		const { network } = this.store.network;
 		window.localStorage.setItem(`${network.name}-selectedGasPrice`, gasPrice);
 	});
 
 	setHideZeroBal = action((hide: boolean) => {
 		this.hideZeroBal = hide;
-		const { network } = this.store.wallet;
+		const { network } = this.store.network;
 		if (hide) window.localStorage.setItem(`${network.name}-hideZeroBal`, 'YES');
 		else window.localStorage.removeItem(`${network.name}-hideZeroBal`);
 	});
 
 	setCurrency = action((currency: string) => {
 		this.currency = currency;
-		const { network } = this.store.wallet;
+		const { network } = this.store.network;
 		window.localStorage.setItem(`${network.name}-selectedCurrency`, currency);
 	});
 
 	setPeriod = action((period: string) => {
 		this.period = period;
-		const { network } = this.store.wallet;
+		const { network } = this.store.network;
 		window.localStorage.setItem(`${network.name}-selectedPeriod`, period);
 	});
 

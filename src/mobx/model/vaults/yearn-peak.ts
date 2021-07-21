@@ -7,7 +7,7 @@ import BadgerYearnWbtcPeak from 'config/system/abis/BadgerYearnWbtcPeak.json';
 import addresses from 'config/ibBTC/addresses.json';
 import yearnConfig from '../../../config/system/abis/YearnWrapper.json';
 import { IbbtcVaultPeak, PeakType } from './ibbtc-vault-peak';
-import { RootStore } from '../../store';
+import { RootStore } from '../../RootStore';
 import { toHex } from '../../utils/helpers';
 import { IbbtcOptionToken } from '../tokens/ibbtc-option-token';
 

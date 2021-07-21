@@ -100,13 +100,10 @@ interface RoiData {
 const SettListItem = observer(
 	(props: SettListItemProps): JSX.Element => {
 		const classes = useStyles();
-
 		const { sett, balance, balanceValue, currency, period, onOpen } = props;
 		const displayName = sett.name.split(' ').length > 1 ? sett.name.split(' ').slice(1).join(' ') : sett.name;
 		const store = useContext(StoreContext);
 		const { user } = store;
-		const { network } = store.wallet;
-		const isNewVault = !!network.newVaults[sett.vaultToken];
 		const divisor = period === 'month' ? 12 : 1;
 
 		const getRoi = (sett: Sett): RoiData => {
@@ -121,25 +118,7 @@ const SettListItem = observer(
 				);
 			};
 
-			const getNewVaultToolTip = (): JSX.Element => {
-				return (
-					<>
-						{network.newVaults[sett.vaultToken].map((source) => {
-							return <div key={source}>{source}</div>;
-						})}
-					</>
-				);
-			};
-
-			// If the vault is in the newVaults property, the ROI is not displaying properly due
-			// to harvesting. Display the New Vault identifier and the list of provided projected
-			// ROIs in the network object.
-			if (isNewVault) {
-				return {
-					apr: '✨ New Vault ✨',
-					tooltip: getNewVaultToolTip(),
-				};
-			} else if (sett && sett.apr) {
+			if (sett && sett.apr) {
 				let apr;
 				if (sett.boostable && sett.minApr && sett.maxApr) {
 					apr = `${(sett.minApr / divisor).toFixed(2)}% - ${(sett.maxApr / divisor).toFixed(2)}%`;
@@ -254,7 +233,7 @@ const SettListItem = observer(
 								{apr}
 							</Typography>
 						</Tooltip>
-						{!isNewVault && userApr && (
+						{userApr && (
 							<Typography style={{ cursor: 'default' }} variant="caption" color={'textPrimary'}>
 								My Boost: {userApr.toFixed(2)}%
 							</Typography>

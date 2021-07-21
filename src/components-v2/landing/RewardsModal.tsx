@@ -97,7 +97,8 @@ export const RewardsModal = observer((): JSX.Element | null => {
 	const store = useContext(StoreContext);
 	const { badgerTree, claimGeysers, loadingRewards } = store.rewards;
 	const { currency } = store.uiState;
-	const { network, connectedAddress } = store.wallet;
+	const { connectedAddress } = store.wallet;
+	const { network } = store.network;
 
 	const [open, setOpen] = useState(false);
 	const [maxFlag, setMaxFlag] = useState(true);
@@ -174,7 +175,7 @@ export const RewardsModal = observer((): JSX.Element | null => {
 					display={currentClaim.balanceDisplay(5)}
 					value={currentClaim.balanceValueDisplay(currency)}
 					address={token.address}
-					symbol={CLAIMS_SYMBOLS[network.name][token.address]}
+					symbol={CLAIMS_SYMBOLS[network.symbol][token.address]}
 					onChange={handleClaimMap}
 					maxFlag={isMaxed(token.address)}
 				/>

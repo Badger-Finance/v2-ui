@@ -8,7 +8,7 @@ import { AbiItem } from 'web3-utils';
 import { NETWORK_LIST } from 'config/constants';
 import { RebaseNetworkConfig } from '../../mobx/model/network/rebase-network-config';
 
-export const getRebase = (network?: string | null): RebaseNetworkConfig | undefined => {
+export const getRebase = (network: string): RebaseNetworkConfig | undefined => {
 	switch (network) {
 		case NETWORK_LIST.ETH:
 			return {
@@ -61,6 +61,6 @@ export const getRebase = (network?: string | null): RebaseNetworkConfig | undefi
 				},
 			};
 		default:
-			undefined;
+			return undefined;
 	}
 };

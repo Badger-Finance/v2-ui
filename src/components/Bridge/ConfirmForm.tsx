@@ -38,7 +38,7 @@ export const ConfirmForm = ({
 			releaseNetworkFee,
 			shortAddr,
 		},
-		wallet: { gasPrices },
+		network: { gasPrices },
 		uiState: { gasPrice },
 	} = store;
 

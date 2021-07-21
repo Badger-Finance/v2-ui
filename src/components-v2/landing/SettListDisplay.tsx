@@ -1,11 +1,11 @@
 import { makeStyles, Typography } from '@material-ui/core';
-import SettListItem from 'components-v2/landing/SettListItem';
 import { Loader } from 'components/Loader';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from 'mobx/store-context';
 import React, { useContext } from 'react';
 import Web3 from 'web3';
 import NoVaults from './NoVaults';
+import SettListItem from './SettListItem';
 import { SettListViewProps } from './SettListView';
 import SettTable from './SettTable';
 
@@ -23,12 +23,12 @@ const SettListDisplay = observer((props: SettListViewProps) => {
 	const {
 		setts,
 		uiState: { currency, period },
-		wallet: { network },
+		network: { network },
 	} = store;
 
 	const currentSettMap = setts.getSettMap(state);
 	if (currentSettMap === undefined) {
-		return <Loader message={`Loading ${network.fullName} Setts...`} />;
+		return <Loader message={`Loading ${network.name} Setts...`} />;
 	}
 	if (currentSettMap === null) {
 		return (
@@ -57,7 +57,7 @@ const SettListDisplay = observer((props: SettListViewProps) => {
 		.filter(Boolean);
 
 	if (settListItems.length === 0) {
-		return <NoVaults state={state} network={network.fullName} />;
+		return <NoVaults state={state} network={network.name} />;
 	}
 	return (
 		<SettTable
