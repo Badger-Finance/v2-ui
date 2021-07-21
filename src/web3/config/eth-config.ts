@@ -1,14 +1,22 @@
 import { createChainBatchConfig, toSettConfig } from './config-utils';
 import deploy from '../../config/deployments/mainnet.json';
 import { BatchCallRequest } from 'web3/interface/batch-call-request';
-import { Deploy } from 'web3/interface/deploy';
+import { EthDeploy } from 'web3/interface/deploy';
 import { BadgerSett } from 'mobx/model/vaults/badger-sett';
 import { toRecord } from './token-config';
 import { ProtocolTokens } from 'web3/interface/protocol-token';
 import { SettState } from '../../mobx/model/setts/sett-state';
 import { SettMap } from '../../mobx/model/setts/sett-map';
+import { BadgerToken } from '../../mobx/model/tokens/badger-token';
 
-export const ETH_DEPLOY = deploy as Deploy;
+export const ETH_DEPLOY: EthDeploy = deploy;
+
+const ethTokenDefinitions: BadgerToken[] = [
+	{
+		address: ETH_DEPLOY.digg_system.DROPT['DROPT-2'].longToken,
+		decimals: 18,
+	},
+];
 
 const ethSettDefinitions: BadgerSett[] = [
 	{
@@ -235,7 +243,7 @@ const ethSettDefinitions: BadgerSett[] = [
 	},
 ];
 
-const ethRewards = [
+const ethRewards: BadgerToken[] = [
 	{
 		address: ETH_DEPLOY.tokens['farm'],
 		decimals: 18,
@@ -256,7 +264,10 @@ const ethRewards = [
 
 export const ethSetts = toSettConfig(ethSettDefinitions);
 
-const ethTokens = ethSetts.flatMap((sett) => [sett.depositToken, sett.vaultToken]).concat(ethRewards);
+const ethTokens = ethSetts
+	.flatMap((sett) => [sett.depositToken, sett.vaultToken])
+	.concat(ethRewards)
+	.concat(ethTokenDefinitions);
 
 export const ethProtocolTokens: ProtocolTokens = toRecord(ethTokens, 'address');
 
