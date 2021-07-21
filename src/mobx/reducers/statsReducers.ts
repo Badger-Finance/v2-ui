@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
-import store from 'mobx/store';
+import store from 'mobx/RootStore';
 import { getToken } from 'web3/config/token-config';
 import { RewardMerkleClaim } from '../model/rewards/reward-merkle-claim';
 import { TreeClaimData } from '../model/rewards/tree-claim-data';

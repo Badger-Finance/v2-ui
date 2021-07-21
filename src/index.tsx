@@ -9,7 +9,7 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import { Snackbar } from './components/Snackbar';
 
 //mobx
-import store from './mobx/store';
+import store from './mobx/RootStore';
 
 //router
 import routes from './config/routes';

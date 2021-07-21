@@ -3,7 +3,7 @@ import { customRender, cleanup, act } from './Utils';
 import HoneybadgerDrop from './../components/HoneybadgerDrop/index';
 import '@testing-library/jest-dom';
 import { StoreProvider } from '../mobx/store-context';
-import store from '../mobx/store';
+import store from '../mobx/RootStore';
 
 afterEach(cleanup);
 

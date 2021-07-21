@@ -3,7 +3,7 @@ import { customRender, screen, fireEvent, act } from './Utils';
 import CurrencyPicker from '../components-v2/landing/CurrencyPicker';
 import '@testing-library/jest-dom';
 import { StoreProvider } from '../mobx/store-context';
-import store from '../mobx/store';
+import store from '../mobx/RootStore';
 
 describe('CurrencyPicker', () => {
 	const testStore = store;

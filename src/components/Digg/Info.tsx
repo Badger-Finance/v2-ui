@@ -7,11 +7,11 @@ import { Loader } from '../Loader';
 import Metric from './Metric';
 import { shortenNumbers } from '../../mobx/utils/diggHelpers';
 import { inCurrency } from 'mobx/utils/helpers';
-import { ETH_DEPLOY } from 'web3/config/eth-config';
 import { InfoItem } from './InfoItem';
 import BigNumber from 'bignumber.js';
 import NoWallet from 'components/Common/NoWallet';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
+import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
 
 const useStyles = makeStyles((theme) => ({
 	statPaper: {

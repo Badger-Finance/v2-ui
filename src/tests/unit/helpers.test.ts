@@ -1,7 +1,7 @@
 import { formatTokens, inCurrency, usdToCurrency, numberWithCommas, toFixedDecimals } from '../../mobx/utils/helpers';
 import '@testing-library/jest-dom';
 import BigNumber from 'bignumber.js';
-import store from 'mobx/store';
+import store from 'mobx/RootStore';
 import { ExchangeRates } from '../../mobx/model/system-config/exchange-rates';
 
 describe('helpers', () => {

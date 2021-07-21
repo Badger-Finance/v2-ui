@@ -51,7 +51,7 @@ exports[`Landing Page Renders correctly 1`] = `
                 role="button"
                 tabindex="0"
               >
-                75
+                25
               </div>
               <input
                 aria-hidden="true"

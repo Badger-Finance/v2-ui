@@ -1,9 +1,11 @@
 import BigNumber from 'bignumber.js';
 import Web3 from 'web3';
-import { AbiItem } from 'web3-utils';
 import { provider } from 'web3-core';
 import { numberWithCommas } from './helpers';
-import { Network } from '../model/network/network';
+import { Network } from 'mobx/model/network/network';
+import { NETWORK_LIST } from 'config/constants';
+import { getRebase } from 'config/system/rebase';
+import { AbiItem } from 'web3-utils';
 
 const UPPER_LIMIT = 1.05 * 1e18;
 const LOWER_LIMIT = 0.95 * 1e18;
@@ -82,14 +84,18 @@ export const shortenNumbers = (value: BigNumber, prefix: string, preferredDecima
 
 // TODO: Capture some typing
 export const getRebaseLogs = async (provider: provider, network: Network): Promise<any> => {
+	if (network.symbol !== NETWORK_LIST.ETH) {
+		return;
+	}
 	// Disable reason: 'web3-eth-contract' object can only be imported with the required method since it
 	// is exported using 'module.exports'
 	// eslint-disable-next-line @typescript-eslint/no-var-requires
 	const web3 = new Web3(provider);
-	// const web3 = new Web3(provider);
-	if (!network.rebase) return;
-	const policy = network.rebase.digg[1];
-	// let contractInstance = new web3.eth.Contract(policy.abi || '', policy.addresses[0]);
+	const rebaseConfig = getRebase(network.symbol);
+	if (!rebaseConfig) {
+		return;
+	}
+	const policy = rebaseConfig.digg[1];
 	const contractInstance = new web3.eth.Contract(policy.abi as AbiItem[], policy.addresses[0]);
 	const events = await contractInstance.getPastEvents('LogRebase', {
 		fromBlock: 11663433,

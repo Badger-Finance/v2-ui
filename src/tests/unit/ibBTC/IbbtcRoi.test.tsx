@@ -7,7 +7,7 @@ import { IbbtcRoi } from '../../../components/IbBTC/IbbtcRoi';
 import { CssBaseline, ThemeProvider } from '@material-ui/core';
 import { darkTheme } from '../../../config/ui/dark';
 import { StoreProvider } from '../../../mobx/store-context';
-import store from '../../../mobx/store';
+import store from '../../../mobx/RootStore';
 import { IbbtcOptionToken } from '../../../mobx/model/tokens/ibbtc-option-token';
 
 it('displays N/A state', () => {

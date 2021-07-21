@@ -80,8 +80,9 @@ const Landing = observer((props: LandingProps) => {
 	const { title, subtitle, state } = props;
 
 	const {
-		wallet: { connectedAddress, network },
+		wallet: { connectedAddress },
 		uiState: { currency },
+		network: { network },
 		setts,
 		prices,
 		user,
@@ -89,8 +90,9 @@ const Landing = observer((props: LandingProps) => {
 	const { protocolSummary } = setts;
 	const userConnected = !!connectedAddress;
 
+	const badgerToken = network.deploy.token.length > 0 ? network.deploy.token : undefined;
 	const totalValueLocked = protocolSummary ? new BigNumber(protocolSummary.totalValue) : undefined;
-	const badgerPrice = network.deploy ? prices.getPrice(network.deploy.token) : undefined;
+	const badgerPrice = badgerToken ? prices.getPrice(badgerToken) : undefined;
 	const portfolioValue = userConnected && user.initialized ? user.portfolioValue : undefined;
 
 	return (

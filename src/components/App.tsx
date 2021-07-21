@@ -3,7 +3,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Sidebar } from './Sidebar';
 import { Header } from './Header';
 import { MobxRouter } from 'mobx-router';
-import store from '../mobx/store';
+import { useEffect } from 'react';
+import { ONE_MIN_MS } from 'config/constants';
+import { useContext } from 'react';
+import { StoreContext } from 'mobx/store-context';
 
 const useStyles = makeStyles(() => ({
 	root: {
@@ -16,6 +19,15 @@ const useStyles = makeStyles(() => ({
 
 export const App = (): JSX.Element => {
 	const classes = useStyles();
+	const store = useContext(StoreContext);
+
+	// network data updating
+	useEffect(() => {
+		const networkInterval = setInterval(async () => {
+			await store.network.updateNetwork();
+		}, ONE_MIN_MS / 2);
+		return () => clearInterval(networkInterval);
+	});
 
 	return (
 		<div className={classes.root}>

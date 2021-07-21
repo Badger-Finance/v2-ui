@@ -1,13 +1,14 @@
 import { extendObservable, action } from 'mobx';
 import Web3 from 'web3';
 import BatchCall from 'web3-batch-call';
-import BigNumber from 'bignumber.js';
-import { RootStore } from '../store';
+import { RootStore } from '../RootStore';
 import { getNextRebase, getRebaseLogs } from '../utils/diggHelpers';
-import { groupBy } from '../../utils/lodashToNative';
 import { RebaseInfo } from 'mobx/model/tokens/rebase-info';
 import { ProviderReport } from 'mobx/model/digg/provider-reports';
 import { OracleReports } from 'mobx/model/digg/oracle';
+import { getRebase } from 'config/system/rebase';
+import BigNumber from 'bignumber.js';
+import { groupBy } from 'utils/lodashToNative';
 
 let batchCall: any = null;
 
@@ -25,7 +26,8 @@ class RebaseStore {
 
 	fetchRebaseStats = action(async () => {
 		let rebaseLog: any = null;
-		const { network, provider } = this.store.wallet;
+		const { provider } = this.store.wallet;
+		const { network } = this.store.network;
 
 		if (!provider) {
 			return;
@@ -41,11 +43,12 @@ class RebaseStore {
 		batchCall = new BatchCall(options);
 		rebaseLog = await getRebaseLogs(provider, network);
 
-		if (!batchCall || !network.rebase) {
+		const rebaseConfig = getRebase(network.symbol);
+		if (!batchCall || !rebaseConfig) {
 			return;
 		}
 
-		const diggData = await batchCall.execute(network.rebase.digg);
+		const diggData = await batchCall.execute(rebaseConfig.digg);
 		const keyedResult = groupBy(diggData, (v) => v.namespace);
 		const { policy, token, oracle } = keyedResult;
 

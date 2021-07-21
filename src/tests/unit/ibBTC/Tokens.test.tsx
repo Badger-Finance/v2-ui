@@ -1,6 +1,6 @@
 import React from 'react';
 import '@testing-library/jest-dom';
-import store from '../../../mobx/store';
+import store from '../../../mobx/RootStore';
 import addresses from 'config/ibBTC/addresses.json';
 import { Tokens } from '../../../components/IbBTC/Tokens';
 import { customRender, screen, fireEvent, within } from '../../Utils';
