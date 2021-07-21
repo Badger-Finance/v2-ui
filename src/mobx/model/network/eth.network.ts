@@ -430,4 +430,5 @@ export const ethRewards = [
 
 const ethTokens = ethVaults.flatMap((vault) => [vault.depositToken, vault.vaultToken]).concat(ethRewards);
 
+
 export const ethProtocolTokens: ProtocolTokens = toRecord(ethTokens, 'address');
