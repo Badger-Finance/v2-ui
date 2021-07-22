@@ -34,7 +34,7 @@ export const Harvests = (): JSX.Element => {
 			<Typography>Harvests</Typography>
 			<StyledDivider />
 			<Grid container alignItems="center">
-				<Grid item container xs={9}>
+				<Grid item container xs={7}>
 					<Typography className={classes.harvestFrequency} color="textSecondary">
 						Harvest Frequency
 					</Typography>

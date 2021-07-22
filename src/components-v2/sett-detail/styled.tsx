@@ -6,8 +6,6 @@ export const StyledDivider = styled(Divider)(({ theme }) => ({
 	marginBottom: theme.spacing(1),
 }));
 
-export const CardContainer = styled(Card)(({ theme }) => ({
-	display: 'flex',
-	flexDirection: 'column',
-	padding: theme.spacing(2),
-}));
+export const CardContainer = styled(Card)({
+	height: 550,
+});
