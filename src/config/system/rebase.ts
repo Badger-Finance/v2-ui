@@ -29,6 +29,7 @@ export const getRebase = (network?: string | null): RebaseNetworkConfig | undefi
 						logging: false,
 						namespace: 'policy',
 					},
+					// TODO: Determine better way to handle multiple reports
 					{
 						addresses: [digg_system.marketMedianOracle],
 						abi: MedianOracle.abi as AbiItem[],
@@ -38,6 +39,18 @@ export const getRebase = (network?: string | null): RebaseNetworkConfig | undefi
 							{
 								name: 'providerReports',
 								args: [digg_system.centralizedOracle, 0],
+							},
+						],
+					},
+					{
+						addresses: [digg_system.marketMedianOracle],
+						abi: MedianOracle.abi as AbiItem[],
+						groupByNamespace: true,
+						namespace: 'oracle',
+						readMethods: [
+							{
+								name: 'providerReports',
+								args: [digg_system.centralizedOracle, 1],
 							},
 						],
 					},
