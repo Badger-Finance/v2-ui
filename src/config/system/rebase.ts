@@ -1,6 +1,6 @@
 import UFragments from './abis/UFragments.json';
 import UFragmentsPolicy from './abis/UFragmentsPolicy.json';
-import ChainlinkPricefeed from './abis/ChainlinkPricefeed.json';
+import MedianOracle from './abis/MedianOracle.json';
 import Orchestrator from './abis/Orchestrator.json';
 import { digg_system } from '../deployments/mainnet.json';
 
@@ -29,19 +29,28 @@ export const getRebase = (network?: string | null): RebaseNetworkConfig | undefi
 						logging: false,
 						namespace: 'policy',
 					},
+					// TODO: Determine better way to handle multiple reports
 					{
-						addresses: [digg_system.chainlinkPriceFeed],
-						abi: ChainlinkPricefeed.abi as AbiItem[],
+						addresses: [digg_system.marketMedianOracle],
+						abi: MedianOracle.abi as AbiItem[],
 						groupByNamespace: true,
 						namespace: 'oracle',
 						readMethods: [
 							{
-								name: 'latestAnswer',
-								args: [],
+								name: 'providerReports',
+								args: [digg_system.centralizedOracle, 0],
 							},
+						],
+					},
+					{
+						addresses: [digg_system.marketMedianOracle],
+						abi: MedianOracle.abi as AbiItem[],
+						groupByNamespace: true,
+						namespace: 'oracle',
+						readMethods: [
 							{
-								name: 'latestTimestamp',
-								args: [],
+								name: 'providerReports',
+								args: [digg_system.centralizedOracle, 1],
 							},
 						],
 					},

@@ -11,20 +11,11 @@ import PageHeader from 'components-v2/common/PageHeader';
 import { Mint } from './Mint';
 import { Redeem } from './Redeem';
 import { IbbtcRoi } from './IbbtcRoi';
+import { HeaderContainer, LayoutContainer } from '../../components-v2/common/Containers';
 
 type TABS = 'Mint' | 'Redeem';
 
 const useStyles = makeStyles((theme) => ({
-	root: {
-		[theme.breakpoints.up('md')]: {
-			paddingLeft: theme.spacing(30),
-		},
-		marginBottom: theme.spacing(4),
-	},
-	headerContainer: {
-		marginTop: theme.spacing(3),
-		marginBottom: theme.spacing(6),
-	},
 	cardContainer: { justifyContent: 'center', display: 'flex' },
 	tabHeader: { background: 'rgba(0,0,0,.2)' },
 	content: {
@@ -55,11 +46,11 @@ export const IbBTC = observer(() => {
 	);
 
 	return (
-		<Container className={classes.root} maxWidth="lg">
+		<LayoutContainer>
 			<Grid container spacing={1} justify="center">
-				<Grid item sm={12} xs={12} className={classes.headerContainer}>
+				<HeaderContainer item sm={12} xs={12}>
 					<PageHeader title="ibBTC" subtitle="Interest Bearing Badger Bitcoin." />
-				</Grid>
+				</HeaderContainer>
 
 				{network.name === NETWORK_LIST.ETH ? (
 					<>
@@ -93,6 +84,6 @@ export const IbBTC = observer(() => {
 				)}
 				{spacer()}
 			</Grid>
-		</Container>
+		</LayoutContainer>
 	);
 });
