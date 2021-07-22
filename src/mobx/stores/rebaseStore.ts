@@ -6,6 +6,7 @@ import { RootStore } from '../store';
 import { getNextRebase, getRebaseLogs } from '../utils/diggHelpers';
 import { groupBy } from '../../utils/lodashToNative';
 import { RebaseInfo } from 'mobx/model/tokens/rebase-info';
+import { ProviderReport } from 'mobx/model/digg/provider-reports';
 
 let batchCall: any = null;
 
@@ -59,16 +60,22 @@ class RebaseStore {
 		const decimals = parseInt(token[0].decimals[0].value);
 		const totalSupply = new BigNumber(token[0].totalSupply[0].value).dividedBy(Math.pow(10, decimals));
 
+		// pull latest provider report
+		let activeReport: ProviderReport = oracle[0].providerReports[0];
+		oracle[0].providerReports.map((report: ProviderReport) => {
+			if (Number(report.value.timestamp) > Number(activeReport.value.timestamp)) activeReport = report;
+		});
+
 		this.rebase = {
 			totalSupply,
 			latestRebase,
 			minRebaseInterval,
-			latestAnswer: oracle[0].providerReports[0].value.timestamp,
+			latestAnswer: Number(activeReport.value.timestamp),
 			inRebaseWindow: policy[0].inRebaseWindow[0].value,
 			rebaseLag: policy[0].rebaseLag[0].value,
 			epoch: policy[0].epoch[0].value,
 			rebaseWindowLengthSec: parseInt(policy[0].rebaseWindowLengthSec[0].value),
-			oracleRate: new BigNumber(oracle[0].providerReports[0].value.payload).dividedBy(1e18),
+			oracleRate: new BigNumber(activeReport.value.payload).dividedBy(1e18),
 			nextRebase: getNextRebase(minRebaseInterval, latestRebase),
 			pastRebase: rebaseLog,
 		};
