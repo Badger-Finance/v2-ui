@@ -207,7 +207,7 @@ export const Sidebar = observer(() => {
 					</ListItemSecondaryAction>
 				</ListItem>
 
-				{network.name === NETWORK_LIST.ETH ? (
+				{network.symbol === NETWORK_LIST.ETH ? (
 					<ListItem
 						button
 						onClick={() => setExpanded(expanded === 'advanced' ? '' : 'advanced')}
@@ -229,7 +229,7 @@ export const Sidebar = observer(() => {
 					</ListItem>
 				)}
 				<Collapse in={expanded === 'advanced'} timeout="auto" unmountOnExit>
-					{network.name === NETWORK_LIST.ETH && badgerTree && connectedAddress ? (
+					{network.symbol === NETWORK_LIST.ETH && badgerTree && connectedAddress ? (
 						<ListItem key="rewards">
 							<ListItemText
 								primary={`Cycle Count: ${badgerTree.cycle}`}
@@ -257,7 +257,7 @@ export const Sidebar = observer(() => {
 					</ListItemIcon>
 					<ListItemText primary="Sett Vaults" />
 				</ListItem>
-				{network.name === NETWORK_LIST.ETH ? (
+				{network.symbol === NETWORK_LIST.ETH ? (
 					<>
 						<ListItem
 							button
