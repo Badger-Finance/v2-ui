@@ -4,9 +4,15 @@ import { SpecsCard } from './specs/SpecsCard';
 import { Description } from './Description';
 import { ActionButtons } from './ActionButtons';
 import { Breadcrumb } from './Breadcrumb';
-import {LayoutContainer} from "../common/Containers";
+import { ChartsCard } from './charts/ChartsCard';
 
 const useStyles = makeStyles((theme) => ({
+	content: {
+		margin: 'auto',
+		[theme.breakpoints.up('md')]: {
+			marginTop: theme.spacing(2),
+		},
+	},
 	descriptionSection: {
 		justifyContent: 'space-between',
 		marginBottom: theme.spacing(5),
@@ -16,12 +22,12 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export const Content = (): JSX.Element => {
+export const MainContent = (): JSX.Element => {
 	const classes = useStyles();
 	const canFitActionButtons = useMediaQuery(useTheme().breakpoints.up(680));
 
 	return (
-		<LayoutContainer>
+		<Grid container className={classes.content}>
 			<Grid container className={classes.breadcrumbContainer}>
 				<Breadcrumb />
 			</Grid>
@@ -29,9 +35,14 @@ export const Content = (): JSX.Element => {
 				<Description />
 				{canFitActionButtons && <ActionButtons />}
 			</Grid>
-			<Grid item xs={12} lg={4}>
-				<SpecsCard />
+			<Grid container spacing={1}>
+				<Grid item xs={12} md={4} lg={3}>
+					<SpecsCard />
+				</Grid>
+				<Grid item xs={12} md={8} lg={9}>
+					<ChartsCard />
+				</Grid>
 			</Grid>
-		</LayoutContainer>
+		</Grid>
 	);
 };
