@@ -7,6 +7,7 @@ import { getNextRebase, getRebaseLogs } from '../utils/diggHelpers';
 import { groupBy } from '../../utils/lodashToNative';
 import { RebaseInfo } from 'mobx/model/tokens/rebase-info';
 import { ProviderReport } from 'mobx/model/digg/provider-reports';
+import { OracleReports } from 'mobx/model/digg/oracle';
 
 let batchCall: any = null;
 
@@ -61,9 +62,13 @@ class RebaseStore {
 		const totalSupply = new BigNumber(token[0].totalSupply[0].value).dividedBy(Math.pow(10, decimals));
 
 		// pull latest provider report
-		let activeReport: ProviderReport = oracle[0].providerReports[0];
-		oracle[0].providerReports.map((report: ProviderReport) => {
-			if (Number(report.value.timestamp) > Number(activeReport.value.timestamp)) activeReport = report;
+		const oracleReport: OracleReports = oracle[0];
+		let activeReport: ProviderReport = oracleReport.providerReports[0];
+		oracleReport.providerReports.forEach((report: ProviderReport) => {
+			const moreRecentReport = Number(report.value.timestamp) > Number(activeReport.value.timestamp);
+			if (moreRecentReport) {
+				activeReport = report;
+			}
 		});
 
 		this.rebase = {
