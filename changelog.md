@@ -4,6 +4,7 @@
 
 -   update boost leaderboard visualization
 -   release badger boost optimizer
+-   revert digg oracle back to centralizedOracle
 
 ### Hotfix - 07/17/2021
 
