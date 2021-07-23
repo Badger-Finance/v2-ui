@@ -38,8 +38,8 @@ const NetworkWidget = observer(() => {
 		setAnchorEl(anchorEl ? null : event.currentTarget);
 	};
 
-	const optionClicked = (option: string) => {
-		network.setNetwork(option);
+	const optionClicked = async (option: string) => {
+		await network.setNetwork(option);
 		setAnchorEl(null);
 	};
 
@@ -63,7 +63,7 @@ const NetworkWidget = observer(() => {
 								<ListItem
 									className={classes.listItem}
 									button
-									onClick={() => optionClicked(network)}
+									onClick={async () => await optionClicked(network)}
 									key={network}
 								>
 									<NetworkOption network={network} />
