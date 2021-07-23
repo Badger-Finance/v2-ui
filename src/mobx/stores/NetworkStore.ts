@@ -31,14 +31,16 @@ export class NetworkStore {
 		});
 	}
 
-	setNetwork = action((network: string): void => {
-		// only allow toggling if no wallet is connected
-		if (this.store.wallet.connectedAddress) {
-			return;
-		}
-		this.network = Network.networkFromSymbol(network);
-		this.store.walletRefresh();
-	});
+	setNetwork = action(
+		async (network: string): Promise<void> => {
+			// only allow toggling if no wallet is connected
+			if (this.store.wallet.connectedAddress) {
+				return;
+			}
+			this.network = Network.networkFromSymbol(network);
+			await this.store.walletRefresh();
+		},
+	);
 
 	// Check to see if the wallet's connected network matches the currently defined network
 	// if it doesn't, set to the proper network
