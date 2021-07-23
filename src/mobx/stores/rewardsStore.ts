@@ -116,7 +116,10 @@ class RewardsStore {
 	};
 
 	resetRewards = action((): void => {
-		this.badgerTree = RewardsStore.defaultTree;
+		this.badgerTree.claimableAmounts = [];
+		this.badgerTree.claims = [];
+		this.badgerTree.amounts = [];
+		this.badgerTree.proof = undefined;
 	});
 
 	loadTreeData = action(
