@@ -24,12 +24,14 @@ export enum NETWORK_LIST {
 	ETH = 'eth',
 	BSC = 'bsc',
 	MATIC = 'matic',
+	XDAI = 'xdai',
 }
 
 export enum NETWORK_IDS {
 	ETH = 1,
 	BSC = 56,
 	MATIC = 137,
+	XDAI = 100,
 }
 
 export const CLAIMS_SYMBOLS: ClaimsSymbols = {
@@ -46,6 +48,7 @@ export const CLAIMS_SYMBOLS: ClaimsSymbols = {
 		[sett_system.vaults['native.cvx']]: 'bCVX',
 		[sett_system.vaults['native.cvxCrv']]: 'bcvxCRV',
 	},
+	[NETWORK_LIST.XDAI]: {},
 };
 
 export const CONTACT_EMAIL = 'hello@badger.finance';
