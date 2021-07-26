@@ -3,7 +3,8 @@ import { observer } from 'mobx-react-lite';
 import { ArrowDropDown } from '@material-ui/icons';
 import { Button, Popper, Paper, List, ListItem, makeStyles, Typography } from '@material-ui/core';
 import { StoreContext } from 'mobx/store-context';
-import { NETWORK_LIST } from 'config/constants';
+import { supportedNetworks } from 'config/networks.config';
+import { Network } from 'mobx/model/network/network';
 
 const useStyles = makeStyles((theme) => ({
 	network: {
@@ -43,7 +44,7 @@ const NetworkWidget = observer(() => {
 		setAnchorEl(null);
 	};
 
-	const options = Object.values(NETWORK_LIST).filter((network: string) => network !== connectedNetwork);
+	const options = Object.values(supportedNetworks).filter((network: Network) => network.symbol !== connectedNetwork);
 	return (
 		<>
 			<Button
@@ -63,10 +64,10 @@ const NetworkWidget = observer(() => {
 								<ListItem
 									className={classes.listItem}
 									button
-									onClick={async () => await optionClicked(network)}
-									key={network}
+									onClick={async () => await optionClicked(network.symbol)}
+									key={network.symbol}
 								>
-									<NetworkOption network={network} />
+									<NetworkOption network={network.symbol} />
 								</ListItem>
 							);
 						})}

@@ -75,6 +75,8 @@ export const FLAGS = {
 	IBBTC_OPTIONS_FLAG: toBool(process.env.REACT_APP_IBBTC_OPTIONS_FLAG),
 	STABILIZATION_SETTS: toBool(process.env.REACT_APP_STABILIZATION_SETTS),
 	BOOST_OPTIMIZER: toBool(process.env.REACT_APP_BOOST_OPTIMIZER),
+	MATIC: toBool(process.env.REACT_APP_MATIC),
+	XDAI: toBool(process.env.REACT_APP_XDAI),
 };
 
 export const ZERO = new BigNumber(0);
