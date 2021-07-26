@@ -3,7 +3,6 @@
 ### v2.8.4 - 07/22/2021
 
 -   update boost leaderboard visualization
--   release badger boost optimizer
 -   revert digg oracle back to centralizedOracle
 
 ### Hotfix - 07/17/2021
