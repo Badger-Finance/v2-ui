@@ -55,8 +55,6 @@ class RebaseStore {
 		const keyedResult = groupBy(diggData, (v) => v.namespace);
 		const { policy, token, oracle, dropt } = keyedResult;
 
-		console.log('dropt:', dropt);
-
 		if (!this.hasCallResults(token) || !this.hasCallResults(policy) || !this.hasCallResults(oracle)) {
 			return;
 		}
