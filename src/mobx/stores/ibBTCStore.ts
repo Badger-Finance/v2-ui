@@ -1,4 +1,4 @@
-import { RootStore } from 'mobx/store';
+import { RootStore } from 'mobx/RootStore';
 import { extendObservable, action } from 'mobx';
 import BigNumber from 'bignumber.js';
 import { ContractSendMethod } from 'web3-eth-contract';
@@ -285,7 +285,7 @@ class IbBTCStore {
 
 		queueNotification(`Sign the transaction to allow Badger to spend your ${underlyingAsset.symbol}`, 'info');
 
-		const gasPrice = this.store.wallet.gasPrices[this.store.uiState.gasPrice];
+		const gasPrice = this.store.network.gasPrices[this.store.uiState.gasPrice];
 		const options = await getSendOptions(method, connectedAddress, gasPrice);
 		await method
 			.send(options)
@@ -398,7 +398,7 @@ class IbBTCStore {
 	): Promise<void> {
 		const { connectedAddress } = this.store.wallet;
 		const { queueNotification } = this.store.uiState;
-		const gasPrice = this.store.wallet.gasPrices[this.store.uiState.gasPrice];
+		const gasPrice = this.store.network.gasPrices[this.store.uiState.gasPrice];
 		const options = await getSendOptions(method, connectedAddress, gasPrice);
 
 		await method
@@ -416,7 +416,8 @@ class IbBTCStore {
 	}
 
 	private async fetchIbbtApyFromTimestamp(timestamp: number): Promise<string | null> {
-		const { provider, currentBlock } = this.store.wallet;
+		const { provider } = this.store.wallet;
+		const { currentBlock } = this.store.network;
 		if (!provider || !currentBlock) {
 			return null;
 		}

@@ -35,7 +35,7 @@ export const IbBTC = observer(() => {
 	const [activeTab, setActiveTab] = useState<TABS>('Mint');
 
 	const store = useContext(StoreContext);
-	const { network } = store.wallet;
+	const { network } = store.network;
 	const spacer = () => <div className={classes.before} />;
 
 	const Content = () => (
@@ -52,7 +52,7 @@ export const IbBTC = observer(() => {
 					<PageHeader title="ibBTC" subtitle="Interest Bearing Badger Bitcoin." />
 				</HeaderContainer>
 
-				{network.name === NETWORK_LIST.ETH ? (
+				{network.symbol === NETWORK_LIST.ETH ? (
 					<>
 						<Grid item sm={12} xs={12} md={7} className={classes.apyInformation}>
 							<IbbtcRoi />

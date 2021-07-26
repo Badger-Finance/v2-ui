@@ -9,7 +9,7 @@ import { AbiItem } from 'web3-utils';
 import { NETWORK_LIST } from 'config/constants';
 import { RebaseNetworkConfig } from '../../mobx/model/network/rebase-network-config';
 
-export const getRebase = (network?: string | null): RebaseNetworkConfig | undefined => {
+export const getRebase = (network: string): RebaseNetworkConfig | undefined => {
 	switch (network) {
 		case NETWORK_LIST.ETH:
 			return {
@@ -30,6 +30,7 @@ export const getRebase = (network?: string | null): RebaseNetworkConfig | undefi
 						logging: false,
 						namespace: 'policy',
 					},
+					// TODO: Determine better way to handle multiple reports
 					{
 						addresses: [digg_system.marketMedianOracle],
 						abi: MedianOracle.abi as AbiItem[],
@@ -39,6 +40,18 @@ export const getRebase = (network?: string | null): RebaseNetworkConfig | undefi
 							{
 								name: 'providerReports',
 								args: [digg_system.centralizedOracle, 0],
+							},
+						],
+					},
+					{
+						addresses: [digg_system.marketMedianOracle],
+						abi: MedianOracle.abi as AbiItem[],
+						groupByNamespace: true,
+						namespace: 'oracle',
+						readMethods: [
+							{
+								name: 'providerReports',
+								args: [digg_system.centralizedOracle, 1],
 							},
 						],
 					},
@@ -69,6 +82,6 @@ export const getRebase = (network?: string | null): RebaseNetworkConfig | undefi
 				},
 			};
 		default:
-			undefined;
+			return undefined;
 	}
 };

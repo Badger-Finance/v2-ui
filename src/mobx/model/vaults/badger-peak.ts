@@ -5,7 +5,7 @@ import { AbiItem } from 'web3-utils';
 import BadgerBtcPeak from 'config/system/abis/BadgerBtcPeak.json';
 import addresses from 'config/ibBTC/addresses.json';
 import { IbbtcVaultPeak, PeakType } from './ibbtc-vault-peak';
-import { RootStore } from '../../store';
+import { RootStore } from '../../RootStore';
 import { toHex } from '../../utils/helpers';
 import BigNumber from 'bignumber.js';
 import settConfig from '../../../config/system/abis/Sett.json';

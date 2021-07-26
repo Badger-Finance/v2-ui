@@ -20,22 +20,26 @@ const useStyles = makeStyles((theme) => ({
 
 const NetworkWidget = observer(() => {
 	const classes = useStyles();
-	const { wallet } = useContext(StoreContext);
-	const connectedNetwork = wallet.network.name;
+	const store = useContext(StoreContext);
+	const {
+		wallet: { connectedAddress },
+		network,
+	} = store;
+	const connectedNetwork = network.network.symbol;
 
 	// anchorEl is the Popper reference object prop
 	const [anchorEl, setAnchorEl] = useState(null);
 	const open = Boolean(anchorEl);
 
 	const handleClick = (event: any) => {
-		if (wallet.connectedAddress) {
+		if (connectedAddress) {
 			return;
 		}
 		setAnchorEl(anchorEl ? null : event.currentTarget);
 	};
 
-	const optionClicked = (option: string) => {
-		wallet.setNetwork(option);
+	const optionClicked = async (option: string) => {
+		await network.setNetwork(option);
 		setAnchorEl(null);
 	};
 
@@ -45,7 +49,7 @@ const NetworkWidget = observer(() => {
 			<Button
 				size="small"
 				variant="outlined"
-				endIcon={wallet.connectedAddress ? <> </> : <ArrowDropDown />}
+				endIcon={connectedAddress ? <></> : <ArrowDropDown />}
 				onClick={handleClick}
 				className={classes.selectButton}
 			>
@@ -59,7 +63,7 @@ const NetworkWidget = observer(() => {
 								<ListItem
 									className={classes.listItem}
 									button
-									onClick={() => optionClicked(network)}
+									onClick={async () => await optionClicked(network)}
 									key={network}
 								>
 									<NetworkOption network={network} />

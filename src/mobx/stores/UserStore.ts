@@ -1,5 +1,5 @@
 import { extendObservable, action, observe } from 'mobx';
-import { RootStore } from '../store';
+import { RootStore } from '../RootStore';
 import { checkShopEligibility, fetchBouncerProof, fetchClaimProof, getAccountDetails } from 'mobx/utils/apiV2';
 import WalletStore from './walletStore';
 import Web3 from 'web3';
@@ -21,6 +21,7 @@ import { VaultCap } from 'mobx/model/vaults/vault-cap';
 import { Account } from '../model/account/account';
 import { RewardMerkleClaim } from '../model/rewards/reward-merkle-claim';
 import { UserPermissions } from '../model/account/userPermissions';
+import { NetworkStore } from './NetworkStore';
 
 export default class UserStore {
 	private store!: RootStore;
@@ -62,14 +63,14 @@ export default class UserStore {
 		observe(this.store.wallet as WalletStore, 'connectedAddress', () => {
 			if (!this.loadingBalances) {
 				const address = this.store.wallet.connectedAddress;
-				const network = this.store.wallet.network;
+				const network = this.store.network.network;
 				this.permissions = undefined;
 				this.bouncerProof = undefined;
 				this.accountDetails = undefined;
 				if (address) {
 					this.getSettShopEligibility(address);
 					this.loadBouncerProof(address);
-					this.loadAccountDetails(address, network.name);
+					this.loadAccountDetails(address, network.symbol);
 					this.loadClaimProof(address);
 					this.updateBalances(true);
 				}
@@ -79,7 +80,7 @@ export default class UserStore {
 		/**
 		 * Update account store on change of network.
 		 */
-		observe(this.store.wallet as WalletStore, 'network', () => {
+		observe(this.store.network as NetworkStore, 'network', () => {
 			if (!this.loadingBalances) {
 				this.refreshBalances();
 			}
@@ -137,7 +138,8 @@ export default class UserStore {
 		const hasSetts = Object.keys(this.settBalances).length > 0;
 		let hasGeysers = false;
 
-		const { network, connectedAddress } = this.store.wallet;
+		const { network } = this.store.network;
+		const { connectedAddress } = this.store.wallet;
 		const geyserRequests = network
 			.batchRequests(settMap, connectedAddress)
 			.find((req) => req.namespace === ContractNamespace.Geyser);
@@ -185,7 +187,8 @@ export default class UserStore {
 
 	updateBalances = action(
 		async (cached?: boolean): Promise<void> => {
-			const { connectedAddress, network, provider } = this.store.wallet;
+			const { connectedAddress, provider } = this.store.wallet;
+			const { network } = this.store.network;
 			const { setts } = this.store;
 
 			/**
@@ -198,7 +201,7 @@ export default class UserStore {
 			}
 			this.loadingBalances = true;
 
-			const cacheKey = `${network.name}-${connectedAddress}`;
+			const cacheKey = `${network.symbol}-${connectedAddress}`;
 			if (cached) {
 				const cachedBalances = this.userBalanceCache[cacheKey];
 				if (cachedBalances && Date.now() <= cachedBalances.expiry) {
@@ -216,7 +219,7 @@ export default class UserStore {
 			this.refreshProvider();
 			const callResults: CallResult[] = await this.batchCall.execute(batchRequests);
 			if (DEBUG) {
-				console.log({ network: network.name, callResults });
+				console.log({ network: network.symbol, callResults });
 			}
 
 			// filter batch requests by namespace
@@ -326,8 +329,10 @@ export default class UserStore {
 		token: CallResult,
 		getToken: (sett: BadgerSett) => BadgerToken,
 	): void => {
-		const { prices, wallet } = this.store;
-		const { network } = wallet;
+		const {
+			prices,
+			network: { network },
+		} = this.store;
 		const balanceResults = token.balanceOf || token.totalStakedFor;
 		if (!balanceResults || balanceResults.length === 0) {
 			return;

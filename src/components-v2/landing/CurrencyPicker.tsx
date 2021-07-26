@@ -20,7 +20,7 @@ const CurrencyPicker = observer(() => {
 	const store = useContext(StoreContext);
 	const {
 		uiState: { currency, setCurrency },
-		wallet: { network },
+		network: { network },
 	} = store;
 
 	return (
@@ -33,7 +33,7 @@ const CurrencyPicker = observer(() => {
 			<MenuItem value={'usd'}>USD</MenuItem>
 			<MenuItem value={'cad'}>CAD</MenuItem>
 			<MenuItem value={'btc'}>BTC</MenuItem>
-			<MenuItem value={network.currency.toLowerCase()}>{network.currency}</MenuItem>
+			<MenuItem value={network.currency.toLocaleLowerCase()}>{network.currency}</MenuItem>
 		</Select>
 	);
 });

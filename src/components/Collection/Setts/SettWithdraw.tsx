@@ -24,7 +24,7 @@ export const SettWithdraw = ({ sett, badgerSett }: Props): JSX.Element => {
 	const store = useContext(StoreContext);
 	const [mode, setMode] = useState<WithdrawMode>('withdraw');
 
-	const { network } = store.wallet;
+	const { network } = store.network;
 	const noStake: { [sett: string]: boolean } = {
 		[deploy.sett_system.vaults['native.digg']]: true,
 	};

@@ -1,14 +1,17 @@
 import { extendObservable, action } from 'mobx';
 import Web3 from 'web3';
 import BatchCall from 'web3-batch-call';
-import BigNumber from 'bignumber.js';
-import { RootStore } from '../store';
+import { RootStore } from '../RootStore';
 import { getNextRebase, getRebaseLogs } from '../utils/diggHelpers';
-import { groupBy } from '../../utils/lodashToNative';
 import { RebaseInfo } from 'mobx/model/tokens/rebase-info';
 import Dropt2Redemption from '../../config/system/abis/Dropt2Redemption.json';
 import { AbiItem } from 'web3-utils';
 import { getSendOptions } from 'mobx/utils/web3';
+import { ProviderReport } from 'mobx/model/digg/provider-reports';
+import { OracleReports } from 'mobx/model/digg/oracle';
+import { getRebase } from 'config/system/rebase';
+import BigNumber from 'bignumber.js';
+import { groupBy } from 'utils/lodashToNative';
 
 let batchCall: any = null;
 
@@ -26,7 +29,8 @@ class RebaseStore {
 
 	fetchRebaseStats = action(async () => {
 		let rebaseLog: any = null;
-		const { network, provider } = this.store.wallet;
+		const { provider } = this.store.wallet;
+		const { network } = this.store.network;
 
 		if (!provider) {
 			return;
@@ -42,11 +46,12 @@ class RebaseStore {
 		batchCall = new BatchCall(options);
 		rebaseLog = await getRebaseLogs(provider, network);
 
-		if (!batchCall || !network.rebase) {
+		const rebaseConfig = getRebase(network.symbol);
+		if (!batchCall || !rebaseConfig) {
 			return;
 		}
 
-		const diggData = await batchCall.execute(network.rebase.digg);
+		const diggData = await batchCall.execute(rebaseConfig.digg);
 		const keyedResult = groupBy(diggData, (v) => v.namespace);
 		const { policy, token, oracle, dropt } = keyedResult;
 
@@ -69,16 +74,26 @@ class RebaseStore {
 		const decimals = parseInt(token[0].decimals[0].value);
 		const totalSupply = new BigNumber(token[0].totalSupply[0].value).dividedBy(Math.pow(10, decimals));
 
+		// pull latest provider report
+		const oracleReport: OracleReports = oracle[0];
+		let activeReport: ProviderReport = oracleReport.providerReports[0];
+		oracleReport.providerReports.forEach((report: ProviderReport) => {
+			const moreRecentReport = Number(report.value.timestamp) > Number(activeReport.value.timestamp);
+			if (moreRecentReport) {
+				activeReport = report;
+			}
+		});
+
 		this.rebase = {
 			totalSupply,
 			latestRebase,
 			minRebaseInterval,
-			latestAnswer: oracle[0].providerReports[0].value.timestamp,
+			latestAnswer: Number(activeReport.value.timestamp),
 			inRebaseWindow: policy[0].inRebaseWindow[0].value,
 			rebaseLag: policy[0].rebaseLag[0].value,
 			epoch: policy[0].epoch[0].value,
 			rebaseWindowLengthSec: parseInt(policy[0].rebaseWindowLengthSec[0].value),
-			oracleRate: new BigNumber(oracle[0].providerReports[0].value.payload).dividedBy(1e18),
+			oracleRate: new BigNumber(activeReport.value.payload).dividedBy(1e18),
 			nextRebase: getNextRebase(minRebaseInterval, latestRebase),
 			pastRebase: rebaseLog,
 			expirationTimestamp: new Date(expirationTimestamp * 1000),
@@ -96,7 +111,8 @@ class RebaseStore {
 			return;
 		}
 		const { queueNotification, gasPrice } = this.store.uiState;
-		const { provider, gasPrices, connectedAddress } = this.store.wallet;
+		const { provider, connectedAddress } = this.store.wallet;
+		const { gasPrices } = this.store.network;
 
 		const web3 = new Web3(provider);
 		const redemption = new web3.eth.Contract(Dropt2Redemption.abi as AbiItem[], redemptionContract);

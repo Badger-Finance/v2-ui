@@ -1,0 +1,12 @@
+{
+	"token": "0x3472A5A71965499acd81997a54BBA8D852C6E53d",
+	"tokens": {
+		"QLP-BADGER-USDC": "0xF6a637525402643B0654a54bEAd2Cb9A83C8B498"
+	},
+	"geysers": {},
+	"sett_system": {
+		"vaults": {
+			"BQLP-BADGER-USDC": "0x1AaF7f8154704D80E2380B3DbC967FD0486016e0"
+		}
+	}
+}

@@ -7,10 +7,8 @@ import importedBscErc20 from '../config/system/abis/BscErc20.json';
 import importedYearnSett from '../config/system/abis/YearnWrapper.json';
 import importedGuestList from '../config/system/abis/GuestList.json';
 import { tokens, sett_system } from './deployments/mainnet.json';
-import { getNetworkDeploy } from 'mobx/utils/network';
 import { AbiItem } from 'web3-utils';
 import { PartialAttemptOptions } from '@lifeomic/attempt';
-import { NetworkConstants } from 'mobx/model/network/network-constants';
 import { ClaimsSymbols } from 'mobx/model/rewards/claims-symbols';
 import { LeaderboardRank } from 'mobx/model/boost/leaderboard-rank';
 
@@ -25,35 +23,14 @@ export const RPC_WALLETS: { [index: string]: boolean } = {
 export enum NETWORK_LIST {
 	ETH = 'eth',
 	BSC = 'bsc',
-	// MATIC = 'matic',
-	// FTM = 'ftm',
-	// XDAI = 'xdai',
+	MATIC = 'matic',
 }
 
 export enum NETWORK_IDS {
 	ETH = 1,
 	BSC = 56,
-	// MATIC = 137,
-	// FTM = 250,
-	// XDAI = 100,
+	MATIC = 137,
 }
-
-export const NETWORK_CONSTANTS: NetworkConstants = {
-	[NETWORK_LIST.ETH]: {
-		APP_URL: 'https://app.badger.finance/',
-		RPC_URL: 'https://spring-delicate-paper.quiknode.pro/d1fafe068249a34a1b2c9dc4b36ad92fbcf9fb8c/',
-		START_BLOCK: 11381216,
-		START_TIME: new Date('Dec 03 2020 06:11:35 PM UTC'),
-		DEPLOY: getNetworkDeploy(NETWORK_LIST.ETH),
-	},
-	[NETWORK_LIST.BSC]: {
-		APP_URL: 'https://bsc.badger.finance/',
-		RPC_URL: 'https://bsc-node.badger.guru/',
-		START_BLOCK: 11381216,
-		START_TIME: new Date('Dec 03 2020 06:11:35 PM UTC'),
-		DEPLOY: getNetworkDeploy(NETWORK_LIST.BSC),
-	},
-};
 
 export const CLAIMS_SYMBOLS: ClaimsSymbols = {
 	[NETWORK_LIST.BSC]: {},

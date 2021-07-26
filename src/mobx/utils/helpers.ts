@@ -1,12 +1,12 @@
 import BigNumber from 'bignumber.js';
 import { DEBUG, getDefaultRetryOptions, TEN, ZERO } from '../../config/constants';
-import { getNetworkNameFromId } from './network';
 import { API } from 'bnc-onboard/dist/src/interfaces';
-import store from 'mobx/store';
+import store from 'mobx/RootStore';
 import { retry } from '@lifeomic/attempt';
 import { MarketChartStats } from 'mobx/model/charts/market-chart-stats';
 import { MarketDelta } from 'mobx/model/charts/market-delta';
 import { ChartData } from 'mobx/model/charts/chart-data';
+import { Network } from 'mobx/model/network/network';
 
 export const jsonQuery = (url: string | undefined): Promise<Response> | undefined => {
 	if (!url) return;
@@ -382,7 +382,9 @@ export const fetchData = async <T>(
 // Reason: blocknative does not type their provider, must be any
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const getNetworkFromProvider = (provider?: any): string | undefined => {
-	return provider ? getNetworkNameFromId(parseInt(new BigNumber(provider.chainId, 16).toString(10))) : undefined;
+	return provider
+		? Network.networkFromId(parseInt(new BigNumber(provider.chainId, 16).toString(10))).symbol
+		: undefined;
 };
 
 export const unscale = (amount: BigNumber, decimals: number): BigNumber => amount.dividedBy(TEN.pow(decimals));

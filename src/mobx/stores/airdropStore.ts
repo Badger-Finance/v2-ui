@@ -1,12 +1,12 @@
 import { extendObservable, action } from 'mobx';
 import Web3 from 'web3';
 import BigNumber from 'bignumber.js';
-import { RootStore } from '../store';
-import { fetchData } from '../utils/helpers';
+import { RootStore } from '../RootStore';
 import { AbiItem } from 'web3-utils';
 import { getSendOptions } from 'mobx/utils/web3';
 import { TransactionReceipt } from 'web3-core';
 import { AirdropMerkleClaim } from 'mobx/model/rewards/airdrop-merkle-claim';
+import { fetchData } from 'mobx/utils/helpers';
 
 export interface AirdropInformation {
 	token: string;
@@ -31,9 +31,11 @@ class AirdropStore {
 	}
 
 	fetchAirdrops = action(async () => {
-		const { provider, connectedAddress, network } = this.store.wallet;
-		if (!connectedAddress) return;
-		if (!network.airdrops) return;
+		const { provider, connectedAddress } = this.store.wallet;
+		const { network } = this.store.network;
+		if (!connectedAddress || !network.airdrops) {
+			return;
+		}
 
 		const web3 = new Web3(provider);
 		this.airdrops = [];
@@ -72,8 +74,9 @@ class AirdropStore {
 	// TODO: merkle proof typing
 	claimAirdrops = action(
 		async (airdropContract: string, airdropAbi: AbiItem[], proof: any): Promise<void> => {
-			const { provider, gasPrices, connectedAddress, network } = this.store.wallet;
+			const { provider, connectedAddress } = this.store.wallet;
 			const { queueNotification, gasPrice, setTxStatus } = this.store.uiState;
+			const { gasPrices, network } = this.store.network;
 
 			if (!connectedAddress || !network.airdrops) {
 				return;

@@ -3,10 +3,10 @@ import { reduceTimeSinceLastCycle, reduceClaims } from '../../mobx/reducers/stat
 import MockDate from 'mockdate';
 import BigNumber from 'bignumber.js';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
-import { ETH_DEPLOY } from 'web3/config/eth-config';
-import store from 'mobx/store';
+import store from 'mobx/RootStore';
 import { RewardMerkleClaim } from '../../mobx/model/rewards/reward-merkle-claim';
 import { TreeClaimData } from '../../mobx/model/rewards/tree-claim-data';
+import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
 
 describe('getPercentageChange', () => {
 	beforeEach(() => {

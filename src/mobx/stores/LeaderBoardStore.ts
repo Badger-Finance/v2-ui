@@ -1,5 +1,5 @@
 import { action, extendObservable } from 'mobx';
-import { RootStore } from 'mobx/store';
+import { RootStore } from 'mobx/RootStore';
 import { fetchCompleteLeaderBoardData } from 'mobx/utils/apiV2';
 import { isWithinRange } from '../utils/helpers';
 import { LEADERBOARD_RANKS } from '../../config/constants';

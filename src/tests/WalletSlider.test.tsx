@@ -3,7 +3,7 @@ import WalletSlider from '../components-v2/landing/WalletSlider';
 import '@testing-library/jest-dom';
 import { customRender } from './Utils';
 import { StoreProvider } from '../mobx/store-context';
-import store from '../mobx/store';
+import store from '../mobx/RootStore';
 
 describe('WalletSlider', () => {
 	const testStore = store;
