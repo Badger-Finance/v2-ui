@@ -1,10 +1,15 @@
 import { Grid, Typography, Button, makeStyles } from '@material-ui/core';
+import BigNumber from 'bignumber.js';
 import { observer } from 'mobx-react-lite';
-import React from 'react';
+import { StoreContext } from 'mobx/store-context';
+import React, { useContext } from 'react';
 
 export interface DroptModalItemProps {
 	token: string;
-	balance: string;
+	balance: BigNumber;
+	displayBalance: string;
+	redemptionAmount: string;
+	redemptionContract: string;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -32,27 +37,35 @@ const useStyles = makeStyles((theme) => ({
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
-	redeemContainer: {},
 }));
 
 const DroptModalItem = observer((props: DroptModalItemProps) => {
+	const store = useContext(StoreContext);
+
 	const classes = useStyles();
-	const { token, balance } = props;
+	const { token, balance, displayBalance, redemptionAmount, redemptionContract } = props;
+	const { rebase } = store;
+
 	return (
-		<Grid className={classes.redeemContainer} container direction="row" alignItems="center">
+		<Grid container direction="row" alignItems="center">
 			<Grid item xs={8}>
 				<Grid className={classes.droptItem} container direction="column" alignItems="flex-start">
 					<Typography variant="subtitle2" color="textSecondary">
 						{token}
 					</Typography>
-					<Typography className={classes.negativeTopMargin}>{balance}</Typography>
+					<Typography className={classes.negativeTopMargin}>{displayBalance}</Typography>
 					<Typography className={classes.negativeTopMargin} variant="caption" color="textSecondary">
-						(0.0002 bDIGG)
+						({redemptionAmount} bDIGG)
 					</Typography>
 				</Grid>
 			</Grid>
 			<Grid item xs={4}>
-				<Button variant="contained" size="small" color="primary">
+				<Button
+					variant="contained"
+					size="small"
+					color="primary"
+					onClick={async () => await rebase.redeemDropt(redemptionContract, balance)}
+				>
 					Redeem
 				</Button>
 			</Grid>

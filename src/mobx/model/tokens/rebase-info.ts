@@ -13,4 +13,8 @@ export interface RebaseInfo {
 	oracleRate: BigNumber;
 	nextRebase: Date;
 	pastRebase: any;
+
+	expirationTimestamp: Date;
+	expiryPrice: BigNumber;
+	dropt2CurrentTimestamp: Date;
 }

@@ -2,6 +2,7 @@ import UFragments from './abis/UFragments.json';
 import UFragmentsPolicy from './abis/UFragmentsPolicy.json';
 import MedianOracle from './abis/MedianOracle.json';
 import Orchestrator from './abis/Orchestrator.json';
+import Dropt2Redemption from './abis/Dropt2Redemption.json';
 import { digg_system } from '../deployments/mainnet.json';
 
 import { AbiItem } from 'web3-utils';
@@ -38,6 +39,26 @@ export const getRebase = (network?: string | null): RebaseNetworkConfig | undefi
 							{
 								name: 'providerReports',
 								args: [digg_system.centralizedOracle, 0],
+							},
+						],
+					},
+					{
+						addresses: [digg_system.DROPT['DROPT-2'].redemption],
+						abi: Dropt2Redemption.abi as AbiItem[],
+						groupByNamespace: true,
+						namespace: 'dropt',
+						readMethods: [
+							{
+								name: 'expirationTimestamp',
+								args: [],
+							},
+							{
+								name: 'getCurrentTime',
+								args: [],
+							},
+							{
+								name: 'expiryPrice',
+								args: [],
 							},
 						],
 					},
