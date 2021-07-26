@@ -50,10 +50,13 @@ const DroptModal = observer(() => {
 	const redemptionAddress = deploy.digg_system.DROPT['DROPT-2'].redemption;
 	const dropt2Token = getToken(dropt2Address);
 	const dropt2valid = rebase
-		? rebase.expiryPrice.gt(0) && rebase.expirationTimestamp < rebase.dropt2CurrentTimestamp
+		? rebase.expiryPrice.gt(0) &&
+		  rebase.expirationTimestamp < rebase.dropt2CurrentTimestamp &&
+		  dropt2Token &&
+		  FLAGS.DROPT2
 		: false;
 
-	if ((!DEBUG && (!dropt2Token || !dropt2valid || !FLAGS.DROPT2)) || !rebase) {
+	if ((!DEBUG && !dropt2valid) || !rebase) {
 		return (
 			<Grid className={classes.droptModalButton} container direction="row" justify="flex-end">
 				<Button aria-label="Redeem DROPT-2" variant="contained" size="small" color="primary" disabled={true}>
