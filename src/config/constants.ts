@@ -48,6 +48,7 @@ export const CLAIMS_SYMBOLS: ClaimsSymbols = {
 		[sett_system.vaults['native.cvx']]: 'bCVX',
 		[sett_system.vaults['native.cvxCrv']]: 'bcvxCRV',
 	},
+	[NETWORK_LIST.MATIC]: {},
 	[NETWORK_LIST.XDAI]: {},
 };
 
