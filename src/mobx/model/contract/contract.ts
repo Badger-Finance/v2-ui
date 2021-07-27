@@ -1,4 +1,4 @@
-import { RootStore } from '../../store';
+import { RootStore } from '../../RootStore';
 
 export class Contract {
 	store!: RootStore;

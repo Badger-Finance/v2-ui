@@ -3,7 +3,8 @@ import { observer } from 'mobx-react-lite';
 import { ArrowDropDown } from '@material-ui/icons';
 import { Button, Popper, Paper, List, ListItem, makeStyles, Typography } from '@material-ui/core';
 import { StoreContext } from 'mobx/store-context';
-import { NETWORK_LIST } from 'config/constants';
+import { supportedNetworks } from 'config/networks.config';
+import { Network } from 'mobx/model/network/network';
 
 const useStyles = makeStyles((theme) => ({
 	network: {
@@ -20,32 +21,36 @@ const useStyles = makeStyles((theme) => ({
 
 const NetworkWidget = observer(() => {
 	const classes = useStyles();
-	const { wallet } = useContext(StoreContext);
-	const connectedNetwork = wallet.network.name;
+	const store = useContext(StoreContext);
+	const {
+		wallet: { connectedAddress },
+		network,
+	} = store;
+	const connectedNetwork = network.network.symbol;
 
 	// anchorEl is the Popper reference object prop
 	const [anchorEl, setAnchorEl] = useState(null);
 	const open = Boolean(anchorEl);
 
 	const handleClick = (event: any) => {
-		if (wallet.connectedAddress) {
+		if (connectedAddress) {
 			return;
 		}
 		setAnchorEl(anchorEl ? null : event.currentTarget);
 	};
 
-	const optionClicked = (option: string) => {
-		wallet.setNetwork(option);
+	const optionClicked = async (option: string) => {
+		await network.setNetwork(option);
 		setAnchorEl(null);
 	};
 
-	const options = Object.values(NETWORK_LIST).filter((network: string) => network !== connectedNetwork);
+	const options = Object.values(supportedNetworks).filter((network: Network) => network.symbol !== connectedNetwork);
 	return (
 		<>
 			<Button
 				size="small"
 				variant="outlined"
-				endIcon={wallet.connectedAddress ? <> </> : <ArrowDropDown />}
+				endIcon={connectedAddress ? <></> : <ArrowDropDown />}
 				onClick={handleClick}
 				className={classes.selectButton}
 			>
@@ -59,10 +64,10 @@ const NetworkWidget = observer(() => {
 								<ListItem
 									className={classes.listItem}
 									button
-									onClick={() => optionClicked(network)}
-									key={network}
+									onClick={async () => await optionClicked(network.symbol)}
+									key={network.symbol}
 								>
-									<NetworkOption network={network} />
+									<NetworkOption network={network.symbol} />
 								</ListItem>
 							);
 						})}

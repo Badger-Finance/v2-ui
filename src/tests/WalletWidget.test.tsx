@@ -3,7 +3,7 @@ import { customRender, act, cleanup, fireEvent, screen } from './Utils';
 import WalletWidget from '../components-v2/common/WalletWidget';
 import '@testing-library/jest-dom';
 import { StoreProvider } from '../mobx/store-context';
-import store from '../mobx/store';
+import store from '../mobx/RootStore';
 
 describe('WalletWidget', () => {
 	afterEach(cleanup);

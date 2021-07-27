@@ -28,6 +28,11 @@ const NativeRankSuggestion = observer((): JSX.Element | null => {
 	const currentLevel = getRankNumberFromBoost(boost);
 	const nextLevel = LEADERBOARD_RANKS[currentLevel - 1];
 
+	// if user has already reached max level there's no need for suggestion
+	if (!nextLevel) {
+		return null;
+	}
+
 	const amountToReachNextRank = boostOptimizer.calculateNativeToMatchBoost(
 		nativeBalance,
 		nonNativeBalance,

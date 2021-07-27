@@ -1,6 +1,6 @@
 import { Contract } from '../contract/contract';
 import BigNumber from 'bignumber.js';
-import { RootStore } from '../../store';
+import { RootStore } from '../../RootStore';
 import { TokenConfig } from './token-config';
 import Web3 from 'web3';
 import { TEN, ZERO } from '../../../config/constants';

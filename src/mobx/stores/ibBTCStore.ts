@@ -1,10 +1,10 @@
-import { RootStore } from 'mobx/store';
+import { RootStore } from 'mobx/RootStore';
 import { extendObservable, action } from 'mobx';
 import BigNumber from 'bignumber.js';
 import { ContractSendMethod } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
 import Web3 from 'web3';
-import { ZERO, MAX, FLAGS, ERC20_ABI, NETWORK_LIST } from 'config/constants';
+import { ZERO, MAX, FLAGS, ERC20_ABI, NETWORK_LIST, DEBUG } from 'config/constants';
 import settConfig from 'config/system/abis/Sett.json';
 import ibBTCConfig from 'config/system/abis/ibBTC.json';
 import addresses from 'config/ibBTC/addresses.json';
@@ -96,10 +96,17 @@ class IbBTCStore {
 			this.resetBalances();
 			return;
 		}
-		this.fetchTokensBalances().then();
-		this.fetchIbbtcApy().then();
-		this.fetchConversionRates().then();
-		this.fetchFees().then();
+		Promise.all([
+			this.fetchTokensBalances(),
+			this.fetchIbbtcApy(),
+			this.fetchConversionRates(),
+			this.fetchFees(),
+		]).catch((err) => {
+			if (DEBUG) {
+				console.error(err);
+			}
+			return;
+		});
 		this.initialized = true;
 	}
 
@@ -278,7 +285,7 @@ class IbBTCStore {
 
 		queueNotification(`Sign the transaction to allow Badger to spend your ${underlyingAsset.symbol}`, 'info');
 
-		const gasPrice = this.store.wallet.gasPrices[this.store.uiState.gasPrice];
+		const gasPrice = this.store.network.gasPrices[this.store.uiState.gasPrice];
 		const options = await getSendOptions(method, connectedAddress, gasPrice);
 		await method
 			.send(options)
@@ -391,7 +398,7 @@ class IbBTCStore {
 	): Promise<void> {
 		const { connectedAddress } = this.store.wallet;
 		const { queueNotification } = this.store.uiState;
-		const gasPrice = this.store.wallet.gasPrices[this.store.uiState.gasPrice];
+		const gasPrice = this.store.network.gasPrices[this.store.uiState.gasPrice];
 		const options = await getSendOptions(method, connectedAddress, gasPrice);
 
 		await method
@@ -409,7 +416,8 @@ class IbBTCStore {
 	}
 
 	private async fetchIbbtApyFromTimestamp(timestamp: number): Promise<string | null> {
-		const { provider, currentBlock } = this.store.wallet;
+		const { provider } = this.store.wallet;
+		const { currentBlock } = this.store.network;
 		if (!provider || !currentBlock) {
 			return null;
 		}

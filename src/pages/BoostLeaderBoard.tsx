@@ -1,18 +1,13 @@
 import React from 'react';
-import { Container, makeStyles } from '@material-ui/core';
+import { Grid, makeStyles } from '@material-ui/core';
 import PageHeader from 'components-v2/common/PageHeader';
 import LeaderBoard from 'components-v2/leaderboard/LeaderBoard';
+import { HeaderContainer, LayoutContainer } from '../components-v2/common/Containers';
 
 const useStyles = makeStyles((theme) => ({
-	rootContainer: {
-		[theme.breakpoints.up('md')]: {
-			paddingLeft: theme.spacing(30),
-			paddingTop: theme.spacing(3),
-		},
-	},
 	leaderboardContainer: {
 		[theme.breakpoints.up('md')]: {
-			marginTop: theme.spacing(5),
+			marginTop: theme.spacing(2),
 			maxWidth: '70%',
 		},
 		marginTop: theme.spacing(3),
@@ -43,12 +38,16 @@ const BoostLeaderBoard = (): JSX.Element => {
 	const classes = useStyles();
 
 	return (
-		<Container className={classes.rootContainer}>
-			<PageHeader title="Badger Boost Leader Board" subtitle="Who is the fiercest Badger?" />
-			<div className={classes.leaderboardContainer}>
-				<LeaderBoard />
-			</div>
-		</Container>
+		<LayoutContainer>
+			<Grid container>
+				<HeaderContainer item xs={12}>
+					<PageHeader title="Badger Boost Leader Board" subtitle="Who is the fiercest Badger?" />
+				</HeaderContainer>
+				<div className={classes.leaderboardContainer}>
+					<LeaderBoard />
+				</div>
+			</Grid>
+		</LayoutContainer>
 	);
 };
 

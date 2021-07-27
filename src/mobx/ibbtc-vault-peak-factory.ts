@@ -1,5 +1,5 @@
 import { IbbtcVaultPeak } from './model/vaults/ibbtc-vault-peak';
-import { RootStore } from './store';
+import { RootStore } from './RootStore';
 import addresses from 'config/ibBTC/addresses.json';
 import { ZapPeak } from './model/vaults/zap-peak';
 import { YearnPeak } from './model/vaults/yearn-peak';

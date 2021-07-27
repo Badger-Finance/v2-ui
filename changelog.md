@@ -1,5 +1,10 @@
 # v2 UI Changelog
 
+### v2.8.4 - 07/22/2021
+
+-   update boost leaderboard visualization
+-   revert digg oracle back to centralizedOracle
+
 ### Hotfix - 07/17/2021
 
 -   update links to strategies

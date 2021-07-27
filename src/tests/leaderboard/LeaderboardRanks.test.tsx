@@ -1,6 +1,6 @@
 import LeaderboardRanks from 'components-v2/leaderboard/LeaderboardRanks';
 import { LeaderBoardEntry } from 'mobx/model/boost/leaderboard-entry';
-import store from 'mobx/store';
+import store from 'mobx/RootStore';
 import React from 'react';
 import { TEST_ADDRESS, checkSnapshot } from 'tests/utils/snapshots';
 

@@ -1,11 +1,14 @@
 import { extendObservable, action } from 'mobx';
 import Web3 from 'web3';
 import BatchCall from 'web3-batch-call';
-import BigNumber from 'bignumber.js';
-import { RootStore } from '../store';
+import { RootStore } from '../RootStore';
 import { getNextRebase, getRebaseLogs } from '../utils/diggHelpers';
-import { groupBy } from '../../utils/lodashToNative';
 import { RebaseInfo } from 'mobx/model/tokens/rebase-info';
+import { ProviderReport } from 'mobx/model/digg/provider-reports';
+import { OracleReports } from 'mobx/model/digg/oracle';
+import { getRebase } from 'config/system/rebase';
+import BigNumber from 'bignumber.js';
+import { groupBy } from 'utils/lodashToNative';
 
 let batchCall: any = null;
 
@@ -23,7 +26,8 @@ class RebaseStore {
 
 	fetchRebaseStats = action(async () => {
 		let rebaseLog: any = null;
-		const { network, provider } = this.store.wallet;
+		const { provider } = this.store.wallet;
+		const { network } = this.store.network;
 
 		if (!provider) {
 			return;
@@ -39,11 +43,12 @@ class RebaseStore {
 		batchCall = new BatchCall(options);
 		rebaseLog = await getRebaseLogs(provider, network);
 
-		if (!batchCall || !network.rebase) {
+		const rebaseConfig = getRebase(network.symbol);
+		if (!batchCall || !rebaseConfig) {
 			return;
 		}
 
-		const diggData = await batchCall.execute(network.rebase.digg);
+		const diggData = await batchCall.execute(rebaseConfig.digg);
 		const keyedResult = groupBy(diggData, (v) => v.namespace);
 		const { policy, token, oracle } = keyedResult;
 
@@ -59,16 +64,26 @@ class RebaseStore {
 		const decimals = parseInt(token[0].decimals[0].value);
 		const totalSupply = new BigNumber(token[0].totalSupply[0].value).dividedBy(Math.pow(10, decimals));
 
+		// pull latest provider report
+		const oracleReport: OracleReports = oracle[0];
+		let activeReport: ProviderReport = oracleReport.providerReports[0];
+		oracleReport.providerReports.forEach((report: ProviderReport) => {
+			const moreRecentReport = Number(report.value.timestamp) > Number(activeReport.value.timestamp);
+			if (moreRecentReport) {
+				activeReport = report;
+			}
+		});
+
 		this.rebase = {
 			totalSupply,
 			latestRebase,
 			minRebaseInterval,
-			latestAnswer: oracle[0].latestTimestamp[0].value,
+			latestAnswer: Number(activeReport.value.timestamp),
 			inRebaseWindow: policy[0].inRebaseWindow[0].value,
 			rebaseLag: policy[0].rebaseLag[0].value,
 			epoch: policy[0].epoch[0].value,
 			rebaseWindowLengthSec: parseInt(policy[0].rebaseWindowLengthSec[0].value),
-			oracleRate: new BigNumber(oracle[0].latestAnswer[0].value).dividedBy(1e8),
+			oracleRate: new BigNumber(activeReport.value.payload).dividedBy(1e18),
 			nextRebase: getNextRebase(minRebaseInterval, latestRebase),
 			pastRebase: rebaseLog,
 		};

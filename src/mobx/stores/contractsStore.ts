@@ -2,7 +2,7 @@ import Web3 from 'web3';
 import { AbiItem } from 'web3-utils';
 import { getSendOptions } from '../utils/web3';
 import BigNumber from 'bignumber.js';
-import { RootStore } from '../store';
+import { RootStore } from '../RootStore';
 import { ContractSendMethod, SendOptions } from 'web3-eth-contract';
 import { EMPTY_DATA, ERC20, GEYSER_ABI, MAX, SETT_ABI, YEARN_ABI } from 'config/constants';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
@@ -11,6 +11,7 @@ import { BadgerToken } from 'mobx/model/tokens/badger-token';
 import { toFixedDecimals, unscale } from '../utils/helpers';
 import { action, extendObservable } from 'mobx';
 import { Sett } from '../model/setts/sett';
+import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
 
 class ContractsStore {
 	private store!: RootStore;
@@ -170,7 +171,7 @@ class ContractsStore {
 	depositVault = action(
 		async (sett: Sett, amount: TokenBalance, depositAll?: boolean): Promise<void> => {
 			const { queueNotification } = this.store.uiState;
-			const { provider, network } = this.store.wallet;
+			const { provider } = this.store.wallet;
 			const { bouncerProof } = this.store.user;
 
 			const web3 = new Web3(provider);
@@ -181,7 +182,8 @@ class ContractsStore {
 
 			// TODO: Clean this up, too many branches
 			// Uncapped deposits on a wrapper still require an empty proof
-			if (network.uncappedDeposit[sett.vaultToken]) {
+			// TODO: better designate abi <> sett pairing, single yearn vault uses yearn ABI.
+			if (sett.vaultToken === Web3.utils.toChecksumAddress(ETH_DEPLOY.sett_system.vaults['yearn.wBtc'])) {
 				if (depositAll) {
 					method = yearnContract.methods.deposit([]);
 				} else {
@@ -266,7 +268,7 @@ class ContractsStore {
 	private _getSendOptions = async (method: ContractSendMethod): Promise<SendOptions> => {
 		const { connectedAddress } = this.store.wallet;
 
-		const gasPrice = this.store.wallet.gasPrices[this.store.uiState.gasPrice];
+		const gasPrice = this.store.network.gasPrices[this.store.uiState.gasPrice];
 		return await getSendOptions(method, connectedAddress, gasPrice);
 	};
 }

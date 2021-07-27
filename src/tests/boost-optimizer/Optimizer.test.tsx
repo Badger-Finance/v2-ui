@@ -1,6 +1,6 @@
 import React from 'react';
 import '@testing-library/jest-dom';
-import store from 'mobx/store';
+import store from 'mobx/RootStore';
 import userEvent from '@testing-library/user-event';
 
 import { StoreProvider } from '../../mobx/store-context';

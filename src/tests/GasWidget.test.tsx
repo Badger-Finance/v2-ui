@@ -3,12 +3,12 @@ import { customRender, screen, fireEvent, act } from './Utils';
 import GasWidget from '../components-v2/common/GasWidget';
 import '@testing-library/jest-dom';
 import { StoreProvider } from '../mobx/store-context';
-import store from '../mobx/store';
+import store from '../mobx/RootStore';
 
 describe('GasWidget', () => {
 	const testStore = store;
 	act(() => {
-		testStore.wallet.gasPrices = { rapid: 122, standard: 75, slow: 51 };
+		testStore.network.gasPrices = { rapid: 122, standard: 75, slow: 51 };
 	});
 
 	test('Renders correctly', () => {
