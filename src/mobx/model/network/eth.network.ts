@@ -391,5 +391,4 @@ export const ethRewards = [
 
 const ethTokens = ethSetts.flatMap((sett) => [sett.depositToken, sett.vaultToken]).concat(ethRewards);
 
-
 export const ethProtocolTokens: ProtocolTokens = toRecord(ethTokens, 'address');
