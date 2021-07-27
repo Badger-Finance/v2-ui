@@ -1,7 +1,8 @@
 import React from 'react';
 import { Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { getRankFromBoost, percentageBetweenRange } from '../../utils/componentHelpers';
+import { getRankFromStakeRatio, percentageBetweenRange } from '../../utils/componentHelpers';
+import { BOOST_LEVELS } from '../../config/system/boost-ranks';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -66,10 +67,12 @@ type BoostBadgeProps = {
 	boost: number;
 };
 
-const useAnimatedStyles = (boost: number) => {
-	const score = percentageBetweenRange(boost, 3, 1);
+const useAnimatedStyles = (stakeRatio: number) => {
+	const firstMultiplier = BOOST_LEVELS[0].multiplier;
+	const lastMultiplier = BOOST_LEVELS[BOOST_LEVELS.length - 1].multiplier;
+	const score = percentageBetweenRange(stakeRatio, lastMultiplier, firstMultiplier);
 	const scale = 0.75 + score / 40;
-	const rankFromBoost = getRankFromBoost(boost);
+	const rankFromBoost = getRankFromStakeRatio(stakeRatio);
 
 	return makeStyles(() => ({
 		container: {

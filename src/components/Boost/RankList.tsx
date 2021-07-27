@@ -5,6 +5,7 @@ import { RankLevel } from './RankLevel';
 import { LEADERBOARD_RANKS } from '../../config/constants';
 import { styled } from '@material-ui/core/styles';
 import { RankProgressBar } from './RankProgressBar';
+import { BOOST_RANKS } from '../../config/system/boost-ranks';
 
 const StyledButtonBase = styled(ButtonBase)({
 	width: '100%',
@@ -18,25 +19,29 @@ const PlaceholderBar = styled('div')({
 });
 
 interface Props {
-	currentBoost?: number;
-	accountBoost?: number;
+	currentMultiplier?: number;
+	accountStakeRatio?: number;
 	onRankClick: (boost: number) => void;
 }
 
-export const RankList = ({ currentBoost = 0, accountBoost = 1, onRankClick }: Props): JSX.Element => {
+export const RankList = ({
+	currentMultiplier = BOOST_RANKS[0].levels[0].multiplier, // default to first multiplier
+	accountStakeRatio = BOOST_RANKS[0].levels[0].multiplier,
+	onRankClick,
+}: Props): JSX.Element => {
 	return (
 		<>
 			{LEADERBOARD_RANKS.map((rank, index) => {
-				const isObtained = accountBoost > 1 && accountBoost >= rank.boostRangeStart;
-				const isLocked = currentBoost < rank.boostRangeStart;
-				const isCurrentBoost = currentBoost === rank.boostRangeStart;
+				const isObtained = accountStakeRatio > 1 && accountStakeRatio >= rank.boostRangeStart;
+				const isLocked = currentMultiplier < rank.boostRangeStart;
+				const isCurrentBoost = currentMultiplier === rank.boostRangeStart;
 
 				const rankItem = (
 					<Grid container alignItems="flex-end" key={`${index}_${rank.boostRangeStart}_${rank.name}`}>
-						{accountBoost !== undefined ? (
+						{accountStakeRatio !== undefined ? (
 							<RankProgressBar
-								boost={currentBoost}
-								accountBoost={accountBoost}
+								boost={currentMultiplier}
+								accountBoost={accountStakeRatio}
 								rangeStart={rank.boostRangeStart}
 								rangeEnd={rank.boostRangeEnd}
 							/>
@@ -45,8 +50,8 @@ export const RankList = ({ currentBoost = 0, accountBoost = 1, onRankClick }: Pr
 						)}
 						<Grid item>
 							<RankConnector
-								boost={currentBoost}
-								accountBoost={accountBoost}
+								boost={currentMultiplier}
+								accountBoost={accountStakeRatio}
 								rankBoost={rank.boostRangeStart}
 							/>
 						</Grid>

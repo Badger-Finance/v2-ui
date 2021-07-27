@@ -6,8 +6,7 @@ import userEvent from '@testing-library/user-event';
 import { StoreProvider } from '../../mobx/store-context';
 import { customRender, screen } from '../Utils';
 import { Optimizer } from '../../components/Boost/Optimizer';
-import { BoostOptimizerStore } from '../../mobx/stores/boostOptimizerStore';
-import BigNumber from 'bignumber.js';
+import * as rankUtils from '../../utils/boost-ranks';
 
 describe('Boost Optimizer', () => {
 	beforeEach(() => {
@@ -39,10 +38,8 @@ describe('Boost Optimizer', () => {
 			nonNativeBalance: 500,
 		};
 
-		jest.spyOn(BoostOptimizerStore.prototype, 'calculateRank').mockReturnValue(10);
-		jest.spyOn(BoostOptimizerStore.prototype, 'calculateBoost').mockReturnValue(2.12);
-		jest.spyOn(BoostOptimizerStore.prototype, 'calculateRankFromBoost').mockReturnValue(100);
-		jest.spyOn(BoostOptimizerStore.prototype, 'calculateNativeToMatchBoost').mockReturnValue(new BigNumber(100));
+		jest.spyOn(rankUtils, 'calculateMultiplier').mockReturnValue(10);
+		jest.spyOn(rankUtils, 'calculateNativeToMatchBoost').mockReturnValue(100);
 	});
 
 	it('displays correct information', () => {

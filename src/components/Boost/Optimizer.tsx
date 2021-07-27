@@ -1,17 +1,21 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
-import BigNumber from 'bignumber.js';
 import { Divider, Grid, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { OptimizerBody } from './OptimizerBody';
 import { StoreContext } from '../../mobx/store-context';
-import { LeaderBoardRank } from './LeaderBoardRank';
+import { StakeInformation } from './StakeInformation';
 import { OptimizerHeader } from './OptimizerHeader';
 import { debounce } from '../../utils/componentHelpers';
 import { formatWithoutExtraZeros } from '../../mobx/utils/helpers';
-import { isValidBoost } from './utils';
 import NoWallet from '../Common/NoWallet';
+import {
+	boostLevelByMatchingStakeRatio,
+	calculateMultiplier,
+	calculateNativeToMatchBoost,
+	isValidMultiplier,
+} from '../../utils/boost-ranks';
 
 const useStyles = makeStyles((theme) => ({
 	calculatorContainer: {
@@ -48,37 +52,26 @@ export const Optimizer = observer(
 		const {
 			user: { accountDetails },
 			wallet: { connectedAddress },
-			boostOptimizer,
 		} = useContext(StoreContext);
 
 		const classes = useStyles();
-		const [boost, setBoost] = useState<string>();
-		const [rank, setRank] = useState<string>();
+		const [multiplier, setMultiplier] = useState<string>();
 		const [native, setNative] = useState<string>();
 		const [nonNative, setNonNative] = useState<string>();
 		const [nativeToAdd, setNativeToAdd] = useState<string>();
 		const [showBouncingMessage, setShowBouncingMessage] = useState(false);
 
-		const calculateNewBoost = useCallback(
+		const calculateNativeToMatchMultiplier = useCallback(
 			(targetBoost: number) => {
-				if (!native || !nonNative) return;
+				const nativeToAdd = calculateNativeToMatchBoost(Number(native), Number(nonNative), targetBoost);
 
-				const boostWithCurrentAssets = boostOptimizer.calculateBoost(native, nonNative);
-
-				// user has selected a boost that is less or equal to the boost with current assets so
-				// there's no need to calculate how much money is needed
-				if (boostWithCurrentAssets !== undefined && boostWithCurrentAssets >= targetBoost) {
-					setNativeToAdd(undefined);
+				if (isNaN(nativeToAdd)) {
 					return;
 				}
 
-				const toMatchBoost = boostOptimizer.calculateNativeToMatchBoost(native, nonNative, Number(targetBoost));
-
-				if (toMatchBoost && toMatchBoost.gt(0)) {
-					setNativeToAdd(toMatchBoost.toFixed(3, BigNumber.ROUND_HALF_CEIL));
-				}
+				setNativeToAdd(nativeToAdd.toString());
 			},
-			[native, nonNative, boostOptimizer],
+			[native, nonNative],
 		);
 
 		// reason: the plugin does not recognize the dependency inside the debounce function
@@ -87,32 +80,31 @@ export const Optimizer = observer(
 			debounce(
 				600,
 				async (updatedBoost: number): Promise<void> => {
-					calculateNewBoost(updatedBoost);
+					calculateNativeToMatchMultiplier(updatedBoost);
 				},
 			),
-			[calculateNewBoost],
+			[calculateNativeToMatchMultiplier],
 		);
 
-		const updateBoostAndRank = (newNative: string, newNonNative: string) => {
-			const newBoostRatio = boostOptimizer.calculateBoost(newNative, newNonNative);
-			const newRank = boostOptimizer.calculateRank(newNative, newNonNative);
+		const updateMultiplier = (newNative: string, newNonNative: string) => {
+			const newStakeRatio = (Number(newNative) / Number(newNonNative)) * 100;
 
-			if (!newBoostRatio || !newRank) {
+			if (isNaN(newStakeRatio)) {
 				return;
 			}
 
-			setBoost(newBoostRatio.toFixed(2));
-			setRank(newRank.toString());
+			setMultiplier(boostLevelByMatchingStakeRatio(newStakeRatio).multiplier.toString());
 		};
 
 		const handleReset = () => {
 			if (!accountDetails) return;
 
-			setNative(formatWithoutExtraZeros(accountDetails.nativeBalance, 4));
-			setNonNative(formatWithoutExtraZeros(accountDetails.nonNativeBalance, 4));
+			const { nativeBalance, nonNativeBalance } = accountDetails;
+
 			setNativeToAdd(undefined);
-			setBoost(accountDetails.boost.toFixed(2));
-			setRank(accountDetails.boostRank.toString());
+			setNative(formatWithoutExtraZeros(nativeBalance, 4));
+			setNonNative(formatWithoutExtraZeros(nonNativeBalance, 4));
+			setMultiplier(calculateMultiplier(nativeBalance, nonNativeBalance).toString());
 		};
 
 		const handleRankClick = (rankBoost: number) => {
@@ -121,25 +113,19 @@ export const Optimizer = observer(
 				return;
 			}
 
-			const newRank = boostOptimizer.calculateRankFromBoost(rankBoost);
-
-			if (newRank) {
-				setRank(String(newRank));
-			}
-
-			setBoost(rankBoost.toFixed(2));
-			calculateNewBoost(rankBoost);
+			setMultiplier(rankBoost.toFixed(2));
+			calculateNativeToMatchMultiplier(rankBoost);
 		};
 
-		const handleBoostChange = (updatedBoost: string) => {
-			if (!isValidBoost(updatedBoost)) {
-				setBoost(updatedBoost);
+		const handleMultiplierChange = (updatedMultiplier: string) => {
+			if (!isValidMultiplier(Number(updatedMultiplier))) {
+				setMultiplier(updatedMultiplier);
 				setNativeToAdd(undefined);
 				return;
 			}
 
-			setBoost(updatedBoost);
-			debounceBoostChange(Number(updatedBoost));
+			setMultiplier(updatedMultiplier);
+			debounceBoostChange(Number(updatedMultiplier));
 		};
 
 		const handleNativeChange = (change: string) => {
@@ -147,7 +133,7 @@ export const Optimizer = observer(
 			setNativeToAdd(undefined);
 
 			if (nonNative) {
-				updateBoostAndRank(change, nonNative);
+				updateMultiplier(change, nonNative);
 			}
 		};
 
@@ -156,7 +142,7 @@ export const Optimizer = observer(
 			setNativeToAdd(undefined);
 
 			if (native) {
-				updateBoostAndRank(native, change);
+				updateMultiplier(native, change);
 			}
 		};
 
@@ -164,10 +150,11 @@ export const Optimizer = observer(
 		useEffect(() => {
 			if (!accountDetails) return;
 
-			setBoost(accountDetails.boost.toFixed(2));
-			setRank(String(accountDetails.boostRank));
-			setNative(formatWithoutExtraZeros(accountDetails.nativeBalance, 4));
-			setNonNative(formatWithoutExtraZeros(accountDetails.nonNativeBalance, 4));
+			const { nativeBalance, nonNativeBalance } = accountDetails;
+
+			setNative(formatWithoutExtraZeros(nativeBalance, 4));
+			setNonNative(formatWithoutExtraZeros(nonNativeBalance, 4));
+			setMultiplier(calculateMultiplier(nativeBalance, nonNativeBalance).toString());
 		}, [accountDetails]);
 
 		if (!connectedAddress) {
@@ -180,10 +167,10 @@ export const Optimizer = observer(
 					<Grid container component={Paper} className={classes.calculatorContainer}>
 						<Grid item>
 							<OptimizerHeader
-								accountBoost={accountDetails?.boost}
-								boost={boost}
+								accountMultiplier={accountDetails?.boost}
+								multiplier={multiplier}
 								disableBoost={!nonNative || Number(nonNative) === 0}
-								onBoostChange={handleBoostChange}
+								onBoostChange={handleMultiplierChange}
 								onReset={handleReset}
 								onLockedBoostClick={() => setShowBouncingMessage(true)}
 							/>
@@ -191,7 +178,7 @@ export const Optimizer = observer(
 						<Divider className={classes.divider} />
 						<Grid item container xs direction="column" justify="center">
 							<OptimizerBody
-								boost={boost || '1'}
+								multiplier={multiplier || '1'}
 								native={native || ''}
 								nonNative={nonNative || ''}
 								nativeToAdd={nativeToAdd}
@@ -204,7 +191,7 @@ export const Optimizer = observer(
 					</Grid>
 				</Grid>
 				<Grid item xs={12} lg={3}>
-					<LeaderBoardRank rank={rank} boost={boost} onRankClick={handleRankClick} />
+					<StakeInformation native={native} nonNative={nonNative} onRankClick={handleRankClick} />
 				</Grid>
 			</Grid>
 		);

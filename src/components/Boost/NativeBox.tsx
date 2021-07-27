@@ -1,5 +1,4 @@
 import React from 'react';
-import BigNumber from 'bignumber.js';
 import { makeStyles } from '@material-ui/core/styles';
 import { observer } from 'mobx-react-lite';
 import clsx from 'clsx';
@@ -7,10 +6,14 @@ import clsx from 'clsx';
 import { Grid, Tooltip, Typography, useMediaQuery, useTheme } from '@material-ui/core';
 import { HoldingAssetInput } from './HoldingAssetInput';
 import { formatWithoutExtraZeros, numberWithCommas } from '../../mobx/utils/helpers';
-import { getRankNumberFromBoost } from '../../utils/componentHelpers';
-import { LEADERBOARD_RANKS } from '../../config/constants';
-import { isValidBoost, useAssetInputStyles } from './utils';
+import { useAssetInputStyles } from './utils';
 import { StoreContext } from '../../mobx/store-context';
+import {
+	calculateNativeToMatchBoost,
+	getRankAndLevelInformationFromStat,
+	isValidMultiplier,
+} from '../../utils/boost-ranks';
+import { BOOST_LEVELS, BOOST_RANKS } from '../../config/system/boost-ranks';
 
 const useStyles = makeStyles((theme) => ({
 	settInformation: {
@@ -48,40 +51,16 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const useAmountToReachNextLeaderboardRank = (
-	boost: string,
-	native: BigNumber.Value,
-	nonNative: BigNumber.Value,
-): BigNumber | undefined => {
-	const { boostOptimizer } = React.useContext(StoreContext);
-	const currentBadgerLevel = getRankNumberFromBoost(Number(boost));
-	const nextBadgerLevel = LEADERBOARD_RANKS[currentBadgerLevel - 1];
-
-	if (!nextBadgerLevel) {
-		return undefined;
-	}
-
-	return boostOptimizer.calculateNativeToMatchBoost(native, nonNative, nextBadgerLevel.boostRangeStart);
-};
-
-const useShouldAmountReachNextLevel = (native: string, amountToReachNextLevel?: BigNumber): boolean => {
-	if (!native || !amountToReachNextLevel) {
-		return false;
-	}
-
-	return Number(native) !== 0 && amountToReachNextLevel.gt(native);
-};
-
 interface Props {
 	isLoading: boolean;
-	currentBoost: string;
+	currentMultiplier: string;
 	nativeBalance: string;
 	nonNativeBalance: string;
 	nativeToAdd?: string;
 	onChange: (change: string) => void;
 	onIncrement: () => void;
 	onReduction: () => void;
-	onApplyNextLevelAmount: (amount: BigNumber) => void;
+	onApplyNextLevelAmount: (amount: number) => void;
 	onApplyNativeToAdd: (amount: string) => void;
 }
 
@@ -91,7 +70,7 @@ export const NativeBox = observer((props: Props) => {
 
 	const {
 		nativeToAdd,
-		currentBoost,
+		currentMultiplier,
 		nativeBalance,
 		nonNativeBalance,
 		isLoading,
@@ -107,14 +86,41 @@ export const NativeBox = observer((props: Props) => {
 	const extraSmallScreen = useMediaQuery(theme.breakpoints.down(500));
 	const nativeAssetClasses = useAssetInputStyles(nativeBalance, nativeHoldings)();
 
-	const showNativeToAdd = nativeToAdd && Number(nativeToAdd) !== 0 && isValidBoost(currentBoost);
-	const currentBadgerLevel = getRankNumberFromBoost(Number(currentBoost));
-	const nextBadgerLevel = LEADERBOARD_RANKS[currentBadgerLevel - 1];
-	const amountToReachNextLevel = useAmountToReachNextLeaderboardRank(currentBoost, nativeBalance, nonNativeBalance);
-	const shouldShowAmountToReachNextLevel = useShouldAmountReachNextLevel(nativeBalance, amountToReachNextLevel);
+	const showNativeToAdd = nativeToAdd && Number(nativeToAdd) !== 0 && isValidMultiplier(Number(currentMultiplier));
+
+	const [currentRankNumber, currentLevelNumber] = getRankAndLevelInformationFromStat(
+		Number(currentMultiplier),
+		'multiplier',
+	);
+
+	const currentRank = BOOST_RANKS[currentRankNumber];
+	const nextRank = BOOST_RANKS[currentRankNumber + 1];
+	const nextBoostLevel = BOOST_LEVELS[currentLevelNumber + 1];
+	const isLastRankLevel = currentLevelNumber === currentRank.levels.length - 1;
+
+	let nextStepText;
+	let amountToReachNextLevel = 0;
+	let shouldShowAmountToReachNextLevel = false;
+
+	if (nextBoostLevel) {
+		amountToReachNextLevel = calculateNativeToMatchBoost(
+			Number(nativeBalance),
+			Number(nonNativeBalance),
+			nextBoostLevel.multiplier,
+		);
+
+		const native = Number(nativeBalance);
+		shouldShowAmountToReachNextLevel = native !== 0 && amountToReachNextLevel > native;
+	}
+
+	if (isLastRankLevel) {
+		nextStepText = nextRank ? nextRank.name : `${nextBoostLevel.multiplier}x`;
+	} else if (nextBoostLevel) {
+		nextStepText = `${nextBoostLevel.multiplier}x`;
+	}
 
 	const handleNextLevelAmountClick = () => {
-		if (amountToReachNextLevel) {
+		if (amountToReachNextLevel !== undefined) {
 			onApplyNextLevelAmount(amountToReachNextLevel);
 		}
 	};
@@ -144,21 +150,24 @@ export const NativeBox = observer((props: Props) => {
 				increaseAlt="increase native holdings"
 				decreaseAlt="decrease native holdings"
 			/>
-			{nextBadgerLevel && amountToReachNextLevel && shouldShowAmountToReachNextLevel && (
-				<Grid className={classes.infoBox}>
-					<Typography className={classes.infoText} color="textSecondary">
-						Deposit
-						<Tooltip title="Apply" arrow placement="top" color="primary">
-							<span
-								className={classes.amountToNextLevel}
-								onClick={handleNextLevelAmountClick}
-							>{` $${numberWithCommas(formatWithoutExtraZeros(amountToReachNextLevel, 3))} `}</span>
-						</Tooltip>
-						more Native to reach next rank:
-						<span className={classes.nextLevelName}>{` ${nextBadgerLevel.name}`}</span>
-					</Typography>
-				</Grid>
-			)}
+			{amountToReachNextLevel !== undefined &&
+				nextBoostLevel &&
+				shouldShowAmountToReachNextLevel &&
+				nextStepText && (
+					<Grid className={classes.infoBox}>
+						<Typography className={classes.infoText} color="textSecondary">
+							Deposit
+							<Tooltip title="Apply" arrow placement="top" color="primary">
+								<span
+									className={classes.amountToNextLevel}
+									onClick={handleNextLevelAmountClick}
+								>{` $${numberWithCommas(formatWithoutExtraZeros(amountToReachNextLevel, 3))} `}</span>
+							</Tooltip>
+							more Native to reach next rank:
+							<span className={classes.nextLevelName}>{nextStepText}</span>
+						</Typography>
+					</Grid>
+				)}
 			{nativeToAdd && showNativeToAdd && (
 				<Grid className={classes.valueToAddContainer} container direction="column">
 					<Typography className={classes.valueToAddText}>Value to Add</Typography>

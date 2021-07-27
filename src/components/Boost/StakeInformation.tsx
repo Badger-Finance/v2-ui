@@ -2,7 +2,6 @@ import React from 'react';
 import BigNumber from 'bignumber.js';
 import { Button, Divider, Grid, Paper, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { Skeleton } from '@material-ui/lab';
 import { observer } from 'mobx-react-lite';
 
 import { getColorFromComparison } from './utils';
@@ -10,11 +9,12 @@ import { BadgerBoostImage } from './BadgerBoostImage';
 import { RankList } from './RankList';
 import { StoreContext } from '../../mobx/store-context';
 import routes from '../../config/routes';
-import { getRankFromBoost } from '../../utils/componentHelpers';
+import { Skeleton } from '@material-ui/lab';
+import { boostLevelByMatchingStakeRatio, calculateMultiplier, rankFromStakeRatio } from '../../utils/boost-ranks';
 
-const useRankStyles = (currentRank?: string, accountRank?: BigNumber.Value) => {
+const useStakeStyles = (currentRatio?: number, accountRatio?: BigNumber.Value) => {
 	return makeStyles((theme) => {
-		if (!currentRank || !accountRank) {
+		if (currentRatio === undefined || !accountRatio) {
 			return {
 				fontColor: {
 					color: theme.palette.text.primary,
@@ -25,8 +25,8 @@ const useRankStyles = (currentRank?: string, accountRank?: BigNumber.Value) => {
 		return {
 			fontColor: {
 				color: getColorFromComparison({
-					toCompareValue: currentRank,
-					toBeComparedValue: accountRank,
+					toCompareValue: currentRatio,
+					toBeComparedValue: accountRatio,
 					greaterCaseColor: theme.palette.error.main,
 					lessCaseColor: '#74D189',
 					defaultColor: theme.palette.text.primary,
@@ -34,6 +34,23 @@ const useRankStyles = (currentRank?: string, accountRank?: BigNumber.Value) => {
 			},
 		};
 	});
+};
+
+const useInformationPlaceholder = () => {
+	const {
+		wallet,
+		user: { accountDetails },
+	} = React.useContext(StoreContext);
+
+	if (!wallet.connectedAddress) {
+		return 'N/A';
+	}
+
+	if (!accountDetails) {
+		return <Skeleton width={30} />;
+	}
+
+	return '-';
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -58,6 +75,7 @@ const useStyles = makeStyles((theme) => ({
 		margin: theme.spacing(3, 0, 2, 0),
 	},
 	currentLevelImgContainer: {
+		display: 'inline-block',
 		width: 20,
 		height: 20,
 		margin: 'auto 4px auto 0',
@@ -86,55 +104,83 @@ const useStyles = makeStyles((theme) => ({
 	unlockedRankItem: {
 		opacity: 1,
 	},
+	badgerRankContainer: {
+		marginTop: 2,
+	},
 }));
 
 interface Props {
-	rank?: string;
-	boost?: string;
+	native?: string;
+	nonNative?: string;
 	onRankClick: (boost: number) => void;
 }
 
-export const LeaderBoardRank = observer(
-	({ boost = '1', rank, onRankClick }: Props): JSX.Element => {
+export const StakeInformation = observer(
+	({ native, nonNative, onRankClick }: Props): JSX.Element => {
 		const {
 			router,
 			user: { accountDetails },
 		} = React.useContext(StoreContext);
 
 		const classes = useStyles();
-		const accountRank = accountDetails?.boostRank;
-		const accountBoost = accountDetails?.boost;
-		const currentBadgerLevel = getRankFromBoost(Number(boost));
-		const rankClasses = useRankStyles(rank, accountRank)();
+
+		const stakeRatio = Number(native) / Number(nonNative);
+		const isValidStakeRatio = isFinite(stakeRatio) && !isNaN(stakeRatio);
+		const accountStakeRatio = Number(accountDetails?.nativeBalance) / Number(accountDetails?.nonNativeBalance);
+		const rankClasses = useStakeStyles(stakeRatio, accountStakeRatio)();
+		const infoPlaceholder = useInformationPlaceholder();
+
+		const multiplier = calculateMultiplier(Number(native), Number(nonNative));
+		const currentBadgerLevel = rankFromStakeRatio(stakeRatio);
+
+		let stakeRatioInformation;
+
+		if (isValidStakeRatio) {
+			stakeRatioInformation = (
+				<Typography variant="subtitle2" display="inline">
+					{`${stakeRatio.toFixed(2)}`}
+				</Typography>
+			);
+		}
 
 		return (
 			<Grid container component={Paper} className={classes.root}>
 				<Grid container className={classes.header}>
-					<Grid item xs={12}>
-						<Typography variant="body2" color="textSecondary">
-							Leaderboard Rank:
+					<Grid item xs={12} justify="space-between">
+						<Typography variant="body2" color="textSecondary" display="inline">
+							Your Stake Ratio:
+						</Typography>{' '}
+						{stakeRatioInformation || infoPlaceholder}
+					</Grid>
+					<Grid item xs={12} justify="space-between">
+						<Typography variant="body2" color="textSecondary" display="inline">
+							Your Multiplier:
+						</Typography>{' '}
+						<Typography variant="subtitle2" display="inline">
+							{`${boostLevelByMatchingStakeRatio(stakeRatio).multiplier}x`}
 						</Typography>
 					</Grid>
-					<Grid item container alignContent="center" xs={12}>
-						<Typography display="inline" className={classes.rank}>
-							{rank ? `#${rank}` : <Skeleton width={35} />}
-						</Typography>
+					<Grid container item alignItems="center" xs={12} className={classes.badgerRankContainer}>
 						<div className={classes.currentLevelImgContainer}>
 							<BadgerBoostImage signatureColor={currentBadgerLevel.signatureColor} />
 						</div>
-						<Typography display="inline" className={rankClasses.fontColor}>
+						<Typography display="inline" variant="subtitle2" className={rankClasses.fontColor}>
 							{currentBadgerLevel.name}
 						</Typography>
 					</Grid>
 				</Grid>
 				<Divider className={classes.divider} />
-				<Grid item container>
+				<Grid container>
 					<Grid item xs>
-						<RankList currentBoost={Number(boost)} accountBoost={accountBoost} onRankClick={onRankClick} />
+						<RankList
+							currentMultiplier={multiplier}
+							accountStakeRatio={accountStakeRatio}
+							onRankClick={onRankClick}
+						/>
 					</Grid>
 				</Grid>
 
-				<Grid item className={classes.viewLeaderBoardContainer} xs>
+				<Grid container className={classes.viewLeaderBoardContainer}>
 					<Button
 						fullWidth
 						color="primary"

@@ -12,9 +12,10 @@ import {
 import InfoIcon from '@material-ui/icons/Info';
 import { makeStyles, styled } from '@material-ui/core/styles';
 
-import { getColorFromComparison, isValidBoost } from './utils';
+import { getColorFromComparison } from './utils';
 import { useNumericInput } from '../../utils/useNumericInput';
 import { formatWithoutExtraZeros } from '../../mobx/utils/helpers';
+import { isValidMultiplier } from '../../utils/boost-ranks';
 
 const StyledInfoIcon = styled(InfoIcon)(({ theme }) => ({
 	marginLeft: theme.spacing(1),
@@ -73,7 +74,7 @@ const useStyles = makeStyles((theme) => ({
 	boostText: {
 		fontSize: theme.spacing(4),
 	},
-	invalidBoost: {
+	invalidMultiplier: {
 		color: theme.palette.error.main,
 	},
 	boostSectionContainer: {
@@ -83,8 +84,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface Props {
-	boost?: string;
-	accountBoost?: number;
+	multiplier?: string;
+	accountMultiplier?: number;
 	disableBoost?: boolean;
 	onBoostChange: (change: string) => void;
 	onReset: () => void;
@@ -92,8 +93,8 @@ interface Props {
 }
 
 export const OptimizerHeader = ({
-	boost,
-	accountBoost,
+	multiplier,
+	accountMultiplier,
 	disableBoost = false,
 	onBoostChange,
 	onReset,
@@ -103,24 +104,30 @@ export const OptimizerHeader = ({
 	const classes = useStyles();
 	const theme = useTheme();
 	const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-	const boostClasses = useBoostStyles(boost, accountBoost)();
-	const validBoost = boost !== undefined ? isValidBoost(boost) : true; // evaluate only after loaded
-	const isLocked = disableBoost || accountBoost === undefined;
+	const boostClasses = useBoostStyles(multiplier, accountMultiplier)();
+	const isLocked = disableBoost || accountMultiplier === undefined;
+
+	let validBoost = false;
+
+	// evaluate only after loaded
+	if (multiplier !== undefined) {
+		validBoost = isValidMultiplier(Number(multiplier));
+	}
 
 	return (
 		<Grid container spacing={isMobile ? 2 : 0} className={classes.header} alignItems="center">
 			<Grid item className={classes.boostSectionContainer}>
 				<Typography display="inline" className={classes.boostText}>
-					Boost:
+					Multiplier:
 				</Typography>
 				<BoostInput
-					className={validBoost ? boostClasses.fontColor : classes.invalidBoost}
+					className={validBoost ? boostClasses.fontColor : classes.invalidMultiplier}
 					disabled={isLocked}
 					error={!validBoost}
 					inputProps={{ ...inputProps, 'aria-label': 'boost multiplier number' }}
 					placeholder="1.00"
 					onChange={onValidChange(onBoostChange)}
-					value={boost || ''}
+					value={multiplier || ''}
 					onClick={() => {
 						if (isLocked) {
 							onLockedBoostClick();

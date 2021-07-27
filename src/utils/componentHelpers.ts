@@ -2,6 +2,8 @@ import { LEADERBOARD_RANKS } from '../config/constants';
 import { isWithinRange } from '../mobx/utils/helpers';
 import { LeaderboardRank } from '../mobx/model/boost/leaderboard-rank';
 
+export const clamp = (num: number, min: number, max: number): number => Math.min(Math.max(num, min), max);
+
 export const debounce = (n: number, fn: (...params: any[]) => any, immediate = false): any => {
 	let timer: any = undefined;
 	return function (this: any, ...args: any[]) {
@@ -26,12 +28,12 @@ export const percentageBetweenRange = (point: number, upperLimit: number, lowerL
 	return ((point - lowerLimit) / (upperLimit - lowerLimit)) * 100;
 };
 
-export const getRankFromBoost = (currentBoost: number): LeaderboardRank => {
-	return LEADERBOARD_RANKS[getRankNumberFromBoost(currentBoost)];
+export const getRankFromStakeRatio = (stakeRatio: number): LeaderboardRank => {
+	return LEADERBOARD_RANKS[getRankNumberFromStakeRatio(stakeRatio)];
 };
 
-export const getRankNumberFromBoost = (currentBoost: number): number => {
-	if (currentBoost < LEADERBOARD_RANKS[LEADERBOARD_RANKS.length - 1].boostRangeStart) {
+export const getRankNumberFromStakeRatio = (stakeRatio: number): number => {
+	if (stakeRatio < LEADERBOARD_RANKS[LEADERBOARD_RANKS.length - 1].boostRangeStart) {
 		return LEADERBOARD_RANKS.length - 1;
 	}
 
@@ -45,7 +47,7 @@ export const getRankNumberFromBoost = (currentBoost: number): number => {
 			return index;
 		}
 
-		if (isWithinRange(currentBoost, currentBadgerLevel.boostRangeStart, currentBadgerLevel.boostRangeEnd)) {
+		if (isWithinRange(stakeRatio, currentBadgerLevel.boostRangeStart, currentBadgerLevel.boostRangeEnd)) {
 			return index;
 		}
 	}
