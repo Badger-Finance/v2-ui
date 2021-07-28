@@ -172,6 +172,11 @@ export default class UserStore {
 		}
 	}
 
+	getTokenBalance(contract: string): TokenBalance {
+		const tokenAddress = Web3.utils.toChecksumAddress(contract);
+		return this.getOrDefaultBalance(this.tokenBalances, tokenAddress);
+	}
+
 	private getOrDefaultBalance(balances: UserBalances, token: string): TokenBalance {
 		const balance = balances[token];
 		if (!balance) {

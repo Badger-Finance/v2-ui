@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js';
+import { DroptInfo } from './dropt-info';
 
 export interface RebaseInfo {
 	totalSupply: BigNumber;
@@ -13,4 +14,6 @@ export interface RebaseInfo {
 	oracleRate: BigNumber;
 	nextRebase: Date;
 	pastRebase: any;
+
+	validDropts: DroptInfo[];
 }

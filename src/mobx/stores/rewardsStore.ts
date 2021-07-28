@@ -50,15 +50,18 @@ class RewardsStore {
 	};
 	public badgerTree: BadgerTree;
 	public loadingRewards: boolean;
+	public loadingDiggData: boolean;
 
 	constructor(store: RootStore) {
 		this.store = store;
 		this.badgerTree = RewardsStore.defaultTree;
 		this.loadingRewards = false;
+		this.loadingDiggData = false;
 
 		extendObservable(this, {
 			badgerTree: this.badgerTree,
 			loadingRewards: this.loadingRewards,
+			loadingDiggData: this.loadingDiggData,
 		});
 	}
 
