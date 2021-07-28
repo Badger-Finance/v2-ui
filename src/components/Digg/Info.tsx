@@ -11,14 +11,10 @@ import { InfoItem } from './InfoItem';
 import BigNumber from 'bignumber.js';
 import NoWallet from 'components/Common/NoWallet';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
+import DroptModal from './DroptModal';
 import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
 
 const useStyles = makeStyles((theme) => ({
-	statPaper: {
-		padding: theme.spacing(2),
-		textAlign: 'center',
-		minHeight: '100%',
-	},
 	darkPaper: {
 		padding: theme.spacing(2),
 		boxShadow: 'none',
@@ -176,6 +172,7 @@ const Info = observer(() => {
 
 	return (
 		<>
+			<DroptModal />
 			<Grid item xs={12} md={6}>
 				<Metric metric="BTC Price" value={inCurrency(wbtcPrice, currency)} />
 			</Grid>
