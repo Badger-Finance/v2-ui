@@ -2,7 +2,7 @@ import UFragments from './abis/UFragments.json';
 import UFragmentsPolicy from './abis/UFragmentsPolicy.json';
 import MedianOracle from './abis/MedianOracle.json';
 import Orchestrator from './abis/Orchestrator.json';
-import Dropt2Redemption from './abis/Dropt2Redemption.json';
+import DroptRedemption from './abis/DroptRedemption.json';
 import { digg_system } from '../deployments/mainnet.json';
 
 import { AbiItem } from 'web3-utils';
@@ -57,7 +57,7 @@ export const getRebase = (network: string): RebaseNetworkConfig | undefined => {
 					},
 					{
 						addresses: [digg_system.DROPT['DROPT-2'].redemption],
-						abi: Dropt2Redemption.abi as AbiItem[],
+						abi: DroptRedemption.abi as AbiItem[],
 						groupByNamespace: true,
 						namespace: 'dropt',
 						readMethods: [
@@ -84,4 +84,13 @@ export const getRebase = (network: string): RebaseNetworkConfig | undefined => {
 		default:
 			return undefined;
 	}
+};
+
+const LONG_TOKEN_MAP = {
+	[digg_system.DROPT['DROPT-1'].redemption]: digg_system.DROPT['DROPT-1'].longToken,
+	[digg_system.DROPT['DROPT-2'].redemption]: digg_system.DROPT['DROPT-2'].longToken,
+};
+
+export const redemptionToLongToken = (contract: string): string => {
+	return LONG_TOKEN_MAP[contract];
 };

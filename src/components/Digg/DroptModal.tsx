@@ -3,18 +3,17 @@ import { observer } from 'mobx-react-lite';
 import React, { useState, useContext } from 'react';
 import DroptModalItem from './DroptModalItem';
 import { StoreContext } from 'mobx/store-context';
-import { getToken } from 'web3/config/token-config';
-import { DEBUG, FLAGS } from 'config/constants';
-import deploy from '../../config/deployments/mainnet.json';
-import { mockToken } from 'mobx/model/tokens/badger-token';
+import { DEBUG } from 'config/constants';
 import { formatTokens } from 'mobx/utils/helpers';
+import { redemptionToLongToken } from 'config/system/rebase';
+import BigNumber from 'bignumber.js';
 
 const useStyles = makeStyles((theme) => ({
 	droptPaper: {
 		padding: theme.spacing(2),
 		marginBottom: theme.spacing(2),
 		textAlign: 'center',
-		minWidth: '15%',
+		minWidth: '20%',
 	},
 	droptItem: {
 		marginBottom: theme.spacing(1),
@@ -41,56 +40,61 @@ const DroptModal = observer(() => {
 	const store = useContext(StoreContext);
 	const {
 		user,
+		setts,
 		rebase: { rebase },
 	} = store;
 
 	const [open, setOpen] = useState(false);
 
-	const dropt2Address = deploy.digg_system.DROPT['DROPT-2'].longToken;
-	const redemptionAddress = deploy.digg_system.DROPT['DROPT-2'].redemption;
-	const dropt2Token = getToken(dropt2Address);
-	const dropt2valid = rebase
-		? rebase.expiryPrice.gt(0) &&
-		  rebase.expirationTimestamp < rebase.dropt2CurrentTimestamp &&
-		  dropt2Token &&
-		  FLAGS.DROPT2
-		: false;
-
-	if ((!DEBUG && !dropt2valid) || !rebase) {
+	if (!rebase || rebase.validDropts.length === 0) {
+		console.log('no valid rebase', rebase?.validDropts.length);
 		return (
 			<Grid className={classes.droptModalButton} container direction="row" justify="flex-end">
-				<Button aria-label="Redeem DROPT-2" variant="contained" size="small" color="primary" disabled={true}>
+				<Button aria-label="Redeem Dropt" variant="contained" size="small" color="primary" disabled={true}>
 					Redeem DROPT
 				</Button>
 			</Grid>
 		);
 	}
 
-	const droptBalance = dropt2Token
-		? user.getTokenBalance(dropt2Token)
-		: user.getTokenBalance(mockToken(dropt2Address));
-
-	const redemptionAmount = formatTokens(rebase.expiryPrice.multipliedBy(droptBalance.balance));
+	const droptModalItems = rebase.validDropts.map((dropt) => {
+		const redemptionAddress = Object.keys(dropt)[0];
+		const droptAddress = redemptionToLongToken(redemptionAddress);
+		const droptToken = setts.getToken(droptAddress);
+		const droptBalance = user.getTokenBalance(droptAddress);
+		const expiryPrice = new BigNumber(dropt[redemptionAddress].expiryPrice);
+		const redemptionAmount = formatTokens(expiryPrice.multipliedBy(droptBalance.balance));
+		if (!droptToken || droptBalance.balance.lte(0)) {
+			if (DEBUG && !droptToken) console.log('error retrieving', redemptionAddress, 'token');
+			return;
+		}
+		return (
+			<DroptModalItem
+				key={droptToken.symbol}
+				token={droptToken.symbol}
+				balance={droptBalance.balance}
+				displayBalance={droptBalance.balanceDisplay(5)}
+				redemptionAmount={redemptionAmount}
+				redemptionContract={redemptionAddress}
+			/>
+		);
+	});
 
 	const handleModalClick = () => {
 		setOpen(!open);
-	};
-
-	const hasBalance = (): boolean => {
-		if (process.env.NODE_ENV !== 'production') return true;
-		return droptBalance.balance.gt(0);
 	};
 
 	return (
 		<>
 			<Grid className={classes.droptModalButton} container direction="row" justify="flex-end">
 				<Button
-					aria-label="Redeem DROPT-2"
+					id="redeem-button"
+					aria-label="Redeem DROPT"
 					variant="contained"
 					size="small"
 					color="primary"
 					onClick={handleModalClick}
-					disabled={!hasBalance()}
+					disabled={droptModalItems.length <= 0}
 				>
 					Redeem DROPT
 				</Button>
@@ -110,16 +114,10 @@ const DroptModal = observer(() => {
 			>
 				<Fade in={open}>
 					<Paper className={classes.droptPaper}>
-						<Typography variant="subtitle1" className={classes.droptTitleText}>
+						<Typography id="modalTitle" variant="subtitle1" className={classes.droptTitleText}>
 							DROPT Available Redemptions
 						</Typography>
-						<DroptModalItem
-							token="DROPT-2"
-							balance={droptBalance.balance}
-							displayBalance={droptBalance.balanceDisplay(5)}
-							redemptionAmount={redemptionAmount}
-							redemptionContract={redemptionAddress}
-						/>
+						{droptModalItems}
 					</Paper>
 				</Fade>
 			</Modal>

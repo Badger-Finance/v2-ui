@@ -172,8 +172,8 @@ export default class UserStore {
 		}
 	}
 
-	getTokenBalance(token: BadgerToken): TokenBalance {
-		const tokenAddress = Web3.utils.toChecksumAddress(token.address);
+	getTokenBalance(contract: string): TokenBalance {
+		const tokenAddress = Web3.utils.toChecksumAddress(contract);
 		return this.getOrDefaultBalance(this.tokenBalances, tokenAddress);
 	}
 

@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js';
+import { DroptInfo } from './dropt-info';
 
 export interface RebaseInfo {
 	totalSupply: BigNumber;
@@ -14,7 +15,5 @@ export interface RebaseInfo {
 	nextRebase: Date;
 	pastRebase: any;
 
-	expirationTimestamp: Date;
-	expiryPrice: BigNumber;
-	dropt2CurrentTimestamp: Date;
+	validDropts: DroptInfo[];
 }

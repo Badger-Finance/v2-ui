@@ -4,7 +4,7 @@ import BatchCall from 'web3-batch-call';
 import { RootStore } from '../RootStore';
 import { getNextRebase, getRebaseLogs } from '../utils/diggHelpers';
 import { RebaseInfo } from 'mobx/model/tokens/rebase-info';
-import Dropt2Redemption from '../../config/system/abis/Dropt2Redemption.json';
+import DroptRedemption from '../../config/system/abis/DroptRedemption.json';
 import { AbiItem } from 'web3-utils';
 import { getSendOptions } from 'mobx/utils/web3';
 import { ProviderReport } from 'mobx/model/digg/provider-reports';
@@ -12,6 +12,7 @@ import { OracleReports } from 'mobx/model/digg/oracle';
 import { getRebase } from 'config/system/rebase';
 import BigNumber from 'bignumber.js';
 import { groupBy } from 'utils/lodashToNative';
+import { DroptContractResponse } from 'mobx/model/tokens/dropt-info';
 
 let batchCall: any = null;
 
@@ -60,9 +61,21 @@ class RebaseStore {
 		}
 
 		// dropt data
-		const expirationTimestamp = Number(dropt[0].expirationTimestamp[0].value);
-		const dropt2CurrentTimestamp = Number(dropt[0].expirationTimestamp[0].value);
-		const expiryPrice = dropt[0].expiryPrice[0].value;
+		const validDropts = dropt
+			.filter(
+				(_dropt: DroptContractResponse) =>
+					Number(_dropt.expirationTimestamp[0].value) > Number(_dropt.getCurrentTime[0].value) &&
+					Number(_dropt.expiryPrice[0].value) > 0,
+			)
+			.map((validDropt: DroptContractResponse) => {
+				return {
+					[validDropt['address']]: {
+						expiryPrice: validDropt.expiryPrice[0].value,
+						expirationTimestamp: validDropt.expirationTimestamp[0].value,
+						currentTimestamp: validDropt.getCurrentTime[0].value,
+					},
+				};
+			});
 
 		// policy data
 		const latestRebase = Number(policy[0].lastRebaseTimestampSec[0].value);
@@ -94,9 +107,7 @@ class RebaseStore {
 			oracleRate: new BigNumber(activeReport.value.payload).dividedBy(1e18),
 			nextRebase: getNextRebase(minRebaseInterval, latestRebase),
 			pastRebase: rebaseLog,
-			expirationTimestamp: new Date(expirationTimestamp * 1000),
-			expiryPrice: new BigNumber(expiryPrice).dividedBy(1e18),
-			dropt2CurrentTimestamp: new Date(dropt2CurrentTimestamp * 1000),
+			validDropts: validDropts,
 		};
 	});
 
@@ -113,7 +124,7 @@ class RebaseStore {
 		const { gasPrices } = this.store.network;
 
 		const web3 = new Web3(provider);
-		const redemption = new web3.eth.Contract(Dropt2Redemption.abi as AbiItem[], redemptionContract);
+		const redemption = new web3.eth.Contract(DroptRedemption.abi as AbiItem[], redemptionContract);
 		const method = redemption.methods.redeem(redeemAmount);
 
 		queueNotification(`Sign the transaction to claim your options`, 'info');
