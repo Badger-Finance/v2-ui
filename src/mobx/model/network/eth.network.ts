@@ -300,6 +300,25 @@ const ethSettDefinitions: BadgerSett[] = [
 
 export const ethSetts = toSettConfig(ethSettDefinitions);
 
-const ethTokens = ethSetts.flatMap((sett) => [sett.depositToken, sett.vaultToken]);
+const ethRewards = [
+	{
+		address: ETH_DEPLOY.tokens['farm'],
+		decimals: 18,
+	},
+	{
+		address: ETH_DEPLOY.tokens['xsushi'],
+		decimals: 18,
+	},
+	{
+		address: ETH_DEPLOY.tokens['usdc'],
+		decimals: 6,
+	},
+	{
+		address: ETH_DEPLOY.tokens['defiDollar'],
+		decimals: 18,
+	},
+];
+
+const ethTokens = ethSetts.flatMap((sett) => [sett.depositToken, sett.vaultToken]).concat(ethRewards);
 
 export const ethProtocolTokens: ProtocolTokens = toRecord(ethTokens, 'address');

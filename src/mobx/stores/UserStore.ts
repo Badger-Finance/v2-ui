@@ -327,7 +327,7 @@ export default class UserStore {
 	private updateUserBalance = (
 		userBalances: UserBalances,
 		token: CallResult,
-		getToken: (sett: BadgerSett) => BadgerToken,
+		getBalanceToken: (sett: BadgerSett) => BadgerToken,
 	): void => {
 		const {
 			prices,
@@ -338,11 +338,11 @@ export default class UserStore {
 			return;
 		}
 		const balance = new BigNumber(balanceResults[0].value);
-		const sett = network.setts.find((sett) => getToken(sett).address === token.address);
+		const sett = network.setts.find((s) => getBalanceToken(s).address === token.address);
 		if (!sett) {
 			return;
 		}
-		const balanceToken = getToken(sett);
+		const balanceToken = getBalanceToken(sett);
 		let pricingToken = balanceToken.address;
 		if (sett.geyser && sett.geyser === pricingToken) {
 			pricingToken = sett.vaultToken.address;

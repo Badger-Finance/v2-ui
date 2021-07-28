@@ -159,7 +159,9 @@ export const RewardsModal = observer((): JSX.Element | null => {
 	const claimItems = badgerTree.claims
 		.filter((claim) => {
 			// BANDAID - fix root cause of badger tree not updating in correct order
-			if (!CLAIMS_SYMBOLS[network.symbol]) return;
+			if (!CLAIMS_SYMBOLS[network.symbol]) {
+				return false;
+			}
 			const entry = claimMap[claim.token.address];
 			const claimable = maxBalances[claim.token.address];
 			return entry && claimable.balance.tokenBalance.gt(0);

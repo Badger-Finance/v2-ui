@@ -1,9 +1,17 @@
 # v2 UI Changelog
 
+### Hotfix - 07/28/2021
+
+-   fixed an issue causing cvxCRV wallet balances to not be displayed
+
+### Hotfix - 07/27/2021
+
+-   fixed an issue causing geyser unstake tab to not render
+-   fixed an issue causing eth third party reward tokens to not display
+
 ### v2.8.4 - 07/22/2021
 
 -   update boost leaderboard visualization
--   release badger boost optimizer
 -   revert digg oracle back to centralizedOracle
 
 ### Hotfix - 07/17/2021

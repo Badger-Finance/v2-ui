@@ -24,12 +24,14 @@ export enum NETWORK_LIST {
 	ETH = 'eth',
 	BSC = 'bsc',
 	MATIC = 'matic',
+	XDAI = 'xdai',
 }
 
 export enum NETWORK_IDS {
 	ETH = 1,
 	BSC = 56,
 	MATIC = 137,
+	XDAI = 100,
 }
 
 export const CLAIMS_SYMBOLS: ClaimsSymbols = {
@@ -46,6 +48,8 @@ export const CLAIMS_SYMBOLS: ClaimsSymbols = {
 		[sett_system.vaults['native.cvx']]: 'bCVX',
 		[sett_system.vaults['native.cvxCrv']]: 'bcvxCRV',
 	},
+	[NETWORK_LIST.MATIC]: {},
+	[NETWORK_LIST.XDAI]: {},
 };
 
 export const CONTACT_EMAIL = 'hello@badger.finance';
@@ -73,6 +77,8 @@ export const FLAGS = {
 	STABILIZATION_SETTS: toBool(process.env.REACT_APP_STABILIZATION_SETTS),
 	BOOST_OPTIMIZER: toBool(process.env.REACT_APP_BOOST_OPTIMIZER),
 	DROPT2: toBool(process.env.REACT_APP_DROPT2),
+	MATIC: toBool(process.env.REACT_APP_MATIC),
+	XDAI: toBool(process.env.REACT_APP_XDAI),
 };
 
 export const ZERO = new BigNumber(0);
