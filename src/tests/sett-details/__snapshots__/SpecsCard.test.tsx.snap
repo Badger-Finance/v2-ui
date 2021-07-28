@@ -3,7 +3,7 @@
 exports[`Specs Section displays sett information 1`] = `
 <div>
   <div
-    class="MuiPaper-root-4 MuiCard-root-3 WithStyles(ForwardRef(Card))-root-1 WithStyles(ForwardRef(Card))-root-2 MuiPaper-elevation1-8 MuiPaper-rounded-5"
+    class="MuiPaper-root-4 MuiCard-root-3 WithStyles(ForwardRef(Card))-root-2 makeStyles-root-1 MuiPaper-elevation1-8 MuiPaper-rounded-5"
   >
     <div
       class="MuiGrid-root-34 makeStyles-root-32 MuiGrid-container-35"
@@ -121,7 +121,7 @@ exports[`Specs Section displays sett information 1`] = `
         class="MuiGrid-root-34 MuiGrid-container-35 MuiGrid-align-items-xs-center-43"
       >
         <div
-          class="MuiGrid-root-34 MuiGrid-container-35 MuiGrid-item-36 MuiGrid-grid-xs-9-77"
+          class="MuiGrid-root-34 MuiGrid-container-35 MuiGrid-item-36 MuiGrid-grid-xs-7-75"
         >
           <p
             class="MuiTypography-root-137 makeStyles-rewardsFrequency-187 MuiTypography-body1-139 MuiTypography-colorTextSecondary-163"
@@ -165,7 +165,7 @@ exports[`Specs Section displays sett information 1`] = `
         class="MuiGrid-root-34 MuiGrid-container-35 MuiGrid-align-items-xs-center-43"
       >
         <div
-          class="MuiGrid-root-34 MuiGrid-container-35 MuiGrid-item-36 MuiGrid-grid-xs-9-77"
+          class="MuiGrid-root-34 MuiGrid-container-35 MuiGrid-item-36 MuiGrid-grid-xs-7-75"
         >
           <p
             class="MuiTypography-root-137 makeStyles-harvestFrequency-200 MuiTypography-body1-139 MuiTypography-colorTextSecondary-163"
