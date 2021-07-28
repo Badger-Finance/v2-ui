@@ -1,5 +1,9 @@
 # v2 UI Changelog
 
+### Hotfix - 07/28/2021
+
+-   fixed an issue causing cvxCRV wallet balances to not be displayed
+
 ### Hotfix - 07/27/2021
 
 -   fixed an issue causing geyser unstake tab to not render
