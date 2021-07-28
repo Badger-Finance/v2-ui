@@ -1,18 +1,14 @@
 import React from 'react';
 import { Container, makeStyles } from '@material-ui/core';
 import { Header } from './Header';
-import { Content } from './Content';
+import { MainContent } from './MainContent';
 import { observer } from 'mobx-react-lite';
+import { Footer } from './Footer';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
-		[theme.breakpoints.only('md')]: {
-			paddingLeft: 300,
-			paddingTop: theme.spacing(3),
-		},
-		[theme.breakpoints.up('lg')]: {
-			paddingLeft: 115,
-		},
+		paddingTop: theme.spacing(0.5),
+		marginTop: theme.spacing(2),
 	},
 }));
 
@@ -21,9 +17,10 @@ export const SettDetail = observer(
 		const classes = useStyles();
 
 		return (
-			<Container className={classes.root} maxWidth="lg">
+			<Container className={classes.root}>
 				<Header />
-				<Content />
+				<MainContent />
+				<Footer />
 			</Container>
 		);
 	},

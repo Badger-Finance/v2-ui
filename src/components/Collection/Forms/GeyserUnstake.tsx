@@ -26,7 +26,8 @@ export const GeyserUnstake = observer((props: SettModalProps) => {
 	const { onValidChange, inputProps } = useNumericInput();
 
 	const {
-		wallet: { connectedAddress, network },
+		wallet: { connectedAddress },
+		network: { network },
 		user: { geyserBalances },
 		contracts,
 		setts,

@@ -34,7 +34,8 @@ export const Header = observer(() => {
 	const store = useContext(StoreContext);
 	const {
 		uiState: { openSidebar, notification },
-		wallet: { notify, network },
+		wallet: { notify },
+		network: { network },
 	} = store;
 	const { enqueueSnackbar } = useSnackbar();
 
@@ -42,10 +43,10 @@ export const Header = observer(() => {
 		if (!notification || !notification.message) return;
 
 		// Notify doesn't support BSC currently so it is temporarily disabled for it
-		if (notification.hash && network.networkId == 1) {
+		if (notification.hash && network.id == 1) {
 			// then on each transaction...
 			const { emitter } = notify.hash(notification.hash);
-			emitter.on('all', network.getNotifyLink);
+			emitter.on('all', network.notifyLink);
 		} else {
 			enqueueSnackbar(notification.message, { variant: notification.variant, persist: false });
 		}
@@ -57,7 +58,7 @@ export const Header = observer(() => {
 	return (
 		<AppBar className={classes.appBar} color="primary">
 			<Toolbar className={classes.toolbar}>
-				<img alt="Badger Header Logo" src={'assets/badger-full.png'} className={classes.logo} />
+				<img alt="Badger Header Logo" src={'/assets/badger-full.png'} className={classes.logo} />
 
 				<IconButton className={classes.menuButton} onClick={() => openSidebar()}>
 					<Menu />

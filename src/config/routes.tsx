@@ -1,7 +1,7 @@
 import React from 'react';
 import { QueryParams, Route } from 'mobx-router';
 import Landing from '../pages/Landing';
-import { RootStore } from '../mobx/store';
+import { RootStore } from '../mobx/RootStore';
 import { Airdrops } from '../components/Airdrops';
 import { BoostOptimizer } from '../components/Boost';
 import { Digg } from '../components/Digg';

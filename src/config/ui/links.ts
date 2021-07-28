@@ -10,8 +10,8 @@ export class SidebarLink {
 	}
 }
 
-export function sidebarTokenLinks(bsc: NETWORK_LIST): SidebarLink[] {
-	switch (bsc) {
+export function sidebarTokenLinks(network: string): SidebarLink[] {
+	switch (network) {
 		case NETWORK_LIST.BSC:
 			return [
 				{

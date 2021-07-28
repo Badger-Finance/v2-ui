@@ -7,10 +7,8 @@ import importedBscErc20 from '../config/system/abis/BscErc20.json';
 import importedYearnSett from '../config/system/abis/YearnWrapper.json';
 import importedGuestList from '../config/system/abis/GuestList.json';
 import { tokens, sett_system } from './deployments/mainnet.json';
-import { getNetworkDeploy } from 'mobx/utils/network';
 import { AbiItem } from 'web3-utils';
 import { PartialAttemptOptions } from '@lifeomic/attempt';
-import { NetworkConstants } from 'mobx/model/network/network-constants';
 import { ClaimsSymbols } from 'mobx/model/rewards/claims-symbols';
 import { LeaderboardRank } from 'mobx/model/boost/leaderboard-rank';
 
@@ -25,35 +23,16 @@ export const RPC_WALLETS: { [index: string]: boolean } = {
 export enum NETWORK_LIST {
 	ETH = 'eth',
 	BSC = 'bsc',
-	// MATIC = 'matic',
-	// FTM = 'ftm',
-	// XDAI = 'xdai',
+	MATIC = 'matic',
+	XDAI = 'xdai',
 }
 
 export enum NETWORK_IDS {
 	ETH = 1,
 	BSC = 56,
-	// MATIC = 137,
-	// FTM = 250,
-	// XDAI = 100,
+	MATIC = 137,
+	XDAI = 100,
 }
-
-export const NETWORK_CONSTANTS: NetworkConstants = {
-	[NETWORK_LIST.ETH]: {
-		APP_URL: 'https://app.badger.finance/',
-		RPC_URL: 'https://spring-delicate-paper.quiknode.pro/d1fafe068249a34a1b2c9dc4b36ad92fbcf9fb8c/',
-		START_BLOCK: 11381216,
-		START_TIME: new Date('Dec 03 2020 06:11:35 PM UTC'),
-		DEPLOY: getNetworkDeploy(NETWORK_LIST.ETH),
-	},
-	[NETWORK_LIST.BSC]: {
-		APP_URL: 'https://bsc.badger.finance/',
-		RPC_URL: 'https://bsc-node.badger.guru/',
-		START_BLOCK: 11381216,
-		START_TIME: new Date('Dec 03 2020 06:11:35 PM UTC'),
-		DEPLOY: getNetworkDeploy(NETWORK_LIST.BSC),
-	},
-};
 
 export const CLAIMS_SYMBOLS: ClaimsSymbols = {
 	[NETWORK_LIST.BSC]: {},
@@ -69,6 +48,8 @@ export const CLAIMS_SYMBOLS: ClaimsSymbols = {
 		[sett_system.vaults['native.cvx']]: 'bCVX',
 		[sett_system.vaults['native.cvxCrv']]: 'bcvxCRV',
 	},
+	[NETWORK_LIST.MATIC]: {},
+	[NETWORK_LIST.XDAI]: {},
 };
 
 export const CONTACT_EMAIL = 'hello@badger.finance';
@@ -83,7 +64,7 @@ export const APP_NAME = 'badgerDAO';
 export const PORTIS_APP_ID = 'cbf7534d-170d-4903-943f-e607dc588b7f';
 export const EMPTY_DATA = '0x';
 export const ZERO_CURRENCY = '0.00000';
-export const SITE_VERSION = 'v2.8.3';
+export const SITE_VERSION = 'v2.8.4';
 export const WC_BRIDGE = 'https://wc-bridge.badger.finance/';
 
 const toBool = (val: string | undefined): boolean => (val ? val.toLowerCase() === 'true' : false);
@@ -95,6 +76,8 @@ export const FLAGS = {
 	IBBTC_OPTIONS_FLAG: toBool(process.env.REACT_APP_IBBTC_OPTIONS_FLAG),
 	STABILIZATION_SETTS: toBool(process.env.REACT_APP_STABILIZATION_SETTS),
 	BOOST_OPTIMIZER: toBool(process.env.REACT_APP_BOOST_OPTIMIZER),
+	MATIC: toBool(process.env.REACT_APP_MATIC),
+	XDAI: toBool(process.env.REACT_APP_XDAI),
 };
 
 export const ZERO = new BigNumber(0);

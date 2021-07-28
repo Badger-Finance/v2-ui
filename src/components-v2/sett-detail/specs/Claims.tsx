@@ -38,7 +38,7 @@ export const Claims = (): JSX.Element => {
 			<Typography>Claims</Typography>
 			<StyledDivider />
 			<Grid container alignItems="center">
-				<Grid container item xs={9}>
+				<Grid container item xs={7}>
 					<Typography color="textSecondary" className={classes.rewardsFrequency}>
 						Reward Frequency
 					</Typography>

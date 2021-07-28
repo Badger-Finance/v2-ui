@@ -1,14 +1,6 @@
 import { StateAndHelpers, WalletCheckModal } from 'bnc-onboard/dist/src/interfaces';
-import { getNetworkNameFromId } from 'mobx/utils/network';
-import {
-	CONTACT_EMAIL,
-	APP_NAME,
-	PORTIS_APP_ID,
-	NETWORK_CONSTANTS,
-	NETWORK_LIST,
-	NETWORK_IDS,
-	RPC_WALLETS,
-} from './constants';
+import { Network } from 'mobx/model/network/network';
+import { CONTACT_EMAIL, APP_NAME, PORTIS_APP_ID, NETWORK_LIST, NETWORK_IDS, RPC_WALLETS } from './constants';
 
 export interface WalletProviderInfo {
 	walletName: string;
@@ -27,31 +19,27 @@ export const isRpcWallet = (walletName: string | null): boolean => {
 	return RPC_WALLETS[walletName] ?? false;
 };
 
-export const getOnboardWallets = (network?: string): WalletProviderInfo[] => {
-	if (!network) {
-		return [];
-	}
-	switch (network) {
+export const getOnboardWallets = (chain: Network): WalletProviderInfo[] => {
+	const rpc = chain.rpc;
+	switch (chain.symbol) {
 		case NETWORK_LIST.BSC:
 			return [{ walletName: 'metamask' }];
 		default:
 			return [
 				{ walletName: 'metamask' },
 				{ walletName: 'coinbase' },
-				// Removed due to handling through walletConnect
-				//{ walletName: "trust", rpcUrl: RPC_URL },
 				{
 					walletName: 'ledger',
-					rpcUrl: NETWORK_CONSTANTS[NETWORK_LIST.ETH].RPC_URL,
+					rpcUrl: rpc,
 				},
 				{
 					walletName: 'walletConnect',
 					rpc: {
-						['1']: NETWORK_CONSTANTS[NETWORK_LIST.ETH].RPC_URL,
-						[NETWORK_IDS.BSC.toString()]: NETWORK_CONSTANTS[NETWORK_LIST.BSC].RPC_URL,
+						['1']: rpc,
+						[NETWORK_IDS.BSC.toString()]: rpc,
 					},
 				},
-				{ walletName: 'walletLink', rpcUrl: NETWORK_CONSTANTS[NETWORK_LIST.ETH].RPC_URL, appName: APP_NAME },
+				{ walletName: 'walletLink', rpcUrl: rpc, appName: APP_NAME },
 				{
 					walletName: 'portis',
 					apiKey: PORTIS_APP_ID,
@@ -59,13 +47,13 @@ export const getOnboardWallets = (network?: string): WalletProviderInfo[] => {
 				},
 				{
 					walletName: 'trezor',
-					appUrl: NETWORK_CONSTANTS[NETWORK_LIST.ETH].APP_URL,
+					appUrl: 'https://app.badger.finance/',
 					email: CONTACT_EMAIL,
-					rpcUrl: NETWORK_CONSTANTS[NETWORK_LIST.ETH].RPC_URL,
+					rpcUrl: rpc,
 				},
 				{
 					walletName: 'lattice',
-					rpcUrl: NETWORK_CONSTANTS[NETWORK_LIST.ETH].RPC_URL,
+					rpcUrl: rpc,
 					appName: APP_NAME,
 				},
 				{ walletName: 'authereum' },
@@ -83,8 +71,8 @@ export const getOnboardWallets = (network?: string): WalletProviderInfo[] => {
 const supportedNetwork = () => {
 	return async (stateAndHelpers: StateAndHelpers): Promise<WalletCheckModal | undefined> => {
 		const { network, appNetworkId } = stateAndHelpers;
-		const networkName = getNetworkNameFromId(network ?? appNetworkId);
-		if (!networkName || !Object.values(NETWORK_LIST).includes(networkName as NETWORK_LIST)) {
+		const chain = Network.networkFromId(network ?? appNetworkId);
+		if (!chain || !chain.symbol || !Object.values(NETWORK_LIST).includes(chain.symbol as NETWORK_LIST)) {
 			const networkMembers = Object.values(NETWORK_LIST).map((key) => ' '.concat(key.toUpperCase()));
 			return {
 				heading: `Unsupported Network`,

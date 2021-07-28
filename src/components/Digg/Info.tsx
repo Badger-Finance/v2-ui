@@ -7,11 +7,11 @@ import { Loader } from '../Loader';
 import Metric from './Metric';
 import { shortenNumbers } from '../../mobx/utils/diggHelpers';
 import { inCurrency } from 'mobx/utils/helpers';
-import { ETH_DEPLOY } from 'web3/config/eth-config';
 import { InfoItem } from './InfoItem';
 import BigNumber from 'bignumber.js';
 import NoWallet from 'components/Common/NoWallet';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
+import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
 
 const useStyles = makeStyles((theme) => ({
 	statPaper: {
@@ -209,7 +209,7 @@ const Info = observer(() => {
 							)}
 						</div>
 					</InfoItem>
-					<InfoItem metric="Oracle Rate">{rebase.oracleRate.toFixed()}</InfoItem>
+					<InfoItem metric="Oracle Rate">{rebase.oracleRate.toFixed(8)}</InfoItem>
 				</div>
 				<Typography variant="caption" className={classes.updatedAt}>
 					Last Updated {lastOracleUpdate.toLocaleString()}

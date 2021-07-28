@@ -29,7 +29,8 @@ export const SettDialog = ({ open = false, sett, onClose }: SettDialogProps): JS
 	const classes = useStyles();
 	const [dialogMode, setDialogMode] = useState<DialogMode>('deposit');
 
-	const { network, connectedAddress } = store.wallet;
+	const { connectedAddress } = store.wallet;
+	const { network } = store.network;
 	const badgerSett = network.setts.find(({ vaultToken }) => vaultToken.address === sett.vaultToken);
 
 	useEffect(() => {

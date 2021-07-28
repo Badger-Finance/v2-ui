@@ -24,7 +24,7 @@ export const SettWithdraw = ({ sett, badgerSett }: Props): JSX.Element => {
 	const store = useContext(StoreContext);
 	const [mode, setMode] = useState<WithdrawMode>('withdraw');
 
-	const { network } = store.wallet;
+	const { network } = store.network;
 	const noStake: { [sett: string]: boolean } = {
 		[deploy.sett_system.vaults['native.digg']]: true,
 	};
@@ -33,7 +33,7 @@ export const SettWithdraw = ({ sett, badgerSett }: Props): JSX.Element => {
 		<>
 			<StyledTabs variant="fullWidth" indicatorColor="primary" value={mode}>
 				<Tab value="withdraw" label="Withdraw" onClick={() => setMode('withdraw')} />
-				{!noStake[sett.vaultToken] && network.name === NETWORK_LIST.ETH && (
+				{!noStake[sett.vaultToken] && network.symbol === NETWORK_LIST.ETH && (
 					<Tab value="unstake" label="Unstake" onClick={() => setMode('unstake')} />
 				)}
 			</StyledTabs>

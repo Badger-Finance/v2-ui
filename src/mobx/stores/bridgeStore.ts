@@ -11,7 +11,7 @@ import { extendObservable, action, observe, IValueDidChange, toJS } from 'mobx';
 import { retry } from '@lifeomic/attempt';
 
 import fbase from 'fbase';
-import { RootStore } from '../store';
+import { RootStore } from '../RootStore';
 import WalletStore from './walletStore';
 import {
 	defaultRetryOptions,
@@ -26,9 +26,10 @@ import { BTC_GATEWAY } from 'config/system/abis/BtcGateway';
 import { bridge_system, tokens, sett_system } from 'config/deployments/mainnet.json';
 import { shortenAddress } from 'utils/componentHelpers';
 import { isEqual } from '../../utils/lodashToNative';
-import { getNetwork } from 'mobx/utils/network';
-import { Network } from '../model/network/network';
 import { RenVMTransaction } from '../model/bridge/renVMTransaction';
+import { defaultNetwork } from 'config/networks.config';
+import { NetworkStore } from './NetworkStore';
+import { Network } from 'mobx/model/network/network';
 
 export enum Status {
 	// Idle means we are ready to begin a new tx.
@@ -137,20 +138,24 @@ class BridgeStore {
 		this.gjs = new GatewayJS('mainnet');
 		// NB: At construction time, the value of wallet provider is unset so we cannot fetch network
 		// from provider. Align network init logic w/ how it works in the walletStore.
-		const network = getNetwork();
+		const network = defaultNetwork;
 		this.network = network ? network.name : '';
 
 		extendObservable(this, {
 			...defaultProps,
 		});
 
-		observe(this.store.wallet as WalletStore, 'network', ({ newValue }: IValueDidChange<Network>) => {
-			if (!newValue) return;
+		observe(this.store.network as NetworkStore, 'network', async ({ newValue }: IValueDidChange<Network>) => {
+			if (!newValue) {
+				return;
+			}
 
-			this.network = newValue.name;
+			this.network = newValue.symbol;
 			// NB: Only ETH supported for now.
-			if (this.network !== NETWORK_LIST.ETH) return;
-			this.reload();
+			if (this.network !== NETWORK_LIST.ETH) {
+				return;
+			}
+			await this.reload();
 		});
 
 		observe(this.store.wallet as WalletStore, 'provider', ({ newValue }: IValueDidChange<provider>) => {
@@ -189,14 +194,14 @@ class BridgeStore {
 		observe(
 			this.store.wallet as WalletStore,
 			'connectedAddress',
-			({ newValue, oldValue }: IValueDidChange<string>) => {
+			async ({ newValue, oldValue }: IValueDidChange<string>) => {
 				if (oldValue === newValue) return;
 				if (!newValue) return;
 				// Set shortened addr.
-				const { network } = this.store.wallet;
+				const { network } = this.store.network;
 				// NB: Only ETH supported for now.
 				if (network.name !== NETWORK_LIST.ETH) return;
-				this.reload();
+				await this.reload();
 			},
 		);
 
@@ -264,7 +269,7 @@ class BridgeStore {
 		}, UPDATE_INTERVAL_SECONDS);
 	}
 
-	reload = action(() => {
+	reload = action(async () => {
 		// Always reset first on reload even though we may not be loading any data.
 		this.reset();
 
@@ -276,19 +281,18 @@ class BridgeStore {
 		this.shortAddr = shortenAddress(connectedAddress);
 
 		this.loading = true;
-		Promise.all([
-			// Fetch old transactions and reload any incomplete tx.
-			this._fetchTx(connectedAddress),
-			this._getBalances(connectedAddress),
-			this._getFees(),
-			this._getBTCNetworkFees(),
-		])
-			.catch((err: Error) => {
-				queueNotification(`Failed to fetch bridge data: ${err.message}`, 'error');
-			})
-			.finally(() => {
-				this.loading = false;
-			});
+		try {
+			await Promise.all([
+				// Fetch old transactions and reload any incomplete tx.
+				this._fetchTx(connectedAddress),
+				this._getBalances(connectedAddress),
+				this._getFees(),
+				this._getBTCNetworkFees(),
+			]);
+		} catch (err) {
+			queueNotification(`Failed to fetch bridge data: ${err.message}`, 'error');
+		}
+		this.loading = false;
 	});
 
 	reset = action(() => {

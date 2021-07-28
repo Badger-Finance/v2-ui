@@ -25,7 +25,8 @@ export const VaultWithdraw = observer((props: SettModalProps) => {
 	const { onValidChange, inputProps } = useNumericInput();
 
 	const {
-		wallet: { connectedAddress, network },
+		wallet: { connectedAddress },
+		network: { network },
 		user: { settBalances },
 		contracts,
 		setts,

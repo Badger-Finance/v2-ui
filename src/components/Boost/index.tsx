@@ -1,20 +1,12 @@
 import React from 'react';
 import { observer } from 'mobx-react-lite';
-import { Grid, Container, Link } from '@material-ui/core';
+import { Grid, Link } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Optimizer } from './Optimizer';
 import PageHeader from '../../components-v2/common/PageHeader';
+import { HeaderContainer, LayoutContainer } from '../../components-v2/common/Containers';
 
 const useStyles = makeStyles((theme) => ({
-	root: {
-		[theme.breakpoints.up('md')]: {
-			paddingLeft: theme.spacing(30),
-		},
-	},
-	headerContainer: {
-		marginTop: theme.spacing(3),
-		marginBottom: theme.spacing(3),
-	},
 	boostLink: {
 		fontWeight: 'bold',
 		[theme.breakpoints.down('xs')]: {
@@ -27,9 +19,9 @@ export const BoostOptimizer = observer(() => {
 	const classes = useStyles();
 
 	return (
-		<Container className={classes.root}>
+		<LayoutContainer>
 			<Grid container spacing={1} justify="center">
-				<Grid item xs={12} className={classes.headerContainer}>
+				<HeaderContainer item xs={12}>
 					<PageHeader
 						title="Badger Boost Optimizer"
 						subtitle="Determine deposits needed in order to hit your desired boost ratio."
@@ -43,11 +35,11 @@ export const BoostOptimizer = observer(() => {
 					>
 						How does boosts work?
 					</Link>
-				</Grid>
+				</HeaderContainer>
 				<Grid item xs={12}>
 					<Optimizer />
 				</Grid>
 			</Grid>
-		</Container>
+		</LayoutContainer>
 	);
 });

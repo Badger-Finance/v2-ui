@@ -1,5 +1,5 @@
 import BoostSuggestion from 'components-v2/leaderboard/BoostSuggestion';
-import store from 'mobx/store';
+import store from 'mobx/RootStore';
 import React from 'react';
 import { TEST_ADDRESS, checkSnapshot } from 'tests/utils/snapshots';
 

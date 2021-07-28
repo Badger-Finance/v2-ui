@@ -1,10 +1,29 @@
-import { BadgerSett } from 'mobx/model/vaults/badger-sett';
-import { BatchCallRequest } from 'web3/interface/batch-call-request';
-import { Deploy } from 'web3/interface/deploy';
+import { NETWORK_IDS, NETWORK_LIST } from 'config/constants';
+import { GasPrices } from '../system-config/gas-prices';
+import { Network } from './network';
+import deploy from '../../../config/deployments/bsc.json';
 import { ProtocolTokens } from 'web3/interface/protocol-token';
-import deploy from '../../config/deployments/bsc.json';
-import { createChainBatchConfig } from './config-utils';
-import { toRecord } from './token-config';
+import { toRecord } from 'web3/config/token-config';
+import { Deploy } from 'web3/interface/deploy';
+import { BadgerSett } from '../vaults/badger-sett';
+
+export class BinanceSmartChain extends Network {
+	constructor() {
+		super(
+			'https://bscscan.com',
+			'Binance Smart Chain',
+			NETWORK_LIST.BSC,
+			NETWORK_IDS.BSC,
+			'BNB',
+			BSC_DEPLOY,
+			bscSetts,
+		);
+	}
+
+	async updateGasPrices(): Promise<GasPrices> {
+		return { rapid: 20, fast: 10, standard: 5, slow: 2 };
+	}
+}
 
 export const BSC_DEPLOY: Deploy = deploy;
 
@@ -42,10 +61,5 @@ export const bscSetts: BadgerSett[] = [
 ];
 
 const bscTokens = bscSetts.flatMap((sett) => [sett.depositToken, sett.vaultToken]);
-export const bscProtocolTokens: ProtocolTokens = toRecord(bscTokens, 'address');
 
-export const getBinanceSmartChainBatchRequests = (userAddress: string): BatchCallRequest[] => {
-	const tokenAddresses = bscSetts.map((sett) => sett.depositToken.address);
-	const settAddresses = bscSetts.map((sett) => sett.vaultToken.address);
-	return createChainBatchConfig(tokenAddresses, settAddresses, [], [], userAddress);
-};
+export const bscProtocolTokens: ProtocolTokens = toRecord(bscTokens, 'address');

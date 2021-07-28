@@ -1,9 +1,14 @@
 import LeaderboardAccountInformation from 'components-v2/leaderboard/LeaderboardAccountInformation';
-import store from 'mobx/store';
+import store from 'mobx/RootStore';
 import React from 'react';
 import { TEST_ADDRESS, checkSnapshot } from 'tests/utils/snapshots';
+import { FLAGS } from '../../config/constants';
 
 describe('LeaderboardAccountInformation', () => {
+	beforeEach(() => {
+		FLAGS.BOOST_OPTIMIZER = true;
+	});
+
 	describe('No user connected', () => {
 		it('Displays fields as N/A', () => checkSnapshot(<LeaderboardAccountInformation />));
 	});

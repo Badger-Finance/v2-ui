@@ -1,12 +1,75 @@
-import { createChainBatchConfig, toSettConfig } from './config-utils';
-import deploy from '../../config/deployments/mainnet.json';
+import { FLAGS, NETWORK_IDS, NETWORK_LIST } from 'config/constants';
+import { createChainBatchConfig, toSettConfig } from 'web3/config/config-utils';
 import { BatchCallRequest } from 'web3/interface/batch-call-request';
 import { Deploy } from 'web3/interface/deploy';
-import { BadgerSett } from 'mobx/model/vaults/badger-sett';
-import { toRecord } from './token-config';
+import { SettMap } from '../setts/sett-map';
+import { GasPrices } from '../system-config/gas-prices';
+import { BadgerSett } from '../vaults/badger-sett';
+import { Network } from './network';
+import deploy from '../../../config/deployments/mainnet.json';
+import { SettState } from '../setts/sett-state';
+import { toRecord } from 'web3/config/token-config';
 import { ProtocolTokens } from 'web3/interface/protocol-token';
-import { SettState } from '../../mobx/model/setts/sett-state';
-import { SettMap } from '../../mobx/model/setts/sett-map';
+
+export class Ethereum extends Network {
+	constructor() {
+		super(
+			'https://etherscan.io',
+			'Ethereum',
+			NETWORK_LIST.ETH,
+			NETWORK_IDS.ETH,
+			'ETH',
+			ETH_DEPLOY,
+			ethSettDefinitions,
+		);
+	}
+
+	get settOrder(): string[] {
+		return [
+			this.deploy.sett_system.vaults['native.cvxCrv'],
+			this.deploy.sett_system.vaults['native.cvx'],
+			this.deploy.sett_system.vaults['native.tricryptoCrv'],
+			this.deploy.sett_system.vaults['native.sbtcCrv'],
+			this.deploy.sett_system.vaults['native.renCrv'],
+			this.deploy.sett_system.vaults['native.tbtcCrv'],
+			this.deploy.sett_system.vaults['native.hbtcCrv'],
+			this.deploy.sett_system.vaults['native.pbtcCrv'],
+			this.deploy.sett_system.vaults['native.obtcCrv'],
+			this.deploy.sett_system.vaults['native.bbtcCrv'],
+			this.deploy.sett_system.vaults['native.sushiibBTCwBTC'],
+			this.deploy.sett_system.vaults['yearn.wBtc'],
+			this.deploy.sett_system.vaults['native.digg'],
+			this.deploy.sett_system.vaults['native.badger'],
+			this.deploy.sett_system.vaults['native.sushiDiggWbtc'],
+			this.deploy.sett_system.vaults['native.sushiBadgerWbtc'],
+			this.deploy.sett_system.vaults['native.sushiWbtcEth'],
+			this.deploy.sett_system.vaults['native.uniDiggWbtc'],
+			this.deploy.sett_system.vaults['native.uniBadgerWbtc'],
+			this.deploy.sett_system.vaults['harvest.renCrv'],
+			...(FLAGS.STABILIZATION_SETTS ? [this.deploy.sett_system.vaults['experimental.digg']] : []),
+		];
+	}
+
+	batchRequests(setts: SettMap, address: string): BatchCallRequest[] {
+		const tokenAddresses = Object.values(setts).map((sett) => sett.underlyingToken);
+		const settAddresses = Object.values(setts).map((sett) => sett.vaultToken);
+		const generalSetts = settAddresses.filter((sett) => setts[sett].state === SettState.Open);
+		const guardedSetts = settAddresses.filter((sett) => setts[sett].state !== SettState.Open);
+		const geyserAddresses = ethSetts.map((sett) => sett.geyser).filter((geyser): geyser is string => !!geyser);
+		return createChainBatchConfig(tokenAddresses, generalSetts, guardedSetts, geyserAddresses, address);
+	}
+
+	async updateGasPrices(): Promise<GasPrices> {
+		const prices = await fetch('https://www.gasnow.org/api/v3/gas/price?utm_source=badgerv2');
+		const result = await prices.json();
+		return {
+			rapid: result.data['rapid'] / 1e9,
+			fast: result.data['fast'] / 1e9,
+			standard: result.data['standard'] / 1e9,
+			slow: result.data['slow'] / 1e9,
+		};
+	}
+}
 
 export const ETH_DEPLOY = deploy as Deploy;
 
@@ -235,6 +298,8 @@ const ethSettDefinitions: BadgerSett[] = [
 	},
 ];
 
+export const ethSetts = toSettConfig(ethSettDefinitions);
+
 const ethRewards = [
 	{
 		address: ETH_DEPLOY.tokens['farm'],
@@ -254,25 +319,6 @@ const ethRewards = [
 	},
 ];
 
-export const ethSetts = toSettConfig(ethSettDefinitions);
-
 const ethTokens = ethSetts.flatMap((sett) => [sett.depositToken, sett.vaultToken]).concat(ethRewards);
 
 export const ethProtocolTokens: ProtocolTokens = toRecord(ethTokens, 'address');
-
-export const getEthereumBatchRequests = (setts: SettMap, userAddress: string): BatchCallRequest[] => {
-	const tokenAddresses = Object.values(setts).map((sett) => sett.underlyingToken);
-	const settAddresses = Object.values(setts).map((sett) => sett.vaultToken);
-	const generalSetts = settAddresses.filter((sett) => setts[sett].state === SettState.Open);
-	const guardedSetts = settAddresses.filter((sett) => setts[sett].state !== SettState.Open);
-	const geyserAddresses = ethSetts.map((sett) => sett.geyser).filter((geyser): geyser is string => !!geyser);
-	return createChainBatchConfig(tokenAddresses, generalSetts, guardedSetts, geyserAddresses, userAddress);
-};
-
-export const getNetworkBatchRequests = (setts: SettMap, userAddress: string): BatchCallRequest[] => {
-	const tokenAddresses = Object.values(setts).map((sett) => sett.underlyingToken);
-	const settAddresses = Object.values(setts).map((sett) => sett.vaultToken);
-	const generalSetts = settAddresses.filter((sett) => setts[sett].state === SettState.Open);
-	const guardedSetts = settAddresses.filter((sett) => setts[sett].state !== SettState.Open);
-	return createChainBatchConfig(tokenAddresses, generalSetts, guardedSetts, [], userAddress);
-};
