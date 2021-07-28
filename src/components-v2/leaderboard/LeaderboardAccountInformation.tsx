@@ -7,6 +7,7 @@ import { Skeleton } from '@material-ui/lab';
 import BoostSuggestion from './BoostSuggestion';
 import NativeRankSuggestion from './NativeRankSuggestion';
 import ViewBoostButton from './ViewBoostButton';
+import { FLAGS } from '../../config/constants';
 
 const useStyles = makeStyles((theme) => ({
 	justifyCenterOnMobile: {
@@ -17,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
 	boostContainer: {
 		[theme.breakpoints.down('xs')]: {
 			textAlign: 'center',
-			marginBottom: 16,
+			marginBottom: FLAGS.BOOST_OPTIMIZER ? 16 : 0,
 		},
 	},
 	headerValueText: {
@@ -66,11 +67,13 @@ const LeaderboardAccountInformation = observer(
 						</Typography>
 					</Grid>
 				</Grid>
-				<div className={classes.infoContainer}>
-					<ViewBoostButton />
-					<BoostSuggestion />
-					<NativeRankSuggestion />
-				</div>
+				{FLAGS.BOOST_OPTIMIZER && (
+					<div className={classes.infoContainer}>
+						<ViewBoostButton />
+						<BoostSuggestion />
+						<NativeRankSuggestion />
+					</div>
+				)}
 			</Grid>
 		);
 	},
