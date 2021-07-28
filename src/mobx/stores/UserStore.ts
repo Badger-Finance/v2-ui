@@ -1,4 +1,4 @@
-import { extendObservable, action, observe } from 'mobx';
+import { action, extendObservable, observe } from 'mobx';
 import { RootStore } from '../RootStore';
 import { checkShopEligibility, fetchBouncerProof, fetchClaimProof, getAccountDetails } from 'mobx/utils/apiV2';
 import WalletStore from './walletStore';
@@ -390,10 +390,20 @@ export default class UserStore {
 
 	loadAccountDetails = action(
 		async (address: string, chain?: string): Promise<void> => {
-			const accountDetails = await getAccountDetails(address, chain ? chain : 'eth');
-			if (accountDetails) {
-				this.accountDetails = accountDetails;
-			}
+			this.accountDetails = await getAccountDetails(address, chain ? chain : 'eth');
+			this.accountDetails = {
+				id: '1',
+				boost: 1,
+				boostRank: 12,
+				multipliers: {},
+				value: 0,
+				earnedValue: 0,
+				balances: [],
+				nativeBalance: 0,
+				nonNativeBalance: 0,
+				depositLimits: {},
+				stakeRatio: 0,
+			};
 		},
 	);
 }

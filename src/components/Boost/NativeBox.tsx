@@ -93,10 +93,11 @@ export const NativeBox = observer((props: Props) => {
 		'multiplier',
 	);
 
-	const currentRank = BOOST_RANKS[currentRankNumber];
-	const nextRank = BOOST_RANKS[currentRankNumber + 1];
-	const nextBoostLevel = BOOST_LEVELS[currentLevelNumber + 1];
-	const isLastRankLevel = currentLevelNumber === currentRank.levels.length - 1;
+	const currentBoostLevel = BOOST_RANKS[currentRankNumber].levels[currentLevelNumber];
+	const currentBoostLevelIndex = BOOST_LEVELS.findIndex(
+		(_level) => _level.stakeRatioBoundary === currentBoostLevel.stakeRatioBoundary,
+	);
+	const nextBoostLevel = BOOST_LEVELS[currentBoostLevelIndex + 1];
 
 	let nextStepText;
 	let amountToReachNextLevel = 0;
@@ -111,11 +112,6 @@ export const NativeBox = observer((props: Props) => {
 
 		const native = Number(nativeBalance);
 		shouldShowAmountToReachNextLevel = native !== 0 && amountToReachNextLevel > native;
-	}
-
-	if (isLastRankLevel) {
-		nextStepText = nextRank ? nextRank.name : `${nextBoostLevel.multiplier}x`;
-	} else if (nextBoostLevel) {
 		nextStepText = `${nextBoostLevel.multiplier}x`;
 	}
 

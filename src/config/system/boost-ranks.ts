@@ -3,7 +3,7 @@ import { BoostRank } from '../../mobx/model/boost/leaderboard-rank';
 export const BOOST_RANKS: BoostRank[] = [
 	{
 		name: 'Basic Badger',
-		signatureColor: '#F44336',
+		signatureColor: '#F2A52B',
 		levels: [
 			{
 				stakeRatioBoundary: 0,
@@ -25,7 +25,7 @@ export const BOOST_RANKS: BoostRank[] = [
 	},
 	{
 		name: 'Neo Badger',
-		signatureColor: '#F44336',
+		signatureColor: '#74D189',
 		levels: [
 			{
 				stakeRatioBoundary: 1,

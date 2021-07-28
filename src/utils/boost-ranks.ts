@@ -18,12 +18,14 @@ export const sanitizeMultiplierValue = (multiplier: number): number => {
 
 export const calculateMultiplier = (native: number, nonNative: number): number => {
 	const stakeRatio = (native / nonNative) * 100;
-	return boostLevelByMatchingStakeRatio(stakeRatio).multiplier;
+	const [rankIndex, levelIndex] = getRankAndLevelInformationFromStat(stakeRatio, 'stake');
+	return BOOST_RANKS[rankIndex].levels[levelIndex].multiplier;
 };
 
-export const calculateNativeToMatchBoost = (native: number, nonNative: number, desiredBoost: number): number => {
-	const levelFromDesiredBoost = boostLevelFromMatchingBoostMultiplier(desiredBoost);
-	const nativeNeeded = nonNative * levelFromDesiredBoost.stakeRatioBoundary;
+export const calculateNativeToMatchBoost = (native: number, nonNative: number, desiredMultiplier: number): number => {
+	const [rankIndex, levelIndex] = getRankAndLevelInformationFromStat(desiredMultiplier, 'multiplier');
+	const levelFromDesiredBoost = BOOST_RANKS[rankIndex].levels[levelIndex];
+	const nativeNeeded = nonNative * (levelFromDesiredBoost.stakeRatioBoundary / 100);
 	const missingNative = nativeNeeded - native;
 
 	return Math.max(missingNative, 0);
@@ -75,19 +77,21 @@ export const rankNumberFromStakeRatio = (stakeRatio: number): number => {
 };
 
 export const rankFromStakeRatio = (stakeRatio: number): BoostRank => {
-	return BOOST_RANKS[rankNumberFromStakeRatio(stakeRatio)];
+	const [rankIndex] = getRankAndLevelInformationFromStat(stakeRatio, 'stake');
+	return BOOST_RANKS[rankIndex];
+};
+
+export const rankFromMultiplier = (multiplier: number): BoostRank => {
+	const [rankIndex] = getRankAndLevelInformationFromStat(multiplier, 'multiplier');
+	return BOOST_RANKS[rankIndex];
 };
 
 export const boostLevelFromMatchingBoostMultiplier = (boostMultiplier: number): BoostRankLevel => {
-	const { 1: matchingLevelIndex } = getRankAndLevelInformationFromStat(boostMultiplier, 'multiplier');
-	return BOOST_LEVELS[matchingLevelIndex];
-};
-
-export const boostLevelNumberByMatchingStakeRatio = (stakeRatio: number): number => {
-	const { 1: matchingLevelIndex } = getRankAndLevelInformationFromStat(stakeRatio, 'stake');
-	return matchingLevelIndex;
+	const [rankIndex, levelIndex] = getRankAndLevelInformationFromStat(boostMultiplier, 'multiplier');
+	return BOOST_RANKS[rankIndex].levels[levelIndex];
 };
 
 export const boostLevelByMatchingStakeRatio = (stakeRatio: number): BoostRankLevel => {
-	return BOOST_LEVELS[boostLevelNumberByMatchingStakeRatio(stakeRatio)];
+	const [rankIndex, levelIndex] = getRankAndLevelInformationFromStat(stakeRatio, 'stake');
+	return BOOST_RANKS[rankIndex].levels[levelIndex];
 };

@@ -123,7 +123,7 @@ export const OptimizerBody = observer(
 		const handleReduceNonNative = () => {
 			const reducedNonNative = Number(nonNative) - 1000;
 
-			if (isLoading || !isNaN(reducedNonNative)) {
+			if (isLoading || isNaN(reducedNonNative)) {
 				return;
 			}
 
@@ -134,7 +134,7 @@ export const OptimizerBody = observer(
 		const badgerScoreContent = isLoading ? (
 			<BoostLoader variant="rect" />
 		) : (
-			<BoostBadgerAnimation boost={sanitizedMultiplier} />
+			<BoostBadgerAnimation multiplier={sanitizedMultiplier} />
 		);
 
 		const nativeBox = (

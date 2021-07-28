@@ -10,12 +10,7 @@ import { OptimizerHeader } from './OptimizerHeader';
 import { debounce } from '../../utils/componentHelpers';
 import { formatWithoutExtraZeros } from '../../mobx/utils/helpers';
 import NoWallet from '../Common/NoWallet';
-import {
-	boostLevelByMatchingStakeRatio,
-	calculateMultiplier,
-	calculateNativeToMatchBoost,
-	isValidMultiplier,
-} from '../../utils/boost-ranks';
+import { calculateMultiplier, calculateNativeToMatchBoost, isValidMultiplier } from '../../utils/boost-ranks';
 
 const useStyles = makeStyles((theme) => ({
 	calculatorContainer: {
@@ -24,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
 		padding: theme.spacing(3),
 		flexDirection: 'column',
 		[theme.breakpoints.up('md')]: {
-			height: 470,
+			height: 503,
 		},
 	},
 	divider: {
@@ -87,13 +82,14 @@ export const Optimizer = observer(
 		);
 
 		const updateMultiplier = (newNative: string, newNonNative: string) => {
-			const newStakeRatio = (Number(newNative) / Number(newNonNative)) * 100;
+			const numberNewNative = Number(newNative);
+			const numericNewNonNative = Number(newNonNative);
 
-			if (isNaN(newStakeRatio)) {
+			if (isNaN(numberNewNative) || isNaN(numericNewNonNative)) {
 				return;
 			}
 
-			setMultiplier(boostLevelByMatchingStakeRatio(newStakeRatio).multiplier.toString());
+			setMultiplier(calculateMultiplier(numberNewNative, numericNewNonNative).toString());
 		};
 
 		const handleReset = () => {
@@ -113,7 +109,8 @@ export const Optimizer = observer(
 				return;
 			}
 
-			setMultiplier(rankBoost.toFixed(2));
+			console.log({ rankBoost });
+
 			calculateNativeToMatchMultiplier(rankBoost);
 		};
 

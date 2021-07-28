@@ -25,7 +25,7 @@ const StyledInfoIcon = styled(InfoIcon)(({ theme }) => ({
 const BoostInput = withStyles(() => ({
 	root: {
 		marginLeft: 12,
-		maxWidth: 60,
+		maxWidth: 70,
 	},
 	input: {
 		fontSize: 21,
@@ -64,9 +64,6 @@ const useBoostStyles = (currentBoost?: string, boost = 0) => {
 const useStyles = makeStyles((theme) => ({
 	header: {
 		justifyContent: 'space-between',
-		[theme.breakpoints.up('lg')]: {
-			height: 50,
-		},
 		[theme.breakpoints.down(480)]: {
 			justifyContent: 'center',
 		},
