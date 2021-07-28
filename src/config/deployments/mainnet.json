@@ -103,7 +103,8 @@
 			"native.bbtcCrv": "0x5Dce29e92b1b939F8E8C60DcF15BDE82A85be4a9",
 			"native.tricryptoCrv": "0xBE08Ef12e4a553666291E9fFC24fCCFd354F2Dd2",
 			"native.cvxCrv": "0x2B5455aac8d64C14786c3a29858E43b5945819C0",
-			"native.cvx": "0x53C8E199eb2Cb7c01543C137078a038937a68E40"
+			"native.cvx": "0x53C8E199eb2Cb7c01543C137078a038937a68E40",
+			"native.renBtc": "0x58CAc1409F1ffbdcBA6a58d54c94CAC3fb4C6F8B"
 		},
 		"strategies": {
 			"native.badger": "0x75b8E21BD623012Efb3b69E1B562465A68944eE6",
