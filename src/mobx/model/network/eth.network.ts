@@ -47,7 +47,7 @@ export class Ethereum extends Network {
 			this.deploy.sett_system.vaults['native.uniBadgerWbtc'],
 			this.deploy.sett_system.vaults['harvest.renCrv'],
 			...(FLAGS.STABILIZATION_SETTS ? [this.deploy.sett_system.vaults['experimental.digg']] : []),
-			this.deploy.sett_system.vaults['native.renBtc'],
+			...(FLAGS.RENBTC_SETT ? [this.deploy.sett_system.vaults['native.renBtc']] : []),
 		];
 	}
 
