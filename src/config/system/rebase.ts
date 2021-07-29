@@ -56,6 +56,18 @@ export const getRebase = (network: string): RebaseNetworkConfig | undefined => {
 						],
 					},
 					{
+						addresses: [digg_system.marketMedianOracle],
+						abi: MedianOracle.abi as AbiItem[],
+						groupByNamespace: true,
+						namespace: 'oracle',
+						readMethods: [
+							{
+								name: 'providerReports',
+								args: [digg_system.newCentralizedOracle, 0],
+							},
+						],
+					},
+					{
 						addresses: [digg_system.DROPT['DROPT-2'].redemption],
 						abi: DroptRedemption.abi as AbiItem[],
 						groupByNamespace: true,
