@@ -57,9 +57,9 @@ export const Optimizer = observer(
 		} = useContext(StoreContext);
 
 		const classes = useStyles();
-		const [multiplier, setMultiplier] = useState<string>();
-		const [native, setNative] = useState<string>();
-		const [nonNative, setNonNative] = useState<string>();
+		const [multiplier, setMultiplier] = useState(MIN_BOOST_LEVEL.multiplier.toString());
+		const [native, setNative] = useState('0');
+		const [nonNative, setNonNative] = useState('0');
 		const [nativeToAdd, setNativeToAdd] = useState<string>();
 		const [showBouncingMessage, setShowBouncingMessage] = useState(false);
 
