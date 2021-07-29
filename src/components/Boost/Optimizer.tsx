@@ -9,8 +9,8 @@ import { StakeInformation } from './StakeInformation';
 import { OptimizerHeader } from './OptimizerHeader';
 import { debounce } from '../../utils/componentHelpers';
 import { formatWithoutExtraZeros } from '../../mobx/utils/helpers';
-import { calculateMultiplier, isValidMultiplier } from '../../utils/boost-ranks';
-import { BOOST_LEVELS, MIN_BOOST_LEVEL } from '../../config/system/boost-ranks';
+import { calculateMultiplier, calculateNativeToMatchMultiplier, isValidMultiplier } from '../../utils/boost-ranks';
+import { MIN_BOOST_LEVEL } from '../../config/system/boost-ranks';
 
 const useStyles = makeStyles((theme) => ({
 	calculatorContainer: {
@@ -71,14 +71,16 @@ export const Optimizer = observer(
 			return;
 		};
 
-		const calculateNativeToMatchMultiplier = useCallback(
+		const setNativeToMatchMultiplier = useCallback(
 			(targetBoost: number) => {
-				const nativeToAdd = calculateNativeToMatchMultiplier(Number(native), Number(nonNative), targetBoost);
+				const numericNative = Number(native);
+				const numericNonNative = Number(nonNative);
 
-				if (isNaN(nativeToAdd)) {
+				if (isNaN(numericNative) || isNaN(numericNonNative)) {
 					return;
 				}
 
+				const nativeToAdd = calculateNativeToMatchMultiplier(numericNative, numericNonNative, targetBoost);
 				setNativeToAdd(nativeToAdd.toString());
 			},
 			[native, nonNative],
@@ -90,10 +92,10 @@ export const Optimizer = observer(
 			debounce(
 				600,
 				async (updatedBoost: number): Promise<void> => {
-					calculateNativeToMatchMultiplier(updatedBoost);
+					setNativeToMatchMultiplier(updatedBoost);
 				},
 			),
-			[calculateNativeToMatchMultiplier],
+			[setNativeToMatchMultiplier],
 		);
 
 		const updateMultiplier = (newNative: string, newNonNative: string) => {
@@ -101,7 +103,7 @@ export const Optimizer = observer(
 			const numericNewNonNative = Number(newNonNative);
 
 			if (isNaN(numberNewNative) || isNaN(numericNewNonNative) || numericNewNonNative === 0) {
-				setMultiplier(BOOST_LEVELS[0].multiplier.toString());
+				setMultiplier(MIN_BOOST_LEVEL.multiplier.toString());
 				return;
 			}
 
@@ -128,7 +130,7 @@ export const Optimizer = observer(
 				return;
 			}
 
-			calculateNativeToMatchMultiplier(rankBoost);
+			setNativeToMatchMultiplier(rankBoost);
 		};
 
 		const handleMultiplierChange = (updatedMultiplier: string) => {
