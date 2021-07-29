@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
 		boxSizing: 'border-box',
 		padding: theme.spacing(3),
 		flexDirection: 'column',
-		height: 503,
+		height: 505,
 	},
 	rank: {
 		marginRight: theme.spacing(1),
