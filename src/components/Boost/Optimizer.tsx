@@ -9,8 +9,8 @@ import { StakeInformation } from './StakeInformation';
 import { OptimizerHeader } from './OptimizerHeader';
 import { debounce } from '../../utils/componentHelpers';
 import { formatWithoutExtraZeros } from '../../mobx/utils/helpers';
-import NoWallet from '../Common/NoWallet';
-import { calculateMultiplier, calculateNativeToMatchBoost, isValidMultiplier } from '../../utils/boost-ranks';
+import { calculateMultiplier, isValidMultiplier } from '../../utils/boost-ranks';
+import { BOOST_LEVELS, MIN_BOOST_LEVEL } from '../../config/system/boost-ranks';
 
 const useStyles = makeStyles((theme) => ({
 	calculatorContainer: {
@@ -40,6 +40,13 @@ const useStyles = makeStyles((theme) => ({
 	placeholderText: {
 		marginBottom: theme.spacing(2),
 	},
+	stakeInformationCardContainer: {
+		[theme.breakpoints.up('lg')]: {
+			flexGrow: 0,
+			maxWidth: '29%',
+			flexBasis: '29%',
+		},
+	},
 }));
 
 export const Optimizer = observer(
@@ -56,9 +63,17 @@ export const Optimizer = observer(
 		const [nativeToAdd, setNativeToAdd] = useState<string>();
 		const [showBouncingMessage, setShowBouncingMessage] = useState(false);
 
+		const resetToDisconnectedWalletDefaults = () => {
+			setNative('0');
+			setNonNative('0');
+			setNativeToAdd(undefined);
+			setMultiplier(MIN_BOOST_LEVEL.multiplier.toString());
+			return;
+		};
+
 		const calculateNativeToMatchMultiplier = useCallback(
 			(targetBoost: number) => {
-				const nativeToAdd = calculateNativeToMatchBoost(Number(native), Number(nonNative), targetBoost);
+				const nativeToAdd = calculateNativeToMatchMultiplier(Number(native), Number(nonNative), targetBoost);
 
 				if (isNaN(nativeToAdd)) {
 					return;
@@ -85,7 +100,8 @@ export const Optimizer = observer(
 			const numberNewNative = Number(newNative);
 			const numericNewNonNative = Number(newNonNative);
 
-			if (isNaN(numberNewNative) || isNaN(numericNewNonNative)) {
+			if (isNaN(numberNewNative) || isNaN(numericNewNonNative) || numericNewNonNative === 0) {
+				setMultiplier(BOOST_LEVELS[0].multiplier.toString());
 				return;
 			}
 
@@ -93,7 +109,10 @@ export const Optimizer = observer(
 		};
 
 		const handleReset = () => {
-			if (!accountDetails) return;
+			if (!accountDetails) {
+				resetToDisconnectedWalletDefaults();
+				return;
+			}
 
 			const { nativeBalance, nonNativeBalance } = accountDetails;
 
@@ -108,8 +127,6 @@ export const Optimizer = observer(
 				setShowBouncingMessage(true);
 				return;
 			}
-
-			console.log({ rankBoost });
 
 			calculateNativeToMatchMultiplier(rankBoost);
 		};
@@ -145,6 +162,12 @@ export const Optimizer = observer(
 
 		// load store holdings by default once they're available
 		useEffect(() => {
+			// wallet was disconnected so we reset values to no wallet defaults
+			if (!connectedAddress) {
+				resetToDisconnectedWalletDefaults();
+				return;
+			}
+
 			if (!accountDetails) return;
 
 			const { nativeBalance, nonNativeBalance } = accountDetails;
@@ -152,11 +175,7 @@ export const Optimizer = observer(
 			setNative(formatWithoutExtraZeros(nativeBalance, 4));
 			setNonNative(formatWithoutExtraZeros(nonNativeBalance, 4));
 			setMultiplier(calculateMultiplier(nativeBalance, nonNativeBalance).toString());
-		}, [accountDetails]);
-
-		if (!connectedAddress) {
-			return <NoWallet message="Please connect your wallet to use the optimizer" />;
-		}
+		}, [accountDetails, connectedAddress]);
 
 		return (
 			<Grid container spacing={2}>
@@ -164,7 +183,6 @@ export const Optimizer = observer(
 					<Grid container component={Paper} className={classes.calculatorContainer}>
 						<Grid item>
 							<OptimizerHeader
-								accountMultiplier={accountDetails?.boost}
 								multiplier={multiplier}
 								disableBoost={!nonNative || Number(nonNative) === 0}
 								onBoostChange={handleMultiplierChange}
@@ -175,7 +193,7 @@ export const Optimizer = observer(
 						<Divider className={classes.divider} />
 						<Grid item container xs direction="column" justify="center">
 							<OptimizerBody
-								multiplier={multiplier || '1'}
+								multiplier={multiplier || MIN_BOOST_LEVEL.multiplier.toString()}
 								native={native || ''}
 								nonNative={nonNative || ''}
 								nativeToAdd={nativeToAdd}
@@ -187,7 +205,7 @@ export const Optimizer = observer(
 						</Grid>
 					</Grid>
 				</Grid>
-				<Grid item xs={12} lg={3}>
+				<Grid item xs={12} className={classes.stakeInformationCardContainer}>
 					<StakeInformation native={native} nonNative={nonNative} onRankClick={handleRankClick} />
 				</Grid>
 			</Grid>

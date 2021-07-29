@@ -9,11 +9,11 @@ import { formatWithoutExtraZeros, numberWithCommas } from '../../mobx/utils/help
 import { useAssetInputStyles } from './utils';
 import { StoreContext } from '../../mobx/store-context';
 import {
-	calculateNativeToMatchBoost,
-	getRankAndLevelInformationFromStat,
+	calculateNativeToMatchMultiplier,
 	isValidMultiplier,
+	getNextBoostLevel,
+	rankAndLevelFromMultiplier,
 } from '../../utils/boost-ranks';
-import { BOOST_LEVELS, BOOST_RANKS } from '../../config/system/boost-ranks';
 
 const useStyles = makeStyles((theme) => ({
 	settInformation: {
@@ -88,31 +88,29 @@ export const NativeBox = observer((props: Props) => {
 
 	const showNativeToAdd = nativeToAdd && Number(nativeToAdd) !== 0 && isValidMultiplier(Number(currentMultiplier));
 
-	const [currentRankNumber, currentLevelNumber] = getRankAndLevelInformationFromStat(
-		Number(currentMultiplier),
-		'multiplier',
-	);
-
-	const currentBoostLevel = BOOST_RANKS[currentRankNumber].levels[currentLevelNumber];
-	const currentBoostLevelIndex = BOOST_LEVELS.findIndex(
-		(_level) => _level.stakeRatioBoundary === currentBoostLevel.stakeRatioBoundary,
-	);
-	const nextBoostLevel = BOOST_LEVELS[currentBoostLevelIndex + 1];
+	const { 1: currentBoostLevel } = rankAndLevelFromMultiplier(Number(currentMultiplier));
+	const nextBoostLevel = getNextBoostLevel(currentBoostLevel);
 
 	let nextStepText;
 	let amountToReachNextLevel = 0;
 	let shouldShowAmountToReachNextLevel = false;
 
 	if (nextBoostLevel) {
-		amountToReachNextLevel = calculateNativeToMatchBoost(
+		amountToReachNextLevel = calculateNativeToMatchMultiplier(
 			Number(nativeBalance),
 			Number(nonNativeBalance),
 			nextBoostLevel.multiplier,
 		);
 
 		const native = Number(nativeBalance);
-		shouldShowAmountToReachNextLevel = native !== 0 && amountToReachNextLevel > native;
+		shouldShowAmountToReachNextLevel = native !== 0 && amountToReachNextLevel > 0;
 		nextStepText = `${nextBoostLevel.multiplier}x`;
+
+		console.log('nextBoostLevel =>', nextBoostLevel);
+		console.log(
+			`shouldShowAmountToReachNextLevel = ${native} !== 0 && ${amountToReachNextLevel} > ${0} = ${shouldShowAmountToReachNextLevel}`,
+		);
+		console.log('amountToReachNextLevel =>', amountToReachNextLevel);
 	}
 
 	const handleNextLevelAmountClick = () => {
@@ -159,7 +157,7 @@ export const NativeBox = observer((props: Props) => {
 									onClick={handleNextLevelAmountClick}
 								>{` $${numberWithCommas(formatWithoutExtraZeros(amountToReachNextLevel, 3))} `}</span>
 							</Tooltip>
-							more Native to reach next rank:
+							more Native to reach next multiplier:{' '}
 							<span className={classes.nextLevelName}>{nextStepText}</span>
 						</Typography>
 					</Grid>

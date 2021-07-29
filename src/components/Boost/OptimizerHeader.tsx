@@ -11,11 +11,13 @@ import {
 } from '@material-ui/core';
 import InfoIcon from '@material-ui/icons/Info';
 import { makeStyles, styled } from '@material-ui/core/styles';
+import { observer } from 'mobx-react-lite';
 
 import { getColorFromComparison } from './utils';
 import { useNumericInput } from '../../utils/useNumericInput';
-import { formatWithoutExtraZeros } from '../../mobx/utils/helpers';
-import { isValidMultiplier } from '../../utils/boost-ranks';
+import { isValidMultiplier, rankAndLevelFromStakeRatio } from '../../utils/boost-ranks';
+import { StoreContext } from '../../mobx/store-context';
+import { MIN_BOOST_LEVEL } from '../../config/system/boost-ranks';
 
 const StyledInfoIcon = styled(InfoIcon)(({ theme }) => ({
 	marginLeft: theme.spacing(1),
@@ -37,9 +39,9 @@ const BoostInput = withStyles(() => ({
 	},
 }))(OutlinedInput);
 
-const useBoostStyles = (currentBoost?: string, boost = 0) => {
+const useMultiplierStyles = (currentMultiplier?: string, accountMultiplier = 0) => {
 	return makeStyles((theme) => {
-		if (!currentBoost || !boost) {
+		if (!currentMultiplier) {
 			return {
 				fontColor: {
 					color: theme.palette.text.secondary,
@@ -50,8 +52,8 @@ const useBoostStyles = (currentBoost?: string, boost = 0) => {
 		return {
 			fontColor: {
 				color: getColorFromComparison({
-					toCompareValue: currentBoost,
-					toBeComparedValue: formatWithoutExtraZeros(boost, 2),
+					toCompareValue: currentMultiplier,
+					toBeComparedValue: accountMultiplier,
 					greaterCaseColor: '#74D189',
 					lessCaseColor: theme.palette.error.main,
 					defaultColor: theme.palette.text.secondary,
@@ -89,64 +91,70 @@ interface Props {
 	onLockedBoostClick: () => void;
 }
 
-export const OptimizerHeader = ({
-	multiplier,
-	accountMultiplier,
-	disableBoost = false,
-	onBoostChange,
-	onReset,
-	onLockedBoostClick,
-}: Props): JSX.Element => {
-	const { onValidChange, inputProps } = useNumericInput();
-	const classes = useStyles();
-	const theme = useTheme();
-	const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-	const boostClasses = useBoostStyles(multiplier, accountMultiplier)();
-	const isLocked = disableBoost || accountMultiplier === undefined;
+export const OptimizerHeader = observer(
+	({ multiplier, disableBoost = false, onBoostChange, onReset, onLockedBoostClick }: Props): JSX.Element => {
+		const {
+			user: { accountDetails },
+			wallet: { connectedAddress },
+		} = React.useContext(StoreContext);
 
-	let validBoost = false;
+		const { onValidChange, inputProps } = useNumericInput();
+		const classes = useStyles();
+		const theme = useTheme();
+		const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-	// evaluate only after loaded
-	if (multiplier !== undefined) {
-		validBoost = isValidMultiplier(Number(multiplier));
-	}
+		const isLoading = !!connectedAddress && accountDetails === undefined;
+		const isLocked = isLoading || disableBoost;
 
-	return (
-		<Grid container spacing={isMobile ? 2 : 0} className={classes.header} alignItems="center">
-			<Grid item className={classes.boostSectionContainer}>
-				<Typography display="inline" className={classes.boostText}>
-					Multiplier:
-				</Typography>
-				<BoostInput
-					className={validBoost ? boostClasses.fontColor : classes.invalidMultiplier}
-					disabled={isLocked}
-					error={!validBoost}
-					inputProps={{ ...inputProps, 'aria-label': 'boost multiplier number' }}
-					placeholder="1.00"
-					onChange={onValidChange(onBoostChange)}
-					value={multiplier || ''}
-					onClick={() => {
-						if (isLocked) {
-							onLockedBoostClick();
+		const stakeRatioToCompare = accountDetails?.stakeRatio || MIN_BOOST_LEVEL.stakeRatioBoundary;
+		const { 1: accountLevel } = rankAndLevelFromStakeRatio(stakeRatioToCompare);
+
+		const boostClasses = useMultiplierStyles(multiplier, accountLevel.multiplier)();
+
+		let validBoost = false;
+
+		// evaluate only after loaded
+		if (multiplier !== undefined) {
+			validBoost = isValidMultiplier(Number(multiplier));
+		}
+
+		return (
+			<Grid container spacing={isMobile ? 2 : 0} className={classes.header} alignItems="center">
+				<Grid item className={classes.boostSectionContainer}>
+					<Typography display="inline" className={classes.boostText}>
+						Boost:
+					</Typography>
+					<BoostInput
+						className={validBoost ? boostClasses.fontColor : classes.invalidMultiplier}
+						disabled={isLocked}
+						error={!validBoost}
+						inputProps={{ ...inputProps, 'aria-label': 'boost multiplier number' }}
+						placeholder="1.00"
+						onChange={onValidChange(onBoostChange)}
+						value={multiplier || ''}
+						onClick={() => {
+							if (isLocked) {
+								onLockedBoostClick();
+							}
+						}}
+					/>
+					<Tooltip
+						title={
+							'This is a boost estimation at a point in time for the purpose of illustration only. This is a means to help you optimize your returns. Please refer to the Sett page for your specific returns.'
 						}
-					}}
-				/>
-				<Tooltip
-					title={
-						'This is a boost estimation at a point in time for the purpose of illustration only. This is a means to help you optimize your returns. Please refer to the Sett page for your specific returns.'
-					}
-					arrow
-					placement="bottom"
-					color="primary"
-				>
-					<StyledInfoIcon />
-				</Tooltip>
+						arrow
+						placement="bottom"
+						color="primary"
+					>
+						<StyledInfoIcon />
+					</Tooltip>
+				</Grid>
+				<Grid item>
+					<Button color="primary" variant="outlined" size="small" onClick={onReset}>
+						Reset Calculations
+					</Button>
+				</Grid>
 			</Grid>
-			<Grid item>
-				<Button color="primary" variant="outlined" size="small" onClick={onReset}>
-					Reset Calculations
-				</Button>
-			</Grid>
-		</Grid>
-	);
-};
+		);
+	},
+);

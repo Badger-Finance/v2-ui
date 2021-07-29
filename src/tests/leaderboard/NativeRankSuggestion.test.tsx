@@ -10,21 +10,21 @@ describe('NativeRankSuggestion', () => {
 
 	describe('User with no amount to reach next rank', () => {
 		it('Does not display', () => {
-			jest.spyOn(rankUtils, 'calculateNativeToMatchBoost').mockImplementation();
+			jest.spyOn(rankUtils, 'calculateNativeToMatchMultiplier').mockImplementation();
 			checkSnapshot(<NativeRankSuggestion />);
 		});
 	});
 
 	describe('User with zero to reach next rank', () => {
 		it('Does not display', () => {
-			jest.spyOn(rankUtils, 'calculateNativeToMatchBoost').mockImplementation(() => 0);
+			jest.spyOn(rankUtils, 'calculateNativeToMatchMultiplier').mockImplementation(() => 0);
 			checkSnapshot(<NativeRankSuggestion />);
 		});
 	});
 
 	describe('User with a positive amount to reach next rank', () => {
 		it('Displays a suggestion for to increase native balance', () => {
-			jest.spyOn(rankUtils, 'calculateNativeToMatchBoost').mockImplementation(() => 10);
+			jest.spyOn(rankUtils, 'calculateNativeToMatchMultiplier').mockImplementation(() => 10);
 			checkSnapshot(<NativeRankSuggestion />);
 		});
 	});

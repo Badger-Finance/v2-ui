@@ -22,6 +22,7 @@ import { Account } from '../model/account/account';
 import { RewardMerkleClaim } from '../model/rewards/reward-merkle-claim';
 import { UserPermissions } from '../model/account/userPermissions';
 import { NetworkStore } from './NetworkStore';
+import { MIN_BOOST_LEVEL } from '../../config/system/boost-ranks';
 
 export default class UserStore {
 	private store!: RootStore;
@@ -390,20 +391,19 @@ export default class UserStore {
 
 	loadAccountDetails = action(
 		async (address: string, chain?: string): Promise<void> => {
-			this.accountDetails = await getAccountDetails(address, chain ? chain : 'eth');
-			this.accountDetails = {
-				id: '1',
-				boost: 1,
-				boostRank: 12,
-				multipliers: {},
-				value: 0,
-				earnedValue: 0,
-				balances: [],
-				nativeBalance: 0,
-				nonNativeBalance: 0,
-				depositLimits: {},
-				stakeRatio: 0,
-			};
+			const accountDetails = await getAccountDetails(address, chain ? chain : 'eth');
+			if (accountDetails) {
+				accountDetails.stakeRatio = this.calculateStakeRatioFromAccountData(accountDetails);
+				this.accountDetails = accountDetails;
+			}
 		},
 	);
+
+	private calculateStakeRatioFromAccountData(account: Account): number {
+		const accountStakeRatio = (account.nativeBalance / account.nonNativeBalance) * 100;
+		const isValidStakeRatio = isFinite(accountStakeRatio) && !isNaN(accountStakeRatio); // catch division by zero or NaNs
+
+		//default to min boost level
+		return isValidStakeRatio ? accountStakeRatio : MIN_BOOST_LEVEL.stakeRatioBoundary;
+	}
 }

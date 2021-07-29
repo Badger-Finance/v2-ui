@@ -4,7 +4,7 @@ import { RankConnector } from './RankConnector';
 import { RankLevel } from './RankLevel';
 import { makeStyles } from '@material-ui/core/styles';
 import { RankProgressBar } from './RankProgressBar';
-import { BOOST_RANKS } from '../../config/system/boost-ranks';
+import { BOOST_LEVELS, BOOST_RANKS, MIN_BOOST_LEVEL } from '../../config/system/boost-ranks';
 
 const useStyles = makeStyles({
 	buttonBase: {
@@ -30,13 +30,13 @@ const useStyles = makeStyles({
 
 interface Props {
 	currentMultiplier?: number;
-	accountStakeRatio?: number;
+	accountMultiplier?: number;
 	onRankClick: (boost: number) => void;
 }
 
 export const RankList = ({
-	currentMultiplier = BOOST_RANKS[0].levels[0].multiplier, // default to first multiplier
-	accountStakeRatio = BOOST_RANKS[0].levels[0].multiplier,
+	currentMultiplier = MIN_BOOST_LEVEL.multiplier, // default to first multiplier
+	accountMultiplier = MIN_BOOST_LEVEL.multiplier,
 	onRankClick,
 }: Props): JSX.Element => {
 	const classes = useStyles();
@@ -45,35 +45,49 @@ export const RankList = ({
 		<>
 			{BOOST_RANKS.slice()
 				.reverse()
-				.map((rank, index) => {
-					const rankStartBoundary = rank.levels[0].stakeRatioBoundary;
-					const rankEndBoundary = rank.levels[rank.levels.length - 1].stakeRatioBoundary;
+				.map((rank, ranksIndex) => {
+					const rankStartBoundary = rank.levels[0].multiplier;
 
-					const isObtained = accountStakeRatio >= rankEndBoundary;
-					const isLocked = accountStakeRatio < rankStartBoundary;
+					const isObtained = accountMultiplier > rankStartBoundary;
+					const isLocked = accountMultiplier < rankStartBoundary;
 					const isCurrentBoost = rank.levels.some((_rank) => _rank.multiplier === currentMultiplier);
 
-					const progressItems = rank.levels.map((level, index) => (
-						<div className={classes.progressEntry} key={`${level.stakeRatioBoundary}_${level.multiplier}`}>
-							<RankProgressBar
-								boost={currentMultiplier}
-								accountBoost={accountStakeRatio}
-								rangeStart={rankStartBoundary}
-								rangeEnd={rankEndBoundary}
-							/>
-							<RankConnector signatureColor={rank.signatureColor} isMain={index === 0} />
-						</div>
-					));
+					const progressItems = rank.levels.map((level, levelsIndex) => {
+						const currentBoostLevelIndex = BOOST_LEVELS.findIndex(
+							(_level) => _level.multiplier === level.multiplier,
+						);
+						const nextLevel = BOOST_LEVELS[currentBoostLevelIndex + 1];
+						const levelRangeStart = level.multiplier;
+						const levelRangeEnd = nextLevel ? nextLevel.multiplier : level.multiplier;
+
+						return (
+							<div
+								className={classes.progressEntry}
+								key={`${level.stakeRatioBoundary}_${level.multiplier}`}
+							>
+								<RankProgressBar
+									multiplier={currentMultiplier}
+									accountMultiplier={accountMultiplier}
+									rangeStart={levelRangeStart}
+									rangeEnd={levelRangeEnd}
+								/>
+								<RankConnector signatureColor={rank.signatureColor} isMain={levelsIndex === 0} />
+							</div>
+						);
+					});
 
 					const rankItem = (
-						<Grid container alignItems="flex-end" key={`${index}_${rankStartBoundary}_${rank.name}`}>
+						<Grid container alignItems="flex-end" key={`${ranksIndex}_${rankStartBoundary}_${rank.name}`}>
 							<Grid item className={classes.progressContainer}>
 								{progressItems}
 							</Grid>
 							<Grid item xs>
 								<ButtonBase
 									className={classes.buttonBase}
-									onClick={() => onRankClick(rank.levels[0].multiplier)}
+									onClick={() => {
+										console.log(`jumping to multiplier => ${rank.levels[0].multiplier}`);
+										onRankClick(rank.levels[0].multiplier);
+									}}
 									aria-label={`${rank.name} Rank`}
 								>
 									<RankLevel
@@ -94,7 +108,7 @@ export const RankList = ({
 								arrow
 								placement="left"
 								color="primary"
-								key={`${index}_${rank.name}_${rankStartBoundary}`}
+								key={`${ranksIndex}_${rank.name}_${rankStartBoundary}`}
 							>
 								{rankItem}
 							</Tooltip>

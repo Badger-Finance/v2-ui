@@ -1,60 +1,15 @@
 import React from 'react';
-import { Button, Divider, Grid, Paper, Typography } from '@material-ui/core';
+import { Button, Divider, Grid, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { observer } from 'mobx-react-lite';
 
-import { getColorFromComparison } from './utils';
-import { BadgerBoostImage } from './BadgerBoostImage';
+import { rankAndLevelFromStakeRatio } from '../../utils/boost-ranks';
 import { RankList } from './RankList';
 import { StoreContext } from '../../mobx/store-context';
 import routes from '../../config/routes';
-import { Skeleton } from '@material-ui/lab';
-import { calculateMultiplier, rankFromMultiplier } from '../../utils/boost-ranks';
-import { BOOST_LEVELS } from '../../config/system/boost-ranks';
-import clsx from 'clsx';
-
-const useComparedValuesStyles = (currentRatio: number, accountRatio: number) => {
-	return makeStyles((theme) => {
-		if (isNaN(currentRatio) || isNaN(accountRatio)) {
-			return {
-				fontColor: {
-					color: theme.palette.text.primary,
-				},
-			};
-		}
-
-		console.log({ currentRatio, accountRatio });
-
-		return {
-			fontColor: {
-				color: getColorFromComparison({
-					toCompareValue: currentRatio,
-					toBeComparedValue: accountRatio,
-					greaterCaseColor: '#74D189',
-					lessCaseColor: theme.palette.error.main,
-					defaultColor: theme.palette.text.primary,
-				}),
-			},
-		};
-	});
-};
-
-const useInformationPlaceholder = (defaultValue: string) => {
-	const {
-		wallet,
-		user: { accountDetails },
-	} = React.useContext(StoreContext);
-
-	if (!wallet.connectedAddress) {
-		return 'N/A';
-	}
-
-	if (!accountDetails) {
-		return <Skeleton width={30} />;
-	}
-
-	return defaultValue;
-};
+import { MIN_BOOST_LEVEL } from '../../config/system/boost-ranks';
+import { StakeInformationHeader } from './StakeInformationHeader';
+import { roundWithDecimals } from '../../utils/componentHelpers';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -74,19 +29,6 @@ const useStyles = makeStyles((theme) => ({
 		},
 		margin: theme.spacing(2, 0),
 	},
-	currentLevelImgContainer: {
-		display: 'inline-block',
-		width: 24,
-		height: 24,
-		margin: 'auto 4px auto 0',
-	},
-	fullWidthImage: {
-		width: '100%',
-		height: '100%',
-	},
-	currentLevelText: {
-		fontSize: 12,
-	},
 	viewLeaderBoardContainer: {
 		display: 'flex',
 		justifyContent: 'flex-end',
@@ -104,18 +46,10 @@ const useStyles = makeStyles((theme) => ({
 	unlockedRankItem: {
 		opacity: 1,
 	},
-	accountInformationContainer: {
-		marginTop: theme.spacing(2),
-	},
-	rankName: {
-		fontSize: 16,
-		fontWeight: 600,
-	},
-	informationValue: {
-		fontSize: 16,
-		fontWeight: 600,
-	},
 }));
+
+const isValidCalculatedValue = (value: number) => isFinite(value) && !isNaN(value);
+const roundValue = (value: number | string | undefined) => roundWithDecimals(Number(value), 4);
 
 interface Props {
 	native?: string;
@@ -128,77 +62,44 @@ export const StakeInformation = observer(
 		const {
 			router,
 			user: { accountDetails },
+			wallet: { connectedAddress },
 		} = React.useContext(StoreContext);
 
 		const classes = useStyles();
 
-		const stakeRatio = Number(native) / Number(nonNative);
-		const isValidStakeRatio = isFinite(stakeRatio) && !isNaN(stakeRatio);
+		const isLoading = !!connectedAddress && accountDetails === undefined;
+		const accountNative = accountDetails?.nativeBalance;
+		const accountNonNative = accountDetails?.nonNativeBalance;
 
-		const accountStakeRatio = accountDetails?.stakeRatio || 0;
-		const accountComparativeClasses = useComparedValuesStyles(stakeRatio, accountStakeRatio)();
-		const stakeRatioPlaceHolder = useInformationPlaceholder(`${BOOST_LEVELS[0].stakeRatioBoundary * 100}%`);
+		// round both values to make sure there is no difference caused by decimals
+		const calculatedStakeRatio = (roundValue(native) / roundValue(nonNative)) * 100;
+		const calculatedAccountRatio = (roundValue(accountNative) / roundValue(accountNonNative)) * 100;
 
-		const multiplier = calculateMultiplier(Number(native), Number(nonNative));
-		const currentRank = rankFromMultiplier(multiplier);
-		const multiplierPlaceHolder = useInformationPlaceholder(`${BOOST_LEVELS[0].multiplier}x`);
+		const isValidStakeRatio = isValidCalculatedValue(calculatedStakeRatio);
+		const isValidAccountRatio = isValidCalculatedValue(calculatedAccountRatio);
 
-		let stakeRatioInformation;
-		let multiplierInformation;
+		const stakeRatio = isValidStakeRatio ? calculatedStakeRatio : MIN_BOOST_LEVEL.stakeRatioBoundary;
+		const accountStakeRatio = isValidAccountRatio ? calculatedAccountRatio : MIN_BOOST_LEVEL.stakeRatioBoundary;
 
-		if (isValidStakeRatio) {
-			stakeRatioInformation = `${Number((stakeRatio * 100).toFixed(2))}%`;
-			multiplierInformation = `${multiplier}x`;
-		}
+		const [currentRank, currentLevel] = rankAndLevelFromStakeRatio(stakeRatio);
+		const { 1: accountLevel } = rankAndLevelFromStakeRatio(accountStakeRatio);
 
 		return (
 			<Grid container component={Paper} className={classes.root}>
-				<Grid container>
-					<Grid container alignItems="center">
-						<div className={classes.currentLevelImgContainer}>
-							<BadgerBoostImage signatureColor={currentRank.signatureColor} />
-						</div>
-						<Typography display="inline" className={classes.rankName}>
-							{currentRank.name}
-						</Typography>
-					</Grid>
-					<Grid container className={classes.accountInformationContainer}>
-						<Grid container item xs={6}>
-							<Grid item xs={12}>
-								<Typography variant="subtitle2" color="textSecondary">
-									Stake Ratio:
-								</Typography>
-							</Grid>
-							<Grid item xs={12}>
-								<Typography
-									className={clsx(classes.informationValue, accountComparativeClasses.fontColor)}
-								>
-									{stakeRatioInformation || stakeRatioPlaceHolder}
-								</Typography>
-							</Grid>
-						</Grid>
-						<Grid container item xs={6}>
-							<Grid item xs={12}>
-								<Typography variant="subtitle2" color="textSecondary">
-									Multiplier:
-								</Typography>
-							</Grid>
-							<Grid item xs={12}>
-								<Typography
-									className={clsx(classes.informationValue, accountComparativeClasses.fontColor)}
-								>
-									{multiplierInformation || multiplierPlaceHolder}
-								</Typography>
-							</Grid>
-						</Grid>
-					</Grid>
-				</Grid>
+				<StakeInformationHeader
+					isLoading={isLoading}
+					currentRank={currentRank}
+					stakeRatio={stakeRatio}
+					accountStakeRatio={accountStakeRatio}
+					multiplier={currentLevel.multiplier}
+					accountMultiplier={accountLevel.multiplier}
+				/>
 				<Divider className={classes.divider} />
 				<Grid container>
 					<Grid item xs>
 						<RankList
-							currentMultiplier={multiplier}
-							accountStakeRatio={accountStakeRatio}
+							currentMultiplier={currentLevel.multiplier}
+							accountMultiplier={accountLevel.multiplier}
 							onRankClick={onRankClick}
 						/>
 					</Grid>
@@ -214,7 +115,7 @@ export const StakeInformation = observer(
 							router.goTo(routes.boostLeaderBoard);
 						}}
 					>
-						View Leaderboard
+						View Stake ratio multipliers
 					</Button>
 				</Grid>
 			</Grid>

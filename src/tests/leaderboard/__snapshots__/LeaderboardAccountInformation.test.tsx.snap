@@ -117,6 +117,27 @@ exports[`LeaderboardAccountInformation User connected, data loaded Displays user
           />
         </button>
       </div>
+      <div
+        class="makeStyles-suggestionContainer-173"
+      >
+        <p
+          class="MuiTypography-root-108 makeStyles-amountToNextRank-174 MuiTypography-body1-110 MuiTypography-colorTextSecondary-134"
+        >
+          <span
+            class="MuiTypography-root-108 makeStyles-amountToNextRank-174 MuiTypography-body1-110 MuiTypography-colorTextPrimary-133"
+          >
+            $0.1
+          </span>
+           more 
+          <span
+            class="MuiTypography-root-108 makeStyles-amountToNextRank-174 MuiTypography-body1-110 MuiTypography-colorTextPrimary-133"
+          >
+            NATIVE
+          </span>
+           
+          to next rank
+        </p>
+      </div>
     </div>
   </div>
 </div>

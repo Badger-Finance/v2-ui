@@ -39,7 +39,7 @@ describe('Boost Optimizer', () => {
 		};
 
 		jest.spyOn(rankUtils, 'calculateMultiplier').mockReturnValue(10);
-		jest.spyOn(rankUtils, 'calculateNativeToMatchBoost').mockReturnValue(100);
+		jest.spyOn(rankUtils, 'calculateNativeToMatchMultiplier').mockReturnValue(100);
 	});
 
 	it('displays correct information', () => {
