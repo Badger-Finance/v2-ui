@@ -36,6 +36,7 @@ describe('Boost Optimizer', () => {
 			depositLimits: {},
 			nativeBalance: 1000,
 			nonNativeBalance: 500,
+			stakeRatio: 200,
 		};
 
 		jest.spyOn(rankUtils, 'calculateMultiplier').mockReturnValue(10);
@@ -133,6 +134,8 @@ describe('Boost Optimizer', () => {
 	});
 
 	it('shows empty non native message', () => {
+		jest.spyOn(rankUtils, 'calculateNativeToMatchMultiplier').mockReturnValue(0);
+
 		const { container } = customRender(
 			<StoreProvider value={store}>
 				<Optimizer />
@@ -142,6 +145,20 @@ describe('Boost Optimizer', () => {
 		const nonNativeInput = screen.getByRole('textbox', { name: 'non native holdings amount' });
 
 		userEvent.clear(nonNativeInput);
+
+		expect(container).toMatchSnapshot();
+	});
+
+	it('supports no wallet mode', () => {
+		store.wallet.connectedAddress = '';
+		store.user.accountDetails = null;
+		jest.spyOn(rankUtils, 'calculateNativeToMatchMultiplier').mockReturnValue(0);
+
+		const { container } = customRender(
+			<StoreProvider value={store}>
+				<Optimizer />
+			</StoreProvider>,
+		);
 
 		expect(container).toMatchSnapshot();
 	});
