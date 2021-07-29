@@ -49,7 +49,7 @@ export const RankList = ({
 					const rankStartBoundary = rank.levels[0].multiplier;
 
 					const isObtained = accountMultiplier > rankStartBoundary;
-					const isLocked = accountMultiplier < rankStartBoundary;
+					const isLocked = currentMultiplier < rankStartBoundary;
 					const isCurrentBoost = rank.levels.some((_rank) => _rank.multiplier === currentMultiplier);
 
 					const progressItems = rank.levels.map((level, levelsIndex) => {
@@ -85,7 +85,6 @@ export const RankList = ({
 								<ButtonBase
 									className={classes.buttonBase}
 									onClick={() => {
-										console.log(`jumping to multiplier => ${rank.levels[0].multiplier}`);
 										onRankClick(rank.levels[0].multiplier);
 									}}
 									aria-label={`${rank.name} Rank`}
