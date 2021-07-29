@@ -105,12 +105,6 @@ export const NativeBox = observer((props: Props) => {
 		const native = Number(nativeBalance);
 		shouldShowAmountToReachNextLevel = native !== 0 && amountToReachNextLevel > 0;
 		nextStepText = `${nextBoostLevel.multiplier}x`;
-
-		console.log('nextBoostLevel =>', nextBoostLevel);
-		console.log(
-			`shouldShowAmountToReachNextLevel = ${native} !== 0 && ${amountToReachNextLevel} > ${0} = ${shouldShowAmountToReachNextLevel}`,
-		);
-		console.log('amountToReachNextLevel =>', amountToReachNextLevel);
 	}
 
 	const handleNextLevelAmountClick = () => {
