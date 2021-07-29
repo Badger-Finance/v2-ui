@@ -138,24 +138,21 @@ export const NativeBox = observer((props: Props) => {
 				increaseAlt="increase native holdings"
 				decreaseAlt="decrease native holdings"
 			/>
-			{amountToReachNextLevel !== undefined &&
-				nextBoostLevel &&
-				shouldShowAmountToReachNextLevel &&
-				nextStepText && (
-					<Grid className={classes.infoBox}>
-						<Typography className={classes.infoText} color="textSecondary">
-							Deposit
-							<Tooltip title="Apply" arrow placement="top" color="primary">
-								<span
-									className={classes.amountToNextLevel}
-									onClick={handleNextLevelAmountClick}
-								>{` $${numberWithCommas(formatWithoutExtraZeros(amountToReachNextLevel, 3))} `}</span>
-							</Tooltip>
-							more Native to reach next multiplier:{' '}
-							<span className={classes.nextLevelName}>{nextStepText}</span>
-						</Typography>
-					</Grid>
-				)}
+			{shouldShowAmountToReachNextLevel && (
+				<Grid className={classes.infoBox}>
+					<Typography className={classes.infoText} color="textSecondary">
+						Deposit
+						<Tooltip title="Apply" arrow placement="top" color="primary">
+							<span
+								className={classes.amountToNextLevel}
+								onClick={handleNextLevelAmountClick}
+							>{` $${numberWithCommas(formatWithoutExtraZeros(amountToReachNextLevel, 3))} `}</span>
+						</Tooltip>
+						more Native to reach next multiplier:{' '}
+						<span className={classes.nextLevelName}>{nextStepText}</span>
+					</Typography>
+				</Grid>
+			)}
 			{nativeToAdd && showNativeToAdd && (
 				<Grid className={classes.valueToAddContainer} container direction="column">
 					<Typography className={classes.valueToAddText}>Value to Add</Typography>
