@@ -4,7 +4,7 @@ import {
 	calculateMultiplier,
 	calculateNativeToMatchMultiplier,
 	getNextBoostLevel,
-	getRankAndLevelInformationFromStat,
+	rankAndLevelNumbersFromSpec,
 	isValidMultiplier,
 	rankAndLevelFromMultiplier,
 	rankAndLevelFromStakeRatio,
@@ -109,7 +109,7 @@ describe('Boost Ranks Utils', () => {
 		test.each([...stakeRadioTable, ...multiplierTable])(
 			'getRankAndLevelInformationFromStat(%f, %s) returns %p',
 			(spec: any, criteria: any, result) => {
-				expect(getRankAndLevelInformationFromStat(spec, criteria)).toEqual(result);
+				expect(rankAndLevelNumbersFromSpec(spec, criteria)).toEqual(result);
 			},
 		);
 	});

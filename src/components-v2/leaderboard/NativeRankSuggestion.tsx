@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite';
 import { StoreContext } from 'mobx/store-context';
 import { numberWithCommas, formatWithoutExtraZeros } from 'mobx/utils/helpers';
 import React, { useContext } from 'react';
-import { calculateNativeToMatchMultiplier, getRankAndLevelInformationFromStat } from '../../utils/boost-ranks';
+import { calculateNativeToMatchMultiplier, rankAndLevelNumbersFromSpec } from '../../utils/boost-ranks';
 import { BOOST_RANKS } from '../../config/system/boost-ranks';
 
 const useStyles = makeStyles(() => ({
@@ -25,7 +25,7 @@ const NativeRankSuggestion = observer((): JSX.Element | null => {
 	}
 
 	const { nativeBalance, nonNativeBalance, stakeRatio } = account;
-	const [currentRank] = getRankAndLevelInformationFromStat(stakeRatio, 'stake');
+	const [currentRank] = rankAndLevelNumbersFromSpec(stakeRatio, 'stake');
 	const nextRank = BOOST_RANKS[currentRank + 1];
 
 	// if user has already reached max level there's no need for suggestion

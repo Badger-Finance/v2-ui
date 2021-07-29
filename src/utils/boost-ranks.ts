@@ -18,7 +18,7 @@ export const sanitizeMultiplierValue = (multiplier: number): number => {
 
 export const calculateMultiplier = (native: number, nonNative: number): number => {
 	const stakeRatio = (native / nonNative) * 100;
-	const [rankIndex, levelIndex] = getRankAndLevelInformationFromStat(stakeRatio, 'stake');
+	const [rankIndex, levelIndex] = rankAndLevelNumbersFromSpec(stakeRatio, 'stake');
 	return BOOST_RANKS[rankIndex].levels[levelIndex].multiplier;
 };
 
@@ -27,7 +27,7 @@ export const calculateNativeToMatchMultiplier = (
 	nonNative: number,
 	desiredMultiplier: number,
 ): number => {
-	const [rankIndex, levelIndex] = getRankAndLevelInformationFromStat(desiredMultiplier, 'multiplier');
+	const [rankIndex, levelIndex] = rankAndLevelNumbersFromSpec(desiredMultiplier, 'multiplier');
 	const levelFromDesiredBoost = BOOST_RANKS[rankIndex].levels[levelIndex];
 	const nativeNeeded = nonNative * (levelFromDesiredBoost.stakeRatioBoundary / 100);
 	const missingNative = nativeNeeded - native;
@@ -36,12 +36,12 @@ export const calculateNativeToMatchMultiplier = (
 };
 
 export const rankAndLevelFromMultiplier = (multiplier: number): [BoostRank, BoostRankLevel] => {
-	const [rankIndex, levelIndex] = getRankAndLevelInformationFromStat(multiplier, 'multiplier');
+	const [rankIndex, levelIndex] = rankAndLevelNumbersFromSpec(multiplier, 'multiplier');
 	return [BOOST_RANKS[rankIndex], BOOST_RANKS[rankIndex].levels[levelIndex]];
 };
 
 export const rankAndLevelFromStakeRatio = (stakeRatio: number): [BoostRank, BoostRankLevel] => {
-	const [rankIndex, levelIndex] = getRankAndLevelInformationFromStat(stakeRatio, 'stake');
+	const [rankIndex, levelIndex] = rankAndLevelNumbersFromSpec(stakeRatio, 'stake');
 	return [BOOST_RANKS[rankIndex], BOOST_RANKS[rankIndex].levels[levelIndex]];
 };
 
@@ -52,13 +52,17 @@ export const getNextBoostLevel = (currentLevel: BoostRankLevel): BoostRankLevel 
 	return BOOST_LEVELS[currentBoostLevelIndex + 1];
 };
 
-// TODO: add doc for this
-export const getRankAndLevelInformationFromStat = (
-	spec: number,
-	criteria: 'stake' | 'multiplier',
-): [number, number] => {
+/**
+ * searches for rank and level numbers given either a stake ratio or a multiplier value as reference point
+ * this is done by comparing each rank boost level to search any value that's greater than or equal to the given spec
+ * if multiple levels are valid options, the highest value will be used
+ * @param spec data entry that will be used in the search
+ * @param criteria search criteria to use in comparisons
+ * @returns [rankIndex, levelIndex] highest matching rank and level
+ */
+export const rankAndLevelNumbersFromSpec = (spec: number, criteria: 'stake' | 'multiplier'): [number, number] => {
 	let biggestRank = 0;
-	const biggestLevelFromRank: Record<number, number> = {};
+	const biggestLevelFromRank: Record<number, number> = {}; // each rank has its own biggest rank
 
 	for (let rankIndex = 0; rankIndex < BOOST_RANKS.length; rankIndex++) {
 		const rankLevels = BOOST_RANKS[rankIndex].levels;
@@ -66,16 +70,16 @@ export const getRankAndLevelInformationFromStat = (
 		let biggestLevel = 0;
 
 		for (let levelIndex = 0; levelIndex < rankLevels.length; levelIndex++) {
-			// value check for this level
 			let biggestNumberInLevel = -1;
-			const boundaryOptions: Record<typeof criteria, number> = {
+
+			const comparisonOptions: Record<typeof criteria, number> = {
 				stake: rankLevels[levelIndex].stakeRatioBoundary,
 				multiplier: rankLevels[levelIndex].multiplier,
 			};
 
-			const boundary = boundaryOptions[criteria];
+			const comparisonValue = comparisonOptions[criteria];
 
-			if (spec >= boundary) {
+			if (spec >= comparisonValue) {
 				biggestRank = rankIndex;
 				if (spec > biggestNumberInLevel) {
 					biggestLevel = levelIndex;
