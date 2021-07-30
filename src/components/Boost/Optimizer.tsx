@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
 		padding: theme.spacing(3),
 		flexDirection: 'column',
 		[theme.breakpoints.up('md')]: {
-			height: 505,
+			height: '100%',
 		},
 	},
 	divider: {
