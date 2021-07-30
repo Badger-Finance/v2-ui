@@ -51,14 +51,14 @@ interface Props {
 	name: string;
 	signatureColor: string;
 	obtained?: boolean;
-	locked?: boolean;
+	hasBeenReached?: boolean;
 }
 
-export const RankLevel = ({ name, signatureColor, obtained = false, locked = true }: Props): JSX.Element => {
+export const RankLevel = ({ name, signatureColor, obtained = false, hasBeenReached = true }: Props): JSX.Element => {
 	const classes = useStyles();
 
 	return (
-		<Grid container className={clsx(locked && classes.locked, classes.root)}>
+		<Grid container className={clsx(!hasBeenReached && classes.locked, classes.root)}>
 			<div className={clsx(classes.boostImageContainer)}>
 				<BadgerBoostImage
 					className={clsx(classes.softBorder, obtained && classes.obtained)}
