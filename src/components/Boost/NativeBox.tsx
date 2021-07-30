@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
 
 interface Props {
 	isLoading: boolean;
-	currentMultiplier: string;
+	currentMultiplier: number;
 	nativeBalance: string;
 	nonNativeBalance: string;
 	nativeToAdd?: string;
@@ -86,9 +86,10 @@ export const NativeBox = observer((props: Props) => {
 	const extraSmallScreen = useMediaQuery(theme.breakpoints.down(500));
 	const nativeAssetClasses = useAssetInputStyles(nativeBalance, nativeHoldings)();
 
-	const showNativeToAdd = nativeToAdd && Number(nativeToAdd) !== 0 && isValidMultiplier(Number(currentMultiplier));
+	const isValidNativeToAdd = nativeToAdd && Number(nativeToAdd) !== 0;
+	const showNativeToAdd = isValidNativeToAdd && isValidMultiplier(currentMultiplier);
 
-	const { 1: currentBoostLevel } = rankAndLevelFromMultiplier(Number(currentMultiplier));
+	const { 1: currentBoostLevel } = rankAndLevelFromMultiplier(currentMultiplier);
 	const nextBoostLevel = getNextBoostLevel(currentBoostLevel);
 
 	let nextStepText;

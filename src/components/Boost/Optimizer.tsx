@@ -7,9 +7,8 @@ import { OptimizerBody } from './OptimizerBody';
 import { StoreContext } from '../../mobx/store-context';
 import { StakeInformation } from './StakeInformation';
 import { OptimizerHeader } from './OptimizerHeader';
-import { debounce } from '../../utils/componentHelpers';
 import { formatWithoutExtraZeros } from '../../mobx/utils/helpers';
-import { calculateMultiplier, calculateNativeToMatchMultiplier, isValidMultiplier } from '../../utils/boost-ranks';
+import { calculateMultiplier, calculateNativeToMatchMultiplier } from '../../utils/boost-ranks';
 import { MIN_BOOST_LEVEL } from '../../config/system/boost-ranks';
 
 const useStyles = makeStyles((theme) => ({
@@ -57,7 +56,7 @@ export const Optimizer = observer(
 		} = useContext(StoreContext);
 
 		const classes = useStyles();
-		const [multiplier, setMultiplier] = useState(MIN_BOOST_LEVEL.multiplier.toString());
+		const [multiplier, setMultiplier] = useState(MIN_BOOST_LEVEL.multiplier);
 		const [native, setNative] = useState('0');
 		const [nonNative, setNonNative] = useState('0');
 		const [nativeToAdd, setNativeToAdd] = useState<string>();
@@ -67,7 +66,7 @@ export const Optimizer = observer(
 			setNative('0');
 			setNonNative('0');
 			setNativeToAdd(undefined);
-			setMultiplier(MIN_BOOST_LEVEL.multiplier.toString());
+			setMultiplier(MIN_BOOST_LEVEL.multiplier);
 			return;
 		};
 
@@ -86,28 +85,16 @@ export const Optimizer = observer(
 			[native, nonNative],
 		);
 
-		// reason: the plugin does not recognize the dependency inside the debounce function
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-		const debounceBoostChange = useCallback(
-			debounce(
-				600,
-				async (updatedBoost: number): Promise<void> => {
-					setNativeToMatchMultiplier(updatedBoost);
-				},
-			),
-			[setNativeToMatchMultiplier],
-		);
-
 		const updateMultiplier = (newNative: string, newNonNative: string) => {
 			const numberNewNative = Number(newNative);
 			const numericNewNonNative = Number(newNonNative);
 
 			if (isNaN(numberNewNative) || isNaN(numericNewNonNative) || numericNewNonNative === 0) {
-				setMultiplier(MIN_BOOST_LEVEL.multiplier.toString());
+				setMultiplier(MIN_BOOST_LEVEL.multiplier);
 				return;
 			}
 
-			setMultiplier(calculateMultiplier(numberNewNative, numericNewNonNative).toString());
+			setMultiplier(calculateMultiplier(numberNewNative, numericNewNonNative));
 		};
 
 		const handleReset = () => {
@@ -116,12 +103,12 @@ export const Optimizer = observer(
 				return;
 			}
 
-			const { nativeBalance, nonNativeBalance } = accountDetails;
+			const { nativeBalance, nonNativeBalance, boost } = accountDetails;
 
 			setNativeToAdd(undefined);
 			setNative(formatWithoutExtraZeros(nativeBalance, 4));
 			setNonNative(formatWithoutExtraZeros(nonNativeBalance, 4));
-			setMultiplier(calculateMultiplier(nativeBalance, nonNativeBalance).toString());
+			setMultiplier(boost);
 		};
 
 		const handleRankClick = (rankBoost: number) => {
@@ -131,17 +118,6 @@ export const Optimizer = observer(
 			}
 
 			setNativeToMatchMultiplier(rankBoost);
-		};
-
-		const handleMultiplierChange = (updatedMultiplier: string) => {
-			if (!isValidMultiplier(Number(updatedMultiplier))) {
-				setMultiplier(updatedMultiplier);
-				setNativeToAdd(undefined);
-				return;
-			}
-
-			setMultiplier(updatedMultiplier);
-			debounceBoostChange(Number(updatedMultiplier));
 		};
 
 		const handleNativeChange = (change: string) => {
@@ -172,11 +148,11 @@ export const Optimizer = observer(
 
 			if (!accountDetails) return;
 
-			const { nativeBalance, nonNativeBalance } = accountDetails;
+			const { nativeBalance, nonNativeBalance, boost } = accountDetails;
 
 			setNative(formatWithoutExtraZeros(nativeBalance, 4));
 			setNonNative(formatWithoutExtraZeros(nonNativeBalance, 4));
-			setMultiplier(calculateMultiplier(nativeBalance, nonNativeBalance).toString());
+			setMultiplier(boost);
 		}, [accountDetails, connectedAddress]);
 
 		return (
@@ -184,18 +160,12 @@ export const Optimizer = observer(
 				<Grid item xs={12} lg>
 					<Grid container component={Paper} className={classes.calculatorContainer}>
 						<Grid item>
-							<OptimizerHeader
-								multiplier={multiplier}
-								disableBoost={!nonNative || Number(nonNative) === 0}
-								onBoostChange={handleMultiplierChange}
-								onReset={handleReset}
-								onLockedBoostClick={() => setShowBouncingMessage(true)}
-							/>
+							<OptimizerHeader multiplier={multiplier} onReset={handleReset} />
 						</Grid>
 						<Divider className={classes.divider} />
 						<Grid item container xs direction="column" justify="center">
 							<OptimizerBody
-								multiplier={multiplier || MIN_BOOST_LEVEL.multiplier.toString()}
+								multiplier={multiplier}
 								native={native || ''}
 								nonNative={nonNative || ''}
 								nativeToAdd={nativeToAdd}

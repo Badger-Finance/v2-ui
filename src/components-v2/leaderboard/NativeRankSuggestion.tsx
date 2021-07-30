@@ -25,7 +25,7 @@ const NativeRankSuggestion = observer((): JSX.Element | null => {
 	}
 
 	const { nativeBalance, nonNativeBalance, stakeRatio } = account;
-	const [currentRank] = rankAndLevelNumbersFromSpec(stakeRatio, 'stake');
+	const [currentRank] = rankAndLevelNumbersFromSpec(stakeRatio * 100, 'stake');
 	const nextRank = BOOST_RANKS[currentRank + 1];
 
 	// if user has already reached max level there's no need for suggestion

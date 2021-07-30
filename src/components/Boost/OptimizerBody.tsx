@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 type OptimizerBodyProps = {
-	multiplier: string;
+	multiplier: number;
 	native: string;
 	nativeToAdd?: string;
 	nonNative: string;

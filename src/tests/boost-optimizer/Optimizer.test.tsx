@@ -13,7 +13,7 @@ describe('Boost Optimizer', () => {
 		store.wallet.connectedAddress = '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a';
 		store.user.accountDetails = {
 			id: '0xC26202cd0428276cC69017Df01137161f0102e55',
-			boost: 1.43,
+			boost: 1,
 			boostRank: 123,
 			multipliers: {
 				'0x6dEf55d2e18486B9dDfaA075bc4e4EE0B28c1545': 0.6181384749194523,
@@ -36,7 +36,7 @@ describe('Boost Optimizer', () => {
 			depositLimits: {},
 			nativeBalance: 1000,
 			nonNativeBalance: 500,
-			stakeRatio: 200,
+			stakeRatio: 20,
 		};
 
 		jest.spyOn(rankUtils, 'calculateMultiplier').mockReturnValue(10);
@@ -49,21 +49,6 @@ describe('Boost Optimizer', () => {
 				<Optimizer />
 			</StoreProvider>,
 		);
-
-		expect(container).toMatchSnapshot();
-	});
-
-	it('can change boost', () => {
-		const { container } = customRender(
-			<StoreProvider value={store}>
-				<Optimizer />
-			</StoreProvider>,
-		);
-
-		const boostInput = screen.getByRole('textbox', { name: 'boost multiplier number' });
-
-		userEvent.clear(boostInput);
-		userEvent.type(boostInput, '2.98');
 
 		expect(container).toMatchSnapshot();
 	});
