@@ -23,8 +23,8 @@ describe('Boost Ranks Utils', () => {
 	describe('rankAndLevelFromStakeRatio', () => {
 		const inputTable = BOOST_LEVELS.map((level) => [level.stakeRatioBoundary, level.stakeRatioBoundary]);
 		test.each(inputTable)('rankAndLevelFromStakeRatio(%f) returns %f', (stakeRatio, returnStakeRatio) => {
-			const { 1: levelFromMultiplier } = rankAndLevelFromStakeRatio(stakeRatio);
-			expect(levelFromMultiplier.stakeRatioBoundary).toEqual(returnStakeRatio);
+			const { 1: levelFromStakeRatio } = rankAndLevelFromStakeRatio(stakeRatio);
+			expect(levelFromStakeRatio.stakeRatioBoundary).toEqual(returnStakeRatio);
 		});
 	});
 
