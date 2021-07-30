@@ -66,6 +66,9 @@ const useStyles = makeStyles((theme) => ({
 		marginTop: theme.spacing(3),
 		pointerEvents: 'none',
 	},
+	linkButton: {
+		marginTop: theme.spacing(3),
+	},
 }));
 
 interface LandingProps {
@@ -123,10 +126,23 @@ const Landing = observer((props: LandingProps) => {
 				</Grid>
 			</Grid>
 
-			{state !== SettState.Open && (
+			{state === SettState.Guarded && (
 				<Grid container spacing={1} justify="center">
 					<Button className={classes.announcementButton} size="small" variant="outlined" color="primary">
 						Note: New Vaults may take up to 2 weeks from launch to reach full efficiency.
+					</Button>
+				</Grid>
+			)}
+			{state === SettState.Open && (
+				<Grid container spacing={1} justify="center">
+					<Button
+						className={classes.linkButton}
+						size="small"
+						variant="contained"
+						color="primary"
+						onClick={() => window.open('PLACEHOLDERFORCOMMSARTICLE')}
+					>
+						Badger Boost V2 Has Launched - Click Here for more information
 					</Button>
 				</Grid>
 			)}
