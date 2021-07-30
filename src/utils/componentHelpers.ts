@@ -1,4 +1,4 @@
-export const clamp = (num: number, min: number, max: number): number => Math.min(Math.max(num, min), max);
+export const restrictToRange = (num: number, min: number, max: number): number => Math.min(Math.max(num, min), max);
 
 export const debounce = (n: number, fn: (...params: any[]) => any, immediate = false): any => {
 	let timer: any = undefined;

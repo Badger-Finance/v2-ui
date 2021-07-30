@@ -1,6 +1,6 @@
 import { BoostRank, BoostRankLevel } from '../mobx/model/boost/leaderboard-rank';
 import { BOOST_LEVELS, BOOST_RANKS, MAX_BOOST_LEVEL, MIN_BOOST_LEVEL } from '../config/system/boost-ranks';
-import { clamp } from './componentHelpers';
+import { restrictToRange } from './componentHelpers';
 
 /**
  * checks that a give multiplier value is within global boost levels multiplier boundaries
@@ -20,7 +20,7 @@ export const sanitizeMultiplierValue = (multiplier: number): number => {
 	const firstLevelMultiplier = MIN_BOOST_LEVEL.multiplier;
 	const lastLevelMultiplier = MAX_BOOST_LEVEL.multiplier;
 
-	return clamp(multiplier, firstLevelMultiplier, lastLevelMultiplier);
+	return restrictToRange(multiplier, firstLevelMultiplier, lastLevelMultiplier);
 };
 
 /**
