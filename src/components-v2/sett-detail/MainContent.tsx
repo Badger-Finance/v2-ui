@@ -5,6 +5,7 @@ import { Description } from './Description';
 import { ActionButtons } from './ActionButtons';
 import { Breadcrumb } from './Breadcrumb';
 import { ChartsCard } from './charts/ChartsCard';
+import { Holdings } from './Holdings';
 
 const useStyles = makeStyles((theme) => ({
 	content: {
@@ -20,6 +21,9 @@ const useStyles = makeStyles((theme) => ({
 	breadcrumbContainer: {
 		marginBottom: theme.spacing(1),
 	},
+	holdingsContainer: {
+		marginBottom: theme.spacing(2),
+	},
 }));
 
 export const MainContent = (): JSX.Element => {
@@ -34,6 +38,9 @@ export const MainContent = (): JSX.Element => {
 			<Grid container className={classes.descriptionSection}>
 				<Description />
 				{canFitActionButtons && <ActionButtons />}
+			</Grid>
+			<Grid container className={classes.holdingsContainer}>
+				<Holdings />
 			</Grid>
 			<Grid container spacing={1}>
 				<Grid item xs={12} md={4} lg={3}>
