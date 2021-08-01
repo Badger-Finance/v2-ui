@@ -1315,7 +1315,7 @@ exports[`Boost Optimizer can decrease balances through the increase button 1`] =
           <div
             class="MuiGrid-root-6 MuiGrid-item-8 MuiGrid-grid-xs-true-40"
           >
-            <span
+            <div
               class=""
               color="primary"
               title="Jump to rank"
@@ -1424,8 +1424,8 @@ exports[`Boost Optimizer can decrease balances through the increase button 1`] =
                   </button>
                 </div>
               </div>
-            </span>
-            <span
+            </div>
+            <div
               class=""
               color="primary"
               title="Jump to rank"
@@ -1534,8 +1534,8 @@ exports[`Boost Optimizer can decrease balances through the increase button 1`] =
                   </button>
                 </div>
               </div>
-            </span>
-            <span
+            </div>
+            <div
               class=""
               color="primary"
               title="Jump to rank"
@@ -1644,8 +1644,8 @@ exports[`Boost Optimizer can decrease balances through the increase button 1`] =
                   </button>
                 </div>
               </div>
-            </span>
-            <span
+            </div>
+            <div
               class=""
               color="primary"
               title="Jump to rank"
@@ -1754,7 +1754,7 @@ exports[`Boost Optimizer can decrease balances through the increase button 1`] =
                   </button>
                 </div>
               </div>
-            </span>
+            </div>
             <div
               class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-align-items-xs-flex-end-17"
             >
@@ -5071,7 +5071,7 @@ exports[`Boost Optimizer shows empty non native message 1`] = `
           <div
             class="MuiGrid-root-6 MuiGrid-item-8 MuiGrid-grid-xs-true-40"
           >
-            <span
+            <div
               class=""
               color="primary"
               title="Jump to rank"
@@ -5180,8 +5180,8 @@ exports[`Boost Optimizer shows empty non native message 1`] = `
                   </button>
                 </div>
               </div>
-            </span>
-            <span
+            </div>
+            <div
               class=""
               color="primary"
               title="Jump to rank"
@@ -5290,8 +5290,8 @@ exports[`Boost Optimizer shows empty non native message 1`] = `
                   </button>
                 </div>
               </div>
-            </span>
-            <span
+            </div>
+            <div
               class=""
               color="primary"
               title="Jump to rank"
@@ -5400,8 +5400,8 @@ exports[`Boost Optimizer shows empty non native message 1`] = `
                   </button>
                 </div>
               </div>
-            </span>
-            <span
+            </div>
+            <div
               class=""
               color="primary"
               title="Jump to rank"
@@ -5510,7 +5510,7 @@ exports[`Boost Optimizer shows empty non native message 1`] = `
                   </button>
                 </div>
               </div>
-            </span>
+            </div>
             <div
               class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-align-items-xs-flex-end-17"
             >
@@ -6005,7 +6005,7 @@ exports[`Boost Optimizer supports no wallet mode 1`] = `
           <div
             class="MuiGrid-root-6 MuiGrid-item-8 MuiGrid-grid-xs-true-40"
           >
-            <span
+            <div
               class=""
               color="primary"
               title="Jump to rank"
@@ -6114,8 +6114,8 @@ exports[`Boost Optimizer supports no wallet mode 1`] = `
                   </button>
                 </div>
               </div>
-            </span>
-            <span
+            </div>
+            <div
               class=""
               color="primary"
               title="Jump to rank"
@@ -6224,8 +6224,8 @@ exports[`Boost Optimizer supports no wallet mode 1`] = `
                   </button>
                 </div>
               </div>
-            </span>
-            <span
+            </div>
+            <div
               class=""
               color="primary"
               title="Jump to rank"
@@ -6334,8 +6334,8 @@ exports[`Boost Optimizer supports no wallet mode 1`] = `
                   </button>
                 </div>
               </div>
-            </span>
-            <span
+            </div>
+            <div
               class=""
               color="primary"
               title="Jump to rank"
@@ -6444,7 +6444,7 @@ exports[`Boost Optimizer supports no wallet mode 1`] = `
                   </button>
                 </div>
               </div>
-            </span>
+            </div>
             <div
               class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-align-items-xs-flex-end-17"
             >
