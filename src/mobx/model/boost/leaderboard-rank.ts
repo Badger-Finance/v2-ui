@@ -1,9 +1,4 @@
-export interface LeaderboardRank {
-	name: string;
-	boostRangeStart: number;
-	boostRangeEnd: number;
-	signatureColor: string;
-}
+import { LeaderBoardBadger } from './leader-board-badger';
 
 export interface BoostRank {
 	name: string;
@@ -14,4 +9,10 @@ export interface BoostRank {
 export interface BoostRankLevel {
 	stakeRatioBoundary: number;
 	multiplier: number;
+}
+
+export interface LeaderboardRank extends BoostRank {
+	rangeStart: number;
+	rangeEnd: number;
+	badgersInRank: LeaderBoardBadger[];
 }
