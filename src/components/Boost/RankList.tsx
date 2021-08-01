@@ -45,7 +45,7 @@ export const RankList = ({
 								color="primary"
 								key={`${ranksIndex}_${rank.name}_${rankStartBoundary}`}
 							>
-								<span>{rankItem}</span>
+								<div>{rankItem}</div>
 							</Tooltip>
 						);
 					}
