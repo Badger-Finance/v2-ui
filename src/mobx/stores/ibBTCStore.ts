@@ -434,7 +434,9 @@ class IbBTCStore {
 			return growthPerSecond.multipliedBy(1e2).toFixed(3);
 		} catch (error) {
 			process.env.NODE_ENV !== 'production' &&
-				console.error(`Error while getting ibBTC APY from block ${currentBlock - timestamp}: ${error}`);
+				console.error(
+					`Error while getting ibBTC APY from block ${currentBlock - Math.floor(timestamp / 15)}: ${error}`,
+				);
 			return null;
 		}
 	}
