@@ -25,9 +25,8 @@ exports[`Boost Optimizer can change native and non native balances 1`] = `
               >
                 Boost:
               </p>
-               
               <p
-                class="MuiTypography-root-143 makeStyles-boostValue-139 makeStyles-fontColor-1006 MuiTypography-body1-145"
+                class="MuiTypography-root-143 makeStyles-boostValue-139 makeStyles-fontColor-1006 MuiTypography-body1-145 MuiTypography-displayInline-171"
               >
                 10
               </p>
@@ -483,446 +482,422 @@ exports[`Boost Optimizer can change native and non native balances 1`] = `
                 </button>
               </div>
             </div>
-            <span
-              class=""
-              color="primary"
-              title="Jump to rank"
+            <div
+              class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-align-items-xs-flex-end-17"
             >
               <div
-                class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-align-items-xs-flex-end-17"
+                class="MuiGrid-root-6 makeStyles-root-331 MuiGrid-item-8"
               >
                 <div
-                  class="MuiGrid-root-6 makeStyles-root-331 MuiGrid-item-8"
+                  class="makeStyles-progressEntry-334"
                 >
                   <div
-                    class="makeStyles-progressEntry-334"
+                    class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-rankBar-335"
-                    >
-                      <div
-                        class="makeStyles-progressBar-1026"
-                      />
-                    </div>
-                    <div
-                      class="makeStyles-connector-1027"
+                      class="makeStyles-progressBar-1026"
                     />
                   </div>
                   <div
-                    class="makeStyles-progressEntry-334"
-                  >
-                    <div
-                      class="makeStyles-rankBar-335"
-                    >
-                      <div
-                        class="makeStyles-progressBar-1028"
-                      />
-                    </div>
-                    <div
-                      class="makeStyles-connector-1029"
-                    />
-                  </div>
-                  <div
-                    class="makeStyles-progressEntry-334"
-                  >
-                    <div
-                      class="makeStyles-rankBar-335"
-                    >
-                      <div
-                        class="makeStyles-progressBar-1030"
-                      />
-                    </div>
-                    <div
-                      class="makeStyles-connector-1031"
-                    />
-                  </div>
-                  <div
-                    class="makeStyles-progressEntry-334"
-                  >
-                    <div
-                      class="makeStyles-rankBar-335"
-                    >
-                      <div
-                        class="makeStyles-progressBar-1032"
-                      />
-                    </div>
-                    <div
-                      class="makeStyles-connector-1033"
-                    />
-                  </div>
+                    class="makeStyles-connector-1027"
+                  />
                 </div>
                 <div
-                  class="MuiGrid-root-6 MuiGrid-item-8 MuiGrid-grid-xs-true-40"
+                  class="makeStyles-progressEntry-334"
                 >
-                  <button
-                    aria-label="Hyper Badger Rank"
-                    class="MuiButtonBase-root-224 makeStyles-buttonBase-332"
-                    tabindex="0"
-                    type="button"
+                  <div
+                    class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="MuiGrid-root-6 makeStyles-root-344 MuiGrid-container-7"
-                    >
-                      <div
-                        class="makeStyles-boostImageContainer-349"
-                      >
-                        <div
-                          class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-1034"
-                        >
-                          <img
-                            alt="Badger Logo"
-                            class="makeStyles-boostImage-1035"
-                            src="assets/badger-transparent.png"
-                          />
-                        </div>
-                      </div>
-                      <div
-                        class="makeStyles-badgerLevelInfoContainer-346"
-                      >
-                        <p
-                          class="MuiTypography-root-143 MuiTypography-body2-144"
-                        >
-                          Hyper Badger
-                        </p>
-                      </div>
-                    </div>
-                    <span
-                      class="MuiTouchRipple-root-397"
+                      class="makeStyles-progressBar-1028"
                     />
-                  </button>
+                  </div>
+                  <div
+                    class="makeStyles-connector-1029"
+                  />
+                </div>
+                <div
+                  class="makeStyles-progressEntry-334"
+                >
+                  <div
+                    class="makeStyles-rankBar-335"
+                  >
+                    <div
+                      class="makeStyles-progressBar-1030"
+                    />
+                  </div>
+                  <div
+                    class="makeStyles-connector-1031"
+                  />
+                </div>
+                <div
+                  class="makeStyles-progressEntry-334"
+                >
+                  <div
+                    class="makeStyles-rankBar-335"
+                  >
+                    <div
+                      class="makeStyles-progressBar-1032"
+                    />
+                  </div>
+                  <div
+                    class="makeStyles-connector-1033"
+                  />
                 </div>
               </div>
-            </span>
-            <span
-              class=""
-              color="primary"
-              title="Jump to rank"
+              <div
+                class="MuiGrid-root-6 MuiGrid-item-8 MuiGrid-grid-xs-true-40"
+              >
+                <button
+                  aria-label="Hyper Badger Rank"
+                  class="MuiButtonBase-root-224 makeStyles-buttonBase-332"
+                  tabindex="0"
+                  type="button"
+                >
+                  <div
+                    class="MuiGrid-root-6 makeStyles-root-344 MuiGrid-container-7"
+                  >
+                    <div
+                      class="makeStyles-boostImageContainer-349"
+                    >
+                      <div
+                        class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-1034"
+                      >
+                        <img
+                          alt="Badger Logo"
+                          class="makeStyles-boostImage-1035"
+                          src="assets/badger-transparent.png"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      class="makeStyles-badgerLevelInfoContainer-346"
+                    >
+                      <p
+                        class="MuiTypography-root-143 MuiTypography-body2-144"
+                      >
+                        Hyper Badger
+                      </p>
+                    </div>
+                  </div>
+                  <span
+                    class="MuiTouchRipple-root-397"
+                  />
+                </button>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-align-items-xs-flex-end-17"
             >
               <div
-                class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-align-items-xs-flex-end-17"
+                class="MuiGrid-root-6 makeStyles-root-331 MuiGrid-item-8"
               >
                 <div
-                  class="MuiGrid-root-6 makeStyles-root-331 MuiGrid-item-8"
+                  class="makeStyles-progressEntry-334"
                 >
                   <div
-                    class="makeStyles-progressEntry-334"
+                    class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-rankBar-335"
-                    >
-                      <div
-                        class="makeStyles-progressBar-1036"
-                      />
-                    </div>
-                    <div
-                      class="makeStyles-connector-1037"
+                      class="makeStyles-progressBar-1036"
                     />
                   </div>
                   <div
-                    class="makeStyles-progressEntry-334"
-                  >
-                    <div
-                      class="makeStyles-rankBar-335"
-                    >
-                      <div
-                        class="makeStyles-progressBar-1038"
-                      />
-                    </div>
-                    <div
-                      class="makeStyles-connector-1039"
-                    />
-                  </div>
-                  <div
-                    class="makeStyles-progressEntry-334"
-                  >
-                    <div
-                      class="makeStyles-rankBar-335"
-                    >
-                      <div
-                        class="makeStyles-progressBar-1040"
-                      />
-                    </div>
-                    <div
-                      class="makeStyles-connector-1041"
-                    />
-                  </div>
-                  <div
-                    class="makeStyles-progressEntry-334"
-                  >
-                    <div
-                      class="makeStyles-rankBar-335"
-                    >
-                      <div
-                        class="makeStyles-progressBar-1042"
-                      />
-                    </div>
-                    <div
-                      class="makeStyles-connector-1043"
-                    />
-                  </div>
+                    class="makeStyles-connector-1037"
+                  />
                 </div>
                 <div
-                  class="MuiGrid-root-6 MuiGrid-item-8 MuiGrid-grid-xs-true-40"
+                  class="makeStyles-progressEntry-334"
                 >
-                  <button
-                    aria-label="Hero Badger Rank"
-                    class="MuiButtonBase-root-224 makeStyles-buttonBase-332"
-                    tabindex="0"
-                    type="button"
+                  <div
+                    class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="MuiGrid-root-6 makeStyles-root-344 MuiGrid-container-7"
-                    >
-                      <div
-                        class="makeStyles-boostImageContainer-349"
-                      >
-                        <div
-                          class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-1044"
-                        >
-                          <img
-                            alt="Badger Logo"
-                            class="makeStyles-boostImage-1045"
-                            src="assets/badger-transparent.png"
-                          />
-                        </div>
-                      </div>
-                      <div
-                        class="makeStyles-badgerLevelInfoContainer-346"
-                      >
-                        <p
-                          class="MuiTypography-root-143 MuiTypography-body2-144"
-                        >
-                          Hero Badger
-                        </p>
-                      </div>
-                    </div>
-                    <span
-                      class="MuiTouchRipple-root-397"
+                      class="makeStyles-progressBar-1038"
                     />
-                  </button>
+                  </div>
+                  <div
+                    class="makeStyles-connector-1039"
+                  />
+                </div>
+                <div
+                  class="makeStyles-progressEntry-334"
+                >
+                  <div
+                    class="makeStyles-rankBar-335"
+                  >
+                    <div
+                      class="makeStyles-progressBar-1040"
+                    />
+                  </div>
+                  <div
+                    class="makeStyles-connector-1041"
+                  />
+                </div>
+                <div
+                  class="makeStyles-progressEntry-334"
+                >
+                  <div
+                    class="makeStyles-rankBar-335"
+                  >
+                    <div
+                      class="makeStyles-progressBar-1042"
+                    />
+                  </div>
+                  <div
+                    class="makeStyles-connector-1043"
+                  />
                 </div>
               </div>
-            </span>
-            <span
-              class=""
-              color="primary"
-              title="Jump to rank"
+              <div
+                class="MuiGrid-root-6 MuiGrid-item-8 MuiGrid-grid-xs-true-40"
+              >
+                <button
+                  aria-label="Hero Badger Rank"
+                  class="MuiButtonBase-root-224 makeStyles-buttonBase-332"
+                  tabindex="0"
+                  type="button"
+                >
+                  <div
+                    class="MuiGrid-root-6 makeStyles-root-344 MuiGrid-container-7"
+                  >
+                    <div
+                      class="makeStyles-boostImageContainer-349"
+                    >
+                      <div
+                        class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-1044"
+                      >
+                        <img
+                          alt="Badger Logo"
+                          class="makeStyles-boostImage-1045"
+                          src="assets/badger-transparent.png"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      class="makeStyles-badgerLevelInfoContainer-346"
+                    >
+                      <p
+                        class="MuiTypography-root-143 MuiTypography-body2-144"
+                      >
+                        Hero Badger
+                      </p>
+                    </div>
+                  </div>
+                  <span
+                    class="MuiTouchRipple-root-397"
+                  />
+                </button>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-align-items-xs-flex-end-17"
             >
               <div
-                class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-align-items-xs-flex-end-17"
+                class="MuiGrid-root-6 makeStyles-root-331 MuiGrid-item-8"
               >
                 <div
-                  class="MuiGrid-root-6 makeStyles-root-331 MuiGrid-item-8"
+                  class="makeStyles-progressEntry-334"
                 >
                   <div
-                    class="makeStyles-progressEntry-334"
+                    class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-rankBar-335"
-                    >
-                      <div
-                        class="makeStyles-progressBar-1046"
-                      />
-                    </div>
-                    <div
-                      class="makeStyles-connector-1047"
+                      class="makeStyles-progressBar-1046"
                     />
                   </div>
                   <div
-                    class="makeStyles-progressEntry-334"
-                  >
-                    <div
-                      class="makeStyles-rankBar-335"
-                    >
-                      <div
-                        class="makeStyles-progressBar-1048"
-                      />
-                    </div>
-                    <div
-                      class="makeStyles-connector-1049"
-                    />
-                  </div>
-                  <div
-                    class="makeStyles-progressEntry-334"
-                  >
-                    <div
-                      class="makeStyles-rankBar-335"
-                    >
-                      <div
-                        class="makeStyles-progressBar-1050"
-                      />
-                    </div>
-                    <div
-                      class="makeStyles-connector-1051"
-                    />
-                  </div>
-                  <div
-                    class="makeStyles-progressEntry-334"
-                  >
-                    <div
-                      class="makeStyles-rankBar-335"
-                    >
-                      <div
-                        class="makeStyles-progressBar-1052"
-                      />
-                    </div>
-                    <div
-                      class="makeStyles-connector-1053"
-                    />
-                  </div>
+                    class="makeStyles-connector-1047"
+                  />
                 </div>
                 <div
-                  class="MuiGrid-root-6 MuiGrid-item-8 MuiGrid-grid-xs-true-40"
+                  class="makeStyles-progressEntry-334"
                 >
-                  <button
-                    aria-label="Neo Badger Rank"
-                    class="MuiButtonBase-root-224 makeStyles-buttonBase-332"
-                    tabindex="0"
-                    type="button"
+                  <div
+                    class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="MuiGrid-root-6 makeStyles-root-344 MuiGrid-container-7"
-                    >
-                      <div
-                        class="makeStyles-boostImageContainer-349"
-                      >
-                        <div
-                          class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-1054"
-                        >
-                          <img
-                            alt="Badger Logo"
-                            class="makeStyles-boostImage-1055"
-                            src="assets/badger-transparent.png"
-                          />
-                        </div>
-                      </div>
-                      <div
-                        class="makeStyles-badgerLevelInfoContainer-346"
-                      >
-                        <p
-                          class="MuiTypography-root-143 MuiTypography-body2-144"
-                        >
-                          Neo Badger
-                        </p>
-                      </div>
-                    </div>
-                    <span
-                      class="MuiTouchRipple-root-397"
+                      class="makeStyles-progressBar-1048"
                     />
-                  </button>
+                  </div>
+                  <div
+                    class="makeStyles-connector-1049"
+                  />
+                </div>
+                <div
+                  class="makeStyles-progressEntry-334"
+                >
+                  <div
+                    class="makeStyles-rankBar-335"
+                  >
+                    <div
+                      class="makeStyles-progressBar-1050"
+                    />
+                  </div>
+                  <div
+                    class="makeStyles-connector-1051"
+                  />
+                </div>
+                <div
+                  class="makeStyles-progressEntry-334"
+                >
+                  <div
+                    class="makeStyles-rankBar-335"
+                  >
+                    <div
+                      class="makeStyles-progressBar-1052"
+                    />
+                  </div>
+                  <div
+                    class="makeStyles-connector-1053"
+                  />
                 </div>
               </div>
-            </span>
-            <span
-              class=""
-              color="primary"
-              title="Jump to rank"
+              <div
+                class="MuiGrid-root-6 MuiGrid-item-8 MuiGrid-grid-xs-true-40"
+              >
+                <button
+                  aria-label="Neo Badger Rank"
+                  class="MuiButtonBase-root-224 makeStyles-buttonBase-332"
+                  tabindex="0"
+                  type="button"
+                >
+                  <div
+                    class="MuiGrid-root-6 makeStyles-root-344 MuiGrid-container-7"
+                  >
+                    <div
+                      class="makeStyles-boostImageContainer-349"
+                    >
+                      <div
+                        class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-1054"
+                      >
+                        <img
+                          alt="Badger Logo"
+                          class="makeStyles-boostImage-1055"
+                          src="assets/badger-transparent.png"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      class="makeStyles-badgerLevelInfoContainer-346"
+                    >
+                      <p
+                        class="MuiTypography-root-143 MuiTypography-body2-144"
+                      >
+                        Neo Badger
+                      </p>
+                    </div>
+                  </div>
+                  <span
+                    class="MuiTouchRipple-root-397"
+                  />
+                </button>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-align-items-xs-flex-end-17"
             >
               <div
-                class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-align-items-xs-flex-end-17"
+                class="MuiGrid-root-6 makeStyles-root-331 MuiGrid-item-8"
               >
                 <div
-                  class="MuiGrid-root-6 makeStyles-root-331 MuiGrid-item-8"
+                  class="makeStyles-progressEntry-334"
                 >
                   <div
-                    class="makeStyles-progressEntry-334"
+                    class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-rankBar-335"
-                    >
-                      <div
-                        class="makeStyles-progressBar-1056"
-                      />
-                    </div>
-                    <div
-                      class="makeStyles-connector-1057"
+                      class="makeStyles-progressBar-1056"
                     />
                   </div>
                   <div
-                    class="makeStyles-progressEntry-334"
-                  >
-                    <div
-                      class="makeStyles-rankBar-335"
-                    >
-                      <div
-                        class="makeStyles-progressBar-1058"
-                      />
-                    </div>
-                    <div
-                      class="makeStyles-connector-1059"
-                    />
-                  </div>
-                  <div
-                    class="makeStyles-progressEntry-334"
-                  >
-                    <div
-                      class="makeStyles-rankBar-335"
-                    >
-                      <div
-                        class="makeStyles-progressBar-1060"
-                      />
-                    </div>
-                    <div
-                      class="makeStyles-connector-1061"
-                    />
-                  </div>
-                  <div
-                    class="makeStyles-progressEntry-334"
-                  >
-                    <div
-                      class="makeStyles-rankBar-335"
-                    >
-                      <div
-                        class="makeStyles-progressBar-1062"
-                      />
-                    </div>
-                    <div
-                      class="makeStyles-connector-1063"
-                    />
-                  </div>
+                    class="makeStyles-connector-1057"
+                  />
                 </div>
                 <div
-                  class="MuiGrid-root-6 MuiGrid-item-8 MuiGrid-grid-xs-true-40"
+                  class="makeStyles-progressEntry-334"
                 >
-                  <button
-                    aria-label="Basic Badger Rank"
-                    class="MuiButtonBase-root-224 makeStyles-buttonBase-332"
-                    tabindex="0"
-                    type="button"
+                  <div
+                    class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="MuiGrid-root-6 makeStyles-root-344 MuiGrid-container-7"
-                    >
-                      <div
-                        class="makeStyles-boostImageContainer-349"
-                      >
-                        <div
-                          class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-1064"
-                        >
-                          <img
-                            alt="Badger Logo"
-                            class="makeStyles-boostImage-1065"
-                            src="assets/badger-transparent.png"
-                          />
-                        </div>
-                      </div>
-                      <div
-                        class="makeStyles-badgerLevelInfoContainer-346"
-                      >
-                        <p
-                          class="MuiTypography-root-143 MuiTypography-body2-144"
-                        >
-                          Basic Badger
-                        </p>
-                      </div>
-                    </div>
-                    <span
-                      class="MuiTouchRipple-root-397"
+                      class="makeStyles-progressBar-1058"
                     />
-                  </button>
+                  </div>
+                  <div
+                    class="makeStyles-connector-1059"
+                  />
+                </div>
+                <div
+                  class="makeStyles-progressEntry-334"
+                >
+                  <div
+                    class="makeStyles-rankBar-335"
+                  >
+                    <div
+                      class="makeStyles-progressBar-1060"
+                    />
+                  </div>
+                  <div
+                    class="makeStyles-connector-1061"
+                  />
+                </div>
+                <div
+                  class="makeStyles-progressEntry-334"
+                >
+                  <div
+                    class="makeStyles-rankBar-335"
+                  >
+                    <div
+                      class="makeStyles-progressBar-1062"
+                    />
+                  </div>
+                  <div
+                    class="makeStyles-connector-1063"
+                  />
                 </div>
               </div>
-            </span>
+              <div
+                class="MuiGrid-root-6 MuiGrid-item-8 MuiGrid-grid-xs-true-40"
+              >
+                <button
+                  aria-label="Basic Badger Rank"
+                  class="MuiButtonBase-root-224 makeStyles-buttonBase-332"
+                  tabindex="0"
+                  type="button"
+                >
+                  <div
+                    class="MuiGrid-root-6 makeStyles-root-344 MuiGrid-container-7"
+                  >
+                    <div
+                      class="makeStyles-boostImageContainer-349"
+                    >
+                      <div
+                        class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-1064"
+                      >
+                        <img
+                          alt="Badger Logo"
+                          class="makeStyles-boostImage-1065"
+                          src="assets/badger-transparent.png"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      class="makeStyles-badgerLevelInfoContainer-346"
+                    >
+                      <p
+                        class="MuiTypography-root-143 MuiTypography-body2-144"
+                      >
+                        Basic Badger
+                      </p>
+                    </div>
+                  </div>
+                  <span
+                    class="MuiTouchRipple-root-397"
+                  />
+                </button>
+              </div>
+            </div>
           </div>
         </div>
         <div
@@ -974,9 +949,8 @@ exports[`Boost Optimizer can decrease balances through the increase button 1`] =
               >
                 Boost:
               </p>
-               
               <p
-                class="MuiTypography-root-143 makeStyles-boostValue-139 makeStyles-fontColor-526 MuiTypography-body1-145"
+                class="MuiTypography-root-143 makeStyles-boostValue-139 makeStyles-fontColor-526 MuiTypography-body1-145 MuiTypography-displayInline-171"
               >
                 1
               </p>
@@ -1854,7 +1828,7 @@ exports[`Boost Optimizer can decrease balances through the increase button 1`] =
                   type="button"
                 >
                   <div
-                    class="MuiGrid-root-6 makeStyles-locked-350 makeStyles-root-344 MuiGrid-container-7"
+                    class="MuiGrid-root-6 makeStyles-root-344 MuiGrid-container-7"
                   >
                     <div
                       class="makeStyles-boostImageContainer-349"
@@ -1936,9 +1910,8 @@ exports[`Boost Optimizer can increase balances through the increase button 1`] =
               >
                 Boost:
               </p>
-               
               <p
-                class="MuiTypography-root-143 makeStyles-boostValue-139 makeStyles-fontColor-526 MuiTypography-body1-145"
+                class="MuiTypography-root-143 makeStyles-boostValue-139 makeStyles-fontColor-526 MuiTypography-body1-145 MuiTypography-displayInline-171"
               >
                 10
               </p>
@@ -2412,446 +2385,422 @@ exports[`Boost Optimizer can increase balances through the increase button 1`] =
                 </button>
               </div>
             </div>
-            <span
-              class=""
-              color="primary"
-              title="Jump to rank"
+            <div
+              class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-align-items-xs-flex-end-17"
             >
               <div
-                class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-align-items-xs-flex-end-17"
+                class="MuiGrid-root-6 makeStyles-root-331 MuiGrid-item-8"
               >
                 <div
-                  class="MuiGrid-root-6 makeStyles-root-331 MuiGrid-item-8"
+                  class="makeStyles-progressEntry-334"
                 >
                   <div
-                    class="makeStyles-progressEntry-334"
+                    class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-rankBar-335"
-                    >
-                      <div
-                        class="makeStyles-progressBar-546"
-                      />
-                    </div>
-                    <div
-                      class="makeStyles-connector-547"
+                      class="makeStyles-progressBar-546"
                     />
                   </div>
                   <div
-                    class="makeStyles-progressEntry-334"
-                  >
-                    <div
-                      class="makeStyles-rankBar-335"
-                    >
-                      <div
-                        class="makeStyles-progressBar-548"
-                      />
-                    </div>
-                    <div
-                      class="makeStyles-connector-549"
-                    />
-                  </div>
-                  <div
-                    class="makeStyles-progressEntry-334"
-                  >
-                    <div
-                      class="makeStyles-rankBar-335"
-                    >
-                      <div
-                        class="makeStyles-progressBar-550"
-                      />
-                    </div>
-                    <div
-                      class="makeStyles-connector-551"
-                    />
-                  </div>
-                  <div
-                    class="makeStyles-progressEntry-334"
-                  >
-                    <div
-                      class="makeStyles-rankBar-335"
-                    >
-                      <div
-                        class="makeStyles-progressBar-552"
-                      />
-                    </div>
-                    <div
-                      class="makeStyles-connector-553"
-                    />
-                  </div>
+                    class="makeStyles-connector-547"
+                  />
                 </div>
                 <div
-                  class="MuiGrid-root-6 MuiGrid-item-8 MuiGrid-grid-xs-true-40"
+                  class="makeStyles-progressEntry-334"
                 >
-                  <button
-                    aria-label="Hyper Badger Rank"
-                    class="MuiButtonBase-root-224 makeStyles-buttonBase-332"
-                    tabindex="0"
-                    type="button"
+                  <div
+                    class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="MuiGrid-root-6 makeStyles-root-344 MuiGrid-container-7"
-                    >
-                      <div
-                        class="makeStyles-boostImageContainer-349"
-                      >
-                        <div
-                          class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-554"
-                        >
-                          <img
-                            alt="Badger Logo"
-                            class="makeStyles-boostImage-555"
-                            src="assets/badger-transparent.png"
-                          />
-                        </div>
-                      </div>
-                      <div
-                        class="makeStyles-badgerLevelInfoContainer-346"
-                      >
-                        <p
-                          class="MuiTypography-root-143 MuiTypography-body2-144"
-                        >
-                          Hyper Badger
-                        </p>
-                      </div>
-                    </div>
-                    <span
-                      class="MuiTouchRipple-root-397"
+                      class="makeStyles-progressBar-548"
                     />
-                  </button>
+                  </div>
+                  <div
+                    class="makeStyles-connector-549"
+                  />
+                </div>
+                <div
+                  class="makeStyles-progressEntry-334"
+                >
+                  <div
+                    class="makeStyles-rankBar-335"
+                  >
+                    <div
+                      class="makeStyles-progressBar-550"
+                    />
+                  </div>
+                  <div
+                    class="makeStyles-connector-551"
+                  />
+                </div>
+                <div
+                  class="makeStyles-progressEntry-334"
+                >
+                  <div
+                    class="makeStyles-rankBar-335"
+                  >
+                    <div
+                      class="makeStyles-progressBar-552"
+                    />
+                  </div>
+                  <div
+                    class="makeStyles-connector-553"
+                  />
                 </div>
               </div>
-            </span>
-            <span
-              class=""
-              color="primary"
-              title="Jump to rank"
+              <div
+                class="MuiGrid-root-6 MuiGrid-item-8 MuiGrid-grid-xs-true-40"
+              >
+                <button
+                  aria-label="Hyper Badger Rank"
+                  class="MuiButtonBase-root-224 makeStyles-buttonBase-332"
+                  tabindex="0"
+                  type="button"
+                >
+                  <div
+                    class="MuiGrid-root-6 makeStyles-root-344 MuiGrid-container-7"
+                  >
+                    <div
+                      class="makeStyles-boostImageContainer-349"
+                    >
+                      <div
+                        class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-554"
+                      >
+                        <img
+                          alt="Badger Logo"
+                          class="makeStyles-boostImage-555"
+                          src="assets/badger-transparent.png"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      class="makeStyles-badgerLevelInfoContainer-346"
+                    >
+                      <p
+                        class="MuiTypography-root-143 MuiTypography-body2-144"
+                      >
+                        Hyper Badger
+                      </p>
+                    </div>
+                  </div>
+                  <span
+                    class="MuiTouchRipple-root-397"
+                  />
+                </button>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-align-items-xs-flex-end-17"
             >
               <div
-                class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-align-items-xs-flex-end-17"
+                class="MuiGrid-root-6 makeStyles-root-331 MuiGrid-item-8"
               >
                 <div
-                  class="MuiGrid-root-6 makeStyles-root-331 MuiGrid-item-8"
+                  class="makeStyles-progressEntry-334"
                 >
                   <div
-                    class="makeStyles-progressEntry-334"
+                    class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-rankBar-335"
-                    >
-                      <div
-                        class="makeStyles-progressBar-556"
-                      />
-                    </div>
-                    <div
-                      class="makeStyles-connector-557"
+                      class="makeStyles-progressBar-556"
                     />
                   </div>
                   <div
-                    class="makeStyles-progressEntry-334"
-                  >
-                    <div
-                      class="makeStyles-rankBar-335"
-                    >
-                      <div
-                        class="makeStyles-progressBar-558"
-                      />
-                    </div>
-                    <div
-                      class="makeStyles-connector-559"
-                    />
-                  </div>
-                  <div
-                    class="makeStyles-progressEntry-334"
-                  >
-                    <div
-                      class="makeStyles-rankBar-335"
-                    >
-                      <div
-                        class="makeStyles-progressBar-560"
-                      />
-                    </div>
-                    <div
-                      class="makeStyles-connector-561"
-                    />
-                  </div>
-                  <div
-                    class="makeStyles-progressEntry-334"
-                  >
-                    <div
-                      class="makeStyles-rankBar-335"
-                    >
-                      <div
-                        class="makeStyles-progressBar-562"
-                      />
-                    </div>
-                    <div
-                      class="makeStyles-connector-563"
-                    />
-                  </div>
+                    class="makeStyles-connector-557"
+                  />
                 </div>
                 <div
-                  class="MuiGrid-root-6 MuiGrid-item-8 MuiGrid-grid-xs-true-40"
+                  class="makeStyles-progressEntry-334"
                 >
-                  <button
-                    aria-label="Hero Badger Rank"
-                    class="MuiButtonBase-root-224 makeStyles-buttonBase-332"
-                    tabindex="0"
-                    type="button"
+                  <div
+                    class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="MuiGrid-root-6 makeStyles-root-344 MuiGrid-container-7"
-                    >
-                      <div
-                        class="makeStyles-boostImageContainer-349"
-                      >
-                        <div
-                          class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-564"
-                        >
-                          <img
-                            alt="Badger Logo"
-                            class="makeStyles-boostImage-565"
-                            src="assets/badger-transparent.png"
-                          />
-                        </div>
-                      </div>
-                      <div
-                        class="makeStyles-badgerLevelInfoContainer-346"
-                      >
-                        <p
-                          class="MuiTypography-root-143 MuiTypography-body2-144"
-                        >
-                          Hero Badger
-                        </p>
-                      </div>
-                    </div>
-                    <span
-                      class="MuiTouchRipple-root-397"
+                      class="makeStyles-progressBar-558"
                     />
-                  </button>
+                  </div>
+                  <div
+                    class="makeStyles-connector-559"
+                  />
+                </div>
+                <div
+                  class="makeStyles-progressEntry-334"
+                >
+                  <div
+                    class="makeStyles-rankBar-335"
+                  >
+                    <div
+                      class="makeStyles-progressBar-560"
+                    />
+                  </div>
+                  <div
+                    class="makeStyles-connector-561"
+                  />
+                </div>
+                <div
+                  class="makeStyles-progressEntry-334"
+                >
+                  <div
+                    class="makeStyles-rankBar-335"
+                  >
+                    <div
+                      class="makeStyles-progressBar-562"
+                    />
+                  </div>
+                  <div
+                    class="makeStyles-connector-563"
+                  />
                 </div>
               </div>
-            </span>
-            <span
-              class=""
-              color="primary"
-              title="Jump to rank"
+              <div
+                class="MuiGrid-root-6 MuiGrid-item-8 MuiGrid-grid-xs-true-40"
+              >
+                <button
+                  aria-label="Hero Badger Rank"
+                  class="MuiButtonBase-root-224 makeStyles-buttonBase-332"
+                  tabindex="0"
+                  type="button"
+                >
+                  <div
+                    class="MuiGrid-root-6 makeStyles-root-344 MuiGrid-container-7"
+                  >
+                    <div
+                      class="makeStyles-boostImageContainer-349"
+                    >
+                      <div
+                        class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-564"
+                      >
+                        <img
+                          alt="Badger Logo"
+                          class="makeStyles-boostImage-565"
+                          src="assets/badger-transparent.png"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      class="makeStyles-badgerLevelInfoContainer-346"
+                    >
+                      <p
+                        class="MuiTypography-root-143 MuiTypography-body2-144"
+                      >
+                        Hero Badger
+                      </p>
+                    </div>
+                  </div>
+                  <span
+                    class="MuiTouchRipple-root-397"
+                  />
+                </button>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-align-items-xs-flex-end-17"
             >
               <div
-                class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-align-items-xs-flex-end-17"
+                class="MuiGrid-root-6 makeStyles-root-331 MuiGrid-item-8"
               >
                 <div
-                  class="MuiGrid-root-6 makeStyles-root-331 MuiGrid-item-8"
+                  class="makeStyles-progressEntry-334"
                 >
                   <div
-                    class="makeStyles-progressEntry-334"
+                    class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-rankBar-335"
-                    >
-                      <div
-                        class="makeStyles-progressBar-566"
-                      />
-                    </div>
-                    <div
-                      class="makeStyles-connector-567"
+                      class="makeStyles-progressBar-566"
                     />
                   </div>
                   <div
-                    class="makeStyles-progressEntry-334"
-                  >
-                    <div
-                      class="makeStyles-rankBar-335"
-                    >
-                      <div
-                        class="makeStyles-progressBar-568"
-                      />
-                    </div>
-                    <div
-                      class="makeStyles-connector-569"
-                    />
-                  </div>
-                  <div
-                    class="makeStyles-progressEntry-334"
-                  >
-                    <div
-                      class="makeStyles-rankBar-335"
-                    >
-                      <div
-                        class="makeStyles-progressBar-570"
-                      />
-                    </div>
-                    <div
-                      class="makeStyles-connector-571"
-                    />
-                  </div>
-                  <div
-                    class="makeStyles-progressEntry-334"
-                  >
-                    <div
-                      class="makeStyles-rankBar-335"
-                    >
-                      <div
-                        class="makeStyles-progressBar-572"
-                      />
-                    </div>
-                    <div
-                      class="makeStyles-connector-573"
-                    />
-                  </div>
+                    class="makeStyles-connector-567"
+                  />
                 </div>
                 <div
-                  class="MuiGrid-root-6 MuiGrid-item-8 MuiGrid-grid-xs-true-40"
+                  class="makeStyles-progressEntry-334"
                 >
-                  <button
-                    aria-label="Neo Badger Rank"
-                    class="MuiButtonBase-root-224 makeStyles-buttonBase-332"
-                    tabindex="0"
-                    type="button"
+                  <div
+                    class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="MuiGrid-root-6 makeStyles-root-344 MuiGrid-container-7"
-                    >
-                      <div
-                        class="makeStyles-boostImageContainer-349"
-                      >
-                        <div
-                          class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-574"
-                        >
-                          <img
-                            alt="Badger Logo"
-                            class="makeStyles-boostImage-575"
-                            src="assets/badger-transparent.png"
-                          />
-                        </div>
-                      </div>
-                      <div
-                        class="makeStyles-badgerLevelInfoContainer-346"
-                      >
-                        <p
-                          class="MuiTypography-root-143 MuiTypography-body2-144"
-                        >
-                          Neo Badger
-                        </p>
-                      </div>
-                    </div>
-                    <span
-                      class="MuiTouchRipple-root-397"
+                      class="makeStyles-progressBar-568"
                     />
-                  </button>
+                  </div>
+                  <div
+                    class="makeStyles-connector-569"
+                  />
+                </div>
+                <div
+                  class="makeStyles-progressEntry-334"
+                >
+                  <div
+                    class="makeStyles-rankBar-335"
+                  >
+                    <div
+                      class="makeStyles-progressBar-570"
+                    />
+                  </div>
+                  <div
+                    class="makeStyles-connector-571"
+                  />
+                </div>
+                <div
+                  class="makeStyles-progressEntry-334"
+                >
+                  <div
+                    class="makeStyles-rankBar-335"
+                  >
+                    <div
+                      class="makeStyles-progressBar-572"
+                    />
+                  </div>
+                  <div
+                    class="makeStyles-connector-573"
+                  />
                 </div>
               </div>
-            </span>
-            <span
-              class=""
-              color="primary"
-              title="Jump to rank"
+              <div
+                class="MuiGrid-root-6 MuiGrid-item-8 MuiGrid-grid-xs-true-40"
+              >
+                <button
+                  aria-label="Neo Badger Rank"
+                  class="MuiButtonBase-root-224 makeStyles-buttonBase-332"
+                  tabindex="0"
+                  type="button"
+                >
+                  <div
+                    class="MuiGrid-root-6 makeStyles-root-344 MuiGrid-container-7"
+                  >
+                    <div
+                      class="makeStyles-boostImageContainer-349"
+                    >
+                      <div
+                        class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-574"
+                      >
+                        <img
+                          alt="Badger Logo"
+                          class="makeStyles-boostImage-575"
+                          src="assets/badger-transparent.png"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      class="makeStyles-badgerLevelInfoContainer-346"
+                    >
+                      <p
+                        class="MuiTypography-root-143 MuiTypography-body2-144"
+                      >
+                        Neo Badger
+                      </p>
+                    </div>
+                  </div>
+                  <span
+                    class="MuiTouchRipple-root-397"
+                  />
+                </button>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-align-items-xs-flex-end-17"
             >
               <div
-                class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-align-items-xs-flex-end-17"
+                class="MuiGrid-root-6 makeStyles-root-331 MuiGrid-item-8"
               >
                 <div
-                  class="MuiGrid-root-6 makeStyles-root-331 MuiGrid-item-8"
+                  class="makeStyles-progressEntry-334"
                 >
                   <div
-                    class="makeStyles-progressEntry-334"
+                    class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-rankBar-335"
-                    >
-                      <div
-                        class="makeStyles-progressBar-576"
-                      />
-                    </div>
-                    <div
-                      class="makeStyles-connector-577"
+                      class="makeStyles-progressBar-576"
                     />
                   </div>
                   <div
-                    class="makeStyles-progressEntry-334"
-                  >
-                    <div
-                      class="makeStyles-rankBar-335"
-                    >
-                      <div
-                        class="makeStyles-progressBar-578"
-                      />
-                    </div>
-                    <div
-                      class="makeStyles-connector-579"
-                    />
-                  </div>
-                  <div
-                    class="makeStyles-progressEntry-334"
-                  >
-                    <div
-                      class="makeStyles-rankBar-335"
-                    >
-                      <div
-                        class="makeStyles-progressBar-580"
-                      />
-                    </div>
-                    <div
-                      class="makeStyles-connector-581"
-                    />
-                  </div>
-                  <div
-                    class="makeStyles-progressEntry-334"
-                  >
-                    <div
-                      class="makeStyles-rankBar-335"
-                    >
-                      <div
-                        class="makeStyles-progressBar-582"
-                      />
-                    </div>
-                    <div
-                      class="makeStyles-connector-583"
-                    />
-                  </div>
+                    class="makeStyles-connector-577"
+                  />
                 </div>
                 <div
-                  class="MuiGrid-root-6 MuiGrid-item-8 MuiGrid-grid-xs-true-40"
+                  class="makeStyles-progressEntry-334"
                 >
-                  <button
-                    aria-label="Basic Badger Rank"
-                    class="MuiButtonBase-root-224 makeStyles-buttonBase-332"
-                    tabindex="0"
-                    type="button"
+                  <div
+                    class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="MuiGrid-root-6 makeStyles-root-344 MuiGrid-container-7"
-                    >
-                      <div
-                        class="makeStyles-boostImageContainer-349"
-                      >
-                        <div
-                          class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-584"
-                        >
-                          <img
-                            alt="Badger Logo"
-                            class="makeStyles-boostImage-585"
-                            src="assets/badger-transparent.png"
-                          />
-                        </div>
-                      </div>
-                      <div
-                        class="makeStyles-badgerLevelInfoContainer-346"
-                      >
-                        <p
-                          class="MuiTypography-root-143 MuiTypography-body2-144"
-                        >
-                          Basic Badger
-                        </p>
-                      </div>
-                    </div>
-                    <span
-                      class="MuiTouchRipple-root-397"
+                      class="makeStyles-progressBar-578"
                     />
-                  </button>
+                  </div>
+                  <div
+                    class="makeStyles-connector-579"
+                  />
+                </div>
+                <div
+                  class="makeStyles-progressEntry-334"
+                >
+                  <div
+                    class="makeStyles-rankBar-335"
+                  >
+                    <div
+                      class="makeStyles-progressBar-580"
+                    />
+                  </div>
+                  <div
+                    class="makeStyles-connector-581"
+                  />
+                </div>
+                <div
+                  class="makeStyles-progressEntry-334"
+                >
+                  <div
+                    class="makeStyles-rankBar-335"
+                  >
+                    <div
+                      class="makeStyles-progressBar-582"
+                    />
+                  </div>
+                  <div
+                    class="makeStyles-connector-583"
+                  />
                 </div>
               </div>
-            </span>
+              <div
+                class="MuiGrid-root-6 MuiGrid-item-8 MuiGrid-grid-xs-true-40"
+              >
+                <button
+                  aria-label="Basic Badger Rank"
+                  class="MuiButtonBase-root-224 makeStyles-buttonBase-332"
+                  tabindex="0"
+                  type="button"
+                >
+                  <div
+                    class="MuiGrid-root-6 makeStyles-root-344 MuiGrid-container-7"
+                  >
+                    <div
+                      class="makeStyles-boostImageContainer-349"
+                    >
+                      <div
+                        class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-584"
+                      >
+                        <img
+                          alt="Badger Logo"
+                          class="makeStyles-boostImage-585"
+                          src="assets/badger-transparent.png"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      class="makeStyles-badgerLevelInfoContainer-346"
+                    >
+                      <p
+                        class="MuiTypography-root-143 MuiTypography-body2-144"
+                      >
+                        Basic Badger
+                      </p>
+                    </div>
+                  </div>
+                  <span
+                    class="MuiTouchRipple-root-397"
+                  />
+                </button>
+              </div>
+            </div>
           </div>
         </div>
         <div
@@ -2903,9 +2852,8 @@ exports[`Boost Optimizer can jump to rank 1`] = `
               >
                 Boost:
               </p>
-               
               <p
-                class="MuiTypography-root-143 makeStyles-boostValue-139 makeStyles-fontColor-466 MuiTypography-body1-145"
+                class="MuiTypography-root-143 makeStyles-boostValue-139 makeStyles-fontColor-466 MuiTypography-body1-145 MuiTypography-displayInline-171"
               >
                 1
               </p>
@@ -3375,454 +3323,431 @@ exports[`Boost Optimizer can jump to rank 1`] = `
                 </button>
               </div>
             </div>
-            <span
-              class=""
-              color="primary"
+            <div
+              class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-align-items-xs-flex-end-17"
             >
               <div
-                class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-align-items-xs-flex-end-17"
+                class="MuiGrid-root-6 makeStyles-root-331 MuiGrid-item-8"
               >
                 <div
-                  class="MuiGrid-root-6 makeStyles-root-331 MuiGrid-item-8"
+                  class="makeStyles-progressEntry-334"
                 >
                   <div
-                    class="makeStyles-progressEntry-334"
+                    class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-rankBar-335"
-                    >
-                      <div
-                        class="makeStyles-progressBar-486"
-                      />
-                    </div>
-                    <div
-                      class="makeStyles-connector-487"
+                      class="makeStyles-progressBar-486"
                     />
                   </div>
                   <div
-                    class="makeStyles-progressEntry-334"
-                  >
-                    <div
-                      class="makeStyles-rankBar-335"
-                    >
-                      <div
-                        class="makeStyles-progressBar-488"
-                      />
-                    </div>
-                    <div
-                      class="makeStyles-connector-489"
-                    />
-                  </div>
-                  <div
-                    class="makeStyles-progressEntry-334"
-                  >
-                    <div
-                      class="makeStyles-rankBar-335"
-                    >
-                      <div
-                        class="makeStyles-progressBar-490"
-                      />
-                    </div>
-                    <div
-                      class="makeStyles-connector-491"
-                    />
-                  </div>
-                  <div
-                    class="makeStyles-progressEntry-334"
-                  >
-                    <div
-                      class="makeStyles-rankBar-335"
-                    >
-                      <div
-                        class="makeStyles-progressBar-492"
-                      />
-                    </div>
-                    <div
-                      class="makeStyles-connector-493"
-                    />
-                  </div>
+                    class="makeStyles-connector-487"
+                  />
                 </div>
                 <div
-                  class="MuiGrid-root-6 MuiGrid-item-8 MuiGrid-grid-xs-true-40"
+                  class="makeStyles-progressEntry-334"
                 >
-                  <button
-                    aria-label="Hyper Badger Rank"
-                    class="MuiButtonBase-root-224 makeStyles-buttonBase-332"
-                    tabindex="0"
-                    type="button"
+                  <div
+                    class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="MuiGrid-root-6 makeStyles-root-344 MuiGrid-container-7"
+                      class="makeStyles-progressBar-488"
+                    />
+                  </div>
+                  <div
+                    class="makeStyles-connector-489"
+                  />
+                </div>
+                <div
+                  class="makeStyles-progressEntry-334"
+                >
+                  <div
+                    class="makeStyles-rankBar-335"
+                  >
+                    <div
+                      class="makeStyles-progressBar-490"
+                    />
+                  </div>
+                  <div
+                    class="makeStyles-connector-491"
+                  />
+                </div>
+                <div
+                  class="makeStyles-progressEntry-334"
+                >
+                  <div
+                    class="makeStyles-rankBar-335"
+                  >
+                    <div
+                      class="makeStyles-progressBar-492"
+                    />
+                  </div>
+                  <div
+                    class="makeStyles-connector-493"
+                  />
+                </div>
+              </div>
+              <div
+                class="MuiGrid-root-6 MuiGrid-item-8 MuiGrid-grid-xs-true-40"
+              >
+                <button
+                  aria-label="Hyper Badger Rank"
+                  class="MuiButtonBase-root-224 makeStyles-buttonBase-332"
+                  tabindex="0"
+                  type="button"
+                >
+                  <div
+                    class="MuiGrid-root-6 makeStyles-root-344 MuiGrid-container-7"
+                  >
+                    <div
+                      class="makeStyles-boostImageContainer-349"
                     >
                       <div
-                        class="makeStyles-boostImageContainer-349"
+                        class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-494"
                       >
-                        <div
-                          class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-494"
-                        >
-                          <img
-                            alt="Badger Logo"
-                            class="makeStyles-boostImage-495"
-                            src="assets/badger-transparent.png"
-                          />
-                        </div>
-                      </div>
-                      <div
-                        class="makeStyles-badgerLevelInfoContainer-346"
-                      >
-                        <p
-                          class="MuiTypography-root-143 MuiTypography-body2-144"
-                        >
-                          Hyper Badger
-                        </p>
+                        <img
+                          alt="Badger Logo"
+                          class="makeStyles-boostImage-495"
+                          src="assets/badger-transparent.png"
+                        />
                       </div>
                     </div>
+                    <div
+                      class="makeStyles-badgerLevelInfoContainer-346"
+                    >
+                      <p
+                        class="MuiTypography-root-143 MuiTypography-body2-144"
+                      >
+                        Hyper Badger
+                      </p>
+                    </div>
+                  </div>
+                  <span
+                    class="MuiTouchRipple-root-397"
+                  >
                     <span
-                      class="MuiTouchRipple-root-397"
+                      class="MuiTouchRipple-ripple-398 MuiTouchRipple-rippleVisible-399"
+                      style="width: 2.8284271247461903px; height: 2.8284271247461903px; top: -1.4142135623730951px; left: -1.4142135623730951px;"
                     >
                       <span
-                        class="MuiTouchRipple-ripple-398 MuiTouchRipple-rippleVisible-399"
-                        style="width: 2.8284271247461903px; height: 2.8284271247461903px; top: -1.4142135623730951px; left: -1.4142135623730951px;"
-                      >
-                        <span
-                          class="MuiTouchRipple-child-401 MuiTouchRipple-childLeaving-402"
-                        />
-                      </span>
+                        class="MuiTouchRipple-child-401 MuiTouchRipple-childLeaving-402"
+                      />
                     </span>
-                  </button>
-                </div>
+                  </span>
+                </button>
               </div>
-            </span>
-            <span
-              class=""
-              color="primary"
-              title="Jump to rank"
+            </div>
+            <div
+              class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-align-items-xs-flex-end-17"
             >
               <div
-                class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-align-items-xs-flex-end-17"
+                class="MuiGrid-root-6 makeStyles-root-331 MuiGrid-item-8"
               >
                 <div
-                  class="MuiGrid-root-6 makeStyles-root-331 MuiGrid-item-8"
+                  class="makeStyles-progressEntry-334"
                 >
                   <div
-                    class="makeStyles-progressEntry-334"
+                    class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-rankBar-335"
-                    >
-                      <div
-                        class="makeStyles-progressBar-496"
-                      />
-                    </div>
-                    <div
-                      class="makeStyles-connector-497"
+                      class="makeStyles-progressBar-496"
                     />
                   </div>
                   <div
-                    class="makeStyles-progressEntry-334"
-                  >
-                    <div
-                      class="makeStyles-rankBar-335"
-                    >
-                      <div
-                        class="makeStyles-progressBar-498"
-                      />
-                    </div>
-                    <div
-                      class="makeStyles-connector-499"
-                    />
-                  </div>
-                  <div
-                    class="makeStyles-progressEntry-334"
-                  >
-                    <div
-                      class="makeStyles-rankBar-335"
-                    >
-                      <div
-                        class="makeStyles-progressBar-500"
-                      />
-                    </div>
-                    <div
-                      class="makeStyles-connector-501"
-                    />
-                  </div>
-                  <div
-                    class="makeStyles-progressEntry-334"
-                  >
-                    <div
-                      class="makeStyles-rankBar-335"
-                    >
-                      <div
-                        class="makeStyles-progressBar-502"
-                      />
-                    </div>
-                    <div
-                      class="makeStyles-connector-503"
-                    />
-                  </div>
+                    class="makeStyles-connector-497"
+                  />
                 </div>
                 <div
-                  class="MuiGrid-root-6 MuiGrid-item-8 MuiGrid-grid-xs-true-40"
+                  class="makeStyles-progressEntry-334"
                 >
-                  <button
-                    aria-label="Hero Badger Rank"
-                    class="MuiButtonBase-root-224 makeStyles-buttonBase-332"
-                    tabindex="0"
-                    type="button"
+                  <div
+                    class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="MuiGrid-root-6 makeStyles-root-344 MuiGrid-container-7"
-                    >
-                      <div
-                        class="makeStyles-boostImageContainer-349"
-                      >
-                        <div
-                          class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-504"
-                        >
-                          <img
-                            alt="Badger Logo"
-                            class="makeStyles-boostImage-505"
-                            src="assets/badger-transparent.png"
-                          />
-                        </div>
-                      </div>
-                      <div
-                        class="makeStyles-badgerLevelInfoContainer-346"
-                      >
-                        <p
-                          class="MuiTypography-root-143 MuiTypography-body2-144"
-                        >
-                          Hero Badger
-                        </p>
-                      </div>
-                    </div>
-                    <span
-                      class="MuiTouchRipple-root-397"
+                      class="makeStyles-progressBar-498"
                     />
-                  </button>
+                  </div>
+                  <div
+                    class="makeStyles-connector-499"
+                  />
+                </div>
+                <div
+                  class="makeStyles-progressEntry-334"
+                >
+                  <div
+                    class="makeStyles-rankBar-335"
+                  >
+                    <div
+                      class="makeStyles-progressBar-500"
+                    />
+                  </div>
+                  <div
+                    class="makeStyles-connector-501"
+                  />
+                </div>
+                <div
+                  class="makeStyles-progressEntry-334"
+                >
+                  <div
+                    class="makeStyles-rankBar-335"
+                  >
+                    <div
+                      class="makeStyles-progressBar-502"
+                    />
+                  </div>
+                  <div
+                    class="makeStyles-connector-503"
+                  />
                 </div>
               </div>
-            </span>
-            <span
-              class=""
-              color="primary"
-              title="Jump to rank"
+              <div
+                class="MuiGrid-root-6 MuiGrid-item-8 MuiGrid-grid-xs-true-40"
+              >
+                <button
+                  aria-label="Hero Badger Rank"
+                  class="MuiButtonBase-root-224 makeStyles-buttonBase-332"
+                  tabindex="0"
+                  type="button"
+                >
+                  <div
+                    class="MuiGrid-root-6 makeStyles-root-344 MuiGrid-container-7"
+                  >
+                    <div
+                      class="makeStyles-boostImageContainer-349"
+                    >
+                      <div
+                        class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-504"
+                      >
+                        <img
+                          alt="Badger Logo"
+                          class="makeStyles-boostImage-505"
+                          src="assets/badger-transparent.png"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      class="makeStyles-badgerLevelInfoContainer-346"
+                    >
+                      <p
+                        class="MuiTypography-root-143 MuiTypography-body2-144"
+                      >
+                        Hero Badger
+                      </p>
+                    </div>
+                  </div>
+                  <span
+                    class="MuiTouchRipple-root-397"
+                  />
+                </button>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-align-items-xs-flex-end-17"
             >
               <div
-                class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-align-items-xs-flex-end-17"
+                class="MuiGrid-root-6 makeStyles-root-331 MuiGrid-item-8"
               >
                 <div
-                  class="MuiGrid-root-6 makeStyles-root-331 MuiGrid-item-8"
+                  class="makeStyles-progressEntry-334"
                 >
                   <div
-                    class="makeStyles-progressEntry-334"
+                    class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-rankBar-335"
-                    >
-                      <div
-                        class="makeStyles-progressBar-506"
-                      />
-                    </div>
-                    <div
-                      class="makeStyles-connector-507"
+                      class="makeStyles-progressBar-506"
                     />
                   </div>
                   <div
-                    class="makeStyles-progressEntry-334"
-                  >
-                    <div
-                      class="makeStyles-rankBar-335"
-                    >
-                      <div
-                        class="makeStyles-progressBar-508"
-                      />
-                    </div>
-                    <div
-                      class="makeStyles-connector-509"
-                    />
-                  </div>
-                  <div
-                    class="makeStyles-progressEntry-334"
-                  >
-                    <div
-                      class="makeStyles-rankBar-335"
-                    >
-                      <div
-                        class="makeStyles-progressBar-510"
-                      />
-                    </div>
-                    <div
-                      class="makeStyles-connector-511"
-                    />
-                  </div>
-                  <div
-                    class="makeStyles-progressEntry-334"
-                  >
-                    <div
-                      class="makeStyles-rankBar-335"
-                    >
-                      <div
-                        class="makeStyles-progressBar-512"
-                      />
-                    </div>
-                    <div
-                      class="makeStyles-connector-513"
-                    />
-                  </div>
+                    class="makeStyles-connector-507"
+                  />
                 </div>
                 <div
-                  class="MuiGrid-root-6 MuiGrid-item-8 MuiGrid-grid-xs-true-40"
+                  class="makeStyles-progressEntry-334"
                 >
-                  <button
-                    aria-label="Neo Badger Rank"
-                    class="MuiButtonBase-root-224 makeStyles-buttonBase-332"
-                    tabindex="0"
-                    type="button"
+                  <div
+                    class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="MuiGrid-root-6 makeStyles-root-344 MuiGrid-container-7"
-                    >
-                      <div
-                        class="makeStyles-boostImageContainer-349"
-                      >
-                        <div
-                          class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-514"
-                        >
-                          <img
-                            alt="Badger Logo"
-                            class="makeStyles-boostImage-515"
-                            src="assets/badger-transparent.png"
-                          />
-                        </div>
-                      </div>
-                      <div
-                        class="makeStyles-badgerLevelInfoContainer-346"
-                      >
-                        <p
-                          class="MuiTypography-root-143 MuiTypography-body2-144"
-                        >
-                          Neo Badger
-                        </p>
-                      </div>
-                    </div>
-                    <span
-                      class="MuiTouchRipple-root-397"
+                      class="makeStyles-progressBar-508"
                     />
-                  </button>
+                  </div>
+                  <div
+                    class="makeStyles-connector-509"
+                  />
+                </div>
+                <div
+                  class="makeStyles-progressEntry-334"
+                >
+                  <div
+                    class="makeStyles-rankBar-335"
+                  >
+                    <div
+                      class="makeStyles-progressBar-510"
+                    />
+                  </div>
+                  <div
+                    class="makeStyles-connector-511"
+                  />
+                </div>
+                <div
+                  class="makeStyles-progressEntry-334"
+                >
+                  <div
+                    class="makeStyles-rankBar-335"
+                  >
+                    <div
+                      class="makeStyles-progressBar-512"
+                    />
+                  </div>
+                  <div
+                    class="makeStyles-connector-513"
+                  />
                 </div>
               </div>
-            </span>
-            <span
-              class=""
-              color="primary"
-              title="Jump to rank"
+              <div
+                class="MuiGrid-root-6 MuiGrid-item-8 MuiGrid-grid-xs-true-40"
+              >
+                <button
+                  aria-label="Neo Badger Rank"
+                  class="MuiButtonBase-root-224 makeStyles-buttonBase-332"
+                  tabindex="0"
+                  type="button"
+                >
+                  <div
+                    class="MuiGrid-root-6 makeStyles-root-344 MuiGrid-container-7"
+                  >
+                    <div
+                      class="makeStyles-boostImageContainer-349"
+                    >
+                      <div
+                        class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-514"
+                      >
+                        <img
+                          alt="Badger Logo"
+                          class="makeStyles-boostImage-515"
+                          src="assets/badger-transparent.png"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      class="makeStyles-badgerLevelInfoContainer-346"
+                    >
+                      <p
+                        class="MuiTypography-root-143 MuiTypography-body2-144"
+                      >
+                        Neo Badger
+                      </p>
+                    </div>
+                  </div>
+                  <span
+                    class="MuiTouchRipple-root-397"
+                  />
+                </button>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-align-items-xs-flex-end-17"
             >
               <div
-                class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-align-items-xs-flex-end-17"
+                class="MuiGrid-root-6 makeStyles-root-331 MuiGrid-item-8"
               >
                 <div
-                  class="MuiGrid-root-6 makeStyles-root-331 MuiGrid-item-8"
+                  class="makeStyles-progressEntry-334"
                 >
                   <div
-                    class="makeStyles-progressEntry-334"
+                    class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-rankBar-335"
-                    >
-                      <div
-                        class="makeStyles-progressBar-516"
-                      />
-                    </div>
-                    <div
-                      class="makeStyles-connector-517"
+                      class="makeStyles-progressBar-516"
                     />
                   </div>
                   <div
-                    class="makeStyles-progressEntry-334"
-                  >
-                    <div
-                      class="makeStyles-rankBar-335"
-                    >
-                      <div
-                        class="makeStyles-progressBar-518"
-                      />
-                    </div>
-                    <div
-                      class="makeStyles-connector-519"
-                    />
-                  </div>
-                  <div
-                    class="makeStyles-progressEntry-334"
-                  >
-                    <div
-                      class="makeStyles-rankBar-335"
-                    >
-                      <div
-                        class="makeStyles-progressBar-520"
-                      />
-                    </div>
-                    <div
-                      class="makeStyles-connector-521"
-                    />
-                  </div>
-                  <div
-                    class="makeStyles-progressEntry-334"
-                  >
-                    <div
-                      class="makeStyles-rankBar-335"
-                    >
-                      <div
-                        class="makeStyles-progressBar-522"
-                      />
-                    </div>
-                    <div
-                      class="makeStyles-connector-523"
-                    />
-                  </div>
+                    class="makeStyles-connector-517"
+                  />
                 </div>
                 <div
-                  class="MuiGrid-root-6 MuiGrid-item-8 MuiGrid-grid-xs-true-40"
+                  class="makeStyles-progressEntry-334"
                 >
-                  <button
-                    aria-label="Basic Badger Rank"
-                    class="MuiButtonBase-root-224 makeStyles-buttonBase-332"
-                    tabindex="0"
-                    type="button"
+                  <div
+                    class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="MuiGrid-root-6 makeStyles-root-344 MuiGrid-container-7"
-                    >
-                      <div
-                        class="makeStyles-boostImageContainer-349"
-                      >
-                        <div
-                          class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-524"
-                        >
-                          <img
-                            alt="Badger Logo"
-                            class="makeStyles-boostImage-525"
-                            src="assets/badger-transparent.png"
-                          />
-                        </div>
-                      </div>
-                      <div
-                        class="makeStyles-badgerLevelInfoContainer-346"
-                      >
-                        <p
-                          class="MuiTypography-root-143 MuiTypography-body2-144"
-                        >
-                          Basic Badger
-                        </p>
-                      </div>
-                    </div>
-                    <span
-                      class="MuiTouchRipple-root-397"
+                      class="makeStyles-progressBar-518"
                     />
-                  </button>
+                  </div>
+                  <div
+                    class="makeStyles-connector-519"
+                  />
+                </div>
+                <div
+                  class="makeStyles-progressEntry-334"
+                >
+                  <div
+                    class="makeStyles-rankBar-335"
+                  >
+                    <div
+                      class="makeStyles-progressBar-520"
+                    />
+                  </div>
+                  <div
+                    class="makeStyles-connector-521"
+                  />
+                </div>
+                <div
+                  class="makeStyles-progressEntry-334"
+                >
+                  <div
+                    class="makeStyles-rankBar-335"
+                  >
+                    <div
+                      class="makeStyles-progressBar-522"
+                    />
+                  </div>
+                  <div
+                    class="makeStyles-connector-523"
+                  />
                 </div>
               </div>
-            </span>
+              <div
+                class="MuiGrid-root-6 MuiGrid-item-8 MuiGrid-grid-xs-true-40"
+              >
+                <button
+                  aria-label="Basic Badger Rank"
+                  class="MuiButtonBase-root-224 makeStyles-buttonBase-332"
+                  tabindex="0"
+                  type="button"
+                >
+                  <div
+                    class="MuiGrid-root-6 makeStyles-root-344 MuiGrid-container-7"
+                  >
+                    <div
+                      class="makeStyles-boostImageContainer-349"
+                    >
+                      <div
+                        class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-524"
+                      >
+                        <img
+                          alt="Badger Logo"
+                          class="makeStyles-boostImage-525"
+                          src="assets/badger-transparent.png"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      class="makeStyles-badgerLevelInfoContainer-346"
+                    >
+                      <p
+                        class="MuiTypography-root-143 MuiTypography-body2-144"
+                      >
+                        Basic Badger
+                      </p>
+                    </div>
+                  </div>
+                  <span
+                    class="MuiTouchRipple-root-397"
+                  />
+                </button>
+              </div>
+            </div>
           </div>
         </div>
         <div
@@ -3874,9 +3799,8 @@ exports[`Boost Optimizer displays correct information 1`] = `
               >
                 Boost:
               </p>
-               
               <p
-                class="MuiTypography-root-143 makeStyles-boostValue-139 makeStyles-fontColor-396 MuiTypography-body1-145"
+                class="MuiTypography-root-143 makeStyles-boostValue-139 makeStyles-fontColor-396 MuiTypography-body1-145 MuiTypography-displayInline-171"
               >
                 1
               </p>
@@ -4332,446 +4256,422 @@ exports[`Boost Optimizer displays correct information 1`] = `
                 </button>
               </div>
             </div>
-            <span
-              class=""
-              color="primary"
-              title="Jump to rank"
+            <div
+              class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-align-items-xs-flex-end-17"
             >
               <div
-                class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-align-items-xs-flex-end-17"
+                class="MuiGrid-root-6 makeStyles-root-331 MuiGrid-item-8"
               >
                 <div
-                  class="MuiGrid-root-6 makeStyles-root-331 MuiGrid-item-8"
+                  class="makeStyles-progressEntry-334"
                 >
                   <div
-                    class="makeStyles-progressEntry-334"
+                    class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-rankBar-335"
-                    >
-                      <div
-                        class="makeStyles-progressBar-426"
-                      />
-                    </div>
-                    <div
-                      class="makeStyles-connector-427"
+                      class="makeStyles-progressBar-426"
                     />
                   </div>
                   <div
-                    class="makeStyles-progressEntry-334"
-                  >
-                    <div
-                      class="makeStyles-rankBar-335"
-                    >
-                      <div
-                        class="makeStyles-progressBar-428"
-                      />
-                    </div>
-                    <div
-                      class="makeStyles-connector-429"
-                    />
-                  </div>
-                  <div
-                    class="makeStyles-progressEntry-334"
-                  >
-                    <div
-                      class="makeStyles-rankBar-335"
-                    >
-                      <div
-                        class="makeStyles-progressBar-430"
-                      />
-                    </div>
-                    <div
-                      class="makeStyles-connector-431"
-                    />
-                  </div>
-                  <div
-                    class="makeStyles-progressEntry-334"
-                  >
-                    <div
-                      class="makeStyles-rankBar-335"
-                    >
-                      <div
-                        class="makeStyles-progressBar-432"
-                      />
-                    </div>
-                    <div
-                      class="makeStyles-connector-433"
-                    />
-                  </div>
+                    class="makeStyles-connector-427"
+                  />
                 </div>
                 <div
-                  class="MuiGrid-root-6 MuiGrid-item-8 MuiGrid-grid-xs-true-40"
+                  class="makeStyles-progressEntry-334"
                 >
-                  <button
-                    aria-label="Hyper Badger Rank"
-                    class="MuiButtonBase-root-224 makeStyles-buttonBase-332"
-                    tabindex="0"
-                    type="button"
+                  <div
+                    class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="MuiGrid-root-6 makeStyles-root-344 MuiGrid-container-7"
-                    >
-                      <div
-                        class="makeStyles-boostImageContainer-349"
-                      >
-                        <div
-                          class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-434"
-                        >
-                          <img
-                            alt="Badger Logo"
-                            class="makeStyles-boostImage-435"
-                            src="assets/badger-transparent.png"
-                          />
-                        </div>
-                      </div>
-                      <div
-                        class="makeStyles-badgerLevelInfoContainer-346"
-                      >
-                        <p
-                          class="MuiTypography-root-143 MuiTypography-body2-144"
-                        >
-                          Hyper Badger
-                        </p>
-                      </div>
-                    </div>
-                    <span
-                      class="MuiTouchRipple-root-397"
+                      class="makeStyles-progressBar-428"
                     />
-                  </button>
+                  </div>
+                  <div
+                    class="makeStyles-connector-429"
+                  />
+                </div>
+                <div
+                  class="makeStyles-progressEntry-334"
+                >
+                  <div
+                    class="makeStyles-rankBar-335"
+                  >
+                    <div
+                      class="makeStyles-progressBar-430"
+                    />
+                  </div>
+                  <div
+                    class="makeStyles-connector-431"
+                  />
+                </div>
+                <div
+                  class="makeStyles-progressEntry-334"
+                >
+                  <div
+                    class="makeStyles-rankBar-335"
+                  >
+                    <div
+                      class="makeStyles-progressBar-432"
+                    />
+                  </div>
+                  <div
+                    class="makeStyles-connector-433"
+                  />
                 </div>
               </div>
-            </span>
-            <span
-              class=""
-              color="primary"
-              title="Jump to rank"
+              <div
+                class="MuiGrid-root-6 MuiGrid-item-8 MuiGrid-grid-xs-true-40"
+              >
+                <button
+                  aria-label="Hyper Badger Rank"
+                  class="MuiButtonBase-root-224 makeStyles-buttonBase-332"
+                  tabindex="0"
+                  type="button"
+                >
+                  <div
+                    class="MuiGrid-root-6 makeStyles-root-344 MuiGrid-container-7"
+                  >
+                    <div
+                      class="makeStyles-boostImageContainer-349"
+                    >
+                      <div
+                        class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-434"
+                      >
+                        <img
+                          alt="Badger Logo"
+                          class="makeStyles-boostImage-435"
+                          src="assets/badger-transparent.png"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      class="makeStyles-badgerLevelInfoContainer-346"
+                    >
+                      <p
+                        class="MuiTypography-root-143 MuiTypography-body2-144"
+                      >
+                        Hyper Badger
+                      </p>
+                    </div>
+                  </div>
+                  <span
+                    class="MuiTouchRipple-root-397"
+                  />
+                </button>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-align-items-xs-flex-end-17"
             >
               <div
-                class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-align-items-xs-flex-end-17"
+                class="MuiGrid-root-6 makeStyles-root-331 MuiGrid-item-8"
               >
                 <div
-                  class="MuiGrid-root-6 makeStyles-root-331 MuiGrid-item-8"
+                  class="makeStyles-progressEntry-334"
                 >
                   <div
-                    class="makeStyles-progressEntry-334"
+                    class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-rankBar-335"
-                    >
-                      <div
-                        class="makeStyles-progressBar-436"
-                      />
-                    </div>
-                    <div
-                      class="makeStyles-connector-437"
+                      class="makeStyles-progressBar-436"
                     />
                   </div>
                   <div
-                    class="makeStyles-progressEntry-334"
-                  >
-                    <div
-                      class="makeStyles-rankBar-335"
-                    >
-                      <div
-                        class="makeStyles-progressBar-438"
-                      />
-                    </div>
-                    <div
-                      class="makeStyles-connector-439"
-                    />
-                  </div>
-                  <div
-                    class="makeStyles-progressEntry-334"
-                  >
-                    <div
-                      class="makeStyles-rankBar-335"
-                    >
-                      <div
-                        class="makeStyles-progressBar-440"
-                      />
-                    </div>
-                    <div
-                      class="makeStyles-connector-441"
-                    />
-                  </div>
-                  <div
-                    class="makeStyles-progressEntry-334"
-                  >
-                    <div
-                      class="makeStyles-rankBar-335"
-                    >
-                      <div
-                        class="makeStyles-progressBar-442"
-                      />
-                    </div>
-                    <div
-                      class="makeStyles-connector-443"
-                    />
-                  </div>
+                    class="makeStyles-connector-437"
+                  />
                 </div>
                 <div
-                  class="MuiGrid-root-6 MuiGrid-item-8 MuiGrid-grid-xs-true-40"
+                  class="makeStyles-progressEntry-334"
                 >
-                  <button
-                    aria-label="Hero Badger Rank"
-                    class="MuiButtonBase-root-224 makeStyles-buttonBase-332"
-                    tabindex="0"
-                    type="button"
+                  <div
+                    class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="MuiGrid-root-6 makeStyles-root-344 MuiGrid-container-7"
-                    >
-                      <div
-                        class="makeStyles-boostImageContainer-349"
-                      >
-                        <div
-                          class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-444"
-                        >
-                          <img
-                            alt="Badger Logo"
-                            class="makeStyles-boostImage-445"
-                            src="assets/badger-transparent.png"
-                          />
-                        </div>
-                      </div>
-                      <div
-                        class="makeStyles-badgerLevelInfoContainer-346"
-                      >
-                        <p
-                          class="MuiTypography-root-143 MuiTypography-body2-144"
-                        >
-                          Hero Badger
-                        </p>
-                      </div>
-                    </div>
-                    <span
-                      class="MuiTouchRipple-root-397"
+                      class="makeStyles-progressBar-438"
                     />
-                  </button>
+                  </div>
+                  <div
+                    class="makeStyles-connector-439"
+                  />
+                </div>
+                <div
+                  class="makeStyles-progressEntry-334"
+                >
+                  <div
+                    class="makeStyles-rankBar-335"
+                  >
+                    <div
+                      class="makeStyles-progressBar-440"
+                    />
+                  </div>
+                  <div
+                    class="makeStyles-connector-441"
+                  />
+                </div>
+                <div
+                  class="makeStyles-progressEntry-334"
+                >
+                  <div
+                    class="makeStyles-rankBar-335"
+                  >
+                    <div
+                      class="makeStyles-progressBar-442"
+                    />
+                  </div>
+                  <div
+                    class="makeStyles-connector-443"
+                  />
                 </div>
               </div>
-            </span>
-            <span
-              class=""
-              color="primary"
-              title="Jump to rank"
+              <div
+                class="MuiGrid-root-6 MuiGrid-item-8 MuiGrid-grid-xs-true-40"
+              >
+                <button
+                  aria-label="Hero Badger Rank"
+                  class="MuiButtonBase-root-224 makeStyles-buttonBase-332"
+                  tabindex="0"
+                  type="button"
+                >
+                  <div
+                    class="MuiGrid-root-6 makeStyles-root-344 MuiGrid-container-7"
+                  >
+                    <div
+                      class="makeStyles-boostImageContainer-349"
+                    >
+                      <div
+                        class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-444"
+                      >
+                        <img
+                          alt="Badger Logo"
+                          class="makeStyles-boostImage-445"
+                          src="assets/badger-transparent.png"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      class="makeStyles-badgerLevelInfoContainer-346"
+                    >
+                      <p
+                        class="MuiTypography-root-143 MuiTypography-body2-144"
+                      >
+                        Hero Badger
+                      </p>
+                    </div>
+                  </div>
+                  <span
+                    class="MuiTouchRipple-root-397"
+                  />
+                </button>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-align-items-xs-flex-end-17"
             >
               <div
-                class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-align-items-xs-flex-end-17"
+                class="MuiGrid-root-6 makeStyles-root-331 MuiGrid-item-8"
               >
                 <div
-                  class="MuiGrid-root-6 makeStyles-root-331 MuiGrid-item-8"
+                  class="makeStyles-progressEntry-334"
                 >
                   <div
-                    class="makeStyles-progressEntry-334"
+                    class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-rankBar-335"
-                    >
-                      <div
-                        class="makeStyles-progressBar-446"
-                      />
-                    </div>
-                    <div
-                      class="makeStyles-connector-447"
+                      class="makeStyles-progressBar-446"
                     />
                   </div>
                   <div
-                    class="makeStyles-progressEntry-334"
-                  >
-                    <div
-                      class="makeStyles-rankBar-335"
-                    >
-                      <div
-                        class="makeStyles-progressBar-448"
-                      />
-                    </div>
-                    <div
-                      class="makeStyles-connector-449"
-                    />
-                  </div>
-                  <div
-                    class="makeStyles-progressEntry-334"
-                  >
-                    <div
-                      class="makeStyles-rankBar-335"
-                    >
-                      <div
-                        class="makeStyles-progressBar-450"
-                      />
-                    </div>
-                    <div
-                      class="makeStyles-connector-451"
-                    />
-                  </div>
-                  <div
-                    class="makeStyles-progressEntry-334"
-                  >
-                    <div
-                      class="makeStyles-rankBar-335"
-                    >
-                      <div
-                        class="makeStyles-progressBar-452"
-                      />
-                    </div>
-                    <div
-                      class="makeStyles-connector-453"
-                    />
-                  </div>
+                    class="makeStyles-connector-447"
+                  />
                 </div>
                 <div
-                  class="MuiGrid-root-6 MuiGrid-item-8 MuiGrid-grid-xs-true-40"
+                  class="makeStyles-progressEntry-334"
                 >
-                  <button
-                    aria-label="Neo Badger Rank"
-                    class="MuiButtonBase-root-224 makeStyles-buttonBase-332"
-                    tabindex="0"
-                    type="button"
+                  <div
+                    class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="MuiGrid-root-6 makeStyles-root-344 MuiGrid-container-7"
-                    >
-                      <div
-                        class="makeStyles-boostImageContainer-349"
-                      >
-                        <div
-                          class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-454"
-                        >
-                          <img
-                            alt="Badger Logo"
-                            class="makeStyles-boostImage-455"
-                            src="assets/badger-transparent.png"
-                          />
-                        </div>
-                      </div>
-                      <div
-                        class="makeStyles-badgerLevelInfoContainer-346"
-                      >
-                        <p
-                          class="MuiTypography-root-143 MuiTypography-body2-144"
-                        >
-                          Neo Badger
-                        </p>
-                      </div>
-                    </div>
-                    <span
-                      class="MuiTouchRipple-root-397"
+                      class="makeStyles-progressBar-448"
                     />
-                  </button>
+                  </div>
+                  <div
+                    class="makeStyles-connector-449"
+                  />
+                </div>
+                <div
+                  class="makeStyles-progressEntry-334"
+                >
+                  <div
+                    class="makeStyles-rankBar-335"
+                  >
+                    <div
+                      class="makeStyles-progressBar-450"
+                    />
+                  </div>
+                  <div
+                    class="makeStyles-connector-451"
+                  />
+                </div>
+                <div
+                  class="makeStyles-progressEntry-334"
+                >
+                  <div
+                    class="makeStyles-rankBar-335"
+                  >
+                    <div
+                      class="makeStyles-progressBar-452"
+                    />
+                  </div>
+                  <div
+                    class="makeStyles-connector-453"
+                  />
                 </div>
               </div>
-            </span>
-            <span
-              class=""
-              color="primary"
-              title="Jump to rank"
+              <div
+                class="MuiGrid-root-6 MuiGrid-item-8 MuiGrid-grid-xs-true-40"
+              >
+                <button
+                  aria-label="Neo Badger Rank"
+                  class="MuiButtonBase-root-224 makeStyles-buttonBase-332"
+                  tabindex="0"
+                  type="button"
+                >
+                  <div
+                    class="MuiGrid-root-6 makeStyles-root-344 MuiGrid-container-7"
+                  >
+                    <div
+                      class="makeStyles-boostImageContainer-349"
+                    >
+                      <div
+                        class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-454"
+                      >
+                        <img
+                          alt="Badger Logo"
+                          class="makeStyles-boostImage-455"
+                          src="assets/badger-transparent.png"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      class="makeStyles-badgerLevelInfoContainer-346"
+                    >
+                      <p
+                        class="MuiTypography-root-143 MuiTypography-body2-144"
+                      >
+                        Neo Badger
+                      </p>
+                    </div>
+                  </div>
+                  <span
+                    class="MuiTouchRipple-root-397"
+                  />
+                </button>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-align-items-xs-flex-end-17"
             >
               <div
-                class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-align-items-xs-flex-end-17"
+                class="MuiGrid-root-6 makeStyles-root-331 MuiGrid-item-8"
               >
                 <div
-                  class="MuiGrid-root-6 makeStyles-root-331 MuiGrid-item-8"
+                  class="makeStyles-progressEntry-334"
                 >
                   <div
-                    class="makeStyles-progressEntry-334"
+                    class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-rankBar-335"
-                    >
-                      <div
-                        class="makeStyles-progressBar-456"
-                      />
-                    </div>
-                    <div
-                      class="makeStyles-connector-457"
+                      class="makeStyles-progressBar-456"
                     />
                   </div>
                   <div
-                    class="makeStyles-progressEntry-334"
-                  >
-                    <div
-                      class="makeStyles-rankBar-335"
-                    >
-                      <div
-                        class="makeStyles-progressBar-458"
-                      />
-                    </div>
-                    <div
-                      class="makeStyles-connector-459"
-                    />
-                  </div>
-                  <div
-                    class="makeStyles-progressEntry-334"
-                  >
-                    <div
-                      class="makeStyles-rankBar-335"
-                    >
-                      <div
-                        class="makeStyles-progressBar-460"
-                      />
-                    </div>
-                    <div
-                      class="makeStyles-connector-461"
-                    />
-                  </div>
-                  <div
-                    class="makeStyles-progressEntry-334"
-                  >
-                    <div
-                      class="makeStyles-rankBar-335"
-                    >
-                      <div
-                        class="makeStyles-progressBar-462"
-                      />
-                    </div>
-                    <div
-                      class="makeStyles-connector-463"
-                    />
-                  </div>
+                    class="makeStyles-connector-457"
+                  />
                 </div>
                 <div
-                  class="MuiGrid-root-6 MuiGrid-item-8 MuiGrid-grid-xs-true-40"
+                  class="makeStyles-progressEntry-334"
                 >
-                  <button
-                    aria-label="Basic Badger Rank"
-                    class="MuiButtonBase-root-224 makeStyles-buttonBase-332"
-                    tabindex="0"
-                    type="button"
+                  <div
+                    class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="MuiGrid-root-6 makeStyles-root-344 MuiGrid-container-7"
-                    >
-                      <div
-                        class="makeStyles-boostImageContainer-349"
-                      >
-                        <div
-                          class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-464"
-                        >
-                          <img
-                            alt="Badger Logo"
-                            class="makeStyles-boostImage-465"
-                            src="assets/badger-transparent.png"
-                          />
-                        </div>
-                      </div>
-                      <div
-                        class="makeStyles-badgerLevelInfoContainer-346"
-                      >
-                        <p
-                          class="MuiTypography-root-143 MuiTypography-body2-144"
-                        >
-                          Basic Badger
-                        </p>
-                      </div>
-                    </div>
-                    <span
-                      class="MuiTouchRipple-root-397"
+                      class="makeStyles-progressBar-458"
                     />
-                  </button>
+                  </div>
+                  <div
+                    class="makeStyles-connector-459"
+                  />
+                </div>
+                <div
+                  class="makeStyles-progressEntry-334"
+                >
+                  <div
+                    class="makeStyles-rankBar-335"
+                  >
+                    <div
+                      class="makeStyles-progressBar-460"
+                    />
+                  </div>
+                  <div
+                    class="makeStyles-connector-461"
+                  />
+                </div>
+                <div
+                  class="makeStyles-progressEntry-334"
+                >
+                  <div
+                    class="makeStyles-rankBar-335"
+                  >
+                    <div
+                      class="makeStyles-progressBar-462"
+                    />
+                  </div>
+                  <div
+                    class="makeStyles-connector-463"
+                  />
                 </div>
               </div>
-            </span>
+              <div
+                class="MuiGrid-root-6 MuiGrid-item-8 MuiGrid-grid-xs-true-40"
+              >
+                <button
+                  aria-label="Basic Badger Rank"
+                  class="MuiButtonBase-root-224 makeStyles-buttonBase-332"
+                  tabindex="0"
+                  type="button"
+                >
+                  <div
+                    class="MuiGrid-root-6 makeStyles-root-344 MuiGrid-container-7"
+                  >
+                    <div
+                      class="makeStyles-boostImageContainer-349"
+                    >
+                      <div
+                        class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-464"
+                      >
+                        <img
+                          alt="Badger Logo"
+                          class="makeStyles-boostImage-465"
+                          src="assets/badger-transparent.png"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      class="makeStyles-badgerLevelInfoContainer-346"
+                    >
+                      <p
+                        class="MuiTypography-root-143 MuiTypography-body2-144"
+                      >
+                        Basic Badger
+                      </p>
+                    </div>
+                  </div>
+                  <span
+                    class="MuiTouchRipple-root-397"
+                  />
+                </button>
+              </div>
+            </div>
           </div>
         </div>
         <div
@@ -4823,9 +4723,8 @@ exports[`Boost Optimizer shows empty non native message 1`] = `
               >
                 Boost:
               </p>
-               
               <p
-                class="MuiTypography-root-143 makeStyles-boostValue-139 makeStyles-fontColor-466 MuiTypography-body1-145"
+                class="MuiTypography-root-143 makeStyles-boostValue-139 makeStyles-fontColor-466 MuiTypography-body1-145 MuiTypography-displayInline-171"
               >
                 1
               </p>
@@ -5685,7 +5584,7 @@ exports[`Boost Optimizer shows empty non native message 1`] = `
                   type="button"
                 >
                   <div
-                    class="MuiGrid-root-6 makeStyles-locked-350 makeStyles-root-344 MuiGrid-container-7"
+                    class="MuiGrid-root-6 makeStyles-root-344 MuiGrid-container-7"
                   >
                     <div
                       class="makeStyles-boostImageContainer-349"
@@ -5767,9 +5666,8 @@ exports[`Boost Optimizer supports no wallet mode 1`] = `
               >
                 Boost:
               </p>
-               
               <p
-                class="MuiTypography-root-143 makeStyles-boostValue-139 makeStyles-fontColor-142 MuiTypography-body1-145"
+                class="MuiTypography-root-143 makeStyles-boostValue-139 makeStyles-fontColor-142 MuiTypography-body1-145 MuiTypography-displayInline-171"
               >
                 1
               </p>
@@ -6620,7 +6518,7 @@ exports[`Boost Optimizer supports no wallet mode 1`] = `
                   type="button"
                 >
                   <div
-                    class="MuiGrid-root-6 makeStyles-locked-350 makeStyles-root-344 MuiGrid-container-7"
+                    class="MuiGrid-root-6 makeStyles-root-344 MuiGrid-container-7"
                   >
                     <div
                       class="makeStyles-boostImageContainer-349"
