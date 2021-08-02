@@ -115,7 +115,7 @@ export const StakeInformation = observer(
 							router.goTo(routes.boostLeaderBoard);
 						}}
 					>
-						View Stake ratio multipliers
+						View Leaderboard
 					</Button>
 				</Grid>
 			</Grid>

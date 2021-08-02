@@ -911,7 +911,7 @@ exports[`Boost Optimizer can change native and non native balances 1`] = `
             <span
               class="MuiButton-label-196"
             >
-              View Stake ratio multipliers
+              View Leaderboard
             </span>
             <span
               class="MuiTouchRipple-root-397"
@@ -1872,7 +1872,7 @@ exports[`Boost Optimizer can decrease balances through the increase button 1`] =
             <span
               class="MuiButton-label-196"
             >
-              View Stake ratio multipliers
+              View Leaderboard
             </span>
             <span
               class="MuiTouchRipple-root-397"
@@ -2814,7 +2814,7 @@ exports[`Boost Optimizer can increase balances through the increase button 1`] =
             <span
               class="MuiButton-label-196"
             >
-              View Stake ratio multipliers
+              View Leaderboard
             </span>
             <span
               class="MuiTouchRipple-root-397"
@@ -3761,7 +3761,7 @@ exports[`Boost Optimizer can jump to rank 1`] = `
             <span
               class="MuiButton-label-196"
             >
-              View Stake ratio multipliers
+              View Leaderboard
             </span>
             <span
               class="MuiTouchRipple-root-397"
@@ -4685,7 +4685,7 @@ exports[`Boost Optimizer displays correct information 1`] = `
             <span
               class="MuiButton-label-196"
             >
-              View Stake ratio multipliers
+              View Leaderboard
             </span>
             <span
               class="MuiTouchRipple-root-397"
@@ -5628,7 +5628,7 @@ exports[`Boost Optimizer shows empty non native message 1`] = `
             <span
               class="MuiButton-label-196"
             >
-              View Stake ratio multipliers
+              View Leaderboard
             </span>
             <span
               class="MuiTouchRipple-root-397"
@@ -6562,7 +6562,7 @@ exports[`Boost Optimizer supports no wallet mode 1`] = `
             <span
               class="MuiButton-label-196"
             >
-              View Stake ratio multipliers
+              View Leaderboard
             </span>
             <span
               class="MuiTouchRipple-root-396"
