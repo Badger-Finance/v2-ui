@@ -109,14 +109,26 @@ export const NativeBox = observer((props: Props) => {
 	}
 
 	const handleNextLevelAmountClick = () => {
-		if (amountToReachNextLevel !== undefined) {
+		if (!isLoading && amountToReachNextLevel !== undefined) {
 			onApplyNextLevelAmount(amountToReachNextLevel);
 		}
 	};
 
 	const handleApplyNativeToAdd = () => {
-		if (nativeToAdd) {
+		if (!isLoading && nativeToAdd) {
 			onApplyNativeToAdd(nativeToAdd);
+		}
+	};
+
+	const handleIncrement = () => {
+		if (!isLoading) {
+			onIncrement();
+		}
+	};
+
+	const handleReduction = () => {
+		if (!isLoading) {
+			onReduction();
 		}
 	};
 
@@ -132,8 +144,8 @@ export const NativeBox = observer((props: Props) => {
 					className: nativeAssetClasses.assetColor,
 				}}
 				onChange={onChange}
-				onIncrement={onIncrement}
-				onReduction={onReduction}
+				onIncrement={handleIncrement}
+				onReduction={handleReduction}
 				value={nativeBalance}
 				inputProps={{ 'aria-label': 'native holdings amount' }}
 				increaseAlt="increase native holdings"

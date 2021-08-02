@@ -73,7 +73,7 @@ export const OptimizerBody = observer(
 		const handleApplyRemaining = (amountToAdd: string) => {
 			const increasedNative = Number(native) + Number(amountToAdd);
 
-			if (isLoading || isNaN(increasedNative)) {
+			if (isNaN(increasedNative)) {
 				return;
 			}
 
@@ -83,7 +83,7 @@ export const OptimizerBody = observer(
 		const handleApplyNextLevelAmount = (amountToReachNextLevel: number) => {
 			const amountToReach = amountToReachNextLevel + Number(native);
 
-			if (isLoading || isNaN(Number(amountToReach))) {
+			if (isNaN(Number(amountToReach))) {
 				return;
 			}
 
@@ -93,7 +93,7 @@ export const OptimizerBody = observer(
 		const handleIncreaseNative = () => {
 			const increasedNative = Number(native) + 1000;
 
-			if (isLoading || isNaN(increasedNative)) {
+			if (isNaN(increasedNative)) {
 				return;
 			}
 
@@ -103,7 +103,7 @@ export const OptimizerBody = observer(
 		const handleReduceNative = () => {
 			const reducedNative = Number(native) - 1000;
 
-			if (isLoading || isNaN(reducedNative)) {
+			if (isNaN(reducedNative)) {
 				return;
 			}
 
@@ -114,7 +114,7 @@ export const OptimizerBody = observer(
 		const handleIncreaseNonNative = () => {
 			const increaseNonNative = Number(nonNative) + 1000;
 
-			if (isLoading || isNaN(increaseNonNative)) {
+			if (isNaN(increaseNonNative)) {
 				return;
 			}
 
@@ -124,7 +124,7 @@ export const OptimizerBody = observer(
 		const handleReduceNonNative = () => {
 			const reducedNonNative = Number(nonNative) - 1000;
 
-			if (isLoading || isNaN(reducedNonNative)) {
+			if (isNaN(reducedNonNative)) {
 				return;
 			}
 
