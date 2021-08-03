@@ -88,6 +88,18 @@ export const NonNativeBox = observer((props: Props) => {
 	const showEmptyNonNativeMessage = Number(nonNativeBalance) === 0;
 	const showReducedNonNativeMessage = useValueIsGreater(nonNativeHoldings?.toFixed(4), nonNativeBalance);
 
+	const handleIncrement = () => {
+		if (!isLoading) {
+			onIncrement();
+		}
+	};
+
+	const handleReduction = () => {
+		if (!isLoading) {
+			onReduction();
+		}
+	};
+
 	return (
 		<Grid item className={classes.settInformation}>
 			<Typography variant="h6">Non Native: </Typography>
@@ -100,8 +112,8 @@ export const NonNativeBox = observer((props: Props) => {
 					className: nonNativeAssetClasses.assetColor,
 				}}
 				onChange={onChange}
-				onIncrement={onIncrement}
-				onReduction={onReduction}
+				onIncrement={handleIncrement}
+				onReduction={handleReduction}
 				value={nonNativeBalance}
 				inputProps={{ 'aria-label': 'non native holdings amount' }}
 				increaseAlt="increase non native holdings"
