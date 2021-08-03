@@ -1,5 +1,4 @@
 import React from 'react';
-import { Tooltip } from '@material-ui/core';
 import { BOOST_RANKS, MIN_BOOST_LEVEL } from '../../config/system/boost-ranks';
 import { RankItem } from './RankItem';
 
@@ -30,25 +29,12 @@ export const RankList = ({
 							currentMultiplier={currentMultiplier}
 							accountMultiplier={accountMultiplier}
 							rank={rank}
+							rankIndex={ranksIndex}
 							onRankClick={onRankClick}
 							isOwned={isOwnedByAccount}
 							hasBeenReached={hasRankBeenReached}
 						/>
 					);
-
-					if (!hasRankBeenReached) {
-						return (
-							<Tooltip
-								title="Jump to rank"
-								arrow
-								placement="left"
-								color="primary"
-								key={`${ranksIndex}_${rank.name}_${rankStartBoundary}`}
-							>
-								<div>{rankItem}</div>
-							</Tooltip>
-						);
-					}
 
 					return rankItem;
 				})}
