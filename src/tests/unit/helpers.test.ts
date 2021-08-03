@@ -1,11 +1,4 @@
-import {
-	formatTokens,
-	inCurrency,
-	usdToCurrency,
-	numberWithCommas,
-	toFixedDecimals,
-	slugify,
-} from '../../mobx/utils/helpers';
+import { formatTokens, inCurrency, usdToCurrency, numberWithCommas, toFixedDecimals } from '../../mobx/utils/helpers';
 import '@testing-library/jest-dom';
 import BigNumber from 'bignumber.js';
 import store from 'mobx/RootStore';
@@ -161,16 +154,6 @@ describe('helpers', () => {
 			[new BigNumber(0), 5, '0.00000'],
 		])('toFixedDecimals(%f, %i) returns %s', (value, decimals, expected) => {
 			expect(toFixedDecimals(value, decimals)).toBe(expected);
-		});
-	});
-
-	describe('slugify', () => {
-		test.each([
-			['some/nested/url', 'some-nested-url'],
-			['using_underscores and spaces', 'using-underscores-and-spaces'],
-			['with_some;special,characters?', 'with-some-special-characters'],
-		])('slugify(%s) returns %s', (raw, slug) => {
-			expect(slugify(raw)).toEqual(slug);
 		});
 	});
 });

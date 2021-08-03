@@ -1,7 +1,7 @@
-import * as api from '../../mobx/utils/apiV2';
 import BigNumber from 'bignumber.js';
+import slugify from 'slugify';
+import * as api from '../../mobx/utils/apiV2';
 import { SettState } from '../../mobx/model/setts/sett-state';
-import { slugify } from '../../mobx/utils/helpers';
 
 export function mockApi(): void {
 	jest.spyOn(api, 'listSetts').mockReturnValue(

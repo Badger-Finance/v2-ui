@@ -392,26 +392,6 @@ export const toHex = (amount: BigNumber): string => '0x' + amount.toString(16);
 export const minBalance = (decimals: number): BigNumber => new BigNumber(`0.${'0'.repeat(decimals - 1)}1`);
 export const isWithinRange = (value: number, min: number, max: number): boolean => value >= min && value < max;
 
-export const slugify = (text: string): string => {
-	// trim and lowercase
-	let slug = text.replace(/^\s+|\s+$/g, '').toLowerCase();
-
-	// remove accents, swap ñ for n, etc
-	const from = 'àáäâèéëêìíïîòóöôùúüûñç·/_,:;';
-	const to = 'aaaaeeeeiiiioooouuuunc------';
-
-	for (let i = 0, l = from.length; i < l; i++) {
-		slug = slug.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
-	}
-
-	slug = slug
-		.replace(/[^a-z0-9 -]/g, '') // remove invalid chars
-		.replace(/\s+/g, '-') // collapse whitespace and replace by -
-		.replace(/-+/g, '-'); // collapse dashes
-
-	return slug;
-};
-
 /* Easy interface to check to see if wallet selection is handled and ready to connect
  * via onboard.js.  To be reused if connect buttons are displayed in multiple components
  * @param onboard = instance of the onboard.js API
