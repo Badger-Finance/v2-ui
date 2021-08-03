@@ -23,7 +23,7 @@ export const RankList = ({
 					const isOwnedByAccount = accountMultiplier > rankStartBoundary;
 					const hasRankBeenReached = currentMultiplier >= rankStartBoundary;
 
-					const rankItem = (
+					return (
 						<RankItem
 							key={`${ranksIndex}_${rankStartBoundary}_${rank.name}`}
 							currentMultiplier={currentMultiplier}
@@ -35,8 +35,6 @@ export const RankList = ({
 							hasBeenReached={hasRankBeenReached}
 						/>
 					);
-
-					return rankItem;
 				})}
 		</>
 	);
