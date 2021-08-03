@@ -81,7 +81,7 @@ export default class SettStore {
 			return undefined;
 		}
 
-		const settBySlug = Object.values(this.settMap).find((sett) => (sett.slug = slug));
+		const settBySlug = Object.values(this.settMap).find((sett) => sett.slug === slug);
 
 		if (!settBySlug) {
 			return null;
