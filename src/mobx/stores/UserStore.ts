@@ -1,4 +1,4 @@
-import { extendObservable, action, observe } from 'mobx';
+import { action, extendObservable, observe } from 'mobx';
 import { RootStore } from '../RootStore';
 import { checkShopEligibility, fetchBouncerProof, fetchClaimProof, getAccountDetails } from 'mobx/utils/apiV2';
 import WalletStore from './walletStore';
@@ -170,6 +170,11 @@ export default class UserStore {
 				const tokenAddress = Web3.utils.toChecksumAddress(sett.depositToken.address);
 				return this.getOrDefaultBalance(this.tokenBalances, tokenAddress);
 		}
+	}
+
+	getTokenBalance(contract: string): TokenBalance {
+		const tokenAddress = Web3.utils.toChecksumAddress(contract);
+		return this.getOrDefaultBalance(this.tokenBalances, tokenAddress);
 	}
 
 	private getOrDefaultBalance(balances: UserBalances, token: string): TokenBalance {

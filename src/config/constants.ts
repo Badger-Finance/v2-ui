@@ -10,7 +10,6 @@ import { tokens, sett_system } from './deployments/mainnet.json';
 import { AbiItem } from 'web3-utils';
 import { PartialAttemptOptions } from '@lifeomic/attempt';
 import { ClaimsSymbols } from 'mobx/model/rewards/claims-symbols';
-import { LeaderboardRank } from 'mobx/model/boost/leaderboard-rank';
 
 export const RPC_WALLETS: { [index: string]: boolean } = {
 	ledger: true,
@@ -78,6 +77,7 @@ export const FLAGS = {
 	BOOST_OPTIMIZER: toBool(process.env.REACT_APP_BOOST_OPTIMIZER),
 	MATIC: toBool(process.env.REACT_APP_MATIC),
 	XDAI: toBool(process.env.REACT_APP_XDAI),
+	RENBTC_SETT: toBool(process.env.REACT_APP_RENBTC_SETT),
 };
 
 export const ZERO = new BigNumber(0);
@@ -103,36 +103,3 @@ export const baseRetryOptions = {
 };
 export const defaultRetryOptions: PartialAttemptOptions<void> = baseRetryOptions;
 export const getDefaultRetryOptions = <T>(): PartialAttemptOptions<T> => baseRetryOptions;
-
-export const LEADERBOARD_RANKS: LeaderboardRank[] = [
-	{
-		name: 'Frenzy Badger',
-		boostRangeStart: 2.6,
-		boostRangeEnd: 3,
-		signatureColor: '#F44336',
-	},
-	{
-		name: 'Hyper Badger',
-		boostRangeStart: 2.2,
-		boostRangeEnd: 2.6,
-		signatureColor: '#A274D1',
-	},
-	{
-		name: 'Hero Badger',
-		boostRangeStart: 1.8,
-		boostRangeEnd: 2.2,
-		signatureColor: '#40C6FF',
-	},
-	{
-		name: 'Neo Badger',
-		boostRangeStart: 1.4,
-		boostRangeEnd: 1.8,
-		signatureColor: '#74D189',
-	},
-	{
-		name: 'Basic Badger',
-		boostRangeStart: 1,
-		boostRangeEnd: 1.4,
-		signatureColor: '#F2A52B',
-	},
-];

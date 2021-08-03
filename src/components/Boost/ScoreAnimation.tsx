@@ -1,7 +1,9 @@
 import React from 'react';
 import { Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { getRankFromBoost, percentageBetweenRange } from '../../utils/componentHelpers';
+import { percentageBetweenRange } from '../../utils/componentHelpers';
+import { MAX_BOOST_LEVEL, MIN_BOOST_LEVEL } from '../../config/system/boost-ranks';
+import { rankAndLevelFromMultiplier } from '../../utils/boost-ranks';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -63,25 +65,26 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 type BoostBadgeProps = {
-	boost: number;
+	multiplier: number;
 };
 
-const useAnimatedStyles = (boost: number) => {
-	const score = percentageBetweenRange(boost, 3, 1);
+const useAnimatedStyles = (multiplier: number) => {
+	const firstMultiplier = MIN_BOOST_LEVEL.multiplier;
+	const lastMultiplier = MAX_BOOST_LEVEL.multiplier;
+	const score = percentageBetweenRange(multiplier, lastMultiplier, firstMultiplier);
+
 	const scale = 0.75 + score / 40;
-	const rankFromBoost = getRankFromBoost(boost);
+	const [rank] = rankAndLevelFromMultiplier(multiplier);
 
 	return makeStyles(() => ({
 		container: {
 			margin: 'auto',
-			background: rankFromBoost.signatureColor,
+			background: rank.signatureColor,
 		},
 		eyes: {
 			transform: `scale(${scale})`,
 			animation: '$glow 1s ease-in-out infinite alternate',
-			background: `radial-gradient(${rankFromBoost.signatureColor}, transparent ${
-				rankFromBoost.boostRangeEnd * 25
-			}%)`,
+			background: `radial-gradient(${rank.signatureColor}, transparent 75%)`,
 		},
 		'@keyframes glow': {
 			'0%': { transform: `scale(${scale})` },
@@ -90,9 +93,9 @@ const useAnimatedStyles = (boost: number) => {
 	}));
 };
 
-export const BoostBadgerAnimation = ({ boost }: BoostBadgeProps): JSX.Element => {
+export const BoostBadgerAnimation = ({ multiplier }: BoostBadgeProps): JSX.Element => {
 	const classes = useStyles();
-	const animatedClasses = useAnimatedStyles(boost)();
+	const animatedClasses = useAnimatedStyles(multiplier)();
 
 	const eyesImage = <img src={'assets/badger-eyes.png'} alt="Badger Eyes" className={classes.boostEyeStar} />;
 

@@ -1,5 +1,4 @@
 import React from 'react';
-import BigNumber from 'bignumber.js';
 import { makeStyles } from '@material-ui/core/styles';
 import { observer } from 'mobx-react-lite';
 import clsx from 'clsx';
@@ -7,10 +6,14 @@ import clsx from 'clsx';
 import { Grid, Tooltip, Typography, useMediaQuery, useTheme } from '@material-ui/core';
 import { HoldingAssetInput } from './HoldingAssetInput';
 import { formatWithoutExtraZeros, numberWithCommas } from '../../mobx/utils/helpers';
-import { getRankNumberFromBoost } from '../../utils/componentHelpers';
-import { LEADERBOARD_RANKS } from '../../config/constants';
-import { isValidBoost, useAssetInputStyles } from './utils';
+import { useAssetInputStyles } from './utils';
 import { StoreContext } from '../../mobx/store-context';
+import {
+	calculateNativeToMatchMultiplier,
+	isValidMultiplier,
+	getNextBoostLevel,
+	rankAndLevelFromMultiplier,
+} from '../../utils/boost-ranks';
 
 const useStyles = makeStyles((theme) => ({
 	settInformation: {
@@ -48,40 +51,16 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const useAmountToReachNextLeaderboardRank = (
-	boost: string,
-	native: BigNumber.Value,
-	nonNative: BigNumber.Value,
-): BigNumber | undefined => {
-	const { boostOptimizer } = React.useContext(StoreContext);
-	const currentBadgerLevel = getRankNumberFromBoost(Number(boost));
-	const nextBadgerLevel = LEADERBOARD_RANKS[currentBadgerLevel - 1];
-
-	if (!nextBadgerLevel) {
-		return undefined;
-	}
-
-	return boostOptimizer.calculateNativeToMatchBoost(native, nonNative, nextBadgerLevel.boostRangeStart);
-};
-
-const useShouldAmountReachNextLevel = (native: string, amountToReachNextLevel?: BigNumber): boolean => {
-	if (!native || !amountToReachNextLevel) {
-		return false;
-	}
-
-	return Number(native) !== 0 && amountToReachNextLevel.gt(native);
-};
-
 interface Props {
 	isLoading: boolean;
-	currentBoost: string;
+	currentMultiplier: number;
 	nativeBalance: string;
 	nonNativeBalance: string;
 	nativeToAdd?: string;
 	onChange: (change: string) => void;
 	onIncrement: () => void;
 	onReduction: () => void;
-	onApplyNextLevelAmount: (amount: BigNumber) => void;
+	onApplyNextLevelAmount: (amount: number) => void;
 	onApplyNativeToAdd: (amount: string) => void;
 }
 
@@ -91,7 +70,7 @@ export const NativeBox = observer((props: Props) => {
 
 	const {
 		nativeToAdd,
-		currentBoost,
+		currentMultiplier,
 		nativeBalance,
 		nonNativeBalance,
 		isLoading,
@@ -107,21 +86,49 @@ export const NativeBox = observer((props: Props) => {
 	const extraSmallScreen = useMediaQuery(theme.breakpoints.down(500));
 	const nativeAssetClasses = useAssetInputStyles(nativeBalance, nativeHoldings)();
 
-	const showNativeToAdd = nativeToAdd && Number(nativeToAdd) !== 0 && isValidBoost(currentBoost);
-	const currentBadgerLevel = getRankNumberFromBoost(Number(currentBoost));
-	const nextBadgerLevel = LEADERBOARD_RANKS[currentBadgerLevel - 1];
-	const amountToReachNextLevel = useAmountToReachNextLeaderboardRank(currentBoost, nativeBalance, nonNativeBalance);
-	const shouldShowAmountToReachNextLevel = useShouldAmountReachNextLevel(nativeBalance, amountToReachNextLevel);
+	const isValidNativeToAdd = nativeToAdd && Number(nativeToAdd) !== 0;
+	const showNativeToAdd = isValidNativeToAdd && isValidMultiplier(currentMultiplier);
+
+	const { 1: currentBoostLevel } = rankAndLevelFromMultiplier(currentMultiplier);
+	const nextBoostLevel = getNextBoostLevel(currentBoostLevel);
+
+	let nextStepText;
+	let amountToReachNextLevel = 0;
+	let shouldShowAmountToReachNextLevel = false;
+
+	if (nextBoostLevel) {
+		amountToReachNextLevel = calculateNativeToMatchMultiplier(
+			Number(nativeBalance),
+			Number(nonNativeBalance),
+			nextBoostLevel.multiplier,
+		);
+
+		const native = Number(nativeBalance);
+		shouldShowAmountToReachNextLevel = native !== 0 && amountToReachNextLevel > 0;
+		nextStepText = `${nextBoostLevel.multiplier}x`;
+	}
 
 	const handleNextLevelAmountClick = () => {
-		if (amountToReachNextLevel) {
+		if (!isLoading && amountToReachNextLevel !== undefined) {
 			onApplyNextLevelAmount(amountToReachNextLevel);
 		}
 	};
 
 	const handleApplyNativeToAdd = () => {
-		if (nativeToAdd) {
+		if (!isLoading && nativeToAdd) {
 			onApplyNativeToAdd(nativeToAdd);
+		}
+	};
+
+	const handleIncrement = () => {
+		if (!isLoading) {
+			onIncrement();
+		}
+	};
+
+	const handleReduction = () => {
+		if (!isLoading) {
+			onReduction();
 		}
 	};
 
@@ -137,14 +144,14 @@ export const NativeBox = observer((props: Props) => {
 					className: nativeAssetClasses.assetColor,
 				}}
 				onChange={onChange}
-				onIncrement={onIncrement}
-				onReduction={onReduction}
+				onIncrement={handleIncrement}
+				onReduction={handleReduction}
 				value={nativeBalance}
 				inputProps={{ 'aria-label': 'native holdings amount' }}
 				increaseAlt="increase native holdings"
 				decreaseAlt="decrease native holdings"
 			/>
-			{nextBadgerLevel && amountToReachNextLevel && shouldShowAmountToReachNextLevel && (
+			{shouldShowAmountToReachNextLevel && (
 				<Grid className={classes.infoBox}>
 					<Typography className={classes.infoText} color="textSecondary">
 						Deposit
@@ -154,8 +161,8 @@ export const NativeBox = observer((props: Props) => {
 								onClick={handleNextLevelAmountClick}
 							>{` $${numberWithCommas(formatWithoutExtraZeros(amountToReachNextLevel, 3))} `}</span>
 						</Tooltip>
-						more Native to reach next rank:
-						<span className={classes.nextLevelName}>{` ${nextBadgerLevel.name}`}</span>
+						more Native to reach next multiplier:{' '}
+						<span className={classes.nextLevelName}>{nextStepText}</span>
 					</Typography>
 				</Grid>
 			)}
