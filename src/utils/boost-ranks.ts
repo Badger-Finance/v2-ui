@@ -48,8 +48,15 @@ export const calculateNativeToMatchMultiplier = (
 	desiredMultiplier: number,
 ): number => {
 	const [rankIndex, levelIndex] = rankAndLevelNumbersFromSpec(desiredMultiplier, 'multiplier');
-	const levelFromDesiredBoost = BOOST_RANKS[rankIndex].levels[levelIndex];
-	const nativeNeeded = nonNative * (levelFromDesiredBoost.stakeRatioBoundary / 100);
+	const rank = BOOST_RANKS[rankIndex];
+	const levelFromDesiredBoost = rank.levels[levelIndex];
+
+	// if the target is the lowest boundary users would get leveled down pretty often because of the price changes.
+	// using the rank's mid level number as "safe" leveling up amount helps making the stake ratio less exposed to price movements
+	const safeLevelingAmount = (rank.levels[2].stakeRatioBoundary - rank.levels[1].stakeRatioBoundary) / 2;
+
+	const comfortableStakeRatio = levelFromDesiredBoost.stakeRatioBoundary + safeLevelingAmount;
+	const nativeNeeded = nonNative * (comfortableStakeRatio / 100);
 	const missingNative = nativeNeeded - native;
 
 	return Math.max(missingNative, 0);
