@@ -1,5 +1,5 @@
 import React from 'react';
-import { ButtonBase, Grid } from '@material-ui/core';
+import { ButtonBase, Grid, Tooltip } from '@material-ui/core';
 import { RankLevel } from './RankLevel';
 import { makeStyles } from '@material-ui/core/styles';
 import { RankProgressBarSlice } from './RankProgressBarSlice';
@@ -20,6 +20,7 @@ interface Props {
 	currentMultiplier: number;
 	accountMultiplier: number;
 	rank: BoostRank;
+	rankIndex: number;
 	isOwned?: boolean;
 	hasBeenReached?: boolean;
 	onRankClick: (boost: number) => void;
@@ -30,6 +31,7 @@ export const RankItem = ({
 	currentMultiplier,
 	onRankClick,
 	rank,
+	rankIndex,
 	hasBeenReached = false,
 	isOwned = false,
 }: Props): JSX.Element => {
@@ -51,22 +53,33 @@ export const RankItem = ({
 			<Grid item className={classes.root}>
 				{progressBar}
 			</Grid>
-			<Grid item xs>
-				<ButtonBase
-					className={classes.buttonBase}
-					onClick={() => {
-						onRankClick(rank.levels[0].multiplier);
-					}}
-					aria-label={`${rank.name} Rank`}
-				>
-					<RankLevel
-						name={rank.name}
-						signatureColor={rank.signatureColor}
-						obtained={isOwned}
-						hasBeenReached={hasBeenReached}
-					/>
-				</ButtonBase>
-			</Grid>
+			<Tooltip
+				title="Jump to rank"
+				arrow
+				disableFocusListener={hasBeenReached}
+				disableHoverListener={hasBeenReached}
+				disableTouchListener={hasBeenReached}
+				placement="left"
+				color="primary"
+				key={`${rank.name}_${rankIndex}`}
+			>
+				<Grid item xs>
+					<ButtonBase
+						className={classes.buttonBase}
+						onClick={() => {
+							onRankClick(rank.levels[0].multiplier);
+						}}
+						aria-label={`${rank.name} Rank`}
+					>
+						<RankLevel
+							name={rank.name}
+							signatureColor={rank.signatureColor}
+							obtained={isOwned}
+							hasBeenReached={hasBeenReached}
+						/>
+					</ButtonBase>
+				</Grid>
+			</Tooltip>
 		</Grid>
 	);
 };
