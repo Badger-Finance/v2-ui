@@ -28,7 +28,7 @@ exports[`Boost Optimizer can change native and non native balances 1`] = `
               <p
                 class="MuiTypography-root-143 makeStyles-boostValue-139 makeStyles-fontColor-1006 MuiTypography-body1-145 MuiTypography-displayInline-171"
               >
-                10
+                10x
               </p>
               <svg
                 aria-hidden="true"
@@ -957,7 +957,7 @@ exports[`Boost Optimizer can decrease balances through the increase button 1`] =
               <p
                 class="MuiTypography-root-143 makeStyles-boostValue-139 makeStyles-fontColor-526 MuiTypography-body1-145 MuiTypography-displayInline-171"
               >
-                1
+                1x
               </p>
               <svg
                 aria-hidden="true"
@@ -1903,7 +1903,7 @@ exports[`Boost Optimizer can increase balances through the increase button 1`] =
               <p
                 class="MuiTypography-root-143 makeStyles-boostValue-139 makeStyles-fontColor-526 MuiTypography-body1-145 MuiTypography-displayInline-171"
               >
-                10
+                10x
               </p>
               <svg
                 aria-hidden="true"
@@ -2850,7 +2850,7 @@ exports[`Boost Optimizer can jump to rank 1`] = `
               <p
                 class="MuiTypography-root-143 makeStyles-boostValue-139 makeStyles-fontColor-466 MuiTypography-body1-145 MuiTypography-displayInline-171"
               >
-                1
+                1x
               </p>
               <svg
                 aria-hidden="true"
@@ -3802,7 +3802,7 @@ exports[`Boost Optimizer displays correct information 1`] = `
               <p
                 class="MuiTypography-root-143 makeStyles-boostValue-139 makeStyles-fontColor-396 MuiTypography-body1-145 MuiTypography-displayInline-171"
               >
-                1
+                1x
               </p>
               <svg
                 aria-hidden="true"
@@ -4731,7 +4731,7 @@ exports[`Boost Optimizer shows empty non native message 1`] = `
               <p
                 class="MuiTypography-root-143 makeStyles-boostValue-139 makeStyles-fontColor-466 MuiTypography-body1-145 MuiTypography-displayInline-171"
               >
-                1
+                1x
               </p>
               <svg
                 aria-hidden="true"
@@ -5659,7 +5659,7 @@ exports[`Boost Optimizer supports no wallet mode 1`] = `
               <p
                 class="MuiTypography-root-143 makeStyles-boostValue-139 makeStyles-fontColor-142 MuiTypography-body1-145 MuiTypography-displayInline-171"
               >
-                1
+                1x
               </p>
               <svg
                 aria-hidden="true"
