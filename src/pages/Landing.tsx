@@ -12,6 +12,7 @@ import SettList from 'components-v2/landing/SettList';
 import { RewardsModal } from '../components-v2/landing/RewardsModal';
 import { SettState } from '../mobx/model/setts/sett-state';
 import { HeaderContainer, LayoutContainer } from '../components-v2/common/Containers';
+import { FLAGS } from 'config/constants';
 
 const useStyles = makeStyles((theme) => ({
 	marginTop: {
@@ -133,7 +134,7 @@ const Landing = observer((props: LandingProps) => {
 					</Button>
 				</Grid>
 			)}
-			{state === SettState.Open && (
+			{state === SettState.Open && FLAGS.BOOST_OPTIMIZER && (
 				<Grid container spacing={1} justify="center">
 					<Button
 						className={classes.linkButton}
