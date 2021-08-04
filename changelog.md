@@ -4,6 +4,7 @@
 
 -   Badger Boost v2 launch
 -   Boost Optimizer release
+-   API handling for more accurate pre-production environment
 
 ### Hotfix - 07/31/2021
 
