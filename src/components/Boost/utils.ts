@@ -26,8 +26,6 @@ export const getColorFromComparison = ({
 	return defaultColor;
 };
 
-export const isValidBoost = (boost: string): boolean => Number(boost) >= 1 && Number(boost) <= 3;
-
 export const useAssetInputStyles = (
 	currentValue: string,
 	toCompare = 0,

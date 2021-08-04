@@ -19,6 +19,9 @@ export class Polygon extends Network {
 			maticSetts,
 		);
 	}
+	get settOrder(): string[] {
+		return [this.deploy.sett_system.vaults['BSLP-IBBTC-WBTC'], this.deploy.sett_system.vaults['BQLP-BADGER-USDC']];
+	}
 
 	async updateGasPrices(): Promise<GasPrices> {
 		return { rapid: 20, fast: 10, standard: 5, slow: 2 };
@@ -28,6 +31,16 @@ export class Polygon extends Network {
 export const MATIC_DEPLOY: Deploy = deploy;
 
 export const maticSetts: BadgerSett[] = [
+	{
+		depositToken: {
+			address: MATIC_DEPLOY.tokens['SLP-IBBTC-WBTC'],
+			decimals: 18,
+		},
+		vaultToken: {
+			address: MATIC_DEPLOY.sett_system.vaults['BSLP-IBBTC-WBTC'],
+			decimals: 18,
+		},
+	},
 	{
 		depositToken: {
 			address: MATIC_DEPLOY.tokens['QLP-BADGER-USDC'],

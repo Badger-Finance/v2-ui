@@ -1,70 +1,41 @@
 import React from 'react';
-import { ButtonBase, Grid, Tooltip } from '@material-ui/core';
-import { RankConnector } from './RankConnector';
-import { RankLevel } from './RankLevel';
-import { LEADERBOARD_RANKS } from '../../config/constants';
-import { styled } from '@material-ui/core/styles';
-
-const StyledButtonBase = styled(ButtonBase)({
-	width: '100%',
-});
+import { BOOST_RANKS, MIN_BOOST_LEVEL } from '../../config/system/boost-ranks';
+import { RankItem } from './RankItem';
 
 interface Props {
-	currentBoost?: string;
-	accountBoost?: number;
+	currentMultiplier?: number;
+	accountMultiplier?: number;
 	onRankClick: (boost: number) => void;
 }
 
-export const RankList = ({ currentBoost, accountBoost, onRankClick }: Props): JSX.Element => {
+export const RankList = ({
+	currentMultiplier = MIN_BOOST_LEVEL.multiplier, // default to first multiplier
+	accountMultiplier = MIN_BOOST_LEVEL.multiplier,
+	onRankClick,
+}: Props): JSX.Element => {
 	return (
 		<>
-			{LEADERBOARD_RANKS.map((rank, index) => {
-				const isObtained = accountBoost ? accountBoost > 1 && accountBoost >= rank.boostRangeStart : false;
-				const isLocked = Number(currentBoost) < rank.boostRangeStart;
-				const isCurrentBoost = Number(currentBoost) === rank.boostRangeStart;
+			{BOOST_RANKS.slice()
+				.reverse()
+				.map((rank, ranksIndex) => {
+					const rankStartBoundary = rank.levels[0].multiplier;
 
-				const rankItem = (
-					<Grid container alignItems="flex-end" key={`${index}_${rank.boostRangeStart}_${rank.name}`}>
-						<Grid item>
-							<RankConnector
-								boost={Number(currentBoost)}
-								accountBoost={accountBoost || 1}
-								rankBoost={rank.boostRangeStart}
-							/>
-						</Grid>
-						<Grid item xs>
-							<StyledButtonBase
-								onClick={() => onRankClick(rank.boostRangeStart)}
-								aria-label={`${rank.name} Rank`}
-							>
-								<RankLevel
-									name={rank.name}
-									boost={rank.boostRangeStart}
-									signatureColor={rank.signatureColor}
-									obtained={isObtained}
-									locked={isLocked}
-								/>
-							</StyledButtonBase>
-						</Grid>
-					</Grid>
-				);
+					const isOwnedByAccount = accountMultiplier > rankStartBoundary;
+					const hasRankBeenReached = currentMultiplier >= rankStartBoundary;
 
-				if (!isCurrentBoost) {
 					return (
-						<Tooltip
-							title="Jump to rank"
-							arrow
-							placement="left"
-							color="primary"
-							key={`${index}_${rank.name}_${rank.boostRangeStart}`}
-						>
-							{rankItem}
-						</Tooltip>
+						<RankItem
+							key={`${ranksIndex}_${rankStartBoundary}_${rank.name}`}
+							currentMultiplier={currentMultiplier}
+							accountMultiplier={accountMultiplier}
+							rank={rank}
+							rankIndex={ranksIndex}
+							onRankClick={onRankClick}
+							isOwned={isOwnedByAccount}
+							hasBeenReached={hasRankBeenReached}
+						/>
 					);
-				}
-
-				return rankItem;
-			})}
+				})}
 		</>
 	);
 };

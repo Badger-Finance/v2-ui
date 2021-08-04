@@ -78,7 +78,7 @@ exports[`LeaderboardAccountInformation User connected, data loaded Displays user
         <h2
           class="MuiTypography-root-108 makeStyles-headerValueText-3 MuiTypography-h2-114 MuiTypography-displayInline-136"
         >
-          2.00
+          2
         </h2>
       </div>
       <div
@@ -116,6 +116,27 @@ exports[`LeaderboardAccountInformation User connected, data loaded Displays user
             class="MuiTouchRipple-root-175"
           />
         </button>
+      </div>
+      <div
+        class="makeStyles-suggestionContainer-173"
+      >
+        <p
+          class="MuiTypography-root-108 makeStyles-amountToNextRank-174 MuiTypography-body1-110 MuiTypography-colorTextSecondary-134"
+        >
+          <span
+            class="MuiTypography-root-108 makeStyles-amountToNextRank-174 MuiTypography-body1-110 MuiTypography-colorTextPrimary-133"
+          >
+            $0.225
+          </span>
+           more 
+          <span
+            class="MuiTypography-root-108 makeStyles-amountToNextRank-174 MuiTypography-body1-110 MuiTypography-colorTextPrimary-133"
+          >
+            NATIVE
+          </span>
+           
+          to next rank
+        </p>
       </div>
     </div>
   </div>

@@ -2,6 +2,7 @@ import React from 'react';
 import { makeStyles, Paper, Grid, Divider, Typography, Link } from '@material-ui/core';
 import LeaderboardAccountInformation from './LeaderboardAccountInformation';
 import LeaderboardRanks from './LeaderboardRanks';
+import { MAX_BOOST_LEVEL, MIN_BOOST_LEVEL } from '../../config/system/boost-ranks';
 
 const useStyles = makeStyles((theme) => ({
 	leaderboardPaper: {
@@ -31,8 +32,8 @@ export default function LeaderBoard(): JSX.Element {
 			<Divider className={classes.divider} />
 
 			<Typography color="textSecondary">
-				Deposit Badger or DIGG to increase your ROI and rewards from 1 to 3x. See how you compare to fellow
-				Badgers and compete for a higher boost.{' '}
+				{`Deposit Badger or DIGG to increase your ROI and rewards from ${MIN_BOOST_LEVEL.multiplier}x to ${MAX_BOOST_LEVEL.multiplier}.
+				 See how you compare to fellow Badgers and compete for a higher boost. `}
 				<Link target="_blank" rel="noopener noreferrer" href="https://badger.wiki/badger-boost" color="primary">
 					See more.
 				</Link>

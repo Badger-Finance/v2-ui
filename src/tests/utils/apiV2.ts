@@ -194,6 +194,7 @@ export function mockApi(): void {
 			},
 			nativeBalance: 100,
 			nonNativeBalance: 10,
+			stakeRatio: 100,
 		}),
 	);
 }

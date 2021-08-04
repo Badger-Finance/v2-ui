@@ -1,4 +1,4 @@
-import { extendObservable, action, observe } from 'mobx';
+import { action, extendObservable, observe } from 'mobx';
 import { RootStore } from '../RootStore';
 import { checkShopEligibility, fetchBouncerProof, fetchClaimProof, getAccountDetails } from 'mobx/utils/apiV2';
 import WalletStore from './walletStore';
