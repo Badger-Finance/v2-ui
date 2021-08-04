@@ -8,12 +8,13 @@ import { LeaderBoardBadger } from '../model/boost/leader-board-badger';
 import { LeaderBoardData } from '../model/boost/leaderboard-data';
 import { ProtocolSummary } from '../model/system-config/protocol-summary';
 import { PriceSummary } from '../model/system-config/price-summary';
+import { DEBUG } from 'config/constants';
 
 export const getApi = (): string => {
-	if (process.env.REACT_APP_BUILD_ENV === 'production') {
-		return 'https://api.badger.finance/v2';
+	if (DEBUG) {
+		return 'https://staging-api.badger.finance/v2';
 	}
-	return 'https://staging-api.badger.finance/v2';
+	return 'https://api.badger.finance/v2';
 };
 const badgerApi = getApi();
 

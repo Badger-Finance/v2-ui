@@ -33,7 +33,7 @@ export const BoostOptimizer = observer(() => {
 						color="primary"
 						className={classes.boostLink}
 					>
-						How does boosts work?
+						How does boost work?
 					</Link>
 				</HeaderContainer>
 				<Grid item xs={12}>
