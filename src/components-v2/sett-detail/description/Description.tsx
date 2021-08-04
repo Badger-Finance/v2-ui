@@ -77,12 +77,12 @@ export const Description = ({ sett }: Props): JSX.Element => {
 	const performance = performanceSummary[comparisonMode] ?? 0;
 	const performanceComparison = sett.apr - performance;
 
-	let performanceResultMode: ComparisonMode = 'neutral';
+	let performanceResultMode = ComparisonMode.neutral;
 
 	if (performanceComparison > 0) {
-		performanceResultMode = 'positive';
+		performanceResultMode = ComparisonMode.positive;
 	} else if (performanceComparison < 0) {
-		performanceResultMode = 'negative';
+		performanceResultMode = ComparisonMode.negative;
 	}
 
 	return (

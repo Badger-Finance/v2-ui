@@ -37,7 +37,11 @@ interface Props {
 	mode: ComparisonMode;
 }
 
-export type ComparisonMode = 'positive' | 'negative' | 'neutral';
+export enum ComparisonMode {
+	positive = 'positive',
+	negative = 'negative',
+	neutral = 'neutral',
+}
 
 export const ApyComparisonBadge = ({ apyComparison, mode }: Props): JSX.Element => {
 	const classes = useStyles();
