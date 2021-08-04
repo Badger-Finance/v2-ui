@@ -47,6 +47,7 @@ export class Ethereum extends Network {
 			this.deploy.sett_system.vaults['native.uniBadgerWbtc'],
 			this.deploy.sett_system.vaults['harvest.renCrv'],
 			...(FLAGS.STABILIZATION_SETTS ? [this.deploy.sett_system.vaults['experimental.digg']] : []),
+			...(FLAGS.RENBTC_SETT ? [this.deploy.sett_system.vaults['native.renBtc']] : []),
 		];
 	}
 
@@ -293,6 +294,16 @@ const ethSettDefinitions: BadgerSett[] = [
 		},
 		vaultToken: {
 			address: ETH_DEPLOY.sett_system.vaults['native.cvxCrv'],
+			decimals: 18,
+		},
+	},
+	{
+		depositToken: {
+			address: ETH_DEPLOY.tokens['renBTC'],
+			decimals: 8,
+		},
+		vaultToken: {
+			address: ETH_DEPLOY.sett_system.vaults['native.renBtc'],
 			decimals: 18,
 		},
 	},

@@ -2,6 +2,7 @@ import UFragments from './abis/UFragments.json';
 import UFragmentsPolicy from './abis/UFragmentsPolicy.json';
 import MedianOracle from './abis/MedianOracle.json';
 import Orchestrator from './abis/Orchestrator.json';
+import DroptRedemption from './abis/DroptRedemption.json';
 import { digg_system } from '../deployments/mainnet.json';
 
 import { AbiItem } from 'web3-utils';
@@ -54,6 +55,38 @@ export const getRebase = (network: string): RebaseNetworkConfig | undefined => {
 							},
 						],
 					},
+					{
+						addresses: [digg_system.marketMedianOracle],
+						abi: MedianOracle.abi as AbiItem[],
+						groupByNamespace: true,
+						namespace: 'oracle',
+						readMethods: [
+							{
+								name: 'providerReports',
+								args: [digg_system.newCentralizedOracle, 0],
+							},
+						],
+					},
+					{
+						addresses: [digg_system.DROPT['DROPT-2'].redemption],
+						abi: DroptRedemption.abi as AbiItem[],
+						groupByNamespace: true,
+						namespace: 'dropt',
+						readMethods: [
+							{
+								name: 'expirationTimestamp',
+								args: [],
+							},
+							{
+								name: 'getCurrentTime',
+								args: [],
+							},
+							{
+								name: 'expiryPrice',
+								args: [],
+							},
+						],
+					},
 				],
 				orchestrator: {
 					contract: digg_system.orchestrator,
@@ -63,4 +96,13 @@ export const getRebase = (network: string): RebaseNetworkConfig | undefined => {
 		default:
 			return undefined;
 	}
+};
+
+const LONG_TOKEN_MAP = {
+	[digg_system.DROPT['DROPT-1'].redemption]: digg_system.DROPT['DROPT-1'].longToken,
+	[digg_system.DROPT['DROPT-2'].redemption]: digg_system.DROPT['DROPT-2'].longToken,
+};
+
+export const redemptionToLongToken = (contract: string): string => {
+	return LONG_TOKEN_MAP[contract];
 };

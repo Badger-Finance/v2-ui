@@ -1,10 +1,10 @@
 import { makeStyles, Typography } from '@material-ui/core';
-import { LEADERBOARD_RANKS } from 'config/constants';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from 'mobx/store-context';
 import { numberWithCommas, formatWithoutExtraZeros } from 'mobx/utils/helpers';
 import React, { useContext } from 'react';
-import { getRankNumberFromBoost } from 'utils/componentHelpers';
+import { calculateNativeToMatchMultiplier, rankAndLevelNumbersFromSpec } from '../../utils/boost-ranks';
+import { BOOST_RANKS } from '../../config/system/boost-ranks';
 
 const useStyles = makeStyles(() => ({
 	suggestionContainer: {
@@ -16,30 +16,30 @@ const useStyles = makeStyles(() => ({
 }));
 
 const NativeRankSuggestion = observer((): JSX.Element | null => {
-	const { boostOptimizer, user } = useContext(StoreContext);
+	const { user } = useContext(StoreContext);
 	const { accountDetails: account } = user;
 	const classes = useStyles();
 
-	if (!account || !account.boost || !account.nativeBalance || !account.nonNativeBalance) {
+	if (!account) {
 		return null;
 	}
 
-	const { boost, nativeBalance, nonNativeBalance } = account;
-	const currentLevel = getRankNumberFromBoost(boost);
-	const nextLevel = LEADERBOARD_RANKS[currentLevel - 1];
+	const { nativeBalance, nonNativeBalance, stakeRatio } = account;
+	const [currentRank] = rankAndLevelNumbersFromSpec(stakeRatio * 100, 'stake');
+	const nextRank = BOOST_RANKS[currentRank + 1];
 
 	// if user has already reached max level there's no need for suggestion
-	if (!nextLevel) {
+	if (!nextRank) {
 		return null;
 	}
 
-	const amountToReachNextRank = boostOptimizer.calculateNativeToMatchBoost(
+	const amountToReachNextRank = calculateNativeToMatchMultiplier(
 		nativeBalance,
 		nonNativeBalance,
-		nextLevel.boostRangeStart,
+		nextRank.levels[0].multiplier,
 	);
 
-	if (!amountToReachNextRank || amountToReachNextRank.lte(0)) {
+	if (!amountToReachNextRank || amountToReachNextRank <= 0) {
 		return null;
 	}
 

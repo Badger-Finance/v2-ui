@@ -50,7 +50,7 @@ const LeaderboardAccountInformation = observer(
 							Boost:
 						</Typography>
 						<Typography variant="h2" display="inline" className={classes.headerValueText}>
-							{boost !== undefined ? boost.toFixed(2) : infoPlaceholder}
+							{boost !== undefined ? `${boost}x` : infoPlaceholder}
 						</Typography>
 					</Grid>
 					<Grid container item xs={12} alignItems="center" className={classes.justifyCenterOnMobile}>

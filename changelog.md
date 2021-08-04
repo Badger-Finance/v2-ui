@@ -1,5 +1,9 @@
 # v2 UI Changelog
 
+### Hotfix - 07/31/2021
+
+-   restored getCurrentBlock calls to fix ibBTC ROI display
+
 ### Hotfix - 07/28/2021
 
 -   fixed an issue causing cvxCRV wallet balances to not be displayed

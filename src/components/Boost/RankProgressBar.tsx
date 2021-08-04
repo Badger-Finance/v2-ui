@@ -12,34 +12,37 @@ const useStyles = makeStyles(() => ({
 	},
 }));
 
-const useProgressStyles = (currentBoost: number, accountBoost: number) => {
+const useProgressStyles = (currentBoost: number, accountBoost: number, rangeStart: number, rangeEnd: number) => {
 	return makeStyles((theme) => {
-		const upperLimit = Math.max(currentBoost, accountBoost); // current boost can be greater than account boost
-		const lowerLimit = Math.min(currentBoost, accountBoost);
+		// we select the highest number as this will decide the bar height
+		const highestMultiplierPoint = Math.max(currentBoost, accountBoost);
 
-		const sanitizedMax = Math.min(upperLimit, 3); // no matter the input the max boost is 3
-		const sanitizedMin = Math.max(lowerLimit, 1); // no matter the input the min boost is 1
+		const rawBarHeight = percentageBetweenRange(highestMultiplierPoint, rangeEnd, rangeStart);
+		const sanitizedBarHeight = Math.min(rawBarHeight, 100); // don't exceed container height
 
-		const rawBarHeight = percentageBetweenRange(sanitizedMax, 3, 1);
-		const sanitizedBarHeight = Math.min(rawBarHeight, 100);
+		const isAlreadyOwned = accountBoost > rangeStart;
+		const isStillOwned = currentBoost > rangeStart;
 
-		// calculate the height of the difference section between the current boost and account boost
-		const differenceSectionHeight = percentageBetweenRange(sanitizedMin, sanitizedMax, 1);
+		// no need to show progress for already acquired levels
+		const greaterCaseColor = isAlreadyOwned ? theme.palette.primary.main : '#74D189';
 
-		// show whether the difference is positive or negative
+		// even if current boost is less than account boost, if it's still greater than the start of this level
+		// then it means it still owns it
+		const lessCaseColor = isStillOwned ? theme.palette.primary.main : theme.palette.error.main;
+
 		const differenceColor = getColorFromComparison({
 			toCompareValue: currentBoost,
 			toBeComparedValue: accountBoost,
-			greaterCaseColor: '#74D189',
-			lessCaseColor: theme.palette.error.main,
 			defaultColor: theme.palette.primary.main,
+			greaterCaseColor,
+			lessCaseColor,
 		});
 
 		return {
 			progressBar: {
 				position: 'absolute',
 				bottom: 0,
-				background: `linear-gradient(to top, ${theme.palette.primary.main} 0%, ${theme.palette.primary.main} ${differenceSectionHeight}%, ${differenceColor} ${differenceSectionHeight}%, ${differenceColor} 100%)`,
+				background: differenceColor,
 				width: 4,
 				height: `${sanitizedBarHeight}%`,
 			},
@@ -48,13 +51,15 @@ const useProgressStyles = (currentBoost: number, accountBoost: number) => {
 };
 
 interface Props {
-	boost: number;
-	accountBoost: number;
+	multiplier: number;
+	accountMultiplier: number;
+	rangeStart: number;
+	rangeEnd: number;
 }
 
-export const RankProgressBar = ({ boost, accountBoost }: Props): JSX.Element => {
+export const RankProgressBar = ({ multiplier, accountMultiplier, rangeStart, rangeEnd }: Props): JSX.Element => {
 	const classes = useStyles();
-	const progressClasses = useProgressStyles(Number(boost), accountBoost)();
+	const progressClasses = useProgressStyles(multiplier, accountMultiplier, rangeStart, rangeEnd)();
 
 	return (
 		<div className={classes.rankBar}>

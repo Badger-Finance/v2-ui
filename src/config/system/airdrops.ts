@@ -1,5 +1,5 @@
 import { AbiItem } from 'web3-utils';
-import { badgerHunt, digg_system, sett_system, token, airdrops, tokens } from '../deployments/mainnet.json';
+import { badgerHunt, digg_system, sett_system, token, airdrops } from '../deployments/mainnet.json';
 import { abi as diggDistributorAbi } from './abis/DiggDistributor.json';
 import { abi as diggAbi } from './abis/UFragments.json';
 import { abi as erc20Abi } from './abis/ERC20.json';
@@ -34,16 +34,6 @@ export const getAirdrops = (network?: string): AirdropNetworkConfig[] => {
 					endpoint: `${getApi()}/reward/gitcoin`,
 					tokenAbi: erc20Abi as AbiItem[],
 					token: sett_system.vaults['native.badger'],
-					airdropContract: airdrops.gitcoinRound8,
-					airdropAbi: bBadgerAirdropAbi as AbiItem[],
-				},
-				{
-					active: false,
-					// TODO: Update the correct endpoint
-					endpoint: '',
-					tokenAbi: erc20Abi as AbiItem[],
-					token: tokens['DROPT-1'],
-					// TODO: Update with correct ABI and contract
 					airdropContract: airdrops.gitcoinRound8,
 					airdropAbi: bBadgerAirdropAbi as AbiItem[],
 				},

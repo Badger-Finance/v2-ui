@@ -1,7 +1,7 @@
-import { LeaderBoardEntry } from './leaderboard-entry';
+import { LeaderBoardBadger } from './leader-board-badger';
 
 export interface LeaderBoardData {
-	data: LeaderBoardEntry[];
+	data: LeaderBoardBadger[];
 	page: number;
 	size: number;
 	count: number;
