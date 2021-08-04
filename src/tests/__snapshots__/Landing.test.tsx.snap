@@ -250,24 +250,6 @@ exports[`Landing Page Renders correctly 1`] = `
       </div>
     </div>
     <div
-      class="MuiGrid-root-20 MuiGrid-container-21 MuiGrid-spacing-xs-1-43 MuiGrid-justify-xs-center-38"
-    >
-      <button
-        class="MuiButtonBase-root-253 MuiButton-root-224 MuiButton-contained-232 makeStyles-linkButton-10 MuiButton-containedPrimary-233 MuiButton-containedSizeSmall-243 MuiButton-sizeSmall-245"
-        tabindex="0"
-        type="button"
-      >
-        <span
-          class="MuiButton-label-225"
-        >
-          Badger Boost V2 Has Launched - Click Here for more information
-        </span>
-        <span
-          class="MuiTouchRipple-root-341"
-        />
-      </button>
-    </div>
-    <div
       class="makeStyles-settListContainer-322"
     >
       <div
