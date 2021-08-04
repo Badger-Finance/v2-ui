@@ -1,7 +1,7 @@
 import React from 'react';
 import { Grid, makeStyles, useMediaQuery, useTheme } from '@material-ui/core';
 import { SpecsCard } from './specs/SpecsCard';
-import { Description } from './Description';
+import { Description } from './description/Description';
 import { ActionButtons } from './ActionButtons';
 import { Breadcrumb } from './Breadcrumb';
 import { ChartsCard } from './charts/ChartsCard';

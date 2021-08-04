@@ -20,12 +20,12 @@ const useStyles = makeStyles((theme) => ({
 export const SettDetail = observer(
 	(): JSX.Element => {
 		const {
-			settDetail: { sett },
+			settDetail: { sett, isLoading, isNotFound },
 		} = React.useContext(StoreContext);
 
 		const classes = useStyles();
 
-		if (sett === undefined) {
+		if (isLoading) {
 			return (
 				<Container className={classes.root}>
 					<div className={classes.notReadyContainer}>
@@ -36,7 +36,7 @@ export const SettDetail = observer(
 			);
 		}
 
-		if (sett === null) {
+		if (isNotFound) {
 			return (
 				<Container className={classes.root}>
 					<div className={classes.notReadyContainer}>
@@ -50,7 +50,7 @@ export const SettDetail = observer(
 		return (
 			<Container className={classes.root}>
 				<Header />
-				<MainContent sett={sett} />
+				{sett && <MainContent sett={sett} />}
 				<Footer />
 			</Container>
 		);
