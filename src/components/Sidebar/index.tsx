@@ -311,25 +311,27 @@ export const Sidebar = observer(() => {
 							</ListItemIcon>
 							<ListItemText primary="Bridge" />
 						</ListItem>
-						<ListItem
-							button
-							className={getCollapsableItemClasses('boosts', ['/boost-optimizer', '/leaderboard'])}
-							onClick={() => {
-								setExpanded(expanded === 'boosts' ? '' : 'boosts');
-							}}
-						>
-							<ListItemIcon>
-								<img alt="Boosts" src={'assets/sidebar/boosts.png'} className={classes.icon} />
-							</ListItemIcon>
-							<ListItemText primary="Boost" />
-							<IconButton
-								size="small"
-								className={clsx(classes.expand, expanded === 'tokens' && classes.expandOpen)}
-								aria-label="show more"
+						{FLAGS.BOOST_V2 && (
+							<ListItem
+								button
+								className={getCollapsableItemClasses('boosts', ['/boost-optimizer', '/leaderboard'])}
+								onClick={() => {
+									setExpanded(expanded === 'boosts' ? '' : 'boosts');
+								}}
 							>
-								<ExpandMore />
-							</IconButton>
-						</ListItem>
+								<ListItemIcon>
+									<img alt="Boosts" src={'assets/sidebar/boosts.png'} className={classes.icon} />
+								</ListItemIcon>
+								<ListItemText primary="Boost" />
+								<IconButton
+									size="small"
+									className={clsx(classes.expand, expanded === 'tokens' && classes.expandOpen)}
+									aria-label="show more"
+								>
+									<ExpandMore />
+								</IconButton>
+							</ListItem>
+						)}
 						<Collapse in={expanded === 'boosts'} timeout="auto" unmountOnExit>
 							{FLAGS.BOOST_OPTIMIZER && (
 								<ListItem
@@ -350,6 +352,7 @@ export const Sidebar = observer(() => {
 								Boost Leaderboard
 							</ListItem>
 						</Collapse>
+
 						<ListItem
 							button
 							className={getCollapsableItemClasses('badger-zone', [
