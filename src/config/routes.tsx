@@ -76,7 +76,7 @@ const routes = {
 	}),
 	boostLeaderBoard: new Route<RootStore, QueryParams>({
 		path: '/leaderboard',
-		component: <BoostLeaderBoard />,
+		component: FLAGS.BOOST_V2 ? <BoostLeaderBoard /> : <></>,
 	}),
 };
 
