@@ -15,6 +15,7 @@ import { LeaderBoardStore } from './stores/LeaderBoardStore';
 import { BoostOptimizerStore } from './stores/boostOptimizerStore';
 import PricesStore from './stores/PricesStore';
 import { NetworkStore } from './stores/NetworkStore';
+import { SettDetailStore } from './stores/SettDetail.store';
 
 export class RootStore {
 	public router: RouterStore<RootStore>;
@@ -34,6 +35,7 @@ export class RootStore {
 	public leaderBoard: LeaderBoardStore;
 	public boostOptimizer: BoostOptimizerStore;
 	public prices: PricesStore;
+	public settDetail: SettDetailStore;
 
 	constructor() {
 		this.router = new RouterStore<RootStore>(this);
@@ -53,6 +55,7 @@ export class RootStore {
 		this.leaderBoard = new LeaderBoardStore(this);
 		this.boostOptimizer = new BoostOptimizerStore(this);
 		this.prices = new PricesStore(this);
+		this.settDetail = new SettDetailStore(this);
 	}
 
 	async walletRefresh(): Promise<void> {
