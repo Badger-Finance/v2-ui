@@ -6,6 +6,7 @@ import { ActionButtons } from './ActionButtons';
 import { Breadcrumb } from './Breadcrumb';
 import { ChartsCard } from './charts/ChartsCard';
 import { Holdings } from './Holdings';
+import { Sett } from '../../mobx/model/setts/sett';
 
 const useStyles = makeStyles((theme) => ({
 	content: {
@@ -26,17 +27,21 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export const MainContent = (): JSX.Element => {
+interface Props {
+	sett: Sett;
+}
+
+export const MainContent = ({ sett }: Props): JSX.Element => {
 	const classes = useStyles();
 	const canFitActionButtons = useMediaQuery(useTheme().breakpoints.up(680));
 
 	return (
 		<Grid container className={classes.content}>
 			<Grid container className={classes.breadcrumbContainer}>
-				<Breadcrumb />
+				<Breadcrumb sett={sett} />
 			</Grid>
 			<Grid container className={classes.descriptionSection}>
-				<Description />
+				<Description sett={sett} />
 				{canFitActionButtons && <ActionButtons />}
 			</Grid>
 			<Grid container className={classes.holdingsContainer}>
