@@ -6,7 +6,7 @@ exports[`Description displays sett description 1`] = `
     class="makeStyles-root-1"
   >
     <div
-      class="MuiGrid-root-11 makeStyles-logoContainer-6 MuiGrid-item-13"
+      class="MuiGrid-root-7 makeStyles-logoContainer-6 MuiGrid-item-9"
     >
       <img
         alt="Badger Curve.fi renBTC/wBTC/sBTC Vault Symbol"
@@ -15,22 +15,22 @@ exports[`Description displays sett description 1`] = `
       />
     </div>
     <div
-      class="MuiGrid-root-11 makeStyles-namesContainer-2 MuiGrid-item-13"
+      class="MuiGrid-root-7 makeStyles-namesContainer-2 MuiGrid-item-9"
     >
       <div
-        class="MuiBox-root-114 MuiBox-root-115"
+        class="MuiBox-root-110 MuiBox-root-111"
       >
         <p
-          class="MuiTypography-root-116 makeStyles-settName-3 MuiTypography-body1-118"
+          class="MuiTypography-root-112 makeStyles-settName-3 MuiTypography-body1-114"
         >
           renBTC/wBTC/sBTC
         </p>
         <p
-          class="MuiTypography-root-116 makeStyles-apyBadge-7 makeStyles-reducedApy-10 MuiTypography-body1-118"
+          class="MuiTypography-root-112 makeStyles-apyBadge-142 makeStyles-reducedApy-145 MuiTypography-body1-114"
         >
           <svg
             aria-hidden="true"
-            class="MuiSvgIcon-root-146"
+            class="MuiSvgIcon-root-147"
             focusable="false"
             viewBox="0 0 24 24"
           >
@@ -39,14 +39,42 @@ exports[`Description displays sett description 1`] = `
             />
           </svg>
           <span
-            class="makeStyles-apyText-8"
+            class="makeStyles-apyText-143"
           >
-            2.02%
+            0.26%
           </span>
         </p>
+        <div
+          class="MuiInputBase-root-169 MuiInputBase-colorSecondary-178 makeStyles-root-156"
+        >
+          <div
+            aria-haspopup="listbox"
+            class="MuiSelect-root-158 MuiSelect-select-159 MuiSelect-selectMenu-162 MuiInputBase-input-180"
+            role="button"
+            tabindex="0"
+          >
+            1 DAY
+          </div>
+          <input
+            aria-hidden="true"
+            class="MuiSelect-nativeInput-168"
+            tabindex="-1"
+            value="oneDay"
+          />
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root-147 MuiSelect-icon-164"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M7 10l5 5 5-5z"
+            />
+          </svg>
+        </div>
       </div>
       <p
-        class="MuiTypography-root-116 makeStyles-vaultName-4 MuiTypography-body1-118 MuiTypography-colorTextSecondary-142"
+        class="MuiTypography-root-112 makeStyles-vaultName-4 MuiTypography-body1-114 MuiTypography-colorTextSecondary-138"
       >
         sBTCCRV
       </p>

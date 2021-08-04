@@ -1,12 +1,12 @@
 import React from 'react';
 import { Box, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import TrendingUpIcon from '@material-ui/icons/TrendingUp';
-import TrendingDownIcon from '@material-ui/icons/TrendingDown';
-import { Sett } from '../../mobx/model/setts/sett';
-import { Performance } from '../../mobx/model/rewards/performance';
-import clsx from 'clsx';
-import { formatWithoutExtraZeros } from '../../mobx/utils/helpers';
+
+import { Sett } from '../../../mobx/model/setts/sett';
+import { Performance } from '../../../mobx/model/rewards/performance';
+import { ApyComparisonBadge, ComparisonMode } from './ApyComparisonBadge';
+import { formatWithoutExtraZeros } from '../../../mobx/utils/helpers';
+import { ApyComparisonModeSelector } from './ApyComparisonModeSelector';
 
 const reduceSourcePerformance = (prev: Performance, current: Performance) => {
 	const {
@@ -32,7 +32,8 @@ const reduceSourcePerformance = (prev: Performance, current: Performance) => {
 };
 
 const getSourcesPerformanceSummary = (sett: Sett) => {
-	return sett.sources.map((source) => source.performance).reduce(reduceSourcePerformance);
+	const initialValue = { oneDay: 0, threeDay: 0, sevenDay: 0, thirtyDay: 0 };
+	return sett.sources.map((source) => source.performance).reduce(reduceSourcePerformance, initialValue);
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -58,25 +59,6 @@ const useStyles = makeStyles((theme) => ({
 		width: 50,
 		height: 50,
 	},
-	apyBadge: {
-		display: 'inline-flex',
-		alignItems: 'center',
-		maxHeight: 24,
-		fontSize: 12,
-		borderRadius: 4,
-		padding: 4,
-		color: theme.palette.common.black,
-		marginLeft: theme.spacing(1),
-	},
-	apyText: {
-		marginLeft: 4,
-	},
-	increasedApy: {
-		backgroundColor: '#74D189',
-	},
-	reducedApy: {
-		backgroundColor: theme.palette.error.main,
-	},
 }));
 
 interface Props {
@@ -84,16 +66,24 @@ interface Props {
 }
 
 export const Description = ({ sett }: Props): JSX.Element => {
+	const [comparisonMode, setComparisonMode] = React.useState<keyof Performance>('oneDay');
 	const classes = useStyles();
+
 	const nameHasSpaces = sett.name.split(' ').length > 1;
-	const displayName = nameHasSpaces ? sett.name.split(' ').slice(1).join(' ') : sett.name;
+	const shortenedName = sett.name.split(' ').slice(1).join(' ');
+	const displayName = nameHasSpaces ? shortenedName : sett.name;
 
-	const { sevenDay = 0 } = getSourcesPerformanceSummary(sett);
+	const performanceSummary = getSourcesPerformanceSummary(sett);
+	const performance = performanceSummary[comparisonMode] ?? 0;
+	const performanceComparison = sett.apr - performance;
 
-	// TODO decide if we want to include multiple change criteria, i.e: difference las 24rs, difference las week
-	const sevenDaysPerformanceComparison = sett.apr - sevenDay;
-	const isPositiveDifference = sevenDaysPerformanceComparison > 0;
-	const shouldShowDifferenceBadge = sevenDaysPerformanceComparison !== 0; // only show when there's actual change
+	let performanceResultMode: ComparisonMode = 'neutral';
+
+	if (performanceComparison > 0) {
+		performanceResultMode = 'positive';
+	} else if (performanceComparison < 0) {
+		performanceResultMode = 'negative';
+	}
 
 	return (
 		<div className={classes.root}>
@@ -107,19 +97,11 @@ export const Description = ({ sett }: Props): JSX.Element => {
 			<Grid item className={classes.namesContainer}>
 				<Box display="flex" alignItems="center">
 					<Typography className={classes.settName}>{displayName}</Typography>
-					{shouldShowDifferenceBadge && (
-						<Typography
-							className={clsx(
-								classes.apyBadge,
-								isPositiveDifference ? classes.increasedApy : classes.reducedApy,
-							)}
-						>
-							{isPositiveDifference ? <TrendingUpIcon /> : <TrendingDownIcon />}
-							<span className={classes.apyText}>
-								{`${formatWithoutExtraZeros(Math.abs(sevenDaysPerformanceComparison), 2)}%`}
-							</span>
-						</Typography>
-					)}
+					<ApyComparisonBadge
+						apyComparison={`${formatWithoutExtraZeros(Math.abs(performanceComparison), 2)}%`}
+						mode={performanceResultMode}
+					/>
+					<ApyComparisonModeSelector value={comparisonMode} onChange={setComparisonMode} />
 				</Box>
 				<Typography className={classes.vaultName} color="textSecondary">
 					{sett.asset}
