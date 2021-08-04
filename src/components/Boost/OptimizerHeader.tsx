@@ -87,7 +87,7 @@ export const OptimizerHeader = observer(
 						Boost:
 					</Typography>
 					<Typography display="inline" className={clsx(classes.boostValue, boostClasses.fontColor)}>
-						{multiplier}
+						{`${multiplier}x`}
 					</Typography>
 					<Tooltip
 						title={
