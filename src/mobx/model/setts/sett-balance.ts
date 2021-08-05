@@ -8,4 +8,6 @@ export interface SettBalance {
 	value: number;
 	earnedTokens: SettTokenBalance[];
 	earnedValue: number;
+	earnedBalance: number;
+	depositedBalance: number;
 }

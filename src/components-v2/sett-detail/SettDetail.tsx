@@ -1,10 +1,12 @@
 import React from 'react';
-import { CircularProgress, Container, makeStyles, Typography } from '@material-ui/core';
+import { Container, makeStyles, Typography } from '@material-ui/core';
 import { Header } from './Header';
 import { MainContent } from './MainContent';
 import { observer } from 'mobx-react-lite';
 import { Footer } from './Footer';
 import { StoreContext } from '../../mobx/store-context';
+import { MobileStickyActionButtons } from './MobileStickyActionButtons';
+import { Loader } from '../../components/Loader';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -20,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
 export const SettDetail = observer(
 	(): JSX.Element => {
 		const {
+			wallet: { connectedAddress },
 			settDetail: { sett, isLoading, isNotFound },
 		} = React.useContext(StoreContext);
 
@@ -29,8 +32,7 @@ export const SettDetail = observer(
 			return (
 				<Container className={classes.root}>
 					<div className={classes.notReadyContainer}>
-						<CircularProgress color="primary" size={60} />
-						<Typography>Loading Sett Information</Typography>
+						<Loader message="Loading Sett Information" />
 					</div>
 				</Container>
 			);
@@ -48,11 +50,14 @@ export const SettDetail = observer(
 		}
 
 		return (
-			<Container className={classes.root}>
-				<Header />
-				{sett && <MainContent sett={sett} />}
-				<Footer />
-			</Container>
+			<>
+				<Container className={classes.root}>
+					<Header />
+					{sett && <MainContent sett={sett} />}
+					<Footer />
+				</Container>
+				{connectedAddress && <MobileStickyActionButtons />}
+			</>
 		);
 	},
 );

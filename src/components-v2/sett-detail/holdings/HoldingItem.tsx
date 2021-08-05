@@ -19,13 +19,21 @@ const useStyles = makeStyles((theme) => ({
 		width: '100%',
 		margin: 'auto',
 	},
+	amountsContainer: {
+		marginTop: theme.spacing(-1),
+		justifyContent: 'space-between',
+		alignItems: 'center',
+	},
+	amountText: {
+		marginTop: theme.spacing(1),
+	},
 }));
 
 interface Props {
 	name: string;
 	logo: string;
 	amount: string;
-	dollarAmount: string;
+	dollarAmount: string | React.ReactNode;
 }
 
 export const HoldingItem = ({ name, logo, amount, dollarAmount }: Props): JSX.Element => {
@@ -34,8 +42,8 @@ export const HoldingItem = ({ name, logo, amount, dollarAmount }: Props): JSX.El
 	return (
 		<Paper className={classes.cardContainer}>
 			<Typography className={classes.holdingsName}>{name}</Typography>
-			<Grid container justify="space-between" alignItems="center">
-				<Box display="inline-flex">
+			<Grid container className={classes.amountsContainer}>
+				<Box display="inline-flex" className={classes.amountText}>
 					<div className={classes.logoContainer}>
 						<img className={classes.logo} src={logo} alt={`${name} holdings`} />
 					</div>
@@ -43,7 +51,7 @@ export const HoldingItem = ({ name, logo, amount, dollarAmount }: Props): JSX.El
 						{amount}
 					</Typography>
 				</Box>
-				<Typography variant="body2" color="textSecondary">
+				<Typography variant="body2" color="textSecondary" className={classes.amountText}>
 					{dollarAmount}
 				</Typography>
 			</Grid>
