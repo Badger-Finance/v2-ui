@@ -5,6 +5,7 @@ import { MainContent } from './MainContent';
 import { observer } from 'mobx-react-lite';
 import { Footer } from './Footer';
 import { StoreContext } from '../../mobx/store-context';
+import { MobileStickyActionButtons } from './MobileStickyActionButtons';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -20,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
 export const SettDetail = observer(
 	(): JSX.Element => {
 		const {
+			wallet: { connectedAddress },
 			settDetail: { sett, isLoading, isNotFound },
 		} = React.useContext(StoreContext);
 
@@ -48,11 +50,14 @@ export const SettDetail = observer(
 		}
 
 		return (
-			<Container className={classes.root}>
-				<Header />
-				{sett && <MainContent sett={sett} />}
-				<Footer />
-			</Container>
+			<>
+				<Container className={classes.root}>
+					<Header />
+					{sett && <MainContent sett={sett} />}
+					<Footer />
+				</Container>
+				{connectedAddress && <MobileStickyActionButtons />}
+			</>
 		);
 	},
 );
