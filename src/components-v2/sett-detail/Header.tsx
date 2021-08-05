@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, makeStyles } from '@material-ui/core';
+import { Grid, Link, makeStyles } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import GasWidget from '../common/GasWidget';
 import WalletWidget from '../common/WalletWidget';
@@ -16,7 +16,9 @@ const useStyles = makeStyles((theme) => ({
 	widgets: {
 		display: 'flex',
 		alignItems: 'center',
-		[theme.breakpoints.down('sm')]: {
+		justifyContent: 'flex-end',
+		[theme.breakpoints.down('xs')]: {
+			marginTop: theme.spacing(3),
 			justifyContent: 'center',
 		},
 	},
@@ -34,15 +36,17 @@ export const Header = (): JSX.Element => {
 	const classes = useStyles();
 
 	return (
-		<HeaderContainer container justify="space-between" alignItems="center" className={classes.root}>
-			<Link component="button" className={classes.links} onClick={() => router.goTo(routes.home)}>
-				<ArrowBackIcon className={classes.backArrow} />
-				Back to All Setts
-			</Link>
-			<div className={classes.widgets}>
+		<HeaderContainer container className={classes.root}>
+			<Grid item xs={12} sm={6}>
+				<Link component="button" className={classes.links} onClick={() => router.goTo(routes.home)}>
+					<ArrowBackIcon className={classes.backArrow} />
+					Back to All Setts
+				</Link>
+			</Grid>
+			<Grid item xs={12} sm={6} className={classes.widgets}>
 				<GasWidget />
 				<WalletWidget />
-			</div>
+			</Grid>
 		</HeaderContainer>
 	);
 };
