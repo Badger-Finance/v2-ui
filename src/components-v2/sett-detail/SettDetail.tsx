@@ -1,11 +1,12 @@
 import React from 'react';
-import { CircularProgress, Container, makeStyles, Typography } from '@material-ui/core';
+import { Container, makeStyles, Typography } from '@material-ui/core';
 import { Header } from './Header';
 import { MainContent } from './MainContent';
 import { observer } from 'mobx-react-lite';
 import { Footer } from './Footer';
 import { StoreContext } from '../../mobx/store-context';
 import { MobileStickyActionButtons } from './MobileStickyActionButtons';
+import { Loader } from '../../components/Loader';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -31,8 +32,7 @@ export const SettDetail = observer(
 			return (
 				<Container className={classes.root}>
 					<div className={classes.notReadyContainer}>
-						<CircularProgress color="primary" size={60} />
-						<Typography>Loading Sett Information</Typography>
+						<Loader message="Loading Sett Information" />
 					</div>
 				</Container>
 			);
