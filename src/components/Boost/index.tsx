@@ -42,7 +42,7 @@ export const BoostOptimizer = observer(() => {
 					<Link
 						target="_blank"
 						rel="noopener noreferrer"
-						href="https://badger.wiki/badger-boost"
+						href="https://medium.com/badgerdao/badger-boost-power-up-stake-ratio-levels-e0c9802fc5c3"
 						color="primary"
 						className={classes.boostLink}
 					>
