@@ -34,7 +34,12 @@ export default function LeaderBoard(): JSX.Element {
 			<Typography color="textSecondary">
 				{`Deposit Badger or DIGG to increase your ROI and rewards from ${MIN_BOOST_LEVEL.multiplier}x to ${MAX_BOOST_LEVEL.multiplier}x.
 				 See how you compare to fellow Badgers and compete for a higher boost. `}
-				<Link target="_blank" rel="noopener noreferrer" href="https://badger.wiki/badger-boost" color="primary">
+				<Link
+					target="_blank"
+					rel="noopener noreferrer"
+					href="https://medium.com/badgerdao/badger-boost-power-up-stake-ratio-levels-e0c9802fc5c3"
+					color="primary"
+				>
 					See more.
 				</Link>
 			</Typography>
