@@ -141,9 +141,13 @@ const Landing = observer((props: LandingProps) => {
 						size="small"
 						variant="contained"
 						color="primary"
-						onClick={() => window.open('https://badger.wiki/badger-boost')}
+						onClick={() =>
+							window.open(
+								'https://medium.com/badgerdao/badger-boost-power-up-stake-ratio-levels-e0c9802fc5c3',
+							)
+						}
 					>
-						Badger Boost V2 Has Launched - Click Here for more information
+						Badger Boost Power Up has been implemented - Click here to learn more
 					</Button>
 				</Grid>
 			)}

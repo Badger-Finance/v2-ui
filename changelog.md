@@ -1,5 +1,11 @@
 # v2 UI Changelog
 
+### v2.8.5 - 08/05/2021
+
+-   Badger Boost v2 launch
+-   Boost Optimizer release
+-   API handling for more accurate pre-production environment
+
 ### Hotfix - 07/31/2021
 
 -   restored getCurrentBlock calls to fix ibBTC ROI display
