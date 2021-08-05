@@ -4,6 +4,8 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import GasWidget from '../common/GasWidget';
 import WalletWidget from '../common/WalletWidget';
 import { HeaderContainer } from '../common/Containers';
+import { StoreContext } from '../../mobx/store-context';
+import routes from '../../config/routes';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -28,11 +30,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const Header = (): JSX.Element => {
+	const { router } = React.useContext(StoreContext);
 	const classes = useStyles();
 
 	return (
 		<HeaderContainer container justify="space-between" alignItems="center" className={classes.root}>
-			<Link className={classes.links}>
+			<Link component="button" className={classes.links} onClick={() => router.goTo(routes.home)}>
 				<ArrowBackIcon className={classes.backArrow} />
 				Back to All Setts
 			</Link>

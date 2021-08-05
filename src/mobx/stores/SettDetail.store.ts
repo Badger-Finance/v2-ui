@@ -5,7 +5,7 @@ import { action, extendObservable, observe } from 'mobx';
 export class SettDetailStore {
 	private readonly store: RootStore;
 	private searchSlug: string | undefined;
-	private sett_: Sett | undefined | null; // undefined means loading while null means not found
+	private sett_: Sett | undefined | null;
 
 	constructor(store: RootStore) {
 		this.store = store;
@@ -22,6 +22,14 @@ export class SettDetailStore {
 
 	get sett(): Sett | undefined | null {
 		return this.sett_;
+	}
+
+	get isLoading(): boolean {
+		return this.sett_ === undefined;
+	}
+
+	get isNotFound(): boolean {
+		return this.sett_ === null;
 	}
 
 	setSearchSlug = action((slug: string) => {

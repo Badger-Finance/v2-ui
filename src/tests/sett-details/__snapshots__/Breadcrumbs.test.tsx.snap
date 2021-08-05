@@ -12,12 +12,11 @@ exports[`Breadcrumb displays sett breadcrumb 1`] = `
       <li
         class="MuiBreadcrumbs-li-4"
       >
-        <a
-          class="MuiTypography-root-6 MuiLink-root-36 MuiLink-underlineHover-38 makeStyles-breadcrumbsItem-1 MuiTypography-colorInherit-28"
-          href="/"
+        <button
+          class="MuiTypography-root-6 MuiLink-root-36 MuiLink-underlineHover-38 makeStyles-breadcrumbsItem-1 MuiLink-button-40 MuiTypography-colorInherit-28"
         >
           Setts
-        </a>
+        </button>
       </li>
       <li
         aria-hidden="true"
@@ -40,7 +39,7 @@ exports[`Breadcrumb displays sett breadcrumb 1`] = `
         <p
           class="MuiTypography-root-6 makeStyles-breadcrumbsItem-1 MuiTypography-body1-8 MuiTypography-colorTextSecondary-32"
         >
-          Wrapped BTC/DIGG Sett
+          Curve.fi renBTC/wBTC/sBTC
         </p>
       </li>
     </ol>
