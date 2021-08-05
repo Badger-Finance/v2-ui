@@ -201,7 +201,7 @@ export const Sidebar = observer(() => {
 		<div className={classes.contentRoot}>
 			<List>
 				<ListItem button className={classes.listItem}>
-					<img alt="Badger Logo" src={'assets/badger-logo.png'} className={classes.logo} />
+					<img alt="Badger Logo" src={'/assets/badger-logo.png'} className={classes.logo} />
 					<ListItemSecondaryAction>
 						<NetworkWidget />
 					</ListItemSecondaryAction>
@@ -253,7 +253,7 @@ export const Sidebar = observer(() => {
 					}}
 				>
 					<ListItemIcon>
-						<img alt="Badger Setts Logo" className={classes.icon} src={'assets/sidebar/sett.png'} />
+						<img alt="Badger Setts Logo" className={classes.icon} src={'/assets/sidebar/sett.png'} />
 					</ListItemIcon>
 					<ListItemText primary="Sett Vaults" />
 				</ListItem>
@@ -277,7 +277,7 @@ export const Sidebar = observer(() => {
 							<ListItemIcon>
 								<img
 									alt="Badger Digg Icon"
-									src={'assets/sidebar/digg-white.png'}
+									src={'/assets/sidebar/digg-white.png'}
 									className={classes.icon}
 								/>
 							</ListItemIcon>
@@ -291,7 +291,7 @@ export const Sidebar = observer(() => {
 							<ListItemIcon>
 								<img
 									alt="Interest Bearing Badger Bitcoin Icon"
-									src={'assets/sidebar/ibbtc-white.svg'}
+									src={'/assets/sidebar/ibbtc-white.svg'}
 									className={classes.icon}
 								/>
 							</ListItemIcon>
@@ -318,6 +318,7 @@ export const Sidebar = observer(() => {
 								onClick={() => {
 									setExpanded(expanded === 'boosts' ? '' : 'boosts');
 								}}
+
 							>
 								<ListItemIcon>
 									<img alt="Boosts" src={'assets/sidebar/boosts.png'} className={classes.icon} />
@@ -366,7 +367,7 @@ export const Sidebar = observer(() => {
 							<ListItemIcon>
 								<img
 									alt="Badger Arcade"
-									src={'assets/sidebar/gas_station.png'}
+									src={'/assets/sidebar/gas_station.png'}
 									className={classes.icon}
 								/>
 							</ListItemIcon>
@@ -421,7 +422,7 @@ export const Sidebar = observer(() => {
 					}
 				>
 					<ListItemIcon>
-						<img alt="Nexus Logo" src={'assets/sidebar/nexus_logo_bw.png'} className={classes.icon} />
+						<img alt="Nexus Logo" src={'/assets/sidebar/nexus_logo_bw.png'} className={classes.icon} />
 					</ListItemIcon>
 					<ListItemText>
 						Get Coverage
