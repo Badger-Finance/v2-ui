@@ -22,12 +22,13 @@ export const Holdings = observer(
 		const usdExchangeRate = prices.exchangeRates?.usd;
 		const settPrice = prices.getPrice(id);
 		const principle = depositedBalance - earnedBalance;
+		const logo = `/assets/icons/${settBalance.asset.toLowerCase()}.png`;
 
 		let depositedUsd;
 		let principleUsd;
 		let earnedUsd;
 
-		if (usdExchangeRate !== undefined && !settPrice.isZero()) {
+		if (usdExchangeRate && !settPrice.isZero()) {
 			depositedUsd = displayUsdBalance(settPrice.multipliedBy(depositedBalance).multipliedBy(usdExchangeRate));
 			earnedUsd = displayUsdBalance(settPrice.multipliedBy(earnedBalance).multipliedBy(usdExchangeRate));
 			principleUsd = displayUsdBalance(settPrice.multipliedBy(principle).multipliedBy(usdExchangeRate));
@@ -38,7 +39,7 @@ export const Holdings = observer(
 				<Grid item xs={12} sm>
 					<HoldingItem
 						name="Your Total"
-						logo={`/assets/icons/${settBalance.asset.toLowerCase()}.png`}
+						logo={logo}
 						amount={formatWithoutExtraZeros(depositedBalance, 3)}
 						dollarAmount={depositedUsd ?? <Skeleton width={30} />}
 					/>
@@ -46,7 +47,7 @@ export const Holdings = observer(
 				<Grid item xs={12} sm>
 					<HoldingItem
 						name="Principle"
-						logo={`/assets/icons/${settBalance.asset.toLowerCase()}.png`}
+						logo={logo}
 						amount={formatWithoutExtraZeros(principle, 3)}
 						dollarAmount={principleUsd ?? <Skeleton width={30} />}
 					/>
@@ -54,7 +55,7 @@ export const Holdings = observer(
 				<Grid item xs={12} sm>
 					<HoldingItem
 						name="Earned"
-						logo={`/assets/icons/${settBalance.asset.toLowerCase()}.png`}
+						logo={logo}
 						amount={formatWithoutExtraZeros(earnedBalance, 3)}
 						dollarAmount={earnedUsd ?? <Skeleton width={30} />}
 					/>
