@@ -39,31 +39,19 @@ export const getRebase = (network: string): RebaseNetworkConfig | undefined => {
 						readMethods: [
 							{
 								name: 'providerReports',
-								args: [digg_system.centralizedOracle, 0],
-							},
-						],
-					},
-					{
-						addresses: [digg_system.marketMedianOracle],
-						abi: MedianOracle.abi as AbiItem[],
-						groupByNamespace: true,
-						namespace: 'oracle',
-						readMethods: [
-							{
-								name: 'providerReports',
-								args: [digg_system.centralizedOracle, 1],
-							},
-						],
-					},
-					{
-						addresses: [digg_system.marketMedianOracle],
-						abi: MedianOracle.abi as AbiItem[],
-						groupByNamespace: true,
-						namespace: 'oracle',
-						readMethods: [
-							{
-								name: 'providerReports',
 								args: [digg_system.newCentralizedOracle, 0],
+							},
+						],
+					},
+					{
+						addresses: [digg_system.marketMedianOracle],
+						abi: MedianOracle.abi as AbiItem[],
+						groupByNamespace: true,
+						namespace: 'oracle',
+						readMethods: [
+							{
+								name: 'providerReports',
+								args: [digg_system.newCentralizedOracle, 1],
 							},
 						],
 					},
