@@ -5,6 +5,8 @@
 -   Add tricrypto2 sett
 -   Remove fees from tricrypto (old) sett
 -   Fix notify.js link
+-   Add deprecated vault handling
+-   improved digg reporting
 
 ### v2.8.5 - 08/05/2021
 
