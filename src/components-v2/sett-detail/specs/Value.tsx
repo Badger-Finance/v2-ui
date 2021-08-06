@@ -30,14 +30,12 @@ interface Props {
 
 export const Value = observer(
 	({ settValue }: Props): JSX.Element => {
-		const {
-			uiState: { currency },
-		} = React.useContext(StoreContext);
+		const { uiState } = React.useContext(StoreContext);
 		const classes = useStyles();
 
 		// TODO: address this formatting mechanisms in this refactor PR https://github.com/Badger-Finance/v2-ui/pull/707
 		// this currency formatting has been battle tested in the <CurrencyDisplay/> component but can be improved
-		const currencyValue = usdToCurrency(new BigNumber(settValue), currency);
+		const currencyValue = usdToCurrency(new BigNumber(settValue), uiState.currency);
 		const hasCurrencyIcon = currencyValue?.includes('.png');
 
 		let currencyIcon;
