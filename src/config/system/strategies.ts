@@ -241,7 +241,7 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 					name: '',
 					address: deploy.sett_system.vaults['native.tricryptoCrv'],
 					fees: {
-						['DAO Performance Fee']: new BigNumber(0),
+						['DAO Performance Fee']: new BigNumber(1000),
 						['Withdraw Fee']: new BigNumber(0),
 					},
 					strategyLink:
