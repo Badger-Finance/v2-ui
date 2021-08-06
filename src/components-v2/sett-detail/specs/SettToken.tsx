@@ -38,6 +38,7 @@ interface Props {
 export const SettToken = ({ token }: Props): JSX.Element => {
 	const classes = useStyles();
 
+	// TODO: remove all -small images once the icons in the landing page are deprecated
 	const iconName = token.symbol.toLowerCase().trim();
 	const icon = `/assets/icons/${iconName}.png`;
 	const decimalsAmount = token.balance > 1 ? 0 : 4;
