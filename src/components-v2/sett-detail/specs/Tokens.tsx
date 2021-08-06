@@ -42,14 +42,8 @@ export const Tokens = ({ sett }: Props): JSX.Element => {
 			<Typography>Tokens</Typography>
 			<StyledDivider />
 			<Grid container>
-				{sett.tokens.map((token, index, tokens) => (
-					<SettToken
-						key={`${sett.name}-${token.name}-${index}`}
-						name={token.name}
-						balance={token.balance}
-						iconName={tokens.length === 1 ? sett.asset : `${token.symbol}-small`}
-						decimalsAmount={token.balance > 1 ? 0 : 4}
-					/>
+				{sett.tokens.map((token, index) => (
+					<SettToken key={`${sett.name}-${token.name}-${index}`} token={token} />
 				))}
 			</Grid>
 		</Grid>

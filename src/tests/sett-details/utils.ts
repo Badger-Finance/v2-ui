@@ -48,7 +48,7 @@ export const SAMPLE_SETT: Sett = {
 		{
 			address: '0x075b1bb99792c9E1041bA13afEf80C91a1e70fB3',
 			name: 'Curve.fi renBTC/wBTC/sBTC',
-			symbol: 'Curve.fi renBTC/wBTC/sBTC',
+			symbol: 'curve-renBTC-wBTC-sBTC',
 			decimals: 18,
 			balance: 2580.4779797767615,
 			value: 135697015.0445408,

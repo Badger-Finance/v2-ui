@@ -1,9 +1,10 @@
 import React from 'react';
 import { Box, Grid, Typography } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 
+import { SettTokenBalance } from '../../../mobx/model/setts/sett-token-balance';
 import { numberWithCommas } from '../../../mobx/utils/helpers';
-import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -31,30 +32,29 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface Props {
-	name: string;
-	balance: number;
-	iconName: string;
-	decimalsAmount: number;
+	token: SettTokenBalance;
 }
 
-export const SettToken = ({ name, balance, iconName, decimalsAmount }: Props): JSX.Element => {
+export const SettToken = ({ token }: Props): JSX.Element => {
 	const classes = useStyles();
 
-	const icon = `/assets/icons/${iconName.toLowerCase()}.png`;
-	const balanceDisplay = balance.toFixed(decimalsAmount);
+	const iconName = token.symbol.toLowerCase().trim();
+	const icon = `/assets/icons/${iconName}.png`;
+	const decimalsAmount = token.balance > 1 ? 0 : 4;
+	const balanceDisplay = token.balance.toFixed(decimalsAmount);
 
 	return (
 		<Grid className={classes.tokenSpec} container justify="space-between">
 			<Box display="flex" alignItems="center">
 				<div className={classes.tokenImageContainer}>
-					<img className={classes.tokenImage} src={icon} alt={`${name} icon`} />
+					<img className={classes.tokenImage} src={icon} alt={`${token.name} icon`} />
 				</div>
 				<Typography
 					display="inline"
 					color="textSecondary"
 					className={clsx(classes.specName, classes.tokenName)}
 				>
-					{name}
+					{token.name}
 				</Typography>
 			</Box>
 			<Typography display="inline" variant="subtitle2">
