@@ -131,6 +131,20 @@ const SettListItem = observer(
 			}
 		};
 
+		const getAprDisplay = () => {
+			return sett.deprecated ? (
+				<Typography style={{ cursor: 'default' }} variant="body1" color={'textPrimary'}>
+					{apr}
+				</Typography>
+			) : (
+				<Tooltip enterDelay={0} leaveDelay={300} arrow placement="left" title={tooltip}>
+					<Typography style={{ cursor: 'default' }} variant="body1" color={'textPrimary'}>
+						{apr}
+					</Typography>
+				</Tooltip>
+			);
+		};
+
 		const { apr, tooltip } = getRoi(sett);
 		const displayValue = balanceValue ? balanceValue : usdToCurrency(new BigNumber(sett.value), currency);
 
@@ -178,6 +192,7 @@ const SettListItem = observer(
 										{sett.asset}
 									</Typography>
 									<SettBadge settName={sett.name.split(' ')[0]} />
+									{sett.deprecated && <SettBadge settName={'No Emissions'} />}
 								</Grid>
 							</Grid>
 						</Grid>
@@ -228,11 +243,8 @@ const SettListItem = observer(
 						</Typography>
 					</Grid>
 					<Grid item xs={6} md={2} className={classes.centerGrid}>
-						<Tooltip enterDelay={0} leaveDelay={300} arrow placement="left" title={tooltip}>
-							<Typography style={{ cursor: 'default' }} variant="body1" color={'textPrimary'}>
-								{apr}
-							</Typography>
-						</Tooltip>
+						{getAprDisplay()}
+
 						{userApr && (
 							<Typography style={{ cursor: 'default' }} variant="caption" color={'textPrimary'}>
 								My Boost: {userApr.toFixed(2)}%

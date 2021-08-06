@@ -28,6 +28,7 @@ export class Ethereum extends Network {
 		return [
 			this.deploy.sett_system.vaults['native.cvxCrv'],
 			this.deploy.sett_system.vaults['native.cvx'],
+			this.deploy.sett_system.vaults['native.tricryptoCrv2'],
 			this.deploy.sett_system.vaults['native.tricryptoCrv'],
 			this.deploy.sett_system.vaults['native.sbtcCrv'],
 			this.deploy.sett_system.vaults['native.renCrv'],
@@ -274,6 +275,16 @@ const ethSettDefinitions: BadgerSett[] = [
 		},
 		vaultToken: {
 			address: ETH_DEPLOY.sett_system.vaults['native.tricryptoCrv'],
+			decimals: 18,
+		},
+	},
+	{
+		depositToken: {
+			address: ETH_DEPLOY.tokens['curve.tricrypto2'],
+			decimals: 18,
+		},
+		vaultToken: {
+			address: ETH_DEPLOY.sett_system.vaults['native.tricryptoCrv2'],
 			decimals: 18,
 		},
 	},
