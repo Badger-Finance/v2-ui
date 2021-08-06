@@ -141,7 +141,9 @@ const Info = observer(() => {
 	// reference implementation
 	// https://badger-finance.gitbook.io/badger-finance/digg/digg-faq
 	const wbtcPrice = prices.getPrice(ETH_DEPLOY.tokens.wBTC);
+	const diggCurrentPrice = prices.getPrice(ETH_DEPLOY.tokens.digg);
 	const diggPrice = rebase.oracleRate.multipliedBy(wbtcPrice);
+	const diggWbtcCurrentRatio = diggCurrentPrice.dividedBy(wbtcPrice).toFixed(5);
 	const priceDelta = rebase.oracleRate.minus(1);
 	const rebasePercent = priceDelta.gt(0.05) || priceDelta.lt(-0.05) ? priceDelta.multipliedBy(10) : new BigNumber(0);
 	const lastOracleUpdate = new Date(rebase.latestAnswer * 1000);
@@ -177,7 +179,13 @@ const Info = observer(() => {
 				<Metric metric="BTC Price" value={inCurrency(wbtcPrice, currency)} />
 			</Grid>
 			<Grid item xs={12} md={6}>
-				<Metric metric="DIGG Price" value={inCurrency(diggPrice, currency)} />
+				<Metric metric="DIGG Oracle Price" value={inCurrency(diggPrice, currency)} />
+			</Grid>
+			<Grid item xs={12} md={6}>
+				<Metric metric="DIGG / BTC Current Ratio" value={diggWbtcCurrentRatio.toString()} />
+			</Grid>
+			<Grid item xs={12} md={6}>
+				<Metric metric="DIGG Current Price" value={inCurrency(diggCurrentPrice, currency)} />
 			</Grid>
 			<Grid item xs={12} md={6}>
 				<Metric
@@ -208,8 +216,9 @@ const Info = observer(() => {
 					</InfoItem>
 					<InfoItem metric="Oracle Rate">{rebase.oracleRate.toFixed(8)}</InfoItem>
 				</div>
+				<Typography variant="caption">Last Updated {lastOracleUpdate.toLocaleString()}</Typography>
 				<Typography variant="caption" className={classes.updatedAt}>
-					Last Updated {lastOracleUpdate.toLocaleString()}
+					NOTE: Oracle updates approximately every 24 hours.
 				</Typography>
 			</Paper>
 			<Button
