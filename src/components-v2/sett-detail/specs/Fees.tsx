@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../../mobx/store-context';
 import { Sett } from '../../../mobx/model/setts/sett';
+import BigNumber from 'bignumber.js';
 
 const useStyles = makeStyles(() => ({
 	specName: {
@@ -17,11 +18,14 @@ interface Props {
 	sett: Sett;
 }
 
+const formatStrategyFee = (fee: BigNumber) => `${fee.dividedBy(10 ** 2).toString()}%`;
+
 export const Fees = observer(
 	({ sett }: Props): JSX.Element => {
-		const {
-			network: { network },
-		} = React.useContext(StoreContext);
+		const store = React.useContext(StoreContext);
+		const { network: networkStore } = store;
+		const { network } = networkStore;
+
 		const classes = useStyles();
 
 		const noFees = (
@@ -57,7 +61,7 @@ export const Fees = observer(
 							{feeKey}
 						</Typography>
 						<Typography display="inline" variant="subtitle2">
-							{`${settStrategy.fees[feeKey].dividedBy(10 ** 2).toString()}%`}
+							{formatStrategyFee(settStrategy.fees[feeKey])}
 						</Typography>
 					</Grid>
 				))}
