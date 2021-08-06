@@ -61,7 +61,7 @@ export const MainContent = observer(
 				)}
 				<Grid container spacing={1}>
 					<Grid item xs={12} md={4} lg={3}>
-						<SpecsCard />
+						<SpecsCard sett={sett} />
 					</Grid>
 					{isMediumSizeScreen && (
 						<Grid item xs={12} md={8} lg={9}>

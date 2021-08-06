@@ -1,8 +1,9 @@
 import React from 'react';
-import { Box, Grid, Typography } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
 import { StyledDivider } from '../styled';
 import { makeStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
+import { Sett } from '../../../mobx/model/setts/sett';
+import { SettToken } from './SettToken';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -29,7 +30,11 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export const Tokens = (): JSX.Element => {
+interface Props {
+	sett: Sett;
+}
+
+export const Tokens = ({ sett }: Props): JSX.Element => {
 	const classes = useStyles();
 
 	return (
@@ -37,48 +42,15 @@ export const Tokens = (): JSX.Element => {
 			<Typography>Tokens</Typography>
 			<StyledDivider />
 			<Grid container>
-				<Grid className={classes.tokenSpec} container justify="space-between">
-					<Box display="flex" alignItems="center">
-						<div className={classes.tokenImageContainer}>
-							<img className={classes.tokenImage} src="/assets/icons/wbtc.svg" alt="wbtc-icon" />
-						</div>
-						<Typography
-							display="inline"
-							color="textSecondary"
-							className={clsx(classes.specName, classes.tokenName)}
-						>
-							WBTC
-						</Typography>
-					</Box>
-					<Typography display="inline" variant="subtitle2">
-						114
-					</Typography>
-				</Grid>
-				<Grid className={classes.tokenSpec} container justify="space-between">
-					<Box display="flex" alignItems="center">
-						<div className={classes.tokenImageContainer}>
-							<img className={classes.tokenImage} src="/assets/icons/digg.png" alt="digg-icon" />
-						</div>
-						<Typography
-							className={clsx(classes.specName, classes.tokenName)}
-							display="inline"
-							color="textSecondary"
-						>
-							DIGG
-						</Typography>
-					</Box>
-					<Typography display="inline" variant="subtitle2">
-						123
-					</Typography>
-				</Grid>
-				<Grid container justify="space-between">
-					<Typography className={classes.specName} display="inline" color="textSecondary">
-						Token Ratio
-					</Typography>
-					<Typography display="inline" variant="subtitle2">
-						1.0789
-					</Typography>
-				</Grid>
+				{sett.tokens.map((token, index, tokens) => (
+					<SettToken
+						key={`${sett.name}-${token.name}-${index}`}
+						name={token.name}
+						balance={token.balance}
+						iconName={tokens.length === 1 ? sett.asset : `${token.symbol}-small`}
+						decimalsAmount={token.balance > 1 ? 0 : 4}
+					/>
+				))}
 			</Grid>
 		</Grid>
 	);
