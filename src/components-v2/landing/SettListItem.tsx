@@ -149,7 +149,7 @@ const SettListItem = observer(
 		const displayValue = balanceValue ? balanceValue : usdToCurrency(new BigNumber(sett.value), currency);
 
 		let userApr: number | undefined = undefined;
-		const multiplier = user.accountDetails?.multipliers[sett.vaultToken];
+		const multiplier = !sett.deprecated && user.accountDetails?.multipliers[sett.vaultToken];
 		if (multiplier) {
 			userApr =
 				sett.sources
