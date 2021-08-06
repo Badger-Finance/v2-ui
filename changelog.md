@@ -1,5 +1,11 @@
 # v2 UI Changelog
 
+### Hotfix - 08/06/2021
+
+-   Add tricrypto2 sett
+-   Remove fees from tricrypto (old) sett
+-   Fix notify.js link
+
 ### v2.8.5 - 08/05/2021
 
 -   Badger Boost v2 launch

@@ -241,9 +241,20 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 					name: '',
 					address: deploy.sett_system.vaults['native.tricryptoCrv'],
 					fees: {
+						['DAO Performance Fee']: new BigNumber(0),
+						['Withdraw Fee']: new BigNumber(0),
+					},
+					strategyLink:
+						'https://badgerwiki.notion.site/Strategies-7bf5b27a451242538f02855ca5aaf4e4#f03b01a576d241aa9d9cee153876c976',
+				},
+				[deploy.sett_system.vaults['native.tricryptoCrv2']]: {
+					name: '',
+					address: deploy.sett_system.vaults['native.tricryptoCrv2'],
+					fees: {
 						['DAO Performance Fee']: new BigNumber(2000),
 						['Withdraw Fee']: new BigNumber(50),
 					},
+					// TODO: Update this strategy link
 					strategyLink:
 						'https://badgerwiki.notion.site/Strategies-7bf5b27a451242538f02855ca5aaf4e4#f03b01a576d241aa9d9cee153876c976',
 				},
