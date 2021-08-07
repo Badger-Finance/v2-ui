@@ -106,12 +106,13 @@ const SettListItem = observer(
 		const { user } = store;
 		const divisor = period === 'month' ? 12 : 1;
 
-		const getRoi = (sett: Sett): RoiData => {
+		const getRoi = (sett: Sett, multiplier?: number): RoiData => {
 			const getToolTip = (sett: Sett, divisor: number): JSX.Element => {
 				return (
 					<>
 						{sett.sources.map((source) => {
-							const apr = `${(source.apr / divisor).toFixed(2)}% ${source.name}`;
+							const sourceApr = source.boostable ? source.apr * (multiplier ?? 1) : source.apr;
+							const apr = `${(sourceApr / divisor).toFixed(2)}% ${source.name}`;
 							return <div key={source.name}>{apr}</div>;
 						})}
 					</>
@@ -145,17 +146,17 @@ const SettListItem = observer(
 			);
 		};
 
-		const { apr, tooltip } = getRoi(sett);
-		const displayValue = balanceValue ? balanceValue : usdToCurrency(new BigNumber(sett.value), currency);
-
 		let userApr: number | undefined = undefined;
-		const multiplier = user.accountDetails?.multipliers[sett.vaultToken];
+		const multiplier = !sett.deprecated ? user.accountDetails?.multipliers[sett.vaultToken] : undefined;
 		if (multiplier) {
 			userApr =
 				sett.sources
 					.map((source) => (source.boostable ? source.apr * multiplier : source.apr))
 					.reduce((total, apr) => (total += apr), 0) / divisor;
 		}
+
+		const { apr, tooltip } = getRoi(sett, multiplier);
+		const displayValue = balanceValue ? balanceValue : usdToCurrency(new BigNumber(sett.value), currency);
 
 		// TODO: Clean up no access implementation, too much duplication
 		return sett.hasBouncer && !user.viewSettShop() ? (
