@@ -1,5 +1,11 @@
 # v2 UI Changelog
 
+### Hotfix - 08/07/2021
+
+-   fix "My boost" apy showing on non-emission setts
+-   correct fee for tricrypto1 pool
+-   update tooltip to show user specific ROI
+
 ### Hotfix - 08/06/2021
 
 -   Add tricrypto2 sett
