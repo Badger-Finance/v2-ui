@@ -65,7 +65,7 @@ export const MainContent = observer(
 					</Grid>
 					{isMediumSizeScreen && (
 						<Grid item xs={12} md={8} lg={9}>
-							<ChartsCard />
+							<ChartsCard sett={sett} />
 						</Grid>
 					)}
 				</Grid>

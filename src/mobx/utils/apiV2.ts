@@ -8,6 +8,7 @@ import { LeaderBoardEntry } from '../model/boost/leaderboard-entry';
 import { LeaderBoardData } from '../model/boost/leaderboard-data';
 import { ProtocolSummary } from '../model/system-config/protocol-summary';
 import { PriceSummary } from '../model/system-config/price-summary';
+import { SettSnapshot, SettSnapshotGranularity } from '../model/setts/sett-snapshot';
 
 export const getApi = (): string => {
 	if (process.env.REACT_APP_BUILD_ENV === 'production') {
@@ -27,6 +28,7 @@ const getBouncerProofEndpoint = `${badgerApi}/reward/bouncer`;
 const getAccountDetailsEndpoint = `${badgerApi}/accounts`;
 const getClaimProofEndpoint = `${badgerApi}/reward/tree`;
 const getLeaderBoardDataEndpoint = `${badgerApi}/leaderboards`;
+const getSettChartInformationEndpoint = `${badgerApi}/charts`;
 
 // api function calls
 export const listSetts = async (chain?: string): Promise<Sett[] | null> => {
@@ -69,6 +71,25 @@ export const fetchLeaderBoardData = async (page: number, size: number): Promise<
 
 export const fetchCompleteLeaderBoardData = async (): Promise<LeaderBoardEntry[] | null> => {
 	return fetchData(() => fetch(`${getLeaderBoardDataEndpoint}/complete`));
+};
+
+export const fetchSettChartInformation = async (
+	id: string,
+	from?: string,
+	to?: string,
+	granularity = SettSnapshotGranularity.DAY,
+): Promise<SettSnapshot[] | null> => {
+	const params = new URLSearchParams({ id, granularity });
+
+	if (from) {
+		params.set('start', from);
+	}
+
+	if (to) {
+		params.set('end', to);
+	}
+
+	return fetchData(() => fetch(`${getSettChartInformationEndpoint}?${params.toString()}`));
 };
 
 const fetchData = async <T>(request: () => Promise<Response>): Promise<T | null> => {

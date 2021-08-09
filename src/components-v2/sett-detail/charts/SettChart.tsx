@@ -6,14 +6,27 @@ import { createVerticalLinearGradient, hexToRGBA } from 'react-stockcharts/lib/u
 import { scaleTime } from 'd3-scale';
 import { curveLinear } from 'd3-shape';
 import { fitWidth } from 'react-stockcharts/lib/helper';
-import chartMockData from './chart-mock-data.json';
+import { timeFormat } from 'd3-time-format';
+import { format } from 'd3-format';
+import { CurrentCoordinate } from 'react-stockcharts/lib/coordinates';
+import { ChartMode } from './ChartsCard';
+import { SettChartData } from '../../../mobx/model/setts/sett-charts';
 
 const canvasGradient = createVerticalLinearGradient([{ stop: 0, color: hexToRGBA('#F2A52B', 0.0) }]);
-const chartData = chartMockData.map((mock) => ({ ...mock, date: new Date(mock.date) }));
 
-// this library does not have any types :/
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-const RawChart = ({ width }: any): JSX.Element | null => {
+const useYAxisAccessor = (mode: ChartMode) => {
+	return (data: SettChartData) => (mode === 'value' ? data.value : data.ratio);
+};
+
+interface Props {
+	mode: ChartMode;
+	data: SettChartData[];
+	width: number;
+}
+
+const RawChart = ({ width, data, mode }: Props): JSX.Element => {
+	const yAxisAccessor = useYAxisAccessor(mode);
+
 	return (
 		<ChartCanvas
 			ratio={5 / 4}
@@ -22,22 +35,22 @@ const RawChart = ({ width }: any): JSX.Element | null => {
 			seriesName={'value-gradient'}
 			margin={{ left: 45, right: 30, top: 8, bottom: 30 }}
 			type="svg"
-			data={chartData}
-			xAccessor={(d: any) => d.date}
+			data={data}
+			xAccessor={(d: any) => d.timestamp}
 			xScale={scaleTime()}
-			xExtents={[new Date(2011, 0, 1), new Date(2013, 0, 2)]}
 		>
-			<Chart id={0} yExtents={(d: any) => d.close}>
+			<Chart id={0} yExtents={yAxisAccessor}>
 				<defs>
 					<linearGradient id="value-gradient" x1="0" y1="100%" x2="0" y2="0%">
 						<stop offset="0%" stopColor="#F2A52B" stopOpacity={0} />
 						<stop offset="100%" stopColor="#F2A52B" stopOpacity={0.4} />
 					</linearGradient>
 				</defs>
+				<CurrentCoordinate yAccessor={yAxisAccessor} displayFormat={timeFormat('%Y-%m-%d')} r={4} />
 				<XAxis axisAt="bottom" orient="bottom" ticks={5} stroke="#aaa" tickStroke="#fff" />
-				<YAxis stroke="#aaa" tickStroke="#fff" axisAt="left" orient="left" />
+				<YAxis stroke="#aaa" tickStroke="#fff" axisAt="left" orient="left" tickFormat={format('.2s')} />
 				<AreaSeries
-					yAccessor={(d: any) => d.close}
+					yAccessor={yAxisAccessor}
 					fill="url(#value-gradient)"
 					strokeWidth={2}
 					stroke="#F2A52B"
@@ -49,4 +62,4 @@ const RawChart = ({ width }: any): JSX.Element | null => {
 	);
 };
 
-export const ValueChart = fitWidth(RawChart);
+export const SettChart = fitWidth(RawChart);
