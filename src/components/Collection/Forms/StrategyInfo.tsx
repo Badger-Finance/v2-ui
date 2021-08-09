@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Button, Backdrop, Modal, Fade, Typography, Divider, List, ListItem } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { StoreContext } from 'mobx/store-context';
 import { Network } from 'mobx/model/network/network';
 
 export interface FeeListProps {
@@ -33,12 +34,11 @@ const useStyles = makeStyles((theme) => ({
 		minWidth: '25%',
 		maxWidth: '50%',
 		overflowY: 'auto',
+		overflowWrap: 'break-word',
+		wordWrap: 'break-word',
 	},
 	rewardsContainer: {
 		padding: '0',
-		minHeight: '20%',
-		maxHeight: '75%',
-		overflowY: 'auto',
 	},
 	modalTitle: {
 		textAlign: 'center',
@@ -52,12 +52,21 @@ const useStyles = makeStyles((theme) => ({
 		marginTop: theme.spacing(3),
 		marginBottom: theme.spacing(3),
 	},
+	link: {
+		color: theme.palette.text.primary,
+		fontWeight: 'bold',
+	},
 }));
 
 export const StrategyInfo = (props: FeeListProps): JSX.Element => {
 	const { network, vaultAddress } = props;
+	const store = useContext(StoreContext);
 	const feeList = network.getFees(vaultAddress);
 	const classes = useStyles();
+	const strategy = network.strategies[vaultAddress];
+	const { setts } = store;
+	const sett = setts.getSett(vaultAddress);
+	const underlyingToken = sett?.underlyingToken;
 
 	const [open, setOpen] = useState(false);
 
@@ -73,13 +82,9 @@ export const StrategyInfo = (props: FeeListProps): JSX.Element => {
 		<div>
 			<div className={classes.buttonContainer}>
 				<Button variant="text" color="primary" onClick={handleOpen}>
-					FEES
+					INFO
 				</Button>
-				<Button
-					variant="text"
-					color="primary"
-					onClick={() => window.open(network.strategies[vaultAddress].strategyLink)}
-				>
+				<Button variant="text" color="primary" onClick={() => window.open(strategy.strategyLink)}>
 					STRATEGY
 				</Button>
 			</div>
@@ -99,7 +104,7 @@ export const StrategyInfo = (props: FeeListProps): JSX.Element => {
 				<Fade in={open}>
 					<div className={classes.paper}>
 						<Typography className={classes.modalTitle} variant="h6">
-							FEE DESCRIPTIONS
+							INFORMATION
 						</Typography>
 						<Typography variant="body2" color="textSecondary">
 							Fees are charged on certain Sett Vaults, and are sent to the BadgerDAO treasury, or shared
@@ -132,6 +137,41 @@ export const StrategyInfo = (props: FeeListProps): JSX.Element => {
 								</Typography>
 							)}
 						</List>
+						<Divider className={classes.divider} />
+						<Typography variant="subtitle1">LINKS</Typography>
+						<Typography variant="caption">
+							- Vault Address:{' '}
+							<a
+								className={classes.link}
+								target="_blank"
+								rel="noreferrer"
+								href={`${network.explorer}/address/${vaultAddress}`}
+							>
+								{vaultAddress}
+							</a>
+						</Typography>
+						<Typography variant="caption">
+							- Strategy Address:{' '}
+							<a
+								className={classes.link}
+								target="_blank"
+								rel="noreferrer"
+								href={`${network.explorer}/address/${strategy.address}`}
+							>
+								{strategy.address}
+							</a>
+						</Typography>
+						<Typography variant="caption">
+							- Underlying Token Address:{' '}
+							<a
+								className={classes.link}
+								target="_blank"
+								rel="noreferrer"
+								href={`${network.explorer}/address/${underlyingToken}`}
+							>
+								{underlyingToken}
+							</a>
+						</Typography>
 					</div>
 				</Fade>
 			</Modal>
