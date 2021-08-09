@@ -34,12 +34,11 @@ const useStyles = makeStyles((theme) => ({
 		minWidth: '25%',
 		maxWidth: '50%',
 		overflowY: 'auto',
+		overflowWrap: 'break-word',
+		wordWrap: 'break-word',
 	},
 	rewardsContainer: {
 		padding: '0',
-		minHeight: '20%',
-		maxHeight: '75%',
-		overflowY: 'auto',
 	},
 	modalTitle: {
 		textAlign: 'center',
