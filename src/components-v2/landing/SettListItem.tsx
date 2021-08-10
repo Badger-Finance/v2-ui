@@ -102,8 +102,6 @@ const SettListItem = observer(
 		const classes = useStyles();
 		const { sett, balance, balanceValue, currency, period, onOpen } = props;
 
-		console.log(sett.vaultToken);
-
 		const displayName = sett.name.split(' ').length > 1 ? sett.name.split(' ').slice(1).join(' ') : sett.name;
 		const store = useContext(StoreContext);
 		const { user } = store;
