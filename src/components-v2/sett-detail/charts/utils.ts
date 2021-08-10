@@ -1,7 +1,11 @@
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
 import { Sett } from '../../../mobx/model/setts/sett';
 import { fetchSettChartInformation } from '../../../mobx/utils/apiV2';
 import { SettSnapshotGranularity } from '../../../mobx/model/setts/sett-snapshot';
 import { SettChartData } from '../../../mobx/model/setts/sett-charts';
+
+dayjs.extend(utc);
 
 export enum SettChartTimeframe {
 	'day' = 1,
@@ -21,11 +25,10 @@ export const fetchSettChart = async (sett: Sett, timeframe: SettChartTimeframe):
 	// if timeframe is just one day then we want the granularity to be hours
 	const granularity = isDayTimeFrame ? SettSnapshotGranularity.HOUR : SettSnapshotGranularity.DAY;
 
-	const to = new Date(); // query until current date
-	const from = new Date();
-	from.setDate(to.getDate() - timeframeDays);
+	const now = dayjs().utc(); // query until current date
+	const from = dayjs(now).subtract(timeframeDays, 'days').utc();
 
-	const fetchedData = await fetchSettChartInformation(sett.vaultToken, from, to, granularity);
+	const fetchedData = await fetchSettChartInformation(sett.vaultToken, from.toDate(), now.toDate(), granularity);
 
 	if (!fetchedData) {
 		return null;
