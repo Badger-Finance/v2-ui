@@ -9,10 +9,7 @@ export enum SettChartTimeframe {
 	'month' = 30,
 }
 
-export const fetchSettInformation = async (
-	sett: Sett,
-	timeframe: SettChartTimeframe,
-): Promise<SettChartData[] | null> => {
+export const fetchSettChart = async (sett: Sett, timeframe: SettChartTimeframe): Promise<SettChartData[] | null> => {
 	const timeframeDays = 1 * timeframe;
 	const to = new Date();
 	const from = new Date();

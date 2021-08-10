@@ -1,10 +1,10 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid, Tab, Tabs } from '@material-ui/core';
 import { ChartContent } from './ChartContent';
 import { CardContainer } from '../styled';
 import { Sett } from '../../../mobx/model/setts/sett';
-import { fetchSettInformation, SettChartTimeframe } from './utils';
+import { fetchSettChart, SettChartTimeframe } from './utils';
 import { DEBUG } from '../../../config/constants';
 import { SettChartData } from '../../../mobx/model/setts/sett-charts';
 import { ChartsHeader } from './ChartsHeader';
@@ -44,23 +44,20 @@ export const ChartsCard = ({ sett }: Props): JSX.Element => {
 	const [mode, setMode] = useState<ChartMode>('value');
 	const [timeframe, setTimeframe] = useState(SettChartTimeframe.week);
 
-	const doFetch = useCallback(async () => {
-		try {
-			setLoading(true);
-			const data = await fetchSettInformation(sett, timeframe);
-			setChartData(data);
-		} catch (error) {
-			if (DEBUG) console.error(error);
-		} finally {
-			setLoading(false);
-		}
-	}, [sett, timeframe]);
+	const handleFetch = (fetchedData: SettChartData[] | null) => {
+		setChartData(fetchedData);
+		setLoading(false);
+	};
+
+	const handleFetchError = (error: Error) => {
+		if (DEBUG) console.error(error);
+		setLoading(false);
+	};
 
 	React.useEffect(() => {
-		// reason: the functions already has a try-catch
-		// eslint-disable-next-line promise/catch-or-return,promise/valid-params
-		doFetch();
-	}, [doFetch]);
+		setLoading(true);
+		fetchSettChart(sett, timeframe).then(handleFetch).catch(handleFetchError);
+	}, [sett, timeframe]);
 
 	return (
 		<CardContainer className={classes.root}>
