@@ -28,6 +28,15 @@ const SettBadge = (props: SettBadgeProps): JSX.Element | null => {
 		case 'Convex':
 			style = { backgroundColor: '#459c77', color: 'white' };
 			break;
+		case 'Curve':
+			style = { backgroundColor: '#ece210' };
+			break;
+		case 'Sushiswap':
+			style = { backgroundColor: '#d268af', color: 'white' };
+			break;
+		case 'Quickswap':
+			style = { backgroundColor: '#478bca', color: 'white' };
+			break;
 		case 'No Emissions':
 			style = { backgroundColor: 'rgb(183, 63, 63)', color: 'white' };
 			break;
