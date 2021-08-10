@@ -9,21 +9,23 @@ export enum SettChartTimeframe {
 	'month' = 30,
 }
 
+/**
+ * Fetches chart information since the provided timeframe until the current date
+ * @param sett
+ * @param timeframe
+ */
 export const fetchSettChart = async (sett: Sett, timeframe: SettChartTimeframe): Promise<SettChartData[] | null> => {
 	const timeframeDays = 1 * timeframe;
-	const to = new Date();
-	const from = new Date();
 	const isDayTimeFrame = timeframe === SettChartTimeframe.day;
+
+	// if timeframe is just one day then we want the granularity to be hours
 	const granularity = isDayTimeFrame ? SettSnapshotGranularity.HOUR : SettSnapshotGranularity.DAY;
 
+	const to = new Date(); // query until current date
+	const from = new Date();
 	from.setDate(to.getDate() - timeframeDays);
 
-	const fetchedData = await fetchSettChartInformation(
-		sett.vaultToken,
-		from.toISOString(),
-		to.toISOString(),
-		granularity,
-	);
+	const fetchedData = await fetchSettChartInformation(sett.vaultToken, from, to, granularity);
 
 	if (!fetchedData) {
 		return null;

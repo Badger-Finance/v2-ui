@@ -75,18 +75,18 @@ export const fetchCompleteLeaderBoardData = async (): Promise<LeaderBoardEntry[]
 
 export const fetchSettChartInformation = async (
 	id: string,
-	from?: string,
-	to?: string,
+	from?: Date,
+	to?: Date,
 	granularity = SettSnapshotGranularity.DAY,
 ): Promise<SettSnapshot[] | null> => {
 	const params = new URLSearchParams({ id, granularity });
 
 	if (from) {
-		params.set('start', from);
+		params.set('start', from.toISOString());
 	}
 
 	if (to) {
-		params.set('end', to);
+		params.set('end', to.toISOString());
 	}
 
 	return fetchData(() => fetch(`${getSettChartInformationEndpoint}?${params.toString()}`));
