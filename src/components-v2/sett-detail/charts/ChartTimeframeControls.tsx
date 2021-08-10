@@ -8,9 +8,8 @@ interface Props {
 }
 
 export const ChartTimeframeControls = ({ value, onChange }: Props): JSX.Element => (
-	<ButtonGroup variant="outlined" size="small" aria-label="outlined button group">
+	<ButtonGroup variant="outlined" size="small" aria-label="chart timeframe controls">
 		<Button
-			aria-label="1 day"
 			disableElevation
 			variant={value === SettChartTimeframe.day ? 'contained' : 'outlined'}
 			onClick={() => onChange(SettChartTimeframe.day)}
@@ -18,7 +17,6 @@ export const ChartTimeframeControls = ({ value, onChange }: Props): JSX.Element 
 			1 day
 		</Button>
 		<Button
-			aria-label="1 week"
 			disableElevation
 			variant={value === SettChartTimeframe.week ? 'contained' : 'outlined'}
 			onClick={() => onChange(SettChartTimeframe.week)}
@@ -26,7 +24,6 @@ export const ChartTimeframeControls = ({ value, onChange }: Props): JSX.Element 
 			1 week
 		</Button>
 		<Button
-			aria-label="1 Month"
 			disableElevation
 			variant={value === SettChartTimeframe.month ? 'contained' : 'outlined'}
 			onClick={() => onChange(SettChartTimeframe.month)}
