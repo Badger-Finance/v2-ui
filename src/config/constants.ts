@@ -79,6 +79,7 @@ export const FLAGS = {
 	XDAI: toBool(process.env.REACT_APP_XDAI),
 	RENBTC_SETT: toBool(process.env.REACT_APP_RENBTC_SETT),
 	IBBTC_WBTC_SETT: toBool(process.env.REACT_APP_IBBTC_WBTC_POLY_SETT),
+	MSTABLE: toBool(process.env.REACT_APP_MSTABLE_SETT),
 };
 
 export const ZERO = new BigNumber(0);
