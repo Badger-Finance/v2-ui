@@ -5,7 +5,6 @@ import { ChartContent } from './ChartContent';
 import { CardContainer } from '../styled';
 import { Sett } from '../../../mobx/model/setts/sett';
 import { fetchSettChart, SettChartTimeframe } from './utils';
-import { DEBUG } from '../../../config/constants';
 import { SettChartData } from '../../../mobx/model/setts/sett-charts';
 import { ChartsHeader } from './ChartsHeader';
 
@@ -50,7 +49,7 @@ export const ChartsCard = ({ sett }: Props): JSX.Element => {
 	};
 
 	const handleFetchError = (error: Error) => {
-		if (DEBUG) console.error(error);
+		console.error(error);
 		setLoading(false);
 	};
 
