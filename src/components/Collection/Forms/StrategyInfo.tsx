@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	link: {
 		color: theme.palette.text.primary,
-		fontWeight: 'bold',
+		fontWeight: 800,
 	},
 }));
 
