@@ -1,5 +1,9 @@
 # v2 UI Changelog
 
+### Hotfix - 08/09/2021
+
+-   Add more detailed information to the INFO tab for each vault
+
 ### Hotfix - 08/07/2021
 
 -   fix "My boost" apy showing on non-emission setts
