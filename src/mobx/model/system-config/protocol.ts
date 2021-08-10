@@ -9,4 +9,5 @@ export enum Protocol {
 	Pancakeswap = 'Pancakeswap',
 	Quickswap = 'Quickswap',
 	Yearn = 'Yearn',
+	Mstable = 'Mstable',
 }

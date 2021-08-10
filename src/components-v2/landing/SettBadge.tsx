@@ -36,8 +36,14 @@ const SettBadge = (props: SettBadgeProps): JSX.Element | null => {
 		case Protocol.Sushiswap:
 			style = { backgroundColor: '#d268af', color: 'white' };
 			break;
+		case Protocol.Uniswap:
+			style = { backgroundColor: '#fc077d', color: 'white' };
+			break;
 		case Protocol.Quickswap:
 			style = { backgroundColor: '#478bca', color: 'white' };
+			break;
+		case Protocol.Mstable:
+			style = { backgroundColor: 'rgb(37,39,45)', color: 'white' };
 			break;
 		case Protocol.Obsolete:
 			style = { backgroundColor: 'rgb(183, 63, 63)', color: 'white' };
