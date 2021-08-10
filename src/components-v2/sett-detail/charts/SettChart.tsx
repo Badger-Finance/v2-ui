@@ -26,6 +26,7 @@ interface Props {
 
 const RawChart = ({ width, data, mode }: Props): JSX.Element => {
 	const yAxisAccessor = useYAxisAccessor(mode);
+	const yScaleFormatter = mode === 'value' ? format('.5s') : format('.5f');
 
 	return (
 		<ChartCanvas
@@ -33,7 +34,7 @@ const RawChart = ({ width, data, mode }: Props): JSX.Element => {
 			width={width}
 			height={365}
 			seriesName={'value-gradient'}
-			margin={{ left: 45, right: 30, top: 8, bottom: 30 }}
+			margin={{ left: 60, right: 0, top: 8, bottom: 30 }}
 			type="svg"
 			data={data}
 			xAccessor={(d: any) => d.timestamp}
@@ -48,7 +49,7 @@ const RawChart = ({ width, data, mode }: Props): JSX.Element => {
 				</defs>
 				<CurrentCoordinate yAccessor={yAxisAccessor} displayFormat={timeFormat('%Y-%m-%d')} r={4} />
 				<XAxis axisAt="bottom" orient="bottom" ticks={5} stroke="#aaa" tickStroke="#fff" />
-				<YAxis stroke="#aaa" tickStroke="#fff" axisAt="left" orient="left" tickFormat={format('.2s')} />
+				<YAxis stroke="#aaa" tickStroke="#fff" axisAt="left" orient="left" tickFormat={yScaleFormatter} />
 				<AreaSeries
 					yAccessor={yAxisAccessor}
 					fill="url(#value-gradient)"
