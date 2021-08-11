@@ -4,17 +4,18 @@ import { Sett } from '../model/setts/sett';
 import { RewardMerkleClaim } from '../model/rewards/reward-merkle-claim';
 import { BouncerProof } from '../model/rewards/bouncer-proof';
 import { Eligibility } from '../model/rewards/eligibility';
-import { LeaderBoardEntry } from '../model/boost/leaderboard-entry';
+import { LeaderBoardBadger } from '../model/boost/leader-board-badger';
 import { LeaderBoardData } from '../model/boost/leaderboard-data';
 import { ProtocolSummary } from '../model/system-config/protocol-summary';
 import { PriceSummary } from '../model/system-config/price-summary';
+import { DEBUG } from 'config/constants';
 import { SettSnapshot, SettSnapshotGranularity } from '../model/setts/sett-snapshot';
 
 export const getApi = (): string => {
-	if (process.env.REACT_APP_BUILD_ENV === 'production') {
-		return 'https://api.badger.finance/v2';
+	if (DEBUG) {
+		return 'https://staging-api.badger.finance/v2';
 	}
-	return 'https://staging-api.badger.finance/v2';
+	return 'https://api.badger.finance/v2';
 };
 const badgerApi = getApi();
 
@@ -69,7 +70,7 @@ export const fetchLeaderBoardData = async (page: number, size: number): Promise<
 	return fetchData(() => fetch(`${getLeaderBoardDataEndpoint}?page=${page}&size=${size}`));
 };
 
-export const fetchCompleteLeaderBoardData = async (): Promise<LeaderBoardEntry[] | null> => {
+export const fetchCompleteLeaderBoardData = async (): Promise<LeaderBoardBadger[] | null> => {
 	return fetchData(() => fetch(`${getLeaderBoardDataEndpoint}/complete`));
 };
 

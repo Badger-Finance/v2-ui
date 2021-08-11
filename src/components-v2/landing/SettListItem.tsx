@@ -106,12 +106,13 @@ const SettListItem = observer(
 		const { user } = store;
 		const divisor = period === 'month' ? 12 : 1;
 
-		const getRoi = (sett: Sett): RoiData => {
+		const getRoi = (sett: Sett, multiplier?: number): RoiData => {
 			const getToolTip = (sett: Sett, divisor: number): JSX.Element => {
 				return (
 					<>
 						{sett.sources.map((source) => {
-							const apr = `${(source.apr / divisor).toFixed(2)}% ${source.name}`;
+							const sourceApr = source.boostable ? source.apr * (multiplier ?? 1) : source.apr;
+							const apr = `${(sourceApr / divisor).toFixed(2)}% ${source.name}`;
 							return <div key={source.name}>{apr}</div>;
 						})}
 					</>
@@ -131,17 +132,31 @@ const SettListItem = observer(
 			}
 		};
 
-		const { apr, tooltip } = getRoi(sett);
-		const displayValue = balanceValue ? balanceValue : usdToCurrency(new BigNumber(sett.value), currency);
+		const getAprDisplay = () => {
+			return sett.deprecated ? (
+				<Typography style={{ cursor: 'default' }} variant="body1" color={'textPrimary'}>
+					{apr}
+				</Typography>
+			) : (
+				<Tooltip enterDelay={0} leaveDelay={300} arrow placement="left" title={tooltip}>
+					<Typography style={{ cursor: 'default' }} variant="body1" color={'textPrimary'}>
+						{apr}
+					</Typography>
+				</Tooltip>
+			);
+		};
 
 		let userApr: number | undefined = undefined;
-		const multiplier = user.accountDetails?.multipliers[sett.vaultToken];
+		const multiplier = !sett.deprecated ? user.accountDetails?.multipliers[sett.vaultToken] : undefined;
 		if (multiplier) {
 			userApr =
 				sett.sources
 					.map((source) => (source.boostable ? source.apr * multiplier : source.apr))
 					.reduce((total, apr) => (total += apr), 0) / divisor;
 		}
+
+		const { apr, tooltip } = getRoi(sett, multiplier);
+		const displayValue = balanceValue ? balanceValue : usdToCurrency(new BigNumber(sett.value), currency);
 
 		// TODO: Clean up no access implementation, too much duplication
 		return sett.hasBouncer && !user.viewSettShop() ? (
@@ -177,7 +192,8 @@ const SettListItem = observer(
 									<Typography variant="body2" color="textSecondary">
 										{sett.asset}
 									</Typography>
-									<SettBadge settName={sett.name.split(' ')[0]} />
+									<SettBadge protocol={sett.name.split(' ')[0]} />
+									{sett.deprecated && <SettBadge protocol={'No Emissions'} />}
 								</Grid>
 							</Grid>
 						</Grid>
@@ -228,11 +244,8 @@ const SettListItem = observer(
 						</Typography>
 					</Grid>
 					<Grid item xs={6} md={2} className={classes.centerGrid}>
-						<Tooltip enterDelay={0} leaveDelay={300} arrow placement="left" title={tooltip}>
-							<Typography style={{ cursor: 'default' }} variant="body1" color={'textPrimary'}>
-								{apr}
-							</Typography>
-						</Tooltip>
+						{getAprDisplay()}
+
 						{userApr && (
 							<Typography style={{ cursor: 'default' }} variant="caption" color={'textPrimary'}>
 								My Boost: {userApr.toFixed(2)}%

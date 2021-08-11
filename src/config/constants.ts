@@ -10,7 +10,6 @@ import { tokens, sett_system } from './deployments/mainnet.json';
 import { AbiItem } from 'web3-utils';
 import { PartialAttemptOptions } from '@lifeomic/attempt';
 import { ClaimsSymbols } from 'mobx/model/rewards/claims-symbols';
-import { LeaderboardRank } from 'mobx/model/boost/leaderboard-rank';
 
 export const RPC_WALLETS: { [index: string]: boolean } = {
 	ledger: true,
@@ -64,7 +63,7 @@ export const APP_NAME = 'badgerDAO';
 export const PORTIS_APP_ID = 'cbf7534d-170d-4903-943f-e607dc588b7f';
 export const EMPTY_DATA = '0x';
 export const ZERO_CURRENCY = '0.00000';
-export const SITE_VERSION = 'v2.8.4';
+export const SITE_VERSION = 'v2.8.5';
 export const WC_BRIDGE = 'https://wc-bridge.badger.finance/';
 
 const toBool = (val: string | undefined): boolean => (val ? val.toLowerCase() === 'true' : false);
@@ -79,6 +78,8 @@ export const FLAGS = {
 	MATIC: toBool(process.env.REACT_APP_MATIC),
 	XDAI: toBool(process.env.REACT_APP_XDAI),
 	RENBTC_SETT: toBool(process.env.REACT_APP_RENBTC_SETT),
+	IBBTC_WBTC_SETT: toBool(process.env.REACT_APP_IBBTC_WBTC_POLY_SETT),
+	MSTABLE: toBool(process.env.REACT_APP_MSTABLE_SETT),
 };
 
 export const ZERO = new BigNumber(0);
@@ -88,7 +89,7 @@ export const MAX = Web3.utils.toTwosComplement(-1);
 export const CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS = '0x93054188d876f558f4a66B2EF1d97d16eDf0895B';
 export const RENVM_GATEWAY_ADDRESS = '0xe4b679400F0f267212D5D812B95f58C83243EE71';
 export const RENVM_NETWORK = 'mainnet';
-export const DEBUG = process.env.NODE_ENV !== 'production';
+export const DEBUG = process.env.REACT_APP_BUILD_ENV ? process.env.REACT_APP_BUILD_ENV === 'development' : true;
 export const ZERO_ADDR = '0x0000000000000000000000000000000000000000';
 
 // time constants
@@ -104,36 +105,3 @@ export const baseRetryOptions = {
 };
 export const defaultRetryOptions: PartialAttemptOptions<void> = baseRetryOptions;
 export const getDefaultRetryOptions = <T>(): PartialAttemptOptions<T> => baseRetryOptions;
-
-export const LEADERBOARD_RANKS: LeaderboardRank[] = [
-	{
-		name: 'Frenzy Badger',
-		boostRangeStart: 2.6,
-		boostRangeEnd: 3,
-		signatureColor: '#F44336',
-	},
-	{
-		name: 'Hyper Badger',
-		boostRangeStart: 2.2,
-		boostRangeEnd: 2.6,
-		signatureColor: '#A274D1',
-	},
-	{
-		name: 'Hero Badger',
-		boostRangeStart: 1.8,
-		boostRangeEnd: 2.2,
-		signatureColor: '#40C6FF',
-	},
-	{
-		name: 'Neo Badger',
-		boostRangeStart: 1.4,
-		boostRangeEnd: 1.8,
-		signatureColor: '#74D189',
-	},
-	{
-		name: 'Basic Badger',
-		boostRangeStart: 1,
-		boostRangeEnd: 1.4,
-		signatureColor: '#F2A52B',
-	},
-];

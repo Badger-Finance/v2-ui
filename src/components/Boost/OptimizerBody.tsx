@@ -7,8 +7,8 @@ import { StoreContext } from '../../mobx/store-context';
 import { Skeleton } from '@material-ui/lab';
 import { formatWithoutExtraZeros } from '../../mobx/utils/helpers';
 import { NativeBox } from './NativeBox';
-import BigNumber from 'bignumber.js';
 import { NonNativeBox } from './NonNativeBox';
+import { sanitizeMultiplierValue } from '../../utils/boost-ranks';
 
 const BoostLoader = withStyles((theme) => ({
 	root: {
@@ -33,8 +33,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-type BoostCalculatorContainerProps = {
-	boost: string;
+type OptimizerBodyProps = {
+	multiplier: number;
 	native: string;
 	nativeToAdd?: string;
 	nonNative: string;
@@ -45,13 +45,14 @@ type BoostCalculatorContainerProps = {
 };
 
 export const OptimizerBody = observer(
-	(props: BoostCalculatorContainerProps): JSX.Element => {
+	(props: OptimizerBodyProps): JSX.Element => {
 		const {
 			user: { accountDetails },
+			wallet: { connectedAddress },
 		} = React.useContext(StoreContext);
 
 		const {
-			boost,
+			multiplier,
 			native,
 			nonNative,
 			nativeToAdd,
@@ -66,48 +67,67 @@ export const OptimizerBody = observer(
 		const smallScreen = useMediaQuery(theme.breakpoints.down(706));
 		const extraSmallScreen = useMediaQuery(theme.breakpoints.down(500));
 
-		const isLoading = !accountDetails;
-		const sanitizedBoost = Math.min(Number(boost), 3);
+		const isLoading = !!connectedAddress && accountDetails === undefined;
+		const sanitizedMultiplier = sanitizeMultiplierValue(Number(multiplier));
 
 		const handleApplyRemaining = (amountToAdd: string) => {
-			if (isLoading || !native) return;
-
 			const increasedNative = Number(native) + Number(amountToAdd);
+
+			if (isNaN(increasedNative)) {
+				return;
+			}
+
 			onNativeChange(increasedNative.toString());
 		};
 
-		const handleApplyNextLevelAmount = (amountToReachNextLevel: BigNumber) => {
-			if (isLoading || !native) return;
+		const handleApplyNextLevelAmount = (amountToReachNextLevel: number) => {
+			const amountToReach = amountToReachNextLevel + Number(native);
 
-			onNativeChange(formatWithoutExtraZeros(amountToReachNextLevel.plus(native), 4));
+			if (isNaN(Number(amountToReach))) {
+				return;
+			}
+
+			onNativeChange(formatWithoutExtraZeros(amountToReach, 4));
 		};
 
 		const handleIncreaseNative = () => {
-			if (isLoading || !native) return;
-
 			const increasedNative = Number(native) + 1000;
+
+			if (isNaN(increasedNative)) {
+				return;
+			}
+
 			onNativeChange(increasedNative.toString());
 		};
 
 		const handleReduceNative = () => {
-			if (isLoading || !native) return;
-
 			const reducedNative = Number(native) - 1000;
+
+			if (isNaN(reducedNative)) {
+				return;
+			}
+
 			const sanitizedReducedNative = Math.max(reducedNative, 0);
 			onNativeChange(sanitizedReducedNative.toString());
 		};
 
 		const handleIncreaseNonNative = () => {
-			if (isLoading || !nonNative) return;
-
 			const increaseNonNative = Number(nonNative) + 1000;
+
+			if (isNaN(increaseNonNative)) {
+				return;
+			}
+
 			onNonNativeChange(increaseNonNative.toString());
 		};
 
 		const handleReduceNonNative = () => {
-			if (isLoading || !nonNative) return;
-
 			const reducedNonNative = Number(nonNative) - 1000;
+
+			if (isNaN(reducedNonNative)) {
+				return;
+			}
+
 			const sanitizedReducedNonNative = Math.max(reducedNonNative, 0);
 			onNonNativeChange(sanitizedReducedNonNative.toString());
 		};
@@ -115,12 +135,12 @@ export const OptimizerBody = observer(
 		const badgerScoreContent = isLoading ? (
 			<BoostLoader variant="rect" />
 		) : (
-			<BoostBadgerAnimation boost={sanitizedBoost} />
+			<BoostBadgerAnimation multiplier={sanitizedMultiplier} />
 		);
 
 		const nativeBox = (
 			<NativeBox
-				currentBoost={boost}
+				currentMultiplier={multiplier}
 				nativeBalance={native}
 				nonNativeBalance={nonNative}
 				isLoading={isLoading}

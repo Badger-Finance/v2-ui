@@ -6,6 +6,7 @@ export interface Account {
 	id: string;
 	boost: number;
 	boostRank: number;
+	stakeRatio: number;
 	nativeBalance: number;
 	nonNativeBalance: number;
 	multipliers: BoostMultipliers;
