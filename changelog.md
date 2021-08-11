@@ -1,5 +1,33 @@
 # v2 UI Changelog
 
+### Hotfix - 08/09/2021
+
+-   Add more detailed information to the INFO tab for each vault
+
+### Hotfix - 08/07/2021
+
+-   fix "My boost" apy showing on non-emission setts
+-   correct fee for tricrypto1 pool
+-   update tooltip to show user specific ROI
+
+### Hotfix - 08/06/2021
+
+-   Add tricrypto2 sett
+-   Remove fees from tricrypto (old) sett
+-   Fix notify.js link
+-   Add deprecated vault handling
+-   improved digg reporting
+
+### v2.8.5 - 08/05/2021
+
+-   Badger Boost v2 launch
+-   Boost Optimizer release
+-   API handling for more accurate pre-production environment
+
+### Hotfix - 07/31/2021
+
+-   restored getCurrentBlock calls to fix ibBTC ROI display
+
 ### Hotfix - 07/28/2021
 
 -   fixed an issue causing cvxCRV wallet balances to not be displayed

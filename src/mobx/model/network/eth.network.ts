@@ -28,7 +28,7 @@ export class Ethereum extends Network {
 		return [
 			this.deploy.sett_system.vaults['native.cvxCrv'],
 			this.deploy.sett_system.vaults['native.cvx'],
-			this.deploy.sett_system.vaults['native.tricryptoCrv'],
+			this.deploy.sett_system.vaults['native.tricryptoCrv2'],
 			this.deploy.sett_system.vaults['native.sbtcCrv'],
 			this.deploy.sett_system.vaults['native.renCrv'],
 			this.deploy.sett_system.vaults['native.tbtcCrv'],
@@ -46,8 +46,12 @@ export class Ethereum extends Network {
 			this.deploy.sett_system.vaults['native.uniDiggWbtc'],
 			this.deploy.sett_system.vaults['native.uniBadgerWbtc'],
 			this.deploy.sett_system.vaults['harvest.renCrv'],
+			this.deploy.sett_system.vaults['native.tricryptoCrv'],
 			...(FLAGS.STABILIZATION_SETTS ? [this.deploy.sett_system.vaults['experimental.digg']] : []),
 			...(FLAGS.RENBTC_SETT ? [this.deploy.sett_system.vaults['native.renBtc']] : []),
+			...(FLAGS.MSTABLE
+				? [this.deploy.sett_system.vaults['native.imBtc'], this.deploy.sett_system.vaults['native.fPmBtcHBtc']]
+				: []),
 		];
 	}
 
@@ -279,6 +283,16 @@ const ethSettDefinitions: BadgerSett[] = [
 	},
 	{
 		depositToken: {
+			address: ETH_DEPLOY.tokens['curve.tricrypto2'],
+			decimals: 18,
+		},
+		vaultToken: {
+			address: ETH_DEPLOY.sett_system.vaults['native.tricryptoCrv2'],
+			decimals: 18,
+		},
+	},
+	{
+		depositToken: {
 			address: ETH_DEPLOY.tokens['cvx'],
 			decimals: 18,
 		},
@@ -304,6 +318,27 @@ const ethSettDefinitions: BadgerSett[] = [
 		},
 		vaultToken: {
 			address: ETH_DEPLOY.sett_system.vaults['native.renBtc'],
+			decimals: 18,
+		},
+	},
+	{
+		depositToken: {
+			address: ETH_DEPLOY.tokens['imBtc'],
+			decimals: 8,
+		},
+		vaultToken: {
+			address: ETH_DEPLOY.sett_system.vaults['native.imBtc'],
+			decimals: 18,
+		},
+	},
+
+	{
+		depositToken: {
+			address: ETH_DEPLOY.tokens['fPmBtcHBtc'],
+			decimals: 8,
+		},
+		vaultToken: {
+			address: ETH_DEPLOY.sett_system.vaults['native.fPmBtcHBtc'],
 			decimals: 18,
 		},
 	},

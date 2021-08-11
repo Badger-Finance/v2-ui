@@ -55,11 +55,11 @@ const useStyles = makeStyles((theme) => ({
 
 interface LeaderBoardListItemProps {
 	name: string;
-	usersAmount: number;
-	rankingRangeStart: number;
-	rankingRangeEnd: number;
-	boostRangeStart: number;
-	boostRangeEnd: number;
+	badgersCount: number;
+	rankStart: number;
+	rankEnd: number;
+	firstEntryPosition?: number;
+	lastEntryPosition?: number;
 	signatureColor: string;
 	isUserInRank?: boolean;
 }
@@ -69,11 +69,11 @@ export default function LeaderBoardListItem(props: LeaderBoardListItemProps): JS
 
 	const {
 		name,
-		usersAmount,
-		rankingRangeStart,
-		rankingRangeEnd,
-		boostRangeStart,
-		boostRangeEnd,
+		badgersCount,
+		rankStart,
+		rankEnd,
+		firstEntryPosition,
+		lastEntryPosition,
 		signatureColor,
 		isUserInRank = false,
 	} = props;
@@ -97,9 +97,11 @@ export default function LeaderBoardListItem(props: LeaderBoardListItemProps): JS
 								<Typography variant="body2">{name}</Typography>
 								{isUserInRank && <span className={classes.userRankBadge}>YOU</span>}
 							</Box>
-							<Typography variant="caption" color="textSecondary" className={classes.rangeText}>
-								{`${rankingRangeStart} - ${rankingRangeEnd}`}
-							</Typography>
+							{firstEntryPosition !== undefined && lastEntryPosition !== undefined && (
+								<Typography variant="caption" color="textSecondary" className={classes.rangeText}>
+									{`${firstEntryPosition} - ${lastEntryPosition}`}
+								</Typography>
+							)}
 						</Box>
 					</Grid>
 				</Grid>
@@ -114,7 +116,7 @@ export default function LeaderBoardListItem(props: LeaderBoardListItemProps): JS
 				>
 					<>
 						{isMobile && <Typography>Badgers</Typography>}
-						{usersAmount}
+						{badgersCount}
 					</>
 				</Grid>
 				<Grid
@@ -128,7 +130,7 @@ export default function LeaderBoardListItem(props: LeaderBoardListItemProps): JS
 				>
 					<>
 						{isMobile && <Typography>Boost Range</Typography>}
-						{`${boostRangeStart.toFixed(2)} - ${boostRangeEnd.toFixed(2)}`}
+						{`${rankStart}x - ${rankEnd}x`}
 					</>
 				</Grid>
 			</Grid>

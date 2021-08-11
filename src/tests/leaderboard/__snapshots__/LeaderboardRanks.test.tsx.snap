@@ -86,7 +86,7 @@ exports[`LeaderboardRanks No user connected, ranks loaded Displays the leaderboa
             <span
               class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
             >
-              1 - 11
+              1 - 4
             </span>
           </div>
         </div>
@@ -94,12 +94,12 @@ exports[`LeaderboardRanks No user connected, ranks loaded Displays the leaderboa
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        10
+        4
       </div>
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        2.60 - 3.00
+        1400x - 2000x
       </div>
     </div>
   </li>
@@ -143,7 +143,7 @@ exports[`LeaderboardRanks No user connected, ranks loaded Displays the leaderboa
             <span
               class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
             >
-              11 - 11
+              5 - 12
             </span>
           </div>
         </div>
@@ -151,12 +151,12 @@ exports[`LeaderboardRanks No user connected, ranks loaded Displays the leaderboa
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        0
+        8
       </div>
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        2.20 - 2.60
+        600x - 1200x
       </div>
     </div>
   </li>
@@ -200,7 +200,7 @@ exports[`LeaderboardRanks No user connected, ranks loaded Displays the leaderboa
             <span
               class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
             >
-              11 - 11
+              13 - 20
             </span>
           </div>
         </div>
@@ -208,12 +208,12 @@ exports[`LeaderboardRanks No user connected, ranks loaded Displays the leaderboa
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        0
+        8
       </div>
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        1.80 - 2.20
+        200x - 500x
       </div>
     </div>
   </li>
@@ -257,7 +257,7 @@ exports[`LeaderboardRanks No user connected, ranks loaded Displays the leaderboa
             <span
               class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
             >
-              11 - 11
+              21 - 28
             </span>
           </div>
         </div>
@@ -265,12 +265,12 @@ exports[`LeaderboardRanks No user connected, ranks loaded Displays the leaderboa
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        0
+        8
       </div>
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        1.40 - 1.80
+        20x - 150x
       </div>
     </div>
   </li>
@@ -314,7 +314,7 @@ exports[`LeaderboardRanks No user connected, ranks loaded Displays the leaderboa
             <span
               class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
             >
-              11 - 11
+              29 - 36
             </span>
           </div>
         </div>
@@ -322,19 +322,19 @@ exports[`LeaderboardRanks No user connected, ranks loaded Displays the leaderboa
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        0
+        8
       </div>
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        1.00 - 1.40
+        1x - 10x
       </div>
     </div>
   </li>
 </div>
 `;
 
-exports[`LeaderboardRanks User connected, ranks loaded Displays user with 1.3 boost, 175 rank, with Basic Badger highlighted 1`] = `
+exports[`LeaderboardRanks User connected, ranks loaded Displays user with 5 boost, NaN rank, with %s highlighted 1`] = `
 <div>
   <li
     class="MuiListItem-root-11 makeStyles-root-3"
@@ -376,7 +376,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 1.3 bo
             <span
               class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
             >
-              1 - 201
+              1 - 4
             </span>
           </div>
         </div>
@@ -384,12 +384,12 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 1.3 bo
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        200
+        4
       </div>
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        2.60 - 3.00
+        1400x - 2000x
       </div>
     </div>
   </li>
@@ -433,7 +433,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 1.3 bo
             <span
               class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
             >
-              201 - 201
+              5 - 12
             </span>
           </div>
         </div>
@@ -441,12 +441,12 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 1.3 bo
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        0
+        8
       </div>
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        2.20 - 2.60
+        600x - 1200x
       </div>
     </div>
   </li>
@@ -490,7 +490,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 1.3 bo
             <span
               class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
             >
-              201 - 201
+              13 - 20
             </span>
           </div>
         </div>
@@ -498,12 +498,12 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 1.3 bo
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        0
+        8
       </div>
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        1.80 - 2.20
+        200x - 500x
       </div>
     </div>
   </li>
@@ -547,7 +547,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 1.3 bo
             <span
               class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
             >
-              201 - 201
+              21 - 28
             </span>
           </div>
         </div>
@@ -555,12 +555,12 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 1.3 bo
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        0
+        8
       </div>
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        1.40 - 1.80
+        20x - 150x
       </div>
     </div>
   </li>
@@ -609,7 +609,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 1.3 bo
             <span
               class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
             >
-              201 - 201
+              29 - 36
             </span>
           </div>
         </div>
@@ -617,19 +617,19 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 1.3 bo
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        0
+        8
       </div>
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        1.00 - 1.40
+        1x - 10x
       </div>
     </div>
   </li>
 </div>
 `;
 
-exports[`LeaderboardRanks User connected, ranks loaded Displays user with 1.8 boost, 105 rank, with Neo Badger highlighted 1`] = `
+exports[`LeaderboardRanks User connected, ranks loaded Displays user with 100 boost, NaN rank, with %s highlighted 1`] = `
 <div>
   <li
     class="MuiListItem-root-11 makeStyles-root-3"
@@ -671,7 +671,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 1.8 bo
             <span
               class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
             >
-              1 - 201
+              1 - 4
             </span>
           </div>
         </div>
@@ -679,12 +679,12 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 1.8 bo
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        200
+        4
       </div>
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        2.60 - 3.00
+        1400x - 2000x
       </div>
     </div>
   </li>
@@ -728,7 +728,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 1.8 bo
             <span
               class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
             >
-              201 - 201
+              5 - 12
             </span>
           </div>
         </div>
@@ -736,12 +736,307 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 1.8 bo
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        0
+        8
       </div>
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        2.20 - 2.60
+        600x - 1200x
+      </div>
+    </div>
+  </li>
+  <li
+    class="MuiListItem-root-11 makeStyles-root-3"
+  >
+    <div
+      class="MuiGrid-root-22 makeStyles-leaderboardRow-5 MuiGrid-container-23 MuiGrid-align-items-xs-center-31"
+    >
+      <div
+        class="MuiGrid-root-22 MuiGrid-item-24 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-5-89 MuiGrid-grid-lg-4-102"
+      >
+        <div
+          class="MuiGrid-root-22 MuiGrid-container-23 MuiGrid-align-items-xs-center-31"
+        >
+          <div
+            class="MuiBox-root-125 MuiBox-root-166 makeStyles-boostBadgerContainer-4"
+          >
+            <div
+              class="makeStyles-container-167"
+            >
+              <img
+                alt="Badger Logo"
+                class="makeStyles-boostImage-168"
+                src="assets/badger-transparent.png"
+              />
+            </div>
+          </div>
+          <div
+            class="MuiBox-root-125 MuiBox-root-169"
+          >
+            <div
+              class="MuiBox-root-125 MuiBox-root-170"
+            >
+              <p
+                class="MuiTypography-root-131 MuiTypography-body2-132"
+              >
+                Hero Badger
+              </p>
+            </div>
+            <span
+              class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
+            >
+              13 - 20
+            </span>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+      >
+        8
+      </div>
+      <div
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+      >
+        200x - 500x
+      </div>
+    </div>
+  </li>
+  <li
+    class="MuiListItem-root-11 makeStyles-root-3"
+  >
+    <div
+      class="MuiGrid-root-22 makeStyles-leaderboardRow-5 makeStyles-usersRank-8 MuiGrid-container-23 MuiGrid-align-items-xs-center-31"
+    >
+      <div
+        class="MuiGrid-root-22 MuiGrid-item-24 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-5-89 MuiGrid-grid-lg-4-102"
+      >
+        <div
+          class="MuiGrid-root-22 MuiGrid-container-23 MuiGrid-align-items-xs-center-31"
+        >
+          <div
+            class="MuiBox-root-125 MuiBox-root-171 makeStyles-boostBadgerContainer-4"
+          >
+            <div
+              class="makeStyles-container-172"
+            >
+              <img
+                alt="Badger Logo"
+                class="makeStyles-boostImage-173"
+                src="assets/badger-transparent.png"
+              />
+            </div>
+          </div>
+          <div
+            class="MuiBox-root-125 MuiBox-root-174"
+          >
+            <div
+              class="MuiBox-root-125 MuiBox-root-175"
+            >
+              <p
+                class="MuiTypography-root-131 MuiTypography-body2-132"
+              >
+                Neo Badger
+              </p>
+              <span
+                class="makeStyles-userRankBadge-10"
+              >
+                YOU
+              </span>
+            </div>
+            <span
+              class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
+            >
+              21 - 28
+            </span>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+      >
+        8
+      </div>
+      <div
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+      >
+        20x - 150x
+      </div>
+    </div>
+  </li>
+  <li
+    class="MuiListItem-root-11 makeStyles-root-3"
+  >
+    <div
+      class="MuiGrid-root-22 makeStyles-leaderboardRow-5 MuiGrid-container-23 MuiGrid-align-items-xs-center-31"
+    >
+      <div
+        class="MuiGrid-root-22 MuiGrid-item-24 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-5-89 MuiGrid-grid-lg-4-102"
+      >
+        <div
+          class="MuiGrid-root-22 MuiGrid-container-23 MuiGrid-align-items-xs-center-31"
+        >
+          <div
+            class="MuiBox-root-125 MuiBox-root-176 makeStyles-boostBadgerContainer-4"
+          >
+            <div
+              class="makeStyles-container-177"
+            >
+              <img
+                alt="Badger Logo"
+                class="makeStyles-boostImage-178"
+                src="assets/badger-transparent.png"
+              />
+            </div>
+          </div>
+          <div
+            class="MuiBox-root-125 MuiBox-root-179"
+          >
+            <div
+              class="MuiBox-root-125 MuiBox-root-180"
+            >
+              <p
+                class="MuiTypography-root-131 MuiTypography-body2-132"
+              >
+                Basic Badger
+              </p>
+            </div>
+            <span
+              class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
+            >
+              29 - 36
+            </span>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+      >
+        8
+      </div>
+      <div
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+      >
+        1x - 10x
+      </div>
+    </div>
+  </li>
+</div>
+`;
+
+exports[`LeaderboardRanks User connected, ranks loaded Displays user with 400 boost, NaN rank, with %s highlighted 1`] = `
+<div>
+  <li
+    class="MuiListItem-root-11 makeStyles-root-3"
+  >
+    <div
+      class="MuiGrid-root-22 makeStyles-leaderboardRow-5 MuiGrid-container-23 MuiGrid-align-items-xs-center-31"
+    >
+      <div
+        class="MuiGrid-root-22 MuiGrid-item-24 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-5-89 MuiGrid-grid-lg-4-102"
+      >
+        <div
+          class="MuiGrid-root-22 MuiGrid-container-23 MuiGrid-align-items-xs-center-31"
+        >
+          <div
+            class="MuiBox-root-125 MuiBox-root-126 makeStyles-boostBadgerContainer-4"
+          >
+            <div
+              class="makeStyles-container-127"
+            >
+              <img
+                alt="Badger Logo"
+                class="makeStyles-boostImage-128"
+                src="assets/badger-transparent.png"
+              />
+            </div>
+          </div>
+          <div
+            class="MuiBox-root-125 MuiBox-root-129"
+          >
+            <div
+              class="MuiBox-root-125 MuiBox-root-130"
+            >
+              <p
+                class="MuiTypography-root-131 MuiTypography-body2-132"
+              >
+                Frenzy Badger
+              </p>
+            </div>
+            <span
+              class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
+            >
+              1 - 4
+            </span>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+      >
+        4
+      </div>
+      <div
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+      >
+        1400x - 2000x
+      </div>
+    </div>
+  </li>
+  <li
+    class="MuiListItem-root-11 makeStyles-root-3"
+  >
+    <div
+      class="MuiGrid-root-22 makeStyles-leaderboardRow-5 MuiGrid-container-23 MuiGrid-align-items-xs-center-31"
+    >
+      <div
+        class="MuiGrid-root-22 MuiGrid-item-24 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-5-89 MuiGrid-grid-lg-4-102"
+      >
+        <div
+          class="MuiGrid-root-22 MuiGrid-container-23 MuiGrid-align-items-xs-center-31"
+        >
+          <div
+            class="MuiBox-root-125 MuiBox-root-161 makeStyles-boostBadgerContainer-4"
+          >
+            <div
+              class="makeStyles-container-162"
+            >
+              <img
+                alt="Badger Logo"
+                class="makeStyles-boostImage-163"
+                src="assets/badger-transparent.png"
+              />
+            </div>
+          </div>
+          <div
+            class="MuiBox-root-125 MuiBox-root-164"
+          >
+            <div
+              class="MuiBox-root-125 MuiBox-root-165"
+            >
+              <p
+                class="MuiTypography-root-131 MuiTypography-body2-132"
+              >
+                Hyper Badger
+              </p>
+            </div>
+            <span
+              class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
+            >
+              5 - 12
+            </span>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+      >
+        8
+      </div>
+      <div
+        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
+      >
+        600x - 1200x
       </div>
     </div>
   </li>
@@ -790,7 +1085,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 1.8 bo
             <span
               class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
             >
-              201 - 201
+              13 - 20
             </span>
           </div>
         </div>
@@ -798,12 +1093,12 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 1.8 bo
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        0
+        8
       </div>
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        1.80 - 2.20
+        200x - 500x
       </div>
     </div>
   </li>
@@ -847,7 +1142,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 1.8 bo
             <span
               class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
             >
-              201 - 201
+              21 - 28
             </span>
           </div>
         </div>
@@ -855,12 +1150,12 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 1.8 bo
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        0
+        8
       </div>
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        1.40 - 1.80
+        20x - 150x
       </div>
     </div>
   </li>
@@ -904,7 +1199,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 1.8 bo
             <span
               class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
             >
-              201 - 201
+              29 - 36
             </span>
           </div>
         </div>
@@ -912,19 +1207,19 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 1.8 bo
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        0
+        8
       </div>
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        1.00 - 1.40
+        1x - 10x
       </div>
     </div>
   </li>
 </div>
 `;
 
-exports[`LeaderboardRanks User connected, ranks loaded Displays user with 2 boost, 55 rank, with Hero Badger highlighted 1`] = `
+exports[`LeaderboardRanks User connected, ranks loaded Displays user with 800 boost, NaN rank, with %s highlighted 1`] = `
 <div>
   <li
     class="MuiListItem-root-11 makeStyles-root-3"
@@ -966,7 +1261,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 2 boos
             <span
               class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
             >
-              1 - 201
+              1 - 4
             </span>
           </div>
         </div>
@@ -974,307 +1269,12 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 2 boos
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        200
+        4
       </div>
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        2.60 - 3.00
-      </div>
-    </div>
-  </li>
-  <li
-    class="MuiListItem-root-11 makeStyles-root-3"
-  >
-    <div
-      class="MuiGrid-root-22 makeStyles-leaderboardRow-5 MuiGrid-container-23 MuiGrid-align-items-xs-center-31"
-    >
-      <div
-        class="MuiGrid-root-22 MuiGrid-item-24 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-5-89 MuiGrid-grid-lg-4-102"
-      >
-        <div
-          class="MuiGrid-root-22 MuiGrid-container-23 MuiGrid-align-items-xs-center-31"
-        >
-          <div
-            class="MuiBox-root-125 MuiBox-root-161 makeStyles-boostBadgerContainer-4"
-          >
-            <div
-              class="makeStyles-container-162"
-            >
-              <img
-                alt="Badger Logo"
-                class="makeStyles-boostImage-163"
-                src="assets/badger-transparent.png"
-              />
-            </div>
-          </div>
-          <div
-            class="MuiBox-root-125 MuiBox-root-164"
-          >
-            <div
-              class="MuiBox-root-125 MuiBox-root-165"
-            >
-              <p
-                class="MuiTypography-root-131 MuiTypography-body2-132"
-              >
-                Hyper Badger
-              </p>
-            </div>
-            <span
-              class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
-            >
-              201 - 201
-            </span>
-          </div>
-        </div>
-      </div>
-      <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
-      >
-        0
-      </div>
-      <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
-      >
-        2.20 - 2.60
-      </div>
-    </div>
-  </li>
-  <li
-    class="MuiListItem-root-11 makeStyles-root-3"
-  >
-    <div
-      class="MuiGrid-root-22 makeStyles-leaderboardRow-5 makeStyles-usersRank-8 MuiGrid-container-23 MuiGrid-align-items-xs-center-31"
-    >
-      <div
-        class="MuiGrid-root-22 MuiGrid-item-24 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-5-89 MuiGrid-grid-lg-4-102"
-      >
-        <div
-          class="MuiGrid-root-22 MuiGrid-container-23 MuiGrid-align-items-xs-center-31"
-        >
-          <div
-            class="MuiBox-root-125 MuiBox-root-166 makeStyles-boostBadgerContainer-4"
-          >
-            <div
-              class="makeStyles-container-167"
-            >
-              <img
-                alt="Badger Logo"
-                class="makeStyles-boostImage-168"
-                src="assets/badger-transparent.png"
-              />
-            </div>
-          </div>
-          <div
-            class="MuiBox-root-125 MuiBox-root-169"
-          >
-            <div
-              class="MuiBox-root-125 MuiBox-root-170"
-            >
-              <p
-                class="MuiTypography-root-131 MuiTypography-body2-132"
-              >
-                Hero Badger
-              </p>
-              <span
-                class="makeStyles-userRankBadge-10"
-              >
-                YOU
-              </span>
-            </div>
-            <span
-              class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
-            >
-              201 - 201
-            </span>
-          </div>
-        </div>
-      </div>
-      <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
-      >
-        0
-      </div>
-      <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
-      >
-        1.80 - 2.20
-      </div>
-    </div>
-  </li>
-  <li
-    class="MuiListItem-root-11 makeStyles-root-3"
-  >
-    <div
-      class="MuiGrid-root-22 makeStyles-leaderboardRow-5 MuiGrid-container-23 MuiGrid-align-items-xs-center-31"
-    >
-      <div
-        class="MuiGrid-root-22 MuiGrid-item-24 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-5-89 MuiGrid-grid-lg-4-102"
-      >
-        <div
-          class="MuiGrid-root-22 MuiGrid-container-23 MuiGrid-align-items-xs-center-31"
-        >
-          <div
-            class="MuiBox-root-125 MuiBox-root-171 makeStyles-boostBadgerContainer-4"
-          >
-            <div
-              class="makeStyles-container-172"
-            >
-              <img
-                alt="Badger Logo"
-                class="makeStyles-boostImage-173"
-                src="assets/badger-transparent.png"
-              />
-            </div>
-          </div>
-          <div
-            class="MuiBox-root-125 MuiBox-root-174"
-          >
-            <div
-              class="MuiBox-root-125 MuiBox-root-175"
-            >
-              <p
-                class="MuiTypography-root-131 MuiTypography-body2-132"
-              >
-                Neo Badger
-              </p>
-            </div>
-            <span
-              class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
-            >
-              201 - 201
-            </span>
-          </div>
-        </div>
-      </div>
-      <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
-      >
-        0
-      </div>
-      <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
-      >
-        1.40 - 1.80
-      </div>
-    </div>
-  </li>
-  <li
-    class="MuiListItem-root-11 makeStyles-root-3"
-  >
-    <div
-      class="MuiGrid-root-22 makeStyles-leaderboardRow-5 MuiGrid-container-23 MuiGrid-align-items-xs-center-31"
-    >
-      <div
-        class="MuiGrid-root-22 MuiGrid-item-24 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-5-89 MuiGrid-grid-lg-4-102"
-      >
-        <div
-          class="MuiGrid-root-22 MuiGrid-container-23 MuiGrid-align-items-xs-center-31"
-        >
-          <div
-            class="MuiBox-root-125 MuiBox-root-176 makeStyles-boostBadgerContainer-4"
-          >
-            <div
-              class="makeStyles-container-177"
-            >
-              <img
-                alt="Badger Logo"
-                class="makeStyles-boostImage-178"
-                src="assets/badger-transparent.png"
-              />
-            </div>
-          </div>
-          <div
-            class="MuiBox-root-125 MuiBox-root-179"
-          >
-            <div
-              class="MuiBox-root-125 MuiBox-root-180"
-            >
-              <p
-                class="MuiTypography-root-131 MuiTypography-body2-132"
-              >
-                Basic Badger
-              </p>
-            </div>
-            <span
-              class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
-            >
-              201 - 201
-            </span>
-          </div>
-        </div>
-      </div>
-      <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
-      >
-        0
-      </div>
-      <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
-      >
-        1.00 - 1.40
-      </div>
-    </div>
-  </li>
-</div>
-`;
-
-exports[`LeaderboardRanks User connected, ranks loaded Displays user with 2.3 boost, 15 rank, with Hyper Badger highlighted 1`] = `
-<div>
-  <li
-    class="MuiListItem-root-11 makeStyles-root-3"
-  >
-    <div
-      class="MuiGrid-root-22 makeStyles-leaderboardRow-5 MuiGrid-container-23 MuiGrid-align-items-xs-center-31"
-    >
-      <div
-        class="MuiGrid-root-22 MuiGrid-item-24 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-5-89 MuiGrid-grid-lg-4-102"
-      >
-        <div
-          class="MuiGrid-root-22 MuiGrid-container-23 MuiGrid-align-items-xs-center-31"
-        >
-          <div
-            class="MuiBox-root-125 MuiBox-root-126 makeStyles-boostBadgerContainer-4"
-          >
-            <div
-              class="makeStyles-container-127"
-            >
-              <img
-                alt="Badger Logo"
-                class="makeStyles-boostImage-128"
-                src="assets/badger-transparent.png"
-              />
-            </div>
-          </div>
-          <div
-            class="MuiBox-root-125 MuiBox-root-129"
-          >
-            <div
-              class="MuiBox-root-125 MuiBox-root-130"
-            >
-              <p
-                class="MuiTypography-root-131 MuiTypography-body2-132"
-              >
-                Frenzy Badger
-              </p>
-            </div>
-            <span
-              class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
-            >
-              1 - 201
-            </span>
-          </div>
-        </div>
-      </div>
-      <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
-      >
-        200
-      </div>
-      <div
-        class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
-      >
-        2.60 - 3.00
+        1400x - 2000x
       </div>
     </div>
   </li>
@@ -1323,7 +1323,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 2.3 bo
             <span
               class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
             >
-              201 - 201
+              5 - 12
             </span>
           </div>
         </div>
@@ -1331,12 +1331,12 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 2.3 bo
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        0
+        8
       </div>
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        2.20 - 2.60
+        600x - 1200x
       </div>
     </div>
   </li>
@@ -1380,7 +1380,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 2.3 bo
             <span
               class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
             >
-              201 - 201
+              13 - 20
             </span>
           </div>
         </div>
@@ -1388,12 +1388,12 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 2.3 bo
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        0
+        8
       </div>
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        1.80 - 2.20
+        200x - 500x
       </div>
     </div>
   </li>
@@ -1437,7 +1437,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 2.3 bo
             <span
               class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
             >
-              201 - 201
+              21 - 28
             </span>
           </div>
         </div>
@@ -1445,12 +1445,12 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 2.3 bo
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        0
+        8
       </div>
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        1.40 - 1.80
+        20x - 150x
       </div>
     </div>
   </li>
@@ -1494,7 +1494,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 2.3 bo
             <span
               class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
             >
-              201 - 201
+              29 - 36
             </span>
           </div>
         </div>
@@ -1502,25 +1502,25 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 2.3 bo
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        0
+        8
       </div>
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        1.00 - 1.40
+        1x - 10x
       </div>
     </div>
   </li>
 </div>
 `;
 
-exports[`LeaderboardRanks User connected, ranks loaded Displays user with 3 boost, 1 rank, with Frenzy Badger highlighted 1`] = `
+exports[`LeaderboardRanks User connected, ranks loaded Displays user with 2000 boost, NaN rank, with %s highlighted 1`] = `
 <div>
   <li
     class="MuiListItem-root-11 makeStyles-root-3"
   >
     <div
-      class="MuiGrid-root-22 makeStyles-leaderboardRow-5 MuiGrid-container-23 MuiGrid-align-items-xs-center-31"
+      class="MuiGrid-root-22 makeStyles-leaderboardRow-5 makeStyles-usersRank-8 MuiGrid-container-23 MuiGrid-align-items-xs-center-31"
     >
       <div
         class="MuiGrid-root-22 MuiGrid-item-24 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-5-89 MuiGrid-grid-lg-4-102"
@@ -1552,11 +1552,16 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 3 boos
               >
                 Frenzy Badger
               </p>
+              <span
+                class="makeStyles-userRankBadge-10"
+              >
+                YOU
+              </span>
             </div>
             <span
               class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
             >
-              1 - 201
+              1 - 4
             </span>
           </div>
         </div>
@@ -1564,12 +1569,12 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 3 boos
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        200
+        4
       </div>
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        2.60 - 3.00
+        1400x - 2000x
       </div>
     </div>
   </li>
@@ -1613,7 +1618,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 3 boos
             <span
               class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
             >
-              201 - 201
+              5 - 12
             </span>
           </div>
         </div>
@@ -1621,12 +1626,12 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 3 boos
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        0
+        8
       </div>
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        2.20 - 2.60
+        600x - 1200x
       </div>
     </div>
   </li>
@@ -1670,7 +1675,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 3 boos
             <span
               class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
             >
-              201 - 201
+              13 - 20
             </span>
           </div>
         </div>
@@ -1678,12 +1683,12 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 3 boos
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        0
+        8
       </div>
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        1.80 - 2.20
+        200x - 500x
       </div>
     </div>
   </li>
@@ -1727,7 +1732,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 3 boos
             <span
               class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
             >
-              201 - 201
+              21 - 28
             </span>
           </div>
         </div>
@@ -1735,12 +1740,12 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 3 boos
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        0
+        8
       </div>
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        1.40 - 1.80
+        20x - 150x
       </div>
     </div>
   </li>
@@ -1784,7 +1789,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 3 boos
             <span
               class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
             >
-              201 - 201
+              29 - 36
             </span>
           </div>
         </div>
@@ -1792,12 +1797,12 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 3 boos
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        0
+        8
       </div>
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        1.00 - 1.40
+        1x - 10x
       </div>
     </div>
   </li>

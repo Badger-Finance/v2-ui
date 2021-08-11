@@ -16,7 +16,7 @@ const useStyles = (signatureColor: string) => {
 			background: signatureColor,
 		},
 		boostImage: {
-			width: '60%',
+			width: '70%',
 		},
 	}));
 };

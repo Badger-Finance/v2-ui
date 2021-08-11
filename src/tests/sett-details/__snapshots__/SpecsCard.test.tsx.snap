@@ -201,20 +201,6 @@ exports[`Specs Section displays sett information 1`] = `
           <p
             class="MuiTypography-root-138 makeStyles-specName-222 MuiTypography-body1-140 MuiTypography-colorTextSecondary-164 MuiTypography-displayInline-166"
           >
-            Strategist Performance Fee
-          </p>
-          <h6
-            class="MuiTypography-root-138 MuiTypography-subtitle2-150 MuiTypography-displayInline-166"
-          >
-            10%
-          </h6>
-        </div>
-        <div
-          class="MuiGrid-root-32 MuiGrid-container-33 MuiGrid-justify-xs-space-between-52"
-        >
-          <p
-            class="MuiTypography-root-138 makeStyles-specName-222 MuiTypography-body1-140 MuiTypography-colorTextSecondary-164 MuiTypography-displayInline-166"
-          >
             Withdraw Fee
           </p>
           <h6
