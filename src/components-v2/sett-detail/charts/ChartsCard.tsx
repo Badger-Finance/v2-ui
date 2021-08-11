@@ -1,24 +1,65 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Tab, Tabs } from '@material-ui/core';
-import { ValueTab } from './ValueTab';
+import { Grid, Tab, Tabs } from '@material-ui/core';
+import { ChartContent } from './ChartContent';
 import { CardContainer } from '../styled';
+import { Sett } from '../../../mobx/model/setts/sett';
+import { fetchSettChart, SettChartTimeframe } from './utils';
+import { SettChartData } from '../../../mobx/model/setts/sett-charts';
+import { ChartsHeader } from './ChartsHeader';
 
-type Mode = 'value' | 'ratio';
+export type ChartMode = 'value' | 'ratio';
 
 const useStyles = makeStyles((theme) => ({
+	root: {
+		display: 'flex',
+		flexDirection: 'column',
+	},
 	content: {
+		flexGrow: 1,
+		maxWidth: '100%',
+		flexShrink: 0,
 		padding: theme.spacing(2, 3),
 	},
 	tabHeader: { background: 'rgba(0,0,0,.2)' },
+	header: {
+		marginBottom: theme.spacing(2),
+	},
+	chartContainer: {
+		display: 'flex',
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
 }));
 
-export const ChartsCard = (): JSX.Element => {
+interface Props {
+	sett: Sett;
+}
+
+export const ChartsCard = ({ sett }: Props): JSX.Element => {
 	const classes = useStyles();
-	const [mode, setMode] = useState<Mode>('value');
+	const [loading, setLoading] = useState(false);
+	const [chartData, setChartData] = useState<SettChartData[] | null>(null);
+	const [mode, setMode] = useState<ChartMode>('value');
+	const [timeframe, setTimeframe] = useState(SettChartTimeframe.week);
+
+	const handleFetch = (fetchedData: SettChartData[] | null) => {
+		setChartData(fetchedData);
+		setLoading(false);
+	};
+
+	const handleFetchError = (error: Error) => {
+		console.error(error);
+		setLoading(false);
+	};
+
+	React.useEffect(() => {
+		setLoading(true);
+		fetchSettChart(sett, timeframe).then(handleFetch).catch(handleFetchError);
+	}, [sett, timeframe]);
 
 	return (
-		<CardContainer>
+		<CardContainer className={classes.root}>
 			<Tabs
 				variant="fullWidth"
 				className={classes.tabHeader}
@@ -30,9 +71,14 @@ export const ChartsCard = (): JSX.Element => {
 				<Tab onClick={() => setMode('value')} value="value" label="Value" />
 				<Tab onClick={() => setMode('ratio')} value="ratio" label="Token Ratio" />
 			</Tabs>
-			<div className={classes.content}>
-				<ValueTab />
-			</div>
+			<Grid container direction="column" className={classes.content}>
+				<Grid item container alignItems="center" justify="space-between" className={classes.header}>
+					<ChartsHeader mode={mode} timeframe={timeframe} onTimeframeChange={setTimeframe} />
+				</Grid>
+				<Grid item xs className={classes.chartContainer}>
+					<ChartContent mode={mode} data={chartData} loading={loading} />
+				</Grid>
+			</Grid>
 		</CardContainer>
 	);
 };
