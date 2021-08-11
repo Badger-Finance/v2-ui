@@ -33,7 +33,7 @@ export const darkTheme = createMuiTheme({
 		h2: { fontSize: '2.2rem', fontWeight: 800, marginBottom: '.2rem' },
 		h5: { fontWeight: 800 },
 		subtitle1: { fontWeight: 600 },
-		body1: { fontWeight: 601 },
+		body1: { fontWeight: 600 },
 	},
 	shape: {
 		borderRadius: 8,
