@@ -21,7 +21,7 @@ export interface SettModalProps {
 
 export const SettDeposit = observer(({ open = false, sett, badgerSett, onClose }: SettModalProps) => {
 	const store = useContext(StoreContext);
-	const { contracts, user } = store;
+	const { contracts, user, wallet } = store;
 
 	const [amount, setAmount] = useState<string>();
 	const { onValidChange, inputProps } = useNumericInput();
@@ -31,7 +31,7 @@ export const SettDeposit = observer(({ open = false, sett, badgerSett, onClose }
 	const vaultCaps = user.vaultCaps[sett.vaultToken];
 	const isLoading = contracts.settsBeingDeposited.findIndex((_sett) => _sett.name === sett.name) >= 0;
 
-	let canDeposit = !!amount && depositBalance.tokenBalance.gt(0);
+	let canDeposit = !!wallet.connectedAddress && !!amount && depositBalance.tokenBalance.gt(0);
 
 	if (canDeposit && vaultCaps) {
 		const vaultHasSpace = vaultCaps.vaultCap.tokenBalance.gte(depositBalance.tokenBalance);
