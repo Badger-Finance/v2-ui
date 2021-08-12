@@ -50,8 +50,7 @@ export class TokenBalance {
 			return `< 0.${'0'.repeat(decimals - 1)}1`;
 		}
 
-		// removes extra zeros
-		return Number(this.balance.toFixed(decimals)).toString();
+		return this.balance.toFixed(decimals).toString();
 	}
 
 	balanceValueDisplay(currency: string): string | undefined {
