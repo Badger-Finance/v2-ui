@@ -3,8 +3,8 @@ import CurrencyDisplay from 'components-v2/common/CurrencyDisplay';
 import React from 'react';
 
 const useStyles = makeStyles((theme) => ({
-	headerContainer: {
-		marginBottom: theme.spacing(1),
+	root: {
+		padding: theme.spacing(0, 0, 1, 2),
 	},
 	vauleItem: {
 		paddingLeft: theme.spacing(3),
@@ -15,9 +15,6 @@ const useStyles = makeStyles((theme) => ({
 		},
 		display: 'flex',
 		alignItems: 'flex-end',
-	},
-	roiText: {
-		marginLeft: theme.spacing(6),
 	},
 }));
 
@@ -37,26 +34,29 @@ export default function TableHeader(props: TableHeaderProps): JSX.Element {
 	};
 
 	return (
-		<Grid container className={classes.headerContainer}>
-			<Grid item container xs={12} sm={4} className={classes.vauleItem} spacing={1}>
-				<Grid item>
-					<Typography variant="body1" color="textPrimary">
-						{title}
+		<Grid container className={classes.root}>
+			{/*leave 3 grid spaces for the action buttons section which has no column name*/}
+			<Grid item container xs={12} md={9}>
+				<Grid item container xs={12} sm={5}>
+					<Grid item>
+						<Typography variant="body1" color="textPrimary">
+							{title}
+						</Typography>
+					</Grid>
+					<Grid item>
+						<CurrencyDisplay displayValue={displayValue} variant="body1" justify="flex-start" />
+					</Grid>
+				</Grid>
+				<Grid item xs={12} sm className={classes.hiddenMobile}>
+					<Typography variant="body2" color="textSecondary">
+						{samplePeriods[period]} ROI
 					</Typography>
 				</Grid>
-				<Grid item>
-					<CurrencyDisplay displayValue={displayValue} variant="body1" justify="flex-start" />
+				<Grid item xs={12} sm className={classes.hiddenMobile}>
+					<Typography variant="body2" color="textSecondary">
+						Value
+					</Typography>
 				</Grid>
-			</Grid>
-			<Grid item xs={12} sm={4} md={3} className={classes.hiddenMobile}>
-				<Typography variant="body2" color="textSecondary" className={classes.roiText}>
-					{samplePeriods[period]} ROI
-				</Typography>
-			</Grid>
-			<Grid item xs={12} sm={6} md={3} className={classes.hiddenMobile}>
-				<Typography variant="body2" color="textSecondary">
-					Value
-				</Typography>
 			</Grid>
 		</Grid>
 	);
