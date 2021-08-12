@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
 import { Container, makeStyles, Typography } from '@material-ui/core';
 import { Header } from './Header';
 import { MainContent } from './MainContent';
 import { observer } from 'mobx-react-lite';
 import { Footer } from './Footer';
 import { StoreContext } from '../../mobx/store-context';
-import { MobileStickyActionButtons } from './MobileStickyActionButtons';
+import { MobileStickyActionButtons } from './actions/MobileStickyActionButtons';
 import { Loader } from '../../components/Loader';
+import { TopContent } from './TopContent';
+import { SettDeposit } from '../common/dialogs/SettDeposit';
+import { SettWithdraw } from '../common/dialogs/SettWithdraw';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -24,9 +27,13 @@ export const SettDetail = observer(
 		const {
 			wallet: { connectedAddress },
 			settDetail: { sett, isLoading, isNotFound },
-		} = React.useContext(StoreContext);
+			network: { network },
+		} = useContext(StoreContext);
 
+		const [openDepositDialog, setOpenDepositDialog] = useState(false);
+		const [openWithdrawDialog, setOpenWithdrawDialog] = useState(false);
 		const classes = useStyles();
+		const badgerSett = network.setts.find(({ vaultToken }) => vaultToken.address === sett?.vaultToken);
 
 		if (isLoading) {
 			return (
@@ -53,10 +60,40 @@ export const SettDetail = observer(
 			<>
 				<Container className={classes.root}>
 					<Header />
-					{sett && <MainContent sett={sett} />}
+					{sett && (
+						<>
+							<TopContent
+								sett={sett}
+								onWithdrawClick={() => setOpenWithdrawDialog(true)}
+								onDepositClick={() => setOpenDepositDialog(true)}
+							/>
+							<MainContent sett={sett} />
+						</>
+					)}
 					<Footer />
 				</Container>
-				{connectedAddress && <MobileStickyActionButtons />}
+				{sett && badgerSett && (
+					<>
+						<SettDeposit
+							open={openDepositDialog}
+							sett={sett}
+							badgerSett={badgerSett}
+							onClose={() => setOpenDepositDialog(false)}
+						/>
+						<SettWithdraw
+							open={openWithdrawDialog}
+							sett={sett}
+							badgerSett={badgerSett}
+							onClose={() => setOpenWithdrawDialog(false)}
+						/>
+					</>
+				)}
+				{connectedAddress && (
+					<MobileStickyActionButtons
+						onWithdrawClick={() => setOpenWithdrawDialog(true)}
+						onDepositClick={() => setOpenDepositDialog(true)}
+					/>
+				)}
 			</>
 		);
 	},

@@ -1,19 +1,23 @@
 import { ListItem, makeStyles, Typography, Grid, Tooltip } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
-import { numberWithCommas, usdToCurrency } from 'mobx/utils/helpers';
-import React, { useContext } from 'react';
+import { usdToCurrency } from 'mobx/utils/helpers';
+import React, { useContext, useState } from 'react';
 import { StoreContext } from 'mobx/store-context';
 import DisabledSettListItem from './DisabledSettListItem';
 import CurrencyDisplay from '../common/CurrencyDisplay';
 import SettBadge from './SettBadge';
 import BigNumber from 'bignumber.js';
 import { Sett } from '../../mobx/model/setts/sett';
-import { SettTokenBalance } from '../../mobx/model/setts/sett-token-balance';
+import { ActionButtons } from '../common/ActionButtons';
+import { SettDeposit } from '../common/dialogs/SettDeposit';
+import { SettWithdraw } from '../common/dialogs/SettWithdraw';
+import routes from '../../config/routes';
+import { ContractNamespace } from '../../web3/config/contract-namespace';
 
 const useStyles = makeStyles((theme) => ({
 	border: {
 		borderBottom: `1px solid ${theme.palette.background.default}`,
-		padding: theme.spacing(2, 2),
+		// padding: theme.spacing(2, 2),
 		alignItems: 'center',
 		overflow: 'hidden',
 		transition: '.2s background ease-out',
@@ -81,6 +85,19 @@ const useStyles = makeStyles((theme) => ({
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
+	sec1: {
+		padding: theme.spacing(2, 0, 2, 2),
+		[theme.breakpoints.down('sm')]: {
+			padding: theme.spacing(2, 2, 0, 2),
+		},
+	},
+	sec2: {
+		padding: theme.spacing(2, 2, 2, 0),
+		[theme.breakpoints.down('sm')]: {
+			textAlign: 'center',
+			padding: theme.spacing(1, 2, 2, 2),
+		},
+	},
 }));
 
 export interface SettListItemProps {
@@ -89,7 +106,6 @@ export interface SettListItemProps {
 	balanceValue?: string;
 	currency: string;
 	period: string;
-	onOpen: () => void;
 }
 
 interface RoiData {
@@ -98,13 +114,21 @@ interface RoiData {
 }
 
 const SettListItem = observer(
-	(props: SettListItemProps): JSX.Element => {
+	({ sett, balance, balanceValue, currency, period }: SettListItemProps): JSX.Element => {
+		const { user, network, router, wallet } = useContext(StoreContext);
+		const [openDepositDialog, setOpenDepositDialog] = useState(false);
+		const [openWithdrawDialog, setOpenWithdrawDialog] = useState(false);
+
 		const classes = useStyles();
-		const { sett, balance, balanceValue, currency, period, onOpen } = props;
+		const badgerSett = network.network.setts.find(({ vaultToken }) => vaultToken.address === sett?.vaultToken);
 		const displayName = sett.name.split(' ').length > 1 ? sett.name.split(' ').slice(1).join(' ') : sett.name;
-		const store = useContext(StoreContext);
-		const { user } = store;
 		const divisor = period === 'month' ? 12 : 1;
+
+		const canWithdraw = badgerSett ? user.getBalance(ContractNamespace.Token, badgerSett).balance.gt(0) : false;
+
+		const goToSettDetail = async () => {
+			await router.goTo(routes.settDetails, { settName: sett.slug });
+		};
 
 		const getRoi = (sett: Sett, multiplier?: number): RoiData => {
 			const getToolTip = (sett: Sett, divisor: number): JSX.Element => {
@@ -169,100 +193,89 @@ const SettListItem = observer(
 				balanceValue={balanceValue}
 				currency={currency}
 				period={period}
-				onOpen={() => {
-					return;
-				}}
 				disabledTooltip={'Your address is not included in the whitelist for this vault.'}
 			/>
 		) : (
-			<ListItem className={classes.listItem} onClick={() => onOpen()}>
+			<ListItem className={classes.listItem}>
 				<Grid container className={classes.border}>
-					<Grid item xs={12} md={4} className={classes.name} container>
-						<Grid item className={classes.vaultIcon}>
-							<img
-								alt={`Badger ${sett.name} Vault Symbol`}
-								className={classes.symbol}
-								src={`/assets/icons/${sett.asset.toLowerCase()}.png`}
-							/>
-						</Grid>
-						<Grid item>
-							<Grid container direction={'column'}>
-								<Typography variant="body1">{displayName}</Typography>
-								<Grid container direction={'row'}>
-									<Typography variant="body2" color="textSecondary">
-										{sett.asset}
-									</Typography>
-									<SettBadge protocol={sett.name.split(' ')[0]} />
-									{sett.deprecated && <SettBadge protocol={'No Emissions'} />}
+					<Grid
+						container
+						item
+						xs={12}
+						md={9}
+						alignItems="center"
+						className={classes.sec1}
+						onClick={goToSettDetail}
+					>
+						<Grid item xs={12} md className={classes.name} container>
+							<Grid item className={classes.vaultIcon}>
+								<img
+									alt={`Badger ${sett.name} Vault Symbol`}
+									className={classes.symbol}
+									src={`/assets/icons/${sett.asset.toLowerCase()}.png`}
+								/>
+							</Grid>
+							<Grid item>
+								<Grid container direction={'column'}>
+									<Typography variant="body1">{displayName}</Typography>
+									<Grid container direction={'row'}>
+										<Typography variant="body2" color="textSecondary">
+											{sett.asset}
+										</Typography>
+										<SettBadge protocol={sett.name.split(' ')[0]} />
+										{sett.deprecated && <SettBadge protocol={'No Emissions'} />}
+									</Grid>
 								</Grid>
 							</Grid>
 						</Grid>
-					</Grid>
-
-					<Grid item xs={12} md={2} container>
-						<Grid item className={classes.mobileLabel} xs={6}>
+						<Grid item className={classes.mobileLabel} xs={6} md>
 							<Typography variant="body2" color={'textSecondary'}>
-								Tokens Deposited
+								{'ROI'}
 							</Typography>
 						</Grid>
-						<Grid item xs={6} md={12}>
-							{balance && (
-								<Grid container alignItems={'center'}>
-									<img
-										alt={`${sett.name} symbol`}
-										className={classes.tokenSymbol}
-										src={`/assets/icons/${sett.asset.toLowerCase()}.png`}
-									/>
-									<Typography>{balance}</Typography>
-								</Grid>
+						<Grid item xs={6} md className={classes.centerGrid}>
+							{getAprDisplay()}
+							{userApr && (
+								<Typography style={{ cursor: 'default' }} variant="caption" color={'textPrimary'}>
+									My Boost: {userApr.toFixed(2)}%
+								</Typography>
 							)}
-							{!balance &&
-								sett.tokens.map((tokenBalance: SettTokenBalance, index: number) => {
-									const iconName =
-										sett.tokens.length === 1
-											? `${sett.asset.toLowerCase()}`
-											: `${tokenBalance.symbol.toLowerCase()}-small`;
-									const icon = `/assets/icons/${iconName}.png`;
-									const displayDecimals = tokenBalance.balance > 1 ? 0 : 4;
-									const balanceDisplay = tokenBalance.balance.toFixed(displayDecimals);
-									return (
-										<Grid container key={`token-${index}`} alignItems={'center'}>
-											<img
-												alt={`${tokenBalance.name} symbol`}
-												className={classes.tokenSymbol}
-												src={icon}
-											/>
-											<Typography>{numberWithCommas(balanceDisplay)}</Typography>
-										</Grid>
-									);
-								})}
+						</Grid>
+						<Grid item className={classes.mobileLabel} xs={6} md>
+							<Typography variant="body2" color={'textSecondary'}>
+								Value
+							</Typography>
+						</Grid>
+						<Grid item xs={6} md>
+							<CurrencyDisplay displayValue={displayValue} variant="body1" justify="flex-start" />
 						</Grid>
 					</Grid>
-					<Grid item className={classes.mobileLabel} xs={6}>
-						<Typography variant="body2" color={'textSecondary'}>
-							{'ROI'}
-						</Typography>
-					</Grid>
-					<Grid item xs={6} md={2} className={classes.centerGrid}>
-						{getAprDisplay()}
-
-						{userApr && (
-							<Typography style={{ cursor: 'default' }} variant="caption" color={'textPrimary'}>
-								My Boost: {userApr.toFixed(2)}%
-							</Typography>
-						)}
-					</Grid>
-					{/* Intentionally Empty Grid Space */}
-					<Grid item xs={6} md={1} className={classes.desktopSpacer} />
-					<Grid item className={classes.mobileLabel} xs={6}>
-						<Typography variant="body2" color={'textSecondary'}>
-							Value
-						</Typography>
-					</Grid>
-					<Grid item xs={6} md={3}>
-						<CurrencyDisplay displayValue={displayValue} variant="body1" justify="flex-start" />
-					</Grid>
+					{wallet.connectedAddress && (
+						<Grid item xs={12} md className={classes.sec2}>
+							<ActionButtons
+								isWithdrawDisabled={!canWithdraw}
+								onWithdrawClick={() => setOpenWithdrawDialog(true)}
+								onDepositClick={() => setOpenDepositDialog(true)}
+							/>
+						</Grid>
+					)}
 				</Grid>
+				{badgerSett && (
+					<>
+						<SettDeposit
+							open={openDepositDialog}
+							sett={sett}
+							badgerSett={badgerSett}
+							onClose={() => setOpenDepositDialog(false)}
+						/>
+						<SettWithdraw
+							open={openWithdrawDialog}
+							sett={sett}
+							badgerSett={badgerSett}
+							onClose={() => setOpenWithdrawDialog(false)}
+						/>
+					</>
+				)}
 			</ListItem>
 		);
 	},

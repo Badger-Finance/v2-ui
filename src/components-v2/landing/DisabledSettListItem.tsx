@@ -13,14 +13,6 @@ const useStyles = makeStyles((theme) => ({
 		padding: theme.spacing(2, 2),
 		alignItems: 'center',
 		overflow: 'hidden',
-		transition: '.2s background ease-out',
-		cursor: 'pointer',
-		'&:hover': {
-			background: '#3a3a3a',
-		},
-		'&:active': {
-			background: theme.palette.background.default,
-		},
 	},
 	mobileLabel: {
 		textAlign: 'right',
@@ -85,19 +77,12 @@ interface DisabledSettListItemProps extends SettListItemProps {
 const DisabledSettListItem = (props: DisabledSettListItemProps): JSX.Element => {
 	const classes = useStyles();
 
-	const { apy, tooltip, displayName, sett, balance, balanceValue, currency, disabledTooltip, onOpen } = props;
+	const { apy, tooltip, displayName, sett, balance, balanceValue, currency, disabledTooltip } = props;
 
 	const displayValue = balanceValue ? balanceValue : usdToCurrency(new BigNumber(sett.value), currency);
 
 	return (
-		<Tooltip
-			enterDelay={0}
-			leaveDelay={300}
-			arrow
-			placement="top-end"
-			title={disabledTooltip}
-			onClick={() => onOpen()}
-		>
+		<Tooltip enterDelay={0} leaveDelay={300} arrow placement="top-end" title={disabledTooltip}>
 			<ListItem disabled className={classes.listItem}>
 				<Grid container className={classes.border}>
 					<Grid item xs={12} md={4} className={classes.name} container>

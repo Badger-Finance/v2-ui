@@ -1,10 +1,10 @@
 import React from 'react';
 import { Grid } from '@material-ui/core';
-import { HoldingItem } from './holdings/HoldingItem';
+import { HoldingItem } from './HoldingItem';
 import { observer } from 'mobx-react-lite';
-import { StoreContext } from '../../mobx/store-context';
-import { SettBalance } from '../../mobx/model/setts/sett-balance';
-import { formatWithoutExtraZeros, numberWithCommas } from '../../mobx/utils/helpers';
+import { StoreContext } from '../../../mobx/store-context';
+import { SettBalance } from '../../../mobx/model/setts/sett-balance';
+import { formatWithoutExtraZeros, numberWithCommas } from '../../../mobx/utils/helpers';
 import { Skeleton } from '@material-ui/lab';
 import BigNumber from 'bignumber.js';
 

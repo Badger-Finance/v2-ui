@@ -23,13 +23,12 @@ const useStyles = makeStyles((theme) => ({
 
 interface TableHeaderProps {
 	title: string;
-	tokenTitle: string;
 	period: string;
 	displayValue: string | undefined;
 }
 
 export default function TableHeader(props: TableHeaderProps): JSX.Element {
-	const { title, tokenTitle, period, displayValue } = props;
+	const { title, period, displayValue } = props;
 	const classes = useStyles();
 
 	const samplePeriods: { [period: string]: string } = {
@@ -48,11 +47,6 @@ export default function TableHeader(props: TableHeaderProps): JSX.Element {
 				<Grid item>
 					<CurrencyDisplay displayValue={displayValue} variant="body1" justify="flex-start" />
 				</Grid>
-			</Grid>
-			<Grid item xs={12} sm={4} md={2} className={classes.hiddenMobile}>
-				<Typography variant="body2" color="textSecondary">
-					{tokenTitle}
-				</Typography>
 			</Grid>
 			<Grid item xs={12} sm={4} md={3} className={classes.hiddenMobile}>
 				<Typography variant="body2" color="textSecondary" className={classes.roiText}>

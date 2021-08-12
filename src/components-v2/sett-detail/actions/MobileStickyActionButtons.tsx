@@ -15,19 +15,24 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export const MobileStickyActionButtons = (): JSX.Element => {
+interface Props {
+	onWithdrawClick: () => void;
+	onDepositClick: () => void;
+}
+
+export const MobileStickyActionButtons = ({ onWithdrawClick, onDepositClick }: Props): JSX.Element => {
 	const classes = useStyles();
 
 	return (
 		<div className={classes.root}>
 			<Grid container spacing={1}>
 				<Grid item xs>
-					<Button color="primary" variant="outlined" fullWidth>
+					<Button color="primary" variant="outlined" fullWidth onClick={onWithdrawClick}>
 						Withdraw
 					</Button>
 				</Grid>
 				<Grid item xs>
-					<Button color="primary" variant="contained" fullWidth>
+					<Button color="primary" variant="contained" fullWidth onClick={onDepositClick}>
 						Deposit
 					</Button>
 				</Grid>
