@@ -8,7 +8,7 @@ import CurrencyDisplay from '../common/CurrencyDisplay';
 import SettBadge from './SettBadge';
 import BigNumber from 'bignumber.js';
 import { Sett } from '../../mobx/model/setts/sett';
-import { ActionButtons } from '../common/ActionButtons';
+import { SettActionButtons } from '../common/SettActionButtons';
 import { SettDeposit } from '../common/dialogs/SettDeposit';
 import { SettWithdraw } from '../common/dialogs/SettWithdraw';
 import routes from '../../config/routes';
@@ -17,7 +17,6 @@ import { ContractNamespace } from '../../web3/config/contract-namespace';
 const useStyles = makeStyles((theme) => ({
 	border: {
 		borderBottom: `1px solid ${theme.palette.background.default}`,
-		// padding: theme.spacing(2, 2),
 		alignItems: 'center',
 		overflow: 'hidden',
 		transition: '.2s background ease-out',
@@ -85,13 +84,13 @@ const useStyles = makeStyles((theme) => ({
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
-	sec1: {
+	clickableSection: {
 		padding: theme.spacing(2, 0, 2, 2),
 		[theme.breakpoints.down('sm')]: {
 			padding: theme.spacing(2, 2, 0, 2),
 		},
 	},
-	sec2: {
+	nonClickableSection: {
 		padding: theme.spacing(2, 2, 2, 0),
 		[theme.breakpoints.down('sm')]: {
 			textAlign: 'center',
@@ -204,10 +203,10 @@ const SettListItem = observer(
 						xs={12}
 						md={9}
 						alignItems="center"
-						className={classes.sec1}
+						className={classes.clickableSection}
 						onClick={goToSettDetail}
 					>
-						<Grid item xs={12} md className={classes.name} container>
+						<Grid item xs={12} md={5} className={classes.name} container>
 							<Grid item className={classes.vaultIcon}>
 								<img
 									alt={`Badger ${sett.name} Vault Symbol`}
@@ -233,7 +232,7 @@ const SettListItem = observer(
 								{'ROI'}
 							</Typography>
 						</Grid>
-						<Grid item xs={6} md className={classes.centerGrid}>
+						<Grid item xs={6} md>
 							{getAprDisplay()}
 							{userApr && (
 								<Typography style={{ cursor: 'default' }} variant="caption" color={'textPrimary'}>
@@ -250,15 +249,14 @@ const SettListItem = observer(
 							<CurrencyDisplay displayValue={displayValue} variant="body1" justify="flex-start" />
 						</Grid>
 					</Grid>
-					{wallet.connectedAddress && (
-						<Grid item xs={12} md className={classes.sec2}>
-							<ActionButtons
-								isWithdrawDisabled={!canWithdraw}
-								onWithdrawClick={() => setOpenWithdrawDialog(true)}
-								onDepositClick={() => setOpenDepositDialog(true)}
-							/>
-						</Grid>
-					)}
+					<Grid item xs={12} md className={classes.nonClickableSection}>
+						<SettActionButtons
+							isWithdrawDisabled={!canWithdraw || !wallet.connectedAddress}
+							isDepositDisabled={!wallet.connectedAddress}
+							onWithdrawClick={() => setOpenWithdrawDialog(true)}
+							onDepositClick={() => setOpenDepositDialog(true)}
+						/>
+					</Grid>
 				</Grid>
 				{badgerSett && (
 					<>

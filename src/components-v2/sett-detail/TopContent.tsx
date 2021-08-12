@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid, makeStyles, useMediaQuery, useTheme } from '@material-ui/core';
 import { Breadcrumb } from './Breadcrumb';
 import { Description } from './description/Description';
-import { ActionButtons } from '../common/ActionButtons';
+import { SettActionButtons } from '../common/SettActionButtons';
 import { Sett } from '../../mobx/model/setts/sett';
 import { StoreContext } from '../../mobx/store-context';
 import { observer } from 'mobx-react-lite';
@@ -16,7 +16,10 @@ const useStyles = makeStyles((theme) => ({
 	},
 	descriptionSection: {
 		justifyContent: 'space-between',
-		marginBottom: theme.spacing(5),
+		marginBottom: theme.spacing(4),
+		[theme.breakpoints.down('sm')]: {
+			marginBottom: theme.spacing(2),
+		},
 	},
 	breadcrumbContainer: {
 		marginBottom: theme.spacing(1),
@@ -39,7 +42,6 @@ export const TopContent = observer(
 
 		const classes = useStyles();
 		const isMediumSizeScreen = useMediaQuery(useTheme().breakpoints.up('sm'));
-		const showActionButtons = isMediumSizeScreen && !!connectedAddress;
 
 		return (
 			<Grid container>
@@ -48,8 +50,13 @@ export const TopContent = observer(
 				</Grid>
 				<Grid container className={classes.descriptionSection}>
 					<Description sett={sett} />
-					{showActionButtons && (
-						<ActionButtons onDepositClick={onDepositClick} onWithdrawClick={onWithdrawClick} />
+					{isMediumSizeScreen && (
+						<SettActionButtons
+							isDepositDisabled={!connectedAddress}
+							isWithdrawDisabled={!connectedAddress}
+							onDepositClick={onDepositClick}
+							onWithdrawClick={onWithdrawClick}
+						/>
 					)}
 				</Grid>
 			</Grid>

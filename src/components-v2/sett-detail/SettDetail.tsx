@@ -32,6 +32,7 @@ export const SettDetail = observer(
 
 		const [openDepositDialog, setOpenDepositDialog] = useState(false);
 		const [openWithdrawDialog, setOpenWithdrawDialog] = useState(false);
+
 		const classes = useStyles();
 		const badgerSett = network.setts.find(({ vaultToken }) => vaultToken.address === sett?.vaultToken);
 
@@ -72,6 +73,12 @@ export const SettDetail = observer(
 					)}
 					<Footer />
 				</Container>
+				<MobileStickyActionButtons
+					isDepositDisabled={!connectedAddress}
+					isWithdrawDisabled={!connectedAddress}
+					onWithdrawClick={() => setOpenWithdrawDialog(true)}
+					onDepositClick={() => setOpenDepositDialog(true)}
+				/>
 				{sett && badgerSett && (
 					<>
 						<SettDeposit
@@ -87,12 +94,6 @@ export const SettDetail = observer(
 							onClose={() => setOpenWithdrawDialog(false)}
 						/>
 					</>
-				)}
-				{connectedAddress && (
-					<MobileStickyActionButtons
-						onWithdrawClick={() => setOpenWithdrawDialog(true)}
-						onDepositClick={() => setOpenDepositDialog(true)}
-					/>
 				)}
 			</>
 		);
