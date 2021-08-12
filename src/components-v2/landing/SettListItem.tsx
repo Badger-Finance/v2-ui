@@ -89,7 +89,7 @@ const SettListItem = observer(
 		const displayValue = balanceValue ? balanceValue : usdToCurrency(new BigNumber(sett.value), currency);
 		const multiplier = !sett.deprecated ? user.accountDetails?.multipliers[sett.vaultToken] : undefined;
 
-		const canWithdraw = badgerSett ? user.getBalance(ContractNamespace.Token, badgerSett).balance.gt(0) : false;
+		const canWithdraw = badgerSett ? user.getBalance(ContractNamespace.Sett, badgerSett).balance.gt(0) : false;
 		const isDisabled = sett.hasBouncer && !user.viewSettShop();
 
 		const goToSettDetail = async () => {
