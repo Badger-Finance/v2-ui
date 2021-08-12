@@ -1,0 +1,55 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Description displays sett description 1`] = `
+<div>
+  <div
+    class="makeStyles-root-1"
+  >
+    <div
+      class="MuiGrid-root-9 makeStyles-logoContainer-6 MuiGrid-item-11"
+    >
+      <img
+        class="makeStyles-settLogo-5"
+        src="/assets/icons/slp-digg-wbtc.png"
+      />
+    </div>
+    <div
+      class="MuiGrid-root-9 makeStyles-namesContainer-2 MuiGrid-item-11"
+    >
+      <div
+        class="MuiBox-root-112 MuiBox-root-113"
+      >
+        <p
+          class="MuiTypography-root-114 makeStyles-settName-3 MuiTypography-body1-116"
+        >
+          Wrapped BTC/DIGG
+        </p>
+        <p
+          class="MuiTypography-root-114 makeStyles-apyBadge-7 MuiTypography-body1-116"
+        >
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root-144"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"
+            />
+          </svg>
+          <span
+            class="makeStyles-apyText-8"
+          >
+            139.34%
+          </span>
+        </p>
+      </div>
+      <p
+        class="MuiTypography-root-114 makeStyles-vaultName-4 MuiTypography-body1-116 MuiTypography-colorTextSecondary-140"
+      >
+        SLP-DIGG-WBTC
+      </p>
+    </div>
+  </div>
+</div>
+`;
