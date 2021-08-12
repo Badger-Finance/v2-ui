@@ -1,6 +1,6 @@
 import React from 'react';
 import { List, makeStyles } from '@material-ui/core';
-import TableHeader from 'components/Collection/Setts/TableHeader';
+import TableHeader from 'components-v2/landing/TableHeader';
 
 const useStyles = makeStyles((theme) => ({
 	list: {

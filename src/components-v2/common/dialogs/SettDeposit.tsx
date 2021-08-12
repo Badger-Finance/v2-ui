@@ -7,7 +7,7 @@ import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { ContractNamespace } from 'web3/config/contract-namespace';
 import { useNumericInput } from 'utils/useNumericInput';
 import { SettDialogTitle } from './SettDialogTitle';
-import { SettAvailableDeposit } from '../../../components/Collection/Setts/SettAvailableDeposit';
+import { SettAvailableDeposit } from './SettAvailableDeposit';
 import { PercentageSelector } from '../PercentageSelector';
 import { Sett } from '../../../mobx/model/setts/sett';
 import { ActionButton, AmountTextField, PercentagesContainer } from './styled';
