@@ -10,9 +10,6 @@ import { StoreContext } from '../../mobx/store-context';
 const useStyles = makeStyles((theme) => ({
 	content: {
 		margin: 'auto',
-		[theme.breakpoints.up('md')]: {
-			marginTop: theme.spacing(2),
-		},
 	},
 	holdingsContainer: {
 		marginBottom: theme.spacing(2),
