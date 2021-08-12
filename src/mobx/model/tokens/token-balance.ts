@@ -50,7 +50,7 @@ export class TokenBalance {
 			return `< 0.${'0'.repeat(decimals - 1)}1`;
 		}
 
-		return this.balance.toFixed(decimals).toString();
+		return this.balance.toFixed(decimals);
 	}
 
 	balanceValueDisplay(currency: string): string | undefined {
