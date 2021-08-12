@@ -23,13 +23,13 @@ export const SettDeposit = observer(({ open = false, sett, badgerSett, onClose }
 	const store = useContext(StoreContext);
 	const { contracts, user, wallet } = store;
 
-	const [amount, setAmount] = useState<string>();
+	const [amount, setAmount] = useState('');
 	const { onValidChange, inputProps } = useNumericInput();
 
 	const userBalance = user.getBalance(ContractNamespace.Token, badgerSett);
 	const depositBalance = TokenBalance.fromBalance(userBalance, amount ?? '0');
 	const vaultCaps = user.vaultCaps[sett.vaultToken];
-	const isLoading = contracts.settsBeingDeposited.findIndex((_sett) => _sett.name === sett.name) >= 0;
+	const isLoading = contracts.settsBeingDeposited[sett.vaultToken];
 
 	let canDeposit = !!wallet.connectedAddress && !!amount && depositBalance.tokenBalance.gt(0);
 

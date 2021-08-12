@@ -27,7 +27,7 @@ export const SettWithdraw = observer(({ open = false, sett, badgerSett, onClose 
 		setts,
 	} = useContext(StoreContext);
 
-	const [amount, setAmount] = useState<string>();
+	const [amount, setAmount] = useState('');
 	const { onValidChange, inputProps } = useNumericInput();
 
 	const userBalance = user.getBalance(ContractNamespace.Sett, badgerSett);
@@ -37,7 +37,7 @@ export const SettWithdraw = observer(({ open = false, sett, badgerSett, onClose 
 	const underlyingBalance = new TokenBalance(userBalance.token, underlying, userBalance.price);
 	const underlyingSymbol = setts.getToken(badgerSett.depositToken.address)?.symbol || sett.asset;
 
-	const isLoading = contracts.settsBeingWithdrawn.findIndex((_sett) => _sett.name === sett.name) >= 0;
+	const isLoading = contracts.settsBeingWithdrawn[sett.vaultToken];
 	const canWithdraw = !!connectedAddress && !!amount && userBalance.balance.gt(0);
 
 	const handlePercentageChange = (percent: number) => {
