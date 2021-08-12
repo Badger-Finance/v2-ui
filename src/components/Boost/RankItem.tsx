@@ -54,6 +54,7 @@ export const RankItem = ({
 				{progressBar}
 			</Grid>
 			<Tooltip
+				enterTouchDelay={0}
 				title="Jump to rank"
 				arrow
 				disableFocusListener={hasBeenReached}

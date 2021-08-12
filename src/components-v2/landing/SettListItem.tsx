@@ -138,7 +138,7 @@ const SettListItem = observer(
 					{apr}
 				</Typography>
 			) : (
-				<Tooltip enterDelay={0} leaveDelay={300} arrow placement="left" title={tooltip}>
+				<Tooltip enterTouchDelay={0} enterDelay={0} leaveDelay={300} arrow placement="left" title={tooltip}>
 					<Typography style={{ cursor: 'default' }} variant="body1" color={'textPrimary'}>
 						{apr}
 					</Typography>

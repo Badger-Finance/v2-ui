@@ -155,7 +155,7 @@ export const NativeBox = observer((props: Props) => {
 				<Grid className={classes.infoBox}>
 					<Typography className={classes.infoText} color="textSecondary">
 						Deposit
-						<Tooltip title="Apply" arrow placement="top" color="primary">
+						<Tooltip enterTouchDelay={0} title="Apply" arrow placement="top" color="primary">
 							<span
 								className={classes.amountToNextLevel}
 								onClick={handleNextLevelAmountClick}

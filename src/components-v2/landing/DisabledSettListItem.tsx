@@ -91,6 +91,7 @@ const DisabledSettListItem = (props: DisabledSettListItemProps): JSX.Element => 
 
 	return (
 		<Tooltip
+			enterTouchDelay={0}
 			enterDelay={0}
 			leaveDelay={300}
 			arrow
@@ -166,7 +167,14 @@ const DisabledSettListItem = (props: DisabledSettListItemProps): JSX.Element => 
 						</Typography>
 					</Grid>
 					<Grid item xs={6} md={2} className={classes.centerGrid}>
-						<Tooltip enterDelay={0} leaveDelay={300} arrow placement="left" title={tooltip}>
+						<Tooltip
+							enterTouchDelay={0}
+							enterDelay={0}
+							leaveDelay={300}
+							arrow
+							placement="left"
+							title={tooltip}
+						>
 							<Typography style={{ cursor: 'default' }} variant="body1" color={'textPrimary'}>
 								{typeof apy === 'number' ? `${apy.toFixed(2)}%` : apy}
 							</Typography>
