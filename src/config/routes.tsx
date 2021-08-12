@@ -12,6 +12,7 @@ import { Bridge } from '../components/Bridge';
 import HoneybadgerDrop from '../components/HoneybadgerDrop/index';
 import BoostLeaderBoard from 'pages/BoostLeaderBoard';
 import { SettState } from '../mobx/model/setts/sett-state';
+import { NotFound } from '../components-v2/common/NotFound';
 
 const routes = {
 	locked: new Route<RootStore>({
@@ -27,6 +28,10 @@ const routes = {
 				state={SettState.Open}
 			/>
 		),
+	}),
+	notFound: new Route<RootStore>({
+		path: '/not-found',
+		component: <NotFound />,
 	}),
 	guarded: new Route<RootStore>({
 		path: '/guarded',
@@ -55,7 +60,7 @@ const routes = {
 	}),
 	boostOptimizer: new Route<RootStore, QueryParams>({
 		path: '/boost-optimizer',
-		component: FLAGS.BOOST_OPTIMIZER ? <BoostOptimizer /> : <></>,
+		component: FLAGS.BOOST_OPTIMIZER ? <BoostOptimizer /> : <NotFound />,
 	}),
 	digg: new Route<RootStore, QueryParams>({
 		path: '/digg',
@@ -76,7 +81,7 @@ const routes = {
 	}),
 	boostLeaderBoard: new Route<RootStore, QueryParams>({
 		path: '/leaderboard',
-		component: FLAGS.BOOST_V2 ? <BoostLeaderBoard /> : <></>,
+		component: FLAGS.BOOST_V2 ? <BoostLeaderBoard /> : <NotFound />,
 	}),
 };
 
