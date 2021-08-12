@@ -93,7 +93,7 @@ export const SettWithdraw = observer(({ open = false, sett, badgerSett, onClose 
 					{isLoading ? (
 						<>
 							Withdraw In Progress
-							<LoaderSpinner />
+							<LoaderSpinner size={20} />
 						</>
 					) : (
 						'Withdraw'

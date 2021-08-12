@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from 'mobx/store-context';
-import { Grid, Dialog, Typography, DialogContent, CircularProgress } from '@material-ui/core';
+import { Grid, Dialog, Typography, DialogContent } from '@material-ui/core';
 import { BadgerSett } from 'mobx/model/vaults/badger-sett';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { ContractNamespace } from 'web3/config/contract-namespace';
@@ -10,7 +10,7 @@ import { SettDialogTitle } from './SettDialogTitle';
 import { SettAvailableDeposit } from './SettAvailableDeposit';
 import { PercentageSelector } from '../PercentageSelector';
 import { Sett } from '../../../mobx/model/setts/sett';
-import { ActionButton, AmountTextField, PercentagesContainer } from './styled';
+import { ActionButton, AmountTextField, LoaderSpinner, PercentagesContainer } from './styled';
 
 export interface SettModalProps {
 	open?: boolean;
@@ -89,7 +89,7 @@ export const SettDeposit = observer(({ open = false, sett, badgerSett, onClose }
 					{isLoading ? (
 						<>
 							Deposit In Progress
-							<CircularProgress size={20} />
+							<LoaderSpinner size={20} />
 						</>
 					) : (
 						'Deposit'
