@@ -4,8 +4,6 @@ import { Breadcrumb } from './Breadcrumb';
 import { Description } from './description/Description';
 import { SettActionButtons } from '../common/SettActionButtons';
 import { Sett } from '../../mobx/model/setts/sett';
-import { StoreContext } from '../../mobx/store-context';
-import { observer } from 'mobx-react-lite';
 
 const useStyles = makeStyles((theme) => ({
 	content: {
@@ -31,35 +29,38 @@ const useStyles = makeStyles((theme) => ({
 
 interface Props {
 	sett: Sett;
+	isWithdrawDisabled?: boolean;
+	isDepositDisabled?: boolean;
 	onWithdrawClick: () => void;
 	onDepositClick: () => void;
 }
 
-export const TopContent = observer(
-	({ sett, onDepositClick, onWithdrawClick }: Props): JSX.Element => {
-		const store = React.useContext(StoreContext);
-		const { connectedAddress } = store.wallet;
+export const TopContent = ({
+	sett,
+	onDepositClick,
+	onWithdrawClick,
+	isWithdrawDisabled = true,
+	isDepositDisabled = true,
+}: Props): JSX.Element => {
+	const classes = useStyles();
+	const isMediumSizeScreen = useMediaQuery(useTheme().breakpoints.up('sm'));
 
-		const classes = useStyles();
-		const isMediumSizeScreen = useMediaQuery(useTheme().breakpoints.up('sm'));
-
-		return (
-			<Grid container>
-				<Grid container className={classes.breadcrumbContainer}>
-					<Breadcrumb sett={sett} />
-				</Grid>
-				<Grid container className={classes.descriptionSection}>
-					<Description sett={sett} />
-					{isMediumSizeScreen && (
-						<SettActionButtons
-							isDepositDisabled={!connectedAddress}
-							isWithdrawDisabled={!connectedAddress}
-							onDepositClick={onDepositClick}
-							onWithdrawClick={onWithdrawClick}
-						/>
-					)}
-				</Grid>
+	return (
+		<Grid container>
+			<Grid container className={classes.breadcrumbContainer}>
+				<Breadcrumb sett={sett} />
 			</Grid>
-		);
-	},
-);
+			<Grid container className={classes.descriptionSection}>
+				<Description sett={sett} />
+				{isMediumSizeScreen && (
+					<SettActionButtons
+						isDepositDisabled={isDepositDisabled}
+						isWithdrawDisabled={isWithdrawDisabled}
+						onDepositClick={onDepositClick}
+						onWithdrawClick={onWithdrawClick}
+					/>
+				)}
+			</Grid>
+		</Grid>
+	);
+};

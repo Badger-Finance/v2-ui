@@ -10,6 +10,7 @@ import { Loader } from '../../components/Loader';
 import { TopContent } from './TopContent';
 import { SettDeposit } from '../common/dialogs/SettDeposit';
 import { SettWithdraw } from '../common/dialogs/SettWithdraw';
+import { ContractNamespace } from '../../web3/config/contract-namespace';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -28,6 +29,7 @@ export const SettDetail = observer(
 			wallet: { connectedAddress },
 			settDetail: { sett, isLoading, isNotFound },
 			network: { network },
+			user,
 		} = useContext(StoreContext);
 
 		const [openDepositDialog, setOpenDepositDialog] = useState(false);
@@ -35,6 +37,7 @@ export const SettDetail = observer(
 
 		const classes = useStyles();
 		const badgerSett = network.setts.find(({ vaultToken }) => vaultToken.address === sett?.vaultToken);
+		const canWithdraw = badgerSett ? user.getBalance(ContractNamespace.Sett, badgerSett).balance.gt(0) : false;
 
 		if (isLoading) {
 			return (
@@ -65,6 +68,8 @@ export const SettDetail = observer(
 						<>
 							<TopContent
 								sett={sett}
+								isDepositDisabled={!connectedAddress}
+								isWithdrawDisabled={!connectedAddress || !canWithdraw}
 								onWithdrawClick={() => setOpenWithdrawDialog(true)}
 								onDepositClick={() => setOpenDepositDialog(true)}
 							/>
@@ -75,7 +80,7 @@ export const SettDetail = observer(
 				</Container>
 				<MobileStickyActionButtons
 					isDepositDisabled={!connectedAddress}
-					isWithdrawDisabled={!connectedAddress}
+					isWithdrawDisabled={!connectedAddress || !canWithdraw}
 					onWithdrawClick={() => setOpenWithdrawDialog(true)}
 					onDepositClick={() => setOpenDepositDialog(true)}
 				/>
