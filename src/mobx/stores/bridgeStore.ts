@@ -139,7 +139,7 @@ class BridgeStore {
 		// NB: At construction time, the value of wallet provider is unset so we cannot fetch network
 		// from provider. Align network init logic w/ how it works in the walletStore.
 		const network = defaultNetwork;
-		this.network = network ? network.name : '';
+		this.network = network ? network.symbol : '';
 
 		extendObservable(this, {
 			...defaultProps,
@@ -200,7 +200,7 @@ class BridgeStore {
 				// Set shortened addr.
 				const { network } = this.store.network;
 				// NB: Only ETH supported for now.
-				if (network.name !== NETWORK_LIST.ETH) return;
+				if (network.symbol !== NETWORK_LIST.ETH) return;
 				await this.reload();
 			},
 		);
@@ -287,6 +287,7 @@ class BridgeStore {
 				this._fetchTx(connectedAddress),
 				this._getBalances(connectedAddress),
 				this._getFees(),
+				this._getRenFees(),
 				this._getBTCNetworkFees(),
 			]);
 		} catch (err) {
@@ -506,24 +507,50 @@ class BridgeStore {
 		const { queueNotification } = this.store.uiState;
 		try {
 			await retry(async () => {
-				const [badgerBurnFee, badgerMintFee, renvmBurnFee, renvmMintFee] = (
+				const [badgerBurnFee, badgerMintFee] = (
 					await Promise.all([
 						this.adapter.methods.burnFeeBps().call(),
 						this.adapter.methods.mintFeeBps().call(),
-						this.gateway.methods.burnFee().call(),
-						this.gateway.methods.mintFee().call(),
+						//this.gateway.methods.burnFee().call(),
+						//this.gateway.methods.mintFee().call(),
 					])
 				).map((result: number) => result / MAX_BPS);
 				this.badgerMintFee = badgerMintFee;
 				this.badgerBurnFee = badgerBurnFee;
-				this.renvmBurnFee = renvmBurnFee;
-				this.renvmMintFee = renvmMintFee;
+				//this.renvmBurnFee = renvmBurnFee;
+				//this.renvmMintFee = renvmMintFee;
 			}, defaultRetryOptions);
 		} catch (err) {
 			queueNotification(`Failed to fetch fees: ${err.message}`, 'error');
 			console.log(err.message);
 		}
 	};
+
+	_saveRenFees = (burnFee: number, mintFee: number) => {
+		this.renvmMintFee = mintFee;
+		this.renvmBurnFee = burnFee;
+	}
+
+	_getRenFees = async (): Promise<void> => {
+		const { queueNotification } = this.store.uiState;
+		try {
+			var fetch = require('node-fetch');
+			fetch('https://lightnode-mainnet.herokuapp.com/ren_queryBlockState', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				'Accept': 'application/json'
+			},
+			body: JSON.stringify({ "method": "ren_queryBlockState", "id": 1, "jsonrpc": "2.0", "params": {} })
+		}).then((res: { json: () => any; }) => res.json())
+		.then((json: any) => this._saveRenFees(json.result.state.v.BTC.fees.chains[3].burnFee / MAX_BPS, json.result.state.v.BTC.fees.chains[3].mintFee / MAX_BPS));
+
+		} catch (err) {
+			queueNotification(`Failed to fetch RenVM Fees: ${err.message}`, 'error');
+			console.log(err.message);
+		}
+	};
+
 
 	_getBalances = async (userAddr: string): Promise<void> => {
 		const { queueNotification } = this.store.uiState;
