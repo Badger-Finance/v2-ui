@@ -30,6 +30,7 @@ import { RenVMTransaction } from '../model/bridge/renVMTransaction';
 import { defaultNetwork } from 'config/networks.config';
 import { NetworkStore } from './NetworkStore';
 import { Network } from 'mobx/model/network/network';
+import { REN_FEES_ENDPOINT } from '../../config/constants';
 
 export enum Status {
 	// Idle means we are ready to begin a new tx.
@@ -511,14 +512,10 @@ class BridgeStore {
 					await Promise.all([
 						this.adapter.methods.burnFeeBps().call(),
 						this.adapter.methods.mintFeeBps().call(),
-						//this.gateway.methods.burnFee().call(),
-						//this.gateway.methods.mintFee().call(),
 					])
 				).map((result: number) => result / MAX_BPS);
 				this.badgerMintFee = badgerMintFee;
 				this.badgerBurnFee = badgerBurnFee;
-				//this.renvmBurnFee = renvmBurnFee;
-				//this.renvmMintFee = renvmMintFee;
 			}, defaultRetryOptions);
 		} catch (err) {
 			queueNotification(`Failed to fetch fees: ${err.message}`, 'error');
@@ -533,27 +530,25 @@ class BridgeStore {
 
 	_getRenFees = async (): Promise<void> => {
 		const { queueNotification } = this.store.uiState;
-		try {
-			const fetch = require('node-fetch');
-			fetch('https://lightnode-mainnet.herokuapp.com/ren_queryBlockState', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-					Accept: 'application/json',
-				},
-				body: JSON.stringify({ method: 'ren_queryBlockState', id: 1, jsonrpc: '2.0', params: {} }),
-			})
-				.then((res: { json: () => any }) => res.json())
-				.then((json: any) =>
-					this._saveRenFees(
-						json.result.state.v.BTC.fees.chains[3].burnFee / MAX_BPS,
-						json.result.state.v.BTC.fees.chains[3].mintFee / MAX_BPS,
-					),
-				);
-		} catch (err) {
-			queueNotification(`Failed to fetch RenVM Fees: ${err.message}`, 'error');
-			console.log(err.message);
-		}
+		fetch(REN_FEES_ENDPOINT, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				Accept: 'application/json',
+			},
+			body: JSON.stringify({ method: 'ren_queryBlockState', id: 1, jsonrpc: '2.0', params: {} }),
+		})
+			.then((res: { json: () => Promise<Response> }) => res.json())
+			.then((json: any) =>
+				this._saveRenFees(
+					json.result.state.v.BTC.fees.chains[3].burnFee / MAX_BPS,
+					json.result.state.v.BTC.fees.chains[3].mintFee / MAX_BPS,
+				),
+			)
+			.catch((err: Error) => {
+				queueNotification(`Failed to fetch RenVM Fees: ${err.message}`, 'error');
+				console.error(err);
+			});
 	};
 
 	_getBalances = async (userAddr: string): Promise<void> => {
