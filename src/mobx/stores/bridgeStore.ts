@@ -526,31 +526,35 @@ class BridgeStore {
 		}
 	};
 
-	_saveRenFees = (burnFee: number, mintFee: number) => {
+	_saveRenFees = (burnFee: number, mintFee: number): void => {
 		this.renvmMintFee = mintFee;
 		this.renvmBurnFee = burnFee;
-	}
+	};
 
 	_getRenFees = async (): Promise<void> => {
 		const { queueNotification } = this.store.uiState;
 		try {
-			var fetch = require('node-fetch');
+			const fetch = require('node-fetch');
 			fetch('https://lightnode-mainnet.herokuapp.com/ren_queryBlockState', {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				'Accept': 'application/json'
-			},
-			body: JSON.stringify({ "method": "ren_queryBlockState", "id": 1, "jsonrpc": "2.0", "params": {} })
-		}).then((res: { json: () => any; }) => res.json())
-		.then((json: any) => this._saveRenFees(json.result.state.v.BTC.fees.chains[3].burnFee / MAX_BPS, json.result.state.v.BTC.fees.chains[3].mintFee / MAX_BPS));
-
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					Accept: 'application/json',
+				},
+				body: JSON.stringify({ method: 'ren_queryBlockState', id: 1, jsonrpc: '2.0', params: {} }),
+			})
+				.then((res: { json: () => any }) => res.json())
+				.then((json: any) =>
+					this._saveRenFees(
+						json.result.state.v.BTC.fees.chains[3].burnFee / MAX_BPS,
+						json.result.state.v.BTC.fees.chains[3].mintFee / MAX_BPS,
+					),
+				);
 		} catch (err) {
 			queueNotification(`Failed to fetch RenVM Fees: ${err.message}`, 'error');
 			console.log(err.message);
 		}
 	};
-
 
 	_getBalances = async (userAddr: string): Promise<void> => {
 		const { queueNotification } = this.store.uiState;
