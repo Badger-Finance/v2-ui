@@ -43,6 +43,7 @@ export const SettItemApr = ({ sett, divisor, multiplier }: Props): JSX.Element =
 
 	return (
 		<Tooltip
+			enterTouchDelay={0}
 			enterDelay={0}
 			leaveDelay={300}
 			arrow

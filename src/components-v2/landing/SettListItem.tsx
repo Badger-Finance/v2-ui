@@ -154,6 +154,7 @@ const SettListItem = observer(
 		if (isDisabled) {
 			return (
 				<Tooltip
+					enterTouchDelay={0}
 					enterDelay={0}
 					leaveDelay={300}
 					arrow
