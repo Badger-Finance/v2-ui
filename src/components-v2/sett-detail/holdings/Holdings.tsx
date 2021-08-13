@@ -1,10 +1,10 @@
 import React from 'react';
 import { Grid } from '@material-ui/core';
-import { HoldingItem } from './holdings/HoldingItem';
+import { HoldingItem } from './HoldingItem';
 import { observer } from 'mobx-react-lite';
-import { StoreContext } from '../../mobx/store-context';
-import { SettBalance } from '../../mobx/model/setts/sett-balance';
-import { formatWithoutExtraZeros, numberWithCommas } from '../../mobx/utils/helpers';
+import { StoreContext } from '../../../mobx/store-context';
+import { SettBalance } from '../../../mobx/model/setts/sett-balance';
+import { formatWithoutExtraZeros, numberWithCommas } from '../../../mobx/utils/helpers';
 import { Skeleton } from '@material-ui/lab';
 import BigNumber from 'bignumber.js';
 
@@ -12,7 +12,7 @@ interface Props {
 	settBalance: SettBalance;
 }
 
-const displayUsdBalance = (value: BigNumber.Value) => `~${numberWithCommas(formatWithoutExtraZeros(value, 3))}$`;
+const displayUsdBalance = (value: BigNumber.Value) => `~${numberWithCommas(formatWithoutExtraZeros(value, 4))}$`;
 
 export const Holdings = observer(
 	({ settBalance }: Props): JSX.Element => {
@@ -40,7 +40,7 @@ export const Holdings = observer(
 					<HoldingItem
 						name="Your Total"
 						logo={logo}
-						amount={formatWithoutExtraZeros(depositedBalance, 3)}
+						amount={formatWithoutExtraZeros(depositedBalance, 6)}
 						dollarAmount={depositedUsd ?? <Skeleton width={30} />}
 					/>
 				</Grid>
@@ -48,7 +48,7 @@ export const Holdings = observer(
 					<HoldingItem
 						name="Principle"
 						logo={logo}
-						amount={formatWithoutExtraZeros(principle, 3)}
+						amount={formatWithoutExtraZeros(principle, 6)}
 						dollarAmount={principleUsd ?? <Skeleton width={30} />}
 					/>
 				</Grid>
@@ -56,7 +56,7 @@ export const Holdings = observer(
 					<HoldingItem
 						name="Earned"
 						logo={logo}
-						amount={formatWithoutExtraZeros(earnedBalance, 3)}
+						amount={formatWithoutExtraZeros(earnedBalance, 6)}
 						dollarAmount={earnedUsd ?? <Skeleton width={30} />}
 					/>
 				</Grid>

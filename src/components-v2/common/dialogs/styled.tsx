@@ -1,9 +1,8 @@
+import { Button, CircularProgress, DialogContent, Grid, TextField, Typography, withStyles } from '@material-ui/core';
 import { styled } from '@material-ui/core/styles';
-import { Button, CircularProgress, Grid, TextField, Typography } from '@material-ui/core';
-import { Skeleton } from '@material-ui/lab';
 
 export const ActionButton = styled(Button)(({ theme }) => ({
-	marginBottom: theme.spacing(1),
+	marginTop: theme.spacing(2),
 }));
 
 export const AssetInformationContainer = styled(Grid)(({ theme }) => ({
@@ -14,7 +13,6 @@ export const AssetInformationContainer = styled(Grid)(({ theme }) => ({
 }));
 
 export const PercentagesContainer = styled(Grid)(({ theme }) => ({
-	marginBottom: theme.spacing(1),
 	textAlign: 'center',
 	[theme.breakpoints.up('sm')]: {
 		textAlign: 'end',
@@ -22,18 +20,19 @@ export const PercentagesContainer = styled(Grid)(({ theme }) => ({
 }));
 
 export const AmountTextField = styled(TextField)(({ theme }) => ({
-	margin: theme.spacing(1, 0, 1),
-}));
-
-export const TextSkeleton = styled(Skeleton)(({ theme }) => ({
-	display: 'inline-flex',
-	width: '25%',
-	paddingLeft: theme.spacing(1),
+	marginTop: theme.spacing(2),
 }));
 
 export const BalanceInformation = styled(Typography)(({ theme }) => ({
 	marginBottom: theme.spacing(1),
 }));
+
+export const SettDialogContent = withStyles({
+	dividers: {
+		borderTop: '1px solid rgba(255, 255, 255, 0.3)',
+		borderBottom: 0,
+	},
+})(DialogContent);
 
 export const LoaderSpinner = styled(CircularProgress)(({ theme }) => ({
 	marginLeft: theme.spacing(1),

@@ -3,33 +3,26 @@ import CurrencyDisplay from 'components-v2/common/CurrencyDisplay';
 import React from 'react';
 
 const useStyles = makeStyles((theme) => ({
-	headerContainer: {
-		marginBottom: theme.spacing(1),
-	},
-	vauleItem: {
-		paddingLeft: theme.spacing(3),
+	root: {
+		paddingLeft: theme.spacing(2),
 	},
 	hiddenMobile: {
+		display: 'flex',
+		alignItems: 'flex-end',
 		[theme.breakpoints.down('sm')]: {
 			display: 'none',
 		},
-		display: 'flex',
-		alignItems: 'flex-end',
-	},
-	roiText: {
-		marginLeft: theme.spacing(6),
 	},
 }));
 
 interface TableHeaderProps {
 	title: string;
-	tokenTitle: string;
 	period: string;
 	displayValue: string | undefined;
 }
 
 export default function TableHeader(props: TableHeaderProps): JSX.Element {
-	const { title, tokenTitle, period, displayValue } = props;
+	const { title, period, displayValue } = props;
 	const classes = useStyles();
 
 	const samplePeriods: { [period: string]: string } = {
@@ -37,9 +30,10 @@ export default function TableHeader(props: TableHeaderProps): JSX.Element {
 		year: 'Yearly',
 	};
 
+	// leave 3 grid spaces for the action buttons section which has no column name
 	return (
-		<Grid container className={classes.headerContainer}>
-			<Grid item container xs={12} sm={4} className={classes.vauleItem} spacing={1}>
+		<Grid item container xs={12} md={9} className={classes.root}>
+			<Grid item container xs={12} sm={5}>
 				<Grid item>
 					<Typography variant="body1" color="textPrimary">
 						{title}
@@ -49,17 +43,12 @@ export default function TableHeader(props: TableHeaderProps): JSX.Element {
 					<CurrencyDisplay displayValue={displayValue} variant="body1" justify="flex-start" />
 				</Grid>
 			</Grid>
-			<Grid item xs={12} sm={4} md={2} className={classes.hiddenMobile}>
+			<Grid item xs={12} sm className={classes.hiddenMobile}>
 				<Typography variant="body2" color="textSecondary">
-					{tokenTitle}
-				</Typography>
-			</Grid>
-			<Grid item xs={12} sm={4} md={3} className={classes.hiddenMobile}>
-				<Typography variant="body2" color="textSecondary" className={classes.roiText}>
 					{samplePeriods[period]} ROI
 				</Typography>
 			</Grid>
-			<Grid item xs={12} sm={6} md={3} className={classes.hiddenMobile}>
+			<Grid item xs={12} sm className={classes.hiddenMobile}>
 				<Typography variant="body2" color="textSecondary">
 					Value
 				</Typography>
