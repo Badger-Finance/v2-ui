@@ -11,6 +11,7 @@ import { FLAGS } from 'config/constants';
 import { Bridge } from '../components/Bridge';
 import HoneybadgerDrop from '../components/HoneybadgerDrop/index';
 import BoostLeaderBoard from 'pages/BoostLeaderBoard';
+import { SettDetail } from '../components-v2/sett-detail/SettDetail';
 import { SettState } from '../mobx/model/setts/sett-state';
 
 const routes = {
@@ -77,6 +78,10 @@ const routes = {
 	boostLeaderBoard: new Route<RootStore, QueryParams>({
 		path: '/leaderboard',
 		component: FLAGS.BOOST_V2 ? <BoostLeaderBoard /> : <></>,
+	}),
+	settDetails: new Route<RootStore, QueryParams>({
+		path: '/setts/:settName',
+		component: <SettDetail />,
 	}),
 };
 
