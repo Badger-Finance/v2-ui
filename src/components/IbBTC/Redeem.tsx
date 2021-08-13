@@ -74,6 +74,7 @@ export const Redeem = observer((): any => {
 	const {
 		ibBTCStore: { redeemOptions, ibBTC, redeemFeePercent },
 		wallet: { connectedAddress },
+		uiState: { sidebarOpen },
 	} = store;
 
 	const [selectedToken, setSelectedToken] = useState(redeemOptions[0]);
@@ -234,6 +235,7 @@ export const Redeem = observer((): any => {
 							<ErrorText variant="subtitle1">
 								<span>A maximum of </span>
 								<Tooltip
+									enterTouchDelay={0}
 									className={classes.maxAmount}
 									title="Apply limit"
 									arrow
@@ -266,10 +268,11 @@ export const Redeem = observer((): any => {
 						<Grid item xs={6}>
 							<EndAlignText variant="body1">
 								<Tooltip
+									enterTouchDelay={0}
 									enterDelay={0}
 									leaveDelay={300}
-									arrow
-									placement="left"
+									arrow={sidebarOpen}
+									placement={sidebarOpen ? 'left' : 'top'}
 									title={'Redeem Fee: ' + redeemFeePercent + '%'}
 								>
 									<span>

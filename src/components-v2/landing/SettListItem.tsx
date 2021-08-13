@@ -103,7 +103,10 @@ const SettListItem = observer(
 		const { sett, balance, balanceValue, currency, period, onOpen } = props;
 		const displayName = sett.name.split(' ').length > 1 ? sett.name.split(' ').slice(1).join(' ') : sett.name;
 		const store = useContext(StoreContext);
-		const { user } = store;
+		const {
+			user,
+			uiState: { sidebarOpen },
+		} = store;
 		const divisor = period === 'month' ? 12 : 1;
 
 		const getRoi = (sett: Sett, multiplier?: number): RoiData => {
@@ -138,7 +141,14 @@ const SettListItem = observer(
 					{apr}
 				</Typography>
 			) : (
-				<Tooltip enterDelay={0} leaveDelay={300} arrow placement="left" title={tooltip}>
+				<Tooltip
+					enterTouchDelay={0}
+					enterDelay={0}
+					leaveDelay={300}
+					arrow={sidebarOpen}
+					placement={sidebarOpen ? 'left' : 'top'}
+					title={tooltip}
+				>
 					<Typography style={{ cursor: 'default' }} variant="body1" color={'textPrimary'}>
 						{apr}
 					</Typography>

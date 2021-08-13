@@ -2,10 +2,11 @@ import { ListItem, makeStyles, Typography, Grid, Tooltip } from '@material-ui/co
 import { BigNumber } from 'bignumber.js';
 import { SettListItemProps } from './SettListItem';
 import { numberWithCommas, usdToCurrency } from 'mobx/utils/helpers';
-import React from 'react';
+import React, { useContext } from 'react';
 import SettBadge from './SettBadge';
 import CurrencyDisplay from '../common/CurrencyDisplay';
 import { SettTokenBalance } from '../../mobx/model/setts/sett-token-balance';
+import { StoreContext } from '../../mobx/store-context';
 
 const useStyles = makeStyles((theme) => ({
 	border: {
@@ -84,16 +85,21 @@ interface DisabledSettListItemProps extends SettListItemProps {
 
 const DisabledSettListItem = (props: DisabledSettListItemProps): JSX.Element => {
 	const classes = useStyles();
+	const store = useContext(StoreContext);
 
 	const { apy, tooltip, displayName, sett, balance, balanceValue, currency, disabledTooltip, onOpen } = props;
+	const {
+		uiState: { sidebarOpen },
+	} = store;
 
 	const displayValue = balanceValue ? balanceValue : usdToCurrency(new BigNumber(sett.value), currency);
 
 	return (
 		<Tooltip
+			enterTouchDelay={0}
 			enterDelay={0}
 			leaveDelay={300}
-			arrow
+			arrow={sidebarOpen}
 			placement="top-end"
 			title={disabledTooltip}
 			onClick={() => onOpen()}
@@ -166,7 +172,14 @@ const DisabledSettListItem = (props: DisabledSettListItemProps): JSX.Element => 
 						</Typography>
 					</Grid>
 					<Grid item xs={6} md={2} className={classes.centerGrid}>
-						<Tooltip enterDelay={0} leaveDelay={300} arrow placement="left" title={tooltip}>
+						<Tooltip
+							enterTouchDelay={0}
+							enterDelay={0}
+							leaveDelay={300}
+							arrow={sidebarOpen}
+							placement={sidebarOpen ? 'left' : 'top'}
+							title={tooltip}
+						>
 							<Typography style={{ cursor: 'default' }} variant="body1" color={'textPrimary'}>
 								{typeof apy === 'number' ? `${apy.toFixed(2)}%` : apy}
 							</Typography>
