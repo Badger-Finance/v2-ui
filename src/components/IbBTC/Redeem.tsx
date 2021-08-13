@@ -74,6 +74,7 @@ export const Redeem = observer((): any => {
 	const {
 		ibBTCStore: { redeemOptions, ibBTC, redeemFeePercent },
 		wallet: { connectedAddress },
+		uiState: { sidebarOpen },
 	} = store;
 
 	const [selectedToken, setSelectedToken] = useState(redeemOptions[0]);
@@ -270,8 +271,8 @@ export const Redeem = observer((): any => {
 									enterTouchDelay={0}
 									enterDelay={0}
 									leaveDelay={300}
-									arrow
-									placement="left"
+									arrow={sidebarOpen}
+									placement={sidebarOpen ? 'left' : 'top'}
 									title={'Redeem Fee: ' + redeemFeePercent + '%'}
 								>
 									<span>

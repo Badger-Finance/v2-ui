@@ -19,7 +19,7 @@ const SamplePicker = observer(() => {
 	const store = useContext(StoreContext);
 
 	const {
-		uiState: { period, setPeriod },
+		uiState: { period, setPeriod, sidebarOpen },
 	} = store;
 
 	return (
@@ -27,8 +27,8 @@ const SamplePicker = observer(() => {
 			enterTouchDelay={0}
 			enterDelay={0}
 			leaveDelay={300}
-			arrow
-			placement="left"
+			arrow={sidebarOpen}
+			placement={sidebarOpen ? 'left' : 'top'}
 			title="ROI combines the appreciation of the vault with its $BADGER or $DIGG emissions. All numbers are an approximation based on historical data."
 		>
 			<Select
