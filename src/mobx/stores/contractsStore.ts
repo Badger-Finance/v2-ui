@@ -13,11 +13,13 @@ import { action, extendObservable } from 'mobx';
 import { Sett } from '../model/setts/sett';
 import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
 
+type ProgressTracker = Record<string, boolean>;
+
 class ContractsStore {
 	private store!: RootStore;
-	public settsBeingDeposited: Record<string, boolean> = {};
-	public settsBeingUnstaked: Record<string, boolean> = {};
-	public settsBeingWithdrawn: Record<string, boolean> = {};
+	public settsBeingDeposited: ProgressTracker = {};
+	public settsBeingUnstaked: ProgressTracker = {};
+	public settsBeingWithdrawn: ProgressTracker = {};
 
 	constructor(store: RootStore) {
 		this.store = store;
