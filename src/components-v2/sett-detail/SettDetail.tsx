@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { Container, makeStyles, Typography } from '@material-ui/core';
+import { Container, makeStyles } from '@material-ui/core';
 import { Header } from './Header';
 import { MainContent } from './MainContent';
 import { observer } from 'mobx-react-lite';
@@ -11,6 +11,7 @@ import { TopContent } from './TopContent';
 import { SettDeposit } from '../common/dialogs/SettDeposit';
 import { SettWithdraw } from '../common/dialogs/SettWithdraw';
 import { ContractNamespace } from '../../web3/config/contract-namespace';
+import { NotFound } from '../common/NotFound';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -50,14 +51,7 @@ export const SettDetail = observer(
 		}
 
 		if (isNotFound) {
-			return (
-				<Container className={classes.root}>
-					<div className={classes.notReadyContainer}>
-						{/*TODO: replace with not found logo*/}
-						<Typography>Sett Not Found</Typography>
-					</div>
-				</Container>
-			);
+			return <NotFound />;
 		}
 
 		return (
