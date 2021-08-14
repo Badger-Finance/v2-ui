@@ -1,6 +1,18 @@
 import { SettState } from '../../mobx/model/setts/sett-state';
 import slugify from 'slugify';
 import { Sett } from '../../mobx/model/setts/sett';
+import { BadgerSett } from '../../mobx/model/vaults/badger-sett';
+
+export const SAMPLE_BADGER_SETT: BadgerSett = {
+	depositToken: {
+		address: '0x075b1bb99792c9E1041bA13afEf80C91a1e70fB3',
+		decimals: 18,
+	},
+	vaultToken: {
+		address: '0xd04c48A53c111300aD41190D63681ed3dAd998eC',
+		decimals: 18,
+	},
+};
 
 export const SAMPLE_SETT: Sett = {
 	asset: 'sBTCCRV',
