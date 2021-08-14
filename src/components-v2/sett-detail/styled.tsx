@@ -7,5 +7,5 @@ export const StyledDivider = styled(Divider)(({ theme }) => ({
 }));
 
 export const CardContainer = styled(Card)({
-	height: 550,
+	height: '100%',
 });
