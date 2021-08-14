@@ -1,21 +1,25 @@
 import React from 'react';
 import { Button, ButtonGroup } from '@material-ui/core';
 import { SettChartTimeframe } from './utils';
+import { ChartMode } from './ChartsCard';
 
 interface Props {
+	mode: ChartMode;
 	value: SettChartTimeframe;
 	onChange: (timeframe: SettChartTimeframe) => void;
 }
 
-export const ChartTimeframeControls = ({ value, onChange }: Props): JSX.Element => (
+export const ChartTimeframeControls = ({ mode, value, onChange }: Props): JSX.Element => (
 	<ButtonGroup variant="outlined" size="small" aria-label="chart timeframe controls">
-		<Button
-			disableElevation
-			variant={value === SettChartTimeframe.day ? 'contained' : 'outlined'}
-			onClick={() => onChange(SettChartTimeframe.day)}
-		>
-			1 day
-		</Button>
+		{mode !== ChartMode.ratio && (
+			<Button
+				disableElevation
+				variant={value === SettChartTimeframe.day ? 'contained' : 'outlined'}
+				onClick={() => onChange(SettChartTimeframe.day)}
+			>
+				1 day
+			</Button>
+		)}
 		<Button
 			disableElevation
 			variant={value === SettChartTimeframe.week ? 'contained' : 'outlined'}

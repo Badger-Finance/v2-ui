@@ -38,7 +38,7 @@ export const ChartsHeader = ({ mode, timeframe, onTimeframeChange }: Props): JSX
 				</Typography>
 			</Grid>
 			<Grid item xs={12} sm={6} className={classes.buttonGroupContainer}>
-				<ChartTimeframeControls value={timeframe} onChange={onTimeframeChange} />
+				<ChartTimeframeControls mode={mode} value={timeframe} onChange={onTimeframeChange} />
 			</Grid>
 		</Grid>
 	);
