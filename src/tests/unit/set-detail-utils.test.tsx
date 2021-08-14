@@ -13,7 +13,7 @@ describe('sett detail utils', () => {
 			[dayjs().subtract(2, 'hours').toDate(), 2],
 			[dayjs().subtract(3, 'hours').toDate(), 3],
 			[dayjs().subtract(4, 'hours').toDate(), 4],
-		])('calculateDifferenceInHoursFromCycle(%f) returns %f', (cycle: Date, difference: number) => {
+		])('calculateDifferenceInHoursFromCycle(%s) returns %d', (cycle: Date, difference: number) => {
 			expect(calculateDifferenceInHoursFromCycle(cycle)).toEqual(difference);
 		});
 	});
@@ -28,7 +28,7 @@ describe('sett detail utils', () => {
 			[3.9, DelaySeverity.medium],
 			[4, DelaySeverity.high],
 			[5, DelaySeverity.high],
-		])('calculateDelaySeverity(%d, %f) returns %f', (delay: number, severity: DelaySeverity) => {
+		])('calculateDelaySeverity(%d) returns %s', (delay: number, severity: DelaySeverity) => {
 			expect(calculateDelaySeverity(delay)).toEqual(severity);
 		});
 	});
