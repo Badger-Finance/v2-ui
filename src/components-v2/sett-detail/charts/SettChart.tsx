@@ -5,7 +5,7 @@ import { AreaSeries } from 'react-stockcharts/lib/series';
 import { createVerticalLinearGradient, hexToRGBA } from 'react-stockcharts/lib/utils';
 import { scaleTime } from 'd3-scale';
 import { curveLinear } from 'd3-shape';
-import { fitWidth } from 'react-stockcharts/lib/helper';
+import { fitDimensions } from 'react-stockcharts/lib/helper';
 import { timeFormat } from 'd3-time-format';
 import { format } from 'd3-format';
 import { CurrentCoordinate } from 'react-stockcharts/lib/coordinates';
@@ -22,9 +22,10 @@ interface Props {
 	mode: ChartMode;
 	data: SettChartData[];
 	width: number;
+	height: number;
 }
 
-const RawChart = ({ width, data, mode }: Props): JSX.Element => {
+const RawChart = ({ height, width, data, mode }: Props): JSX.Element => {
 	const yAxisAccessor = useYAxisAccessor(mode);
 	const yScaleFormatter = mode === 'value' ? format('.5s') : format('.5f');
 
@@ -32,7 +33,7 @@ const RawChart = ({ width, data, mode }: Props): JSX.Element => {
 		<ChartCanvas
 			ratio={5 / 4}
 			width={width}
-			height={365}
+			height={height}
 			seriesName={'value-gradient'}
 			margin={{ left: 60, right: 0, top: 8, bottom: 30 }}
 			type="svg"
@@ -63,4 +64,4 @@ const RawChart = ({ width, data, mode }: Props): JSX.Element => {
 	);
 };
 
-export const SettChart = fitWidth(RawChart);
+export const SettChart = fitDimensions(RawChart);
