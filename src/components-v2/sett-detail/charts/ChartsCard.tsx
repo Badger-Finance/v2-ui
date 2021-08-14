@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	tabHeader: { background: 'rgba(0,0,0,.2)' },
 	header: {
-		marginBottom: theme.spacing(2),
+		marginBottom: theme.spacing(3),
 	},
 	chartContainer: {
 		display: 'flex',
