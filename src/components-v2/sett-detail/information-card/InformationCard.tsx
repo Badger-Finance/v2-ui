@@ -1,19 +1,19 @@
 import React from 'react';
-import { CardContainer } from '../styled';
 import { Value } from './Value';
 import { Tokens } from './Tokens';
 import { Claims } from './Claims';
 import { Harvests } from './Harvests';
 import { Fees } from './Fees';
+import { Card } from '@material-ui/core';
 
 export const InformationCard = (): JSX.Element => {
 	return (
-		<CardContainer>
+		<Card>
 			<Value />
 			<Tokens />
 			<Claims />
 			<Harvests />
 			<Fees />
-		</CardContainer>
+		</Card>
 	);
 };

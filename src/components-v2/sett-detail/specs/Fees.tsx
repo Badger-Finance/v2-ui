@@ -8,6 +8,9 @@ import { Sett } from '../../../mobx/model/setts/sett';
 import BigNumber from 'bignumber.js';
 
 const useStyles = makeStyles(() => ({
+	root: {
+		marginBottom: 20,
+	},
 	specName: {
 		fontSize: 12,
 		lineHeight: '1.66',
@@ -29,7 +32,7 @@ export const Fees = observer(
 		const classes = useStyles();
 
 		const noFees = (
-			<Grid container>
+			<Grid container className={classes.root}>
 				<Typography>Fees</Typography>
 				<StyledDivider />
 				<Typography className={classes.specName} color="textSecondary" display="inline">
@@ -52,7 +55,7 @@ export const Fees = observer(
 		}
 
 		return (
-			<Grid container>
+			<Grid container className={classes.root}>
 				<Typography>Fees</Typography>
 				<StyledDivider />
 				{nonEmptyFees.map((feeKey) => (
