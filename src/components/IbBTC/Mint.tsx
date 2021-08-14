@@ -290,6 +290,7 @@ export const Mint = observer(
 							<Grid item xs={6}>
 								<EndAlignText variant="body1">
 									<Tooltip
+										enterTouchDelay={0}
 										enterDelay={0}
 										leaveDelay={300}
 										arrow
