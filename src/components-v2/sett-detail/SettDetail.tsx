@@ -58,7 +58,7 @@ export const SettDetail = observer(
 			<>
 				<Container className={classes.root}>
 					<Header />
-					{sett && (
+					{sett && badgerSett && (
 						<>
 							<TopContent
 								sett={sett}
@@ -67,7 +67,7 @@ export const SettDetail = observer(
 								onWithdrawClick={() => setOpenWithdrawDialog(true)}
 								onDepositClick={() => setOpenDepositDialog(true)}
 							/>
-							<MainContent sett={sett} />
+							<MainContent sett={sett} badgerSett={badgerSett} />
 						</>
 					)}
 					<Footer />

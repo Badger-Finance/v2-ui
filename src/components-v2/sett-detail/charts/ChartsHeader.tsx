@@ -3,7 +3,7 @@ import { Grid, Typography } from '@material-ui/core';
 import { ChartTimeframeControls } from './ChartTimeframeControls';
 import { makeStyles } from '@material-ui/core/styles';
 import { ChartMode } from './ChartsCard';
-import { SettChartTimeframe } from './utils';
+import { SettChartTimeframe } from '../utils';
 
 const useStyles = makeStyles((theme) => ({
 	titleText: {
@@ -38,7 +38,7 @@ export const ChartsHeader = ({ mode, timeframe, onTimeframeChange }: Props): JSX
 				</Typography>
 			</Grid>
 			<Grid item xs={12} sm={6} className={classes.buttonGroupContainer}>
-				<ChartTimeframeControls value={timeframe} onChange={onTimeframeChange} />
+				<ChartTimeframeControls mode={mode} value={timeframe} onChange={onTimeframeChange} />
 			</Grid>
 		</Grid>
 	);
