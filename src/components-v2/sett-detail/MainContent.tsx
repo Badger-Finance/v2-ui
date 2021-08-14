@@ -6,6 +6,7 @@ import { Holdings } from './holdings/Holdings';
 import { Sett } from '../../mobx/model/setts/sett';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
+import { BadgerSett } from '../../mobx/model/vaults/badger-sett';
 
 const useStyles = makeStyles((theme) => ({
 	content: {
@@ -18,10 +19,11 @@ const useStyles = makeStyles((theme) => ({
 
 interface Props {
 	sett: Sett;
+	badgerSett: BadgerSett;
 }
 
 export const MainContent = observer(
-	({ sett }: Props): JSX.Element => {
+	({ sett, badgerSett }: Props): JSX.Element => {
 		const store = React.useContext(StoreContext);
 		const { accountDetails } = store.user;
 
@@ -38,7 +40,7 @@ export const MainContent = observer(
 				)}
 				<Grid container spacing={1}>
 					<Grid item xs={12} md={4} lg={3}>
-						<SpecsCard sett={sett} />
+						<SpecsCard sett={sett} badgerSett={badgerSett} />
 					</Grid>
 					{isMediumSizeScreen && (
 						<Grid item xs={12} md={8} lg={9}>

@@ -105,3 +105,4 @@ export const baseRetryOptions = {
 };
 export const defaultRetryOptions: PartialAttemptOptions<void> = baseRetryOptions;
 export const getDefaultRetryOptions = <T>(): PartialAttemptOptions<T> => baseRetryOptions;
+export const ESTIMATED_REWARDS_FREQUENCY = process.env.REACT_APP_REWARDS_FREQUENCY || 2; // in hours
