@@ -51,7 +51,7 @@ export const calculateDelaySeverity = (delay: number): DelaySeverity => {
 		return DelaySeverity.high;
 	}
 
-	if (delay >= 2 && delay < 4) {
+	if (delay >= 2) {
 		return DelaySeverity.medium;
 	}
 
