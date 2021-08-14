@@ -3,7 +3,7 @@ import { Grid, Typography } from '@material-ui/core';
 import { ChartTimeframeControls } from './ChartTimeframeControls';
 import { makeStyles } from '@material-ui/core/styles';
 import { ChartMode } from './ChartsCard';
-import { SettChartTimeframe } from './utils';
+import { SettChartTimeframe } from '../utils';
 
 const useStyles = makeStyles((theme) => ({
 	titleText: {

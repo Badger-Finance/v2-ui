@@ -4,7 +4,7 @@ import { Grid, Tab, Tabs } from '@material-ui/core';
 import { ChartContent } from './ChartContent';
 import { CardContainer } from '../styled';
 import { Sett } from '../../../mobx/model/setts/sett';
-import { fetchSettChart, SettChartTimeframe } from './utils';
+import { fetchSettChart, SettChartTimeframe } from '../utils';
 import { SettChartData } from '../../../mobx/model/setts/sett-charts';
 import { ChartsHeader } from './ChartsHeader';
 

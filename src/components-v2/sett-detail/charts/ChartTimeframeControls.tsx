@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, ButtonGroup } from '@material-ui/core';
-import { SettChartTimeframe } from './utils';
+import { SettChartTimeframe } from '../utils';
 import { ChartMode } from './ChartsCard';
 
 interface Props {

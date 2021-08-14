@@ -3,11 +3,11 @@ import { Grid, Link, Typography } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
-import dayjs from 'dayjs';
 
 import { StyledDivider } from '../styled';
 import { ESTIMATED_REWARDS_FREQUENCY } from '../../../config/constants';
 import { StoreContext } from '../../../mobx/store-context';
+import { calculateDelaySeverity, calculateDifferenceInHoursFromCycle } from '../utils';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -47,20 +47,6 @@ enum DelaySeverity {
 	medium = 'medium',
 	high = 'high',
 }
-
-const calculateDelaySeverity = (delay: number): DelaySeverity => {
-	if (delay >= 4) {
-		return DelaySeverity.high;
-	}
-
-	if (delay >= 2 && delay < 4) {
-		return DelaySeverity.medium;
-	}
-
-	return DelaySeverity.none;
-};
-
-const calculateDifferenceInHoursFromCycle = (cycle: Date): number => Math.abs(dayjs(cycle).diff(dayjs(), 'hours'));
 
 export const Claims = observer(
 	(): JSX.Element => {
