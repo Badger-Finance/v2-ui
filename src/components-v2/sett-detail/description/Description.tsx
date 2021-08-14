@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	settName: {
 		display: 'inline',
-		fontSize: 20,
+		fontSize: 24,
 	},
 	vaultName: {
 		fontSize: 14,
@@ -56,8 +56,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 	logoContainer: {
 		display: 'flex',
-		width: 50,
-		height: 50,
+		width: 68,
+		height: 68,
 	},
 }));
 
@@ -94,18 +94,22 @@ export const Description = ({ sett }: Props): JSX.Element => {
 					alt={`Badger ${sett.name} Vault Symbol`}
 				/>
 			</Grid>
-			<Grid item className={classes.namesContainer}>
-				<Box display="flex" alignItems="center">
-					<Typography className={classes.settName}>{displayName}</Typography>
-					<ApyComparisonBadge
-						apyComparison={`${formatWithoutExtraZeros(Math.abs(performanceComparison), 2)}%`}
-						mode={performanceResultMode}
-					/>
-					<ApyComparisonModeSelector value={comparisonMode} onChange={setComparisonMode} />
-				</Box>
-				<Typography className={classes.vaultName} color="textSecondary">
-					{sett.asset}
-				</Typography>
+			<Grid item container direction="column" justify="center" className={classes.namesContainer}>
+				<Grid item>
+					<Box display="flex" alignItems="center">
+						<Typography className={classes.settName}>{displayName}</Typography>
+						<ApyComparisonBadge
+							apyComparison={`${formatWithoutExtraZeros(Math.abs(performanceComparison), 2)}%`}
+							mode={performanceResultMode}
+						/>
+						<ApyComparisonModeSelector value={comparisonMode} onChange={setComparisonMode} />
+					</Box>
+				</Grid>
+				<Grid item>
+					<Typography className={classes.vaultName} color="textSecondary">
+						{sett.asset}
+					</Typography>
+				</Grid>
 			</Grid>
 		</div>
 	);

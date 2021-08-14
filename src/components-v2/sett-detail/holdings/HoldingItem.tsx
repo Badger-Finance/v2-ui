@@ -11,8 +11,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 	logoContainer: {
 		display: 'inline-flex',
-		width: 32,
-		height: 32,
+		width: 48,
+		height: 48,
 		marginRight: theme.spacing(1),
 	},
 	logo: {
@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
 		alignItems: 'center',
 	},
 	amountText: {
+		alignItems: 'center',
 		marginTop: theme.spacing(1),
 	},
 }));
@@ -47,13 +48,13 @@ export const HoldingItem = ({ name, logo, amount, dollarAmount }: Props): JSX.El
 					<div className={classes.logoContainer}>
 						<img className={classes.logo} src={logo} alt={`${name} holdings`} />
 					</div>
-					<Typography variant="h5" display="inline">
-						{amount}
-					</Typography>
+					<div style={{ display: 'inline' }}>
+						<Typography variant="h5">{amount}</Typography>
+						<Typography variant="body2" color="textSecondary">
+							{dollarAmount}
+						</Typography>
+					</div>
 				</Box>
-				<Typography variant="body2" color="textSecondary" className={classes.amountText}>
-					{dollarAmount}
-				</Typography>
 			</Grid>
 		</Paper>
 	);

@@ -35,7 +35,7 @@ export const MainContent = observer(
 			<Grid container className={classes.content}>
 				{settBalance && (
 					<Grid container className={classes.holdingsContainer}>
-						<Holdings settBalance={settBalance} />
+						<Holdings sett={sett} settBalance={settBalance} />
 					</Grid>
 				)}
 				<Grid container spacing={1}>

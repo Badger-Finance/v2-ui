@@ -27,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	reward: {
 		padding: '4px 6px',
+		border: `1px solid ${theme.palette.divider}`,
 		borderRadius: 4,
 		fontSize: 12,
 	},
