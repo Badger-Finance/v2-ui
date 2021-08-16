@@ -1,24 +1,27 @@
-import { extendObservable, action, observe } from 'mobx';
-import { RootStore } from '../store';
-import { UserPermissions, Account, RewardMerkleClaim } from 'mobx/model';
+import { action, extendObservable, observe } from 'mobx';
+import { RootStore } from '../RootStore';
 import { checkShopEligibility, fetchBouncerProof, fetchClaimProof, getAccountDetails } from 'mobx/utils/apiV2';
 import WalletStore from './walletStore';
 import Web3 from 'web3';
-import { UserBalances } from 'mobx/model/user-balances';
+import { UserBalances } from 'mobx/model/account/user-balances';
 import BatchCall from 'web3-batch-call';
 import { BatchCallClient } from 'web3/interface/batch-call-client';
 import BigNumber from 'bignumber.js';
 import { ContractNamespace } from 'web3/config/contract-namespace';
-import { TokenBalance } from 'mobx/model/token-balance';
-import { BadgerSett } from 'mobx/model/badger-sett';
-import { BadgerToken, mockToken } from 'mobx/model/badger-token';
+import { TokenBalance } from 'mobx/model/tokens/token-balance';
+import { BadgerSett } from 'mobx/model/vaults/badger-sett';
+import { BadgerToken, mockToken } from 'mobx/model/tokens/badger-token';
 import { CallResult } from 'web3/interface/call-result';
 import { DEBUG, ONE_MIN_MS, ZERO_ADDR } from 'config/constants';
-import { UserBalanceCache } from 'mobx/model/user-balance-cache';
-import { CachedUserBalances } from 'mobx/model/cached-user-balances';
+import { UserBalanceCache } from 'mobx/model/account/user-balance-cache';
+import { CachedUserBalances } from 'mobx/model/account/cached-user-balances';
 import { createBatchCallRequest } from 'web3/config/config-utils';
-import { VaultCaps } from 'mobx/model/vault-cap copy';
-import { VaultCap } from 'mobx/model/vault-cap';
+import { VaultCaps } from 'mobx/model/vaults/vault-cap copy';
+import { VaultCap } from 'mobx/model/vaults/vault-cap';
+import { Account } from '../model/account/account';
+import { RewardMerkleClaim } from '../model/rewards/reward-merkle-claim';
+import { UserPermissions } from '../model/account/userPermissions';
+import { NetworkStore } from './NetworkStore';
 
 export default class UserStore {
 	private store!: RootStore;
@@ -55,19 +58,19 @@ export default class UserStore {
 		});
 
 		/**
-		 * Update user store on change of address.
+		 * Update account store on change of address.
 		 */
 		observe(this.store.wallet as WalletStore, 'connectedAddress', () => {
 			if (!this.loadingBalances) {
 				const address = this.store.wallet.connectedAddress;
-				const network = this.store.wallet.network;
+				const network = this.store.network.network;
 				this.permissions = undefined;
 				this.bouncerProof = undefined;
 				this.accountDetails = undefined;
 				if (address) {
 					this.getSettShopEligibility(address);
 					this.loadBouncerProof(address);
-					this.loadAccountDetails(address, network.name);
+					this.loadAccountDetails(address, network.symbol);
 					this.loadClaimProof(address);
 					this.updateBalances(true);
 				}
@@ -75,18 +78,23 @@ export default class UserStore {
 		});
 
 		/**
-		 * Update user store on change of network.
+		 * Update account store on change of network.
 		 */
-		observe(this.store.wallet as WalletStore, 'network', () => {
+		observe(this.store.network as NetworkStore, 'network', () => {
 			if (!this.loadingBalances) {
-				this.refresh();
+				this.refreshBalances();
 			}
 		});
 	}
 
 	/* State Mutation Functions */
 
-	refresh(): void {
+	refreshBalances(): void {
+		this.refreshProvider();
+		this.updateBalances(true);
+	}
+
+	refreshProvider(): void {
 		const provider = this.store.wallet.provider;
 		if (provider) {
 			const newOptions = {
@@ -94,7 +102,6 @@ export default class UserStore {
 			};
 			this.batchCall = new BatchCall(newOptions);
 		}
-		this.updateBalances(true);
 	}
 
 	/* Read Variables */
@@ -131,7 +138,8 @@ export default class UserStore {
 		const hasSetts = Object.keys(this.settBalances).length > 0;
 		let hasGeysers = false;
 
-		const { network, connectedAddress } = this.store.wallet;
+		const { network } = this.store.network;
+		const { connectedAddress } = this.store.wallet;
 		const geyserRequests = network
 			.batchRequests(settMap, connectedAddress)
 			.find((req) => req.namespace === ContractNamespace.Geyser);
@@ -164,6 +172,11 @@ export default class UserStore {
 		}
 	}
 
+	getTokenBalance(contract: string): TokenBalance {
+		const tokenAddress = Web3.utils.toChecksumAddress(contract);
+		return this.getOrDefaultBalance(this.tokenBalances, tokenAddress);
+	}
+
 	private getOrDefaultBalance(balances: UserBalances, token: string): TokenBalance {
 		const balance = balances[token];
 		if (!balance) {
@@ -174,7 +187,8 @@ export default class UserStore {
 
 	updateBalances = action(
 		async (cached?: boolean): Promise<void> => {
-			const { connectedAddress, network, provider } = this.store.wallet;
+			const { connectedAddress, provider } = this.store.wallet;
+			const { network } = this.store.network;
 			const { setts } = this.store;
 
 			/**
@@ -187,7 +201,7 @@ export default class UserStore {
 			}
 			this.loadingBalances = true;
 
-			const cacheKey = `${network.name}-${connectedAddress}`;
+			const cacheKey = `${network.symbol}-${connectedAddress}`;
 			if (cached) {
 				const cachedBalances = this.userBalanceCache[cacheKey];
 				if (cachedBalances && Date.now() <= cachedBalances.expiry) {
@@ -202,10 +216,10 @@ export default class UserStore {
 			if (!batchRequests || batchRequests.length === 0) {
 				return;
 			}
-
+			this.refreshProvider();
 			const callResults: CallResult[] = await this.batchCall.execute(batchRequests);
 			if (DEBUG) {
-				console.log({ network: network.name, callResults });
+				console.log({ network: network.symbol, callResults });
 			}
 
 			// filter batch requests by namespace
@@ -218,7 +232,7 @@ export default class UserStore {
 			const settBalances: UserBalances = {};
 			const geyserBalances: UserBalances = {};
 
-			// update all user balances
+			// update all account balances
 			userTokens.forEach((token) => this.updateUserBalance(tokenBalances, token, this.getDepositToken));
 			userGeneralSetts.forEach((sett) => this.updateUserBalance(settBalances, sett, this.getSettToken));
 			userGuardedSetts.forEach((sett) => this.updateUserBalance(settBalances, sett, this.getSettToken));
@@ -313,20 +327,22 @@ export default class UserStore {
 	private updateUserBalance = (
 		userBalances: UserBalances,
 		token: CallResult,
-		getToken: (sett: BadgerSett) => BadgerToken,
+		getBalanceToken: (sett: BadgerSett) => BadgerToken,
 	): void => {
-		const { prices, wallet } = this.store;
-		const { network } = wallet;
+		const {
+			prices,
+			network: { network },
+		} = this.store;
 		const balanceResults = token.balanceOf || token.totalStakedFor;
 		if (!balanceResults || balanceResults.length === 0) {
 			return;
 		}
 		const balance = new BigNumber(balanceResults[0].value);
-		const sett = network.setts.find((sett) => getToken(sett).address === token.address);
+		const sett = network.setts.find((s) => getBalanceToken(s).address === token.address);
 		if (!sett) {
 			return;
 		}
-		const balanceToken = getToken(sett);
+		const balanceToken = getBalanceToken(sett);
 		let pricingToken = balanceToken.address;
 		if (sett.geyser && sett.geyser === pricingToken) {
 			pricingToken = sett.vaultToken.address;

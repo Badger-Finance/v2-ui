@@ -1,6 +1,6 @@
 import * as api from '../../mobx/utils/apiV2';
-import { SettState } from '../../mobx/model';
 import BigNumber from 'bignumber.js';
+import { SettState } from '../../mobx/model/setts/sett-state';
 
 export function mockApi(): void {
 	jest.spyOn(api, 'listSetts').mockReturnValue(
@@ -192,6 +192,9 @@ export function mockApi(): void {
 			multipliers: {
 				'0x2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b': 1,
 			},
+			nativeBalance: 100,
+			nonNativeBalance: 10,
+			stakeRatio: 100,
 		}),
 	);
 }

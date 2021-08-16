@@ -1,8 +1,8 @@
 import { formatTokens, inCurrency, usdToCurrency, numberWithCommas, toFixedDecimals } from '../../mobx/utils/helpers';
 import '@testing-library/jest-dom';
 import BigNumber from 'bignumber.js';
-import { ExchangeRates } from 'mobx/model';
-import store from 'mobx/store';
+import store from 'mobx/RootStore';
+import { ExchangeRates } from '../../mobx/model/system-config/exchange-rates';
 
 describe('helpers', () => {
 	const exchangeRates: ExchangeRates = { usd: 641.69, cad: 776.44, btc: 41.93, bnb: 7.2 };

@@ -1,43 +1,71 @@
 import React from 'react';
 import { observer } from 'mobx-react-lite';
-import { Grid, Container, Link } from '@material-ui/core';
+import { Grid, Link } from '@material-ui/core';
+import Alert from '@material-ui/lab/Alert';
+import BookOutlinedIcon from '@material-ui/icons/BookOutlined';
 import { makeStyles } from '@material-ui/core/styles';
-import { BoostCalculator } from './BoostCalculator';
+import { Optimizer } from './Optimizer';
 import PageHeader from '../../components-v2/common/PageHeader';
+import { HeaderContainer, LayoutContainer } from '../../components-v2/common/Containers';
 
 const useStyles = makeStyles((theme) => ({
-	root: {
-		[theme.breakpoints.up('md')]: {
-			paddingLeft: theme.spacing(30),
+	boostLink: {
+		fontWeight: 'bold',
+		[theme.breakpoints.down('xs')]: {
+			display: 'none',
 		},
 	},
-	headerContainer: {
-		marginTop: theme.spacing(3),
-		marginBottom: theme.spacing(3),
+	userGuide: {
+		color: theme.palette.text.secondary,
+		marginTop: theme.spacing(2),
+		width: '100%',
 	},
-	footerContainer: {
-		textAlign: 'center',
-		textDecoration: 'underline',
-		padding: theme.spacing(2) + 'px !important',
+	userGuideIcon: {
+		color: theme.palette.primary.main,
+	},
+	userGuideLink: {
+		marginLeft: 3,
 	},
 }));
 
-export const Boost = observer(() => {
+export const BoostOptimizer = observer(() => {
 	const classes = useStyles();
 
 	return (
-		<Container className={classes.root}>
+		<LayoutContainer>
 			<Grid container spacing={1} justify="center">
-				<Grid item xs={12} className={classes.headerContainer}>
-					<PageHeader title="Boost Optimizer" subtitle="Calculate the amounts required for your boost." />
-				</Grid>
+				<HeaderContainer item xs={12}>
+					<PageHeader
+						title="Badger Boost Optimizer"
+						subtitle="Determine deposits needed in order to hit your desired boost ratio."
+					/>
+					<Link
+						target="_blank"
+						rel="noopener noreferrer"
+						href="https://medium.com/badgerdao/badger-boost-power-up-stake-ratio-levels-e0c9802fc5c3"
+						color="primary"
+						className={classes.boostLink}
+					>
+						How does boost work?
+					</Link>
+				</HeaderContainer>
 				<Grid item xs={12}>
-					<BoostCalculator />
+					<Optimizer />
 				</Grid>
-				<Grid item xs={12} className={classes.footerContainer}>
-					<Link>How Does Boosts Work?</Link>
-				</Grid>
+				<Alert
+					className={classes.userGuide}
+					severity="info"
+					iconMapping={{ info: <BookOutlinedIcon fontSize="inherit" className={classes.userGuideIcon} /> }}
+				>
+					Not sure where to start? Check out the
+					<Link
+						href="https://badgerdao.medium.com/badger-boost-optimizer-user-guide-8574b4cac3e1"
+						className={classes.userGuideLink}
+					>
+						Boost Optimizer User Guide
+					</Link>
+				</Alert>
 			</Grid>
-		</Container>
+		</LayoutContainer>
 	);
 });

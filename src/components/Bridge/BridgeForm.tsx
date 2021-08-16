@@ -19,7 +19,6 @@ import {
 
 import { MintForm } from './MintForm';
 import { ReleaseForm } from './ReleaseForm';
-import { RenVMTransaction, RenVMParams } from 'mobx/model';
 import { Status } from 'mobx/stores/bridgeStore';
 import { StoreContext } from 'mobx/store-context';
 import { SuccessForm } from './SuccessForm';
@@ -29,6 +28,7 @@ import { NETWORK_LIST, CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS, FLAGS } from 'con
 import { bridge_system, tokens, sett_system } from 'config/deployments/mainnet.json';
 import { CURVE_EXCHANGE } from 'config/system/abis/CurveExchange';
 import { connectWallet } from 'mobx/utils/helpers';
+import { RenVMTransaction, RenVMParams } from '../../mobx/model/bridge/renVMTransaction';
 
 const DECIMALS = 10 ** 8;
 const SETT_DECIMALS = 10 ** 18;
@@ -150,7 +150,8 @@ export const BridgeForm = observer(({ classes }: any) => {
 	const spacer = <div className={classes.before} />;
 
 	const {
-		wallet: { connect, connectedAddress, provider, onboard, network },
+		network: { network },
+		wallet: { connect, connectedAddress, provider, onboard },
 		contracts: { getAllowance, increaseAllowance },
 		uiState: { queueNotification, setTxStatus },
 		bridge: {
@@ -781,7 +782,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 		}
 	};
 
-	if (network.name !== NETWORK_LIST.ETH) {
+	if (network.symbol !== NETWORK_LIST.ETH) {
 		return (
 			<Grid container alignItems={'center'} className={classes.padded}>
 				The Badger Bridge is only supported on Ethereum Mainnet.

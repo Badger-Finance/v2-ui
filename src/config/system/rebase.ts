@@ -1,14 +1,15 @@
 import UFragments from './abis/UFragments.json';
 import UFragmentsPolicy from './abis/UFragmentsPolicy.json';
-import ChainlinkPricefeed from './abis/ChainlinkPricefeed.json';
+import MedianOracle from './abis/MedianOracle.json';
 import Orchestrator from './abis/Orchestrator.json';
+import DroptRedemption from './abis/DroptRedemption.json';
 import { digg_system } from '../deployments/mainnet.json';
-import { RebaseNetworkConfig } from '../../mobx/model';
 
 import { AbiItem } from 'web3-utils';
 import { NETWORK_LIST } from 'config/constants';
+import { RebaseNetworkConfig } from '../../mobx/model/network/rebase-network-config';
 
-export const getRebase = (network?: string | null): RebaseNetworkConfig | undefined => {
+export const getRebase = (network: string): RebaseNetworkConfig | undefined => {
 	switch (network) {
 		case NETWORK_LIST.ETH:
 			return {
@@ -29,18 +30,47 @@ export const getRebase = (network?: string | null): RebaseNetworkConfig | undefi
 						logging: false,
 						namespace: 'policy',
 					},
+					// TODO: Determine better way to handle multiple reports
 					{
-						addresses: [digg_system.chainlinkPriceFeed],
-						abi: ChainlinkPricefeed.abi as AbiItem[],
+						addresses: [digg_system.marketMedianOracle],
+						abi: MedianOracle.abi as AbiItem[],
 						groupByNamespace: true,
 						namespace: 'oracle',
 						readMethods: [
 							{
-								name: 'latestAnswer',
+								name: 'providerReports',
+								args: [digg_system.newCentralizedOracle, 0],
+							},
+						],
+					},
+					{
+						addresses: [digg_system.marketMedianOracle],
+						abi: MedianOracle.abi as AbiItem[],
+						groupByNamespace: true,
+						namespace: 'oracle',
+						readMethods: [
+							{
+								name: 'providerReports',
+								args: [digg_system.newCentralizedOracle, 1],
+							},
+						],
+					},
+					{
+						addresses: [digg_system.DROPT['DROPT-2'].redemption],
+						abi: DroptRedemption.abi as AbiItem[],
+						groupByNamespace: true,
+						namespace: 'dropt',
+						readMethods: [
+							{
+								name: 'expirationTimestamp',
 								args: [],
 							},
 							{
-								name: 'latestTimestamp',
+								name: 'getCurrentTime',
+								args: [],
+							},
+							{
+								name: 'expiryPrice',
 								args: [],
 							},
 						],
@@ -52,6 +82,15 @@ export const getRebase = (network?: string | null): RebaseNetworkConfig | undefi
 				},
 			};
 		default:
-			undefined;
+			return undefined;
 	}
+};
+
+const LONG_TOKEN_MAP = {
+	[digg_system.DROPT['DROPT-1'].redemption]: digg_system.DROPT['DROPT-1'].longToken,
+	[digg_system.DROPT['DROPT-2'].redemption]: digg_system.DROPT['DROPT-2'].longToken,
+};
+
+export const redemptionToLongToken = (contract: string): string => {
+	return LONG_TOKEN_MAP[contract];
 };

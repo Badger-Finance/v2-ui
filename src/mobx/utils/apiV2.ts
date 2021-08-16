@@ -1,21 +1,20 @@
-import {
-	Eligibility,
-	PriceSummary,
-	ProtocolSummary,
-	Sett,
-	BouncerProof,
-	Account,
-	RewardMerkleClaim,
-	LeaderBoardData,
-	LeaderBoardEntry,
-} from 'mobx/model';
-import { TokenConfig } from 'mobx/model/token-config';
+import { TokenConfigRecord } from 'mobx/model/tokens/token-config-record';
+import { Account } from '../model/account/account';
+import { Sett } from '../model/setts/sett';
+import { RewardMerkleClaim } from '../model/rewards/reward-merkle-claim';
+import { BouncerProof } from '../model/rewards/bouncer-proof';
+import { Eligibility } from '../model/rewards/eligibility';
+import { LeaderBoardBadger } from '../model/boost/leader-board-badger';
+import { LeaderBoardData } from '../model/boost/leaderboard-data';
+import { ProtocolSummary } from '../model/system-config/protocol-summary';
+import { PriceSummary } from '../model/system-config/price-summary';
+import { DEBUG } from 'config/constants';
 
 export const getApi = (): string => {
-	if (process.env.REACT_APP_BUILD_ENV === 'production') {
-		return 'https://api.badger.finance/v2';
+	if (DEBUG) {
+		return 'https://staging-api.badger.finance/v2';
 	}
-	return 'https://staging-api.badger.finance/v2';
+	return 'https://api.badger.finance/v2';
 };
 const badgerApi = getApi();
 
@@ -35,7 +34,7 @@ export const listSetts = async (chain?: string): Promise<Sett[] | null> => {
 	return fetchData(() => fetch(`${listSettsEndpoint}${chain ? `?chain=${chain}` : ''}`));
 };
 
-export const getTokens = async (chain?: string): Promise<TokenConfig | null> => {
+export const getTokens = async (chain?: string): Promise<TokenConfigRecord | null> => {
 	return fetchData(() => fetch(`${getTokensEndpoint}${chain ? `?chain=${chain}` : ''}`));
 };
 
@@ -69,7 +68,7 @@ export const fetchLeaderBoardData = async (page: number, size: number): Promise<
 	return fetchData(() => fetch(`${getLeaderBoardDataEndpoint}?page=${page}&size=${size}`));
 };
 
-export const fetchCompleteLeaderBoardData = async (): Promise<LeaderBoardEntry[] | null> => {
+export const fetchCompleteLeaderBoardData = async (): Promise<LeaderBoardBadger[] | null> => {
 	return fetchData(() => fetch(`${getLeaderBoardDataEndpoint}/complete`));
 };
 

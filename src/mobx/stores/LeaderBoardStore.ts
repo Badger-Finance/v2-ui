@@ -1,22 +1,22 @@
 import { action, extendObservable } from 'mobx';
-import { LeaderBoardData } from 'mobx/model';
-import { RootStore } from 'mobx/store';
-import { fetchLeaderBoardData } from 'mobx/utils/apiV2';
+import { RootStore } from 'mobx/RootStore';
+import { fetchCompleteLeaderBoardData } from 'mobx/utils/apiV2';
+import { LeaderBoardBadger } from '../model/boost/leader-board-badger';
+import { LeaderboardRank } from '../model/boost/leaderboard-rank';
+import { BOOST_RANKS } from '../../config/system/boost-ranks';
 
 export class LeaderBoardStore {
 	private store: RootStore;
 
-	private page: number;
-	private size: number;
-	public data: LeaderBoardData | undefined | null;
+	public completeBoard?: LeaderBoardBadger[];
+	public ranks?: LeaderboardRank[];
 
 	constructor(store: RootStore) {
 		this.store = store;
-		this.page = 0;
-		this.size = 20;
 
 		extendObservable(this, {
-			data: this.data,
+			completeBoard: this.completeBoard,
+			ranks: this.ranks,
 		});
 
 		this.loadData();
@@ -24,36 +24,34 @@ export class LeaderBoardStore {
 
 	loadData = action(
 		async (): Promise<void> => {
-			this.data = await fetchLeaderBoardData(this.page, this.size);
+			const fetchedLeaderBoard = await fetchCompleteLeaderBoardData();
+
+			if (fetchedLeaderBoard) {
+				this.completeBoard = fetchedLeaderBoard;
+				this.ranks = this.retrieveRanksInformation(fetchedLeaderBoard);
+			}
 		},
 	);
 
-	nextPage = action(() => {
-		if (this.data && this.page < this.data.maxPage) {
-			this.page += 1;
-			this.loadData();
-		}
-	});
+	retrieveRanksInformation = (leaderBoard: LeaderBoardBadger[]): LeaderboardRank[] => {
+		const ranks: LeaderboardRank[] = BOOST_RANKS.map((rank) => ({
+			...rank,
+			usersAmount: 0,
+			rangeStart: rank.levels[0].multiplier,
+			rangeEnd: rank.levels[rank.levels.length - 1].multiplier,
+			badgersInRank: [],
+		}));
 
-	prevPage = action(() => {
-		if (this.data && this.page >= 1) {
-			this.page -= 1;
-			this.loadData();
-		}
-	});
+		for (const leaderboardBadger of leaderBoard) {
+			for (const rank of ranks) {
+				const isBadgerInLevel = rank.levels.some(({ multiplier }) => multiplier === leaderboardBadger.boost);
 
-	setPage = action((page: number) => {
-		if (this.data && page >= 0 && page <= this.data.maxPage) {
-			this.page = page;
-			this.loadData();
+				if (isBadgerInLevel) {
+					rank.badgersInRank.push(leaderboardBadger);
+				}
+			}
 		}
-	});
 
-	setSize = action((size: number) => {
-		if (this.data) {
-			this.page = 0;
-			this.size = size;
-			this.loadData();
-		}
-	});
+		return ranks;
+	};
 }

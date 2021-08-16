@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite';
 import { StoreContext } from 'mobx/store-context';
 import { DialogContent, DialogActions, Grid } from '@material-ui/core';
 
-import { TokenBalance } from 'mobx/model/token-balance';
+import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { SettModalProps } from './VaultDeposit';
 import { StrategyInfo } from './StrategyInfo';
 import { PercentageSelector } from 'components-v2/common/PercentageSelector';
@@ -13,6 +13,7 @@ import {
 	AmountTextField,
 	AssetInformationContainer,
 	BalanceInformation,
+	LoaderSpinner,
 	PercentagesContainer,
 	TextSkeleton,
 } from './Common';
@@ -24,18 +25,22 @@ export const VaultWithdraw = observer((props: SettModalProps) => {
 	const { onValidChange, inputProps } = useNumericInput();
 
 	const {
-		wallet: { connectedAddress, network },
+		wallet: { connectedAddress },
+		network: { network },
 		user: { settBalances },
 		contracts,
 		setts,
 	} = store;
 
 	const userBalance = settBalances[badgerSett.vaultToken.address];
+	const vaultSymbol = setts.getToken(badgerSett.vaultToken.address)?.symbol || sett.asset;
+
 	const underlying = userBalance.tokenBalance.multipliedBy(sett.ppfs);
 	const underlyingBalance = new TokenBalance(userBalance.token, underlying, userBalance.price);
-	const canDeposit = !!connectedAddress && !!amount && userBalance.balance.gt(0);
 	const underlyingSymbol = setts.getToken(badgerSett.depositToken.address)?.symbol || sett.asset;
-	const vaultSymbol = setts.getToken(badgerSett.vaultToken.address)?.symbol || sett.asset;
+
+	const isLoading = contracts.settsBeingWithdrawn.findIndex((_sett) => _sett.name === sett.name) >= 0;
+	const canDeposit = !!connectedAddress && !!amount && userBalance.balance.gt(0);
 
 	const handlePercentageChange = (percent: number) => {
 		setAmount(userBalance.scaledBalanceDisplay(percent));
@@ -103,13 +108,20 @@ export const VaultWithdraw = observer((props: SettModalProps) => {
 				<ActionButton
 					aria-label="Withdraw"
 					size="large"
-					disabled={!canDeposit}
+					disabled={isLoading || !canDeposit}
 					onClick={handleSubmit}
 					variant="contained"
 					color="primary"
 					fullWidth
 				>
-					Withdraw
+					{isLoading ? (
+						<>
+							Withdraw In Progress
+							<LoaderSpinner size={20} />
+						</>
+					) : (
+						'Withdraw'
+					)}
 				</ActionButton>
 			</DialogActions>
 		</>

@@ -1,20 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { MobxRouter, startRouter } from 'mobx-router';
+import { startRouter } from 'mobx-router';
 import { StoreProvider } from './mobx/store-context';
 
 //material
-import { Container, CssBaseline } from '@material-ui/core';
+import { CssBaseline } from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { Snackbar } from './components/Snackbar';
 
 //mobx
-import store from './mobx/store';
+import store from './mobx/RootStore';
 
 //router
 import routes from './config/routes';
-import { Sidebar } from './components/Sidebar';
-import { Header } from './components/Header';
+import { App } from './components/App';
 
 //css
 import './assets/css/onboard-override.css';
@@ -22,7 +21,12 @@ import './assets/css/body.css';
 import { darkTheme } from './config/ui/dark';
 
 startRouter(routes, store, {
-	html5history: true, // or false if you want to use hash based routing
+	html5history: true,
+	// reason: package does not recognize the prop but is described in the type definition and in the docs
+	// https://github.com/kitze/mobx-router#custom-director-configuration
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+	// @ts-ignore
+	notfound: () => store.router.goTo(routes.notFound),
 });
 
 ReactDOM.render(
@@ -30,11 +34,7 @@ ReactDOM.render(
 		<ThemeProvider theme={darkTheme}>
 			<CssBaseline />
 			<Snackbar>
-				<Header />
-				<Container maxWidth={false}>
-					<MobxRouter store={store} />
-				</Container>
-				<Sidebar />
+				<App />
 			</Snackbar>
 		</ThemeProvider>
 	</StoreProvider>,

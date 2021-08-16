@@ -1,5 +1,4 @@
 import { ListItem, makeStyles, Typography, Grid, Tooltip } from '@material-ui/core';
-import { Sett, SettTokenBalance } from 'mobx/model';
 import { observer } from 'mobx-react-lite';
 import { numberWithCommas, usdToCurrency } from 'mobx/utils/helpers';
 import React, { useContext } from 'react';
@@ -8,6 +7,8 @@ import DisabledSettListItem from './DisabledSettListItem';
 import CurrencyDisplay from '../common/CurrencyDisplay';
 import SettBadge from './SettBadge';
 import BigNumber from 'bignumber.js';
+import { Sett } from '../../mobx/model/setts/sett';
+import { SettTokenBalance } from '../../mobx/model/setts/sett-token-balance';
 
 const useStyles = makeStyles((theme) => ({
 	border: {
@@ -99,46 +100,26 @@ interface RoiData {
 const SettListItem = observer(
 	(props: SettListItemProps): JSX.Element => {
 		const classes = useStyles();
-
 		const { sett, balance, balanceValue, currency, period, onOpen } = props;
 		const displayName = sett.name.split(' ').length > 1 ? sett.name.split(' ').slice(1).join(' ') : sett.name;
 		const store = useContext(StoreContext);
 		const { user } = store;
-		const { network } = store.wallet;
-		const isNewVault = !!network.newVaults[sett.vaultToken];
 		const divisor = period === 'month' ? 12 : 1;
 
-		const getRoi = (sett: Sett): RoiData => {
+		const getRoi = (sett: Sett, multiplier?: number): RoiData => {
 			const getToolTip = (sett: Sett, divisor: number): JSX.Element => {
 				return (
 					<>
 						{sett.sources.map((source) => {
-							const apr = `${(source.apr / divisor).toFixed(2)}% ${source.name}`;
+							const sourceApr = source.boostable ? source.apr * (multiplier ?? 1) : source.apr;
+							const apr = `${(sourceApr / divisor).toFixed(2)}% ${source.name}`;
 							return <div key={source.name}>{apr}</div>;
 						})}
 					</>
 				);
 			};
 
-			const getNewVaultToolTip = (): JSX.Element => {
-				return (
-					<>
-						{network.newVaults[sett.vaultToken].map((source) => {
-							return <div key={source}>{source}</div>;
-						})}
-					</>
-				);
-			};
-
-			// If the vault is in the newVaults property, the ROI is not displaying properly due
-			// to harvesting. Display the New Vault identifier and the list of provided projected
-			// ROIs in the network object.
-			if (isNewVault) {
-				return {
-					apr: '✨ New Vault ✨',
-					tooltip: getNewVaultToolTip(),
-				};
-			} else if (sett && sett.apr) {
+			if (sett && sett.apr) {
 				let apr;
 				if (sett.boostable && sett.minApr && sett.maxApr) {
 					apr = `${(sett.minApr / divisor).toFixed(2)}% - ${(sett.maxApr / divisor).toFixed(2)}%`;
@@ -151,17 +132,31 @@ const SettListItem = observer(
 			}
 		};
 
-		const { apr, tooltip } = getRoi(sett);
-		const displayValue = balanceValue ? balanceValue : usdToCurrency(new BigNumber(sett.value), currency);
+		const getAprDisplay = () => {
+			return sett.deprecated ? (
+				<Typography style={{ cursor: 'default' }} variant="body1" color={'textPrimary'}>
+					{apr}
+				</Typography>
+			) : (
+				<Tooltip enterDelay={0} leaveDelay={300} arrow placement="left" title={tooltip}>
+					<Typography style={{ cursor: 'default' }} variant="body1" color={'textPrimary'}>
+						{apr}
+					</Typography>
+				</Tooltip>
+			);
+		};
 
 		let userApr: number | undefined = undefined;
-		const multiplier = user.accountDetails?.multipliers[sett.vaultToken];
+		const multiplier = !sett.deprecated ? user.accountDetails?.multipliers[sett.vaultToken] : undefined;
 		if (multiplier) {
 			userApr =
 				sett.sources
 					.map((source) => (source.boostable ? source.apr * multiplier : source.apr))
 					.reduce((total, apr) => (total += apr), 0) / divisor;
 		}
+
+		const { apr, tooltip } = getRoi(sett, multiplier);
+		const displayValue = balanceValue ? balanceValue : usdToCurrency(new BigNumber(sett.value), currency);
 
 		// TODO: Clean up no access implementation, too much duplication
 		return sett.hasBouncer && !user.viewSettShop() ? (
@@ -197,7 +192,8 @@ const SettListItem = observer(
 									<Typography variant="body2" color="textSecondary">
 										{sett.asset}
 									</Typography>
-									<SettBadge settName={sett.name.split(' ')[0]} />
+									<SettBadge protocol={sett.name.split(' ')[0]} />
+									{sett.deprecated && <SettBadge protocol={'No Emissions'} />}
 								</Grid>
 							</Grid>
 						</Grid>
@@ -248,12 +244,9 @@ const SettListItem = observer(
 						</Typography>
 					</Grid>
 					<Grid item xs={6} md={2} className={classes.centerGrid}>
-						<Tooltip enterDelay={0} leaveDelay={300} arrow placement="left" title={tooltip}>
-							<Typography style={{ cursor: 'default' }} variant="body1" color={'textPrimary'}>
-								{apr}
-							</Typography>
-						</Tooltip>
-						{!isNewVault && userApr && (
+						{getAprDisplay()}
+
+						{userApr && (
 							<Typography style={{ cursor: 'default' }} variant="caption" color={'textPrimary'}>
 								My Boost: {userApr.toFixed(2)}%
 							</Typography>

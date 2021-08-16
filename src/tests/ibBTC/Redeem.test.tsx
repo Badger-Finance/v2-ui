@@ -2,21 +2,21 @@ import React from 'react';
 import '@testing-library/jest-dom';
 
 import addresses from 'config/ibBTC/addresses.json';
-import store from 'mobx/store';
+import store from 'mobx/RootStore';
 import { StoreProvider } from '../../mobx/store-context';
-import { TokenModel } from '../../mobx/model';
 import { customRender, screen, fireEvent, act } from '../Utils';
 import { Redeem } from '../../components/IbBTC/Redeem';
+import { IbbtcOptionToken } from '../../mobx/model/tokens/ibbtc-option-token';
 
 const tokensConfig = addresses.mainnet.contracts.tokens;
 
 describe('ibBTC Redeem', () => {
 	beforeEach(() => {
-		store.ibBTCStore.ibBTC = new TokenModel(store, tokensConfig['ibBTC']);
+		store.ibBTCStore.ibBTC = new IbbtcOptionToken(store, tokensConfig['ibBTC']);
 		store.ibBTCStore.tokens = [
-			new TokenModel(store, tokensConfig['bcrvRenWSBTC']), // default option on the list
-			new TokenModel(store, tokensConfig['bcrvRenWBTC']),
-			new TokenModel(store, tokensConfig['btbtc/sbtcCrv']),
+			new IbbtcOptionToken(store, tokensConfig['bcrvRenWSBTC']), // default option on the list
+			new IbbtcOptionToken(store, tokensConfig['bcrvRenWBTC']),
+			new IbbtcOptionToken(store, tokensConfig['btbtc/sbtcCrv']),
 		];
 		store.ibBTCStore.calcRedeemAmount = jest.fn().mockReturnValue({
 			fee: store.ibBTCStore.ibBTC.scale('0.0120'),

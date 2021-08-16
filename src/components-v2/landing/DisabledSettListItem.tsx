@@ -5,7 +5,7 @@ import { numberWithCommas, usdToCurrency } from 'mobx/utils/helpers';
 import React from 'react';
 import SettBadge from './SettBadge';
 import CurrencyDisplay from '../common/CurrencyDisplay';
-import { SettTokenBalance } from 'mobx/model';
+import { SettTokenBalance } from '../../mobx/model/setts/sett-token-balance';
 
 const useStyles = makeStyles((theme) => ({
 	border: {
@@ -115,7 +115,7 @@ const DisabledSettListItem = (props: DisabledSettListItemProps): JSX.Element => 
 									<Typography variant="body2" color="textSecondary">
 										{sett.asset}
 									</Typography>
-									<SettBadge settName={sett.name.split(' ')[0]} />
+									<SettBadge protocol={sett.name.split(' ')[0]} />
 								</Grid>
 							</Grid>
 						</Grid>

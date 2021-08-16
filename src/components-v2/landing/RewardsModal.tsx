@@ -4,7 +4,7 @@ import BigNumber from 'bignumber.js';
 import { Loader } from 'components/Loader';
 import { CLAIMS_SYMBOLS } from 'config/constants';
 import { observer } from 'mobx-react-lite';
-import { TokenBalance } from 'mobx/model/token-balance';
+import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { StoreContext } from 'mobx/store-context';
 import { inCurrency } from 'mobx/utils/helpers';
 import React, { useState, useContext, useEffect } from 'react';
@@ -97,7 +97,8 @@ export const RewardsModal = observer((): JSX.Element | null => {
 	const store = useContext(StoreContext);
 	const { badgerTree, claimGeysers, loadingRewards } = store.rewards;
 	const { currency } = store.uiState;
-	const { network, connectedAddress } = store.wallet;
+	const { connectedAddress } = store.wallet;
+	const { network } = store.network;
 
 	const [open, setOpen] = useState(false);
 	const [maxFlag, setMaxFlag] = useState(true);
@@ -157,6 +158,10 @@ export const RewardsModal = observer((): JSX.Element | null => {
 	const claimableValue = badgerTree.claims.reduce((total, balance) => total.plus(balance.value), new BigNumber(0));
 	const claimItems = badgerTree.claims
 		.filter((claim) => {
+			// BANDAID - fix root cause of badger tree not updating in correct order
+			if (!CLAIMS_SYMBOLS[network.symbol]) {
+				return false;
+			}
 			const entry = claimMap[claim.token.address];
 			const claimable = maxBalances[claim.token.address];
 			return entry && claimable.balance.tokenBalance.gt(0);
@@ -174,7 +179,7 @@ export const RewardsModal = observer((): JSX.Element | null => {
 					display={currentClaim.balanceDisplay(5)}
 					value={currentClaim.balanceValueDisplay(currency)}
 					address={token.address}
-					symbol={CLAIMS_SYMBOLS[network.name][token.address]}
+					symbol={CLAIMS_SYMBOLS[network.symbol][token.address]}
 					onChange={handleClaimMap}
 					maxFlag={isMaxed(token.address)}
 				/>

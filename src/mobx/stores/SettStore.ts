@@ -1,15 +1,18 @@
 import { extendObservable, action, observe, IValueDidChange } from 'mobx';
-import { RootStore } from '../store';
+import { RootStore } from '../RootStore';
 import { getTokens, getTotalValueLocked, listSetts } from 'mobx/utils/apiV2';
-import { Sett, ProtocolSummary, SettMap, SettState } from 'mobx/model';
 import { NETWORK_LIST } from 'config/constants';
 import Web3 from 'web3';
-import WalletStore from './walletStore';
-import { Token } from 'mobx/model/token';
-import { TokenCache } from './interface/token-cache';
-import { SettCache } from './interface/sett-cache';
-import { ProtocolSummaryCache } from './interface/protocol-summary-cache';
-import { TokenConfig } from 'mobx/model/token-config';
+import { Token } from 'mobx/model/tokens/token';
+import { TokenCache } from '../model/tokens/token-cache';
+import { SettCache } from '../model/setts/sett-cache';
+import { ProtocolSummaryCache } from '../model/system-config/protocol-summary-cache';
+import { TokenConfigRecord } from 'mobx/model/tokens/token-config-record';
+import { SettState } from '../model/setts/sett-state';
+import { Sett } from '../model/setts/sett';
+import { SettMap } from '../model/setts/sett-map';
+import { ProtocolSummary } from '../model/system-config/protocol-summary';
+import { NetworkStore } from './NetworkStore';
 
 export default class SettStore {
 	private store!: RootStore;
@@ -30,16 +33,16 @@ export default class SettStore {
 			priceCache: undefined,
 		});
 
-		observe(this.store.wallet, 'currentBlock', async (change: IValueDidChange<number | undefined>) => {
+		observe(this.store.network, 'currentBlock', async (change: IValueDidChange<number | undefined>) => {
 			if (change.oldValue !== change.newValue) {
 				this.refresh();
 			}
 		});
 
 		/**
-		 * Update user store on change of network.
+		 * Update account store on change of network.
 		 */
-		observe(this.store.wallet as WalletStore, 'network', () => {
+		observe(this.store.network as NetworkStore, 'network', () => {
 			this.initialized = false;
 			this.refresh();
 		});
@@ -53,15 +56,15 @@ export default class SettStore {
 	}
 
 	get settMap(): SettMap | undefined | null {
-		return this.settCache[this.store.wallet.network.name];
+		return this.settCache[this.store.network.network.symbol];
 	}
 
 	get protocolSummary(): ProtocolSummary | undefined | null {
-		return this.protocolSummaryCache[this.store.wallet.network.name];
+		return this.protocolSummaryCache[this.store.network.network.symbol];
 	}
 
-	get tokenConfig(): TokenConfig | undefined | null {
-		return this.tokenCache[this.store.wallet.network.name];
+	get tokenConfig(): TokenConfigRecord | undefined | null {
+		return this.tokenCache[this.store.network.network.symbol];
 	}
 
 	getSett(address: string): Sett | undefined {
@@ -72,8 +75,8 @@ export default class SettStore {
 	}
 
 	getSettMap(state: SettState): SettMap | undefined | null {
-		const network = this.store.wallet.network;
-		const setts = this.settCache[network.name];
+		const { network } = this.store.network;
+		const setts = this.settCache[network.symbol];
 		if (!setts) {
 			return setts;
 		}
@@ -81,8 +84,8 @@ export default class SettStore {
 	}
 
 	getToken(address: string): Token | undefined {
-		const network = this.store.wallet.network;
-		const tokens = this.tokenCache[network.name];
+		const { network } = this.store.network;
+		const tokens = this.tokenCache[network.symbol];
 		const tokenAddress = Web3.utils.toChecksumAddress(address);
 		if (!tokens || !tokens[tokenAddress]) {
 			return;
@@ -91,15 +94,15 @@ export default class SettStore {
 	}
 
 	private async refresh(): Promise<void> {
-		const network = this.store.wallet.network;
+		const { network } = this.store.network;
 		if (network) {
 			await Promise.all([
-				this.loadSetts(network.name),
-				this.loadTokens(network.name),
-				this.loadAssets(network.name),
+				this.loadSetts(network.symbol),
+				this.loadTokens(network.symbol),
+				this.loadAssets(network.symbol),
 			]);
 			this.initialized = true;
-			this.store.user.refresh();
+			this.store.user.refreshBalances();
 		}
 	}
 

@@ -1,5 +1,5 @@
 import { ERC20_ABI, GEYSER_ABI, GUEST_LIST_ABI, SETT_ABI } from 'config/constants';
-import { BadgerSett } from 'mobx/model/badger-sett';
+import { BadgerSett } from 'mobx/model/vaults/badger-sett';
 import Web3 from 'web3';
 import { AbiItem } from 'web3-utils';
 import { BatchCallRequest } from 'web3/interface/batch-call-request';

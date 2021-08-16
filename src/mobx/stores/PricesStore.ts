@@ -2,11 +2,14 @@ import { retry } from '@lifeomic/attempt';
 import BigNumber from 'bignumber.js';
 import { defaultRetryOptions } from 'config/constants';
 import { action, extendObservable, IValueDidChange, observe } from 'mobx';
-import { BDiggExchangeRates, ExchangeRates, Network, PriceSummary } from 'mobx/model';
-import { RootStore } from 'mobx/store';
+import { RootStore } from 'mobx/RootStore';
 import { getTokenPrices } from 'mobx/utils/apiV2';
 import { fetchData } from 'mobx/utils/helpers';
 import Web3 from 'web3';
+import { ExchangeRates } from '../model/system-config/exchange-rates';
+import { BDiggExchangeRates } from '../model/system-config/bDigg-exchange-rates';
+import { PriceSummary } from '../model/system-config/price-summary';
+import { Network } from 'mobx/model/network/network';
 
 export default class PricesStore {
 	private store: RootStore;
@@ -24,16 +27,16 @@ export default class PricesStore {
 			priceCache: this.priceCache,
 		});
 
-		observe(this.store.wallet, 'network', (change: IValueDidChange<Network>) => {
+		observe(this.store.network, 'network', (change: IValueDidChange<Network>) => {
 			const { newValue } = change;
-			this.loadPrices(newValue.name);
+			this.loadPrices(newValue.symbol);
 		});
 
 		this.init();
 	}
 
 	async init(): Promise<void> {
-		const network = this.store.wallet.network.name ?? undefined;
+		const network = this.store.network.network.symbol ?? undefined;
 		await Promise.all([this.loadPrices(network), this.loadExchangeRates()]);
 	}
 

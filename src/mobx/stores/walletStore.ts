@@ -1,15 +1,13 @@
 import { extendObservable, action } from 'mobx';
-import Web3 from 'web3';
 import Onboard from 'bnc-onboard';
 import Notify from 'bnc-notify';
 import BigNumber from 'bignumber.js';
-import { onboardWalletCheck, getOnboardWallets, isRpcWallet } from '../../config/wallets';
-import { GasPrices, Network } from 'mobx/model';
-import { RootStore } from 'mobx/store';
+import { onboardWalletCheck, getOnboardWallets } from '../../config/wallets';
+import { RootStore } from 'mobx/RootStore';
 import { API } from 'bnc-onboard/dist/src/interfaces';
 import { API as NotifyAPI } from 'bnc-notify';
-import { getNetwork, getNetworkNameFromId } from 'mobx/utils/network';
 import { getNetworkFromProvider } from 'mobx/utils/helpers';
+import { Network } from 'mobx/model/network/network';
 
 class WalletStore {
 	private store: RootStore;
@@ -17,28 +15,23 @@ class WalletStore {
 	public notify: NotifyAPI;
 	public provider?: any | null;
 	public connectedAddress = '';
-	public currentBlock?: number;
-	public gasPrices: GasPrices;
-	public network: Network;
 
 	constructor(store: RootStore) {
-		this.network = getNetwork();
-		this.gasPrices = { standard: 10 };
 		this.store = store;
 
 		const onboardOptions: any = {
 			dappId: 'af74a87b-cd08-4f45-83ff-ade6b3859a07',
-			networkId: this.network.networkId,
+			networkId: this.store.network.network.id,
 			darkMode: true,
 			subscriptions: {
 				address: this.setAddress,
 				wallet: this.cacheWallet,
-				network: this.checkNetwork,
+				network: this.store.network.checkNetwork,
 			},
 			walletSelect: {
 				heading: 'Connect to BadgerDAO',
 				description: 'Deposit & Earn on your Bitcoin',
-				wallets: getOnboardWallets(this.network.name),
+				wallets: getOnboardWallets(this.store.network.network),
 			},
 			walletCheck: onboardWalletCheck,
 		};
@@ -46,7 +39,7 @@ class WalletStore {
 
 		const notifyOptions: any = {
 			dappId: 'af74a87b-cd08-4f45-83ff-ade6b3859a07',
-			networkId: this.network.networkId,
+			networkId: this.store.network.network.id,
 		};
 		const notify = Notify(notifyOptions);
 
@@ -56,7 +49,6 @@ class WalletStore {
 			currentBlock: undefined,
 			gasPrices: { slow: 51, standard: 75, rapid: 122 },
 			ethBalance: new BigNumber(0),
-			network: this.network,
 			onboard: onboard,
 			notify: notify,
 		});
@@ -70,14 +62,8 @@ class WalletStore {
 
 	init = action(
 		async (): Promise<void> => {
-			this.getCurrentBlock();
-			await this.getGasPrice();
-
 			setInterval(() => {
-				this.getGasPrice();
-			}, 13000);
-			setInterval(() => {
-				this.getCurrentBlock();
+				this.store.network.getCurrentBlock();
 			}, 5000 * 60);
 			const previouslySelectedWallet = window.localStorage.getItem('selectedWallet');
 
@@ -99,7 +85,7 @@ class WalletStore {
 				}
 			}
 			this.notify.config({
-				darkMode: true, // (default: false)
+				darkMode: true,
 			});
 		},
 	);
@@ -125,32 +111,25 @@ class WalletStore {
 		this.setAddress(walletState.address);
 	});
 
-	getCurrentBlock = action(() => {
-		if (!this.provider) {
-			return;
+	getCurrentNetwork(): string | undefined {
+		// not all the providers have the chainId prop available so we use the app network id as fallback
+		if (!this.provider || !this.provider.chainId) {
+			const id = this.onboard.getState().appNetworkId;
+			return Network.networkFromId(id).symbol;
 		}
-		const web3 = new Web3(this.provider);
-		web3.eth.getBlockNumber().then((value: number) => {
-			this.currentBlock = value - 50;
-		});
-	});
-
-	getGasPrice = action(async () => {
-		this.gasPrices = await this.network.getGasPrices();
-		// Some networks have variable prices, and some only have a standard price
-		// If the selected gas price (such as 'fast') is not available on the current
-		// network, switch to standard.
-		if (!this.gasPrices[this.store.uiState.gasPrice]) this.store.uiState.gasPrice = 'standard';
-	});
+		return getNetworkFromProvider(this.provider);
+	}
 
 	setProvider = action((provider: any) => {
 		this.provider = provider;
-		this.getCurrentBlock();
+		this.store.network.getCurrentBlock();
 	});
 
 	setAddress = action(
 		async (address: string): Promise<void> => {
-			if (this.checkSupportedNetwork()) {
+			const isCurrentNetworkSupported = Boolean(this.getCurrentNetwork());
+
+			if (isCurrentNetworkSupported) {
 				this.connectedAddress = address;
 				await this.store.walletRefresh();
 			} else {
@@ -162,41 +141,6 @@ class WalletStore {
 	cacheWallet = action((wallet: any) => {
 		this.setProvider(wallet.provider);
 		window.localStorage.setItem('selectedWallet', wallet.name);
-	});
-
-	// Check to see if the wallet's connected network matches the currently defined network
-	// if it doesn't, set to the proper network
-	checkNetwork = action((network: number): boolean => {
-		// M50: Some onboard wallets don't have providers, we mock in the app network to fill in the gap here
-		const walletState = this.onboard.getState();
-		const walletName = walletState.wallet.name;
-		if (!walletName) return false;
-		// If this returns undefined, the network is not supported.
-		const connectedNetwork = getNetworkNameFromId(isRpcWallet(walletName) ? walletState.appNetworkId : network);
-
-		if (!connectedNetwork) {
-			this.store.uiState.queueNotification('Connecting to an unsupported network', 'error');
-			this.onboard.walletReset();
-			window.localStorage.removeItem('selectedWallet');
-			return false;
-		}
-		const newNetwork = getNetwork(connectedNetwork);
-		if (newNetwork.networkId !== this.network.networkId) {
-			this.network = newNetwork;
-			this.store.walletRefresh();
-			this.getGasPrice();
-			this.getCurrentBlock();
-		}
-		return true;
-	});
-
-	setNetwork = action((network: string): void => {
-		// only allow toggling if no wallet is connected
-		if (this.connectedAddress) {
-			return;
-		}
-		this.network = getNetwork(network);
-		this.store.walletRefresh();
 	});
 
 	isCached = action(() => {

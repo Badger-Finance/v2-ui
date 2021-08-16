@@ -1,0 +1,12 @@
+{
+	"token": "0x3472A5A71965499acd81997a54BBA8D852C6E53d",
+	"tokens": {
+		"SLP-WBTC-WETH": "0xe21F631f47bFB2bC53ED134E83B8cff00e0EC054"
+	},
+	"geysers": {},
+	"sett_system": {
+		"vaults": {
+			"BSLP-WBTC-WETH": "0x30bCE7386e016D6038201F57D1bA52CbA7AEFeCf"
+		}
+	}
+}

@@ -1,4 +1,4 @@
-import { Container, Grid, makeStyles } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
 import DashboardCard from './DashboardCard';
 import Info from './Info';
@@ -6,32 +6,19 @@ import React, { useContext } from 'react';
 import PageHeader from '../../components-v2/common/PageHeader';
 import { NETWORK_LIST } from 'config/constants';
 import { StoreContext } from 'mobx/store-context';
-
-const useStyles = makeStyles((theme) => ({
-	root: {
-		[theme.breakpoints.up('md')]: {
-			paddingLeft: theme.spacing(30),
-		},
-		marginBottom: theme.spacing(5),
-	},
-	headerContainer: {
-		marginTop: theme.spacing(3),
-		marginBottom: theme.spacing(3),
-	},
-}));
+import { HeaderContainer, LayoutContainer } from '../../components-v2/common/Containers';
 
 export const Digg = observer(() => {
-	const classes = useStyles();
 	const store = useContext(StoreContext);
-	const { network } = store.wallet;
+	const { network } = store.network;
 
 	return (
-		<Container className={classes.root}>
+		<LayoutContainer>
 			<Grid container spacing={1} justify="center">
-				<Grid item xs={12} className={classes.headerContainer}>
+				<HeaderContainer item xs={12}>
 					<PageHeader title="DIGG" subtitle="Pegged to Bitcoin. Governed by BadgerDAO." />
-				</Grid>
-				{network.name === NETWORK_LIST.ETH ? (
+				</HeaderContainer>
+				{network.symbol === NETWORK_LIST.ETH ? (
 					<>
 						<Info />
 						<Grid item xs={12}>
@@ -46,6 +33,6 @@ export const Digg = observer(() => {
 					</>
 				)}
 			</Grid>
-		</Container>
+		</LayoutContainer>
 	);
 });

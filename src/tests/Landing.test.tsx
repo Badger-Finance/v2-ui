@@ -3,14 +3,15 @@ import { customRender } from './Utils';
 import Landing from '../pages/Landing';
 import '@testing-library/jest-dom';
 import { StoreProvider } from '../mobx/store-context';
-import store from '../mobx/store';
-import { EthNetwork, SettState } from 'mobx/model';
+import store from '../mobx/RootStore';
 import BigNumber from 'bignumber.js';
 import { mockApi } from './utils/apiV2';
+import { SettState } from '../mobx/model/setts/sett-state';
+import { Ethereum } from 'mobx/model/network/eth.network';
 
 describe('Landing Page', () => {
 	beforeEach(() => {
-		jest.spyOn(EthNetwork.prototype, 'getGasPrices').mockReturnValue(
+		jest.spyOn(Ethereum.prototype, 'updateGasPrices').mockReturnValue(
 			Promise.resolve({
 				rapid: 153000000000 / 1e9,
 				fast: 147000000000 / 1e9,

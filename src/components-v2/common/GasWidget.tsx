@@ -16,7 +16,7 @@ const GasWidget = observer(() => {
 	const store = useContext(StoreContext);
 
 	const { gasPrice, setGasPrice } = store.uiState;
-	const { gasPrices } = store.wallet;
+	const { gasPrices } = store.network;
 	if (!gasPrices[gasPrice]) store.uiState.setGasPrice('standard');
 
 	const getGasSelections = () => {

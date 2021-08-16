@@ -6,10 +6,10 @@ import { toJS } from 'mobx';
 
 import { Token } from 'components/IbBTC/Tokens';
 import { StoreContext } from 'mobx/store-context';
-import { SettMap } from 'mobx/model';
 import { MIN_AMOUNT } from './constants';
 import { Slippage, ValuesProp } from './Common';
 import { sett_system } from 'config/deployments/mainnet.json';
+import { SettMap } from '../../mobx/model/setts/sett-map';
 
 interface MintFormProps {
 	values: ValuesProp;

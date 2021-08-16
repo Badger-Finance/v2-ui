@@ -1,24 +1,25 @@
 import { extendObservable, action } from 'mobx';
 import Web3 from 'web3';
 import { AbiItem } from 'web3-utils';
-import { RootStore } from '../store';
+import { RootStore } from '../RootStore';
 import { abi as rewardsAbi } from '../../config/system/abis/BadgerTree.json';
 import { abi as diggAbi } from '../../config/system/abis/UFragments.json';
 import { badgerTree, digg_system } from '../../config/deployments/mainnet.json';
 import BigNumber from 'bignumber.js';
-import { BadgerTree, TreeClaimData } from 'mobx/model';
 import { reduceClaims, reduceTimeSinceLastCycle } from 'mobx/reducers/statsReducers';
 import { getSendOptions } from 'mobx/utils/web3';
 import { getToken } from '../../web3/config/token-config';
-import { TokenBalance } from 'mobx/model/token-balance';
-import { ETH_DEPLOY } from 'web3/config/eth-config';
-import { mockToken } from 'mobx/model/badger-token';
+import { TokenBalance } from 'mobx/model/tokens/token-balance';
+import { mockToken } from 'mobx/model/tokens/badger-token';
 import { NETWORK_LIST } from 'config/constants';
 import { getNetworkFromProvider } from 'mobx/utils/helpers';
 import { ClaimMap } from 'components-v2/landing/RewardsModal';
+import { BadgerTree } from '../model/rewards/badger-tree';
+import { TreeClaimData } from '../model/rewards/tree-claim-data';
+import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
 
 /**
- * TODO: Clean up reward store in favor of a more unified integration w/ user store.
+ * TODO: Clean up reward store in favor of a more unified integration w/ account store.
  * Create a more generalized ProtocolStore - holding token information surrounding Badger.
  *
  * i.e.
@@ -49,15 +50,18 @@ class RewardsStore {
 	};
 	public badgerTree: BadgerTree;
 	public loadingRewards: boolean;
+	public loadingDiggData: boolean;
 
 	constructor(store: RootStore) {
 		this.store = store;
 		this.badgerTree = RewardsStore.defaultTree;
 		this.loadingRewards = false;
+		this.loadingDiggData = false;
 
 		extendObservable(this, {
 			badgerTree: this.badgerTree,
 			loadingRewards: this.loadingRewards,
+			loadingDiggData: this.loadingDiggData,
 		});
 	}
 
@@ -150,12 +154,12 @@ class RewardsStore {
 
 	fetchSettRewards = action(
 		async (): Promise<void> => {
-			const { provider, connectedAddress, network } = this.store.wallet;
+			const { provider, connectedAddress } = this.store.wallet;
 			const { claimProof } = this.store.user;
 
 			// M50: Rewards only live on ETH, make sure provider is an ETH mainnet one.
 			const networkName = getNetworkFromProvider(provider);
-			if (!connectedAddress || !claimProof || !network.rewards || networkName !== NETWORK_LIST.ETH) {
+			if (!connectedAddress || !claimProof || networkName !== NETWORK_LIST.ETH) {
 				this.resetRewards();
 				this.loadingRewards = false;
 				return;
@@ -177,8 +181,9 @@ class RewardsStore {
 	claimGeysers = action(
 		async (claimMap: ClaimMap): Promise<void> => {
 			const { proof, amounts, sharesPerFragment } = this.badgerTree;
-			const { provider, gasPrices, connectedAddress } = this.store.wallet;
+			const { provider, connectedAddress } = this.store.wallet;
 			const { queueNotification, gasPrice } = this.store.uiState;
+			const { gasPrices } = this.store.network;
 
 			if (!connectedAddress || !sharesPerFragment) {
 				return;

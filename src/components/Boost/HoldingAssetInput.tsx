@@ -9,7 +9,6 @@ const useInputStyles = makeStyles((theme) => ({
 		fontSize: 20,
 		textAlign: 'center',
 		[theme.breakpoints.down(500)]: {
-			padding: '16px 4px',
 			fontSize: 24,
 		},
 	},
@@ -27,11 +26,9 @@ const useInputStyles = makeStyles((theme) => ({
 const useButtonStyles = makeStyles((theme) => ({
 	actionButton: {
 		borderRadius: 2,
-		[theme.breakpoints.up(500)]: {
-			width: 32,
-			height: 32,
-			minWidth: 32,
-		},
+		width: 32,
+		height: 28,
+		minWidth: 32,
 	},
 	actionImage: {
 		width: 12,
@@ -50,15 +47,24 @@ interface CurrencyInputProps {
 const CurrencyInput = (props: CurrencyInputProps): JSX.Element => {
 	const { inputRef, onChange, ...other } = props;
 
+	// this will be updated through onValueChange
+	let nonFormattedValue: string;
+
 	return (
 		<NumberFormat
 			{...other}
 			getInputRef={inputRef}
+			// gets executed before the onChange event
 			onValueChange={(values) => {
+				nonFormattedValue = values.value;
+			}}
+			// we use this handler instead of the onValueChange to make sure the onChange in props gets executed
+			// only on manual input changes
+			onChange={(event) => {
 				onChange({
 					target: {
-						name: props.name,
-						value: values.value,
+						name: event.target.name,
+						value: nonFormattedValue,
 					},
 				});
 			}}
@@ -71,12 +77,16 @@ const CurrencyInput = (props: CurrencyInputProps): JSX.Element => {
 };
 
 interface HoldingAssetProps extends Omit<TextFieldProps, 'onChange'> {
+	increaseAlt?: string;
+	decreaseAlt?: string;
 	onChange: (change: string) => void;
 	onIncrement: () => void;
 	onReduction: () => void;
 }
 
 export const HoldingAssetInput = ({
+	increaseAlt,
+	decreaseAlt,
 	onChange,
 	onIncrement,
 	onReduction,
@@ -90,28 +100,24 @@ export const HoldingAssetInput = ({
 		<TextField
 			{...materialButtonProps}
 			onChange={(event) => onChange(event.target.value as string)}
-			// the "any" is because of the onChange type handler
 			InputProps={{
 				...InputProps,
 				startAdornment: (
-					<Button className={buttonClasses.actionButton} onClick={onIncrement}>
-						<img
-							className={buttonClasses.actionImage}
-							src="/assets/icons/boost-up.svg"
-							alt="increase native holdings"
-						/>
-					</Button>
-				),
-				endAdornment: (
 					<Button className={buttonClasses.actionButton} onClick={onReduction}>
 						<img
 							className={buttonClasses.actionImage}
 							src="/assets/icons/boost-down.svg"
-							alt="decrease native holdings"
+							alt={decreaseAlt}
 						/>
 					</Button>
 				),
+				endAdornment: (
+					<Button className={buttonClasses.actionButton} onClick={onIncrement}>
+						<img className={buttonClasses.actionImage} src="/assets/icons/boost-up.svg" alt={increaseAlt} />
+					</Button>
+				),
 				classes: inputClasses,
+				// the "any" is because of the onChange type handler
 				inputComponent: CurrencyInput as any,
 			}}
 			variant="outlined"

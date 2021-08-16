@@ -3,9 +3,9 @@ import { Dialog, DialogTitle, Switch, Typography, makeStyles, Grid } from '@mate
 
 import { VaultSymbol } from 'components/Common/VaultSymbol';
 import { StoreContext } from 'mobx/store-context';
-import { Sett } from 'mobx/model';
 import { SettWithdraw } from './SettWithdraw';
 import { SettDeposit } from './SettDeposit';
+import { Sett } from '../../../mobx/model/setts/sett';
 
 type DialogMode = 'deposit' | 'withdraw';
 
@@ -29,7 +29,8 @@ export const SettDialog = ({ open = false, sett, onClose }: SettDialogProps): JS
 	const classes = useStyles();
 	const [dialogMode, setDialogMode] = useState<DialogMode>('deposit');
 
-	const { network, connectedAddress } = store.wallet;
+	const { connectedAddress } = store.wallet;
+	const { network } = store.network;
 	const badgerSett = network.setts.find(({ vaultToken }) => vaultToken.address === sett.vaultToken);
 
 	useEffect(() => {

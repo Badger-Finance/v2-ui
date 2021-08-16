@@ -30,14 +30,16 @@
 		"ibBTC": "0xc4E15973E6fF2A35cC804c2CF9D2a1b817a8b40F",
 		"sushi.ibBTC-wBTC": "0x18d98D452072Ac2EB7b74ce3DB723374360539f1",
 		"defiDollar": "0x20c36f062a31865bED8a5B1e512D9a1A20AA333A",
-		"DROPT-1": "0x02660B54750eFab874fb43B4B613C135c7815EeF",
 		"curve.hBTC": "0xb19059ebb43466C323583928285a49f558E572Fd",
 		"curve.pBTC": "0xDE5331AC4B3630f94853Ff322B66407e0D6331E8",
 		"curve.oBTC": "0x2fE94ea3d5d4a175184081439753DE15AeF9d614",
 		"curve.bBTC": "0x410e3E86ef427e30B9235497143881f717d93c2A",
 		"curve.tricrypto": "0xcA3d75aC011BF5aD07a98d02f18225F9bD9A6BDF",
+		"curve.tricrypto2": "0xc4AD29ba4B3c580e6D59105FFf484999997675Ff",
 		"cvx": "0x4e3FBD56CD56c3e72c1403e103b45Db9da5B9D2B",
-		"cvxCRV": "0x62b9c7356a2dc64a1969e19c23e4f579f9810aa7"
+		"cvxCRV": "0x62B9c7356A2Dc64a1969e19C23e4f579F9810Aa7",
+		"imBtc": "0x17d8cbb6bce8cee970a4027d1198f6700a7a6c24",
+		"fPmBtcHBtc": "0x48c59199Da51B7E30Ea200a74Ea07974e62C4bA7"
 	},
 	"logic": {
 		"SmartVesting": "0x07c0E4f4C977a29c46Fb26597ea8C9105ca50b42",
@@ -102,22 +104,38 @@
 			"native.pbtcCrv": "0x55912D0Cf83B75c492E761932ABc4DB4a5CB1b17",
 			"native.obtcCrv": "0xf349c0faA80fC1870306Ac093f75934078e28991",
 			"native.bbtcCrv": "0x5Dce29e92b1b939F8E8C60DcF15BDE82A85be4a9",
-			"native.tricryptoCrv": "0xBE08Ef12e4a553666291E9fFC24fCCFd354F2Dd2",
 			"native.cvxCrv": "0x2B5455aac8d64C14786c3a29858E43b5945819C0",
-			"native.cvx": "0x53C8E199eb2Cb7c01543C137078a038937a68E40"
+			"native.cvx": "0x53C8E199eb2Cb7c01543C137078a038937a68E40",
+			"native.renBtc": "0x58CAc1409F1ffbdcBA6a58d54c94CAC3fb4C6F8B",
+			"native.tricryptoCrv": "0xBE08Ef12e4a553666291E9fFC24fCCFd354F2Dd2",
+			"native.tricryptoCrv2": "0x27E98fC7d05f54E544d16F58C194C2D7ba71e3B5",
+			"native.imBtc": "0x599D92B453C010b1050d31C364f6ee17E819f193",
+			"native.fPmBtcHBtc": "0x26B8efa69603537AC8ab55768b6740b67664D518"
 		},
 		"strategies": {
 			"native.badger": "0x75b8E21BD623012Efb3b69E1B562465A68944eE6",
-			"native.renCrv": "0x444B860128B7Bf8C0e864bDc3b7a36a940db7D88",
-			"native.sbtcCrv": "0x3Efc97A8e23f463e71Bf28Eb19690d097797eb17",
-			"native.tbtcCrv": "0xE2fA197eAA5C726426003074147a08beaA59403B",
+			"native.renCrv": "0x6582a5b139fc1c6360846efdc4440d51aad4df7b",
+			"native.sbtcCrv": "0xf1ded284e891943b3e9c657d7fc376b86164ffc2",
+			"native.tbtcCrv": "0x522bb024c339a12be1a47229546f288c40b62d29",
 			"native.uniBadgerWbtc": "0x95826C65EB1f2d2F0EDBb7EcB176563B61C60bBf",
 			"harvest.renCrv": "0xaaE82E3c89e15E6F26F60724f115d5012363e030",
 			"native.sushiWbtcEth": "0x7A56d65254705B4Def63c68488C0182968C452ce",
 			"native.sushiBadgerWbtc": "0x3a494D79AA78118795daad8AeFF5825C6c8dF7F1",
 			"native.digg": "0x4a8651F2edD68850B944AD93f2c67af817F39F62",
 			"native.uniDiggWbtc": "0xadc8d7322f2E284c1d9254170dbe311E9D3356cf",
-			"native.sushiDiggWbtc": "0xaa8dddfe7DFA3C3269f1910d89E4413dD006D08a"
+			"native.sushiDiggWbtc": "0xaa8dddfe7DFA3C3269f1910d89E4413dD006D08a",
+			"experimental.sushiIBbtcWbtc": "0xf4146A176b09C664978e03d28d07Db4431525dAd",
+			"experimental.digg": "0xA6af1B913E205B8E9B95D3B30768c0989e942316",
+			"native.hbtcCrv": "0xff26f400e57bf726822eacbb64fa1c52f1f27988",
+			"native.pbtcCrv": "0x1C1fD689103bbFD701b3B7D41A3807F12814033D",
+			"native.obtcCrv": "0x2bb864cdb4856ab2d148c5ca52dd7ccec126d138",
+			"native.bbtcCrv": "0x4f3e7a4566320b2709fd1986f2e9f84053d3e2a0",
+			"native.tricrypto": "0x05ec4356e1acd89cc2d16adc7415c8c95e736ac1",
+			"native.tricrypto2": "0x2eB6479c2f033360C0F4575A88e3b8909Cbc6a03",
+			"native.cvxCrv": "0x826048381d65a65DAa51342C51d464428d301896",
+			"native.cvx": "0xBCee2c6CfA7A4e29892c3665f464Be5536F16D95",
+			"native.imBtc": "0xd409C506742b7f76f164909025Ab29A47e06d30A",
+			"native.fPmBtcHBtc": "0x54D06A0E1cE55a7a60Ee175AbCeaC7e363f603f3"
 		},
 		"strategy_artifacts": {
 			"native.badger": "StrategyBadgerRewards",
@@ -174,11 +192,24 @@
 		"marketMedianOracle": "0x058ec2bf15011095a25670b618a129c043e2162e",
 		"constantOracle": "0xed57725991983e407837ce4b3e0f0fa38bd161b6",
 		"centralizedOracle": "0x72dc16CFa95beB42aeebD2B10F22E55bD17Ce976",
+		"newCentralizedOracle": "0x73083058e0f61D3fc7814eEEDc39F9608B4546d7",
 		"daoDiggTimelock": "0x5A54Ca44e8F5A1A695f8621f15Bfa159a140bB61",
 		"diggTeamVesting": "0x124FD4A9bd4914b32c77C9AE51819b1181dbb3D4",
 		"diggDistributor": "0x5E79958EfbB8AFdeDB6EC7107110F329e4EAfffA",
 		"chainlinkOracle": "0xe49CA29a3AD94713Fc14f065125E74906a6503BB",
-		"chainlinkPriceFeed": "0x418a6C98CD5B8275955f08F0b8C1c6838c8b1685"
+		"chainlinkPriceFeed": "0x418a6C98CD5B8275955f08F0b8C1c6838c8b1685",
+		"DROPT": {
+			"DROPT-1": {
+				"longToken": "0x02660B54750eFab874fb43B4B613C135c7815EeF",
+				"shortToken": "",
+				"redemption": ""
+			},
+			"DROPT-2": {
+				"longToken": "0x952F4Ac36EF204a28800AA1c1586C5261B600894",
+				"shortToken": "",
+				"redemption": "0x16c7BF6598b19712b28fdB9F61163550E8505404"
+			}
+		}
 	},
 	"bridge_system": {
 		"adapter": "0xb6ea1d3fb9100a2Cf166FEBe11f24367b5FCD24A",

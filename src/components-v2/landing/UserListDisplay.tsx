@@ -8,11 +8,11 @@ import { SettListViewProps } from './SettListView';
 import SettTable from './SettTable';
 import BadgerBoost from '../common/BadgerBoost';
 import { inCurrency } from 'mobx/utils/helpers';
-import { ContractNamespace } from 'web3/config/contract-namespace';
-import { Sett } from 'mobx/model';
-import { TokenBalance } from 'mobx/model/token-balance';
+import { TokenBalance } from 'mobx/model/tokens/token-balance';
+import { Sett } from '../../mobx/model/setts/sett';
 import BigNumber from 'bignumber.js';
 import Web3 from 'web3';
+import { ContractNamespace } from 'web3/config/contract-namespace';
 
 const useStyles = makeStyles((theme) => ({
 	boostContainer: {
@@ -54,13 +54,13 @@ const UserListDisplay = observer((props: SettListViewProps) => {
 	const {
 		setts,
 		uiState: { currency, period },
-		wallet: { network },
+		network: { network },
 		user,
 	} = store;
 
 	const currentSettMap = setts.getSettMap(state);
 	if (currentSettMap === undefined || user.loadingBalances) {
-		return <Loader message={`Loading My ${network.fullName} Setts...`} />;
+		return <Loader message={`Loading My ${network.name} Setts...`} />;
 	}
 	if (currentSettMap === null) {
 		return (

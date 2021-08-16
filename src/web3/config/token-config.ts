@@ -1,12 +1,14 @@
-import { BadgerToken } from 'mobx/model/badger-token';
+import { bscProtocolTokens } from 'mobx/model/network/bsc.network';
+import { ethProtocolTokens } from 'mobx/model/network/eth.network';
+import { maticProtocolTokens } from 'mobx/model/network/matic.network';
+import { BadgerToken } from 'mobx/model/tokens/badger-token';
 import { ProtocolTokens } from 'web3/interface/protocol-token';
-import { bscProtocolTokens } from './bsc-config';
-import { ethProtocolTokens } from './eth-config';
 
 export const protocolTokens = (): ProtocolTokens => {
 	return {
 		...(ethProtocolTokens && ethProtocolTokens),
 		...(bscProtocolTokens && bscProtocolTokens),
+		...(maticProtocolTokens && maticProtocolTokens),
 	};
 };
 

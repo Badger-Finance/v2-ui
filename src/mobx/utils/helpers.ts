@@ -1,9 +1,12 @@
 import BigNumber from 'bignumber.js';
 import { DEBUG, getDefaultRetryOptions, TEN, ZERO } from '../../config/constants';
-import { getNetworkNameFromId } from './network';
 import { API } from 'bnc-onboard/dist/src/interfaces';
-import store from 'mobx/store';
+import store from 'mobx/RootStore';
 import { retry } from '@lifeomic/attempt';
+import { MarketChartStats } from 'mobx/model/charts/market-chart-stats';
+import { MarketDelta } from 'mobx/model/charts/market-delta';
+import { ChartData } from 'mobx/model/charts/chart-data';
+import { Network } from 'mobx/model/network/network';
 
 export const jsonQuery = (url: string | undefined): Promise<Response> | undefined => {
 	if (!url) return;
@@ -272,24 +275,38 @@ export const numberWithCommas = (x: string): string => {
 	return parts.join('.');
 };
 
-export const fetchDiggChart = (chart: string, range: number, callback: (marketChart: any) => void): void => {
+// using Number() removes extra zeros
+export const formatWithoutExtraZeros = (
+	amount: BigNumber.Value,
+	decimals = 6,
+	strategy = BigNumber.ROUND_HALF_FLOOR,
+): string => {
+	return Number(new BigNumber(amount).toFixed(decimals, strategy)).toString();
+};
+
+export async function fetchDiggChart(chart: string, range: number): Promise<ChartData | undefined> {
 	const to = new Date();
 	const from = new Date();
 	from.setDate(to.getDate() - range);
 
-	fetch(
-		`https://api.coingecko.com/api/v3/coins/digg/market_chart/range?vs_currency=usd&from=
-		${from.getTime() / 1000}&to=${to.getTime() / 1000}`,
-	)
-		.then((data: any) => data.json())
-		.then((marketData: any) => {
-			const data = reduceMarketChart(marketData[chart], range, to);
-			const calcs = marketChartStats(data, 'close');
-			callback({ from, to, data, calcs });
-		});
-};
+	const queryRange = `from=${from.getTime() / 1000}&to=${to.getTime() / 1000}`;
+	const url = `https://api.coingecko.com/api/v3/coins/digg/market_chart/range?vs_currency=usd&${queryRange}`;
+	const response = await fetch(url);
+	if (!response.ok) {
+		return;
+	}
+	const result = await response.json();
+	const data = reduceMarketChart(result[chart], range, to);
+	const calcs = marketChartStats(data, 'close');
+	return {
+		from,
+		to,
+		data,
+		stats: calcs,
+	};
+}
 
-const reduceMarketChart = (data: any[], range: number, maxDate: Date) => {
+const reduceMarketChart = (data: any[], range: number, maxDate: Date): MarketDelta[] => {
 	const formatted = data.map((value: any, index: number) => {
 		const date = new Date();
 
@@ -308,10 +325,8 @@ const reduceMarketChart = (data: any[], range: number, maxDate: Date) => {
 	return formatted;
 };
 
-export function marketChartStats(
-	dataSet: Array<any>,
-	accessor: string,
-): { high: number; low: number; avg: number; median: number } {
+// TODO: clean up this function
+export function marketChartStats(dataSet: Array<any>, accessor: string): MarketChartStats {
 	// highest high
 	const dataCopy: Array<any> = dataSet.slice(0);
 	const sortedData = dataCopy.sort((a, b) => a[accessor] - b[accessor]);
@@ -366,13 +381,16 @@ export const fetchData = async <T>(
 
 // Reason: blocknative does not type their provider, must be any
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const getNetworkFromProvider = (provider: any): string | undefined => {
-	return provider ? getNetworkNameFromId(parseInt(new BigNumber(provider.chainId, 16).toString(10))) : undefined;
+export const getNetworkFromProvider = (provider?: any): string | undefined => {
+	return provider
+		? Network.networkFromId(parseInt(new BigNumber(provider.chainId, 16).toString(10))).symbol
+		: undefined;
 };
 
 export const unscale = (amount: BigNumber, decimals: number): BigNumber => amount.dividedBy(TEN.pow(decimals));
 export const toHex = (amount: BigNumber): string => '0x' + amount.toString(16);
 export const minBalance = (decimals: number): BigNumber => new BigNumber(`0.${'0'.repeat(decimals - 1)}1`);
+export const isWithinRange = (value: number, min: number, max: number): boolean => value >= min && value < max;
 
 /* Easy interface to check to see if wallet selection is handled and ready to connect
  * via onboard.js.  To be reused if connect buttons are displayed in multiple components
@@ -381,7 +399,7 @@ export const minBalance = (decimals: number): BigNumber => new BigNumber(`0.${'0
  */
 export const connectWallet = async (onboard: API, connect: (wsOnboard: any) => void): Promise<void> => {
 	const walletSelected = await onboard.walletSelect();
-	if (walletSelected && onboard.getState().network) {
+	if (walletSelected) {
 		const readyToTransact = await onboard.walletCheck();
 		if (readyToTransact) {
 			connect(onboard);

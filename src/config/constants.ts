@@ -7,10 +7,9 @@ import importedBscErc20 from '../config/system/abis/BscErc20.json';
 import importedYearnSett from '../config/system/abis/YearnWrapper.json';
 import importedGuestList from '../config/system/abis/GuestList.json';
 import { tokens, sett_system } from './deployments/mainnet.json';
-import { NetworkConstants, ClaimsSymbols } from '../mobx/model';
-import { getNetworkDeploy } from 'mobx/utils/network';
 import { AbiItem } from 'web3-utils';
 import { PartialAttemptOptions } from '@lifeomic/attempt';
+import { ClaimsSymbols } from 'mobx/model/rewards/claims-symbols';
 
 export const RPC_WALLETS: { [index: string]: boolean } = {
 	ledger: true,
@@ -23,35 +22,16 @@ export const RPC_WALLETS: { [index: string]: boolean } = {
 export enum NETWORK_LIST {
 	ETH = 'eth',
 	BSC = 'bsc',
-	// MATIC = 'matic',
-	// FTM = 'ftm',
-	// XDAI = 'xdai',
+	MATIC = 'matic',
+	XDAI = 'xdai',
 }
 
 export enum NETWORK_IDS {
 	ETH = 1,
 	BSC = 56,
-	// MATIC = 137,
-	// FTM = 250,
-	// XDAI = 100,
+	MATIC = 137,
+	XDAI = 100,
 }
-
-export const NETWORK_CONSTANTS: NetworkConstants = {
-	[NETWORK_LIST.ETH]: {
-		APP_URL: 'https://app.badger.finance/',
-		RPC_URL: 'https://eth-mainnet.alchemyapi.io/v2/ZPhpI9buZLLAvjR44hryTAhiC5V-HueZ',
-		START_BLOCK: 11381216,
-		START_TIME: new Date('Dec 03 2020 06:11:35 PM UTC'),
-		DEPLOY: getNetworkDeploy(NETWORK_LIST.ETH),
-	},
-	[NETWORK_LIST.BSC]: {
-		APP_URL: 'https://bsc.badger.finance/',
-		RPC_URL: 'https://bsc-node.badger.guru/',
-		START_BLOCK: 11381216,
-		START_TIME: new Date('Dec 03 2020 06:11:35 PM UTC'),
-		DEPLOY: getNetworkDeploy(NETWORK_LIST.BSC),
-	},
-};
 
 export const CLAIMS_SYMBOLS: ClaimsSymbols = {
 	[NETWORK_LIST.BSC]: {},
@@ -67,6 +47,8 @@ export const CLAIMS_SYMBOLS: ClaimsSymbols = {
 		[sett_system.vaults['native.cvx']]: 'bCVX',
 		[sett_system.vaults['native.cvxCrv']]: 'bcvxCRV',
 	},
+	[NETWORK_LIST.MATIC]: {},
+	[NETWORK_LIST.XDAI]: {},
 };
 
 export const CONTACT_EMAIL = 'hello@badger.finance';
@@ -81,7 +63,7 @@ export const APP_NAME = 'badgerDAO';
 export const PORTIS_APP_ID = 'cbf7534d-170d-4903-943f-e607dc588b7f';
 export const EMPTY_DATA = '0x';
 export const ZERO_CURRENCY = '0.00000';
-export const SITE_VERSION = 'v2.8.2';
+export const SITE_VERSION = 'v2.8.5';
 export const WC_BRIDGE = 'https://wc-bridge.badger.finance/';
 
 const toBool = (val: string | undefined): boolean => (val ? val.toLowerCase() === 'true' : false);
@@ -93,6 +75,11 @@ export const FLAGS = {
 	IBBTC_OPTIONS_FLAG: toBool(process.env.REACT_APP_IBBTC_OPTIONS_FLAG),
 	STABILIZATION_SETTS: toBool(process.env.REACT_APP_STABILIZATION_SETTS),
 	BOOST_OPTIMIZER: toBool(process.env.REACT_APP_BOOST_OPTIMIZER),
+	MATIC: toBool(process.env.REACT_APP_MATIC),
+	XDAI: toBool(process.env.REACT_APP_XDAI),
+	RENBTC_SETT: toBool(process.env.REACT_APP_RENBTC_SETT),
+	IBBTC_WBTC_SETT: toBool(process.env.REACT_APP_IBBTC_WBTC_POLY_SETT),
+	MSTABLE: toBool(process.env.REACT_APP_MSTABLE_SETT),
 };
 
 export const ZERO = new BigNumber(0);
@@ -102,7 +89,7 @@ export const MAX = Web3.utils.toTwosComplement(-1);
 export const CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS = '0x93054188d876f558f4a66B2EF1d97d16eDf0895B';
 export const RENVM_GATEWAY_ADDRESS = '0xe4b679400F0f267212D5D812B95f58C83243EE71';
 export const RENVM_NETWORK = 'mainnet';
-export const DEBUG = process.env.NODE_ENV !== 'production';
+export const DEBUG = process.env.REACT_APP_BUILD_ENV ? process.env.REACT_APP_BUILD_ENV === 'development' : true;
 export const ZERO_ADDR = '0x0000000000000000000000000000000000000000';
 
 // time constants

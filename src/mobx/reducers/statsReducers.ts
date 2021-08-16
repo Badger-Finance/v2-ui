@@ -1,8 +1,9 @@
 import BigNumber from 'bignumber.js';
-import { TokenBalance } from 'mobx/model/token-balance';
-import store from 'mobx/store';
+import { TokenBalance } from 'mobx/model/tokens/token-balance';
+import store from 'mobx/RootStore';
 import { getToken } from 'web3/config/token-config';
-import { RewardMerkleClaim, TreeClaimData } from '../model';
+import { RewardMerkleClaim } from '../model/rewards/reward-merkle-claim';
+import { TreeClaimData } from '../model/rewards/tree-claim-data';
 
 export const reduceTimeSinceLastCycle = (time: number): string => {
 	const timestamp = time * 1000;
