@@ -17,6 +17,10 @@ const canvasGradient = createVerticalLinearGradient([{ stop: 0, color: hexToRGBA
 function AreaChart(props: any) {
 	const gradientId = 'gradient-' + Math.floor(Math.random() * 100);
 
+	const displayYCoordinate = (value: number) => {
+		return (props.yPrefix || '') + intToString(value);
+	};
+
 	return (
 		!!props.chartData && (
 			<ChartCanvas
@@ -49,17 +53,9 @@ function AreaChart(props: any) {
 						tickStroke="#fff"
 						axisAt="left"
 						orient="left"
-						tickFormat={(value: number) => {
-							return (props.yPrefix || '') + intToString(value);
-						}}
+						tickFormat={displayYCoordinate}
 					/>
-					<MouseCoordinateY
-						at="left"
-						orient="left"
-						displayFormat={(value: number) => {
-							return (props.yPrefix || '') + intToString(value);
-						}}
-					/>
+					<MouseCoordinateY at="left" orient="left" displayFormat={displayYCoordinate} />
 					<AreaSeries
 						yAccessor={(d: any) => d.change}
 						fill={`url(#${gradientId})`}
