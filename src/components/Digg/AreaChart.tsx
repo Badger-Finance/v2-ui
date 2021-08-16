@@ -1,5 +1,5 @@
 import { Chart, ChartCanvas } from 'react-stockcharts';
-import { CurrentCoordinate } from 'react-stockcharts/lib/coordinates';
+import { CurrentCoordinate, MouseCoordinateX, MouseCoordinateY } from 'react-stockcharts/lib/coordinates';
 
 import React from 'react';
 import { XAxis, YAxis } from 'react-stockcharts/lib/axes';
@@ -43,12 +43,20 @@ function AreaChart(props: any) {
 					</defs>
 					<CurrentCoordinate yAccessor={(d: any) => d.change} displayFormat={timeFormat('%Y-%m-%d')} r={4} />
 					<XAxis axisAt="bottom" orient="bottom" ticks={5} stroke="#aaa" tickStroke="#fff" />
+					<MouseCoordinateX at="bottom" orient="bottom" displayFormat={timeFormat('%Y-%m-%d')} />
 					<YAxis
 						stroke="#aaa"
 						tickStroke="#fff"
 						axisAt="left"
 						orient="left"
 						tickFormat={(value: number) => {
+							return (props.yPrefix || '') + intToString(value);
+						}}
+					/>
+					<MouseCoordinateY
+						at="left"
+						orient="left"
+						displayFormat={(value: number) => {
 							return (props.yPrefix || '') + intToString(value);
 						}}
 					/>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Chart, ChartCanvas } from 'react-stockcharts';
 import { XAxis, YAxis } from 'react-stockcharts/lib/axes';
+import { MouseCoordinateX, MouseCoordinateY } from 'react-stockcharts/lib/coordinates';
 import { AreaSeries } from 'react-stockcharts/lib/series';
 import { createVerticalLinearGradient, hexToRGBA } from 'react-stockcharts/lib/utils';
 import { scaleTime } from 'd3-scale';
@@ -40,6 +41,8 @@ const RawChart = ({ height, width, data, mode }: Props): JSX.Element => {
 			data={data}
 			xAccessor={(d: any) => d.timestamp}
 			xScale={scaleTime()}
+			mouseMoveEvent={true}
+			panEvent={true}
 		>
 			<Chart id={0} yExtents={yAxisAccessor}>
 				<defs>
@@ -50,7 +53,9 @@ const RawChart = ({ height, width, data, mode }: Props): JSX.Element => {
 				</defs>
 				<CurrentCoordinate yAccessor={yAxisAccessor} displayFormat={timeFormat('%Y-%m-%d')} r={4} />
 				<XAxis axisAt="bottom" orient="bottom" ticks={5} stroke="#aaa" tickStroke="#fff" />
+				<MouseCoordinateX at="bottom" orient="bottom" displayFormat={timeFormat('%Y-%m-%d')} />
 				<YAxis stroke="#aaa" tickStroke="#fff" axisAt="left" orient="left" tickFormat={yScaleFormatter} />
+				<MouseCoordinateY at="left" orient="left" displayFormat={yScaleFormatter} />
 				<AreaSeries
 					yAccessor={yAxisAccessor}
 					fill="url(#value-gradient)"
