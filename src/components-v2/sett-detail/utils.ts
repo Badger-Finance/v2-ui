@@ -4,6 +4,7 @@ import { Sett } from '../../mobx/model/setts/sett';
 import { fetchSettChartInformation } from '../../mobx/utils/apiV2';
 import { SettSnapshotGranularity } from '../../mobx/model/setts/sett-snapshot';
 import { SettChartData } from '../../mobx/model/setts/sett-charts';
+import { Network } from '../../mobx/model/network/network';
 
 dayjs.extend(utc);
 
@@ -23,8 +24,13 @@ export enum DelaySeverity {
  * Fetches chart information since the provided timeframe until the current date
  * @param sett
  * @param timeframe
+ * @param network
  */
-export const fetchSettChart = async (sett: Sett, timeframe: SettChartTimeframe): Promise<SettChartData[] | null> => {
+export const fetchSettChart = async (
+	sett: Sett,
+	network: Network,
+	timeframe: SettChartTimeframe,
+): Promise<SettChartData[] | null> => {
 	const timeframeDays = 1 * timeframe;
 	const isDayTimeFrame = timeframe === SettChartTimeframe.day;
 
@@ -34,7 +40,13 @@ export const fetchSettChart = async (sett: Sett, timeframe: SettChartTimeframe):
 	const now = dayjs().utc(); // query until current date
 	const from = dayjs(now).subtract(timeframeDays, 'days').utc();
 
-	const fetchedData = await fetchSettChartInformation(sett.vaultToken, from.toDate(), now.toDate(), granularity);
+	const fetchedData = await fetchSettChartInformation({
+		granularity,
+		id: sett.vaultToken,
+		from: from.toDate(),
+		to: now.toDate(),
+		chain: network.symbol,
+	});
 
 	if (!fetchedData) {
 		return null;

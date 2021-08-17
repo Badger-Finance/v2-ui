@@ -1,3 +1,13 @@
+import { Network } from '../network/network';
+
+export interface SettChartFetchParams {
+	id: string;
+	chain?: Network['symbol'];
+	from?: Date;
+	to?: Date;
+	granularity?: SettSnapshotGranularity;
+}
+
 export enum SettSnapshotGranularity {
 	HOUR = 'hour',
 	DAY = 'day',
