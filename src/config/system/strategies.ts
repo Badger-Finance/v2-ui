@@ -1,11 +1,55 @@
 import deploy from '../deployments/mainnet.json';
 import bscDeploy from '../deployments/bsc.json';
+import maticDeploy from '../deployments/matic.json';
 import { NETWORK_LIST } from '../constants';
 import BigNumber from 'bignumber.js';
 import { StrategyNetworkConfig } from '../../mobx/model/strategies/strategy-network-config';
 
 export const getStrategies = (network?: string | null): StrategyNetworkConfig => {
 	switch (network) {
+		case NETWORK_LIST.MATIC:
+			return {
+				[maticDeploy.sett_system.vaults['BSLP-IBBTC-WBTC']]: {
+					name: '',
+					address: maticDeploy.sett_system.strategies['BSLP-IBBTC-WBTC'],
+					fees: {
+						['Performance Fee']: new BigNumber(1000),
+						['Strategist Performance Fee']: new BigNumber(1000),
+						['Withdraw Fee']: new BigNumber(50),
+					},
+					strategyLink: '',
+				},
+				[maticDeploy.sett_system.vaults['BQLP-WBTC-USDC']]: {
+					name: '',
+					address: maticDeploy.sett_system.strategies['BQLP-WBTC-USDC'],
+					fees: {
+						['Performance Fee']: new BigNumber(1000),
+						['Strategist Performance Fee']: new BigNumber(1000),
+						['Withdraw Fee']: new BigNumber(50),
+					},
+					strategyLink: '',
+				},
+				[maticDeploy.sett_system.vaults['BATRICRYPTO']]: {
+					name: '',
+					address: maticDeploy.sett_system.strategies['BATRICRYPTO'],
+					fees: {
+						['Performance Fee']: new BigNumber(1000),
+						['Strategist Performance Fee']: new BigNumber(1000),
+						['Withdraw Fee']: new BigNumber(50),
+					},
+					strategyLink: '',
+				},
+				[maticDeploy.sett_system.vaults['BCRV-WBTC-RENBTC']]: {
+					name: '',
+					address: maticDeploy.sett_system.strategies['BCRV-WBTC-RENBTC'],
+					fees: {
+						['Performance Fee']: new BigNumber(1000),
+						['Strategist Performance Fee']: new BigNumber(1000),
+						['Withdraw Fee']: new BigNumber(50),
+					},
+					strategyLink: '',
+				},
+			};
 		case NETWORK_LIST.BSC:
 			return {
 				[bscDeploy.sett_system.vaults['native.pancakeBnbBtcb']]: {

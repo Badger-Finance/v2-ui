@@ -193,8 +193,8 @@ const SettListItem = observer(
 									<Typography variant="body2" color="textSecondary">
 										{sett.asset}
 									</Typography>
-									<SettBadge settName={sett.name.split(' ')[0]} />
-									{sett.deprecated && <SettBadge settName={'No Emissions'} />}
+									<SettBadge protocol={sett.name.split(' ')[0]} />
+									{sett.deprecated && <SettBadge protocol={'No Emissions'} />}
 								</Grid>
 							</Grid>
 						</Grid>

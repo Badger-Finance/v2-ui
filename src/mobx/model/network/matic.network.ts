@@ -20,7 +20,12 @@ export class Polygon extends Network {
 		);
 	}
 	get settOrder(): string[] {
-		return [this.deploy.sett_system.vaults['BSLP-IBBTC-WBTC'], this.deploy.sett_system.vaults['BQLP-BADGER-USDC']];
+		return [
+			this.deploy.sett_system.vaults['BSLP-IBBTC-WBTC'],
+			this.deploy.sett_system.vaults['BQLP-WBTC-USDC'],
+			this.deploy.sett_system.vaults['BATRICRYPTO'],
+			this.deploy.sett_system.vaults['BCRV-WBTC-RENBTC'],
+		];
 	}
 
 	async updateGasPrices(): Promise<GasPrices> {
@@ -43,11 +48,31 @@ export const maticSetts: BadgerSett[] = [
 	},
 	{
 		depositToken: {
-			address: MATIC_DEPLOY.tokens['QLP-BADGER-USDC'],
+			address: MATIC_DEPLOY.tokens['QLP-WBTC-USDC'],
 			decimals: 18,
 		},
 		vaultToken: {
-			address: MATIC_DEPLOY.sett_system.vaults['BQLP-BADGER-USDC'],
+			address: MATIC_DEPLOY.sett_system.vaults['BQLP-WBTC-USDC'],
+			decimals: 18,
+		},
+	},
+	{
+		depositToken: {
+			address: MATIC_DEPLOY.tokens['ATRICRYPTO'],
+			decimals: 18,
+		},
+		vaultToken: {
+			address: MATIC_DEPLOY.sett_system.vaults['BATRICRYPTO'],
+			decimals: 18,
+		},
+	},
+	{
+		depositToken: {
+			address: MATIC_DEPLOY.tokens['CRV-WBTC-RENBTC'],
+			decimals: 18,
+		},
+		vaultToken: {
+			address: MATIC_DEPLOY.sett_system.vaults['BCRV-WBTC-RENBTC'],
 			decimals: 18,
 		},
 	},
