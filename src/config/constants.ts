@@ -65,6 +65,7 @@ export const EMPTY_DATA = '0x';
 export const ZERO_CURRENCY = '0.00000';
 export const SITE_VERSION = 'v2.8.5';
 export const WC_BRIDGE = 'https://wc-bridge.badger.finance/';
+export const REN_FEES_ENDPOINT = 'https://lightnode-mainnet.herokuapp.com/ren_queryBlockState';
 
 const toBool = (val: string | undefined): boolean => (val ? val.toLowerCase() === 'true' : false);
 
