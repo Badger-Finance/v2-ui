@@ -29,10 +29,16 @@ interface Props {
 export const ChartsHeader = ({ mode, timeframe, onTimeframeChange }: Props): JSX.Element => {
 	const classes = useStyles();
 
+	const titleByMode = {
+		[ChartMode.value]: 'Value',
+		[ChartMode.ratio]: 'Token Ratio',
+		[ChartMode.accountBalance]: 'Your Total',
+	};
+
 	return (
 		<Grid container alignItems="center" justify="space-between">
 			<Grid container item xs={12} sm={6} direction="column" className={classes.titleText}>
-				<Typography variant="h6">{mode === 'value' ? 'Value' : 'Token Ratio'}</Typography>
+				<Typography variant="h6">{titleByMode[mode]}</Typography>
 				<Typography variant="body2" color="textSecondary">
 					Drag the chart and pan the axes to explore
 				</Typography>

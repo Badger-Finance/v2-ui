@@ -18,11 +18,12 @@ const useStyles = makeStyles((theme) => ({
 
 interface Props {
 	mode: ChartMode;
+	accountScalar?: number;
 	data: SettChartData[] | null;
 	loading?: boolean;
 }
 
-export const ChartContent = ({ data, mode, loading = true }: Props): JSX.Element => {
+export const ChartContent = ({ data, accountScalar, mode, loading = true }: Props): JSX.Element => {
 	const classes = useStyles();
 
 	if (loading) {
@@ -40,5 +41,5 @@ export const ChartContent = ({ data, mode, loading = true }: Props): JSX.Element
 		);
 	}
 
-	return <SettChart data={data} mode={mode} />;
+	return <SettChart data={data} mode={mode} accountScalar={accountScalar} />;
 };

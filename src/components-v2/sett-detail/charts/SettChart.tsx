@@ -15,20 +15,46 @@ import { SettChartData } from '../../../mobx/model/setts/sett-charts';
 
 const canvasGradient = createVerticalLinearGradient([{ stop: 0, color: hexToRGBA('#F2A52B', 0.0) }]);
 
-const useYAxisAccessor = (mode: ChartMode) => {
-	return (data: SettChartData) => (mode === 'value' ? data.value : data.ratio);
+const getYAxisAccessor = (mode: ChartMode) => {
+	return (data: SettChartData) => {
+		const optionsFromMode = {
+			[ChartMode.value]: data.value,
+			[ChartMode.ratio]: data.ratio,
+			[ChartMode.accountBalance]: data.balance,
+		};
+
+		return optionsFromMode[mode];
+	};
+};
+
+const accountScaleData = (data: SettChartData[], scalar: number) => {
+	return data.map((point) => ({ ...point, balance: point.balance * scalar }));
 };
 
 interface Props {
 	mode: ChartMode;
 	data: SettChartData[];
+	accountScalar?: number;
 	width: number;
 	height: number;
 }
 
-const RawChart = ({ height, width, data, mode }: Props): JSX.Element => {
-	const yAxisAccessor = useYAxisAccessor(mode);
-	const yScaleFormatter = mode === 'value' ? format('.5s') : format('.5f');
+const RawChart = ({ height, width, data, mode, accountScalar }: Props): JSX.Element => {
+	const yScaleFormatterByMode = {
+		[ChartMode.value]: format('^$.3s'),
+		[ChartMode.ratio]: format('^.3f'),
+		[ChartMode.accountBalance]: format('^.3r'),
+	};
+
+	console.log(
+		'points =>',
+		data.map((p) => p.balance),
+	);
+	console.log({ accountScalar });
+
+	const yAxisAccessor = getYAxisAccessor(mode);
+	const yScaleFormatter = yScaleFormatterByMode[mode];
+	const chartData = accountScalar ? accountScaleData(data, accountScalar) : data;
 
 	return (
 		<ChartCanvas
@@ -36,9 +62,9 @@ const RawChart = ({ height, width, data, mode }: Props): JSX.Element => {
 			width={width}
 			height={height}
 			seriesName={'value-gradient'}
-			margin={{ left: 60, right: 0, top: 8, bottom: 30 }}
+			margin={{ left: 50, right: 0, top: 8, bottom: 30 }}
 			type="svg"
-			data={data}
+			data={chartData}
 			xAccessor={(d: any) => d.timestamp}
 			xScale={scaleTime()}
 			mouseMoveEvent={true}

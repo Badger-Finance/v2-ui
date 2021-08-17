@@ -9,16 +9,19 @@ import { SettChartData } from '../../../mobx/model/setts/sett-charts';
 import { ChartsHeader } from './ChartsHeader';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../../mobx/store-context';
+import { SettBalance } from '../../../mobx/model/setts/sett-balance';
 
 export enum ChartMode {
 	value = 'value',
 	ratio = 'ratio',
+	accountBalance = 'accountBalance',
 }
 
 const useStyles = makeStyles((theme) => ({
 	root: {
 		display: 'flex',
 		flexDirection: 'column',
+		maxWidth: '100%',
 	},
 	content: {
 		flexGrow: 1,
@@ -39,10 +42,11 @@ const useStyles = makeStyles((theme) => ({
 
 interface Props {
 	sett: Sett;
+	settBalance?: SettBalance;
 }
 
 export const ChartsCard = observer(
-	({ sett }: Props): JSX.Element => {
+	({ sett, settBalance }: Props): JSX.Element => {
 		const { network: networkStore } = useContext(StoreContext);
 
 		const classes = useStyles();
@@ -50,6 +54,9 @@ export const ChartsCard = observer(
 		const [chartData, setChartData] = useState<SettChartData[] | null>(null);
 		const [mode, setMode] = useState(ChartMode.value);
 		const [timeframe, setTimeframe] = useState(SettChartTimeframe.week);
+
+		const accountScalar = settBalance ? settBalance.value / sett.value : undefined;
+		const shouldShowAccountBalance = accountScalar && accountScalar > 0;
 
 		const handleFetch = (fetchedData: SettChartData[] | null) => {
 			setChartData(fetchedData);
@@ -76,15 +83,22 @@ export const ChartsCard = observer(
 					indicatorColor="primary"
 					value={mode}
 				>
-					<Tab onClick={() => setMode(ChartMode.value)} value="value" label="Value" />
-					<Tab onClick={() => setMode(ChartMode.ratio)} value="ratio" label="Token Ratio" />
+					<Tab onClick={() => setMode(ChartMode.value)} value={ChartMode.value} label="Value" />
+					<Tab onClick={() => setMode(ChartMode.ratio)} value={ChartMode.ratio} label="Token Ratio" />
+					{shouldShowAccountBalance && (
+						<Tab
+							onClick={() => setMode(ChartMode.accountBalance)}
+							value={ChartMode.accountBalance}
+							label="Your Total"
+						/>
+					)}
 				</Tabs>
 				<Grid container direction="column" className={classes.content}>
 					<Grid item container alignItems="center" justify="space-between" className={classes.header}>
 						<ChartsHeader mode={mode} timeframe={timeframe} onTimeframeChange={setTimeframe} />
 					</Grid>
 					<Grid item xs className={classes.chartContainer}>
-						<ChartContent mode={mode} data={chartData} loading={loading} />
+						<ChartContent mode={mode} data={chartData} accountScalar={accountScalar} loading={loading} />
 					</Grid>
 				</Grid>
 			</CardContainer>
