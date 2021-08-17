@@ -6,7 +6,7 @@ import importedGeyser from '../config/system/abis/BadgerGeyser.json';
 import importedBscErc20 from '../config/system/abis/BscErc20.json';
 import importedYearnSett from '../config/system/abis/YearnWrapper.json';
 import importedGuestList from '../config/system/abis/GuestList.json';
-import { tokens, sett_system } from './deployments/mainnet.json';
+import { tokens, sett_system, digg_system } from './deployments/mainnet.json';
 import { AbiItem } from 'web3-utils';
 import { PartialAttemptOptions } from '@lifeomic/attempt';
 import { ClaimsSymbols } from 'mobx/model/rewards/claims-symbols';
@@ -46,6 +46,7 @@ export const CLAIMS_SYMBOLS: ClaimsSymbols = {
 		[tokens.defiDollar]: 'Defi Dollar',
 		[sett_system.vaults['native.cvx']]: 'bCVX',
 		[sett_system.vaults['native.cvxCrv']]: 'bcvxCRV',
+		[digg_system.DROPT['DROPT-3'].longToken]: 'DROPT-3',
 	},
 	[NETWORK_LIST.MATIC]: {},
 	[NETWORK_LIST.XDAI]: {},
