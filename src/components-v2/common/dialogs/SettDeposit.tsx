@@ -13,23 +13,11 @@ import { ActionButton, AmountTextField, LoaderSpinner, PercentagesContainer } fr
 import { makeStyles } from '@material-ui/core/styles';
 import { ContractNamespace } from '../../../web3/config/contract-namespace';
 import { SettState } from '../../../mobx/model/setts/sett-state';
+import { NewVaultWarning } from '../../sett-detail/NewVaultWarning';
 
 const useStyles = makeStyles((theme) => ({
 	guardedVault: {
-		display: 'flex',
-		justifyContent: 'center',
 		marginBottom: theme.spacing(2),
-		padding: theme.spacing(0.5),
-		border: `1px solid ${theme.palette.primary.main}`,
-		borderRadius: 8,
-	},
-	guardedVaultText: {
-		fontSize: 14,
-		color: theme.palette.primary.main,
-		fontWeight: 400,
-	},
-	boldText: {
-		fontWeight: 'bold',
 	},
 }));
 
@@ -79,10 +67,7 @@ export const SettDeposit = observer(({ open = false, sett, badgerSett, onClose }
 			<DialogContent dividers>
 				{sett.state === SettState.Guarded && (
 					<Grid container className={classes.guardedVault}>
-						<Typography className={classes.guardedVaultText}>
-							<span className={classes.boldText}>NOTE:</span> This new vault may take up to{' '}
-							<span className={classes.boldText}>2 weeks</span> from launch to reach full efficiency
-						</Typography>
+						<NewVaultWarning />
 					</Grid>
 				)}
 				<Grid container alignItems="center">
