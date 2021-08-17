@@ -27,6 +27,7 @@ export const Footer = (): JSX.Element => {
 
 	return (
 		<footer className={classes.root}>
+			{/*TODO: find a way to create this dynamically*/}
 			<div className={classes.vaultDescription}>
 				<VaultDescription />
 			</div>
