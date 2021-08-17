@@ -20,23 +20,23 @@ export const Holdings = observer(
 	({ settBalance, sett }: Props): JSX.Element => {
 		const { prices, setts } = React.useContext(StoreContext);
 
-		const { id, depositedBalance, earnedBalance, balance, withdrawnBalance } = settBalance;
+		const { depositedBalance, earnedBalance, balance, withdrawnBalance } = settBalance;
 		const usdExchangeRate = prices.exchangeRates?.usd;
-		const settPrice = prices.getPrice(id);
 		const principle = depositedBalance - withdrawnBalance;
 		const logo = `/assets/icons/${settBalance.asset.toLowerCase()}.png`;
 
 		const depositToken = setts.getToken(sett.underlyingToken);
+		const tokenPrice = prices.getPrice(sett.underlyingToken);
 		const decimals = depositToken?.decimals || 18;
 
 		let depositedUsd;
 		let principleUsd;
 		let earnedUsd;
 
-		if (usdExchangeRate && !settPrice.isZero()) {
-			depositedUsd = displayUsdBalance(settPrice.multipliedBy(balance).multipliedBy(usdExchangeRate));
-			earnedUsd = displayUsdBalance(settPrice.multipliedBy(earnedBalance).multipliedBy(usdExchangeRate));
-			principleUsd = displayUsdBalance(settPrice.multipliedBy(principle).multipliedBy(usdExchangeRate));
+		if (usdExchangeRate && !tokenPrice.isZero()) {
+			depositedUsd = displayUsdBalance(tokenPrice.multipliedBy(balance).multipliedBy(usdExchangeRate));
+			earnedUsd = displayUsdBalance(tokenPrice.multipliedBy(earnedBalance).multipliedBy(usdExchangeRate));
+			principleUsd = displayUsdBalance(tokenPrice.multipliedBy(principle).multipliedBy(usdExchangeRate));
 		}
 
 		return (
