@@ -16,6 +16,10 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
+const accountScaleData = (data: SettChartData[], scalar: number) => {
+	return data.map((point) => ({ ...point, value: point.value * scalar }));
+};
+
 interface Props {
 	mode: ChartMode;
 	accountScalar?: number;
@@ -41,5 +45,9 @@ export const ChartContent = ({ data, accountScalar, mode, loading = true }: Prop
 		);
 	}
 
-	return <SettChart data={data} mode={mode} accountScalar={accountScalar} />;
+	if (mode === ChartMode.accountBalance && accountScalar) {
+		return <SettChart data={accountScaleData(data, accountScalar)} mode={mode} />;
+	}
+
+	return <SettChart data={data} mode={mode} />;
 };
