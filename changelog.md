@@ -1,5 +1,9 @@
 # v2 UI Changelog
 
+### Hotfix - 08/17/2021
+
+-   Add RenVM Fee to Bridge Fee Display
+
 ### Hotfix - 08/09/2021
 
 -   Add more detailed information to the INFO tab for each vault
