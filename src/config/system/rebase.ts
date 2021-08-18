@@ -75,6 +75,26 @@ export const getRebase = (network: string): RebaseNetworkConfig | undefined => {
 							},
 						],
 					},
+					{
+						addresses: [digg_system.DROPT['DROPT-3'].redemption],
+						abi: DroptRedemption.abi as AbiItem[],
+						groupByNamespace: true,
+						namespace: 'dropt',
+						readMethods: [
+							{
+								name: 'expirationTimestamp',
+								args: [],
+							},
+							{
+								name: 'getCurrentTime',
+								args: [],
+							},
+							{
+								name: 'expiryPrice',
+								args: [],
+							},
+						],
+					},
 				],
 				orchestrator: {
 					contract: digg_system.orchestrator,
@@ -89,6 +109,7 @@ export const getRebase = (network: string): RebaseNetworkConfig | undefined => {
 const LONG_TOKEN_MAP = {
 	[digg_system.DROPT['DROPT-1'].redemption]: digg_system.DROPT['DROPT-1'].longToken,
 	[digg_system.DROPT['DROPT-2'].redemption]: digg_system.DROPT['DROPT-2'].longToken,
+	[digg_system.DROPT['DROPT-3'].redemption]: digg_system.DROPT['DROPT-3'].longToken,
 };
 
 export const redemptionToLongToken = (contract: string): string => {
