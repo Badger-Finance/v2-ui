@@ -4,7 +4,7 @@ import { Grid, Tab, Tabs } from '@material-ui/core';
 import { ChartContent } from './ChartContent';
 import { CardContainer } from '../styled';
 import { Sett } from '../../../mobx/model/setts/sett';
-import { ChartModeTitles, fetchSettChart } from '../utils';
+import { ChartModeTitles } from '../utils';
 import { ChartMode, SettChartData, SettChartTimeframe } from '../../../mobx/model/setts/sett-charts';
 import { ChartsHeader } from './ChartsHeader';
 import { observer } from 'mobx-react-lite';
@@ -41,7 +41,7 @@ interface Props {
 
 export const ChartsCard = observer(
 	({ sett, settBalance }: Props): JSX.Element => {
-		const { network: networkStore } = useContext(StoreContext);
+		const { settCharts } = useContext(StoreContext);
 
 		const classes = useStyles();
 		const [loading, setLoading] = useState(false);
@@ -64,8 +64,8 @@ export const ChartsCard = observer(
 
 		React.useEffect(() => {
 			setLoading(true);
-			fetchSettChart(sett, networkStore.network, timeframe).then(handleFetch).catch(handleFetchError);
-		}, [sett, timeframe, networkStore.network]);
+			settCharts.search(sett, timeframe).then(handleFetch).catch(handleFetchError);
+		}, [sett, timeframe, settCharts]);
 
 		return (
 			<CardContainer className={classes.root}>
