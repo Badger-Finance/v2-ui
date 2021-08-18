@@ -434,10 +434,10 @@ export const BridgeForm = observer(({ classes }: any) => {
 		const allowance = await getAllowance(tokenParam, bridge_system.adapter);
 
 		try {
+			setTxStatus('pending');
 			if (amountOut.gt(allowance.balance)) {
 				await increaseAllowance(tokenParam, bridge_system.adapter);
 			}
-			setTxStatus('pending');
 			await withdraw(params);
 			setTxStatus('success');
 		} catch (err) {
