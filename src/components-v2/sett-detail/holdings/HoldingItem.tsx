@@ -4,7 +4,6 @@ import { Box, Grid, Paper, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { formatWithoutExtraZeros, numberWithCommas } from '../../../mobx/utils/helpers';
 import { observer } from 'mobx-react-lite';
-import { StoreContext } from '../../../mobx/store-context';
 
 const useStyles = makeStyles((theme) => ({
 	titleContainer: {
