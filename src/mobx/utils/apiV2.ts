@@ -9,7 +9,7 @@ import { LeaderBoardData } from '../model/boost/leaderboard-data';
 import { ProtocolSummary } from '../model/system-config/protocol-summary';
 import { PriceSummary } from '../model/system-config/price-summary';
 import { DEBUG } from 'config/constants';
-import { SettSnapshot, SettSnapshotGranularity } from '../model/setts/sett-snapshot';
+import { SettChartFetchParams, SettSnapshot, SettSnapshotGranularity } from '../model/setts/sett-snapshot';
 
 export const getApi = (): string => {
 	if (DEBUG) {
@@ -74,13 +74,14 @@ export const fetchCompleteLeaderBoardData = async (): Promise<LeaderBoardBadger[
 	return fetchData(() => fetch(`${getLeaderBoardDataEndpoint}/complete`));
 };
 
-export const fetchSettChartInformation = async (
-	id: string,
-	from?: Date,
-	to?: Date,
+export const fetchSettChartInformation = async ({
+	id,
+	chain = 'eth',
+	from,
+	to,
 	granularity = SettSnapshotGranularity.DAY,
-): Promise<SettSnapshot[] | null> => {
-	const params = new URLSearchParams({ id, granularity });
+}: SettChartFetchParams): Promise<SettSnapshot[] | null> => {
+	const params = new URLSearchParams({ id, granularity, chain });
 
 	if (from) {
 		params.set('start', from.toISOString());

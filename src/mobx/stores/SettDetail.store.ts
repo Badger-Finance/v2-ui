@@ -15,6 +15,10 @@ export class SettDetailStore {
 			sett_: this.sett_,
 		});
 
+		observe(store.network, 'network', () => {
+			this.searchSlugInformation();
+		});
+
 		observe(store.setts, 'initialized', () => {
 			this.searchSlugInformation();
 		});

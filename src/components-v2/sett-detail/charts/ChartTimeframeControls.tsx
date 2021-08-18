@@ -1,7 +1,6 @@
 import React from 'react';
 import { Button, ButtonGroup } from '@material-ui/core';
-import { SettChartTimeframe } from '../utils';
-import { ChartMode } from './ChartsCard';
+import { ChartMode, SettChartTimeframe } from '../../../mobx/model/setts/sett-charts';
 
 interface Props {
 	mode: ChartMode;

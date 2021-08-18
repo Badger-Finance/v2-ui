@@ -3,7 +3,6 @@ import { Container, makeStyles } from '@material-ui/core';
 import { Header } from './Header';
 import { MainContent } from './MainContent';
 import { observer } from 'mobx-react-lite';
-import { Footer } from './Footer';
 import { StoreContext } from '../../mobx/store-context';
 import { MobileStickyActionButtons } from './actions/MobileStickyActionButtons';
 import { Loader } from '../../components/Loader';
@@ -70,7 +69,6 @@ export const SettDetail = observer(
 							<MainContent sett={sett} badgerSett={badgerSett} />
 						</>
 					)}
-					<Footer />
 				</Container>
 				<MobileStickyActionButtons
 					isDepositDisabled={!connectedAddress}

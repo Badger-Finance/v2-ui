@@ -2,8 +2,8 @@ import React from 'react';
 import { Grid, Typography } from '@material-ui/core';
 import { ChartTimeframeControls } from './ChartTimeframeControls';
 import { makeStyles } from '@material-ui/core/styles';
-import { ChartMode } from './ChartsCard';
-import { SettChartTimeframe } from '../utils';
+import { ChartModeTitles } from '../utils';
+import { ChartMode, SettChartTimeframe } from '../../../mobx/model/setts/sett-charts';
 
 const useStyles = makeStyles((theme) => ({
 	titleText: {
@@ -32,7 +32,7 @@ export const ChartsHeader = ({ mode, timeframe, onTimeframeChange }: Props): JSX
 	return (
 		<Grid container alignItems="center" justify="space-between">
 			<Grid container item xs={12} sm={6} direction="column" className={classes.titleText}>
-				<Typography variant="h6">{mode === 'value' ? 'Value' : 'Token Ratio'}</Typography>
+				<Typography variant="h6">{ChartModeTitles[mode]}</Typography>
 				<Typography variant="body2" color="textSecondary">
 					Drag the chart and pan the axes to explore
 				</Typography>

@@ -7,3 +7,15 @@ export interface SettChartData {
 	ratio: number;
 	value: number;
 }
+
+export enum ChartMode {
+	value = 'value',
+	ratio = 'ratio',
+	accountBalance = 'accountBalance',
+}
+
+export enum SettChartTimeframe {
+	'day' = 'day',
+	'week' = 'week',
+	'month' = 'month',
+}

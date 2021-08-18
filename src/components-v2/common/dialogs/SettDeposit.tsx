@@ -4,13 +4,22 @@ import { StoreContext } from 'mobx/store-context';
 import { Grid, Dialog, Typography, DialogContent } from '@material-ui/core';
 import { BadgerSett } from 'mobx/model/vaults/badger-sett';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
-import { ContractNamespace } from 'web3/config/contract-namespace';
 import { useNumericInput } from 'utils/useNumericInput';
 import { SettDialogTitle } from './SettDialogTitle';
 import { SettAvailableDeposit } from './SettAvailableDeposit';
 import { PercentageSelector } from '../PercentageSelector';
 import { Sett } from '../../../mobx/model/setts/sett';
 import { ActionButton, AmountTextField, LoaderSpinner, PercentagesContainer } from './styled';
+import { makeStyles } from '@material-ui/core/styles';
+import { ContractNamespace } from '../../../web3/config/contract-namespace';
+import { SettState } from '../../../mobx/model/setts/sett-state';
+import { NewVaultWarning } from '../../sett-detail/NewVaultWarning';
+
+const useStyles = makeStyles((theme) => ({
+	guardedVault: {
+		marginBottom: theme.spacing(2),
+	},
+}));
 
 export interface SettModalProps {
 	open?: boolean;
@@ -25,6 +34,7 @@ export const SettDeposit = observer(({ open = false, sett, badgerSett, onClose }
 
 	const [amount, setAmount] = useState('');
 	const { onValidChange, inputProps } = useNumericInput();
+	const classes = useStyles();
 
 	const userBalance = user.getBalance(ContractNamespace.Token, badgerSett);
 	const depositBalance = TokenBalance.fromBalance(userBalance, amount ?? '0');
@@ -55,6 +65,11 @@ export const SettDeposit = observer(({ open = false, sett, badgerSett, onClose }
 		<Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
 			<SettDialogTitle sett={sett} mode="Deposit" />
 			<DialogContent dividers>
+				{sett.state === SettState.Guarded && (
+					<Grid container className={classes.guardedVault}>
+						<NewVaultWarning />
+					</Grid>
+				)}
 				<Grid container alignItems="center">
 					<Grid item xs={12} sm={6}>
 						<Typography variant="body1" color="textSecondary">
