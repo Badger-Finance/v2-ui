@@ -2,8 +2,7 @@ import React from 'react';
 import { SettChart } from './SettChart';
 import { Grid, Typography } from '@material-ui/core';
 import { Loader } from '../../../components/Loader';
-import { SettChartData } from '../../../mobx/model/setts/sett-charts';
-import { ChartMode } from './ChartsCard';
+import { ChartMode, SettChartData } from '../../../mobx/model/setts/sett-charts';
 import { makeStyles } from '@material-ui/core/styles';
 import ErrorIcon from '@material-ui/icons/Error';
 

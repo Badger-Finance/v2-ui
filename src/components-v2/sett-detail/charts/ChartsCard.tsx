@@ -4,18 +4,12 @@ import { Grid, Tab, Tabs } from '@material-ui/core';
 import { ChartContent } from './ChartContent';
 import { CardContainer } from '../styled';
 import { Sett } from '../../../mobx/model/setts/sett';
-import { fetchSettChart, SettChartTimeframe } from '../utils';
-import { SettChartData } from '../../../mobx/model/setts/sett-charts';
+import { ChartModeTitles, fetchSettChart } from '../utils';
+import { ChartMode, SettChartData, SettChartTimeframe } from '../../../mobx/model/setts/sett-charts';
 import { ChartsHeader } from './ChartsHeader';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../../mobx/store-context';
 import { SettBalance } from '../../../mobx/model/setts/sett-balance';
-
-export enum ChartMode {
-	value = 'value',
-	ratio = 'ratio',
-	accountBalance = 'accountBalance',
-}
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -79,17 +73,25 @@ export const ChartsCard = observer(
 					variant="fullWidth"
 					className={classes.tabHeader}
 					textColor="primary"
-					aria-label="IbBTC Tabs"
+					aria-label="chart view options"
 					indicatorColor="primary"
 					value={mode}
 				>
-					<Tab onClick={() => setMode(ChartMode.value)} value={ChartMode.value} label="Value" />
-					<Tab onClick={() => setMode(ChartMode.ratio)} value={ChartMode.ratio} label="Token Ratio" />
+					<Tab
+						onClick={() => setMode(ChartMode.value)}
+						value={ChartMode.value}
+						label={ChartModeTitles[ChartMode.value]}
+					/>
+					<Tab
+						onClick={() => setMode(ChartMode.ratio)}
+						value={ChartMode.ratio}
+						label={ChartModeTitles[ChartMode.ratio]}
+					/>
 					{shouldShowAccountBalance && (
 						<Tab
 							onClick={() => setMode(ChartMode.accountBalance)}
 							value={ChartMode.accountBalance}
-							label="Your Total"
+							label={ChartModeTitles[ChartMode.accountBalance]}
 						/>
 					)}
 				</Tabs>

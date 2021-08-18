@@ -9,8 +9,7 @@ import { curveLinear } from 'd3-shape';
 import { fitWidth } from 'react-stockcharts/lib/helper';
 import { timeFormat } from 'd3-time-format';
 import { format } from 'd3-format';
-import { ChartMode } from './ChartsCard';
-import { SettChartData } from '../../../mobx/model/setts/sett-charts';
+import { ChartMode, SettChartData } from '../../../mobx/model/setts/sett-charts';
 
 const canvasGradient = createVerticalLinearGradient([{ stop: 0, color: hexToRGBA('#F2A52B', 0.0) }]);
 

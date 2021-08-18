@@ -3,22 +3,23 @@ import utc from 'dayjs/plugin/utc';
 import { Sett } from '../../mobx/model/setts/sett';
 import { fetchSettChartInformation } from '../../mobx/utils/apiV2';
 import { SettSnapshotGranularity } from '../../mobx/model/setts/sett-snapshot';
-import { SettChartData } from '../../mobx/model/setts/sett-charts';
+import { ChartMode, SettChartData, SettChartTimeframe } from '../../mobx/model/setts/sett-charts';
 import { Network } from '../../mobx/model/network/network';
+import { DelaySeverity } from '../../mobx/model/setts/sett-rewards';
 
 dayjs.extend(utc);
 
-export enum SettChartTimeframe {
-	'day' = 1,
-	'week' = 7,
-	'month' = 30,
-}
+export const ChartModeTitles = {
+	[ChartMode.value]: 'Sett Value',
+	[ChartMode.ratio]: 'Token Ratio',
+	[ChartMode.accountBalance]: 'Your Holdings',
+};
 
-export enum DelaySeverity {
-	none = 'none',
-	medium = 'medium',
-	high = 'high',
-}
+const daysFromTimeFrame = {
+	[SettChartTimeframe.day]: 1,
+	[SettChartTimeframe.week]: 7,
+	[SettChartTimeframe.month]: 30,
+};
 
 /**
  * Fetches chart information since the provided timeframe until the current date
@@ -31,7 +32,7 @@ export const fetchSettChart = async (
 	network: Network,
 	timeframe: SettChartTimeframe,
 ): Promise<SettChartData[] | null> => {
-	const timeframeDays = 1 * timeframe;
+	const timeframeDays = daysFromTimeFrame[timeframe];
 	const isDayTimeFrame = timeframe === SettChartTimeframe.day;
 
 	// if timeframe is just one day then we want the granularity to be hours
