@@ -208,6 +208,11 @@
 				"longToken": "0x952F4Ac36EF204a28800AA1c1586C5261B600894",
 				"shortToken": "",
 				"redemption": "0x16c7BF6598b19712b28fdB9F61163550E8505404"
+			},
+			"DROPT-3": {
+				"longToken": "0x68c269B60c58c4ed50c63B217BA0EC7f8a371920",
+				"shortToken": "",
+				"redemption": "0x65DCcd928C71ef98e6eC887FEA24d116765c8A8D"
 			}
 		}
 	},
