@@ -272,7 +272,6 @@ class BridgeStore {
 		this.shortAddr = shortenAddress(connectedAddress);
 
 		this.loading = true;
-
 		return Promise.all([
 			// Fetch old transactions and reload any incomplete tx.
 			this._fetchTx(connectedAddress),
@@ -489,11 +488,11 @@ class BridgeStore {
 							.on('transactionHash', (txHash) => depositLog(`Mint tx: ${txHash}`));
 
 						await this._updateTx({ ...parsedTx, renVMStatus: deposit.status }, true);
-						this._complete();
 					} catch (e) {
 						console.error(e);
 						await this._updateTx(parsedTx, true, e);
 						queueNotification(`Failed to complete transaction: ${e.message}`, 'error');
+					} finally {
 						this._complete();
 					}
 				});
@@ -533,11 +532,11 @@ class BridgeStore {
 							}),
 						);
 					await this._updateTx({ ...parsedTx, renVMStatus: burnAndRelease.status }, true);
-					this._complete();
 				} catch (e) {
 					console.error(e);
 					await this._updateTx(parsedTx, true, e);
 					queueNotification(`Failed to complete transaction: ${e.message}`, 'error');
+				} finally {
 					this._complete();
 				}
 			} else {
