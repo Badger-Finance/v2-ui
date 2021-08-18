@@ -22,15 +22,15 @@ interface Props {
 
 export const Holdings = observer(
 	({ settBalance, sett }: Props): JSX.Element => {
-		const { prices, setts } = React.useContext(StoreContext);
+		const { setts } = React.useContext(StoreContext);
 		const classes = useStyles();
 
-		const { depositedBalance, earnedBalance, balance, withdrawnBalance } = settBalance;
+		const { depositedBalance, earnedBalance, earnedValue, balance, value, withdrawnBalance } = settBalance;
 		const principle = depositedBalance - withdrawnBalance;
+		const tokenPrice = value / balance;
 		const logo = `/assets/icons/${settBalance.asset.toLowerCase()}.png`;
 
 		const depositToken = setts.getToken(sett.underlyingToken);
-		const tokenPrice = prices.getPrice(sett.underlyingToken);
 		const decimals = depositToken?.decimals || 18;
 
 		let principleHelperInfo;
@@ -50,18 +50,14 @@ export const Holdings = observer(
 		return (
 			<Grid container spacing={1}>
 				<Grid item xs={12} sm>
-					<HoldingItem
-						name="Your Total"
-						logo={logo}
-						amount={tokenPrice.multipliedBy(balance)}
-						decimals={decimals}
-					/>
+					<HoldingItem name="Your Total" logo={logo} balance={balance} value={value} decimals={decimals} />
 				</Grid>
 				<Grid item xs={12} sm>
 					<HoldingItem
 						name="Principle"
 						logo={logo}
-						amount={tokenPrice.multipliedBy(principle)}
+						balance={principle}
+						value={principle * tokenPrice}
 						decimals={decimals}
 						helpIcon={principleHelperInfo}
 					/>
@@ -70,7 +66,8 @@ export const Holdings = observer(
 					<HoldingItem
 						name="Earned"
 						logo={logo}
-						amount={tokenPrice.multipliedBy(earnedBalance)}
+						balance={earnedBalance}
+						value={earnedValue}
 						decimals={decimals}
 					/>
 				</Grid>

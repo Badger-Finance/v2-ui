@@ -4,8 +4,6 @@ import { Box, Grid, Paper, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { formatWithoutExtraZeros, numberWithCommas } from '../../../mobx/utils/helpers';
 import { observer } from 'mobx-react-lite';
-import { StoreContext } from '../../../mobx/store-context';
-import { Skeleton } from '@material-ui/lab';
 
 const useStyles = makeStyles((theme) => ({
 	titleContainer: {
@@ -41,20 +39,17 @@ const useStyles = makeStyles((theme) => ({
 interface Props {
 	name: string;
 	logo: string;
-	amount: BigNumber.Value;
+	balance: BigNumber.Value;
+	value: BigNumber.Value;
 	decimals: number;
 	helpIcon?: React.ReactNode;
 }
 
-const displayUsdBalance = (value: BigNumber.Value) => `~${numberWithCommas(formatWithoutExtraZeros(value, 4))}$`;
+const displayUsdBalance = (value: BigNumber.Value) => `~$${numberWithCommas(formatWithoutExtraZeros(value, 2))}`;
 
 export const HoldingItem = observer(
-	({ name, logo, amount, decimals, helpIcon }: Props): JSX.Element => {
-		const { prices } = React.useContext(StoreContext);
+	({ name, logo, balance, value, decimals, helpIcon }: Props): JSX.Element => {
 		const classes = useStyles();
-
-		const usdExchangeRate = prices.exchangeRates?.usd;
-		const displayAmount = usdExchangeRate ? new BigNumber(amount).multipliedBy(usdExchangeRate) : undefined;
 
 		return (
 			<Paper className={classes.cardContainer}>
@@ -68,9 +63,9 @@ export const HoldingItem = observer(
 							<img className={classes.logo} src={logo} alt={`${name} holdings`} />
 						</div>
 						<div>
-							<Typography variant="h5">{formatWithoutExtraZeros(amount, decimals)}</Typography>
+							<Typography variant="h5">{formatWithoutExtraZeros(balance, decimals)}</Typography>
 							<Typography variant="body2" color="textSecondary">
-								{displayAmount ? displayUsdBalance(displayAmount) : <Skeleton width={30} />}
+								{displayUsdBalance(value)}
 							</Typography>
 						</div>
 					</Box>
