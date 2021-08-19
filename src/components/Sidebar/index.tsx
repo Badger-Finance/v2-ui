@@ -333,16 +333,14 @@ export const Sidebar = observer(() => {
 							</ListItem>
 						)}
 						<Collapse in={expanded === 'boosts'} timeout="auto" unmountOnExit>
-							{FLAGS.BOOST_OPTIMIZER && (
-								<ListItem
-									button
-									classes={{ gutters: classes.subItemGutters }}
-									className={getItemClass('/boost-optimizer', classes.primarySubListItem)}
-									onClick={() => navigate(views.boostOptimizer)}
-								>
-									Boost Optimizer
-								</ListItem>
-							)}
+							<ListItem
+								button
+								classes={{ gutters: classes.subItemGutters }}
+								className={getItemClass('/boost-optimizer', classes.primarySubListItem)}
+								onClick={() => navigate(views.boostOptimizer)}
+							>
+								Boost Optimizer
+							</ListItem>
 							<ListItem
 								button
 								classes={{ gutters: classes.subItemGutters }}
