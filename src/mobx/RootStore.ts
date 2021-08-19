@@ -16,6 +16,7 @@ import PricesStore from './stores/PricesStore';
 import { NetworkStore } from './stores/NetworkStore';
 import { SettDetailStore } from './stores/SettDetail.store';
 import { SettChartsStore } from './stores/SettChartsStore';
+import ReactGA from 'react-ga4';
 
 export class RootStore {
 	public router: RouterStore<RootStore>;
@@ -38,6 +39,7 @@ export class RootStore {
 	public settCharts: SettChartsStore;
 
 	constructor() {
+		ReactGA.initialize('G-2QFMY2HE0S');
 		this.router = new RouterStore<RootStore>(this);
 		this.network = new NetworkStore(this);
 		this.wallet = new WalletStore(this);

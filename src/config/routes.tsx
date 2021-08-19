@@ -7,18 +7,25 @@ import { BoostOptimizer } from '../components/Boost';
 import { Digg } from '../components/Digg';
 import { Locked } from 'components/Common/Locked';
 import { IbBTC } from 'components/IbBTC';
-import { FLAGS } from 'config/constants';
 import { Bridge } from '../components/Bridge';
 import HoneybadgerDrop from '../components/HoneybadgerDrop/index';
 import BoostLeaderBoard from 'pages/BoostLeaderBoard';
 import { SettDetail } from '../components-v2/sett-detail/SettDetail';
 import { SettState } from '../mobx/model/setts/sett-state';
 import { NotFound } from '../components-v2/common/NotFound';
+import ReactGA from 'react-ga4';
+
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
+const pageView = (route: string) => {
+	ReactGA.send({ hitType: 'pageview', page: route });
+};
 
 const routes = {
 	locked: new Route<RootStore>({
 		path: '/locked',
 		component: <Locked />,
+		onEnter: (route, _params, _store) => pageView(route.path),
 	}),
 	home: new Route<RootStore>({
 		path: '/',
@@ -29,10 +36,12 @@ const routes = {
 				state={SettState.Open}
 			/>
 		),
+		onEnter: (route, _params, _store) => pageView(route.path),
 	}),
 	notFound: new Route<RootStore>({
 		path: '/not-found',
 		component: <NotFound />,
+		onEnter: (route, _params, _store) => pageView(route.path),
 	}),
 	guarded: new Route<RootStore>({
 		path: '/guarded',
@@ -43,6 +52,7 @@ const routes = {
 				state={SettState.Guarded}
 			/>
 		),
+		onEnter: (route, _params, _store) => pageView(route.path),
 	}),
 	experimental: new Route<RootStore>({
 		path: '/experimental',
@@ -53,42 +63,55 @@ const routes = {
 				state={SettState.Experimental}
 			/>
 		),
+		onEnter: (route, _params, _store) => pageView(route.path),
 	}),
 	airdrops: new Route<RootStore, QueryParams>({
 		path: '/airdrops',
 		component: <Airdrops />,
-		onEnter: (_route, _params, store) => store.airdrops.fetchAirdrops(),
+		onEnter: (route, _params, store) => {
+			pageView(route.path);
+			store.airdrops.fetchAirdrops();
+		},
 	}),
 	boostOptimizer: new Route<RootStore, QueryParams>({
 		path: '/boost-optimizer',
-		component: FLAGS.BOOST_OPTIMIZER ? <BoostOptimizer /> : <NotFound />,
+		component: <BoostOptimizer />,
+		onEnter: (route, _params, _store) => pageView(route.path),
 	}),
 	digg: new Route<RootStore, QueryParams>({
 		path: '/digg',
 		component: <Digg />,
+		onEnter: (route, _params, _store) => pageView(route.path),
 	}),
 	honeybadgerDrop: new Route<RootStore, QueryParams>({
 		path: '/honey-badger-drop',
 		component: <HoneybadgerDrop />,
+		onEnter: (route, _params, _store) => pageView(route.path),
 	}),
 	IbBTC: new Route<RootStore, QueryParams>({
 		path: '/ibBTC',
 		component: <IbBTC />,
-		onEnter: (_route, _params, store) => store.ibBTCStore.init(),
+		onEnter: (route, _params, store) => {
+			pageView(route.path);
+			store.ibBTCStore.init();
+		},
 	}),
 	bridge: new Route<RootStore, QueryParams>({
 		path: '/bridge',
 		component: <Bridge />,
+		onEnter: (route, _params, _store) => pageView(route.path),
 	}),
 	boostLeaderBoard: new Route<RootStore, QueryParams>({
 		path: '/leaderboard',
-		component: FLAGS.BOOST_V2 ? <BoostLeaderBoard /> : <NotFound />,
+		component: <BoostLeaderBoard />,
+		onEnter: (route, _params, _store) => pageView(route.path),
 	}),
 	settDetails: new Route<RootStore, QueryParams>({
 		path: '/setts/:settName',
 		component: <SettDetail />,
-		onEnter: (_route, params, store) => {
+		onEnter: (route, params, store) => {
 			if (params && params.settName) {
+				pageView(route.path);
 				store.settDetail.setSearchSlug(params.settName as string);
 			}
 		},

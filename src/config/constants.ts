@@ -71,12 +71,10 @@ export const REN_FEES_ENDPOINT = 'https://lightnode-mainnet.herokuapp.com/ren_qu
 const toBool = (val: string | undefined): boolean => (val ? val.toLowerCase() === 'true' : false);
 
 export const FLAGS = {
-	WBTC_FLAG: toBool(process.env.REACT_APP_BRIDGE_WBTC),
 	GEYSER_FLAG: toBool(process.env.REACT_APP_GEYSER_ENABLED),
 	BOOST_V2: toBool(process.env.REACT_APP_BOOST_V2),
 	IBBTC_OPTIONS_FLAG: toBool(process.env.REACT_APP_IBBTC_OPTIONS_FLAG),
 	STABILIZATION_SETTS: toBool(process.env.REACT_APP_STABILIZATION_SETTS),
-	BOOST_OPTIMIZER: toBool(process.env.REACT_APP_BOOST_OPTIMIZER),
 	MATIC: toBool(process.env.REACT_APP_MATIC),
 	XDAI: toBool(process.env.REACT_APP_XDAI),
 	RENBTC_SETT: toBool(process.env.REACT_APP_RENBTC_SETT),
