@@ -106,7 +106,12 @@ export const SettDeposit = observer(({ open = false, sett, badgerSett, onClose }
 					value={amount || ''}
 					onChange={onValidChange(setAmount)}
 				/>
-				<SettFees sett={sett} className={classes.fees} onHelpClick={() => setShowFees(true)} />
+				<SettFees
+					sett={sett}
+					showNowFees={false}
+					className={classes.fees}
+					onHelpClick={() => setShowFees(true)}
+				/>
 				<ActionButton
 					aria-label="Deposit"
 					size="large"
