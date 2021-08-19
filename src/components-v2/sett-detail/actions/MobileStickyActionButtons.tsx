@@ -37,23 +37,23 @@ export const MobileStickyActionButtons = ({
 				<Grid item xs>
 					<SettActionButton
 						color="primary"
-						variant="outlined"
-						fullWidth
-						disabled={isWithdrawDisabled}
-						onClick={onWithdrawClick}
-					>
-						Withdraw
-					</SettActionButton>
-				</Grid>
-				<Grid item xs>
-					<SettActionButton
-						color="primary"
 						variant={isDepositDisabled ? 'outlined' : 'contained'}
 						disabled={isDepositDisabled}
 						fullWidth
 						onClick={onDepositClick}
 					>
 						Deposit
+					</SettActionButton>
+				</Grid>
+				<Grid item xs>
+					<SettActionButton
+						color="primary"
+						variant="outlined"
+						fullWidth
+						disabled={isWithdrawDisabled}
+						onClick={onWithdrawClick}
+					>
+						Withdraw
 					</SettActionButton>
 				</Grid>
 			</Grid>

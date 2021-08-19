@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
 		marginTop: theme.spacing(1),
 	},
 	deposit: {
-		marginLeft: theme.spacing(1),
+		marginRight: theme.spacing(1),
 	},
 }));
 
@@ -38,15 +38,6 @@ export const SettActionButtons = ({
 	return (
 		<Box {...materialProps} className={clsx(classes.container, materialProps.className)}>
 			<SettActionButton
-				className={classes.button}
-				color="primary"
-				variant="outlined"
-				disabled={isWithdrawDisabled}
-				onClick={onWithdrawClick}
-			>
-				Withdraw
-			</SettActionButton>
-			<SettActionButton
 				className={clsx(classes.button, classes.deposit)}
 				color="primary"
 				variant={isDepositDisabled ? 'outlined' : 'contained'}
@@ -54,6 +45,15 @@ export const SettActionButtons = ({
 				onClick={onDepositClick}
 			>
 				Deposit
+			</SettActionButton>
+			<SettActionButton
+				className={classes.button}
+				color="primary"
+				variant="outlined"
+				disabled={isWithdrawDisabled}
+				onClick={onWithdrawClick}
+			>
+				Withdraw
 			</SettActionButton>
 		</Box>
 	);
