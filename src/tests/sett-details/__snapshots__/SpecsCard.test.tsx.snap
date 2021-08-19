@@ -141,22 +141,24 @@ exports[`Specs Section displays sett information 1`] = `
     <div
       class="MuiGrid-root-32 MuiGrid-item-34 MuiGrid-grid-xs-true-66"
     >
-      <div
-        class="MuiGrid-root-32 makeStyles-root-230 MuiGrid-container-33"
-      >
-        <p
-          class="MuiTypography-root-138 MuiTypography-body1-140"
+      <div>
+        <div
+          class="makeStyles-titleContainer-232"
         >
-          Fees
-        </p>
+          <p
+            class="MuiTypography-root-138 MuiTypography-body1-140"
+          >
+            Fees
+          </p>
+        </div>
         <hr
-          class="MuiDivider-root-170 WithStyles(ForwardRef(Divider))-root-168 WithStyles(ForwardRef(Divider))-root-232"
+          class="MuiDivider-root-170 makeStyles-divider-231"
         />
         <div
           class="MuiGrid-root-32 MuiGrid-container-33 MuiGrid-justify-xs-space-between-52"
         >
           <p
-            class="MuiTypography-root-138 makeStyles-specName-231 MuiTypography-body1-140 MuiTypography-colorTextSecondary-164 MuiTypography-displayInline-166"
+            class="MuiTypography-root-138 makeStyles-specName-230 MuiTypography-body1-140 MuiTypography-colorTextSecondary-164 MuiTypography-displayInline-166"
           >
             DAO Performance Fee
           </p>
@@ -170,7 +172,7 @@ exports[`Specs Section displays sett information 1`] = `
           class="MuiGrid-root-32 MuiGrid-container-33 MuiGrid-justify-xs-space-between-52"
         >
           <p
-            class="MuiTypography-root-138 makeStyles-specName-231 MuiTypography-body1-140 MuiTypography-colorTextSecondary-164 MuiTypography-displayInline-166"
+            class="MuiTypography-root-138 makeStyles-specName-230 MuiTypography-body1-140 MuiTypography-colorTextSecondary-164 MuiTypography-displayInline-166"
           >
             Withdraw Fee
           </p>
@@ -194,14 +196,14 @@ exports[`Specs Section displays sett information 1`] = `
           Links
         </p>
         <hr
-          class="MuiDivider-root-170 WithStyles(ForwardRef(Divider))-root-168 WithStyles(ForwardRef(Divider))-root-236"
+          class="MuiDivider-root-170 WithStyles(ForwardRef(Divider))-root-168 WithStyles(ForwardRef(Divider))-root-238"
         />
         <div
-          class="MuiGrid-root-32 makeStyles-linkContainer-233 MuiGrid-container-33 MuiGrid-align-items-xs-center-41"
+          class="MuiGrid-root-32 makeStyles-linkContainer-235 MuiGrid-container-33 MuiGrid-align-items-xs-center-41"
         >
           <svg
             aria-hidden="true"
-            class="MuiSvgIcon-root-221 makeStyles-icon-235 MuiSvgIcon-colorPrimary-222"
+            class="MuiSvgIcon-root-221 makeStyles-icon-237 MuiSvgIcon-colorPrimary-222"
             focusable="false"
             viewBox="0 0 24 24"
           >
@@ -210,7 +212,7 @@ exports[`Specs Section displays sett information 1`] = `
             />
           </svg>
           <a
-            class="MuiTypography-root-138 MuiLink-root-215 MuiLink-underlineHover-217 makeStyles-link-234 MuiTypography-colorPrimary-161"
+            class="MuiTypography-root-138 MuiLink-root-215 MuiLink-underlineHover-217 makeStyles-link-236 MuiTypography-colorPrimary-161"
             href="https://etherscan.io/address/0xd04c48A53c111300aD41190D63681ed3dAd998eC"
             rel="noreferrer"
             target="_blank"
@@ -219,11 +221,11 @@ exports[`Specs Section displays sett information 1`] = `
           </a>
         </div>
         <div
-          class="MuiGrid-root-32 makeStyles-linkContainer-233 MuiGrid-container-33 MuiGrid-align-items-xs-center-41"
+          class="MuiGrid-root-32 makeStyles-linkContainer-235 MuiGrid-container-33 MuiGrid-align-items-xs-center-41"
         >
           <svg
             aria-hidden="true"
-            class="MuiSvgIcon-root-221 makeStyles-icon-235 MuiSvgIcon-colorPrimary-222"
+            class="MuiSvgIcon-root-221 makeStyles-icon-237 MuiSvgIcon-colorPrimary-222"
             focusable="false"
             viewBox="0 0 24 24"
           >
@@ -232,7 +234,7 @@ exports[`Specs Section displays sett information 1`] = `
             />
           </svg>
           <a
-            class="MuiTypography-root-138 MuiLink-root-215 MuiLink-underlineHover-217 makeStyles-link-234 MuiTypography-colorPrimary-161"
+            class="MuiTypography-root-138 MuiLink-root-215 MuiLink-underlineHover-217 makeStyles-link-236 MuiTypography-colorPrimary-161"
             href="https://etherscan.io/address/0xf1ded284e891943b3e9c657d7fc376b86164ffc2"
             rel="noreferrer"
             target="_blank"
@@ -241,11 +243,11 @@ exports[`Specs Section displays sett information 1`] = `
           </a>
         </div>
         <div
-          class="MuiGrid-root-32 makeStyles-linkContainer-233 MuiGrid-container-33 MuiGrid-align-items-xs-center-41"
+          class="MuiGrid-root-32 makeStyles-linkContainer-235 MuiGrid-container-33 MuiGrid-align-items-xs-center-41"
         >
           <svg
             aria-hidden="true"
-            class="MuiSvgIcon-root-221 makeStyles-icon-235 MuiSvgIcon-colorPrimary-222"
+            class="MuiSvgIcon-root-221 makeStyles-icon-237 MuiSvgIcon-colorPrimary-222"
             focusable="false"
             viewBox="0 0 24 24"
           >
@@ -254,7 +256,7 @@ exports[`Specs Section displays sett information 1`] = `
             />
           </svg>
           <a
-            class="MuiTypography-root-138 MuiLink-root-215 MuiLink-underlineHover-217 makeStyles-link-234 MuiTypography-colorPrimary-161"
+            class="MuiTypography-root-138 MuiLink-root-215 MuiLink-underlineHover-217 makeStyles-link-236 MuiTypography-colorPrimary-161"
             href="https://etherscan.io/address/0x075b1bb99792c9E1041bA13afEf80C91a1e70fB3"
             rel="noreferrer"
             target="_blank"
