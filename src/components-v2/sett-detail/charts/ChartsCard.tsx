@@ -41,16 +41,16 @@ interface Props {
 
 export const ChartsCard = observer(
 	({ sett, settBalance }: Props): JSX.Element => {
-		const { settCharts } = useContext(StoreContext);
+		const { settCharts, settDetail } = useContext(StoreContext);
+
+		const accountScalar = settBalance ? settBalance.value / sett.value : undefined;
+		const shouldBalanceBeDefaultMode = !!accountScalar && settDetail.shouldShowDirectAccountInformation;
 
 		const classes = useStyles();
 		const [loading, setLoading] = useState(false);
 		const [chartData, setChartData] = useState<SettChartData[] | null>(null);
-		const [mode, setMode] = useState(ChartMode.value);
+		const [mode, setMode] = useState(shouldBalanceBeDefaultMode ? ChartMode.accountBalance : ChartMode.value);
 		const [timeframe, setTimeframe] = useState(SettChartTimeframe.week);
-
-		const accountScalar = settBalance ? settBalance.value / sett.value : undefined;
-		const shouldShowAccountBalance = accountScalar && accountScalar > 0;
 
 		const handleFetch = (fetchedData: SettChartData[] | null) => {
 			setChartData(fetchedData);
@@ -58,8 +58,8 @@ export const ChartsCard = observer(
 		};
 
 		const handleFetchError = (error: Error) => {
-			console.error(error);
 			setLoading(false);
+			console.error(error);
 		};
 
 		React.useEffect(() => {
@@ -87,7 +87,7 @@ export const ChartsCard = observer(
 						value={ChartMode.ratio}
 						label={ChartModeTitles[ChartMode.ratio]}
 					/>
-					{shouldShowAccountBalance && (
+					{!!accountScalar && (
 						<Tab
 							onClick={() => setMode(ChartMode.accountBalance)}
 							value={ChartMode.accountBalance}

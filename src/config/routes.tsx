@@ -88,9 +88,13 @@ const routes = {
 		path: '/setts/:settName',
 		component: <SettDetail />,
 		onEnter: (_route, params, store) => {
-			if (params && params.settName) {
-				store.settDetail.setSearchSlug(params.settName as string);
+			if (!params || !params.settName) return;
+
+			if (params.accountView) {
+				store.settDetail.setAccountViewMode();
 			}
+
+			store.settDetail.setSearchSlug(params.settName as string);
 		},
 		onExit: (_route, _params, store) => {
 			store.settDetail.reset();

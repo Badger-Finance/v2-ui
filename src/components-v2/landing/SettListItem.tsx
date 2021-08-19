@@ -71,12 +71,13 @@ export interface SettListItemProps {
 	sett: Sett;
 	balance?: string;
 	balanceValue?: string;
+	accountView?: boolean;
 	currency: string;
 	period: string;
 }
 
 const SettListItem = observer(
-	({ sett, balanceValue, currency, period }: SettListItemProps): JSX.Element => {
+	({ sett, balanceValue, currency, period, accountView = false }: SettListItemProps): JSX.Element => {
 		const { user, network, router, wallet } = useContext(StoreContext);
 		const [openDepositDialog, setOpenDepositDialog] = useState(false);
 		const [openWithdrawDialog, setOpenWithdrawDialog] = useState(false);
@@ -93,7 +94,7 @@ const SettListItem = observer(
 		const isDisabled = sett.hasBouncer && !user.viewSettShop();
 
 		const goToSettDetail = async () => {
-			await router.goTo(routes.settDetails, { settName: sett.slug });
+			await router.goTo(routes.settDetails, { settName: sett.slug, accountView });
 		};
 
 		const listItem = (
