@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface Props {
-	onBackClick?: () => void;
+	onBackClick: () => void;
 }
 
 export const DepositFeesInformation = ({ onBackClick }: Props): JSX.Element => {
@@ -42,12 +42,10 @@ export const DepositFeesInformation = ({ onBackClick }: Props): JSX.Element => {
 				<Typography variant="body1" display="inline" className={classes.title}>
 					Fee Information
 				</Typography>
-				{onBackClick && (
-					<Button color="primary" onClick={onBackClick} className={classes.backButton}>
-						<ArrowRightAltIcon className={classes.arrowIcon} />
-						Back
-					</Button>
-				)}
+				<Button color="primary" onClick={onBackClick} className={classes.backButton}>
+					<ArrowRightAltIcon className={classes.arrowIcon} />
+					Back
+				</Button>
 			</Grid>
 			<div className={classes.content}>
 				<Typography variant="body1" color="textSecondary">
