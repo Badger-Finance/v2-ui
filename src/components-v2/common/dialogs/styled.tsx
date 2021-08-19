@@ -17,6 +17,9 @@ export const PercentagesContainer = styled(Grid)(({ theme }) => ({
 	[theme.breakpoints.up('sm')]: {
 		textAlign: 'end',
 	},
+	[theme.breakpoints.down('xs')]: {
+		marginTop: theme.spacing(1),
+	},
 }));
 
 export const AmountTextField = styled(TextField)(({ theme }) => ({
