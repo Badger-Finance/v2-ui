@@ -1,30 +1,47 @@
 import React from 'react';
-import { Grid, Typography } from '@material-ui/core';
-import { StyledDivider } from '../styled';
+import { Divider, Grid, Tooltip, Typography } from '@material-ui/core';
+import HelpIcon from '@material-ui/icons/Help';
 import { makeStyles } from '@material-ui/core/styles';
 import { observer } from 'mobx-react-lite';
-import { StoreContext } from '../../../mobx/store-context';
-import { Sett } from '../../../mobx/model/setts/sett';
 import BigNumber from 'bignumber.js';
+import { StoreContext } from '../../mobx/store-context';
+import { Sett } from '../../mobx/model/setts/sett';
 
-const useStyles = makeStyles(() => ({
-	root: {
-		marginBottom: 20,
-	},
+const useStyles = makeStyles((theme) => ({
 	specName: {
 		fontSize: 12,
 		lineHeight: '1.66',
 	},
+	divider: {
+		width: '100%',
+		marginBottom: theme.spacing(1),
+	},
+	titleContainer: {
+		display: 'flex',
+		alignItems: 'center',
+	},
+	help: {
+		width: 12,
+		height: 12,
+	},
+	helpIcon: {
+		fontSize: 16,
+		marginLeft: theme.spacing(1),
+		cursor: 'pointer',
+		color: 'rgba(255, 255, 255, 0.3)',
+	},
 }));
 
-interface Props {
+interface Props extends React.HTMLAttributes<HTMLDivElement> {
 	sett: Sett;
+	onHelpClick?: () => void;
+	showNowFees?: boolean;
 }
 
 const formatStrategyFee = (fee: BigNumber) => `${fee.dividedBy(10 ** 2).toString()}%`;
 
-export const Fees = observer(
-	({ sett }: Props): JSX.Element => {
+export const SettFees = observer(
+	({ sett, onHelpClick, showNowFees = true, ...rootProps }: Props): JSX.Element | null => {
 		const store = React.useContext(StoreContext);
 		const { network: networkStore } = store;
 		const { network } = networkStore;
@@ -32,32 +49,39 @@ export const Fees = observer(
 		const classes = useStyles();
 
 		const noFees = (
-			<Grid container className={classes.root}>
+			<div {...rootProps}>
 				<Typography>Fees</Typography>
-				<StyledDivider />
+				<Divider className={classes.divider} />
 				<Typography className={classes.specName} color="textSecondary" display="inline">
 					There are no fees for this vault
 				</Typography>
-			</Grid>
+			</div>
 		);
 
 		const networkSett = network.setts.find(({ vaultToken }) => vaultToken.address === sett.vaultToken);
 
 		if (!networkSett) {
-			return noFees;
+			return showNowFees ? noFees : null;
 		}
 
 		const settStrategy = network.strategies[networkSett.vaultToken.address];
 		const nonEmptyFees = Object.keys(settStrategy.fees).filter((key) => settStrategy.fees[key].gt(0));
 
 		if (nonEmptyFees.length == 0) {
-			return noFees;
+			return showNowFees ? noFees : null;
 		}
 
 		return (
-			<Grid container className={classes.root}>
-				<Typography>Fees</Typography>
-				<StyledDivider />
+			<div {...rootProps}>
+				<div className={classes.titleContainer}>
+					<Typography>Fees</Typography>
+					{onHelpClick && (
+						<Tooltip color="primary" arrow placement="top" title="Click to see full description">
+							<HelpIcon className={classes.helpIcon} onClick={onHelpClick} />
+						</Tooltip>
+					)}
+				</div>
+				<Divider className={classes.divider} />
 				{nonEmptyFees.map((feeKey) => (
 					<Grid key={feeKey} container justify="space-between">
 						<Typography className={classes.specName} color="textSecondary" display="inline">
@@ -68,7 +92,7 @@ export const Fees = observer(
 						</Typography>
 					</Grid>
 				))}
-			</Grid>
+			</div>
 		);
 	},
 );
