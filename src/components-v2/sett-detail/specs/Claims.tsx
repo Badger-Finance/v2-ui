@@ -8,26 +8,24 @@ import { StyledDivider } from '../styled';
 import { ESTIMATED_REWARDS_FREQUENCY } from '../../../config/constants';
 import { StoreContext } from '../../../mobx/store-context';
 import { calculateDelaySeverity, calculateDifferenceInHoursFromCycle } from '../utils';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
 		marginBottom: 20,
 	},
 	rewardsFrequency: {
-		fontSize: 12,
 		width: '100%',
 	},
 	frequencyDetail: {
-		fontSize: 10,
+		fontSize: 11,
 		width: '100%',
 	},
 	infoLink: {
-		fontSize: 10,
-		width: '100%',
+		fontSize: 11,
 	},
 	reward: {
-		padding: '4px 6px',
-		border: `1px solid ${theme.palette.divider}`,
+		padding: '2px 4px',
 		borderRadius: 4,
 		fontSize: 12,
 	},
@@ -39,6 +37,16 @@ const useStyles = makeStyles((theme) => ({
 	},
 	highlyDelayedReward: {
 		backgroundColor: theme.palette.error.main,
+	},
+	noneDelayedReward: {
+		border: `1px solid ${theme.palette.divider}`,
+	},
+	linkIcon: {
+		fontSize: 11,
+	},
+	linkContent: {
+		display: 'flex',
+		alignItems: 'center',
 	},
 }));
 
@@ -61,24 +69,14 @@ export const Claims = observer(
 		const delayStyles = {
 			[DelaySeverity.high]: classes.highlyDelayedReward,
 			[DelaySeverity.medium]: classes.mediumDelayedReward,
-			[DelaySeverity.none]: null,
+			[DelaySeverity.none]: classes.noneDelayedReward,
 		};
 
 		return (
 			<Grid container className={classes.root}>
-				<Typography>Claims</Typography>
-				<StyledDivider />
 				<Grid container alignItems="center">
 					<Grid container item xs={7}>
-						<Typography color="textSecondary" className={classes.rewardsFrequency}>
-							Reward Frequency
-						</Typography>
-						{isDelayed && (
-							<Typography className={classes.frequencyDetail} variant="caption" color="textSecondary">
-								This Sett’s rewards are currently taking longer than usual.
-							</Typography>
-						)}
-						<Link className={classes.infoLink}>See more</Link>
+						<Typography>Reward Frequency</Typography>
 					</Grid>
 					<Grid className={classes.rewardContainer} item xs>
 						<Typography className={clsx(classes.reward, delayStyles[delaySeverity])} display="inline">
@@ -86,6 +84,23 @@ export const Claims = observer(
 						</Typography>
 					</Grid>
 				</Grid>
+				<StyledDivider />
+				<Typography className={classes.frequencyDetail} variant="caption" color="textSecondary">
+					{isDelayed
+						? 'This Sett’s rewards are currently taking longer than usual.'
+						: 'This Sett’s rewards are currently being processed.'}
+				</Typography>
+				<Link
+					className={classes.infoLink}
+					href="https://badger.wiki/setts#b52fee58e850405abd9701068fd93f37"
+					target="_blank"
+					rel="noreferrer"
+				>
+					<div className={classes.linkContent}>
+						<span>See more</span>
+						<ChevronRightIcon className={classes.linkIcon} />
+					</div>
+				</Link>
 			</Grid>
 		);
 	},
