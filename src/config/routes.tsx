@@ -18,6 +18,7 @@ import ReactGA from 'react-ga4';
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 const pageView = (route: string) => {
+	console.log({ hitType: 'pageview', page: route });
 	ReactGA.send({ hitType: 'pageview', page: route });
 };
 

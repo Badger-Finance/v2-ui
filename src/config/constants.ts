@@ -83,6 +83,48 @@ export const FLAGS = {
 	MSTABLE: toBool(process.env.REACT_APP_MSTABLE_SETT),
 };
 
+/* Deployment Configuration Constants */
+
+// deployment stage definitions
+enum Stage {
+	Experimental = 'experimental',
+	Development = 'development',
+	Staging = 'staging',
+	Production = 'production',
+}
+
+// resolve deployment stage from env variable, default to development
+function getStage(stage?: string) {
+	switch (stage) {
+		case Stage.Experimental:
+			return Stage.Experimental;
+		case Stage.Staging:
+			return Stage.Staging;
+		case Stage.Production:
+			return Stage.Production;
+		default:
+			return Stage.Development;
+	}
+}
+
+/**
+ * resolve the integration stage for the application.
+ * the badger api only contains two stages - staging and production.
+ * development, and experimental apps utilize the staging api integration.
+ * staging and production apps utilize the production api integration.
+ */
+function getIntegrationStage(stage: Stage) {
+	if (stage === Stage.Experimental || stage === Stage.Development) {
+		return Stage.Staging;
+	}
+	return Stage.Production;
+}
+
+// expose the build env as a global constant
+export const BUILD_ENV = getStage(process.env.REACT_APP_BUILD_ENV);
+// debugging flag available on non-prod equivalent deployments
+export const DEBUG = getIntegrationStage(BUILD_ENV) === Stage.Staging;
+
 export const ZERO = new BigNumber(0);
 export const TEN = new BigNumber(10);
 export const MAX = Web3.utils.toTwosComplement(-1);
@@ -90,7 +132,6 @@ export const MAX = Web3.utils.toTwosComplement(-1);
 export const CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS = '0x93054188d876f558f4a66B2EF1d97d16eDf0895B';
 export const RENVM_GATEWAY_ADDRESS = '0xe4b679400F0f267212D5D812B95f58C83243EE71';
 export const RENVM_NETWORK = 'mainnet';
-export const DEBUG = process.env.REACT_APP_BUILD_ENV ? process.env.REACT_APP_BUILD_ENV === 'development' : true;
 export const ZERO_ADDR = '0x0000000000000000000000000000000000000000';
 
 // time constants
