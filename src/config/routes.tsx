@@ -7,7 +7,6 @@ import { BoostOptimizer } from '../components/Boost';
 import { Digg } from '../components/Digg';
 import { Locked } from 'components/Common/Locked';
 import { IbBTC } from 'components/IbBTC';
-import { FLAGS } from 'config/constants';
 import { Bridge } from '../components/Bridge';
 import HoneybadgerDrop from '../components/HoneybadgerDrop/index';
 import BoostLeaderBoard from 'pages/BoostLeaderBoard';
@@ -61,7 +60,7 @@ const routes = {
 	}),
 	boostOptimizer: new Route<RootStore, QueryParams>({
 		path: '/boost-optimizer',
-		component: FLAGS.BOOST_OPTIMIZER ? <BoostOptimizer /> : <NotFound />,
+		component: <BoostOptimizer />,
 	}),
 	digg: new Route<RootStore, QueryParams>({
 		path: '/digg',
@@ -82,7 +81,7 @@ const routes = {
 	}),
 	boostLeaderBoard: new Route<RootStore, QueryParams>({
 		path: '/leaderboard',
-		component: FLAGS.BOOST_V2 ? <BoostLeaderBoard /> : <NotFound />,
+		component: <BoostLeaderBoard />,
 	}),
 	settDetails: new Route<RootStore, QueryParams>({
 		path: '/setts/:settName',
