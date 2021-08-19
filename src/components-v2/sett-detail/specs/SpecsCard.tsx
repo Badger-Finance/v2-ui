@@ -6,10 +6,10 @@ import { BadgerSett } from '../../../mobx/model/vaults/badger-sett';
 import { Value } from './Value';
 import { Tokens } from './Tokens';
 import { Claims } from './Claims';
-import { Fees } from './Fees';
 import { Sett } from '../../../mobx/model/setts/sett';
 import { Links } from './Links';
 import { CardContainer } from '../styled';
+import { SettFees } from '../../common/SettFees';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -39,7 +39,7 @@ export const SpecsCard = ({ sett, badgerSett }: Props): JSX.Element => {
 				<Claims />
 			</Grid>
 			<Grid item xs>
-				<Fees sett={sett} />
+				<SettFees sett={sett} showNowFees />
 			</Grid>
 			<Grid item xs>
 				<Links sett={sett} badgerSett={badgerSett} />

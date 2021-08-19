@@ -14,10 +14,15 @@ import { makeStyles } from '@material-ui/core/styles';
 import { ContractNamespace } from '../../../web3/config/contract-namespace';
 import { SettState } from '../../../mobx/model/setts/sett-state';
 import { NewVaultWarning } from '../../sett-detail/NewVaultWarning';
+import { DepositFeesInformation } from '../DepositFeesInformation';
+import { SettFees } from '../SettFees';
 
 const useStyles = makeStyles((theme) => ({
 	guardedVault: {
 		marginBottom: theme.spacing(2),
+	},
+	fees: {
+		marginTop: theme.spacing(2),
 	},
 }));
 
@@ -32,6 +37,7 @@ export const SettDeposit = observer(({ open = false, sett, badgerSett, onClose }
 	const store = useContext(StoreContext);
 	const { contracts, user, wallet } = store;
 
+	const [showFees, setShowFees] = useState(false);
 	const [amount, setAmount] = useState('');
 	const { onValidChange, inputProps } = useNumericInput();
 	const classes = useStyles();
@@ -60,6 +66,14 @@ export const SettDeposit = observer(({ open = false, sett, badgerSett, onClose }
 		}
 		await contracts.deposit(sett, badgerSett, userBalance, depositBalance);
 	};
+
+	if (showFees) {
+		return (
+			<Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
+				<DepositFeesInformation onBackClick={() => setShowFees(false)} />
+			</Dialog>
+		);
+	}
 
 	return (
 		<Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
@@ -91,6 +105,12 @@ export const SettDeposit = observer(({ open = false, sett, badgerSett, onClose }
 					inputProps={inputProps}
 					value={amount || ''}
 					onChange={onValidChange(setAmount)}
+				/>
+				<SettFees
+					sett={sett}
+					showNowFees={false}
+					className={classes.fees}
+					onHelpClick={() => setShowFees(true)}
 				/>
 				<ActionButton
 					aria-label="Deposit"

@@ -10,6 +10,7 @@ const useStyles = makeStyles((theme) => ({
 		backgroundColor: '#181818',
 		padding: theme.spacing(2),
 		width: '100%',
+		zIndex: 999,
 		[theme.breakpoints.up('sm')]: {
 			display: 'none',
 		},
