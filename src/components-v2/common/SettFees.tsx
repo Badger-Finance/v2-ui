@@ -77,7 +77,11 @@ export const SettFees = observer(
 					<Typography>Fees</Typography>
 					{onHelpClick && (
 						<Tooltip color="primary" arrow placement="top" title="Click to see full description">
-							<HelpIcon className={classes.helpIcon} onClick={onHelpClick} />
+							<HelpIcon
+								className={classes.helpIcon}
+								onClick={onHelpClick}
+								aria-label="see fees descriptions"
+							/>
 						</Tooltip>
 					)}
 				</div>
