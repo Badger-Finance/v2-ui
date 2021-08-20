@@ -10,6 +10,30 @@ import { tokens, sett_system, digg_system } from './deployments/mainnet.json';
 import { AbiItem } from 'web3-utils';
 import { PartialAttemptOptions } from '@lifeomic/attempt';
 import { ClaimsSymbols } from 'mobx/model/rewards/claims-symbols';
+import { BurnAndReleaseStatus } from '@renproject/ren/build/main/burnAndRelease';
+import { DepositStatus } from '@renproject/ren/build/main/lockAndMint';
+
+export const burnStatusDict: Record<BurnAndReleaseStatus, string> = {
+	pending: 'Transaction Pending!',
+	burned: 'Tokens Burned.',
+	released: 'Tokens Released.',
+	reverted: 'Transaction Reverted.',
+};
+
+export const burnStatusIndex: Record<BurnAndReleaseStatus, number> = {
+	pending: 0,
+	burned: 1,
+	released: 2,
+	reverted: 3,
+};
+
+export const depositStatusDict: Record<DepositStatus, string> = {
+	detected: 'Transaction Detected!',
+	confirmed: 'Transaction Confirmed!',
+	signed: 'Transaction Signed.',
+	reverted: 'Transaction Reverted.',
+	submitted: 'Transaction Submitted.',
+};
 
 export const RPC_WALLETS: { [index: string]: boolean } = {
 	ledger: true,
