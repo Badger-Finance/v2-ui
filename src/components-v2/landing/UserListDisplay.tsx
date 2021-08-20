@@ -41,6 +41,7 @@ const createSettListItem = (
 			balanceValue={itemBalance.balanceValueDisplay(currency)}
 			currency={currency}
 			period={period}
+			accountView
 		/>
 	);
 };

@@ -6,6 +6,7 @@ export class SettDetailStore {
 	private readonly store: RootStore;
 	private searchSlug: string | undefined;
 	private sett_: Sett | undefined | null;
+	private comesFromPortfolioView = false;
 
 	constructor(store: RootStore) {
 		this.store = store;
@@ -24,6 +25,10 @@ export class SettDetailStore {
 		});
 	}
 
+	get shouldShowDirectAccountInformation(): boolean {
+		return this.comesFromPortfolioView;
+	}
+
 	get sett(): Sett | undefined | null {
 		return this.sett_;
 	}
@@ -36,6 +41,10 @@ export class SettDetailStore {
 		return this.sett_ === null;
 	}
 
+	setAccountViewMode(): void {
+		this.comesFromPortfolioView = true;
+	}
+
 	setSearchSlug = action((slug: string) => {
 		this.searchSlug = slug;
 		this.searchSlugInformation();
@@ -44,6 +53,7 @@ export class SettDetailStore {
 	reset = action(() => {
 		this.sett_ = undefined;
 		this.searchSlug = undefined;
+		this.comesFromPortfolioView = false;
 	});
 
 	private searchSlugInformation() {
