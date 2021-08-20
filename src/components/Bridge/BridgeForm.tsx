@@ -24,7 +24,14 @@ import { StoreContext } from 'mobx/store-context';
 import { SuccessForm } from './SuccessForm';
 import { ConfirmForm } from './ConfirmForm';
 import { ValuesProp } from './Common';
-import { NETWORK_LIST, CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS, FLAGS } from 'config/constants';
+import {
+	NETWORK_LIST,
+	CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS,
+	FLAGS,
+	burnStatusIndex,
+	depositStatusDict,
+	burnStatusDict,
+} from 'config/constants';
 import { bridge_system, tokens, sett_system } from 'config/deployments/mainnet.json';
 import { CURVE_EXCHANGE } from 'config/system/abis/CurveExchange';
 import { connectWallet } from 'mobx/utils/helpers';
@@ -52,7 +59,7 @@ function MintStatusDisplay({
 	classes: { logo: string; elephant: string };
 }) {
 	if (status === DepositStatus.Reverted) {
-		return <div>Transaction reverted.</div>;
+		return <div>{depositStatusDict[status]}</div>;
 	}
 
 	if (!status) {
@@ -70,35 +77,42 @@ function MintStatusDisplay({
 		);
 	}
 
-	return (
-		<React.Fragment>
-			<CircularProgress variant="determinate" value={(DepositStatusIndex[status] + 1) * 25} />
-			<div>Transaction {status}.</div>
-			{message && <div>{message}</div>}
-		</React.Fragment>
-	);
+	return ShowDepositCircularProgress(status, message);
 }
 
 function BurnStatusDisplay({ status }: { classes: { logo: string }; status: BurnAndReleaseStatus | null }) {
 	if (status === BurnAndReleaseStatus.Reverted) {
-		return <div>Transaction reverted.</div>;
+		return <div>{burnStatusDict[status]}</div>;
 	}
 
 	if (!status) {
 		return <div>Loading</div>;
 	}
 
-	const statusIndex: Record<BurnAndReleaseStatus, number> = {
-		pending: 0,
-		burned: 1,
-		released: 2,
-		reverted: 3,
-	};
+	return ShowBurnCircularProgress(status);
+}
 
+/*
+CircularProgress functions present a circular progress bar from 0 - 100
+burnStatusIndex and DepositStatusIndex return integers 0 - 3 and 0 - 4 depending on status
+we add 1 and multiply by 33 and 20 respectively to provide the progress bar with a percentage out of 100
+burnStatusIndex should never return 3 because a reverted transaction will be caught before this function is called.
+*/
+function ShowDepositCircularProgress(status: DepositStatus, message?: string) {
 	return (
 		<React.Fragment>
-			<CircularProgress variant="determinate" value={(statusIndex[status] + 1) * 33} />
-			<div>Transaction {status}.</div>
+			<CircularProgress variant="determinate" value={(DepositStatusIndex[status] + 1) * 20} />
+			<div>{depositStatusDict[status]}</div>
+			{message && <div>{message}</div>}
+		</React.Fragment>
+	);
+}
+
+function ShowBurnCircularProgress(status: BurnAndReleaseStatus) {
+	return (
+		<React.Fragment>
+			<CircularProgress variant="determinate" value={(burnStatusIndex[status] + 1) * 33} />
+			<div>{burnStatusDict[status]}</div>
 		</React.Fragment>
 	);
 }
