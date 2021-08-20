@@ -11,9 +11,6 @@ import { calculateDelaySeverity, calculateDifferenceInHoursFromCycle } from '../
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
 const useStyles = makeStyles((theme) => ({
-	root: {
-		marginBottom: 20,
-	},
 	rewardsFrequency: {
 		width: '100%',
 	},
@@ -73,7 +70,7 @@ export const Claims = observer(
 		};
 
 		return (
-			<Grid container className={classes.root}>
+			<Grid container>
 				<Grid container alignItems="center">
 					<Grid container item xs={7}>
 						<Typography>Reward Frequency</Typography>

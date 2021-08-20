@@ -17,6 +17,9 @@ const useStyles = makeStyles((theme) => ({
 		padding: theme.spacing(2),
 		display: 'flex',
 	},
+	specSection: {
+		marginBottom: 20,
+	},
 }));
 
 interface Props {
@@ -29,16 +32,16 @@ export const SpecsCard = ({ sett, badgerSett }: Props): JSX.Element => {
 
 	return (
 		<CardContainer className={classes.root}>
-			<Grid item xs>
+			<Grid item xs className={classes.specSection}>
 				<Value settValue={sett.value} />
 			</Grid>
-			<Grid item xs>
+			<Grid item xs className={classes.specSection}>
 				<Tokens sett={sett} />
 			</Grid>
-			<Grid item xs>
+			<Grid item xs className={classes.specSection}>
 				<Claims />
 			</Grid>
-			<Grid item xs>
+			<Grid item xs className={classes.specSection}>
 				<SettFees sett={sett} showNowFees />
 			</Grid>
 			<Grid item xs>
