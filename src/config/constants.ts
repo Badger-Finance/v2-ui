@@ -29,7 +29,7 @@ export const burnStatusIndex: Record<BurnAndReleaseStatus, number> = {
 
 export const depositStatusDict: Record<DepositStatus, string> = {
 	detected: 'Transaction Detected.',
-	confirmed: 'Transaction Confirmed!',
+	confirmed: 'Transaction Confirmed.',
 	signed: 'Transaction Signed.',
 	reverted: 'Transaction Reverted.',
 	submitted: 'Transaction Submitted.',
