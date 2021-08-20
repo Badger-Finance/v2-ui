@@ -24,7 +24,6 @@ const SamplePicker = observer(() => {
 
 	return (
 		<Tooltip
-			enterTouchDelay={0}
 			enterDelay={0}
 			leaveDelay={300}
 			arrow

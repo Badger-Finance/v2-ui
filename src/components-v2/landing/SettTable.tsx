@@ -1,6 +1,6 @@
-import React from 'react';
 import { List, makeStyles } from '@material-ui/core';
-import TableHeader from 'components-v2/landing/TableHeader';
+import TableHeader from 'components/Collection/Setts/TableHeader';
+import React from 'react';
 
 const useStyles = makeStyles((theme) => ({
 	list: {
@@ -16,18 +16,19 @@ const useStyles = makeStyles((theme) => ({
 
 export interface SettTableProps {
 	title: string;
+	tokenTitle: string;
 	period: string;
 	settList: (JSX.Element | null | undefined)[];
 	displayValue: string | undefined;
 }
 
 const SettTable = (props: SettTableProps): JSX.Element => {
-	const { title, period, settList, displayValue } = props;
+	const { title, tokenTitle, period, settList, displayValue } = props;
 	const classes = useStyles();
 
 	return (
 		<>
-			<TableHeader title={title} period={period} displayValue={displayValue} />
+			<TableHeader title={title} tokenTitle={tokenTitle} period={period} displayValue={displayValue} />
 			<List className={classes.list}>{settList}</List>
 		</>
 	);

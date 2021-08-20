@@ -14,8 +14,6 @@ import UserStore from './stores/UserStore';
 import { LeaderBoardStore } from './stores/LeaderBoardStore';
 import PricesStore from './stores/PricesStore';
 import { NetworkStore } from './stores/NetworkStore';
-import { SettDetailStore } from './stores/SettDetail.store';
-import { SettChartsStore } from './stores/SettChartsStore';
 
 export class RootStore {
 	public router: RouterStore<RootStore>;
@@ -34,8 +32,6 @@ export class RootStore {
 	public user: UserStore;
 	public leaderBoard: LeaderBoardStore;
 	public prices: PricesStore;
-	public settDetail: SettDetailStore;
-	public settCharts: SettChartsStore;
 
 	constructor() {
 		this.router = new RouterStore<RootStore>(this);
@@ -54,8 +50,6 @@ export class RootStore {
 		this.user = new UserStore(this);
 		this.leaderBoard = new LeaderBoardStore(this);
 		this.prices = new PricesStore(this);
-		this.settDetail = new SettDetailStore(this);
-		this.settCharts = new SettChartsStore(this);
 	}
 
 	async walletRefresh(): Promise<void> {

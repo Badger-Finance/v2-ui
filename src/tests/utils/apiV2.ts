@@ -1,6 +1,5 @@
-import BigNumber from 'bignumber.js';
-import slugify from 'slugify';
 import * as api from '../../mobx/utils/apiV2';
+import BigNumber from 'bignumber.js';
 import { SettState } from '../../mobx/model/setts/sett-state';
 
 export function mockApi(): void {
@@ -61,7 +60,6 @@ export function mockApi(): void {
 				underlyingToken: '0x075b1bb99792c9E1041bA13afEf80C91a1e70fB3',
 				value: 135697015.0445408,
 				vaultToken: '0xd04c48A53c111300aD41190D63681ed3dAd998eC',
-				slug: slugify('Curve.fi renBTC/wBTC/sBTC'),
 			},
 		]),
 	);

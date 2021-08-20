@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	walletButton: {
 		marginLeft: theme.spacing(1),
-		width: '188px',
+		width: '178px',
 	},
 }));
 

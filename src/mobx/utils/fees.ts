@@ -1,8 +1,14 @@
 import { StrategyConfig } from '../model/strategies/strategy-config';
-import { StrategyFee } from '../model/system-config/stategy-fees';
 
-export const getNonEmptyStrategyFees = (config: StrategyConfig): StrategyFee[] => {
-	const fees = config.fees;
-	const feeKeys = Object.keys(fees) as StrategyFee[];
-	return feeKeys.filter((key) => fees[key]?.gt(0));
+export const getFeesFromStrategy = (strategy: StrategyConfig): string[] => {
+	const feeList: string[] = [];
+	if (!strategy) return [];
+	// fees are stored in BIPs on the contract, dividing by 10**2 makes them readable %
+	Object.keys(strategy.fees).forEach((key) => {
+		const value = strategy.fees[key];
+		if (value.gt(0)) {
+			feeList.push(`${key}:  ${value.dividedBy(10 ** 2).toString()}%`);
+		}
+	});
+	return feeList;
 };

@@ -112,7 +112,7 @@ export const RewardsModalItem = observer(
 					</Grid>
 				</Grid>
 				<Grid item xs={6} sm={9} className={classes.claimInputContainer}>
-					<Tooltip enterTouchDelay={0} title={tooltip} placement="left" arrow>
+					<Tooltip title={tooltip} placement="left" arrow>
 						<TextField
 							id={`${symbol}-claim-amount`}
 							variant="outlined"

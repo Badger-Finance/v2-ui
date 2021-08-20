@@ -9,7 +9,6 @@ import { LeaderBoardData } from '../model/boost/leaderboard-data';
 import { ProtocolSummary } from '../model/system-config/protocol-summary';
 import { PriceSummary } from '../model/system-config/price-summary';
 import { DEBUG } from 'config/constants';
-import { SettChartFetchParams, SettSnapshot, SettSnapshotGranularity } from '../model/setts/sett-snapshot';
 
 export const getApi = (): string => {
 	if (DEBUG) {
@@ -29,7 +28,6 @@ const getBouncerProofEndpoint = `${badgerApi}/reward/bouncer`;
 const getAccountDetailsEndpoint = `${badgerApi}/accounts`;
 const getClaimProofEndpoint = `${badgerApi}/reward/tree`;
 const getLeaderBoardDataEndpoint = `${badgerApi}/leaderboards`;
-const getSettChartInformationEndpoint = `${badgerApi}/charts`;
 
 // api function calls
 export const listSetts = async (chain?: string): Promise<Sett[] | null> => {
@@ -72,26 +70,6 @@ export const fetchLeaderBoardData = async (page: number, size: number): Promise<
 
 export const fetchCompleteLeaderBoardData = async (): Promise<LeaderBoardBadger[] | null> => {
 	return fetchData(() => fetch(`${getLeaderBoardDataEndpoint}/complete`));
-};
-
-export const fetchSettChartInformation = async ({
-	id,
-	chain = 'eth',
-	from,
-	to,
-	granularity = SettSnapshotGranularity.DAY,
-}: SettChartFetchParams): Promise<SettSnapshot[] | null> => {
-	const params = new URLSearchParams({ id, granularity, chain });
-
-	if (from) {
-		params.set('start', from.toISOString());
-	}
-
-	if (to) {
-		params.set('end', to.toISOString());
-	}
-
-	return fetchData(() => fetch(`${getSettChartInformationEndpoint}?${params.toString()}`));
 };
 
 const fetchData = async <T>(request: () => Promise<Response>): Promise<T | null> => {

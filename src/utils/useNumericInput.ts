@@ -1,6 +1,5 @@
 import { SetStateAction, ChangeEvent } from 'react';
 import { InputProps } from '@material-ui/core';
-import { CSSProperties } from '@material-ui/core/styles/withStyles';
 /**
  * Functions that will be triggered on valid changes
  */
@@ -20,7 +19,6 @@ interface NumericInputProps {
 		pattern: HTMLInputElement['pattern'];
 		spellCheck: HTMLInputElement['spellcheck'];
 		type: HTMLInputElement['type'];
-		style: CSSProperties;
 	};
 	onValidChange: (onChange: ChangeHandler) => (event: ChangeEvent<{ value: unknown }>) => void;
 }
@@ -56,9 +54,6 @@ export const useNumericInput = (): NumericInputProps => {
 			minLength: 1,
 			maxLength: 79,
 			spellCheck: false,
-			style: {
-				textAlign: 'right',
-			},
 		},
 		onValidChange,
 	};
