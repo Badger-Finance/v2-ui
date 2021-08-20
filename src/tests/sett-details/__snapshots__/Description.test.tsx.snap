@@ -29,7 +29,7 @@ exports[`Description displays sett description 1`] = `
             renBTC/wBTC/sBTC
           </p>
           <p
-            class="MuiTypography-root-112 makeStyles-apyBadge-142 makeStyles-reducedApy-145 MuiTypography-body1-114"
+            class="MuiTypography-root-112 makeStyles-apyBadge-142 makeStyles-increasedApy-144 MuiTypography-body1-114"
           >
             <svg
               aria-hidden="true"
@@ -38,13 +38,13 @@ exports[`Description displays sett description 1`] = `
               viewBox="0 0 24 24"
             >
               <path
-                d="M16 18l2.29-2.29-4.88-4.88-4 4L2 7.41 3.41 6l6 6 4-4 6.3 6.29L22 12v6z"
+                d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"
               />
             </svg>
             <span
               class="makeStyles-apyText-143"
             >
-              0.26%
+              2.14%
             </span>
           </p>
           <div
@@ -56,13 +56,13 @@ exports[`Description displays sett description 1`] = `
               role="button"
               tabindex="0"
             >
-              1 DAY
+              1 WEEK
             </div>
             <input
               aria-hidden="true"
               class="MuiSelect-nativeInput-168"
               tabindex="-1"
-              value="oneDay"
+              value="sevenDay"
             />
             <svg
               aria-hidden="true"

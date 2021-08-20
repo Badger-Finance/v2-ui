@@ -42,7 +42,7 @@ export const SettWithdrawFee = observer(
 		const depositTokenDecimals = depositToken?.decimals || 18;
 
 		const withdrawAmount = new BigNumber(amount).multipliedBy(sett.ppfs);
-		const withdrawalFee = fee.div(100).multipliedBy(withdrawAmount);
+		const withdrawalFee = fee.div(1000).multipliedBy(withdrawAmount);
 		const amountAfterFee = new BigNumber(withdrawAmount).minus(withdrawalFee);
 
 		return (

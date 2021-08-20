@@ -43,7 +43,7 @@ export enum ComparisonMode {
 	neutral = 'neutral',
 }
 
-export const ApyComparisonBadge = ({ apyComparison, mode }: Props): JSX.Element => {
+export default function ApyDisplayBadge({ apyComparison, mode }: Props): JSX.Element {
 	const classes = useStyles();
 
 	const badgeStylesByMode = {
@@ -64,4 +64,4 @@ export const ApyComparisonBadge = ({ apyComparison, mode }: Props): JSX.Element 
 			<span className={classes.apyText}>{apyComparison}</span>
 		</Typography>
 	);
-};
+}

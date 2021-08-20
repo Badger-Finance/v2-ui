@@ -175,6 +175,7 @@ exports[`Sett Deposit can go back from full fees descriptions  1`] = `
                 pattern="^[0-9]*[.,]?[0-9]*$"
                 placeholder="Type an amount to deposit"
                 spellcheck="false"
+                style="text-align: right;"
                 type="text"
                 value=""
               />
@@ -564,6 +565,7 @@ exports[`Sett Deposit displays sett information 1`] = `
                 pattern="^[0-9]*[.,]?[0-9]*$"
                 placeholder="Type an amount to deposit"
                 spellcheck="false"
+                style="text-align: right;"
                 type="text"
                 value=""
               />
