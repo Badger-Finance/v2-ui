@@ -18,5 +18,4 @@ export interface Sett extends SettSummary {
 	underlyingToken: string;
 	vaultToken: string;
 	deprecated?: boolean;
-	slug: string;
 }

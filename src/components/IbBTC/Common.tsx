@@ -87,7 +87,7 @@ export const ErrorText = styled(Typography)({
 
 export const InputTokenAmount = styled(InputBase)({
 	fontSize: '3rem',
-	fontWeight: 600,
+	fontWeight: 500,
 	'&::-webkit-input-placeholder, &::-moz-placeholder, &:-ms-input-placeholder, &:-moz-placeholder': {
 		color: '#afafaf',
 	},

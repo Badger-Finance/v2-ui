@@ -34,7 +34,6 @@ exports[`ibBTC Mint can apply max balance 1`] = `
             pattern="^[0-9]*[.,]?[0-9]*$"
             placeholder="0.000"
             spellcheck="false"
-            style="text-align: right;"
             type="text"
             value="5.000000"
           />

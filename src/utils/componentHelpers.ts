@@ -1,5 +1,3 @@
-import BigNumber from 'bignumber.js';
-
 export const restrictToRange = (num: number, min: number, max: number): number => Math.min(Math.max(num, min), max);
 
 export const debounce = (n: number, fn: (...params: any[]) => any, immediate = false): any => {
@@ -37,5 +35,3 @@ export const roundWithDecimals = (value: number, decimals: number): number => {
 	const decimalsCriteria = Math.pow(10, decimals);
 	return Math.round((value + Number.EPSILON) * decimalsCriteria) / decimalsCriteria;
 };
-
-export const formatStrategyFee = (fee: BigNumber): string => `${fee.dividedBy(10 ** 2).toString()}%`;

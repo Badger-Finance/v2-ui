@@ -41,5 +41,4 @@ export const testYearnVaultApiResponse: Sett = {
 		},
 	],
 	state: SettState.Open,
-	slug: 'test-yearn-vault',
 };

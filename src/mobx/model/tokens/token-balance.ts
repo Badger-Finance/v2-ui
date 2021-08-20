@@ -49,7 +49,6 @@ export class TokenBalance {
 		if (this.balance.gt(0) && this.balance.lt(minBalance(decimals))) {
 			return `< 0.${'0'.repeat(decimals - 1)}1`;
 		}
-
 		return this.balance.toFixed(decimals);
 	}
 

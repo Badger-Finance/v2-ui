@@ -4,7 +4,6 @@ import { TokenBalance } from '../tokens/token-balance';
 
 export interface BadgerTree {
 	cycle: string;
-	lastCycle: Date;
 	timeSinceLastCycle: string;
 	sharesPerFragment: BigNumber | undefined;
 	proof: RewardMerkleClaim | undefined;

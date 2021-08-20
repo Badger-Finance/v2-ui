@@ -30,13 +30,13 @@ export const lightTheme = createMuiTheme({
 	},
 	typography: {
 		// fontSize: 16,
-		fontFamily: "'Satoshi', 'IBM Plex Sans', sans-serif",
+		fontFamily: "'IBM Plex Sans'",
 		// h1: { fontSize: "1.8rem", fontWeight: 700 },
 		// h2: { fontFamily: "'Press Start 2P'", fontSize: "2rem" },
 		// h3: { fontFamily: "'Press Start 2P'", fontSize: "1.8rem" },
 		// h4: { fontFamily: "'Press Start 2P'", fontSize: "1rem" },
-		h5: { fontWeight: 800 },
-		body1: { fontWeight: 600 },
+		h5: { fontWeight: 500 },
+		body1: { fontWeight: 500 },
 		// h6: { fontFamily: "'Press Start 2P'" },
 	},
 	shape: {

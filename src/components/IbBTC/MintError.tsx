@@ -29,7 +29,6 @@ export const MintError = ({ token, amount, limits, onUserLimitClick }: Props): J
 			<ErrorText variant="subtitle1">
 				<span>{`Your current mint amount limit is `}</span>
 				<Tooltip
-					enterTouchDelay={0}
 					arrow
 					className={classes.userLimit}
 					title="Apply amount"
@@ -53,7 +52,6 @@ export const MintError = ({ token, amount, limits, onUserLimitClick }: Props): J
 			<ErrorText variant="subtitle1">
 				<span>{`The current global mint amount limit is `}</span>
 				<Tooltip
-					enterTouchDelay={0}
 					arrow
 					className={classes.userLimit}
 					title="Apply amount"

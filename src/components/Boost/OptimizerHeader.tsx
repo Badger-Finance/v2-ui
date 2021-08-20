@@ -90,7 +90,6 @@ export const OptimizerHeader = observer(
 						{`${multiplier}x`}
 					</Typography>
 					<Tooltip
-						enterTouchDelay={0}
 						title={
 							'This is a boost estimation at a point in time for the purpose of illustration only. This is a means to help you optimize your returns. Please refer to the Sett page for your specific returns.'
 						}
