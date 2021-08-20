@@ -3,7 +3,6 @@ import rpc from 'config/rpc.config';
 import { getAirdrops } from 'config/system/airdrops';
 import { getStrategies } from 'config/system/strategies';
 import { SidebarLink, sidebarTokenLinks } from 'config/ui/links';
-import { getFeesFromStrategy } from 'mobx/utils/fees';
 import { createChainBatchConfig } from 'web3/config/config-utils';
 import { BatchCallRequest } from 'web3/interface/batch-call-request';
 import { SettMap } from '../setts/sett-map';
@@ -78,10 +77,6 @@ export abstract class Network {
 
 	batchRequests(setts: SettMap, address: string): BatchCallRequest[] {
 		return this.getNetworkBatchRequests(setts, address);
-	}
-
-	getFees(vaultToken: string): string[] {
-		return getFeesFromStrategy(this.strategies[vaultToken]);
 	}
 
 	getNetworkBatchRequests = (setts: SettMap, userAddress: string): BatchCallRequest[] => {
