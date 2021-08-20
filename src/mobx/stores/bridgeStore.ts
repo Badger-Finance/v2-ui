@@ -277,6 +277,7 @@ class BridgeStore {
 			this._fetchTx(connectedAddress),
 			this._getBalances(connectedAddress),
 			this._getFees(),
+			this._getRenFees(),
 			this._getBTCNetworkFees(),
 		])
 			.catch((err: Error) => {
