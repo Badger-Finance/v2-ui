@@ -12,13 +12,13 @@ exports[`Sett Withdraw displays sett information 1`] = `
     aria-hidden="true"
   />
   <div
-    class="MuiDialog-root-2"
+    class="MuiDialog-root-5"
     role="presentation"
     style="position: fixed; z-index: 1300; right: 0px; bottom: 0px; top: 0px; left: 0px;"
   >
     <div
       aria-hidden="true"
-      class="MuiBackdrop-root-17"
+      class="MuiBackdrop-root-20"
       style="opacity: 1; webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
     />
     <div
@@ -26,43 +26,43 @@ exports[`Sett Withdraw displays sett information 1`] = `
       tabindex="0"
     />
     <div
-      class="MuiDialog-container-5 MuiDialog-scrollPaper-3"
+      class="MuiDialog-container-8 MuiDialog-scrollPaper-6"
       role="none presentation"
       style="opacity: 1; webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
       tabindex="-1"
     >
       <div
-        class="MuiPaper-root-19 MuiDialog-paper-6 MuiDialog-paperScrollPaper-7 MuiDialog-paperWidthSm-11 MuiDialog-paperFullWidth-15 MuiPaper-elevation24-46 MuiPaper-rounded-20"
+        class="MuiPaper-root-22 MuiDialog-paper-9 MuiDialog-paperScrollPaper-10 MuiDialog-paperWidthSm-14 MuiDialog-paperFullWidth-18 MuiPaper-elevation24-49 MuiPaper-rounded-23"
         role="dialog"
       >
         <div
-          class="MuiDialogTitle-root-50"
+          class="MuiDialogTitle-root-54 makeStyles-root-50"
         >
           <h2
-            class="MuiTypography-root-51 MuiTypography-h6-61"
+            class="MuiTypography-root-55 MuiTypography-h6-65"
           >
             <div
-              class="MuiGrid-root-81 MuiGrid-container-82 MuiGrid-align-items-xs-center-90"
+              class="MuiGrid-root-85 MuiGrid-container-86 MuiGrid-align-items-xs-center-94"
             >
               <div
-                class="MuiGrid-root-81 makeStyles-logoContainer-49 MuiGrid-item-83"
+                class="MuiGrid-root-85 makeStyles-logoContainer-53 MuiGrid-item-87"
               >
                 <img
                   alt="Badger Curve.fi renBTC/wBTC/sBTC Vault Symbol"
-                  class="makeStyles-settLogo-48"
+                  class="makeStyles-settLogo-52"
                   src="/assets/icons/sbtccrv.png"
                 />
               </div>
               <div
-                class="MuiGrid-root-81 MuiGrid-item-83"
+                class="MuiGrid-root-85 MuiGrid-item-87"
               >
                 <p
-                  class="MuiTypography-root-51 makeStyles-mode-47 MuiTypography-body1-53 MuiTypography-colorTextSecondary-77"
+                  class="MuiTypography-root-55 makeStyles-mode-51 MuiTypography-body1-57 MuiTypography-colorTextSecondary-81"
                 >
                   Withdraw
                 </p>
                 <p
-                  class="MuiTypography-root-51 MuiTypography-body1-53 MuiTypography-colorTextPrimary-76"
+                  class="MuiTypography-root-55 MuiTypography-body1-57 MuiTypography-colorTextPrimary-80"
                 >
                   Curve.fi renBTC/wBTC/sBTC
                 </p>
@@ -71,109 +71,109 @@ exports[`Sett Withdraw displays sett information 1`] = `
           </h2>
         </div>
         <div
-          class="MuiDialogContent-root-185 MuiDialogContent-dividers-186 WithStyles(ForwardRef(DialogContent))-dividers-184"
+          class="MuiDialogContent-root-189 makeStyles-content-1 MuiDialogContent-dividers-190 WithStyles(ForwardRef(DialogContent))-dividers-188"
         >
           <div
-            class="MuiGrid-root-81 MuiGrid-container-82 MuiGrid-align-items-xs-center-90"
+            class="MuiGrid-root-85 MuiGrid-container-86 MuiGrid-align-items-xs-center-94"
           >
             <div
-              class="MuiGrid-root-81 MuiGrid-item-83 MuiGrid-grid-xs-12-127 MuiGrid-grid-sm-6-135"
+              class="MuiGrid-root-85 MuiGrid-item-87 MuiGrid-grid-xs-12-131 MuiGrid-grid-sm-6-139"
             >
               <p
-                class="MuiTypography-root-51 MuiTypography-body2-52 MuiTypography-colorTextSecondary-77"
+                class="MuiTypography-root-55 MuiTypography-body2-56 MuiTypography-colorTextSecondary-81"
               >
                 Underlying sBTCCRV: 0.000000000000000000
               </p>
               <p
-                class="MuiTypography-root-51 MuiTypography-body1-53 MuiTypography-colorTextSecondary-77"
+                class="MuiTypography-root-55 MuiTypography-body1-57 MuiTypography-colorTextSecondary-81"
               >
                 Deposited sBTCCRV: 0.000000000000000000
               </p>
             </div>
             <div
-              class="MuiGrid-root-81 WithStyles(ForwardRef(Grid))-root-187 WithStyles(ForwardRef(Grid))-root-188 MuiGrid-item-83 MuiGrid-grid-xs-12-127 MuiGrid-grid-sm-6-135"
+              class="MuiGrid-root-85 WithStyles(ForwardRef(Grid))-root-191 WithStyles(ForwardRef(Grid))-root-192 MuiGrid-item-87 MuiGrid-grid-xs-12-131 MuiGrid-grid-sm-6-139"
             >
               <div
-                class="MuiButtonGroup-root-189"
+                class="MuiButtonGroup-root-193"
                 role="group"
               >
                 <button
                   aria-label="25%"
-                  class="MuiButtonBase-root-242 MuiButton-root-213 MuiButton-outlined-218 MuiButtonGroup-grouped-195 MuiButtonGroup-groupedHorizontal-196 MuiButtonGroup-groupedOutlined-203 MuiButtonGroup-groupedOutlinedHorizontal-204 MuiButtonGroup-groupedOutlined-203 MuiButton-outlinedSizeSmall-230 MuiButton-sizeSmall-234"
+                  class="MuiButtonBase-root-246 MuiButton-root-217 MuiButton-outlined-222 MuiButtonGroup-grouped-199 MuiButtonGroup-groupedHorizontal-200 MuiButtonGroup-groupedOutlined-207 MuiButtonGroup-groupedOutlinedHorizontal-208 MuiButtonGroup-groupedOutlined-207 MuiButton-outlinedSizeSmall-234 MuiButton-sizeSmall-238"
                   tabindex="0"
                   type="button"
                 >
                   <span
-                    class="MuiButton-label-214"
+                    class="MuiButton-label-218"
                   >
                     25
                     %
                   </span>
                   <span
-                    class="MuiTouchRipple-root-301"
+                    class="MuiTouchRipple-root-305"
                   />
                 </button>
                 <button
                   aria-label="50%"
-                  class="MuiButtonBase-root-242 MuiButton-root-213 MuiButton-outlined-218 MuiButtonGroup-grouped-195 MuiButtonGroup-groupedHorizontal-196 MuiButtonGroup-groupedOutlined-203 MuiButtonGroup-groupedOutlinedHorizontal-204 MuiButtonGroup-groupedOutlined-203 MuiButton-outlinedSizeSmall-230 MuiButton-sizeSmall-234"
+                  class="MuiButtonBase-root-246 MuiButton-root-217 MuiButton-outlined-222 MuiButtonGroup-grouped-199 MuiButtonGroup-groupedHorizontal-200 MuiButtonGroup-groupedOutlined-207 MuiButtonGroup-groupedOutlinedHorizontal-208 MuiButtonGroup-groupedOutlined-207 MuiButton-outlinedSizeSmall-234 MuiButton-sizeSmall-238"
                   tabindex="0"
                   type="button"
                 >
                   <span
-                    class="MuiButton-label-214"
+                    class="MuiButton-label-218"
                   >
                     50
                     %
                   </span>
                   <span
-                    class="MuiTouchRipple-root-301"
+                    class="MuiTouchRipple-root-305"
                   />
                 </button>
                 <button
                   aria-label="75%"
-                  class="MuiButtonBase-root-242 MuiButton-root-213 MuiButton-outlined-218 MuiButtonGroup-grouped-195 MuiButtonGroup-groupedHorizontal-196 MuiButtonGroup-groupedOutlined-203 MuiButtonGroup-groupedOutlinedHorizontal-204 MuiButtonGroup-groupedOutlined-203 MuiButton-outlinedSizeSmall-230 MuiButton-sizeSmall-234"
+                  class="MuiButtonBase-root-246 MuiButton-root-217 MuiButton-outlined-222 MuiButtonGroup-grouped-199 MuiButtonGroup-groupedHorizontal-200 MuiButtonGroup-groupedOutlined-207 MuiButtonGroup-groupedOutlinedHorizontal-208 MuiButtonGroup-groupedOutlined-207 MuiButton-outlinedSizeSmall-234 MuiButton-sizeSmall-238"
                   tabindex="0"
                   type="button"
                 >
                   <span
-                    class="MuiButton-label-214"
+                    class="MuiButton-label-218"
                   >
                     75
                     %
                   </span>
                   <span
-                    class="MuiTouchRipple-root-301"
+                    class="MuiTouchRipple-root-305"
                   />
                 </button>
                 <button
                   aria-label="100%"
-                  class="MuiButtonBase-root-242 MuiButton-root-213 MuiButton-outlined-218 MuiButtonGroup-grouped-195 MuiButtonGroup-groupedHorizontal-196 MuiButtonGroup-groupedOutlined-203 MuiButtonGroup-groupedOutlinedHorizontal-204 MuiButtonGroup-groupedOutlined-203 MuiButton-outlinedSizeSmall-230 MuiButton-sizeSmall-234"
+                  class="MuiButtonBase-root-246 MuiButton-root-217 MuiButton-outlined-222 MuiButtonGroup-grouped-199 MuiButtonGroup-groupedHorizontal-200 MuiButtonGroup-groupedOutlined-207 MuiButtonGroup-groupedOutlinedHorizontal-208 MuiButtonGroup-groupedOutlined-207 MuiButton-outlinedSizeSmall-234 MuiButton-sizeSmall-238"
                   tabindex="0"
                   type="button"
                 >
                   <span
-                    class="MuiButton-label-214"
+                    class="MuiButton-label-218"
                   >
                     100
                     %
                   </span>
                   <span
-                    class="MuiTouchRipple-root-301"
+                    class="MuiTouchRipple-root-305"
                   />
                 </button>
               </div>
             </div>
           </div>
           <div
-            class="MuiFormControl-root-248 MuiTextField-root-247 WithStyles(ForwardRef(TextField))-root-245 WithStyles(ForwardRef(TextField))-root-246 MuiFormControl-fullWidth-251"
+            class="MuiFormControl-root-252 MuiTextField-root-251 WithStyles(ForwardRef(TextField))-root-249 WithStyles(ForwardRef(TextField))-root-250 MuiFormControl-fullWidth-255"
           >
             <div
-              class="MuiInputBase-root-267 MuiOutlinedInput-root-252 MuiInputBase-fullWidth-277 MuiInputBase-formControl-268"
+              class="MuiInputBase-root-271 MuiOutlinedInput-root-256 MuiInputBase-fullWidth-281 MuiInputBase-formControl-272"
             >
               <input
                 aria-invalid="false"
                 autocomplete="off"
-                class="MuiInputBase-input-278 MuiOutlinedInput-input-262"
+                class="MuiInputBase-input-282 MuiOutlinedInput-input-266"
                 inputmode="decimal"
                 maxlength="79"
                 minlength="1"
@@ -185,11 +185,11 @@ exports[`Sett Withdraw displays sett information 1`] = `
               />
               <fieldset
                 aria-hidden="true"
-                class="PrivateNotchedOutline-root-285 MuiOutlinedInput-notchedOutline-261"
+                class="PrivateNotchedOutline-root-289 MuiOutlinedInput-notchedOutline-265"
                 style="padding-left: 8px;"
               >
                 <legend
-                  class="PrivateNotchedOutline-legend-286"
+                  class="PrivateNotchedOutline-legend-290"
                   style="width: 0.01px;"
                 >
                   <span>
@@ -200,57 +200,71 @@ exports[`Sett Withdraw displays sett information 1`] = `
             </div>
           </div>
           <div
-            class="MuiGrid-root-81 makeStyles-fees-1 MuiGrid-container-82"
+            class="MuiGrid-root-85 makeStyles-rate-3 MuiGrid-container-86 MuiGrid-justify-xs-space-between-105"
+          >
+            <p
+              class="MuiTypography-root-55 makeStyles-rateLabel-4 MuiTypography-body1-57 MuiTypography-colorTextSecondary-81 MuiTypography-displayInline-83"
+            >
+              Withdraw Rate
+            </p>
+            <h6
+              class="MuiTypography-root-55 MuiTypography-subtitle2-67 MuiTypography-displayInline-83"
+            >
+              1  = 1.0082389531413567 
+            </h6>
+          </div>
+          <div
+            class="MuiGrid-root-85 makeStyles-fees-2 MuiGrid-container-86"
           >
             <div
-              class="MuiGrid-root-81 MuiGrid-container-82"
+              class="MuiGrid-root-85 MuiGrid-container-86"
             >
               <p
-                class="MuiTypography-root-51 MuiTypography-body1-53"
+                class="MuiTypography-root-55 MuiTypography-body1-57"
               >
                 Fees
               </p>
               <hr
-                class="MuiDivider-root-292 makeStyles-divider-290"
+                class="MuiDivider-root-296 makeStyles-divider-294"
               />
               <div
-                class="MuiGrid-root-81 MuiGrid-container-82 MuiGrid-justify-xs-space-between-101"
+                class="MuiGrid-root-85 MuiGrid-container-86 MuiGrid-justify-xs-space-between-105"
               >
                 <p
-                  class="MuiTypography-root-51 makeStyles-specName-289 MuiTypography-body1-53 MuiTypography-colorTextSecondary-77 MuiTypography-displayInline-79"
+                  class="MuiTypography-root-55 makeStyles-specName-293 MuiTypography-body1-57 MuiTypography-colorTextSecondary-81 MuiTypography-displayInline-83"
                 >
-                  Sett Withdraw Fee (%)
+                  Converted Amount
                 </p>
                 <h6
-                  class="MuiTypography-root-51 MuiTypography-subtitle2-63 MuiTypography-displayInline-79"
-                >
-                  0.5%
-                </h6>
-              </div>
-              <div
-                class="MuiGrid-root-81 MuiGrid-container-82 MuiGrid-justify-xs-space-between-101"
-              >
-                <p
-                  class="MuiTypography-root-51 makeStyles-specName-289 MuiTypography-body1-53 MuiTypography-colorTextSecondary-77 MuiTypography-displayInline-79"
-                >
-                  Estimated Fee
-                </p>
-                <h6
-                  class="MuiTypography-root-51 MuiTypography-subtitle2-63 MuiTypography-displayInline-79"
+                  class="MuiTypography-root-55 MuiTypography-subtitle2-67 MuiTypography-displayInline-83"
                 >
                   0 
                 </h6>
               </div>
               <div
-                class="MuiGrid-root-81 MuiGrid-container-82 MuiGrid-justify-xs-space-between-101"
+                class="MuiGrid-root-85 MuiGrid-container-86 MuiGrid-justify-xs-space-between-105"
               >
                 <p
-                  class="MuiTypography-root-51 makeStyles-specName-289 MuiTypography-body1-53 MuiTypography-colorTextSecondary-77 MuiTypography-displayInline-79"
+                  class="MuiTypography-root-55 makeStyles-specName-293 MuiTypography-body1-57 MuiTypography-colorTextSecondary-81 MuiTypography-displayInline-83"
                 >
-                  Withdraw After Fee
+                  Estimated Fee (0.5%)
                 </p>
                 <h6
-                  class="MuiTypography-root-51 MuiTypography-subtitle2-63 MuiTypography-displayInline-79"
+                  class="MuiTypography-root-55 MuiTypography-subtitle2-67 MuiTypography-displayInline-83"
+                >
+                  0 
+                </h6>
+              </div>
+              <div
+                class="MuiGrid-root-85 MuiGrid-container-86 MuiGrid-justify-xs-space-between-105"
+              >
+                <p
+                  class="MuiTypography-root-55 makeStyles-specName-293 MuiTypography-body1-57 MuiTypography-colorTextSecondary-81 MuiTypography-displayInline-83"
+                >
+                  You will receive
+                </p>
+                <h6
+                  class="MuiTypography-root-55 MuiTypography-subtitle2-67 MuiTypography-displayInline-83"
                 >
                   0 
                 </h6>
@@ -259,13 +273,13 @@ exports[`Sett Withdraw displays sett information 1`] = `
           </div>
           <button
             aria-label="Deposit"
-            class="MuiButtonBase-root-242 MuiButton-root-213 MuiButton-contained-221 WithStyles(ForwardRef(Button))-root-299 WithStyles(ForwardRef(Button))-root-300 MuiButton-containedPrimary-222 MuiButton-containedSizeLarge-233 MuiButton-sizeLarge-235 MuiButton-disabled-226 MuiButton-fullWidth-236 MuiButtonBase-disabled-243"
+            class="MuiButtonBase-root-246 MuiButton-root-217 MuiButton-contained-225 WithStyles(ForwardRef(Button))-root-303 WithStyles(ForwardRef(Button))-root-304 MuiButton-containedPrimary-226 MuiButton-containedSizeLarge-237 MuiButton-sizeLarge-239 MuiButton-disabled-230 MuiButton-fullWidth-240 MuiButtonBase-disabled-247"
             disabled=""
             tabindex="-1"
             type="button"
           >
             <span
-              class="MuiButton-label-214"
+              class="MuiButton-label-218"
             >
               Withdraw
             </span>
