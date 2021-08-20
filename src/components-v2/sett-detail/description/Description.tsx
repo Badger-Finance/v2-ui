@@ -3,8 +3,8 @@ import { Box, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { Sett } from '../../../mobx/model/setts/sett';
-import { Performance } from '../../../mobx/model/rewards/performance';
-import { ApyComparisonBadge, ComparisonMode } from './ApyComparisonBadge';
+import { Performance, scalePerformance } from '../../../mobx/model/rewards/performance';
+import ApyDisplayBadge, { ComparisonMode } from './ApyComparisonBadge';
 import { formatWithoutExtraZeros } from '../../../mobx/utils/helpers';
 import { ApyComparisonModeSelector } from './ApyComparisonModeSelector';
 
@@ -33,7 +33,18 @@ const reduceSourcePerformance = (prev: Performance, current: Performance) => {
 
 const getSourcesPerformanceSummary = (sett: Sett) => {
 	const initialValue = { oneDay: 0, threeDay: 0, sevenDay: 0, thirtyDay: 0 };
-	return sett.sources.map((source) => source.performance).reduce(reduceSourcePerformance, initialValue);
+	return sett.sources
+		.map((source) => {
+			// reduce sources to baseline - zero boost definitions
+			const { boostable, minApr, apr, performance } = source;
+			if (boostable) {
+				const performanceScalar = minApr / apr;
+				source.performance = scalePerformance(performance, performanceScalar);
+			}
+			return source;
+		})
+		.map((source) => source.performance)
+		.reduce(reduceSourcePerformance, initialValue);
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -66,7 +77,7 @@ interface Props {
 }
 
 export const Description = ({ sett }: Props): JSX.Element => {
-	const [comparisonMode, setComparisonMode] = React.useState<keyof Performance>('oneDay');
+	const [timeframe, setTimeframe] = React.useState<keyof Performance>('sevenDay');
 	const classes = useStyles();
 
 	const nameHasSpaces = sett.name.split(' ').length > 1;
@@ -74,14 +85,13 @@ export const Description = ({ sett }: Props): JSX.Element => {
 	const displayName = nameHasSpaces ? shortenedName : sett.name;
 
 	const performanceSummary = getSourcesPerformanceSummary(sett);
-	const performance = performanceSummary[comparisonMode] ?? 0;
-	const performanceComparison = sett.apr - performance;
+	const performance = performanceSummary[timeframe] ?? 0;
 
 	let performanceResultMode = ComparisonMode.neutral;
 
-	if (performanceComparison > 0) {
+	if (performance > 0) {
 		performanceResultMode = ComparisonMode.positive;
-	} else if (performanceComparison < 0) {
+	} else if (performance < 0) {
 		performanceResultMode = ComparisonMode.negative;
 	}
 
@@ -98,11 +108,11 @@ export const Description = ({ sett }: Props): JSX.Element => {
 				<Grid item>
 					<Box display="flex" alignItems="center">
 						<Typography className={classes.settName}>{displayName}</Typography>
-						<ApyComparisonBadge
-							apyComparison={`${formatWithoutExtraZeros(Math.abs(performanceComparison), 2)}%`}
+						<ApyDisplayBadge
+							apyComparison={`${formatWithoutExtraZeros(Math.abs(performance), 2)}%`}
 							mode={performanceResultMode}
 						/>
-						<ApyComparisonModeSelector value={comparisonMode} onChange={setComparisonMode} />
+						<ApyComparisonModeSelector value={timeframe} onChange={setTimeframe} />
 					</Box>
 				</Grid>
 				<Grid item>

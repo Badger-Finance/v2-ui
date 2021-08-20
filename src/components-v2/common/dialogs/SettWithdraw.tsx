@@ -54,10 +54,6 @@ export const SettWithdraw = observer(({ open = false, sett, badgerSett, onClose 
 	const userBalance = user.getBalance(ContractNamespace.Sett, badgerSett);
 	const vaultSymbol = setts.getToken(badgerSett.vaultToken.address)?.symbol || sett.asset;
 
-	const underlying = userBalance.tokenBalance.multipliedBy(sett.ppfs);
-	const underlyingBalance = new TokenBalance(userBalance.token, underlying, userBalance.price);
-	const underlyingSymbol = setts.getToken(badgerSett.depositToken.address)?.symbol || sett.asset;
-
 	const isLoading = contracts.settsBeingWithdrawn[sett.vaultToken];
 	const canWithdraw = !!connectedAddress && !!amount && userBalance.balance.gt(0);
 
@@ -88,9 +84,6 @@ export const SettWithdraw = observer(({ open = false, sett, badgerSett, onClose 
 			<SettDialogContent dividers className={classes.content}>
 				<Grid container alignItems="center">
 					<Grid item xs={12} sm={6}>
-						<Typography variant="body2" color="textSecondary">
-							{`Underlying ${underlyingSymbol}: ${underlyingBalance.balanceDisplay()}`}
-						</Typography>
 						<Typography variant="body1" color="textSecondary">
 							{`Deposited ${vaultSymbol}: ${userBalance.balanceDisplay()}`}
 						</Typography>

@@ -80,11 +80,6 @@ exports[`Sett Withdraw displays sett information 1`] = `
               class="MuiGrid-root-85 MuiGrid-item-87 MuiGrid-grid-xs-12-131 MuiGrid-grid-sm-6-139"
             >
               <p
-                class="MuiTypography-root-55 MuiTypography-body2-56 MuiTypography-colorTextSecondary-81"
-              >
-                Underlying sBTCCRV: 0.000000000000000000
-              </p>
-              <p
                 class="MuiTypography-root-55 MuiTypography-body1-57 MuiTypography-colorTextSecondary-81"
               >
                 Deposited sBTCCRV: 0.000000000000000000
@@ -180,6 +175,7 @@ exports[`Sett Withdraw displays sett information 1`] = `
                 pattern="^[0-9]*[.,]?[0-9]*$"
                 placeholder="Type an amount to deposit"
                 spellcheck="false"
+                style="text-align: right;"
                 type="text"
                 value=""
               />
