@@ -10,7 +10,7 @@ import { HeaderContainer, LayoutContainer } from '../../components-v2/common/Con
 
 const useStyles = makeStyles((theme) => ({
 	boostLink: {
-		fontWeight: 'bold',
+		fontWeight: 800,
 		[theme.breakpoints.down('xs')]: {
 			display: 'none',
 		},
