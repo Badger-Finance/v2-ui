@@ -4,6 +4,9 @@ import { DialogTitle, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
+	root: {
+		padding: theme.spacing(3),
+	},
 	mode: {
 		fontSize: 12,
 	},
@@ -28,7 +31,7 @@ export const SettDialogTitle = ({ sett, mode }: Props): JSX.Element => {
 	const classes = useStyles();
 
 	return (
-		<DialogTitle>
+		<DialogTitle className={classes.root}>
 			<Grid container alignItems="center">
 				<Grid item className={classes.logoContainer}>
 					<img

@@ -18,6 +18,9 @@ import { DepositFeesInformation } from '../DepositFeesInformation';
 import { SettFees } from '../SettFees';
 
 const useStyles = makeStyles((theme) => ({
+	content: {
+		padding: theme.spacing(3),
+	},
 	guardedVault: {
 		marginBottom: theme.spacing(2),
 	},
@@ -78,7 +81,7 @@ export const SettDeposit = observer(({ open = false, sett, badgerSett, onClose }
 	return (
 		<Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
 			<SettDialogTitle sett={sett} mode="Deposit" />
-			<DialogContent dividers>
+			<DialogContent dividers className={classes.content}>
 				{sett.state === SettState.Guarded && (
 					<Grid container className={classes.guardedVault}>
 						<NewVaultWarning />

@@ -25,18 +25,23 @@ const useStyles = makeStyles((theme) => ({
 interface Props {
 	sett: Sett;
 	fee: BigNumber;
-	withdrawAmount: BigNumber.Value;
+	amount: BigNumber.Value;
 }
 
+const formatAmount = (amount: BigNumber.Value, decimals: number) => {
+	return new BigNumber(amount).decimalPlaces(decimals, BigNumber.ROUND_HALF_FLOOR).toString();
+};
+
 export const SettWithdrawFee = observer(
-	({ sett, fee, withdrawAmount }: Props): JSX.Element => {
+	({ sett, fee, amount }: Props): JSX.Element => {
 		const { setts } = React.useContext(StoreContext);
-
 		const classes = useStyles();
-		const depositToken = setts.getToken(sett.underlyingToken);
-		const symbol = depositToken?.symbol || '';
-		const decimals = depositToken?.decimals || 18;
 
+		const depositToken = setts.getToken(sett.underlyingToken);
+		const depositTokenSymbol = depositToken?.symbol || '';
+		const depositTokenDecimals = depositToken?.decimals || 18;
+
+		const withdrawAmount = new BigNumber(amount).multipliedBy(sett.ppfs);
 		const withdrawalFee = fee.div(100).multipliedBy(withdrawAmount);
 		const amountAfterFee = new BigNumber(withdrawAmount).minus(withdrawalFee);
 
@@ -46,26 +51,26 @@ export const SettWithdrawFee = observer(
 				<Divider className={classes.divider} />
 				<Grid container justify="space-between">
 					<Typography className={classes.specName} color="textSecondary" display="inline">
-						Sett Withdraw Fee (%)
+						Converted Amount
 					</Typography>
 					<Typography display="inline" variant="subtitle2">
-						{formatStrategyFee(fee)}
+						{`${formatAmount(withdrawAmount, depositTokenDecimals)} ${depositTokenSymbol}`}
 					</Typography>
 				</Grid>
 				<Grid container justify="space-between">
 					<Typography className={classes.specName} color="textSecondary" display="inline">
-						Estimated Fee
+						{`Estimated Fee (${formatStrategyFee(fee)})`}
 					</Typography>
 					<Typography display="inline" variant="subtitle2">
-						{`${withdrawalFee.decimalPlaces(decimals, BigNumber.ROUND_HALF_FLOOR).toString()} ${symbol}`}
+						{`${formatAmount(withdrawalFee, depositTokenDecimals)} ${depositTokenSymbol}`}
 					</Typography>
 				</Grid>
 				<Grid container justify="space-between">
 					<Typography className={classes.specName} color="textSecondary" display="inline">
-						Withdraw After Fee
+						You will receive
 					</Typography>
 					<Typography display="inline" variant="subtitle2">
-						{`${amountAfterFee.decimalPlaces(decimals, BigNumber.ROUND_HALF_FLOOR)} ${symbol}`}
+						{`${formatAmount(amountAfterFee, depositTokenDecimals)} ${depositTokenSymbol}`}
 					</Typography>
 				</Grid>
 			</Grid>

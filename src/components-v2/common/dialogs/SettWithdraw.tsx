@@ -16,8 +16,18 @@ import { SettWithdrawFee } from './SettWithdrawFee';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
+	content: {
+		padding: theme.spacing(3),
+	},
 	fees: {
 		marginTop: theme.spacing(2),
+	},
+	rate: {
+		marginTop: theme.spacing(1),
+	},
+	rateLabel: {
+		fontSize: 12,
+		lineHeight: '1.66',
 	},
 }));
 
@@ -55,6 +65,11 @@ export const SettWithdraw = observer(({ open = false, sett, badgerSett, onClose 
 	const settStrategy = networkSett ? network.strategies[networkSett.vaultToken.address] : undefined;
 	const withdrawFee = settStrategy ? settStrategy.fees[StrategyFee.withdraw] : undefined;
 
+	const depositToken = setts.getToken(sett.underlyingToken);
+	const bToken = setts.getToken(sett.vaultToken);
+	const depositTokenSymbol = depositToken?.symbol || '';
+	const bTokenSymbol = bToken?.symbol || '';
+
 	const handlePercentageChange = (percent: number) => {
 		setAmount(userBalance.scaledBalanceDisplay(percent));
 	};
@@ -70,7 +85,7 @@ export const SettWithdraw = observer(({ open = false, sett, badgerSett, onClose 
 	return (
 		<Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
 			<SettDialogTitle sett={sett} mode="Withdraw" />
-			<SettDialogContent dividers>
+			<SettDialogContent dividers className={classes.content}>
 				<Grid container alignItems="center">
 					<Grid item xs={12} sm={6}>
 						<Typography variant="body2" color="textSecondary">
@@ -96,9 +111,17 @@ export const SettWithdraw = observer(({ open = false, sett, badgerSett, onClose 
 					value={amount || ''}
 					onChange={onValidChange(setAmount)}
 				/>
+				<Grid container justify="space-between" className={classes.rate}>
+					<Typography className={classes.rateLabel} color="textSecondary" display="inline">
+						Withdraw Rate
+					</Typography>
+					<Typography display="inline" variant="subtitle2">
+						{`1 ${bTokenSymbol} = ${sett.ppfs} ${depositTokenSymbol}`}
+					</Typography>
+				</Grid>
 				{withdrawFee && (
 					<Grid container className={classes.fees}>
-						<SettWithdrawFee sett={sett} fee={withdrawFee} withdrawAmount={amount || 0} />
+						<SettWithdrawFee sett={sett} fee={withdrawFee} amount={amount || 0} />
 					</Grid>
 				)}
 				<ActionButton
