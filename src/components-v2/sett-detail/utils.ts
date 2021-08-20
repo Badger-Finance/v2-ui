@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import { ChartMode } from '../../mobx/model/setts/sett-charts';
 import { DelaySeverity } from '../../mobx/model/setts/sett-rewards';
+import { SettDetailMode } from '../../mobx/model/setts/sett-detail';
 
 dayjs.extend(utc);
 
@@ -9,6 +10,11 @@ export const ChartModeTitles = {
 	[ChartMode.value]: 'Sett Value',
 	[ChartMode.ratio]: 'Token Ratio',
 	[ChartMode.accountBalance]: 'Your Holdings',
+};
+
+export const SettModeTitles = {
+	[SettDetailMode.settInformation]: 'Vault Info',
+	[SettDetailMode.userInformation]: 'User Info',
 };
 
 export const calculateDelaySeverity = (delay: number): DelaySeverity => {

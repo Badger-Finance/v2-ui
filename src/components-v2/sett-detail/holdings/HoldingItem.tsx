@@ -1,25 +1,30 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Box, Grid, Paper, Typography } from '@material-ui/core';
+import { Box, Divider, Grid, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { formatWithoutExtraZeros, numberWithCommas } from '../../../mobx/utils/helpers';
 import { observer } from 'mobx-react-lite';
 
 const useStyles = makeStyles((theme) => ({
 	titleContainer: {
-		display: 'flex',
-		alignItems: 'center',
+		// display: 'flex',
+		// alignItems: 'center',
+		wordBreak: 'break-all',
 	},
 	holdingsName: {
 		fontSize: 16,
+	},
+	amount: {
+		fontSize: 20,
+		fontWeight: 500,
 	},
 	cardContainer: {
 		padding: theme.spacing(2),
 	},
 	logoContainer: {
 		display: 'inline-flex',
-		width: 48,
-		height: 48,
+		width: 40,
+		height: 40,
 		marginRight: theme.spacing(1),
 	},
 	logo: {
@@ -32,7 +37,10 @@ const useStyles = makeStyles((theme) => ({
 	},
 	amountText: {
 		alignItems: 'center',
-		marginTop: theme.spacing(1),
+	},
+	divider: {
+		width: '100%',
+		marginBottom: theme.spacing(1),
 	},
 }));
 
@@ -42,35 +50,36 @@ interface Props {
 	balance: BigNumber.Value;
 	value: BigNumber.Value;
 	decimals: number;
-	helpIcon?: React.ReactNode;
 }
 
 const displayUsdBalance = (value: BigNumber.Value) => `~$${numberWithCommas(formatWithoutExtraZeros(value, 2))}`;
 
 export const HoldingItem = observer(
-	({ name, logo, balance, value, decimals, helpIcon }: Props): JSX.Element => {
+	({ name, logo, balance, value, decimals }: Props): JSX.Element => {
 		const classes = useStyles();
 
 		return (
-			<Paper className={classes.cardContainer}>
-				<div className={classes.titleContainer}>
+			<Grid container>
+				<Grid container className={classes.titleContainer}>
 					<Typography className={classes.holdingsName}>{name}</Typography>
-					{helpIcon}
-				</div>
+				</Grid>
+				<Divider className={classes.divider} />
 				<Grid container className={classes.amountsContainer}>
 					<Box display="inline-flex" className={classes.amountText}>
 						<div className={classes.logoContainer}>
 							<img className={classes.logo} src={logo} alt={`${name} holdings`} />
 						</div>
 						<div>
-							<Typography variant="h5">{formatWithoutExtraZeros(balance, decimals)}</Typography>
+							<Typography className={classes.amount}>
+								{formatWithoutExtraZeros(balance, decimals)}
+							</Typography>
 							<Typography variant="body2" color="textSecondary">
 								{displayUsdBalance(value)}
 							</Typography>
 						</div>
 					</Box>
 				</Grid>
-			</Paper>
+			</Grid>
 		);
 	},
 );

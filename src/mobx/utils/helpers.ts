@@ -275,13 +275,12 @@ export const numberWithCommas = (x: string): string => {
 	return parts.join('.');
 };
 
-// using Number() removes extra zeros
 export const formatWithoutExtraZeros = (
 	amount: BigNumber.Value,
 	decimals = 6,
 	strategy = BigNumber.ROUND_HALF_FLOOR,
 ): string => {
-	return Number(new BigNumber(amount).toFixed(decimals, strategy)).toString();
+	return new BigNumber(amount).decimalPlaces(decimals, strategy).toString();
 };
 
 export async function fetchDiggChart(chart: string, range: number): Promise<ChartData | undefined> {

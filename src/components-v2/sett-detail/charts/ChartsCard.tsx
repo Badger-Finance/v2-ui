@@ -1,10 +1,8 @@
 import React, { useContext, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Grid, Tab, Tabs } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import { ChartContent } from './ChartContent';
-import { CardContainer } from '../styled';
 import { Sett } from '../../../mobx/model/setts/sett';
-import { ChartModeTitles } from '../utils';
 import { ChartMode, SettChartData, SettChartTimeframe } from '../../../mobx/model/setts/sett-charts';
 import { ChartsHeader } from './ChartsHeader';
 import { observer } from 'mobx-react-lite';
@@ -16,12 +14,12 @@ const useStyles = makeStyles((theme) => ({
 		display: 'flex',
 		flexDirection: 'column',
 		maxWidth: '100%',
+		height: '100%',
 	},
 	content: {
 		flexGrow: 1,
 		maxWidth: '100%',
 		flexShrink: 0,
-		padding: theme.spacing(2, 3),
 	},
 	tabHeader: { background: 'rgba(0,0,0,.2)' },
 	header: {
@@ -36,21 +34,20 @@ const useStyles = makeStyles((theme) => ({
 
 interface Props {
 	sett: Sett;
+	mode: ChartMode;
 	settBalance?: SettBalance;
 }
 
 export const ChartsCard = observer(
-	({ sett, settBalance }: Props): JSX.Element => {
-		const { settCharts, settDetail } = useContext(StoreContext);
-
-		const accountScalar = settBalance ? settBalance.value / sett.value : undefined;
-		const shouldBalanceBeDefaultMode = !!accountScalar && settDetail.shouldShowDirectAccountInformation;
+	({ sett, settBalance, mode }: Props): JSX.Element => {
+		const { settCharts } = useContext(StoreContext);
 
 		const classes = useStyles();
 		const [loading, setLoading] = useState(false);
 		const [chartData, setChartData] = useState<SettChartData[] | null>(null);
-		const [mode, setMode] = useState(shouldBalanceBeDefaultMode ? ChartMode.accountBalance : ChartMode.value);
 		const [timeframe, setTimeframe] = useState(SettChartTimeframe.week);
+
+		const accountScalar = settBalance ? settBalance.value / sett.value : undefined;
 
 		const handleFetch = (fetchedData: SettChartData[] | null) => {
 			setChartData(fetchedData);
@@ -68,33 +65,7 @@ export const ChartsCard = observer(
 		}, [sett, timeframe, settCharts]);
 
 		return (
-			<CardContainer className={classes.root}>
-				<Tabs
-					variant="fullWidth"
-					className={classes.tabHeader}
-					textColor="primary"
-					aria-label="chart view options"
-					indicatorColor="primary"
-					value={mode}
-				>
-					<Tab
-						onClick={() => setMode(ChartMode.value)}
-						value={ChartMode.value}
-						label={ChartModeTitles[ChartMode.value]}
-					/>
-					<Tab
-						onClick={() => setMode(ChartMode.ratio)}
-						value={ChartMode.ratio}
-						label={ChartModeTitles[ChartMode.ratio]}
-					/>
-					{!!accountScalar && (
-						<Tab
-							onClick={() => setMode(ChartMode.accountBalance)}
-							value={ChartMode.accountBalance}
-							label={ChartModeTitles[ChartMode.accountBalance]}
-						/>
-					)}
-				</Tabs>
+			<div className={classes.root}>
 				<Grid container direction="column" className={classes.content}>
 					<Grid item container alignItems="center" justify="space-between" className={classes.header}>
 						<ChartsHeader mode={mode} timeframe={timeframe} onTimeframeChange={setTimeframe} />
@@ -103,7 +74,7 @@ export const ChartsCard = observer(
 						<ChartContent mode={mode} data={chartData} accountScalar={accountScalar} loading={loading} />
 					</Grid>
 				</Grid>
-			</CardContainer>
+			</div>
 		);
 	},
 );
