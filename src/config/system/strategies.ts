@@ -328,7 +328,7 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 					address: deploy.sett_system.strategies['native.imBtc'],
 					fees: {
 						[StrategyFee.daoPerformance]: new BigNumber(1000),
-						[StrategyFee.withdraw]: new BigNumber(10),
+						[StrategyFee.withdraw]: new BigNumber(75),
 					},
 					strategyLink:
 						'https://badgerwiki.notion.site/Strategies-7bf5b27a451242538f02855ca5aaf4e4#1346adfaad7946eebd29a17fb4f6e8b7',
