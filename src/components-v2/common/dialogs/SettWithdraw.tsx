@@ -11,6 +11,15 @@ import { PercentageSelector } from '../PercentageSelector';
 import { Sett } from '../../../mobx/model/setts/sett';
 import { ActionButton, AmountTextField, LoaderSpinner, PercentagesContainer, SettDialogContent } from './styled';
 import { ContractNamespace } from '../../../web3/config/contract-namespace';
+import { StrategyFee } from '../../../mobx/model/system-config/stategy-fees';
+import { SettWithdrawFee } from './SettWithdrawFee';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+	fees: {
+		marginTop: theme.spacing(2),
+	},
+}));
 
 export interface SettModalProps {
 	open?: boolean;
@@ -21,12 +30,14 @@ export interface SettModalProps {
 
 export const SettWithdraw = observer(({ open = false, sett, badgerSett, onClose }: SettModalProps) => {
 	const {
+		network: { network },
 		wallet: { connectedAddress },
 		user,
 		contracts,
 		setts,
 	} = useContext(StoreContext);
 
+	const classes = useStyles();
 	const [amount, setAmount] = useState('');
 	const { onValidChange, inputProps } = useNumericInput();
 
@@ -39,6 +50,10 @@ export const SettWithdraw = observer(({ open = false, sett, badgerSett, onClose 
 
 	const isLoading = contracts.settsBeingWithdrawn[sett.vaultToken];
 	const canWithdraw = !!connectedAddress && !!amount && userBalance.balance.gt(0);
+
+	const networkSett = network.setts.find(({ vaultToken }) => vaultToken.address === sett.vaultToken);
+	const settStrategy = networkSett ? network.strategies[networkSett.vaultToken.address] : undefined;
+	const withdrawFee = settStrategy ? settStrategy.fees[StrategyFee.withdraw] : undefined;
 
 	const handlePercentageChange = (percent: number) => {
 		setAmount(userBalance.scaledBalanceDisplay(percent));
@@ -81,6 +96,11 @@ export const SettWithdraw = observer(({ open = false, sett, badgerSett, onClose 
 					value={amount || ''}
 					onChange={onValidChange(setAmount)}
 				/>
+				{withdrawFee && (
+					<Grid container className={classes.fees}>
+						<SettWithdrawFee sett={sett} fee={withdrawFee} withdrawAmount={amount || 0} />
+					</Grid>
+				)}
 				<ActionButton
 					aria-label="Deposit"
 					size="large"

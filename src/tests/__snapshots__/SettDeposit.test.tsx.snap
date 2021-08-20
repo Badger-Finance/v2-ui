@@ -36,7 +36,7 @@ exports[`Sett Deposit can go back from full fees descriptions  1`] = `
         role="dialog"
       >
         <div
-          class="MuiDialogTitle-root-352"
+          class="MuiDialogTitle-root-353"
         >
           <h2
             class="MuiTypography-root-52 MuiTypography-h6-62"
@@ -45,11 +45,11 @@ exports[`Sett Deposit can go back from full fees descriptions  1`] = `
               class="MuiGrid-root-82 MuiGrid-container-83 MuiGrid-align-items-xs-center-91"
             >
               <div
-                class="MuiGrid-root-82 makeStyles-logoContainer-351 MuiGrid-item-84"
+                class="MuiGrid-root-82 makeStyles-logoContainer-352 MuiGrid-item-84"
               >
                 <img
                   alt="Badger Curve.fi renBTC/wBTC/sBTC Vault Symbol"
-                  class="makeStyles-settLogo-350"
+                  class="makeStyles-settLogo-351"
                   src="/assets/icons/sbtccrv.png"
                 />
               </div>
@@ -57,7 +57,7 @@ exports[`Sett Deposit can go back from full fees descriptions  1`] = `
                 class="MuiGrid-root-82 MuiGrid-item-84"
               >
                 <p
-                  class="MuiTypography-root-52 makeStyles-mode-349 MuiTypography-body1-54 MuiTypography-colorTextSecondary-78"
+                  class="MuiTypography-root-52 makeStyles-mode-350 MuiTypography-body1-54 MuiTypography-colorTextSecondary-78"
                 >
                   Deposit
                 </p>
@@ -71,7 +71,7 @@ exports[`Sett Deposit can go back from full fees descriptions  1`] = `
           </h2>
         </div>
         <div
-          class="MuiDialogContent-root-353 MuiDialogContent-dividers-354"
+          class="MuiDialogContent-root-354 MuiDialogContent-dividers-355"
         >
           <div
             class="MuiGrid-root-82 MuiGrid-container-83 MuiGrid-align-items-xs-center-91"
@@ -86,15 +86,15 @@ exports[`Sett Deposit can go back from full fees descriptions  1`] = `
               </p>
             </div>
             <div
-              class="MuiGrid-root-82 WithStyles(ForwardRef(Grid))-root-355 WithStyles(ForwardRef(Grid))-root-356 MuiGrid-item-84 MuiGrid-grid-xs-12-128 MuiGrid-grid-sm-6-136"
+              class="MuiGrid-root-82 WithStyles(ForwardRef(Grid))-root-356 WithStyles(ForwardRef(Grid))-root-357 MuiGrid-item-84 MuiGrid-grid-xs-12-128 MuiGrid-grid-sm-6-136"
             >
               <div
-                class="MuiButtonGroup-root-357"
+                class="MuiButtonGroup-root-358"
                 role="group"
               >
                 <button
                   aria-label="25%"
-                  class="MuiButtonBase-root-242 MuiButton-root-213 MuiButton-outlined-218 MuiButtonGroup-grouped-363 MuiButtonGroup-groupedHorizontal-364 MuiButtonGroup-groupedOutlined-371 MuiButtonGroup-groupedOutlinedHorizontal-372 MuiButtonGroup-groupedOutlined-371 MuiButton-outlinedSizeSmall-230 MuiButton-sizeSmall-234"
+                  class="MuiButtonBase-root-242 MuiButton-root-213 MuiButton-outlined-218 MuiButtonGroup-grouped-364 MuiButtonGroup-groupedHorizontal-365 MuiButtonGroup-groupedOutlined-372 MuiButtonGroup-groupedOutlinedHorizontal-373 MuiButtonGroup-groupedOutlined-372 MuiButton-outlinedSizeSmall-230 MuiButton-sizeSmall-234"
                   tabindex="0"
                   type="button"
                 >
@@ -105,12 +105,12 @@ exports[`Sett Deposit can go back from full fees descriptions  1`] = `
                     %
                   </span>
                   <span
-                    class="MuiTouchRipple-root-443"
+                    class="MuiTouchRipple-root-445"
                   />
                 </button>
                 <button
                   aria-label="50%"
-                  class="MuiButtonBase-root-242 MuiButton-root-213 MuiButton-outlined-218 MuiButtonGroup-grouped-363 MuiButtonGroup-groupedHorizontal-364 MuiButtonGroup-groupedOutlined-371 MuiButtonGroup-groupedOutlinedHorizontal-372 MuiButtonGroup-groupedOutlined-371 MuiButton-outlinedSizeSmall-230 MuiButton-sizeSmall-234"
+                  class="MuiButtonBase-root-242 MuiButton-root-213 MuiButton-outlined-218 MuiButtonGroup-grouped-364 MuiButtonGroup-groupedHorizontal-365 MuiButtonGroup-groupedOutlined-372 MuiButtonGroup-groupedOutlinedHorizontal-373 MuiButtonGroup-groupedOutlined-372 MuiButton-outlinedSizeSmall-230 MuiButton-sizeSmall-234"
                   tabindex="0"
                   type="button"
                 >
@@ -121,12 +121,12 @@ exports[`Sett Deposit can go back from full fees descriptions  1`] = `
                     %
                   </span>
                   <span
-                    class="MuiTouchRipple-root-443"
+                    class="MuiTouchRipple-root-445"
                   />
                 </button>
                 <button
                   aria-label="75%"
-                  class="MuiButtonBase-root-242 MuiButton-root-213 MuiButton-outlined-218 MuiButtonGroup-grouped-363 MuiButtonGroup-groupedHorizontal-364 MuiButtonGroup-groupedOutlined-371 MuiButtonGroup-groupedOutlinedHorizontal-372 MuiButtonGroup-groupedOutlined-371 MuiButton-outlinedSizeSmall-230 MuiButton-sizeSmall-234"
+                  class="MuiButtonBase-root-242 MuiButton-root-213 MuiButton-outlined-218 MuiButtonGroup-grouped-364 MuiButtonGroup-groupedHorizontal-365 MuiButtonGroup-groupedOutlined-372 MuiButtonGroup-groupedOutlinedHorizontal-373 MuiButtonGroup-groupedOutlined-372 MuiButton-outlinedSizeSmall-230 MuiButton-sizeSmall-234"
                   tabindex="0"
                   type="button"
                 >
@@ -137,12 +137,12 @@ exports[`Sett Deposit can go back from full fees descriptions  1`] = `
                     %
                   </span>
                   <span
-                    class="MuiTouchRipple-root-443"
+                    class="MuiTouchRipple-root-445"
                   />
                 </button>
                 <button
                   aria-label="100%"
-                  class="MuiButtonBase-root-242 MuiButton-root-213 MuiButton-outlined-218 MuiButtonGroup-grouped-363 MuiButtonGroup-groupedHorizontal-364 MuiButtonGroup-groupedOutlined-371 MuiButtonGroup-groupedOutlinedHorizontal-372 MuiButtonGroup-groupedOutlined-371 MuiButton-outlinedSizeSmall-230 MuiButton-sizeSmall-234"
+                  class="MuiButtonBase-root-242 MuiButton-root-213 MuiButton-outlined-218 MuiButtonGroup-grouped-364 MuiButtonGroup-groupedHorizontal-365 MuiButtonGroup-groupedOutlined-372 MuiButtonGroup-groupedOutlinedHorizontal-373 MuiButtonGroup-groupedOutlined-372 MuiButton-outlinedSizeSmall-230 MuiButton-sizeSmall-234"
                   tabindex="0"
                   type="button"
                 >
@@ -153,22 +153,22 @@ exports[`Sett Deposit can go back from full fees descriptions  1`] = `
                     %
                   </span>
                   <span
-                    class="MuiTouchRipple-root-443"
+                    class="MuiTouchRipple-root-445"
                   />
                 </button>
               </div>
             </div>
           </div>
           <div
-            class="MuiFormControl-root-384 MuiTextField-root-383 WithStyles(ForwardRef(TextField))-root-381 WithStyles(ForwardRef(TextField))-root-382 MuiFormControl-fullWidth-387"
+            class="MuiFormControl-root-385 MuiTextField-root-384 WithStyles(ForwardRef(TextField))-root-382 WithStyles(ForwardRef(TextField))-root-383 MuiFormControl-fullWidth-388"
           >
             <div
-              class="MuiInputBase-root-403 MuiOutlinedInput-root-388 MuiInputBase-fullWidth-413 MuiInputBase-formControl-404"
+              class="MuiInputBase-root-404 MuiOutlinedInput-root-389 MuiInputBase-fullWidth-414 MuiInputBase-formControl-405"
             >
               <input
                 aria-invalid="false"
                 autocomplete="off"
-                class="MuiInputBase-input-414 MuiOutlinedInput-input-398"
+                class="MuiInputBase-input-415 MuiOutlinedInput-input-399"
                 inputmode="decimal"
                 maxlength="79"
                 minlength="1"
@@ -180,11 +180,11 @@ exports[`Sett Deposit can go back from full fees descriptions  1`] = `
               />
               <fieldset
                 aria-hidden="true"
-                class="PrivateNotchedOutline-root-421 MuiOutlinedInput-notchedOutline-397"
+                class="PrivateNotchedOutline-root-422 MuiOutlinedInput-notchedOutline-398"
                 style="padding-left: 8px;"
               >
                 <legend
-                  class="PrivateNotchedOutline-legend-422"
+                  class="PrivateNotchedOutline-legend-423"
                   style="width: 0.01px;"
                 >
                   <span>
@@ -198,7 +198,7 @@ exports[`Sett Deposit can go back from full fees descriptions  1`] = `
             class="makeStyles-fees-2"
           >
             <div
-              class="makeStyles-titleContainer-427"
+              class="makeStyles-titleContainer-428"
             >
               <p
                 class="MuiTypography-root-52 MuiTypography-body1-54"
@@ -208,7 +208,7 @@ exports[`Sett Deposit can go back from full fees descriptions  1`] = `
               <svg
                 aria-hidden="true"
                 aria-label="see fees descriptions"
-                class="MuiSvgIcon-root-305 makeStyles-helpIcon-429 MuiSvgIcon-colorPrimary-306"
+                class="MuiSvgIcon-root-305 makeStyles-helpIcon-430 MuiSvgIcon-colorPrimary-306"
                 focusable="false"
                 title="Click to see full description"
                 viewBox="0 0 24 24"
@@ -219,40 +219,44 @@ exports[`Sett Deposit can go back from full fees descriptions  1`] = `
               </svg>
             </div>
             <hr
-              class="MuiDivider-root-314 makeStyles-divider-426"
+              class="MuiDivider-root-314 makeStyles-divider-427"
             />
             <div
-              class="MuiGrid-root-82 MuiGrid-container-83 MuiGrid-justify-xs-space-between-102"
+              class="MuiGrid-root-82 MuiGrid-container-83"
             >
-              <p
-                class="MuiTypography-root-52 makeStyles-specName-425 MuiTypography-body1-54 MuiTypography-colorTextSecondary-78 MuiTypography-displayInline-80"
+              <div
+                class="MuiGrid-root-82 MuiGrid-container-83 MuiGrid-justify-xs-space-between-102"
               >
-                DAO Performance Fee
-              </p>
-              <h6
-                class="MuiTypography-root-52 MuiTypography-subtitle2-64 MuiTypography-displayInline-80"
+                <p
+                  class="MuiTypography-root-52 makeStyles-specName-442 MuiTypography-body1-54 MuiTypography-colorTextSecondary-78 MuiTypography-displayInline-80"
+                >
+                  DAO Performance Fee
+                </p>
+                <h6
+                  class="MuiTypography-root-52 MuiTypography-subtitle2-64 MuiTypography-displayInline-80"
+                >
+                  10%
+                </h6>
+              </div>
+              <div
+                class="MuiGrid-root-82 MuiGrid-container-83 MuiGrid-justify-xs-space-between-102"
               >
-                10%
-              </h6>
-            </div>
-            <div
-              class="MuiGrid-root-82 MuiGrid-container-83 MuiGrid-justify-xs-space-between-102"
-            >
-              <p
-                class="MuiTypography-root-52 makeStyles-specName-425 MuiTypography-body1-54 MuiTypography-colorTextSecondary-78 MuiTypography-displayInline-80"
-              >
-                Withdraw Fee
-              </p>
-              <h6
-                class="MuiTypography-root-52 MuiTypography-subtitle2-64 MuiTypography-displayInline-80"
-              >
-                0.5%
-              </h6>
+                <p
+                  class="MuiTypography-root-52 makeStyles-specName-442 MuiTypography-body1-54 MuiTypography-colorTextSecondary-78 MuiTypography-displayInline-80"
+                >
+                  Withdraw Fee
+                </p>
+                <h6
+                  class="MuiTypography-root-52 MuiTypography-subtitle2-64 MuiTypography-displayInline-80"
+                >
+                  0.5%
+                </h6>
+              </div>
             </div>
           </div>
           <button
             aria-label="Deposit"
-            class="MuiButtonBase-root-242 MuiButton-root-213 MuiButton-contained-221 WithStyles(ForwardRef(Button))-root-441 WithStyles(ForwardRef(Button))-root-442 MuiButton-containedPrimary-222 MuiButton-containedSizeLarge-233 MuiButton-sizeLarge-235 MuiButton-disabled-226 MuiButton-fullWidth-236 MuiButtonBase-disabled-243"
+            class="MuiButtonBase-root-242 MuiButton-root-213 MuiButton-contained-221 WithStyles(ForwardRef(Button))-root-443 WithStyles(ForwardRef(Button))-root-444 MuiButton-containedPrimary-222 MuiButton-containedSizeLarge-233 MuiButton-sizeLarge-235 MuiButton-disabled-226 MuiButton-fullWidth-236 MuiButtonBase-disabled-243"
             disabled=""
             tabindex="-1"
             type="button"
@@ -310,18 +314,18 @@ exports[`Sett Deposit can see full fees descriptions  1`] = `
         role="dialog"
       >
         <div
-          class="MuiGrid-root-82 makeStyles-root-333 MuiGrid-container-83"
+          class="MuiGrid-root-82 makeStyles-root-334 MuiGrid-container-83"
         >
           <div
             class="MuiGrid-root-82 MuiGrid-container-83 MuiGrid-align-items-xs-center-91 MuiGrid-justify-xs-space-between-102"
           >
             <p
-              class="MuiTypography-root-52 makeStyles-title-334 MuiTypography-body1-54 MuiTypography-displayInline-80"
+              class="MuiTypography-root-52 makeStyles-title-335 MuiTypography-body1-54 MuiTypography-displayInline-80"
             >
               Fee Information
             </p>
             <button
-              class="MuiButtonBase-root-242 MuiButton-root-213 MuiButton-text-215 makeStyles-backButton-335 MuiButton-textPrimary-216"
+              class="MuiButtonBase-root-242 MuiButton-root-213 MuiButton-text-215 makeStyles-backButton-336 MuiButton-textPrimary-216"
               tabindex="0"
               type="button"
             >
@@ -330,7 +334,7 @@ exports[`Sett Deposit can see full fees descriptions  1`] = `
               >
                 <svg
                   aria-hidden="true"
-                  class="MuiSvgIcon-root-305 makeStyles-arrowIcon-338"
+                  class="MuiSvgIcon-root-305 makeStyles-arrowIcon-339"
                   focusable="false"
                   viewBox="0 0 24 24"
                 >
@@ -341,12 +345,12 @@ exports[`Sett Deposit can see full fees descriptions  1`] = `
                 Back
               </span>
               <span
-                class="MuiTouchRipple-root-339"
+                class="MuiTouchRipple-root-340"
               />
             </button>
           </div>
           <div
-            class="makeStyles-content-336"
+            class="makeStyles-content-337"
           >
             <p
               class="MuiTypography-root-52 MuiTypography-body1-54 MuiTypography-colorTextSecondary-78"
@@ -354,7 +358,7 @@ exports[`Sett Deposit can see full fees descriptions  1`] = `
               Fees are charged on certain Sett Vaults, and are sent to the BadgerDAO treasury, or shared with the strategist who wrote the vault strategy.
             </p>
             <hr
-              class="MuiDivider-root-314 makeStyles-divider-337"
+              class="MuiDivider-root-314 makeStyles-divider-338"
             />
             <div>
               <p
@@ -490,7 +494,7 @@ exports[`Sett Deposit displays sett information 1`] = `
                     %
                   </span>
                   <span
-                    class="MuiTouchRipple-root-323"
+                    class="MuiTouchRipple-root-324"
                   />
                 </button>
                 <button
@@ -506,7 +510,7 @@ exports[`Sett Deposit displays sett information 1`] = `
                     %
                   </span>
                   <span
-                    class="MuiTouchRipple-root-323"
+                    class="MuiTouchRipple-root-324"
                   />
                 </button>
                 <button
@@ -522,7 +526,7 @@ exports[`Sett Deposit displays sett information 1`] = `
                     %
                   </span>
                   <span
-                    class="MuiTouchRipple-root-323"
+                    class="MuiTouchRipple-root-324"
                   />
                 </button>
                 <button
@@ -538,7 +542,7 @@ exports[`Sett Deposit displays sett information 1`] = `
                     %
                   </span>
                   <span
-                    class="MuiTouchRipple-root-323"
+                    class="MuiTouchRipple-root-324"
                   />
                 </button>
               </div>
@@ -607,37 +611,41 @@ exports[`Sett Deposit displays sett information 1`] = `
               class="MuiDivider-root-314 makeStyles-divider-290"
             />
             <div
-              class="MuiGrid-root-82 MuiGrid-container-83 MuiGrid-justify-xs-space-between-102"
+              class="MuiGrid-root-82 MuiGrid-container-83"
             >
-              <p
-                class="MuiTypography-root-52 makeStyles-specName-289 MuiTypography-body1-54 MuiTypography-colorTextSecondary-78 MuiTypography-displayInline-80"
+              <div
+                class="MuiGrid-root-82 MuiGrid-container-83 MuiGrid-justify-xs-space-between-102"
               >
-                DAO Performance Fee
-              </p>
-              <h6
-                class="MuiTypography-root-52 MuiTypography-subtitle2-64 MuiTypography-displayInline-80"
+                <p
+                  class="MuiTypography-root-52 makeStyles-specName-321 MuiTypography-body1-54 MuiTypography-colorTextSecondary-78 MuiTypography-displayInline-80"
+                >
+                  DAO Performance Fee
+                </p>
+                <h6
+                  class="MuiTypography-root-52 MuiTypography-subtitle2-64 MuiTypography-displayInline-80"
+                >
+                  10%
+                </h6>
+              </div>
+              <div
+                class="MuiGrid-root-82 MuiGrid-container-83 MuiGrid-justify-xs-space-between-102"
               >
-                10%
-              </h6>
-            </div>
-            <div
-              class="MuiGrid-root-82 MuiGrid-container-83 MuiGrid-justify-xs-space-between-102"
-            >
-              <p
-                class="MuiTypography-root-52 makeStyles-specName-289 MuiTypography-body1-54 MuiTypography-colorTextSecondary-78 MuiTypography-displayInline-80"
-              >
-                Withdraw Fee
-              </p>
-              <h6
-                class="MuiTypography-root-52 MuiTypography-subtitle2-64 MuiTypography-displayInline-80"
-              >
-                0.5%
-              </h6>
+                <p
+                  class="MuiTypography-root-52 makeStyles-specName-321 MuiTypography-body1-54 MuiTypography-colorTextSecondary-78 MuiTypography-displayInline-80"
+                >
+                  Withdraw Fee
+                </p>
+                <h6
+                  class="MuiTypography-root-52 MuiTypography-subtitle2-64 MuiTypography-displayInline-80"
+                >
+                  0.5%
+                </h6>
+              </div>
             </div>
           </div>
           <button
             aria-label="Deposit"
-            class="MuiButtonBase-root-242 MuiButton-root-213 MuiButton-contained-221 WithStyles(ForwardRef(Button))-root-321 WithStyles(ForwardRef(Button))-root-322 MuiButton-containedPrimary-222 MuiButton-containedSizeLarge-233 MuiButton-sizeLarge-235 MuiButton-disabled-226 MuiButton-fullWidth-236 MuiButtonBase-disabled-243"
+            class="MuiButtonBase-root-242 MuiButton-root-213 MuiButton-contained-221 WithStyles(ForwardRef(Button))-root-322 WithStyles(ForwardRef(Button))-root-323 MuiButton-containedPrimary-222 MuiButton-containedSizeLarge-233 MuiButton-sizeLarge-235 MuiButton-disabled-226 MuiButton-fullWidth-236 MuiButtonBase-disabled-243"
             disabled=""
             tabindex="-1"
             type="button"

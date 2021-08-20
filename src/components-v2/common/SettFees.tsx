@@ -1,11 +1,12 @@
 import React from 'react';
-import { Divider, Grid, Tooltip, Typography } from '@material-ui/core';
+import { Divider, Tooltip, Typography } from '@material-ui/core';
 import HelpIcon from '@material-ui/icons/Help';
 import { makeStyles } from '@material-ui/core/styles';
 import { observer } from 'mobx-react-lite';
-import BigNumber from 'bignumber.js';
 import { StoreContext } from '../../mobx/store-context';
 import { Sett } from '../../mobx/model/setts/sett';
+import { getNonEmptyStrategyFees } from '../../mobx/utils/fees';
+import { StrategyFees } from './StrategyFees';
 
 const useStyles = makeStyles((theme) => ({
 	specName: {
@@ -38,8 +39,6 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
 	showNowFees?: boolean;
 }
 
-const formatStrategyFee = (fee: BigNumber) => `${fee.dividedBy(10 ** 2).toString()}%`;
-
 export const SettFees = observer(
 	({ sett, onHelpClick, showNowFees = true, ...rootProps }: Props): JSX.Element | null => {
 		const store = React.useContext(StoreContext);
@@ -65,7 +64,7 @@ export const SettFees = observer(
 		}
 
 		const settStrategy = network.strategies[networkSett.vaultToken.address];
-		const nonEmptyFees = Object.keys(settStrategy.fees).filter((key) => settStrategy.fees[key].gt(0));
+		const nonEmptyFees = getNonEmptyStrategyFees(settStrategy);
 
 		if (nonEmptyFees.length == 0) {
 			return showNowFees ? noFees : null;
@@ -86,16 +85,7 @@ export const SettFees = observer(
 					)}
 				</div>
 				<Divider className={classes.divider} />
-				{nonEmptyFees.map((feeKey) => (
-					<Grid key={feeKey} container justify="space-between">
-						<Typography className={classes.specName} color="textSecondary" display="inline">
-							{feeKey}
-						</Typography>
-						<Typography display="inline" variant="subtitle2">
-							{formatStrategyFee(settStrategy.fees[feeKey])}
-						</Typography>
-					</Grid>
-				))}
+				<StrategyFees strategy={settStrategy} />
 			</div>
 		);
 	},
