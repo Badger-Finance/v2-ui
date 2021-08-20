@@ -10,7 +10,6 @@ import { Skeleton } from '@material-ui/lab';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
-		marginBottom: 20,
 		wordBreak: 'break-all',
 	},
 	amount: {
