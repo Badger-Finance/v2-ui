@@ -14,7 +14,7 @@ import { BurnAndReleaseStatus } from '@renproject/ren/build/main/burnAndRelease'
 import { DepositStatus } from '@renproject/ren/build/main/lockAndMint';
 
 export const burnStatusDict: Record<BurnAndReleaseStatus, string> = {
-	pending: 'Transaction Pending!',
+	pending: 'Transaction Pending.',
 	burned: 'Tokens Burned.',
 	released: 'Tokens Released.',
 	reverted: 'Transaction Reverted.',
@@ -28,7 +28,7 @@ export const burnStatusIndex: Record<BurnAndReleaseStatus, number> = {
 };
 
 export const depositStatusDict: Record<DepositStatus, string> = {
-	detected: 'Transaction Detected!',
+	detected: 'Transaction Detected.',
 	confirmed: 'Transaction Confirmed!',
 	signed: 'Transaction Signed.',
 	reverted: 'Transaction Reverted.',
