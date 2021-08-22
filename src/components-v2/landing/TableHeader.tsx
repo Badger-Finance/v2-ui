@@ -13,6 +13,9 @@ const useStyles = makeStyles((theme) => ({
 			display: 'none',
 		},
 	},
+	amount: {
+		marginLeft: 5,
+	},
 }));
 
 interface TableHeaderProps {
@@ -39,7 +42,7 @@ export default function TableHeader(props: TableHeaderProps): JSX.Element {
 						{title}
 					</Typography>
 				</Grid>
-				<Grid item>
+				<Grid item className={classes.amount}>
 					<CurrencyDisplay displayValue={displayValue} variant="body1" justify="flex-start" />
 				</Grid>
 			</Grid>
