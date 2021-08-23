@@ -4,7 +4,7 @@ import BigNumber from 'bignumber.js';
 import { ContractSendMethod } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
 import Web3 from 'web3';
-import { ZERO, MAX, FLAGS, ERC20_ABI, NETWORK_LIST, DEBUG } from 'config/constants';
+import { ZERO, MAX, ERC20_ABI, NETWORK_LIST } from 'config/constants';
 import settConfig from 'config/system/abis/Sett.json';
 import ibBTCConfig from 'config/system/abis/ibBTC.json';
 import addresses from 'config/ibBTC/addresses.json';
@@ -14,6 +14,7 @@ import { IbbtcVaultPeakFactory } from '../ibbtc-vault-peak-factory';
 import { getNetworkFromProvider } from 'mobx/utils/helpers';
 import { IbbtcOptionToken } from '../model/tokens/ibbtc-option-token';
 import { ibBTCFees } from '../model/fees/ibBTCFees';
+import { DEBUG, FLAGS } from 'config/environment';
 
 interface MintAmountCalculation {
 	bBTC: BigNumber;
