@@ -1,12 +1,16 @@
 import { Sett } from '../model/setts/sett';
 import { RootStore } from '../RootStore';
 import { action, extendObservable, observe } from 'mobx';
+import { ContractNamespace } from '../../web3/config/contract-namespace';
 
 export class SettDetailStore {
 	private readonly store: RootStore;
 	private searchSlug: string | undefined;
 	private sett_: Sett | undefined | null;
+
 	private comesFromPortfolioView = false;
+	private shouldShowDepositDialog = false;
+	private shouldShowWithdrawDialog = false;
 
 	constructor(store: RootStore) {
 		this.store = store;
@@ -14,6 +18,9 @@ export class SettDetailStore {
 		extendObservable(this, {
 			searchSlug: this.searchSlug,
 			sett_: this.sett_,
+			comesFromPortfolioView: this.comesFromPortfolioView,
+			shouldShowDepositDialog: this.shouldShowDepositDialog,
+			shouldShowWithdrawDialog: this.shouldShowWithdrawDialog,
 		});
 
 		observe(store.network, 'network', () => {
@@ -39,6 +46,44 @@ export class SettDetailStore {
 
 	get isNotFound(): boolean {
 		return this.sett_ === null;
+	}
+
+	get isDepositDialogDisplayed(): boolean {
+		return this.shouldShowDepositDialog;
+	}
+
+	get isWithdrawDialogDisplayed(): boolean {
+		return this.shouldShowWithdrawDialog;
+	}
+
+	get canUserWithdraw(): boolean {
+		const { network, user } = this.store;
+
+		if (!this.sett_) {
+			return false;
+		}
+
+		const badgerSett = network.network.setts.find(
+			({ vaultToken }) => vaultToken.address === this.sett_?.vaultToken,
+		);
+
+		if (!badgerSett) {
+			return false;
+		}
+
+		return user.getBalance(ContractNamespace.Sett, badgerSett).balance.gt(0);
+	}
+
+	get canUserDeposit(): boolean {
+		return !!this.store.wallet.connectedAddress;
+	}
+
+	toggleDepositDialog(): void {
+		this.shouldShowDepositDialog = !this.shouldShowDepositDialog;
+	}
+
+	toggleWithdrawDialog(): void {
+		this.shouldShowWithdrawDialog = !this.shouldShowWithdrawDialog;
 	}
 
 	setAccountViewMode(): void {

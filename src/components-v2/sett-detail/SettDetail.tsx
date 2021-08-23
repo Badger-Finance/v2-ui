@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import { Container, makeStyles } from '@material-ui/core';
 import { Header } from './Header';
 import { MainContent } from './MainContent';
@@ -9,8 +9,8 @@ import { Loader } from '../../components/Loader';
 import { TopContent } from './TopContent';
 import { SettDeposit } from '../common/dialogs/SettDeposit';
 import { SettWithdraw } from '../common/dialogs/SettWithdraw';
-import { ContractNamespace } from '../../web3/config/contract-namespace';
 import { NotFound } from '../common/NotFound';
+import { Footer } from './Footer';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -26,18 +26,13 @@ const useStyles = makeStyles((theme) => ({
 export const SettDetail = observer(
 	(): JSX.Element => {
 		const {
-			wallet: { connectedAddress },
-			settDetail: { sett, isLoading, isNotFound },
+			settDetail,
 			network: { network },
-			user,
 		} = useContext(StoreContext);
 
-		const [openDepositDialog, setOpenDepositDialog] = useState(false);
-		const [openWithdrawDialog, setOpenWithdrawDialog] = useState(false);
-
 		const classes = useStyles();
+		const { sett, isLoading, isNotFound, isDepositDialogDisplayed, isWithdrawDialogDisplayed } = settDetail;
 		const badgerSett = network.setts.find(({ vaultToken }) => vaultToken.address === sett?.vaultToken);
-		const canWithdraw = badgerSett ? user.getBalance(ContractNamespace.Sett, badgerSett).balance.gt(0) : false;
 
 		if (isLoading) {
 			return (
@@ -59,36 +54,26 @@ export const SettDetail = observer(
 					<Header />
 					{sett && badgerSett && (
 						<>
-							<TopContent
-								sett={sett}
-								isDepositDisabled={!connectedAddress}
-								isWithdrawDisabled={!connectedAddress || !canWithdraw}
-								onWithdrawClick={() => setOpenWithdrawDialog(true)}
-								onDepositClick={() => setOpenDepositDialog(true)}
-							/>
+							<TopContent sett={sett} />
 							<MainContent sett={sett} badgerSett={badgerSett} />
 						</>
 					)}
+					{badgerSett && <Footer badgerSett={badgerSett} />}
 				</Container>
-				<MobileStickyActionButtons
-					isDepositDisabled={!connectedAddress}
-					isWithdrawDisabled={!connectedAddress || !canWithdraw}
-					onWithdrawClick={() => setOpenWithdrawDialog(true)}
-					onDepositClick={() => setOpenDepositDialog(true)}
-				/>
+				<MobileStickyActionButtons />
 				{sett && badgerSett && (
 					<>
 						<SettDeposit
-							open={openDepositDialog}
+							open={isDepositDialogDisplayed}
 							sett={sett}
 							badgerSett={badgerSett}
-							onClose={() => setOpenDepositDialog(false)}
+							onClose={() => settDetail.toggleDepositDialog()}
 						/>
 						<SettWithdraw
-							open={openWithdrawDialog}
+							open={isWithdrawDialogDisplayed}
 							sett={sett}
 							badgerSett={badgerSett}
-							onClose={() => setOpenWithdrawDialog(false)}
+							onClose={() => settDetail.toggleWithdrawDialog()}
 						/>
 					</>
 				)}
