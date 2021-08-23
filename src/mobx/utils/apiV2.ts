@@ -8,8 +8,8 @@ import { LeaderBoardBadger } from '../model/boost/leader-board-badger';
 import { LeaderBoardData } from '../model/boost/leaderboard-data';
 import { ProtocolSummary } from '../model/system-config/protocol-summary';
 import { PriceSummary } from '../model/system-config/price-summary';
-import { DEBUG } from 'config/constants';
 import { SettChartFetchParams, SettSnapshot, SettSnapshotGranularity } from '../model/setts/sett-snapshot';
+import { DEBUG } from 'config/environment';
 
 export const getApi = (): string => {
 	if (DEBUG) {

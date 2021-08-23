@@ -27,7 +27,6 @@ import { ValuesProp } from './Common';
 import {
 	NETWORK_LIST,
 	CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS,
-	FLAGS,
 	burnStatusIndex,
 	depositStatusDict,
 	burnStatusDict,
@@ -36,6 +35,7 @@ import { bridge_system, tokens, sett_system } from 'config/deployments/mainnet.j
 import { CURVE_EXCHANGE } from 'config/system/abis/CurveExchange';
 import { connectWallet } from 'mobx/utils/helpers';
 import { RenVMTransaction, RenVMParams } from '../../mobx/model/bridge/renVMTransaction';
+import { FLAGS } from 'config/environment';
 
 const DECIMALS = 10 ** 8;
 const SETT_DECIMALS = 10 ** 18;
