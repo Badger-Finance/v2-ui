@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid, Tab, Tabs } from '@material-ui/core';
 import { ChartContent } from './ChartContent';
@@ -62,7 +62,13 @@ export const ChartsCard = observer(
 			console.error(error);
 		};
 
-		React.useEffect(() => {
+		useEffect(() => {
+			if (mode === ChartMode.ratio && timeframe === SettChartTimeframe.day) {
+				setTimeframe(SettChartTimeframe.week);
+			}
+		}, [mode, timeframe]);
+
+		useEffect(() => {
 			setLoading(true);
 			settCharts.search(sett, timeframe).then(handleFetch).catch(handleFetchError);
 		}, [sett, timeframe, settCharts]);
