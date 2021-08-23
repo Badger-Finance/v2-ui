@@ -13,6 +13,9 @@ const useStyles = makeStyles((theme) => ({
 	deposit: {
 		marginRight: theme.spacing(1),
 	},
+	withdraw: {
+		marginTop: theme.spacing(2),
+	},
 }));
 
 export const HoldingsActionButtons = (): JSX.Element => {
@@ -33,7 +36,7 @@ export const HoldingsActionButtons = (): JSX.Element => {
 				Deposit
 			</SettActionButton>
 			<SettActionButton
-				style={{ marginTop: 16 }}
+				className={classes.withdraw}
 				fullWidth
 				color="primary"
 				variant="outlined"
