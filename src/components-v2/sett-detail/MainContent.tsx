@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, makeStyles } from '@material-ui/core';
+import { Grid, makeStyles, Typography } from '@material-ui/core';
 import { SpecsCard } from './specs/SpecsCard';
 import { ChartsCard } from './charts/ChartsCard';
 import { Holdings } from './holdings/Holdings';
@@ -23,6 +23,10 @@ const useStyles = makeStyles((theme) => ({
 	guardedVault: {
 		marginBottom: theme.spacing(2),
 	},
+	settInfoTitle: {
+		fontSize: 24,
+		fontWeight: 500,
+	},
 }));
 
 interface Props {
@@ -31,20 +35,25 @@ interface Props {
 }
 
 export const MainContent = observer(
-	({ sett, badgerSett }: Props): JSX.Element => {
-		const store = React.useContext(StoreContext);
-		const { accountDetails } = store.user;
+	({ badgerSett, sett }: Props): JSX.Element => {
+		const {
+			user: { accountDetails },
+			wallet: { connectedAddress },
+		} = React.useContext(StoreContext);
 
 		const classes = useStyles();
 		const settBalance = accountDetails?.balances.find((settBalance) => settBalance.id === sett.vaultToken);
 
 		return (
 			<Grid container className={classes.content}>
-				{settBalance && (
+				{connectedAddress && (
 					<Grid container className={classes.holdingsContainer}>
-						<Holdings sett={sett} settBalance={settBalance} />
+						<Holdings sett={sett} badgerSett={badgerSett} settBalance={settBalance} />
 					</Grid>
 				)}
+				<Grid container>
+					<Typography className={classes.settInfoTitle}>Sett Vault Info</Typography>
+				</Grid>
 				<Grid container spacing={1} className={classes.cardsContainer}>
 					<Grid item xs={12} md={4} lg={3}>
 						<SpecsCard sett={sett} badgerSett={badgerSett} />
