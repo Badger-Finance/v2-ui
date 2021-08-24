@@ -236,6 +236,8 @@ export default class UserStore {
 			// update all account balances
 			userTokens.forEach((token) => this.updateUserBalance(tokenBalances, token, this.getDepositToken));
 			userGeneralSetts.forEach((sett) => this.updateUserBalance(settBalances, sett, this.getSettToken));
+			console.log(userTokens);
+			console.log(tokenBalances);
 			userGuardedSetts.forEach((sett) => this.updateUserBalance(settBalances, sett, this.getSettToken));
 			userGeysers.forEach((geyser) => this.updateUserBalance(geyserBalances, geyser, this.getGeyserMockToken));
 
@@ -340,6 +342,7 @@ export default class UserStore {
 		}
 		const balance = new BigNumber(balanceResults[0].value);
 		const sett = network.setts.find((s) => getBalanceToken(s).address === token.address);
+		console.log({ balance, sett });
 		if (!sett) {
 			return;
 		}

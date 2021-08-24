@@ -8,4 +8,5 @@ export interface StrategyConfig {
 	// TODO: make descriptions and deposit instructions required after marketing team provides the content
 	description?: string;
 	depositInstructions?: string;
+	depositLink?: string;
 }

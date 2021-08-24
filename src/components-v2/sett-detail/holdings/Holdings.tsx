@@ -8,6 +8,7 @@ import { Sett } from '../../../mobx/model/setts/sett';
 import { HoldingsActionButtons } from './HoldingsActionButtons';
 import { NoHoldings } from './NoHoldings';
 import { BadgerSett } from '../../../mobx/model/vaults/badger-sett';
+import { TokenBalance } from 'mobx/model/tokens/token-balance';
 
 const useStyles = makeStyles(() => ({
 	settInfoTitle: {
@@ -19,16 +20,17 @@ const useStyles = makeStyles(() => ({
 interface Props {
 	sett: Sett;
 	badgerSett: BadgerSett;
-	settBalance?: SettBalance;
+	tokenBalance?: TokenBalance;
+	settBalance: SettBalance;
 }
 
 export const Holdings = observer(
-	({ settBalance, sett, badgerSett }: Props): JSX.Element => {
+	({ tokenBalance, settBalance, sett, badgerSett }: Props): JSX.Element => {
 		const { setts } = React.useContext(StoreContext);
 		const isMediumSizeScreen = useMediaQuery(useTheme().breakpoints.up('sm'));
 		const classes = useStyles();
 
-		if (!settBalance) {
+		if (!settBalance && !tokenBalance) {
 			return (
 				<Grid container>
 					<NoHoldings sett={sett} badgerSett={badgerSett} />
@@ -37,7 +39,7 @@ export const Holdings = observer(
 		}
 
 		const { earnedBalance, earnedValue, balance, value } = settBalance;
-		const logo = `/assets/icons/${settBalance.asset.toLowerCase()}.png`;
+		const logo = `/assets/icons/${sett.asset.toLowerCase()}.png`;
 
 		const depositToken = setts.getToken(sett.underlyingToken);
 		const decimals = depositToken?.decimals || 18;
