@@ -20,6 +20,8 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 						[StrategyFee.withdraw]: new BigNumber(50),
 					},
 					strategyLink: '',
+					depositLink:
+						'https://app.sushi.com/add/0x4EaC4c4e9050464067D673102F8E24b2FccEB350/0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6',
 				},
 				[maticDeploy.sett_system.vaults['BQLP-WBTC-USDC']]: {
 					name: '',
@@ -30,6 +32,8 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 						[StrategyFee.withdraw]: new BigNumber(50),
 					},
 					strategyLink: '',
+					depositLink:
+						'https://quickswap.exchange/#/add/0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174/0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6',
 				},
 				[maticDeploy.sett_system.vaults['BATRICRYPTO']]: {
 					name: '',
@@ -40,6 +44,7 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 						[StrategyFee.withdraw]: new BigNumber(50),
 					},
 					strategyLink: '',
+					depositLink: 'https://polygon.curve.fi/atricrypto/deposit',
 				},
 				[maticDeploy.sett_system.vaults['BCRV-WBTC-RENBTC']]: {
 					name: '',
@@ -50,6 +55,7 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 						[StrategyFee.withdraw]: new BigNumber(50),
 					},
 					strategyLink: '',
+					depositLink: 'https://polygon.curve.fi/ren/deposit',
 				},
 			};
 		case NETWORK_LIST.BSC:
@@ -109,6 +115,7 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 						[StrategyFee.withdraw]: new BigNumber(50),
 					},
 					strategyLink: 'https://badger.wiki/strategies#2304f0f6a0684aee82853f9635211ec9',
+					depositLink: 'https://curve.fi/ren/deposit',
 				},
 				[deploy.sett_system.vaults['native.sbtcCrv']]: {
 					name: 'StrategyCurveGauge',
@@ -119,6 +126,7 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 						[StrategyFee.withdraw]: new BigNumber(50),
 					},
 					strategyLink: 'https://badger.wiki/strategies#ce634a6ad4b0486288180d775a1552ab',
+					depositLink: 'https://curve.fi/sbtc/deposit',
 				},
 				[deploy.sett_system.vaults['native.tbtcCrv']]: {
 					name: 'StrategyCurveGauge',
@@ -129,6 +137,7 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 						[StrategyFee.withdraw]: new BigNumber(50),
 					},
 					strategyLink: 'https://badger.wiki/strategies#cba0515b901e423d892f9c0cf66b272f',
+					depositLink: 'https://curve.fi/tbtc/deposit',
 				},
 				[deploy.sett_system.vaults['native.uniBadgerWbtc']]: {
 					name: '',
@@ -139,6 +148,8 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 						[StrategyFee.withdraw]: new BigNumber(0),
 					},
 					strategyLink: 'https://badger.wiki/strategies#9da96d000b3e49cc92f04a49dd08a9bd',
+					depositLink:
+						'https://app.uniswap.org/#/add/0x3472A5A71965499acd81997a54BBA8D852C6E53d/0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599',
 				},
 				[deploy.sett_system.vaults['harvest.renCrv']]: {
 					name: '',
@@ -166,6 +177,7 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 						[StrategyFee.withdraw]: new BigNumber(50),
 					},
 					strategyLink: 'https://badger.wiki/strategies#2f5ee4a857754023af1fdba144a0c1be',
+					depositLink: 'https://app.sushi.com/add/0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599/ETH',
 				},
 				[deploy.sett_system.vaults['native.sushiBadgerWbtc']]: {
 					name: '',
@@ -176,6 +188,8 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 						[StrategyFee.withdraw]: new BigNumber(0),
 					},
 					strategyLink: 'https://badger.wiki/strategies#46bfa12ac9d24b9bb7d28d1f9bc3256a',
+					depositLink:
+						'https://app.sushi.com/add/0x3472A5A71965499acd81997a54BBA8D852C6E53d/0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599',
 				},
 				[deploy.sett_system.vaults['native.digg']]: {
 					name: '',
@@ -206,6 +220,8 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 						[StrategyFee.withdraw]: new BigNumber(0),
 					},
 					strategyLink: 'https://badger.wiki/strategies#e1a46fc7a95d4f73b586435f45586748',
+					depositLink:
+						'https://app.sushi.com/add/0x798D1bE841a82a273720CE31c822C61a67a601C3/0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599',
 				},
 				[deploy.sett_system.vaults['yearn.wBtc']]: {
 					name: '',
@@ -226,6 +242,8 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 						[StrategyFee.withdraw]: new BigNumber(20),
 					},
 					strategyLink: 'https://badger.wiki/strategies#418b98a05da849a3a8dd97f74f8c0c80',
+					depositLink:
+						'https://app.sushi.com/add/0xc4E15973E6fF2A35cC804c2CF9D2a1b817a8b40F/0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599',
 				},
 				[deploy.sett_system.vaults['experimental.digg']]: {
 					name: '',
@@ -245,6 +263,7 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 						[StrategyFee.withdraw]: new BigNumber(50),
 					},
 					strategyLink: 'https://badger.wiki/strategies#56cd7b65cd384740aa9f339bf3ee2597',
+					depositLink: 'https://curve.fi/hbtc/deposit',
 				},
 				[deploy.sett_system.vaults['native.pbtcCrv']]: {
 					name: '',
@@ -254,6 +273,7 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 						[StrategyFee.withdraw]: new BigNumber(50),
 					},
 					strategyLink: 'https://badger.wiki/strategies#39a0decd933b4869b98c9276118b9d39',
+					depositLink: 'https://curve.fi/pbtc/deposit',
 				},
 				[deploy.sett_system.vaults['native.obtcCrv']]: {
 					name: '',
@@ -263,6 +283,7 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 						[StrategyFee.withdraw]: new BigNumber(50),
 					},
 					strategyLink: 'https://badger.wiki/strategies#82d72e94cb3b49f0836d8197ad13bc36',
+					depositLink: 'https://curve.fi/obtc/deposit',
 				},
 				[deploy.sett_system.vaults['native.bbtcCrv']]: {
 					name: '',
@@ -272,6 +293,7 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 						[StrategyFee.withdraw]: new BigNumber(50),
 					},
 					strategyLink: 'https://badger.wiki/strategies#fe4a64edc830472da5a700d0fc30716c',
+					depositLink: 'https://curve.fi/bbtc/deposit',
 				},
 				[deploy.sett_system.vaults['native.tricryptoCrv']]: {
 					name: '',
@@ -290,6 +312,7 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 						[StrategyFee.withdraw]: new BigNumber(20),
 					},
 					strategyLink: 'https://badger.wiki/strategies#d5806054c232432e8e8a1d75ae329bf8',
+					depositLink: 'https://curve.fi/tricrypto2/deposit',
 				},
 				[deploy.sett_system.vaults['native.cvxCrv']]: {
 					name: '',
@@ -317,6 +340,7 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 						[StrategyFee.withdraw]: new BigNumber(75),
 					},
 					strategyLink: 'https://badger.wiki/strategies#1346adfaad7946eebd29a17fb4f6e8b7',
+					depositLink: 'https://mstable.app/#/mbtc/save',
 				},
 				[deploy.sett_system.vaults['native.fPmBtcHBtc']]: {
 					name: '',
@@ -326,6 +350,7 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 						[StrategyFee.withdraw]: new BigNumber(75),
 					},
 					strategyLink: 'https://badger.wiki/strategies#1346adfaad7946eebd29a17fb4f6e8b7',
+					depositLink: 'https://mstable.app/#/mbtc/pools/0x48c59199da51b7e30ea200a74ea07974e62c4ba7',
 				},
 				[deploy.sett_system.vaults['native.imBtc']]: {
 					name: '',

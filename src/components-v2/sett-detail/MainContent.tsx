@@ -9,6 +9,8 @@ import { StoreContext } from '../../mobx/store-context';
 import { BadgerSett } from '../../mobx/model/vaults/badger-sett';
 import { NewVaultWarning } from './NewVaultWarning';
 import { SettState } from '../../mobx/model/setts/sett-state';
+import { ContractNamespace } from 'web3/config/contract-namespace';
+import { defaultSettBalance } from './utils';
 
 const useStyles = makeStyles((theme) => ({
 	content: {
@@ -37,18 +39,40 @@ interface Props {
 export const MainContent = observer(
 	({ badgerSett, sett }: Props): JSX.Element => {
 		const {
+			user,
 			user: { accountDetails },
 			wallet: { connectedAddress },
 		} = React.useContext(StoreContext);
 
 		const classes = useStyles();
-		const settBalance = accountDetails?.balances.find((settBalance) => settBalance.id === sett.vaultToken);
+		const tokenBalance = user.getBalance(ContractNamespace.Token, badgerSett);
+		const currentSettBalance = user.getBalance(ContractNamespace.Sett, badgerSett);
+		let settBalance = accountDetails?.balances.find((settBalance) => settBalance.id === sett.vaultToken);
+
+		/**
+		 * settBalance data is populated via events from TheGraph and it is possible for it to be behind / fail.
+		 * As such, the app also has internally the state of user deposits. Should a settBalance not be available
+		 * for a user - this is likely because they have *just* deposited and their deposit does not show in the
+		 * graph yet.
+		 *
+		 * This override simulates a zero earnings settBalance and providers the proper currently deposited
+		 * underlying token amount in the expected downstream object.
+		 */
+		if (!settBalance) {
+			settBalance = defaultSettBalance(sett);
+			settBalance.balance = currentSettBalance.balance.toNumber() * sett.ppfs;
+		}
 
 		return (
 			<Grid container className={classes.content}>
 				{connectedAddress && (
 					<Grid container className={classes.holdingsContainer}>
-						<Holdings sett={sett} badgerSett={badgerSett} settBalance={settBalance} />
+						<Holdings
+							sett={sett}
+							badgerSett={badgerSett}
+							tokenBalance={tokenBalance}
+							settBalance={settBalance}
+						/>
 					</Grid>
 				)}
 				<Grid container>

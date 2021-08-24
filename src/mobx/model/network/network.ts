@@ -3,6 +3,7 @@ import rpc from 'config/rpc.config';
 import { getAirdrops } from 'config/system/airdrops';
 import { getStrategies } from 'config/system/strategies';
 import { SidebarLink, sidebarTokenLinks } from 'config/ui/links';
+import Web3 from 'web3';
 import { createChainBatchConfig } from 'web3/config/config-utils';
 import { BatchCallRequest } from 'web3/interface/batch-call-request';
 import { SettMap } from '../setts/sett-map';
@@ -45,7 +46,7 @@ export abstract class Network {
 		this.id = id;
 		this.currency = currency;
 		this.deploy = deploy;
-		this.setts = setts;
+		this.setts = this.checksumSetts(setts);
 		this.strategies = getStrategies(symbol);
 		this.airdrops = getAirdrops(symbol);
 		this.sidebarTokenLinks = sidebarTokenLinks(symbol);
@@ -86,4 +87,15 @@ export abstract class Network {
 		const guardedSetts = settAddresses.filter((sett) => setts[sett].state !== SettState.Open);
 		return createChainBatchConfig(tokenAddresses, generalSetts, guardedSetts, [], userAddress);
 	};
+
+	private checksumSetts(setts: BadgerSett[]): BadgerSett[] {
+		return setts.map((sett) => {
+			sett.depositToken.address = Web3.utils.toChecksumAddress(sett.depositToken.address);
+			sett.vaultToken.address = Web3.utils.toChecksumAddress(sett.vaultToken.address);
+			if (sett.geyser) {
+				sett.geyser = Web3.utils.toChecksumAddress(sett.geyser);
+			}
+			return sett;
+		});
+	}
 }

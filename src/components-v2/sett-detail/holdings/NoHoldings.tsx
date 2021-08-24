@@ -19,6 +19,10 @@ const useStyles = makeStyles((theme) => ({
 		alignItems: 'center',
 		paddingLeft: theme.spacing(4),
 	},
+	depositLink: {
+		cursor: 'pointer',
+		textDecoration: 'underline',
+	},
 }));
 
 interface Props {
@@ -43,6 +47,13 @@ export const NoHoldings = observer(
 						<Typography variant="body2" className={classes.description}>
 							{strategy.depositInstructions}
 						</Typography>
+					)}
+					{strategy.depositLink && (
+						<div className={classes.depositLink} onClick={() => window.open(strategy.depositLink)}>
+							<Typography variant="body2" className={classes.description}>
+								Get Deposit Token
+							</Typography>
+						</div>
 					)}
 				</Grid>
 				<Grid item xs={12} sm className={classes.depositContainer}>
