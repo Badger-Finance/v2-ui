@@ -105,7 +105,8 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 						[StrategyFee.withdraw]: new BigNumber(0),
 					},
 					strategyLink: 'https://badger.wiki/strategies#fe02e2fa6ea446ca9b975d1eecf3120c',
-					depositLink: 'https://app.sushi.com/swap?inputCurrency=0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599&outputCurrency=0x3472A5A71965499acd81997a54BBA8D852C6E53d',
+					depositLink:
+						'https://app.sushi.com/swap?inputCurrency=0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599&outputCurrency=0x3472A5A71965499acd81997a54BBA8D852C6E53d',
 				},
 				[deploy.sett_system.vaults['native.renCrv']]: {
 					name: 'StrategyCurveGauge',
@@ -201,7 +202,8 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 						[StrategyFee.withdraw]: new BigNumber(0),
 					},
 					strategyLink: 'https://badger.wiki/strategies#b63c02c4f27f43229624da8abb377be2',
-					depositLink: 'https://app.sushi.com/swap?inputCurrency=0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599&outputCurrency=0x798D1bE841a82a273720CE31c822C61a67a601C3',
+					depositLink:
+						'https://app.sushi.com/swap?inputCurrency=0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599&outputCurrency=0x798D1bE841a82a273720CE31c822C61a67a601C3',
 				},
 				[deploy.sett_system.vaults['native.uniDiggWbtc']]: {
 					name: '',
