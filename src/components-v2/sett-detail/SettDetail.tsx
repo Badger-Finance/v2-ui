@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import { Container, makeStyles } from '@material-ui/core';
 import { Header } from './Header';
 import { MainContent } from './MainContent';
@@ -11,6 +11,7 @@ import { SettDeposit } from '../common/dialogs/SettDeposit';
 import { SettWithdraw } from '../common/dialogs/SettWithdraw';
 import { NotFound } from '../common/NotFound';
 import { Footer } from './Footer';
+import routes from '../../config/routes';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -28,11 +29,19 @@ export const SettDetail = observer(
 		const {
 			settDetail,
 			network: { network },
+			router,
 		} = useContext(StoreContext);
 
+		const initialNetwork = useRef(network);
 		const classes = useStyles();
 		const { sett, isLoading, isNotFound, isDepositDialogDisplayed, isWithdrawDialogDisplayed } = settDetail;
 		const badgerSett = network.setts.find(({ vaultToken }) => vaultToken.address === sett?.vaultToken);
+
+		useEffect(() => {
+			if (network.symbol !== initialNetwork.current.symbol) {
+				router.goTo(routes.home);
+			}
+		}, [network, router]);
 
 		if (isLoading) {
 			return (
