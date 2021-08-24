@@ -9,6 +9,7 @@ import { HoldingsActionButtons } from './HoldingsActionButtons';
 import { NoHoldings } from './NoHoldings';
 import { BadgerSett } from '../../../mobx/model/vaults/badger-sett';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
+import { hasBalance } from '../utils';
 
 const useStyles = makeStyles(() => ({
 	settInfoTitle: {
@@ -20,7 +21,7 @@ const useStyles = makeStyles(() => ({
 interface Props {
 	sett: Sett;
 	badgerSett: BadgerSett;
-	tokenBalance?: TokenBalance;
+	tokenBalance: TokenBalance;
 	settBalance: SettBalance;
 }
 
@@ -30,7 +31,7 @@ export const Holdings = observer(
 		const isMediumSizeScreen = useMediaQuery(useTheme().breakpoints.up('sm'));
 		const classes = useStyles();
 
-		if (!settBalance && !tokenBalance) {
+		if (!hasBalance(settBalance) && !TokenBalance.hasBalance(tokenBalance)) {
 			return (
 				<Grid container>
 					<NoHoldings sett={sett} badgerSett={badgerSett} />
