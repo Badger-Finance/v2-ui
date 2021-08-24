@@ -331,8 +331,8 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 					name: '',
 					address: deploy.sett_system.strategies['native.imBtc'],
 					fees: {
-						['DAO Performance Fee']: new BigNumber(1000),
-						['Withdraw Fee']: new BigNumber(75),
+						[StrategyFee.daoPerformance]: new BigNumber(1000),
+						[StrategyFee.withdraw]: new BigNumber(75),
 					},
 					strategyLink: 'https://badgerwiki.notion.site/placeholder',
 				},
@@ -340,8 +340,8 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 					name: '',
 					address: deploy.sett_system.strategies['native.fPmBtcHBtc'],
 					fees: {
-						['DAO Performance Fee']: new BigNumber(1000),
-						['Withdraw Fee']: new BigNumber(75),
+						[StrategyFee.daoPerformance]: new BigNumber(1000),
+						[StrategyFee.withdraw]: new BigNumber(75),
 					},
 					strategyLink: 'https://badgerwiki.notion.site/placeholder',
 				},
