@@ -45,3 +45,14 @@ export function defaultSettBalance(sett: Sett): SettBalance {
 		withdrawnBalance: 0,
 	};
 }
+
+export interface Balance {
+	balance: number;
+}
+
+export function hasBalance(input?: Balance): boolean {
+	if (!input) {
+		return false;
+	}
+	return input.balance > 0;
+}
