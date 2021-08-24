@@ -1,8 +1,7 @@
 import React from 'react';
-import { Grid, makeStyles, useMediaQuery, useTheme } from '@material-ui/core';
+import { Grid, makeStyles } from '@material-ui/core';
 import { Breadcrumb } from './Breadcrumb';
 import { Description } from './description/Description';
-import { SettActionButtons } from '../common/SettActionButtons';
 import { Sett } from '../../mobx/model/setts/sett';
 
 const useStyles = makeStyles((theme) => ({
@@ -29,21 +28,10 @@ const useStyles = makeStyles((theme) => ({
 
 interface Props {
 	sett: Sett;
-	isWithdrawDisabled?: boolean;
-	isDepositDisabled?: boolean;
-	onWithdrawClick: () => void;
-	onDepositClick: () => void;
 }
 
-export const TopContent = ({
-	sett,
-	onDepositClick,
-	onWithdrawClick,
-	isWithdrawDisabled = true,
-	isDepositDisabled = true,
-}: Props): JSX.Element => {
+export const TopContent = ({ sett }: Props): JSX.Element => {
 	const classes = useStyles();
-	const isMediumSizeScreen = useMediaQuery(useTheme().breakpoints.up('sm'));
 
 	return (
 		<Grid container>
@@ -52,14 +40,6 @@ export const TopContent = ({
 			</Grid>
 			<Grid container className={classes.descriptionSection}>
 				<Description sett={sett} />
-				{isMediumSizeScreen && (
-					<SettActionButtons
-						isDepositDisabled={isDepositDisabled}
-						isWithdrawDisabled={isWithdrawDisabled}
-						onDepositClick={onDepositClick}
-						onWithdrawClick={onWithdrawClick}
-					/>
-				)}
 			</Grid>
 		</Grid>
 	);

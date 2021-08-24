@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Box, Grid, Paper, Typography } from '@material-ui/core';
+import { Box, Divider, Grid, Paper, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { formatWithoutExtraZeros, numberWithCommas } from '../../../mobx/utils/helpers';
 import { observer } from 'mobx-react-lite';
@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
 		fontSize: 16,
 	},
 	cardContainer: {
-		padding: theme.spacing(2),
+		padding: theme.spacing(3),
 	},
 	logoContainer: {
 		display: 'inline-flex',
@@ -42,21 +42,20 @@ interface Props {
 	balance: BigNumber.Value;
 	value: BigNumber.Value;
 	decimals: number;
-	helpIcon?: React.ReactNode;
 }
 
 const displayUsdBalance = (value: BigNumber.Value) => `~$${numberWithCommas(formatWithoutExtraZeros(value, 2))}`;
 
 export const HoldingItem = observer(
-	({ name, logo, balance, value, decimals, helpIcon }: Props): JSX.Element => {
+	({ name, logo, balance, value, decimals }: Props): JSX.Element => {
 		const classes = useStyles();
 
 		return (
 			<Paper className={classes.cardContainer}>
 				<div className={classes.titleContainer}>
 					<Typography className={classes.holdingsName}>{name}</Typography>
-					{helpIcon}
 				</div>
+				<Divider />
 				<Grid container className={classes.amountsContainer}>
 					<Box display="inline-flex" className={classes.amountText}>
 						<div className={classes.logoContainer}>

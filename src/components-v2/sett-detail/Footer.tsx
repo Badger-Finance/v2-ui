@@ -1,14 +1,15 @@
 import React from 'react';
-import { VaultDescription } from './VaultDescription';
-import { Link, makeStyles } from '@material-ui/core';
+import { Link, makeStyles, Typography } from '@material-ui/core';
 import OpenInNewIcon from '@material-ui/icons/OpenInNew';
+import { observer } from 'mobx-react-lite';
+import { StoreContext } from '../../mobx/store-context';
+import { BadgerSett } from '../../mobx/model/vaults/badger-sett';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
 		marginBottom: theme.spacing(3),
 	},
 	vaultDescription: {
-		marginTop: theme.spacing(2),
 		marginBottom: theme.spacing(1),
 	},
 	link: {
@@ -22,19 +23,33 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export const Footer = (): JSX.Element => {
-	const classes = useStyles();
+interface Props {
+	badgerSett: BadgerSett;
+}
 
-	return (
-		<footer className={classes.root}>
-			{/*TODO: find a way to create this dynamically*/}
-			<div className={classes.vaultDescription}>
-				<VaultDescription />
-			</div>
-			<Link className={classes.link}>
-				View Strategy
-				<OpenInNewIcon className={classes.openIcon} />
-			</Link>
-		</footer>
-	);
-};
+export const Footer = observer(
+	({ badgerSett }: Props): JSX.Element => {
+		const store = React.useContext(StoreContext);
+		const { network: networkStore } = store;
+		const { network } = networkStore;
+		const classes = useStyles();
+
+		const strategy = network.strategies[badgerSett.vaultToken.address];
+
+		return (
+			<footer className={classes.root}>
+				{strategy.description && (
+					<div className={classes.vaultDescription}>
+						<Typography variant="body2" color="textSecondary">
+							{strategy.description}
+						</Typography>
+					</div>
+				)}
+				<Link className={classes.link} href={strategy.strategyLink} rel="noreferrer" target="_blank">
+					View Strategy
+					<OpenInNewIcon className={classes.openIcon} />
+				</Link>
+			</footer>
+		);
+	},
+);

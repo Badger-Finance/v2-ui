@@ -2,6 +2,7 @@ import React from 'react';
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { SettActionButton } from '../../common/SettActionButtons';
+import { StoreContext } from '../../../mobx/store-context';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -17,31 +18,21 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-interface Props {
-	isWithdrawDisabled?: boolean;
-	isDepositDisabled?: boolean;
-	onWithdrawClick: () => void;
-	onDepositClick: () => void;
-}
-
-export const MobileStickyActionButtons = ({
-	isDepositDisabled = false,
-	isWithdrawDisabled = false,
-	onWithdrawClick,
-	onDepositClick,
-}: Props): JSX.Element => {
+export const MobileStickyActionButtons = (): JSX.Element => {
 	const classes = useStyles();
+	const { settDetail } = React.useContext(StoreContext);
+	const { canUserDeposit, canUserWithdraw } = settDetail;
 
 	return (
 		<div className={classes.root}>
 			<Grid container spacing={1}>
 				<Grid item xs>
 					<SettActionButton
-						color="primary"
-						variant={isDepositDisabled ? 'outlined' : 'contained'}
-						disabled={isDepositDisabled}
 						fullWidth
-						onClick={onDepositClick}
+						color="primary"
+						variant={canUserDeposit ? 'outlined' : 'contained'}
+						disabled={!canUserDeposit}
+						onClick={() => settDetail.toggleDepositDialog()}
 					>
 						Deposit
 					</SettActionButton>
@@ -51,8 +42,8 @@ export const MobileStickyActionButtons = ({
 						color="primary"
 						variant="outlined"
 						fullWidth
-						disabled={isWithdrawDisabled}
-						onClick={onWithdrawClick}
+						disabled={!canUserWithdraw}
+						onClick={() => settDetail.toggleWithdrawDialog()}
 					>
 						Withdraw
 					</SettActionButton>

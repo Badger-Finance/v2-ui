@@ -1,19 +1,26 @@
 import { Sett } from '../model/setts/sett';
 import { RootStore } from '../RootStore';
 import { action, extendObservable, observe } from 'mobx';
+import { ContractNamespace } from '../../web3/config/contract-namespace';
 
 export class SettDetailStore {
 	private readonly store: RootStore;
 	private searchSlug: string | undefined;
-	private sett_: Sett | undefined | null;
+	private searchedSett: Sett | undefined | null;
+
 	private comesFromPortfolioView = false;
+	private shouldShowDepositDialog = false;
+	private shouldShowWithdrawDialog = false;
 
 	constructor(store: RootStore) {
 		this.store = store;
 
 		extendObservable(this, {
 			searchSlug: this.searchSlug,
-			sett_: this.sett_,
+			searchedSett: this.searchedSett,
+			comesFromPortfolioView: this.comesFromPortfolioView,
+			shouldShowDepositDialog: this.shouldShowDepositDialog,
+			shouldShowWithdrawDialog: this.shouldShowWithdrawDialog,
 		});
 
 		observe(store.network, 'network', () => {
@@ -30,15 +37,52 @@ export class SettDetailStore {
 	}
 
 	get sett(): Sett | undefined | null {
-		return this.sett_;
+		return this.searchedSett;
 	}
 
 	get isLoading(): boolean {
-		return this.sett_ === undefined;
+		return this.searchedSett === undefined;
 	}
 
 	get isNotFound(): boolean {
-		return this.sett_ === null;
+		return this.searchedSett === null;
+	}
+
+	get isDepositDialogDisplayed(): boolean {
+		return this.shouldShowDepositDialog;
+	}
+
+	get isWithdrawDialogDisplayed(): boolean {
+		return this.shouldShowWithdrawDialog;
+	}
+
+	get canUserWithdraw(): boolean {
+		if (!this.searchedSett) {
+			return false;
+		}
+
+		const { network, user } = this.store;
+		const badgerSett = network.network.setts.find(
+			({ vaultToken }) => vaultToken.address === this.searchedSett?.vaultToken,
+		);
+
+		if (!badgerSett) {
+			return false;
+		}
+
+		return user.getBalance(ContractNamespace.Sett, badgerSett).balance.gt(0);
+	}
+
+	get canUserDeposit(): boolean {
+		return !!this.store.wallet.connectedAddress;
+	}
+
+	toggleDepositDialog(): void {
+		this.shouldShowDepositDialog = !this.shouldShowDepositDialog;
+	}
+
+	toggleWithdrawDialog(): void {
+		this.shouldShowWithdrawDialog = !this.shouldShowWithdrawDialog;
 	}
 
 	setAccountViewMode(): void {
@@ -51,7 +95,7 @@ export class SettDetailStore {
 	});
 
 	reset = action(() => {
-		this.sett_ = undefined;
+		this.searchedSett = undefined;
 		this.searchSlug = undefined;
 		this.comesFromPortfolioView = false;
 	});
@@ -60,7 +104,7 @@ export class SettDetailStore {
 		const { setts } = this.store;
 
 		if (this.searchSlug && setts.initialized) {
-			this.sett_ = setts.getSettBySlug(this.searchSlug);
+			this.searchedSett = setts.getSettBySlug(this.searchSlug);
 		}
 	}
 }
