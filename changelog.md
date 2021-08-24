@@ -26,6 +26,8 @@
 -   Fix notify.js link
 -   Add deprecated vault handling
 -   improved digg reporting
+-   fix "My boost" apy showing on non-emission setts
+-   correct fee for tricrypto1 pool
 
 ### v2.8.5 - 08/05/2021
 
