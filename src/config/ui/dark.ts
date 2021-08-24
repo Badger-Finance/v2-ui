@@ -27,16 +27,13 @@ export const darkTheme = createMuiTheme({
 		},
 	},
 	typography: {
-		// fontSize: 16,
-		fontFamily: "'IBM Plex Sans'",
-		h1: { fontWeight: 500, fontSize: '3rem' },
-		// h2: { fontFamily: "'Press Start 2P'", fontSize: "2rem" },
-		// subtitle1: { },
-		h4: { fontSize: '1.3rem', fontWeight: 500 },
-		h2: { fontSize: '2.2rem', fontWeight: 500, marginBottom: '.2rem' },
-		h5: { fontWeight: 500 },
-		body1: { fontWeight: 500 },
-		// h6: { fontFamily: "'Press Start 2P'" },
+		fontFamily: "'Satoshi', 'IBM Plex Sans', sans-serif",
+		h1: { fontWeight: 800, fontSize: '3rem' },
+		h4: { fontSize: '1.3rem', fontWeight: 800 },
+		h2: { fontSize: '2.2rem', fontWeight: 800, marginBottom: '.2rem' },
+		h5: { fontWeight: 800 },
+		subtitle1: { fontWeight: 600 },
+		body1: { fontWeight: 600 },
 	},
 	shape: {
 		borderRadius: 8,
@@ -47,7 +44,7 @@ export const darkTheme = createMuiTheme({
 				fontSize: '.95rem',
 				backgroundColor: '#F2A52B',
 				color: '#181818',
-				fontWeight: 400,
+				fontWeight: 600,
 				padding: '.5rem .8rem',
 			},
 			arrow: {
@@ -77,6 +74,11 @@ export const darkTheme = createMuiTheme({
 		MuiPaper: {
 			outlined: {
 				border: 0,
+			},
+		},
+		MuiButton: {
+			label: {
+				fontWeight: 800,
 			},
 		},
 	},

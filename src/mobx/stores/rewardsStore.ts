@@ -41,6 +41,7 @@ class RewardsStore {
 	private store!: RootStore;
 	private static defaultTree: BadgerTree = {
 		cycle: '...',
+		lastCycle: new Date(),
 		timeSinceLastCycle: '0h 0m',
 		proof: undefined,
 		sharesPerFragment: undefined,
@@ -145,6 +146,7 @@ class RewardsStore {
 				diggToken.methods._sharesPerFragment().call(),
 			]);
 
+			this.badgerTree.lastCycle = new Date(timestamp * 1000);
 			this.badgerTree.cycle = cycle.toString();
 			this.badgerTree.timeSinceLastCycle = reduceTimeSinceLastCycle(timestamp);
 			this.badgerTree.sharesPerFragment = new BigNumber(sharesPerFragment);

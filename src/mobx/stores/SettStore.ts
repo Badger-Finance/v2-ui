@@ -1,4 +1,5 @@
 import { extendObservable, action, observe, IValueDidChange } from 'mobx';
+import slugify from 'slugify';
 import { RootStore } from '../RootStore';
 import { getTokens, getTotalValueLocked, listSetts } from 'mobx/utils/apiV2';
 import { NETWORK_LIST } from 'config/constants';
@@ -13,6 +14,11 @@ import { Sett } from '../model/setts/sett';
 import { SettMap } from '../model/setts/sett-map';
 import { ProtocolSummary } from '../model/system-config/protocol-summary';
 import { NetworkStore } from './NetworkStore';
+
+const formatSettListItem = (sett: Sett): [string, Sett] => {
+	const sanitizedSettName = sett.name.replace(/\/+/g, '-'); // replace "/" with "-"
+	return [sett.vaultToken, { ...sett, slug: slugify(sanitizedSettName, { lower: true }) }];
+};
 
 export default class SettStore {
 	private store!: RootStore;
@@ -31,6 +37,7 @@ export default class SettStore {
 			protocolSummaryCache: undefined,
 			settCache: undefined,
 			priceCache: undefined,
+			initialized: false,
 		});
 
 		observe(this.store.network, 'currentBlock', async (change: IValueDidChange<number | undefined>) => {
@@ -74,6 +81,20 @@ export default class SettStore {
 		return this.settMap[Web3.utils.toChecksumAddress(address)];
 	}
 
+	getSettBySlug(slug: string): Sett | undefined | null {
+		if (!this.settMap) {
+			return undefined;
+		}
+
+		const settBySlug = Object.values(this.settMap).find((sett) => sett.slug === slug);
+
+		if (!settBySlug) {
+			return null;
+		}
+
+		return settBySlug;
+	}
+
 	getSettMap(state: SettState): SettMap | undefined | null {
 		const { network } = this.store.network;
 		const setts = this.settCache[network.symbol];
@@ -110,8 +131,9 @@ export default class SettStore {
 		async (chain?: string): Promise<void> => {
 			chain = chain ?? NETWORK_LIST.ETH;
 			const settList = await listSetts(chain);
+
 			if (settList) {
-				this.settCache[chain] = Object.fromEntries(settList.map((sett) => [sett.vaultToken, sett]));
+				this.settCache[chain] = Object.fromEntries(settList.map(formatSettListItem));
 			} else {
 				this.settCache[chain] = null;
 			}

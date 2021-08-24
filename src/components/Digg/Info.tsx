@@ -203,7 +203,7 @@ const Info = observer(() => {
 						<div style={rebaseStyle} className={classes.rebasePaper}>
 							<span>{rebaseDisplay}</span>
 							{!isValidTwap && (
-								<Tooltip arrow title={invalidTwap} placement="right">
+								<Tooltip enterTouchDelay={0} arrow title={invalidTwap} placement="right">
 									<IconButton
 										className={classes.infoIconButton}
 										onClick={() => window.open('https://digg.finance/#info', '_blank')}
