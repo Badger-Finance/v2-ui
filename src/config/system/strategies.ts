@@ -352,6 +352,24 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 					strategyLink: 'https://badger.wiki/strategies#1346adfaad7946eebd29a17fb4f6e8b7',
 					depositLink: 'https://mstable.app/#/mbtc/pools/0x48c59199da51b7e30ea200a74ea07974e62c4ba7',
 				},
+				[deploy.sett_system.vaults['native.imBtc']]: {
+					name: '',
+					address: deploy.sett_system.strategies['native.imBtc'],
+					fees: {
+						['DAO Performance Fee']: new BigNumber(1000),
+						['Withdraw Fee']: new BigNumber(75),
+					},
+					strategyLink: 'https://badgerwiki.notion.site/placeholder',
+				},
+				[deploy.sett_system.vaults['native.fPmBtcHBtc']]: {
+					name: '',
+					address: deploy.sett_system.strategies['native.fPmBtcHBtc'],
+					fees: {
+						['DAO Performance Fee']: new BigNumber(1000),
+						['Withdraw Fee']: new BigNumber(75),
+					},
+					strategyLink: 'https://badgerwiki.notion.site/placeholder',
+				},
 			};
 	}
 };
