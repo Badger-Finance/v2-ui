@@ -5,4 +5,7 @@ export interface StrategyConfig {
 	address: string;
 	fees: FeeConfig;
 	strategyLink: string;
+	// TODO: make descriptions and deposit instructions required after marketing team provides the content
+	description?: string;
+	depositInstructions?: string;
 }

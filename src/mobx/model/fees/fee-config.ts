@@ -1,5 +1,6 @@
 import BigNumber from 'bignumber.js';
+import { StrategyFee } from '../system-config/stategy-fees';
 
-export interface FeeConfig {
-	[feeName: string]: BigNumber;
-}
+export type FeeConfig = {
+	[Property in StrategyFee]?: BigNumber;
+};

@@ -4,9 +4,9 @@ import { Contract } from 'web3-eth-contract';
 import BigNumber from 'bignumber.js';
 import { provider } from 'web3-core';
 import { AbiItem } from 'web3-utils';
-import GatewayJS from '@renproject/gateway';
-import { Gateway } from '@renproject/gateway';
-import { LockAndMintStatus, BurnAndReleaseStatus, LockAndMintEvent, BurnAndReleaseEvent } from '@renproject/interfaces';
+import { Bitcoin, Ethereum } from '@renproject/chains';
+import RenJS from '@renproject/ren';
+import { EthArg, LockAndMintStatus, BurnAndReleaseStatus } from '@renproject/interfaces';
 import { extendObservable, action, observe, IValueDidChange, toJS } from 'mobx';
 import { retry } from '@lifeomic/attempt';
 
@@ -49,9 +49,7 @@ const MAX_BPS = 10000;
 const UPDATE_INTERVAL_SECONDS = 30 * 1000; // 30 seconds
 
 const defaultProps = {
-	openGateway: null,
 	history: [],
-	nextNonce: 0,
 	current: null,
 	status: Status.IDLE,
 	loading: false,
@@ -76,8 +74,7 @@ class BridgeStore {
 	private store!: RootStore;
 	private network!: string | undefined;
 	private db!: firebase.firestore.Firestore;
-	private gjs!: GatewayJS;
-	private openGateway!: Gateway | null;
+	private renJS: RenJS;
 	private adapter!: Contract;
 
 	private renbtc!: Contract;
@@ -107,7 +104,6 @@ class BridgeStore {
 
 	public shortAddr!: string;
 
-	public nextNonce!: number;
 	// current holds current in process renvm tx.
 	public current!: RenVMTransaction | null;
 	// done is an optional callback to execute on completion.
@@ -136,7 +132,7 @@ class BridgeStore {
 	constructor(store: RootStore) {
 		this.store = store;
 		this.db = fbase.firestore();
-		this.gjs = new GatewayJS('mainnet');
+		this.renJS = new RenJS('mainnet');
 		// NB: At construction time, the value of wallet provider is unset so we cannot fetch network
 		// from provider. Align network init logic w/ how it works in the walletStore.
 		const network = defaultNetwork;
@@ -212,9 +208,9 @@ class BridgeStore {
 			/*
 			 * The lifecycle of a tx is as follows:
 			 *   - initialize a tx (persist gatewayJS params and nonce into db)
-			 *   - open gjs and kick off renVM tx
+			 *   - open renjs and kick off renVM tx
 			 *   - commit renVM tx data to db
-			 *   - listen/perform updates via gjs
+			 *   - listen/perform updates via renjs
 			 *
 			 * On failure/restart, if the last tx is uncommitted or incomplete
 			 * then it is set is `current` tx and we enter this lifecycle.
@@ -248,13 +244,7 @@ class BridgeStore {
 				}
 
 				this.status = Status.PROCESSING;
-				// Check if uncommitted (open tx).
-				if (!newValue.encodedTx) {
-					this.openTx(newValue);
-					return;
-				}
-				// Incomplete tx (recover tx).
-				this.openTx(newValue, true);
+				this.openTx(newValue);
 			},
 		);
 
@@ -282,26 +272,24 @@ class BridgeStore {
 		this.shortAddr = shortenAddress(connectedAddress);
 
 		this.loading = true;
-		try {
-			await Promise.all([
-				// Fetch old transactions and reload any incomplete tx.
-				this._fetchTx(connectedAddress),
-				this._getBalances(connectedAddress),
-				this._getFees(),
-				this._getRenFees(),
-				this._getBTCNetworkFees(),
-			]);
-		} catch (err) {
-			queueNotification(`Failed to fetch bridge data: ${err.message}`, 'error');
-		}
-		this.loading = false;
+		return Promise.all([
+			// Fetch old transactions and reload any incomplete tx.
+			this._fetchTx(connectedAddress),
+			this._getBalances(connectedAddress),
+			this._getFees(),
+			this._getRenFees(),
+			this._getBTCNetworkFees(),
+		])
+			.catch((err: Error) => {
+				console.error(err);
+				queueNotification(`Failed to fetch bridge data: ${err.message}`, 'error');
+			})
+			.finally(() => {
+				this.loading = false;
+			});
 	});
 
 	reset = action(() => {
-		if (this.openGateway) {
-			this.openGateway.close();
-		}
-
 		Object.entries(defaultProps).forEach(([k, v]) => {
 			(this as any)[k] = v;
 		});
@@ -311,7 +299,7 @@ class BridgeStore {
 	begin = action((newTx: RenVMTransaction, done: () => void) => {
 		// Cannot concurrently execute tx.
 		if (this.current) return;
-		// NB: When we begin a new tx, only the gjs params are specified.
+		// NB: When we begin a new tx, only the renjs params are specified.
 		this.current = newTx;
 		this.done = done;
 	});
@@ -336,9 +324,10 @@ class BridgeStore {
 				// TODO: Implement paging of results if tx history
 				// bloat starts to become a problem.
 				const results = await this.db
-					.collection('transactions')
+					// Use a new collection for renvm2 just in case of collision
+					.collection('transactions2')
 					.where('user', '==', userAddr.toLowerCase())
-					.orderBy('nonce', 'desc')
+					.orderBy('created', 'desc')
 					.get();
 
 				const transactions: RenVMTransaction[] = [];
@@ -356,13 +345,10 @@ class BridgeStore {
 					if (!_isTxComplete(tx)) {
 						this.current = tx;
 					}
-
-					// Nonce defaults to value of 0. If no results then assume
-					// there are no transactions for the account.
-					this.nextNonce = tx.nonce + 1;
 				}
 			}, defaultRetryOptions);
 		} catch (err) {
+			console.error(err);
 			this.error = err;
 		}
 	};
@@ -376,14 +362,14 @@ class BridgeStore {
 
 		try {
 			const created = firebase.firestore.Timestamp.fromDate(new Date(Date.now()));
-			const ref = this.db.collection('transactions').doc();
+			const ref = this.db.collection('transactions2').doc();
 			// At this point we should only have are the tx params.
 			const txData = {
 				...tx,
 				id: ref.id,
 				// NB: Always store lowercase account addr.
 				user: connectedAddress.toLowerCase(),
-				nonce: this.nextNonce,
+				nonce: JSON.stringify(RenJS.utils.randomNonce()),
 				created,
 				deleted: false,
 			};
@@ -391,10 +377,9 @@ class BridgeStore {
 				await ref.set(txData);
 				// Update current tx.
 				this.current = txData as RenVMTransaction;
-				// Increment nonce.
-				this.nextNonce++;
 			}, defaultRetryOptions);
 		} catch (err) {
+			console.error(err);
 			queueNotification(`Failed to initialize tx in db: ${err.message}`, 'error');
 			this.error = err;
 		}
@@ -405,12 +390,36 @@ class BridgeStore {
 
 		try {
 			const updated = firebase.firestore.Timestamp.fromDate(new Date(Date.now()));
-			const ref = this.db.collection('transactions').doc(tx.id);
+			const ref = this.db.collection('transactions2').doc(tx.id);
 			const txData = {
 				...tx,
 				updated,
 				error: err && err.message ? err.message : '',
 				status: tx.status ? tx.status : '',
+				// Just enough params from the transaction to be able to recover
+				encodedTx: JSON.stringify(
+					(({
+						user,
+						params,
+						txHash,
+						status,
+						renVMStatus,
+						renVMMessage,
+						mintChainHash,
+						id,
+						nonce,
+					}: RenVMTransaction) => ({
+						user,
+						params,
+						txHash,
+						status,
+						renVMStatus,
+						renVMMessage,
+						mintChainHash,
+						id,
+						nonce,
+					}))(tx),
+				),
 			};
 			// Deletion is a soft delete.
 			if (deleted) {
@@ -428,76 +437,114 @@ class BridgeStore {
 				} as RenVMTransaction;
 			}, defaultRetryOptions);
 		} catch (err) {
+			console.error(err);
 			queueNotification(`Failed to update tx in db: ${err.message}`, 'error');
 			this.error = err;
 		}
 	});
 
-	openTx = action(async (tx: RenVMTransaction, recover?: boolean) => {
-		const { provider } = this.store.wallet;
+	openTx = action(async (tx: RenVMTransaction) => {
 		const { queueNotification } = this.store.uiState;
 
-		// NB: Should not happen but just as a safety check.
-		if (this.openGateway) {
-			this.openGateway.close();
-			this.openGateway = null;
-		}
-
 		try {
-			if (recover) {
-				const parsedTx = JSON.parse(tx.encodedTx);
-				this.openGateway = this.gjs.recoverTransfer(provider, parsedTx, parsedTx.id).pause();
-			} else {
-				const parsedTx = toJS(tx);
-				// This invariant check throws on failure.
+			const parsedTx = tx.encodedTx ? JSON.parse(tx.encodedTx) : toJS(tx);
+			const web3 = (window as any).web3;
+			if (parsedTx.params.contractFn === 'mint') {
 				checkUserAddrInvariantAndThrow(parsedTx);
-				this.openGateway = this.gjs.open({
-					...parsedTx.params,
-					web3Provider: provider,
+				const mint = await this.renJS.lockAndMint({
+					asset: parsedTx.params.asset,
+					from: Bitcoin(),
+					nonce: Buffer.from(JSON.parse(parsedTx.nonce)),
+					to: Ethereum(web3.currentProvider).Contract({
+						sendTo: parsedTx.params.sendTo,
+						contractFn: parsedTx.params.contractFn,
+						contractParams: parsedTx.params.contractParams,
+					}),
 				});
-			}
-			await this.openGateway
-				.result()
-				.on('status', async (status: LockAndMintStatus | BurnAndReleaseStatus) => {
-					switch (status) {
-						case LockAndMintStatus.ReturnedFromRenVM:
-							queueNotification(
-								'Deposit is ready, please sign the transaction to submit to ethereum',
-								'info',
-							);
-							break;
-						case LockAndMintStatus.ConfirmedOnEthereum:
-							queueNotification('Mint is successful', 'success');
-							// TODO: Can remove this after we remove duplicate listeners (due to switching networks/addrs).
-							this._complete();
-							break;
-						case BurnAndReleaseStatus.ConfirmedOnEthereum:
-							queueNotification('Release is completed', 'success');
-							// TODO: Can remove this after we remove duplicate listeners (due to switching networks/addrs).
-							this._complete();
-							break;
-					}
-				})
-				.on('transferUpdated', async (event: LockAndMintEvent | BurnAndReleaseEvent) => {
-					if (event.archived) return;
-					const txData = {
-						...tx,
-						encodedTx: JSON.stringify(event),
-						status: event.status,
-					};
-					await this._updateTx(txData);
-				})
-				.catch((err: Error) => {
-					if (err.message === 'Transfer cancelled by account') {
-						this._updateTx(tx, true);
-						queueNotification(`${err.message}.`, 'info');
-						return;
-					}
+				await this._updateTx({
+					...parsedTx,
+					mintGateway: mint.gatewayAddress,
+				});
 
-					this._updateTx(tx, true, err);
-					queueNotification(`${err.message}.`, 'error');
+				await mint.on('deposit', async (deposit) => {
+					// Details of the deposit are available from `deposit.depositDetails`.
+
+					const hash = deposit.txHash();
+					const depositLog = (msg: string) => {
+						console.log(`[${hash.slice(0, 8)}][${deposit.status}] ${msg}`);
+						return this._updateTx({ ...parsedTx, renVMStatus: deposit.status, renVMMessage: msg });
+					};
+
+					try {
+						await deposit
+							.confirmed()
+							.on('target', (target) => depositLog(`Waiting for ${target} confirmations.`))
+							.on('confirmation', (confs, target) => depositLog(`${confs}/${target} confirmations.`));
+
+						await deposit.signed();
+
+						await deposit
+							.mint()
+							// Print Ethereum transaction hash.
+							.on('transactionHash', (txHash) => depositLog(`Mint tx: ${txHash}`));
+
+						await this._updateTx({ ...parsedTx, renVMStatus: deposit.status }, true);
+					} catch (e) {
+						console.error(e);
+						await this._updateTx(parsedTx, true, e);
+						queueNotification(`Failed to complete transaction: ${e.message}`, 'error');
+					} finally {
+						this._complete();
+					}
 				});
+			} else if (parsedTx.params.contractFn === 'burn') {
+				const toAddress = parsedTx.params.contractParams.find((p: EthArg) => p.name === '_to').value;
+				const burnAndRelease = await this.renJS.burnAndRelease({
+					asset: parsedTx.params.asset,
+					to: Bitcoin().Address(toAddress),
+					from: Ethereum(web3.currentProvider).Contract({
+						sendTo: parsedTx.params.sendTo,
+						contractFn: parsedTx.params.contractFn,
+						contractParams: parsedTx.params.contractParams,
+					}),
+					// When recovering, this will be set
+					txHash: parsedTx.txHash,
+					// or this will be set
+					transaction: parsedTx.mintChainHash,
+				});
+
+				try {
+					await burnAndRelease.burn().on('transactionHash', (txHash) =>
+						this._updateTx({
+							...parsedTx,
+							renVMStatus: burnAndRelease.status,
+							mintChainHash: txHash,
+						}),
+					);
+
+					await burnAndRelease
+						.release()
+						// Store RenVM transaction hash for recovery
+						.on('txHash', (txHash: string) =>
+							this._updateTx({
+								...parsedTx,
+								txHash,
+								renVMStatus: burnAndRelease.status,
+							}),
+						);
+					await this._updateTx({ ...parsedTx, renVMStatus: burnAndRelease.status }, true);
+				} catch (e) {
+					console.error(e);
+					await this._updateTx(parsedTx, true, e);
+					queueNotification(`Failed to complete transaction: ${e.message}`, 'error');
+				} finally {
+					this._complete();
+				}
+			} else {
+				throw new Error('Unknown contract function: ' + parsedTx.params.contractFn);
+			}
 		} catch (err) {
+			console.error(err);
 			queueNotification(`Failed to open tx: ${err.message}`, 'error');
 			// Blocking error if err on open/recover.
 			this.error = err;
@@ -518,8 +565,8 @@ class BridgeStore {
 				this.badgerBurnFee = badgerBurnFee;
 			}, defaultRetryOptions);
 		} catch (err) {
+			console.error(err);
 			queueNotification(`Failed to fetch fees: ${err.message}`, 'error');
-			console.log(err.message);
 		}
 	};
 
@@ -579,8 +626,8 @@ class BridgeStore {
 				this.bCRVtBTCBalance = new BigNumber(bCRVtBTCBalance).dividedBy(SETT_DECIMALS).toNumber();
 			}, defaultRetryOptions);
 		} catch (err) {
+			console.error(err);
 			queueNotification(`Failed to fetch fees: ${err.message}`, 'error');
-			console.log(err.message);
 		}
 	};
 
@@ -608,6 +655,7 @@ class BridgeStore {
 				this.releaseNetworkFee = new BigNumber(result.btc.release).dividedBy(DECIMALS).toNumber();
 			}, defaultRetryOptions);
 		} catch (err) {
+			console.error(err);
 			queueNotification(`Failed to fetch BTC network fees: ${err.message}`, 'error');
 		}
 	};
@@ -627,7 +675,7 @@ const checkUserAddrInvariantAndThrow = (tx: RenVMTransaction) => {
 
 	const user = tx.params.contractParams?.find(({ name }) => name === '_user');
 	if (user?.value !== tx.user) {
-		throw `Mint destination (${user}) does not match connected address (${tx.user})`;
+		throw `Mint destination (${user?.value}) does not match connected address (${tx.user})`;
 	}
 };
 
