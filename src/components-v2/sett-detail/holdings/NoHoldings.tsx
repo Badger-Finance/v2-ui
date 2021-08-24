@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Paper, Typography } from '@material-ui/core';
+import { Grid, Link, Paper, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { SettActionButton } from '../../common/SettActionButtons';
 import { Sett } from '../../../mobx/model/setts/sett';
@@ -20,7 +20,6 @@ const useStyles = makeStyles((theme) => ({
 		paddingLeft: theme.spacing(4),
 	},
 	depositLink: {
-		cursor: 'pointer',
 		textDecoration: 'underline',
 	},
 }));
@@ -49,11 +48,19 @@ export const NoHoldings = observer(
 						</Typography>
 					)}
 					{strategy.depositLink && (
-						<div className={classes.depositLink} onClick={() => window.open(strategy.depositLink)}>
+						<>
 							<Typography variant="body2" className={classes.description}>
-								Get Deposit Token
+								You can obtain deposit tokens by using the following link:
 							</Typography>
-						</div>
+							<Link
+								className={classes.depositLink}
+								target="_blank"
+								rel="noreferrer"
+								href={strategy.depositLink}
+							>
+								Get Deposit Token
+							</Link>
+						</>
 					)}
 				</Grid>
 				<Grid item xs={12} sm className={classes.depositContainer}>
