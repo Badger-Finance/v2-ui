@@ -6,7 +6,7 @@ import { ContractNamespace } from '../../web3/config/contract-namespace';
 export class SettDetailStore {
 	private readonly store: RootStore;
 	private searchSlug: string | undefined;
-	private sett_: Sett | undefined | null;
+	private searchedSett: Sett | undefined | null;
 
 	private comesFromPortfolioView = false;
 	private shouldShowDepositDialog = false;
@@ -17,7 +17,7 @@ export class SettDetailStore {
 
 		extendObservable(this, {
 			searchSlug: this.searchSlug,
-			sett_: this.sett_,
+			searchedSett: this.searchedSett,
 			comesFromPortfolioView: this.comesFromPortfolioView,
 			shouldShowDepositDialog: this.shouldShowDepositDialog,
 			shouldShowWithdrawDialog: this.shouldShowWithdrawDialog,
@@ -37,15 +37,15 @@ export class SettDetailStore {
 	}
 
 	get sett(): Sett | undefined | null {
-		return this.sett_;
+		return this.searchedSett;
 	}
 
 	get isLoading(): boolean {
-		return this.sett_ === undefined;
+		return this.searchedSett === undefined;
 	}
 
 	get isNotFound(): boolean {
-		return this.sett_ === null;
+		return this.searchedSett === null;
 	}
 
 	get isDepositDialogDisplayed(): boolean {
@@ -57,14 +57,13 @@ export class SettDetailStore {
 	}
 
 	get canUserWithdraw(): boolean {
-		const { network, user } = this.store;
-
-		if (!this.sett_) {
+		if (!this.searchedSett) {
 			return false;
 		}
 
+		const { network, user } = this.store;
 		const badgerSett = network.network.setts.find(
-			({ vaultToken }) => vaultToken.address === this.sett_?.vaultToken,
+			({ vaultToken }) => vaultToken.address === this.searchedSett?.vaultToken,
 		);
 
 		if (!badgerSett) {
@@ -96,7 +95,7 @@ export class SettDetailStore {
 	});
 
 	reset = action(() => {
-		this.sett_ = undefined;
+		this.searchedSett = undefined;
 		this.searchSlug = undefined;
 		this.comesFromPortfolioView = false;
 	});
@@ -105,7 +104,7 @@ export class SettDetailStore {
 		const { setts } = this.store;
 
 		if (this.searchSlug && setts.initialized) {
-			this.sett_ = setts.getSettBySlug(this.searchSlug);
+			this.searchedSett = setts.getSettBySlug(this.searchSlug);
 		}
 	}
 }
