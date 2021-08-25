@@ -9,6 +9,7 @@ import { StoreContext } from '../../mobx/store-context';
 import { BadgerSett } from '../../mobx/model/vaults/badger-sett';
 import { NewVaultWarning } from './NewVaultWarning';
 import { SettState } from '../../mobx/model/setts/sett-state';
+import { ContractNamespace } from 'web3/config/contract-namespace';
 
 const useStyles = makeStyles((theme) => ({
 	content: {
@@ -37,18 +38,24 @@ interface Props {
 export const MainContent = observer(
 	({ badgerSett, sett }: Props): JSX.Element => {
 		const {
-			user: { accountDetails },
+			user,
 			wallet: { connectedAddress },
 		} = React.useContext(StoreContext);
 
 		const classes = useStyles();
-		const settBalance = accountDetails?.balances.find((settBalance) => settBalance.id === sett.vaultToken);
+		const tokenBalance = user.getBalance(ContractNamespace.Token, badgerSett);
+		const settBalance = user.getSettBalance(sett);
 
 		return (
 			<Grid container className={classes.content}>
 				{connectedAddress && (
 					<Grid container className={classes.holdingsContainer}>
-						<Holdings sett={sett} badgerSett={badgerSett} settBalance={settBalance} />
+						<Holdings
+							sett={sett}
+							badgerSett={badgerSett}
+							tokenBalance={tokenBalance}
+							settBalance={settBalance}
+						/>
 					</Grid>
 				)}
 				<Grid container>
