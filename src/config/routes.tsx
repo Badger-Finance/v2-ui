@@ -7,10 +7,10 @@ import { BoostOptimizer } from '../components/Boost';
 import { Digg } from '../components/Digg';
 import { Locked } from 'components/Common/Locked';
 import { IbBTC } from 'components/IbBTC';
-import { FLAGS } from 'config/constants';
 import { Bridge } from '../components/Bridge';
 import HoneybadgerDrop from '../components/HoneybadgerDrop/index';
 import BoostLeaderBoard from 'pages/BoostLeaderBoard';
+import { SettDetail } from '../components-v2/sett-detail/SettDetail';
 import { SettState } from '../mobx/model/setts/sett-state';
 import { NotFound } from '../components-v2/common/NotFound';
 
@@ -60,7 +60,7 @@ const routes = {
 	}),
 	boostOptimizer: new Route<RootStore, QueryParams>({
 		path: '/boost-optimizer',
-		component: FLAGS.BOOST_OPTIMIZER ? <BoostOptimizer /> : <NotFound />,
+		component: <BoostOptimizer />,
 	}),
 	digg: new Route<RootStore, QueryParams>({
 		path: '/digg',
@@ -81,7 +81,23 @@ const routes = {
 	}),
 	boostLeaderBoard: new Route<RootStore, QueryParams>({
 		path: '/leaderboard',
-		component: FLAGS.BOOST_V2 ? <BoostLeaderBoard /> : <NotFound />,
+		component: <BoostLeaderBoard />,
+	}),
+	settDetails: new Route<RootStore, QueryParams>({
+		path: '/setts/:settName',
+		component: <SettDetail />,
+		onEnter: (_route, params, store) => {
+			if (!params || !params.settName) return;
+
+			if (params.accountView) {
+				store.settDetail.setAccountViewMode();
+			}
+
+			store.settDetail.setSearchSlug(params.settName as string);
+		},
+		onExit: (_route, _params, store) => {
+			store.settDetail.reset();
+		},
 	}),
 };
 

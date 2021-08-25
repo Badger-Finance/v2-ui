@@ -1,5 +1,10 @@
 # v2 UI Changelog
 
+### v2.9.0 - 08/26/2021
+
+-   Initial App refresh launched
+-   RenJS upgrade for Badger Bridge
+
 ### Hotfix - 08/17/2021
 
 -   Add RenVM Fee to Bridge Fee Display

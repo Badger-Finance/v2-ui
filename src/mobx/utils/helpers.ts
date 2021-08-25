@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js';
-import { DEBUG, getDefaultRetryOptions, TEN, ZERO } from '../../config/constants';
+import { getDefaultRetryOptions, TEN, ZERO } from '../../config/constants';
 import { API } from 'bnc-onboard/dist/src/interfaces';
 import store from 'mobx/RootStore';
 import { retry } from '@lifeomic/attempt';
@@ -7,6 +7,7 @@ import { MarketChartStats } from 'mobx/model/charts/market-chart-stats';
 import { MarketDelta } from 'mobx/model/charts/market-delta';
 import { ChartData } from 'mobx/model/charts/chart-data';
 import { Network } from 'mobx/model/network/network';
+import { DEBUG } from 'config/environment';
 
 export const jsonQuery = (url: string | undefined): Promise<Response> | undefined => {
 	if (!url) return;
@@ -275,13 +276,12 @@ export const numberWithCommas = (x: string): string => {
 	return parts.join('.');
 };
 
-// using Number() removes extra zeros
 export const formatWithoutExtraZeros = (
 	amount: BigNumber.Value,
 	decimals = 6,
 	strategy = BigNumber.ROUND_HALF_FLOOR,
 ): string => {
-	return Number(new BigNumber(amount).toFixed(decimals, strategy)).toString();
+	return new BigNumber(amount).decimalPlaces(decimals, strategy).toString();
 };
 
 export async function fetchDiggChart(chart: string, range: number): Promise<ChartData | undefined> {

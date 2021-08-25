@@ -12,7 +12,7 @@ import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { BadgerSett } from 'mobx/model/vaults/badger-sett';
 import { BadgerToken, mockToken } from 'mobx/model/tokens/badger-token';
 import { CallResult } from 'web3/interface/call-result';
-import { DEBUG, ONE_MIN_MS, ZERO_ADDR } from 'config/constants';
+import { ONE_MIN_MS, ZERO_ADDR } from 'config/constants';
 import { UserBalanceCache } from 'mobx/model/account/user-balance-cache';
 import { CachedUserBalances } from 'mobx/model/account/cached-user-balances';
 import { createBatchCallRequest } from 'web3/config/config-utils';
@@ -22,6 +22,7 @@ import { Account } from '../model/account/account';
 import { RewardMerkleClaim } from '../model/rewards/reward-merkle-claim';
 import { UserPermissions } from '../model/account/userPermissions';
 import { NetworkStore } from './NetworkStore';
+import { DEBUG } from 'config/environment';
 
 export default class UserStore {
 	private store!: RootStore;

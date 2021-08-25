@@ -1,11 +1,21 @@
 import React, { PropsWithChildren, ReactNode, useContext, useState, useEffect, useCallback } from 'react';
 import BigNumber from 'bignumber.js';
-import { ethers } from 'ethers';
-import GatewayJS from '@renproject/gateway';
-import { EthArgs, LockAndMintParamsSimple, BurnAndReleaseParamsSimple } from '@renproject/interfaces';
+import { EthArgs } from '@renproject/interfaces';
+import { BurnAndReleaseStatus } from '@renproject/ren/build/main/burnAndRelease';
+import { DepositStatus, DepositStatusIndex } from '@renproject/ren/build/main/lockAndMint';
 import Web3 from 'web3';
 import { observer } from 'mobx-react-lite';
-import { Grid, Tabs, Tab, FormControl, Select, MenuItem, Typography } from '@material-ui/core';
+import {
+	Grid,
+	CircularProgress,
+	TextField,
+	Tabs,
+	Tab,
+	FormControl,
+	Select,
+	MenuItem,
+	Typography,
+} from '@material-ui/core';
 
 import { MintForm } from './MintForm';
 import { ReleaseForm } from './ReleaseForm';
@@ -14,11 +24,18 @@ import { StoreContext } from 'mobx/store-context';
 import { SuccessForm } from './SuccessForm';
 import { ConfirmForm } from './ConfirmForm';
 import { ValuesProp } from './Common';
-import { NETWORK_LIST, CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS, FLAGS } from 'config/constants';
+import {
+	NETWORK_LIST,
+	CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS,
+	burnStatusIndex,
+	depositStatusDict,
+	burnStatusDict,
+} from 'config/constants';
 import { bridge_system, tokens, sett_system } from 'config/deployments/mainnet.json';
 import { CURVE_EXCHANGE } from 'config/system/abis/CurveExchange';
 import { connectWallet } from 'mobx/utils/helpers';
-import { RenVMTransaction } from '../../mobx/model/bridge/renVMTransaction';
+import { RenVMTransaction, RenVMParams } from '../../mobx/model/bridge/renVMTransaction';
+import { FLAGS } from 'config/environment';
 
 const DECIMALS = 10 ** 8;
 const SETT_DECIMALS = 10 ** 18;
@@ -26,6 +43,79 @@ const WBTCLogo = '/assets/icons/wbtc.svg';
 const byvWBTCLogo = '/assets/icons/byvwbtc.svg';
 const renBTCLogo = '/assets/icons/renbtc.svg';
 const crvBTCLogo = '/assets/icons/bcrvrenwbtc.png';
+const btcLogo = '/assets/icons/btc.svg';
+
+function MintStatusDisplay({
+	status,
+	message,
+	bitcoinAddress,
+	classes,
+	amount,
+}: {
+	amount: string;
+	message?: string;
+	status: DepositStatus | null;
+	bitcoinAddress: string | null;
+	classes: { logo: string; elephant: string };
+}) {
+	if (status === DepositStatus.Reverted) {
+		return <div>{depositStatusDict[status]}</div>;
+	}
+
+	if (!status) {
+		return (
+			<React.Fragment>
+				<img src={btcLogo} className={classes.logo} />
+				<h1>Send {amount} BTC to</h1>
+				{bitcoinAddress ? (
+					<TextField fullWidth={true} value={bitcoinAddress} disabled={true} />
+				) : (
+					<p>Loading address</p>
+				)}
+				{message && <div>{message}</div>}
+			</React.Fragment>
+		);
+	}
+
+	return ShowDepositCircularProgress(status, message);
+}
+
+function BurnStatusDisplay({ status }: { classes: { logo: string }; status: BurnAndReleaseStatus | null }) {
+	if (status === BurnAndReleaseStatus.Reverted) {
+		return <div>{burnStatusDict[status]}</div>;
+	}
+
+	if (!status) {
+		return <div>Loading</div>;
+	}
+
+	return ShowBurnCircularProgress(status);
+}
+
+/*
+CircularProgress functions present a circular progress bar from 0 - 100
+burnStatusIndex and DepositStatusIndex return integers 0 - 3 and 0 - 4 depending on status
+we add 1 and multiply by 33 and 20 respectively to provide the progress bar with a percentage out of 100
+burnStatusIndex should never return 3 because a reverted transaction will be caught before this function is called.
+*/
+function ShowDepositCircularProgress(status: DepositStatus, message?: string) {
+	return (
+		<React.Fragment>
+			<CircularProgress variant="determinate" value={(DepositStatusIndex[status] + 1) * 20} />
+			<div>{depositStatusDict[status]}</div>
+			{message && <div>{message}</div>}
+		</React.Fragment>
+	);
+}
+
+function ShowBurnCircularProgress(status: BurnAndReleaseStatus) {
+	return (
+		<React.Fragment>
+			<CircularProgress variant="determinate" value={(burnStatusIndex[status] + 1) * 33} />
+			<div>{burnStatusDict[status]}</div>
+		</React.Fragment>
+	);
+}
 
 type TabPanelProps = PropsWithChildren<{
 	index: number;
@@ -55,11 +145,6 @@ const a11yProps = (index: number) => {
 	};
 };
 
-// Gateways expects nonce as a bytes32 hex string.
-const formatNonceBytes32 = (nonce: number): string => {
-	return ethers.utils.hexZeroPad(`0x${nonce.toString(16)}`, 32);
-};
-
 // Initial state value that should be reset to initial values on reset.
 const initialStateResettable = {
 	amount: '',
@@ -86,7 +171,6 @@ export const BridgeForm = observer(({ classes }: any) => {
 		bridge: {
 			status,
 			begin,
-			nextNonce,
 			loading,
 			error,
 
@@ -96,6 +180,8 @@ export const BridgeForm = observer(({ classes }: any) => {
 			renvmMintFee,
 			lockNetworkFee,
 			releaseNetworkFee,
+
+			current,
 		},
 	} = store;
 
@@ -260,7 +346,6 @@ export const BridgeForm = observer(({ classes }: any) => {
 
 	// TODO: Can refactor most of these methods below into the store as well.
 	const deposit = async () => {
-		const amountSats = new BigNumber(amount).multipliedBy(10 ** 8); // Convert to Satoshis
 		let desiredToken = tokens.renBTC;
 		let maxSlippageBps = 0;
 
@@ -294,11 +379,9 @@ export const BridgeForm = observer(({ classes }: any) => {
 			},
 		];
 
-		const params: LockAndMintParamsSimple = {
-			sendToken: GatewayJS.Tokens.BTC.Btc2Eth,
-			suggestedAmount: amountSats.toString(),
+		const params: RenVMParams = {
+			asset: 'BTC',
 			sendTo: bridge_system['adapter'],
-			nonce: formatNonceBytes32(nextNonce),
 			contractFn: 'mint',
 			contractParams,
 		};
@@ -326,7 +409,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 			maxSlippageBps = Math.round(parseFloat(maxSlippage) * 100);
 		}
 
-		const params = [
+		const params: EthArgs = [
 			{
 				name: '_token',
 				type: 'address',
@@ -363,23 +446,23 @@ export const BridgeForm = observer(({ classes }: any) => {
 		};
 
 		const allowance = await getAllowance(tokenParam, bridge_system.adapter);
-		if (amountOut.gt(allowance.balance)) {
-			try {
+
+		try {
+			setTxStatus('pending');
+			if (amountOut.gt(allowance.balance)) {
 				await increaseAllowance(tokenParam, bridge_system.adapter);
-				setTxStatus('pending');
-				await withdraw(params);
-				setTxStatus('success');
-			} catch (err) {
-				setTxStatus('error');
 			}
+			await withdraw(params);
+			setTxStatus('success');
+		} catch (err) {
+			setTxStatus('error');
 		}
 	};
 
 	const withdraw = async (contractParams: EthArgs) => {
-		const params: BurnAndReleaseParamsSimple = {
-			sendToken: GatewayJS.Tokens.BTC.Eth2Btc,
+		const params: RenVMParams = {
+			asset: 'BTC',
 			sendTo: bridge_system['adapter'],
-			nonce: formatNonceBytes32(nextNonce),
 			contractFn: 'burn',
 			contractParams,
 		};
@@ -737,10 +820,27 @@ export const BridgeForm = observer(({ classes }: any) => {
 		);
 	}
 
-	if (status != Status.IDLE) {
+	if (status !== Status.IDLE) {
 		return (
-			<Grid container alignItems={'center'} className={classes.padded}>
-				Transaction in progress...
+			<Grid container alignItems={'center'} className={classes.padded} xs={12}>
+				<Grid item xs={12} className={classes.cardContainer}>
+					{!current ? (
+						'Loading...'
+					) : current.params.contractFn === 'mint' ? (
+						<MintStatusDisplay
+							classes={classes}
+							amount={amount}
+							status={current.renVMStatus as DepositStatus | null}
+							message={current.renVMMessage}
+							bitcoinAddress={current.mintGateway}
+						/>
+					) : (
+						<BurnStatusDisplay
+							classes={classes}
+							status={current.renVMStatus as BurnAndReleaseStatus | null}
+						/>
+					)}
+				</Grid>
 			</Grid>
 		);
 	}

@@ -1,4 +1,4 @@
-import { FLAGS, NETWORK_IDS, NETWORK_LIST } from 'config/constants';
+import { NETWORK_IDS, NETWORK_LIST } from 'config/constants';
 import { createChainBatchConfig, toSettConfig } from 'web3/config/config-utils';
 import { BatchCallRequest } from 'web3/interface/batch-call-request';
 import { Deploy } from 'web3/interface/deploy';
@@ -10,6 +10,7 @@ import deploy from '../../../config/deployments/mainnet.json';
 import { SettState } from '../setts/sett-state';
 import { toRecord } from 'web3/config/token-config';
 import { ProtocolTokens } from 'web3/interface/protocol-token';
+import { FLAGS } from 'config/environment';
 
 export class Ethereum extends Network {
 	constructor() {

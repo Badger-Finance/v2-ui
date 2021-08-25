@@ -8,7 +8,9 @@
 		"@material-ui/core": "^4.11.2",
 		"@material-ui/icons": "^4.11.2",
 		"@material-ui/lab": "^4.0.0-alpha.57",
+		"@renproject/chains": "^2.3.0",
 		"@renproject/gateway": "1.1.0",
+		"@renproject/ren": "^2.3.0",
 		"@types/async": "^3.2.5",
 		"@types/material-ui": "^0.21.8",
 		"@use-it/interval": "^1.0.0",
@@ -22,6 +24,7 @@
 		"d3-scale": "^3.2.3",
 		"d3-shape": "^2.0.0",
 		"d3-time-format": "^3.0.0",
+		"dayjs": "^1.10.6",
 		"director": "1.2.8",
 		"firebase": "^8.2.3",
 		"mobx": "^5.15.4",
@@ -35,6 +38,7 @@
 		"react-material-ui-carousel": "^2.1.1",
 		"react-number-format": "^4.6.3",
 		"react-stockcharts": "^0.7.8",
+		"slugify": "^1.6.0",
 		"string_decoder": "^1.3.0",
 		"use-wallet": "^0.8.1",
 		"web3": "1.3.3",
@@ -52,7 +56,7 @@
 		"eject": "react-scripts eject",
 		"predeploy": "npm run build",
 		"deploy": "gh-pages -d build",
-		"lint": "eslint \"**/*.{js,jsx,json,ts,tsx}\" --no-error-on-unmatched-pattern --ignore-pattern node_modules/ --ignore-pattern build/ --max-warnings=0",
+		"lint": "eslint \"**/*.{js,jsx,json,ts,tsx}\" --no-error-on-unmatched-pattern --ignore-pattern src/setupTests.js --ignore-pattern node_modules/ --ignore-pattern build/ --max-warnings=0",
 		"lint-fix": "yarn lint --quiet --fix",
 		"lint-fix-warn": "yarn lint --fix",
 		"ui": "yarn upgradeInteractive"
@@ -97,5 +101,8 @@
 		"react-scripts": "^4.0.3",
 		"react-test-renderer": "^17.0.1",
 		"typescript": "^3.8.3"
+	},
+	"jest": {
+		"globalSetup": "./src/setupTests.js"
 	}
 }
