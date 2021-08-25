@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, makeStyles, Typography, useMediaQuery, useTheme } from '@material-ui/core';
+import { Grid, makeStyles, Tooltip, Typography, useMediaQuery, useTheme } from '@material-ui/core';
 import { HoldingItem } from './HoldingItem';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../../mobx/store-context';
@@ -10,11 +10,18 @@ import { NoHoldings } from './NoHoldings';
 import { BadgerSett } from '../../../mobx/model/vaults/badger-sett';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { hasBalance } from '../utils';
+import { TokenDistribution } from './TokenDistribution';
+import HelpIcon from '@material-ui/icons/Help';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
 	settInfoTitle: {
 		fontSize: 24,
 		fontWeight: 500,
+	},
+	helpIcon: {
+		fontSize: 16,
+		marginLeft: theme.spacing(0.5),
+		color: 'rgba(255, 255, 255, 0.3)',
 	},
 }));
 
@@ -53,11 +60,16 @@ export const Holdings = observer(
 				<Grid container spacing={1}>
 					<Grid item xs={12} sm>
 						<HoldingItem
-							name="Total Balance"
+							name="Your Sett Vault’s Total"
 							logo={logo}
 							balance={balance}
 							value={value}
 							decimals={decimals}
+							helpIcon={
+								<Tooltip arrow placement="top" title={<TokenDistribution settBalance={settBalance} />}>
+									<HelpIcon className={classes.helpIcon} />
+								</Tooltip>
+							}
 						/>
 					</Grid>
 					<Grid item xs={12} sm>
