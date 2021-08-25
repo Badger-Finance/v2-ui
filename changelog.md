@@ -4,6 +4,7 @@
 
 -   Initial App refresh launched
 -   RenJS upgrade for Badger Bridge
+-   update user token distribution tooltip
 
 ### Hotfix - 08/17/2021
 
