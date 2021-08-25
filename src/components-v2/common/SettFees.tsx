@@ -75,7 +75,13 @@ export const SettFees = observer(
 				<div className={classes.titleContainer}>
 					<Typography>Fees</Typography>
 					{onHelpClick && (
-						<Tooltip color="primary" arrow placement="top" title="Click to see full description">
+						<Tooltip
+							enterTouchDelay={0}
+							color="primary"
+							arrow
+							placement="top"
+							title="Click to see full description"
+						>
 							<HelpIcon
 								className={classes.helpIcon}
 								onClick={onHelpClick}
