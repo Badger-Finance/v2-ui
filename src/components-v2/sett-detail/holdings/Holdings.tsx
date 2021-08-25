@@ -66,7 +66,12 @@ export const Holdings = observer(
 							value={value}
 							decimals={decimals}
 							helpIcon={
-								<Tooltip arrow placement="top" title={<TokenDistribution settBalance={settBalance} />}>
+								<Tooltip
+									enterTouchDelay={0}
+									arrow
+									placement="top"
+									title={<TokenDistribution settBalance={settBalance} />}
+								>
 									<HelpIcon className={classes.helpIcon} />
 								</Tooltip>
 							}

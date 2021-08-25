@@ -17,10 +17,14 @@ const useStyles = makeStyles((theme) => ({
 		width: 18,
 		height: 18,
 		marginRight: theme.spacing(1),
+		border: '1px solid white',
+		borderRadius: '100%',
+		backgroundColor: 'white',
+		overflow: 'hidden',
 	},
 	icon: {
 		width: '100%',
-		height: '100%',
+		objectFit: 'contain',
 	},
 }));
 
