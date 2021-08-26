@@ -38,6 +38,7 @@ export const TokenDistributionItem = ({ tokenBalance }: Props): JSX.Element => {
 	const iconName = tokenBalance.symbol.toLowerCase().trim();
 	const icon = `/assets/icons/${iconName}.png`;
 	const decimalsAmount = tokenBalance.decimals || 18;
+	const displayAmount = numberWithCommas(formatWithoutExtraZeros(tokenBalance.balance, decimalsAmount));
 
 	return (
 		<Grid container alignItems="center" justify="space-between">
@@ -50,7 +51,7 @@ export const TokenDistributionItem = ({ tokenBalance }: Props): JSX.Element => {
 				</Typography>
 			</div>
 			<Typography display="inline" variant="body1" className={classes.tokenInfo}>
-				{numberWithCommas(formatWithoutExtraZeros(tokenBalance.balance, decimalsAmount))}
+				{displayAmount}
 			</Typography>
 		</Grid>
 	);
