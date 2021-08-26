@@ -17,7 +17,13 @@ const useStyles = makeStyles((theme) => ({
 	depositContainer: {
 		display: 'flex',
 		alignItems: 'center',
-		paddingLeft: theme.spacing(4),
+		[theme.breakpoints.up('sm')]: {
+			paddingLeft: theme.spacing(4),
+		},
+		[theme.breakpoints.down('xs')]: {
+			marginTop: theme.spacing(2),
+			justifyContent: 'center',
+		},
 	},
 	depositLink: {
 		textDecoration: 'underline',
