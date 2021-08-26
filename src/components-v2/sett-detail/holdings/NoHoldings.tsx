@@ -1,11 +1,12 @@
 import React from 'react';
-import { Grid, Link, Paper, Typography } from '@material-ui/core';
+import { Grid, Paper, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { SettActionButton } from '../../common/SettActionButtons';
 import { Sett } from '../../../mobx/model/setts/sett';
 import { BadgerSett } from '../../../mobx/model/vaults/badger-sett';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../../mobx/store-context';
+import DepositInfo from './DepositInfo';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -17,10 +18,13 @@ const useStyles = makeStyles((theme) => ({
 	depositContainer: {
 		display: 'flex',
 		alignItems: 'center',
-		paddingLeft: theme.spacing(4),
-	},
-	depositLink: {
-		textDecoration: 'underline',
+		[theme.breakpoints.up('sm')]: {
+			paddingLeft: theme.spacing(4),
+		},
+		[theme.breakpoints.down('xs')]: {
+			marginTop: theme.spacing(2),
+			justifyContent: 'center',
+		},
 	},
 }));
 
@@ -47,21 +51,7 @@ export const NoHoldings = observer(
 							{strategy.depositInstructions}
 						</Typography>
 					)}
-					{strategy.depositLink && (
-						<>
-							<Typography variant="body2" className={classes.description}>
-								You can obtain deposit tokens by using the following link:
-							</Typography>
-							<Link
-								className={classes.depositLink}
-								target="_blank"
-								rel="noreferrer"
-								href={strategy.depositLink}
-							>
-								Get Deposit Token
-							</Link>
-						</>
-					)}
+					<DepositInfo strategy={strategy} />
 				</Grid>
 				<Grid item xs={12} sm className={classes.depositContainer}>
 					<SettActionButton
