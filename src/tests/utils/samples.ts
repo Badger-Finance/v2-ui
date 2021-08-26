@@ -3,6 +3,8 @@ import slugify from 'slugify';
 import { Sett } from '../../mobx/model/setts/sett';
 import { BadgerSett } from '../../mobx/model/vaults/badger-sett';
 import { SettBalance } from '../../mobx/model/setts/sett-balance';
+import { TokenBalance } from '../../mobx/model/tokens/token-balance';
+import BigNumber from 'bignumber.js';
 
 export const SAMPLE_BADGER_SETT: BadgerSett = {
 	depositToken: {
@@ -137,3 +139,14 @@ export const SAMPLE_SETT_BALANCE: SettBalance = {
 	depositedBalance: 0.7407489634010854,
 	withdrawnBalance: 0.7408842294731371,
 };
+
+export const SAMPLE_TOKEN_BALANCE = new TokenBalance(
+	{
+		address: '0x075b1bb99792c9E1041bA13afEf80C91a1e70fB3',
+		name: 'Curve.fi renBTC/wBTC/sBTC',
+		symbol: 'curve-renBTC-wBTC-sBTC',
+		decimals: 18,
+	},
+	new BigNumber(2580.4779797767615),
+	new BigNumber(135697015.0445408),
+);
