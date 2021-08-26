@@ -25,6 +25,9 @@ export const TokenDistributionIcon = ({ settBalance }: Props): JSX.Element | nul
 
 	return (
 		<Tooltip
+			// not adding an id makes mui generate a random id on each render which breaks the tests snapshots
+			// see https://github.com/mui-org/material-ui/issues/21293
+			id="sett-token-distribution-tooltip"
 			aria-label="sett token distribution"
 			enterTouchDelay={0}
 			arrow
