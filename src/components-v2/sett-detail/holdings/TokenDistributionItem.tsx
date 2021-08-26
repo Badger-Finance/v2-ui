@@ -37,8 +37,7 @@ export const TokenDistributionItem = ({ tokenBalance }: Props): JSX.Element => {
 
 	const iconName = tokenBalance.symbol.toLowerCase().trim();
 	const icon = `/assets/icons/${iconName}.png`;
-	const decimalsAmount = tokenBalance.decimals || 18;
-	const displayAmount = numberWithCommas(formatWithoutExtraZeros(tokenBalance.balance, decimalsAmount));
+	const displayAmount = numberWithCommas(formatWithoutExtraZeros(tokenBalance.balance, 2));
 
 	return (
 		<Grid container alignItems="center" justify="space-between">
