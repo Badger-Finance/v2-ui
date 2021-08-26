@@ -1,0 +1,134 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Token Distribution Icon displays sett token distribution information on hover 1`] = `
+<body>
+   
+   
+  
+  
+  <div>
+    <svg
+      aria-describedby="mui-93082"
+      aria-hidden="true"
+      aria-label="sett token distribution"
+      class="MuiSvgIcon-root-13 makeStyles-helpIcon-1"
+      focusable="false"
+      viewBox="0 0 24 24"
+    >
+      <path
+        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"
+      />
+    </svg>
+  </div>
+  <div
+    class="MuiTooltip-popper-2 MuiTooltip-popperArrow-4"
+    id="mui-93082"
+    role="tooltip"
+    style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(NaNpx, NaNpx, 0);"
+    x-placement="top"
+  >
+    <div
+      class="MuiTooltip-tooltip-5 MuiTooltip-tooltipPlacementTop-11 MuiTooltip-tooltipArrow-6"
+      style="opacity: 1; transform: scale(1, 1); transition: opacity 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,transform 133ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+    >
+      <div
+        class="MuiGrid-root-25 makeStyles-root-22 MuiGrid-container-26"
+      >
+        <p
+          class="MuiTypography-root-128 makeStyles-title-23 MuiTypography-body1-130"
+        >
+          Token Distribution
+        </p>
+        <div
+          class="MuiGrid-root-25 makeStyles-content-24 MuiGrid-container-26"
+        >
+          <div
+            class="MuiGrid-root-25 MuiGrid-container-26 MuiGrid-align-items-xs-center-34 MuiGrid-justify-xs-space-between-45"
+          >
+            <div
+              class="makeStyles-tokenNameContainer-158"
+            >
+              <div
+                class="makeStyles-tokenIconContainer-160"
+              >
+                <img
+                  alt="token distribution item"
+                  class="makeStyles-icon-161"
+                  src="/assets/icons/renbtc.png"
+                />
+              </div>
+              <p
+                class="MuiTypography-root-128 makeStyles-tokenInfo-159 MuiTypography-body1-130 MuiTypography-displayInline-156"
+              >
+                renBTC
+              </p>
+            </div>
+            <p
+              class="MuiTypography-root-128 makeStyles-tokenInfo-159 MuiTypography-body1-130 MuiTypography-displayInline-156"
+            >
+              478.88017951
+            </p>
+          </div>
+          <div
+            class="MuiGrid-root-25 MuiGrid-container-26 MuiGrid-align-items-xs-center-34 MuiGrid-justify-xs-space-between-45"
+          >
+            <div
+              class="makeStyles-tokenNameContainer-158"
+            >
+              <div
+                class="makeStyles-tokenIconContainer-160"
+              >
+                <img
+                  alt="token distribution item"
+                  class="makeStyles-icon-161"
+                  src="/assets/icons/wbtc.png"
+                />
+              </div>
+              <p
+                class="MuiTypography-root-128 makeStyles-tokenInfo-159 MuiTypography-body1-130 MuiTypography-displayInline-156"
+              >
+                WBTC
+              </p>
+            </div>
+            <p
+              class="MuiTypography-root-128 makeStyles-tokenInfo-159 MuiTypography-body1-130 MuiTypography-displayInline-156"
+            >
+              472.09728496
+            </p>
+          </div>
+          <div
+            class="MuiGrid-root-25 MuiGrid-container-26 MuiGrid-align-items-xs-center-34 MuiGrid-justify-xs-space-between-45"
+          >
+            <div
+              class="makeStyles-tokenNameContainer-158"
+            >
+              <div
+                class="makeStyles-tokenIconContainer-160"
+              >
+                <img
+                  alt="token distribution item"
+                  class="makeStyles-icon-161"
+                  src="/assets/icons/sbtc.png"
+                />
+              </div>
+              <p
+                class="MuiTypography-root-128 makeStyles-tokenInfo-159 MuiTypography-body1-130 MuiTypography-displayInline-156"
+              >
+                sBTC
+              </p>
+            </div>
+            <p
+              class="MuiTypography-root-128 makeStyles-tokenInfo-159 MuiTypography-body1-130 MuiTypography-displayInline-156"
+            >
+              337.6574109700648
+            </p>
+          </div>
+        </div>
+      </div>
+      <span
+        class="MuiTooltip-arrow-7"
+      />
+    </div>
+  </div>
+</body>
+`;

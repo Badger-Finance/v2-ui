@@ -24,7 +24,13 @@ export const TokenDistributionIcon = ({ settBalance }: Props): JSX.Element | nul
 	}
 
 	return (
-		<Tooltip enterTouchDelay={0} arrow placement="top" title={<TokenDistribution settBalance={settBalance} />}>
+		<Tooltip
+			aria-label="sett token distribution"
+			enterTouchDelay={0}
+			arrow
+			placement="top"
+			title={<TokenDistribution settBalance={settBalance} />}
+		>
 			<HelpIcon className={classes.helpIcon} />
 		</Tooltip>
 	);
