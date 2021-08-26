@@ -42,18 +42,20 @@ interface Props {
 	balance: BigNumber.Value;
 	value: BigNumber.Value;
 	decimals: number;
+	helpIcon?: React.ReactNode;
 }
 
 const displayUsdBalance = (value: BigNumber.Value) => `~$${numberWithCommas(formatWithoutExtraZeros(value, 2))}`;
 
 export const HoldingItem = observer(
-	({ name, logo, balance, value, decimals }: Props): JSX.Element => {
+	({ name, logo, balance, value, decimals, helpIcon }: Props): JSX.Element => {
 		const classes = useStyles();
 
 		return (
 			<Paper className={classes.cardContainer}>
 				<div className={classes.titleContainer}>
 					<Typography className={classes.holdingsName}>{name}</Typography>
+					{helpIcon}
 				</div>
 				<Divider />
 				<Grid container className={classes.amountsContainer}>

@@ -30,7 +30,7 @@ export const MobileStickyActionButtons = (): JSX.Element => {
 					<SettActionButton
 						fullWidth
 						color="primary"
-						variant={canUserDeposit ? 'outlined' : 'contained'}
+						variant={canUserDeposit ? 'contained' : 'outlined'}
 						disabled={!canUserDeposit}
 						onClick={() => settDetail.toggleDepositDialog()}
 					>

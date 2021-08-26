@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from 'mobx/store-context';
-import { Grid, Dialog, Typography, DialogContent } from '@material-ui/core';
+import { Grid, Dialog, Typography, DialogContent, Button } from '@material-ui/core';
 import { BadgerSett } from 'mobx/model/vaults/badger-sett';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { useNumericInput } from 'utils/useNumericInput';
@@ -16,6 +16,7 @@ import { SettState } from '../../../mobx/model/setts/sett-state';
 import { NewVaultWarning } from '../../sett-detail/NewVaultWarning';
 import { DepositFeesInformation } from '../DepositFeesInformation';
 import { SettFees } from '../SettFees';
+import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
 
 const useStyles = makeStyles((theme) => ({
 	content: {
@@ -26,6 +27,16 @@ const useStyles = makeStyles((theme) => ({
 	},
 	fees: {
 		marginTop: theme.spacing(2),
+	},
+	backButton: {
+		display: 'flex',
+		alignItems: 'center',
+		textTransform: 'none',
+	},
+	arrowIcon: {
+		marginRight: 4,
+		fontSize: 16,
+		transform: 'rotate(-180deg)',
 	},
 }));
 
@@ -73,7 +84,14 @@ export const SettDeposit = observer(({ open = false, sett, badgerSett, onClose }
 	if (showFees) {
 		return (
 			<Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
-				<DepositFeesInformation onBackClick={() => setShowFees(false)} />
+				<DepositFeesInformation
+					closeIcon={
+						<Button color="primary" onClick={() => setShowFees(false)} className={classes.backButton}>
+							<ArrowRightAltIcon className={classes.arrowIcon} />
+							Back
+						</Button>
+					}
+				/>
 			</Dialog>
 		);
 	}
