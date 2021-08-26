@@ -27,7 +27,7 @@ export const TokenDistribution = ({ settBalance }: Props): JSX.Element => {
 	return (
 		<Grid container className={classes.root}>
 			<Typography variant="body1" className={classes.title}>
-				Your Token Distribution
+				Token Distribution
 			</Typography>
 			<Grid container className={classes.content}>
 				{settBalance.tokens.map((token, index) => (
