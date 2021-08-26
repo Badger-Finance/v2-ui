@@ -33,6 +33,7 @@ exports[`Breadcrumb displays holdings with balance 1`] = `
             </p>
             <svg
               aria-hidden="true"
+              aria-label="sett token distribution"
               class="MuiSvgIcon-root-183 makeStyles-helpIcon-171"
               focusable="false"
               viewBox="0 0 24 24"
@@ -163,6 +164,7 @@ exports[`Breadcrumb displays holdings with no balance 1`] = `
             </p>
             <svg
               aria-hidden="true"
+              aria-label="sett token distribution"
               class="MuiSvgIcon-root-183 makeStyles-helpIcon-171"
               focusable="false"
               viewBox="0 0 24 24"

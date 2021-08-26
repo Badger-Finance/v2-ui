@@ -8,7 +8,7 @@ exports[`Token Distribution Icon displays sett token distribution information on
   
   <div>
     <svg
-      aria-describedby="mui-93082"
+      aria-describedby="mui-31526"
       aria-hidden="true"
       aria-label="sett token distribution"
       class="MuiSvgIcon-root-13 makeStyles-helpIcon-1"
@@ -22,7 +22,7 @@ exports[`Token Distribution Icon displays sett token distribution information on
   </div>
   <div
     class="MuiTooltip-popper-2 MuiTooltip-popperArrow-4"
-    id="mui-93082"
+    id="mui-31526"
     role="tooltip"
     style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(NaNpx, NaNpx, 0);"
     x-placement="top"
