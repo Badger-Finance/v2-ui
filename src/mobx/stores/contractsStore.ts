@@ -13,11 +13,13 @@ import { action, extendObservable } from 'mobx';
 import { Sett } from '../model/setts/sett';
 import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
 
+type ProgressTracker = Record<string, boolean>;
+
 class ContractsStore {
 	private store!: RootStore;
-	public settsBeingDeposited: Sett[] = [];
-	public settsBeingUnstaked: Sett[] = [];
-	public settsBeingWithdrawn: Sett[] = [];
+	public settsBeingDeposited: ProgressTracker = {};
+	public settsBeingUnstaked: ProgressTracker = {};
+	public settsBeingWithdrawn: ProgressTracker = {};
 
 	constructor(store: RootStore) {
 		this.store = store;
@@ -155,16 +157,16 @@ class ContractsStore {
 			.send(options)
 			.on('transactionHash', (_hash: string) => {
 				queueNotification('Unstake transaction submitted', 'info', _hash);
-				this.settsBeingUnstaked.push(sett);
+				this.settsBeingUnstaked[sett.vaultToken] = true;
 			})
 			.on('receipt', () => {
 				queueNotification(`Successfully unstaked ${unstakeAmount}`, 'info');
-				this.settsBeingUnstaked = this.settsBeingUnstaked.filter((_sett) => _sett.name !== sett.name);
+				this.settsBeingUnstaked[sett.vaultToken] = false;
 				this.store.user.updateBalances();
 			})
 			.on('error', (error: Error) => {
 				queueNotification(error.message, 'error');
-				this.settsBeingUnstaked = this.settsBeingUnstaked.filter((_sett) => _sett.name !== sett.name);
+				this.settsBeingUnstaked[sett.vaultToken] = false;
 			});
 	};
 
@@ -215,17 +217,17 @@ class ContractsStore {
 			await method
 				.send(options)
 				.on('transactionHash', (_hash: string) => {
-					this.settsBeingDeposited.push(sett);
+					this.settsBeingDeposited[sett.vaultToken] = true;
 					queueNotification('Deposing transaction submitted', 'info', _hash);
 				})
 				.on('receipt', () => {
 					queueNotification(`Successfully deposited ${depositAmount}`, 'info');
-					this.settsBeingDeposited = this.settsBeingDeposited.filter((_sett) => _sett.name !== sett.name);
+					this.settsBeingDeposited[sett.vaultToken] = false;
 					this.store.user.updateBalances();
 				})
 				.on('error', (error: Error) => {
 					queueNotification(error.message, 'error');
-					this.settsBeingDeposited = this.settsBeingDeposited.filter((_sett) => _sett.name !== sett.name);
+					this.settsBeingDeposited[sett.vaultToken] = false;
 				});
 		},
 	);
@@ -251,16 +253,16 @@ class ContractsStore {
 				.send(options)
 				.on('transactionHash', (_hash: string) => {
 					queueNotification('Withdraw transaction submitted', 'info', _hash);
-					this.settsBeingWithdrawn.push(sett);
+					this.settsBeingWithdrawn[sett.vaultToken] = true;
 				})
 				.on('receipt', () => {
 					queueNotification(`Successfully withdrew ${withdrawAmount}`, 'info');
-					this.settsBeingWithdrawn = this.settsBeingWithdrawn.filter((_sett) => _sett.name !== sett.name);
+					this.settsBeingWithdrawn[sett.vaultToken] = false;
 					this.store.user.updateBalances();
 				})
 				.on('error', (error: Error) => {
 					queueNotification(error.message, 'error');
-					this.settsBeingWithdrawn = this.settsBeingWithdrawn.filter((_sett) => _sett.name !== sett.name);
+					this.settsBeingWithdrawn[sett.vaultToken] = false;
 				});
 		},
 	);

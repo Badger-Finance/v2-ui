@@ -1,0 +1,670 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Sett Deposit can go back from full fees descriptions  1`] = `
+<body
+  style="padding-right: 0px; overflow: hidden;"
+>
+   
+   
+  
+  
+  <div
+    aria-hidden="true"
+  />
+  <div
+    class="MuiDialog-root-6"
+    role="presentation"
+    style="position: fixed; z-index: 1300; right: 0px; bottom: 0px; top: 0px; left: 0px;"
+  >
+    <div
+      aria-hidden="true"
+      class="MuiBackdrop-root-21"
+      style="opacity: 1; webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+    />
+    <div
+      data-test="sentinelStart"
+      tabindex="0"
+    />
+    <div
+      class="MuiDialog-container-9 MuiDialog-scrollPaper-7"
+      role="none presentation"
+      style="opacity: 1; webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+      tabindex="-1"
+    >
+      <div
+        class="MuiPaper-root-23 MuiDialog-paper-10 MuiDialog-paperScrollPaper-11 MuiDialog-paperWidthSm-15 MuiDialog-paperFullWidth-19 MuiPaper-elevation24-50 MuiPaper-rounded-24"
+        role="dialog"
+      >
+        <div
+          class="MuiDialogTitle-root-356 makeStyles-root-352"
+        >
+          <h2
+            class="MuiTypography-root-56 MuiTypography-h6-66"
+          >
+            <div
+              class="MuiGrid-root-86 MuiGrid-container-87 MuiGrid-align-items-xs-center-95"
+            >
+              <div
+                class="MuiGrid-root-86 makeStyles-logoContainer-355 MuiGrid-item-88"
+              >
+                <img
+                  alt="Badger Curve.fi renBTC/wBTC/sBTC Vault Symbol"
+                  class="makeStyles-settLogo-354"
+                  src="/assets/icons/sbtccrv.png"
+                />
+              </div>
+              <div
+                class="MuiGrid-root-86 MuiGrid-item-88"
+              >
+                <p
+                  class="MuiTypography-root-56 makeStyles-mode-353 MuiTypography-body1-58 MuiTypography-colorTextSecondary-82"
+                >
+                  Deposit
+                </p>
+                <p
+                  class="MuiTypography-root-56 MuiTypography-body1-58 MuiTypography-colorTextPrimary-81"
+                >
+                  Curve.fi renBTC/wBTC/sBTC
+                </p>
+              </div>
+            </div>
+          </h2>
+        </div>
+        <div
+          class="MuiDialogContent-root-357 makeStyles-content-1 MuiDialogContent-dividers-358"
+        >
+          <div
+            class="MuiGrid-root-86 MuiGrid-container-87 MuiGrid-align-items-xs-center-95"
+          >
+            <div
+              class="MuiGrid-root-86 MuiGrid-item-88 MuiGrid-grid-xs-12-132 MuiGrid-grid-sm-6-140"
+            >
+              <p
+                class="MuiTypography-root-56 MuiTypography-body1-58 MuiTypography-colorTextSecondary-82"
+              >
+                Available: 0.000000000000000000
+              </p>
+            </div>
+            <div
+              class="MuiGrid-root-86 WithStyles(ForwardRef(Grid))-root-359 WithStyles(ForwardRef(Grid))-root-360 MuiGrid-item-88 MuiGrid-grid-xs-12-132 MuiGrid-grid-sm-6-140"
+            >
+              <div
+                class="MuiButtonGroup-root-361"
+                role="group"
+              >
+                <button
+                  aria-label="25%"
+                  class="MuiButtonBase-root-246 MuiButton-root-217 MuiButton-outlined-222 MuiButtonGroup-grouped-367 MuiButtonGroup-groupedHorizontal-368 MuiButtonGroup-groupedOutlined-375 MuiButtonGroup-groupedOutlinedHorizontal-376 MuiButtonGroup-groupedOutlined-375 MuiButton-outlinedSizeSmall-234 MuiButton-sizeSmall-238"
+                  tabindex="0"
+                  type="button"
+                >
+                  <span
+                    class="MuiButton-label-218"
+                  >
+                    25
+                    %
+                  </span>
+                  <span
+                    class="MuiTouchRipple-root-448"
+                  />
+                </button>
+                <button
+                  aria-label="50%"
+                  class="MuiButtonBase-root-246 MuiButton-root-217 MuiButton-outlined-222 MuiButtonGroup-grouped-367 MuiButtonGroup-groupedHorizontal-368 MuiButtonGroup-groupedOutlined-375 MuiButtonGroup-groupedOutlinedHorizontal-376 MuiButtonGroup-groupedOutlined-375 MuiButton-outlinedSizeSmall-234 MuiButton-sizeSmall-238"
+                  tabindex="0"
+                  type="button"
+                >
+                  <span
+                    class="MuiButton-label-218"
+                  >
+                    50
+                    %
+                  </span>
+                  <span
+                    class="MuiTouchRipple-root-448"
+                  />
+                </button>
+                <button
+                  aria-label="75%"
+                  class="MuiButtonBase-root-246 MuiButton-root-217 MuiButton-outlined-222 MuiButtonGroup-grouped-367 MuiButtonGroup-groupedHorizontal-368 MuiButtonGroup-groupedOutlined-375 MuiButtonGroup-groupedOutlinedHorizontal-376 MuiButtonGroup-groupedOutlined-375 MuiButton-outlinedSizeSmall-234 MuiButton-sizeSmall-238"
+                  tabindex="0"
+                  type="button"
+                >
+                  <span
+                    class="MuiButton-label-218"
+                  >
+                    75
+                    %
+                  </span>
+                  <span
+                    class="MuiTouchRipple-root-448"
+                  />
+                </button>
+                <button
+                  aria-label="100%"
+                  class="MuiButtonBase-root-246 MuiButton-root-217 MuiButton-outlined-222 MuiButtonGroup-grouped-367 MuiButtonGroup-groupedHorizontal-368 MuiButtonGroup-groupedOutlined-375 MuiButtonGroup-groupedOutlinedHorizontal-376 MuiButtonGroup-groupedOutlined-375 MuiButton-outlinedSizeSmall-234 MuiButton-sizeSmall-238"
+                  tabindex="0"
+                  type="button"
+                >
+                  <span
+                    class="MuiButton-label-218"
+                  >
+                    100
+                    %
+                  </span>
+                  <span
+                    class="MuiTouchRipple-root-448"
+                  />
+                </button>
+              </div>
+            </div>
+          </div>
+          <div
+            class="MuiFormControl-root-388 MuiTextField-root-387 WithStyles(ForwardRef(TextField))-root-385 WithStyles(ForwardRef(TextField))-root-386 MuiFormControl-fullWidth-391"
+          >
+            <div
+              class="MuiInputBase-root-407 MuiOutlinedInput-root-392 MuiInputBase-fullWidth-417 MuiInputBase-formControl-408"
+            >
+              <input
+                aria-invalid="false"
+                autocomplete="off"
+                class="MuiInputBase-input-418 MuiOutlinedInput-input-402"
+                inputmode="decimal"
+                maxlength="79"
+                minlength="1"
+                pattern="^[0-9]*[.,]?[0-9]*$"
+                placeholder="Type an amount to deposit"
+                spellcheck="false"
+                style="text-align: right;"
+                type="text"
+                value=""
+              />
+              <fieldset
+                aria-hidden="true"
+                class="PrivateNotchedOutline-root-425 MuiOutlinedInput-notchedOutline-401"
+                style="padding-left: 8px;"
+              >
+                <legend
+                  class="PrivateNotchedOutline-legend-426"
+                  style="width: 0.01px;"
+                >
+                  <span>
+                    ​
+                  </span>
+                </legend>
+              </fieldset>
+            </div>
+          </div>
+          <div
+            class="makeStyles-fees-3"
+          >
+            <div
+              class="makeStyles-titleContainer-431"
+            >
+              <p
+                class="MuiTypography-root-56 MuiTypography-body1-58"
+              >
+                Fees
+              </p>
+              <svg
+                aria-hidden="true"
+                aria-label="see fees descriptions"
+                class="MuiSvgIcon-root-309 makeStyles-helpIcon-433 MuiSvgIcon-colorPrimary-310"
+                focusable="false"
+                title="Click to see full description"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"
+                />
+              </svg>
+            </div>
+            <hr
+              class="MuiDivider-root-318 makeStyles-divider-430"
+            />
+            <div
+              class="MuiGrid-root-86 MuiGrid-container-87"
+            >
+              <div
+                class="MuiGrid-root-86 MuiGrid-container-87 MuiGrid-justify-xs-space-between-106"
+              >
+                <p
+                  class="MuiTypography-root-56 makeStyles-specName-445 MuiTypography-body1-58 MuiTypography-colorTextSecondary-82 MuiTypography-displayInline-84"
+                >
+                  DAO Performance Fee
+                </p>
+                <h6
+                  class="MuiTypography-root-56 MuiTypography-subtitle2-68 MuiTypography-displayInline-84"
+                >
+                  10%
+                </h6>
+              </div>
+              <div
+                class="MuiGrid-root-86 MuiGrid-container-87 MuiGrid-justify-xs-space-between-106"
+              >
+                <p
+                  class="MuiTypography-root-56 makeStyles-specName-445 MuiTypography-body1-58 MuiTypography-colorTextSecondary-82 MuiTypography-displayInline-84"
+                >
+                  Withdraw Fee
+                </p>
+                <h6
+                  class="MuiTypography-root-56 MuiTypography-subtitle2-68 MuiTypography-displayInline-84"
+                >
+                  0.5%
+                </h6>
+              </div>
+            </div>
+          </div>
+          <button
+            aria-label="Deposit"
+            class="MuiButtonBase-root-246 MuiButton-root-217 MuiButton-contained-225 WithStyles(ForwardRef(Button))-root-446 WithStyles(ForwardRef(Button))-root-447 MuiButton-containedPrimary-226 MuiButton-containedSizeLarge-237 MuiButton-sizeLarge-239 MuiButton-disabled-230 MuiButton-fullWidth-240 MuiButtonBase-disabled-247"
+            disabled=""
+            tabindex="-1"
+            type="button"
+          >
+            <span
+              class="MuiButton-label-218"
+            >
+              Deposit
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div
+      data-test="sentinelEnd"
+      tabindex="0"
+    />
+  </div>
+</body>
+`;
+
+exports[`Sett Deposit can see full fees descriptions  1`] = `
+<body
+  style="padding-right: 0px; overflow: hidden;"
+>
+   
+   
+  
+  
+  <div
+    aria-hidden="true"
+  />
+  <div
+    class="MuiDialog-root-6"
+    role="presentation"
+    style="position: fixed; z-index: 1300; right: 0px; bottom: 0px; top: 0px; left: 0px;"
+  >
+    <div
+      aria-hidden="true"
+      class="MuiBackdrop-root-21"
+      style="opacity: 1; webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+    />
+    <div
+      data-test="sentinelStart"
+      tabindex="0"
+    />
+    <div
+      class="MuiDialog-container-9 MuiDialog-scrollPaper-7"
+      role="none presentation"
+      style="opacity: 1; webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+      tabindex="-1"
+    >
+      <div
+        class="MuiPaper-root-23 MuiDialog-paper-10 MuiDialog-paperScrollPaper-11 MuiDialog-paperWidthSm-15 MuiDialog-paperFullWidth-19 MuiPaper-elevation24-50 MuiPaper-rounded-24"
+        role="dialog"
+      >
+        <div
+          class="MuiGrid-root-86 makeStyles-root-338 MuiGrid-container-87"
+        >
+          <div
+            class="MuiGrid-root-86 MuiGrid-container-87 MuiGrid-align-items-xs-center-95 MuiGrid-justify-xs-space-between-106"
+          >
+            <p
+              class="MuiTypography-root-56 makeStyles-title-339 MuiTypography-body1-58 MuiTypography-displayInline-84"
+            >
+              Fee Information
+            </p>
+            <button
+              class="MuiButtonBase-root-246 MuiButton-root-217 MuiButton-text-219 makeStyles-backButton-4 MuiButton-textPrimary-220"
+              tabindex="0"
+              type="button"
+            >
+              <span
+                class="MuiButton-label-218"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root-309 makeStyles-arrowIcon-5"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M16.01 11H4v2h12.01v3L20 12l-3.99-4z"
+                  />
+                </svg>
+                Back
+              </span>
+              <span
+                class="MuiTouchRipple-root-342"
+              />
+            </button>
+          </div>
+          <div
+            class="makeStyles-content-340"
+          >
+            <p
+              class="MuiTypography-root-56 MuiTypography-body1-58 MuiTypography-colorTextSecondary-82"
+            >
+              Fees are charged on certain Sett Vaults, and are sent to the BadgerDAO treasury, or shared with the strategist who wrote the vault strategy.
+            </p>
+            <hr
+              class="MuiDivider-root-318 makeStyles-divider-341"
+            />
+            <div>
+              <p
+                class="MuiTypography-root-56 MuiTypography-body2-57 MuiTypography-colorTextSecondary-82"
+              >
+                - Performance Fees are assessed on the profit that the strategy creates
+              </p>
+              <p
+                class="MuiTypography-root-56 MuiTypography-body2-57 MuiTypography-colorTextSecondary-82"
+              >
+                - Management Fees are charged on the entire principal over the course of a year
+              </p>
+              <p
+                class="MuiTypography-root-56 MuiTypography-body2-57 MuiTypography-colorTextSecondary-82"
+              >
+                - Both Performance and Management Fees are factored into all ROI calculations
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      data-test="sentinelEnd"
+      tabindex="0"
+    />
+  </div>
+</body>
+`;
+
+exports[`Sett Deposit displays sett information 1`] = `
+<body
+  style="padding-right: 0px; overflow: hidden;"
+>
+   
+   
+  
+  
+  <div
+    aria-hidden="true"
+  />
+  <div
+    class="MuiDialog-root-6"
+    role="presentation"
+    style="position: fixed; z-index: 1300; right: 0px; bottom: 0px; top: 0px; left: 0px;"
+  >
+    <div
+      aria-hidden="true"
+      class="MuiBackdrop-root-21"
+      style="opacity: 1; webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+    />
+    <div
+      data-test="sentinelStart"
+      tabindex="0"
+    />
+    <div
+      class="MuiDialog-container-9 MuiDialog-scrollPaper-7"
+      role="none presentation"
+      style="opacity: 1; webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+      tabindex="-1"
+    >
+      <div
+        class="MuiPaper-root-23 MuiDialog-paper-10 MuiDialog-paperScrollPaper-11 MuiDialog-paperWidthSm-15 MuiDialog-paperFullWidth-19 MuiPaper-elevation24-50 MuiPaper-rounded-24"
+        role="dialog"
+      >
+        <div
+          class="MuiDialogTitle-root-55 makeStyles-root-51"
+        >
+          <h2
+            class="MuiTypography-root-56 MuiTypography-h6-66"
+          >
+            <div
+              class="MuiGrid-root-86 MuiGrid-container-87 MuiGrid-align-items-xs-center-95"
+            >
+              <div
+                class="MuiGrid-root-86 makeStyles-logoContainer-54 MuiGrid-item-88"
+              >
+                <img
+                  alt="Badger Curve.fi renBTC/wBTC/sBTC Vault Symbol"
+                  class="makeStyles-settLogo-53"
+                  src="/assets/icons/sbtccrv.png"
+                />
+              </div>
+              <div
+                class="MuiGrid-root-86 MuiGrid-item-88"
+              >
+                <p
+                  class="MuiTypography-root-56 makeStyles-mode-52 MuiTypography-body1-58 MuiTypography-colorTextSecondary-82"
+                >
+                  Deposit
+                </p>
+                <p
+                  class="MuiTypography-root-56 MuiTypography-body1-58 MuiTypography-colorTextPrimary-81"
+                >
+                  Curve.fi renBTC/wBTC/sBTC
+                </p>
+              </div>
+            </div>
+          </h2>
+        </div>
+        <div
+          class="MuiDialogContent-root-189 makeStyles-content-1 MuiDialogContent-dividers-190"
+        >
+          <div
+            class="MuiGrid-root-86 MuiGrid-container-87 MuiGrid-align-items-xs-center-95"
+          >
+            <div
+              class="MuiGrid-root-86 MuiGrid-item-88 MuiGrid-grid-xs-12-132 MuiGrid-grid-sm-6-140"
+            >
+              <p
+                class="MuiTypography-root-56 MuiTypography-body1-58 MuiTypography-colorTextSecondary-82"
+              >
+                Available: 0.000000000000000000
+              </p>
+            </div>
+            <div
+              class="MuiGrid-root-86 WithStyles(ForwardRef(Grid))-root-191 WithStyles(ForwardRef(Grid))-root-192 MuiGrid-item-88 MuiGrid-grid-xs-12-132 MuiGrid-grid-sm-6-140"
+            >
+              <div
+                class="MuiButtonGroup-root-193"
+                role="group"
+              >
+                <button
+                  aria-label="25%"
+                  class="MuiButtonBase-root-246 MuiButton-root-217 MuiButton-outlined-222 MuiButtonGroup-grouped-199 MuiButtonGroup-groupedHorizontal-200 MuiButtonGroup-groupedOutlined-207 MuiButtonGroup-groupedOutlinedHorizontal-208 MuiButtonGroup-groupedOutlined-207 MuiButton-outlinedSizeSmall-234 MuiButton-sizeSmall-238"
+                  tabindex="0"
+                  type="button"
+                >
+                  <span
+                    class="MuiButton-label-218"
+                  >
+                    25
+                    %
+                  </span>
+                  <span
+                    class="MuiTouchRipple-root-328"
+                  />
+                </button>
+                <button
+                  aria-label="50%"
+                  class="MuiButtonBase-root-246 MuiButton-root-217 MuiButton-outlined-222 MuiButtonGroup-grouped-199 MuiButtonGroup-groupedHorizontal-200 MuiButtonGroup-groupedOutlined-207 MuiButtonGroup-groupedOutlinedHorizontal-208 MuiButtonGroup-groupedOutlined-207 MuiButton-outlinedSizeSmall-234 MuiButton-sizeSmall-238"
+                  tabindex="0"
+                  type="button"
+                >
+                  <span
+                    class="MuiButton-label-218"
+                  >
+                    50
+                    %
+                  </span>
+                  <span
+                    class="MuiTouchRipple-root-328"
+                  />
+                </button>
+                <button
+                  aria-label="75%"
+                  class="MuiButtonBase-root-246 MuiButton-root-217 MuiButton-outlined-222 MuiButtonGroup-grouped-199 MuiButtonGroup-groupedHorizontal-200 MuiButtonGroup-groupedOutlined-207 MuiButtonGroup-groupedOutlinedHorizontal-208 MuiButtonGroup-groupedOutlined-207 MuiButton-outlinedSizeSmall-234 MuiButton-sizeSmall-238"
+                  tabindex="0"
+                  type="button"
+                >
+                  <span
+                    class="MuiButton-label-218"
+                  >
+                    75
+                    %
+                  </span>
+                  <span
+                    class="MuiTouchRipple-root-328"
+                  />
+                </button>
+                <button
+                  aria-label="100%"
+                  class="MuiButtonBase-root-246 MuiButton-root-217 MuiButton-outlined-222 MuiButtonGroup-grouped-199 MuiButtonGroup-groupedHorizontal-200 MuiButtonGroup-groupedOutlined-207 MuiButtonGroup-groupedOutlinedHorizontal-208 MuiButtonGroup-groupedOutlined-207 MuiButton-outlinedSizeSmall-234 MuiButton-sizeSmall-238"
+                  tabindex="0"
+                  type="button"
+                >
+                  <span
+                    class="MuiButton-label-218"
+                  >
+                    100
+                    %
+                  </span>
+                  <span
+                    class="MuiTouchRipple-root-328"
+                  />
+                </button>
+              </div>
+            </div>
+          </div>
+          <div
+            class="MuiFormControl-root-252 MuiTextField-root-251 WithStyles(ForwardRef(TextField))-root-249 WithStyles(ForwardRef(TextField))-root-250 MuiFormControl-fullWidth-255"
+          >
+            <div
+              class="MuiInputBase-root-271 MuiOutlinedInput-root-256 MuiInputBase-fullWidth-281 MuiInputBase-formControl-272"
+            >
+              <input
+                aria-invalid="false"
+                autocomplete="off"
+                class="MuiInputBase-input-282 MuiOutlinedInput-input-266"
+                inputmode="decimal"
+                maxlength="79"
+                minlength="1"
+                pattern="^[0-9]*[.,]?[0-9]*$"
+                placeholder="Type an amount to deposit"
+                spellcheck="false"
+                style="text-align: right;"
+                type="text"
+                value=""
+              />
+              <fieldset
+                aria-hidden="true"
+                class="PrivateNotchedOutline-root-289 MuiOutlinedInput-notchedOutline-265"
+                style="padding-left: 8px;"
+              >
+                <legend
+                  class="PrivateNotchedOutline-legend-290"
+                  style="width: 0.01px;"
+                >
+                  <span>
+                    ​
+                  </span>
+                </legend>
+              </fieldset>
+            </div>
+          </div>
+          <div
+            class="makeStyles-fees-3"
+          >
+            <div
+              class="makeStyles-titleContainer-295"
+            >
+              <p
+                class="MuiTypography-root-56 MuiTypography-body1-58"
+              >
+                Fees
+              </p>
+              <svg
+                aria-hidden="true"
+                aria-label="see fees descriptions"
+                class="MuiSvgIcon-root-309 makeStyles-helpIcon-297 MuiSvgIcon-colorPrimary-310"
+                focusable="false"
+                title="Click to see full description"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"
+                />
+              </svg>
+            </div>
+            <hr
+              class="MuiDivider-root-318 makeStyles-divider-294"
+            />
+            <div
+              class="MuiGrid-root-86 MuiGrid-container-87"
+            >
+              <div
+                class="MuiGrid-root-86 MuiGrid-container-87 MuiGrid-justify-xs-space-between-106"
+              >
+                <p
+                  class="MuiTypography-root-56 makeStyles-specName-325 MuiTypography-body1-58 MuiTypography-colorTextSecondary-82 MuiTypography-displayInline-84"
+                >
+                  DAO Performance Fee
+                </p>
+                <h6
+                  class="MuiTypography-root-56 MuiTypography-subtitle2-68 MuiTypography-displayInline-84"
+                >
+                  10%
+                </h6>
+              </div>
+              <div
+                class="MuiGrid-root-86 MuiGrid-container-87 MuiGrid-justify-xs-space-between-106"
+              >
+                <p
+                  class="MuiTypography-root-56 makeStyles-specName-325 MuiTypography-body1-58 MuiTypography-colorTextSecondary-82 MuiTypography-displayInline-84"
+                >
+                  Withdraw Fee
+                </p>
+                <h6
+                  class="MuiTypography-root-56 MuiTypography-subtitle2-68 MuiTypography-displayInline-84"
+                >
+                  0.5%
+                </h6>
+              </div>
+            </div>
+          </div>
+          <button
+            aria-label="Deposit"
+            class="MuiButtonBase-root-246 MuiButton-root-217 MuiButton-contained-225 WithStyles(ForwardRef(Button))-root-326 WithStyles(ForwardRef(Button))-root-327 MuiButton-containedPrimary-226 MuiButton-containedSizeLarge-237 MuiButton-sizeLarge-239 MuiButton-disabled-230 MuiButton-fullWidth-240 MuiButtonBase-disabled-247"
+            disabled=""
+            tabindex="-1"
+            type="button"
+          >
+            <span
+              class="MuiButton-label-218"
+            >
+              Deposit
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div
+      data-test="sentinelEnd"
+      tabindex="0"
+    />
+  </div>
+</body>
+`;

@@ -18,18 +18,20 @@ const useStyles = makeStyles((theme) => ({
 
 const SettListDisplay = observer((props: SettListViewProps) => {
 	const classes = useStyles();
-	const { onOpen, state } = props;
+	const { state } = props;
 	const store = useContext(StoreContext);
 	const {
 		setts,
-		uiState: { currency, period },
+		uiState: { period, currency },
 		network: { network },
 	} = store;
 
 	const currentSettMap = setts.getSettMap(state);
+
 	if (currentSettMap === undefined) {
 		return <Loader message={`Loading ${network.name} Setts...`} />;
 	}
+
 	if (currentSettMap === null) {
 		return (
 			<div className={classes.messageContainer}>
@@ -41,33 +43,20 @@ const SettListDisplay = observer((props: SettListViewProps) => {
 	const settListItems = network.settOrder
 		.map((contract) => {
 			const sett = currentSettMap[Web3.utils.toChecksumAddress(contract)];
+
 			if (!sett) {
 				return;
 			}
-			return (
-				<SettListItem
-					sett={sett}
-					key={sett.name}
-					currency={currency}
-					period={period}
-					onOpen={() => onOpen(sett)}
-				/>
-			);
+
+			return <SettListItem sett={sett} key={sett.name} currency={currency} period={period} />;
 		})
 		.filter(Boolean);
 
 	if (settListItems.length === 0) {
 		return <NoVaults state={state} network={network.name} />;
 	}
-	return (
-		<SettTable
-			title={'All Setts'}
-			displayValue={''}
-			tokenTitle={'Tokens'}
-			period={period}
-			settList={settListItems}
-		/>
-	);
+
+	return <SettTable title={'All Setts'} displayValue={''} period={period} settList={settListItems} />;
 });
 
 export default SettListDisplay;

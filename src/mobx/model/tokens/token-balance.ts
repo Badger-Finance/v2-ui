@@ -31,6 +31,13 @@ export class TokenBalance {
 		return new TokenBalance(token, amount, price);
 	}
 
+	static hasBalance(tokenBalance?: TokenBalance): boolean {
+		if (!tokenBalance) {
+			return false;
+		}
+		return tokenBalance.balance.gt(0);
+	}
+
 	get value(): BigNumber {
 		return this.balance.multipliedBy(this.price);
 	}
@@ -49,6 +56,7 @@ export class TokenBalance {
 		if (this.balance.gt(0) && this.balance.lt(minBalance(decimals))) {
 			return `< 0.${'0'.repeat(decimals - 1)}1`;
 		}
+
 		return this.balance.toFixed(decimals);
 	}
 

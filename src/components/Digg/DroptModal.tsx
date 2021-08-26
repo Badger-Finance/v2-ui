@@ -3,10 +3,10 @@ import { observer } from 'mobx-react-lite';
 import React, { useState, useContext } from 'react';
 import DroptModalItem from './DroptModalItem';
 import { StoreContext } from 'mobx/store-context';
-import { DEBUG } from 'config/constants';
 import { formatTokens } from 'mobx/utils/helpers';
 import { redemptionToLongToken } from 'config/system/rebase';
 import BigNumber from 'bignumber.js';
+import { DEBUG } from 'config/environment';
 
 const useStyles = makeStyles((theme) => ({
 	droptPaper: {

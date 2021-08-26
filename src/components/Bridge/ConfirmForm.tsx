@@ -72,7 +72,7 @@ export const ConfirmForm = ({
 				<div className={classes.info}>
 					<div>{title}</div>
 					<div style={{ paddingLeft: '10px' }}>
-						<Tooltip title={message}>
+						<Tooltip enterTouchDelay={0} title={message}>
 							<InfoIcon fontSize={'small'} />
 						</Tooltip>
 					</div>

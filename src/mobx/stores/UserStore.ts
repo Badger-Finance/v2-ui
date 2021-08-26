@@ -12,7 +12,7 @@ import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { BadgerSett } from 'mobx/model/vaults/badger-sett';
 import { BadgerToken, mockToken } from 'mobx/model/tokens/badger-token';
 import { CallResult } from 'web3/interface/call-result';
-import { DEBUG, ONE_MIN_MS, ZERO_ADDR } from 'config/constants';
+import { ONE_MIN_MS, ZERO_ADDR } from 'config/constants';
 import { UserBalanceCache } from 'mobx/model/account/user-balance-cache';
 import { CachedUserBalances } from 'mobx/model/account/cached-user-balances';
 import { createBatchCallRequest } from 'web3/config/config-utils';
@@ -22,6 +22,10 @@ import { Account } from '../model/account/account';
 import { RewardMerkleClaim } from '../model/rewards/reward-merkle-claim';
 import { UserPermissions } from '../model/account/userPermissions';
 import { NetworkStore } from './NetworkStore';
+import { DEBUG } from 'config/environment';
+import { Sett } from 'mobx/model/setts/sett';
+import { defaultSettBalance } from 'components-v2/sett-detail/utils';
+import { SettBalance } from 'mobx/model/setts/sett-balance';
 
 export default class UserStore {
 	private store!: RootStore;
@@ -151,6 +155,27 @@ export default class UserStore {
 		}
 
 		return !this.loadingBalances && hasTokens && hasSetts && hasGeysers;
+	}
+
+	getSettBalance(sett: Sett): SettBalance {
+		const currentSettBalance = this.getTokenBalance(sett.underlyingToken);
+		let settBalance = this.accountDetails?.balances.find((settBalance) => settBalance.id === sett.vaultToken);
+
+		/**
+		 * settBalance data is populated via events from TheGraph and it is possible for it to be behind / fail.
+		 * As such, the app also has internally the state of user deposits. Should a settBalance not be available
+		 * for a user - this is likely because they have *just* deposited and their deposit does not show in the
+		 * graph yet.
+		 *
+		 * This override simulates a zero earnings settBalance and providers the proper currently deposited
+		 * underlying token amount in the expected downstream object.
+		 */
+		if (!settBalance) {
+			settBalance = defaultSettBalance(sett);
+			settBalance.balance = currentSettBalance.balance.toNumber() * sett.ppfs;
+		}
+
+		return settBalance;
 	}
 
 	getBalance(namespace: ContractNamespace, sett: BadgerSett): TokenBalance {

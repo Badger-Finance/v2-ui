@@ -1,8 +1,8 @@
 import LeaderboardAccountInformation from 'components-v2/leaderboard/LeaderboardAccountInformation';
+import { FLAGS } from 'config/environment';
 import store from 'mobx/RootStore';
 import React from 'react';
 import { TEST_ADDRESS, checkSnapshot } from 'tests/utils/snapshots';
-import { FLAGS } from '../../config/constants';
 
 describe('LeaderboardAccountInformation', () => {
 	beforeEach(() => {

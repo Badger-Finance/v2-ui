@@ -139,4 +139,14 @@ describe('token-balance', () => {
 			});
 		});
 	});
+
+	describe('hasBalance', () => {
+		it.each([
+			[undefined, false],
+			[randomTokenBalance(0), false],
+			[randomTokenBalance(1), true],
+		])('given input %p returns %s', (obj, res) => {
+			expect(TokenBalance.hasBalance(obj)).toBe(res);
+		});
+	});
 });
