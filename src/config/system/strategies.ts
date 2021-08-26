@@ -166,12 +166,6 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 				},
 				[deploy.sett_system.vaults['native.sushiWbtcEth']]: {
 					name: '',
-					description:
-						'Provide liquidity in Sushiswap WBTC/ETH pool and receive SLP tokens in return, which ' +
-						'represent your share of the pair. Deposit your SLP tokens in Badger protocol and get bSLP ' +
-						'tokens in return. 50% of rewards are automatically compounded as the bSLP/LP ratio increases ' +
-						'over time. LP tokens are deposited in Sushiswap’s Onsen. DIGG and xSushi incentive rewards ' +
-						'can be claimed in the dashboard.',
 					address: deploy.sett_system.strategies['native.sushiWbtcEth'],
 					fees: {
 						[StrategyFee.daoPerformance]: new BigNumber(1000),
