@@ -29,11 +29,11 @@ exports[`Breadcrumb displays holdings with balance 1`] = `
             <p
               class="MuiTypography-root-106 makeStyles-holdingsName-137 MuiTypography-body1-108"
             >
-              Your Sett Vault’s Total
+              Total Balance
             </p>
             <svg
               aria-hidden="true"
-              class="MuiSvgIcon-root-182 makeStyles-helpIcon-2"
+              class="MuiSvgIcon-root-183 makeStyles-helpIcon-171"
               focusable="false"
               viewBox="0 0 24 24"
             >
@@ -43,21 +43,21 @@ exports[`Breadcrumb displays holdings with balance 1`] = `
             </svg>
           </div>
           <hr
-            class="MuiDivider-root-191"
+            class="MuiDivider-root-192"
           />
           <div
             class="MuiGrid-root-3 makeStyles-amountsContainer-141 MuiGrid-container-4"
           >
             <div
-              class="MuiBox-root-198 MuiBox-root-199 makeStyles-amountText-142"
+              class="MuiBox-root-199 MuiBox-root-200 makeStyles-amountText-142"
             >
               <div
                 class="makeStyles-logoContainer-139"
               >
                 <img
-                  alt="Your Sett Vault’s Total holdings"
+                  alt="Total Balance holdings"
                   class="makeStyles-logo-140"
-                  src="/assets/icons/crvsbtc.png"
+                  src="/assets/icons/sbtccrv.png"
                 />
               </div>
               <div>
@@ -92,13 +92,13 @@ exports[`Breadcrumb displays holdings with balance 1`] = `
             </p>
           </div>
           <hr
-            class="MuiDivider-root-191"
+            class="MuiDivider-root-192"
           />
           <div
             class="MuiGrid-root-3 makeStyles-amountsContainer-141 MuiGrid-container-4"
           >
             <div
-              class="MuiBox-root-198 MuiBox-root-200 makeStyles-amountText-142"
+              class="MuiBox-root-199 MuiBox-root-201 makeStyles-amountText-142"
             >
               <div
                 class="makeStyles-logoContainer-139"
@@ -106,7 +106,7 @@ exports[`Breadcrumb displays holdings with balance 1`] = `
                 <img
                   alt="Total Earned holdings"
                   class="makeStyles-logo-140"
-                  src="/assets/icons/crvsbtc.png"
+                  src="/assets/icons/sbtccrv.png"
                 />
               </div>
               <div>
@@ -136,34 +136,124 @@ exports[`Breadcrumb displays holdings with no balance 1`] = `
     class="MuiGrid-root-3 MuiGrid-container-4"
   >
     <div
-      class="MuiPaper-root-109 MuiGrid-root-3 makeStyles-root-106 MuiGrid-container-4 MuiPaper-elevation1-113 MuiPaper-rounded-110"
+      class="MuiGrid-root-3 MuiGrid-container-4"
+    >
+      <p
+        class="MuiTypography-root-106 makeStyles-settInfoTitle-1 MuiTypography-body1-108"
+      >
+        Your Vault Info
+      </p>
+    </div>
+    <div
+      class="MuiGrid-root-3 MuiGrid-container-4 MuiGrid-spacing-xs-1-26"
     >
       <div
-        class="MuiGrid-root-3 MuiGrid-item-5 MuiGrid-grid-xs-12-49 MuiGrid-grid-sm-8-59"
+        class="MuiGrid-root-3 MuiGrid-item-5 MuiGrid-grid-xs-12-49 MuiGrid-grid-sm-true-51"
       >
-        <p
-          class="MuiTypography-root-137 MuiTypography-body1-139"
+        <div
+          class="MuiPaper-root-143 makeStyles-cardContainer-138 MuiPaper-elevation1-147 MuiPaper-rounded-144"
         >
-          You have no Curve.fi renBTC/wBTC/sBTC in your connected wallet.
-        </p>
+          <div
+            class="makeStyles-titleContainer-136"
+          >
+            <p
+              class="MuiTypography-root-106 makeStyles-holdingsName-137 MuiTypography-body1-108"
+            >
+              Total Balance
+            </p>
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root-183 makeStyles-helpIcon-171"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"
+              />
+            </svg>
+          </div>
+          <hr
+            class="MuiDivider-root-192"
+          />
+          <div
+            class="MuiGrid-root-3 makeStyles-amountsContainer-141 MuiGrid-container-4"
+          >
+            <div
+              class="MuiBox-root-199 MuiBox-root-200 makeStyles-amountText-142"
+            >
+              <div
+                class="makeStyles-logoContainer-139"
+              >
+                <img
+                  alt="Total Balance holdings"
+                  class="makeStyles-logo-140"
+                  src="/assets/icons/sbtccrv.png"
+                />
+              </div>
+              <div>
+                <h5
+                  class="MuiTypography-root-106 MuiTypography-h5-115"
+                >
+                  400
+                </h5>
+                <p
+                  class="MuiTypography-root-106 MuiTypography-body2-107 MuiTypography-colorTextSecondary-132"
+                >
+                  ~$21,219,315.21
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <div
-        class="MuiGrid-root-3 makeStyles-depositContainer-108 MuiGrid-item-5 MuiGrid-grid-xs-12-49 MuiGrid-grid-sm-true-51"
+        class="MuiGrid-root-3 MuiGrid-item-5 MuiGrid-grid-xs-12-49 MuiGrid-grid-sm-true-51"
       >
-        <button
-          class="MuiButtonBase-root-197 MuiButton-root-168 MuiButton-contained-176 MuiButton-containedPrimary-177 MuiButton-fullWidth-191"
-          tabindex="0"
-          type="button"
+        <div
+          class="MuiPaper-root-143 makeStyles-cardContainer-138 MuiPaper-elevation1-147 MuiPaper-rounded-144"
         >
-          <span
-            class="MuiButton-label-169"
+          <div
+            class="makeStyles-titleContainer-136"
           >
-            Deposit
-          </span>
-          <span
-            class="MuiTouchRipple-root-200"
+            <p
+              class="MuiTypography-root-106 makeStyles-holdingsName-137 MuiTypography-body1-108"
+            >
+              Total Earned
+            </p>
+          </div>
+          <hr
+            class="MuiDivider-root-192"
           />
-        </button>
+          <div
+            class="MuiGrid-root-3 makeStyles-amountsContainer-141 MuiGrid-container-4"
+          >
+            <div
+              class="MuiBox-root-199 MuiBox-root-201 makeStyles-amountText-142"
+            >
+              <div
+                class="makeStyles-logoContainer-139"
+              >
+                <img
+                  alt="Total Earned holdings"
+                  class="makeStyles-logo-140"
+                  src="/assets/icons/sbtccrv.png"
+                />
+              </div>
+              <div>
+                <h5
+                  class="MuiTypography-root-106 MuiTypography-h5-115"
+                >
+                  0.000135266072051721
+                </h5>
+                <p
+                  class="MuiTypography-root-106 MuiTypography-body2-107 MuiTypography-colorTextSecondary-132"
+                >
+                  ~$6.66
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
