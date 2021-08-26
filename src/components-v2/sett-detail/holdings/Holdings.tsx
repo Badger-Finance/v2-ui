@@ -10,11 +10,17 @@ import { NoHoldings } from './NoHoldings';
 import { BadgerSett } from '../../../mobx/model/vaults/badger-sett';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { hasBalance } from '../utils';
+import { TokenDistributionIcon } from './TokenDistributionIcon';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
 	settInfoTitle: {
 		fontSize: 24,
 		fontWeight: 500,
+	},
+	helpIcon: {
+		fontSize: 16,
+		marginLeft: theme.spacing(0.5),
+		color: 'rgba(255, 255, 255, 0.3)',
 	},
 }));
 
@@ -58,6 +64,7 @@ export const Holdings = observer(
 							balance={balance}
 							value={value}
 							decimals={decimals}
+							helpIcon={<TokenDistributionIcon settBalance={settBalance} />}
 						/>
 					</Grid>
 					<Grid item xs={12} sm>

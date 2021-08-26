@@ -8,8 +8,8 @@ import { Tokens } from './Tokens';
 import { Claims } from './Claims';
 import { Sett } from '../../../mobx/model/setts/sett';
 import { Links } from './Links';
+import { Fees } from './Fees';
 import { CardContainer } from '../styled';
-import { SettFees } from '../../common/SettFees';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -42,7 +42,7 @@ export const SpecsCard = ({ sett, badgerSett }: Props): JSX.Element => {
 				<Claims />
 			</Grid>
 			<Grid item xs className={classes.specSection}>
-				<SettFees sett={sett} showNowFees />
+				<Fees sett={sett} />
 			</Grid>
 			<Grid item xs>
 				<Links sett={sett} badgerSett={badgerSett} />

@@ -1,6 +1,5 @@
 import React from 'react';
-import { Button, Divider, Grid, Typography } from '@material-ui/core';
-import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
+import { Divider, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
@@ -10,11 +9,6 @@ const useStyles = makeStyles((theme) => ({
 	title: {
 		fontSize: 18,
 	},
-	backButton: {
-		display: 'flex',
-		alignItems: 'center',
-		textTransform: 'none',
-	},
 	content: {
 		marginTop: theme.spacing(2),
 	},
@@ -22,18 +16,13 @@ const useStyles = makeStyles((theme) => ({
 		width: '100%',
 		margin: theme.spacing(2, 0),
 	},
-	arrowIcon: {
-		marginRight: 4,
-		fontSize: 16,
-		transform: 'rotate(-180deg)',
-	},
 }));
 
 interface Props {
-	onBackClick: () => void;
+	closeIcon?: React.ReactNode;
 }
 
-export const DepositFeesInformation = ({ onBackClick }: Props): JSX.Element => {
+export const DepositFeesInformation = ({ closeIcon }: Props): JSX.Element => {
 	const classes = useStyles();
 
 	return (
@@ -42,10 +31,7 @@ export const DepositFeesInformation = ({ onBackClick }: Props): JSX.Element => {
 				<Typography variant="body1" display="inline" className={classes.title}>
 					Fee Information
 				</Typography>
-				<Button color="primary" onClick={onBackClick} className={classes.backButton}>
-					<ArrowRightAltIcon className={classes.arrowIcon} />
-					Back
-				</Button>
+				{closeIcon}
 			</Grid>
 			<div className={classes.content}>
 				<Typography variant="body1" color="textSecondary">
