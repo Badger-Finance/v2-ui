@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	title: {
 		color: theme.palette.common.black,
-		fontWeight: 500,
+		fontWeight: 600,
 	},
 	content: {
 		marginTop: theme.spacing(1),
