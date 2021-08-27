@@ -99,7 +99,7 @@ export const SettWithdraw = observer(({ open = false, sett, badgerSett, onClose 
 				<AmountTextField
 					variant="outlined"
 					fullWidth
-					placeholder="Type an amount to deposit"
+					placeholder="Type an amount to withdraw"
 					inputProps={inputProps}
 					value={amount || ''}
 					onChange={onValidChange(setAmount)}
