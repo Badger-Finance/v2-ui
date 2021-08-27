@@ -110,7 +110,7 @@ const SettListItem = observer(
 							</Typography>
 						</Grid>
 						<Grid item xs={6} md>
-							<SettItemApr sett={sett} divisor={isDisabled ? 1 : divisor} />
+							<SettItemApr sett={sett} divisor={isDisabled ? 1 : divisor} multiplier={multiplier} />
 							{multiplier !== undefined && (
 								<SettItemUserApr sett={sett} divisor={divisor} multiplier={multiplier} />
 							)}
