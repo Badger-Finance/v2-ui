@@ -5,7 +5,6 @@ import { observer } from 'mobx-react-lite';
 import BigNumber from 'bignumber.js';
 
 import { Sett } from '../../mobx/model/setts/sett';
-import { ContractNamespace } from '../../web3/config/contract-namespace';
 import { usdToCurrency } from 'mobx/utils/helpers';
 import CurrencyDisplay from '../common/CurrencyDisplay';
 import { SettActionButtons } from '../common/SettActionButtons';
@@ -90,7 +89,7 @@ const SettListItem = observer(
 		const displayValue = balanceValue ? balanceValue : usdToCurrency(new BigNumber(sett.value), currency);
 		const multiplier = !sett.deprecated ? user.accountDetails?.multipliers[sett.vaultToken] : undefined;
 
-		const canWithdraw = badgerSett ? user.getBalance(ContractNamespace.Sett, badgerSett).balance.gt(0) : false;
+		const canWithdraw = user.getSettBalance(sett).balance > 0;
 		const isDisabled = sett.hasBouncer && !user.viewSettShop();
 
 		const goToSettDetail = async () => {
