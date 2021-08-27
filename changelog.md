@@ -1,5 +1,11 @@
 # v2 UI Changelog
 
+### Hotfix - 08/27/2021
+
+-   Fix issue causing users to not be able to withdraw
+-   Fix issue causing fee display to show improper amount
+-   Update tooltip to support user specific apr display
+
 ### v2.9.0 - 08/26/2021
 
 -   Initial App refresh launched
