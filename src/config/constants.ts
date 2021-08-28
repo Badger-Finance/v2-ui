@@ -7,6 +7,7 @@ import importedBscErc20 from '../config/system/abis/BscErc20.json';
 import importedYearnSett from '../config/system/abis/YearnWrapper.json';
 import importedGuestList from '../config/system/abis/GuestList.json';
 import { tokens, sett_system, digg_system } from './deployments/mainnet.json';
+import { tokens as maticTokens } from './deployments/matic.json';
 import { AbiItem } from 'web3-utils';
 import { PartialAttemptOptions } from '@lifeomic/attempt';
 import { ClaimsSymbols } from 'mobx/model/rewards/claims-symbols';
@@ -72,7 +73,9 @@ export const CLAIMS_SYMBOLS: ClaimsSymbols = {
 		[sett_system.vaults['native.cvxCrv']]: 'bcvxCRV',
 		[digg_system.DROPT['DROPT-3'].longToken]: 'DROPT-3',
 	},
-	[NETWORK_LIST.MATIC]: {},
+	[NETWORK_LIST.MATIC]: {
+		[maticTokens.CRV]: 'CRV',
+	},
 	[NETWORK_LIST.XDAI]: {},
 };
 
