@@ -61,22 +61,8 @@ export default class PricesStore {
 					...this.priceCache,
 					...prices,
 				};
-				// console.log(
-				// 	'price cache =>',
-				// 	toJS(
-				// 		Object.entries(this.priceCache).map((entry) => ({
-				// 			token: entry[0],
-				// 			price: entry[1].toString(),
-				// 		})),
-				// 	),
-				// );
-				// console.log(
-				// 	'is matic curve available =>',
-				// 	Object.keys(this.priceCache).includes('0x172370d5Cd63279eFa6d502DAB29171933a610AF'),
-				// );
 				await this.store.rewards.fetchSettRewards();
 			}
-			// this.arePricesInitialized = true;
 		},
 	);
 
