@@ -68,6 +68,14 @@ export abstract class Network {
 
 	abstract updateGasPrices(): Promise<GasPrices>;
 
+	get hasBadgerTree(): boolean {
+		return !!this.deploy.badgerTree;
+	}
+
+	get badgerTree(): string {
+		return this.deploy.badgerTree;
+	}
+
 	get settOrder(): string[] {
 		return this.setts.map((s) => s.vaultToken.address);
 	}

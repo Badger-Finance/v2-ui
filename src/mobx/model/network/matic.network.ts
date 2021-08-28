@@ -78,6 +78,13 @@ export const maticSetts: BadgerSett[] = [
 	},
 ];
 
-const maticTokens = maticSetts.flatMap((sett) => [sett.depositToken, sett.vaultToken]);
+export const maticRewards = [
+	{
+		address: MATIC_DEPLOY.tokens['CRV'],
+		decimals: 18,
+	},
+];
+
+const maticTokens = maticSetts.flatMap((sett) => [sett.depositToken, sett.vaultToken]).concat(maticRewards);
 
 export const maticProtocolTokens: ProtocolTokens = toRecord(maticTokens, 'address');
