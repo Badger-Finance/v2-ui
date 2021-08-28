@@ -75,7 +75,7 @@ export default class UserStore {
 					this.getSettShopEligibility(address);
 					this.loadBouncerProof(address);
 					this.loadAccountDetails(address, network.symbol);
-					this.loadClaimProof(address);
+					this.loadClaimProof(address, network.symbol);
 					this.updateBalances(true);
 				}
 			}
@@ -407,8 +407,8 @@ export default class UserStore {
 	);
 
 	loadClaimProof = action(
-		async (address: string): Promise<void> => {
-			const proof = await fetchClaimProof(Web3.utils.toChecksumAddress(address));
+		async (address: string, chain = 'eth'): Promise<void> => {
+			const proof = await fetchClaimProof(Web3.utils.toChecksumAddress(address), chain);
 			if (proof) {
 				this.claimProof = proof;
 				await this.store.rewards.fetchSettRewards();
