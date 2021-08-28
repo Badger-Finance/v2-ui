@@ -8,6 +8,7 @@ export interface RebaseInfo {
 	latestAnswer: number;
 	inRebaseWindow: boolean;
 	rebaseLag: number;
+	sharesPerFragment: BigNumber;
 
 	epoch: any;
 	rebaseWindowLengthSec: number;
