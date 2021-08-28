@@ -25,6 +25,7 @@ export default class PricesStore {
 			exchangeRates: undefined,
 			bDiggExchangeRates: undefined,
 			priceCache: this.priceCache,
+			arePricesAvailable: this.arePricesAvailable,
 		});
 
 		observe(this.store.network, 'network', (change: IValueDidChange<Network>) => {
@@ -33,6 +34,10 @@ export default class PricesStore {
 		});
 
 		this.init();
+	}
+
+	get arePricesAvailable(): boolean {
+		return Object.keys(this.priceCache).length > 0;
 	}
 
 	async init(): Promise<void> {
@@ -56,7 +61,22 @@ export default class PricesStore {
 					...this.priceCache,
 					...prices,
 				};
+				// console.log(
+				// 	'price cache =>',
+				// 	toJS(
+				// 		Object.entries(this.priceCache).map((entry) => ({
+				// 			token: entry[0],
+				// 			price: entry[1].toString(),
+				// 		})),
+				// 	),
+				// );
+				// console.log(
+				// 	'is matic curve available =>',
+				// 	Object.keys(this.priceCache).includes('0x172370d5Cd63279eFa6d502DAB29171933a610AF'),
+				// );
+				await this.store.rewards.fetchSettRewards();
 			}
+			// this.arePricesInitialized = true;
 		},
 	);
 
