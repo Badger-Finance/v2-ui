@@ -65,15 +65,21 @@ export class RootStore {
 
 		const { network } = this.network;
 		this.rewards.resetRewards();
+
 		const refreshData = [
 			this.setts.loadAssets(network.symbol),
 			this.network.updateGasPrices(),
 			this.setts.loadSetts(network.symbol),
 		];
+
 		if (network.id === NETWORK_IDS.ETH) {
 			refreshData.push(this.rebase.fetchRebaseStats());
+		}
+
+		if (network.hasBadgerTree) {
 			refreshData.push(this.rewards.loadTreeData());
 		}
+
 		await Promise.all(refreshData);
 
 		if (this.wallet.connectedAddress) {
