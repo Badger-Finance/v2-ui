@@ -11,11 +11,14 @@ import { BDiggExchangeRates } from '../model/system-config/bDigg-exchange-rates'
 import { PriceSummary } from '../model/system-config/price-summary';
 import { Network } from 'mobx/model/network/network';
 
+type NetworkPricesAvailability = Record<Network['symbol'], boolean>;
+
 export default class PricesStore {
 	private store: RootStore;
 	private priceCache: PriceSummary;
 	public exchangeRates?: ExchangeRates;
 	public bDiggExchangeRates?: BDiggExchangeRates;
+	public pricesAvailability: NetworkPricesAvailability = {};
 
 	constructor(store: RootStore) {
 		this.store = store;
@@ -25,7 +28,7 @@ export default class PricesStore {
 			exchangeRates: undefined,
 			bDiggExchangeRates: undefined,
 			priceCache: this.priceCache,
-			arePricesAvailable: this.arePricesAvailable,
+			pricesAvailability: this.pricesAvailability,
 		});
 
 		observe(this.store.network, 'network', (change: IValueDidChange<Network>) => {
@@ -37,7 +40,8 @@ export default class PricesStore {
 	}
 
 	get arePricesAvailable(): boolean {
-		return Object.keys(this.priceCache).length > 0;
+		const { network } = this.store.network;
+		return this.pricesAvailability[network.symbol] ?? false;
 	}
 
 	async init(): Promise<void> {
@@ -50,18 +54,23 @@ export default class PricesStore {
 	}
 
 	loadPrices = action(
-		async (network?: string): Promise<void> => {
+		async (network = 'eth'): Promise<void> => {
 			const prices = await getTokenPrices(network);
 			if (prices) {
 				Object.entries(prices).forEach((entry) => {
 					const [key, value] = entry;
 					prices[key] = new BigNumber(value);
 				});
+
 				this.priceCache = {
 					...this.priceCache,
 					...prices,
 				};
-				await this.store.rewards.fetchSettRewards();
+
+				this.pricesAvailability = {
+					...this.pricesAvailability,
+					[network]: true,
+				};
 			}
 		},
 	);
