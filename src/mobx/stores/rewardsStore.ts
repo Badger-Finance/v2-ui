@@ -41,30 +41,37 @@ class RewardsStore {
 		lastCycle: new Date(),
 		timeSinceLastCycle: '0h 0m',
 		proof: undefined,
-		// sharesPerFragment: undefined,
 		claimableAmounts: [],
 		claims: [],
 		amounts: [],
 	};
 	public badgerTree: BadgerTree;
 	public loadingRewards: boolean;
-	public loadingDiggData: boolean;
+	public loadingTreeData: boolean;
 
 	constructor(store: RootStore) {
 		this.store = store;
 		this.badgerTree = RewardsStore.defaultTree;
+		this.loadingTreeData = false;
 		this.loadingRewards = false;
-		this.loadingDiggData = false;
 
 		extendObservable(this, {
 			badgerTree: this.badgerTree,
+			loadingTreeData: this.loadingTreeData,
 			loadingRewards: this.loadingRewards,
-			loadingDiggData: this.loadingDiggData,
 		});
 
 		observe(this.store.network, 'network', () => {
+			this.resetRewards();
 			this.loadTreeData();
 		});
+
+		// this throws error and I'm not sure why
+		// observe(this.store.prices, 'pricesAvailability', () => {})
+	}
+
+	get isLoading(): boolean {
+		return this.loadingTreeData || this.loadingRewards;
 	}
 
 	// TODO: refactor various functions for a more unified approach
@@ -110,6 +117,8 @@ class RewardsStore {
 		this.badgerTree.claims = [];
 		this.badgerTree.amounts = [];
 		this.badgerTree.proof = undefined;
+		this.loadingRewards = false;
+		this.loadingTreeData = false;
 	});
 
 	loadTreeData = action(
@@ -119,7 +128,7 @@ class RewardsStore {
 				wallet: { provider },
 			} = this.store;
 
-			if (this.loadingRewards) {
+			if (this.loadingTreeData) {
 				return;
 			}
 
@@ -128,8 +137,7 @@ class RewardsStore {
 				return;
 			}
 
-			this.resetRewards();
-			this.loadingRewards = true;
+			this.loadingTreeData = true;
 
 			const web3 = new Web3(provider);
 			const rewardsTree = new web3.eth.Contract(rewardsAbi as AbiItem[], network.badgerTree);
@@ -145,8 +153,10 @@ class RewardsStore {
 
 				await this.fetchSettRewards();
 			} catch (error) {
-				console.error('There was an error claiming tree information: ', error);
+				console.error('There was an error fetching tree information: ', error);
 			}
+
+			this.loadingTreeData = false;
 		},
 	);
 
@@ -154,27 +164,38 @@ class RewardsStore {
 		async (): Promise<void> => {
 			const {
 				network: { network },
+				prices: { arePricesAvailable },
 				user: { claimProof },
 				wallet: { connectedAddress, provider },
 			} = this.store;
 
 			if (!connectedAddress || !claimProof || !network.badgerTree) {
 				this.resetRewards();
-				this.loadingRewards = false;
 				return;
 			}
 
-			const web3 = new Web3(provider);
-			const rewardsTree = new web3.eth.Contract(rewardsAbi as AbiItem[], network.badgerTree);
+			if (!arePricesAvailable || this.loadingRewards || this.badgerTree.claimableAmounts) {
+				return;
+			}
 
-			const claimed: TreeClaimData = await rewardsTree.methods
-				.getClaimedFor(connectedAddress, claimProof.tokens)
-				.call();
+			this.loadingRewards = true;
 
-			this.badgerTree.claimableAmounts = claimProof.cumulativeAmounts;
-			this.badgerTree.claims = reduceClaims(claimProof, claimed, true);
-			this.badgerTree.amounts = reduceClaims(claimProof, claimed);
-			this.badgerTree.proof = claimProof;
+			try {
+				const web3 = new Web3(provider);
+				const rewardsTree = new web3.eth.Contract(rewardsAbi as AbiItem[], network.badgerTree);
+
+				const claimed: TreeClaimData = await rewardsTree.methods
+					.getClaimedFor(connectedAddress, claimProof.tokens)
+					.call();
+
+				this.badgerTree.claimableAmounts = claimProof.cumulativeAmounts;
+				this.badgerTree.claims = reduceClaims(claimProof, claimed, true);
+				this.badgerTree.amounts = reduceClaims(claimProof, claimed);
+				this.badgerTree.proof = claimProof;
+			} catch (error) {
+				console.error('There was an error fetchin tree information: ', error);
+			}
+
 			this.loadingRewards = false;
 		},
 	);
