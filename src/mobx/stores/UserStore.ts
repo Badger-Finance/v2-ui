@@ -85,8 +85,15 @@ export default class UserStore {
 		 * Update account store on change of network.
 		 */
 		observe(this.store.network as NetworkStore, 'network', () => {
+			const address = this.store.wallet.connectedAddress;
+			const network = this.store.network.network;
+
 			if (!this.loadingBalances) {
 				this.refreshBalances();
+			}
+
+			if (address) {
+				this.loadClaimProof(address, network.symbol);
 			}
 		});
 	}
