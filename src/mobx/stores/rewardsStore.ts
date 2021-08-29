@@ -67,7 +67,7 @@ class RewardsStore {
 		});
 
 		// this throws error and I'm not sure why
-		// we need to keep check rewards once the prices are available
+		// we need to keep check of prices and fetch rewards once they're available
 		// observe(this.store.prices, 'pricesAvailability', () => {})
 	}
 
