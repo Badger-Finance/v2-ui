@@ -67,6 +67,7 @@ class RewardsStore {
 		});
 
 		// this throws error and I'm not sure why
+		// we need to keep check rewards once the prices are available
 		// observe(this.store.prices, 'pricesAvailability', () => {})
 	}
 
@@ -174,7 +175,7 @@ class RewardsStore {
 				return;
 			}
 
-			if (!arePricesAvailable || this.loadingRewards || this.badgerTree.claimableAmounts) {
+			if (!arePricesAvailable || this.loadingRewards) {
 				return;
 			}
 
@@ -193,7 +194,7 @@ class RewardsStore {
 				this.badgerTree.amounts = reduceClaims(claimProof, claimed);
 				this.badgerTree.proof = claimProof;
 			} catch (error) {
-				console.error('There was an error fetchin tree information: ', error);
+				console.error('There was an error fetching tree information: ', error);
 			}
 
 			this.loadingRewards = false;
