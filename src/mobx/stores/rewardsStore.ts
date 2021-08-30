@@ -147,7 +147,7 @@ class RewardsStore {
 
 				await retry(() => this.fetchSettRewards(), defaultRetryOptions);
 			} catch (error) {
-				console.error('There was an error fetching tree information: ', error);
+				console.error('There was an error fetching rewards information: ', error);
 				queueNotification(
 					`Error retrieving rewards information, please refresh the page or check your web3 provider.`,
 					'error',
