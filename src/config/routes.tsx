@@ -5,6 +5,7 @@ import { RootStore } from '../mobx/RootStore';
 import { Airdrops } from '../components/Airdrops';
 import { BoostOptimizer } from '../components/Boost';
 import { Digg } from '../components/Digg';
+import { Locked } from 'components/Common/Locked';
 import { IbBTC } from 'components/IbBTC';
 import { Bridge } from '../components/Bridge';
 import HoneybadgerDrop from '../components/HoneybadgerDrop/index';
@@ -14,6 +15,10 @@ import { SettState } from '../mobx/model/setts/sett-state';
 import { NotFound } from '../components-v2/common/NotFound';
 
 const routes = {
+	locked: new Route<RootStore>({
+		path: '/locked',
+		component: <Locked />,
+	}),
 	home: new Route<RootStore>({
 		path: '/',
 		component: (
