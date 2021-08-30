@@ -29,7 +29,14 @@ export class Polygon extends Network {
 	}
 
 	async updateGasPrices(): Promise<GasPrices> {
-		return { rapid: 20, fast: 10, standard: 5, slow: 2 };
+		const prices = await fetch('https://gasstation-mainnet.matic.network/');
+		const result = await prices.json();
+		return {
+			rapid: result['fastest'],
+			fast: result['fast'],
+			standard: result['standard'],
+			slow: result['safeLow'],
+		};
 	}
 }
 
