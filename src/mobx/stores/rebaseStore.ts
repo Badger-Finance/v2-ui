@@ -111,8 +111,6 @@ class RebaseStore {
 			pastRebase: rebaseLog,
 			validDropts: validDropts,
 		};
-
-		// await this.store.rewards.fetchSettRewards();
 	});
 
 	private hasCallResults(results: any[]): boolean {
