@@ -10,6 +10,7 @@ import { ExchangeRates } from '../model/system-config/exchange-rates';
 import { BDiggExchangeRates } from '../model/system-config/bDigg-exchange-rates';
 import { PriceSummary } from '../model/system-config/price-summary';
 import { Network } from 'mobx/model/network/network';
+import { ChainNetwork } from '../../config/enums/chain-network.enum';
 
 export default class PricesStore {
 	private store: RootStore;
@@ -52,7 +53,7 @@ export default class PricesStore {
 	}
 
 	loadPrices = action(
-		async (network = 'eth'): Promise<void> => {
+		async (network = ChainNetwork.Ethereum): Promise<void> => {
 			const prices = await getTokenPrices(network);
 			if (prices) {
 				Object.entries(prices).forEach((entry) => {
