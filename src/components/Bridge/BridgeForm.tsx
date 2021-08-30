@@ -25,7 +25,6 @@ import { SuccessForm } from './SuccessForm';
 import { ConfirmForm } from './ConfirmForm';
 import { ValuesProp } from './Common';
 import {
-	NETWORK_LIST,
 	CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS,
 	burnStatusIndex,
 	depositStatusDict,
@@ -36,6 +35,7 @@ import { CURVE_EXCHANGE } from 'config/system/abis/CurveExchange';
 import { connectWallet } from 'mobx/utils/helpers';
 import { RenVMTransaction, RenVMParams } from '../../mobx/model/bridge/renVMTransaction';
 import { FLAGS } from 'config/environment';
+import { ChainNetwork } from 'config/enums/chain-network.enum';
 
 const DECIMALS = 10 ** 8;
 const SETT_DECIMALS = 10 ** 18;
@@ -796,7 +796,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 		}
 	};
 
-	if (network.symbol !== NETWORK_LIST.ETH) {
+	if (network.symbol !== ChainNetwork.Ethereum) {
 		return (
 			<Grid container alignItems={'center'} className={classes.padded}>
 				The Badger Bridge is only supported on Ethereum Mainnet.

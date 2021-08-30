@@ -96,7 +96,7 @@ export default class PricesStore {
 
 	async getBdiggExchangeRates(): Promise<BDiggExchangeRates | undefined> {
 		const url =
-			'https://api.coingecko.com/api/v3/simple/price/?ids=badger-sett-digg&vs_currencies=usd,eth,btc,cad,bnb';
+			'https://api.coingecko.com/api/v3/simple/price?ids=badger-sett-digg&vs_currencies=usd,eth,btc,cad,bnb';
 		const errorMessage = 'Failed to load exchange rates';
 		const accessor = (res: any) => res['badger-sett-digg'];
 		return fetchData(url, errorMessage, accessor);

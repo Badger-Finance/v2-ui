@@ -10,6 +10,7 @@ import { ProtocolSummary } from '../model/system-config/protocol-summary';
 import { PriceSummary } from '../model/system-config/price-summary';
 import { SettChartFetchParams, SettSnapshot, SettSnapshotGranularity } from '../model/setts/sett-snapshot';
 import { DEBUG } from 'config/environment';
+import { ChainNetwork } from 'config/enums/chain-network.enum';
 
 export const getApi = (): string => {
 	if (DEBUG) {
@@ -76,7 +77,7 @@ export const fetchCompleteLeaderBoardData = async (): Promise<LeaderBoardBadger[
 
 export const fetchSettChartInformation = async ({
 	id,
-	chain = 'eth',
+	chain = ChainNetwork.Ethereum,
 	from,
 	to,
 	granularity = SettSnapshotGranularity.DAY,

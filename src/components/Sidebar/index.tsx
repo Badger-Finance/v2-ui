@@ -16,7 +16,7 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { ExpandMore } from '@material-ui/icons';
-import { SITE_VERSION, NETWORK_LIST } from 'config/constants';
+import { SITE_VERSION } from 'config/constants';
 import NetworkWidget from 'components-v2/common/NetworkWidget';
 import { Route } from 'mobx-router';
 import { RootStore } from 'mobx/RootStore';
@@ -24,6 +24,7 @@ import clsx, { ClassValue } from 'clsx';
 import SecurityIcon from '@material-ui/icons/Security';
 import { sidebarPricingLinks } from 'config/ui/links';
 import { FLAGS } from 'config/environment';
+import { ChainNetwork } from 'config/enums/chain-network.enum';
 
 const DRAWER_WIDTH = 240;
 
@@ -208,7 +209,7 @@ export const Sidebar = observer(() => {
 					</ListItemSecondaryAction>
 				</ListItem>
 
-				{network.symbol === NETWORK_LIST.ETH ? (
+				{network.symbol === ChainNetwork.Ethereum ? (
 					<ListItem
 						button
 						onClick={() => setExpanded(expanded === 'advanced' ? '' : 'advanced')}
@@ -230,7 +231,7 @@ export const Sidebar = observer(() => {
 					</ListItem>
 				)}
 				<Collapse in={expanded === 'advanced'} timeout="auto" unmountOnExit>
-					{network.symbol === NETWORK_LIST.ETH && badgerTree && connectedAddress ? (
+					{network.symbol === ChainNetwork.Ethereum && badgerTree && connectedAddress ? (
 						<ListItem key="rewards">
 							<ListItemText
 								primary={`Cycle Count: ${badgerTree.cycle}`}
@@ -258,7 +259,7 @@ export const Sidebar = observer(() => {
 					</ListItemIcon>
 					<ListItemText primary="Sett Vaults" />
 				</ListItem>
-				{network.symbol === NETWORK_LIST.ETH ? (
+				{network.symbol === ChainNetwork.Ethereum ? (
 					<>
 						<ListItem
 							button
