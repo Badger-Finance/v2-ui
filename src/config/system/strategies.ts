@@ -339,6 +339,8 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 					},
 					strategyLink:
 						'https://app.gitbook.com/@badger-finance/s/badger-finance/v/master/sett-user-guides/cvxcrv-helper',
+					depositLink:
+						'https://app.gitbook.com/@badger-finance/s/badger-finance/v/master/sett-user-guides/cvxcrv-helper',
 				},
 				[deploy.sett_system.vaults['native.cvx']]: {
 					name: '',
@@ -348,6 +350,8 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 						[StrategyFee.withdraw]: new BigNumber(10),
 					},
 					strategyLink:
+						'https://app.gitbook.com/@badger-finance/s/badger-finance/v/master/sett-user-guides/cvx-helper',
+					depositLink:
 						'https://app.gitbook.com/@badger-finance/s/badger-finance/v/master/sett-user-guides/cvx-helper',
 				},
 				[deploy.sett_system.vaults['native.imBtc']]: {
