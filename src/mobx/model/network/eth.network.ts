@@ -364,6 +364,10 @@ const ethRewards = [
 		address: ETH_DEPLOY.tokens['defiDollar'],
 		decimals: 18,
 	},
+	{
+		address: ETH_DEPLOY.tokens['DROPT-3'],
+		decimals: 18,
+	},
 ];
 
 const ethTokens = ethSetts.flatMap((sett) => [sett.depositToken, sett.vaultToken]).concat(ethRewards);
