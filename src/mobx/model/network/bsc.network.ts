@@ -1,4 +1,4 @@
-import { NETWORK_IDS, NETWORK_LIST } from 'config/constants';
+import { NETWORK_IDS } from 'config/constants';
 import { GasPrices } from '../system-config/gas-prices';
 import { Network } from './network';
 import deploy from '../../../config/deployments/bsc.json';
@@ -6,15 +6,17 @@ import { ProtocolTokens } from 'web3/interface/protocol-token';
 import { toRecord } from 'web3/config/token-config';
 import { Deploy } from 'web3/interface/deploy';
 import { BadgerSett } from '../vaults/badger-sett';
+import { Currency } from 'config/enums/currency.enum';
+import { ChainNetwork } from 'config/enums/chain-network.enum';
 
 export class BinanceSmartChain extends Network {
 	constructor() {
 		super(
 			'https://bscscan.com',
 			'Binance Smart Chain',
-			NETWORK_LIST.BSC,
+			ChainNetwork.BinanceSmartChain,
 			NETWORK_IDS.BSC,
-			'BNB',
+			Currency.BNB,
 			BSC_DEPLOY,
 			bscSetts,
 		);

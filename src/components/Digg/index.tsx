@@ -4,9 +4,9 @@ import DashboardCard from './DashboardCard';
 import Info from './Info';
 import React, { useContext } from 'react';
 import PageHeader from '../../components-v2/common/PageHeader';
-import { NETWORK_LIST } from 'config/constants';
 import { StoreContext } from 'mobx/store-context';
 import { HeaderContainer, LayoutContainer } from '../../components-v2/common/Containers';
+import { ChainNetwork } from 'config/enums/chain-network.enum';
 
 export const Digg = observer(() => {
 	const store = useContext(StoreContext);
@@ -18,7 +18,7 @@ export const Digg = observer(() => {
 				<HeaderContainer item xs={12}>
 					<PageHeader title="DIGG" subtitle="Pegged to Bitcoin. Governed by BadgerDAO." />
 				</HeaderContainer>
-				{network.symbol === NETWORK_LIST.ETH ? (
+				{network.symbol === ChainNetwork.Ethereum ? (
 					<>
 						<Info />
 						<Grid item xs={12}>

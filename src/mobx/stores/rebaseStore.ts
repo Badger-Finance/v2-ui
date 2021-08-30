@@ -84,6 +84,7 @@ class RebaseStore {
 		// token data
 		const decimals = parseInt(token[0].decimals[0].value);
 		const totalSupply = new BigNumber(token[0].totalSupply[0].value).dividedBy(Math.pow(10, decimals));
+		const sharesPerFragment = new BigNumber(token[0]._sharesPerFragment[0].value);
 
 		// pull latest provider report
 		const oracleReport: OracleReports = oracle[0];
@@ -99,6 +100,7 @@ class RebaseStore {
 			totalSupply,
 			latestRebase,
 			minRebaseInterval,
+			sharesPerFragment,
 			latestAnswer: Number(activeReport.value.timestamp),
 			inRebaseWindow: policy[0].inRebaseWindow[0].value,
 			rebaseLag: policy[0].rebaseLag[0].value,
