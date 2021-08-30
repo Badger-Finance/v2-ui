@@ -10,14 +10,13 @@ import { ExchangeRates } from '../model/system-config/exchange-rates';
 import { BDiggExchangeRates } from '../model/system-config/bDigg-exchange-rates';
 import { PriceSummary } from '../model/system-config/price-summary';
 import { Network } from 'mobx/model/network/network';
-import { NetworkPricesAvailability } from '../model/prices/availability';
 
 export default class PricesStore {
 	private store: RootStore;
 	private priceCache: PriceSummary;
 	public exchangeRates?: ExchangeRates;
 	public bDiggExchangeRates?: BDiggExchangeRates;
-	public pricesAvailability: NetworkPricesAvailability = {};
+	public pricesAvailability: Record<string, boolean> = {};
 
 	constructor(store: RootStore) {
 		this.store = store;
