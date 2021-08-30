@@ -1,4 +1,4 @@
-import { extendObservable, action, observe, IValueDidChange } from 'mobx';
+import { extendObservable, action, observe } from 'mobx';
 import Web3 from 'web3';
 import { AbiItem } from 'web3-utils';
 import { RootStore } from '../RootStore';
@@ -14,7 +14,8 @@ import { ClaimMap } from 'components-v2/landing/RewardsModal';
 import { BadgerTree } from '../model/rewards/badger-tree';
 import { TreeClaimData } from '../model/rewards/tree-claim-data';
 import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
-import { NetworkPricesAvailability } from '../model/prices/availability';
+import { retry } from '@lifeomic/attempt';
+import { defaultRetryOptions } from '../../config/constants';
 
 /**
  * TODO: Clean up reward store in favor of a more unified integration w/ account store.
@@ -64,19 +65,6 @@ class RewardsStore {
 
 		observe(this.store.network, 'network', () => {
 			this.resetRewards();
-			this.loadTreeData();
-		});
-
-		observe(this.store.prices, 'pricesAvailability', async (change: IValueDidChange<NetworkPricesAvailability>) => {
-			const { network } = this.store.network;
-			const { newValue: pricesAvailability } = change;
-
-			const arePricesNowAvailable = pricesAvailability[network.symbol];
-			const areRewardsAvailable = !!this.badgerTree.proof;
-
-			if (!areRewardsAvailable && arePricesNowAvailable) {
-				await this.fetchSettRewards();
-			}
 		});
 	}
 
@@ -109,11 +97,7 @@ class RewardsStore {
 		}
 
 		const isDigg = claimToken.address === ETH_DEPLOY.tokens.digg;
-		let divisor = new BigNumber(1);
-
-		if (isDigg && rebaseInfo) {
-			divisor = rebaseInfo.sharesPerFragment;
-		}
+		const divisor = isDigg && rebaseInfo ? rebaseInfo.sharesPerFragment : new BigNumber(1);
 
 		const amount = new BigNumber(balance).dividedBy(divisor);
 		return new TokenBalance(claimToken, amount, tokenPrice);
@@ -128,13 +112,13 @@ class RewardsStore {
 		this.badgerTree.amounts = [];
 		this.badgerTree.proof = undefined;
 		this.loadingRewards = false;
-		this.loadingTreeData = false;
 	});
 
 	loadTreeData = action(
 		async (): Promise<void> => {
 			const {
 				network: { network },
+				uiState: { queueNotification },
 				wallet: { provider },
 			} = this.store;
 
@@ -161,9 +145,13 @@ class RewardsStore {
 				this.badgerTree.cycle = cycle.toString();
 				this.badgerTree.timeSinceLastCycle = reduceTimeSinceLastCycle(timestamp);
 
-				await this.fetchSettRewards();
+				await retry(() => this.fetchSettRewards(), defaultRetryOptions);
 			} catch (error) {
 				console.error('There was an error fetching tree information: ', error);
+				queueNotification(
+					`Error retrieving rewards information, please refresh the page or check your web3 provider.`,
+					'error',
+				);
 			}
 
 			this.loadingTreeData = false;
@@ -194,28 +182,22 @@ class RewardsStore {
 			}
 
 			// when prices aren't available the claim balances will be zero even if the account has unclaimed rewards
-			// the  prices availability observer will take care of re-running the fetch when the prices are available
 			if (!arePricesAvailable) {
-				return;
+				throw new Error('Error: Prices are not available for current network');
 			}
 
 			this.loadingRewards = true;
 
-			try {
-				const web3 = new Web3(provider);
-				const rewardsTree = new web3.eth.Contract(rewardsAbi as AbiItem[], network.badgerTree);
+			const web3 = new Web3(provider);
+			const rewardsTree = new web3.eth.Contract(rewardsAbi as AbiItem[], network.badgerTree);
+			const claimed: TreeClaimData = await rewardsTree.methods
+				.getClaimedFor(connectedAddress, claimProof.tokens)
+				.call();
 
-				const claimed: TreeClaimData = await rewardsTree.methods
-					.getClaimedFor(connectedAddress, claimProof.tokens)
-					.call();
-
-				this.badgerTree.claimableAmounts = claimProof.cumulativeAmounts;
-				this.badgerTree.claims = reduceClaims(claimProof, claimed, true);
-				this.badgerTree.amounts = reduceClaims(claimProof, claimed);
-				this.badgerTree.proof = claimProof;
-			} catch (error) {
-				console.error('There was an error fetching tree information: ', error);
-			}
+			this.badgerTree.claimableAmounts = claimProof.cumulativeAmounts;
+			this.badgerTree.claims = reduceClaims(claimProof, claimed, true);
+			this.badgerTree.amounts = reduceClaims(claimProof, claimed);
+			this.badgerTree.proof = claimProof;
 
 			this.loadingRewards = false;
 		},
