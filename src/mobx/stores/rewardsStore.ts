@@ -1,4 +1,4 @@
-import { extendObservable, action, observe } from 'mobx';
+import { extendObservable, action, observe, IValueDidChange } from 'mobx';
 import Web3 from 'web3';
 import { AbiItem } from 'web3-utils';
 import { RootStore } from '../RootStore';
@@ -14,6 +14,7 @@ import { ClaimMap } from 'components-v2/landing/RewardsModal';
 import { BadgerTree } from '../model/rewards/badger-tree';
 import { TreeClaimData } from '../model/rewards/tree-claim-data';
 import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
+import { NetworkPricesAvailability } from '../model/prices/availability';
 
 /**
  * TODO: Clean up reward store in favor of a more unified integration w/ account store.
@@ -66,9 +67,17 @@ class RewardsStore {
 			this.loadTreeData();
 		});
 
-		// this throws error and I'm not sure why
-		// we need to keep check of prices and fetch rewards once they're available
-		// observe(this.store.prices, 'pricesAvailability', () => {})
+		observe(this.store.prices, 'pricesAvailability', async (change: IValueDidChange<NetworkPricesAvailability>) => {
+			const { network } = this.store.network;
+			const { newValue: pricesAvailability } = change;
+
+			const arePricesNowAvailable = pricesAvailability[network.symbol];
+			const areRewardsAvailable = !!this.badgerTree.proof;
+
+			if (!areRewardsAvailable && arePricesNowAvailable) {
+				await this.fetchSettRewards();
+			}
+		});
 	}
 
 	get isLoading(): boolean {
@@ -170,12 +179,23 @@ class RewardsStore {
 				wallet: { connectedAddress, provider },
 			} = this.store;
 
-			if (!connectedAddress || !claimProof || !network.badgerTree) {
+			if (this.loadingRewards) {
+				return;
+			}
+
+			if (!network.badgerTree) {
+				console.error('Error: No badger tree address was found in current network deploy config');
+				return;
+			}
+
+			if (!connectedAddress || !claimProof) {
 				this.resetRewards();
 				return;
 			}
 
-			if (!arePricesAvailable || this.loadingRewards) {
+			// when prices aren't available the claim balances will be zero even if the account has unclaimed rewards
+			// the  prices availability observer will take care of re-running the fetch when the prices are available
+			if (!arePricesAvailable) {
 				return;
 			}
 
