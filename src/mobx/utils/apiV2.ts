@@ -62,8 +62,8 @@ export const getAccountDetails = async (address: string, chain?: string): Promis
 	return fetchData(() => fetch(`${getAccountDetailsEndpoint}/${address}?chain=${chain ? chain : 'eth'}`));
 };
 
-export const fetchClaimProof = async (address: string): Promise<RewardMerkleClaim | null> => {
-	return fetchData(() => fetch(`${getClaimProofEndpoint}/${address}`));
+export const fetchClaimProof = async (address: string, chain = 'eth'): Promise<RewardMerkleClaim | null> => {
+	return fetchData(() => fetch(`${getClaimProofEndpoint}/${address}?chain=${chain}`));
 };
 
 export const fetchLeaderBoardData = async (page: number, size: number): Promise<LeaderBoardData | null> => {
