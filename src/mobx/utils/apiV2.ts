@@ -33,22 +33,23 @@ const getLeaderBoardDataEndpoint = `${badgerApi}/leaderboards`;
 const getSettChartInformationEndpoint = `${badgerApi}/charts`;
 
 // api function calls
-export const listSetts = async (chain?: string): Promise<Sett[] | null> => {
+export const listSetts = async (chain = ChainNetwork.Ethereum): Promise<Sett[] | null> => {
 	return fetchData(() => fetch(`${listSettsEndpoint}${chain ? `?chain=${chain}` : ''}`));
 };
 
-export const getTokens = async (chain?: string): Promise<TokenConfigRecord | null> => {
+export const getTokens = async (chain = ChainNetwork.Ethereum): Promise<TokenConfigRecord | null> => {
 	return fetchData(() => fetch(`${getTokensEndpoint}${chain ? `?chain=${chain}` : ''}`));
 };
 
-export const getTokenPrices = async (chain?: string, currency?: string): Promise<PriceSummary | null> => {
-	return fetchData(() =>
-		fetch(`${getPricesEndpoint}?currency=${currency ? currency : 'eth'}&chain=${chain ? chain : 'eth'}`),
-	);
+export const getTokenPrices = async (
+	chain = ChainNetwork.Ethereum,
+	currency?: string,
+): Promise<PriceSummary | null> => {
+	return fetchData(() => fetch(`${getPricesEndpoint}?currency=${currency ? currency : 'eth'}&chain=${chain}`));
 };
 
-export const getTotalValueLocked = async (network?: string): Promise<ProtocolSummary | null> => {
-	return fetchData(() => fetch(`${getTVLEndpoint}?chain=${network ? network : 'eth'}&currency=eth`));
+export const getTotalValueLocked = async (chain = ChainNetwork.Ethereum): Promise<ProtocolSummary | null> => {
+	return fetchData(() => fetch(`${getTVLEndpoint}?chain=${chain}&currency=eth`));
 };
 
 export const checkShopEligibility = async (address: string): Promise<Eligibility | null> => {
@@ -59,11 +60,14 @@ export const fetchBouncerProof = async (address: string): Promise<BouncerProof |
 	return fetchData(() => fetch(`${getBouncerProofEndpoint}/${address}`));
 };
 
-export const getAccountDetails = async (address: string, chain?: string): Promise<Account | null> => {
-	return fetchData(() => fetch(`${getAccountDetailsEndpoint}/${address}?chain=${chain ? chain : 'eth'}`));
+export const getAccountDetails = async (address: string, chain = ChainNetwork.Ethereum): Promise<Account | null> => {
+	return fetchData(() => fetch(`${getAccountDetailsEndpoint}/${address}?chain=${chain}`));
 };
 
-export const fetchClaimProof = async (address: string, chain = 'eth'): Promise<RewardMerkleClaim | null> => {
+export const fetchClaimProof = async (
+	address: string,
+	chain = ChainNetwork.Ethereum,
+): Promise<RewardMerkleClaim | null> => {
 	return fetchData(() => fetch(`${getClaimProofEndpoint}/${address}?chain=${chain}`));
 };
 
