@@ -10,8 +10,7 @@ import { ExchangeRates } from '../model/system-config/exchange-rates';
 import { BDiggExchangeRates } from '../model/system-config/bDigg-exchange-rates';
 import { PriceSummary } from '../model/system-config/price-summary';
 import { Network } from 'mobx/model/network/network';
-
-type NetworkPricesAvailability = Record<Network['symbol'], boolean>;
+import { NetworkPricesAvailability } from '../model/prices/availability';
 
 export default class PricesStore {
 	private store: RootStore;
