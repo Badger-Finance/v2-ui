@@ -2,11 +2,13 @@ import { extendObservable, action, observe } from 'mobx';
 import { RootStore } from '../RootStore';
 import views from 'config/routes';
 import WalletStore from 'mobx/stores/walletStore';
+import { Currency } from 'config/enums/currency.enum';
+import { DEFAULT_CURRENCY } from 'config/constants';
 
 class UiState {
 	private readonly store!: RootStore;
 
-	public currency!: string;
+	public currency: Currency;
 	public period!: string;
 	public airdropStats: any;
 	public sidebarOpen!: boolean;
@@ -18,11 +20,11 @@ class UiState {
 
 	constructor(store: RootStore) {
 		this.store = store;
+		this.currency = this.loadCurrency(DEFAULT_CURRENCY);
 		const { network } = store.network;
 
 		extendObservable(this, {
-			locked: window.localStorage.getItem('locked') === 'YES',
-			currency: window.localStorage.getItem(`${network.name}-selectedCurrency`) || 'usd',
+			currency: this.currency,
 			period: window.localStorage.getItem(`${network.name}-selectedPeriod`) || 'year',
 			sidebarOpen: !!window && window.innerWidth > 960,
 			hideZeroBal: !!window.localStorage.getItem(`${network.name}-hideZeroBal`),
@@ -41,6 +43,17 @@ class UiState {
 		window.onresize = () => {
 			this.sidebarOpen = window.innerWidth >= 960;
 		};
+	}
+
+	/* Load Operations */
+
+	private loadCurrency(defaultCurrency: Currency): Currency {
+		const { network } = this.store.network;
+		const stored = window.localStorage.getItem(`${network.name}-selectedCurrency`);
+		if (!stored) {
+			return defaultCurrency;
+		}
+		return Currency[stored.toUpperCase() as keyof typeof Currency];
 	}
 
 	queueNotification = action((message: string, variant: string, hash?: string) => {
@@ -65,7 +78,7 @@ class UiState {
 		else window.localStorage.removeItem(`${network.name}-hideZeroBal`);
 	});
 
-	setCurrency = action((currency: string) => {
+	setCurrency = action((currency: Currency) => {
 		this.currency = currency;
 		const { network } = this.store.network;
 		window.localStorage.setItem(`${network.name}-selectedCurrency`, currency);

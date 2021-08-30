@@ -13,6 +13,7 @@ import { Sett } from '../../mobx/model/setts/sett';
 import BigNumber from 'bignumber.js';
 import Web3 from 'web3';
 import { ContractNamespace } from 'web3/config/contract-namespace';
+import { Currency } from 'config/enums/currency.enum';
 
 const useStyles = makeStyles((theme) => ({
 	boostContainer: {
@@ -27,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 const createSettListItem = (
 	sett: Sett,
 	itemBalance: TokenBalance,
-	currency: string,
+	currency: Currency,
 	period: string,
 ): JSX.Element | null => {
 	if (!itemBalance || itemBalance.tokenBalance.eq(0)) {

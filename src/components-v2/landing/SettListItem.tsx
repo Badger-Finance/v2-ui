@@ -5,7 +5,7 @@ import { observer } from 'mobx-react-lite';
 import BigNumber from 'bignumber.js';
 
 import { Sett } from '../../mobx/model/setts/sett';
-import { usdToCurrency } from 'mobx/utils/helpers';
+import { inCurrency } from 'mobx/utils/helpers';
 import CurrencyDisplay from '../common/CurrencyDisplay';
 import { SettActionButtons } from '../common/SettActionButtons';
 import { SettItemName } from './SettItemName';
@@ -15,6 +15,7 @@ import { StoreContext } from 'mobx/store-context';
 import routes from '../../config/routes';
 import { SettDeposit } from '../common/dialogs/SettDeposit';
 import { SettWithdraw } from '../common/dialogs/SettWithdraw';
+import { Currency } from 'config/enums/currency.enum';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -71,7 +72,7 @@ export interface SettListItemProps {
 	balance?: string;
 	balanceValue?: string;
 	accountView?: boolean;
-	currency: string;
+	currency: Currency;
 	period: string;
 }
 
@@ -86,7 +87,7 @@ const SettListItem = observer(
 		const divisor = period === 'month' ? 12 : 1;
 		const badgerSett = network.network.setts.find(({ vaultToken }) => vaultToken.address === sett?.vaultToken);
 
-		const displayValue = balanceValue ? balanceValue : usdToCurrency(new BigNumber(sett.value), currency);
+		const displayValue = balanceValue ? balanceValue : inCurrency(new BigNumber(sett.value), currency);
 		const multiplier = !sett.deprecated ? user.accountDetails?.multipliers[sett.vaultToken] : undefined;
 
 		const canWithdraw = user.getSettBalance(sett).balance > 0;

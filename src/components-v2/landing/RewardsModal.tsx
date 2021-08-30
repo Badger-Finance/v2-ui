@@ -200,7 +200,7 @@ export const RewardsModal = observer((): JSX.Element | null => {
 		<div className={classes.claimContainer}>
 			{hasRewards && (
 				<Typography variant="caption" className={classes.amountDisplay}>
-					{inCurrency(claimableValue, currency, true, 2)} in Rewards
+					{inCurrency(claimableValue, currency)} in Rewards
 				</Typography>
 			)}
 			<ButtonGroup className={classes.openModalButton} size="small" variant="outlined" color="primary">
