@@ -1,5 +1,9 @@
 # v2 UI Changelog
 
+### Hotfix - 08/30/2021
+
+-   Add DROPT-3 token reward config
+
 ### Hotfix - 08/27/2021
 
 -   Fix issue causing users to not be able to withdraw
