@@ -75,7 +75,7 @@ const DroptModal = observer(() => {
 			<DroptModalItem
 				key={droptToken.symbol}
 				token={droptToken.symbol}
-				balance={droptBalance.balance}
+				balance={droptBalance.tokenBalance}
 				displayBalance={droptBalance.balanceDisplay(5)}
 				redemptionAmount={redemptionAmount}
 				redemptionContract={redemptionAddress}
