@@ -406,6 +406,45 @@ export const Sidebar = observer(() => {
 							</ListItem>
 						</Collapse>
 					</>
+				) : network.symbol === ChainNetwork.Matic ? (
+					<>
+						<ListItem
+							button
+							className={getCollapsableItemClasses('badger-zone', [
+								'/honey-badger-drop',
+								'/experimental',
+								'/airdrops',
+								'/honey-badger-drop',
+							])}
+							onClick={() => setExpanded(expanded === 'badger-zone' ? '' : 'badger-zone')}
+						>
+							<ListItemIcon>
+								<img
+									alt="Badger Arcade"
+									src={'/assets/sidebar/gas_station.png'}
+									className={classes.icon}
+								/>
+							</ListItemIcon>
+							<ListItemText primary="Badger Arcade" />
+							<IconButton
+								size="small"
+								className={classes.expand + ' ' + (expanded === 'tokens' ? classes.expandOpen : '')}
+								aria-label="show more"
+							>
+								<ExpandMore />
+							</IconButton>
+						</ListItem>
+						<Collapse in={expanded === 'badger-zone'} timeout="auto" unmountOnExit>
+							<ListItem
+								button
+								classes={{ gutters: classes.subItemGutters }}
+								className={getItemClass('/experimental', classes.primarySubListItem)}
+								onClick={() => navigate(views.experimental)}
+							>
+								Experimental Vaults
+							</ListItem>
+						</Collapse>
+					</>
 				) : (
 					<></>
 				)}
