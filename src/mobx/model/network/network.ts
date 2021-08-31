@@ -95,18 +95,10 @@ export abstract class Network {
 
 	getNetworkBatchRequests = (setts: SettMap, userAddress: string): BatchCallRequest[] => {
 		const tokenAddresses = Object.values(setts).map((sett) => sett.underlyingToken);
-		const nonSettTokenAddresses = [''];
 		const settAddresses = Object.values(setts).map((sett) => sett.vaultToken);
 		const generalSetts = settAddresses.filter((sett) => setts[sett].state === SettState.Open);
 		const guardedSetts = settAddresses.filter((sett) => setts[sett].state !== SettState.Open);
-		return createChainBatchConfig(
-			tokenAddresses,
-			nonSettTokenAddresses,
-			generalSetts,
-			guardedSetts,
-			[],
-			userAddress,
-		);
+		return createChainBatchConfig(tokenAddresses, generalSetts, guardedSetts, [], userAddress);
 	};
 
 	private checksumSetts(setts: BadgerSett[]): BadgerSett[] {
