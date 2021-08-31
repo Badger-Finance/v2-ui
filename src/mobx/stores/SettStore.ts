@@ -14,6 +14,7 @@ import { Sett } from '../model/setts/sett';
 import { SettMap } from '../model/setts/sett-map';
 import { ProtocolSummary } from '../model/system-config/protocol-summary';
 import { NetworkStore } from './NetworkStore';
+import { ChainNetwork } from '../../config/enums/chain-network.enum';
 
 const formatSettListItem = (sett: Sett): [string, Sett] => {
 	const sanitizedSettName = sett.name.replace(/\/+/g, '-'); // replace "/" with "-"
@@ -128,7 +129,7 @@ export default class SettStore {
 	}
 
 	loadSetts = action(
-		async (chain?: string): Promise<void> => {
+		async (chain = ChainNetwork.Ethereum): Promise<void> => {
 			chain = chain ?? NETWORK_LIST.ETH;
 			const settList = await listSetts(chain);
 
@@ -141,7 +142,7 @@ export default class SettStore {
 	);
 
 	loadTokens = action(
-		async (chain?: string): Promise<void> => {
+		async (chain = ChainNetwork.Ethereum): Promise<void> => {
 			chain = chain ?? NETWORK_LIST.ETH;
 			const tokenConfig = await getTokens(chain);
 			if (tokenConfig) {
@@ -153,7 +154,7 @@ export default class SettStore {
 	);
 
 	loadAssets = action(
-		async (chain?: string): Promise<void> => {
+		async (chain = ChainNetwork.Ethereum): Promise<void> => {
 			chain = chain ?? NETWORK_LIST.ETH;
 			const protocolSummary = await getTotalValueLocked(chain);
 			if (protocolSummary) {

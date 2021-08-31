@@ -3,10 +3,10 @@ import { Grid } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from 'mobx/store-context';
 import PageHeader from 'components-v2/common/PageHeader';
-import { NETWORK_LIST } from 'config/constants';
 import { NftList } from './NftList';
 import { PoolBalance } from './PoolBalance';
 import { HeaderContainer, LayoutContainer } from '../../components-v2/common/Containers';
+import { ChainNetwork } from 'config/enums/chain-network.enum';
 
 const HoneybadgerDrop: React.FC = observer(() => {
 	const store = React.useContext(StoreContext);
@@ -20,7 +20,7 @@ const HoneybadgerDrop: React.FC = observer(() => {
 				<HeaderContainer item xs={12}>
 					<PageHeader title="DIAMOND HANDS" subtitle="MEME Honeypot pt. II" />
 				</HeaderContainer>
-				{network.symbol === NETWORK_LIST.ETH ? (
+				{network.symbol === ChainNetwork.Ethereum ? (
 					<>
 						<Grid item xs={12} container spacing={5}>
 							<PoolBalance />

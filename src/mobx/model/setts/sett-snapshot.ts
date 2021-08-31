@@ -1,8 +1,8 @@
-import { Network } from '../network/network';
+import { ChainNetwork } from 'config/enums/chain-network.enum';
 
 export interface SettChartFetchParams {
 	id: string;
-	chain?: Network['symbol'];
+	chain?: ChainNetwork;
 	from?: Date;
 	to?: Date;
 	granularity?: SettSnapshotGranularity;

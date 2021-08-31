@@ -3,9 +3,9 @@ import Web3 from 'web3';
 import { provider } from 'web3-core';
 import { numberWithCommas } from './helpers';
 import { Network } from 'mobx/model/network/network';
-import { NETWORK_LIST } from 'config/constants';
 import { getRebase } from 'config/system/rebase';
 import { AbiItem } from 'web3-utils';
+import { ChainNetwork } from 'config/enums/chain-network.enum';
 
 const UPPER_LIMIT = 1.05 * 1e18;
 const LOWER_LIMIT = 0.95 * 1e18;
@@ -84,7 +84,7 @@ export const shortenNumbers = (value: BigNumber, prefix: string, preferredDecima
 
 // TODO: Capture some typing
 export const getRebaseLogs = async (provider: provider, network: Network): Promise<any> => {
-	if (network.symbol !== NETWORK_LIST.ETH) {
+	if (network.symbol !== ChainNetwork.Ethereum) {
 		return;
 	}
 	// Disable reason: 'web3-eth-contract' object can only be imported with the required method since it

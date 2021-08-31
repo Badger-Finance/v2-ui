@@ -4,14 +4,13 @@ import { observer } from 'mobx-react-lite';
 import { StoreContext } from 'mobx/store-context';
 
 import { Container, Grid, Tabs, Tab, Card } from '@material-ui/core';
-import { NETWORK_LIST } from 'config/constants';
 
-// Local Components
 import PageHeader from 'components-v2/common/PageHeader';
 import { Mint } from './Mint';
 import { Redeem } from './Redeem';
 import { IbbtcRoi } from './IbbtcRoi';
 import { HeaderContainer, LayoutContainer } from '../../components-v2/common/Containers';
+import { ChainNetwork } from 'config/enums/chain-network.enum';
 
 type TABS = 'Mint' | 'Redeem';
 
@@ -52,7 +51,7 @@ export const IbBTC = observer(() => {
 					<PageHeader title="ibBTC" subtitle="Interest Bearing Badger Bitcoin." />
 				</HeaderContainer>
 
-				{network.symbol === NETWORK_LIST.ETH ? (
+				{network.symbol === ChainNetwork.Ethereum ? (
 					<>
 						<Grid item sm={12} xs={12} md={7} className={classes.apyInformation}>
 							<IbbtcRoi />
