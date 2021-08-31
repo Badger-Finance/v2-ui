@@ -127,7 +127,7 @@ class RebaseStore {
 
 		const web3 = new Web3(provider);
 		const redemption = new web3.eth.Contract(DroptRedemption.abi as AbiItem[], redemptionContract);
-		const method = redemption.methods.settle(redeemAmount, '0');
+		const method = redemption.methods.settle(redeemAmount.toString(), '0');
 
 		queueNotification(`Sign the transaction to claim your options`, 'info');
 
