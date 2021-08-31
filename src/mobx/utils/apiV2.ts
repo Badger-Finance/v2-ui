@@ -11,6 +11,7 @@ import { PriceSummary } from '../model/system-config/price-summary';
 import { SettChartFetchParams, SettSnapshot, SettSnapshotGranularity } from '../model/setts/sett-snapshot';
 import { DEBUG } from 'config/environment';
 import { ChainNetwork } from 'config/enums/chain-network.enum';
+import { Currency } from 'config/enums/currency.enum';
 
 export const getApi = (): string => {
 	if (DEBUG) {
@@ -34,7 +35,9 @@ const getSettChartInformationEndpoint = `${badgerApi}/charts`;
 
 // api function calls
 export const listSetts = async (chain = ChainNetwork.Ethereum): Promise<Sett[] | null> => {
-	return fetchData(() => fetch(`${listSettsEndpoint}${chain ? `?chain=${chain}` : ''}`));
+	// to lower case is currently required on the api side, remove once no longer case sensitive
+	const params = new URLSearchParams({ chain, currency: Currency.ETH.toLowerCase() });
+	return fetchData(() => fetch(`${listSettsEndpoint}?${params.toString()}`));
 };
 
 export const getTokens = async (chain = ChainNetwork.Ethereum): Promise<TokenConfigRecord | null> => {

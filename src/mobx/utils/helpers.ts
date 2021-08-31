@@ -8,6 +8,8 @@ import { MarketDelta } from 'mobx/model/charts/market-delta';
 import { ChartData } from 'mobx/model/charts/chart-data';
 import { Network } from 'mobx/model/network/network';
 import { DEBUG } from 'config/environment';
+import { Currency } from 'config/enums/currency.enum';
+import { currencyConfiguration } from 'config/currency.config';
 
 export const jsonQuery = (url: string | undefined): Promise<Response> | undefined => {
 	if (!url) return;
@@ -44,122 +46,30 @@ export const secondsToBlocks = (seconds: number): number => {
 
 // TECH DEBT: Reformat these formatting functions using a factory pattern and delete repeated code
 
-// input: usd value
-// output: formatted currency string
-export const usdToCurrency = (
-	value: BigNumber,
-	currency: string,
-	hide = false,
-	preferredDecimals = 2,
-	noCommas = false,
-): string | undefined => {
-	const exchangeRates = store.prices.exchangeRates;
-	if (!exchangeRates || value.isNaN()) {
+/**
+ * Function for wrapping ETH based prices or values to be displayed in any currency.
+ * @param value Amount of eth to be displayed.
+ * @param currency
+ * @param dispalyDecimals
+ * @returns
+ */
+export function inCurrency(value: BigNumber, currency: Currency, dispalyDecimals?: number): string | undefined {
+	const { exchangeRates } = store.prices;
+	if (value.isNaN() || !exchangeRates) {
 		return;
 	}
-
-	let normal = value;
-	let prefix = !hide ? '$' : '';
-	let decimals = preferredDecimals;
-
-	switch (currency) {
-		case 'usd':
-			break;
-		case 'btc':
-			normal = normal.dividedBy(exchangeRates.usd).multipliedBy(exchangeRates.btc);
-			decimals = 5;
-			prefix = '₿ ';
-			break;
-		case 'eth':
-			prefix = 'Ξ ';
-			decimals = 5;
-			normal = normal.dividedBy(exchangeRates.usd);
-			break;
-		case 'cad':
-			normal = normal.dividedBy(exchangeRates.usd).multipliedBy(exchangeRates.cad);
-			prefix = 'C$';
-			break;
-		case 'bnb':
-			normal = normal.dividedBy(exchangeRates.usd).multipliedBy(exchangeRates.bnb);
-			decimals = 5;
-			prefix = '/assets/icons/bnb-white.png';
-			break;
-	}
-
+	const currencyConfig = currencyConfiguration[currency];
+	const { prefix, getExchangeRate, decimals } = currencyConfig;
+	const conversionDecimals = dispalyDecimals ?? decimals;
+	let converted = value.multipliedBy(getExchangeRate(exchangeRates));
 	let suffix = '';
-
-	if (normal.gt(0) && normal.lt(10 ** -decimals)) {
-		normal = normal.multipliedBy(10 ** decimals);
-		suffix = `e-${decimals}`;
-	} else if (normal.dividedBy(1e4).gt(1)) {
-		decimals = preferredDecimals;
+	if (converted.gt(0) && converted.lt(10 ** -conversionDecimals)) {
+		converted = converted.multipliedBy(10 ** conversionDecimals);
+		suffix = `e-${conversionDecimals}`;
 	}
-
-	const fixedNormal = noCommas
-		? normal.toFixed(decimals, BigNumber.ROUND_HALF_FLOOR)
-		: numberWithCommas(normal.toFixed(decimals, BigNumber.ROUND_HALF_FLOOR));
-
-	return `${prefix}${fixedNormal}${suffix}`;
-};
-
-// input: eth value in wei
-// output: formatted currency string
-export const inCurrency = (
-	value: BigNumber,
-	currency: string,
-	hide = false,
-	preferredDecimals = 5,
-	noCommas = false,
-): string | undefined => {
-	const exchangeRates = store.prices.exchangeRates;
-	if (!exchangeRates || value.isNaN()) {
-		return;
-	}
-
-	let normal = value;
-	let prefix = !hide ? 'Ξ ' : '';
-	let decimals = preferredDecimals;
-
-	switch (currency) {
-		case 'eth':
-			break;
-		case 'btc':
-			normal = normal.multipliedBy(exchangeRates.btc);
-			prefix = '₿ ';
-			break;
-		case 'usd':
-			prefix = '$';
-			decimals = 2;
-			normal = normal.multipliedBy(exchangeRates.usd);
-			break;
-		case 'cad':
-			normal = normal.multipliedBy(exchangeRates.cad);
-			prefix = 'C$';
-			decimals = 2;
-			break;
-		case 'bnb':
-			normal = normal.multipliedBy(exchangeRates.bnb);
-			prefix = '/assets/icons/bnb-white.png';
-			decimals = 2;
-			break;
-	}
-
-	let suffix = '';
-
-	if (normal.gt(0) && normal.lt(10 ** -preferredDecimals)) {
-		normal = normal.multipliedBy(10 ** preferredDecimals);
-		decimals = preferredDecimals;
-		suffix = `e-${preferredDecimals}`;
-	} else if (normal.dividedBy(1e4).gt(1)) {
-		decimals = 2;
-	}
-
-	const fixedNormal = noCommas
-		? normal.toFixed(decimals, BigNumber.ROUND_HALF_FLOOR)
-		: numberWithCommas(normal.toFixed(decimals, BigNumber.ROUND_HALF_FLOOR));
-
-	return `${prefix}${fixedNormal}${suffix}`;
-};
+	const amount = numberWithCommas(converted.toFixed(conversionDecimals, BigNumber.ROUND_HALF_FLOOR));
+	return `${prefix}${amount}${suffix}`;
+}
 
 interface DiggToCurrencyOptions {
 	amount: BigNumber;
@@ -354,10 +264,10 @@ export function marketChartStats(dataSet: Array<any>, accessor: string): MarketC
 	return { high, low, avg, median };
 }
 
-export const fetchData = async <T>(
+export const fetchData = async <T, R = unknown>(
 	url: string,
 	errMessage: string,
-	accessor?: (res: any) => T,
+	accessor?: (res: R) => T,
 ): Promise<T | undefined> => {
 	const retryOptions = getDefaultRetryOptions<T>();
 	return retry(async () => {

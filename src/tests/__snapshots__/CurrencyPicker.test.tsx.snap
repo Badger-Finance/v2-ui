@@ -29,7 +29,7 @@ exports[`CurrencyPicker Opens menu upon click 1`] = `
         aria-disabled="false"
         aria-selected="true"
         class="MuiButtonBase-root-110 MuiListItem-root-99 MuiMenuItem-root-95 MuiMenuItem-selected-97 MuiMenuItem-gutters-96 MuiListItem-gutters-106 MuiListItem-button-107 MuiListItem-selected-109 MuiButtonBase-focusVisible-112 MuiListItem-focusVisible-101"
-        data-value="usd"
+        data-value="USD"
         role="option"
         tabindex="0"
       >
@@ -41,7 +41,7 @@ exports[`CurrencyPicker Opens menu upon click 1`] = `
       <li
         aria-disabled="false"
         class="MuiButtonBase-root-110 MuiListItem-root-99 MuiMenuItem-root-95 MuiMenuItem-gutters-96 MuiListItem-gutters-106 MuiListItem-button-107"
-        data-value="cad"
+        data-value="CAD"
         role="option"
         tabindex="-1"
       >
@@ -53,7 +53,7 @@ exports[`CurrencyPicker Opens menu upon click 1`] = `
       <li
         aria-disabled="false"
         class="MuiButtonBase-root-110 MuiListItem-root-99 MuiMenuItem-root-95 MuiMenuItem-gutters-96 MuiListItem-gutters-106 MuiListItem-button-107"
-        data-value="btc"
+        data-value="BTC"
         role="option"
         tabindex="-1"
       >
@@ -65,7 +65,7 @@ exports[`CurrencyPicker Opens menu upon click 1`] = `
       <li
         aria-disabled="false"
         class="MuiButtonBase-root-110 MuiListItem-root-99 MuiMenuItem-root-95 MuiMenuItem-gutters-96 MuiListItem-gutters-106 MuiListItem-button-107"
-        data-value="eth"
+        data-value="ETH"
         role="option"
         tabindex="-1"
       >
@@ -100,7 +100,7 @@ exports[`CurrencyPicker Renders correctly 1`] = `
       aria-hidden="true"
       class="MuiSelect-nativeInput-12"
       tabindex="-1"
-      value="usd"
+      value="USD"
     />
     <svg
       aria-hidden="true"

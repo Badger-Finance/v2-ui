@@ -13,6 +13,13 @@ import { PartialAttemptOptions } from '@lifeomic/attempt';
 import { ClaimsSymbols } from 'mobx/model/rewards/claims-symbols';
 import { BurnAndReleaseStatus } from '@renproject/ren/build/main/burnAndRelease';
 import { DepositStatus } from '@renproject/ren/build/main/lockAndMint';
+import { ChainNetwork } from './enums/chain-network.enum';
+import { Currency } from './enums/currency.enum';
+
+/* App Configurations */
+
+export const DEFAULT_CURRENCY = Currency.USD;
+export const DEFAULT_NETWORK = ChainNetwork.Ethereum;
 
 export const burnStatusDict: Record<BurnAndReleaseStatus, string> = {
 	pending: 'Transaction Pending.',
@@ -44,13 +51,6 @@ export const RPC_WALLETS: { [index: string]: boolean } = {
 	lattice: true,
 };
 
-export enum NETWORK_LIST {
-	ETH = 'eth',
-	BSC = 'bsc',
-	MATIC = 'matic',
-	XDAI = 'xdai',
-}
-
 export enum NETWORK_IDS {
 	ETH = 1,
 	BSC = 56,
@@ -59,8 +59,8 @@ export enum NETWORK_IDS {
 }
 
 export const CLAIMS_SYMBOLS: ClaimsSymbols = {
-	[NETWORK_LIST.BSC]: {},
-	[NETWORK_LIST.ETH]: {
+	[ChainNetwork.BinanceSmartChain]: {},
+	[ChainNetwork.Ethereum]: {
 		[tokens.farm]: 'Farm',
 		[tokens.xsushi]: 'xSushi',
 		[tokens.usdc]: 'USDC',
@@ -73,10 +73,10 @@ export const CLAIMS_SYMBOLS: ClaimsSymbols = {
 		[sett_system.vaults['native.cvxCrv']]: 'bcvxCRV',
 		[digg_system.DROPT['DROPT-3'].longToken]: 'DROPT-3',
 	},
-	[NETWORK_LIST.MATIC]: {
+	[ChainNetwork.Matic]: {
 		[maticTokens.CRV]: 'CRV',
 	},
-	[NETWORK_LIST.XDAI]: {},
+	[ChainNetwork.xDai]: {},
 };
 
 export const CONTACT_EMAIL = 'hello@badger.finance';
@@ -91,7 +91,7 @@ export const APP_NAME = 'badgerDAO';
 export const PORTIS_APP_ID = 'cbf7534d-170d-4903-943f-e607dc588b7f';
 export const EMPTY_DATA = '0x';
 export const ZERO_CURRENCY = '0.00000';
-export const SITE_VERSION = 'v2.9.0';
+export const SITE_VERSION = 'v2.9.1';
 export const WC_BRIDGE = 'https://wc-bridge.badger.finance/';
 export const REN_FEES_ENDPOINT = 'https://lightnode-mainnet.herokuapp.com/ren_queryBlockState';
 
