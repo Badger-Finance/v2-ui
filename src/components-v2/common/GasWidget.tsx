@@ -9,6 +9,11 @@ const useStyles = makeStyles(() => ({
 		height: '2.2rem',
 		overflow: 'hidden',
 	},
+	gasIcon: {
+		cursor: 'pointer',
+		fontSize: '1.2rem',
+		marginRight: '.8rem',
+	},
 }));
 
 const GasWidget = observer(() => {
@@ -16,7 +21,7 @@ const GasWidget = observer(() => {
 	const store = useContext(StoreContext);
 
 	const { gasPrice, setGasPrice } = store.uiState;
-	const { gasPrices } = store.network;
+	const { gasPrices, network } = store.network;
 	if (!gasPrices[gasPrice]) store.uiState.setGasPrice('standard');
 
 	const getGasSelections = () => {
@@ -32,10 +37,7 @@ const GasWidget = observer(() => {
 	};
 
 	const gasIcon = (
-		<LocalGasStation
-			onClick={() => window.open('https://www.gasnow.org/')}
-			style={{ cursor: 'pointer', fontSize: '1.2rem', marginRight: '.8rem' }}
-		/>
+		<LocalGasStation onClick={() => window.open(network.gasProviderUrl, '_blank')} className={classes.gasIcon} />
 	);
 
 	return (

@@ -11,6 +11,7 @@ export class Polygon extends Network {
 	constructor() {
 		super(
 			'https://polygonscan.com/',
+			'https://polygonscan.com/gastracker',
 			'Polygon',
 			NETWORK_LIST.MATIC,
 			NETWORK_IDS.MATIC,

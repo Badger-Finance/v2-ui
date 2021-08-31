@@ -11,6 +11,7 @@ export class BinanceSmartChain extends Network {
 	constructor() {
 		super(
 			'https://bscscan.com',
+			'https://bscscan.com/gastracker',
 			'Binance Smart Chain',
 			NETWORK_LIST.BSC,
 			NETWORK_IDS.BSC,

@@ -11,6 +11,7 @@ export class xDai extends Network {
 	constructor() {
 		super(
 			'https://blockscout.com/xdai/mainnet/',
+			'https://blockscout.com/xdai/mainnet/',
 			'xDai',
 			NETWORK_LIST.XDAI,
 			NETWORK_IDS.XDAI,
@@ -21,7 +22,13 @@ export class xDai extends Network {
 	}
 
 	async updateGasPrices(): Promise<GasPrices> {
-		return { rapid: 10, fast: 5, standard: 2, slow: 1 };
+		const prices = await fetch('https://blockscout.com/xdai/mainnet/api/v1/gas-price-oracle');
+		const result = await prices.json();
+		return {
+			fast: result['fast'],
+			average: result['average'],
+			slow: result['slow'],
+		};
 	}
 }
 
