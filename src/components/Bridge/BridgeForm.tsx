@@ -15,6 +15,12 @@ import {
 	Select,
 	MenuItem,
 	Typography,
+	Dialog,
+	DialogActions,
+	DialogContent,
+	DialogContentText,
+	DialogTitle,
+	Button,
 } from '@material-ui/core';
 
 import { MintForm } from './MintForm';
@@ -45,6 +51,58 @@ const renBTCLogo = '/assets/icons/renbtc.svg';
 const crvBTCLogo = '/assets/icons/bcrvrenwbtc.png';
 const btcLogo = '/assets/icons/btc.svg';
 
+function UserCancelTx() {
+	const store = useContext(StoreContext);
+	const {
+		bridge: { cancelTx },
+	} = store;
+
+	const [open, setOpen] = React.useState(false);
+
+	const handleClickOpen = () => {
+		setOpen(true);
+	};
+
+	const handleClose = () => {
+		setOpen(false);
+	};
+
+	const handleConfirm = () => {
+		cancelTx();
+		handleClose();
+	};
+
+	return (
+		<div>
+			<Button variant="outlined" color="primary" onClick={handleClickOpen}>
+				Back
+			</Button>
+			<Dialog
+				open={open}
+				onClose={handleClose}
+				aria-labelledby="cancel-title"
+				aria-describedby="cancel-description"
+			>
+				<DialogTitle id="cancel-title">{'Cancel transaction?'}</DialogTitle>
+				<DialogContent>
+					<DialogContentText id="cancel-description">
+						Are you sure you wish to cancel this transaction? Please do not cancel if you have already sent
+						funds to the provided address.
+					</DialogContentText>
+				</DialogContent>
+				<DialogActions>
+					<Button onClick={handleClose} color="primary">
+						Cancel
+					</Button>
+					<Button onClick={handleConfirm} color="primary" autoFocus>
+						Confirm
+					</Button>
+				</DialogActions>
+			</Dialog>
+		</div>
+	);
+}
+
 function MintStatusDisplay({
 	status,
 	message,
@@ -65,6 +123,7 @@ function MintStatusDisplay({
 	if (!status) {
 		return (
 			<React.Fragment>
+				<UserCancelTx />
 				<img src={btcLogo} className={classes.logo} />
 				<h1>Send {amount} BTC to</h1>
 				{bitcoinAddress ? (
