@@ -150,11 +150,11 @@ export const Airdrops = observer(() => {
 				return null;
 			}
 			const { amount } = airdrop;
-			const dispalyAmount = !!connectedAddress ? formatTokens(amount, token.decimals) : '0.00000';
+			const displayAmount = !!connectedAddress ? formatTokens(amount, token.decimals) : '0.00000';
 
 			return (
 				<ListItem key={airdrop.token} style={{ margin: 0, padding: 0 }}>
-					<ListItemText primary={dispalyAmount} secondary={`${token.name} available to claim`} />
+					<ListItemText primary={displayAmount} secondary={`${token.name} available to claim`} />
 					<ListItemSecondaryAction>
 						<ButtonGroup disabled={!airdrop.amount.gt(0)} size="small" variant="outlined" color="primary">
 							<Button

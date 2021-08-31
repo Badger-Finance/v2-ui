@@ -11,6 +11,8 @@ import { BDiggExchangeRates } from '../model/system-config/bDigg-exchange-rates'
 import { PriceSummary } from '../model/system-config/price-summary';
 import { Network } from 'mobx/model/network/network';
 import { ChainNetwork } from 'config/enums/chain-network.enum';
+import { ExchangeRatesResponse } from 'mobx/model/system-config/exchange-rates-response';
+import { MaticPriceResponse, MATIC_PRICE_KEY } from 'mobx/model/system-config/matic-price-response';
 
 export default class PricesStore {
 	private store: RootStore;
@@ -91,11 +93,11 @@ export default class PricesStore {
 		const baseRatesUrl = 'https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd,cad,btc,bnb';
 		const maticRateUrl = 'https://api.coingecko.com/api/v3/simple/price?ids=matic-network&vs_currencies=eth';
 		const errorMessage = 'Failed to load exchange rates';
-		const defaultAccessor = (res: any) => res.ethereum;
-		const maticAccessor = (res: any) => res['matic-network'].eth;
+		const defaultAccessor = (res: ExchangeRatesResponse) => res.ethereum;
+		const maticAccessor = (res: MaticPriceResponse) => res[MATIC_PRICE_KEY].eth;
 		const [defaultRates, maticRate] = await Promise.all([
-			fetchData<ExchangeRates>(baseRatesUrl, errorMessage, defaultAccessor),
-			fetchData<number>(maticRateUrl, errorMessage, maticAccessor),
+			fetchData<ExchangeRates, ExchangeRatesResponse>(baseRatesUrl, errorMessage, defaultAccessor),
+			fetchData<number, MaticPriceResponse>(maticRateUrl, errorMessage, maticAccessor),
 		]);
 		if (defaultRates) {
 			defaultRates.matic = 1 / Number(maticRate);

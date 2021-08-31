@@ -50,10 +50,8 @@ class UiState {
 	private loadCurrency(defaultCurrency: Currency): Currency {
 		const { network } = this.store.network;
 		const stored = window.localStorage.getItem(`${network.name}-selectedCurrency`);
-		if (!stored) {
-			return defaultCurrency;
-		}
-		return Currency[stored.toUpperCase() as keyof typeof Currency];
+		const currency = stored?.toUpperCase() || defaultCurrency;
+		return Currency[currency as keyof typeof Currency] || defaultCurrency;
 	}
 
 	queueNotification = action((message: string, variant: string, hash?: string) => {

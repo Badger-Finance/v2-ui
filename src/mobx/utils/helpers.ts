@@ -264,10 +264,10 @@ export function marketChartStats(dataSet: Array<any>, accessor: string): MarketC
 	return { high, low, avg, median };
 }
 
-export const fetchData = async <T>(
+export const fetchData = async <T, R = unknown>(
 	url: string,
 	errMessage: string,
-	accessor?: (res: any) => T,
+	accessor?: (res: R) => T,
 ): Promise<T | undefined> => {
 	const retryOptions = getDefaultRetryOptions<T>();
 	return retry(async () => {
