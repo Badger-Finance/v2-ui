@@ -1,5 +1,9 @@
 # v2 UI Changelog
 
+### v2.9.1 - 09/01/20201
+
+-   Release matic support
+
 ### Hotfix - 08/30/2021
 
 -   Add DROPT-3 token reward config

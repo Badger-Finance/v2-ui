@@ -2,7 +2,6 @@ import { extendObservable, action, observe, IValueDidChange } from 'mobx';
 import slugify from 'slugify';
 import { RootStore } from '../RootStore';
 import { getTokens, getTotalValueLocked, listSetts } from 'mobx/utils/apiV2';
-import { NETWORK_LIST } from 'config/constants';
 import Web3 from 'web3';
 import { Token } from 'mobx/model/tokens/token';
 import { TokenCache } from '../model/tokens/token-cache';
@@ -130,7 +129,6 @@ export default class SettStore {
 
 	loadSetts = action(
 		async (chain = ChainNetwork.Ethereum): Promise<void> => {
-			chain = chain ?? NETWORK_LIST.ETH;
 			const settList = await listSetts(chain);
 
 			if (settList) {
@@ -143,7 +141,6 @@ export default class SettStore {
 
 	loadTokens = action(
 		async (chain = ChainNetwork.Ethereum): Promise<void> => {
-			chain = chain ?? NETWORK_LIST.ETH;
 			const tokenConfig = await getTokens(chain);
 			if (tokenConfig) {
 				this.tokenCache[chain] = tokenConfig;
@@ -155,7 +152,6 @@ export default class SettStore {
 
 	loadAssets = action(
 		async (chain = ChainNetwork.Ethereum): Promise<void> => {
-			chain = chain ?? NETWORK_LIST.ETH;
 			const protocolSummary = await getTotalValueLocked(chain);
 			if (protocolSummary) {
 				this.protocolSummaryCache[chain] = protocolSummary;

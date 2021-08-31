@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js';
+import { Currency } from 'config/enums/currency.enum';
 import { inCurrency, minBalance } from 'mobx/utils/helpers';
 import { BadgerToken } from './badger-token';
 
@@ -60,7 +61,7 @@ export class TokenBalance {
 		return this.balance.toFixed(decimals);
 	}
 
-	balanceValueDisplay(currency: string): string | undefined {
+	balanceValueDisplay(currency: Currency): string | undefined {
 		return inCurrency(this.value, currency);
 	}
 

@@ -21,6 +21,7 @@ export abstract class Network {
 	private static idToNetwork: Record<number, Network> = {};
 	private static symbolToNetwork: Record<string, Network> = {};
 	readonly rpc: string;
+	readonly gasProviderUrl: string;
 	readonly explorer: string;
 	readonly name: string;
 	readonly symbol: ChainNetwork;
@@ -34,6 +35,7 @@ export abstract class Network {
 
 	constructor(
 		explorer: string,
+		gasProviderUrl: string,
 		name: string,
 		symbol: ChainNetwork,
 		id: number,
@@ -42,6 +44,7 @@ export abstract class Network {
 		setts: BadgerSett[],
 	) {
 		this.rpc = rpc[symbol];
+		this.gasProviderUrl = gasProviderUrl;
 		this.explorer = explorer;
 		this.name = name;
 		this.symbol = symbol;
@@ -92,18 +95,10 @@ export abstract class Network {
 
 	getNetworkBatchRequests = (setts: SettMap, userAddress: string): BatchCallRequest[] => {
 		const tokenAddresses = Object.values(setts).map((sett) => sett.underlyingToken);
-		const nonSettTokenAddresses = [''];
 		const settAddresses = Object.values(setts).map((sett) => sett.vaultToken);
 		const generalSetts = settAddresses.filter((sett) => setts[sett].state === SettState.Open);
 		const guardedSetts = settAddresses.filter((sett) => setts[sett].state !== SettState.Open);
-		return createChainBatchConfig(
-			tokenAddresses,
-			nonSettTokenAddresses,
-			generalSetts,
-			guardedSetts,
-			[],
-			userAddress,
-		);
+		return createChainBatchConfig(tokenAddresses, generalSetts, guardedSetts, [], userAddress);
 	};
 
 	private checksumSetts(setts: BadgerSett[]): BadgerSett[] {

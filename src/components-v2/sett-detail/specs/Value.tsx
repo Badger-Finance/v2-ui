@@ -4,7 +4,7 @@ import { StyledDivider } from '../styled';
 import { makeStyles } from '@material-ui/core/styles';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../../mobx/store-context';
-import { usdToCurrency } from '../../../mobx/utils/helpers';
+import { inCurrency } from '../../../mobx/utils/helpers';
 import BigNumber from 'bignumber.js';
 import { Skeleton } from '@material-ui/lab';
 
@@ -34,7 +34,7 @@ export const Value = observer(
 
 		// TODO: address this formatting mechanisms in this refactor PR https://github.com/Badger-Finance/v2-ui/pull/707
 		// this currency formatting has been battle tested in the <CurrencyDisplay/> component but can be improved
-		const currencyValue = usdToCurrency(new BigNumber(settValue), uiState.currency);
+		const currencyValue = inCurrency(new BigNumber(settValue), uiState.currency);
 		const hasCurrencyIcon = currencyValue?.includes('.png');
 
 		let currencyIcon;

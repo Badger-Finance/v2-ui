@@ -6,12 +6,12 @@ import { abi as erc20Abi } from './abis/ERC20.json';
 import { abi as badgerHuntAbi } from './abis/BadgerHunt.json';
 import { abi as bBadgerAirdropAbi } from './abis/bBadgerAidrop.json';
 import { getApi } from 'mobx/utils/apiV2';
-import { NETWORK_LIST } from '../constants';
 import { AirdropNetworkConfig } from '../../mobx/model/network/airdrop-network-config';
+import { ChainNetwork } from 'config/enums/chain-network.enum';
 
-export const getAirdrops = (network?: string): AirdropNetworkConfig[] => {
+export const getAirdrops = (network: ChainNetwork): AirdropNetworkConfig[] => {
 	switch (network) {
-		case NETWORK_LIST.ETH:
+		case ChainNetwork.Ethereum:
 			return [
 				{
 					active: false,
