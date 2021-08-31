@@ -26,6 +26,8 @@ import { DEBUG } from 'config/environment';
 import { Sett } from 'mobx/model/setts/sett';
 import { defaultSettBalance } from 'components-v2/sett-detail/utils';
 import { SettBalance } from 'mobx/model/setts/sett-balance';
+import { ChainNetwork } from '../../config/enums/chain-network.enum';
+import { getToken } from 'web3/config/token-config';
 
 export default class UserStore {
 	private store!: RootStore;
@@ -64,7 +66,7 @@ export default class UserStore {
 		/**
 		 * Update account store on change of address.
 		 */
-		observe(this.store.wallet as WalletStore, 'connectedAddress', () => {
+		observe(this.store.wallet as WalletStore, 'connectedAddress', async () => {
 			if (!this.loadingBalances) {
 				const address = this.store.wallet.connectedAddress;
 				const network = this.store.network.network;
@@ -72,11 +74,13 @@ export default class UserStore {
 				this.bouncerProof = undefined;
 				this.accountDetails = undefined;
 				if (address) {
-					this.getSettShopEligibility(address);
-					this.loadBouncerProof(address);
-					this.loadAccountDetails(address, network.symbol);
-					this.loadClaimProof(address);
-					this.updateBalances(true);
+					await Promise.all([
+						this.getSettShopEligibility(address),
+						this.loadBouncerProof(address),
+						this.loadAccountDetails(address, network.symbol),
+						this.loadClaimProof(address, network.symbol),
+						this.updateBalances(true),
+					]);
 				}
 			}
 		});
@@ -85,8 +89,15 @@ export default class UserStore {
 		 * Update account store on change of network.
 		 */
 		observe(this.store.network as NetworkStore, 'network', () => {
+			const address = this.store.wallet.connectedAddress;
+			const network = this.store.network.network;
+
 			if (!this.loadingBalances) {
 				this.refreshBalances();
+			}
+
+			if (address) {
+				this.loadClaimProof(address, network.symbol);
 			}
 		});
 	}
@@ -249,6 +260,9 @@ export default class UserStore {
 
 			// filter batch requests by namespace
 			const userTokens = callResults.filter((result) => result.namespace === ContractNamespace.Token);
+			const nonSettUserTokens = callResults.filter(
+				(result) => result.namespace === ContractNamespace.NonSettToken,
+			);
 			const userGeneralSetts = callResults.filter((result) => result.namespace === ContractNamespace.Sett);
 			const userGuardedSetts = callResults.filter((result) => result.namespace === ContractNamespace.GaurdedSett);
 			const userGeysers = callResults.filter((result) => result.namespace === ContractNamespace.Geyser);
@@ -262,6 +276,7 @@ export default class UserStore {
 			userGeneralSetts.forEach((sett) => this.updateUserBalance(settBalances, sett, this.getSettToken));
 			userGuardedSetts.forEach((sett) => this.updateUserBalance(settBalances, sett, this.getSettToken));
 			userGeysers.forEach((geyser) => this.updateUserBalance(geyserBalances, geyser, this.getGeyserMockToken));
+			nonSettUserTokens.forEach((token) => this.updateNonSettUserBalance(tokenBalances, token));
 
 			const guestListLookup: Record<string, string> = {};
 			const guestLists = userGuardedSetts
@@ -377,6 +392,23 @@ export default class UserStore {
 		userBalances[key] = new TokenBalance(balanceToken, balance, tokenPrice);
 	};
 
+	private updateNonSettUserBalance = (userBalances: UserBalances, token: CallResult): void => {
+		const { prices } = this.store;
+		const balanceResults = token.balanceOf;
+		const tokenAddress = token.address;
+		if (!balanceResults || balanceResults.length === 0 || !tokenAddress) {
+			return;
+		}
+		const balanceToken = getToken(tokenAddress);
+		if (!balanceToken) {
+			return;
+		}
+		const balance = new BigNumber(balanceResults[0].value);
+		const tokenPrice = prices.getPrice(tokenAddress);
+		const key = Web3.utils.toChecksumAddress(tokenAddress);
+		userBalances[key] = new TokenBalance(balanceToken, balance, tokenPrice);
+	};
+
 	/* Token Balance Accessors */
 
 	private getDepositToken = (sett: BadgerSett): BadgerToken => sett.depositToken;
@@ -407,8 +439,8 @@ export default class UserStore {
 	);
 
 	loadClaimProof = action(
-		async (address: string): Promise<void> => {
-			const proof = await fetchClaimProof(Web3.utils.toChecksumAddress(address));
+		async (address: string, chain = ChainNetwork.Ethereum): Promise<void> => {
+			const proof = await fetchClaimProof(Web3.utils.toChecksumAddress(address), chain);
 			if (proof) {
 				this.claimProof = proof;
 				await this.store.rewards.fetchSettRewards();
@@ -419,8 +451,8 @@ export default class UserStore {
 	);
 
 	loadAccountDetails = action(
-		async (address: string, chain?: string): Promise<void> => {
-			const accountDetails = await getAccountDetails(address, chain ? chain : 'eth');
+		async (address: string, chain = ChainNetwork.Ethereum): Promise<void> => {
+			const accountDetails = await getAccountDetails(address, chain);
 			if (accountDetails) {
 				this.accountDetails = accountDetails;
 			}

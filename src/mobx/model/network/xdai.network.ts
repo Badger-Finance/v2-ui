@@ -1,4 +1,4 @@
-import { NETWORK_IDS, NETWORK_LIST } from 'config/constants';
+import { NETWORK_IDS } from 'config/constants';
 import { toRecord } from 'web3/config/token-config';
 import { Deploy } from 'web3/interface/deploy';
 import { ProtocolTokens } from 'web3/interface/protocol-token';
@@ -6,15 +6,17 @@ import { GasPrices } from '../system-config/gas-prices';
 import { BadgerSett } from '../vaults/badger-sett';
 import { Network } from './network';
 import deploy from '../../../config/deployments/xdai.json';
+import { ChainNetwork } from 'config/enums/chain-network.enum';
+import { Currency } from 'config/enums/currency.enum';
 
 export class xDai extends Network {
 	constructor() {
 		super(
 			'https://blockscout.com/xdai/mainnet/',
 			'xDai',
-			NETWORK_LIST.XDAI,
+			ChainNetwork.xDai,
 			NETWORK_IDS.XDAI,
-			'XDAI',
+			Currency.XDAI,
 			XDAI_DEPLOY,
 			xDaiSetts,
 		);

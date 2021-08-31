@@ -3,19 +3,11 @@ import { RootStore } from '../RootStore';
 import views from 'config/routes';
 import WalletStore from 'mobx/stores/walletStore';
 
-/**
- * TODO: save this class' poor soul
- */
 class UiState {
 	private readonly store!: RootStore;
 
 	public currency!: string;
 	public period!: string;
-
-	/**
-	 * TODO: Add types. soon. :(
-	 */
-	public collection: any;
 	public airdropStats: any;
 	public sidebarOpen!: boolean;
 	public hideZeroBal!: boolean;
@@ -29,10 +21,7 @@ class UiState {
 		const { network } = store.network;
 
 		extendObservable(this, {
-			collection: {},
 			locked: window.localStorage.getItem('locked') === 'YES',
-			claims: [0, 0, 0],
-			airdropStats: {},
 			currency: window.localStorage.getItem(`${network.name}-selectedCurrency`) || 'usd',
 			period: window.localStorage.getItem(`${network.name}-selectedPeriod`) || 'year',
 			sidebarOpen: !!window && window.innerWidth > 960,

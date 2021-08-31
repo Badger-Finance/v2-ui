@@ -195,7 +195,7 @@ export const RewardsModal = observer((): JSX.Element | null => {
 			canSubmit = false;
 		}
 	});
-	const hasRewards = claimableValue.gt(0);
+	const hasRewards = claimItems.length > 0;
 	return (
 		<div className={classes.claimContainer}>
 			{hasRewards && (

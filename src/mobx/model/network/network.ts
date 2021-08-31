@@ -1,4 +1,6 @@
 import { TransactionData } from 'bnc-notify';
+import { ChainNetwork } from 'config/enums/chain-network.enum';
+import { Currency } from 'config/enums/currency.enum';
 import rpc from 'config/rpc.config';
 import { getAirdrops } from 'config/system/airdrops';
 import { getStrategies } from 'config/system/strategies';
@@ -21,9 +23,9 @@ export abstract class Network {
 	readonly rpc: string;
 	readonly explorer: string;
 	readonly name: string;
-	readonly symbol: string;
+	readonly symbol: ChainNetwork;
 	readonly id: number;
-	readonly currency: string;
+	readonly currency: Currency;
 	readonly deploy: DeployConfig;
 	readonly setts: BadgerSett[];
 	readonly strategies: StrategyNetworkConfig;
@@ -33,9 +35,9 @@ export abstract class Network {
 	constructor(
 		explorer: string,
 		name: string,
-		symbol: string,
+		symbol: ChainNetwork,
 		id: number,
-		currency: string,
+		currency: Currency,
 		deploy: DeployConfig,
 		setts: BadgerSett[],
 	) {
@@ -68,6 +70,14 @@ export abstract class Network {
 
 	abstract updateGasPrices(): Promise<GasPrices>;
 
+	get hasBadgerTree(): boolean {
+		return !!this.deploy.badgerTree;
+	}
+
+	get badgerTree(): string {
+		return this.deploy.badgerTree;
+	}
+
 	get settOrder(): string[] {
 		return this.setts.map((s) => s.vaultToken.address);
 	}
@@ -82,10 +92,18 @@ export abstract class Network {
 
 	getNetworkBatchRequests = (setts: SettMap, userAddress: string): BatchCallRequest[] => {
 		const tokenAddresses = Object.values(setts).map((sett) => sett.underlyingToken);
+		const nonSettTokenAddresses = [''];
 		const settAddresses = Object.values(setts).map((sett) => sett.vaultToken);
 		const generalSetts = settAddresses.filter((sett) => setts[sett].state === SettState.Open);
 		const guardedSetts = settAddresses.filter((sett) => setts[sett].state !== SettState.Open);
-		return createChainBatchConfig(tokenAddresses, generalSetts, guardedSetts, [], userAddress);
+		return createChainBatchConfig(
+			tokenAddresses,
+			nonSettTokenAddresses,
+			generalSetts,
+			guardedSetts,
+			[],
+			userAddress,
+		);
 	};
 
 	private checksumSetts(setts: BadgerSett[]): BadgerSett[] {

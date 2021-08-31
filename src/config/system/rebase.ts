@@ -6,7 +6,7 @@ import DroptRedemption from './abis/DroptRedemption.json';
 import { digg_system } from '../deployments/mainnet.json';
 
 import { AbiItem } from 'web3-utils';
-import { NETWORK_LIST } from 'config/constants';
+import { ERC20_ABI, NETWORK_LIST } from 'config/constants';
 import { RebaseNetworkConfig } from '../../mobx/model/network/rebase-network-config';
 
 export const getRebase = (network: string): RebaseNetworkConfig | undefined => {
@@ -76,6 +76,14 @@ export const getRebase = (network: string): RebaseNetworkConfig | undefined => {
 						],
 					},
 					{
+						addresses: [digg_system.DROPT['DROPT-2'].longToken],
+						abi: ERC20_ABI,
+						allReadMethods: true,
+						groupByNamespace: true,
+						logging: false,
+						namespace: 'droptToken',
+					},
+					{
 						addresses: [digg_system.DROPT['DROPT-3'].redemption],
 						abi: DroptRedemption.abi as AbiItem[],
 						groupByNamespace: true,
@@ -94,6 +102,14 @@ export const getRebase = (network: string): RebaseNetworkConfig | undefined => {
 								args: [],
 							},
 						],
+					},
+					{
+						addresses: [digg_system.DROPT['DROPT-3'].longToken],
+						abi: ERC20_ABI,
+						allReadMethods: true,
+						groupByNamespace: true,
+						logging: false,
+						namespace: 'droptToken',
 					},
 				],
 				orchestrator: {
