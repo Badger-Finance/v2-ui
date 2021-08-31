@@ -209,7 +209,7 @@ export const Sidebar = observer(() => {
 					</ListItemSecondaryAction>
 				</ListItem>
 
-				{network.symbol === ChainNetwork.Ethereum ? (
+				{[ChainNetwork.Ethereum, ChainNetwork.Matic].includes(network.symbol) ? (
 					<ListItem
 						button
 						onClick={() => setExpanded(expanded === 'advanced' ? '' : 'advanced')}
@@ -231,7 +231,9 @@ export const Sidebar = observer(() => {
 					</ListItem>
 				)}
 				<Collapse in={expanded === 'advanced'} timeout="auto" unmountOnExit>
-					{network.symbol === ChainNetwork.Ethereum && badgerTree && connectedAddress ? (
+					{[ChainNetwork.Ethereum, ChainNetwork.Matic].includes(network.symbol) &&
+					badgerTree &&
+					connectedAddress ? (
 						<ListItem key="rewards">
 							<ListItemText
 								primary={`Cycle Count: ${badgerTree.cycle}`}
