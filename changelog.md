@@ -3,6 +3,8 @@
 ### Hotfix - 08/30/2021
 
 -   Add DROPT-3 token reward config
+-   Fix issue with DROPT-3 token balance not being tracked
+-   Fix incorrect timestamp check
 
 ### Hotfix - 08/27/2021
 

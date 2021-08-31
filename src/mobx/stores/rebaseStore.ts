@@ -64,7 +64,7 @@ class RebaseStore {
 		const validDropts = dropt
 			.filter(
 				(_dropt: DroptContractResponse) =>
-					Number(_dropt.expirationTimestamp[0].value) > Number(_dropt.getCurrentTime[0].value) &&
+					Number(_dropt.expirationTimestamp[0].value) < Number(_dropt.getCurrentTime[0].value) &&
 					Number(_dropt.expiryPrice[0].value) > 0,
 			)
 			.map((validDropt: DroptContractResponse) => {
