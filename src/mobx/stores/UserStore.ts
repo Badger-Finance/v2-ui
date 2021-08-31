@@ -27,6 +27,7 @@ import { Sett } from 'mobx/model/setts/sett';
 import { defaultSettBalance } from 'components-v2/sett-detail/utils';
 import { SettBalance } from 'mobx/model/setts/sett-balance';
 import { ChainNetwork } from '../../config/enums/chain-network.enum';
+import { getToken } from 'web3/config/token-config';
 
 export default class UserStore {
 	private store!: RootStore;
@@ -259,6 +260,9 @@ export default class UserStore {
 
 			// filter batch requests by namespace
 			const userTokens = callResults.filter((result) => result.namespace === ContractNamespace.Token);
+			const nonSettUserTokens = callResults.filter(
+				(result) => result.namespace === ContractNamespace.NonSettToken,
+			);
 			const userGeneralSetts = callResults.filter((result) => result.namespace === ContractNamespace.Sett);
 			const userGuardedSetts = callResults.filter((result) => result.namespace === ContractNamespace.GaurdedSett);
 			const userGeysers = callResults.filter((result) => result.namespace === ContractNamespace.Geyser);
@@ -272,6 +276,7 @@ export default class UserStore {
 			userGeneralSetts.forEach((sett) => this.updateUserBalance(settBalances, sett, this.getSettToken));
 			userGuardedSetts.forEach((sett) => this.updateUserBalance(settBalances, sett, this.getSettToken));
 			userGeysers.forEach((geyser) => this.updateUserBalance(geyserBalances, geyser, this.getGeyserMockToken));
+			nonSettUserTokens.forEach((token) => this.updateNonSettUserBalance(tokenBalances, token));
 
 			const guestListLookup: Record<string, string> = {};
 			const guestLists = userGuardedSetts
@@ -384,6 +389,23 @@ export default class UserStore {
 		}
 		const tokenPrice = prices.getPrice(pricingToken);
 		const key = Web3.utils.toChecksumAddress(balanceToken.address);
+		userBalances[key] = new TokenBalance(balanceToken, balance, tokenPrice);
+	};
+
+	private updateNonSettUserBalance = (userBalances: UserBalances, token: CallResult): void => {
+		const { prices } = this.store;
+		const balanceResults = token.balanceOf;
+		const tokenAddress = token.address;
+		if (!balanceResults || balanceResults.length === 0 || !tokenAddress) {
+			return;
+		}
+		const balanceToken = getToken(tokenAddress);
+		if (!balanceToken) {
+			return;
+		}
+		const balance = new BigNumber(balanceResults[0].value);
+		const tokenPrice = prices.getPrice(tokenAddress);
+		const key = Web3.utils.toChecksumAddress(tokenAddress);
 		userBalances[key] = new TokenBalance(balanceToken, balance, tokenPrice);
 	};
 

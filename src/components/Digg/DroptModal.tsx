@@ -63,11 +63,14 @@ const DroptModal = observer(() => {
 		const droptToken = setts.getToken(droptAddress);
 		const droptBalance = user.getTokenBalance(droptAddress);
 		const expiryPrice = new BigNumber(dropt[redemptionAddress].expiryPrice);
-		const redemptionAmount = formatTokens(expiryPrice.multipliedBy(droptBalance.balance));
 		if (!droptToken || droptBalance.balance.lte(0)) {
 			if (DEBUG && !droptToken) console.log('error retrieving', redemptionAddress, 'token');
 			return;
 		}
+		const redemptionAmount = formatTokens(
+			expiryPrice.multipliedBy(droptBalance.balance).dividedBy(10 ** droptToken.decimals),
+		);
+
 		return (
 			<DroptModalItem
 				key={droptToken.symbol}

@@ -60,11 +60,19 @@ export class Ethereum extends Network {
 
 	batchRequests(setts: SettMap, address: string): BatchCallRequest[] {
 		const tokenAddresses = Object.values(setts).map((sett) => sett.underlyingToken);
+		const nonSettTokenAddresses = [deploy.digg_system.DROPT['DROPT-3'].longToken];
 		const settAddresses = Object.values(setts).map((sett) => sett.vaultToken);
 		const generalSetts = settAddresses.filter((sett) => setts[sett].state === SettState.Open);
 		const guardedSetts = settAddresses.filter((sett) => setts[sett].state !== SettState.Open);
 		const geyserAddresses = ethSetts.map((sett) => sett.geyser).filter((geyser): geyser is string => !!geyser);
-		return createChainBatchConfig(tokenAddresses, generalSetts, guardedSetts, geyserAddresses, address);
+		return createChainBatchConfig(
+			tokenAddresses,
+			nonSettTokenAddresses,
+			generalSetts,
+			guardedSetts,
+			geyserAddresses,
+			address,
+		);
 	}
 
 	async updateGasPrices(): Promise<GasPrices> {
