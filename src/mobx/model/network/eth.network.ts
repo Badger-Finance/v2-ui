@@ -18,6 +18,7 @@ export class Ethereum extends Network {
 	constructor() {
 		super(
 			'https://etherscan.io',
+			'https://www.gasnow.org/',
 			'Ethereum',
 			ChainNetwork.Ethereum,
 			NETWORK_IDS.ETH,

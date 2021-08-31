@@ -13,6 +13,7 @@ export class BinanceSmartChain extends Network {
 	constructor() {
 		super(
 			'https://bscscan.com',
+			'https://bscscan.com/gastracker',
 			'Binance Smart Chain',
 			ChainNetwork.BinanceSmartChain,
 			NETWORK_IDS.BSC,
@@ -23,7 +24,14 @@ export class BinanceSmartChain extends Network {
 	}
 
 	async updateGasPrices(): Promise<GasPrices> {
-		return { rapid: 20, fast: 10, standard: 5, slow: 2 };
+		const prices = await fetch('https://bscgas.info/gas');
+		const result = await prices.json();
+		return {
+			rapid: result['instant'],
+			fast: result['fast'],
+			standard: result['standard'],
+			slow: result['slow'],
+		};
 	}
 }
 
