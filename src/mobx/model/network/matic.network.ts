@@ -93,6 +93,10 @@ export const maticRewards = [
 		address: MATIC_DEPLOY.tokens['CRV'],
 		decimals: 18,
 	},
+	{
+		address: MATIC_DEPLOY.tokens['BADGER'],
+		decimals: 18,
+	},
 ];
 
 const maticTokens = maticSetts.flatMap((sett) => [sett.depositToken, sett.vaultToken]).concat(maticRewards);

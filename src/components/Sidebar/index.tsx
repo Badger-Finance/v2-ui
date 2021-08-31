@@ -209,7 +209,7 @@ export const Sidebar = observer(() => {
 					</ListItemSecondaryAction>
 				</ListItem>
 
-				{network.symbol === ChainNetwork.Ethereum ? (
+				{[ChainNetwork.Ethereum, ChainNetwork.Matic].includes(network.symbol) ? (
 					<ListItem
 						button
 						onClick={() => setExpanded(expanded === 'advanced' ? '' : 'advanced')}
@@ -231,7 +231,9 @@ export const Sidebar = observer(() => {
 					</ListItem>
 				)}
 				<Collapse in={expanded === 'advanced'} timeout="auto" unmountOnExit>
-					{network.symbol === ChainNetwork.Ethereum && badgerTree && connectedAddress ? (
+					{[ChainNetwork.Ethereum, ChainNetwork.Matic].includes(network.symbol) &&
+					badgerTree &&
+					connectedAddress ? (
 						<ListItem key="rewards">
 							<ListItemText
 								primary={`Cycle Count: ${badgerTree.cycle}`}
@@ -403,6 +405,45 @@ export const Sidebar = observer(() => {
 								onClick={() => navigate(views.honeybadgerDrop)}
 							>
 								Honey Badger Drop
+							</ListItem>
+						</Collapse>
+					</>
+				) : network.symbol === ChainNetwork.Matic ? (
+					<>
+						<ListItem
+							button
+							className={getCollapsableItemClasses('badger-zone', [
+								'/honey-badger-drop',
+								'/experimental',
+								'/airdrops',
+								'/honey-badger-drop',
+							])}
+							onClick={() => setExpanded(expanded === 'badger-zone' ? '' : 'badger-zone')}
+						>
+							<ListItemIcon>
+								<img
+									alt="Badger Arcade"
+									src={'/assets/sidebar/gas_station.png'}
+									className={classes.icon}
+								/>
+							</ListItemIcon>
+							<ListItemText primary="Badger Arcade" />
+							<IconButton
+								size="small"
+								className={classes.expand + ' ' + (expanded === 'tokens' ? classes.expandOpen : '')}
+								aria-label="show more"
+							>
+								<ExpandMore />
+							</IconButton>
+						</ListItem>
+						<Collapse in={expanded === 'badger-zone'} timeout="auto" unmountOnExit>
+							<ListItem
+								button
+								classes={{ gutters: classes.subItemGutters }}
+								className={getItemClass('/experimental', classes.primarySubListItem)}
+								onClick={() => navigate(views.experimental)}
+							>
+								Experimental Vaults
 							</ListItem>
 						</Collapse>
 					</>

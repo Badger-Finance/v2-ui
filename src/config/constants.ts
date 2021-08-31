@@ -75,6 +75,7 @@ export const CLAIMS_SYMBOLS: ClaimsSymbols = {
 	},
 	[ChainNetwork.Matic]: {
 		[maticTokens.CRV]: 'CRV',
+		[maticTokens.BADGER]: 'Badger',
 	},
 	[ChainNetwork.xDai]: {},
 };
