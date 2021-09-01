@@ -91,7 +91,7 @@ const SettListItem = observer(
 		const multiplier = !sett.deprecated ? user.accountDetails?.multipliers[sett.vaultToken] : undefined;
 
 		const canWithdraw = user.getSettBalance(sett).balance > 0;
-		const isDisabled = sett.hasBouncer && !user.viewSettShop();
+		const isDisabled = sett.hasBouncer && !user.permissions?.viewSettShop;
 
 		const goToSettDetail = async () => {
 			await router.goTo(routes.settDetails, { settName: sett.slug, accountView });

@@ -35,7 +35,7 @@ export default class UserStore {
 	private userBalanceCache: UserBalanceCache = {};
 
 	// loading: undefined, error: null, present: object
-	private permissions: UserPermissions | undefined | null;
+	public permissions: UserPermissions | undefined | null;
 	public claimProof: RewardMerkleClaim | undefined | null;
 	public bouncerProof: string[] | undefined | null;
 	public accountDetails: Account | undefined | null;
@@ -53,7 +53,6 @@ export default class UserStore {
 		extendObservable(this, {
 			permissions: this.permissions,
 			bouncerProof: this.bouncerProof,
-			viewSettShop: this.viewSettShop,
 			accountDetails: this.accountDetails,
 			claimProof: this.claimProof,
 			tokenBalances: this.tokenBalances,
