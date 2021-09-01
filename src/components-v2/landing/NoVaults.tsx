@@ -37,7 +37,7 @@ const linkObjects = (
 		switch (linkState) {
 			case SettState.Experimental:
 				links.push(
-					<Grid item xs={2}>
+					<Grid item xs={2} key={`${SettState.Experimental}-link-button`}>
 						<Button variant="outlined" color="primary" onClick={() => goTo(views.experimental)}>
 							{SettState.Experimental}
 						</Button>
@@ -46,7 +46,7 @@ const linkObjects = (
 				break;
 			case SettState.Open:
 				links.push(
-					<Grid item xs={2}>
+					<Grid item xs={2} key={`${SettState.Open}-link-button`}>
 						<Button variant="outlined" color="primary" onClick={() => goTo(views.home)}>
 							{SettState.Open}
 						</Button>
@@ -55,7 +55,7 @@ const linkObjects = (
 				break;
 			case SettState.Guarded:
 				links.push(
-					<Grid item xs={2}>
+					<Grid item xs={2} key={`${SettState.Guarded}-link-button`}>
 						<Button variant="outlined" color="primary" onClick={() => goTo(views.guarded)}>
 							{SettState.Guarded}
 						</Button>
