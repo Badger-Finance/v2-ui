@@ -1,6 +1,10 @@
 # v2 UI Changelog
 
-### v2.9.1 - 09/01/20201
+### Hotfix - 09/01/2021
+
+-   Add links to other vault pages when no vaults exist
+
+### v2.9.1 - 09/01/2021
 
 -   Release matic support
 
