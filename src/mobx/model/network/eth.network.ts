@@ -18,6 +18,7 @@ export class Ethereum extends Network {
 	constructor() {
 		super(
 			'https://etherscan.io',
+			'https://www.gasnow.org/',
 			'Ethereum',
 			ChainNetwork.Ethereum,
 			NETWORK_IDS.ETH,
@@ -67,11 +68,11 @@ export class Ethereum extends Network {
 		const geyserAddresses = ethSetts.map((sett) => sett.geyser).filter((geyser): geyser is string => !!geyser);
 		return createChainBatchConfig(
 			tokenAddresses,
-			nonSettTokenAddresses,
 			generalSetts,
 			guardedSetts,
 			geyserAddresses,
 			address,
+			nonSettTokenAddresses,
 		);
 	}
 

@@ -4,14 +4,14 @@ import MedianOracle from './abis/MedianOracle.json';
 import Orchestrator from './abis/Orchestrator.json';
 import DroptRedemption from './abis/DroptRedemption.json';
 import { digg_system } from '../deployments/mainnet.json';
-
 import { AbiItem } from 'web3-utils';
-import { ERC20_ABI, NETWORK_LIST } from 'config/constants';
+import { ERC20_ABI } from 'config/constants';
 import { RebaseNetworkConfig } from '../../mobx/model/network/rebase-network-config';
+import { ChainNetwork } from 'config/enums/chain-network.enum';
 
 export const getRebase = (network: string): RebaseNetworkConfig | undefined => {
 	switch (network) {
-		case NETWORK_LIST.ETH:
+		case ChainNetwork.Ethereum:
 			return {
 				digg: [
 					{

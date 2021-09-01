@@ -1,5 +1,14 @@
 # v2 UI Changelog
 
+### Hotfix - 09/01/2021
+
+-   Add links to other vault pages when no vaults exist
+-   Add bouncer check to sett details page
+
+### v2.9.1 - 09/01/2021
+
+-   Release matic support
+
 ### Hotfix - 08/30/2021
 
 -   Add DROPT-3 token reward config

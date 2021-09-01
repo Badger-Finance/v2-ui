@@ -62,19 +62,22 @@ const getReadMethods = (namespace: ContractNamespace, userAddress: string): Read
 
 export const createChainBatchConfig = (
 	tokenAddresses: string[],
-	nonSettTokenAddresses: string[],
 	generalSettAddresses: string[],
 	guardedSettAddresses: string[],
 	geyserAddresses: string[],
 	userAddress: string,
+	nonSettTokenAddresses?: string[],
 ): BatchCallRequest[] => {
-	return [
+	const batchCall = [
 		createBatchCallRequest(tokenAddresses, ContractNamespace.Token, userAddress),
-		createBatchCallRequest(nonSettTokenAddresses, ContractNamespace.NonSettToken, userAddress),
 		createBatchCallRequest(generalSettAddresses, ContractNamespace.Sett, userAddress),
 		createBatchCallRequest(guardedSettAddresses, ContractNamespace.GaurdedSett, userAddress),
 		createBatchCallRequest(geyserAddresses, ContractNamespace.Geyser, userAddress),
 	];
+	if (!!nonSettTokenAddresses) {
+		batchCall.push(createBatchCallRequest(nonSettTokenAddresses, ContractNamespace.NonSettToken, userAddress));
+	}
+	return batchCall;
 };
 
 export const toSettConfig = (definitions: BadgerSett[]): BadgerSett[] => {

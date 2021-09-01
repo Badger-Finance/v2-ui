@@ -23,13 +23,12 @@ exports[`Renders correctly 1`] = `
       class="makeStyles-headerWidgets-1"
     >
       <div
-        class="MuiInputBase-root-61 MuiOutlinedInput-root-46 MuiInputBase-colorSecondary-70 MuiOutlinedInput-colorSecondary-47 makeStyles-gasSelector-34 MuiInputBase-adornedStart-65 MuiOutlinedInput-adornedStart-50"
+        class="MuiInputBase-root-62 MuiOutlinedInput-root-47 MuiInputBase-colorSecondary-71 MuiOutlinedInput-colorSecondary-48 makeStyles-gasSelector-34 MuiInputBase-adornedStart-66 MuiOutlinedInput-adornedStart-51"
       >
         <svg
           aria-hidden="true"
-          class="MuiSvgIcon-root-79"
+          class="MuiSvgIcon-root-80 makeStyles-gasIcon-35"
           focusable="false"
-          style="cursor: pointer; font-size: 1.2rem; margin-right: .8rem;"
           viewBox="0 0 24 24"
         >
           <path
@@ -38,7 +37,7 @@ exports[`Renders correctly 1`] = `
         </svg>
         <div
           aria-haspopup="listbox"
-          class="MuiSelect-root-35 MuiSelect-select-36 MuiSelect-selectMenu-39 MuiSelect-outlined-38 MuiInputBase-input-72 MuiOutlinedInput-input-56 MuiInputBase-inputAdornedStart-76 MuiOutlinedInput-inputAdornedStart-59"
+          class="MuiSelect-root-36 MuiSelect-select-37 MuiSelect-selectMenu-40 MuiSelect-outlined-39 MuiInputBase-input-73 MuiOutlinedInput-input-57 MuiInputBase-inputAdornedStart-77 MuiOutlinedInput-inputAdornedStart-60"
           role="button"
           tabindex="0"
         >
@@ -46,13 +45,13 @@ exports[`Renders correctly 1`] = `
         </div>
         <input
           aria-hidden="true"
-          class="MuiSelect-nativeInput-45"
+          class="MuiSelect-nativeInput-46"
           tabindex="-1"
           value="standard"
         />
         <svg
           aria-hidden="true"
-          class="MuiSvgIcon-root-79 MuiSelect-icon-41 MuiSelect-iconOutlined-44"
+          class="MuiSvgIcon-root-80 MuiSelect-icon-42 MuiSelect-iconOutlined-45"
           focusable="false"
           viewBox="0 0 24 24"
         >
@@ -62,11 +61,11 @@ exports[`Renders correctly 1`] = `
         </svg>
         <fieldset
           aria-hidden="true"
-          class="PrivateNotchedOutline-root-92 MuiOutlinedInput-notchedOutline-55"
+          class="PrivateNotchedOutline-root-93 MuiOutlinedInput-notchedOutline-56"
           style="padding-left: 8px;"
         >
           <legend
-            class="PrivateNotchedOutline-legend-93"
+            class="PrivateNotchedOutline-legend-94"
             style="width: 0.01px;"
           >
             <span>
@@ -76,24 +75,24 @@ exports[`Renders correctly 1`] = `
         </fieldset>
       </div>
       <button
-        class="MuiButtonBase-root-129 MuiButton-root-100 MuiButton-contained-108 makeStyles-walletButton-99 MuiButton-containedSecondary-110 MuiButton-disableElevation-111"
+        class="MuiButtonBase-root-130 MuiButton-root-101 MuiButton-contained-109 makeStyles-walletButton-100 MuiButton-containedSecondary-111 MuiButton-disableElevation-112"
         tabindex="0"
         type="button"
       >
         <span
-          class="MuiButton-label-101"
+          class="MuiButton-label-102"
         >
           Click to connect
           <span
-            class="MuiButton-endIcon-125 MuiButton-iconSizeMedium-127"
+            class="MuiButton-endIcon-126 MuiButton-iconSizeMedium-128"
           >
             <div
-              class="makeStyles-walletDot-96 makeStyles-redDot-97"
+              class="makeStyles-walletDot-97 makeStyles-redDot-98"
             />
           </span>
         </span>
         <span
-          class="MuiTouchRipple-root-132"
+          class="MuiTouchRipple-root-133"
         />
       </button>
     </div>

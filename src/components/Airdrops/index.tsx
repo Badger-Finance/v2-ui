@@ -17,7 +17,7 @@ import { StoreContext } from '../../mobx/store-context';
 import views from '../../config/routes';
 import PageHeader from '../../components-v2/common/PageHeader';
 import { getToken } from 'web3/config/token-config';
-import { inCurrency } from 'mobx/utils/helpers';
+import { formatTokens } from 'mobx/utils/helpers';
 import { HeaderContainer, LayoutContainer } from '../../components-v2/common/Containers';
 
 const useStyles = makeStyles((theme) => ({
@@ -149,21 +149,12 @@ export const Airdrops = observer(() => {
 			if (!token) {
 				return null;
 			}
+			const { amount } = airdrop;
+			const displayAmount = !!connectedAddress ? formatTokens(amount, token.decimals) : '0.00000';
+
 			return (
 				<ListItem key={airdrop.token} style={{ margin: 0, padding: 0 }}>
-					<ListItemText
-						primary={
-							!!connectedAddress
-								? inCurrency(
-										airdrop.amount.dividedBy(10 ** token.decimals),
-										'eth',
-										true,
-										token.decimals,
-								  )
-								: '0.00000'
-						}
-						secondary={`${token.name} available to claim`}
-					/>
+					<ListItemText primary={displayAmount} secondary={`${token.name} available to claim`} />
 					<ListItemSecondaryAction>
 						<ButtonGroup disabled={!airdrop.amount.gt(0)} size="small" variant="outlined" color="primary">
 							<Button

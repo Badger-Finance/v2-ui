@@ -1,16 +1,16 @@
-import { NETWORK_LIST } from 'config/constants';
+import { ChainNetwork } from 'config/enums/chain-network.enum';
 import { sidebarTokenLinks, SidebarLink } from 'config/ui/links';
 import { BinanceSmartChain } from 'mobx/model/network/bsc.network';
 import { Ethereum } from 'mobx/model/network/eth.network';
 
 describe('sidebarTokenLinks', () => {
 	test('sidebarTokenLinks(BSC) returns SidebarLink[]!', () => {
-		expect(sidebarTokenLinks(NETWORK_LIST.BSC)).toContainEqual(
+		expect(sidebarTokenLinks(ChainNetwork.BinanceSmartChain)).toContainEqual(
 			expect.objectContaining(new SidebarLink(expect.anything(), expect.anything())),
 		);
 	});
 	test('sidebarTokenLinks(ETH) returns SidebarLink[]!', () => {
-		expect(sidebarTokenLinks(NETWORK_LIST.ETH)).toContainEqual(
+		expect(sidebarTokenLinks(ChainNetwork.Ethereum)).toContainEqual(
 			expect.objectContaining(new SidebarLink(expect.anything(), expect.anything())),
 		);
 	});
@@ -25,9 +25,9 @@ describe('sidebarTokenLinks', () => {
 		);
 	});
 	test('BscNetwork.sidebarTokenLinks === sidebarTokenLinks(BSC)', () => {
-		expect(new BinanceSmartChain().sidebarTokenLinks).toEqual(sidebarTokenLinks(NETWORK_LIST.BSC));
+		expect(new BinanceSmartChain().sidebarTokenLinks).toEqual(sidebarTokenLinks(ChainNetwork.BinanceSmartChain));
 	});
 	test('EthNetwork.sidebarTokenLinks === sidebarTokenLinks(ETH)', () => {
-		expect(new Ethereum().sidebarTokenLinks).toEqual(sidebarTokenLinks(NETWORK_LIST.ETH));
+		expect(new Ethereum().sidebarTokenLinks).toEqual(sidebarTokenLinks(ChainNetwork.Ethereum));
 	});
 });

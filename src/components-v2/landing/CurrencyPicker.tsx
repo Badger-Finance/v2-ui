@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { Select, MenuItem, makeStyles } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
+import { Currency } from 'config/enums/currency.enum';
 
 const useStyles = makeStyles((theme) => ({
 	currencyPicker: {
@@ -30,10 +31,10 @@ const CurrencyPicker = observer(() => {
 			onChange={(v: any) => setCurrency(v.target.value)}
 			className={classes.currencyPicker}
 		>
-			<MenuItem value={'usd'}>USD</MenuItem>
-			<MenuItem value={'cad'}>CAD</MenuItem>
-			<MenuItem value={'btc'}>BTC</MenuItem>
-			<MenuItem value={network.currency.toLocaleLowerCase()}>{network.currency}</MenuItem>
+			<MenuItem value={Currency.USD}>USD</MenuItem>
+			<MenuItem value={Currency.CAD}>CAD</MenuItem>
+			<MenuItem value={Currency.BTC}>BTC</MenuItem>
+			<MenuItem value={network.currency}>{network.currency}</MenuItem>
 		</Select>
 	);
 });

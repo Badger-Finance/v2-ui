@@ -1,15 +1,15 @@
 import deploy from '../deployments/mainnet.json';
 import bscDeploy from '../deployments/bsc.json';
 import maticDeploy from '../deployments/matic.json';
-import { NETWORK_LIST } from '../constants';
 import BigNumber from 'bignumber.js';
 import { StrategyNetworkConfig } from '../../mobx/model/strategies/strategy-network-config';
 import { StrategyFee } from '../../mobx/model/system-config/stategy-fees';
+import { ChainNetwork } from 'config/enums/chain-network.enum';
 
 // TODO: add descriptions and deposit instructions after marketing team provides them
-export const getStrategies = (network?: string | null): StrategyNetworkConfig => {
+export const getStrategies = (network: ChainNetwork): StrategyNetworkConfig => {
 	switch (network) {
-		case NETWORK_LIST.MATIC:
+		case ChainNetwork.Matic:
 			return {
 				[maticDeploy.sett_system.vaults['BSLP-IBBTC-WBTC']]: {
 					name: '',
@@ -58,7 +58,7 @@ export const getStrategies = (network?: string | null): StrategyNetworkConfig =>
 					depositLink: 'https://polygon.curve.fi/ren/deposit',
 				},
 			};
-		case NETWORK_LIST.BSC:
+		case ChainNetwork.BinanceSmartChain:
 			return {
 				[bscDeploy.sett_system.vaults['native.pancakeBnbBtcb']]: {
 					name: 'StrategyPancakeLpOptimizer',
