@@ -7,6 +7,7 @@ const useStyles = makeStyles((theme) => ({
 		display: 'flex',
 		justifyContent: 'space-around',
 		alignItems: 'center',
+		marginTop: theme.spacing(2),
 		marginBottom: theme.spacing(2),
 		[theme.breakpoints.down('xs')]: {
 			flexDirection: 'column',
