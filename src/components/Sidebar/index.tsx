@@ -412,6 +412,16 @@ export const Sidebar = observer(() => {
 					<>
 						<ListItem
 							button
+							className={getItemClass('/guarded', classes.listItem)}
+							onClick={() => goTo(views.guarded)}
+						>
+							<ListItemIcon>
+								<SecurityIcon fontSize="small" />
+							</ListItemIcon>
+							<ListItemText primary="Guarded Vaults" />
+						</ListItem>
+						<ListItem
+							button
 							className={getCollapsableItemClasses('badger-zone', [
 								'/honey-badger-drop',
 								'/experimental',
