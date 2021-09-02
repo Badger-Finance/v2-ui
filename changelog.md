@@ -4,6 +4,7 @@
 
 -   Add links to other vault pages when no vaults exist
 -   Add bouncer check to sett details page
+-   Prevent display of dropt modal if user doesn't have any balance
 
 ### v2.9.1 - 09/01/2021
 
