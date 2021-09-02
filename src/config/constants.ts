@@ -100,6 +100,7 @@ export const REN_FEES_ENDPOINT = 'https://lightnode-mainnet.herokuapp.com/ren_qu
 export const ZERO = new BigNumber(0);
 export const TEN = new BigNumber(10);
 export const MAX = Web3.utils.toTwosComplement(-1);
+export const MAX_FEE = 1e4;
 
 export const CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS = '0x93054188d876f558f4a66B2EF1d97d16eDf0895B';
 export const RENVM_GATEWAY_ADDRESS = '0xe4b679400F0f267212D5D812B95f58C83243EE71';
