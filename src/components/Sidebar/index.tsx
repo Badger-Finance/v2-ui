@@ -483,6 +483,14 @@ export const Sidebar = observer(() => {
 				<ListItem
 					button
 					className={classes.secondaryListItem}
+					onClick={() => window.open('https://shop.badger.finance/')}
+				>
+					Shop
+				</ListItem>
+
+				<ListItem
+					button
+					className={classes.secondaryListItem}
 					onClick={() => window.open('https://forum.badger.finance')}
 				>
 					Forum

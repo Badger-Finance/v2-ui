@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Divider, Grid, Typography } from '@material-ui/core';
 import { formatStrategyFee } from '../../../utils/componentHelpers';
 import { StoreContext } from '../../../mobx/store-context';
+import { MAX_FEE } from 'config/constants';
 
 const useStyles = makeStyles((theme) => ({
 	specName: {
@@ -42,7 +43,7 @@ export const SettWithdrawFee = observer(
 		const depositTokenDecimals = depositToken?.decimals || 18;
 
 		const withdrawAmount = new BigNumber(amount).multipliedBy(sett.ppfs);
-		const withdrawalFee = fee.div(10000).multipliedBy(withdrawAmount);
+		const withdrawalFee = fee.div(MAX_FEE).multipliedBy(withdrawAmount);
 		const amountAfterFee = new BigNumber(withdrawAmount).minus(withdrawalFee);
 
 		return (
