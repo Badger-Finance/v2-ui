@@ -22,7 +22,7 @@ import {
 	DialogTitle,
 	Button,
 } from '@material-ui/core';
-
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { MintForm } from './MintForm';
 import { ReleaseForm } from './ReleaseForm';
 import { Status } from 'mobx/stores/bridgeStore';
@@ -74,9 +74,7 @@ const UserCancelTx = () => {
 
 	return (
 		<div>
-			<Button variant="contained" color="primary" onClick={handleClickOpen}>
-				Back
-			</Button>
+			<ArrowBackIcon color="primary" onClick={handleClickOpen}></ArrowBackIcon>
 			<Dialog
 				open={open}
 				onClose={handleClose}
@@ -101,7 +99,7 @@ const UserCancelTx = () => {
 			</Dialog>
 		</div>
 	);
-}
+};
 
 function MintStatusDisplay({
 	status,
