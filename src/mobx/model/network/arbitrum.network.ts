@@ -46,6 +46,6 @@ export const arbitrumRewards = [
 	},
 ];
 
-const maticTokens = arbitrumSetts.flatMap((sett) => [sett.depositToken, sett.vaultToken]).concat(arbitrumRewards);
+const arbitrumTokens = arbitrumSetts.flatMap((sett) => [sett.depositToken, sett.vaultToken]).concat(arbitrumRewards);
 
-export const maticProtocolTokens: ProtocolTokens = toRecord(maticTokens, 'address');
+export const arbitrumProtocolTokens: ProtocolTokens = toRecord(arbitrumTokens, 'address');
