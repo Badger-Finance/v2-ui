@@ -21,6 +21,8 @@ import {
 	DialogContentText,
 	DialogTitle,
 	Button,
+	IconButton,
+	makeStyles,
 } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { MintForm } from './MintForm';
@@ -51,11 +53,18 @@ const renBTCLogo = '/assets/icons/renbtc.svg';
 const crvBTCLogo = '/assets/icons/bcrvrenwbtc.png';
 const btcLogo = '/assets/icons/btc.svg';
 
+const useStyles = makeStyles(() => ({
+	formContainer: {
+		display: 'flex',
+	},
+}));
+
 const UserCancelTx = () => {
 	const store = useContext(StoreContext);
 	const {
 		bridge: { cancelTx },
 	} = store;
+	const classes = useStyles();
 
 	const [open, setOpen] = React.useState(false);
 
@@ -73,8 +82,10 @@ const UserCancelTx = () => {
 	};
 
 	return (
-		<div>
-			<ArrowBackIcon color="primary" onClick={handleClickOpen}></ArrowBackIcon>
+		<div className={classes.formContainer}>
+			<IconButton aria-label="Cancel" color="primary" onClick={handleClickOpen}>
+				<ArrowBackIcon />
+			</IconButton>
 			<Dialog
 				open={open}
 				onClose={handleClose}
