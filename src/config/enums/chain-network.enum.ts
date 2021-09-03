@@ -3,4 +3,5 @@ export enum ChainNetwork {
 	BinanceSmartChain = 'bsc',
 	Matic = 'matic',
 	xDai = 'xdai',
+	Arbitrum = 'arbitrum',
 }

@@ -1,0 +1,12 @@
+{
+	"token": "0xBfa641051Ba0a0Ad1b0AcF549a89536A0D76472E",
+	"tokens": {
+		"BADGER": "0xBfa641051Ba0a0Ad1b0AcF549a89536A0D76472E"
+	},
+	"geysers": {},
+	"sett_system": {
+		"vaults": {},
+		"strategies": {}
+	},
+	"badgerTree": "0x635EB2C39C75954bb53Ebc011BDC6AfAAcE115A6"
+}
