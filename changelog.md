@@ -1,5 +1,9 @@
 # v2 UI Changelog
 
+### Hotfix - 09/03/2021
+
+-   Modify DROPT redemption to handle small redemption amounts
+
 ### Hotfix - 09/01/2021
 
 -   Add links to other vault pages when no vaults exist
