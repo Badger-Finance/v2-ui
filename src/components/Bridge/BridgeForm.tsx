@@ -42,7 +42,6 @@ import { bridge_system, tokens, sett_system } from 'config/deployments/mainnet.j
 import { CURVE_EXCHANGE } from 'config/system/abis/CurveExchange';
 import { connectWallet } from 'mobx/utils/helpers';
 import { RenVMTransaction, RenVMParams } from '../../mobx/model/bridge/renVMTransaction';
-import { FLAGS } from 'config/environment';
 import { ChainNetwork } from 'config/enums/chain-network.enum';
 
 const DECIMALS = 10 ** 8;
@@ -312,7 +311,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 	const handleTabChange = (_: unknown, newValue: number) => {
 		setStates((prevState) => ({
 			...prevState,
-			token: newValue !== 1 ? 'renBTC' : FLAGS.WBTC_FLAG ? 'byvWBTC' : 'bCRVrenBTC',
+			token: newValue !== 1 ? 'renBTC' : 'byvWBTC',
 			tabValue: newValue,
 			receiveAmount: 0,
 			burnAmount: '',
@@ -670,14 +669,12 @@ export const BridgeForm = observer(({ classes }: any) => {
 							</span>
 						</MenuItem>
 
-						{FLAGS.WBTC_FLAG && (
-							<MenuItem value={'WBTC'}>
-								<span className={classes.menuItem}>
-									<img src={WBTCLogo} className={classes.logo} />
-									<span>WBTC</span>
-								</span>
-							</MenuItem>
-						)}
+						<MenuItem value={'WBTC'}>
+							<span className={classes.menuItem}>
+								<img src={WBTCLogo} className={classes.logo} />
+								<span>WBTC</span>
+							</span>
+						</MenuItem>
 					</Select>
 				)}
 
@@ -692,14 +689,12 @@ export const BridgeForm = observer(({ classes }: any) => {
 							id: 'token-select',
 						}}
 					>
-						{FLAGS.WBTC_FLAG && (
-							<MenuItem value={'byvWBTC'}>
-								<span className={classes.menuItem}>
-									<img src={byvWBTCLogo} className={classes.logo} />
-									<span>byvWBTC</span>
-								</span>
-							</MenuItem>
-						)}
+						<MenuItem value={'byvWBTC'}>
+							<span className={classes.menuItem}>
+								<img src={byvWBTCLogo} className={classes.logo} />
+								<span>byvWBTC</span>
+							</span>
+						</MenuItem>
 
 						<MenuItem value={'bCRVrenBTC'}>
 							<span className={classes.menuItem}>
@@ -749,14 +744,12 @@ export const BridgeForm = observer(({ classes }: any) => {
 							</span>
 						</MenuItem>
 
-						{FLAGS.WBTC_FLAG && (
-							<MenuItem value={'byvWBTC'}>
-								<span className={classes.menuItem}>
-									<img src={byvWBTCLogo} className={classes.logo} />
-									<span>byvWBTC</span>
-								</span>
-							</MenuItem>
-						)}
+						<MenuItem value={'byvWBTC'}>
+							<span className={classes.menuItem}>
+								<img src={byvWBTCLogo} className={classes.logo} />
+								<span>byvWBTC</span>
+							</span>
+						</MenuItem>
 
 						<MenuItem value={'bCRVrenBTC'}>
 							<span className={classes.menuItem}>
