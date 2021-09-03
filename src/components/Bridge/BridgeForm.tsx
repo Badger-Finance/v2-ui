@@ -51,7 +51,7 @@ const renBTCLogo = '/assets/icons/renbtc.svg';
 const crvBTCLogo = '/assets/icons/bcrvrenwbtc.png';
 const btcLogo = '/assets/icons/btc.svg';
 
-function UserCancelTx() {
+const UserCancelTx = () => {
 	const store = useContext(StoreContext);
 	const {
 		bridge: { cancelTx },
@@ -74,7 +74,7 @@ function UserCancelTx() {
 
 	return (
 		<div>
-			<Button variant="outlined" color="primary" onClick={handleClickOpen}>
+			<Button variant="contained" color="primary" onClick={handleClickOpen}>
 				Back
 			</Button>
 			<Dialog
