@@ -15,8 +15,16 @@ import {
 	Select,
 	MenuItem,
 	Typography,
+	Dialog,
+	DialogActions,
+	DialogContent,
+	DialogContentText,
+	DialogTitle,
+	Button,
+	IconButton,
+	makeStyles,
 } from '@material-ui/core';
-
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { MintForm } from './MintForm';
 import { ReleaseForm } from './ReleaseForm';
 import { Status } from 'mobx/stores/bridgeStore';
@@ -34,7 +42,6 @@ import { bridge_system, tokens, sett_system } from 'config/deployments/mainnet.j
 import { CURVE_EXCHANGE } from 'config/system/abis/CurveExchange';
 import { connectWallet } from 'mobx/utils/helpers';
 import { RenVMTransaction, RenVMParams } from '../../mobx/model/bridge/renVMTransaction';
-import { FLAGS } from 'config/environment';
 import { ChainNetwork } from 'config/enums/chain-network.enum';
 
 const DECIMALS = 10 ** 8;
@@ -44,6 +51,65 @@ const byvWBTCLogo = '/assets/icons/byvwbtc.svg';
 const renBTCLogo = '/assets/icons/renbtc.svg';
 const crvBTCLogo = '/assets/icons/bcrvrenwbtc.png';
 const btcLogo = '/assets/icons/btc.svg';
+
+const useStyles = makeStyles(() => ({
+	formContainer: {
+		display: 'flex',
+	},
+}));
+
+const UserCancelTx = () => {
+	const store = useContext(StoreContext);
+	const {
+		bridge: { cancelTx },
+	} = store;
+	const classes = useStyles();
+
+	const [open, setOpen] = React.useState(false);
+
+	const handleClickOpen = () => {
+		setOpen(true);
+	};
+
+	const handleClose = () => {
+		setOpen(false);
+	};
+
+	const handleConfirm = () => {
+		cancelTx();
+		handleClose();
+	};
+
+	return (
+		<div className={classes.formContainer}>
+			<IconButton aria-label="Cancel" color="primary" onClick={handleClickOpen}>
+				<ArrowBackIcon />
+			</IconButton>
+			<Dialog
+				open={open}
+				onClose={handleClose}
+				aria-labelledby="cancel-title"
+				aria-describedby="cancel-description"
+			>
+				<DialogTitle id="cancel-title">{'Cancel transaction?'}</DialogTitle>
+				<DialogContent>
+					<DialogContentText id="cancel-description">
+						Are you sure you wish to cancel this transaction? Please do not cancel if you have already sent
+						funds to the provided address.
+					</DialogContentText>
+				</DialogContent>
+				<DialogActions>
+					<Button onClick={handleClose} color="primary">
+						Cancel
+					</Button>
+					<Button onClick={handleConfirm} color="primary" autoFocus>
+						Confirm
+					</Button>
+				</DialogActions>
+			</Dialog>
+		</div>
+	);
+};
 
 function MintStatusDisplay({
 	status,
@@ -65,6 +131,7 @@ function MintStatusDisplay({
 	if (!status) {
 		return (
 			<React.Fragment>
+				<UserCancelTx />
 				<img src={btcLogo} className={classes.logo} />
 				<h1>Send {amount} BTC to</h1>
 				{bitcoinAddress ? (
@@ -244,7 +311,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 	const handleTabChange = (_: unknown, newValue: number) => {
 		setStates((prevState) => ({
 			...prevState,
-			token: newValue !== 1 ? 'renBTC' : FLAGS.WBTC_FLAG ? 'byvWBTC' : 'bCRVrenBTC',
+			token: newValue !== 1 ? 'renBTC' : 'byvWBTC',
 			tabValue: newValue,
 			receiveAmount: 0,
 			burnAmount: '',
@@ -602,14 +669,12 @@ export const BridgeForm = observer(({ classes }: any) => {
 							</span>
 						</MenuItem>
 
-						{FLAGS.WBTC_FLAG && (
-							<MenuItem value={'WBTC'}>
-								<span className={classes.menuItem}>
-									<img src={WBTCLogo} className={classes.logo} />
-									<span>WBTC</span>
-								</span>
-							</MenuItem>
-						)}
+						<MenuItem value={'WBTC'}>
+							<span className={classes.menuItem}>
+								<img src={WBTCLogo} className={classes.logo} />
+								<span>WBTC</span>
+							</span>
+						</MenuItem>
 					</Select>
 				)}
 
@@ -624,14 +689,12 @@ export const BridgeForm = observer(({ classes }: any) => {
 							id: 'token-select',
 						}}
 					>
-						{FLAGS.WBTC_FLAG && (
-							<MenuItem value={'byvWBTC'}>
-								<span className={classes.menuItem}>
-									<img src={byvWBTCLogo} className={classes.logo} />
-									<span>byvWBTC</span>
-								</span>
-							</MenuItem>
-						)}
+						<MenuItem value={'byvWBTC'}>
+							<span className={classes.menuItem}>
+								<img src={byvWBTCLogo} className={classes.logo} />
+								<span>byvWBTC</span>
+							</span>
+						</MenuItem>
 
 						<MenuItem value={'bCRVrenBTC'}>
 							<span className={classes.menuItem}>
@@ -681,14 +744,12 @@ export const BridgeForm = observer(({ classes }: any) => {
 							</span>
 						</MenuItem>
 
-						{FLAGS.WBTC_FLAG && (
-							<MenuItem value={'byvWBTC'}>
-								<span className={classes.menuItem}>
-									<img src={byvWBTCLogo} className={classes.logo} />
-									<span>byvWBTC</span>
-								</span>
-							</MenuItem>
-						)}
+						<MenuItem value={'byvWBTC'}>
+							<span className={classes.menuItem}>
+								<img src={byvWBTCLogo} className={classes.logo} />
+								<span>byvWBTC</span>
+							</span>
+						</MenuItem>
 
 						<MenuItem value={'bCRVrenBTC'}>
 							<span className={classes.menuItem}>

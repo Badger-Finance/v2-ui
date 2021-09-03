@@ -384,6 +384,12 @@ class BridgeStore {
 		}
 	});
 
+	cancelTx = (): void => {
+		if (this.current !== null) {
+			this._updateTx(this.current, true);
+		}
+	};
+
 	_updateTx = action(async (tx: RenVMTransaction, deleted?: boolean, err?: Error) => {
 		const { queueNotification } = this.store.uiState;
 
