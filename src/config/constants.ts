@@ -56,6 +56,7 @@ export enum NETWORK_IDS {
 	BSC = 56,
 	MATIC = 137,
 	XDAI = 100,
+	ARB = 42161,
 }
 
 export const CLAIMS_SYMBOLS: ClaimsSymbols = {
