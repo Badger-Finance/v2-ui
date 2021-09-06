@@ -37,11 +37,22 @@ export class Arbitrum extends Network {
 
 export const ARBITRUM_DEPLOY: Deploy = deploy;
 
-export const arbitrumSetts: BadgerSett[] = [];
+export const arbitrumSetts: BadgerSett[] = [
+	{
+		depositToken: {
+			address: ARBITRUM_DEPLOY.tokens['sushi.WETH-SUSHI'],
+			decimals: 18,
+		},
+		vaultToken: {
+			address: ARBITRUM_DEPLOY.sett_system.vaults['native.sushiWethSushi'],
+			decimals: 18,
+		},
+	},
+];
 
 export const arbitrumRewards = [
 	{
-		address: ARBITRUM_DEPLOY.tokens['BADGER'],
+		address: ARBITRUM_DEPLOY.tokens['badger'],
 		decimals: 18,
 	},
 ];
