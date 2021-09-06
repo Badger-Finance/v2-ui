@@ -55,6 +55,10 @@ export const arbitrumRewards = [
 		address: ARBITRUM_DEPLOY.tokens['badger'],
 		decimals: 18,
 	},
+	{
+		address: ARBITRUM_DEPLOY.tokens['sushi'],
+		decimals: 18,
+	},
 ];
 
 const arbitrumTokens = arbitrumSetts.flatMap((sett) => [sett.depositToken, sett.vaultToken]).concat(arbitrumRewards);
