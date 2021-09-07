@@ -43,6 +43,7 @@ import { CURVE_EXCHANGE } from 'config/system/abis/CurveExchange';
 import { RenVMTransaction, RenVMParams } from '../../mobx/model/bridge/renVMTransaction';
 import { Network } from '@badger-dao/sdk';
 import { DEBUG } from 'config/environment';
+import { TOKEN_LIST, POOL_IDS } from './constants';
 
 const DECIMALS = 10 ** 8;
 const SETT_DECIMALS = 10 ** 18;
@@ -304,10 +305,8 @@ export const BridgeForm = observer(({ classes, tabValue, setTabValue }: any) => 
 		vaults,
 	} = store;
 
-	const initialTokenState: {
-		token: 'renBTC' | 'WBTC' | 'byvWBTC' | 'bCRVrenBTC' | 'bCRVsBTC' | 'bCRVtBTC' | 'ibBTC';
-	} = {
-		token: 'renBTC',
+	const initialTokenState = {
+		token: TOKEN_LIST.renBTC,
 	};
 
 	const intialState = {
@@ -364,7 +363,8 @@ export const BridgeForm = observer(({ classes, tabValue, setTabValue }: any) => 
 	const handleTabChange = (_: unknown, newValue: number) => {
 		setStates((prevState) => ({
 			...prevState,
-			token: newValue !== 1 ? 'renBTC' : 'byvWBTC',
+			token: newValue !== 1 ? TOKEN_LIST.renBTC : FLAGS.WBTC_FLAG ? TOKEN_LIST.byvWBTC : TOKEN_LIST.bCRVrenBTC,
+			tabValue: newValue,
 			receiveAmount: 0,
 			burnAmount: '',
 			amount: '',
@@ -419,17 +419,21 @@ export const BridgeForm = observer(({ classes, tabValue, setTabValue }: any) => 
 			case 'bCRVtBTC':
 				return sett_system.vaults['native.tbtcCrv'];
 			case 'ibBTC':
-				switch (poolId) {
-					case 0:
-						return sett_system.vaults['native.renCrv'];
-					case 1:
-						return sett_system.vaults['native.sbtcCrv'];
-					case 2:
-						return sett_system.vaults['native.renCrv'];
-					case 3:
-						return sett_system.vaults['yearn.wBtc'];
-					default:
-						return '0x0000000000000000000000000000000000000000';
+				if (poolId !== undefined) {
+					switch (POOL_IDS[poolId]) {
+						case 'renCrv':
+							return sett_system.vaults['native.renCrv'];
+						case 'sbtcCrv':
+							return sett_system.vaults['native.sbtcCrv'];
+						case 'tbtcCrv':
+							return sett_system.vaults['native.tbtcCrv'];
+						case 'wBtc':
+							return sett_system.vaults['yearn.wBtc'];
+						default:
+							return '0x0000000000000000000000000000000000000000';
+					}
+				} else {
+					return '0x0000000000000000000000000000000000000000';
 				}
 			default:
 				return '0x0000000000000000000000000000000000000000';
@@ -505,11 +509,10 @@ export const BridgeForm = observer(({ classes, tabValue, setTabValue }: any) => 
 			desiredToken = tokens.wBTC;
 		}
 
-		let ibBTCFlag = false;
+		const ibBTCFlag = token === 'ibBTC';
 		let poolId = undefined;
 		if (token === 'ibBTC') {
-			ibBTCFlag = true;
-			const [id, amount, optToken] = await calcMintOrRedeemPath(amountSats, true);
+			const [id, , optToken] = await calcMintOrRedeemPath(amountSats, true);
 			if (optToken !== undefined && id !== undefined) {
 				desiredToken = optToken;
 				poolId = parseInt(id);
@@ -575,11 +578,10 @@ export const BridgeForm = observer(({ classes, tabValue, setTabValue }: any) => 
 			maxSlippageBps = Math.round(parseFloat(maxSlippage) * 100);
 		}
 
-		let ibBTCFlag = false;
+		const ibBTCFlag = token === 'ibBTC';
 		let poolId = undefined;
 		if (token === 'ibBTC') {
-			ibBTCFlag = true;
-			const [id, amount, optToken] = await calcMintOrRedeemPath(amountOut, false);
+			const [id, , optToken] = await calcMintOrRedeemPath(amountOut, false);
 			if (optToken !== undefined && id !== undefined) {
 				burnToken = optToken;
 				poolId = parseInt(id);
@@ -700,7 +702,7 @@ export const BridgeForm = observer(({ classes, tabValue, setTabValue }: any) => 
 			if (name === 'burnAmount') {
 				mintBool = false;
 			}
-			const [id, amount, optToken] = await calcMintOrRedeemPath(bigInputAmount, mintBool);
+			const [, amount] = await calcMintOrRedeemPath(bigInputAmount, mintBool);
 			if (amount !== undefined) {
 				amountWithFee = Number(amount);
 			}

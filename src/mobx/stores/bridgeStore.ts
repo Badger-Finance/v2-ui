@@ -633,7 +633,7 @@ class BridgeStore {
 		}
 	};
 
-	calcIbbtcFees = async (amount: number, mintBool: boolean) => {
+	calcIbbtcFees = async (amount: number, mintBool: boolean): Promise<number> => {
 		const { queueNotification } = this.store.uiState;
 		let fee = 0;
 		try {
@@ -649,12 +649,12 @@ class BridgeStore {
 			}, defaultRetryOptions);
 		} catch (err) {
 			queueNotification(`Failed to fetch ibBTC fees: ${err.message}`, 'error');
-			console.log(err.message);
+			console.error(err);
 		}
 		return fee;
 	};
 
-	calcMintOrRedeemPath = async (amount: BigNumber, mintOrRedeem: boolean) => {
+	calcMintOrRedeemPath = async (amount: BigNumber, mintOrRedeem: boolean): Promise<any[]> => {
 		const { queueNotification } = this.store.uiState;
 		let poolId = undefined;
 		let tokenAmount = 0;
@@ -696,7 +696,7 @@ class BridgeStore {
 			}, defaultRetryOptions);
 		} catch (err) {
 			queueNotification(`Failed to fetch optimal PoolID: ${err.message}`, 'error');
-			console.log(err.message);
+			console.error(err.message);
 		}
 		return [poolId, new BigNumber(tokenAmount).dividedBy(SETT_DECIMALS).toString(), optimalToken];
 	};
