@@ -18,7 +18,7 @@ export const getStrategies = (network: ChainNetwork): StrategyNetworkConfig => {
 					fees: {
 						[StrategyFee.performance]: new BigNumber(1000),
 						[StrategyFee.strategistPerformance]: new BigNumber(1000),
-						[StrategyFee.withdraw]: new BigNumber(50),
+						[StrategyFee.withdraw]: new BigNumber(10),
 					},
 					strategyLink: '',
 					depositLink: '',
@@ -29,7 +29,7 @@ export const getStrategies = (network: ChainNetwork): StrategyNetworkConfig => {
 					fees: {
 						[StrategyFee.performance]: new BigNumber(1000),
 						[StrategyFee.strategistPerformance]: new BigNumber(1000),
-						[StrategyFee.withdraw]: new BigNumber(50),
+						[StrategyFee.withdraw]: new BigNumber(10),
 					},
 					strategyLink: '',
 					depositLink: '',
