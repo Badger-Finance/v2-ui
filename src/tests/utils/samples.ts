@@ -19,6 +19,7 @@ export const SAMPLE_BADGER_SETT: BadgerSett = {
 
 export const SAMPLE_SETT: Sett = {
 	asset: 'sBTCCRV',
+	vaultAsset: 'bsBTCCRV',
 	state: SettState.Open,
 	apr: 0.123456789123454,
 	balance: 2580.4779797767615,

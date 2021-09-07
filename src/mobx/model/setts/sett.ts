@@ -6,6 +6,7 @@ import { SettValueSource } from './sett-value-source';
 export interface Sett extends SettSummary {
 	apr: number;
 	asset: string;
+	vaultAsset: string;
 	boostable: boolean;
 	experimental: boolean;
 	hasBouncer: boolean;
