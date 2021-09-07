@@ -354,6 +354,16 @@ export const getStrategies = (network: ChainNetwork): StrategyNetworkConfig => {
 					depositLink:
 						'https://app.gitbook.com/@badger-finance/s/badger-finance/v/master/sett-user-guides/cvx-helper',
 				},
+				[deploy.sett_system.vaults['native.icvx']]: {
+					name: '',
+					address: deploy.sett_system.strategies['native.icvx'],
+					fees: {
+						[StrategyFee.daoPerformance]: new BigNumber(1000),
+						[StrategyFee.withdraw]: new BigNumber(50),
+					},
+					strategyLink: '',
+					depositLink: '',
+				},
 				[deploy.sett_system.vaults['native.imBtc']]: {
 					name: '',
 					address: deploy.sett_system.strategies['native.imBtc'],

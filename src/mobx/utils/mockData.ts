@@ -4,6 +4,7 @@ import { Sett } from '../model/setts/sett';
 export const testYearnVaultApiResponse: Sett = {
 	name: 'Test Yearn Vault',
 	asset: 'TEST',
+	vaultAsset: 'TEST',
 	vaultToken: '0x50b20a12Acb15a413FE76FB82f9E524D3b0E8a69',
 	underlyingToken: '0xEd2a8Ab49DcbCb8C27650cC8D5229Cefcad52e2a',
 	ppfs: 1,

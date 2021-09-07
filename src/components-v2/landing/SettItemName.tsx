@@ -35,7 +35,7 @@ export const SettItemName = ({ sett }: Props): JSX.Element => {
 				<img
 					alt={`Badger ${sett.name} Vault Symbol`}
 					className={classes.symbol}
-					src={`/assets/icons/${sett.asset.toLowerCase()}.png`}
+					src={`/assets/icons/${sett.vaultAsset.toLowerCase()}.png`}
 				/>
 			</Grid>
 			<Grid item>

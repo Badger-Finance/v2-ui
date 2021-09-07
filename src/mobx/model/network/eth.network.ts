@@ -30,8 +30,14 @@ export class Ethereum extends Network {
 
 	get settOrder(): string[] {
 		return [
-			this.deploy.sett_system.vaults['native.cvxCrv'],
+			this.deploy.sett_system.vaults['native.badger'],
+			this.deploy.sett_system.vaults['native.digg'],
+			this.deploy.sett_system.vaults['native.sushiibBTCwBTC'],
+			this.deploy.sett_system.vaults['native.sushiBadgerWbtc'],
+			this.deploy.sett_system.vaults['native.sushiDiggWbtc'],
+			this.deploy.sett_system.vaults['native.icvx'],
 			this.deploy.sett_system.vaults['native.cvx'],
+			this.deploy.sett_system.vaults['native.cvxCrv'],
 			this.deploy.sett_system.vaults['native.tricryptoCrv2'],
 			this.deploy.sett_system.vaults['native.sbtcCrv'],
 			this.deploy.sett_system.vaults['native.renCrv'],
@@ -40,16 +46,11 @@ export class Ethereum extends Network {
 			this.deploy.sett_system.vaults['native.pbtcCrv'],
 			this.deploy.sett_system.vaults['native.obtcCrv'],
 			this.deploy.sett_system.vaults['native.bbtcCrv'],
-			this.deploy.sett_system.vaults['native.sushiibBTCwBTC'],
 			this.deploy.sett_system.vaults['yearn.wBtc'],
-			this.deploy.sett_system.vaults['native.digg'],
-			this.deploy.sett_system.vaults['native.badger'],
-			this.deploy.sett_system.vaults['native.sushiDiggWbtc'],
-			this.deploy.sett_system.vaults['native.sushiBadgerWbtc'],
 			this.deploy.sett_system.vaults['native.sushiWbtcEth'],
-			this.deploy.sett_system.vaults['native.uniDiggWbtc'],
 			this.deploy.sett_system.vaults['native.uniBadgerWbtc'],
 			this.deploy.sett_system.vaults['harvest.renCrv'],
+			this.deploy.sett_system.vaults['native.uniDiggWbtc'],
 			this.deploy.sett_system.vaults['native.tricryptoCrv'],
 			...(FLAGS.STABILIZATION_SETTS ? [this.deploy.sett_system.vaults['experimental.digg']] : []),
 			...(FLAGS.RENBTC_SETT ? [this.deploy.sett_system.vaults['native.renBtc']] : []),
@@ -310,6 +311,16 @@ const ethSettDefinitions: BadgerSett[] = [
 		},
 		vaultToken: {
 			address: ETH_DEPLOY.sett_system.vaults['native.cvx'],
+			decimals: 18,
+		},
+	},
+	{
+		depositToken: {
+			address: ETH_DEPLOY.tokens['cvx'],
+			decimals: 18,
+		},
+		vaultToken: {
+			address: ETH_DEPLOY.sett_system.vaults['native.icvx'],
 			decimals: 18,
 		},
 	},
