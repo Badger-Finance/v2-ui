@@ -10,11 +10,11 @@
 	"sett_system": {
 		"vaults": {
 			"native.sushiWethSushi": "0xe774D1FB3133b037AA17D39165b8F45f444f632d",
-			"native.sushiWethWbtc": "0x3221022e37029923aCe4235D812273C5A42C322d"
+			"native.sushiWethWbtc": "0xFc13209cAfE8fb3bb5fbD929eC9F11a39e8Ac041"
 		},
 		"strategies": {
 			"native.sushiWethSushi": "0x86f772C82914f5bFD168f99e208d0FC2C371e9C2",
-			"native.sushiWethWbtc": "0x3221022e37029923aCe4235D812273C5A42C322d"
+			"native.sushiWethWbtc": "0xA6827f0f14D0B83dB925B616d820434697328c22"
 		}
 	},
 	"badgerTree": "0x635EB2C39C75954bb53Ebc011BDC6AfAAcE115A6"

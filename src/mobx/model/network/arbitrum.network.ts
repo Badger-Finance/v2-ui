@@ -48,6 +48,16 @@ export const arbitrumSetts: BadgerSett[] = [
 			decimals: 18,
 		},
 	},
+	{
+		depositToken: {
+			address: ARBITRUM_DEPLOY.tokens['sushi.WETH-WBTC'],
+			decimals: 18,
+		},
+		vaultToken: {
+			address: ARBITRUM_DEPLOY.sett_system.vaults['native.sushiWethWbtc'],
+			decimals: 18,
+		},
+	},
 ];
 
 export const arbitrumRewards = [
