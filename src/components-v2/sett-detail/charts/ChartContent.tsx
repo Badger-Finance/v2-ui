@@ -44,6 +44,17 @@ export const ChartContent = ({ data, accountScalar, mode, loading = true }: Prop
 		);
 	}
 
+	if (data.length === 0) {
+		return (
+			<Grid container direction="column" justify="center" alignItems="center">
+				<ErrorIcon className={classes.errorIcon} />
+				<Typography variant="body1" className={classes.errorMessage}>
+					Chart data not available. Try again shortly.
+				</Typography>
+			</Grid>
+		);
+	}
+
 	if (mode === ChartMode.accountBalance && accountScalar) {
 		return <SettChart data={accountScaleData(data, accountScalar)} mode={mode} />;
 	}
