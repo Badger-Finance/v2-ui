@@ -382,14 +382,11 @@ export const BridgeForm = observer(({ classes }: any) => {
 							return sett_system.vaults['native.tbtcCrv'];
 						case 'wBtc':
 							return sett_system.vaults['yearn.wBtc'];
-						default:
-							return '0x0000000000000000000000000000000000000000';
 					}
-				} else {
-					return '0x0000000000000000000000000000000000000000';
 				}
+				return ZERO_ADDR;
 			default:
-				return '0x0000000000000000000000000000000000000000';
+				return ZERO_ADDR;
 		}
 	};
 
