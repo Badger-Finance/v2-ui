@@ -44,7 +44,7 @@ export const ChartContent = ({ data, accountScalar, mode, loading = true }: Prop
 		);
 	}
 
-	if (data.length === 0) {
+	if (data.length <= 1) {
 		return (
 			<Grid container direction="column" justify="center" alignItems="center">
 				<ErrorIcon className={classes.errorIcon} />
