@@ -5,9 +5,7 @@ import GasWidget from '../common/GasWidget';
 import WalletWidget from '../common/WalletWidget';
 import { HeaderContainer } from '../common/Containers';
 import { StoreContext } from '../../mobx/store-context';
-import routes from '../../config/routes';
-import SettStore from 'mobx/stores/SettStore';
-import { SettState } from 'mobx/model/setts/sett-state';
+import { getRouteBySlug } from 'mobx/utils/helpers';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -32,20 +30,6 @@ const useStyles = makeStyles((theme) => ({
 		alignItems: 'center',
 	},
 }));
-
-const getRouteBySlug = (slug: string | undefined, setts: SettStore) => {
-	const sett = slug ? setts.getSettBySlug(slug) : null;
-	if (!slug || !sett) return routes.home;
-
-	switch (sett.state) {
-		case SettState.Guarded:
-			return routes.guarded;
-		case SettState.Experimental:
-			return routes.experimental;
-		default:
-			return routes.home;
-	}
-};
 
 export const Header = (): JSX.Element => {
 	const { router, setts } = React.useContext(StoreContext);

@@ -1,5 +1,10 @@
 # v2 UI Changelog
 
+### Hotfix - 09/08/2021
+
+-   Add arbitrum support for sidebar
+-   Update sett detail page to properly breadcrumb back to correct page
+
 ### Hotfix - 09/03/2021
 
 -   Modify DROPT redemption to handle small redemption amounts
