@@ -9,7 +9,7 @@ import settConfig from 'config/system/abis/Sett.json';
 import ibBTCConfig from 'config/system/abis/ibBTC.json';
 import addresses from 'config/ibBTC/addresses.json';
 import coreConfig from 'config/system/abis/BadgerBtcPeakCore.json';
-import { getSendOptions } from 'mobx/utils/web3';
+import { getEIP1559SendOptions, getSendOptions } from 'mobx/utils/web3';
 import { IbbtcVaultPeakFactory } from '../ibbtc-vault-peak-factory';
 import { getNetworkFromProvider } from 'mobx/utils/helpers';
 import { IbbtcOptionToken } from '../model/tokens/ibbtc-option-token';
@@ -112,29 +112,25 @@ class IbBTCStore {
 		this.initialized = true;
 	}
 
-	fetchFees = action(
-		async (): Promise<void> => {
-			const fees = await this.getFees();
-			this.mintFeePercent = fees.mintFeePercent;
-			this.redeemFeePercent = fees.redeemFeePercent;
-		},
-	);
+	fetchFees = action(async (): Promise<void> => {
+		const fees = await this.getFees();
+		this.mintFeePercent = fees.mintFeePercent;
+		this.redeemFeePercent = fees.redeemFeePercent;
+	});
 
-	fetchTokensBalances = action(
-		async (): Promise<void> => {
-			const fetchTargetTokensBalance = this.tokens.map((token) => this.fetchBalance(token));
+	fetchTokensBalances = action(async (): Promise<void> => {
+		const fetchTargetTokensBalance = this.tokens.map((token) => this.fetchBalance(token));
 
-			const [ibtcBalance, ...targetTokensBalance] = await Promise.all([
-				this.fetchBalance(this.ibBTC),
-				...fetchTargetTokensBalance,
-			]);
+		const [ibtcBalance, ...targetTokensBalance] = await Promise.all([
+			this.fetchBalance(this.ibBTC),
+			...fetchTargetTokensBalance,
+		]);
 
-			this.ibBTC.balance = ibtcBalance;
-			for (let index = 0; index < targetTokensBalance.length; index++) {
-				this.tokens[index].balance = targetTokensBalance[index];
-			}
-		},
-	);
+		this.ibBTC.balance = ibtcBalance;
+		for (let index = 0; index < targetTokensBalance.length; index++) {
+			this.tokens[index].balance = targetTokensBalance[index];
+		}
+	});
 
 	fetchIbbtcApy = action(async () => {
 		const dayOldBlock = 86400; // [Seconds in a day]
@@ -146,52 +142,44 @@ class IbBTCStore {
 		this.apyUsingLastWeek = apyFromLastWeek !== null ? `${apyFromLastWeek}%` : null;
 	});
 
-	fetchBalance = action(
-		async (token: IbbtcOptionToken): Promise<BigNumber> => {
-			const { provider, connectedAddress } = this.store.wallet;
-			if (!connectedAddress) return ZERO;
+	fetchBalance = action(async (token: IbbtcOptionToken): Promise<BigNumber> => {
+		const { provider, connectedAddress } = this.store.wallet;
+		if (!connectedAddress) return ZERO;
 
-			const web3 = new Web3(provider);
-			const tokenContract = new web3.eth.Contract(settConfig.abi as AbiItem[], token.address);
-			let balance = tokenContract.methods.balanceOf(connectedAddress);
-			balance = await balance.call();
+		const web3 = new Web3(provider);
+		const tokenContract = new web3.eth.Contract(settConfig.abi as AbiItem[], token.address);
+		let balance = tokenContract.methods.balanceOf(connectedAddress);
+		balance = await balance.call();
 
-			return new BigNumber(balance);
-		},
-	);
+		return new BigNumber(balance);
+	});
 
-	fetchConversionRates = action(
-		async (): Promise<void> => {
-			const { provider } = this.store.wallet;
-			if (!provider) return;
+	fetchConversionRates = action(async (): Promise<void> => {
+		const { provider } = this.store.wallet;
+		if (!provider) return;
 
-			const fetchMintRates = this.mintOptions.map((token) => this.fetchMintRate(token));
-			const fetchRedeemRates = this.redeemOptions.map((token) => this.fetchRedeemRate(token));
-			await Promise.all([...fetchMintRates, ...fetchRedeemRates]);
-		},
-	);
+		const fetchMintRates = this.mintOptions.map((token) => this.fetchMintRate(token));
+		const fetchRedeemRates = this.redeemOptions.map((token) => this.fetchRedeemRate(token));
+		await Promise.all([...fetchMintRates, ...fetchRedeemRates]);
+	});
 
-	fetchMintRate = action(
-		async (token: IbbtcOptionToken): Promise<void> => {
-			try {
-				const { bBTC, fee } = await this.calcMintAmount(token, token.scale('1'));
-				token.mintRate = this.ibBTC.unscale(bBTC.plus(fee)).toFixed(6, BigNumber.ROUND_HALF_FLOOR);
-			} catch (error) {
-				token.mintRate = '0.000';
-			}
-		},
-	);
+	fetchMintRate = action(async (token: IbbtcOptionToken): Promise<void> => {
+		try {
+			const { bBTC, fee } = await this.calcMintAmount(token, token.scale('1'));
+			token.mintRate = this.ibBTC.unscale(bBTC.plus(fee)).toFixed(6, BigNumber.ROUND_HALF_FLOOR);
+		} catch (error) {
+			token.mintRate = '0.000';
+		}
+	});
 
-	fetchRedeemRate = action(
-		async (token: IbbtcOptionToken): Promise<void> => {
-			try {
-				const redeemRate = await this.getRedeemConversionRate(token);
-				token.redeemRate = token.unscale(redeemRate).toFixed(6, BigNumber.ROUND_HALF_FLOOR);
-			} catch (error) {
-				token.redeemRate = '0.000';
-			}
-		},
-	);
+	fetchRedeemRate = action(async (token: IbbtcOptionToken): Promise<void> => {
+		try {
+			const redeemRate = await this.getRedeemConversionRate(token);
+			token.redeemRate = token.unscale(redeemRate).toFixed(6, BigNumber.ROUND_HALF_FLOOR);
+		} catch (error) {
+			token.redeemRate = '0.000';
+		}
+	});
 
 	resetBalances = action((): void => {
 		// ZERO balance for all tokens
@@ -281,14 +269,24 @@ class IbBTCStore {
 		spender: string,
 		amount: BigNumber | string = MAX,
 	): Promise<void> {
-		const { queueNotification } = this.store.uiState;
+		const { queueNotification, gasPrice } = this.store.uiState;
 		const { connectedAddress } = this.store.wallet;
+		const { gasPrices } = this.store.network;
 		const method = this.getApprovalMethod(underlyingAsset, spender, amount);
 
 		queueNotification(`Sign the transaction to allow Badger to spend your ${underlyingAsset.symbol}`, 'info');
 
-		const gasPrice = this.store.network.gasPrices[this.store.uiState.gasPrice];
-		const options = await getSendOptions(method, connectedAddress, gasPrice);
+		const networkGasPrice = gasPrices[gasPrice];
+		const price = typeof networkGasPrice === 'number' ? networkGasPrice : networkGasPrice.maxFeePerGas;
+		const options =
+			typeof price === 'number'
+				? await getSendOptions(method, connectedAddress, price)
+				: await getEIP1559SendOptions(
+						method,
+						connectedAddress,
+						price['maxFeePerGas'],
+						price['maxPriorityFeePerGas'],
+				  );
 		await method
 			.send(options)
 			.on('transactionHash', (_hash: string) => {
@@ -399,10 +397,19 @@ class IbBTCStore {
 		successMessage: string,
 	): Promise<void> {
 		const { connectedAddress } = this.store.wallet;
-		const { queueNotification } = this.store.uiState;
-		const gasPrice = this.store.network.gasPrices[this.store.uiState.gasPrice];
-		const options = await getSendOptions(method, connectedAddress, gasPrice);
-
+		const { queueNotification, gasPrice } = this.store.uiState;
+		const { gasPrices } = this.store.network;
+		const networkGasPrice = gasPrices[gasPrice];
+		const price = typeof networkGasPrice === 'number' ? networkGasPrice : networkGasPrice.maxFeePerGas;
+		const options =
+			typeof price === 'number'
+				? await getSendOptions(method, connectedAddress, price)
+				: await getEIP1559SendOptions(
+						method,
+						connectedAddress,
+						price['maxFeePerGas'],
+						price['maxPriorityFeePerGas'],
+				  );
 		await method
 			.send(options)
 			.on('transactionHash', (_hash: string) => {

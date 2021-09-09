@@ -7,7 +7,7 @@ import { ERC20, NETWORK_IDS } from 'config/constants';
 import mainnet from 'config/deployments/mainnet.json';
 import { abi as scarcityPoolABI } from 'config/system/abis/BadgerScarcityPool.json';
 import { abi as memeLtdABI } from 'config/system/abis/MemeLtd.json';
-import { getSendOptions } from 'mobx/utils/web3';
+import { getEIP1559SendOptions, getSendOptions, sendContractMethod } from 'mobx/utils/web3';
 import { NFT } from '../model/boost/NFT';
 
 const nftAssetsByTokenId: Record<string, Pick<NFT, 'name' | 'image' | 'redirectUrl' | 'totalSupply'>> = {
@@ -138,7 +138,7 @@ export class HoneyPotStore {
 
 	redeemNFT = action(async (tokenId: string, amount: number) => {
 		try {
-			const { queueNotification, gasPrice, setTxStatus } = this.store.uiState;
+			const { queueNotification, gasPrice } = this.store.uiState;
 			const { provider, connectedAddress } = this.store.wallet;
 			const { gasPrices, network } = this.store.network;
 			if (!connectedAddress || network.id !== NETWORK_IDS.ETH) return;
@@ -159,25 +159,21 @@ export class HoneyPotStore {
 
 			queueNotification(`Sign the transaction to redeem your NFT`, 'info');
 
-			const price = gasPrices[gasPrice];
-			const options = await getSendOptions(redeem, connectedAddress, price);
-			await redeem
-				.send(options)
-				.on('transactionHash', (_hash: string) => {
-					queueNotification(`Redemption submitted.`, 'info', _hash);
-				})
-				.on('receipt', () => {
-					queueNotification(`NFT Redeemed.`, 'success');
-					this.fetchPoolBalance();
-					this.fetchNFTS();
-				})
-				.on('error', (error: Error) => {
-					queueNotification(error.message, 'error');
-					setTxStatus('error');
-				})
-				.finally(() => {
-					this.nftBeingRedeemed = this.nftBeingRedeemed.filter((id) => id !== tokenId);
-				});
+			const networkGasPrice = gasPrices[gasPrice];
+			const price = typeof networkGasPrice === 'number' ? networkGasPrice : networkGasPrice.maxFeePerGas;
+			const options =
+				typeof price === 'number'
+					? await getSendOptions(redeem, connectedAddress, price)
+					: await getEIP1559SendOptions(
+							redeem,
+							connectedAddress,
+							price['maxFeePerGas'],
+							price['maxPriorityFeePerGas'],
+					  );
+			await sendContractMethod(this.store, redeem, options, `Redemption submitted.`, `NFT Redeemed.`);
+			this.fetchPoolBalance();
+			this.fetchNFTS();
+			this.nftBeingRedeemed = this.nftBeingRedeemed.filter((id) => id !== tokenId);
 		} catch (error) {
 			const message = error?.message || 'There was an error. Please try again later.';
 			this.store.uiState.queueNotification(message, 'error');
