@@ -38,7 +38,7 @@ const createSettListItem = (
 		<SettListItem
 			key={itemBalance.token.address}
 			sett={sett}
-			balance={itemBalance.balanceDisplay(5)}
+			balance={itemBalance.balance}
 			balanceValue={itemBalance.balanceValueDisplay(currency)}
 			currency={currency}
 			period={period}
