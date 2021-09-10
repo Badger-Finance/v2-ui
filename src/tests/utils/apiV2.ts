@@ -9,6 +9,7 @@ export function mockApi(): void {
 			{
 				asset: 'sBTCCRV',
 				vaultAsset: 'bsBTCCRV',
+				multipliers: [],
 				state: SettState.Open,
 				apr: 0.123456789123454,
 				balance: 2580.4779797767615,

@@ -2,6 +2,7 @@ import { SettSummary } from './sett-summary';
 import { SettState } from './sett-state';
 import { SettTokenBalance } from './sett-token-balance';
 import { SettValueSource } from './sett-value-source';
+import { SettBoost } from './sett-boost';
 
 export interface Sett extends SettSummary {
 	apr: number;
@@ -20,4 +21,5 @@ export interface Sett extends SettSummary {
 	vaultToken: string;
 	deprecated?: boolean;
 	slug: string;
+	multipliers: SettBoost[];
 }

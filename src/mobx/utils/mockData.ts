@@ -14,6 +14,7 @@ export const testYearnVaultApiResponse: Sett = {
 	boostable: false,
 	hasBouncer: true,
 	balance: 100,
+	multipliers: [],
 	tokens: [
 		{
 			name: 'Yearn Finance Test Token',
