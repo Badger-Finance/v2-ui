@@ -8,6 +8,7 @@ import { API } from 'bnc-onboard/dist/src/interfaces';
 import { API as NotifyAPI } from 'bnc-notify';
 import { getNetworkFromProvider } from 'mobx/utils/helpers';
 import { Network } from 'mobx/model/network/network';
+import { BLOCKNATIVE_API_KEY } from 'config/constants';
 
 class WalletStore {
 	private store: RootStore;
@@ -20,7 +21,7 @@ class WalletStore {
 		this.store = store;
 
 		const onboardOptions: any = {
-			dappId: 'af74a87b-cd08-4f45-83ff-ade6b3859a07',
+			dappId: BLOCKNATIVE_API_KEY,
 			networkId: this.store.network.network.id,
 			darkMode: true,
 			subscriptions: {
@@ -38,7 +39,7 @@ class WalletStore {
 		const onboard = Onboard(onboardOptions);
 
 		const notifyOptions: any = {
-			dappId: 'af74a87b-cd08-4f45-83ff-ade6b3859a07',
+			dappId: BLOCKNATIVE_API_KEY,
 			networkId: this.store.network.network.id,
 		};
 		const notify = Notify(notifyOptions);
@@ -60,35 +61,33 @@ class WalletStore {
 		this.init();
 	}
 
-	init = action(
-		async (): Promise<void> => {
-			setInterval(() => {
-				this.store.network.getCurrentBlock();
-			}, 5000 * 60);
-			const previouslySelectedWallet = window.localStorage.getItem('selectedWallet');
+	init = action(async (): Promise<void> => {
+		setInterval(() => {
+			this.store.network.getCurrentBlock();
+		}, 5000 * 60);
+		const previouslySelectedWallet = window.localStorage.getItem('selectedWallet');
 
-			// call wallet select with that value if it exists
-			if (!!previouslySelectedWallet) {
-				const walletSelected = await this.onboard.walletSelect(previouslySelectedWallet);
-				let walletReady = false;
-				try {
-					walletReady = await this.onboard.walletCheck();
-				} catch (err) {
-					this.onboard.walletReset();
-					return;
-				}
-
-				if (walletSelected && walletReady) {
-					this.connect(this.onboard);
-				} else {
-					this.walletReset();
-				}
+		// call wallet select with that value if it exists
+		if (!!previouslySelectedWallet) {
+			const walletSelected = await this.onboard.walletSelect(previouslySelectedWallet);
+			let walletReady = false;
+			try {
+				walletReady = await this.onboard.walletCheck();
+			} catch (err) {
+				this.onboard.walletReset();
+				return;
 			}
-			this.notify.config({
-				darkMode: true,
-			});
-		},
-	);
+
+			if (walletSelected && walletReady) {
+				this.connect(this.onboard);
+			} else {
+				this.walletReset();
+			}
+		}
+		this.notify.config({
+			darkMode: true,
+		});
+	});
 
 	walletReset = action((): void => {
 		try {
@@ -125,18 +124,16 @@ class WalletStore {
 		this.store.network.getCurrentBlock();
 	});
 
-	setAddress = action(
-		async (address: string): Promise<void> => {
-			const isCurrentNetworkSupported = Boolean(this.getCurrentNetwork());
+	setAddress = action(async (address: string): Promise<void> => {
+		const isCurrentNetworkSupported = Boolean(this.getCurrentNetwork());
 
-			if (isCurrentNetworkSupported) {
-				this.connectedAddress = address;
-				await this.store.walletRefresh();
-			} else {
-				this.connectedAddress = '';
-			}
-		},
-	);
+		if (isCurrentNetworkSupported) {
+			this.connectedAddress = address;
+			await this.store.walletRefresh();
+		} else {
+			this.connectedAddress = '';
+		}
+	});
 
 	cacheWallet = action((wallet: any) => {
 		this.setProvider(wallet.provider);

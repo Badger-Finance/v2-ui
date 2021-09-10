@@ -1,4 +1,4 @@
-import { NETWORK_IDS } from 'config/constants';
+import { BLOCKNATIVE_API_KEY, NETWORK_IDS } from 'config/constants';
 import { createChainBatchConfig, toSettConfig } from 'web3/config/config-utils';
 import { BatchCallRequest } from 'web3/interface/batch-call-request';
 import { Deploy } from 'web3/interface/deploy';
@@ -79,7 +79,7 @@ export class Ethereum extends Network {
 
 	async updateGasPrices(): Promise<GasPrices> {
 		const prices = await fetch('https://api.blocknative.com/gasprices/blockprices', {
-			headers: { Authorization: 'af74a87b-cd08-4f45-83ff-ade6b3859a07' },
+			headers: { Authorization: BLOCKNATIVE_API_KEY },
 		});
 		const result = await prices.json();
 		const blockPrices = result.blockPrices[0];
