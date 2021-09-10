@@ -9,7 +9,7 @@ import settConfig from 'config/system/abis/Sett.json';
 import ibBTCConfig from 'config/system/abis/ibBTC.json';
 import addresses from 'config/ibBTC/addresses.json';
 import coreConfig from 'config/system/abis/BadgerBtcPeakCore.json';
-import { getEIP1559SendOptions, getSendOptions } from 'mobx/utils/web3';
+import { getSendOptions } from 'mobx/utils/web3';
 import { IbbtcVaultPeakFactory } from '../ibbtc-vault-peak-factory';
 import { getNetworkFromProvider } from 'mobx/utils/helpers';
 import { IbbtcOptionToken } from '../model/tokens/ibbtc-option-token';
@@ -276,17 +276,8 @@ class IbBTCStore {
 
 		queueNotification(`Sign the transaction to allow Badger to spend your ${underlyingAsset.symbol}`, 'info');
 
-		const networkGasPrice = gasPrices[gasPrice];
-		const price = typeof networkGasPrice === 'number' ? networkGasPrice : networkGasPrice.maxFeePerGas;
-		const options =
-			typeof price === 'number'
-				? await getSendOptions(method, connectedAddress, price)
-				: await getEIP1559SendOptions(
-						method,
-						connectedAddress,
-						price['maxFeePerGas'],
-						price['maxPriorityFeePerGas'],
-				  );
+		const price = gasPrices[gasPrice];
+		const options = await getSendOptions(method, connectedAddress, price);
 		await method
 			.send(options)
 			.on('transactionHash', (_hash: string) => {
@@ -399,17 +390,8 @@ class IbBTCStore {
 		const { connectedAddress } = this.store.wallet;
 		const { queueNotification, gasPrice } = this.store.uiState;
 		const { gasPrices } = this.store.network;
-		const networkGasPrice = gasPrices[gasPrice];
-		const price = typeof networkGasPrice === 'number' ? networkGasPrice : networkGasPrice.maxFeePerGas;
-		const options =
-			typeof price === 'number'
-				? await getSendOptions(method, connectedAddress, price)
-				: await getEIP1559SendOptions(
-						method,
-						connectedAddress,
-						price['maxFeePerGas'],
-						price['maxPriorityFeePerGas'],
-				  );
+		const price = gasPrices[gasPrice];
+		const options = await getSendOptions(method, connectedAddress, price);
 		await method
 			.send(options)
 			.on('transactionHash', (_hash: string) => {

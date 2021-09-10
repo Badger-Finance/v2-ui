@@ -3,7 +3,7 @@ import Web3 from 'web3';
 import BigNumber from 'bignumber.js';
 import { RootStore } from '../RootStore';
 import { AbiItem } from 'web3-utils';
-import { getEIP1559SendOptions, getSendOptions, sendContractMethod } from 'mobx/utils/web3';
+import { getSendOptions, sendContractMethod } from 'mobx/utils/web3';
 import { AirdropMerkleClaim } from 'mobx/model/rewards/airdrop-merkle-claim';
 import { fetchData } from 'mobx/utils/helpers';
 
@@ -93,17 +93,8 @@ class AirdropStore {
 			return;
 		}
 
-		const networkGasPrice = gasPrices[gasPrice];
-		const price = typeof networkGasPrice === 'number' ? networkGasPrice : networkGasPrice.maxFeePerGas;
-		const options =
-			typeof price === 'number'
-				? await getSendOptions(method, connectedAddress, price)
-				: await getEIP1559SendOptions(
-						method,
-						connectedAddress,
-						price['maxFeePerGas'],
-						price['maxPriorityFeePerGas'],
-				  );
+		const price = gasPrices[gasPrice];
+		const options = await getSendOptions(method, connectedAddress, price);
 		await sendContractMethod(this.store, method, options, `Claim submitted.`, `Aidrop claimed.`);
 	});
 }

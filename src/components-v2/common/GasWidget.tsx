@@ -27,10 +27,10 @@ const GasWidget = observer(() => {
 	const getGasSelections = () => {
 		const gasMap: any = [];
 		for (const [key, value] of Object.entries(gasPrices)) {
-			const displayValve = typeof value === 'number' ? value : value.maxFeePerGas;
+			const displayValue = typeof value === 'number' ? value : value.maxFeePerGas;
 			gasMap.push(
 				<MenuItem value={key} key={key}>
-					{displayValve ? displayValve.toFixed(0) : 10}
+					{displayValue ? displayValue.toFixed(0) : 10}
 				</MenuItem>,
 			);
 		}

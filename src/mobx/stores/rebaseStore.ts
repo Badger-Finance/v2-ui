@@ -6,7 +6,7 @@ import { getNextRebase, getRebaseLogs } from '../utils/diggHelpers';
 import { RebaseInfo } from 'mobx/model/tokens/rebase-info';
 import DroptRedemption from '../../config/system/abis/DroptRedemption.json';
 import { AbiItem } from 'web3-utils';
-import { getEIP1559SendOptions, getSendOptions, sendContractMethod } from 'mobx/utils/web3';
+import { getSendOptions, sendContractMethod } from 'mobx/utils/web3';
 import { ProviderReport } from 'mobx/model/digg/provider-reports';
 import { OracleReports } from 'mobx/model/digg/oracle';
 import { getRebase } from 'config/system/rebase';
@@ -132,15 +132,7 @@ class RebaseStore {
 		queueNotification(`Sign the transaction to claim your options`, 'info');
 
 		const price = gasPrices[gasPrice];
-		const options =
-			typeof price === 'number'
-				? await getSendOptions(method, connectedAddress, price)
-				: await getEIP1559SendOptions(
-						method,
-						connectedAddress,
-						price['maxFeePerGas'],
-						price['maxPriorityFeePerGas'],
-				  );
+		const options = await getSendOptions(method, connectedAddress, price);
 		await sendContractMethod(this.store, method, options, `Claim submitted.`, `Options claimed.`);
 	}
 }

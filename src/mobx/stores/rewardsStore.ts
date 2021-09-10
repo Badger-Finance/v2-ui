@@ -5,7 +5,7 @@ import { RootStore } from '../RootStore';
 import { abi as rewardsAbi } from '../../config/system/abis/BadgerTree.json';
 import BigNumber from 'bignumber.js';
 import { reduceClaims, reduceTimeSinceLastCycle } from 'mobx/reducers/statsReducers';
-import { getEIP1559SendOptions, getSendOptions, sendContractMethod } from 'mobx/utils/web3';
+import { getSendOptions, sendContractMethod } from 'mobx/utils/web3';
 import { getToken } from '../../web3/config/token-config';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { mockToken } from 'mobx/model/tokens/badger-token';
@@ -269,15 +269,7 @@ class RewardsStore {
 		queueNotification(`Sign the transaction to claim your earnings`, 'info');
 
 		const price = gasPrices[gasPrice];
-		const options =
-			typeof price === 'number'
-				? await getSendOptions(method, connectedAddress, price)
-				: await getEIP1559SendOptions(
-						method,
-						connectedAddress,
-						price['maxFeePerGas'],
-						price['maxPriorityFeePerGas'],
-				  );
+		const options = await getSendOptions(method, connectedAddress, price);
 		await sendContractMethod(this.store, method, options, `Claim submitted.`, `Rewards claimed.`);
 	});
 }

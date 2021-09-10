@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js';
+import { EIP1559GasPrices } from 'mobx/model/system-config/gas-prices';
 import { RootStore } from 'mobx/RootStore';
 import { ContractSendMethod, EstimateGasOptions, SendOptions } from 'web3-eth-contract';
 
@@ -10,6 +11,18 @@ export interface EIP1559SendOptions {
 }
 
 export const getSendOptions = async (
+	// We use "any" for method as web3.js does not have a general contract method interface
+	// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+	method: any,
+	connectedAddress: string,
+	price: number | EIP1559GasPrices,
+): Promise<SendOptions | EIP1559SendOptions> => {
+	return typeof price === 'number'
+		? await getSendOptions(method, connectedAddress, price)
+		: await getEIP1559SendOptions(method, connectedAddress, price['maxFeePerGas'], price['maxPriorityFeePerGas']);
+};
+
+export const getNonEIP1559SendOptions = async (
 	method: ContractSendMethod,
 	from: string,
 	gasPrice: number,

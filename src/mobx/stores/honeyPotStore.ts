@@ -7,7 +7,7 @@ import { ERC20, NETWORK_IDS } from 'config/constants';
 import mainnet from 'config/deployments/mainnet.json';
 import { abi as scarcityPoolABI } from 'config/system/abis/BadgerScarcityPool.json';
 import { abi as memeLtdABI } from 'config/system/abis/MemeLtd.json';
-import { getEIP1559SendOptions, getSendOptions, sendContractMethod } from 'mobx/utils/web3';
+import { getSendOptions, sendContractMethod } from 'mobx/utils/web3';
 import { NFT } from '../model/boost/NFT';
 
 const nftAssetsByTokenId: Record<string, Pick<NFT, 'name' | 'image' | 'redirectUrl' | 'totalSupply'>> = {
@@ -159,17 +159,8 @@ export class HoneyPotStore {
 
 			queueNotification(`Sign the transaction to redeem your NFT`, 'info');
 
-			const networkGasPrice = gasPrices[gasPrice];
-			const price = typeof networkGasPrice === 'number' ? networkGasPrice : networkGasPrice.maxFeePerGas;
-			const options =
-				typeof price === 'number'
-					? await getSendOptions(redeem, connectedAddress, price)
-					: await getEIP1559SendOptions(
-							redeem,
-							connectedAddress,
-							price['maxFeePerGas'],
-							price['maxPriorityFeePerGas'],
-					  );
+			const price = gasPrices[gasPrice];
+			const options = await getSendOptions(redeem, connectedAddress, price);
 			await sendContractMethod(this.store, redeem, options, `Redemption submitted.`, `NFT Redeemed.`);
 			this.fetchPoolBalance();
 			this.fetchNFTS();

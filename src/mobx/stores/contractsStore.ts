@@ -1,6 +1,6 @@
 import Web3 from 'web3';
 import { AbiItem } from 'web3-utils';
-import { EIP1559SendOptions, getEIP1559SendOptions, getSendOptions, sendContractMethod } from '../utils/web3';
+import { EIP1559SendOptions, getSendOptions, sendContractMethod } from '../utils/web3';
 import BigNumber from 'bignumber.js';
 import { RootStore } from '../RootStore';
 import { ContractSendMethod, SendOptions } from 'web3-eth-contract';
@@ -231,18 +231,14 @@ class ContractsStore {
 	});
 
 	private _getSendOptions = async (method: ContractSendMethod): Promise<SendOptions | EIP1559SendOptions> => {
-		const { connectedAddress } = this.store.wallet;
+		const {
+			wallet: { connectedAddress },
+			uiState: { gasPrice },
+			network: { gasPrices },
+		} = this.store;
 
-		const price = this.store.network.gasPrices[this.store.uiState.gasPrice];
-		const options =
-			typeof price === 'number'
-				? await getSendOptions(method, connectedAddress, price)
-				: await getEIP1559SendOptions(
-						method,
-						connectedAddress,
-						price['maxFeePerGas'],
-						price['maxPriorityFeePerGas'],
-				  );
+		const price = gasPrices[gasPrice];
+		const options = await getSendOptions(method, connectedAddress, price);
 		return options;
 	};
 }
