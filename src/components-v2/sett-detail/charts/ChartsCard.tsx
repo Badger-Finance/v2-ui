@@ -64,7 +64,11 @@ export const ChartsCard = observer(
 			.filter((s) => s.boostable)
 			.map((s) => s.apr)
 			.reduce((total, apr) => (total += apr), 0);
-		const boostData = sett.multipliers.map((m) => ({ x: m.boost, y: (m.multiplier * boostableApr) / 100 }));
+		const baseApr = sett.apr - boostableApr;
+		const boostData = sett.multipliers.map((m) => ({
+			x: m.boost,
+			y: (baseApr + m.multiplier * boostableApr) / 100,
+		}));
 
 		const yAxisAccessor = getYAxisAccessor(mode);
 		const chartData = settChartData
@@ -129,7 +133,7 @@ export const ChartsCard = observer(
 								{mode === ChartMode.Value || mode === ChartMode.Ratio ? (
 									<SettChart mode={mode} timeframe={timeframe} data={chartData} />
 								) : (
-									<BoostChart baseline={boostableApr / 100} data={boostData} />
+									<BoostChart baseline={sett.apr / 100} data={boostData} />
 								)}
 							</>
 						</ChartContent>

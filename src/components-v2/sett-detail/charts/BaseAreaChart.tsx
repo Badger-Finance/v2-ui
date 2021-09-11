@@ -7,6 +7,9 @@ const useStyles = makeStyles(() => ({
 	chartContainer: {
 		color: '#000000',
 	},
+	references: {
+		color: '#FFFFFF',
+	},
 }));
 
 export interface Reference {
@@ -75,7 +78,13 @@ const BaseAreaChart = ({
 				/>
 				{references &&
 					references.map((r, i) => (
-						<ReferenceLine key={i} y={r.value} label={r.label} stroke="gray" strokeDasharray="3 3" />
+						<ReferenceLine
+							key={i}
+							y={r.value}
+							label={{ value: r.label, fill: 'white', position: 'insideTopRight' }}
+							stroke="gray"
+							strokeDasharray="3 3"
+						/>
 					))}
 				<Area type="monotone" dataKey="y" stroke="#F2A52B" fillOpacity={1} fill="url(#gradient)" />
 			</AreaChart>
