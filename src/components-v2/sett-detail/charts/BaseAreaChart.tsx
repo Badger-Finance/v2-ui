@@ -25,6 +25,7 @@ interface Props {
 	xTitle?: string;
 	yFormatter?: (value: number) => string;
 	xFormatter?: (value: number) => string;
+	customTooltip?: React.ReactElement;
 	tooltipFormatter?: (value: number) => string;
 	data: ChartDataPoint[];
 	references?: Reference[];
@@ -36,6 +37,7 @@ const BaseAreaChart = ({
 	height,
 	yFormatter,
 	xFormatter,
+	customTooltip,
 	tooltipFormatter,
 	data,
 	references,
@@ -71,8 +73,10 @@ const BaseAreaChart = ({
 				/>
 				<YAxis type="number" domain={['auto', 'auto']} tickFormatter={yFormatter} tick={{ fill: 'white' }} />
 				<Tooltip
+					content={customTooltip}
 					formatter={formatTooltip}
 					labelFormatter={tooltipFormatter}
+					itemStyle={{ color: 'black' }}
 					separator={': '}
 					cursor={{ stroke: '#F2A52B', strokeWidth: 2 }}
 				/>

@@ -58,7 +58,7 @@ export const ChartsCard = observer(
 		const classes = useStyles();
 		const [loading, setLoading] = useState(true);
 		const [settChartData, setSettChartData] = useState<SettChartData[] | null>(null);
-		const [mode, setMode] = useState(ChartMode.Value);
+		const [mode, setMode] = useState(ChartMode.BoostMultiplier);
 		const [timeframe, setTimeframe] = useState(SettChartTimeframe.Week);
 		const boostableApr = sett.sources
 			.filter((s) => s.boostable)
@@ -105,6 +105,13 @@ export const ChartsCard = observer(
 					indicatorColor="primary"
 					value={mode}
 				>
+					{boostData.length > 0 && (
+						<Tab
+							onClick={() => setMode(ChartMode.BoostMultiplier)}
+							value={ChartMode.BoostMultiplier}
+							label={ChartModeTitles[ChartMode.BoostMultiplier]}
+						/>
+					)}
 					<Tab
 						onClick={() => setMode(ChartMode.Value)}
 						value={ChartMode.Value}
@@ -115,13 +122,6 @@ export const ChartsCard = observer(
 						value={ChartMode.Ratio}
 						label={ChartModeTitles[ChartMode.Ratio]}
 					/>
-					{boostData.length > 0 && (
-						<Tab
-							onClick={() => setMode(ChartMode.BoostMultiplier)}
-							value={ChartMode.BoostMultiplier}
-							label={ChartModeTitles[ChartMode.BoostMultiplier]}
-						/>
-					)}
 				</Tabs>
 				<Grid container direction="column" className={classes.content}>
 					<Grid item container alignItems="center" justify="space-between" className={classes.header}>

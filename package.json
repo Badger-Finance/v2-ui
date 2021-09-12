@@ -13,6 +13,7 @@
 		"@renproject/ren": "^2.3.0",
 		"@types/async": "^3.2.5",
 		"@types/material-ui": "^0.21.8",
+		"@types/recharts": "^2.0.0",
 		"@use-it/interval": "^1.0.0",
 		"assert": "^2.0.0",
 		"async": "^3.2.0",
