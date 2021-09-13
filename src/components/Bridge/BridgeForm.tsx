@@ -43,6 +43,7 @@ import { CURVE_EXCHANGE } from 'config/system/abis/CurveExchange';
 import { RenVMTransaction, RenVMParams } from '../../mobx/model/bridge/renVMTransaction';
 import { Network } from '@badger-dao/sdk';
 import { TOKEN_LIST, POOL_IDS } from './constants';
+import { ZERO_ADDR } from 'config/constants';
 
 const DECIMALS = 10 ** 8;
 const SETT_DECIMALS = 10 ** 18;
@@ -317,7 +318,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 	const handleTabChange = (_: unknown, newValue: number) => {
 		setStates((prevState) => ({
 			...prevState,
-			token: newValue !== 1 ? TOKEN_LIST.renBTC : FLAGS.WBTC_FLAG ? TOKEN_LIST.byvWBTC : TOKEN_LIST.bCRVrenBTC,
+			token: newValue !== 1 ? TOKEN_LIST.renBTC : TOKEN_LIST.byvWBTC,
 			tabValue: newValue,
 			receiveAmount: 0,
 			burnAmount: '',
@@ -407,7 +408,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 			case 'ibBTC':
 				return tokens.ibBTC;
 			default:
-				return '0x0000000000000000000000000000000000000000';
+				return ZERO_ADDR;
 		}
 	};
 
@@ -436,6 +437,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 
 	// TODO: Can refactor most of these methods below into the store as well.
 	const deposit = async () => {
+		const amountSats = new BigNumber(amount).multipliedBy(10 ** 8); // Convert to Satoshis
 		let desiredToken = tokens.renBTC;
 		let maxSlippageBps = 0;
 
