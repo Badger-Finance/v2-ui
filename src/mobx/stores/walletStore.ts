@@ -61,33 +61,35 @@ class WalletStore {
 		this.init();
 	}
 
-	init = action(async (): Promise<void> => {
-		setInterval(() => {
-			this.store.network.getCurrentBlock();
-		}, 5000 * 60);
-		const previouslySelectedWallet = window.localStorage.getItem('selectedWallet');
+	init = action(
+		async (): Promise<void> => {
+			setInterval(() => {
+				this.store.network.getCurrentBlock();
+			}, 5000 * 60);
+			const previouslySelectedWallet = window.localStorage.getItem('selectedWallet');
 
-		// call wallet select with that value if it exists
-		if (!!previouslySelectedWallet) {
-			const walletSelected = await this.onboard.walletSelect(previouslySelectedWallet);
-			let walletReady = false;
-			try {
-				walletReady = await this.onboard.walletCheck();
-			} catch (err) {
-				this.onboard.walletReset();
-				return;
-			}
+			// call wallet select with that value if it exists
+			if (!!previouslySelectedWallet) {
+				const walletSelected = await this.onboard.walletSelect(previouslySelectedWallet);
+				let walletReady = false;
+				try {
+					walletReady = await this.onboard.walletCheck();
+				} catch (err) {
+					this.onboard.walletReset();
+					return;
+				}
 
-			if (walletSelected && walletReady) {
-				this.connect(this.onboard);
-			} else {
-				this.walletReset();
+				if (walletSelected && walletReady) {
+					this.connect(this.onboard);
+				} else {
+					this.walletReset();
+				}
 			}
-		}
-		this.notify.config({
-			darkMode: true,
-		});
-	});
+			this.notify.config({
+				darkMode: true,
+			});
+		},
+	);
 
 	walletReset = action((): void => {
 		try {
@@ -124,16 +126,18 @@ class WalletStore {
 		this.store.network.getCurrentBlock();
 	});
 
-	setAddress = action(async (address: string): Promise<void> => {
-		const isCurrentNetworkSupported = Boolean(this.getCurrentNetwork());
+	setAddress = action(
+		async (address: string): Promise<void> => {
+			const isCurrentNetworkSupported = Boolean(this.getCurrentNetwork());
 
-		if (isCurrentNetworkSupported) {
-			this.connectedAddress = address;
-			await this.store.walletRefresh();
-		} else {
-			this.connectedAddress = '';
-		}
-	});
+			if (isCurrentNetworkSupported) {
+				this.connectedAddress = address;
+				await this.store.walletRefresh();
+			} else {
+				this.connectedAddress = '';
+			}
+		},
+	);
 
 	cacheWallet = action((wallet: any) => {
 		this.setProvider(wallet.provider);

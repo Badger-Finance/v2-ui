@@ -155,80 +155,84 @@ class ContractsStore {
 		);
 	};
 
-	depositVault = action(async (sett: Sett, amount: TokenBalance, depositAll?: boolean): Promise<void> => {
-		const { queueNotification } = this.store.uiState;
-		const { provider } = this.store.wallet;
-		const { bouncerProof } = this.store.user;
+	depositVault = action(
+		async (sett: Sett, amount: TokenBalance, depositAll?: boolean): Promise<void> => {
+			const { queueNotification } = this.store.uiState;
+			const { provider } = this.store.wallet;
+			const { bouncerProof } = this.store.user;
 
-		const web3 = new Web3(provider);
-		const settContract = new web3.eth.Contract(SETT_ABI, sett.vaultToken);
-		const yearnContract = new web3.eth.Contract(YEARN_ABI, sett.vaultToken);
-		const depositBalance = amount.tokenBalance.toFixed(0, BigNumber.ROUND_HALF_FLOOR);
-		let method: ContractSendMethod = settContract.methods.deposit(depositBalance);
+			const web3 = new Web3(provider);
+			const settContract = new web3.eth.Contract(SETT_ABI, sett.vaultToken);
+			const yearnContract = new web3.eth.Contract(YEARN_ABI, sett.vaultToken);
+			const depositBalance = amount.tokenBalance.toFixed(0, BigNumber.ROUND_HALF_FLOOR);
+			let method: ContractSendMethod = settContract.methods.deposit(depositBalance);
 
-		// TODO: Clean this up, too many branches
-		// Uncapped deposits on a wrapper still require an empty proof
-		// TODO: better designate abi <> sett pairing, single yearn vault uses yearn ABI.
-		if (sett.vaultToken === Web3.utils.toChecksumAddress(ETH_DEPLOY.sett_system.vaults['yearn.wBtc'])) {
-			if (depositAll) {
-				method = yearnContract.methods.deposit([]);
-			} else {
-				method = yearnContract.methods.deposit(depositBalance, []);
+			// TODO: Clean this up, too many branches
+			// Uncapped deposits on a wrapper still require an empty proof
+			// TODO: better designate abi <> sett pairing, single yearn vault uses yearn ABI.
+			if (sett.vaultToken === Web3.utils.toChecksumAddress(ETH_DEPLOY.sett_system.vaults['yearn.wBtc'])) {
+				if (depositAll) {
+					method = yearnContract.methods.deposit([]);
+				} else {
+					method = yearnContract.methods.deposit(depositBalance, []);
+				}
 			}
-		}
 
-		if (sett.hasBouncer) {
-			if (!bouncerProof) {
-				queueNotification(`Error loading Badger Bouncer Proof`, 'error');
-				return;
+			if (sett.hasBouncer) {
+				if (!bouncerProof) {
+					queueNotification(`Error loading Badger Bouncer Proof`, 'error');
+					return;
+				}
+				if (depositAll) {
+					method = settContract.methods.deposit(bouncerProof);
+				} else {
+					method = settContract.methods.deposit(depositBalance, bouncerProof);
+				}
+			} else if (depositAll) {
+				method = settContract.methods.depositAll();
 			}
-			if (depositAll) {
-				method = settContract.methods.deposit(bouncerProof);
-			} else {
-				method = settContract.methods.deposit(depositBalance, bouncerProof);
-			}
-		} else if (depositAll) {
-			method = settContract.methods.depositAll();
-		}
 
-		const options = await this._getSendOptions(method);
-		const { tokenBalance, token } = amount;
-		const displayAmount = toFixedDecimals(unscale(tokenBalance, token.decimals), token.decimals);
-		const depositAmount = `${displayAmount} ${sett.asset}`;
+			const options = await this._getSendOptions(method);
+			const { tokenBalance, token } = amount;
+			const displayAmount = toFixedDecimals(unscale(tokenBalance, token.decimals), token.decimals);
+			const depositAmount = `${displayAmount} ${sett.asset}`;
 
-		queueNotification(`Sign the transaction to wrap ${depositAmount}`, 'info');
-		await sendContractMethod(
-			this.store,
-			method,
-			options,
-			'Deposing transaction submitted',
-			`Successfully deposited ${depositAmount}`,
-		);
-	});
+			queueNotification(`Sign the transaction to wrap ${depositAmount}`, 'info');
+			await sendContractMethod(
+				this.store,
+				method,
+				options,
+				'Deposing transaction submitted',
+				`Successfully deposited ${depositAmount}`,
+			);
+		},
+	);
 
-	withdrawVault = action(async (sett: Sett, badgerSett: BadgerSett, amount: TokenBalance): Promise<void> => {
-		const { provider } = this.store.wallet;
-		const { queueNotification } = this.store.uiState;
+	withdrawVault = action(
+		async (sett: Sett, badgerSett: BadgerSett, amount: TokenBalance): Promise<void> => {
+			const { provider } = this.store.wallet;
+			const { queueNotification } = this.store.uiState;
 
-		const web3 = new Web3(provider);
-		const underlyingContract = new web3.eth.Contract(SETT_ABI, badgerSett.vaultToken.address);
-		const withdrawBalance = amount.tokenBalance.toFixed(0, BigNumber.ROUND_HALF_FLOOR);
-		const method = underlyingContract.methods.withdraw(withdrawBalance);
-		const options = await this._getSendOptions(method);
+			const web3 = new Web3(provider);
+			const underlyingContract = new web3.eth.Contract(SETT_ABI, badgerSett.vaultToken.address);
+			const withdrawBalance = amount.tokenBalance.toFixed(0, BigNumber.ROUND_HALF_FLOOR);
+			const method = underlyingContract.methods.withdraw(withdrawBalance);
+			const options = await this._getSendOptions(method);
 
-		const { tokenBalance, token } = amount;
-		const displayAmount = toFixedDecimals(unscale(tokenBalance, token.decimals), token.decimals);
-		const withdrawAmount = `${displayAmount} b${sett.asset}`;
+			const { tokenBalance, token } = amount;
+			const displayAmount = toFixedDecimals(unscale(tokenBalance, token.decimals), token.decimals);
+			const withdrawAmount = `${displayAmount} b${sett.asset}`;
 
-		queueNotification(`Sign the transaction to unwrap ${withdrawAmount}`, 'info');
-		await sendContractMethod(
-			this.store,
-			method,
-			options,
-			'Withdraw transaction submitted',
-			`Successfully withdrew ${withdrawAmount}`,
-		);
-	});
+			queueNotification(`Sign the transaction to unwrap ${withdrawAmount}`, 'info');
+			await sendContractMethod(
+				this.store,
+				method,
+				options,
+				'Withdraw transaction submitted',
+				`Successfully withdrew ${withdrawAmount}`,
+			);
+		},
+	);
 
 	private _getSendOptions = async (method: ContractSendMethod): Promise<SendOptions | EIP1559SendOptions> => {
 		const {

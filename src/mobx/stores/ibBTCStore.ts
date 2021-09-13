@@ -112,25 +112,29 @@ class IbBTCStore {
 		this.initialized = true;
 	}
 
-	fetchFees = action(async (): Promise<void> => {
-		const fees = await this.getFees();
-		this.mintFeePercent = fees.mintFeePercent;
-		this.redeemFeePercent = fees.redeemFeePercent;
-	});
+	fetchFees = action(
+		async (): Promise<void> => {
+			const fees = await this.getFees();
+			this.mintFeePercent = fees.mintFeePercent;
+			this.redeemFeePercent = fees.redeemFeePercent;
+		},
+	);
 
-	fetchTokensBalances = action(async (): Promise<void> => {
-		const fetchTargetTokensBalance = this.tokens.map((token) => this.fetchBalance(token));
+	fetchTokensBalances = action(
+		async (): Promise<void> => {
+			const fetchTargetTokensBalance = this.tokens.map((token) => this.fetchBalance(token));
 
-		const [ibtcBalance, ...targetTokensBalance] = await Promise.all([
-			this.fetchBalance(this.ibBTC),
-			...fetchTargetTokensBalance,
-		]);
+			const [ibtcBalance, ...targetTokensBalance] = await Promise.all([
+				this.fetchBalance(this.ibBTC),
+				...fetchTargetTokensBalance,
+			]);
 
-		this.ibBTC.balance = ibtcBalance;
-		for (let index = 0; index < targetTokensBalance.length; index++) {
-			this.tokens[index].balance = targetTokensBalance[index];
-		}
-	});
+			this.ibBTC.balance = ibtcBalance;
+			for (let index = 0; index < targetTokensBalance.length; index++) {
+				this.tokens[index].balance = targetTokensBalance[index];
+			}
+		},
+	);
 
 	fetchIbbtcApy = action(async () => {
 		const dayOldBlock = 86400; // [Seconds in a day]
@@ -142,44 +146,52 @@ class IbBTCStore {
 		this.apyUsingLastWeek = apyFromLastWeek !== null ? `${apyFromLastWeek}%` : null;
 	});
 
-	fetchBalance = action(async (token: IbbtcOptionToken): Promise<BigNumber> => {
-		const { provider, connectedAddress } = this.store.wallet;
-		if (!connectedAddress) return ZERO;
+	fetchBalance = action(
+		async (token: IbbtcOptionToken): Promise<BigNumber> => {
+			const { provider, connectedAddress } = this.store.wallet;
+			if (!connectedAddress) return ZERO;
 
-		const web3 = new Web3(provider);
-		const tokenContract = new web3.eth.Contract(settConfig.abi as AbiItem[], token.address);
-		let balance = tokenContract.methods.balanceOf(connectedAddress);
-		balance = await balance.call();
+			const web3 = new Web3(provider);
+			const tokenContract = new web3.eth.Contract(settConfig.abi as AbiItem[], token.address);
+			let balance = tokenContract.methods.balanceOf(connectedAddress);
+			balance = await balance.call();
 
-		return new BigNumber(balance);
-	});
+			return new BigNumber(balance);
+		},
+	);
 
-	fetchConversionRates = action(async (): Promise<void> => {
-		const { provider } = this.store.wallet;
-		if (!provider) return;
+	fetchConversionRates = action(
+		async (): Promise<void> => {
+			const { provider } = this.store.wallet;
+			if (!provider) return;
 
-		const fetchMintRates = this.mintOptions.map((token) => this.fetchMintRate(token));
-		const fetchRedeemRates = this.redeemOptions.map((token) => this.fetchRedeemRate(token));
-		await Promise.all([...fetchMintRates, ...fetchRedeemRates]);
-	});
+			const fetchMintRates = this.mintOptions.map((token) => this.fetchMintRate(token));
+			const fetchRedeemRates = this.redeemOptions.map((token) => this.fetchRedeemRate(token));
+			await Promise.all([...fetchMintRates, ...fetchRedeemRates]);
+		},
+	);
 
-	fetchMintRate = action(async (token: IbbtcOptionToken): Promise<void> => {
-		try {
-			const { bBTC, fee } = await this.calcMintAmount(token, token.scale('1'));
-			token.mintRate = this.ibBTC.unscale(bBTC.plus(fee)).toFixed(6, BigNumber.ROUND_HALF_FLOOR);
-		} catch (error) {
-			token.mintRate = '0.000';
-		}
-	});
+	fetchMintRate = action(
+		async (token: IbbtcOptionToken): Promise<void> => {
+			try {
+				const { bBTC, fee } = await this.calcMintAmount(token, token.scale('1'));
+				token.mintRate = this.ibBTC.unscale(bBTC.plus(fee)).toFixed(6, BigNumber.ROUND_HALF_FLOOR);
+			} catch (error) {
+				token.mintRate = '0.000';
+			}
+		},
+	);
 
-	fetchRedeemRate = action(async (token: IbbtcOptionToken): Promise<void> => {
-		try {
-			const redeemRate = await this.getRedeemConversionRate(token);
-			token.redeemRate = token.unscale(redeemRate).toFixed(6, BigNumber.ROUND_HALF_FLOOR);
-		} catch (error) {
-			token.redeemRate = '0.000';
-		}
-	});
+	fetchRedeemRate = action(
+		async (token: IbbtcOptionToken): Promise<void> => {
+			try {
+				const redeemRate = await this.getRedeemConversionRate(token);
+				token.redeemRate = token.unscale(redeemRate).toFixed(6, BigNumber.ROUND_HALF_FLOOR);
+			} catch (error) {
+				token.redeemRate = '0.000';
+			}
+		},
+	);
 
 	resetBalances = action((): void => {
 		// ZERO balance for all tokens
