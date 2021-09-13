@@ -1,3 +1,4 @@
+import { arbitrumProtocolTokens } from 'mobx/model/network/arbitrum.network';
 import { bscProtocolTokens } from 'mobx/model/network/bsc.network';
 import { ethProtocolTokens } from 'mobx/model/network/eth.network';
 import { maticProtocolTokens } from 'mobx/model/network/matic.network';
@@ -9,6 +10,7 @@ export const protocolTokens = (): ProtocolTokens => {
 		...(ethProtocolTokens && ethProtocolTokens),
 		...(bscProtocolTokens && bscProtocolTokens),
 		...(maticProtocolTokens && maticProtocolTokens),
+		...(arbitrumProtocolTokens && arbitrumProtocolTokens),
 	};
 };
 

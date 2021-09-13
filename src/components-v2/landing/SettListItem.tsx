@@ -69,7 +69,7 @@ const useStyles = makeStyles((theme) => ({
 
 export interface SettListItemProps {
 	sett: Sett;
-	balance?: string;
+	balance?: BigNumber;
 	balanceValue?: string;
 	accountView?: boolean;
 	currency: Currency;
@@ -77,7 +77,7 @@ export interface SettListItemProps {
 }
 
 const SettListItem = observer(
-	({ sett, balanceValue, currency, period, accountView = false }: SettListItemProps): JSX.Element => {
+	({ sett, balance, balanceValue, currency, period, accountView = false }: SettListItemProps): JSX.Element => {
 		const { user, network, router, wallet } = useContext(StoreContext);
 		const [openDepositDialog, setOpenDepositDialog] = useState(false);
 		const [openWithdrawDialog, setOpenWithdrawDialog] = useState(false);
@@ -90,7 +90,7 @@ const SettListItem = observer(
 		const displayValue = balanceValue ? balanceValue : inCurrency(new BigNumber(sett.value), currency);
 		const multiplier = !sett.deprecated ? user.accountDetails?.multipliers[sett.vaultToken] : undefined;
 
-		const canWithdraw = user.getSettBalance(sett).balance > 0;
+		const canWithdraw = balance ? balance.gt(0) : false;
 		const isDisabled = sett.hasBouncer && !user.permissions?.viewSettShop;
 
 		const goToSettDetail = async () => {

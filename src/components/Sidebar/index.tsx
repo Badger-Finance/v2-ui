@@ -199,6 +199,10 @@ export const Sidebar = observer(() => {
 		return clsx(classes.listItem, shouldCollapseBeActive && classes.activeListItem, ...additionalClasses);
 	};
 
+	const isSidebarSupportedNetwork = (network: ChainNetwork): boolean => {
+		return [ChainNetwork.Ethereum, ChainNetwork.Matic, ChainNetwork.Arbitrum].includes(network);
+	};
+
 	const drawerContent = (
 		<div className={classes.contentRoot}>
 			<List>
@@ -209,7 +213,7 @@ export const Sidebar = observer(() => {
 					</ListItemSecondaryAction>
 				</ListItem>
 
-				{[ChainNetwork.Ethereum, ChainNetwork.Matic].includes(network.symbol) ? (
+				{isSidebarSupportedNetwork(network.symbol) ? (
 					<ListItem
 						button
 						onClick={() => setExpanded(expanded === 'advanced' ? '' : 'advanced')}
@@ -231,9 +235,7 @@ export const Sidebar = observer(() => {
 					</ListItem>
 				)}
 				<Collapse in={expanded === 'advanced'} timeout="auto" unmountOnExit>
-					{[ChainNetwork.Ethereum, ChainNetwork.Matic].includes(network.symbol) &&
-					badgerTree &&
-					connectedAddress ? (
+					{isSidebarSupportedNetwork(network.symbol) && badgerTree && connectedAddress ? (
 						<ListItem key="rewards">
 							<ListItemText
 								primary={`Cycle Count: ${badgerTree.cycle}`}
@@ -408,7 +410,7 @@ export const Sidebar = observer(() => {
 							</ListItem>
 						</Collapse>
 					</>
-				) : network.symbol === ChainNetwork.Matic ? (
+				) : [ChainNetwork.Matic, ChainNetwork.Arbitrum].includes(network.symbol) ? (
 					<>
 						<ListItem
 							button

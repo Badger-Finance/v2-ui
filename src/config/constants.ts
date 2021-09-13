@@ -6,11 +6,8 @@ import importedGeyser from '../config/system/abis/BadgerGeyser.json';
 import importedBscErc20 from '../config/system/abis/BscErc20.json';
 import importedYearnSett from '../config/system/abis/YearnWrapper.json';
 import importedGuestList from '../config/system/abis/GuestList.json';
-import { tokens, sett_system, digg_system } from './deployments/mainnet.json';
-import { tokens as maticTokens } from './deployments/matic.json';
 import { AbiItem } from 'web3-utils';
 import { PartialAttemptOptions } from '@lifeomic/attempt';
-import { ClaimsSymbols } from 'mobx/model/rewards/claims-symbols';
 import { BurnAndReleaseStatus } from '@renproject/ren/build/main/burnAndRelease';
 import { DepositStatus } from '@renproject/ren/build/main/lockAndMint';
 import { ChainNetwork } from './enums/chain-network.enum';
@@ -56,30 +53,8 @@ export enum NETWORK_IDS {
 	BSC = 56,
 	MATIC = 137,
 	XDAI = 100,
+	ARB = 42161,
 }
-
-export const CLAIMS_SYMBOLS: ClaimsSymbols = {
-	[ChainNetwork.BinanceSmartChain]: {},
-	[ChainNetwork.Ethereum]: {
-		[tokens.farm]: 'Farm',
-		[tokens.xsushi]: 'xSushi',
-		[tokens.usdc]: 'USDC',
-		[tokens.badger]: 'Badger',
-		[tokens.digg]: 'Digg',
-		[sett_system.vaults['native.badger']]: 'bBadger',
-		[sett_system.vaults['native.digg']]: 'bDigg',
-		[tokens.defiDollar]: 'Defi Dollar',
-		[sett_system.vaults['native.cvx']]: 'bCVX',
-		[sett_system.vaults['native.cvxCrv']]: 'bcvxCRV',
-		[digg_system.DROPT['DROPT-3'].longToken]: 'DROPT-3',
-	},
-	[ChainNetwork.Matic]: {
-		[maticTokens.CRV]: 'CRV',
-		[maticTokens.BADGER]: 'Badger',
-		[maticTokens.SUSHI]: 'Sushi',
-	},
-	[ChainNetwork.xDai]: {},
-};
 
 export const CONTACT_EMAIL = 'hello@badger.finance';
 export const ERC20 = importedErc20;

@@ -100,7 +100,7 @@ export const Description = ({ sett }: Props): JSX.Element => {
 			<Grid item className={classes.logoContainer}>
 				<img
 					className={classes.settLogo}
-					src={`/assets/icons/${sett.asset.toLowerCase()}.png`}
+					src={`/assets/icons/${sett.vaultAsset.toLowerCase()}.png`}
 					alt={`Badger ${sett.name} Vault Symbol`}
 				/>
 			</Grid>

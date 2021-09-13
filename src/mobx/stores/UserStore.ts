@@ -145,14 +145,21 @@ export default class UserStore {
 
 	get initialized(): boolean {
 		const { settMap } = this.store.setts;
+		const { network } = this.store.network;
+
+		// no data available
 		if (!settMap) {
 			return false;
 		}
+		// no products configured
+		if (this.store.network.network.setts.length === 0) {
+			return true;
+		}
+
 		const hasTokens = Object.keys(this.tokenBalances).length > 0;
 		const hasSetts = Object.keys(this.settBalances).length > 0;
 		let hasGeysers = false;
 
-		const { network } = this.store.network;
 		const { connectedAddress } = this.store.wallet;
 		const geyserRequests = network
 			.batchRequests(settMap, connectedAddress)
