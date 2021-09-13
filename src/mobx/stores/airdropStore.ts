@@ -70,33 +70,34 @@ class AirdropStore {
 		);
 	});
 
-	// TODO: merkle proof typing
-	claimAirdrops = action(async (airdropContract: string, airdropAbi: AbiItem[], claim: AirdropMerkleClaim): Promise<void> => {
-		const { provider, connectedAddress } = this.store.wallet;
-		const { queueNotification, gasPrice } = this.store.uiState;
-		const { gasPrices, network } = this.store.network;
+	claimAirdrops = action(
+		async (airdropContract: string, airdropAbi: AbiItem[], claim: AirdropMerkleClaim): Promise<void> => {
+			const { provider, connectedAddress } = this.store.wallet;
+			const { queueNotification, gasPrice } = this.store.uiState;
+			const { gasPrices, network } = this.store.network;
 
-		if (!connectedAddress || !network.airdrops || !claim.proof) {
-			return;
-		}
+			if (!connectedAddress || !network.airdrops || !claim.proof) {
+				return;
+			}
 
-		const web3 = new Web3(provider);
-		const airdropTree = new web3.eth.Contract(airdropAbi, airdropContract);
-		const method = airdropTree.methods.claim(claim.index, connectedAddress, claim.amount, claim.proof);
+			const web3 = new Web3(provider);
+			const airdropTree = new web3.eth.Contract(airdropAbi, airdropContract);
+			const method = airdropTree.methods.claim(claim.index, connectedAddress, claim.amount, claim.proof);
 
-		queueNotification(`Sign the transaction to claim your airdrop`, 'info');
-		if (!gasPrices || !gasPrices[gasPrice]) {
-			queueNotification(
-				`Error retrieving gas selection - check the gas selector in the top right corner.`,
-				'error',
-			);
-			return;
-		}
+			queueNotification(`Sign the transaction to claim your airdrop`, 'info');
+			if (!gasPrices || !gasPrices[gasPrice]) {
+				queueNotification(
+					`Error retrieving gas selection - check the gas selector in the top right corner.`,
+					'error',
+				);
+				return;
+			}
 
-		const price = gasPrices[gasPrice];
-		const options = await getSendOptions(method, connectedAddress, price);
-		await sendContractMethod(this.store, method, options, `Claim submitted.`, `Aidrop claimed.`);
-	});
+			const price = gasPrices[gasPrice];
+			const options = await getSendOptions(method, connectedAddress, price);
+			await sendContractMethod(this.store, method, options, `Claim submitted.`, `Aidrop claimed.`);
+		},
+	);
 }
 
 export default AirdropStore;
