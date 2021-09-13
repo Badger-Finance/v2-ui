@@ -71,18 +71,18 @@ class AirdropStore {
 	});
 
 	// TODO: merkle proof typing
-	claimAirdrops = action(async (airdropContract: string, airdropAbi: AbiItem[], proof: any): Promise<void> => {
+	claimAirdrops = action(async (airdropContract: string, airdropAbi: AbiItem[], claim: AirdropMerkleClaim): Promise<void> => {
 		const { provider, connectedAddress } = this.store.wallet;
 		const { queueNotification, gasPrice } = this.store.uiState;
 		const { gasPrices, network } = this.store.network;
 
-		if (!connectedAddress || !network.airdrops) {
+		if (!connectedAddress || !network.airdrops || !claim.proof) {
 			return;
 		}
 
 		const web3 = new Web3(provider);
 		const airdropTree = new web3.eth.Contract(airdropAbi, airdropContract);
-		const method = airdropTree.methods.claim(proof.index, connectedAddress, proof.amount, proof.proof);
+		const method = airdropTree.methods.claim(claim.index, connectedAddress, claim.amount, claim.proof);
 
 		queueNotification(`Sign the transaction to claim your airdrop`, 'info');
 		if (!gasPrices || !gasPrices[gasPrice]) {
