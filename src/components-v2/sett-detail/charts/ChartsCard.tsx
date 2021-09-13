@@ -75,6 +75,11 @@ export const ChartsCard = observer(
 			? settChartData.map((d) => ({ x: d.timestamp.getTime(), y: yAxisAccessor(d) }))
 			: null;
 
+		const handleFetch = (fetchedData: SettChartData[] | null) => {
+			setSettChartData(fetchedData);
+			setLoading(false);
+		};
+
 		const handleFetchError = (error: Error) => {
 			setLoading(false);
 			console.error(error);
@@ -84,13 +89,9 @@ export const ChartsCard = observer(
 			if (mode === ChartMode.Ratio && timeframe === SettChartTimeframe.Day) {
 				setTimeframe(SettChartTimeframe.Week);
 			}
-		}, [mode, timeframe, settChartData]);
+		}, [mode, timeframe]);
 
 		useEffect(() => {
-			const handleFetch = (fetchedData: SettChartData[] | null) => {
-				setSettChartData(fetchedData);
-				setLoading(false);
-			};
 			setLoading(true);
 			settCharts.search(sett, timeframe).then(handleFetch).catch(handleFetchError);
 		}, [sett, timeframe, settCharts]);
