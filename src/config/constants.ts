@@ -59,29 +59,6 @@ export enum NETWORK_IDS {
 	ARB = 42161,
 }
 
-export const CLAIMS_SYMBOLS: ClaimsSymbols = {
-	[ChainNetwork.BinanceSmartChain]: {},
-	[ChainNetwork.Ethereum]: {
-		[tokens.farm]: 'Farm',
-		[tokens.xsushi]: 'xSushi',
-		[tokens.usdc]: 'USDC',
-		[tokens.badger]: 'Badger',
-		[tokens.digg]: 'Digg',
-		[sett_system.vaults['native.badger']]: 'bBadger',
-		[sett_system.vaults['native.digg']]: 'bDigg',
-		[tokens.defiDollar]: 'Defi Dollar',
-		[sett_system.vaults['native.cvx']]: 'bCVX',
-		[sett_system.vaults['native.cvxCrv']]: 'bcvxCRV',
-		[digg_system.DROPT['DROPT-3'].longToken]: 'DROPT-3',
-	},
-	[ChainNetwork.Matic]: {
-		[maticTokens.CRV]: 'CRV',
-		[maticTokens.BADGER]: 'Badger',
-		[maticTokens.SUSHI]: 'Sushi',
-	},
-	[ChainNetwork.xDai]: {},
-};
-
 export const CONTACT_EMAIL = 'hello@badger.finance';
 export const ERC20 = importedErc20;
 export const ERC20_ABI = importedErc20.abi as AbiItem[];
