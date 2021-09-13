@@ -66,7 +66,7 @@ export const MainContent = observer(
 						<SpecsCard sett={sett} badgerSett={badgerSett} />
 					</Grid>
 					<Grid item xs={12} md={8} lg={9}>
-						<ChartsCard sett={sett} settBalance={settBalance} />
+						<ChartsCard sett={sett} />
 					</Grid>
 				</Grid>
 				{sett.state === SettState.Guarded && (

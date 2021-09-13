@@ -73,6 +73,14 @@ exports[`Specs Section displays sett information 1`] = `
               2,580
             </h6>
           </div>
+          <span
+            class="MuiTypography-root-139 MuiTypography-caption-142"
+          >
+            1.0082
+             
+            Curve.fi renBTC/wBTC/sBTC
+             per share
+          </span>
         </div>
       </div>
     </div>

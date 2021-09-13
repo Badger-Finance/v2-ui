@@ -17,6 +17,9 @@ export const Tokens = ({ sett }: Props): JSX.Element => {
 				{sett.tokens.map((token, index) => (
 					<SettToken key={`${sett.name}-${token.name}-${index}`} token={token} />
 				))}
+				<Typography variant="caption">
+					{sett.ppfs.toFixed(4)} {sett.name} per share
+				</Typography>
 			</Grid>
 		</Grid>
 	);
