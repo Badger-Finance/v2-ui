@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, useTheme } from '@material-ui/core';
 import { ChartDataPoint } from 'mobx/model/charts/chart-data-point';
 import React from 'react';
 import { AreaChart, ResponsiveContainer, XAxis, YAxis, Tooltip, Area, ReferenceLine } from 'recharts';
@@ -50,6 +50,7 @@ const BaseAreaChart = ({
 		return [yFormatter ? yFormatter(value) : value.toFixed(), title];
 	};
 
+	const theme = useTheme();
 	return (
 		<ResponsiveContainer
 			width={width ?? defaultWidth}
@@ -59,8 +60,8 @@ const BaseAreaChart = ({
 			<AreaChart data={data}>
 				<defs>
 					<linearGradient id="gradient" x1="0" y1="0" x2="0" y2="1">
-						<stop offset="5%" stopColor="#F2A52B" stopOpacity={0.5} />
-						<stop offset="95%" stopColor="#F2A52B" stopOpacity={0.05} />
+						<stop offset="5%" stopColor={theme.palette.primary.main} stopOpacity={0.5} />
+						<stop offset="95%" stopColor={theme.palette.primary.main} stopOpacity={0.05} />
 					</linearGradient>
 				</defs>
 				<XAxis
@@ -78,7 +79,7 @@ const BaseAreaChart = ({
 					labelFormatter={tooltipFormatter}
 					itemStyle={{ color: 'black' }}
 					separator={': '}
-					cursor={{ stroke: '#F2A52B', strokeWidth: 2 }}
+					cursor={{ stroke: theme.palette.primary.main, strokeWidth: 2 }}
 				/>
 				{references &&
 					references.map((r, i) => (
@@ -90,7 +91,13 @@ const BaseAreaChart = ({
 							strokeDasharray="3 3"
 						/>
 					))}
-				<Area type="monotone" dataKey="y" stroke="#F2A52B" fillOpacity={1} fill="url(#gradient)" />
+				<Area
+					type="monotone"
+					dataKey="y"
+					stroke={theme.palette.primary.main}
+					fillOpacity={1}
+					fill="url(#gradient)"
+				/>
 			</AreaChart>
 		</ResponsiveContainer>
 	);
