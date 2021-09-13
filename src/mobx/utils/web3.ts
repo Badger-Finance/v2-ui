@@ -18,7 +18,7 @@ export const getSendOptions = async (
 	price: number | EIP1559GasPrices,
 ): Promise<SendOptions | EIP1559SendOptions> => {
 	return typeof price === 'number'
-		? await getSendOptions(method, connectedAddress, price)
+		? await getNonEIP1559SendOptions(method, connectedAddress, price)
 		: await getEIP1559SendOptions(method, connectedAddress, price['maxFeePerGas'], price['maxPriorityFeePerGas']);
 };
 
