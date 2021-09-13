@@ -122,16 +122,17 @@ export default class UserStore {
 	/* Read Variables */
 
 	onGuestList(sett: Sett): boolean {
-		if (!this.accountDetails || !this.bouncerProof) {
-			return false;
+		// allow users who are not connected to nicely view setts
+		if (!this.store.wallet.connectedAddress) {
+			return true;
 		}
 		if (sett.bouncer === BouncerType.Internal) {
 			return false;
 		}
-	if (sett.bouncer === BouncerType.None) {
+		if (sett.bouncer === BouncerType.None) {
 			return true;
 		}
-		return this.bouncerProof.length > 0;
+		return !!this.bouncerProof && this.bouncerProof.length > 0;
 	}
 
 	get portfolioValue(): BigNumber {
