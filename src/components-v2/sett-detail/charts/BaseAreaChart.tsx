@@ -43,6 +43,27 @@ const BaseAreaChart = ({
 	references,
 }: Props): JSX.Element => {
 	const classes = useStyles();
+
+	/**
+	 * Derive default width and height for the rechart canvas.
+	 * Recharts only requires one dimension to render, the other can be set
+	 * to a relative sizing of the containing div. Width is derived from height
+	 * when not available, and vice versa.
+	 *
+	 * This base component supports four scenarios:
+	 *   - no width / height
+	 *   - width or height
+	 *   - width and height
+	 *
+	 * Examples: w: width h: height dw: defaultWidth dh: defaultHeight
+	 * w = undefined, h = undefined => 400x400 (dw: 400, dh: 400)
+	 * w = 300, h = undefined => 300 x '100%' (dw: 400, dh: 100%)
+	 * w = 300, h = 200 => 300 x 200 (dw: '100%, dh: '100%)
+	 * w = undefined, h = 200 => '100%' x 200 (dw: '100%', dh: 400)
+	 *
+	 * The container is then sized based on the provided width or height,
+	 * and falls back to the derived default width or height if none was given.
+	 */
 	const defaultWidth = height ? '100%' : 400;
 	const defaultHeight = width ? '100%' : 400;
 
