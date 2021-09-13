@@ -8,6 +8,7 @@ import { API } from 'bnc-onboard/dist/src/interfaces';
 import { API as NotifyAPI } from 'bnc-notify';
 import { getNetworkFromProvider } from 'mobx/utils/helpers';
 import { Network } from 'mobx/model/network/network';
+import { BLOCKNATIVE_API_KEY } from 'config/constants';
 
 class WalletStore {
 	private store: RootStore;
@@ -20,7 +21,7 @@ class WalletStore {
 		this.store = store;
 
 		const onboardOptions: any = {
-			dappId: 'af74a87b-cd08-4f45-83ff-ade6b3859a07',
+			dappId: BLOCKNATIVE_API_KEY,
 			networkId: this.store.network.network.id,
 			darkMode: true,
 			subscriptions: {
@@ -38,7 +39,7 @@ class WalletStore {
 		const onboard = Onboard(onboardOptions);
 
 		const notifyOptions: any = {
-			dappId: 'af74a87b-cd08-4f45-83ff-ade6b3859a07',
+			dappId: BLOCKNATIVE_API_KEY,
 			networkId: this.store.network.network.id,
 		};
 		const notify = Notify(notifyOptions);

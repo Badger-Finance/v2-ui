@@ -281,14 +281,15 @@ class IbBTCStore {
 		spender: string,
 		amount: BigNumber | string = MAX,
 	): Promise<void> {
-		const { queueNotification } = this.store.uiState;
+		const { queueNotification, gasPrice } = this.store.uiState;
 		const { connectedAddress } = this.store.wallet;
+		const { gasPrices } = this.store.network;
 		const method = this.getApprovalMethod(underlyingAsset, spender, amount);
 
 		queueNotification(`Sign the transaction to allow Badger to spend your ${underlyingAsset.symbol}`, 'info');
 
-		const gasPrice = this.store.network.gasPrices[this.store.uiState.gasPrice];
-		const options = await getSendOptions(method, connectedAddress, gasPrice);
+		const price = gasPrices[gasPrice];
+		const options = await getSendOptions(method, connectedAddress, price);
 		await method
 			.send(options)
 			.on('transactionHash', (_hash: string) => {
@@ -399,10 +400,10 @@ class IbBTCStore {
 		successMessage: string,
 	): Promise<void> {
 		const { connectedAddress } = this.store.wallet;
-		const { queueNotification } = this.store.uiState;
-		const gasPrice = this.store.network.gasPrices[this.store.uiState.gasPrice];
-		const options = await getSendOptions(method, connectedAddress, gasPrice);
-
+		const { queueNotification, gasPrice } = this.store.uiState;
+		const { gasPrices } = this.store.network;
+		const price = gasPrices[gasPrice];
+		const options = await getSendOptions(method, connectedAddress, price);
 		await method
 			.send(options)
 			.on('transactionHash', (_hash: string) => {

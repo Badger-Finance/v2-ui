@@ -71,6 +71,7 @@ export const ZERO_CURRENCY = '0.00000';
 export const SITE_VERSION = 'v2.9.1';
 export const WC_BRIDGE = 'https://wc-bridge.badger.finance/';
 export const REN_FEES_ENDPOINT = 'https://lightnode-mainnet.herokuapp.com/ren_queryBlockState';
+export const BLOCKNATIVE_API_KEY = 'af74a87b-cd08-4f45-83ff-ade6b3859a07';
 
 export const ZERO = new BigNumber(0);
 export const TEN = new BigNumber(10);

@@ -127,6 +127,9 @@ export const ConfirmForm = ({
 
 	const isVault = ['byvWBTC', 'bCRVrenBTC', 'bCRVsBTC', 'bCRVtBTC'].indexOf(values.token) >= 0;
 
+	const networkGasPrice = gasPrices[gasPrice];
+	const displayGasPrice = typeof networkGasPrice === 'number' ? networkGasPrice : networkGasPrice.maxFeePerGas;
+
 	return (
 		<Grid container alignItems={'center'}>
 			<Grid item xs={4} style={{ padding: '1rem 0rem' }}>
@@ -216,7 +219,7 @@ export const ConfirmForm = ({
 					feeContainer(
 						'Estimated Gas Fee',
 						'This estimated network fee that goes to the destination network. This does not go to the Ren or Badger team.',
-						`${(estimatedGasUnitsETH() * gasPrices[gasPrice]) / 1e9} ETH`,
+						`${(estimatedGasUnitsETH() * displayGasPrice) / 1e9} ETH`,
 					)}
 				{isWBTC && (
 					<>
