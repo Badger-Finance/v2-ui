@@ -28,6 +28,7 @@ import { defaultSettBalance } from 'components-v2/sett-detail/utils';
 import { SettBalance } from 'mobx/model/setts/sett-balance';
 import { ChainNetwork } from '../../config/enums/chain-network.enum';
 import { getToken } from 'web3/config/token-config';
+import { BouncerType } from 'mobx/model/setts/sett-bouncer';
 
 export default class UserStore {
 	private store!: RootStore;
@@ -120,11 +121,17 @@ export default class UserStore {
 
 	/* Read Variables */
 
-	viewSettShop(): boolean {
-		if (!this.permissions) {
+	onGuestList(sett: Sett): boolean {
+		if (!this.accountDetails || !this.bouncerProof) {
 			return false;
 		}
-		return this.permissions.viewSettShop;
+		if (sett.bouncer === BouncerType.Internal) {
+			return false;
+		}
+	if (sett.bouncer === BouncerType.None) {
+			return true;
+		}
+		return this.bouncerProof.length > 0;
 	}
 
 	get portfolioValue(): BigNumber {

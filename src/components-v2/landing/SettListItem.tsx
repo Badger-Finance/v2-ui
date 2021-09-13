@@ -91,7 +91,8 @@ const SettListItem = observer(
 		const multiplier = !sett.deprecated ? user.accountDetails?.multipliers[sett.vaultToken] : undefined;
 
 		const canWithdraw = balance ? balance.gt(0) : false;
-		const isDisabled = sett.hasBouncer && !user.permissions?.viewSettShop;
+		// sett is disabled if they are internal setts, or have a bouncer and use has no access
+		const isDisabled = !user.onGuestList(sett);
 
 		const goToSettDetail = async () => {
 			await router.goTo(routes.settDetails, { settName: sett.slug, accountView });
