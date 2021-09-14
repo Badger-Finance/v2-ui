@@ -1,5 +1,11 @@
 # v2 UI Changelog
 
+### v2.9.2 - 09/14/2021
+
+-   Update sett detail charting library
+-   Add badger boost chart
+-   Add support for EIP-1559 transactions
+
 ### Hotfix - 09/08/2021
 
 -   Add arbitrum support for sidebar
