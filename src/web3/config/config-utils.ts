@@ -45,7 +45,7 @@ const getReadMethods = (namespace: ContractNamespace, userAddress: string): Read
 		case ContractNamespace.Geyser:
 			return [{ name: 'totalStakedFor', args: [userAddress] }];
 		case ContractNamespace.GaurdedSett:
-			return [{ name: 'balanceOf', args: [userAddress] }, { name: 'guestList' }];
+			return [{ name: 'balanceOf', args: [userAddress] }, { name: 'guestList' }, { name: 'available' }];
 		case ContractNamespace.GuestList:
 			return [
 				{ name: 'remainingTotalDepositAllowed' },
@@ -54,6 +54,7 @@ const getReadMethods = (namespace: ContractNamespace, userAddress: string): Read
 				{ name: 'userDepositCap' },
 			];
 		case ContractNamespace.Sett:
+			return [{ name: 'balanceOf', args: [userAddress] }, { name: 'available' }];
 		case ContractNamespace.Token:
 		default:
 			return [{ name: 'balanceOf', args: [userAddress] }];
