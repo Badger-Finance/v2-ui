@@ -8,6 +8,7 @@ import { inCurrency } from '../../../mobx/utils/helpers';
 import BigNumber from 'bignumber.js';
 import { Skeleton } from '@material-ui/lab';
 import { Sett } from 'mobx/model/setts/sett';
+import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -43,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
 	showMoreContainer: {
 		display: 'flex',
 		alignItems: 'flex-end',
-		justifyContent: 'flex-end',
+		justifyContent: 'flex-start',
 		cursor: 'pointer',
 	},
 	showMore: {
@@ -74,8 +75,8 @@ const SettMetrics = observer(
 
 		const available = setts.availableBalances[sett.vaultToken];
 
-		const [showMore, setShowMore] = useState(false);
-		const expandText = showMore ? 'Hide' : 'Show More ▼';
+		const [showMore, setShowMore] = useState(true);
+		const expandText = showMore ? 'Hide' : 'Show More';
 
 		return (
 			<Grid container className={classes.root}>
@@ -104,13 +105,13 @@ const SettMetrics = observer(
 							tokens per share
 						</Typography>
 					</div>
-					{available && (
+					{sett.vaultToken === ETH_DEPLOY.sett_system.vaults['native.icvx'] && available && (
 						<div className={classes.submetric}>
 							<Typography variant="body1" className={classes.submetricValue}>
 								{available.balanceDisplay(5)}
 							</Typography>
 							<Typography variant="caption" className={classes.submetricType}>
-								tokens available
+								tokens withdrawable
 							</Typography>
 						</div>
 					)}
