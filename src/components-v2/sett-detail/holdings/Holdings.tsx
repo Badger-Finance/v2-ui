@@ -76,9 +76,9 @@ export const Holdings = observer(({ tokenBalance, settBalance, sett, badgerSett 
 						decimals={decimals}
 					/>
 				</Grid>
-				{isMediumSizeScreen && canDeposit && (
+				{isMediumSizeScreen && (
 					<Grid item xs={12} sm>
-						<HoldingsActionButtons />
+						<HoldingsActionButtons canDeposit={canDeposit} />
 					</Grid>
 				)}
 			</Grid>

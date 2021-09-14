@@ -18,23 +18,29 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export const HoldingsActionButtons = (): JSX.Element => {
+interface Props {
+	canDeposit: boolean;
+}
+
+export const HoldingsActionButtons = ({ canDeposit }: Props): JSX.Element => {
 	const { settDetail } = React.useContext(StoreContext);
 	const { canUserDeposit, canUserWithdraw } = settDetail;
 	const classes = useStyles();
 
 	return (
 		<div className={classes.root}>
-			<SettActionButton
-				fullWidth
-				className={classes.deposit}
-				color="primary"
-				variant={canUserDeposit ? 'contained' : 'outlined'}
-				disabled={!canUserDeposit}
-				onClick={() => settDetail.toggleDepositDialog()}
-			>
-				Deposit
-			</SettActionButton>
+			{canDeposit && (
+				<SettActionButton
+					fullWidth
+					className={classes.deposit}
+					color="primary"
+					variant={canUserDeposit ? 'contained' : 'outlined'}
+					disabled={!canUserDeposit}
+					onClick={() => settDetail.toggleDepositDialog()}
+				>
+					Deposit
+				</SettActionButton>
+			)}
 			<SettActionButton
 				className={classes.withdraw}
 				fullWidth
