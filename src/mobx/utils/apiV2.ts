@@ -55,8 +55,11 @@ export const getTotalValueLocked = async (chain = ChainNetwork.Ethereum): Promis
 	return fetchData(() => fetch(`${getTVLEndpoint}?chain=${chain}&currency=eth`));
 };
 
-export const checkShopEligibility = async (address: string): Promise<Eligibility | null> => {
-	return fetchData(() => fetch(`${checkShopEndpoint}/${address}`));
+export const checkShopEligibility = async (
+	address: string,
+	chain = ChainNetwork.Ethereum,
+): Promise<Eligibility | null> => {
+	return fetchData(() => fetch(`${checkShopEndpoint}/${address}?chain=${chain}`));
 };
 
 export const fetchBouncerProof = async (address: string): Promise<BouncerProof | null> => {

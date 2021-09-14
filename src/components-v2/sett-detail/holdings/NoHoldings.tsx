@@ -40,7 +40,7 @@ export const NoHoldings = observer(({ sett, badgerSett }: Props): JSX.Element | 
 	const classes = useStyles();
 
 	const strategy = network.strategies[badgerSett.vaultToken.address];
-	if (sett.hasBouncer && !user.permissions?.viewSettShop) {
+	if (!user.onGuestList(sett)) {
 		return null;
 	}
 

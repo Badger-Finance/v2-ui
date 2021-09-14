@@ -12,6 +12,7 @@ import { toFixedDecimals, unscale } from '../utils/helpers';
 import { action, extendObservable } from 'mobx';
 import { Sett } from '../model/setts/sett';
 import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
+import { BouncerType } from 'mobx/model/setts/sett-bouncer';
 
 type ProgressTracker = Record<string, boolean>;
 
@@ -178,7 +179,7 @@ class ContractsStore {
 				}
 			}
 
-			if (sett.hasBouncer) {
+			if (sett.bouncer === BouncerType.Badger) {
 				if (!bouncerProof) {
 					queueNotification(`Error loading Badger Bouncer Proof`, 'error');
 					return;

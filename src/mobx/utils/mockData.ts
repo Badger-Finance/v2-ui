@@ -1,5 +1,6 @@
 import { SettState } from '../model/setts/sett-state';
 import { Sett } from '../model/setts/sett';
+import { BouncerType } from 'mobx/model/setts/sett-bouncer';
 
 export const testYearnVaultApiResponse: Sett = {
 	name: 'Test Yearn Vault',
@@ -12,7 +13,7 @@ export const testYearnVaultApiResponse: Sett = {
 	value: 150538.70217373536,
 	apr: 20,
 	boostable: false,
-	hasBouncer: true,
+	bouncer: BouncerType.None,
 	balance: 100,
 	multipliers: [],
 	tokens: [
