@@ -5,7 +5,7 @@ import { BadgerSett } from '../../../mobx/model/vaults/badger-sett';
 import { Tokens } from './Tokens';
 import { Claims } from './Claims';
 import { Sett } from '../../../mobx/model/setts/sett';
-import { Links } from './Links';
+import SettDetailLinks from './SettDetailLinks';
 import { Fees } from './Fees';
 import { CardContainer } from '../styled';
 import SettMetrics from './SettMetrics';
@@ -44,7 +44,7 @@ const SpecsCard = ({ sett, badgerSett }: Props): JSX.Element => {
 				<Fees sett={sett} />
 			</Grid>
 			<Grid item xs>
-				<Links sett={sett} badgerSett={badgerSett} />
+				<SettDetailLinks sett={sett} badgerSett={badgerSett} />
 			</Grid>
 		</CardContainer>
 	);

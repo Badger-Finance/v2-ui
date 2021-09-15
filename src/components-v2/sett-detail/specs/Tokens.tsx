@@ -6,7 +6,7 @@ import { SettToken } from './SettToken';
 
 const useStyles = makeStyles((theme) => ({
 	title: {
-		paddingBottom: theme.spacing(0.5),
+		paddingBottom: theme.spacing(0.25),
 	},
 }));
 

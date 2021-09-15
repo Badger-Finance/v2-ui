@@ -48,11 +48,6 @@ export const NoHoldings = observer(({ sett, badgerSett }: Props): JSX.Element | 
 		<Grid container className={classes.root} component={Paper}>
 			<Grid item xs={12} sm={8}>
 				<Typography variant="body1">{`You have no ${sett.name} in your connected wallet.`}</Typography>
-				{strategy.depositInstructions && (
-					<Typography variant="body2" className={classes.description}>
-						{strategy.depositInstructions}
-					</Typography>
-				)}
 				<DepositInfo strategy={strategy} />
 			</Grid>
 			<Grid item xs={12} sm className={classes.depositContainer}>
