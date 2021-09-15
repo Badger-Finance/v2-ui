@@ -29,7 +29,7 @@ exports[`Breadcrumb displays holdings with balance 1`] = `
             <p
               class="MuiTypography-root-106 makeStyles-holdingsName-137 MuiTypography-body1-108"
             >
-              Total Balance
+              Total Deposited
             </p>
             <svg
               aria-hidden="true"
@@ -56,7 +56,7 @@ exports[`Breadcrumb displays holdings with balance 1`] = `
                 class="makeStyles-logoContainer-139"
               >
                 <img
-                  alt="Total Balance holdings"
+                  alt="Total Deposited holdings"
                   class="makeStyles-logo-140"
                   src="/assets/icons/bsbtccrv.png"
                 />
@@ -160,7 +160,7 @@ exports[`Breadcrumb displays holdings with no balance 1`] = `
             <p
               class="MuiTypography-root-106 makeStyles-holdingsName-137 MuiTypography-body1-108"
             >
-              Total Balance
+              Total Deposited
             </p>
             <svg
               aria-hidden="true"
@@ -187,7 +187,7 @@ exports[`Breadcrumb displays holdings with no balance 1`] = `
                 class="makeStyles-logoContainer-139"
               >
                 <img
-                  alt="Total Balance holdings"
+                  alt="Total Deposited holdings"
                   class="makeStyles-logo-140"
                   src="/assets/icons/bsbtccrv.png"
                 />

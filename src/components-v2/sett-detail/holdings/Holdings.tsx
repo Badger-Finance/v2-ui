@@ -59,7 +59,7 @@ export const Holdings = observer(({ tokenBalance, settBalance, sett, badgerSett 
 			<Grid container spacing={1}>
 				<Grid item xs={12} sm>
 					<HoldingItem
-						name="Total Balance"
+						name="Total Deposited"
 						logo={logo}
 						balance={balance}
 						value={value}

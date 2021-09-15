@@ -1,5 +1,6 @@
 import React from 'react';
 import { Grid, makeStyles } from '@material-ui/core';
+import SpecsCard from './specs/SpecsCard';
 import { ChartsCard } from './charts/ChartsCard';
 import { Holdings } from './holdings/Holdings';
 import { Sett } from '../../mobx/model/setts/sett';
@@ -9,7 +10,6 @@ import { BadgerSett } from '../../mobx/model/vaults/badger-sett';
 import { NewVaultWarning } from './NewVaultWarning';
 import { SettState } from '../../mobx/model/setts/sett-state';
 import { ContractNamespace } from 'web3/config/contract-namespace';
-import SpecsCard from './specs/SpecsCard';
 
 const useStyles = makeStyles((theme) => ({
 	content: {
