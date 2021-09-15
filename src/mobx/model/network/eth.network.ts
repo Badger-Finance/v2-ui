@@ -78,9 +78,6 @@ export class Ethereum extends Network {
 	}
 
 	async updateGasPrices(): Promise<GasPrices> {
-		const legacyPrices = await fetch('https://www.gasnow.org/api/v3/gas/price?utm_source=badgerv2');
-		const legacyResults = await legacyPrices.json();
-		const legacyBlockPrices = legacyResults.data;
 		const prices = await fetch('https://api.blocknative.com/gasprices/blockprices', {
 			headers: { Authorization: BLOCKNATIVE_API_KEY },
 		});
@@ -88,22 +85,18 @@ export class Ethereum extends Network {
 		const blockPrices = result.blockPrices[0];
 		return {
 			rapid: {
-				legacyGas: legacyBlockPrices['rapid'],
 				maxFeePerGas: blockPrices.estimatedPrices[0].maxFeePerGas,
 				maxPriorityFeePerGas: blockPrices.estimatedPrices[0].maxPriorityFeePerGas,
 			},
 			fast: {
-				legacyGas: legacyBlockPrices['fast'],
 				maxFeePerGas: blockPrices.estimatedPrices[1].maxFeePerGas,
 				maxPriorityFeePerGas: blockPrices.estimatedPrices[1].maxPriorityFeePerGas,
 			},
 			standard: {
-				legacyGas: legacyBlockPrices['standard'],
 				maxFeePerGas: blockPrices.estimatedPrices[2].maxFeePerGas,
 				maxPriorityFeePerGas: blockPrices.estimatedPrices[2].maxPriorityFeePerGas,
 			},
 			slow: {
-				legacyGas: legacyBlockPrices['slow'],
 				maxFeePerGas: blockPrices.estimatedPrices[3].maxFeePerGas,
 				maxPriorityFeePerGas: blockPrices.estimatedPrices[3].maxPriorityFeePerGas,
 			},

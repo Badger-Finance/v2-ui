@@ -47,7 +47,7 @@ export const getEIP1559SendOptions = async (
 	from: string,
 	price: EIP1559GasPrices,
 ): Promise<EIP1559SendOptions> => {
-	const { maxFeePerGas, maxPriorityFeePerGas, legacyGas } = price;
+	const { maxFeePerGas, maxPriorityFeePerGas } = price;
 	const maxFeePerGasWei = new BigNumber(maxFeePerGas.toFixed(0)).multipliedBy(1e9);
 	const maxPriorityFeePerGasWei = new BigNumber(maxPriorityFeePerGas.toFixed(0)).multipliedBy(1e9);
 	const options: EstimateGasOptions = {
@@ -55,6 +55,7 @@ export const getEIP1559SendOptions = async (
 		gas: maxFeePerGasWei.toNumber(),
 	};
 	const limit = await method.estimateGas(options);
+	const legacyGas = (maxFeePerGasWei.div(2)).minus(maxPriorityFeePerGasWei);
 	return {
 		from,
 		gas: Math.floor(limit * 1.2),
