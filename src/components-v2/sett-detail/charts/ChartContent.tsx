@@ -1,10 +1,9 @@
 import React from 'react';
-import { SettChart } from './SettChart';
 import { Grid, Typography } from '@material-ui/core';
 import { Loader } from '../../../components/Loader';
-import { ChartMode, SettChartData } from '../../../mobx/model/setts/sett-charts';
 import { makeStyles } from '@material-ui/core/styles';
 import ErrorIcon from '@material-ui/icons/Error';
+import { ChartDataPoint } from 'mobx/model/charts/chart-data-point';
 
 const useStyles = makeStyles((theme) => ({
 	errorMessage: {
@@ -15,18 +14,13 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const accountScaleData = (data: SettChartData[], scalar: number) => {
-	return data.map((point) => ({ ...point, value: point.value * scalar }));
-};
-
 interface Props {
-	mode: ChartMode;
-	accountScalar?: number;
-	data: SettChartData[] | null;
+	data: ChartDataPoint[] | null;
 	loading?: boolean;
+	children: React.ReactNode;
 }
 
-export const ChartContent = ({ data, accountScalar, mode, loading = true }: Props): JSX.Element => {
+const ChartContent = ({ data, loading = true, children }: Props): JSX.Element => {
 	const classes = useStyles();
 
 	if (loading) {
@@ -55,9 +49,7 @@ export const ChartContent = ({ data, accountScalar, mode, loading = true }: Prop
 		);
 	}
 
-	if (mode === ChartMode.accountBalance && accountScalar) {
-		return <SettChart data={accountScaleData(data, accountScalar)} mode={mode} />;
-	}
-
-	return <SettChart data={data} mode={mode} />;
+	return <>{children}</>;
 };
+
+export default ChartContent;

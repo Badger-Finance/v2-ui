@@ -1,5 +1,5 @@
-import { CachedUserBalances } from './cached-user-balances';
+import { CachedTokenBalances } from './cached-token-balances';
 
 export interface UserBalanceCache {
-	[key: string]: CachedUserBalances;
+	[key: string]: CachedTokenBalances;
 }

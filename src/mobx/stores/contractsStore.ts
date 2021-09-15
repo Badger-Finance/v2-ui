@@ -1,6 +1,6 @@
 import Web3 from 'web3';
 import { AbiItem } from 'web3-utils';
-import { getSendOptions } from '../utils/web3';
+import { EIP1559SendOptions, getSendOptions, sendContractMethod } from '../utils/web3';
 import BigNumber from 'bignumber.js';
 import { RootStore } from '../RootStore';
 import { ContractSendMethod, SendOptions } from 'web3-eth-contract';
@@ -12,6 +12,7 @@ import { toFixedDecimals, unscale } from '../utils/helpers';
 import { action, extendObservable } from 'mobx';
 import { Sett } from '../model/setts/sett';
 import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
+import { BouncerType } from 'mobx/model/setts/sett-bouncer';
 
 type ProgressTracker = Record<string, boolean>;
 
@@ -100,8 +101,10 @@ class ContractsStore {
 	};
 
 	increaseAllowance = async (token: BadgerToken, contract: string): Promise<void> => {
-		const { queueNotification } = this.store.uiState;
-		const { provider } = this.store.wallet;
+		const {
+			wallet: { provider },
+			uiState: { queueNotification },
+		} = this.store;
 
 		const web3 = new Web3(provider);
 		const underlyingContract = new web3.eth.Contract(ERC20.abi as AbiItem[], token.address);
@@ -112,15 +115,7 @@ class ContractsStore {
 		const successMessage = `${token.symbol} allowance increased`;
 
 		queueNotification(`Sign the transaction to allow Badger to spend your ${token.symbol}`, 'info');
-
-		await method
-			.send(options)
-			.on('transactionHash', (_hash: string) => {
-				queueNotification(infoMessage, 'info', _hash);
-			})
-			.on('receipt', () => {
-				queueNotification(successMessage, 'info');
-			});
+		await sendContractMethod(this.store, method, options, infoMessage, successMessage);
 	};
 
 	getAllowance = async (token: BadgerToken, spender: string): Promise<TokenBalance> => {
@@ -152,22 +147,13 @@ class ContractsStore {
 		const unstakeAmount = `${displayAmount} b${sett.asset}`;
 
 		queueNotification(`Sign the transaction to unstake ${unstakeAmount}`, 'info');
-
-		await method
-			.send(options)
-			.on('transactionHash', (_hash: string) => {
-				queueNotification('Unstake transaction submitted', 'info', _hash);
-				this.settsBeingUnstaked[sett.vaultToken] = true;
-			})
-			.on('receipt', () => {
-				queueNotification(`Successfully unstaked ${unstakeAmount}`, 'info');
-				this.settsBeingUnstaked[sett.vaultToken] = false;
-				this.store.user.updateBalances();
-			})
-			.on('error', (error: Error) => {
-				queueNotification(error.message, 'error');
-				this.settsBeingUnstaked[sett.vaultToken] = false;
-			});
+		await sendContractMethod(
+			this.store,
+			method,
+			options,
+			'Unstake transaction submitted',
+			`Successfully unstaked ${unstakeAmount}`,
+		);
 	};
 
 	depositVault = action(
@@ -193,7 +179,7 @@ class ContractsStore {
 				}
 			}
 
-			if (sett.hasBouncer) {
+			if (sett.bouncer === BouncerType.Badger) {
 				if (!bouncerProof) {
 					queueNotification(`Error loading Badger Bouncer Proof`, 'error');
 					return;
@@ -213,22 +199,13 @@ class ContractsStore {
 			const depositAmount = `${displayAmount} ${sett.asset}`;
 
 			queueNotification(`Sign the transaction to wrap ${depositAmount}`, 'info');
-
-			await method
-				.send(options)
-				.on('transactionHash', (_hash: string) => {
-					this.settsBeingDeposited[sett.vaultToken] = true;
-					queueNotification('Deposing transaction submitted', 'info', _hash);
-				})
-				.on('receipt', () => {
-					queueNotification(`Successfully deposited ${depositAmount}`, 'info');
-					this.settsBeingDeposited[sett.vaultToken] = false;
-					this.store.user.updateBalances();
-				})
-				.on('error', (error: Error) => {
-					queueNotification(error.message, 'error');
-					this.settsBeingDeposited[sett.vaultToken] = false;
-				});
+			await sendContractMethod(
+				this.store,
+				method,
+				options,
+				'Deposing transaction submitted',
+				`Successfully deposited ${depositAmount}`,
+			);
 		},
 	);
 
@@ -248,30 +225,26 @@ class ContractsStore {
 			const withdrawAmount = `${displayAmount} b${sett.asset}`;
 
 			queueNotification(`Sign the transaction to unwrap ${withdrawAmount}`, 'info');
-
-			await method
-				.send(options)
-				.on('transactionHash', (_hash: string) => {
-					queueNotification('Withdraw transaction submitted', 'info', _hash);
-					this.settsBeingWithdrawn[sett.vaultToken] = true;
-				})
-				.on('receipt', () => {
-					queueNotification(`Successfully withdrew ${withdrawAmount}`, 'info');
-					this.settsBeingWithdrawn[sett.vaultToken] = false;
-					this.store.user.updateBalances();
-				})
-				.on('error', (error: Error) => {
-					queueNotification(error.message, 'error');
-					this.settsBeingWithdrawn[sett.vaultToken] = false;
-				});
+			await sendContractMethod(
+				this.store,
+				method,
+				options,
+				'Withdraw transaction submitted',
+				`Successfully withdrew ${withdrawAmount}`,
+			);
 		},
 	);
 
-	private _getSendOptions = async (method: ContractSendMethod): Promise<SendOptions> => {
-		const { connectedAddress } = this.store.wallet;
+	private _getSendOptions = async (method: ContractSendMethod): Promise<SendOptions | EIP1559SendOptions> => {
+		const {
+			wallet: { connectedAddress },
+			uiState: { gasPrice },
+			network: { gasPrices },
+		} = this.store;
 
-		const gasPrice = this.store.network.gasPrices[this.store.uiState.gasPrice];
-		return await getSendOptions(method, connectedAddress, gasPrice);
+		const price = gasPrices[gasPrice];
+		const options = await getSendOptions(method, connectedAddress, price);
+		return options;
 	};
 }
 

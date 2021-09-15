@@ -7,10 +7,11 @@ import { DelaySeverity } from '../../mobx/model/setts/sett-rewards';
 
 dayjs.extend(utc);
 
-export const ChartModeTitles = {
-	[ChartMode.value]: 'Sett Value',
-	[ChartMode.ratio]: 'Token Ratio',
-	[ChartMode.accountBalance]: 'Your Holdings',
+export const ChartModeTitles: Record<string, string> = {
+	[ChartMode.Value]: 'Sett Value',
+	[ChartMode.Ratio]: 'Token Ratio',
+	[ChartMode.AccountBalance]: 'My Holdings',
+	[ChartMode.BoostMultiplier]: 'Badger Boost',
 };
 
 export const calculateDelaySeverity = (delay: number): DelaySeverity => {

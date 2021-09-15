@@ -2,6 +2,7 @@ import BigNumber from 'bignumber.js';
 import slugify from 'slugify';
 import * as api from '../../mobx/utils/apiV2';
 import { SettState } from '../../mobx/model/setts/sett-state';
+import { BouncerType } from 'mobx/model/setts/sett-bouncer';
 
 export function mockApi(): void {
 	jest.spyOn(api, 'listSetts').mockReturnValue(
@@ -9,10 +10,11 @@ export function mockApi(): void {
 			{
 				asset: 'sBTCCRV',
 				vaultAsset: 'bsBTCCRV',
+				multipliers: [],
 				state: SettState.Open,
 				apr: 0.123456789123454,
 				balance: 2580.4779797767615,
-				hasBouncer: false,
+				bouncer: BouncerType.None,
 				boostable: true,
 				name: 'Curve.fi renBTC/wBTC/sBTC',
 				ppfs: 1.0082389531413567,

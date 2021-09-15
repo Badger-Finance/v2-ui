@@ -29,17 +29,34 @@ interface Props {
 export const ChartsHeader = ({ mode, timeframe, onTimeframeChange }: Props): JSX.Element => {
 	const classes = useStyles();
 
+	let description;
+	switch (mode) {
+		case ChartMode.AccountBalance:
+			description = 'Deposited assets';
+			break;
+		case ChartMode.Ratio:
+			description = 'bToken to deposit token ratio';
+			break;
+		case ChartMode.Value:
+			description = 'Total assets under management';
+			break;
+		default:
+			description = 'Sett Boost APR breakdown';
+	}
+
 	return (
 		<Grid container alignItems="center" justify="space-between">
 			<Grid container item xs={12} sm={6} direction="column" className={classes.titleText}>
 				<Typography variant="h6">{ChartModeTitles[mode]}</Typography>
 				<Typography variant="body2" color="textSecondary">
-					Drag the chart and pan the axes to explore
+					{description}
 				</Typography>
 			</Grid>
-			<Grid item xs={12} sm={6} className={classes.buttonGroupContainer}>
-				<ChartTimeframeControls mode={mode} value={timeframe} onChange={onTimeframeChange} />
-			</Grid>
+			{mode !== ChartMode.BoostMultiplier && (
+				<Grid item xs={12} sm={6} className={classes.buttonGroupContainer}>
+					<ChartTimeframeControls mode={mode} value={timeframe} onChange={onTimeframeChange} />
+				</Grid>
+			)}
 		</Grid>
 	);
 };

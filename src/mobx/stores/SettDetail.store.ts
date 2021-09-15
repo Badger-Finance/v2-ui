@@ -1,6 +1,7 @@
 import { Sett } from '../model/setts/sett';
 import { RootStore } from '../RootStore';
 import { action, extendObservable, observe } from 'mobx';
+import { ContractNamespace } from 'web3/config/contract-namespace';
 
 export class SettDetailStore {
 	private readonly store: RootStore;
@@ -59,10 +60,17 @@ export class SettDetailStore {
 		if (!this.searchedSett) {
 			return false;
 		}
+		const { network } = this.store.network;
+		const settToken = this.searchedSett.vaultToken;
+		const sett = network.setts.find((s) => s.vaultToken.address === settToken);
+		if (!sett) {
+			return false;
+		}
 
-		const settBalance = this.store.user.getSettBalance(this.searchedSett).balance;
+		const openBalance = this.store.user.getBalance(ContractNamespace.Sett, sett).balance;
+		const guardedBalance = this.store.user.getBalance(ContractNamespace.GaurdedSett, sett).balance;
 
-		return settBalance > 0;
+		return openBalance.plus(guardedBalance).gt(0);
 	}
 
 	get canUserDeposit(): boolean {

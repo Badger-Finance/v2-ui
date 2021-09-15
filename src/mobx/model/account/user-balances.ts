@@ -1,5 +1,5 @@
 import { TokenBalance } from '../tokens/token-balance';
 
-export interface UserBalances {
+export interface TokenBalances {
 	[contract: string]: TokenBalance;
 }

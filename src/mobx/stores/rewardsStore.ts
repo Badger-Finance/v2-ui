@@ -5,7 +5,7 @@ import { RootStore } from '../RootStore';
 import { abi as rewardsAbi } from '../../config/system/abis/BadgerTree.json';
 import BigNumber from 'bignumber.js';
 import { reduceClaims, reduceTimeSinceLastCycle } from 'mobx/reducers/statsReducers';
-import { getSendOptions } from 'mobx/utils/web3';
+import { getSendOptions, sendContractMethod } from 'mobx/utils/web3';
 import { getToken } from '../../web3/config/token-config';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { mockToken } from 'mobx/model/tokens/badger-token';
@@ -277,19 +277,7 @@ class RewardsStore {
 
 			const price = gasPrices[gasPrice];
 			const options = await getSendOptions(method, connectedAddress, price);
-			await method
-				.send(options)
-				.on('transactionHash', (_hash: string) => {
-					queueNotification(`Claim submitted.`, 'info', _hash);
-				})
-				.on('receipt', () => {
-					queueNotification(`Rewards claimed.`, 'success');
-					this.fetchSettRewards();
-					this.store.user.updateBalances();
-				})
-				.on('error', (error: Error) => {
-					queueNotification(error.message, 'error');
-				});
+			await sendContractMethod(this.store, method, options, `Claim submitted.`, `Rewards claimed.`);
 		},
 	);
 }
