@@ -296,9 +296,13 @@ export const fetchData = async <T, R = unknown>(
 // Reason: blocknative does not type their provider, must be any
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const getNetworkFromProvider = (provider?: any): string | undefined => {
-	return provider
-		? Network.networkFromId(parseInt(new BigNumber(provider.chainId, 16).toString(10))).symbol
-		: undefined;
+	try {
+		return provider
+			? Network.networkFromId(parseInt(new BigNumber(provider.chainId, 16).toString(10))).symbol
+			: undefined;
+	} catch (e) {
+		return undefined;
+	}
 };
 
 export const unscale = (amount: BigNumber, decimals: number): BigNumber => amount.dividedBy(TEN.pow(decimals));
