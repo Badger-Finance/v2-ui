@@ -6,6 +6,7 @@ export interface CallResult {
 	namespace: string;
 
 	// defined expected call values
+	available?: MethodResult[];
 	balanceOf?: MethodResult[];
 	totalStakedFor?: MethodResult[];
 	guestList?: MethodResult[];
