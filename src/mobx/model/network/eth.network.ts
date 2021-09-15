@@ -1,4 +1,4 @@
-import { NETWORK_IDS } from 'config/constants';
+import { BLOCKNATIVE_API_KEY, NETWORK_IDS } from 'config/constants';
 import { createChainBatchConfig, toSettConfig } from 'web3/config/config-utils';
 import { BatchCallRequest } from 'web3/interface/batch-call-request';
 import { Deploy } from 'web3/interface/deploy';
@@ -30,8 +30,14 @@ export class Ethereum extends Network {
 
 	get settOrder(): string[] {
 		return [
-			this.deploy.sett_system.vaults['native.cvxCrv'],
+			this.deploy.sett_system.vaults['native.badger'],
+			this.deploy.sett_system.vaults['native.digg'],
+			this.deploy.sett_system.vaults['native.sushiibBTCwBTC'],
+			this.deploy.sett_system.vaults['native.sushiBadgerWbtc'],
+			this.deploy.sett_system.vaults['native.sushiDiggWbtc'],
+			this.deploy.sett_system.vaults['native.icvx'],
 			this.deploy.sett_system.vaults['native.cvx'],
+			this.deploy.sett_system.vaults['native.cvxCrv'],
 			this.deploy.sett_system.vaults['native.tricryptoCrv2'],
 			this.deploy.sett_system.vaults['native.sbtcCrv'],
 			this.deploy.sett_system.vaults['native.renCrv'],
@@ -40,16 +46,11 @@ export class Ethereum extends Network {
 			this.deploy.sett_system.vaults['native.pbtcCrv'],
 			this.deploy.sett_system.vaults['native.obtcCrv'],
 			this.deploy.sett_system.vaults['native.bbtcCrv'],
-			this.deploy.sett_system.vaults['native.sushiibBTCwBTC'],
 			this.deploy.sett_system.vaults['yearn.wBtc'],
-			this.deploy.sett_system.vaults['native.digg'],
-			this.deploy.sett_system.vaults['native.badger'],
-			this.deploy.sett_system.vaults['native.sushiDiggWbtc'],
-			this.deploy.sett_system.vaults['native.sushiBadgerWbtc'],
 			this.deploy.sett_system.vaults['native.sushiWbtcEth'],
-			this.deploy.sett_system.vaults['native.uniDiggWbtc'],
 			this.deploy.sett_system.vaults['native.uniBadgerWbtc'],
 			this.deploy.sett_system.vaults['harvest.renCrv'],
+			this.deploy.sett_system.vaults['native.uniDiggWbtc'],
 			this.deploy.sett_system.vaults['native.tricryptoCrv'],
 			...(FLAGS.STABILIZATION_SETTS ? [this.deploy.sett_system.vaults['experimental.digg']] : []),
 			...(FLAGS.RENBTC_SETT ? [this.deploy.sett_system.vaults['native.renBtc']] : []),
@@ -77,13 +78,28 @@ export class Ethereum extends Network {
 	}
 
 	async updateGasPrices(): Promise<GasPrices> {
-		const prices = await fetch('https://www.gasnow.org/api/v3/gas/price?utm_source=badgerv2');
+		const prices = await fetch('https://api.blocknative.com/gasprices/blockprices', {
+			headers: { Authorization: BLOCKNATIVE_API_KEY },
+		});
 		const result = await prices.json();
+		const blockPrices = result.blockPrices[0];
 		return {
-			rapid: result.data['rapid'] / 1e9,
-			fast: result.data['fast'] / 1e9,
-			standard: result.data['standard'] / 1e9,
-			slow: result.data['slow'] / 1e9,
+			rapid: {
+				maxFeePerGas: blockPrices.estimatedPrices[0].maxFeePerGas,
+				maxPriorityFeePerGas: blockPrices.estimatedPrices[0].maxPriorityFeePerGas,
+			},
+			fast: {
+				maxFeePerGas: blockPrices.estimatedPrices[1].maxFeePerGas,
+				maxPriorityFeePerGas: blockPrices.estimatedPrices[1].maxPriorityFeePerGas,
+			},
+			standard: {
+				maxFeePerGas: blockPrices.estimatedPrices[2].maxFeePerGas,
+				maxPriorityFeePerGas: blockPrices.estimatedPrices[2].maxPriorityFeePerGas,
+			},
+			slow: {
+				maxFeePerGas: blockPrices.estimatedPrices[3].maxFeePerGas,
+				maxPriorityFeePerGas: blockPrices.estimatedPrices[3].maxPriorityFeePerGas,
+			},
 		};
 	}
 }
@@ -310,6 +326,16 @@ const ethSettDefinitions: BadgerSett[] = [
 		},
 		vaultToken: {
 			address: ETH_DEPLOY.sett_system.vaults['native.cvx'],
+			decimals: 18,
+		},
+	},
+	{
+		depositToken: {
+			address: ETH_DEPLOY.sett_system.vaults['native.cvx'],
+			decimals: 18,
+		},
+		vaultToken: {
+			address: ETH_DEPLOY.sett_system.vaults['native.icvx'],
 			decimals: 18,
 		},
 	},

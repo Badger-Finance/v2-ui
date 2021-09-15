@@ -1,5 +1,16 @@
 # v2 UI Changelog
 
+### v2.9.2 - 09/14/2021
+
+-   Update sett detail charting library
+-   Add badger boost chart
+-   Add support for EIP-1559 transactions
+
+### Hotfix - 09/08/2021
+
+-   Add arbitrum support for sidebar
+-   Update sett detail page to properly breadcrumb back to correct page
+
 ### Hotfix - 09/03/2021
 
 -   Modify DROPT redemption to handle small redemption amounts

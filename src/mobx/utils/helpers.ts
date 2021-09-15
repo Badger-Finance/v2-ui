@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js';
 import { getDefaultRetryOptions, TEN, ZERO } from '../../config/constants';
 import { API } from 'bnc-onboard/dist/src/interfaces';
-import store from 'mobx/RootStore';
+import store, { RootStore } from 'mobx/RootStore';
 import { retry } from '@lifeomic/attempt';
 import { MarketChartStats } from 'mobx/model/charts/market-chart-stats';
 import { MarketDelta } from 'mobx/model/charts/market-delta';
@@ -10,6 +10,10 @@ import { Network } from 'mobx/model/network/network';
 import { DEBUG } from 'config/environment';
 import { Currency } from 'config/enums/currency.enum';
 import { currencyConfiguration } from 'config/currency.config';
+import routes from 'config/routes';
+import SettStore from 'mobx/stores/SettStore';
+import { SettState } from 'mobx/model/setts/sett-state';
+import { Route } from 'mobx-router';
 
 export const jsonQuery = (url: string | undefined): Promise<Response> | undefined => {
 	if (!url) return;
@@ -292,9 +296,13 @@ export const fetchData = async <T, R = unknown>(
 // Reason: blocknative does not type their provider, must be any
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const getNetworkFromProvider = (provider?: any): string | undefined => {
-	return provider
-		? Network.networkFromId(parseInt(new BigNumber(provider.chainId, 16).toString(10))).symbol
-		: undefined;
+	try {
+		return provider
+			? Network.networkFromId(parseInt(new BigNumber(provider.chainId, 16).toString(10))).symbol
+			: undefined;
+	} catch (e) {
+		return undefined;
+	}
 };
 
 export const unscale = (amount: BigNumber, decimals: number): BigNumber => amount.dividedBy(TEN.pow(decimals));
@@ -302,7 +310,8 @@ export const toHex = (amount: BigNumber): string => '0x' + amount.toString(16);
 export const minBalance = (decimals: number): BigNumber => new BigNumber(`0.${'0'.repeat(decimals - 1)}1`);
 export const isWithinRange = (value: number, min: number, max: number): boolean => value >= min && value < max;
 
-/* Easy interface to check to see if wallet selection is handled and ready to connect
+/**
+ * Easy interface to check to see if wallet selection is handled and ready to connect
  * via onboard.js.  To be reused if connect buttons are displayed in multiple components
  * @param onboard = instance of the onboard.js API
  * @param connect = connect function from the wallet store
@@ -314,5 +323,25 @@ export const connectWallet = async (onboard: API, connect: (wsOnboard: any) => v
 		if (readyToTransact) {
 			connect(onboard);
 		}
+	}
+};
+
+/**
+ * Retrieves the route based on the slug of the current window
+ * If undefined, returns home
+ * @param amount amount to be converted
+ * @param decimals decimals the the converted amount will have
+ */
+export const getRouteBySlug = (slug: string | undefined, setts: SettStore): Route<RootStore> => {
+	const sett = slug ? setts.getSettBySlug(slug) : null;
+	if (!slug || !sett) return routes.home;
+
+	switch (sett.state) {
+		case SettState.Guarded:
+			return routes.guarded;
+		case SettState.Experimental:
+			return routes.experimental;
+		default:
+			return routes.home;
 	}
 };

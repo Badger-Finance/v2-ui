@@ -52,13 +52,13 @@ export class SettChartsStore {
 		const { network } = this.store.network;
 
 		const daysFromTimeFrame = {
-			[SettChartTimeframe.day]: 1,
-			[SettChartTimeframe.week]: 7,
-			[SettChartTimeframe.month]: 30,
+			[SettChartTimeframe.Day]: 1,
+			[SettChartTimeframe.Week]: 7,
+			[SettChartTimeframe.Month]: 30,
 		};
 
 		const timeframeDays = daysFromTimeFrame[timeframe];
-		const isDayTimeFrame = timeframe === SettChartTimeframe.day;
+		const isDayTimeFrame = timeframe === SettChartTimeframe.Day;
 
 		// if timeframe is just one day then we want the granularity to be hours
 		const granularity = isDayTimeFrame ? SettSnapshotGranularity.HOUR : SettSnapshotGranularity.DAY;

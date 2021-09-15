@@ -22,6 +22,7 @@ export class Polygon extends Network {
 			maticSetts,
 		);
 	}
+
 	get settOrder(): string[] {
 		return [
 			this.deploy.sett_system.vaults['BSLP-IBBTC-WBTC'],

@@ -3,7 +3,7 @@ import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import { Breadcrumbs, Link, makeStyles, Typography } from '@material-ui/core';
 import { Sett } from '../../mobx/model/setts/sett';
 import { StoreContext } from '../../mobx/store-context';
-import routes from '../../config/routes';
+import { getRouteBySlug } from 'mobx/utils/helpers';
 
 const useStyles = makeStyles({
 	breadcrumbsItem: {
@@ -17,8 +17,9 @@ interface Props {
 }
 
 export const Breadcrumb = ({ sett }: Props): JSX.Element => {
-	const { router } = React.useContext(StoreContext);
+	const { router, setts } = React.useContext(StoreContext);
 	const classes = useStyles();
+	const settSlug = router.params?.settName?.toString();
 
 	return (
 		<Breadcrumbs separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
@@ -26,7 +27,7 @@ export const Breadcrumb = ({ sett }: Props): JSX.Element => {
 				color="inherit"
 				component="button"
 				className={classes.breadcrumbsItem}
-				onClick={() => router.goTo(routes.home)}
+				onClick={() => router.goTo(getRouteBySlug(settSlug, setts))}
 			>
 				Setts
 			</Link>

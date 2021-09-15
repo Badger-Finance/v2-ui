@@ -6,6 +6,7 @@ const rpc: Record<string, string> = {
 	[ChainNetwork.BinanceSmartChain]: process.env.BSC_RPC || Provider.Binance,
 	[ChainNetwork.Matic]: process.env.MATIC_RPC || Provider.Quicknode,
 	[ChainNetwork.xDai]: process.env.XDAI_RPC || Provider.xDai,
+	[ChainNetwork.Arbitrum]: process.env.ARBITRUM_RPC || Provider.Arbitrum,
 };
 
 export default rpc;

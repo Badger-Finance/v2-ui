@@ -50,7 +50,7 @@ exports[`Sett Deposit can go back from full fees descriptions  1`] = `
                 <img
                   alt="Badger Curve.fi renBTC/wBTC/sBTC Vault Symbol"
                   class="makeStyles-settLogo-354"
-                  src="/assets/icons/sbtccrv.png"
+                  src="/assets/icons/bsbtccrv.png"
                 />
               </div>
               <div
@@ -440,7 +440,7 @@ exports[`Sett Deposit displays sett information 1`] = `
                 <img
                   alt="Badger Curve.fi renBTC/wBTC/sBTC Vault Symbol"
                   class="makeStyles-settLogo-53"
-                  src="/assets/icons/sbtccrv.png"
+                  src="/assets/icons/bsbtccrv.png"
                 />
               </div>
               <div

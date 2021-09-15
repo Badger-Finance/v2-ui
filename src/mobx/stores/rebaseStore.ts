@@ -6,7 +6,7 @@ import { getNextRebase, getRebaseLogs } from '../utils/diggHelpers';
 import { RebaseInfo } from 'mobx/model/tokens/rebase-info';
 import DroptRedemption from '../../config/system/abis/DroptRedemption.json';
 import { AbiItem } from 'web3-utils';
-import { getSendOptions } from 'mobx/utils/web3';
+import { getSendOptions, sendContractMethod } from 'mobx/utils/web3';
 import { ProviderReport } from 'mobx/model/digg/provider-reports';
 import { OracleReports } from 'mobx/model/digg/oracle';
 import { getRebase } from 'config/system/rebase';
@@ -133,18 +133,7 @@ class RebaseStore {
 
 		const price = gasPrices[gasPrice];
 		const options = await getSendOptions(method, connectedAddress, price);
-		await method
-			.send(options)
-			.on('transactionHash', (_hash: string) => {
-				queueNotification(`Claim submitted.`, 'info', _hash);
-			})
-			.on('receipt', () => {
-				queueNotification(`Options claimed.`, 'success');
-				this.store.user.updateBalances();
-			})
-			.on('error', (error: Error) => {
-				queueNotification(error.message, 'error');
-			});
+		await sendContractMethod(this.store, method, options, `Claim submitted.`, `Options claimed.`);
 	}
 }
 

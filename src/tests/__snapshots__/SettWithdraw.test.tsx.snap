@@ -50,7 +50,7 @@ exports[`Sett Withdraw displays sett information 1`] = `
                 <img
                   alt="Badger Curve.fi renBTC/wBTC/sBTC Vault Symbol"
                   class="makeStyles-settLogo-52"
-                  src="/assets/icons/sbtccrv.png"
+                  src="/assets/icons/bsbtccrv.png"
                 />
               </div>
               <div

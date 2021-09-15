@@ -111,7 +111,8 @@
 			"native.tricryptoCrv": "0xBE08Ef12e4a553666291E9fFC24fCCFd354F2Dd2",
 			"native.tricryptoCrv2": "0x27E98fC7d05f54E544d16F58C194C2D7ba71e3B5",
 			"native.imBtc": "0x599D92B453C010b1050d31C364f6ee17E819f193",
-			"native.fPmBtcHBtc": "0x26B8efa69603537AC8ab55768b6740b67664D518"
+			"native.fPmBtcHBtc": "0x26B8efa69603537AC8ab55768b6740b67664D518",
+			"native.icvx": "0xE143aA25Eec81B4Fc952b38b6Bca8D2395481377"
 		},
 		"strategies": {
 			"native.badger": "0x75b8E21BD623012Efb3b69E1B562465A68944eE6",
@@ -136,7 +137,8 @@
 			"native.cvxCrv": "0x826048381d65a65DAa51342C51d464428d301896",
 			"native.cvx": "0xBCee2c6CfA7A4e29892c3665f464Be5536F16D95",
 			"native.imBtc": "0xd409C506742b7f76f164909025Ab29A47e06d30A",
-			"native.fPmBtcHBtc": "0x54D06A0E1cE55a7a60Ee175AbCeaC7e363f603f3"
+			"native.fPmBtcHBtc": "0x54D06A0E1cE55a7a60Ee175AbCeaC7e363f603f3",
+			"native.icvx": "0x87fB47c2B9EB41d362BAb44F5Ec81514b6b1de13"
 		},
 		"strategy_artifacts": {
 			"native.badger": "StrategyBadgerRewards",
