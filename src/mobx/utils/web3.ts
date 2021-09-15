@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js';
+import { DEBUG } from 'config/environment';
 import { EIP1559GasPrices } from 'mobx/model/system-config/gas-prices';
 import { RootStore } from 'mobx/RootStore';
 import { ContractSendMethod, EstimateGasOptions, SendOptions } from 'web3-eth-contract';
@@ -8,6 +9,7 @@ export interface EIP1559SendOptions {
 	gas: number;
 	maxFeePerGas: string;
 	maxPriorityFeePerGas: string;
+	legacyGas: string;
 }
 
 export const getSendOptions = async (
@@ -19,7 +21,7 @@ export const getSendOptions = async (
 ): Promise<SendOptions | EIP1559SendOptions> => {
 	return typeof price === 'number'
 		? await getNonEIP1559SendOptions(method, connectedAddress, price)
-		: await getEIP1559SendOptions(method, connectedAddress, price['maxFeePerGas'], price['maxPriorityFeePerGas']);
+		: await getEIP1559SendOptions(method, connectedAddress, price);
 };
 
 export const getNonEIP1559SendOptions = async (
@@ -43,23 +45,23 @@ export const getNonEIP1559SendOptions = async (
 export const getEIP1559SendOptions = async (
 	method: ContractSendMethod,
 	from: string,
-	maxFeePerGas: number,
-	maxPriorityFeePerGas: number,
+	price: EIP1559GasPrices,
 ): Promise<EIP1559SendOptions> => {
+	const { maxFeePerGas, maxPriorityFeePerGas } = price;
 	const maxFeePerGasWei = new BigNumber(maxFeePerGas.toFixed(0)).multipliedBy(1e9);
 	const maxPriorityFeePerGasWei = new BigNumber(maxPriorityFeePerGas.toFixed(0)).multipliedBy(1e9);
-
 	const options: EstimateGasOptions = {
 		from,
 		gas: maxFeePerGasWei.toNumber(),
 	};
 	const limit = await method.estimateGas(options);
-
+	const legacyGas = maxFeePerGasWei.div(2).minus(maxPriorityFeePerGasWei);
 	return {
 		from,
 		gas: Math.floor(limit * 1.2),
 		maxFeePerGas: maxFeePerGasWei.toFixed(0),
 		maxPriorityFeePerGas: maxPriorityFeePerGasWei.toFixed(0),
+		legacyGas: legacyGas.toFixed(0),
 	};
 };
 
@@ -79,35 +81,33 @@ export const sendContractMethod = async (
 	errorMessage?: string,
 ): Promise<void> => {
 	const queueNotification = store.uiState.queueNotification;
-	await method
-		.send(options)
-		.on('transactionHash', (_hash: string) => {
-			queueNotification(txHashMessage, 'info', _hash);
-		})
-		.on('receipt', () => {
-			queueNotification(receiptMessage, 'success');
-			store.user.updateBalances();
-		})
-		.on('error', async (error: any) => {
-			// code -32602 means that the params for an EIP1559 transaction were invalid.  Retry with legacy
-			// options.
-			if (error.code === -32602 && _isEIP1559SendOption(options)) {
-				const newOptions = { from: options.from, gas: options.gas, gasPrice: options.maxFeePerGas };
-				queueNotification('EIP1559 not currently supported for Ledger or this network', 'warning');
-				await method
-					.send(newOptions)
-					.on('transactionHash', (_hash: string) => {
-						queueNotification(txHashMessage, 'info', _hash);
-					})
-					.on('receipt', () => {
-						queueNotification(receiptMessage, 'success');
-						store.user.updateBalances();
-					})
-					.on('error', (error: Error) => {
-						queueNotification(errorMessage ? errorMessage : error.message, 'error');
-					});
-			} else {
-				queueNotification(errorMessage ? errorMessage : error.message, 'error');
-			}
-		});
+
+	try {
+		await method
+			.send(options)
+			.on('transactionHash', (_hash: string) => {
+				queueNotification(txHashMessage, 'info', _hash);
+			})
+			.on('receipt', () => {
+				queueNotification(receiptMessage, 'success');
+				store.user.updateBalances();
+			})
+			.on('error', async (error: any) => {
+				// code -32602 means that the params for an EIP1559 transaction were invalid.
+				// Retry the transaction with legacy options.
+				if (error.code === -32602 && _isEIP1559SendOption(options)) {
+					const newOptions = { from: options.from, gas: options.gas, gasPrice: options.legacyGas };
+					console.log(newOptions);
+					queueNotification('EIP1559 not currently supported for Ledger or this network', 'warning');
+					await sendContractMethod(store, method, newOptions, txHashMessage, receiptMessage, errorMessage);
+				} else {
+					queueNotification(errorMessage ? errorMessage : error.message, 'error');
+				}
+			});
+	} catch (err) {
+		console.error(err);
+		if (DEBUG) {
+			queueNotification(errorMessage ? errorMessage : err.message, 'error');
+		}
+	}
 };
