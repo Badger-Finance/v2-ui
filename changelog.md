@@ -1,5 +1,10 @@
 # v2 UI Changelog
 
+### v2.9.3 - 09/15/2021
+
+-   Add arbitrum support
+-   Add convex locking sett
+
 ### v2.9.2 - 09/14/2021
 
 -   Update sett detail charting library
