@@ -1,6 +1,5 @@
 import React from 'react';
-import { Link, makeStyles, Typography } from '@material-ui/core';
-import OpenInNewIcon from '@material-ui/icons/OpenInNew';
+import { makeStyles, Typography } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
 import { BadgerSett } from '../../mobx/model/vaults/badger-sett';
@@ -45,10 +44,6 @@ export const Footer = observer(
 						</Typography>
 					</div>
 				)}
-				<Link className={classes.link} href={strategy.strategyLink} rel="noreferrer" target="_blank">
-					View Strategy
-					<OpenInNewIcon className={classes.openIcon} />
-				</Link>
 			</footer>
 		);
 	},

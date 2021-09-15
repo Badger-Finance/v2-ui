@@ -17,6 +17,7 @@ import { NewVaultWarning } from '../../sett-detail/NewVaultWarning';
 import { DepositFeesInformation } from '../DepositFeesInformation';
 import { SettFees } from '../SettFees';
 import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
+import VaultAdvisory from './VaultAdvisory';
 
 const useStyles = makeStyles((theme) => ({
 	content: {
@@ -51,6 +52,7 @@ export const SettDeposit = observer(({ open = false, sett, badgerSett, onClose }
 	const store = useContext(StoreContext);
 	const { contracts, user, wallet } = store;
 
+	const [accepted, setAccepted] = useState(badgerSett.vaultAdvisory ? false : true);
 	const [showFees, setShowFees] = useState(false);
 	const [amount, setAmount] = useState('');
 	const { onValidChange, inputProps } = useNumericInput();
@@ -80,6 +82,15 @@ export const SettDeposit = observer(({ open = false, sett, badgerSett, onClose }
 		}
 		await contracts.deposit(sett, badgerSett, userBalance, depositBalance);
 	};
+
+	if (!accepted && badgerSett.vaultAdvisory) {
+		return (
+			<Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
+				<SettDialogTitle sett={sett} mode="Deposit" />
+				<VaultAdvisory accept={() => setAccepted(true)} type={badgerSett.vaultAdvisory} />
+			</Dialog>
+		);
+	}
 
 	if (showFees) {
 		return (
