@@ -8,6 +8,7 @@ export function mockApi(): void {
 		Promise.resolve([
 			{
 				asset: 'sBTCCRV',
+				vaultAsset: 'bsBTCCRV',
 				state: SettState.Open,
 				apr: 0.123456789123454,
 				balance: 2580.4779797767615,

@@ -1,22 +1,21 @@
-import { extendObservable, action } from 'mobx';
+import { extendObservable, action, observe } from 'mobx';
 import Web3 from 'web3';
 import { AbiItem } from 'web3-utils';
 import { RootStore } from '../RootStore';
 import { abi as rewardsAbi } from '../../config/system/abis/BadgerTree.json';
-import { abi as diggAbi } from '../../config/system/abis/UFragments.json';
-import { badgerTree, digg_system } from '../../config/deployments/mainnet.json';
 import BigNumber from 'bignumber.js';
 import { reduceClaims, reduceTimeSinceLastCycle } from 'mobx/reducers/statsReducers';
 import { getSendOptions } from 'mobx/utils/web3';
 import { getToken } from '../../web3/config/token-config';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { mockToken } from 'mobx/model/tokens/badger-token';
-import { NETWORK_LIST } from 'config/constants';
-import { getNetworkFromProvider } from 'mobx/utils/helpers';
 import { ClaimMap } from 'components-v2/landing/RewardsModal';
 import { BadgerTree } from '../model/rewards/badger-tree';
 import { TreeClaimData } from '../model/rewards/tree-claim-data';
 import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
+import { retry } from '@lifeomic/attempt';
+import { defaultRetryOptions } from '../../config/constants';
+import { ChainNetwork } from 'config/enums/chain-network.enum';
 
 /**
  * TODO: Clean up reward store in favor of a more unified integration w/ account store.
@@ -44,26 +43,33 @@ class RewardsStore {
 		lastCycle: new Date(),
 		timeSinceLastCycle: '0h 0m',
 		proof: undefined,
-		sharesPerFragment: undefined,
 		claimableAmounts: [],
 		claims: [],
 		amounts: [],
 	};
 	public badgerTree: BadgerTree;
 	public loadingRewards: boolean;
-	public loadingDiggData: boolean;
+	public loadingTreeData: boolean;
 
 	constructor(store: RootStore) {
 		this.store = store;
 		this.badgerTree = RewardsStore.defaultTree;
+		this.loadingTreeData = false;
 		this.loadingRewards = false;
-		this.loadingDiggData = false;
 
 		extendObservable(this, {
 			badgerTree: this.badgerTree,
+			loadingTreeData: this.loadingTreeData,
 			loadingRewards: this.loadingRewards,
-			loadingDiggData: this.loadingDiggData,
 		});
+
+		observe(this.store.network, 'network', () => {
+			this.resetRewards();
+		});
+	}
+
+	get isLoading(): boolean {
+		return this.loadingTreeData || this.loadingRewards;
 	}
 
 	// TODO: refactor various functions for a more unified approach
@@ -81,114 +87,139 @@ class RewardsStore {
 
 	// TODO: refactor various functions for a more unified approach
 	balanceFromProof(token: string, balance: string): TokenBalance {
+		const { rebase: rebaseInfo } = this.store.rebase;
 		const claimToken = getToken(token);
 		const tokenPrice = this.store.prices.getPrice(token);
+
 		if (!claimToken || !tokenPrice) {
 			const amount = new BigNumber(balance);
 			return new TokenBalance(mockToken(token), amount, new BigNumber(0));
 		}
-		let divisor = new BigNumber(1);
+
 		const isDigg = claimToken.address === ETH_DEPLOY.tokens.digg;
-		if (isDigg && this.badgerTree.sharesPerFragment) {
-			divisor = this.badgerTree.sharesPerFragment;
-		}
+		const divisor = isDigg && rebaseInfo ? rebaseInfo.sharesPerFragment : new BigNumber(1);
+
 		const amount = new BigNumber(balance).dividedBy(divisor);
 		return new TokenBalance(claimToken, amount, tokenPrice);
 	}
-
-	tokenBalance(token: string, amount: BigNumber): TokenBalance {
-		const badgerToken = getToken(token);
-		const tokenPrice = this.store.prices.getPrice(token);
-		let scalar = new BigNumber(1);
-		const isDigg = token === ETH_DEPLOY.tokens.digg;
-		if (isDigg && this.badgerTree.sharesPerFragment) {
-			scalar = this.badgerTree.sharesPerFragment;
-		}
-		const balance = amount.dividedBy(scalar);
-		if (!badgerToken || !tokenPrice) {
-			return new TokenBalance(mockToken(token), balance, new BigNumber(0));
-		}
-		return new TokenBalance(badgerToken, balance, tokenPrice);
-	}
-
 	mockBalance(token: string): TokenBalance {
 		return this.balanceFromString(token, '0');
 	}
-
-	sharesPerFragment = (): BigNumber | undefined => {
-		return this.badgerTree.sharesPerFragment;
-	};
 
 	resetRewards = action((): void => {
 		this.badgerTree.claimableAmounts = [];
 		this.badgerTree.claims = [];
 		this.badgerTree.amounts = [];
 		this.badgerTree.proof = undefined;
+		this.loadingRewards = false;
 	});
 
 	loadTreeData = action(
 		async (): Promise<void> => {
-			const { provider } = this.store.wallet;
+			const {
+				network: { network },
+				uiState: { queueNotification },
+				wallet: { provider },
+			} = this.store;
 
-			if (this.loadingRewards) {
+			if (this.loadingTreeData) {
 				return;
 			}
-			this.resetRewards();
-			this.loadingRewards = true;
+
+			if (!network.badgerTree) {
+				console.error('Error: No badger tree address was found in current network deploy config');
+				return;
+			}
+
+			this.loadingTreeData = true;
 
 			const web3 = new Web3(provider);
-			const rewardsTree = new web3.eth.Contract(rewardsAbi as AbiItem[], badgerTree);
-			const diggToken = new web3.eth.Contract(diggAbi as AbiItem[], digg_system.uFragments);
+			const rewardsTree = new web3.eth.Contract(rewardsAbi as AbiItem[], network.badgerTree);
 
-			const [timestamp, cycle, sharesPerFragment]: [number, number, number] = await Promise.all([
-				rewardsTree.methods.lastPublishTimestamp().call(),
-				rewardsTree.methods.currentCycle().call(),
-				diggToken.methods._sharesPerFragment().call(),
-			]);
+			try {
+				const [timestamp, cycle]: [number, number] = await Promise.all([
+					rewardsTree.methods.lastPublishTimestamp().call(),
+					rewardsTree.methods.currentCycle().call(),
+				]);
+				this.badgerTree.lastCycle = new Date(timestamp * 1000);
+				this.badgerTree.cycle = cycle.toString();
+				this.badgerTree.timeSinceLastCycle = reduceTimeSinceLastCycle(timestamp);
 
-			this.badgerTree.lastCycle = new Date(timestamp * 1000);
-			this.badgerTree.cycle = cycle.toString();
-			this.badgerTree.timeSinceLastCycle = reduceTimeSinceLastCycle(timestamp);
-			this.badgerTree.sharesPerFragment = new BigNumber(sharesPerFragment);
-			await this.fetchSettRewards();
+				await retry(() => this.fetchSettRewards(), defaultRetryOptions);
+			} catch (error) {
+				console.error('There was an error fetching rewards information: ', error);
+				queueNotification(
+					`Error retrieving rewards information, please refresh the page or check your web3 provider.`,
+					'error',
+				);
+			}
+
+			this.loadingTreeData = false;
 		},
 	);
 
 	fetchSettRewards = action(
 		async (): Promise<void> => {
-			const { provider, connectedAddress } = this.store.wallet;
-			const { claimProof } = this.store.user;
+			const {
+				network: { network },
+				prices: { arePricesAvailable },
+				user: { claimProof },
+				wallet: { connectedAddress, provider },
+			} = this.store;
 
-			// M50: Rewards only live on ETH, make sure provider is an ETH mainnet one.
-			const networkName = getNetworkFromProvider(provider);
-			if (!connectedAddress || !claimProof || networkName !== NETWORK_LIST.ETH) {
-				this.resetRewards();
-				this.loadingRewards = false;
+			if (this.loadingRewards) {
 				return;
 			}
 
+			if (!network.badgerTree) {
+				console.error('Error: No badger tree address was found in current network deploy config');
+				return;
+			}
+
+			if (!connectedAddress || !claimProof) {
+				this.resetRewards();
+				return;
+			}
+
+			// when prices aren't available the claim balances will be zero even if the account has unclaimed rewards
+			if (!arePricesAvailable) {
+				throw new Error('Error: Prices are not available for current network');
+			}
+
+			this.loadingRewards = true;
+
 			const web3 = new Web3(provider);
-			const rewardsTree = new web3.eth.Contract(rewardsAbi as AbiItem[], badgerTree);
+			const rewardsTree = new web3.eth.Contract(rewardsAbi as AbiItem[], network.badgerTree);
 			const claimed: TreeClaimData = await rewardsTree.methods
 				.getClaimedFor(connectedAddress, claimProof.tokens)
 				.call();
+
 			this.badgerTree.claimableAmounts = claimProof.cumulativeAmounts;
 			this.badgerTree.claims = reduceClaims(claimProof, claimed, true);
 			this.badgerTree.amounts = reduceClaims(claimProof, claimed);
 			this.badgerTree.proof = claimProof;
+
 			this.loadingRewards = false;
 		},
 	);
 
 	claimGeysers = action(
 		async (claimMap: ClaimMap): Promise<void> => {
-			const { proof, amounts, sharesPerFragment } = this.badgerTree;
+			const { proof, amounts } = this.badgerTree;
 			const { provider, connectedAddress } = this.store.wallet;
 			const { queueNotification, gasPrice } = this.store.uiState;
-			const { gasPrices } = this.store.network;
+			const { gasPrices, network } = this.store.network;
+			const { rebase } = this.store.rebase;
 
-			if (!connectedAddress || !sharesPerFragment) {
+			if (!connectedAddress) {
 				return;
+			}
+
+			let sharesPerFragment = new BigNumber(1);
+			if (network.symbol === ChainNetwork.Ethereum && !rebase) {
+				return;
+			} else if (rebase) {
+				sharesPerFragment = rebase.sharesPerFragment;
 			}
 
 			if (!proof || !claimMap) {
@@ -232,7 +263,7 @@ class RewardsStore {
 			}
 
 			const web3 = new Web3(provider);
-			const rewardsTree = new web3.eth.Contract(rewardsAbi as AbiItem[], badgerTree);
+			const rewardsTree = new web3.eth.Contract(rewardsAbi as AbiItem[], network.badgerTree);
 			const method = rewardsTree.methods.claim(
 				proof.tokens,
 				proof.cumulativeAmounts,

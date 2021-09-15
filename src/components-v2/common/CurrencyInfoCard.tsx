@@ -1,14 +1,16 @@
 import React from 'react';
 import { Paper, Typography, makeStyles } from '@material-ui/core';
-import { inCurrency } from '../../mobx/utils/helpers';
 import Skeleton from '@material-ui/lab/Skeleton';
 import BigNumber from 'bignumber.js';
 import CurrencyDisplay from './CurrencyDisplay';
+import { observer } from 'mobx-react-lite';
+import { useContext } from 'react';
+import { StoreContext } from 'mobx/store-context';
+import { inCurrency } from 'mobx/utils/helpers';
 
 export interface CurrencyInfoCardProps {
 	title: string;
 	value?: BigNumber;
-	currency: string;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -21,11 +23,12 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const CurrencyInfoCard: React.FC<CurrencyInfoCardProps> = (props: CurrencyInfoCardProps) => {
+const CurrencyInfoCard: React.FC<CurrencyInfoCardProps> = observer((props: CurrencyInfoCardProps) => {
 	const classes = useStyles();
-	const { title, value, currency } = props;
-
-	const displayValue = inCurrency(value ?? new BigNumber(''), currency);
+	const { title, value } = props;
+	const store = useContext(StoreContext);
+	const { currency } = store.uiState;
+	const displayValue = value ? inCurrency(value, currency) : undefined;
 	return (
 		<Paper elevation={2} className={classes.infoPaper}>
 			<Typography variant="subtitle1" color="textPrimary">
@@ -40,6 +43,6 @@ const CurrencyInfoCard: React.FC<CurrencyInfoCardProps> = (props: CurrencyInfoCa
 			)}
 		</Paper>
 	);
-};
+});
 
 export default CurrencyInfoCard;

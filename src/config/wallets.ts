@@ -1,6 +1,7 @@
 import { StateAndHelpers, WalletCheckModal } from 'bnc-onboard/dist/src/interfaces';
 import { Network } from 'mobx/model/network/network';
-import { CONTACT_EMAIL, APP_NAME, PORTIS_APP_ID, NETWORK_LIST, NETWORK_IDS, RPC_WALLETS } from './constants';
+import { CONTACT_EMAIL, APP_NAME, PORTIS_APP_ID, NETWORK_IDS, RPC_WALLETS } from './constants';
+import { ChainNetwork } from './enums/chain-network.enum';
 
 export interface WalletProviderInfo {
 	walletName: string;
@@ -22,7 +23,7 @@ export const isRpcWallet = (walletName: string | null): boolean => {
 export const getOnboardWallets = (chain: Network): WalletProviderInfo[] => {
 	const rpc = chain.rpc;
 	switch (chain.symbol) {
-		case NETWORK_LIST.BSC:
+		case ChainNetwork.BinanceSmartChain:
 			return [{ walletName: 'metamask' }];
 		default:
 			return [
@@ -72,8 +73,8 @@ const supportedNetwork = () => {
 	return async (stateAndHelpers: StateAndHelpers): Promise<WalletCheckModal | undefined> => {
 		const { network, appNetworkId } = stateAndHelpers;
 		const chain = Network.networkFromId(network ?? appNetworkId);
-		if (!chain || !chain.symbol || !Object.values(NETWORK_LIST).includes(chain.symbol as NETWORK_LIST)) {
-			const networkMembers = Object.values(NETWORK_LIST).map((key) => ' '.concat(key.toUpperCase()));
+		if (!chain || !chain.symbol || !Object.values(ChainNetwork).includes(chain.symbol as ChainNetwork)) {
+			const networkMembers = Object.values(ChainNetwork).map((key) => ' '.concat(key.toUpperCase()));
 			return {
 				heading: `Unsupported Network`,
 				description: `Switch your network to one of the supported networks:${networkMembers}`,

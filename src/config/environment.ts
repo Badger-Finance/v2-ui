@@ -45,14 +45,12 @@ export const DEBUG = getIntegrationStage(BUILD_ENV) === Stage.Staging;
 const toBool = (val: string | undefined): boolean => (val ? val.toLowerCase() === 'true' : false);
 
 export const FLAGS = {
-	WBTC_FLAG: toBool(process.env.REACT_APP_BRIDGE_WBTC),
-	GEYSER_FLAG: toBool(process.env.REACT_APP_GEYSER_ENABLED),
 	BOOST_V2: toBool(process.env.REACT_APP_BOOST_V2),
 	IBBTC_OPTIONS_FLAG: toBool(process.env.REACT_APP_IBBTC_OPTIONS_FLAG),
 	STABILIZATION_SETTS: toBool(process.env.REACT_APP_STABILIZATION_SETTS),
-	MATIC: toBool(process.env.REACT_APP_MATIC),
+	ARBITRUM: toBool(process.env.REACT_APP_ARBITRUM),
 	XDAI: toBool(process.env.REACT_APP_XDAI),
 	RENBTC_SETT: toBool(process.env.REACT_APP_RENBTC_SETT),
 	IBBTC_WBTC_SETT: toBool(process.env.REACT_APP_IBBTC_WBTC_POLY_SETT),
-	MSTABLE: toBool(process.env.REACT_APP_MSTABLE_SETT),
+	MSTABLE_SETT: toBool(process.env.REACT_APP_MSTABLE_SETT),
 };

@@ -46,7 +46,7 @@ export const Holdings = observer(
 		}
 
 		const { earnedBalance, earnedValue, balance, value } = settBalance;
-		const logo = `/assets/icons/${sett.asset.toLowerCase()}.png`;
+		const logo = `/assets/icons/${sett.vaultAsset.toLowerCase()}.png`;
 
 		const depositToken = setts.getToken(sett.underlyingToken);
 		const decimals = depositToken?.decimals || 18;

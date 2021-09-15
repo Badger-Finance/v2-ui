@@ -1,4 +1,4 @@
-import { NETWORK_IDS, NETWORK_LIST } from 'config/constants';
+import { NETWORK_IDS } from 'config/constants';
 import { toRecord } from 'web3/config/token-config';
 import { Deploy } from 'web3/interface/deploy';
 import { ProtocolTokens } from 'web3/interface/protocol-token';
@@ -6,22 +6,31 @@ import { GasPrices } from '../system-config/gas-prices';
 import { BadgerSett } from '../vaults/badger-sett';
 import { Network } from './network';
 import deploy from '../../../config/deployments/xdai.json';
+import { ChainNetwork } from 'config/enums/chain-network.enum';
+import { Currency } from 'config/enums/currency.enum';
 
 export class xDai extends Network {
 	constructor() {
 		super(
 			'https://blockscout.com/xdai/mainnet/',
+			'https://blockscout.com/xdai/mainnet/',
 			'xDai',
-			NETWORK_LIST.XDAI,
+			ChainNetwork.xDai,
 			NETWORK_IDS.XDAI,
-			'XDAI',
+			Currency.XDAI,
 			XDAI_DEPLOY,
 			xDaiSetts,
 		);
 	}
 
 	async updateGasPrices(): Promise<GasPrices> {
-		return { rapid: 10, fast: 5, standard: 2, slow: 1 };
+		const prices = await fetch('https://blockscout.com/xdai/mainnet/api/v1/gas-price-oracle');
+		const result = await prices.json();
+		return {
+			fast: result['fast'],
+			average: result['average'],
+			slow: result['slow'],
+		};
 	}
 }
 

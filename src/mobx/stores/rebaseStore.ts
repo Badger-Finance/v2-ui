@@ -64,7 +64,7 @@ class RebaseStore {
 		const validDropts = dropt
 			.filter(
 				(_dropt: DroptContractResponse) =>
-					Number(_dropt.expirationTimestamp[0].value) > Number(_dropt.getCurrentTime[0].value) &&
+					Number(_dropt.expirationTimestamp[0].value) < Number(_dropt.getCurrentTime[0].value) &&
 					Number(_dropt.expiryPrice[0].value) > 0,
 			)
 			.map((validDropt: DroptContractResponse) => {
@@ -84,6 +84,7 @@ class RebaseStore {
 		// token data
 		const decimals = parseInt(token[0].decimals[0].value);
 		const totalSupply = new BigNumber(token[0].totalSupply[0].value).dividedBy(Math.pow(10, decimals));
+		const sharesPerFragment = new BigNumber(token[0]._sharesPerFragment[0].value);
 
 		// pull latest provider report
 		const oracleReport: OracleReports = oracle[0];
@@ -99,6 +100,7 @@ class RebaseStore {
 			totalSupply,
 			latestRebase,
 			minRebaseInterval,
+			sharesPerFragment,
 			latestAnswer: Number(activeReport.value.timestamp),
 			inRebaseWindow: policy[0].inRebaseWindow[0].value,
 			rebaseLag: policy[0].rebaseLag[0].value,
@@ -125,7 +127,7 @@ class RebaseStore {
 
 		const web3 = new Web3(provider);
 		const redemption = new web3.eth.Contract(DroptRedemption.abi as AbiItem[], redemptionContract);
-		const method = redemption.methods.redeem(redeemAmount);
+		const method = redemption.methods.settle(redeemAmount.toString(10), '0');
 
 		queueNotification(`Sign the transaction to claim your options`, 'info');
 

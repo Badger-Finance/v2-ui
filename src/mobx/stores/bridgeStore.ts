@@ -17,8 +17,6 @@ import {
 	defaultRetryOptions,
 	// abis
 	ERC20,
-	// config
-	NETWORK_LIST,
 	RENVM_GATEWAY_ADDRESS,
 } from 'config/constants';
 import { BADGER_ADAPTER } from 'config/system/abis/BadgerAdapter';
@@ -31,6 +29,7 @@ import { defaultNetwork } from 'config/networks.config';
 import { NetworkStore } from './NetworkStore';
 import { Network } from 'mobx/model/network/network';
 import { REN_FEES_ENDPOINT } from '../../config/constants';
+import { ChainNetwork } from 'config/enums/chain-network.enum';
 
 export enum Status {
 	// Idle means we are ready to begin a new tx.
@@ -149,7 +148,7 @@ class BridgeStore {
 
 			this.network = newValue.symbol;
 			// NB: Only ETH supported for now.
-			if (this.network !== NETWORK_LIST.ETH) {
+			if (this.network !== ChainNetwork.Ethereum) {
 				return;
 			}
 			await this.reload();
@@ -197,7 +196,7 @@ class BridgeStore {
 				// Set shortened addr.
 				const { network } = this.store.network;
 				// NB: Only ETH supported for now.
-				if (network.symbol !== NETWORK_LIST.ETH) return;
+				if (network.symbol !== ChainNetwork.Ethereum) return;
 				await this.reload();
 			},
 		);
@@ -250,7 +249,7 @@ class BridgeStore {
 
 		this.updateTimer = setTimeout(() => {
 			// NB: Only ETH supported for now.
-			if (this.network !== NETWORK_LIST.ETH) return;
+			if (this.network !== ChainNetwork.Ethereum) return;
 
 			const { connectedAddress } = this.store.wallet;
 			// So this doesn't race against address changes.
@@ -384,6 +383,12 @@ class BridgeStore {
 			this.error = err;
 		}
 	});
+
+	cancelTx = (): void => {
+		if (this.current !== null) {
+			this._updateTx(this.current, true);
+		}
+	};
 
 	_updateTx = action(async (tx: RenVMTransaction, deleted?: boolean, err?: Error) => {
 		const { queueNotification } = this.store.uiState;

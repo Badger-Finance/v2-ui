@@ -1,4 +1,4 @@
-import { NETWORK_IDS, NETWORK_LIST } from 'config/constants';
+import { NETWORK_IDS } from 'config/constants';
 import { createChainBatchConfig, toSettConfig } from 'web3/config/config-utils';
 import { BatchCallRequest } from 'web3/interface/batch-call-request';
 import { Deploy } from 'web3/interface/deploy';
@@ -11,15 +11,18 @@ import { SettState } from '../setts/sett-state';
 import { toRecord } from 'web3/config/token-config';
 import { ProtocolTokens } from 'web3/interface/protocol-token';
 import { FLAGS } from 'config/environment';
+import { ChainNetwork } from 'config/enums/chain-network.enum';
+import { Currency } from 'config/enums/currency.enum';
 
 export class Ethereum extends Network {
 	constructor() {
 		super(
 			'https://etherscan.io',
+			'https://www.gasnow.org/',
 			'Ethereum',
-			NETWORK_LIST.ETH,
+			ChainNetwork.Ethereum,
 			NETWORK_IDS.ETH,
-			'ETH',
+			Currency.ETH,
 			ETH_DEPLOY,
 			ethSettDefinitions,
 		);
@@ -27,8 +30,14 @@ export class Ethereum extends Network {
 
 	get settOrder(): string[] {
 		return [
-			this.deploy.sett_system.vaults['native.cvxCrv'],
+			this.deploy.sett_system.vaults['native.badger'],
+			this.deploy.sett_system.vaults['native.digg'],
+			this.deploy.sett_system.vaults['native.sushiibBTCwBTC'],
+			this.deploy.sett_system.vaults['native.sushiBadgerWbtc'],
+			this.deploy.sett_system.vaults['native.sushiDiggWbtc'],
+			this.deploy.sett_system.vaults['native.icvx'],
 			this.deploy.sett_system.vaults['native.cvx'],
+			this.deploy.sett_system.vaults['native.cvxCrv'],
 			this.deploy.sett_system.vaults['native.tricryptoCrv2'],
 			this.deploy.sett_system.vaults['native.sbtcCrv'],
 			this.deploy.sett_system.vaults['native.renCrv'],
@@ -37,20 +46,15 @@ export class Ethereum extends Network {
 			this.deploy.sett_system.vaults['native.pbtcCrv'],
 			this.deploy.sett_system.vaults['native.obtcCrv'],
 			this.deploy.sett_system.vaults['native.bbtcCrv'],
-			this.deploy.sett_system.vaults['native.sushiibBTCwBTC'],
 			this.deploy.sett_system.vaults['yearn.wBtc'],
-			this.deploy.sett_system.vaults['native.digg'],
-			this.deploy.sett_system.vaults['native.badger'],
-			this.deploy.sett_system.vaults['native.sushiDiggWbtc'],
-			this.deploy.sett_system.vaults['native.sushiBadgerWbtc'],
 			this.deploy.sett_system.vaults['native.sushiWbtcEth'],
-			this.deploy.sett_system.vaults['native.uniDiggWbtc'],
 			this.deploy.sett_system.vaults['native.uniBadgerWbtc'],
 			this.deploy.sett_system.vaults['harvest.renCrv'],
+			this.deploy.sett_system.vaults['native.uniDiggWbtc'],
 			this.deploy.sett_system.vaults['native.tricryptoCrv'],
 			...(FLAGS.STABILIZATION_SETTS ? [this.deploy.sett_system.vaults['experimental.digg']] : []),
 			...(FLAGS.RENBTC_SETT ? [this.deploy.sett_system.vaults['native.renBtc']] : []),
-			...(FLAGS.MSTABLE
+			...(FLAGS.MSTABLE_SETT
 				? [this.deploy.sett_system.vaults['native.imBtc'], this.deploy.sett_system.vaults['native.fPmBtcHBtc']]
 				: []),
 		];
@@ -58,11 +62,19 @@ export class Ethereum extends Network {
 
 	batchRequests(setts: SettMap, address: string): BatchCallRequest[] {
 		const tokenAddresses = Object.values(setts).map((sett) => sett.underlyingToken);
+		const nonSettTokenAddresses = [deploy.digg_system.DROPT['DROPT-3'].longToken];
 		const settAddresses = Object.values(setts).map((sett) => sett.vaultToken);
 		const generalSetts = settAddresses.filter((sett) => setts[sett].state === SettState.Open);
 		const guardedSetts = settAddresses.filter((sett) => setts[sett].state !== SettState.Open);
 		const geyserAddresses = ethSetts.map((sett) => sett.geyser).filter((geyser): geyser is string => !!geyser);
-		return createChainBatchConfig(tokenAddresses, generalSetts, guardedSetts, geyserAddresses, address);
+		return createChainBatchConfig(
+			tokenAddresses,
+			generalSetts,
+			guardedSetts,
+			geyserAddresses,
+			address,
+			nonSettTokenAddresses,
+		);
 	}
 
 	async updateGasPrices(): Promise<GasPrices> {
@@ -304,6 +316,16 @@ const ethSettDefinitions: BadgerSett[] = [
 	},
 	{
 		depositToken: {
+			address: ETH_DEPLOY.sett_system.vaults['native.cvx'],
+			decimals: 18,
+		},
+		vaultToken: {
+			address: ETH_DEPLOY.sett_system.vaults['native.icvx'],
+			decimals: 18,
+		},
+	},
+	{
+		depositToken: {
 			address: ETH_DEPLOY.tokens['cvxCRV'],
 			decimals: 18,
 		},
@@ -362,6 +384,10 @@ const ethRewards = [
 	},
 	{
 		address: ETH_DEPLOY.tokens['defiDollar'],
+		decimals: 18,
+	},
+	{
+		address: ETH_DEPLOY.tokens['DROPT-3'],
 		decimals: 18,
 	},
 ];

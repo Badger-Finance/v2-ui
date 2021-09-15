@@ -1,5 +1,31 @@
 # v2 UI Changelog
 
+### Hotfix - 09/08/2021
+
+-   Add arbitrum support for sidebar
+-   Update sett detail page to properly breadcrumb back to correct page
+
+### Hotfix - 09/03/2021
+
+-   Modify DROPT redemption to handle small redemption amounts
+
+### Hotfix - 09/01/2021
+
+-   Add links to other vault pages when no vaults exist
+-   Add bouncer check to sett details page
+-   Prevent display of dropt modal if user doesn't have any balance
+
+### v2.9.1 - 09/01/2021
+
+-   Release matic support
+
+### Hotfix - 08/30/2021
+
+-   Add DROPT-3 token reward config
+-   Fix issue with DROPT-3 token balance not being tracked
+-   Fix incorrect timestamp check
+-   Properly display rewards for addresses with only DROPT-3 tokens
+
 ### Hotfix - 08/27/2021
 
 -   Fix issue causing users to not be able to withdraw

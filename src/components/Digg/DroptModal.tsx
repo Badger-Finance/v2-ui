@@ -57,28 +57,33 @@ const DroptModal = observer(() => {
 		);
 	}
 
-	const droptModalItems = rebase.validDropts.map((dropt) => {
-		const redemptionAddress = Object.keys(dropt)[0];
-		const droptAddress = redemptionToLongToken(redemptionAddress);
-		const droptToken = setts.getToken(droptAddress);
-		const droptBalance = user.getTokenBalance(droptAddress);
-		const expiryPrice = new BigNumber(dropt[redemptionAddress].expiryPrice);
-		const redemptionAmount = formatTokens(expiryPrice.multipliedBy(droptBalance.balance));
-		if (!droptToken || droptBalance.balance.lte(0)) {
-			if (DEBUG && !droptToken) console.log('error retrieving', redemptionAddress, 'token');
-			return;
-		}
-		return (
-			<DroptModalItem
-				key={droptToken.symbol}
-				token={droptToken.symbol}
-				balance={droptBalance.balance}
-				displayBalance={droptBalance.balanceDisplay(5)}
-				redemptionAmount={redemptionAmount}
-				redemptionContract={redemptionAddress}
-			/>
-		);
-	});
+	const droptModalItems = rebase.validDropts
+		.map((dropt) => {
+			const redemptionAddress = Object.keys(dropt)[0];
+			const droptAddress = redemptionToLongToken(redemptionAddress);
+			const droptToken = setts.getToken(droptAddress);
+			const droptBalance = user.getTokenBalance(droptAddress);
+			const expiryPrice = new BigNumber(dropt[redemptionAddress].expiryPrice);
+			if (!droptToken || droptBalance.balance.lte(0)) {
+				if (DEBUG && !droptToken) console.log('error retrieving', redemptionAddress, 'token');
+				return;
+			}
+			const redemptionAmount = formatTokens(
+				expiryPrice.multipliedBy(droptBalance.balance).dividedBy(10 ** droptToken.decimals),
+			);
+
+			return (
+				<DroptModalItem
+					key={droptToken.symbol}
+					token={droptToken.symbol}
+					balance={droptBalance.tokenBalance}
+					displayBalance={droptBalance.balanceDisplay(5)}
+					redemptionAmount={redemptionAmount}
+					redemptionContract={redemptionAddress}
+				/>
+			);
+		})
+		.filter(Boolean);
 
 	const handleModalClick = () => {
 		setOpen(!open);

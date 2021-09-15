@@ -66,13 +66,18 @@ export const createChainBatchConfig = (
 	guardedSettAddresses: string[],
 	geyserAddresses: string[],
 	userAddress: string,
+	nonSettTokenAddresses?: string[],
 ): BatchCallRequest[] => {
-	return [
+	const batchCall = [
 		createBatchCallRequest(tokenAddresses, ContractNamespace.Token, userAddress),
 		createBatchCallRequest(generalSettAddresses, ContractNamespace.Sett, userAddress),
 		createBatchCallRequest(guardedSettAddresses, ContractNamespace.GaurdedSett, userAddress),
 		createBatchCallRequest(geyserAddresses, ContractNamespace.Geyser, userAddress),
 	];
+	if (!!nonSettTokenAddresses) {
+		batchCall.push(createBatchCallRequest(nonSettTokenAddresses, ContractNamespace.NonSettToken, userAddress));
+	}
+	return batchCall;
 };
 
 export const toSettConfig = (definitions: BadgerSett[]): BadgerSett[] => {

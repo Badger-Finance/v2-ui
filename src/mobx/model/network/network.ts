@@ -1,4 +1,6 @@
 import { TransactionData } from 'bnc-notify';
+import { ChainNetwork } from 'config/enums/chain-network.enum';
+import { Currency } from 'config/enums/currency.enum';
 import rpc from 'config/rpc.config';
 import { getAirdrops } from 'config/system/airdrops';
 import { getStrategies } from 'config/system/strategies';
@@ -19,11 +21,12 @@ export abstract class Network {
 	private static idToNetwork: Record<number, Network> = {};
 	private static symbolToNetwork: Record<string, Network> = {};
 	readonly rpc: string;
+	readonly gasProviderUrl: string;
 	readonly explorer: string;
 	readonly name: string;
-	readonly symbol: string;
+	readonly symbol: ChainNetwork;
 	readonly id: number;
-	readonly currency: string;
+	readonly currency: Currency;
 	readonly deploy: DeployConfig;
 	readonly setts: BadgerSett[];
 	readonly strategies: StrategyNetworkConfig;
@@ -32,14 +35,16 @@ export abstract class Network {
 
 	constructor(
 		explorer: string,
+		gasProviderUrl: string,
 		name: string,
-		symbol: string,
+		symbol: ChainNetwork,
 		id: number,
-		currency: string,
+		currency: Currency,
 		deploy: DeployConfig,
 		setts: BadgerSett[],
 	) {
 		this.rpc = rpc[symbol];
+		this.gasProviderUrl = gasProviderUrl;
 		this.explorer = explorer;
 		this.name = name;
 		this.symbol = symbol;
@@ -67,6 +72,14 @@ export abstract class Network {
 	}
 
 	abstract updateGasPrices(): Promise<GasPrices>;
+
+	get hasBadgerTree(): boolean {
+		return !!this.deploy.badgerTree;
+	}
+
+	get badgerTree(): string {
+		return this.deploy.badgerTree;
+	}
 
 	get settOrder(): string[] {
 		return this.setts.map((s) => s.vaultToken.address);

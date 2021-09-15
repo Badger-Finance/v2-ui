@@ -1,13 +1,13 @@
-import { NETWORK_LIST } from '../constants';
 import BadgerTree from './abis/BadgerTree.json';
 import { AbiItem } from 'web3-utils';
 import { getApi } from '../../mobx/utils/apiV2';
 import { badgerTree, tokens, sett_system } from '../deployments/mainnet.json';
 import { RewardNetworkConfig } from '../../mobx/model/network/reward-network-config';
+import { ChainNetwork } from 'config/enums/chain-network.enum';
 
 export const getRewards = (network?: string): RewardNetworkConfig | undefined => {
 	switch (network) {
-		case NETWORK_LIST.ETH:
+		case ChainNetwork.Ethereum:
 			return {
 				endpoint: `${getApi()}/reward/tree`,
 				network: 1,

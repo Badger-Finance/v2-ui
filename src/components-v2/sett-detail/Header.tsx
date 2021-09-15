@@ -5,7 +5,7 @@ import GasWidget from '../common/GasWidget';
 import WalletWidget from '../common/WalletWidget';
 import { HeaderContainer } from '../common/Containers';
 import { StoreContext } from '../../mobx/store-context';
-import routes from '../../config/routes';
+import { getRouteBySlug } from 'mobx/utils/helpers';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -32,13 +32,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const Header = (): JSX.Element => {
-	const { router } = React.useContext(StoreContext);
+	const { router, setts } = React.useContext(StoreContext);
 	const classes = useStyles();
+	const settSlug = router.params?.settName?.toString();
 
 	return (
 		<HeaderContainer container className={classes.root}>
 			<Grid item xs={12} sm={6}>
-				<Link component="button" className={classes.links} onClick={() => router.goTo(routes.home)}>
+				<Link
+					component="button"
+					className={classes.links}
+					onClick={() => router.goTo(getRouteBySlug(settSlug, setts))}
+				>
 					<ArrowBackIcon className={classes.backArrow} />
 					Back to All Setts
 				</Link>

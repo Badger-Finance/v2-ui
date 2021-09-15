@@ -9,7 +9,7 @@ export const getSendOptions = async (
 	const gasWei = new BigNumber(gasPrice.toFixed(0));
 	const options: EstimateGasOptions = {
 		from,
-		gas: gasWei.toNumber(),
+		gas: gasWei.multipliedBy(1e9).toNumber(),
 	};
 	const limit = await method.estimateGas(options);
 	return {

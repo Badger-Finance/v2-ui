@@ -58,7 +58,7 @@ exports[`Breadcrumb displays holdings with balance 1`] = `
                 <img
                   alt="Total Balance holdings"
                   class="makeStyles-logo-140"
-                  src="/assets/icons/sbtccrv.png"
+                  src="/assets/icons/bsbtccrv.png"
                 />
               </div>
               <div>
@@ -107,7 +107,7 @@ exports[`Breadcrumb displays holdings with balance 1`] = `
                 <img
                   alt="Total Earned holdings"
                   class="makeStyles-logo-140"
-                  src="/assets/icons/sbtccrv.png"
+                  src="/assets/icons/bsbtccrv.png"
                 />
               </div>
               <div>
@@ -189,7 +189,7 @@ exports[`Breadcrumb displays holdings with no balance 1`] = `
                 <img
                   alt="Total Balance holdings"
                   class="makeStyles-logo-140"
-                  src="/assets/icons/sbtccrv.png"
+                  src="/assets/icons/bsbtccrv.png"
                 />
               </div>
               <div>
@@ -238,7 +238,7 @@ exports[`Breadcrumb displays holdings with no balance 1`] = `
                 <img
                   alt="Total Earned holdings"
                   class="makeStyles-logo-140"
-                  src="/assets/icons/sbtccrv.png"
+                  src="/assets/icons/bsbtccrv.png"
                 />
               </div>
               <div>

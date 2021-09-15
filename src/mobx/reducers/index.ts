@@ -2,20 +2,14 @@ import { extendObservable, action, observe } from 'mobx';
 import { RootStore } from '../RootStore';
 import views from 'config/routes';
 import WalletStore from 'mobx/stores/walletStore';
+import { Currency } from 'config/enums/currency.enum';
+import { DEFAULT_CURRENCY } from 'config/constants';
 
-/**
- * TODO: save this class' poor soul
- */
 class UiState {
 	private readonly store!: RootStore;
 
-	public currency!: string;
+	public currency: Currency;
 	public period!: string;
-
-	/**
-	 * TODO: Add types. soon. :(
-	 */
-	public collection: any;
 	public airdropStats: any;
 	public sidebarOpen!: boolean;
 	public hideZeroBal!: boolean;
@@ -26,14 +20,11 @@ class UiState {
 
 	constructor(store: RootStore) {
 		this.store = store;
+		this.currency = this.loadCurrency(DEFAULT_CURRENCY);
 		const { network } = store.network;
 
 		extendObservable(this, {
-			collection: {},
-			locked: window.localStorage.getItem('locked') === 'YES',
-			claims: [0, 0, 0],
-			airdropStats: {},
-			currency: window.localStorage.getItem(`${network.name}-selectedCurrency`) || 'usd',
+			currency: this.currency,
 			period: window.localStorage.getItem(`${network.name}-selectedPeriod`) || 'year',
 			sidebarOpen: !!window && window.innerWidth > 960,
 			hideZeroBal: !!window.localStorage.getItem(`${network.name}-hideZeroBal`),
@@ -52,6 +43,15 @@ class UiState {
 		window.onresize = () => {
 			this.sidebarOpen = window.innerWidth >= 960;
 		};
+	}
+
+	/* Load Operations */
+
+	private loadCurrency(defaultCurrency: Currency): Currency {
+		const { network } = this.store.network;
+		const stored = window.localStorage.getItem(`${network.name}-selectedCurrency`);
+		const currency = stored?.toUpperCase() || defaultCurrency;
+		return Currency[currency as keyof typeof Currency] || defaultCurrency;
 	}
 
 	queueNotification = action((message: string, variant: string, hash?: string) => {
@@ -76,7 +76,7 @@ class UiState {
 		else window.localStorage.removeItem(`${network.name}-hideZeroBal`);
 	});
 
-	setCurrency = action((currency: string) => {
+	setCurrency = action((currency: Currency) => {
 		this.currency = currency;
 		const { network } = this.store.network;
 		window.localStorage.setItem(`${network.name}-selectedCurrency`, currency);
