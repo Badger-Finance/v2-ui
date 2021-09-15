@@ -3,6 +3,7 @@ export interface GasPrices {
 }
 
 export interface EIP1559GasPrices {
+	legacyGas: number;
 	maxFeePerGas: number;
 	maxPriorityFeePerGas: number;
 }
