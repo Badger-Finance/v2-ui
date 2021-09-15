@@ -55,7 +55,7 @@ export const getEIP1559SendOptions = async (
 		gas: maxFeePerGasWei.toNumber(),
 	};
 	const limit = await method.estimateGas(options);
-	const legacyGas = (maxFeePerGasWei.div(2)).minus(maxPriorityFeePerGasWei);
+	const legacyGas = maxFeePerGasWei.div(2).minus(maxPriorityFeePerGasWei);
 	return {
 		from,
 		gas: Math.floor(limit * 1.2),
@@ -97,6 +97,7 @@ export const sendContractMethod = async (
 				// Retry the transaction with legacy options.
 				if (error.code === -32602 && _isEIP1559SendOption(options)) {
 					const newOptions = { from: options.from, gas: options.gas, gasPrice: options.legacyGas };
+					console.log(newOptions);
 					queueNotification('EIP1559 not currently supported for Ledger or this network', 'warning');
 					await sendContractMethod(store, method, newOptions, txHashMessage, receiptMessage, errorMessage);
 				} else {
@@ -106,7 +107,7 @@ export const sendContractMethod = async (
 	} catch (err) {
 		console.error(err);
 		if (DEBUG) {
-			queueNotification(err, 'error');
+			queueNotification(errorMessage ? errorMessage : err.message, 'error');
 		}
 	}
 };
