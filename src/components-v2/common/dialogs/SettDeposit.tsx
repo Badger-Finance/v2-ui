@@ -86,6 +86,7 @@ export const SettDeposit = observer(({ open = false, sett, badgerSett, onClose }
 	if (!accepted && badgerSett.vaultAdvisory) {
 		return (
 			<Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
+				<SettDialogTitle sett={sett} mode="Deposit" />
 				<VaultAdvisory accept={() => setAccepted(true)} type={badgerSett.vaultAdvisory} />
 			</Dialog>
 		);
