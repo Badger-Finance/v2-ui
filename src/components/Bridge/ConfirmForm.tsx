@@ -118,6 +118,8 @@ export const ConfirmForm = ({
 				return 500000;
 			case 'bCRVtBTC':
 				return 600000;
+			case 'ibBTC':
+				return 750000;
 			default:
 				return 0;
 		}
