@@ -39,6 +39,7 @@ export const getStrategies = (network: ChainNetwork): StrategyNetworkConfig => {
 					},
 					userGuide:
 						'https://app.gitbook.com/@badger-finance/s/badger-finance/sett-user-guides/arbitrum-wbtc-eth-crv',
+					depositLink: 'https://arbitrum.curve.fi/ren/deposit',
 				},
 			};
 		case ChainNetwork.Matic:
