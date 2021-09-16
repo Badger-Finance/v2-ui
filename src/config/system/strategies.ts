@@ -30,6 +30,16 @@ export const getStrategies = (network: ChainNetwork): StrategyNetworkConfig => {
 					userGuide:
 						'https://app.gitbook.com/@badger-finance/s/badger-finance/sett-user-guides/arbitrum-wbtc-eth-slp',
 				},
+				[arbitrumDeploy.sett_system.vaults['native.crvWbtcRen']]: {
+					address: arbitrumDeploy.sett_system.strategies['native.crvWbtcRen'],
+					fees: {
+						[StrategyFee.performance]: new BigNumber(1000),
+						[StrategyFee.strategistPerformance]: new BigNumber(1000),
+						[StrategyFee.withdraw]: new BigNumber(10),
+					},
+					userGuide:
+						'https://app.gitbook.com/@badger-finance/s/badger-finance/sett-user-guides/arbitrum-wbtc-eth-crv',
+				},
 			};
 		case ChainNetwork.Matic:
 			return {
