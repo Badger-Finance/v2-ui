@@ -46,7 +46,6 @@ export const Holdings = observer(({ tokenBalance, settBalance, sett, badgerSett 
 	}
 
 	const { earnedBalance, earnedValue, balance, value } = settBalance;
-	console.log(settBalance);
 	const logo = `/assets/icons/${sett.vaultAsset.toLowerCase()}.png`;
 
 	const depositToken = setts.getToken(sett.underlyingToken);
