@@ -39,6 +39,7 @@ export const getStrategies = (network: ChainNetwork): StrategyNetworkConfig => {
 					},
 					userGuide:
 						'https://app.gitbook.com/@badger-finance/s/badger-finance/sett-user-guides/arbitrum-wbtc-renbtc-crv',
+					depositLink: 'https://arbitrum.curve.fi/ren/deposit',
 				},
 				[arbitrumDeploy.sett_system.vaults['native.tricrypto']]: {
 					address: arbitrumDeploy.sett_system.strategies['native.tricrypto'],
@@ -49,6 +50,7 @@ export const getStrategies = (network: ChainNetwork): StrategyNetworkConfig => {
 					},
 					userGuide:
 						'https://app.gitbook.com/@badger-finance/s/badger-finance/sett-user-guides/arbitrum-tricrypto-crv',
+					depositLink: 'https://arbitrum.curve.fi/tricrypto/deposit',
 				},
 			};
 		case ChainNetwork.Matic:
