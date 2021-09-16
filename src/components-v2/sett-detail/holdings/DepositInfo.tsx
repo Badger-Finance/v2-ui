@@ -34,7 +34,7 @@ const DepositInfo: React.FC<Props> = ({ strategy }: Props) => {
 			<Typography variant="body2" className={classes.description}>
 				Follow this sett&apos;s
 			</Typography>
-			<Link className={classes.depositLink} target="_blank" rel="noreferrer" href={strategy.depositLink}>
+			<Link className={classes.depositLink} target="_blank" rel="noreferrer" href={strategy.userGuide}>
 				user guide
 			</Link>
 			<Typography variant="body2" className={classes.description}>
