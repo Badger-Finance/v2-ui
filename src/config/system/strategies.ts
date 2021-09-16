@@ -17,7 +17,7 @@ export const getStrategies = (network: ChainNetwork): StrategyNetworkConfig => {
 					fees: {
 						[StrategyFee.performance]: new BigNumber(1000),
 						[StrategyFee.strategistPerformance]: new BigNumber(1000),
-						[StrategyFee.withdraw]: new BigNumber(10),
+						[StrategyFee.withdraw]: new BigNumber(50),
 					},
 				},
 				[arbitrumDeploy.sett_system.vaults['native.sushiWethWbtc']]: {
@@ -25,7 +25,7 @@ export const getStrategies = (network: ChainNetwork): StrategyNetworkConfig => {
 					fees: {
 						[StrategyFee.performance]: new BigNumber(1000),
 						[StrategyFee.strategistPerformance]: new BigNumber(1000),
-						[StrategyFee.withdraw]: new BigNumber(10),
+						[StrategyFee.withdraw]: new BigNumber(50),
 					},
 					userGuide:
 						'https://app.gitbook.com/@badger-finance/s/badger-finance/sett-user-guides/arbitrum-wbtc-eth-slp',
@@ -35,7 +35,7 @@ export const getStrategies = (network: ChainNetwork): StrategyNetworkConfig => {
 					fees: {
 						[StrategyFee.performance]: new BigNumber(1000),
 						[StrategyFee.strategistPerformance]: new BigNumber(1000),
-						[StrategyFee.withdraw]: new BigNumber(10),
+						[StrategyFee.withdraw]: new BigNumber(50),
 					},
 					userGuide:
 						'https://app.gitbook.com/@badger-finance/s/badger-finance/sett-user-guides/arbitrum-wbtc-renbtc-crv',
@@ -46,7 +46,7 @@ export const getStrategies = (network: ChainNetwork): StrategyNetworkConfig => {
 					fees: {
 						[StrategyFee.performance]: new BigNumber(1000),
 						[StrategyFee.strategistPerformance]: new BigNumber(1000),
-						[StrategyFee.withdraw]: new BigNumber(10),
+						[StrategyFee.withdraw]: new BigNumber(50),
 					},
 					userGuide:
 						'https://app.gitbook.com/@badger-finance/s/badger-finance/sett-user-guides/arbitrum-tricrypto-crv',
