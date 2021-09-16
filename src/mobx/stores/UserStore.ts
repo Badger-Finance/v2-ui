@@ -76,7 +76,7 @@ export default class UserStore {
 				if (address) {
 					await Promise.all([
 						this.getSettShopEligibility(address),
-						this.loadBouncerProof(address),
+						this.loadBouncerProof(address, network.symbol),
 						this.loadAccountDetails(address, network.symbol),
 						this.loadClaimProof(address, network.symbol),
 						this.updateBalances(true),
@@ -446,8 +446,8 @@ export default class UserStore {
 	);
 
 	loadBouncerProof = action(
-		async (address: string): Promise<void> => {
-			const proof = await fetchBouncerProof(address);
+		async (address: string, chain = ChainNetwork.Ethereum): Promise<void> => {
+			const proof = await fetchBouncerProof(address, chain);
 			if (proof) {
 				this.bouncerProof = proof.proof;
 			}
