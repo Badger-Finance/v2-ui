@@ -55,13 +55,11 @@ class RewardsStore {
 		this.badgerTree = RewardsStore.defaultTree;
 		this.loadingTreeData = false;
 		this.loadingRewards = false;
-		this.loadingDiggData = false;
 
 		extendObservable(this, {
 			badgerTree: this.badgerTree,
 			loadingTreeData: this.loadingTreeData,
 			loadingRewards: this.loadingRewards,
-			loadingDiggData: this.loadingDiggData,
 		});
 	}
 
