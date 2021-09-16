@@ -332,7 +332,7 @@ const ethSettDefinitions: BadgerSett[] = [
 	},
 	{
 		depositToken: {
-			address: ETH_DEPLOY.sett_system.vaults['native.cvx'],
+			address: ETH_DEPLOY.tokens['cvx'],
 			decimals: 18,
 		},
 		vaultToken: {
