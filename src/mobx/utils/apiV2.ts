@@ -62,8 +62,11 @@ export const checkShopEligibility = async (
 	return fetchData(() => fetch(`${checkShopEndpoint}/${address}?chain=${chain}`));
 };
 
-export const fetchBouncerProof = async (address: string): Promise<BouncerProof | null> => {
-	return fetchData(() => fetch(`${getBouncerProofEndpoint}/${address}`));
+export const fetchBouncerProof = async (
+	address: string,
+	chain = ChainNetwork.Ethereum,
+): Promise<BouncerProof | null> => {
+	return fetchData(() => fetch(`${getBouncerProofEndpoint}/${address}?chain=${chain}`));
 };
 
 export const getAccountDetails = async (address: string, chain = ChainNetwork.Ethereum): Promise<Account | null> => {
