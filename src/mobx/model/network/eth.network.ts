@@ -13,6 +13,7 @@ import { ProtocolTokens } from 'web3/interface/protocol-token';
 import { FLAGS } from 'config/environment';
 import { ChainNetwork } from 'config/enums/chain-network.enum';
 import { Currency } from 'config/enums/currency.enum';
+import { AdvisoryType } from '../vaults/advisory-type';
 
 export class Ethereum extends Network {
 	constructor() {
@@ -338,6 +339,7 @@ const ethSettDefinitions: BadgerSett[] = [
 			address: ETH_DEPLOY.sett_system.vaults['native.icvx'],
 			decimals: 18,
 		},
+		vaultAdvisory: AdvisoryType.ConvexLock,
 	},
 	{
 		depositToken: {
