@@ -45,6 +45,7 @@ export const MainContent = observer(
 		const classes = useStyles();
 		const tokenBalance = user.getBalance(ContractNamespace.Token, badgerSett);
 		const settBalance = user.getSettBalance(sett);
+		console.log({ connectedAddress, settBalance, tokenBalance });
 
 		return (
 			<Grid container className={classes.content}>
