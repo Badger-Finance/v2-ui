@@ -35,7 +35,7 @@ export const MintForm = ({
 }: MintFormProps): JSX.Element => {
 	const store = useContext(StoreContext);
 	const { ibBTCStore } = React.useContext(StoreContext);
-	const { ibBTC, apyUsingLastDay, apyUsingLastWeek } = ibBTCStore;
+	const { apyUsingLastWeek } = ibBTCStore;
 
 	const {
 		onboard,
