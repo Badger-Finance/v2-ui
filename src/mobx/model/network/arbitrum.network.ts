@@ -58,6 +58,16 @@ export const arbitrumSetts: BadgerSett[] = [
 			decimals: 18,
 		},
 	},
+	{
+		depositToken: {
+			address: ARBITRUM_DEPLOY.tokens['crv.wbtcRen'],
+			decimals: 18,
+		},
+		vaultToken: {
+			address: ARBITRUM_DEPLOY.sett_system.vaults['native.crvWbtcRen'],
+			decimals: 18,
+		},
+	},
 ];
 
 export const arbitrumRewards = [
