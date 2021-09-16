@@ -1,5 +1,11 @@
 # v2 UI Changelog
 
+### Hotfix - 09/16/2021
+
+-   Add curve ren and tricrypto vaults
+-   Fix redirects issue for netlify deployment
+-   Fix incorrect link for user guides
+
 ### v2.9.3 - 09/15/2021
 
 -   Add arbitrum support
