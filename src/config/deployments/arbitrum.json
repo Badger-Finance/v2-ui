@@ -6,7 +6,8 @@
 		"sushi.WETH-SUSHI": "0x3221022e37029923aCe4235D812273C5A42C322d",
 		"sushi.WETH-WBTC": "0x515e252b2b5c22b4b2b6Df66c2eBeeA871AA4d69",
 		"crv.wbtcRen": "0x3e01dd8a5e1fb3481f0f589056b428fc308af0fb",
-		"crv.tricrypto": "0x8e0b8c8bb9db49a46697f3a5bb8a308e744821d2"
+		"crv.tricrypto": "0x8e0b8c8bb9db49a46697f3a5bb8a308e744821d2",
+		"crv": "0x11cDb42B0EB46D95f990BeDD4695A6e3fA034978"
 	},
 	"geysers": {},
 	"sett_system": {

@@ -89,6 +89,14 @@ export const arbitrumRewards = [
 		address: ARBITRUM_DEPLOY.tokens['sushi'],
 		decimals: 18,
 	},
+	{
+		address: ARBITRUM_DEPLOY.sett_system.vaults['native.sushiWethSushi'],
+		decimals: 18,
+	},
+	{
+		address: ARBITRUM_DEPLOY.tokens['crv'],
+		decimals: 18,
+	},
 ];
 
 const arbitrumTokens = arbitrumSetts.flatMap((sett) => [sett.depositToken, sett.vaultToken]).concat(arbitrumRewards);

@@ -183,7 +183,7 @@ export default class UserStore {
 	}
 
 	getSettBalance(sett: Sett): SettBalance {
-		const currentSettBalance = this.getTokenBalance(sett.underlyingToken);
+		const currentSettBalance = this.getTokenBalance(sett.vaultToken);
 		let settBalance = this.accountDetails?.balances.find((settBalance) => settBalance.id === sett.vaultToken);
 
 		/**
@@ -224,7 +224,12 @@ export default class UserStore {
 
 	getTokenBalance(contract: string): TokenBalance {
 		const tokenAddress = Web3.utils.toChecksumAddress(contract);
-		return this.getOrDefaultBalance(this.tokenBalances, tokenAddress);
+		const compositeBalances = {
+			...this.settBalances,
+			...this.geyserBalances,
+			...this.tokenBalances,
+		};
+		return this.getOrDefaultBalance(compositeBalances, tokenAddress);
 	}
 
 	private getOrDefaultBalance(balances: TokenBalances, token: string): TokenBalance {

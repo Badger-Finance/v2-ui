@@ -388,11 +388,10 @@ export const getStrategies = (network: ChainNetwork): StrategyNetworkConfig => {
 				[ethDeploy.sett_system.vaults['native.icvx']]: {
 					address: ethDeploy.sett_system.strategies['native.icvx'],
 					fees: {
-						[StrategyFee.daoPerformance]: new BigNumber(1000),
-						[StrategyFee.withdraw]: new BigNumber(50),
+						[StrategyFee.daoPerformance]: new BigNumber(0),
+						[StrategyFee.withdraw]: new BigNumber(10),
 					},
-					strategyLink: '',
-					userGuide: '',
+					depositLink: 'https://www.convexfinance.com/lock-cvx',
 				},
 				[ethDeploy.sett_system.vaults['native.imBtc']]: {
 					address: ethDeploy.sett_system.strategies['native.imBtc'],
