@@ -17,7 +17,7 @@ export const getStrategies = (network: ChainNetwork): StrategyNetworkConfig => {
 					fees: {
 						[StrategyFee.performance]: new BigNumber(1000),
 						[StrategyFee.strategistPerformance]: new BigNumber(1000),
-						[StrategyFee.withdraw]: new BigNumber(50),
+						[StrategyFee.withdraw]: new BigNumber(10),
 					},
 					userGuide:
 						'https://app.gitbook.com/@badger-finance/s/badger-finance/sett-user-guides/arbitrum-sushi-weth-helper-vault',
@@ -28,7 +28,7 @@ export const getStrategies = (network: ChainNetwork): StrategyNetworkConfig => {
 					fees: {
 						[StrategyFee.performance]: new BigNumber(1000),
 						[StrategyFee.strategistPerformance]: new BigNumber(1000),
-						[StrategyFee.withdraw]: new BigNumber(50),
+						[StrategyFee.withdraw]: new BigNumber(10),
 					},
 					userGuide:
 						'https://app.gitbook.com/@badger-finance/s/badger-finance/sett-user-guides/arbitrum-wbtc-eth-slp',
