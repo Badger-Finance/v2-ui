@@ -15,7 +15,7 @@ import { Currency } from 'config/enums/currency.enum';
 
 export const getApi = (): string => {
 	if (DEBUG) {
-		return 'https://staging-api.badger.finance/v2';
+		return 'https://api.badger.finance/v2';
 	}
 	return 'https://api.badger.finance/v2';
 };
