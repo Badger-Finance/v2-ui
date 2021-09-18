@@ -54,21 +54,14 @@ interface Props {
 export const ChartsCard = observer(
 	({ sett }: Props): JSX.Element => {
 		const { settCharts } = useContext(StoreContext);
+		const { apr, minApr, maxApr } = sett;
+		const isBoostable = apr !== minApr && apr !== maxApr;
 
 		const classes = useStyles();
 		const [loading, setLoading] = useState(true);
 		const [settChartData, setSettChartData] = useState<SettChartData[] | null>(null);
-		const [mode, setMode] = useState(sett.multipliers.length > 0 ? ChartMode.BoostMultiplier : ChartMode.Value);
+		const [mode, setMode] = useState(isBoostable ? ChartMode.BoostMultiplier : ChartMode.Value);
 		const [timeframe, setTimeframe] = useState(SettChartTimeframe.Week);
-		const boostableApr = sett.sources
-			.filter((s) => s.boostable)
-			.map((s) => s.apr)
-			.reduce((total, apr) => (total += apr), 0);
-		const baseApr = sett.apr - boostableApr;
-		const boostData = sett.multipliers.map((m) => ({
-			x: m.boost,
-			y: (baseApr + m.multiplier * boostableApr) / 100,
-		}));
 
 		const yAxisAccessor = getYAxisAccessor(mode);
 		const chartData = settChartData
@@ -106,7 +99,7 @@ export const ChartsCard = observer(
 					indicatorColor="primary"
 					value={mode}
 				>
-					{boostData.length > 0 && (
+					{isBoostable && (
 						<Tab
 							onClick={() => setMode(ChartMode.BoostMultiplier)}
 							value={ChartMode.BoostMultiplier}
@@ -134,7 +127,7 @@ export const ChartsCard = observer(
 								{mode === ChartMode.Value || mode === ChartMode.Ratio ? (
 									<SettChart mode={mode} timeframe={timeframe} data={chartData} />
 								) : (
-									<BoostChart baseline={sett.apr / 100} data={boostData} />
+									<BoostChart sett={sett} />
 								)}
 							</>
 						</ChartContent>

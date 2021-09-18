@@ -193,7 +193,7 @@ export const getStrategies = (network: ChainNetwork): StrategyNetworkConfig => {
 					userGuide:
 						'https://app.gitbook.com/@badger-finance/s/badger-finance/v/master/sett-user-guides/uniswap-wrapped-btc-badger',
 					depositLink:
-						'https://app.uniswap.org/#/add/0x3472A5A71965499acd81997a54BBA8D852C6E53d/0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599',
+						'https://app.uniswap.org/#/add/v2/0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599/0x3472A5A71965499acd81997a54BBA8D852C6E53d',
 				},
 				[ethDeploy.sett_system.vaults['harvest.renCrv']]: {
 					address: ethDeploy.sett_system.strategies['harvest.renCrv'],
