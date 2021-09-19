@@ -77,7 +77,7 @@ class RawChartClass extends React.Component<Props> {
 				yFormatter={yScaleFormatter}
 				width={width}
 				customTooltip={<BoostTooltip />}
-				references={[{ value: baseApr / 100, label: `Baseline APR (${baseApr.toFixed(2)}%)` }]}
+				references={[{ value: apr / 100, label: `Baseline APR (${apr.toFixed(2)}%)` }]}
 			/>
 		);
 	}
