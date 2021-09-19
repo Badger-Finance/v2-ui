@@ -2,10 +2,11 @@ import React from 'react';
 import { fitWidth } from 'react-stockcharts/lib/helper';
 import { format } from 'd3-format';
 import BaseAreaChart from './BaseAreaChart';
-import { ChartDataPoint } from 'mobx/model/charts/chart-data-point';
 import { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent';
 import { TooltipProps } from 'recharts';
 import { makeStyles } from '@material-ui/core';
+import { Sett } from 'mobx/model/setts/sett';
+import { BOOST_LEVELS, MAX_BOOST_LEVEL } from 'config/system/boost-ranks';
 
 const useStyles = makeStyles((theme) => ({
 	tooltipContainer: {
@@ -15,6 +16,11 @@ const useStyles = makeStyles((theme) => ({
 		flexDirection: 'column',
 	},
 }));
+
+// hard coded expected badger boost values
+// note: this is a bandaid over exposing the true multiplier values
+// TODO: expose multiplier chart data once multichain boost is sorted
+const boostCheckpoints = BOOST_LEVELS.flatMap((level) => level.multiplier);
 
 const yScaleFormatter = format('^.2%');
 
@@ -35,8 +41,7 @@ const BoostTooltip = ({ active, payload, label }: TooltipProps<ValueType, NameTy
 };
 
 interface Props {
-	baseline: number;
-	data: ChartDataPoint[];
+	sett: Sett;
 	width: number;
 }
 
@@ -44,16 +49,35 @@ interface Props {
 // see: https://github.com/rrag/react-stockcharts/issues/370#issuecomment-336439030
 class RawChartClass extends React.Component<Props> {
 	render() {
-		const { width, baseline, data } = this.props;
+		const { width, sett } = this.props;
+		const { sources, apr, minApr, maxApr } = sett;
+
+		if (!minApr || !maxApr) {
+			return null;
+		}
+
+		const boostableApr = sources
+			.filter((s) => s.boostable)
+			.map((s) => s.apr)
+			.reduce((total, apr) => (total += apr), 0);
+		const baseApr = apr - boostableApr;
+		const aprRange = maxApr - minApr;
+		const boostData = boostCheckpoints.map((checkpoint) => {
+			const rangeScalar = checkpoint / MAX_BOOST_LEVEL.multiplier;
+			return {
+				x: checkpoint,
+				y: (baseApr + rangeScalar * aprRange) / 100,
+			};
+		});
 
 		return (
 			<BaseAreaChart
 				title={'Badger Boost APR'}
-				data={data}
+				data={boostData}
 				yFormatter={yScaleFormatter}
 				width={width}
 				customTooltip={<BoostTooltip />}
-				references={[{ value: baseline, label: `Baseline APR (${(baseline * 100).toFixed(2)}%)` }]}
+				references={[{ value: apr / 100, label: `Baseline APR (${apr.toFixed(2)}%)` }]}
 			/>
 		);
 	}

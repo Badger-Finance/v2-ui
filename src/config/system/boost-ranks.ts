@@ -114,7 +114,7 @@ export const BOOST_RANKS: BoostRank[] = [
 	},
 ];
 
-export const BOOST_LEVELS = BOOST_RANKS.map((rank) => rank.levels).flat();
+export const BOOST_LEVELS = BOOST_RANKS.flatMap((rank) => rank.levels);
 
 export const MIN_BOOST_LEVEL = BOOST_LEVELS[0];
 
