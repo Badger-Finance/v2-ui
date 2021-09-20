@@ -51,6 +51,5 @@ export const FLAGS = {
 	ARBITRUM: toBool(process.env.REACT_APP_ARBITRUM),
 	XDAI: toBool(process.env.REACT_APP_XDAI),
 	RENBTC_SETT: toBool(process.env.REACT_APP_RENBTC_SETT),
-	IBBTC_WBTC_SETT: toBool(process.env.REACT_APP_IBBTC_WBTC_POLY_SETT),
 	MSTABLE_SETT: toBool(process.env.REACT_APP_MSTABLE_SETT),
 };
