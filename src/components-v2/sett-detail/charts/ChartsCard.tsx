@@ -54,8 +54,8 @@ interface Props {
 export const ChartsCard = observer(
 	({ sett }: Props): JSX.Element => {
 		const { settCharts } = useContext(StoreContext);
-		const { apr, minApr, maxApr } = sett;
-		const isBoostable = apr !== minApr && apr !== maxApr;
+		const { minApr, maxApr } = sett;
+		const isBoostable = minApr && maxApr;
 
 		const classes = useStyles();
 		const [loading, setLoading] = useState(true);
