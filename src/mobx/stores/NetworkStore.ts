@@ -10,7 +10,7 @@ import Web3 from 'web3';
 export class NetworkStore {
 	private store: RootStore;
 	public network: Network;
-	public gasPrices: GasPrices;
+	public gasPrices: GasPrices | null;
 	public currentBlock: number;
 
 	constructor(store: RootStore) {

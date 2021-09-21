@@ -8,6 +8,7 @@ import { Network } from './network';
 import deploy from '../../../config/deployments/xdai.json';
 import { ChainNetwork } from 'config/enums/chain-network.enum';
 import { Currency } from 'config/enums/currency.enum';
+import { getGasPrices } from 'mobx/utils/apiV2';
 
 export class xDai extends Network {
 	constructor() {
@@ -23,14 +24,9 @@ export class xDai extends Network {
 		);
 	}
 
-	async updateGasPrices(): Promise<GasPrices> {
-		const prices = await fetch('https://blockscout.com/xdai/mainnet/api/v1/gas-price-oracle');
-		const result = await prices.json();
-		return {
-			fast: result['fast'],
-			average: result['average'],
-			slow: result['slow'],
-		};
+	async updateGasPrices(): Promise<GasPrices | null> {
+		const gasPrices = await getGasPrices(ChainNetwork.xDai);
+		return gasPrices;
 	}
 }
 

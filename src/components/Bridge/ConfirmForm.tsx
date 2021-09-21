@@ -127,8 +127,12 @@ export const ConfirmForm = ({
 
 	const isVault = ['byvWBTC', 'bCRVrenBTC', 'bCRVsBTC', 'bCRVtBTC'].indexOf(values.token) >= 0;
 
-	const networkGasPrice = gasPrices[gasPrice];
-	const displayGasPrice = typeof networkGasPrice === 'number' ? networkGasPrice : networkGasPrice.maxFeePerGas;
+	// M50 - Handle undefined / loading gas prices case
+	let displayGasPrice = null;
+	if (!!gasPrices) {
+		const networkGasPrice = gasPrices[gasPrice];
+		displayGasPrice = typeof networkGasPrice === 'number' ? networkGasPrice : networkGasPrice.maxFeePerGas;
+	}
 
 	return (
 		<Grid container alignItems={'center'}>
@@ -219,7 +223,7 @@ export const ConfirmForm = ({
 					feeContainer(
 						'Estimated Gas Fee',
 						'This estimated network fee that goes to the destination network. This does not go to the Ren or Badger team.',
-						`${(estimatedGasUnitsETH() * displayGasPrice) / 1e9} ETH`,
+						`${displayGasPrice ? (estimatedGasUnitsETH() * displayGasPrice) / 1e9 : '-'} ETH`,
 					)}
 				{isWBTC && (
 					<>

@@ -159,7 +159,7 @@ export class HoneyPotStore {
 
 			queueNotification(`Sign the transaction to redeem your NFT`, 'info');
 
-			const price = gasPrices[gasPrice];
+			const price = gasPrices ? gasPrices[gasPrice] : 0;
 			const options = await getSendOptions(redeem, connectedAddress, price);
 			await sendContractMethod(this.store, redeem, options, `Redemption submitted.`, `NFT Redeemed.`);
 			this.fetchPoolBalance();

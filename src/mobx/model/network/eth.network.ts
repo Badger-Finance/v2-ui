@@ -1,4 +1,4 @@
-import { BLOCKNATIVE_API_KEY, NETWORK_IDS } from 'config/constants';
+import { NETWORK_IDS } from 'config/constants';
 import { createChainBatchConfig, toSettConfig } from 'web3/config/config-utils';
 import { BatchCallRequest } from 'web3/interface/batch-call-request';
 import { Deploy } from 'web3/interface/deploy';
@@ -14,6 +14,7 @@ import { FLAGS } from 'config/environment';
 import { ChainNetwork } from 'config/enums/chain-network.enum';
 import { Currency } from 'config/enums/currency.enum';
 import { AdvisoryType } from '../vaults/advisory-type';
+import { getGasPrices } from 'mobx/utils/apiV2';
 
 export class Ethereum extends Network {
 	constructor() {
@@ -78,30 +79,9 @@ export class Ethereum extends Network {
 		);
 	}
 
-	async updateGasPrices(): Promise<GasPrices> {
-		const prices = await fetch('https://api.blocknative.com/gasprices/blockprices', {
-			headers: { Authorization: BLOCKNATIVE_API_KEY },
-		});
-		const result = await prices.json();
-		const blockPrices = result.blockPrices[0];
-		return {
-			rapid: {
-				maxFeePerGas: blockPrices.estimatedPrices[0].maxFeePerGas,
-				maxPriorityFeePerGas: blockPrices.estimatedPrices[0].maxPriorityFeePerGas,
-			},
-			fast: {
-				maxFeePerGas: blockPrices.estimatedPrices[1].maxFeePerGas,
-				maxPriorityFeePerGas: blockPrices.estimatedPrices[1].maxPriorityFeePerGas,
-			},
-			standard: {
-				maxFeePerGas: blockPrices.estimatedPrices[2].maxFeePerGas,
-				maxPriorityFeePerGas: blockPrices.estimatedPrices[2].maxPriorityFeePerGas,
-			},
-			slow: {
-				maxFeePerGas: blockPrices.estimatedPrices[3].maxFeePerGas,
-				maxPriorityFeePerGas: blockPrices.estimatedPrices[3].maxPriorityFeePerGas,
-			},
-		};
+	async updateGasPrices(): Promise<GasPrices | null> {
+		const gasPrices = await getGasPrices(ChainNetwork.Ethereum);
+		return gasPrices;
 	}
 }
 
