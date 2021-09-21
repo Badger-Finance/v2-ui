@@ -3,6 +3,7 @@ import { Select, MenuItem, makeStyles } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
 import { LocalGasStation } from '@material-ui/icons';
+import { Loader } from 'components/Loader';
 
 const useStyles = makeStyles(() => ({
 	gasSelector: {
@@ -22,6 +23,9 @@ const GasWidget = observer(() => {
 
 	const { gasPrice, setGasPrice } = store.uiState;
 	const { gasPrices, network } = store.network;
+
+	if (!gasPrices) return <Loader message="Loading Gas Prices..." />;
+
 	if (!gasPrices[gasPrice]) store.uiState.setGasPrice('standard');
 
 	const getGasSelections = () => {

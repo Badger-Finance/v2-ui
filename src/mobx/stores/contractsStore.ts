@@ -242,7 +242,7 @@ class ContractsStore {
 			network: { gasPrices },
 		} = this.store;
 
-		const price = gasPrices[gasPrice];
+		const price = gasPrices ? gasPrices[gasPrice] : 0;
 		const options = await getSendOptions(method, connectedAddress, price);
 		return options;
 	};

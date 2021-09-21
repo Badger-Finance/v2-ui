@@ -8,6 +8,7 @@ import { Deploy } from 'web3/interface/deploy';
 import { BadgerSett } from '../vaults/badger-sett';
 import { Currency } from 'config/enums/currency.enum';
 import { ChainNetwork } from 'config/enums/chain-network.enum';
+import { getGasPrices } from 'mobx/utils/apiV2';
 
 export class BinanceSmartChain extends Network {
 	constructor() {
@@ -23,15 +24,9 @@ export class BinanceSmartChain extends Network {
 		);
 	}
 
-	async updateGasPrices(): Promise<GasPrices> {
-		const prices = await fetch('https://bscgas.info/gas');
-		const result = await prices.json();
-		return {
-			rapid: result['instant'],
-			fast: result['fast'],
-			standard: result['standard'],
-			slow: result['slow'],
-		};
+	async updateGasPrices(): Promise<GasPrices | null> {
+		const gasPrices = await getGasPrices(ChainNetwork.BinanceSmartChain);
+		return gasPrices;
 	}
 }
 

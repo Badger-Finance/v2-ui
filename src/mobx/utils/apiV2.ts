@@ -12,6 +12,7 @@ import { SettChartFetchParams, SettSnapshot, SettSnapshotGranularity } from '../
 import { DEBUG } from 'config/environment';
 import { ChainNetwork } from 'config/enums/chain-network.enum';
 import { Currency } from 'config/enums/currency.enum';
+import { GasPrices } from 'mobx/model/system-config/gas-prices';
 
 export const getApi = (): string => {
 	if (DEBUG) {
@@ -32,6 +33,7 @@ const getAccountDetailsEndpoint = `${badgerApi}/accounts`;
 const getClaimProofEndpoint = `${badgerApi}/reward/tree`;
 const getLeaderBoardDataEndpoint = `${badgerApi}/leaderboards`;
 const getSettChartInformationEndpoint = `${badgerApi}/charts`;
+const getGasEndpoint = `${badgerApi}/gas`;
 
 // api function calls
 export const listSetts = async (chain = ChainNetwork.Ethereum): Promise<Sett[] | null> => {
@@ -53,6 +55,10 @@ export const getTokenPrices = async (
 
 export const getTotalValueLocked = async (chain = ChainNetwork.Ethereum): Promise<ProtocolSummary | null> => {
 	return fetchData(() => fetch(`${getTVLEndpoint}?chain=${chain}&currency=eth`));
+};
+
+export const getGasPrices = async (chain = ChainNetwork.Ethereum): Promise<GasPrices | null> => {
+	return fetchData(() => fetch(`${getGasEndpoint}?chain=${chain}`));
 };
 
 export const checkShopEligibility = async (
