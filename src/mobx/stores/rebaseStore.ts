@@ -131,7 +131,7 @@ class RebaseStore {
 
 		queueNotification(`Sign the transaction to claim your options`, 'info');
 
-		const price = gasPrices[gasPrice];
+		const price = gasPrices ? gasPrices[gasPrice] : 0;
 		const options = await getSendOptions(method, connectedAddress, price);
 		await sendContractMethod(this.store, method, options, `Claim submitted.`, `Options claimed.`);
 	}

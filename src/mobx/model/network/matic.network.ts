@@ -8,6 +8,7 @@ import { Network } from './network';
 import deploy from '../../../config/deployments/matic.json';
 import { ChainNetwork } from 'config/enums/chain-network.enum';
 import { Currency } from 'config/enums/currency.enum';
+import { getGasPrices } from 'mobx/utils/apiV2';
 
 export class Polygon extends Network {
 	constructor() {
@@ -32,15 +33,9 @@ export class Polygon extends Network {
 		];
 	}
 
-	async updateGasPrices(): Promise<GasPrices> {
-		const prices = await fetch('https://gasstation-mainnet.matic.network/');
-		const result = await prices.json();
-		return {
-			rapid: result['fastest'],
-			fast: result['fast'],
-			standard: result['standard'],
-			slow: result['safeLow'],
-		};
+	async updateGasPrices(): Promise<GasPrices | null> {
+		const gasPrices = await getGasPrices(ChainNetwork.Matic);
+		return gasPrices;
 	}
 }
 

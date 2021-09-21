@@ -8,6 +8,7 @@ import { Network } from './network';
 import deploy from '../../../config/deployments/arbitrum.json';
 import { ChainNetwork } from 'config/enums/chain-network.enum';
 import { Currency } from 'config/enums/currency.enum';
+import { getGasPrices } from 'mobx/utils/apiV2';
 
 // TODO: Add Arbitrum gas estimation + link
 export class Arbitrum extends Network {
@@ -24,14 +25,9 @@ export class Arbitrum extends Network {
 		);
 	}
 
-	async updateGasPrices(): Promise<GasPrices> {
-		const gasPrice = 2;
-		return {
-			rapid: gasPrice,
-			fast: gasPrice,
-			standard: gasPrice,
-			slow: gasPrice,
-		};
+	async updateGasPrices(): Promise<GasPrices | null> {
+		const gasPrices = await getGasPrices(ChainNetwork.Arbitrum);
+		return gasPrices;
 	}
 }
 
