@@ -288,7 +288,7 @@ class IbBTCStore {
 
 		queueNotification(`Sign the transaction to allow Badger to spend your ${underlyingAsset.symbol}`, 'info');
 
-		const price = gasPrices[gasPrice];
+		const price = gasPrices ? gasPrices[gasPrice] : 0;
 		const options = await getSendOptions(method, connectedAddress, price);
 		await method
 			.send(options)
@@ -402,7 +402,7 @@ class IbBTCStore {
 		const { connectedAddress } = this.store.wallet;
 		const { queueNotification, gasPrice } = this.store.uiState;
 		const { gasPrices } = this.store.network;
-		const price = gasPrices[gasPrice];
+		const price = gasPrices ? gasPrices[gasPrice] : 0;
 		const options = await getSendOptions(method, connectedAddress, price);
 		await method
 			.send(options)

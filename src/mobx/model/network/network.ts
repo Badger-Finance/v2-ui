@@ -71,7 +71,7 @@ export abstract class Network {
 		return Network.symbolToNetwork[symbol];
 	}
 
-	abstract updateGasPrices(): Promise<GasPrices>;
+	abstract updateGasPrices(): Promise<GasPrices | null>;
 
 	get hasBadgerTree(): boolean {
 		return !!this.deploy.badgerTree;
