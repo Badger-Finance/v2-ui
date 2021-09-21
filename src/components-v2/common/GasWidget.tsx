@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Select, MenuItem, makeStyles } from '@material-ui/core';
+import { Select, MenuItem, makeStyles, Typography, Grid } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
 import { LocalGasStation } from '@material-ui/icons';
@@ -15,6 +15,10 @@ const useStyles = makeStyles(() => ({
 		fontSize: '1.2rem',
 		marginRight: '.8rem',
 	},
+	loadingComponent: {
+		textAlign: 'center',
+		width: '33%',
+	},
 }));
 
 const GasWidget = observer(() => {
@@ -24,7 +28,14 @@ const GasWidget = observer(() => {
 	const { gasPrice, setGasPrice } = store.uiState;
 	const { gasPrices, network } = store.network;
 
-	if (!gasPrices) return <Loader message="Loading Gas Prices..." />;
+	if (!gasPrices) {
+		return (
+			<Grid className={classes.loadingComponent} container direction="column">
+				<Loader size={15} />
+				<Typography variant="caption">Loading Gas...</Typography>
+			</Grid>
+		);
+	}
 
 	if (!gasPrices[gasPrice]) store.uiState.setGasPrice('standard');
 
