@@ -344,7 +344,7 @@ const ethSettDefinitions: BadgerSett[] = [
 	{
 		depositToken: {
 			address: ETH_DEPLOY.tokens['imBtc'],
-			decimals: 8,
+			decimals: 18,
 		},
 		vaultToken: {
 			address: ETH_DEPLOY.sett_system.vaults['native.imBtc'],
@@ -355,7 +355,7 @@ const ethSettDefinitions: BadgerSett[] = [
 	{
 		depositToken: {
 			address: ETH_DEPLOY.tokens['fPmBtcHBtc'],
-			decimals: 8,
+			decimals: 18,
 		},
 		vaultToken: {
 			address: ETH_DEPLOY.sett_system.vaults['native.fPmBtcHBtc'],
