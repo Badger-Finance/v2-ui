@@ -2,7 +2,7 @@
 
 exports[`GasWidget Opens gas menu upon click and "rapid" is selected properly 1`] = `
 <div
-  class="MuiPopover-root-58"
+  class="MuiPopover-root-59"
   id="menu-"
   role="presentation"
   style="position: fixed; z-index: 1300; right: 0px; bottom: 0px; top: 0px; left: 0px;"
@@ -16,50 +16,50 @@ exports[`GasWidget Opens gas menu upon click and "rapid" is selected properly 1`
     tabindex="0"
   />
   <div
-    class="MuiPaper-root-64 MuiMenu-paper-56 MuiPopover-paper-59 MuiPaper-elevation8-75 MuiPaper-rounded-65"
+    class="MuiPaper-root-65 MuiMenu-paper-57 MuiPopover-paper-60 MuiPaper-elevation8-76 MuiPaper-rounded-66"
     style="opacity: 1; transform: scale(1, 1); min-width: 0; transition: opacity 0ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,transform 0ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; top: 16px; left: 16px; transform-origin: -16px -16px;"
     tabindex="-1"
   >
     <ul
-      class="MuiList-root-92 MuiMenu-list-57 MuiList-padding-93"
+      class="MuiList-root-93 MuiMenu-list-58 MuiList-padding-94"
       role="listbox"
       tabindex="-1"
     >
       <li
         aria-disabled="false"
-        class="MuiButtonBase-root-111 MuiListItem-root-100 MuiMenuItem-root-96 MuiMenuItem-gutters-97 MuiListItem-gutters-107 MuiListItem-button-108"
+        class="MuiButtonBase-root-112 MuiListItem-root-101 MuiMenuItem-root-97 MuiMenuItem-gutters-98 MuiListItem-gutters-108 MuiListItem-button-109"
         data-value="rapid"
         role="option"
         tabindex="-1"
       >
         122
         <span
-          class="MuiTouchRipple-root-114"
+          class="MuiTouchRipple-root-115"
         />
       </li>
       <li
         aria-disabled="false"
         aria-selected="true"
-        class="MuiButtonBase-root-111 MuiListItem-root-100 MuiMenuItem-root-96 MuiMenuItem-selected-98 MuiMenuItem-gutters-97 MuiListItem-gutters-107 MuiListItem-button-108 MuiListItem-selected-110 MuiButtonBase-focusVisible-113 MuiListItem-focusVisible-102"
+        class="MuiButtonBase-root-112 MuiListItem-root-101 MuiMenuItem-root-97 MuiMenuItem-selected-99 MuiMenuItem-gutters-98 MuiListItem-gutters-108 MuiListItem-button-109 MuiListItem-selected-111 MuiButtonBase-focusVisible-114 MuiListItem-focusVisible-103"
         data-value="standard"
         role="option"
         tabindex="0"
       >
         75
         <span
-          class="MuiTouchRipple-root-114"
+          class="MuiTouchRipple-root-115"
         />
       </li>
       <li
         aria-disabled="false"
-        class="MuiButtonBase-root-111 MuiListItem-root-100 MuiMenuItem-root-96 MuiMenuItem-gutters-97 MuiListItem-gutters-107 MuiListItem-button-108"
+        class="MuiButtonBase-root-112 MuiListItem-root-101 MuiMenuItem-root-97 MuiMenuItem-gutters-98 MuiListItem-gutters-108 MuiListItem-button-109"
         data-value="slow"
         role="option"
         tabindex="-1"
       >
         51
         <span
-          class="MuiTouchRipple-root-114"
+          class="MuiTouchRipple-root-115"
         />
       </li>
     </ul>
@@ -74,11 +74,11 @@ exports[`GasWidget Opens gas menu upon click and "rapid" is selected properly 1`
 exports[`GasWidget Opens gas menu upon click and "rapid" is selected properly 2`] = `
 <div>
   <div
-    class="MuiInputBase-root-29 MuiOutlinedInput-root-14 MuiInputBase-colorSecondary-38 MuiOutlinedInput-colorSecondary-15 makeStyles-gasSelector-1 MuiInputBase-focused-31 MuiOutlinedInput-focused-16 MuiInputBase-adornedStart-33 MuiOutlinedInput-adornedStart-18"
+    class="MuiInputBase-root-30 MuiOutlinedInput-root-15 MuiInputBase-colorSecondary-39 MuiOutlinedInput-colorSecondary-16 makeStyles-gasSelector-1 MuiInputBase-focused-32 MuiOutlinedInput-focused-17 MuiInputBase-adornedStart-34 MuiOutlinedInput-adornedStart-19"
   >
     <svg
       aria-hidden="true"
-      class="MuiSvgIcon-root-47 makeStyles-gasIcon-2"
+      class="MuiSvgIcon-root-48 makeStyles-gasIcon-2"
       focusable="false"
       viewBox="0 0 24 24"
     >
@@ -88,7 +88,7 @@ exports[`GasWidget Opens gas menu upon click and "rapid" is selected properly 2`
     </svg>
     <div
       aria-haspopup="listbox"
-      class="MuiSelect-root-3 MuiSelect-select-4 MuiSelect-selectMenu-7 MuiSelect-outlined-6 MuiInputBase-input-40 MuiOutlinedInput-input-24 MuiInputBase-inputAdornedStart-44 MuiOutlinedInput-inputAdornedStart-27"
+      class="MuiSelect-root-4 MuiSelect-select-5 MuiSelect-selectMenu-8 MuiSelect-outlined-7 MuiInputBase-input-41 MuiOutlinedInput-input-25 MuiInputBase-inputAdornedStart-45 MuiOutlinedInput-inputAdornedStart-28"
       role="button"
       tabindex="0"
     >
@@ -96,13 +96,13 @@ exports[`GasWidget Opens gas menu upon click and "rapid" is selected properly 2`
     </div>
     <input
       aria-hidden="true"
-      class="MuiSelect-nativeInput-13"
+      class="MuiSelect-nativeInput-14"
       tabindex="-1"
       value="rapid"
     />
     <svg
       aria-hidden="true"
-      class="MuiSvgIcon-root-47 MuiSelect-icon-9 MuiSelect-iconOutlined-12"
+      class="MuiSvgIcon-root-48 MuiSelect-icon-10 MuiSelect-iconOutlined-13"
       focusable="false"
       viewBox="0 0 24 24"
     >
@@ -112,11 +112,11 @@ exports[`GasWidget Opens gas menu upon click and "rapid" is selected properly 2`
     </svg>
     <fieldset
       aria-hidden="true"
-      class="PrivateNotchedOutline-root-60 MuiOutlinedInput-notchedOutline-23"
+      class="PrivateNotchedOutline-root-61 MuiOutlinedInput-notchedOutline-24"
       style="padding-left: 8px;"
     >
       <legend
-        class="PrivateNotchedOutline-legend-61"
+        class="PrivateNotchedOutline-legend-62"
         style="width: 0.01px;"
       >
         <span>
@@ -131,11 +131,11 @@ exports[`GasWidget Opens gas menu upon click and "rapid" is selected properly 2`
 exports[`GasWidget Renders correctly 1`] = `
 <div>
   <div
-    class="MuiInputBase-root-29 MuiOutlinedInput-root-14 MuiInputBase-colorSecondary-38 MuiOutlinedInput-colorSecondary-15 makeStyles-gasSelector-1 MuiInputBase-adornedStart-33 MuiOutlinedInput-adornedStart-18"
+    class="MuiInputBase-root-30 MuiOutlinedInput-root-15 MuiInputBase-colorSecondary-39 MuiOutlinedInput-colorSecondary-16 makeStyles-gasSelector-1 MuiInputBase-adornedStart-34 MuiOutlinedInput-adornedStart-19"
   >
     <svg
       aria-hidden="true"
-      class="MuiSvgIcon-root-47 makeStyles-gasIcon-2"
+      class="MuiSvgIcon-root-48 makeStyles-gasIcon-2"
       focusable="false"
       viewBox="0 0 24 24"
     >
@@ -145,7 +145,7 @@ exports[`GasWidget Renders correctly 1`] = `
     </svg>
     <div
       aria-haspopup="listbox"
-      class="MuiSelect-root-3 MuiSelect-select-4 MuiSelect-selectMenu-7 MuiSelect-outlined-6 MuiInputBase-input-40 MuiOutlinedInput-input-24 MuiInputBase-inputAdornedStart-44 MuiOutlinedInput-inputAdornedStart-27"
+      class="MuiSelect-root-4 MuiSelect-select-5 MuiSelect-selectMenu-8 MuiSelect-outlined-7 MuiInputBase-input-41 MuiOutlinedInput-input-25 MuiInputBase-inputAdornedStart-45 MuiOutlinedInput-inputAdornedStart-28"
       role="button"
       tabindex="0"
     >
@@ -153,13 +153,13 @@ exports[`GasWidget Renders correctly 1`] = `
     </div>
     <input
       aria-hidden="true"
-      class="MuiSelect-nativeInput-13"
+      class="MuiSelect-nativeInput-14"
       tabindex="-1"
       value="standard"
     />
     <svg
       aria-hidden="true"
-      class="MuiSvgIcon-root-47 MuiSelect-icon-9 MuiSelect-iconOutlined-12"
+      class="MuiSvgIcon-root-48 MuiSelect-icon-10 MuiSelect-iconOutlined-13"
       focusable="false"
       viewBox="0 0 24 24"
     >
@@ -169,11 +169,11 @@ exports[`GasWidget Renders correctly 1`] = `
     </svg>
     <fieldset
       aria-hidden="true"
-      class="PrivateNotchedOutline-root-60 MuiOutlinedInput-notchedOutline-23"
+      class="PrivateNotchedOutline-root-61 MuiOutlinedInput-notchedOutline-24"
       style="padding-left: 8px;"
     >
       <legend
-        class="PrivateNotchedOutline-legend-61"
+        class="PrivateNotchedOutline-legend-62"
         style="width: 0.01px;"
       >
         <span>
