@@ -362,7 +362,7 @@ export const getStrategies = (network: ChainNetwork): StrategyNetworkConfig => {
 					address: ethDeploy.sett_system.strategies['native.tricrypto2'],
 					fees: {
 						[StrategyFee.daoPerformance]: new BigNumber(2000),
-						[StrategyFee.withdraw]: new BigNumber(20),
+						[StrategyFee.withdraw]: new BigNumber(50),
 					},
 					strategyLink: 'https://badger.wiki/strategies#d5806054c232432e8e8a1d75ae329bf8',
 					userGuide:
