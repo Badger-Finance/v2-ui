@@ -7,6 +7,7 @@ import { useEffect } from 'react';
 import { ONE_MIN_MS } from 'config/constants';
 import { useContext } from 'react';
 import { StoreContext } from 'mobx/store-context';
+import AppNotification from 'components-v2/common/AppNotification';
 
 const useStyles = makeStyles(() => ({
 	root: {
@@ -34,6 +35,7 @@ export const App = (): JSX.Element => {
 			<Sidebar />
 			<Header />
 			<main className={classes.content}>
+				<AppNotification />
 				<MobxRouter store={store} />
 			</main>
 		</div>

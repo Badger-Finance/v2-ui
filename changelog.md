@@ -1,5 +1,10 @@
 # v2 UI Changelog
 
+### Hotfix - 09/22/2021
+
+-   Add network specific message support
+-   Fix wallet connect (and other rpc wallet) connection issues
+
 ### Hotfix - 09/16/2021
 
 -   Add curve ren and tricrypto vaults
