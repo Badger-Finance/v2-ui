@@ -32,6 +32,9 @@ export abstract class Network {
 	readonly strategies: StrategyNetworkConfig;
 	readonly airdrops: AirdropNetworkConfig[];
 	readonly sidebarTokenLinks: SidebarLink[];
+	// TODO: stop gap implementation for API messaging system - remove once available
+	readonly notification?: string;
+	readonly notificationLink?: string;
 
 	constructor(
 		explorer: string,
@@ -42,6 +45,8 @@ export abstract class Network {
 		currency: Currency,
 		deploy: DeployConfig,
 		setts: BadgerSett[],
+		notification?: string,
+		notificationLink?: string,
 	) {
 		this.rpc = rpc[symbol];
 		this.gasProviderUrl = gasProviderUrl;
@@ -55,6 +60,8 @@ export abstract class Network {
 		this.strategies = getStrategies(symbol);
 		this.airdrops = getAirdrops(symbol);
 		this.sidebarTokenLinks = sidebarTokenLinks(symbol);
+		this.notification = notification;
+		this.notificationLink = notificationLink;
 		Network.register(this);
 	}
 
