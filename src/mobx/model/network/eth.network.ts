@@ -24,6 +24,7 @@ export class Ethereum extends Network {
 			ethSettDefinitions,
 		);
 	}
+	
 
 	get settOrder(): string[] {
 		return [
