@@ -3,4 +3,6 @@ export interface ExchangeRates {
 	cad: number;
 	btc: number;
 	bnb: number;
+	matic: number;
+	xdai: number;
 }

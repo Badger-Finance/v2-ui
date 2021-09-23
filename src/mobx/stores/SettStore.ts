@@ -2,7 +2,6 @@ import { extendObservable, action, observe, IValueDidChange } from 'mobx';
 import slugify from 'slugify';
 import { RootStore } from '../RootStore';
 import { getTokens, getTotalValueLocked, listSetts } from 'mobx/utils/apiV2';
-import { NETWORK_LIST } from 'config/constants';
 import Web3 from 'web3';
 import { Token } from 'mobx/model/tokens/token';
 import { TokenCache } from '../model/tokens/token-cache';
@@ -14,6 +13,12 @@ import { Sett } from '../model/setts/sett';
 import { SettMap } from '../model/setts/sett-map';
 import { ProtocolSummary } from '../model/system-config/protocol-summary';
 import { NetworkStore } from './NetworkStore';
+import { ChainNetwork } from '../../config/enums/chain-network.enum';
+import { TokenBalances } from 'mobx/model/account/user-balances';
+import { CallResult } from 'web3/interface/call-result';
+import BigNumber from 'bignumber.js';
+import { TokenBalance } from 'mobx/model/tokens/token-balance';
+import { getToken } from 'web3/config/token-config';
 
 const formatSettListItem = (sett: Sett): [string, Sett] => {
 	const sanitizedSettName = sett.name.replace(/\/+/g, '-'); // replace "/" with "-"
@@ -28,6 +33,7 @@ export default class SettStore {
 	private settCache: SettCache;
 	private protocolSummaryCache: ProtocolSummaryCache;
 	public initialized: boolean;
+	public availableBalances: TokenBalances = {};
 
 	constructor(store: RootStore) {
 		this.store = store;
@@ -38,6 +44,7 @@ export default class SettStore {
 			settCache: undefined,
 			priceCache: undefined,
 			initialized: false,
+			availableBalances: this.availableBalances,
 		});
 
 		observe(this.store.network, 'currentBlock', async (change: IValueDidChange<number | undefined>) => {
@@ -128,8 +135,7 @@ export default class SettStore {
 	}
 
 	loadSetts = action(
-		async (chain?: string): Promise<void> => {
-			chain = chain ?? NETWORK_LIST.ETH;
+		async (chain = ChainNetwork.Ethereum): Promise<void> => {
 			const settList = await listSetts(chain);
 
 			if (settList) {
@@ -141,8 +147,7 @@ export default class SettStore {
 	);
 
 	loadTokens = action(
-		async (chain?: string): Promise<void> => {
-			chain = chain ?? NETWORK_LIST.ETH;
+		async (chain = ChainNetwork.Ethereum): Promise<void> => {
 			const tokenConfig = await getTokens(chain);
 			if (tokenConfig) {
 				this.tokenCache[chain] = tokenConfig;
@@ -153,8 +158,7 @@ export default class SettStore {
 	);
 
 	loadAssets = action(
-		async (chain?: string): Promise<void> => {
-			chain = chain ?? NETWORK_LIST.ETH;
+		async (chain = ChainNetwork.Ethereum): Promise<void> => {
 			const protocolSummary = await getTotalValueLocked(chain);
 			if (protocolSummary) {
 				this.protocolSummaryCache[chain] = protocolSummary;
@@ -163,4 +167,24 @@ export default class SettStore {
 			}
 		},
 	);
+
+	updateAvailableBalance = (sett: CallResult): void => {
+		const { prices } = this.store;
+		const balanceResults = sett.available;
+		const settAddress = sett.address;
+		if (!balanceResults || balanceResults.length === 0 || !settAddress) {
+			return;
+		}
+		const settToken = getToken(settAddress);
+		if (!settToken) {
+			return;
+		}
+		const balance = new BigNumber(balanceResults[0].value);
+		if (!balance || balance.isNaN()) {
+			return;
+		}
+		const tokenPrice = prices.getPrice(settAddress);
+		const key = Web3.utils.toChecksumAddress(settAddress);
+		this.availableBalances[key] = new TokenBalance(settToken, balance, tokenPrice);
+	};
 }

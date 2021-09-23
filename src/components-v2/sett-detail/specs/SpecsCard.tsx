@@ -1,15 +1,14 @@
 import React from 'react';
 import { Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-
 import { BadgerSett } from '../../../mobx/model/vaults/badger-sett';
-import { Value } from './Value';
 import { Tokens } from './Tokens';
 import { Claims } from './Claims';
 import { Sett } from '../../../mobx/model/setts/sett';
-import { Links } from './Links';
+import SettDetailLinks from './SettDetailLinks';
 import { Fees } from './Fees';
 import { CardContainer } from '../styled';
+import SettMetrics from './SettMetrics';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -27,13 +26,13 @@ interface Props {
 	badgerSett: BadgerSett;
 }
 
-export const SpecsCard = ({ sett, badgerSett }: Props): JSX.Element => {
+const SpecsCard = ({ sett, badgerSett }: Props): JSX.Element => {
 	const classes = useStyles();
 
 	return (
 		<CardContainer className={classes.root}>
 			<Grid item xs className={classes.specSection}>
-				<Value settValue={sett.value} />
+				<SettMetrics sett={sett} />
 			</Grid>
 			<Grid item xs className={classes.specSection}>
 				<Tokens sett={sett} />
@@ -45,8 +44,10 @@ export const SpecsCard = ({ sett, badgerSett }: Props): JSX.Element => {
 				<Fees sett={sett} />
 			</Grid>
 			<Grid item xs>
-				<Links sett={sett} badgerSett={badgerSett} />
+				<SettDetailLinks sett={sett} badgerSett={badgerSett} />
 			</Grid>
 		</CardContainer>
 	);
 };
+
+export default SpecsCard;

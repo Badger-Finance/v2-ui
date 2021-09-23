@@ -1,6 +1,6 @@
 import React from 'react';
-import { Grid, makeStyles, Typography } from '@material-ui/core';
-import { SpecsCard } from './specs/SpecsCard';
+import { Grid, makeStyles } from '@material-ui/core';
+import SpecsCard from './specs/SpecsCard';
 import { ChartsCard } from './charts/ChartsCard';
 import { Holdings } from './holdings/Holdings';
 import { Sett } from '../../mobx/model/setts/sett';
@@ -58,15 +58,12 @@ export const MainContent = observer(
 						/>
 					</Grid>
 				)}
-				<Grid container>
-					<Typography className={classes.settInfoTitle}>Sett Vault Info</Typography>
-				</Grid>
 				<Grid container spacing={1} className={classes.cardsContainer}>
 					<Grid item xs={12} md={4} lg={3}>
 						<SpecsCard sett={sett} badgerSett={badgerSett} />
 					</Grid>
 					<Grid item xs={12} md={8} lg={9}>
-						<ChartsCard sett={sett} settBalance={settBalance} />
+						<ChartsCard sett={sett} />
 					</Grid>
 				</Grid>
 				{sett.state === SettState.Guarded && (

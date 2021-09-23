@@ -1,4 +1,6 @@
 import { TransactionData } from 'bnc-notify';
+import { ChainNetwork } from 'config/enums/chain-network.enum';
+import { Currency } from 'config/enums/currency.enum';
 import rpc from 'config/rpc.config';
 import { getAirdrops } from 'config/system/airdrops';
 import { getStrategies } from 'config/system/strategies';
@@ -19,27 +21,35 @@ export abstract class Network {
 	private static idToNetwork: Record<number, Network> = {};
 	private static symbolToNetwork: Record<string, Network> = {};
 	readonly rpc: string;
+	readonly gasProviderUrl: string;
 	readonly explorer: string;
 	readonly name: string;
-	readonly symbol: string;
+	readonly symbol: ChainNetwork;
 	readonly id: number;
-	readonly currency: string;
+	readonly currency: Currency;
 	readonly deploy: DeployConfig;
 	readonly setts: BadgerSett[];
 	readonly strategies: StrategyNetworkConfig;
 	readonly airdrops: AirdropNetworkConfig[];
 	readonly sidebarTokenLinks: SidebarLink[];
+	// TODO: stop gap implementation for API messaging system - remove once available
+	readonly notification?: string;
+	readonly notificationLink?: string;
 
 	constructor(
 		explorer: string,
+		gasProviderUrl: string,
 		name: string,
-		symbol: string,
+		symbol: ChainNetwork,
 		id: number,
-		currency: string,
+		currency: Currency,
 		deploy: DeployConfig,
 		setts: BadgerSett[],
+		notification?: string,
+		notificationLink?: string,
 	) {
 		this.rpc = rpc[symbol];
+		this.gasProviderUrl = gasProviderUrl;
 		this.explorer = explorer;
 		this.name = name;
 		this.symbol = symbol;
@@ -50,6 +60,8 @@ export abstract class Network {
 		this.strategies = getStrategies(symbol);
 		this.airdrops = getAirdrops(symbol);
 		this.sidebarTokenLinks = sidebarTokenLinks(symbol);
+		this.notification = notification;
+		this.notificationLink = notificationLink;
 		Network.register(this);
 	}
 
@@ -66,7 +78,15 @@ export abstract class Network {
 		return Network.symbolToNetwork[symbol];
 	}
 
-	abstract updateGasPrices(): Promise<GasPrices>;
+	abstract updateGasPrices(): Promise<GasPrices | null>;
+
+	get hasBadgerTree(): boolean {
+		return !!this.deploy.badgerTree;
+	}
+
+	get badgerTree(): string {
+		return this.deploy.badgerTree;
+	}
 
 	get settOrder(): string[] {
 		return this.setts.map((s) => s.vaultToken.address);

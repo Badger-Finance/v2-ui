@@ -5,6 +5,7 @@ import { BadgerSett } from '../../mobx/model/vaults/badger-sett';
 import { SettBalance } from '../../mobx/model/setts/sett-balance';
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
 import BigNumber from 'bignumber.js';
+import { BouncerType } from 'mobx/model/setts/sett-bouncer';
 
 export const SAMPLE_BADGER_SETT: BadgerSett = {
 	depositToken: {
@@ -19,10 +20,12 @@ export const SAMPLE_BADGER_SETT: BadgerSett = {
 
 export const SAMPLE_SETT: Sett = {
 	asset: 'sBTCCRV',
+	vaultAsset: 'bsBTCCRV',
+	multipliers: [],
 	state: SettState.Open,
 	apr: 0.123456789123454,
 	balance: 2580.4779797767615,
-	hasBouncer: false,
+	bouncer: BouncerType.None,
 	boostable: true,
 	name: 'Curve.fi renBTC/wBTC/sBTC',
 	ppfs: 1.0082389531413567,

@@ -45,7 +45,7 @@ const getReadMethods = (namespace: ContractNamespace, userAddress: string): Read
 		case ContractNamespace.Geyser:
 			return [{ name: 'totalStakedFor', args: [userAddress] }];
 		case ContractNamespace.GaurdedSett:
-			return [{ name: 'balanceOf', args: [userAddress] }, { name: 'guestList' }];
+			return [{ name: 'balanceOf', args: [userAddress] }, { name: 'guestList' }, { name: 'available' }];
 		case ContractNamespace.GuestList:
 			return [
 				{ name: 'remainingTotalDepositAllowed' },
@@ -54,6 +54,7 @@ const getReadMethods = (namespace: ContractNamespace, userAddress: string): Read
 				{ name: 'userDepositCap' },
 			];
 		case ContractNamespace.Sett:
+			return [{ name: 'balanceOf', args: [userAddress] }, { name: 'available' }];
 		case ContractNamespace.Token:
 		default:
 			return [{ name: 'balanceOf', args: [userAddress] }];
@@ -66,13 +67,18 @@ export const createChainBatchConfig = (
 	guardedSettAddresses: string[],
 	geyserAddresses: string[],
 	userAddress: string,
+	nonSettTokenAddresses?: string[],
 ): BatchCallRequest[] => {
-	return [
+	const batchCall = [
 		createBatchCallRequest(tokenAddresses, ContractNamespace.Token, userAddress),
 		createBatchCallRequest(generalSettAddresses, ContractNamespace.Sett, userAddress),
 		createBatchCallRequest(guardedSettAddresses, ContractNamespace.GaurdedSett, userAddress),
 		createBatchCallRequest(geyserAddresses, ContractNamespace.Geyser, userAddress),
 	];
+	if (!!nonSettTokenAddresses) {
+		batchCall.push(createBatchCallRequest(nonSettTokenAddresses, ContractNamespace.NonSettToken, userAddress));
+	}
+	return batchCall;
 };
 
 export const toSettConfig = (definitions: BadgerSett[]): BadgerSett[] => {

@@ -1,9 +1,11 @@
 import { makeStyles, Typography } from '@material-ui/core';
+import BigNumber from 'bignumber.js';
 import { Loader } from 'components/Loader';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from 'mobx/store-context';
 import React, { useContext } from 'react';
 import Web3 from 'web3';
+import { ContractNamespace } from 'web3/config/contract-namespace';
 import NoVaults from './NoVaults';
 import SettListItem from './SettListItem';
 import { SettListViewProps } from './SettListView';
@@ -24,6 +26,7 @@ const SettListDisplay = observer((props: SettListViewProps) => {
 		setts,
 		uiState: { period, currency },
 		network: { network },
+		user,
 	} = store;
 
 	const currentSettMap = setts.getSettMap(state);
@@ -43,12 +46,27 @@ const SettListDisplay = observer((props: SettListViewProps) => {
 	const settListItems = network.settOrder
 		.map((contract) => {
 			const sett = currentSettMap[Web3.utils.toChecksumAddress(contract)];
+			const badgerSett = network.setts.find((sett) => sett.vaultToken.address === contract);
 
-			if (!sett) {
+			if (!sett || !badgerSett) {
 				return;
 			}
 
-			return <SettListItem sett={sett} key={sett.name} currency={currency} period={period} />;
+			// inject user balance information to enable withdraw buttun functionality
+			const scalar = new BigNumber(sett.ppfs);
+			const generalBalance = user.getBalance(ContractNamespace.Sett, badgerSett).scale(scalar, true);
+			const guardedBalance = user.getBalance(ContractNamespace.GaurdedSett, badgerSett).scale(scalar, true);
+			const settBalance = generalBalance ?? guardedBalance;
+
+			return (
+				<SettListItem
+					sett={sett}
+					key={sett.name}
+					currency={currency}
+					period={period}
+					balance={settBalance.balance}
+				/>
+			);
 		})
 		.filter(Boolean);
 

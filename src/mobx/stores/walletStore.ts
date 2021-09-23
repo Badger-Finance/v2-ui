@@ -2,12 +2,14 @@ import { extendObservable, action } from 'mobx';
 import Onboard from 'bnc-onboard';
 import Notify from 'bnc-notify';
 import BigNumber from 'bignumber.js';
-import { onboardWalletCheck, getOnboardWallets } from '../../config/wallets';
+import { onboardWalletCheck, getOnboardWallets, isRpcWallet } from '../../config/wallets';
 import { RootStore } from 'mobx/RootStore';
 import { API } from 'bnc-onboard/dist/src/interfaces';
 import { API as NotifyAPI } from 'bnc-notify';
 import { getNetworkFromProvider } from 'mobx/utils/helpers';
 import { Network } from 'mobx/model/network/network';
+import { BLOCKNATIVE_API_KEY } from 'config/constants';
+import Web3 from 'web3';
 
 class WalletStore {
 	private store: RootStore;
@@ -20,7 +22,7 @@ class WalletStore {
 		this.store = store;
 
 		const onboardOptions: any = {
-			dappId: 'af74a87b-cd08-4f45-83ff-ade6b3859a07',
+			dappId: BLOCKNATIVE_API_KEY,
 			networkId: this.store.network.network.id,
 			darkMode: true,
 			subscriptions: {
@@ -38,7 +40,7 @@ class WalletStore {
 		const onboard = Onboard(onboardOptions);
 
 		const notifyOptions: any = {
-			dappId: 'af74a87b-cd08-4f45-83ff-ade6b3859a07',
+			dappId: BLOCKNATIVE_API_KEY,
 			networkId: this.store.network.network.id,
 		};
 		const notify = Notify(notifyOptions);
@@ -96,7 +98,7 @@ class WalletStore {
 				return;
 			}
 			this.onboard.walletReset();
-			this.setProvider(null);
+			this.setProvider(null, '');
 			this.setAddress('');
 			window.localStorage.removeItem('selectedWallet');
 		} catch (err) {
@@ -107,7 +109,7 @@ class WalletStore {
 	connect = action((wsOnboard: any) => {
 		this.onboard = wsOnboard;
 		const walletState = wsOnboard.getState();
-		this.setProvider(walletState.wallet.provider);
+		this.setProvider(walletState.wallet.provider, walletState.wallet.name);
 		this.setAddress(walletState.address);
 	});
 
@@ -120,8 +122,12 @@ class WalletStore {
 		return getNetworkFromProvider(this.provider);
 	}
 
-	setProvider = action((provider: any) => {
-		this.provider = provider;
+	setProvider = action((provider: any, walletName: string) => {
+		if (isRpcWallet(walletName)) {
+			this.provider = new Web3.providers.HttpProvider(this.store.network.network.rpc);
+		} else {
+			this.provider = provider;
+		}
 		this.store.network.getCurrentBlock();
 	});
 
@@ -139,7 +145,7 @@ class WalletStore {
 	);
 
 	cacheWallet = action((wallet: any) => {
-		this.setProvider(wallet.provider);
+		this.setProvider(wallet.provider, wallet.name);
 		window.localStorage.setItem('selectedWallet', wallet.name);
 	});
 

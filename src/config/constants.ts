@@ -6,12 +6,17 @@ import importedGeyser from '../config/system/abis/BadgerGeyser.json';
 import importedBscErc20 from '../config/system/abis/BscErc20.json';
 import importedYearnSett from '../config/system/abis/YearnWrapper.json';
 import importedGuestList from '../config/system/abis/GuestList.json';
-import { tokens, sett_system, digg_system } from './deployments/mainnet.json';
 import { AbiItem } from 'web3-utils';
 import { PartialAttemptOptions } from '@lifeomic/attempt';
-import { ClaimsSymbols } from 'mobx/model/rewards/claims-symbols';
 import { BurnAndReleaseStatus } from '@renproject/ren/build/main/burnAndRelease';
 import { DepositStatus } from '@renproject/ren/build/main/lockAndMint';
+import { ChainNetwork } from './enums/chain-network.enum';
+import { Currency } from './enums/currency.enum';
+
+/* App Configurations */
+
+export const DEFAULT_CURRENCY = Currency.USD;
+export const DEFAULT_NETWORK = ChainNetwork.Ethereum;
 
 export const burnStatusDict: Record<BurnAndReleaseStatus, string> = {
 	pending: 'Transaction Pending.',
@@ -43,38 +48,13 @@ export const RPC_WALLETS: { [index: string]: boolean } = {
 	lattice: true,
 };
 
-export enum NETWORK_LIST {
-	ETH = 'eth',
-	BSC = 'bsc',
-	MATIC = 'matic',
-	XDAI = 'xdai',
-}
-
 export enum NETWORK_IDS {
 	ETH = 1,
 	BSC = 56,
 	MATIC = 137,
 	XDAI = 100,
+	ARB = 42161,
 }
-
-export const CLAIMS_SYMBOLS: ClaimsSymbols = {
-	[NETWORK_LIST.BSC]: {},
-	[NETWORK_LIST.ETH]: {
-		[tokens.farm]: 'Farm',
-		[tokens.xsushi]: 'xSushi',
-		[tokens.usdc]: 'USDC',
-		[tokens.badger]: 'Badger',
-		[tokens.digg]: 'Digg',
-		[sett_system.vaults['native.badger']]: 'bBadger',
-		[sett_system.vaults['native.digg']]: 'bDigg',
-		[tokens.defiDollar]: 'Defi Dollar',
-		[sett_system.vaults['native.cvx']]: 'bCVX',
-		[sett_system.vaults['native.cvxCrv']]: 'bcvxCRV',
-		[digg_system.DROPT['DROPT-3'].longToken]: 'DROPT-3',
-	},
-	[NETWORK_LIST.MATIC]: {},
-	[NETWORK_LIST.XDAI]: {},
-};
 
 export const CONTACT_EMAIL = 'hello@badger.finance';
 export const ERC20 = importedErc20;
@@ -88,13 +68,15 @@ export const APP_NAME = 'badgerDAO';
 export const PORTIS_APP_ID = 'cbf7534d-170d-4903-943f-e607dc588b7f';
 export const EMPTY_DATA = '0x';
 export const ZERO_CURRENCY = '0.00000';
-export const SITE_VERSION = 'v2.9.0';
+export const SITE_VERSION = 'v2.9.3';
 export const WC_BRIDGE = 'https://wc-bridge.badger.finance/';
 export const REN_FEES_ENDPOINT = 'https://lightnode-mainnet.herokuapp.com/ren_queryBlockState';
+export const BLOCKNATIVE_API_KEY = 'af74a87b-cd08-4f45-83ff-ade6b3859a07';
 
 export const ZERO = new BigNumber(0);
 export const TEN = new BigNumber(10);
 export const MAX = Web3.utils.toTwosComplement(-1);
+export const MAX_FEE = 1e4;
 
 export const CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS = '0x93054188d876f558f4a66B2EF1d97d16eDf0895B';
 export const RENVM_GATEWAY_ADDRESS = '0xe4b679400F0f267212D5D812B95f58C83243EE71';

@@ -2,7 +2,6 @@ import { Backdrop, Button, ButtonGroup, Fade, Grid, Modal, Typography } from '@m
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import BigNumber from 'bignumber.js';
 import { Loader } from 'components/Loader';
-import { CLAIMS_SYMBOLS } from 'config/constants';
 import { observer } from 'mobx-react-lite';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { StoreContext } from 'mobx/store-context';
@@ -95,10 +94,10 @@ export interface RewardsModalProps {
 export const RewardsModal = observer((): JSX.Element | null => {
 	const classes = useStyles();
 	const store = useContext(StoreContext);
+	const { setts } = store;
 	const { badgerTree, claimGeysers, loadingRewards } = store.rewards;
 	const { currency } = store.uiState;
 	const { connectedAddress } = store.wallet;
-	const { network } = store.network;
 
 	const [open, setOpen] = useState(false);
 	const [maxFlag, setMaxFlag] = useState(true);
@@ -158,10 +157,11 @@ export const RewardsModal = observer((): JSX.Element | null => {
 	const claimableValue = badgerTree.claims.reduce((total, balance) => total.plus(balance.value), new BigNumber(0));
 	const claimItems = badgerTree.claims
 		.filter((claim) => {
-			// BANDAID - fix root cause of badger tree not updating in correct order
-			if (!CLAIMS_SYMBOLS[network.symbol]) {
+			const tokenDefinition = setts.getToken(claim.token.address);
+			if (!tokenDefinition) {
 				return false;
 			}
+			claim.token.symbol = tokenDefinition.symbol;
 			const entry = claimMap[claim.token.address];
 			const claimable = maxBalances[claim.token.address];
 			return entry && claimable.balance.tokenBalance.gt(0);
@@ -179,7 +179,9 @@ export const RewardsModal = observer((): JSX.Element | null => {
 					display={currentClaim.balanceDisplay(5)}
 					value={currentClaim.balanceValueDisplay(currency)}
 					address={token.address}
-					symbol={CLAIMS_SYMBOLS[network.symbol][token.address]}
+					// symbol is explicitly set (or returned) in previous block
+					// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+					symbol={token.symbol!}
 					onChange={handleClaimMap}
 					maxFlag={isMaxed(token.address)}
 				/>
@@ -195,12 +197,12 @@ export const RewardsModal = observer((): JSX.Element | null => {
 			canSubmit = false;
 		}
 	});
-	const hasRewards = claimableValue.gt(0);
+	const hasRewards = claimItems.length > 0;
 	return (
 		<div className={classes.claimContainer}>
 			{hasRewards && (
 				<Typography variant="caption" className={classes.amountDisplay}>
-					{inCurrency(claimableValue, currency, true, 2)} in Rewards
+					{inCurrency(claimableValue, currency)} in Rewards
 				</Typography>
 			)}
 			<ButtonGroup className={classes.openModalButton} size="small" variant="outlined" color="primary">

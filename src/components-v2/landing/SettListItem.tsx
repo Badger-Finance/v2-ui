@@ -5,8 +5,7 @@ import { observer } from 'mobx-react-lite';
 import BigNumber from 'bignumber.js';
 
 import { Sett } from '../../mobx/model/setts/sett';
-import { ContractNamespace } from '../../web3/config/contract-namespace';
-import { usdToCurrency } from 'mobx/utils/helpers';
+import { inCurrency } from 'mobx/utils/helpers';
 import CurrencyDisplay from '../common/CurrencyDisplay';
 import { SettActionButtons } from '../common/SettActionButtons';
 import { SettItemName } from './SettItemName';
@@ -16,6 +15,7 @@ import { StoreContext } from 'mobx/store-context';
 import routes from '../../config/routes';
 import { SettDeposit } from '../common/dialogs/SettDeposit';
 import { SettWithdraw } from '../common/dialogs/SettWithdraw';
+import { Currency } from 'config/enums/currency.enum';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -69,15 +69,15 @@ const useStyles = makeStyles((theme) => ({
 
 export interface SettListItemProps {
 	sett: Sett;
-	balance?: string;
+	balance?: BigNumber;
 	balanceValue?: string;
 	accountView?: boolean;
-	currency: string;
+	currency: Currency;
 	period: string;
 }
 
 const SettListItem = observer(
-	({ sett, balanceValue, currency, period, accountView = false }: SettListItemProps): JSX.Element => {
+	({ sett, balance, balanceValue, currency, period, accountView = false }: SettListItemProps): JSX.Element => {
 		const { user, network, router, wallet } = useContext(StoreContext);
 		const [openDepositDialog, setOpenDepositDialog] = useState(false);
 		const [openWithdrawDialog, setOpenWithdrawDialog] = useState(false);
@@ -87,11 +87,12 @@ const SettListItem = observer(
 		const divisor = period === 'month' ? 12 : 1;
 		const badgerSett = network.network.setts.find(({ vaultToken }) => vaultToken.address === sett?.vaultToken);
 
-		const displayValue = balanceValue ? balanceValue : usdToCurrency(new BigNumber(sett.value), currency);
+		const displayValue = balanceValue ? balanceValue : inCurrency(new BigNumber(sett.value), currency);
 		const multiplier = !sett.deprecated ? user.accountDetails?.multipliers[sett.vaultToken] : undefined;
 
-		const canWithdraw = badgerSett ? user.getBalance(ContractNamespace.Sett, badgerSett).balance.gt(0) : false;
-		const isDisabled = sett.hasBouncer && !user.viewSettShop();
+		const canWithdraw = balance ? balance.gt(0) : false;
+		// sett is disabled if they are internal setts, or have a bouncer and use has no access
+		const isDisabled = !user.onGuestList(sett);
 
 		const goToSettDetail = async () => {
 			await router.goTo(routes.settDetails, { settName: sett.slug, accountView });
@@ -110,7 +111,7 @@ const SettListItem = observer(
 							</Typography>
 						</Grid>
 						<Grid item xs={6} md>
-							<SettItemApr sett={sett} divisor={isDisabled ? 1 : divisor} />
+							<SettItemApr sett={sett} divisor={isDisabled ? 1 : divisor} multiplier={multiplier} />
 							{multiplier !== undefined && (
 								<SettItemUserApr sett={sett} divisor={divisor} multiplier={multiplier} />
 							)}
@@ -126,7 +127,7 @@ const SettListItem = observer(
 					</Grid>
 					<Grid item xs={12} md className={classes.nonClickableSection}>
 						<SettActionButtons
-							isWithdrawDisabled={!canWithdraw || !wallet.connectedAddress || isDisabled}
+							isWithdrawDisabled={!wallet.connectedAddress || !canWithdraw}
 							isDepositDisabled={!wallet.connectedAddress || isDisabled}
 							onWithdrawClick={() => setOpenWithdrawDialog(true)}
 							onDepositClick={() => setOpenDepositDialog(true)}

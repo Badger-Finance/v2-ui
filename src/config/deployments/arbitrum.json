@@ -1,0 +1,28 @@
+{
+	"token": "0xBfa641051Ba0a0Ad1b0AcF549a89536A0D76472E",
+	"tokens": {
+		"badger": "0xBfa641051Ba0a0Ad1b0AcF549a89536A0D76472E",
+		"sushi": "0xd4d42F0b6DEF4CE0383636770eF773390d85c61A",
+		"sushi.WETH-SUSHI": "0x3221022e37029923aCe4235D812273C5A42C322d",
+		"sushi.WETH-WBTC": "0x515e252b2b5c22b4b2b6Df66c2eBeeA871AA4d69",
+		"crv.wbtcRen": "0x3e01dd8a5e1fb3481f0f589056b428fc308af0fb",
+		"crv.tricrypto": "0x8e0b8c8bb9db49a46697f3a5bb8a308e744821d2",
+		"crv": "0x11cDb42B0EB46D95f990BeDD4695A6e3fA034978"
+	},
+	"geysers": {},
+	"sett_system": {
+		"vaults": {
+			"native.sushiWethSushi": "0xe774D1FB3133b037AA17D39165b8F45f444f632d",
+			"native.sushiWethWbtc": "0xFc13209cAfE8fb3bb5fbD929eC9F11a39e8Ac041",
+			"native.crvWbtcRen": "0xBA418CDdd91111F5c1D1Ac2777Fa8CEa28D71843",
+			"native.tricrypto": "0x4591890225394BF66044347653e112621AF7DDeb"
+		},
+		"strategies": {
+			"native.sushiWethSushi": "0x86f772C82914f5bFD168f99e208d0FC2C371e9C2",
+			"native.sushiWethWbtc": "0xA6827f0f14D0B83dB925B616d820434697328c22",
+			"native.crvWbtcRen": "0x4C5d19Da5EaeC298B79879a5f7481bEDE055F4F8",
+			"native.tricrypto": "0xE83A790fC3B7132fb8d7f8d438Bc5139995BF5f4"
+		}
+	},
+	"badgerTree": "0x635EB2C39C75954bb53Ebc011BDC6AfAAcE115A6"
+}

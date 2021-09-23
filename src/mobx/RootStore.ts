@@ -41,6 +41,7 @@ export class RootStore {
 		this.router = new RouterStore<RootStore>(this);
 		this.network = new NetworkStore(this);
 		this.wallet = new WalletStore(this);
+		this.prices = new PricesStore(this);
 		this.contracts = new ContractsStore(this);
 		this.airdrops = new AirdropStore(this);
 		this.rebase = new RebaseStore(this);
@@ -53,7 +54,6 @@ export class RootStore {
 		this.setts = new SettStore(this);
 		this.user = new UserStore(this);
 		this.leaderBoard = new LeaderBoardStore(this);
-		this.prices = new PricesStore(this);
 		this.settDetail = new SettDetailStore(this);
 		this.settCharts = new SettChartsStore(this);
 	}
@@ -65,15 +65,21 @@ export class RootStore {
 
 		const { network } = this.network;
 		this.rewards.resetRewards();
+
 		const refreshData = [
 			this.setts.loadAssets(network.symbol),
 			this.network.updateGasPrices(),
 			this.setts.loadSetts(network.symbol),
 		];
+
 		if (network.id === NETWORK_IDS.ETH) {
 			refreshData.push(this.rebase.fetchRebaseStats());
+		}
+
+		if (network.hasBadgerTree) {
 			refreshData.push(this.rewards.loadTreeData());
 		}
+
 		await Promise.all(refreshData);
 
 		if (this.wallet.connectedAddress) {

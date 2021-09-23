@@ -1,3 +1,4 @@
+import { Currency } from 'config/enums/currency.enum';
 import { defaultNetwork } from 'config/networks.config';
 import { isRpcWallet } from 'config/wallets';
 import { action, extendObservable, observe } from 'mobx';
@@ -9,7 +10,7 @@ import Web3 from 'web3';
 export class NetworkStore {
 	private store: RootStore;
 	public network: Network;
-	public gasPrices: GasPrices;
+	public gasPrices: GasPrices | null;
 	public currentBlock: number;
 
 	constructor(store: RootStore) {
@@ -26,7 +27,7 @@ export class NetworkStore {
 
 		observe(this, 'network', async () => {
 			// whenever network changes reset currency back to default usd
-			this.store.uiState.currency = 'usd';
+			this.store.uiState.currency = Currency.USD;
 			await this.updateGasPrices();
 		});
 	}

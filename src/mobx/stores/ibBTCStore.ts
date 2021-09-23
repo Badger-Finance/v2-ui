@@ -4,7 +4,7 @@ import BigNumber from 'bignumber.js';
 import { ContractSendMethod } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
 import Web3 from 'web3';
-import { ZERO, MAX, ERC20_ABI, NETWORK_LIST } from 'config/constants';
+import { ZERO, MAX, ERC20_ABI } from 'config/constants';
 import settConfig from 'config/system/abis/Sett.json';
 import ibBTCConfig from 'config/system/abis/ibBTC.json';
 import addresses from 'config/ibBTC/addresses.json';
@@ -15,6 +15,7 @@ import { getNetworkFromProvider } from 'mobx/utils/helpers';
 import { IbbtcOptionToken } from '../model/tokens/ibbtc-option-token';
 import { ibBTCFees } from '../model/fees/ibBTCFees';
 import { DEBUG, FLAGS } from 'config/environment';
+import { ChainNetwork } from 'config/enums/chain-network.enum';
 
 interface MintAmountCalculation {
 	bBTC: BigNumber;
@@ -89,7 +90,7 @@ class IbBTCStore {
 		// M50: by default the network ID is set to ethereum.  We should check the provider to ensure the
 		// connected wallet is using ETH network, not the site.
 		const network = getNetworkFromProvider(this.store.wallet.provider);
-		if (this.initialized || network !== NETWORK_LIST.ETH) {
+		if (this.initialized || network !== ChainNetwork.Ethereum) {
 			return;
 		}
 
@@ -280,14 +281,15 @@ class IbBTCStore {
 		spender: string,
 		amount: BigNumber | string = MAX,
 	): Promise<void> {
-		const { queueNotification } = this.store.uiState;
+		const { queueNotification, gasPrice } = this.store.uiState;
 		const { connectedAddress } = this.store.wallet;
+		const { gasPrices } = this.store.network;
 		const method = this.getApprovalMethod(underlyingAsset, spender, amount);
 
 		queueNotification(`Sign the transaction to allow Badger to spend your ${underlyingAsset.symbol}`, 'info');
 
-		const gasPrice = this.store.network.gasPrices[this.store.uiState.gasPrice];
-		const options = await getSendOptions(method, connectedAddress, gasPrice);
+		const price = gasPrices ? gasPrices[gasPrice] : 0;
+		const options = await getSendOptions(method, connectedAddress, price);
 		await method
 			.send(options)
 			.on('transactionHash', (_hash: string) => {
@@ -398,10 +400,10 @@ class IbBTCStore {
 		successMessage: string,
 	): Promise<void> {
 		const { connectedAddress } = this.store.wallet;
-		const { queueNotification } = this.store.uiState;
-		const gasPrice = this.store.network.gasPrices[this.store.uiState.gasPrice];
-		const options = await getSendOptions(method, connectedAddress, gasPrice);
-
+		const { queueNotification, gasPrice } = this.store.uiState;
+		const { gasPrices } = this.store.network;
+		const price = gasPrices ? gasPrices[gasPrice] : 0;
+		const options = await getSendOptions(method, connectedAddress, price);
 		await method
 			.send(options)
 			.on('transactionHash', (_hash: string) => {

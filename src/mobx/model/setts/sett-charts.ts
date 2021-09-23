@@ -9,13 +9,14 @@ export interface SettChartData {
 }
 
 export enum ChartMode {
-	value = 'value',
-	ratio = 'ratio',
-	accountBalance = 'accountBalance',
+	Value = 'value',
+	Ratio = 'ratio',
+	AccountBalance = 'accountBalance',
+	BoostMultiplier = 'boostMultiplier',
 }
 
 export enum SettChartTimeframe {
-	'day' = 'day',
-	'week' = 'week',
-	'month' = 'month',
+	Day = 'day',
+	Week = 'week',
+	Month = 'month',
 }

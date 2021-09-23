@@ -84,7 +84,6 @@ const Landing = observer((props: LandingProps) => {
 
 	const {
 		wallet: { connectedAddress },
-		uiState: { currency },
 		network: { network },
 		setts,
 		prices,
@@ -114,15 +113,15 @@ const Landing = observer((props: LandingProps) => {
 					</div>
 				</Grid>
 				<Grid item xs={12} md={userConnected ? 4 : 6}>
-					<CurrencyInfoCard title="Total Value Locked" value={totalValueLocked} currency={currency} />
+					<CurrencyInfoCard title="Total Value Locked" value={totalValueLocked} />
 				</Grid>
 				{userConnected && (
 					<Grid item xs={12} md={4}>
-						<CurrencyInfoCard title="Your Portfolio" value={portfolioValue} currency={currency} />
+						<CurrencyInfoCard title="Your Portfolio" value={portfolioValue} />
 					</Grid>
 				)}
 				<Grid item xs={12} md={userConnected ? 4 : 6}>
-					<CurrencyInfoCard title="Badger Price" value={badgerPrice} currency={currency} />
+					<CurrencyInfoCard title="Badger Price" value={badgerPrice} />
 				</Grid>
 			</Grid>
 

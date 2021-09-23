@@ -39,7 +39,8 @@
 		"cvx": "0x4e3FBD56CD56c3e72c1403e103b45Db9da5B9D2B",
 		"cvxCRV": "0x62B9c7356A2Dc64a1969e19C23e4f579F9810Aa7",
 		"imBtc": "0x17d8cbb6bce8cee970a4027d1198f6700a7a6c24",
-		"fPmBtcHBtc": "0x48c59199Da51B7E30Ea200a74Ea07974e62C4bA7"
+		"fPmBtcHBtc": "0x48c59199Da51B7E30Ea200a74Ea07974e62C4bA7",
+		"DROPT-3": "0x68c269B60c58c4ed50c63B217BA0EC7f8a371920"
 	},
 	"logic": {
 		"SmartVesting": "0x07c0E4f4C977a29c46Fb26597ea8C9105ca50b42",
@@ -110,7 +111,8 @@
 			"native.tricryptoCrv": "0xBE08Ef12e4a553666291E9fFC24fCCFd354F2Dd2",
 			"native.tricryptoCrv2": "0x27E98fC7d05f54E544d16F58C194C2D7ba71e3B5",
 			"native.imBtc": "0x599D92B453C010b1050d31C364f6ee17E819f193",
-			"native.fPmBtcHBtc": "0x26B8efa69603537AC8ab55768b6740b67664D518"
+			"native.fPmBtcHBtc": "0x26B8efa69603537AC8ab55768b6740b67664D518",
+			"native.icvx": "0xfd05D3C7fe2924020620A8bE4961bBaA747e6305"
 		},
 		"strategies": {
 			"native.badger": "0x75b8E21BD623012Efb3b69E1B562465A68944eE6",
@@ -135,7 +137,8 @@
 			"native.cvxCrv": "0x826048381d65a65DAa51342C51d464428d301896",
 			"native.cvx": "0xBCee2c6CfA7A4e29892c3665f464Be5536F16D95",
 			"native.imBtc": "0xd409C506742b7f76f164909025Ab29A47e06d30A",
-			"native.fPmBtcHBtc": "0x54D06A0E1cE55a7a60Ee175AbCeaC7e363f603f3"
+			"native.fPmBtcHBtc": "0x54D06A0E1cE55a7a60Ee175AbCeaC7e363f603f3",
+			"native.icvx": "0x87fB47c2B9EB41d362BAb44F5Ec81514b6b1de13"
 		},
 		"strategy_artifacts": {
 			"native.badger": "StrategyBadgerRewards",

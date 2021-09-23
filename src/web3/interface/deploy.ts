@@ -11,6 +11,7 @@ export interface EthDeploy extends Deploy {
 
 export interface SettSystem {
 	vaults: { [name: string]: string };
+	strategies: { [name: string]: string };
 }
 
 export interface DiggSystem {
