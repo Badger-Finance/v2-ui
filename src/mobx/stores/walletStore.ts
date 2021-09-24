@@ -16,6 +16,7 @@ class WalletStore {
 	public onboard: API;
 	public notify: NotifyAPI;
 	public provider?: any | null;
+	public rpcProvider?: any | null;
 	public connectedAddress = '';
 
 	constructor(store: RootStore) {
@@ -59,6 +60,7 @@ class WalletStore {
 		this.onboard = onboard;
 		this.notify = notify;
 		this.provider = null;
+		this.rpcProvider = null;
 		this.init();
 	}
 
@@ -123,11 +125,16 @@ class WalletStore {
 	}
 
 	setProvider = action((provider: any, walletName: string) => {
-		if (isRpcWallet(walletName)) {
-			this.provider = new Web3.providers.HttpProvider(this.store.network.network.rpc);
-		} else {
-			this.provider = provider;
+		if (!provider) {
+			this.provider = null;
+			this.rpcProvider = null;
+			return;
 		}
+		if (isRpcWallet(walletName)) {
+			this.rpcProvider = new Web3.providers.HttpProvider(this.store.network.network.rpc);
+		}
+		this.provider = provider;
+
 		this.store.network.getCurrentBlock();
 	});
 

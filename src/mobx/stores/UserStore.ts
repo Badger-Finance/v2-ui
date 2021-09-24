@@ -48,7 +48,7 @@ export default class UserStore {
 
 	constructor(store: RootStore) {
 		this.store = store;
-		this.batchCall = new BatchCall({ web3: this.store.wallet.provider });
+		this.batchCall = new BatchCall({ web3: this.store.wallet.rpcProvider ?? this.store.wallet.provider });
 		this.loadingBalances = false;
 
 		extendObservable(this, {
@@ -110,7 +110,7 @@ export default class UserStore {
 	}
 
 	refreshProvider(): void {
-		const provider = this.store.wallet.provider;
+		const provider = this.store.wallet.rpcProvider ?? this.store.wallet.provider;
 		if (provider) {
 			const newOptions = {
 				web3: new Web3(provider),

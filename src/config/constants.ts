@@ -12,6 +12,7 @@ import { BurnAndReleaseStatus } from '@renproject/ren/build/main/burnAndRelease'
 import { DepositStatus } from '@renproject/ren/build/main/lockAndMint';
 import { ChainNetwork } from './enums/chain-network.enum';
 import { Currency } from './enums/currency.enum';
+import { Wallets } from './enums/wallets.enum';
 
 /* App Configurations */
 
@@ -41,11 +42,11 @@ export const depositStatusDict: Record<DepositStatus, string> = {
 };
 
 export const RPC_WALLETS: { [index: string]: boolean } = {
-	ledger: true,
-	WalletConnect: true,
-	walletLink: true,
-	trezor: true,
-	lattice: true,
+	[Wallets.Ledger]: true,
+	[Wallets.WalletConnect]: true,
+	[Wallets.WalletLink]: true,
+	[Wallets.Trezor]: true,
+	[Wallets.Portis]: true,
 };
 
 export enum NETWORK_IDS {
