@@ -81,7 +81,6 @@ export const sendContractMethod = async (
 	errorMessage?: string,
 ): Promise<void> => {
 	const queueNotification = store.uiState.queueNotification;
-
 	try {
 		await method
 			.send(options)
