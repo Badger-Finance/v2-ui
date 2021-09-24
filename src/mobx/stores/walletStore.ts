@@ -134,7 +134,6 @@ class WalletStore {
 			this.rpcProvider = new Web3.providers.HttpProvider(this.store.network.network.rpc);
 		}
 		this.provider = provider;
-		console.log('provider set:', this.provider, this.rpcProvider);
 
 		this.store.network.getCurrentBlock();
 	});
