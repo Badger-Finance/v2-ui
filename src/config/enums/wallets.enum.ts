@@ -1,8 +1,9 @@
 export enum Wallets {
 	WalletConnect = 'WalletConnect',
-	Ledger = 'ledger',
-	WalletLink = 'walletLink',
+	Ledger = 'Ledger',
+	WalletLink = 'WalletLink',
 	MetaMask = 'MetaMask',
-	Trezor = 'trezor',
-	Lattice = 'lattice',
+	Trezor = 'Trezor',
+	CoinbaseWallet = 'Coinbase Wallet',
+	Portis = 'Portis',
 }
