@@ -47,9 +47,11 @@ import { ChainNetwork } from 'config/enums/chain-network.enum';
 const DECIMALS = 10 ** 8;
 const SETT_DECIMALS = 10 ** 18;
 const WBTCLogo = '/assets/icons/wbtc.svg';
-const byvWBTCLogo = '/assets/icons/byvwbtc.svg';
+const byvWBTCLogo = '/assets/icons/bWBTC.svg';
 const renBTCLogo = '/assets/icons/renbtc.svg';
-const crvBTCLogo = '/assets/icons/bcrvrenwbtc.png';
+const crvrenBTCLogo = '/assets/icons/bcrvrenbtc.png';
+const crvsBTCLogo = '/assets/icons/bcrvsbtc.png';
+const crvtBTCLogo = '/assets/icons/bcrvtbtc.png';
 const btcLogo = '/assets/icons/btc.svg';
 
 const useStyles = makeStyles(() => ({
@@ -698,21 +700,21 @@ export const BridgeForm = observer(({ classes }: any) => {
 
 						<MenuItem value={'bCRVrenBTC'}>
 							<span className={classes.menuItem}>
-								<img src={crvBTCLogo} className={classes.logo} />
+								<img src={crvrenBTCLogo} className={classes.logo} />
 								<span>bCRVrenBTC</span>
 							</span>
 						</MenuItem>
 
 						<MenuItem value={'bCRVsBTC'}>
 							<span className={classes.menuItem}>
-								<img src={crvBTCLogo} className={classes.logo} />
+								<img src={crvsBTCLogo} className={classes.logo} />
 								<span>bCRVsBTC</span>
 							</span>
 						</MenuItem>
 
 						<MenuItem value={'bCRVtBTC'}>
 							<span className={classes.menuItem}>
-								<img src={crvBTCLogo} className={classes.logo} />
+								<img src={crvtBTCLogo} className={classes.logo} />
 								<span>bCRVtBTC</span>
 							</span>
 						</MenuItem>
@@ -753,21 +755,21 @@ export const BridgeForm = observer(({ classes }: any) => {
 
 						<MenuItem value={'bCRVrenBTC'}>
 							<span className={classes.menuItem}>
-								<img src={crvBTCLogo} className={classes.logo} />
+								<img src={crvrenBTCLogo} className={classes.logo} />
 								<span>bCRVrenBTC</span>
 							</span>
 						</MenuItem>
 
 						<MenuItem value={'bCRVsBTC'}>
 							<span className={classes.menuItem}>
-								<img src={crvBTCLogo} className={classes.logo} />
+								<img src={crvsBTCLogo} className={classes.logo} />
 								<span>bCRVsBTC</span>
 							</span>
 						</MenuItem>
 
 						<MenuItem value={'bCRVtBTC'}>
 							<span className={classes.menuItem}>
-								<img src={crvBTCLogo} className={classes.logo} />
+								<img src={crvtBTCLogo} className={classes.logo} />
 								<span>bCRVtBTC</span>
 							</span>
 						</MenuItem>
