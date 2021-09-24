@@ -52,19 +52,6 @@ export const getOnboardWallets = (chain: Network): WalletProviderInfo[] => {
 					email: CONTACT_EMAIL,
 					rpcUrl: rpc,
 				},
-				{
-					walletName: 'lattice',
-					rpcUrl: rpc,
-					appName: APP_NAME,
-				},
-				{ walletName: 'authereum' },
-				{ walletName: 'opera' },
-				{ walletName: 'operaTouch' },
-				{ walletName: 'torus' },
-				{ walletName: 'status' },
-				{ walletName: 'meetone' },
-				{ walletName: 'hyperpay' },
-				{ walletName: 'atoken' },
 			];
 	}
 };

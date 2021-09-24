@@ -1,5 +1,9 @@
 # v2 UI Changelog
 
+### Hotfix - 09/24/2021
+-   Remove App Notification
+-   Mobile wallet RPC fix
+
 ### Hotfix - 09/22/2021
 
 -   Add network specific message support
