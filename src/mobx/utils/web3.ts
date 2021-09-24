@@ -1,6 +1,5 @@
 import BigNumber from 'bignumber.js';
 import { DEBUG } from 'config/environment';
-import { isRpcWallet } from 'config/wallets';
 import { EIP1559GasPrices } from 'mobx/model/system-config/gas-prices';
 import { RootStore } from 'mobx/RootStore';
 import { ContractSendMethod, EstimateGasOptions, SendOptions } from 'web3-eth-contract';
@@ -82,49 +81,28 @@ export const sendContractMethod = async (
 	errorMessage?: string,
 ): Promise<void> => {
 	const queueNotification = store.uiState.queueNotification;
-	const walletState = store.wallet.onboard.getState();
-	const data = await method.encodeABI();
-	console.log('method and options', method, options);
 	try {
-		if (isRpcWallet(walletState.wallet.name)) {
-			console.log('rpc wallet data:', walletState);
-			const tx = await walletState.wallet.provider.send({
-				...options,
-				data: data,
-				to: method.arguments[0],
-				method: method._method.name,
+		await method
+			.send(options)
+			.on('transactionHash', (_hash: string) => {
+				queueNotification(txHashMessage, 'info', _hash);
+			})
+			.on('receipt', () => {
+				queueNotification(receiptMessage, 'success');
+				store.user.updateBalances();
+			})
+			.on('error', async (error: any) => {
+				// code -32602 means that the params for an EIP1559 transaction were invalid.
+				// Retry the transaction with legacy options.
+				if (error.code === -32602 && _isEIP1559SendOption(options)) {
+					const newOptions = { from: options.from, gas: options.gas, gasPrice: options.legacyGas };
+					console.log(newOptions);
+					queueNotification('EIP1559 not currently supported for Ledger or this network', 'warning');
+					await sendContractMethod(store, method, newOptions, txHashMessage, receiptMessage, errorMessage);
+				} else {
+					queueNotification(errorMessage ? errorMessage : error.message, 'error');
+				}
 			});
-			console.log('tx:', tx);
-		} else {
-			await method
-				.send(options)
-				.on('transactionHash', (_hash: string) => {
-					queueNotification(txHashMessage, 'info', _hash);
-				})
-				.on('receipt', () => {
-					queueNotification(receiptMessage, 'success');
-					store.user.updateBalances();
-				})
-				.on('error', async (error: any) => {
-					// code -32602 means that the params for an EIP1559 transaction were invalid.
-					// Retry the transaction with legacy options.
-					if (error.code === -32602 && _isEIP1559SendOption(options)) {
-						const newOptions = { from: options.from, gas: options.gas, gasPrice: options.legacyGas };
-						console.log(newOptions);
-						queueNotification('EIP1559 not currently supported for Ledger or this network', 'warning');
-						await sendContractMethod(
-							store,
-							method,
-							newOptions,
-							txHashMessage,
-							receiptMessage,
-							errorMessage,
-						);
-					} else {
-						queueNotification(errorMessage ? errorMessage : error.message, 'error');
-					}
-				});
-		}
 	} catch (err) {
 		console.error(err);
 		if (DEBUG) {
