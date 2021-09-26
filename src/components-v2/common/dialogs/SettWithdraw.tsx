@@ -67,15 +67,11 @@ export const SettWithdraw = observer(({ open = false, sett, badgerSett, onClose 
 	const { onValidChange, inputProps } = useNumericInput();
 
 	const userBalance = user.getBalance(ContractNamespace.Sett, badgerSett);
-
 	const userHasStakedDeposits = badgerSett.geyser
 		? user.getBalance(ContractNamespace.Geyser, badgerSett).balance.gt(0)
 		: false;
 
-	const vaultSymbol = setts.getToken(badgerSett.vaultToken.address)?.symbol || sett.asset;
-
-	const isLoading = contracts.settsBeingWithdrawn[sett.vaultToken];
-	const canWithdraw = !!connectedAddress && !!amount && !userHasStakedDeposits && userBalance.balance.gt(0);
+	const userHasBalance = !userHasStakedDeposits && userBalance.balance.gt(0);
 
 	const networkSett = network.setts.find(({ vaultToken }) => vaultToken.address === sett.vaultToken);
 	const settStrategy = networkSett ? network.strategies[networkSett.vaultToken.address] : undefined;
@@ -83,8 +79,13 @@ export const SettWithdraw = observer(({ open = false, sett, badgerSett, onClose 
 
 	const depositToken = setts.getToken(sett.underlyingToken);
 	const bToken = setts.getToken(sett.vaultToken);
+
+	const vaultSymbol = setts.getToken(badgerSett.vaultToken.address)?.symbol || sett.asset;
 	const depositTokenSymbol = depositToken?.symbol || '';
 	const bTokenSymbol = bToken?.symbol || '';
+
+	const canWithdraw = !!connectedAddress && !!amount && userHasBalance;
+	const isLoading = contracts.settsBeingWithdrawn[sett.vaultToken];
 
 	const handlePercentageChange = (percent: number) => {
 		setAmount(userBalance.scaledBalanceDisplay(percent));
