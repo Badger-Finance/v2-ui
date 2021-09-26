@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from 'mobx/store-context';
-import { Dialog, Grid, Typography } from '@material-ui/core';
+import { Dialog, Grid, Link, Typography } from '@material-ui/core';
 import { BadgerSett } from 'mobx/model/vaults/badger-sett';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 
@@ -14,6 +14,8 @@ import { ContractNamespace } from '../../../web3/config/contract-namespace';
 import { StrategyFee } from '../../../mobx/model/system-config/stategy-fees';
 import { SettWithdrawFee } from './SettWithdrawFee';
 import { makeStyles } from '@material-ui/core/styles';
+import Alert from '@material-ui/lab/Alert';
+import WarningIcon from '@material-ui/icons/Warning';
 
 const useStyles = makeStyles((theme) => ({
 	content: {
@@ -28,6 +30,19 @@ const useStyles = makeStyles((theme) => ({
 	rateLabel: {
 		fontSize: 12,
 		lineHeight: '1.66',
+	},
+	geyserDeposit: {
+		border: `1px solid ${theme.palette.primary.main}`,
+		color: theme.palette.text.secondary,
+		backgroundColor: theme.palette.background.paper,
+		marginTop: theme.spacing(2),
+		width: '100%',
+	},
+	geyserIcon: {
+		color: theme.palette.primary.main,
+	},
+	legacyAppLink: {
+		margin: '0px 3px',
 	},
 }));
 
@@ -52,10 +67,15 @@ export const SettWithdraw = observer(({ open = false, sett, badgerSett, onClose 
 	const { onValidChange, inputProps } = useNumericInput();
 
 	const userBalance = user.getBalance(ContractNamespace.Sett, badgerSett);
+
+	const userHasStakedDeposits = badgerSett.geyser
+		? user.getBalance(ContractNamespace.Geyser, badgerSett).balance.gt(0)
+		: false;
+
 	const vaultSymbol = setts.getToken(badgerSett.vaultToken.address)?.symbol || sett.asset;
 
 	const isLoading = contracts.settsBeingWithdrawn[sett.vaultToken];
-	const canWithdraw = !!connectedAddress && !!amount && userBalance.balance.gt(0);
+	const canWithdraw = !!connectedAddress && !!amount && !userHasStakedDeposits && userBalance.balance.gt(0);
 
 	const networkSett = network.setts.find(({ vaultToken }) => vaultToken.address === sett.vaultToken);
 	const settStrategy = networkSett ? network.strategies[networkSett.vaultToken.address] : undefined;
@@ -78,6 +98,46 @@ export const SettWithdraw = observer(({ open = false, sett, badgerSett, onClose 
 		await contracts.withdraw(sett, badgerSett, userBalance, withdrawBalance);
 	};
 
+	const stakedInfo = (
+		<Alert
+			className={classes.geyserDeposit}
+			severity="info"
+			iconMapping={{ info: <WarningIcon fontSize="inherit" className={classes.geyserIcon} /> }}
+		>
+			Staked deposits are deprecated. You can use the
+			<Link href="https://legacy.badger.finance" target="_blank" rel="noopener" className={classes.legacyAppLink}>
+				Legacy app
+			</Link>
+			to withdraw them
+		</Alert>
+	);
+
+	const withdrawFees = (
+		<>
+			<AmountTextField
+				variant="outlined"
+				fullWidth
+				placeholder="Type an amount to withdraw"
+				inputProps={inputProps}
+				value={amount || ''}
+				onChange={onValidChange(setAmount)}
+			/>
+			<Grid container justify="space-between" className={classes.rate}>
+				<Typography className={classes.rateLabel} color="textSecondary" display="inline">
+					Withdraw Rate
+				</Typography>
+				<Typography display="inline" variant="subtitle2">
+					{`1 ${bTokenSymbol} = ${sett.ppfs} ${depositTokenSymbol}`}
+				</Typography>
+			</Grid>
+			{withdrawFee && (
+				<Grid container className={classes.fees}>
+					<SettWithdrawFee sett={sett} fee={withdrawFee} amount={amount || 0} />
+				</Grid>
+			)}
+		</>
+	);
+
 	return (
 		<Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
 			<SettDialogTitle sett={sett} mode="Withdraw" />
@@ -91,32 +151,13 @@ export const SettWithdraw = observer(({ open = false, sett, badgerSett, onClose 
 					<PercentagesContainer item xs={12} sm={6}>
 						<PercentageSelector
 							size="small"
+							disabled={userHasStakedDeposits}
 							options={[25, 50, 75, 100]}
 							onChange={handlePercentageChange}
 						/>
 					</PercentagesContainer>
 				</Grid>
-				<AmountTextField
-					variant="outlined"
-					fullWidth
-					placeholder="Type an amount to withdraw"
-					inputProps={inputProps}
-					value={amount || ''}
-					onChange={onValidChange(setAmount)}
-				/>
-				<Grid container justify="space-between" className={classes.rate}>
-					<Typography className={classes.rateLabel} color="textSecondary" display="inline">
-						Withdraw Rate
-					</Typography>
-					<Typography display="inline" variant="subtitle2">
-						{`1 ${bTokenSymbol} = ${sett.ppfs} ${depositTokenSymbol}`}
-					</Typography>
-				</Grid>
-				{withdrawFee && (
-					<Grid container className={classes.fees}>
-						<SettWithdrawFee sett={sett} fee={withdrawFee} amount={amount || 0} />
-					</Grid>
-				)}
+				{userHasStakedDeposits ? stakedInfo : withdrawFees}
 				<ActionButton
 					aria-label="Deposit"
 					size="large"
