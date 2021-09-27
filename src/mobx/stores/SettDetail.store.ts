@@ -63,8 +63,13 @@ export class SettDetailStore {
 		const { network } = this.store.network;
 		const settToken = this.searchedSett.vaultToken;
 		const sett = network.setts.find((s) => s.vaultToken.address === settToken);
+
 		if (!sett) {
 			return false;
+		}
+
+		if (sett.geyser) {
+			return this.store.user.getBalance(ContractNamespace.Geyser, sett).balance.gt(0);
 		}
 
 		const openBalance = this.store.user.getBalance(ContractNamespace.Sett, sett).balance;
