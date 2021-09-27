@@ -24,7 +24,7 @@ export const Fees = ({ sett }: Props): JSX.Element => {
 					}
 				/>
 			</Dialog>
-			<SettFees sett={sett} showNowFees onHelpClick={toggleDialog} />
+			<SettFees sett={sett} showNoFees onHelpClick={toggleDialog} />
 		</>
 	);
 };

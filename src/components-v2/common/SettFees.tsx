@@ -36,11 +36,11 @@ const useStyles = makeStyles((theme) => ({
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
 	sett: Sett;
 	onHelpClick?: () => void;
-	showNowFees?: boolean;
+	showNoFees?: boolean;
 }
 
 export const SettFees = observer(
-	({ sett, onHelpClick, showNowFees = true, ...rootProps }: Props): JSX.Element | null => {
+	({ sett, onHelpClick, showNoFees = true, ...rootProps }: Props): JSX.Element | null => {
 		const store = React.useContext(StoreContext);
 		const { network: networkStore } = store;
 		const { network } = networkStore;
@@ -60,14 +60,14 @@ export const SettFees = observer(
 		const networkSett = network.setts.find(({ vaultToken }) => vaultToken.address === sett.vaultToken);
 
 		if (!networkSett) {
-			return showNowFees ? noFees : null;
+			return showNoFees ? noFees : null;
 		}
 
 		const settStrategy = network.strategies[networkSett.vaultToken.address];
 		const nonEmptyFees = getNonEmptyStrategyFees(settStrategy);
 
 		if (nonEmptyFees.length == 0) {
-			return showNowFees ? noFees : null;
+			return showNoFees ? noFees : null;
 		}
 
 		return (
@@ -91,7 +91,7 @@ export const SettFees = observer(
 					)}
 				</div>
 				<Divider className={classes.divider} />
-				<StrategyFees strategy={settStrategy} />
+				<StrategyFees sett={sett} strategy={settStrategy} />
 			</div>
 		);
 	},

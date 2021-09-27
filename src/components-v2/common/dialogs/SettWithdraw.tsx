@@ -4,7 +4,6 @@ import { StoreContext } from 'mobx/store-context';
 import { Dialog, Grid, Link, Typography } from '@material-ui/core';
 import { BadgerSett } from 'mobx/model/vaults/badger-sett';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
-
 import { useNumericInput } from 'utils/useNumericInput';
 import { SettDialogTitle } from './SettDialogTitle';
 import { PercentageSelector } from '../PercentageSelector';
@@ -16,6 +15,7 @@ import { SettWithdrawFee } from './SettWithdrawFee';
 import { makeStyles } from '@material-ui/core/styles';
 import Alert from '@material-ui/lab/Alert';
 import WarningIcon from '@material-ui/icons/Warning';
+import { getStrategyFee } from 'mobx/utils/fees';
 
 const useStyles = makeStyles((theme) => ({
 	content: {
@@ -75,7 +75,7 @@ export const SettWithdraw = observer(({ open = false, sett, badgerSett, onClose 
 
 	const networkSett = network.setts.find(({ vaultToken }) => vaultToken.address === sett.vaultToken);
 	const settStrategy = networkSett ? network.strategies[networkSett.vaultToken.address] : undefined;
-	const withdrawFee = settStrategy ? settStrategy.fees[StrategyFee.withdraw] : undefined;
+	const withdrawFee = settStrategy ? getStrategyFee(sett.strategy, StrategyFee.withdraw) : undefined;
 
 	const depositToken = setts.getToken(sett.underlyingToken);
 	const bToken = setts.getToken(sett.vaultToken);

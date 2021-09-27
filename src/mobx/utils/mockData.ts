@@ -1,6 +1,7 @@
 import { SettState } from '../model/setts/sett-state';
 import { Sett } from '../model/setts/sett';
 import { BouncerType } from 'mobx/model/setts/sett-bouncer';
+import { TEST_ADDRESS } from 'tests/utils/snapshots';
 
 export const testYearnVaultApiResponse: Sett = {
 	name: 'Test Yearn Vault',
@@ -45,4 +46,10 @@ export const testYearnVaultApiResponse: Sett = {
 	],
 	state: SettState.Open,
 	slug: 'test-yearn-vault',
+	strategy: {
+		address: TEST_ADDRESS,
+		withdrawFee: 50,
+		performanceFee: 20,
+		strategistFee: 10,
+	},
 };

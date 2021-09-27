@@ -140,7 +140,7 @@ export const SettDeposit = observer(({ open = false, sett, badgerSett, onClose }
 				/>
 				<SettFees
 					sett={sett}
-					showNowFees={false}
+					showNoFees={false}
 					className={classes.fees}
 					onHelpClick={() => setShowFees(true)}
 				/>
