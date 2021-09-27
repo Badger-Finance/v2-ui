@@ -1,5 +1,11 @@
 # v2 UI Changelog
 
+### v2.9.3 - 09/15/2021
+
+-   Release Convex Locking Vault
+-   Add API based fee calculation
+-   Patch Badger Bridge missing icons   
+
 ### Hotfix - 09/24/2021
 -   Remove App Notification
 -   Mobile wallet RPC fix
