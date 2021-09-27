@@ -32,7 +32,7 @@ const LockingVaultAdvisory = ({ accept }: Props): JSX.Element => {
 				<Link
 					target="_blank"
 					rel="noreferrer"
-					href="https://screeching-panther-db4.notion.site/blCVX-Locked-Convex-4eabc8a3ef6b4df39d66cc98d2c1c7fc"
+					href="https://docs.badger.com/badger-finance/sett-user-guides/blcvx-locked-convex"
 				>
 					Learn More
 				</Link>
