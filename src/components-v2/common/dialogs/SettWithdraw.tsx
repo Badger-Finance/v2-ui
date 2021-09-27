@@ -75,7 +75,7 @@ export const SettWithdraw = observer(({ open = false, sett, badgerSett, onClose 
 
 	const networkSett = network.setts.find(({ vaultToken }) => vaultToken.address === sett.vaultToken);
 	const settStrategy = networkSett ? network.strategies[networkSett.vaultToken.address] : undefined;
-	const withdrawFee = settStrategy ? getStrategyFee(sett.strategy, StrategyFee.withdraw) : undefined;
+	const withdrawFee = getStrategyFee(sett.strategy, StrategyFee.withdraw);
 
 	const depositToken = setts.getToken(sett.underlyingToken);
 	const bToken = setts.getToken(sett.vaultToken);
