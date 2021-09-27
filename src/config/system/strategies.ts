@@ -68,6 +68,7 @@ export const getStrategies = (network: ChainNetwork): StrategyNetworkConfig => {
 					},
 					depositLink:
 						'https://app.sushi.com/add/0x4EaC4c4e9050464067D673102F8E24b2FccEB350/0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6',
+					userGuide: 'https://docs.badger.com/badger-finance/sett-user-guides/polygon-wbtc-ibbtc-slp',
 				},
 				[maticDeploy.sett_system.vaults['BQLP-WBTC-USDC']]: {
 					address: maticDeploy.sett_system.strategies['BQLP-WBTC-USDC'],
@@ -78,6 +79,7 @@ export const getStrategies = (network: ChainNetwork): StrategyNetworkConfig => {
 					},
 					depositLink:
 						'https://quickswap.exchange/#/add/0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174/0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6',
+					userGuide: 'https://docs.badger.com/badger-finance/sett-user-guides/polygon-wbtc-usdc-qlp',
 				},
 				[maticDeploy.sett_system.vaults['BATRICRYPTO']]: {
 					address: maticDeploy.sett_system.strategies['BATRICRYPTO'],
@@ -96,6 +98,7 @@ export const getStrategies = (network: ChainNetwork): StrategyNetworkConfig => {
 						[StrategyFee.withdraw]: new BigNumber(10),
 					},
 					depositLink: 'https://polygon.curve.fi/ren/deposit',
+					userGuide: 'https://docs.badger.com/badger-finance/sett-user-guides/polygon-amwbtc-renwbtc',
 				},
 			};
 		case ChainNetwork.BinanceSmartChain:
@@ -396,6 +399,7 @@ export const getStrategies = (network: ChainNetwork): StrategyNetworkConfig => {
 						[StrategyFee.withdraw]: new BigNumber(10),
 					},
 					depositLink: 'https://www.convexfinance.com/lock-cvx',
+					userGuide: 'https://docs.badger.com/badger-finance/sett-user-guides/blcvx-locked-convex',
 				},
 				[ethDeploy.sett_system.vaults['native.imBtc']]: {
 					address: ethDeploy.sett_system.strategies['native.imBtc'],
