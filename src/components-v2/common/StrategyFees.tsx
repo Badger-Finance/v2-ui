@@ -4,6 +4,8 @@ import { StrategyFee, userReadableFeeNames } from '../../mobx/model/system-confi
 import { Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { formatStrategyFee } from '../../utils/componentHelpers';
+import { Sett } from 'mobx/model/setts/sett';
+import { getStrategyFee } from 'mobx/utils/fees';
 
 const useStyles = makeStyles({
 	specName: {
@@ -13,23 +15,24 @@ const useStyles = makeStyles({
 });
 
 interface Props {
+	sett: Sett;
 	strategy: StrategyConfig;
 	showEmpty?: boolean;
 }
 
-export const StrategyFees = ({ strategy, showEmpty = false }: Props): JSX.Element => {
+export const StrategyFees = ({ sett, strategy, showEmpty = false }: Props): JSX.Element => {
 	const classes = useStyles();
 	const fees = strategy.fees;
 	const feeKeys = Object.keys(fees) as StrategyFee[];
 
 	const feeItems = feeKeys.map((key) => {
-		const fee = fees[key];
+		const fee = getStrategyFee(sett.strategy, key);
 
 		if (!fee) {
 			return null;
 		}
 
-		if (fee.isZero() && !showEmpty) {
+		if (fee === 0 && !showEmpty) {
 			return null;
 		}
 
