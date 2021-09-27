@@ -221,7 +221,21 @@ exports[`Specs Section displays sett information 1`] = `
             <h6
               class="MuiTypography-root-145 MuiTypography-subtitle2-157 MuiTypography-displayInline-173"
             >
-              10%
+              0.3%
+            </h6>
+          </div>
+          <div
+            class="MuiGrid-root-33 MuiGrid-container-34 MuiGrid-justify-xs-space-between-53"
+          >
+            <p
+              class="MuiTypography-root-145 makeStyles-specName-267 MuiTypography-body1-147 MuiTypography-colorTextSecondary-171 MuiTypography-displayInline-173"
+            >
+              Strategist Performance Fee
+            </p>
+            <h6
+              class="MuiTypography-root-145 MuiTypography-subtitle2-157 MuiTypography-displayInline-173"
+            >
+              0.1%
             </h6>
           </div>
           <div
@@ -368,7 +382,7 @@ exports[`Specs Section displays sett information 1`] = `
                 </svg>
                 <a
                   class="MuiTypography-root-145 MuiLink-root-221 MuiLink-underlineHover-223 makeStyles-link-273 MuiTypography-colorPrimary-168"
-                  href="https://etherscan.io/address/0xf1ded284e891943b3e9c657d7fc376b86164ffc2"
+                  href="https://etherscan.io/address/0x03f7724180AA6b939894B5Ca4314783B0b36b329"
                   rel="noreferrer"
                   target="_blank"
                 >

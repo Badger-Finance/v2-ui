@@ -4,6 +4,7 @@ import { SettTokenBalance } from './sett-token-balance';
 import { SettValueSource } from './sett-value-source';
 import { SettBoost } from './sett-boost';
 import { BouncerType } from './sett-bouncer';
+import { SettStrategy } from './sett-strategy';
 
 export interface Sett extends SettSummary {
 	apr: number;
@@ -23,4 +24,5 @@ export interface Sett extends SettSummary {
 	deprecated?: boolean;
 	slug: string;
 	multipliers: SettBoost[];
+	strategy: SettStrategy;
 }

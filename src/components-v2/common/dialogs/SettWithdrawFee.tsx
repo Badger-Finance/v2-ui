@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
 
 interface Props {
 	sett: Sett;
-	fee: BigNumber;
+	fee: number;
 	amount: BigNumber.Value;
 }
 
@@ -43,7 +43,7 @@ export const SettWithdrawFee = observer(
 		const depositTokenDecimals = depositToken?.decimals || 18;
 
 		const withdrawAmount = new BigNumber(amount).multipliedBy(sett.ppfs);
-		const withdrawalFee = fee.div(MAX_FEE).multipliedBy(withdrawAmount);
+		const withdrawalFee = withdrawAmount.multipliedBy(fee).dividedBy(MAX_FEE);
 		const amountAfterFee = new BigNumber(withdrawAmount).minus(withdrawalFee);
 
 		return (

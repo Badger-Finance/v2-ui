@@ -6,6 +6,7 @@ import { SettBalance } from '../../mobx/model/setts/sett-balance';
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
 import BigNumber from 'bignumber.js';
 import { BouncerType } from 'mobx/model/setts/sett-bouncer';
+import { TEST_ADDRESS } from './snapshots';
 
 export const SAMPLE_BADGER_SETT: BadgerSett = {
 	depositToken: {
@@ -30,6 +31,12 @@ export const SAMPLE_SETT: Sett = {
 	name: 'Curve.fi renBTC/wBTC/sBTC',
 	ppfs: 1.0082389531413567,
 	experimental: false,
+	strategy: {
+		address: TEST_ADDRESS,
+		withdrawFee: 50,
+		performanceFee: 20,
+		strategistFee: 10,
+	},
 	sources: [
 		{
 			name: 'Vault Compounding',
