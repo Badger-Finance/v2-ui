@@ -22,6 +22,9 @@ export class Arbitrum extends Network {
 			Currency.ETH,
 			ARBITRUM_DEPLOY,
 			arbitrumSetts,
+			// TODO: Enable API based notifications - current stop gap implementation
+			'Arbitrum infrastructure is currently experiencing outages. TVL and Badger Boost displays are affected.',
+			'https://docs.badger.com/badger-finance/arbitrum/faqs',
 		);
 	}
 
