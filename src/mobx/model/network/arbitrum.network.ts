@@ -23,7 +23,7 @@ export class Arbitrum extends Network {
 			ARBITRUM_DEPLOY,
 			arbitrumSetts,
 			// TODO: Enable API based notifications - current stop gap implementation
-			'Abitrum infrastructure is currently experiencing outages. TVL and Badger Boost displays are effected.',
+			'Arbitrum infrastructure is currently experiencing outages. TVL and Badger Boost displays are affected.',
 			'https://docs.badger.com/badger-finance/arbitrum/faqs',
 		);
 	}
