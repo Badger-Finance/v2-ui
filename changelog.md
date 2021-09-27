@@ -1,6 +1,6 @@
 # v2 UI Changelog
 
-### v2.9.3 - 09/15/2021
+### v2.9.4 - 09/27/2021
 
 -   Release Convex Locking Vault
 -   Add API based fee calculation
