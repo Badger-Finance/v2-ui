@@ -33,7 +33,7 @@ export class IbbtcOptionToken extends Contract {
 	}
 
 	public get icon(): any {
-		return `/assets/icons/${this.symbol.toLowerCase()}.svg`;
+		return `/assets/icons/${this.symbol.toLowerCase()}.png`;
 	}
 
 	public formatAmount(amount: BigNumber | string): string {
