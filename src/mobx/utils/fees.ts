@@ -16,7 +16,7 @@ export function getStrategyFee(sett: Sett, fee: StrategyFee, config: StrategyCon
 	if (strategy) {
 		requestedFee = getSettStrategyFee(strategy, fee);
 	}
-	if (!requestedFee && defaultFee) {
+	if (!requestedFee) {
 		switch (fee) {
 			case StrategyFee.withdraw:
 				requestedFee = defaultFee.withdraw?.toNumber();
@@ -31,13 +31,13 @@ export function getStrategyFee(sett: Sett, fee: StrategyFee, config: StrategyCon
 				requestedFee = defaultFee.daoPerformance?.toNumber();
 				break;
 			default:
-				// default fee to 0 to quickly see incorrect / missing fee configurations
-				requestedFee = 0;
 				break;
 		}
 	}
-	// default fee to 0 to quickly see incorrect / missing fee configurations
-	return requestedFee ?? 0;
+	if (!requestedFee) {
+		throw new Error(`${sett.name} missing default ${fee} fee`);
+	}
+	return requestedFee;
 }
 
 function getSettStrategyFee(strategy: SettStrategy, fee: StrategyFee): number | undefined {
