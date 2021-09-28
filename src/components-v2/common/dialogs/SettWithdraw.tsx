@@ -55,6 +55,7 @@ export interface SettModalProps {
 
 export const SettWithdraw = observer(({ open = false, sett, badgerSett, onClose }: SettModalProps) => {
 	const {
+		network: { network },
 		wallet: { connectedAddress },
 		user,
 		contracts,
@@ -71,7 +72,7 @@ export const SettWithdraw = observer(({ open = false, sett, badgerSett, onClose 
 		: false;
 
 	const userHasBalance = !userHasStakedDeposits && userBalance.balance.gt(0);
-	const withdrawFee = getStrategyFee(sett.strategy, StrategyFee.withdraw);
+	const withdrawFee = getStrategyFee(sett, StrategyFee.withdraw, network.strategies[sett.vaultToken]);
 
 	const depositToken = setts.getToken(sett.underlyingToken);
 	const bToken = setts.getToken(sett.vaultToken);

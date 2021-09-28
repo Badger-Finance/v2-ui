@@ -24,5 +24,5 @@ export interface Sett extends SettSummary {
 	deprecated?: boolean;
 	slug: string;
 	multipliers: SettBoost[];
-	strategy: SettStrategy;
+	strategy?: SettStrategy;
 }
