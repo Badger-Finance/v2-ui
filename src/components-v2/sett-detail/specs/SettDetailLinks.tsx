@@ -43,6 +43,7 @@ const SettDetailLinks = observer(
 
 		const [expanded, setExpanded] = useState(!hasBaseLink);
 		const expandText = expanded ? 'Hide' : 'Show More';
+		const strategyAddress = sett.strategy?.address ?? network.strategies[sett.vaultToken].address;
 
 		return (
 			<Grid container className={classes.linksContainer}>
@@ -53,10 +54,7 @@ const SettDetailLinks = observer(
 				{strategy.depositLink && <SettDetailLink title="Get Deposit Token" href={strategy.depositLink} />}
 				<Collapse in={expanded}>
 					<SettDetailLink title="Vault Address" href={`${network.explorer}/address/${vaultAddress}`} />
-					<SettDetailLink
-						title="Strategy Address"
-						href={`${network.explorer}/address/${sett.strategy.address}`}
-					/>
+					<SettDetailLink title="Strategy Address" href={`${network.explorer}/address/${strategyAddress}`} />
 					<SettDetailLink
 						title="Underlying Token Address"
 						href={`${network.explorer}/address/${underlyingToken}`}
