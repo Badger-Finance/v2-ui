@@ -12,11 +12,11 @@ export const getNonEmptyStrategyFees = (config: StrategyConfig): StrategyFee[] =
 export function getStrategyFee(sett: Sett, fee: StrategyFee, config: StrategyConfig): number {
 	const defaultFee = config.fees;
 	const { strategy } = sett;
-	let requestedFee: number | undefined = 0;
+	let requestedFee: number | undefined;
 	if (strategy) {
 		requestedFee = getSettStrategyFee(strategy, fee);
 	}
-	if (!requestedFee) {
+	if (requestedFee === undefined) {
 		switch (fee) {
 			case StrategyFee.withdraw:
 				requestedFee = defaultFee.withdraw?.toNumber();
@@ -30,11 +30,17 @@ export function getStrategyFee(sett: Sett, fee: StrategyFee, config: StrategyCon
 			case StrategyFee.daoPerformance:
 				requestedFee = defaultFee.daoPerformance?.toNumber();
 				break;
+			case StrategyFee.yearnManagement:
+				requestedFee = defaultFee.yearnManagement?.toNumber();
+				break;
+			case StrategyFee.yearnPerformance:
+				requestedFee = defaultFee.yearnPerformance?.toNumber();
+				break;
 			default:
 				break;
 		}
 	}
-	if (!requestedFee) {
+	if (requestedFee === undefined) {
 		throw new Error(`${sett.name} missing default ${fee} fee`);
 	}
 	return requestedFee;
