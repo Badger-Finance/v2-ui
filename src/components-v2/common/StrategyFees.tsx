@@ -26,7 +26,7 @@ export const StrategyFees = ({ sett, strategy, showEmpty = false }: Props): JSX.
 	const feeKeys = Object.keys(fees) as StrategyFee[];
 
 	const feeItems = feeKeys.map((key) => {
-		const fee = getStrategyFee(sett.strategy, key);
+		const fee = getStrategyFee(sett, key, strategy);
 
 		if (!fee) {
 			return null;
