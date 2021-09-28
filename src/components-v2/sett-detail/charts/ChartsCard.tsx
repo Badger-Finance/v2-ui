@@ -58,9 +58,9 @@ export const ChartsCard = observer(
 		const isBoostable = minApr && maxApr;
 
 		const classes = useStyles();
-		const [loading, setLoading] = useState(true);
 		const [settChartData, setSettChartData] = useState<SettChartData[] | null>(null);
 		const [mode, setMode] = useState(isBoostable ? ChartMode.BoostMultiplier : ChartMode.Value);
+		const [loading, setLoading] = useState(!isBoostable);
 		const [timeframe, setTimeframe] = useState(SettChartTimeframe.Week);
 
 		const yAxisAccessor = getYAxisAccessor(mode);
