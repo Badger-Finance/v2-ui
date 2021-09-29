@@ -62,7 +62,6 @@ export class NetworkStore {
 
 		if (connectedNetwork.id !== this.network.id) {
 			this.network = connectedNetwork;
-			console.log(`New netowrk: ${this.network.id}`);
 		}
 		return true;
 	});
