@@ -75,6 +75,14 @@ export const getStrategies = (network: ChainNetwork): StrategyNetworkConfig => {
 						'https://app.gitbook.com/@badger-finance/s/badger-finance/sett-user-guides/arbitrum-tricrypto-crv',
 					depositLink: 'https://arbitrum.curve.fi/tricrypto/deposit',
 				},
+				[arbitrumDeploy.sett_system.vaults['native.swaprWethWbtc']]: {
+					address: arbitrumDeploy.sett_system.strategies['native.swaprWethWbtc'],
+					fees: {
+						[StrategyFee.performance]: new BigNumber(1000),
+						[StrategyFee.strategistPerformance]: new BigNumber(1000),
+						[StrategyFee.withdraw]: new BigNumber(50),
+					},
+				},
 			};
 		case ChainNetwork.Matic:
 			return {
