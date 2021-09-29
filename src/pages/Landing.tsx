@@ -12,6 +12,7 @@ import SettList from 'components-v2/landing/SettList';
 import { RewardsModal } from '../components-v2/landing/RewardsModal';
 import { SettState } from '../mobx/model/setts/sett-state';
 import { HeaderContainer, LayoutContainer } from '../components-v2/common/Containers';
+import { toJS } from 'mobx';
 
 const useStyles = makeStyles((theme) => ({
 	marginTop: {
@@ -96,6 +97,15 @@ const Landing = observer((props: LandingProps) => {
 	const totalValueLocked = protocolSummary ? new BigNumber(protocolSummary.totalValue) : undefined;
 	const badgerPrice = badgerToken ? prices.getPrice(badgerToken) : undefined;
 	const portfolioValue = userConnected && user.initialized ? user.portfolioValue : undefined;
+
+	console.log({
+		badgerToken,
+		totalValueLocked,
+		badgerPrice,
+		portfolioValue: toJS(portfolioValue),
+		'network.deploy.token': network.deploy.token,
+		protocolSummary: toJS(protocolSummary),
+	});
 
 	return (
 		<LayoutContainer>
