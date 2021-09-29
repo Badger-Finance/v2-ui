@@ -1,5 +1,8 @@
 import { Currency } from 'config/enums/currency.enum';
+import { Wallets } from 'config/enums/wallets.enum';
+import { DEBUG } from 'config/environment';
 import { defaultNetwork } from 'config/networks.config';
+import { DEFAULT_RPC } from 'config/rpc.config';
 import { isRpcWallet } from 'config/wallets';
 import { action, extendObservable, observe } from 'mobx';
 import { Network } from 'mobx/model/network/network';
@@ -32,16 +35,10 @@ export class NetworkStore {
 		});
 	}
 
-	setNetwork = action(
-		async (network: string): Promise<void> => {
-			// only allow toggling if no wallet is connected
-			if (this.store.wallet.connectedAddress) {
-				return;
-			}
-			this.network = Network.networkFromSymbol(network);
-			await this.store.walletRefresh();
-		},
-	);
+	setNetwork = action(async (network: string) => {
+		await this.verifyUserNetwork(network);
+		await this.store.walletRefresh();
+	});
 
 	// Check to see if the wallet's connected network matches the currently defined network
 	// if it doesn't, set to the proper network
@@ -87,4 +84,56 @@ export class NetworkStore {
 	updateNetwork(): Promise<void[]> {
 		return Promise.all([this.updateGasPrices(), this.getCurrentBlock()]);
 	}
+
+	private verifyUserNetwork = action(async (symbol: string) => {
+		const network = Network.networkFromSymbol(symbol);
+		// ethereum is just the injected provider (mm) as all chains are canonically ethereum
+		const { ethereum } = window;
+		const { walletType } = this.store.wallet;
+		// implementation details from:
+		// https://docs.metamask.io/guide/rpc-api.html#other-rpc-methods
+		if (ethereum && walletType?.name === Wallets.MetaMask) {
+			try {
+				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+				await ethereum.request!({
+					method: 'wallet_switchEthereumChain',
+					params: [
+						{
+							chainId: `0x${network.id.toString(16)}`,
+						},
+					],
+				});
+			} catch (err) {
+				// This error code indicates that the chain has not been added to MetaMask.
+				if (err.code === 4902) {
+					try {
+						// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+						await ethereum.request!({
+							method: 'wallet_addEthereumChain',
+							params: [
+								{
+									chainId: `0x${network.id.toString(16)}`,
+									chainName: network.name,
+									nativeCurrency: {
+										name: network.symbol.toUpperCase(),
+										symbol: network.symbol.toLowerCase(),
+										decimals: 18,
+									},
+									rpcUrls: [DEFAULT_RPC[network.symbol]],
+									blockExplorerUrls: [network.explorer],
+								},
+							],
+						});
+					} catch {
+						if (DEBUG) {
+							console.error(
+								`${network.name} misconfigured, please update network configuartion parameters.`,
+							);
+						}
+					}
+				}
+			}
+		}
+		this.network = network;
+	});
 }
