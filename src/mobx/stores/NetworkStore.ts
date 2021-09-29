@@ -87,7 +87,7 @@ export class NetworkStore {
 		const network = Network.networkFromSymbol(symbol);
 		// ethereum is just the injected provider (mm) as all chains are canonically ethereum
 		const { ethereum } = window;
-		if (ethereum) {
+		if (ethereum && ethereum.isMetaMask) {
 			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 			await ethereum.request!({
 				method: 'wallet_addEthereumChain',
