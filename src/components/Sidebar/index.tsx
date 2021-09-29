@@ -23,7 +23,6 @@ import { RootStore } from 'mobx/RootStore';
 import clsx, { ClassValue } from 'clsx';
 import SecurityIcon from '@material-ui/icons/Security';
 import { sidebarPricingLinks } from 'config/ui/links';
-import { FLAGS } from 'config/environment';
 import { ChainNetwork } from 'config/enums/chain-network.enum';
 
 const DRAWER_WIDTH = 240;
@@ -64,6 +63,13 @@ const useStyles = makeStyles((theme) => ({
 			backgroundColor: 'transparent',
 			cursor: 'pointer',
 		},
+		padding: theme.spacing(1, 3),
+	},
+	textListItem: {
+		userSelect: 'none',
+		msUserSelect: 'none',
+		MozUserSelect: 'none',
+		WebkitUserSelect: 'none',
 		padding: theme.spacing(1, 3),
 	},
 	divider: {
@@ -142,6 +148,7 @@ export const Sidebar = observer(() => {
 		rewards: { badgerTree },
 		wallet: { connectedAddress },
 		network: { network },
+		user: { accountDetails },
 	} = store;
 
 	const [expanded, setExpanded] = useState('');
@@ -236,7 +243,7 @@ export const Sidebar = observer(() => {
 				)}
 				<Collapse in={expanded === 'advanced'} timeout="auto" unmountOnExit>
 					{isSidebarSupportedNetwork(network.symbol) && badgerTree && connectedAddress ? (
-						<ListItem key="rewards">
+						<ListItem className={classes.textListItem} key="rewards">
 							<ListItemText
 								primary={`Cycle Count: ${badgerTree.cycle}`}
 								secondary={
@@ -251,6 +258,17 @@ export const Sidebar = observer(() => {
 						</ListItem>
 					)}
 				</Collapse>
+				{accountDetails ? (
+					<ListItem className={`${classes.textListItem}`} key="boost">
+						<ListItemText
+							primary={`Boost: ${accountDetails?.boost.toFixed(2)}`}
+							secondary={`Rank: ${accountDetails.boostRank}`}
+						/>
+					</ListItem>
+				) : (
+					<></>
+				)}
+
 				<ListItem
 					button
 					className={getItemClass('/', classes.listItem)}
@@ -317,27 +335,25 @@ export const Sidebar = observer(() => {
 							</ListItemIcon>
 							<ListItemText primary="Bridge" />
 						</ListItem>
-						{FLAGS.BOOST_V2 && (
-							<ListItem
-								button
-								className={getCollapsableItemClasses('boosts', ['/boost-optimizer', '/leaderboard'])}
-								onClick={() => {
-									setExpanded(expanded === 'boosts' ? '' : 'boosts');
-								}}
+						<ListItem
+							button
+							className={getCollapsableItemClasses('boosts', ['/boost-optimizer', '/leaderboard'])}
+							onClick={() => {
+								setExpanded(expanded === 'boosts' ? '' : 'boosts');
+							}}
+						>
+							<ListItemIcon>
+								<img alt="Boosts" src={'/assets/sidebar/boosts.png'} className={classes.icon} />
+							</ListItemIcon>
+							<ListItemText primary="Boost" />
+							<IconButton
+								size="small"
+								className={clsx(classes.expand, expanded === 'tokens' && classes.expandOpen)}
+								aria-label="show more"
 							>
-								<ListItemIcon>
-									<img alt="Boosts" src={'/assets/sidebar/boosts.png'} className={classes.icon} />
-								</ListItemIcon>
-								<ListItemText primary="Boost" />
-								<IconButton
-									size="small"
-									className={clsx(classes.expand, expanded === 'tokens' && classes.expandOpen)}
-									aria-label="show more"
-								>
-									<ExpandMore />
-								</IconButton>
-							</ListItem>
-						)}
+								<ExpandMore />
+							</IconButton>
+						</ListItem>
 						<Collapse in={expanded === 'boosts'} timeout="auto" unmountOnExit>
 							<ListItem
 								button
@@ -422,6 +438,43 @@ export const Sidebar = observer(() => {
 							</ListItemIcon>
 							<ListItemText primary="Guarded Vaults" />
 						</ListItem>
+						<ListItem
+							button
+							className={getCollapsableItemClasses('boosts', ['/boost-optimizer', '/leaderboard'])}
+							onClick={() => {
+								setExpanded(expanded === 'boosts' ? '' : 'boosts');
+							}}
+						>
+							<ListItemIcon>
+								<img alt="Boosts" src={'/assets/sidebar/boosts.png'} className={classes.icon} />
+							</ListItemIcon>
+							<ListItemText primary="Boost" />
+							<IconButton
+								size="small"
+								className={clsx(classes.expand, expanded === 'tokens' && classes.expandOpen)}
+								aria-label="show more"
+							>
+								<ExpandMore />
+							</IconButton>
+						</ListItem>
+						<Collapse in={expanded === 'boosts'} timeout="auto" unmountOnExit>
+							<ListItem
+								button
+								classes={{ gutters: classes.subItemGutters }}
+								className={getItemClass('/boost-optimizer', classes.primarySubListItem)}
+								onClick={() => navigate(views.boostOptimizer)}
+							>
+								Boost Optimizer
+							</ListItem>
+							<ListItem
+								button
+								classes={{ gutters: classes.subItemGutters }}
+								className={getItemClass('/leaderboard', classes.primarySubListItem)}
+								onClick={() => navigate(views.boostLeaderBoard)}
+							>
+								Boost Leaderboard
+							</ListItem>
+						</Collapse>
 						<ListItem
 							button
 							className={getCollapsableItemClasses('badger-zone', [
