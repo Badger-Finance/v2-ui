@@ -25,7 +25,6 @@ const NetworkWidget = observer(() => {
 	const store = useContext(StoreContext);
 	const { network, wallet } = store;
 	const connectedNetwork = network.network.symbol;
-	console.log({ wallet: wallet.walletType, meta: Wallets.MetaMask });
 	const isMetamask = wallet.walletType?.name === Wallets.MetaMask;
 
 	// anchorEl is the Popper reference object prop
