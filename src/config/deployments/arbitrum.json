@@ -18,14 +18,16 @@
 			"native.sushiWethWbtc": "0xFc13209cAfE8fb3bb5fbD929eC9F11a39e8Ac041",
 			"native.crvWbtcRen": "0xBA418CDdd91111F5c1D1Ac2777Fa8CEa28D71843",
 			"native.tricrypto": "0x4591890225394BF66044347653e112621AF7DDeb",
-			"native.swaprWethSwapr": "0x0c2153e8aE4DB8233c61717cDC4c75630E952561"
+			"native.swaprWethSwapr": "0x0c2153e8aE4DB8233c61717cDC4c75630E952561",
+			"native.tricryptoLight": "0xfdb9e5a186FB7655aC9cD7CAFF3d6D4c6064cc50"
 		},
 		"strategies": {
 			"native.sushiWethSushi": "0x86f772C82914f5bFD168f99e208d0FC2C371e9C2",
 			"native.sushiWethWbtc": "0xA6827f0f14D0B83dB925B616d820434697328c22",
 			"native.crvWbtcRen": "0x4C5d19Da5EaeC298B79879a5f7481bEDE055F4F8",
 			"native.tricrypto": "0xE83A790fC3B7132fb8d7f8d438Bc5139995BF5f4",
-			"native.swaprWethSwapr": "0x85386C3cE0679b035a9F8F17f531C076d0b35954"
+			"native.swaprWethSwapr": "0x85386C3cE0679b035a9F8F17f531C076d0b35954",
+			"native.tricryptoLight": "0x9a28eeFB2c5F8311f37c39314D78Be85C54B5da6"
 		}
 	},
 	"badgerTree": "0x635EB2C39C75954bb53Ebc011BDC6AfAAcE115A6"
