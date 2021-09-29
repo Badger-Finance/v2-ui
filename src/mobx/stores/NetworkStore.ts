@@ -1,4 +1,6 @@
 import { Currency } from 'config/enums/currency.enum';
+import { Wallets } from 'config/enums/wallets.enum';
+import { DEBUG } from 'config/environment';
 import { defaultNetwork } from 'config/networks.config';
 import { DEFAULT_RPC } from 'config/rpc.config';
 import { isRpcWallet } from 'config/wallets';
@@ -87,24 +89,50 @@ export class NetworkStore {
 		const network = Network.networkFromSymbol(symbol);
 		// ethereum is just the injected provider (mm) as all chains are canonically ethereum
 		const { ethereum } = window;
-		if (ethereum && ethereum.isMetaMask) {
-			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-			await ethereum.request!({
-				method: 'wallet_addEthereumChain',
-				params: [
-					{
-						chainId: `0x${network.id.toString(16)}`,
-						chainName: network.name,
-						nativeCurrency: {
-							name: network.symbol.toUpperCase(),
-							symbol: network.symbol.toLowerCase(),
-							decimals: 18,
+		const { walletType } = this.store.wallet;
+		// implementation details from:
+		// https://docs.metamask.io/guide/rpc-api.html#other-rpc-methods
+		if (ethereum && walletType?.name === Wallets.MetaMask) {
+			try {
+				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+				await ethereum.request!({
+					method: 'wallet_switchEthereumChain',
+					params: [
+						{
+							chainId: `0x${network.id.toString(16)}`,
 						},
-						rpcUrls: [DEFAULT_RPC[network.symbol]],
-						blockExplorerUrls: [network.explorer],
-					},
-				],
-			});
+					],
+				});
+			} catch (err) {
+				// This error code indicates that the chain has not been added to MetaMask.
+				if (err.code === 4902) {
+					try {
+						// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+						await ethereum.request!({
+							method: 'wallet_addEthereumChain',
+							params: [
+								{
+									chainId: `0x${network.id.toString(16)}`,
+									chainName: network.name,
+									nativeCurrency: {
+										name: network.symbol.toUpperCase(),
+										symbol: network.symbol.toLowerCase(),
+										decimals: 18,
+									},
+									rpcUrls: [DEFAULT_RPC[network.symbol]],
+									blockExplorerUrls: [network.explorer],
+								},
+							],
+						});
+					} catch {
+						if (DEBUG) {
+							console.error(
+								`${network.name} misconfigured, please update network configuartion parameters.`,
+							);
+						}
+					}
+				}
+			}
 		}
 		this.network = network;
 	});

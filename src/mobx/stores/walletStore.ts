@@ -4,7 +4,7 @@ import Notify from 'bnc-notify';
 import BigNumber from 'bignumber.js';
 import { onboardWalletCheck, getOnboardWallets, isRpcWallet } from '../../config/wallets';
 import { RootStore } from 'mobx/RootStore';
-import { API } from 'bnc-onboard/dist/src/interfaces';
+import { API, Wallet } from 'bnc-onboard/dist/src/interfaces';
 import { API as NotifyAPI } from 'bnc-notify';
 import { getNetworkFromProvider } from 'mobx/utils/helpers';
 import { Network } from 'mobx/model/network/network';
@@ -17,6 +17,7 @@ class WalletStore {
 	public notify: NotifyAPI;
 	public provider?: any | null;
 	public rpcProvider?: any | null;
+	public walletType?: Wallet | null;
 	public connectedAddress = '';
 
 	constructor(store: RootStore) {
@@ -128,12 +129,14 @@ class WalletStore {
 		if (!provider) {
 			this.provider = null;
 			this.rpcProvider = null;
+			this.walletType = null;
 			return;
 		}
 		if (isRpcWallet(walletName)) {
 			this.rpcProvider = new Web3.providers.HttpProvider(this.store.network.network.rpc);
 		}
 		this.provider = provider;
+		this.walletType = this.onboard.getState().wallet;
 
 		this.store.network.getCurrentBlock();
 	});

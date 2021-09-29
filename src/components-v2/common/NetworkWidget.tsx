@@ -5,6 +5,7 @@ import { Button, Popper, Paper, List, ListItem, makeStyles, Typography } from '@
 import { StoreContext } from 'mobx/store-context';
 import { supportedNetworks } from 'config/networks.config';
 import { Network } from 'mobx/model/network/network';
+import { Wallets } from 'config/enums/wallets.enum';
 
 const useStyles = makeStyles((theme) => ({
 	network: {
@@ -22,8 +23,10 @@ const useStyles = makeStyles((theme) => ({
 const NetworkWidget = observer(() => {
 	const classes = useStyles();
 	const store = useContext(StoreContext);
-	const { network } = store;
+	const { network, wallet } = store;
 	const connectedNetwork = network.network.symbol;
+	console.log({ wallet: wallet.walletType, meta: Wallets.MetaMask });
+	const isMetamask = wallet.walletType?.name === Wallets.MetaMask;
 
 	// anchorEl is the Popper reference object prop
 	const [anchorEl, setAnchorEl] = useState(null);
@@ -44,7 +47,7 @@ const NetworkWidget = observer(() => {
 			<Button
 				size="small"
 				variant="outlined"
-				endIcon={<ArrowDropDown />}
+				endIcon={isMetamask ? <ArrowDropDown /> : <></>}
 				onClick={handleClick}
 				className={classes.selectButton}
 			>
