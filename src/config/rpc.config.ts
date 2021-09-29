@@ -9,4 +9,12 @@ const rpc: Record<string, string> = {
 	[ChainNetwork.Arbitrum]: process.env.REACT_APP_ARBITRUM_RPC || Provider.Arbitrum,
 };
 
+export const DEFAULT_RPC: Record<string, string> = {
+	[ChainNetwork.Ethereum]: Provider.Cloudflare,
+	[ChainNetwork.BinanceSmartChain]: Provider.Binance,
+	[ChainNetwork.Matic]: Provider.Quicknode,
+	[ChainNetwork.xDai]: Provider.xDai,
+	[ChainNetwork.Arbitrum]: Provider.Arbitrum,
+};
+
 export default rpc;

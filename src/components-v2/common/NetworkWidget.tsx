@@ -22,10 +22,7 @@ const useStyles = makeStyles((theme) => ({
 const NetworkWidget = observer(() => {
 	const classes = useStyles();
 	const store = useContext(StoreContext);
-	const {
-		wallet: { connectedAddress },
-		network,
-	} = store;
+	const { network } = store;
 	const connectedNetwork = network.network.symbol;
 
 	// anchorEl is the Popper reference object prop
@@ -33,9 +30,6 @@ const NetworkWidget = observer(() => {
 	const open = Boolean(anchorEl);
 
 	const handleClick = (event: any) => {
-		if (connectedAddress) {
-			return;
-		}
 		setAnchorEl(anchorEl ? null : event.currentTarget);
 	};
 
@@ -50,7 +44,7 @@ const NetworkWidget = observer(() => {
 			<Button
 				size="small"
 				variant="outlined"
-				endIcon={connectedAddress ? <></> : <ArrowDropDown />}
+				endIcon={<ArrowDropDown />}
 				onClick={handleClick}
 				className={classes.selectButton}
 			>
