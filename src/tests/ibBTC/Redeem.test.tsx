@@ -7,6 +7,8 @@ import { StoreProvider } from '../../mobx/store-context';
 import { customRender, screen, fireEvent, act } from '../Utils';
 import { Redeem } from '../../components/IbBTC/Redeem';
 import { IbbtcOptionToken } from '../../mobx/model/tokens/ibbtc-option-token';
+import { Header } from '../../components/Header';
+import { Snackbar } from '../../components/Snackbar';
 
 const tokensConfig = addresses.mainnet.contracts.tokens;
 
@@ -61,50 +63,49 @@ describe('ibBTC Redeem', () => {
 		expect(screen.getByRole('button', { name: 'Connect Wallet' })).toBeEnabled();
 	});
 
-	// it('displays output balance when redeem amount is inputted', async () => {
-	// 	jest.setTimeout(12000); // in milliseconds
-	// 	const { container } = customRender(
-	// 		<StoreProvider value={store}>
-	// 			<Redeem />
-	// 		</StoreProvider>,
-	// 	);
-	// 	await act(async () => {
-	// 		await fireEvent.change(await screen.findByRole('textbox'), { target: { value: '12' } });
-	// 	});
-	// 	await screen.findByRole('heading', { level: 1, name: '11.988000' });
-	// 	expect(container).toMatchSnapshot();
-	// });
+	it('displays output balance when redeem amount is inputted', async () => {
+		jest.useFakeTimers();
 
-	// These tests require of a Mock Web3 Provider which is being implemented in a separate branch
-
-	/* 	it('handles exceeding ibBTC redeem input amount', async () => {
-		store.wallet.connectedAddress = '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a';
-		store.ibBTCStore.calcRedeemAmount = jest.fn().mockReturnValue({
-			fee: store.ibBTCStore.ibBTC.scale('0.0120'),
-			max: store.ibBTCStore.ibBTC.scale('10'),
-			sett: store.ibBTCStore.tokens[0].scale('20'),
-		});
 		const { container } = customRender(
 			<StoreProvider value={store}>
 				<Redeem />
+			</StoreProvider>,
+		);
+
+		fireEvent.change(await screen.findByRole('textbox'), { target: { value: '12' } });
+
+		await screen.findByRole('heading', { level: 1, name: '11.988000' });
+
+		expect(container).toMatchSnapshot();
+	});
+
+	it('handles exceeding ibBTC redeem input amount', async () => {
+		jest.useFakeTimers();
+
+		store.wallet.connectedAddress = '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a';
+		store.ibBTCStore.calcRedeemAmount = jest.fn().mockReturnValue({
+			fee: store.ibBTCStore.ibBTC.scale('0.0120'),
+			max: store.ibBTCStore.ibBTC.scale('100'),
+			sett: store.ibBTCStore.tokens[0].scale('20'),
+		});
+
+		customRender(
+			<StoreProvider value={store}>
+				<Snackbar>
+					<Header />
+					<Redeem />
+				</Snackbar>
 			</StoreProvider>,
 		);
 
 		fireEvent.change(screen.getByRole('textbox'), { target: { value: '20' } });
-		await screen.findByRole('heading', { level: 1, name: '20' });
-	});*/
 
-	/* it('handles correct input values for redemption', async () => {
-		store.wallet.connectedAddress = '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a';
-		const { container } = customRender(
-			<StoreProvider value={store}>
-				<Redeem />
-			</StoreProvider>,
-		);
-		await act(async () => {
-			await fireEvent.change(screen.getByRole('textbox'), { target: { value: '12' } });
-		});
-		screen.getByRole('button', { name: /redeem/i });
-		expect(container).toMatchSnapshot();
-	}); */
+		jest.advanceTimersByTime(1000);
+
+		await screen.findByText('20.000000 bcrvRenWSBTC');
+
+		fireEvent.click(screen.getByRole('button', { name: /redeem/i }));
+
+		expect(screen.getByText('You have insufficient balance of ibBTC')).toBeInTheDocument();
+	});
 });
