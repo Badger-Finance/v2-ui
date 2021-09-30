@@ -119,6 +119,6 @@ describe('ibBTC Mint', () => {
 
 		fireEvent.click(screen.getByRole('button', { name: /mint/i }));
 
-		expect(screen.getByText('You have insufficient balance of bcrvRenWSBTC')).toBeInTheDocument();
+		expect(screen.getByText('You have insufficient balance of bcrvRenSBTC')).toBeInTheDocument();
 	});
 });

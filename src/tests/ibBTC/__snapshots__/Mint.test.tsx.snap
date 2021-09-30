@@ -365,13 +365,13 @@ exports[`ibBTC Mint displays output ibBTC when mint amount is inputted 1`] = `
               >
                 <img
                   alt="Badger crvRenWSBTC"
-                  src="/assets/icons/bcrvrenwsbtc.svg"
+                  src="/assets/icons/bcrvrensbtc.png"
                   style="height: 2rem; margin-right: .2rem; display: block;"
                 />
                 <div
                   class="MuiTypography-root-108 MuiTypography-body1-110"
                 >
-                  bcrvRenWSBTC
+                  bcrvRenSBTC
                 </div>
               </div>
               <span
@@ -457,7 +457,7 @@ exports[`ibBTC Mint displays output ibBTC when mint amount is inputted 1`] = `
         >
           <img
             alt="Interest-Bearing BTC"
-            src="/assets/icons/ibbtc.svg"
+            src="/assets/icons/ibbtc.png"
             style="height: 2rem; margin-right: .2rem; display: block;"
           />
           <div
@@ -494,7 +494,7 @@ exports[`ibBTC Mint displays output ibBTC when mint amount is inputted 1`] = `
             class="MuiTypography-root-108 WithStyles(ForwardRef(Typography))-root-107 MuiTypography-body1-110"
           >
             1 
-            bcrvRenWSBTC
+            bcrvRenSBTC
              : 
             1.000000
              

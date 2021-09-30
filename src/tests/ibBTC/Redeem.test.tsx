@@ -102,7 +102,7 @@ describe('ibBTC Redeem', () => {
 
 		jest.advanceTimersByTime(1000);
 
-		await screen.findByText('20.000000 bcrvRenWSBTC');
+		await screen.findByText('20.000000 bcrvRenSBTC');
 
 		fireEvent.click(screen.getByRole('button', { name: /redeem/i }));
 

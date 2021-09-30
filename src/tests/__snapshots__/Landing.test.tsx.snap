@@ -101,7 +101,7 @@ exports[`Landing Page Renders correctly 1`] = `
                 </span>
               </span>
               <span
-                class="MuiTouchRipple-root-477"
+                class="MuiTouchRipple-root-480"
               />
             </button>
           </div>
@@ -136,7 +136,7 @@ exports[`Landing Page Renders correctly 1`] = `
                   />
                 </span>
                 <span
-                  class="MuiTouchRipple-root-477"
+                  class="MuiTouchRipple-root-480"
                 />
               </span>
               <span
@@ -342,7 +342,7 @@ exports[`Landing Page Renders correctly 1`] = `
           Badger Boost Power Up has been implemented - Click here to learn more
         </span>
         <span
-          class="MuiTouchRipple-root-477"
+          class="MuiTouchRipple-root-480"
         />
       </button>
     </div>
@@ -513,7 +513,7 @@ exports[`Landing Page Renders correctly 1`] = `
                     Deposit
                   </span>
                   <span
-                    class="MuiTouchRipple-root-477"
+                    class="MuiTouchRipple-root-480"
                   />
                 </button>
                 <button
@@ -633,7 +633,7 @@ exports[`Landing Page Renders correctly 1`] = `
               class="MuiGrid-root-20 makeStyles-nonClickableSection-397 MuiGrid-item-22 MuiGrid-grid-xs-12-66 MuiGrid-grid-md-true-82"
             >
               <div
-                class="MuiBox-root-446 MuiBox-root-473 makeStyles-container-443"
+                class="MuiBox-root-446 MuiBox-root-476 makeStyles-container-443"
               >
                 <button
                   class="MuiButtonBase-root-255 MuiButton-root-226 MuiButton-contained-234 makeStyles-button-444 makeStyles-deposit-445 MuiButton-containedPrimary-235"
@@ -646,7 +646,7 @@ exports[`Landing Page Renders correctly 1`] = `
                     Deposit
                   </span>
                   <span
-                    class="MuiTouchRipple-root-477"
+                    class="MuiTouchRipple-root-480"
                   />
                 </button>
                 <button
@@ -766,7 +766,7 @@ exports[`Landing Page Renders correctly 1`] = `
               class="MuiGrid-root-20 makeStyles-nonClickableSection-397 MuiGrid-item-22 MuiGrid-grid-xs-12-66 MuiGrid-grid-md-true-82"
             >
               <div
-                class="MuiBox-root-446 MuiBox-root-474 makeStyles-container-443"
+                class="MuiBox-root-446 MuiBox-root-477 makeStyles-container-443"
               >
                 <button
                   class="MuiButtonBase-root-255 MuiButton-root-226 MuiButton-contained-234 makeStyles-button-444 makeStyles-deposit-445 MuiButton-containedPrimary-235"
@@ -779,7 +779,7 @@ exports[`Landing Page Renders correctly 1`] = `
                     Deposit
                   </span>
                   <span
-                    class="MuiTouchRipple-root-477"
+                    class="MuiTouchRipple-root-480"
                   />
                 </button>
                 <button
@@ -899,7 +899,7 @@ exports[`Landing Page Renders correctly 1`] = `
               class="MuiGrid-root-20 makeStyles-nonClickableSection-397 MuiGrid-item-22 MuiGrid-grid-xs-12-66 MuiGrid-grid-md-true-82"
             >
               <div
-                class="MuiBox-root-446 MuiBox-root-475 makeStyles-container-443"
+                class="MuiBox-root-446 MuiBox-root-478 makeStyles-container-443"
               >
                 <button
                   class="MuiButtonBase-root-255 MuiButton-root-226 MuiButton-contained-234 makeStyles-button-444 makeStyles-deposit-445 MuiButton-containedPrimary-235"
@@ -912,7 +912,7 @@ exports[`Landing Page Renders correctly 1`] = `
                     Deposit
                   </span>
                   <span
-                    class="MuiTouchRipple-root-477"
+                    class="MuiTouchRipple-root-480"
                   />
                 </button>
                 <button
@@ -1032,7 +1032,7 @@ exports[`Landing Page Renders correctly 1`] = `
               class="MuiGrid-root-20 makeStyles-nonClickableSection-397 MuiGrid-item-22 MuiGrid-grid-xs-12-66 MuiGrid-grid-md-true-82"
             >
               <div
-                class="MuiBox-root-446 MuiBox-root-476 makeStyles-container-443"
+                class="MuiBox-root-446 MuiBox-root-479 makeStyles-container-443"
               >
                 <button
                   class="MuiButtonBase-root-255 MuiButton-root-226 MuiButton-contained-234 makeStyles-button-444 makeStyles-deposit-445 MuiButton-containedPrimary-235"
@@ -1045,7 +1045,7 @@ exports[`Landing Page Renders correctly 1`] = `
                     Deposit
                   </span>
                   <span
-                    class="MuiTouchRipple-root-477"
+                    class="MuiTouchRipple-root-480"
                   />
                 </button>
                 <button

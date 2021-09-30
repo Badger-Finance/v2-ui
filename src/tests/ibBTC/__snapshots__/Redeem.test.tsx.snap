@@ -347,7 +347,7 @@ exports[`ibBTC Redeem displays output balance when redeem amount is inputted 1`]
           >
             <img
               alt="Interest-Bearing BTC"
-              src="/assets/icons/ibbtc.svg"
+              src="/assets/icons/ibbtc.png"
               style="height: 2rem; margin-right: .2rem; display: block;"
             />
             <div
@@ -418,13 +418,13 @@ exports[`ibBTC Redeem displays output balance when redeem amount is inputted 1`]
             >
               <img
                 alt="Badger crvRenWSBTC"
-                src="/assets/icons/bcrvrenwsbtc.svg"
+                src="/assets/icons/bcrvrensbtc.png"
                 style="height: 2rem; margin-right: .2rem; display: block;"
               />
               <div
                 class="MuiTypography-root-109 MuiTypography-body1-111"
               >
-                bcrvRenWSBTC
+                bcrvRenSBTC
               </div>
             </div>
             <span
@@ -478,7 +478,7 @@ exports[`ibBTC Redeem displays output balance when redeem amount is inputted 1`]
              : 
             1.000000
              
-            bcrvRenWSBTC
+            bcrvRenSBTC
           </p>
         </div>
       </div>
@@ -529,7 +529,7 @@ exports[`ibBTC Redeem displays output balance when redeem amount is inputted 1`]
           <p
             class="MuiTypography-root-109 WithStyles(ForwardRef(Typography))-root-108 MuiTypography-body1-111"
           >
-            11.988000 bcrvRenWSBTC
+            11.988000 bcrvRenSBTC
           </p>
         </div>
       </div>
