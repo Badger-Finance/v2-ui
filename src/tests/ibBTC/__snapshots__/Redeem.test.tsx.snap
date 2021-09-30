@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ibBTC Redeem can apply max balance 1`] = `
+exports[`ibBTC Redeem Input Change displays output balance when redeem amount is inputted 1`] = `
 <div>
   <div
     class="MuiGrid-root-3 MuiGrid-container-4"
@@ -12,7 +12,7 @@ exports[`ibBTC Redeem can apply max balance 1`] = `
         class="MuiTypography-root-109 WithStyles(ForwardRef(Typography))-root-108 MuiTypography-body1-111 MuiTypography-colorTextSecondary-135"
       >
         Balance: 
-        5.000
+        0.000
       </p>
     </div>
     <div
@@ -22,12 +22,11 @@ exports[`ibBTC Redeem can apply max balance 1`] = `
         class="MuiGrid-root-3 MuiGrid-item-5 MuiGrid-grid-xs-8-45 MuiGrid-grid-sm-7-58"
       >
         <div
-          class="MuiInputBase-root-142 WithStyles(ForwardRef(InputBase))-root-141 MuiInputBase-disabled-145"
+          class="MuiInputBase-root-142 WithStyles(ForwardRef(InputBase))-root-141"
         >
           <input
             autocomplete="off"
-            class="MuiInputBase-input-153 MuiInputBase-disabled-145"
-            disabled=""
+            class="MuiInputBase-input-153"
             inputmode="decimal"
             maxlength="79"
             minlength="1"
@@ -36,7 +35,7 @@ exports[`ibBTC Redeem can apply max balance 1`] = `
             spellcheck="false"
             style="text-align: right;"
             type="text"
-            value="5.000000000000000000"
+            value="12"
           />
         </div>
       </div>
@@ -121,7 +120,7 @@ exports[`ibBTC Redeem can apply max balance 1`] = `
         <h1
           class="MuiTypography-root-109 WithStyles(ForwardRef(Typography))-root-197 WithStyles(ForwardRef(Typography))-root-198 MuiTypography-h1-114"
         >
-          11.988000
+          20.000000
         </h1>
       </div>
       <div
@@ -251,7 +250,7 @@ exports[`ibBTC Redeem can apply max balance 1`] = `
           <p
             class="MuiTypography-root-109 WithStyles(ForwardRef(Typography))-root-108 MuiTypography-body1-111"
           >
-            11.988000 bcrvRenSBTC
+            20.000000 bcrvRenSBTC
           </p>
         </div>
       </div>
@@ -268,7 +267,7 @@ exports[`ibBTC Redeem can apply max balance 1`] = `
       <span
         class="MuiButton-label-163"
       >
-        Connect Wallet
+        REDEEM
       </span>
       <span
         class="MuiTouchRipple-root-229"
@@ -278,7 +277,7 @@ exports[`ibBTC Redeem can apply max balance 1`] = `
 </div>
 `;
 
-exports[`ibBTC Redeem displays output balance when redeem amount is inputted 1`] = `
+exports[`ibBTC Redeem can apply max balance 1`] = `
 <div>
   <div
     class="MuiGrid-root-3 MuiGrid-container-4"
@@ -290,7 +289,7 @@ exports[`ibBTC Redeem displays output balance when redeem amount is inputted 1`]
         class="MuiTypography-root-109 WithStyles(ForwardRef(Typography))-root-108 MuiTypography-body1-111 MuiTypography-colorTextSecondary-135"
       >
         Balance: 
-        0.000
+        5.000
       </p>
     </div>
     <div
@@ -314,7 +313,7 @@ exports[`ibBTC Redeem displays output balance when redeem amount is inputted 1`]
             spellcheck="false"
             style="text-align: right;"
             type="text"
-            value="12"
+            value="5.000000000000000000"
           />
         </div>
       </div>

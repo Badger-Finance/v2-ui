@@ -63,49 +63,53 @@ describe('ibBTC Redeem', () => {
 		expect(screen.getByRole('button', { name: 'Connect Wallet' })).toBeEnabled();
 	});
 
-	it('displays output balance when redeem amount is inputted', async () => {
-		jest.useFakeTimers();
+	describe('Input Change', () => {
+		beforeEach(() => {
+			jest.useFakeTimers();
 
-		const { container } = customRender(
-			<StoreProvider value={store}>
-				<Redeem />
-			</StoreProvider>,
-		);
-
-		fireEvent.change(await screen.findByRole('textbox'), { target: { value: '12' } });
-
-		await screen.findByRole('heading', { level: 1, name: '11.988000' });
-
-		expect(container).toMatchSnapshot();
-	});
-
-	it('handles exceeding ibBTC redeem input amount', async () => {
-		jest.useFakeTimers();
-
-		store.wallet.connectedAddress = '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a';
-		store.ibBTCStore.calcRedeemAmount = jest.fn().mockReturnValue({
-			fee: store.ibBTCStore.ibBTC.scale('0.0120'),
-			max: store.ibBTCStore.ibBTC.scale('100'),
-			sett: store.ibBTCStore.tokens[0].scale('20'),
+			store.wallet.connectedAddress = '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a';
+			store.ibBTCStore.calcRedeemAmount = jest.fn().mockReturnValue({
+				fee: store.ibBTCStore.ibBTC.scale('0.0120'),
+				max: store.ibBTCStore.ibBTC.scale('100'),
+				sett: store.ibBTCStore.tokens[0].scale('20'),
+			});
 		});
 
-		customRender(
-			<StoreProvider value={store}>
-				<Snackbar>
-					<Header />
+		it('displays output balance when redeem amount is inputted', async () => {
+			const { container } = customRender(
+				<StoreProvider value={store}>
 					<Redeem />
-				</Snackbar>
-			</StoreProvider>,
-		);
+				</StoreProvider>,
+			);
 
-		fireEvent.change(screen.getByRole('textbox'), { target: { value: '20' } });
+			fireEvent.change(await screen.findByRole('textbox'), { target: { value: '12' } });
 
-		jest.advanceTimersByTime(1000);
+			jest.advanceTimersByTime(1000);
 
-		await screen.findByText('20.000000 bcrvRenSBTC');
+			await screen.findByText('20.000000 bcrvRenSBTC');
 
-		fireEvent.click(screen.getByRole('button', { name: /redeem/i }));
+			expect(container).toMatchSnapshot();
+		});
 
-		expect(screen.getByText('You have insufficient balance of ibBTC')).toBeInTheDocument();
+		it('handles exceeding ibBTC redeem input amount', async () => {
+			customRender(
+				<StoreProvider value={store}>
+					<Snackbar>
+						<Header />
+						<Redeem />
+					</Snackbar>
+				</StoreProvider>,
+			);
+
+			fireEvent.change(screen.getByRole('textbox'), { target: { value: '20' } });
+
+			jest.advanceTimersByTime(1000);
+
+			await screen.findByText('20.000000 bcrvRenSBTC');
+
+			fireEvent.click(screen.getByRole('button', { name: /redeem/i }));
+
+			expect(screen.getByText('You have insufficient balance of ibBTC')).toBeInTheDocument();
+		});
 	});
 });
