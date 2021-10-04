@@ -5,7 +5,8 @@ import { RootStore } from '../RootStore';
 import { AbiItem } from 'web3-utils';
 import { getSendOptions, sendContractMethod } from 'mobx/utils/web3';
 import { AirdropMerkleClaim } from 'mobx/model/rewards/airdrop-merkle-claim';
-import { fetchData } from 'mobx/utils/helpers';
+import { fetchData } from '../../utils/fetchData';
+import { DEBUG } from '../../config/environment';
 
 export interface AirdropInformation {
 	token: string;
@@ -48,15 +49,20 @@ class AirdropStore {
 				if (!airdrop.active) {
 					return;
 				}
-				const proof = await fetchData<AirdropMerkleClaim>(
-					`${airdrop.endpoint}/${connectedAddress}`,
-					'Unable to retrieve airdrop proof!',
-				);
+
+				const [proof] = await fetchData<AirdropMerkleClaim>(`${airdrop.endpoint}/${connectedAddress}`);
+
 				if (!proof) {
+					if (DEBUG) {
+						this.store.uiState.queueNotification('Unable to retrieve airdrop proof!', 'error');
+					}
+
 					return;
 				}
+
 				const contract = new web3.eth.Contract(airdrop.airdropAbi, airdrop.airdropContract);
 				const claimed = await contract.methods.isClaimed(proof.index).call();
+
 				if (!claimed[0]) {
 					this.airdrops.push({
 						token: airdrop.token,

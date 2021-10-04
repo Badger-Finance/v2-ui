@@ -4,7 +4,6 @@ import { defaultRetryOptions } from 'config/constants';
 import { action, extendObservable, IValueDidChange, observe } from 'mobx';
 import { RootStore } from 'mobx/RootStore';
 import { getTokenPrices } from 'mobx/utils/apiV2';
-import { fetchData } from 'mobx/utils/helpers';
 import Web3 from 'web3';
 import { ExchangeRates } from '../model/system-config/exchange-rates';
 import { BDiggExchangeRates } from '../model/system-config/bDigg-exchange-rates';
@@ -13,12 +12,14 @@ import { Network } from 'mobx/model/network/network';
 import { ChainNetwork } from 'config/enums/chain-network.enum';
 import { ExchangeRatesResponse } from 'mobx/model/system-config/exchange-rates-response';
 import { MaticPriceResponse, MATIC_PRICE_KEY } from 'mobx/model/system-config/matic-price-response';
+import { fetchData } from '../../utils/fetchData';
+import { DEBUG } from '../../config/environment';
 
 export default class PricesStore {
 	private store: RootStore;
 	private priceCache: PriceSummary;
-	public exchangeRates?: ExchangeRates;
-	public bDiggExchangeRates?: BDiggExchangeRates;
+	public exchangeRates?: ExchangeRates | null;
+	public bDiggExchangeRates?: BDiggExchangeRates | null;
 	public pricesAvailability: Record<string, boolean> = {};
 
 	constructor(store: RootStore) {
@@ -80,8 +81,8 @@ export default class PricesStore {
 		async (): Promise<void> => {
 			await retry(async () => {
 				const [exchangeRates, bDiggExchangeRates]: [
-					ExchangeRates | undefined,
-					BDiggExchangeRates | undefined,
+					ExchangeRates | null,
+					BDiggExchangeRates | null,
 				] = await Promise.all([this.getExchangeRates(), this.getBdiggExchangeRates()]);
 				this.exchangeRates = exchangeRates;
 				this.bDiggExchangeRates = bDiggExchangeRates;
@@ -89,27 +90,45 @@ export default class PricesStore {
 		},
 	);
 
-	async getExchangeRates(): Promise<ExchangeRates | undefined> {
+	async getExchangeRates(): Promise<ExchangeRates | null> {
 		const baseRatesUrl = 'https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd,cad,btc,bnb';
 		const maticRateUrl = 'https://api.coingecko.com/api/v3/simple/price?ids=matic-network&vs_currencies=eth';
 		const errorMessage = 'Failed to load exchange rates';
 		const defaultAccessor = (res: ExchangeRatesResponse) => res.ethereum;
 		const maticAccessor = (res: MaticPriceResponse) => res[MATIC_PRICE_KEY].eth;
-		const [defaultRates, maticRate] = await Promise.all([
-			fetchData<ExchangeRates, ExchangeRatesResponse>(baseRatesUrl, errorMessage, defaultAccessor),
-			fetchData<number, MaticPriceResponse>(maticRateUrl, errorMessage, maticAccessor),
+
+		const [defaultRatesFetch, maticRateFetch] = await Promise.all([
+			fetchData<ExchangeRates, ExchangeRatesResponse>(baseRatesUrl, { accessor: defaultAccessor }),
+			fetchData<number, MaticPriceResponse>(maticRateUrl, { accessor: maticAccessor }),
 		]);
-		if (defaultRates) {
+
+		const [defaultRates] = defaultRatesFetch;
+		const [maticRate] = maticRateFetch;
+
+		const areRatesNotAvailable = !defaultRates || !maticRateFetch;
+
+		if (DEBUG && areRatesNotAvailable) {
+			this.store.uiState.queueNotification(errorMessage, 'error');
+		}
+
+		if (defaultRates && maticRate) {
 			defaultRates.matic = 1 / Number(maticRate);
 		}
+
 		return defaultRates;
 	}
 
-	async getBdiggExchangeRates(): Promise<BDiggExchangeRates | undefined> {
+	async getBdiggExchangeRates(): Promise<BDiggExchangeRates | null> {
 		const url =
 			'https://api.coingecko.com/api/v3/simple/price?ids=badger-sett-digg&vs_currencies=usd,eth,btc,cad,bnb';
-		const errorMessage = 'Failed to load exchange rates';
 		const accessor = (res: any) => res['badger-sett-digg'];
-		return fetchData(url, errorMessage, accessor);
+
+		const [rates] = await fetchData(url, { accessor });
+
+		if (!rates && DEBUG) {
+			this.store.uiState.queueNotification('Failed to load exchange rates', 'error');
+		}
+
+		return rates;
 	}
 }
