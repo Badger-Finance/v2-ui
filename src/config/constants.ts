@@ -47,6 +47,7 @@ export const RPC_WALLETS: { [index: string]: boolean } = {
 	[Wallets.WalletLink]: true,
 	[Wallets.Trezor]: true,
 	[Wallets.Portis]: true,
+	[Wallets.CoinbaseWallet]: true,
 };
 
 export enum NETWORK_IDS {
