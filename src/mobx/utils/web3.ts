@@ -87,9 +87,9 @@ export const sendContractMethod = async (
 			.on('transactionHash', (_hash: string) => {
 				queueNotification(txHashMessage, 'info', _hash);
 			})
-			.on('receipt', () => {
+			.on('receipt', async () => {
 				queueNotification(receiptMessage, 'success');
-				store.user.updateBalances();
+				await store.user.reloadBalances();
 			})
 			.on('error', async (error: any) => {
 				// code -32602 means that the params for an EIP1559 transaction were invalid.
