@@ -70,15 +70,8 @@ export class RootStore {
 			this.setts.loadAssets(network.symbol),
 			this.network.updateGasPrices(),
 			this.setts.loadSetts(network.symbol),
+			this.loadTreeData(),
 		];
-
-		if (network.id === NETWORK_IDS.ETH) {
-			refreshData.push(this.rebase.fetchRebaseStats());
-		}
-
-		if (network.hasBadgerTree) {
-			refreshData.push(this.rewards.loadTreeData());
-		}
 
 		await Promise.all(refreshData);
 
@@ -87,6 +80,17 @@ export class RootStore {
 				this.ibBTCStore.init();
 				await this.airdrops.fetchAirdrops();
 			}
+		}
+	}
+
+	private async loadTreeData() {
+		const { network } = this.network;
+		// ensure network required calls are made prior to loading rewards
+		if (network.id === NETWORK_IDS.ETH) {
+			await this.rebase.fetchRebaseStats();
+		}
+		if (network.hasBadgerTree) {
+			await this.rewards.loadTreeData();
 		}
 	}
 }
