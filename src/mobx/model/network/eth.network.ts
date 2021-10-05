@@ -31,13 +31,13 @@ export class Ethereum extends Network {
 	}
 	get settOrder(): string[] {
 		return [
+			this.deploy.sett_system.vaults['native.icvx'],
+			this.deploy.sett_system.vaults['native.cvx'],
 			this.deploy.sett_system.vaults['native.badger'],
 			this.deploy.sett_system.vaults['native.digg'],
 			this.deploy.sett_system.vaults['native.sushiibBTCwBTC'],
 			this.deploy.sett_system.vaults['native.sushiBadgerWbtc'],
 			this.deploy.sett_system.vaults['native.sushiDiggWbtc'],
-			this.deploy.sett_system.vaults['native.icvx'],
-			this.deploy.sett_system.vaults['native.cvx'],
 			this.deploy.sett_system.vaults['native.cvxCrv'],
 			this.deploy.sett_system.vaults['native.tricryptoCrv2'],
 			this.deploy.sett_system.vaults['native.sbtcCrv'],

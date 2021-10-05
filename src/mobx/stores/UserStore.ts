@@ -182,6 +182,19 @@ export default class UserStore {
 		return !this.loadingBalances && hasTokens && hasSetts && hasGeysers;
 	}
 
+	async reloadBalances(): Promise<void> {
+		const { user, network, wallet } = this.store;
+		const actions = [];
+
+		actions.push(user.updateBalances());
+
+		if (wallet.connectedAddress) {
+			actions.push(user.loadAccountDetails(wallet.connectedAddress, network.network.symbol));
+		}
+
+		await Promise.all(actions);
+	}
+
 	getSettBalance(sett: Sett): SettBalance {
 		const currentSettBalance = this.getTokenBalance(sett.vaultToken);
 		let settBalance = this.accountDetails?.balances.find((settBalance) => settBalance.id === sett.vaultToken);

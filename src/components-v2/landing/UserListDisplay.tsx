@@ -6,7 +6,6 @@ import React, { useContext } from 'react';
 import SettListItem from './SettListItem';
 import { SettListViewProps } from './SettListView';
 import SettTable from './SettTable';
-import BadgerBoost from '../common/BadgerBoost';
 import { inCurrency } from 'mobx/utils/helpers';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { Sett } from '../../mobx/model/setts/sett';
@@ -116,9 +115,6 @@ const UserListDisplay = observer(({ state }: SettListViewProps) => {
 
 	return (
 		<>
-			<div className={classes.boostContainer}>
-				<BadgerBoost />
-			</div>
 			{displayWallet && (
 				<SettTable
 					title={'Your Wallet:'}

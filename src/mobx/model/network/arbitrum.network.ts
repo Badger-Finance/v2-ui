@@ -77,6 +77,36 @@ export const arbitrumSetts: BadgerSett[] = [
 			decimals: 18,
 		},
 	},
+	{
+		depositToken: {
+			address: ARBITRUM_DEPLOY.tokens['crv.tricrypto'],
+			decimals: 18,
+		},
+		vaultToken: {
+			address: ARBITRUM_DEPLOY.sett_system.vaults['native.tricryptoLight'],
+			decimals: 18,
+		},
+	},
+	{
+		depositToken: {
+			address: ARBITRUM_DEPLOY.tokens['swapr.WETH-SWAPR'],
+			decimals: 18,
+		},
+		vaultToken: {
+			address: ARBITRUM_DEPLOY.sett_system.vaults['native.swaprWethSwapr'],
+			decimals: 18,
+		},
+	},
+	{
+		depositToken: {
+			address: ARBITRUM_DEPLOY.tokens['swapr.WETH-WBTC'],
+			decimals: 18,
+		},
+		vaultToken: {
+			address: ARBITRUM_DEPLOY.sett_system.vaults['native.swaprWethWbtc'],
+			decimals: 18,
+		},
+	},
 ];
 
 export const arbitrumRewards = [

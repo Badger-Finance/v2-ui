@@ -160,6 +160,7 @@ export default class SettStore {
 	loadAssets = action(
 		async (chain = ChainNetwork.Ethereum): Promise<void> => {
 			const protocolSummary = await getTotalValueLocked(chain);
+
 			if (protocolSummary) {
 				this.protocolSummaryCache[chain] = protocolSummary;
 			} else {
