@@ -49,24 +49,15 @@
 				}
 			},
 			"BadgerSettPeak": {
-				"supportedTokens": [
-					"bcrvRenSBTC",
-					"bcrvRenBTC",
-					"btBTCCrv"
-				],
+				"supportedTokens": ["bcrvRenSBTC", "bcrvRenBTC", "btBTCCrv"],
 				"address": "0x41671BA1abcbA387b9b2B752c205e22e916BE6e3"
 			},
 			"yearnWBTCPeak": {
-				"supportedTokens": [
-					"bWBTC"
-				],
+				"supportedTokens": ["bWBTC"],
 				"address": "0x825218beD8BE0B30be39475755AceE0250C50627"
 			},
 			"ZapPeak": {
-				"supportedTokens": [
-					"renBTC",
-					"WBTC"
-				],
+				"supportedTokens": ["renBTC", "WBTC"],
 				"address": "0xb3188E8D8A539f3573431778598551f6D113D0Fa"
 			}
 		}

@@ -44,155 +44,153 @@ type OptimizerBodyProps = {
 	onBounceAnimationEnd(): void;
 };
 
-export const OptimizerBody = observer(
-	(props: OptimizerBodyProps): JSX.Element => {
-		const {
-			user: { accountDetails },
-			wallet: { connectedAddress },
-		} = React.useContext(StoreContext);
+export const OptimizerBody = observer((props: OptimizerBodyProps): JSX.Element => {
+	const {
+		user: { accountDetails },
+		wallet: { connectedAddress },
+	} = React.useContext(StoreContext);
 
-		const {
-			multiplier,
-			native,
-			nonNative,
-			nativeToAdd,
-			onNonNativeChange,
-			onNativeChange,
-			onBounceAnimationEnd,
-			showMessageBounce = false,
-		} = props;
+	const {
+		multiplier,
+		native,
+		nonNative,
+		nativeToAdd,
+		onNonNativeChange,
+		onNativeChange,
+		onBounceAnimationEnd,
+		showMessageBounce = false,
+	} = props;
 
-		const classes = useStyles();
-		const theme = useTheme();
-		const smallScreen = useMediaQuery(theme.breakpoints.down(706));
-		const extraSmallScreen = useMediaQuery(theme.breakpoints.down(500));
+	const classes = useStyles();
+	const theme = useTheme();
+	const smallScreen = useMediaQuery(theme.breakpoints.down(706));
+	const extraSmallScreen = useMediaQuery(theme.breakpoints.down(500));
 
-		const isLoading = !!connectedAddress && accountDetails === undefined;
-		const sanitizedMultiplier = sanitizeMultiplierValue(Number(multiplier));
+	const isLoading = !!connectedAddress && accountDetails === undefined;
+	const sanitizedMultiplier = sanitizeMultiplierValue(Number(multiplier));
 
-		const handleApplyRemaining = (amountToAdd: string) => {
-			const increasedNative = Number(native) + Number(amountToAdd);
+	const handleApplyRemaining = (amountToAdd: string) => {
+		const increasedNative = Number(native) + Number(amountToAdd);
 
-			if (isNaN(increasedNative)) {
-				return;
-			}
-
-			onNativeChange(increasedNative.toString());
-		};
-
-		const handleApplyNextLevelAmount = (amountToReachNextLevel: number) => {
-			const amountToReach = amountToReachNextLevel + Number(native);
-
-			if (isNaN(Number(amountToReach))) {
-				return;
-			}
-
-			onNativeChange(formatWithoutExtraZeros(amountToReach, 4));
-		};
-
-		const handleIncreaseNative = () => {
-			const increasedNative = Number(native) + 1000;
-
-			if (isNaN(increasedNative)) {
-				return;
-			}
-
-			onNativeChange(increasedNative.toString());
-		};
-
-		const handleReduceNative = () => {
-			const reducedNative = Number(native) - 1000;
-
-			if (isNaN(reducedNative)) {
-				return;
-			}
-
-			const sanitizedReducedNative = Math.max(reducedNative, 0);
-			onNativeChange(sanitizedReducedNative.toString());
-		};
-
-		const handleIncreaseNonNative = () => {
-			const increaseNonNative = Number(nonNative) + 1000;
-
-			if (isNaN(increaseNonNative)) {
-				return;
-			}
-
-			onNonNativeChange(increaseNonNative.toString());
-		};
-
-		const handleReduceNonNative = () => {
-			const reducedNonNative = Number(nonNative) - 1000;
-
-			if (isNaN(reducedNonNative)) {
-				return;
-			}
-
-			const sanitizedReducedNonNative = Math.max(reducedNonNative, 0);
-			onNonNativeChange(sanitizedReducedNonNative.toString());
-		};
-
-		const badgerScoreContent = isLoading ? (
-			<BoostLoader variant="rect" />
-		) : (
-			<BoostBadgerAnimation multiplier={sanitizedMultiplier} />
-		);
-
-		const nativeBox = (
-			<NativeBox
-				currentMultiplier={multiplier}
-				nativeBalance={native}
-				nonNativeBalance={nonNative}
-				isLoading={isLoading}
-				nativeToAdd={nativeToAdd}
-				onChange={onNativeChange}
-				onIncrement={handleIncreaseNative}
-				onReduction={handleReduceNative}
-				onApplyNextLevelAmount={handleApplyNextLevelAmount}
-				onApplyNativeToAdd={handleApplyRemaining}
-			/>
-		);
-
-		const nonNativeBox = (
-			<NonNativeBox
-				isLoading={isLoading}
-				nonNativeBalance={nonNative}
-				showMessageBounce={showMessageBounce}
-				onChange={onNonNativeChange}
-				onIncrement={handleIncreaseNonNative}
-				onReduction={handleReduceNonNative}
-				onBounceAnimationEnd={onBounceAnimationEnd}
-			/>
-		);
-
-		if (smallScreen) {
-			return (
-				<Grid container spacing={2} className={classes.content}>
-					<Grid item xs={12}>
-						{badgerScoreContent}
-					</Grid>
-					<Grid item xs={extraSmallScreen ? 12 : 6}>
-						{nativeBox}
-					</Grid>
-					<Grid item xs={extraSmallScreen ? 12 : 6}>
-						{nonNativeBox}
-					</Grid>
-				</Grid>
-			);
+		if (isNaN(increasedNative)) {
+			return;
 		}
 
+		onNativeChange(increasedNative.toString());
+	};
+
+	const handleApplyNextLevelAmount = (amountToReachNextLevel: number) => {
+		const amountToReach = amountToReachNextLevel + Number(native);
+
+		if (isNaN(Number(amountToReach))) {
+			return;
+		}
+
+		onNativeChange(formatWithoutExtraZeros(amountToReach, 4));
+	};
+
+	const handleIncreaseNative = () => {
+		const increasedNative = Number(native) + 1000;
+
+		if (isNaN(increasedNative)) {
+			return;
+		}
+
+		onNativeChange(increasedNative.toString());
+	};
+
+	const handleReduceNative = () => {
+		const reducedNative = Number(native) - 1000;
+
+		if (isNaN(reducedNative)) {
+			return;
+		}
+
+		const sanitizedReducedNative = Math.max(reducedNative, 0);
+		onNativeChange(sanitizedReducedNative.toString());
+	};
+
+	const handleIncreaseNonNative = () => {
+		const increaseNonNative = Number(nonNative) + 1000;
+
+		if (isNaN(increaseNonNative)) {
+			return;
+		}
+
+		onNonNativeChange(increaseNonNative.toString());
+	};
+
+	const handleReduceNonNative = () => {
+		const reducedNonNative = Number(nonNative) - 1000;
+
+		if (isNaN(reducedNonNative)) {
+			return;
+		}
+
+		const sanitizedReducedNonNative = Math.max(reducedNonNative, 0);
+		onNonNativeChange(sanitizedReducedNonNative.toString());
+	};
+
+	const badgerScoreContent = isLoading ? (
+		<BoostLoader variant="rect" />
+	) : (
+		<BoostBadgerAnimation multiplier={sanitizedMultiplier} />
+	);
+
+	const nativeBox = (
+		<NativeBox
+			currentMultiplier={multiplier}
+			nativeBalance={native}
+			nonNativeBalance={nonNative}
+			isLoading={isLoading}
+			nativeToAdd={nativeToAdd}
+			onChange={onNativeChange}
+			onIncrement={handleIncreaseNative}
+			onReduction={handleReduceNative}
+			onApplyNextLevelAmount={handleApplyNextLevelAmount}
+			onApplyNativeToAdd={handleApplyRemaining}
+		/>
+	);
+
+	const nonNativeBox = (
+		<NonNativeBox
+			isLoading={isLoading}
+			nonNativeBalance={nonNative}
+			showMessageBounce={showMessageBounce}
+			onChange={onNonNativeChange}
+			onIncrement={handleIncreaseNonNative}
+			onReduction={handleReduceNonNative}
+			onBounceAnimationEnd={onBounceAnimationEnd}
+		/>
+	);
+
+	if (smallScreen) {
 		return (
-			<Grid container className={classes.content}>
-				<Grid item xs>
-					{nativeBox}
-				</Grid>
-				<Grid item xs={5}>
+			<Grid container spacing={2} className={classes.content}>
+				<Grid item xs={12}>
 					{badgerScoreContent}
 				</Grid>
-				<Grid item xs>
+				<Grid item xs={extraSmallScreen ? 12 : 6}>
+					{nativeBox}
+				</Grid>
+				<Grid item xs={extraSmallScreen ? 12 : 6}>
 					{nonNativeBox}
 				</Grid>
 			</Grid>
 		);
-	},
-);
+	}
+
+	return (
+		<Grid container className={classes.content}>
+			<Grid item xs>
+				{nativeBox}
+			</Grid>
+			<Grid item xs={5}>
+				{badgerScoreContent}
+			</Grid>
+			<Grid item xs>
+				{nonNativeBox}
+			</Grid>
+		</Grid>
+	);
+});
