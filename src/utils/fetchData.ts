@@ -19,27 +19,26 @@ export async function fetchData<T, R = unknown>(
 	const defaultRetryOptions = getDefaultRetryOptions<FetchResult<T>>();
 	const { accessor, ...retryOptions } = options;
 
-	try {
-		return retry(
-			async () => {
-				const response = await fetch(url, {
-					method: 'GET',
-					headers: {
-						'Content-Type': 'application/json',
-						Accept: 'application/json',
-					},
-				});
-
-				if (!response.ok) {
-					return [null, await response.text()];
-				}
-
-				const data = await response.json();
-
-				return [accessor ? accessor(data) : data, null] as FetchResult<T>;
+	const executeFetch = async (): Promise<FetchResult<T>> => {
+		const response = await fetch(url, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+				Accept: 'application/json',
 			},
-			{ ...defaultRetryOptions, ...retryOptions },
-		);
+		});
+
+		if (!response.ok) {
+			return [null, await response.text()];
+		}
+
+		const data = await response.json();
+
+		return [accessor ? accessor(data) : data, null] as FetchResult<T>;
+	};
+
+	try {
+		return retry(executeFetch, { ...defaultRetryOptions, ...retryOptions });
 	} catch (error) {
 		return [null, error];
 	}
