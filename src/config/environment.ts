@@ -45,7 +45,6 @@ export const DEBUG = getIntegrationStage(BUILD_ENV) === Stage.Staging;
 const toBool = (val: string | undefined): boolean => (val ? val.toLowerCase() === 'true' : false);
 
 export const FLAGS = {
-	BOOST_V2: toBool(process.env.REACT_APP_BOOST_V2),
 	IBBTC_OPTIONS_FLAG: toBool(process.env.REACT_APP_IBBTC_OPTIONS_FLAG),
 	STABILIZATION_SETTS: toBool(process.env.REACT_APP_STABILIZATION_SETTS),
 	ARBITRUM: toBool(process.env.REACT_APP_ARBITRUM),

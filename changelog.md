@@ -1,12 +1,23 @@
 # v2 UI Changelog
 
+### v2.9.5 - 10/05/2021
+
+-   Release Swapper vaults
+-   Add tricrypto light vault
+-   Refactor boost display
+-   Add chain swapping to dropdown
+-   Improve CI testing
+-   Fix error with Coinbase wallet
+-   Fix error with Digg fragments per share not being set
+
 ### v2.9.4 - 09/27/2021
 
 -   Release Convex Locking Vault
 -   Add API based fee calculation
--   Patch Badger Bridge missing icons   
+-   Patch Badger Bridge missing icons
 
 ### Hotfix - 09/24/2021
+
 -   Remove App Notification
 -   Mobile wallet RPC fix
 

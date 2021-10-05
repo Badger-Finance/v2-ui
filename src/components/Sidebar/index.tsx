@@ -23,7 +23,6 @@ import { RootStore } from 'mobx/RootStore';
 import clsx, { ClassValue } from 'clsx';
 import SecurityIcon from '@material-ui/icons/Security';
 import { sidebarPricingLinks } from 'config/ui/links';
-import { FLAGS } from 'config/environment';
 import { ChainNetwork } from 'config/enums/chain-network.enum';
 
 const DRAWER_WIDTH = 240;
@@ -64,6 +63,13 @@ const useStyles = makeStyles((theme) => ({
 			backgroundColor: 'transparent',
 			cursor: 'pointer',
 		},
+		padding: theme.spacing(1, 3),
+	},
+	textListItem: {
+		userSelect: 'none',
+		msUserSelect: 'none',
+		MozUserSelect: 'none',
+		WebkitUserSelect: 'none',
 		padding: theme.spacing(1, 3),
 	},
 	divider: {
@@ -142,6 +148,7 @@ export const Sidebar = observer(() => {
 		rewards: { badgerTree },
 		wallet: { connectedAddress },
 		network: { network },
+		user: { accountDetails },
 	} = store;
 
 	const [expanded, setExpanded] = useState('');
@@ -199,7 +206,7 @@ export const Sidebar = observer(() => {
 		return clsx(classes.listItem, shouldCollapseBeActive && classes.activeListItem, ...additionalClasses);
 	};
 
-	const isSidebarSupportedNetwork = (network: ChainNetwork): boolean => {
+	const isEmissionsNetwork = (network: ChainNetwork): boolean => {
 		return [ChainNetwork.Ethereum, ChainNetwork.Matic, ChainNetwork.Arbitrum].includes(network);
 	};
 
@@ -213,7 +220,7 @@ export const Sidebar = observer(() => {
 					</ListItemSecondaryAction>
 				</ListItem>
 
-				{isSidebarSupportedNetwork(network.symbol) ? (
+				{isEmissionsNetwork(network.symbol) ? (
 					<ListItem
 						button
 						onClick={() => setExpanded(expanded === 'advanced' ? '' : 'advanced')}
@@ -235,8 +242,8 @@ export const Sidebar = observer(() => {
 					</ListItem>
 				)}
 				<Collapse in={expanded === 'advanced'} timeout="auto" unmountOnExit>
-					{isSidebarSupportedNetwork(network.symbol) && badgerTree && connectedAddress ? (
-						<ListItem key="rewards">
+					{isEmissionsNetwork(network.symbol) && badgerTree && connectedAddress ? (
+						<ListItem className={classes.textListItem} key="rewards">
 							<ListItemText
 								primary={`Cycle Count: ${badgerTree.cycle}`}
 								secondary={
@@ -251,6 +258,15 @@ export const Sidebar = observer(() => {
 						</ListItem>
 					)}
 				</Collapse>
+				{accountDetails && (
+					<ListItem className={`${classes.textListItem}`} key="boost">
+						<ListItemText
+							primary={`Boost: ${accountDetails?.boost.toFixed(2)}`}
+							secondary={`Rank: ${accountDetails.boostRank}`}
+						/>
+					</ListItem>
+				)}
+
 				<ListItem
 					button
 					className={getItemClass('/', classes.listItem)}
@@ -263,18 +279,18 @@ export const Sidebar = observer(() => {
 					</ListItemIcon>
 					<ListItemText primary="Sett Vaults" />
 				</ListItem>
-				{network.symbol === ChainNetwork.Ethereum ? (
+				<ListItem
+					button
+					className={getItemClass('/guarded', classes.listItem)}
+					onClick={() => goTo(views.guarded)}
+				>
+					<ListItemIcon>
+						<SecurityIcon fontSize="small" />
+					</ListItemIcon>
+					<ListItemText primary="Guarded Vaults" />
+				</ListItem>
+				{network.symbol === ChainNetwork.Ethereum && (
 					<>
-						<ListItem
-							button
-							className={getItemClass('/guarded', classes.listItem)}
-							onClick={() => goTo(views.guarded)}
-						>
-							<ListItemIcon>
-								<SecurityIcon fontSize="small" />
-							</ListItemIcon>
-							<ListItemText primary="Guarded Vaults" />
-						</ListItem>
 						<ListItem
 							button
 							className={getItemClass('/digg', classes.listItem)}
@@ -317,81 +333,79 @@ export const Sidebar = observer(() => {
 							</ListItemIcon>
 							<ListItemText primary="Bridge" />
 						</ListItem>
-						{FLAGS.BOOST_V2 && (
-							<ListItem
-								button
-								className={getCollapsableItemClasses('boosts', ['/boost-optimizer', '/leaderboard'])}
-								onClick={() => {
-									setExpanded(expanded === 'boosts' ? '' : 'boosts');
-								}}
-							>
-								<ListItemIcon>
-									<img alt="Boosts" src={'/assets/sidebar/boosts.png'} className={classes.icon} />
-								</ListItemIcon>
-								<ListItemText primary="Boost" />
-								<IconButton
-									size="small"
-									className={clsx(classes.expand, expanded === 'tokens' && classes.expandOpen)}
-									aria-label="show more"
-								>
-									<ExpandMore />
-								</IconButton>
-							</ListItem>
-						)}
-						<Collapse in={expanded === 'boosts'} timeout="auto" unmountOnExit>
-							<ListItem
-								button
-								classes={{ gutters: classes.subItemGutters }}
-								className={getItemClass('/boost-optimizer', classes.primarySubListItem)}
-								onClick={() => navigate(views.boostOptimizer)}
-							>
-								Boost Optimizer
-							</ListItem>
-							<ListItem
-								button
-								classes={{ gutters: classes.subItemGutters }}
-								className={getItemClass('/leaderboard', classes.primarySubListItem)}
-								onClick={() => navigate(views.boostLeaderBoard)}
-							>
-								Boost Leaderboard
-							</ListItem>
-						</Collapse>
+					</>
+				)}
+				<ListItem
+					button
+					className={getCollapsableItemClasses('boosts', ['/boost-optimizer', '/leaderboard'])}
+					onClick={() => {
+						setExpanded(expanded === 'boosts' ? '' : 'boosts');
+					}}
+				>
+					<ListItemIcon>
+						<img alt="Boosts" src={'/assets/sidebar/boosts.png'} className={classes.icon} />
+					</ListItemIcon>
+					<ListItemText primary="Boost" />
+					<IconButton
+						size="small"
+						className={clsx(classes.expand, expanded === 'tokens' && classes.expandOpen)}
+						aria-label="show more"
+					>
+						<ExpandMore />
+					</IconButton>
+				</ListItem>
+				<Collapse in={expanded === 'boosts'} timeout="auto" unmountOnExit>
+					<ListItem
+						button
+						classes={{ gutters: classes.subItemGutters }}
+						className={getItemClass('/boost-optimizer', classes.primarySubListItem)}
+						onClick={() => navigate(views.boostOptimizer)}
+					>
+						Boost Optimizer
+					</ListItem>
+					<ListItem
+						button
+						classes={{ gutters: classes.subItemGutters }}
+						className={getItemClass('/leaderboard', classes.primarySubListItem)}
+						onClick={() => navigate(views.boostLeaderBoard)}
+					>
+						Boost Leaderboard
+					</ListItem>
+				</Collapse>
 
-						<ListItem
-							button
-							className={getCollapsableItemClasses('badger-zone', [
-								'/honey-badger-drop',
-								'/experimental',
-								'/airdrops',
-								'/honey-badger-drop',
-							])}
-							onClick={() => setExpanded(expanded === 'badger-zone' ? '' : 'badger-zone')}
-						>
-							<ListItemIcon>
-								<img
-									alt="Badger Arcade"
-									src={'/assets/sidebar/gas_station.png'}
-									className={classes.icon}
-								/>
-							</ListItemIcon>
-							<ListItemText primary="Badger Arcade" />
-							<IconButton
-								size="small"
-								className={classes.expand + ' ' + (expanded === 'tokens' ? classes.expandOpen : '')}
-								aria-label="show more"
-							>
-								<ExpandMore />
-							</IconButton>
-						</ListItem>
-						<Collapse in={expanded === 'badger-zone'} timeout="auto" unmountOnExit>
-							<ListItem
-								button
-								classes={{ gutters: classes.subItemGutters }}
-								className={getItemClass('/experimental', classes.primarySubListItem)}
-								onClick={() => navigate(views.experimental)}
-							>
-								Experimental Vaults
-							</ListItem>
+				<ListItem
+					button
+					className={getCollapsableItemClasses('badger-zone', [
+						'/honey-badger-drop',
+						'/experimental',
+						'/airdrops',
+						'/honey-badger-drop',
+					])}
+					onClick={() => setExpanded(expanded === 'badger-zone' ? '' : 'badger-zone')}
+				>
+					<ListItemIcon>
+						<img alt="Badger Arcade" src={'/assets/sidebar/gas_station.png'} className={classes.icon} />
+					</ListItemIcon>
+					<ListItemText primary="Badger Arcade" />
+					<IconButton
+						size="small"
+						className={classes.expand + ' ' + (expanded === 'tokens' ? classes.expandOpen : '')}
+						aria-label="show more"
+					>
+						<ExpandMore />
+					</IconButton>
+				</ListItem>
+				<Collapse in={expanded === 'badger-zone'} timeout="auto" unmountOnExit>
+					<ListItem
+						button
+						classes={{ gutters: classes.subItemGutters }}
+						className={getItemClass('/experimental', classes.primarySubListItem)}
+						onClick={() => navigate(views.experimental)}
+					>
+						Experimental Vaults
+					</ListItem>
+					{network.symbol === ChainNetwork.Ethereum && (
+						<>
 							<ListItem
 								button
 								classes={{ gutters: classes.subItemGutters }}
@@ -408,60 +422,9 @@ export const Sidebar = observer(() => {
 							>
 								Honey Badger Drop
 							</ListItem>
-						</Collapse>
-					</>
-				) : [ChainNetwork.Matic, ChainNetwork.Arbitrum].includes(network.symbol) ? (
-					<>
-						<ListItem
-							button
-							className={getItemClass('/guarded', classes.listItem)}
-							onClick={() => goTo(views.guarded)}
-						>
-							<ListItemIcon>
-								<SecurityIcon fontSize="small" />
-							</ListItemIcon>
-							<ListItemText primary="Guarded Vaults" />
-						</ListItem>
-						<ListItem
-							button
-							className={getCollapsableItemClasses('badger-zone', [
-								'/honey-badger-drop',
-								'/experimental',
-								'/airdrops',
-								'/honey-badger-drop',
-							])}
-							onClick={() => setExpanded(expanded === 'badger-zone' ? '' : 'badger-zone')}
-						>
-							<ListItemIcon>
-								<img
-									alt="Badger Arcade"
-									src={'/assets/sidebar/gas_station.png'}
-									className={classes.icon}
-								/>
-							</ListItemIcon>
-							<ListItemText primary="Badger Arcade" />
-							<IconButton
-								size="small"
-								className={classes.expand + ' ' + (expanded === 'tokens' ? classes.expandOpen : '')}
-								aria-label="show more"
-							>
-								<ExpandMore />
-							</IconButton>
-						</ListItem>
-						<Collapse in={expanded === 'badger-zone'} timeout="auto" unmountOnExit>
-							<ListItem
-								button
-								classes={{ gutters: classes.subItemGutters }}
-								className={getItemClass('/experimental', classes.primarySubListItem)}
-								onClick={() => navigate(views.experimental)}
-							>
-								Experimental Vaults
-							</ListItem>
-						</Collapse>
-					</>
-				) : (
-					<></>
-				)}
+						</>
+					)}
+				</Collapse>
 			</List>
 			<List>
 				<ListItem

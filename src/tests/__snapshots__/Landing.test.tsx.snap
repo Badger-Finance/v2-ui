@@ -91,17 +91,17 @@ exports[`Landing Page Renders correctly 1`] = `
               <span
                 class="MuiButton-label-227"
               >
-                Click to connect
+                0x1a1a1...a1a1a1a
                 <span
                   class="MuiButton-endIcon-251 MuiButton-iconSizeMedium-253"
                 >
                   <div
-                    class="makeStyles-walletDot-222 makeStyles-redDot-223"
+                    class="makeStyles-walletDot-222 makeStyles-greenDot-224"
                   />
                 </span>
               </span>
               <span
-                class="MuiTouchRipple-root-343"
+                class="MuiTouchRipple-root-480"
               />
             </button>
           </div>
@@ -112,12 +112,70 @@ exports[`Landing Page Renders correctly 1`] = `
       >
         <div
           class="makeStyles-walletContainer-7"
-        />
+        >
+          <label
+            class="MuiFormControlLabel-root-259 makeStyles-walletSlider-258"
+          >
+            <span
+              class="MuiSwitch-root-265"
+            >
+              <span
+                aria-disabled="false"
+                class="MuiButtonBase-root-255 MuiIconButton-root-281 PrivateSwitchBase-root-277 MuiSwitch-switchBase-268 MuiSwitch-colorPrimary-269"
+              >
+                <span
+                  class="MuiIconButton-label-289"
+                >
+                  <input
+                    class="PrivateSwitchBase-input-280 MuiSwitch-input-274"
+                    type="checkbox"
+                    value=""
+                  />
+                  <span
+                    class="MuiSwitch-thumb-275"
+                  />
+                </span>
+                <span
+                  class="MuiTouchRipple-root-480"
+                />
+              </span>
+              <span
+                class="MuiSwitch-track-276"
+              />
+            </span>
+            <span
+              class="MuiTypography-root-128 MuiFormControlLabel-label-264 MuiTypography-body1-130"
+            >
+              Portfolio View
+            </span>
+          </label>
+        </div>
         <div
           class="makeStyles-pickerContainer-8"
         >
           <div
-            class="MuiInputBase-root-187 MuiOutlinedInput-root-172 makeStyles-samplePicker-271"
+            class="makeStyles-claimContainer-301"
+          >
+            <div
+              class="MuiButtonGroup-root-303 makeStyles-openModalButton-297"
+              role="group"
+            >
+              <button
+                class="MuiButtonBase-root-255 MuiButton-root-226 MuiButton-contained-234 MuiButtonGroup-grouped-309 MuiButtonGroup-groupedHorizontal-310 MuiButtonGroup-groupedOutlined-317 MuiButtonGroup-groupedOutlinedHorizontal-318 MuiButtonGroup-groupedOutlinedPrimary-320 MuiButton-containedPrimary-235 MuiButton-containedSizeSmall-245 MuiButton-sizeSmall-247 MuiButton-disabled-239 MuiButtonBase-disabled-256"
+                disabled=""
+                tabindex="-1"
+                type="button"
+              >
+                <span
+                  class="MuiButton-label-227"
+                >
+                  CLAIM REWARDS
+                </span>
+              </button>
+            </div>
+          </div>
+          <div
+            class="MuiInputBase-root-187 MuiOutlinedInput-root-172 makeStyles-samplePicker-327"
             title="ROI combines the appreciation of the vault with its $BADGER or $DIGG emissions. All numbers are an approximation based on historical data."
           >
             <div
@@ -160,7 +218,7 @@ exports[`Landing Page Renders correctly 1`] = `
             </fieldset>
           </div>
           <div
-            class="MuiInputBase-root-187 MuiOutlinedInput-root-172 makeStyles-currencyPicker-283"
+            class="MuiInputBase-root-187 MuiOutlinedInput-root-172 makeStyles-currencyPicker-339"
           >
             <div
               aria-haspopup="listbox"
@@ -204,10 +262,10 @@ exports[`Landing Page Renders correctly 1`] = `
         </div>
       </div>
       <div
-        class="MuiGrid-root-20 MuiGrid-item-22 MuiGrid-grid-xs-12-66 MuiGrid-grid-md-6-88"
+        class="MuiGrid-root-20 MuiGrid-item-22 MuiGrid-grid-xs-12-66 MuiGrid-grid-md-4-86"
       >
         <div
-          class="MuiPaper-root-285 makeStyles-infoPaper-284 MuiPaper-elevation2-290 MuiPaper-rounded-286"
+          class="MuiPaper-root-341 makeStyles-infoPaper-340 MuiPaper-elevation2-346 MuiPaper-rounded-342"
         >
           <h6
             class="MuiTypography-root-128 MuiTypography-subtitle1-139 MuiTypography-colorTextPrimary-153"
@@ -215,7 +273,7 @@ exports[`Landing Page Renders correctly 1`] = `
             Total Value Locked
           </h6>
           <span
-            class="MuiSkeleton-root-313 MuiSkeleton-text-314 MuiSkeleton-withChildren-321 MuiSkeleton-fitContent-322 MuiSkeleton-heightAuto-323 MuiSkeleton-wave-319"
+            class="MuiSkeleton-root-369 MuiSkeleton-text-370 MuiSkeleton-withChildren-377 MuiSkeleton-fitContent-378 MuiSkeleton-heightAuto-379 MuiSkeleton-wave-375"
           >
             <h5
               class="MuiTypography-root-128 MuiTypography-h5-137"
@@ -226,10 +284,32 @@ exports[`Landing Page Renders correctly 1`] = `
         </div>
       </div>
       <div
-        class="MuiGrid-root-20 MuiGrid-item-22 MuiGrid-grid-xs-12-66 MuiGrid-grid-md-6-88"
+        class="MuiGrid-root-20 MuiGrid-item-22 MuiGrid-grid-xs-12-66 MuiGrid-grid-md-4-86"
       >
         <div
-          class="MuiPaper-root-285 makeStyles-infoPaper-284 MuiPaper-elevation2-290 MuiPaper-rounded-286"
+          class="MuiPaper-root-341 makeStyles-infoPaper-340 MuiPaper-elevation2-346 MuiPaper-rounded-342"
+        >
+          <h6
+            class="MuiTypography-root-128 MuiTypography-subtitle1-139 MuiTypography-colorTextPrimary-153"
+          >
+            Your Portfolio
+          </h6>
+          <span
+            class="MuiSkeleton-root-369 MuiSkeleton-text-370 MuiSkeleton-withChildren-377 MuiSkeleton-fitContent-378 MuiSkeleton-heightAuto-379 MuiSkeleton-wave-375"
+          >
+            <h5
+              class="MuiTypography-root-128 MuiTypography-h5-137"
+            >
+              Placeholder
+            </h5>
+          </span>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-20 MuiGrid-item-22 MuiGrid-grid-xs-12-66 MuiGrid-grid-md-4-86"
+      >
+        <div
+          class="MuiPaper-root-341 makeStyles-infoPaper-340 MuiPaper-elevation2-346 MuiPaper-rounded-342"
         >
           <h6
             class="MuiTypography-root-128 MuiTypography-subtitle1-139 MuiTypography-colorTextPrimary-153"
@@ -237,7 +317,7 @@ exports[`Landing Page Renders correctly 1`] = `
             Badger Price
           </h6>
           <span
-            class="MuiSkeleton-root-313 MuiSkeleton-text-314 MuiSkeleton-withChildren-321 MuiSkeleton-fitContent-322 MuiSkeleton-heightAuto-323 MuiSkeleton-wave-319"
+            class="MuiSkeleton-root-369 MuiSkeleton-text-370 MuiSkeleton-withChildren-377 MuiSkeleton-fitContent-378 MuiSkeleton-heightAuto-379 MuiSkeleton-wave-375"
           >
             <h5
               class="MuiTypography-root-128 MuiTypography-h5-137"
@@ -262,41 +342,729 @@ exports[`Landing Page Renders correctly 1`] = `
           Badger Boost Power Up has been implemented - Click here to learn more
         </span>
         <span
-          class="MuiTouchRipple-root-343"
+          class="MuiTouchRipple-root-480"
         />
       </button>
     </div>
     <div
-      class="makeStyles-settListContainer-324"
+      class="makeStyles-settListContainer-380"
     >
       <div
-        class="makeStyles-loaderContainer-326"
+        class="MuiGrid-root-20 makeStyles-root-383 MuiGrid-container-21 MuiGrid-item-22 MuiGrid-grid-xs-12-66 MuiGrid-grid-md-9-91"
       >
         <div
-          class="MuiCircularProgress-root-329 MuiCircularProgress-colorPrimary-333 MuiCircularProgress-indeterminate-331"
-          role="progressbar"
-          style="width: 60px; height: 60px;"
+          class="MuiGrid-root-20 MuiGrid-container-21 MuiGrid-item-22 MuiGrid-grid-xs-12-66 MuiGrid-grid-sm-5-73"
         >
-          <svg
-            class="MuiCircularProgress-svg-335"
-            viewBox="22 22 44 44"
+          <div
+            class="MuiGrid-root-20 MuiGrid-item-22"
           >
-            <circle
-              class="MuiCircularProgress-circle-336 MuiCircularProgress-circleIndeterminate-338"
-              cx="44"
-              cy="44"
-              fill="none"
-              r="20.2"
-              stroke-width="3.6"
-            />
-          </svg>
+            <p
+              class="MuiTypography-root-128 MuiTypography-body1-130 MuiTypography-colorTextPrimary-153"
+            >
+              All Setts
+            </p>
+          </div>
+          <div
+            class="MuiGrid-root-20 makeStyles-amount-385 MuiGrid-item-22"
+          >
+            <div
+              class="MuiGrid-root-20 MuiGrid-container-21 MuiGrid-align-items-xs-center-29"
+            >
+              <p
+                class="MuiTypography-root-128 MuiTypography-body1-130"
+              />
+            </div>
+          </div>
         </div>
-        <p
-          class="MuiTypography-root-128 makeStyles-loaderMessage-327 MuiTypography-body1-130"
+        <div
+          class="MuiGrid-root-20 makeStyles-hiddenMobile-384 MuiGrid-item-22 MuiGrid-grid-xs-12-66 MuiGrid-grid-sm-true-68"
         >
-          Loading Ethereum Setts...
-        </p>
+          <p
+            class="MuiTypography-root-128 MuiTypography-body2-129 MuiTypography-colorTextSecondary-154"
+          >
+            Yearly
+             ROI
+          </p>
+        </div>
+        <div
+          class="MuiGrid-root-20 makeStyles-hiddenMobile-384 MuiGrid-item-22 MuiGrid-grid-xs-12-66 MuiGrid-grid-sm-true-68"
+        >
+          <p
+            class="MuiTypography-root-128 MuiTypography-body2-129 MuiTypography-colorTextSecondary-154"
+          >
+            Value
+          </p>
+        </div>
       </div>
+      <ul
+        class="MuiList-root-387 makeStyles-list-382 MuiList-padding-388"
+      >
+        <li
+          class="MuiListItem-root-398 makeStyles-listItem-395 MuiListItem-gutters-405"
+        >
+          <div
+            class="MuiGrid-root-20 makeStyles-root-391 makeStyles-enabledSett-392 MuiGrid-container-21"
+          >
+            <div
+              class="MuiGrid-root-20 makeStyles-clickableSection-396 MuiGrid-container-21 MuiGrid-item-22 MuiGrid-grid-xs-12-66 MuiGrid-grid-md-9-91"
+            >
+              <div
+                class="MuiGrid-root-20 makeStyles-name-394 MuiGrid-container-21 MuiGrid-item-22 MuiGrid-grid-xs-12-66 MuiGrid-grid-md-5-87"
+              >
+                <div
+                  class="MuiGrid-root-20 MuiGrid-container-21"
+                >
+                  <div
+                    class="MuiGrid-root-20 makeStyles-vaultIcon-410 MuiGrid-item-22"
+                  >
+                    <img
+                      alt="Badger Convex renBTC/wBTC/sBTC Vault Symbol"
+                      class="makeStyles-symbol-409"
+                      src="/assets/icons/bcrvsbtc.png"
+                    />
+                  </div>
+                  <div
+                    class="MuiGrid-root-20 MuiGrid-item-22"
+                  >
+                    <div
+                      class="MuiGrid-root-20 MuiGrid-container-21 MuiGrid-direction-xs-column-24"
+                    >
+                      <p
+                        class="MuiTypography-root-128 MuiTypography-body1-130"
+                      >
+                        renBTC/wBTC/sBTC
+                      </p>
+                      <div
+                        class="MuiGrid-root-20 MuiGrid-container-21"
+                      >
+                        <p
+                          class="MuiTypography-root-128 MuiTypography-body2-129 MuiTypography-colorTextSecondary-154"
+                        >
+                          crvsBTC
+                        </p>
+                        <div
+                          class="MuiChip-root-412 makeStyles-chip-411 MuiChip-colorPrimary-414 MuiChip-sizeSmall-413"
+                          style="background-color: rgb(69, 156, 119); color: white;"
+                        >
+                          <span
+                            class="MuiChip-label-434 MuiChip-labelSmall-435"
+                          >
+                            Convex
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="MuiGrid-root-20 makeStyles-mobileLabel-393 MuiGrid-item-22 MuiGrid-grid-xs-6-60 MuiGrid-grid-md-true-82"
+              >
+                <p
+                  class="MuiTypography-root-128 MuiTypography-body2-129 MuiTypography-colorTextSecondary-154"
+                >
+                  ROI
+                </p>
+              </div>
+              <div
+                class="MuiGrid-root-20 MuiGrid-item-22 MuiGrid-grid-xs-6-60 MuiGrid-grid-md-true-82"
+              >
+                <p
+                  class="MuiTypography-root-128 makeStyles-normalCursor-442 MuiTypography-body1-130 MuiTypography-colorTextPrimary-153"
+                >
+                  6.82% - 45.63%
+                </p>
+              </div>
+              <div
+                class="MuiGrid-root-20 makeStyles-mobileLabel-393 MuiGrid-item-22 MuiGrid-grid-xs-6-60 MuiGrid-grid-md-true-82"
+              >
+                <p
+                  class="MuiTypography-root-128 MuiTypography-body2-129 MuiTypography-colorTextSecondary-154"
+                >
+                  Value
+                </p>
+              </div>
+              <div
+                class="MuiGrid-root-20 MuiGrid-item-22 MuiGrid-grid-xs-6-60 MuiGrid-grid-md-true-82"
+              >
+                <div
+                  class="MuiGrid-root-20 MuiGrid-container-21 MuiGrid-align-items-xs-center-29"
+                >
+                  <p
+                    class="MuiTypography-root-128 MuiTypography-body1-130"
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root-20 makeStyles-nonClickableSection-397 MuiGrid-item-22 MuiGrid-grid-xs-12-66 MuiGrid-grid-md-true-82"
+            >
+              <div
+                class="MuiBox-root-446 MuiBox-root-447 makeStyles-container-443"
+              >
+                <button
+                  class="MuiButtonBase-root-255 MuiButton-root-226 MuiButton-contained-234 makeStyles-button-444 makeStyles-deposit-445 MuiButton-containedPrimary-235"
+                  tabindex="0"
+                  type="button"
+                >
+                  <span
+                    class="MuiButton-label-227"
+                  >
+                    Deposit
+                  </span>
+                  <span
+                    class="MuiTouchRipple-root-480"
+                  />
+                </button>
+                <button
+                  class="MuiButtonBase-root-255 MuiButton-root-226 MuiButton-outlined-231 makeStyles-button-444 MuiButton-outlinedPrimary-232 MuiButton-disabled-239 WithStyles(ForwardRef(Button))-disabled-448 MuiButtonBase-disabled-256"
+                  disabled=""
+                  tabindex="-1"
+                  type="button"
+                >
+                  <span
+                    class="MuiButton-label-227"
+                  >
+                    Withdraw
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li
+          class="MuiListItem-root-398 makeStyles-listItem-395 MuiListItem-gutters-405"
+        >
+          <div
+            class="MuiGrid-root-20 makeStyles-root-391 makeStyles-enabledSett-392 MuiGrid-container-21"
+          >
+            <div
+              class="MuiGrid-root-20 makeStyles-clickableSection-396 MuiGrid-container-21 MuiGrid-item-22 MuiGrid-grid-xs-12-66 MuiGrid-grid-md-9-91"
+            >
+              <div
+                class="MuiGrid-root-20 makeStyles-name-394 MuiGrid-container-21 MuiGrid-item-22 MuiGrid-grid-xs-12-66 MuiGrid-grid-md-5-87"
+              >
+                <div
+                  class="MuiGrid-root-20 MuiGrid-container-21"
+                >
+                  <div
+                    class="MuiGrid-root-20 makeStyles-vaultIcon-410 MuiGrid-item-22"
+                  >
+                    <img
+                      alt="Badger Convex renBTC/wBTC Vault Symbol"
+                      class="makeStyles-symbol-409"
+                      src="/assets/icons/bcrvrenbtc.png"
+                    />
+                  </div>
+                  <div
+                    class="MuiGrid-root-20 MuiGrid-item-22"
+                  >
+                    <div
+                      class="MuiGrid-root-20 MuiGrid-container-21 MuiGrid-direction-xs-column-24"
+                    >
+                      <p
+                        class="MuiTypography-root-128 MuiTypography-body1-130"
+                      >
+                        renBTC/wBTC
+                      </p>
+                      <div
+                        class="MuiGrid-root-20 MuiGrid-container-21"
+                      >
+                        <p
+                          class="MuiTypography-root-128 MuiTypography-body2-129 MuiTypography-colorTextSecondary-154"
+                        >
+                          crvrenWBTC
+                        </p>
+                        <div
+                          class="MuiChip-root-412 makeStyles-chip-411 MuiChip-colorPrimary-414 MuiChip-sizeSmall-413"
+                          style="background-color: rgb(69, 156, 119); color: white;"
+                        >
+                          <span
+                            class="MuiChip-label-434 MuiChip-labelSmall-435"
+                          >
+                            Convex
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="MuiGrid-root-20 makeStyles-mobileLabel-393 MuiGrid-item-22 MuiGrid-grid-xs-6-60 MuiGrid-grid-md-true-82"
+              >
+                <p
+                  class="MuiTypography-root-128 MuiTypography-body2-129 MuiTypography-colorTextSecondary-154"
+                >
+                  ROI
+                </p>
+              </div>
+              <div
+                class="MuiGrid-root-20 MuiGrid-item-22 MuiGrid-grid-xs-6-60 MuiGrid-grid-md-true-82"
+              >
+                <p
+                  class="MuiTypography-root-128 makeStyles-normalCursor-442 MuiTypography-body1-130 MuiTypography-colorTextPrimary-153"
+                >
+                  4.81% - 58.44%
+                </p>
+              </div>
+              <div
+                class="MuiGrid-root-20 makeStyles-mobileLabel-393 MuiGrid-item-22 MuiGrid-grid-xs-6-60 MuiGrid-grid-md-true-82"
+              >
+                <p
+                  class="MuiTypography-root-128 MuiTypography-body2-129 MuiTypography-colorTextSecondary-154"
+                >
+                  Value
+                </p>
+              </div>
+              <div
+                class="MuiGrid-root-20 MuiGrid-item-22 MuiGrid-grid-xs-6-60 MuiGrid-grid-md-true-82"
+              >
+                <div
+                  class="MuiGrid-root-20 MuiGrid-container-21 MuiGrid-align-items-xs-center-29"
+                >
+                  <p
+                    class="MuiTypography-root-128 MuiTypography-body1-130"
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root-20 makeStyles-nonClickableSection-397 MuiGrid-item-22 MuiGrid-grid-xs-12-66 MuiGrid-grid-md-true-82"
+            >
+              <div
+                class="MuiBox-root-446 MuiBox-root-476 makeStyles-container-443"
+              >
+                <button
+                  class="MuiButtonBase-root-255 MuiButton-root-226 MuiButton-contained-234 makeStyles-button-444 makeStyles-deposit-445 MuiButton-containedPrimary-235"
+                  tabindex="0"
+                  type="button"
+                >
+                  <span
+                    class="MuiButton-label-227"
+                  >
+                    Deposit
+                  </span>
+                  <span
+                    class="MuiTouchRipple-root-480"
+                  />
+                </button>
+                <button
+                  class="MuiButtonBase-root-255 MuiButton-root-226 MuiButton-outlined-231 makeStyles-button-444 MuiButton-outlinedPrimary-232 MuiButton-disabled-239 WithStyles(ForwardRef(Button))-disabled-448 MuiButtonBase-disabled-256"
+                  disabled=""
+                  tabindex="-1"
+                  type="button"
+                >
+                  <span
+                    class="MuiButton-label-227"
+                  >
+                    Withdraw
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li
+          class="MuiListItem-root-398 makeStyles-listItem-395 MuiListItem-gutters-405"
+        >
+          <div
+            class="MuiGrid-root-20 makeStyles-root-391 makeStyles-enabledSett-392 MuiGrid-container-21"
+          >
+            <div
+              class="MuiGrid-root-20 makeStyles-clickableSection-396 MuiGrid-container-21 MuiGrid-item-22 MuiGrid-grid-xs-12-66 MuiGrid-grid-md-9-91"
+            >
+              <div
+                class="MuiGrid-root-20 makeStyles-name-394 MuiGrid-container-21 MuiGrid-item-22 MuiGrid-grid-xs-12-66 MuiGrid-grid-md-5-87"
+              >
+                <div
+                  class="MuiGrid-root-20 MuiGrid-container-21"
+                >
+                  <div
+                    class="MuiGrid-root-20 makeStyles-vaultIcon-410 MuiGrid-item-22"
+                  >
+                    <img
+                      alt="Badger Convex tBTC/sBTC Vault Symbol"
+                      class="makeStyles-symbol-409"
+                      src="/assets/icons/bcrvtbtc.png"
+                    />
+                  </div>
+                  <div
+                    class="MuiGrid-root-20 MuiGrid-item-22"
+                  >
+                    <div
+                      class="MuiGrid-root-20 MuiGrid-container-21 MuiGrid-direction-xs-column-24"
+                    >
+                      <p
+                        class="MuiTypography-root-128 MuiTypography-body1-130"
+                      >
+                        tBTC/sBTC
+                      </p>
+                      <div
+                        class="MuiGrid-root-20 MuiGrid-container-21"
+                      >
+                        <p
+                          class="MuiTypography-root-128 MuiTypography-body2-129 MuiTypography-colorTextSecondary-154"
+                        >
+                          crvtBTC
+                        </p>
+                        <div
+                          class="MuiChip-root-412 makeStyles-chip-411 MuiChip-colorPrimary-414 MuiChip-sizeSmall-413"
+                          style="background-color: rgb(69, 156, 119); color: white;"
+                        >
+                          <span
+                            class="MuiChip-label-434 MuiChip-labelSmall-435"
+                          >
+                            Convex
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="MuiGrid-root-20 makeStyles-mobileLabel-393 MuiGrid-item-22 MuiGrid-grid-xs-6-60 MuiGrid-grid-md-true-82"
+              >
+                <p
+                  class="MuiTypography-root-128 MuiTypography-body2-129 MuiTypography-colorTextSecondary-154"
+                >
+                  ROI
+                </p>
+              </div>
+              <div
+                class="MuiGrid-root-20 MuiGrid-item-22 MuiGrid-grid-xs-6-60 MuiGrid-grid-md-true-82"
+              >
+                <p
+                  class="MuiTypography-root-128 makeStyles-normalCursor-442 MuiTypography-body1-130 MuiTypography-colorTextPrimary-153"
+                >
+                  8.25% - 24.93%
+                </p>
+              </div>
+              <div
+                class="MuiGrid-root-20 makeStyles-mobileLabel-393 MuiGrid-item-22 MuiGrid-grid-xs-6-60 MuiGrid-grid-md-true-82"
+              >
+                <p
+                  class="MuiTypography-root-128 MuiTypography-body2-129 MuiTypography-colorTextSecondary-154"
+                >
+                  Value
+                </p>
+              </div>
+              <div
+                class="MuiGrid-root-20 MuiGrid-item-22 MuiGrid-grid-xs-6-60 MuiGrid-grid-md-true-82"
+              >
+                <div
+                  class="MuiGrid-root-20 MuiGrid-container-21 MuiGrid-align-items-xs-center-29"
+                >
+                  <p
+                    class="MuiTypography-root-128 MuiTypography-body1-130"
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root-20 makeStyles-nonClickableSection-397 MuiGrid-item-22 MuiGrid-grid-xs-12-66 MuiGrid-grid-md-true-82"
+            >
+              <div
+                class="MuiBox-root-446 MuiBox-root-477 makeStyles-container-443"
+              >
+                <button
+                  class="MuiButtonBase-root-255 MuiButton-root-226 MuiButton-contained-234 makeStyles-button-444 makeStyles-deposit-445 MuiButton-containedPrimary-235"
+                  tabindex="0"
+                  type="button"
+                >
+                  <span
+                    class="MuiButton-label-227"
+                  >
+                    Deposit
+                  </span>
+                  <span
+                    class="MuiTouchRipple-root-480"
+                  />
+                </button>
+                <button
+                  class="MuiButtonBase-root-255 MuiButton-root-226 MuiButton-outlined-231 makeStyles-button-444 MuiButton-outlinedPrimary-232 MuiButton-disabled-239 WithStyles(ForwardRef(Button))-disabled-448 MuiButtonBase-disabled-256"
+                  disabled=""
+                  tabindex="-1"
+                  type="button"
+                >
+                  <span
+                    class="MuiButton-label-227"
+                  >
+                    Withdraw
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li
+          class="MuiListItem-root-398 makeStyles-listItem-395 MuiListItem-gutters-405"
+        >
+          <div
+            class="MuiGrid-root-20 makeStyles-root-391 makeStyles-enabledSett-392 MuiGrid-container-21"
+          >
+            <div
+              class="MuiGrid-root-20 makeStyles-clickableSection-396 MuiGrid-container-21 MuiGrid-item-22 MuiGrid-grid-xs-12-66 MuiGrid-grid-md-9-91"
+            >
+              <div
+                class="MuiGrid-root-20 makeStyles-name-394 MuiGrid-container-21 MuiGrid-item-22 MuiGrid-grid-xs-12-66 MuiGrid-grid-md-5-87"
+              >
+                <div
+                  class="MuiGrid-root-20 MuiGrid-container-21"
+                >
+                  <div
+                    class="MuiGrid-root-20 makeStyles-vaultIcon-410 MuiGrid-item-22"
+                  >
+                    <img
+                      alt="Badger Uniswap Wrapped BTC/Badger Vault Symbol"
+                      class="makeStyles-symbol-409"
+                      src="/assets/icons/bbadger-wbtc.png"
+                    />
+                  </div>
+                  <div
+                    class="MuiGrid-root-20 MuiGrid-item-22"
+                  >
+                    <div
+                      class="MuiGrid-root-20 MuiGrid-container-21 MuiGrid-direction-xs-column-24"
+                    >
+                      <p
+                        class="MuiTypography-root-128 MuiTypography-body1-130"
+                      >
+                        Wrapped BTC/Badger
+                      </p>
+                      <div
+                        class="MuiGrid-root-20 MuiGrid-container-21"
+                      >
+                        <p
+                          class="MuiTypography-root-128 MuiTypography-body2-129 MuiTypography-colorTextSecondary-154"
+                        >
+                          BADGER-WBTC
+                        </p>
+                        <div
+                          class="MuiChip-root-412 makeStyles-chip-411 MuiChip-colorPrimary-414 MuiChip-sizeSmall-413"
+                          style="background-color: rgb(252, 7, 125); color: white;"
+                        >
+                          <span
+                            class="MuiChip-label-434 MuiChip-labelSmall-435"
+                          >
+                            Uniswap
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="MuiGrid-root-20 makeStyles-mobileLabel-393 MuiGrid-item-22 MuiGrid-grid-xs-6-60 MuiGrid-grid-md-true-82"
+              >
+                <p
+                  class="MuiTypography-root-128 MuiTypography-body2-129 MuiTypography-colorTextSecondary-154"
+                >
+                  ROI
+                </p>
+              </div>
+              <div
+                class="MuiGrid-root-20 MuiGrid-item-22 MuiGrid-grid-xs-6-60 MuiGrid-grid-md-true-82"
+              >
+                <p
+                  class="MuiTypography-root-128 makeStyles-normalCursor-442 MuiTypography-body1-130 MuiTypography-colorTextPrimary-153"
+                >
+                  45.14%
+                </p>
+              </div>
+              <div
+                class="MuiGrid-root-20 makeStyles-mobileLabel-393 MuiGrid-item-22 MuiGrid-grid-xs-6-60 MuiGrid-grid-md-true-82"
+              >
+                <p
+                  class="MuiTypography-root-128 MuiTypography-body2-129 MuiTypography-colorTextSecondary-154"
+                >
+                  Value
+                </p>
+              </div>
+              <div
+                class="MuiGrid-root-20 MuiGrid-item-22 MuiGrid-grid-xs-6-60 MuiGrid-grid-md-true-82"
+              >
+                <div
+                  class="MuiGrid-root-20 MuiGrid-container-21 MuiGrid-align-items-xs-center-29"
+                >
+                  <p
+                    class="MuiTypography-root-128 MuiTypography-body1-130"
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root-20 makeStyles-nonClickableSection-397 MuiGrid-item-22 MuiGrid-grid-xs-12-66 MuiGrid-grid-md-true-82"
+            >
+              <div
+                class="MuiBox-root-446 MuiBox-root-478 makeStyles-container-443"
+              >
+                <button
+                  class="MuiButtonBase-root-255 MuiButton-root-226 MuiButton-contained-234 makeStyles-button-444 makeStyles-deposit-445 MuiButton-containedPrimary-235"
+                  tabindex="0"
+                  type="button"
+                >
+                  <span
+                    class="MuiButton-label-227"
+                  >
+                    Deposit
+                  </span>
+                  <span
+                    class="MuiTouchRipple-root-480"
+                  />
+                </button>
+                <button
+                  class="MuiButtonBase-root-255 MuiButton-root-226 MuiButton-outlined-231 makeStyles-button-444 MuiButton-outlinedPrimary-232 MuiButton-disabled-239 WithStyles(ForwardRef(Button))-disabled-448 MuiButtonBase-disabled-256"
+                  disabled=""
+                  tabindex="-1"
+                  type="button"
+                >
+                  <span
+                    class="MuiButton-label-227"
+                  >
+                    Withdraw
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li
+          class="MuiListItem-root-398 makeStyles-listItem-395 MuiListItem-gutters-405"
+        >
+          <div
+            class="MuiGrid-root-20 makeStyles-root-391 makeStyles-enabledSett-392 MuiGrid-container-21"
+          >
+            <div
+              class="MuiGrid-root-20 makeStyles-clickableSection-396 MuiGrid-container-21 MuiGrid-item-22 MuiGrid-grid-xs-12-66 MuiGrid-grid-md-9-91"
+            >
+              <div
+                class="MuiGrid-root-20 makeStyles-name-394 MuiGrid-container-21 MuiGrid-item-22 MuiGrid-grid-xs-12-66 MuiGrid-grid-md-5-87"
+              >
+                <div
+                  class="MuiGrid-root-20 MuiGrid-container-21"
+                >
+                  <div
+                    class="MuiGrid-root-20 makeStyles-vaultIcon-410 MuiGrid-item-22"
+                  >
+                    <img
+                      alt="Badger Harvest renBTC/wBTC Vault Symbol"
+                      class="makeStyles-symbol-409"
+                      src="/assets/icons/bcrvhrenbtc.png"
+                    />
+                  </div>
+                  <div
+                    class="MuiGrid-root-20 MuiGrid-item-22"
+                  >
+                    <div
+                      class="MuiGrid-root-20 MuiGrid-container-21 MuiGrid-direction-xs-column-24"
+                    >
+                      <p
+                        class="MuiTypography-root-128 MuiTypography-body1-130"
+                      >
+                        renBTC/wBTC
+                      </p>
+                      <div
+                        class="MuiGrid-root-20 MuiGrid-container-21"
+                      >
+                        <p
+                          class="MuiTypography-root-128 MuiTypography-body2-129 MuiTypography-colorTextSecondary-154"
+                        >
+                          crvrenWBTC
+                        </p>
+                        <div
+                          class="MuiChip-root-412 makeStyles-chip-411 MuiChip-colorPrimary-414 MuiChip-sizeSmall-413"
+                          style="background-color: rgb(238, 191, 101);"
+                        >
+                          <span
+                            class="MuiChip-label-434 MuiChip-labelSmall-435"
+                          >
+                            Harvest
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="MuiGrid-root-20 makeStyles-mobileLabel-393 MuiGrid-item-22 MuiGrid-grid-xs-6-60 MuiGrid-grid-md-true-82"
+              >
+                <p
+                  class="MuiTypography-root-128 MuiTypography-body2-129 MuiTypography-colorTextSecondary-154"
+                >
+                  ROI
+                </p>
+              </div>
+              <div
+                class="MuiGrid-root-20 MuiGrid-item-22 MuiGrid-grid-xs-6-60 MuiGrid-grid-md-true-82"
+              >
+                <p
+                  class="MuiTypography-root-128 makeStyles-normalCursor-442 MuiTypography-body1-130 MuiTypography-colorTextPrimary-153"
+                >
+                  4.65%
+                </p>
+              </div>
+              <div
+                class="MuiGrid-root-20 makeStyles-mobileLabel-393 MuiGrid-item-22 MuiGrid-grid-xs-6-60 MuiGrid-grid-md-true-82"
+              >
+                <p
+                  class="MuiTypography-root-128 MuiTypography-body2-129 MuiTypography-colorTextSecondary-154"
+                >
+                  Value
+                </p>
+              </div>
+              <div
+                class="MuiGrid-root-20 MuiGrid-item-22 MuiGrid-grid-xs-6-60 MuiGrid-grid-md-true-82"
+              >
+                <div
+                  class="MuiGrid-root-20 MuiGrid-container-21 MuiGrid-align-items-xs-center-29"
+                >
+                  <p
+                    class="MuiTypography-root-128 MuiTypography-body1-130"
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root-20 makeStyles-nonClickableSection-397 MuiGrid-item-22 MuiGrid-grid-xs-12-66 MuiGrid-grid-md-true-82"
+            >
+              <div
+                class="MuiBox-root-446 MuiBox-root-479 makeStyles-container-443"
+              >
+                <button
+                  class="MuiButtonBase-root-255 MuiButton-root-226 MuiButton-contained-234 makeStyles-button-444 makeStyles-deposit-445 MuiButton-containedPrimary-235"
+                  tabindex="0"
+                  type="button"
+                >
+                  <span
+                    class="MuiButton-label-227"
+                  >
+                    Deposit
+                  </span>
+                  <span
+                    class="MuiTouchRipple-root-480"
+                  />
+                </button>
+                <button
+                  class="MuiButtonBase-root-255 MuiButton-root-226 MuiButton-outlined-231 makeStyles-button-444 MuiButton-outlinedPrimary-232 MuiButton-disabled-239 WithStyles(ForwardRef(Button))-disabled-448 MuiButtonBase-disabled-256"
+                  disabled=""
+                  tabindex="-1"
+                  type="button"
+                >
+                  <span
+                    class="MuiButton-label-227"
+                  >
+                    Withdraw
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
     </div>
   </div>
 </div>
