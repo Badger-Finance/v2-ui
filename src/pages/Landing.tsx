@@ -2,7 +2,7 @@ import CurrencyInfoCard from '../components-v2/common/CurrencyInfoCard';
 import CurrencyPicker from '../components-v2/landing/CurrencyPicker';
 import SamplePicker from '../components-v2/landing/SamplePicker';
 import WalletSlider from '../components-v2/landing/WalletSlider';
-import { Grid, makeStyles, Button } from '@material-ui/core';
+import { Grid, makeStyles, Button, Tooltip } from '@material-ui/core';
 import PageHeader from '../components-v2/common/PageHeader';
 import { StoreContext } from '../mobx/store-context';
 import { observer } from 'mobx-react-lite';
@@ -12,6 +12,7 @@ import SettList from 'components-v2/landing/SettList';
 import { RewardsModal } from '../components-v2/landing/RewardsModal';
 import { SettState } from '../mobx/model/setts/sett-state';
 import { HeaderContainer, LayoutContainer } from '../components-v2/common/Containers';
+import { NETWORK_IDS } from '../config/constants';
 
 const useStyles = makeStyles((theme) => ({
 	marginTop: {
@@ -88,6 +89,7 @@ const Landing = observer((props: LandingProps) => {
 		setts,
 		prices,
 		user,
+		cvxDelegation,
 	} = store;
 	const { protocolSummary } = setts;
 	const userConnected = !!connectedAddress;
@@ -96,6 +98,7 @@ const Landing = observer((props: LandingProps) => {
 	const totalValueLocked = protocolSummary ? new BigNumber(protocolSummary.totalValue) : undefined;
 	const badgerPrice = badgerToken ? prices.getPrice(badgerToken) : undefined;
 	const portfolioValue = userConnected && user.initialized ? user.portfolioValue : undefined;
+	const isCurrentNetworkEthereum = network.id === NETWORK_IDS.ETH;
 
 	return (
 		<LayoutContainer>
@@ -133,21 +136,32 @@ const Landing = observer((props: LandingProps) => {
 				</Grid>
 			)}
 			{state === SettState.Open && (
-				<Grid container spacing={1} justify="center">
-					<Button
-						className={classes.linkButton}
-						size="small"
-						variant="contained"
-						color="primary"
-						onClick={() =>
-							window.open(
-								'https://medium.com/badgerdao/badger-boost-power-up-stake-ratio-levels-e0c9802fc5c3',
-							)
-						}
-					>
-						Badger Boost Power Up has been implemented - Click here to learn more
-					</Button>
-				</Grid>
+				<>
+					{isCurrentNetworkEthereum && (
+						<Grid container spacing={1} justify="center">
+							<Tooltip
+								arrow
+								placement="top"
+								title="You don't have CVX balance to delegate."
+								// make tooltip uncontrolled only when button is disabled
+								open={cvxDelegation.canUserDelegateLockedCVX ? false : undefined}
+							>
+								<span>
+									<Button
+										className={classes.linkButton}
+										size="small"
+										variant="contained"
+										color="primary"
+										disabled={!cvxDelegation.canUserDelegateLockedCVX}
+										onClick={() => cvxDelegation.delegateLockedCVX()}
+									>
+										Delegate CVX locked balance
+									</Button>
+								</span>
+							</Tooltip>
+						</Grid>
+					)}
+				</>
 			)}
 
 			<SettList state={state} />
