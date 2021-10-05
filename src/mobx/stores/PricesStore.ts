@@ -102,13 +102,12 @@ export default class PricesStore {
 			fetchData<number, MaticPriceResponse>(maticRateUrl, { accessor: maticAccessor }),
 		]);
 
-		const [defaultRates] = defaultRatesFetch;
-		const [maticRate] = maticRateFetch;
+		const [defaultRates, defaultRatesError] = defaultRatesFetch;
+		const [maticRate, maticRateError] = maticRateFetch;
+		const ratesMissing = defaultRatesError || maticRateError;
 
-		const areRatesNotAvailable = !defaultRates || !maticRateFetch;
-
-		if (DEBUG && areRatesNotAvailable) {
-			this.store.uiState.queueNotification(errorMessage, 'error');
+		if (DEBUG && ratesMissing) {
+			this.store.uiState.queueError(errorMessage);
 		}
 
 		if (defaultRates && maticRate) {
@@ -126,7 +125,7 @@ export default class PricesStore {
 		const [rates] = await fetchData(url, { accessor });
 
 		if (!rates && DEBUG) {
-			this.store.uiState.queueNotification('Failed to load exchange rates', 'error');
+			this.store.uiState.queueError('Failed to load exchange rates');
 		}
 
 		return rates;
