@@ -100,6 +100,19 @@ const Landing = observer((props: LandingProps) => {
 	const portfolioValue = userConnected && user.initialized ? user.portfolioValue : undefined;
 	const isCurrentNetworkEthereum = network.id === NETWORK_IDS.ETH;
 
+	const delegateButton = (
+		<Button
+			className={classes.linkButton}
+			size="small"
+			variant="contained"
+			color="primary"
+			disabled={!lockedCvxDelegation.canUserDelegateLockedCVX}
+			onClick={() => lockedCvxDelegation.delegateLockedCVX()}
+		>
+			Click here to delegate your locked CVX balance to Badger
+		</Button>
+	);
+
 	return (
 		<LayoutContainer>
 			{/* Landing Metrics Cards */}
@@ -139,26 +152,17 @@ const Landing = observer((props: LandingProps) => {
 				<>
 					{isCurrentNetworkEthereum && (
 						<Grid container spacing={1} justify="center">
-							<Tooltip
-								arrow
-								placement="top"
-								title="You don't have any locked CVX balance to delegate."
-								// make tooltip uncontrolled only when button is disabled
-								open={lockedCvxDelegation.canUserDelegateLockedCVX ? false : undefined}
-							>
-								<span>
-									<Button
-										className={classes.linkButton}
-										size="small"
-										variant="contained"
-										color="primary"
-										disabled={!lockedCvxDelegation.canUserDelegateLockedCVX}
-										onClick={() => lockedCvxDelegation.delegateLockedCVX()}
-									>
-										Click here to delegate your locked CVX balance to Badger
-									</Button>
-								</span>
-							</Tooltip>
+							{lockedCvxDelegation.canUserDelegateLockedCVX ? (
+								delegateButton
+							) : (
+								<Tooltip
+									arrow
+									placement="top"
+									title="You don't have any locked CVX balance to delegate."
+								>
+									<span>{delegateButton}</span>
+								</Tooltip>
+							)}
 						</Grid>
 					)}
 				</>
