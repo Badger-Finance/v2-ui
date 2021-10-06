@@ -333,7 +333,7 @@ exports[`Landing Page Renders correctly 1`] = `
     >
       <span
         class=""
-        title="You don't have CVX balance to delegate."
+        title="You don't have any locked CVX balance to delegate."
       >
         <button
           class="MuiButtonBase-root-255 MuiButton-root-226 MuiButton-contained-234 makeStyles-linkButton-10 MuiButton-containedPrimary-235 MuiButton-containedSizeSmall-245 MuiButton-sizeSmall-247 MuiButton-disabled-239 MuiButtonBase-disabled-256"
@@ -344,7 +344,7 @@ exports[`Landing Page Renders correctly 1`] = `
           <span
             class="MuiButton-label-227"
           >
-            Delegate CVX locked balance
+            Click here to delegate your locked CVX balance to Badger
           </span>
         </button>
       </span>

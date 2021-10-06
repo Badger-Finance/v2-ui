@@ -142,7 +142,7 @@ const Landing = observer((props: LandingProps) => {
 							<Tooltip
 								arrow
 								placement="top"
-								title="You don't have CVX balance to delegate."
+								title="You don't have any locked CVX balance to delegate."
 								// make tooltip uncontrolled only when button is disabled
 								open={cvxDelegation.canUserDelegateLockedCVX ? false : undefined}
 							>
@@ -155,7 +155,7 @@ const Landing = observer((props: LandingProps) => {
 										disabled={!cvxDelegation.canUserDelegateLockedCVX}
 										onClick={() => cvxDelegation.delegateLockedCVX()}
 									>
-										Delegate CVX locked balance
+										Click here to delegate your locked CVX balance to Badger
 									</Button>
 								</span>
 							</Tooltip>
