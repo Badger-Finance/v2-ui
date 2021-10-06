@@ -16,7 +16,7 @@ import PricesStore from './stores/PricesStore';
 import { NetworkStore } from './stores/NetworkStore';
 import { SettDetailStore } from './stores/SettDetail.store';
 import { SettChartsStore } from './stores/SettChartsStore';
-import CvxDelegationStore from './stores/cvxDelegationStore';
+import LockedCvxDelegationStore from './stores/lockedCvxDelegationStore';
 
 export class RootStore {
 	public router: RouterStore<RootStore>;
@@ -37,7 +37,7 @@ export class RootStore {
 	public prices: PricesStore;
 	public settDetail: SettDetailStore;
 	public settCharts: SettChartsStore;
-	public cvxDelegation: CvxDelegationStore;
+	public cvxDelegation: LockedCvxDelegationStore;
 
 	constructor() {
 		this.router = new RouterStore<RootStore>(this);
@@ -58,7 +58,7 @@ export class RootStore {
 		this.leaderBoard = new LeaderBoardStore(this);
 		this.settDetail = new SettDetailStore(this);
 		this.settCharts = new SettChartsStore(this);
-		this.cvxDelegation = new CvxDelegationStore(this);
+		this.cvxDelegation = new LockedCvxDelegationStore(this);
 	}
 
 	async walletRefresh(): Promise<void> {
