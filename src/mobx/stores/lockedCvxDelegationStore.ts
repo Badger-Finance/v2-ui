@@ -37,7 +37,7 @@ class LockedCvxDelegationStore {
 		if (alreadyDelegatedAddress) {
 			if (alreadyDelegatedAddress === BADGER_DELEGATE_ADDRESS) {
 				queueNotification(
-					"You have delegated your locked CVX to Badger already. Thanks, you're a top badger!",
+					"You already delegated your locked CVX to Badger. Thanks, you're a top badger!",
 					'info',
 				);
 				return;
