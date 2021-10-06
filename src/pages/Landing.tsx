@@ -89,7 +89,7 @@ const Landing = observer((props: LandingProps) => {
 		setts,
 		prices,
 		user,
-		cvxDelegation,
+		lockedCvxDelegation,
 	} = store;
 	const { protocolSummary } = setts;
 	const userConnected = !!connectedAddress;
@@ -144,7 +144,7 @@ const Landing = observer((props: LandingProps) => {
 								placement="top"
 								title="You don't have any locked CVX balance to delegate."
 								// make tooltip uncontrolled only when button is disabled
-								open={cvxDelegation.canUserDelegateLockedCVX ? false : undefined}
+								open={lockedCvxDelegation.canUserDelegateLockedCVX ? false : undefined}
 							>
 								<span>
 									<Button
@@ -152,8 +152,8 @@ const Landing = observer((props: LandingProps) => {
 										size="small"
 										variant="contained"
 										color="primary"
-										disabled={!cvxDelegation.canUserDelegateLockedCVX}
-										onClick={() => cvxDelegation.delegateLockedCVX()}
+										disabled={!lockedCvxDelegation.canUserDelegateLockedCVX}
+										onClick={() => lockedCvxDelegation.delegateLockedCVX()}
 									>
 										Click here to delegate your locked CVX balance to Badger
 									</Button>
