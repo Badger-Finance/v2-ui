@@ -13,6 +13,7 @@ import { RewardsModal } from '../components-v2/landing/RewardsModal';
 import { SettState } from '../mobx/model/setts/sett-state';
 import { HeaderContainer, LayoutContainer } from '../components-v2/common/Containers';
 import { NETWORK_IDS } from '../config/constants';
+import mainnet from '../config/deployments/mainnet.json';
 
 const useStyles = makeStyles((theme) => ({
 	marginTop: {
@@ -99,6 +100,7 @@ const Landing = observer((props: LandingProps) => {
 	const badgerPrice = badgerToken ? prices.getPrice(badgerToken) : undefined;
 	const portfolioValue = userConnected && user.initialized ? user.portfolioValue : undefined;
 	const isCurrentNetworkEthereum = network.id === NETWORK_IDS.ETH;
+	const canUserDelegateLockedCVX = user.getTokenBalance(mainnet.sett_system.vaults['native.icvx']).balance.gt(0);
 
 	const delegateButton = (
 		<Button
@@ -106,7 +108,7 @@ const Landing = observer((props: LandingProps) => {
 			size="small"
 			variant="contained"
 			color="primary"
-			disabled={!lockedCvxDelegation.canUserDelegateLockedCVX}
+			disabled={!canUserDelegateLockedCVX}
 			onClick={() => lockedCvxDelegation.delegateLockedCVX()}
 		>
 			Click here to delegate your locked CVX balance to Badger
@@ -152,7 +154,7 @@ const Landing = observer((props: LandingProps) => {
 				<>
 					{isCurrentNetworkEthereum && (
 						<Grid container spacing={1} justify="center">
-							{lockedCvxDelegation.canUserDelegateLockedCVX ? (
+							{canUserDelegateLockedCVX ? (
 								delegateButton
 							) : (
 								<Tooltip

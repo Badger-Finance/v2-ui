@@ -9,7 +9,8 @@ import { SettState } from '../mobx/model/setts/sett-state';
 import UserStore from '../mobx/stores/UserStore';
 import SettStore from '../mobx/stores/SettStore';
 import { BouncerType } from '../mobx/model/setts/sett-bouncer';
-import LockedCvxDelegationStore from '../mobx/stores/lockedCvxDelegationStore';
+import { TokenBalance } from '../mobx/model/tokens/token-balance';
+import mainnet from '../config/deployments/mainnet.json';
 
 jest.mock('../mobx/utils/apiV2', () => ({
 	...jest.requireActual('../mobx/utils/apiV2'),
@@ -109,8 +110,6 @@ describe('Landing Page', () => {
 		jest.spyOn(UserStore.prototype, 'initialized', 'get').mockReturnValue(true);
 
 		jest.spyOn(UserStore.prototype, 'portfolioValue', 'get').mockReturnValue(new BigNumber(1000));
-
-		jest.spyOn(LockedCvxDelegationStore.prototype, 'canUserDelegateLockedCVX', 'get').mockReturnValue(true);
 
 		jest.spyOn(SettStore.prototype, 'getSettMap').mockReturnValue({
 			'0xd04c48A53c111300aD41190D63681ed3dAd998eC': {
@@ -945,7 +944,19 @@ describe('Landing Page', () => {
 
 	test('can click delegate locked cvx', async () => {
 		const mockDelegateLocked = jest.fn();
+
+		const cvxToken = {
+			address: mainnet.sett_system.vaults['native.icvx'],
+			decimals: 18,
+		};
+
+		const mockLockedCVX = new TokenBalance(cvxToken, new BigNumber(100), new BigNumber(20));
+
 		store.lockedCvxDelegation.delegateLockedCVX = mockDelegateLocked;
+
+		store.user.tokenBalances = {
+			[mainnet.sett_system.vaults['native.icvx']]: mockLockedCVX,
+		};
 
 		customRender(
 			<StoreProvider value={store}>

@@ -4,7 +4,6 @@ import Web3 from 'web3';
 import CvxDelegatorAbi from '../../config/system/abis/CvxDelegator.json';
 import { AbiItem } from 'web3-utils';
 import { sendContractMethod } from '../utils/web3';
-import { NETWORK_IDS } from '../../config/constants';
 
 class LockedCvxDelegationStore {
 	private store: RootStore;
@@ -13,34 +12,17 @@ class LockedCvxDelegationStore {
 		this.store = store;
 	}
 
-	get canUserDelegateLockedCVX(): boolean {
-		const {
-			network: { network },
-			user,
-			setts,
-		} = this.store;
-
-		if (network.id !== NETWORK_IDS.ETH || !setts.initialized) {
-			return false;
-		}
-
-		const lockedCvx = setts.getSett(mainnet.sett_system.vaults['native.icvx']);
-
-		if (!lockedCvx) {
-			console.error('cvx sett information not available');
-			return false;
-		}
-
-		return user.getSettBalance(lockedCvx).balance > 0;
-	}
-
 	async delegateLockedCVX(): Promise<void> {
 		const {
 			uiState: { queueNotification },
 			wallet: { provider, connectedAddress },
+			user,
 		} = this.store;
 
-		if (!this.canUserDelegateLockedCVX) {
+		const lockedCVXBalance = user.getTokenBalance(mainnet.sett_system.vaults['native.icvx']);
+
+		if (!lockedCVXBalance.balance.gt(0)) {
+			console.error('locked balance is zero');
 			return;
 		}
 
@@ -54,7 +36,10 @@ class LockedCvxDelegationStore {
 
 		if (alreadyDelegatedAddress) {
 			if (alreadyDelegatedAddress === BADGER_DELEGATE_ADDRESS) {
-				queueNotification('You already have delegated your locked CVX to Badger.', 'info');
+				queueNotification(
+					"You have delegated your locked CVX to Badger already. Thanks, you're a top badger!",
+					'info',
+				);
 				return;
 			}
 
@@ -77,7 +62,7 @@ class LockedCvxDelegationStore {
 			setDelegate,
 			options,
 			'Delegation transaction submitted',
-			'Successfully delegated locked CVX',
+			'Thanks for delegating your locked CVX to Badger!',
 		);
 	}
 }

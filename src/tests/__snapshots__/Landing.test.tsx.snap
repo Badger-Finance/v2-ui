@@ -331,20 +331,23 @@ exports[`Landing Page Renders correctly 1`] = `
     <div
       class="MuiGrid-root-20 MuiGrid-container-21 MuiGrid-spacing-xs-1-43 MuiGrid-justify-xs-center-38"
     >
-      <button
-        class="MuiButtonBase-root-255 MuiButton-root-226 MuiButton-contained-234 makeStyles-linkButton-10 MuiButton-containedPrimary-235 MuiButton-containedSizeSmall-245 MuiButton-sizeSmall-247"
-        tabindex="0"
-        type="button"
+      <span
+        class=""
+        title="You don't have any locked CVX balance to delegate."
       >
-        <span
-          class="MuiButton-label-227"
+        <button
+          class="MuiButtonBase-root-255 MuiButton-root-226 MuiButton-contained-234 makeStyles-linkButton-10 MuiButton-containedPrimary-235 MuiButton-containedSizeSmall-245 MuiButton-sizeSmall-247 MuiButton-disabled-239 MuiButtonBase-disabled-256"
+          disabled=""
+          tabindex="-1"
+          type="button"
         >
-          Click here to delegate your locked CVX balance to Badger
-        </span>
-        <span
-          class="MuiTouchRipple-root-480"
-        />
-      </button>
+          <span
+            class="MuiButton-label-227"
+          >
+            Click here to delegate your locked CVX balance to Badger
+          </span>
+        </button>
+      </span>
     </div>
     <div
       class="makeStyles-settListContainer-380"
