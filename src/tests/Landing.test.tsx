@@ -1,5 +1,5 @@
 import React from 'react';
-import { customRender } from './Utils';
+import { customRender, fireEvent, screen } from './Utils';
 import Landing from '../pages/Landing';
 import '@testing-library/jest-dom';
 import { StoreProvider } from '../mobx/store-context';
@@ -9,6 +9,7 @@ import { SettState } from '../mobx/model/setts/sett-state';
 import UserStore from '../mobx/stores/UserStore';
 import SettStore from '../mobx/stores/SettStore';
 import { BouncerType } from '../mobx/model/setts/sett-bouncer';
+import LockedCvxDelegationStore from '../mobx/stores/lockedCvxDelegationStore';
 
 jest.mock('../mobx/utils/apiV2', () => ({
 	...jest.requireActual('../mobx/utils/apiV2'),
@@ -80,7 +81,7 @@ jest.mock('../mobx/utils/apiV2', () => ({
 }));
 
 describe('Landing Page', () => {
-	test('Renders correctly', async () => {
+	beforeEach(() => {
 		store.prices.getPrice = jest.fn().mockReturnValue(new BigNumber(15e18));
 		store.network.network.deploy.token = '0x3472A5A71965499acd81997a54BBA8D852C6E53d';
 		store.wallet.connectedAddress = '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a';
@@ -108,6 +109,8 @@ describe('Landing Page', () => {
 		jest.spyOn(UserStore.prototype, 'initialized', 'get').mockReturnValue(true);
 
 		jest.spyOn(UserStore.prototype, 'portfolioValue', 'get').mockReturnValue(new BigNumber(1000));
+
+		jest.spyOn(LockedCvxDelegationStore.prototype, 'canUserDelegateLockedCVX', 'get').mockReturnValue(true);
 
 		jest.spyOn(SettStore.prototype, 'getSettMap').mockReturnValue({
 			'0xd04c48A53c111300aD41190D63681ed3dAd998eC': {
@@ -924,7 +927,9 @@ describe('Landing Page', () => {
 				slug: 'uniswap-wrapped-btc-badger',
 			},
 		});
+	});
 
+	test('Renders correctly', async () => {
 		const { container } = customRender(
 			<StoreProvider value={store}>
 				<Landing
@@ -936,5 +941,26 @@ describe('Landing Page', () => {
 		);
 
 		expect(container).toMatchSnapshot();
+	});
+
+	test('can click delegate locked cvx', async () => {
+		const mockDelegateLocked = jest.fn();
+		store.lockedCvxDelegation.delegateLockedCVX = mockDelegateLocked;
+
+		customRender(
+			<StoreProvider value={store}>
+				<Landing
+					title="Test Bitcoin Strategies"
+					subtitle="Snapshots are great. Landing looks good."
+					state={SettState.Open}
+				/>
+			</StoreProvider>,
+		);
+
+		fireEvent.click(
+			screen.getByRole('button', { name: 'Click here to delegate your locked CVX balance to Badger' }),
+		);
+
+		expect(mockDelegateLocked).toHaveBeenCalled();
 	});
 });
