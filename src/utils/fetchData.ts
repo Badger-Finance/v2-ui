@@ -29,7 +29,11 @@ export async function fetchData<T, R = unknown>(
 		});
 
 		if (!response.ok) {
-			return [null, await response.text()];
+			if (response.status === 400) {
+				return [null, await response.text()];
+			}
+
+			throw new Error(await response.text());
 		}
 
 		const data = await response.json();
@@ -38,8 +42,8 @@ export async function fetchData<T, R = unknown>(
 	};
 
 	try {
-		return retry(executeFetch, { ...defaultRetryOptions, ...retryOptions });
+		return await retry(executeFetch, { ...defaultRetryOptions, ...retryOptions });
 	} catch (error) {
-		return [null, error];
+		return [null, error.message || error];
 	}
 }
