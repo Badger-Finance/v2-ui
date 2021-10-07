@@ -12,6 +12,7 @@ import SettList from 'components-v2/landing/SettList';
 import { RewardsModal } from '../components-v2/landing/RewardsModal';
 import { SettState } from '../mobx/model/setts/sett-state';
 import { HeaderContainer, LayoutContainer } from '../components-v2/common/Containers';
+import LockedCvxDelegationAction from '../components-v2/landing/LockedCvxDelegation';
 
 const useStyles = makeStyles((theme) => ({
 	marginTop: {
@@ -132,21 +133,10 @@ const Landing = observer((props: LandingProps) => {
 					</Button>
 				</Grid>
 			)}
+
 			{state === SettState.Open && (
 				<Grid container spacing={1} justify="center">
-					<Button
-						className={classes.linkButton}
-						size="small"
-						variant="contained"
-						color="primary"
-						onClick={() =>
-							window.open(
-								'https://medium.com/badgerdao/badger-boost-power-up-stake-ratio-levels-e0c9802fc5c3',
-							)
-						}
-					>
-						Badger Boost Power Up has been implemented - Click here to learn more
-					</Button>
+					<LockedCvxDelegationAction />
 				</Grid>
 			)}
 
