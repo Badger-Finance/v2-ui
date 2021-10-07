@@ -1,9 +1,9 @@
 import Web3 from 'web3';
 import { AbiItem } from 'web3-utils';
-import { EIP1559SendOptions, getSendOptions, sendContractMethod } from '../utils/web3';
+import { sendContractMethod } from '../utils/web3';
 import BigNumber from 'bignumber.js';
 import { RootStore } from '../RootStore';
-import { ContractSendMethod, SendOptions } from 'web3-eth-contract';
+import { ContractSendMethod } from 'web3-eth-contract';
 import { EMPTY_DATA, ERC20, GEYSER_ABI, MAX, SETT_ABI, YEARN_ABI } from 'config/constants';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { BadgerSett } from 'mobx/model/vaults/badger-sett';
@@ -110,7 +110,7 @@ class ContractsStore {
 		const underlyingContract = new web3.eth.Contract(ERC20.abi as AbiItem[], token.address);
 		// provide infinite approval
 		const method: ContractSendMethod = underlyingContract.methods.approve(contract, MAX);
-		const options = await this._getSendOptions(method);
+		const options = await this.store.wallet.getMethodSendOptions(method);
 		const infoMessage = 'Transaction submitted';
 		const successMessage = `${token.symbol} allowance increased`;
 
@@ -140,7 +140,7 @@ class ContractsStore {
 		const geyserContract = new web3.eth.Contract(GEYSER_ABI, badgerSett.geyser);
 		const unstakeBalance = amount.tokenBalance.toFixed(0, BigNumber.ROUND_HALF_FLOOR);
 		const method = geyserContract.methods.unstake(unstakeBalance, EMPTY_DATA);
-		const options = await this._getSendOptions(method);
+		const options = await this.store.wallet.getMethodSendOptions(method);
 
 		const { tokenBalance, token } = amount;
 		const displayAmount = toFixedDecimals(unscale(tokenBalance, token.decimals), token.decimals);
@@ -193,7 +193,7 @@ class ContractsStore {
 				method = settContract.methods.depositAll();
 			}
 
-			const options = await this._getSendOptions(method);
+			const options = await this.store.wallet.getMethodSendOptions(method);
 			const { tokenBalance, token } = amount;
 			const displayAmount = toFixedDecimals(unscale(tokenBalance, token.decimals), token.decimals);
 			const depositAmount = `${displayAmount} ${sett.asset}`;
@@ -218,7 +218,7 @@ class ContractsStore {
 			const underlyingContract = new web3.eth.Contract(SETT_ABI, badgerSett.vaultToken.address);
 			const withdrawBalance = amount.tokenBalance.toFixed(0, BigNumber.ROUND_HALF_FLOOR);
 			const method = underlyingContract.methods.withdraw(withdrawBalance);
-			const options = await this._getSendOptions(method);
+			const options = await this.store.wallet.getMethodSendOptions(method);
 
 			const { tokenBalance, token } = amount;
 			const displayAmount = toFixedDecimals(unscale(tokenBalance, token.decimals), token.decimals);
@@ -234,18 +234,6 @@ class ContractsStore {
 			);
 		},
 	);
-
-	private _getSendOptions = async (method: ContractSendMethod): Promise<SendOptions | EIP1559SendOptions> => {
-		const {
-			wallet: { connectedAddress },
-			uiState: { gasPrice },
-			network: { gasPrices },
-		} = this.store;
-
-		const price = gasPrices ? gasPrices[gasPrice] : 0;
-		const options = await getSendOptions(method, connectedAddress, price);
-		return options;
-	};
 }
 
 export default ContractsStore;
