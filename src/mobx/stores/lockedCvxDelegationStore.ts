@@ -4,17 +4,34 @@ import Web3 from 'web3';
 import CvxDelegatorAbi from '../../config/system/abis/CvxDelegator.json';
 import { AbiItem } from 'web3-utils';
 import { sendContractMethod } from '../utils/web3';
+import { DelegationState } from '../model/setts/locked-cvx-delegation';
+import { extendObservable, observe } from 'mobx';
+
+const ID_TO_DELEGATE = '0x6376782e657468'; // cvx.eth in hex
+const BADGER_DELEGATE_ADDRESS = '0x14F83fF95D4Ec5E8812DDf42DA1232b0ba1015e6';
 
 class LockedCvxDelegationStore {
 	private store: RootStore;
+	delegationState?: DelegationState;
 
 	constructor(store: RootStore) {
 		this.store = store;
+
+		extendObservable(this, {
+			delegationState: this.delegationState,
+		});
+
+		observe(this.store.user, 'settBalances', () => {
+			const areSettBalancesAvailable = Object.keys(this.store.user.settBalances).length > 0;
+
+			if (areSettBalancesAvailable) {
+				this.getUserDelegationState();
+			}
+		});
 	}
 
-	async delegateLockedCVX(): Promise<void> {
+	async getUserDelegationState(): Promise<void> {
 		const {
-			uiState: { queueNotification },
 			wallet: { provider, connectedAddress },
 			user,
 		} = this.store;
@@ -22,35 +39,35 @@ class LockedCvxDelegationStore {
 		const lockedCVXBalance = user.getTokenBalance(mainnet.sett_system.vaults['native.icvx']);
 
 		if (!lockedCVXBalance.balance.gt(0)) {
-			console.error('locked balance is zero');
+			this.delegationState = DelegationState.Ineligible;
 			return;
 		}
 
 		const web3 = new Web3(provider);
 		const cvxDelegator = new web3.eth.Contract(CvxDelegatorAbi as AbiItem[], mainnet.cvxDelegator);
-
-		const ID_TO_DELEGATE = '0x6376782e657468'; // cvx.eth in hex
-		const BADGER_DELEGATE_ADDRESS = '0x14F83fF95D4Ec5E8812DDf42DA1232b0ba1015e6';
-
 		const alreadyDelegatedAddress = await cvxDelegator.methods.delegation(connectedAddress, ID_TO_DELEGATE).call();
 
 		if (alreadyDelegatedAddress) {
-			if (alreadyDelegatedAddress === BADGER_DELEGATE_ADDRESS) {
-				queueNotification(
-					"You already delegated your locked CVX to Badger. Thanks, you're a top badger!",
-					'info',
-				);
-				return;
-			}
+			const isBadgerDelegatedAddress = alreadyDelegatedAddress === BADGER_DELEGATE_ADDRESS;
 
-			const wouldLikeToOverride = window.confirm(
-				'You already delegated your locked CVX, would you like to re-delegate to Badger?',
-			);
+			this.delegationState = isBadgerDelegatedAddress
+				? DelegationState.BadgerDelegated
+				: DelegationState.Delegated;
 
-			if (!wouldLikeToOverride) {
-				return;
-			}
+			return;
 		}
+
+		this.delegationState = DelegationState.Eligible;
+	}
+
+	async delegateLockedCVX(): Promise<void> {
+		const {
+			uiState: { queueNotification },
+			wallet: { provider },
+		} = this.store;
+
+		const web3 = new Web3(provider);
+		const cvxDelegator = new web3.eth.Contract(CvxDelegatorAbi as AbiItem[], mainnet.cvxDelegator);
 
 		const setDelegate = cvxDelegator.methods.setDelegate(ID_TO_DELEGATE, BADGER_DELEGATE_ADDRESS);
 		const options = await this.store.wallet.getMethodSendOptions(setDelegate);

@@ -9,8 +9,7 @@ import { SettState } from '../mobx/model/setts/sett-state';
 import UserStore from '../mobx/stores/UserStore';
 import SettStore from '../mobx/stores/SettStore';
 import { BouncerType } from '../mobx/model/setts/sett-bouncer';
-import { TokenBalance } from '../mobx/model/tokens/token-balance';
-import mainnet from '../config/deployments/mainnet.json';
+import { DelegationState } from '../mobx/model/setts/locked-cvx-delegation';
 
 jest.mock('../mobx/utils/apiV2', () => ({
 	...jest.requireActual('../mobx/utils/apiV2'),
@@ -944,19 +943,8 @@ describe('Landing Page', () => {
 
 	test('can click delegate locked cvx', async () => {
 		const mockDelegateLocked = jest.fn();
-
-		const cvxToken = {
-			address: mainnet.sett_system.vaults['native.icvx'],
-			decimals: 18,
-		};
-
-		const mockLockedCVX = new TokenBalance(cvxToken, new BigNumber(100), new BigNumber(20));
-
+		store.lockedCvxDelegation.delegationState = DelegationState.Eligible;
 		store.lockedCvxDelegation.delegateLockedCVX = mockDelegateLocked;
-
-		store.user.tokenBalances = {
-			[mainnet.sett_system.vaults['native.icvx']]: mockLockedCVX,
-		};
 
 		customRender(
 			<StoreProvider value={store}>

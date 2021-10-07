@@ -2,7 +2,7 @@ import CurrencyInfoCard from '../components-v2/common/CurrencyInfoCard';
 import CurrencyPicker from '../components-v2/landing/CurrencyPicker';
 import SamplePicker from '../components-v2/landing/SamplePicker';
 import WalletSlider from '../components-v2/landing/WalletSlider';
-import { Grid, makeStyles, Button, Tooltip } from '@material-ui/core';
+import { Grid, makeStyles, Button } from '@material-ui/core';
 import PageHeader from '../components-v2/common/PageHeader';
 import { StoreContext } from '../mobx/store-context';
 import { observer } from 'mobx-react-lite';
@@ -12,8 +12,7 @@ import SettList from 'components-v2/landing/SettList';
 import { RewardsModal } from '../components-v2/landing/RewardsModal';
 import { SettState } from '../mobx/model/setts/sett-state';
 import { HeaderContainer, LayoutContainer } from '../components-v2/common/Containers';
-import { NETWORK_IDS } from '../config/constants';
-import mainnet from '../config/deployments/mainnet.json';
+import LockedCvxDelegationAction from '../components-v2/landing/LockedCvxDelegation';
 
 const useStyles = makeStyles((theme) => ({
 	marginTop: {
@@ -90,7 +89,6 @@ const Landing = observer((props: LandingProps) => {
 		setts,
 		prices,
 		user,
-		lockedCvxDelegation,
 	} = store;
 	const { protocolSummary } = setts;
 	const userConnected = !!connectedAddress;
@@ -99,21 +97,6 @@ const Landing = observer((props: LandingProps) => {
 	const totalValueLocked = protocolSummary ? new BigNumber(protocolSummary.totalValue) : undefined;
 	const badgerPrice = badgerToken ? prices.getPrice(badgerToken) : undefined;
 	const portfolioValue = userConnected && user.initialized ? user.portfolioValue : undefined;
-	const isCurrentNetworkEthereum = network.id === NETWORK_IDS.ETH;
-	const canUserDelegateLockedCVX = user.getTokenBalance(mainnet.sett_system.vaults['native.icvx']).balance.gt(0);
-
-	const delegateButton = (
-		<Button
-			className={classes.linkButton}
-			size="small"
-			variant="contained"
-			color="primary"
-			disabled={!canUserDelegateLockedCVX}
-			onClick={() => lockedCvxDelegation.delegateLockedCVX()}
-		>
-			Click here to delegate your locked CVX balance to Badger
-		</Button>
-	);
 
 	return (
 		<LayoutContainer>
@@ -150,24 +133,11 @@ const Landing = observer((props: LandingProps) => {
 					</Button>
 				</Grid>
 			)}
+
 			{state === SettState.Open && (
-				<>
-					{isCurrentNetworkEthereum && (
-						<Grid container spacing={1} justify="center">
-							{canUserDelegateLockedCVX ? (
-								delegateButton
-							) : (
-								<Tooltip
-									arrow
-									placement="top"
-									title="You don't have any locked CVX balance to delegate."
-								>
-									<span>{delegateButton}</span>
-								</Tooltip>
-							)}
-						</Grid>
-					)}
-				</>
+				<Grid container spacing={1} justify="center">
+					<LockedCvxDelegationAction />
+				</Grid>
 			)}
 
 			<SettList state={state} />
