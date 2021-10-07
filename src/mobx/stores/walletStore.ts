@@ -115,7 +115,7 @@ class WalletStore {
 		this.onboard = wsOnboard;
 		const walletState = wsOnboard.getState();
 		this.setProvider(walletState.wallet.provider, walletState.wallet.name);
-		this.setAddress('0x53D8EDF6a54239eB785eC72213919Fb6b6B73598');
+		this.setAddress(walletState.address);
 	});
 
 	getMethodSendOptions = async (method: ContractSendMethod): Promise<SendOptions | EIP1559SendOptions> => {
