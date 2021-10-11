@@ -27,6 +27,7 @@
 		"d3-time-format": "^3.0.0",
 		"dayjs": "^1.10.6",
 		"director": "1.2.8",
+		"fetch-retry": "^5.0.1",
 		"firebase": "^8.2.3",
 		"mobx": "^5.15.4",
 		"mobx-react-lite": "^2.0.6",

@@ -36,6 +36,12 @@ export function getStrategyFee(sett: Sett, fee: StrategyFee, config: StrategyCon
 			case StrategyFee.yearnPerformance:
 				requestedFee = defaultFee.yearnPerformance?.toNumber();
 				break;
+			case StrategyFee.harvestPerformance:
+				requestedFee = defaultFee.harvestPerformance?.toNumber();
+				break;
+			case StrategyFee.harvestStrategistPerformance:
+				requestedFee = defaultFee.harvestStrategistPerformance?.toNumber();
+				break;
 			default:
 				break;
 		}
