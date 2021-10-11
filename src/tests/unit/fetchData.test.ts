@@ -1,7 +1,6 @@
 import 'jest';
 import fetchMock from 'jest-fetch-mock';
 import { fetchData } from '../../utils/fetchData';
-import { baseRetryOptions } from '../../config/constants';
 
 describe('fetchData', () => {
 	beforeEach(() => {
@@ -54,6 +53,7 @@ describe('fetchData', () => {
 
 	it('retries multiple times on error request', async () => {
 		let fetches = 0;
+		const retries = 3;
 		const errorMessage = 'Server Error';
 
 		fetchMock.mockResponse(() => {
@@ -61,10 +61,10 @@ describe('fetchData', () => {
 			return Promise.resolve({ status: 500, body: errorMessage });
 		});
 
-		const [data, error] = await fetchData('/');
+		const [data, error] = await fetchData('/', { retries });
 
 		expect(data).toBe(null);
 		expect(error).toBe(errorMessage);
-		expect(fetches).toBe(baseRetryOptions.maxAttempts);
+		expect(fetches).toBe(retries + 1); // count the initial request
 	});
 });

@@ -1,13 +1,21 @@
-import { getDefaultRetryOptions } from '../config/constants';
-import { PartialAttemptOptions, retry } from '@lifeomic/attempt';
+import buildRetry, { RequestInitWithRetry } from 'fetch-retry';
+
+export const defaultFetchOptions = {
+	method: 'GET',
+	headers: {
+		'Content-Type': 'application/json',
+		Accept: 'application/json',
+	},
+	retryOn: [500, 503],
+};
 
 export type FetchResult<T> = [T | null, string | null];
 
-export interface FetchOptions<T, R> extends PartialAttemptOptions<FetchResult<T>> {
+export interface FetchOptions<T, R> extends RequestInitWithRetry {
 	accessor?: (res: R) => T;
 }
 
-export interface FetchParams<T, R = unknown> extends PartialAttemptOptions<FetchResult<T>> {
+export interface FetchParams<T, R = unknown> {
 	url: string;
 	options: FetchOptions<T, R>;
 }
@@ -16,33 +24,21 @@ export async function fetchData<T, R = unknown>(
 	url: string,
 	options: FetchOptions<T, R> = {},
 ): Promise<FetchResult<T>> {
-	const defaultRetryOptions = getDefaultRetryOptions<FetchResult<T>>();
-	const { accessor, ...retryOptions } = options;
+	const { accessor, ...fetchOptions } = options;
+	const fetchRetry = buildRetry(fetch);
 
-	const executeFetch = async (): Promise<FetchResult<T>> => {
-		const response = await fetch(url, {
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json',
-				Accept: 'application/json',
-			},
+	try {
+		const response = await fetchRetry(url, {
+			...defaultFetchOptions,
+			...fetchOptions,
 		});
 
 		if (!response.ok) {
-			if (response.status === 400) {
-				return [null, await response.text()];
-			}
-
-			throw new Error(await response.text());
+			return [null, await response.text()];
 		}
 
 		const data = await response.json();
-
 		return [accessor ? accessor(data) : data, null] as FetchResult<T>;
-	};
-
-	try {
-		return await retry(executeFetch, { ...defaultRetryOptions, ...retryOptions });
 	} catch (error) {
 		return [null, error.message || error];
 	}
