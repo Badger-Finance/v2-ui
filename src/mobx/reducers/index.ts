@@ -58,6 +58,10 @@ class UiState {
 		this.notification = { message, variant, persist: false, hash: hash };
 	});
 
+	queueError(message: string): void {
+		this.queueNotification(message, 'error');
+	}
+
 	// TODO: this does nothing?
 	setTxStatus = action((status?: string) => {
 		this.txStatus = status;

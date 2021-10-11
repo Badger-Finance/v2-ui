@@ -1,13 +1,11 @@
 import BigNumber from 'bignumber.js';
-import { getDefaultRetryOptions, TEN, ZERO } from '../../config/constants';
+import { TEN, ZERO } from '../../config/constants';
 import { API } from 'bnc-onboard/dist/src/interfaces';
 import store, { RootStore } from 'mobx/RootStore';
-import { retry } from '@lifeomic/attempt';
 import { MarketChartStats } from 'mobx/model/charts/market-chart-stats';
 import { MarketDelta } from 'mobx/model/charts/market-delta';
 import { ChartData } from 'mobx/model/charts/chart-data';
 import { Network } from 'mobx/model/network/network';
-import { DEBUG } from 'config/environment';
 import { Currency } from 'config/enums/currency.enum';
 import { currencyConfiguration } from 'config/currency.config';
 import routes from 'config/routes';
@@ -267,31 +265,6 @@ export function marketChartStats(dataSet: Array<any>, accessor: string): MarketC
 
 	return { high, low, avg, median };
 }
-
-export const fetchData = async <T, R = unknown>(
-	url: string,
-	errMessage: string,
-	accessor?: (res: R) => T,
-): Promise<T | undefined> => {
-	const retryOptions = getDefaultRetryOptions<T>();
-	return retry(async () => {
-		const res = await fetch(url, {
-			method: 'GET',
-			headers: {
-				'Content-Type': 'application/json',
-				Accept: 'application/json',
-			},
-		});
-		if (!res.ok) {
-			if (DEBUG) {
-				store.uiState.queueNotification(errMessage, 'error');
-			}
-			return;
-		}
-		const obj = await res.json();
-		return accessor ? accessor(obj) : obj;
-	}, retryOptions);
-};
 
 // Reason: blocknative does not type their provider, must be any
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
