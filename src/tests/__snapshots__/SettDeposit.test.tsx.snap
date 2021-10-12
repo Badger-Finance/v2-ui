@@ -231,12 +231,12 @@ exports[`Sett Deposit can go back from full fees descriptions  1`] = `
                 <p
                   class="MuiTypography-root-56 makeStyles-specName-445 MuiTypography-body1-58 MuiTypography-colorTextSecondary-82 MuiTypography-displayInline-84"
                 >
-                  DAO Performance Fee
+                  Performance Fee
                 </p>
                 <h6
                   class="MuiTypography-root-56 MuiTypography-subtitle2-68 MuiTypography-displayInline-84"
                 >
-                  0.3%
+                  0.2%
                 </h6>
               </div>
               <div
@@ -635,12 +635,12 @@ exports[`Sett Deposit displays sett information 1`] = `
                 <p
                   class="MuiTypography-root-56 makeStyles-specName-325 MuiTypography-body1-58 MuiTypography-colorTextSecondary-82 MuiTypography-displayInline-84"
                 >
-                  DAO Performance Fee
+                  Performance Fee
                 </p>
                 <h6
                   class="MuiTypography-root-56 MuiTypography-subtitle2-68 MuiTypography-displayInline-84"
                 >
-                  0.3%
+                  0.2%
                 </h6>
               </div>
               <div

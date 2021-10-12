@@ -29,7 +29,7 @@ const LockedCvxDelegationAction = observer(() => {
 	const classes = useStyles();
 
 	const { delegationState } = lockedCvxDelegation;
-	const canUserDelegateLockedCVX = delegationState === DelegationState.Eligible;
+	const canUserDelegateLockedCVX = delegationState === DelegationState.Eligible || DelegationState.Delegated;
 
 	if (network.id !== NETWORK_IDS.ETH || !delegationState) {
 		return null;
