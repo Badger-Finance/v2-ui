@@ -432,7 +432,7 @@ export const getStrategies = (network: ChainNetwork): StrategyNetworkConfig => {
 						[StrategyFee.performance]: new BigNumber(0),
 						[StrategyFee.withdraw]: new BigNumber(10),
 					},
-					depositLink: 'https://www.convexfinance.com/lock-cvx',
+					depositLink: 'https://app.sushi.com/swap?inputCurrency=ETH&outputCurrency=0x4e3FBD56CD56c3e72c1403e103b45Db9da5B9D2B',
 					userGuide: 'https://docs.badger.com/badger-finance/sett-user-guides/blcvx-locked-convex',
 				},
 				[ethDeploy.sett_system.vaults['native.imBtc']]: {
