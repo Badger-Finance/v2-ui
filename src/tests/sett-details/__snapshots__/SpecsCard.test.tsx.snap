@@ -216,12 +216,12 @@ exports[`Specs Section displays sett information 1`] = `
             <p
               class="MuiTypography-root-145 makeStyles-specName-267 MuiTypography-body1-147 MuiTypography-colorTextSecondary-171 MuiTypography-displayInline-173"
             >
-              DAO Performance Fee
+              Performance Fee
             </p>
             <h6
               class="MuiTypography-root-145 MuiTypography-subtitle2-157 MuiTypography-displayInline-173"
             >
-              0.3%
+              0.2%
             </h6>
           </div>
           <div
