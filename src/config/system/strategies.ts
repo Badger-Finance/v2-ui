@@ -150,7 +150,7 @@ export const getStrategies = (network: ChainNetwork): StrategyNetworkConfig => {
 				[bscDeploy.sett_system.vaults['native.bBadgerBtcb']]: {
 					address: bscDeploy.sett_system.strategies['native.bBadgerBtcb'],
 					fees: {
-						[StrategyFee.daoPerformance]: new BigNumber(1000),
+						[StrategyFee.performance]: new BigNumber(1000),
 						[StrategyFee.strategistPerformance]: new BigNumber(1000),
 						[StrategyFee.withdraw]: new BigNumber(50),
 					},
@@ -160,7 +160,7 @@ export const getStrategies = (network: ChainNetwork): StrategyNetworkConfig => {
 				[bscDeploy.sett_system.vaults['native.bDiggBtcb']]: {
 					address: bscDeploy.sett_system.strategies['native.bDiggBtcb'],
 					fees: {
-						[StrategyFee.daoPerformance]: new BigNumber(1000),
+						[StrategyFee.performance]: new BigNumber(1000),
 						[StrategyFee.strategistPerformance]: new BigNumber(1000),
 						[StrategyFee.withdraw]: new BigNumber(50),
 					},
@@ -173,7 +173,7 @@ export const getStrategies = (network: ChainNetwork): StrategyNetworkConfig => {
 				[ethDeploy.sett_system.vaults['native.badger']]: {
 					address: ethDeploy.sett_system.strategies['native.badger'],
 					fees: {
-						[StrategyFee.daoPerformance]: new BigNumber(0),
+						[StrategyFee.performance]: new BigNumber(0),
 						[StrategyFee.strategistPerformance]: new BigNumber(0),
 						[StrategyFee.withdraw]: new BigNumber(0),
 					},
@@ -186,7 +186,7 @@ export const getStrategies = (network: ChainNetwork): StrategyNetworkConfig => {
 				[ethDeploy.sett_system.vaults['native.renCrv']]: {
 					address: ethDeploy.sett_system.strategies['native.renCrv'],
 					fees: {
-						[StrategyFee.daoPerformance]: new BigNumber(1000),
+						[StrategyFee.performance]: new BigNumber(1000),
 						[StrategyFee.strategistPerformance]: new BigNumber(0),
 						[StrategyFee.withdraw]: new BigNumber(50),
 					},
@@ -198,7 +198,7 @@ export const getStrategies = (network: ChainNetwork): StrategyNetworkConfig => {
 				[ethDeploy.sett_system.vaults['native.sbtcCrv']]: {
 					address: ethDeploy.sett_system.strategies['native.sbtcCrv'],
 					fees: {
-						[StrategyFee.daoPerformance]: new BigNumber(1000),
+						[StrategyFee.performance]: new BigNumber(1000),
 						[StrategyFee.strategistPerformance]: new BigNumber(0),
 						[StrategyFee.withdraw]: new BigNumber(50),
 					},
@@ -210,7 +210,7 @@ export const getStrategies = (network: ChainNetwork): StrategyNetworkConfig => {
 				[ethDeploy.sett_system.vaults['native.tbtcCrv']]: {
 					address: ethDeploy.sett_system.strategies['native.tbtcCrv'],
 					fees: {
-						[StrategyFee.daoPerformance]: new BigNumber(1000),
+						[StrategyFee.performance]: new BigNumber(1000),
 						[StrategyFee.strategistPerformance]: new BigNumber(0),
 						[StrategyFee.withdraw]: new BigNumber(50),
 					},
@@ -222,7 +222,7 @@ export const getStrategies = (network: ChainNetwork): StrategyNetworkConfig => {
 				[ethDeploy.sett_system.vaults['native.uniBadgerWbtc']]: {
 					address: ethDeploy.sett_system.strategies['native.uniBadgerWbtc'],
 					fees: {
-						[StrategyFee.daoPerformance]: new BigNumber(0),
+						[StrategyFee.performance]: new BigNumber(0),
 						[StrategyFee.strategistPerformance]: new BigNumber(0),
 						[StrategyFee.withdraw]: new BigNumber(0),
 					},
@@ -252,7 +252,7 @@ export const getStrategies = (network: ChainNetwork): StrategyNetworkConfig => {
 					// 	'can be claimed in the dashboard.',
 					address: ethDeploy.sett_system.strategies['native.sushiWbtcEth'],
 					fees: {
-						[StrategyFee.daoPerformance]: new BigNumber(1000),
+						[StrategyFee.performance]: new BigNumber(1000),
 						[StrategyFee.strategistPerformance]: new BigNumber(1000),
 						[StrategyFee.withdraw]: new BigNumber(50),
 					},
@@ -264,7 +264,7 @@ export const getStrategies = (network: ChainNetwork): StrategyNetworkConfig => {
 				[ethDeploy.sett_system.vaults['native.sushiBadgerWbtc']]: {
 					address: ethDeploy.sett_system.strategies['native.sushiBadgerWbtc'],
 					fees: {
-						[StrategyFee.daoPerformance]: new BigNumber(1000),
+						[StrategyFee.performance]: new BigNumber(1000),
 						[StrategyFee.strategistPerformance]: new BigNumber(1000),
 						[StrategyFee.withdraw]: new BigNumber(0),
 					},
@@ -277,7 +277,7 @@ export const getStrategies = (network: ChainNetwork): StrategyNetworkConfig => {
 				[ethDeploy.sett_system.vaults['native.digg']]: {
 					address: ethDeploy.sett_system.strategies['native.digg'],
 					fees: {
-						[StrategyFee.daoPerformance]: new BigNumber(0),
+						[StrategyFee.performance]: new BigNumber(0),
 						[StrategyFee.strategistPerformance]: new BigNumber(0),
 						[StrategyFee.withdraw]: new BigNumber(0),
 					},
@@ -290,7 +290,7 @@ export const getStrategies = (network: ChainNetwork): StrategyNetworkConfig => {
 				[ethDeploy.sett_system.vaults['native.uniDiggWbtc']]: {
 					address: ethDeploy.sett_system.strategies['native.uniDiggWbtc'],
 					fees: {
-						[StrategyFee.daoPerformance]: new BigNumber(0),
+						[StrategyFee.performance]: new BigNumber(0),
 						[StrategyFee.strategistPerformance]: new BigNumber(0),
 						[StrategyFee.withdraw]: new BigNumber(0),
 					},
@@ -299,7 +299,7 @@ export const getStrategies = (network: ChainNetwork): StrategyNetworkConfig => {
 				[ethDeploy.sett_system.vaults['native.sushiDiggWbtc']]: {
 					address: ethDeploy.sett_system.strategies['native.sushiDiggWbtc'],
 					fees: {
-						[StrategyFee.daoPerformance]: new BigNumber(1000),
+						[StrategyFee.performance]: new BigNumber(1000),
 						[StrategyFee.strategistPerformance]: new BigNumber(1000),
 						[StrategyFee.withdraw]: new BigNumber(0),
 					},
@@ -323,7 +323,7 @@ export const getStrategies = (network: ChainNetwork): StrategyNetworkConfig => {
 				[ethDeploy.sett_system.vaults['native.sushiibBTCwBTC']]: {
 					address: ethDeploy.sett_system.strategies['experimental.sushiIBbtcWbtc'],
 					fees: {
-						[StrategyFee.daoPerformance]: new BigNumber(1000),
+						[StrategyFee.performance]: new BigNumber(1000),
 						[StrategyFee.strategistPerformance]: new BigNumber(1000),
 						[StrategyFee.withdraw]: new BigNumber(20),
 					},
@@ -336,7 +336,7 @@ export const getStrategies = (network: ChainNetwork): StrategyNetworkConfig => {
 				[ethDeploy.sett_system.vaults['experimental.digg']]: {
 					address: ethDeploy.sett_system.strategies['experimental.digg'],
 					fees: {
-						[StrategyFee.daoPerformance]: new BigNumber(250),
+						[StrategyFee.performance]: new BigNumber(250),
 						[StrategyFee.strategistPerformance]: new BigNumber(0),
 						[StrategyFee.withdraw]: new BigNumber(50),
 					},
@@ -346,7 +346,7 @@ export const getStrategies = (network: ChainNetwork): StrategyNetworkConfig => {
 				[ethDeploy.sett_system.vaults['native.hbtcCrv']]: {
 					address: ethDeploy.sett_system.strategies['native.hbtcCrv'],
 					fees: {
-						[StrategyFee.daoPerformance]: new BigNumber(1000),
+						[StrategyFee.performance]: new BigNumber(1000),
 						[StrategyFee.withdraw]: new BigNumber(50),
 					},
 					strategyLink: 'https://badger.wiki/strategies#56cd7b65cd384740aa9f339bf3ee2597',
@@ -357,7 +357,7 @@ export const getStrategies = (network: ChainNetwork): StrategyNetworkConfig => {
 				[ethDeploy.sett_system.vaults['native.pbtcCrv']]: {
 					address: ethDeploy.sett_system.strategies['native.pbtcCrv'],
 					fees: {
-						[StrategyFee.daoPerformance]: new BigNumber(1000),
+						[StrategyFee.performance]: new BigNumber(1000),
 						[StrategyFee.withdraw]: new BigNumber(50),
 					},
 					strategyLink: 'https://badger.wiki/strategies#39a0decd933b4869b98c9276118b9d39',
@@ -368,7 +368,7 @@ export const getStrategies = (network: ChainNetwork): StrategyNetworkConfig => {
 				[ethDeploy.sett_system.vaults['native.obtcCrv']]: {
 					address: ethDeploy.sett_system.strategies['native.obtcCrv'],
 					fees: {
-						[StrategyFee.daoPerformance]: new BigNumber(1000),
+						[StrategyFee.performance]: new BigNumber(1000),
 						[StrategyFee.withdraw]: new BigNumber(50),
 					},
 					strategyLink: 'https://badger.wiki/strategies#82d72e94cb3b49f0836d8197ad13bc36',
@@ -379,7 +379,7 @@ export const getStrategies = (network: ChainNetwork): StrategyNetworkConfig => {
 				[ethDeploy.sett_system.vaults['native.bbtcCrv']]: {
 					address: ethDeploy.sett_system.strategies['native.bbtcCrv'],
 					fees: {
-						[StrategyFee.daoPerformance]: new BigNumber(1000),
+						[StrategyFee.performance]: new BigNumber(1000),
 						[StrategyFee.withdraw]: new BigNumber(50),
 					},
 					strategyLink: 'https://badger.wiki/strategies#fe4a64edc830472da5a700d0fc30716c',
@@ -390,7 +390,7 @@ export const getStrategies = (network: ChainNetwork): StrategyNetworkConfig => {
 				[ethDeploy.sett_system.vaults['native.tricryptoCrv']]: {
 					address: ethDeploy.sett_system.strategies['native.tricrypto'],
 					fees: {
-						[StrategyFee.daoPerformance]: new BigNumber(1000),
+						[StrategyFee.performance]: new BigNumber(1000),
 						[StrategyFee.withdraw]: new BigNumber(0),
 					},
 					strategyLink: 'https://badger.wiki/strategies#f03b01a576d241aa9d9cee153876c976',
@@ -398,7 +398,7 @@ export const getStrategies = (network: ChainNetwork): StrategyNetworkConfig => {
 				[ethDeploy.sett_system.vaults['native.tricryptoCrv2']]: {
 					address: ethDeploy.sett_system.strategies['native.tricrypto2'],
 					fees: {
-						[StrategyFee.daoPerformance]: new BigNumber(2000),
+						[StrategyFee.performance]: new BigNumber(2000),
 						[StrategyFee.withdraw]: new BigNumber(50),
 					},
 					strategyLink: 'https://badger.wiki/strategies#d5806054c232432e8e8a1d75ae329bf8',
@@ -409,7 +409,7 @@ export const getStrategies = (network: ChainNetwork): StrategyNetworkConfig => {
 				[ethDeploy.sett_system.vaults['native.cvxCrv']]: {
 					address: ethDeploy.sett_system.strategies['native.cvxCrv'],
 					fees: {
-						[StrategyFee.daoPerformance]: new BigNumber(1000),
+						[StrategyFee.performance]: new BigNumber(1000),
 						[StrategyFee.withdraw]: new BigNumber(10),
 					},
 					strategyLink: 'https://badger.wiki/strategies#51d48102bc4847a6a5a1a059c4b827b3',
@@ -419,7 +419,7 @@ export const getStrategies = (network: ChainNetwork): StrategyNetworkConfig => {
 				[ethDeploy.sett_system.vaults['native.cvx']]: {
 					address: ethDeploy.sett_system.strategies['native.cvx'],
 					fees: {
-						[StrategyFee.daoPerformance]: new BigNumber(1000),
+						[StrategyFee.performance]: new BigNumber(1000),
 						[StrategyFee.withdraw]: new BigNumber(10),
 					},
 					strategyLink: 'https://badger.wiki/strategies#1346adfaad7946eebd29a17fb4f6e8b7',
@@ -429,7 +429,7 @@ export const getStrategies = (network: ChainNetwork): StrategyNetworkConfig => {
 				[ethDeploy.sett_system.vaults['native.icvx']]: {
 					address: ethDeploy.sett_system.strategies['native.icvx'],
 					fees: {
-						[StrategyFee.daoPerformance]: new BigNumber(0),
+						[StrategyFee.performance]: new BigNumber(0),
 						[StrategyFee.withdraw]: new BigNumber(10),
 					},
 					depositLink: 'https://www.convexfinance.com/lock-cvx',
@@ -438,7 +438,7 @@ export const getStrategies = (network: ChainNetwork): StrategyNetworkConfig => {
 				[ethDeploy.sett_system.vaults['native.imBtc']]: {
 					address: ethDeploy.sett_system.strategies['native.imBtc'],
 					fees: {
-						[StrategyFee.daoPerformance]: new BigNumber(1000),
+						[StrategyFee.performance]: new BigNumber(1000),
 						[StrategyFee.withdraw]: new BigNumber(75),
 					},
 					strategyLink: 'https://badgerwiki.notion.site/placeholder',
@@ -447,7 +447,7 @@ export const getStrategies = (network: ChainNetwork): StrategyNetworkConfig => {
 				[ethDeploy.sett_system.vaults['native.fPmBtcHBtc']]: {
 					address: ethDeploy.sett_system.strategies['native.fPmBtcHBtc'],
 					fees: {
-						[StrategyFee.daoPerformance]: new BigNumber(1000),
+						[StrategyFee.performance]: new BigNumber(1000),
 						[StrategyFee.withdraw]: new BigNumber(75),
 					},
 					strategyLink: 'https://badgerwiki.notion.site/placeholder',
