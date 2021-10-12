@@ -27,9 +27,6 @@ export function getStrategyFee(sett: Sett, fee: StrategyFee, config: StrategyCon
 			case StrategyFee.strategistPerformance:
 				requestedFee = defaultFee.strategistPerformance?.toNumber();
 				break;
-			case StrategyFee.daoPerformance:
-				requestedFee = defaultFee.daoPerformance?.toNumber();
-				break;
 			case StrategyFee.yearnManagement:
 				requestedFee = defaultFee.yearnManagement?.toNumber();
 				break;
@@ -60,8 +57,6 @@ function getSettStrategyFee(strategy: SettStrategy, fee: StrategyFee): number | 
 			return strategy.performanceFee;
 		case StrategyFee.strategistPerformance:
 			return strategy.strategistFee;
-		case StrategyFee.daoPerformance:
-			return strategy.performanceFee + strategy.strategistFee;
 		default:
 			return;
 	}
