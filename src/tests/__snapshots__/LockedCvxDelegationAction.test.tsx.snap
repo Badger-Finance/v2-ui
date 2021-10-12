@@ -13,9 +13,8 @@ exports[`LockedCvxDelegationAction handles badger delegated state 1`] = `
 exports[`LockedCvxDelegationAction handles delegated state 1`] = `
 <div>
   <button
-    class="MuiButtonBase-root-32 MuiButton-root-3 MuiButton-contained-11 makeStyles-linkButton-2 MuiButton-containedPrimary-12 MuiButton-containedSizeSmall-22 MuiButton-sizeSmall-24 MuiButton-disabled-16 MuiButtonBase-disabled-33"
-    disabled=""
-    tabindex="-1"
+    class="MuiButtonBase-root-32 MuiButton-root-3 MuiButton-contained-11 makeStyles-linkButton-2 MuiButton-containedPrimary-12 MuiButton-containedSizeSmall-22 MuiButton-sizeSmall-24"
+    tabindex="0"
     type="button"
   >
     <span
@@ -23,6 +22,9 @@ exports[`LockedCvxDelegationAction handles delegated state 1`] = `
     >
       Click here to delegate your locked CVX balance to Badger
     </span>
+    <span
+      class="MuiTouchRipple-root-35"
+    />
   </button>
 </div>
 `;
