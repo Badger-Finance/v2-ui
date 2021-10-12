@@ -21,6 +21,7 @@ export class Polygon extends Network {
 			Currency.MATIC,
 			MATIC_DEPLOY,
 			maticSetts,
+			'Rewards have been temporarily disabled for maintenance. All funds are secure.',
 		);
 	}
 

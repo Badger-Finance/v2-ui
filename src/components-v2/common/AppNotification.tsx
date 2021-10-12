@@ -14,7 +14,6 @@ const useStyles = makeStyles((theme) => ({
 		fontSize: '1.05rem',
 		paddingTop: theme.spacing(2),
 		paddingBottom: theme.spacing(2),
-		color: theme.palette.error.main,
 		borderBottom: '1px solid',
 	},
 	notificationLink: {

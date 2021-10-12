@@ -27,6 +27,7 @@ export class Ethereum extends Network {
 			Currency.ETH,
 			ETH_DEPLOY,
 			ethSettDefinitions,
+			'Rewards have been temporarily disabled for maintenance. All funds are secure.',
 		);
 	}
 	get settOrder(): string[] {
