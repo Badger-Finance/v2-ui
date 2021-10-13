@@ -8,7 +8,7 @@ import { sendContractMethod } from '../utils/web3';
 import { DelegationState } from '../model/setts/locked-cvx-delegation';
 import { extendObservable, observe } from 'mobx';
 import BigNumber from 'bignumber.js';
-import { ZERO_ADDR } from 'config/constants';
+import { NETWORK_IDS, ZERO_ADDR } from 'config/constants';
 
 const ID_TO_DELEGATE = '0x6376782e657468'; // cvx.eth in hex
 const BADGER_DELEGATE_ADDRESS = '0x14F83fF95D4Ec5E8812DDf42DA1232b0ba1015e6';
@@ -35,8 +35,13 @@ class LockedCvxDelegationStore {
 
 	async getUserDelegationState(): Promise<void> {
 		const {
+			network: { network },
 			wallet: { provider, connectedAddress },
 		} = this.store;
+
+		if (network.id !== NETWORK_IDS.ETH) {
+			return;
+		}
 
 		const web3 = new Web3(provider);
 		const cvxLocker = new web3.eth.Contract(CvxLockerAbi as AbiItem[], mainnet.cvxLocker);

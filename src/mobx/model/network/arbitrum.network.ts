@@ -107,6 +107,16 @@ export const arbitrumSetts: BadgerSett[] = [
 			decimals: 18,
 		},
 	},
+	{
+		depositToken: {
+			address: ARBITRUM_DEPLOY.tokens['swapr.WETH-BADGER'],
+			decimals: 18,
+		},
+		vaultToken: {
+			address: ARBITRUM_DEPLOY.sett_system.vaults['native.swaprWethBadger'],
+			decimals: 18,
+		},
+	},
 ];
 
 export const arbitrumRewards = [
