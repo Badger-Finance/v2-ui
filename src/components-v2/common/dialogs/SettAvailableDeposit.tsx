@@ -4,6 +4,8 @@ import { VaultCap } from 'mobx/model/vaults/vault-cap';
 import { MAX } from '../../../config/constants';
 import BigNumber from 'bignumber.js';
 
+const maxCapAmount = new BigNumber(MAX).toFixed();
+
 const useStyles = makeStyles((theme) => ({
 	limitsContainer: {
 		display: 'flex',
@@ -40,8 +42,8 @@ export const SettAvailableDeposit = (props: DepositLimitProps): JSX.Element | nu
 	}
 	const { vaultCap, totalVaultCap, userCap, totalUserCap, asset } = vaultCapInfo;
 	const displayUserCap = vaultCap.tokenBalance.lte(userCap.tokenBalance) ? vaultCap : userCap;
-	const isMaxUserCap = totalUserCap.tokenBalance.toFixed() === new BigNumber(MAX).toFixed();
-	const isMaxTotalCap = vaultCap.tokenBalance.toFixed() === new BigNumber(MAX).toFixed();
+	const isMaxUserCap = totalUserCap.tokenBalance.toFixed() === maxCapAmount;
+	const isMaxTotalCap = vaultCap.tokenBalance.toFixed() === maxCapAmount;
 
 	if (isMaxTotalCap && isMaxUserCap) {
 		return null;
