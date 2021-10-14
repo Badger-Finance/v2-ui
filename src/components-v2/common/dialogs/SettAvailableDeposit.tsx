@@ -1,6 +1,10 @@
 import React from 'react';
 import { makeStyles, Typography } from '@material-ui/core';
 import { VaultCap } from 'mobx/model/vaults/vault-cap';
+import { MAX } from '../../../config/constants';
+import BigNumber from 'bignumber.js';
+
+const maxCapAmount = new BigNumber(MAX).toFixed();
 
 const useStyles = makeStyles((theme) => ({
 	limitsContainer: {
@@ -38,28 +42,39 @@ export const SettAvailableDeposit = (props: DepositLimitProps): JSX.Element | nu
 	}
 	const { vaultCap, totalVaultCap, userCap, totalUserCap, asset } = vaultCapInfo;
 	const displayUserCap = vaultCap.tokenBalance.lte(userCap.tokenBalance) ? vaultCap : userCap;
+	const isMaxUserCap = totalUserCap.tokenBalance.toFixed() === maxCapAmount;
+	const isMaxTotalCap = vaultCap.tokenBalance.toFixed() === maxCapAmount;
+
+	if (isMaxTotalCap && isMaxUserCap) {
+		return null;
+	}
+
 	return (
 		<div className={classes.limitsContainer}>
-			<div className={classes.depositContainer}>
-				<Typography align="center" variant="body2" color="textSecondary">
-					User Deposit Limit Remaining:{' '}
-				</Typography>
-				<Typography align="center" variant="body2" color="textSecondary" component="div">
-					{`${displayUserCap.balanceDisplay(displayDecimals)} / ${totalUserCap.balanceDisplay(
-						displayDecimals,
-					)} ${asset}`}
-				</Typography>
-			</div>
-			<div className={classes.depositContainer}>
-				<Typography align="center" variant="body2" color="textSecondary">
-					Total Deposit Limit Remaining:{' '}
-				</Typography>
-				<Typography align="center" variant="body2" color="textSecondary" component="div">
-					{`${vaultCap.balanceDisplay(displayDecimals)} / ${totalVaultCap.balanceDisplay(
-						displayDecimals,
-					)} ${asset}`}
-				</Typography>
-			</div>
+			{!isMaxUserCap && (
+				<div className={classes.depositContainer}>
+					<Typography align="center" variant="body2" color="textSecondary">
+						User Deposit Limit Remaining:{' '}
+					</Typography>
+					<Typography align="center" variant="body2" color="textSecondary" component="div">
+						{`${displayUserCap.balanceDisplay(displayDecimals)} / ${totalUserCap.balanceDisplay(
+							displayDecimals,
+						)} ${asset}`}
+					</Typography>
+				</div>
+			)}
+			{!isMaxTotalCap && (
+				<div className={classes.depositContainer}>
+					<Typography align="center" variant="body2" color="textSecondary">
+						Total Deposit Limit Remaining:{' '}
+					</Typography>
+					<Typography align="center" variant="body2" color="textSecondary" component="div">
+						{`${vaultCap.balanceDisplay(displayDecimals)} / ${totalVaultCap.balanceDisplay(
+							displayDecimals,
+						)} ${asset}`}
+					</Typography>
+				</div>
+			)}
 		</div>
 	);
 };

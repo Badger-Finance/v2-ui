@@ -105,15 +105,21 @@ export const Description = ({ sett }: Props): JSX.Element => {
 				/>
 			</Grid>
 			<Grid item container direction="column" justify="center" className={classes.namesContainer}>
-				<Grid item>
-					<Box display="flex" alignItems="center">
+				<Grid item container alignItems="center">
+					<Grid item>
 						<Typography className={classes.settName}>{displayName}</Typography>
-						<ApyDisplayBadge
-							apyComparison={`${formatWithoutExtraZeros(Math.abs(performance), 2)}%`}
-							mode={performanceResultMode}
-						/>
+					</Grid>
+					<Grid item>
+						<Box display="flex" alignItems="center">
+							<ApyDisplayBadge
+								apyComparison={`${formatWithoutExtraZeros(Math.abs(performance), 2)}%`}
+								mode={performanceResultMode}
+							/>
+						</Box>
+					</Grid>
+					<Grid item>
 						<ApyComparisonModeSelector value={timeframe} onChange={setTimeframe} />
-					</Box>
+					</Grid>
 				</Grid>
 				<Grid item>
 					<Typography className={classes.vaultName} color="textSecondary">

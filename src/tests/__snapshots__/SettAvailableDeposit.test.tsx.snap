@@ -1,0 +1,90 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SettAvailableDeposit displays deposit limits 1`] = `
+<div>
+  <div
+    class="makeStyles-limitsContainer-1"
+  >
+    <div
+      class="makeStyles-depositContainer-2"
+    >
+      <p
+        class="MuiTypography-root-3 MuiTypography-body2-4 MuiTypography-colorTextSecondary-29 MuiTypography-alignCenter-19"
+      >
+        User Deposit Limit Remaining:
+         
+      </p>
+      <div
+        class="MuiTypography-root-3 MuiTypography-body2-4 MuiTypography-colorTextSecondary-29 MuiTypography-alignCenter-19"
+      >
+        512.0143 / 512.0143 DIGG
+      </div>
+    </div>
+    <div
+      class="makeStyles-depositContainer-2"
+    >
+      <p
+        class="MuiTypography-root-3 MuiTypography-body2-4 MuiTypography-colorTextSecondary-29 MuiTypography-alignCenter-19"
+      >
+        Total Deposit Limit Remaining:
+         
+      </p>
+      <div
+        class="MuiTypography-root-3 MuiTypography-body2-4 MuiTypography-colorTextSecondary-29 MuiTypography-alignCenter-19"
+      >
+        512.0143 / 512.0143 DIGG
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`SettAvailableDeposit does not show any limits if both user and vault limits are max cap 1`] = `<div />`;
+
+exports[`SettAvailableDeposit does not show user limits if limit is max cap 1`] = `
+<div>
+  <div
+    class="makeStyles-limitsContainer-1"
+  >
+    <div
+      class="makeStyles-depositContainer-2"
+    >
+      <p
+        class="MuiTypography-root-3 MuiTypography-body2-4 MuiTypography-colorTextSecondary-29 MuiTypography-alignCenter-19"
+      >
+        Total Deposit Limit Remaining:
+         
+      </p>
+      <div
+        class="MuiTypography-root-3 MuiTypography-body2-4 MuiTypography-colorTextSecondary-29 MuiTypography-alignCenter-19"
+      >
+        341.3193 / 341.3193 imBTC
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`SettAvailableDeposit does not show vault limits if limit is max cap 1`] = `
+<div>
+  <div
+    class="makeStyles-limitsContainer-1"
+  >
+    <div
+      class="makeStyles-depositContainer-2"
+    >
+      <p
+        class="MuiTypography-root-3 MuiTypography-body2-4 MuiTypography-colorTextSecondary-29 MuiTypography-alignCenter-19"
+      >
+        User Deposit Limit Remaining:
+         
+      </p>
+      <div
+        class="MuiTypography-root-3 MuiTypography-body2-4 MuiTypography-colorTextSecondary-29 MuiTypography-alignCenter-19"
+      >
+        341.3193 / 341.3193 imBTC
+      </div>
+    </div>
+  </div>
+</div>
+`;
