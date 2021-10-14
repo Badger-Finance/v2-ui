@@ -451,19 +451,21 @@ export const getStrategies = (network: ChainNetwork): StrategyNetworkConfig => {
 					address: ethDeploy.sett_system.strategies['native.imBtc'],
 					fees: {
 						[StrategyFee.performance]: new BigNumber(1000),
-						[StrategyFee.withdraw]: new BigNumber(75),
+						[StrategyFee.withdraw]: new BigNumber(50),
 					},
-					strategyLink: 'https://badgerwiki.notion.site/placeholder',
+					strategyLink: 'https://badger.wiki/strategies#2234cf88bca941ce9450548c9eb96cec',
 					depositLink: 'https://mstable.app/#/mbtc/save',
+					userGuide: 'https://docs.badger.com/badger-finance/sett-user-guides/mstable-imbtc',
 				},
 				[ethDeploy.sett_system.vaults['native.fPmBtcHBtc']]: {
 					address: ethDeploy.sett_system.strategies['native.fPmBtcHBtc'],
 					fees: {
 						[StrategyFee.performance]: new BigNumber(1000),
-						[StrategyFee.withdraw]: new BigNumber(75),
+						[StrategyFee.withdraw]: new BigNumber(50),
 					},
-					strategyLink: 'https://badgerwiki.notion.site/placeholder',
+					strategyLink: 'https://badger.wiki/strategies#9a88b07c857e42beab929d3f0e26ca1b',
 					depositLink: 'https://mstable.app/#/mbtc/pools/0x48c59199da51b7e30ea200a74ea07974e62c4ba7',
+					userGuide: 'https://docs.badger.com/badger-finance/sett-user-guides/mstable-mbtc-hbtc',
 				},
 			};
 	}
