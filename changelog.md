@@ -1,5 +1,20 @@
 # v2 UI Changelog
 
+### v2.9.6 - 10/14/2021
+
+- release mstable vaults
+- minor ux tweaks for mobile
+- fix guarded vault max cap ux
+
+### Hotfix - 10/11/2021
+
+- fix missing fee look ups
+
+### Hotfix - 10/07/2021
+
+- add convex delegation prompt
+- add swapr vaults + user links
+
 ### v2.9.5 - 10/05/2021
 
 -   Release Swapper vaults
