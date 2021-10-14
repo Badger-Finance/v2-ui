@@ -90,6 +90,17 @@ export const getStrategies = (network: ChainNetwork): StrategyNetworkConfig => {
 					depositLink:
 						'https://swapr.eth.link/#/pools/0x2f2a2543B76A4166549F7aaB2e75Bef0aefC5B0f/0x82aF49447D8a07e3bd95BD0d56f35241523fBab1/0x418A639F01FAee054D3A823c227c7dC179C209Fa?chainId=42161',
 				},
+				[arbitrumDeploy.sett_system.vaults['native.swaprWethBadger']]: {
+					address: arbitrumDeploy.sett_system.strategies['native.swaprWethBadger'],
+					fees: {
+						[StrategyFee.performance]: new BigNumber(1000),
+						[StrategyFee.strategistPerformance]: new BigNumber(1000),
+						[StrategyFee.withdraw]: new BigNumber(50),
+					},
+					userGuide: 'https://docs.badger.com/badger-finance/sett-user-guides/arbitrum-badger-weth',
+					depositLink:
+						'https://swapr.eth.link/#/pools/0x2f2a2543B76A4166549F7aaB2e75Bef0aefC5B0f/0x82aF49447D8a07e3bd95BD0d56f35241523fBab1/0x418A639F01FAee054D3A823c227c7dC179C209Fa?chainId=42161',
+				},
 			};
 		case ChainNetwork.Matic:
 			return {
@@ -440,19 +451,21 @@ export const getStrategies = (network: ChainNetwork): StrategyNetworkConfig => {
 					address: ethDeploy.sett_system.strategies['native.imBtc'],
 					fees: {
 						[StrategyFee.performance]: new BigNumber(1000),
-						[StrategyFee.withdraw]: new BigNumber(75),
+						[StrategyFee.withdraw]: new BigNumber(50),
 					},
-					strategyLink: 'https://badgerwiki.notion.site/placeholder',
+					strategyLink: 'https://badger.wiki/strategies#2234cf88bca941ce9450548c9eb96cec',
 					depositLink: 'https://mstable.app/#/mbtc/save',
+					userGuide: 'https://docs.badger.com/badger-finance/sett-user-guides/mstable-imbtc',
 				},
 				[ethDeploy.sett_system.vaults['native.fPmBtcHBtc']]: {
 					address: ethDeploy.sett_system.strategies['native.fPmBtcHBtc'],
 					fees: {
 						[StrategyFee.performance]: new BigNumber(1000),
-						[StrategyFee.withdraw]: new BigNumber(75),
+						[StrategyFee.withdraw]: new BigNumber(50),
 					},
-					strategyLink: 'https://badgerwiki.notion.site/placeholder',
+					strategyLink: 'https://badger.wiki/strategies#9a88b07c857e42beab929d3f0e26ca1b',
 					depositLink: 'https://mstable.app/#/mbtc/pools/0x48c59199da51b7e30ea200a74ea07974e62c4ba7',
+					userGuide: 'https://docs.badger.com/badger-finance/sett-user-guides/mstable-mbtc-hbtc',
 				},
 			};
 	}
