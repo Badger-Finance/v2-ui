@@ -2,7 +2,7 @@ import { styled } from '@material-ui/core/styles';
 import { Container, Grid } from '@material-ui/core';
 
 export const LayoutContainer = styled(Container)({
-	maxWidth: 1024,
+	maxWidth: 1152,
 });
 
 export const HeaderContainer = styled(Grid)(({ theme }) => ({

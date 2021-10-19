@@ -12,7 +12,7 @@ import SettList from 'components-v2/landing/SettList';
 import { RewardsModal } from '../components-v2/landing/RewardsModal';
 import { SettState } from '../mobx/model/setts/sett-state';
 import { HeaderContainer, LayoutContainer } from '../components-v2/common/Containers';
-import LockedCvxDelegationAction from '../components-v2/landing/LockedCvxDelegation';
+import CvxDelegationBanner from '../components-v2/locked-cvx-bribes/Banner';
 
 const useStyles = makeStyles((theme) => ({
 	marginTop: {
@@ -68,6 +68,9 @@ const useStyles = makeStyles((theme) => ({
 		pointerEvents: 'none',
 	},
 	linkButton: {
+		marginTop: theme.spacing(3),
+	},
+	delegationBanner: {
 		marginTop: theme.spacing(3),
 	},
 }));
@@ -134,11 +137,9 @@ const Landing = observer((props: LandingProps) => {
 				</Grid>
 			)}
 
-			{state === SettState.Open && (
-				<Grid container spacing={1} justify="center">
-					<LockedCvxDelegationAction />
-				</Grid>
-			)}
+			<Grid container className={classes.delegationBanner}>
+				<CvxDelegationBanner />
+			</Grid>
 
 			<SettList state={state} />
 		</LayoutContainer>
