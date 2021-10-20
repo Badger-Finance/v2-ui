@@ -106,6 +106,9 @@ describe('Landing Page', () => {
 			stakeRatio: 100,
 		};
 
+		store.lockedCvxDelegation.loadLockedCvxBalance = jest.fn();
+		store.lockedCvxDelegation.getVotiumMerkleTrees = jest.fn();
+
 		jest.spyOn(UserStore.prototype, 'initialized', 'get').mockReturnValue(true);
 
 		jest.spyOn(UserStore.prototype, 'portfolioValue', 'get').mockReturnValue(new BigNumber(1000));
@@ -941,8 +944,28 @@ describe('Landing Page', () => {
 		expect(container).toMatchSnapshot();
 	});
 
+	test('Renders Locked CVX Banner', async () => {
+		store.lockedCvxDelegation.delegationState = DelegationState.Eligible;
+		store.lockedCvxDelegation.lockedCVXBalance = new BigNumber(100 * 1e18);
+		store.lockedCvxDelegation.totalEarned = new BigNumber(10 * 1e18);
+		store.lockedCvxDelegation.unclaimedBalance = new BigNumber(10 * 1e18);
+
+		const { container } = customRender(
+			<StoreProvider value={store}>
+				<Landing
+					title="Test Bitcoin Strategies"
+					subtitle="Snapshots are great. Landing looks good."
+					state={SettState.Open}
+				/>
+			</StoreProvider>,
+		);
+
+		expect(container).toMatchSnapshot();
+	});
+
 	test('can click delegate locked cvx', async () => {
 		const mockDelegateLocked = jest.fn();
+		store.lockedCvxDelegation.lockedCVXBalance = new BigNumber(100 * 1e18);
 		store.lockedCvxDelegation.delegationState = DelegationState.Eligible;
 		store.lockedCvxDelegation.delegateLockedCVX = mockDelegateLocked;
 
@@ -956,9 +979,7 @@ describe('Landing Page', () => {
 			</StoreProvider>,
 		);
 
-		fireEvent.click(
-			screen.getByRole('button', { name: 'Click here to delegate your locked CVX balance to Badger' }),
-		);
+		fireEvent.click(screen.getByRole('button', { name: 'Delegate to Badger' }));
 
 		expect(mockDelegateLocked).toHaveBeenCalled();
 	});

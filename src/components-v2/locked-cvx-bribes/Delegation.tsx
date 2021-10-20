@@ -1,6 +1,11 @@
-import React from 'react';
-import { Button, Grid, Typography } from '@material-ui/core';
+import React, { useContext } from 'react';
+import { Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { observer } from 'mobx-react-lite';
+import { StoreContext } from '../../mobx/store-context';
+import { Skeleton } from '@material-ui/lab';
+import { formatBalance } from './utils';
+import DelegationButton from './DelegationButton';
 
 const useStyles = makeStyles((theme) => ({
 	icon: {
@@ -16,27 +21,36 @@ const useStyles = makeStyles((theme) => ({
 	section: {
 		textAlign: 'center',
 	},
+	delegationTitle: {
+		fontWeight: 400,
+		marginBottom: theme.spacing(1),
+	},
 }));
 
 const Delegation = (): JSX.Element => {
+	const {
+		lockedCvxDelegation: { lockedCVXBalance },
+	} = useContext(StoreContext);
+
 	const classes = useStyles();
+	const balancePlaceHolder = lockedCVXBalance === null ? 'N/A' : <Skeleton width={30} />;
 
 	return (
-		<Grid container alignItems="center">
-			<Grid item xs className={classes.section}>
-				<Typography>Convex Delegation</Typography>
-				<Grid container>
-					<img className={classes.icon} src="assets/icons/bvecvx.png" />
-					<Typography className={classes.delegationAmount}>431.238976</Typography>
+		<Grid container alignItems="center" spacing={2}>
+			<Grid item xs={12} md className={classes.section}>
+				<Typography className={classes.delegationTitle}>Convex Available</Typography>
+				<Grid container alignItems="center" justify="center">
+					<img className={classes.icon} src="assets/icons/bvecvx.png" alt="locked cvx balance" />
+					<Typography display="inline" variant="h4" className={classes.delegationAmount}>
+						{lockedCVXBalance ? formatBalance(lockedCVXBalance) : balancePlaceHolder}
+					</Typography>
 				</Grid>
 			</Grid>
-			<Grid item xs className={classes.section}>
-				<Button color="primary" variant="contained">
-					Delegate More CVX
-				</Button>
+			<Grid item xs={12} md className={classes.section}>
+				<DelegationButton />
 			</Grid>
 		</Grid>
 	);
 };
 
-export default Delegation;
+export default observer(Delegation);
