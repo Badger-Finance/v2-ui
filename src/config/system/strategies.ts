@@ -20,7 +20,7 @@ export const getStrategies = (network: ChainNetwork): StrategyNetworkConfig => {
 						[StrategyFee.withdraw]: new BigNumber(10),
 					},
 					userGuide:
-						'https://app.gitbook.com/@badger-finance/s/badger-finance/sett-user-guides/arbitrum-sushi-weth-helper-vault',
+						'https://docs.badger.com/badger-finance/sett-user-guides/arbitrum-sushi-weth-helper-vault',
 					depositLink: 'https://app.sushi.com/add/ETH/0xd4d42F0b6DEF4CE0383636770eF773390d85c61A',
 				},
 				[arbitrumDeploy.sett_system.vaults['native.sushiWethWbtc']]: {
@@ -30,8 +30,7 @@ export const getStrategies = (network: ChainNetwork): StrategyNetworkConfig => {
 						[StrategyFee.strategistPerformance]: new BigNumber(1000),
 						[StrategyFee.withdraw]: new BigNumber(10),
 					},
-					userGuide:
-						'https://app.gitbook.com/@badger-finance/s/badger-finance/sett-user-guides/arbitrum-wbtc-eth-slp',
+					userGuide: 'https://docs.badger.com/badger-finance/sett-user-guides/arbitrum-wbtc-eth-slp',
 					depositLink: 'https://app.sushi.com/add/ETH/0x2f2a2543B76A4166549F7aaB2e75Bef0aefC5B0f',
 				},
 				[arbitrumDeploy.sett_system.vaults['native.crvWbtcRen']]: {
@@ -41,8 +40,7 @@ export const getStrategies = (network: ChainNetwork): StrategyNetworkConfig => {
 						[StrategyFee.strategistPerformance]: new BigNumber(1000),
 						[StrategyFee.withdraw]: new BigNumber(50),
 					},
-					userGuide:
-						'https://app.gitbook.com/@badger-finance/s/badger-finance/sett-user-guides/arbitrum-wbtc-renbtc-crv',
+					userGuide: 'https://docs.badger.com/badger-finance/sett-user-guides/arbitrum-renbtc-wbtc',
 					depositLink: 'https://arbitrum.curve.fi/ren/deposit',
 				},
 				[arbitrumDeploy.sett_system.vaults['native.tricrypto']]: {
@@ -52,8 +50,7 @@ export const getStrategies = (network: ChainNetwork): StrategyNetworkConfig => {
 						[StrategyFee.strategistPerformance]: new BigNumber(1000),
 						[StrategyFee.withdraw]: new BigNumber(50),
 					},
-					userGuide:
-						'https://app.gitbook.com/@badger-finance/s/badger-finance/sett-user-guides/arbitrum-tricrypto-crv',
+					userGuide: 'https://docs.badger.com/badger-finance/sett-user-guides/arbitrum-tricrypto2',
 					depositLink: 'https://arbitrum.curve.fi/tricrypto/deposit',
 				},
 				[arbitrumDeploy.sett_system.vaults['native.swaprWethSwapr']]: {

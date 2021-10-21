@@ -77,7 +77,6 @@ const BaseAreaChart = ({
 		<ResponsiveContainer
 			width={width ?? defaultWidth}
 			height={height ?? defaultHeight}
-			aspect={1}
 			className={classes.chartContainer}
 		>
 			<AreaChart data={data}>
