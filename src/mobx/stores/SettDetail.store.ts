@@ -68,14 +68,15 @@ export class SettDetailStore {
 			return false;
 		}
 
-		if (sett.geyser) {
-			return this.store.user.getBalance(ContractNamespace.Geyser, sett).balance.gt(0);
-		}
-
 		const openBalance = this.store.user.getBalance(ContractNamespace.Sett, sett).balance;
 		const guardedBalance = this.store.user.getBalance(ContractNamespace.GaurdedSett, sett).balance;
+		let settBalance = openBalance.plus(guardedBalance);
 
-		return openBalance.plus(guardedBalance).gt(0);
+		if (sett.geyser) {
+			settBalance = settBalance.plus(this.store.user.getBalance(ContractNamespace.Geyser, sett).balance);
+		}
+
+		return settBalance.gt(0);
 	}
 
 	get canUserDeposit(): boolean {
