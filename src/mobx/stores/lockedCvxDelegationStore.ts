@@ -34,7 +34,7 @@ class LockedCvxDelegationStore {
 
 		observe(this.store.user, 'accountDetails', () => {
 			this.loadLockedCvxBalance();
-			this.loadVotiumTreeInformation();
+			this.loadVotiumRewardsInformation();
 		});
 
 		observe(this.store.user, 'settBalances', () => {
@@ -66,6 +66,9 @@ class LockedCvxDelegationStore {
 		}
 	}
 
+	/**
+	 * gets votium merkle trees from the votium Github repositories
+	 */
 	async getVotiumMerkleTrees(): Promise<VotiumMerkleTree[]> {
 		const votiumRepoContentRequest = await fetch(
 			'https://api.github.com/repos/oo-00/Votium/git/trees/main?recursive=1',
@@ -87,10 +90,10 @@ class LockedCvxDelegationStore {
 	}
 
 	/**
-	 * Load votium merkle tree from their github repositories to calculate the users total earnings and unclaimed
+	 * to calculate the users total earnings and unclaimed
 	 * rewards.
 	 */
-	async loadVotiumTreeInformation(): Promise<void> {
+	async loadVotiumRewardsInformation(): Promise<void> {
 		try {
 			const {
 				wallet: { connectedAddress, provider },
