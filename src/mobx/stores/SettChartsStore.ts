@@ -2,9 +2,9 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import { SettChartData, SettChartTimeframe } from '../model/setts/sett-charts';
 import { RootStore } from '../RootStore';
-import { Sett } from '../model/setts/sett';
 import { SettSnapshotGranularity } from '../model/setts/sett-snapshot';
 import { fetchSettChartInformation } from '../utils/apiV2';
+import { Sett } from '@badger-dao/sdk';
 
 dayjs.extend(utc);
 
@@ -68,7 +68,8 @@ export class SettChartsStore {
 
 		const fetchedData = await fetchSettChartInformation({
 			granularity,
-			id: sett.vaultToken,
+			id: sett.settToken,
+
 			from: from.toDate(),
 			to: now.toDate(),
 			chain: network.symbol,

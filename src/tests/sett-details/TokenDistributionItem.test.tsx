@@ -11,7 +11,6 @@ describe('Token Distribution Icon', () => {
 		const { baseElement } = customRender(
 			<StoreProvider value={store}>{<TokenDistributionIcon settBalance={SAMPLE_SETT_BALANCE} />}</StoreProvider>,
 		);
-
 		userEvent.hover(screen.getByLabelText('sett token distribution'));
 		await screen.findByText(SAMPLE_SETT_BALANCE.tokens[0].symbol);
 		expect(baseElement).toMatchSnapshot();

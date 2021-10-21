@@ -1,19 +1,17 @@
 import { retry } from '@lifeomic/attempt';
-import BigNumber from 'bignumber.js';
 import { defaultRetryOptions } from 'config/constants';
 import { action, extendObservable, IValueDidChange, observe } from 'mobx';
 import { RootStore } from 'mobx/RootStore';
-import { getTokenPrices } from 'mobx/utils/apiV2';
 import Web3 from 'web3';
 import { ExchangeRates } from '../model/system-config/exchange-rates';
 import { BDiggExchangeRates } from '../model/system-config/bDigg-exchange-rates';
-import { PriceSummary } from '../model/system-config/price-summary';
-import { Network } from 'mobx/model/network/network';
-import { ChainNetwork } from 'config/enums/chain-network.enum';
+import { Network as NetworkModel } from 'mobx/model/network/network';
 import { ExchangeRatesResponse } from 'mobx/model/system-config/exchange-rates-response';
 import { MaticPriceResponse, MATIC_PRICE_KEY } from 'mobx/model/system-config/matic-price-response';
 import { fetchData } from '../../utils/fetchData';
 import { DEBUG } from '../../config/environment';
+import BigNumber from 'bignumber.js';
+import { Currency, Network, PriceSummary } from '@badger-dao/sdk';
 
 export default class PricesStore {
 	private store: RootStore;
@@ -33,7 +31,7 @@ export default class PricesStore {
 			pricesAvailability: this.pricesAvailability,
 		});
 
-		observe(this.store.network, 'network', (change: IValueDidChange<Network>) => {
+		observe(this.store.network, 'network', (change: IValueDidChange<NetworkModel>) => {
 			const { newValue } = change;
 			this.loadPrices(newValue.symbol);
 		});
@@ -52,18 +50,14 @@ export default class PricesStore {
 	}
 
 	getPrice(address: string): BigNumber {
-		return this.priceCache[Web3.utils.toChecksumAddress(address)] ?? new BigNumber(0);
+		const price = this.priceCache[Web3.utils.toChecksumAddress(address)];
+		return price ? new BigNumber(price) : new BigNumber(0);
 	}
 
 	loadPrices = action(
-		async (network = ChainNetwork.Ethereum): Promise<void> => {
-			const prices = await getTokenPrices(network);
+		async (network = Network.Ethereum): Promise<void> => {
+			const prices = await this.store.network.network.api.loadPrices(Currency.ETH);
 			if (prices) {
-				Object.entries(prices).forEach((entry) => {
-					const [key, value] = entry;
-					prices[key] = new BigNumber(value);
-				});
-
 				this.priceCache = {
 					...this.priceCache,
 					...prices,

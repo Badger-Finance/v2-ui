@@ -7,11 +7,11 @@ import { digg_system } from '../deployments/mainnet.json';
 import { AbiItem } from 'web3-utils';
 import { ERC20_ABI } from 'config/constants';
 import { RebaseNetworkConfig } from '../../mobx/model/network/rebase-network-config';
-import { ChainNetwork } from 'config/enums/chain-network.enum';
+import { Network } from '@badger-dao/sdk';
 
 export const getRebase = (network: string): RebaseNetworkConfig | undefined => {
 	switch (network) {
-		case ChainNetwork.Ethereum:
+		case Network.Ethereum:
 			return {
 				digg: [
 					{

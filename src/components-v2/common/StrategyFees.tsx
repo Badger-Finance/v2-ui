@@ -4,8 +4,8 @@ import { StrategyFee, userReadableFeeNames } from '../../mobx/model/system-confi
 import { Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { formatStrategyFee } from '../../utils/componentHelpers';
-import { Sett } from 'mobx/model/setts/sett';
 import { getStrategyFee } from 'mobx/utils/fees';
+import { Sett } from '@badger-dao/sdk';
 
 const useStyles = makeStyles({
 	specName: {

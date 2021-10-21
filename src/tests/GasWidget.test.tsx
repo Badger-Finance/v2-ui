@@ -4,21 +4,18 @@ import GasWidget from '../components-v2/common/GasWidget';
 import '@testing-library/jest-dom';
 import { StoreProvider } from '../mobx/store-context';
 import store from '../mobx/RootStore';
+import { checkSnapshot } from './utils/snapshots';
 
 describe('GasWidget', () => {
 	const testStore = store;
 	act(() => {
-		testStore.network.gasPrices = { rapid: 122, standard: 75, slow: 51 };
+		testStore.network.gasPrices = { rapid: 122, standard: 75, slow: 51, fast: 90 };
 	});
 
 	test('Renders correctly', () => {
-		const { container } = customRender(
-			<StoreProvider value={testStore}>
-				<GasWidget />
-			</StoreProvider>,
-		);
-		expect(container).toMatchSnapshot();
+		checkSnapshot(<GasWidget />);
 	});
+
 	test('Opens gas menu upon click and "rapid" is selected properly', async () => {
 		const { container } = customRender(
 			<StoreProvider value={testStore}>

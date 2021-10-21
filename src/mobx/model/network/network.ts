@@ -1,5 +1,4 @@
 import { TransactionData } from 'bnc-notify';
-import { ChainNetwork } from 'config/enums/chain-network.enum';
 import { Currency } from 'config/enums/currency.enum';
 import rpc from 'config/rpc.config';
 import { getAirdrops } from 'config/system/airdrops';
@@ -9,17 +8,19 @@ import Web3 from 'web3';
 import { createChainBatchConfig } from 'web3/config/config-utils';
 import { BatchCallRequest } from 'web3/interface/batch-call-request';
 import { SettMap } from '../setts/sett-map';
-import { SettState } from '../setts/sett-state';
 import { StrategyNetworkConfig } from '../strategies/strategy-network-config';
 import { DeployConfig } from '../system-config/deploy-config';
-import { GasPrices } from '../system-config/gas-prices';
 import { NotifyLink } from '../system-config/notifyLink';
 import { BadgerSett } from '../vaults/badger-sett';
 import { AirdropNetworkConfig } from './airdrop-network-config';
+// TODO: the naming irony here is not lost - temporary gap for sdk integrations @jintao
+import { BadgerAPI, GasPrices, Network as ChainNetwork, SettState } from '@badger-dao/sdk';
+import { BADGER_API } from 'mobx/utils/apiV2';
 
 export abstract class Network {
 	private static idToNetwork: Record<number, Network> = {};
 	private static symbolToNetwork: Record<string, Network> = {};
+	readonly api: BadgerAPI;
 	readonly rpc: string;
 	readonly gasProviderUrl: string;
 	readonly explorer: string;
@@ -49,6 +50,7 @@ export abstract class Network {
 		notificationLink?: string,
 	) {
 		this.rpc = rpc[symbol];
+		this.api = new BadgerAPI(id, BADGER_API);
 		this.gasProviderUrl = gasProviderUrl;
 		this.explorer = explorer;
 		this.name = name;
@@ -78,8 +80,6 @@ export abstract class Network {
 		return Network.symbolToNetwork[symbol];
 	}
 
-	abstract updateGasPrices(): Promise<GasPrices | null>;
-
 	get hasBadgerTree(): boolean {
 		return !!this.deploy.badgerTree;
 	}
@@ -92,6 +92,10 @@ export abstract class Network {
 		return this.setts.map((s) => s.vaultToken.address);
 	}
 
+	async updateGasPrices(): Promise<GasPrices> {
+		return this.api.loadGasPrices();
+	}
+
 	notifyLink(transaction: TransactionData): NotifyLink {
 		return { link: `${this.explorer}/tx/${transaction.hash}` };
 	}
@@ -102,7 +106,7 @@ export abstract class Network {
 
 	getNetworkBatchRequests = (setts: SettMap, userAddress: string): BatchCallRequest[] => {
 		const tokenAddresses = Object.values(setts).map((sett) => sett.underlyingToken);
-		const settAddresses = Object.values(setts).map((sett) => sett.vaultToken);
+		const settAddresses = Object.values(setts).map((sett) => sett.settToken);
 		const generalSetts = settAddresses.filter((sett) => setts[sett].state === SettState.Open);
 		const guardedSetts = settAddresses.filter((sett) => setts[sett].state !== SettState.Open);
 		return createChainBatchConfig(tokenAddresses, generalSetts, guardedSetts, [], userAddress);

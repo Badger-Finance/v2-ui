@@ -10,9 +10,9 @@ import React, { useContext } from 'react';
 import BigNumber from 'bignumber.js';
 import SettList from 'components-v2/landing/SettList';
 import { RewardsModal } from '../components-v2/landing/RewardsModal';
-import { SettState } from '../mobx/model/setts/sett-state';
 import { HeaderContainer, LayoutContainer } from '../components-v2/common/Containers';
 import CvxDelegationBanner from '../components-v2/locked-cvx-bribes/Banner';
+import { SettState } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
 	marginTop: {

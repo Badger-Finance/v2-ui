@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid, makeStyles } from '@material-ui/core';
 import { Breadcrumb } from './Breadcrumb';
 import { Description } from './description/Description';
-import { Sett } from '../../mobx/model/setts/sett';
+import { Sett } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
 	content: {

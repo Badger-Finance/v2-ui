@@ -1,25 +1,25 @@
 import { extendObservable, action, observe } from 'mobx';
 import { RootStore } from '../RootStore';
-import views from 'config/routes';
 import WalletStore from 'mobx/stores/walletStore';
 import { Currency } from 'config/enums/currency.enum';
 import { DEFAULT_CURRENCY } from 'config/constants';
+import { GasSpeed } from '@badger-dao/sdk';
 
 class UiState {
 	private readonly store!: RootStore;
-
 	public currency: Currency;
 	public period!: string;
 	public airdropStats: any;
 	public sidebarOpen!: boolean;
-	public hideZeroBal!: boolean;
+	public showUserBalances: boolean;
 	public notification: any = {};
-	public gasPrice!: string;
-	public locked!: boolean;
+	public gasPrice: GasSpeed;
 	public txStatus?: string;
 
 	constructor(store: RootStore) {
 		this.store = store;
+		this.showUserBalances = false;
+		this.gasPrice = GasSpeed.Rapid;
 		this.currency = this.loadCurrency(DEFAULT_CURRENCY);
 		const { network } = store.network;
 
@@ -35,7 +35,7 @@ class UiState {
 
 		observe(this.store.wallet as WalletStore, 'connectedAddress', () => {
 			if (!this.store.wallet.connectedAddress) {
-				this.setHideZeroBal(false);
+				this.setShowUserBalances(false);
 			}
 		});
 
@@ -67,18 +67,13 @@ class UiState {
 		this.txStatus = status;
 	});
 
-	setGasPrice = action((gasPrice: string) => {
+	setGasPrice = action((gasPrice: GasSpeed) => {
 		this.gasPrice = gasPrice;
 		const { network } = this.store.network;
 		window.localStorage.setItem(`${network.name}-selectedGasPrice`, gasPrice);
 	});
 
-	setHideZeroBal = action((hide: boolean) => {
-		this.hideZeroBal = hide;
-		const { network } = this.store.network;
-		if (hide) window.localStorage.setItem(`${network.name}-hideZeroBal`, 'YES');
-		else window.localStorage.removeItem(`${network.name}-hideZeroBal`);
-	});
+	setShowUserBalances = action((hide: boolean) => (this.showUserBalances = hide));
 
 	setCurrency = action((currency: Currency) => {
 		this.currency = currency;
@@ -90,15 +85,6 @@ class UiState {
 		this.period = period;
 		const { network } = this.store.network;
 		window.localStorage.setItem(`${network.name}-selectedPeriod`, period);
-	});
-
-	unlockApp = action((password: string) => {
-		this.locked = !(password === 'BADger');
-
-		if (this.locked) window.localStorage.setItem('locked', 'YES');
-		else window.localStorage.removeItem('locked');
-
-		if (!this.locked) this.store.router.goTo(views.home);
 	});
 
 	openSidebar = action(() => {

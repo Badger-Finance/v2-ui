@@ -1,6 +1,6 @@
 import { action, extendObservable, observe } from 'mobx';
 import { RootStore } from '../RootStore';
-import { checkShopEligibility, fetchBouncerProof, fetchClaimProof, getAccountDetails } from 'mobx/utils/apiV2';
+import { fetchClaimProof } from 'mobx/utils/apiV2';
 import WalletStore from './walletStore';
 import Web3 from 'web3';
 import { TokenBalances } from 'mobx/model/account/user-balances';
@@ -18,17 +18,13 @@ import { CachedTokenBalances } from 'mobx/model/account/cached-token-balances';
 import { createBatchCallRequest } from 'web3/config/config-utils';
 import { VaultCaps } from 'mobx/model/vaults/vault-cap copy';
 import { VaultCap } from 'mobx/model/vaults/vault-cap';
-import { Account } from '../model/account/account';
 import { RewardMerkleClaim } from '../model/rewards/reward-merkle-claim';
 import { UserPermissions } from '../model/account/userPermissions';
 import { NetworkStore } from './NetworkStore';
 import { DEBUG } from 'config/environment';
-import { Sett } from 'mobx/model/setts/sett';
 import { defaultSettBalance } from 'components-v2/sett-detail/utils';
-import { SettBalance } from 'mobx/model/setts/sett-balance';
-import { ChainNetwork } from '../../config/enums/chain-network.enum';
 import { getToken } from 'web3/config/token-config';
-import { BouncerType } from 'mobx/model/setts/sett-bouncer';
+import { Account, BouncerType, MerkleProof, Network, Sett, SettData } from '@badger-dao/sdk';
 
 export default class UserStore {
 	private store!: RootStore;
@@ -38,7 +34,7 @@ export default class UserStore {
 	// loading: undefined, error: null, present: object
 	public permissions: UserPermissions | undefined | null;
 	public claimProof: RewardMerkleClaim | undefined | null;
-	public bouncerProof: string[] | undefined | null;
+	public bouncerProof: MerkleProof | undefined | null;
 	public accountDetails: Account | undefined | null;
 	public tokenBalances: TokenBalances = {};
 	public settBalances: TokenBalances = {};
@@ -75,9 +71,8 @@ export default class UserStore {
 				this.accountDetails = undefined;
 				if (address) {
 					await Promise.all([
-						this.getSettShopEligibility(address),
-						this.loadBouncerProof(address, network.symbol),
-						this.loadAccountDetails(address, network.symbol),
+						this.loadBouncerProof(address),
+						this.loadAccountDetails(address),
 						this.loadClaimProof(address, network.symbol),
 						this.updateBalances(true),
 					]);
@@ -183,21 +178,21 @@ export default class UserStore {
 	}
 
 	async reloadBalances(): Promise<void> {
-		const { user, network, wallet } = this.store;
+		const { user, wallet } = this.store;
 		const actions = [];
 
 		actions.push(user.updateBalances());
 
 		if (wallet.connectedAddress) {
-			actions.push(user.loadAccountDetails(wallet.connectedAddress, network.network.symbol));
+			actions.push(user.loadAccountDetails(wallet.connectedAddress));
 		}
 
 		await Promise.all(actions);
 	}
 
-	getSettBalance(sett: Sett): SettBalance {
-		const currentSettBalance = this.getTokenBalance(sett.vaultToken);
-		let settBalance = this.accountDetails?.balances.find((settBalance) => settBalance.id === sett.vaultToken);
+	getSettBalance(sett: Sett): SettData {
+		const currentSettBalance = this.getTokenBalance(sett.settToken);
+		let settBalance = this.accountDetails?.data[sett.settToken];
 
 		/**
 		 * settBalance data is populated via events from TheGraph and it is possible for it to be behind / fail.
@@ -210,7 +205,7 @@ export default class UserStore {
 		 */
 		if (!settBalance) {
 			settBalance = defaultSettBalance(sett);
-			settBalance.balance = currentSettBalance.balance.toNumber() * sett.ppfs;
+			settBalance.balance = currentSettBalance.balance.toNumber() * sett.pricePerFullShare;
 		}
 
 		return settBalance;
@@ -285,6 +280,7 @@ export default class UserStore {
 				return;
 			}
 			this.refreshProvider();
+			// console.log(batchRequests);
 			const callResults: CallResult[] = await this.batchCall.execute(batchRequests);
 			if (DEBUG) {
 				console.log({ network: network.symbol, callResults });
@@ -369,7 +365,7 @@ export default class UserStore {
 							totalUserCap: this.store.rewards.balanceFromProof(depositToken.address, userDepositCap),
 							asset: depositToken.symbol,
 						};
-						return [vault.vaultToken, cap];
+						return [vault.settToken, cap];
 					})
 					.filter((value): value is [] => !!value),
 			);
@@ -452,28 +448,19 @@ export default class UserStore {
 
 	/* User Data Retrieval */
 
-	getSettShopEligibility = action(
-		async (address: string): Promise<void> => {
-			const eligibility = await checkShopEligibility(address);
-			if (eligibility) {
-				this.permissions = {
-					viewSettShop: eligibility.isEligible,
-				};
-			}
-		},
-	);
-
 	loadBouncerProof = action(
-		async (address: string, chain = ChainNetwork.Ethereum): Promise<void> => {
-			const proof = await fetchBouncerProof(address, chain);
-			if (proof) {
-				this.bouncerProof = proof.proof;
-			}
+		async (address: string): Promise<void> => {
+			try {
+				const proof = await this.store.network.network.api.loadProof(address);
+				if (proof) {
+					this.bouncerProof = proof;
+				}
+			} catch {} // ignore non 200 responses
 		},
 	);
 
 	loadClaimProof = action(
-		async (address: string, chain = ChainNetwork.Ethereum): Promise<void> => {
+		async (address: string, chain = Network.Ethereum): Promise<void> => {
 			const proof = await fetchClaimProof(Web3.utils.toChecksumAddress(address), chain);
 			if (proof) {
 				this.claimProof = proof;
@@ -485,8 +472,8 @@ export default class UserStore {
 	);
 
 	loadAccountDetails = action(
-		async (address: string, chain = ChainNetwork.Ethereum): Promise<void> => {
-			const accountDetails = await getAccountDetails(address, chain);
+		async (address: string): Promise<void> => {
+			const accountDetails = await this.store.network.network.api.loadAccount(address);
 			if (accountDetails) {
 				this.accountDetails = accountDetails;
 			}

@@ -10,15 +10,15 @@ import { AbiItem } from 'web3-utils';
 import { PartialAttemptOptions } from '@lifeomic/attempt';
 import { BurnAndReleaseStatus } from '@renproject/ren/build/main/burnAndRelease';
 import { DepositStatus } from '@renproject/ren/build/main/lockAndMint';
-import { ChainNetwork } from './enums/chain-network.enum';
-import { Currency } from './enums/currency.enum';
 import { Wallets } from './enums/wallets.enum';
+import { Network } from '@badger-dao/sdk';
+import { Currency } from './enums/currency.enum';
 
 /* App Configurations */
 
 export const DEFAULT_CURRENCY = Currency.USD;
-export const DEFAULT_NETWORK = ChainNetwork.Ethereum;
 export const MAX_LAYOUT_WIDTH = 1024;
+export const DEFAULT_NETWORK = Network.Ethereum;
 
 export const burnStatusDict: Record<BurnAndReleaseStatus, string> = {
 	pending: 'Transaction Pending.',

@@ -9,6 +9,7 @@ import { IbbtcOptionToken } from '../../mobx/model/tokens/ibbtc-option-token';
 import { Snackbar } from '../../components/Snackbar';
 import { Header } from '../../components/Header';
 import { action } from 'mobx';
+import IbBTCStore from 'mobx/stores/ibBTCStore';
 
 const tokensConfig = addresses.mainnet.contracts.tokens;
 const mockIbBTC = new IbbtcOptionToken(store, tokensConfig['ibBTC']);
@@ -20,12 +21,17 @@ const mockTokens = [
 
 describe('ibBTC Mint', () => {
 	beforeEach(() => {
-		jest.spyOn(global.console, 'error'); // to avoid web3 provider errors from being displayed
 		store.ibBTCStore.ibBTC = mockIbBTC;
 		store.ibBTCStore.tokens = mockTokens;
 		store.ibBTCStore.tokens[0].balance = store.ibBTCStore.tokens[0].scale('5');
 		store.ibBTCStore.ibBTC.balance = mockIbBTC.scale('10');
 		store.honeyPot.fetchNFTS = action(jest.fn());
+		store.honeyPot.fetchPoolBalance = action(jest.fn());
+		/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
+		jest.spyOn(IbBTCStore.prototype, 'calcMintAmount').mockImplementation(async (_token, _amount) => ({
+			bBTC: mockIbBTC.scale('11.988'),
+			fee: mockIbBTC.scale('0.0120'),
+		}));
 	});
 
 	afterEach(cleanup);
@@ -36,17 +42,11 @@ describe('ibBTC Mint', () => {
 				<Mint />
 			</StoreProvider>,
 		);
-
 		expect(screen.getByText('Balance: 5.000')).toBeInTheDocument();
 		expect(screen.getByText('Balance: 10.000')).toBeInTheDocument();
 	});
 
 	it('can apply max balance', async () => {
-		store.ibBTCStore.calcMintAmount = jest.fn().mockReturnValue({
-			bBTC: mockIbBTC.scale('11.988'),
-			fee: mockIbBTC.scale('0.0120'),
-		});
-
 		const { container } = customRender(
 			<StoreProvider value={store}>
 				<Mint />
@@ -61,11 +61,6 @@ describe('ibBTC Mint', () => {
 	});
 
 	it('displays output ibBTC when mint amount is inputted', async () => {
-		store.ibBTCStore.calcMintAmount = jest.fn().mockReturnValue({
-			bBTC: mockIbBTC.scale('11.988'),
-			fee: mockIbBTC.scale('0.0120'),
-		});
-
 		const { container } = customRender(
 			<StoreProvider value={store}>
 				<Mint />
@@ -94,11 +89,6 @@ describe('ibBTC Mint', () => {
 
 	it('handles empty balance', async () => {
 		jest.useFakeTimers();
-
-		store.ibBTCStore.calcMintAmount = jest.fn().mockReturnValue({
-			bBTC: mockIbBTC.scale('11.988'),
-			fee: mockIbBTC.scale('0.0120'),
-		});
 
 		store.wallet.connectedAddress = '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a';
 

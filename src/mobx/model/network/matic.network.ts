@@ -2,21 +2,19 @@ import { NETWORK_IDS } from 'config/constants';
 import { toRecord } from 'web3/config/token-config';
 import { Deploy } from 'web3/interface/deploy';
 import { ProtocolTokens } from 'web3/interface/protocol-token';
-import { GasPrices } from '../system-config/gas-prices';
 import { BadgerSett } from '../vaults/badger-sett';
-import { Network } from './network';
+import { Network as NetworkModel } from './network';
 import deploy from '../../../config/deployments/matic.json';
-import { ChainNetwork } from 'config/enums/chain-network.enum';
 import { Currency } from 'config/enums/currency.enum';
-import { getGasPrices } from 'mobx/utils/apiV2';
+import { Network } from '@badger-dao/sdk';
 
-export class Polygon extends Network {
+export class Polygon extends NetworkModel {
 	constructor() {
 		super(
 			'https://polygonscan.com/',
 			'https://polygonscan.com/gastracker',
 			'Polygon',
-			ChainNetwork.Matic,
+			Network.Polygon,
 			NETWORK_IDS.MATIC,
 			Currency.MATIC,
 			MATIC_DEPLOY,
@@ -31,11 +29,6 @@ export class Polygon extends Network {
 			this.deploy.sett_system.vaults['BATRICRYPTO'],
 			this.deploy.sett_system.vaults['BCRV-WBTC-RENBTC'],
 		];
-	}
-
-	async updateGasPrices(): Promise<GasPrices | null> {
-		const gasPrices = await getGasPrices(ChainNetwork.Matic);
-		return gasPrices;
 	}
 }
 

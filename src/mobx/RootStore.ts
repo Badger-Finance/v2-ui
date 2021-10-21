@@ -21,7 +21,6 @@ import LockedCvxDelegationStore from './stores/lockedCvxDelegationStore';
 export class RootStore {
 	public router: RouterStore<RootStore>;
 	public network: NetworkStore;
-
 	public wallet: WalletStore;
 	public uiState: UiState;
 	public contracts: ContractsStore;

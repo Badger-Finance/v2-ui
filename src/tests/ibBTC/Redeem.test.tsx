@@ -1,6 +1,5 @@
 import React from 'react';
 import '@testing-library/jest-dom';
-
 import addresses from 'config/ibBTC/addresses.json';
 import store from 'mobx/RootStore';
 import { StoreProvider } from '../../mobx/store-context';
@@ -9,6 +8,7 @@ import { Redeem } from '../../components/IbBTC/Redeem';
 import { IbbtcOptionToken } from '../../mobx/model/tokens/ibbtc-option-token';
 import { Header } from '../../components/Header';
 import { Snackbar } from '../../components/Snackbar';
+import { action } from 'mobx';
 
 const tokensConfig = addresses.mainnet.contracts.tokens;
 
@@ -26,6 +26,8 @@ describe('ibBTC Redeem', () => {
 			sett: store.ibBTCStore.tokens[0].scale('11.988'),
 		});
 		store.ibBTCStore.getRedeemConversionRate = jest.fn().mockReturnValue(store.ibBTCStore.tokens[0].scale('1'));
+		store.honeyPot.fetchNFTS = action(jest.fn());
+		store.honeyPot.fetchPoolBalance = action(jest.fn());
 	});
 
 	it('displays ibBTC balance and output token balance', () => {

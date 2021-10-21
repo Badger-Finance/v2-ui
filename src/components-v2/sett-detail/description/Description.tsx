@@ -1,12 +1,11 @@
 import React from 'react';
 import { Box, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-
-import { Sett } from '../../../mobx/model/setts/sett';
 import { Performance, scalePerformance } from '../../../mobx/model/rewards/performance';
 import ApyDisplayBadge, { ComparisonMode } from './ApyComparisonBadge';
 import { formatWithoutExtraZeros } from '../../../mobx/utils/helpers';
 import { ApyComparisonModeSelector } from './ApyComparisonModeSelector';
+import { Sett } from '@badger-dao/sdk';
 
 const reduceSourcePerformance = (prev: Performance, current: Performance) => {
 	const {
@@ -100,7 +99,7 @@ export const Description = ({ sett }: Props): JSX.Element => {
 			<Grid item className={classes.logoContainer}>
 				<img
 					className={classes.settLogo}
-					src={`/assets/icons/${sett.vaultAsset.toLowerCase()}.png`}
+					src={`/assets/icons/${sett.settAsset.toLowerCase()}.png`}
 					alt={`Badger ${sett.name} Vault Symbol`}
 				/>
 			</Grid>

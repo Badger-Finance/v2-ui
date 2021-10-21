@@ -4,13 +4,13 @@ import { HoldingItem } from './HoldingItem';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../../mobx/store-context';
 import { SettBalance } from '../../../mobx/model/setts/sett-balance';
-import { Sett } from '../../../mobx/model/setts/sett';
 import { HoldingsActionButtons } from './HoldingsActionButtons';
 import { NoHoldings } from './NoHoldings';
 import { BadgerSett } from '../../../mobx/model/vaults/badger-sett';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { hasBalance } from '../utils';
 import { TokenDistributionIcon } from './TokenDistributionIcon';
+import { Sett } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
 	settInfoTitle: {
@@ -46,7 +46,7 @@ export const Holdings = observer(({ tokenBalance, settBalance, sett, badgerSett 
 	}
 
 	const { earnedBalance, earnedValue, balance, value } = settBalance;
-	const logo = `/assets/icons/${sett.vaultAsset.toLowerCase()}.png`;
+	const logo = `/assets/icons/${sett.settAsset.toLowerCase()}.png`;
 
 	const depositToken = setts.getToken(sett.underlyingToken);
 	const decimals = depositToken?.decimals || 18;

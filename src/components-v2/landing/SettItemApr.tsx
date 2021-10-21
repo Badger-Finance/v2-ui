@@ -1,8 +1,8 @@
 import React from 'react';
 import { Tooltip, Typography } from '@material-ui/core';
-import { Sett } from '../../mobx/model/setts/sett';
 import { SettItemRoiTooltip } from './SettItemRoiTooltip';
 import { makeStyles } from '@material-ui/core/styles';
+import { Sett } from '@badger-dao/sdk';
 
 const useStyles = makeStyles({
 	normalCursor: {

@@ -7,7 +7,6 @@ import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { useNumericInput } from 'utils/useNumericInput';
 import { SettDialogTitle } from './SettDialogTitle';
 import { PercentageSelector } from '../PercentageSelector';
-import { Sett } from '../../../mobx/model/setts/sett';
 import { ActionButton, AmountTextField, LoaderSpinner, PercentagesContainer, SettDialogContent } from './styled';
 import { ContractNamespace } from '../../../web3/config/contract-namespace';
 import { StrategyFee } from '../../../mobx/model/system-config/stategy-fees';
@@ -16,6 +15,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Alert from '@material-ui/lab/Alert';
 import WarningIcon from '@material-ui/icons/Warning';
 import { getStrategyFee } from 'mobx/utils/fees';
+import { Sett } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
 	content: {
@@ -72,17 +72,17 @@ export const SettWithdraw = observer(({ open = false, sett, badgerSett, onClose 
 		: false;
 
 	const userHasBalance = !userHasStakedDeposits && userBalance.balance.gt(0);
-	const withdrawFee = getStrategyFee(sett, StrategyFee.withdraw, network.strategies[sett.vaultToken]);
+	const withdrawFee = getStrategyFee(sett, StrategyFee.withdraw, network.strategies[sett.settToken]);
 
 	const depositToken = setts.getToken(sett.underlyingToken);
-	const bToken = setts.getToken(sett.vaultToken);
+	const bToken = setts.getToken(sett.settToken);
 
 	const vaultSymbol = setts.getToken(badgerSett.vaultToken.address)?.symbol || sett.asset;
 	const depositTokenSymbol = depositToken?.symbol || '';
 	const bTokenSymbol = bToken?.symbol || '';
 
 	const canWithdraw = !!connectedAddress && !!amount && userHasBalance;
-	const isLoading = contracts.settsBeingWithdrawn[sett.vaultToken];
+	const isLoading = contracts.settsBeingWithdrawn[sett.settToken];
 
 	const handlePercentageChange = (percent: number) => {
 		setAmount(userBalance.scaledBalanceDisplay(percent));
@@ -125,7 +125,7 @@ export const SettWithdraw = observer(({ open = false, sett, badgerSett, onClose 
 					Withdraw Rate
 				</Typography>
 				<Typography display="inline" variant="subtitle2">
-					{`1 ${bTokenSymbol} = ${sett.ppfs} ${depositTokenSymbol}`}
+					{`1 ${bTokenSymbol} = ${sett.pricePerFullShare} ${depositTokenSymbol}`}
 				</Typography>
 			</Grid>
 			{withdrawFee && (

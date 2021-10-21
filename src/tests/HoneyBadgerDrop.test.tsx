@@ -4,20 +4,20 @@ import HoneybadgerDrop from './../components/HoneybadgerDrop/index';
 import '@testing-library/jest-dom';
 import { StoreProvider } from '../mobx/store-context';
 import store from '../mobx/RootStore';
-
-afterEach(cleanup);
+import { action } from 'mobx';
+import { checkSnapshot } from './utils/snapshots';
 
 describe('HoneybadgerDrop Page', () => {
 	const connectedStore = store;
 
-	test('Renders correctly without connected address', () => {
-		const { container } = customRender(
-			<StoreProvider value={connectedStore}>
-				<HoneybadgerDrop />
-			</StoreProvider>,
-		);
-		expect(container).toMatchSnapshot();
+	beforeEach(() => {
+		connectedStore.honeyPot.fetchNFTS = action(jest.fn());
+		connectedStore.honeyPot.fetchPoolBalance = action(jest.fn());
 	});
+
+	afterEach(cleanup);
+
+	test('Renders correctly without connected address', () => checkSnapshot(<HoneybadgerDrop />));
 
 	test('Renders correctly with connected address', () => {
 		act(() => {

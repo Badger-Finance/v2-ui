@@ -7,11 +7,11 @@ import { abi as badgerHuntAbi } from './abis/BadgerHunt.json';
 import { abi as bBadgerAirdropAbi } from './abis/bBadgerAidrop.json';
 import { getApi } from 'mobx/utils/apiV2';
 import { AirdropNetworkConfig } from '../../mobx/model/network/airdrop-network-config';
-import { ChainNetwork } from 'config/enums/chain-network.enum';
+import { Network } from '@badger-dao/sdk';
 
-export const getAirdrops = (network: ChainNetwork): AirdropNetworkConfig[] => {
+export const getAirdrops = (network: Network): AirdropNetworkConfig[] => {
 	switch (network) {
-		case ChainNetwork.Ethereum:
+		case Network.Ethereum:
 			return [
 				{
 					active: false,

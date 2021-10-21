@@ -1,3 +1,4 @@
+import { GasPrices } from '@badger-dao/sdk';
 import { Currency } from 'config/enums/currency.enum';
 import { Wallets } from 'config/enums/wallets.enum';
 import { DEBUG } from 'config/environment';
@@ -6,7 +7,6 @@ import { DEFAULT_RPC } from 'config/rpc.config';
 import { isRpcWallet } from 'config/wallets';
 import { action, extendObservable, observe } from 'mobx';
 import { Network } from 'mobx/model/network/network';
-import { GasPrices } from 'mobx/model/system-config/gas-prices';
 import { RootStore } from 'mobx/RootStore';
 import Web3 from 'web3';
 
@@ -19,7 +19,7 @@ export class NetworkStore {
 	constructor(store: RootStore) {
 		this.store = store;
 		this.network = defaultNetwork;
-		this.gasPrices = { standard: 25 };
+		this.gasPrices = { rapid: 35, fast: 30, standard: 25, slow: 20 };
 		this.currentBlock = 1;
 
 		extendObservable(this, {

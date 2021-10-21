@@ -1,9 +1,8 @@
 import React from 'react';
 import { observer } from 'mobx-react-lite';
 import { makeStyles } from '@material-ui/core';
-
 import SettListView from './SettListView';
-import { SettState } from '../../mobx/model/setts/sett-state';
+import { SettState } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
 	settListContainer: {
