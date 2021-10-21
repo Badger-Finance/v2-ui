@@ -1,5 +1,10 @@
 # v2 UI Changelog
 
+### Hotfix - 10/21/2021
+
+- fixed an issue disallowing withdraw from detail page on some setts
+- fixed a page chart styling issue
+
 ### v2.9.6 - 10/14/2021
 
 - release mstable vaults
