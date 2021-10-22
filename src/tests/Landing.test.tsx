@@ -107,7 +107,8 @@ describe('Landing Page', () => {
 		};
 
 		store.lockedCvxDelegation.loadLockedCvxBalance = jest.fn();
-		store.lockedCvxDelegation.getVotiumMerkleTrees = jest.fn();
+		store.lockedCvxDelegation.getVotiumMerkleTree = jest.fn();
+		store.lockedCvxDelegation.loadVotiumRewardsInformation = jest.fn();
 
 		jest.spyOn(UserStore.prototype, 'initialized', 'get').mockReturnValue(true);
 

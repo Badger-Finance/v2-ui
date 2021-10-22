@@ -67,74 +67,99 @@ class LockedCvxDelegationStore {
 	}
 
 	/**
-	 * gets votium merkle trees from the votium Github repositories
+	 * gets votium merkle tree from the votium Github repositories
 	 */
-	async getVotiumMerkleTrees(): Promise<VotiumMerkleTree[]> {
+	async getVotiumMerkleTree(): Promise<VotiumMerkleTree> {
 		const votiumRepoContentRequest = await fetch(
 			'https://api.github.com/repos/oo-00/Votium/git/trees/main?recursive=1',
 		);
 
 		const votiumRepoContent = await votiumRepoContentRequest.json();
 
-		const badgerMerkleTreeFiles = votiumRepoContent.tree.filter((content: VotiumTreeEntry) =>
+		const badgerMerkleTreeFiles: VotiumTreeEntry[] = votiumRepoContent.tree.filter((content: VotiumTreeEntry) =>
 			content.path.includes('merkle/BADGER/'),
 		);
 
-		const merkleTreeContentRequests: Response[] = await Promise.all(
-			badgerMerkleTreeFiles.map((file: VotiumTreeEntry) =>
-				fetch(`https://raw.githubusercontent.com/oo-00/Votium/main/${file.path}`),
-			),
+		const latestMerkleTree = badgerMerkleTreeFiles[badgerMerkleTreeFiles.length - 1];
+
+		const merkleTreeContentRequest = await fetch(
+			`https://raw.githubusercontent.com/oo-00/Votium/main/${latestMerkleTree.path}`,
 		);
 
-		return await Promise.all(merkleTreeContentRequests.map((request) => request.json()));
+		return await merkleTreeContentRequest.json();
 	}
 
-	/**
-	 * to calculate the users total earnings and unclaimed
-	 * rewards.
-	 */
 	async loadVotiumRewardsInformation(): Promise<void> {
 		try {
-			const {
-				wallet: { connectedAddress, provider },
-			} = this.store;
-
-			const merkleTrees = await this.getVotiumMerkleTrees();
-			const web3 = new Web3(provider);
-			const votiumMerkleTree = new web3.eth.Contract(VotiumMerkleTreeAbi as AbiItem[], mainnet.votium.merkleTree);
-
-			let totalEarned = new BigNumber(0);
-			let unclaimed = new BigNumber(0);
-
-			// check in each merkle tree for claims to calculate total earnings
-			for (let i = 0; i < merkleTrees.length; i++) {
-				const merkleTreeClaim = merkleTrees[i].claims[web3.utils.toChecksumAddress(connectedAddress)];
-
-				if (!merkleTreeClaim) {
-					continue;
-				}
-
-				const isLatestMerkleTree = i === merkleTrees.length - 1;
-
-				const isClaimed: boolean = await votiumMerkleTree.methods
-					.isClaimed(mainnet.tokens.badger, merkleTreeClaim.index)
-					.call();
-
-				if (isClaimed) {
-					totalEarned = totalEarned.plus(merkleTreeClaim.amount);
-				} else if (isLatestMerkleTree) {
-					// if the reward in the latest merkle tree is not claimed then it is the current rewards
-					unclaimed = new BigNumber(merkleTreeClaim.amount);
-				}
-			}
+			const [totalEarned, unclaimedBalance] = await Promise.all([
+				this.getTotalVotiumRewards(),
+				this.getUnclaimedVotiumRewards(),
+			]);
 
 			this.totalEarned = totalEarned;
-			this.unclaimedBalance = unclaimed;
+			this.unclaimedBalance = unclaimedBalance;
 		} catch (error) {
 			console.error('There was an error fetching Votium merkle tree information: ', error);
 			this.totalEarned = null;
 			this.unclaimedBalance = null;
 		}
+	}
+
+	async getTotalVotiumRewards(): Promise<BigNumber> {
+		const {
+			wallet: { connectedAddress, provider },
+		} = this.store;
+
+		let totalEarned = new BigNumber(0);
+
+		const web3 = new Web3(provider);
+		const votiumMerkleTreeContract = new web3.eth.Contract(
+			VotiumMerkleTreeAbi as AbiItem[],
+			mainnet.votium.merkleTree,
+		);
+
+		const claimedEvents = await votiumMerkleTreeContract.getPastEvents('Claimed', {
+			fromBlock: 'earliest',
+			filter: { token: mainnet.tokens.badger, account: connectedAddress },
+		});
+
+		for (const claimedEvent of claimedEvents) {
+			totalEarned = totalEarned.plus(claimedEvent.returnValues['amount']);
+		}
+
+		return totalEarned;
+	}
+
+	async getUnclaimedVotiumRewards(): Promise<BigNumber> {
+		const {
+			wallet: { connectedAddress, provider },
+		} = this.store;
+
+		let unclaimedBalance = new BigNumber(0);
+
+		const merkleTree = await this.getVotiumMerkleTree();
+		const merkleTreeReward = merkleTree.claims[Web3.utils.toChecksumAddress(connectedAddress)];
+
+		if (!merkleTreeReward) {
+			return unclaimedBalance;
+		}
+
+		const web3 = new Web3(provider);
+
+		const votiumMerkleTreeContract = new web3.eth.Contract(
+			VotiumMerkleTreeAbi as AbiItem[],
+			mainnet.votium.merkleTree,
+		);
+
+		const isClaimed = await votiumMerkleTreeContract.methods
+			.isClaimed(mainnet.tokens.badger, merkleTreeReward.index)
+			.call();
+
+		if (!isClaimed) {
+			unclaimedBalance = new BigNumber(merkleTreeReward.amount);
+		}
+
+		return unclaimedBalance;
 	}
 
 	async getUserDelegationState(): Promise<void> {
@@ -178,9 +203,8 @@ class LockedCvxDelegationStore {
 			wallet: { provider, connectedAddress },
 		} = this.store;
 
-		const merkleTrees = await this.getVotiumMerkleTrees();
-		const latestMerkleTree = merkleTrees[merkleTrees.length - 1];
-		const merkleTreeClaim = latestMerkleTree.claims[Web3.utils.toChecksumAddress(connectedAddress)];
+		const merkleTree = await this.getVotiumMerkleTree();
+		const merkleTreeClaim = merkleTree.claims[Web3.utils.toChecksumAddress(connectedAddress)];
 
 		if (!merkleTreeClaim) {
 			console.error('Votium merkle tree not available');
