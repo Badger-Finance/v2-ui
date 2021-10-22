@@ -2,19 +2,15 @@ import React from 'react';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
 import { DelegationState } from '../../mobx/model/setts/locked-cvx-delegation';
-import { Button, makeStyles, Tooltip } from '@material-ui/core';
+import { Button, makeStyles, Typography } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
-	badgerDelegated: {
-		'&.Mui-disabled': {
-			opacity: 0.5,
-			backgroundColor: theme.palette.primary.main,
-			color: theme.palette.common.black,
-		},
+	badgerDelegatedTextContainer: {
+		marginTop: theme.spacing(1),
 	},
-	spinner: {
-		marginLeft: theme.spacing(1),
-		color: 'white',
+	badgerDelegatedText: {
+		fontSize: 13,
+		fontWeight: 400,
 	},
 }));
 
@@ -27,29 +23,17 @@ const DelegationButton = observer(() => {
 	const canUserDelegateLockedCVX =
 		delegationState === DelegationState.Eligible || delegationState === DelegationState.Delegated;
 
-	if (delegationState === DelegationState.Ineligible) {
-		return (
-			<Tooltip arrow placement="top" title="You don't have any locked CVX balance to delegate.">
-				<span>
-					<Button size="small" variant="contained" color="primary" disabled>
-						Delegate to Badger
-					</Button>
-				</span>
-			</Tooltip>
-		);
-	}
-
 	if (delegationState === DelegationState.BadgerDelegated) {
 		return (
-			<Button
-				size="small"
-				variant="contained"
-				color="primary"
-				classes={{ contained: classes.badgerDelegated }}
-				disabled
-			>
-				Already Delegated
-			</Button>
+			<div>
+				<Button size="small" variant="contained" color="primary" disabled>
+					Delegate to Badger
+				</Button>
+				<div className={classes.badgerDelegatedTextContainer}>
+					<Typography className={classes.badgerDelegatedText}>{`You've already delegated.`}</Typography>
+					<Typography className={classes.badgerDelegatedText}>{`Thanks, you're a top badger!`}</Typography>
+				</div>
+			</div>
 		);
 	}
 

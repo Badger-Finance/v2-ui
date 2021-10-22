@@ -6,6 +6,7 @@ import Earnings from './Earnings';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
 import { NETWORK_IDS } from '../../config/constants';
+import { DelegationState } from '../../mobx/model/setts/locked-cvx-delegation';
 
 export const SAFE_BOX_ILLUSTRATION_BREAKPOINT = 1350;
 
@@ -74,6 +75,9 @@ const useStyles = makeStyles((theme) => ({
 			display: 'none',
 		},
 	},
+	descriptionText: {
+		fontWeight: 400,
+	},
 }));
 
 const Banner = (): JSX.Element | null => {
@@ -84,13 +88,13 @@ const Banner = (): JSX.Element | null => {
 
 	const classes = useStyles();
 
-	if (network.id !== NETWORK_IDS.ETH || !delegationState) {
+	if (network.id !== NETWORK_IDS.ETH || !delegationState || delegationState === DelegationState.Ineligible) {
 		return null;
 	}
 
 	return (
 		<Card classes={{ root: classes.root }}>
-			<Typography className={classes.title}>Badger Bribe Season is Here</Typography>
+			<Typography className={classes.title}>Delegate to Earn Rewards</Typography>
 			<div className={classes.blueParticle} />
 			<div className={classes.greenParticle} />
 			<img src="assets/diagonal-particles.svg" className={classes.diagonalParticles} alt="diagonal-particles" />
@@ -102,11 +106,10 @@ const Banner = (): JSX.Element | null => {
 						alt="cvx locked safebox illustration"
 					/>
 					<div className={classes.descriptionSection}>
-						<Typography variant="body2">
-							After a set of locks have opened, and additional information goes here, the badger locking
-							bonus event will occur on:
+						<Typography variant="body1" className={classes.descriptionText}>
+							Earn a portion of the Votium incentives by simply delegating your Vote Locked Convex to
+							Badger today.
 						</Typography>
-						<Typography variant="body1">December 29th, 2021</Typography>
 					</div>
 					<Grid container component={Card} className={classes.delegationSection}>
 						<Delegation />

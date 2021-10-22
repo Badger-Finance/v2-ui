@@ -54,7 +54,7 @@ const Earnings = (): JSX.Element => {
 	return (
 		<Card className={classes.root}>
 			<Grid container className={classes.container}>
-				<Typography className={classes.earningsTitle}>Earnings from CVX Bribes</Typography>
+				<Typography className={classes.earningsTitle}>Earned Incentives</Typography>
 				<Grid container className={classes.statRow}>
 					<Typography variant="subtitle1" className={classes.statName}>
 						Total

@@ -137,9 +137,11 @@ const Landing = observer((props: LandingProps) => {
 				</Grid>
 			)}
 
-			<Grid container className={classes.delegationBanner}>
-				<CvxDelegationBanner />
-			</Grid>
+			{state === SettState.Open && (
+				<Grid container className={classes.delegationBanner}>
+					<CvxDelegationBanner />
+				</Grid>
+			)}
 
 			<SettList state={state} />
 		</LayoutContainer>

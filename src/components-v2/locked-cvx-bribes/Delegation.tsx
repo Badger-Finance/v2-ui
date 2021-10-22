@@ -38,7 +38,7 @@ const Delegation = (): JSX.Element => {
 	return (
 		<Grid container alignItems="center" spacing={2}>
 			<Grid item xs={12} md className={classes.section}>
-				<Typography className={classes.delegationTitle}>Convex Available</Typography>
+				<Typography className={classes.delegationTitle}>Vote Locked Convex</Typography>
 				<Grid container alignItems="center" justify="center">
 					<img className={classes.icon} src="assets/icons/bvecvx.png" alt="locked cvx balance" />
 					<Typography display="inline" variant="h4" className={classes.delegationAmount}>

@@ -101,7 +101,7 @@ exports[`Landing Page Renders Locked CVX Banner 1`] = `
                 </span>
               </span>
               <span
-                class="MuiTouchRipple-root-506"
+                class="MuiTouchRipple-root-507"
               />
             </button>
           </div>
@@ -136,7 +136,7 @@ exports[`Landing Page Renders Locked CVX Banner 1`] = `
                   />
                 </span>
                 <span
-                  class="MuiTouchRipple-root-506"
+                  class="MuiTouchRipple-root-507"
                 />
               </span>
               <span
@@ -332,12 +332,12 @@ exports[`Landing Page Renders Locked CVX Banner 1`] = `
       class="MuiGrid-root-21 makeStyles-delegationBanner-11 MuiGrid-container-22"
     >
       <div
-        class="MuiPaper-root-342 MuiCard-root-390 makeStyles-root-381 MuiPaper-elevation1-346 MuiPaper-rounded-343"
+        class="MuiPaper-root-342 MuiCard-root-391 makeStyles-root-381 MuiPaper-elevation1-346 MuiPaper-rounded-343"
       >
         <p
           class="MuiTypography-root-129 makeStyles-title-383 MuiTypography-body1-131"
         >
-          Badger Bribe Season is Here
+          Delegate to Earn Rewards
         </p>
         <div
           class="makeStyles-blueParticle-387"
@@ -365,47 +365,42 @@ exports[`Landing Page Renders Locked CVX Banner 1`] = `
               class="makeStyles-descriptionSection-384"
             >
               <p
-                class="MuiTypography-root-129 MuiTypography-body2-130"
+                class="MuiTypography-root-129 makeStyles-descriptionText-390 MuiTypography-body1-131"
               >
-                After a set of locks have opened, and additional information goes here, the badger locking bonus event will occur on:
-              </p>
-              <p
-                class="MuiTypography-root-129 MuiTypography-body1-131"
-              >
-                December 29th, 2021
+                Earn a portion of the Votium incentives by simply delegating your Vote Locked Convex to Badger today.
               </p>
             </div>
             <div
-              class="MuiPaper-root-342 MuiCard-root-390 MuiGrid-root-21 makeStyles-delegationSection-382 MuiGrid-container-22 MuiPaper-elevation1-346 MuiPaper-rounded-343"
+              class="MuiPaper-root-342 MuiCard-root-391 MuiGrid-root-21 makeStyles-delegationSection-382 MuiGrid-container-22 MuiPaper-elevation1-346 MuiPaper-rounded-343"
             >
               <div
                 class="MuiGrid-root-21 MuiGrid-container-22 MuiGrid-spacing-xs-2-45 MuiGrid-align-items-xs-center-30"
               >
                 <div
-                  class="MuiGrid-root-21 makeStyles-section-394 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-true-83"
+                  class="MuiGrid-root-21 makeStyles-section-395 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-true-83"
                 >
                   <p
-                    class="MuiTypography-root-129 makeStyles-delegationTitle-395 MuiTypography-body1-131"
+                    class="MuiTypography-root-129 makeStyles-delegationTitle-396 MuiTypography-body1-131"
                   >
-                    Convex Available
+                    Vote Locked Convex
                   </p>
                   <div
                     class="MuiGrid-root-21 MuiGrid-container-22 MuiGrid-align-items-xs-center-30 MuiGrid-justify-xs-center-39"
                   >
                     <img
                       alt="locked cvx balance"
-                      class="makeStyles-icon-391"
+                      class="makeStyles-icon-392"
                       src="assets/icons/bvecvx.png"
                     />
                     <h4
-                      class="MuiTypography-root-129 makeStyles-delegationAmount-392 MuiTypography-h4-137 MuiTypography-displayInline-157"
+                      class="MuiTypography-root-129 makeStyles-delegationAmount-393 MuiTypography-h4-137 MuiTypography-displayInline-157"
                     >
                       100
                     </h4>
                   </div>
                 </div>
                 <div
-                  class="MuiGrid-root-21 makeStyles-section-394 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-true-83"
+                  class="MuiGrid-root-21 makeStyles-section-395 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-true-83"
                 >
                   <button
                     class="MuiButtonBase-root-256 MuiButton-root-227 MuiButton-contained-235 MuiButton-containedPrimary-236 MuiButton-containedSizeSmall-246 MuiButton-sizeSmall-248"
@@ -418,7 +413,7 @@ exports[`Landing Page Renders Locked CVX Banner 1`] = `
                       Delegate to Badger
                     </span>
                     <span
-                      class="MuiTouchRipple-root-506"
+                      class="MuiTouchRipple-root-507"
                     />
                   </button>
                 </div>
@@ -429,21 +424,21 @@ exports[`Landing Page Renders Locked CVX Banner 1`] = `
             class="MuiGrid-root-21 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-sm-true-69"
           >
             <div
-              class="MuiPaper-root-342 MuiCard-root-390 makeStyles-root-398 MuiPaper-elevation1-346 MuiPaper-rounded-343"
+              class="MuiPaper-root-342 MuiCard-root-391 makeStyles-root-399 MuiPaper-elevation1-346 MuiPaper-rounded-343"
             >
               <div
-                class="MuiGrid-root-21 makeStyles-container-399 MuiGrid-container-22"
+                class="MuiGrid-root-21 makeStyles-container-400 MuiGrid-container-22"
               >
                 <p
-                  class="MuiTypography-root-129 makeStyles-earningsTitle-405 MuiTypography-body1-131"
+                  class="MuiTypography-root-129 makeStyles-earningsTitle-406 MuiTypography-body1-131"
                 >
-                  Earnings from CVX Bribes
+                  Earned Incentives
                 </p>
                 <div
-                  class="MuiGrid-root-21 makeStyles-statRow-400 MuiGrid-container-22"
+                  class="MuiGrid-root-21 makeStyles-statRow-401 MuiGrid-container-22"
                 >
                   <h6
-                    class="MuiTypography-root-129 makeStyles-statName-401 MuiTypography-subtitle1-140"
+                    class="MuiTypography-root-129 makeStyles-statName-402 MuiTypography-subtitle1-140"
                   >
                     Total
                   </h6>
@@ -452,21 +447,21 @@ exports[`Landing Page Renders Locked CVX Banner 1`] = `
                   >
                     <img
                       alt="badger coin image"
-                      class="makeStyles-badgerImage-404"
+                      class="makeStyles-badgerImage-405"
                       src="assets/icons/badger.png"
                     />
                     <h5
-                      class="MuiTypography-root-129 makeStyles-stat-402 MuiTypography-h5-138 MuiTypography-displayInline-157"
+                      class="MuiTypography-root-129 makeStyles-stat-403 MuiTypography-h5-138 MuiTypography-displayInline-157"
                     >
                       10
                     </h5>
                   </div>
                 </div>
                 <div
-                  class="MuiGrid-root-21 makeStyles-statRow-400 MuiGrid-container-22"
+                  class="MuiGrid-root-21 makeStyles-statRow-401 MuiGrid-container-22"
                 >
                   <h6
-                    class="MuiTypography-root-129 makeStyles-statName-401 MuiTypography-subtitle1-140"
+                    class="MuiTypography-root-129 makeStyles-statName-402 MuiTypography-subtitle1-140"
                   >
                     Unclaimed
                   </h6>
@@ -475,11 +470,11 @@ exports[`Landing Page Renders Locked CVX Banner 1`] = `
                   >
                     <img
                       alt="badger coin image"
-                      class="makeStyles-badgerImage-404"
+                      class="makeStyles-badgerImage-405"
                       src="assets/icons/badger.png"
                     />
                     <h5
-                      class="MuiTypography-root-129 makeStyles-stat-402 makeStyles-unclaimedAmount-403 MuiTypography-h5-138 MuiTypography-colorPrimary-152 MuiTypography-displayInline-157"
+                      class="MuiTypography-root-129 makeStyles-stat-403 makeStyles-unclaimedAmount-404 MuiTypography-h5-138 MuiTypography-colorPrimary-152 MuiTypography-displayInline-157"
                     >
                       10
                     </h5>
@@ -494,7 +489,7 @@ exports[`Landing Page Renders Locked CVX Banner 1`] = `
                         Claim Bonus
                       </span>
                       <span
-                        class="MuiTouchRipple-root-506"
+                        class="MuiTouchRipple-root-507"
                       />
                     </button>
                   </div>
@@ -511,10 +506,10 @@ exports[`Landing Page Renders Locked CVX Banner 1`] = `
       </div>
     </div>
     <div
-      class="makeStyles-settListContainer-406"
+      class="makeStyles-settListContainer-407"
     >
       <div
-        class="MuiGrid-root-21 makeStyles-root-409 MuiGrid-container-22 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-9-92"
+        class="MuiGrid-root-21 makeStyles-root-410 MuiGrid-container-22 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-9-92"
       >
         <div
           class="MuiGrid-root-21 MuiGrid-container-22 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-sm-5-74"
@@ -529,7 +524,7 @@ exports[`Landing Page Renders Locked CVX Banner 1`] = `
             </p>
           </div>
           <div
-            class="MuiGrid-root-21 makeStyles-amount-411 MuiGrid-item-23"
+            class="MuiGrid-root-21 makeStyles-amount-412 MuiGrid-item-23"
           >
             <div
               class="MuiGrid-root-21 MuiGrid-container-22 MuiGrid-align-items-xs-center-30"
@@ -541,7 +536,7 @@ exports[`Landing Page Renders Locked CVX Banner 1`] = `
           </div>
         </div>
         <div
-          class="MuiGrid-root-21 makeStyles-hiddenMobile-410 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-sm-true-69"
+          class="MuiGrid-root-21 makeStyles-hiddenMobile-411 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-sm-true-69"
         >
           <p
             class="MuiTypography-root-129 MuiTypography-body2-130 MuiTypography-colorTextSecondary-155"
@@ -551,7 +546,7 @@ exports[`Landing Page Renders Locked CVX Banner 1`] = `
           </p>
         </div>
         <div
-          class="MuiGrid-root-21 makeStyles-hiddenMobile-410 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-sm-true-69"
+          class="MuiGrid-root-21 makeStyles-hiddenMobile-411 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-sm-true-69"
         >
           <p
             class="MuiTypography-root-129 MuiTypography-body2-130 MuiTypography-colorTextSecondary-155"
@@ -561,29 +556,29 @@ exports[`Landing Page Renders Locked CVX Banner 1`] = `
         </div>
       </div>
       <ul
-        class="MuiList-root-413 makeStyles-list-408 MuiList-padding-414"
+        class="MuiList-root-414 makeStyles-list-409 MuiList-padding-415"
       >
         <li
-          class="MuiListItem-root-424 makeStyles-listItem-421 MuiListItem-gutters-431"
+          class="MuiListItem-root-425 makeStyles-listItem-422 MuiListItem-gutters-432"
         >
           <div
-            class="MuiGrid-root-21 makeStyles-root-417 makeStyles-enabledSett-418 MuiGrid-container-22"
+            class="MuiGrid-root-21 makeStyles-root-418 makeStyles-enabledSett-419 MuiGrid-container-22"
           >
             <div
-              class="MuiGrid-root-21 makeStyles-clickableSection-422 MuiGrid-container-22 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-9-92"
+              class="MuiGrid-root-21 makeStyles-clickableSection-423 MuiGrid-container-22 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-9-92"
             >
               <div
-                class="MuiGrid-root-21 makeStyles-name-420 MuiGrid-container-22 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-5-88"
+                class="MuiGrid-root-21 makeStyles-name-421 MuiGrid-container-22 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-5-88"
               >
                 <div
                   class="MuiGrid-root-21 MuiGrid-container-22"
                 >
                   <div
-                    class="MuiGrid-root-21 makeStyles-vaultIcon-436 MuiGrid-item-23"
+                    class="MuiGrid-root-21 makeStyles-vaultIcon-437 MuiGrid-item-23"
                   >
                     <img
                       alt="Badger Convex renBTC/wBTC/sBTC Vault Symbol"
-                      class="makeStyles-symbol-435"
+                      class="makeStyles-symbol-436"
                       src="/assets/icons/bcrvsbtc.png"
                     />
                   </div>
@@ -607,11 +602,11 @@ exports[`Landing Page Renders Locked CVX Banner 1`] = `
                           crvsBTC
                         </p>
                         <div
-                          class="MuiChip-root-438 makeStyles-chip-437 MuiChip-colorPrimary-440 MuiChip-sizeSmall-439"
+                          class="MuiChip-root-439 makeStyles-chip-438 MuiChip-colorPrimary-441 MuiChip-sizeSmall-440"
                           style="background-color: rgb(69, 156, 119); color: white;"
                         >
                           <span
-                            class="MuiChip-label-460 MuiChip-labelSmall-461"
+                            class="MuiChip-label-461 MuiChip-labelSmall-462"
                           >
                             Convex
                           </span>
@@ -622,7 +617,7 @@ exports[`Landing Page Renders Locked CVX Banner 1`] = `
                 </div>
               </div>
               <div
-                class="MuiGrid-root-21 makeStyles-mobileLabel-419 MuiGrid-item-23 MuiGrid-grid-xs-6-61 MuiGrid-grid-md-true-83"
+                class="MuiGrid-root-21 makeStyles-mobileLabel-420 MuiGrid-item-23 MuiGrid-grid-xs-6-61 MuiGrid-grid-md-true-83"
               >
                 <p
                   class="MuiTypography-root-129 MuiTypography-body2-130 MuiTypography-colorTextSecondary-155"
@@ -634,13 +629,13 @@ exports[`Landing Page Renders Locked CVX Banner 1`] = `
                 class="MuiGrid-root-21 MuiGrid-item-23 MuiGrid-grid-xs-6-61 MuiGrid-grid-md-true-83"
               >
                 <p
-                  class="MuiTypography-root-129 makeStyles-normalCursor-468 MuiTypography-body1-131 MuiTypography-colorTextPrimary-154"
+                  class="MuiTypography-root-129 makeStyles-normalCursor-469 MuiTypography-body1-131 MuiTypography-colorTextPrimary-154"
                 >
                   6.82% - 45.63%
                 </p>
               </div>
               <div
-                class="MuiGrid-root-21 makeStyles-mobileLabel-419 MuiGrid-item-23 MuiGrid-grid-xs-6-61 MuiGrid-grid-md-true-83"
+                class="MuiGrid-root-21 makeStyles-mobileLabel-420 MuiGrid-item-23 MuiGrid-grid-xs-6-61 MuiGrid-grid-md-true-83"
               >
                 <p
                   class="MuiTypography-root-129 MuiTypography-body2-130 MuiTypography-colorTextSecondary-155"
@@ -661,13 +656,13 @@ exports[`Landing Page Renders Locked CVX Banner 1`] = `
               </div>
             </div>
             <div
-              class="MuiGrid-root-21 makeStyles-nonClickableSection-423 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-true-83"
+              class="MuiGrid-root-21 makeStyles-nonClickableSection-424 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-true-83"
             >
               <div
-                class="MuiBox-root-472 MuiBox-root-473 makeStyles-container-469"
+                class="MuiBox-root-473 MuiBox-root-474 makeStyles-container-470"
               >
                 <button
-                  class="MuiButtonBase-root-256 MuiButton-root-227 MuiButton-contained-235 makeStyles-button-470 makeStyles-deposit-471 MuiButton-containedPrimary-236"
+                  class="MuiButtonBase-root-256 MuiButton-root-227 MuiButton-contained-235 makeStyles-button-471 makeStyles-deposit-472 MuiButton-containedPrimary-236"
                   tabindex="0"
                   type="button"
                 >
@@ -677,11 +672,11 @@ exports[`Landing Page Renders Locked CVX Banner 1`] = `
                     Deposit
                   </span>
                   <span
-                    class="MuiTouchRipple-root-506"
+                    class="MuiTouchRipple-root-507"
                   />
                 </button>
                 <button
-                  class="MuiButtonBase-root-256 MuiButton-root-227 MuiButton-outlined-232 makeStyles-button-470 MuiButton-outlinedPrimary-233 MuiButton-disabled-240 WithStyles(ForwardRef(Button))-disabled-474 MuiButtonBase-disabled-257"
+                  class="MuiButtonBase-root-256 MuiButton-root-227 MuiButton-outlined-232 makeStyles-button-471 MuiButton-outlinedPrimary-233 MuiButton-disabled-240 WithStyles(ForwardRef(Button))-disabled-475 MuiButtonBase-disabled-257"
                   disabled=""
                   tabindex="-1"
                   type="button"
@@ -697,26 +692,26 @@ exports[`Landing Page Renders Locked CVX Banner 1`] = `
           </div>
         </li>
         <li
-          class="MuiListItem-root-424 makeStyles-listItem-421 MuiListItem-gutters-431"
+          class="MuiListItem-root-425 makeStyles-listItem-422 MuiListItem-gutters-432"
         >
           <div
-            class="MuiGrid-root-21 makeStyles-root-417 makeStyles-enabledSett-418 MuiGrid-container-22"
+            class="MuiGrid-root-21 makeStyles-root-418 makeStyles-enabledSett-419 MuiGrid-container-22"
           >
             <div
-              class="MuiGrid-root-21 makeStyles-clickableSection-422 MuiGrid-container-22 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-9-92"
+              class="MuiGrid-root-21 makeStyles-clickableSection-423 MuiGrid-container-22 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-9-92"
             >
               <div
-                class="MuiGrid-root-21 makeStyles-name-420 MuiGrid-container-22 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-5-88"
+                class="MuiGrid-root-21 makeStyles-name-421 MuiGrid-container-22 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-5-88"
               >
                 <div
                   class="MuiGrid-root-21 MuiGrid-container-22"
                 >
                   <div
-                    class="MuiGrid-root-21 makeStyles-vaultIcon-436 MuiGrid-item-23"
+                    class="MuiGrid-root-21 makeStyles-vaultIcon-437 MuiGrid-item-23"
                   >
                     <img
                       alt="Badger Convex renBTC/wBTC Vault Symbol"
-                      class="makeStyles-symbol-435"
+                      class="makeStyles-symbol-436"
                       src="/assets/icons/bcrvrenbtc.png"
                     />
                   </div>
@@ -740,11 +735,11 @@ exports[`Landing Page Renders Locked CVX Banner 1`] = `
                           crvrenWBTC
                         </p>
                         <div
-                          class="MuiChip-root-438 makeStyles-chip-437 MuiChip-colorPrimary-440 MuiChip-sizeSmall-439"
+                          class="MuiChip-root-439 makeStyles-chip-438 MuiChip-colorPrimary-441 MuiChip-sizeSmall-440"
                           style="background-color: rgb(69, 156, 119); color: white;"
                         >
                           <span
-                            class="MuiChip-label-460 MuiChip-labelSmall-461"
+                            class="MuiChip-label-461 MuiChip-labelSmall-462"
                           >
                             Convex
                           </span>
@@ -755,7 +750,7 @@ exports[`Landing Page Renders Locked CVX Banner 1`] = `
                 </div>
               </div>
               <div
-                class="MuiGrid-root-21 makeStyles-mobileLabel-419 MuiGrid-item-23 MuiGrid-grid-xs-6-61 MuiGrid-grid-md-true-83"
+                class="MuiGrid-root-21 makeStyles-mobileLabel-420 MuiGrid-item-23 MuiGrid-grid-xs-6-61 MuiGrid-grid-md-true-83"
               >
                 <p
                   class="MuiTypography-root-129 MuiTypography-body2-130 MuiTypography-colorTextSecondary-155"
@@ -767,13 +762,13 @@ exports[`Landing Page Renders Locked CVX Banner 1`] = `
                 class="MuiGrid-root-21 MuiGrid-item-23 MuiGrid-grid-xs-6-61 MuiGrid-grid-md-true-83"
               >
                 <p
-                  class="MuiTypography-root-129 makeStyles-normalCursor-468 MuiTypography-body1-131 MuiTypography-colorTextPrimary-154"
+                  class="MuiTypography-root-129 makeStyles-normalCursor-469 MuiTypography-body1-131 MuiTypography-colorTextPrimary-154"
                 >
                   4.81% - 58.44%
                 </p>
               </div>
               <div
-                class="MuiGrid-root-21 makeStyles-mobileLabel-419 MuiGrid-item-23 MuiGrid-grid-xs-6-61 MuiGrid-grid-md-true-83"
+                class="MuiGrid-root-21 makeStyles-mobileLabel-420 MuiGrid-item-23 MuiGrid-grid-xs-6-61 MuiGrid-grid-md-true-83"
               >
                 <p
                   class="MuiTypography-root-129 MuiTypography-body2-130 MuiTypography-colorTextSecondary-155"
@@ -794,13 +789,13 @@ exports[`Landing Page Renders Locked CVX Banner 1`] = `
               </div>
             </div>
             <div
-              class="MuiGrid-root-21 makeStyles-nonClickableSection-423 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-true-83"
+              class="MuiGrid-root-21 makeStyles-nonClickableSection-424 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-true-83"
             >
               <div
-                class="MuiBox-root-472 MuiBox-root-502 makeStyles-container-469"
+                class="MuiBox-root-473 MuiBox-root-503 makeStyles-container-470"
               >
                 <button
-                  class="MuiButtonBase-root-256 MuiButton-root-227 MuiButton-contained-235 makeStyles-button-470 makeStyles-deposit-471 MuiButton-containedPrimary-236"
+                  class="MuiButtonBase-root-256 MuiButton-root-227 MuiButton-contained-235 makeStyles-button-471 makeStyles-deposit-472 MuiButton-containedPrimary-236"
                   tabindex="0"
                   type="button"
                 >
@@ -810,11 +805,11 @@ exports[`Landing Page Renders Locked CVX Banner 1`] = `
                     Deposit
                   </span>
                   <span
-                    class="MuiTouchRipple-root-506"
+                    class="MuiTouchRipple-root-507"
                   />
                 </button>
                 <button
-                  class="MuiButtonBase-root-256 MuiButton-root-227 MuiButton-outlined-232 makeStyles-button-470 MuiButton-outlinedPrimary-233 MuiButton-disabled-240 WithStyles(ForwardRef(Button))-disabled-474 MuiButtonBase-disabled-257"
+                  class="MuiButtonBase-root-256 MuiButton-root-227 MuiButton-outlined-232 makeStyles-button-471 MuiButton-outlinedPrimary-233 MuiButton-disabled-240 WithStyles(ForwardRef(Button))-disabled-475 MuiButtonBase-disabled-257"
                   disabled=""
                   tabindex="-1"
                   type="button"
@@ -830,26 +825,26 @@ exports[`Landing Page Renders Locked CVX Banner 1`] = `
           </div>
         </li>
         <li
-          class="MuiListItem-root-424 makeStyles-listItem-421 MuiListItem-gutters-431"
+          class="MuiListItem-root-425 makeStyles-listItem-422 MuiListItem-gutters-432"
         >
           <div
-            class="MuiGrid-root-21 makeStyles-root-417 makeStyles-enabledSett-418 MuiGrid-container-22"
+            class="MuiGrid-root-21 makeStyles-root-418 makeStyles-enabledSett-419 MuiGrid-container-22"
           >
             <div
-              class="MuiGrid-root-21 makeStyles-clickableSection-422 MuiGrid-container-22 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-9-92"
+              class="MuiGrid-root-21 makeStyles-clickableSection-423 MuiGrid-container-22 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-9-92"
             >
               <div
-                class="MuiGrid-root-21 makeStyles-name-420 MuiGrid-container-22 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-5-88"
+                class="MuiGrid-root-21 makeStyles-name-421 MuiGrid-container-22 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-5-88"
               >
                 <div
                   class="MuiGrid-root-21 MuiGrid-container-22"
                 >
                   <div
-                    class="MuiGrid-root-21 makeStyles-vaultIcon-436 MuiGrid-item-23"
+                    class="MuiGrid-root-21 makeStyles-vaultIcon-437 MuiGrid-item-23"
                   >
                     <img
                       alt="Badger Convex tBTC/sBTC Vault Symbol"
-                      class="makeStyles-symbol-435"
+                      class="makeStyles-symbol-436"
                       src="/assets/icons/bcrvtbtc.png"
                     />
                   </div>
@@ -873,11 +868,11 @@ exports[`Landing Page Renders Locked CVX Banner 1`] = `
                           crvtBTC
                         </p>
                         <div
-                          class="MuiChip-root-438 makeStyles-chip-437 MuiChip-colorPrimary-440 MuiChip-sizeSmall-439"
+                          class="MuiChip-root-439 makeStyles-chip-438 MuiChip-colorPrimary-441 MuiChip-sizeSmall-440"
                           style="background-color: rgb(69, 156, 119); color: white;"
                         >
                           <span
-                            class="MuiChip-label-460 MuiChip-labelSmall-461"
+                            class="MuiChip-label-461 MuiChip-labelSmall-462"
                           >
                             Convex
                           </span>
@@ -888,7 +883,7 @@ exports[`Landing Page Renders Locked CVX Banner 1`] = `
                 </div>
               </div>
               <div
-                class="MuiGrid-root-21 makeStyles-mobileLabel-419 MuiGrid-item-23 MuiGrid-grid-xs-6-61 MuiGrid-grid-md-true-83"
+                class="MuiGrid-root-21 makeStyles-mobileLabel-420 MuiGrid-item-23 MuiGrid-grid-xs-6-61 MuiGrid-grid-md-true-83"
               >
                 <p
                   class="MuiTypography-root-129 MuiTypography-body2-130 MuiTypography-colorTextSecondary-155"
@@ -900,13 +895,13 @@ exports[`Landing Page Renders Locked CVX Banner 1`] = `
                 class="MuiGrid-root-21 MuiGrid-item-23 MuiGrid-grid-xs-6-61 MuiGrid-grid-md-true-83"
               >
                 <p
-                  class="MuiTypography-root-129 makeStyles-normalCursor-468 MuiTypography-body1-131 MuiTypography-colorTextPrimary-154"
+                  class="MuiTypography-root-129 makeStyles-normalCursor-469 MuiTypography-body1-131 MuiTypography-colorTextPrimary-154"
                 >
                   8.25% - 24.93%
                 </p>
               </div>
               <div
-                class="MuiGrid-root-21 makeStyles-mobileLabel-419 MuiGrid-item-23 MuiGrid-grid-xs-6-61 MuiGrid-grid-md-true-83"
+                class="MuiGrid-root-21 makeStyles-mobileLabel-420 MuiGrid-item-23 MuiGrid-grid-xs-6-61 MuiGrid-grid-md-true-83"
               >
                 <p
                   class="MuiTypography-root-129 MuiTypography-body2-130 MuiTypography-colorTextSecondary-155"
@@ -927,13 +922,13 @@ exports[`Landing Page Renders Locked CVX Banner 1`] = `
               </div>
             </div>
             <div
-              class="MuiGrid-root-21 makeStyles-nonClickableSection-423 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-true-83"
+              class="MuiGrid-root-21 makeStyles-nonClickableSection-424 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-true-83"
             >
               <div
-                class="MuiBox-root-472 MuiBox-root-503 makeStyles-container-469"
+                class="MuiBox-root-473 MuiBox-root-504 makeStyles-container-470"
               >
                 <button
-                  class="MuiButtonBase-root-256 MuiButton-root-227 MuiButton-contained-235 makeStyles-button-470 makeStyles-deposit-471 MuiButton-containedPrimary-236"
+                  class="MuiButtonBase-root-256 MuiButton-root-227 MuiButton-contained-235 makeStyles-button-471 makeStyles-deposit-472 MuiButton-containedPrimary-236"
                   tabindex="0"
                   type="button"
                 >
@@ -943,11 +938,11 @@ exports[`Landing Page Renders Locked CVX Banner 1`] = `
                     Deposit
                   </span>
                   <span
-                    class="MuiTouchRipple-root-506"
+                    class="MuiTouchRipple-root-507"
                   />
                 </button>
                 <button
-                  class="MuiButtonBase-root-256 MuiButton-root-227 MuiButton-outlined-232 makeStyles-button-470 MuiButton-outlinedPrimary-233 MuiButton-disabled-240 WithStyles(ForwardRef(Button))-disabled-474 MuiButtonBase-disabled-257"
+                  class="MuiButtonBase-root-256 MuiButton-root-227 MuiButton-outlined-232 makeStyles-button-471 MuiButton-outlinedPrimary-233 MuiButton-disabled-240 WithStyles(ForwardRef(Button))-disabled-475 MuiButtonBase-disabled-257"
                   disabled=""
                   tabindex="-1"
                   type="button"
@@ -963,26 +958,26 @@ exports[`Landing Page Renders Locked CVX Banner 1`] = `
           </div>
         </li>
         <li
-          class="MuiListItem-root-424 makeStyles-listItem-421 MuiListItem-gutters-431"
+          class="MuiListItem-root-425 makeStyles-listItem-422 MuiListItem-gutters-432"
         >
           <div
-            class="MuiGrid-root-21 makeStyles-root-417 makeStyles-enabledSett-418 MuiGrid-container-22"
+            class="MuiGrid-root-21 makeStyles-root-418 makeStyles-enabledSett-419 MuiGrid-container-22"
           >
             <div
-              class="MuiGrid-root-21 makeStyles-clickableSection-422 MuiGrid-container-22 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-9-92"
+              class="MuiGrid-root-21 makeStyles-clickableSection-423 MuiGrid-container-22 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-9-92"
             >
               <div
-                class="MuiGrid-root-21 makeStyles-name-420 MuiGrid-container-22 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-5-88"
+                class="MuiGrid-root-21 makeStyles-name-421 MuiGrid-container-22 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-5-88"
               >
                 <div
                   class="MuiGrid-root-21 MuiGrid-container-22"
                 >
                   <div
-                    class="MuiGrid-root-21 makeStyles-vaultIcon-436 MuiGrid-item-23"
+                    class="MuiGrid-root-21 makeStyles-vaultIcon-437 MuiGrid-item-23"
                   >
                     <img
                       alt="Badger Uniswap Wrapped BTC/Badger Vault Symbol"
-                      class="makeStyles-symbol-435"
+                      class="makeStyles-symbol-436"
                       src="/assets/icons/bbadger-wbtc.png"
                     />
                   </div>
@@ -1006,11 +1001,11 @@ exports[`Landing Page Renders Locked CVX Banner 1`] = `
                           BADGER-WBTC
                         </p>
                         <div
-                          class="MuiChip-root-438 makeStyles-chip-437 MuiChip-colorPrimary-440 MuiChip-sizeSmall-439"
+                          class="MuiChip-root-439 makeStyles-chip-438 MuiChip-colorPrimary-441 MuiChip-sizeSmall-440"
                           style="background-color: rgb(252, 7, 125); color: white;"
                         >
                           <span
-                            class="MuiChip-label-460 MuiChip-labelSmall-461"
+                            class="MuiChip-label-461 MuiChip-labelSmall-462"
                           >
                             Uniswap
                           </span>
@@ -1021,7 +1016,7 @@ exports[`Landing Page Renders Locked CVX Banner 1`] = `
                 </div>
               </div>
               <div
-                class="MuiGrid-root-21 makeStyles-mobileLabel-419 MuiGrid-item-23 MuiGrid-grid-xs-6-61 MuiGrid-grid-md-true-83"
+                class="MuiGrid-root-21 makeStyles-mobileLabel-420 MuiGrid-item-23 MuiGrid-grid-xs-6-61 MuiGrid-grid-md-true-83"
               >
                 <p
                   class="MuiTypography-root-129 MuiTypography-body2-130 MuiTypography-colorTextSecondary-155"
@@ -1033,13 +1028,13 @@ exports[`Landing Page Renders Locked CVX Banner 1`] = `
                 class="MuiGrid-root-21 MuiGrid-item-23 MuiGrid-grid-xs-6-61 MuiGrid-grid-md-true-83"
               >
                 <p
-                  class="MuiTypography-root-129 makeStyles-normalCursor-468 MuiTypography-body1-131 MuiTypography-colorTextPrimary-154"
+                  class="MuiTypography-root-129 makeStyles-normalCursor-469 MuiTypography-body1-131 MuiTypography-colorTextPrimary-154"
                 >
                   45.14%
                 </p>
               </div>
               <div
-                class="MuiGrid-root-21 makeStyles-mobileLabel-419 MuiGrid-item-23 MuiGrid-grid-xs-6-61 MuiGrid-grid-md-true-83"
+                class="MuiGrid-root-21 makeStyles-mobileLabel-420 MuiGrid-item-23 MuiGrid-grid-xs-6-61 MuiGrid-grid-md-true-83"
               >
                 <p
                   class="MuiTypography-root-129 MuiTypography-body2-130 MuiTypography-colorTextSecondary-155"
@@ -1060,13 +1055,13 @@ exports[`Landing Page Renders Locked CVX Banner 1`] = `
               </div>
             </div>
             <div
-              class="MuiGrid-root-21 makeStyles-nonClickableSection-423 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-true-83"
+              class="MuiGrid-root-21 makeStyles-nonClickableSection-424 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-true-83"
             >
               <div
-                class="MuiBox-root-472 MuiBox-root-504 makeStyles-container-469"
+                class="MuiBox-root-473 MuiBox-root-505 makeStyles-container-470"
               >
                 <button
-                  class="MuiButtonBase-root-256 MuiButton-root-227 MuiButton-contained-235 makeStyles-button-470 makeStyles-deposit-471 MuiButton-containedPrimary-236"
+                  class="MuiButtonBase-root-256 MuiButton-root-227 MuiButton-contained-235 makeStyles-button-471 makeStyles-deposit-472 MuiButton-containedPrimary-236"
                   tabindex="0"
                   type="button"
                 >
@@ -1076,11 +1071,11 @@ exports[`Landing Page Renders Locked CVX Banner 1`] = `
                     Deposit
                   </span>
                   <span
-                    class="MuiTouchRipple-root-506"
+                    class="MuiTouchRipple-root-507"
                   />
                 </button>
                 <button
-                  class="MuiButtonBase-root-256 MuiButton-root-227 MuiButton-outlined-232 makeStyles-button-470 MuiButton-outlinedPrimary-233 MuiButton-disabled-240 WithStyles(ForwardRef(Button))-disabled-474 MuiButtonBase-disabled-257"
+                  class="MuiButtonBase-root-256 MuiButton-root-227 MuiButton-outlined-232 makeStyles-button-471 MuiButton-outlinedPrimary-233 MuiButton-disabled-240 WithStyles(ForwardRef(Button))-disabled-475 MuiButtonBase-disabled-257"
                   disabled=""
                   tabindex="-1"
                   type="button"
@@ -1096,26 +1091,26 @@ exports[`Landing Page Renders Locked CVX Banner 1`] = `
           </div>
         </li>
         <li
-          class="MuiListItem-root-424 makeStyles-listItem-421 MuiListItem-gutters-431"
+          class="MuiListItem-root-425 makeStyles-listItem-422 MuiListItem-gutters-432"
         >
           <div
-            class="MuiGrid-root-21 makeStyles-root-417 makeStyles-enabledSett-418 MuiGrid-container-22"
+            class="MuiGrid-root-21 makeStyles-root-418 makeStyles-enabledSett-419 MuiGrid-container-22"
           >
             <div
-              class="MuiGrid-root-21 makeStyles-clickableSection-422 MuiGrid-container-22 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-9-92"
+              class="MuiGrid-root-21 makeStyles-clickableSection-423 MuiGrid-container-22 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-9-92"
             >
               <div
-                class="MuiGrid-root-21 makeStyles-name-420 MuiGrid-container-22 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-5-88"
+                class="MuiGrid-root-21 makeStyles-name-421 MuiGrid-container-22 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-5-88"
               >
                 <div
                   class="MuiGrid-root-21 MuiGrid-container-22"
                 >
                   <div
-                    class="MuiGrid-root-21 makeStyles-vaultIcon-436 MuiGrid-item-23"
+                    class="MuiGrid-root-21 makeStyles-vaultIcon-437 MuiGrid-item-23"
                   >
                     <img
                       alt="Badger Harvest renBTC/wBTC Vault Symbol"
-                      class="makeStyles-symbol-435"
+                      class="makeStyles-symbol-436"
                       src="/assets/icons/bcrvhrenbtc.png"
                     />
                   </div>
@@ -1139,11 +1134,11 @@ exports[`Landing Page Renders Locked CVX Banner 1`] = `
                           crvrenWBTC
                         </p>
                         <div
-                          class="MuiChip-root-438 makeStyles-chip-437 MuiChip-colorPrimary-440 MuiChip-sizeSmall-439"
+                          class="MuiChip-root-439 makeStyles-chip-438 MuiChip-colorPrimary-441 MuiChip-sizeSmall-440"
                           style="background-color: rgb(238, 191, 101);"
                         >
                           <span
-                            class="MuiChip-label-460 MuiChip-labelSmall-461"
+                            class="MuiChip-label-461 MuiChip-labelSmall-462"
                           >
                             Harvest
                           </span>
@@ -1154,7 +1149,7 @@ exports[`Landing Page Renders Locked CVX Banner 1`] = `
                 </div>
               </div>
               <div
-                class="MuiGrid-root-21 makeStyles-mobileLabel-419 MuiGrid-item-23 MuiGrid-grid-xs-6-61 MuiGrid-grid-md-true-83"
+                class="MuiGrid-root-21 makeStyles-mobileLabel-420 MuiGrid-item-23 MuiGrid-grid-xs-6-61 MuiGrid-grid-md-true-83"
               >
                 <p
                   class="MuiTypography-root-129 MuiTypography-body2-130 MuiTypography-colorTextSecondary-155"
@@ -1166,13 +1161,13 @@ exports[`Landing Page Renders Locked CVX Banner 1`] = `
                 class="MuiGrid-root-21 MuiGrid-item-23 MuiGrid-grid-xs-6-61 MuiGrid-grid-md-true-83"
               >
                 <p
-                  class="MuiTypography-root-129 makeStyles-normalCursor-468 MuiTypography-body1-131 MuiTypography-colorTextPrimary-154"
+                  class="MuiTypography-root-129 makeStyles-normalCursor-469 MuiTypography-body1-131 MuiTypography-colorTextPrimary-154"
                 >
                   4.65%
                 </p>
               </div>
               <div
-                class="MuiGrid-root-21 makeStyles-mobileLabel-419 MuiGrid-item-23 MuiGrid-grid-xs-6-61 MuiGrid-grid-md-true-83"
+                class="MuiGrid-root-21 makeStyles-mobileLabel-420 MuiGrid-item-23 MuiGrid-grid-xs-6-61 MuiGrid-grid-md-true-83"
               >
                 <p
                   class="MuiTypography-root-129 MuiTypography-body2-130 MuiTypography-colorTextSecondary-155"
@@ -1193,13 +1188,13 @@ exports[`Landing Page Renders Locked CVX Banner 1`] = `
               </div>
             </div>
             <div
-              class="MuiGrid-root-21 makeStyles-nonClickableSection-423 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-true-83"
+              class="MuiGrid-root-21 makeStyles-nonClickableSection-424 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-true-83"
             >
               <div
-                class="MuiBox-root-472 MuiBox-root-505 makeStyles-container-469"
+                class="MuiBox-root-473 MuiBox-root-506 makeStyles-container-470"
               >
                 <button
-                  class="MuiButtonBase-root-256 MuiButton-root-227 MuiButton-contained-235 makeStyles-button-470 makeStyles-deposit-471 MuiButton-containedPrimary-236"
+                  class="MuiButtonBase-root-256 MuiButton-root-227 MuiButton-contained-235 makeStyles-button-471 makeStyles-deposit-472 MuiButton-containedPrimary-236"
                   tabindex="0"
                   type="button"
                 >
@@ -1209,11 +1204,11 @@ exports[`Landing Page Renders Locked CVX Banner 1`] = `
                     Deposit
                   </span>
                   <span
-                    class="MuiTouchRipple-root-506"
+                    class="MuiTouchRipple-root-507"
                   />
                 </button>
                 <button
-                  class="MuiButtonBase-root-256 MuiButton-root-227 MuiButton-outlined-232 makeStyles-button-470 MuiButton-outlinedPrimary-233 MuiButton-disabled-240 WithStyles(ForwardRef(Button))-disabled-474 MuiButtonBase-disabled-257"
+                  class="MuiButtonBase-root-256 MuiButton-root-227 MuiButton-outlined-232 makeStyles-button-471 MuiButton-outlinedPrimary-233 MuiButton-disabled-240 WithStyles(ForwardRef(Button))-disabled-475 MuiButtonBase-disabled-257"
                   disabled=""
                   tabindex="-1"
                   type="button"
@@ -1335,7 +1330,7 @@ exports[`Landing Page Renders correctly 1`] = `
                 </span>
               </span>
               <span
-                class="MuiTouchRipple-root-490"
+                class="MuiTouchRipple-root-491"
               />
             </button>
           </div>
@@ -1370,7 +1365,7 @@ exports[`Landing Page Renders correctly 1`] = `
                   />
                 </span>
                 <span
-                  class="MuiTouchRipple-root-490"
+                  class="MuiTouchRipple-root-491"
                 />
               </span>
               <span
@@ -1566,10 +1561,10 @@ exports[`Landing Page Renders correctly 1`] = `
       class="MuiGrid-root-21 makeStyles-delegationBanner-11 MuiGrid-container-22"
     />
     <div
-      class="makeStyles-settListContainer-390"
+      class="makeStyles-settListContainer-391"
     >
       <div
-        class="MuiGrid-root-21 makeStyles-root-393 MuiGrid-container-22 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-9-92"
+        class="MuiGrid-root-21 makeStyles-root-394 MuiGrid-container-22 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-9-92"
       >
         <div
           class="MuiGrid-root-21 MuiGrid-container-22 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-sm-5-74"
@@ -1584,7 +1579,7 @@ exports[`Landing Page Renders correctly 1`] = `
             </p>
           </div>
           <div
-            class="MuiGrid-root-21 makeStyles-amount-395 MuiGrid-item-23"
+            class="MuiGrid-root-21 makeStyles-amount-396 MuiGrid-item-23"
           >
             <div
               class="MuiGrid-root-21 MuiGrid-container-22 MuiGrid-align-items-xs-center-30"
@@ -1596,7 +1591,7 @@ exports[`Landing Page Renders correctly 1`] = `
           </div>
         </div>
         <div
-          class="MuiGrid-root-21 makeStyles-hiddenMobile-394 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-sm-true-69"
+          class="MuiGrid-root-21 makeStyles-hiddenMobile-395 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-sm-true-69"
         >
           <p
             class="MuiTypography-root-129 MuiTypography-body2-130 MuiTypography-colorTextSecondary-155"
@@ -1606,7 +1601,7 @@ exports[`Landing Page Renders correctly 1`] = `
           </p>
         </div>
         <div
-          class="MuiGrid-root-21 makeStyles-hiddenMobile-394 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-sm-true-69"
+          class="MuiGrid-root-21 makeStyles-hiddenMobile-395 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-sm-true-69"
         >
           <p
             class="MuiTypography-root-129 MuiTypography-body2-130 MuiTypography-colorTextSecondary-155"
@@ -1616,29 +1611,29 @@ exports[`Landing Page Renders correctly 1`] = `
         </div>
       </div>
       <ul
-        class="MuiList-root-397 makeStyles-list-392 MuiList-padding-398"
+        class="MuiList-root-398 makeStyles-list-393 MuiList-padding-399"
       >
         <li
-          class="MuiListItem-root-408 makeStyles-listItem-405 MuiListItem-gutters-415"
+          class="MuiListItem-root-409 makeStyles-listItem-406 MuiListItem-gutters-416"
         >
           <div
-            class="MuiGrid-root-21 makeStyles-root-401 makeStyles-enabledSett-402 MuiGrid-container-22"
+            class="MuiGrid-root-21 makeStyles-root-402 makeStyles-enabledSett-403 MuiGrid-container-22"
           >
             <div
-              class="MuiGrid-root-21 makeStyles-clickableSection-406 MuiGrid-container-22 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-9-92"
+              class="MuiGrid-root-21 makeStyles-clickableSection-407 MuiGrid-container-22 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-9-92"
             >
               <div
-                class="MuiGrid-root-21 makeStyles-name-404 MuiGrid-container-22 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-5-88"
+                class="MuiGrid-root-21 makeStyles-name-405 MuiGrid-container-22 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-5-88"
               >
                 <div
                   class="MuiGrid-root-21 MuiGrid-container-22"
                 >
                   <div
-                    class="MuiGrid-root-21 makeStyles-vaultIcon-420 MuiGrid-item-23"
+                    class="MuiGrid-root-21 makeStyles-vaultIcon-421 MuiGrid-item-23"
                   >
                     <img
                       alt="Badger Convex renBTC/wBTC/sBTC Vault Symbol"
-                      class="makeStyles-symbol-419"
+                      class="makeStyles-symbol-420"
                       src="/assets/icons/bcrvsbtc.png"
                     />
                   </div>
@@ -1662,11 +1657,11 @@ exports[`Landing Page Renders correctly 1`] = `
                           crvsBTC
                         </p>
                         <div
-                          class="MuiChip-root-422 makeStyles-chip-421 MuiChip-colorPrimary-424 MuiChip-sizeSmall-423"
+                          class="MuiChip-root-423 makeStyles-chip-422 MuiChip-colorPrimary-425 MuiChip-sizeSmall-424"
                           style="background-color: rgb(69, 156, 119); color: white;"
                         >
                           <span
-                            class="MuiChip-label-444 MuiChip-labelSmall-445"
+                            class="MuiChip-label-445 MuiChip-labelSmall-446"
                           >
                             Convex
                           </span>
@@ -1677,7 +1672,7 @@ exports[`Landing Page Renders correctly 1`] = `
                 </div>
               </div>
               <div
-                class="MuiGrid-root-21 makeStyles-mobileLabel-403 MuiGrid-item-23 MuiGrid-grid-xs-6-61 MuiGrid-grid-md-true-83"
+                class="MuiGrid-root-21 makeStyles-mobileLabel-404 MuiGrid-item-23 MuiGrid-grid-xs-6-61 MuiGrid-grid-md-true-83"
               >
                 <p
                   class="MuiTypography-root-129 MuiTypography-body2-130 MuiTypography-colorTextSecondary-155"
@@ -1689,13 +1684,13 @@ exports[`Landing Page Renders correctly 1`] = `
                 class="MuiGrid-root-21 MuiGrid-item-23 MuiGrid-grid-xs-6-61 MuiGrid-grid-md-true-83"
               >
                 <p
-                  class="MuiTypography-root-129 makeStyles-normalCursor-452 MuiTypography-body1-131 MuiTypography-colorTextPrimary-154"
+                  class="MuiTypography-root-129 makeStyles-normalCursor-453 MuiTypography-body1-131 MuiTypography-colorTextPrimary-154"
                 >
                   6.82% - 45.63%
                 </p>
               </div>
               <div
-                class="MuiGrid-root-21 makeStyles-mobileLabel-403 MuiGrid-item-23 MuiGrid-grid-xs-6-61 MuiGrid-grid-md-true-83"
+                class="MuiGrid-root-21 makeStyles-mobileLabel-404 MuiGrid-item-23 MuiGrid-grid-xs-6-61 MuiGrid-grid-md-true-83"
               >
                 <p
                   class="MuiTypography-root-129 MuiTypography-body2-130 MuiTypography-colorTextSecondary-155"
@@ -1716,13 +1711,13 @@ exports[`Landing Page Renders correctly 1`] = `
               </div>
             </div>
             <div
-              class="MuiGrid-root-21 makeStyles-nonClickableSection-407 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-true-83"
+              class="MuiGrid-root-21 makeStyles-nonClickableSection-408 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-true-83"
             >
               <div
-                class="MuiBox-root-456 MuiBox-root-457 makeStyles-container-453"
+                class="MuiBox-root-457 MuiBox-root-458 makeStyles-container-454"
               >
                 <button
-                  class="MuiButtonBase-root-256 MuiButton-root-227 MuiButton-contained-235 makeStyles-button-454 makeStyles-deposit-455 MuiButton-containedPrimary-236"
+                  class="MuiButtonBase-root-256 MuiButton-root-227 MuiButton-contained-235 makeStyles-button-455 makeStyles-deposit-456 MuiButton-containedPrimary-236"
                   tabindex="0"
                   type="button"
                 >
@@ -1732,11 +1727,11 @@ exports[`Landing Page Renders correctly 1`] = `
                     Deposit
                   </span>
                   <span
-                    class="MuiTouchRipple-root-490"
+                    class="MuiTouchRipple-root-491"
                   />
                 </button>
                 <button
-                  class="MuiButtonBase-root-256 MuiButton-root-227 MuiButton-outlined-232 makeStyles-button-454 MuiButton-outlinedPrimary-233 MuiButton-disabled-240 WithStyles(ForwardRef(Button))-disabled-458 MuiButtonBase-disabled-257"
+                  class="MuiButtonBase-root-256 MuiButton-root-227 MuiButton-outlined-232 makeStyles-button-455 MuiButton-outlinedPrimary-233 MuiButton-disabled-240 WithStyles(ForwardRef(Button))-disabled-459 MuiButtonBase-disabled-257"
                   disabled=""
                   tabindex="-1"
                   type="button"
@@ -1752,26 +1747,26 @@ exports[`Landing Page Renders correctly 1`] = `
           </div>
         </li>
         <li
-          class="MuiListItem-root-408 makeStyles-listItem-405 MuiListItem-gutters-415"
+          class="MuiListItem-root-409 makeStyles-listItem-406 MuiListItem-gutters-416"
         >
           <div
-            class="MuiGrid-root-21 makeStyles-root-401 makeStyles-enabledSett-402 MuiGrid-container-22"
+            class="MuiGrid-root-21 makeStyles-root-402 makeStyles-enabledSett-403 MuiGrid-container-22"
           >
             <div
-              class="MuiGrid-root-21 makeStyles-clickableSection-406 MuiGrid-container-22 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-9-92"
+              class="MuiGrid-root-21 makeStyles-clickableSection-407 MuiGrid-container-22 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-9-92"
             >
               <div
-                class="MuiGrid-root-21 makeStyles-name-404 MuiGrid-container-22 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-5-88"
+                class="MuiGrid-root-21 makeStyles-name-405 MuiGrid-container-22 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-5-88"
               >
                 <div
                   class="MuiGrid-root-21 MuiGrid-container-22"
                 >
                   <div
-                    class="MuiGrid-root-21 makeStyles-vaultIcon-420 MuiGrid-item-23"
+                    class="MuiGrid-root-21 makeStyles-vaultIcon-421 MuiGrid-item-23"
                   >
                     <img
                       alt="Badger Convex renBTC/wBTC Vault Symbol"
-                      class="makeStyles-symbol-419"
+                      class="makeStyles-symbol-420"
                       src="/assets/icons/bcrvrenbtc.png"
                     />
                   </div>
@@ -1795,11 +1790,11 @@ exports[`Landing Page Renders correctly 1`] = `
                           crvrenWBTC
                         </p>
                         <div
-                          class="MuiChip-root-422 makeStyles-chip-421 MuiChip-colorPrimary-424 MuiChip-sizeSmall-423"
+                          class="MuiChip-root-423 makeStyles-chip-422 MuiChip-colorPrimary-425 MuiChip-sizeSmall-424"
                           style="background-color: rgb(69, 156, 119); color: white;"
                         >
                           <span
-                            class="MuiChip-label-444 MuiChip-labelSmall-445"
+                            class="MuiChip-label-445 MuiChip-labelSmall-446"
                           >
                             Convex
                           </span>
@@ -1810,7 +1805,7 @@ exports[`Landing Page Renders correctly 1`] = `
                 </div>
               </div>
               <div
-                class="MuiGrid-root-21 makeStyles-mobileLabel-403 MuiGrid-item-23 MuiGrid-grid-xs-6-61 MuiGrid-grid-md-true-83"
+                class="MuiGrid-root-21 makeStyles-mobileLabel-404 MuiGrid-item-23 MuiGrid-grid-xs-6-61 MuiGrid-grid-md-true-83"
               >
                 <p
                   class="MuiTypography-root-129 MuiTypography-body2-130 MuiTypography-colorTextSecondary-155"
@@ -1822,13 +1817,13 @@ exports[`Landing Page Renders correctly 1`] = `
                 class="MuiGrid-root-21 MuiGrid-item-23 MuiGrid-grid-xs-6-61 MuiGrid-grid-md-true-83"
               >
                 <p
-                  class="MuiTypography-root-129 makeStyles-normalCursor-452 MuiTypography-body1-131 MuiTypography-colorTextPrimary-154"
+                  class="MuiTypography-root-129 makeStyles-normalCursor-453 MuiTypography-body1-131 MuiTypography-colorTextPrimary-154"
                 >
                   4.81% - 58.44%
                 </p>
               </div>
               <div
-                class="MuiGrid-root-21 makeStyles-mobileLabel-403 MuiGrid-item-23 MuiGrid-grid-xs-6-61 MuiGrid-grid-md-true-83"
+                class="MuiGrid-root-21 makeStyles-mobileLabel-404 MuiGrid-item-23 MuiGrid-grid-xs-6-61 MuiGrid-grid-md-true-83"
               >
                 <p
                   class="MuiTypography-root-129 MuiTypography-body2-130 MuiTypography-colorTextSecondary-155"
@@ -1849,13 +1844,13 @@ exports[`Landing Page Renders correctly 1`] = `
               </div>
             </div>
             <div
-              class="MuiGrid-root-21 makeStyles-nonClickableSection-407 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-true-83"
+              class="MuiGrid-root-21 makeStyles-nonClickableSection-408 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-true-83"
             >
               <div
-                class="MuiBox-root-456 MuiBox-root-486 makeStyles-container-453"
+                class="MuiBox-root-457 MuiBox-root-487 makeStyles-container-454"
               >
                 <button
-                  class="MuiButtonBase-root-256 MuiButton-root-227 MuiButton-contained-235 makeStyles-button-454 makeStyles-deposit-455 MuiButton-containedPrimary-236"
+                  class="MuiButtonBase-root-256 MuiButton-root-227 MuiButton-contained-235 makeStyles-button-455 makeStyles-deposit-456 MuiButton-containedPrimary-236"
                   tabindex="0"
                   type="button"
                 >
@@ -1865,11 +1860,11 @@ exports[`Landing Page Renders correctly 1`] = `
                     Deposit
                   </span>
                   <span
-                    class="MuiTouchRipple-root-490"
+                    class="MuiTouchRipple-root-491"
                   />
                 </button>
                 <button
-                  class="MuiButtonBase-root-256 MuiButton-root-227 MuiButton-outlined-232 makeStyles-button-454 MuiButton-outlinedPrimary-233 MuiButton-disabled-240 WithStyles(ForwardRef(Button))-disabled-458 MuiButtonBase-disabled-257"
+                  class="MuiButtonBase-root-256 MuiButton-root-227 MuiButton-outlined-232 makeStyles-button-455 MuiButton-outlinedPrimary-233 MuiButton-disabled-240 WithStyles(ForwardRef(Button))-disabled-459 MuiButtonBase-disabled-257"
                   disabled=""
                   tabindex="-1"
                   type="button"
@@ -1885,26 +1880,26 @@ exports[`Landing Page Renders correctly 1`] = `
           </div>
         </li>
         <li
-          class="MuiListItem-root-408 makeStyles-listItem-405 MuiListItem-gutters-415"
+          class="MuiListItem-root-409 makeStyles-listItem-406 MuiListItem-gutters-416"
         >
           <div
-            class="MuiGrid-root-21 makeStyles-root-401 makeStyles-enabledSett-402 MuiGrid-container-22"
+            class="MuiGrid-root-21 makeStyles-root-402 makeStyles-enabledSett-403 MuiGrid-container-22"
           >
             <div
-              class="MuiGrid-root-21 makeStyles-clickableSection-406 MuiGrid-container-22 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-9-92"
+              class="MuiGrid-root-21 makeStyles-clickableSection-407 MuiGrid-container-22 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-9-92"
             >
               <div
-                class="MuiGrid-root-21 makeStyles-name-404 MuiGrid-container-22 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-5-88"
+                class="MuiGrid-root-21 makeStyles-name-405 MuiGrid-container-22 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-5-88"
               >
                 <div
                   class="MuiGrid-root-21 MuiGrid-container-22"
                 >
                   <div
-                    class="MuiGrid-root-21 makeStyles-vaultIcon-420 MuiGrid-item-23"
+                    class="MuiGrid-root-21 makeStyles-vaultIcon-421 MuiGrid-item-23"
                   >
                     <img
                       alt="Badger Convex tBTC/sBTC Vault Symbol"
-                      class="makeStyles-symbol-419"
+                      class="makeStyles-symbol-420"
                       src="/assets/icons/bcrvtbtc.png"
                     />
                   </div>
@@ -1928,11 +1923,11 @@ exports[`Landing Page Renders correctly 1`] = `
                           crvtBTC
                         </p>
                         <div
-                          class="MuiChip-root-422 makeStyles-chip-421 MuiChip-colorPrimary-424 MuiChip-sizeSmall-423"
+                          class="MuiChip-root-423 makeStyles-chip-422 MuiChip-colorPrimary-425 MuiChip-sizeSmall-424"
                           style="background-color: rgb(69, 156, 119); color: white;"
                         >
                           <span
-                            class="MuiChip-label-444 MuiChip-labelSmall-445"
+                            class="MuiChip-label-445 MuiChip-labelSmall-446"
                           >
                             Convex
                           </span>
@@ -1943,7 +1938,7 @@ exports[`Landing Page Renders correctly 1`] = `
                 </div>
               </div>
               <div
-                class="MuiGrid-root-21 makeStyles-mobileLabel-403 MuiGrid-item-23 MuiGrid-grid-xs-6-61 MuiGrid-grid-md-true-83"
+                class="MuiGrid-root-21 makeStyles-mobileLabel-404 MuiGrid-item-23 MuiGrid-grid-xs-6-61 MuiGrid-grid-md-true-83"
               >
                 <p
                   class="MuiTypography-root-129 MuiTypography-body2-130 MuiTypography-colorTextSecondary-155"
@@ -1955,13 +1950,13 @@ exports[`Landing Page Renders correctly 1`] = `
                 class="MuiGrid-root-21 MuiGrid-item-23 MuiGrid-grid-xs-6-61 MuiGrid-grid-md-true-83"
               >
                 <p
-                  class="MuiTypography-root-129 makeStyles-normalCursor-452 MuiTypography-body1-131 MuiTypography-colorTextPrimary-154"
+                  class="MuiTypography-root-129 makeStyles-normalCursor-453 MuiTypography-body1-131 MuiTypography-colorTextPrimary-154"
                 >
                   8.25% - 24.93%
                 </p>
               </div>
               <div
-                class="MuiGrid-root-21 makeStyles-mobileLabel-403 MuiGrid-item-23 MuiGrid-grid-xs-6-61 MuiGrid-grid-md-true-83"
+                class="MuiGrid-root-21 makeStyles-mobileLabel-404 MuiGrid-item-23 MuiGrid-grid-xs-6-61 MuiGrid-grid-md-true-83"
               >
                 <p
                   class="MuiTypography-root-129 MuiTypography-body2-130 MuiTypography-colorTextSecondary-155"
@@ -1982,13 +1977,13 @@ exports[`Landing Page Renders correctly 1`] = `
               </div>
             </div>
             <div
-              class="MuiGrid-root-21 makeStyles-nonClickableSection-407 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-true-83"
+              class="MuiGrid-root-21 makeStyles-nonClickableSection-408 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-true-83"
             >
               <div
-                class="MuiBox-root-456 MuiBox-root-487 makeStyles-container-453"
+                class="MuiBox-root-457 MuiBox-root-488 makeStyles-container-454"
               >
                 <button
-                  class="MuiButtonBase-root-256 MuiButton-root-227 MuiButton-contained-235 makeStyles-button-454 makeStyles-deposit-455 MuiButton-containedPrimary-236"
+                  class="MuiButtonBase-root-256 MuiButton-root-227 MuiButton-contained-235 makeStyles-button-455 makeStyles-deposit-456 MuiButton-containedPrimary-236"
                   tabindex="0"
                   type="button"
                 >
@@ -1998,11 +1993,11 @@ exports[`Landing Page Renders correctly 1`] = `
                     Deposit
                   </span>
                   <span
-                    class="MuiTouchRipple-root-490"
+                    class="MuiTouchRipple-root-491"
                   />
                 </button>
                 <button
-                  class="MuiButtonBase-root-256 MuiButton-root-227 MuiButton-outlined-232 makeStyles-button-454 MuiButton-outlinedPrimary-233 MuiButton-disabled-240 WithStyles(ForwardRef(Button))-disabled-458 MuiButtonBase-disabled-257"
+                  class="MuiButtonBase-root-256 MuiButton-root-227 MuiButton-outlined-232 makeStyles-button-455 MuiButton-outlinedPrimary-233 MuiButton-disabled-240 WithStyles(ForwardRef(Button))-disabled-459 MuiButtonBase-disabled-257"
                   disabled=""
                   tabindex="-1"
                   type="button"
@@ -2018,26 +2013,26 @@ exports[`Landing Page Renders correctly 1`] = `
           </div>
         </li>
         <li
-          class="MuiListItem-root-408 makeStyles-listItem-405 MuiListItem-gutters-415"
+          class="MuiListItem-root-409 makeStyles-listItem-406 MuiListItem-gutters-416"
         >
           <div
-            class="MuiGrid-root-21 makeStyles-root-401 makeStyles-enabledSett-402 MuiGrid-container-22"
+            class="MuiGrid-root-21 makeStyles-root-402 makeStyles-enabledSett-403 MuiGrid-container-22"
           >
             <div
-              class="MuiGrid-root-21 makeStyles-clickableSection-406 MuiGrid-container-22 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-9-92"
+              class="MuiGrid-root-21 makeStyles-clickableSection-407 MuiGrid-container-22 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-9-92"
             >
               <div
-                class="MuiGrid-root-21 makeStyles-name-404 MuiGrid-container-22 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-5-88"
+                class="MuiGrid-root-21 makeStyles-name-405 MuiGrid-container-22 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-5-88"
               >
                 <div
                   class="MuiGrid-root-21 MuiGrid-container-22"
                 >
                   <div
-                    class="MuiGrid-root-21 makeStyles-vaultIcon-420 MuiGrid-item-23"
+                    class="MuiGrid-root-21 makeStyles-vaultIcon-421 MuiGrid-item-23"
                   >
                     <img
                       alt="Badger Uniswap Wrapped BTC/Badger Vault Symbol"
-                      class="makeStyles-symbol-419"
+                      class="makeStyles-symbol-420"
                       src="/assets/icons/bbadger-wbtc.png"
                     />
                   </div>
@@ -2061,11 +2056,11 @@ exports[`Landing Page Renders correctly 1`] = `
                           BADGER-WBTC
                         </p>
                         <div
-                          class="MuiChip-root-422 makeStyles-chip-421 MuiChip-colorPrimary-424 MuiChip-sizeSmall-423"
+                          class="MuiChip-root-423 makeStyles-chip-422 MuiChip-colorPrimary-425 MuiChip-sizeSmall-424"
                           style="background-color: rgb(252, 7, 125); color: white;"
                         >
                           <span
-                            class="MuiChip-label-444 MuiChip-labelSmall-445"
+                            class="MuiChip-label-445 MuiChip-labelSmall-446"
                           >
                             Uniswap
                           </span>
@@ -2076,7 +2071,7 @@ exports[`Landing Page Renders correctly 1`] = `
                 </div>
               </div>
               <div
-                class="MuiGrid-root-21 makeStyles-mobileLabel-403 MuiGrid-item-23 MuiGrid-grid-xs-6-61 MuiGrid-grid-md-true-83"
+                class="MuiGrid-root-21 makeStyles-mobileLabel-404 MuiGrid-item-23 MuiGrid-grid-xs-6-61 MuiGrid-grid-md-true-83"
               >
                 <p
                   class="MuiTypography-root-129 MuiTypography-body2-130 MuiTypography-colorTextSecondary-155"
@@ -2088,13 +2083,13 @@ exports[`Landing Page Renders correctly 1`] = `
                 class="MuiGrid-root-21 MuiGrid-item-23 MuiGrid-grid-xs-6-61 MuiGrid-grid-md-true-83"
               >
                 <p
-                  class="MuiTypography-root-129 makeStyles-normalCursor-452 MuiTypography-body1-131 MuiTypography-colorTextPrimary-154"
+                  class="MuiTypography-root-129 makeStyles-normalCursor-453 MuiTypography-body1-131 MuiTypography-colorTextPrimary-154"
                 >
                   45.14%
                 </p>
               </div>
               <div
-                class="MuiGrid-root-21 makeStyles-mobileLabel-403 MuiGrid-item-23 MuiGrid-grid-xs-6-61 MuiGrid-grid-md-true-83"
+                class="MuiGrid-root-21 makeStyles-mobileLabel-404 MuiGrid-item-23 MuiGrid-grid-xs-6-61 MuiGrid-grid-md-true-83"
               >
                 <p
                   class="MuiTypography-root-129 MuiTypography-body2-130 MuiTypography-colorTextSecondary-155"
@@ -2115,13 +2110,13 @@ exports[`Landing Page Renders correctly 1`] = `
               </div>
             </div>
             <div
-              class="MuiGrid-root-21 makeStyles-nonClickableSection-407 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-true-83"
+              class="MuiGrid-root-21 makeStyles-nonClickableSection-408 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-true-83"
             >
               <div
-                class="MuiBox-root-456 MuiBox-root-488 makeStyles-container-453"
+                class="MuiBox-root-457 MuiBox-root-489 makeStyles-container-454"
               >
                 <button
-                  class="MuiButtonBase-root-256 MuiButton-root-227 MuiButton-contained-235 makeStyles-button-454 makeStyles-deposit-455 MuiButton-containedPrimary-236"
+                  class="MuiButtonBase-root-256 MuiButton-root-227 MuiButton-contained-235 makeStyles-button-455 makeStyles-deposit-456 MuiButton-containedPrimary-236"
                   tabindex="0"
                   type="button"
                 >
@@ -2131,11 +2126,11 @@ exports[`Landing Page Renders correctly 1`] = `
                     Deposit
                   </span>
                   <span
-                    class="MuiTouchRipple-root-490"
+                    class="MuiTouchRipple-root-491"
                   />
                 </button>
                 <button
-                  class="MuiButtonBase-root-256 MuiButton-root-227 MuiButton-outlined-232 makeStyles-button-454 MuiButton-outlinedPrimary-233 MuiButton-disabled-240 WithStyles(ForwardRef(Button))-disabled-458 MuiButtonBase-disabled-257"
+                  class="MuiButtonBase-root-256 MuiButton-root-227 MuiButton-outlined-232 makeStyles-button-455 MuiButton-outlinedPrimary-233 MuiButton-disabled-240 WithStyles(ForwardRef(Button))-disabled-459 MuiButtonBase-disabled-257"
                   disabled=""
                   tabindex="-1"
                   type="button"
@@ -2151,26 +2146,26 @@ exports[`Landing Page Renders correctly 1`] = `
           </div>
         </li>
         <li
-          class="MuiListItem-root-408 makeStyles-listItem-405 MuiListItem-gutters-415"
+          class="MuiListItem-root-409 makeStyles-listItem-406 MuiListItem-gutters-416"
         >
           <div
-            class="MuiGrid-root-21 makeStyles-root-401 makeStyles-enabledSett-402 MuiGrid-container-22"
+            class="MuiGrid-root-21 makeStyles-root-402 makeStyles-enabledSett-403 MuiGrid-container-22"
           >
             <div
-              class="MuiGrid-root-21 makeStyles-clickableSection-406 MuiGrid-container-22 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-9-92"
+              class="MuiGrid-root-21 makeStyles-clickableSection-407 MuiGrid-container-22 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-9-92"
             >
               <div
-                class="MuiGrid-root-21 makeStyles-name-404 MuiGrid-container-22 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-5-88"
+                class="MuiGrid-root-21 makeStyles-name-405 MuiGrid-container-22 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-5-88"
               >
                 <div
                   class="MuiGrid-root-21 MuiGrid-container-22"
                 >
                   <div
-                    class="MuiGrid-root-21 makeStyles-vaultIcon-420 MuiGrid-item-23"
+                    class="MuiGrid-root-21 makeStyles-vaultIcon-421 MuiGrid-item-23"
                   >
                     <img
                       alt="Badger Harvest renBTC/wBTC Vault Symbol"
-                      class="makeStyles-symbol-419"
+                      class="makeStyles-symbol-420"
                       src="/assets/icons/bcrvhrenbtc.png"
                     />
                   </div>
@@ -2194,11 +2189,11 @@ exports[`Landing Page Renders correctly 1`] = `
                           crvrenWBTC
                         </p>
                         <div
-                          class="MuiChip-root-422 makeStyles-chip-421 MuiChip-colorPrimary-424 MuiChip-sizeSmall-423"
+                          class="MuiChip-root-423 makeStyles-chip-422 MuiChip-colorPrimary-425 MuiChip-sizeSmall-424"
                           style="background-color: rgb(238, 191, 101);"
                         >
                           <span
-                            class="MuiChip-label-444 MuiChip-labelSmall-445"
+                            class="MuiChip-label-445 MuiChip-labelSmall-446"
                           >
                             Harvest
                           </span>
@@ -2209,7 +2204,7 @@ exports[`Landing Page Renders correctly 1`] = `
                 </div>
               </div>
               <div
-                class="MuiGrid-root-21 makeStyles-mobileLabel-403 MuiGrid-item-23 MuiGrid-grid-xs-6-61 MuiGrid-grid-md-true-83"
+                class="MuiGrid-root-21 makeStyles-mobileLabel-404 MuiGrid-item-23 MuiGrid-grid-xs-6-61 MuiGrid-grid-md-true-83"
               >
                 <p
                   class="MuiTypography-root-129 MuiTypography-body2-130 MuiTypography-colorTextSecondary-155"
@@ -2221,13 +2216,13 @@ exports[`Landing Page Renders correctly 1`] = `
                 class="MuiGrid-root-21 MuiGrid-item-23 MuiGrid-grid-xs-6-61 MuiGrid-grid-md-true-83"
               >
                 <p
-                  class="MuiTypography-root-129 makeStyles-normalCursor-452 MuiTypography-body1-131 MuiTypography-colorTextPrimary-154"
+                  class="MuiTypography-root-129 makeStyles-normalCursor-453 MuiTypography-body1-131 MuiTypography-colorTextPrimary-154"
                 >
                   4.65%
                 </p>
               </div>
               <div
-                class="MuiGrid-root-21 makeStyles-mobileLabel-403 MuiGrid-item-23 MuiGrid-grid-xs-6-61 MuiGrid-grid-md-true-83"
+                class="MuiGrid-root-21 makeStyles-mobileLabel-404 MuiGrid-item-23 MuiGrid-grid-xs-6-61 MuiGrid-grid-md-true-83"
               >
                 <p
                   class="MuiTypography-root-129 MuiTypography-body2-130 MuiTypography-colorTextSecondary-155"
@@ -2248,13 +2243,13 @@ exports[`Landing Page Renders correctly 1`] = `
               </div>
             </div>
             <div
-              class="MuiGrid-root-21 makeStyles-nonClickableSection-407 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-true-83"
+              class="MuiGrid-root-21 makeStyles-nonClickableSection-408 MuiGrid-item-23 MuiGrid-grid-xs-12-67 MuiGrid-grid-md-true-83"
             >
               <div
-                class="MuiBox-root-456 MuiBox-root-489 makeStyles-container-453"
+                class="MuiBox-root-457 MuiBox-root-490 makeStyles-container-454"
               >
                 <button
-                  class="MuiButtonBase-root-256 MuiButton-root-227 MuiButton-contained-235 makeStyles-button-454 makeStyles-deposit-455 MuiButton-containedPrimary-236"
+                  class="MuiButtonBase-root-256 MuiButton-root-227 MuiButton-contained-235 makeStyles-button-455 makeStyles-deposit-456 MuiButton-containedPrimary-236"
                   tabindex="0"
                   type="button"
                 >
@@ -2264,11 +2259,11 @@ exports[`Landing Page Renders correctly 1`] = `
                     Deposit
                   </span>
                   <span
-                    class="MuiTouchRipple-root-490"
+                    class="MuiTouchRipple-root-491"
                   />
                 </button>
                 <button
-                  class="MuiButtonBase-root-256 MuiButton-root-227 MuiButton-outlined-232 makeStyles-button-454 MuiButton-outlinedPrimary-233 MuiButton-disabled-240 WithStyles(ForwardRef(Button))-disabled-458 MuiButtonBase-disabled-257"
+                  class="MuiButtonBase-root-256 MuiButton-root-227 MuiButton-outlined-232 makeStyles-button-455 MuiButton-outlinedPrimary-233 MuiButton-disabled-240 WithStyles(ForwardRef(Button))-disabled-459 MuiButtonBase-disabled-257"
                   disabled=""
                   tabindex="-1"
                   type="button"
