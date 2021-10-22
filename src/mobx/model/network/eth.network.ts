@@ -38,6 +38,8 @@ export class Ethereum extends Network {
 			this.deploy.sett_system.vaults['native.sushiibBTCwBTC'],
 			this.deploy.sett_system.vaults['native.sushiBadgerWbtc'],
 			this.deploy.sett_system.vaults['native.sushiDiggWbtc'],
+			this.deploy.sett_system.vaults['native.imBtc'],
+			this.deploy.sett_system.vaults['native.fPmBtcHBtc'],
 			this.deploy.sett_system.vaults['native.cvxCrv'],
 			this.deploy.sett_system.vaults['native.tricryptoCrv2'],
 			this.deploy.sett_system.vaults['native.sbtcCrv'],
@@ -55,9 +57,6 @@ export class Ethereum extends Network {
 			this.deploy.sett_system.vaults['native.tricryptoCrv'],
 			...(FLAGS.STABILIZATION_SETTS ? [this.deploy.sett_system.vaults['experimental.digg']] : []),
 			...(FLAGS.RENBTC_SETT ? [this.deploy.sett_system.vaults['native.renBtc']] : []),
-			...(FLAGS.MSTABLE_SETT
-				? [this.deploy.sett_system.vaults['native.imBtc'], this.deploy.sett_system.vaults['native.fPmBtcHBtc']]
-				: []),
 		];
 	}
 
