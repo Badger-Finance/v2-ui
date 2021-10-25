@@ -1,6 +1,6 @@
 # v2 UI Changelog
 
-### 10/25/2021
+### Hotfix - 10/25/2021
 
 - update digg oracle to chainlink forwarder
 
