@@ -14,13 +14,11 @@ import { NotifyLink } from '../system-config/notifyLink';
 import { BadgerSett } from '../vaults/badger-sett';
 import { AirdropNetworkConfig } from './airdrop-network-config';
 // TODO: the naming irony here is not lost - temporary gap for sdk integrations @jintao
-import { BadgerAPI, GasPrices, Network as ChainNetwork, SettState } from '@badger-dao/sdk';
-import { BADGER_API } from 'mobx/utils/apiV2';
+import { Network as ChainNetwork, SettState } from '@badger-dao/sdk';
 
 export abstract class Network {
 	private static idToNetwork: Record<number, Network> = {};
 	private static symbolToNetwork: Record<string, Network> = {};
-	readonly api: BadgerAPI;
 	readonly rpc: string;
 	readonly gasProviderUrl: string;
 	readonly explorer: string;
@@ -50,7 +48,6 @@ export abstract class Network {
 		notificationLink?: string,
 	) {
 		this.rpc = rpc[symbol];
-		this.api = new BadgerAPI(id, BADGER_API);
 		this.gasProviderUrl = gasProviderUrl;
 		this.explorer = explorer;
 		this.name = name;
@@ -90,10 +87,6 @@ export abstract class Network {
 
 	get settOrder(): string[] {
 		return this.setts.map((s) => s.vaultToken.address);
-	}
-
-	async updateGasPrices(): Promise<GasPrices> {
-		return this.api.loadGasPrices();
 	}
 
 	notifyLink(transaction: TransactionData): NotifyLink {

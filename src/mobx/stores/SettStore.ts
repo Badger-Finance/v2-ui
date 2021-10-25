@@ -138,7 +138,7 @@ export default class SettStore {
 
 	loadSetts = action(
 		async (chain = Network.Ethereum): Promise<void> => {
-			const settList = await this.store.network.network.api.loadSetts(Currency.ETH);
+			const settList = await this.store.api.loadSetts(Currency.ETH);
 
 			if (settList) {
 				this.settCache[chain] = Object.fromEntries(settList.map((sett) => [sett.settToken, sett]));
@@ -154,7 +154,7 @@ export default class SettStore {
 
 	loadTokens = action(
 		async (chain = Network.Ethereum): Promise<void> => {
-			const tokenConfig = await this.store.network.network.api.loadTokens();
+			const tokenConfig = await this.store.api.loadTokens();
 			if (tokenConfig) {
 				this.tokenCache[chain] = tokenConfig;
 			} else {
@@ -165,7 +165,7 @@ export default class SettStore {
 
 	loadAssets = action(
 		async (chain = Network.Ethereum): Promise<void> => {
-			const protocolSummary = await this.store.network.network.api.loadProtocolSummary(Currency.ETH);
+			const protocolSummary = await this.store.api.loadProtocolSummary(Currency.ETH);
 
 			if (protocolSummary) {
 				this.protocolSummaryCache[chain] = protocolSummary;

@@ -3,14 +3,13 @@ import { Grid, makeStyles, Typography, useMediaQuery, useTheme } from '@material
 import { HoldingItem } from './HoldingItem';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../../mobx/store-context';
-import { SettBalance } from '../../../mobx/model/setts/sett-balance';
 import { HoldingsActionButtons } from './HoldingsActionButtons';
 import { NoHoldings } from './NoHoldings';
 import { BadgerSett } from '../../../mobx/model/vaults/badger-sett';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { hasBalance } from '../utils';
 import { TokenDistributionIcon } from './TokenDistributionIcon';
-import { Sett } from '@badger-dao/sdk';
+import { Sett, SettData } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
 	settInfoTitle: {
@@ -28,7 +27,7 @@ interface Props {
 	sett: Sett;
 	badgerSett: BadgerSett;
 	tokenBalance: TokenBalance;
-	settBalance: SettBalance;
+	settBalance: SettData;
 }
 
 export const Holdings = observer(({ tokenBalance, settBalance, sett, badgerSett }: Props): JSX.Element | null => {

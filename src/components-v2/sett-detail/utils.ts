@@ -41,6 +41,8 @@ export function defaultSettBalance(sett: Sett): SettData {
 		earnedValue: 0,
 		depositedBalance: 0,
 		withdrawnBalance: 0,
+		tokens: [],
+		earnedTokens: [],
 	};
 }
 

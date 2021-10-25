@@ -56,7 +56,7 @@ export default class PricesStore {
 
 	loadPrices = action(
 		async (network = Network.Ethereum): Promise<void> => {
-			const prices = await this.store.network.network.api.loadPrices(Currency.ETH);
+			const prices = await this.store.api.loadPrices(Currency.ETH);
 			if (prices) {
 				this.priceCache = {
 					...this.priceCache,

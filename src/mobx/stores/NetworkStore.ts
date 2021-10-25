@@ -69,7 +69,7 @@ export class NetworkStore {
 	});
 
 	updateGasPrices = action(async () => {
-		this.gasPrices = await this.network.updateGasPrices();
+		this.gasPrices = await this.store.api.loadGasPrices();
 	});
 
 	getCurrentBlock = action(async () => {

@@ -280,7 +280,6 @@ export default class UserStore {
 				return;
 			}
 			this.refreshProvider();
-			// console.log(batchRequests);
 			const callResults: CallResult[] = await this.batchCall.execute(batchRequests);
 			if (DEBUG) {
 				console.log({ network: network.symbol, callResults });
@@ -451,7 +450,7 @@ export default class UserStore {
 	loadBouncerProof = action(
 		async (address: string): Promise<void> => {
 			try {
-				const proof = await this.store.network.network.api.loadProof(address);
+				const proof = await this.store.api.loadProof(address);
 				if (proof) {
 					this.bouncerProof = proof;
 				}
@@ -473,7 +472,7 @@ export default class UserStore {
 
 	loadAccountDetails = action(
 		async (address: string): Promise<void> => {
-			const accountDetails = await this.store.network.network.api.loadAccount(address);
+			const accountDetails = await this.store.api.loadAccount(address);
 			if (accountDetails) {
 				this.accountDetails = accountDetails;
 			}
