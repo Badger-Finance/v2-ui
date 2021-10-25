@@ -10,9 +10,21 @@ import { extendObservable, observe } from 'mobx';
 import BigNumber from 'bignumber.js';
 import { NETWORK_IDS, ZERO_ADDR } from 'config/constants';
 import VotiumMerkleTreeAbi from '../../config/system/abis/VotiumMerkleTree.json';
-import { VotiumMerkleTree, VotiumTreeEntry } from '../model/rewards/votium-merkle-tree';
+import { VotiumGithubTreeInformation, VotiumMerkleTree, VotiumTreeEntry } from '../model/rewards/votium-merkle-tree';
+import { fetchData } from '../../utils/fetchData';
+
+// this is mainnet only
+const votiumRewardsContractAddress = '0x378Ba9B73309bE80BF4C2c027aAD799766a7ED5A';
+
+// This is Votium's Github repository URL, we use it to fetch their latest version of their rewards merkle tree.
+const votiumMerkleTreeUrl = 'https://api.github.com/repos/oo-00/Votium/git/trees/main?recursive=1';
+
+// We use the raw content API from Github to get the content of the merkle tree
+const rawVotiumMerkleTreeUrl = 'https://raw.githubusercontent.com/oo-00/Votium/main';
 
 const ID_TO_DELEGATE = '0x6376782e657468'; // cvx.eth in hex
+
+// this is Badger's address that we ask users to delegate to
 const BADGER_DELEGATE_ADDRESS = '0x14F83fF95D4Ec5E8812DDf42DA1232b0ba1015e6';
 
 class LockedCvxDelegationStore {
@@ -46,6 +58,22 @@ class LockedCvxDelegationStore {
 		});
 	}
 
+	get shouldBannerBeDisplayed(): boolean {
+		if (this.store.network.network.id !== NETWORK_IDS.ETH || !this.delegationState) {
+			return false;
+		}
+
+		return this.delegationState === DelegationState.Ineligible;
+	}
+
+	get canUserDelegate(): boolean {
+		if (this.store.network.network.id !== NETWORK_IDS.ETH || !this.delegationState) {
+			return false;
+		}
+
+		return this.delegationState === DelegationState.Eligible || this.delegationState === DelegationState.Delegated;
+	}
+
 	async loadLockedCvxBalance(): Promise<void> {
 		const {
 			network: { network },
@@ -70,11 +98,11 @@ class LockedCvxDelegationStore {
 	 * gets votium merkle tree from the votium Github repositories
 	 */
 	async getVotiumMerkleTree(): Promise<VotiumMerkleTree> {
-		const votiumRepoContentRequest = await fetch(
-			'https://api.github.com/repos/oo-00/Votium/git/trees/main?recursive=1',
-		);
+		const [votiumRepoContent] = await fetchData<VotiumGithubTreeInformation>(votiumMerkleTreeUrl);
 
-		const votiumRepoContent = await votiumRepoContentRequest.json();
+		if (!votiumRepoContent) {
+			throw new Error('Votium Merkle Tree not available');
+		}
 
 		const badgerMerkleTreeFiles: VotiumTreeEntry[] = votiumRepoContent.tree.filter((content: VotiumTreeEntry) =>
 			content.path.includes('merkle/BADGER/'),
@@ -82,9 +110,7 @@ class LockedCvxDelegationStore {
 
 		const latestMerkleTree = badgerMerkleTreeFiles[badgerMerkleTreeFiles.length - 1];
 
-		const merkleTreeContentRequest = await fetch(
-			`https://raw.githubusercontent.com/oo-00/Votium/main/${latestMerkleTree.path}`,
-		);
+		const merkleTreeContentRequest = await fetch(`${rawVotiumMerkleTreeUrl}/${latestMerkleTree.path}`);
 
 		return await merkleTreeContentRequest.json();
 	}
@@ -115,7 +141,7 @@ class LockedCvxDelegationStore {
 		const web3 = new Web3(provider);
 		const votiumMerkleTreeContract = new web3.eth.Contract(
 			VotiumMerkleTreeAbi as AbiItem[],
-			mainnet.votium.merkleTree,
+			votiumRewardsContractAddress,
 		);
 
 		const claimedEvents = await votiumMerkleTreeContract.getPastEvents('Claimed', {
@@ -148,7 +174,7 @@ class LockedCvxDelegationStore {
 
 		const votiumMerkleTreeContract = new web3.eth.Contract(
 			VotiumMerkleTreeAbi as AbiItem[],
-			mainnet.votium.merkleTree,
+			votiumRewardsContractAddress,
 		);
 
 		const isClaimed = await votiumMerkleTreeContract.methods
@@ -168,7 +194,7 @@ class LockedCvxDelegationStore {
 			wallet: { provider, connectedAddress },
 		} = this.store;
 
-		if (network.id !== NETWORK_IDS.ETH || !this.lockedCVXBalance) {
+		if (network.id !== NETWORK_IDS.ETH || !this.lockedCVXBalance || !connectedAddress) {
 			return;
 		}
 
@@ -212,16 +238,7 @@ class LockedCvxDelegationStore {
 		}
 
 		const web3 = new Web3(provider);
-		const votiumMerkleTree = new web3.eth.Contract(VotiumMerkleTreeAbi as AbiItem[], mainnet.votium.merkleTree);
-
-		const isClaimed: boolean = await votiumMerkleTree.methods
-			.isClaimed(mainnet.tokens.badger, merkleTreeClaim.index)
-			.call();
-
-		if (isClaimed) {
-			console.error('Rewards are already claimed');
-			return;
-		}
+		const votiumMerkleTree = new web3.eth.Contract(VotiumMerkleTreeAbi as AbiItem[], votiumRewardsContractAddress);
 
 		const { index, amount, proof } = merkleTreeClaim;
 

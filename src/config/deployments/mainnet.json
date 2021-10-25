@@ -240,8 +240,5 @@
 			"SwapStrategyRouter": "0x2cb501d371ba2248BB48455D3293d47cE773E0F7",
 			"CurveSwapStrategy": "0x883c6631248605Ee33E99060B7E8910D3dAB2Cf3"
 		}
-	},
-	"votium": {
-		"merkleTree": "0x378Ba9B73309bE80BF4C2c027aAD799766a7ED5A"
 	}
 }

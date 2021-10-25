@@ -13,3 +13,7 @@ export interface VotiumMerkleTreeClaim {
 export interface VotiumTreeEntry {
 	path: string;
 }
+
+export interface VotiumGithubTreeInformation {
+	tree: VotiumTreeEntry[];
+}
