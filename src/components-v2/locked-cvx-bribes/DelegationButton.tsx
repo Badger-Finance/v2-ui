@@ -18,10 +18,7 @@ const DelegationButton = observer(() => {
 	const { lockedCvxDelegation } = React.useContext(StoreContext);
 
 	const classes = useStyles();
-	const { delegationState } = lockedCvxDelegation;
-
-	const canUserDelegateLockedCVX =
-		delegationState === DelegationState.Eligible || delegationState === DelegationState.Delegated;
+	const { delegationState, canUserDelegate } = lockedCvxDelegation;
 
 	if (delegationState === DelegationState.BadgerDelegated) {
 		return (
@@ -42,7 +39,7 @@ const DelegationButton = observer(() => {
 			size="small"
 			variant="contained"
 			color="primary"
-			disabled={!canUserDelegateLockedCVX}
+			disabled={!canUserDelegate}
 			onClick={() => lockedCvxDelegation.delegateLockedCVX()}
 		>
 			Delegate to Badger

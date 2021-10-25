@@ -5,8 +5,6 @@ import Delegation from './Delegation';
 import Earnings from './Earnings';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
-import { NETWORK_IDS } from '../../config/constants';
-import { DelegationState } from '../../mobx/model/setts/locked-cvx-delegation';
 
 export const SAFE_BOX_ILLUSTRATION_BREAKPOINT = 1350;
 
@@ -82,13 +80,12 @@ const useStyles = makeStyles((theme) => ({
 
 const Banner = (): JSX.Element | null => {
 	const {
-		lockedCvxDelegation: { delegationState },
-		network: { network },
+		lockedCvxDelegation: { shouldBannerBeDisplayed },
 	} = useContext(StoreContext);
 
 	const classes = useStyles();
 
-	if (network.id !== NETWORK_IDS.ETH || !delegationState || delegationState === DelegationState.Ineligible) {
+	if (!shouldBannerBeDisplayed) {
 		return null;
 	}
 
