@@ -16,10 +16,10 @@ import { fetchData } from '../../utils/fetchData';
 // this is mainnet only
 const votiumRewardsContractAddress = '0x378Ba9B73309bE80BF4C2c027aAD799766a7ED5A';
 
-// This is Votium's Github repository URL, we use it to fetch their latest version of their rewards merkle tree.
+// this is Votium's Github repository URL, we use it to fetch their latest version of their rewards merkle tree.
 const votiumMerkleTreeUrl = 'https://api.github.com/repos/oo-00/Votium/git/trees/main?recursive=1';
 
-// We use the raw content API from Github to get the content of the merkle tree
+// we use the raw content API from Github to get the content of the merkle tree
 const rawVotiumMerkleTreeUrl = 'https://raw.githubusercontent.com/oo-00/Votium/main';
 
 const ID_TO_DELEGATE = '0x6376782e657468'; // cvx.eth in hex
