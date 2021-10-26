@@ -25,7 +25,7 @@ const rawVotiumMerkleTreeUrl = 'https://raw.githubusercontent.com/oo-00/Votium/m
 const ID_TO_DELEGATE = '0x6376782e657468'; // cvx.eth in hex
 
 // this is Badger's address that we ask users to delegate to
-const BADGER_DELEGATE_ADDRESS = '0x14F83fF95D4Ec5E8812DDf42DA1232b0ba1015e6';
+const BADGER_DELEGATE_ENS = 'delegate.badgerdao.eth';
 
 class LockedCvxDelegationStore {
 	private store: RootStore;
@@ -63,7 +63,7 @@ class LockedCvxDelegationStore {
 			return false;
 		}
 
-		return this.delegationState === DelegationState.Ineligible;
+		return this.delegationState !== DelegationState.Ineligible;
 	}
 
 	get canUserDelegate(): boolean {
@@ -194,7 +194,7 @@ class LockedCvxDelegationStore {
 			wallet: { provider, connectedAddress },
 		} = this.store;
 
-		if (network.id !== NETWORK_IDS.ETH || !this.lockedCVXBalance || !connectedAddress) {
+		if (network.id !== NETWORK_IDS.ETH) {
 			return;
 		}
 
@@ -207,11 +207,12 @@ class LockedCvxDelegationStore {
 			return;
 		}
 
+		const badgerDelegateAddress = await web3.eth.ens.getAddress(BADGER_DELEGATE_ENS);
 		const cvxDelegator = new web3.eth.Contract(CvxDelegatorAbi as AbiItem[], mainnet.cvxDelegator);
 		const alreadyDelegatedAddress = await cvxDelegator.methods.delegation(connectedAddress, ID_TO_DELEGATE).call();
 
 		if (alreadyDelegatedAddress && alreadyDelegatedAddress !== ZERO_ADDR) {
-			const isBadgerDelegatedAddress = alreadyDelegatedAddress === BADGER_DELEGATE_ADDRESS;
+			const isBadgerDelegatedAddress = alreadyDelegatedAddress === badgerDelegateAddress;
 
 			this.delegationState = isBadgerDelegatedAddress
 				? DelegationState.BadgerDelegated
@@ -272,7 +273,8 @@ class LockedCvxDelegationStore {
 		const web3 = new Web3(provider);
 		const cvxDelegator = new web3.eth.Contract(CvxDelegatorAbi as AbiItem[], mainnet.cvxDelegator);
 
-		const setDelegate = cvxDelegator.methods.setDelegate(ID_TO_DELEGATE, BADGER_DELEGATE_ADDRESS);
+		const badgerDelegateAddress = await web3.eth.ens.getAddress(BADGER_DELEGATE_ENS);
+		const setDelegate = cvxDelegator.methods.setDelegate(ID_TO_DELEGATE, badgerDelegateAddress);
 		const options = await this.store.wallet.getMethodSendOptions(setDelegate);
 
 		queueNotification(`Sign the transaction to delegate your locked CVX`, 'info');
