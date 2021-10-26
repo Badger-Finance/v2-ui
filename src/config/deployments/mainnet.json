@@ -197,7 +197,7 @@
 		"marketMedianOracle": "0x058ec2bf15011095a25670b618a129c043e2162e",
 		"constantOracle": "0xed57725991983e407837ce4b3e0f0fa38bd161b6",
 		"centralizedOracle": "0x72dc16CFa95beB42aeebD2B10F22E55bD17Ce976",
-		"newCentralizedOracle": "0x73083058e0f61D3fc7814eEEDc39F9608B4546d7",
+		"chainlinkForwarder": "0xB572f69edbfC946af11a1b3ef8D5c2f41D38a642",
 		"daoDiggTimelock": "0x5A54Ca44e8F5A1A695f8621f15Bfa159a140bB61",
 		"diggTeamVesting": "0x124FD4A9bd4914b32c77C9AE51819b1181dbb3D4",
 		"diggDistributor": "0x5E79958EfbB8AFdeDB6EC7107110F329e4EAfffA",

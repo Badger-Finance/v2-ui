@@ -1,0 +1,89 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LockedCvxDelegationButton handles badger delegated state 1`] = `
+<div>
+  <div>
+    <button
+      class="MuiButtonBase-root-32 MuiButton-root-3 MuiButton-contained-11 MuiButton-containedPrimary-12 MuiButton-containedSizeSmall-22 MuiButton-sizeSmall-24 MuiButton-disabled-16 MuiButtonBase-disabled-33"
+      disabled=""
+      tabindex="-1"
+      type="button"
+    >
+      <span
+        class="MuiButton-label-4"
+      >
+        Delegate to Badger
+      </span>
+    </button>
+    <div
+      class="makeStyles-badgerDelegatedTextContainer-1"
+    >
+      <p
+        class="MuiTypography-root-35 makeStyles-badgerDelegatedText-2 MuiTypography-body1-37"
+      >
+        You've already delegated.
+      </p>
+      <p
+        class="MuiTypography-root-35 makeStyles-badgerDelegatedText-2 MuiTypography-body1-37"
+      >
+        Thanks, you're a top badger!
+      </p>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`LockedCvxDelegationButton handles delegated state 1`] = `
+<div>
+  <button
+    class="MuiButtonBase-root-32 MuiButton-root-3 MuiButton-contained-11 MuiButton-containedPrimary-12 MuiButton-containedSizeSmall-22 MuiButton-sizeSmall-24"
+    tabindex="0"
+    type="button"
+  >
+    <span
+      class="MuiButton-label-4"
+    >
+      Delegate to Badger
+    </span>
+    <span
+      class="MuiTouchRipple-root-35"
+    />
+  </button>
+</div>
+`;
+
+exports[`LockedCvxDelegationButton handles eligible state 1`] = `
+<div>
+  <button
+    class="MuiButtonBase-root-32 MuiButton-root-3 MuiButton-contained-11 MuiButton-containedPrimary-12 MuiButton-containedSizeSmall-22 MuiButton-sizeSmall-24"
+    tabindex="0"
+    type="button"
+  >
+    <span
+      class="MuiButton-label-4"
+    >
+      Delegate to Badger
+    </span>
+    <span
+      class="MuiTouchRipple-root-35"
+    />
+  </button>
+</div>
+`;
+
+exports[`LockedCvxDelegationButton handles ineligible state 1`] = `
+<div>
+  <button
+    class="MuiButtonBase-root-32 MuiButton-root-3 MuiButton-contained-11 MuiButton-containedPrimary-12 MuiButton-containedSizeSmall-22 MuiButton-sizeSmall-24 MuiButton-disabled-16 MuiButtonBase-disabled-33"
+    disabled=""
+    tabindex="-1"
+    type="button"
+  >
+    <span
+      class="MuiButton-label-4"
+    >
+      Delegate to Badger
+    </span>
+  </button>
+</div>
+`;
