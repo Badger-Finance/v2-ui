@@ -111,7 +111,7 @@ exports[`Locked CVX Delegation Banner renders correctly 1`] = `
               <h6
                 class="MuiTypography-root-40 makeStyles-statName-215 MuiTypography-subtitle1-51"
               >
-                Total
+                Total Claimed
               </h6>
               <div
                 class="MuiGrid-root-70 MuiGrid-container-71 MuiGrid-align-items-xs-center-79"
