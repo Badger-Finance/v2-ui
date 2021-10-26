@@ -1,0 +1,179 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Locked CVX Delegation Banner renders correctly 1`] = `
+<div>
+  <div
+    class="MuiPaper-root-12 MuiCard-root-11 makeStyles-root-1 MuiPaper-elevation1-16 MuiPaper-rounded-13"
+  >
+    <p
+      class="MuiTypography-root-40 makeStyles-title-3 MuiTypography-body1-42"
+    >
+      Delegate to Earn Rewards
+    </p>
+    <div
+      class="makeStyles-blueParticle-7"
+    />
+    <div
+      class="makeStyles-greenParticle-8"
+    />
+    <img
+      alt="diagonal-particles"
+      class="makeStyles-diagonalParticles-9"
+      src="assets/diagonal-particles.svg"
+    />
+    <div
+      class="MuiGrid-root-70 MuiGrid-container-71 MuiGrid-spacing-xs-3-95"
+    >
+      <div
+        class="MuiGrid-root-70 MuiGrid-container-71 MuiGrid-item-72 MuiGrid-grid-xs-12-116 MuiGrid-grid-sm-true-118"
+      >
+        <img
+          alt="cvx locked safebox illustration"
+          class="makeStyles-safeLockImageSm-6"
+          src="assets/locked-cvx-safebox-sm.png"
+        />
+        <div
+          class="makeStyles-descriptionSection-4"
+        >
+          <p
+            class="MuiTypography-root-40 makeStyles-descriptionText-10 MuiTypography-body1-42"
+          >
+            Earn a portion of the Votium incentives by simply delegating your Vote Locked Convex to Badger today.
+          </p>
+        </div>
+        <div
+          class="MuiPaper-root-12 MuiCard-root-11 MuiGrid-root-70 makeStyles-delegationSection-2 MuiGrid-container-71 MuiPaper-elevation1-16 MuiPaper-rounded-13"
+        >
+          <div
+            class="MuiGrid-root-70 MuiGrid-container-71 MuiGrid-spacing-xs-2-94 MuiGrid-align-items-xs-center-79"
+          >
+            <div
+              class="MuiGrid-root-70 makeStyles-section-176 MuiGrid-item-72 MuiGrid-grid-xs-12-116 MuiGrid-grid-md-true-132"
+            >
+              <p
+                class="MuiTypography-root-40 makeStyles-delegationTitle-177 MuiTypography-body1-42"
+              >
+                Vote Locked Convex
+              </p>
+              <div
+                class="MuiGrid-root-70 MuiGrid-container-71 MuiGrid-align-items-xs-center-79 MuiGrid-justify-xs-center-88"
+              >
+                <img
+                  alt="locked cvx balance"
+                  class="makeStyles-icon-173"
+                  src="assets/icons/bvecvx.png"
+                />
+                <h4
+                  class="MuiTypography-root-40 makeStyles-delegationAmount-174 MuiTypography-h4-48 MuiTypography-displayInline-68"
+                >
+                  100
+                </h4>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root-70 makeStyles-section-176 MuiGrid-item-72 MuiGrid-grid-xs-12-116 MuiGrid-grid-md-true-132"
+            >
+              <button
+                class="MuiButtonBase-root-209 MuiButton-root-180 MuiButton-contained-188 MuiButton-containedPrimary-189 MuiButton-containedSizeSmall-199 MuiButton-sizeSmall-201"
+                tabindex="0"
+                type="button"
+              >
+                <span
+                  class="MuiButton-label-181"
+                >
+                  Delegate to Badger
+                </span>
+                <span
+                  class="MuiTouchRipple-root-220"
+                />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-70 MuiGrid-item-72 MuiGrid-grid-xs-12-116 MuiGrid-grid-sm-true-118"
+      >
+        <div
+          class="MuiPaper-root-12 MuiCard-root-11 makeStyles-root-212 MuiPaper-elevation1-16 MuiPaper-rounded-13"
+        >
+          <div
+            class="MuiGrid-root-70 makeStyles-container-213 MuiGrid-container-71"
+          >
+            <p
+              class="MuiTypography-root-40 makeStyles-earningsTitle-219 MuiTypography-body1-42"
+            >
+              Earned Incentives
+            </p>
+            <div
+              class="MuiGrid-root-70 makeStyles-statRow-214 MuiGrid-container-71"
+            >
+              <h6
+                class="MuiTypography-root-40 makeStyles-statName-215 MuiTypography-subtitle1-51"
+              >
+                Total
+              </h6>
+              <div
+                class="MuiGrid-root-70 MuiGrid-container-71 MuiGrid-align-items-xs-center-79"
+              >
+                <img
+                  alt="badger coin image"
+                  class="makeStyles-badgerImage-218"
+                  src="assets/icons/badger.png"
+                />
+                <h5
+                  class="MuiTypography-root-40 makeStyles-stat-216 MuiTypography-h5-49 MuiTypography-displayInline-68"
+                >
+                  100
+                </h5>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root-70 makeStyles-statRow-214 MuiGrid-container-71"
+            >
+              <h6
+                class="MuiTypography-root-40 makeStyles-statName-215 MuiTypography-subtitle1-51"
+              >
+                Unclaimed
+              </h6>
+              <div
+                class="MuiGrid-root-70 MuiGrid-container-71 MuiGrid-align-items-xs-center-79"
+              >
+                <img
+                  alt="badger coin image"
+                  class="makeStyles-badgerImage-218"
+                  src="assets/icons/badger.png"
+                />
+                <h5
+                  class="MuiTypography-root-40 makeStyles-stat-216 makeStyles-unclaimedAmount-217 MuiTypography-h5-49 MuiTypography-colorPrimary-63 MuiTypography-displayInline-68"
+                >
+                  100
+                </h5>
+                <button
+                  class="MuiButtonBase-root-209 MuiButton-root-180 MuiButton-contained-188 MuiButton-containedPrimary-189"
+                  tabindex="0"
+                  type="button"
+                >
+                  <span
+                    class="MuiButton-label-181"
+                  >
+                    Claim Bonus
+                  </span>
+                  <span
+                    class="MuiTouchRipple-root-220"
+                  />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <img
+      alt="safe-lock-image"
+      class="makeStyles-safeLockImageLg-5"
+      src="assets/locked-cvx-safebox-lg.png"
+    />
+  </div>
+</div>
+`;

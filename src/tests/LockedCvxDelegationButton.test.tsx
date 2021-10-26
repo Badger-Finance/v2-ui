@@ -3,19 +3,16 @@ import { DelegationState } from '../mobx/model/setts/locked-cvx-delegation';
 import { customRender } from './Utils';
 import store from '../mobx/RootStore';
 import { StoreProvider } from '../mobx/store-context';
-import LockedCvxDelegationAction from '../components-v2/landing/LockedCvxDelegation';
-import { Ethereum } from '../mobx/model/network/eth.network';
+import DelegationButton from '../components-v2/locked-cvx-bribes/DelegationButton';
+import LockedCvxDelegationStore from '../mobx/stores/lockedCvxDelegationStore';
 
-describe('LockedCvxDelegationAction', () => {
-	beforeAll(() => {
-		store.network.network = new Ethereum();
-	});
-
+describe('LockedCvxDelegationButton', () => {
 	it('handles eligible state', () => {
+		jest.spyOn(LockedCvxDelegationStore.prototype, 'canUserDelegate', 'get').mockReturnValue(true);
 		store.lockedCvxDelegation.delegationState = DelegationState.Eligible;
 		const { container } = customRender(
 			<StoreProvider value={store}>
-				<LockedCvxDelegationAction />
+				<DelegationButton />
 			</StoreProvider>,
 		);
 		expect(container).toMatchSnapshot();
@@ -23,9 +20,10 @@ describe('LockedCvxDelegationAction', () => {
 
 	it('handles ineligible state', () => {
 		store.lockedCvxDelegation.delegationState = DelegationState.Ineligible;
+		jest.spyOn(LockedCvxDelegationStore.prototype, 'canUserDelegate', 'get').mockReturnValue(false);
 		const { container } = customRender(
 			<StoreProvider value={store}>
-				<LockedCvxDelegationAction />
+				<DelegationButton />
 			</StoreProvider>,
 		);
 		expect(container).toMatchSnapshot();
@@ -33,19 +31,21 @@ describe('LockedCvxDelegationAction', () => {
 
 	it('handles delegated state', () => {
 		store.lockedCvxDelegation.delegationState = DelegationState.Delegated;
+		jest.spyOn(LockedCvxDelegationStore.prototype, 'canUserDelegate', 'get').mockReturnValue(true);
 		const { container } = customRender(
 			<StoreProvider value={store}>
-				<LockedCvxDelegationAction />
+				<DelegationButton />
 			</StoreProvider>,
 		);
 		expect(container).toMatchSnapshot();
 	});
 
 	it('handles badger delegated state', () => {
+		jest.spyOn(LockedCvxDelegationStore.prototype, 'canUserDelegate', 'get').mockReturnValue(true);
 		store.lockedCvxDelegation.delegationState = DelegationState.BadgerDelegated;
 		const { container } = customRender(
 			<StoreProvider value={store}>
-				<LockedCvxDelegationAction />
+				<DelegationButton />
 			</StoreProvider>,
 		);
 		expect(container).toMatchSnapshot();

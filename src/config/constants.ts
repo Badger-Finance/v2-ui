@@ -18,6 +18,7 @@ import { Wallets } from './enums/wallets.enum';
 
 export const DEFAULT_CURRENCY = Currency.USD;
 export const DEFAULT_NETWORK = ChainNetwork.Ethereum;
+export const MAX_LAYOUT_WIDTH = 1024;
 
 export const burnStatusDict: Record<BurnAndReleaseStatus, string> = {
 	pending: 'Transaction Pending.',
