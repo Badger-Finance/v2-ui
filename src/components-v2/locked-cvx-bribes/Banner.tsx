@@ -21,8 +21,6 @@ const useStyles = makeStyles((theme) => ({
 		fontSize: 32,
 		fontWeight: 'bolder',
 		marginBottom: theme.spacing(2),
-		position: 'relative',
-		zIndex: 99,
 	},
 	descriptionSection: {
 		marginBottom: theme.spacing(3),

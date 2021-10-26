@@ -27,8 +27,8 @@ const DelegationButton = observer(() => {
 					Delegate to Badger
 				</Button>
 				<div className={classes.badgerDelegatedTextContainer}>
-					<Typography className={classes.badgerDelegatedText}>{`You've already delegated.`}</Typography>
-					<Typography className={classes.badgerDelegatedText}>{`Thanks, you're a top badger!`}</Typography>
+					<Typography className={classes.badgerDelegatedText}>{"You've already delegated."}</Typography>
+					<Typography className={classes.badgerDelegatedText}>{"Thanks, you're a top badger!"}</Typography>
 				</div>
 			</div>
 		);
