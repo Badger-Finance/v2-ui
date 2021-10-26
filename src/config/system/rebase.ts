@@ -39,7 +39,7 @@ export const getRebase = (network: string): RebaseNetworkConfig | undefined => {
 						readMethods: [
 							{
 								name: 'providerReports',
-								args: [digg_system.newCentralizedOracle, 0],
+								args: [digg_system.chainlinkForwarder, 0],
 							},
 						],
 					},
@@ -51,7 +51,7 @@ export const getRebase = (network: string): RebaseNetworkConfig | undefined => {
 						readMethods: [
 							{
 								name: 'providerReports',
-								args: [digg_system.newCentralizedOracle, 1],
+								args: [digg_system.chainlinkForwarder, 1],
 							},
 						],
 					},
