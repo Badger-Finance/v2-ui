@@ -1,8 +1,6 @@
 import React from 'react';
-import { customRender } from './Utils';
 import Landing from '../pages/Landing';
 import '@testing-library/jest-dom';
-import { StoreProvider } from '../mobx/store-context';
 import store from '../mobx/RootStore';
 import { checkSnapshot } from './utils/snapshots';
 import BigNumber from 'bignumber.js';
