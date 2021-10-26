@@ -1,5 +1,9 @@
 # v2 UI Changelog
 
+### v2.9.7 - 10/26/2021
+
+- release convex locking banner
+
 ### Hotfix - 10/25/2021
 
 - update digg oracle to chainlink forwarder
