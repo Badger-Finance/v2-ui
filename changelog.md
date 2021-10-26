@@ -1,5 +1,9 @@
 # v2 UI Changelog
 
+### Hotfix - 10/25/2021
+
+- update digg oracle to chainlink forwarder
+
 ### Hotfix - 10/21/2021
 
 - fixed an issue disallowing withdraw from detail page on some setts
