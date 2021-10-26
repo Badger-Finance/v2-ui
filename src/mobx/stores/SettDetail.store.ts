@@ -1,7 +1,7 @@
-import { Sett } from '../model/setts/sett';
 import { RootStore } from '../RootStore';
 import { action, extendObservable, observe } from 'mobx';
 import { ContractNamespace } from 'web3/config/contract-namespace';
+import { Sett } from '@badger-dao/sdk';
 
 export class SettDetailStore {
 	private readonly store: RootStore;
@@ -61,7 +61,7 @@ export class SettDetailStore {
 			return false;
 		}
 		const { network } = this.store.network;
-		const settToken = this.searchedSett.vaultToken;
+		const settToken = this.searchedSett.settToken;
 		const sett = network.setts.find((s) => s.vaultToken.address === settToken);
 
 		if (!sett) {

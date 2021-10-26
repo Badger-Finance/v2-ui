@@ -1,4 +1,4 @@
-import { ChainNetwork } from 'config/enums/chain-network.enum';
+import { Network } from '@badger-dao/sdk';
 
 export class SidebarLink {
 	url: URL;
@@ -12,7 +12,7 @@ export class SidebarLink {
 
 export function sidebarTokenLinks(network: string): SidebarLink[] {
 	switch (network) {
-		case ChainNetwork.BinanceSmartChain:
+		case Network.BinanceSmartChain:
 			return [
 				{
 					url: new URL('https://pancakeswap.info/pair/0xE1E33459505bB3763843a426F7Fd9933418184ae'),
@@ -23,7 +23,7 @@ export function sidebarTokenLinks(network: string): SidebarLink[] {
 					title: 'PancakeSwap bBadger/BtcB',
 				},
 			];
-		case ChainNetwork.Ethereum:
+		case Network.Ethereum:
 		default:
 			return [
 				{

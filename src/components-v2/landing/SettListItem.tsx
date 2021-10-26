@@ -3,8 +3,6 @@ import clsx from 'clsx';
 import { ListItem, makeStyles, Typography, Grid, Tooltip } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
 import BigNumber from 'bignumber.js';
-
-import { Sett } from '../../mobx/model/setts/sett';
 import { inCurrency } from 'mobx/utils/helpers';
 import CurrencyDisplay from '../common/CurrencyDisplay';
 import { SettActionButtons } from '../common/SettActionButtons';
@@ -16,6 +14,7 @@ import routes from '../../config/routes';
 import { SettDeposit } from '../common/dialogs/SettDeposit';
 import { SettWithdraw } from '../common/dialogs/SettWithdraw';
 import { Currency } from 'config/enums/currency.enum';
+import { Sett } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -78,24 +77,24 @@ export interface SettListItemProps {
 
 const SettListItem = observer(
 	({ sett, balance, balanceValue, currency, period, accountView = false }: SettListItemProps): JSX.Element => {
-		const { user, network, router, wallet } = useContext(StoreContext);
+		const { user, network, router, wallet, setts } = useContext(StoreContext);
 		const [openDepositDialog, setOpenDepositDialog] = useState(false);
 		const [openWithdrawDialog, setOpenWithdrawDialog] = useState(false);
 
 		const classes = useStyles();
 
 		const divisor = period === 'month' ? 12 : 1;
-		const badgerSett = network.network.setts.find(({ vaultToken }) => vaultToken.address === sett?.vaultToken);
+		const badgerSett = network.network.setts.find(({ vaultToken }) => vaultToken.address === sett?.settToken);
 
 		const displayValue = balanceValue ? balanceValue : inCurrency(new BigNumber(sett.value), currency);
-		const multiplier = !sett.deprecated ? user.accountDetails?.multipliers[sett.vaultToken] : undefined;
+		const multiplier = !sett.deprecated ? user.accountDetails?.multipliers[sett.settToken] : undefined;
 
 		const canWithdraw = balance ? balance.gt(0) : false;
 		// sett is disabled if they are internal setts, or have a bouncer and use has no access
 		const isDisabled = !user.onGuestList(sett);
 
 		const goToSettDetail = async () => {
-			await router.goTo(routes.settDetails, { settName: sett.slug, accountView });
+			await router.goTo(routes.settDetails, { settName: setts.getSlug(sett.settToken), accountView });
 		};
 
 		const listItem = (

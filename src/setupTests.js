@@ -3,6 +3,7 @@ import { TextEncoder, TextDecoder } from 'util';
 import fetchMock from 'jest-fetch-mock';
 import crypto from 'crypto';
 import LockedCvxDelegationStore from './mobx/stores/lockedCvxDelegationStore';
+import { setupMockAPI } from './tests/utils/setup';
 
 Object.defineProperty(global, 'crypto', {
 	value: { getRandomValues: (arr) => crypto.randomBytes(arr.length) },
@@ -16,6 +17,7 @@ global.TextEncoder = TextEncoder;
 global.TextDecoder = TextDecoder;
 
 fetchMock.enableMocks();
+setupMockAPI();
 
 export default function () {
 	return null;

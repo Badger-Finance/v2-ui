@@ -1,16 +1,16 @@
 import BigNumber from 'bignumber.js';
 import { StrategyNetworkConfig } from '../../mobx/model/strategies/strategy-network-config';
 import { StrategyFee } from '../../mobx/model/system-config/stategy-fees';
-import { ChainNetwork } from 'config/enums/chain-network.enum';
 import arbitrumDeploy from '../../config/deployments/arbitrum.json';
 import maticDeploy from '../../config/deployments/matic.json';
 import bscDeploy from '../../config/deployments/bsc.json';
 import ethDeploy from '../../config/deployments/mainnet.json';
+import { Network } from '@badger-dao/sdk';
 
 // TODO: add descriptions and deposit instructions after marketing team provides them
-export const getStrategies = (network: ChainNetwork): StrategyNetworkConfig => {
+export const getStrategies = (network: Network): StrategyNetworkConfig => {
 	switch (network) {
-		case ChainNetwork.Arbitrum:
+		case Network.Arbitrum:
 			return {
 				[arbitrumDeploy.sett_system.vaults['native.sushiWethSushi']]: {
 					address: arbitrumDeploy.sett_system.strategies['native.sushiWethSushi'],
@@ -99,7 +99,7 @@ export const getStrategies = (network: ChainNetwork): StrategyNetworkConfig => {
 						'https://swapr.eth.link/#/pools/0x2f2a2543B76A4166549F7aaB2e75Bef0aefC5B0f/0x82aF49447D8a07e3bd95BD0d56f35241523fBab1/0x418A639F01FAee054D3A823c227c7dC179C209Fa?chainId=42161',
 				},
 			};
-		case ChainNetwork.Matic:
+		case Network.Polygon:
 			return {
 				[maticDeploy.sett_system.vaults['BSLP-IBBTC-WBTC']]: {
 					address: maticDeploy.sett_system.strategies['BSLP-IBBTC-WBTC'],
@@ -143,7 +143,7 @@ export const getStrategies = (network: ChainNetwork): StrategyNetworkConfig => {
 					userGuide: 'https://docs.badger.com/badger-finance/sett-user-guides/polygon-amwbtc-renwbtc',
 				},
 			};
-		case ChainNetwork.BinanceSmartChain:
+		case Network.BinanceSmartChain:
 			return {
 				[bscDeploy.sett_system.vaults['native.pancakeBnbBtcb']]: {
 					address: bscDeploy.sett_system.strategies['native.pancakeBnbBtcb'],

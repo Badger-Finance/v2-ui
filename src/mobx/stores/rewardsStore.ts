@@ -15,7 +15,7 @@ import { TreeClaimData } from '../model/rewards/tree-claim-data';
 import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
 import { retry } from '@lifeomic/attempt';
 import { defaultRetryOptions } from '../../config/constants';
-import { ChainNetwork } from 'config/enums/chain-network.enum';
+import { Network } from '@badger-dao/sdk';
 
 /**
  * TODO: Clean up reward store in favor of a more unified integration w/ account store.
@@ -216,7 +216,7 @@ class RewardsStore {
 			}
 
 			let sharesPerFragment = new BigNumber(1);
-			if (network.symbol === ChainNetwork.Ethereum && !rebase) {
+			if (network.symbol === Network.Ethereum && !rebase) {
 				return;
 			} else if (rebase) {
 				sharesPerFragment = rebase.sharesPerFragment;

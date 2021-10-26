@@ -5,20 +5,15 @@ import { RootStore } from '../mobx/RootStore';
 import { Airdrops } from '../components/Airdrops';
 import { BoostOptimizer } from '../components/Boost';
 import { Digg } from '../components/Digg';
-import { Locked } from 'components/Common/Locked';
 import { IbBTC } from 'components/IbBTC';
 import { Bridge } from '../components/Bridge';
 import HoneybadgerDrop from '../components/HoneybadgerDrop/index';
 import BoostLeaderBoard from 'pages/BoostLeaderBoard';
 import { SettDetail } from '../components-v2/sett-detail/SettDetail';
-import { SettState } from '../mobx/model/setts/sett-state';
 import { NotFound } from '../components-v2/common/NotFound';
+import { SettState } from '@badger-dao/sdk';
 
 const routes = {
-	locked: new Route<RootStore>({
-		path: '/locked',
-		component: <Locked />,
-	}),
 	home: new Route<RootStore>({
 		path: '/',
 		component: (

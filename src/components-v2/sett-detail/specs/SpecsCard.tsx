@@ -4,11 +4,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import { BadgerSett } from '../../../mobx/model/vaults/badger-sett';
 import { Tokens } from './Tokens';
 import { Claims } from './Claims';
-import { Sett } from '../../../mobx/model/setts/sett';
 import SettDetailLinks from './SettDetailLinks';
 import { Fees } from './Fees';
 import { CardContainer } from '../styled';
 import SettMetrics from './SettMetrics';
+import { Sett } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
 	root: {

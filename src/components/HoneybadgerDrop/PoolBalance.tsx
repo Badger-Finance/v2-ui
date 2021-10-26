@@ -112,7 +112,7 @@ export const PoolBalance = observer(() => {
 		);
 	}
 
-	const diggMultiplier = setts.settMap[sett_system.vaults['native.digg']].ppfs;
+	const diggMultiplier = setts.settMap[sett_system.vaults['native.digg']].pricePerFullShare;
 	const poolBalanceDiggs = poolBalance.multipliedBy(diggMultiplier);
 	return (
 		<Container>

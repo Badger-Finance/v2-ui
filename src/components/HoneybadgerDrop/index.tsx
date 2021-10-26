@@ -6,7 +6,7 @@ import PageHeader from 'components-v2/common/PageHeader';
 import { NftList } from './NftList';
 import { PoolBalance } from './PoolBalance';
 import { HeaderContainer, LayoutContainer } from '../../components-v2/common/Containers';
-import { ChainNetwork } from 'config/enums/chain-network.enum';
+import { Network } from '@badger-dao/sdk';
 
 const HoneybadgerDrop: React.FC = observer(() => {
 	const store = React.useContext(StoreContext);
@@ -20,7 +20,7 @@ const HoneybadgerDrop: React.FC = observer(() => {
 				<HeaderContainer item xs={12}>
 					<PageHeader title="DIAMOND HANDS" subtitle="MEME Honeypot pt. II" />
 				</HeaderContainer>
-				{network.symbol === ChainNetwork.Ethereum ? (
+				{network.symbol === Network.Ethereum ? (
 					<>
 						<Grid item xs={12} container spacing={5}>
 							<PoolBalance />

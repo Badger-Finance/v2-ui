@@ -1,8 +1,8 @@
 import React from 'react';
 import { Grid, makeStyles, Typography } from '@material-ui/core';
 import { StyledDivider } from '../styled';
-import { Sett } from '../../../mobx/model/setts/sett';
 import { SettToken } from './SettToken';
+import { Sett } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
 	title: {

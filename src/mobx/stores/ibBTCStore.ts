@@ -15,7 +15,7 @@ import { getNetworkFromProvider } from 'mobx/utils/helpers';
 import { IbbtcOptionToken } from '../model/tokens/ibbtc-option-token';
 import { ibBTCFees } from '../model/fees/ibBTCFees';
 import { DEBUG, FLAGS } from 'config/environment';
-import { ChainNetwork } from 'config/enums/chain-network.enum';
+import { Network } from '@badger-dao/sdk';
 
 interface MintAmountCalculation {
 	bBTC: BigNumber;
@@ -90,7 +90,7 @@ class IbBTCStore {
 		// M50: by default the network ID is set to ethereum.  We should check the provider to ensure the
 		// connected wallet is using ETH network, not the site.
 		const network = getNetworkFromProvider(this.store.wallet.provider);
-		if (this.initialized || network !== ChainNetwork.Ethereum) {
+		if (this.initialized || network !== Network.Ethereum) {
 			return;
 		}
 

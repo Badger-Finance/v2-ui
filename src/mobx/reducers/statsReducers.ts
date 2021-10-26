@@ -24,7 +24,6 @@ export const reduceClaims = (
 	if (!proof.cumulativeAmounts) {
 		return [];
 	}
-
 	const { rewards } = store;
 	const claimableTokens = proof.cumulativeAmounts.length;
 	const tokenClaims = [];

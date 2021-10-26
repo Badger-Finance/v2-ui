@@ -1,7 +1,7 @@
 import React from 'react';
-import { Sett } from 'mobx/model/setts/sett';
 import { DialogTitle, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { Sett } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -36,7 +36,7 @@ export const SettDialogTitle = ({ sett, mode }: Props): JSX.Element => {
 				<Grid item className={classes.logoContainer}>
 					<img
 						className={classes.settLogo}
-						src={`/assets/icons/${sett.vaultAsset.toLowerCase()}.png`}
+						src={`/assets/icons/${sett.settAsset.toLowerCase()}.png`}
 						alt={`Badger ${sett.name} Vault Symbol`}
 					/>
 				</Grid>

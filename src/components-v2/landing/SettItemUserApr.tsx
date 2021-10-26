@@ -1,6 +1,6 @@
 import React from 'react';
-import { Sett } from '../../mobx/model/setts/sett';
 import { Typography } from '@material-ui/core';
+import { Sett } from '@badger-dao/sdk';
 
 interface Props {
 	sett: Sett;

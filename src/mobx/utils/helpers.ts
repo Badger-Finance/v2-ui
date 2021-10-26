@@ -10,8 +10,8 @@ import { Currency } from 'config/enums/currency.enum';
 import { currencyConfiguration } from 'config/currency.config';
 import routes from 'config/routes';
 import SettStore from 'mobx/stores/SettStore';
-import { SettState } from 'mobx/model/setts/sett-state';
 import { Route } from 'mobx-router';
+import { SettState } from '@badger-dao/sdk';
 
 export const jsonQuery = (url: string | undefined): Promise<Response> | undefined => {
 	if (!url) return;

@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { Collapse, Grid, makeStyles, Typography } from '@material-ui/core';
-import { Sett } from '../../../mobx/model/setts/sett';
 import { BadgerSett } from '../../../mobx/model/vaults/badger-sett';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../../mobx/store-context';
 import { StyledDivider } from '../styled';
 import SettDetailLink from './SettDetailLink';
+import { Sett } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
 	showMoreContainer: {
@@ -43,7 +43,7 @@ const SettDetailLinks = observer(
 
 		const [expanded, setExpanded] = useState(!hasBaseLink);
 		const expandText = expanded ? 'Hide' : 'Show More';
-		const strategyAddress = sett.strategy?.address ?? network.strategies[sett.vaultToken].address;
+		const strategyAddress = sett.strategy?.address ?? network.strategies[sett.settToken].address;
 
 		return (
 			<Grid container className={classes.linksContainer}>

@@ -5,8 +5,8 @@ import BaseAreaChart from './BaseAreaChart';
 import { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent';
 import { TooltipProps } from 'recharts';
 import { makeStyles } from '@material-ui/core';
-import { Sett } from 'mobx/model/setts/sett';
 import { BOOST_LEVELS, MAX_BOOST_LEVEL } from 'config/system/boost-ranks';
+import { Sett } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
 	tooltipContainer: {
