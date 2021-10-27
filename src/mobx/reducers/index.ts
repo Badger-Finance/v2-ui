@@ -27,7 +27,7 @@ class UiState {
 			currency: this.currency,
 			period: window.localStorage.getItem(`${network.name}-selectedPeriod`) || 'year',
 			sidebarOpen: !!window && window.innerWidth > 960,
-			hideZeroBal: !!window.localStorage.getItem(`${network.name}-hideZeroBal`),
+			showUserBalances: this.showUserBalances,
 			notification: {},
 			gasPrice: window.localStorage.getItem(`${network.name}-selectedGasPrice`) || 'standard',
 			txStatus: undefined,
