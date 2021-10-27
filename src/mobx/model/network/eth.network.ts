@@ -342,7 +342,6 @@ const ethSettDefinitions: BadgerSett[] = [
 			decimals: 18,
 		},
 	},
-
 	{
 		depositToken: {
 			address: ETH_DEPLOY.tokens['fPmBtcHBtc'],
@@ -353,7 +352,6 @@ const ethSettDefinitions: BadgerSett[] = [
 			decimals: 18,
 		},
 	},
-
 	{
 		depositToken: {
 			address: ETH_DEPLOY.tokens['bveCVXCVX'],
