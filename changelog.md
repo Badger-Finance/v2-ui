@@ -1,5 +1,9 @@
 # v2 UI Changelog
 
+### Hotfix - 10/26/2021
+
+- change verbiage in locked cvx banner from 'Total' to 'Total Claimed'
+
 ### v2.9.7 - 10/26/2021
 
 - release convex locking banner

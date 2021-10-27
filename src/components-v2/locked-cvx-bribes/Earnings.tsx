@@ -57,7 +57,7 @@ const Earnings = (): JSX.Element => {
 				<Typography className={classes.earningsTitle}>Earned Incentives</Typography>
 				<Grid container className={classes.statRow}>
 					<Typography variant="subtitle1" className={classes.statName}>
-						Total
+						Total Claimed
 					</Typography>
 					<Grid container alignItems="center">
 						<img src="assets/icons/badger.png" className={classes.badgerImage} alt="badger coin image" />
