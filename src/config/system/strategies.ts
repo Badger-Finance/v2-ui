@@ -470,7 +470,6 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 						[StrategyFee.performance]: new BigNumber(2000),
 						[StrategyFee.withdraw]: new BigNumber(10),
 					},
-					// strategyLink: 'https://badger.wiki/placeholder',
 					depositLink: 'https://curve.fi/factory/52/deposit',
 					userGuide: 'https://docs.badger.com/badger-finance/sett-user-guides/bvecvx-cvx',
 				},
