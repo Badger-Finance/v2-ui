@@ -113,7 +113,7 @@ export default class SettStore {
 		return tokens[tokenAddress];
 	}
 
-	private async refresh(): Promise<void> {
+	async refresh(): Promise<void> {
 		const { network } = this.store.network;
 		if (network) {
 			this.initialized = false;
