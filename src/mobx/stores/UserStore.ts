@@ -175,8 +175,6 @@ export default class UserStore {
 			hasGeysers = Object.keys(this.geyserBalances).length > 0;
 		}
 
-		console.log({ loading: this.loadingBalances, hasTokens, hasSetts, hasGeysers });
-
 		return !this.loadingBalances && hasTokens && hasSetts && hasGeysers;
 	}
 
