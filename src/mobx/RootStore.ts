@@ -71,15 +71,10 @@ export class RootStore {
 		}
 
 		const { network } = this.network;
-		this.api = new BadgerAPI(network.id, BADGER_API);
 		this.rewards.resetRewards();
+		this.api = new BadgerAPI(network.id, BADGER_API);
 
-		const refreshData = [
-			this.setts.loadAssets(network.symbol),
-			this.network.updateGasPrices(),
-			this.setts.loadSetts(network.symbol),
-			this.loadTreeData(),
-		];
+		const refreshData = [this.network.updateGasPrices(), this.setts.refresh(), this.loadTreeData()];
 
 		await Promise.all(refreshData);
 

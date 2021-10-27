@@ -56,7 +56,6 @@ class AirdropStore {
 					if (DEBUG) {
 						this.store.uiState.queueError('Unable to retrieve airdrop proof!');
 					}
-
 					return;
 				}
 

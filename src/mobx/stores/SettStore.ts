@@ -8,7 +8,6 @@ import { SettCache } from '../model/setts/sett-cache';
 import { ProtocolSummaryCache } from '../model/system-config/protocol-summary-cache';
 import { TokenConfigRecord } from 'mobx/model/tokens/token-config-record';
 import { SettMap } from '../model/setts/sett-map';
-import { NetworkStore } from './NetworkStore';
 import { TokenBalances } from 'mobx/model/account/user-balances';
 import { CallResult } from 'web3/interface/call-result';
 import BigNumber from 'bignumber.js';
@@ -51,19 +50,10 @@ export default class SettStore {
 			}
 		});
 
-		/**
-		 * Update account store on change of network.
-		 */
-		observe(this.store.network as NetworkStore, 'network', () => {
-			this.initialized = false;
-			this.refresh();
-		});
-
 		this.tokenCache = {};
 		this.settCache = {};
 		this.protocolSummaryCache = {};
 		this.initialized = false;
-
 		this.refresh();
 	}
 
@@ -123,9 +113,10 @@ export default class SettStore {
 		return tokens[tokenAddress];
 	}
 
-	private async refresh(): Promise<void> {
+	async refresh(): Promise<void> {
 		const { network } = this.store.network;
 		if (network) {
+			this.initialized = false;
 			await Promise.all([
 				this.loadSetts(network.symbol),
 				this.loadTokens(network.symbol),
@@ -166,7 +157,6 @@ export default class SettStore {
 	loadAssets = action(
 		async (chain = Network.Ethereum): Promise<void> => {
 			const protocolSummary = await this.store.api.loadProtocolSummary(Currency.ETH);
-
 			if (protocolSummary) {
 				this.protocolSummaryCache[chain] = protocolSummary;
 			} else {

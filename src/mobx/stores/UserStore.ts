@@ -83,25 +83,25 @@ export default class UserStore {
 		/**
 		 * Update account store on change of network.
 		 */
-		observe(this.store.network as NetworkStore, 'network', () => {
+		observe(this.store.network as NetworkStore, 'network', async () => {
 			const address = this.store.wallet.connectedAddress;
 			const network = this.store.network.network;
 
 			if (!this.loadingBalances) {
-				this.refreshBalances();
+				await this.refreshBalances();
 			}
 
 			if (address) {
-				this.loadClaimProof(address, network.symbol);
+				await this.loadClaimProof(address, network.symbol);
 			}
 		});
 	}
 
 	/* State Mutation Functions */
 
-	refreshBalances(): void {
+	async refreshBalances(): Promise<void> {
 		this.refreshProvider();
-		this.updateBalances(true);
+		await this.updateBalances(true);
 	}
 
 	refreshProvider(): void {
@@ -154,6 +154,7 @@ export default class UserStore {
 		if (!settMap) {
 			return false;
 		}
+
 		// no products configured
 		if (this.store.network.network.setts.length === 0) {
 			return true;
@@ -279,7 +280,6 @@ export default class UserStore {
 			if (!batchRequests || batchRequests.length === 0) {
 				return;
 			}
-			this.refreshProvider();
 			const callResults: CallResult[] = await this.batchCall.execute(batchRequests);
 			if (DEBUG) {
 				console.log({ network: network.symbol, callResults });
