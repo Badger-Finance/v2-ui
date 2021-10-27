@@ -464,6 +464,15 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 					depositLink: 'https://mstable.app/#/mbtc/pools/0x48c59199da51b7e30ea200a74ea07974e62c4ba7',
 					userGuide: 'https://docs.badger.com/badger-finance/sett-user-guides/mstable-mbtc-hbtc',
 				},
+				[ethDeploy.sett_system.vaults['native.bveCVXCVX']]: {
+					address: ethDeploy.sett_system.strategies['native.bveCVXCVX'],
+					fees: {
+						[StrategyFee.performance]: new BigNumber(2000),
+						[StrategyFee.withdraw]: new BigNumber(10),
+					},
+					depositLink: 'https://curve.fi/factory/52/deposit',
+					userGuide: 'https://docs.badger.com/badger-finance/sett-user-guides/bvecvx-cvx',
+				},
 			};
 	}
 };

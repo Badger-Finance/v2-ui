@@ -28,6 +28,7 @@ export class Ethereum extends NetworkModel {
 	}
 	get settOrder(): string[] {
 		return [
+			this.deploy.sett_system.vaults['native.bveCVXCVX'],
 			this.deploy.sett_system.vaults['native.icvx'],
 			this.deploy.sett_system.vaults['native.cvx'],
 			this.deploy.sett_system.vaults['native.badger'],
@@ -341,7 +342,6 @@ const ethSettDefinitions: BadgerSett[] = [
 			decimals: 18,
 		},
 	},
-
 	{
 		depositToken: {
 			address: ETH_DEPLOY.tokens['fPmBtcHBtc'],
@@ -349,6 +349,16 @@ const ethSettDefinitions: BadgerSett[] = [
 		},
 		vaultToken: {
 			address: ETH_DEPLOY.sett_system.vaults['native.fPmBtcHBtc'],
+			decimals: 18,
+		},
+	},
+	{
+		depositToken: {
+			address: ETH_DEPLOY.tokens['bveCVXCVX'],
+			decimals: 18,
+		},
+		vaultToken: {
+			address: ETH_DEPLOY.sett_system.vaults['native.bveCVXCVX'],
 			decimals: 18,
 		},
 	},
