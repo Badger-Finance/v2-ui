@@ -6,6 +6,7 @@ import { StoreContext } from 'mobx/store-context';
 import { supportedNetworks } from 'config/networks.config';
 import { Network } from 'mobx/model/network/network';
 import { Wallets } from 'config/enums/wallets.enum';
+import { Network as ChainNetworkSymbol } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
 	network: {
@@ -18,13 +19,27 @@ const useStyles = makeStyles((theme) => ({
 	listItem: {
 		textTransform: 'uppercase',
 	},
+	networkOption: {
+		alignItems: 'center',
+		display: 'flex',
+	},
 }));
+
+const networkAbbreviationBySymbol: Record<ChainNetworkSymbol, string> = {
+	[ChainNetworkSymbol.Ethereum]: 'ETH',
+	[ChainNetworkSymbol.BinanceSmartChain]: 'BSC',
+	[ChainNetworkSymbol.Arbitrum]: 'ARBITRUM',
+	[ChainNetworkSymbol.Polygon]: 'MATIC',
+	[ChainNetworkSymbol.xDai]: 'XDAI',
+	[ChainNetworkSymbol.Avalanche]: 'AVALANCHE',
+	[ChainNetworkSymbol.Fantom]: 'FANTOM',
+};
 
 const NetworkWidget = observer(() => {
 	const classes = useStyles();
 	const store = useContext(StoreContext);
 	const { network, wallet } = store;
-	const connectedNetwork = network.network.symbol;
+	const connectedNetwork = network.network;
 	const isMetamask = wallet.walletType?.name === Wallets.MetaMask;
 
 	// anchorEl is the Popper reference object prop
@@ -40,7 +55,10 @@ const NetworkWidget = observer(() => {
 		setAnchorEl(null);
 	};
 
-	const options = Object.values(supportedNetworks).filter((network: Network) => network.symbol !== connectedNetwork);
+	const options = Object.values(supportedNetworks).filter(
+		(network: Network) => network.symbol !== connectedNetwork.symbol,
+	);
+
 	return (
 		<>
 			<Button
@@ -63,7 +81,7 @@ const NetworkWidget = observer(() => {
 									onClick={async () => await optionClicked(network.symbol)}
 									key={network.symbol}
 								>
-									<NetworkOption network={network.symbol} />
+									<NetworkOption network={network} />
 								</ListItem>
 							);
 						})}
@@ -74,11 +92,14 @@ const NetworkWidget = observer(() => {
 	);
 });
 
-const NetworkOption = (props: { network: string }) => {
+const NetworkOption = (props: { network: Network }) => {
+	const classes = useStyles();
+	const displayName = networkAbbreviationBySymbol[props.network.symbol];
+
 	return (
-		<div style={{ alignItems: 'center', display: 'flex' }}>
+		<div className={classes.networkOption}>
 			<Typography variant="body1" component="div">
-				{props.network}
+				{displayName}
 			</Typography>
 		</div>
 	);
