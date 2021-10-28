@@ -3,13 +3,12 @@ import { Grid, makeStyles } from '@material-ui/core';
 import SpecsCard from './specs/SpecsCard';
 import { ChartsCard } from './charts/ChartsCard';
 import { Holdings } from './holdings/Holdings';
-import { Sett } from '../../mobx/model/setts/sett';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
 import { BadgerSett } from '../../mobx/model/vaults/badger-sett';
 import { NewVaultWarning } from './NewVaultWarning';
-import { SettState } from '../../mobx/model/setts/sett-state';
 import { ContractNamespace } from 'web3/config/contract-namespace';
+import { Sett, SettState } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
 	content: {

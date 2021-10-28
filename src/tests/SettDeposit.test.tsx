@@ -23,7 +23,6 @@ describe('Sett Deposit', () => {
 				<SettDeposit open={true} sett={SAMPLE_SETT} badgerSett={SAMPLE_BADGER_SETT} onClose={jest.fn()} />
 			</StoreProvider>,
 		);
-
 		userEvent.click(screen.getByTitle('Click to see full description'));
 		expect(baseElement).toMatchSnapshot();
 	});
@@ -34,7 +33,6 @@ describe('Sett Deposit', () => {
 				<SettDeposit open={true} sett={SAMPLE_SETT} badgerSett={SAMPLE_BADGER_SETT} onClose={jest.fn()} />
 			</StoreProvider>,
 		);
-
 		userEvent.click(screen.getByTitle('Click to see full description'));
 		userEvent.click(screen.getByRole('button', { name: 'Back' }));
 		expect(baseElement).toMatchSnapshot();

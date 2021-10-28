@@ -9,7 +9,6 @@ import RenJS from '@renproject/ren';
 import { EthArg, LockAndMintStatus, BurnAndReleaseStatus } from '@renproject/interfaces';
 import { extendObservable, action, observe, IValueDidChange, toJS } from 'mobx';
 import { retry } from '@lifeomic/attempt';
-
 import fbase from 'fbase';
 import { RootStore } from '../RootStore';
 import WalletStore from './walletStore';
@@ -27,9 +26,9 @@ import { isEqual } from '../../utils/lodashToNative';
 import { RenVMTransaction } from '../model/bridge/renVMTransaction';
 import { defaultNetwork } from 'config/networks.config';
 import { NetworkStore } from './NetworkStore';
-import { Network } from 'mobx/model/network/network';
+import { Network as NetworkModel } from 'mobx/model/network/network';
 import { REN_FEES_ENDPOINT } from '../../config/constants';
-import { ChainNetwork } from 'config/enums/chain-network.enum';
+import { Network } from '@badger-dao/sdk';
 
 export enum Status {
 	// Idle means we are ready to begin a new tx.
@@ -141,14 +140,14 @@ class BridgeStore {
 			...defaultProps,
 		});
 
-		observe(this.store.network as NetworkStore, 'network', async ({ newValue }: IValueDidChange<Network>) => {
+		observe(this.store.network as NetworkStore, 'network', async ({ newValue }: IValueDidChange<NetworkModel>) => {
 			if (!newValue) {
 				return;
 			}
 
 			this.network = newValue.symbol;
 			// NB: Only ETH supported for now.
-			if (this.network !== ChainNetwork.Ethereum) {
+			if (this.network !== Network.Ethereum) {
 				return;
 			}
 			await this.reload();
@@ -196,7 +195,7 @@ class BridgeStore {
 				// Set shortened addr.
 				const { network } = this.store.network;
 				// NB: Only ETH supported for now.
-				if (network.symbol !== ChainNetwork.Ethereum) return;
+				if (network.symbol !== Network.Ethereum) return;
 				await this.reload();
 			},
 		);
@@ -249,7 +248,7 @@ class BridgeStore {
 
 		this.updateTimer = setTimeout(() => {
 			// NB: Only ETH supported for now.
-			if (this.network !== ChainNetwork.Ethereum) return;
+			if (this.network !== Network.Ethereum) return;
 
 			const { connectedAddress } = this.store.wallet;
 			// So this doesn't race against address changes.

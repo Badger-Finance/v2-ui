@@ -62,6 +62,18 @@ exports[`GasWidget Opens gas menu upon click and "rapid" is selected properly 1`
           class="MuiTouchRipple-root-115"
         />
       </li>
+      <li
+        aria-disabled="false"
+        class="MuiButtonBase-root-112 MuiListItem-root-101 MuiMenuItem-root-97 MuiMenuItem-gutters-98 MuiListItem-gutters-108 MuiListItem-button-109"
+        data-value="fast"
+        role="option"
+        tabindex="-1"
+      >
+        90
+        <span
+          class="MuiTouchRipple-root-115"
+        />
+      </li>
     </ul>
   </div>
   <div

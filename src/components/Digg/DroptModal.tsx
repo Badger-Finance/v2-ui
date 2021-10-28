@@ -47,7 +47,6 @@ const DroptModal = observer(() => {
 	const [open, setOpen] = useState(false);
 
 	if (!rebase || rebase.validDropts.length === 0) {
-		console.log('no valid rebase', rebase?.validDropts.length);
 		return (
 			<Grid className={classes.droptModalButton} container direction="row" justify="flex-end">
 				<Button aria-label="Redeem Dropt" variant="contained" size="small" color="primary" disabled={true}>

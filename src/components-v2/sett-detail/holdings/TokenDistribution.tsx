@@ -1,8 +1,8 @@
 import React from 'react';
-import { SettBalance } from '../../../mobx/model/setts/sett-balance';
 import { Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { TokenDistributionItem } from './TokenDistributionItem';
+import { SettData } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface Props {
-	settBalance: SettBalance;
+	settBalance: SettData;
 }
 
 export const TokenDistribution = ({ settBalance }: Props): JSX.Element => {

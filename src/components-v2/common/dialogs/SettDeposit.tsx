@@ -8,16 +8,15 @@ import { useNumericInput } from 'utils/useNumericInput';
 import { SettDialogTitle } from './SettDialogTitle';
 import { SettAvailableDeposit } from './SettAvailableDeposit';
 import { PercentageSelector } from '../PercentageSelector';
-import { Sett } from '../../../mobx/model/setts/sett';
 import { ActionButton, AmountTextField, LoaderSpinner, PercentagesContainer } from './styled';
 import { makeStyles } from '@material-ui/core/styles';
 import { ContractNamespace } from '../../../web3/config/contract-namespace';
-import { SettState } from '../../../mobx/model/setts/sett-state';
 import { NewVaultWarning } from '../../sett-detail/NewVaultWarning';
 import { DepositFeesInformation } from '../DepositFeesInformation';
 import { SettFees } from '../SettFees';
 import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
 import VaultAdvisory from './VaultAdvisory';
+import { Sett, SettState } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
 	content: {
@@ -60,8 +59,8 @@ export const SettDeposit = observer(({ open = false, sett, badgerSett, onClose }
 
 	const userBalance = user.getBalance(ContractNamespace.Token, badgerSett);
 	const depositBalance = TokenBalance.fromBalance(userBalance, amount ?? '0');
-	const vaultCaps = user.vaultCaps[sett.vaultToken];
-	const isLoading = contracts.settsBeingDeposited[sett.vaultToken];
+	const vaultCaps = user.vaultCaps[sett.settToken];
+	const isLoading = contracts.settsBeingDeposited[sett.settToken];
 
 	let canDeposit = !!wallet.connectedAddress && !!amount && depositBalance.tokenBalance.gt(0);
 
@@ -163,7 +162,7 @@ export const SettDeposit = observer(({ open = false, sett, badgerSett, onClose }
 					)}
 				</ActionButton>
 			</DialogContent>
-			{user.vaultCaps[sett.vaultToken] && <SettAvailableDeposit vaultCapInfo={user.vaultCaps[sett.vaultToken]} />}
+			{user.vaultCaps[sett.settToken] && <SettAvailableDeposit vaultCapInfo={user.vaultCaps[sett.settToken]} />}
 		</Dialog>
 	);
 });

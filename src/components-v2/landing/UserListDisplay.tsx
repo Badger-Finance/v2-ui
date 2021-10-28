@@ -8,11 +8,11 @@ import { SettListViewProps } from './SettListView';
 import SettTable from './SettTable';
 import { inCurrency } from 'mobx/utils/helpers';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
-import { Sett } from '../../mobx/model/setts/sett';
 import BigNumber from 'bignumber.js';
 import Web3 from 'web3';
 import { ContractNamespace } from 'web3/config/contract-namespace';
 import { Currency } from 'config/enums/currency.enum';
+import { Sett } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
 	boostContainer: {
@@ -90,7 +90,7 @@ const UserListDisplay = observer(({ state }: SettListViewProps) => {
 			walletList.push(walletItem);
 		}
 
-		const scalar = new BigNumber(sett.ppfs);
+		const scalar = new BigNumber(sett.pricePerFullShare);
 		const generalBalance = user.getBalance(ContractNamespace.Sett, badgerSett).scale(scalar, true);
 		const guardedBalance = user.getBalance(ContractNamespace.GaurdedSett, badgerSett).scale(scalar, true);
 		const settBalance = generalBalance ?? guardedBalance;

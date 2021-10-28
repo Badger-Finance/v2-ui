@@ -1,4 +1,4 @@
-import { Sett } from 'mobx/model/setts/sett';
+import { Sett } from '@badger-dao/sdk';
 import { SettStrategy } from 'mobx/model/setts/sett-strategy';
 import { StrategyConfig } from '../model/strategies/strategy-config';
 import { StrategyFee } from '../model/system-config/stategy-fees';

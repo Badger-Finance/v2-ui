@@ -7,8 +7,8 @@ import { StoreContext } from '../../../mobx/store-context';
 import { inCurrency } from '../../../mobx/utils/helpers';
 import BigNumber from 'bignumber.js';
 import { Skeleton } from '@material-ui/lab';
-import { Sett } from 'mobx/model/setts/sett';
 import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
+import { Sett } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -73,7 +73,7 @@ const SettMetrics = observer(
 			[currencyIcon, displayValue] = currencyValue.split('.png');
 		}
 
-		const available = setts.availableBalances[sett.vaultToken];
+		const available = setts.availableBalances[sett.settToken];
 
 		const [showMore, setShowMore] = useState(true);
 		const expandText = showMore ? 'Hide' : 'Show More';
@@ -99,13 +99,13 @@ const SettMetrics = observer(
 				<Collapse in={showMore}>
 					<div className={classes.submetric}>
 						<Typography variant="body1" className={classes.submetricValue}>
-							{sett.ppfs.toFixed(4)}
+							{sett.pricePerFullShare.toFixed(4)}
 						</Typography>
 						<Typography variant="caption" className={classes.submetricType}>
 							tokens per share
 						</Typography>
 					</div>
-					{sett.vaultToken === ETH_DEPLOY.sett_system.vaults['native.icvx'] && available && (
+					{sett.settToken === ETH_DEPLOY.sett_system.vaults['native.icvx'] && available && (
 						<div className={classes.submetric}>
 							<Typography variant="body1" className={classes.submetricValue}>
 								{available.balanceDisplay(5)}

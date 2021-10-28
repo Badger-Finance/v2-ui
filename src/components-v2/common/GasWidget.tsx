@@ -37,8 +37,6 @@ const GasWidget = observer(() => {
 		);
 	}
 
-	if (!gasPrices[gasPrice]) store.uiState.setGasPrice('standard');
-
 	const getGasSelections = () => {
 		const gasMap: any = [];
 		for (const [key, value] of Object.entries(gasPrices)) {

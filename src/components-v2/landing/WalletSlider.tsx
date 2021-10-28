@@ -14,12 +14,18 @@ const WalletSlider = observer(() => {
 	const store = useContext(StoreContext);
 
 	const {
-		uiState: { hideZeroBal, setHideZeroBal },
+		uiState: { showUserBalances, setShowUserBalances },
 	} = store;
 
 	return (
 		<FormControlLabel
-			control={<Switch checked={hideZeroBal} onChange={() => setHideZeroBal(!hideZeroBal)} color="primary" />}
+			control={
+				<Switch
+					checked={showUserBalances}
+					onChange={() => setShowUserBalances(!showUserBalances)}
+					color="primary"
+				/>
+			}
 			label="Portfolio View"
 			className={classes.walletSlider}
 		/>

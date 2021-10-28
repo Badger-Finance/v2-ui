@@ -2,35 +2,25 @@ import { NETWORK_IDS } from 'config/constants';
 import { toRecord } from 'web3/config/token-config';
 import { Deploy } from 'web3/interface/deploy';
 import { ProtocolTokens } from 'web3/interface/protocol-token';
-import { GasPrices } from '../system-config/gas-prices';
 import { BadgerSett } from '../vaults/badger-sett';
-import { Network } from './network';
+import { Network as NetworkModel } from './network';
 import deploy from '../../../config/deployments/arbitrum.json';
-import { ChainNetwork } from 'config/enums/chain-network.enum';
 import { Currency } from 'config/enums/currency.enum';
-import { getGasPrices } from 'mobx/utils/apiV2';
+import { Network } from '@badger-dao/sdk';
 
 // TODO: Add Arbitrum gas estimation + link
-export class Arbitrum extends Network {
+export class Arbitrum extends NetworkModel {
 	constructor() {
 		super(
 			'https://arbiscan.io/',
 			'https://portal.arbitrum.one/',
 			'Arbitrum',
-			ChainNetwork.Arbitrum,
+			Network.Arbitrum,
 			NETWORK_IDS.ARB,
 			Currency.ETH,
 			ARBITRUM_DEPLOY,
 			arbitrumSetts,
-			// TODO: Enable API based notifications - current stop gap implementation
-			'Arbitrum infrastructure is currently experiencing outages. TVL and Badger Boost displays are affected.',
-			'https://docs.badger.com/badger-finance/arbitrum/faqs',
 		);
-	}
-
-	async updateGasPrices(): Promise<GasPrices | null> {
-		const gasPrices = await getGasPrices(ChainNetwork.Arbitrum);
-		return gasPrices;
 	}
 }
 
@@ -114,6 +104,16 @@ export const arbitrumSetts: BadgerSett[] = [
 		},
 		vaultToken: {
 			address: ARBITRUM_DEPLOY.sett_system.vaults['native.swaprWethBadger'],
+			decimals: 18,
+		},
+	},
+	{
+		depositToken: {
+			address: ARBITRUM_DEPLOY.tokens['swapr.WETH-IBBTC'],
+			decimals: 18,
+		},
+		vaultToken: {
+			address: ARBITRUM_DEPLOY.sett_system.vaults['native.swaprWethIbbtc'],
 			decimals: 18,
 		},
 	},

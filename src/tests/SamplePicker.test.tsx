@@ -4,18 +4,12 @@ import SamplePicker from '../components-v2/landing/SamplePicker';
 import '@testing-library/jest-dom';
 import { StoreProvider } from '../mobx/store-context';
 import store from '../mobx/RootStore';
+import { checkSnapshot } from './utils/snapshots';
 
 describe('SamplePicker', () => {
 	const testStore = store;
 
-	test('Renders correctly', () => {
-		const { container } = customRender(
-			<StoreProvider value={testStore}>
-				<SamplePicker />
-			</StoreProvider>,
-		);
-		expect(container).toMatchSnapshot();
-	});
+	test('Renders correctly', () => checkSnapshot(<SamplePicker />));
 
 	test('Opens period menu upon click', async () => {
 		customRender(

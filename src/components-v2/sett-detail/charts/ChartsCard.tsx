@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid, Tab, Tabs } from '@material-ui/core';
 import { CardContainer } from '../styled';
-import { Sett } from '../../../mobx/model/setts/sett';
 import { ChartModeTitles } from '../utils';
 import { ChartMode, SettChartData, SettChartTimeframe } from '../../../mobx/model/setts/sett-charts';
 import { ChartsHeader } from './ChartsHeader';
@@ -11,6 +10,7 @@ import { StoreContext } from '../../../mobx/store-context';
 import { SettChart } from './SettChart';
 import ChartContent from './ChartContent';
 import { BoostChart } from './BoostChart';
+import { Sett } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
 	root: {

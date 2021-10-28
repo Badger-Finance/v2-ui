@@ -1,16 +1,16 @@
 import BigNumber from 'bignumber.js';
 import { StrategyNetworkConfig } from '../../mobx/model/strategies/strategy-network-config';
 import { StrategyFee } from '../../mobx/model/system-config/stategy-fees';
-import { ChainNetwork } from 'config/enums/chain-network.enum';
 import arbitrumDeploy from '../../config/deployments/arbitrum.json';
 import maticDeploy from '../../config/deployments/matic.json';
 import bscDeploy from '../../config/deployments/bsc.json';
 import ethDeploy from '../../config/deployments/mainnet.json';
+import { Network } from '@badger-dao/sdk';
 
 // TODO: add descriptions and deposit instructions after marketing team provides them
-export const getStrategies = (network: ChainNetwork): StrategyNetworkConfig => {
+export const getStrategies = (network: Network): StrategyNetworkConfig => {
 	switch (network) {
-		case ChainNetwork.Arbitrum:
+		case Network.Arbitrum:
 			return {
 				[arbitrumDeploy.sett_system.vaults['native.sushiWethSushi']]: {
 					address: arbitrumDeploy.sett_system.strategies['native.sushiWethSushi'],
@@ -98,8 +98,19 @@ export const getStrategies = (network: ChainNetwork): StrategyNetworkConfig => {
 					depositLink:
 						'https://swapr.eth.link/#/pools/0x2f2a2543B76A4166549F7aaB2e75Bef0aefC5B0f/0x82aF49447D8a07e3bd95BD0d56f35241523fBab1/0x418A639F01FAee054D3A823c227c7dC179C209Fa?chainId=42161',
 				},
+				[arbitrumDeploy.sett_system.vaults['native.swaprWethIbbtc']]: {
+					address: arbitrumDeploy.sett_system.strategies['native.swaprWethIbbtc'],
+					fees: {
+						[StrategyFee.performance]: new BigNumber(1000),
+						[StrategyFee.strategistPerformance]: new BigNumber(1000),
+						[StrategyFee.withdraw]: new BigNumber(10),
+					},
+					userGuide: 'https://docs.badger.com/badger-finance/sett-user-guides/arbitrum-ibbtc-weth',
+					depositLink:
+						'https://swapr.eth.link/#/pools/0x82aF49447D8a07e3bd95BD0d56f35241523fBab1/0x9Ab3FD50FcAe73A1AEDa959468FD0D662c881b42?chainId=42161',
+				},
 			};
-		case ChainNetwork.Matic:
+		case Network.Polygon:
 			return {
 				[maticDeploy.sett_system.vaults['BSLP-IBBTC-WBTC']]: {
 					address: maticDeploy.sett_system.strategies['BSLP-IBBTC-WBTC'],
@@ -143,7 +154,7 @@ export const getStrategies = (network: ChainNetwork): StrategyNetworkConfig => {
 					userGuide: 'https://docs.badger.com/badger-finance/sett-user-guides/polygon-amwbtc-renwbtc',
 				},
 			};
-		case ChainNetwork.BinanceSmartChain:
+		case Network.BinanceSmartChain:
 			return {
 				[bscDeploy.sett_system.vaults['native.pancakeBnbBtcb']]: {
 					address: bscDeploy.sett_system.strategies['native.pancakeBnbBtcb'],
@@ -463,6 +474,15 @@ export const getStrategies = (network: ChainNetwork): StrategyNetworkConfig => {
 					strategyLink: 'https://badger.wiki/strategies#9a88b07c857e42beab929d3f0e26ca1b',
 					depositLink: 'https://mstable.app/#/mbtc/pools/0x48c59199da51b7e30ea200a74ea07974e62c4ba7',
 					userGuide: 'https://docs.badger.com/badger-finance/sett-user-guides/mstable-mbtc-hbtc',
+				},
+				[ethDeploy.sett_system.vaults['native.bveCVXCVX']]: {
+					address: ethDeploy.sett_system.strategies['native.bveCVXCVX'],
+					fees: {
+						[StrategyFee.performance]: new BigNumber(2000),
+						[StrategyFee.withdraw]: new BigNumber(10),
+					},
+					depositLink: 'https://curve.fi/factory/52/deposit',
+					userGuide: 'https://docs.badger.com/badger-finance/sett-user-guides/bvecvx-cvx',
 				},
 			};
 	}

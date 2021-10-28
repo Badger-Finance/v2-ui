@@ -1,32 +1,28 @@
 import { extendObservable, action, observe, IValueDidChange } from 'mobx';
 import slugify from 'slugify';
 import { RootStore } from '../RootStore';
-import { getTokens, getTotalValueLocked, listSetts } from 'mobx/utils/apiV2';
 import Web3 from 'web3';
 import { Token } from 'mobx/model/tokens/token';
 import { TokenCache } from '../model/tokens/token-cache';
 import { SettCache } from '../model/setts/sett-cache';
 import { ProtocolSummaryCache } from '../model/system-config/protocol-summary-cache';
 import { TokenConfigRecord } from 'mobx/model/tokens/token-config-record';
-import { SettState } from '../model/setts/sett-state';
-import { Sett } from '../model/setts/sett';
 import { SettMap } from '../model/setts/sett-map';
-import { ProtocolSummary } from '../model/system-config/protocol-summary';
-import { NetworkStore } from './NetworkStore';
-import { ChainNetwork } from '../../config/enums/chain-network.enum';
 import { TokenBalances } from 'mobx/model/account/user-balances';
 import { CallResult } from 'web3/interface/call-result';
 import BigNumber from 'bignumber.js';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { getToken } from 'web3/config/token-config';
+import { Currency, Network, ProtocolSummary, Sett, SettState } from '@badger-dao/sdk';
 
-const formatSettListItem = (sett: Sett): [string, Sett] => {
+const formatSettListItem = (sett: Sett): [string, string] => {
 	const sanitizedSettName = sett.name.replace(/\/+/g, '-'); // replace "/" with "-"
-	return [sett.vaultToken, { ...sett, slug: slugify(sanitizedSettName, { lower: true }) }];
+	return [sett.settToken, slugify(sanitizedSettName, { lower: true })];
 };
 
 export default class SettStore {
 	private store!: RootStore;
+	private slugs: Record<string, string>;
 
 	// loading: undefined, error: null, present: object
 	private tokenCache: TokenCache;
@@ -37,6 +33,7 @@ export default class SettStore {
 
 	constructor(store: RootStore) {
 		this.store = store;
+		this.slugs = {};
 
 		extendObservable(this, {
 			tokenCache: undefined,
@@ -53,19 +50,10 @@ export default class SettStore {
 			}
 		});
 
-		/**
-		 * Update account store on change of network.
-		 */
-		observe(this.store.network as NetworkStore, 'network', () => {
-			this.initialized = false;
-			this.refresh();
-		});
-
 		this.tokenCache = {};
 		this.settCache = {};
 		this.protocolSummaryCache = {};
 		this.initialized = false;
-
 		this.refresh();
 	}
 
@@ -81,6 +69,10 @@ export default class SettStore {
 		return this.tokenCache[this.store.network.network.symbol];
 	}
 
+	getSlug(address: string): string {
+		return this.slugs[address];
+	}
+
 	getSett(address: string): Sett | undefined {
 		if (!this.settMap) {
 			return;
@@ -93,13 +85,13 @@ export default class SettStore {
 			return undefined;
 		}
 
-		const settBySlug = Object.values(this.settMap).find((sett) => sett.slug === slug);
+		const settBySlug = Object.entries(this.slugs).find((e) => e[1] === slug);
 
 		if (!settBySlug) {
 			return null;
 		}
 
-		return settBySlug;
+		return this.getSett(settBySlug[0]);
 	}
 
 	getSettMap(state: SettState): SettMap | undefined | null {
@@ -121,9 +113,10 @@ export default class SettStore {
 		return tokens[tokenAddress];
 	}
 
-	private async refresh(): Promise<void> {
+	async refresh(): Promise<void> {
 		const { network } = this.store.network;
 		if (network) {
+			this.initialized = false;
 			await Promise.all([
 				this.loadSetts(network.symbol),
 				this.loadTokens(network.symbol),
@@ -135,11 +128,15 @@ export default class SettStore {
 	}
 
 	loadSetts = action(
-		async (chain = ChainNetwork.Ethereum): Promise<void> => {
-			const settList = await listSetts(chain);
+		async (chain = Network.Ethereum): Promise<void> => {
+			const settList = await this.store.api.loadSetts(Currency.ETH);
 
 			if (settList) {
-				this.settCache[chain] = Object.fromEntries(settList.map(formatSettListItem));
+				this.settCache[chain] = Object.fromEntries(settList.map((sett) => [sett.settToken, sett]));
+				this.slugs = {
+					...this.slugs,
+					...Object.fromEntries(settList.map(formatSettListItem)),
+				};
 			} else {
 				this.settCache[chain] = null;
 			}
@@ -147,8 +144,8 @@ export default class SettStore {
 	);
 
 	loadTokens = action(
-		async (chain = ChainNetwork.Ethereum): Promise<void> => {
-			const tokenConfig = await getTokens(chain);
+		async (chain = Network.Ethereum): Promise<void> => {
+			const tokenConfig = await this.store.api.loadTokens();
 			if (tokenConfig) {
 				this.tokenCache[chain] = tokenConfig;
 			} else {
@@ -158,9 +155,8 @@ export default class SettStore {
 	);
 
 	loadAssets = action(
-		async (chain = ChainNetwork.Ethereum): Promise<void> => {
-			const protocolSummary = await getTotalValueLocked(chain);
-
+		async (chain = Network.Ethereum): Promise<void> => {
+			const protocolSummary = await this.store.api.loadProtocolSummary(Currency.ETH);
 			if (protocolSummary) {
 				this.protocolSummaryCache[chain] = protocolSummary;
 			} else {

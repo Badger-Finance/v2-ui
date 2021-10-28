@@ -1,8 +1,8 @@
-import { ChainNetwork } from 'config/enums/chain-network.enum';
+import { Network } from '@badger-dao/sdk';
 
 export interface SettChartFetchParams {
 	id: string;
-	chain?: ChainNetwork;
+	chain?: Network;
 	from?: Date;
 	to?: Date;
 	granularity?: SettSnapshotGranularity;

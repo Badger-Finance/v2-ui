@@ -1,5 +1,5 @@
+import { Sett } from '@badger-dao/sdk';
 import React from 'react';
-import { Sett } from '../../mobx/model/setts/sett';
 
 interface Props {
 	sett: Sett;

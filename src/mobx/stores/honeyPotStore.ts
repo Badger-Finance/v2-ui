@@ -49,19 +49,11 @@ export class HoneyPotStore {
 			nftBeingRedeemed: this.nftBeingRedeemed,
 		});
 
-		observe(this.store.wallet, 'connectedAddress', () => {
-			this.fetchPoolBalance();
-			this.fetchNFTS();
-		});
-
-		observe(this.store.network, 'network', () => {
-			this.fetchPoolBalance();
-			this.fetchNFTS();
-		});
-
-		this.fetchPoolBalance();
-		this.fetchNFTS();
+		observe(this.store.wallet, 'connectedAddress', async () => this.refresh());
+		observe(this.store.network, 'network', async () => this.refresh());
 	}
+
+	refresh = action(async () => Promise.all([this.fetchNFTS(), this.fetchPoolBalance()]));
 
 	fetchPoolBalance = action(async () => {
 		try {
