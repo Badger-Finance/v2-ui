@@ -1,6 +1,5 @@
 import { action, extendObservable, observe } from 'mobx';
 import { RootStore } from '../RootStore';
-import { fetchClaimProof } from 'mobx/utils/apiV2';
 import WalletStore from './walletStore';
 import Web3 from 'web3';
 import { TokenBalances } from 'mobx/model/account/user-balances';
@@ -25,6 +24,7 @@ import { DEBUG } from 'config/environment';
 import { defaultSettBalance } from 'components-v2/sett-detail/utils';
 import { getToken } from 'web3/config/token-config';
 import { Account, BouncerType, MerkleProof, Network, Sett, SettData } from '@badger-dao/sdk';
+import { fetchClaimProof } from 'mobx/utils/apiV2';
 
 export default class UserStore {
 	private store!: RootStore;
