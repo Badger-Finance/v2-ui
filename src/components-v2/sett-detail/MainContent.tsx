@@ -27,6 +27,11 @@ const useStyles = makeStyles((theme) => ({
 		fontSize: 24,
 		fontWeight: 500,
 	},
+	chartsContainer: {
+		[theme.breakpoints.down('sm')]: {
+			minHeight: 600,
+		},
+	},
 }));
 
 interface Props {
@@ -61,7 +66,7 @@ export const MainContent = observer(
 					<Grid item xs={12} md={4} lg={3}>
 						<SpecsCard sett={sett} badgerSett={badgerSett} />
 					</Grid>
-					<Grid item xs={12} md={8} lg={9}>
+					<Grid item xs={12} md={8} lg={9} className={classes.chartsContainer}>
 						<ChartsCard sett={sett} />
 					</Grid>
 				</Grid>
