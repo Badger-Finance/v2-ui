@@ -4,9 +4,9 @@ import HelpIcon from '@material-ui/icons/Help';
 import { makeStyles } from '@material-ui/core/styles';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
-import { Sett } from '../../mobx/model/setts/sett';
 import { getNonEmptyStrategyFees } from '../../mobx/utils/fees';
 import { StrategyFees } from './StrategyFees';
+import { Sett } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
 	specName: {
@@ -57,7 +57,7 @@ export const SettFees = observer(
 			</div>
 		);
 
-		const networkSett = network.setts.find(({ vaultToken }) => vaultToken.address === sett.vaultToken);
+		const networkSett = network.setts.find(({ vaultToken }) => vaultToken.address === sett.settToken);
 
 		if (!networkSett) {
 			return showNoFees ? noFees : null;

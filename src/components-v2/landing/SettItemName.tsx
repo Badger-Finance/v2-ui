@@ -1,8 +1,8 @@
 import React from 'react';
 import { Grid, Typography } from '@material-ui/core';
 import SettBadge from './SettBadge';
-import { Sett } from '../../mobx/model/setts/sett';
 import { makeStyles } from '@material-ui/core/styles';
+import { Sett } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
 	symbol: {
@@ -35,7 +35,7 @@ export const SettItemName = ({ sett }: Props): JSX.Element => {
 				<img
 					alt={`Badger ${sett.name} Vault Symbol`}
 					className={classes.symbol}
-					src={`/assets/icons/${sett.vaultAsset.toLowerCase()}.png`}
+					src={`/assets/icons/${sett.settAsset.toLowerCase()}.png`}
 				/>
 			</Grid>
 			<Grid item>

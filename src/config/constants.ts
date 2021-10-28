@@ -10,15 +10,15 @@ import { AbiItem } from 'web3-utils';
 import { PartialAttemptOptions } from '@lifeomic/attempt';
 import { BurnAndReleaseStatus } from '@renproject/ren/build/main/burnAndRelease';
 import { DepositStatus } from '@renproject/ren/build/main/lockAndMint';
-import { ChainNetwork } from './enums/chain-network.enum';
-import { Currency } from './enums/currency.enum';
 import { Wallets } from './enums/wallets.enum';
+import { Network } from '@badger-dao/sdk';
+import { Currency } from './enums/currency.enum';
 
 /* App Configurations */
 
 export const DEFAULT_CURRENCY = Currency.USD;
-export const DEFAULT_NETWORK = ChainNetwork.Ethereum;
 export const MAX_LAYOUT_WIDTH = 1024;
+export const DEFAULT_NETWORK = Network.Ethereum;
 
 export const burnStatusDict: Record<BurnAndReleaseStatus, string> = {
 	pending: 'Transaction Pending.',
@@ -71,7 +71,7 @@ export const APP_NAME = 'badgerDAO';
 export const PORTIS_APP_ID = 'cbf7534d-170d-4903-943f-e607dc588b7f';
 export const EMPTY_DATA = '0x';
 export const ZERO_CURRENCY = '0.00000';
-export const SITE_VERSION = 'v2.9.7';
+export const SITE_VERSION = 'v2.9.8';
 export const WC_BRIDGE = 'https://wc-bridge.badger.finance/';
 export const REN_FEES_ENDPOINT = 'https://lightnode-mainnet.herokuapp.com/ren_queryBlockState';
 export const BLOCKNATIVE_API_KEY = 'af74a87b-cd08-4f45-83ff-ade6b3859a07';

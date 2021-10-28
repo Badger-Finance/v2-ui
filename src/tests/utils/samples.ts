@@ -1,11 +1,8 @@
-import { SettState } from '../../mobx/model/setts/sett-state';
-import slugify from 'slugify';
-import { Sett } from '../../mobx/model/setts/sett';
 import { BadgerSett } from '../../mobx/model/vaults/badger-sett';
 import { SettBalance } from '../../mobx/model/setts/sett-balance';
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
 import BigNumber from 'bignumber.js';
-import { BouncerType } from 'mobx/model/setts/sett-bouncer';
+import { BouncerType, Sett, SettState } from '@badger-dao/sdk';
 import { TEST_ADDRESS } from './snapshots';
 
 export const SAMPLE_BADGER_SETT: BadgerSett = {
@@ -21,15 +18,15 @@ export const SAMPLE_BADGER_SETT: BadgerSett = {
 
 export const SAMPLE_SETT: Sett = {
 	asset: 'sBTCCRV',
-	vaultAsset: 'bsBTCCRV',
-	multipliers: [],
+	settAsset: 'bsBTCCRV',
 	state: SettState.Open,
 	apr: 0.123456789123454,
+	deprecated: false,
 	balance: 2580.4779797767615,
 	bouncer: BouncerType.None,
 	boostable: true,
 	name: 'Curve.fi renBTC/wBTC/sBTC',
-	ppfs: 1.0082389531413567,
+	pricePerFullShare: 1.0082389531413567,
 	experimental: false,
 	strategy: {
 		address: TEST_ADDRESS,
@@ -40,7 +37,6 @@ export const SAMPLE_SETT: Sett = {
 	sources: [
 		{
 			name: 'Vault Compounding',
-			apy: 0.969833148006872,
 			apr: 0.123456789123454,
 			harvestable: false,
 			boostable: true,
@@ -55,7 +51,6 @@ export const SAMPLE_SETT: Sett = {
 		},
 		{
 			name: 'Curve LP Fees',
-			apy: 0.3785608655360706,
 			apr: 0.123456789123454,
 			harvestable: false,
 			boostable: true,
@@ -81,8 +76,7 @@ export const SAMPLE_SETT: Sett = {
 	],
 	underlyingToken: '0x075b1bb99792c9E1041bA13afEf80C91a1e70fB3',
 	value: 135697015.0445408,
-	vaultToken: '0xd04c48A53c111300aD41190D63681ed3dAd998eC',
-	slug: slugify('Curve.fi renBTC/wBTC/sBTC'),
+	settToken: '0xd04c48A53c111300aD41190D63681ed3dAd998eC',
 };
 
 export const SAMPLE_SETT_BALANCE: SettBalance = {

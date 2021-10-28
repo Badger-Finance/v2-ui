@@ -1,12 +1,12 @@
 import React from 'react';
 import { observer } from 'mobx-react-lite';
-import { Sett } from '../../../mobx/model/setts/sett';
 import BigNumber from 'bignumber.js';
 import { makeStyles } from '@material-ui/core/styles';
 import { Divider, Grid, Typography } from '@material-ui/core';
 import { formatStrategyFee } from '../../../utils/componentHelpers';
 import { StoreContext } from '../../../mobx/store-context';
 import { MAX_FEE } from 'config/constants';
+import { Sett } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
 	specName: {
@@ -42,7 +42,7 @@ export const SettWithdrawFee = observer(
 		const depositTokenSymbol = depositToken?.symbol || '';
 		const depositTokenDecimals = depositToken?.decimals || 18;
 
-		const withdrawAmount = new BigNumber(amount).multipliedBy(sett.ppfs);
+		const withdrawAmount = new BigNumber(amount).multipliedBy(sett.pricePerFullShare);
 		const withdrawalFee = withdrawAmount.multipliedBy(fee).dividedBy(MAX_FEE);
 		const amountAfterFee = new BigNumber(withdrawAmount).minus(withdrawalFee);
 

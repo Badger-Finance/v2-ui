@@ -339,7 +339,7 @@ exports[`HoneybadgerDrop Page Renders correctly with connected address and a bal
                 </span>
               </span>
               <span
-                class="MuiTouchRipple-root-296"
+                class="MuiTouchRipple-root-307"
               />
             </button>
           </div>
@@ -422,7 +422,7 @@ exports[`HoneybadgerDrop Page Renders correctly with connected address and a bal
                 Learn More
               </span>
               <span
-                class="MuiTouchRipple-root-296"
+                class="MuiTouchRipple-root-307"
               />
             </a>
           </div>
@@ -447,26 +447,157 @@ exports[`HoneybadgerDrop Page Renders correctly with connected address and a bal
             <div
               class="MuiGrid-root-10 makeStyles-nftContainer-294 MuiGrid-item-12 MuiGrid-grid-xs-12-56 MuiGrid-grid-sm-6-64 MuiGrid-grid-lg-4-90"
             >
-              <span
-                class="MuiSkeleton-root-281 MuiSkeleton-rect-283 makeStyles-nftSkeleton-295 MuiSkeleton-pulse-285"
-                style="width: 100%; height: 450px;"
-              />
-            </div>
-            <div
-              class="MuiGrid-root-10 makeStyles-nftContainer-294 MuiGrid-item-12 MuiGrid-grid-xs-12-56 MuiGrid-grid-sm-6-64 MuiGrid-grid-lg-4-90"
-            >
-              <span
-                class="MuiSkeleton-root-281 MuiSkeleton-rect-283 makeStyles-nftSkeleton-295 MuiSkeleton-pulse-285"
-                style="width: 100%; height: 450px;"
-              />
-            </div>
-            <div
-              class="MuiGrid-root-10 makeStyles-nftContainer-294 MuiGrid-item-12 MuiGrid-grid-xs-12-56 MuiGrid-grid-sm-6-64 MuiGrid-grid-lg-4-90"
-            >
-              <span
-                class="MuiSkeleton-root-281 MuiSkeleton-rect-283 makeStyles-nftSkeleton-295 MuiSkeleton-pulse-285"
-                style="width: 100%; height: 450px;"
-              />
+              <div
+                class="MuiPaper-root-253 makeStyles-paper-296 MuiPaper-elevation0-256 MuiPaper-rounded-254"
+              >
+                <div
+                  class="MuiGrid-root-10 MuiGrid-container-11 MuiGrid-spacing-xs-1-33"
+                >
+                  <div
+                    class="MuiGrid-root-10 makeStyles-textCenter-298 MuiGrid-item-12 MuiGrid-grid-xs-12-56"
+                  >
+                    <video
+                      autoplay=""
+                      class="makeStyles-nftImage-301"
+                      loop=""
+                      playsinline=""
+                      preload="auto"
+                      src="test.com"
+                    />
+                  </div>
+                  <div
+                    class="MuiGrid-root-10 makeStyles-statsContainer-304 MuiGrid-container-11 MuiGrid-item-12"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root-195 makeStyles-soundIcon-303"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"
+                      />
+                    </svg>
+                    <div
+                      class="MuiGrid-root-10 MuiGrid-item-12 MuiGrid-grid-xs-12-56"
+                    >
+                      <p
+                        class="MuiTypography-root-118 makeStyles-textCenter-298 MuiTypography-body1-120"
+                      >
+                        test
+                      </p>
+                    </div>
+                    <div
+                      class="MuiGrid-root-10 MuiGrid-container-11 MuiGrid-item-12 MuiGrid-grid-xs-12-56"
+                    >
+                      <div
+                        class="MuiGrid-root-10 MuiGrid-container-11 MuiGrid-item-12 MuiGrid-justify-xs-space-between-30 MuiGrid-grid-xs-12-56"
+                      >
+                        <div
+                          class="MuiGrid-root-10 makeStyles-textStart-299 MuiGrid-item-12 MuiGrid-grid-xs-6-50"
+                        >
+                          <span
+                            class="MuiTypography-root-118 MuiTypography-caption-121 MuiTypography-colorTextSecondary-144"
+                          >
+                            Your Balance
+                          </span>
+                        </div>
+                        <div
+                          class="MuiGrid-root-10 makeStyles-textEnd-300 MuiGrid-item-12 MuiGrid-grid-xs-6-50"
+                        >
+                          <span
+                            class="MuiTypography-root-118 MuiTypography-caption-121"
+                          >
+                            50
+                          </span>
+                        </div>
+                      </div>
+                      <div
+                        class="MuiGrid-root-10 MuiGrid-container-11 MuiGrid-item-12 MuiGrid-justify-xs-space-between-30 MuiGrid-grid-xs-12-56"
+                      >
+                        <div
+                          class="MuiGrid-root-10 makeStyles-textStart-299 MuiGrid-item-12 MuiGrid-grid-xs-6-50"
+                        >
+                          <span
+                            class="MuiTypography-root-118 MuiTypography-caption-121 MuiTypography-colorTextSecondary-144"
+                          >
+                            Remaining
+                          </span>
+                        </div>
+                        <div
+                          class="MuiGrid-root-10 makeStyles-textEnd-300 MuiGrid-item-12 MuiGrid-grid-xs-6-50"
+                        >
+                          <span
+                            class="MuiTypography-root-118 MuiTypography-caption-121"
+                          >
+                            50/50
+                          </span>
+                        </div>
+                      </div>
+                      <div
+                        class="MuiGrid-root-10 MuiGrid-container-11 MuiGrid-item-12 MuiGrid-justify-xs-space-between-30 MuiGrid-grid-xs-12-56"
+                      >
+                        <div
+                          class="MuiGrid-root-10 makeStyles-textStart-299 MuiGrid-item-12 MuiGrid-grid-xs-6-50"
+                        >
+                          <span
+                            class="MuiTypography-root-118 MuiTypography-caption-121 MuiTypography-colorTextSecondary-144"
+                          >
+                            Redemption Value (bDIGG)
+                          </span>
+                        </div>
+                        <div
+                          class="MuiGrid-root-10 makeStyles-textEnd-300 MuiGrid-item-12 MuiGrid-grid-xs-6-50"
+                        >
+                          <span
+                            class="MuiTypography-root-118 MuiTypography-caption-121"
+                          >
+                            0.00000
+                          </span>
+                        </div>
+                      </div>
+                      <div
+                        class="MuiGrid-root-10 MuiGrid-container-11 MuiGrid-item-12 MuiGrid-justify-xs-space-between-30 MuiGrid-grid-xs-12-56"
+                      >
+                        <div
+                          class="MuiGrid-root-10 makeStyles-textStart-299 MuiGrid-item-12 MuiGrid-grid-xs-6-50"
+                        >
+                          <span
+                            class="MuiTypography-root-118 MuiTypography-caption-121 MuiTypography-colorTextSecondary-144"
+                          >
+                            Redemption Value ($)
+                          </span>
+                        </div>
+                        <div
+                          class="MuiGrid-root-10 makeStyles-textEnd-300 MuiGrid-item-12 MuiGrid-grid-xs-6-50"
+                        >
+                          <span
+                            class="MuiTypography-root-118 MuiTypography-caption-121"
+                          />
+                        </div>
+                      </div>
+                      <div
+                        class="MuiGrid-root-10 MuiGrid-container-11 MuiGrid-item-12 MuiGrid-justify-xs-center-28 MuiGrid-grid-xs-12-56"
+                      >
+                        <button
+                          class="MuiButtonBase-root-245 MuiButton-root-216 MuiButton-contained-224 makeStyles-redeemButton-297 MuiBox-root-305 MuiBox-root-306 MuiButton-containedPrimary-225"
+                          tabindex="0"
+                          type="button"
+                        >
+                          <span
+                            class="MuiButton-label-217"
+                          >
+                            Redeem
+                          </span>
+                          <span
+                            class="MuiTouchRipple-root-307"
+                          />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

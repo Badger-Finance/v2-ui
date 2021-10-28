@@ -23,7 +23,7 @@ import { RootStore } from 'mobx/RootStore';
 import clsx, { ClassValue } from 'clsx';
 import SecurityIcon from '@material-ui/icons/Security';
 import { sidebarPricingLinks } from 'config/ui/links';
-import { ChainNetwork } from 'config/enums/chain-network.enum';
+import { Network } from '@badger-dao/sdk';
 
 const DRAWER_WIDTH = 240;
 
@@ -206,8 +206,8 @@ export const Sidebar = observer(() => {
 		return clsx(classes.listItem, shouldCollapseBeActive && classes.activeListItem, ...additionalClasses);
 	};
 
-	const isEmissionsNetwork = (network: ChainNetwork): boolean => {
-		return [ChainNetwork.Ethereum, ChainNetwork.Matic, ChainNetwork.Arbitrum].includes(network);
+	const isEmissionsNetwork = (network: Network): boolean => {
+		return [Network.Ethereum, Network.Polygon, Network.Arbitrum].includes(network);
 	};
 
 	const drawerContent = (
@@ -289,7 +289,7 @@ export const Sidebar = observer(() => {
 					</ListItemIcon>
 					<ListItemText primary="Guarded Vaults" />
 				</ListItem>
-				{network.symbol === ChainNetwork.Ethereum && (
+				{network.symbol === Network.Ethereum && (
 					<>
 						<ListItem
 							button
@@ -404,7 +404,7 @@ export const Sidebar = observer(() => {
 					>
 						Experimental Vaults
 					</ListItem>
-					{network.symbol === ChainNetwork.Ethereum && (
+					{network.symbol === Network.Ethereum && (
 						<>
 							<ListItem
 								button

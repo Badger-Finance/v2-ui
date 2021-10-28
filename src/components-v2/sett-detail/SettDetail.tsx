@@ -35,7 +35,7 @@ export const SettDetail = observer(
 		const initialNetwork = useRef(network);
 		const classes = useStyles();
 		const { sett, isLoading, isNotFound, isDepositDialogDisplayed, isWithdrawDialogDisplayed } = settDetail;
-		const badgerSett = network.setts.find(({ vaultToken }) => vaultToken.address === sett?.vaultToken);
+		const badgerSett = network.setts.find(({ vaultToken }) => vaultToken.address === sett?.settToken);
 
 		useEffect(() => {
 			if (network.symbol !== initialNetwork.current.symbol) {

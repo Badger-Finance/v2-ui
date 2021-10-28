@@ -1,9 +1,9 @@
 import React from 'react';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import { Breadcrumbs, Link, makeStyles, Typography } from '@material-ui/core';
-import { Sett } from '../../mobx/model/setts/sett';
 import { StoreContext } from '../../mobx/store-context';
 import { getRouteBySlug } from 'mobx/utils/helpers';
+import { Sett } from '@badger-dao/sdk';
 
 const useStyles = makeStyles({
 	breadcrumbsItem: {

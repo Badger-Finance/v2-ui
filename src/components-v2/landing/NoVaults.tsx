@@ -4,8 +4,8 @@ import views from '../../config/routes';
 import { Route } from 'mobx-router';
 import { RootStore } from 'mobx/RootStore';
 import { StoreContext } from '../../mobx/store-context';
-import { SettState } from '../../mobx/model/setts/sett-state';
 import { QueryParams } from '../../../node_modules/mobx-router/src/route';
+import { SettState } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
 	messageContainer: {

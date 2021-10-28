@@ -3,26 +3,23 @@ import { createChainBatchConfig, toSettConfig } from 'web3/config/config-utils';
 import { BatchCallRequest } from 'web3/interface/batch-call-request';
 import { Deploy } from 'web3/interface/deploy';
 import { SettMap } from '../setts/sett-map';
-import { GasPrices } from '../system-config/gas-prices';
 import { BadgerSett } from '../vaults/badger-sett';
-import { Network } from './network';
+import { Network as NetworkModel } from './network';
 import deploy from '../../../config/deployments/mainnet.json';
-import { SettState } from '../setts/sett-state';
 import { toRecord } from 'web3/config/token-config';
 import { ProtocolTokens } from 'web3/interface/protocol-token';
 import { FLAGS } from 'config/environment';
-import { ChainNetwork } from 'config/enums/chain-network.enum';
 import { Currency } from 'config/enums/currency.enum';
 import { AdvisoryType } from '../vaults/advisory-type';
-import { getGasPrices } from 'mobx/utils/apiV2';
+import { Network, SettState } from '@badger-dao/sdk';
 
-export class Ethereum extends Network {
+export class Ethereum extends NetworkModel {
 	constructor() {
 		super(
 			'https://etherscan.io',
 			'https://www.gasnow.org/',
 			'Ethereum',
-			ChainNetwork.Ethereum,
+			Network.Ethereum,
 			NETWORK_IDS.ETH,
 			Currency.ETH,
 			ETH_DEPLOY,
@@ -31,6 +28,7 @@ export class Ethereum extends Network {
 	}
 	get settOrder(): string[] {
 		return [
+			this.deploy.sett_system.vaults['native.bveCVXCVX'],
 			this.deploy.sett_system.vaults['native.icvx'],
 			this.deploy.sett_system.vaults['native.cvx'],
 			this.deploy.sett_system.vaults['native.badger'],
@@ -63,7 +61,7 @@ export class Ethereum extends Network {
 	batchRequests(setts: SettMap, address: string): BatchCallRequest[] {
 		const tokenAddresses = Object.values(setts).map((sett) => sett.underlyingToken);
 		const nonSettTokenAddresses = [deploy.digg_system.DROPT['DROPT-3'].longToken];
-		const settAddresses = Object.values(setts).map((sett) => sett.vaultToken);
+		const settAddresses = Object.values(setts).map((sett) => sett.settToken);
 		const generalSetts = settAddresses.filter((sett) => setts[sett].state === SettState.Open);
 		const guardedSetts = settAddresses.filter((sett) => setts[sett].state !== SettState.Open);
 		const geyserAddresses = ethSetts.map((sett) => sett.geyser).filter((geyser): geyser is string => !!geyser);
@@ -75,11 +73,6 @@ export class Ethereum extends Network {
 			address,
 			nonSettTokenAddresses,
 		);
-	}
-
-	async updateGasPrices(): Promise<GasPrices | null> {
-		const gasPrices = await getGasPrices(ChainNetwork.Ethereum);
-		return gasPrices;
 	}
 }
 
@@ -349,7 +342,6 @@ const ethSettDefinitions: BadgerSett[] = [
 			decimals: 18,
 		},
 	},
-
 	{
 		depositToken: {
 			address: ETH_DEPLOY.tokens['fPmBtcHBtc'],
@@ -357,6 +349,16 @@ const ethSettDefinitions: BadgerSett[] = [
 		},
 		vaultToken: {
 			address: ETH_DEPLOY.sett_system.vaults['native.fPmBtcHBtc'],
+			decimals: 18,
+		},
+	},
+	{
+		depositToken: {
+			address: ETH_DEPLOY.tokens['bveCVXCVX'],
+			decimals: 18,
+		},
+		vaultToken: {
+			address: ETH_DEPLOY.sett_system.vaults['native.bveCVXCVX'],
 			decimals: 18,
 		},
 	},

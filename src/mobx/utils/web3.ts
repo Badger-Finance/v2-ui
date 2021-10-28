@@ -1,6 +1,6 @@
+import { GasFees } from '@badger-dao/sdk';
 import BigNumber from 'bignumber.js';
 import { DEBUG } from 'config/environment';
-import { EIP1559GasPrices } from 'mobx/model/system-config/gas-prices';
 import { RootStore } from 'mobx/RootStore';
 import { ContractSendMethod, EstimateGasOptions, SendOptions } from 'web3-eth-contract';
 
@@ -17,7 +17,7 @@ export const getSendOptions = async (
 	// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 	method: any,
 	connectedAddress: string,
-	price: number | EIP1559GasPrices,
+	price: number | GasFees,
 ): Promise<SendOptions | EIP1559SendOptions> => {
 	return typeof price === 'number'
 		? await getNonEIP1559SendOptions(method, connectedAddress, price)
@@ -45,7 +45,7 @@ export const getNonEIP1559SendOptions = async (
 export const getEIP1559SendOptions = async (
 	method: ContractSendMethod,
 	from: string,
-	price: EIP1559GasPrices,
+	price: GasFees,
 ): Promise<EIP1559SendOptions> => {
 	const { maxFeePerGas, maxPriorityFeePerGas } = price;
 	const maxFeePerGasWei = new BigNumber(maxFeePerGas.toFixed(0)).multipliedBy(1e9);

@@ -17,11 +17,14 @@ import { NetworkStore } from './stores/NetworkStore';
 import { SettDetailStore } from './stores/SettDetail.store';
 import { SettChartsStore } from './stores/SettChartsStore';
 import LockedCvxDelegationStore from './stores/lockedCvxDelegationStore';
+import { BadgerAPI } from '@badger-dao/sdk';
+import { defaultNetwork } from 'config/networks.config';
+import { BADGER_API } from './utils/apiV2';
 
 export class RootStore {
+	public api: BadgerAPI;
 	public router: RouterStore<RootStore>;
 	public network: NetworkStore;
-
 	public wallet: WalletStore;
 	public uiState: UiState;
 	public contracts: ContractsStore;
@@ -40,6 +43,7 @@ export class RootStore {
 	public lockedCvxDelegation: LockedCvxDelegationStore;
 
 	constructor() {
+		this.api = new BadgerAPI(defaultNetwork.id, BADGER_API);
 		this.router = new RouterStore<RootStore>(this);
 		this.network = new NetworkStore(this);
 		this.wallet = new WalletStore(this);
@@ -68,12 +72,13 @@ export class RootStore {
 
 		const { network } = this.network;
 		this.rewards.resetRewards();
+		this.api = new BadgerAPI(network.id, BADGER_API);
 
 		const refreshData = [
-			this.setts.loadAssets(network.symbol),
 			this.network.updateGasPrices(),
-			this.setts.loadSetts(network.symbol),
+			this.setts.refresh(),
 			this.loadTreeData(),
+			this.prices.loadPrices(),
 		];
 
 		await Promise.all(refreshData);

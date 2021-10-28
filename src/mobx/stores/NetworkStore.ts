@@ -1,3 +1,4 @@
+import { GasPrices } from '@badger-dao/sdk';
 import { Currency } from 'config/enums/currency.enum';
 import { Wallets } from 'config/enums/wallets.enum';
 import { DEBUG } from 'config/environment';
@@ -6,7 +7,6 @@ import { DEFAULT_RPC } from 'config/rpc.config';
 import { isRpcWallet } from 'config/wallets';
 import { action, extendObservable, observe } from 'mobx';
 import { Network } from 'mobx/model/network/network';
-import { GasPrices } from 'mobx/model/system-config/gas-prices';
 import { RootStore } from 'mobx/RootStore';
 import Web3 from 'web3';
 
@@ -19,7 +19,7 @@ export class NetworkStore {
 	constructor(store: RootStore) {
 		this.store = store;
 		this.network = defaultNetwork;
-		this.gasPrices = { standard: 25 };
+		this.gasPrices = { rapid: 35, fast: 30, standard: 25, slow: 20 };
 		this.currentBlock = 1;
 
 		extendObservable(this, {
@@ -35,58 +35,11 @@ export class NetworkStore {
 		});
 	}
 
-	setNetwork = action(async (network: string) => {
-		await this.verifyUserNetwork(network);
-		await this.store.walletRefresh();
-	});
-
-	// Check to see if the wallet's connected network matches the currently defined network
-	// if it doesn't, set to the proper network
-	checkNetwork = action((network: number): boolean => {
-		const { onboard } = this.store.wallet;
-		// M50: Some onboard wallets don't have providers, we mock in the app network to fill in the gap here
-		const walletState = onboard.getState();
-		const walletName = walletState.wallet.name;
-		if (!walletName) {
-			return false;
-		}
-
-		// If this returns undefined, the network is not supported.
-		const networkId = isRpcWallet(walletName) ? walletState.appNetworkId : network;
-		const connectedNetwork = Network.networkFromId(networkId);
-
-		if (!connectedNetwork) {
-			this.store.uiState.queueNotification('Connecting to an unsupported network', 'error');
-			onboard.walletReset();
-			window.localStorage.removeItem('selectedWallet');
-			return false;
-		}
-
-		if (connectedNetwork.id !== this.network.id) {
-			this.network = connectedNetwork;
-		}
-		return true;
-	});
-
-	updateGasPrices = action(async () => {
-		this.gasPrices = await this.network.updateGasPrices();
-	});
-
-	getCurrentBlock = action(async () => {
-		const provider = this.store.wallet.provider;
-		if (!provider) {
-			return;
-		}
-		const web3 = new Web3(provider);
-		this.currentBlock = await web3.eth.getBlockNumber();
-	});
-
-	updateNetwork(): Promise<void[]> {
-		return Promise.all([this.updateGasPrices(), this.getCurrentBlock()]);
-	}
-
-	private verifyUserNetwork = action(async (symbol: string) => {
+	setNetwork = action(async (symbol: string) => {
 		const network = Network.networkFromSymbol(symbol);
+		if (!network) {
+			throw new Error(`${symbol} is not a supported network!`);
+		}
 		// ethereum is just the injected provider (mm) as all chains are canonically ethereum
 		const { ethereum } = window;
 		const { walletType } = this.store.wallet;
@@ -135,5 +88,51 @@ export class NetworkStore {
 			}
 		}
 		this.network = network;
+		await this.store.walletRefresh();
 	});
+
+	// Check to see if the wallet's connected network matches the currently defined network
+	// if it doesn't, set to the proper network
+	checkNetwork = action((network: number): boolean => {
+		const { onboard } = this.store.wallet;
+		// M50: Some onboard wallets don't have providers, we mock in the app network to fill in the gap here
+		const walletState = onboard.getState();
+		const walletName = walletState.wallet.name;
+		if (!walletName) {
+			return false;
+		}
+
+		// If this returns undefined, the network is not supported.
+		const networkId = isRpcWallet(walletName) ? walletState.appNetworkId : network;
+		const connectedNetwork = Network.networkFromId(networkId);
+
+		if (!connectedNetwork) {
+			this.store.uiState.queueNotification('Connecting to an unsupported network', 'error');
+			onboard.walletReset();
+			window.localStorage.removeItem('selectedWallet');
+			return false;
+		}
+
+		if (connectedNetwork.id !== this.network.id) {
+			this.network = connectedNetwork;
+		}
+		return true;
+	});
+
+	updateGasPrices = action(async () => {
+		this.gasPrices = await this.store.api.loadGasPrices();
+	});
+
+	getCurrentBlock = action(async () => {
+		const provider = this.store.wallet.provider;
+		if (!provider) {
+			return;
+		}
+		const web3 = new Web3(provider);
+		this.currentBlock = await web3.eth.getBlockNumber();
+	});
+
+	updateNetwork(): Promise<void[]> {
+		return Promise.all([this.updateGasPrices(), this.getCurrentBlock()]);
+	}
 }

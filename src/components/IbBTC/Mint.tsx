@@ -12,13 +12,11 @@ import {
 } from '@material-ui/core';
 import { makeStyles, styled } from '@material-ui/core/styles';
 import { observer } from 'mobx-react-lite';
-
 import { debounce } from 'utils/componentHelpers';
 import { ZERO } from 'config/constants';
 import { BigNumber } from 'bignumber.js';
 import { Token, Tokens } from './Tokens';
 import { DownArrow } from './DownArrow';
-
 import { StoreContext } from 'mobx/store-context';
 import { toFixedDecimals } from 'mobx/utils/helpers';
 import { useConnectWallet } from 'mobx/utils/hooks';

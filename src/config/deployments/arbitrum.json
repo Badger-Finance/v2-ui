@@ -11,7 +11,8 @@
 		"swapr": "0xdE903E2712288A1dA82942DDdF2c20529565aC30",
 		"swapr.WETH-SWAPR": "0xA66b20912cBEa522278f3056B4aE60D0d3EE271b",
 		"swapr.WETH-WBTC": "0x9a17d97fb5f76f44604270448ac77d55ac40c15c",
-		"swapr.WETH-BADGER": "0x3C6bd88cdD2AECf466E22d4ED86dB6B8953FDb72"
+		"swapr.WETH-BADGER": "0x3C6bd88cdD2AECf466E22d4ED86dB6B8953FDb72",
+		"swapr.WETH-IBBTC": "0x6a060a569e04a41794d6b1308865a13F27D27E53"
 	},
 	"geysers": {},
 	"sett_system": {
@@ -23,7 +24,8 @@
 			"native.swaprWethSwapr": "0x0c2153e8aE4DB8233c61717cDC4c75630E952561",
 			"native.tricryptoLight": "0xfdb9e5a186FB7655aC9cD7CAFF3d6D4c6064cc50",
 			"native.swaprWethWbtc": "0xaf9aB64F568149361ab670372b16661f4380e80B",
-			"native.swaprWethBadger": "0xE9C12F06F8AFFD8719263FE4a81671453220389c"
+			"native.swaprWethBadger": "0xE9C12F06F8AFFD8719263FE4a81671453220389c",
+			"native.swaprWethIbbtc": "0x60129B2b762952Dfe8b21f40ee8aa3B2A4623546"
 		},
 		"strategies": {
 			"native.sushiWethSushi": "0x86f772C82914f5bFD168f99e208d0FC2C371e9C2",
@@ -33,7 +35,8 @@
 			"native.swaprWethSwapr": "0x85386C3cE0679b035a9F8F17f531C076d0b35954",
 			"native.tricryptoLight": "0x9a28eeFB2c5F8311f37c39314D78Be85C54B5da6",
 			"native.swaprWethWbtc": "0x0c2153e8aE4DB8233c61717cDC4c75630E952561",
-			"native.swaprWethBadger": "0x1DF4272628bFFB7dC82b5974878E4e058b477179"
+			"native.swaprWethBadger": "0x1DF4272628bFFB7dC82b5974878E4e058b477179",
+			"native.swaprWethIbbtc": "0x4AeC063BB5322c9d4c1f46572f432aaE3b78b87c"
 		}
 	},
 	"badgerTree": "0x635EB2C39C75954bb53Ebc011BDC6AfAAcE115A6"
