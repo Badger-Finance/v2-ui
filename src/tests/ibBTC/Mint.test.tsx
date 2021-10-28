@@ -7,7 +7,7 @@ import { customRender, screen, fireEvent, cleanup, act } from '../Utils';
 import { Mint } from '../../components/IbBTC/Mint';
 import { IbbtcOptionToken } from '../../mobx/model/tokens/ibbtc-option-token';
 import { Snackbar } from '../../components/Snackbar';
-import { Header } from '../../components/Header';
+import Header from '../../components/Header';
 import { action } from 'mobx';
 import IbBTCStore from 'mobx/stores/ibBTCStore';
 

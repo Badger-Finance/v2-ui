@@ -6,7 +6,7 @@ import { StoreProvider } from '../../mobx/store-context';
 import { customRender, screen, fireEvent, act } from '../Utils';
 import { Redeem } from '../../components/IbBTC/Redeem';
 import { IbbtcOptionToken } from '../../mobx/model/tokens/ibbtc-option-token';
-import { Header } from '../../components/Header';
+import Header from '../../components/Header';
 import { Snackbar } from '../../components/Snackbar';
 import { action } from 'mobx';
 

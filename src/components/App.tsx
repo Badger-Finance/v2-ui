@@ -1,7 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Sidebar } from './Sidebar';
-import { Header } from './Header';
+import Header from './Header';
 import { MobxRouter } from 'mobx-router';
 import { useEffect } from 'react';
 import { ONE_MIN_MS } from 'config/constants';
