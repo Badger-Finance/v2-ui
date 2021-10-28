@@ -1,17 +1,16 @@
 import { retry } from '@lifeomic/attempt';
 import { defaultRetryOptions } from 'config/constants';
-import { action, extendObservable, IValueDidChange, observe } from 'mobx';
+import { action, extendObservable } from 'mobx';
 import { RootStore } from 'mobx/RootStore';
 import Web3 from 'web3';
 import { ExchangeRates } from '../model/system-config/exchange-rates';
 import { BDiggExchangeRates } from '../model/system-config/bDigg-exchange-rates';
-import { Network as NetworkModel } from 'mobx/model/network/network';
 import { ExchangeRatesResponse } from 'mobx/model/system-config/exchange-rates-response';
 import { MaticPriceResponse, MATIC_PRICE_KEY } from 'mobx/model/system-config/matic-price-response';
 import { fetchData } from '../../utils/fetchData';
 import { DEBUG } from '../../config/environment';
 import BigNumber from 'bignumber.js';
-import { Currency, Network, PriceSummary } from '@badger-dao/sdk';
+import { Currency, PriceSummary } from '@badger-dao/sdk';
 
 export default class PricesStore {
 	private store: RootStore;
@@ -31,11 +30,6 @@ export default class PricesStore {
 			pricesAvailability: this.pricesAvailability,
 		});
 
-		observe(this.store.network, 'network', (change: IValueDidChange<NetworkModel>) => {
-			const { newValue } = change;
-			this.loadPrices(newValue.symbol);
-		});
-
 		this.init();
 	}
 
@@ -45,8 +39,7 @@ export default class PricesStore {
 	}
 
 	async init(): Promise<void> {
-		const network = this.store.network.network.symbol ?? undefined;
-		await Promise.all([this.loadPrices(network), this.loadExchangeRates()]);
+		await Promise.all([this.loadPrices(), this.loadExchangeRates()]);
 	}
 
 	getPrice(address: string): BigNumber {
@@ -55,7 +48,8 @@ export default class PricesStore {
 	}
 
 	loadPrices = action(
-		async (network = Network.Ethereum): Promise<void> => {
+		async (): Promise<void> => {
+			const { network } = this.store.network;
 			const prices = await this.store.api.loadPrices(Currency.ETH);
 			if (prices) {
 				this.priceCache = {
@@ -65,7 +59,7 @@ export default class PricesStore {
 
 				this.pricesAvailability = {
 					...this.pricesAvailability,
-					[network]: true,
+					[network.symbol]: true,
 				};
 			}
 		},
