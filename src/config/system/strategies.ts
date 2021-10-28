@@ -85,7 +85,7 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 					},
 					userGuide: 'https://docs.badger.com/badger-finance/sett-user-guides/arbitrum-wbtc-weth',
 					depositLink:
-						'https://swapr.eth.link/#/pools/0x2f2a2543B76A4166549F7aaB2e75Bef0aefC5B0f/0x82aF49447D8a07e3bd95BD0d56f35241523fBab1/0x418A639F01FAee054D3A823c227c7dC179C209Fa?chainId=42161',
+						'https://swapr.eth.link/#/pools/0x2f2a2543B76A4166549F7aaB2e75Bef0aefC5B0f/0x82aF49447D8a07e3bd95BD0d56f35241523fBab1?chainId=42161',
 				},
 				[arbitrumDeploy.sett_system.vaults['native.swaprWethBadger']]: {
 					address: arbitrumDeploy.sett_system.strategies['native.swaprWethBadger'],
@@ -96,7 +96,7 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 					},
 					userGuide: 'https://docs.badger.com/badger-finance/sett-user-guides/arbitrum-badger-weth',
 					depositLink:
-						'https://swapr.eth.link/#/pools/0x2f2a2543B76A4166549F7aaB2e75Bef0aefC5B0f/0x82aF49447D8a07e3bd95BD0d56f35241523fBab1/0x418A639F01FAee054D3A823c227c7dC179C209Fa?chainId=42161',
+						'https://swapr.eth.link/#/pools/0x82aF49447D8a07e3bd95BD0d56f35241523fBab1/0xBfa641051Ba0a0Ad1b0AcF549a89536A0D76472E?chainId=42161',
 				},
 				[arbitrumDeploy.sett_system.vaults['native.swaprWethIbbtc']]: {
 					address: arbitrumDeploy.sett_system.strategies['native.swaprWethIbbtc'],
