@@ -8,8 +8,7 @@ export const getApi = (): string => {
 	if (DEBUG) {
 		return 'https://staging-api.badger.com/v2';
 	}
-	// temporary update for testing - revert by 10/28 @jintao
-	return 'https://staging-api.badger.com/v2';
+	return 'https://api.badger.com/v2';
 };
 export const BADGER_API = getApi();
 
