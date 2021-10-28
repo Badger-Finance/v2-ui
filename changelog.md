@@ -1,5 +1,11 @@
 # v2 UI Changelog
 
+### v2.9.8 - 10/28/2021
+
+- sdk integration
+- cvx / bvecvx vault release
+- swapr badger / eth + ibbtc / eth release
+
 ### Hotfix - 10/26/2021
 
 - change verbiage in locked cvx banner from 'Total' to 'Total Claimed'
