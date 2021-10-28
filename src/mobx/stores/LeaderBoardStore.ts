@@ -1,6 +1,5 @@
 import { action, extendObservable } from 'mobx';
 import { RootStore } from 'mobx/RootStore';
-import { fetchCompleteLeaderBoardData } from 'mobx/utils/apiV2';
 import { LeaderBoardBadger } from '../model/boost/leader-board-badger';
 import { LeaderboardRank } from '../model/boost/leaderboard-rank';
 import { BOOST_RANKS } from '../../config/system/boost-ranks';
@@ -24,7 +23,7 @@ export class LeaderBoardStore {
 
 	loadData = action(
 		async (): Promise<void> => {
-			const fetchedLeaderBoard = await fetchCompleteLeaderBoardData();
+			const fetchedLeaderBoard = await this.store.api.loadLeaderboard();
 
 			if (fetchedLeaderBoard) {
 				this.completeBoard = fetchedLeaderBoard;
