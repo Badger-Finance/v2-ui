@@ -1,7 +1,6 @@
 import { Grid, Paper, makeStyles, Button, Typography, Tooltip, IconButton } from '@material-ui/core';
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { StoreContext } from '../../mobx/store-context';
-import useInterval from '@use-it/interval';
 import { observer } from 'mobx-react-lite';
 import { Loader } from '../Loader';
 import Metric from './Metric';
@@ -122,13 +121,16 @@ const Info = observer(() => {
 	const classes = useStyles();
 	const [nextRebase, setNextRebase] = useState('00:00:00');
 
-	useInterval(() => {
-		if (!!rebase && !!rebase.nextRebase) {
-			const zero = new Date(0);
-			zero.setTime(rebase.nextRebase.getTime() - new Date().getTime());
-			setNextRebase(zero.toISOString().substr(11, 8));
-		}
-	}, 1000);
+	useEffect(() => {
+		const rebaseInterval = setInterval(() => {
+			if (!!rebase && !!rebase.nextRebase) {
+				const zero = new Date(0);
+				zero.setTime(rebase.nextRebase.getTime() - new Date().getTime());
+				setNextRebase(zero.toISOString().substr(11, 8));
+			}
+		}, 1000);
+		return () => clearInterval(rebaseInterval);
+	}, [rebase]);
 
 	if (!connectedAddress) {
 		return <NoWallet message="Connect wallet to see DIGG rebase statistics." />;
