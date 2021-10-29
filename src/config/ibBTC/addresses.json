@@ -32,7 +32,7 @@
 				"byvWBTC": {
 					"address": "0x4b92d19c11435614CD49Af1b589001b7c08cD4D5",
 					"decimals": 8,
-					"symbol": "bWBTC",
+					"symbol": "byvWBTC",
 					"name": "Badger WBTC yVault"
 				},
 				"renBTC": {
