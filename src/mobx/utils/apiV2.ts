@@ -12,9 +12,9 @@ import { DEBUG } from 'config/constants';
 
 export const getApi = (): string => {
 	if (DEBUG) {
-		return 'https://staging-api.badger.finance/v2';
+		return 'https://staging-api.badger.com/v2';
 	}
-	return 'https://api.badger.finance/v2';
+	return 'https://api.badger.com/v2';
 };
 const badgerApi = getApi();
 

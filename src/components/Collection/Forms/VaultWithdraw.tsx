@@ -35,7 +35,7 @@ export const VaultWithdraw = observer((props: SettModalProps) => {
 	const userBalance = settBalances[badgerSett.vaultToken.address];
 	const vaultSymbol = setts.getToken(badgerSett.vaultToken.address)?.symbol || sett.asset;
 
-	const underlying = userBalance.tokenBalance.multipliedBy(sett.ppfs);
+	const underlying = userBalance.tokenBalance.multipliedBy(sett.pricePerFullShare);
 	const underlyingBalance = new TokenBalance(userBalance.token, underlying, userBalance.price);
 	const underlyingSymbol = setts.getToken(badgerSett.depositToken.address)?.symbol || sett.asset;
 

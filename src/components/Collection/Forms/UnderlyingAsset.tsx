@@ -25,7 +25,7 @@ export const UnderlyingAsset = observer(({ sett, badgerSett }: SettModalProps) =
 	} = store;
 
 	const userBalance = settBalances[badgerSett.vaultToken.address];
-	const settPpfs = settMap ? settMap[badgerSett.vaultToken.address].ppfs : 1;
+	const settPpfs = settMap ? settMap[badgerSett.vaultToken.address].pricePerFullShare : 1;
 	const underlying = userBalance.tokenBalance.multipliedBy(settPpfs);
 	const underlyingBalance = new TokenBalance(userBalance.token, underlying, userBalance.price);
 	const underlyingSymbol = setts.getToken(badgerSett.depositToken.address)?.symbol || sett.asset;

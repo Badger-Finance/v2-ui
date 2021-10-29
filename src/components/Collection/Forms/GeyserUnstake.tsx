@@ -44,7 +44,7 @@ export const GeyserUnstake = observer((props: SettModalProps) => {
 	const userBalance = geyserBalances[badgerSett.geyser];
 	const vaultSymbol = setts.getToken(badgerSett.vaultToken.address)?.symbol || sett.asset;
 
-	const underlying = userBalance.tokenBalance.multipliedBy(sett.ppfs);
+	const underlying = userBalance.tokenBalance.multipliedBy(sett.pricePerFullShare);
 	const underlyingBalance = new TokenBalance(userBalance.token, underlying, userBalance.price);
 	const underlyingSymbol = setts.getToken(badgerSett.depositToken.address)?.symbol || sett.asset;
 

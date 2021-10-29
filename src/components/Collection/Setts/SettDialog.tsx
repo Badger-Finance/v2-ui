@@ -31,7 +31,7 @@ export const SettDialog = ({ open = false, sett, onClose }: SettDialogProps): JS
 
 	const { connectedAddress } = store.wallet;
 	const { network } = store.network;
-	const badgerSett = network.setts.find(({ vaultToken }) => vaultToken.address === sett.vaultToken);
+	const badgerSett = network.setts.find(({ vaultToken }) => vaultToken.address === sett.settToken);
 
 	useEffect(() => {
 		return () => {

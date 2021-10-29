@@ -111,7 +111,7 @@ export default class SettStore {
 			chain = chain ?? NETWORK_LIST.ETH;
 			const settList = await listSetts(chain);
 			if (settList) {
-				this.settCache[chain] = Object.fromEntries(settList.map((sett) => [sett.vaultToken, sett]));
+				this.settCache[chain] = Object.fromEntries(settList.map((sett) => [sett.settToken, sett]));
 			} else {
 				this.settCache[chain] = null;
 			}

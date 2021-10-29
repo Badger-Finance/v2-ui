@@ -295,7 +295,7 @@ export default class UserStore {
 							totalUserCap: this.store.rewards.balanceFromProof(depositToken.address, userDepositCap),
 							asset: depositToken.symbol,
 						};
-						return [vault.vaultToken, cap];
+						return [vault.settToken, cap];
 					})
 					.filter((value): value is [] => !!value),
 			);

@@ -1,24 +1,33 @@
 import * as api from '../../mobx/utils/apiV2';
 import BigNumber from 'bignumber.js';
 import { SettState } from '../../mobx/model/setts/sett-state';
+import { BouncerType } from 'mobx/model/setts/bouncer-type';
+import { TEST_ADDRESS } from './snapshots';
 
 export function mockApi(): void {
 	jest.spyOn(api, 'listSetts').mockReturnValue(
 		Promise.resolve([
 			{
 				asset: 'sBTCCRV',
+				settAsset: 'bsBTCCRV',
 				state: SettState.Open,
 				apr: 0.123456789123454,
+				deprecated: false,
 				balance: 2580.4779797767615,
-				hasBouncer: false,
+				bouncer: BouncerType.None,
 				boostable: true,
 				name: 'Curve.fi renBTC/wBTC/sBTC',
-				ppfs: 1.0082389531413567,
+				pricePerFullShare: 1.0082389531413567,
 				experimental: false,
+				strategy: {
+					address: TEST_ADDRESS,
+					withdrawFee: 50,
+					performanceFee: 20,
+					strategistFee: 10,
+				},
 				sources: [
 					{
 						name: 'Vault Compounding',
-						apy: 0.969833148006872,
 						apr: 0.123456789123454,
 						harvestable: false,
 						boostable: true,
@@ -33,7 +42,6 @@ export function mockApi(): void {
 					},
 					{
 						name: 'Curve LP Fees',
-						apy: 0.3785608655360706,
 						apr: 0.123456789123454,
 						harvestable: false,
 						boostable: true,
@@ -51,7 +59,7 @@ export function mockApi(): void {
 					{
 						address: '0x075b1bb99792c9E1041bA13afEf80C91a1e70fB3',
 						name: 'Curve.fi renBTC/wBTC/sBTC',
-						symbol: 'Curve.fi renBTC/wBTC/sBTC',
+						symbol: 'curve-renBTC-wBTC-sBTC',
 						decimals: 18,
 						balance: 2580.4779797767615,
 						value: 135697015.0445408,
@@ -59,7 +67,7 @@ export function mockApi(): void {
 				],
 				underlyingToken: '0x075b1bb99792c9E1041bA13afEf80C91a1e70fB3',
 				value: 135697015.0445408,
-				vaultToken: '0xd04c48A53c111300aD41190D63681ed3dAd998eC',
+				settToken: '0xd04c48A53c111300aD41190D63681ed3dAd998eC',
 			},
 		]),
 	);

@@ -12,6 +12,7 @@ import { toFixedDecimals, unscale } from '../utils/helpers';
 import { action, extendObservable } from 'mobx';
 import { Sett } from '../model/setts/sett';
 import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
+import { BouncerType } from 'mobx/model/setts/bouncer-type';
 
 class ContractsStore {
 	private store!: RootStore;
@@ -175,15 +176,15 @@ class ContractsStore {
 			const { bouncerProof } = this.store.user;
 
 			const web3 = new Web3(provider);
-			const settContract = new web3.eth.Contract(SETT_ABI, sett.vaultToken);
-			const yearnContract = new web3.eth.Contract(YEARN_ABI, sett.vaultToken);
+			const settContract = new web3.eth.Contract(SETT_ABI, sett.settToken);
+			const yearnContract = new web3.eth.Contract(YEARN_ABI, sett.settToken);
 			const depositBalance = amount.tokenBalance.toFixed(0, BigNumber.ROUND_HALF_FLOOR);
 			let method: ContractSendMethod = settContract.methods.deposit(depositBalance);
 
 			// TODO: Clean this up, too many branches
 			// Uncapped deposits on a wrapper still require an empty proof
 			// TODO: better designate abi <> sett pairing, single yearn vault uses yearn ABI.
-			if (sett.vaultToken === Web3.utils.toChecksumAddress(ETH_DEPLOY.sett_system.vaults['yearn.wBtc'])) {
+			if (sett.settToken === Web3.utils.toChecksumAddress(ETH_DEPLOY.sett_system.vaults['yearn.wBtc'])) {
 				if (depositAll) {
 					method = yearnContract.methods.deposit([]);
 				} else {
@@ -191,7 +192,7 @@ class ContractsStore {
 				}
 			}
 
-			if (sett.hasBouncer) {
+			if (sett.bouncer === BouncerType.Badger) {
 				if (!bouncerProof) {
 					queueNotification(`Error loading Badger Bouncer Proof`, 'error');
 					return;
