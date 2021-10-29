@@ -2,20 +2,27 @@ import { SettSummary } from './sett-summary';
 import { SettState } from './sett-state';
 import { SettTokenBalance } from './sett-token-balance';
 import { SettValueSource } from './sett-value-source';
+import { BouncerType } from './bouncer-type';
+import { SettStrategy } from './sett-strategy';
 
 export interface Sett extends SettSummary {
-	apr: number;
+	name: string;
+	value: number;
+	balance: number;
 	asset: string;
+	settAsset: string;
 	boostable: boolean;
+	deprecated: boolean;
 	experimental: boolean;
-	hasBouncer: boolean;
-	maxApr?: number;
+	bouncer: BouncerType;
+	apr: number;
 	minApr?: number;
-	ppfs: number;
+	maxApr?: number;
+	pricePerFullShare: number;
 	sources: SettValueSource[];
 	state: SettState;
 	tokens: SettTokenBalance[];
 	underlyingToken: string;
-	vaultToken: string;
-	deprecated?: boolean;
+	settToken: string;
+	strategy: SettStrategy;
 }

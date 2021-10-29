@@ -57,7 +57,7 @@ export class Ethereum extends Network {
 
 	batchRequests(setts: SettMap, address: string): BatchCallRequest[] {
 		const tokenAddresses = Object.values(setts).map((sett) => sett.underlyingToken);
-		const settAddresses = Object.values(setts).map((sett) => sett.vaultToken);
+		const settAddresses = Object.values(setts).map((sett) => sett.settToken);
 		const generalSetts = settAddresses.filter((sett) => setts[sett].state === SettState.Open);
 		const guardedSetts = settAddresses.filter((sett) => setts[sett].state !== SettState.Open);
 		const geyserAddresses = ethSetts.map((sett) => sett.geyser).filter((geyser): geyser is string => !!geyser);

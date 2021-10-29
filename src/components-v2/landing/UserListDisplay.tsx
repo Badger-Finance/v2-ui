@@ -88,7 +88,7 @@ const UserListDisplay = observer((props: SettListViewProps) => {
 			walletList.push(walletItem);
 		}
 
-		const scalar = new BigNumber(sett.ppfs);
+		const scalar = new BigNumber(sett.pricePerFullShare);
 		const generalBalance = user.getBalance(ContractNamespace.Sett, badgerSett).scale(scalar, true);
 		const guardedBalance = user.getBalance(ContractNamespace.GaurdedSett, badgerSett).scale(scalar, true);
 		const settBalance = generalBalance ?? guardedBalance;

@@ -9,6 +9,7 @@ import SettBadge from './SettBadge';
 import BigNumber from 'bignumber.js';
 import { Sett } from '../../mobx/model/setts/sett';
 import { SettTokenBalance } from '../../mobx/model/setts/sett-token-balance';
+import { BouncerType } from 'mobx/model/setts/bouncer-type';
 
 const useStyles = makeStyles((theme) => ({
 	border: {
@@ -148,7 +149,7 @@ const SettListItem = observer(
 
 		let userApr: number | undefined = undefined;
 
-		const multiplier = !sett.deprecated ? user.accountDetails?.multipliers[sett.vaultToken] : undefined;
+		const multiplier = !sett.deprecated ? user.accountDetails?.multipliers[sett.settToken] : undefined;
 		if (multiplier) {
 			userApr =
 				sett.sources
@@ -160,7 +161,7 @@ const SettListItem = observer(
 		const displayValue = balanceValue ? balanceValue : usdToCurrency(new BigNumber(sett.value), currency);
 
 		// TODO: Clean up no access implementation, too much duplication
-		return sett.hasBouncer && !user.viewSettShop() ? (
+		return sett.bouncer === BouncerType.Badger && !user.viewSettShop() ? (
 			<DisabledSettListItem
 				apy={apr}
 				tooltip={tooltip}

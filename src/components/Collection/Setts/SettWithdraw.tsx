@@ -33,7 +33,7 @@ export const SettWithdraw = ({ sett, badgerSett }: Props): JSX.Element => {
 		<>
 			<StyledTabs variant="fullWidth" indicatorColor="primary" value={mode}>
 				<Tab value="withdraw" label="Withdraw" onClick={() => setMode('withdraw')} />
-				{!noStake[sett.vaultToken] && network.symbol === NETWORK_LIST.ETH && (
+				{!noStake[sett.settToken] && network.symbol === NETWORK_LIST.ETH && (
 					<Tab value="unstake" label="Unstake" onClick={() => setMode('unstake')} />
 				)}
 			</StyledTabs>

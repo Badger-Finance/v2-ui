@@ -1,17 +1,26 @@
 import { SettState } from '../model/setts/sett-state';
 import { Sett } from '../model/setts/sett';
+import { BouncerType } from 'mobx/model/setts/bouncer-type';
 
 export const testYearnVaultApiResponse: Sett = {
 	name: 'Test Yearn Vault',
 	asset: 'TEST',
-	vaultToken: '0x50b20a12Acb15a413FE76FB82f9E524D3b0E8a69',
+	settAsset: 'bTEST',
+	deprecated: false,
+	strategy: {
+		strategistFee: 0,
+		withdrawFee: 0,
+		performanceFee: 0,
+		address: '0x50b20a12Acb15a413FE76FB82f9E524D3b0E8a69',
+	},
+	settToken: '0x50b20a12Acb15a413FE76FB82f9E524D3b0E8a69',
 	underlyingToken: '0xEd2a8Ab49DcbCb8C27650cC8D5229Cefcad52e2a',
-	ppfs: 1,
+	pricePerFullShare: 1,
 	experimental: true,
 	value: 150538.70217373536,
 	apr: 20,
 	boostable: false,
-	hasBouncer: true,
+	bouncer: BouncerType.Badger,
 	balance: 100,
 	tokens: [
 		{
@@ -26,7 +35,6 @@ export const testYearnVaultApiResponse: Sett = {
 	sources: [
 		{
 			name: 'Yearn Test Fees',
-			apy: 30.317345943834848,
 			apr: 30.317345943834848,
 			performance: {
 				oneDay: 23.073893311001424,
