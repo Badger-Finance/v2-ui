@@ -117,6 +117,14 @@ class LockedCvxDelegationStore {
 
 	async loadVotiumRewardsInformation(): Promise<void> {
 		try {
+			const {
+				network: { network },
+			} = this.store;
+
+			if (network.id !== NETWORK_IDS.ETH) {
+				return;
+			}
+
 			const [totalEarned, unclaimedBalance] = await Promise.all([
 				this.getTotalVotiumRewards(),
 				this.getUnclaimedVotiumRewards(),

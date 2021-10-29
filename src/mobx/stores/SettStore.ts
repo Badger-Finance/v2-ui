@@ -14,6 +14,7 @@ import BigNumber from 'bignumber.js';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { getToken } from 'web3/config/token-config';
 import { Currency, Network, ProtocolSummary, Sett, SettState } from '@badger-dao/sdk';
+import { SlugCache } from '../model/setts/slug-cache';
 
 const formatSettListItem = (sett: Sett): [string, string] => {
 	const sanitizedSettName = sett.name.replace(/\/+/g, '-'); // replace "/" with "-"
@@ -22,18 +23,17 @@ const formatSettListItem = (sett: Sett): [string, string] => {
 
 export default class SettStore {
 	private store!: RootStore;
-	private slugs: Record<string, string>;
 
 	// loading: undefined, error: null, present: object
 	private tokenCache: TokenCache;
 	private settCache: SettCache;
+	private slugCache: SlugCache;
 	private protocolSummaryCache: ProtocolSummaryCache;
 	public initialized: boolean;
 	public availableBalances: TokenBalances = {};
 
 	constructor(store: RootStore) {
 		this.store = store;
-		this.slugs = {};
 
 		extendObservable(this, {
 			tokenCache: undefined,
@@ -52,6 +52,7 @@ export default class SettStore {
 
 		this.tokenCache = {};
 		this.settCache = {};
+		this.slugCache = {};
 		this.protocolSummaryCache = {};
 		this.initialized = false;
 		this.refresh();
@@ -70,22 +71,29 @@ export default class SettStore {
 	}
 
 	getSlug(address: string): string {
-		return this.slugs[address];
+		const { network: currentNetwork } = this.store.network;
+
+		return this.slugCache[currentNetwork.symbol][address];
 	}
 
 	getSett(address: string): Sett | undefined {
 		if (!this.settMap) {
 			return;
 		}
+
 		return this.settMap[Web3.utils.toChecksumAddress(address)];
 	}
 
 	getSettBySlug(slug: string): Sett | undefined | null {
+		const { network: currentNetwork } = this.store.network;
+
 		if (!this.settMap) {
 			return undefined;
 		}
 
-		const settBySlug = Object.entries(this.slugs).find((e) => e[1] === slug);
+		const settBySlug = Object.entries(this.slugCache[currentNetwork.symbol]).find(
+			({ 1: cachedSlug }) => cachedSlug === slug,
+		);
 
 		if (!settBySlug) {
 			return null;
@@ -133,8 +141,9 @@ export default class SettStore {
 
 			if (settList) {
 				this.settCache[chain] = Object.fromEntries(settList.map((sett) => [sett.settToken, sett]));
-				this.slugs = {
-					...this.slugs,
+
+				this.slugCache[chain] = {
+					...this.slugCache[chain],
 					...Object.fromEntries(settList.map(formatSettListItem)),
 				};
 			} else {
