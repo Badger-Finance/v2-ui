@@ -1,5 +1,12 @@
 # v2 UI Changelog
 
+### v2.9.9 - 10/29/2021
+
+- cvx/bvecvx release
+- fix incorrect byvWBTC symbol name in ibBTC module
+- fix conflicting repeated sett slugs 
+- fix vault detail charts not being display in mobile viewport
+
 ### v2.9.8 - 10/28/2021
 
 - sdk integration
