@@ -14,6 +14,7 @@ import { scaleTime } from 'd3-scale';
 
 const canvasGradient = createVerticalLinearGradient([{ stop: 0, color: hexToRGBA('#F2A52B', 0.0) }]);
 
+// TODO: deprecate react-stockcharts in favor of recharts
 function AreaChart(props: any) {
 	const gradientId = 'gradient-' + Math.floor(Math.random() * 100);
 
