@@ -1,5 +1,6 @@
 node_modules/
 build/
+src/contracts
 package-lock.json
 .DS_Store
 /.idea

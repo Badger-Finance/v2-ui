@@ -1,4 +1,3 @@
-import Web3 from 'web3';
 import BigNumber from 'bignumber.js';
 import importedErc20 from '../config/system/abis/ERC20.json';
 import importedSett from '../config/system/abis/Sett.json';

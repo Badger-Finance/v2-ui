@@ -46,8 +46,8 @@
 		"lint": "eslint \"**/*.{js,jsx,json,ts,tsx}\" --no-error-on-unmatched-pattern --ignore-pattern src/setupTests.js --ignore-pattern node_modules/ --ignore-pattern build/ --max-warnings=0",
 		"lint-fix": "yarn lint --quiet --fix",
 		"lint-fix-warn": "yarn lint --fix",
-		"ui": "yarn upgradeInteractive",
-		"format": "prettier --write \"src/**/*.ts\" \"src/**/*.tsx\""
+		"format": "prettier --write \"src/**/*.ts\" \"src/**/*.tsx\"",
+		"codegen": "typechain --target ethers-v5 --out-dir src/contracts ./src/abi/*.abi"
 	},
 	"eslintConfig": {
 		"extends": "react-app"
@@ -68,6 +68,7 @@
 		"@testing-library/jest-dom": "^5.11.9",
 		"@testing-library/react": "^11.2.5",
 		"@testing-library/user-event": "^12.1.10",
+    "@typechain/ethers-v5": "^7.0.1",
 		"@types/jest": "^26.0.19",
 		"@types/material-ui": "^0.21.8",
 		"@types/react": "^16.9.34",

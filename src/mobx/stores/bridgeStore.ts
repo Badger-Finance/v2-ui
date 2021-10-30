@@ -2,7 +2,6 @@ import firebase from 'firebase';
 import Web3 from 'web3';
 import { Contract } from 'web3-eth-contract';
 import BigNumber from 'bignumber.js';
-import { provider } from 'web3-core';
 import { AbiItem } from 'web3-utils';
 import { Bitcoin, Ethereum } from '@renproject/chains';
 import RenJS from '@renproject/ren';
@@ -18,8 +17,6 @@ import {
 	ERC20,
 	RENVM_GATEWAY_ADDRESS,
 } from 'config/constants';
-import { BADGER_ADAPTER } from 'config/system/abis/BadgerAdapter';
-import { BTC_GATEWAY } from 'config/system/abis/BtcGateway';
 import { bridge_system, tokens, sett_system } from 'config/deployments/mainnet.json';
 import { shortenAddress } from 'utils/componentHelpers';
 import { isEqual } from '../../utils/lodashToNative';
@@ -29,6 +26,7 @@ import { NetworkStore } from './NetworkStore';
 import { Network as NetworkModel } from 'mobx/model/network/network';
 import { REN_FEES_ENDPOINT } from '../../config/constants';
 import { Network } from '@badger-dao/sdk';
+import { BtcGateway, BtcGateway__factory } from 'contracts';
 
 export enum Status {
 	// Idle means we are ready to begin a new tx.
@@ -82,7 +80,7 @@ class BridgeStore {
 	private bCRVsBTC!: Contract;
 	private bCRVtBTC!: Contract;
 
-	private gateway!: Contract;
+	private gateway!: BtcGateway;
 	// Update data like account balances on a timer.
 	private updateTimer!: ReturnType<typeof setTimeout>;
 
@@ -180,9 +178,7 @@ class BridgeStore {
 			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 			// @ts-ignore
 			this.bCRVtBTC = new web3.eth.Contract(ERC20.abi as AbiItem[], sett_system.vaults['native.tbtcCrv']);
-			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-			// @ts-ignore
-			this.gateway = new web3.eth.Contract(BTC_GATEWAY, RENVM_GATEWAY_ADDRESS);
+			this.gateway = BtcGateway__factory.connect(RENVM_GATEWAY_ADDRESS, newValue);
 			return;
 		});
 

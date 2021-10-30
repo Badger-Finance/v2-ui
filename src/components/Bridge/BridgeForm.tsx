@@ -3,7 +3,6 @@ import BigNumber from 'bignumber.js';
 import { EthArgs } from '@renproject/interfaces';
 import { BurnAndReleaseStatus } from '@renproject/ren/build/main/burnAndRelease';
 import { DepositStatus, DepositStatusIndex } from '@renproject/ren/build/main/lockAndMint';
-import Web3 from 'web3';
 import { observer } from 'mobx-react-lite';
 import {
 	Grid,
@@ -39,10 +38,10 @@ import {
 	burnStatusDict,
 } from 'config/constants';
 import { bridge_system, tokens, sett_system } from 'config/deployments/mainnet.json';
-import { CURVE_EXCHANGE } from 'config/system/abis/CurveExchange';
 import { connectWallet } from 'mobx/utils/helpers';
 import { RenVMTransaction, RenVMParams } from '../../mobx/model/bridge/renVMTransaction';
 import { Network } from '@badger-dao/sdk';
+import { RenSwap__factory } from 'contracts';
 
 const DECIMALS = 10 ** 8;
 const SETT_DECIMALS = 10 ** 18;
@@ -547,14 +546,14 @@ export const BridgeForm = observer(({ classes }: any) => {
 		}
 
 		try {
-			const web3 = new Web3(provider);
-			const curve = new web3.eth.Contract(CURVE_EXCHANGE, CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS);
+			const curve = RenSwap__factory.connect(CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS, provider);
+			// const curve = new web3.eth.Contract(CURVE_EXCHANGE, CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS);
 			const amountAfterFeesInSats = new BigNumber(amount.toFixed(8)).multipliedBy(10 ** 8);
 			let swapResult;
 			if (name === 'amount') {
-				swapResult = await curve.methods.get_dy(0, 1, amountAfterFeesInSats.toString()).call();
+				swapResult = await curve.get_dy(0, 1, amountAfterFeesInSats.toString());
 			} else if (name === 'burnAmount') {
-				swapResult = await curve.methods.get_dy(1, 0, amountAfterFeesInSats.toString()).call();
+				swapResult = await curve.get_dy(1, 0, amountAfterFeesInSats.toString());
 			} else {
 				return 0;
 			}
