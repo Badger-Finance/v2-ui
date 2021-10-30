@@ -40,8 +40,10 @@ export const MintError = ({ token, amount, limits, onUserLimitClick }: Props): J
 				<span>{`${token.symbol}.`}</span>
 			</ErrorText>
 			<ErrorText variant="subtitle1">
-				{`Individual total mint amount limit is currently ${formatBalanceString(token
-					.unscale(individualLimit), token.decimals)} ${token.symbol}.`}
+				{`Individual total mint amount limit is currently ${formatBalanceString(
+					token.unscale(individualLimit),
+					token.decimals,
+				)} ${token.symbol}.`}
 			</ErrorText>
 		</Grid>
 	);
@@ -63,8 +65,9 @@ export const MintError = ({ token, amount, limits, onUserLimitClick }: Props): J
 				<span> {token.symbol}.</span>
 			</ErrorText>
 			<ErrorText variant="subtitle1">
-				{`Global total mint amount is currently ${formatBalanceString(token
-					.unscale(globalLimit), 6)} ${token.symbol}.`}
+				{`Global total mint amount is currently ${formatBalanceString(token.unscale(globalLimit), 6)} ${
+					token.symbol
+				}.`}
 			</ErrorText>
 		</Grid>
 	);

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Grid, makeStyles, Typography, Fade, useMediaQuery, useTheme } from '@material-ui/core';
-import { bDiggToCurrency } from 'mobx/utils/helpers';
 import NftStats from './NftStats';
 import { Skeleton } from '@material-ui/lab';
 import { StoreContext } from 'mobx/store-context';
@@ -86,12 +85,6 @@ export const NftList = observer(() => {
 			<Grid item container xs={12} justify="space-between" spacing={isMobile ? 0 : 8}>
 				{nfts.map(({ balance, tokenId, name, image, totalSupply, poolBalance, root, redirectUrl }: NFT) => {
 					const redemptionRate = store.honeyPot.calculateRedemptionRate(root);
-
-					const formattedRedemptionRate = bDiggToCurrency({
-						amount: redemptionRate,
-						currency: 'usd',
-					});
-
 					const isBalanceEmpty = +balance < 1;
 
 					return (
@@ -103,8 +96,8 @@ export const NftList = observer(() => {
 								redirectUrl={redirectUrl}
 								balance={balance}
 								remaining={`${Number(totalSupply) - Number(poolBalance)}/${totalSupply}`}
-								redemptionRateUsd={formattedRedemptionRate}
-								redemptionRateBdigg={redemptionRate.dividedBy(1e18).toFixed(5)}
+								redemptionRateUsd={redemptionRate.toString()}
+								redemptionRateBdigg={redemptionRate.div(1e18).toString()}
 								loading={nftBeingRedeemed.includes(tokenId)}
 								disabled={isBalanceEmpty}
 								onRedeem={() => {

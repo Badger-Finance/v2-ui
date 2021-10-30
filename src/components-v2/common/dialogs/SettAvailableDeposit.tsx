@@ -39,8 +39,8 @@ export const SettAvailableDeposit = (props: DepositLimitProps): JSX.Element | nu
 	}
 	const { vaultCap, totalVaultCap, userCap, totalUserCap, asset } = vaultCapInfo;
 	const displayUserCap = vaultCap.tokenBalance.lte(userCap.tokenBalance) ? vaultCap : userCap;
-	const isMaxUserCap = totalUserCap.tokenBalance.toFixed() === MAX.toString();
-	const isMaxTotalCap = vaultCap.tokenBalance.toFixed() === MAX.toString();
+	const isMaxUserCap = totalUserCap.tokenBalance.toString() === MAX.toString();
+	const isMaxTotalCap = vaultCap.tokenBalance.toString() === MAX.toString();
 
 	if (isMaxTotalCap && isMaxUserCap) {
 		return null;

@@ -4,7 +4,6 @@ import InfoIcon from '@material-ui/icons/Info';
 import { makeStyles, styled } from '@material-ui/core/styles';
 import { observer } from 'mobx-react-lite';
 import clsx from 'clsx';
-
 import { getColorFromComparison } from './utils';
 import { isValidMultiplier } from '../../utils/boost-ranks';
 import { StoreContext } from '../../mobx/store-context';

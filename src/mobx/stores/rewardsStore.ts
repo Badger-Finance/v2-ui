@@ -239,9 +239,7 @@ class RewardsStore {
 
 				let claimAmount = claimBalance;
 				if (token.address === ETH_DEPLOY.tokens.digg) {
-					claimBalance = claimBalance
-						.mul(Math.pow(10, token.decimals))
-						.mul(sharesPerFragment);
+					claimBalance = claimBalance.mul(Math.pow(10, token.decimals)).mul(sharesPerFragment);
 				}
 
 				if (claimBalance.gt(claimableAmount)) {

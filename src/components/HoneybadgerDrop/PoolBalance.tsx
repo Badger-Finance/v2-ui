@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import { Button, Grid, makeStyles, Paper, Typography, Fade } from '@material-ui/core';
-import { bDiggToCurrency } from 'mobx/utils/helpers';
 import { StoreContext } from 'mobx/store-context';
 import { useConnectWallet } from 'mobx/utils/hooks';
 import { Skeleton } from '@material-ui/lab';
@@ -113,31 +112,24 @@ export const PoolBalance = observer(() => {
 	}
 
 	const diggMultiplier = setts.settMap[sett_system.vaults['native.digg']].pricePerFullShare;
-	const poolBalanceDiggs = poolBalance.multipliedBy(diggMultiplier);
+	const poolBalanceDiggs = poolBalance.mul(diggMultiplier);
 	return (
 		<Container>
 			<Grid item xs={12}>
 				<Typography variant="h5" color="textPrimary">
-					{poolBalance && `${poolBalance.dividedBy(1e18).toFixed(5)} bDIGG`}
+					{poolBalance && `${poolBalance.div(1e18).toString()} bDIGG`}
 				</Typography>
 			</Grid>
 			<Grid item xs={12}>
 				<Typography variant="subtitle1" color="textSecondary">
 					{poolBalanceDiggs &&
 						poolBalance &&
-						`${poolBalanceDiggs.dividedBy(1e18).toFixed(5)} DIGG / ${bDiggToCurrency({
-							amount: poolBalance,
-							currency: 'btc',
-						})}`}
+						`${poolBalanceDiggs.div(1e18).toString()} DIGG / ${poolBalance}`}
 				</Typography>
 			</Grid>
 			<Grid item xs={12}>
 				<Typography variant="subtitle1" color="textSecondary">
-					{poolBalance &&
-						bDiggToCurrency({
-							amount: poolBalance,
-							currency: 'usd',
-						})}
+					{poolBalance && poolBalance}
 				</Typography>
 			</Grid>
 		</Container>

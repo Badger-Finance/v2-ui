@@ -83,7 +83,7 @@ export const NonNativeBox = observer((props: Props) => {
 	const classes = useStyles();
 	const theme = useTheme();
 	const extraSmallScreen = useMediaQuery(theme.breakpoints.down(500));
-	const nonNativeAssetClasses = useAssetInputStyles(nonNativeBalance, nonNativeHoldings)();
+	const nonNativeAssetClasses = useAssetInputStyles(Number(nonNativeBalance), nonNativeHoldings)();
 
 	const showEmptyNonNativeMessage = Number(nonNativeBalance) === 0;
 	const showReducedNonNativeMessage = useValueIsGreater(nonNativeHoldings?.toFixed(4), nonNativeBalance);

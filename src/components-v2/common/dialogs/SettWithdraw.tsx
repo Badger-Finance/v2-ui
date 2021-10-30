@@ -16,6 +16,8 @@ import Alert from '@material-ui/lab/Alert';
 import WarningIcon from '@material-ui/icons/Warning';
 import { getStrategyFee } from 'mobx/utils/fees';
 import { Sett } from '@badger-dao/sdk';
+import { ZERO } from 'config/constants';
+import { BigNumber } from '@ethersproject/providers/node_modules/@ethersproject/bignumber';
 
 const useStyles = makeStyles((theme) => ({
 	content: {
@@ -130,7 +132,7 @@ export const SettWithdraw = observer(({ open = false, sett, badgerSett, onClose 
 			</Grid>
 			{withdrawFee && (
 				<Grid container className={classes.fees}>
-					<SettWithdrawFee sett={sett} fee={withdrawFee} amount={amount || 0} />
+					<SettWithdrawFee sett={sett} fee={withdrawFee} amount={BigNumber.from(amount) || ZERO} />
 				</Grid>
 			)}
 		</>

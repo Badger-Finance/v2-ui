@@ -25,7 +25,7 @@ describe('Landing', () => {
 			nativeBalance: 100,
 			nonNativeBalance: 10,
 			stakeRatio: 100,
-			claimableBalances: {}
+			claimableBalances: {},
 		};
 		jest.spyOn(UserStore.prototype, 'initialized', 'get').mockReturnValue(true);
 		jest.spyOn(UserStore.prototype, 'portfolioValue', 'get').mockReturnValue(BigNumber.from(1000));

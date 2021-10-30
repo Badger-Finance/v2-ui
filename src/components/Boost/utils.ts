@@ -3,8 +3,8 @@ import { ClassNameMap } from '@material-ui/core/styles/withStyles';
 import { BigNumber } from 'ethers';
 
 type ComparisonConfig = {
-	toCompareValue: BigNumber;
-	toBeComparedValue: BigNumber;
+	toCompareValue: number;
+	toBeComparedValue: number;
 	greaterCaseColor: string;
 	lessCaseColor: string;
 	defaultColor: string;
@@ -27,14 +27,14 @@ export const getColorFromComparison = ({
 };
 
 export const useAssetInputStyles = (
-	currentValue: string,
+	currentValue: number,
 	toCompare = 0,
 ): ((props?: any) => ClassNameMap<'assetColor'>) => {
 	return makeStyles((theme) => {
 		const defaultColor = currentValue ? theme.palette.text.primary : theme.palette.text.secondary;
 		const fontColor = getColorFromComparison({
-			toCompareValue: BigNumber.from(currentValue),
-			toBeComparedValue: BigNumber.from(toCompare),
+			toCompareValue: currentValue,
+			toBeComparedValue: toCompare,
 			greaterCaseColor: '#74D189',
 			lessCaseColor: theme.palette.error.main,
 			defaultColor,

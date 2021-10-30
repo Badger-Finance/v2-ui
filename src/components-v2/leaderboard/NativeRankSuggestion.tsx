@@ -5,6 +5,7 @@ import { numberWithCommas, formatWithoutExtraZeros } from 'mobx/utils/helpers';
 import React, { useContext } from 'react';
 import { calculateNativeToMatchMultiplier, rankAndLevelNumbersFromSpec } from '../../utils/boost-ranks';
 import { BOOST_RANKS } from '../../config/system/boost-ranks';
+import { BigNumber } from 'ethers';
 
 const useStyles = makeStyles(() => ({
 	suggestionContainer: {
@@ -47,7 +48,7 @@ const NativeRankSuggestion = observer((): JSX.Element | null => {
 		<div className={classes.suggestionContainer}>
 			<Typography className={classes.amountToNextRank} color="textSecondary">
 				<Typography className={classes.amountToNextRank} color="textPrimary" component="span">
-					{`$${numberWithCommas(formatWithoutExtraZeros(amountToReachNextRank, 3))}`}
+					{`$${numberWithCommas(formatWithoutExtraZeros(BigNumber.from(amountToReachNextRank), 3))}`}
 				</Typography>
 				{` more `}
 				<Typography className={classes.amountToNextRank} color="textPrimary" component="span">

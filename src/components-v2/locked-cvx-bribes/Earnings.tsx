@@ -5,8 +5,8 @@ import clsx from 'clsx';
 import { StoreContext } from '../../mobx/store-context';
 import { Skeleton } from '@material-ui/lab';
 import { observer } from 'mobx-react-lite';
-import { formatBalance } from './utils';
 import { SAFE_BOX_ILLUSTRATION_BREAKPOINT } from './Banner';
+import { formatBalance } from 'mobx/utils/helpers';
 
 const useStyles = makeStyles((theme) => ({
 	root: {

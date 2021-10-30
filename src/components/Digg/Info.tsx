@@ -189,10 +189,7 @@ const Info = observer(() => {
 				<Metric metric="DIGG Current Price" value={inCurrency(diggCurrentPrice, currency)} />
 			</Grid>
 			<Grid item xs={12} md={6}>
-				<Metric
-					metric="Total Supply"
-					value={rebase.totalSupply ? rebase.totalSupply.toString() : '-'}
-				/>
+				<Metric metric="Total Supply" value={rebase.totalSupply ? rebase.totalSupply.toString() : '-'} />
 			</Grid>
 			<Grid item xs={12} md={6}>
 				<Metric metric="Time To Rebase" value={nextRebase} />

@@ -145,7 +145,12 @@ class LockedCvxDelegationStore {
 		let totalEarned = BigNumber.from(0);
 
 		const votiumMerkleTree = VotiumMerkleTree__factory.connect(votiumRewardsContractAddress, provider);
-		const claimedEvents = await votiumMerkleTree.filters.Claimed(mainnet.tokens.badger, undefined, undefined, connectedAddress);
+		const claimedEvents = await votiumMerkleTree.filters.Claimed(
+			mainnet.tokens.badger,
+			undefined,
+			undefined,
+			connectedAddress,
+		);
 
 		// claimedEvents.
 		// for (const claimedEvent of claimedEvents) {
@@ -170,8 +175,7 @@ class LockedCvxDelegationStore {
 		}
 
 		const votiumMerkleTree = VotiumMerkleTree__factory.connect(votiumRewardsContractAddress, provider);
-		const isClaimed = await votiumMerkleTree
-			.isClaimed(mainnet.tokens.badger, merkleTreeReward.index);
+		const isClaimed = await votiumMerkleTree.isClaimed(mainnet.tokens.badger, merkleTreeReward.index);
 
 		if (!isClaimed) {
 			unclaimedBalance = BigNumber.from(merkleTreeReward.amount);
@@ -232,13 +236,7 @@ class LockedCvxDelegationStore {
 		const votiumMerkleTree = VotiumMerkleTree__factory.connect(votiumRewardsContractAddress, provider);
 		const { index, amount, proof } = merkleTreeClaim;
 
-		const claimRewards = votiumMerkleTree.claim(
-			mainnet.tokens.badger,
-			index,
-			connectedAddress,
-			amount,
-			proof,
-		);
+		const claimRewards = votiumMerkleTree.claim(mainnet.tokens.badger, index, connectedAddress, amount, proof);
 
 		const options = await this.store.wallet.getMethodSendOptions(claimRewards);
 

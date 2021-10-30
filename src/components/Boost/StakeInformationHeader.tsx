@@ -20,8 +20,8 @@ const useComparedValuesStyles = (currentRatio: number, accountRatio: number) => 
 		return {
 			fontColor: {
 				color: getColorFromComparison({
-					toCompareValue: currentRatio.toFixed(4),
-					toBeComparedValue: accountRatio.toFixed(4),
+					toCompareValue: currentRatio,
+					toBeComparedValue: accountRatio,
 					greaterCaseColor: '#74D189',
 					lessCaseColor: theme.palette.error.main,
 					defaultColor: theme.palette.text.primary,

@@ -10,11 +10,7 @@ import { retry } from '@lifeomic/attempt';
 import fbase from 'fbase';
 import { RootStore } from '../RootStore';
 import WalletStore from './walletStore';
-import {
-	defaultRetryOptions,
-	ERC20,
-	RENVM_GATEWAY_ADDRESS,
-} from 'config/constants';
+import { defaultRetryOptions, ERC20, RENVM_GATEWAY_ADDRESS } from 'config/constants';
 import { bridge_system, tokens, sett_system } from 'config/deployments/mainnet.json';
 import { shortenAddress } from 'utils/componentHelpers';
 import { RenVMTransaction } from '../model/bridge/renVMTransaction';

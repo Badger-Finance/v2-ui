@@ -11,7 +11,7 @@ import routes from 'config/routes';
 import SettStore from 'mobx/stores/SettStore';
 import { Route } from 'mobx-router';
 import { SettState } from '@badger-dao/sdk';
-import { BigNumber, ethers } from 'ethers';
+import { BigNumber, BigNumberish, ethers } from 'ethers';
 
 export const secondsToBlocks = (seconds: number): number => {
 	return seconds / (1 / (6500 / (24 * 60 * 60)));
@@ -73,7 +73,7 @@ export const numberWithCommas = (x: string): string => {
 	return parts.join('.');
 };
 
-export const formatWithoutExtraZeros = (amount: BigNumber, decimals = 6): string => {
+export const formatWithoutExtraZeros = (amount: BigNumberish, decimals = 6): string => {
 	return ethers.utils.formatUnits(amount, decimals);
 };
 

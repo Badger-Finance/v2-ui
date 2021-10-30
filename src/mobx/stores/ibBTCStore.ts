@@ -60,8 +60,8 @@ class IbBTCStore {
 					new IbbtcOptionToken(this.store, token_config['btbtc/sbtcCrv']),
 					new IbbtcOptionToken(this.store, token_config['byvWBTC']),
 			  ];
-		this.mintFeePercent = ZERO;;
-		this.redeemFeePercent = ZERO;;
+		this.mintFeePercent = ZERO;
+		this.redeemFeePercent = ZERO;
 
 		extendObservable(this, {
 			tokens: this.tokens,
@@ -149,7 +149,7 @@ class IbBTCStore {
 			const { user, wallet } = this.store;
 			if (!wallet.connectedAddress) {
 				return ZERO;
-			};
+			}
 			return user.getTokenBalance(token.address).tokenBalance;
 		},
 	);
@@ -212,7 +212,7 @@ class IbBTCStore {
 			return false;
 		}
 
-		if (this.isZapToken(token) && (slippage?.lte(0))) {
+		if (this.isZapToken(token) && slippage?.lte(0)) {
 			queueNotification('Please enter a valid slippage value', 'error');
 			return false;
 		}
@@ -242,9 +242,7 @@ class IbBTCStore {
 		const ibbtc = Ibbtc__factory.connect(this.ibBTC.address, provider);
 		const coreAddress = await ibbtc.core();
 		const core = PeakCore__factory.connect(coreAddress, provider);
-		const [mintFeePercent, redeemFeePercent] = await Promise.all([
-			core.mintFee(), core.redeemFee(),
-		]);
+		const [mintFeePercent, redeemFeePercent] = await Promise.all([core.mintFee(), core.redeemFee()]);
 
 		if (mintFeePercent && redeemFeePercent) {
 			return {
@@ -376,7 +374,6 @@ class IbBTCStore {
 			const contract = Erc20__factory.connect(token.address, provider);
 			return contract.approve;
 		}
-
 
 		return new web3.eth.Contract(settConfig.abi as AbiItem[], token.address).methods.increaseAllowance(
 			spender,

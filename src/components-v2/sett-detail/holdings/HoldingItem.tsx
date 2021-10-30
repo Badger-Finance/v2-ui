@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Box, Divider, Grid, Paper, Typography } from '@material-ui/core';
 import { formatWithoutExtraZeros, numberWithCommas } from '../../../mobx/utils/helpers';
 import { observer } from 'mobx-react-lite';
-import { BigNumber } from 'ethers';
+import { BigNumber, BigNumberish } from 'ethers';
 
 const useStyles = makeStyles((theme) => ({
 	titleContainer: {
@@ -39,13 +39,13 @@ const useStyles = makeStyles((theme) => ({
 interface Props {
 	name: string;
 	logo: string;
-	balance: BigNumber;
-	value: BigNumber;
+	balance: number;
+	value: number;
 	decimals: number;
 	helpIcon?: React.ReactNode;
 }
 
-const displayUsdBalance = (value: BigNumber) => `~$${numberWithCommas(formatWithoutExtraZeros(value, 2))}`;
+const displayUsdBalance = (value: BigNumberish) => `~$${numberWithCommas(formatWithoutExtraZeros(value, 2))}`;
 
 export const HoldingItem = observer(
 	({ name, logo, balance, value, decimals, helpIcon }: Props): JSX.Element => {

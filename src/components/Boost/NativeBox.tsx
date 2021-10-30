@@ -2,7 +2,6 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { observer } from 'mobx-react-lite';
 import clsx from 'clsx';
-
 import { Grid, Tooltip, Typography, useMediaQuery, useTheme } from '@material-ui/core';
 import { HoldingAssetInput } from './HoldingAssetInput';
 import { formatWithoutExtraZeros, numberWithCommas } from '../../mobx/utils/helpers';
@@ -84,7 +83,7 @@ export const NativeBox = observer((props: Props) => {
 	const classes = useStyles();
 	const theme = useTheme();
 	const extraSmallScreen = useMediaQuery(theme.breakpoints.down(500));
-	const nativeAssetClasses = useAssetInputStyles(nativeBalance, nativeHoldings)();
+	const nativeAssetClasses = useAssetInputStyles(Number(nativeBalance), nativeHoldings)();
 
 	const isValidNativeToAdd = nativeToAdd && Number(nativeToAdd) !== 0;
 	const showNativeToAdd = isValidNativeToAdd && isValidMultiplier(currentMultiplier);
