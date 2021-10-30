@@ -1,12 +1,12 @@
 import '@testing-library/jest-dom';
 import { reduceTimeSinceLastCycle, reduceClaims } from '../../mobx/reducers/statsReducers';
 import MockDate from 'mockdate';
-import BigNumber from 'bignumber.js';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import store from 'mobx/RootStore';
 import { RewardMerkleClaim } from '../../mobx/model/rewards/reward-merkle-claim';
 import { TreeClaimData } from '../../mobx/model/rewards/tree-claim-data';
 import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
+import { BigNumber } from 'ethers';
 
 describe('getPercentageChange', () => {
 	beforeEach(() => {
@@ -40,7 +40,7 @@ describe('reduceClaims', () => {
 		const proof: RewardMerkleClaim = {
 			index: '',
 			cycle: '',
-			boost: new BigNumber(1),
+			boost: BigNumber.from(1),
 			user: '1',
 			tokens: [badger, digg],
 			cumulativeAmounts: ['100', '200'],
@@ -61,7 +61,7 @@ describe('reduceClaims', () => {
 		const proof: RewardMerkleClaim = {
 			index: '',
 			cycle: '',
-			boost: new BigNumber(1),
+			boost: BigNumber.from(1),
 			user: '1',
 			tokens: [badger, digg],
 			cumulativeAmounts: ['100', '200'],
@@ -82,7 +82,7 @@ describe('reduceClaims', () => {
 		const proof: RewardMerkleClaim = {
 			index: '',
 			cycle: '',
-			boost: new BigNumber(1),
+			boost: BigNumber.from(1),
 			user: '1',
 			tokens: [badger, digg],
 			cumulativeAmounts: ['100', '200'],
@@ -103,7 +103,7 @@ describe('reduceClaims', () => {
 		const proof: RewardMerkleClaim = {
 			index: '',
 			cycle: '',
-			boost: new BigNumber(1),
+			boost: BigNumber.from(1),
 			user: '1',
 			tokens: [badger, digg],
 			cumulativeAmounts: ['', ''],
@@ -124,7 +124,7 @@ describe('reduceClaims', () => {
 		const proof: RewardMerkleClaim = {
 			index: '',
 			cycle: '',
-			boost: new BigNumber(1),
+			boost: BigNumber.from(1),
 			user: '1',
 			tokens: [badger, digg],
 			cumulativeAmounts: ['100', '200'],
@@ -145,7 +145,7 @@ describe('reduceClaims', () => {
 		const proof: RewardMerkleClaim = {
 			index: '',
 			cycle: '',
-			boost: new BigNumber(1),
+			boost: BigNumber.from(1),
 			user: '1',
 			tokens: [badger, digg, wbtc],
 			cumulativeAmounts: ['100', '200', '300'],
@@ -167,7 +167,7 @@ describe('reduceClaims', () => {
 		const proof: RewardMerkleClaim = {
 			index: '',
 			cycle: '',
-			boost: new BigNumber(1),
+			boost: BigNumber.from(1),
 			user: '1',
 			tokens: [badger, digg],
 			cumulativeAmounts: ['100', '200'],

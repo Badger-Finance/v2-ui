@@ -1,14 +1,8 @@
 import { RootStore } from 'mobx/RootStore';
 import { extendObservable, action } from 'mobx';
-import BigNumber from 'bignumber.js';
-import { ContractSendMethod } from 'web3-eth-contract';
-import { AbiItem } from 'web3-utils';
-import Web3 from 'web3';
 import { ZERO, MAX, ERC20_ABI } from 'config/constants';
 import settConfig from 'config/system/abis/Sett.json';
-import ibBTCConfig from 'config/system/abis/ibBTC.json';
 import addresses from 'config/ibBTC/addresses.json';
-import coreConfig from 'config/system/abis/BadgerBtcPeakCore.json';
 import { getSendOptions } from 'mobx/utils/web3';
 import { IbbtcVaultPeakFactory } from '../ibbtc-vault-peak-factory';
 import { getNetworkFromProvider } from 'mobx/utils/helpers';
@@ -16,6 +10,10 @@ import { IbbtcOptionToken } from '../model/tokens/ibbtc-option-token';
 import { ibBTCFees } from '../model/fees/ibBTCFees';
 import { DEBUG, FLAGS } from 'config/environment';
 import { Network } from '@badger-dao/sdk';
+import { Ibbtc__factory } from 'contracts';
+import { PeakCore__factory } from 'contracts/factories/PeakCore__factory';
+import { BigNumber, ethers } from 'ethers';
+import { Erc20__factory } from 'contracts/factories/Erc20__factory';
 
 interface MintAmountCalculation {
 	bBTC: BigNumber;
@@ -62,8 +60,8 @@ class IbBTCStore {
 					new IbbtcOptionToken(this.store, token_config['btbtc/sbtcCrv']),
 					new IbbtcOptionToken(this.store, token_config['byvWBTC']),
 			  ];
-		this.mintFeePercent = new BigNumber(0);
-		this.redeemFeePercent = new BigNumber(0);
+		this.mintFeePercent = ZERO;;
+		this.redeemFeePercent = ZERO;;
 
 		extendObservable(this, {
 			tokens: this.tokens,
@@ -148,15 +146,11 @@ class IbBTCStore {
 
 	fetchBalance = action(
 		async (token: IbbtcOptionToken): Promise<BigNumber> => {
-			const { provider, connectedAddress } = this.store.wallet;
-			if (!connectedAddress) return ZERO;
-
-			const web3 = new Web3(provider);
-			const tokenContract = new web3.eth.Contract(settConfig.abi as AbiItem[], token.address);
-			let balance = tokenContract.methods.balanceOf(connectedAddress);
-			balance = await balance.call();
-
-			return new BigNumber(balance);
+			const { user, wallet } = this.store;
+			if (!wallet.connectedAddress) {
+				return ZERO;
+			};
+			return user.getTokenBalance(token.address).tokenBalance;
 		},
 	);
 
@@ -175,7 +169,7 @@ class IbBTCStore {
 		async (token: IbbtcOptionToken): Promise<void> => {
 			try {
 				const { bBTC, fee } = await this.calcMintAmount(token, token.scale('1'));
-				token.mintRate = this.ibBTC.unscale(bBTC.plus(fee)).toFixed(6, BigNumber.ROUND_HALF_FLOOR);
+				token.mintRate = ethers.utils.formatUnits(bBTC.add(fee), 6);
 			} catch (error) {
 				token.mintRate = '0.000';
 			}
@@ -186,7 +180,7 @@ class IbBTCStore {
 		async (token: IbbtcOptionToken): Promise<void> => {
 			try {
 				const redeemRate = await this.getRedeemConversionRate(token);
-				token.redeemRate = token.unscale(redeemRate).toFixed(6, BigNumber.ROUND_HALF_FLOOR);
+				token.redeemRate = ethers.utils.formatUnits(redeemRate, 6);
 			} catch (error) {
 				token.redeemRate = '0.000';
 			}
@@ -208,7 +202,7 @@ class IbBTCStore {
 	isValidAmount(token: IbbtcOptionToken, amount: BigNumber, slippage?: BigNumber): boolean {
 		const { queueNotification } = this.store.uiState;
 
-		if (!amount || amount.isNaN() || amount.lte(0)) {
+		if (!amount || amount.lte(0)) {
 			queueNotification('Please enter a valid amount', 'error');
 			return false;
 		}
@@ -218,7 +212,7 @@ class IbBTCStore {
 			return false;
 		}
 
-		if (this.isZapToken(token) && (slippage?.isNaN() || slippage?.lte(0))) {
+		if (this.isZapToken(token) && (slippage?.lte(0))) {
 			queueNotification('Please enter a valid slippage value', 'error');
 			return false;
 		}
@@ -230,50 +224,45 @@ class IbBTCStore {
 		const { provider } = this.store.wallet;
 		if (!provider) return ZERO;
 
-		const web3 = new Web3(provider);
-		const ibBTC = new web3.eth.Contract(ibBTCConfig.abi as AbiItem[], this.ibBTC.address);
-		const ibBTCPricePerShare = await ibBTC.methods.pricePerShare().call();
+		const ibbtc = Ibbtc__factory.connect(this.ibBTC.address, provider);
+		const pricePerFullShare = await ibbtc.pricePerShare();
 
-		return IbbtcVaultPeakFactory.createIbbtcVaultPeakForToken(this.store, token).bBTCToSett(
-			new BigNumber(ibBTCPricePerShare),
-		);
+		return IbbtcVaultPeakFactory.createIbbtcVaultPeakForToken(this.store, token).bBTCToSett(pricePerFullShare);
 	}
 
 	async getFees(): Promise<ibBTCFees> {
 		const { provider } = this.store.wallet;
 		if (!provider) {
 			return {
-				mintFeePercent: new BigNumber(0),
-				redeemFeePercent: new BigNumber(0),
+				mintFeePercent: ZERO,
+				redeemFeePercent: ZERO,
 			};
 		}
 
-		const web3 = new Web3(provider);
-		const ibBTC = new web3.eth.Contract(ibBTCConfig.abi as AbiItem[], this.ibBTC.address);
-		const coreAddress = await ibBTC.methods.core().call();
-		const core = new web3.eth.Contract(coreConfig.abi as AbiItem[], coreAddress);
-		const mintFeePercent = await core.methods.mintFee().call();
-		const redeemFeePercent = await core.methods.redeemFee().call();
+		const ibbtc = Ibbtc__factory.connect(this.ibBTC.address, provider);
+		const coreAddress = await ibbtc.core();
+		const core = PeakCore__factory.connect(coreAddress, provider);
+		const [mintFeePercent, redeemFeePercent] = await Promise.all([
+			core.mintFee(), core.redeemFee(),
+		]);
 
 		if (mintFeePercent && redeemFeePercent) {
 			return {
-				mintFeePercent: new BigNumber(mintFeePercent).dividedBy(100),
-				redeemFeePercent: new BigNumber(redeemFeePercent).dividedBy(100),
+				mintFeePercent: mintFeePercent.div(100),
+				redeemFeePercent: redeemFeePercent.div(100),
 			};
 		} else {
 			return {
-				mintFeePercent: new BigNumber(0),
-				redeemFeePercent: new BigNumber(0),
+				mintFeePercent: ZERO,
+				redeemFeePercent: ZERO,
 			};
 		}
 	}
 
 	async getAllowance(underlyingAsset: IbbtcOptionToken, spender: string): Promise<BigNumber> {
 		const { provider, connectedAddress } = this.store.wallet;
-		const web3 = new Web3(provider);
-		const tokenContract = new web3.eth.Contract(settConfig.abi as AbiItem[], underlyingAsset.address);
-		const allowance = await tokenContract.methods.allowance(connectedAddress, spender).call();
-		return new BigNumber(allowance);
+		const token = Erc20__factory.connect(underlyingAsset.address, provider);
+		return token.allowance(connectedAddress, spender);
 	}
 
 	async increaseAllowance(
@@ -382,11 +371,12 @@ class IbBTCStore {
 
 	private getApprovalMethod(token: IbbtcOptionToken, spender: string, amount: BigNumber | string = MAX) {
 		const { provider } = this.store.wallet;
-		const web3 = new Web3(provider);
 
 		if (token.symbol === this.config.contracts.tokens.WBTC.symbol) {
-			return new web3.eth.Contract(ERC20_ABI as AbiItem[], token.address).methods.approve(spender, amount);
+			const contract = Erc20__factory.connect(token.address, provider);
+			return contract.approve;
 		}
+
 
 		return new web3.eth.Contract(settConfig.abi as AbiItem[], token.address).methods.increaseAllowance(
 			spender,
@@ -424,17 +414,16 @@ class IbBTCStore {
 		if (!provider || !currentBlock) {
 			return null;
 		}
-		const secondsPerYear = new BigNumber(31536000);
-		const web3 = new Web3(provider);
-		const ibBTC = new web3.eth.Contract(ibBTCConfig.abi as AbiItem[], this.ibBTC.address);
-		const currentPPS = new BigNumber(await ibBTC.methods.pricePerShare().call());
+		const secondsPerYear = 31536000;
+		const ibbtc = Ibbtc__factory.connect(this.ibBTC.address, provider);
+		const currentPricePerFullShare = await ibbtc.pricePerShare();
 
 		try {
 			const targetBlock = currentBlock - Math.floor(timestamp / 15);
-			const oldPPS = new BigNumber(await ibBTC.methods.pricePerShare().call({}, targetBlock));
-			const ppsGrowth = currentPPS.minus(oldPPS).dividedBy(oldPPS);
-			const growthPerSecond = ppsGrowth.multipliedBy(secondsPerYear.dividedBy(timestamp));
-			return growthPerSecond.multipliedBy(1e2).toFixed(3);
+			const oldPricePerFullShare = await ibbtc.pricePerShare({ blockTag: targetBlock });
+			const ppsGrowth = currentPricePerFullShare.sub(oldPricePerFullShare).div(oldPricePerFullShare);
+			const growthPerSecond = ppsGrowth.mul((secondsPerYear / timestamp).toFixed());
+			return ethers.utils.formatUnits(growthPerSecond.mul(1e5), 3);
 		} catch (error) {
 			process.env.NODE_ENV !== 'production' &&
 				console.error(

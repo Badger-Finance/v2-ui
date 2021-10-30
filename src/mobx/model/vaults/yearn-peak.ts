@@ -1,8 +1,6 @@
 import Web3 from 'web3';
 import { ContractSendMethod } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
-import BigNumber from 'bignumber.js';
-
 import BadgerYearnWbtcPeak from 'config/system/abis/BadgerYearnWbtcPeak.json';
 import addresses from 'config/ibBTC/addresses.json';
 import yearnConfig from '../../../config/system/abis/YearnWrapper.json';
@@ -10,6 +8,7 @@ import { IbbtcVaultPeak, PeakType } from './ibbtc-vault-peak';
 import { RootStore } from '../../RootStore';
 import { toHex } from '../../utils/helpers';
 import { IbbtcOptionToken } from '../tokens/ibbtc-option-token';
+import { BigNumber } from 'ethers';
 
 export class YearnPeak implements IbbtcVaultPeak {
 	address: string;

@@ -1,17 +1,16 @@
-import Web3 from 'web3';
 import { AbiItem } from 'web3-utils';
 import { sendContractMethod } from '../utils/web3';
-import BigNumber from 'bignumber.js';
 import { RootStore } from '../RootStore';
 import { ContractSendMethod } from 'web3-eth-contract';
 import { EMPTY_DATA, ERC20, GEYSER_ABI, MAX, SETT_ABI, YEARN_ABI } from 'config/constants';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { BadgerSett } from 'mobx/model/vaults/badger-sett';
 import { BadgerToken } from 'mobx/model/tokens/badger-token';
-import { toFixedDecimals, unscale } from '../utils/helpers';
+import { unscale } from '../utils/helpers';
 import { action, extendObservable } from 'mobx';
 import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
 import { BouncerType, Sett } from '@badger-dao/sdk';
+import { ethers } from 'ethers';
 
 type ProgressTracker = Record<string, boolean>;
 
@@ -42,7 +41,7 @@ class ContractsStore {
 		const { queueNotification } = this.store.uiState;
 		const amount = depositAmount.balance;
 
-		if (amount.isNaN() || amount.lte(0) || amount.gt(userBalance.balance)) {
+		if (amount.lte(0) || amount.gt(userBalance.balance)) {
 			queueNotification('Please enter a valid amount', 'error');
 			return;
 		}
@@ -73,7 +72,7 @@ class ContractsStore {
 			return;
 		}
 
-		if (amount.isNaN() || amount.lte(0) || amount.gt(userBalance.balance)) {
+		if (amount.lte(0) || amount.gt(userBalance.balance)) {
 			queueNotification('Please enter a valid amount', 'error');
 			return;
 		}
@@ -91,7 +90,7 @@ class ContractsStore {
 		const amount = withdrawAmount.balance;
 
 		// ensure balance is valid
-		if (amount.isNaN() || amount.lte(0) || amount.gt(userBalance.balance)) {
+		if (amount.lte(0) || amount.gt(userBalance.balance)) {
 			queueNotification('Please enter a valid amount', 'error');
 			return;
 		}
@@ -170,7 +169,7 @@ class ContractsStore {
 			// TODO: Clean this up, too many branches
 			// Uncapped deposits on a wrapper still require an empty proof
 			// TODO: better designate abi <> sett pairing, single yearn vault uses yearn ABI.
-			if (sett.settToken === Web3.utils.toChecksumAddress(ETH_DEPLOY.sett_system.vaults['yearn.wBtc'])) {
+			if (sett.settToken === ethers.utils.getAddress(ETH_DEPLOY.sett_system.vaults['yearn.wBtc'])) {
 				if (depositAll) {
 					method = yearnContract.methods.deposit([]);
 				} else {

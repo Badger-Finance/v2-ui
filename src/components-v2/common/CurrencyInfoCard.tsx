@@ -1,12 +1,12 @@
 import React from 'react';
 import { Paper, Typography, makeStyles } from '@material-ui/core';
 import Skeleton from '@material-ui/lab/Skeleton';
-import BigNumber from 'bignumber.js';
 import CurrencyDisplay from './CurrencyDisplay';
 import { observer } from 'mobx-react-lite';
 import { useContext } from 'react';
 import { StoreContext } from 'mobx/store-context';
 import { inCurrency } from 'mobx/utils/helpers';
+import { BigNumber } from 'ethers';
 
 export interface CurrencyInfoCardProps {
 	title: string;

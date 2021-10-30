@@ -1,9 +1,5 @@
 import { extendObservable, action, observe } from 'mobx';
-import Web3 from 'web3';
-import { AbiItem } from 'web3-utils';
 import { RootStore } from '../RootStore';
-import { abi as rewardsAbi } from '../../config/system/abis/BadgerTree.json';
-import BigNumber from 'bignumber.js';
 import { reduceClaims, reduceTimeSinceLastCycle } from 'mobx/reducers/statsReducers';
 import { getSendOptions, sendContractMethod } from 'mobx/utils/web3';
 import { getToken } from '../../web3/config/token-config';
@@ -16,6 +12,8 @@ import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
 import { retry } from '@lifeomic/attempt';
 import { defaultRetryOptions } from '../../config/constants';
 import { Network } from '@badger-dao/sdk';
+import { BigNumber } from 'ethers';
+import { BadgerTree__factory } from 'contracts';
 
 /**
  * TODO: Clean up reward store in favor of a more unified integration w/ account store.
@@ -77,11 +75,11 @@ class RewardsStore {
 		const badgerToken = getToken(token);
 		const tokenPrice = this.store.prices.getPrice(token);
 		if (!badgerToken || !tokenPrice) {
-			const amount = new BigNumber(balance);
-			return new TokenBalance(mockToken(token), amount, new BigNumber(0));
+			const amount = BigNumber.from(balance);
+			return new TokenBalance(mockToken(token), amount, BigNumber.from(0));
 		}
-		const scalar = new BigNumber(Math.pow(10, badgerToken.decimals));
-		const amount = new BigNumber(balance).multipliedBy(scalar);
+		const scalar = BigNumber.from(Math.pow(10, badgerToken.decimals));
+		const amount = BigNumber.from(balance).mul(scalar);
 		return new TokenBalance(badgerToken, amount, tokenPrice);
 	}
 
@@ -92,14 +90,14 @@ class RewardsStore {
 		const tokenPrice = this.store.prices.getPrice(token);
 
 		if (!claimToken || !tokenPrice) {
-			const amount = new BigNumber(balance);
-			return new TokenBalance(mockToken(token), amount, new BigNumber(0));
+			const amount = BigNumber.from(balance);
+			return new TokenBalance(mockToken(token), amount, BigNumber.from(0));
 		}
 
 		const isDigg = claimToken.address === ETH_DEPLOY.tokens.digg;
-		const divisor = isDigg && rebaseInfo ? rebaseInfo.sharesPerFragment : new BigNumber(1);
+		const divisor = isDigg && rebaseInfo ? rebaseInfo.sharesPerFragment : BigNumber.from(1);
 
-		const amount = new BigNumber(balance).dividedBy(divisor);
+		const amount = BigNumber.from(balance).div(divisor);
 		return new TokenBalance(claimToken, amount, tokenPrice);
 	}
 	mockBalance(token: string): TokenBalance {
@@ -132,18 +130,17 @@ class RewardsStore {
 			}
 
 			this.loadingTreeData = true;
-
-			const web3 = new Web3(provider);
-			const rewardsTree = new web3.eth.Contract(rewardsAbi as AbiItem[], network.badgerTree);
+			const badgerTree = BadgerTree__factory.connect(network.badgerTree, provider);
 
 			try {
-				const [timestamp, cycle]: [number, number] = await Promise.all([
-					rewardsTree.methods.lastPublishTimestamp().call(),
-					rewardsTree.methods.currentCycle().call(),
+				const [timestamp, cycle] = await Promise.all([
+					badgerTree.lastPublishTimestamp(),
+					badgerTree.currentCycle(),
 				]);
-				this.badgerTree.lastCycle = new Date(timestamp * 1000);
+				const timestampSeconds = timestamp.toNumber();
+				this.badgerTree.lastCycle = new Date(timestampSeconds * 1000);
 				this.badgerTree.cycle = cycle.toString();
-				this.badgerTree.timeSinceLastCycle = reduceTimeSinceLastCycle(timestamp);
+				this.badgerTree.timeSinceLastCycle = reduceTimeSinceLastCycle(timestampSeconds);
 
 				await retry(() => this.fetchSettRewards(), defaultRetryOptions);
 			} catch (error) {
@@ -187,12 +184,8 @@ class RewardsStore {
 			}
 
 			this.loadingRewards = true;
-
-			const web3 = new Web3(provider);
-			const rewardsTree = new web3.eth.Contract(rewardsAbi as AbiItem[], network.badgerTree);
-			const claimed: TreeClaimData = await rewardsTree.methods
-				.getClaimedFor(connectedAddress, claimProof.tokens)
-				.call();
+			const badgerTree = BadgerTree__factory.connect(network.badgerTree, provider);
+			const claimed: TreeClaimData = await badgerTree.getClaimedFor(connectedAddress, claimProof.tokens);
 
 			this.badgerTree.claimableAmounts = claimProof.cumulativeAmounts;
 			this.badgerTree.claims = reduceClaims(claimProof, claimed, true);
@@ -215,7 +208,7 @@ class RewardsStore {
 				return;
 			}
 
-			let sharesPerFragment = new BigNumber(1);
+			let sharesPerFragment = BigNumber.from(1);
 			if (network.symbol === Network.Ethereum && !rebase) {
 				return;
 			} else if (rebase) {
@@ -244,17 +237,17 @@ class RewardsStore {
 					claimBalance = this.mockBalance(token.address).tokenBalance;
 				}
 
-				let claimAmount = claimBalance.toFixed(0);
+				let claimAmount = claimBalance;
 				if (token.address === ETH_DEPLOY.tokens.digg) {
 					claimBalance = claimBalance
-						.multipliedBy(Math.pow(10, token.decimals))
-						.multipliedBy(sharesPerFragment);
+						.mul(Math.pow(10, token.decimals))
+						.mul(sharesPerFragment);
 				}
 
 				if (claimBalance.gt(claimableAmount)) {
-					claimAmount = claimableAmount.toFixed();
+					claimAmount = claimableAmount;
 				}
-				amountsToClaim.push(claimAmount);
+				amountsToClaim.push(claimAmount.toHexString());
 			});
 
 			if (amountsToClaim.length < proof.tokens.length) {
@@ -262,9 +255,8 @@ class RewardsStore {
 				return;
 			}
 
-			const web3 = new Web3(provider);
-			const rewardsTree = new web3.eth.Contract(rewardsAbi as AbiItem[], network.badgerTree);
-			const method = rewardsTree.methods.claim(
+			const badgerTree = BadgerTree__factory.connect(network.badgerTree, provider);
+			const method = badgerTree.claim(
 				proof.tokens,
 				proof.cumulativeAmounts,
 				proof.index,

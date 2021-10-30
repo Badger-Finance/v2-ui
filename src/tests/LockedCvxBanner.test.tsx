@@ -5,15 +5,15 @@ import { StoreProvider } from '../mobx/store-context';
 import LockeDelegationBanner from '../../src/components-v2/locked-cvx-bribes/Banner';
 import { checkSnapshot } from './utils/snapshots';
 import { DelegationState } from '../mobx/model/setts/locked-cvx-delegation';
-import BigNumber from 'bignumber.js';
 import LockedCvxDelegationStore from '../mobx/stores/lockedCvxDelegationStore';
+import { BigNumber } from 'ethers';
 
 describe('Locked CVX Delegation Banner', () => {
 	beforeEach(() => {
 		store.lockedCvxDelegation.delegationState = DelegationState.Eligible;
-		store.lockedCvxDelegation.totalEarned = new BigNumber(100 * 1e18);
-		store.lockedCvxDelegation.lockedCVXBalance = new BigNumber(100 * 1e18);
-		store.lockedCvxDelegation.unclaimedBalance = new BigNumber(100 * 1e18);
+		store.lockedCvxDelegation.totalEarned = BigNumber.from(100 * 1e18);
+		store.lockedCvxDelegation.lockedCVXBalance = BigNumber.from(100 * 1e18);
+		store.lockedCvxDelegation.unclaimedBalance = BigNumber.from(100 * 1e18);
 
 		jest.spyOn(LockedCvxDelegationStore.prototype, 'canUserDelegate', 'get').mockReturnValue(true);
 		jest.spyOn(LockedCvxDelegationStore.prototype, 'shouldBannerBeDisplayed', 'get').mockReturnValue(true);

@@ -7,12 +7,12 @@ import PageHeader from '../components-v2/common/PageHeader';
 import { StoreContext } from '../mobx/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
-import BigNumber from 'bignumber.js';
 import SettList from 'components-v2/landing/SettList';
 import { RewardsModal } from '../components-v2/landing/RewardsModal';
 import { HeaderContainer, LayoutContainer } from '../components-v2/common/Containers';
 import CvxDelegationBanner from '../components-v2/locked-cvx-bribes/Banner';
 import { SettState } from '@badger-dao/sdk';
+import { BigNumber } from 'ethers';
 
 const useStyles = makeStyles((theme) => ({
 	marginTop: {
@@ -97,7 +97,7 @@ const Landing = observer((props: LandingProps) => {
 	const userConnected = !!connectedAddress;
 
 	const badgerToken = network.deploy.token.length > 0 ? network.deploy.token : undefined;
-	const totalValueLocked = protocolSummary ? new BigNumber(protocolSummary.totalValue) : undefined;
+	const totalValueLocked = protocolSummary ? BigNumber.from(protocolSummary.totalValue) : undefined;
 	const badgerPrice = badgerToken ? prices.getPrice(badgerToken) : undefined;
 	const portfolioValue = userConnected && user.initialized ? user.portfolioValue : undefined;
 

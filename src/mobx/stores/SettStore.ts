@@ -1,7 +1,6 @@
 import { extendObservable, action, observe, IValueDidChange } from 'mobx';
 import slugify from 'slugify';
 import { RootStore } from '../RootStore';
-import Web3 from 'web3';
 import { Token } from 'mobx/model/tokens/token';
 import { TokenCache } from '../model/tokens/token-cache';
 import { SettCache } from '../model/setts/sett-cache';
@@ -10,11 +9,11 @@ import { TokenConfigRecord } from 'mobx/model/tokens/token-config-record';
 import { SettMap } from '../model/setts/sett-map';
 import { TokenBalances } from 'mobx/model/account/user-balances';
 import { CallResult } from 'web3/interface/call-result';
-import BigNumber from 'bignumber.js';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { getToken } from 'web3/config/token-config';
 import { Currency, Network, ProtocolSummary, Sett, SettState } from '@badger-dao/sdk';
 import { SlugCache } from '../model/setts/slug-cache';
+import { BigNumber, ethers } from 'ethers';
 
 const formatSettListItem = (sett: Sett): [string, string] => {
 	const sanitizedSettName = sett.name.replace(/\/+/g, '-'); // replace "/" with "-"
@@ -81,7 +80,7 @@ export default class SettStore {
 			return;
 		}
 
-		return this.settMap[Web3.utils.toChecksumAddress(address)];
+		return this.settMap[ethers.utils.getAddress(address)];
 	}
 
 	getSettBySlug(slug: string): Sett | undefined | null {
@@ -114,7 +113,7 @@ export default class SettStore {
 	getToken(address: string): Token | undefined {
 		const { network } = this.store.network;
 		const tokens = this.tokenCache[network.symbol];
-		const tokenAddress = Web3.utils.toChecksumAddress(address);
+		const tokenAddress = ethers.utils.getAddress(address);
 		if (!tokens || !tokens[tokenAddress]) {
 			return;
 		}
@@ -185,12 +184,12 @@ export default class SettStore {
 		if (!settToken) {
 			return;
 		}
-		const balance = new BigNumber(balanceResults[0].value);
-		if (!balance || balance.isNaN()) {
+		const balance = BigNumber.from(balanceResults[0].value);
+		if (!balance) {
 			return;
 		}
 		const tokenPrice = prices.getPrice(settAddress);
-		const key = Web3.utils.toChecksumAddress(settAddress);
+		const key = ethers.utils.getAddress(settAddress);
 		this.availableBalances[key] = new TokenBalance(settToken, balance, tokenPrice);
 	};
 }

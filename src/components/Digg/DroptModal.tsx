@@ -3,10 +3,10 @@ import { observer } from 'mobx-react-lite';
 import React, { useState, useContext } from 'react';
 import DroptModalItem from './DroptModalItem';
 import { StoreContext } from 'mobx/store-context';
-import { formatTokens } from 'mobx/utils/helpers';
+import { formatBalance, formatBalanceString, formatTokens } from 'mobx/utils/helpers';
 import { redemptionToLongToken } from 'config/system/rebase';
-import BigNumber from 'bignumber.js';
 import { DEBUG } from 'config/environment';
+import { BigNumber } from 'ethers';
 
 const useStyles = makeStyles((theme) => ({
 	droptPaper: {
@@ -62,15 +62,12 @@ const DroptModal = observer(() => {
 			const droptAddress = redemptionToLongToken(redemptionAddress);
 			const droptToken = setts.getToken(droptAddress);
 			const droptBalance = user.getTokenBalance(droptAddress);
-			const expiryPrice = new BigNumber(dropt[redemptionAddress].expiryPrice);
+			const expiryPrice = BigNumber.from(dropt[redemptionAddress].expiryPrice);
 			if (!droptToken || droptBalance.balance.lte(0)) {
 				if (DEBUG && !droptToken) console.log('error retrieving', redemptionAddress, 'token');
 				return;
 			}
-			const redemptionAmount = formatTokens(
-				expiryPrice.multipliedBy(droptBalance.balance).dividedBy(10 ** droptToken.decimals),
-			);
-
+			const redemptionAmount = formatBalanceString(expiryPrice.mul(droptBalance.balance), droptToken.decimals);
 			return (
 				<DroptModalItem
 					key={droptToken.symbol}

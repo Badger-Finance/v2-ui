@@ -1,4 +1,4 @@
-import BigNumber from 'bignumber.js';
+import { BigNumber } from 'ethers';
 import { DroptInfo } from './dropt-info';
 
 export interface RebaseInfo {

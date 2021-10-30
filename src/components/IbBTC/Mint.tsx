@@ -14,11 +14,9 @@ import { makeStyles, styled } from '@material-ui/core/styles';
 import { observer } from 'mobx-react-lite';
 import { debounce } from 'utils/componentHelpers';
 import { ZERO } from 'config/constants';
-import { BigNumber } from 'bignumber.js';
 import { Token, Tokens } from './Tokens';
 import { DownArrow } from './DownArrow';
 import { StoreContext } from 'mobx/store-context';
-import { toFixedDecimals } from 'mobx/utils/helpers';
 import { useConnectWallet } from 'mobx/utils/hooks';
 import {
 	EndAlignText,
@@ -34,6 +32,8 @@ import {
 } from './Common';
 import { useNumericInput } from '../../utils/useNumericInput';
 import { IbbtcOptionToken } from '../../mobx/model/tokens/ibbtc-option-token';
+import { BigNumber } from 'ethers';
+import { formatBalanceString } from 'mobx/utils/helpers';
 
 const SlippageContainer = styled(Grid)(({ theme }) => ({
 	marginTop: theme.spacing(1),
@@ -106,10 +106,10 @@ export const Mint = observer(
 		};
 
 		const setMintInformation = (inputAmount: BigNumber, outputAmount: BigNumber, fee: BigNumber): void => {
-			setFee(toFixedDecimals(fee, 6));
-			setTotalMint(toFixedDecimals(outputAmount, 6));
-			setOutputAmount(toFixedDecimals(outputAmount, 6));
-			setConversionRate(outputAmount.plus(fee).dividedBy(inputAmount).toFixed(6, BigNumber.ROUND_HALF_FLOOR));
+			setFee(formatBalanceString(fee, 6));
+			setTotalMint(formatBalanceString(outputAmount, 6));
+			setOutputAmount(formatBalanceString(outputAmount, 6));
+			setConversionRate(formatBalanceString(outputAmount.add(fee).div(inputAmount), 6));
 		};
 
 		const calculateMintInformation = async (
@@ -144,7 +144,7 @@ export const Mint = observer(
 			debounce(
 				600,
 				async (change: string): Promise<void> => {
-					const input = new BigNumber(change);
+					const input = BigNumber.from(change);
 
 					if (!input.gt(ZERO)) {
 						setOutputAmount(undefined);
@@ -162,7 +162,7 @@ export const Mint = observer(
 		const handleApplyMaxBalance = async (): Promise<void> => {
 			if (selectedToken.balance.gt(ZERO)) {
 				setInputAmount({
-					displayValue: selectedToken.unscale(selectedToken.balance).toFixed(6, BigNumber.ROUND_HALF_FLOOR),
+					displayValue: formatBalanceString(selectedToken.unscale(selectedToken.balance), 6),
 					actualValue: selectedToken.balance,
 				});
 				await calculateMintInformation(selectedToken.balance, selectedToken);
@@ -181,8 +181,8 @@ export const Mint = observer(
 		};
 
 		const handleMintClick = async (): Promise<void> => {
-			if (inputAmount?.actualValue && !inputAmount.actualValue.isNaN()) {
-				const mintSlippage = new BigNumber(slippage || customSlippage || '');
+			if (inputAmount?.actualValue) {
+				const mintSlippage = BigNumber.from(slippage || customSlippage || '');
 				const isValidAmount = store.ibBTCStore.isValidAmount(
 					selectedToken,
 					inputAmount.actualValue,

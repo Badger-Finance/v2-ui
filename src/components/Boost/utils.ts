@@ -1,10 +1,10 @@
-import BigNumber from 'bignumber.js';
 import { makeStyles } from '@material-ui/core/styles';
 import { ClassNameMap } from '@material-ui/core/styles/withStyles';
+import { BigNumber } from 'ethers';
 
 type ComparisonConfig = {
-	toCompareValue: BigNumber.Value;
-	toBeComparedValue: BigNumber.Value;
+	toCompareValue: BigNumber;
+	toBeComparedValue: BigNumber;
 	greaterCaseColor: string;
 	lessCaseColor: string;
 	defaultColor: string;
@@ -17,8 +17,8 @@ export const getColorFromComparison = ({
 	lessCaseColor,
 	defaultColor,
 }: ComparisonConfig): string => {
-	const toCompare = new BigNumber(toCompareValue);
-	const toBeCompared = new BigNumber(toBeComparedValue);
+	const toCompare = BigNumber.from(toCompareValue);
+	const toBeCompared = BigNumber.from(toBeComparedValue);
 
 	if (toCompare.gt(toBeCompared)) return greaterCaseColor;
 	if (toCompare.lt(toBeCompared)) return lessCaseColor;
@@ -33,8 +33,8 @@ export const useAssetInputStyles = (
 	return makeStyles((theme) => {
 		const defaultColor = currentValue ? theme.palette.text.primary : theme.palette.text.secondary;
 		const fontColor = getColorFromComparison({
-			toCompareValue: currentValue,
-			toBeComparedValue: toCompare.toFixed(4),
+			toCompareValue: BigNumber.from(currentValue),
+			toBeComparedValue: BigNumber.from(toCompare),
 			greaterCaseColor: '#74D189',
 			lessCaseColor: theme.palette.error.main,
 			defaultColor,

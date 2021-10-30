@@ -4,14 +4,13 @@ import { StoreContext } from '../../mobx/store-context';
 import { observer } from 'mobx-react-lite';
 import { Loader } from '../Loader';
 import Metric from './Metric';
-import { shortenNumbers } from '../../mobx/utils/diggHelpers';
-import { inCurrency } from 'mobx/utils/helpers';
+import { formatBalance, inCurrency } from 'mobx/utils/helpers';
 import { InfoItem } from './InfoItem';
-import BigNumber from 'bignumber.js';
 import NoWallet from 'components/Common/NoWallet';
 import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 import DroptModal from './DroptModal';
 import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
+import { ZERO } from 'config/constants';
 
 const useStyles = makeStyles((theme) => ({
 	darkPaper: {
@@ -144,10 +143,10 @@ const Info = observer(() => {
 	// https://badger-finance.gitbook.io/badger-finance/digg/digg-faq
 	const wbtcPrice = prices.getPrice(ETH_DEPLOY.tokens.wBTC);
 	const diggCurrentPrice = prices.getPrice(ETH_DEPLOY.tokens.digg);
-	const diggPrice = rebase.oracleRate.multipliedBy(wbtcPrice);
-	const diggWbtcCurrentRatio = diggCurrentPrice.dividedBy(wbtcPrice).toFixed(5);
-	const priceDelta = rebase.oracleRate.minus(1);
-	const rebasePercent = priceDelta.gt(0.05) || priceDelta.lt(-0.05) ? priceDelta.multipliedBy(10) : new BigNumber(0);
+	const diggPrice = rebase.oracleRate.mul(wbtcPrice);
+	const diggWbtcCurrentRatio = formatBalance(diggCurrentPrice.div(wbtcPrice), 5);
+	const priceDelta = rebase.oracleRate.sub(1);
+	const rebasePercent = priceDelta.gt(0.05) || priceDelta.lt(-0.05) ? priceDelta.mul(10) : ZERO;
 	const lastOracleUpdate = new Date(rebase.latestAnswer * 1000);
 	const isValidTwap = rebase.latestRebase < rebase.latestAnswer;
 
@@ -162,7 +161,7 @@ const Info = observer(() => {
 	};
 	const rebaseStyle = { color: pickRebaseOption('#5efc82', 'red', 'inherit') };
 	const sign = pickRebaseOption('+', '');
-	const rebaseDisplay = `${sign}${rebasePercent.toFixed(6)}%`;
+	const rebaseDisplay = `${sign}${rebasePercent.toString()}%`;
 	const ppfs = settMap[ETH_DEPLOY.sett_system.vaults['native.digg']].pricePerFullShare;
 
 	const invalidTwap = (
@@ -192,7 +191,7 @@ const Info = observer(() => {
 			<Grid item xs={12} md={6}>
 				<Metric
 					metric="Total Supply"
-					value={rebase.totalSupply ? shortenNumbers(rebase.totalSupply, '', 2) : '-'}
+					value={rebase.totalSupply ? rebase.totalSupply.toString() : '-'}
 				/>
 			</Grid>
 			<Grid item xs={12} md={6}>
@@ -216,7 +215,7 @@ const Info = observer(() => {
 							)}
 						</div>
 					</InfoItem>
-					<InfoItem metric="Oracle Rate">{rebase.oracleRate.toFixed(8)}</InfoItem>
+					<InfoItem metric="Oracle Rate">{rebase.oracleRate.toString()}</InfoItem>
 				</div>
 				<Typography variant="caption">Last Updated {lastOracleUpdate.toLocaleString()}</Typography>
 				<Typography variant="caption" className={classes.updatedAt}>

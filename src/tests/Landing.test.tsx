@@ -3,13 +3,13 @@ import Landing from '../pages/Landing';
 import '@testing-library/jest-dom';
 import store from '../mobx/RootStore';
 import { checkSnapshot } from './utils/snapshots';
-import BigNumber from 'bignumber.js';
 import UserStore from 'mobx/stores/UserStore';
 import { SettState } from '@badger-dao/sdk';
+import { BigNumber } from 'ethers';
 
 describe('Landing', () => {
 	beforeEach(() => {
-		store.prices.getPrice = jest.fn().mockReturnValue(new BigNumber(15e18));
+		store.prices.getPrice = jest.fn().mockReturnValue(BigNumber.from(15e18));
 		store.network.network.deploy.token = '0x3472A5A71965499acd81997a54BBA8D852C6E53d';
 		store.wallet.connectedAddress = '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a';
 		store.user.accountDetails = {
@@ -25,9 +25,10 @@ describe('Landing', () => {
 			nativeBalance: 100,
 			nonNativeBalance: 10,
 			stakeRatio: 100,
+			claimableBalances: {}
 		};
 		jest.spyOn(UserStore.prototype, 'initialized', 'get').mockReturnValue(true);
-		jest.spyOn(UserStore.prototype, 'portfolioValue', 'get').mockReturnValue(new BigNumber(1000));
+		jest.spyOn(UserStore.prototype, 'portfolioValue', 'get').mockReturnValue(BigNumber.from(1000));
 	});
 
 	test('Renders correctly', async () => {

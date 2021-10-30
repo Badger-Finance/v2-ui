@@ -1,9 +1,8 @@
 import { Contract } from '../contract/contract';
-import BigNumber from 'bignumber.js';
 import { RootStore } from '../../RootStore';
 import { TokenConfig } from './token-config';
-import Web3 from 'web3';
 import { TEN, ZERO } from '../../../config/constants';
+import { BigNumber, BigNumberish, ethers } from 'ethers';
 
 export class IbbtcOptionToken extends Contract {
 	public name: string;
@@ -15,7 +14,7 @@ export class IbbtcOptionToken extends Contract {
 	public redeemRate: string;
 
 	constructor(store: RootStore, data: TokenConfig) {
-		super(store, Web3.utils.toChecksumAddress(data.address));
+		super(store, ethers.utils.getAddress(data.address));
 		this.name = data.name;
 		this.symbol = data.symbol;
 		this.decimals = data.decimals;
@@ -29,22 +28,22 @@ export class IbbtcOptionToken extends Contract {
 	}
 
 	public get formattedBalance(): string {
-		return this.unscale(this.balance).toFixed(3);
+		return this.formatAmount(this.balance);
 	}
 
 	public get icon(): any {
 		return `/assets/icons/${this.symbol.toLowerCase()}.png`;
 	}
 
-	public formatAmount(amount: BigNumber | string): string {
-		return this.unscale(new BigNumber(amount)).toFixed(3);
+	public formatAmount(amount: BigNumberish): string {
+		return ethers.utils.formatUnits(this.unscale(amount).mul(1000), 3);
 	}
 
-	public scale(amount: BigNumber | string): BigNumber {
-		return new BigNumber(amount).multipliedBy(TEN.pow(this.decimals));
+	public scale(amount: BigNumberish): BigNumber {
+		return TEN.pow(this.decimals).mul(amount);
 	}
 
-	public unscale(amount: BigNumber | string): BigNumber {
-		return new BigNumber(amount).dividedBy(TEN.pow(this.decimals));
+	public unscale(amount: BigNumberish): BigNumber {
+		return BigNumber.from(amount).div(TEN.pow(this.decimals));
 	}
 }

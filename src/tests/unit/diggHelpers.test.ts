@@ -3,11 +3,10 @@ import {
 	getNextRebase,
 	getTimeBarPercentage,
 	toHHMMSS,
-	shortenNumbers,
 	getPercentageChange,
 } from '../../mobx/utils/diggHelpers';
 import '@testing-library/jest-dom';
-import BigNumber from 'bignumber.js';
+import { BigNumber } from 'ethers';
 
 describe('calculateNewSupply', () => {
 	const UPPER_LIMIT = 1.05 * 1e18;
@@ -63,32 +62,14 @@ describe('toHHMMSS', () => {
 	});
 });
 
-describe('shortenNumbers', () => {
-	test.each([
-		[new BigNumber(10000000), '', undefined, undefined, ' 10.00m'],
-		[new BigNumber(10000), '', undefined, undefined, ' 10,000.00000'],
-		[new BigNumber(101000), '', undefined, undefined, ' 101.00k'],
-		[new BigNumber(1), '', undefined, undefined, ' 1.00000'],
-		[new BigNumber(0.000001), '', undefined, undefined, ' 0.10000e-5'],
-		[new BigNumber(0.000001), '', 6, undefined, ' 0.000001'],
-		[new BigNumber(1000000), '', undefined, true, ' 1000000.00000'],
-		[new BigNumber(1000000000), '', undefined, true, ' 1000000000.00000'],
-		[new BigNumber(1000000), '$', undefined, undefined, '$ 1,000.00k'],
-		[new BigNumber(''), 'C$', 2, undefined, 'C$ 0.00'],
-		[new BigNumber(-1000), '', 18, undefined, ' -1,000.000000000000000000'],
-	])('shortenNumbers(%f, %s, $i, $s) returns %s', (value, prefix, preferedDecimals, noCommas, expected) => {
-		expect(shortenNumbers(value, prefix, preferedDecimals, noCommas)).toBe(expected);
-	});
-});
-
 describe('getPercentageChange', () => {
 	test.each([
-		[new BigNumber(50), new BigNumber(100), -50],
-		[new BigNumber(1000), new BigNumber(10), 9900],
-		[new BigNumber(-100), new BigNumber(100), -200],
-		[new BigNumber(''), new BigNumber(100), NaN],
-		[new BigNumber(100), new BigNumber(''), NaN],
-		[new BigNumber(100), new BigNumber(100), 0],
+		[BigNumber.from(50), BigNumber.from(100), -50],
+		[BigNumber.from(1000), BigNumber.from(10), 9900],
+		[BigNumber.from(-100), BigNumber.from(100), -200],
+		[BigNumber.from(''), BigNumber.from(100), NaN],
+		[BigNumber.from(100), BigNumber.from(''), NaN],
+		[BigNumber.from(100), BigNumber.from(100), 0],
 	])('getPercentageChange(%f, %f) returns %f', (newValue, originalValue, expected) => {
 		expect(getPercentageChange(newValue, originalValue)).toBe(expected);
 	});

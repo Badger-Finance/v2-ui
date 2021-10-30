@@ -1,29 +1,22 @@
-import Web3 from 'web3';
-import { ContractSendMethod } from 'web3-eth-contract';
-import { AbiItem } from 'web3-utils';
-import BigNumber from 'bignumber.js';
-
-import zapConfig from 'config/system/abis/ZapPeak.json';
 import addresses from 'config/ibBTC/addresses.json';
 import { IbbtcVaultPeak, PeakType } from './ibbtc-vault-peak';
 import { RootStore } from '../../RootStore';
 import { toHex } from '../../utils/helpers';
 import { IbbtcOptionToken } from '../tokens/ibbtc-option-token';
+import { ZapPeak__factory, ZapPeak as ZapPeakContract } from 'contracts';
+import { BigNumber } from 'ethers';
 
 export class ZapPeak implements IbbtcVaultPeak {
+	private peakContract: ZapPeakContract;
 	address: string;
 	type: PeakType;
 	referenceToken: IbbtcOptionToken;
-	private store: RootStore;
-	private peakContract: any;
 
 	constructor(store: RootStore, referenceToken: IbbtcOptionToken) {
-		const web3 = new Web3(store.wallet.provider);
-		this.store = store;
-		this.referenceToken = referenceToken;
 		this.address = addresses.mainnet.contracts.ZapPeak.address;
+		this.peakContract = ZapPeak__factory.connect(this.address, store.wallet.provider);
+		this.referenceToken = referenceToken;
 		this.type = 'zap';
-		this.peakContract = new web3.eth.Contract(zapConfig.abi as AbiItem[], this.address);
 	}
 
 	getCalcMintMethod(amount: BigNumber): ContractSendMethod {

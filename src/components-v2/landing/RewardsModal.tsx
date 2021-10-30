@@ -1,7 +1,7 @@
 import { Backdrop, Button, ButtonGroup, Fade, Grid, Modal, Typography } from '@material-ui/core';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import BigNumber from 'bignumber.js';
 import { Loader } from 'components/Loader';
+import { ZERO } from 'config/constants';
 import { observer } from 'mobx-react-lite';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { StoreContext } from 'mobx/store-context';
@@ -154,7 +154,7 @@ export const RewardsModal = observer((): JSX.Element | null => {
 		setMaxFlag(true);
 	};
 
-	const claimableValue = badgerTree.claims.reduce((total, balance) => total.plus(balance.value), new BigNumber(0));
+	const claimableValue = badgerTree.claims.reduce((total, balance) => total.add(balance.value), ZERO);
 	const claimItems = badgerTree.claims
 		.filter((claim) => {
 			const tokenDefinition = setts.getToken(claim.token.address);

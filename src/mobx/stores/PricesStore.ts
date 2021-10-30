@@ -1,16 +1,15 @@
 import { retry } from '@lifeomic/attempt';
-import { defaultRetryOptions } from 'config/constants';
+import { defaultRetryOptions, ZERO } from 'config/constants';
 import { action, extendObservable } from 'mobx';
 import { RootStore } from 'mobx/RootStore';
-import Web3 from 'web3';
 import { ExchangeRates } from '../model/system-config/exchange-rates';
 import { BDiggExchangeRates } from '../model/system-config/bDigg-exchange-rates';
 import { ExchangeRatesResponse } from 'mobx/model/system-config/exchange-rates-response';
 import { MaticPriceResponse, MATIC_PRICE_KEY } from 'mobx/model/system-config/matic-price-response';
 import { fetchData } from '../../utils/fetchData';
 import { DEBUG } from '../../config/environment';
-import BigNumber from 'bignumber.js';
 import { Currency, PriceSummary } from '@badger-dao/sdk';
+import { BigNumber, ethers } from 'ethers';
 
 export default class PricesStore {
 	private store: RootStore;
@@ -43,8 +42,8 @@ export default class PricesStore {
 	}
 
 	getPrice(address: string): BigNumber {
-		const price = this.priceCache[Web3.utils.toChecksumAddress(address)];
-		return price ? new BigNumber(price) : new BigNumber(0);
+		const price = this.priceCache[ethers.utils.getAddress(address)];
+		return price ? BigNumber.from(price) : ZERO;
 	}
 
 	loadPrices = action(

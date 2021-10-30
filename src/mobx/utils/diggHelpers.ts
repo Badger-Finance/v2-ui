@@ -1,11 +1,7 @@
-import BigNumber from 'bignumber.js';
-import Web3 from 'web3';
-import { provider } from 'web3-core';
-import { numberWithCommas } from './helpers';
 import { Network as NetworkModel } from 'mobx/model/network/network';
 import { getRebase } from 'config/system/rebase';
-import { AbiItem } from 'web3-utils';
 import { Network } from '@badger-dao/sdk';
+import { BigNumber } from 'ethers';
 
 const UPPER_LIMIT = 1.05 * 1e18;
 const LOWER_LIMIT = 0.95 * 1e18;
@@ -52,45 +48,11 @@ export const toHHMMSS = (secs: string): string => {
 		.join(':');
 };
 
-export const shortenNumbers = (value: BigNumber, prefix: string, preferredDecimals = 5, noCommas = false): string => {
-	if (!value || value.isNaN()) return shortenNumbers(new BigNumber(0), prefix, preferredDecimals);
-
-	let normal = value;
-	let decimals = preferredDecimals;
-
-	let suffix = '';
-
-	if (!noCommas)
-		if (normal.dividedBy(1e6).gt(1)) {
-			normal = normal.dividedBy(1e6);
-			decimals = 2;
-			suffix = 'm';
-		} else if (normal.dividedBy(1e3).gt(1e2)) {
-			normal = normal.dividedBy(1e3);
-			decimals = 2;
-			suffix = 'k';
-		} else if (normal.gt(0) && normal.lt(10 ** -preferredDecimals)) {
-			normal = normal.multipliedBy(10 ** preferredDecimals);
-			decimals = preferredDecimals;
-			suffix = `e-${preferredDecimals}`;
-		}
-
-	const fixedNormal = noCommas
-		? normal.toFixed(decimals, BigNumber.ROUND_HALF_FLOOR)
-		: numberWithCommas(normal.toFixed(decimals, BigNumber.ROUND_HALF_FLOOR));
-
-	return `${prefix} ${fixedNormal}${suffix}`;
-};
-
 // TODO: Capture some typing
-export const getRebaseLogs = async (provider: provider, network: NetworkModel): Promise<any> => {
+export const getRebaseLogs = async (provider: any, network: NetworkModel): Promise<any> => {
 	if (network.symbol !== Network.Ethereum) {
 		return;
 	}
-	// Disable reason: 'web3-eth-contract' object can only be imported with the required method since it
-	// is exported using 'module.exports'
-	// eslint-disable-next-line @typescript-eslint/no-var-requires
-	const web3 = new Web3(provider);
 	const rebaseConfig = getRebase(network.symbol);
 	if (!rebaseConfig) {
 		return;
@@ -105,5 +67,5 @@ export const getRebaseLogs = async (provider: provider, network: NetworkModel): 
 };
 
 export const getPercentageChange = (newValue: BigNumber, originalValue: BigNumber): number => {
-	return newValue.minus(originalValue).dividedBy(originalValue).multipliedBy(100).toNumber();
+	return newValue.sub(originalValue).div(originalValue).mul(100).toNumber();
 };

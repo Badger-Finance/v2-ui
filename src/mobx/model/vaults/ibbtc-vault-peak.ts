@@ -1,5 +1,5 @@
+import { BigNumber } from 'ethers';
 import { ContractSendMethod } from 'web3-eth-contract';
-import BigNumber from 'bignumber.js';
 import { IbbtcOptionToken } from '../tokens/ibbtc-option-token';
 
 export type PeakType = 'badger' | 'yearn' | 'zap';

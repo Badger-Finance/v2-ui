@@ -1,12 +1,13 @@
 import React from 'react';
 import { observer } from 'mobx-react-lite';
-import BigNumber from 'bignumber.js';
 import { makeStyles } from '@material-ui/core/styles';
 import { Divider, Grid, Typography } from '@material-ui/core';
 import { formatStrategyFee } from '../../../utils/componentHelpers';
 import { StoreContext } from '../../../mobx/store-context';
 import { MAX_FEE } from 'config/constants';
 import { Sett } from '@badger-dao/sdk';
+import { BigNumber } from 'ethers';
+import { formatBalanceString } from 'mobx/utils/helpers';
 
 const useStyles = makeStyles((theme) => ({
 	specName: {
@@ -26,12 +27,8 @@ const useStyles = makeStyles((theme) => ({
 interface Props {
 	sett: Sett;
 	fee: number;
-	amount: BigNumber.Value;
+	amount: BigNumber;
 }
-
-const formatAmount = (amount: BigNumber.Value, decimals: number) => {
-	return new BigNumber(amount).decimalPlaces(decimals, BigNumber.ROUND_HALF_FLOOR).toString();
-};
 
 export const SettWithdrawFee = observer(
 	({ sett, fee, amount }: Props): JSX.Element => {
@@ -42,9 +39,9 @@ export const SettWithdrawFee = observer(
 		const depositTokenSymbol = depositToken?.symbol || '';
 		const depositTokenDecimals = depositToken?.decimals || 18;
 
-		const withdrawAmount = new BigNumber(amount).multipliedBy(sett.pricePerFullShare);
-		const withdrawalFee = withdrawAmount.multipliedBy(fee).dividedBy(MAX_FEE);
-		const amountAfterFee = new BigNumber(withdrawAmount).minus(withdrawalFee);
+		const withdrawAmount = BigNumber.from(amount).mul(sett.pricePerFullShare);
+		const withdrawalFee = withdrawAmount.mul(fee).div(MAX_FEE);
+		const amountAfterFee = BigNumber.from(withdrawAmount).sub(withdrawalFee);
 
 		return (
 			<Grid container>
@@ -55,7 +52,7 @@ export const SettWithdrawFee = observer(
 						Converted Amount
 					</Typography>
 					<Typography display="inline" variant="subtitle2">
-						{`${formatAmount(withdrawAmount, depositTokenDecimals)} ${depositTokenSymbol}`}
+						{`${formatBalanceString(withdrawAmount, depositTokenDecimals)} ${depositTokenSymbol}`}
 					</Typography>
 				</Grid>
 				<Grid container justify="space-between">
@@ -63,7 +60,7 @@ export const SettWithdrawFee = observer(
 						{`Estimated Fee (${formatStrategyFee(fee)})`}
 					</Typography>
 					<Typography display="inline" variant="subtitle2">
-						{`${formatAmount(withdrawalFee, depositTokenDecimals)} ${depositTokenSymbol}`}
+						{`${formatBalanceString(withdrawalFee, depositTokenDecimals)} ${depositTokenSymbol}`}
 					</Typography>
 				</Grid>
 				<Grid container justify="space-between">
@@ -71,7 +68,7 @@ export const SettWithdrawFee = observer(
 						You will receive
 					</Typography>
 					<Typography display="inline" variant="subtitle2">
-						{`${formatAmount(amountAfterFee, depositTokenDecimals)} ${depositTokenSymbol}`}
+						{`${formatBalanceString(amountAfterFee, depositTokenDecimals)} ${depositTokenSymbol}`}
 					</Typography>
 				</Grid>
 			</Grid>

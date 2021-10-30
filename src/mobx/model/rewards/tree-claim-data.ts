@@ -1,1 +1,3 @@
-export type TreeClaimData = [string[], string[]];
+import { BigNumber } from "ethers";
+
+export type TreeClaimData = [string[], BigNumber[]];

@@ -1,5 +1,4 @@
-{
-	"abi": [
+[
 		{
 			"inputs": [{ "internalType": "address", "name": "_core", "type": "address" }],
 			"stateMutability": "nonpayable",
@@ -163,4 +162,3 @@
 			"type": "function"
 		}
 	]
-}

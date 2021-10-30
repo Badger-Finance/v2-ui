@@ -1,5 +1,5 @@
 import { Grid, Typography, Button, makeStyles } from '@material-ui/core';
-import BigNumber from 'bignumber.js';
+import { BigNumber } from 'ethers';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from 'mobx/store-context';
 import React, { useContext } from 'react';

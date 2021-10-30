@@ -1,4 +1,4 @@
-import BigNumber from 'bignumber.js';
+import { BigNumber } from 'ethers';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import store from 'mobx/RootStore';
 import { getToken } from 'web3/config/token-config';
@@ -35,14 +35,14 @@ export const reduceClaims = (
 		if (!claimToken) {
 			continue;
 		}
-		const claimed = new BigNumber(amounts[i]);
-		const earned = new BigNumber(proof.cumulativeAmounts[i]);
-		const amount = earned.minus(claimed);
+		const claimed = BigNumber.from(amounts[i]);
+		const earned = BigNumber.from(proof.cumulativeAmounts[i]);
+		const amount = earned.sub(claimed);
 		let claimable;
 		if (claims) {
-			claimable = rewards.balanceFromProof(token, amount.toFixed());
+			claimable = rewards.balanceFromProof(token, amount.toString());
 		} else {
-			claimable = new TokenBalance(claimToken, amount, new BigNumber(0));
+			claimable = new TokenBalance(claimToken, amount, BigNumber.from(0));
 		}
 
 		tokenClaims.push(claimable);

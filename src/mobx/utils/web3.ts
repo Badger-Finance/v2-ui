@@ -1,6 +1,6 @@
 import { GasFees } from '@badger-dao/sdk';
-import BigNumber from 'bignumber.js';
 import { DEBUG } from 'config/environment';
+import { BigNumber } from 'ethers';
 import { RootStore } from 'mobx/RootStore';
 import { ContractSendMethod, EstimateGasOptions, SendOptions } from 'web3-eth-contract';
 
@@ -29,7 +29,7 @@ export const getNonEIP1559SendOptions = async (
 	from: string,
 	gasPrice: number,
 ): Promise<SendOptions> => {
-	const gasWei = new BigNumber(gasPrice.toFixed(0)).multipliedBy(1e9);
+	const gasWei = BigNumber.from(gasPrice.toFixed(0)).mul(1e9);
 	const options: EstimateGasOptions = {
 		from,
 		gas: gasWei.toNumber(),
@@ -38,7 +38,7 @@ export const getNonEIP1559SendOptions = async (
 	return {
 		from,
 		gas: Math.floor(limit * 1.2),
-		gasPrice: gasWei.toFixed(0),
+		gasPrice: gasWei.toString(),
 	};
 };
 
@@ -48,20 +48,20 @@ export const getEIP1559SendOptions = async (
 	price: GasFees,
 ): Promise<EIP1559SendOptions> => {
 	const { maxFeePerGas, maxPriorityFeePerGas } = price;
-	const maxFeePerGasWei = new BigNumber(maxFeePerGas.toFixed(0)).multipliedBy(1e9);
-	const maxPriorityFeePerGasWei = new BigNumber(maxPriorityFeePerGas.toFixed(0)).multipliedBy(1e9);
+	const maxFeePerGasWei = BigNumber.from(maxFeePerGas.toFixed(0)).mul(1e9);
+	const maxPriorityFeePerGasWei = BigNumber.from(maxPriorityFeePerGas.toFixed(0)).mul(1e9);
 	const options: EstimateGasOptions = {
 		from,
 		gas: maxFeePerGasWei.toNumber(),
 	};
 	const limit = await method.estimateGas(options);
-	const legacyGas = maxFeePerGasWei.div(2).minus(maxPriorityFeePerGasWei);
+	const legacyGas = maxFeePerGasWei.div(2).sub(maxPriorityFeePerGasWei);
 	return {
 		from,
 		gas: Math.floor(limit * 1.2),
-		maxFeePerGas: maxFeePerGasWei.toFixed(0),
-		maxPriorityFeePerGas: maxPriorityFeePerGasWei.toFixed(0),
-		legacyGas: legacyGas.toFixed(0),
+		maxFeePerGas: maxFeePerGasWei.toString(),
+		maxPriorityFeePerGas: maxPriorityFeePerGasWei.toString(),
+		legacyGas: legacyGas.toString(),
 	};
 };
 

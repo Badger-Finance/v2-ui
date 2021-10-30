@@ -1,9 +1,9 @@
 import { BadgerSett } from '../../mobx/model/vaults/badger-sett';
 import { SettBalance } from '../../mobx/model/setts/sett-balance';
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
-import BigNumber from 'bignumber.js';
 import { BouncerType, Sett, SettState } from '@badger-dao/sdk';
 import { TEST_ADDRESS } from './snapshots';
+import { BigNumber } from 'ethers';
 
 export const SAMPLE_BADGER_SETT: BadgerSett = {
 	depositToken: {
@@ -151,6 +151,6 @@ export const SAMPLE_TOKEN_BALANCE = new TokenBalance(
 		symbol: 'curve-renBTC-wBTC-sBTC',
 		decimals: 18,
 	},
-	new BigNumber(2580.4779797767615),
-	new BigNumber(135697015.0445408),
+	BigNumber.from(2580.4779797767615),
+	BigNumber.from(135697015.0445408),
 );

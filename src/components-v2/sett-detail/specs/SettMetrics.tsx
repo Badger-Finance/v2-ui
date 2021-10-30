@@ -5,10 +5,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../../mobx/store-context';
 import { inCurrency } from '../../../mobx/utils/helpers';
-import BigNumber from 'bignumber.js';
 import { Skeleton } from '@material-ui/lab';
 import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
 import { Sett } from '@badger-dao/sdk';
+import { BigNumber } from 'ethers';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -63,7 +63,7 @@ const SettMetrics = observer(
 		const { uiState, setts } = React.useContext(StoreContext);
 		const classes = useStyles();
 
-		const currencyValue = inCurrency(new BigNumber(sett.value), uiState.currency);
+		const currencyValue = inCurrency(BigNumber.from(sett.value), uiState.currency);
 		const hasCurrencyIcon = currencyValue?.includes('.png');
 
 		let currencyIcon;

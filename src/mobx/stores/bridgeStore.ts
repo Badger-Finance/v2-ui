@@ -1,7 +1,6 @@
 import firebase from 'firebase';
 import Web3 from 'web3';
 import { Contract } from 'web3-eth-contract';
-import BigNumber from 'bignumber.js';
 import { AbiItem } from 'web3-utils';
 import { Bitcoin, Ethereum } from '@renproject/chains';
 import RenJS from '@renproject/ren';
@@ -13,13 +12,11 @@ import { RootStore } from '../RootStore';
 import WalletStore from './walletStore';
 import {
 	defaultRetryOptions,
-	// abis
 	ERC20,
 	RENVM_GATEWAY_ADDRESS,
 } from 'config/constants';
 import { bridge_system, tokens, sett_system } from 'config/deployments/mainnet.json';
 import { shortenAddress } from 'utils/componentHelpers';
-import { isEqual } from '../../utils/lodashToNative';
 import { RenVMTransaction } from '../model/bridge/renVMTransaction';
 import { defaultNetwork } from 'config/networks.config';
 import { NetworkStore } from './NetworkStore';

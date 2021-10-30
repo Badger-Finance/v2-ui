@@ -1,7 +1,6 @@
 import { makeStyles, Typography } from '@material-ui/core';
-import BigNumber from 'bignumber.js';
 import { Loader } from 'components/Loader';
-import { ethers } from 'ethers';
+import { BigNumber, ethers } from 'ethers';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from 'mobx/store-context';
 import React, { useContext } from 'react';
@@ -53,7 +52,7 @@ const SettListDisplay = observer((props: SettListViewProps) => {
 			}
 
 			// inject user balance information to enable withdraw buttun functionality
-			const scalar = new BigNumber(sett.pricePerFullShare);
+			const scalar = BigNumber.from(sett.pricePerFullShare);
 			const generalBalance = user.getBalance(ContractNamespace.Sett, badgerSett).scale(scalar, true);
 			const guardedBalance = user.getBalance(ContractNamespace.GaurdedSett, badgerSett).scale(scalar, true);
 			const settBalance = generalBalance ?? guardedBalance;

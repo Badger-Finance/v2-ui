@@ -2,7 +2,6 @@ import React, { useContext, useState } from 'react';
 import clsx from 'clsx';
 import { ListItem, makeStyles, Typography, Grid, Tooltip } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
-import BigNumber from 'bignumber.js';
 import { inCurrency } from 'mobx/utils/helpers';
 import CurrencyDisplay from '../common/CurrencyDisplay';
 import { SettActionButtons } from '../common/SettActionButtons';
@@ -15,6 +14,7 @@ import { SettDeposit } from '../common/dialogs/SettDeposit';
 import { SettWithdraw } from '../common/dialogs/SettWithdraw';
 import { Currency } from 'config/enums/currency.enum';
 import { Sett } from '@badger-dao/sdk';
+import { BigNumber } from 'ethers';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -86,7 +86,7 @@ const SettListItem = observer(
 		const divisor = period === 'month' ? 12 : 1;
 		const badgerSett = network.network.setts.find(({ vaultToken }) => vaultToken.address === sett?.settToken);
 
-		const displayValue = balanceValue ? balanceValue : inCurrency(new BigNumber(sett.value), currency);
+		const displayValue = balanceValue ? balanceValue : inCurrency(BigNumber.from(sett.value), currency);
 		const multiplier = !sett.deprecated ? user.accountDetails?.multipliers[sett.settToken] : undefined;
 
 		const canWithdraw = balance ? balance.gt(0) : false;

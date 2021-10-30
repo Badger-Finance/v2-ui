@@ -1,7 +1,6 @@
 import { extendObservable, action } from 'mobx';
 import Onboard from 'bnc-onboard';
 import Notify from 'bnc-notify';
-import BigNumber from 'bignumber.js';
 import { onboardWalletCheck, getOnboardWallets, isRpcWallet } from '../../config/wallets';
 import { RootStore } from 'mobx/RootStore';
 import { API, Wallet } from 'bnc-onboard/dist/src/interfaces';
@@ -9,8 +8,6 @@ import { API as NotifyAPI } from 'bnc-notify';
 import { getNetworkFromProvider } from 'mobx/utils/helpers';
 import { Network } from 'mobx/model/network/network';
 import { BLOCKNATIVE_API_KEY } from 'config/constants';
-import Web3 from 'web3';
-import { ContractSendMethod, SendOptions } from 'web3-eth-contract';
 import { EIP1559SendOptions, getSendOptions } from '../utils/web3';
 
 class WalletStore {

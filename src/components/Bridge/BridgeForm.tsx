@@ -1,5 +1,4 @@
 import React, { PropsWithChildren, ReactNode, useContext, useState, useEffect, useCallback } from 'react';
-import BigNumber from 'bignumber.js';
 import { EthArgs } from '@renproject/interfaces';
 import { BurnAndReleaseStatus } from '@renproject/ren/build/main/burnAndRelease';
 import { DepositStatus, DepositStatusIndex } from '@renproject/ren/build/main/lockAndMint';
@@ -42,6 +41,7 @@ import { connectWallet } from 'mobx/utils/helpers';
 import { RenVMTransaction, RenVMParams } from '../../mobx/model/bridge/renVMTransaction';
 import { Network } from '@badger-dao/sdk';
 import { RenSwap__factory } from 'contracts';
+import { BigNumber } from 'ethers';
 
 const DECIMALS = 10 ** 8;
 const SETT_DECIMALS = 10 ** 18;
@@ -467,7 +467,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 
 	const approveAndWithdraw = async () => {
 		// Burn token decimals vary based on token/sett (e.g. most setts are 18 decimals whereas btc variants are 8 decimals)
-		const amountOut = new BigNumber(burnAmount as any).multipliedBy(decimals());
+		const amountOut = BigNumber.from(burnAmount as any).mul(decimals());
 		let burnToken = tokens.renBTC;
 		let maxSlippageBps = 0;
 
@@ -548,7 +548,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 		try {
 			const curve = RenSwap__factory.connect(CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS, provider);
 			// const curve = new web3.eth.Contract(CURVE_EXCHANGE, CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS);
-			const amountAfterFeesInSats = new BigNumber(amount.toFixed(8)).multipliedBy(10 ** 8);
+			const amountAfterFeesInSats = BigNumber.from(amount.toFixed(8)).mul(10 ** 8);
 			let swapResult;
 			if (name === 'amount') {
 				swapResult = await curve.get_dy(0, 1, amountAfterFeesInSats.toString());
@@ -557,7 +557,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 			} else {
 				return 0;
 			}
-			const swapRatio = new BigNumber(swapResult.toString()).dividedBy(amountAfterFeesInSats).toNumber();
+			const swapRatio = BigNumber.from(swapResult.toString()).div(amountAfterFeesInSats).toNumber();
 
 			if (swapRatio >= 1) return 0;
 			return 1 - swapRatio;

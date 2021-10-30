@@ -1,6 +1,5 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-
 import { Typography, Button, Popper, Paper, List, ListItem } from '@material-ui/core';
 import { ArrowDropDown } from '@material-ui/icons';
 import { IbbtcOptionToken } from '../../mobx/model/tokens/ibbtc-option-token';

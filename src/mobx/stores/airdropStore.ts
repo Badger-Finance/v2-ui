@@ -1,8 +1,5 @@
 import { extendObservable, action } from 'mobx';
-import Web3 from 'web3';
-import BigNumber from 'bignumber.js';
 import { RootStore } from '../RootStore';
-import { AbiItem } from 'web3-utils';
 import { getSendOptions, sendContractMethod } from 'mobx/utils/web3';
 import { AirdropMerkleClaim } from 'mobx/model/rewards/airdrop-merkle-claim';
 import { fetchData } from '../../utils/fetchData';
@@ -65,7 +62,7 @@ class AirdropStore {
 				if (!claimed[0]) {
 					this.airdrops.push({
 						token: airdrop.token,
-						amount: new BigNumber(proof.amount),
+						amount: BigNumber.from(proof.amount),
 						airdropContract: airdrop.airdropContract,
 						airdropAbi: airdrop.airdropAbi,
 						proof: proof,

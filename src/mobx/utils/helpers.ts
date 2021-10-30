@@ -1,5 +1,4 @@
-import BigNumber from 'bignumber.js';
-import { TEN, ZERO } from '../../config/constants';
+import { TEN } from '../../config/constants';
 import { API } from 'bnc-onboard/dist/src/interfaces';
 import store, { RootStore } from 'mobx/RootStore';
 import { MarketChartStats } from 'mobx/model/charts/market-chart-stats';
@@ -12,41 +11,19 @@ import routes from 'config/routes';
 import SettStore from 'mobx/stores/SettStore';
 import { Route } from 'mobx-router';
 import { SettState } from '@badger-dao/sdk';
-
-export const jsonQuery = (url: string | undefined): Promise<Response> | undefined => {
-	if (!url) return;
-	return fetch(url, {
-		method: 'GET',
-		headers: {
-			'Content-Type': 'application/json',
-			Accept: 'application/json',
-		},
-	}).then((response: any) => {
-		return response.json();
-	});
-};
-
-export const textQuery = (url: string): Promise<Response> => {
-	// Use this query to return text without formatting to JSON for debugging
-	return fetch(url, {}).then((response: any) => {
-		return response.text();
-	});
-};
-
-export const vanillaQuery = (url: string): Promise<Response> => {
-	return fetch(url, {
-		method: 'GET',
-		headers: {
-			Accept: 'application/json',
-		},
-	}).then((response: any) => response.json());
-};
+import { BigNumber, ethers } from 'ethers';
 
 export const secondsToBlocks = (seconds: number): number => {
 	return seconds / (1 / (6500 / (24 * 60 * 60)));
 };
 
-// TECH DEBT: Reformat these formatting functions using a factory pattern and delete repeated code
+export function formatBalance(amount: BigNumber, decimals = 18): number {
+	return Number(formatBalanceString(amount, decimals));
+}
+
+export function formatBalanceString(amount: BigNumber, decimals = 18): string {
+	return ethers.utils.formatUnits(amount, decimals);
+}
 
 /**
  * Function for wrapping ETH based prices or values to be displayed in any currency.
@@ -57,97 +34,24 @@ export const secondsToBlocks = (seconds: number): number => {
  */
 export function inCurrency(value: BigNumber, currency: Currency, dispalyDecimals?: number): string | undefined {
 	const { exchangeRates } = store.prices;
-	if (value.isNaN() || !exchangeRates) {
+	if (!exchangeRates) {
 		return;
 	}
 	const currencyConfig = currencyConfiguration[currency];
 	const { prefix, getExchangeRate, decimals } = currencyConfig;
 	const conversionDecimals = dispalyDecimals ?? decimals;
-	let converted = value.multipliedBy(getExchangeRate(exchangeRates));
+	let converted = value.mul(getExchangeRate(exchangeRates));
 	let suffix = '';
 	if (converted.gt(0) && converted.lt(10 ** -conversionDecimals)) {
-		converted = converted.multipliedBy(10 ** conversionDecimals);
+		converted = converted.mul(10 ** conversionDecimals);
 		suffix = `e-${conversionDecimals}`;
 	}
-	const amount = numberWithCommas(converted.toFixed(conversionDecimals, BigNumber.ROUND_HALF_FLOOR));
+	const amount = numberWithCommas(ethers.utils.formatUnits(converted, conversionDecimals));
 	return `${prefix}${amount}${suffix}`;
 }
 
-interface DiggToCurrencyOptions {
-	amount: BigNumber;
-	currency: 'usd' | 'btc' | 'eth' | 'cad' | 'bnb';
-	hide?: boolean;
-	preferredDecimals?: number;
-	noCommas?: boolean;
-}
-
-/**
- * Formats an amount in Digg to a specific currency
- *
- * @param options amount, currency, hide, preferredDecimals, noCommas
- * @returns formatted amount
- */
-export const bDiggToCurrency = ({
-	amount,
-	currency,
-	preferredDecimals = 2,
-	noCommas = false,
-}: DiggToCurrencyOptions): string | undefined => {
-	const bDiggExchangeRates = store.prices.bDiggExchangeRates;
-	if (!bDiggExchangeRates || amount.isNaN()) {
-		return;
-	}
-
-	let normal = amount.dividedBy(1e18);
-	let prefix = '';
-	let decimals = preferredDecimals;
-
-	switch (currency) {
-		case 'usd':
-			normal = normal.multipliedBy(bDiggExchangeRates.usd);
-			decimals = 2;
-			prefix = '$ ';
-			break;
-		case 'btc':
-			normal = normal.multipliedBy(bDiggExchangeRates.btc);
-			decimals = 5;
-			prefix = '₿ ';
-			break;
-		case 'eth':
-			normal = normal.multipliedBy(bDiggExchangeRates.eth);
-			prefix = 'Ξ ';
-			decimals = 5;
-			break;
-		case 'cad':
-			normal = normal.multipliedBy(bDiggExchangeRates.cad);
-			decimals = 2;
-			prefix = 'C$';
-			break;
-		case 'bnb':
-			normal = normal.multipliedBy(bDiggExchangeRates.bnb);
-			decimals = 2;
-			prefix = '/assets/icons/bnb-white.png';
-			break;
-	}
-
-	let suffix = '';
-
-	if (normal.gt(0) && normal.lt(10 ** -decimals)) {
-		normal = normal.multipliedBy(10 ** decimals);
-		suffix = `e-${decimals}`;
-	} else if (normal.dividedBy(1e4).gt(1)) {
-		decimals = preferredDecimals;
-	}
-
-	const fixedNormal = noCommas
-		? normal.toFixed(decimals, BigNumber.ROUND_HALF_FLOOR)
-		: numberWithCommas(normal.toFixed(decimals, BigNumber.ROUND_HALF_FLOOR));
-
-	return `${prefix}${fixedNormal}${suffix}`;
-};
-
 export const formatTokens = (value: BigNumber, decimals = 5): string => {
-	if (!value || value.isNaN()) {
+	if (!value) {
 		let formattedZero = '0.';
 		for (let i = 0; i < decimals; i++) {
 			formattedZero += '0';
@@ -156,30 +60,11 @@ export const formatTokens = (value: BigNumber, decimals = 5): string => {
 	} else {
 		if (value.gt(0) && value.lt(10 ** -decimals)) {
 			return '< 0.00001';
-		} else if (value.dividedBy(1e4).gt(1)) {
+		} else if (value.div(1e4).gt(1)) {
 			decimals = 2;
 		}
-		return numberWithCommas(value.toFixed(decimals, BigNumber.ROUND_HALF_FLOOR));
+		return numberWithCommas(ethers.utils.formatUnits(value, 4));
 	}
-};
-
-/**
- * Converts a bignumber instance to a string equivalent with the provided number of decimals.
- * If the amount is smaller than 10 ** decimals, scientific notation is used.
- * @param amount amount to be converted
- * @param decimals decimals the the converted amount will have
- */
-export const toFixedDecimals = (amount: BigNumber, decimals: number): string => {
-	if (amount.isNaN() || amount.isZero()) {
-		return ZERO.toFixed(decimals, BigNumber.ROUND_HALF_FLOOR);
-	}
-
-	if (amount.lt(10 ** -decimals)) {
-		const normalizedValue = amount.multipliedBy(10 ** decimals);
-		return `${normalizedValue.toFixed(decimals, BigNumber.ROUND_HALF_FLOOR)}e-${decimals}`;
-	}
-
-	return amount.toFixed(decimals, BigNumber.ROUND_HALF_FLOOR);
 };
 
 export const numberWithCommas = (x: string): string => {
@@ -188,12 +73,8 @@ export const numberWithCommas = (x: string): string => {
 	return parts.join('.');
 };
 
-export const formatWithoutExtraZeros = (
-	amount: BigNumber.Value,
-	decimals = 6,
-	strategy = BigNumber.ROUND_HALF_FLOOR,
-): string => {
-	return new BigNumber(amount).decimalPlaces(decimals, strategy).toString();
+export const formatWithoutExtraZeros = (amount: BigNumber, decimals = 6): string => {
+	return ethers.utils.formatUnits(amount, decimals);
 };
 
 export async function fetchDiggChart(chart: string, range: number): Promise<ChartData | undefined> {
@@ -270,17 +151,15 @@ export function marketChartStats(dataSet: Array<any>, accessor: string): MarketC
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const getNetworkFromProvider = (provider?: any): string | undefined => {
 	try {
-		return provider
-			? Network.networkFromId(parseInt(new BigNumber(provider.chainId, 16).toString(10))).symbol
-			: undefined;
+		return provider ? Network.networkFromId(parseInt(provider.chainId, 16)).symbol : undefined;
 	} catch (e) {
 		return undefined;
 	}
 };
 
-export const unscale = (amount: BigNumber, decimals: number): BigNumber => amount.dividedBy(TEN.pow(decimals));
-export const toHex = (amount: BigNumber): string => '0x' + amount.toString(16);
-export const minBalance = (decimals: number): BigNumber => new BigNumber(`0.${'0'.repeat(decimals - 1)}1`);
+export const unscale = (amount: BigNumber, decimals: number): BigNumber => amount.div(TEN.pow(decimals));
+export const toHex = (amount: BigNumber): string => amount.toHexString();
+export const minBalance = (decimals: number): BigNumber => BigNumber.from(`0.${'0'.repeat(decimals - 1)}1`);
 export const isWithinRange = (value: number, min: number, max: number): boolean => value >= min && value < max;
 
 /**

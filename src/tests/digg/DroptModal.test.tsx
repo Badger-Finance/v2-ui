@@ -6,15 +6,15 @@ import SettStore from 'mobx/stores/SettStore';
 import UserStore from 'mobx/stores/UserStore';
 import { digg_system } from 'config/deployments/mainnet.json';
 import { checkSnapshot } from 'tests/utils/snapshots';
-import BigNumber from 'bignumber.js';
 import { customRender, fireEvent } from 'tests/Utils';
 import { StoreProvider } from 'mobx/store-context';
 import { mockToken } from 'mobx/model/tokens/badger-token';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { act } from 'react-dom/test-utils';
+import { BigNumber } from 'ethers';
 
 const validStore = (store.rebase.rebase = {
-	totalSupply: new BigNumber(1),
+	totalSupply: BigNumber.from(1),
 	latestRebase: 1,
 	minRebaseInterval: 1,
 	latestAnswer: 1,
@@ -22,7 +22,7 @@ const validStore = (store.rebase.rebase = {
 	rebaseLag: 1,
 	epoch: 1,
 	rebaseWindowLengthSec: 1,
-	oracleRate: new BigNumber(1),
+	oracleRate: BigNumber.from(1),
 	nextRebase: new Date(),
 	pastRebase: 1,
 	validDropts: [
@@ -37,7 +37,7 @@ const validStore = (store.rebase.rebase = {
 });
 
 const invalidStore = (store.rebase.rebase = {
-	totalSupply: new BigNumber(1),
+	totalSupply: BigNumber.from(1),
 	latestRebase: 1,
 	minRebaseInterval: 1,
 	latestAnswer: 1,
@@ -45,7 +45,7 @@ const invalidStore = (store.rebase.rebase = {
 	rebaseLag: 1,
 	epoch: 1,
 	rebaseWindowLengthSec: 1,
-	oracleRate: new BigNumber(1),
+	oracleRate: BigNumber.from(1),
 	nextRebase: new Date(),
 	pastRebase: 1,
 	validDropts: [],
@@ -75,8 +75,8 @@ describe('Dropt Modal', () => {
 		jest.spyOn(UserStore.prototype, 'getTokenBalance').mockReturnValue(
 			new TokenBalance(
 				mockToken('0x952F4Ac36EF204a28800AA1c1586C5261B600894'),
-				new BigNumber(1),
-				new BigNumber(1),
+				BigNumber.from(1),
+				BigNumber.from(1),
 			),
 		);
 	});

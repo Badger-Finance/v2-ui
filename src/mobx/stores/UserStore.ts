@@ -1,17 +1,15 @@
 import { action, extendObservable, observe } from 'mobx';
 import { RootStore } from '../RootStore';
 import WalletStore from './walletStore';
-import Web3 from 'web3';
 import { TokenBalances } from 'mobx/model/account/user-balances';
 import BatchCall from 'web3-batch-call';
 import { BatchCallClient } from 'web3/interface/batch-call-client';
-import BigNumber from 'bignumber.js';
 import { ContractNamespace } from 'web3/config/contract-namespace';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { BadgerSett } from 'mobx/model/vaults/badger-sett';
 import { BadgerToken, mockToken } from 'mobx/model/tokens/badger-token';
 import { CallResult } from 'web3/interface/call-result';
-import { ONE_MIN_MS, ZERO_ADDR } from 'config/constants';
+import { ONE_MIN_MS, ZERO, ZERO_ADDR } from 'config/constants';
 import { UserBalanceCache } from 'mobx/model/account/user-balance-cache';
 import { CachedTokenBalances } from 'mobx/model/account/cached-token-balances';
 import { createBatchCallRequest } from 'web3/config/config-utils';
@@ -25,6 +23,7 @@ import { defaultSettBalance } from 'components-v2/sett-detail/utils';
 import { getToken } from 'web3/config/token-config';
 import { Account, BouncerType, MerkleProof, Network, Sett, SettData } from '@badger-dao/sdk';
 import { fetchClaimProof } from 'mobx/utils/apiV2';
+import { BigNumber, ethers } from 'ethers';
 
 export default class UserStore {
 	private store!: RootStore;
@@ -108,7 +107,7 @@ export default class UserStore {
 		const provider = this.store.wallet.rpcProvider ?? this.store.wallet.provider;
 		if (provider) {
 			const newOptions = {
-				web3: new Web3(provider),
+				web3: new ethers.providers.Web3Provider(provider),
 			};
 			this.batchCall = new BatchCall(newOptions);
 		}
@@ -131,19 +130,19 @@ export default class UserStore {
 	}
 
 	get portfolioValue(): BigNumber {
-		return this.walletValue.plus(this.settValue).plus(this.geyserValue);
+		return this.walletValue.add(this.settValue).add(this.geyserValue);
 	}
 
 	get walletValue(): BigNumber {
-		return Object.values(this.tokenBalances).reduce((total, token) => total.plus(token.value), new BigNumber(0));
+		return Object.values(this.tokenBalances).reduce((total, token) => total.add(token.value), ZERO);
 	}
 
 	get settValue(): BigNumber {
-		return Object.values(this.settBalances).reduce((total, sett) => total.plus(sett.value), new BigNumber(0));
+		return Object.values(this.settBalances).reduce((total, sett) => total.add(sett.value), ZERO);
 	}
 
 	get geyserValue(): BigNumber {
-		return Object.values(this.geyserBalances).reduce((total, geyser) => total.plus(geyser.value), new BigNumber(0));
+		return Object.values(this.geyserBalances).reduce((total, geyser) => total.add(geyser.value), ZERO);
 	}
 
 	get initialized(): boolean {
@@ -216,23 +215,23 @@ export default class UserStore {
 		switch (namespace) {
 			case ContractNamespace.Sett:
 			case ContractNamespace.GaurdedSett:
-				const settAddress = Web3.utils.toChecksumAddress(sett.vaultToken.address);
+				const settAddress = ethers.utils.getAddress(sett.vaultToken.address);
 				return this.getOrDefaultBalance(this.settBalances, settAddress);
 			case ContractNamespace.Geyser:
 				if (!sett.geyser) {
 					throw new Error(`${sett.vaultToken.address} does not have a geyser`);
 				}
-				const geyserAdress = Web3.utils.toChecksumAddress(sett.geyser);
+				const geyserAdress = ethers.utils.getAddress(sett.geyser);
 				return this.getOrDefaultBalance(this.geyserBalances, geyserAdress);
 			case ContractNamespace.Token:
 			default:
-				const tokenAddress = Web3.utils.toChecksumAddress(sett.depositToken.address);
+				const tokenAddress = ethers.utils.getAddress(sett.depositToken.address);
 				return this.getOrDefaultBalance(this.tokenBalances, tokenAddress);
 		}
 	}
 
 	getTokenBalance(contract: string): TokenBalance {
-		const tokenAddress = Web3.utils.toChecksumAddress(contract);
+		const tokenAddress = ethers.utils.getAddress(contract);
 		const compositeBalances = {
 			...this.settBalances,
 			...this.geyserBalances,
@@ -406,7 +405,7 @@ export default class UserStore {
 		if (!balanceResults || balanceResults.length === 0) {
 			return;
 		}
-		const balance = new BigNumber(balanceResults[0].value);
+		const balance = BigNumber.from(balanceResults[0].value);
 		const sett = network.setts.find((s) => getBalanceToken(s).address === token.address);
 		if (!sett) {
 			return;
@@ -417,7 +416,7 @@ export default class UserStore {
 			pricingToken = sett.vaultToken.address;
 		}
 		const tokenPrice = prices.getPrice(pricingToken);
-		const key = Web3.utils.toChecksumAddress(balanceToken.address);
+		const key = ethers.utils.getAddress(balanceToken.address);
 		tokenBalances[key] = new TokenBalance(balanceToken, balance, tokenPrice);
 	};
 
@@ -432,9 +431,9 @@ export default class UserStore {
 		if (!balanceToken) {
 			return;
 		}
-		const balance = new BigNumber(balanceResults[0].value);
+		const balance = BigNumber.from(balanceResults[0].value);
 		const tokenPrice = prices.getPrice(tokenAddress);
-		const key = Web3.utils.toChecksumAddress(tokenAddress);
+		const key = ethers.utils.getAddress(tokenAddress);
 		tokenBalances[key] = new TokenBalance(balanceToken, balance, tokenPrice);
 	};
 
@@ -460,7 +459,7 @@ export default class UserStore {
 
 	loadClaimProof = action(
 		async (address: string, chain = Network.Ethereum): Promise<void> => {
-			const proof = await fetchClaimProof(Web3.utils.toChecksumAddress(address), chain);
+			const proof = await fetchClaimProof(ethers.utils.getAddress(address), chain);
 			if (proof) {
 				this.claimProof = proof;
 				await this.store.rewards.fetchSettRewards();

@@ -70,10 +70,10 @@ export class SettDetailStore {
 
 		const openBalance = this.store.user.getBalance(ContractNamespace.Sett, sett).balance;
 		const guardedBalance = this.store.user.getBalance(ContractNamespace.GaurdedSett, sett).balance;
-		let settBalance = openBalance.plus(guardedBalance);
+		let settBalance = openBalance.add(guardedBalance);
 
 		if (sett.geyser) {
-			settBalance = settBalance.plus(this.store.user.getBalance(ContractNamespace.Geyser, sett).balance);
+			settBalance = settBalance.add(this.store.user.getBalance(ContractNamespace.Geyser, sett).balance);
 		}
 
 		return settBalance.gt(0);

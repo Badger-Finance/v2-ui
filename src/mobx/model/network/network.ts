@@ -4,7 +4,6 @@ import rpc from 'config/rpc.config';
 import { getAirdrops } from 'config/system/airdrops';
 import { getStrategies } from 'config/system/strategies';
 import { SidebarLink, sidebarTokenLinks } from 'config/ui/links';
-import Web3 from 'web3';
 import { createChainBatchConfig } from 'web3/config/config-utils';
 import { BatchCallRequest } from 'web3/interface/batch-call-request';
 import { SettMap } from '../setts/sett-map';
@@ -15,6 +14,7 @@ import { BadgerSett } from '../vaults/badger-sett';
 import { AirdropNetworkConfig } from './airdrop-network-config';
 // TODO: the naming irony here is not lost - temporary gap for sdk integrations @jintao
 import { Network as ChainNetwork, SettState } from '@badger-dao/sdk';
+import { ethers } from 'ethers';
 
 export abstract class Network {
 	private static idToNetwork: Record<number, Network> = {};
@@ -107,10 +107,10 @@ export abstract class Network {
 
 	private checksumSetts(setts: BadgerSett[]): BadgerSett[] {
 		return setts.map((sett) => {
-			sett.depositToken.address = Web3.utils.toChecksumAddress(sett.depositToken.address);
-			sett.vaultToken.address = Web3.utils.toChecksumAddress(sett.vaultToken.address);
+			sett.depositToken.address = ethers.utils.getAddress(sett.depositToken.address);
+			sett.vaultToken.address = ethers.utils.getAddress(sett.vaultToken.address);
 			if (sett.geyser) {
-				sett.geyser = Web3.utils.toChecksumAddress(sett.geyser);
+				sett.geyser = ethers.utils.getAddress(sett.geyser);
 			}
 			return sett;
 		});

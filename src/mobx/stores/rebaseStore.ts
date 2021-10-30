@@ -1,18 +1,16 @@
 import { extendObservable, action } from 'mobx';
-import Web3 from 'web3';
 import BatchCall from 'web3-batch-call';
 import { RootStore } from '../RootStore';
 import { getNextRebase, getRebaseLogs } from '../utils/diggHelpers';
 import { RebaseInfo } from 'mobx/model/tokens/rebase-info';
 import DroptRedemption from '../../config/system/abis/DroptRedemption.json';
-import { AbiItem } from 'web3-utils';
 import { getSendOptions, sendContractMethod } from 'mobx/utils/web3';
 import { ProviderReport } from 'mobx/model/digg/provider-reports';
 import { OracleReports } from 'mobx/model/digg/oracle';
 import { getRebase } from 'config/system/rebase';
-import BigNumber from 'bignumber.js';
-import { groupBy } from 'utils/lodashToNative';
 import { DroptContractResponse } from 'mobx/model/tokens/dropt-info';
+import { BigNumber, ethers } from 'ethers';
+import { BatchCallRequest } from 'web3/interface/batch-call-request';
 
 let batchCall: any = null;
 
@@ -38,7 +36,7 @@ class RebaseStore {
 		}
 
 		const options = {
-			web3: new Web3(provider),
+			web3: new ethers.providers.Web3Provider(provider),
 			etherscan: {
 				apiKey: 'NXSHKK6D53D3R9I17SR49VX8VITQY7UC6P',
 				delayTime: 300,
@@ -53,7 +51,7 @@ class RebaseStore {
 		}
 
 		const diggData = await batchCall.execute(rebaseConfig.digg);
-		const keyedResult = groupBy(diggData, (v) => v.namespace);
+		const keyedResult = Object.fromEntries(diggData.map((item: BatchCallRequest) => [item.namespace, item]));
 		const { policy, token, oracle, dropt } = keyedResult;
 
 		if (!this.hasCallResults(token) || !this.hasCallResults(policy) || !this.hasCallResults(oracle)) {
@@ -83,8 +81,8 @@ class RebaseStore {
 
 		// token data
 		const decimals = parseInt(token[0].decimals[0].value);
-		const totalSupply = new BigNumber(token[0].totalSupply[0].value).dividedBy(Math.pow(10, decimals));
-		const sharesPerFragment = new BigNumber(token[0]._sharesPerFragment[0].value);
+		const totalSupply = BigNumber.from(token[0].totalSupply[0].value).div(Math.pow(10, decimals));
+		const sharesPerFragment = BigNumber.from(token[0]._sharesPerFragment[0].value);
 
 		// pull latest provider report
 		const oracleReport: OracleReports = oracle[0];
@@ -106,7 +104,7 @@ class RebaseStore {
 			rebaseLag: policy[0].rebaseLag[0].value,
 			epoch: policy[0].epoch[0].value,
 			rebaseWindowLengthSec: parseInt(policy[0].rebaseWindowLengthSec[0].value),
-			oracleRate: new BigNumber(activeReport.value.payload).dividedBy(1e18),
+			oracleRate: BigNumber.from(activeReport.value.payload).div(1e18),
 			nextRebase: getNextRebase(minRebaseInterval, latestRebase),
 			pastRebase: rebaseLog,
 			validDropts: validDropts,
@@ -127,7 +125,7 @@ class RebaseStore {
 
 		const web3 = new Web3(provider);
 		const redemption = new web3.eth.Contract(DroptRedemption.abi as AbiItem[], redemptionContract);
-		const method = redemption.methods.settle(redeemAmount.toString(10), '0');
+		const method = redemption.methods.settle(redeemAmount.toString(), '0');
 
 		queueNotification(`Sign the transaction to claim your options`, 'info');
 

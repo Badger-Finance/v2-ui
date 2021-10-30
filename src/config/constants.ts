@@ -1,4 +1,3 @@
-import BigNumber from 'bignumber.js';
 import importedErc20 from '../config/system/abis/ERC20.json';
 import importedSett from '../config/system/abis/Sett.json';
 import importedGeyser from '../config/system/abis/BadgerGeyser.json';
@@ -12,7 +11,7 @@ import { DepositStatus } from '@renproject/ren/build/main/lockAndMint';
 import { Wallets } from './enums/wallets.enum';
 import { Network } from '@badger-dao/sdk';
 import { Currency } from './enums/currency.enum';
-import { ethers } from 'ethers';
+import { BigNumber, ethers } from 'ethers';
 
 /* App Configurations */
 
@@ -76,8 +75,8 @@ export const WC_BRIDGE = 'https://wc-bridge.badger.finance/';
 export const REN_FEES_ENDPOINT = 'https://lightnode-mainnet.herokuapp.com/ren_queryBlockState';
 export const BLOCKNATIVE_API_KEY = 'af74a87b-cd08-4f45-83ff-ade6b3859a07';
 
-export const ZERO = new BigNumber(0);
-export const TEN = new BigNumber(10);
+export const ZERO = BigNumber.from(0);
+export const TEN = BigNumber.from(10);
 export const MAX = ethers.constants.MaxUint256;
 export const MAX_FEE = 1e4;
 

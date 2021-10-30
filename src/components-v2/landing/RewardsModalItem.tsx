@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Grid, Typography, TextField, Button, createStyles, makeStyles, Theme, Tooltip } from '@material-ui/core';
-import BigNumber from 'bignumber.js';
 import { observer } from 'mobx-react-lite';
+import { BigNumber } from 'ethers';
 
 export interface RewardsModalItemProps {
 	amount: string;
@@ -78,7 +78,7 @@ export const RewardsModalItem = observer(
 			if (newVal && isNaN(parseFloat(newVal))) {
 				return;
 			}
-			const isValid = new BigNumber(newVal).lte(new BigNumber(maxAmount));
+			const isValid = BigNumber.from(newVal).lte(BigNumber.from(maxAmount));
 			setFormError(!isValid);
 			setInputAmount(newVal);
 		};

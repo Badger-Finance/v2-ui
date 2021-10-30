@@ -1,5 +1,5 @@
-import BigNumber from 'bignumber.js';
 import { Currency } from 'config/enums/currency.enum';
+import { BigNumber, ethers } from 'ethers';
 import { inCurrency, minBalance } from 'mobx/utils/helpers';
 import { BadgerToken } from './badger-token';
 
@@ -13,7 +13,7 @@ export class TokenBalance {
 		this.token = token;
 		this.tokenBalance = balance;
 		this.price = price;
-		this.balance = balance.dividedBy(Math.pow(10, token.decimals));
+		this.balance = balance.div(Math.pow(10, token.decimals));
 	}
 
 	/**
@@ -27,8 +27,8 @@ export class TokenBalance {
 	 */
 	static fromBalance(tokenBalance: TokenBalance, balance: string): TokenBalance {
 		const { token, price } = tokenBalance;
-		const scalar = new BigNumber(Math.pow(10, token.decimals));
-		const amount = new BigNumber(balance).multipliedBy(scalar);
+		const scalar = BigNumber.from(Math.pow(10, token.decimals));
+		const amount = BigNumber.from(balance).mul(scalar);
 		return new TokenBalance(token, amount, price);
 	}
 
@@ -40,7 +40,7 @@ export class TokenBalance {
 	}
 
 	get value(): BigNumber {
-		return this.balance.multipliedBy(this.price);
+		return this.balance.mul(this.price);
 	}
 
 	/**
@@ -57,8 +57,7 @@ export class TokenBalance {
 		if (this.balance.gt(0) && this.balance.lt(minBalance(decimals))) {
 			return `< 0.${'0'.repeat(decimals - 1)}1`;
 		}
-
-		return this.balance.toFixed(decimals);
+		return ethers.utils.formatUnits(this.balance, decimals);
 	}
 
 	balanceValueDisplay(currency: Currency): string | undefined {
@@ -74,13 +73,13 @@ export class TokenBalance {
 		if (this.tokenBalance.eq(0)) {
 			return this;
 		}
-		const tokenBalance = this.tokenBalance.multipliedBy(scalar);
-		const price = scalePrice ? this.price.dividedBy(scalar) : this.price;
+		const tokenBalance = this.tokenBalance.mul(scalar);
+		const price = scalePrice ? this.price.div(scalar) : this.price;
 		return new TokenBalance(this.token, tokenBalance, price);
 	}
 
 	scaledBalanceDisplay(percent: number): string {
-		const scaledBalance = this.scale(new BigNumber(percent / 100));
+		const scaledBalance = this.scale(BigNumber.from(percent / 100));
 		return scaledBalance.balanceDisplay();
 	}
 }

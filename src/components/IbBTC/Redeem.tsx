@@ -1,17 +1,13 @@
 import React, { useCallback, useContext, useState } from 'react';
 import { Button, Typography, Grid, Tooltip } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-
 import { observer } from 'mobx-react-lite';
-import BigNumber from 'bignumber.js';
-
 import { debounce } from 'utils/componentHelpers';
 import { ZERO } from 'config/constants';
 import { Token, Tokens } from './Tokens';
 import { DownArrow } from './DownArrow';
 import { StoreContext } from 'mobx/store-context';
 import { useConnectWallet } from 'mobx/utils/hooks';
-import { toFixedDecimals } from 'mobx/utils/helpers';
 import {
 	EndAlignText,
 	InputTokenAmount,
@@ -26,6 +22,8 @@ import {
 } from './Common';
 import { useNumericInput } from '../../utils/useNumericInput';
 import { IbbtcOptionToken } from '../../mobx/model/tokens/ibbtc-option-token';
+import { BigNumber } from 'ethers';
+import { formatBalanceString } from 'mobx/utils/helpers';
 
 type RedeemInformation = {
 	inputAmount: BigNumber;
@@ -97,10 +95,10 @@ export const Redeem = observer((): any => {
 
 	const setRedeemInformation = ({ inputAmount, redeemAmount, max, fee, conversionRate }: RedeemInformation): void => {
 		setIsEnoughToRedeem(max.gte(inputAmount));
-		setOutputAmount(toFixedDecimals(redeemAmount, 6));
-		setFee(toFixedDecimals(fee, 6));
-		setTotalRedeem(toFixedDecimals(redeemAmount, 6));
-		setConversionRate(conversionRate.toFixed(6, BigNumber.ROUND_HALF_FLOOR));
+		setOutputAmount(formatBalanceString(redeemAmount, 6));
+		setFee(formatBalanceString(fee, 6));
+		setTotalRedeem(formatBalanceString(redeemAmount, 6));
+		setConversionRate(formatBalanceString(conversionRate, 6));
 	};
 
 	const calculateRedeem = async (ibBTCAmount: BigNumber, token: IbbtcOptionToken): Promise<void> => {
@@ -133,7 +131,7 @@ export const Redeem = observer((): any => {
 		debounce(
 			600,
 			async (change): Promise<void> => {
-				const input = new BigNumber(change);
+				const input = BigNumber.from(change);
 
 				if (!input.gt(ZERO)) {
 					setOutputAmount(undefined);
@@ -153,7 +151,7 @@ export const Redeem = observer((): any => {
 	const handleApplyMaxBalance = async (): Promise<void> => {
 		if (ibBTC.balance.gt(ZERO) && selectedToken) {
 			setInputAmount({
-				displayValue: ibBTC.unscale(ibBTC.balance).toFixed(ibBTC.decimals, BigNumber.ROUND_HALF_FLOOR),
+				displayValue: formatBalanceString(ibBTC.unscale(ibBTC.balance), ibBTC.decimals),
 				actualValue: ibBTC.balance,
 			});
 			await calculateRedeem(ibBTC.balance, selectedToken);
@@ -162,7 +160,7 @@ export const Redeem = observer((): any => {
 
 	const handleLimitClick = async (limit: BigNumber): Promise<void> => {
 		setInputAmount({
-			displayValue: ibBTC.unscale(limit).toFixed(ibBTC.decimals, BigNumber.ROUND_HALF_FLOOR),
+			displayValue: formatBalanceString(ibBTC.unscale(limit), ibBTC.decimals),
 			actualValue: limit,
 		});
 		await calculateRedeem(limit, selectedToken);
@@ -170,13 +168,13 @@ export const Redeem = observer((): any => {
 
 	const handleTokenChange = async (token: IbbtcOptionToken): Promise<void> => {
 		setSelectedToken(token);
-		if (inputAmount?.actualValue && !inputAmount.actualValue.isNaN()) {
+		if (inputAmount?.actualValue) {
 			await calculateRedeem(inputAmount.actualValue, token);
 		}
 	};
 
 	const handleRedeemClick = async (): Promise<void> => {
-		if (inputAmount?.actualValue && !inputAmount.actualValue.isNaN()) {
+		if (inputAmount?.actualValue) {
 			const isValidAmount = store.ibBTCStore.isValidAmount(ibBTC, inputAmount.actualValue);
 			if (!isValidAmount) return;
 			await store.ibBTCStore.redeem(selectedToken, inputAmount.actualValue);
@@ -241,7 +239,7 @@ export const Redeem = observer((): any => {
 									placement="top"
 									onClick={() => handleLimitClick(maxRedeem)}
 								>
-									<span>{toFixedDecimals(ibBTC.unscale(maxRedeem), 6)}</span>
+									<span>{formatBalanceString(ibBTC.unscale(maxRedeem), 6)}</span>
 								</Tooltip>
 								<span>
 									{' '}

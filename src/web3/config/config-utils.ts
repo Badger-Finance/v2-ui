@@ -1,6 +1,6 @@
 import { ERC20_ABI, GEYSER_ABI, GUEST_LIST_ABI, SETT_ABI } from 'config/constants';
+import { ethers } from 'ethers';
 import { BadgerSett } from 'mobx/model/vaults/badger-sett';
-import Web3 from 'web3';
 import { AbiItem } from 'web3-utils';
 import { BatchCallRequest } from 'web3/interface/batch-call-request';
 import { ReadMethod } from 'web3/interface/read-method';
@@ -85,12 +85,12 @@ export const toSettConfig = (definitions: BadgerSett[]): BadgerSett[] => {
 	return definitions.map((sett) => ({
 		depositToken: {
 			...sett.depositToken,
-			address: Web3.utils.toChecksumAddress(sett.depositToken.address),
+			address: ethers.utils.getAddress(sett.depositToken.address),
 		},
 		vaultToken: {
 			...sett.vaultToken,
-			address: Web3.utils.toChecksumAddress(sett.vaultToken.address),
+			address: ethers.utils.getAddress(sett.vaultToken.address),
 		},
-		geyser: sett.geyser ? Web3.utils.toChecksumAddress(sett.geyser) : undefined,
+		geyser: sett.geyser ? ethers.utils.getAddress(sett.geyser) : undefined,
 	}));
 };
