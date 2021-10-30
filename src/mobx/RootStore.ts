@@ -17,12 +17,14 @@ import { NetworkStore } from './stores/NetworkStore';
 import { SettDetailStore } from './stores/SettDetail.store';
 import { SettChartsStore } from './stores/SettChartsStore';
 import LockedCvxDelegationStore from './stores/lockedCvxDelegationStore';
-import { BadgerAPI } from '@badger-dao/sdk';
+import BadgerSDK, { BadgerAPI } from '@badger-dao/sdk';
 import { defaultNetwork } from 'config/networks.config';
 import { BADGER_API } from './utils/apiV2';
 
 export class RootStore {
 	public api: BadgerAPI;
+	public sdk?: BadgerSDK;
+
 	public router: RouterStore<RootStore>;
 	public network: NetworkStore;
 	public wallet: WalletStore;

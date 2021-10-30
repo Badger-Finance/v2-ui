@@ -1,10 +1,10 @@
 import { makeStyles, Typography } from '@material-ui/core';
 import BigNumber from 'bignumber.js';
 import { Loader } from 'components/Loader';
+import { ethers } from 'ethers';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from 'mobx/store-context';
 import React, { useContext } from 'react';
-import Web3 from 'web3';
 import { ContractNamespace } from 'web3/config/contract-namespace';
 import NoVaults from './NoVaults';
 import SettListItem from './SettListItem';
@@ -45,7 +45,7 @@ const SettListDisplay = observer((props: SettListViewProps) => {
 
 	const settListItems = network.settOrder
 		.map((contract) => {
-			const sett = currentSettMap[Web3.utils.toChecksumAddress(contract)];
+			const sett = currentSettMap[ethers.utils.getAddress(contract)];
 			const badgerSett = network.setts.find((sett) => sett.vaultToken.address === contract);
 
 			if (!sett || !badgerSett) {

@@ -1,6 +1,4 @@
-import { AbiItem } from 'web3-utils';
-
-export const BADGER_ADAPTER: AbiItem[] = [
+[
 	{
 		anonymous: false,
 		inputs: [
@@ -196,4 +194,4 @@ export const BADGER_ADAPTER: AbiItem[] = [
 		stateMutability: 'nonpayable',
 		type: 'function',
 	},
-];
+]

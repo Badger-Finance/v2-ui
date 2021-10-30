@@ -13,6 +13,7 @@ import { DepositStatus } from '@renproject/ren/build/main/lockAndMint';
 import { Wallets } from './enums/wallets.enum';
 import { Network } from '@badger-dao/sdk';
 import { Currency } from './enums/currency.enum';
+import { ethers } from 'ethers';
 
 /* App Configurations */
 
@@ -78,7 +79,7 @@ export const BLOCKNATIVE_API_KEY = 'af74a87b-cd08-4f45-83ff-ade6b3859a07';
 
 export const ZERO = new BigNumber(0);
 export const TEN = new BigNumber(10);
-export const MAX = Web3.utils.toTwosComplement(-1);
+export const MAX = ethers.constants.MaxUint256;
 export const MAX_FEE = 1e4;
 
 export const CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS = '0x93054188d876f558f4a66B2EF1d97d16eDf0895B';

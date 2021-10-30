@@ -2,9 +2,6 @@ import React from 'react';
 import { makeStyles, Typography } from '@material-ui/core';
 import { VaultCap } from 'mobx/model/vaults/vault-cap';
 import { MAX } from '../../../config/constants';
-import BigNumber from 'bignumber.js';
-
-const maxCapAmount = new BigNumber(MAX).toFixed();
 
 const useStyles = makeStyles((theme) => ({
 	limitsContainer: {
@@ -42,8 +39,8 @@ export const SettAvailableDeposit = (props: DepositLimitProps): JSX.Element | nu
 	}
 	const { vaultCap, totalVaultCap, userCap, totalUserCap, asset } = vaultCapInfo;
 	const displayUserCap = vaultCap.tokenBalance.lte(userCap.tokenBalance) ? vaultCap : userCap;
-	const isMaxUserCap = totalUserCap.tokenBalance.toFixed() === maxCapAmount;
-	const isMaxTotalCap = vaultCap.tokenBalance.toFixed() === maxCapAmount;
+	const isMaxUserCap = totalUserCap.tokenBalance.toFixed() === MAX.toString();
+	const isMaxTotalCap = vaultCap.tokenBalance.toFixed() === MAX.toString();
 
 	if (isMaxTotalCap && isMaxUserCap) {
 		return null;

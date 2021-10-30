@@ -9,10 +9,10 @@ import SettTable from './SettTable';
 import { inCurrency } from 'mobx/utils/helpers';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import BigNumber from 'bignumber.js';
-import Web3 from 'web3';
 import { ContractNamespace } from 'web3/config/contract-namespace';
 import { Currency } from 'config/enums/currency.enum';
 import { Sett } from '@badger-dao/sdk';
+import { ethers } from 'ethers';
 
 const useStyles = makeStyles((theme) => ({
 	boostContainer: {
@@ -75,7 +75,7 @@ const UserListDisplay = observer(({ state }: SettListViewProps) => {
 	const geyserList: JSX.Element[] = [];
 
 	network.settOrder.forEach((contract) => {
-		const contractAddress = Web3.utils.toChecksumAddress(contract);
+		const contractAddress = ethers.utils.getAddress(contract);
 		const sett = currentSettMap[contractAddress];
 		const badgerSett = network.setts.find((sett) => sett.vaultToken.address === contractAddress);
 
