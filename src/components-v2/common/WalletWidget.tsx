@@ -32,7 +32,7 @@ const WalletWidget = observer(() => {
 	const classes = useStyles();
 	const store = useContext(StoreContext);
 	const { address, connect, reset } = store.wallet;
-	const isConnected = !(!address || address.length === 0);
+	const isConnected = address !== undefined;
 	const walletIcon = <div className={clsx(classes.walletDot, isConnected ? classes.greenDot : classes.redDot)} />;
 
 	return (
@@ -47,7 +47,7 @@ const WalletWidget = observer(() => {
 			endIcon={walletIcon}
 			className={classes.walletButton}
 		>
-			{isConnected ? shortenAddress(address) : 'Click to connect'}
+			{address !== undefined ? shortenAddress(address) : 'Click to connect'}
 		</Button>
 	);
 });

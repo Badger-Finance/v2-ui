@@ -37,7 +37,7 @@ export const ReleaseForm = ({
 }: ReleaseFormProps): JSX.Element => {
 	const store = useContext(StoreContext);
 	const {
-		wallet: { connectedAddress },
+		wallet: { address },
 		bridge: { renbtcBalance, wbtcBalance, byvwbtcBalance, bCRVrenBTCBalance, bCRVsBTCBalance, bCRVtBTCBalance },
 	} = store;
 
@@ -95,7 +95,7 @@ export const ReleaseForm = ({
 					<Grid item xs={12} sm={5}>
 						<InputBase
 							value={values.burnAmount}
-							disabled={!!connectedAddress === false}
+							disabled={!!address === false}
 							placeholder="0.00"
 							onChange={handleChange('burnAmount')}
 							style={{
@@ -131,7 +131,7 @@ export const ReleaseForm = ({
 						variant="outlined"
 						size="medium"
 						value={values.btcAddr}
-						disabled={!!connectedAddress === false}
+						disabled={!!address === false}
 						fullWidth={true}
 						error={!validAddress}
 						placeholder="Your BTC address"
@@ -145,7 +145,7 @@ export const ReleaseForm = ({
 						classes={classes}
 						handleChange={handleChange}
 						handleSetMaxSlippage={handleSetMaxSlippage}
-						disabled={!!connectedAddress === false}
+						disabled={!!address === false}
 					/>
 				)}
 			</Grid>
@@ -175,7 +175,7 @@ export const ReleaseForm = ({
 
 			<Grid container spacing={2} alignItems={'center'} style={{ padding: '.6rem 2rem' }}>
 				<Grid item xs={12}>
-					{!!connectedAddress ? (
+					{!!address ? (
 						<Button
 							variant="contained"
 							color="primary"

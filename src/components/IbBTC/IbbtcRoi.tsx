@@ -35,11 +35,11 @@ const useStyles = makeStyles((theme) => ({
 export const IbbtcRoi = observer(
 	(): JSX.Element => {
 		const { ibBTCStore, wallet } = React.useContext(StoreContext);
-		const { connectedAddress } = wallet;
+		const { address } = wallet;
 		const { ibBTC, apyUsingLastDay, apyUsingLastWeek } = ibBTCStore;
 		const classes = useStyles();
 		const isDisplayXs = useMediaQuery((theme: Theme) => theme.breakpoints.only('xs'));
-		const loadingApy = connectedAddress && (apyUsingLastDay === undefined || apyUsingLastWeek === undefined);
+		const loadingApy = address && (apyUsingLastDay === undefined || apyUsingLastWeek === undefined);
 
 		return (
 			<Grid container component={Paper} className={classes.container}>

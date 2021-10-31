@@ -12,7 +12,7 @@ const HoneybadgerDrop: React.FC = observer(() => {
 	const store = React.useContext(StoreContext);
 
 	const { network } = store.network;
-	const { connectedAddress } = store.wallet;
+	const { address } = store.wallet;
 
 	return (
 		<LayoutContainer>
@@ -24,7 +24,7 @@ const HoneybadgerDrop: React.FC = observer(() => {
 					<>
 						<Grid item xs={12} container spacing={5}>
 							<PoolBalance />
-							{connectedAddress && <NftList />}
+							{address && <NftList />}
 						</Grid>
 					</>
 				) : (

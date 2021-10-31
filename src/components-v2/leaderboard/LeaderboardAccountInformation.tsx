@@ -39,7 +39,7 @@ const LeaderboardAccountInformation = observer(
 		const rank = user.accountDetails?.boostRank;
 
 		// Show N/A when wallet is not connected otherwise show loading skeleton
-		const infoPlaceholder = !wallet.connectedAddress ? 'N/A' : <Skeleton width={30} />;
+		const infoPlaceholder = !wallet.address ? 'N/A' : <Skeleton width={30} />;
 
 		return (
 			<Grid container>

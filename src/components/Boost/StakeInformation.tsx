@@ -62,12 +62,12 @@ export const StakeInformation = observer(
 		const {
 			router,
 			user: { accountDetails },
-			wallet: { connectedAddress },
+			wallet: { address },
 		} = React.useContext(StoreContext);
 
 		const classes = useStyles();
 
-		const isLoading = !!connectedAddress && accountDetails === undefined;
+		const isLoading = !!address && accountDetails === undefined;
 		const accountNative = accountDetails?.nativeBalance;
 		const accountNonNative = accountDetails?.nonNativeBalance;
 

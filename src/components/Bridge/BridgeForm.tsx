@@ -37,7 +37,6 @@ import {
 	burnStatusDict,
 } from 'config/constants';
 import { bridge_system, tokens, sett_system } from 'config/deployments/mainnet.json';
-import { connectWallet } from 'mobx/utils/helpers';
 import { RenVMTransaction, RenVMParams } from '../../mobx/model/bridge/renVMTransaction';
 import { Network } from '@badger-dao/sdk';
 import { RenSwap__factory } from 'contracts';
@@ -233,7 +232,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 
 	const {
 		network: { network },
-		wallet: { connect, connectedAddress, provider, onboard },
+		wallet: { connect, address, provider },
 		contracts: { getAllowance, increaseAllowance },
 		uiState: { queueNotification, setTxStatus },
 		bridge: {
@@ -241,7 +240,6 @@ export const BridgeForm = observer(({ classes }: any) => {
 			begin,
 			loading,
 			error,
-
 			badgerBurnFee,
 			badgerMintFee,
 			renvmBurnFee,
@@ -295,10 +293,6 @@ export const BridgeForm = observer(({ classes }: any) => {
 		maxSlippage,
 		renFee,
 		badgerFee,
-	};
-
-	const handleConnect = async () => {
-		await connectWallet(onboard, connect);
 	};
 
 	const resetState = useCallback(() => {
@@ -406,11 +400,11 @@ export const BridgeForm = observer(({ classes }: any) => {
 	useEffect(() => {
 		// Reset to original state if we're disconnected in middle
 		// of transaction.
-		if (!connectedAddress && step !== 1) {
+		if (!address && step !== 1) {
 			resetState();
 			return;
 		}
-	}, [connectedAddress, step, resetState]);
+	}, [address, step, resetState]);
 
 	// TODO: Can refactor most of these methods below into the store as well.
 	const deposit = async () => {
@@ -437,7 +431,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 			{
 				name: '_user',
 				type: 'address',
-				value: connectedAddress,
+				value: address,
 			},
 			{
 				name: '_vault',
@@ -541,7 +535,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 	};
 
 	const getEstimatedSlippage = async (amount: number, name: string) => {
-		if (isNaN(amount) || amount <= 0) {
+		if (isNaN(amount) || amount <= 0 || !provider) {
 			return 0;
 		}
 
@@ -796,7 +790,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 								nextStep={nextStep}
 								classes={classes}
 								assetSelect={assetSelect}
-								connectWallet={handleConnect}
+								connectWallet={connect}
 								isEarn={false}
 							/>
 						</TabPanel>
@@ -809,7 +803,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 								nextStep={nextStep}
 								classes={classes}
 								assetSelect={assetSelect}
-								connectWallet={handleConnect}
+								connectWallet={connect}
 								isEarn={true}
 							/>
 						</TabPanel>
@@ -823,7 +817,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 								classes={classes}
 								updateState={updateState}
 								assetSelect={assetSelect}
-								connectWallet={handleConnect}
+								connectWallet={connect}
 								calcFees={calcFees}
 							/>
 						</TabPanel>

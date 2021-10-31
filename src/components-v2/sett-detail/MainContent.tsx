@@ -43,7 +43,7 @@ export const MainContent = observer(
 	({ badgerSett, sett }: Props): JSX.Element => {
 		const {
 			user,
-			wallet: { connectedAddress },
+			wallet: { address },
 		} = React.useContext(StoreContext);
 
 		const classes = useStyles();
@@ -52,7 +52,7 @@ export const MainContent = observer(
 
 		return (
 			<Grid container className={classes.content}>
-				{connectedAddress && (
+				{address && (
 					<Grid container className={classes.holdingsContainer}>
 						<Holdings
 							sett={sett}

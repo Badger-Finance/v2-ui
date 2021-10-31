@@ -1,7 +1,6 @@
 import { RootStore } from 'mobx/RootStore';
 import { extendObservable, action } from 'mobx';
-import { ZERO, MAX, ERC20_ABI } from 'config/constants';
-import settConfig from 'config/system/abis/Sett.json';
+import { ZERO, MAX } from 'config/constants';
 import addresses from 'config/ibBTC/addresses.json';
 import { getSendOptions } from 'mobx/utils/web3';
 import { IbbtcVaultPeakFactory } from '../ibbtc-vault-peak-factory';

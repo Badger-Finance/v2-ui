@@ -33,22 +33,22 @@ const Header = observer(() => {
 	const store = useContext(StoreContext);
 	const {
 		uiState: { openSidebar, notification },
-		wallet: { notify },
+		// wallet: { notify },
 		network: { network },
 	} = store;
 	const { enqueueSnackbar } = useSnackbar();
 
 	const enq = () => {
-		if (!notification || !notification.message) return;
+		// if (!notification || !notification.message) return;
 
-		// Notify doesn't support BSC currently so it is temporarily disabled for it
-		if (notification.hash && network.id == 1) {
-			// then on each transaction...
-			const { emitter } = notify.hash(notification.hash);
-			emitter.on('all', (tx) => network.notifyLink(tx));
-		} else {
-			enqueueSnackbar(notification.message, { variant: notification.variant, persist: false });
-		}
+		// // Notify doesn't support BSC currently so it is temporarily disabled for it
+		// if (notification.hash && network.id == 1) {
+		// 	// then on each transaction...
+		// 	const { emitter } = notify.hash(notification.hash);
+		// 	emitter.on('all', (tx) => network.notifyLink(tx));
+		// } else {
+		// 	enqueueSnackbar(notification.message, { variant: notification.variant, persist: false });
+		// }
 	};
 	// Disable reason: Hook used for execution of enq() on change of notification.
 	// eslint-disable-next-line react-hooks/exhaustive-deps

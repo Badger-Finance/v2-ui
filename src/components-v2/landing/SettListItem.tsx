@@ -126,8 +126,8 @@ const SettListItem = observer(
 					</Grid>
 					<Grid item xs={12} md className={classes.nonClickableSection}>
 						<SettActionButtons
-							isWithdrawDisabled={!wallet.connectedAddress || !canWithdraw}
-							isDepositDisabled={!wallet.connectedAddress || isDisabled}
+							isWithdrawDisabled={!wallet.address || !canWithdraw}
+							isDepositDisabled={!wallet.address || isDisabled}
 							onWithdrawClick={() => setOpenWithdrawDialog(true)}
 							onDepositClick={() => setOpenDepositDialog(true)}
 						/>

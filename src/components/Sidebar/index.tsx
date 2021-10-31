@@ -146,7 +146,7 @@ export const Sidebar = observer(() => {
 		router: { goTo },
 		uiState: { sidebarOpen, closeSidebar },
 		rewards: { badgerTree },
-		wallet: { connectedAddress },
+		wallet: { address },
 		network: { network },
 		user: { accountDetails },
 	} = store;
@@ -242,7 +242,7 @@ export const Sidebar = observer(() => {
 					</ListItem>
 				)}
 				<Collapse in={expanded === 'advanced'} timeout="auto" unmountOnExit>
-					{isEmissionsNetwork(network.symbol) && badgerTree && connectedAddress ? (
+					{isEmissionsNetwork(network.symbol) && badgerTree && address ? (
 						<ListItem className={classes.textListItem} key="rewards">
 							<ListItemText
 								primary={`Cycle Count: ${badgerTree.cycle}`}

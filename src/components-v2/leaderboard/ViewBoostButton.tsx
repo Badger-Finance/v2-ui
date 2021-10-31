@@ -16,11 +16,11 @@ const useStyles = makeStyles((theme) => ({
 
 const ViewBoostButton = observer((): JSX.Element | null => {
 	const { wallet, router } = useContext(StoreContext);
-	const { connectedAddress } = wallet;
+	const { address } = wallet;
 	const connectWallet = useConnectWallet();
 	const classes = useStyles();
 
-	if (!connectedAddress) {
+	if (!address) {
 		return (
 			<Button color="primary" variant="contained" onClick={connectWallet}>
 				Connect Wallet

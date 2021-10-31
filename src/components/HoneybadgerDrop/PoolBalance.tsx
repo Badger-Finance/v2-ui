@@ -70,9 +70,9 @@ export const PoolBalance = observer(() => {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const { setts } = store;
 	const { poolBalance, loadingPoolBalance } = store.honeyPot;
-	const { connectedAddress } = store.wallet;
+	const { address } = store.wallet;
 
-	if (!connectedAddress) {
+	if (!address) {
 		return (
 			<Container>
 				<Grid item xs={12}>

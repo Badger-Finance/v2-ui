@@ -3,7 +3,6 @@ import { Grid, Button, TextField, Typography } from '@material-ui/core';
 import { ClassNameMap } from '@material-ui/core/styles/withStyles';
 import { ArrowDownward } from '@material-ui/icons';
 import { toJS } from 'mobx';
-
 import { Token } from 'components/IbBTC/Tokens';
 import { StoreContext } from 'mobx/store-context';
 import { MIN_AMOUNT } from './constants';
@@ -37,7 +36,7 @@ export const MintForm = ({
 	const store = useContext(StoreContext);
 
 	const {
-		wallet: { connectedAddress },
+		wallet: { address },
 		setts: { settMap },
 		bridge: { shortAddr },
 	} = store;
@@ -93,7 +92,7 @@ export const MintForm = ({
 						variant="outlined"
 						size="medium"
 						value={values.amount}
-						disabled={!!connectedAddress === false}
+						disabled={!!address === false}
 						placeholder="0.00"
 						onChange={handleChange('amount')}
 						InputProps={{
@@ -124,7 +123,7 @@ export const MintForm = ({
 						classes={classes}
 						handleChange={handleChange}
 						handleSetMaxSlippage={handleSetMaxSlippage}
-						disabled={!!connectedAddress === false}
+						disabled={!!address === false}
 					/>
 				)}
 			</Grid>
@@ -158,7 +157,7 @@ export const MintForm = ({
 
 			<Grid container spacing={2} alignItems={'center'} style={{ padding: '.6rem 2rem' }}>
 				<Grid container justify={'center'}>
-					{!!connectedAddress ? (
+					{!!address ? (
 						<Button
 							variant="contained"
 							color="primary"

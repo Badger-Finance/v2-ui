@@ -113,7 +113,7 @@ const Info = observer(() => {
 		setts: { settMap },
 		uiState: { currency },
 		rebase: { rebase },
-		wallet: { connectedAddress },
+		wallet: { address },
 		prices,
 	} = store;
 
@@ -131,7 +131,7 @@ const Info = observer(() => {
 		return () => clearInterval(rebaseInterval);
 	}, [rebase]);
 
-	if (!connectedAddress) {
+	if (!address) {
 		return <NoWallet message="Connect wallet to see DIGG rebase statistics." />;
 	}
 

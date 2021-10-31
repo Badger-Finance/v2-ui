@@ -13,9 +13,9 @@ const SettListView = observer(({ state }: SettListViewProps) => {
 	const store = useContext(StoreContext);
 	const {
 		uiState: { showUserBalances },
-		wallet: { connectedAddress },
+		wallet: { address },
 	} = store;
-	const showUserDisplay = showUserBalances && connectedAddress;
+	const showUserDisplay = showUserBalances && address;
 	return showUserDisplay ? <UserListDisplay state={state} /> : <SettListDisplay state={state} />;
 });
 

@@ -97,7 +97,7 @@ export const RewardsModal = observer((): JSX.Element | null => {
 	const { setts } = store;
 	const { badgerTree, claimGeysers, loadingRewards } = store.rewards;
 	const { currency } = store.uiState;
-	const { connectedAddress } = store.wallet;
+	const { address } = store.wallet;
 
 	const [open, setOpen] = useState(false);
 	const [maxFlag, setMaxFlag] = useState(true);
@@ -118,7 +118,7 @@ export const RewardsModal = observer((): JSX.Element | null => {
 		setClaimMap(balances);
 	}, [badgerTree.claims]);
 
-	if (!connectedAddress) {
+	if (!address) {
 		return null;
 	}
 

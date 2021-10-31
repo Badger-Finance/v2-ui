@@ -10,7 +10,7 @@ import { SDKProvider } from "@badger-dao/sdk";
 export class OnboardStore {
   private onboard: API;
 	private wallet?: Wallet;
-	private provider?: SDKProvider;
+	public provider?: SDKProvider;
 	public address?: string;
 
   constructor(private store: RootStore, config: NetworkConfig)  {

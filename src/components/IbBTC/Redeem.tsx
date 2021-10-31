@@ -50,10 +50,10 @@ const useStyles = makeStyles((theme) => ({
 const ActionButton = observer(
 	({ children }): JSX.Element => {
 		const store = useContext(StoreContext);
-		const { connectedAddress } = store.wallet;
+		const { address } = store.wallet;
 		const connectWallet = useConnectWallet();
 
-		if (!connectedAddress) {
+		if (!address) {
 			return (
 				<Button fullWidth size="large" variant="contained" color="primary" onClick={connectWallet}>
 					Connect Wallet
@@ -71,7 +71,7 @@ export const Redeem = observer((): any => {
 
 	const {
 		ibBTCStore: { redeemOptions, ibBTC, redeemFeePercent },
-		wallet: { connectedAddress },
+		wallet: { address },
 	} = store;
 
 	const [selectedToken, setSelectedToken] = useState(redeemOptions[0]);
@@ -195,7 +195,7 @@ export const Redeem = observer((): any => {
 						<InputTokenAmount
 							inputProps={inputProps}
 							value={inputAmount?.displayValue || ''}
-							disabled={!connectedAddress}
+							disabled={!address}
 							placeholder="0.000"
 							onChange={onValidChange(handleInputChange)}
 						/>

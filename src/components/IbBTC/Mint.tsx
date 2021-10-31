@@ -62,10 +62,10 @@ type InputAmount = {
 const ActionButton = observer(
 	({ children }): JSX.Element => {
 		const store = useContext(StoreContext);
-		const { connectedAddress } = store.wallet;
+		const { address } = store.wallet;
 		const connectWallet = useConnectWallet();
 
-		if (!connectedAddress) {
+		if (!address) {
 			return (
 				<Button fullWidth size="large" variant="contained" color="primary" onClick={connectWallet}>
 					Connect Wallet
@@ -84,7 +84,7 @@ export const Mint = observer(
 
 		const {
 			ibBTCStore: { ibBTC, mintFeePercent, mintOptions },
-			wallet: { connectedAddress },
+			wallet: { address },
 		} = store;
 
 		const [selectedToken, setSelectedToken] = useState(mintOptions[0]);
@@ -207,7 +207,7 @@ export const Mint = observer(
 						<Grid item xs={12} sm={5}>
 							<InputTokenAmount
 								inputProps={inputProps}
-								disabled={!connectedAddress}
+								disabled={!address}
 								value={inputAmount?.displayValue || ''}
 								placeholder="0.000"
 								onChange={onValidChange(handleInputChange)}

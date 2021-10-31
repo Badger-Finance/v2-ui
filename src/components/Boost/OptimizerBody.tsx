@@ -48,7 +48,7 @@ export const OptimizerBody = observer(
 	(props: OptimizerBodyProps): JSX.Element => {
 		const {
 			user: { accountDetails },
-			wallet: { connectedAddress },
+			wallet: { address },
 		} = React.useContext(StoreContext);
 
 		const {
@@ -67,7 +67,7 @@ export const OptimizerBody = observer(
 		const smallScreen = useMediaQuery(theme.breakpoints.down(706));
 		const extraSmallScreen = useMediaQuery(theme.breakpoints.down(500));
 
-		const isLoading = !!connectedAddress && accountDetails === undefined;
+		const isLoading = !!address && accountDetails === undefined;
 		const sanitizedMultiplier = sanitizeMultiplierValue(Number(multiplier));
 
 		const handleApplyRemaining = (amountToAdd: string) => {
