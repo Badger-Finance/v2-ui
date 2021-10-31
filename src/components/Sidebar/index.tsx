@@ -404,26 +404,6 @@ export const Sidebar = observer(() => {
 					>
 						Experimental Vaults
 					</ListItem>
-					{network.symbol === Network.Ethereum && (
-						<>
-							<ListItem
-								button
-								classes={{ gutters: classes.subItemGutters }}
-								className={getItemClass('/airdrops', classes.primarySubListItem)}
-								onClick={() => navigate(views.airdrops)}
-							>
-								Airdrops
-							</ListItem>
-							<ListItem
-								button
-								classes={{ gutters: classes.subItemGutters }}
-								className={getItemClass('/honey-badger-drop', classes.primarySubListItem)}
-								onClick={() => navigate(views.honeybadgerDrop)}
-							>
-								Honey Badger Drop
-							</ListItem>
-						</>
-					)}
 				</Collapse>
 			</List>
 			<List>

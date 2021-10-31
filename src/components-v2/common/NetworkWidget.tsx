@@ -40,7 +40,6 @@ const NetworkWidget = observer(() => {
 	const store = useContext(StoreContext);
 	const { network, wallet } = store;
 	const connectedNetwork = network.network;
-	const isMetamask = wallet.walletType?.name === Wallets.MetaMask;
 
 	// anchorEl is the Popper reference object prop
 	const [anchorEl, setAnchorEl] = useState(null);
@@ -64,7 +63,7 @@ const NetworkWidget = observer(() => {
 			<Button
 				size="small"
 				variant="outlined"
-				endIcon={isMetamask ? <ArrowDropDown /> : <></>}
+				endIcon={wallet.isMetamask() ? <ArrowDropDown /> : <></>}
 				onClick={handleClick}
 				className={classes.selectButton}
 			>

@@ -1,4 +1,4 @@
-import { action, extendObservable, observe } from 'mobx';
+import { action, extendObservable, makeAutoObservable, observe } from 'mobx';
 import { RootStore } from '../RootStore';
 import WalletStore from './walletStore';
 import { TokenBalances } from 'mobx/model/account/user-balances';
@@ -26,8 +26,6 @@ import { fetchClaimProof } from 'mobx/utils/apiV2';
 import { BigNumber, ethers } from 'ethers';
 
 export default class UserStore {
-	private store!: RootStore;
-	private batchCall: BatchCallClient;
 	private userBalanceCache: UserBalanceCache = {};
 
 	// loading: undefined, error: null, present: object
@@ -41,83 +39,22 @@ export default class UserStore {
 	public vaultCaps: VaultCaps = {};
 	public loadingBalances: boolean;
 
-	constructor(store: RootStore) {
-		this.store = store;
-		this.batchCall = new BatchCall({ web3: this.store.wallet.rpcProvider ?? this.store.wallet.provider });
+	constructor(private store: RootStore) {
 		this.loadingBalances = false;
-
-		extendObservable(this, {
-			permissions: this.permissions,
-			bouncerProof: this.bouncerProof,
-			accountDetails: this.accountDetails,
-			claimProof: this.claimProof,
-			tokenBalances: this.tokenBalances,
-			settBalances: this.settBalances,
-			geyserBalances: this.geyserBalances,
-			vaultCaps: this.vaultCaps,
-			loadingBalances: this.loadingBalances,
-		});
-
-		/**
-		 * Update account store on change of address.
-		 */
-		observe(this.store.wallet as WalletStore, 'connectedAddress', async () => {
-			if (!this.loadingBalances) {
-				const address = this.store.wallet.connectedAddress;
-				const network = this.store.network.network;
-				this.permissions = undefined;
-				this.bouncerProof = undefined;
-				this.accountDetails = undefined;
-				if (address) {
-					await Promise.all([
-						this.loadBouncerProof(address),
-						this.loadAccountDetails(address),
-						this.loadClaimProof(address, network.symbol),
-						this.updateBalances(true),
-					]);
-				}
-			}
-		});
-
-		/**
-		 * Update account store on change of network.
-		 */
-		observe(this.store.network as NetworkStore, 'network', async () => {
-			const address = this.store.wallet.connectedAddress;
-			const network = this.store.network.network;
-
-			if (!this.loadingBalances) {
-				await this.refreshBalances();
-			}
-
-			if (address) {
-				await this.loadClaimProof(address, network.symbol);
-			}
-		});
+		makeAutoObservable(this);
 	}
 
 	/* State Mutation Functions */
 
 	async refreshBalances(): Promise<void> {
-		this.refreshProvider();
 		await this.updateBalances(true);
-	}
-
-	refreshProvider(): void {
-		const provider = this.store.wallet.rpcProvider ?? this.store.wallet.provider;
-		if (provider) {
-			const newOptions = {
-				web3: new ethers.providers.Web3Provider(provider),
-			};
-			this.batchCall = new BatchCall(newOptions);
-		}
 	}
 
 	/* Read Variables */
 
 	onGuestList(sett: Sett): boolean {
 		// allow users who are not connected to nicely view setts
-		if (!this.store.wallet.connectedAddress) {
+		if (!this.store.wallet.address) {
 			return true;
 		}
 		if (sett.bouncer === BouncerType.Internal) {
@@ -163,9 +100,9 @@ export default class UserStore {
 		const hasSetts = Object.keys(this.settBalances).length > 0;
 		let hasGeysers = false;
 
-		const { connectedAddress } = this.store.wallet;
+		const { address } = this.store.wallet;
 		const geyserRequests = network
-			.batchRequests(settMap, connectedAddress)
+			.batchRequests(settMap, address)
 			.find((req) => req.namespace === ContractNamespace.Geyser);
 		/* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */
 		if (geyserRequests!.addresses && geyserRequests!.addresses.length === 0) {
@@ -183,8 +120,8 @@ export default class UserStore {
 
 		actions.push(user.updateBalances());
 
-		if (wallet.connectedAddress) {
-			actions.push(user.loadAccountDetails(wallet.connectedAddress));
+		if (wallet.address) {
+			actions.push(user.loadAccountDetails(wallet.address));
 		}
 
 		await Promise.all(actions);
@@ -250,7 +187,7 @@ export default class UserStore {
 
 	updateBalances = action(
 		async (cached?: boolean): Promise<void> => {
-			const { connectedAddress, provider } = this.store.wallet;
+			const { address, provider } = this.store.wallet;
 			const { network } = this.store.network;
 			const { setts } = this.store;
 
@@ -259,12 +196,12 @@ export default class UserStore {
 			 * do not update balances without prices available or a provider, price updates
 			 * will trigger balance display updates
 			 */
-			if (!connectedAddress || !setts.initialized || this.loadingBalances || !provider || !setts.settMap) {
+			if (!address || !setts.initialized || this.loadingBalances || !provider || !setts.settMap) {
 				return;
 			}
 			this.loadingBalances = true;
 
-			const cacheKey = `${network.symbol}-${connectedAddress}`;
+			const cacheKey = `${network.symbol}-${address}`;
 			if (cached) {
 				const cachedBalances = this.userBalanceCache[cacheKey];
 				if (cachedBalances && Date.now() <= cachedBalances.expiry) {
@@ -275,7 +212,7 @@ export default class UserStore {
 			}
 
 			// construct & execute batch requests
-			const batchRequests = network.batchRequests(setts.settMap, connectedAddress);
+			const batchRequests = network.batchRequests(setts.settMap, address);
 			if (!batchRequests || batchRequests.length === 0) {
 				return;
 			}
@@ -320,7 +257,7 @@ export default class UserStore {
 					return guestList;
 				})
 				.filter((list): list is string => !!list);
-			const guestListRequests = createBatchCallRequest(guestLists, ContractNamespace.GuestList, connectedAddress);
+			const guestListRequests = createBatchCallRequest(guestLists, ContractNamespace.GuestList, address);
 			const guestListResults: CallResult[] = await this.batchCall.execute([guestListRequests]);
 			if (DEBUG) {
 				console.log(guestListResults);

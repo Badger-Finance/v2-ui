@@ -10,7 +10,7 @@ import { IbbtcOptionToken } from '../model/tokens/ibbtc-option-token';
 import { ibBTCFees } from '../model/fees/ibBTCFees';
 import { DEBUG, FLAGS } from 'config/environment';
 import { Network } from '@badger-dao/sdk';
-import { Ibbtc__factory } from 'contracts';
+import { Ibbtc__factory, VaultV1__factory } from 'contracts';
 import { PeakCore__factory } from 'contracts/factories/PeakCore__factory';
 import { BigNumber, ethers } from 'ethers';
 import { Erc20__factory } from 'contracts/factories/Erc20__factory';
@@ -260,6 +260,7 @@ class IbBTCStore {
 	async getAllowance(underlyingAsset: IbbtcOptionToken, spender: string): Promise<BigNumber> {
 		const { provider, connectedAddress } = this.store.wallet;
 		const token = Erc20__factory.connect(underlyingAsset.address, provider);
+		const method = token.functions.transfer;
 		return token.allowance(connectedAddress, spender);
 	}
 
@@ -325,9 +326,8 @@ class IbBTCStore {
 
 		try {
 			const peak = IbbtcVaultPeakFactory.createIbbtcVaultPeakForToken(this.store, inToken);
-			const method = peak.getCalcMintMethod(amount);
-			const { bBTC, fee } = await method.call();
-			return { bBTC: new BigNumber(bBTC), fee: new BigNumber(fee) };
+			const { bBTC, fee } = await peak.calculateMint(amount);
+			return { bBTC: BigNumber.from(bBTC), fee: BigNumber.from(fee) };
 		} catch (error) {
 			process.env.NODE_ENV !== 'production' && console.error(error);
 			queueNotification('There was an error calculating mint amount. Please try again later', 'error');
@@ -347,7 +347,7 @@ class IbBTCStore {
 			const peak = IbbtcVaultPeakFactory.createIbbtcVaultPeakForToken(this.store, outToken);
 			const method = peak.getCalcRedeemMethod(amount);
 			const { fee, max, sett } = await method.call();
-			return { fee: new BigNumber(fee), max: new BigNumber(max), sett: new BigNumber(sett) };
+			return { fee: BigNumber.from(fee), max: BigNumber.from(max), sett: BigNumber.from(sett) };
 		} catch (error) {
 			process.env.NODE_ENV !== 'production' && console.error(error);
 			queueNotification('There was an error calculating redeem amount. Please try again later', 'error');
@@ -367,42 +367,18 @@ class IbBTCStore {
 		await this.executeMethod(method, 'Redeem submitted', `Successfully redeemed ${outToken.symbol}`);
 	}
 
-	private getApprovalMethod(token: IbbtcOptionToken, spender: string, amount: BigNumber | string = MAX) {
+	private async approve(token: IbbtcOptionToken, spender: string, amount: BigNumber | string = MAX) {
 		const { provider } = this.store.wallet;
 
 		if (token.symbol === this.config.contracts.tokens.WBTC.symbol) {
-			const contract = Erc20__factory.connect(token.address, provider);
-			return contract.approve;
+			const tokenContract = Erc20__factory.connect(token.address, provider);
+			await tokenContract.approve(spender, amount);
+			return;
 		}
 
-		return new web3.eth.Contract(settConfig.abi as AbiItem[], token.address).methods.increaseAllowance(
-			spender,
-			amount,
-		);
-	}
-
-	private async executeMethod(
-		method: ContractSendMethod,
-		infoMessage: string,
-		successMessage: string,
-	): Promise<void> {
-		const { connectedAddress } = this.store.wallet;
-		const { queueNotification, gasPrice } = this.store.uiState;
-		const { gasPrices } = this.store.network;
-		const price = gasPrices ? gasPrices[gasPrice] : 0;
-		const options = await getSendOptions(method, connectedAddress, price);
-		await method
-			.send(options)
-			.on('transactionHash', (_hash: string) => {
-				queueNotification(infoMessage, 'info', _hash);
-			})
-			.on('receipt', () => {
-				queueNotification(successMessage, 'success');
-				this.init();
-			})
-			.on('error', (error: Error) => {
-				throw error;
-			});
+		const vault = VaultV1__factory.connect(token.address, provider);
+		await vault.increaseAllowance(spender, amount);
+		return;
 	}
 
 	private async fetchIbbtApyFromTimestamp(timestamp: number): Promise<string | null> {

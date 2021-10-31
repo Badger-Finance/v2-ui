@@ -3,8 +3,7 @@ import { observer } from 'mobx-react-lite';
 import React, { useState, useContext } from 'react';
 import DroptModalItem from './DroptModalItem';
 import { StoreContext } from 'mobx/store-context';
-import { formatBalance, formatBalanceString, formatTokens } from 'mobx/utils/helpers';
-import { redemptionToLongToken } from 'config/system/rebase';
+import { formatBalanceString } from 'mobx/utils/helpers';
 import { DEBUG } from 'config/environment';
 import { BigNumber } from 'ethers';
 
@@ -56,30 +55,30 @@ const DroptModal = observer(() => {
 		);
 	}
 
-	const droptModalItems = rebase.validDropts
-		.map((dropt) => {
-			const redemptionAddress = Object.keys(dropt)[0];
-			const droptAddress = redemptionToLongToken(redemptionAddress);
-			const droptToken = setts.getToken(droptAddress);
-			const droptBalance = user.getTokenBalance(droptAddress);
-			const expiryPrice = BigNumber.from(dropt[redemptionAddress].expiryPrice);
-			if (!droptToken || droptBalance.balance.lte(0)) {
-				if (DEBUG && !droptToken) console.log('error retrieving', redemptionAddress, 'token');
-				return;
-			}
-			const redemptionAmount = formatBalanceString(expiryPrice.mul(droptBalance.balance), droptToken.decimals);
-			return (
-				<DroptModalItem
-					key={droptToken.symbol}
-					token={droptToken.symbol}
-					balance={droptBalance.tokenBalance}
-					displayBalance={droptBalance.balanceDisplay(5)}
-					redemptionAmount={redemptionAmount}
-					redemptionContract={redemptionAddress}
-				/>
-			);
-		})
-		.filter(Boolean);
+	// const droptModalItems = rebase.validDropts
+	// 	.map((dropt) => {
+	// 		const redemptionAddress = Object.keys(dropt)[0];
+	// 		const droptAddress = redemptionToLongToken(redemptionAddress);
+	// 		const droptToken = setts.getToken(droptAddress);
+	// 		const droptBalance = user.getTokenBalance(droptAddress);
+	// 		const expiryPrice = BigNumber.from(dropt[redemptionAddress].expiryPrice);
+	// 		if (!droptToken || droptBalance.balance.lte(0)) {
+	// 			if (DEBUG && !droptToken) console.log('error retrieving', redemptionAddress, 'token');
+	// 			return;
+	// 		}
+	// 		const redemptionAmount = formatBalanceString(expiryPrice.mul(droptBalance.balance), droptToken.decimals);
+	// 		return (
+	// 			<DroptModalItem
+	// 				key={droptToken.symbol}
+	// 				token={droptToken.symbol}
+	// 				balance={droptBalance.tokenBalance}
+	// 				displayBalance={droptBalance.balanceDisplay(5)}
+	// 				redemptionAmount={redemptionAmount}
+	// 				redemptionContract={redemptionAddress}
+	// 			/>
+	// 		);
+	// 	})
+	// 	.filter(Boolean);
 
 	const handleModalClick = () => {
 		setOpen(!open);
@@ -87,7 +86,7 @@ const DroptModal = observer(() => {
 
 	return (
 		<>
-			<Grid className={classes.droptModalButton} container direction="row" justify="flex-end">
+			{/* <Grid className={classes.droptModalButton} container direction="row" justify="flex-end">
 				<Button
 					id="redeem-button"
 					aria-label="Redeem DROPT"
@@ -99,7 +98,7 @@ const DroptModal = observer(() => {
 				>
 					Redeem DROPT
 				</Button>
-			</Grid>
+			</Grid> */}
 
 			<Modal
 				aria-labelledby="claim-modal"
@@ -118,7 +117,7 @@ const DroptModal = observer(() => {
 						<Typography id="modalTitle" variant="subtitle1" className={classes.droptTitleText}>
 							DROPT Available Redemptions
 						</Typography>
-						{droptModalItems}
+						{/* {droptModalItems} */}
 					</Paper>
 				</Fade>
 			</Modal>

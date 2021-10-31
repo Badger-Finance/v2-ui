@@ -10,7 +10,7 @@ import { retry } from '@lifeomic/attempt';
 import fbase from 'fbase';
 import { RootStore } from '../RootStore';
 import WalletStore from './walletStore';
-import { defaultRetryOptions, ERC20, RENVM_GATEWAY_ADDRESS } from 'config/constants';
+import { defaultRetryOptions, RENVM_GATEWAY_ADDRESS } from 'config/constants';
 import { bridge_system, tokens, sett_system } from 'config/deployments/mainnet.json';
 import { shortenAddress } from 'utils/componentHelpers';
 import { RenVMTransaction } from '../model/bridge/renVMTransaction';
@@ -20,6 +20,7 @@ import { Network as NetworkModel } from 'mobx/model/network/network';
 import { REN_FEES_ENDPOINT } from '../../config/constants';
 import { Network } from '@badger-dao/sdk';
 import { BtcGateway, BtcGateway__factory } from 'contracts';
+import { formatBalance } from 'mobx/utils/helpers';
 
 export enum Status {
 	// Idle means we are ready to begin a new tx.
@@ -611,12 +612,12 @@ class BridgeStore {
 					this.bCRVtBTC.methods.balanceOf(userAddr).call(),
 				]);
 
-				this.renbtcBalance = new BigNumber(renbtcBalance).dividedBy(DECIMALS).toNumber();
-				this.wbtcBalance = new BigNumber(wbtcBalance).dividedBy(DECIMALS).toNumber();
-				this.byvwbtcBalance = new BigNumber(byvwbtcBalance).dividedBy(DECIMALS).toNumber();
-				this.bCRVrenBTCBalance = new BigNumber(bCRVrenBTCBalance).dividedBy(SETT_DECIMALS).toNumber();
-				this.bCRVsBTCBalance = new BigNumber(bCRVsBTCBalance).dividedBy(SETT_DECIMALS).toNumber();
-				this.bCRVtBTCBalance = new BigNumber(bCRVtBTCBalance).dividedBy(SETT_DECIMALS).toNumber();
+				this.renbtcBalance = formatBalance(renbtcBalance, DECIMALS);
+				this.wbtcBalance = formatBalance(wbtcBalance, DECIMALS);
+				this.byvwbtcBalance = formatBalance(byvwbtcBalance, DECIMALS);
+				this.bCRVrenBTCBalance = formatBalance(bCRVrenBTCBalance, SETT_DECIMALS);
+				this.bCRVsBTCBalance = formatBalance(bCRVsBTCBalance, SETT_DECIMALS);
+				this.bCRVtBTCBalance = formatBalance(bCRVtBTCBalance, SETT_DECIMALS);
 			}, defaultRetryOptions);
 		} catch (err) {
 			console.error(err);
@@ -644,8 +645,8 @@ class BridgeStore {
 				});
 				const { result } = await resp.json();
 
-				this.lockNetworkFee = new BigNumber(result.btc.lock).dividedBy(DECIMALS).toNumber();
-				this.releaseNetworkFee = new BigNumber(result.btc.release).dividedBy(DECIMALS).toNumber();
+				this.lockNetworkFee = BigNumber.from(result.btc.lock).dividedBy(DECIMALS).toNumber();
+				this.releaseNetworkFee = BigNumber.from(result.btc.release).dividedBy(DECIMALS).toNumber();
 			}, defaultRetryOptions);
 		} catch (err) {
 			console.error(err);

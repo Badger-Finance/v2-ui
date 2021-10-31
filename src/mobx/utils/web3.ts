@@ -1,8 +1,38 @@
 import { GasFees } from '@badger-dao/sdk';
 import { DEBUG } from 'config/environment';
-import { BigNumber } from 'ethers';
+import { BigNumber, ContractTransaction } from 'ethers';
 import { RootStore } from 'mobx/RootStore';
 import { ContractSendMethod, EstimateGasOptions, SendOptions } from 'web3-eth-contract';
+import { toast } from 'react-toastify';
+
+export interface CallOptions {
+	prompt?: string;
+	submit?: string;
+	confirmation?: string;
+	error?: string;
+}
+
+export async function call(transaction: Promise<ContractTransaction>, options?: CallOptions): Promise<void> {
+	try {
+		if (options?.prompt) {
+			toast.info(options.prompt);
+		}
+		const tx = await transaction;
+		if (options?.submit) {
+			toast.info(options.submit);
+		}
+		await tx.wait();
+		if (options?.confirmation) {
+			toast.success(options.confirmation);
+		}
+	} catch (err) {
+		if (options?.error) {
+			toast.error(options.error);
+		} else {
+			toast.error(err);
+		}
+	}
+}
 
 export interface EIP1559SendOptions {
 	from: string;

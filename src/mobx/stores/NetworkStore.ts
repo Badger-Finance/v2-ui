@@ -8,7 +8,6 @@ import { isRpcWallet } from 'config/wallets';
 import { action, extendObservable, observe } from 'mobx';
 import { Network } from 'mobx/model/network/network';
 import { RootStore } from 'mobx/RootStore';
-import Web3 from 'web3';
 
 export class NetworkStore {
 	private store: RootStore;
@@ -128,8 +127,7 @@ export class NetworkStore {
 		if (!provider) {
 			return;
 		}
-		const web3 = new Web3(provider);
-		this.currentBlock = await web3.eth.getBlockNumber();
+		// this.currentBlock = await web3.eth.getBlockNumber();
 	});
 
 	updateNetwork(): Promise<void[]> {

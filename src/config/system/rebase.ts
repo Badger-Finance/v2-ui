@@ -5,129 +5,130 @@ import Orchestrator from './abis/Orchestrator.json';
 import DroptRedemption from './abis/DroptRedemption.json';
 import { digg_system } from '../deployments/mainnet.json';
 import { AbiItem } from 'web3-utils';
-import { ERC20_ABI } from 'config/constants';
 import { RebaseNetworkConfig } from '../../mobx/model/network/rebase-network-config';
 import { Network } from '@badger-dao/sdk';
 
-export const getRebase = (network: string): RebaseNetworkConfig | undefined => {
-	switch (network) {
-		case Network.Ethereum:
-			return {
-				digg: [
-					{
-						addresses: [digg_system.uFragments],
-						abi: UFragments.abi as AbiItem[],
-						allReadMethods: true,
-						groupByNamespace: true,
-						logging: false,
-						namespace: 'token',
-					},
-					{
-						addresses: [digg_system.uFragmentsPolicy],
-						abi: UFragmentsPolicy.abi as AbiItem[],
-						allReadMethods: true,
-						groupByNamespace: true,
-						logging: false,
-						namespace: 'policy',
-					},
-					// TODO: Determine better way to handle multiple reports
-					{
-						addresses: [digg_system.marketMedianOracle],
-						abi: MedianOracle.abi as AbiItem[],
-						groupByNamespace: true,
-						namespace: 'oracle',
-						readMethods: [
-							{
-								name: 'providerReports',
-								args: [digg_system.chainlinkForwarder, 0],
-							},
-						],
-					},
-					{
-						addresses: [digg_system.marketMedianOracle],
-						abi: MedianOracle.abi as AbiItem[],
-						groupByNamespace: true,
-						namespace: 'oracle',
-						readMethods: [
-							{
-								name: 'providerReports',
-								args: [digg_system.chainlinkForwarder, 1],
-							},
-						],
-					},
-					{
-						addresses: [digg_system.DROPT['DROPT-2'].redemption],
-						abi: DroptRedemption.abi as AbiItem[],
-						groupByNamespace: true,
-						namespace: 'dropt',
-						readMethods: [
-							{
-								name: 'expirationTimestamp',
-								args: [],
-							},
-							{
-								name: 'getCurrentTime',
-								args: [],
-							},
-							{
-								name: 'expiryPrice',
-								args: [],
-							},
-						],
-					},
-					{
-						addresses: [digg_system.DROPT['DROPT-2'].longToken],
-						abi: ERC20_ABI,
-						allReadMethods: true,
-						groupByNamespace: true,
-						logging: false,
-						namespace: 'droptToken',
-					},
-					{
-						addresses: [digg_system.DROPT['DROPT-3'].redemption],
-						abi: DroptRedemption.abi as AbiItem[],
-						groupByNamespace: true,
-						namespace: 'dropt',
-						readMethods: [
-							{
-								name: 'expirationTimestamp',
-								args: [],
-							},
-							{
-								name: 'getCurrentTime',
-								args: [],
-							},
-							{
-								name: 'expiryPrice',
-								args: [],
-							},
-						],
-					},
-					{
-						addresses: [digg_system.DROPT['DROPT-3'].longToken],
-						abi: ERC20_ABI,
-						allReadMethods: true,
-						groupByNamespace: true,
-						logging: false,
-						namespace: 'droptToken',
-					},
-				],
-				orchestrator: {
-					contract: digg_system.orchestrator,
-					abi: Orchestrator.abi as AbiItem[],
-				},
-			};
-		default:
-			return undefined;
-	}
-};
+export const dummy = 1;
 
-const LONG_TOKEN_MAP = {
-	[digg_system.DROPT['DROPT-1'].redemption]: digg_system.DROPT['DROPT-1'].longToken,
-	[digg_system.DROPT['DROPT-2'].redemption]: digg_system.DROPT['DROPT-2'].longToken,
-	[digg_system.DROPT['DROPT-3'].redemption]: digg_system.DROPT['DROPT-3'].longToken,
-};
+// export const getRebase = (network: string): RebaseNetworkConfig | undefined => {
+// 	switch (network) {
+// 		case Network.Ethereum:
+// 			return {
+// 				digg: [
+// 					{
+// 						addresses: [digg_system.uFragments],
+// 						abi: UFragments.abi as AbiItem[],
+// 						allReadMethods: true,
+// 						groupByNamespace: true,
+// 						logging: false,
+// 						namespace: 'token',
+// 					},
+// 					{
+// 						addresses: [digg_system.uFragmentsPolicy],
+// 						abi: UFragmentsPolicy.abi as AbiItem[],
+// 						allReadMethods: true,
+// 						groupByNamespace: true,
+// 						logging: false,
+// 						namespace: 'policy',
+// 					},
+// 					// TODO: Determine better way to handle multiple reports
+// 					{
+// 						addresses: [digg_system.marketMedianOracle],
+// 						abi: MedianOracle.abi as AbiItem[],
+// 						groupByNamespace: true,
+// 						namespace: 'oracle',
+// 						readMethods: [
+// 							{
+// 								name: 'providerReports',
+// 								args: [digg_system.chainlinkForwarder, 0],
+// 							},
+// 						],
+// 					},
+// 					{
+// 						addresses: [digg_system.marketMedianOracle],
+// 						abi: MedianOracle.abi as AbiItem[],
+// 						groupByNamespace: true,
+// 						namespace: 'oracle',
+// 						readMethods: [
+// 							{
+// 								name: 'providerReports',
+// 								args: [digg_system.chainlinkForwarder, 1],
+// 							},
+// 						],
+// 					},
+// 					{
+// 						addresses: [digg_system.DROPT['DROPT-2'].redemption],
+// 						abi: DroptRedemption.abi as AbiItem[],
+// 						groupByNamespace: true,
+// 						namespace: 'dropt',
+// 						readMethods: [
+// 							{
+// 								name: 'expirationTimestamp',
+// 								args: [],
+// 							},
+// 							{
+// 								name: 'getCurrentTime',
+// 								args: [],
+// 							},
+// 							{
+// 								name: 'expiryPrice',
+// 								args: [],
+// 							},
+// 						],
+// 					},
+// 					{
+// 						addresses: [digg_system.DROPT['DROPT-2'].longToken],
+// 						abi: ERC20_ABI,
+// 						allReadMethods: true,
+// 						groupByNamespace: true,
+// 						logging: false,
+// 						namespace: 'droptToken',
+// 					},
+// 					{
+// 						addresses: [digg_system.DROPT['DROPT-3'].redemption],
+// 						abi: DroptRedemption.abi as AbiItem[],
+// 						groupByNamespace: true,
+// 						namespace: 'dropt',
+// 						readMethods: [
+// 							{
+// 								name: 'expirationTimestamp',
+// 								args: [],
+// 							},
+// 							{
+// 								name: 'getCurrentTime',
+// 								args: [],
+// 							},
+// 							{
+// 								name: 'expiryPrice',
+// 								args: [],
+// 							},
+// 						],
+// 					},
+// 					{
+// 						addresses: [digg_system.DROPT['DROPT-3'].longToken],
+// 						abi: ERC20_ABI,
+// 						allReadMethods: true,
+// 						groupByNamespace: true,
+// 						logging: false,
+// 						namespace: 'droptToken',
+// 					},
+// 				],
+// 				orchestrator: {
+// 					contract: digg_system.orchestrator,
+// 					abi: Orchestrator.abi as AbiItem[],
+// 				},
+// 			};
+// 		default:
+// 			return undefined;
+// 	}
+// };
 
-export const redemptionToLongToken = (contract: string): string => {
-	return LONG_TOKEN_MAP[contract];
-};
+// const LONG_TOKEN_MAP = {
+// 	[digg_system.DROPT['DROPT-1'].redemption]: digg_system.DROPT['DROPT-1'].longToken,
+// 	[digg_system.DROPT['DROPT-2'].redemption]: digg_system.DROPT['DROPT-2'].longToken,
+// 	[digg_system.DROPT['DROPT-3'].redemption]: digg_system.DROPT['DROPT-3'].longToken,
+// };
+
+// export const redemptionToLongToken = (contract: string): string => {
+// 	return LONG_TOKEN_MAP[contract];
+// };

@@ -1,4 +1,4 @@
-import { ERC20_ABI, GEYSER_ABI, GUEST_LIST_ABI, SETT_ABI } from 'config/constants';
+import { GEYSER_ABI, GUEST_LIST_ABI } from 'config/constants';
 import { ethers } from 'ethers';
 import { BadgerSett } from 'mobx/model/vaults/badger-sett';
 import { AbiItem } from 'web3-utils';
@@ -18,13 +18,9 @@ export const createBatchCallRequest = (
 			break;
 		case ContractNamespace.Sett:
 		case ContractNamespace.GaurdedSett:
-			abi = SETT_ABI;
-			break;
 		case ContractNamespace.Geyser:
-			abi = GEYSER_ABI;
-			break;
 		default:
-			abi = ERC20_ABI;
+			abi = GEYSER_ABI;
 			break;
 	}
 	return {

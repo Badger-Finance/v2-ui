@@ -1,5 +1,4 @@
-{
-	"abi": [
+[
 		{
 			"inputs": [
 				{ "internalType": "int128", "name": "i", "type": "int128" },
@@ -20,4 +19,3 @@
 			"type": "function"
 		}
 	]
-}

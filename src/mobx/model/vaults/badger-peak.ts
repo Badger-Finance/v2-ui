@@ -1,62 +1,58 @@
-import Web3 from 'web3';
-import BadgerBtcPeak from 'config/system/abis/BadgerBtcPeak.json';
 import addresses from 'config/ibBTC/addresses.json';
-import { IbbtcVaultPeak, PeakType } from './ibbtc-vault-peak';
+import { IbbtcVaultPeak, MintResult, PeakType, RedeemResult } from './ibbtc-vault-peak';
 import { RootStore } from '../../RootStore';
-import { toHex } from '../../utils/helpers';
-import settConfig from '../../../config/system/abis/Sett.json';
-import badgerPeakSwap from '../../../config/system/abis/BadgerBtcPeakSwap.json';
 import { IbbtcOptionToken } from '../tokens/ibbtc-option-token';
-import { BigNumber } from 'ethers';
+import { BigNumber, ContractTransaction } from 'ethers';
+import { BadgerBtcPeak, BadgerBtcPeak__factory, BadgerPeakSwap__factory, VaultV1__factory } from 'contracts';
+import { ZERO } from 'config/constants';
 
 export class BadgerPeak implements IbbtcVaultPeak {
-	address: string;
-	type: PeakType;
-	referenceToken: IbbtcOptionToken;
+	private peakContract: BadgerBtcPeak;
+	private poolId: number;
+	readonly address: string;
+	readonly type: PeakType;
 
-	private store: RootStore;
-	private peakContract: any;
-
-	constructor(store: RootStore, referenceToken: IbbtcOptionToken) {
-		this.store = store;
-		this.referenceToken = referenceToken;
-		const web3 = new Web3(this.store.wallet.provider);
+	constructor(private store: RootStore, public referenceToken: IbbtcOptionToken) {
 		this.address = addresses.mainnet.contracts.BadgerSettPeak.address;
-		this.type = 'badger';
-		this.peakContract = new web3.eth.Contract(BadgerBtcPeak.abi as AbiItem[], this.address);
+		this.type = PeakType.Badger;
+		this.peakContract = BadgerBtcPeak__factory.connect(this.address, store.wallet.provider);
+		if (!referenceToken.poolId) {
+			throw new Error('Badger Peak required pool ID');
+		}
+		this.poolId = referenceToken.poolId;
 	}
 
-	getCalcMintMethod(amount: BigNumber): ContractSendMethod {
-		return this.peakContract.methods.calcMint(this.referenceToken.poolId, toHex(amount));
+	async calculateMint(amount: BigNumber): Promise<MintResult> {
+		return this.peakContract.calcMint(this.poolId, amount);
 	}
 
-	getCalcRedeemMethod(amount: BigNumber): ContractSendMethod {
-		return this.peakContract.methods.calcRedeem(this.referenceToken.poolId, toHex(amount));
+	async calculateRedeem(amount: BigNumber): Promise<RedeemResult> {
+		return this.peakContract.calcRedeem(this.poolId, amount);
 	}
 
-	async getMintMethod(amount: BigNumber): Promise<ContractSendMethod> {
+	async mint(amount: BigNumber): Promise<ContractTransaction> {
 		const merkleProof = this.store.user.bouncerProof || [];
-		return this.peakContract.methods.mint(this.referenceToken.poolId, toHex(amount), merkleProof);
+		return this.peakContract.mint(this.poolId, amount, merkleProof);
 	}
 
-	getRedeemMethod(amount: BigNumber): ContractSendMethod {
-		return this.peakContract.methods.redeem(this.referenceToken.poolId, toHex(amount));
+	async redeem(amount: BigNumber): Promise<ContractTransaction> {
+		return this.peakContract.redeem(this.poolId, amount);
 	}
 
 	async bBTCToSett(amount: BigNumber): Promise<BigNumber> {
-		const web3 = new Web3(this.store.wallet.provider);
-		const settToken = new web3.eth.Contract(settConfig.abi as AbiItem[], this.referenceToken.address);
-		const { swap: swapAddress } = await this.peakContract.methods.pools(this.referenceToken.poolId).call();
-		const swapContract = new web3.eth.Contract(badgerPeakSwap.abi as AbiItem[], swapAddress);
+		if (!this.referenceToken.poolId) {
+			return ZERO;
+		}
+		const { provider } = this.store.wallet;
+		const vault = VaultV1__factory.connect(this.referenceToken.address, provider);
+		const { swap: swapAddress } = await this.peakContract.pools(this.referenceToken.poolId);
+		const swapContract = BadgerPeakSwap__factory.connect(swapAddress, provider);
 
 		const [settTokenPricePerFullShare, swapVirtualPrice] = await Promise.all([
-			settToken.methods.getPricePerFullShare().call(),
-			swapContract.methods.get_virtual_price().call(),
+			vault.getPricePerFullShare(),
+			swapContract.get_virtual_price(),
 		]);
 
-		return amount
-			.multipliedBy(1e36)
-			.dividedToIntegerBy(settTokenPricePerFullShare)
-			.dividedToIntegerBy(swapVirtualPrice);
+		return amount.mul(1e36).div(settTokenPricePerFullShare).div(swapVirtualPrice);
 	}
 }

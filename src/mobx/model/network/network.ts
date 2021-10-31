@@ -1,7 +1,6 @@
 import { TransactionData } from 'bnc-notify';
 import { Currency } from 'config/enums/currency.enum';
 import rpc from 'config/rpc.config';
-import { getAirdrops } from 'config/system/airdrops';
 import { getStrategies } from 'config/system/strategies';
 import { SidebarLink, sidebarTokenLinks } from 'config/ui/links';
 import { createChainBatchConfig } from 'web3/config/config-utils';
@@ -29,7 +28,6 @@ export abstract class Network {
 	readonly deploy: DeployConfig;
 	readonly setts: BadgerSett[];
 	readonly strategies: StrategyNetworkConfig;
-	readonly airdrops: AirdropNetworkConfig[];
 	readonly sidebarTokenLinks: SidebarLink[];
 	// TODO: stop gap implementation for API messaging system - remove once available
 	readonly notification?: string;
@@ -57,7 +55,6 @@ export abstract class Network {
 		this.deploy = deploy;
 		this.setts = this.checksumSetts(setts);
 		this.strategies = getStrategies(symbol);
-		this.airdrops = getAirdrops(symbol);
 		this.sidebarTokenLinks = sidebarTokenLinks(symbol);
 		this.notification = notification;
 		this.notificationLink = notificationLink;

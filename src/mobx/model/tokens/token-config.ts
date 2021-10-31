@@ -5,7 +5,7 @@ export interface TokenConfig {
 	name: string;
 	symbol: string;
 	decimals: number;
-	poolId?: number | undefined;
+	poolId?: number;
 	mintRate?: BigNumber | string;
 	redeemRate?: string;
 }

@@ -1,40 +1,39 @@
 import addresses from 'config/ibBTC/addresses.json';
-import { IbbtcVaultPeak, PeakType } from './ibbtc-vault-peak';
+import { IbbtcVaultPeak, MintResult, PeakType, RedeemResult } from './ibbtc-vault-peak';
 import { RootStore } from '../../RootStore';
-import { toHex } from '../../utils/helpers';
 import { IbbtcOptionToken } from '../tokens/ibbtc-option-token';
 import { ZapPeak__factory, ZapPeak as ZapPeakContract } from 'contracts';
-import { BigNumber } from 'ethers';
+import { BigNumber, ContractTransaction } from 'ethers';
 
 export class ZapPeak implements IbbtcVaultPeak {
 	private peakContract: ZapPeakContract;
-	address: string;
-	type: PeakType;
-	referenceToken: IbbtcOptionToken;
+	readonly address: string;
+	readonly type: PeakType;
+	readonly referenceToken: IbbtcOptionToken;
 
 	constructor(store: RootStore, referenceToken: IbbtcOptionToken) {
 		this.address = addresses.mainnet.contracts.ZapPeak.address;
-		this.peakContract = ZapPeak__factory.connect(this.address, store.wallet.provider);
 		this.referenceToken = referenceToken;
-		this.type = 'zap';
+		this.type = PeakType.Zap;
+		this.peakContract = ZapPeak__factory.connect(this.address, store.wallet.provider);
 	}
 
-	getCalcMintMethod(amount: BigNumber): ContractSendMethod {
-		return this.peakContract.methods.calcMint(this.referenceToken.address, toHex(amount));
+	async calculateMint(amount: BigNumber): Promise<MintResult> {
+		return this.peakContract.calcMint(this.referenceToken.address, amount);
 	}
 
-	async getMintMethod(amount: BigNumber, slippage: BigNumber): Promise<ContractSendMethod> {
-		const { poolId, idx, bBTC } = await this.getCalcMintMethod(amount).call();
-		const slippagePercentage = new BigNumber(100).minus(slippage);
-		const minOut = new BigNumber(bBTC).multipliedBy(slippagePercentage).dividedToIntegerBy(100);
-		return this.peakContract.methods.mint(this.referenceToken.address, toHex(amount), poolId, idx, toHex(minOut));
+	async mint(amount: BigNumber, slippage: BigNumber): Promise<ContractTransaction> {
+		const { poolId, idx, bBTC } = await this.calculateMint(amount);
+		const slippagePercentage = BigNumber.from(100).sub(slippage);
+		const minOut = bBTC.mul(slippagePercentage).div(100);
+		return this.peakContract.mint(this.referenceToken.address, amount, poolId!, idx!, minOut);
 	}
 
-	getCalcRedeemMethod(): ContractSendMethod {
+	async calculateRedeem(_amount: BigNumber): Promise<RedeemResult> {
 		throw new Error('Calc Redeem not available on the Zap Peak');
 	}
 
-	getRedeemMethod(): ContractSendMethod {
+	async redeem(): Promise<ContractTransaction> {
 		throw new Error('Redeem not available on the Zap Peak');
 	}
 

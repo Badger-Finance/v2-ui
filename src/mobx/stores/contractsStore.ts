@@ -1,16 +1,16 @@
-import { AbiItem } from 'web3-utils';
-import { sendContractMethod } from '../utils/web3';
+import { call, sendContractMethod } from '../utils/web3';
 import { RootStore } from '../RootStore';
 import { ContractSendMethod } from 'web3-eth-contract';
-import { EMPTY_DATA, ERC20, GEYSER_ABI, MAX, SETT_ABI, YEARN_ABI } from 'config/constants';
+import { EMPTY_DATA, GEYSER_ABI, MAX, ZERO } from 'config/constants';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { BadgerSett } from 'mobx/model/vaults/badger-sett';
 import { BadgerToken } from 'mobx/model/tokens/badger-token';
-import { unscale } from '../utils/helpers';
+import { formatBalanceString, unscale } from '../utils/helpers';
 import { action, extendObservable } from 'mobx';
 import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
 import { BouncerType, Sett } from '@badger-dao/sdk';
 import { ethers } from 'ethers';
+import { Erc20__factory, VaultV1__factory } from 'contracts';
 
 type ProgressTracker = Record<string, boolean>;
 
@@ -59,30 +59,8 @@ class ContractsStore {
 		await this.depositVault(sett, depositAmount);
 	};
 
-	unstake = async (
-		sett: Sett,
-		badgerSett: BadgerSett,
-		userBalance: TokenBalance,
-		unstakeAmount: TokenBalance,
-	): Promise<void> => {
-		const { queueNotification } = this.store.uiState;
-		const amount = unstakeAmount.balance;
-
-		if (!badgerSett.geyser) {
-			return;
-		}
-
-		if (amount.lte(0) || amount.gt(userBalance.balance)) {
-			queueNotification('Please enter a valid amount', 'error');
-			return;
-		}
-
-		await this.unstakeGeyser(sett, badgerSett, unstakeAmount);
-	};
-
 	withdraw = async (
 		sett: Sett,
-		badgerSett: BadgerSett,
 		userBalance: TokenBalance,
 		withdrawAmount: TokenBalance,
 	): Promise<void> => {
@@ -95,63 +73,36 @@ class ContractsStore {
 			return;
 		}
 
-		await this.withdrawVault(sett, badgerSett, withdrawAmount);
+		await this.withdrawVault(sett, withdrawAmount);
 	};
 
 	increaseAllowance = async (token: BadgerToken, contract: string): Promise<void> => {
 		const {
 			wallet: { provider },
-			uiState: { queueNotification },
+			uiState: { gasPrice },
+			network: { gasPrices },
 		} = this.store;
 
-		const web3 = new Web3(provider);
-		const underlyingContract = new web3.eth.Contract(ERC20.abi as AbiItem[], token.address);
-		// provide infinite approval
-		const method: ContractSendMethod = underlyingContract.methods.approve(contract, MAX);
-		const options = await this.store.wallet.getMethodSendOptions(method);
-		const infoMessage = 'Transaction submitted';
-		const successMessage = `${token.symbol} allowance increased`;
+		const depositToken = Erc20__factory.connect(token.address, provider);
+		const estimate = await depositToken.estimateGas.approve(contract, MAX);
+		const tx = depositToken.approve(contract, MAX, {
+			gasLimit: estimate.mul(2),
+		});
 
-		queueNotification(`Sign the transaction to allow Badger to spend your ${token.symbol}`, 'info');
-		await sendContractMethod(this.store, method, options, infoMessage, successMessage);
+		const prompt = `Sign the transaction to allow Badger to spend your ${token.symbol}`;
+		const successMessage = `${token.symbol} allowance increased`;
+		await call(tx, {
+			prompt,
+			submit: 'Transaction submitted',
+			confirmation: successMessage,
+		});
 	};
 
 	getAllowance = async (token: BadgerToken, spender: string): Promise<TokenBalance> => {
 		const { provider, connectedAddress } = this.store.wallet;
-
-		const web3 = new Web3(provider);
-		const underlyingContract = new web3.eth.Contract(ERC20.abi as AbiItem[], token.address);
-		const allowance = await underlyingContract.methods.allowance(connectedAddress, spender).call();
-
-		return new TokenBalance(token, new BigNumber(allowance), new BigNumber(0));
-	};
-
-	unstakeGeyser = async (sett: Sett, badgerSett: BadgerSett, amount: TokenBalance): Promise<void> => {
-		const { provider } = this.store.wallet;
-		const { queueNotification } = this.store.uiState;
-
-		if (!badgerSett.geyser) {
-			return;
-		}
-
-		const web3 = new Web3(provider);
-		const geyserContract = new web3.eth.Contract(GEYSER_ABI, badgerSett.geyser);
-		const unstakeBalance = amount.tokenBalance.toFixed(0, BigNumber.ROUND_HALF_FLOOR);
-		const method = geyserContract.methods.unstake(unstakeBalance, EMPTY_DATA);
-		const options = await this.store.wallet.getMethodSendOptions(method);
-
-		const { tokenBalance, token } = amount;
-		const displayAmount = toFixedDecimals(unscale(tokenBalance, token.decimals), token.decimals);
-		const unstakeAmount = `${displayAmount} b${sett.asset}`;
-
-		queueNotification(`Sign the transaction to unstake ${unstakeAmount}`, 'info');
-		await sendContractMethod(
-			this.store,
-			method,
-			options,
-			'Unstake transaction submitted',
-			`Successfully unstaked ${unstakeAmount}`,
-		);
+		const depositToken = Erc20__factory.connect(token.address, provider);
+		const allowance = await depositToken.allowance(connectedAddress, spender);
+		return new TokenBalance(token, allowance, ZERO);
 	};
 
 	depositVault = action(
@@ -207,29 +158,21 @@ class ContractsStore {
 		},
 	);
 
-	withdrawVault = action(
-		async (sett: Sett, badgerSett: BadgerSett, amount: TokenBalance): Promise<void> => {
+	withdrawVault = action(async (sett: Sett, amount: TokenBalance) => {
 			const { provider } = this.store.wallet;
-			const { queueNotification } = this.store.uiState;
-
-			const web3 = new Web3(provider);
-			const underlyingContract = new web3.eth.Contract(SETT_ABI, badgerSett.vaultToken.address);
-			const withdrawBalance = amount.tokenBalance.toFixed(0, BigNumber.ROUND_HALF_FLOOR);
-			const method = underlyingContract.methods.withdraw(withdrawBalance);
-			const options = await this.store.wallet.getMethodSendOptions(method);
-
-			const { tokenBalance, token } = amount;
-			const displayAmount = toFixedDecimals(unscale(tokenBalance, token.decimals), token.decimals);
-			const withdrawAmount = `${displayAmount} b${sett.asset}`;
-
-			queueNotification(`Sign the transaction to unwrap ${withdrawAmount}`, 'info');
-			await sendContractMethod(
-				this.store,
-				method,
-				options,
-				'Withdraw transaction submitted',
-				`Successfully withdrew ${withdrawAmount}`,
-			);
+			const vault = VaultV1__factory.connect(sett.settToken, provider);
+			const estimate = await vault.estimateGas.withdraw(amount.tokenBalance);
+			const tx = vault.withdraw(amount.tokenBalance, {
+				gasLimit: estimate.mul(2),
+			});
+			const displayAmount = formatBalanceString(amount.tokenBalance, amount.token.decimals);
+			const withdrawAmount = `${displayAmount} ${sett.settAsset}`;
+			const prompt = `Sign the transaction to unwrap ${withdrawAmount}`;
+			await call(tx, {
+				prompt,
+				submit: 'Withdraw transaction submitted',
+				confirmation: `Successfully withdrew ${withdrawAmount}`,
+			});
 		},
 	);
 }

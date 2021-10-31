@@ -1,6 +1,6 @@
 import { extendObservable, action, observe } from 'mobx';
 import { RootStore } from '../RootStore';
-import { ERC20, NETWORK_IDS } from 'config/constants';
+import { NETWORK_IDS } from 'config/constants';
 import mainnet from 'config/deployments/mainnet.json';
 import { abi as scarcityPoolABI } from 'config/system/abis/BadgerScarcityPool.json';
 import { abi as memeLtdABI } from 'config/system/abis/MemeLtd.json';

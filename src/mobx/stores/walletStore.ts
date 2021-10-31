@@ -7,8 +7,7 @@ import { API, Wallet } from 'bnc-onboard/dist/src/interfaces';
 import { API as NotifyAPI } from 'bnc-notify';
 import { getNetworkFromProvider } from 'mobx/utils/helpers';
 import { Network } from 'mobx/model/network/network';
-import { BLOCKNATIVE_API_KEY } from 'config/constants';
-import { EIP1559SendOptions, getSendOptions } from '../utils/web3';
+import { BLOCKNATIVE_API_KEY, ZERO } from 'config/constants';
 
 class WalletStore {
 	private store: RootStore;
@@ -51,7 +50,7 @@ class WalletStore {
 			provider: this.provider,
 			currentBlock: undefined,
 			gasPrices: { slow: 51, standard: 75, rapid: 122 },
-			ethBalance: new BigNumber(0),
+			ethBalance: ZERO,
 			onboard: onboard,
 			notify: notify,
 		});
@@ -59,7 +58,6 @@ class WalletStore {
 		// set defaults
 		this.onboard = onboard;
 		this.notify = notify;
-		this.provider = null;
 		this.rpcProvider = null;
 		this.init();
 	}
@@ -115,20 +113,9 @@ class WalletStore {
 		this.setAddress(walletState.address);
 	});
 
-	getMethodSendOptions = async (method: ContractSendMethod): Promise<SendOptions | EIP1559SendOptions> => {
-		const {
-			wallet: { connectedAddress },
-			uiState: { gasPrice },
-			network: { gasPrices },
-		} = this.store;
-
-		const price = gasPrices ? gasPrices[gasPrice] : 0;
-		return await getSendOptions(method, connectedAddress, price);
-	};
-
 	getCurrentNetwork(): string | undefined {
 		// not all the providers have the chainId prop available so we use the app network id as fallback
-		if (!this.provider || !this.provider.chainId) {
+		if (!this.provider || !this.provider.network.chainId) {
 			const id = this.onboard.getState().appNetworkId;
 			return Network.networkFromId(id).symbol;
 		}
@@ -137,17 +124,17 @@ class WalletStore {
 
 	setProvider = action((provider: any, walletName: string) => {
 		if (!provider) {
-			this.provider = null;
+			this.provider = undefined;
 			this.rpcProvider = null;
 			this.walletType = null;
 			return;
 		}
 		if (isRpcWallet(walletName)) {
-			this.rpcProvider = new Web3.providers.HttpProvider(this.store.network.network.rpc);
+			// this.provider = new ethers.providers.JsonRpcBatchProvider(this.store.network.network.rpc);
+		} else {
+			this.provider = provider;
 		}
-		this.provider = provider;
 		this.walletType = this.onboard.getState().wallet;
-
 		this.store.network.getCurrentBlock();
 	});
 

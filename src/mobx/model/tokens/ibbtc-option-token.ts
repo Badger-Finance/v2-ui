@@ -18,7 +18,7 @@ export class IbbtcOptionToken extends Contract {
 		this.name = data.name;
 		this.symbol = data.symbol;
 		this.decimals = data.decimals;
-		this.poolId = data?.poolId;
+		this.poolId = data.poolId;
 		this.balance = ZERO;
 		// This will be fetched and set at initialization using 1 unit of mint and redeem
 		// to show current conversion rate from token to ibBTC and from ibBTC to token

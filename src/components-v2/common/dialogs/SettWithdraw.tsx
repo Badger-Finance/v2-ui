@@ -17,7 +17,7 @@ import WarningIcon from '@material-ui/icons/Warning';
 import { getStrategyFee } from 'mobx/utils/fees';
 import { Sett } from '@badger-dao/sdk';
 import { ZERO } from 'config/constants';
-import { BigNumber } from '@ethersproject/providers/node_modules/@ethersproject/bignumber';
+import { BigNumber } from 'ethers';
 
 const useStyles = makeStyles((theme) => ({
 	content: {
@@ -58,7 +58,7 @@ export interface SettModalProps {
 export const SettWithdraw = observer(({ open = false, sett, badgerSett, onClose }: SettModalProps) => {
 	const {
 		network: { network },
-		wallet: { connectedAddress },
+		wallet: { address },
 		user,
 		contracts,
 		setts,
@@ -83,7 +83,7 @@ export const SettWithdraw = observer(({ open = false, sett, badgerSett, onClose 
 	const depositTokenSymbol = depositToken?.symbol || '';
 	const bTokenSymbol = bToken?.symbol || '';
 
-	const canWithdraw = !!connectedAddress && !!amount && userHasBalance;
+	const canWithdraw = !!address && !!amount && userHasBalance;
 	const isLoading = contracts.settsBeingWithdrawn[sett.settToken];
 
 	const handlePercentageChange = (percent: number) => {
@@ -95,7 +95,7 @@ export const SettWithdraw = observer(({ open = false, sett, badgerSett, onClose 
 			return;
 		}
 		const withdrawBalance = TokenBalance.fromBalance(userBalance, amount);
-		await contracts.withdraw(sett, badgerSett, userBalance, withdrawBalance);
+		await contracts.withdraw(sett, userBalance, withdrawBalance);
 	};
 
 	const stakedInfo = (

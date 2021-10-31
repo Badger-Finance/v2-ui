@@ -158,25 +158,8 @@ export const getNetworkFromProvider = (provider?: any): string | undefined => {
 };
 
 export const unscale = (amount: BigNumber, decimals: number): BigNumber => amount.div(TEN.pow(decimals));
-export const toHex = (amount: BigNumber): string => amount.toHexString();
 export const minBalance = (decimals: number): BigNumber => BigNumber.from(`0.${'0'.repeat(decimals - 1)}1`);
 export const isWithinRange = (value: number, min: number, max: number): boolean => value >= min && value < max;
-
-/**
- * Easy interface to check to see if wallet selection is handled and ready to connect
- * via onboard.js.  To be reused if connect buttons are displayed in multiple components
- * @param onboard = instance of the onboard.js API
- * @param connect = connect function from the wallet store
- */
-export const connectWallet = async (onboard: API, connect: (wsOnboard: any) => void): Promise<void> => {
-	const walletSelected = await onboard.walletSelect();
-	if (walletSelected) {
-		const readyToTransact = await onboard.walletCheck();
-		if (readyToTransact) {
-			connect(onboard);
-		}
-	}
-};
 
 /**
  * Retrieves the route based on the slug of the current window

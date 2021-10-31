@@ -62,7 +62,7 @@ export const SettDeposit = observer(({ open = false, sett, badgerSett, onClose }
 	const vaultCaps = user.vaultCaps[sett.settToken];
 	const isLoading = contracts.settsBeingDeposited[sett.settToken];
 
-	let canDeposit = !!wallet.connectedAddress && !!amount && depositBalance.tokenBalance.gt(0);
+	let canDeposit = !!wallet.address && !!amount && depositBalance.tokenBalance.gt(0);
 
 	if (canDeposit && vaultCaps) {
 		const vaultHasSpace = vaultCaps.vaultCap.tokenBalance.gte(depositBalance.tokenBalance);

@@ -3,7 +3,6 @@ import { Button, makeStyles } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
 import clsx from 'clsx';
-import { connectWallet } from '../../mobx/utils/helpers';
 
 const useStyles = makeStyles((theme) => ({
 	walletDot: {
@@ -32,17 +31,9 @@ const shortenAddress = (address: string) => {
 const WalletWidget = observer(() => {
 	const classes = useStyles();
 	const store = useContext(StoreContext);
-	const { connectedAddress, onboard } = store.wallet;
-	const isConnected = !(!connectedAddress || connectedAddress.length === 0);
+	const { address, connect, reset } = store.wallet;
+	const isConnected = !(!address || address.length === 0);
 	const walletIcon = <div className={clsx(classes.walletDot, isConnected ? classes.greenDot : classes.redDot)} />;
-
-	const connect = async () => {
-		if (store.uiState.sidebarOpen) {
-			store.uiState.closeSidebar();
-		}
-
-		connectWallet(onboard, store.wallet.connect);
-	};
 
 	return (
 		<Button
@@ -50,13 +41,13 @@ const WalletWidget = observer(() => {
 			variant="contained"
 			color="secondary"
 			onClick={() => {
-				if (!connectedAddress) connect();
-				else store.wallet.walletReset();
+				if (!isConnected) connect();
+				else reset();
 			}}
 			endIcon={walletIcon}
 			className={classes.walletButton}
 		>
-			{isConnected ? shortenAddress(connectedAddress) : 'Click to connect'}
+			{isConnected ? shortenAddress(address) : 'Click to connect'}
 		</Button>
 	);
 });
