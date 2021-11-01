@@ -128,11 +128,9 @@ export const SettWithdraw = observer(({ open = false, sett, badgerSett, onClose 
 					{`1 ${bTokenSymbol} = ${sett.pricePerFullShare} ${depositTokenSymbol}`}
 				</Typography>
 			</Grid>
-			{withdrawFee && (
-				<Grid container className={classes.fees}>
-					<SettWithdrawFee sett={sett} fee={withdrawFee} amount={amount || 0} />
-				</Grid>
-			)}
+			<Grid container className={classes.fees}>
+				<SettWithdrawFee sett={sett} fee={withdrawFee} amount={amount || 0} />
+			</Grid>
 		</>
 	);
 
