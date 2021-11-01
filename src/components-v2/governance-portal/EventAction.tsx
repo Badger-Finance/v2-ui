@@ -2,7 +2,7 @@ import React from 'react';
 import { TimelockEvent } from '../../mobx/model/governance-timelock/timelock-event';
 import { makeStyles, Tooltip } from '@material-ui/core';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
 	tooltipWrap: {
 		cursor: 'help',
 		borderBottom: '1px dotted',

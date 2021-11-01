@@ -4,7 +4,6 @@ import { TimelockEvent } from '../model/governance-timelock/timelock-event';
 import Web3 from 'web3';
 import { AbiItem } from 'web3-utils';
 import GovernanceTimelockAbi from '../../config/system/abis/GovernanceTimelock.json';
-import WalletStore from './walletStore'
 
 export class GovernancePortalStore {
 	private store: RootStore;
@@ -25,7 +24,7 @@ export class GovernancePortalStore {
 
 	loadData = action(
 		async (): Promise<void> => {
-			const provider = this.store.wallet.provider || Web3.givenProvider
+			const provider = this.store.wallet.provider || Web3.givenProvider;
 			const web3 = new Web3(provider);
 			const GovernanceContract = new web3.eth.Contract(GovernanceTimelockAbi as AbiItem[], this.contractAddress);
 
@@ -56,7 +55,6 @@ export class GovernancePortalStore {
 
 					return eventData;
 				});
-				
 		},
 	);
 }

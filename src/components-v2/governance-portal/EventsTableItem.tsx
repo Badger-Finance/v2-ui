@@ -1,7 +1,7 @@
 import React from 'react';
 import { TimelockEvent } from '../../mobx/model/governance-timelock/timelock-event';
 import EventAction from './EventAction';
-import { Grid, Typography, ListItem, makeStyles, Tooltip } from '@material-ui/core';
+import { Grid, Typography, ListItem, makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
