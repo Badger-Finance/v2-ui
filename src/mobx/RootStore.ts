@@ -16,6 +16,7 @@ import PricesStore from './stores/PricesStore';
 import { NetworkStore } from './stores/NetworkStore';
 import { SettDetailStore } from './stores/SettDetail.store';
 import { SettChartsStore } from './stores/SettChartsStore';
+import { GovernancePortalStore } from './stores/GovernancePortalStore';
 import LockedCvxDelegationStore from './stores/lockedCvxDelegationStore';
 import { BadgerAPI } from '@badger-dao/sdk';
 import { defaultNetwork } from 'config/networks.config';
@@ -41,6 +42,7 @@ export class RootStore {
 	public settDetail: SettDetailStore;
 	public settCharts: SettChartsStore;
 	public lockedCvxDelegation: LockedCvxDelegationStore;
+	public governancePortal: GovernancePortalStore;
 
 	constructor() {
 		this.api = new BadgerAPI(defaultNetwork.id, BADGER_API);
@@ -63,6 +65,7 @@ export class RootStore {
 		this.settDetail = new SettDetailStore(this);
 		this.settCharts = new SettChartsStore(this);
 		this.lockedCvxDelegation = new LockedCvxDelegationStore(this);
+		this.governancePortal = new GovernancePortalStore(this);
 	}
 
 	async walletRefresh(): Promise<void> {
