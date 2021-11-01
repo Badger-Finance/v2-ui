@@ -7,6 +7,8 @@ import { formatStrategyFee } from '../../../utils/componentHelpers';
 import { StoreContext } from '../../../mobx/store-context';
 import { MAX_FEE } from 'config/constants';
 import { Sett } from '@badger-dao/sdk';
+import { getStrategyFee } from '../../../mobx/utils/fees';
+import { StrategyFee } from '../../../mobx/model/system-config/stategy-fees';
 
 const useStyles = makeStyles((theme) => ({
 	specName: {
@@ -25,7 +27,6 @@ const useStyles = makeStyles((theme) => ({
 
 interface Props {
 	sett: Sett;
-	fee: number;
 	amount: BigNumber.Value;
 }
 
@@ -33,17 +34,21 @@ const formatAmount = (amount: BigNumber.Value, decimals: number) => {
 	return new BigNumber(amount).decimalPlaces(decimals, BigNumber.ROUND_HALF_FLOOR).toString();
 };
 
-export const SettWithdrawFee = observer(
-	({ sett, fee, amount }: Props): JSX.Element => {
-		const { setts } = React.useContext(StoreContext);
+export const SettConversionAndFee = observer(
+	({ sett, amount }: Props): JSX.Element => {
+		const {
+			setts,
+			network: { network },
+		} = React.useContext(StoreContext);
 		const classes = useStyles();
 
+		const withdrawFee = getStrategyFee(sett, StrategyFee.withdraw, network.strategies[sett.settToken]);
 		const depositToken = setts.getToken(sett.underlyingToken);
 		const depositTokenSymbol = depositToken?.symbol || '';
 		const depositTokenDecimals = depositToken?.decimals || 18;
 
 		const withdrawAmount = new BigNumber(amount).multipliedBy(sett.pricePerFullShare);
-		const withdrawalFee = withdrawAmount.multipliedBy(fee).dividedBy(MAX_FEE);
+		const withdrawalFee = withdrawAmount.multipliedBy(withdrawFee).dividedBy(MAX_FEE);
 		const amountAfterFee = new BigNumber(withdrawAmount).minus(withdrawalFee);
 
 		return (
@@ -60,7 +65,7 @@ export const SettWithdrawFee = observer(
 				</Grid>
 				<Grid container justify="space-between">
 					<Typography className={classes.specName} color="textSecondary" display="inline">
-						{`Estimated Fee (${formatStrategyFee(fee)})`}
+						{`Estimated Fee (${formatStrategyFee(withdrawFee)})`}
 					</Typography>
 					<Typography display="inline" variant="subtitle2">
 						{`${formatAmount(withdrawalFee, depositTokenDecimals)} ${depositTokenSymbol}`}

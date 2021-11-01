@@ -9,12 +9,10 @@ import { SettDialogTitle } from './SettDialogTitle';
 import { PercentageSelector } from '../PercentageSelector';
 import { ActionButton, AmountTextField, LoaderSpinner, PercentagesContainer, SettDialogContent } from './styled';
 import { ContractNamespace } from '../../../web3/config/contract-namespace';
-import { StrategyFee } from '../../../mobx/model/system-config/stategy-fees';
-import { SettWithdrawFee } from './SettWithdrawFee';
+import { SettConversionAndFee } from './SettConversionAndFee';
 import { makeStyles } from '@material-ui/core/styles';
 import Alert from '@material-ui/lab/Alert';
 import WarningIcon from '@material-ui/icons/Warning';
-import { getStrategyFee } from 'mobx/utils/fees';
 import { Sett } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
@@ -55,7 +53,6 @@ export interface SettModalProps {
 
 export const SettWithdraw = observer(({ open = false, sett, badgerSett, onClose }: SettModalProps) => {
 	const {
-		network: { network },
 		wallet: { connectedAddress },
 		user,
 		contracts,
@@ -72,7 +69,6 @@ export const SettWithdraw = observer(({ open = false, sett, badgerSett, onClose 
 		: false;
 
 	const userHasBalance = !userHasStakedDeposits && userBalance.balance.gt(0);
-	const withdrawFee = getStrategyFee(sett, StrategyFee.withdraw, network.strategies[sett.settToken]);
 
 	const depositToken = setts.getToken(sett.underlyingToken);
 	const bToken = setts.getToken(sett.settToken);
@@ -129,7 +125,7 @@ export const SettWithdraw = observer(({ open = false, sett, badgerSett, onClose 
 				</Typography>
 			</Grid>
 			<Grid container className={classes.fees}>
-				<SettWithdrawFee sett={sett} fee={withdrawFee} amount={amount || 0} />
+				<SettConversionAndFee sett={sett} amount={amount || 0} />
 			</Grid>
 		</>
 	);
