@@ -330,7 +330,22 @@ exports[`Landing Renders correctly 1`] = `
     </div>
     <div
       class="MuiGrid-root-21 makeStyles-delegationBanner-11 MuiGrid-container-22"
-    />
+    >
+      <button
+        class="MuiButtonBase-root-256 MuiButton-root-227 MuiButton-contained-235 makeStyles-linkButton-10 MuiButton-containedPrimary-236 MuiButton-containedSizeSmall-246 MuiButton-sizeSmall-248"
+        tabindex="0"
+        type="button"
+      >
+        <span
+          class="MuiButton-label-228"
+        >
+          Single Chain Badger Boost is now active. Click here for more details
+        </span>
+        <span
+          class="MuiTouchRipple-root-510"
+        />
+      </button>
+    </div>
     <div
       class="makeStyles-settListContainer-391"
     >
