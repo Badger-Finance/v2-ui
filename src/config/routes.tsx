@@ -1,6 +1,7 @@
 import React from 'react';
 import { QueryParams, Route } from 'mobx-router';
 import Landing from '../pages/Landing';
+import GovernancePortal from '../pages/GovernancePortal';
 import { RootStore } from '../mobx/RootStore';
 import { Airdrops } from '../components/Airdrops';
 import { BoostOptimizer } from '../components/Boost';
@@ -77,6 +78,10 @@ const routes = {
 	boostLeaderBoard: new Route<RootStore, QueryParams>({
 		path: '/leaderboard',
 		component: <BoostLeaderBoard />,
+	}),
+	governancePortal: new Route<RootStore, QueryParams>({
+		path: '/governance-portal',
+		component: <GovernancePortal />,
 	}),
 	settDetails: new Route<RootStore, QueryParams>({
 		path: '/setts/:settName',

@@ -1,0 +1,43 @@
+import AddressInfoCard from '../components-v2/governance-portal/AddressInfoCard';
+import EventsTable from '../components-v2/governance-portal/EventsTable';
+import { Grid } from '@material-ui/core';
+import PageHeader from '../components-v2/common/PageHeader';
+import { observer } from 'mobx-react-lite';
+import React, { useContext } from 'react';
+import { HeaderContainer, LayoutContainer } from '../components-v2/common/Containers';
+import { StoreContext } from '../mobx/store-context';
+
+const GovernancePortal = observer(() => {
+	const store = useContext(StoreContext);
+	const { governancePortal } = store;
+
+	return (
+		<LayoutContainer>
+			{/* Governance Portal Address Cards */}
+			<Grid container spacing={1} justify="center">
+				<HeaderContainer item xs={12}>
+					<PageHeader title="Governance Portal" subtitle="Review recent activity from the DAO." />
+				</HeaderContainer>
+
+				<Grid item xs={12} md={4}>
+					<AddressInfoCard title="Timelock Contract" address={governancePortal.contract_address} />
+				</Grid>
+
+				<Grid item xs={12} md={4}>
+					<AddressInfoCard title="Admin" address={governancePortal.admin_address} />
+				</Grid>
+
+				<Grid item xs={12} md={4}>
+					<AddressInfoCard title="Guardian" address={governancePortal.guardian_address} />
+				</Grid>
+			</Grid>
+			<Grid container justify="center">
+				<Grid item xs={12} md={9}>
+					<EventsTable events={governancePortal.timelock_events} />
+				</Grid>
+			</Grid>
+		</LayoutContainer>
+	);
+});
+
+export default GovernancePortal;
