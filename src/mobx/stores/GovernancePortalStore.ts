@@ -4,41 +4,40 @@ import { TimelockEvent } from '../model/governance-timelock/timelock-event';
 import Web3 from 'web3';
 import { AbiItem } from 'web3-utils';
 import GovernanceTimelockAbi from '../../config/system/abis/GovernanceTimelock.json';
+import WalletStore from './walletStore'
 
 export class GovernancePortalStore {
 	private store: RootStore;
 
-	public contract_address?: string;
-	public admin_address?: string;
-	public guardian_address?: string;
-	public timelock_events?: TimelockEvent[];
+	public contractAddress?: string;
+	public adminAddress?: string;
+	public guardianAddress?: string;
+	public timelockEvents?: TimelockEvent[];
 
 	constructor(store: RootStore) {
 		this.store = store;
+		this.contractAddress = '0x21CF9b77F88Adf8F8C98d7E33Fe601DC57bC0893';
 
 		extendObservable(this, {
-			timelock_events: this.timelock_events,
+			timelockEvents: this.timelockEvents,
 		});
-
-		this.contract_address = '0x21CF9b77F88Adf8F8C98d7E33Fe601DC57bC0893';
-
-		this.loadData();
 	}
 
 	loadData = action(
 		async (): Promise<void> => {
-			const web3 = new Web3(Web3.givenProvider || 'ws://localhost:8545');
-			const GovernanceContract = new web3.eth.Contract(GovernanceTimelockAbi as AbiItem[], this.contract_address);
+			const provider = this.store.wallet.provider || Web3.givenProvider
+			const web3 = new Web3(provider);
+			const GovernanceContract = new web3.eth.Contract(GovernanceTimelockAbi as AbiItem[], this.contractAddress);
 
-			this.admin_address = await GovernanceContract.methods.admin().call();
-			this.guardian_address = await GovernanceContract.methods.guardian().call();
+			this.adminAddress = await GovernanceContract.methods.admin().call();
+			this.guardianAddress = await GovernanceContract.methods.guardian().call();
 
 			const eventData = await GovernanceContract.getPastEvents('allEvents', {
 				fromBlock: 0,
 				toBlock: 'latest',
 			});
 
-			this.timelock_events = eventData
+			this.timelockEvents = eventData
 				.sort((a: any, b: any) => (b.blockNumber + b.id > a.blockNumber + a.id ? 1 : -1))
 				.map((eventData: any) => {
 					const signature = eventData.returnValues.signature;
@@ -57,6 +56,7 @@ export class GovernancePortalStore {
 
 					return eventData;
 				});
+				
 		},
 	);
 }

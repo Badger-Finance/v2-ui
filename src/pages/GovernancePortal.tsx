@@ -10,30 +10,30 @@ import { StoreContext } from '../mobx/store-context';
 const GovernancePortal = observer(() => {
 	const store = useContext(StoreContext);
 	const { governancePortal } = store;
+	governancePortal.loadData();
 
 	return (
 		<LayoutContainer>
-			{/* Governance Portal Address Cards */}
 			<Grid container spacing={1} justify="center">
 				<HeaderContainer item xs={12}>
 					<PageHeader title="Governance Portal" subtitle="Review recent activity from the DAO." />
 				</HeaderContainer>
 
 				<Grid item xs={12} md={4}>
-					<AddressInfoCard title="Timelock Contract" address={governancePortal.contract_address} />
+					<AddressInfoCard title="Timelock Contract" address={governancePortal.contractAddress} />
 				</Grid>
 
 				<Grid item xs={12} md={4}>
-					<AddressInfoCard title="Admin" address={governancePortal.admin_address} />
+					<AddressInfoCard title="Admin" address={governancePortal.adminAddress} />
 				</Grid>
 
 				<Grid item xs={12} md={4}>
-					<AddressInfoCard title="Guardian" address={governancePortal.guardian_address} />
+					<AddressInfoCard title="Guardian" address={governancePortal.guardianAddress} />
 				</Grid>
 			</Grid>
 			<Grid container justify="center">
 				<Grid item xs={12} md={9}>
-					<EventsTable events={governancePortal.timelock_events} />
+					<EventsTable events={governancePortal.timelockEvents} />
 				</Grid>
 			</Grid>
 		</LayoutContainer>
