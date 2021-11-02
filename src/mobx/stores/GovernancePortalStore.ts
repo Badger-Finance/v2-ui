@@ -36,7 +36,7 @@ export class GovernancePortalStore {
 				toBlock: 'latest',
 			});
 
-			const getParametersTypes = (signature: string) => {
+			const getParameterTypes = (signature: string) => {
 				const parametersStart = signature.indexOf('(') + 1;
 				const parametersEnd = signature.lastIndexOf(')');
 				const parameters = signature.substring(parametersStart, parametersEnd);
@@ -48,7 +48,7 @@ export class GovernancePortalStore {
 				.map((eventData: any) => {
 					const signature = eventData.returnValues.signature;
 					eventData.functionName = signature.split('(')[0];
-					eventData.parameterTypes = getParametersTypes(signature);
+					eventData.parameterTypes = getParameterTypes(signature);
 
 					try {
 						eventData.decodedParameters = web3.eth.abi.decodeParameters(
