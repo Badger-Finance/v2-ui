@@ -48,7 +48,7 @@ export class GovernancePortalStore {
 			this.timelockEvents = eventData
 				.sort((a: any, b: any) => b.blockNumber + b.id - a.blockNumber + a.id)
 				.map((eventData: TimelockEvent) => {
-					const signature = eventData.returnValues.signature || "()";
+					const signature = eventData.returnValues.signature || '()';
 					eventData.functionName = signature.split('(')[0];
 					eventData.parameterTypes = getParameterTypes(signature);
 

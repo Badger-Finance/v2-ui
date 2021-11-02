@@ -4,8 +4,8 @@ export interface TimelockEvent {
 	functionName?: string;
 	parameterTypes?: string[];
 	decodedParameters?: any;
-	returnValues:{
-		signature?: string,
-		data?: any
+	returnValues: {
+		signature?: string;
+		data?: any;
 	};
 }
