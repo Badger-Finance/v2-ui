@@ -5,6 +5,13 @@ import Web3 from 'web3';
 import { AbiItem } from 'web3-utils';
 import GovernanceTimelockAbi from '../../config/system/abis/GovernanceTimelock.json';
 
+const getParameterTypes = (signature: string) => {
+	const parametersStart = signature.indexOf('(') + 1;
+	const parametersEnd = signature.lastIndexOf(')');
+	const parameters = signature.substring(parametersStart, parametersEnd);
+	return parameters.split(',');
+};
+
 export class GovernancePortalStore {
 	private store: RootStore;
 
@@ -20,6 +27,8 @@ export class GovernancePortalStore {
 		extendObservable(this, {
 			timelockEvents: this.timelockEvents,
 		});
+
+		this.loadData();
 	}
 
 	loadData = action(
@@ -36,17 +45,10 @@ export class GovernancePortalStore {
 				toBlock: 'latest',
 			});
 
-			const getParameterTypes = (signature: string) => {
-				const parametersStart = signature.indexOf('(') + 1;
-				const parametersEnd = signature.lastIndexOf(')');
-				const parameters = signature.substring(parametersStart, parametersEnd);
-				return parameters.split(',');
-			};
-
 			this.timelockEvents = eventData
 				.sort((a: any, b: any) => b.blockNumber + b.id - a.blockNumber + a.id)
-				.map((eventData: any) => {
-					const signature = eventData.returnValues.signature;
+				.map((eventData: TimelockEvent) => {
+					const signature = eventData.returnValues.signature || "()";
 					eventData.functionName = signature.split('(')[0];
 					eventData.parameterTypes = getParameterTypes(signature);
 
@@ -56,7 +58,7 @@ export class GovernancePortalStore {
 							eventData.returnValues.data,
 						);
 					} catch {
-						eventData.decodedParameters = false;
+						eventData.decodedParameters = null;
 					}
 
 					return eventData;
