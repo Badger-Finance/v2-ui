@@ -284,7 +284,7 @@ exports[`Specs Section displays sett information 1`] = `
           </svg>
           <a
             class="MuiTypography-root-145 MuiLink-root-221 MuiLink-underlineHover-223 makeStyles-link-273 MuiTypography-colorPrimary-168"
-            href="https://app.gitbook.com/@badger-finance/s/badger-finance/v/master/sett-user-guides/convex-renbtc-wbtc-sbtc"
+            href="https://docs.badger.com/badger-finance/user-guides/convex-renbtc-wbtc-sbtc"
             rel="noreferrer"
             target="_blank"
           >

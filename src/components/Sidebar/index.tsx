@@ -148,7 +148,7 @@ export const Sidebar = observer(() => {
 		rewards: { badgerTree },
 		wallet: { connectedAddress },
 		network: { network },
-		user: { accountDetails },
+		// user: { accountDetails },
 	} = store;
 
 	const [expanded, setExpanded] = useState('');
@@ -258,14 +258,15 @@ export const Sidebar = observer(() => {
 						</ListItem>
 					)}
 				</Collapse>
-				{accountDetails && (
+				{/* Temporarily removing boost display from site due to API issue */}
+				{/* {accountDetails && (
 					<ListItem className={`${classes.textListItem}`} key="boost">
 						<ListItemText
 							primary={`Boost: ${accountDetails?.boost.toFixed(2)}`}
 							secondary={`Rank: ${accountDetails.boostRank}`}
 						/>
 					</ListItem>
-				)}
+				)} */}
 
 				<ListItem
 					button
@@ -336,6 +337,7 @@ export const Sidebar = observer(() => {
 					</>
 				)}
 				<ListItem
+					disabled
 					button
 					className={getCollapsableItemClasses('boosts', ['/boost-optimizer', '/leaderboard'])}
 					onClick={() => {
