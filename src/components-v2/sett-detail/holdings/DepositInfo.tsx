@@ -25,7 +25,7 @@ interface Props {
 const DepositInfo: React.FC<Props> = ({ strategy }: Props) => {
 	const classes = useStyles();
 
-	if (!strategy.depositLink) {
+	if (!strategy.userGuide) {
 		return null;
 	}
 
