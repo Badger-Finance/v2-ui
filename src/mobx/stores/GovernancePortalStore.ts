@@ -36,17 +36,23 @@ export class GovernancePortalStore {
 				toBlock: 'latest',
 			});
 
+			const getParametersTypes = (signature: string) => {
+				const parametersStart = signature.indexOf('(') + 1
+				const parametersEnd = signature.lastIndexOf(')')
+				const parameters = signature.substring(parametersStart, parametersEnd);
+				return parameters.split(',');
+			}
+
 			this.timelockEvents = eventData
-				.sort((a: any, b: any) => (b.blockNumber + b.id > a.blockNumber + a.id ? 1 : -1))
+				.sort((a: any, b:any ) => (b.blockNumber + b.id - a.blockNumber + a.id))
 				.map((eventData: any) => {
 					const signature = eventData.returnValues.signature;
-					const parameters = signature.substring(signature.indexOf('(') + 1, signature.lastIndexOf(')'));
 					eventData.functionName = signature.split('(')[0];
-					eventData.parameterTypes = parameters.split(',');
+					eventData.parameterTypes = getParametersTypes(signature)
 
 					try {
 						eventData.decodedParameters = web3.eth.abi.decodeParameters(
-							parameters.split(','),
+							eventData.parameterTypes,
 							eventData.returnValues.data,
 						);
 					} catch {
