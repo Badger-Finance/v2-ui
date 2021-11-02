@@ -69,6 +69,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 	linkButton: {
 		marginTop: theme.spacing(3),
+		marginRight: 'auto',
+		marginLeft: 'auto',
 	},
 	delegationBanner: {
 		marginTop: theme.spacing(3),
@@ -139,6 +141,15 @@ const Landing = observer((props: LandingProps) => {
 
 			{state === SettState.Open && (
 				<Grid container className={classes.delegationBanner}>
+					<Button
+						className={classes.linkButton}
+						size="small"
+						variant="contained"
+						color="primary"
+						onClick={() => window.open('https://badger.com/news/single-chain-boost')}
+					>
+						Single Chain Badger Boost is now active. Click here for more details
+					</Button>
 					<CvxDelegationBanner />
 				</Grid>
 			)}
