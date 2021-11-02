@@ -368,7 +368,7 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 						[StrategyFee.withdraw]: new BigNumber(50),
 					},
 					strategyLink: 'https://badger.wiki/strategies#39a0decd933b4869b98c9276118b9d39',
-					userGuide: 'https://docs.badger.com/badger-finance/user-guides/convex-hbtc',
+					userGuide: 'https://docs.badger.com/badger-finance/user-guides/convex-pbtc',
 					depositLink: 'https://curve.fi/pbtc/deposit',
 				},
 				[ethDeploy.sett_system.vaults['native.obtcCrv']]: {
