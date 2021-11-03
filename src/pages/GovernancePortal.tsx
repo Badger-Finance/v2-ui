@@ -10,6 +10,7 @@ import { StoreContext } from '../mobx/store-context';
 const GovernancePortal = observer(() => {
 	const store = useContext(StoreContext);
 	const { governancePortal } = store;
+	governancePortal.loadData();
 
 	return (
 		<LayoutContainer>

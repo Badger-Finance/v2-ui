@@ -27,8 +27,6 @@ export class GovernancePortalStore {
 		extendObservable(this, {
 			timelockEvents: this.timelockEvents,
 		});
-
-		this.loadData();
 	}
 
 	loadData = action(
