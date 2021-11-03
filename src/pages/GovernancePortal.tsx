@@ -3,14 +3,17 @@ import EventsTable from '../components-v2/governance-portal/EventsTable';
 import { Grid } from '@material-ui/core';
 import PageHeader from '../components-v2/common/PageHeader';
 import { observer } from 'mobx-react-lite';
-import React, { useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { HeaderContainer, LayoutContainer } from '../components-v2/common/Containers';
 import { StoreContext } from '../mobx/store-context';
 
 const GovernancePortal = observer(() => {
 	const store = useContext(StoreContext);
 	const { governancePortal } = store;
-	governancePortal.loadData();
+
+	useEffect(() => {
+		governancePortal.loadData();
+	});
 
 	return (
 		<LayoutContainer>
