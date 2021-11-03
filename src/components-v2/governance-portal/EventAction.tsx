@@ -26,7 +26,7 @@ const EventAction = ({ event }: EventActionProps): JSX.Element => {
 			{event.functionName}
 			<span>(</span>
 			{event.parameterTypes &&
-				event.parameterTypes.length &&
+				event.parameterTypes.length > 0 &&
 				event.parameterTypes.map((param, ind) => (
 					<span key={'param-' + ind}>
 						<Tooltip className={classes.tooltipWrap} title={getTooltipContent(event, ind)}>
