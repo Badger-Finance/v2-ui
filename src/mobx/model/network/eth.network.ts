@@ -24,6 +24,7 @@ export class Ethereum extends NetworkModel {
 			Currency.ETH,
 			ETH_DEPLOY,
 			ethSettDefinitions,
+			'Boost Specific Visualizations have been temporarily disabled to prevent confusion.',
 		);
 	}
 	get settOrder(): string[] {
