@@ -20,7 +20,6 @@ export class Arbitrum extends NetworkModel {
 			Currency.ETH,
 			ARBITRUM_DEPLOY,
 			arbitrumSetts,
-			'Boost Specific Visualizations have been temporarily disabled to prevent confusion.',
 		);
 	}
 }
