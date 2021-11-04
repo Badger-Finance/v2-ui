@@ -79,6 +79,8 @@ export class RootStore {
 			this.setts.refresh(),
 			this.loadTreeData(),
 			this.prices.loadPrices(),
+			this.leaderBoard.loadData(),
+			this.user.loadAccountDetails(this.wallet.connectedAddress),
 		];
 
 		await Promise.all(refreshData);
