@@ -8,6 +8,7 @@ import CurrencyDisplay from '../common/CurrencyDisplay';
 import { SettActionButtons } from '../common/SettActionButtons';
 import { SettItemName } from './SettItemName';
 import { SettItemApr } from './SettItemApr';
+import { SettItemUserApr } from './SettItemUserApr';
 import { StoreContext } from 'mobx/store-context';
 import routes from '../../config/routes';
 import { SettDeposit } from '../common/dialogs/SettDeposit';
@@ -110,10 +111,9 @@ const SettListItem = observer(
 						</Grid>
 						<Grid item xs={6} md>
 							<SettItemApr sett={sett} divisor={isDisabled ? 1 : divisor} multiplier={multiplier} />
-							{/* Temporarily disable due to API issue */}
-							{/* {multiplier !== undefined && (
+							{multiplier !== undefined && (
 								<SettItemUserApr sett={sett} divisor={divisor} multiplier={multiplier} />
-							)} */}
+							)}
 						</Grid>
 						<Grid item className={classes.mobileLabel} xs={6} md>
 							<Typography variant="body2" color={'textSecondary'}>
