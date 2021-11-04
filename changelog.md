@@ -1,5 +1,11 @@
 # v2 UI Changelog
 
+### Hotfix - 11/03/2021
+
+- fixed an issue causing no badger withdraw estimates
+- update all user guide links to new badger docs
+- enabled leaderboard updates per chain
+
 ### v2.9.9 - 10/29/2021
 
 - cvx/bvecvx release
