@@ -25,6 +25,10 @@ import { defaultSettBalance } from 'components-v2/sett-detail/utils';
 import { getToken } from 'web3/config/token-config';
 import { Account, BouncerType, MerkleProof, Network, Sett, SettData } from '@badger-dao/sdk';
 import { fetchClaimProof } from 'mobx/utils/apiV2';
+import { Multicall } from 'ethereum-multicall';
+import { extractRequestResults } from '../utils/user-balances';
+import { parseCallReturnContext } from '../utils/multicall';
+import { ContractCallReturnContext } from 'ethereum-multicall/dist/esm/models/contract-call-return-context';
 
 export default class UserStore {
 	private store!: RootStore;
@@ -162,14 +166,15 @@ export default class UserStore {
 
 		const hasTokens = Object.keys(this.tokenBalances).length > 0;
 		const hasSetts = Object.keys(this.settBalances).length > 0;
-		let hasGeysers = false;
+		let hasGeysers;
 
 		const { connectedAddress } = this.store.wallet;
+
 		const geyserRequests = network
-			.batchRequests(settMap, connectedAddress)
-			.find((req) => req.namespace === ContractNamespace.Geyser);
-		/* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */
-		if (geyserRequests!.addresses && geyserRequests!.addresses.length === 0) {
+			.multicallRequests(settMap, connectedAddress)
+			.find((req) => req.context.namespace === ContractNamespace.Geyser);
+
+		if (geyserRequests) {
 			hasGeysers = true;
 		} else {
 			hasGeysers = Object.keys(this.geyserBalances).length > 0;
@@ -266,6 +271,7 @@ export default class UserStore {
 			this.loadingBalances = true;
 
 			const cacheKey = `${network.symbol}-${connectedAddress}`;
+
 			if (cached) {
 				const cachedBalances = this.userBalanceCache[cacheKey];
 				if (cachedBalances && Date.now() <= cachedBalances.expiry) {
@@ -276,23 +282,18 @@ export default class UserStore {
 			}
 
 			// construct & execute batch requests
-			const batchRequests = network.batchRequests(setts.settMap, connectedAddress);
-			if (!batchRequests || batchRequests.length === 0) {
-				return;
-			}
-			const callResults: CallResult[] = await this.batchCall.execute(batchRequests);
-			if (DEBUG) {
-				console.log({ network: network.symbol, callResults });
-			}
+			const multicall = new Multicall({ web3Instance: new Web3(provider), tryAggregate: true });
+			const multicallRequests = network.multicallRequests(setts.settMap, connectedAddress);
+			const multicallResults = await multicall.call(multicallRequests);
 
 			// filter batch requests by namespace
-			const userTokens = callResults.filter((result) => result.namespace === ContractNamespace.Token);
-			const nonSettUserTokens = callResults.filter(
-				(result) => result.namespace === ContractNamespace.NonSettToken,
-			);
-			const userGeneralSetts = callResults.filter((result) => result.namespace === ContractNamespace.Sett);
-			const userGuardedSetts = callResults.filter((result) => result.namespace === ContractNamespace.GaurdedSett);
-			const userGeysers = callResults.filter((result) => result.namespace === ContractNamespace.Geyser);
+			const {
+				userTokens,
+				userGeneralSetts,
+				userGuardedSetts,
+				userGeysers,
+				nonSettUserTokens,
+			} = extractRequestResults(multicallResults);
 
 			const tokenBalances: TokenBalances = {};
 			const settBalances: TokenBalances = {};
@@ -308,24 +309,36 @@ export default class UserStore {
 			nonSettUserTokens.forEach((token) => this.updateNonSettUserBalance(tokenBalances, token));
 
 			const guestListLookup: Record<string, string> = {};
+
 			const guestLists = userGuardedSetts
-				.map((sett) => {
-					if (!sett.address || !sett.guestList || sett.guestList.length === 0) {
+				.map((returnContext) => {
+					const settAddress = returnContext.originalContractCallContext.contractAddress;
+					const sett = parseCallReturnContext(returnContext.callsReturnContext);
+
+					if (!sett.guestList || sett.guestList.length === 0) {
 						return;
 					}
-					const guestList = sett.guestList[0].value;
+
+					const guestList = sett.guestList[0];
+
 					if (guestList === ZERO_ADDR) {
 						return;
 					}
-					guestListLookup[guestList] = sett.address;
+
+					guestListLookup[guestList] = settAddress;
 					return guestList;
 				})
-				.filter((list): list is string => !!list);
+				.filter(Boolean);
+
+			console.log('guestLists =>', guestLists);
+
 			const guestListRequests = createBatchCallRequest(guestLists, ContractNamespace.GuestList, connectedAddress);
 			const guestListResults: CallResult[] = await this.batchCall.execute([guestListRequests]);
+
 			if (DEBUG) {
 				console.log(guestListResults);
 			}
+
 			const vaultCaps: VaultCaps = Object.fromEntries(
 				guestListResults
 					.map((result) => {
@@ -369,6 +382,8 @@ export default class UserStore {
 					.filter((value): value is [] => !!value),
 			);
 
+			console.log('vault caps =>', vaultCaps);
+
 			const result = {
 				key: cacheKey,
 				tokens: tokenBalances,
@@ -395,19 +410,25 @@ export default class UserStore {
 
 	private updateUserBalance = (
 		tokenBalances: TokenBalances,
-		token: CallResult,
+		returnContext: ContractCallReturnContext,
 		getBalanceToken: (sett: BadgerSett) => BadgerToken,
 	): void => {
 		const {
 			prices,
 			network: { network },
 		} = this.store;
+
+		const tokenAddress = returnContext.originalContractCallContext.contractAddress;
+		const token = parseCallReturnContext(returnContext.callsReturnContext);
 		const balanceResults = token.balanceOf || token.totalStakedFor;
+
 		if (!balanceResults || balanceResults.length === 0) {
 			return;
 		}
-		const balance = new BigNumber(balanceResults[0].value);
-		const sett = network.setts.find((s) => getBalanceToken(s).address === token.address);
+
+		const balance = new BigNumber(balanceResults[0].hex);
+		const sett = network.setts.find((s) => getBalanceToken(s).address === tokenAddress);
+
 		if (!sett) {
 			return;
 		}
@@ -418,21 +439,30 @@ export default class UserStore {
 		}
 		const tokenPrice = prices.getPrice(pricingToken);
 		const key = Web3.utils.toChecksumAddress(balanceToken.address);
+
 		tokenBalances[key] = new TokenBalance(balanceToken, balance, tokenPrice);
 	};
 
-	private updateNonSettUserBalance = (tokenBalances: TokenBalances, token: CallResult): void => {
+	private updateNonSettUserBalance = (
+		tokenBalances: TokenBalances,
+		returnContext: ContractCallReturnContext,
+	): void => {
 		const { prices } = this.store;
+		const tokenAddress = returnContext.originalContractCallContext.contractAddress;
+		const token = parseCallReturnContext(returnContext.callsReturnContext);
 		const balanceResults = token.balanceOf;
-		const tokenAddress = token.address;
+
 		if (!balanceResults || balanceResults.length === 0 || !tokenAddress) {
 			return;
 		}
+
 		const balanceToken = getToken(tokenAddress);
+
 		if (!balanceToken) {
 			return;
 		}
-		const balance = new BigNumber(balanceResults[0].value);
+
+		const balance = new BigNumber(balanceResults[0].hex);
 		const tokenPrice = prices.getPrice(tokenAddress);
 		const key = Web3.utils.toChecksumAddress(tokenAddress);
 		tokenBalances[key] = new TokenBalance(balanceToken, balance, tokenPrice);
@@ -440,8 +470,8 @@ export default class UserStore {
 
 	/* Token Balance Accessors */
 
-	private getDepositToken = (sett: BadgerSett): BadgerToken => sett.depositToken;
-	private getSettToken = (sett: BadgerSett): BadgerToken => sett.vaultToken;
+	private getDepositToken = (sett: BadgerSett): BadgerToken => sett.depositToken; //.Token
+	private getSettToken = (sett: BadgerSett): BadgerToken => sett.vaultToken; //.Sett, .GuardedSett
 	/* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */
 	private getGeyserMockToken = (sett: BadgerSett): BadgerToken => mockToken(sett.geyser!, sett.vaultToken.decimals);
 

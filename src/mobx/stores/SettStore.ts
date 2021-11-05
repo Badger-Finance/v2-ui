@@ -9,12 +9,13 @@ import { ProtocolSummaryCache } from '../model/system-config/protocol-summary-ca
 import { TokenConfigRecord } from 'mobx/model/tokens/token-config-record';
 import { SettMap } from '../model/setts/sett-map';
 import { TokenBalances } from 'mobx/model/account/user-balances';
-import { CallResult } from 'web3/interface/call-result';
 import BigNumber from 'bignumber.js';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { getToken } from 'web3/config/token-config';
 import { Currency, Network, ProtocolSummary, Sett, SettState } from '@badger-dao/sdk';
 import { SlugCache } from '../model/setts/slug-cache';
+import { parseCallReturnContext } from '../utils/multicall';
+import { ContractCallReturnContext } from 'ethereum-multicall/dist/esm/models/contract-call-return-context';
 
 const formatSettListItem = (sett: Sett): [string, string] => {
 	const sanitizedSettName = sett.name.replace(/\/+/g, '-'); // replace "/" with "-"
@@ -174,10 +175,11 @@ export default class SettStore {
 		},
 	);
 
-	updateAvailableBalance = (sett: CallResult): void => {
+	updateAvailableBalance = (returnContext: ContractCallReturnContext): void => {
 		const { prices } = this.store;
+		const settAddress = returnContext.originalContractCallContext.contractAddress;
+		const sett = parseCallReturnContext(returnContext.callsReturnContext);
 		const balanceResults = sett.available;
-		const settAddress = sett.address;
 		if (!balanceResults || balanceResults.length === 0 || !settAddress) {
 			return;
 		}

@@ -24,6 +24,7 @@
 		"d3-shape": "^2.0.0",
 		"d3-time-format": "^3.0.0",
 		"dayjs": "^1.10.6",
+		"ethereum-multicall": "^2.9.0",
 		"fetch-retry": "^5.0.1",
 		"firebase": "^8.2.3",
 		"jest": "26.6.0",

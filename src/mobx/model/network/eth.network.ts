@@ -1,6 +1,5 @@
 import { NETWORK_IDS } from 'config/constants';
-import { createChainBatchConfig, toSettConfig } from 'web3/config/config-utils';
-import { BatchCallRequest } from 'web3/interface/batch-call-request';
+import { createChainMulticallConfig, toSettConfig } from 'web3/config/config-utils';
 import { Deploy } from 'web3/interface/deploy';
 import { SettMap } from '../setts/sett-map';
 import { BadgerSett } from '../vaults/badger-sett';
@@ -12,6 +11,7 @@ import { FLAGS } from 'config/environment';
 import { Currency } from 'config/enums/currency.enum';
 import { AdvisoryType } from '../vaults/advisory-type';
 import { Network, SettState } from '@badger-dao/sdk';
+import { ContractCallContext } from 'ethereum-multicall';
 
 export class Ethereum extends NetworkModel {
 	constructor() {
@@ -58,21 +58,22 @@ export class Ethereum extends NetworkModel {
 		];
 	}
 
-	batchRequests(setts: SettMap, address: string): BatchCallRequest[] {
+	multicallRequests(setts: SettMap, userAddress: string): ContractCallContext[] {
 		const tokenAddresses = Object.values(setts).map((sett) => sett.underlyingToken);
 		const nonSettTokenAddresses = [deploy.digg_system.DROPT['DROPT-3'].longToken];
 		const settAddresses = Object.values(setts).map((sett) => sett.settToken);
-		const generalSetts = settAddresses.filter((sett) => setts[sett].state === SettState.Open);
-		const guardedSetts = settAddresses.filter((sett) => setts[sett].state !== SettState.Open);
+		const generalSettAddresses = settAddresses.filter((sett) => setts[sett].state === SettState.Open);
+		const guardedSettAddresses = settAddresses.filter((sett) => setts[sett].state !== SettState.Open);
 		const geyserAddresses = ethSetts.map((sett) => sett.geyser).filter((geyser): geyser is string => !!geyser);
-		return createChainBatchConfig(
+
+		return createChainMulticallConfig({
 			tokenAddresses,
-			generalSetts,
-			guardedSetts,
+			generalSettAddresses,
+			guardedSettAddresses,
 			geyserAddresses,
-			address,
 			nonSettTokenAddresses,
-		);
+			userAddress,
+		});
 	}
 }
 

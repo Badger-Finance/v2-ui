@@ -1,0 +1,191 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`User balances utils extractRequestResults extract results correctly 1`] = `
+Object {
+  "nonSettUserTokens": Array [
+    Object {
+      "callsReturnContext": Array [
+        Object {
+          "decoded": true,
+          "methodName": "balanceOf",
+          "methodParameters": Array [
+            "0x00",
+          ],
+          "reference": "balanceOf",
+          "returnValues": Array [
+            Object {
+              "amounts": "0x00",
+            },
+          ],
+          "success": true,
+        },
+      ],
+      "originalContractCallContext": Object {
+        "abi": Array [],
+        "calls": Array [
+          Object {
+            "methodName": "balanceOf",
+            "methodParameters": Array [
+              "0x00",
+            ],
+            "reference": "balanceOf",
+          },
+        ],
+        "context": Object {
+          "namespace": "nonsetttoken",
+        },
+        "contractAddress": "0x4e3FBD56CD56c3e72c1403e103b45Db9da5B9D6B",
+        "reference": "0x4e3FBD56CD56c3e72c1403e103b45Db9da5B9D6B",
+      },
+    },
+  ],
+  "userGeneralSetts": Array [
+    Object {
+      "callsReturnContext": Array [
+        Object {
+          "decoded": true,
+          "methodName": "balanceOf",
+          "methodParameters": Array [
+            "0x00",
+          ],
+          "reference": "balanceOf",
+          "returnValues": Array [
+            Object {
+              "amounts": "0x00",
+            },
+          ],
+          "success": true,
+        },
+      ],
+      "originalContractCallContext": Object {
+        "abi": Array [],
+        "calls": Array [
+          Object {
+            "methodName": "balanceOf",
+            "methodParameters": Array [
+              "0x00",
+            ],
+            "reference": "balanceOf",
+          },
+        ],
+        "context": Object {
+          "namespace": "sett",
+        },
+        "contractAddress": "0x4e3FBD56CD56c3e72c1403e103b45Db9da5B9D2B",
+        "reference": "0x4e3FBD56CD56c3e72c1403e103b45Db9da5B9D3B",
+      },
+    },
+  ],
+  "userGeysers": Array [
+    Object {
+      "callsReturnContext": Array [
+        Object {
+          "decoded": true,
+          "methodName": "balanceOf",
+          "methodParameters": Array [
+            "0x00",
+          ],
+          "reference": "balanceOf",
+          "returnValues": Array [
+            Object {
+              "amounts": "0x00",
+            },
+          ],
+          "success": true,
+        },
+      ],
+      "originalContractCallContext": Object {
+        "abi": Array [],
+        "calls": Array [
+          Object {
+            "methodName": "balanceOf",
+            "methodParameters": Array [
+              "0x00",
+            ],
+            "reference": "balanceOf",
+          },
+        ],
+        "context": Object {
+          "namespace": "geyser",
+        },
+        "contractAddress": "0x4e3FBD56CD56c3e72c1403e103b45Db9da5B9D5B",
+        "reference": "0x4e3FBD56CD56c3e72c1403e103b45Db9da5B9D5B",
+      },
+    },
+  ],
+  "userGuardedSetts": Array [
+    Object {
+      "callsReturnContext": Array [
+        Object {
+          "decoded": true,
+          "methodName": "balanceOf",
+          "methodParameters": Array [
+            "0x00",
+          ],
+          "reference": "balanceOf",
+          "returnValues": Array [
+            Object {
+              "amounts": "0x00",
+            },
+          ],
+          "success": true,
+        },
+      ],
+      "originalContractCallContext": Object {
+        "abi": Array [],
+        "calls": Array [
+          Object {
+            "methodName": "balanceOf",
+            "methodParameters": Array [
+              "0x00",
+            ],
+            "reference": "balanceOf",
+          },
+        ],
+        "context": Object {
+          "namespace": "gaurded",
+        },
+        "contractAddress": "0x4e3FBD56CD56c3e72c1403e103b45Db9da5B9D4B",
+        "reference": "0x4e3FBD56CD56c3e72c1403e103b45Db9da5B9D4B",
+      },
+    },
+  ],
+  "userTokens": Array [
+    Object {
+      "callsReturnContext": Array [
+        Object {
+          "decoded": true,
+          "methodName": "foo",
+          "methodParameters": Array [
+            42,
+          ],
+          "reference": "0x4e3FBD56CD56c3e72c1403e103b45Db9da5B9D2B",
+          "returnValues": Array [
+            Object {
+              "amounts": "0x00",
+            },
+          ],
+          "success": true,
+        },
+      ],
+      "originalContractCallContext": Object {
+        "abi": Array [],
+        "calls": Array [
+          Object {
+            "methodName": "balanceOf",
+            "methodParameters": Array [
+              "0x00",
+            ],
+            "reference": "balanceOf",
+          },
+        ],
+        "context": Object {
+          "namespace": "token",
+        },
+        "contractAddress": "0x4e3FBD56CD56c3e72c1403e103b45Db9da5B9D2B",
+        "reference": "0x4e3FBD56CD56c3e72c1403e103b45Db9da5B9D2B",
+      },
+    },
+  ],
+}
+`;

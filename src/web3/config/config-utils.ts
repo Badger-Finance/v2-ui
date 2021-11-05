@@ -2,9 +2,19 @@ import { ERC20_ABI, GEYSER_ABI, GUEST_LIST_ABI, SETT_ABI } from 'config/constant
 import { BadgerSett } from 'mobx/model/vaults/badger-sett';
 import Web3 from 'web3';
 import { AbiItem } from 'web3-utils';
+import { ContractCallContext } from 'ethereum-multicall';
 import { BatchCallRequest } from 'web3/interface/batch-call-request';
 import { ReadMethod } from 'web3/interface/read-method';
 import { ContractNamespace } from './contract-namespace';
+
+interface CreateMultichainConfigParams {
+	tokenAddresses: string[];
+	generalSettAddresses: string[];
+	guardedSettAddresses: string[];
+	geyserAddresses: string[];
+	userAddress: string;
+	nonSettTokenAddresses?: string[];
+}
 
 export const createBatchCallRequest = (
 	tokens: string[],
@@ -40,6 +50,40 @@ export const createBatchCallRequest = (
 	};
 };
 
+export const createMulticallRequest = (
+	tokens: string[],
+	namespace: ContractNamespace,
+	userAddress: string,
+): ContractCallContext[] => {
+	let abi: AbiItem[];
+
+	switch (namespace) {
+		case ContractNamespace.GuestList:
+			abi = GUEST_LIST_ABI;
+			break;
+		case ContractNamespace.Sett:
+		case ContractNamespace.GaurdedSett:
+			abi = SETT_ABI;
+			break;
+		case ContractNamespace.Geyser:
+			abi = GEYSER_ABI;
+			break;
+		default:
+			abi = ERC20_ABI;
+			break;
+	}
+
+	return tokens.map((token) => ({
+		reference: token,
+		contractAddress: token,
+		abi,
+		calls: getMulticallContractCalls(namespace, userAddress),
+		context: {
+			namespace,
+		},
+	}));
+};
+
 const getReadMethods = (namespace: ContractNamespace, userAddress: string): ReadMethod[] => {
 	switch (namespace) {
 		case ContractNamespace.Geyser:
@@ -61,6 +105,58 @@ const getReadMethods = (namespace: ContractNamespace, userAddress: string): Read
 	}
 };
 
+const getMulticallContractCalls = (namespace: ContractNamespace, userAddress: string): ContractCallContext['calls'] => {
+	switch (namespace) {
+		case ContractNamespace.Geyser:
+			return [{ methodName: 'totalStakedFor', methodParameters: [userAddress], reference: namespace }];
+		case ContractNamespace.GaurdedSett:
+			return [
+				{ methodName: 'balanceOf', methodParameters: [userAddress], reference: namespace },
+				{ methodName: 'guestList', reference: namespace, methodParameters: [] },
+				{ methodName: 'available', reference: namespace, methodParameters: [] },
+			];
+		case ContractNamespace.GuestList:
+			return [
+				{ methodName: 'remainingTotalDepositAllowed', reference: namespace, methodParameters: [] },
+				{ methodName: 'remainingUserDepositAllowed', methodParameters: [userAddress], reference: namespace },
+				{ methodName: 'totalDepositCap', reference: namespace, methodParameters: [] },
+				{ methodName: 'userDepositCap', reference: namespace, methodParameters: [] },
+			];
+		case ContractNamespace.Sett:
+			return [
+				{ methodName: 'balanceOf', methodParameters: [userAddress], reference: namespace },
+				{ methodName: 'available', methodParameters: [], reference: namespace },
+			];
+		case ContractNamespace.Token:
+		default:
+			return [{ methodName: 'balanceOf', methodParameters: [userAddress], reference: namespace }];
+	}
+};
+
+export const createChainMulticallConfig = ({
+	tokenAddresses,
+	generalSettAddresses,
+	geyserAddresses,
+	guardedSettAddresses,
+	nonSettTokenAddresses,
+	userAddress,
+}: CreateMultichainConfigParams): ContractCallContext[] => {
+	let batchCall = [
+		...createMulticallRequest(tokenAddresses, ContractNamespace.Token, userAddress),
+		...createMulticallRequest(generalSettAddresses, ContractNamespace.Sett, userAddress),
+		...createMulticallRequest(guardedSettAddresses, ContractNamespace.GaurdedSett, userAddress),
+		...createMulticallRequest(geyserAddresses, ContractNamespace.Geyser, userAddress),
+	];
+
+	if (!!nonSettTokenAddresses) {
+		batchCall = batchCall.concat(
+			createMulticallRequest(nonSettTokenAddresses, ContractNamespace.NonSettToken, userAddress),
+		);
+	}
+
+	return batchCall;
+};
+
 export const createChainBatchConfig = (
 	tokenAddresses: string[],
 	generalSettAddresses: string[],
@@ -75,9 +171,11 @@ export const createChainBatchConfig = (
 		createBatchCallRequest(guardedSettAddresses, ContractNamespace.GaurdedSett, userAddress),
 		createBatchCallRequest(geyserAddresses, ContractNamespace.Geyser, userAddress),
 	];
+
 	if (!!nonSettTokenAddresses) {
 		batchCall.push(createBatchCallRequest(nonSettTokenAddresses, ContractNamespace.NonSettToken, userAddress));
 	}
+
 	return batchCall;
 };
 

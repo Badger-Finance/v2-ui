@@ -5,8 +5,7 @@ import { getAirdrops } from 'config/system/airdrops';
 import { getStrategies } from 'config/system/strategies';
 import { SidebarLink, sidebarTokenLinks } from 'config/ui/links';
 import Web3 from 'web3';
-import { createChainBatchConfig } from 'web3/config/config-utils';
-import { BatchCallRequest } from 'web3/interface/batch-call-request';
+import { createChainMulticallConfig } from 'web3/config/config-utils';
 import { SettMap } from '../setts/sett-map';
 import { StrategyNetworkConfig } from '../strategies/strategy-network-config';
 import { DeployConfig } from '../system-config/deploy-config';
@@ -15,6 +14,7 @@ import { BadgerSett } from '../vaults/badger-sett';
 import { AirdropNetworkConfig } from './airdrop-network-config';
 // TODO: the naming irony here is not lost - temporary gap for sdk integrations @jintao
 import { Network as ChainNetwork, SettState } from '@badger-dao/sdk';
+import { ContractCallContext } from 'ethereum-multicall';
 
 export abstract class Network {
 	private static idToNetwork: Record<number, Network> = {};
@@ -93,17 +93,20 @@ export abstract class Network {
 		return { link: `${this.explorer}/tx/${transaction.hash}` };
 	}
 
-	batchRequests(setts: SettMap, address: string): BatchCallRequest[] {
-		return this.getNetworkBatchRequests(setts, address);
-	}
-
-	getNetworkBatchRequests = (setts: SettMap, userAddress: string): BatchCallRequest[] => {
+	multicallRequests(setts: SettMap, userAddress: string): ContractCallContext[] {
 		const tokenAddresses = Object.values(setts).map((sett) => sett.underlyingToken);
 		const settAddresses = Object.values(setts).map((sett) => sett.settToken);
-		const generalSetts = settAddresses.filter((sett) => setts[sett].state === SettState.Open);
-		const guardedSetts = settAddresses.filter((sett) => setts[sett].state !== SettState.Open);
-		return createChainBatchConfig(tokenAddresses, generalSetts, guardedSetts, [], userAddress);
-	};
+		const generalSettAddresses = settAddresses.filter((sett) => setts[sett].state === SettState.Open);
+		const guardedSettAddresses = settAddresses.filter((sett) => setts[sett].state !== SettState.Open);
+
+		return createChainMulticallConfig({
+			tokenAddresses,
+			generalSettAddresses,
+			guardedSettAddresses,
+			geyserAddresses: [],
+			userAddress,
+		});
+	}
 
 	private checksumSetts(setts: BadgerSett[]): BadgerSett[] {
 		return setts.map((sett) => {
