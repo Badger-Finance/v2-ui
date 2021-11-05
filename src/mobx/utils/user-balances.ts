@@ -1,15 +1,8 @@
 import { ContractCallResults } from 'ethereum-multicall';
 import { ContractCallReturnContext } from 'ethereum-multicall/dist/esm/models/contract-call-return-context';
+import { BalanceNamespace } from '../../web3/config/namespaces';
 
-export enum BalanceNamespace {
-	Token = 'token',
-	Sett = 'sett',
-	Geyser = 'geyser',
-	GuardedSett = 'gaurded',
-	NonSettToken = 'nonsetttoken',
-}
-
-interface RequestExtractedResults {
+export interface RequestExtractedResults {
 	userTokens: ContractCallReturnContext[];
 	nonSettUserTokens: ContractCallReturnContext[];
 	userGeneralSetts: ContractCallReturnContext[];
@@ -21,7 +14,7 @@ interface RequestExtractedResults {
  * Extracts the information of the balances multicall request
  * @param contractCallResults request raw result
  */
-export function extractRequestResults(contractCallResults: ContractCallResults): RequestExtractedResults {
+export function extractBalanceRequestResults(contractCallResults: ContractCallResults): RequestExtractedResults {
 	const userTokens: ContractCallReturnContext[] = [];
 	const nonSettUserTokens: ContractCallReturnContext[] = [];
 	const userGeneralSetts: ContractCallReturnContext[] = [];

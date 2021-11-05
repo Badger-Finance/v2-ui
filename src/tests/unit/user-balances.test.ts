@@ -1,4 +1,4 @@
-import { BalanceNamespace, extractRequestResults } from '../../mobx/utils/user-balances';
+import { BalanceNamespace, extractBalanceRequestResults } from '../../mobx/utils/user-balances';
 import { ContractCallResults } from 'ethereum-multicall';
 
 const mockedCorrectResults: ContractCallResults = {
@@ -142,14 +142,14 @@ const mockedBadResults: ContractCallResults = {
 describe('User balances utils', () => {
 	describe('extractRequestResults', () => {
 		it('extract results correctly', () => {
-			const keys = extractRequestResults(mockedCorrectResults);
+			const keys = extractBalanceRequestResults(mockedCorrectResults);
 			expect(keys).toMatchSnapshot();
 		});
 
 		it('error logs invalid namespaces', () => {
 			const mockedError = jest.fn();
 			console.error = mockedError;
-			extractRequestResults(mockedBadResults);
+			extractBalanceRequestResults(mockedBadResults);
 			expect(mockedError).toHaveBeenCalled();
 		});
 	});
