@@ -386,8 +386,6 @@ export default class UserStore {
 	): Promise<VaultCaps> {
 		const vaultCaps: VaultCaps = {};
 
-		console.log('guestListResults =>', guestListResults);
-
 		for (const guestListResultsKey in guestListResults.results) {
 			const {
 				callsReturnContext,
