@@ -1,5 +1,6 @@
-import { BalanceNamespace, extractBalanceRequestResults } from '../../mobx/utils/user-balances';
+import { extractBalanceRequestResults } from '../../mobx/utils/user-balances';
 import { ContractCallResults } from 'ethereum-multicall';
+import { BalanceNamespace } from '../../web3/config/namespaces';
 
 const mockedCorrectResults: ContractCallResults = {
 	results: {
@@ -17,9 +18,9 @@ const mockedCorrectResults: ContractCallResults = {
 				{
 					returnValues: [{ amounts: '0x00' }],
 					decoded: true,
-					reference: '0x4e3FBD56CD56c3e72c1403e103b45Db9da5B9D2B',
-					methodName: 'foo',
-					methodParameters: [42],
+					reference: 'balanceOf',
+					methodName: 'balanceOf',
+					methodParameters: ['0x00'],
 					success: true,
 				},
 			],
@@ -140,7 +141,7 @@ const mockedBadResults: ContractCallResults = {
 };
 
 describe('User balances utils', () => {
-	describe('extractRequestResults', () => {
+	describe('extractBalanceRequestResults', () => {
 		it('extract results correctly', () => {
 			const keys = extractBalanceRequestResults(mockedCorrectResults);
 			expect(keys).toMatchSnapshot();
