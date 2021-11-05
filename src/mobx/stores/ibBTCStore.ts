@@ -320,6 +320,7 @@ class IbBTCStore {
 			queueNotification(`There was an error minting ${this.ibBTC.symbol}. Please try again later.`, 'error');
 		}
 	}
+
 	async redeem(outToken: IbbtcOptionToken, amount: BigNumber): Promise<void> {
 		try {
 			await this.redeemBBTC(outToken, amount);
