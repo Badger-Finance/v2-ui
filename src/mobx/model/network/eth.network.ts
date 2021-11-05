@@ -1,5 +1,5 @@
 import { NETWORK_IDS } from 'config/constants';
-import { createChainMulticallConfig, toSettConfig } from 'web3/config/config-utils';
+import { createBalancesRequest, toSettConfig } from 'web3/config/config-utils';
 import { Deploy } from 'web3/interface/deploy';
 import { SettMap } from '../setts/sett-map';
 import { BadgerSett } from '../vaults/badger-sett';
@@ -58,7 +58,7 @@ export class Ethereum extends NetworkModel {
 		];
 	}
 
-	multicallRequests(setts: SettMap, userAddress: string): ContractCallContext[] {
+	getBalancesRequests(setts: SettMap, userAddress: string): ContractCallContext[] {
 		const tokenAddresses = Object.values(setts).map((sett) => sett.underlyingToken);
 		const nonSettTokenAddresses = [deploy.digg_system.DROPT['DROPT-3'].longToken];
 		const settAddresses = Object.values(setts).map((sett) => sett.settToken);
@@ -66,7 +66,7 @@ export class Ethereum extends NetworkModel {
 		const guardedSettAddresses = settAddresses.filter((sett) => setts[sett].state !== SettState.Open);
 		const geyserAddresses = ethSetts.map((sett) => sett.geyser).filter((geyser): geyser is string => !!geyser);
 
-		return createChainMulticallConfig({
+		return createBalancesRequest({
 			tokenAddresses,
 			generalSettAddresses,
 			guardedSettAddresses,

@@ -5,7 +5,7 @@ import { getAirdrops } from 'config/system/airdrops';
 import { getStrategies } from 'config/system/strategies';
 import { SidebarLink, sidebarTokenLinks } from 'config/ui/links';
 import Web3 from 'web3';
-import { createChainMulticallConfig } from 'web3/config/config-utils';
+import { createBalancesRequest } from 'web3/config/config-utils';
 import { SettMap } from '../setts/sett-map';
 import { StrategyNetworkConfig } from '../strategies/strategy-network-config';
 import { DeployConfig } from '../system-config/deploy-config';
@@ -93,13 +93,13 @@ export abstract class Network {
 		return { link: `${this.explorer}/tx/${transaction.hash}` };
 	}
 
-	multicallRequests(setts: SettMap, userAddress: string): ContractCallContext[] {
+	getBalancesRequests(setts: SettMap, userAddress: string): ContractCallContext[] {
 		const tokenAddresses = Object.values(setts).map((sett) => sett.underlyingToken);
 		const settAddresses = Object.values(setts).map((sett) => sett.settToken);
 		const generalSettAddresses = settAddresses.filter((sett) => setts[sett].state === SettState.Open);
 		const guardedSettAddresses = settAddresses.filter((sett) => setts[sett].state !== SettState.Open);
 
-		return createChainMulticallConfig({
+		return createBalancesRequest({
 			tokenAddresses,
 			generalSettAddresses,
 			guardedSettAddresses,
