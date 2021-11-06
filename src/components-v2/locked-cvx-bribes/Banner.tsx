@@ -10,6 +10,7 @@ export const SAFE_BOX_ILLUSTRATION_BREAKPOINT = 1350;
 
 const useStyles = makeStyles((theme) => ({
 	root: {
+		marginTop: theme.spacing(4),
 		padding: theme.spacing(4),
 		backgroundColor: '#3A3A3A',
 		position: 'relative',
