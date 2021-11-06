@@ -290,4 +290,4 @@
 
 -   Vault deposit form refactors
 -   Digg balance issue fixes
--   Flagged boost 2 content (hidden)
+-   Flagged boost v2 content (hidden)
