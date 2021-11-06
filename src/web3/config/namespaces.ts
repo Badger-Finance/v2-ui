@@ -6,6 +6,6 @@ export enum BalanceNamespace {
 	Token = 'token',
 	Sett = 'sett',
 	Geyser = 'geyser',
-	GuardedSett = 'gaurded',
+	GuardedSett = 'guarded',
 	NonSettToken = 'nonsetttoken',
 }
