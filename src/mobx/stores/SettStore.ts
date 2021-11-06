@@ -179,7 +179,7 @@ export default class SettStore {
 		const { prices } = this.store;
 		const settAddress = returnContext.originalContractCallContext.contractAddress;
 		const sett = parseCallReturnContext(returnContext.callsReturnContext);
-		const balanceResults = sett.available;
+		const balanceResults = sett.available[0];
 		if (!balanceResults || balanceResults.length === 0 || !settAddress) {
 			return;
 		}

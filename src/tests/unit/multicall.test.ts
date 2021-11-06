@@ -28,22 +28,109 @@ const sampleResult = [
 		methodParameters: [],
 		success: true,
 	},
+	{
+		returnValues: [
+			{
+				type: 'BigNumber',
+				hex: '0x61858372',
+			},
+			{
+				type: 'BigNumber',
+				hex: '0x0ddc6a2646e32400',
+			},
+		],
+		decoded: true,
+		reference: 'providerReports',
+		methodName: 'providerReports',
+		methodParameters: ['0xB572f69edbfC946af11a1b3ef8D5c2f41D38a642', 0],
+		success: true,
+	},
+	{
+		returnValues: [
+			{
+				type: 'BigNumber',
+				hex: '0x61843188',
+			},
+			{
+				type: 'BigNumber',
+				hex: '0x0e0973de50fbcc00',
+			},
+		],
+		decoded: true,
+		reference: 'providerReports',
+		methodName: 'providerReports',
+		methodParameters: ['0xB572f69edbfC946af11a1b3ef8D5c2f41D38a642', 1],
+		success: true,
+	},
+	{
+		returnValues: [
+			{
+				type: 'BigNumber',
+				hex: '0x61858372',
+			},
+			{
+				type: 'BigNumber',
+				hex: '0x0ddc6a2646e32400',
+			},
+		],
+		decoded: true,
+		reference: 'providerReports',
+		methodName: 'providerReports',
+		methodParameters: ['0xB572f69edbfC946af11a1b3ef8D5c2f41D38a642', 2],
+		success: true,
+	},
 ];
 
 describe('Multicall utils', () => {
 	test('parseCallReturnContext', () => {
 		expect(parseCallReturnContext(sampleResult)).toEqual({
 			balanceOf: [
-				{
-					type: 'BigNumber',
-					hex: '0x00',
-				},
+				[
+					{
+						type: 'BigNumber',
+						hex: '0x00',
+					},
+				],
 			],
 			available: [
-				{
-					type: 'BigNumber',
-					hex: '0x00',
-				},
+				[
+					{
+						type: 'BigNumber',
+						hex: '0x00',
+					},
+				],
+			],
+			providerReports: [
+				[
+					{
+						type: 'BigNumber',
+						hex: '0x61858372',
+					},
+					{
+						type: 'BigNumber',
+						hex: '0x0ddc6a2646e32400',
+					},
+				],
+				[
+					{
+						type: 'BigNumber',
+						hex: '0x61843188',
+					},
+					{
+						type: 'BigNumber',
+						hex: '0x0e0973de50fbcc00',
+					},
+				],
+				[
+					{
+						type: 'BigNumber',
+						hex: '0x61858372',
+					},
+					{
+						type: 'BigNumber',
+						hex: '0x0ddc6a2646e32400',
+					},
+				],
 			],
 		});
 	});

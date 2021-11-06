@@ -1,5 +1,9 @@
 import { CallReturnContext } from 'ethereum-multicall';
 import { Network } from '@badger-dao/sdk';
+import { groupBy } from '../../utils/lodashToNative';
+
+// the reason why there are multiple returnValues is because the method can be called multiple times hence can have multiple results
+export type ParsedCallReturn = Record<string, CallReturnContext['returnValues'][]>;
 
 export function getChainMulticallContract(network: Network): string {
 	switch (network) {
@@ -20,17 +24,13 @@ export function getChainMulticallContract(network: Network): string {
 	}
 }
 
-export function parseCallReturnContext<T = any>(returnContext: CallReturnContext[]): T {
-	let returnObject = {};
+export function parseCallReturnContext(returnContext: CallReturnContext[]): ParsedCallReturn {
+	const returnObject: ParsedCallReturn = {};
+	const groupedResults = groupBy(returnContext, (context) => context.methodName);
 
-	for (const returnContextKey in returnContext) {
-		const { returnValues, methodName } = returnContext[returnContextKey];
-
-		returnObject = {
-			...returnObject,
-			[methodName]: returnValues,
-		};
+	for (const methodName in groupedResults) {
+		returnObject[methodName] = groupedResults[methodName].map((result: CallReturnContext) => result.returnValues);
 	}
 
-	return returnObject as T;
+	return returnObject;
 }

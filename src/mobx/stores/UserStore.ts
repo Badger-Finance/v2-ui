@@ -423,10 +423,10 @@ export default class UserStore {
 				continue;
 			}
 
-			const remainingTotalDepositAllowed = result.remainingTotalDepositAllowed[0].value;
-			const totalDepositCap = result.totalDepositCap[0].value;
-			const remainingUserDepositAllowed = result.remainingUserDepositAllowed[0].value;
-			const userDepositCap = result.userDepositCap[0].value;
+			const remainingTotalDepositAllowed = result.remainingTotalDepositAllowed[0][0].value;
+			const totalDepositCap = result.totalDepositCap[0][0].value;
+			const remainingUserDepositAllowed = result.remainingUserDepositAllowed[0][0].value;
+			const userDepositCap = result.userDepositCap[0][0].value;
 
 			vaultCaps[vault.settToken] = {
 				vaultCap: this.store.rewards.balanceFromProof(depositToken.address, remainingTotalDepositAllowed),
@@ -452,7 +452,7 @@ export default class UserStore {
 					return;
 				}
 
-				const guestList = sett.guestList[0];
+				const guestList = sett.guestList[0][0];
 
 				if (guestList === ZERO_ADDR) {
 					return;
@@ -487,7 +487,7 @@ export default class UserStore {
 			return;
 		}
 
-		const balance = new BigNumber(balanceResults[0].hex);
+		const balance = new BigNumber(balanceResults[0][0].hex);
 		const sett = network.setts.find((s) => getBalanceToken(s).address === tokenAddress);
 
 		if (!sett) {
@@ -514,7 +514,7 @@ export default class UserStore {
 		const { prices } = this.store;
 		const tokenAddress = returnContext.originalContractCallContext.contractAddress;
 		const token = parseCallReturnContext(returnContext.callsReturnContext);
-		const balanceResults = token.balanceOf;
+		const balanceResults = token.balanceOf[0];
 
 		if (!balanceResults || balanceResults.length === 0 || !tokenAddress) {
 			return;
