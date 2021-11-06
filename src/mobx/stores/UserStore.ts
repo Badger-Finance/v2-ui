@@ -3,8 +3,6 @@ import { RootStore } from '../RootStore';
 import WalletStore from './walletStore';
 import Web3 from 'web3';
 import { ExtractedBalances, GuestListInformation, TokenBalances } from 'mobx/model/account/user-balances';
-import BatchCall from 'web3-batch-call';
-import { BatchCallClient } from 'web3/interface/batch-call-client';
 import BigNumber from 'bignumber.js';
 import { BalanceNamespace, ContractNamespaces } from 'web3/config/namespaces';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
@@ -30,7 +28,6 @@ import { ContractCallResults } from 'ethereum-multicall/dist/esm/models';
 
 export default class UserStore {
 	private store: RootStore;
-	private batchCall: BatchCallClient;
 	private userBalanceCache: UserBalanceCache = {};
 
 	// loading: undefined, error: null, present: object
@@ -46,7 +43,6 @@ export default class UserStore {
 
 	constructor(store: RootStore) {
 		this.store = store;
-		this.batchCall = new BatchCall({ web3: this.store.wallet.rpcProvider ?? this.store.wallet.provider });
 		this.loadingBalances = false;
 
 		extendObservable(this, {
@@ -102,18 +98,7 @@ export default class UserStore {
 	/* State Mutation Functions */
 
 	async refreshBalances(): Promise<void> {
-		this.refreshProvider();
 		await this.updateBalances(true);
-	}
-
-	refreshProvider(): void {
-		const provider = this.store.wallet.rpcProvider ?? this.store.wallet.provider;
-		if (provider) {
-			const newOptions = {
-				web3: new Web3(provider),
-			};
-			this.batchCall = new BatchCall(newOptions);
-		}
 	}
 
 	/* Read Variables */
