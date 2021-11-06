@@ -23,7 +23,7 @@ import { Account, BouncerType, MerkleProof, Network, Sett, SettData } from '@bad
 import { fetchClaimProof } from 'mobx/utils/apiV2';
 import { Multicall } from 'ethereum-multicall';
 import { extractBalanceRequestResults, RequestExtractedResults } from '../utils/user-balances';
-import { parseCallReturnContext } from '../utils/multicall';
+import { getChainMulticallContract, parseCallReturnContext } from '../utils/multicall';
 import { ContractCallReturnContext } from 'ethereum-multicall/dist/esm/models/contract-call-return-context';
 import { createMulticallRequest } from '../../web3/config/config-utils';
 import { ContractCallResults } from 'ethereum-multicall/dist/esm/models';
@@ -151,6 +151,7 @@ export default class UserStore {
 	get initialized(): boolean {
 		const { settMap } = this.store.setts;
 		const { network } = this.store.network;
+		const { connectedAddress } = this.store.wallet;
 
 		// no data available
 		if (!settMap) {
@@ -162,23 +163,22 @@ export default class UserStore {
 			return true;
 		}
 
-		const hasTokens = Object.keys(this.tokenBalances).length > 0;
-		const hasSetts = Object.keys(this.settBalances).length > 0;
-		let hasGeysers;
-
-		const { connectedAddress } = this.store.wallet;
-
-		const geyserRequests = network
+		const chainHasGeyserRequests = network
 			.getBalancesRequests(settMap, connectedAddress)
 			.find((req) => req.context.namespace === BalanceNamespace.Geyser);
 
-		if (geyserRequests) {
-			hasGeysers = true;
+		const areTokensReady = Object.keys(this.tokenBalances).length > 0;
+		const areSettsReady = Object.keys(this.settBalances).length > 0;
+
+		let areGeysersReady;
+
+		if (chainHasGeyserRequests) {
+			areGeysersReady = Object.keys(this.geyserBalances).length > 0;
 		} else {
-			hasGeysers = Object.keys(this.geyserBalances).length > 0;
+			areGeysersReady = true;
 		}
 
-		return !this.loadingBalances && hasTokens && hasSetts && hasGeysers;
+		return !this.loadingBalances && areTokensReady && areSettsReady && areGeysersReady;
 	}
 
 	async reloadBalances(): Promise<void> {
@@ -306,8 +306,15 @@ export default class UserStore {
 				}
 			}
 
-			const multicall = new Multicall({ web3Instance: new Web3(provider), tryAggregate: true });
+			const multicallContractAddress = getChainMulticallContract(network.symbol);
 			const multicallRequests = network.getBalancesRequests(setts.settMap, connectedAddress);
+
+			const multicall = new Multicall({
+				web3Instance: new Web3(provider),
+				tryAggregate: true,
+				multicallCustomContractAddress: multicallContractAddress,
+			});
+
 			const multicallResults = await multicall.call(multicallRequests);
 
 			const requestResults = extractBalanceRequestResults(multicallResults);
