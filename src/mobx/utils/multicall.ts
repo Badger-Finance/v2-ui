@@ -14,7 +14,7 @@ export function getChainMulticallContract(network: Network): string {
 		case Network.Avalanche:
 			return '0xed386Fe855C1EFf2f843B910923Dd8846E45C5A4';
 		case Network.xDai:
-			return '0x6e5BB1a5Ad6F68A8D7D6A5e47750eC15773d6042';
+			return '0x2325b72990D81892E0e09cdE5C80DD221F147F8B';
 		case Network.Fantom:
 			return '0xb828c456600857abd4ed6c32facc607bd0464f4f';
 	}
