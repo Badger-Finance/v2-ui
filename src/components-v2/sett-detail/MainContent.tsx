@@ -7,7 +7,7 @@ import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
 import { BadgerSett } from '../../mobx/model/vaults/badger-sett';
 import { NewVaultWarning } from './NewVaultWarning';
-import { ContractNamespace } from 'web3/config/contract-namespace';
+import { BalanceNamespace } from 'web3/config/namespaces';
 import { Sett, SettState } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
@@ -47,7 +47,7 @@ export const MainContent = observer(
 		} = React.useContext(StoreContext);
 
 		const classes = useStyles();
-		const tokenBalance = user.getBalance(ContractNamespace.Token, badgerSett);
+		const tokenBalance = user.getBalance(BalanceNamespace.Token, badgerSett);
 		const settBalance = user.getSettBalance(sett);
 
 		return (

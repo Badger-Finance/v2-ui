@@ -1,6 +1,6 @@
 import { RootStore } from '../RootStore';
 import { action, extendObservable, observe } from 'mobx';
-import { ContractNamespace } from 'web3/config/contract-namespace';
+import { BalanceNamespace } from 'web3/config/namespaces';
 import { Sett } from '@badger-dao/sdk';
 
 export class SettDetailStore {
@@ -68,12 +68,12 @@ export class SettDetailStore {
 			return false;
 		}
 
-		const openBalance = this.store.user.getBalance(ContractNamespace.Sett, sett).balance;
-		const guardedBalance = this.store.user.getBalance(ContractNamespace.GaurdedSett, sett).balance;
+		const openBalance = this.store.user.getBalance(BalanceNamespace.Sett, sett).balance;
+		const guardedBalance = this.store.user.getBalance(BalanceNamespace.GuardedSett, sett).balance;
 		let settBalance = openBalance.plus(guardedBalance);
 
 		if (sett.geyser) {
-			settBalance = settBalance.plus(this.store.user.getBalance(ContractNamespace.Geyser, sett).balance);
+			settBalance = settBalance.plus(this.store.user.getBalance(BalanceNamespace.Geyser, sett).balance);
 		}
 
 		return settBalance.gt(0);

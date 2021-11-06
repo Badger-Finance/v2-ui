@@ -8,7 +8,7 @@ import { useNumericInput } from 'utils/useNumericInput';
 import { SettDialogTitle } from './SettDialogTitle';
 import { PercentageSelector } from '../PercentageSelector';
 import { ActionButton, AmountTextField, LoaderSpinner, PercentagesContainer, SettDialogContent } from './styled';
-import { ContractNamespace } from '../../../web3/config/contract-namespace';
+import { BalanceNamespace } from '../../../web3/config/namespaces';
 import { SettConversionAndFee } from './SettConversionAndFee';
 import { makeStyles } from '@material-ui/core/styles';
 import Alert from '@material-ui/lab/Alert';
@@ -63,9 +63,9 @@ export const SettWithdraw = observer(({ open = false, sett, badgerSett, onClose 
 	const [amount, setAmount] = useState('');
 	const { onValidChange, inputProps } = useNumericInput();
 
-	const userBalance = user.getBalance(ContractNamespace.Sett, badgerSett);
+	const userBalance = user.getBalance(BalanceNamespace.Sett, badgerSett);
 	const userHasStakedDeposits = badgerSett.geyser
-		? user.getBalance(ContractNamespace.Geyser, badgerSett).balance.gt(0)
+		? user.getBalance(BalanceNamespace.Geyser, badgerSett).balance.gt(0)
 		: false;
 
 	const userHasBalance = !userHasStakedDeposits && userBalance.balance.gt(0);

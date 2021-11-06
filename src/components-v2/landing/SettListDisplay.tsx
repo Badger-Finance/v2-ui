@@ -5,7 +5,7 @@ import { observer } from 'mobx-react-lite';
 import { StoreContext } from 'mobx/store-context';
 import React, { useContext } from 'react';
 import Web3 from 'web3';
-import { ContractNamespace } from 'web3/config/contract-namespace';
+import { BalanceNamespace } from 'web3/config/namespaces';
 import NoVaults from './NoVaults';
 import SettListItem from './SettListItem';
 import { SettListViewProps } from './SettListView';
@@ -54,8 +54,8 @@ const SettListDisplay = observer((props: SettListViewProps) => {
 
 			// inject user balance information to enable withdraw buttun functionality
 			const scalar = new BigNumber(sett.pricePerFullShare);
-			const generalBalance = user.getBalance(ContractNamespace.Sett, badgerSett).scale(scalar, true);
-			const guardedBalance = user.getBalance(ContractNamespace.GaurdedSett, badgerSett).scale(scalar, true);
+			const generalBalance = user.getBalance(BalanceNamespace.Sett, badgerSett).scale(scalar, true);
+			const guardedBalance = user.getBalance(BalanceNamespace.GuardedSett, badgerSett).scale(scalar, true);
 			const settBalance = generalBalance ?? guardedBalance;
 
 			return (
