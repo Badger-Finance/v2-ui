@@ -43,7 +43,7 @@ export const SettItemName = ({ sett }: Props): JSX.Element => {
 					<Typography variant="body1">{displayName}</Typography>
 					<Grid container direction={'row'}>
 						<Typography variant="caption" color="textSecondary">
-							{sett.name.split(' ')[0]}
+							{sett.protocol}
 						</Typography>
 						{sett.deprecated && <SettBadge protocol={'No Emissions'} />}
 					</Grid>
