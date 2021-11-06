@@ -519,8 +519,8 @@ export default class UserStore {
 
 	/* Token Balance Accessors */
 
-	private getDepositToken = (sett: BadgerSett): BadgerToken => sett.depositToken; //.Token
-	private getSettToken = (sett: BadgerSett): BadgerToken => sett.vaultToken; //.Sett, .GuardedSett
+	private getDepositToken = (sett: BadgerSett): BadgerToken => sett.depositToken;
+	private getSettToken = (sett: BadgerSett): BadgerToken => sett.vaultToken;
 	/* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */
 	private getGeyserMockToken = (sett: BadgerSett): BadgerToken => mockToken(sett.geyser!, sett.vaultToken.decimals);
 }
