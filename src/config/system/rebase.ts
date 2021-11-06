@@ -9,112 +9,267 @@ import { ERC20_ABI } from 'config/constants';
 import { RebaseNetworkConfig } from '../../mobx/model/network/rebase-network-config';
 import { Network } from '@badger-dao/sdk';
 
+const erc20ReadCalls = [
+	{ reference: 'name', methodName: 'name', methodParameters: [] },
+	{
+		reference: 'totalSupply',
+		methodName: 'totalSupply',
+		methodParameters: [],
+	},
+	{
+		reference: 'decimals',
+		methodName: 'decimals',
+		methodParameters: [],
+	},
+	{ reference: 'symbol', methodName: 'symbol', methodParameters: [] },
+];
+
 export const getRebase = (network: string): RebaseNetworkConfig | undefined => {
 	switch (network) {
 		case Network.Ethereum:
 			return {
 				digg: [
 					{
-						addresses: [digg_system.uFragments],
-						abi: UFragments.abi as AbiItem[],
-						allReadMethods: true,
-						groupByNamespace: true,
-						logging: false,
-						namespace: 'token',
-					},
-					{
-						addresses: [digg_system.uFragmentsPolicy],
-						abi: UFragmentsPolicy.abi as AbiItem[],
-						allReadMethods: true,
-						groupByNamespace: true,
-						logging: false,
-						namespace: 'policy',
-					},
-					// TODO: Determine better way to handle multiple reports
-					{
-						addresses: [digg_system.marketMedianOracle],
-						abi: MedianOracle.abi as AbiItem[],
-						groupByNamespace: true,
-						namespace: 'oracle',
-						readMethods: [
+						reference: digg_system.uFragments,
+						contractAddress: digg_system.uFragments,
+						abi: UFragments.abi,
+						context: { namespace: 'token' },
+						calls: [
+							{ reference: 'name', methodName: 'name', methodParameters: [] },
 							{
-								name: 'providerReports',
-								args: [digg_system.chainlinkForwarder, 0],
+								reference: 'totalSupply',
+								methodName: 'totalSupply',
+								methodParameters: [],
+							},
+							{
+								reference: 'decimals',
+								methodName: 'decimals',
+								methodParameters: [],
+							},
+							{
+								reference: 'totalShares',
+								methodName: 'totalShares',
+								methodParameters: [],
+							},
+							{
+								reference: '_sharesPerFragment',
+								methodName: '_sharesPerFragment',
+								methodParameters: [],
+							},
+							{ reference: 'owner', methodName: 'owner', methodParameters: [] },
+							{
+								reference: 'monetaryPolicy',
+								methodName: 'monetaryPolicy',
+								methodParameters: [],
+							},
+							{ reference: 'isOwner', methodName: 'isOwner', methodParameters: [] },
+							{ reference: 'symbol', methodName: 'symbol', methodParameters: [] },
+							{
+								reference: 'rebaseStartTime',
+								methodName: 'rebaseStartTime',
+								methodParameters: [],
+							},
+							{
+								reference: '_initialSharesPerFragment',
+								methodName: '_initialSharesPerFragment',
+								methodParameters: [],
 							},
 						],
 					},
 					{
-						addresses: [digg_system.marketMedianOracle],
-						abi: MedianOracle.abi as AbiItem[],
-						groupByNamespace: true,
-						namespace: 'oracle',
-						readMethods: [
+						reference: digg_system.uFragmentsPolicy,
+						contractAddress: digg_system.uFragmentsPolicy,
+						abi: UFragmentsPolicy.abi,
+						context: { namespace: 'policy' },
+						calls: [
 							{
-								name: 'providerReports',
-								args: [digg_system.chainlinkForwarder, 1],
+								reference: 'minRebaseTimeIntervalSec',
+								methodName: 'minRebaseTimeIntervalSec',
+								methodParameters: [],
+							},
+							{
+								reference: 'inRebaseWindow',
+								methodName: 'inRebaseWindow',
+								methodParameters: [],
+							},
+							{
+								reference: 'lastRebaseTimestampSec',
+								methodName: 'lastRebaseTimestampSec',
+								methodParameters: [],
+							},
+							{
+								reference: 'marketOracle',
+								methodName: 'marketOracle',
+								methodParameters: [],
+							},
+							{
+								reference: 'rebaseLag',
+								methodName: 'rebaseLag',
+								methodParameters: [],
+							},
+							{
+								reference: 'rebaseWindowOffsetSec',
+								methodName: 'rebaseWindowOffsetSec',
+								methodParameters: [],
+							},
+							{ reference: 'owner', methodName: 'owner', methodParameters: [] },
+							{ reference: 'isOwner', methodName: 'isOwner', methodParameters: [] },
+							{ reference: 'epoch', methodName: 'epoch', methodParameters: [] },
+							{
+								reference: 'rebaseWindowLengthSec',
+								methodName: 'rebaseWindowLengthSec',
+								methodParameters: [],
+							},
+							{
+								reference: 'cpiOracle',
+								methodName: 'cpiOracle',
+								methodParameters: [],
+							},
+							{
+								reference: 'orchestrator',
+								methodName: 'orchestrator',
+								methodParameters: [],
+							},
+							{ reference: 'uFrags', methodName: 'uFrags', methodParameters: [] },
+							{
+								reference: 'deviationThreshold',
+								methodName: 'deviationThreshold',
+								methodParameters: [],
 							},
 						],
 					},
 					{
-						addresses: [digg_system.DROPT['DROPT-2'].redemption],
-						abi: DroptRedemption.abi as AbiItem[],
-						groupByNamespace: true,
-						namespace: 'dropt',
-						readMethods: [
+						reference: digg_system.marketMedianOracle,
+						contractAddress: digg_system.marketMedianOracle,
+						abi: MedianOracle.abi,
+						context: { namespace: 'oracle' },
+						calls: [
 							{
-								name: 'expirationTimestamp',
-								args: [],
+								methodName: 'providerReports',
+								methodParameters: [digg_system.chainlinkForwarder, 0],
+								reference: 'providerReports',
 							},
 							{
-								name: 'getCurrentTime',
-								args: [],
+								methodName: 'providerReports',
+								methodParameters: [digg_system.chainlinkForwarder, 1],
+								reference: 'providerReports',
 							},
 							{
-								name: 'expiryPrice',
-								args: [],
+								methodName: 'providerReports',
+								methodParameters: [digg_system.chainlinkForwarder, 0],
+								reference: 'providerReports',
+							},
+							{
+								methodName: 'providerReports',
+								methodParameters: [digg_system.chainlinkForwarder, 1],
+								reference: 'providerReports',
 							},
 						],
 					},
 					{
-						addresses: [digg_system.DROPT['DROPT-2'].longToken],
+						reference: digg_system.DROPT['DROPT-2'].redemption,
+						contractAddress: digg_system.DROPT['DROPT-2'].redemption,
+						abi: DroptRedemption.abi,
+						context: { namespace: 'dropt' },
+						calls: [
+							{
+								methodName: 'expirationTimestamp',
+								methodParameters: [],
+								reference: 'expirationTimestamp',
+							},
+							{
+								methodName: 'getCurrentTime',
+								methodParameters: [],
+								reference: 'getCurrentTime',
+							},
+							{
+								methodName: 'expiryPrice',
+								methodParameters: [],
+								reference: 'expiryPrice',
+							},
+						],
+					},
+					{
+						reference: digg_system.DROPT['DROPT-2'].longToken,
+						contractAddress: digg_system.DROPT['DROPT-2'].longToken,
+						context: { namespace: 'droptToken' },
 						abi: ERC20_ABI,
-						allReadMethods: true,
-						groupByNamespace: true,
-						logging: false,
-						namespace: 'droptToken',
+						calls: erc20ReadCalls,
 					},
 					{
-						addresses: [digg_system.DROPT['DROPT-3'].redemption],
-						abi: DroptRedemption.abi as AbiItem[],
-						groupByNamespace: true,
-						namespace: 'dropt',
-						readMethods: [
+						reference: digg_system.DROPT['DROPT-2'].redemption,
+						contractAddress: digg_system.DROPT['DROPT-2'].redemption,
+						abi: DroptRedemption.abi,
+						context: { namespace: 'dropt' },
+						calls: [
 							{
-								name: 'expirationTimestamp',
-								args: [],
+								methodName: 'expirationTimestamp',
+								methodParameters: [],
+								reference: 'expirationTimestamp',
 							},
 							{
-								name: 'getCurrentTime',
-								args: [],
+								methodName: 'getCurrentTime',
+								methodParameters: [],
+								reference: 'getCurrentTime',
 							},
 							{
-								name: 'expiryPrice',
-								args: [],
+								methodName: 'expiryPrice',
+								methodParameters: [],
+								reference: 'expiryPrice',
 							},
 						],
 					},
 					{
-						addresses: [digg_system.DROPT['DROPT-3'].longToken],
+						reference: digg_system.DROPT['DROPT-3'].longToken,
+						contractAddress: digg_system.DROPT['DROPT-3'].longToken,
+						context: { namespace: 'droptToken' },
 						abi: ERC20_ABI,
-						allReadMethods: true,
-						groupByNamespace: true,
-						logging: false,
-						namespace: 'droptToken',
+						calls: erc20ReadCalls,
+					},
+					{
+						reference: digg_system.DROPT['DROPT-3'].redemption,
+						contractAddress: digg_system.DROPT['DROPT-3'].redemption,
+						abi: DroptRedemption.abi,
+						context: { namespace: 'dropt' },
+						calls: [
+							{
+								methodName: 'expirationTimestamp',
+								methodParameters: [],
+								reference: 'expirationTimestamp',
+							},
+							{
+								methodName: 'getCurrentTime',
+								methodParameters: [],
+								reference: 'getCurrentTime',
+							},
+							{
+								methodName: 'expiryPrice',
+								methodParameters: [],
+								reference: 'expiryPrice',
+							},
+						],
 					},
 				],
 				orchestrator: {
-					contract: digg_system.orchestrator,
+					reference: digg_system.orchestrator,
+					contractAddress: digg_system.orchestrator,
 					abi: Orchestrator.abi as AbiItem[],
+					context: { namespace: 'orchestrator' },
+					calls: [
+						{ reference: 'policy', methodName: 'policy', methodParameters: [] },
+						{ reference: 'owner', methodName: 'owner', methodParameters: [] },
+						{ reference: 'isOwner', methodName: 'isOwner', methodParameters: [] },
+						{
+							reference: 'transactionsSize',
+							methodName: 'transactionsSize',
+							methodParameters: [],
+						},
+						{
+							reference: 'transactions',
+							methodName: 'transactions',
+							methodParameters: [],
+						},
+					],
 				},
 			};
 		default:
