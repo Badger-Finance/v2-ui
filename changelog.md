@@ -1,19 +1,24 @@
 # v2 UI Changelog
 
+### 2.10.0 - 11/06/2021
+
+- replaced at issue library causing slow app loading speeds
+- minor vaults ux tweaks
+
 ### Hotfix - 11/03/2021
 
 - fixed an issue causing no badger withdraw estimates
 - update all user guide links to new badger docs
 - enabled leaderboard updates per chain
 
-### v2.9.9 - 10/29/2021
+### 2.9.9 - 10/29/2021
 
 - cvx/bvecvx release
 - fix incorrect byvWBTC symbol name in ibBTC module
 - fix conflicting repeated sett slugs 
 - fix vault detail charts not being display in mobile viewport
 
-### v2.9.8 - 10/28/2021
+### 2.9.8 - 10/28/2021
 
 - sdk integration
 - cvx / bvecvx vault release
@@ -23,7 +28,7 @@
 
 - change verbiage in locked cvx banner from 'Total' to 'Total Claimed'
 
-### v2.9.7 - 10/26/2021
+### 2.9.7 - 10/26/2021
 
 - release convex locking banner
 
@@ -36,7 +41,7 @@
 - fixed an issue disallowing withdraw from detail page on some setts
 - fixed a page chart styling issue
 
-### v2.9.6 - 10/14/2021
+### 2.9.6 - 10/14/2021
 
 - release mstable vaults
 - minor ux tweaks for mobile
@@ -51,7 +56,7 @@
 - add convex delegation prompt
 - add swapr vaults + user links
 
-### v2.9.5 - 10/05/2021
+### 2.9.5 - 10/05/2021
 
 -   Release Swapper vaults
 -   Add tricrypto light vault
@@ -61,7 +66,7 @@
 -   Fix error with Coinbase wallet
 -   Fix error with Digg fragments per share not being set
 
-### v2.9.4 - 09/27/2021
+### 2.9.4 - 09/27/2021
 
 -   Release Convex Locking Vault
 -   Add API based fee calculation
@@ -83,12 +88,12 @@
 -   Fix redirects issue for netlify deployment
 -   Fix incorrect link for user guides
 
-### v2.9.3 - 09/15/2021
+### 2.9.3 - 09/15/2021
 
 -   Add arbitrum support
 -   Add convex locking sett
 
-### v2.9.2 - 09/14/2021
+### 2.9.2 - 09/14/2021
 
 -   Update sett detail charting library
 -   Add badger boost chart
@@ -109,7 +114,7 @@
 -   Add bouncer check to sett details page
 -   Prevent display of dropt modal if user doesn't have any balance
 
-### v2.9.1 - 09/01/2021
+### 2.9.1 - 09/01/2021
 
 -   Release matic support
 
@@ -126,7 +131,7 @@
 -   Fix issue causing fee display to show improper amount
 -   Update tooltip to support user specific apr display
 
-### v2.9.0 - 08/26/2021
+### 2.9.0 - 08/26/2021
 
 -   Initial App refresh launched
 -   RenJS upgrade for Badger Bridge
@@ -156,9 +161,9 @@
 -   fix "My boost" apy showing on non-emission setts
 -   correct fee for tricrypto1 pool
 
-### v2.8.5 - 08/05/2021
+### 2.8.5 - 08/05/2021
 
--   Badger Boost v2 launch
+-   Badger Boost 2 launch
 -   Boost Optimizer release
 -   API handling for more accurate pre-production environment
 
@@ -175,7 +180,7 @@
 -   fixed an issue causing geyser unstake tab to not render
 -   fixed an issue causing eth third party reward tokens to not display
 
-### v2.8.4 - 07/22/2021
+### 2.8.4 - 07/22/2021
 
 -   update boost leaderboard visualization
 -   revert digg oracle back to centralizedOracle
@@ -207,12 +212,12 @@
 -   update checks during wallet connection to allow for non-provider wallets to connect
 -   update RPC link
 
-### v2.8.3 - 07/08/2021
+### 2.8.3 - 07/08/2021
 
 -   unguard convex setts
 -   informational updates to digg rebase percent display
 
-### v2.8.2 - 07/06/2021
+### 2.8.2 - 07/06/2021
 
 -   updated digg chainlink oracle contract, exposed some more rebase information
 
@@ -221,7 +226,7 @@
 -   updated digg oracle
 -   fixed an issue causing account balance updates to be delayed
 
-### v2.8.1 - 07/01/2021
+### 2.8.1 - 07/01/2021
 
 -   introduced guarded vaults to the app
 
@@ -233,7 +238,7 @@
 
 -   fixed an issue causing users to not be able to deposit into guarded setts when their wallet balance exceeded the cap
 
-### v2.8.0 - 06/23/2021
+### 2.8.0 - 06/23/2021
 
 -   introduced experimental vaults to the badger arcade
 -   added 5 new experimental convex vaults
@@ -243,46 +248,46 @@
 
 -   fixed an issue with ibBTC redeem validation that was blocking all redeems
 
-### v2.7.8 - 06/15/2021
+### 2.7.8 - 06/15/2021
 
 -   fixed an issue allowing connections to unsupported networks
 -   fixed an issue causing all token prices to convert incorrectly sporadically
 
-### v2.7.7 - 06/08/2021
+### 2.7.7 - 06/08/2021
 
 -   fixed wallet and assets recognition issues from the Badger Bridge
 -   fixed issues on wallet disconnect and reconnect and improved connection handling
 
-### v2.7.6 - 06/07/2021
+### 2.7.6 - 06/07/2021
 
 -   handle wallet connections that do not have a provider associated with them
 -   update logic on determining ROI on the ibBTC page
 -   remove unnecessary getBlock calls to web3
 
-### v2.7.5 - 06/04/2021
+### 2.7.5 - 06/04/2021
 
 -   fixed an issue causing a large amount off errors when connecting to unsupported networks
 -   fixed an issue causing rewards claims to fail when attempting to claim less than 1 wei of digg
 -   upgraded logic for chain identification within differents pages on the dApp.
 
-### v2.7.4 - 06/02/2021
+### 2.7.4 - 06/02/2021
 
 -   fixed an issue causing underlying tokens value to display using vault token prices
 
-### v2.7.3 - 05/30/2021
+### 2.7.3 - 05/30/2021
 
 -   fixed an edge case on claim with initial token balance creation for digg
 -   fixed an issue causing Infinity % rebase when no wallet is connected
 
-### v2.7.2 - 05/29/2021
+### 2.7.2 - 05/29/2021
 
 -   fix digg vault deposit
 -   fix digg rewards claim
 -   fix digg potential rebase %
 -   add new token links
 
-### v2.7.1 - 05/28/2021
+### 2.7.1 - 05/28/2021
 
 -   Vault deposit form refactors
 -   Digg balance issue fixes
--   Flagged boost v2 content (hidden)
+-   Flagged boost 2 content (hidden)
