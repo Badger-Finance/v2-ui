@@ -10,7 +10,7 @@ import { SettAvailableDeposit } from './SettAvailableDeposit';
 import { PercentageSelector } from '../PercentageSelector';
 import { ActionButton, AmountTextField, LoaderSpinner, PercentagesContainer } from './styled';
 import { makeStyles } from '@material-ui/core/styles';
-import { ContractNamespace } from '../../../web3/config/contract-namespace';
+import { BalanceNamespace } from '../../../web3/config/namespaces';
 import { NewVaultWarning } from '../../sett-detail/NewVaultWarning';
 import { DepositFeesInformation } from '../DepositFeesInformation';
 import { SettFees } from '../SettFees';
@@ -57,7 +57,7 @@ export const SettDeposit = observer(({ open = false, sett, badgerSett, onClose }
 	const { onValidChange, inputProps } = useNumericInput();
 	const classes = useStyles();
 
-	const userBalance = user.getBalance(ContractNamespace.Token, badgerSett);
+	const userBalance = user.getBalance(BalanceNamespace.Token, badgerSett);
 	const depositBalance = TokenBalance.fromBalance(userBalance, amount ?? '0');
 	const vaultCaps = user.vaultCaps[sett.settToken];
 	const isLoading = contracts.settsBeingDeposited[sett.settToken];

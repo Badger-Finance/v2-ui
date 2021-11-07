@@ -96,7 +96,7 @@ export const getRebaseLogs = async (provider: provider, network: NetworkModel): 
 		return;
 	}
 	const policy = rebaseConfig.digg[1];
-	const contractInstance = new web3.eth.Contract(policy.abi as AbiItem[], policy.addresses[0]);
+	const contractInstance = new web3.eth.Contract(policy.abi as AbiItem[], policy.contractAddress);
 	const events = await contractInstance.getPastEvents('LogRebase', {
 		fromBlock: 11663433,
 		toBlock: 'latest',

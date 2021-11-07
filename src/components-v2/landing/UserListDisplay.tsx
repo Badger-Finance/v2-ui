@@ -10,7 +10,7 @@ import { inCurrency } from 'mobx/utils/helpers';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import BigNumber from 'bignumber.js';
 import Web3 from 'web3';
-import { ContractNamespace } from 'web3/config/contract-namespace';
+import { BalanceNamespace } from 'web3/config/namespaces';
 import { Currency } from 'config/enums/currency.enum';
 import { Sett } from '@badger-dao/sdk';
 
@@ -83,7 +83,7 @@ const UserListDisplay = observer(({ state }: SettListViewProps) => {
 			return null;
 		}
 
-		const walletBalance = user.getBalance(ContractNamespace.Token, badgerSett);
+		const walletBalance = user.getBalance(BalanceNamespace.Token, badgerSett);
 		const walletItem = createSettListItem(sett, walletBalance, currency, period);
 
 		if (walletItem) {
@@ -91,8 +91,8 @@ const UserListDisplay = observer(({ state }: SettListViewProps) => {
 		}
 
 		const scalar = new BigNumber(sett.pricePerFullShare);
-		const generalBalance = user.getBalance(ContractNamespace.Sett, badgerSett).scale(scalar, true);
-		const guardedBalance = user.getBalance(ContractNamespace.GaurdedSett, badgerSett).scale(scalar, true);
+		const generalBalance = user.getBalance(BalanceNamespace.Sett, badgerSett).scale(scalar, true);
+		const guardedBalance = user.getBalance(BalanceNamespace.GuardedSett, badgerSett).scale(scalar, true);
 		const settBalance = generalBalance ?? guardedBalance;
 		const settItem = createSettListItem(sett, settBalance, currency, period);
 
@@ -101,7 +101,7 @@ const UserListDisplay = observer(({ state }: SettListViewProps) => {
 		}
 
 		if (badgerSett.geyser) {
-			const geyserBalance = user.getBalance(ContractNamespace.Geyser, badgerSett).scale(scalar, true);
+			const geyserBalance = user.getBalance(BalanceNamespace.Geyser, badgerSett).scale(scalar, true);
 			const geyserItem = createSettListItem(sett, geyserBalance, currency, period);
 			if (geyserItem) {
 				geyserList.push(geyserItem);

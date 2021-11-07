@@ -2,7 +2,7 @@ import { BadgerSett } from '../../mobx/model/vaults/badger-sett';
 import { SettBalance } from '../../mobx/model/setts/sett-balance';
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
 import BigNumber from 'bignumber.js';
-import { BouncerType, Sett, SettState } from '@badger-dao/sdk';
+import { BouncerType, Protocol, Sett, SettState } from '@badger-dao/sdk';
 import { TEST_ADDRESS } from './snapshots';
 
 export const SAMPLE_BADGER_SETT: BadgerSett = {
@@ -26,6 +26,7 @@ export const SAMPLE_SETT: Sett = {
 	bouncer: BouncerType.None,
 	boostable: true,
 	name: 'Curve.fi renBTC/wBTC/sBTC',
+	protocol: Protocol.Curve,
 	pricePerFullShare: 1.0082389531413567,
 	experimental: false,
 	strategy: {
