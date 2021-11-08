@@ -1,6 +1,5 @@
 import { extendObservable, action } from 'mobx';
 import Web3 from 'web3';
-import BatchCall from 'web3-batch-call';
 import { RootStore } from '../RootStore';
 import { getNextRebase, getRebaseLogs } from '../utils/diggHelpers';
 import { RebaseInfo } from 'mobx/model/tokens/rebase-info';
@@ -8,16 +7,15 @@ import DroptRedemption from '../../config/system/abis/DroptRedemption.json';
 import { AbiItem } from 'web3-utils';
 import { getSendOptions, sendContractMethod } from 'mobx/utils/web3';
 import { ProviderReport } from 'mobx/model/digg/provider-reports';
-import { OracleReports } from 'mobx/model/digg/oracle';
 import { getRebase } from 'config/system/rebase';
 import BigNumber from 'bignumber.js';
 import { groupBy } from 'utils/lodashToNative';
-import { DroptContractResponse } from 'mobx/model/tokens/dropt-info';
-
-let batchCall: any = null;
+import { getChainMulticallContract, parseCallReturnContext } from '../utils/multicall';
+import { Multicall } from 'ethereum-multicall';
+import { ContractCallReturnContext } from 'ethereum-multicall/dist/esm/models/contract-call-return-context';
 
 class RebaseStore {
-	private store!: RootStore;
+	private store: RootStore;
 	public rebase?: RebaseInfo;
 
 	constructor(store: RootStore) {
@@ -37,23 +35,26 @@ class RebaseStore {
 			return;
 		}
 
-		const options = {
-			web3: new Web3(provider),
-			etherscan: {
-				apiKey: 'NXSHKK6D53D3R9I17SR49VX8VITQY7UC6P',
-				delayTime: 300,
-			},
-		};
-		batchCall = new BatchCall(options);
 		rebaseLog = await getRebaseLogs(provider, network);
 
 		const rebaseConfig = getRebase(network.symbol);
-		if (!batchCall || !rebaseConfig) {
+
+		if (!rebaseConfig) {
 			return;
 		}
 
-		const diggData = await batchCall.execute(rebaseConfig.digg);
-		const keyedResult = groupBy(diggData, (v) => v.namespace);
+		const multicallContractAddress = getChainMulticallContract(network.symbol);
+
+		const multicall = new Multicall({
+			web3Instance: new Web3(provider),
+			tryAggregate: true,
+			multicallCustomContractAddress: multicallContractAddress,
+		});
+
+		const diggData = await multicall.call(rebaseConfig.digg);
+
+		const keyedResult = groupBy(diggData.results, (v) => v.originalContractCallContext.context.namespace);
+
 		const { policy, token, oracle, dropt } = keyedResult;
 
 		if (!this.hasCallResults(token) || !this.hasCallResults(policy) || !this.hasCallResults(oracle)) {
@@ -62,35 +63,51 @@ class RebaseStore {
 
 		// dropt data
 		const validDropts = dropt
-			.filter(
-				(_dropt: DroptContractResponse) =>
-					Number(_dropt.expirationTimestamp[0].value) < Number(_dropt.getCurrentTime[0].value) &&
-					Number(_dropt.expiryPrice[0].value) > 0,
-			)
-			.map((validDropt: DroptContractResponse) => {
+			.filter((context: ContractCallReturnContext) => {
+				const _dropt = parseCallReturnContext(context.callsReturnContext);
+
+				return (
+					Number(_dropt.expirationTimestamp[0][0].hex) < Number(_dropt.getCurrentTime[0][0].hex) &&
+					Number(_dropt.expiryPrice[0][0].hex) > 0
+				);
+			})
+			.map((context: ContractCallReturnContext) => {
+				const {
+					callsReturnContext,
+					originalContractCallContext: { contractAddress },
+				} = context;
+
+				const validDropt = parseCallReturnContext(callsReturnContext);
+
 				return {
-					[validDropt['address']]: {
-						expiryPrice: validDropt.expiryPrice[0].value,
-						expirationTimestamp: validDropt.expirationTimestamp[0].value,
-						currentTimestamp: validDropt.getCurrentTime[0].value,
+					[contractAddress]: {
+						expiryPrice: validDropt.expiryPrice[0][0].hex,
+						expirationTimestamp: Number(validDropt.expirationTimestamp[0][0].hex).toString(),
+						currentTimestamp: Number(validDropt.getCurrentTime[0][0].hex).toString(),
 					},
 				};
 			});
 
 		// policy data
-		const latestRebase = Number(policy[0].lastRebaseTimestampSec[0].value);
-		const minRebaseInterval = Number(policy[0].minRebaseTimeIntervalSec[0].value);
+
+		const policyData = parseCallReturnContext(policy[0].callsReturnContext);
+		const latestRebase = Number(policyData.lastRebaseTimestampSec[0][0].hex);
+		const minRebaseInterval = Number(policyData.minRebaseTimeIntervalSec[0][0].hex);
 
 		// token data
-		const decimals = parseInt(token[0].decimals[0].value);
-		const totalSupply = new BigNumber(token[0].totalSupply[0].value).dividedBy(Math.pow(10, decimals));
-		const sharesPerFragment = new BigNumber(token[0]._sharesPerFragment[0].value);
+		const tokenData = parseCallReturnContext(token[0].callsReturnContext);
+
+		const decimals = parseInt(tokenData.decimals[0][0]);
+		const totalSupply = new BigNumber(tokenData.totalSupply[0][0].hex).dividedBy(Math.pow(10, decimals));
+		const sharesPerFragment = new BigNumber(tokenData._sharesPerFragment[0][0].hex);
 
 		// pull latest provider report
-		const oracleReport: OracleReports = oracle[0];
-		let activeReport: ProviderReport = oracleReport.providerReports[0];
+		const oracleReport = parseCallReturnContext(oracle[0].callsReturnContext);
+
+		let activeReport = oracleReport.providerReports[0];
+
 		oracleReport.providerReports.forEach((report: ProviderReport) => {
-			const moreRecentReport = Number(report.value.timestamp) > Number(activeReport.value.timestamp);
+			const moreRecentReport = Number(report[0].hex) > Number(activeReport[0].hex);
 			if (moreRecentReport) {
 				activeReport = report;
 			}
@@ -101,12 +118,12 @@ class RebaseStore {
 			latestRebase,
 			minRebaseInterval,
 			sharesPerFragment,
-			latestAnswer: Number(activeReport.value.timestamp),
-			inRebaseWindow: policy[0].inRebaseWindow[0].value,
-			rebaseLag: policy[0].rebaseLag[0].value,
-			epoch: policy[0].epoch[0].value,
-			rebaseWindowLengthSec: parseInt(policy[0].rebaseWindowLengthSec[0].value),
-			oracleRate: new BigNumber(activeReport.value.payload).dividedBy(1e18),
+			latestAnswer: Number(activeReport[0].hex),
+			inRebaseWindow: policyData.inRebaseWindow[0][0],
+			rebaseLag: Number(policyData.rebaseLag[0][0].hex),
+			epoch: Number(policyData.epoch[0][0].hex),
+			rebaseWindowLengthSec: parseInt(policyData.rebaseWindowLengthSec[0][0].hex),
+			oracleRate: new BigNumber(activeReport[1].hex).dividedBy(1e18),
 			nextRebase: getNextRebase(minRebaseInterval, latestRebase),
 			pastRebase: rebaseLog,
 			validDropts: validDropts,

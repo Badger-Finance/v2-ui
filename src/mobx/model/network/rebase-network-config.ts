@@ -1,20 +1,6 @@
-import { AbiItem } from 'web3-utils';
+import { ContractCallContext } from 'ethereum-multicall/dist/esm/models/contract-call-context';
 
 export type RebaseNetworkConfig = {
-	digg: {
-		addresses: string[];
-		abi: AbiItem[];
-		allReadMethods?: boolean;
-		readMethods?: {
-			name: string;
-			args: (string | number)[];
-		}[];
-		groupByNamespace: boolean;
-		logging?: boolean;
-		namespace: string;
-	}[];
-	orchestrator: {
-		contract: string;
-		abi: AbiItem[];
-	};
+	digg: ContractCallContext[];
+	orchestrator: ContractCallContext;
 };
