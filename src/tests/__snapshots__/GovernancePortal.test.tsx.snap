@@ -1,0 +1,379 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Governance Portal renders correctly 1`] = `
+<div>
+  <div
+    class="MuiContainer-root-2 WithStyles(ForwardRef(Container))-root-1 MuiContainer-maxWidthLg-8"
+  >
+    <div
+      class="MuiGrid-root-10 MuiGrid-container-11 MuiGrid-spacing-xs-1-33 MuiGrid-justify-xs-center-28"
+    >
+      <div
+        class="MuiGrid-root-10 WithStyles(ForwardRef(Grid))-root-113 WithStyles(ForwardRef(Grid))-root-114 MuiGrid-item-12 MuiGrid-grid-xs-12-56"
+      >
+        <div
+          class="makeStyles-headerContainer-116"
+        >
+          <div
+            class="makeStyles-headerContent-117"
+          >
+            <h2
+              class="MuiTypography-root-118 MuiTypography-h2-124 MuiTypography-colorTextPrimary-143"
+            >
+              Governance Portal
+            </h2>
+            <h6
+              class="MuiTypography-root-118 MuiTypography-subtitle1-129 MuiTypography-colorTextSecondary-144"
+            >
+              Review recent activity from the DAO.
+            </h6>
+          </div>
+          <div
+            class="makeStyles-headerWidgets-115"
+          >
+            <div
+              class="MuiInputBase-root-177 MuiOutlinedInput-root-162 MuiInputBase-colorSecondary-186 MuiOutlinedInput-colorSecondary-163 makeStyles-gasSelector-148 MuiInputBase-adornedStart-181 MuiOutlinedInput-adornedStart-166"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root-195 makeStyles-gasIcon-149"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M19.77 7.23l.01-.01-3.72-3.72L15 4.56l2.11 2.11c-.94.36-1.61 1.26-1.61 2.33 0 1.38 1.12 2.5 2.5 2.5.36 0 .69-.08 1-.21v7.21c0 .55-.45 1-1 1s-1-.45-1-1V14c0-1.1-.9-2-2-2h-1V5c0-1.1-.9-2-2-2H6c-1.1 0-2 .9-2 2v16h10v-7.5h1.5v5c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5V9c0-.69-.28-1.32-.73-1.77zM12 10H6V5h6v5zm6 0c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"
+                />
+              </svg>
+              <div
+                aria-haspopup="listbox"
+                class="MuiSelect-root-151 MuiSelect-select-152 MuiSelect-selectMenu-155 MuiSelect-outlined-154 MuiInputBase-input-188 MuiOutlinedInput-input-172 MuiInputBase-inputAdornedStart-192 MuiOutlinedInput-inputAdornedStart-175"
+                role="button"
+                tabindex="0"
+              >
+                25
+              </div>
+              <input
+                aria-hidden="true"
+                class="MuiSelect-nativeInput-161"
+                tabindex="-1"
+                value="standard"
+              />
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root-195 MuiSelect-icon-157 MuiSelect-iconOutlined-160"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M7 10l5 5 5-5z"
+                />
+              </svg>
+              <fieldset
+                aria-hidden="true"
+                class="PrivateNotchedOutline-root-208 MuiOutlinedInput-notchedOutline-171"
+                style="padding-left: 8px;"
+              >
+                <legend
+                  class="PrivateNotchedOutline-legend-209"
+                  style="width: 0.01px;"
+                >
+                  <span>
+                    ​
+                  </span>
+                </legend>
+              </fieldset>
+            </div>
+            <button
+              class="MuiButtonBase-root-245 MuiButton-root-216 MuiButton-contained-224 makeStyles-walletButton-215 MuiButton-containedSecondary-226 MuiButton-disableElevation-227"
+              tabindex="0"
+              type="button"
+            >
+              <span
+                class="MuiButton-label-217"
+              >
+                Click to connect
+                <span
+                  class="MuiButton-endIcon-241 MuiButton-iconSizeMedium-243"
+                >
+                  <div
+                    class="makeStyles-walletDot-212 makeStyles-redDot-213"
+                  />
+                </span>
+              </span>
+              <span
+                class="MuiTouchRipple-root-323"
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-10 MuiGrid-item-12 MuiGrid-grid-xs-12-56 MuiGrid-grid-md-4-76"
+      >
+        <div
+          class="MuiPaper-root-250 makeStyles-infoPaper-248 MuiPaper-elevation2-255 MuiPaper-rounded-251"
+        >
+          <h6
+            class="MuiTypography-root-118 MuiTypography-subtitle1-129 MuiTypography-colorTextPrimary-143"
+          >
+            Timelock Contract
+          </h6>
+          <div
+            class="MuiGrid-root-10 MuiGrid-container-11 MuiGrid-justify-xs-center-28"
+          >
+            <div
+              class="MuiGrid-root-10 MuiGrid-item-12 MuiGrid-grid-xs-9-53"
+            >
+              <div
+                class="MuiBox-root-278 MuiBox-root-279"
+              >
+                <h5
+                  class="MuiTypography-root-118 MuiTypography-h5-127 MuiTypography-noWrap-137"
+                >
+                  0x21CF9b77F88Adf8F8C98d7E33Fe601DC57bC0893
+                </h5>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root-10 MuiGrid-item-12 MuiGrid-grid-xs-auto-43"
+            >
+              <a
+                class="MuiTypography-root-118 MuiLink-root-280 MuiLink-underlineHover-282 makeStyles-linkIcon-249 MuiTypography-colorPrimary-141"
+                href="https://etherscan.io/address/0x21CF9b77F88Adf8F8C98d7E33Fe601DC57bC0893"
+                target="_blank"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root-195"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M10.09 15.59L11.5 17l5-5-5-5-1.41 1.41L12.67 11H3v2h9.67l-2.58 2.59zM19 3H5c-1.11 0-2 .9-2 2v4h2V5h14v14H5v-4H3v4c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+                  />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-10 MuiGrid-item-12 MuiGrid-grid-xs-12-56 MuiGrid-grid-md-4-76"
+      >
+        <div
+          class="MuiPaper-root-250 makeStyles-infoPaper-248 MuiPaper-elevation2-255 MuiPaper-rounded-251"
+        >
+          <h6
+            class="MuiTypography-root-118 MuiTypography-subtitle1-129 MuiTypography-colorTextPrimary-143"
+          >
+            Admin
+          </h6>
+          <div
+            class="MuiGrid-root-10 MuiGrid-container-11 MuiGrid-justify-xs-center-28"
+          >
+            <div
+              class="MuiGrid-root-10 MuiGrid-item-12 MuiGrid-grid-xs-9-53"
+            >
+              <div
+                class="MuiBox-root-278 MuiBox-root-286"
+              >
+                <h5
+                  class="MuiTypography-root-118 MuiTypography-h5-127 MuiTypography-noWrap-137"
+                >
+                  0xB65cef03b9B89f99517643226d76e286ee999e77
+                </h5>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root-10 MuiGrid-item-12 MuiGrid-grid-xs-auto-43"
+            >
+              <a
+                class="MuiTypography-root-118 MuiLink-root-280 MuiLink-underlineHover-282 makeStyles-linkIcon-249 MuiTypography-colorPrimary-141"
+                href="https://etherscan.io/address/0xB65cef03b9B89f99517643226d76e286ee999e77"
+                target="_blank"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root-195"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M10.09 15.59L11.5 17l5-5-5-5-1.41 1.41L12.67 11H3v2h9.67l-2.58 2.59zM19 3H5c-1.11 0-2 .9-2 2v4h2V5h14v14H5v-4H3v4c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+                  />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-10 MuiGrid-item-12 MuiGrid-grid-xs-12-56 MuiGrid-grid-md-4-76"
+      >
+        <div
+          class="MuiPaper-root-250 makeStyles-infoPaper-248 MuiPaper-elevation2-255 MuiPaper-rounded-251"
+        >
+          <h6
+            class="MuiTypography-root-118 MuiTypography-subtitle1-129 MuiTypography-colorTextPrimary-143"
+          >
+            Guardian
+          </h6>
+          <div
+            class="MuiGrid-root-10 MuiGrid-container-11 MuiGrid-justify-xs-center-28"
+          >
+            <div
+              class="MuiGrid-root-10 MuiGrid-item-12 MuiGrid-grid-xs-9-53"
+            >
+              <div
+                class="MuiBox-root-278 MuiBox-root-287"
+              >
+                <h5
+                  class="MuiTypography-root-118 MuiTypography-h5-127 MuiTypography-noWrap-137"
+                >
+                  0x576cD258835C529B54722F84Bb7d4170aA932C64
+                </h5>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root-10 MuiGrid-item-12 MuiGrid-grid-xs-auto-43"
+            >
+              <a
+                class="MuiTypography-root-118 MuiLink-root-280 MuiLink-underlineHover-282 makeStyles-linkIcon-249 MuiTypography-colorPrimary-141"
+                href="https://etherscan.io/address/0x576cD258835C529B54722F84Bb7d4170aA932C64"
+                target="_blank"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root-195"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M10.09 15.59L11.5 17l5-5-5-5-1.41 1.41L12.67 11H3v2h9.67l-2.58 2.59zM19 3H5c-1.11 0-2 .9-2 2v4h2V5h14v14H5v-4H3v4c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+                  />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="MuiGrid-root-10 MuiGrid-container-11 MuiGrid-justify-xs-center-28"
+    >
+      <div
+        class="MuiGrid-root-10 MuiGrid-item-12 MuiGrid-grid-xs-12-56 MuiGrid-grid-md-9-81"
+      >
+        <h4
+          class="MuiTypography-root-118 makeStyles-title-289 MuiTypography-h4-126"
+        >
+          Recent Timelock Activity
+        </h4>
+        <div
+          class="MuiGrid-root-10 makeStyles-root-288 MuiGrid-container-11 MuiGrid-item-12 MuiGrid-grid-xs-12-56"
+        >
+          <div
+            class="MuiGrid-root-10 MuiGrid-container-11 MuiGrid-item-12 MuiGrid-grid-xs-12-56 MuiGrid-grid-sm-3-61"
+          >
+            <p
+              class="MuiTypography-root-118 MuiTypography-body2-119 MuiTypography-colorTextSecondary-144"
+            >
+              Block Number
+            </p>
+          </div>
+          <div
+            class="MuiGrid-root-10 makeStyles-hiddenMobile-290 MuiGrid-item-12 MuiGrid-grid-xs-12-56 MuiGrid-grid-sm-true-58"
+          >
+            <p
+              class="MuiTypography-root-118 MuiTypography-body2-119 MuiTypography-colorTextSecondary-144"
+            >
+              Event
+            </p>
+          </div>
+          <div
+            class="MuiGrid-root-10 makeStyles-hiddenMobile-290 MuiGrid-item-12 MuiGrid-grid-xs-12-56 MuiGrid-grid-sm-true-58"
+          >
+            <p
+              class="MuiTypography-root-118 MuiTypography-body2-119 MuiTypography-colorTextSecondary-144"
+            >
+              Action
+            </p>
+          </div>
+        </div>
+        <ul
+          class="MuiList-root-292 makeStyles-list-291 MuiList-padding-293"
+        >
+          <li
+            class="MuiListItem-root-300 makeStyles-listItem-297 MuiListItem-gutters-307"
+          >
+            <div
+              class="MuiGrid-root-10 makeStyles-root-296 MuiGrid-container-11"
+            >
+              <div
+                class="MuiGrid-root-10 MuiGrid-container-11 MuiGrid-item-12 MuiGrid-grid-xs-12-56"
+              >
+                <div
+                  class="MuiGrid-root-10 makeStyles-name-299 MuiGrid-container-11 MuiGrid-item-12 MuiGrid-grid-xs-12-56 MuiGrid-grid-sm-3-61"
+                >
+                  12270941
+                </div>
+                <div
+                  class="MuiGrid-root-10 makeStyles-mobileLabel-298 MuiGrid-item-12 MuiGrid-grid-xs-6-50 MuiGrid-grid-md-true-72"
+                >
+                  <p
+                    class="MuiTypography-root-118 MuiTypography-body2-119 MuiTypography-colorTextSecondary-144"
+                  >
+                    Event
+                  </p>
+                </div>
+                <div
+                  class="MuiGrid-root-10 MuiGrid-item-12 MuiGrid-grid-xs-6-50 MuiGrid-grid-md-true-72"
+                >
+                  QueueTransaction
+                </div>
+                <div
+                  class="MuiGrid-root-10 makeStyles-mobileLabel-298 MuiGrid-item-12 MuiGrid-grid-xs-6-50 MuiGrid-grid-md-true-72"
+                >
+                  <p
+                    class="MuiTypography-root-118 MuiTypography-body2-119 MuiTypography-colorTextSecondary-144"
+                  >
+                    Action
+                  </p>
+                </div>
+                <div
+                  class="MuiGrid-root-10 MuiGrid-item-12 MuiGrid-grid-xs-6-50 MuiGrid-grid-md-true-72"
+                >
+                  upgrade
+                  <span>
+                    (
+                  </span>
+                  <span>
+                    <span
+                      class="makeStyles-tooltipWrap-311"
+                      title="0x6dEf55d2e18486B9dDfaA075bc4e4EE0B28c1545"
+                    >
+                      address
+                    </span>
+                    , 
+                  </span>
+                  <span>
+                    <span
+                      class="makeStyles-tooltipWrap-311"
+                      title="0x5c7AdB3Fd0DF2D1822a36922dd941e16D2bF4E51"
+                    >
+                      address
+                    </span>
+                  </span>
+                  <span>
+                    )
+                  </span>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+`;

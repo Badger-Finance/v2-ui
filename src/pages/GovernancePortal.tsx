@@ -13,8 +13,7 @@ const GovernancePortal = observer(() => {
 
 	useEffect(() => {
 		governancePortal.loadData();
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	}, [governancePortal]);
 
 	return (
 		<LayoutContainer>
