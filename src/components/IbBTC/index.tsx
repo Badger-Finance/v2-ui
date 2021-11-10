@@ -21,10 +21,6 @@ const useStyles = makeStyles((theme) => ({
 	apyInformation: {
 		marginBottom: theme.spacing(4),
 	},
-	before: {
-		marginTop: theme.spacing(5),
-		width: '100%',
-	},
 }));
 
 export const IbBTC = observer(() => {
@@ -33,9 +29,8 @@ export const IbBTC = observer(() => {
 
 	const store = useContext(StoreContext);
 	const { network } = store.network;
-	const spacer = () => <div className={classes.before} />;
 
-	const Content = () => (
+	const content = (
 		<Container className={classes.content} maxWidth="lg">
 			{activeTab === 'Mint' && <Mint />}
 			{activeTab === 'Redeem' && <Redeem />}
@@ -68,7 +63,7 @@ export const IbBTC = observer(() => {
 									<Tab onClick={() => setActiveTab('Mint')} value={'Mint'} label={'Mint'} />
 									<Tab onClick={() => setActiveTab('Redeem')} value={'Redeem'} label={'Redeem'} />
 								</Tabs>
-								<Content />
+								{content}
 							</Card>
 						</Grid>
 					</>
@@ -79,7 +74,6 @@ export const IbBTC = observer(() => {
 						</Grid>
 					</>
 				)}
-				{spacer()}
 			</Grid>
 		</LayoutContainer>
 	);
