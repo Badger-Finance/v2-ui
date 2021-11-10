@@ -1,9 +1,10 @@
 import React, { useContext, useState } from 'react';
 import clsx from 'clsx';
-import { Button, Dialog } from '@material-ui/core';
+import { Button, Dialog, IconButton } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import CvxDelegationBanner from '../locked-cvx-bribes/Banner';
 import { StoreContext } from '../../mobx/store-context';
+import CloseIcon from '@material-ui/icons/Close';
 
 const useStyles = makeStyles(() => ({
 	button: {
@@ -12,6 +13,12 @@ const useStyles = makeStyles(() => ({
 	delegateButton: {
 		minWidth: 37,
 		width: 37,
+	},
+	closeIcon: {
+		position: 'absolute',
+		top: 8,
+		right: 8,
+		zIndex: 1,
 	},
 }));
 
@@ -33,7 +40,10 @@ const DelegationWidget = (): JSX.Element | null => {
 			<Button onClick={toggleModal} className={clsx(classes.button, classes.delegateButton)} variant="outlined">
 				<img src="/assets/icons/delegation.svg" alt="rewards icon" />
 			</Button>
-			<Dialog open={showModal} onClose={toggleModal} maxWidth="md" fullWidth>
+			<Dialog open={showModal} onClose={toggleModal} maxWidth="md" fullWidth scroll="body">
+				<IconButton className={classes.closeIcon} onClick={toggleModal}>
+					<CloseIcon />
+				</IconButton>
 				<CvxDelegationBanner />
 			</Dialog>
 		</>
