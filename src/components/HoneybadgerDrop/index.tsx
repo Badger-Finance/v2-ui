@@ -5,7 +5,7 @@ import { StoreContext } from 'mobx/store-context';
 import PageHeader from 'components-v2/common/PageHeader';
 import { NftList } from './NftList';
 import { PoolBalance } from './PoolBalance';
-import { HeaderContainer, LayoutContainer } from '../../components-v2/common/Containers';
+import { PageHeaderContainer, LayoutContainer } from '../../components-v2/common/Containers';
 import { Network } from '@badger-dao/sdk';
 
 const HoneybadgerDrop: React.FC = observer(() => {
@@ -17,9 +17,9 @@ const HoneybadgerDrop: React.FC = observer(() => {
 	return (
 		<LayoutContainer>
 			<Grid container spacing={1} justify="center">
-				<HeaderContainer item xs={12}>
+				<PageHeaderContainer item xs={12}>
 					<PageHeader title="DIAMOND HANDS" subtitle="MEME Honeypot pt. II" />
-				</HeaderContainer>
+				</PageHeaderContainer>
 				{network.symbol === Network.Ethereum ? (
 					<>
 						<Grid item xs={12} container spacing={5}>

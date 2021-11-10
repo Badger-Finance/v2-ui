@@ -7,6 +7,7 @@ import { supportedNetworks } from 'config/networks.config';
 import { Network } from 'mobx/model/network/network';
 import { Wallets } from 'config/enums/wallets.enum';
 import { Network as ChainNetworkSymbol } from '@badger-dao/sdk';
+import clsx from 'clsx';
 
 const useStyles = makeStyles((theme) => ({
 	network: {
@@ -35,7 +36,11 @@ const networkAbbreviationBySymbol: Record<ChainNetworkSymbol, string> = {
 	[ChainNetworkSymbol.Fantom]: 'FANTOM',
 };
 
-const NetworkWidget = observer(() => {
+interface Props {
+	className?: HTMLButtonElement['className'];
+}
+
+const NetworkWidget = observer(({ className }: Props) => {
 	const classes = useStyles();
 	const store = useContext(StoreContext);
 	const { network, wallet } = store;
@@ -66,7 +71,7 @@ const NetworkWidget = observer(() => {
 				variant="outlined"
 				endIcon={isMetamask ? <ArrowDropDown /> : <></>}
 				onClick={handleClick}
-				className={classes.selectButton}
+				className={clsx(classes.selectButton, className)}
 			>
 				<NetworkOption network={connectedNetwork} />
 			</Button>

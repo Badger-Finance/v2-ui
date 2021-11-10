@@ -11,6 +11,22 @@ const useStyles = makeStyles((theme) => ({
 		padding: 0,
 		boxShadow: theme.shadows[1],
 		marginBottom: theme.spacing(2),
+		maxHeight: '65vh',
+		overflowY: 'scroll',
+		'&::-webkit-scrollbar': {
+			backgroundColor: 'rgb(43, 43, 43)',
+			borderTopRightRadius: 8,
+			borderBottomRightRadius: 8,
+		},
+		'&::-webkit-scrollbar-corner': {
+			backgroundColor: 'rgb(43, 43, 43)',
+		},
+		'&::-webkit-scrollbar-thumb': {
+			borderRadius: 8,
+			backgroundColor: 'rgb(107, 107, 107)',
+			minHeight: 24,
+			border: '3px solid rgb(43, 43, 43)',
+		},
 	},
 }));
 

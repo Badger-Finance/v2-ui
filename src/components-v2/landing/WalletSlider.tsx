@@ -5,6 +5,7 @@ import { StoreContext } from '../../mobx/store-context';
 
 const useStyles = makeStyles((theme) => ({
 	walletSlider: {
+		height: 36,
 		marginLeft: theme.spacing(1),
 	},
 }));

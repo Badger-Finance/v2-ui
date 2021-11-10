@@ -5,7 +5,7 @@ import { StoreContext } from '../../mobx/store-context';
 
 const useStyles = makeStyles((theme) => ({
 	samplePicker: {
-		height: '1.8rem',
+		height: 36,
 		overflow: 'hidden',
 		[theme.breakpoints.up('sm')]: {
 			marginTop: 'auto',

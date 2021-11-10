@@ -6,7 +6,7 @@ import BookOutlinedIcon from '@material-ui/icons/BookOutlined';
 import { makeStyles } from '@material-ui/core/styles';
 import { Optimizer } from './Optimizer';
 import PageHeader from '../../components-v2/common/PageHeader';
-import { HeaderContainer, LayoutContainer } from '../../components-v2/common/Containers';
+import { PageHeaderContainer, LayoutContainer } from '../../components-v2/common/Containers';
 
 const useStyles = makeStyles((theme) => ({
 	boostLink: {
@@ -34,7 +34,7 @@ export const BoostOptimizer = observer(() => {
 	return (
 		<LayoutContainer>
 			<Grid container spacing={1} justify="center">
-				<HeaderContainer item xs={12}>
+				<PageHeaderContainer item xs={12}>
 					<PageHeader
 						title="Badger Boost Optimizer"
 						subtitle="Determine deposits needed in order to hit your desired boost ratio."
@@ -48,7 +48,7 @@ export const BoostOptimizer = observer(() => {
 					>
 						How does boost work?
 					</Link>
-				</HeaderContainer>
+				</PageHeaderContainer>
 				<Grid item xs={12}>
 					<Optimizer />
 				</Grid>

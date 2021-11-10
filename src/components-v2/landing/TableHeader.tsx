@@ -1,10 +1,12 @@
 import { Grid, makeStyles, Typography } from '@material-ui/core';
 import CurrencyDisplay from 'components-v2/common/CurrencyDisplay';
 import React from 'react';
+import clsx from 'clsx';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
 		paddingLeft: theme.spacing(2),
+		marginBottom: theme.spacing(2),
 	},
 	hiddenMobile: {
 		display: 'flex',
@@ -15,6 +17,9 @@ const useStyles = makeStyles((theme) => ({
 	},
 	amount: {
 		marginLeft: 5,
+	},
+	title: {
+		textTransform: 'uppercase',
 	},
 }));
 
@@ -38,7 +43,7 @@ export default function TableHeader(props: TableHeaderProps): JSX.Element {
 		<Grid item container xs={12} md={9} className={classes.root}>
 			<Grid item container xs={12} sm={5}>
 				<Grid item>
-					<Typography variant="body1" color="textPrimary">
+					<Typography className={classes.title} variant="body2" color="textSecondary">
 						{title}
 					</Typography>
 				</Grid>
@@ -46,14 +51,14 @@ export default function TableHeader(props: TableHeaderProps): JSX.Element {
 					<CurrencyDisplay displayValue={displayValue} variant="body1" justify="flex-start" />
 				</Grid>
 			</Grid>
-			<Grid item xs={12} sm className={classes.hiddenMobile}>
+			<Grid item xs={12} sm className={clsx(classes.hiddenMobile, classes.title)}>
 				<Typography variant="body2" color="textSecondary">
 					{samplePeriods[period]} ROI
 				</Typography>
 			</Grid>
-			<Grid item xs={12} sm className={classes.hiddenMobile}>
+			<Grid item xs={12} sm className={clsx(classes.hiddenMobile, classes.title)}>
 				<Typography variant="body2" color="textSecondary">
-					Value
+					TVL
 				</Typography>
 			</Grid>
 		</Grid>

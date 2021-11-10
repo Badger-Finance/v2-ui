@@ -9,7 +9,7 @@ import { getSendOptions, sendContractMethod } from 'mobx/utils/web3';
 import { getToken } from '../../web3/config/token-config';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { mockToken } from 'mobx/model/tokens/badger-token';
-import { ClaimMap } from 'components-v2/landing/RewardsModal';
+import { ClaimMap } from 'components-v2/landing/RewardsWidget';
 import { BadgerTree } from '../model/rewards/badger-tree';
 import { TreeClaimData } from '../model/rewards/tree-claim-data';
 import { ETH_DEPLOY } from 'mobx/model/network/eth.network';

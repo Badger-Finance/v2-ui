@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const AppNotification = observer((): JSX.Element | null => {
+const NetworkNotification = observer((): JSX.Element | null => {
 	const { network: networkStore } = useContext(StoreContext);
 	const { network } = networkStore;
 	const classes = useStyles();
@@ -47,4 +47,4 @@ const AppNotification = observer((): JSX.Element | null => {
 	);
 });
 
-export default AppNotification;
+export default NetworkNotification;

@@ -7,7 +7,7 @@ import PageHeader from 'components-v2/common/PageHeader';
 import { Mint } from './Mint';
 import { Redeem } from './Redeem';
 import { IbbtcRoi } from './IbbtcRoi';
-import { HeaderContainer, LayoutContainer } from '../../components-v2/common/Containers';
+import { PageHeaderContainer, LayoutContainer } from '../../components-v2/common/Containers';
 import { Network } from '@badger-dao/sdk';
 
 type TABS = 'Mint' | 'Redeem';
@@ -45,9 +45,9 @@ export const IbBTC = observer(() => {
 	return (
 		<LayoutContainer>
 			<Grid container spacing={1} justify="center">
-				<HeaderContainer item sm={12} xs={12}>
+				<PageHeaderContainer item sm={12} xs={12}>
 					<PageHeader title="ibBTC" subtitle="Interest Bearing Badger Bitcoin." />
-				</HeaderContainer>
+				</PageHeaderContainer>
 
 				{network.symbol === Network.Ethereum ? (
 					<>

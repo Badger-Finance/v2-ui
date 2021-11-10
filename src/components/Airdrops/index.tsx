@@ -18,7 +18,7 @@ import views from '../../config/routes';
 import PageHeader from '../../components-v2/common/PageHeader';
 import { getToken } from 'web3/config/token-config';
 import { formatTokens } from 'mobx/utils/helpers';
-import { HeaderContainer, LayoutContainer } from '../../components-v2/common/Containers';
+import { PageHeaderContainer, LayoutContainer } from '../../components-v2/common/Containers';
 
 const useStyles = makeStyles((theme) => ({
 	buttonGroup: {
@@ -176,12 +176,12 @@ export const Airdrops = observer(() => {
 	return (
 		<LayoutContainer>
 			<Grid container spacing={1} justify="flex-start">
-				<HeaderContainer item xs={12}>
+				<PageHeaderContainer item xs={12}>
 					<PageHeader
 						title="Community Rules."
 						subtitle="BadgerDAO is dedicated to building products and infrastructure to bring Bitcoin to DeFi."
 					/>
-				</HeaderContainer>
+				</PageHeaderContainer>
 				<Grid item xs={12}>
 					<Typography variant="subtitle1" align="left">
 						Available Airdrops:
