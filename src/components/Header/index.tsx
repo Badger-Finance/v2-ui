@@ -51,6 +51,7 @@ const useStyles = makeStyles(() => ({
 const Header = observer(() => {
 	const {
 		user,
+		lockedCvxDelegation: { shouldBannerBeDisplayed },
 		uiState: { notification, currency },
 		wallet: { notify, connectedAddress },
 		network: { network },
@@ -85,7 +86,7 @@ const Header = observer(() => {
 			<LayoutContainer>
 				<Grid container>
 					<Grid container className={classes.container}>
-						<Grid item xs={6} container alignItems="center" className={classes.amounts}>
+						<Grid item xs={5} container alignItems="center" className={classes.amounts}>
 							{!!connectedAddress && (
 								<>
 									<Typography variant="body2">My Deposits: </Typography>
@@ -113,12 +114,26 @@ const Header = observer(() => {
 								valuePlaceholder
 							)}
 						</Grid>
-						<Grid item xs={6} container alignItems="center" justify="space-around">
-							<RewardsWidget />
-							<DelegationWidget />
-							<NetworkWidget className={classes.button} />
-							<GasWidget className={classes.button} />
-							<WalletWidget className={classes.button} />
+						<Grid item xs={7} container alignItems="center" justify="flex-end" spacing={1}>
+							{!!connectedAddress && (
+								<Grid item>
+									<RewardsWidget />
+								</Grid>
+							)}
+							{shouldBannerBeDisplayed && (
+								<Grid item>
+									<DelegationWidget />
+								</Grid>
+							)}
+							<Grid item>
+								<NetworkWidget className={classes.button} />
+							</Grid>
+							<Grid item>
+								<GasWidget className={classes.button} />
+							</Grid>
+							<Grid item>
+								<WalletWidget className={classes.button} />
+							</Grid>
 						</Grid>
 					</Grid>
 				</Grid>
