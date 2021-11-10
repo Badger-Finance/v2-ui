@@ -13,6 +13,7 @@ import {
 	ListItemText,
 	ListItemSecondaryAction,
 	Hidden,
+	Typography,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { ExpandMore } from '@material-ui/icons';
@@ -24,6 +25,8 @@ import clsx, { ClassValue } from 'clsx';
 import SecurityIcon from '@material-ui/icons/Security';
 import { sidebarPricingLinks } from 'config/ui/links';
 import { Network } from '@badger-dao/sdk';
+import { Skeleton } from '@material-ui/lab';
+import { inCurrency } from '../../mobx/utils/helpers';
 
 const DRAWER_WIDTH = 240;
 
@@ -136,6 +139,9 @@ const useStyles = makeStyles((theme) => ({
 		paddingLeft: theme.spacing(5),
 		paddingRight: theme.spacing(5),
 	},
+	badgerPrice: {
+		whiteSpace: 'pre-wrap',
+	},
 }));
 
 export const Sidebar = observer(() => {
@@ -143,8 +149,9 @@ export const Sidebar = observer(() => {
 
 	const store = useContext(StoreContext);
 	const {
+		prices,
 		router: { goTo },
-		uiState: { sidebarOpen, closeSidebar },
+		uiState: { sidebarOpen, closeSidebar, currency },
 		rewards: { badgerTree },
 		wallet: { connectedAddress },
 		network: { network },
@@ -152,6 +159,9 @@ export const Sidebar = observer(() => {
 	} = store;
 
 	const [expanded, setExpanded] = useState('');
+
+	const badgerToken = network.deploy.token.length > 0 ? network.deploy.token : undefined;
+	const badgerPrice = badgerToken ? prices.getPrice(badgerToken) : undefined;
 
 	const getTokens = () => {
 		return network.sidebarTokenLinks.map((value) => {
@@ -427,6 +437,17 @@ export const Sidebar = observer(() => {
 				</Collapse>
 			</List>
 			<List>
+				<ListItem className={classes.badgerPrice}>
+					<Typography variant="body2">Badger Price: </Typography>
+					{badgerPrice ? (
+						<Typography variant="subtitle2">{inCurrency(badgerPrice, currency)}</Typography>
+					) : (
+						<Skeleton width={32} animation="wave">
+							<Typography variant="subtitle2">Placeholder</Typography>
+						</Skeleton>
+					)}
+				</ListItem>
+
 				<ListItem
 					button
 					className={classes.listItem}
