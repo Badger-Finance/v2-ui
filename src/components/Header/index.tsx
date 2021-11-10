@@ -85,15 +85,19 @@ const Header = observer(() => {
 				<Grid container>
 					<Grid container className={classes.container}>
 						<Grid item xs={6} container alignItems="center" className={classes.amounts}>
-							<Typography variant="body2">My Deposits: </Typography>
-							{portfolioValue ? (
-								<CurrencyDisplay
-									displayValue={inCurrency(portfolioValue, currency)}
-									variant="subtitle2"
-									justify="flex-start"
-								/>
-							) : (
-								valuePlaceholder
+							{!!connectedAddress && (
+								<>
+									<Typography variant="body2">My Deposits: </Typography>
+									{portfolioValue ? (
+										<CurrencyDisplay
+											displayValue={inCurrency(portfolioValue, currency)}
+											variant="subtitle2"
+											justify="flex-start"
+										/>
+									) : (
+										valuePlaceholder
+									)}
+								</>
 							)}
 							<Typography variant="body2" className={classes.tvl}>
 								All Vaults (TVL):{' '}
