@@ -45,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	listItem: {
+		minHeight: 90,
 		padding: 0,
 		'&:last-child div': {
 			borderBottom: 0,

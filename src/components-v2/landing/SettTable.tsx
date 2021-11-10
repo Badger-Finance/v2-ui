@@ -6,13 +6,12 @@ const useStyles = makeStyles((theme) => ({
 	list: {
 		width: '100%',
 		borderRadius: theme.shape.borderRadius,
-		overflow: 'hidden',
+		overflow: 'auto',
 		background: `${theme.palette.background.paper}`,
 		padding: 0,
 		boxShadow: theme.shadows[1],
 		marginBottom: theme.spacing(2),
-		maxHeight: '65vh',
-		overflowY: 'scroll',
+		maxHeight: '60vh',
 		'&::-webkit-scrollbar': {
 			backgroundColor: 'rgb(43, 43, 43)',
 			borderTopRightRadius: 8,

@@ -41,7 +41,7 @@ export default function TableHeader(props: TableHeaderProps): JSX.Element {
 	// leave 3 grid spaces for the action buttons section which has no column name
 	return (
 		<Grid item container xs={12} md={9} className={classes.root}>
-			<Grid item container xs={12} sm={5}>
+			<Grid item container xs={12} sm={5} alignItems="center">
 				<Grid item>
 					<Typography className={classes.title} variant="body2" color="textSecondary">
 						{title}

@@ -49,6 +49,10 @@ export const SettItemApr = ({ sett, divisor, multiplier }: Props): JSX.Element =
 			arrow
 			placement="left"
 			title={<SettItemRoiTooltip sett={sett} divisor={divisor} multiplier={multiplier} />}
+			// prevents scrolling overflow off the sett list
+			PopperProps={{
+				disablePortal: true,
+			}}
 		>
 			<Typography className={classes.normalCursor} variant="body1" color={'textPrimary'}>
 				{apr}
