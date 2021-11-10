@@ -11,14 +11,12 @@ import {
 	IconButton,
 	ListItemIcon,
 	ListItemText,
-	ListItemSecondaryAction,
 	Hidden,
 	Typography,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { ExpandMore } from '@material-ui/icons';
 import { SITE_VERSION } from 'config/constants';
-import NetworkWidget from 'components-v2/common/NetworkWidget';
 import { Route } from 'mobx-router';
 import { RootStore } from 'mobx/RootStore';
 import clsx, { ClassValue } from 'clsx';
@@ -223,13 +221,6 @@ export const Sidebar = observer(() => {
 	const drawerContent = (
 		<div className={classes.contentRoot}>
 			<List>
-				<ListItem button className={classes.listItem}>
-					<img alt="Badger Logo" src={'/assets/badger-logo.png'} className={classes.logo} />
-					<ListItemSecondaryAction>
-						<NetworkWidget />
-					</ListItemSecondaryAction>
-				</ListItem>
-
 				{isEmissionsNetwork(network.symbol) ? (
 					<ListItem
 						button
