@@ -15,6 +15,7 @@ import { Skeleton } from '@material-ui/lab';
 import CurrencyDisplay from '../../components-v2/common/CurrencyDisplay';
 import { RewardsWidget } from '../../components-v2/landing/RewardsWidget';
 import DelegationWidget from '../../components-v2/common/DelegationWidget';
+import clsx from 'clsx';
 
 const useStyles = makeStyles(() => ({
 	root: {
@@ -99,7 +100,7 @@ const Header = observer(() => {
 									)}
 								</>
 							)}
-							<Typography variant="body2" className={classes.tvl}>
+							<Typography variant="body2" className={clsx(!!connectedAddress && classes.tvl)}>
 								All Vaults (TVL):{' '}
 							</Typography>
 							{totalValueLocked ? (
