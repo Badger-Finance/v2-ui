@@ -1,5 +1,5 @@
 body {
-	overflow-y: scroll; /* Show vertical scrollbar */
+	overflow: auto; /* Show vertical scrollbar */
 	background-size: auto 100%;
 	background-attachment: fixed;
 	background-color: #181818;

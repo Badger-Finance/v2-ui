@@ -10,12 +10,13 @@ import { StoreContext } from 'mobx/store-context';
 import NetworkNotification from 'components-v2/common/NetworkNotification';
 import NewsNotification from '../components-v2/common/NewsNotification';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
 	root: {
 		display: 'flex',
 	},
 	content: {
 		flexGrow: 1,
+		paddingBottom: theme.spacing(8),
 	},
 }));
 
