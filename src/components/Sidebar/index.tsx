@@ -21,7 +21,6 @@ import { Route } from 'mobx-router';
 import { RootStore } from 'mobx/RootStore';
 import clsx, { ClassValue } from 'clsx';
 import SecurityIcon from '@material-ui/icons/Security';
-import { sidebarPricingLinks } from 'config/ui/links';
 import { Network } from '@badger-dao/sdk';
 import { Skeleton } from '@material-ui/lab';
 import { inCurrency } from '../../mobx/utils/helpers';
