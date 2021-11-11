@@ -27,7 +27,7 @@ const useStyles = makeStyles(() => ({
 		zIndex: 1,
 	},
 	container: {
-		padding: '30px 0',
+		padding: '18px 0',
 	},
 	button: {
 		height: 36,
