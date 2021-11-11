@@ -1,4 +1,4 @@
-import { Backdrop, Button, ButtonGroup, Fade, Grid, Modal, Typography } from '@material-ui/core';
+import { Backdrop, Button, Fade, Grid, Modal, Typography } from '@material-ui/core';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import BigNumber from 'bignumber.js';
 import { Loader } from 'components/Loader';
@@ -8,9 +8,24 @@ import { StoreContext } from 'mobx/store-context';
 import { inCurrency } from 'mobx/utils/helpers';
 import React, { useState, useContext, useEffect } from 'react';
 import { RewardsModalItem } from './RewardsModalItem';
+import clsx from 'clsx';
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
+		rewards: {
+			color: '#F2BC1B',
+		},
+		rewardsButton: {
+			borderColor: '#F2BC1B',
+		},
+		rewardsIcon: { marginRight: theme.spacing(1) },
+		button: {
+			height: 36,
+		},
+		loadingRewardsButton: {
+			minWidth: 37,
+			width: 37,
+		},
 		modal: {
 			display: 'flex',
 			alignItems: 'center',
@@ -63,11 +78,6 @@ const useStyles = makeStyles((theme: Theme) =>
 				marginBottom: theme.spacing(2),
 			},
 		},
-		claimContainer: {
-			display: 'flex',
-			flexDirection: 'column',
-			marginBottom: '-2px',
-		},
 		loaderContainer: {
 			display: 'flex',
 			justifyContent: 'space-between',
@@ -91,7 +101,7 @@ export interface RewardsModalProps {
 	loading: boolean;
 }
 
-export const RewardsModal = observer((): JSX.Element | null => {
+export const RewardsWidget = observer((): JSX.Element | null => {
 	const classes = useStyles();
 	const store = useContext(StoreContext);
 	const { setts } = store;
@@ -124,10 +134,13 @@ export const RewardsModal = observer((): JSX.Element | null => {
 
 	if (loadingRewards) {
 		return (
-			<div className={classes.loaderContainer}>
-				<Typography variant="caption">Loading Rewards</Typography>
+			<Button
+				disabled
+				variant="outlined"
+				className={clsx(classes.rewards, classes.button, classes.loadingRewardsButton)}
+			>
 				<Loader size={15} />
-			</div>
+			</Button>
 		);
 	}
 
@@ -189,6 +202,7 @@ export const RewardsModal = observer((): JSX.Element | null => {
 		});
 
 	let canSubmit = true;
+
 	// update if typescript has a stream::allMatch
 	Object.entries(claimMap).forEach((entry) => {
 		const [key, value] = entry;
@@ -197,19 +211,27 @@ export const RewardsModal = observer((): JSX.Element | null => {
 			canSubmit = false;
 		}
 	});
+
 	const hasRewards = claimItems.length > 0;
+
 	return (
-		<div className={classes.claimContainer}>
-			{hasRewards && (
-				<Typography variant="caption" className={classes.amountDisplay}>
-					{inCurrency(claimableValue, currency)} in Rewards
-				</Typography>
-			)}
-			<ButtonGroup className={classes.openModalButton} size="small" variant="outlined" color="primary">
-				<Button variant="contained" onClick={() => setOpen(true)} disabled={!hasRewards}>
-					CLAIM REWARDS
-				</Button>
-			</ButtonGroup>
+		<>
+			<Button
+				classes={{ outlined: hasRewards ? classes.rewardsButton : undefined }}
+				className={clsx(classes.rewards, classes.button)}
+				variant="outlined"
+				onClick={() => setOpen(true)}
+				disabled={!hasRewards}
+			>
+				{hasRewards ? (
+					<>
+						<img className={classes.rewardsIcon} src="/assets/icons/rewards-spark.svg" alt="rewards icon" />
+						{inCurrency(claimableValue, currency)}
+					</>
+				) : (
+					'No Rewards'
+				)}
+			</Button>
 			<Modal
 				aria-labelledby="claim-modal"
 				aria-describedby="Claim your rewards"
@@ -258,6 +280,6 @@ export const RewardsModal = observer((): JSX.Element | null => {
 					</div>
 				</Fade>
 			</Modal>
-		</div>
+		</>
 	);
 });

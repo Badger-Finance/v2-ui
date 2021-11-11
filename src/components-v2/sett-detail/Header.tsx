@@ -1,14 +1,14 @@
 import React from 'react';
-import { Grid, Link, makeStyles } from '@material-ui/core';
+import { Link, makeStyles } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import GasWidget from '../common/GasWidget';
-import WalletWidget from '../common/WalletWidget';
-import { HeaderContainer } from '../common/Containers';
+import { PageHeaderContainer } from '../common/Containers';
 import { StoreContext } from '../../mobx/store-context';
 import { getRouteBySlug } from 'mobx/utils/helpers';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
+		marginTop: theme.spacing(1),
+		marginBottom: theme.spacing(3),
 		[theme.breakpoints.down('sm')]: {
 			marginTop: theme.spacing(8),
 		},
@@ -37,21 +37,15 @@ export const Header = (): JSX.Element => {
 	const settSlug = router.params?.settName?.toString();
 
 	return (
-		<HeaderContainer container className={classes.root}>
-			<Grid item xs={12} sm={6}>
-				<Link
-					component="button"
-					className={classes.links}
-					onClick={() => router.goTo(getRouteBySlug(settSlug, setts))}
-				>
-					<ArrowBackIcon className={classes.backArrow} />
-					Back to All Setts
-				</Link>
-			</Grid>
-			<Grid item xs={12} sm={6} className={classes.widgets}>
-				<GasWidget />
-				<WalletWidget />
-			</Grid>
-		</HeaderContainer>
+		<PageHeaderContainer container className={classes.root}>
+			<Link
+				component="button"
+				className={classes.links}
+				onClick={() => router.goTo(getRouteBySlug(settSlug, setts))}
+			>
+				<ArrowBackIcon className={classes.backArrow} />
+				Back to All Setts
+			</Link>
+		</PageHeaderContainer>
 	);
 };

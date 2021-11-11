@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid, makeStyles } from '@material-ui/core';
 import PageHeader from 'components-v2/common/PageHeader';
 import LeaderBoard from 'components-v2/leaderboard/LeaderBoard';
-import { HeaderContainer, LayoutContainer } from '../components-v2/common/Containers';
+import { PageHeaderContainer, LayoutContainer } from '../components-v2/common/Containers';
 
 const useStyles = makeStyles((theme) => ({
 	leaderboardContainer: {
@@ -40,9 +40,9 @@ const BoostLeaderBoard = (): JSX.Element => {
 	return (
 		<LayoutContainer>
 			<Grid container>
-				<HeaderContainer item xs={12}>
+				<PageHeaderContainer item xs={12}>
 					<PageHeader title="Badger Boost Leader Board" subtitle="Who is the fiercest Badger?" />
-				</HeaderContainer>
+				</PageHeaderContainer>
 				<div className={classes.leaderboardContainer}>
 					<LeaderBoard />
 				</div>

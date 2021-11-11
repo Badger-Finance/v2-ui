@@ -19,17 +19,18 @@ const useStyles = makeStyles((theme) => ({
 	greenDot: {
 		background: theme.palette.success.main,
 	},
-	walletButton: {
-		marginLeft: theme.spacing(1),
-		width: '188px',
-	},
+	walletButton: {},
 }));
 
 const shortenAddress = (address: string) => {
-	return address.slice(0, 7) + '...' + address.slice(address.length - 7, address.length);
+	return address.slice(0, 4) + '..' + address.slice(address.length - 4, address.length);
 };
 
-const WalletWidget = observer(() => {
+interface Props {
+	className?: HTMLButtonElement['className'];
+}
+
+const WalletWidget = observer(({ className }: Props) => {
 	const classes = useStyles();
 	const store = useContext(StoreContext);
 	const { connectedAddress, onboard } = store.wallet;
@@ -47,14 +48,13 @@ const WalletWidget = observer(() => {
 	return (
 		<Button
 			disableElevation
-			variant="contained"
-			color="secondary"
+			variant="outlined"
 			onClick={() => {
 				if (!connectedAddress) connect();
 				else store.wallet.walletReset();
 			}}
 			endIcon={walletIcon}
-			className={classes.walletButton}
+			className={clsx(classes.walletButton, className)}
 		>
 			{isConnected ? shortenAddress(connectedAddress) : 'Click to connect'}
 		</Button>

@@ -14,9 +14,6 @@ const useStyles = makeStyles((theme) => ({
 	content: {
 		margin: 'auto',
 	},
-	cardsContainer: {
-		marginBottom: theme.spacing(2),
-	},
 	holdingsContainer: {
 		marginBottom: theme.spacing(2),
 	},
@@ -62,7 +59,7 @@ export const MainContent = observer(
 						/>
 					</Grid>
 				)}
-				<Grid container spacing={1} className={classes.cardsContainer}>
+				<Grid container spacing={1}>
 					<Grid item xs={12} md={4} lg={3}>
 						<SpecsCard sett={sett} badgerSett={badgerSett} />
 					</Grid>

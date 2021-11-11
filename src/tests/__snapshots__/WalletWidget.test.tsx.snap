@@ -3,14 +3,14 @@
 exports[`WalletWidget Connected address is properly displayed 1`] = `
 <div>
   <button
-    class="MuiButtonBase-root-34 MuiButton-root-5 MuiButton-contained-13 makeStyles-walletButton-4 MuiButton-containedSecondary-15 MuiButton-disableElevation-16"
+    class="MuiButtonBase-root-34 MuiButton-root-5 MuiButton-outlined-10 makeStyles-walletButton-4 MuiButton-disableElevation-16"
     tabindex="0"
     type="button"
   >
     <span
       class="MuiButton-label-6"
     >
-      0x1a1a1...a1a1a1a
+      0x1a..1a1a
       <span
         class="MuiButton-endIcon-30 MuiButton-iconSizeMedium-32"
       >
@@ -38,7 +38,7 @@ exports[`WalletWidget Displays walletSelect menu upon click 1`] = `
 exports[`WalletWidget Renders correctly 1`] = `
 <div>
   <button
-    class="MuiButtonBase-root-34 MuiButton-root-5 MuiButton-contained-13 makeStyles-walletButton-4 MuiButton-containedSecondary-15 MuiButton-disableElevation-16"
+    class="MuiButtonBase-root-34 MuiButton-root-5 MuiButton-outlined-10 makeStyles-walletButton-4 MuiButton-disableElevation-16"
     tabindex="0"
     type="button"
   >

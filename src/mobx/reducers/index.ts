@@ -15,15 +15,18 @@ class UiState {
 	public notification: any = {};
 	public gasPrice: GasSpeed;
 	public txStatus?: string;
+	private showNotification: boolean;
 
 	constructor(store: RootStore) {
 		this.store = store;
 		this.showUserBalances = false;
 		this.gasPrice = GasSpeed.Rapid;
 		this.currency = this.loadCurrency(DEFAULT_CURRENCY);
+		this.showNotification = this.notificationClosingThreshold < 3;
 		const { network } = store.network;
 
 		extendObservable(this, {
+			showNotification: this.showNotification,
 			currency: this.currency,
 			period: window.localStorage.getItem(`${network.name}-selectedPeriod`) || 'year',
 			sidebarOpen: !!window && window.innerWidth > 960,
@@ -45,6 +48,19 @@ class UiState {
 		};
 	}
 
+	get notificationClosingThreshold(): number {
+		const { network } = this.store.network;
+		return Number(window.localStorage.getItem(`${network.name}-closing-threshold`)) || 0;
+	}
+
+	get shouldShowNotification(): boolean {
+		if (this.notificationClosingThreshold > 3) {
+			return false;
+		}
+
+		return this.showNotification;
+	}
+
 	/* Load Operations */
 
 	private loadCurrency(defaultCurrency: Currency): Currency {
@@ -53,6 +69,12 @@ class UiState {
 		const currency = stored?.toUpperCase() || defaultCurrency;
 		return Currency[currency as keyof typeof Currency] || defaultCurrency;
 	}
+
+	closeNotification = action(() => {
+		const { network } = this.store.network;
+		window.localStorage.setItem(`${network.name}-closing-threshold`, String(this.notificationClosingThreshold + 1));
+		this.showNotification = false;
+	});
 
 	queueNotification = action((message: string, variant: string, hash?: string) => {
 		this.notification = { message, variant, persist: false, hash: hash };

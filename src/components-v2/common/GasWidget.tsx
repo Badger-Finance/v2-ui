@@ -4,10 +4,10 @@ import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
 import { LocalGasStation } from '@material-ui/icons';
 import { Loader } from 'components/Loader';
+import clsx from 'clsx';
 
 const useStyles = makeStyles(() => ({
 	gasSelector: {
-		height: '2.2rem',
 		overflow: 'hidden',
 	},
 	gasIcon: {
@@ -21,7 +21,11 @@ const useStyles = makeStyles(() => ({
 	},
 }));
 
-const GasWidget = observer(() => {
+interface Props {
+	className?: HTMLButtonElement['className'];
+}
+
+const GasWidget = observer(({ className }: Props) => {
 	const classes = useStyles();
 	const store = useContext(StoreContext);
 
@@ -60,7 +64,7 @@ const GasWidget = observer(() => {
 			color="secondary"
 			value={gasPrice}
 			onChange={(v: any) => setGasPrice(v.target.value)}
-			className={classes.gasSelector}
+			className={clsx(classes.gasSelector, className)}
 			startAdornment={gasIcon}
 		>
 			{getGasSelections()}

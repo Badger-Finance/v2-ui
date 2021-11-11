@@ -7,14 +7,16 @@ import { useEffect } from 'react';
 import { ONE_MIN_MS } from 'config/constants';
 import { useContext } from 'react';
 import { StoreContext } from 'mobx/store-context';
-import AppNotification from 'components-v2/common/AppNotification';
+import NetworkNotification from 'components-v2/common/NetworkNotification';
+import NewsNotification from '../components-v2/common/NewsNotification';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
 	root: {
 		display: 'flex',
 	},
 	content: {
 		flexGrow: 1,
+		paddingBottom: theme.spacing(8),
 	},
 }));
 
@@ -33,9 +35,10 @@ export const App = (): JSX.Element => {
 	return (
 		<div className={classes.root}>
 			<Sidebar />
-			<Header />
 			<main className={classes.content}>
-				<AppNotification />
+				<Header />
+				<NetworkNotification />
+				<NewsNotification />
 				<MobxRouter store={store} />
 			</main>
 		</div>

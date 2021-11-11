@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, makeStyles, Grid, GridJustification } from '@material-ui/core';
+import { Typography, makeStyles, GridJustification, Box } from '@material-ui/core';
 import { Variant } from '@material-ui/core/styles/createTypography';
 
 const useStyles = makeStyles((theme) => ({
@@ -23,10 +23,10 @@ const CurrencyDisplay = (props: CurrencyDisplayProps): JSX.Element => {
 	const classes = useStyles();
 
 	return (
-		<Grid container justify={justify} alignItems="center">
+		<Box display="inline-flex" justifyContent={justify} alignItems="center">
 			{hasCurrencyIcon && <img src={`${icon}.png`} className={classes.currencyIcon} />}
 			<Typography variant={variant}>{hasCurrencyIcon ? displayAmount : displayValue}</Typography>
-		</Grid>
+		</Box>
 	);
 };
 

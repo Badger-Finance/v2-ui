@@ -7,7 +7,7 @@ import PageHeader from 'components-v2/common/PageHeader';
 import { Mint } from './Mint';
 import { Redeem } from './Redeem';
 import { IbbtcRoi } from './IbbtcRoi';
-import { HeaderContainer, LayoutContainer } from '../../components-v2/common/Containers';
+import { PageHeaderContainer, LayoutContainer } from '../../components-v2/common/Containers';
 import { Network } from '@badger-dao/sdk';
 
 type TABS = 'Mint' | 'Redeem';
@@ -21,10 +21,6 @@ const useStyles = makeStyles((theme) => ({
 	apyInformation: {
 		marginBottom: theme.spacing(4),
 	},
-	before: {
-		marginTop: theme.spacing(5),
-		width: '100%',
-	},
 }));
 
 export const IbBTC = observer(() => {
@@ -33,9 +29,8 @@ export const IbBTC = observer(() => {
 
 	const store = useContext(StoreContext);
 	const { network } = store.network;
-	const spacer = () => <div className={classes.before} />;
 
-	const Content = () => (
+	const content = (
 		<Container className={classes.content} maxWidth="lg">
 			{activeTab === 'Mint' && <Mint />}
 			{activeTab === 'Redeem' && <Redeem />}
@@ -45,9 +40,9 @@ export const IbBTC = observer(() => {
 	return (
 		<LayoutContainer>
 			<Grid container spacing={1} justify="center">
-				<HeaderContainer item sm={12} xs={12}>
+				<PageHeaderContainer item sm={12} xs={12}>
 					<PageHeader title="ibBTC" subtitle="Interest Bearing Badger Bitcoin." />
-				</HeaderContainer>
+				</PageHeaderContainer>
 
 				{network.symbol === Network.Ethereum ? (
 					<>
@@ -68,7 +63,7 @@ export const IbBTC = observer(() => {
 									<Tab onClick={() => setActiveTab('Mint')} value={'Mint'} label={'Mint'} />
 									<Tab onClick={() => setActiveTab('Redeem')} value={'Redeem'} label={'Redeem'} />
 								</Tabs>
-								<Content />
+								{content}
 							</Card>
 						</Grid>
 					</>
@@ -79,7 +74,6 @@ export const IbBTC = observer(() => {
 						</Grid>
 					</>
 				)}
-				{spacer()}
 			</Grid>
 		</LayoutContainer>
 	);
