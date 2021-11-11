@@ -19,8 +19,9 @@ import { Sett } from '@badger-dao/sdk';
 const useStyles = makeStyles((theme) => ({
 	root: {
 		borderBottom: `1px solid ${theme.palette.background.default}`,
+		minHeight: 90,
+		display: 'flex',
 		alignItems: 'center',
-		overflow: 'hidden',
 	},
 	enabledSett: {
 		transition: '.2s background ease-out',
@@ -45,7 +46,6 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	listItem: {
-		minHeight: 90,
 		padding: 0,
 		'&:last-child div': {
 			borderBottom: 0,

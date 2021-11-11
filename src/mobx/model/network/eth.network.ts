@@ -28,10 +28,9 @@ export class Ethereum extends NetworkModel {
 	}
 	get settOrder(): string[] {
 		return [
+			this.deploy.sett_system.vaults['native.ibbtcCrv'],
 			this.deploy.sett_system.vaults['native.bveCVXCVX'],
 			this.deploy.sett_system.vaults['native.icvx'],
-			this.deploy.sett_system.vaults['native.cvx'],
-			this.deploy.sett_system.vaults['native.badger'],
 			this.deploy.sett_system.vaults['native.digg'],
 			this.deploy.sett_system.vaults['native.sushiibBTCwBTC'],
 			this.deploy.sett_system.vaults['native.sushiBadgerWbtc'],
@@ -47,9 +46,11 @@ export class Ethereum extends NetworkModel {
 			this.deploy.sett_system.vaults['native.pbtcCrv'],
 			this.deploy.sett_system.vaults['native.obtcCrv'],
 			this.deploy.sett_system.vaults['native.bbtcCrv'],
+			this.deploy.sett_system.vaults['native.cvx'],
 			this.deploy.sett_system.vaults['yearn.wBtc'],
 			this.deploy.sett_system.vaults['native.sushiWbtcEth'],
 			this.deploy.sett_system.vaults['native.uniBadgerWbtc'],
+			this.deploy.sett_system.vaults['native.badger'],
 			this.deploy.sett_system.vaults['harvest.renCrv'],
 			this.deploy.sett_system.vaults['native.uniDiggWbtc'],
 			this.deploy.sett_system.vaults['native.tricryptoCrv'],
@@ -360,6 +361,16 @@ const ethSettDefinitions: BadgerSett[] = [
 		},
 		vaultToken: {
 			address: ETH_DEPLOY.sett_system.vaults['native.bveCVXCVX'],
+			decimals: 18,
+		},
+	},
+	{
+		depositToken: {
+			address: ETH_DEPLOY.tokens['curve.ibBTC'],
+			decimals: 18,
+		},
+		vaultToken: {
+			address: ETH_DEPLOY.sett_system.vaults['native.ibbtcCrv'],
 			decimals: 18,
 		},
 	},

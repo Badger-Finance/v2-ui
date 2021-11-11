@@ -21,7 +21,6 @@ import { Route } from 'mobx-router';
 import { RootStore } from 'mobx/RootStore';
 import clsx, { ClassValue } from 'clsx';
 import SecurityIcon from '@material-ui/icons/Security';
-import { sidebarPricingLinks } from 'config/ui/links';
 import { Network } from '@badger-dao/sdk';
 import { Skeleton } from '@material-ui/lab';
 import { inCurrency } from '../../mobx/utils/helpers';
@@ -163,21 +162,6 @@ export const Sidebar = observer(() => {
 
 	const getTokens = () => {
 		return network.sidebarTokenLinks.map((value) => {
-			return (
-				<ListItem
-					button
-					key={value.title}
-					className={classes.secondarySubListItem}
-					onClick={() => window.open(value.url.toString())}
-				>
-					{value.title}
-				</ListItem>
-			);
-		});
-	};
-
-	const getPricing = () => {
-		return sidebarPricingLinks.map((value) => {
 			return (
 				<ListItem
 					button
@@ -441,28 +425,10 @@ export const Sidebar = observer(() => {
 
 				<ListItem
 					button
-					className={classes.listItem}
-					onClick={() =>
-						window.open(
-							'https://app.nexusmutual.io/cover/buy/get-quote?address=0x6354E79F21B56C11f48bcD7c451BE456D7102A36',
-						)
-					}
-				>
-					<ListItemIcon>
-						<img alt="Nexus Logo" src={'/assets/sidebar/nexus_logo_bw.png'} className={classes.icon} />
-					</ListItemIcon>
-					<ListItemText>
-						Get Coverage
-						<div className={classes.smallItemText}>Powered By Nexus Mutual</div>
-					</ListItemText>
-				</ListItem>
-
-				<ListItem
-					button
 					className={classes.secondaryListItem}
-					onClick={() => window.open('https://shop.badger.finance/')}
+					onClick={() => window.open('https://badger.wiki/')}
 				>
-					Shop
+					Wiki
 				</ListItem>
 
 				<ListItem
@@ -480,7 +446,6 @@ export const Sidebar = observer(() => {
 				>
 					Governance
 				</ListItem>
-
 				<ListItem
 					button
 					className={classes.secondaryListItem}
@@ -498,25 +463,6 @@ export const Sidebar = observer(() => {
 
 				<Collapse in={expanded === 'tokens'} timeout="auto" unmountOnExit>
 					{getTokens()}
-				</Collapse>
-
-				<ListItem
-					button
-					className={classes.secondaryListItem}
-					onClick={() => setExpanded(expanded === 'pricing' ? '' : 'pricing')}
-				>
-					Pricing
-					<IconButton
-						size="small"
-						className={classes.expand + ' ' + (expanded === 'pricing' ? classes.expandOpen : '')}
-						aria-label="show more"
-					>
-						<ExpandMore />
-					</IconButton>
-				</ListItem>
-
-				<Collapse in={expanded === 'pricing'} timeout="auto" unmountOnExit>
-					{getPricing()}
 				</Collapse>
 
 				<ListItem
@@ -564,21 +510,6 @@ export const Sidebar = observer(() => {
 						Telegram
 					</ListItem>
 				</Collapse>
-
-				<ListItem
-					button
-					className={classes.secondaryListItem}
-					onClick={() => window.open('https://badger.wiki/')}
-				>
-					Wiki
-				</ListItem>
-				<ListItem
-					button
-					className={classes.secondaryListItem}
-					onClick={() => window.open('https://badgerdao.medium.com/badger-developer-program-3bf0cb2cc5f1')}
-				>
-					Developer Program
-				</ListItem>
 			</List>
 		</div>
 	);
