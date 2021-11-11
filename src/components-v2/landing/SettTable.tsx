@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
 		padding: 0,
 		boxShadow: theme.shadows[1],
 		marginBottom: theme.spacing(2),
-		maxHeight: '78vh',
+		maxHeight: '67vh',
 		'&::-webkit-scrollbar': {
 			backgroundColor: 'rgb(43, 43, 43)',
 			borderTopRightRadius: 8,

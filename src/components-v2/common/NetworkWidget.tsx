@@ -103,7 +103,7 @@ const NetworkOption = (props: { network: Network }) => {
 
 	return (
 		<div className={classes.networkOption}>
-			<Typography variant="body2" component="div">
+			<Typography variant="body1" component="div">
 				{displayName}
 			</Typography>
 		</div>
