@@ -8,6 +8,7 @@ import React, { useContext } from 'react';
 import { PageHeaderContainer, LayoutContainer } from '../components-v2/common/Containers';
 import { SettState } from '@badger-dao/sdk';
 import SettListView from '../components-v2/landing/SettListView';
+import DepositDialog from '../components-v2/ibbtc-vault/DepositDialog';
 
 const useStyles = makeStyles((theme) => ({
 	marginTop: {
@@ -109,6 +110,7 @@ const Landing = observer((props: LandingProps) => {
 				</Grid>
 			)}
 
+			<DepositDialog />
 			<SettListView state={state} />
 		</LayoutContainer>
 	);
