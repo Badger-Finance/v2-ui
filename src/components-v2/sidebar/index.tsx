@@ -99,7 +99,6 @@ const useStyles = makeStyles((theme) => ({
 	badgerIcon: {
 		width: '28px',
 		height: '28px',
-		margin: theme.spacing(1),
 		marginRight: theme.spacing(2),
 	},
 	badgerTitle: {
@@ -128,7 +127,7 @@ const Sidebar = observer(() => {
 	const drawerContent = (
 		<div className={classes.sidebarContainer}>
 			<div className={classes.badgerLogoContainer}>
-				<img alt="Badger Logo" className={classes.badgerIcon} src={'/assets/icons/badger_head.svg'} />
+				<img alt="Badger Logo" className={classes.badgerIcon} src={'/assets/icons/badger.png'} />
 				<span className={classes.badgerTitle}>Badger</span>
 			</div>
 			<div className={classes.linksContainer}>
