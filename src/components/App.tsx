@@ -1,6 +1,5 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Sidebar } from './Sidebar';
 import Header from './Header';
 import { MobxRouter } from 'mobx-router';
 import { useEffect } from 'react';
@@ -9,6 +8,7 @@ import { useContext } from 'react';
 import { StoreContext } from 'mobx/store-context';
 import NetworkNotification from 'components-v2/common/NetworkNotification';
 import NewsNotification from '../components-v2/common/NewsNotification';
+import Sidebar from 'components-v2/sidebar';
 
 const useStyles = makeStyles((theme) => ({
 	root: {

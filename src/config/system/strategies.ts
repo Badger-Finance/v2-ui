@@ -466,6 +466,15 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 					depositLink: 'https://curve.fi/factory/52/deposit',
 					userGuide: 'https://docs.badger.com/badger-finance/user-guides/bvecvx-cvx-curve-lp',
 				},
+				[ethDeploy.sett_system.vaults['native.ibbtcCrv']]: {
+					address: ethDeploy.sett_system.strategies['native.ibbtcCrv'],
+					fees: {
+						[StrategyFee.performance]: new BigNumber(2000),
+						[StrategyFee.withdraw]: new BigNumber(10),
+					},
+					depositLink: 'https://curve.fi/factory/8/deposit',
+					userGuide: 'https://docs.badger.com/badger-finance/user-guides/ibbtc-sbtc-curve-lp',
+				},
 			};
 	}
 };

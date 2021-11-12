@@ -87,7 +87,7 @@ const SettListItem = observer(
 		const divisor = period === 'month' ? 12 : 1;
 		const badgerSett = network.network.setts.find(({ vaultToken }) => vaultToken.address === sett?.settToken);
 
-		const displayValue = balanceValue ? balanceValue : inCurrency(new BigNumber(sett.value), currency);
+		const displayValue = balanceValue ? balanceValue : inCurrency(new BigNumber(sett.value), currency, 0);
 		const multiplier = !sett.deprecated ? user.accountDetails?.multipliers[sett.settToken] : undefined;
 
 		const canWithdraw = balance ? balance.gt(0) : false;
@@ -100,32 +100,34 @@ const SettListItem = observer(
 
 		const listItem = (
 			<ListItem className={classes.listItem} disabled={isDisabled}>
-				<Grid container className={clsx(classes.root, !isDisabled && classes.enabledSett)}>
-					<Grid container item xs={12} md={9} className={classes.clickableSection} onClick={goToSettDetail}>
-						<Grid item xs={12} md={5} className={classes.name} container>
-							<SettItemName sett={sett} />
-						</Grid>
-						<Grid item className={classes.mobileLabel} xs={6} md>
-							<Typography variant="body2" color="textSecondary">
-								ROI
-							</Typography>
-						</Grid>
-						<Grid item xs={6} md>
-							<SettItemApr sett={sett} divisor={isDisabled ? 1 : divisor} multiplier={multiplier} />
-							{multiplier !== undefined && (
-								<SettItemUserApr sett={sett} divisor={divisor} multiplier={multiplier} />
-							)}
-						</Grid>
-						<Grid item className={classes.mobileLabel} xs={6} md>
-							<Typography variant="body2" color={'textSecondary'}>
-								Value
-							</Typography>
-						</Grid>
-						<Grid item xs={6} md>
-							<CurrencyDisplay displayValue={displayValue} variant="body1" justify="flex-start" />
-						</Grid>
+				<Grid
+					container
+					className={clsx(classes.root, classes.clickableSection, !isDisabled && classes.enabledSett)}
+					onClick={goToSettDetail}
+				>
+					<Grid item xs={12} md={5} className={classes.name} container>
+						<SettItemName sett={sett} />
 					</Grid>
-					<Grid item xs={12} md className={classes.nonClickableSection}>
+					<Grid item className={classes.mobileLabel} xs={6} md={1}>
+						<Typography variant="body2" color="textSecondary">
+							ROI
+						</Typography>
+					</Grid>
+					<Grid item xs={6} md={2}>
+						<SettItemApr sett={sett} divisor={isDisabled ? 1 : divisor} multiplier={multiplier} />
+						{multiplier !== undefined && (
+							<SettItemUserApr sett={sett} divisor={divisor} multiplier={multiplier} />
+						)}
+					</Grid>
+					<Grid item className={classes.mobileLabel} xs={6} md>
+						<Typography variant="body2" color={'textSecondary'}>
+							Value
+						</Typography>
+					</Grid>
+					<Grid item xs={6} md={2}>
+						<CurrencyDisplay displayValue={displayValue} variant="body1" justify="flex-start" />
+					</Grid>
+					<Grid item xs={12} md={3} className={classes.nonClickableSection}>
 						<SettActionButtons
 							isWithdrawDisabled={!wallet.connectedAddress || !canWithdraw}
 							isDepositDisabled={!wallet.connectedAddress || isDisabled}

@@ -20,7 +20,7 @@ import clsx from 'clsx';
 const useStyles = makeStyles(() => ({
 	root: {
 		width: '100%',
-		borderBottom: '0.5px solid #848484',
+		borderBottom: '1px solid #2B2B2B',
 		position: 'sticky',
 		top: 0,
 		background: '#181818',

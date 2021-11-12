@@ -40,8 +40,8 @@ export default function TableHeader(props: TableHeaderProps): JSX.Element {
 
 	// leave 3 grid spaces for the action buttons section which has no column name
 	return (
-		<Grid item container xs={12} md={9} className={classes.root}>
-			<Grid item container xs={12} sm={5} alignItems="center">
+		<Grid item container className={classes.root}>
+			<Grid item container xs={12} md={5} alignItems="center">
 				<Grid item>
 					<Typography className={classes.title} variant="body2" color="textSecondary">
 						{title}
@@ -51,12 +51,12 @@ export default function TableHeader(props: TableHeaderProps): JSX.Element {
 					<CurrencyDisplay displayValue={displayValue} variant="body1" justify="flex-start" />
 				</Grid>
 			</Grid>
-			<Grid item xs={12} sm className={clsx(classes.hiddenMobile, classes.title)}>
+			<Grid item xs={12} md={2} className={clsx(classes.hiddenMobile, classes.title)}>
 				<Typography variant="body2" color="textSecondary">
 					{samplePeriods[period]} ROI
 				</Typography>
 			</Grid>
-			<Grid item xs={12} sm className={clsx(classes.hiddenMobile, classes.title)}>
+			<Grid item xs={12} md={2} className={clsx(classes.hiddenMobile, classes.title)}>
 				<Typography variant="body2" color="textSecondary">
 					TVL
 				</Typography>

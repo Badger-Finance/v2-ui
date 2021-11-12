@@ -11,6 +11,9 @@ const useStyles = makeStyles((theme) => ({
 		paddingBottom: theme.spacing(1),
 		display: 'flex',
 		justifyContent: 'flex-end',
+		[theme.breakpoints.down('sm')]: {
+			justifyContent: 'center',
+		},
 	},
 }));
 
