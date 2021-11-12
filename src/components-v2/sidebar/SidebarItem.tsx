@@ -26,8 +26,7 @@ const useStyles = makeStyles((theme) => ({
 		marginRight: theme.spacing(2),
 	},
 	active: {
-		background: '#070707',
-		text: 'green',
+		background: theme.palette.background.paper,
 	},
 }));
 

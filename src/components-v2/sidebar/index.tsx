@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
 		'&:hover': {
 			backgroundColor: '#070707',
 		},
-		padding: theme.spacing(0.5, 2),
+		padding: theme.spacing(0.75, 2),
 	},
 	expand: {
 		transform: 'rotate(0deg)',
@@ -74,8 +74,8 @@ const useStyles = makeStyles((theme) => ({
 		display: 'flex',
 		flexDirection: 'column',
 		minHeight: '100vh',
-		borderRight: '0.5px solid #848484',
-		background: theme.palette.background.paper,
+		borderRight: '1px solid #2B2B2B',
+		background: theme.palette.background.default,
 	},
 	linksContainer: {
 		display: 'flex',
@@ -84,14 +84,16 @@ const useStyles = makeStyles((theme) => ({
 	},
 	socialsContainer: {
 		display: 'flex',
-		justifyContent: 'space-around',
-		padding: theme.spacing(2),
+		justifyContent: 'flex-start',
+		padding: theme.spacing(1),
+		paddingLeft: '14px',
 	},
 	socialIcon: {
-		height: '30px',
-		width: '30px',
+		height: '25px',
+		width: '25px',
 		cursor: 'pointer',
 		padding: theme.spacing(0.5),
+		marginRight: theme.spacing(0.25),
 	},
 	badgerLogoContainer: {
 		display: 'flex',
@@ -275,26 +277,6 @@ const Sidebar = observer(() => {
 						</Skeleton>
 					)}
 				</ListItem>
-				<div className={classes.socialsContainer}>
-					<img
-						onClick={() => window.open('https://discord.gg/BNGTCTAt', '_blank')}
-						className={classes.socialIcon}
-						alt="Discord Icon"
-						src="/assets/icons/discord.svg"
-					/>
-					<img
-						onClick={() => window.open('https://twitter.com/BadgerDAO', '_blank')}
-						className={classes.socialIcon}
-						alt="Twitter Icon"
-						src="/assets/icons/twitter.svg"
-					/>
-					<img
-						onClick={() => window.open('https://t.me/badger_dao', '_blank')}
-						className={classes.socialIcon}
-						alt="Telegram Icon"
-						src="/assets/icons/telegram.svg"
-					/>
-				</div>
 				<ListItem
 					button
 					className={classes.secondaryListItem}
@@ -316,6 +298,26 @@ const Sidebar = observer(() => {
 				>
 					Governance
 				</ListItem>
+				<div className={classes.socialsContainer}>
+					<img
+						onClick={() => window.open('https://discord.gg/BNGTCTAt', '_blank')}
+						className={classes.socialIcon}
+						alt="Discord Icon"
+						src="/assets/icons/discord.svg"
+					/>
+					<img
+						onClick={() => window.open('https://twitter.com/BadgerDAO', '_blank')}
+						className={classes.socialIcon}
+						alt="Twitter Icon"
+						src="/assets/icons/twitter.svg"
+					/>
+					<img
+						onClick={() => window.open('https://t.me/badger_dao', '_blank')}
+						className={classes.socialIcon}
+						alt="Telegram Icon"
+						src="/assets/icons/telegram.svg"
+					/>
+				</div>
 			</List>
 		</div>
 	);
