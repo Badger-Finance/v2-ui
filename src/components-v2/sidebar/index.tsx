@@ -66,6 +66,9 @@ const useStyles = makeStyles((theme) => ({
 	versionContainer: {
 		paddingBottom: theme.spacing(0.75),
 		paddingLeft: '27px',
+		'&:hover': {
+			background: '#434343',
+		},
 	},
 	sidebarContainer: {
 		display: 'flex',
@@ -134,7 +137,6 @@ const Sidebar = observer(() => {
 				{config.cycle ? (
 					<>
 						<ListItem
-							button
 							onClick={() => setExpanded(expanded === 'advanced' ? '' : 'advanced')}
 							className={classes.versionContainer}
 						>
