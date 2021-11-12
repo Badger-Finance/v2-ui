@@ -56,7 +56,7 @@ const WalletWidget = observer(({ className }: Props) => {
 			endIcon={walletIcon}
 			className={clsx(classes.walletButton, className)}
 		>
-			{isConnected ? shortenAddress(connectedAddress) : 'Click to connect'}
+			{isConnected ? shortenAddress(connectedAddress) : 'Connect'}
 		</Button>
 	);
 });

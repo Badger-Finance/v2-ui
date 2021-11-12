@@ -26,7 +26,7 @@ describe('WalletWidget', () => {
 			</StoreProvider>,
 		);
 		act(() => {
-			fireEvent.click(screen.getByText('Click to connect'));
+			fireEvent.click(screen.getByText('Connect'));
 		});
 		// Checks that menu openned by finding the MetaMask option
 		expect(await screen.findByText('MetaMask')).toMatchSnapshot();
