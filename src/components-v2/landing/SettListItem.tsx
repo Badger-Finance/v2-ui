@@ -14,7 +14,7 @@ import routes from '../../config/routes';
 import { SettDeposit } from '../common/dialogs/SettDeposit';
 import { SettWithdraw } from '../common/dialogs/SettWithdraw';
 import { Currency } from 'config/enums/currency.enum';
-import { Sett } from '@badger-dao/sdk';
+import { Sett, SettState } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -73,22 +73,20 @@ export interface SettListItemProps {
 	balanceValue?: string;
 	accountView?: boolean;
 	currency: Currency;
-	period: string;
 }
 
 const SettListItem = observer(
-	({ sett, balance, balanceValue, currency, period, accountView = false }: SettListItemProps): JSX.Element => {
+	({ sett, balance, balanceValue, currency, accountView = false }: SettListItemProps): JSX.Element => {
 		const { user, network, router, wallet, setts } = useContext(StoreContext);
 		const [openDepositDialog, setOpenDepositDialog] = useState(false);
 		const [openWithdrawDialog, setOpenWithdrawDialog] = useState(false);
 
 		const classes = useStyles();
-
-		const divisor = period === 'month' ? 12 : 1;
 		const badgerSett = network.network.setts.find(({ vaultToken }) => vaultToken.address === sett?.settToken);
 
 		const displayValue = balanceValue ? balanceValue : inCurrency(new BigNumber(sett.value), currency, 0);
-		const multiplier = !sett.deprecated ? user.accountDetails?.multipliers[sett.settToken] : undefined;
+		const multiplier =
+			sett.state !== SettState.Deprecated ? user.accountDetails?.multipliers[sett.settToken] : undefined;
 
 		const canWithdraw = balance ? balance.gt(0) : false;
 		// sett is disabled if they are internal setts, or have a bouncer and use has no access
@@ -114,10 +112,8 @@ const SettListItem = observer(
 						</Typography>
 					</Grid>
 					<Grid item xs={6} md={2}>
-						<SettItemApr sett={sett} divisor={isDisabled ? 1 : divisor} multiplier={multiplier} />
-						{multiplier !== undefined && (
-							<SettItemUserApr sett={sett} divisor={divisor} multiplier={multiplier} />
-						)}
+						<SettItemApr sett={sett} multiplier={multiplier} />
+						{multiplier !== undefined && <SettItemUserApr sett={sett} multiplier={multiplier} />}
 					</Grid>
 					<Grid item className={classes.mobileLabel} xs={6} md>
 						<Typography variant="body2" color={'textSecondary'}>

@@ -25,18 +25,12 @@ const useStyles = makeStyles((theme) => ({
 
 interface TableHeaderProps {
 	title: string;
-	period: string;
 	displayValue: string | undefined;
 }
 
 export default function TableHeader(props: TableHeaderProps): JSX.Element {
-	const { title, period, displayValue } = props;
+	const { title, displayValue } = props;
 	const classes = useStyles();
-
-	const samplePeriods: { [period: string]: string } = {
-		month: 'Monthly',
-		year: 'Yearly',
-	};
 
 	// leave 3 grid spaces for the action buttons section which has no column name
 	return (
@@ -53,7 +47,7 @@ export default function TableHeader(props: TableHeaderProps): JSX.Element {
 			</Grid>
 			<Grid item xs={12} md={2} className={clsx(classes.hiddenMobile, classes.title)}>
 				<Typography variant="body2" color="textSecondary">
-					{samplePeriods[period]} ROI
+					Yearly ROI
 				</Typography>
 			</Grid>
 			<Grid item xs={12} md={2} className={clsx(classes.hiddenMobile, classes.title)}>
