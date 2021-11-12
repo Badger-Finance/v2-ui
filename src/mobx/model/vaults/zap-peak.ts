@@ -31,10 +31,11 @@ export class ZapPeak implements IbbtcVaultPeak {
 	}
 
 	async getMintMethod(amount: BigNumber, slippage: BigNumber): Promise<ContractSendMethod> {
-		const { poolId, idx, bBTC } = await this.getCalcMintMethod(amount).call();
+		const { idx, bBTC } = await this.getCalcMintMethod(amount).call();
 		const slippagePercentage = new BigNumber(100).minus(slippage);
 		const minOut = new BigNumber(bBTC).multipliedBy(slippagePercentage).dividedToIntegerBy(100);
-		return this.peakContract.methods.mint(this.referenceToken.address, toHex(amount), poolId, idx, toHex(minOut));
+		// pool id 0 is the ren pool id
+		return this.peakContract.methods.mint(this.referenceToken.address, toHex(amount), 0, idx, toHex(minOut));
 	}
 
 	getCalcRedeemMethod(): ContractSendMethod {
