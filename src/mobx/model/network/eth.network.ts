@@ -401,6 +401,9 @@ const ethRewards = [
 	},
 ];
 
-const ethTokens = ethSetts.flatMap((sett) => [sett.depositToken, sett.vaultToken]).concat(ethRewards);
+const ethTokens = ethSetts
+	.flatMap((sett) => [sett.depositToken, sett.vaultToken])
+	.concat(ethRewards)
+	.concat([{ name: 'ibBTC', decimals: 18, address: '0xc4E15973E6fF2A35cC804c2CF9D2a1b817a8b40F', symbol: 'ibBTC' }]);
 
 export const ethProtocolTokens: ProtocolTokens = toRecord(ethTokens, 'address');

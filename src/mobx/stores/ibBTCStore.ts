@@ -31,7 +31,7 @@ interface RedeemAmountCalculation {
 class IbBTCStore {
 	private readonly store: RootStore;
 	private config: typeof addresses.mainnet;
-	private initialized = false;
+	private isInitialized = false;
 
 	public tokens: Array<IbbtcOptionToken> = [];
 	public ibBTC: IbbtcOptionToken;
@@ -72,7 +72,13 @@ class IbBTCStore {
 			apyUsingLastWeek: this.apyUsingLastWeek,
 			mintFeePercent: this.mintFeePercent,
 			redeemFeePercent: this.redeemFeePercent,
+			initialized: this.initialized,
+			isInitialized: this.isInitialized,
 		});
+	}
+
+	get initialized(): boolean {
+		return this.isInitialized;
 	}
 
 	// just to have the same pattern as redeem options, currently all peaks can mint
@@ -90,7 +96,7 @@ class IbBTCStore {
 		// M50: by default the network ID is set to ethereum.  We should check the provider to ensure the
 		// connected wallet is using ETH network, not the site.
 		const network = getNetworkFromProvider(this.store.wallet.provider);
-		if (this.initialized || network !== Network.Ethereum) {
+		if (this.isInitialized || network !== Network.Ethereum) {
 			return;
 		}
 
@@ -109,7 +115,7 @@ class IbBTCStore {
 			}
 			return;
 		});
-		this.initialized = true;
+		this.isInitialized = true;
 	}
 
 	fetchFees = action(
