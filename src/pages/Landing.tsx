@@ -156,7 +156,12 @@ const Landing = observer((props: LandingProps) => {
 				</div>
 			)}
 
-			<DepositDialog />
+			<DepositDialog
+				show
+				onDeposit={(balances) => {
+					console.log(balances);
+				}}
+			/>
 			<SettListView state={state} />
 		</LayoutContainer>
 	);
