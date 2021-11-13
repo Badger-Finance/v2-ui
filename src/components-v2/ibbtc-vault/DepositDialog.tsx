@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
 		top: 8,
 	},
 	inputRow: {
-		marginTop: theme.spacing(2),
+		marginBottom: theme.spacing(0.75),
 	},
 	divider: {
 		margin: theme.spacing(3, 0),
@@ -55,84 +55,76 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const DepositDialog = (): JSX.Element => {
-	const { user, prices, ibBTCStore } = useContext(StoreContext);
-	const [balances, setBalances] = useState<TokenBalance[]>([]);
-	const classes = useStyles();
+const DepositDialog = observer(
+	(): JSX.Element => {
+		const { user, prices, ibBTCStore, setts } = useContext(StoreContext);
+		const [balances, setBalances] = useState<TokenBalance[]>([]);
+		const classes = useStyles();
 
-	const handleChange = (tokenBalance: BigNumber, index: number) => {
-		const balancesCopy = [...balances];
-		balancesCopy[index].tokenBalance = tokenBalance;
-		setBalances(balancesCopy);
-	};
+		const handleChange = (tokenBalance: BigNumber, index: number) => {
+			const balancesCopy = [...balances];
+			balancesCopy[index].tokenBalance = tokenBalance;
+			setBalances(balancesCopy);
+		};
 
-	useEffect(() => {
-		const renBTC = user.getTokenBalance(mainnetDeploy.tokens['renBTC']);
-		const wBTC = user.getTokenBalance(mainnetDeploy.tokens['wBTC']);
-		const ibbtcTokenBalance = user.getTokenBalance(mainnetDeploy.tokens['ibBTC']);
-		const ibbtcPrice = prices.getPrice(ibbtcTokenBalance.token.address);
-		const userIbbtcBalance = ibBTCStore.ibBTC.balance;
+		useEffect(() => {
+			// console.log('update');
+			const sBTC = user.getTokenBalance(mainnetDeploy.tokens['sBTC']);
+			const renBTC = user.getTokenBalance(mainnetDeploy.tokens['renBTC']);
+			const wBTC = user.getTokenBalance(mainnetDeploy.tokens['wBTC']);
+			const ibbtc = user.getTokenBalance(mainnetDeploy.tokens['ibBTC']);
+			setBalances([sBTC, renBTC, wBTC, ibbtc]);
+		}, [ibBTCStore, prices, user, user.loadingBalances, setts.initialized]);
 
-		wBTC.token.name = 'wBTC';
-		renBTC.token.name = 'RenBTC';
-		ibbtcTokenBalance.token.name = 'ibBTC';
-		ibbtcTokenBalance.price = ibbtcPrice;
-		ibbtcTokenBalance.tokenBalance = userIbbtcBalance;
-		ibbtcTokenBalance.balance = userIbbtcBalance.dividedBy(Math.pow(10, ibbtcTokenBalance.token.decimals));
-
-		setBalances([renBTC, wBTC, ibbtcTokenBalance]);
-	}, [ibBTCStore, prices, user]);
-
-	console.log('ibBTCStore.initialized', ibBTCStore.initialized);
-
-	return (
-		<Dialog open={true} fullWidth maxWidth="sm" classes={{ paperWidthSm: classes.root }}>
-			<DialogTitle className={classes.title}>
-				Deposit Tokens
-				<IconButton className={classes.closeButton}>
-					<CloseIcon />
-				</IconButton>
-			</DialogTitle>
-			<DialogContent className={classes.content}>
-				<Grid container>
-					<Grid item xs={12}>
-						<Avatar
-							className={classes.avatar}
-							src="/assets/icons/bcrvibbtc.png"
-							alt="ibbtc curve lp vault"
-						/>
-						<Box display="inline-block">
-							<Typography variant="body1">RenBTC / wBTC/ ibBTC LP</Typography>
-							<Typography variant="body1">Convex</Typography>
-						</Box>
+		return (
+			<Dialog open={true} fullWidth maxWidth="sm" classes={{ paperWidthSm: classes.root }}>
+				<DialogTitle className={classes.title}>
+					Deposit Tokens
+					<IconButton className={classes.closeButton}>
+						<CloseIcon />
+					</IconButton>
+				</DialogTitle>
+				<DialogContent className={classes.content}>
+					<Grid container>
+						<Grid item xs={12}>
+							<Avatar
+								className={classes.avatar}
+								src="/assets/icons/bcrvibbtc.png"
+								alt="ibbtc curve lp vault"
+							/>
+							<Box display="inline-block">
+								<Typography variant="body1">sBTC / renBTC / wBTC / ibBTC LP</Typography>
+								<Typography variant="body1">Convex</Typography>
+							</Box>
+						</Grid>
+						<div className={classes.inputsContainer}>
+							{balances.map((tokenBalance, index) => (
+								<Grid
+									item
+									xs={12}
+									key={`${tokenBalance.token.address}_${index}`}
+									className={classes.inputRow}
+								>
+									<BalanceInput
+										tokenBalance={tokenBalance}
+										onChange={(change) => handleChange(change, index)}
+									/>
+								</Grid>
+							))}
+						</div>
 					</Grid>
-					<div className={classes.inputsContainer}>
-						{balances.map((tokenBalance, index) => (
-							<Grid
-								item
-								xs={12}
-								key={`${tokenBalance.token.address}_${index}`}
-								className={classes.inputRow}
-							>
-								<BalanceInput
-									tokenBalance={tokenBalance}
-									onChange={(change) => handleChange(change, index)}
-								/>
-							</Grid>
-						))}
-					</div>
-				</Grid>
-				<Divider className={classes.divider} variant="fullWidth" />
-				<Grid container alignItems="center" justify="space-between">
-					<Typography variant="body1">Total Deposit Amount</Typography>
-					<Typography variant="body1">0</Typography>
-				</Grid>
-				<Button className={classes.depositButton} variant="contained" fullWidth color="primary">
-					Deposit
-				</Button>
-			</DialogContent>
-		</Dialog>
-	);
-};
+					<Divider className={classes.divider} variant="fullWidth" />
+					<Grid container alignItems="center" justify="space-between">
+						<Typography variant="body1">Total Deposit Amount</Typography>
+						<Typography variant="body1">0</Typography>
+					</Grid>
+					<Button className={classes.depositButton} variant="contained" fullWidth color="primary">
+						Deposit
+					</Button>
+				</DialogContent>
+			</Dialog>
+		);
+	},
+);
 
-export default observer(DepositDialog);
+export default DepositDialog;

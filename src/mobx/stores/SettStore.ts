@@ -11,7 +11,6 @@ import { SettMap } from '../model/setts/sett-map';
 import { TokenBalances } from 'mobx/model/account/user-balances';
 import BigNumber from 'bignumber.js';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
-import { getToken } from 'web3/config/token-config';
 import { Currency, Network, ProtocolSummary, Sett, SettState } from '@badger-dao/sdk';
 import { SlugCache } from '../model/setts/slug-cache';
 import { parseCallReturnContext } from '../utils/multicall';
@@ -112,12 +111,12 @@ export default class SettStore {
 		return Object.fromEntries(Object.entries(setts).filter((entry) => entry[1].state === state));
 	}
 
-	getToken(address: string): Token | undefined {
+	getToken(address: string): Token {
 		const { network } = this.store.network;
 		const tokens = this.tokenCache[network.symbol];
 		const tokenAddress = Web3.utils.toChecksumAddress(address);
 		if (!tokens || !tokens[tokenAddress]) {
-			return;
+			throw new Error(`Requesting unsupported token ${tokenAddress}`);
 		}
 		return tokens[tokenAddress];
 	}
@@ -131,8 +130,8 @@ export default class SettStore {
 				this.loadTokens(network.symbol),
 				this.loadAssets(network.symbol),
 			]);
+			await this.store.user.refreshBalances();
 			this.initialized = true;
-			this.store.user.refreshBalances();
 		}
 	}
 
@@ -183,7 +182,7 @@ export default class SettStore {
 		if (!balanceResults || balanceResults.length === 0 || !settAddress) {
 			return;
 		}
-		const settToken = getToken(settAddress);
+		const settToken = this.getToken(settAddress);
 		if (!settToken) {
 			return;
 		}

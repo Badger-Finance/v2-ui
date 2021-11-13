@@ -252,6 +252,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 
 			current,
 		},
+		setts,
 	} = store;
 
 	const initialTokenState: {
@@ -507,12 +508,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 			},
 		];
 
-		const tokenParam = {
-			address: tokenAddress(),
-			symbol: token,
-			totalSupply: amountOut,
-			decimals: 0,
-		};
+		const tokenParam = setts.getToken(tokenAddress());
 
 		const allowance = await getAllowance(tokenParam, bridge_system.adapter);
 

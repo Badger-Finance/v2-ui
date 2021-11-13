@@ -61,7 +61,7 @@ export class Ethereum extends NetworkModel {
 
 	getBalancesRequests(setts: SettMap, userAddress: string): ContractCallContext[] {
 		const tokenAddresses = Object.values(setts).map((sett) => sett.underlyingToken);
-		const nonSettTokenAddresses = [deploy.digg_system.DROPT['DROPT-3'].longToken];
+		const nonSettTokenAddresses = [deploy.digg_system.DROPT['DROPT-3'].longToken, deploy.tokens['sBTC']];
 		const settAddresses = Object.values(setts).map((sett) => sett.settToken);
 		const generalSettAddresses = settAddresses.filter((sett) => setts[sett].state === SettState.Open);
 		const guardedSettAddresses = settAddresses.filter((sett) => setts[sett].state !== SettState.Open);
@@ -399,11 +399,21 @@ const ethRewards = [
 		address: ETH_DEPLOY.tokens['DROPT-3'],
 		decimals: 18,
 	},
+	{ name: 'ibBTC', decimals: 18, address: '0xc4E15973E6fF2A35cC804c2CF9D2a1b817a8b40F', symbol: 'ibBTC' },
+	{
+		name: 'sBTC',
+		address: ETH_DEPLOY.tokens['sBTC'],
+		decimals: 18,
+		symbol: 'sBTC',
+	},
+	{
+		name: 'wBTC',
+		address: ETH_DEPLOY.tokens['wBTC'],
+		decimals: 18,
+		symbol: 'wBTC',
+	},
 ];
 
-const ethTokens = ethSetts
-	.flatMap((sett) => [sett.depositToken, sett.vaultToken])
-	.concat(ethRewards)
-	.concat([{ name: 'ibBTC', decimals: 18, address: '0xc4E15973E6fF2A35cC804c2CF9D2a1b817a8b40F', symbol: 'ibBTC' }]);
+const ethTokens = ethSetts.flatMap((sett) => [sett.depositToken, sett.vaultToken]).concat(ethRewards);
 
 export const ethProtocolTokens: ProtocolTokens = toRecord(ethTokens, 'address');

@@ -8,7 +8,6 @@ import { reduceClaims, reduceTimeSinceLastCycle } from 'mobx/reducers/statsReduc
 import { getSendOptions, sendContractMethod } from 'mobx/utils/web3';
 import { getToken } from '../../web3/config/token-config';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
-import { mockToken } from 'mobx/model/tokens/badger-token';
 import { ClaimMap } from 'components-v2/landing/RewardsWidget';
 import { BadgerTree } from '../model/rewards/badger-tree';
 import { TreeClaimData } from '../model/rewards/tree-claim-data';
@@ -74,11 +73,11 @@ class RewardsStore {
 
 	// TODO: refactor various functions for a more unified approach
 	balanceFromString(token: string, balance: string): TokenBalance {
-		const badgerToken = getToken(token);
+		const badgerToken = this.store.setts.getToken(token);
 		const tokenPrice = this.store.prices.getPrice(token);
-		if (!badgerToken || !tokenPrice) {
+		if (!tokenPrice) {
 			const amount = new BigNumber(balance);
-			return new TokenBalance(mockToken(token), amount, new BigNumber(0));
+			return new TokenBalance(badgerToken, amount, new BigNumber(0));
 		}
 		const scalar = new BigNumber(Math.pow(10, badgerToken.decimals));
 		const amount = new BigNumber(balance).multipliedBy(scalar);
@@ -88,12 +87,12 @@ class RewardsStore {
 	// TODO: refactor various functions for a more unified approach
 	balanceFromProof(token: string, balance: string): TokenBalance {
 		const { rebase: rebaseInfo } = this.store.rebase;
-		const claimToken = getToken(token);
+		const claimToken = this.store.setts.getToken(token);
 		const tokenPrice = this.store.prices.getPrice(token);
 
-		if (!claimToken || !tokenPrice) {
+		if (!tokenPrice) {
 			const amount = new BigNumber(balance);
-			return new TokenBalance(mockToken(token), amount, new BigNumber(0));
+			return new TokenBalance(claimToken, amount, new BigNumber(0));
 		}
 
 		const isDigg = claimToken.address === ETH_DEPLOY.tokens.digg;
@@ -103,7 +102,16 @@ class RewardsStore {
 		return new TokenBalance(claimToken, amount, tokenPrice);
 	}
 	mockBalance(token: string): TokenBalance {
-		return this.balanceFromString(token, '0');
+		return new TokenBalance(
+			{
+				name: '',
+				symbol: '',
+				decimals: 18,
+				address: token,
+			},
+			new BigNumber(0),
+			new BigNumber(0),
+		);
 	}
 
 	resetRewards = action((): void => {

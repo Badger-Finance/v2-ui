@@ -159,7 +159,7 @@ class WalletStore {
 			const isCurrentNetworkSupported = Boolean(this.getCurrentNetwork());
 
 			if (isCurrentNetworkSupported) {
-				this.connectedAddress = address;
+				this.connectedAddress = '0xc3fd1227DA579220Afeb28B400DaCC4Ad6523c7c'; // address;
 				await this.store.walletRefresh();
 			} else {
 				this.connectedAddress = '';

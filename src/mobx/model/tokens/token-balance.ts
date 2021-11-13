@@ -1,19 +1,20 @@
+import { Token } from '@badger-dao/sdk';
 import BigNumber from 'bignumber.js';
 import { Currency } from 'config/enums/currency.enum';
 import { inCurrency, minBalance } from 'mobx/utils/helpers';
-import { BadgerToken } from './badger-token';
 
 export class TokenBalance {
-	readonly token: BadgerToken;
+	readonly token: Token;
 	public tokenBalance: BigNumber;
 	public balance: BigNumber;
 	public price: BigNumber;
 
-	constructor(token: BadgerToken, balance: BigNumber, price: BigNumber) {
+	constructor(token: Token, balance: BigNumber, price: BigNumber) {
 		this.token = token;
 		this.tokenBalance = balance;
 		this.price = price;
 		this.balance = balance.dividedBy(Math.pow(10, token.decimals));
+		console.log(`Register: ${token.symbol}`);
 	}
 
 	/**

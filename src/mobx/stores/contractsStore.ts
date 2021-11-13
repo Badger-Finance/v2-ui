@@ -7,11 +7,10 @@ import { ContractSendMethod } from 'web3-eth-contract';
 import { EMPTY_DATA, ERC20, GEYSER_ABI, MAX, SETT_ABI, YEARN_ABI } from 'config/constants';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { BadgerSett } from 'mobx/model/vaults/badger-sett';
-import { BadgerToken } from 'mobx/model/tokens/badger-token';
 import { toFixedDecimals, unscale } from '../utils/helpers';
 import { action, extendObservable } from 'mobx';
 import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
-import { BouncerType, Sett } from '@badger-dao/sdk';
+import { BouncerType, Sett, Token } from '@badger-dao/sdk';
 
 type ProgressTracker = Record<string, boolean>;
 
@@ -41,19 +40,20 @@ class ContractsStore {
 	): Promise<void> => {
 		const { queueNotification } = this.store.uiState;
 		const amount = depositAmount.balance;
+		const depositToken = this.store.setts.getToken(sett.underlyingToken);
+
+		if (!depositToken) {
+			return;
+		}
 
 		if (amount.isNaN() || amount.lte(0) || amount.gt(userBalance.balance)) {
 			queueNotification('Please enter a valid amount', 'error');
 			return;
 		}
 
-		const allowance = await this.getAllowance(badgerSett.depositToken, badgerSett.vaultToken.address);
+		const allowance = await this.getAllowance(depositToken, badgerSett.vaultToken.address);
 
 		if (amount.gt(allowance.balance)) {
-			const depositToken: BadgerToken = {
-				...badgerSett.depositToken,
-				symbol: badgerSett.depositToken.symbol || sett.asset, //fallback symbol
-			};
 			await this.increaseAllowance(depositToken, badgerSett.vaultToken.address);
 		}
 
@@ -99,7 +99,7 @@ class ContractsStore {
 		await this.withdrawVault(sett, badgerSett, withdrawAmount);
 	};
 
-	increaseAllowance = async (token: BadgerToken, contract: string): Promise<void> => {
+	increaseAllowance = async (token: Token, contract: string): Promise<void> => {
 		const {
 			wallet: { provider },
 			uiState: { queueNotification },
@@ -117,7 +117,7 @@ class ContractsStore {
 		await sendContractMethod(this.store, method, options, infoMessage, successMessage);
 	};
 
-	getAllowance = async (token: BadgerToken, spender: string): Promise<TokenBalance> => {
+	getAllowance = async (token: Token, spender: string): Promise<TokenBalance> => {
 		const { provider, connectedAddress } = this.store.wallet;
 
 		const web3 = new Web3(provider);

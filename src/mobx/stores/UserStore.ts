@@ -7,7 +7,6 @@ import BigNumber from 'bignumber.js';
 import { BalanceNamespace, ContractNamespaces } from 'web3/config/namespaces';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { BadgerSett } from 'mobx/model/vaults/badger-sett';
-import { BadgerToken, mockToken } from 'mobx/model/tokens/badger-token';
 import { ONE_MIN_MS, ZERO_ADDR } from 'config/constants';
 import { UserBalanceCache } from 'mobx/model/account/user-balance-cache';
 import { CachedTokenBalances } from 'mobx/model/account/cached-token-balances';
@@ -16,7 +15,6 @@ import { RewardMerkleClaim } from '../model/rewards/reward-merkle-claim';
 import { UserPermissions } from '../model/account/userPermissions';
 import { NetworkStore } from './NetworkStore';
 import { defaultSettBalance } from 'components-v2/sett-detail/utils';
-import { getToken } from 'web3/config/token-config';
 import { Account, BouncerType, MerkleProof, Network, Sett, SettData } from '@badger-dao/sdk';
 import { fetchClaimProof } from 'mobx/utils/apiV2';
 import { Multicall } from 'ethereum-multicall';
@@ -342,7 +340,6 @@ export default class UserStore {
 		userTokens,
 		userGeneralSetts,
 		userGuardedSetts,
-		userGeysers,
 		nonSettUserTokens,
 	}: RequestExtractedResults): ExtractedBalances {
 		const tokenBalances: TokenBalances = {};
@@ -354,7 +351,6 @@ export default class UserStore {
 		userGeneralSetts.forEach((sett) => this.store.setts.updateAvailableBalance(sett));
 		userGuardedSetts.forEach((sett) => this.updateUserBalance(settBalances, sett, this.getSettToken));
 		userGuardedSetts.forEach((sett) => this.store.setts.updateAvailableBalance(sett));
-		userGeysers.forEach((geyser) => this.updateUserBalance(geyserBalances, geyser, this.getGeyserMockToken));
 		nonSettUserTokens.forEach((token) => this.updateNonSettUserBalance(tokenBalances, token));
 
 		return {
@@ -457,12 +453,9 @@ export default class UserStore {
 	private updateUserBalance = (
 		tokenBalances: TokenBalances,
 		returnContext: ContractCallReturnContext,
-		getBalanceToken: (sett: BadgerSett) => BadgerToken,
+		getBalanceToken: (sett: Sett) => string,
 	): void => {
-		const {
-			prices,
-			network: { network },
-		} = this.store;
+		const { prices, setts } = this.store;
 
 		const tokenAddress = returnContext.originalContractCallContext.contractAddress;
 		const token = parseCallReturnContext(returnContext.callsReturnContext);
@@ -473,30 +466,30 @@ export default class UserStore {
 		}
 
 		const balance = new BigNumber(balanceResults[0][0].hex);
-		const sett = network.setts.find((s) => getBalanceToken(s).address === tokenAddress);
+		const sett = setts.getSett(tokenAddress);
+		console.log(`Found sett: ${sett}`);
 
 		if (!sett) {
 			return;
 		}
 
 		const balanceToken = getBalanceToken(sett);
-		let pricingToken = balanceToken.address;
+		const tokenPrice = prices.getPrice(balanceToken);
+		const key = Web3.utils.toChecksumAddress(balanceToken);
+		const balanceTokenInfo = setts.getToken(balanceToken);
 
-		if (sett.geyser && sett.geyser === pricingToken) {
-			pricingToken = sett.vaultToken.address;
+		if (!balanceTokenInfo) {
+			return;
 		}
 
-		const tokenPrice = prices.getPrice(pricingToken);
-		const key = Web3.utils.toChecksumAddress(balanceToken.address);
-
-		tokenBalances[key] = new TokenBalance(balanceToken, balance, tokenPrice);
+		tokenBalances[key] = new TokenBalance(balanceTokenInfo, balance, tokenPrice);
 	};
 
 	private updateNonSettUserBalance = (
 		tokenBalances: TokenBalances,
 		returnContext: ContractCallReturnContext,
 	): void => {
-		const { prices } = this.store;
+		const { prices, setts } = this.store;
 		const tokenAddress = returnContext.originalContractCallContext.contractAddress;
 		const token = parseCallReturnContext(returnContext.callsReturnContext);
 		const balanceResults = token.balanceOf[0];
@@ -505,7 +498,7 @@ export default class UserStore {
 			return;
 		}
 
-		const balanceToken = getToken(tokenAddress);
+		const balanceToken = setts.getToken(tokenAddress);
 
 		if (!balanceToken) {
 			return;
@@ -519,8 +512,6 @@ export default class UserStore {
 
 	/* Token Balance Accessors */
 
-	private getDepositToken = (sett: BadgerSett): BadgerToken => sett.depositToken;
-	private getSettToken = (sett: BadgerSett): BadgerToken => sett.vaultToken;
-	/* eslint-disable-next-line @typescript-eslint/no-non-null-assertion */
-	private getGeyserMockToken = (sett: BadgerSett): BadgerToken => mockToken(sett.geyser!, sett.vaultToken.decimals);
+	private getDepositToken = (sett: Sett): string => sett.underlyingToken;
+	private getSettToken = (sett: Sett): string => sett.settToken;
 }

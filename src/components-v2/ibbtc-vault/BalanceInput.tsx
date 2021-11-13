@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
 		textAlign: 'end',
 	},
 	balances: {
-		marginTop: theme.spacing(1),
+		marginTop: theme.spacing(0.5),
 	},
 }));
 
@@ -33,7 +33,7 @@ const BalanceInput = ({ tokenBalance, onChange }: Props) => {
 	const { balance, price, token } = tokenBalance;
 	const { user } = useContext(StoreContext);
 	const [inputValue, setInputValue] = useState(balance.toString());
-	const { inputProps, onValidChange } = useNumericInput();
+	const { inputProps, onValidChange } = useNumericInput(12);
 	const classes = useStyles();
 
 	const handleInputChange = (amount: string) => {
@@ -52,7 +52,7 @@ const BalanceInput = ({ tokenBalance, onChange }: Props) => {
 			{[25, 50, 75, 100].map((percentage, index, total) => (
 				<Fragment key={`${percentage}%_${index}`}>
 					<ButtonBase onClick={() => handleApplyPercentage(percentage)}>
-						<Typography variant="subtitle2">{`${percentage}%`}</Typography>
+						<Typography variant="caption">{`${percentage}%`}</Typography>
 					</ButtonBase>
 					{index !== total.length - 1 && <Divider orientation="vertical" variant="middle" flexItem />}
 				</Fragment>
@@ -67,11 +67,10 @@ const BalanceInput = ({ tokenBalance, onChange }: Props) => {
 	return (
 		<Grid container>
 			<Grid item xs={12} sm={3}>
-				<Typography variant="body1">{token.name}</Typography>
-				<Typography variant="subtitle2" color="textSecondary">{`1@ ${inCurrency(
-					price,
-					Currency.USD,
-				)}`}</Typography>
+				<Typography variant="subtitle2">{token.symbol}</Typography>
+				<Typography variant="caption" color="textSecondary">
+					{inCurrency(price, Currency.USD)}
+				</Typography>
 			</Grid>
 			<Grid item container xs={12} sm={9}>
 				<Box width="100%">
@@ -86,12 +85,12 @@ const BalanceInput = ({ tokenBalance, onChange }: Props) => {
 				</Box>
 				<Grid container alignItems="center" justify="space-between" className={classes.balances}>
 					<Box>
-						<Typography variant="subtitle2">{`BALANCE: ${tokenBalance.balanceDisplay(6)}`}</Typography>
+						<Typography variant="caption">{`BALANCE: ${tokenBalance.balanceDisplay(6)}`}</Typography>
 					</Box>
 					{percentages}
 				</Grid>
 				<Grid container>
-					<Typography variant="body2" color="textSecondary">{`(${tokenBalance.balanceValueDisplay(
+					<Typography variant="caption" color="textSecondary">{`(${tokenBalance.balanceValueDisplay(
 						Currency.USD,
 					)})`}</Typography>
 				</Grid>
