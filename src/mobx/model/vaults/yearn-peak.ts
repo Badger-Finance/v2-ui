@@ -15,13 +15,10 @@ export class YearnPeak implements IbbtcVaultPeak {
 	address: string;
 	type: PeakType;
 	referenceToken: IbbtcOptionToken;
-
-	private store: RootStore;
 	private peakContract: any;
 
-	constructor(store: RootStore, referenceToken: IbbtcOptionToken) {
-		const web3 = new Web3(store.wallet.provider);
-		this.store = store;
+	constructor(private store: RootStore, referenceToken: IbbtcOptionToken) {
+		const web3 = new Web3(this.store.onboard.wallet?.provider);
 		this.referenceToken = referenceToken;
 		this.address = addresses.mainnet.contracts.yearnWBTCPeak.address;
 		this.type = 'yearn';
@@ -46,7 +43,7 @@ export class YearnPeak implements IbbtcVaultPeak {
 	}
 
 	async bBTCToSett(amount: BigNumber): Promise<BigNumber> {
-		const web3 = new Web3(this.store.wallet.provider);
+		const web3 = new Web3(this.store.onboard.wallet?.provider);
 		const yearnToken = new web3.eth.Contract(yearnConfig.abi as AbiItem[], this.referenceToken.address);
 		const yearnTokenPricePerShare = await yearnToken.methods.pricePerShare().call();
 

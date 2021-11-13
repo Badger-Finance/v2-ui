@@ -1,6 +1,5 @@
 import { RouterStore } from 'mobx-router';
 import UiState from './reducers';
-import WalletStore from './stores/walletStore';
 import ContractsStore from './stores/contractsStore';
 import AirdropStore from './stores/airdropStore';
 import RebaseStore from './stores/rebaseStore';
@@ -17,19 +16,21 @@ import { NetworkStore } from './stores/NetworkStore';
 import { SettDetailStore } from './stores/SettDetail.store';
 import { SettChartsStore } from './stores/SettChartsStore';
 import LockedCvxDelegationStore from './stores/lockedCvxDelegationStore';
-import { BadgerAPI } from '@badger-dao/sdk';
+import { BadgerAPI, SDKProvider } from '@badger-dao/sdk';
 import { defaultNetwork } from 'config/networks.config';
 import { BADGER_API } from './utils/apiV2';
+import { OnboardStore } from './stores/OnboardStore';
+import { NetworkConfig } from '@badger-dao/sdk/lib/config/network/network.config';
 
 export class RootStore {
 	public api: BadgerAPI;
 	public router: RouterStore<RootStore>;
 	public network: NetworkStore;
-	public wallet: WalletStore;
 	public uiState: UiState;
 	public contracts: ContractsStore;
 	public airdrops: AirdropStore;
 	public rebase: RebaseStore;
+	public onboard: OnboardStore;
 	public rewards: RewardsStore;
 	public ibBTCStore: IbBTCStore;
 	public setts: SettStore;
@@ -44,9 +45,10 @@ export class RootStore {
 
 	constructor() {
 		this.api = new BadgerAPI(defaultNetwork.id, BADGER_API);
+		const config = NetworkConfig.getConfig(defaultNetwork.id);
 		this.router = new RouterStore<RootStore>(this);
+		this.onboard = new OnboardStore(this, config);
 		this.network = new NetworkStore(this);
-		this.wallet = new WalletStore(this);
 		this.prices = new PricesStore(this);
 		this.contracts = new ContractsStore(this);
 		this.airdrops = new AirdropStore(this);
@@ -65,14 +67,10 @@ export class RootStore {
 		this.lockedCvxDelegation = new LockedCvxDelegationStore(this);
 	}
 
-	async walletRefresh(): Promise<void> {
-		if (!this.wallet.connectedAddress) {
-			return;
-		}
-
-		const { network } = this.network;
+	async updateNetwork(network: number): Promise<void> {
+		console.log(network);
+		this.api = new BadgerAPI(network, BADGER_API);
 		this.rewards.resetRewards();
-		this.api = new BadgerAPI(network.id, BADGER_API);
 
 		const refreshData = [
 			this.network.updateGasPrices(),
@@ -80,16 +78,27 @@ export class RootStore {
 			this.loadTreeData(),
 			this.prices.loadPrices(),
 			this.leaderBoard.loadData(),
-			this.user.loadAccountDetails(this.wallet.connectedAddress),
 		];
 
 		await Promise.all(refreshData);
 
-		if (this.wallet.connectedAddress) {
-			if (network.id === NETWORK_IDS.ETH) {
-				this.ibBTCStore.init();
-				await this.airdrops.fetchAirdrops();
-			}
+		if (network === NETWORK_IDS.ETH) {
+			this.ibBTCStore.init();
+			await this.airdrops.fetchAirdrops();
+		}
+	}
+
+	// the provider wiring is not needed or used / required for move to sdk based app
+	/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
+	async updateProvider(provider: SDKProvider): Promise<void> {
+		const { network } = this.network;
+		const signer = provider.getSigner();
+		if (signer) {
+			const address = await signer.getAddress();
+			await Promise.all([this.user.loadAccountDetails(address), this.user.reloadBalances(address)]);
+		}
+		if (network.id === NETWORK_IDS.ETH) {
+			await this.airdrops.fetchAirdrops();
 		}
 	}
 

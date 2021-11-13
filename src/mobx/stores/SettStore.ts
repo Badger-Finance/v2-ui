@@ -130,8 +130,8 @@ export default class SettStore {
 				this.loadTokens(network.symbol),
 				this.loadAssets(network.symbol),
 			]);
-			await this.store.user.refreshBalances();
 			this.initialized = true;
+			await this.store.user.reloadBalances();
 		}
 	}
 

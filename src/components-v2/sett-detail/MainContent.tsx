@@ -38,10 +38,7 @@ interface Props {
 
 export const MainContent = observer(
 	({ badgerSett, sett }: Props): JSX.Element => {
-		const {
-			user,
-			wallet: { connectedAddress },
-		} = React.useContext(StoreContext);
+		const { user, onboard } = React.useContext(StoreContext);
 
 		const classes = useStyles();
 		const tokenBalance = user.getBalance(BalanceNamespace.Token, badgerSett);
@@ -49,7 +46,7 @@ export const MainContent = observer(
 
 		return (
 			<Grid container className={classes.content}>
-				{connectedAddress && (
+				{onboard.isActive() && (
 					<Grid container className={classes.holdingsContainer}>
 						<Holdings
 							sett={sett}

@@ -5,7 +5,6 @@ import { Button, Popper, Paper, List, ListItem, makeStyles, Typography } from '@
 import { StoreContext } from 'mobx/store-context';
 import { supportedNetworks } from 'config/networks.config';
 import { Network } from 'mobx/model/network/network';
-import { Wallets } from 'config/enums/wallets.enum';
 import { Network as ChainNetworkSymbol } from '@badger-dao/sdk';
 import clsx from 'clsx';
 
@@ -43,9 +42,8 @@ interface Props {
 const NetworkWidget = observer(({ className }: Props) => {
 	const classes = useStyles();
 	const store = useContext(StoreContext);
-	const { network, wallet } = store;
+	const { network } = store;
 	const connectedNetwork = network.network;
-	const isMetamask = wallet.walletType?.name === Wallets.MetaMask;
 
 	// anchorEl is the Popper reference object prop
 	const [anchorEl, setAnchorEl] = useState(null);
@@ -69,7 +67,7 @@ const NetworkWidget = observer(({ className }: Props) => {
 			<Button
 				size="small"
 				variant="outlined"
-				endIcon={isMetamask ? <ArrowDropDown /> : <></>}
+				endIcon={<ArrowDropDown />}
 				onClick={handleClick}
 				className={clsx(classes.selectButton, className)}
 			>

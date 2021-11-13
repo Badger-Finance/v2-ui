@@ -31,13 +31,13 @@ class AirdropStore {
 	}
 
 	fetchAirdrops = action(async () => {
-		const { provider, connectedAddress } = this.store.wallet;
+		const { onboard } = this.store;
 		const { network } = this.store.network;
-		if (!connectedAddress || !network.airdrops) {
+		if (onboard.isActive() || !network.airdrops) {
 			return;
 		}
 
-		const web3 = new Web3(provider);
+		const web3 = new Web3(onboard.wallet?.provider);
 		this.airdrops = [];
 
 		// For each active airdrop in airdrops.ts:
@@ -50,7 +50,7 @@ class AirdropStore {
 					return;
 				}
 
-				const [proof] = await fetchData<AirdropMerkleClaim>(`${airdrop.endpoint}/${connectedAddress}`);
+				const [proof] = await fetchData<AirdropMerkleClaim>(`${airdrop.endpoint}/${onboard.address}`);
 
 				if (!proof) {
 					if (DEBUG) {
@@ -77,17 +77,17 @@ class AirdropStore {
 
 	claimAirdrops = action(
 		async (airdropContract: string, airdropAbi: AbiItem[], claim: AirdropMerkleClaim): Promise<void> => {
-			const { provider, connectedAddress } = this.store.wallet;
+			const { wallet, address, isActive } = this.store.onboard;
 			const { queueNotification, gasPrice } = this.store.uiState;
 			const { gasPrices, network } = this.store.network;
 
-			if (!connectedAddress || !network.airdrops || !claim.proof) {
+			if (isActive() || !address || !network.airdrops || !claim.proof) {
 				return;
 			}
 
-			const web3 = new Web3(provider);
+			const web3 = new Web3(wallet?.provider);
 			const airdropTree = new web3.eth.Contract(airdropAbi, airdropContract);
-			const method = airdropTree.methods.claim(claim.index, connectedAddress, claim.amount, claim.proof);
+			const method = airdropTree.methods.claim(claim.index, address, claim.amount, claim.proof);
 
 			queueNotification(`Sign the transaction to claim your airdrop`, 'info');
 			if (!gasPrices || !gasPrices[gasPrice]) {
@@ -99,7 +99,7 @@ class AirdropStore {
 			}
 
 			const price = gasPrices[gasPrice];
-			const options = await getSendOptions(method, connectedAddress, price);
+			const options = await getSendOptions(method, address, price);
 			await sendContractMethod(this.store, method, options, `Claim submitted.`, `Aidrop claimed.`);
 		},
 	);

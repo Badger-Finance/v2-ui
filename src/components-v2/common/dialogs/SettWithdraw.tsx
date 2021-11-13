@@ -52,12 +52,7 @@ export interface SettModalProps {
 }
 
 export const SettWithdraw = observer(({ open = false, sett, badgerSett, onClose }: SettModalProps) => {
-	const {
-		wallet: { connectedAddress },
-		user,
-		contracts,
-		setts,
-	} = useContext(StoreContext);
+	const { onboard, user, contracts, setts } = useContext(StoreContext);
 
 	const classes = useStyles();
 	const [amount, setAmount] = useState('');
@@ -77,7 +72,7 @@ export const SettWithdraw = observer(({ open = false, sett, badgerSett, onClose 
 	const depositTokenSymbol = depositToken?.symbol || '';
 	const bTokenSymbol = bToken?.symbol || '';
 
-	const canWithdraw = !!connectedAddress && !!amount && userHasBalance;
+	const canWithdraw = onboard.isActive() && !!amount && userHasBalance;
 	const isLoading = contracts.settsBeingWithdrawn[sett.settToken];
 
 	const handlePercentageChange = (percent: number) => {

@@ -13,6 +13,7 @@ import { groupBy } from 'utils/lodashToNative';
 import { getChainMulticallContract, parseCallReturnContext } from '../utils/multicall';
 import { Multicall } from 'ethereum-multicall';
 import { ContractCallReturnContext } from 'ethereum-multicall/dist/esm/models/contract-call-return-context';
+import { GasSpeed } from '@badger-dao/sdk';
 
 class RebaseStore {
 	private store: RootStore;
@@ -28,14 +29,14 @@ class RebaseStore {
 
 	fetchRebaseStats = action(async () => {
 		let rebaseLog: any = null;
-		const { provider } = this.store.wallet;
+		const { wallet } = this.store.onboard;
 		const { network } = this.store.network;
 
-		if (!provider) {
+		if (!wallet?.provider) {
 			return;
 		}
 
-		rebaseLog = await getRebaseLogs(provider, network);
+		rebaseLog = await getRebaseLogs(wallet.provider, network);
 
 		const rebaseConfig = getRebase(network.symbol);
 
@@ -46,7 +47,7 @@ class RebaseStore {
 		const multicallContractAddress = getChainMulticallContract(network.symbol);
 
 		const multicall = new Multicall({
-			web3Instance: new Web3(provider),
+			web3Instance: new Web3(wallet.provider),
 			tryAggregate: true,
 			multicallCustomContractAddress: multicallContractAddress,
 		});
@@ -138,18 +139,22 @@ class RebaseStore {
 		if (redeemAmount.lte(0)) {
 			return;
 		}
-		const { queueNotification, gasPrice } = this.store.uiState;
-		const { provider, connectedAddress } = this.store.wallet;
+		const { queueNotification } = this.store.uiState;
+		const { wallet, address } = this.store.onboard;
 		const { gasPrices } = this.store.network;
 
-		const web3 = new Web3(provider);
+		if (!address || !wallet?.provider) {
+			return;
+		}
+
+		const web3 = new Web3(wallet.provider);
 		const redemption = new web3.eth.Contract(DroptRedemption.abi as AbiItem[], redemptionContract);
 		const method = redemption.methods.settle(redeemAmount.toString(10), '0');
 
 		queueNotification(`Sign the transaction to claim your options`, 'info');
 
-		const price = gasPrices ? gasPrices[gasPrice] : 0;
-		const options = await getSendOptions(method, connectedAddress, price);
+		const price = gasPrices ? gasPrices[GasSpeed.Fast] : 0;
+		const options = await getSendOptions(method, address, price);
 		await sendContractMethod(this.store, method, options, `Claim submitted.`, `Options claimed.`);
 	}
 }

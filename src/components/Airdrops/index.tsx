@@ -48,8 +48,8 @@ export const Airdrops = observer(() => {
 	const classes = useStyles();
 
 	const {
+		onboard,
 		router: { goTo },
-		wallet: { connectedAddress },
 		airdrops: { claimAirdrops, airdrops },
 		setts: { settMap },
 	} = store;
@@ -150,7 +150,7 @@ export const Airdrops = observer(() => {
 				return null;
 			}
 			const { amount } = airdrop;
-			const displayAmount = !!connectedAddress ? formatTokens(amount, token.decimals) : '0.00000';
+			const displayAmount = onboard.isActive() ? formatTokens(amount, token.decimals) : '0.00000';
 
 			return (
 				<ListItem key={airdrop.token} style={{ margin: 0, padding: 0 }}>

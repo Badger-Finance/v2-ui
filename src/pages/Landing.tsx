@@ -80,9 +80,7 @@ interface LandingProps {
 }
 
 const Landing = observer((props: LandingProps) => {
-	const {
-		wallet: { connectedAddress },
-	} = useContext(StoreContext);
+	const { onboard } = useContext(StoreContext);
 
 	const { title, subtitle, state } = props;
 	const classes = useStyles();
@@ -97,7 +95,7 @@ const Landing = observer((props: LandingProps) => {
 					</Grid>
 					<Grid item container xs={6} alignItems="center" justify="flex-end">
 						<CurrencyPicker />
-						{!!connectedAddress && <WalletSlider />}
+						{onboard.isActive() && <WalletSlider />}
 					</Grid>
 				</PageHeaderContainer>
 			</Grid>

@@ -80,7 +80,7 @@ export class SettDetailStore {
 	}
 
 	get canUserDeposit(): boolean {
-		return !!this.store.wallet.connectedAddress;
+		return this.store.onboard.isActive();
 	}
 
 	toggleDepositDialog(): void {

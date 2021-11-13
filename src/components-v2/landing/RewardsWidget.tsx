@@ -104,10 +104,9 @@ export interface RewardsModalProps {
 export const RewardsWidget = observer((): JSX.Element | null => {
 	const classes = useStyles();
 	const store = useContext(StoreContext);
-	const { setts } = store;
+	const { setts, onboard } = store;
 	const { badgerTree, claimGeysers, loadingRewards } = store.rewards;
 	const { currency } = store.uiState;
-	const { connectedAddress } = store.wallet;
 
 	const [open, setOpen] = useState(false);
 	const [maxFlag, setMaxFlag] = useState(true);
@@ -128,7 +127,7 @@ export const RewardsWidget = observer((): JSX.Element | null => {
 		setClaimMap(balances);
 	}, [badgerTree.claims]);
 
-	if (!connectedAddress) {
+	if (onboard.isActive()) {
 		return null;
 	}
 

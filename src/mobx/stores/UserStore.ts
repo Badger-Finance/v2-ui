@@ -1,6 +1,5 @@
-import { action, extendObservable, observe } from 'mobx';
+import { action, extendObservable } from 'mobx';
 import { RootStore } from '../RootStore';
-import WalletStore from './walletStore';
 import Web3 from 'web3';
 import { ExtractedBalances, GuestListInformation, TokenBalances } from 'mobx/model/account/user-balances';
 import BigNumber from 'bignumber.js';
@@ -13,7 +12,6 @@ import { CachedTokenBalances } from 'mobx/model/account/cached-token-balances';
 import { VaultCaps } from 'mobx/model/vaults/vault-cap copy';
 import { RewardMerkleClaim } from '../model/rewards/reward-merkle-claim';
 import { UserPermissions } from '../model/account/userPermissions';
-import { NetworkStore } from './NetworkStore';
 import { defaultSettBalance } from 'components-v2/sett-detail/utils';
 import { Account, BouncerType, MerkleProof, Network, Sett, SettData } from '@badger-dao/sdk';
 import { fetchClaimProof } from 'mobx/utils/apiV2';
@@ -54,56 +52,13 @@ export default class UserStore {
 			vaultCaps: this.vaultCaps,
 			loadingBalances: this.loadingBalances,
 		});
-
-		/**
-		 * Update account store on change of address.
-		 */
-		observe(this.store.wallet as WalletStore, 'connectedAddress', async () => {
-			if (!this.loadingBalances) {
-				const address = this.store.wallet.connectedAddress;
-				const network = this.store.network.network;
-				this.permissions = undefined;
-				this.bouncerProof = undefined;
-				this.accountDetails = undefined;
-				if (address) {
-					await Promise.all([
-						this.loadBouncerProof(address),
-						this.loadAccountDetails(address),
-						this.loadClaimProof(address, network.symbol),
-						this.updateBalances(true),
-					]);
-				}
-			}
-		});
-
-		/**
-		 * Update account store on change of network.
-		 */
-		observe(this.store.network as NetworkStore, 'network', async () => {
-			const address = this.store.wallet.connectedAddress;
-			const network = this.store.network.network;
-
-			if (!this.loadingBalances) {
-				await this.refreshBalances();
-			}
-
-			if (address) {
-				await this.loadClaimProof(address, network.symbol);
-			}
-		});
-	}
-
-	/* State Mutation Functions */
-
-	async refreshBalances(): Promise<void> {
-		await this.updateBalances(true);
 	}
 
 	/* Read Variables */
 
 	onGuestList(sett: Sett): boolean {
 		// allow users who are not connected to nicely view setts
-		if (!this.store.wallet.connectedAddress) {
+		if (!this.store.onboard.isActive()) {
 			return true;
 		}
 		if (sett.bouncer === BouncerType.Internal) {
@@ -133,8 +88,6 @@ export default class UserStore {
 
 	get initialized(): boolean {
 		const { settMap } = this.store.setts;
-		const { network } = this.store.network;
-		const { connectedAddress } = this.store.wallet;
 
 		// no data available
 		if (!settMap) {
@@ -146,32 +99,19 @@ export default class UserStore {
 			return true;
 		}
 
-		const chainHasGeyserRequests = network
-			.getBalancesRequests(settMap, connectedAddress)
-			.find((req) => req.context.namespace === BalanceNamespace.Geyser);
-
 		const areTokensReady = Object.keys(this.tokenBalances).length > 0;
 		const areSettsReady = Object.keys(this.settBalances).length > 0;
 
-		let areGeysersReady;
-
-		if (chainHasGeyserRequests) {
-			areGeysersReady = Object.keys(this.geyserBalances).length > 0;
-		} else {
-			areGeysersReady = true;
-		}
-
-		return !this.loadingBalances && areTokensReady && areSettsReady && areGeysersReady;
+		return !this.loadingBalances && areTokensReady && areSettsReady;
 	}
 
-	async reloadBalances(): Promise<void> {
-		const { user, wallet } = this.store;
+	async reloadBalances(address?: string): Promise<void> {
+		const { user, onboard } = this.store;
 		const actions = [];
 
-		actions.push(user.updateBalances());
-
-		if (wallet.connectedAddress) {
-			actions.push(user.loadAccountDetails(wallet.connectedAddress));
+		if (onboard.address) {
+			actions.push(user.updateBalances());
+			actions.push(user.loadAccountDetails(address ?? onboard.address));
 		}
 
 		await Promise.all(actions);
@@ -262,8 +202,8 @@ export default class UserStore {
 	);
 
 	updateBalances = action(
-		async (cached?: boolean): Promise<void> => {
-			const { connectedAddress, provider } = this.store.wallet;
+		async (addressOverride?: string, cached?: boolean): Promise<void> => {
+			const { address, wallet } = this.store.onboard;
 			const { network } = this.store.network;
 			const { setts } = this.store;
 
@@ -272,13 +212,20 @@ export default class UserStore {
 			 * do not update balances without prices available or a provider, price updates
 			 * will trigger balance display updates
 			 */
-			if (!connectedAddress || !setts.initialized || this.loadingBalances || !provider || !setts.settMap) {
+			const queryAddress = addressOverride ?? address;
+			console.log({
+				queryAddress,
+				init: setts.initialized,
+				provider: wallet?.provider !== undefined,
+				map: setts.settMap,
+			});
+			if (!queryAddress || !setts.initialized || this.loadingBalances || !wallet?.provider || !setts.settMap) {
 				return;
 			}
 
 			this.loadingBalances = true;
 
-			const cacheKey = `${network.symbol}-${connectedAddress}`;
+			const cacheKey = `${network.symbol}-${address}`;
 
 			if (cached) {
 				const cachedBalances = this.userBalanceCache[cacheKey];
@@ -290,10 +237,10 @@ export default class UserStore {
 			}
 
 			const multicallContractAddress = getChainMulticallContract(network.symbol);
-			const multicallRequests = network.getBalancesRequests(setts.settMap, connectedAddress);
+			const multicallRequests = network.getBalancesRequests(setts.settMap, queryAddress);
 
 			const multicall = new Multicall({
-				web3Instance: new Web3(provider),
+				web3Instance: new Web3(wallet.provider),
 				tryAggregate: true,
 				multicallCustomContractAddress: multicallContractAddress,
 			});
@@ -304,11 +251,7 @@ export default class UserStore {
 			const { tokenBalances, settBalances, geyserBalances } = this.extractBalancesFromResults(requestResults);
 			const { guestLists, guestListLookup } = this.extractGuestListInformation(requestResults.userGuardedSetts);
 
-			const guestListRequests = createMulticallRequest(
-				guestLists,
-				ContractNamespaces.GuestList,
-				connectedAddress,
-			);
+			const guestListRequests = createMulticallRequest(guestLists, ContractNamespaces.GuestList, queryAddress);
 
 			const guestListResults = await multicall.call(guestListRequests);
 			const vaultCaps = await this.getVaultCaps(guestListResults, guestListLookup);

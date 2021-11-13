@@ -23,7 +23,7 @@ export class BadgerPeak implements IbbtcVaultPeak {
 	constructor(store: RootStore, referenceToken: IbbtcOptionToken) {
 		this.store = store;
 		this.referenceToken = referenceToken;
-		const web3 = new Web3(this.store.wallet.provider);
+		const web3 = new Web3(this.store.onboard.wallet?.provider);
 		this.address = addresses.mainnet.contracts.BadgerSettPeak.address;
 		this.type = 'badger';
 		this.peakContract = new web3.eth.Contract(BadgerBtcPeak.abi as AbiItem[], this.address);
@@ -47,7 +47,7 @@ export class BadgerPeak implements IbbtcVaultPeak {
 	}
 
 	async bBTCToSett(amount: BigNumber): Promise<BigNumber> {
-		const web3 = new Web3(this.store.wallet.provider);
+		const web3 = new Web3(this.store.onboard.wallet?.provider);
 		const settToken = new web3.eth.Contract(settConfig.abi as AbiItem[], this.referenceToken.address);
 		const { swap: swapAddress } = await this.peakContract.methods.pools(this.referenceToken.poolId).call();
 		const swapContract = new web3.eth.Contract(badgerPeakSwap.abi as AbiItem[], swapAddress);

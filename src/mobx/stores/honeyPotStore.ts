@@ -1,4 +1,4 @@
-import { extendObservable, action, observe } from 'mobx';
+import { extendObservable, action } from 'mobx';
 import Web3 from 'web3';
 import BigNumber from 'bignumber.js';
 import { RootStore } from '../RootStore';
@@ -48,9 +48,6 @@ export class HoneyPotStore {
 			loadingNfts: this.loadingNfts,
 			nftBeingRedeemed: this.nftBeingRedeemed,
 		});
-
-		observe(this.store.wallet, 'connectedAddress', async () => this.refresh());
-		observe(this.store.network, 'network', async () => this.refresh());
 	}
 
 	refresh = action(async () => Promise.all([this.fetchNFTS(), this.fetchPoolBalance()]));
@@ -58,12 +55,12 @@ export class HoneyPotStore {
 	fetchPoolBalance = action(async () => {
 		try {
 			const { network } = this.store.network;
-			const { provider, connectedAddress } = this.store.wallet;
-			if (!connectedAddress || network.id !== NETWORK_IDS.ETH) return;
+			const { address, wallet } = this.store.onboard;
+			if (!address || !wallet || network.id !== NETWORK_IDS.ETH) return;
 
 			this.loadingPoolBalance = true;
 
-			const web3 = new Web3(provider);
+			const web3 = new Web3(wallet.provider);
 			const pool = new web3.eth.Contract(scarcityPoolABI as AbiItem[], mainnet.honeypotMeme);
 			const bDiggAddress = await pool.methods.bdigg().call();
 			const bDigg = new web3.eth.Contract(ERC20.abi as AbiItem[], bDiggAddress);
@@ -80,14 +77,14 @@ export class HoneyPotStore {
 	fetchNFTS = action(async () => {
 		try {
 			const { network } = this.store.network;
-			const { provider, connectedAddress } = this.store.wallet;
-			if (!connectedAddress || network.id !== NETWORK_IDS.ETH) return;
+			const { address, wallet } = this.store.onboard;
+			if (!address || !wallet || network.id !== NETWORK_IDS.ETH) return;
 
 			this.loadingNfts = true;
 
 			this.nftBeingRedeemed = [];
 			const nfts = [];
-			const web3 = new Web3(provider);
+			const web3 = new Web3(wallet.provider);
 			const pool = new web3.eth.Contract(scarcityPoolABI as AbiItem[], mainnet.honeypotMeme);
 			const memeLtdAddress = await pool.methods.memeLtd().call();
 			const memeLtd = new web3.eth.Contract(memeLtdABI as AbiItem[], memeLtdAddress);
@@ -105,7 +102,7 @@ export class HoneyPotStore {
 
 			const tokenIds = nfts.map(({ tokenId }) => tokenId);
 			const [balances, poolBalances] = await Promise.all([
-				memeLtd.methods.balanceOfBatch(Array(nfts.length).fill(connectedAddress), tokenIds).call(),
+				memeLtd.methods.balanceOfBatch(Array(nfts.length).fill(address), tokenIds).call(),
 				memeLtd.methods.balanceOfBatch(Array(nfts.length).fill(mainnet.honeypotMeme), tokenIds).call(),
 			]);
 
@@ -131,28 +128,22 @@ export class HoneyPotStore {
 	redeemNFT = action(async (tokenId: string, amount: number) => {
 		try {
 			const { queueNotification, gasPrice } = this.store.uiState;
-			const { provider, connectedAddress } = this.store.wallet;
+			const { address, wallet } = this.store.onboard;
 			const { gasPrices, network } = this.store.network;
-			if (!connectedAddress || network.id !== NETWORK_IDS.ETH) return;
+			if (!address || !wallet || network.id !== NETWORK_IDS.ETH) return;
 
 			this.nftBeingRedeemed.push(tokenId);
-			const web3 = new Web3(provider);
+			const web3 = new Web3(wallet.provider);
 			const pool = new web3.eth.Contract(scarcityPoolABI as AbiItem[], mainnet.honeypotMeme);
 			const memeLtdAddress = await pool.methods.memeLtd().call();
 			const memeLtd = new web3.eth.Contract(memeLtdABI as AbiItem[], memeLtdAddress);
 
-			const redeem = memeLtd.methods.safeTransferFrom(
-				connectedAddress,
-				mainnet.honeypotMeme,
-				tokenId,
-				amount,
-				'0x00',
-			);
+			const redeem = memeLtd.methods.safeTransferFrom(address, mainnet.honeypotMeme, tokenId, amount, '0x00');
 
 			queueNotification(`Sign the transaction to redeem your NFT`, 'info');
 
 			const price = gasPrices ? gasPrices[gasPrice] : 0;
-			const options = await getSendOptions(redeem, connectedAddress, price);
+			const options = await getSendOptions(redeem, address, price);
 			await sendContractMethod(this.store, redeem, options, `Redemption submitted.`, `NFT Redeemed.`);
 			this.fetchPoolBalance();
 			this.fetchNFTS();

@@ -7,16 +7,12 @@ import { StoreContext } from 'mobx/store-context';
  */
 export function useConnectWallet(): () => void {
 	const store = React.useContext(StoreContext);
-	const { onboard } = store.wallet;
+	const { onboard } = store;
 
 	return async () => {
-		if (store.uiState.sidebarOpen) store.uiState.closeSidebar();
-
-		const walletSelected = await onboard.walletSelect();
-		const walletReady = await onboard.walletCheck();
-
-		if (walletSelected && walletReady) {
-			store.wallet.connect(onboard);
+		if (store.uiState.sidebarOpen) {
+			store.uiState.closeSidebar();
 		}
+		await onboard.connect();
 	};
 }

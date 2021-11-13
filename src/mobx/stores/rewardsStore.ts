@@ -14,7 +14,7 @@ import { TreeClaimData } from '../model/rewards/tree-claim-data';
 import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
 import { retry } from '@lifeomic/attempt';
 import { defaultRetryOptions } from '../../config/constants';
-import { Network } from '@badger-dao/sdk';
+import { GasSpeed, Network } from '@badger-dao/sdk';
 
 /**
  * TODO: Clean up reward store in favor of a more unified integration w/ account store.
@@ -127,7 +127,7 @@ class RewardsStore {
 			const {
 				network: { network },
 				uiState: { queueNotification },
-				wallet: { provider },
+				onboard: { wallet },
 			} = this.store;
 
 			if (this.loadingTreeData) {
@@ -141,7 +141,7 @@ class RewardsStore {
 
 			this.loadingTreeData = true;
 
-			const web3 = new Web3(provider);
+			const web3 = new Web3(wallet?.provider);
 			const rewardsTree = new web3.eth.Contract(rewardsAbi as AbiItem[], network.badgerTree);
 
 			try {
@@ -172,7 +172,7 @@ class RewardsStore {
 				network: { network },
 				prices: { arePricesAvailable },
 				user: { claimProof },
-				wallet: { connectedAddress, provider },
+				onboard: { wallet, address },
 			} = this.store;
 
 			if (this.loadingRewards) {
@@ -184,7 +184,7 @@ class RewardsStore {
 				return;
 			}
 
-			if (!connectedAddress || !claimProof) {
+			if (!address || !claimProof) {
 				this.resetRewards();
 				return;
 			}
@@ -196,11 +196,9 @@ class RewardsStore {
 
 			this.loadingRewards = true;
 
-			const web3 = new Web3(provider);
+			const web3 = new Web3(wallet?.provider);
 			const rewardsTree = new web3.eth.Contract(rewardsAbi as AbiItem[], network.badgerTree);
-			const claimed: TreeClaimData = await rewardsTree.methods
-				.getClaimedFor(connectedAddress, claimProof.tokens)
-				.call();
+			const claimed: TreeClaimData = await rewardsTree.methods.getClaimedFor(address, claimProof.tokens).call();
 
 			this.badgerTree.claimableAmounts = claimProof.cumulativeAmounts;
 			this.badgerTree.claims = reduceClaims(claimProof, claimed, true);
@@ -214,12 +212,12 @@ class RewardsStore {
 	claimGeysers = action(
 		async (claimMap: ClaimMap): Promise<void> => {
 			const { proof, amounts } = this.badgerTree;
-			const { provider, connectedAddress } = this.store.wallet;
-			const { queueNotification, gasPrice } = this.store.uiState;
+			const { wallet, address } = this.store.onboard;
+			const { queueNotification } = this.store.uiState;
 			const { gasPrices, network } = this.store.network;
 			const { rebase } = this.store.rebase;
 
-			if (!connectedAddress) {
+			if (!address) {
 				return;
 			}
 
@@ -270,7 +268,7 @@ class RewardsStore {
 				return;
 			}
 
-			const web3 = new Web3(provider);
+			const web3 = new Web3(wallet?.provider);
 			const rewardsTree = new web3.eth.Contract(rewardsAbi as AbiItem[], network.badgerTree);
 			const method = rewardsTree.methods.claim(
 				proof.tokens,
@@ -283,8 +281,8 @@ class RewardsStore {
 
 			queueNotification(`Sign the transaction to claim your earnings`, 'info');
 
-			const price = gasPrices ? gasPrices[gasPrice] : 0;
-			const options = await getSendOptions(method, connectedAddress, price);
+			const price = gasPrices ? gasPrices[GasSpeed.Fast] : 0;
+			const options = await getSendOptions(method, address, price);
 			await sendContractMethod(this.store, method, options, `Claim submitted.`, `Rewards claimed.`);
 		},
 	);

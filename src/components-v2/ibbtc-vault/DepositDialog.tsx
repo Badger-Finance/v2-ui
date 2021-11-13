@@ -68,7 +68,6 @@ const DepositDialog = observer(
 		};
 
 		useEffect(() => {
-			// console.log('update');
 			const sBTC = user.getTokenBalance(mainnetDeploy.tokens['sBTC']);
 			const renBTC = user.getTokenBalance(mainnetDeploy.tokens['renBTC']);
 			const wBTC = user.getTokenBalance(mainnetDeploy.tokens['wBTC']);
@@ -77,7 +76,7 @@ const DepositDialog = observer(
 		}, [ibBTCStore, prices, user, user.loadingBalances, setts.initialized]);
 
 		return (
-			<Dialog open={true} fullWidth maxWidth="sm" classes={{ paperWidthSm: classes.root }}>
+			<Dialog open={false} fullWidth maxWidth="sm" classes={{ paperWidthSm: classes.root }}>
 				<DialogTitle className={classes.title}>
 					Deposit Tokens
 					<IconButton className={classes.closeButton}>

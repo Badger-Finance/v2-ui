@@ -10,8 +10,6 @@ import { getNetworkFromProvider } from 'mobx/utils/helpers';
 import { Network } from 'mobx/model/network/network';
 import { BLOCKNATIVE_API_KEY } from 'config/constants';
 import Web3 from 'web3';
-import { ContractSendMethod, SendOptions } from 'web3-eth-contract';
-import { EIP1559SendOptions, getSendOptions } from '../utils/web3';
 
 class WalletStore {
 	private store: RootStore;
@@ -118,17 +116,6 @@ class WalletStore {
 		this.setAddress(walletState.address);
 	});
 
-	getMethodSendOptions = async (method: ContractSendMethod): Promise<SendOptions | EIP1559SendOptions> => {
-		const {
-			wallet: { connectedAddress },
-			uiState: { gasPrice },
-			network: { gasPrices },
-		} = this.store;
-
-		const price = gasPrices ? gasPrices[gasPrice] : 0;
-		return await getSendOptions(method, connectedAddress, price);
-	};
-
 	getCurrentNetwork(): string | undefined {
 		// not all the providers have the chainId prop available so we use the app network id as fallback
 		if (!this.provider || !this.provider.chainId) {
@@ -159,8 +146,7 @@ class WalletStore {
 			const isCurrentNetworkSupported = Boolean(this.getCurrentNetwork());
 
 			if (isCurrentNetworkSupported) {
-				this.connectedAddress = '0xc3fd1227DA579220Afeb28B400DaCC4Ad6523c7c'; // address;
-				await this.store.walletRefresh();
+				this.connectedAddress = address;
 			} else {
 				this.connectedAddress = '';
 			}
