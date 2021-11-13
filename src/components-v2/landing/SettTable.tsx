@@ -31,18 +31,17 @@ const useStyles = makeStyles((theme) => ({
 
 export interface SettTableProps {
 	title: string;
-	period: string;
 	settList: (JSX.Element | null | undefined)[];
 	displayValue: string | undefined;
 }
 
 const SettTable = (props: SettTableProps): JSX.Element => {
-	const { title, period, settList, displayValue } = props;
+	const { title, settList, displayValue } = props;
 	const classes = useStyles();
 
 	return (
 		<>
-			<TableHeader title={title} period={period} displayValue={displayValue} />
+			<TableHeader title={title} displayValue={displayValue} />
 			<List className={classes.list}>{settList}</List>
 		</>
 	);

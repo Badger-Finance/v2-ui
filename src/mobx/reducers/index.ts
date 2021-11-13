@@ -8,7 +8,6 @@ import { GasSpeed } from '@badger-dao/sdk';
 class UiState {
 	private readonly store!: RootStore;
 	public currency: Currency;
-	public period!: string;
 	public airdropStats: any;
 	public sidebarOpen!: boolean;
 	public showUserBalances: boolean;
@@ -101,12 +100,6 @@ class UiState {
 		this.currency = currency;
 		const { network } = this.store.network;
 		window.localStorage.setItem(`${network.name}-selectedCurrency`, currency);
-	});
-
-	setPeriod = action((period: string) => {
-		this.period = period;
-		const { network } = this.store.network;
-		window.localStorage.setItem(`${network.name}-selectedPeriod`, period);
 	});
 
 	openSidebar = action(() => {

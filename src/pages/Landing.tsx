@@ -1,5 +1,4 @@
 import CurrencyPicker from '../components-v2/landing/CurrencyPicker';
-import SamplePicker from '../components-v2/landing/SamplePicker';
 import WalletSlider from '../components-v2/landing/WalletSlider';
 import { Grid, makeStyles, Button } from '@material-ui/core';
 import PageHeader from '../components-v2/common/PageHeader';
@@ -96,7 +95,6 @@ const Landing = observer((props: LandingProps) => {
 						<PageHeader title={title} subtitle={subtitle} />
 					</Grid>
 					<Grid item container xs={6} alignItems="center" justify="flex-end">
-						<SamplePicker />
 						<CurrencyPicker />
 						{!!connectedAddress && <WalletSlider />}
 					</Grid>

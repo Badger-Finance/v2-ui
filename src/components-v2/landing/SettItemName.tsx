@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid, Typography } from '@material-ui/core';
 import SettBadge from './SettBadge';
 import { makeStyles } from '@material-ui/core/styles';
-import { Sett } from '@badger-dao/sdk';
+import { Sett, SettState } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
 	symbol: {
@@ -45,7 +45,7 @@ export const SettItemName = ({ sett }: Props): JSX.Element => {
 						<Typography variant="caption" color="textSecondary">
 							{sett.protocol}
 						</Typography>
-						{sett.deprecated && <SettBadge protocol={'No Emissions'} />}
+						{sett.state === SettState.Deprecated && <SettBadge protocol={'No Emissions'} />}
 					</Grid>
 				</Grid>
 			</Grid>
