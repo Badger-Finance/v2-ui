@@ -8,6 +8,7 @@ import { NetworkConfig } from '@badger-dao/sdk/lib/config/network/network.config
 import { action, extendObservable } from 'mobx';
 import { Web3Provider } from '@ethersproject/providers';
 import { SDKProvider } from '@badger-dao/sdk';
+import { getOnboardWallets } from 'config/wallets';
 
 export class OnboardStore {
 	private config: NetworkConfig;
@@ -121,7 +122,11 @@ export class OnboardStore {
 				network: this.networkListener,
 				wallet: this.walletListener,
 			},
-			walletSelect: {},
+			walletSelect: {
+				heading: 'Connect to BadgerDAO',
+				description: 'Deposit & Earn on your Bitcoin',
+				wallets: getOnboardWallets(this.store.network.network),
+			},
 		};
 	}
 }
