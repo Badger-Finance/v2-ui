@@ -6,7 +6,7 @@ import CvxLockerAbi from '../../config/system/abis/CvxLocker.json';
 import { AbiItem } from 'web3-utils';
 import { sendContractMethod } from '../utils/web3';
 import { DelegationState } from '../model/setts/locked-cvx-delegation';
-import { extendObservable, observe } from 'mobx';
+import { extendObservable } from 'mobx';
 import BigNumber from 'bignumber.js';
 import { NETWORK_IDS, ZERO_ADDR } from 'config/constants';
 import VotiumMerkleTreeAbi from '../../config/system/abis/VotiumMerkleTree.json';

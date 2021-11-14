@@ -1,4 +1,4 @@
-import { extendObservable, action, observe, IValueDidChange } from 'mobx';
+import { extendObservable, action } from 'mobx';
 import slugify from 'slugify';
 import { RootStore } from '../RootStore';
 import Web3 from 'web3';

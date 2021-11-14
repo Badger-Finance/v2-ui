@@ -1,5 +1,5 @@
 import { RootStore } from 'mobx/RootStore';
-import { Initialization, API, Wallet, Ens } from 'bnc-onboard/dist/src/interfaces';
+import { Initialization, API, Wallet } from 'bnc-onboard/dist/src/interfaces';
 import Onboard from 'bnc-onboard';
 import { BLOCKNATIVE_API_KEY } from 'config/constants';
 import { NetworkConfig } from '@badger-dao/sdk/lib/config/network/network.config';
@@ -61,11 +61,11 @@ export class OnboardStore {
 	addressListener = action(
 		async (address: string): Promise<void> => {
 			const shouldUpdate = this.address !== address;
+			// this.address = '0xc3fd1227DA579220Afeb28B400DaCC4Ad6523c7c'; // address;
 			this.address = address;
 			if (shouldUpdate && this.wallet) {
 				await this.walletListener(this.wallet);
 			}
-			// this.address = '0xc3fd1227DA579220Afeb28B400DaCC4Ad6523c7c'; // address;
 		},
 	);
 

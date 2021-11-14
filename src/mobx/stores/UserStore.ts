@@ -93,17 +93,7 @@ export default class UserStore {
 			return true;
 		}
 
-		const areTokensReady = Object.keys(this.tokenBalances).length > 0;
-		const areSettsReady = Object.keys(this.settBalances).length > 0;
-
-		console.log({
-			loading: this.loadingBalances,
-			areTokensReady,
-			areSettsReady,
-			setts: this.settBalances,
-			tokens: this.tokenBalances,
-		});
-		return !this.loadingBalances && areTokensReady && areSettsReady;
+		return !this.loadingBalances;
 	}
 
 	async reloadBalances(address?: string): Promise<void> {
@@ -225,7 +215,6 @@ export default class UserStore {
 			}
 
 			try {
-				console.log(`Updating balances for ${network.name}`);
 				const multicallContractAddress = getChainMulticallContract(network.symbol);
 				const multicallRequests = network.getBalancesRequests(setts.settMap, queryAddress);
 
@@ -260,7 +249,6 @@ export default class UserStore {
 				this.userBalanceCache[cacheKey] = result;
 				this.setBalances(result);
 				this.loadingBalances = false;
-				console.log(`Updating balances for ${network.name} complete`);
 			} catch {
 				// ignore errors from dropped calls on swap
 				this.loadingBalances = false;
@@ -285,12 +273,12 @@ export default class UserStore {
 		const tokenBalances: TokenBalances = {};
 		const settBalances: TokenBalances = {};
 
+		nonSettUserTokens.forEach((token) => this.updateNonSettUserBalance(tokenBalances, token));
 		userTokens.forEach((token) => this.updateUserBalance(tokenBalances, token, this.getDepositToken));
 		userGeneralSetts.forEach((sett) => this.updateUserBalance(settBalances, sett, this.getSettToken));
 		userGeneralSetts.forEach((sett) => this.store.setts.updateAvailableBalance(sett));
 		userGuardedSetts.forEach((sett) => this.updateUserBalance(settBalances, sett, this.getSettToken));
 		userGuardedSetts.forEach((sett) => this.store.setts.updateAvailableBalance(sett));
-		nonSettUserTokens.forEach((token) => this.updateNonSettUserBalance(tokenBalances, token));
 
 		return {
 			tokenBalances,
