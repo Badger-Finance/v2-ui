@@ -125,7 +125,7 @@ export class OnboardStore {
 			walletSelect: {
 				heading: 'Connect to BadgerDAO',
 				description: 'Deposit & Earn on your Bitcoin',
-				wallets: getOnboardWallets(this.store.network.network),
+				wallets: getOnboardWallets(config),
 			},
 		};
 	}
