@@ -33,7 +33,6 @@ export default class UserStore {
 	public accountDetails: Account | undefined | null;
 	public tokenBalances: TokenBalances = {};
 	public settBalances: TokenBalances = {};
-	public geyserBalances: TokenBalances = {};
 	public vaultCaps: VaultCaps = {};
 	public loadingBalances: boolean;
 
@@ -48,7 +47,6 @@ export default class UserStore {
 			claimProof: this.claimProof,
 			tokenBalances: this.tokenBalances,
 			settBalances: this.settBalances,
-			geyserBalances: this.geyserBalances,
 			vaultCaps: this.vaultCaps,
 			loadingBalances: this.loadingBalances,
 		});
@@ -71,7 +69,7 @@ export default class UserStore {
 	}
 
 	get portfolioValue(): BigNumber {
-		return this.walletValue.plus(this.settValue).plus(this.geyserValue);
+		return this.walletValue.plus(this.settValue);
 	}
 
 	get walletValue(): BigNumber {
@@ -80,10 +78,6 @@ export default class UserStore {
 
 	get settValue(): BigNumber {
 		return Object.values(this.settBalances).reduce((total, sett) => total.plus(sett.value), new BigNumber(0));
-	}
-
-	get geyserValue(): BigNumber {
-		return Object.values(this.geyserBalances).reduce((total, geyser) => total.plus(geyser.value), new BigNumber(0));
 	}
 
 	get initialized(): boolean {
@@ -102,6 +96,13 @@ export default class UserStore {
 		const areTokensReady = Object.keys(this.tokenBalances).length > 0;
 		const areSettsReady = Object.keys(this.settBalances).length > 0;
 
+		console.log({
+			loading: this.loadingBalances,
+			areTokensReady,
+			areSettsReady,
+			setts: this.settBalances,
+			tokens: this.tokenBalances,
+		});
 		return !this.loadingBalances && areTokensReady && areSettsReady;
 	}
 
@@ -144,12 +145,6 @@ export default class UserStore {
 			case BalanceNamespace.GuardedSett:
 				const settAddress = Web3.utils.toChecksumAddress(sett.vaultToken.address);
 				return this.getOrDefaultBalance(this.settBalances, settAddress);
-			case BalanceNamespace.Geyser:
-				if (!sett.geyser) {
-					throw new Error(`${sett.vaultToken.address} does not have a geyser`);
-				}
-				const geyserAdress = Web3.utils.toChecksumAddress(sett.geyser);
-				return this.getOrDefaultBalance(this.geyserBalances, geyserAdress);
 			case BalanceNamespace.Token:
 			default:
 				const tokenAddress = Web3.utils.toChecksumAddress(sett.depositToken.address);
@@ -161,7 +156,6 @@ export default class UserStore {
 		const tokenAddress = Web3.utils.toChecksumAddress(contract);
 		const compositeBalances = {
 			...this.settBalances,
-			...this.geyserBalances,
 			...this.tokenBalances,
 		};
 		return this.getOrDefaultBalance(compositeBalances, tokenAddress);
@@ -213,12 +207,6 @@ export default class UserStore {
 			 * will trigger balance display updates
 			 */
 			const queryAddress = addressOverride ?? address;
-			console.log({
-				queryAddress,
-				init: setts.initialized,
-				provider: wallet?.provider !== undefined,
-				map: setts.settMap,
-			});
 			if (!queryAddress || !setts.initialized || this.loadingBalances || !wallet?.provider || !setts.settMap) {
 				return;
 			}
@@ -236,38 +224,47 @@ export default class UserStore {
 				}
 			}
 
-			const multicallContractAddress = getChainMulticallContract(network.symbol);
-			const multicallRequests = network.getBalancesRequests(setts.settMap, queryAddress);
+			try {
+				console.log(`Updating balances for ${network.name}`);
+				const multicallContractAddress = getChainMulticallContract(network.symbol);
+				const multicallRequests = network.getBalancesRequests(setts.settMap, queryAddress);
 
-			const multicall = new Multicall({
-				web3Instance: new Web3(wallet.provider),
-				tryAggregate: true,
-				multicallCustomContractAddress: multicallContractAddress,
-			});
+				const multicall = new Multicall({
+					web3Instance: new Web3(wallet.provider),
+					tryAggregate: true,
+					multicallCustomContractAddress: multicallContractAddress,
+				});
 
-			const multicallResults = await multicall.call(multicallRequests);
+				const multicallResults = await multicall.call(multicallRequests);
+				const requestResults = extractBalanceRequestResults(multicallResults);
+				const { tokenBalances, settBalances } = this.extractBalancesFromResults(requestResults);
+				const { guestLists, guestListLookup } = this.extractGuestListInformation(
+					requestResults.userGuardedSetts,
+				);
+				const guestListRequests = createMulticallRequest(
+					guestLists,
+					ContractNamespaces.GuestList,
+					queryAddress,
+				);
+				const guestListResults = await multicall.call(guestListRequests);
+				const vaultCaps = await this.getVaultCaps(guestListResults, guestListLookup);
 
-			const requestResults = extractBalanceRequestResults(multicallResults);
-			const { tokenBalances, settBalances, geyserBalances } = this.extractBalancesFromResults(requestResults);
-			const { guestLists, guestListLookup } = this.extractGuestListInformation(requestResults.userGuardedSetts);
+				const result = {
+					key: cacheKey,
+					tokens: tokenBalances,
+					setts: settBalances,
+					vaultCaps,
+					expiry: Date.now() + 5 * ONE_MIN_MS,
+				};
 
-			const guestListRequests = createMulticallRequest(guestLists, ContractNamespaces.GuestList, queryAddress);
-
-			const guestListResults = await multicall.call(guestListRequests);
-			const vaultCaps = await this.getVaultCaps(guestListResults, guestListLookup);
-
-			const result = {
-				key: cacheKey,
-				tokens: tokenBalances,
-				setts: settBalances,
-				geysers: geyserBalances,
-				vaultCaps,
-				expiry: Date.now() + 5 * ONE_MIN_MS,
-			};
-
-			this.userBalanceCache[cacheKey] = result;
-			this.setBalances(result);
-			this.loadingBalances = false;
+				this.userBalanceCache[cacheKey] = result;
+				this.setBalances(result);
+				this.loadingBalances = false;
+				console.log(`Updating balances for ${network.name} complete`);
+			} catch {
+				// ignore errors from dropped calls on swap
+				this.loadingBalances = false;
+			}
 		},
 	);
 
@@ -287,7 +284,6 @@ export default class UserStore {
 	}: RequestExtractedResults): ExtractedBalances {
 		const tokenBalances: TokenBalances = {};
 		const settBalances: TokenBalances = {};
-		const geyserBalances: TokenBalances = {};
 
 		userTokens.forEach((token) => this.updateUserBalance(tokenBalances, token, this.getDepositToken));
 		userGeneralSetts.forEach((sett) => this.updateUserBalance(settBalances, sett, this.getSettToken));
@@ -299,15 +295,13 @@ export default class UserStore {
 		return {
 			tokenBalances,
 			settBalances,
-			geyserBalances,
 		};
 	}
 
 	private setBalances = (balances: CachedTokenBalances): void => {
-		const { tokens, setts, geysers, vaultCaps } = balances;
+		const { tokens, setts, vaultCaps } = balances;
 		this.tokenBalances = tokens;
 		this.settBalances = setts;
-		this.geyserBalances = geysers;
 		this.vaultCaps = vaultCaps;
 	};
 

@@ -80,6 +80,7 @@ const Header = observer(() => {
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	useEffect(enq, [notification]);
 
+	console.log({ active: onboard.isActive(), init: user.initialized, value: user.portfolioValue });
 	return (
 		<div className={classes.root}>
 			<LayoutContainer>

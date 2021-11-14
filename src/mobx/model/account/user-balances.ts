@@ -16,7 +16,6 @@ export interface BalancesRequestAddresses {
 export interface ExtractedBalances {
 	tokenBalances: TokenBalances;
 	settBalances: TokenBalances;
-	geyserBalances: TokenBalances;
 }
 
 export interface GuestListInformation {

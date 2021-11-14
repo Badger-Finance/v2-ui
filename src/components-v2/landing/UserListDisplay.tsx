@@ -123,13 +123,6 @@ const UserListDisplay = observer(({ state }: SettListViewProps) => {
 					settList={settList}
 				/>
 			)}
-			{displayVault && (
-				<SettTable
-					title={'Your Staked Amounts:'}
-					displayValue={inCurrency(user.geyserValue, currency)}
-					settList={geyserList}
-				/>
-			)}
 			{!displayWallet && !displayDeposit && !displayVault && (
 				<Typography align="center" variant="subtitle1" color="textSecondary">
 					Your address does not have tokens to deposit.
