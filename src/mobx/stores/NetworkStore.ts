@@ -26,16 +26,16 @@ export class NetworkStore {
 		});
 	}
 
-	setNetwork = action(async (symbol: string) => {
-		const network = Network.networkFromSymbol(symbol);
+	setNetwork = action(async (id: number) => {
+		const network = Network.networkFromId(id);
 		if (!network) {
-			throw new Error(`${symbol} is not a supported network!`);
+			throw new Error(`${network} is not a supported network!`);
 		}
 		// ethereum is just the injected provider (mm) as all chains are canonically ethereum
 		const { ethereum } = window;
 		// implementation details from:
 		// https://docs.metamask.io/guide/rpc-api.html#other-rpc-methods
-		if (ethereum) {
+		if (ethereum && this.store.onboard.isActive()) {
 			try {
 				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 				await ethereum.request!({
@@ -78,8 +78,7 @@ export class NetworkStore {
 			}
 		}
 		this.network = network;
-		const { onboard } = this.store;
-		if (!onboard.isActive()) {
+		if (!this.store.onboard.isActive()) {
 			await this.store.updateNetwork(network.id);
 		}
 	});
@@ -115,15 +114,4 @@ export class NetworkStore {
 	updateGasPrices = action(async () => {
 		this.gasPrices = await this.store.api.loadGasPrices();
 	});
-
-	getCurrentBlock = action(async () => {
-		const provider = this.store.onboard.provider;
-		if (provider) {
-			this.currentBlock = await provider.getBlockNumber();
-		}
-	});
-
-	updateNetwork(): Promise<void[]> {
-		return Promise.all([this.updateGasPrices(), this.getCurrentBlock()]);
-	}
 }

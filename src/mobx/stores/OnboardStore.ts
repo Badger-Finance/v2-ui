@@ -22,7 +22,7 @@ export class OnboardStore {
 			darkMode: true,
 			subscriptions: {
 				address: this.addressListener,
-				ens: this.ensListener,
+				// ens: this.ensListener,
 				network: this.networkListener,
 				balance: this.balanceListener,
 				wallet: this.walletListener,
@@ -60,16 +60,23 @@ export class OnboardStore {
 
 	addressListener = action(
 		async (address: string): Promise<void> => {
+			const shouldUpdate = this.address !== address;
 			this.address = address;
+			if (shouldUpdate && this.wallet) {
+				await this.walletListener(this.wallet);
+			}
 			// this.address = '0xc3fd1227DA579220Afeb28B400DaCC4Ad6523c7c'; // address;
 		},
 	);
 
 	/* eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars */
-	ensListener = action(async (_ens: Ens): Promise<void> => {});
+	// ensListener = action(async (_ens: Ens): Promise<void> => {});
 
 	networkListener = action(async (network: number) => {
 		await this.store.updateNetwork(network);
+		if (this.provider) {
+			await this.store.updateProvider(this.provider);
+		}
 	});
 
 	/* eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars */
@@ -78,8 +85,10 @@ export class OnboardStore {
 	walletListener = action(
 		async (wallet: Wallet): Promise<void> => {
 			this.wallet = wallet;
-			// console.log(wallet);
 			this.provider = this.getProvider(wallet.provider);
+			const providerNetwork = await this.provider.getNetwork();
+			const network = NetworkConfig.getConfig(providerNetwork.chainId);
+			this.store.network.setNetwork(network.id);
 			await this.store.updateProvider(this.provider);
 		},
 	);

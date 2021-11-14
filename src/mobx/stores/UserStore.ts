@@ -95,7 +95,7 @@ export default class UserStore {
 		}
 
 		// no products configured
-		if (this.store.network.network.setts.length === 0) {
+		if (Object.keys(settMap).length === 0) {
 			return true;
 		}
 
@@ -106,15 +106,15 @@ export default class UserStore {
 	}
 
 	async reloadBalances(address?: string): Promise<void> {
-		const { user, onboard } = this.store;
+		const { setts, user, onboard } = this.store;
 		const actions = [];
+		const queryAddress = address ?? onboard.address;
 
-		if (onboard.address) {
+		if (setts.initialized && queryAddress) {
 			actions.push(user.updateBalances());
-			actions.push(user.loadAccountDetails(address ?? onboard.address));
+			actions.push(user.loadAccountDetails(queryAddress));
+			await Promise.all(actions);
 		}
-
-		await Promise.all(actions);
 	}
 
 	getSettBalance(sett: Sett): SettData {
@@ -410,7 +410,6 @@ export default class UserStore {
 
 		const balance = new BigNumber(balanceResults[0][0].hex);
 		const sett = setts.getSett(tokenAddress);
-		console.log(`Found sett: ${sett}`);
 
 		if (!sett) {
 			return;

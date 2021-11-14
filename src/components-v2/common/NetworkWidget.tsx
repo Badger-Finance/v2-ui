@@ -7,6 +7,7 @@ import { supportedNetworks } from 'config/networks.config';
 import { Network } from 'mobx/model/network/network';
 import { Network as ChainNetworkSymbol } from '@badger-dao/sdk';
 import clsx from 'clsx';
+import { NetworkConfig } from '@badger-dao/sdk/lib/config/network/network.config';
 
 const useStyles = makeStyles((theme) => ({
 	network: {
@@ -54,7 +55,8 @@ const NetworkWidget = observer(({ className }: Props) => {
 	};
 
 	const optionClicked = async (option: string) => {
-		await network.setNetwork(option);
+		const networkConfig = NetworkConfig.getConfig(option);
+		await network.setNetwork(networkConfig.id);
 		setAnchorEl(null);
 	};
 

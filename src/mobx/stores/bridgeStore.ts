@@ -148,7 +148,7 @@ class BridgeStore {
 			if (this.network !== Network.Ethereum) {
 				return;
 			}
-			await this.reload();
+			// await this.reload();
 		});
 
 		observe(

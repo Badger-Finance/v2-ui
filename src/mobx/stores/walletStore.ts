@@ -67,9 +67,6 @@ class WalletStore {
 
 	init = action(
 		async (): Promise<void> => {
-			setInterval(() => {
-				this.store.network.getCurrentBlock();
-			}, 5000 * 60);
 			const previouslySelectedWallet = window.localStorage.getItem('selectedWallet');
 
 			// call wallet select with that value if it exists
@@ -137,8 +134,6 @@ class WalletStore {
 		}
 		this.provider = provider;
 		this.walletType = this.onboard.getState().wallet;
-
-		this.store.network.getCurrentBlock();
 	});
 
 	setAddress = action(

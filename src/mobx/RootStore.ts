@@ -68,7 +68,6 @@ export class RootStore {
 	}
 
 	async updateNetwork(network: number): Promise<void> {
-		console.log(network);
 		this.api = new BadgerAPI(network, BADGER_API);
 		this.rewards.resetRewards();
 
@@ -83,7 +82,6 @@ export class RootStore {
 		await Promise.all(refreshData);
 
 		if (network === NETWORK_IDS.ETH) {
-			this.ibBTCStore.init();
 			await this.airdrops.fetchAirdrops();
 		}
 	}
@@ -104,12 +102,14 @@ export class RootStore {
 
 	private async loadTreeData() {
 		const { network } = this.network;
-		// ensure network required calls are made prior to loading rewards
-		if (network.id === NETWORK_IDS.ETH) {
-			await this.rebase.fetchRebaseStats();
-		}
-		if (network.hasBadgerTree) {
-			await this.rewards.loadTreeData();
+		if (this.onboard.isActive()) {
+			// ensure network required calls are made prior to loading rewards
+			if (network.id === NETWORK_IDS.ETH) {
+				await this.rebase.fetchRebaseStats();
+			}
+			if (network.hasBadgerTree) {
+				await this.rewards.loadTreeData();
+			}
 		}
 	}
 }

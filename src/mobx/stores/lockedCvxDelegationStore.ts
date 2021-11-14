@@ -44,18 +44,18 @@ class LockedCvxDelegationStore {
 			delegationState: this.delegationState,
 		});
 
-		observe(this.store.user, 'accountDetails', () => {
-			this.loadLockedCvxBalance();
-			this.loadVotiumRewardsInformation();
-		});
+		// observe(this.store.user, 'accountDetails', () => {
+		// 	this.loadLockedCvxBalance();
+		// 	this.loadVotiumRewardsInformation();
+		// });
 
-		observe(this.store.user, 'settBalances', () => {
-			const areSettBalancesAvailable = Object.keys(this.store.user.settBalances).length > 0;
+		// observe(this.store.user, 'settBalances', () => {
+		// 	const areSettBalancesAvailable = Object.keys(this.store.user.settBalances).length > 0;
 
-			if (areSettBalancesAvailable) {
-				this.getUserDelegationState();
-			}
-		});
+		// 	if (areSettBalancesAvailable) {
+		// 		this.getUserDelegationState();
+		// 	}
+		// });
 	}
 
 	get shouldBannerBeDisplayed(): boolean {

@@ -44,12 +44,6 @@ export default class SettStore {
 			availableBalances: this.availableBalances,
 		});
 
-		observe(this.store.network, 'currentBlock', async (change: IValueDidChange<number | undefined>) => {
-			if (change.oldValue !== change.newValue) {
-				this.refresh();
-			}
-		});
-
 		this.tokenCache = {};
 		this.settCache = {};
 		this.slugCache = {};
@@ -116,7 +110,12 @@ export default class SettStore {
 		const tokens = this.tokenCache[network.symbol];
 		const tokenAddress = Web3.utils.toChecksumAddress(address);
 		if (!tokens || !tokens[tokenAddress]) {
-			throw new Error(`Requesting unsupported token ${tokenAddress}`);
+			return {
+				name: '',
+				address,
+				decimals: 18,
+				symbol: '',
+			};
 		}
 		return tokens[tokenAddress];
 	}
@@ -124,6 +123,7 @@ export default class SettStore {
 	async refresh(): Promise<void> {
 		const { network } = this.store.network;
 		if (network) {
+			console.log('Update setts for network ' + network.name);
 			this.initialized = false;
 			await Promise.all([
 				this.loadSetts(network.symbol),
@@ -131,6 +131,7 @@ export default class SettStore {
 				this.loadAssets(network.symbol),
 			]);
 			this.initialized = true;
+			console.log('Updated settes for ' + network.name + ' complete');
 			await this.store.user.reloadBalances();
 		}
 	}

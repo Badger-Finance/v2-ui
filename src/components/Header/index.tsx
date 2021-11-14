@@ -60,9 +60,8 @@ const Header = observer(() => {
 	const { enqueueSnackbar } = useSnackbar();
 	const classes = useStyles();
 
-	const userConnected = onboard.isActive();
 	const totalValueLocked = protocolSummary ? new BigNumber(protocolSummary.totalValue) : undefined;
-	const portfolioValue = userConnected && user.initialized ? user.portfolioValue : undefined;
+	const portfolioValue = onboard.isActive() && user.initialized ? user.portfolioValue : undefined;
 	const valuePlaceholder = <Skeleton animation="wave" width={32} className={classes.loader} />;
 
 	const enq = () => {
