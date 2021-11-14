@@ -19,6 +19,22 @@ const useStyles = makeStyles((theme) => ({
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
+	tagContainer: {
+		display: 'flex',
+		alignItems: 'center',
+		marginLeft: theme.spacing(2),
+	},
+	newTag: {
+		background: 'white',
+		textTransform: 'uppercase',
+		fontSize: '12px',
+		fontWeight: 700,
+		color: theme.palette.background.paper,
+		padding: theme.spacing(0.5),
+		paddingLeft: theme.spacing(2),
+		paddingRight: theme.spacing(2),
+		borderRadius: '25px',
+	},
 }));
 
 interface Props {
@@ -49,6 +65,11 @@ export const SettItemName = ({ sett }: Props): JSX.Element => {
 					</Grid>
 				</Grid>
 			</Grid>
+			{sett.newVault && (
+				<Grid item className={classes.tagContainer}>
+					<div className={classes.newTag}>New</div>
+				</Grid>
+			)}
 		</Grid>
 	);
 };

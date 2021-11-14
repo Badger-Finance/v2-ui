@@ -71,12 +71,7 @@ export class RootStore {
 		this.api = new BadgerAPI(network, BADGER_API);
 		this.rewards.resetRewards();
 
-		const refreshData = [
-			this.network.updateGasPrices(),
-			this.setts.refresh(),
-			this.loadTreeData(),
-			this.prices.loadPrices(),
-		];
+		const refreshData = [this.network.updateGasPrices(), this.setts.refresh(), this.prices.loadPrices()];
 
 		await Promise.all(refreshData);
 	}
@@ -86,32 +81,20 @@ export class RootStore {
 	async updateProvider(provider: SDKProvider): Promise<void> {
 		const { network } = this.network;
 		const signer = provider.getSigner();
+		let updateActions: Promise<void>[] = [];
 		if (signer && this.onboard.address) {
 			const address = await signer.getAddress();
 			const config = NetworkConfig.getConfig(network.id);
-			await Promise.all([
+			updateActions = updateActions.concat([
 				this.user.loadAccountDetails(address),
 				this.user.reloadBalances(address),
 				this.user.loadClaimProof(this.onboard.address, config.network),
-				this.airdrops.fetchAirdrops(),
 			]);
 		}
 		if (network.id === NETWORK_IDS.ETH) {
-			await this.airdrops.fetchAirdrops();
+			updateActions = updateActions.concat([this.airdrops.fetchAirdrops(), this.rebase.fetchRebaseStats()]);
 		}
-		if (network.hasBadgerTree) {
-			await this.rewards.loadTreeData();
-		}
-	}
-
-	private async loadTreeData() {
-		const { network } = this.network;
-		if (this.onboard.isActive()) {
-			// ensure network required calls are made prior to loading rewards
-			if (network.id === NETWORK_IDS.ETH) {
-				await this.rebase.fetchRebaseStats();
-			}
-		}
+		await Promise.all(updateActions);
 	}
 }
 

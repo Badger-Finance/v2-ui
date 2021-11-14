@@ -72,7 +72,7 @@ export const PoolBalance = observer(() => {
 	const { setts, onboard } = store;
 	const { poolBalance, loadingPoolBalance } = store.honeyPot;
 
-	if (onboard.isActive()) {
+	if (!onboard.isActive()) {
 		return (
 			<Container>
 				<Grid item xs={12}>

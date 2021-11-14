@@ -169,7 +169,6 @@ export default class UserStore {
 			const proof = await fetchClaimProof(Web3.utils.toChecksumAddress(address), chain);
 			if (proof) {
 				this.claimProof = proof;
-				console.log('Loaded claim proof');
 				await this.store.rewards.fetchSettRewards();
 			} else {
 				this.claimProof = undefined;

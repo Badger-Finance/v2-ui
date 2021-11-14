@@ -64,6 +64,7 @@ const routes = {
 	honeybadgerDrop: new Route<RootStore, QueryParams>({
 		path: '/honey-badger-drop',
 		component: <HoneybadgerDrop />,
+		onEnter: (_route, _params, store) => store.honeyPot.refresh(),
 	}),
 	IbBTC: new Route<RootStore, QueryParams>({
 		path: '/ibBTC',
