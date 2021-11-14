@@ -80,10 +80,6 @@ export class RootStore {
 		];
 
 		await Promise.all(refreshData);
-
-		if (network === NETWORK_IDS.ETH) {
-			await this.airdrops.fetchAirdrops();
-		}
 	}
 
 	// the provider wiring is not needed or used / required for move to sdk based app
@@ -91,12 +87,21 @@ export class RootStore {
 	async updateProvider(provider: SDKProvider): Promise<void> {
 		const { network } = this.network;
 		const signer = provider.getSigner();
-		if (signer) {
+		if (signer && this.onboard.address) {
 			const address = await signer.getAddress();
-			await Promise.all([this.user.loadAccountDetails(address), this.user.reloadBalances(address)]);
+			const config = NetworkConfig.getConfig(network.id);
+			await Promise.all([
+				this.user.loadAccountDetails(address),
+				this.user.reloadBalances(address),
+				this.user.loadClaimProof(this.onboard.address, config.network),
+				this.airdrops.fetchAirdrops(),
+			]);
 		}
 		if (network.id === NETWORK_IDS.ETH) {
 			await this.airdrops.fetchAirdrops();
+		}
+		if (network.hasBadgerTree) {
+			await this.rewards.loadTreeData();
 		}
 	}
 
@@ -106,9 +111,6 @@ export class RootStore {
 			// ensure network required calls are made prior to loading rewards
 			if (network.id === NETWORK_IDS.ETH) {
 				await this.rebase.fetchRebaseStats();
-			}
-			if (network.hasBadgerTree) {
-				await this.rewards.loadTreeData();
 			}
 		}
 	}

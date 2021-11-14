@@ -20,11 +20,14 @@ const useStyles = makeStyles(() => ({
 		right: 8,
 		zIndex: 1,
 	},
+	active: {
+		borderColor: '#F2BC1B',
+	},
 }));
 
 const DelegationWidget = (): JSX.Element | null => {
 	const {
-		lockedCvxDelegation: { shouldBannerBeDisplayed },
+		lockedCvxDelegation: { shouldBannerBeDisplayed, canUserDelegate, unclaimedBalance },
 	} = useContext(StoreContext);
 	const [showModal, setShowModal] = useState(false);
 	const classes = useStyles();
@@ -35,9 +38,14 @@ const DelegationWidget = (): JSX.Element | null => {
 		return null;
 	}
 
+	const shouldInteract = canUserDelegate && unclaimedBalance && unclaimedBalance.gt(0);
 	return (
 		<>
-			<Button onClick={toggleModal} className={clsx(classes.button, classes.delegateButton)} variant="outlined">
+			<Button
+				onClick={toggleModal}
+				className={clsx(classes.button, classes.delegateButton, shouldInteract && classes.active)}
+				variant="outlined"
+			>
 				<img src="/assets/icons/delegation.svg" alt="rewards icon" />
 			</Button>
 			<Dialog open={showModal} onClose={toggleModal} maxWidth="md" fullWidth scroll="body">
