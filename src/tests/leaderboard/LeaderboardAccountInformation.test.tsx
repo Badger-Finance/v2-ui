@@ -5,35 +5,32 @@ import React from 'react';
 import { TEST_ADDRESS, checkSnapshot } from 'tests/utils/snapshots';
 
 describe('LeaderboardAccountInformation', () => {
-	beforeEach(() => {
-		FLAGS.BOOST_OPTIMIZER = true;
-	});
-
 	describe('No user connected', () => {
 		it('Displays fields as N/A', () => checkSnapshot(<LeaderboardAccountInformation />));
 	});
 
 	describe('User connected, no data loaded', () => {
 		it('Displays fields as loading skeletons', () => {
-			store.wallet.connectedAddress = TEST_ADDRESS;
+			store.onboard.address = TEST_ADDRESS;
 			checkSnapshot(<LeaderboardAccountInformation />);
 		});
 	});
 
 	describe('User connected, data loaded', () => {
 		it('Displays user rank, and boost', () => {
-			store.wallet.connectedAddress = TEST_ADDRESS;
+			store.onboard.address = TEST_ADDRESS;
 			store.user.accountDetails = {
-				id: TEST_ADDRESS,
+				address: TEST_ADDRESS,
 				boost: 2,
 				boostRank: 10,
 				nativeBalance: 0,
 				nonNativeBalance: 10,
 				multipliers: {},
-				depositLimits: {},
+				claimableBalances: {},
 				value: 0,
 				earnedValue: 0,
-				balances: [],
+				data: {},
+				stakeRatio: 0,
 			};
 			checkSnapshot(<LeaderboardAccountInformation />);
 		});

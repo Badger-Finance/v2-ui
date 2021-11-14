@@ -64,7 +64,7 @@ const ActionButton = observer(
 		const { onboard } = useContext(StoreContext);
 		const connectWallet = useConnectWallet();
 
-		if (!onboard.isActive()) {
+		if (!onboard.address) {
 			return (
 				<Button fullWidth size="large" variant="contained" color="primary" onClick={connectWallet}>
 					Connect Wallet
@@ -206,7 +206,7 @@ export const Mint = observer(
 						<Grid item xs={12} sm={5}>
 							<InputTokenAmount
 								inputProps={inputProps}
-								disabled={!onboard.isActive()}
+								disabled={!onboard.address}
 								value={inputAmount?.displayValue || ''}
 								placeholder="0.000"
 								onChange={onValidChange(handleInputChange)}

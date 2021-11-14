@@ -69,7 +69,7 @@ describe('ibBTC Redeem', () => {
 		beforeEach(() => {
 			jest.useFakeTimers();
 
-			store.wallet.connectedAddress = '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a';
+			store.onboard.address = '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a';
 			store.ibBTCStore.calcRedeemAmount = jest.fn().mockReturnValue({
 				fee: store.ibBTCStore.ibBTC.scale('0.0120'),
 				max: store.ibBTCStore.ibBTC.scale('100'),

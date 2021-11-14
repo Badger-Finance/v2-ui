@@ -33,7 +33,7 @@ describe('WalletWidget', () => {
 	});
 
 	test('Connected address is properly displayed', async () => {
-		testStore.wallet.connectedAddress = '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a';
+		testStore.onboard.address = '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a';
 		const { container } = customRender(
 			<StoreProvider value={testStore}>
 				<WalletWidget />

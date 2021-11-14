@@ -90,7 +90,7 @@ describe('ibBTC Mint', () => {
 	it('handles empty balance', async () => {
 		jest.useFakeTimers();
 
-		store.wallet.connectedAddress = '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a';
+		store.onboard.address = '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a';
 
 		customRender(
 			<StoreProvider value={store}>

@@ -21,7 +21,7 @@ describe('HoneybadgerDrop Page', () => {
 
 	test('Renders correctly with connected address', () => {
 		act(() => {
-			connectedStore.wallet.connectedAddress = '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a';
+			connectedStore.onboard.address = '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a';
 		});
 		const { container } = customRender(
 			<StoreProvider value={connectedStore}>
@@ -33,7 +33,7 @@ describe('HoneybadgerDrop Page', () => {
 
 	test('Renders correctly with connected address and a balance of NFTs', () => {
 		act(() => {
-			connectedStore.wallet.connectedAddress = '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a';
+			connectedStore.onboard.address = '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a';
 			connectedStore.honeyPot.nfts = [
 				{
 					tokenId: '1',

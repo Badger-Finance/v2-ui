@@ -134,7 +134,6 @@ class RewardsStore {
 				return;
 			}
 
-			console.log(network);
 			if (!network.badgerTree) {
 				console.error('Error: No badger tree address was found in current network deploy config');
 				return;

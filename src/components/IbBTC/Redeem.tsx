@@ -54,7 +54,7 @@ const ActionButton = observer(
 		const { onboard } = useContext(StoreContext);
 		const connectWallet = useConnectWallet();
 
-		if (!onboard.isActive()) {
+		if (!onboard.address) {
 			return (
 				<Button fullWidth size="large" variant="contained" color="primary" onClick={connectWallet}>
 					Connect Wallet
@@ -196,7 +196,7 @@ export const Redeem = observer((): any => {
 						<InputTokenAmount
 							inputProps={inputProps}
 							value={inputAmount?.displayValue || ''}
-							disabled={!onboard.isActive()}
+							disabled={!onboard.address}
 							placeholder="0.000"
 							onChange={onValidChange(handleInputChange)}
 						/>

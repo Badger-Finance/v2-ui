@@ -26,7 +26,7 @@ exports[`Boost Optimizer can change native and non native balances 1`] = `
                 Boost:
               </p>
               <p
-                class="MuiTypography-root-143 makeStyles-boostValue-139 makeStyles-fontColor-1006 MuiTypography-body1-145 MuiTypography-displayInline-171"
+                class="MuiTypography-root-143 makeStyles-boostValue-139 makeStyles-fontColor-946 MuiTypography-body1-145 MuiTypography-displayInline-171"
               >
                 10x
               </p>
@@ -56,7 +56,7 @@ exports[`Boost Optimizer can change native and non native balances 1`] = `
                   Reset Calculations
                 </span>
                 <span
-                  class="MuiTouchRipple-root-397"
+                  class="MuiTouchRipple-root-396"
                 />
               </button>
             </div>
@@ -86,7 +86,7 @@ exports[`Boost Optimizer can change native and non native balances 1`] = `
                   class="MuiFormControl-root-252 MuiTextField-root-251 makeStyles-assetInput-243"
                 >
                   <div
-                    class="MuiInputBase-root-271 MuiOutlinedInput-root-256 makeStyles-assetColor-1007 MuiInputBase-formControl-272 MuiInputBase-adornedStart-275 MuiOutlinedInput-adornedStart-260 makeStyles-adornedStart-246 MuiInputBase-adornedEnd-276 MuiOutlinedInput-adornedEnd-261 makeStyles-adornedEnd-247"
+                    class="MuiInputBase-root-271 MuiOutlinedInput-root-256 makeStyles-assetColor-947 MuiInputBase-formControl-272 MuiInputBase-adornedStart-275 MuiOutlinedInput-adornedStart-260 makeStyles-adornedStart-246 MuiInputBase-adornedEnd-276 MuiOutlinedInput-adornedEnd-261 makeStyles-adornedEnd-247"
                   >
                     <button
                       class="MuiButtonBase-root-224 MuiButton-root-195 MuiButton-text-197 makeStyles-actionButton-249"
@@ -103,7 +103,7 @@ exports[`Boost Optimizer can change native and non native balances 1`] = `
                         />
                       </span>
                       <span
-                        class="MuiTouchRipple-root-397"
+                        class="MuiTouchRipple-root-396"
                       />
                     </button>
                     <input
@@ -130,7 +130,7 @@ exports[`Boost Optimizer can change native and non native balances 1`] = `
                         />
                       </span>
                       <span
-                        class="MuiTouchRipple-root-397"
+                        class="MuiTouchRipple-root-396"
                       />
                     </button>
                     <fieldset
@@ -178,10 +178,10 @@ exports[`Boost Optimizer can change native and non native balances 1`] = `
               class="MuiGrid-root-6 MuiGrid-item-8 MuiGrid-grid-xs-5-45"
             >
               <div
-                class="MuiBox-root-303 MuiBox-root-304 makeStyles-root-293 makeStyles-container-1008"
+                class="MuiBox-root-303 MuiBox-root-304 makeStyles-root-293 makeStyles-container-948"
               >
                 <div
-                  class="makeStyles-boostEye-296 makeStyles-boostLeft-297 makeStyles-eyes-1009"
+                  class="makeStyles-boostEye-296 makeStyles-boostLeft-297 makeStyles-eyes-949"
                 >
                   <img
                     alt="Badger Eyes"
@@ -195,7 +195,7 @@ exports[`Boost Optimizer can change native and non native balances 1`] = `
                   src="assets/badger-transparent.png"
                 />
                 <div
-                  class="makeStyles-boostEye-296 makeStyles-boostRight-298 makeStyles-eyes-1009"
+                  class="makeStyles-boostEye-296 makeStyles-boostRight-298 makeStyles-eyes-949"
                 >
                   <img
                     alt="Badger Eyes"
@@ -220,7 +220,7 @@ exports[`Boost Optimizer can change native and non native balances 1`] = `
                   class="MuiFormControl-root-252 MuiTextField-root-251 makeStyles-assetInput-309"
                 >
                   <div
-                    class="MuiInputBase-root-271 MuiOutlinedInput-root-256 makeStyles-assetColor-1011 MuiInputBase-formControl-272 MuiInputBase-adornedStart-275 MuiOutlinedInput-adornedStart-260 makeStyles-adornedStart-246 MuiInputBase-adornedEnd-276 MuiOutlinedInput-adornedEnd-261 makeStyles-adornedEnd-247"
+                    class="MuiInputBase-root-271 MuiOutlinedInput-root-256 makeStyles-assetColor-951 MuiInputBase-formControl-272 MuiInputBase-adornedStart-275 MuiOutlinedInput-adornedStart-260 makeStyles-adornedStart-246 MuiInputBase-adornedEnd-276 MuiOutlinedInput-adornedEnd-261 makeStyles-adornedEnd-247"
                   >
                     <button
                       class="MuiButtonBase-root-224 MuiButton-root-195 MuiButton-text-197 makeStyles-actionButton-249"
@@ -237,7 +237,7 @@ exports[`Boost Optimizer can change native and non native balances 1`] = `
                         />
                       </span>
                       <span
-                        class="MuiTouchRipple-root-397"
+                        class="MuiTouchRipple-root-396"
                       />
                     </button>
                     <input
@@ -264,7 +264,7 @@ exports[`Boost Optimizer can change native and non native balances 1`] = `
                         />
                       </span>
                       <span
-                        class="MuiTouchRipple-root-397"
+                        class="MuiTouchRipple-root-396"
                       />
                     </button>
                     <fieldset
@@ -305,11 +305,11 @@ exports[`Boost Optimizer can change native and non native balances 1`] = `
               class="makeStyles-currentLevelImgContainer-320"
             >
               <div
-                class="makeStyles-container-1014"
+                class="makeStyles-container-954"
               >
                 <img
                   alt="Badger Logo"
-                  class="makeStyles-boostImage-1015"
+                  class="makeStyles-boostImage-955"
                   src="assets/badger-transparent.png"
                 />
               </div>
@@ -339,7 +339,7 @@ exports[`Boost Optimizer can change native and non native balances 1`] = `
                 class="MuiGrid-root-6 makeStyles-informationValueContainer-325 MuiGrid-item-8 MuiGrid-grid-xs-12-52"
               >
                 <p
-                  class="MuiTypography-root-143 makeStyles-informationValue-326 makeStyles-fontColor-1012 MuiTypography-body1-145"
+                  class="MuiTypography-root-143 makeStyles-informationValue-326 makeStyles-fontColor-952 MuiTypography-body1-145"
                 >
                   200%
                 </p>
@@ -361,7 +361,7 @@ exports[`Boost Optimizer can change native and non native balances 1`] = `
                 class="MuiGrid-root-6 makeStyles-informationValueContainer-325 MuiGrid-item-8 MuiGrid-grid-xs-12-52"
               >
                 <p
-                  class="MuiTypography-root-143 makeStyles-informationValue-326 makeStyles-fontColor-1013 MuiTypography-body1-145"
+                  class="MuiTypography-root-143 makeStyles-informationValue-326 makeStyles-fontColor-953 MuiTypography-body1-145"
                 >
                   2000x
                 </p>
@@ -391,11 +391,11 @@ exports[`Boost Optimizer can change native and non native balances 1`] = `
                     class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-progressBar-1016"
+                      class="makeStyles-progressBar-956"
                     />
                   </div>
                   <div
-                    class="makeStyles-connector-1017"
+                    class="makeStyles-connector-957"
                   />
                 </div>
                 <div
@@ -405,11 +405,11 @@ exports[`Boost Optimizer can change native and non native balances 1`] = `
                     class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-progressBar-1018"
+                      class="makeStyles-progressBar-958"
                     />
                   </div>
                   <div
-                    class="makeStyles-connector-1019"
+                    class="makeStyles-connector-959"
                   />
                 </div>
                 <div
@@ -419,11 +419,11 @@ exports[`Boost Optimizer can change native and non native balances 1`] = `
                     class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-progressBar-1020"
+                      class="makeStyles-progressBar-960"
                     />
                   </div>
                   <div
-                    class="makeStyles-connector-1021"
+                    class="makeStyles-connector-961"
                   />
                 </div>
                 <div
@@ -433,11 +433,11 @@ exports[`Boost Optimizer can change native and non native balances 1`] = `
                     class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-progressBar-1022"
+                      class="makeStyles-progressBar-962"
                     />
                   </div>
                   <div
-                    class="makeStyles-connector-1023"
+                    class="makeStyles-connector-963"
                   />
                 </div>
               </div>
@@ -458,11 +458,11 @@ exports[`Boost Optimizer can change native and non native balances 1`] = `
                       class="makeStyles-boostImageContainer-349"
                     >
                       <div
-                        class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-1024"
+                        class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-964"
                       >
                         <img
                           alt="Badger Logo"
-                          class="makeStyles-boostImage-1025"
+                          class="makeStyles-boostImage-965"
                           src="assets/badger-transparent.png"
                         />
                       </div>
@@ -478,7 +478,7 @@ exports[`Boost Optimizer can change native and non native balances 1`] = `
                     </div>
                   </div>
                   <span
-                    class="MuiTouchRipple-root-397"
+                    class="MuiTouchRipple-root-396"
                   />
                 </button>
               </div>
@@ -496,11 +496,11 @@ exports[`Boost Optimizer can change native and non native balances 1`] = `
                     class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-progressBar-1026"
+                      class="makeStyles-progressBar-966"
                     />
                   </div>
                   <div
-                    class="makeStyles-connector-1027"
+                    class="makeStyles-connector-967"
                   />
                 </div>
                 <div
@@ -510,11 +510,11 @@ exports[`Boost Optimizer can change native and non native balances 1`] = `
                     class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-progressBar-1028"
+                      class="makeStyles-progressBar-968"
                     />
                   </div>
                   <div
-                    class="makeStyles-connector-1029"
+                    class="makeStyles-connector-969"
                   />
                 </div>
                 <div
@@ -524,11 +524,11 @@ exports[`Boost Optimizer can change native and non native balances 1`] = `
                     class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-progressBar-1030"
+                      class="makeStyles-progressBar-970"
                     />
                   </div>
                   <div
-                    class="makeStyles-connector-1031"
+                    class="makeStyles-connector-971"
                   />
                 </div>
                 <div
@@ -538,11 +538,11 @@ exports[`Boost Optimizer can change native and non native balances 1`] = `
                     class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-progressBar-1032"
+                      class="makeStyles-progressBar-972"
                     />
                   </div>
                   <div
-                    class="makeStyles-connector-1033"
+                    class="makeStyles-connector-973"
                   />
                 </div>
               </div>
@@ -563,11 +563,11 @@ exports[`Boost Optimizer can change native and non native balances 1`] = `
                       class="makeStyles-boostImageContainer-349"
                     >
                       <div
-                        class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-1034"
+                        class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-974"
                       >
                         <img
                           alt="Badger Logo"
-                          class="makeStyles-boostImage-1035"
+                          class="makeStyles-boostImage-975"
                           src="assets/badger-transparent.png"
                         />
                       </div>
@@ -583,7 +583,7 @@ exports[`Boost Optimizer can change native and non native balances 1`] = `
                     </div>
                   </div>
                   <span
-                    class="MuiTouchRipple-root-397"
+                    class="MuiTouchRipple-root-396"
                   />
                 </button>
               </div>
@@ -601,11 +601,11 @@ exports[`Boost Optimizer can change native and non native balances 1`] = `
                     class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-progressBar-1036"
+                      class="makeStyles-progressBar-976"
                     />
                   </div>
                   <div
-                    class="makeStyles-connector-1037"
+                    class="makeStyles-connector-977"
                   />
                 </div>
                 <div
@@ -615,11 +615,11 @@ exports[`Boost Optimizer can change native and non native balances 1`] = `
                     class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-progressBar-1038"
+                      class="makeStyles-progressBar-978"
                     />
                   </div>
                   <div
-                    class="makeStyles-connector-1039"
+                    class="makeStyles-connector-979"
                   />
                 </div>
                 <div
@@ -629,11 +629,11 @@ exports[`Boost Optimizer can change native and non native balances 1`] = `
                     class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-progressBar-1040"
+                      class="makeStyles-progressBar-980"
                     />
                   </div>
                   <div
-                    class="makeStyles-connector-1041"
+                    class="makeStyles-connector-981"
                   />
                 </div>
                 <div
@@ -643,11 +643,11 @@ exports[`Boost Optimizer can change native and non native balances 1`] = `
                     class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-progressBar-1042"
+                      class="makeStyles-progressBar-982"
                     />
                   </div>
                   <div
-                    class="makeStyles-connector-1043"
+                    class="makeStyles-connector-983"
                   />
                 </div>
               </div>
@@ -668,11 +668,11 @@ exports[`Boost Optimizer can change native and non native balances 1`] = `
                       class="makeStyles-boostImageContainer-349"
                     >
                       <div
-                        class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-1044"
+                        class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-984"
                       >
                         <img
                           alt="Badger Logo"
-                          class="makeStyles-boostImage-1045"
+                          class="makeStyles-boostImage-985"
                           src="assets/badger-transparent.png"
                         />
                       </div>
@@ -688,7 +688,7 @@ exports[`Boost Optimizer can change native and non native balances 1`] = `
                     </div>
                   </div>
                   <span
-                    class="MuiTouchRipple-root-397"
+                    class="MuiTouchRipple-root-396"
                   />
                 </button>
               </div>
@@ -706,11 +706,11 @@ exports[`Boost Optimizer can change native and non native balances 1`] = `
                     class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-progressBar-1046"
+                      class="makeStyles-progressBar-986"
                     />
                   </div>
                   <div
-                    class="makeStyles-connector-1047"
+                    class="makeStyles-connector-987"
                   />
                 </div>
                 <div
@@ -720,11 +720,11 @@ exports[`Boost Optimizer can change native and non native balances 1`] = `
                     class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-progressBar-1048"
+                      class="makeStyles-progressBar-988"
                     />
                   </div>
                   <div
-                    class="makeStyles-connector-1049"
+                    class="makeStyles-connector-989"
                   />
                 </div>
                 <div
@@ -734,11 +734,11 @@ exports[`Boost Optimizer can change native and non native balances 1`] = `
                     class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-progressBar-1050"
+                      class="makeStyles-progressBar-990"
                     />
                   </div>
                   <div
-                    class="makeStyles-connector-1051"
+                    class="makeStyles-connector-991"
                   />
                 </div>
                 <div
@@ -748,11 +748,11 @@ exports[`Boost Optimizer can change native and non native balances 1`] = `
                     class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-progressBar-1052"
+                      class="makeStyles-progressBar-992"
                     />
                   </div>
                   <div
-                    class="makeStyles-connector-1053"
+                    class="makeStyles-connector-993"
                   />
                 </div>
               </div>
@@ -773,11 +773,11 @@ exports[`Boost Optimizer can change native and non native balances 1`] = `
                       class="makeStyles-boostImageContainer-349"
                     >
                       <div
-                        class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-1054"
+                        class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-994"
                       >
                         <img
                           alt="Badger Logo"
-                          class="makeStyles-boostImage-1055"
+                          class="makeStyles-boostImage-995"
                           src="assets/badger-transparent.png"
                         />
                       </div>
@@ -793,7 +793,7 @@ exports[`Boost Optimizer can change native and non native balances 1`] = `
                     </div>
                   </div>
                   <span
-                    class="MuiTouchRipple-root-397"
+                    class="MuiTouchRipple-root-396"
                   />
                 </button>
               </div>
@@ -811,11 +811,11 @@ exports[`Boost Optimizer can change native and non native balances 1`] = `
                     class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-progressBar-1056"
+                      class="makeStyles-progressBar-996"
                     />
                   </div>
                   <div
-                    class="makeStyles-connector-1057"
+                    class="makeStyles-connector-997"
                   />
                 </div>
                 <div
@@ -825,11 +825,11 @@ exports[`Boost Optimizer can change native and non native balances 1`] = `
                     class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-progressBar-1058"
+                      class="makeStyles-progressBar-998"
                     />
                   </div>
                   <div
-                    class="makeStyles-connector-1059"
+                    class="makeStyles-connector-999"
                   />
                 </div>
                 <div
@@ -839,11 +839,11 @@ exports[`Boost Optimizer can change native and non native balances 1`] = `
                     class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-progressBar-1060"
+                      class="makeStyles-progressBar-1000"
                     />
                   </div>
                   <div
-                    class="makeStyles-connector-1061"
+                    class="makeStyles-connector-1001"
                   />
                 </div>
                 <div
@@ -853,11 +853,11 @@ exports[`Boost Optimizer can change native and non native balances 1`] = `
                     class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-progressBar-1062"
+                      class="makeStyles-progressBar-1002"
                     />
                   </div>
                   <div
-                    class="makeStyles-connector-1063"
+                    class="makeStyles-connector-1003"
                   />
                 </div>
               </div>
@@ -878,11 +878,11 @@ exports[`Boost Optimizer can change native and non native balances 1`] = `
                       class="makeStyles-boostImageContainer-349"
                     >
                       <div
-                        class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-1064"
+                        class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-1004"
                       >
                         <img
                           alt="Badger Logo"
-                          class="makeStyles-boostImage-1065"
+                          class="makeStyles-boostImage-1005"
                           src="assets/badger-transparent.png"
                         />
                       </div>
@@ -898,7 +898,7 @@ exports[`Boost Optimizer can change native and non native balances 1`] = `
                     </div>
                   </div>
                   <span
-                    class="MuiTouchRipple-root-397"
+                    class="MuiTouchRipple-root-396"
                   />
                 </button>
               </div>
@@ -919,7 +919,7 @@ exports[`Boost Optimizer can change native and non native balances 1`] = `
               View Leaderboard
             </span>
             <span
-              class="MuiTouchRipple-root-397"
+              class="MuiTouchRipple-root-396"
             />
           </button>
         </div>
@@ -955,7 +955,7 @@ exports[`Boost Optimizer can decrease balances through the increase button 1`] =
                 Boost:
               </p>
               <p
-                class="MuiTypography-root-143 makeStyles-boostValue-139 makeStyles-fontColor-526 MuiTypography-body1-145 MuiTypography-displayInline-171"
+                class="MuiTypography-root-143 makeStyles-boostValue-139 makeStyles-fontColor-142 MuiTypography-body1-145 MuiTypography-displayInline-171"
               >
                 1x
               </p>
@@ -985,7 +985,7 @@ exports[`Boost Optimizer can decrease balances through the increase button 1`] =
                   Reset Calculations
                 </span>
                 <span
-                  class="MuiTouchRipple-root-397"
+                  class="MuiTouchRipple-root-396"
                 />
               </button>
             </div>
@@ -1015,7 +1015,7 @@ exports[`Boost Optimizer can decrease balances through the increase button 1`] =
                   class="MuiFormControl-root-252 MuiTextField-root-251 makeStyles-assetInput-243"
                 >
                   <div
-                    class="MuiInputBase-root-271 MuiOutlinedInput-root-256 makeStyles-assetColor-527 MuiInputBase-formControl-272 MuiInputBase-adornedStart-275 MuiOutlinedInput-adornedStart-260 makeStyles-adornedStart-246 MuiInputBase-adornedEnd-276 MuiOutlinedInput-adornedEnd-261 makeStyles-adornedEnd-247"
+                    class="MuiInputBase-root-271 MuiOutlinedInput-root-256 makeStyles-assetColor-244 MuiInputBase-formControl-272 MuiInputBase-adornedStart-275 MuiOutlinedInput-adornedStart-260 makeStyles-adornedStart-246 MuiInputBase-adornedEnd-276 MuiOutlinedInput-adornedEnd-261 makeStyles-adornedEnd-247"
                   >
                     <button
                       class="MuiButtonBase-root-224 MuiButton-root-195 MuiButton-text-197 makeStyles-actionButton-249"
@@ -1032,14 +1032,14 @@ exports[`Boost Optimizer can decrease balances through the increase button 1`] =
                         />
                       </span>
                       <span
-                        class="MuiTouchRipple-root-397"
+                        class="MuiTouchRipple-root-396"
                       >
                         <span
-                          class="MuiTouchRipple-ripple-398 MuiTouchRipple-rippleVisible-399"
+                          class="MuiTouchRipple-ripple-397 MuiTouchRipple-rippleVisible-398"
                           style="width: 2.8284271247461903px; height: 2.8284271247461903px; top: -1.4142135623730951px; left: -1.4142135623730951px;"
                         >
                           <span
-                            class="MuiTouchRipple-child-401 MuiTouchRipple-childLeaving-402"
+                            class="MuiTouchRipple-child-400 MuiTouchRipple-childLeaving-401"
                           />
                         </span>
                       </span>
@@ -1068,7 +1068,7 @@ exports[`Boost Optimizer can decrease balances through the increase button 1`] =
                         />
                       </span>
                       <span
-                        class="MuiTouchRipple-root-397"
+                        class="MuiTouchRipple-root-396"
                       />
                     </button>
                     <fieldset
@@ -1093,10 +1093,10 @@ exports[`Boost Optimizer can decrease balances through the increase button 1`] =
               class="MuiGrid-root-6 MuiGrid-item-8 MuiGrid-grid-xs-5-45"
             >
               <div
-                class="MuiBox-root-303 MuiBox-root-304 makeStyles-root-293 makeStyles-container-528"
+                class="MuiBox-root-303 MuiBox-root-304 makeStyles-root-293 makeStyles-container-300"
               >
                 <div
-                  class="makeStyles-boostEye-296 makeStyles-boostLeft-297 makeStyles-eyes-529"
+                  class="makeStyles-boostEye-296 makeStyles-boostLeft-297 makeStyles-eyes-301"
                 >
                   <img
                     alt="Badger Eyes"
@@ -1110,7 +1110,7 @@ exports[`Boost Optimizer can decrease balances through the increase button 1`] =
                   src="assets/badger-transparent.png"
                 />
                 <div
-                  class="makeStyles-boostEye-296 makeStyles-boostRight-298 makeStyles-eyes-529"
+                  class="makeStyles-boostEye-296 makeStyles-boostRight-298 makeStyles-eyes-301"
                 >
                   <img
                     alt="Badger Eyes"
@@ -1135,7 +1135,7 @@ exports[`Boost Optimizer can decrease balances through the increase button 1`] =
                   class="MuiFormControl-root-252 MuiTextField-root-251 makeStyles-assetInput-309"
                 >
                   <div
-                    class="MuiInputBase-root-271 MuiOutlinedInput-root-256 makeStyles-assetColor-531 MuiInputBase-formControl-272 MuiInputBase-adornedStart-275 MuiOutlinedInput-adornedStart-260 makeStyles-adornedStart-246 MuiInputBase-adornedEnd-276 MuiOutlinedInput-adornedEnd-261 makeStyles-adornedEnd-247"
+                    class="MuiInputBase-root-271 MuiOutlinedInput-root-256 makeStyles-assetColor-312 MuiInputBase-formControl-272 MuiInputBase-adornedStart-275 MuiOutlinedInput-adornedStart-260 makeStyles-adornedStart-246 MuiInputBase-adornedEnd-276 MuiOutlinedInput-adornedEnd-261 makeStyles-adornedEnd-247"
                   >
                     <button
                       class="MuiButtonBase-root-224 MuiButton-root-195 MuiButton-text-197 makeStyles-actionButton-249"
@@ -1152,14 +1152,14 @@ exports[`Boost Optimizer can decrease balances through the increase button 1`] =
                         />
                       </span>
                       <span
-                        class="MuiTouchRipple-root-397"
+                        class="MuiTouchRipple-root-396"
                       >
                         <span
-                          class="MuiTouchRipple-ripple-398 MuiTouchRipple-rippleVisible-399"
+                          class="MuiTouchRipple-ripple-397 MuiTouchRipple-rippleVisible-398"
                           style="width: 2.8284271247461903px; height: 2.8284271247461903px; top: -1.4142135623730951px; left: -1.4142135623730951px;"
                         >
                           <span
-                            class="MuiTouchRipple-child-401 MuiTouchRipple-childLeaving-402"
+                            class="MuiTouchRipple-child-400 MuiTouchRipple-childLeaving-401"
                           />
                         </span>
                       </span>
@@ -1188,7 +1188,7 @@ exports[`Boost Optimizer can decrease balances through the increase button 1`] =
                         />
                       </span>
                       <span
-                        class="MuiTouchRipple-root-397"
+                        class="MuiTouchRipple-root-396"
                       />
                     </button>
                     <fieldset
@@ -1247,11 +1247,11 @@ exports[`Boost Optimizer can decrease balances through the increase button 1`] =
               class="makeStyles-currentLevelImgContainer-320"
             >
               <div
-                class="makeStyles-container-534"
+                class="makeStyles-container-329"
               >
                 <img
                   alt="Badger Logo"
-                  class="makeStyles-boostImage-535"
+                  class="makeStyles-boostImage-330"
                   src="assets/badger-transparent.png"
                 />
               </div>
@@ -1281,7 +1281,7 @@ exports[`Boost Optimizer can decrease balances through the increase button 1`] =
                 class="MuiGrid-root-6 makeStyles-informationValueContainer-325 MuiGrid-item-8 MuiGrid-grid-xs-12-52"
               >
                 <p
-                  class="MuiTypography-root-143 makeStyles-informationValue-326 makeStyles-fontColor-532 MuiTypography-body1-145"
+                  class="MuiTypography-root-143 makeStyles-informationValue-326 makeStyles-fontColor-327 MuiTypography-body1-145"
                 >
                   0%
                 </p>
@@ -1303,7 +1303,7 @@ exports[`Boost Optimizer can decrease balances through the increase button 1`] =
                 class="MuiGrid-root-6 makeStyles-informationValueContainer-325 MuiGrid-item-8 MuiGrid-grid-xs-12-52"
               >
                 <p
-                  class="MuiTypography-root-143 makeStyles-informationValue-326 makeStyles-fontColor-533 MuiTypography-body1-145"
+                  class="MuiTypography-root-143 makeStyles-informationValue-326 makeStyles-fontColor-328 MuiTypography-body1-145"
                 >
                   1x
                 </p>
@@ -1333,11 +1333,11 @@ exports[`Boost Optimizer can decrease balances through the increase button 1`] =
                     class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-progressBar-536"
+                      class="makeStyles-progressBar-336"
                     />
                   </div>
                   <div
-                    class="makeStyles-connector-537"
+                    class="makeStyles-connector-337"
                   />
                 </div>
                 <div
@@ -1347,11 +1347,11 @@ exports[`Boost Optimizer can decrease balances through the increase button 1`] =
                     class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-progressBar-538"
+                      class="makeStyles-progressBar-338"
                     />
                   </div>
                   <div
-                    class="makeStyles-connector-539"
+                    class="makeStyles-connector-339"
                   />
                 </div>
                 <div
@@ -1361,11 +1361,11 @@ exports[`Boost Optimizer can decrease balances through the increase button 1`] =
                     class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-progressBar-540"
+                      class="makeStyles-progressBar-340"
                     />
                   </div>
                   <div
-                    class="makeStyles-connector-541"
+                    class="makeStyles-connector-341"
                   />
                 </div>
                 <div
@@ -1375,11 +1375,11 @@ exports[`Boost Optimizer can decrease balances through the increase button 1`] =
                     class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-progressBar-542"
+                      class="makeStyles-progressBar-342"
                     />
                   </div>
                   <div
-                    class="makeStyles-connector-543"
+                    class="makeStyles-connector-343"
                   />
                 </div>
               </div>
@@ -1401,11 +1401,11 @@ exports[`Boost Optimizer can decrease balances through the increase button 1`] =
                       class="makeStyles-boostImageContainer-349"
                     >
                       <div
-                        class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-544"
+                        class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-354"
                       >
                         <img
                           alt="Badger Logo"
-                          class="makeStyles-boostImage-545"
+                          class="makeStyles-boostImage-355"
                           src="assets/badger-transparent.png"
                         />
                       </div>
@@ -1421,7 +1421,7 @@ exports[`Boost Optimizer can decrease balances through the increase button 1`] =
                     </div>
                   </div>
                   <span
-                    class="MuiTouchRipple-root-397"
+                    class="MuiTouchRipple-root-396"
                   />
                 </button>
               </div>
@@ -1439,11 +1439,11 @@ exports[`Boost Optimizer can decrease balances through the increase button 1`] =
                     class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-progressBar-546"
+                      class="makeStyles-progressBar-356"
                     />
                   </div>
                   <div
-                    class="makeStyles-connector-547"
+                    class="makeStyles-connector-357"
                   />
                 </div>
                 <div
@@ -1453,11 +1453,11 @@ exports[`Boost Optimizer can decrease balances through the increase button 1`] =
                     class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-progressBar-548"
+                      class="makeStyles-progressBar-358"
                     />
                   </div>
                   <div
-                    class="makeStyles-connector-549"
+                    class="makeStyles-connector-359"
                   />
                 </div>
                 <div
@@ -1467,11 +1467,11 @@ exports[`Boost Optimizer can decrease balances through the increase button 1`] =
                     class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-progressBar-550"
+                      class="makeStyles-progressBar-360"
                     />
                   </div>
                   <div
-                    class="makeStyles-connector-551"
+                    class="makeStyles-connector-361"
                   />
                 </div>
                 <div
@@ -1481,11 +1481,11 @@ exports[`Boost Optimizer can decrease balances through the increase button 1`] =
                     class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-progressBar-552"
+                      class="makeStyles-progressBar-362"
                     />
                   </div>
                   <div
-                    class="makeStyles-connector-553"
+                    class="makeStyles-connector-363"
                   />
                 </div>
               </div>
@@ -1507,11 +1507,11 @@ exports[`Boost Optimizer can decrease balances through the increase button 1`] =
                       class="makeStyles-boostImageContainer-349"
                     >
                       <div
-                        class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-554"
+                        class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-364"
                       >
                         <img
                           alt="Badger Logo"
-                          class="makeStyles-boostImage-555"
+                          class="makeStyles-boostImage-365"
                           src="assets/badger-transparent.png"
                         />
                       </div>
@@ -1527,7 +1527,7 @@ exports[`Boost Optimizer can decrease balances through the increase button 1`] =
                     </div>
                   </div>
                   <span
-                    class="MuiTouchRipple-root-397"
+                    class="MuiTouchRipple-root-396"
                   />
                 </button>
               </div>
@@ -1545,11 +1545,11 @@ exports[`Boost Optimizer can decrease balances through the increase button 1`] =
                     class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-progressBar-556"
+                      class="makeStyles-progressBar-366"
                     />
                   </div>
                   <div
-                    class="makeStyles-connector-557"
+                    class="makeStyles-connector-367"
                   />
                 </div>
                 <div
@@ -1559,11 +1559,11 @@ exports[`Boost Optimizer can decrease balances through the increase button 1`] =
                     class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-progressBar-558"
+                      class="makeStyles-progressBar-368"
                     />
                   </div>
                   <div
-                    class="makeStyles-connector-559"
+                    class="makeStyles-connector-369"
                   />
                 </div>
                 <div
@@ -1573,11 +1573,11 @@ exports[`Boost Optimizer can decrease balances through the increase button 1`] =
                     class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-progressBar-560"
+                      class="makeStyles-progressBar-370"
                     />
                   </div>
                   <div
-                    class="makeStyles-connector-561"
+                    class="makeStyles-connector-371"
                   />
                 </div>
                 <div
@@ -1587,11 +1587,11 @@ exports[`Boost Optimizer can decrease balances through the increase button 1`] =
                     class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-progressBar-562"
+                      class="makeStyles-progressBar-372"
                     />
                   </div>
                   <div
-                    class="makeStyles-connector-563"
+                    class="makeStyles-connector-373"
                   />
                 </div>
               </div>
@@ -1613,11 +1613,11 @@ exports[`Boost Optimizer can decrease balances through the increase button 1`] =
                       class="makeStyles-boostImageContainer-349"
                     >
                       <div
-                        class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-564"
+                        class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-374"
                       >
                         <img
                           alt="Badger Logo"
-                          class="makeStyles-boostImage-565"
+                          class="makeStyles-boostImage-375"
                           src="assets/badger-transparent.png"
                         />
                       </div>
@@ -1633,7 +1633,7 @@ exports[`Boost Optimizer can decrease balances through the increase button 1`] =
                     </div>
                   </div>
                   <span
-                    class="MuiTouchRipple-root-397"
+                    class="MuiTouchRipple-root-396"
                   />
                 </button>
               </div>
@@ -1651,11 +1651,11 @@ exports[`Boost Optimizer can decrease balances through the increase button 1`] =
                     class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-progressBar-566"
+                      class="makeStyles-progressBar-376"
                     />
                   </div>
                   <div
-                    class="makeStyles-connector-567"
+                    class="makeStyles-connector-377"
                   />
                 </div>
                 <div
@@ -1665,11 +1665,11 @@ exports[`Boost Optimizer can decrease balances through the increase button 1`] =
                     class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-progressBar-568"
+                      class="makeStyles-progressBar-378"
                     />
                   </div>
                   <div
-                    class="makeStyles-connector-569"
+                    class="makeStyles-connector-379"
                   />
                 </div>
                 <div
@@ -1679,11 +1679,11 @@ exports[`Boost Optimizer can decrease balances through the increase button 1`] =
                     class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-progressBar-570"
+                      class="makeStyles-progressBar-380"
                     />
                   </div>
                   <div
-                    class="makeStyles-connector-571"
+                    class="makeStyles-connector-381"
                   />
                 </div>
                 <div
@@ -1693,11 +1693,11 @@ exports[`Boost Optimizer can decrease balances through the increase button 1`] =
                     class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-progressBar-572"
+                      class="makeStyles-progressBar-382"
                     />
                   </div>
                   <div
-                    class="makeStyles-connector-573"
+                    class="makeStyles-connector-383"
                   />
                 </div>
               </div>
@@ -1719,11 +1719,11 @@ exports[`Boost Optimizer can decrease balances through the increase button 1`] =
                       class="makeStyles-boostImageContainer-349"
                     >
                       <div
-                        class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-574"
+                        class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-384"
                       >
                         <img
                           alt="Badger Logo"
-                          class="makeStyles-boostImage-575"
+                          class="makeStyles-boostImage-385"
                           src="assets/badger-transparent.png"
                         />
                       </div>
@@ -1739,7 +1739,7 @@ exports[`Boost Optimizer can decrease balances through the increase button 1`] =
                     </div>
                   </div>
                   <span
-                    class="MuiTouchRipple-root-397"
+                    class="MuiTouchRipple-root-396"
                   />
                 </button>
               </div>
@@ -1757,11 +1757,11 @@ exports[`Boost Optimizer can decrease balances through the increase button 1`] =
                     class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-progressBar-576"
+                      class="makeStyles-progressBar-386"
                     />
                   </div>
                   <div
-                    class="makeStyles-connector-577"
+                    class="makeStyles-connector-387"
                   />
                 </div>
                 <div
@@ -1771,11 +1771,11 @@ exports[`Boost Optimizer can decrease balances through the increase button 1`] =
                     class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-progressBar-578"
+                      class="makeStyles-progressBar-388"
                     />
                   </div>
                   <div
-                    class="makeStyles-connector-579"
+                    class="makeStyles-connector-389"
                   />
                 </div>
                 <div
@@ -1785,11 +1785,11 @@ exports[`Boost Optimizer can decrease balances through the increase button 1`] =
                     class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-progressBar-580"
+                      class="makeStyles-progressBar-390"
                     />
                   </div>
                   <div
-                    class="makeStyles-connector-581"
+                    class="makeStyles-connector-391"
                   />
                 </div>
                 <div
@@ -1799,11 +1799,11 @@ exports[`Boost Optimizer can decrease balances through the increase button 1`] =
                     class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-progressBar-582"
+                      class="makeStyles-progressBar-392"
                     />
                   </div>
                   <div
-                    class="makeStyles-connector-583"
+                    class="makeStyles-connector-393"
                   />
                 </div>
               </div>
@@ -1824,11 +1824,11 @@ exports[`Boost Optimizer can decrease balances through the increase button 1`] =
                       class="makeStyles-boostImageContainer-349"
                     >
                       <div
-                        class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-584"
+                        class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-394"
                       >
                         <img
                           alt="Badger Logo"
-                          class="makeStyles-boostImage-585"
+                          class="makeStyles-boostImage-395"
                           src="assets/badger-transparent.png"
                         />
                       </div>
@@ -1844,7 +1844,7 @@ exports[`Boost Optimizer can decrease balances through the increase button 1`] =
                     </div>
                   </div>
                   <span
-                    class="MuiTouchRipple-root-397"
+                    class="MuiTouchRipple-root-396"
                   />
                 </button>
               </div>
@@ -1865,7 +1865,7 @@ exports[`Boost Optimizer can decrease balances through the increase button 1`] =
               View Leaderboard
             </span>
             <span
-              class="MuiTouchRipple-root-397"
+              class="MuiTouchRipple-root-396"
             />
           </button>
         </div>
@@ -1901,7 +1901,7 @@ exports[`Boost Optimizer can increase balances through the increase button 1`] =
                 Boost:
               </p>
               <p
-                class="MuiTypography-root-143 makeStyles-boostValue-139 makeStyles-fontColor-526 MuiTypography-body1-145 MuiTypography-displayInline-171"
+                class="MuiTypography-root-143 makeStyles-boostValue-139 makeStyles-fontColor-466 MuiTypography-body1-145 MuiTypography-displayInline-171"
               >
                 10x
               </p>
@@ -1931,954 +1931,7 @@ exports[`Boost Optimizer can increase balances through the increase button 1`] =
                   Reset Calculations
                 </span>
                 <span
-                  class="MuiTouchRipple-root-397"
-                />
-              </button>
-            </div>
-          </div>
-        </div>
-        <hr
-          class="MuiDivider-root-227 makeStyles-divider-2"
-        />
-        <div
-          class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-item-8 MuiGrid-direction-xs-column-10 MuiGrid-justify-xs-center-24 MuiGrid-grid-xs-true-40"
-        >
-          <div
-            class="MuiGrid-root-6 makeStyles-content-234 MuiGrid-container-7"
-          >
-            <div
-              class="MuiGrid-root-6 MuiGrid-item-8 MuiGrid-grid-xs-true-40"
-            >
-              <div
-                class="MuiGrid-root-6 makeStyles-settInformation-235 MuiGrid-item-8"
-              >
-                <h6
-                  class="MuiTypography-root-143 MuiTypography-h6-153"
-                >
-                  Native: 
-                </h6>
-                <div
-                  class="MuiFormControl-root-252 MuiTextField-root-251 makeStyles-assetInput-243"
-                >
-                  <div
-                    class="MuiInputBase-root-271 MuiOutlinedInput-root-256 makeStyles-assetColor-527 MuiInputBase-formControl-272 MuiInputBase-adornedStart-275 MuiOutlinedInput-adornedStart-260 makeStyles-adornedStart-246 MuiInputBase-adornedEnd-276 MuiOutlinedInput-adornedEnd-261 makeStyles-adornedEnd-247"
-                  >
-                    <button
-                      class="MuiButtonBase-root-224 MuiButton-root-195 MuiButton-text-197 makeStyles-actionButton-249"
-                      tabindex="0"
-                      type="button"
-                    >
-                      <span
-                        class="MuiButton-label-196"
-                      >
-                        <img
-                          alt="decrease native holdings"
-                          class="makeStyles-actionImage-250"
-                          src="/assets/icons/boost-down.svg"
-                        />
-                      </span>
-                      <span
-                        class="MuiTouchRipple-root-397"
-                      />
-                    </button>
-                    <input
-                      aria-invalid="false"
-                      aria-label="native holdings amount"
-                      class="MuiInputBase-input-282 MuiOutlinedInput-input-266 makeStyles-input-245 MuiInputBase-inputAdornedStart-286 MuiOutlinedInput-inputAdornedStart-269 MuiInputBase-inputAdornedEnd-287 MuiOutlinedInput-inputAdornedEnd-270"
-                      inputmode="numeric"
-                      placeholder="$10,000"
-                      type="text"
-                      value="$2,000"
-                    />
-                    <button
-                      class="MuiButtonBase-root-224 MuiButton-root-195 MuiButton-text-197 makeStyles-actionButton-249"
-                      tabindex="0"
-                      type="button"
-                    >
-                      <span
-                        class="MuiButton-label-196"
-                      >
-                        <img
-                          alt="increase native holdings"
-                          class="makeStyles-actionImage-250"
-                          src="/assets/icons/boost-up.svg"
-                        />
-                      </span>
-                      <span
-                        class="MuiTouchRipple-root-397"
-                      >
-                        <span
-                          class="MuiTouchRipple-ripple-398 MuiTouchRipple-rippleVisible-399"
-                          style="width: 2.8284271247461903px; height: 2.8284271247461903px; top: -1.4142135623730951px; left: -1.4142135623730951px;"
-                        >
-                          <span
-                            class="MuiTouchRipple-child-401 MuiTouchRipple-childLeaving-402"
-                          />
-                        </span>
-                      </span>
-                    </button>
-                    <fieldset
-                      aria-hidden="true"
-                      class="PrivateNotchedOutline-root-289 MuiOutlinedInput-notchedOutline-265 makeStyles-notchedOutline-248"
-                      style="padding-left: 8px;"
-                    >
-                      <legend
-                        class="PrivateNotchedOutline-legend-290"
-                        style="width: 0.01px;"
-                      >
-                        <span>
-                          ​
-                        </span>
-                      </legend>
-                    </fieldset>
-                  </div>
-                </div>
-                <div
-                  class="MuiGrid-root-6 makeStyles-infoBox-239"
-                >
-                  <p
-                    class="MuiTypography-root-143 makeStyles-infoText-240 MuiTypography-body1-145 MuiTypography-colorTextSecondary-169"
-                  >
-                    Deposit
-                    <span
-                      class="makeStyles-amountToNextLevel-242"
-                      color="primary"
-                      title="Apply"
-                    >
-                       $100 
-                    </span>
-                    more Native to reach next multiplier:
-                     
-                    <span
-                      class="makeStyles-nextLevelName-241"
-                    >
-                      20x
-                    </span>
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div
-              class="MuiGrid-root-6 MuiGrid-item-8 MuiGrid-grid-xs-5-45"
-            >
-              <div
-                class="MuiBox-root-303 MuiBox-root-304 makeStyles-root-293 makeStyles-container-528"
-              >
-                <div
-                  class="makeStyles-boostEye-296 makeStyles-boostLeft-297 makeStyles-eyes-529"
-                >
-                  <img
-                    alt="Badger Eyes"
-                    class="makeStyles-boostEyeStar-299"
-                    src="assets/badger-eyes.png"
-                  />
-                </div>
-                <img
-                  alt="Badger Logo"
-                  class="makeStyles-boostImage-295"
-                  src="assets/badger-transparent.png"
-                />
-                <div
-                  class="makeStyles-boostEye-296 makeStyles-boostRight-298 makeStyles-eyes-529"
-                >
-                  <img
-                    alt="Badger Eyes"
-                    class="makeStyles-boostEyeStar-299"
-                    src="assets/badger-eyes.png"
-                  />
-                </div>
-              </div>
-            </div>
-            <div
-              class="MuiGrid-root-6 MuiGrid-item-8 MuiGrid-grid-xs-true-40"
-            >
-              <div
-                class="MuiGrid-root-6 makeStyles-settInformation-305 MuiGrid-item-8"
-              >
-                <h6
-                  class="MuiTypography-root-143 MuiTypography-h6-153"
-                >
-                  Non Native: 
-                </h6>
-                <div
-                  class="MuiFormControl-root-252 MuiTextField-root-251 makeStyles-assetInput-309"
-                >
-                  <div
-                    class="MuiInputBase-root-271 MuiOutlinedInput-root-256 makeStyles-assetColor-531 MuiInputBase-formControl-272 MuiInputBase-adornedStart-275 MuiOutlinedInput-adornedStart-260 makeStyles-adornedStart-246 MuiInputBase-adornedEnd-276 MuiOutlinedInput-adornedEnd-261 makeStyles-adornedEnd-247"
-                  >
-                    <button
-                      class="MuiButtonBase-root-224 MuiButton-root-195 MuiButton-text-197 makeStyles-actionButton-249"
-                      tabindex="0"
-                      type="button"
-                    >
-                      <span
-                        class="MuiButton-label-196"
-                      >
-                        <img
-                          alt="decrease non native holdings"
-                          class="makeStyles-actionImage-250"
-                          src="/assets/icons/boost-down.svg"
-                        />
-                      </span>
-                      <span
-                        class="MuiTouchRipple-root-397"
-                      />
-                    </button>
-                    <input
-                      aria-invalid="false"
-                      aria-label="non native holdings amount"
-                      class="MuiInputBase-input-282 MuiOutlinedInput-input-266 makeStyles-input-245 MuiInputBase-inputAdornedStart-286 MuiOutlinedInput-inputAdornedStart-269 MuiInputBase-inputAdornedEnd-287 MuiOutlinedInput-inputAdornedEnd-270"
-                      inputmode="numeric"
-                      placeholder="$5,000"
-                      type="text"
-                      value="$1,500"
-                    />
-                    <button
-                      class="MuiButtonBase-root-224 MuiButton-root-195 MuiButton-text-197 makeStyles-actionButton-249"
-                      tabindex="0"
-                      type="button"
-                    >
-                      <span
-                        class="MuiButton-label-196"
-                      >
-                        <img
-                          alt="increase non native holdings"
-                          class="makeStyles-actionImage-250"
-                          src="/assets/icons/boost-up.svg"
-                        />
-                      </span>
-                      <span
-                        class="MuiTouchRipple-root-397"
-                      >
-                        <span
-                          class="MuiTouchRipple-ripple-398 MuiTouchRipple-rippleVisible-399"
-                          style="width: 2.8284271247461903px; height: 2.8284271247461903px; top: -1.4142135623730951px; left: -1.4142135623730951px;"
-                        >
-                          <span
-                            class="MuiTouchRipple-child-401 MuiTouchRipple-childLeaving-402"
-                          />
-                        </span>
-                      </span>
-                    </button>
-                    <fieldset
-                      aria-hidden="true"
-                      class="PrivateNotchedOutline-root-289 MuiOutlinedInput-notchedOutline-265 makeStyles-notchedOutline-248"
-                      style="padding-left: 8px;"
-                    >
-                      <legend
-                        class="PrivateNotchedOutline-legend-290"
-                        style="width: 0.01px;"
-                      >
-                        <span>
-                          ​
-                        </span>
-                      </legend>
-                    </fieldset>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      class="MuiGrid-root-6 makeStyles-stakeInformationCardContainer-5 MuiGrid-item-8 MuiGrid-grid-xs-12-52"
-    >
-      <div
-        class="MuiPaper-root-109 MuiGrid-root-6 makeStyles-root-313 MuiGrid-container-7 MuiPaper-elevation1-113 MuiPaper-rounded-110"
-      >
-        <div
-          class="MuiGrid-root-6 MuiGrid-container-7"
-        >
-          <div
-            class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-align-items-xs-center-15"
-          >
-            <div
-              class="makeStyles-currentLevelImgContainer-320"
-            >
-              <div
-                class="makeStyles-container-534"
-              >
-                <img
-                  alt="Badger Logo"
-                  class="makeStyles-boostImage-535"
-                  src="assets/badger-transparent.png"
-                />
-              </div>
-            </div>
-            <p
-              class="MuiTypography-root-143 makeStyles-rankName-324 MuiTypography-body1-145 MuiTypography-displayInline-171"
-            >
-              Frenzy Badger
-            </p>
-          </div>
-          <div
-            class="MuiGrid-root-6 makeStyles-accountInformationContainer-323 MuiGrid-container-7"
-          >
-            <div
-              class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-item-8 MuiGrid-grid-xs-6-46"
-            >
-              <div
-                class="MuiGrid-root-6 MuiGrid-item-8 MuiGrid-grid-xs-12-52"
-              >
-                <h6
-                  class="MuiTypography-root-143 MuiTypography-subtitle2-155 MuiTypography-colorTextSecondary-169"
-                >
-                  Stake Ratio:
-                </h6>
-              </div>
-              <div
-                class="MuiGrid-root-6 makeStyles-informationValueContainer-325 MuiGrid-item-8 MuiGrid-grid-xs-12-52"
-              >
-                <p
-                  class="MuiTypography-root-143 makeStyles-informationValue-326 makeStyles-fontColor-532 MuiTypography-body1-145"
-                >
-                  133.33%
-                </p>
-              </div>
-            </div>
-            <div
-              class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-item-8 MuiGrid-grid-xs-6-46"
-            >
-              <div
-                class="MuiGrid-root-6 MuiGrid-item-8 MuiGrid-grid-xs-12-52"
-              >
-                <h6
-                  class="MuiTypography-root-143 MuiTypography-subtitle2-155 MuiTypography-colorTextSecondary-169"
-                >
-                  Multiplier:
-                </h6>
-              </div>
-              <div
-                class="MuiGrid-root-6 makeStyles-informationValueContainer-325 MuiGrid-item-8 MuiGrid-grid-xs-12-52"
-              >
-                <p
-                  class="MuiTypography-root-143 makeStyles-informationValue-326 makeStyles-fontColor-533 MuiTypography-body1-145"
-                >
-                  2000x
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <hr
-          class="MuiDivider-root-227 makeStyles-divider-315"
-        />
-        <div
-          class="MuiGrid-root-6 MuiGrid-container-7"
-        >
-          <div
-            class="MuiGrid-root-6 MuiGrid-item-8 MuiGrid-grid-xs-true-40"
-          >
-            <div
-              class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-align-items-xs-flex-end-17"
-            >
-              <div
-                class="MuiGrid-root-6 makeStyles-root-331 MuiGrid-item-8"
-              >
-                <div
-                  class="makeStyles-progressEntry-334"
-                >
-                  <div
-                    class="makeStyles-rankBar-335"
-                  >
-                    <div
-                      class="makeStyles-progressBar-536"
-                    />
-                  </div>
-                  <div
-                    class="makeStyles-connector-537"
-                  />
-                </div>
-                <div
-                  class="makeStyles-progressEntry-334"
-                >
-                  <div
-                    class="makeStyles-rankBar-335"
-                  >
-                    <div
-                      class="makeStyles-progressBar-538"
-                    />
-                  </div>
-                  <div
-                    class="makeStyles-connector-539"
-                  />
-                </div>
-                <div
-                  class="makeStyles-progressEntry-334"
-                >
-                  <div
-                    class="makeStyles-rankBar-335"
-                  >
-                    <div
-                      class="makeStyles-progressBar-540"
-                    />
-                  </div>
-                  <div
-                    class="makeStyles-connector-541"
-                  />
-                </div>
-                <div
-                  class="makeStyles-progressEntry-334"
-                >
-                  <div
-                    class="makeStyles-rankBar-335"
-                  >
-                    <div
-                      class="makeStyles-progressBar-542"
-                    />
-                  </div>
-                  <div
-                    class="makeStyles-connector-543"
-                  />
-                </div>
-              </div>
-              <div
-                class="MuiGrid-root-6 MuiGrid-item-8 MuiGrid-grid-xs-true-40"
-                color="primary"
-              >
-                <button
-                  aria-label="Frenzy Badger Rank"
-                  class="MuiButtonBase-root-224 makeStyles-buttonBase-332"
-                  tabindex="0"
-                  type="button"
-                >
-                  <div
-                    class="MuiGrid-root-6 makeStyles-root-344 MuiGrid-container-7"
-                  >
-                    <div
-                      class="makeStyles-boostImageContainer-349"
-                    >
-                      <div
-                        class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-544"
-                      >
-                        <img
-                          alt="Badger Logo"
-                          class="makeStyles-boostImage-545"
-                          src="assets/badger-transparent.png"
-                        />
-                      </div>
-                    </div>
-                    <div
-                      class="makeStyles-badgerLevelInfoContainer-346"
-                    >
-                      <p
-                        class="MuiTypography-root-143 MuiTypography-body2-144"
-                      >
-                        Frenzy Badger
-                      </p>
-                    </div>
-                  </div>
-                  <span
-                    class="MuiTouchRipple-root-397"
-                  />
-                </button>
-              </div>
-            </div>
-            <div
-              class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-align-items-xs-flex-end-17"
-            >
-              <div
-                class="MuiGrid-root-6 makeStyles-root-331 MuiGrid-item-8"
-              >
-                <div
-                  class="makeStyles-progressEntry-334"
-                >
-                  <div
-                    class="makeStyles-rankBar-335"
-                  >
-                    <div
-                      class="makeStyles-progressBar-546"
-                    />
-                  </div>
-                  <div
-                    class="makeStyles-connector-547"
-                  />
-                </div>
-                <div
-                  class="makeStyles-progressEntry-334"
-                >
-                  <div
-                    class="makeStyles-rankBar-335"
-                  >
-                    <div
-                      class="makeStyles-progressBar-548"
-                    />
-                  </div>
-                  <div
-                    class="makeStyles-connector-549"
-                  />
-                </div>
-                <div
-                  class="makeStyles-progressEntry-334"
-                >
-                  <div
-                    class="makeStyles-rankBar-335"
-                  >
-                    <div
-                      class="makeStyles-progressBar-550"
-                    />
-                  </div>
-                  <div
-                    class="makeStyles-connector-551"
-                  />
-                </div>
-                <div
-                  class="makeStyles-progressEntry-334"
-                >
-                  <div
-                    class="makeStyles-rankBar-335"
-                  >
-                    <div
-                      class="makeStyles-progressBar-552"
-                    />
-                  </div>
-                  <div
-                    class="makeStyles-connector-553"
-                  />
-                </div>
-              </div>
-              <div
-                class="MuiGrid-root-6 MuiGrid-item-8 MuiGrid-grid-xs-true-40"
-                color="primary"
-              >
-                <button
-                  aria-label="Hyper Badger Rank"
-                  class="MuiButtonBase-root-224 makeStyles-buttonBase-332"
-                  tabindex="0"
-                  type="button"
-                >
-                  <div
-                    class="MuiGrid-root-6 makeStyles-root-344 MuiGrid-container-7"
-                  >
-                    <div
-                      class="makeStyles-boostImageContainer-349"
-                    >
-                      <div
-                        class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-554"
-                      >
-                        <img
-                          alt="Badger Logo"
-                          class="makeStyles-boostImage-555"
-                          src="assets/badger-transparent.png"
-                        />
-                      </div>
-                    </div>
-                    <div
-                      class="makeStyles-badgerLevelInfoContainer-346"
-                    >
-                      <p
-                        class="MuiTypography-root-143 MuiTypography-body2-144"
-                      >
-                        Hyper Badger
-                      </p>
-                    </div>
-                  </div>
-                  <span
-                    class="MuiTouchRipple-root-397"
-                  />
-                </button>
-              </div>
-            </div>
-            <div
-              class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-align-items-xs-flex-end-17"
-            >
-              <div
-                class="MuiGrid-root-6 makeStyles-root-331 MuiGrid-item-8"
-              >
-                <div
-                  class="makeStyles-progressEntry-334"
-                >
-                  <div
-                    class="makeStyles-rankBar-335"
-                  >
-                    <div
-                      class="makeStyles-progressBar-556"
-                    />
-                  </div>
-                  <div
-                    class="makeStyles-connector-557"
-                  />
-                </div>
-                <div
-                  class="makeStyles-progressEntry-334"
-                >
-                  <div
-                    class="makeStyles-rankBar-335"
-                  >
-                    <div
-                      class="makeStyles-progressBar-558"
-                    />
-                  </div>
-                  <div
-                    class="makeStyles-connector-559"
-                  />
-                </div>
-                <div
-                  class="makeStyles-progressEntry-334"
-                >
-                  <div
-                    class="makeStyles-rankBar-335"
-                  >
-                    <div
-                      class="makeStyles-progressBar-560"
-                    />
-                  </div>
-                  <div
-                    class="makeStyles-connector-561"
-                  />
-                </div>
-                <div
-                  class="makeStyles-progressEntry-334"
-                >
-                  <div
-                    class="makeStyles-rankBar-335"
-                  >
-                    <div
-                      class="makeStyles-progressBar-562"
-                    />
-                  </div>
-                  <div
-                    class="makeStyles-connector-563"
-                  />
-                </div>
-              </div>
-              <div
-                class="MuiGrid-root-6 MuiGrid-item-8 MuiGrid-grid-xs-true-40"
-                color="primary"
-              >
-                <button
-                  aria-label="Hero Badger Rank"
-                  class="MuiButtonBase-root-224 makeStyles-buttonBase-332"
-                  tabindex="0"
-                  type="button"
-                >
-                  <div
-                    class="MuiGrid-root-6 makeStyles-root-344 MuiGrid-container-7"
-                  >
-                    <div
-                      class="makeStyles-boostImageContainer-349"
-                    >
-                      <div
-                        class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-564"
-                      >
-                        <img
-                          alt="Badger Logo"
-                          class="makeStyles-boostImage-565"
-                          src="assets/badger-transparent.png"
-                        />
-                      </div>
-                    </div>
-                    <div
-                      class="makeStyles-badgerLevelInfoContainer-346"
-                    >
-                      <p
-                        class="MuiTypography-root-143 MuiTypography-body2-144"
-                      >
-                        Hero Badger
-                      </p>
-                    </div>
-                  </div>
-                  <span
-                    class="MuiTouchRipple-root-397"
-                  />
-                </button>
-              </div>
-            </div>
-            <div
-              class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-align-items-xs-flex-end-17"
-            >
-              <div
-                class="MuiGrid-root-6 makeStyles-root-331 MuiGrid-item-8"
-              >
-                <div
-                  class="makeStyles-progressEntry-334"
-                >
-                  <div
-                    class="makeStyles-rankBar-335"
-                  >
-                    <div
-                      class="makeStyles-progressBar-566"
-                    />
-                  </div>
-                  <div
-                    class="makeStyles-connector-567"
-                  />
-                </div>
-                <div
-                  class="makeStyles-progressEntry-334"
-                >
-                  <div
-                    class="makeStyles-rankBar-335"
-                  >
-                    <div
-                      class="makeStyles-progressBar-568"
-                    />
-                  </div>
-                  <div
-                    class="makeStyles-connector-569"
-                  />
-                </div>
-                <div
-                  class="makeStyles-progressEntry-334"
-                >
-                  <div
-                    class="makeStyles-rankBar-335"
-                  >
-                    <div
-                      class="makeStyles-progressBar-570"
-                    />
-                  </div>
-                  <div
-                    class="makeStyles-connector-571"
-                  />
-                </div>
-                <div
-                  class="makeStyles-progressEntry-334"
-                >
-                  <div
-                    class="makeStyles-rankBar-335"
-                  >
-                    <div
-                      class="makeStyles-progressBar-572"
-                    />
-                  </div>
-                  <div
-                    class="makeStyles-connector-573"
-                  />
-                </div>
-              </div>
-              <div
-                class="MuiGrid-root-6 MuiGrid-item-8 MuiGrid-grid-xs-true-40"
-                color="primary"
-              >
-                <button
-                  aria-label="Neo Badger Rank"
-                  class="MuiButtonBase-root-224 makeStyles-buttonBase-332"
-                  tabindex="0"
-                  type="button"
-                >
-                  <div
-                    class="MuiGrid-root-6 makeStyles-root-344 MuiGrid-container-7"
-                  >
-                    <div
-                      class="makeStyles-boostImageContainer-349"
-                    >
-                      <div
-                        class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-574"
-                      >
-                        <img
-                          alt="Badger Logo"
-                          class="makeStyles-boostImage-575"
-                          src="assets/badger-transparent.png"
-                        />
-                      </div>
-                    </div>
-                    <div
-                      class="makeStyles-badgerLevelInfoContainer-346"
-                    >
-                      <p
-                        class="MuiTypography-root-143 MuiTypography-body2-144"
-                      >
-                        Neo Badger
-                      </p>
-                    </div>
-                  </div>
-                  <span
-                    class="MuiTouchRipple-root-397"
-                  />
-                </button>
-              </div>
-            </div>
-            <div
-              class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-align-items-xs-flex-end-17"
-            >
-              <div
-                class="MuiGrid-root-6 makeStyles-root-331 MuiGrid-item-8"
-              >
-                <div
-                  class="makeStyles-progressEntry-334"
-                >
-                  <div
-                    class="makeStyles-rankBar-335"
-                  >
-                    <div
-                      class="makeStyles-progressBar-576"
-                    />
-                  </div>
-                  <div
-                    class="makeStyles-connector-577"
-                  />
-                </div>
-                <div
-                  class="makeStyles-progressEntry-334"
-                >
-                  <div
-                    class="makeStyles-rankBar-335"
-                  >
-                    <div
-                      class="makeStyles-progressBar-578"
-                    />
-                  </div>
-                  <div
-                    class="makeStyles-connector-579"
-                  />
-                </div>
-                <div
-                  class="makeStyles-progressEntry-334"
-                >
-                  <div
-                    class="makeStyles-rankBar-335"
-                  >
-                    <div
-                      class="makeStyles-progressBar-580"
-                    />
-                  </div>
-                  <div
-                    class="makeStyles-connector-581"
-                  />
-                </div>
-                <div
-                  class="makeStyles-progressEntry-334"
-                >
-                  <div
-                    class="makeStyles-rankBar-335"
-                  >
-                    <div
-                      class="makeStyles-progressBar-582"
-                    />
-                  </div>
-                  <div
-                    class="makeStyles-connector-583"
-                  />
-                </div>
-              </div>
-              <div
-                class="MuiGrid-root-6 MuiGrid-item-8 MuiGrid-grid-xs-true-40"
-                color="primary"
-              >
-                <button
-                  aria-label="Basic Badger Rank"
-                  class="MuiButtonBase-root-224 makeStyles-buttonBase-332"
-                  tabindex="0"
-                  type="button"
-                >
-                  <div
-                    class="MuiGrid-root-6 makeStyles-root-344 MuiGrid-container-7"
-                  >
-                    <div
-                      class="makeStyles-boostImageContainer-349"
-                    >
-                      <div
-                        class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-584"
-                      >
-                        <img
-                          alt="Badger Logo"
-                          class="makeStyles-boostImage-585"
-                          src="assets/badger-transparent.png"
-                        />
-                      </div>
-                    </div>
-                    <div
-                      class="makeStyles-badgerLevelInfoContainer-346"
-                    >
-                      <p
-                        class="MuiTypography-root-143 MuiTypography-body2-144"
-                      >
-                        Basic Badger
-                      </p>
-                    </div>
-                  </div>
-                  <span
-                    class="MuiTouchRipple-root-397"
-                  />
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div
-          class="MuiGrid-root-6 makeStyles-viewLeaderBoardContainer-316 MuiGrid-container-7"
-        >
-          <button
-            class="MuiButtonBase-root-224 MuiButton-root-195 MuiButton-outlined-200 MuiButton-outlinedPrimary-201 MuiButton-outlinedSizeSmall-212 MuiButton-sizeSmall-216 MuiButton-fullWidth-218"
-            tabindex="0"
-            type="button"
-          >
-            <span
-              class="MuiButton-label-196"
-            >
-              View Leaderboard
-            </span>
-            <span
-              class="MuiTouchRipple-root-397"
-            />
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-`;
-
-exports[`Boost Optimizer can jump to rank 1`] = `
-<div>
-  <div
-    class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-spacing-xs-2-30"
-  >
-    <div
-      class="MuiGrid-root-6 MuiGrid-item-8 MuiGrid-grid-xs-12-52 MuiGrid-grid-lg-true-82"
-    >
-      <div
-        class="MuiPaper-root-109 MuiGrid-root-6 makeStyles-calculatorContainer-1 MuiGrid-container-7 MuiPaper-elevation1-113 MuiPaper-rounded-110"
-      >
-        <div
-          class="MuiGrid-root-6 MuiGrid-item-8"
-        >
-          <div
-            class="MuiGrid-root-6 makeStyles-header-137 MuiGrid-container-7 MuiGrid-align-items-xs-center-15"
-          >
-            <div
-              class="MuiGrid-root-6 makeStyles-boostSectionContainer-141 MuiGrid-item-8"
-            >
-              <p
-                class="MuiTypography-root-143 makeStyles-boostText-138 MuiTypography-body1-145 MuiTypography-displayInline-171"
-              >
-                Boost:
-              </p>
-              <p
-                class="MuiTypography-root-143 makeStyles-boostValue-139 makeStyles-fontColor-466 MuiTypography-body1-145 MuiTypography-displayInline-171"
-              >
-                1x
-              </p>
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root-186 memo-root-184 memo-root-185 MuiSvgIcon-colorPrimary-187"
-                focusable="false"
-                title="This is a boost estimation at a point in time for the purpose of illustration only. This is a means to help you optimize your returns. Please refer to the Sett page for your specific returns."
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"
-                />
-              </svg>
-            </div>
-            <div
-              class="MuiGrid-root-6 MuiGrid-item-8"
-            >
-              <button
-                class="MuiButtonBase-root-224 MuiButton-root-195 MuiButton-outlined-200 MuiButton-outlinedPrimary-201 MuiButton-outlinedSizeSmall-212 MuiButton-sizeSmall-216"
-                tabindex="0"
-                type="button"
-              >
-                <span
-                  class="MuiButton-label-196"
-                >
-                  Reset Calculations
-                </span>
-                <span
-                  class="MuiTouchRipple-root-397"
+                  class="MuiTouchRipple-root-396"
                 />
               </button>
             </div>
@@ -2925,7 +1978,7 @@ exports[`Boost Optimizer can jump to rank 1`] = `
                         />
                       </span>
                       <span
-                        class="MuiTouchRipple-root-397"
+                        class="MuiTouchRipple-root-396"
                       />
                     </button>
                     <input
@@ -2952,8 +2005,17 @@ exports[`Boost Optimizer can jump to rank 1`] = `
                         />
                       </span>
                       <span
-                        class="MuiTouchRipple-root-397"
-                      />
+                        class="MuiTouchRipple-root-396"
+                      >
+                        <span
+                          class="MuiTouchRipple-ripple-397 MuiTouchRipple-rippleVisible-398"
+                          style="width: 2.8284271247461903px; height: 2.8284271247461903px; top: -1.4142135623730951px; left: -1.4142135623730951px;"
+                        >
+                          <span
+                            class="MuiTouchRipple-child-400 MuiTouchRipple-childLeaving-401"
+                          />
+                        </span>
+                      </span>
                     </button>
                     <fieldset
                       aria-hidden="true"
@@ -2990,22 +2052,8 @@ exports[`Boost Optimizer can jump to rank 1`] = `
                     <span
                       class="makeStyles-nextLevelName-241"
                     >
-                      2x
+                      20x
                     </span>
-                  </p>
-                </div>
-                <div
-                  class="MuiGrid-root-6 makeStyles-valueToAddContainer-236 MuiGrid-container-7 MuiGrid-direction-xs-column-10"
-                >
-                  <p
-                    class="MuiTypography-root-143 makeStyles-valueToAddText-237 MuiTypography-body1-145"
-                  >
-                    Value to Add
-                  </p>
-                  <p
-                    class="MuiTypography-root-143 makeStyles-valueToAddText-237 makeStyles-amountToAdd-238 MuiTypography-body1-145"
-                  >
-                    +$100
                   </p>
                 </div>
               </div>
@@ -3073,7 +2121,7 @@ exports[`Boost Optimizer can jump to rank 1`] = `
                         />
                       </span>
                       <span
-                        class="MuiTouchRipple-root-397"
+                        class="MuiTouchRipple-root-396"
                       />
                     </button>
                     <input
@@ -3083,7 +2131,7 @@ exports[`Boost Optimizer can jump to rank 1`] = `
                       inputmode="numeric"
                       placeholder="$5,000"
                       type="text"
-                      value="$500"
+                      value="$1,000"
                     />
                     <button
                       class="MuiButtonBase-root-224 MuiButton-root-195 MuiButton-text-197 makeStyles-actionButton-249"
@@ -3100,8 +2148,17 @@ exports[`Boost Optimizer can jump to rank 1`] = `
                         />
                       </span>
                       <span
-                        class="MuiTouchRipple-root-397"
-                      />
+                        class="MuiTouchRipple-root-396"
+                      >
+                        <span
+                          class="MuiTouchRipple-ripple-397 MuiTouchRipple-rippleVisible-398"
+                          style="width: 2.8284271247461903px; height: 2.8284271247461903px; top: -1.4142135623730951px; left: -1.4142135623730951px;"
+                        >
+                          <span
+                            class="MuiTouchRipple-child-400 MuiTouchRipple-childLeaving-401"
+                          />
+                        </span>
+                      </span>
                     </button>
                     <fieldset
                       aria-hidden="true"
@@ -3177,7 +2234,7 @@ exports[`Boost Optimizer can jump to rank 1`] = `
                 <p
                   class="MuiTypography-root-143 makeStyles-informationValue-326 makeStyles-fontColor-472 MuiTypography-body1-145"
                 >
-                  200%
+                  100%
                 </p>
               </div>
             </div>
@@ -3314,7 +2371,7 @@ exports[`Boost Optimizer can jump to rank 1`] = `
                     </div>
                   </div>
                   <span
-                    class="MuiTouchRipple-root-397"
+                    class="MuiTouchRipple-root-396"
                   />
                 </button>
               </div>
@@ -3419,17 +2476,8 @@ exports[`Boost Optimizer can jump to rank 1`] = `
                     </div>
                   </div>
                   <span
-                    class="MuiTouchRipple-root-397"
-                  >
-                    <span
-                      class="MuiTouchRipple-ripple-398 MuiTouchRipple-rippleVisible-399"
-                      style="width: 2.8284271247461903px; height: 2.8284271247461903px; top: -1.4142135623730951px; left: -1.4142135623730951px;"
-                    >
-                      <span
-                        class="MuiTouchRipple-child-401 MuiTouchRipple-childLeaving-402"
-                      />
-                    </span>
-                  </span>
+                    class="MuiTouchRipple-root-396"
+                  />
                 </button>
               </div>
             </div>
@@ -3533,7 +2581,7 @@ exports[`Boost Optimizer can jump to rank 1`] = `
                     </div>
                   </div>
                   <span
-                    class="MuiTouchRipple-root-397"
+                    class="MuiTouchRipple-root-396"
                   />
                 </button>
               </div>
@@ -3638,7 +2686,7 @@ exports[`Boost Optimizer can jump to rank 1`] = `
                     </div>
                   </div>
                   <span
-                    class="MuiTouchRipple-root-397"
+                    class="MuiTouchRipple-root-396"
                   />
                 </button>
               </div>
@@ -3743,7 +2791,7 @@ exports[`Boost Optimizer can jump to rank 1`] = `
                     </div>
                   </div>
                   <span
-                    class="MuiTouchRipple-root-397"
+                    class="MuiTouchRipple-root-396"
                   />
                 </button>
               </div>
@@ -3764,7 +2812,7 @@ exports[`Boost Optimizer can jump to rank 1`] = `
               View Leaderboard
             </span>
             <span
-              class="MuiTouchRipple-root-397"
+              class="MuiTouchRipple-root-396"
             />
           </button>
         </div>
@@ -3774,7 +2822,7 @@ exports[`Boost Optimizer can jump to rank 1`] = `
 </div>
 `;
 
-exports[`Boost Optimizer displays correct information 1`] = `
+exports[`Boost Optimizer can jump to rank 1`] = `
 <div>
   <div
     class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-spacing-xs-2-30"
@@ -3800,7 +2848,7 @@ exports[`Boost Optimizer displays correct information 1`] = `
                 Boost:
               </p>
               <p
-                class="MuiTypography-root-143 makeStyles-boostValue-139 makeStyles-fontColor-396 MuiTypography-body1-145 MuiTypography-displayInline-171"
+                class="MuiTypography-root-143 makeStyles-boostValue-139 makeStyles-fontColor-406 MuiTypography-body1-145 MuiTypography-displayInline-171"
               >
                 1x
               </p>
@@ -3830,7 +2878,7 @@ exports[`Boost Optimizer displays correct information 1`] = `
                   Reset Calculations
                 </span>
                 <span
-                  class="MuiTouchRipple-root-397"
+                  class="MuiTouchRipple-root-396"
                 />
               </button>
             </div>
@@ -3877,7 +2925,7 @@ exports[`Boost Optimizer displays correct information 1`] = `
                         />
                       </span>
                       <span
-                        class="MuiTouchRipple-root-397"
+                        class="MuiTouchRipple-root-396"
                       />
                     </button>
                     <input
@@ -3887,7 +2935,7 @@ exports[`Boost Optimizer displays correct information 1`] = `
                       inputmode="numeric"
                       placeholder="$10,000"
                       type="text"
-                      value="$1,000"
+                      value="$0"
                     />
                     <button
                       class="MuiButtonBase-root-224 MuiButton-root-195 MuiButton-text-197 makeStyles-actionButton-249"
@@ -3904,7 +2952,7 @@ exports[`Boost Optimizer displays correct information 1`] = `
                         />
                       </span>
                       <span
-                        class="MuiTouchRipple-root-397"
+                        class="MuiTouchRipple-root-396"
                       />
                     </button>
                     <fieldset
@@ -3922,29 +2970,6 @@ exports[`Boost Optimizer displays correct information 1`] = `
                       </legend>
                     </fieldset>
                   </div>
-                </div>
-                <div
-                  class="MuiGrid-root-6 makeStyles-infoBox-239"
-                >
-                  <p
-                    class="MuiTypography-root-143 makeStyles-infoText-240 MuiTypography-body1-145 MuiTypography-colorTextSecondary-169"
-                  >
-                    Deposit
-                    <span
-                      class="makeStyles-amountToNextLevel-242"
-                      color="primary"
-                      title="Apply"
-                    >
-                       $100 
-                    </span>
-                    more Native to reach next multiplier:
-                     
-                    <span
-                      class="makeStyles-nextLevelName-241"
-                    >
-                      2x
-                    </span>
-                  </p>
                 </div>
               </div>
             </div>
@@ -4011,7 +3036,7 @@ exports[`Boost Optimizer displays correct information 1`] = `
                         />
                       </span>
                       <span
-                        class="MuiTouchRipple-root-397"
+                        class="MuiTouchRipple-root-396"
                       />
                     </button>
                     <input
@@ -4021,7 +3046,7 @@ exports[`Boost Optimizer displays correct information 1`] = `
                       inputmode="numeric"
                       placeholder="$5,000"
                       type="text"
-                      value="$500"
+                      value="$0"
                     />
                     <button
                       class="MuiButtonBase-root-224 MuiButton-root-195 MuiButton-text-197 makeStyles-actionButton-249"
@@ -4038,7 +3063,7 @@ exports[`Boost Optimizer displays correct information 1`] = `
                         />
                       </span>
                       <span
-                        class="MuiTouchRipple-root-397"
+                        class="MuiTouchRipple-root-396"
                       />
                     </button>
                     <fieldset
@@ -4056,6 +3081,24 @@ exports[`Boost Optimizer displays correct information 1`] = `
                       </legend>
                     </fieldset>
                   </div>
+                </div>
+                <div
+                  class="MuiGrid-root-6 makeStyles-infoBox-306"
+                >
+                  <p
+                    class="MuiTypography-root-143 makeStyles-infoText-307 MuiTypography-body1-145 MuiTypography-colorTextSecondary-169"
+                  >
+                    While reducing Non-Native may increase your boost, your gross yield will be smaller
+                  </p>
+                </div>
+                <div
+                  class="MuiGrid-root-6 makeStyles-infoBox-306 makeStyles-bounce-310"
+                >
+                  <p
+                    class="MuiTypography-root-143 makeStyles-infoText-307 MuiTypography-body1-145 MuiTypography-colorTextSecondary-169"
+                  >
+                    You need to have Non Native assets in order to improve your boost
+                  </p>
                 </div>
               </div>
             </div>
@@ -4091,7 +3134,7 @@ exports[`Boost Optimizer displays correct information 1`] = `
             <p
               class="MuiTypography-root-143 makeStyles-rankName-324 MuiTypography-body1-145 MuiTypography-displayInline-171"
             >
-              Frenzy Badger
+              Basic Badger
             </p>
           </div>
           <div
@@ -4115,7 +3158,7 @@ exports[`Boost Optimizer displays correct information 1`] = `
                 <p
                   class="MuiTypography-root-143 makeStyles-informationValue-326 makeStyles-fontColor-412 MuiTypography-body1-145"
                 >
-                  200%
+                  0%
                 </p>
               </div>
             </div>
@@ -4137,7 +3180,7 @@ exports[`Boost Optimizer displays correct information 1`] = `
                 <p
                   class="MuiTypography-root-143 makeStyles-informationValue-326 makeStyles-fontColor-413 MuiTypography-body1-145"
                 >
-                  2000x
+                  1x
                 </p>
               </div>
             </div>
@@ -4218,6 +3261,7 @@ exports[`Boost Optimizer displays correct information 1`] = `
               <div
                 class="MuiGrid-root-6 MuiGrid-item-8 MuiGrid-grid-xs-true-40"
                 color="primary"
+                title="Jump to rank"
               >
                 <button
                   aria-label="Frenzy Badger Rank"
@@ -4226,7 +3270,7 @@ exports[`Boost Optimizer displays correct information 1`] = `
                   type="button"
                 >
                   <div
-                    class="MuiGrid-root-6 makeStyles-root-344 MuiGrid-container-7"
+                    class="MuiGrid-root-6 makeStyles-locked-350 makeStyles-root-344 MuiGrid-container-7"
                   >
                     <div
                       class="makeStyles-boostImageContainer-349"
@@ -4252,7 +3296,7 @@ exports[`Boost Optimizer displays correct information 1`] = `
                     </div>
                   </div>
                   <span
-                    class="MuiTouchRipple-root-397"
+                    class="MuiTouchRipple-root-396"
                   />
                 </button>
               </div>
@@ -4331,7 +3375,7 @@ exports[`Boost Optimizer displays correct information 1`] = `
                   type="button"
                 >
                   <div
-                    class="MuiGrid-root-6 makeStyles-root-344 MuiGrid-container-7"
+                    class="MuiGrid-root-6 makeStyles-locked-350 makeStyles-root-344 MuiGrid-container-7"
                   >
                     <div
                       class="makeStyles-boostImageContainer-349"
@@ -4357,8 +3401,17 @@ exports[`Boost Optimizer displays correct information 1`] = `
                     </div>
                   </div>
                   <span
-                    class="MuiTouchRipple-root-397"
-                  />
+                    class="MuiTouchRipple-root-396"
+                  >
+                    <span
+                      class="MuiTouchRipple-ripple-397 MuiTouchRipple-rippleVisible-398"
+                      style="width: 2.8284271247461903px; height: 2.8284271247461903px; top: -1.4142135623730951px; left: -1.4142135623730951px;"
+                    >
+                      <span
+                        class="MuiTouchRipple-child-400 MuiTouchRipple-childLeaving-401"
+                      />
+                    </span>
+                  </span>
                 </button>
               </div>
             </div>
@@ -4428,6 +3481,7 @@ exports[`Boost Optimizer displays correct information 1`] = `
               <div
                 class="MuiGrid-root-6 MuiGrid-item-8 MuiGrid-grid-xs-true-40"
                 color="primary"
+                title="Jump to rank"
               >
                 <button
                   aria-label="Hero Badger Rank"
@@ -4436,7 +3490,7 @@ exports[`Boost Optimizer displays correct information 1`] = `
                   type="button"
                 >
                   <div
-                    class="MuiGrid-root-6 makeStyles-root-344 MuiGrid-container-7"
+                    class="MuiGrid-root-6 makeStyles-locked-350 makeStyles-root-344 MuiGrid-container-7"
                   >
                     <div
                       class="makeStyles-boostImageContainer-349"
@@ -4462,7 +3516,7 @@ exports[`Boost Optimizer displays correct information 1`] = `
                     </div>
                   </div>
                   <span
-                    class="MuiTouchRipple-root-397"
+                    class="MuiTouchRipple-root-396"
                   />
                 </button>
               </div>
@@ -4533,6 +3587,7 @@ exports[`Boost Optimizer displays correct information 1`] = `
               <div
                 class="MuiGrid-root-6 MuiGrid-item-8 MuiGrid-grid-xs-true-40"
                 color="primary"
+                title="Jump to rank"
               >
                 <button
                   aria-label="Neo Badger Rank"
@@ -4541,7 +3596,7 @@ exports[`Boost Optimizer displays correct information 1`] = `
                   type="button"
                 >
                   <div
-                    class="MuiGrid-root-6 makeStyles-root-344 MuiGrid-container-7"
+                    class="MuiGrid-root-6 makeStyles-locked-350 makeStyles-root-344 MuiGrid-container-7"
                   >
                     <div
                       class="makeStyles-boostImageContainer-349"
@@ -4567,7 +3622,7 @@ exports[`Boost Optimizer displays correct information 1`] = `
                     </div>
                   </div>
                   <span
-                    class="MuiTouchRipple-root-397"
+                    class="MuiTouchRipple-root-396"
                   />
                 </button>
               </div>
@@ -4672,7 +3727,7 @@ exports[`Boost Optimizer displays correct information 1`] = `
                     </div>
                   </div>
                   <span
-                    class="MuiTouchRipple-root-397"
+                    class="MuiTouchRipple-root-396"
                   />
                 </button>
               </div>
@@ -4693,7 +3748,7 @@ exports[`Boost Optimizer displays correct information 1`] = `
               View Leaderboard
             </span>
             <span
-              class="MuiTouchRipple-root-397"
+              class="MuiTouchRipple-root-396"
             />
           </button>
         </div>
@@ -4703,7 +3758,7 @@ exports[`Boost Optimizer displays correct information 1`] = `
 </div>
 `;
 
-exports[`Boost Optimizer shows empty non native message 1`] = `
+exports[`Boost Optimizer displays correct information 1`] = `
 <div>
   <div
     class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-spacing-xs-2-30"
@@ -4729,7 +3784,7 @@ exports[`Boost Optimizer shows empty non native message 1`] = `
                 Boost:
               </p>
               <p
-                class="MuiTypography-root-143 makeStyles-boostValue-139 makeStyles-fontColor-466 MuiTypography-body1-145 MuiTypography-displayInline-171"
+                class="MuiTypography-root-143 makeStyles-boostValue-139 makeStyles-fontColor-142 MuiTypography-body1-145 MuiTypography-displayInline-171"
               >
                 1x
               </p>
@@ -4759,7 +3814,7 @@ exports[`Boost Optimizer shows empty non native message 1`] = `
                   Reset Calculations
                 </span>
                 <span
-                  class="MuiTouchRipple-root-397"
+                  class="MuiTouchRipple-root-396"
                 />
               </button>
             </div>
@@ -4789,7 +3844,7 @@ exports[`Boost Optimizer shows empty non native message 1`] = `
                   class="MuiFormControl-root-252 MuiTextField-root-251 makeStyles-assetInput-243"
                 >
                   <div
-                    class="MuiInputBase-root-271 MuiOutlinedInput-root-256 makeStyles-assetColor-467 MuiInputBase-formControl-272 MuiInputBase-adornedStart-275 MuiOutlinedInput-adornedStart-260 makeStyles-adornedStart-246 MuiInputBase-adornedEnd-276 MuiOutlinedInput-adornedEnd-261 makeStyles-adornedEnd-247"
+                    class="MuiInputBase-root-271 MuiOutlinedInput-root-256 makeStyles-assetColor-244 MuiInputBase-formControl-272 MuiInputBase-adornedStart-275 MuiOutlinedInput-adornedStart-260 makeStyles-adornedStart-246 MuiInputBase-adornedEnd-276 MuiOutlinedInput-adornedEnd-261 makeStyles-adornedEnd-247"
                   >
                     <button
                       class="MuiButtonBase-root-224 MuiButton-root-195 MuiButton-text-197 makeStyles-actionButton-249"
@@ -4806,7 +3861,7 @@ exports[`Boost Optimizer shows empty non native message 1`] = `
                         />
                       </span>
                       <span
-                        class="MuiTouchRipple-root-397"
+                        class="MuiTouchRipple-root-396"
                       />
                     </button>
                     <input
@@ -4816,7 +3871,7 @@ exports[`Boost Optimizer shows empty non native message 1`] = `
                       inputmode="numeric"
                       placeholder="$10,000"
                       type="text"
-                      value="$1,000"
+                      value="$0"
                     />
                     <button
                       class="MuiButtonBase-root-224 MuiButton-root-195 MuiButton-text-197 makeStyles-actionButton-249"
@@ -4833,7 +3888,7 @@ exports[`Boost Optimizer shows empty non native message 1`] = `
                         />
                       </span>
                       <span
-                        class="MuiTouchRipple-root-397"
+                        class="MuiTouchRipple-root-396"
                       />
                     </button>
                     <fieldset
@@ -4858,10 +3913,10 @@ exports[`Boost Optimizer shows empty non native message 1`] = `
               class="MuiGrid-root-6 MuiGrid-item-8 MuiGrid-grid-xs-5-45"
             >
               <div
-                class="MuiBox-root-303 MuiBox-root-304 makeStyles-root-293 makeStyles-container-468"
+                class="MuiBox-root-303 MuiBox-root-304 makeStyles-root-293 makeStyles-container-300"
               >
                 <div
-                  class="makeStyles-boostEye-296 makeStyles-boostLeft-297 makeStyles-eyes-469"
+                  class="makeStyles-boostEye-296 makeStyles-boostLeft-297 makeStyles-eyes-301"
                 >
                   <img
                     alt="Badger Eyes"
@@ -4875,7 +3930,7 @@ exports[`Boost Optimizer shows empty non native message 1`] = `
                   src="assets/badger-transparent.png"
                 />
                 <div
-                  class="makeStyles-boostEye-296 makeStyles-boostRight-298 makeStyles-eyes-469"
+                  class="makeStyles-boostEye-296 makeStyles-boostRight-298 makeStyles-eyes-301"
                 >
                   <img
                     alt="Badger Eyes"
@@ -4900,7 +3955,7 @@ exports[`Boost Optimizer shows empty non native message 1`] = `
                   class="MuiFormControl-root-252 MuiTextField-root-251 makeStyles-assetInput-309"
                 >
                   <div
-                    class="MuiInputBase-root-271 MuiOutlinedInput-root-256 makeStyles-assetColor-471 MuiInputBase-formControl-272 MuiInputBase-adornedStart-275 MuiOutlinedInput-adornedStart-260 makeStyles-adornedStart-246 MuiInputBase-adornedEnd-276 MuiOutlinedInput-adornedEnd-261 makeStyles-adornedEnd-247"
+                    class="MuiInputBase-root-271 MuiOutlinedInput-root-256 makeStyles-assetColor-312 MuiInputBase-formControl-272 MuiInputBase-adornedStart-275 MuiOutlinedInput-adornedStart-260 makeStyles-adornedStart-246 MuiInputBase-adornedEnd-276 MuiOutlinedInput-adornedEnd-261 makeStyles-adornedEnd-247"
                   >
                     <button
                       class="MuiButtonBase-root-224 MuiButton-root-195 MuiButton-text-197 makeStyles-actionButton-249"
@@ -4917,7 +3972,7 @@ exports[`Boost Optimizer shows empty non native message 1`] = `
                         />
                       </span>
                       <span
-                        class="MuiTouchRipple-root-397"
+                        class="MuiTouchRipple-root-396"
                       />
                     </button>
                     <input
@@ -4927,7 +3982,7 @@ exports[`Boost Optimizer shows empty non native message 1`] = `
                       inputmode="numeric"
                       placeholder="$5,000"
                       type="text"
-                      value=""
+                      value="$0"
                     />
                     <button
                       class="MuiButtonBase-root-224 MuiButton-root-195 MuiButton-text-197 makeStyles-actionButton-249"
@@ -4944,7 +3999,7 @@ exports[`Boost Optimizer shows empty non native message 1`] = `
                         />
                       </span>
                       <span
-                        class="MuiTouchRipple-root-397"
+                        class="MuiTouchRipple-root-396"
                       />
                     </button>
                     <fieldset
@@ -5003,11 +4058,11 @@ exports[`Boost Optimizer shows empty non native message 1`] = `
               class="makeStyles-currentLevelImgContainer-320"
             >
               <div
-                class="makeStyles-container-474"
+                class="makeStyles-container-329"
               >
                 <img
                   alt="Badger Logo"
-                  class="makeStyles-boostImage-475"
+                  class="makeStyles-boostImage-330"
                   src="assets/badger-transparent.png"
                 />
               </div>
@@ -5037,7 +4092,7 @@ exports[`Boost Optimizer shows empty non native message 1`] = `
                 class="MuiGrid-root-6 makeStyles-informationValueContainer-325 MuiGrid-item-8 MuiGrid-grid-xs-12-52"
               >
                 <p
-                  class="MuiTypography-root-143 makeStyles-informationValue-326 makeStyles-fontColor-472 MuiTypography-body1-145"
+                  class="MuiTypography-root-143 makeStyles-informationValue-326 makeStyles-fontColor-327 MuiTypography-body1-145"
                 >
                   0%
                 </p>
@@ -5059,7 +4114,7 @@ exports[`Boost Optimizer shows empty non native message 1`] = `
                 class="MuiGrid-root-6 makeStyles-informationValueContainer-325 MuiGrid-item-8 MuiGrid-grid-xs-12-52"
               >
                 <p
-                  class="MuiTypography-root-143 makeStyles-informationValue-326 makeStyles-fontColor-473 MuiTypography-body1-145"
+                  class="MuiTypography-root-143 makeStyles-informationValue-326 makeStyles-fontColor-328 MuiTypography-body1-145"
                 >
                   1x
                 </p>
@@ -5089,11 +4144,11 @@ exports[`Boost Optimizer shows empty non native message 1`] = `
                     class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-progressBar-476"
+                      class="makeStyles-progressBar-336"
                     />
                   </div>
                   <div
-                    class="makeStyles-connector-477"
+                    class="makeStyles-connector-337"
                   />
                 </div>
                 <div
@@ -5103,11 +4158,11 @@ exports[`Boost Optimizer shows empty non native message 1`] = `
                     class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-progressBar-478"
+                      class="makeStyles-progressBar-338"
                     />
                   </div>
                   <div
-                    class="makeStyles-connector-479"
+                    class="makeStyles-connector-339"
                   />
                 </div>
                 <div
@@ -5117,11 +4172,11 @@ exports[`Boost Optimizer shows empty non native message 1`] = `
                     class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-progressBar-480"
+                      class="makeStyles-progressBar-340"
                     />
                   </div>
                   <div
-                    class="makeStyles-connector-481"
+                    class="makeStyles-connector-341"
                   />
                 </div>
                 <div
@@ -5131,11 +4186,11 @@ exports[`Boost Optimizer shows empty non native message 1`] = `
                     class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-progressBar-482"
+                      class="makeStyles-progressBar-342"
                     />
                   </div>
                   <div
-                    class="makeStyles-connector-483"
+                    class="makeStyles-connector-343"
                   />
                 </div>
               </div>
@@ -5157,11 +4212,11 @@ exports[`Boost Optimizer shows empty non native message 1`] = `
                       class="makeStyles-boostImageContainer-349"
                     >
                       <div
-                        class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-484"
+                        class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-354"
                       >
                         <img
                           alt="Badger Logo"
-                          class="makeStyles-boostImage-485"
+                          class="makeStyles-boostImage-355"
                           src="assets/badger-transparent.png"
                         />
                       </div>
@@ -5177,7 +4232,7 @@ exports[`Boost Optimizer shows empty non native message 1`] = `
                     </div>
                   </div>
                   <span
-                    class="MuiTouchRipple-root-397"
+                    class="MuiTouchRipple-root-396"
                   />
                 </button>
               </div>
@@ -5195,11 +4250,11 @@ exports[`Boost Optimizer shows empty non native message 1`] = `
                     class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-progressBar-486"
+                      class="makeStyles-progressBar-356"
                     />
                   </div>
                   <div
-                    class="makeStyles-connector-487"
+                    class="makeStyles-connector-357"
                   />
                 </div>
                 <div
@@ -5209,11 +4264,11 @@ exports[`Boost Optimizer shows empty non native message 1`] = `
                     class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-progressBar-488"
+                      class="makeStyles-progressBar-358"
                     />
                   </div>
                   <div
-                    class="makeStyles-connector-489"
+                    class="makeStyles-connector-359"
                   />
                 </div>
                 <div
@@ -5223,11 +4278,11 @@ exports[`Boost Optimizer shows empty non native message 1`] = `
                     class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-progressBar-490"
+                      class="makeStyles-progressBar-360"
                     />
                   </div>
                   <div
-                    class="makeStyles-connector-491"
+                    class="makeStyles-connector-361"
                   />
                 </div>
                 <div
@@ -5237,11 +4292,11 @@ exports[`Boost Optimizer shows empty non native message 1`] = `
                     class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-progressBar-492"
+                      class="makeStyles-progressBar-362"
                     />
                   </div>
                   <div
-                    class="makeStyles-connector-493"
+                    class="makeStyles-connector-363"
                   />
                 </div>
               </div>
@@ -5263,11 +4318,11 @@ exports[`Boost Optimizer shows empty non native message 1`] = `
                       class="makeStyles-boostImageContainer-349"
                     >
                       <div
-                        class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-494"
+                        class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-364"
                       >
                         <img
                           alt="Badger Logo"
-                          class="makeStyles-boostImage-495"
+                          class="makeStyles-boostImage-365"
                           src="assets/badger-transparent.png"
                         />
                       </div>
@@ -5283,7 +4338,7 @@ exports[`Boost Optimizer shows empty non native message 1`] = `
                     </div>
                   </div>
                   <span
-                    class="MuiTouchRipple-root-397"
+                    class="MuiTouchRipple-root-396"
                   />
                 </button>
               </div>
@@ -5301,11 +4356,11 @@ exports[`Boost Optimizer shows empty non native message 1`] = `
                     class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-progressBar-496"
+                      class="makeStyles-progressBar-366"
                     />
                   </div>
                   <div
-                    class="makeStyles-connector-497"
+                    class="makeStyles-connector-367"
                   />
                 </div>
                 <div
@@ -5315,11 +4370,11 @@ exports[`Boost Optimizer shows empty non native message 1`] = `
                     class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-progressBar-498"
+                      class="makeStyles-progressBar-368"
                     />
                   </div>
                   <div
-                    class="makeStyles-connector-499"
+                    class="makeStyles-connector-369"
                   />
                 </div>
                 <div
@@ -5329,11 +4384,11 @@ exports[`Boost Optimizer shows empty non native message 1`] = `
                     class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-progressBar-500"
+                      class="makeStyles-progressBar-370"
                     />
                   </div>
                   <div
-                    class="makeStyles-connector-501"
+                    class="makeStyles-connector-371"
                   />
                 </div>
                 <div
@@ -5343,11 +4398,11 @@ exports[`Boost Optimizer shows empty non native message 1`] = `
                     class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-progressBar-502"
+                      class="makeStyles-progressBar-372"
                     />
                   </div>
                   <div
-                    class="makeStyles-connector-503"
+                    class="makeStyles-connector-373"
                   />
                 </div>
               </div>
@@ -5369,11 +4424,11 @@ exports[`Boost Optimizer shows empty non native message 1`] = `
                       class="makeStyles-boostImageContainer-349"
                     >
                       <div
-                        class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-504"
+                        class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-374"
                       >
                         <img
                           alt="Badger Logo"
-                          class="makeStyles-boostImage-505"
+                          class="makeStyles-boostImage-375"
                           src="assets/badger-transparent.png"
                         />
                       </div>
@@ -5389,7 +4444,7 @@ exports[`Boost Optimizer shows empty non native message 1`] = `
                     </div>
                   </div>
                   <span
-                    class="MuiTouchRipple-root-397"
+                    class="MuiTouchRipple-root-396"
                   />
                 </button>
               </div>
@@ -5407,11 +4462,11 @@ exports[`Boost Optimizer shows empty non native message 1`] = `
                     class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-progressBar-506"
+                      class="makeStyles-progressBar-376"
                     />
                   </div>
                   <div
-                    class="makeStyles-connector-507"
+                    class="makeStyles-connector-377"
                   />
                 </div>
                 <div
@@ -5421,11 +4476,11 @@ exports[`Boost Optimizer shows empty non native message 1`] = `
                     class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-progressBar-508"
+                      class="makeStyles-progressBar-378"
                     />
                   </div>
                   <div
-                    class="makeStyles-connector-509"
+                    class="makeStyles-connector-379"
                   />
                 </div>
                 <div
@@ -5435,11 +4490,11 @@ exports[`Boost Optimizer shows empty non native message 1`] = `
                     class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-progressBar-510"
+                      class="makeStyles-progressBar-380"
                     />
                   </div>
                   <div
-                    class="makeStyles-connector-511"
+                    class="makeStyles-connector-381"
                   />
                 </div>
                 <div
@@ -5449,11 +4504,11 @@ exports[`Boost Optimizer shows empty non native message 1`] = `
                     class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-progressBar-512"
+                      class="makeStyles-progressBar-382"
                     />
                   </div>
                   <div
-                    class="makeStyles-connector-513"
+                    class="makeStyles-connector-383"
                   />
                 </div>
               </div>
@@ -5475,11 +4530,11 @@ exports[`Boost Optimizer shows empty non native message 1`] = `
                       class="makeStyles-boostImageContainer-349"
                     >
                       <div
-                        class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-514"
+                        class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-384"
                       >
                         <img
                           alt="Badger Logo"
-                          class="makeStyles-boostImage-515"
+                          class="makeStyles-boostImage-385"
                           src="assets/badger-transparent.png"
                         />
                       </div>
@@ -5495,7 +4550,7 @@ exports[`Boost Optimizer shows empty non native message 1`] = `
                     </div>
                   </div>
                   <span
-                    class="MuiTouchRipple-root-397"
+                    class="MuiTouchRipple-root-396"
                   />
                 </button>
               </div>
@@ -5513,11 +4568,11 @@ exports[`Boost Optimizer shows empty non native message 1`] = `
                     class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-progressBar-516"
+                      class="makeStyles-progressBar-386"
                     />
                   </div>
                   <div
-                    class="makeStyles-connector-517"
+                    class="makeStyles-connector-387"
                   />
                 </div>
                 <div
@@ -5527,11 +4582,11 @@ exports[`Boost Optimizer shows empty non native message 1`] = `
                     class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-progressBar-518"
+                      class="makeStyles-progressBar-388"
                     />
                   </div>
                   <div
-                    class="makeStyles-connector-519"
+                    class="makeStyles-connector-389"
                   />
                 </div>
                 <div
@@ -5541,11 +4596,11 @@ exports[`Boost Optimizer shows empty non native message 1`] = `
                     class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-progressBar-520"
+                      class="makeStyles-progressBar-390"
                     />
                   </div>
                   <div
-                    class="makeStyles-connector-521"
+                    class="makeStyles-connector-391"
                   />
                 </div>
                 <div
@@ -5555,11 +4610,11 @@ exports[`Boost Optimizer shows empty non native message 1`] = `
                     class="makeStyles-rankBar-335"
                   >
                     <div
-                      class="makeStyles-progressBar-522"
+                      class="makeStyles-progressBar-392"
                     />
                   </div>
                   <div
-                    class="makeStyles-connector-523"
+                    class="makeStyles-connector-393"
                   />
                 </div>
               </div>
@@ -5580,11 +4635,11 @@ exports[`Boost Optimizer shows empty non native message 1`] = `
                       class="makeStyles-boostImageContainer-349"
                     >
                       <div
-                        class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-524"
+                        class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-394"
                       >
                         <img
                           alt="Badger Logo"
-                          class="makeStyles-boostImage-525"
+                          class="makeStyles-boostImage-395"
                           src="assets/badger-transparent.png"
                         />
                       </div>
@@ -5600,7 +4655,7 @@ exports[`Boost Optimizer shows empty non native message 1`] = `
                     </div>
                   </div>
                   <span
-                    class="MuiTouchRipple-root-397"
+                    class="MuiTouchRipple-root-396"
                   />
                 </button>
               </div>
@@ -5621,7 +4676,935 @@ exports[`Boost Optimizer shows empty non native message 1`] = `
               View Leaderboard
             </span>
             <span
-              class="MuiTouchRipple-root-397"
+              class="MuiTouchRipple-root-396"
+            />
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Boost Optimizer shows empty non native message 1`] = `
+<div>
+  <div
+    class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-spacing-xs-2-30"
+  >
+    <div
+      class="MuiGrid-root-6 MuiGrid-item-8 MuiGrid-grid-xs-12-52 MuiGrid-grid-lg-true-82"
+    >
+      <div
+        class="MuiPaper-root-109 MuiGrid-root-6 makeStyles-calculatorContainer-1 MuiGrid-container-7 MuiPaper-elevation1-113 MuiPaper-rounded-110"
+      >
+        <div
+          class="MuiGrid-root-6 MuiGrid-item-8"
+        >
+          <div
+            class="MuiGrid-root-6 makeStyles-header-137 MuiGrid-container-7 MuiGrid-align-items-xs-center-15"
+          >
+            <div
+              class="MuiGrid-root-6 makeStyles-boostSectionContainer-141 MuiGrid-item-8"
+            >
+              <p
+                class="MuiTypography-root-143 makeStyles-boostText-138 MuiTypography-body1-145 MuiTypography-displayInline-171"
+              >
+                Boost:
+              </p>
+              <p
+                class="MuiTypography-root-143 makeStyles-boostValue-139 makeStyles-fontColor-406 MuiTypography-body1-145 MuiTypography-displayInline-171"
+              >
+                1x
+              </p>
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root-186 memo-root-184 memo-root-185 MuiSvgIcon-colorPrimary-187"
+                focusable="false"
+                title="This is a boost estimation at a point in time for the purpose of illustration only. This is a means to help you optimize your returns. Please refer to the Sett page for your specific returns."
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"
+                />
+              </svg>
+            </div>
+            <div
+              class="MuiGrid-root-6 MuiGrid-item-8"
+            >
+              <button
+                class="MuiButtonBase-root-224 MuiButton-root-195 MuiButton-outlined-200 MuiButton-outlinedPrimary-201 MuiButton-outlinedSizeSmall-212 MuiButton-sizeSmall-216"
+                tabindex="0"
+                type="button"
+              >
+                <span
+                  class="MuiButton-label-196"
+                >
+                  Reset Calculations
+                </span>
+                <span
+                  class="MuiTouchRipple-root-396"
+                />
+              </button>
+            </div>
+          </div>
+        </div>
+        <hr
+          class="MuiDivider-root-227 makeStyles-divider-2"
+        />
+        <div
+          class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-item-8 MuiGrid-direction-xs-column-10 MuiGrid-justify-xs-center-24 MuiGrid-grid-xs-true-40"
+        >
+          <div
+            class="MuiGrid-root-6 makeStyles-content-234 MuiGrid-container-7"
+          >
+            <div
+              class="MuiGrid-root-6 MuiGrid-item-8 MuiGrid-grid-xs-true-40"
+            >
+              <div
+                class="MuiGrid-root-6 makeStyles-settInformation-235 MuiGrid-item-8"
+              >
+                <h6
+                  class="MuiTypography-root-143 MuiTypography-h6-153"
+                >
+                  Native: 
+                </h6>
+                <div
+                  class="MuiFormControl-root-252 MuiTextField-root-251 makeStyles-assetInput-243"
+                >
+                  <div
+                    class="MuiInputBase-root-271 MuiOutlinedInput-root-256 makeStyles-assetColor-407 MuiInputBase-formControl-272 MuiInputBase-adornedStart-275 MuiOutlinedInput-adornedStart-260 makeStyles-adornedStart-246 MuiInputBase-adornedEnd-276 MuiOutlinedInput-adornedEnd-261 makeStyles-adornedEnd-247"
+                  >
+                    <button
+                      class="MuiButtonBase-root-224 MuiButton-root-195 MuiButton-text-197 makeStyles-actionButton-249"
+                      tabindex="0"
+                      type="button"
+                    >
+                      <span
+                        class="MuiButton-label-196"
+                      >
+                        <img
+                          alt="decrease native holdings"
+                          class="makeStyles-actionImage-250"
+                          src="/assets/icons/boost-down.svg"
+                        />
+                      </span>
+                      <span
+                        class="MuiTouchRipple-root-396"
+                      />
+                    </button>
+                    <input
+                      aria-invalid="false"
+                      aria-label="native holdings amount"
+                      class="MuiInputBase-input-282 MuiOutlinedInput-input-266 makeStyles-input-245 MuiInputBase-inputAdornedStart-286 MuiOutlinedInput-inputAdornedStart-269 MuiInputBase-inputAdornedEnd-287 MuiOutlinedInput-inputAdornedEnd-270"
+                      inputmode="numeric"
+                      placeholder="$10,000"
+                      type="text"
+                      value="$0"
+                    />
+                    <button
+                      class="MuiButtonBase-root-224 MuiButton-root-195 MuiButton-text-197 makeStyles-actionButton-249"
+                      tabindex="0"
+                      type="button"
+                    >
+                      <span
+                        class="MuiButton-label-196"
+                      >
+                        <img
+                          alt="increase native holdings"
+                          class="makeStyles-actionImage-250"
+                          src="/assets/icons/boost-up.svg"
+                        />
+                      </span>
+                      <span
+                        class="MuiTouchRipple-root-396"
+                      />
+                    </button>
+                    <fieldset
+                      aria-hidden="true"
+                      class="PrivateNotchedOutline-root-289 MuiOutlinedInput-notchedOutline-265 makeStyles-notchedOutline-248"
+                      style="padding-left: 8px;"
+                    >
+                      <legend
+                        class="PrivateNotchedOutline-legend-290"
+                        style="width: 0.01px;"
+                      >
+                        <span>
+                          ​
+                        </span>
+                      </legend>
+                    </fieldset>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root-6 MuiGrid-item-8 MuiGrid-grid-xs-5-45"
+            >
+              <div
+                class="MuiBox-root-303 MuiBox-root-304 makeStyles-root-293 makeStyles-container-408"
+              >
+                <div
+                  class="makeStyles-boostEye-296 makeStyles-boostLeft-297 makeStyles-eyes-409"
+                >
+                  <img
+                    alt="Badger Eyes"
+                    class="makeStyles-boostEyeStar-299"
+                    src="assets/badger-eyes.png"
+                  />
+                </div>
+                <img
+                  alt="Badger Logo"
+                  class="makeStyles-boostImage-295"
+                  src="assets/badger-transparent.png"
+                />
+                <div
+                  class="makeStyles-boostEye-296 makeStyles-boostRight-298 makeStyles-eyes-409"
+                >
+                  <img
+                    alt="Badger Eyes"
+                    class="makeStyles-boostEyeStar-299"
+                    src="assets/badger-eyes.png"
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root-6 MuiGrid-item-8 MuiGrid-grid-xs-true-40"
+            >
+              <div
+                class="MuiGrid-root-6 makeStyles-settInformation-305 MuiGrid-item-8"
+              >
+                <h6
+                  class="MuiTypography-root-143 MuiTypography-h6-153"
+                >
+                  Non Native: 
+                </h6>
+                <div
+                  class="MuiFormControl-root-252 MuiTextField-root-251 makeStyles-assetInput-309"
+                >
+                  <div
+                    class="MuiInputBase-root-271 MuiOutlinedInput-root-256 makeStyles-assetColor-411 MuiInputBase-formControl-272 MuiInputBase-adornedStart-275 MuiOutlinedInput-adornedStart-260 makeStyles-adornedStart-246 MuiInputBase-adornedEnd-276 MuiOutlinedInput-adornedEnd-261 makeStyles-adornedEnd-247"
+                  >
+                    <button
+                      class="MuiButtonBase-root-224 MuiButton-root-195 MuiButton-text-197 makeStyles-actionButton-249"
+                      tabindex="0"
+                      type="button"
+                    >
+                      <span
+                        class="MuiButton-label-196"
+                      >
+                        <img
+                          alt="decrease non native holdings"
+                          class="makeStyles-actionImage-250"
+                          src="/assets/icons/boost-down.svg"
+                        />
+                      </span>
+                      <span
+                        class="MuiTouchRipple-root-396"
+                      />
+                    </button>
+                    <input
+                      aria-invalid="false"
+                      aria-label="non native holdings amount"
+                      class="MuiInputBase-input-282 MuiOutlinedInput-input-266 makeStyles-input-245 MuiInputBase-inputAdornedStart-286 MuiOutlinedInput-inputAdornedStart-269 MuiInputBase-inputAdornedEnd-287 MuiOutlinedInput-inputAdornedEnd-270"
+                      inputmode="numeric"
+                      placeholder="$5,000"
+                      type="text"
+                      value=""
+                    />
+                    <button
+                      class="MuiButtonBase-root-224 MuiButton-root-195 MuiButton-text-197 makeStyles-actionButton-249"
+                      tabindex="0"
+                      type="button"
+                    >
+                      <span
+                        class="MuiButton-label-196"
+                      >
+                        <img
+                          alt="increase non native holdings"
+                          class="makeStyles-actionImage-250"
+                          src="/assets/icons/boost-up.svg"
+                        />
+                      </span>
+                      <span
+                        class="MuiTouchRipple-root-396"
+                      />
+                    </button>
+                    <fieldset
+                      aria-hidden="true"
+                      class="PrivateNotchedOutline-root-289 MuiOutlinedInput-notchedOutline-265 makeStyles-notchedOutline-248"
+                      style="padding-left: 8px;"
+                    >
+                      <legend
+                        class="PrivateNotchedOutline-legend-290"
+                        style="width: 0.01px;"
+                      >
+                        <span>
+                          ​
+                        </span>
+                      </legend>
+                    </fieldset>
+                  </div>
+                </div>
+                <div
+                  class="MuiGrid-root-6 makeStyles-infoBox-306"
+                >
+                  <p
+                    class="MuiTypography-root-143 makeStyles-infoText-307 MuiTypography-body1-145 MuiTypography-colorTextSecondary-169"
+                  >
+                    While reducing Non-Native may increase your boost, your gross yield will be smaller
+                  </p>
+                </div>
+                <div
+                  class="MuiGrid-root-6 makeStyles-infoBox-306"
+                >
+                  <p
+                    class="MuiTypography-root-143 makeStyles-infoText-307 MuiTypography-body1-145 MuiTypography-colorTextSecondary-169"
+                  >
+                    You need to have Non Native assets in order to improve your boost
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="MuiGrid-root-6 makeStyles-stakeInformationCardContainer-5 MuiGrid-item-8 MuiGrid-grid-xs-12-52"
+    >
+      <div
+        class="MuiPaper-root-109 MuiGrid-root-6 makeStyles-root-313 MuiGrid-container-7 MuiPaper-elevation1-113 MuiPaper-rounded-110"
+      >
+        <div
+          class="MuiGrid-root-6 MuiGrid-container-7"
+        >
+          <div
+            class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-align-items-xs-center-15"
+          >
+            <div
+              class="makeStyles-currentLevelImgContainer-320"
+            >
+              <div
+                class="makeStyles-container-414"
+              >
+                <img
+                  alt="Badger Logo"
+                  class="makeStyles-boostImage-415"
+                  src="assets/badger-transparent.png"
+                />
+              </div>
+            </div>
+            <p
+              class="MuiTypography-root-143 makeStyles-rankName-324 MuiTypography-body1-145 MuiTypography-displayInline-171"
+            >
+              Basic Badger
+            </p>
+          </div>
+          <div
+            class="MuiGrid-root-6 makeStyles-accountInformationContainer-323 MuiGrid-container-7"
+          >
+            <div
+              class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-item-8 MuiGrid-grid-xs-6-46"
+            >
+              <div
+                class="MuiGrid-root-6 MuiGrid-item-8 MuiGrid-grid-xs-12-52"
+              >
+                <h6
+                  class="MuiTypography-root-143 MuiTypography-subtitle2-155 MuiTypography-colorTextSecondary-169"
+                >
+                  Stake Ratio:
+                </h6>
+              </div>
+              <div
+                class="MuiGrid-root-6 makeStyles-informationValueContainer-325 MuiGrid-item-8 MuiGrid-grid-xs-12-52"
+              >
+                <p
+                  class="MuiTypography-root-143 makeStyles-informationValue-326 makeStyles-fontColor-412 MuiTypography-body1-145"
+                >
+                  0%
+                </p>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-item-8 MuiGrid-grid-xs-6-46"
+            >
+              <div
+                class="MuiGrid-root-6 MuiGrid-item-8 MuiGrid-grid-xs-12-52"
+              >
+                <h6
+                  class="MuiTypography-root-143 MuiTypography-subtitle2-155 MuiTypography-colorTextSecondary-169"
+                >
+                  Multiplier:
+                </h6>
+              </div>
+              <div
+                class="MuiGrid-root-6 makeStyles-informationValueContainer-325 MuiGrid-item-8 MuiGrid-grid-xs-12-52"
+              >
+                <p
+                  class="MuiTypography-root-143 makeStyles-informationValue-326 makeStyles-fontColor-413 MuiTypography-body1-145"
+                >
+                  1x
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr
+          class="MuiDivider-root-227 makeStyles-divider-315"
+        />
+        <div
+          class="MuiGrid-root-6 MuiGrid-container-7"
+        >
+          <div
+            class="MuiGrid-root-6 MuiGrid-item-8 MuiGrid-grid-xs-true-40"
+          >
+            <div
+              class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-align-items-xs-flex-end-17"
+            >
+              <div
+                class="MuiGrid-root-6 makeStyles-root-331 MuiGrid-item-8"
+              >
+                <div
+                  class="makeStyles-progressEntry-334"
+                >
+                  <div
+                    class="makeStyles-rankBar-335"
+                  >
+                    <div
+                      class="makeStyles-progressBar-416"
+                    />
+                  </div>
+                  <div
+                    class="makeStyles-connector-417"
+                  />
+                </div>
+                <div
+                  class="makeStyles-progressEntry-334"
+                >
+                  <div
+                    class="makeStyles-rankBar-335"
+                  >
+                    <div
+                      class="makeStyles-progressBar-418"
+                    />
+                  </div>
+                  <div
+                    class="makeStyles-connector-419"
+                  />
+                </div>
+                <div
+                  class="makeStyles-progressEntry-334"
+                >
+                  <div
+                    class="makeStyles-rankBar-335"
+                  >
+                    <div
+                      class="makeStyles-progressBar-420"
+                    />
+                  </div>
+                  <div
+                    class="makeStyles-connector-421"
+                  />
+                </div>
+                <div
+                  class="makeStyles-progressEntry-334"
+                >
+                  <div
+                    class="makeStyles-rankBar-335"
+                  >
+                    <div
+                      class="makeStyles-progressBar-422"
+                    />
+                  </div>
+                  <div
+                    class="makeStyles-connector-423"
+                  />
+                </div>
+              </div>
+              <div
+                class="MuiGrid-root-6 MuiGrid-item-8 MuiGrid-grid-xs-true-40"
+                color="primary"
+                title="Jump to rank"
+              >
+                <button
+                  aria-label="Frenzy Badger Rank"
+                  class="MuiButtonBase-root-224 makeStyles-buttonBase-332"
+                  tabindex="0"
+                  type="button"
+                >
+                  <div
+                    class="MuiGrid-root-6 makeStyles-locked-350 makeStyles-root-344 MuiGrid-container-7"
+                  >
+                    <div
+                      class="makeStyles-boostImageContainer-349"
+                    >
+                      <div
+                        class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-424"
+                      >
+                        <img
+                          alt="Badger Logo"
+                          class="makeStyles-boostImage-425"
+                          src="assets/badger-transparent.png"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      class="makeStyles-badgerLevelInfoContainer-346"
+                    >
+                      <p
+                        class="MuiTypography-root-143 MuiTypography-body2-144"
+                      >
+                        Frenzy Badger
+                      </p>
+                    </div>
+                  </div>
+                  <span
+                    class="MuiTouchRipple-root-396"
+                  />
+                </button>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-align-items-xs-flex-end-17"
+            >
+              <div
+                class="MuiGrid-root-6 makeStyles-root-331 MuiGrid-item-8"
+              >
+                <div
+                  class="makeStyles-progressEntry-334"
+                >
+                  <div
+                    class="makeStyles-rankBar-335"
+                  >
+                    <div
+                      class="makeStyles-progressBar-426"
+                    />
+                  </div>
+                  <div
+                    class="makeStyles-connector-427"
+                  />
+                </div>
+                <div
+                  class="makeStyles-progressEntry-334"
+                >
+                  <div
+                    class="makeStyles-rankBar-335"
+                  >
+                    <div
+                      class="makeStyles-progressBar-428"
+                    />
+                  </div>
+                  <div
+                    class="makeStyles-connector-429"
+                  />
+                </div>
+                <div
+                  class="makeStyles-progressEntry-334"
+                >
+                  <div
+                    class="makeStyles-rankBar-335"
+                  >
+                    <div
+                      class="makeStyles-progressBar-430"
+                    />
+                  </div>
+                  <div
+                    class="makeStyles-connector-431"
+                  />
+                </div>
+                <div
+                  class="makeStyles-progressEntry-334"
+                >
+                  <div
+                    class="makeStyles-rankBar-335"
+                  >
+                    <div
+                      class="makeStyles-progressBar-432"
+                    />
+                  </div>
+                  <div
+                    class="makeStyles-connector-433"
+                  />
+                </div>
+              </div>
+              <div
+                class="MuiGrid-root-6 MuiGrid-item-8 MuiGrid-grid-xs-true-40"
+                color="primary"
+                title="Jump to rank"
+              >
+                <button
+                  aria-label="Hyper Badger Rank"
+                  class="MuiButtonBase-root-224 makeStyles-buttonBase-332"
+                  tabindex="0"
+                  type="button"
+                >
+                  <div
+                    class="MuiGrid-root-6 makeStyles-locked-350 makeStyles-root-344 MuiGrid-container-7"
+                  >
+                    <div
+                      class="makeStyles-boostImageContainer-349"
+                    >
+                      <div
+                        class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-434"
+                      >
+                        <img
+                          alt="Badger Logo"
+                          class="makeStyles-boostImage-435"
+                          src="assets/badger-transparent.png"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      class="makeStyles-badgerLevelInfoContainer-346"
+                    >
+                      <p
+                        class="MuiTypography-root-143 MuiTypography-body2-144"
+                      >
+                        Hyper Badger
+                      </p>
+                    </div>
+                  </div>
+                  <span
+                    class="MuiTouchRipple-root-396"
+                  />
+                </button>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-align-items-xs-flex-end-17"
+            >
+              <div
+                class="MuiGrid-root-6 makeStyles-root-331 MuiGrid-item-8"
+              >
+                <div
+                  class="makeStyles-progressEntry-334"
+                >
+                  <div
+                    class="makeStyles-rankBar-335"
+                  >
+                    <div
+                      class="makeStyles-progressBar-436"
+                    />
+                  </div>
+                  <div
+                    class="makeStyles-connector-437"
+                  />
+                </div>
+                <div
+                  class="makeStyles-progressEntry-334"
+                >
+                  <div
+                    class="makeStyles-rankBar-335"
+                  >
+                    <div
+                      class="makeStyles-progressBar-438"
+                    />
+                  </div>
+                  <div
+                    class="makeStyles-connector-439"
+                  />
+                </div>
+                <div
+                  class="makeStyles-progressEntry-334"
+                >
+                  <div
+                    class="makeStyles-rankBar-335"
+                  >
+                    <div
+                      class="makeStyles-progressBar-440"
+                    />
+                  </div>
+                  <div
+                    class="makeStyles-connector-441"
+                  />
+                </div>
+                <div
+                  class="makeStyles-progressEntry-334"
+                >
+                  <div
+                    class="makeStyles-rankBar-335"
+                  >
+                    <div
+                      class="makeStyles-progressBar-442"
+                    />
+                  </div>
+                  <div
+                    class="makeStyles-connector-443"
+                  />
+                </div>
+              </div>
+              <div
+                class="MuiGrid-root-6 MuiGrid-item-8 MuiGrid-grid-xs-true-40"
+                color="primary"
+                title="Jump to rank"
+              >
+                <button
+                  aria-label="Hero Badger Rank"
+                  class="MuiButtonBase-root-224 makeStyles-buttonBase-332"
+                  tabindex="0"
+                  type="button"
+                >
+                  <div
+                    class="MuiGrid-root-6 makeStyles-locked-350 makeStyles-root-344 MuiGrid-container-7"
+                  >
+                    <div
+                      class="makeStyles-boostImageContainer-349"
+                    >
+                      <div
+                        class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-444"
+                      >
+                        <img
+                          alt="Badger Logo"
+                          class="makeStyles-boostImage-445"
+                          src="assets/badger-transparent.png"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      class="makeStyles-badgerLevelInfoContainer-346"
+                    >
+                      <p
+                        class="MuiTypography-root-143 MuiTypography-body2-144"
+                      >
+                        Hero Badger
+                      </p>
+                    </div>
+                  </div>
+                  <span
+                    class="MuiTouchRipple-root-396"
+                  />
+                </button>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-align-items-xs-flex-end-17"
+            >
+              <div
+                class="MuiGrid-root-6 makeStyles-root-331 MuiGrid-item-8"
+              >
+                <div
+                  class="makeStyles-progressEntry-334"
+                >
+                  <div
+                    class="makeStyles-rankBar-335"
+                  >
+                    <div
+                      class="makeStyles-progressBar-446"
+                    />
+                  </div>
+                  <div
+                    class="makeStyles-connector-447"
+                  />
+                </div>
+                <div
+                  class="makeStyles-progressEntry-334"
+                >
+                  <div
+                    class="makeStyles-rankBar-335"
+                  >
+                    <div
+                      class="makeStyles-progressBar-448"
+                    />
+                  </div>
+                  <div
+                    class="makeStyles-connector-449"
+                  />
+                </div>
+                <div
+                  class="makeStyles-progressEntry-334"
+                >
+                  <div
+                    class="makeStyles-rankBar-335"
+                  >
+                    <div
+                      class="makeStyles-progressBar-450"
+                    />
+                  </div>
+                  <div
+                    class="makeStyles-connector-451"
+                  />
+                </div>
+                <div
+                  class="makeStyles-progressEntry-334"
+                >
+                  <div
+                    class="makeStyles-rankBar-335"
+                  >
+                    <div
+                      class="makeStyles-progressBar-452"
+                    />
+                  </div>
+                  <div
+                    class="makeStyles-connector-453"
+                  />
+                </div>
+              </div>
+              <div
+                class="MuiGrid-root-6 MuiGrid-item-8 MuiGrid-grid-xs-true-40"
+                color="primary"
+                title="Jump to rank"
+              >
+                <button
+                  aria-label="Neo Badger Rank"
+                  class="MuiButtonBase-root-224 makeStyles-buttonBase-332"
+                  tabindex="0"
+                  type="button"
+                >
+                  <div
+                    class="MuiGrid-root-6 makeStyles-locked-350 makeStyles-root-344 MuiGrid-container-7"
+                  >
+                    <div
+                      class="makeStyles-boostImageContainer-349"
+                    >
+                      <div
+                        class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-454"
+                      >
+                        <img
+                          alt="Badger Logo"
+                          class="makeStyles-boostImage-455"
+                          src="assets/badger-transparent.png"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      class="makeStyles-badgerLevelInfoContainer-346"
+                    >
+                      <p
+                        class="MuiTypography-root-143 MuiTypography-body2-144"
+                      >
+                        Neo Badger
+                      </p>
+                    </div>
+                  </div>
+                  <span
+                    class="MuiTouchRipple-root-396"
+                  />
+                </button>
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root-6 MuiGrid-container-7 MuiGrid-align-items-xs-flex-end-17"
+            >
+              <div
+                class="MuiGrid-root-6 makeStyles-root-331 MuiGrid-item-8"
+              >
+                <div
+                  class="makeStyles-progressEntry-334"
+                >
+                  <div
+                    class="makeStyles-rankBar-335"
+                  >
+                    <div
+                      class="makeStyles-progressBar-456"
+                    />
+                  </div>
+                  <div
+                    class="makeStyles-connector-457"
+                  />
+                </div>
+                <div
+                  class="makeStyles-progressEntry-334"
+                >
+                  <div
+                    class="makeStyles-rankBar-335"
+                  >
+                    <div
+                      class="makeStyles-progressBar-458"
+                    />
+                  </div>
+                  <div
+                    class="makeStyles-connector-459"
+                  />
+                </div>
+                <div
+                  class="makeStyles-progressEntry-334"
+                >
+                  <div
+                    class="makeStyles-rankBar-335"
+                  >
+                    <div
+                      class="makeStyles-progressBar-460"
+                    />
+                  </div>
+                  <div
+                    class="makeStyles-connector-461"
+                  />
+                </div>
+                <div
+                  class="makeStyles-progressEntry-334"
+                >
+                  <div
+                    class="makeStyles-rankBar-335"
+                  >
+                    <div
+                      class="makeStyles-progressBar-462"
+                    />
+                  </div>
+                  <div
+                    class="makeStyles-connector-463"
+                  />
+                </div>
+              </div>
+              <div
+                class="MuiGrid-root-6 MuiGrid-item-8 MuiGrid-grid-xs-true-40"
+                color="primary"
+              >
+                <button
+                  aria-label="Basic Badger Rank"
+                  class="MuiButtonBase-root-224 makeStyles-buttonBase-332"
+                  tabindex="0"
+                  type="button"
+                >
+                  <div
+                    class="MuiGrid-root-6 makeStyles-root-344 MuiGrid-container-7"
+                  >
+                    <div
+                      class="makeStyles-boostImageContainer-349"
+                    >
+                      <div
+                        class="makeStyles-softBorder-352 makeStyles-obtained-353 makeStyles-container-464"
+                      >
+                        <img
+                          alt="Badger Logo"
+                          class="makeStyles-boostImage-465"
+                          src="assets/badger-transparent.png"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      class="makeStyles-badgerLevelInfoContainer-346"
+                    >
+                      <p
+                        class="MuiTypography-root-143 MuiTypography-body2-144"
+                      >
+                        Basic Badger
+                      </p>
+                    </div>
+                  </div>
+                  <span
+                    class="MuiTouchRipple-root-396"
+                  />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="MuiGrid-root-6 makeStyles-viewLeaderBoardContainer-316 MuiGrid-container-7"
+        >
+          <button
+            class="MuiButtonBase-root-224 MuiButton-root-195 MuiButton-outlined-200 MuiButton-outlinedPrimary-201 MuiButton-outlinedSizeSmall-212 MuiButton-sizeSmall-216 MuiButton-fullWidth-218"
+            tabindex="0"
+            type="button"
+          >
+            <span
+              class="MuiButton-label-196"
+            >
+              View Leaderboard
+            </span>
+            <span
+              class="MuiTouchRipple-root-396"
             />
           </button>
         </div>

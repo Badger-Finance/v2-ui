@@ -161,6 +161,7 @@ class BridgeStore {
 				const { network } = this.store.network;
 				// NB: Only ETH supported for now.
 				if (network.symbol !== Network.Ethereum) return;
+				this.updateContracts();
 				await this.reload();
 			},
 		);
