@@ -35,18 +35,18 @@ interface Props {
 const WalletWidget = observer(({ className }: Props) => {
 	const classes = useStyles();
 	const store = useContext(StoreContext);
-	const { onboard } = store;
+	const { onboard, uiState } = store;
 	const { address } = onboard;
 	const isConnected = address !== undefined;
 	const walletIcon = <div className={clsx(classes.walletDot, isConnected ? classes.greenDot : classes.redDot)} />;
 
 	async function connect(): Promise<void> {
 		if (onboard.address) {
-			console.error('Update disconnect logic');
+			onboard.disonnect();
 		} else {
 			const connected = await onboard.connect();
 			if (!connected) {
-				console.error('Something went wrong with connecting');
+				uiState.queueError('Issue connecting, please try again');
 			}
 		}
 	}

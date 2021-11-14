@@ -1,4 +1,4 @@
-import { extendObservable, action, observe } from 'mobx';
+import { extendObservable, action } from 'mobx';
 import Web3 from 'web3';
 import { AbiItem } from 'web3-utils';
 import { RootStore } from '../RootStore';
@@ -61,10 +61,6 @@ class RewardsStore {
 			loadingTreeData: this.loadingTreeData,
 			loadingRewards: this.loadingRewards,
 		});
-
-		observe(this.store.network, 'network', () => {
-			this.resetRewards();
-		});
 	}
 
 	get isLoading(): boolean {
@@ -120,6 +116,7 @@ class RewardsStore {
 		this.badgerTree.amounts = [];
 		this.badgerTree.proof = undefined;
 		this.loadingRewards = false;
+		this.store.user.claimProof = undefined;
 	});
 
 	loadTreeData = action(

@@ -104,7 +104,7 @@ export interface RewardsModalProps {
 export const RewardsWidget = observer((): JSX.Element | null => {
 	const classes = useStyles();
 	const store = useContext(StoreContext);
-	const { setts, onboard } = store;
+	const { setts, onboard, user } = store;
 	const { badgerTree, claimGeysers, loadingRewards } = store.rewards;
 	const { currency } = store.uiState;
 
@@ -131,7 +131,8 @@ export const RewardsWidget = observer((): JSX.Element | null => {
 		return null;
 	}
 
-	if (loadingRewards) {
+	console.log({ loadingRewards, proof: user.claimProof });
+	if (loadingRewards || !user.claimProof) {
 		return (
 			<Button
 				disabled

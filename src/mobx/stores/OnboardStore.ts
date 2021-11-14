@@ -10,6 +10,7 @@ import { Web3Provider } from '@ethersproject/providers';
 import { SDKProvider } from '@badger-dao/sdk';
 
 export class OnboardStore {
+	private config: NetworkConfig;
 	public wallet?: Wallet;
 	public onboard: API;
 	public notify: NotifyAPI;
@@ -17,22 +18,8 @@ export class OnboardStore {
 	public address?: string;
 
 	constructor(private store: RootStore, config: NetworkConfig) {
-		const initialization: Initialization = {
-			dappId: BLOCKNATIVE_API_KEY,
-			networkId: config.id,
-			networkName: config.network,
-			blockPollingInterval: 15000,
-			darkMode: true,
-			subscriptions: {
-				address: this.addressListener,
-				// ens: this.ensListener,
-				network: this.networkListener,
-				balance: this.balanceListener,
-				wallet: this.walletListener,
-			},
-			walletSelect: {},
-		};
-		this.onboard = Onboard(initialization);
+		this.config = config;
+		this.onboard = Onboard(this.getInitialization(config));
 		const notifyOptions: InitOptions = {
 			dappId: BLOCKNATIVE_API_KEY,
 			networkId: config.id,
@@ -57,19 +44,30 @@ export class OnboardStore {
 		this.onboard.walletReset();
 	}
 
-	async ready(): Promise<boolean> {
-		return this.onboard.walletSelect();
+	syncOnboard(network: number): void {
+		this.onboard = Onboard(this.getInitialization(NetworkConfig.getConfig(network)));
 	}
 
 	async connect(): Promise<boolean> {
-		await this.ready();
+		const selected = await this.onboard.walletSelect();
+		if (!selected) {
+			return false;
+		}
 		return this.onboard.walletCheck();
+	}
+
+	disonnect(): void {
+		try {
+			this.wallet = undefined;
+			this.address = undefined;
+			this.provider = undefined;
+			this.onboard.walletReset();
+		} catch {} // ignore disconnect failures from provider
 	}
 
 	addressListener = action(
 		async (address: string): Promise<void> => {
-			const shouldUpdate = this.address !== address;
-			// this.address = '0xc3fd1227DA579220Afeb28B400DaCC4Ad6523c7c'; // address;
+			const shouldUpdate = this.address !== undefined && this.address !== address;
 			this.address = address;
 			if (shouldUpdate && this.wallet) {
 				await this.walletListener(this.wallet);
@@ -77,27 +75,23 @@ export class OnboardStore {
 		},
 	);
 
-	/* eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars */
-	// ensListener = action(async (_ens: Ens): Promise<void> => {});
-
 	networkListener = action(async (network: number) => {
-		await this.store.updateNetwork(network);
-		if (this.provider) {
-			await this.store.updateProvider(this.provider);
-		}
+		try {
+			// trigger network check for supported networks (todo: migrate to onboard network check)
+			NetworkConfig.getConfig(network);
+			await this.store.updateNetwork(network);
+			if (this.provider) {
+				await this.store.updateProvider(this.provider);
+			}
+		} catch {} // do nothing on bad network change
 	});
-
-	/* eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars */
-	balanceListener = action(async (_balance: string): Promise<void> => {});
 
 	walletListener = action(
 		async (wallet: Wallet): Promise<void> => {
 			this.wallet = wallet;
-			this.provider = this.getProvider(wallet.provider);
-			const providerNetwork = await this.provider.getNetwork();
-			const network = NetworkConfig.getConfig(providerNetwork.chainId);
-			this.store.network.setNetwork(network.id);
-			await this.store.updateProvider(this.provider);
+			if (wallet.provider || wallet.instance) {
+				this.provider = this.getProvider(wallet.provider ?? wallet.instance);
+			}
 		},
 	);
 
@@ -112,5 +106,22 @@ export class OnboardStore {
 		);
 		library.pollingInterval = 15000;
 		return library;
+	}
+
+	private getInitialization(config: NetworkConfig): Initialization {
+		this.config = config;
+		return {
+			dappId: BLOCKNATIVE_API_KEY,
+			networkId: config.id,
+			networkName: config.network,
+			blockPollingInterval: 15000,
+			darkMode: true,
+			subscriptions: {
+				address: this.addressListener,
+				network: this.networkListener,
+				wallet: this.walletListener,
+			},
+			walletSelect: {},
+		};
 	}
 }
