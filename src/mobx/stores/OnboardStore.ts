@@ -1,6 +1,8 @@
 import { RootStore } from 'mobx/RootStore';
 import { Initialization, API, Wallet } from 'bnc-onboard/dist/src/interfaces';
+import { API as NotifyAPI } from 'bnc-notify';
 import Onboard from 'bnc-onboard';
+import Notify, { InitOptions } from 'bnc-notify';
 import { BLOCKNATIVE_API_KEY } from 'config/constants';
 import { NetworkConfig } from '@badger-dao/sdk/lib/config/network/network.config';
 import { action, extendObservable } from 'mobx';
@@ -10,6 +12,7 @@ import { SDKProvider } from '@badger-dao/sdk';
 export class OnboardStore {
 	public wallet?: Wallet;
 	public onboard: API;
+	public notify: NotifyAPI;
 	public provider?: SDKProvider;
 	public address?: string;
 
@@ -30,6 +33,11 @@ export class OnboardStore {
 			walletSelect: {},
 		};
 		this.onboard = Onboard(initialization);
+		const notifyOptions: InitOptions = {
+			dappId: BLOCKNATIVE_API_KEY,
+			networkId: config.id,
+		};
+		this.notify = Notify(notifyOptions);
 		extendObservable(this, {
 			onboard: this.onboard,
 			provider: undefined,

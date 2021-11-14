@@ -6,7 +6,7 @@ import CvxLockerAbi from '../../config/system/abis/CvxLocker.json';
 import { AbiItem } from 'web3-utils';
 import { sendContractMethod } from '../utils/web3';
 import { DelegationState } from '../model/setts/locked-cvx-delegation';
-import { extendObservable } from 'mobx';
+import { extendObservable, observe } from 'mobx';
 import BigNumber from 'bignumber.js';
 import { NETWORK_IDS, ZERO_ADDR } from 'config/constants';
 import VotiumMerkleTreeAbi from '../../config/system/abis/VotiumMerkleTree.json';
@@ -44,18 +44,18 @@ class LockedCvxDelegationStore {
 			delegationState: this.delegationState,
 		});
 
-		// observe(this.store.user, 'accountDetails', () => {
-		// 	this.loadLockedCvxBalance();
-		// 	this.loadVotiumRewardsInformation();
-		// });
+		observe(this.store.user, 'accountDetails', () => {
+			this.loadLockedCvxBalance();
+			this.loadVotiumRewardsInformation();
+		});
 
-		// observe(this.store.user, 'settBalances', () => {
-		// 	const areSettBalancesAvailable = Object.keys(this.store.user.settBalances).length > 0;
+		observe(this.store.user, 'settBalances', () => {
+			const areSettBalancesAvailable = Object.keys(this.store.user.settBalances).length > 0;
 
-		// 	if (areSettBalancesAvailable) {
-		// 		this.getUserDelegationState();
-		// 	}
-		// });
+			if (areSettBalancesAvailable) {
+				this.getUserDelegationState();
+			}
+		});
 	}
 
 	get shouldBannerBeDisplayed(): boolean {

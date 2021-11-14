@@ -27,6 +27,7 @@ import { NetworkStore } from './NetworkStore';
 import { Network as NetworkModel } from 'mobx/model/network/network';
 import { REN_FEES_ENDPOINT } from '../../config/constants';
 import { Network } from '@badger-dao/sdk';
+import { OnboardStore } from './OnboardStore';
 
 export enum Status {
 	// Idle means we are ready to begin a new tx.
@@ -142,14 +143,27 @@ class BridgeStore {
 			if (!newValue) {
 				return;
 			}
-
 			this.network = newValue.symbol;
 			// NB: Only ETH supported for now.
 			if (this.network !== Network.Ethereum) {
 				return;
 			}
-			// await this.reload();
+			await this.reload();
 		});
+
+		observe(
+			this.store.onboard as OnboardStore,
+			'address',
+			async ({ newValue, oldValue }: IValueDidChange<string | undefined>) => {
+				if (oldValue === newValue) return;
+				if (!newValue) return;
+				// Set shortened addr.
+				const { network } = this.store.network;
+				// NB: Only ETH supported for now.
+				if (network.symbol !== Network.Ethereum) return;
+				await this.reload();
+			},
+		);
 
 		observe(
 			this as BridgeStore,

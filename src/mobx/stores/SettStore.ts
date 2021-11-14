@@ -123,7 +123,6 @@ export default class SettStore {
 	async refresh(): Promise<void> {
 		const { network } = this.store.network;
 		if (network) {
-			console.log('Update setts for network ' + network.name);
 			this.initialized = false;
 			await Promise.all([
 				this.loadSetts(network.symbol),
@@ -131,7 +130,6 @@ export default class SettStore {
 				this.loadAssets(network.symbol),
 			]);
 			this.initialized = true;
-			console.log('Updated settes for ' + network.name + ' complete');
 			await this.store.user.reloadBalances();
 		}
 	}

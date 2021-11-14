@@ -14,7 +14,6 @@ export class TokenBalance {
 		this.tokenBalance = balance;
 		this.price = price;
 		this.balance = balance.dividedBy(Math.pow(10, token.decimals));
-		// console.log(`Register: ${token.symbol}`);
 	}
 
 	/**

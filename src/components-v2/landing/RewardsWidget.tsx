@@ -127,7 +127,7 @@ export const RewardsWidget = observer((): JSX.Element | null => {
 		setClaimMap(balances);
 	}, [badgerTree.claims]);
 
-	if (onboard.isActive()) {
+	if (!onboard.isActive()) {
 		return null;
 	}
 

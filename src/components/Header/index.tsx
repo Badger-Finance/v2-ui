@@ -54,6 +54,7 @@ const Header = observer(() => {
 		lockedCvxDelegation: { shouldBannerBeDisplayed },
 		uiState: { notification, currency },
 		onboard,
+		onboard: { notify },
 		network: { network },
 		setts: { protocolSummary },
 	} = useContext(StoreContext);
@@ -70,8 +71,8 @@ const Header = observer(() => {
 		// Notify doesn't support BSC currently so it is temporarily disabled for it
 		if (notification.hash && network.id == 1) {
 			// then on each transaction...
-			// const { emitter } = notify.hash(notification.hash);
-			// emitter.on('all', (tx) => network.notifyLink(tx));
+			const { emitter } = notify.hash(notification.hash);
+			emitter.on('all', (tx) => network.notifyLink(tx));
 		} else {
 			enqueueSnackbar(notification.message, { variant: notification.variant, persist: false });
 		}
@@ -80,7 +81,6 @@ const Header = observer(() => {
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	useEffect(enq, [notification]);
 
-	console.log({ active: onboard.isActive(), init: user.initialized, value: user.portfolioValue });
 	return (
 		<div className={classes.root}>
 			<LayoutContainer>
