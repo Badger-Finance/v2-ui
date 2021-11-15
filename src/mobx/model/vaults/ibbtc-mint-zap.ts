@@ -4,7 +4,7 @@ import { IbbtcOptionToken } from '../tokens/ibbtc-option-token';
 
 export type PeakType = 'badger' | 'yearn' | 'zap';
 
-export interface IbbtcVaultPeak {
+export interface IbBTCMintZap {
 	address: string;
 	type: PeakType;
 	referenceToken: IbbtcOptionToken;

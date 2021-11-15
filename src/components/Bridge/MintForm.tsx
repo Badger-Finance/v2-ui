@@ -99,7 +99,7 @@ export const MintForm = ({
 							style: { fontSize: '3rem' },
 							endAdornment: [
 								<div key="btc">
-									<Token token={{ symbol: 'BTC', icon: '/assets/icons/btc.svg' }} />
+									<Token token={{ name: 'Bitcoin', symbol: 'BTC', icon: '/assets/icons/btc.svg' }} />
 								</div>,
 							],
 						}}

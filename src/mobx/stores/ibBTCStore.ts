@@ -43,7 +43,7 @@ class IbBTCStore {
 	constructor(store: RootStore) {
 		this.store = store;
 		this.config = addresses.mainnet;
-		const token_config = this.config.contracts.tokens;
+		const token_config = this.config.tokens;
 
 		this.ibBTC = new IbbtcOptionToken(this.store, token_config['ibBTC']);
 
@@ -54,7 +54,7 @@ class IbBTCStore {
 					new IbbtcOptionToken(this.store, token_config['btbtc/sbtcCrv']),
 					new IbbtcOptionToken(this.store, token_config['byvWBTC']),
 					new IbbtcOptionToken(this.store, token_config['renBTC']),
-					new IbbtcOptionToken(this.store, token_config['WBTC']),
+					new IbbtcOptionToken(this.store, token_config['wBTC']),
 			  ]
 			: [
 					new IbbtcOptionToken(this.store, token_config['bcrvRenWSBTC']),
@@ -88,7 +88,7 @@ class IbBTCStore {
 
 	// currently the zap contract does not support redeem
 	get redeemOptions(): IbbtcOptionToken[] {
-		return this.tokens.filter(({ symbol }) => !this.config.contracts.ZapPeak.supportedTokens.includes(symbol));
+		return this.tokens.filter(({ symbol }) => !this.config.contracts.TokenZap.supportedTokens.includes(symbol));
 	}
 
 	init(): void {
@@ -208,7 +208,7 @@ class IbBTCStore {
 	});
 
 	isZapToken(token: IbbtcOptionToken): boolean {
-		return this.config.contracts.ZapPeak.supportedTokens.includes(token.symbol);
+		return !this.config.contracts.RenVaultZap.supportedTokens.includes(token.symbol);
 	}
 
 	isValidAmount(token: IbbtcOptionToken, amount: BigNumber, slippage?: BigNumber): boolean {
@@ -393,7 +393,7 @@ class IbBTCStore {
 		const { wallet } = this.store.onboard;
 		const web3 = new Web3(wallet?.provider);
 
-		if (token.symbol === this.config.contracts.tokens.WBTC.symbol) {
+		if (token.symbol === this.config.tokens.wBTC.symbol) {
 			return new web3.eth.Contract(ERC20_ABI as AbiItem[], token.address).methods.approve(spender, amount);
 		}
 

@@ -4,7 +4,7 @@ import { AbiItem } from 'web3-utils';
 
 import BadgerBtcPeak from 'config/system/abis/BadgerBtcPeak.json';
 import addresses from 'config/ibBTC/addresses.json';
-import { IbbtcVaultPeak, PeakType } from './ibbtc-vault-peak';
+import { IbBTCMintZap, PeakType } from './ibbtc-mint-zap';
 import { RootStore } from '../../RootStore';
 import { toHex } from '../../utils/helpers';
 import BigNumber from 'bignumber.js';
@@ -12,7 +12,7 @@ import settConfig from '../../../config/system/abis/Sett.json';
 import badgerPeakSwap from '../../../config/system/abis/BadgerBtcPeakSwap.json';
 import { IbbtcOptionToken } from '../tokens/ibbtc-option-token';
 
-export class BadgerPeak implements IbbtcVaultPeak {
+export class RenVaultZap implements IbBTCMintZap {
 	address: string;
 	type: PeakType;
 	referenceToken: IbbtcOptionToken;
@@ -24,7 +24,7 @@ export class BadgerPeak implements IbbtcVaultPeak {
 		this.store = store;
 		this.referenceToken = referenceToken;
 		const web3 = new Web3(this.store.onboard.wallet?.provider);
-		this.address = addresses.mainnet.contracts.BadgerSettPeak.address;
+		this.address = addresses.mainnet.contracts.RenVaultZap.address;
 		this.type = 'badger';
 		this.peakContract = new web3.eth.Contract(BadgerBtcPeak.abi as AbiItem[], this.address);
 	}

@@ -2,15 +2,14 @@ import Web3 from 'web3';
 import { ContractSendMethod } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
 import BigNumber from 'bignumber.js';
-
 import zapConfig from 'config/system/abis/ZapPeak.json';
 import addresses from 'config/ibBTC/addresses.json';
-import { IbbtcVaultPeak, PeakType } from './ibbtc-vault-peak';
+import { IbBTCMintZap, PeakType } from './ibbtc-mint-zap';
 import { RootStore } from '../../RootStore';
 import { toHex } from '../../utils/helpers';
 import { IbbtcOptionToken } from '../tokens/ibbtc-option-token';
 
-export class ZapPeak implements IbbtcVaultPeak {
+export class TokenZap implements IbBTCMintZap {
 	address: string;
 	type: PeakType;
 	referenceToken: IbbtcOptionToken;
@@ -19,7 +18,7 @@ export class ZapPeak implements IbbtcVaultPeak {
 	constructor(private store: RootStore, referenceToken: IbbtcOptionToken) {
 		const web3 = new Web3(this.store.onboard.wallet?.provider);
 		this.referenceToken = referenceToken;
-		this.address = addresses.mainnet.contracts.ZapPeak.address;
+		this.address = addresses.mainnet.contracts.TokenZap.address;
 		this.type = 'zap';
 		this.peakContract = new web3.eth.Contract(zapConfig.abi as AbiItem[], this.address);
 	}
