@@ -74,7 +74,7 @@ const mockedCorrectResults: ContractCallResults = {
 				abi: [], //empty on purpose, we're not using the abi and they take lots of space
 				calls: [{ reference: 'balanceOf', methodName: 'balanceOf', methodParameters: ['0x00'] }],
 				context: {
-					namespace: BalanceNamespace.Geyser,
+					namespace: BalanceNamespace.Deprecated,
 				},
 			},
 			callsReturnContext: [
@@ -95,7 +95,7 @@ const mockedCorrectResults: ContractCallResults = {
 				abi: [], //empty on purpose, we're not using the abi and they take lots of space
 				calls: [{ reference: 'balanceOf', methodName: 'balanceOf', methodParameters: ['0x00'] }],
 				context: {
-					namespace: BalanceNamespace.NonSettToken,
+					namespace: BalanceNamespace.Deprecated,
 				},
 			},
 			callsReturnContext: [
