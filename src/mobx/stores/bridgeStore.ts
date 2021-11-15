@@ -25,7 +25,6 @@ import { RenVMTransaction } from '../model/bridge/renVMTransaction';
 import { defaultNetwork } from 'config/networks.config';
 import { REN_FEES_ENDPOINT } from '../../config/constants';
 import { Network } from '@badger-dao/sdk';
-import { OnboardStore } from './OnboardStore';
 
 export enum Status {
 	// Idle means we are ready to begin a new tx.
