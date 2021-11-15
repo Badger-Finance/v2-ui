@@ -29,7 +29,7 @@ const SettListDisplay = observer((props: SettListViewProps) => {
 		user,
 	} = store;
 
-	const currentSettMap = setts.getSettMap(state);
+	const currentSettMap = setts.getSettMapByState(state);
 
 	if (currentSettMap === undefined) {
 		return <Loader message={`Loading ${network.name} Setts...`} />;

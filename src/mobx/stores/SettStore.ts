@@ -96,13 +96,21 @@ export default class SettStore {
 		return this.getSett(settBySlug[0]);
 	}
 
-	getSettMap(state: SettState): SettMap | undefined | null {
+	getSettMapByState(state: SettState): SettMap | undefined | null {
+		const setts = this.getSettMap();
+		if (!setts) {
+			return setts;
+		}
+		return Object.fromEntries(Object.entries(setts).filter((entry) => entry[1].state === state));
+	}
+
+	getSettMap(): SettMap | undefined | null {
 		const { network } = this.store.network;
 		const setts = this.settCache[network.symbol];
 		if (!setts) {
 			return setts;
 		}
-		return Object.fromEntries(Object.entries(setts).filter((entry) => entry[1].state === state));
+		return setts;
 	}
 
 	getToken(address: string): Token {
@@ -130,7 +138,7 @@ export default class SettStore {
 				this.loadAssets(network.symbol),
 			]);
 			this.initialized = true;
-			await this.store.user.reloadBalances();
+			// await this.store.user.reloadBalances();
 		}
 	}
 
@@ -177,6 +185,9 @@ export default class SettStore {
 		const { prices } = this.store;
 		const settAddress = returnContext.originalContractCallContext.contractAddress;
 		const sett = parseCallReturnContext(returnContext.callsReturnContext);
+		if (!sett.available) {
+			return;
+		}
 		const balanceResults = sett.available[0];
 		if (!balanceResults || balanceResults.length === 0 || !settAddress) {
 			return;

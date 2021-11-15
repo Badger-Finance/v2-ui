@@ -72,6 +72,9 @@ export class RootStore {
 		this.rewards.resetRewards();
 
 		const refreshData = [this.network.updateGasPrices(), this.setts.refresh(), this.prices.loadPrices()];
+		if (network === NETWORK_IDS.ETH) {
+			refreshData.push(this.rewards.loadTreeData());
+		}
 
 		await Promise.all(refreshData);
 	}

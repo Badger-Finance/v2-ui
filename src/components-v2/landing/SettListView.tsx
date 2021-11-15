@@ -16,7 +16,7 @@ const SettListView = observer(({ state }: SettListViewProps) => {
 		uiState: { showUserBalances },
 	} = store;
 	const showUserDisplay = showUserBalances && onboard.isActive();
-	return showUserDisplay ? <UserListDisplay state={state} /> : <SettListDisplay state={state} />;
+	return showUserDisplay ? <UserListDisplay /> : <SettListDisplay state={state} />;
 });
 
 export default SettListView;

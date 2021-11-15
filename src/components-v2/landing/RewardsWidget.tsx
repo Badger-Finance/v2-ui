@@ -131,8 +131,7 @@ export const RewardsWidget = observer((): JSX.Element | null => {
 		return null;
 	}
 
-	console.log({ loadingRewards, proof: user.claimProof });
-	if (loadingRewards || !user.claimProof) {
+	if (loadingRewards || user.claimProof === undefined) {
 		return (
 			<Button
 				disabled

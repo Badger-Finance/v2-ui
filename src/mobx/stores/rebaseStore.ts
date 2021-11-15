@@ -61,7 +61,6 @@ class RebaseStore {
 		if (!this.hasCallResults(token) || !this.hasCallResults(policy) || !this.hasCallResults(oracle)) {
 			return;
 		}
-		console.log('update digg data');
 
 		// dropt data
 		const validDropts = dropt

@@ -94,13 +94,15 @@ export abstract class Network {
 		const tokenAddresses = Object.values(setts).map((sett) => sett.underlyingToken);
 		const settAddresses = Object.values(setts).map((sett) => sett.settToken);
 		const generalSettAddresses = settAddresses.filter((sett) => setts[sett].state === SettState.Open);
-		const guardedSettAddresses = settAddresses.filter((sett) => setts[sett].state !== SettState.Open);
-
+		const guardedSettAddresses = settAddresses.filter(
+			(sett) => setts[sett].state === SettState.Guarded || setts[sett].state === SettState.Experimental,
+		);
+		const deprecatedSettAddresses = settAddresses.filter((sett) => setts[sett].state === SettState.Deprecated);
 		return createBalancesRequest({
 			tokenAddresses,
 			generalSettAddresses,
 			guardedSettAddresses,
-			geyserAddresses: [],
+			deprecatedSettAddresses,
 			userAddress,
 		});
 	}

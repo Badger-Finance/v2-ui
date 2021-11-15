@@ -8,9 +8,8 @@ export interface BalancesRequestAddresses {
 	tokenAddresses: string[];
 	generalSettAddresses: string[];
 	guardedSettAddresses: string[];
-	geyserAddresses: string[];
+	deprecatedSettAddresses: string[];
 	userAddress: string;
-	nonSettTokenAddresses?: string[];
 }
 
 export interface ExtractedBalances {

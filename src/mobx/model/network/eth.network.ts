@@ -1,7 +1,6 @@
 import { NETWORK_IDS } from 'config/constants';
-import { createBalancesRequest, toSettConfig } from 'web3/config/config-utils';
+import { toSettConfig } from 'web3/config/config-utils';
 import { Deploy } from 'web3/interface/deploy';
-import { SettMap } from '../setts/sett-map';
 import { BadgerSett } from '../vaults/badger-sett';
 import { Network as NetworkModel } from './network';
 import deploy from '../../../config/deployments/mainnet.json';
@@ -10,8 +9,7 @@ import { ProtocolTokens } from 'web3/interface/protocol-token';
 import { FLAGS } from 'config/environment';
 import { Currency } from 'config/enums/currency.enum';
 import { AdvisoryType } from '../vaults/advisory-type';
-import { Network, SettState } from '@badger-dao/sdk';
-import { ContractCallContext } from 'ethereum-multicall';
+import { Network } from '@badger-dao/sdk';
 
 export class Ethereum extends NetworkModel {
 	constructor() {
@@ -57,24 +55,6 @@ export class Ethereum extends NetworkModel {
 			...(FLAGS.STABILIZATION_SETTS ? [this.deploy.sett_system.vaults['experimental.digg']] : []),
 			...(FLAGS.RENBTC_SETT ? [this.deploy.sett_system.vaults['native.renBtc']] : []),
 		];
-	}
-
-	getBalancesRequests(setts: SettMap, userAddress: string): ContractCallContext[] {
-		const tokenAddresses = Object.values(setts).map((sett) => sett.underlyingToken);
-		const nonSettTokenAddresses = [deploy.digg_system.DROPT['DROPT-3'].longToken, deploy.tokens['sBTC']];
-		const settAddresses = Object.values(setts).map((sett) => sett.settToken);
-		const generalSettAddresses = settAddresses.filter((sett) => setts[sett].state === SettState.Open);
-		const guardedSettAddresses = settAddresses.filter((sett) => setts[sett].state !== SettState.Open);
-		const geyserAddresses = ethSetts.map((sett) => sett.geyser).filter((geyser): geyser is string => !!geyser);
-
-		return createBalancesRequest({
-			tokenAddresses,
-			generalSettAddresses,
-			guardedSettAddresses,
-			geyserAddresses,
-			nonSettTokenAddresses,
-			userAddress,
-		});
 	}
 }
 

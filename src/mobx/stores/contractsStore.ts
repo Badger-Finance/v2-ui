@@ -4,7 +4,7 @@ import { EIP1559SendOptions, getSendOptions, sendContractMethod } from '../utils
 import BigNumber from 'bignumber.js';
 import { RootStore } from '../RootStore';
 import { ContractSendMethod, SendOptions } from 'web3-eth-contract';
-import { EMPTY_DATA, ERC20, GEYSER_ABI, MAX, SETT_ABI, YEARN_ABI } from 'config/constants';
+import { ERC20, MAX, SETT_ABI, YEARN_ABI } from 'config/constants';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { BadgerSett } from 'mobx/model/vaults/badger-sett';
 import { toFixedDecimals, unscale } from '../utils/helpers';
@@ -60,27 +60,6 @@ class ContractsStore {
 		await this.depositVault(sett, depositAmount);
 	};
 
-	unstake = async (
-		sett: Sett,
-		badgerSett: BadgerSett,
-		userBalance: TokenBalance,
-		unstakeAmount: TokenBalance,
-	): Promise<void> => {
-		const { queueNotification } = this.store.uiState;
-		const amount = unstakeAmount.balance;
-
-		if (!badgerSett.geyser) {
-			return;
-		}
-
-		if (amount.isNaN() || amount.lte(0) || amount.gt(userBalance.balance)) {
-			queueNotification('Please enter a valid amount', 'error');
-			return;
-		}
-
-		await this.unstakeGeyser(sett, badgerSett, unstakeAmount);
-	};
-
 	withdraw = async (
 		sett: Sett,
 		badgerSett: BadgerSett,
@@ -129,34 +108,6 @@ class ContractsStore {
 		const allowance = await underlyingContract.methods.allowance(onboard.address, spender).call();
 
 		return new TokenBalance(token, new BigNumber(allowance), new BigNumber(0));
-	};
-
-	unstakeGeyser = async (sett: Sett, badgerSett: BadgerSett, amount: TokenBalance): Promise<void> => {
-		const { onboard } = this.store;
-		const { queueNotification } = this.store.uiState;
-
-		if (!badgerSett.geyser) {
-			return;
-		}
-
-		const web3 = new Web3(onboard.wallet?.provider);
-		const geyserContract = new web3.eth.Contract(GEYSER_ABI, badgerSett.geyser);
-		const unstakeBalance = amount.tokenBalance.toFixed(0, BigNumber.ROUND_HALF_FLOOR);
-		const method = geyserContract.methods.unstake(unstakeBalance, EMPTY_DATA);
-		const options = await this.getMethodSendOptions(method);
-
-		const { tokenBalance, token } = amount;
-		const displayAmount = toFixedDecimals(unscale(tokenBalance, token.decimals), token.decimals);
-		const unstakeAmount = `${displayAmount} b${sett.asset}`;
-
-		queueNotification(`Sign the transaction to unstake ${unstakeAmount}`, 'info');
-		await sendContractMethod(
-			this.store,
-			method,
-			options,
-			'Unstake transaction submitted',
-			`Successfully unstaked ${unstakeAmount}`,
-		);
 	};
 
 	depositVault = action(
