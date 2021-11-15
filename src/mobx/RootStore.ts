@@ -76,7 +76,12 @@ export class RootStore {
 		this.api = new BadgerAPI(network, BADGER_API);
 		this.rewards.resetRewards();
 
-		const refreshData = [this.network.updateGasPrices(), this.setts.refresh(), this.prices.loadPrices()];
+		const refreshData = [
+			this.network.updateGasPrices(),
+			this.setts.refresh(),
+			this.prices.loadPrices(),
+			this.leaderBoard.loadData(),
+		];
 		if (this.onboard.isActive() && network === NETWORK_IDS.ETH) {
 			refreshData.push(this.rewards.loadTreeData());
 		}
