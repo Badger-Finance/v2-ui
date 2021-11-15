@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	announcementButton: {
-		marginTop: theme.spacing(3),
+		marginBottom: theme.spacing(2),
 		pointerEvents: 'none',
 	},
 	linkButton: {
@@ -101,7 +101,7 @@ const Landing = observer((props: LandingProps) => {
 			</Grid>
 
 			{state === SettState.Guarded && (
-				<Grid container spacing={1} justify="center">
+				<Grid container justify="center">
 					<Button className={classes.announcementButton} size="small" variant="outlined" color="primary">
 						Note: New Vaults may take up to 2 weeks from launch to reach full efficiency.
 					</Button>
