@@ -138,20 +138,6 @@ class BridgeStore {
 		});
 
 		observe(
-			this.store.onboard as OnboardStore,
-			'address',
-			async ({ newValue, oldValue }: IValueDidChange<string | undefined>) => {
-				if (oldValue === newValue) return;
-				if (!newValue) return;
-				// Set shortened addr.
-				const { network } = this.store.network;
-				// NB: Only ETH supported for now.
-				if (network.symbol !== Network.Ethereum) return;
-				this.updateContracts();
-			},
-		);
-
-		observe(
 			this as BridgeStore,
 			'current',
 			/*

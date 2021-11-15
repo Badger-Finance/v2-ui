@@ -84,6 +84,7 @@ export class RootStore {
 		];
 		if (this.onboard.isActive() && network === NETWORK_IDS.ETH) {
 			refreshData.push(this.rewards.loadTreeData());
+			this.bridge.updateContracts();
 		}
 
 		await Promise.all(refreshData);
