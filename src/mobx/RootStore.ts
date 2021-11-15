@@ -21,6 +21,7 @@ import { defaultNetwork } from 'config/networks.config';
 import { BADGER_API } from './utils/apiV2';
 import { OnboardStore } from './stores/OnboardStore';
 import { NetworkConfig } from '@badger-dao/sdk/lib/config/network/network.config';
+import { Network } from './model/network/network';
 
 export class RootStore {
 	public api: BadgerAPI;
@@ -68,11 +69,15 @@ export class RootStore {
 	}
 
 	async updateNetwork(network: number): Promise<void> {
+		if (this.network.network.id !== network) {
+			const appNetwork = Network.networkFromId(network);
+			this.network.network = appNetwork;
+		}
 		this.api = new BadgerAPI(network, BADGER_API);
 		this.rewards.resetRewards();
 
 		const refreshData = [this.network.updateGasPrices(), this.setts.refresh(), this.prices.loadPrices()];
-		if (network === NETWORK_IDS.ETH) {
+		if (this.onboard.isActive() && network === NETWORK_IDS.ETH) {
 			refreshData.push(this.rewards.loadTreeData());
 		}
 

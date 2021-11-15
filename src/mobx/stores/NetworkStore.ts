@@ -79,7 +79,6 @@ export class NetworkStore {
 		}
 		this.network = network;
 		if (!this.store.onboard.isActive()) {
-			this.store.onboard.syncOnboard(network.id);
 			await this.store.updateNetwork(network.id);
 		} else {
 			this.store.rewards.resetRewards();

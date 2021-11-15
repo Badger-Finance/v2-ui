@@ -74,6 +74,7 @@ const routes = {
 	bridge: new Route<RootStore, QueryParams>({
 		path: '/bridge',
 		component: <Bridge />,
+		onEnter: (_route, _params, store) => store.bridge.reload(),
 	}),
 	boostLeaderBoard: new Route<RootStore, QueryParams>({
 		path: '/leaderboard',

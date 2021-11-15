@@ -23,8 +23,6 @@ import { shortenAddress } from 'utils/componentHelpers';
 import { isEqual } from '../../utils/lodashToNative';
 import { RenVMTransaction } from '../model/bridge/renVMTransaction';
 import { defaultNetwork } from 'config/networks.config';
-import { NetworkStore } from './NetworkStore';
-import { Network as NetworkModel } from 'mobx/model/network/network';
 import { REN_FEES_ENDPOINT } from '../../config/constants';
 import { Network } from '@badger-dao/sdk';
 import { OnboardStore } from './OnboardStore';
@@ -139,18 +137,6 @@ class BridgeStore {
 			...defaultProps,
 		});
 
-		observe(this.store.network as NetworkStore, 'network', async ({ newValue }: IValueDidChange<NetworkModel>) => {
-			if (!newValue) {
-				return;
-			}
-			this.network = newValue.symbol;
-			// NB: Only ETH supported for now.
-			if (this.network !== Network.Ethereum) {
-				return;
-			}
-			await this.reload();
-		});
-
 		observe(
 			this.store.onboard as OnboardStore,
 			'address',
@@ -162,7 +148,6 @@ class BridgeStore {
 				// NB: Only ETH supported for now.
 				if (network.symbol !== Network.Ethereum) return;
 				this.updateContracts();
-				await this.reload();
 			},
 		);
 

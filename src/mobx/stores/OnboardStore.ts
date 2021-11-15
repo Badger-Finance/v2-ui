@@ -8,7 +8,7 @@ import { NetworkConfig } from '@badger-dao/sdk/lib/config/network/network.config
 import { action, extendObservable } from 'mobx';
 import { Web3Provider } from '@ethersproject/providers';
 import { SDKProvider } from '@badger-dao/sdk';
-import { getOnboardWallets } from 'config/wallets';
+import { getOnboardWallets, onboardWalletCheck } from 'config/wallets';
 
 export class OnboardStore {
 	private config: NetworkConfig;
@@ -45,10 +45,6 @@ export class OnboardStore {
 		this.onboard.walletReset();
 	}
 
-	syncOnboard(network: number): void {
-		this.onboard = Onboard(this.getInitialization(NetworkConfig.getConfig(network)));
-	}
-
 	async connect(): Promise<boolean> {
 		const selected = await this.onboard.walletSelect();
 		if (!selected) {
@@ -62,7 +58,6 @@ export class OnboardStore {
 			this.wallet = undefined;
 			this.address = undefined;
 			this.provider = undefined;
-			this.onboard.walletReset();
 		} catch {} // ignore disconnect failures from provider
 	}
 
@@ -127,6 +122,7 @@ export class OnboardStore {
 				description: 'Deposit & Earn on your Bitcoin',
 				wallets: getOnboardWallets(config),
 			},
+			walletCheck: onboardWalletCheck,
 		};
 	}
 }
