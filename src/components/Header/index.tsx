@@ -53,16 +53,16 @@ const Header = observer(() => {
 		user,
 		lockedCvxDelegation: { shouldBannerBeDisplayed },
 		uiState: { notification, currency },
-		wallet: { notify, connectedAddress },
+		onboard,
+		onboard: { notify },
 		network: { network },
 		setts: { protocolSummary },
 	} = useContext(StoreContext);
 	const { enqueueSnackbar } = useSnackbar();
 	const classes = useStyles();
 
-	const userConnected = !!connectedAddress;
 	const totalValueLocked = protocolSummary ? new BigNumber(protocolSummary.totalValue) : undefined;
-	const portfolioValue = userConnected && user.initialized ? user.portfolioValue : undefined;
+	const portfolioValue = onboard.isActive() && user.initialized ? user.portfolioValue : undefined;
 	const valuePlaceholder = <Skeleton animation="wave" width={32} className={classes.loader} />;
 
 	const enq = () => {
@@ -87,7 +87,7 @@ const Header = observer(() => {
 				<Grid container>
 					<Grid container className={classes.container}>
 						<Grid item xs={5} container alignItems="center" className={classes.amounts}>
-							{!!connectedAddress && (
+							{onboard.isActive() && (
 								<>
 									<Typography variant="body2">My Deposits: </Typography>
 									{portfolioValue ? (
@@ -101,7 +101,7 @@ const Header = observer(() => {
 									)}
 								</>
 							)}
-							<Typography variant="body2" className={clsx(!!connectedAddress && classes.tvl)}>
+							<Typography variant="body2" className={clsx(onboard.isActive() && classes.tvl)}>
 								All Vaults (TVL):{' '}
 							</Typography>
 							{totalValueLocked ? (
@@ -115,7 +115,7 @@ const Header = observer(() => {
 							)}
 						</Grid>
 						<Grid item xs={7} container alignItems="center" justify="flex-end" spacing={1}>
-							{!!connectedAddress && (
+							{onboard.isActive() && (
 								<Grid item>
 									<RewardsWidget />
 								</Grid>

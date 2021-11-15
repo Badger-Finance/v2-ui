@@ -40,7 +40,6 @@ import {
 } from 'config/constants';
 import { bridge_system, tokens, sett_system } from 'config/deployments/mainnet.json';
 import { CURVE_EXCHANGE } from 'config/system/abis/CurveExchange';
-import { connectWallet } from 'mobx/utils/helpers';
 import { RenVMTransaction, RenVMParams } from '../../mobx/model/bridge/renVMTransaction';
 import { Network } from '@badger-dao/sdk';
 
@@ -234,7 +233,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 
 	const {
 		network: { network },
-		wallet: { connect, connectedAddress, provider, onboard },
+		onboard,
 		contracts: { getAllowance, increaseAllowance },
 		uiState: { queueNotification, setTxStatus },
 		bridge: {
@@ -252,6 +251,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 
 			current,
 		},
+		setts,
 	} = store;
 
 	const initialTokenState: {
@@ -299,7 +299,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 	};
 
 	const handleConnect = async () => {
-		await connectWallet(onboard, connect);
+		await onboard.connect();
 	};
 
 	const resetState = useCallback(() => {
@@ -407,11 +407,11 @@ export const BridgeForm = observer(({ classes }: any) => {
 	useEffect(() => {
 		// Reset to original state if we're disconnected in middle
 		// of transaction.
-		if (!connectedAddress && step !== 1) {
+		if (!onboard.isActive() && step !== 1) {
 			resetState();
 			return;
 		}
-	}, [connectedAddress, step, resetState]);
+	}, [onboard, onboard.address, step, resetState]);
 
 	// TODO: Can refactor most of these methods below into the store as well.
 	const deposit = async () => {
@@ -438,7 +438,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 			{
 				name: '_user',
 				type: 'address',
-				value: connectedAddress,
+				value: onboard.address,
 			},
 			{
 				name: '_vault',
@@ -507,12 +507,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 			},
 		];
 
-		const tokenParam = {
-			address: tokenAddress(),
-			symbol: token,
-			totalSupply: amountOut,
-			decimals: 0,
-		};
+		const tokenParam = setts.getToken(tokenAddress());
 
 		const allowance = await getAllowance(tokenParam, bridge_system.adapter);
 
@@ -547,7 +542,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 		}
 
 		try {
-			const web3 = new Web3(provider);
+			const web3 = new Web3(onboard.wallet?.provider);
 			const curve = new web3.eth.Contract(CURVE_EXCHANGE, CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS);
 			const amountAfterFeesInSats = new BigNumber(amount.toFixed(8)).multipliedBy(10 ** 8);
 			let swapResult;

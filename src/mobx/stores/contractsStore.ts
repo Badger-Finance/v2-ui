@@ -1,17 +1,16 @@
 import Web3 from 'web3';
 import { AbiItem } from 'web3-utils';
-import { sendContractMethod } from '../utils/web3';
+import { EIP1559SendOptions, getSendOptions, sendContractMethod } from '../utils/web3';
 import BigNumber from 'bignumber.js';
 import { RootStore } from '../RootStore';
-import { ContractSendMethod } from 'web3-eth-contract';
-import { EMPTY_DATA, ERC20, GEYSER_ABI, MAX, SETT_ABI, YEARN_ABI } from 'config/constants';
+import { ContractSendMethod, SendOptions } from 'web3-eth-contract';
+import { ERC20, MAX, SETT_ABI, YEARN_ABI } from 'config/constants';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { BadgerSett } from 'mobx/model/vaults/badger-sett';
-import { BadgerToken } from 'mobx/model/tokens/badger-token';
 import { toFixedDecimals, unscale } from '../utils/helpers';
 import { action, extendObservable } from 'mobx';
 import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
-import { BouncerType, Sett } from '@badger-dao/sdk';
+import { BouncerType, GasSpeed, Sett, Token } from '@badger-dao/sdk';
 
 type ProgressTracker = Record<string, boolean>;
 
@@ -41,44 +40,24 @@ class ContractsStore {
 	): Promise<void> => {
 		const { queueNotification } = this.store.uiState;
 		const amount = depositAmount.balance;
+		const depositToken = this.store.setts.getToken(sett.underlyingToken);
+
+		if (!depositToken) {
+			return;
+		}
 
 		if (amount.isNaN() || amount.lte(0) || amount.gt(userBalance.balance)) {
 			queueNotification('Please enter a valid amount', 'error');
 			return;
 		}
 
-		const allowance = await this.getAllowance(badgerSett.depositToken, badgerSett.vaultToken.address);
+		const allowance = await this.getAllowance(depositToken, badgerSett.vaultToken.address);
 
 		if (amount.gt(allowance.balance)) {
-			const depositToken: BadgerToken = {
-				...badgerSett.depositToken,
-				symbol: badgerSett.depositToken.symbol || sett.asset, //fallback symbol
-			};
 			await this.increaseAllowance(depositToken, badgerSett.vaultToken.address);
 		}
 
 		await this.depositVault(sett, depositAmount);
-	};
-
-	unstake = async (
-		sett: Sett,
-		badgerSett: BadgerSett,
-		userBalance: TokenBalance,
-		unstakeAmount: TokenBalance,
-	): Promise<void> => {
-		const { queueNotification } = this.store.uiState;
-		const amount = unstakeAmount.balance;
-
-		if (!badgerSett.geyser) {
-			return;
-		}
-
-		if (amount.isNaN() || amount.lte(0) || amount.gt(userBalance.balance)) {
-			queueNotification('Please enter a valid amount', 'error');
-			return;
-		}
-
-		await this.unstakeGeyser(sett, badgerSett, unstakeAmount);
 	};
 
 	withdraw = async (
@@ -99,17 +78,17 @@ class ContractsStore {
 		await this.withdrawVault(sett, badgerSett, withdrawAmount);
 	};
 
-	increaseAllowance = async (token: BadgerToken, contract: string): Promise<void> => {
+	increaseAllowance = async (token: Token, contract: string): Promise<void> => {
 		const {
-			wallet: { provider },
+			onboard,
 			uiState: { queueNotification },
 		} = this.store;
 
-		const web3 = new Web3(provider);
+		const web3 = new Web3(onboard.wallet?.provider);
 		const underlyingContract = new web3.eth.Contract(ERC20.abi as AbiItem[], token.address);
 		// provide infinite approval
 		const method: ContractSendMethod = underlyingContract.methods.approve(contract, MAX);
-		const options = await this.store.wallet.getMethodSendOptions(method);
+		const options = await this.getMethodSendOptions(method);
 		const infoMessage = 'Transaction submitted';
 		const successMessage = `${token.symbol} allowance increased`;
 
@@ -117,51 +96,27 @@ class ContractsStore {
 		await sendContractMethod(this.store, method, options, infoMessage, successMessage);
 	};
 
-	getAllowance = async (token: BadgerToken, spender: string): Promise<TokenBalance> => {
-		const { provider, connectedAddress } = this.store.wallet;
+	getAllowance = async (token: Token, spender: string): Promise<TokenBalance> => {
+		const { onboard } = this.store;
 
-		const web3 = new Web3(provider);
-		const underlyingContract = new web3.eth.Contract(ERC20.abi as AbiItem[], token.address);
-		const allowance = await underlyingContract.methods.allowance(connectedAddress, spender).call();
-
-		return new TokenBalance(token, new BigNumber(allowance), new BigNumber(0));
-	};
-
-	unstakeGeyser = async (sett: Sett, badgerSett: BadgerSett, amount: TokenBalance): Promise<void> => {
-		const { provider } = this.store.wallet;
-		const { queueNotification } = this.store.uiState;
-
-		if (!badgerSett.geyser) {
-			return;
+		if (!onboard.address) {
+			throw Error('Disconnected while fetching allowance');
 		}
 
-		const web3 = new Web3(provider);
-		const geyserContract = new web3.eth.Contract(GEYSER_ABI, badgerSett.geyser);
-		const unstakeBalance = amount.tokenBalance.toFixed(0, BigNumber.ROUND_HALF_FLOOR);
-		const method = geyserContract.methods.unstake(unstakeBalance, EMPTY_DATA);
-		const options = await this.store.wallet.getMethodSendOptions(method);
+		const web3 = new Web3(onboard.wallet?.provider);
+		const underlyingContract = new web3.eth.Contract(ERC20.abi as AbiItem[], token.address);
+		const allowance = await underlyingContract.methods.allowance(onboard.address, spender).call();
 
-		const { tokenBalance, token } = amount;
-		const displayAmount = toFixedDecimals(unscale(tokenBalance, token.decimals), token.decimals);
-		const unstakeAmount = `${displayAmount} b${sett.asset}`;
-
-		queueNotification(`Sign the transaction to unstake ${unstakeAmount}`, 'info');
-		await sendContractMethod(
-			this.store,
-			method,
-			options,
-			'Unstake transaction submitted',
-			`Successfully unstaked ${unstakeAmount}`,
-		);
+		return new TokenBalance(token, new BigNumber(allowance), new BigNumber(0));
 	};
 
 	depositVault = action(
 		async (sett: Sett, amount: TokenBalance, depositAll?: boolean): Promise<void> => {
 			const { queueNotification } = this.store.uiState;
-			const { provider } = this.store.wallet;
 			const { bouncerProof } = this.store.user;
+			const { onboard } = this.store;
 
-			const web3 = new Web3(provider);
+			const web3 = new Web3(onboard.wallet?.provider);
 			const settContract = new web3.eth.Contract(SETT_ABI, sett.settToken);
 			const yearnContract = new web3.eth.Contract(YEARN_ABI, sett.settToken);
 			const depositBalance = amount.tokenBalance.toFixed(0, BigNumber.ROUND_HALF_FLOOR);
@@ -192,7 +147,7 @@ class ContractsStore {
 				method = settContract.methods.depositAll();
 			}
 
-			const options = await this.store.wallet.getMethodSendOptions(method);
+			const options = await this.getMethodSendOptions(method);
 			const { tokenBalance, token } = amount;
 			const displayAmount = toFixedDecimals(unscale(tokenBalance, token.decimals), token.decimals);
 			const depositAmount = `${displayAmount} ${sett.asset}`;
@@ -210,14 +165,14 @@ class ContractsStore {
 
 	withdrawVault = action(
 		async (sett: Sett, badgerSett: BadgerSett, amount: TokenBalance): Promise<void> => {
-			const { provider } = this.store.wallet;
+			const { onboard } = this.store;
 			const { queueNotification } = this.store.uiState;
 
-			const web3 = new Web3(provider);
+			const web3 = new Web3(onboard.wallet?.provider);
 			const underlyingContract = new web3.eth.Contract(SETT_ABI, badgerSett.vaultToken.address);
 			const withdrawBalance = amount.tokenBalance.toFixed(0, BigNumber.ROUND_HALF_FLOOR);
 			const method = underlyingContract.methods.withdraw(withdrawBalance);
-			const options = await this.store.wallet.getMethodSendOptions(method);
+			const options = await this.getMethodSendOptions(method);
 
 			const { tokenBalance, token } = amount;
 			const displayAmount = toFixedDecimals(unscale(tokenBalance, token.decimals), token.decimals);
@@ -233,6 +188,18 @@ class ContractsStore {
 			);
 		},
 	);
+
+	getMethodSendOptions = async (method: ContractSendMethod): Promise<SendOptions | EIP1559SendOptions> => {
+		const {
+			onboard,
+			network: { gasPrices },
+		} = this.store;
+		if (!onboard.address) {
+			throw Error('Sending tx without a connected account');
+		}
+		const price = gasPrices ? gasPrices[GasSpeed.Fast] : 0;
+		return await getSendOptions(method, onboard.address, price);
+	};
 }
 
 export default ContractsStore;

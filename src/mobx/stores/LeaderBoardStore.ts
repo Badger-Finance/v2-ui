@@ -17,7 +17,6 @@ export class LeaderBoardStore {
 			completeBoard: this.completeBoard,
 			ranks: this.ranks,
 		});
-
 		this.loadData();
 	}
 

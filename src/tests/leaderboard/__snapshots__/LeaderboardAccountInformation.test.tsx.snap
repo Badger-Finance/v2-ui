@@ -99,24 +99,20 @@ exports[`LeaderboardAccountInformation User connected, data loaded Displays user
     <div
       class="makeStyles-infoContainer-4"
     >
-      <div
-        class="makeStyles-buttonContainer-138"
+      <button
+        class="MuiButtonBase-root-168 MuiButton-root-139 MuiButton-contained-147 MuiButton-containedPrimary-148"
+        tabindex="0"
+        type="button"
       >
-        <button
-          class="MuiButtonBase-root-168 MuiButton-root-139 MuiButton-contained-147 MuiButton-containedPrimary-148"
-          tabindex="0"
-          type="button"
+        <span
+          class="MuiButton-label-140"
         >
-          <span
-            class="MuiButton-label-140"
-          >
-            Calculate Boost
-          </span>
-          <span
-            class="MuiTouchRipple-root-175"
-          />
-        </button>
-      </div>
+          Connect Wallet
+        </span>
+        <span
+          class="MuiTouchRipple-root-175"
+        />
+      </button>
       <div
         class="makeStyles-suggestionContainer-173"
       >
@@ -162,10 +158,7 @@ exports[`LeaderboardAccountInformation User connected, no data loaded Displays f
         <h2
           class="MuiTypography-root-108 makeStyles-headerValueText-3 MuiTypography-h2-114 MuiTypography-displayInline-136"
         >
-          <span
-            class="MuiSkeleton-root-138 MuiSkeleton-text-139 MuiSkeleton-pulse-142"
-            style="width: 30px;"
-          />
+          N/A
         </h2>
       </div>
       <div
@@ -179,34 +172,27 @@ exports[`LeaderboardAccountInformation User connected, no data loaded Displays f
         <h6
           class="MuiTypography-root-108 makeStyles-headerValueText-3 MuiTypography-h6-118 MuiTypography-colorTextSecondary-134 MuiTypography-displayInline-136"
         >
-          <span
-            class="MuiSkeleton-root-138 MuiSkeleton-text-139 MuiSkeleton-pulse-142"
-            style="width: 30px;"
-          />
+          N/A
         </h6>
       </div>
     </div>
     <div
       class="makeStyles-infoContainer-4"
     >
-      <div
-        class="makeStyles-buttonContainer-149"
+      <button
+        class="MuiButtonBase-root-168 MuiButton-root-139 MuiButton-contained-147 MuiButton-containedPrimary-148"
+        tabindex="0"
+        type="button"
       >
-        <button
-          class="MuiButtonBase-root-179 MuiButton-root-150 MuiButton-contained-158 MuiButton-containedPrimary-159"
-          tabindex="0"
-          type="button"
+        <span
+          class="MuiButton-label-140"
         >
-          <span
-            class="MuiButton-label-151"
-          >
-            Calculate Boost
-          </span>
-          <span
-            class="MuiTouchRipple-root-186"
-          />
-        </button>
-      </div>
+          Connect Wallet
+        </span>
+        <span
+          class="MuiTouchRipple-root-175"
+        />
+      </button>
     </div>
   </div>
 </div>

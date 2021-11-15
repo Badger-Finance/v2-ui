@@ -1,6 +1,5 @@
-import { extendObservable, action, observe } from 'mobx';
+import { extendObservable, action } from 'mobx';
 import { RootStore } from '../RootStore';
-import WalletStore from 'mobx/stores/walletStore';
 import { Currency } from 'config/enums/currency.enum';
 import { DEFAULT_CURRENCY } from 'config/constants';
 import { GasSpeed } from '@badger-dao/sdk';
@@ -27,18 +26,11 @@ class UiState {
 		extendObservable(this, {
 			showNotification: this.showNotification,
 			currency: this.currency,
-			period: window.localStorage.getItem(`${network.name}-selectedPeriod`) || 'year',
 			sidebarOpen: !!window && window.innerWidth > 960,
 			showUserBalances: this.showUserBalances,
 			notification: {},
 			gasPrice: window.localStorage.getItem(`${network.name}-selectedGasPrice`) || 'standard',
 			txStatus: undefined,
-		});
-
-		observe(this.store.wallet as WalletStore, 'connectedAddress', () => {
-			if (!this.store.wallet.connectedAddress) {
-				this.setShowUserBalances(false);
-			}
 		});
 
 		// hide the sidebar

@@ -8,6 +8,7 @@ import React, { useContext } from 'react';
 import { PageHeaderContainer, LayoutContainer } from '../components-v2/common/Containers';
 import { SettState } from '@badger-dao/sdk';
 import SettListView from '../components-v2/landing/SettListView';
+import DepositDialog from '../components-v2/ibbtc-vault/DepositDialog';
 
 const useStyles = makeStyles((theme) => ({
 	marginTop: {
@@ -79,9 +80,7 @@ interface LandingProps {
 }
 
 const Landing = observer((props: LandingProps) => {
-	const {
-		wallet: { connectedAddress },
-	} = useContext(StoreContext);
+	const { onboard } = useContext(StoreContext);
 
 	const { title, subtitle, state } = props;
 	const classes = useStyles();
@@ -96,7 +95,7 @@ const Landing = observer((props: LandingProps) => {
 					</Grid>
 					<Grid item container xs={6} alignItems="center" justify="flex-end">
 						<CurrencyPicker />
-						{!!connectedAddress && <WalletSlider />}
+						{onboard.isActive() && <WalletSlider />}
 					</Grid>
 				</PageHeaderContainer>
 			</Grid>
@@ -109,6 +108,7 @@ const Landing = observer((props: LandingProps) => {
 				</Grid>
 			)}
 
+			<DepositDialog />
 			<SettListView state={state} />
 		</LayoutContainer>
 	);

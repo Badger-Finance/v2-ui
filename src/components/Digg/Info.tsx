@@ -114,7 +114,7 @@ const Info = observer(() => {
 		setts: { settMap },
 		uiState: { currency },
 		rebase: { rebase },
-		wallet: { connectedAddress },
+		onboard,
 		prices,
 	} = store;
 
@@ -132,10 +132,11 @@ const Info = observer(() => {
 		return () => clearInterval(rebaseInterval);
 	}, [rebase]);
 
-	if (!connectedAddress) {
+	if (!onboard.isActive()) {
 		return <NoWallet message="Connect wallet to see DIGG rebase statistics." />;
 	}
 
+	console.log({ rebase, settMap });
 	if (!rebase || !settMap) {
 		return <Loader message="Loading DIGG data..." />;
 	}

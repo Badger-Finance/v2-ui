@@ -472,7 +472,7 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 						[StrategyFee.performance]: new BigNumber(2000),
 						[StrategyFee.withdraw]: new BigNumber(10),
 					},
-					depositLink: 'https://curve.fi/factory/8/deposit',
+					depositLink: 'https://curve.fi/factory/60/deposit',
 					userGuide: 'https://docs.badger.com/badger-finance/user-guides/ibbtc-sbtc-curve-lp',
 				},
 			};

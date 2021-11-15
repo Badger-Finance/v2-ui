@@ -14,12 +14,10 @@ export class ZapPeak implements IbbtcVaultPeak {
 	address: string;
 	type: PeakType;
 	referenceToken: IbbtcOptionToken;
-	private store: RootStore;
 	private peakContract: any;
 
-	constructor(store: RootStore, referenceToken: IbbtcOptionToken) {
-		const web3 = new Web3(store.wallet.provider);
-		this.store = store;
+	constructor(private store: RootStore, referenceToken: IbbtcOptionToken) {
+		const web3 = new Web3(this.store.onboard.wallet?.provider);
 		this.referenceToken = referenceToken;
 		this.address = addresses.mainnet.contracts.ZapPeak.address;
 		this.type = 'zap';

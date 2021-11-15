@@ -14,6 +14,7 @@ export function setupMockAPI(): void {
 			bouncer: BouncerType.None,
 			name: 'Harvest renBTC/wBTC',
 			protocol: Protocol.Curve,
+			newVault: false,
 			pricePerFullShare: 1.02100568616584,
 			settAsset: 'bcrvhrenBTC',
 			settToken: '0xAf5A1DECfa95BAF63E0084a35c62592B774A2A87',
@@ -71,6 +72,7 @@ export function setupMockAPI(): void {
 			},
 			bouncer: BouncerType.None,
 			name: 'Uniswap Wrapped BTC/Badger',
+			newVault: false,
 			protocol: Protocol.Badger,
 			pricePerFullShare: 1.78903561415214,
 			settAsset: 'bBADGER-WBTC',
@@ -123,6 +125,7 @@ export function setupMockAPI(): void {
 			apr: 8.02482905107376,
 			asset: 'SLP-WBTC-ETH',
 			balance: 0.000544739337494635,
+			newVault: false,
 			boost: {
 				enabled: false,
 				weight: 0,
@@ -183,6 +186,7 @@ export function setupMockAPI(): void {
 			apr: 12.1488615485636,
 			asset: 'DIGG',
 			balance: 230.614422202,
+			newVault: false,
 			boost: {
 				enabled: false,
 				weight: 0,
@@ -233,6 +237,7 @@ export function setupMockAPI(): void {
 			apr: 0,
 			asset: 'BADGER',
 			balance: 3207364.24255943,
+			newVault: false,
 			boost: {
 				enabled: false,
 				weight: 0,
@@ -275,6 +280,7 @@ export function setupMockAPI(): void {
 			bouncer: BouncerType.None,
 			maxApr: 27.0341237265744,
 			minApr: 0.0319584853973294,
+			newVault: false,
 			name: 'Yearn Wrapped BTC',
 			protocol: Protocol.Yearn,
 			pricePerFullShare: 1.01477693,
@@ -320,6 +326,7 @@ export function setupMockAPI(): void {
 			apr: 177.284923726919,
 			asset: 'imBTC',
 			balance: 362.480168846736,
+			newVault: false,
 			boost: {
 				enabled: false,
 				weight: 0,

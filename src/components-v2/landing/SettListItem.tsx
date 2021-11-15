@@ -77,7 +77,7 @@ export interface SettListItemProps {
 
 const SettListItem = observer(
 	({ sett, balance, balanceValue, currency, accountView = false }: SettListItemProps): JSX.Element => {
-		const { user, network, router, wallet, setts } = useContext(StoreContext);
+		const { user, network, router, onboard, setts } = useContext(StoreContext);
 		const [openDepositDialog, setOpenDepositDialog] = useState(false);
 		const [openWithdrawDialog, setOpenWithdrawDialog] = useState(false);
 
@@ -125,8 +125,8 @@ const SettListItem = observer(
 					</Grid>
 					<Grid item xs={12} md={3} className={classes.nonClickableSection}>
 						<SettActionButtons
-							isWithdrawDisabled={!wallet.connectedAddress || !canWithdraw}
-							isDepositDisabled={!wallet.connectedAddress || isDisabled}
+							isWithdrawDisabled={!onboard.isActive() || !canWithdraw}
+							isDepositDisabled={!onboard.isActive() || isDisabled}
 							onWithdrawClick={() => setOpenWithdrawDialog(true)}
 							onDepositClick={() => setOpenDepositDialog(true)}
 						/>

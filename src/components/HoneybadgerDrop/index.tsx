@@ -10,9 +10,8 @@ import { Network } from '@badger-dao/sdk';
 
 const HoneybadgerDrop: React.FC = observer(() => {
 	const store = React.useContext(StoreContext);
-
 	const { network } = store.network;
-	const { connectedAddress } = store.wallet;
+	const { onboard } = store;
 
 	return (
 		<LayoutContainer>
@@ -24,7 +23,7 @@ const HoneybadgerDrop: React.FC = observer(() => {
 					<>
 						<Grid item xs={12} container spacing={5}>
 							<PoolBalance />
-							{connectedAddress && <NftList />}
+							{onboard.isActive() && <NftList />}
 						</Grid>
 					</>
 				) : (

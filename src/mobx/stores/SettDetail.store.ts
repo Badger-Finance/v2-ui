@@ -70,17 +70,12 @@ export class SettDetailStore {
 
 		const openBalance = this.store.user.getBalance(BalanceNamespace.Sett, sett).balance;
 		const guardedBalance = this.store.user.getBalance(BalanceNamespace.GuardedSett, sett).balance;
-		let settBalance = openBalance.plus(guardedBalance);
 
-		if (sett.geyser) {
-			settBalance = settBalance.plus(this.store.user.getBalance(BalanceNamespace.Geyser, sett).balance);
-		}
-
-		return settBalance.gt(0);
+		return openBalance.plus(guardedBalance).gt(0);
 	}
 
 	get canUserDeposit(): boolean {
-		return !!this.store.wallet.connectedAddress;
+		return this.store.onboard.isActive();
 	}
 
 	toggleDepositDialog(): void {

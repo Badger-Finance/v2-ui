@@ -31,7 +31,7 @@ interface RedeemAmountCalculation {
 class IbBTCStore {
 	private readonly store: RootStore;
 	private config: typeof addresses.mainnet;
-	private initialized = false;
+	private isInitialized = false;
 
 	public tokens: Array<IbbtcOptionToken> = [];
 	public ibBTC: IbbtcOptionToken;
@@ -72,7 +72,13 @@ class IbBTCStore {
 			apyUsingLastWeek: this.apyUsingLastWeek,
 			mintFeePercent: this.mintFeePercent,
 			redeemFeePercent: this.redeemFeePercent,
+			initialized: this.initialized,
+			isInitialized: this.isInitialized,
 		});
+	}
+
+	get initialized(): boolean {
+		return this.isInitialized;
 	}
 
 	// just to have the same pattern as redeem options, currently all peaks can mint
@@ -86,15 +92,15 @@ class IbBTCStore {
 	}
 
 	init(): void {
-		const { connectedAddress } = this.store.wallet;
+		const { address, wallet } = this.store.onboard;
 		// M50: by default the network ID is set to ethereum.  We should check the provider to ensure the
 		// connected wallet is using ETH network, not the site.
-		const network = getNetworkFromProvider(this.store.wallet.provider);
-		if (this.initialized || network !== Network.Ethereum) {
+		const network = getNetworkFromProvider(wallet?.provider);
+		if (this.isInitialized || network !== Network.Ethereum) {
 			return;
 		}
 
-		if (!connectedAddress) {
+		if (!address) {
 			this.resetBalances();
 			return;
 		}
@@ -109,7 +115,7 @@ class IbBTCStore {
 			}
 			return;
 		});
-		this.initialized = true;
+		this.isInitialized = true;
 	}
 
 	fetchFees = action(
@@ -148,12 +154,12 @@ class IbBTCStore {
 
 	fetchBalance = action(
 		async (token: IbbtcOptionToken): Promise<BigNumber> => {
-			const { provider, connectedAddress } = this.store.wallet;
-			if (!connectedAddress) return ZERO;
+			const { address, wallet } = this.store.onboard;
+			if (!address) return ZERO;
 
-			const web3 = new Web3(provider);
+			const web3 = new Web3(wallet?.provider);
 			const tokenContract = new web3.eth.Contract(settConfig.abi as AbiItem[], token.address);
-			let balance = tokenContract.methods.balanceOf(connectedAddress);
+			let balance = tokenContract.methods.balanceOf(address);
 			balance = await balance.call();
 
 			return new BigNumber(balance);
@@ -162,8 +168,8 @@ class IbBTCStore {
 
 	fetchConversionRates = action(
 		async (): Promise<void> => {
-			const { provider } = this.store.wallet;
-			if (!provider) return;
+			const { wallet } = this.store.onboard;
+			if (!wallet?.provider) return;
 
 			const fetchMintRates = this.mintOptions.map((token) => this.fetchMintRate(token));
 			const fetchRedeemRates = this.redeemOptions.map((token) => this.fetchRedeemRate(token));
@@ -227,10 +233,10 @@ class IbBTCStore {
 	}
 
 	async getRedeemConversionRate(token: IbbtcOptionToken): Promise<BigNumber> {
-		const { provider } = this.store.wallet;
-		if (!provider) return ZERO;
+		const { wallet } = this.store.onboard;
+		if (!wallet?.provider) return ZERO;
 
-		const web3 = new Web3(provider);
+		const web3 = new Web3(wallet.provider);
 		const ibBTC = new web3.eth.Contract(ibBTCConfig.abi as AbiItem[], this.ibBTC.address);
 		const ibBTCPricePerShare = await ibBTC.methods.pricePerShare().call();
 
@@ -240,15 +246,15 @@ class IbBTCStore {
 	}
 
 	async getFees(): Promise<ibBTCFees> {
-		const { provider } = this.store.wallet;
-		if (!provider) {
+		const { wallet } = this.store.onboard;
+		if (!wallet?.provider) {
 			return {
 				mintFeePercent: new BigNumber(0),
 				redeemFeePercent: new BigNumber(0),
 			};
 		}
 
-		const web3 = new Web3(provider);
+		const web3 = new Web3(wallet.provider);
 		const ibBTC = new web3.eth.Contract(ibBTCConfig.abi as AbiItem[], this.ibBTC.address);
 		const coreAddress = await ibBTC.methods.core().call();
 		const core = new web3.eth.Contract(coreConfig.abi as AbiItem[], coreAddress);
@@ -269,10 +275,10 @@ class IbBTCStore {
 	}
 
 	async getAllowance(underlyingAsset: IbbtcOptionToken, spender: string): Promise<BigNumber> {
-		const { provider, connectedAddress } = this.store.wallet;
-		const web3 = new Web3(provider);
+		const { address, wallet } = this.store.onboard;
+		const web3 = new Web3(wallet?.provider);
 		const tokenContract = new web3.eth.Contract(settConfig.abi as AbiItem[], underlyingAsset.address);
-		const allowance = await tokenContract.methods.allowance(connectedAddress, spender).call();
+		const allowance = await tokenContract.methods.allowance(address, spender).call();
 		return new BigNumber(allowance);
 	}
 
@@ -282,14 +288,16 @@ class IbBTCStore {
 		amount: BigNumber | string = MAX,
 	): Promise<void> {
 		const { queueNotification, gasPrice } = this.store.uiState;
-		const { connectedAddress } = this.store.wallet;
+		const { address } = this.store.onboard;
 		const { gasPrices } = this.store.network;
+		if (!address) {
+			return;
+		}
 		const method = this.getApprovalMethod(underlyingAsset, spender, amount);
-
 		queueNotification(`Sign the transaction to allow Badger to spend your ${underlyingAsset.symbol}`, 'info');
 
 		const price = gasPrices ? gasPrices[gasPrice] : 0;
-		const options = await getSendOptions(method, connectedAddress, price);
+		const options = await getSendOptions(method, address, price);
 		await method
 			.send(options)
 			.on('transactionHash', (_hash: string) => {
@@ -382,8 +390,8 @@ class IbBTCStore {
 	}
 
 	private getApprovalMethod(token: IbbtcOptionToken, spender: string, amount: BigNumber | string = MAX) {
-		const { provider } = this.store.wallet;
-		const web3 = new Web3(provider);
+		const { wallet } = this.store.onboard;
+		const web3 = new Web3(wallet?.provider);
 
 		if (token.symbol === this.config.contracts.tokens.WBTC.symbol) {
 			return new web3.eth.Contract(ERC20_ABI as AbiItem[], token.address).methods.approve(spender, amount);
@@ -400,11 +408,14 @@ class IbBTCStore {
 		infoMessage: string,
 		successMessage: string,
 	): Promise<void> {
-		const { connectedAddress } = this.store.wallet;
+		const { address } = this.store.onboard;
+		if (!address) {
+			return;
+		}
 		const { queueNotification, gasPrice } = this.store.uiState;
 		const { gasPrices } = this.store.network;
 		const price = gasPrices ? gasPrices[gasPrice] : 0;
-		const options = await getSendOptions(method, connectedAddress, price);
+		const options = await getSendOptions(method, address, price);
 		await method
 			.send(options)
 			.on('transactionHash', (_hash: string) => {
@@ -420,13 +431,13 @@ class IbBTCStore {
 	}
 
 	private async fetchIbbtApyFromTimestamp(timestamp: number): Promise<string | null> {
-		const { provider } = this.store.wallet;
+		const { wallet } = this.store.onboard;
 		const { currentBlock } = this.store.network;
-		if (!provider || !currentBlock) {
+		if (!wallet?.provider || !currentBlock) {
 			return null;
 		}
 		const secondsPerYear = new BigNumber(31536000);
-		const web3 = new Web3(provider);
+		const web3 = new Web3(wallet.provider);
 		const ibBTC = new web3.eth.Contract(ibBTCConfig.abi as AbiItem[], this.ibBTC.address);
 		const currentPPS = new BigNumber(await ibBTC.methods.pricePerShare().call());
 

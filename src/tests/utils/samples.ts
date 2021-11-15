@@ -27,6 +27,7 @@ export const SAMPLE_SETT: Sett = {
 		enabled: false,
 		weight: 0,
 	},
+	newVault: false,
 	name: 'Curve.fi renBTC/wBTC/sBTC',
 	protocol: Protocol.Curve,
 	pricePerFullShare: 1.0082389531413567,

@@ -3,7 +3,6 @@ import { Button, makeStyles } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
 import clsx from 'clsx';
-import { connectWallet } from '../../mobx/utils/helpers';
 
 const useStyles = makeStyles((theme) => ({
 	walletDot: {
@@ -22,7 +21,10 @@ const useStyles = makeStyles((theme) => ({
 	walletButton: {},
 }));
 
-const shortenAddress = (address: string) => {
+const shortenAddress = (address?: string) => {
+	if (!address) {
+		return 'Connect';
+	}
 	return address.slice(0, 4) + '..' + address.slice(address.length - 4, address.length);
 };
 
@@ -33,30 +35,31 @@ interface Props {
 const WalletWidget = observer(({ className }: Props) => {
 	const classes = useStyles();
 	const store = useContext(StoreContext);
-	const { connectedAddress, onboard } = store.wallet;
-	const isConnected = !(!connectedAddress || connectedAddress.length === 0);
+	const { onboard, uiState } = store;
+	const { address } = onboard;
+	const isConnected = address !== undefined;
 	const walletIcon = <div className={clsx(classes.walletDot, isConnected ? classes.greenDot : classes.redDot)} />;
 
-	const connect = async () => {
-		if (store.uiState.sidebarOpen) {
-			store.uiState.closeSidebar();
+	async function connect(): Promise<void> {
+		if (onboard.address) {
+			onboard.disonnect();
+		} else {
+			const connected = await onboard.connect();
+			if (!connected) {
+				uiState.queueError('Issue connecting, please try again');
+			}
 		}
-
-		connectWallet(onboard, store.wallet.connect);
-	};
+	}
 
 	return (
 		<Button
 			disableElevation
 			variant="outlined"
-			onClick={() => {
-				if (!connectedAddress) connect();
-				else store.wallet.walletReset();
-			}}
+			onClick={connect}
 			endIcon={walletIcon}
 			className={clsx(classes.walletButton, className)}
 		>
-			{isConnected ? shortenAddress(connectedAddress) : 'Connect'}
+			{shortenAddress(address)}
 		</Button>
 	);
 });

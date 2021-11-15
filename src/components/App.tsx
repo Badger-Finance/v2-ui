@@ -14,6 +14,11 @@ const useStyles = makeStyles((theme) => ({
 	root: {
 		display: 'flex',
 	},
+	contentContainer: {
+		display: 'flex',
+		flexDirection: 'column',
+		flexGrow: 1,
+	},
 	content: {
 		flexGrow: 1,
 		paddingBottom: theme.spacing(4),
@@ -27,7 +32,7 @@ export const App = (): JSX.Element => {
 	// network data updating
 	useEffect(() => {
 		const networkInterval = setInterval(async () => {
-			await store.network.updateNetwork();
+			await store.network.updateGasPrices();
 		}, ONE_MIN_MS / 2);
 		return () => clearInterval(networkInterval);
 	});
@@ -35,12 +40,14 @@ export const App = (): JSX.Element => {
 	return (
 		<div className={classes.root}>
 			<Sidebar />
-			<main className={classes.content}>
+			<div className={classes.contentContainer}>
 				<Header />
-				<NetworkNotification />
-				<NewsNotification />
-				<MobxRouter store={store} />
-			</main>
+				<main className={classes.content}>
+					<NetworkNotification />
+					<NewsNotification />
+					<MobxRouter store={store} />
+				</main>
+			</div>
 		</div>
 	);
 };

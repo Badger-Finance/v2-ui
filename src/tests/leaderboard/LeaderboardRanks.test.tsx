@@ -245,19 +245,19 @@ describe('LeaderboardRanks', () => {
 			[100, 'Neo Badger'],
 			[5, 'Basic Badger'],
 		])('Displays user with %f boost, %i rank, with %s highlighted', (boost) => {
-			store.wallet.connectedAddress = TEST_ADDRESS;
+			store.onboard.address = TEST_ADDRESS;
 			store.user.accountDetails = {
-				id: TEST_ADDRESS,
+				address: TEST_ADDRESS,
 				boost: boost,
 				boostRank: 1,
 				nativeBalance: 0,
 				nonNativeBalance: 10,
 				multipliers: {},
-				depositLimits: {},
 				value: 0,
 				earnedValue: 0,
-				balances: [],
 				stakeRatio: 0,
+				data: {},
+				claimableBalances: {},
 			};
 			const { leaderBoard } = store;
 			leaderBoard.ranks = leaderBoard.retrieveRanksInformation(sampleLeaderboard);
