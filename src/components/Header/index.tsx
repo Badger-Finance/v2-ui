@@ -89,7 +89,7 @@ const Header = observer(() => {
 						<Grid item xs={5} container alignItems="center" className={classes.amounts}>
 							{onboard.isActive() && (
 								<>
-									<Typography variant="body2">My Deposits: </Typography>
+									<Typography variant="body2">My Assets: </Typography>
 									{portfolioValue ? (
 										<CurrencyDisplay
 											displayValue={inCurrency(portfolioValue, currency)}

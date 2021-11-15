@@ -66,9 +66,10 @@ export class OnboardStore {
 			const shouldUpdate = this.address !== undefined && this.address !== address;
 			this.address = address;
 			if (shouldUpdate && this.wallet) {
-				this.store.rewards.resetRewards();
 				await this.walletListener(this.wallet);
-				this.provider && (await this.store.updateProvider(this.provider));
+				if (this.provider) {
+					await this.store.updateProvider(this.provider);
+				}
 			}
 		},
 	);
