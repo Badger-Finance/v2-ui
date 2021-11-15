@@ -320,7 +320,7 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 						'https://app.sushi.com/add/0x798D1bE841a82a273720CE31c822C61a67a601C3/0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599',
 				},
 				[ethDeploy.sett_system.vaults['yearn.wBtc']]: {
-					address: ethDeploy.sett_system.vaults['yearn.wBtc'],
+					address: ethDeploy.sett_system.strategies['yearn.wBtc'],
 					fees: {
 						[StrategyFee.yearnPerformance]: new BigNumber(2000),
 						[StrategyFee.yearnManagement]: new BigNumber(200),

@@ -100,6 +100,7 @@ const useStyles = makeStyles((theme) => ({
 		height: '77px',
 		alignItems: 'center',
 		paddingLeft: '27px',
+		cursor: 'pointer',
 	},
 	badgerIcon: {
 		width: '28px',
@@ -131,7 +132,7 @@ const Sidebar = observer(() => {
 	const config = getSidebarConfig(network.symbol);
 	const drawerContent = (
 		<div className={classes.sidebarContainer}>
-			<div className={classes.badgerLogoContainer}>
+			<div className={classes.badgerLogoContainer} onClick={() => window.open('https://badger.com/', '_blank')}>
 				<img alt="Badger Logo" className={classes.badgerIcon} src={'/assets/icons/badger.png'} />
 				<span className={classes.badgerTitle}>Badger</span>
 			</div>

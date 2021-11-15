@@ -145,7 +145,8 @@
 			"native.fPmBtcHBtc": "0x54D06A0E1cE55a7a60Ee175AbCeaC7e363f603f3",
 			"native.icvx": "0x87fB47c2B9EB41d362BAb44F5Ec81514b6b1de13",
 			"native.bveCVXCVX": "0x98Ca7AFa876f0e15494E76E92C5b3658cdE1Ffe1",
-			"native.ibbtcCrv": "0x0EA6a3595b291C3eF0881C5C32C232d571eFcbAf"
+			"native.ibbtcCrv": "0x0EA6a3595b291C3eF0881C5C32C232d571eFcbAf",
+			"yearn.wBtc": "0xA696a63cc78DfFa1a63E9E50587C197387FF6C7E"
 		},
 		"strategy_artifacts": {
 			"native.badger": "StrategyBadgerRewards",

@@ -90,12 +90,11 @@ export class RootStore {
 		await Promise.all(refreshData);
 	}
 
-	// the provider wiring is not needed or used / required for move to sdk based app
-	/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
 	async updateProvider(provider: SDKProvider): Promise<void> {
 		const { network } = this.network;
 		const signer = provider.getSigner();
 		let updateActions: Promise<void>[] = [];
+		this.rewards.resetRewards();
 		if (signer && this.onboard.address) {
 			const address = await signer.getAddress();
 			const config = NetworkConfig.getConfig(network.id);
