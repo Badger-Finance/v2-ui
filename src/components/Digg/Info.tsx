@@ -136,7 +136,6 @@ const Info = observer(() => {
 		return <NoWallet message="Connect wallet to see DIGG rebase statistics." />;
 	}
 
-	console.log({ rebase, settMap });
 	if (!rebase || !settMap) {
 		return <Loader message="Loading DIGG data..." />;
 	}

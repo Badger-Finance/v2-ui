@@ -7,9 +7,9 @@ import { customRender, screen, fireEvent, within } from '../../Utils';
 import { IbbtcOptionToken } from '../../../mobx/model/tokens/ibbtc-option-token';
 
 const tokens = [
-	new IbbtcOptionToken(store, addresses.mainnet.contracts.tokens['bcrvRenWSBTC']),
-	new IbbtcOptionToken(store, addresses.mainnet.contracts.tokens['bcrvRenWBTC']),
-	new IbbtcOptionToken(store, addresses.mainnet.contracts.tokens['btbtc/sbtcCrv']),
+	new IbbtcOptionToken(store, addresses.mainnet.tokens['bcrvRenBTC']),
+	new IbbtcOptionToken(store, addresses.mainnet.tokens['bcrvRenSBTC']),
+	new IbbtcOptionToken(store, addresses.mainnet.tokens['bcrvTBTC']),
 ];
 
 it('starts with the first token as default value', () => {

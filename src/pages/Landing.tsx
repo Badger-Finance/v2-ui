@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	announcementButton: {
-		marginBottom: theme.spacing(2),
+		marginTop: theme.spacing(1),
 		pointerEvents: 'none',
 	},
 	linkButton: {
@@ -70,6 +70,11 @@ const useStyles = makeStyles((theme) => ({
 	},
 	delegationBanner: {
 		marginTop: theme.spacing(3),
+	},
+	announcementContainer: {
+		display: 'flex',
+		justifyContent: 'center',
+		marginBottom: theme.spacing(2),
 	},
 }));
 
@@ -101,11 +106,11 @@ const Landing = observer((props: LandingProps) => {
 			</Grid>
 
 			{state === SettState.Guarded && (
-				<Grid container justify="center">
+				<div className={classes.announcementContainer}>
 					<Button className={classes.announcementButton} size="small" variant="outlined" color="primary">
 						Note: New Vaults may take up to 2 weeks from launch to reach full efficiency.
 					</Button>
-				</Grid>
+				</div>
 			)}
 
 			<DepositDialog />

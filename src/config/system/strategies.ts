@@ -324,7 +324,7 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 					fees: {
 						[StrategyFee.yearnPerformance]: new BigNumber(2000),
 						[StrategyFee.yearnManagement]: new BigNumber(200),
-						[StrategyFee.withdraw]: new BigNumber(50),
+						[StrategyFee.withdraw]: new BigNumber(10),
 					},
 					strategyLink: 'https://badger.wiki/strategies#8dbbd221e429409db3b487da966a14b8',
 					userGuide: 'https://docs.badger.com/badger-finance/user-guides/yearn-wrapped-btc',

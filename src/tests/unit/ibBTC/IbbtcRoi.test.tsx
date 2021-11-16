@@ -11,7 +11,7 @@ import store from '../../../mobx/RootStore';
 import { IbbtcOptionToken } from '../../../mobx/model/tokens/ibbtc-option-token';
 
 it('displays N/A state', () => {
-	store.ibBTCStore.ibBTC = new IbbtcOptionToken(store, addresses.mainnet.contracts.tokens.ibBTC);
+	store.ibBTCStore.ibBTC = new IbbtcOptionToken(store, addresses.mainnet.tokens.ibBTC);
 	customRender(
 		<StoreProvider value={store}>
 			<ThemeProvider theme={darkTheme}>
@@ -24,7 +24,7 @@ it('displays N/A state', () => {
 });
 
 it('displays logo and name', () => {
-	store.ibBTCStore.ibBTC = new IbbtcOptionToken(store, addresses.mainnet.contracts.tokens.ibBTC);
+	store.ibBTCStore.ibBTC = new IbbtcOptionToken(store, addresses.mainnet.tokens.ibBTC);
 	customRender(
 		<StoreProvider value={store}>
 			<ThemeProvider theme={darkTheme}>
@@ -38,7 +38,7 @@ it('displays logo and name', () => {
 });
 
 it('displays APY information', () => {
-	store.ibBTCStore.ibBTC = new IbbtcOptionToken(store, addresses.mainnet.contracts.tokens.ibBTC);
+	store.ibBTCStore.ibBTC = new IbbtcOptionToken(store, addresses.mainnet.tokens.ibBTC);
 	store.ibBTCStore.apyUsingLastDay = '25.032%';
 	store.ibBTCStore.apyUsingLastWeek = '18.234%';
 

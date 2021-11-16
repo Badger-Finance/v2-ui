@@ -152,7 +152,7 @@ class ContractsStore {
 			const displayAmount = toFixedDecimals(unscale(tokenBalance, token.decimals), token.decimals);
 			const depositAmount = `${displayAmount} ${sett.asset}`;
 
-			queueNotification(`Sign the transaction to wrap ${depositAmount}`, 'info');
+			queueNotification(`Sign the transaction to deposit ${depositAmount}`, 'info');
 			await sendContractMethod(
 				this.store,
 				method,
@@ -178,7 +178,7 @@ class ContractsStore {
 			const displayAmount = toFixedDecimals(unscale(tokenBalance, token.decimals), token.decimals);
 			const withdrawAmount = `${displayAmount} b${sett.asset}`;
 
-			queueNotification(`Sign the transaction to unwrap ${withdrawAmount}`, 'info');
+			queueNotification(`Sign the transaction to withdraw ${withdrawAmount}`, 'info');
 			await sendContractMethod(
 				this.store,
 				method,

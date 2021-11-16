@@ -11,12 +11,12 @@ import Header from '../../components/Header';
 import { action } from 'mobx';
 import IbBTCStore from 'mobx/stores/ibBTCStore';
 
-const tokensConfig = addresses.mainnet.contracts.tokens;
+const tokensConfig = addresses.mainnet.tokens;
 const mockIbBTC = new IbbtcOptionToken(store, tokensConfig['ibBTC']);
 const mockTokens = [
-	new IbbtcOptionToken(store, tokensConfig['bcrvRenWSBTC']), // default option on the list
-	new IbbtcOptionToken(store, tokensConfig['bcrvRenWBTC']),
-	new IbbtcOptionToken(store, tokensConfig['btbtc/sbtcCrv']),
+	new IbbtcOptionToken(store, addresses.mainnet.tokens['bcrvRenBTC']),
+	new IbbtcOptionToken(store, addresses.mainnet.tokens['bcrvRenSBTC']),
+	new IbbtcOptionToken(store, addresses.mainnet.tokens['bcrvTBTC']),
 ];
 
 describe('ibBTC Mint', () => {
@@ -109,6 +109,6 @@ describe('ibBTC Mint', () => {
 
 		fireEvent.click(screen.getByRole('button', { name: /mint/i }));
 
-		expect(screen.getByText('You have insufficient balance of bcrvRenSBTC')).toBeInTheDocument();
+		expect(screen.getByText('You have insufficient balance of bcrvRenBTC')).toBeInTheDocument();
 	});
 });

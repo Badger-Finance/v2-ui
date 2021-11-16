@@ -45,7 +45,6 @@ export const DEBUG = getIntegrationStage(BUILD_ENV) === Stage.Staging;
 const toBool = (val: string | undefined): boolean => (val ? val.toLowerCase() === 'true' : false);
 
 export const FLAGS = {
-	IBBTC_OPTIONS_FLAG: toBool(process.env.REACT_APP_IBBTC_OPTIONS_FLAG),
 	STABILIZATION_SETTS: toBool(process.env.REACT_APP_STABILIZATION_SETTS),
 	XDAI: toBool(process.env.REACT_APP_XDAI),
 	RENBTC_SETT: toBool(process.env.REACT_APP_RENBTC_SETT),

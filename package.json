@@ -56,7 +56,7 @@
 		"lint-fix": "yarn lint --quiet --fix",
 		"lint-fix-warn": "yarn lint --fix",
 		"ui": "yarn upgradeInteractive",
-		"format": "prettier --write \"src/**/*.ts\" \"src/**/*.tsx\""
+		"format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json}\""
 	},
 	"eslintConfig": {
 		"extends": "react-app"
