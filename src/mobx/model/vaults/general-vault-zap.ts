@@ -23,10 +23,11 @@ export class GeneralVaultZap extends IbBTCMintZap {
 	}
 
 	async getMintMethod(amount: BigNumber, slippage: BigNumber): Promise<ContractSendMethod> {
-		const { idx, bBTC } = await this.getCalcMintMethod(amount).call();
+		const output = await this.getCalcMintMethod(amount).call();
 		const slippagePercentage = new BigNumber(100).minus(slippage);
-		const minOut = new BigNumber(bBTC).multipliedBy(slippagePercentage).dividedToIntegerBy(100);
-		return this.zap.methods.mint(toHex(amount), idx, minOut);
+		const minOut = new BigNumber(output).multipliedBy(slippagePercentage).dividedToIntegerBy(100);
+		console.log({ amt: amount.toString(), min: minOut.toString(), bBTC: output.toString() });
+		return this.zap.methods.mint(toHex(amount), this.token.poolId, minOut);
 	}
 
 	// this method is an abstract method, but not supporting this path any longer

@@ -76,7 +76,7 @@ exports[`ibBTC Mint can apply max balance 1`] = `
                 class="makeStyles-tokenContainer-200"
               >
                 <img
-                  alt="Badger crvRenWBTC"
+                  alt="bcrvRenBTC"
                   class="makeStyles-tokenIcon-195"
                   src="/assets/icons/bcrvrenbtc.png"
                 />
@@ -364,7 +364,7 @@ exports[`ibBTC Mint displays output ibBTC when mint amount is inputted 1`] = `
                 class="makeStyles-tokenContainer-200"
               >
                 <img
-                  alt="Badger crvRenWBTC"
+                  alt="bcrvRenBTC"
                   class="makeStyles-tokenIcon-195"
                   src="/assets/icons/bcrvrenbtc.png"
                 />

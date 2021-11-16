@@ -6,16 +6,17 @@ import { GeneralVaultZap } from './model/vaults/general-vault-zap';
 import { RenVaultZap } from './model/vaults/ren-vault-zap';
 import { IbbtcOptionToken } from './model/tokens/ibbtc-option-token';
 
-export class IbbtcVaultPeakFactory {
+export class IbBTCMintZapFactory {
 	private static tokenZap?: TokenZap;
 	private static generalVaultZap?: GeneralVaultZap;
 	private static renVaultZap?: RenVaultZap;
 
-	static createIbbtcVaultPeakForToken(store: RootStore, token: IbbtcOptionToken): IbBTCMintZap {
+	static getIbBTCZap(store: RootStore, token: IbbtcOptionToken): IbBTCMintZap {
 		if (addresses.mainnet.contracts.TokenZap.supportedTokens.includes(token.symbol)) {
 			if (!this.tokenZap) {
 				this.tokenZap = new TokenZap(store, token);
 			}
+			console.log('Using TokenZap');
 			return this.tokenZap;
 		}
 
@@ -23,6 +24,7 @@ export class IbbtcVaultPeakFactory {
 			if (!this.generalVaultZap) {
 				this.generalVaultZap = new GeneralVaultZap(store, token);
 			}
+			console.log('Using GeneralVaultZap');
 			return this.generalVaultZap;
 		}
 
@@ -30,6 +32,7 @@ export class IbbtcVaultPeakFactory {
 			if (!this.renVaultZap) {
 				this.renVaultZap = new RenVaultZap(store, token);
 			}
+			console.log('Using RenVaultZap');
 			return this.renVaultZap;
 		}
 

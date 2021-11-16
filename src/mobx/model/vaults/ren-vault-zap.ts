@@ -11,6 +11,12 @@ import settConfig from '../../../config/system/abis/Sett.json';
 import badgerPeakSwap from '../../../config/system/abis/BadgerBtcPeakSwap.json';
 import { IbbtcOptionToken } from '../tokens/ibbtc-option-token';
 
+// TODO: Remove if ever actually unused
+// "RenVaultZap": {
+// 	"supportedTokens": ["bcrvRenBTC"],
+// 	"address": "0x41671BA1abcbA387b9b2B752c205e22e916BE6e3"
+// },
+
 export class RenVaultZap extends IbBTCMintZap {
 	private zap: any;
 

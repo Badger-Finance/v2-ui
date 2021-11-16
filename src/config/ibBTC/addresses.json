@@ -11,42 +11,42 @@
 				"address": "0x4b92d19c11435614CD49Af1b589001b7c08cD4D5",
 				"decimals": 8,
 				"symbol": "byvWBTC",
-				"name": "Badger WBTC yVault",
+				"name": "byvWBTC",
 				"poolId": 0
 			},
 			"bcrvRenSBTC": {
 				"address": "0xd04c48A53c111300aD41190D63681ed3dAd998eC",
 				"decimals": 18,
 				"symbol": "bcrvRenSBTC",
-				"name": "Badger crvRenWSBTC",
+				"name": "bcrvRenSBTC",
 				"poolId": 1
 			},
 			"bcrvTBTC": {
 				"address": "0xb9D076fDe463dbc9f915E5392F807315Bf940334",
 				"decimals": 18,
 				"symbol": "bcrvTBTC",
-				"name": "Badger t-btc/sbtcCrv",
+				"name": "bcrvTBTC",
 				"poolId": 2
 			},
 			"bcrvHBTC": {
 				"address": "0x8c76970747afd5398e958bDfadA4cf0B9FcA16c4",
 				"decimals": 18,
 				"symbol": "bcrvHBTC",
-				"name": "Badger h-btc/sbtcCrv",
+				"name": "bcrvHBTC",
 				"poolId": 3
 			},
 			"bcrvBBTC": {
 				"address": "0x5Dce29e92b1b939F8E8C60DcF15BDE82A85be4a9",
 				"decimals": 18,
 				"symbol": "bcrvBBTC",
-				"name": "Badger b-btc/sbtcCrv",
+				"name": "bcrvBBTC",
 				"poolId": 4
 			},
 			"bcrvRenBTC": {
 				"address": "0x6dEf55d2e18486B9dDfaA075bc4e4EE0B28c1545",
 				"decimals": 18,
 				"symbol": "bcrvRenBTC",
-				"name": "Badger crvRenWBTC",
+				"name": "bcrvRenBTC",
 				"poolId": 0
 			},
 			"renBTC": {

@@ -416,14 +416,14 @@ exports[`ibBTC Redeem can apply max balance 1`] = `
               class="makeStyles-tokenContainer-201"
             >
               <img
-                alt="Badger crvRenWSBTC"
+                alt="bcrvRenBTC"
                 class="makeStyles-tokenIcon-196"
-                src="/assets/icons/bcrvrensbtc.png"
+                src="/assets/icons/bcrvrenbtc.png"
               />
               <div
                 class="MuiTypography-root-109 MuiTypography-body1-111"
               >
-                bcrvRenSBTC
+                bcrvRenBTC
               </div>
             </div>
             <span
@@ -477,7 +477,7 @@ exports[`ibBTC Redeem can apply max balance 1`] = `
              : 
             1.000000
              
-            bcrvRenSBTC
+            bcrvRenBTC
           </p>
         </div>
       </div>
@@ -528,7 +528,7 @@ exports[`ibBTC Redeem can apply max balance 1`] = `
           <p
             class="MuiTypography-root-109 WithStyles(ForwardRef(Typography))-root-108 MuiTypography-body1-111"
           >
-            11.988000 bcrvRenSBTC
+            11.988000 bcrvRenBTC
           </p>
         </div>
       </div>

@@ -11,17 +11,14 @@ export class NetworkStore {
 	private store: RootStore;
 	public network: Network;
 	public gasPrices: GasPrices | null;
-	public currentBlock: number;
 
 	constructor(store: RootStore) {
 		this.store = store;
 		this.network = defaultNetwork;
 		this.gasPrices = { rapid: 35, fast: 30, standard: 25, slow: 20 };
-		this.currentBlock = 1;
 
 		extendObservable(this, {
 			network: this.network,
-			currentBlock: this.currentBlock,
 			gasPrices: this.gasPrices,
 		});
 	}

@@ -10,12 +10,12 @@ import ibBTCConfig from 'config/system/abis/ibBTC.json';
 import addresses from 'config/ibBTC/addresses.json';
 import coreConfig from 'config/system/abis/BadgerBtcPeakCore.json';
 import { getSendOptions } from 'mobx/utils/web3';
-import { IbbtcVaultPeakFactory } from '../ibbtc-vault-peak-factory';
 import { getNetworkFromProvider } from 'mobx/utils/helpers';
 import { IbbtcOptionToken } from '../model/tokens/ibbtc-option-token';
 import { ibBTCFees } from '../model/fees/ibBTCFees';
 import { DEBUG } from 'config/environment';
 import { GasSpeed, Network } from '@badger-dao/sdk';
+import { IbBTCMintZapFactory } from 'mobx/ibbtc-mint-zap-factory';
 
 interface MintAmountCalculation {
 	bBTC: BigNumber;
@@ -83,7 +83,7 @@ class IbBTCStore {
 
 	// currently the zap contract does not support redeem
 	get redeemOptions(): IbbtcOptionToken[] {
-		return this.tokens.filter(({ symbol }) => !this.config.contracts.TokenZap.supportedTokens.includes(symbol));
+		return this.tokens.filter(({ symbol }) => this.config.contracts.RenVaultZap.supportedTokens.includes(symbol));
 	}
 
 	init(): void {
@@ -151,6 +151,11 @@ class IbBTCStore {
 		async (token: IbbtcOptionToken): Promise<BigNumber> => {
 			const { address, wallet } = this.store.onboard;
 			if (!address) return ZERO;
+
+			const storedBalance = this.store.user.getTokenBalance(token.address);
+			if (storedBalance.tokenBalance.gt(0)) {
+				return storedBalance.tokenBalance;
+			}
 
 			const web3 = new Web3(wallet?.provider);
 			const tokenContract = new web3.eth.Contract(settConfig.abi as AbiItem[], token.address);
@@ -235,9 +240,7 @@ class IbBTCStore {
 		const ibBTC = new web3.eth.Contract(ibBTCConfig.abi as AbiItem[], this.ibBTC.address);
 		const ibBTCPricePerShare = await ibBTC.methods.pricePerShare().call();
 
-		return IbbtcVaultPeakFactory.createIbbtcVaultPeakForToken(this.store, token).bBTCToSett(
-			new BigNumber(ibBTCPricePerShare),
-		);
+		return IbBTCMintZapFactory.getIbBTCZap(this.store, token).bBTCToSett(new BigNumber(ibBTCPricePerShare));
 	}
 
 	async getFees(): Promise<ibBTCFees> {
@@ -315,12 +318,12 @@ class IbBTCStore {
 	async mint(inToken: IbbtcOptionToken, amount: BigNumber, slippage: BigNumber): Promise<void> {
 		const { queueNotification } = this.store.uiState;
 		try {
-			const peak = IbbtcVaultPeakFactory.createIbbtcVaultPeakForToken(this.store, inToken);
-			const allowance = await this.getAllowance(inToken, peak.address);
+			const zap = IbBTCMintZapFactory.getIbBTCZap(this.store, inToken);
+			const allowance = await this.getAllowance(inToken, zap.address);
 
 			// make sure we have allowance
 			if (amount.gt(allowance)) {
-				await this.increaseAllowance(inToken, peak.address);
+				await this.increaseAllowance(inToken, zap.address);
 			}
 
 			await this.mintBBTC(inToken, amount, slippage);
@@ -347,10 +350,14 @@ class IbBTCStore {
 		const fallbackResponse = { bBTC: this.ibBTC.scale('0'), fee: this.ibBTC.scale('0') };
 
 		try {
-			const peak = IbbtcVaultPeakFactory.createIbbtcVaultPeakForToken(this.store, inToken);
-			const method = peak.getCalcMintMethod(amount);
-			const { bBTC, fee } = await method.call();
-			return { bBTC: new BigNumber(bBTC), fee: new BigNumber(fee) };
+			const zap = IbBTCMintZapFactory.getIbBTCZap(this.store, inToken);
+			const method = zap.getCalcMintMethod(amount);
+			const result = await method.call();
+			// zaps return different outputs - this is a hacky massage around the inconsistent interface
+			if (result.bBTC && result.fee) {
+				return { bBTC: new BigNumber(result.bBTC), fee: new BigNumber(result.fee) };
+			}
+			return { bBTC: new BigNumber(result), fee: new BigNumber(0) };
 		} catch (error) {
 			process.env.NODE_ENV !== 'production' && console.error(error);
 			queueNotification('There was an error calculating mint amount. Please try again later', 'error');
@@ -367,8 +374,8 @@ class IbBTCStore {
 		};
 
 		try {
-			const peak = IbbtcVaultPeakFactory.createIbbtcVaultPeakForToken(this.store, outToken);
-			const method = peak.getCalcRedeemMethod(amount);
+			const zap = IbBTCMintZapFactory.getIbBTCZap(this.store, outToken);
+			const method = zap.getCalcRedeemMethod(amount);
 			const { fee, max, sett } = await method.call();
 			return { fee: new BigNumber(fee), max: new BigNumber(max), sett: new BigNumber(sett) };
 		} catch (error) {
@@ -379,14 +386,16 @@ class IbBTCStore {
 	}
 
 	async mintBBTC(inToken: IbbtcOptionToken, amount: BigNumber, slippage: BigNumber): Promise<void> {
-		const peak = IbbtcVaultPeakFactory.createIbbtcVaultPeakForToken(this.store, inToken);
-		const method = await peak.getMintMethod(amount, slippage);
+		console.log('Mint ' + inToken.name);
+		const zap = IbBTCMintZapFactory.getIbBTCZap(this.store, inToken);
+		const method = await zap.getMintMethod(amount, slippage);
 		await this.executeMethod(method, 'Mint submitted', `Successfully minted ${this.ibBTC.symbol}`);
+		await this.store.user.updateBalances();
 	}
 
 	async redeemBBTC(outToken: IbbtcOptionToken, amount: BigNumber): Promise<void> {
-		const peak = IbbtcVaultPeakFactory.createIbbtcVaultPeakForToken(this.store, outToken);
-		const method = peak.getRedeemMethod(amount);
+		const zap = IbBTCMintZapFactory.getIbBTCZap(this.store, outToken);
+		const method = zap.getRedeemMethod(amount);
 		await this.executeMethod(method, 'Redeem submitted', `Successfully redeemed ${outToken.symbol}`);
 	}
 
@@ -433,14 +442,14 @@ class IbBTCStore {
 
 	private async fetchIbbtApyFromTimestamp(timestamp: number): Promise<string | null> {
 		const { wallet } = this.store.onboard;
-		const { currentBlock } = this.store.network;
-		if (!wallet?.provider || !currentBlock) {
+		if (!wallet?.provider) {
 			return null;
 		}
 		const secondsPerYear = new BigNumber(31536000);
 		const web3 = new Web3(wallet.provider);
 		const ibBTC = new web3.eth.Contract(ibBTCConfig.abi as AbiItem[], this.ibBTC.address);
 		const currentPPS = new BigNumber(await ibBTC.methods.pricePerShare().call());
+		const currentBlock = await web3.eth.getBlockNumber();
 
 		try {
 			const targetBlock = currentBlock - Math.floor(timestamp / 15);
@@ -449,10 +458,9 @@ class IbBTCStore {
 			const growthPerSecond = ppsGrowth.multipliedBy(secondsPerYear.dividedBy(timestamp));
 			return growthPerSecond.multipliedBy(1e2).toFixed(3);
 		} catch (error) {
-			process.env.NODE_ENV !== 'production' &&
-				console.error(
-					`Error while getting ibBTC APY from block ${currentBlock - Math.floor(timestamp / 15)}: ${error}`,
-				);
+			if (DEBUG) {
+				console.error(error);
+			}
 			return null;
 		}
 	}
