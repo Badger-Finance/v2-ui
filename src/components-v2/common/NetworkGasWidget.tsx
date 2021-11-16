@@ -53,10 +53,12 @@ const useStyles = makeStyles((theme) => ({
 		marginRight: theme.spacing(1),
 	},
 	selectedNetworkItem: {
-		width: 14,
+		width: 17,
+		height: 17,
 	},
 	selectedNetworkIcon: {
-		width: 15,
+		width: 17,
+		height: 17,
 	},
 	option: {
 		borderRadius: 8,
@@ -132,7 +134,7 @@ const NetworkGasWidget = (): JSX.Element => {
 			</Button>
 			<Dialog open={isDialogOpen} fullWidth maxWidth="sm">
 				<DialogTitle className={classes.title}>
-					Network
+					Network & Gas
 					<IconButton className={classes.closeButton} onClick={toggleDialog}>
 						<CloseIcon />
 					</IconButton>
@@ -140,6 +142,9 @@ const NetworkGasWidget = (): JSX.Element => {
 				<DialogContent className={classes.content}>
 					<Grid container>
 						<Grid item container direction="column">
+							<Typography variant="subtitle1" color="textSecondary">
+								NETWORK
+							</Typography>
 							<List disablePadding>
 								{supportedNetworks.map((supportedNetwork, index) => (
 									<ListItem

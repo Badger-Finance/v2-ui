@@ -17,6 +17,25 @@ import { StoreContext } from '../../mobx/store-context';
 import clsx from 'clsx';
 import { Currency } from '../../config/enums/currency.enum';
 
+const useDialogStyles = (connectedAddress: boolean) => {
+	const mobileBreakpoint = connectedAddress ? 480 : 370;
+	const notificationAddedSpace = document.getElementById('app-notification')?.clientHeight ?? 0;
+
+	return makeStyles((theme) => ({
+		dialog: {
+			position: 'absolute',
+			top: 140 + notificationAddedSpace,
+			right: '2%',
+			[theme.breakpoints.down(700)]: {
+				top: 150 + notificationAddedSpace,
+			},
+			[theme.breakpoints.down(mobileBreakpoint)]: {
+				top: (connectedAddress ? 180 : 160) + notificationAddedSpace,
+			},
+		},
+	}));
+};
+
 const useStyles = makeStyles((theme) => ({
 	paperSm: {
 		maxWidth: 275,
@@ -51,11 +70,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SettListFiltersWidget = (): JSX.Element => {
-	const classes = useStyles();
 	const { uiState, onboard, network } = useContext(StoreContext);
 	const [selectedCurrency, setSelectedCurrency] = useState(uiState.currency);
 	const [selectedPortfolioView, setSelectedPortfolioView] = useState(uiState.showUserBalances);
 	const [isDialogOpen, setIsDialogOpen] = useState(false);
+	const classes = useStyles();
+	const dialogClasses = useDialogStyles(onboard.isActive())();
 
 	const currencyOptions = [Currency.USD, Currency.CAD, Currency.BTC, network.network.currency];
 
@@ -76,7 +96,12 @@ const SettListFiltersWidget = (): JSX.Element => {
 			<IconButton onClick={toggleDialog}>
 				<img src="assets/icons/sett-list-filters.svg" alt="sett list filters" />
 			</IconButton>
-			<Dialog open={isDialogOpen} fullWidth maxWidth="sm" classes={{ paperWidthSm: classes.paperSm }}>
+			<Dialog
+				open={isDialogOpen}
+				fullWidth
+				maxWidth="sm"
+				classes={{ paper: dialogClasses.dialog, paperWidthSm: classes.paperSm }}
+			>
 				<DialogTitle className={classes.title}>
 					Filters
 					<IconButton className={classes.closeButton} onClick={toggleDialog}>
