@@ -116,7 +116,7 @@ const Landing = observer((props: LandingProps) => {
 							<>
 								<Grid item container xs justify="flex-end" className={classes.deposits}>
 									<Typography variant="body2" display="inline">
-										My deposits:{' '}
+										My assets:{' '}
 									</Typography>
 									{portfolioValue ? (
 										<CurrencyDisplay

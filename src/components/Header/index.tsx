@@ -107,7 +107,7 @@ const Header = observer(() => {
 									{onboard.isActive() && (
 										<Grid item xs={12} sm={6}>
 											<Typography variant="body2" display="inline">
-												My deposits:{' '}
+												My assets:{' '}
 											</Typography>
 											{portfolioValue ? (
 												<CurrencyDisplay
