@@ -98,9 +98,15 @@ const Landing = observer((props: LandingProps) => {
 					<Grid item xs={6}>
 						<PageHeader title={title} subtitle={subtitle} />
 					</Grid>
-					<Grid item container xs={6} alignItems="center" justify="flex-end">
-						<CurrencyPicker />
-						{onboard.isActive() && <WalletSlider />}
+					<Grid item container xs={6} alignItems="center" justify="flex-end" spacing={2}>
+						<Grid item>
+							<CurrencyPicker />
+						</Grid>
+						{onboard.isActive() && (
+							<Grid item>
+								<WalletSlider />
+							</Grid>
+						)}
 					</Grid>
 				</PageHeaderContainer>
 			</Grid>

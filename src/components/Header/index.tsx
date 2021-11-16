@@ -2,22 +2,21 @@ import React, { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import { useContext } from 'react';
 import { StoreContext } from '../../mobx/store-context';
-import { Typography, Grid } from '@material-ui/core';
+import { Typography, Grid, Button, useMediaQuery, useTheme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { useSnackbar } from 'notistack';
-import GasWidget from '../../components-v2/common/GasWidget';
 import WalletWidget from '../../components-v2/common/WalletWidget';
 import { LayoutContainer } from '../../components-v2/common/Containers';
-import NetworkWidget from '../../components-v2/common/NetworkWidget';
 import BigNumber from 'bignumber.js';
 import { inCurrency } from '../../mobx/utils/helpers';
 import { Skeleton } from '@material-ui/lab';
 import CurrencyDisplay from '../../components-v2/common/CurrencyDisplay';
 import { RewardsWidget } from '../../components-v2/landing/RewardsWidget';
 import DelegationWidget from '../../components-v2/common/DelegationWidget';
-import clsx from 'clsx';
+import NetworkGasWidget from '../../components-v2/common/dialogs/NetworkGasWidget';
+import { MoreHoriz } from '@material-ui/icons';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
 	root: {
 		width: '100%',
 		borderBottom: '1px solid #2B2B2B',
@@ -36,9 +35,6 @@ const useStyles = makeStyles(() => ({
 		minWidth: 37,
 		width: 37,
 	},
-	tvl: {
-		marginLeft: 42,
-	},
 	loader: {
 		display: 'inline-flex',
 		marginLeft: 4,
@@ -46,13 +42,22 @@ const useStyles = makeStyles(() => ({
 	amounts: {
 		whiteSpace: 'pre-wrap',
 	},
+	sidebarButton: {
+		[theme.breakpoints.up('md')]: {
+			display: 'none',
+		},
+	},
+	badgerLogo: {
+		width: 44,
+		height: 44,
+	},
 }));
 
 const Header = observer(() => {
 	const {
 		user,
 		lockedCvxDelegation: { shouldBannerBeDisplayed },
-		uiState: { notification, currency },
+		uiState,
 		onboard,
 		onboard: { notify },
 		network: { network },
@@ -60,7 +65,9 @@ const Header = observer(() => {
 	} = useContext(StoreContext);
 	const { enqueueSnackbar } = useSnackbar();
 	const classes = useStyles();
+	const isMobile = useMediaQuery(useTheme().breakpoints.down('sm'));
 
+	const { notification, currency } = uiState;
 	const totalValueLocked = protocolSummary ? new BigNumber(protocolSummary.totalValue) : undefined;
 	const portfolioValue = onboard.isActive() && user.initialized ? user.portfolioValue : undefined;
 	const valuePlaceholder = <Skeleton animation="wave" width={32} className={classes.loader} />;
@@ -86,35 +93,51 @@ const Header = observer(() => {
 			<LayoutContainer>
 				<Grid container>
 					<Grid container className={classes.container}>
-						<Grid item xs={5} container alignItems="center" className={classes.amounts}>
-							{onboard.isActive() && (
+						<Grid item xs={3} md={5} container alignItems="center" className={classes.amounts}>
+							{isMobile ? (
+								<div onClick={() => window.open('https://badger.com/', '_blank')}>
+									<img
+										className={classes.badgerLogo}
+										alt="Badger Logo"
+										src={'/assets/icons/badger.png'}
+									/>
+								</div>
+							) : (
 								<>
-									<Typography variant="body2">My Assets: </Typography>
-									{portfolioValue ? (
-										<CurrencyDisplay
-											displayValue={inCurrency(portfolioValue, currency)}
-											variant="subtitle2"
-											justify="flex-start"
-										/>
-									) : (
-										valuePlaceholder
+									{onboard.isActive() && (
+										<Grid item xs={12} sm={6}>
+											<Typography variant="body2" display="inline">
+												My Assets:{' '}
+											</Typography>
+											{portfolioValue ? (
+												<CurrencyDisplay
+													displayValue={inCurrency(portfolioValue, currency)}
+													variant="subtitle2"
+													justify="flex-start"
+												/>
+											) : (
+												valuePlaceholder
+											)}
+										</Grid>
 									)}
+									<Grid item xs={12} sm={6}>
+										<Typography variant="body2" display="inline">
+											All Vaults (TVL):{' '}
+										</Typography>
+										{totalValueLocked ? (
+											<CurrencyDisplay
+												displayValue={inCurrency(totalValueLocked, currency)}
+												variant="subtitle2"
+												justify="flex-start"
+											/>
+										) : (
+											valuePlaceholder
+										)}
+									</Grid>
 								</>
 							)}
-							<Typography variant="body2" className={clsx(onboard.isActive() && classes.tvl)}>
-								All Vaults (TVL):{' '}
-							</Typography>
-							{totalValueLocked ? (
-								<CurrencyDisplay
-									displayValue={inCurrency(totalValueLocked, currency)}
-									variant="subtitle2"
-									justify="flex-start"
-								/>
-							) : (
-								valuePlaceholder
-							)}
 						</Grid>
-						<Grid item xs={7} container alignItems="center" justify="flex-end" spacing={1}>
+						<Grid item container xs={9} md={7} alignItems="center" justify="flex-end" spacing={1}>
 							{onboard.isActive() && (
 								<Grid item>
 									<RewardsWidget />
@@ -125,14 +148,22 @@ const Header = observer(() => {
 									<DelegationWidget />
 								</Grid>
 							)}
-							<Grid item>
-								<NetworkWidget className={classes.button} />
-							</Grid>
-							<Grid item>
-								<GasWidget className={classes.button} />
-							</Grid>
+							{onboard.isActive() && (
+								<Grid item>
+									<NetworkGasWidget />
+								</Grid>
+							)}
 							<Grid item>
 								<WalletWidget className={classes.button} />
+							</Grid>
+							<Grid item className={classes.sidebarButton}>
+								<Button
+									variant="outlined"
+									className={classes.button}
+									onClick={() => uiState.openSidebar()}
+								>
+									<MoreHoriz />
+								</Button>
 							</Grid>
 						</Grid>
 					</Grid>
