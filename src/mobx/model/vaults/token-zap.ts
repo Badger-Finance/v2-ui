@@ -4,46 +4,46 @@ import { AbiItem } from 'web3-utils';
 import BigNumber from 'bignumber.js';
 import zapConfig from 'config/system/abis/ZapPeak.json';
 import addresses from 'config/ibBTC/addresses.json';
-import { IbBTCMintZap, PeakType } from './ibbtc-mint-zap';
+import { IbBTCMintZap, IBBTC_METHOD_NOT_SUPPORTED } from './ibbtc-mint-zap';
 import { RootStore } from '../../RootStore';
 import { toHex } from '../../utils/helpers';
 import { IbbtcOptionToken } from '../tokens/ibbtc-option-token';
 
-export class TokenZap implements IbBTCMintZap {
-	address: string;
-	type: PeakType;
-	referenceToken: IbbtcOptionToken;
-	private peakContract: any;
+export class TokenZap extends IbBTCMintZap {
+	private zap: any;
 
-	constructor(private store: RootStore, referenceToken: IbbtcOptionToken) {
+	constructor(store: RootStore, token: IbbtcOptionToken) {
+		super(store, token, addresses.mainnet.contracts.TokenZap.address, zapConfig.abi as AbiItem[]);
 		const web3 = new Web3(this.store.onboard.wallet?.provider);
-		this.referenceToken = referenceToken;
-		this.address = addresses.mainnet.contracts.TokenZap.address;
-		this.type = 'zap';
-		this.peakContract = new web3.eth.Contract(zapConfig.abi as AbiItem[], this.address);
+		this.zap = new web3.eth.Contract(zapConfig.abi as AbiItem[], this.address);
 	}
 
 	getCalcMintMethod(amount: BigNumber): ContractSendMethod {
-		return this.peakContract.methods.calcMint(this.referenceToken.address, toHex(amount));
+		return this.zap.methods.calcMint(this.token.address, toHex(amount));
 	}
 
 	async getMintMethod(amount: BigNumber, slippage: BigNumber): Promise<ContractSendMethod> {
-		const { idx, bBTC } = await this.getCalcMintMethod(amount).call();
+		const { poolId, idx, bBTC } = await this.getCalcMintMethod(amount).call();
 		const slippagePercentage = new BigNumber(100).minus(slippage);
 		const minOut = new BigNumber(bBTC).multipliedBy(slippagePercentage).dividedToIntegerBy(100);
-		// pool id 0 is the ren pool id
-		return this.peakContract.methods.mint(this.referenceToken.address, toHex(amount), 0, idx, toHex(minOut));
+		return this.zap.methods.mint(this.token.address, toHex(amount), poolId, idx, toHex(minOut));
 	}
 
-	getCalcRedeemMethod(): ContractSendMethod {
-		throw new Error('Calc Redeem not available on the Zap Peak');
+	// this method is an abstract method, but not supporting this path any longer
+	/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
+	getCalcRedeemMethod(_amount: BigNumber): ContractSendMethod {
+		throw new Error(IBBTC_METHOD_NOT_SUPPORTED);
 	}
 
-	getRedeemMethod(): ContractSendMethod {
-		throw new Error('Redeem not available on the Zap Peak');
+	// this method is an abstract method, but not supporting this path any longer
+	/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
+	getRedeemMethod(_amount: BigNumber): ContractSendMethod {
+		throw new Error(IBBTC_METHOD_NOT_SUPPORTED);
 	}
 
-	async bBTCToSett(): Promise<BigNumber> {
-		throw new Error('bBTC to Sett not available on the Zap Peak');
+	// this method is an abstract method, but not supporting this path any longer
+	/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
+	async bBTCToSett(_amount: BigNumber): Promise<BigNumber> {
+		throw new Error(IBBTC_METHOD_NOT_SUPPORTED);
 	}
 }

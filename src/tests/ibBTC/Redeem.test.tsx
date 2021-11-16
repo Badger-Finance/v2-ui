@@ -10,15 +10,15 @@ import Header from '../../components/Header';
 import { Snackbar } from '../../components/Snackbar';
 import { action } from 'mobx';
 
-const tokensConfig = addresses.mainnet.contracts.tokens;
+const tokensConfig = addresses.mainnet.tokens;
 
 describe('ibBTC Redeem', () => {
 	beforeEach(() => {
 		store.ibBTCStore.ibBTC = new IbbtcOptionToken(store, tokensConfig['ibBTC']);
 		store.ibBTCStore.tokens = [
-			new IbbtcOptionToken(store, tokensConfig['bcrvRenWSBTC']), // default option on the list
-			new IbbtcOptionToken(store, tokensConfig['bcrvRenWBTC']),
-			new IbbtcOptionToken(store, tokensConfig['btbtc/sbtcCrv']),
+			new IbbtcOptionToken(store, addresses.mainnet.tokens['bcrvRenSBTC']),
+			new IbbtcOptionToken(store, addresses.mainnet.tokens['bcrvRenBTC']),
+			new IbbtcOptionToken(store, addresses.mainnet.tokens['bcrvTBTC']),
 		];
 		store.ibBTCStore.calcRedeemAmount = jest.fn().mockReturnValue({
 			fee: store.ibBTCStore.ibBTC.scale('0.0120'),

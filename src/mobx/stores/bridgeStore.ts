@@ -199,6 +199,7 @@ class BridgeStore {
 	reload = action(async () => {
 		// Always reset first on reload even though we may not be loading any data.
 		this.reset();
+		this.updateContracts();
 
 		const { queueNotification } = this.store.uiState;
 		const { wallet, address } = this.store.onboard;

@@ -14,8 +14,8 @@ import { IbbtcVaultPeakFactory } from '../ibbtc-vault-peak-factory';
 import { getNetworkFromProvider } from 'mobx/utils/helpers';
 import { IbbtcOptionToken } from '../model/tokens/ibbtc-option-token';
 import { ibBTCFees } from '../model/fees/ibBTCFees';
-import { DEBUG, FLAGS } from 'config/environment';
-import { Network } from '@badger-dao/sdk';
+import { DEBUG } from 'config/environment';
+import { GasSpeed, Network } from '@badger-dao/sdk';
 
 interface MintAmountCalculation {
 	bBTC: BigNumber;
@@ -46,22 +46,17 @@ class IbBTCStore {
 		const token_config = this.config.tokens;
 
 		this.ibBTC = new IbbtcOptionToken(this.store, token_config['ibBTC']);
+		this.tokens = [
+			new IbbtcOptionToken(this.store, token_config['bcrvRenBTC']),
+			new IbbtcOptionToken(this.store, token_config['renBTC']),
+			new IbbtcOptionToken(this.store, token_config['wBTC']),
+			new IbbtcOptionToken(this.store, token_config['bcrvRenSBTC']),
+			new IbbtcOptionToken(this.store, token_config['bcrvTBTC']),
+			new IbbtcOptionToken(this.store, token_config['byvWBTC']),
+			new IbbtcOptionToken(this.store, token_config['bcrvHBTC']),
+			new IbbtcOptionToken(this.store, token_config['bcrvBBTC']),
+		];
 
-		this.tokens = FLAGS.IBBTC_OPTIONS_FLAG
-			? [
-					new IbbtcOptionToken(this.store, token_config['bcrvRenWSBTC']),
-					new IbbtcOptionToken(this.store, token_config['bcrvRenWBTC']),
-					new IbbtcOptionToken(this.store, token_config['btbtc/sbtcCrv']),
-					new IbbtcOptionToken(this.store, token_config['byvWBTC']),
-					new IbbtcOptionToken(this.store, token_config['renBTC']),
-					new IbbtcOptionToken(this.store, token_config['wBTC']),
-			  ]
-			: [
-					new IbbtcOptionToken(this.store, token_config['bcrvRenWSBTC']),
-					new IbbtcOptionToken(this.store, token_config['bcrvRenWBTC']),
-					new IbbtcOptionToken(this.store, token_config['btbtc/sbtcCrv']),
-					new IbbtcOptionToken(this.store, token_config['byvWBTC']),
-			  ];
 		this.mintFeePercent = new BigNumber(0);
 		this.redeemFeePercent = new BigNumber(0);
 
@@ -287,28 +282,34 @@ class IbBTCStore {
 		spender: string,
 		amount: BigNumber | string = MAX,
 	): Promise<void> {
-		const { queueNotification, gasPrice } = this.store.uiState;
+		const { queueNotification } = this.store.uiState;
 		const { address } = this.store.onboard;
 		const { gasPrices } = this.store.network;
 		if (!address) {
 			return;
 		}
-		const method = this.getApprovalMethod(underlyingAsset, spender, amount);
-		queueNotification(`Sign the transaction to allow Badger to spend your ${underlyingAsset.symbol}`, 'info');
+		try {
+			const method = this.getApprovalMethod(underlyingAsset, spender, amount);
+			queueNotification(`Sign the transaction to allow Badger to spend your ${underlyingAsset.symbol}`, 'info');
 
-		const price = gasPrices ? gasPrices[gasPrice] : 0;
-		const options = await getSendOptions(method, address, price);
-		await method
-			.send(options)
-			.on('transactionHash', (_hash: string) => {
-				queueNotification(`Transaction submitted.`, 'info', _hash);
-			})
-			.on('receipt', () => {
-				queueNotification(`${underlyingAsset.symbol} allowance increased.`, 'success');
-			})
-			.on('error', (error: Error) => {
-				throw error;
-			});
+			const price = gasPrices ? gasPrices[GasSpeed.Fast] : 0;
+			const options = await getSendOptions(method, address, price);
+			await method
+				.send(options)
+				.on('transactionHash', (_hash: string) => {
+					queueNotification(`Transaction submitted.`, 'info', _hash);
+				})
+				.on('receipt', () => {
+					queueNotification(`${underlyingAsset.symbol} allowance increased.`, 'success');
+				})
+				.on('error', (error: Error) => {
+					throw error;
+				});
+		} catch (err) {
+			if (err.code !== 4001) {
+				console.log(err);
+			}
+		}
 	}
 
 	async mint(inToken: IbbtcOptionToken, amount: BigNumber, slippage: BigNumber): Promise<void> {
