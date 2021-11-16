@@ -10,6 +10,8 @@ import { Web3Provider } from '@ethersproject/providers';
 import { SDKProvider } from '@badger-dao/sdk';
 import { getOnboardWallets, onboardWalletCheck } from 'config/wallets';
 
+const WALLET_STORAGE_KEY = 'selectedWallet';
+
 export class OnboardStore {
 	private config: NetworkConfig;
 	public wallet?: Wallet;
@@ -31,6 +33,7 @@ export class OnboardStore {
 			provider: undefined,
 			address: undefined,
 		});
+		this.connect(true);
 	}
 
 	isActive(): boolean {
@@ -45,8 +48,12 @@ export class OnboardStore {
 		this.onboard.walletReset();
 	}
 
-	async connect(): Promise<boolean> {
-		const selected = await this.onboard.walletSelect();
+	async connect(init = false): Promise<boolean> {
+		const savedWallet = window.localStorage.getItem(WALLET_STORAGE_KEY);
+		if (!savedWallet && init) {
+			return false;
+		}
+		const selected = await this.onboard.walletSelect(savedWallet ?? undefined);
 		if (!selected) {
 			return false;
 		}
@@ -90,6 +97,9 @@ export class OnboardStore {
 			this.wallet = wallet;
 			if (wallet.provider || wallet.instance) {
 				this.provider = this.getProvider(wallet.provider ?? wallet.instance);
+			}
+			if (wallet.name) {
+				window.localStorage.setItem(WALLET_STORAGE_KEY, wallet.name);
 			}
 		},
 	);
