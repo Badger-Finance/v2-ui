@@ -93,7 +93,7 @@ const Header = observer(() => {
 			<LayoutContainer>
 				<Grid container>
 					<Grid container className={classes.container}>
-						<Grid item xs={3} md={5} container alignItems="center" className={classes.amounts}>
+						<Grid item xs={3} md={6} container alignItems="center" className={classes.amounts}>
 							{isMobile ? (
 								<div onClick={() => window.open('https://badger.com/', '_blank')}>
 									<img
@@ -107,7 +107,7 @@ const Header = observer(() => {
 									{onboard.isActive() && (
 										<Grid item xs={12} sm={6}>
 											<Typography variant="body2" display="inline">
-												My Assets:{' '}
+												My deposits:{' '}
 											</Typography>
 											{portfolioValue ? (
 												<CurrencyDisplay
@@ -137,7 +137,7 @@ const Header = observer(() => {
 								</>
 							)}
 						</Grid>
-						<Grid item container xs={9} md={7} alignItems="center" justify="flex-end" spacing={1}>
+						<Grid item container xs={9} md={6} alignItems="center" justify="flex-end" spacing={1}>
 							{onboard.isActive() && (
 								<Grid item>
 									<RewardsWidget />
