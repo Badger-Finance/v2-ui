@@ -21,6 +21,12 @@ const useStyles = makeStyles((theme) => ({
 	apyInformation: {
 		marginBottom: theme.spacing(4),
 	},
+	mintContainer: {
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'center',
+		flexGrow: 1,
+	},
 }));
 
 export const IbBTC = observer(() => {
@@ -45,12 +51,12 @@ export const IbBTC = observer(() => {
 				</PageHeaderContainer>
 
 				{network.symbol === Network.Ethereum ? (
-					<>
-						<Grid item sm={12} xs={12} md={7} className={classes.apyInformation}>
+					<div className={classes.mintContainer}>
+						<Grid item xs={12} md={9} lg={7} className={classes.apyInformation}>
 							<IbbtcRoi />
 						</Grid>
 
-						<Grid item sm={12} xs={12} md={7}>
+						<Grid item xs={12} md={9} lg={7}>
 							<Card>
 								<Tabs
 									variant="fullWidth"
@@ -66,7 +72,7 @@ export const IbBTC = observer(() => {
 								{content}
 							</Card>
 						</Grid>
-					</>
+					</div>
 				) : (
 					<>
 						<Grid item xs={12}>

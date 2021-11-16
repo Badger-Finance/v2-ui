@@ -309,6 +309,7 @@ class IbBTCStore {
 					throw error;
 				});
 		} catch (err) {
+			// log error on non canceled tx
 			if (err.code !== 4001) {
 				console.log(err);
 			}
@@ -386,11 +387,17 @@ class IbBTCStore {
 	}
 
 	async mintBBTC(inToken: IbbtcOptionToken, amount: BigNumber, slippage: BigNumber): Promise<void> {
-		console.log('Mint ' + inToken.name);
-		const zap = IbBTCMintZapFactory.getIbBTCZap(this.store, inToken);
-		const method = await zap.getMintMethod(amount, slippage);
-		await this.executeMethod(method, 'Mint submitted', `Successfully minted ${this.ibBTC.symbol}`);
-		await this.store.user.updateBalances();
+		try {
+			const zap = IbBTCMintZapFactory.getIbBTCZap(this.store, inToken);
+			const method = await zap.getMintMethod(amount, slippage);
+			await this.executeMethod(method, 'Mint submitted', `Successfully minted ${this.ibBTC.symbol}`);
+			await this.store.user.updateBalances();
+		} catch (err) {
+			// log error on non canceled tx
+			if (err.code !== 4001) {
+				console.log(err);
+			}
+		}
 	}
 
 	async redeemBBTC(outToken: IbbtcOptionToken, amount: BigNumber): Promise<void> {
@@ -435,8 +442,14 @@ class IbBTCStore {
 				queueNotification(successMessage, 'success');
 				this.init();
 			})
-			.on('error', (error: Error) => {
-				throw error;
+			// code exists, app hates it, fuck you ts
+			.on('error', (err: any) => {
+				console.log(err);
+				if (err.code !== 4001) {
+					console.log(err);
+				} else {
+					throw err;
+				}
 			});
 	}
 

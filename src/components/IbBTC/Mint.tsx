@@ -172,10 +172,10 @@ export const Mint = observer(
 			setSelectedToken(token);
 			if (inputAmount?.displayValue) {
 				setInputAmount({
-					displayValue: '0',
-					actualValue: new BigNumber(0),
+					displayValue: token.formattedBalance,
+					actualValue: token.balance,
 				});
-				await calculateMintInformation(token.scale(inputAmount.displayValue), token);
+				await calculateMintInformation(token.balance, token);
 			}
 		};
 
