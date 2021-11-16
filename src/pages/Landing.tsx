@@ -1,18 +1,18 @@
-import CurrencyInfoCard from '../components-v2/common/CurrencyInfoCard';
 import CurrencyPicker from '../components-v2/landing/CurrencyPicker';
-import SamplePicker from '../components-v2/landing/SamplePicker';
 import WalletSlider from '../components-v2/landing/WalletSlider';
-import { Grid, makeStyles, Button } from '@material-ui/core';
+import { Grid, makeStyles, Button, useMediaQuery, useTheme, Typography } from '@material-ui/core';
 import PageHeader from '../components-v2/common/PageHeader';
 import { StoreContext } from '../mobx/store-context';
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
-import BigNumber from 'bignumber.js';
-import SettList from 'components-v2/landing/SettList';
-import { RewardsModal } from '../components-v2/landing/RewardsModal';
-import { HeaderContainer, LayoutContainer } from '../components-v2/common/Containers';
-import CvxDelegationBanner from '../components-v2/locked-cvx-bribes/Banner';
+import { PageHeaderContainer, LayoutContainer } from '../components-v2/common/Containers';
 import { SettState } from '@badger-dao/sdk';
+import SettListView from '../components-v2/landing/SettListView';
+import DepositDialog from '../components-v2/ibbtc-vault/DepositDialog';
+import SettListFiltersWidget from '../components-v2/common/SettListFiltersWidget';
+import CurrencyDisplay from '../components-v2/common/CurrencyDisplay';
+import { inCurrency } from '../mobx/utils/helpers';
+import { Skeleton } from '@material-ui/lab';
 
 const useStyles = makeStyles((theme) => ({
 	marginTop: {
@@ -64,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	announcementButton: {
-		marginTop: theme.spacing(3),
+		marginTop: theme.spacing(1),
 		pointerEvents: 'none',
 	},
 	linkButton: {
@@ -75,6 +75,18 @@ const useStyles = makeStyles((theme) => ({
 	delegationBanner: {
 		marginTop: theme.spacing(3),
 	},
+	announcementContainer: {
+		display: 'flex',
+		justifyContent: 'center',
+		marginBottom: theme.spacing(2),
+	},
+	loader: {
+		display: 'inline-flex',
+		marginLeft: 4,
+	},
+	deposits: {
+		whiteSpace: 'pre-wrap',
+	},
 }));
 
 interface LandingProps {
@@ -84,77 +96,68 @@ interface LandingProps {
 }
 
 const Landing = observer((props: LandingProps) => {
-	const classes = useStyles();
-	const store = useContext(StoreContext);
+	const { onboard, user, uiState } = useContext(StoreContext);
+
 	const { title, subtitle, state } = props;
-
-	const {
-		wallet: { connectedAddress },
-		network: { network },
-		setts,
-		prices,
-		user,
-	} = store;
-	const { protocolSummary } = setts;
-	const userConnected = !!connectedAddress;
-
-	const badgerToken = network.deploy.token.length > 0 ? network.deploy.token : undefined;
-	const totalValueLocked = protocolSummary ? new BigNumber(protocolSummary.totalValue) : undefined;
-	const badgerPrice = badgerToken ? prices.getPrice(badgerToken) : undefined;
-	const portfolioValue = userConnected && user.initialized ? user.portfolioValue : undefined;
+	const classes = useStyles();
+	const isMobile = useMediaQuery(useTheme().breakpoints.down('sm'));
+	const portfolioValue = onboard.isActive() && user.initialized ? user.portfolioValue : undefined;
 
 	return (
 		<LayoutContainer>
 			{/* Landing Metrics Cards */}
 			<Grid container spacing={1} justify="center">
-				<HeaderContainer item xs={12}>
-					<PageHeader title={title} subtitle={subtitle} />
-				</HeaderContainer>
-				<Grid item xs={12} className={classes.widgetContainer}>
-					<div className={classes.walletContainer}>{userConnected && <WalletSlider />}</div>
-					<div className={classes.pickerContainer}>
-						<RewardsModal />
-						<SamplePicker />
-						<CurrencyPicker />
-					</div>
-				</Grid>
-				<Grid item xs={12} md={userConnected ? 4 : 6}>
-					<CurrencyInfoCard title="Total Value Locked" value={totalValueLocked} />
-				</Grid>
-				{userConnected && (
-					<Grid item xs={12} md={4}>
-						<CurrencyInfoCard title="Your Portfolio" value={portfolioValue} />
+				<PageHeaderContainer item container xs={12}>
+					<Grid item xs={6}>
+						<PageHeader title={title} subtitle={subtitle} />
 					</Grid>
-				)}
-				<Grid item xs={12} md={userConnected ? 4 : 6}>
-					<CurrencyInfoCard title="Badger Price" value={badgerPrice} />
-				</Grid>
+					<Grid item container xs={6} alignItems="center" justify="flex-end" spacing={2}>
+						{isMobile ? (
+							<>
+								<Grid item container xs justify="flex-end" className={classes.deposits}>
+									<Typography variant="body2" display="inline">
+										My assets:{' '}
+									</Typography>
+									{portfolioValue ? (
+										<CurrencyDisplay
+											displayValue={inCurrency(portfolioValue, uiState.currency)}
+											variant="subtitle2"
+											justify="flex-start"
+										/>
+									) : (
+										<Skeleton animation="wave" width={32} className={classes.loader} />
+									)}
+								</Grid>
+								<Grid item>
+									<SettListFiltersWidget />
+								</Grid>
+							</>
+						) : (
+							<>
+								<Grid item>
+									<CurrencyPicker />
+								</Grid>
+								{onboard.isActive() && (
+									<Grid item>
+										<WalletSlider />
+									</Grid>
+								)}
+							</>
+						)}
+					</Grid>
+				</PageHeaderContainer>
 			</Grid>
 
 			{state === SettState.Guarded && (
-				<Grid container spacing={1} justify="center">
+				<div className={classes.announcementContainer}>
 					<Button className={classes.announcementButton} size="small" variant="outlined" color="primary">
 						Note: New Vaults may take up to 2 weeks from launch to reach full efficiency.
 					</Button>
-				</Grid>
+				</div>
 			)}
 
-			{state === SettState.Open && (
-				<Grid container className={classes.delegationBanner}>
-					<Button
-						className={classes.linkButton}
-						size="small"
-						variant="contained"
-						color="primary"
-						onClick={() => window.open('https://badger.com/news/single-chain-boost')}
-					>
-						Single Chain Badger Boost is now active. Click here for more details
-					</Button>
-					<CvxDelegationBanner />
-				</Grid>
-			)}
-
-			<SettList state={state} />
+			<DepositDialog />
+			<SettListView state={state} />
 		</LayoutContainer>
 	);
 });

@@ -1,4 +1,4 @@
-import { ERC20_ABI, GEYSER_ABI, GUEST_LIST_ABI, SETT_ABI } from 'config/constants';
+import { ERC20_ABI, GUEST_LIST_ABI, SETT_ABI } from 'config/constants';
 import { AbiItem } from 'web3-utils';
 import { ContractCallContext } from 'ethereum-multicall';
 import { BalanceNamespace, ContractNamespaces } from './namespaces';
@@ -7,7 +7,7 @@ import { BadgerSett } from '../../mobx/model/vaults/badger-sett';
 import { BalancesRequestAddresses } from '../../mobx/model/account/user-balances';
 
 export const createMulticallRequest = (
-	tokens: string[],
+	addresses: string[],
 	namespace: ContractNamespaces | BalanceNamespace,
 	userAddress: string,
 ): ContractCallContext[] => {
@@ -17,21 +17,19 @@ export const createMulticallRequest = (
 		case ContractNamespaces.GuestList:
 			abi = GUEST_LIST_ABI;
 			break;
+		case BalanceNamespace.Deprecated:
 		case BalanceNamespace.Sett:
 		case BalanceNamespace.GuardedSett:
 			abi = SETT_ABI;
-			break;
-		case BalanceNamespace.Geyser:
-			abi = GEYSER_ABI;
 			break;
 		default:
 			abi = ERC20_ABI;
 			break;
 	}
 
-	return tokens.map((token) => ({
-		reference: token,
-		contractAddress: token,
+	return addresses.map((address) => ({
+		reference: address,
+		contractAddress: address,
 		abi,
 		calls: getMulticallContractCalls(namespace, userAddress),
 		context: {
@@ -43,25 +41,16 @@ export const createMulticallRequest = (
 export const createBalancesRequest = ({
 	tokenAddresses,
 	generalSettAddresses,
-	geyserAddresses,
 	guardedSettAddresses,
-	nonSettTokenAddresses,
+	deprecatedSettAddresses,
 	userAddress,
 }: BalancesRequestAddresses): ContractCallContext[] => {
-	let multicall = [
+	return [
 		...createMulticallRequest(tokenAddresses, BalanceNamespace.Token, userAddress),
 		...createMulticallRequest(generalSettAddresses, BalanceNamespace.Sett, userAddress),
 		...createMulticallRequest(guardedSettAddresses, BalanceNamespace.GuardedSett, userAddress),
-		...createMulticallRequest(geyserAddresses, BalanceNamespace.Geyser, userAddress),
+		...createMulticallRequest(deprecatedSettAddresses, BalanceNamespace.Deprecated, userAddress),
 	];
-
-	if (!!nonSettTokenAddresses) {
-		multicall = multicall.concat(
-			createMulticallRequest(nonSettTokenAddresses, BalanceNamespace.NonSettToken, userAddress),
-		);
-	}
-
-	return multicall;
 };
 
 export const toSettConfig = (definitions: BadgerSett[]): BadgerSett[] => {
@@ -83,8 +72,6 @@ const getMulticallContractCalls = (
 	userAddress: string,
 ): ContractCallContext['calls'] => {
 	switch (namespace) {
-		case BalanceNamespace.Geyser:
-			return [{ methodName: 'totalStakedFor', methodParameters: [userAddress], reference: namespace }];
 		case BalanceNamespace.GuardedSett:
 			return [
 				{ methodName: 'balanceOf', methodParameters: [userAddress], reference: namespace },
@@ -99,6 +86,7 @@ const getMulticallContractCalls = (
 				{ methodName: 'userDepositCap', reference: namespace, methodParameters: [] },
 			];
 		case BalanceNamespace.Sett:
+		case BalanceNamespace.Deprecated:
 			return [
 				{ methodName: 'balanceOf', methodParameters: [userAddress], reference: namespace },
 				{ methodName: 'available', methodParameters: [], reference: namespace },

@@ -4,7 +4,6 @@ import { observer } from 'mobx-react-lite';
 import { StoreContext } from 'mobx/store-context';
 import React, { useContext } from 'react';
 import SettListItem from './SettListItem';
-import { SettListViewProps } from './SettListView';
 import SettTable from './SettTable';
 import { inCurrency } from 'mobx/utils/helpers';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
@@ -15,21 +14,16 @@ import { Currency } from 'config/enums/currency.enum';
 import { Sett } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
-	boostContainer: {
-		paddingBottom: theme.spacing(4),
-	},
 	messageContainer: {
 		paddingTop: theme.spacing(4),
 		textAlign: 'center',
 	},
+	noDeposit: {
+		marginTop: theme.spacing(8),
+	},
 }));
 
-const createSettListItem = (
-	sett: Sett,
-	itemBalance: TokenBalance,
-	currency: Currency,
-	period: string,
-): JSX.Element | null => {
+const createSettListItem = (sett: Sett, itemBalance: TokenBalance, currency: Currency): JSX.Element | null => {
 	if (!itemBalance || itemBalance.tokenBalance.eq(0)) {
 		return null;
 	}
@@ -40,23 +34,22 @@ const createSettListItem = (
 			balance={itemBalance.balance}
 			balanceValue={itemBalance.balanceValueDisplay(currency)}
 			currency={currency}
-			period={period}
 			accountView
 		/>
 	);
 };
 
-const UserListDisplay = observer(({ state }: SettListViewProps) => {
+const UserListDisplay = observer(() => {
 	const classes = useStyles();
 	const store = useContext(StoreContext);
 	const {
 		setts,
 		user,
-		uiState: { currency, period },
+		uiState: { currency },
 		network: { network },
 	} = store;
 
-	const currentSettMap = setts.getSettMap(state);
+	const currentSettMap = setts.getSettMap();
 
 	if (currentSettMap === undefined || user.loadingBalances) {
 		return <Loader message={`Loading My ${network.name} Setts...`} />;
@@ -72,7 +65,6 @@ const UserListDisplay = observer(({ state }: SettListViewProps) => {
 
 	const walletList: JSX.Element[] = [];
 	const settList: JSX.Element[] = [];
-	const geyserList: JSX.Element[] = [];
 
 	network.settOrder.forEach((contract) => {
 		const contractAddress = Web3.utils.toChecksumAddress(contract);
@@ -84,7 +76,7 @@ const UserListDisplay = observer(({ state }: SettListViewProps) => {
 		}
 
 		const walletBalance = user.getBalance(BalanceNamespace.Token, badgerSett);
-		const walletItem = createSettListItem(sett, walletBalance, currency, period);
+		const walletItem = createSettListItem(sett, walletBalance, currency);
 
 		if (walletItem) {
 			walletList.push(walletItem);
@@ -93,25 +85,17 @@ const UserListDisplay = observer(({ state }: SettListViewProps) => {
 		const scalar = new BigNumber(sett.pricePerFullShare);
 		const generalBalance = user.getBalance(BalanceNamespace.Sett, badgerSett).scale(scalar, true);
 		const guardedBalance = user.getBalance(BalanceNamespace.GuardedSett, badgerSett).scale(scalar, true);
-		const settBalance = generalBalance ?? guardedBalance;
-		const settItem = createSettListItem(sett, settBalance, currency, period);
+		const deprecatedBalance = user.getBalance(BalanceNamespace.Deprecated, badgerSett).scale(scalar, true);
+		const settBalance = generalBalance ?? guardedBalance ?? deprecatedBalance;
+		const settItem = createSettListItem(sett, settBalance, currency);
 
 		if (settItem) {
 			settList.push(settItem);
-		}
-
-		if (badgerSett.geyser) {
-			const geyserBalance = user.getBalance(BalanceNamespace.Geyser, badgerSett).scale(scalar, true);
-			const geyserItem = createSettListItem(sett, geyserBalance, currency, period);
-			if (geyserItem) {
-				geyserList.push(geyserItem);
-			}
 		}
 	});
 
 	const displayWallet = walletList.length > 0;
 	const displayDeposit = settList.length > 0;
-	const displayVault = geyserList.length > 0;
 
 	return (
 		<>
@@ -119,7 +103,6 @@ const UserListDisplay = observer(({ state }: SettListViewProps) => {
 				<SettTable
 					title={'Your Wallet:'}
 					displayValue={inCurrency(user.walletValue, currency)}
-					period={period}
 					settList={walletList}
 				/>
 			)}
@@ -127,20 +110,11 @@ const UserListDisplay = observer(({ state }: SettListViewProps) => {
 				<SettTable
 					title={'Your Vault Deposits:'}
 					displayValue={inCurrency(user.settValue, currency)}
-					period={period}
 					settList={settList}
 				/>
 			)}
-			{displayVault && (
-				<SettTable
-					title={'Your Staked Amounts:'}
-					displayValue={inCurrency(user.geyserValue, currency)}
-					period={period}
-					settList={geyserList}
-				/>
-			)}
-			{!displayWallet && !displayDeposit && !displayVault && (
-				<Typography align="center" variant="subtitle1" color="textSecondary">
+			{!displayWallet && !displayDeposit && (
+				<Typography className={classes.noDeposit} align="center" variant="subtitle1" color="textSecondary">
 					Your address does not have tokens to deposit.
 				</Typography>
 			)}

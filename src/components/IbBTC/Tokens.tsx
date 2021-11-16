@@ -18,9 +18,9 @@ const useStyles = makeStyles((theme) => ({
 		display: 'flex',
 	},
 	tokenIcon: {
-		height: '30px',
-		width: '30px',
-		alignSelf: 'center',
+		height: '25px',
+		width: '25px',
+		marginRight: theme.spacing(1),
 	},
 	tokenLabel: {
 		alignSelf: 'center',
@@ -37,6 +37,11 @@ const useStyles = makeStyles((theme) => ({
 	},
 	listItem: {
 		textTransform: 'none',
+	},
+	tokenContainer: {
+		display: 'flex',
+		alignItems: 'center',
+		padding: theme.spacing(0.5),
 	},
 }));
 
@@ -79,7 +84,6 @@ export const Tokens = ({ tokens, selected, onTokenSelect }: TokenListProps): any
 									setAnchorEl(null);
 								}}
 							>
-								{' '}
 								<Token token={token} />
 							</ListItem>
 						))}
@@ -90,16 +94,22 @@ export const Tokens = ({ tokens, selected, onTokenSelect }: TokenListProps): any
 	);
 };
 
-export const Token = (props: { token: any }): JSX.Element => {
+interface TokenProps {
+	token: {
+		name: string;
+		symbol: string;
+		icon: string;
+	};
+}
+
+export const Token = ({ token }: TokenProps): JSX.Element => {
+	const { name, icon, symbol } = token;
+	const classes = useStyles();
 	return (
-		<div style={{ alignItems: 'center', display: 'flex', flexWrap: 'nowrap', overflow: 'hidden' }}>
-			<img
-				src={props.token.icon}
-				alt={props.token.name}
-				style={{ height: '2rem', marginRight: '.2rem', display: 'block' }}
-			/>
+		<div className={classes.tokenContainer}>
+			<img className={classes.tokenIcon} src={icon} alt={name} />
 			<Typography variant="body1" component="div">
-				{props.token.symbol}
+				{symbol}
 			</Typography>
 		</div>
 	);

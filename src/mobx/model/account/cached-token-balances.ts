@@ -5,7 +5,6 @@ export interface CachedTokenBalances {
 	key: string;
 	tokens: TokenBalances;
 	setts: TokenBalances;
-	geysers: TokenBalances;
 	vaultCaps: VaultCaps;
 	expiry: number;
 }

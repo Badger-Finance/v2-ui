@@ -4,7 +4,7 @@ import { Grid, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { BridgeForm } from './BridgeForm';
 import PageHeader from 'components-v2/common/PageHeader';
-import { HeaderContainer, LayoutContainer } from '../../components-v2/common/Containers';
+import { PageHeaderContainer, LayoutContainer } from '../../components-v2/common/Containers';
 
 const useStyles = makeStyles((theme) => ({
 	statPaper: {
@@ -154,9 +154,9 @@ export const Bridge = observer(() => {
 	return (
 		<LayoutContainer>
 			<Grid container spacing={1} justify="center">
-				<HeaderContainer item xs={12}>
+				<PageHeaderContainer item xs={12}>
 					<PageHeader title="Badger Bitcoin Bridge." subtitle="Powered by RenVM" />
-				</HeaderContainer>
+				</PageHeaderContainer>
 				<Grid item xs={12} md={7}>
 					<Paper className={classes.statPaper} style={{ padding: '1rem' }}>
 						<p>

@@ -10,9 +10,9 @@ import * as rankUtils from '../../utils/boost-ranks';
 
 describe('Boost Optimizer', () => {
 	beforeEach(() => {
-		store.wallet.connectedAddress = '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a';
+		store.onboard.address = '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a';
 		store.user.accountDetails = {
-			id: '0xC26202cd0428276cC69017Df01137161f0102e55',
+			address: '0xC26202cd0428276cC69017Df01137161f0102e55',
 			boost: 1,
 			boostRank: 123,
 			multipliers: {
@@ -32,8 +32,8 @@ describe('Boost Optimizer', () => {
 			},
 			value: 0,
 			earnedValue: 0,
-			balances: [],
-			depositLimits: {},
+			data: {},
+			claimableBalances: {},
 			nativeBalance: 1000,
 			nonNativeBalance: 500,
 			stakeRatio: 20,
@@ -135,7 +135,7 @@ describe('Boost Optimizer', () => {
 	});
 
 	it('supports no wallet mode', () => {
-		store.wallet.connectedAddress = '';
+		store.onboard.address = '';
 		store.user.accountDetails = null;
 		jest.spyOn(rankUtils, 'calculateNativeToMatchMultiplier').mockReturnValue(0);
 

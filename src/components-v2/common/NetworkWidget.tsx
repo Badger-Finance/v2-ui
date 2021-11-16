@@ -5,8 +5,9 @@ import { Button, Popper, Paper, List, ListItem, makeStyles, Typography } from '@
 import { StoreContext } from 'mobx/store-context';
 import { supportedNetworks } from 'config/networks.config';
 import { Network } from 'mobx/model/network/network';
-import { Wallets } from 'config/enums/wallets.enum';
 import { Network as ChainNetworkSymbol } from '@badger-dao/sdk';
+import clsx from 'clsx';
+import { NetworkConfig } from '@badger-dao/sdk/lib/config/network/network.config';
 
 const useStyles = makeStyles((theme) => ({
 	network: {
@@ -35,12 +36,15 @@ const networkAbbreviationBySymbol: Record<ChainNetworkSymbol, string> = {
 	[ChainNetworkSymbol.Fantom]: 'FANTOM',
 };
 
-const NetworkWidget = observer(() => {
+interface Props {
+	className?: HTMLButtonElement['className'];
+}
+
+const NetworkWidget = observer(({ className }: Props) => {
 	const classes = useStyles();
 	const store = useContext(StoreContext);
-	const { network, wallet } = store;
+	const { network } = store;
 	const connectedNetwork = network.network;
-	const isMetamask = wallet.walletType?.name === Wallets.MetaMask;
 
 	// anchorEl is the Popper reference object prop
 	const [anchorEl, setAnchorEl] = useState(null);
@@ -51,7 +55,8 @@ const NetworkWidget = observer(() => {
 	};
 
 	const optionClicked = async (option: string) => {
-		await network.setNetwork(option);
+		const networkConfig = NetworkConfig.getConfig(option);
+		await network.setNetwork(networkConfig.id);
 		setAnchorEl(null);
 	};
 
@@ -64,9 +69,9 @@ const NetworkWidget = observer(() => {
 			<Button
 				size="small"
 				variant="outlined"
-				endIcon={isMetamask ? <ArrowDropDown /> : <></>}
+				endIcon={<ArrowDropDown />}
 				onClick={handleClick}
-				className={classes.selectButton}
+				className={clsx(classes.selectButton, className)}
 			>
 				<NetworkOption network={connectedNetwork} />
 			</Button>

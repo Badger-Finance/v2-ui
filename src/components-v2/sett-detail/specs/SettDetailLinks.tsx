@@ -6,6 +6,7 @@ import { StoreContext } from '../../../mobx/store-context';
 import { StyledDivider } from '../styled';
 import SettDetailLink from './SettDetailLink';
 import { Sett } from '@badger-dao/sdk';
+import { ethers } from 'ethers';
 
 const useStyles = makeStyles((theme) => ({
 	showMoreContainer: {
@@ -43,7 +44,10 @@ const SettDetailLinks = observer(
 
 		const [expanded, setExpanded] = useState(!hasBaseLink);
 		const expandText = expanded ? 'Hide' : 'Show More';
-		const strategyAddress = sett.strategy?.address ?? network.strategies[sett.settToken].address;
+		const strategyAddress =
+			sett.strategy?.address && sett.strategy.address !== ethers.constants.AddressZero
+				? sett.strategy.address
+				: network.strategies[sett.settToken].address;
 
 		return (
 			<Grid container className={classes.linksContainer}>

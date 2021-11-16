@@ -6,7 +6,7 @@ import { Currency } from 'config/enums/currency.enum';
 
 const useStyles = makeStyles((theme) => ({
 	currencyPicker: {
-		height: '1.8rem',
+		height: 36,
 		overflow: 'hidden',
 		marginLeft: theme.spacing(1),
 		[theme.breakpoints.up('sm')]: {

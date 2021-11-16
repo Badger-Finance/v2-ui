@@ -1,6 +1,5 @@
 import { RouterStore } from 'mobx-router';
 import UiState from './reducers';
-import WalletStore from './stores/walletStore';
 import ContractsStore from './stores/contractsStore';
 import AirdropStore from './stores/airdropStore';
 import RebaseStore from './stores/rebaseStore';
@@ -8,6 +7,7 @@ import RewardsStore from './stores/rewardsStore';
 import IbBTCStore from './stores/ibBTCStore';
 import BridgeStore from './stores/bridgeStore';
 import SettStore from './stores/SettStore';
+import GasPricesStore from './stores/GasPricesStore';
 import { NETWORK_IDS } from '../config/constants';
 import { HoneyPotStore } from './stores/honeyPotStore';
 import UserStore from './stores/UserStore';
@@ -17,19 +17,23 @@ import { NetworkStore } from './stores/NetworkStore';
 import { SettDetailStore } from './stores/SettDetail.store';
 import { SettChartsStore } from './stores/SettChartsStore';
 import LockedCvxDelegationStore from './stores/lockedCvxDelegationStore';
-import { BadgerAPI } from '@badger-dao/sdk';
+import { BadgerAPI, SDKProvider } from '@badger-dao/sdk';
 import { defaultNetwork } from 'config/networks.config';
 import { BADGER_API } from './utils/apiV2';
+import { OnboardStore } from './stores/OnboardStore';
+import { NetworkConfig } from '@badger-dao/sdk/lib/config/network/network.config';
+import { Network } from './model/network/network';
+import { Currency } from '../config/enums/currency.enum';
 
 export class RootStore {
 	public api: BadgerAPI;
 	public router: RouterStore<RootStore>;
 	public network: NetworkStore;
-	public wallet: WalletStore;
 	public uiState: UiState;
 	public contracts: ContractsStore;
 	public airdrops: AirdropStore;
 	public rebase: RebaseStore;
+	public onboard: OnboardStore;
 	public rewards: RewardsStore;
 	public ibBTCStore: IbBTCStore;
 	public setts: SettStore;
@@ -41,12 +45,14 @@ export class RootStore {
 	public settDetail: SettDetailStore;
 	public settCharts: SettChartsStore;
 	public lockedCvxDelegation: LockedCvxDelegationStore;
+	public gasPrices: GasPricesStore;
 
 	constructor() {
 		this.api = new BadgerAPI(defaultNetwork.id, BADGER_API);
+		const config = NetworkConfig.getConfig(defaultNetwork.id);
 		this.router = new RouterStore<RootStore>(this);
+		this.onboard = new OnboardStore(this, config);
 		this.network = new NetworkStore(this);
-		this.wallet = new WalletStore(this);
 		this.prices = new PricesStore(this);
 		this.contracts = new ContractsStore(this);
 		this.airdrops = new AirdropStore(this);
@@ -63,45 +69,51 @@ export class RootStore {
 		this.settDetail = new SettDetailStore(this);
 		this.settCharts = new SettChartsStore(this);
 		this.lockedCvxDelegation = new LockedCvxDelegationStore(this);
+		this.gasPrices = new GasPricesStore(this);
 	}
 
-	async walletRefresh(): Promise<void> {
-		if (!this.wallet.connectedAddress) {
-			return;
+	async updateNetwork(network: number): Promise<void> {
+		if (this.network.network.id !== network) {
+			const appNetwork = Network.networkFromId(network);
+			this.network.network = appNetwork;
 		}
 
-		const { network } = this.network;
+		this.uiState.setCurrency(Currency.USD);
+		this.api = new BadgerAPI(network, BADGER_API);
 		this.rewards.resetRewards();
-		this.api = new BadgerAPI(network.id, BADGER_API);
 
 		const refreshData = [
 			this.network.updateGasPrices(),
 			this.setts.refresh(),
-			this.loadTreeData(),
 			this.prices.loadPrices(),
 			this.leaderBoard.loadData(),
-			this.user.loadAccountDetails(this.wallet.connectedAddress),
 		];
+		if (this.onboard.isActive() && network === NETWORK_IDS.ETH) {
+			refreshData.push(this.rewards.loadTreeData());
+			this.bridge.updateContracts();
+		}
 
 		await Promise.all(refreshData);
-
-		if (this.wallet.connectedAddress) {
-			if (network.id === NETWORK_IDS.ETH) {
-				this.ibBTCStore.init();
-				await this.airdrops.fetchAirdrops();
-			}
-		}
 	}
 
-	private async loadTreeData() {
+	async updateProvider(provider: SDKProvider): Promise<void> {
 		const { network } = this.network;
-		// ensure network required calls are made prior to loading rewards
+		const signer = provider.getSigner();
+		let updateActions: Promise<void>[] = [];
+		this.rewards.resetRewards();
+		if (signer && this.onboard.address) {
+			const address = await signer.getAddress();
+			const config = NetworkConfig.getConfig(network.id);
+			updateActions = updateActions.concat([
+				this.user.loadAccountDetails(address),
+				this.user.reloadBalances(address),
+				this.user.loadClaimProof(this.onboard.address, config.network),
+			]);
+		}
 		if (network.id === NETWORK_IDS.ETH) {
-			await this.rebase.fetchRebaseStats();
+			updateActions = updateActions.concat([this.airdrops.fetchAirdrops(), this.rebase.fetchRebaseStats()]);
 		}
-		if (network.hasBadgerTree) {
-			await this.rewards.loadTreeData();
-		}
+		await Promise.all(updateActions);
 	}
 }
 

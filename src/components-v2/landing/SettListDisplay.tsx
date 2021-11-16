@@ -24,12 +24,12 @@ const SettListDisplay = observer((props: SettListViewProps) => {
 	const store = useContext(StoreContext);
 	const {
 		setts,
-		uiState: { period, currency },
+		uiState: { currency },
 		network: { network },
 		user,
 	} = store;
 
-	const currentSettMap = setts.getSettMap(state);
+	const currentSettMap = setts.getSettMapByState(state);
 
 	if (currentSettMap === undefined) {
 		return <Loader message={`Loading ${network.name} Setts...`} />;
@@ -58,15 +58,7 @@ const SettListDisplay = observer((props: SettListViewProps) => {
 			const guardedBalance = user.getBalance(BalanceNamespace.GuardedSett, badgerSett).scale(scalar, true);
 			const settBalance = generalBalance ?? guardedBalance;
 
-			return (
-				<SettListItem
-					sett={sett}
-					key={sett.name}
-					currency={currency}
-					period={period}
-					balance={settBalance.balance}
-				/>
-			);
+			return <SettListItem sett={sett} key={sett.name} currency={currency} balance={settBalance.balance} />;
 		})
 		.filter(Boolean);
 
@@ -74,7 +66,7 @@ const SettListDisplay = observer((props: SettListViewProps) => {
 		return <NoVaults state={state} network={network.name} />;
 	}
 
-	return <SettTable title={'All Setts'} displayValue={''} period={period} settList={settListItems} />;
+	return <SettTable title={'All Setts'} displayValue={''} settList={settListItems} />;
 });
 
 export default SettListDisplay;

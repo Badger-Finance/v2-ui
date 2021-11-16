@@ -1,64 +1,101 @@
 {
 	"mainnet": {
-		"contracts": {
-			"tokens": {
-				"ibBTC": {
-					"address": "0xc4E15973E6fF2A35cC804c2CF9D2a1b817a8b40F",
-					"decimals": 18,
-					"symbol": "ibBTC",
-					"name": "Interest-Bearing BTC"
-				},
-				"bcrvRenWSBTC": {
-					"address": "0xd04c48A53c111300aD41190D63681ed3dAd998eC",
-					"decimals": 18,
-					"symbol": "bcrvRenSBTC",
-					"name": "Badger crvRenWSBTC",
-					"poolId": 1
-				},
-				"bcrvRenWBTC": {
-					"address": "0x6dEf55d2e18486B9dDfaA075bc4e4EE0B28c1545",
-					"decimals": 18,
-					"symbol": "bcrvRenBTC",
-					"name": "Badger crvRenWBTC",
-					"poolId": 0
-				},
-				"btbtc/sbtcCrv": {
-					"address": "0xb9D076fDe463dbc9f915E5392F807315Bf940334",
-					"decimals": 18,
-					"symbol": "btBTCCrv",
-					"name": "Badger t-btc/sbtcCrv",
-					"poolId": 2
-				},
-				"byvWBTC": {
-					"address": "0x4b92d19c11435614CD49Af1b589001b7c08cD4D5",
-					"decimals": 8,
-					"symbol": "byvWBTC",
-					"name": "Badger WBTC yVault"
-				},
-				"renBTC": {
-					"address": "0xeb4c2781e4eba804ce9a9803c67d0893436bb27d",
-					"decimals": 8,
-					"symbol": "renBTC",
-					"name": "Ren Project renBTC"
-				},
-				"WBTC": {
-					"address": "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599",
-					"decimals": 8,
-					"symbol": "WBTC",
-					"name": "Wrapped Bitcoin"
-				}
+		"tokens": {
+			"ibBTC": {
+				"address": "0xc4E15973E6fF2A35cC804c2CF9D2a1b817a8b40F",
+				"decimals": 18,
+				"symbol": "ibBTC",
+				"name": "Interest Bearing BTC"
 			},
-			"BadgerSettPeak": {
-				"supportedTokens": ["bcrvRenSBTC", "bcrvRenBTC", "btBTCCrv"],
+			"byvWBTC": {
+				"address": "0x4b92d19c11435614CD49Af1b589001b7c08cD4D5",
+				"decimals": 8,
+				"symbol": "byvWBTC",
+				"name": "byvWBTC",
+				"poolId": 0
+			},
+			"bcrvRenSBTC": {
+				"address": "0xd04c48A53c111300aD41190D63681ed3dAd998eC",
+				"decimals": 18,
+				"symbol": "bcrvRenSBTC",
+				"name": "bcrvRenSBTC",
+				"poolId": 1
+			},
+			"bcrvTBTC": {
+				"address": "0xb9D076fDe463dbc9f915E5392F807315Bf940334",
+				"decimals": 18,
+				"symbol": "bcrvTBTC",
+				"name": "bcrvTBTC",
+				"poolId": 2
+			},
+			"bcrvHBTC": {
+				"address": "0x8c76970747afd5398e958bDfadA4cf0B9FcA16c4",
+				"decimals": 18,
+				"symbol": "bcrvHBTC",
+				"name": "bcrvHBTC",
+				"poolId": 3
+			},
+			"bcrvBBTC": {
+				"address": "0x5Dce29e92b1b939F8E8C60DcF15BDE82A85be4a9",
+				"decimals": 18,
+				"symbol": "bcrvBBTC",
+				"name": "bcrvBBTC",
+				"poolId": 4
+			},
+			"bcrvPBTC": {
+				"address": "0x55912D0Cf83B75c492E761932ABc4DB4a5CB1b17",
+				"decimals": 18,
+				"symbol": "bcrvPBTC",
+				"name": "bcrvPBTC",
+				"poolId": 5
+			},
+			"bcrvOBTC": {
+				"address": "0xf349c0faA80fC1870306Ac093f75934078e28991",
+				"decimals": 18,
+				"symbol": "bcrvOBTC",
+				"name": "bcrvOBTC",
+				"poolId": 6
+			},
+			"bcrvRenBTC": {
+				"address": "0x55912D0Cf83B75c492E761932ABc4DB4a5CB1b17",
+				"decimals": 18,
+				"symbol": "bcrvRenBTC",
+				"name": "bcrvRenBTC",
+				"poolId": 0
+			},
+			"renBTC": {
+				"address": "0xeb4c2781e4eba804ce9a9803c67d0893436bb27d",
+				"decimals": 8,
+				"symbol": "renBTC",
+				"name": "Ren BTC"
+			},
+			"wBTC": {
+				"address": "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599",
+				"decimals": 8,
+				"symbol": "wBTC",
+				"name": "Wrapped Bitcoin"
+			}
+		},
+		"contracts": {
+			"RenVaultZap": {
+				"supportedTokens": ["bcrvRenBTC"],
 				"address": "0x41671BA1abcbA387b9b2B752c205e22e916BE6e3"
 			},
-			"yearnWBTCPeak": {
-				"supportedTokens": ["byvWBTC"],
-				"address": "0x825218beD8BE0B30be39475755AceE0250C50627"
+			"GeneralVaultZap": {
+				"supportedTokens": [
+					"byvWBTC",
+					"bcrvRenSBTC",
+					"bcrvTBTC",
+					"bcrvHBTC",
+					"bcrvBBTC",
+					"bcrvPBTC",
+					"bcrvOBTC"
+				],
+				"address": "0x27Fb47B9Fb32B9cF660C4E0128bE0f4e883f3df1"
 			},
-			"ZapPeak": {
-				"supportedTokens": ["renBTC", "WBTC"],
-				"address": "0xb3188E8D8A539f3573431778598551f6D113D0Fa"
+			"TokenZap": {
+				"supportedTokens": ["renBTC", "wBTC"],
+				"address": "0xe8E40093017A3A55B5c2BC3E9CA6a4d208c07734"
 			}
 		}
 	}

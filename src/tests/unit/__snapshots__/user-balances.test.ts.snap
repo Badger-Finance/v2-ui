@@ -2,7 +2,7 @@
 
 exports[`User balances utils extractBalanceRequestResults extract results correctly 1`] = `
 Object {
-  "nonSettUserTokens": Array [
+  "userDeprecatedSetts": Array [
     Object {
       "callsReturnContext": Array [
         Object {
@@ -32,7 +32,42 @@ Object {
           },
         ],
         "context": Object {
-          "namespace": "nonsetttoken",
+          "namespace": "deprecated",
+        },
+        "contractAddress": "0x4e3FBD56CD56c3e72c1403e103b45Db9da5B9D5B",
+        "reference": "0x4e3FBD56CD56c3e72c1403e103b45Db9da5B9D5B",
+      },
+    },
+    Object {
+      "callsReturnContext": Array [
+        Object {
+          "decoded": true,
+          "methodName": "balanceOf",
+          "methodParameters": Array [
+            "0x00",
+          ],
+          "reference": "balanceOf",
+          "returnValues": Array [
+            Object {
+              "amounts": "0x00",
+            },
+          ],
+          "success": true,
+        },
+      ],
+      "originalContractCallContext": Object {
+        "abi": Array [],
+        "calls": Array [
+          Object {
+            "methodName": "balanceOf",
+            "methodParameters": Array [
+              "0x00",
+            ],
+            "reference": "balanceOf",
+          },
+        ],
+        "context": Object {
+          "namespace": "deprecated",
         },
         "contractAddress": "0x4e3FBD56CD56c3e72c1403e103b45Db9da5B9D6B",
         "reference": "0x4e3FBD56CD56c3e72c1403e103b45Db9da5B9D6B",
@@ -73,43 +108,6 @@ Object {
         },
         "contractAddress": "0x4e3FBD56CD56c3e72c1403e103b45Db9da5B9D2B",
         "reference": "0x4e3FBD56CD56c3e72c1403e103b45Db9da5B9D3B",
-      },
-    },
-  ],
-  "userGeysers": Array [
-    Object {
-      "callsReturnContext": Array [
-        Object {
-          "decoded": true,
-          "methodName": "balanceOf",
-          "methodParameters": Array [
-            "0x00",
-          ],
-          "reference": "balanceOf",
-          "returnValues": Array [
-            Object {
-              "amounts": "0x00",
-            },
-          ],
-          "success": true,
-        },
-      ],
-      "originalContractCallContext": Object {
-        "abi": Array [],
-        "calls": Array [
-          Object {
-            "methodName": "balanceOf",
-            "methodParameters": Array [
-              "0x00",
-            ],
-            "reference": "balanceOf",
-          },
-        ],
-        "context": Object {
-          "namespace": "geyser",
-        },
-        "contractAddress": "0x4e3FBD56CD56c3e72c1403e103b45Db9da5B9D5B",
-        "reference": "0x4e3FBD56CD56c3e72c1403e103b45Db9da5B9D5B",
       },
     },
   ],

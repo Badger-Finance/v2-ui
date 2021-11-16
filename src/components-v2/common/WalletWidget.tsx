@@ -3,7 +3,6 @@ import { Button, makeStyles } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
 import clsx from 'clsx';
-import { connectWallet } from '../../mobx/utils/helpers';
 
 const useStyles = makeStyles((theme) => ({
 	walletDot: {
@@ -19,44 +18,48 @@ const useStyles = makeStyles((theme) => ({
 	greenDot: {
 		background: theme.palette.success.main,
 	},
-	walletButton: {
-		marginLeft: theme.spacing(1),
-		width: '188px',
-	},
+	walletButton: {},
 }));
 
-const shortenAddress = (address: string) => {
-	return address.slice(0, 7) + '...' + address.slice(address.length - 7, address.length);
+const shortenAddress = (address?: string) => {
+	if (!address) {
+		return 'Connect';
+	}
+	return address.slice(0, 4) + '..' + address.slice(address.length - 4, address.length);
 };
 
-const WalletWidget = observer(() => {
+interface Props {
+	className?: HTMLButtonElement['className'];
+}
+
+const WalletWidget = observer(({ className }: Props) => {
 	const classes = useStyles();
 	const store = useContext(StoreContext);
-	const { connectedAddress, onboard } = store.wallet;
-	const isConnected = !(!connectedAddress || connectedAddress.length === 0);
+	const { onboard, uiState } = store;
+	const { address } = onboard;
+	const isConnected = address !== undefined;
 	const walletIcon = <div className={clsx(classes.walletDot, isConnected ? classes.greenDot : classes.redDot)} />;
 
-	const connect = async () => {
-		if (store.uiState.sidebarOpen) {
-			store.uiState.closeSidebar();
+	async function connect(): Promise<void> {
+		if (onboard.address) {
+			onboard.disonnect();
+		} else {
+			const connected = await onboard.connect();
+			if (!connected) {
+				uiState.queueError('Issue connecting, please try again');
+			}
 		}
-
-		connectWallet(onboard, store.wallet.connect);
-	};
+	}
 
 	return (
 		<Button
 			disableElevation
-			variant="contained"
-			color="secondary"
-			onClick={() => {
-				if (!connectedAddress) connect();
-				else store.wallet.walletReset();
-			}}
+			variant="outlined"
+			onClick={connect}
 			endIcon={walletIcon}
-			className={classes.walletButton}
+			className={clsx(classes.walletButton, className)}
 		>
-			{isConnected ? shortenAddress(connectedAddress) : 'Click to connect'}
+			{shortenAddress(address)}
 		</Button>
 	);
 });

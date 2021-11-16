@@ -26,14 +26,14 @@ describe('WalletWidget', () => {
 			</StoreProvider>,
 		);
 		act(() => {
-			fireEvent.click(screen.getByText('Click to connect'));
+			fireEvent.click(screen.getByText('Connect'));
 		});
 		// Checks that menu openned by finding the MetaMask option
 		expect(await screen.findByText('MetaMask')).toMatchSnapshot();
 	});
 
 	test('Connected address is properly displayed', async () => {
-		testStore.wallet.connectedAddress = '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a';
+		testStore.onboard.address = '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a';
 		const { container } = customRender(
 			<StoreProvider value={testStore}>
 				<WalletWidget />

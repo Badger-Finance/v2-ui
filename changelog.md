@@ -1,5 +1,11 @@
 # v2 UI Changelog
 
+### 2.11.0 - 11/16/2021
+
+- start app ux overhaul
+- introduce new ibbtc mint options
+- optimize + fix app data flow
+
 ### 2.10.0 - 11/06/2021
 
 - replaced at issue library causing slow app loading speeds

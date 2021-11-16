@@ -1,4 +1,4 @@
-import { extendObservable, action, observe, IValueDidChange } from 'mobx';
+import { extendObservable, action } from 'mobx';
 import slugify from 'slugify';
 import { RootStore } from '../RootStore';
 import Web3 from 'web3';
@@ -11,7 +11,6 @@ import { SettMap } from '../model/setts/sett-map';
 import { TokenBalances } from 'mobx/model/account/user-balances';
 import BigNumber from 'bignumber.js';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
-import { getToken } from 'web3/config/token-config';
 import { Currency, Network, ProtocolSummary, Sett, SettState } from '@badger-dao/sdk';
 import { SlugCache } from '../model/setts/slug-cache';
 import { parseCallReturnContext } from '../utils/multicall';
@@ -43,12 +42,6 @@ export default class SettStore {
 			priceCache: undefined,
 			initialized: false,
 			availableBalances: this.availableBalances,
-		});
-
-		observe(this.store.network, 'currentBlock', async (change: IValueDidChange<number | undefined>) => {
-			if (change.oldValue !== change.newValue) {
-				this.refresh();
-			}
 		});
 
 		this.tokenCache = {};
@@ -103,21 +96,34 @@ export default class SettStore {
 		return this.getSett(settBySlug[0]);
 	}
 
-	getSettMap(state: SettState): SettMap | undefined | null {
-		const { network } = this.store.network;
-		const setts = this.settCache[network.symbol];
+	getSettMapByState(state: SettState): SettMap | undefined | null {
+		const setts = this.getSettMap();
 		if (!setts) {
 			return setts;
 		}
 		return Object.fromEntries(Object.entries(setts).filter((entry) => entry[1].state === state));
 	}
 
-	getToken(address: string): Token | undefined {
+	getSettMap(): SettMap | undefined | null {
+		const { network } = this.store.network;
+		const setts = this.settCache[network.symbol];
+		if (!setts) {
+			return setts;
+		}
+		return setts;
+	}
+
+	getToken(address: string): Token {
 		const { network } = this.store.network;
 		const tokens = this.tokenCache[network.symbol];
 		const tokenAddress = Web3.utils.toChecksumAddress(address);
 		if (!tokens || !tokens[tokenAddress]) {
-			return;
+			return {
+				name: '',
+				address,
+				decimals: 18,
+				symbol: '',
+			};
 		}
 		return tokens[tokenAddress];
 	}
@@ -132,7 +138,7 @@ export default class SettStore {
 				this.loadAssets(network.symbol),
 			]);
 			this.initialized = true;
-			this.store.user.refreshBalances();
+			// await this.store.user.reloadBalances();
 		}
 	}
 
@@ -179,11 +185,14 @@ export default class SettStore {
 		const { prices } = this.store;
 		const settAddress = returnContext.originalContractCallContext.contractAddress;
 		const sett = parseCallReturnContext(returnContext.callsReturnContext);
+		if (!sett.available) {
+			return;
+		}
 		const balanceResults = sett.available[0];
 		if (!balanceResults || balanceResults.length === 0 || !settAddress) {
 			return;
 		}
-		const settToken = getToken(settAddress);
+		const settToken = this.getToken(settAddress);
 		if (!settToken) {
 			return;
 		}

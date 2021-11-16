@@ -320,11 +320,11 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 						'https://app.sushi.com/add/0x798D1bE841a82a273720CE31c822C61a67a601C3/0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599',
 				},
 				[ethDeploy.sett_system.vaults['yearn.wBtc']]: {
-					address: ethDeploy.sett_system.vaults['yearn.wBtc'],
+					address: ethDeploy.sett_system.strategies['yearn.wBtc'],
 					fees: {
 						[StrategyFee.yearnPerformance]: new BigNumber(2000),
 						[StrategyFee.yearnManagement]: new BigNumber(200),
-						[StrategyFee.withdraw]: new BigNumber(50),
+						[StrategyFee.withdraw]: new BigNumber(10),
 					},
 					strategyLink: 'https://badger.wiki/strategies#8dbbd221e429409db3b487da966a14b8',
 					userGuide: 'https://docs.badger.com/badger-finance/user-guides/yearn-wrapped-btc',
@@ -465,6 +465,15 @@ export const getStrategies = (network: Network): StrategyNetworkConfig => {
 					},
 					depositLink: 'https://curve.fi/factory/52/deposit',
 					userGuide: 'https://docs.badger.com/badger-finance/user-guides/bvecvx-cvx-curve-lp',
+				},
+				[ethDeploy.sett_system.vaults['native.ibbtcCrv']]: {
+					address: ethDeploy.sett_system.strategies['native.ibbtcCrv'],
+					fees: {
+						[StrategyFee.performance]: new BigNumber(2000),
+						[StrategyFee.withdraw]: new BigNumber(10),
+					},
+					depositLink: 'https://curve.fi/factory/60/deposit',
+					userGuide: 'https://docs.badger.com/badger-finance/user-guides/ibbtc-sbtc-curve-lp',
 				},
 			};
 	}

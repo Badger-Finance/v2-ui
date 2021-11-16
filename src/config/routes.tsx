@@ -14,7 +14,7 @@ import { NotFound } from '../components-v2/common/NotFound';
 import { SettState } from '@badger-dao/sdk';
 
 const routes = {
-	home: new Route<RootStore>({
+	home: new Route<RootStore, QueryParams>({
 		path: '/',
 		component: (
 			<Landing
@@ -24,11 +24,11 @@ const routes = {
 			/>
 		),
 	}),
-	notFound: new Route<RootStore>({
+	notFound: new Route<RootStore, QueryParams>({
 		path: '/not-found',
 		component: <NotFound />,
 	}),
-	guarded: new Route<RootStore>({
+	guarded: new Route<RootStore, QueryParams>({
 		path: '/guarded',
 		component: (
 			<Landing
@@ -38,7 +38,7 @@ const routes = {
 			/>
 		),
 	}),
-	experimental: new Route<RootStore>({
+	experimental: new Route<RootStore, QueryParams>({
 		path: '/experimental',
 		component: (
 			<Landing
@@ -64,6 +64,7 @@ const routes = {
 	honeybadgerDrop: new Route<RootStore, QueryParams>({
 		path: '/honey-badger-drop',
 		component: <HoneybadgerDrop />,
+		onEnter: (_route, _params, store) => store.honeyPot.refresh(),
 	}),
 	IbBTC: new Route<RootStore, QueryParams>({
 		path: '/ibBTC',
@@ -73,6 +74,7 @@ const routes = {
 	bridge: new Route<RootStore, QueryParams>({
 		path: '/bridge',
 		component: <Bridge />,
+		onEnter: (_route, _params, store) => store.bridge.reload(),
 	}),
 	boostLeaderBoard: new Route<RootStore, QueryParams>({
 		path: '/leaderboard',
