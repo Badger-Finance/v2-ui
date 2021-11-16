@@ -7,6 +7,7 @@ import RewardsStore from './stores/rewardsStore';
 import IbBTCStore from './stores/ibBTCStore';
 import BridgeStore from './stores/bridgeStore';
 import SettStore from './stores/SettStore';
+import GasPricesStore from './stores/GasPricesStore';
 import { NETWORK_IDS } from '../config/constants';
 import { HoneyPotStore } from './stores/honeyPotStore';
 import UserStore from './stores/UserStore';
@@ -22,6 +23,7 @@ import { BADGER_API } from './utils/apiV2';
 import { OnboardStore } from './stores/OnboardStore';
 import { NetworkConfig } from '@badger-dao/sdk/lib/config/network/network.config';
 import { Network } from './model/network/network';
+import { Currency } from '../config/enums/currency.enum';
 
 export class RootStore {
 	public api: BadgerAPI;
@@ -43,6 +45,7 @@ export class RootStore {
 	public settDetail: SettDetailStore;
 	public settCharts: SettChartsStore;
 	public lockedCvxDelegation: LockedCvxDelegationStore;
+	public gasPrices: GasPricesStore;
 
 	constructor() {
 		this.api = new BadgerAPI(defaultNetwork.id, BADGER_API);
@@ -66,6 +69,7 @@ export class RootStore {
 		this.settDetail = new SettDetailStore(this);
 		this.settCharts = new SettChartsStore(this);
 		this.lockedCvxDelegation = new LockedCvxDelegationStore(this);
+		this.gasPrices = new GasPricesStore(this);
 	}
 
 	async updateNetwork(network: number): Promise<void> {
@@ -73,6 +77,8 @@ export class RootStore {
 			const appNetwork = Network.networkFromId(network);
 			this.network.network = appNetwork;
 		}
+
+		this.uiState.setCurrency(Currency.USD);
 		this.api = new BadgerAPI(network, BADGER_API);
 		this.rewards.resetRewards();
 

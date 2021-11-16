@@ -9,6 +9,7 @@ import { inCurrency } from 'mobx/utils/helpers';
 import React, { useState, useContext, useEffect } from 'react';
 import { RewardsModalItem } from './RewardsModalItem';
 import clsx from 'clsx';
+import CurrencyDisplay from '../common/CurrencyDisplay';
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
@@ -225,10 +226,21 @@ export const RewardsWidget = observer((): JSX.Element | null => {
 				{hasRewards ? (
 					<>
 						<img className={classes.rewardsIcon} src="/assets/icons/rewards-spark.svg" alt="rewards icon" />
-						{inCurrency(claimableValue, currency)}
+						{
+							<CurrencyDisplay
+								displayValue={inCurrency(claimableValue, currency)}
+								variant="body2"
+								justify="center"
+							/>
+						}
 					</>
 				) : (
-					'No Rewards'
+					<CurrencyDisplay
+						disabled
+						displayValue={inCurrency(new BigNumber(0), currency, 2)}
+						variant="body2"
+						justify="center"
+					/>
 				)}
 			</Button>
 			<Modal

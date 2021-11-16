@@ -1,6 +1,6 @@
 import CurrencyPicker from '../components-v2/landing/CurrencyPicker';
 import WalletSlider from '../components-v2/landing/WalletSlider';
-import { Grid, makeStyles, Button } from '@material-ui/core';
+import { Grid, makeStyles, Button, useMediaQuery, useTheme, Typography } from '@material-ui/core';
 import PageHeader from '../components-v2/common/PageHeader';
 import { StoreContext } from '../mobx/store-context';
 import { observer } from 'mobx-react-lite';
@@ -9,6 +9,10 @@ import { PageHeaderContainer, LayoutContainer } from '../components-v2/common/Co
 import { SettState } from '@badger-dao/sdk';
 import SettListView from '../components-v2/landing/SettListView';
 import DepositDialog from '../components-v2/ibbtc-vault/DepositDialog';
+import SettListFiltersWidget from '../components-v2/common/SettListFiltersWidget';
+import CurrencyDisplay from '../components-v2/common/CurrencyDisplay';
+import { inCurrency } from '../mobx/utils/helpers';
+import { Skeleton } from '@material-ui/lab';
 
 const useStyles = makeStyles((theme) => ({
 	marginTop: {
@@ -76,6 +80,13 @@ const useStyles = makeStyles((theme) => ({
 		justifyContent: 'center',
 		marginBottom: theme.spacing(2),
 	},
+	loader: {
+		display: 'inline-flex',
+		marginLeft: 4,
+	},
+	deposits: {
+		whiteSpace: 'pre-wrap',
+	},
 }));
 
 interface LandingProps {
@@ -85,10 +96,12 @@ interface LandingProps {
 }
 
 const Landing = observer((props: LandingProps) => {
-	const { onboard } = useContext(StoreContext);
+	const { onboard, user, uiState } = useContext(StoreContext);
 
 	const { title, subtitle, state } = props;
 	const classes = useStyles();
+	const isMobile = useMediaQuery(useTheme().breakpoints.down('sm'));
+	const portfolioValue = onboard.isActive() && user.initialized ? user.portfolioValue : undefined;
 
 	return (
 		<LayoutContainer>
@@ -98,9 +111,39 @@ const Landing = observer((props: LandingProps) => {
 					<Grid item xs={6}>
 						<PageHeader title={title} subtitle={subtitle} />
 					</Grid>
-					<Grid item container xs={6} alignItems="center" justify="flex-end">
-						<CurrencyPicker />
-						{onboard.isActive() && <WalletSlider />}
+					<Grid item container xs={6} alignItems="center" justify="flex-end" spacing={2}>
+						{isMobile ? (
+							<>
+								<Grid item container xs justify="flex-end" className={classes.deposits}>
+									<Typography variant="body2" display="inline">
+										My assets:{' '}
+									</Typography>
+									{portfolioValue ? (
+										<CurrencyDisplay
+											displayValue={inCurrency(portfolioValue, uiState.currency)}
+											variant="subtitle2"
+											justify="flex-start"
+										/>
+									) : (
+										<Skeleton animation="wave" width={32} className={classes.loader} />
+									)}
+								</Grid>
+								<Grid item>
+									<SettListFiltersWidget />
+								</Grid>
+							</>
+						) : (
+							<>
+								<Grid item>
+									<CurrencyPicker />
+								</Grid>
+								{onboard.isActive() && (
+									<Grid item>
+										<WalletSlider />
+									</Grid>
+								)}
+							</>
+						)}
 					</Grid>
 				</PageHeaderContainer>
 			</Grid>

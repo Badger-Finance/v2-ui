@@ -3,7 +3,19 @@ import { observer } from 'mobx-react-lite';
 import views from '../../config/routes';
 import { useContext } from 'react';
 import { StoreContext } from '../../mobx/store-context';
-import { List, ListItem, Drawer, Collapse, IconButton, ListItemText, Hidden, Typography } from '@material-ui/core';
+import {
+	List,
+	ListItem,
+	Drawer,
+	Collapse,
+	IconButton,
+	ListItemText,
+	Hidden,
+	Typography,
+	useMediaQuery,
+	useTheme,
+	Box,
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { ExpandMore } from '@material-ui/icons';
 import { SITE_VERSION } from 'config/constants';
@@ -12,6 +24,8 @@ import { inCurrency } from '../../mobx/utils/helpers';
 import SidebarItem from './SidebarItem';
 import { getSidebarConfig } from './sidebar.config';
 import SidebarSection from './SidebarSection';
+import CloseIcon from '@material-ui/icons/Close';
+import CurrencyDisplay from '../common/CurrencyDisplay';
 
 const DRAWER_WIDTH = 200;
 
@@ -124,6 +138,7 @@ const Sidebar = observer(() => {
 		user: { accountDetails },
 	} = store;
 
+	const isMobile = useMediaQuery(useTheme().breakpoints.down('sm'));
 	const [expanded, setExpanded] = useState('');
 
 	const badgerToken = network.deploy.token.length > 0 ? network.deploy.token : undefined;
@@ -132,10 +147,21 @@ const Sidebar = observer(() => {
 	const config = getSidebarConfig(network.symbol);
 	const drawerContent = (
 		<div className={classes.sidebarContainer}>
-			<div className={classes.badgerLogoContainer} onClick={() => window.open('https://badger.com/', '_blank')}>
-				<img alt="Badger Logo" className={classes.badgerIcon} src={'/assets/icons/badger.png'} />
-				<span className={classes.badgerTitle}>Badger</span>
-			</div>
+			{isMobile ? (
+				<Box display="flex" justifyContent="flex-end">
+					<IconButton onClick={() => closeSidebar()}>
+						<CloseIcon />
+					</IconButton>
+				</Box>
+			) : (
+				<div
+					className={classes.badgerLogoContainer}
+					onClick={() => window.open('https://badger.com/', '_blank')}
+				>
+					<img alt="Badger Logo" className={classes.badgerIcon} src={'/assets/icons/badger.png'} />
+					<span className={classes.badgerTitle}>Badger</span>
+				</div>
+			)}
 			<div className={classes.linksContainer}>
 				{config.cycle ? (
 					<>
@@ -182,52 +208,14 @@ const Sidebar = observer(() => {
 						/>
 					</ListItem>
 				)}
-				<SidebarItem
-					route="/"
-					view={views.home}
-					title="Vaults"
-					icon="/assets/sidebar/sett.png"
-					alt="Vault Icon"
-				/>
-				<SidebarItem
-					route="/guarded"
-					view={views.guarded}
-					title="Guarded Vaults"
-					icon="/assets/sidebar/shield.svg"
-					alt="Shield Icon"
-				/>
-				{config.digg && (
-					<SidebarItem
-						route="/digg"
-						view={views.digg}
-						title="Digg"
-						icon="/assets/sidebar/digg-white.png"
-						alt="Digg Icon"
-					/>
-				)}
-				{config.ibBTC && (
-					<SidebarItem
-						route="/ibBTC"
-						view={views.IbBTC}
-						title="ibBTC"
-						icon="/assets/sidebar/ibbtc-white.svg"
-						alt="ibBTC Icon"
-					/>
-				)}
-				{config.bridge && (
-					<SidebarItem
-						route="/bridge"
-						view={views.bridge}
-						title="Bridge"
-						icon="/assets/sidebar/icon-badger-bridge.svg"
-						alt="Bridge Icon"
-					/>
-				)}
+				<SidebarItem route="/" view={views.home} title="Vaults" />
+				<SidebarItem route="/guarded" view={views.guarded} title="Guarded Vaults" />
+				{config.digg && <SidebarItem route="/digg" view={views.digg} title="Digg" />}
+				{config.ibBTC && <SidebarItem route="/ibBTC" view={views.IbBTC} title="ibBTC" />}
+				{config.bridge && <SidebarItem route="/bridge" view={views.bridge} title="Bridge" />}
 				{config.boost && (
 					<SidebarSection
 						title="Boost"
-						icon="/assets/sidebar/boosts.png"
-						alt="Boost Icon"
 						items={[
 							{
 								title: 'Boost Optimizer',
@@ -245,8 +233,6 @@ const Sidebar = observer(() => {
 				{config.arcade && (
 					<SidebarSection
 						title="Arcade"
-						icon="/assets/sidebar/gas_station.png"
-						alt="Boost Icon"
 						items={[
 							{
 								title: 'Experimental Vaults',
@@ -271,7 +257,11 @@ const Sidebar = observer(() => {
 				<ListItem className={classes.badgerPrice}>
 					<Typography variant="body2">Badger Price: </Typography>
 					{badgerPrice ? (
-						<Typography variant="subtitle2">{inCurrency(badgerPrice, currency)}</Typography>
+						<CurrencyDisplay
+							displayValue={inCurrency(badgerPrice, currency)}
+							variant="subtitle2"
+							justify="center"
+						/>
 					) : (
 						<Skeleton width={32} animation="wave">
 							<Typography variant="subtitle2">Placeholder</Typography>
@@ -328,7 +318,7 @@ const Sidebar = observer(() => {
 			<Hidden mdUp>
 				<Drawer
 					variant="temporary"
-					anchor="left"
+					anchor="right"
 					open={sidebarOpen}
 					onClose={() => closeSidebar()}
 					classes={{

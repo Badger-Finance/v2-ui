@@ -33,7 +33,7 @@ const NewsNotification = (): JSX.Element | null => {
 	}
 
 	return (
-		<Grid container alignItems="center" justify="center" className={classes.root}>
+		<Grid id="app-notification" container alignItems="center" justify="center" className={classes.root}>
 			<Typography variant="body2">{'🎉 Badger Boost Power has been implemented. '}</Typography>
 			<a
 				href="https://badger.com/news/single-chain-boost"

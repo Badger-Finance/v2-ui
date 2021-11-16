@@ -51,13 +51,11 @@ const useStyles = makeStyles((theme) => ({
 
 interface SidebarSectionProps {
 	title: string;
-	icon: string;
-	alt: string;
 	items: SidebarItemProps[];
 }
 
 const SidebarSection = observer(
-	({ title, items, icon, alt }: SidebarSectionProps): JSX.Element => {
+	({ title, items }: SidebarSectionProps): JSX.Element => {
 		const classes = useStyles();
 		const store = useContext(StoreContext);
 		const { router } = store;
@@ -73,7 +71,6 @@ const SidebarSection = observer(
 		return (
 			<div className={classes.sidebarSection} onClick={toggleSection}>
 				<div className={classes.titleSection}>
-					<img className={classes.icon} alt={alt} src={icon} />
 					<span className={classes.title}>{title}</span>
 					<div className={clsx(classes.expand, (open || isActive) && classes.expandOpen)}>
 						<ExpandMore />
