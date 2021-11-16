@@ -88,7 +88,7 @@ class IbBTCStore {
 		return this.tokens.filter(({ symbol }) => this.config.contracts.RenVaultZap.supportedTokens.includes(symbol));
 	}
 
-	init(): void {
+	async init(): Promise<void> {
 		const { address, wallet } = this.store.onboard;
 		// M50: by default the network ID is set to ethereum.  We should check the provider to ensure the
 		// connected wallet is using ETH network, not the site.
@@ -101,7 +101,7 @@ class IbBTCStore {
 			this.resetBalances();
 			return;
 		}
-		Promise.all([
+		await Promise.all([
 			this.fetchTokensBalances(),
 			this.fetchIbbtcApy(),
 			this.fetchConversionRates(),
@@ -153,11 +153,6 @@ class IbBTCStore {
 		async (token: IbbtcOptionToken): Promise<BigNumber> => {
 			const { address, wallet } = this.store.onboard;
 			if (!address) return ZERO;
-
-			const storedBalance = this.store.user.getTokenBalance(token.address);
-			if (storedBalance.tokenBalance.gt(0)) {
-				return storedBalance.tokenBalance;
-			}
 
 			const web3 = new Web3(wallet?.provider);
 			const tokenContract = new web3.eth.Contract(settConfig.abi as AbiItem[], token.address);

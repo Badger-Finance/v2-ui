@@ -170,7 +170,7 @@ export const Mint = observer(
 
 		const handleTokenChange = async (token: IbbtcOptionToken): Promise<void> => {
 			setSelectedToken(token);
-			if (inputAmount?.displayValue) {
+			if (token.balance.gt(0)) {
 				setInputAmount({
 					displayValue: token.formattedBalance,
 					actualValue: token.balance,
