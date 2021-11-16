@@ -24,6 +24,7 @@ import { OnboardStore } from './stores/OnboardStore';
 import { NetworkConfig } from '@badger-dao/sdk/lib/config/network/network.config';
 import { Network } from './model/network/network';
 import { Currency } from '../config/enums/currency.enum';
+import routes from 'config/routes';
 
 export class RootStore {
 	public api: BadgerAPI;
@@ -112,6 +113,10 @@ export class RootStore {
 		}
 		if (network.id === NETWORK_IDS.ETH) {
 			updateActions = updateActions.concat([this.airdrops.fetchAirdrops(), this.rebase.fetchRebaseStats()]);
+			// handle reloading only when connecting via ibbtc page - lazily init otherwise
+			if (this.router.currentPath === routes.IbBTC.path) {
+				updateActions.push(this.ibBTCStore.init());
+			}
 		}
 		await Promise.all(updateActions);
 	}
