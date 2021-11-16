@@ -26,8 +26,7 @@ export class TokenZap extends IbBTCMintZap {
 		const { poolId, idx, bBTC } = await this.getCalcMintMethod(amount).call();
 		const slippagePercentage = new BigNumber(100).minus(slippage);
 		const minOut = new BigNumber(bBTC).multipliedBy(slippagePercentage).dividedToIntegerBy(100);
-		console.log({ token: this.token.address, amt: amount.toString(), min: minOut.toString(), bBTC: bBTC.toString() });
-		return this.zap.methods.mint(this.token.address, amount.toString(), poolId, idx, minOut.toString());
+		return this.zap.methods.mint(this.token.address, toHex(amount), poolId, idx, toHex(minOut));
 	}
 
 	// this method is an abstract method, but not supporting this path any longer

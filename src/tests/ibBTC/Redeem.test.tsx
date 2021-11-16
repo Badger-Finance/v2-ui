@@ -15,11 +15,7 @@ const tokensConfig = addresses.mainnet.tokens;
 describe('ibBTC Redeem', () => {
 	beforeEach(() => {
 		store.ibBTCStore.ibBTC = new IbbtcOptionToken(store, tokensConfig['ibBTC']);
-		store.ibBTCStore.tokens = [
-			new IbbtcOptionToken(store, addresses.mainnet.tokens['bcrvRenSBTC']),
-			new IbbtcOptionToken(store, addresses.mainnet.tokens['bcrvRenBTC']),
-			new IbbtcOptionToken(store, addresses.mainnet.tokens['bcrvTBTC']),
-		];
+		store.ibBTCStore.tokens = [new IbbtcOptionToken(store, addresses.mainnet.tokens['bcrvRenBTC'])];
 		store.ibBTCStore.calcRedeemAmount = jest.fn().mockReturnValue({
 			fee: store.ibBTCStore.ibBTC.scale('0.0120'),
 			max: store.ibBTCStore.ibBTC.scale('15'),
@@ -88,7 +84,7 @@ describe('ibBTC Redeem', () => {
 
 			jest.advanceTimersByTime(1000);
 
-			await screen.findByText('20.000000 bcrvRenSBTC');
+			await screen.findByText('20.000000 bcrvRenBTC');
 
 			expect(container).toMatchSnapshot();
 		});
@@ -107,7 +103,7 @@ describe('ibBTC Redeem', () => {
 
 			jest.advanceTimersByTime(1000);
 
-			await screen.findByText('20.000000 bcrvRenSBTC');
+			await screen.findByText('20.000000 bcrvRenBTC');
 
 			fireEvent.click(screen.getByRole('button', { name: /redeem/i }));
 

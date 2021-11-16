@@ -169,12 +169,11 @@ export const Mint = observer(
 		};
 
 		const handleTokenChange = async (token: IbbtcOptionToken): Promise<void> => {
-			console.log('Selected ' + token.name);
 			setSelectedToken(token);
 			if (inputAmount?.displayValue) {
 				setInputAmount({
-					...inputAmount,
-					actualValue: token.scale(inputAmount.displayValue),
+					displayValue: '0',
+					actualValue: new BigNumber(0),
 				});
 				await calculateMintInformation(token.scale(inputAmount.displayValue), token);
 			}
