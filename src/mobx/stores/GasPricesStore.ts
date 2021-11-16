@@ -3,6 +3,7 @@ import { BadgerAPI, Network, GasPrices } from '@badger-dao/sdk';
 import { GasPricesSummary } from '../model/network/gas-prices-summary';
 import { supportedNetworks } from '../../config/networks.config';
 import { extendObservable } from 'mobx';
+import { ONE_MIN_MS } from '../../config/constants';
 
 class GasPricesStore {
 	private store: RootStore;
@@ -17,6 +18,10 @@ class GasPricesStore {
 		});
 
 		this.init();
+
+		setInterval(async () => {
+			await this.init();
+		}, ONE_MIN_MS / 2);
 	}
 
 	get initialized(): boolean {

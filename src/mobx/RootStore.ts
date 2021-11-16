@@ -23,6 +23,7 @@ import { BADGER_API } from './utils/apiV2';
 import { OnboardStore } from './stores/OnboardStore';
 import { NetworkConfig } from '@badger-dao/sdk/lib/config/network/network.config';
 import { Network } from './model/network/network';
+import { Currency } from '../config/enums/currency.enum';
 
 export class RootStore {
 	public api: BadgerAPI;
@@ -76,6 +77,8 @@ export class RootStore {
 			const appNetwork = Network.networkFromId(network);
 			this.network.network = appNetwork;
 		}
+
+		this.uiState.setCurrency(Currency.USD);
 		this.api = new BadgerAPI(network, BADGER_API);
 		this.rewards.resetRewards();
 

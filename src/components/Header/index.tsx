@@ -13,7 +13,7 @@ import { Skeleton } from '@material-ui/lab';
 import CurrencyDisplay from '../../components-v2/common/CurrencyDisplay';
 import { RewardsWidget } from '../../components-v2/landing/RewardsWidget';
 import DelegationWidget from '../../components-v2/common/DelegationWidget';
-import NetworkGasWidget from '../../components-v2/common/dialogs/NetworkGasWidget';
+import NetworkGasWidget from '../../components-v2/common/NetworkGasWidget';
 import { MoreHoriz } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({

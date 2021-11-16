@@ -15,9 +15,9 @@ import { GasSpeed, Network, NetworkConfig } from '@badger-dao/sdk';
 import CloseIcon from '@material-ui/icons/Close';
 import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
-import { defaultNetwork, supportedNetworks } from '../../../config/networks.config';
-import { StoreContext } from '../../../mobx/store-context';
-import { Loader } from '../../../components/Loader';
+import { defaultNetwork, supportedNetworks } from '../../config/networks.config';
+import { StoreContext } from '../../mobx/store-context';
+import { Loader } from '../../components/Loader';
 
 const useStyles = makeStyles((theme) => ({
 	title: {
@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
 		color: theme.palette.primary.main,
 	},
 	nonSelectedOption: {
-		border: '0.5px solid #848484',
+		border: '2px solid #848484',
 	},
 	networkListIcon: {
 		width: 17,

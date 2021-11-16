@@ -25,6 +25,7 @@ import SidebarItem from './SidebarItem';
 import { getSidebarConfig } from './sidebar.config';
 import SidebarSection from './SidebarSection';
 import CloseIcon from '@material-ui/icons/Close';
+import CurrencyDisplay from '../common/CurrencyDisplay';
 
 const DRAWER_WIDTH = 200;
 
@@ -256,7 +257,11 @@ const Sidebar = observer(() => {
 				<ListItem className={classes.badgerPrice}>
 					<Typography variant="body2">Badger Price: </Typography>
 					{badgerPrice ? (
-						<Typography variant="subtitle2">{inCurrency(badgerPrice, currency)}</Typography>
+						<CurrencyDisplay
+							displayValue={inCurrency(badgerPrice, currency)}
+							variant="subtitle2"
+							justify="center"
+						/>
 					) : (
 						<Skeleton width={32} animation="wave">
 							<Typography variant="subtitle2">Placeholder</Typography>

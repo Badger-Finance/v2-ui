@@ -1,6 +1,6 @@
 import CurrencyPicker from '../components-v2/landing/CurrencyPicker';
 import WalletSlider from '../components-v2/landing/WalletSlider';
-import { Grid, makeStyles, Button } from '@material-ui/core';
+import { Grid, makeStyles, Button, useMediaQuery, useTheme } from '@material-ui/core';
 import PageHeader from '../components-v2/common/PageHeader';
 import { StoreContext } from '../mobx/store-context';
 import { observer } from 'mobx-react-lite';
@@ -9,6 +9,7 @@ import { PageHeaderContainer, LayoutContainer } from '../components-v2/common/Co
 import { SettState } from '@badger-dao/sdk';
 import SettListView from '../components-v2/landing/SettListView';
 import DepositDialog from '../components-v2/ibbtc-vault/DepositDialog';
+import SettListFiltersWidget from '../components-v2/common/SettListFiltersWidget';
 
 const useStyles = makeStyles((theme) => ({
 	marginTop: {
@@ -89,6 +90,7 @@ const Landing = observer((props: LandingProps) => {
 
 	const { title, subtitle, state } = props;
 	const classes = useStyles();
+	const isMobile = useMediaQuery(useTheme().breakpoints.down('sm'));
 
 	return (
 		<LayoutContainer>
@@ -99,13 +101,21 @@ const Landing = observer((props: LandingProps) => {
 						<PageHeader title={title} subtitle={subtitle} />
 					</Grid>
 					<Grid item container xs={6} alignItems="center" justify="flex-end" spacing={2}>
-						<Grid item>
-							<CurrencyPicker />
-						</Grid>
-						{onboard.isActive() && (
+						{isMobile ? (
 							<Grid item>
-								<WalletSlider />
+								<SettListFiltersWidget />
 							</Grid>
+						) : (
+							<>
+								<Grid item>
+									<CurrencyPicker />
+								</Grid>
+								{onboard.isActive() && (
+									<Grid item>
+										<WalletSlider />
+									</Grid>
+								)}
+							</>
 						)}
 					</Grid>
 				</PageHeaderContainer>
