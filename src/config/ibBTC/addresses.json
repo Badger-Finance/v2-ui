@@ -42,8 +42,22 @@
 				"name": "bcrvBBTC",
 				"poolId": 4
 			},
+			"bcrvPBTC": {
+				"address": "0x55912D0Cf83B75c492E761932ABc4DB4a5CB1b17",
+				"decimals": 18,
+				"symbol": "bcrvPBTC",
+				"name": "bcrvPBTC",
+				"poolId": 5
+			},
+			"bcrvOBTC": {
+				"address": "0xf349c0faA80fC1870306Ac093f75934078e28991",
+				"decimals": 18,
+				"symbol": "bcrvOBTC",
+				"name": "bcrvOBTC",
+				"poolId": 6
+			},
 			"bcrvRenBTC": {
-				"address": "0x6dEf55d2e18486B9dDfaA075bc4e4EE0B28c1545",
+				"address": "0x55912D0Cf83B75c492E761932ABc4DB4a5CB1b17",
 				"decimals": 18,
 				"symbol": "bcrvRenBTC",
 				"name": "bcrvRenBTC",
@@ -68,7 +82,15 @@
 				"address": "0x41671BA1abcbA387b9b2B752c205e22e916BE6e3"
 			},
 			"GeneralVaultZap": {
-				"supportedTokens": ["byvWBTC", "bcrvRenSBTC", "bcrvTBTC", "bcrvHBTC", "bcrvBBTC"],
+				"supportedTokens": [
+					"byvWBTC",
+					"bcrvRenSBTC",
+					"bcrvTBTC",
+					"bcrvHBTC",
+					"bcrvBBTC",
+					"bcrvPBTC",
+					"bcrvOBTC"
+				],
 				"address": "0x27Fb47B9Fb32B9cF660C4E0128bE0f4e883f3df1"
 			},
 			"TokenZap": {

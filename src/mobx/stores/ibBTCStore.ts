@@ -55,6 +55,8 @@ class IbBTCStore {
 			new IbbtcOptionToken(this.store, token_config['byvWBTC']),
 			new IbbtcOptionToken(this.store, token_config['bcrvHBTC']),
 			new IbbtcOptionToken(this.store, token_config['bcrvBBTC']),
+			new IbbtcOptionToken(this.store, token_config['bcrvOBTC']),
+			new IbbtcOptionToken(this.store, token_config['bcrvPBTC']),
 		];
 
 		this.mintFeePercent = new BigNumber(0);
@@ -391,7 +393,7 @@ class IbBTCStore {
 			const zap = IbBTCMintZapFactory.getIbBTCZap(this.store, inToken);
 			const method = await zap.getMintMethod(amount, slippage);
 			await this.executeMethod(method, 'Mint submitted', `Successfully minted ${this.ibBTC.symbol}`);
-			await this.store.user.updateBalances();
+			await this.fetchTokensBalances();
 		} catch (err) {
 			// log error on non canceled tx
 			if (err.code !== 4001) {
