@@ -32,14 +32,14 @@ const useStyles = makeStyles((theme) => ({
 
 const LeaderboardAccountInformation = observer(
 	(): JSX.Element => {
-		const { user, wallet } = useContext(StoreContext);
+		const { user, onboard } = useContext(StoreContext);
 		const classes = useStyles();
 
 		const boost = user.accountDetails?.boost;
 		const rank = user.accountDetails?.boostRank;
 
 		// Show N/A when wallet is not connected otherwise show loading skeleton
-		const infoPlaceholder = !wallet.connectedAddress ? 'N/A' : <Skeleton width={30} />;
+		const infoPlaceholder = !onboard.isActive() ? 'N/A' : <Skeleton width={30} />;
 
 		return (
 			<Grid container>

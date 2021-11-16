@@ -4,10 +4,9 @@ import { BalanceNamespace } from '../../web3/config/namespaces';
 
 export interface RequestExtractedResults {
 	userTokens: ContractCallReturnContext[];
-	nonSettUserTokens: ContractCallReturnContext[];
 	userGeneralSetts: ContractCallReturnContext[];
 	userGuardedSetts: ContractCallReturnContext[];
-	userGeysers: ContractCallReturnContext[];
+	userDeprecatedSetts: ContractCallReturnContext[];
 }
 
 /**
@@ -16,14 +15,11 @@ export interface RequestExtractedResults {
  */
 export function extractBalanceRequestResults(contractCallResults: ContractCallResults): RequestExtractedResults {
 	const userTokens: ContractCallReturnContext[] = [];
-	const nonSettUserTokens: ContractCallReturnContext[] = [];
 	const userGeneralSetts: ContractCallReturnContext[] = [];
 	const userGuardedSetts: ContractCallReturnContext[] = [];
-	const userGeysers: ContractCallReturnContext[] = [];
+	const userDeprecatedSetts: ContractCallReturnContext[] = [];
 
-	for (const resultsKey in contractCallResults.results) {
-		const results = contractCallResults.results[resultsKey];
-
+	for (const results of Object.values(contractCallResults.results)) {
 		const namespace = results.originalContractCallContext.context.namespace as BalanceNamespace;
 		const validNamespaces = Object.values(BalanceNamespace);
 
@@ -33,29 +29,25 @@ export function extractBalanceRequestResults(contractCallResults: ContractCallRe
 		}
 
 		switch (namespace) {
-			case BalanceNamespace.Token:
-				userTokens.push(results);
-				break;
-			case BalanceNamespace.NonSettToken:
-				nonSettUserTokens.push(results);
-				break;
 			case BalanceNamespace.Sett:
 				userGeneralSetts.push(results);
 				break;
 			case BalanceNamespace.GuardedSett:
 				userGuardedSetts.push(results);
 				break;
-			case BalanceNamespace.Geyser:
-				userGeysers.push(results);
+			case BalanceNamespace.Deprecated:
+				userDeprecatedSetts.push(results);
 				break;
+			case BalanceNamespace.Token:
+			default:
+				userTokens.push(results);
 		}
 	}
 
 	return {
 		userTokens,
-		nonSettUserTokens,
 		userGeneralSetts,
 		userGuardedSetts,
-		userGeysers,
+		userDeprecatedSetts,
 	};
 }

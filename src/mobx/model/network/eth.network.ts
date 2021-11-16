@@ -1,7 +1,6 @@
 import { NETWORK_IDS } from 'config/constants';
-import { createBalancesRequest, toSettConfig } from 'web3/config/config-utils';
+import { toSettConfig } from 'web3/config/config-utils';
 import { Deploy } from 'web3/interface/deploy';
-import { SettMap } from '../setts/sett-map';
 import { BadgerSett } from '../vaults/badger-sett';
 import { Network as NetworkModel } from './network';
 import deploy from '../../../config/deployments/mainnet.json';
@@ -10,8 +9,7 @@ import { ProtocolTokens } from 'web3/interface/protocol-token';
 import { FLAGS } from 'config/environment';
 import { Currency } from 'config/enums/currency.enum';
 import { AdvisoryType } from '../vaults/advisory-type';
-import { Network, SettState } from '@badger-dao/sdk';
-import { ContractCallContext } from 'ethereum-multicall';
+import { Network } from '@badger-dao/sdk';
 
 export class Ethereum extends NetworkModel {
 	constructor() {
@@ -28,10 +26,9 @@ export class Ethereum extends NetworkModel {
 	}
 	get settOrder(): string[] {
 		return [
+			this.deploy.sett_system.vaults['native.ibbtcCrv'],
 			this.deploy.sett_system.vaults['native.bveCVXCVX'],
 			this.deploy.sett_system.vaults['native.icvx'],
-			this.deploy.sett_system.vaults['native.cvx'],
-			this.deploy.sett_system.vaults['native.badger'],
 			this.deploy.sett_system.vaults['native.digg'],
 			this.deploy.sett_system.vaults['native.sushiibBTCwBTC'],
 			this.deploy.sett_system.vaults['native.sushiBadgerWbtc'],
@@ -47,33 +44,17 @@ export class Ethereum extends NetworkModel {
 			this.deploy.sett_system.vaults['native.pbtcCrv'],
 			this.deploy.sett_system.vaults['native.obtcCrv'],
 			this.deploy.sett_system.vaults['native.bbtcCrv'],
+			this.deploy.sett_system.vaults['native.cvx'],
 			this.deploy.sett_system.vaults['yearn.wBtc'],
 			this.deploy.sett_system.vaults['native.sushiWbtcEth'],
 			this.deploy.sett_system.vaults['native.uniBadgerWbtc'],
+			this.deploy.sett_system.vaults['native.badger'],
 			this.deploy.sett_system.vaults['harvest.renCrv'],
 			this.deploy.sett_system.vaults['native.uniDiggWbtc'],
 			this.deploy.sett_system.vaults['native.tricryptoCrv'],
 			...(FLAGS.STABILIZATION_SETTS ? [this.deploy.sett_system.vaults['experimental.digg']] : []),
 			...(FLAGS.RENBTC_SETT ? [this.deploy.sett_system.vaults['native.renBtc']] : []),
 		];
-	}
-
-	getBalancesRequests(setts: SettMap, userAddress: string): ContractCallContext[] {
-		const tokenAddresses = Object.values(setts).map((sett) => sett.underlyingToken);
-		const nonSettTokenAddresses = [deploy.digg_system.DROPT['DROPT-3'].longToken];
-		const settAddresses = Object.values(setts).map((sett) => sett.settToken);
-		const generalSettAddresses = settAddresses.filter((sett) => setts[sett].state === SettState.Open);
-		const guardedSettAddresses = settAddresses.filter((sett) => setts[sett].state !== SettState.Open);
-		const geyserAddresses = ethSetts.map((sett) => sett.geyser).filter((geyser): geyser is string => !!geyser);
-
-		return createBalancesRequest({
-			tokenAddresses,
-			generalSettAddresses,
-			guardedSettAddresses,
-			geyserAddresses,
-			nonSettTokenAddresses,
-			userAddress,
-		});
 	}
 }
 
@@ -363,6 +344,16 @@ const ethSettDefinitions: BadgerSett[] = [
 			decimals: 18,
 		},
 	},
+	{
+		depositToken: {
+			address: ETH_DEPLOY.tokens['curve.ibBTC'],
+			decimals: 18,
+		},
+		vaultToken: {
+			address: ETH_DEPLOY.sett_system.vaults['native.ibbtcCrv'],
+			decimals: 18,
+		},
+	},
 ];
 
 export const ethSetts = toSettConfig(ethSettDefinitions);
@@ -387,6 +378,19 @@ const ethRewards = [
 	{
 		address: ETH_DEPLOY.tokens['DROPT-3'],
 		decimals: 18,
+	},
+	{ name: 'ibBTC', decimals: 18, address: '0xc4E15973E6fF2A35cC804c2CF9D2a1b817a8b40F', symbol: 'ibBTC' },
+	{
+		name: 'sBTC',
+		address: ETH_DEPLOY.tokens['sBTC'],
+		decimals: 18,
+		symbol: 'sBTC',
+	},
+	{
+		name: 'wBTC',
+		address: ETH_DEPLOY.tokens['wBTC'],
+		decimals: 18,
+		symbol: 'wBTC',
 	},
 ];
 

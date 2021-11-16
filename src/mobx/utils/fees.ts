@@ -1,4 +1,5 @@
 import { Sett } from '@badger-dao/sdk';
+import { ethers } from 'ethers';
 import { SettStrategy } from 'mobx/model/setts/sett-strategy';
 import { StrategyConfig } from '../model/strategies/strategy-config';
 import { StrategyFee } from '../model/system-config/stategy-fees';
@@ -50,6 +51,9 @@ export function getStrategyFee(sett: Sett, fee: StrategyFee, config: StrategyCon
 }
 
 function getSettStrategyFee(strategy: SettStrategy, fee: StrategyFee): number | undefined {
+	if (strategy.address === ethers.constants.AddressZero) {
+		return;
+	}
 	switch (fee) {
 		case StrategyFee.withdraw:
 			return strategy.withdrawFee;

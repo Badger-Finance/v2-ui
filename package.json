@@ -4,7 +4,7 @@
 	"version": "0.1.0",
 	"private": true,
 	"dependencies": {
-		"@badger-dao/sdk": "^1.0.39",
+		"@badger-dao/sdk": "^1.0.42",
 		"@lifeomic/attempt": "^3.0.0",
 		"@material-ui/core": "^4.11.2",
 		"@material-ui/icons": "^4.11.2",
@@ -47,7 +47,7 @@
 		"prepare": "husky install",
 		"start": "react-scripts start",
 		"build": "react-scripts --max_old_space_size=4096 build",
-		"test": "react-scripts test --watchAll=false --detectOpenHandles --runInBand",
+		"test": "react-scripts test --watchAll=false",
 		"test:coverage": "react-scripts test --silent --ci --coverage --watchAll=false --coverageReporters=\"text\" --coverageReporters=\"text-summary\" --json --outputFile=report.json",
 		"eject": "react-scripts eject",
 		"predeploy": "npm run build",
@@ -56,7 +56,7 @@
 		"lint-fix": "yarn lint --quiet --fix",
 		"lint-fix-warn": "yarn lint --fix",
 		"ui": "yarn upgradeInteractive",
-		"format": "prettier --write \"src/**/*.ts\" \"src/**/*.tsx\""
+		"format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json}\""
 	},
 	"eslintConfig": {
 		"extends": "react-app"

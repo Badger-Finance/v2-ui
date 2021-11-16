@@ -1,16 +1,13 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Card, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Delegation from './Delegation';
 import Earnings from './Earnings';
-import { observer } from 'mobx-react-lite';
-import { StoreContext } from '../../mobx/store-context';
 
 export const SAFE_BOX_ILLUSTRATION_BREAKPOINT = 1350;
 
 const useStyles = makeStyles((theme) => ({
 	root: {
-		marginTop: theme.spacing(4),
 		padding: theme.spacing(4),
 		backgroundColor: '#3A3A3A',
 		position: 'relative',
@@ -78,15 +75,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Banner = (): JSX.Element | null => {
-	const {
-		lockedCvxDelegation: { shouldBannerBeDisplayed },
-	} = useContext(StoreContext);
-
 	const classes = useStyles();
-
-	if (!shouldBannerBeDisplayed) {
-		return null;
-	}
 
 	return (
 		<Card classes={{ root: classes.root }}>
@@ -120,4 +109,4 @@ const Banner = (): JSX.Element | null => {
 	);
 };
 
-export default observer(Banner);
+export default Banner;

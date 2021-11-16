@@ -6,28 +6,46 @@ const useStyles = makeStyles((theme) => ({
 	list: {
 		width: '100%',
 		borderRadius: theme.shape.borderRadius,
-		overflow: 'hidden',
+		overflow: 'auto',
 		background: `${theme.palette.background.paper}`,
 		padding: 0,
 		boxShadow: theme.shadows[1],
+		maxHeight: '82vh',
 		marginBottom: theme.spacing(2),
+		[theme.breakpoints.down('md')]: {
+			maxHeight: '80vh',
+			marginBottom: theme.spacing(0.5),
+		},
+		'&::-webkit-scrollbar': {
+			backgroundColor: 'rgb(43, 43, 43)',
+			borderTopRightRadius: 8,
+			borderBottomRightRadius: 8,
+		},
+		'&::-webkit-scrollbar-corner': {
+			backgroundColor: 'rgb(43, 43, 43)',
+		},
+		'&::-webkit-scrollbar-thumb': {
+			borderRadius: 8,
+			backgroundColor: 'rgb(107, 107, 107)',
+			minHeight: 24,
+			border: '3px solid rgb(43, 43, 43)',
+		},
 	},
 }));
 
 export interface SettTableProps {
 	title: string;
-	period: string;
 	settList: (JSX.Element | null | undefined)[];
 	displayValue: string | undefined;
 }
 
 const SettTable = (props: SettTableProps): JSX.Element => {
-	const { title, period, settList, displayValue } = props;
+	const { title, settList, displayValue } = props;
 	const classes = useStyles();
 
 	return (
 		<>
-			<TableHeader title={title} period={period} displayValue={displayValue} />
+			<TableHeader title={title} displayValue={displayValue} />
 			<List className={classes.list}>{settList}</List>
 		</>
 	);

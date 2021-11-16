@@ -12,11 +12,11 @@ export interface SettListViewProps {
 const SettListView = observer(({ state }: SettListViewProps) => {
 	const store = useContext(StoreContext);
 	const {
+		onboard,
 		uiState: { showUserBalances },
-		wallet: { connectedAddress },
 	} = store;
-	const showUserDisplay = showUserBalances && connectedAddress;
-	return showUserDisplay ? <UserListDisplay state={state} /> : <SettListDisplay state={state} />;
+	const showUserDisplay = showUserBalances && onboard.isActive();
+	return showUserDisplay ? <UserListDisplay /> : <SettListDisplay state={state} />;
 });
 
 export default SettListView;

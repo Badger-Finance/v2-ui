@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from 'mobx/store-context';
-import { Dialog, Grid, Link, Typography } from '@material-ui/core';
+import { Dialog, Grid, Typography } from '@material-ui/core';
 import { BadgerSett } from 'mobx/model/vaults/badger-sett';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { useNumericInput } from 'utils/useNumericInput';
@@ -11,8 +11,6 @@ import { ActionButton, AmountTextField, LoaderSpinner, PercentagesContainer, Set
 import { BalanceNamespace } from '../../../web3/config/namespaces';
 import { SettConversionAndFee } from './SettConversionAndFee';
 import { makeStyles } from '@material-ui/core/styles';
-import Alert from '@material-ui/lab/Alert';
-import WarningIcon from '@material-ui/icons/Warning';
 import { Sett } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
@@ -52,23 +50,14 @@ export interface SettModalProps {
 }
 
 export const SettWithdraw = observer(({ open = false, sett, badgerSett, onClose }: SettModalProps) => {
-	const {
-		wallet: { connectedAddress },
-		user,
-		contracts,
-		setts,
-	} = useContext(StoreContext);
+	const { onboard, user, contracts, setts } = useContext(StoreContext);
 
 	const classes = useStyles();
 	const [amount, setAmount] = useState('');
 	const { onValidChange, inputProps } = useNumericInput();
 
 	const userBalance = user.getBalance(BalanceNamespace.Sett, badgerSett);
-	const userHasStakedDeposits = badgerSett.geyser
-		? user.getBalance(BalanceNamespace.Geyser, badgerSett).balance.gt(0)
-		: false;
-
-	const userHasBalance = !userHasStakedDeposits && userBalance.balance.gt(0);
+	const userHasBalance = userBalance.balance.gt(0);
 
 	const depositToken = setts.getToken(sett.underlyingToken);
 	const bToken = setts.getToken(sett.settToken);
@@ -77,7 +66,7 @@ export const SettWithdraw = observer(({ open = false, sett, badgerSett, onClose 
 	const depositTokenSymbol = depositToken?.symbol || '';
 	const bTokenSymbol = bToken?.symbol || '';
 
-	const canWithdraw = !!connectedAddress && !!amount && userHasBalance;
+	const canWithdraw = onboard.isActive() && !!amount && userHasBalance;
 	const isLoading = contracts.settsBeingWithdrawn[sett.settToken];
 
 	const handlePercentageChange = (percent: number) => {
@@ -91,20 +80,6 @@ export const SettWithdraw = observer(({ open = false, sett, badgerSett, onClose 
 		const withdrawBalance = TokenBalance.fromBalance(userBalance, amount);
 		await contracts.withdraw(sett, badgerSett, userBalance, withdrawBalance);
 	};
-
-	const stakedInfo = (
-		<Alert
-			className={classes.geyserDeposit}
-			severity="info"
-			iconMapping={{ info: <WarningIcon fontSize="inherit" className={classes.geyserIcon} /> }}
-		>
-			Staked deposits are deprecated. You can use the
-			<Link href="https://legacy.badger.finance" target="_blank" rel="noopener" className={classes.legacyAppLink}>
-				Legacy app
-			</Link>
-			to withdraw them
-		</Alert>
-	);
 
 	const withdrawFees = (
 		<>
@@ -143,13 +118,12 @@ export const SettWithdraw = observer(({ open = false, sett, badgerSett, onClose 
 					<PercentagesContainer item xs={12} sm={6}>
 						<PercentageSelector
 							size="small"
-							disabled={userHasStakedDeposits}
 							options={[25, 50, 75, 100]}
 							onChange={handlePercentageChange}
 						/>
 					</PercentagesContainer>
 				</Grid>
-				{userHasStakedDeposits ? stakedInfo : withdrawFees}
+				{withdrawFees}
 				<ActionButton
 					aria-label="Deposit"
 					size="large"

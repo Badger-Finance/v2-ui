@@ -5,9 +5,6 @@ import { StoreContext } from '../../mobx/store-context';
 import { BadgerSett } from '../../mobx/model/vaults/badger-sett';
 
 const useStyles = makeStyles((theme) => ({
-	root: {
-		marginBottom: theme.spacing(3),
-	},
 	vaultDescription: {
 		marginBottom: theme.spacing(1),
 	},
@@ -36,7 +33,7 @@ export const Footer = observer(
 		const strategy = network.strategies[badgerSett.vaultToken.address];
 
 		return (
-			<footer className={classes.root}>
+			<footer>
 				{strategy.description && (
 					<div className={classes.vaultDescription}>
 						<Typography variant="body2" color="textSecondary">

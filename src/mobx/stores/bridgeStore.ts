@@ -2,7 +2,6 @@ import firebase from 'firebase';
 import Web3 from 'web3';
 import { Contract } from 'web3-eth-contract';
 import BigNumber from 'bignumber.js';
-import { provider } from 'web3-core';
 import { AbiItem } from 'web3-utils';
 import { Bitcoin, Ethereum } from '@renproject/chains';
 import RenJS from '@renproject/ren';
@@ -11,7 +10,6 @@ import { extendObservable, action, observe, IValueDidChange, toJS } from 'mobx';
 import { retry } from '@lifeomic/attempt';
 import fbase from 'fbase';
 import { RootStore } from '../RootStore';
-import WalletStore from './walletStore';
 import {
 	defaultRetryOptions,
 	// abis
@@ -25,8 +23,6 @@ import { shortenAddress } from 'utils/componentHelpers';
 import { isEqual } from '../../utils/lodashToNative';
 import { RenVMTransaction } from '../model/bridge/renVMTransaction';
 import { defaultNetwork } from 'config/networks.config';
-import { NetworkStore } from './NetworkStore';
-import { Network as NetworkModel } from 'mobx/model/network/network';
 import { REN_FEES_ENDPOINT } from '../../config/constants';
 import { Network } from '@badger-dao/sdk';
 
@@ -140,66 +136,6 @@ class BridgeStore {
 			...defaultProps,
 		});
 
-		observe(this.store.network as NetworkStore, 'network', async ({ newValue }: IValueDidChange<NetworkModel>) => {
-			if (!newValue) {
-				return;
-			}
-
-			this.network = newValue.symbol;
-			// NB: Only ETH supported for now.
-			if (this.network !== Network.Ethereum) {
-				return;
-			}
-			await this.reload();
-		});
-
-		observe(this.store.wallet as WalletStore, 'provider', ({ newValue }: IValueDidChange<provider>) => {
-			if (!newValue) return;
-
-			const web3 = new Web3(newValue);
-			// We're disabling these because the web3-eth-contract package has not been updated to
-			// be compatible with the updated web3 package
-			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-			// @ts-ignore
-			this.adapter = new web3.eth.Contract(BADGER_ADAPTER, bridge_system['adapter']);
-			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-			// @ts-ignore
-			this.renbtc = new web3.eth.Contract(ERC20.abi as AbiItem[], tokens.renBTC);
-			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-			// @ts-ignore
-			this.wbtc = new web3.eth.Contract(ERC20.abi as AbiItem[], tokens.wBTC);
-			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-			// @ts-ignore
-			this.byvwbtc = new web3.eth.Contract(ERC20.abi as AbiItem[], sett_system.vaults['yearn.wBtc']);
-			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-			// @ts-ignore
-			this.bCRVrenBTC = new web3.eth.Contract(ERC20.abi as AbiItem[], sett_system.vaults['native.renCrv']);
-			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-			// @ts-ignore
-			this.bCRVsBTC = new web3.eth.Contract(ERC20.abi as AbiItem[], sett_system.vaults['native.sbtcCrv']);
-			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-			// @ts-ignore
-			this.bCRVtBTC = new web3.eth.Contract(ERC20.abi as AbiItem[], sett_system.vaults['native.tbtcCrv']);
-			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-			// @ts-ignore
-			this.gateway = new web3.eth.Contract(BTC_GATEWAY, RENVM_GATEWAY_ADDRESS);
-			return;
-		});
-
-		observe(
-			this.store.wallet as WalletStore,
-			'connectedAddress',
-			async ({ newValue, oldValue }: IValueDidChange<string>) => {
-				if (oldValue === newValue) return;
-				if (!newValue) return;
-				// Set shortened addr.
-				const { network } = this.store.network;
-				// NB: Only ETH supported for now.
-				if (network.symbol !== Network.Ethereum) return;
-				await this.reload();
-			},
-		);
-
 		observe(
 			this as BridgeStore,
 			'current',
@@ -218,8 +154,10 @@ class BridgeStore {
 			 *   - incomplete tx: already persisted renvm tx data but tx has not been completed
 			 */
 			({ newValue, oldValue }: IValueDidChange<RenVMTransaction | null>) => {
-				const { provider } = this.store.wallet;
-				if (!provider) return;
+				const { provider } = this.store.onboard;
+				if (!provider) {
+					return;
+				}
 				// TODO: Remove this last lodash reference
 				if (isEqual(oldValue, newValue)) return;
 				if (newValue === null) return;
@@ -250,30 +188,31 @@ class BridgeStore {
 			// NB: Only ETH supported for now.
 			if (this.network !== Network.Ethereum) return;
 
-			const { connectedAddress } = this.store.wallet;
+			const { address } = this.store.onboard;
 			// So this doesn't race against address changes.
 			if (this.loading) return;
-			if (!connectedAddress) return;
-			this._getBalances(connectedAddress);
+			if (!address) return;
+			this._getBalances(address);
 		}, UPDATE_INTERVAL_SECONDS);
 	}
 
 	reload = action(async () => {
 		// Always reset first on reload even though we may not be loading any data.
 		this.reset();
+		this.updateContracts();
 
 		const { queueNotification } = this.store.uiState;
-		const { provider, connectedAddress } = this.store.wallet;
+		const { wallet, address } = this.store.onboard;
 
-		if (!provider) return;
+		if (!wallet || !address) return;
 
-		this.shortAddr = shortenAddress(connectedAddress);
+		this.shortAddr = shortenAddress(address);
 
 		this.loading = true;
 		return Promise.all([
 			// Fetch old transactions and reload any incomplete tx.
-			this._fetchTx(connectedAddress),
-			this._getBalances(connectedAddress),
+			this._fetchTx(address),
+			this._getBalances(address),
 			this._getFees(),
 			this._getRenFees(),
 			this._getBTCNetworkFees(),
@@ -302,15 +241,46 @@ class BridgeStore {
 		this.done = done;
 	});
 
+	updateContracts = action(() => {
+		const web3 = new Web3(this.store.onboard.wallet?.provider);
+		// We're disabling these because the web3-eth-contract package has not been updated to
+		// be compatible with the updated web3 package
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
+		this.adapter = new web3.eth.Contract(BADGER_ADAPTER, bridge_system['adapter']);
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
+		this.renbtc = new web3.eth.Contract(ERC20.abi as AbiItem[], tokens.renBTC);
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
+		this.wbtc = new web3.eth.Contract(ERC20.abi as AbiItem[], tokens.wBTC);
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
+		this.byvwbtc = new web3.eth.Contract(ERC20.abi as AbiItem[], sett_system.vaults['yearn.wBtc']);
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
+		this.bCRVrenBTC = new web3.eth.Contract(ERC20.abi as AbiItem[], sett_system.vaults['native.renCrv']);
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
+		this.bCRVsBTC = new web3.eth.Contract(ERC20.abi as AbiItem[], sett_system.vaults['native.sbtcCrv']);
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
+		this.bCRVtBTC = new web3.eth.Contract(ERC20.abi as AbiItem[], sett_system.vaults['native.tbtcCrv']);
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
+		this.gateway = new web3.eth.Contract(BTC_GATEWAY, RENVM_GATEWAY_ADDRESS);
+	});
+
 	// Complete tx processing.
 	_complete = (): void => {
-		const { connectedAddress } = this.store.wallet;
+		const { address } = this.store.onboard;
+		if (!address) return;
 		// Execute any done cb if set.
 		if (this.done) this.done();
 		// Remove if completed.
 		this.current = null;
 		// TODO: This can be optimized to return from offset (currently fetches all).
-		this.fetchTx(connectedAddress);
+		this.fetchTx(address);
 		this.status = Status.IDLE;
 	};
 
@@ -356,7 +326,11 @@ class BridgeStore {
 
 	initTx = action(async (tx: RenVMTransaction) => {
 		const { queueNotification } = this.store.uiState;
-		const { connectedAddress } = this.store.wallet;
+		const { address } = this.store.onboard;
+
+		if (!address) {
+			return;
+		}
 
 		try {
 			const created = firebase.firestore.Timestamp.fromDate(new Date(Date.now()));
@@ -366,7 +340,7 @@ class BridgeStore {
 				...tx,
 				id: ref.id,
 				// NB: Always store lowercase account addr.
-				user: connectedAddress.toLowerCase(),
+				user: address.toLowerCase(),
 				nonce: JSON.stringify(RenJS.utils.randomNonce()),
 				created,
 				deleted: false,

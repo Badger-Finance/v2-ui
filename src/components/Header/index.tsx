@@ -2,41 +2,75 @@ import React, { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import { useContext } from 'react';
 import { StoreContext } from '../../mobx/store-context';
-import { Toolbar, AppBar, IconButton } from '@material-ui/core';
+import { Typography, Grid, Button, useMediaQuery, useTheme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { Menu } from '@material-ui/icons';
 import { useSnackbar } from 'notistack';
+import WalletWidget from '../../components-v2/common/WalletWidget';
+import { LayoutContainer } from '../../components-v2/common/Containers';
+import BigNumber from 'bignumber.js';
+import { inCurrency } from '../../mobx/utils/helpers';
+import { Skeleton } from '@material-ui/lab';
+import CurrencyDisplay from '../../components-v2/common/CurrencyDisplay';
+import { RewardsWidget } from '../../components-v2/landing/RewardsWidget';
+import DelegationWidget from '../../components-v2/common/DelegationWidget';
+import NetworkGasWidget from '../../components-v2/common/NetworkGasWidget';
+import { MoreHoriz } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
-	appBar: {
-		justifyContent: 'space-between',
+	root: {
+		width: '100%',
+		borderBottom: '1px solid #2B2B2B',
+		position: 'sticky',
+		top: 0,
+		background: '#181818',
+		zIndex: 1,
+	},
+	container: {
+		padding: '20px 0',
+	},
+	button: {
+		height: 36,
+	},
+	delegateButton: {
+		minWidth: 37,
+		width: 37,
+	},
+	loader: {
+		display: 'inline-flex',
+		marginLeft: 4,
+	},
+	amounts: {
+		whiteSpace: 'pre-wrap',
+	},
+	sidebarButton: {
 		[theme.breakpoints.up('md')]: {
 			display: 'none',
 		},
 	},
-	toolbar: {
-		justifyContent: 'space-between',
-		cursor: 'pointer',
-	},
-	logo: {
-		height: '2.4rem',
-	},
-	menuButton: {
-		float: 'right',
-		color: '#000',
+	badgerLogo: {
+		width: 44,
+		height: 44,
 	},
 }));
 
 const Header = observer(() => {
-	const classes = useStyles();
-
-	const store = useContext(StoreContext);
 	const {
-		uiState: { openSidebar, notification },
-		wallet: { notify },
+		user,
+		lockedCvxDelegation: { shouldBannerBeDisplayed },
+		uiState,
+		onboard,
+		onboard: { notify },
 		network: { network },
-	} = store;
+		setts: { protocolSummary },
+	} = useContext(StoreContext);
 	const { enqueueSnackbar } = useSnackbar();
+	const classes = useStyles();
+	const isMobile = useMediaQuery(useTheme().breakpoints.down('sm'));
+
+	const { notification, currency } = uiState;
+	const totalValueLocked = protocolSummary ? new BigNumber(protocolSummary.totalValue) : undefined;
+	const portfolioValue = onboard.isActive() && user.initialized ? user.portfolioValue : undefined;
+	const valuePlaceholder = <Skeleton animation="wave" width={32} className={classes.loader} />;
 
 	const enq = () => {
 		if (!notification || !notification.message) return;
@@ -55,15 +89,87 @@ const Header = observer(() => {
 	useEffect(enq, [notification]);
 
 	return (
-		<AppBar className={classes.appBar} color="primary">
-			<Toolbar className={classes.toolbar}>
-				<img alt="Badger Header Logo" src={'/assets/badger-full.png'} className={classes.logo} />
-
-				<IconButton className={classes.menuButton} onClick={() => openSidebar()}>
-					<Menu />
-				</IconButton>
-			</Toolbar>
-		</AppBar>
+		<div className={classes.root}>
+			<LayoutContainer>
+				<Grid container>
+					<Grid container className={classes.container}>
+						<Grid item xs={3} md={6} container alignItems="center" className={classes.amounts}>
+							{isMobile ? (
+								<div onClick={() => window.open('https://badger.com/', '_blank')}>
+									<img
+										className={classes.badgerLogo}
+										alt="Badger Logo"
+										src={'/assets/icons/badger.png'}
+									/>
+								</div>
+							) : (
+								<>
+									{onboard.isActive() && (
+										<Grid item xs={12} sm={6}>
+											<Typography variant="body2" display="inline">
+												My assets:{' '}
+											</Typography>
+											{portfolioValue ? (
+												<CurrencyDisplay
+													displayValue={inCurrency(portfolioValue, currency)}
+													variant="subtitle2"
+													justify="flex-start"
+												/>
+											) : (
+												valuePlaceholder
+											)}
+										</Grid>
+									)}
+									<Grid item xs={12} sm={6}>
+										<Typography variant="body2" display="inline">
+											All Vaults (TVL):{' '}
+										</Typography>
+										{totalValueLocked ? (
+											<CurrencyDisplay
+												displayValue={inCurrency(totalValueLocked, currency)}
+												variant="subtitle2"
+												justify="flex-start"
+											/>
+										) : (
+											valuePlaceholder
+										)}
+									</Grid>
+								</>
+							)}
+						</Grid>
+						<Grid item container xs={9} md={6} alignItems="center" justify="flex-end" spacing={1}>
+							{onboard.isActive() && (
+								<Grid item>
+									<RewardsWidget />
+								</Grid>
+							)}
+							{shouldBannerBeDisplayed && (
+								<Grid item>
+									<DelegationWidget />
+								</Grid>
+							)}
+							{onboard.isActive() && (
+								<Grid item>
+									<NetworkGasWidget />
+								</Grid>
+							)}
+							<Grid item>
+								<WalletWidget className={classes.button} />
+							</Grid>
+							<Grid item className={classes.sidebarButton}>
+								<Button
+									variant="outlined"
+									className={classes.button}
+									onClick={() => uiState.openSidebar()}
+								>
+									<MoreHoriz />
+								</Button>
+							</Grid>
+						</Grid>
+					</Grid>
+				</Grid>
+			</LayoutContainer>
+		</div>
 	);
 });
 

@@ -1,7 +1,6 @@
 import BigNumber from 'bignumber.js';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import store from 'mobx/RootStore';
-import { getToken } from 'web3/config/token-config';
 import { RewardMerkleClaim } from '../model/rewards/reward-merkle-claim';
 import { TreeClaimData } from '../model/rewards/tree-claim-data';
 
@@ -24,14 +23,14 @@ export const reduceClaims = (
 	if (!proof.cumulativeAmounts) {
 		return [];
 	}
-	const { rewards } = store;
+	const { rewards, setts } = store;
 	const claimableTokens = proof.cumulativeAmounts.length;
 	const tokenClaims = [];
 
 	const amounts = claimedRewards[1];
 	for (let i = 0; i < claimableTokens; i++) {
 		const token = proof.tokens[i];
-		const claimToken = getToken(token);
+		const claimToken = setts.getToken(token);
 		if (!claimToken) {
 			continue;
 		}

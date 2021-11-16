@@ -5,7 +5,7 @@ import Info from './Info';
 import React, { useContext } from 'react';
 import PageHeader from '../../components-v2/common/PageHeader';
 import { StoreContext } from 'mobx/store-context';
-import { HeaderContainer, LayoutContainer } from '../../components-v2/common/Containers';
+import { PageHeaderContainer, LayoutContainer } from '../../components-v2/common/Containers';
 import { Network } from '@badger-dao/sdk';
 
 export const Digg = observer(() => {
@@ -15,9 +15,9 @@ export const Digg = observer(() => {
 	return (
 		<LayoutContainer>
 			<Grid container spacing={1} justify="center">
-				<HeaderContainer item xs={12}>
+				<PageHeaderContainer item xs={12}>
 					<PageHeader title="DIGG" subtitle="Pegged to Bitcoin. Governed by BadgerDAO." />
-				</HeaderContainer>
+				</PageHeaderContainer>
 				{network.symbol === Network.Ethereum ? (
 					<>
 						<Info />

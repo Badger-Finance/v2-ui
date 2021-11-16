@@ -52,7 +52,7 @@ export const Optimizer = observer(
 	(): JSX.Element => {
 		const {
 			user: { accountDetails },
-			wallet: { connectedAddress },
+			onboard,
 		} = useContext(StoreContext);
 
 		const classes = useStyles();
@@ -141,7 +141,7 @@ export const Optimizer = observer(
 		// load store holdings by default once they're available
 		useEffect(() => {
 			// wallet was disconnected so we reset values to no wallet defaults
-			if (!connectedAddress) {
+			if (!onboard.isActive()) {
 				resetToDisconnectedWalletDefaults();
 				return;
 			}
@@ -153,7 +153,7 @@ export const Optimizer = observer(
 			setNative(formatWithoutExtraZeros(nativeBalance, 4));
 			setNonNative(formatWithoutExtraZeros(nonNativeBalance, 4));
 			setMultiplier(boost);
-		}, [accountDetails, connectedAddress]);
+		}, [accountDetails, onboard, onboard.address]);
 
 		return (
 			<Grid container spacing={2}>

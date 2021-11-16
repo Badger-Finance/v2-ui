@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid, Typography } from '@material-ui/core';
 import SettBadge from './SettBadge';
 import { makeStyles } from '@material-ui/core/styles';
-import { Sett } from '@badger-dao/sdk';
+import { Sett, SettState } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
 	symbol: {
@@ -18,6 +18,22 @@ const useStyles = makeStyles((theme) => ({
 		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'center',
+	},
+	tagContainer: {
+		display: 'flex',
+		alignItems: 'center',
+		marginLeft: theme.spacing(2),
+	},
+	newTag: {
+		background: 'white',
+		textTransform: 'uppercase',
+		fontSize: '12px',
+		fontWeight: 700,
+		color: theme.palette.background.paper,
+		padding: theme.spacing(0.5),
+		paddingLeft: theme.spacing(2),
+		paddingRight: theme.spacing(2),
+		borderRadius: '25px',
 	},
 }));
 
@@ -45,10 +61,15 @@ export const SettItemName = ({ sett }: Props): JSX.Element => {
 						<Typography variant="caption" color="textSecondary">
 							{sett.protocol}
 						</Typography>
-						{sett.deprecated && <SettBadge protocol={'No Emissions'} />}
+						{sett.state === SettState.Deprecated && <SettBadge protocol={'No Emissions'} />}
 					</Grid>
 				</Grid>
 			</Grid>
+			{sett.newVault && (
+				<Grid item className={classes.tagContainer}>
+					<div className={classes.newTag}>New</div>
+				</Grid>
+			)}
 		</Grid>
 	);
 };

@@ -1,7 +1,8 @@
-import { Network } from '@badger-dao/sdk';
+import { Network, NetworkConfig } from '@badger-dao/sdk';
 import { StateAndHelpers, WalletCheckModal } from 'bnc-onboard/dist/src/interfaces';
 import { Network as NetworkModel } from 'mobx/model/network/network';
 import { CONTACT_EMAIL, APP_NAME, PORTIS_APP_ID, NETWORK_IDS, RPC_WALLETS } from './constants';
+import rpc from './rpc.config';
 
 export interface WalletProviderInfo {
 	walletName: string;
@@ -20,9 +21,9 @@ export const isRpcWallet = (walletName: string | null): boolean => {
 	return RPC_WALLETS[walletName] ?? false;
 };
 
-export const getOnboardWallets = (chain: NetworkModel): WalletProviderInfo[] => {
-	const rpc = chain.rpc;
-	switch (chain.symbol) {
+export const getOnboardWallets = (config: NetworkConfig): WalletProviderInfo[] => {
+	const networkRPC = rpc[config.network];
+	switch (config.network) {
 		case Network.BinanceSmartChain:
 			return [{ walletName: 'metamask' }];
 		default:
@@ -31,16 +32,16 @@ export const getOnboardWallets = (chain: NetworkModel): WalletProviderInfo[] => 
 				{ walletName: 'coinbase' },
 				{
 					walletName: 'ledger',
-					rpcUrl: rpc,
+					rpcUrl: networkRPC,
 				},
 				{
 					walletName: 'walletConnect',
 					rpc: {
-						['1']: rpc,
-						[NETWORK_IDS.BSC.toString()]: rpc,
+						['1']: networkRPC,
+						[NETWORK_IDS.BSC.toString()]: networkRPC,
 					},
 				},
-				{ walletName: 'walletLink', rpcUrl: rpc, appName: APP_NAME },
+				{ walletName: 'walletLink', rpcUrl: networkRPC, appName: APP_NAME },
 				{
 					walletName: 'portis',
 					apiKey: PORTIS_APP_ID,
@@ -50,7 +51,7 @@ export const getOnboardWallets = (chain: NetworkModel): WalletProviderInfo[] => 
 					walletName: 'trezor',
 					appUrl: 'https://app.badger.finance/',
 					email: CONTACT_EMAIL,
-					rpcUrl: rpc,
+					rpcUrl: networkRPC,
 				},
 			];
 	}

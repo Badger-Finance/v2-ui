@@ -2,7 +2,6 @@ import Web3 from 'web3';
 import BigNumber from 'bignumber.js';
 import importedErc20 from '../config/system/abis/ERC20.json';
 import importedSett from '../config/system/abis/Sett.json';
-import importedGeyser from '../config/system/abis/BadgerGeyser.json';
 import importedBscErc20 from '../config/system/abis/BscErc20.json';
 import importedYearnSett from '../config/system/abis/YearnWrapper.json';
 import importedGuestList from '../config/system/abis/GuestList.json';
@@ -17,7 +16,7 @@ import { Currency } from './enums/currency.enum';
 /* App Configurations */
 
 export const DEFAULT_CURRENCY = Currency.USD;
-export const MAX_LAYOUT_WIDTH = 1024;
+export const MAX_LAYOUT_WIDTH = 1083;
 export const DEFAULT_NETWORK = Network.Ethereum;
 
 export const burnStatusDict: Record<BurnAndReleaseStatus, string> = {
@@ -64,7 +63,6 @@ export const ERC20 = importedErc20;
 export const ERC20_ABI = importedErc20.abi as AbiItem[];
 export const SETT_ABI = importedSett.abi as AbiItem[];
 export const YEARN_ABI = importedYearnSett.abi as AbiItem[];
-export const GEYSER_ABI = importedGeyser.abi as AbiItem[];
 export const GUEST_LIST_ABI = importedGuestList.abi as AbiItem[];
 export const BSC_ERC20 = importedBscErc20;
 export const APP_NAME = 'badgerDAO';
@@ -72,7 +70,7 @@ export const PORTIS_APP_ID = 'cbf7534d-170d-4903-943f-e607dc588b7f';
 export const EMPTY_DATA = '0x';
 export const ZERO_CURRENCY = '0.00000';
 // https://semver.org/#is-v123-a-semantic-version
-export const SITE_VERSION = '2.10.0';
+export const SITE_VERSION = '2.11.0';
 export const WC_BRIDGE = 'https://wc-bridge.badger.finance/';
 export const REN_FEES_ENDPOINT = 'https://lightnode-mainnet.herokuapp.com/ren_queryBlockState';
 export const BLOCKNATIVE_API_KEY = 'af74a87b-cd08-4f45-83ff-ade6b3859a07';

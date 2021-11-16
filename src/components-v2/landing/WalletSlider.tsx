@@ -3,9 +3,9 @@ import { FormControlLabel, Switch, makeStyles } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
 	walletSlider: {
-		marginLeft: theme.spacing(1),
+		height: 36,
 	},
 }));
 

@@ -10,7 +10,7 @@ export const supportedNetworks: Network[] = [
 	new Ethereum(),
 	new BinanceSmartChain(),
 	new Polygon(),
-	...(FLAGS.ARBITRUM ? [new Arbitrum()] : []),
+	new Arbitrum(),
 	...(FLAGS.XDAI ? [new xDai()] : []),
 ];
 export const defaultNetwork = supportedNetworks[0];

@@ -1,7 +1,5 @@
 import React from 'react';
 import { Typography, makeStyles } from '@material-ui/core';
-import WalletWidget from './WalletWidget';
-import GasWidget from './GasWidget';
 
 export interface PageHeaderProps {
 	title: string;
@@ -18,21 +16,13 @@ const useStyles = makeStyles((theme) => ({
 	},
 	headerContainer: {
 		display: 'flex',
-		marginTop: theme.spacing(3),
-		[theme.breakpoints.down('sm')]: {
-			marginTop: theme.spacing(8),
-		},
 		[theme.breakpoints.down('xs')]: {
 			flexDirection: 'column',
 		},
 		alignItems: 'center',
 		justifyContent: 'space-between',
 	},
-	headerContent: {
-		[theme.breakpoints.down('xs')]: {
-			marginBottom: theme.spacing(1),
-		},
-	},
+	headerContent: {},
 }));
 
 const PageHeader: React.FC<PageHeaderProps> = (props: PageHeaderProps) => {
@@ -41,18 +31,14 @@ const PageHeader: React.FC<PageHeaderProps> = (props: PageHeaderProps) => {
 	return (
 		<div className={classes.headerContainer}>
 			<div className={classes.headerContent}>
-				<Typography variant="h2" color="textPrimary">
+				<Typography variant="h6" color="textPrimary">
 					{title}
 				</Typography>
 				{subtitle && (
-					<Typography variant="subtitle1" color="textSecondary">
+					<Typography variant="body2" color="textSecondary">
 						{subtitle}
 					</Typography>
 				)}
-			</div>
-			<div className={classes.headerWidgets}>
-				<GasWidget />
-				<WalletWidget />
 			</div>
 		</div>
 	);

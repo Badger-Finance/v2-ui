@@ -76,18 +76,18 @@ class LockedCvxDelegationStore {
 
 	async loadLockedCvxBalance(): Promise<void> {
 		const {
+			onboard: { wallet, address },
 			network: { network },
-			wallet: { provider, connectedAddress },
 		} = this.store;
 
-		if (network.id !== NETWORK_IDS.ETH) {
+		if (network.id !== NETWORK_IDS.ETH || !address || !wallet?.provider) {
 			return;
 		}
 
 		try {
-			const web3 = new Web3(provider);
+			const web3 = new Web3(wallet.provider);
 			const cvxLocker = new web3.eth.Contract(CvxLockerAbi as AbiItem[], mainnet.cvxLocker);
-			this.lockedCVXBalance = new BigNumber(await cvxLocker.methods.balanceOf(connectedAddress).call());
+			this.lockedCVXBalance = new BigNumber(await cvxLocker.methods.balanceOf(address).call());
 		} catch (error) {
 			console.error('There was an error getting locked cvx balance: ', error);
 			this.lockedCVXBalance = null;
@@ -141,12 +141,15 @@ class LockedCvxDelegationStore {
 
 	async getTotalVotiumRewards(): Promise<BigNumber> {
 		const {
-			wallet: { connectedAddress, provider },
+			onboard: { wallet, address },
 		} = this.store;
 
 		let totalEarned = new BigNumber(0);
+		if (!wallet?.provider || !address) {
+			return totalEarned;
+		}
 
-		const web3 = new Web3(provider);
+		const web3 = new Web3(wallet.provider);
 		const votiumMerkleTreeContract = new web3.eth.Contract(
 			VotiumMerkleTreeAbi as AbiItem[],
 			votiumRewardsContractAddress,
@@ -154,7 +157,7 @@ class LockedCvxDelegationStore {
 
 		const claimedEvents = await votiumMerkleTreeContract.getPastEvents('Claimed', {
 			fromBlock: 'earliest',
-			filter: { token: mainnet.tokens.badger, account: connectedAddress },
+			filter: { token: mainnet.tokens.badger, account: address },
 		});
 
 		for (const claimedEvent of claimedEvents) {
@@ -166,19 +169,22 @@ class LockedCvxDelegationStore {
 
 	async getUnclaimedVotiumRewards(): Promise<BigNumber> {
 		const {
-			wallet: { connectedAddress, provider },
+			onboard: { wallet, address },
 		} = this.store;
 
 		let unclaimedBalance = new BigNumber(0);
+		if (!wallet?.provider || !address) {
+			return unclaimedBalance;
+		}
 
 		const merkleTree = await this.getVotiumMerkleTree();
-		const merkleTreeReward = merkleTree.claims[Web3.utils.toChecksumAddress(connectedAddress)];
+		const merkleTreeReward = merkleTree.claims[Web3.utils.toChecksumAddress(address)];
 
 		if (!merkleTreeReward) {
 			return unclaimedBalance;
 		}
 
-		const web3 = new Web3(provider);
+		const web3 = new Web3(wallet.provider);
 
 		const votiumMerkleTreeContract = new web3.eth.Contract(
 			VotiumMerkleTreeAbi as AbiItem[],
@@ -199,16 +205,16 @@ class LockedCvxDelegationStore {
 	async getUserDelegationState(): Promise<void> {
 		const {
 			network: { network },
-			wallet: { provider, connectedAddress },
+			onboard: { wallet, address },
 		} = this.store;
 
-		if (network.id !== NETWORK_IDS.ETH) {
+		if (network.id !== NETWORK_IDS.ETH || !wallet?.provider || !address) {
 			return;
 		}
 
-		const web3 = new Web3(provider);
+		const web3 = new Web3(wallet.provider);
 		const cvxLocker = new web3.eth.Contract(CvxLockerAbi as AbiItem[], mainnet.cvxLocker);
-		const lockedCVXBalance = new BigNumber(await cvxLocker.methods.balanceOf(connectedAddress).call());
+		const lockedCVXBalance = new BigNumber(await cvxLocker.methods.balanceOf(address).call());
 
 		if (!lockedCVXBalance.gt(0)) {
 			this.delegationState = DelegationState.Ineligible;
@@ -217,7 +223,7 @@ class LockedCvxDelegationStore {
 
 		const badgerDelegateAddress = await web3.eth.ens.getAddress(BADGER_DELEGATE_ENS);
 		const cvxDelegator = new web3.eth.Contract(CvxDelegatorAbi as AbiItem[], mainnet.cvxDelegator);
-		const alreadyDelegatedAddress = await cvxDelegator.methods.delegation(connectedAddress, ID_TO_DELEGATE).call();
+		const alreadyDelegatedAddress = await cvxDelegator.methods.delegation(address, ID_TO_DELEGATE).call();
 
 		if (alreadyDelegatedAddress && alreadyDelegatedAddress !== ZERO_ADDR) {
 			const isBadgerDelegatedAddress = alreadyDelegatedAddress === badgerDelegateAddress;
@@ -235,31 +241,29 @@ class LockedCvxDelegationStore {
 	async claimVotiumRewards(): Promise<void> {
 		const {
 			uiState: { queueNotification },
-			wallet: { provider, connectedAddress },
+			onboard: { wallet, address },
 		} = this.store;
 
+		if (!wallet?.provider || !address) {
+			return;
+		}
+
 		const merkleTree = await this.getVotiumMerkleTree();
-		const merkleTreeClaim = merkleTree.claims[Web3.utils.toChecksumAddress(connectedAddress)];
+		const merkleTreeClaim = merkleTree.claims[Web3.utils.toChecksumAddress(address)];
 
 		if (!merkleTreeClaim) {
 			console.error('Votium merkle tree not available');
 			return;
 		}
 
-		const web3 = new Web3(provider);
+		const web3 = new Web3(wallet.provider);
 		const votiumMerkleTree = new web3.eth.Contract(VotiumMerkleTreeAbi as AbiItem[], votiumRewardsContractAddress);
 
 		const { index, amount, proof } = merkleTreeClaim;
 
-		const claimRewards = votiumMerkleTree.methods.claim(
-			mainnet.tokens.badger,
-			index,
-			connectedAddress,
-			amount,
-			proof,
-		);
+		const claimRewards = votiumMerkleTree.methods.claim(mainnet.tokens.badger, index, address, amount, proof);
 
-		const options = await this.store.wallet.getMethodSendOptions(claimRewards);
+		const options = await this.store.contracts.getMethodSendOptions(claimRewards);
 
 		queueNotification(`Sign the transaction to claim your rewards`, 'info');
 
@@ -275,15 +279,19 @@ class LockedCvxDelegationStore {
 	async delegateLockedCVX(): Promise<void> {
 		const {
 			uiState: { queueNotification },
-			wallet: { provider },
+			onboard: { wallet, address },
 		} = this.store;
 
-		const web3 = new Web3(provider);
+		if (!wallet?.provider || !address) {
+			return;
+		}
+
+		const web3 = new Web3(wallet.provider);
 		const cvxDelegator = new web3.eth.Contract(CvxDelegatorAbi as AbiItem[], mainnet.cvxDelegator);
 
 		const badgerDelegateAddress = await web3.eth.ens.getAddress(BADGER_DELEGATE_ENS);
 		const setDelegate = cvxDelegator.methods.setDelegate(ID_TO_DELEGATE, badgerDelegateAddress);
-		const options = await this.store.wallet.getMethodSendOptions(setDelegate);
+		const options = await this.store.contracts.getMethodSendOptions(setDelegate);
 
 		queueNotification(`Sign the transaction to delegate your locked CVX`, 'info');
 

@@ -11,7 +11,7 @@ describe('Landing', () => {
 	beforeEach(() => {
 		store.prices.getPrice = jest.fn().mockReturnValue(new BigNumber(15e18));
 		store.network.network.deploy.token = '0x3472A5A71965499acd81997a54BBA8D852C6E53d';
-		store.wallet.connectedAddress = '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a';
+		store.onboard.address = '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a';
 		store.user.accountDetails = {
 			address: '0x1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a',
 			value: 0,
@@ -25,6 +25,7 @@ describe('Landing', () => {
 			nativeBalance: 100,
 			nonNativeBalance: 10,
 			stakeRatio: 100,
+			claimableBalances: {},
 		};
 		jest.spyOn(UserStore.prototype, 'initialized', 'get').mockReturnValue(true);
 		jest.spyOn(UserStore.prototype, 'portfolioValue', 'get').mockReturnValue(new BigNumber(1000));
