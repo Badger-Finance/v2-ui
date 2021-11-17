@@ -7,7 +7,6 @@ import { getFeesFromStrategy } from 'mobx/utils/fees';
 import { createChainBatchConfig } from 'web3/config/config-utils';
 import { BatchCallRequest } from 'web3/interface/batch-call-request';
 import { SettMap } from '../setts/sett-map';
-import { SettState } from '../setts/sett-state';
 import { StrategyNetworkConfig } from '../strategies/strategy-network-config';
 import { DeployConfig } from '../system-config/deploy-config';
 import { GasPrices } from '../system-config/gas-prices';
@@ -84,11 +83,8 @@ export abstract class Network {
 		return getFeesFromStrategy(this.strategies[vaultToken]);
 	}
 
-	getNetworkBatchRequests = (setts: SettMap, userAddress: string): BatchCallRequest[] => {
-		const tokenAddresses = Object.values(setts).map((sett) => sett.underlyingToken);
-		const settAddresses = Object.values(setts).map((sett) => sett.settToken);
-		const generalSetts = settAddresses.filter((sett) => setts[sett].state === SettState.Open);
-		const guardedSetts = settAddresses.filter((sett) => setts[sett].state !== SettState.Open);
-		return createChainBatchConfig(tokenAddresses, generalSetts, guardedSetts, [], userAddress);
+	/* eslint-disable-next-line */
+	getNetworkBatchRequests = (_setts: SettMap, userAddress: string): BatchCallRequest[] => {
+		return createChainBatchConfig([], userAddress);
 	};
 }

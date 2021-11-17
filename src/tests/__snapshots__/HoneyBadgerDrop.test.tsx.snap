@@ -51,7 +51,7 @@ exports[`HoneybadgerDrop Page Renders correctly with connected address 1`] = `
                 role="button"
                 tabindex="0"
               >
-                25
+                80
               </div>
               <input
                 aria-hidden="true"
@@ -290,7 +290,7 @@ exports[`HoneybadgerDrop Page Renders correctly with connected address and a bal
                 role="button"
                 tabindex="0"
               >
-                25
+                80
               </div>
               <input
                 aria-hidden="true"
@@ -529,7 +529,7 @@ exports[`HoneybadgerDrop Page Renders correctly without connected address 1`] = 
                 role="button"
                 tabindex="0"
               >
-                25
+                80
               </div>
               <input
                 aria-hidden="true"
