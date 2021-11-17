@@ -325,6 +325,7 @@ class IbBTCStore {
 			}
 
 			await this.mintBBTC(inToken, amount, slippage);
+			this.store.uiState.queueNotification('Wrap your minted tokens to deposit into the ibBTC vault!', 'info');
 		} catch (error) {
 			process.env.NODE_ENV !== 'production' && console.error(error);
 			queueNotification(`There was an error minting ${this.ibBTC.symbol}. Please try again later.`, 'error');

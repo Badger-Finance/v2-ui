@@ -112,7 +112,11 @@ const SettListItem = observer(
 						</Typography>
 					</Grid>
 					<Grid item xs={6} md={2}>
-						<SettItemApr sett={sett} multiplier={multiplier} />
+						{!setts.isWalletToken(sett.settToken) ? (
+							<SettItemApr sett={sett} multiplier={multiplier} />
+						) : (
+							'N/A'
+						)}
 						{multiplier !== undefined && <SettItemUserApr sett={sett} multiplier={multiplier} />}
 					</Grid>
 					<Grid item className={classes.mobileLabel} xs={6} md>
@@ -123,14 +127,16 @@ const SettListItem = observer(
 					<Grid item xs={6} md={2}>
 						<CurrencyDisplay displayValue={displayValue} variant="body1" justify="flex-start" />
 					</Grid>
-					<Grid item xs={12} md={3} className={classes.nonClickableSection}>
-						<SettActionButtons
-							isWithdrawDisabled={!onboard.isActive() || !canWithdraw}
-							isDepositDisabled={!onboard.isActive() || isDisabled}
-							onWithdrawClick={() => setOpenWithdrawDialog(true)}
-							onDepositClick={() => setOpenDepositDialog(true)}
-						/>
-					</Grid>
+					{!setts.isWalletToken(sett.settToken) && (
+						<Grid item xs={12} md={3} className={classes.nonClickableSection}>
+							<SettActionButtons
+								isWithdrawDisabled={!onboard.isActive() || !canWithdraw}
+								isDepositDisabled={!onboard.isActive() || isDisabled}
+								onWithdrawClick={() => setOpenWithdrawDialog(true)}
+								onDepositClick={() => setOpenDepositDialog(true)}
+							/>
+						</Grid>
+					)}
 				</Grid>
 				{badgerSett && (
 					<>

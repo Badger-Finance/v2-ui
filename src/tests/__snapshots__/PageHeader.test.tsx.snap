@@ -3,22 +3,18 @@
 exports[`Renders correctly 1`] = `
 <div>
   <div
-    class="makeStyles-headerContainer-2"
+    class="makeStyles-headerContainer-1"
   >
-    <div
-      class="makeStyles-headerContent-3"
+    <h6
+      class="MuiTypography-root-2 MuiTypography-h6-12 MuiTypography-colorTextPrimary-27"
     >
-      <h6
-        class="MuiTypography-root-4 MuiTypography-h6-14 MuiTypography-colorTextPrimary-29"
-      >
-        Test title
-      </h6>
-      <p
-        class="MuiTypography-root-4 MuiTypography-body2-5 MuiTypography-colorTextSecondary-30"
-      >
-        Test subtitle
-      </p>
-    </div>
+      Test title
+    </h6>
+    <p
+      class="MuiTypography-root-2 MuiTypography-body2-3 MuiTypography-colorTextSecondary-28"
+    >
+      Test subtitle
+    </p>
   </div>
 </div>
 `;
