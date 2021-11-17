@@ -91,7 +91,7 @@ export class RootStore {
 		];
 
 		if (this.onboard.provider && this.network.network.hasBadgerTree) {
-			refreshData.push(this.rewards.loadTreeData());
+			refreshData = refreshData.concat([this.rewards.loadTreeData(), this.rebase.fetchRebaseStats()]);
 		}
 
 		if (this.onboard.isActive() && network === NETWORK_IDS.ETH) {

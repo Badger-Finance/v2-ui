@@ -43,7 +43,6 @@ interface Props {
 
 export const SettItemName = ({ sett }: Props): JSX.Element => {
 	const classes = useStyles();
-	const displayName = sett.name.split(' ').length > 1 ? sett.name.split(' ').slice(1).join(' ') : sett.name;
 
 	return (
 		<Grid container>
@@ -56,7 +55,7 @@ export const SettItemName = ({ sett }: Props): JSX.Element => {
 			</Grid>
 			<Grid item>
 				<Grid container direction={'column'}>
-					<Typography variant="body1">{displayName}</Typography>
+					<Typography variant="body1">{sett.name}</Typography>
 					<Grid container direction={'row'}>
 						<Typography variant="caption" color="textSecondary">
 							{sett.protocol}
