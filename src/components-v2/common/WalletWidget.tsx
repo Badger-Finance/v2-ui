@@ -42,7 +42,7 @@ const WalletWidget = observer(({ className }: Props) => {
 
 	async function connect(): Promise<void> {
 		if (onboard.address) {
-			onboard.disonnect();
+			onboard.disconnect();
 		} else {
 			const connected = await onboard.connect();
 			if (!connected) {
