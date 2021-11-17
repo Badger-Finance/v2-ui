@@ -140,7 +140,6 @@ class RewardsStore {
 
 			const web3 = new Web3(wallet?.provider);
 			const rewardsTree = new web3.eth.Contract(rewardsAbi as AbiItem[], network.badgerTree);
-
 			try {
 				const [timestamp, cycle]: [number, number] = await Promise.all([
 					rewardsTree.methods.lastPublishTimestamp().call(),
