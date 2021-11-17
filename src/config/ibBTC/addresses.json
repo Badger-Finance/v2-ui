@@ -57,7 +57,7 @@
 				"poolId": 6
 			},
 			"bcrvRenBTC": {
-				"address": "0x55912D0Cf83B75c492E761932ABc4DB4a5CB1b17",
+				"address": "0x6dEf55d2e18486B9dDfaA075bc4e4EE0B28c1545",
 				"decimals": 18,
 				"symbol": "bcrvRenBTC",
 				"name": "bcrvRenBTC",
