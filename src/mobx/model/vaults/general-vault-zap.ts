@@ -26,7 +26,7 @@ export class GeneralVaultZap extends IbBTCMintZap {
 		const output = await this.getCalcMintMethod(amount).call();
 		const slippagePercentage = new BigNumber(100).minus(slippage);
 		const minOut = new BigNumber(output).multipliedBy(slippagePercentage).dividedToIntegerBy(100);
-		return this.zap.methods.mint(toHex(amount), this.token.poolId, minOut);
+		return this.zap.methods.mint(toHex(amount), this.token.poolId, toHex(minOut));
 	}
 
 	// this method is an abstract method, but not supporting this path any longer

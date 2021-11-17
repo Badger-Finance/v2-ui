@@ -442,8 +442,6 @@ class IbBTCStore {
 			// code exists, app hates it, fuck you ts
 			.on('error', (err: any) => {
 				if (err.code !== 4001) {
-					console.log(err);
-				} else {
 					throw err;
 				}
 			});

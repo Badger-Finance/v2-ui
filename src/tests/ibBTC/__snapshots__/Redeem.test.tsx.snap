@@ -12,7 +12,7 @@ exports[`ibBTC Redeem Input Change displays output balance when redeem amount is
         class="MuiTypography-root-109 WithStyles(ForwardRef(Typography))-root-108 MuiTypography-body1-111 MuiTypography-colorTextSecondary-135"
       >
         Balance: 
-        0.000
+        0.000000
       </p>
     </div>
     <div
@@ -289,7 +289,7 @@ exports[`ibBTC Redeem can apply max balance 1`] = `
         class="MuiTypography-root-109 WithStyles(ForwardRef(Typography))-root-108 MuiTypography-body1-111 MuiTypography-colorTextSecondary-135"
       >
         Balance: 
-        5.000
+        5.000000
       </p>
     </div>
     <div

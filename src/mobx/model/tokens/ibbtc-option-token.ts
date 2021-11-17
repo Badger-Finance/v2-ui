@@ -29,7 +29,7 @@ export class IbbtcOptionToken extends Contract {
 	}
 
 	public get formattedBalance(): string {
-		return this.unscale(this.balance).toFixed(3);
+		return this.unscale(this.balance).toFixed(6);
 	}
 
 	public get icon(): any {
