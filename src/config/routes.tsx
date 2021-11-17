@@ -25,7 +25,7 @@ const routes = {
 			<Landing
 				title="Sett Vaults"
 				subtitle="Powerful Bitcoin strategies. Automatic staking rewards."
-				state={SettState.Open}
+				state={SettState.Deprecated}
 			/>
 		),
 	}),

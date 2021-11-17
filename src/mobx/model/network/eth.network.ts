@@ -1,4 +1,4 @@
-import { FLAGS, NETWORK_IDS, NETWORK_LIST } from 'config/constants';
+import { NETWORK_IDS, NETWORK_LIST } from 'config/constants';
 import { createChainBatchConfig, toSettConfig } from 'web3/config/config-utils';
 import { BatchCallRequest } from 'web3/interface/batch-call-request';
 import { Deploy } from 'web3/interface/deploy';
@@ -26,32 +26,15 @@ export class Ethereum extends Network {
 
 	get settOrder(): string[] {
 		return [
-			this.deploy.sett_system.vaults['native.cvxCrv'],
-			this.deploy.sett_system.vaults['native.cvx'],
-			this.deploy.sett_system.vaults['native.tricryptoCrv2'],
-			this.deploy.sett_system.vaults['native.sbtcCrv'],
-			this.deploy.sett_system.vaults['native.renCrv'],
-			this.deploy.sett_system.vaults['native.tbtcCrv'],
-			this.deploy.sett_system.vaults['native.hbtcCrv'],
-			this.deploy.sett_system.vaults['native.pbtcCrv'],
-			this.deploy.sett_system.vaults['native.obtcCrv'],
-			this.deploy.sett_system.vaults['native.bbtcCrv'],
-			this.deploy.sett_system.vaults['native.sushiibBTCwBTC'],
+			this.deploy.sett_system.vaults['native.badger'],
 			this.deploy.sett_system.vaults['yearn.wBtc'],
 			this.deploy.sett_system.vaults['native.digg'],
-			this.deploy.sett_system.vaults['native.badger'],
 			this.deploy.sett_system.vaults['native.sushiDiggWbtc'],
 			this.deploy.sett_system.vaults['native.sushiBadgerWbtc'],
 			this.deploy.sett_system.vaults['native.sushiWbtcEth'],
 			this.deploy.sett_system.vaults['native.uniDiggWbtc'],
 			this.deploy.sett_system.vaults['native.uniBadgerWbtc'],
 			this.deploy.sett_system.vaults['harvest.renCrv'],
-			this.deploy.sett_system.vaults['native.tricryptoCrv'],
-			...(FLAGS.STABILIZATION_SETTS ? [this.deploy.sett_system.vaults['experimental.digg']] : []),
-			...(FLAGS.RENBTC_SETT ? [this.deploy.sett_system.vaults['native.renBtc']] : []),
-			...(FLAGS.MSTABLE
-				? [this.deploy.sett_system.vaults['native.imBtc'], this.deploy.sett_system.vaults['native.fPmBtcHBtc']]
-				: []),
 		];
 	}
 
