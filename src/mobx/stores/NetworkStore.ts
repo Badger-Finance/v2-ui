@@ -15,7 +15,7 @@ export class NetworkStore {
 	constructor(store: RootStore) {
 		this.store = store;
 		this.network = defaultNetwork;
-		this.gasPrices = { standard: 25 };
+		this.gasPrices = { standard: 80 };
 		this.currentBlock = 1;
 
 		extendObservable(this, {

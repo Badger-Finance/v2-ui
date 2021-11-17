@@ -65,17 +65,9 @@ export class RootStore {
 			this.setts.loadSetts(network.symbol),
 		];
 		if (network.id === NETWORK_IDS.ETH) {
-			refreshData.push(this.rebase.fetchRebaseStats());
 			refreshData.push(this.rewards.loadTreeData());
 		}
 		await Promise.all(refreshData);
-
-		if (this.wallet.connectedAddress) {
-			if (network.id === NETWORK_IDS.ETH) {
-				this.ibBTCStore.init();
-				await this.airdrops.fetchAirdrops();
-			}
-		}
 	}
 }
 
