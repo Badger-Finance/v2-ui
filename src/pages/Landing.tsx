@@ -97,7 +97,7 @@ const Landing = observer((props: LandingProps) => {
 	const badgerToken = network.deploy.token.length > 0 ? network.deploy.token : undefined;
 	const totalValueLocked = protocolSummary ? new BigNumber(protocolSummary.totalValue) : undefined;
 	const badgerPrice = badgerToken ? prices.getPrice(badgerToken) : undefined;
-	const portfolioValue = userConnected && user.initialized ? user.portfolioValue : undefined;
+	const portfolioValue = userConnected ? user.portfolioValue : undefined;
 
 	return (
 		<LayoutContainer>

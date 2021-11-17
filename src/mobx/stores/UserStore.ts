@@ -12,12 +12,10 @@ import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { BadgerSett } from 'mobx/model/vaults/badger-sett';
 import { BadgerToken, mockToken } from 'mobx/model/tokens/badger-token';
 import { CallResult } from 'web3/interface/call-result';
-import { DEBUG, ONE_MIN_MS, ZERO_ADDR } from 'config/constants';
+import { DEBUG, ONE_MIN_MS } from 'config/constants';
 import { UserBalanceCache } from 'mobx/model/account/user-balance-cache';
 import { CachedUserBalances } from 'mobx/model/account/cached-user-balances';
-import { createBatchCallRequest } from 'web3/config/config-utils';
 import { VaultCaps } from 'mobx/model/vaults/vault-cap copy';
-import { VaultCap } from 'mobx/model/vaults/vault-cap';
 import { Account } from '../model/account/account';
 import { RewardMerkleClaim } from '../model/rewards/reward-merkle-claim';
 import { UserPermissions } from '../model/account/userPermissions';
@@ -223,82 +221,13 @@ export default class UserStore {
 			}
 
 			// filter batch requests by namespace
-			const userTokens = callResults.filter((result) => result.namespace === ContractNamespace.Token);
-			const userGeneralSetts = callResults.filter((result) => result.namespace === ContractNamespace.Sett);
-			const userGuardedSetts = callResults.filter((result) => result.namespace === ContractNamespace.GaurdedSett);
 			const userGeysers = callResults.filter((result) => result.namespace === ContractNamespace.Geyser);
-
-			const tokenBalances: UserBalances = {};
-			const settBalances: UserBalances = {};
 			const geyserBalances: UserBalances = {};
-
-			// update all account balances
-			userTokens.forEach((token) => this.updateUserBalance(tokenBalances, token, this.getDepositToken));
-			userGeneralSetts.forEach((sett) => this.updateUserBalance(settBalances, sett, this.getSettToken));
-			userGuardedSetts.forEach((sett) => this.updateUserBalance(settBalances, sett, this.getSettToken));
 			userGeysers.forEach((geyser) => this.updateUserBalance(geyserBalances, geyser, this.getGeyserMockToken));
 
-			const guestListLookup: Record<string, string> = {};
-			const guestLists = userGuardedSetts
-				.map((sett) => {
-					if (!sett.address || !sett.guestList || sett.guestList.length === 0) {
-						return;
-					}
-					const guestList = sett.guestList[0].value;
-					if (guestList === ZERO_ADDR) {
-						return;
-					}
-					guestListLookup[guestList] = sett.address;
-					return guestList;
-				})
-				.filter((list): list is string => !!list);
-			const guestListRequests = createBatchCallRequest(guestLists, ContractNamespace.GuestList, connectedAddress);
-			const guestListResults: CallResult[] = await this.batchCall.execute([guestListRequests]);
-			if (DEBUG) {
-				console.log(guestListResults);
-			}
-			const vaultCaps: VaultCaps = Object.fromEntries(
-				guestListResults
-					.map((result) => {
-						if (
-							!result.address ||
-							!result.remainingTotalDepositAllowed ||
-							!result.remainingUserDepositAllowed ||
-							!result.totalDepositCap ||
-							!result.userDepositCap
-						) {
-							return;
-						}
-						const vaultAddress = guestListLookup[result.address];
-						const vault = this.store.setts.getSett(vaultAddress);
-						if (!vault) {
-							return;
-						}
-						const depositToken = this.store.setts.getToken(vault.underlyingToken);
-						if (!depositToken) {
-							return;
-						}
-						const remainingTotalDepositAllowed = result.remainingTotalDepositAllowed[0].value;
-						const totalDepositCap = result.totalDepositCap[0].value;
-						const remainingUserDepositAllowed = result.remainingUserDepositAllowed[0].value;
-						const userDepositCap = result.userDepositCap[0].value;
-						const cap: VaultCap = {
-							vaultCap: this.store.rewards.balanceFromProof(
-								depositToken.address,
-								remainingTotalDepositAllowed,
-							),
-							totalVaultCap: this.store.rewards.balanceFromProof(depositToken.address, totalDepositCap),
-							userCap: this.store.rewards.balanceFromProof(
-								depositToken.address,
-								remainingUserDepositAllowed,
-							),
-							totalUserCap: this.store.rewards.balanceFromProof(depositToken.address, userDepositCap),
-							asset: depositToken.symbol,
-						};
-						return [vault.settToken, cap];
-					})
-					.filter((value): value is [] => !!value),
-			);
+			const vaultCaps = {};
+			const tokenBalances: UserBalances = {};
+			const settBalances: UserBalances = {};
 
 			const result = {
 				key: cacheKey,
@@ -308,6 +237,7 @@ export default class UserStore {
 				vaultCaps,
 				expiry: Date.now() + 5 * ONE_MIN_MS,
 			};
+			console.log(result);
 			this.userBalanceCache[cacheKey] = result;
 			this.setBalances(result);
 			this.loadingBalances = false;

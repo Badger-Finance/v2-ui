@@ -255,7 +255,7 @@ export const Sidebar = observer(() => {
 					<ListItemIcon>
 						<img alt="Badger Setts Logo" className={classes.icon} src={'assets/sidebar/sett.png'} />
 					</ListItemIcon>
-					<ListItemText primary="Sett Vaults" />
+					<ListItemText primary="Deprecated Vaults" />
 				</ListItem>
 				{network.symbol === NETWORK_LIST.ETH ? (
 					<>
@@ -267,7 +267,7 @@ export const Sidebar = observer(() => {
 							<ListItemIcon>
 								<SecurityIcon fontSize="small" />
 							</ListItemIcon>
-							<ListItemText primary="Guarded Vaults" />
+							<ListItemText primary="Sett Vaults" />
 						</ListItem>
 						<ListItem
 							button
