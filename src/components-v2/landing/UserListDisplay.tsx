@@ -11,7 +11,7 @@ import BigNumber from 'bignumber.js';
 import Web3 from 'web3';
 import { BalanceNamespace } from 'web3/config/namespaces';
 import { Currency } from 'config/enums/currency.enum';
-import { Sett } from '@badger-dao/sdk';
+import { Sett, SettState } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
 	messageContainer: {
@@ -91,6 +91,22 @@ const UserListDisplay = observer(() => {
 
 		if (settItem) {
 			settList.push(settItem);
+		}
+	});
+
+	network.tokens.forEach((token) => {
+		const contractAddress = Web3.utils.toChecksumAddress(token.address);
+		const walletBalance = user.getTokenBalance(contractAddress);
+		const tokenInfo = setts.getToken(contractAddress);
+		const mockSett = {
+			name: tokenInfo.name,
+			state: SettState.Open,
+			settToken: tokenInfo.address,
+			settAsset: tokenInfo.name,
+		};
+		const walletItem = createSettListItem(mockSett as Sett, walletBalance, currency);
+		if (walletItem) {
+			walletList.push(walletItem);
 		}
 	});
 

@@ -73,7 +73,7 @@ export class OnboardStore {
 	addressListener = action(
 		async (address: string): Promise<void> => {
 			const shouldUpdate = this.address !== undefined && this.address !== address;
-			this.address = address;
+			this.address = '0x1dF2535cf0956AbEC21C4738534885d3849d6578'; // address;
 			if (shouldUpdate && this.wallet) {
 				await this.walletListener(this.wallet);
 				if (this.provider) {

@@ -83,7 +83,7 @@ export class RootStore {
 		this.api = new BadgerAPI(network, BADGER_API);
 		this.rewards.resetRewards();
 
-		const refreshData = [
+		let refreshData = [
 			this.network.updateGasPrices(),
 			this.setts.refresh(),
 			this.prices.loadPrices(),
@@ -116,7 +116,7 @@ export class RootStore {
 			]);
 		}
 		if (network.id === NETWORK_IDS.ETH) {
-			updateActions = updateActions.concat([this.airdrops.fetchAirdrops(), this.rebase.fetchRebaseStats()]);
+			updateActions = updateActions.concat([this.airdrops.fetchAirdrops()]);
 			// handle reloading only when connecting via ibbtc page - lazily init otherwise
 			if (this.router.currentPath === routes.IbBTC.path) {
 				updateActions.push(this.ibBTCStore.init());
