@@ -89,8 +89,12 @@ export class RootStore {
 			this.prices.loadPrices(),
 			this.leaderBoard.loadData(),
 		];
-		if (this.onboard.isActive() && network === NETWORK_IDS.ETH) {
+
+		if (this.onboard.provider && this.network.network.hasBadgerTree) {
 			refreshData.push(this.rewards.loadTreeData());
+		}
+
+		if (this.onboard.isActive() && network === NETWORK_IDS.ETH) {
 			this.bridge.updateContracts();
 		}
 

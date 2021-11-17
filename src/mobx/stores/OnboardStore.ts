@@ -60,11 +60,13 @@ export class OnboardStore {
 		return this.onboard.walletCheck();
 	}
 
-	disonnect(): void {
+	disconnect(): void {
 		try {
 			this.wallet = undefined;
 			this.address = undefined;
 			this.provider = undefined;
+			window.localStorage.removeItem(WALLET_STORAGE_KEY);
+			this.onboard.walletReset();
 		} catch {} // ignore disconnect failures from provider
 	}
 

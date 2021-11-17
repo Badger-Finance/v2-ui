@@ -126,6 +126,7 @@ class RewardsStore {
 				uiState: { queueNotification },
 				onboard: { wallet },
 			} = this.store;
+			console.log('getting rewards', network.badgerTree);
 
 			if (this.loadingTreeData) {
 				return;
@@ -140,7 +141,7 @@ class RewardsStore {
 
 			const web3 = new Web3(wallet?.provider);
 			const rewardsTree = new web3.eth.Contract(rewardsAbi as AbiItem[], network.badgerTree);
-
+			console.log('getting rewards', network.badgerTree);
 			try {
 				const [timestamp, cycle]: [number, number] = await Promise.all([
 					rewardsTree.methods.lastPublishTimestamp().call(),
