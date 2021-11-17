@@ -97,6 +97,8 @@ export const Mint = observer(
 		const { onValidChange, inputProps } = useNumericInput();
 		const showSlippage = store.ibBTCStore.isZapToken(selectedToken);
 
+		const displayedConversionRate = Number(conversionRate) || selectedToken.mintRate;
+
 		const resetState = () => {
 			setInputAmount(undefined);
 			setOutputAmount(undefined);
@@ -170,13 +172,11 @@ export const Mint = observer(
 
 		const handleTokenChange = async (token: IbbtcOptionToken): Promise<void> => {
 			setSelectedToken(token);
-			if (inputAmount?.displayValue) {
-				setInputAmount({
-					displayValue: token.formattedBalance,
-					actualValue: token.balance,
-				});
-				await calculateMintInformation(token.balance, token);
-			}
+			setInputAmount({
+				displayValue: token.formattedBalance,
+				actualValue: token.balance,
+			});
+			await calculateMintInformation(token.balance, token);
 		};
 
 		const handleMintClick = async (): Promise<void> => {
@@ -276,7 +276,7 @@ export const Mint = observer(
 							</Grid>
 							<Grid item xs={6}>
 								<EndAlignText variant="body1">
-									1 {selectedToken.symbol} : {conversionRate || selectedToken.mintRate} {ibBTC.symbol}
+									1 {selectedToken.symbol} : {displayedConversionRate} {ibBTC.symbol}
 								</EndAlignText>
 							</Grid>
 						</Grid>
