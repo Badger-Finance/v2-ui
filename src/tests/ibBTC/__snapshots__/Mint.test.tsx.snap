@@ -12,7 +12,7 @@ exports[`ibBTC Mint can apply max balance 1`] = `
         class="MuiTypography-root-108 WithStyles(ForwardRef(Typography))-root-107 MuiTypography-body1-110 MuiTypography-colorTextSecondary-134"
       >
         Balance: 
-        5.000
+        5.000000
       </p>
     </div>
     <div
@@ -146,7 +146,7 @@ exports[`ibBTC Mint can apply max balance 1`] = `
         class="MuiTypography-root-108 WithStyles(ForwardRef(Typography))-root-211 WithStyles(ForwardRef(Typography))-root-212 MuiTypography-body1-110 MuiTypography-colorTextSecondary-134"
       >
         Balance: 
-        10.000
+        10.000000
       </p>
     </div>
     <div
@@ -208,7 +208,7 @@ exports[`ibBTC Mint can apply max balance 1`] = `
             1 
             bcrvRenBTC
              : 
-            2.400000
+            2.4
              
             ibBTC
           </p>
@@ -300,7 +300,7 @@ exports[`ibBTC Mint displays output ibBTC when mint amount is inputted 1`] = `
         class="MuiTypography-root-108 WithStyles(ForwardRef(Typography))-root-107 MuiTypography-body1-110 MuiTypography-colorTextSecondary-134"
       >
         Balance: 
-        5.000
+        5.000000
       </p>
     </div>
     <div
@@ -434,7 +434,7 @@ exports[`ibBTC Mint displays output ibBTC when mint amount is inputted 1`] = `
         class="MuiTypography-root-108 WithStyles(ForwardRef(Typography))-root-211 WithStyles(ForwardRef(Typography))-root-212 MuiTypography-body1-110 MuiTypography-colorTextSecondary-134"
       >
         Balance: 
-        10.000
+        10.000000
       </p>
     </div>
     <div
@@ -496,7 +496,7 @@ exports[`ibBTC Mint displays output ibBTC when mint amount is inputted 1`] = `
             1 
             bcrvRenBTC
              : 
-            1.000000
+            1
              
             ibBTC
           </p>

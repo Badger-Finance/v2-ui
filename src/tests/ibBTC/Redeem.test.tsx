@@ -34,7 +34,7 @@ describe('ibBTC Redeem', () => {
 			</StoreProvider>,
 		);
 
-		expect(screen.getByText('Balance: 10.000')).toBeInTheDocument();
+		expect(screen.getByText('Balance: 10.000000')).toBeInTheDocument();
 	});
 
 	it('can apply max balance', async () => {
