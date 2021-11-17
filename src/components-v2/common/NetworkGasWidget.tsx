@@ -128,7 +128,7 @@ const NetworkGasWidget = (): JSX.Element => {
 			>
 				<img
 					className={classes.selectedNetworkIcon}
-					src={`assets/icons/${networkIcons[network.symbol]}`}
+					src={`/assets/icons/${networkIcons[network.symbol]}`}
 					alt="selected network icon"
 				/>
 			</Button>
@@ -159,7 +159,7 @@ const NetworkGasWidget = (): JSX.Element => {
 									>
 										<img
 											className={classes.networkListIcon}
-											src={`assets/icons/${networkIcons[supportedNetwork.symbol]}`}
+											src={`/assets/icons/${networkIcons[supportedNetwork.symbol]}`}
 											alt={`${supportedNetwork.name} icon`}
 										/>
 										<Typography variant="subtitle1">{supportedNetwork.name}</Typography>
