@@ -22,6 +22,7 @@ export class Ethereum extends NetworkModel {
 			Currency.ETH,
 			ETH_DEPLOY,
 			ethSettDefinitions,
+			ethRewards,
 		);
 	}
 	get settOrder(): string[] {
@@ -358,7 +359,7 @@ const ethSettDefinitions: BadgerSett[] = [
 
 export const ethSetts = toSettConfig(ethSettDefinitions);
 
-const ethRewards = [
+export const ethRewards = [
 	{
 		address: ETH_DEPLOY.tokens['farm'],
 		decimals: 18,
@@ -385,12 +386,6 @@ const ethRewards = [
 		address: ETH_DEPLOY.tokens['sBTC'],
 		decimals: 18,
 		symbol: 'sBTC',
-	},
-	{
-		name: 'wBTC',
-		address: ETH_DEPLOY.tokens['wBTC'],
-		decimals: 18,
-		symbol: 'wBTC',
 	},
 ];
 

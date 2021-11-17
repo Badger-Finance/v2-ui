@@ -6,23 +6,11 @@ export interface PageHeaderProps {
 	subtitle?: string;
 }
 
-const useStyles = makeStyles((theme) => ({
-	headerWidgets: {
-		display: 'flex',
-		alignItems: 'center',
-		[theme.breakpoints.down('sm')]: {
-			justifyContent: 'center',
-		},
-	},
+const useStyles = makeStyles(() => ({
 	headerContainer: {
 		display: 'flex',
-		[theme.breakpoints.down('xs')]: {
-			flexDirection: 'column',
-		},
-		alignItems: 'center',
-		justifyContent: 'space-between',
+		flexDirection: 'column',
 	},
-	headerContent: {},
 }));
 
 const PageHeader: React.FC<PageHeaderProps> = (props: PageHeaderProps) => {
@@ -30,16 +18,14 @@ const PageHeader: React.FC<PageHeaderProps> = (props: PageHeaderProps) => {
 	const { title, subtitle } = props;
 	return (
 		<div className={classes.headerContainer}>
-			<div className={classes.headerContent}>
-				<Typography variant="h6" color="textPrimary">
-					{title}
+			<Typography variant="h6" color="textPrimary">
+				{title}
+			</Typography>
+			{subtitle && (
+				<Typography variant="body2" color="textSecondary">
+					{subtitle}
 				</Typography>
-				{subtitle && (
-					<Typography variant="body2" color="textSecondary">
-						{subtitle}
-					</Typography>
-				)}
-			</div>
+			)}
 		</div>
 	);
 };

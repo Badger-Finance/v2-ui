@@ -128,6 +128,11 @@ export default class SettStore {
 		return tokens[tokenAddress];
 	}
 
+	isWalletToken(address: string): boolean {
+		const tokens = new Set(this.store.network.network.tokens.map((t) => t.address));
+		return tokens.has(address);
+	}
+
 	async refresh(): Promise<void> {
 		const { network } = this.store.network;
 		if (network) {
