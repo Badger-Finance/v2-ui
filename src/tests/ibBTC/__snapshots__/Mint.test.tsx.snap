@@ -208,7 +208,7 @@ exports[`ibBTC Mint can apply max balance 1`] = `
             1 
             bcrvRenBTC
              : 
-            2.400000
+            2.4
              
             ibBTC
           </p>
@@ -496,7 +496,7 @@ exports[`ibBTC Mint displays output ibBTC when mint amount is inputted 1`] = `
             1 
             bcrvRenBTC
              : 
-            1.000000
+            1
              
             ibBTC
           </p>
