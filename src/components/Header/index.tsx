@@ -18,12 +18,8 @@ import { MoreHoriz } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
-		width: '100%',
 		borderBottom: '1px solid #2B2B2B',
-		position: 'sticky',
-		top: 0,
 		background: '#181818',
-		zIndex: 1,
 	},
 	container: {
 		padding: '20px 0',

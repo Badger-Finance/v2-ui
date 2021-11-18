@@ -79,6 +79,7 @@ const routes = {
 	boostLeaderBoard: new Route<RootStore, QueryParams>({
 		path: '/leaderboard',
 		component: <BoostLeaderBoard />,
+		onEnter: (_route, _params, store) => store.leaderBoard.loadData(),
 	}),
 	settDetails: new Route<RootStore, QueryParams>({
 		path: '/setts/:settName',

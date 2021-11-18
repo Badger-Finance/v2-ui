@@ -66,7 +66,7 @@ const SettListDisplay = observer((props: SettListViewProps) => {
 		return <NoVaults state={state} network={network.name} />;
 	}
 
-	return <SettTable title={'All Setts'} displayValue={''} settList={settListItems} />;
+	return <SettTable title={'All Setts'} displayValue={''} settList={settListItems} showHeader={false} />;
 });
 
 export default SettListDisplay;
