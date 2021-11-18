@@ -11,31 +11,27 @@ import {
 	DialogContent,
 	DialogTitle,
 	Divider,
+	FormControlLabel,
 	Grid,
 	IconButton,
-	Tab,
-	Tabs,
+	Radio,
+	RadioGroup,
 	Typography,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
 import BalanceInput from './BalanceInput';
 import BigNumber from 'bignumber.js';
-import { inCurrency } from '../../mobx/utils/helpers';
-import { Currency } from '../../config/enums/currency.enum';
-import { ETH_DEPLOY } from '../../mobx/model/network/eth.network';
-import { BalanceNamespace } from '../../web3/config/namespaces';
+
+import Web3 from 'web3';
+import IbbtcVaultZapAbi from '../../config/system/abis/IbbtcVaultZap.json';
+import { AbiItem } from 'web3-utils';
+import { toHex } from '../../mobx/utils/helpers';
+import { sendContractMethod } from '../../mobx/utils/web3';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
 		maxWidth: 680,
-	},
-	tab: {
-		paddingLeft: 0,
-		textTransform: 'capitalize',
-	},
-	tabs: {
-		marginTop: theme.spacing(2),
 	},
 	avatar: {
 		display: 'inline-block',
@@ -55,40 +51,33 @@ const useStyles = makeStyles((theme) => ({
 		top: 8,
 	},
 	inputRow: {
-		marginTop: theme.spacing(2),
+		marginTop: 21,
 	},
 	divider: {
 		margin: theme.spacing(3, 0),
 	},
 	inputsContainer: {
-		marginTop: theme.spacing(3),
+		marginTop: theme.spacing(1),
 	},
 	depositButton: {
 		marginTop: theme.spacing(3),
 	},
 }));
 
-enum DepositType {
-	token = 'token',
-	lpToken = 'lp-token',
-}
-
 interface Props {
 	show?: boolean;
-	onDeposit: (depositBalances: TokenBalance[]) => void;
+	onDeposit: () => void;
 }
 
 const DepositDialog = ({ show = false, onDeposit }: Props): JSX.Element => {
-	const {
-		user,
-		network: { network },
-	} = useContext(StoreContext);
 	const classes = useStyles();
-	const [mode, setMode] = useState(DepositType.token);
-	const [userBalances, setUserBalances] = useState<TokenBalance[]>([]);
+	const store = useContext(StoreContext);
+	const [slippage, setSlippage] = useState(0.3);
+	const [depositOptions, setDepositOptions] = useState<TokenBalance[]>([]);
 	const [depositBalances, setDepositBalances] = useState<TokenBalance[]>([]);
 
-	const totalDeposit = depositBalances.reduce((total, balance) => total.plus(balance.value), new BigNumber(0));
+	const { user, uiState, contracts, onboard } = store;
+	const totalDeposit = depositBalances.reduce((total, balance) => total.plus(balance.tokenBalance), new BigNumber(0));
 
 	const handleChange = (tokenBalance: TokenBalance, index: number) => {
 		const balances = [...depositBalances];
@@ -96,45 +85,56 @@ const DepositDialog = ({ show = false, onDeposit }: Props): JSX.Element => {
 		setDepositBalances(balances);
 	};
 
-	useEffect(() => {
-		if (mode !== DepositType.token || !user.initialized) {
+	const handleDeposit = async () => {
+		const invalidBalance = depositBalances.find((depositBalance, index) => {
+			const depositOption = depositOptions[index];
+			return depositBalance.tokenBalance.gt(depositOption.tokenBalance);
+		});
+
+		if (invalidBalance) {
+			uiState.queueError(`Insufficient ${invalidBalance.token.symbol} balance for deposit`);
 			return;
 		}
 
-		const balances = [
-			user.getTokenBalance(mainnetDeploy.tokens['renBTC']),
-			user.getTokenBalance(mainnetDeploy.tokens['wBTC']),
-			user.getTokenBalance(mainnetDeploy.tokens['ibBTC']),
-		];
+		const ibbtcVaultPeakAddress = mainnetDeploy.ibbtcVaultZap;
 
-		balances[0].token.name = 'wBTC';
-		balances[1].token.name = 'wBTC';
-		balances[2].token.name = 'ibBTC';
+		for (const depositBalance of depositBalances) {
+			const allowance = await contracts.getAllowance(depositBalance.token, ibbtcVaultPeakAddress);
 
-		setDepositBalances(balances);
-		setUserBalances(balances);
-	}, [mode, user, user.initialized]);
-
-	useEffect(() => {
-		if (mode !== DepositType.lpToken) {
-			return;
+			if (allowance.tokenBalance.lt(depositBalance.tokenBalance)) {
+				await contracts.increaseAllowance(depositBalance.token, ibbtcVaultPeakAddress);
+			}
 		}
 
-		const lpTokenSett = network.setts.find(
-			(sett) => sett.depositToken.address === ETH_DEPLOY.tokens['curve.ibBTC'],
+		const web3 = new Web3(onboard.wallet?.provider);
+		const ibbtcVaultPeak = new web3.eth.Contract(IbbtcVaultZapAbi as AbiItem[], ibbtcVaultPeakAddress);
+
+		const depositAmounts = depositBalances.map((balance) => toHex(balance.tokenBalance));
+		const minOut = await ibbtcVaultPeak.methods.minOut(depositAmounts).call();
+		const deposit = ibbtcVaultPeak.methods.deposit(depositAmounts, minOut, true);
+		const options = await contracts.getMethodSendOptions(deposit);
+
+		uiState.queueNotification('Sign transaction to execute deposit', 'info');
+
+		await sendContractMethod(
+			store,
+			deposit,
+			options,
+			'Deposit transaction submitted',
+			'Deposit processed successfully',
 		);
 
-		if (!lpTokenSett) {
-			return;
-		}
+		onDeposit();
+	};
 
-		const lpTokenBalance = user.getBalance(BalanceNamespace.Sett, lpTokenSett);
-
-		lpTokenBalance.token.name = 'LP Token';
-
-		setDepositBalances([lpTokenBalance]);
-		setUserBalances([lpTokenBalance]);
-	}, [network, user, mode]);
+	useEffect(() => {
+		const sBTC = user.getTokenBalance(mainnetDeploy.tokens['sBTC']);
+		const renBTC = user.getTokenBalance(mainnetDeploy.tokens['renBTC']);
+		const wBTC = user.getTokenBalance(mainnetDeploy.tokens['wBTC']);
+		const ibbtc = user.getTokenBalance(mainnetDeploy.tokens['ibBTC']);
+		setDepositOptions([sBTC, renBTC, wBTC, ibbtc]);
+		setDepositBalances([sBTC, renBTC, wBTC, ibbtc]);
+	}, [user, user.initialized]);
 
 	return (
 		<Dialog open={show} fullWidth maxWidth="sm" classes={{ paperWidthSm: classes.root }}>
@@ -145,8 +145,8 @@ const DepositDialog = ({ show = false, onDeposit }: Props): JSX.Element => {
 				</IconButton>
 			</DialogTitle>
 			<DialogContent className={classes.content}>
-				<Grid container>
-					<Grid item xs={12}>
+				<Grid container direction="column">
+					<Grid item>
 						<Avatar
 							className={classes.avatar}
 							src="/assets/icons/bcrvibbtc.png"
@@ -157,54 +157,42 @@ const DepositDialog = ({ show = false, onDeposit }: Props): JSX.Element => {
 							<Typography variant="body1">Convex</Typography>
 						</Box>
 					</Grid>
-					<Tabs
-						className={classes.tabs}
-						value={mode}
-						textColor="primary"
-						indicatorColor="primary"
-						aria-label="deposit modes"
-					>
-						<Tab
-							className={classes.tab}
-							value={DepositType.token}
-							label="RenBTC, wBTC & ibBTC"
-							onClick={() => setMode(DepositType.token)}
-						/>
-						<Tab
-							className={classes.tab}
-							value={DepositType.lpToken}
-							label="LP Token"
-							onClick={() => setMode(DepositType.lpToken)}
-						/>
-					</Tabs>
-					<div className={classes.inputsContainer}>
-						{userBalances.map((tokenBalance, index) => (
-							<Grid
-								item
-								xs={12}
-								key={`${tokenBalance.token.address}_${index}`}
-								className={classes.inputRow}
-							>
+					<Grid item container direction="column" className={classes.inputsContainer}>
+						{depositOptions.map((tokenBalance, index) => (
+							<Grid item key={`${tokenBalance.token.address}_${index}`} className={classes.inputRow}>
 								<BalanceInput
 									tokenBalance={tokenBalance}
 									onChange={(change) => handleChange(change, index)}
 								/>
 							</Grid>
 						))}
-					</div>
+						<Grid item container justify="space-between" alignItems="center" className={classes.inputRow}>
+							<Typography variant="subtitle2">Slippage</Typography>
+							<RadioGroup
+								row
+								value={slippage}
+								onChange={(event) => setSlippage(Number(event.target.value))}
+							>
+								{[0.1, 0.3, 0.5, 1].map((slippageOption, index) => (
+									<FormControlLabel
+										key={`${slippageOption}_${index}`}
+										control={<Radio color="primary" />}
+										label={`${slippageOption}%`}
+										value={slippageOption}
+									/>
+								))}
+							</RadioGroup>
+						</Grid>
+					</Grid>
 				</Grid>
 				<Divider className={classes.divider} variant="fullWidth" />
-				<Grid container alignItems="center" justify="space-between">
-					<Typography variant="body1">Total Deposit Amount</Typography>
-					<Typography variant="body1">{inCurrency(totalDeposit, Currency.USD)}</Typography>
-				</Grid>
 				<Button
 					fullWidth
 					variant="contained"
 					color="primary"
 					className={classes.depositButton}
 					disabled={totalDeposit.isZero()}
-					onClick={() => onDeposit(depositBalances)}
+					onClick={handleDeposit}
 				>
 					Deposit
 				</Button>

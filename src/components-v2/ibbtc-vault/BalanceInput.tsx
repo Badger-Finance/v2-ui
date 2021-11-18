@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 		textAlign: 'end',
 	},
 	balances: {
-		marginTop: theme.spacing(0.5),
+		marginTop: theme.spacing(1),
 	},
 }));
 
@@ -34,11 +34,7 @@ const BalanceInput = ({ tokenBalance, onChange }: Props): JSX.Element => {
 
 	const handleInputChange = (amount: string) => {
 		setInputValue(amount);
-		if (amount) {
-			onChange(TokenBalance.fromBalance(tokenBalance, amount));
-		} else {
-			onChange(TokenBalance.fromBalance(tokenBalance, '0'));
-		}
+		onChange(TokenBalance.fromBalance(tokenBalance, amount || '0'));
 	};
 
 	const handleApplyPercentage = (percentage: number) => {
@@ -87,11 +83,6 @@ const BalanceInput = ({ tokenBalance, onChange }: Props): JSX.Element => {
 						<Typography variant="caption">{`BALANCE: ${tokenBalance.balanceDisplay(6)}`}</Typography>
 					</Box>
 					{percentages}
-				</Grid>
-				<Grid container>
-					<Typography variant="caption" color="textSecondary">{`(${tokenBalance.balanceValueDisplay(
-						Currency.USD,
-					)})`}</Typography>
 				</Grid>
 			</Grid>
 		</Grid>
