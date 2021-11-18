@@ -41,12 +41,18 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	name: {
+		[theme.breakpoints.up('xs')]: {
+			flexGrow: 0,
+			maxWidth: '55%',
+			flexBasis: '55%',
+		},
 		[theme.breakpoints.down('sm')]: {
 			marginBottom: theme.spacing(2),
 		},
 	},
 	listItem: {
 		padding: 0,
+		minHeight: 90,
 		'&:last-child div': {
 			borderBottom: 0,
 		},
@@ -98,34 +104,34 @@ const SettListItem = observer(
 
 		const listItem = (
 			<ListItem className={classes.listItem} disabled={isDisabled}>
-				<Grid
-					container
-					className={clsx(classes.root, classes.clickableSection, !isDisabled && classes.enabledSett)}
-					onClick={goToSettDetail}
-				>
-					<Grid item xs={12} md={5} className={classes.name} container>
-						<SettItemName sett={sett} />
-					</Grid>
-					<Grid item className={classes.mobileLabel} xs={6} md={1}>
-						<Typography variant="body2" color="textSecondary">
-							ROI
-						</Typography>
-					</Grid>
-					<Grid item xs={6} md={2}>
-						{!setts.isWalletToken(sett.settToken) ? (
-							<SettItemApr sett={sett} multiplier={multiplier} />
-						) : (
-							'N/A'
-						)}
-						{multiplier !== undefined && <SettItemUserApr sett={sett} multiplier={multiplier} />}
-					</Grid>
-					<Grid item className={classes.mobileLabel} xs={6} md>
-						<Typography variant="body2" color={'textSecondary'}>
-							Value
-						</Typography>
-					</Grid>
-					<Grid item xs={6} md={2}>
-						<CurrencyDisplay displayValue={displayValue} variant="body1" justify="flex-start" />
+				<Grid container className={clsx(classes.root, !isDisabled && classes.enabledSett)}>
+					{/* the goToSettDetail handle is used only for this piece to allow the action buttons to be clickable/*/}
+					<Grid container item xs={12} md={9} className={classes.clickableSection} onClick={goToSettDetail}>
+						{/* we use custom flex basis for this item /*/}
+						<Grid item xs={12} md className={classes.name} container>
+							<SettItemName sett={sett} />
+						</Grid>
+						<Grid item className={classes.mobileLabel} xs={6} md={1}>
+							<Typography variant="body2" color="textSecondary">
+								ROI
+							</Typography>
+						</Grid>
+						<Grid item xs={6} md>
+							{!setts.isWalletToken(sett.settToken) ? (
+								<SettItemApr sett={sett} multiplier={multiplier} />
+							) : (
+								'N/A'
+							)}
+							{multiplier !== undefined && <SettItemUserApr sett={sett} multiplier={multiplier} />}
+						</Grid>
+						<Grid item className={classes.mobileLabel} xs={6} md>
+							<Typography variant="body2" color={'textSecondary'}>
+								Value
+							</Typography>
+						</Grid>
+						<Grid item xs={6} md>
+							<CurrencyDisplay displayValue={displayValue} variant="body1" justify="flex-start" />
+						</Grid>
 					</Grid>
 					{!setts.isWalletToken(sett.settToken) && (
 						<Grid item xs={12} md={3} className={classes.nonClickableSection}>
