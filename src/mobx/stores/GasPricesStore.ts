@@ -4,6 +4,7 @@ import { GasPricesSummary } from '../model/network/gas-prices-summary';
 import { supportedNetworks } from '../../config/networks.config';
 import { extendObservable } from 'mobx';
 import { ONE_MIN_MS } from '../../config/constants';
+import { BADGER_API } from 'mobx/utils/apiV2';
 
 class GasPricesStore {
 	private store: RootStore;
@@ -38,7 +39,7 @@ class GasPricesStore {
 		// TODO: add support for multichain in the BadgerAPI an implement it here
 		const networkPrices = await Promise.all(
 			supportedNetworks.map((network) => {
-				const api = new BadgerAPI(network.id);
+				const api = new BadgerAPI(network.id, BADGER_API);
 				return api.loadGasPrices();
 			}),
 		);

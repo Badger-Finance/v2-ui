@@ -4,6 +4,8 @@ import { Currency } from 'config/enums/currency.enum';
 import { DEFAULT_CURRENCY } from 'config/constants';
 import { GasSpeed } from '@badger-dao/sdk';
 
+const SHOW_USER_BALANCE_KEY = 'showUserBalance';
+
 class UiState {
 	private readonly store!: RootStore;
 	public currency: Currency;
@@ -17,7 +19,8 @@ class UiState {
 
 	constructor(store: RootStore) {
 		this.store = store;
-		this.showUserBalances = false;
+		const storedBalanceDisplay = window.localStorage.getItem(SHOW_USER_BALANCE_KEY);
+		this.showUserBalances = storedBalanceDisplay === 'true';
 		this.gasPrice = GasSpeed.Rapid;
 		this.currency = this.loadCurrency(DEFAULT_CURRENCY);
 		this.showNotification = this.notificationClosingThreshold < 3;
@@ -86,7 +89,10 @@ class UiState {
 		window.localStorage.setItem(`${network.name}-selectedGasPrice`, gasPrice);
 	});
 
-	setShowUserBalances = action((hide: boolean) => (this.showUserBalances = hide));
+	setShowUserBalances = action((shouldShowUserBalance: boolean) => {
+		window.localStorage.setItem(SHOW_USER_BALANCE_KEY, `${shouldShowUserBalance}`);
+		this.showUserBalances = shouldShowUserBalance;
+	});
 
 	setCurrency = action((currency: Currency) => {
 		this.currency = currency;
