@@ -4,7 +4,6 @@ import { StoreContext } from 'mobx/store-context';
 import SettListDisplay from './SettListDisplay';
 import UserListDisplay from './UserListDisplay';
 import { SettState } from '@badger-dao/sdk';
-import TableHeader from './TableHeader';
 import { makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles(() => ({
@@ -30,7 +29,6 @@ const SettListView = observer(({ state }: SettListViewProps) => {
 	}
 	return (
 		<div className={classes.displayContainer}>
-			<TableHeader title="All Setts" displayValue={''} />
 			<SettListDisplay state={state} />
 		</div>
 	);
