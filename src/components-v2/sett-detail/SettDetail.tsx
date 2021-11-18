@@ -12,6 +12,8 @@ import { SettWithdraw } from '../common/dialogs/SettWithdraw';
 import { NotFound } from '../common/NotFound';
 import { Footer } from './Footer';
 import routes from '../../config/routes';
+import mainnetDeploy from '../../config/deployments/mainnet.json';
+import DepositDialog from '../ibbtc-vault/DepositDialog';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -57,6 +59,9 @@ export const SettDetail = observer(
 			return <NotFound />;
 		}
 
+		const isIbbtc = sett?.settToken === mainnetDeploy.sett_system.vaults['native.ibbtcCrv'];
+		const DepositWidget = isIbbtc ? DepositDialog : SettDeposit;
+
 		return (
 			<>
 				<Container className={classes.root}>
@@ -72,7 +77,7 @@ export const SettDetail = observer(
 				<MobileStickyActionButtons />
 				{sett && badgerSett && (
 					<>
-						<SettDeposit
+						<DepositWidget
 							open={isDepositDialogDisplayed}
 							sett={sett}
 							badgerSett={badgerSett}

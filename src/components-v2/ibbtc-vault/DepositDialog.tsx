@@ -28,6 +28,8 @@ import IbbtcVaultZapAbi from '../../config/system/abis/IbbtcVaultZap.json';
 import { AbiItem } from 'web3-utils';
 import { toHex } from '../../mobx/utils/helpers';
 import { sendContractMethod } from '../../mobx/utils/web3';
+import { SettModalProps } from '../common/dialogs/SettDeposit';
+import { Loader } from '../../components/Loader';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -62,21 +64,20 @@ const useStyles = makeStyles((theme) => ({
 	depositButton: {
 		marginTop: theme.spacing(3),
 	},
+	loader: {
+		marginBottom: theme.spacing(1),
+	},
 }));
 
-interface Props {
-	show?: boolean;
-	onDeposit: () => void;
-}
-
-const DepositDialog = ({ show = false, onDeposit }: Props): JSX.Element => {
+const DepositDialog = ({ open = false, onClose }: SettModalProps): JSX.Element => {
 	const classes = useStyles();
 	const store = useContext(StoreContext);
+	const { user, uiState, contracts, onboard } = store;
 	const [slippage, setSlippage] = useState(0.3);
 	const [depositOptions, setDepositOptions] = useState<TokenBalance[]>([]);
 	const [depositBalances, setDepositBalances] = useState<TokenBalance[]>([]);
 
-	const { user, uiState, contracts, onboard } = store;
+	const areOptionAvailable = Object.keys(user.tokenBalances).length > 0;
 	const totalDeposit = depositBalances.reduce((total, balance) => total.plus(balance.tokenBalance), new BigNumber(0));
 
 	const handleChange = (tokenBalance: TokenBalance, index: number) => {
@@ -123,8 +124,6 @@ const DepositDialog = ({ show = false, onDeposit }: Props): JSX.Element => {
 			'Deposit transaction submitted',
 			'Deposit processed successfully',
 		);
-
-		onDeposit();
 	};
 
 	useEffect(() => {
@@ -137,54 +136,73 @@ const DepositDialog = ({ show = false, onDeposit }: Props): JSX.Element => {
 	}, [user, user.initialized]);
 
 	return (
-		<Dialog open={show} fullWidth maxWidth="sm" classes={{ paperWidthSm: classes.root }}>
+		<Dialog open={open} fullWidth maxWidth="sm" classes={{ paperWidthSm: classes.root }}>
 			<DialogTitle className={classes.title}>
 				Deposit Tokens
-				<IconButton className={classes.closeButton}>
+				<IconButton className={classes.closeButton} onClick={onClose}>
 					<CloseIcon />
 				</IconButton>
 			</DialogTitle>
 			<DialogContent className={classes.content}>
-				<Grid container direction="column">
-					<Grid item>
-						<Avatar
-							className={classes.avatar}
-							src="/assets/icons/bcrvibbtc.png"
-							alt="ibbtc curve lp vault"
-						/>
-						<Box display="inline-block">
-							<Typography variant="body1">RenBTC / wBTC/ ibBTC LP</Typography>
-							<Typography variant="body1">Convex</Typography>
-						</Box>
-					</Grid>
-					<Grid item container direction="column" className={classes.inputsContainer}>
-						{depositOptions.map((tokenBalance, index) => (
-							<Grid item key={`${tokenBalance.token.address}_${index}`} className={classes.inputRow}>
-								<BalanceInput
-									tokenBalance={tokenBalance}
-									onChange={(change) => handleChange(change, index)}
-								/>
-							</Grid>
-						))}
-						<Grid item container justify="space-between" alignItems="center" className={classes.inputRow}>
-							<Typography variant="subtitle2">Slippage</Typography>
-							<RadioGroup
-								row
-								value={slippage}
-								onChange={(event) => setSlippage(Number(event.target.value))}
-							>
-								{[0.1, 0.3, 0.5, 1].map((slippageOption, index) => (
-									<FormControlLabel
-										key={`${slippageOption}_${index}`}
-										control={<Radio color="primary" />}
-										label={`${slippageOption}%`}
-										value={slippageOption}
+				{areOptionAvailable ? (
+					<Grid container direction="column">
+						<Grid item>
+							<Avatar
+								className={classes.avatar}
+								src="/assets/icons/bcrvibbtc.png"
+								alt="ibbtc curve lp vault"
+							/>
+							<Box display="inline-block">
+								<Typography variant="body1">RenBTC / wBTC/ ibBTC LP</Typography>
+								<Typography variant="body1">Convex</Typography>
+							</Box>
+						</Grid>
+						<Grid item container direction="column" className={classes.inputsContainer}>
+							{depositOptions.map((tokenBalance, index) => (
+								<Grid item key={`${tokenBalance.token.address}_${index}`} className={classes.inputRow}>
+									<BalanceInput
+										tokenBalance={tokenBalance}
+										onChange={(change) => handleChange(change, index)}
 									/>
-								))}
-							</RadioGroup>
+								</Grid>
+							))}
+							<Grid
+								item
+								container
+								justify="space-between"
+								alignItems="center"
+								className={classes.inputRow}
+							>
+								<Typography variant="subtitle2">Slippage</Typography>
+								<RadioGroup
+									row
+									value={slippage}
+									onChange={(event) => setSlippage(Number(event.target.value))}
+								>
+									{[0.1, 0.3, 0.5, 1].map((slippageOption, index) => (
+										<FormControlLabel
+											key={`${slippageOption}_${index}`}
+											control={<Radio color="primary" />}
+											label={`${slippageOption}%`}
+											value={slippageOption}
+										/>
+									))}
+								</RadioGroup>
+							</Grid>
 						</Grid>
 					</Grid>
-				</Grid>
+				) : (
+					<Grid container direction="column">
+						<Grid item className={classes.loader}>
+							<Loader size={48} />
+						</Grid>
+						<Grid item container justify="center">
+							<Typography variant="h6" display="inline">
+								Loading
+							</Typography>
+						</Grid>
+					</Grid>
+				)}
 				<Divider className={classes.divider} variant="fullWidth" />
 				<Button
 					fullWidth
