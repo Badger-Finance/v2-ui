@@ -21,6 +21,9 @@ const useStyles = makeStyles((theme) => ({
 	noDeposit: {
 		marginTop: theme.spacing(8),
 	},
+	tableContainer: {
+		marginBottom: theme.spacing(2),
+	},
 }));
 
 const createSettListItem = (sett: Sett, itemBalance: TokenBalance, currency: Currency): JSX.Element | null => {
@@ -118,18 +121,22 @@ const UserListDisplay = observer(() => {
 	return (
 		<>
 			{displayWallet && (
-				<SettTable
-					title={'Your Wallet:'}
-					displayValue={inCurrency(user.walletValue, currency)}
-					settList={walletList}
-				/>
+				<div className={classes.tableContainer}>
+					<SettTable
+						title={'Your Wallet:'}
+						displayValue={inCurrency(user.walletValue, currency)}
+						settList={walletList}
+					/>
+				</div>
 			)}
 			{displayDeposit && (
-				<SettTable
-					title={'Your Vault Deposits:'}
-					displayValue={inCurrency(user.settValue, currency)}
-					settList={settList}
-				/>
+				<div className={classes.tableContainer}>
+					<SettTable
+						title={'Your Vault Deposits:'}
+						displayValue={inCurrency(user.settValue, currency)}
+						settList={settList}
+					/>
+				</div>
 			)}
 			{!displayWallet && !displayDeposit && (
 				<Typography className={classes.noDeposit} align="center" variant="subtitle1" color="textSecondary">

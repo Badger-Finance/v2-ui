@@ -129,8 +129,8 @@ export default class SettStore {
 	}
 
 	isWalletToken(address: string): boolean {
-		const tokens = new Set(this.store.network.network.tokens.map((t) => t.address));
-		return tokens.has(address);
+		const tokens = new Set(this.store.network.network.tokens.map((t) => Web3.utils.toChecksumAddress(t.address)));
+		return tokens.has(Web3.utils.toChecksumAddress(address));
 	}
 
 	async refresh(): Promise<void> {
