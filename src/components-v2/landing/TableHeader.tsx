@@ -1,7 +1,9 @@
 import { Grid, makeStyles, Typography } from '@material-ui/core';
 import CurrencyDisplay from 'components-v2/common/CurrencyDisplay';
-import React from 'react';
+import React, { useContext } from 'react';
 import clsx from 'clsx';
+import { observer } from 'mobx-react-lite';
+import { StoreContext } from 'mobx/store-context';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -25,36 +27,41 @@ const useStyles = makeStyles((theme) => ({
 
 interface TableHeaderProps {
 	title: string;
-	displayValue: string | undefined;
+	displayValue?: string;
 }
 
-export default function TableHeader(props: TableHeaderProps): JSX.Element {
-	const { title, displayValue } = props;
-	const classes = useStyles();
+const TableHeader = observer(
+	(props: TableHeaderProps): JSX.Element => {
+		const { uiState } = useContext(StoreContext);
+		const { title, displayValue } = props;
+		const classes = useStyles();
 
-	// leave 3 grid spaces for the action buttons section which has no column name
-	return (
-		<Grid item container className={classes.root}>
-			<Grid item container xs={12} md={5} alignItems="center">
-				<Grid item>
-					<Typography className={classes.title} variant="body2" color="textSecondary">
-						{title}
+		// leave 3 grid spaces for the action buttons section which has no column name
+		return (
+			<Grid item container className={classes.root}>
+				<Grid item container xs={12} md={5} alignItems="center">
+					<Grid item>
+						<Typography className={classes.title} variant="body2" color="textSecondary">
+							{title}
+						</Typography>
+					</Grid>
+					<Grid item className={classes.amount}>
+						<CurrencyDisplay displayValue={displayValue} variant="body1" justify="flex-start" />
+					</Grid>
+				</Grid>
+				<Grid item xs={12} md={2} className={clsx(classes.hiddenMobile, classes.title)}>
+					<Typography variant="body2" color="textSecondary">
+						Yearly APR
 					</Typography>
 				</Grid>
-				<Grid item className={classes.amount}>
-					<CurrencyDisplay displayValue={displayValue} variant="body1" justify="flex-start" />
+				<Grid item xs={12} md={2} className={clsx(classes.hiddenMobile, classes.title)}>
+					<Typography variant="body2" color="textSecondary">
+						{uiState.showUserBalances ? 'Assets' : 'TVL'}
+					</Typography>
 				</Grid>
 			</Grid>
-			<Grid item xs={12} md={2} className={clsx(classes.hiddenMobile, classes.title)}>
-				<Typography variant="body2" color="textSecondary">
-					Yearly ROI
-				</Typography>
-			</Grid>
-			<Grid item xs={12} md={2} className={clsx(classes.hiddenMobile, classes.title)}>
-				<Typography variant="body2" color="textSecondary">
-					TVL
-				</Typography>
-			</Grid>
-		</Grid>
-	);
-}
+		);
+	},
+);
+
+export default TableHeader;
