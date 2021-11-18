@@ -73,8 +73,17 @@ export const RewardsModalItem = observer(
 			// eslint-disable-next-line react-hooks/exhaustive-deps
 		}, [maxFlag]);
 
+		const coerceInputToValid = (input: string): string => {
+			if (input === '.') {
+				return '0.';
+			} else if (input === '') {
+				return '0';
+			}
+			return input;
+		};
+
 		const handleInputAmount = (event: React.ChangeEvent<HTMLInputElement>): void => {
-			const newVal = event.target.value === '.' ? '0.' : event.target.value;
+			const newVal = coerceInputToValid(event.target.value);
 			if (newVal && isNaN(parseFloat(newVal))) {
 				return;
 			}
