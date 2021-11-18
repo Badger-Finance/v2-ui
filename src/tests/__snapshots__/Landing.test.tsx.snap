@@ -140,7 +140,7 @@ exports[`Landing Renders correctly 1`] = `
             class="MuiGrid-root-24 makeStyles-clickableSection-264 MuiGrid-container-25 MuiGrid-item-26 MuiGrid-grid-xs-12-70 MuiGrid-grid-md-9-95"
           >
             <div
-              class="MuiGrid-root-24 makeStyles-name-262 MuiGrid-container-25 MuiGrid-item-26 MuiGrid-grid-xs-12-70 MuiGrid-grid-md-7-93"
+              class="MuiGrid-root-24 makeStyles-name-262 MuiGrid-container-25 MuiGrid-item-26 MuiGrid-grid-xs-12-70 MuiGrid-grid-md-true-86"
             >
               <div
                 class="MuiGrid-root-24 MuiGrid-container-25"
@@ -261,7 +261,7 @@ exports[`Landing Renders correctly 1`] = `
             class="MuiGrid-root-24 makeStyles-clickableSection-264 MuiGrid-container-25 MuiGrid-item-26 MuiGrid-grid-xs-12-70 MuiGrid-grid-md-9-95"
           >
             <div
-              class="MuiGrid-root-24 makeStyles-name-262 MuiGrid-container-25 MuiGrid-item-26 MuiGrid-grid-xs-12-70 MuiGrid-grid-md-7-93"
+              class="MuiGrid-root-24 makeStyles-name-262 MuiGrid-container-25 MuiGrid-item-26 MuiGrid-grid-xs-12-70 MuiGrid-grid-md-true-86"
             >
               <div
                 class="MuiGrid-root-24 MuiGrid-container-25"
@@ -382,7 +382,7 @@ exports[`Landing Renders correctly 1`] = `
             class="MuiGrid-root-24 makeStyles-clickableSection-264 MuiGrid-container-25 MuiGrid-item-26 MuiGrid-grid-xs-12-70 MuiGrid-grid-md-9-95"
           >
             <div
-              class="MuiGrid-root-24 makeStyles-name-262 MuiGrid-container-25 MuiGrid-item-26 MuiGrid-grid-xs-12-70 MuiGrid-grid-md-7-93"
+              class="MuiGrid-root-24 makeStyles-name-262 MuiGrid-container-25 MuiGrid-item-26 MuiGrid-grid-xs-12-70 MuiGrid-grid-md-true-86"
             >
               <div
                 class="MuiGrid-root-24 MuiGrid-container-25"
@@ -503,7 +503,7 @@ exports[`Landing Renders correctly 1`] = `
             class="MuiGrid-root-24 makeStyles-clickableSection-264 MuiGrid-container-25 MuiGrid-item-26 MuiGrid-grid-xs-12-70 MuiGrid-grid-md-9-95"
           >
             <div
-              class="MuiGrid-root-24 makeStyles-name-262 MuiGrid-container-25 MuiGrid-item-26 MuiGrid-grid-xs-12-70 MuiGrid-grid-md-7-93"
+              class="MuiGrid-root-24 makeStyles-name-262 MuiGrid-container-25 MuiGrid-item-26 MuiGrid-grid-xs-12-70 MuiGrid-grid-md-true-86"
             >
               <div
                 class="MuiGrid-root-24 MuiGrid-container-25"
@@ -624,7 +624,7 @@ exports[`Landing Renders correctly 1`] = `
             class="MuiGrid-root-24 makeStyles-clickableSection-264 MuiGrid-container-25 MuiGrid-item-26 MuiGrid-grid-xs-12-70 MuiGrid-grid-md-9-95"
           >
             <div
-              class="MuiGrid-root-24 makeStyles-name-262 MuiGrid-container-25 MuiGrid-item-26 MuiGrid-grid-xs-12-70 MuiGrid-grid-md-7-93"
+              class="MuiGrid-root-24 makeStyles-name-262 MuiGrid-container-25 MuiGrid-item-26 MuiGrid-grid-xs-12-70 MuiGrid-grid-md-true-86"
             >
               <div
                 class="MuiGrid-root-24 MuiGrid-container-25"
@@ -745,7 +745,7 @@ exports[`Landing Renders correctly 1`] = `
             class="MuiGrid-root-24 makeStyles-clickableSection-264 MuiGrid-container-25 MuiGrid-item-26 MuiGrid-grid-xs-12-70 MuiGrid-grid-md-9-95"
           >
             <div
-              class="MuiGrid-root-24 makeStyles-name-262 MuiGrid-container-25 MuiGrid-item-26 MuiGrid-grid-xs-12-70 MuiGrid-grid-md-7-93"
+              class="MuiGrid-root-24 makeStyles-name-262 MuiGrid-container-25 MuiGrid-item-26 MuiGrid-grid-xs-12-70 MuiGrid-grid-md-true-86"
             >
               <div
                 class="MuiGrid-root-24 MuiGrid-container-25"
@@ -866,7 +866,7 @@ exports[`Landing Renders correctly 1`] = `
             class="MuiGrid-root-24 makeStyles-clickableSection-264 MuiGrid-container-25 MuiGrid-item-26 MuiGrid-grid-xs-12-70 MuiGrid-grid-md-9-95"
           >
             <div
-              class="MuiGrid-root-24 makeStyles-name-262 MuiGrid-container-25 MuiGrid-item-26 MuiGrid-grid-xs-12-70 MuiGrid-grid-md-7-93"
+              class="MuiGrid-root-24 makeStyles-name-262 MuiGrid-container-25 MuiGrid-item-26 MuiGrid-grid-xs-12-70 MuiGrid-grid-md-true-86"
             >
               <div
                 class="MuiGrid-root-24 MuiGrid-container-25"
