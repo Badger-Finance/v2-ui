@@ -1,6 +1,6 @@
 import React from 'react';
 import { Tooltip, Typography } from '@material-ui/core';
-import { SettItemRoiTooltip } from './SettItemRoiTooltip';
+import SettItemRoiTooltip from './SettItemRoiTooltip';
 import { makeStyles } from '@material-ui/core/styles';
 import { Sett, SettState } from '@badger-dao/sdk';
 
