@@ -4,20 +4,12 @@ import { StoreContext } from 'mobx/store-context';
 import SettListDisplay from './SettListDisplay';
 import UserListDisplay from './UserListDisplay';
 import { SettState } from '@badger-dao/sdk';
-import { makeStyles } from '@material-ui/core';
-
-const useStyles = makeStyles(() => ({
-	displayContainer: {
-		maxHeight: `calc(100vh - 152px)`,
-	},
-}));
 
 export interface SettListViewProps {
 	state: SettState;
 }
 
 const SettListView = observer(({ state }: SettListViewProps) => {
-	const classes = useStyles();
 	const store = useContext(StoreContext);
 	const {
 		onboard,
@@ -27,11 +19,8 @@ const SettListView = observer(({ state }: SettListViewProps) => {
 	if (showUserDisplay) {
 		return <UserListDisplay />;
 	}
-	return (
-		<div className={classes.displayContainer}>
-			<SettListDisplay state={state} />
-		</div>
-	);
+
+	return <SettListDisplay state={state} />;
 });
 
 export default SettListView;

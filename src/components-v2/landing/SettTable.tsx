@@ -4,7 +4,6 @@ import TableHeader from 'components-v2/landing/TableHeader';
 
 const useStyles = makeStyles((theme) => ({
 	list: {
-		maxHeight: `calc(100vh - 142px)`,
 		width: '100%',
 		borderRadius: theme.shape.borderRadius,
 		overflow: 'auto',
