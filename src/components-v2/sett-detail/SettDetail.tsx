@@ -13,7 +13,7 @@ import { NotFound } from '../common/NotFound';
 import { Footer } from './Footer';
 import routes from '../../config/routes';
 import mainnetDeploy from '../../config/deployments/mainnet.json';
-import DepositDialog from '../ibbtc-vault/DepositDialog';
+import IbbtcVaultDepositDialog from '../ibbtc-vault/IbbtcVaultDepositDialog';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -60,7 +60,7 @@ export const SettDetail = observer(
 		}
 
 		const isIbbtc = sett?.settToken === mainnetDeploy.sett_system.vaults['native.ibbtcCrv'];
-		const DepositWidget = isIbbtc ? DepositDialog : SettDeposit;
+		const DepositWidget = isIbbtc ? IbbtcVaultDepositDialog : SettDeposit;
 
 		return (
 			<>

@@ -11,7 +11,7 @@ import SettListItem from './SettListItem';
 import { SettListViewProps } from './SettListView';
 import SettTable from './SettTable';
 import mainnetDeploy from '../../config/deployments/mainnet.json';
-import DepositDialog from '../ibbtc-vault/DepositDialog';
+import IbbtcVaultDepositDialog from '../ibbtc-vault/IbbtcVaultDepositDialog';
 
 const useStyles = makeStyles((theme) => ({
 	messageContainer: {
@@ -67,7 +67,7 @@ const SettListDisplay = observer((props: SettListViewProps) => {
 					key={sett.settToken}
 					currency={currency}
 					balance={settBalance.balance}
-					CustomDepositModal={isIbbtc ? DepositDialog : undefined}
+					CustomDepositModal={isIbbtc ? IbbtcVaultDepositDialog : undefined}
 				/>
 			);
 		})

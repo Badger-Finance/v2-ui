@@ -13,7 +13,7 @@ import { BalanceNamespace } from 'web3/config/namespaces';
 import { Currency } from 'config/enums/currency.enum';
 import { BouncerType, Sett, SettState, ValueSource } from '@badger-dao/sdk';
 import mainnetDeploy from '../../config/deployments/mainnet.json';
-import DepositDialog from '../ibbtc-vault/DepositDialog';
+import IbbtcVaultDepositDialog from '../ibbtc-vault/IbbtcVaultDepositDialog';
 
 const useStyles = makeStyles((theme) => ({
 	messageContainer: {
@@ -42,7 +42,7 @@ const createSettListItem = (sett: Sett, itemBalance: TokenBalance, currency: Cur
 			balance={itemBalance.balance}
 			balanceValue={itemBalance.balanceValueDisplay(currency)}
 			currency={currency}
-			CustomDepositModal={isIbbtc ? DepositDialog : undefined}
+			CustomDepositModal={isIbbtc ? IbbtcVaultDepositDialog : undefined}
 		/>
 	);
 };

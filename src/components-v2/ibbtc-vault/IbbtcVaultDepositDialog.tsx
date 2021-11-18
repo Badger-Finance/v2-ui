@@ -69,7 +69,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const DepositDialog = ({ open = false, onClose }: SettModalProps): JSX.Element => {
+const IbbtcVaultDepositDialog = ({ open = false, onClose }: SettModalProps): JSX.Element => {
 	const classes = useStyles();
 	const store = useContext(StoreContext);
 	const { user, uiState, contracts, onboard } = store;
@@ -219,4 +219,4 @@ const DepositDialog = ({ open = false, onClose }: SettModalProps): JSX.Element =
 	);
 };
 
-export default observer(DepositDialog);
+export default observer(IbbtcVaultDepositDialog);
