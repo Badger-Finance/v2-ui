@@ -67,6 +67,7 @@ const Header = observer(() => {
 	const totalValueLocked = protocolSummary ? new BigNumber(protocolSummary.totalValue) : undefined;
 	const portfolioValue = onboard.isActive() && user.initialized ? user.portfolioValue : undefined;
 	const valuePlaceholder = <Skeleton animation="wave" width={32} className={classes.loader} />;
+	const chainName = network.name.slice(0, 1).toUpperCase() + network.name.slice(1);
 
 	const enq = () => {
 		if (!notification || !notification.message) return;
@@ -118,11 +119,11 @@ const Header = observer(() => {
 									)}
 									<Grid item xs={12} sm={6}>
 										<Typography variant="body2" display="inline">
-											All Vaults (TVL):{' '}
+											{`${chainName} TVL: `}
 										</Typography>
 										{totalValueLocked ? (
 											<CurrencyDisplay
-												displayValue={inCurrency(totalValueLocked, currency)}
+												displayValue={inCurrency(totalValueLocked, currency, 0)}
 												variant="subtitle2"
 												justify="flex-start"
 											/>
@@ -144,11 +145,9 @@ const Header = observer(() => {
 									<DelegationWidget />
 								</Grid>
 							)}
-							{onboard.isActive() && (
-								<Grid item>
-									<NetworkGasWidget />
-								</Grid>
-							)}
+							<Grid item>
+								<NetworkGasWidget />
+							</Grid>
 							<Grid item>
 								<WalletWidget className={classes.button} />
 							</Grid>
