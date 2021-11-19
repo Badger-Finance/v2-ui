@@ -134,7 +134,7 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: SettModalProps): JSX
 			console.log(JSON.stringify(depositAmounts));
 
 			const [calculatedMint, expectedAmount] = await Promise.all([
-				new BigNumber(await ibbtcVaultPeak.methods.calcMint(depositAmounts, true).call()),
+				new BigNumber(await ibbtcVaultPeak.methods.calcMint(depositAmounts, false).call()),
 				new BigNumber(await ibbtcVaultPeak.methods.expectedAmount(depositAmounts).call()),
 			]);
 
