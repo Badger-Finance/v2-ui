@@ -9,12 +9,12 @@ import settConfig from 'config/system/abis/Sett.json';
 import ibBTCConfig from 'config/system/abis/ibBTC.json';
 import addresses from 'config/ibBTC/addresses.json';
 import coreConfig from 'config/system/abis/BadgerBtcPeakCore.json';
-import { getSendOptions } from 'mobx/utils/web3';
+import { getSendOptions, sendContractMethod } from 'mobx/utils/web3';
 import { getNetworkFromProvider } from 'mobx/utils/helpers';
 import { IbbtcOptionToken } from '../model/tokens/ibbtc-option-token';
 import { ibBTCFees } from '../model/fees/ibBTCFees';
 import { DEBUG } from 'config/environment';
-import { GasSpeed, Network } from '@badger-dao/sdk';
+import { Network } from '@badger-dao/sdk';
 import { IbBTCMintZapFactory } from 'mobx/ibbtc-mint-zap-factory';
 
 interface MintAmountCalculation {
@@ -101,12 +101,7 @@ class IbBTCStore {
 			this.resetBalances();
 			return;
 		}
-		await Promise.all([
-			this.fetchTokensBalances(),
-			this.fetchIbbtcApy(),
-			this.fetchConversionRates(),
-			this.fetchFees(),
-		]).catch((err) => {
+		await Promise.all([this.fetchTokensBalances(), this.fetchConversionRates(), this.fetchFees()]).catch((err) => {
 			if (DEBUG) {
 				console.error(err);
 			}
@@ -284,33 +279,16 @@ class IbBTCStore {
 	): Promise<void> {
 		const { queueNotification } = this.store.uiState;
 		const { address } = this.store.onboard;
-		const { gasPrices } = this.store.network;
 		if (!address) {
 			return;
 		}
-		try {
-			const method = this.getApprovalMethod(underlyingAsset, spender, amount);
-			queueNotification(`Sign the transaction to allow Badger to spend your ${underlyingAsset.symbol}`, 'info');
-
-			const price = gasPrices ? gasPrices[GasSpeed.Fast] : 0;
-			const options = await getSendOptions(method, address, price);
-			await method
-				.send(options)
-				.on('transactionHash', (_hash: string) => {
-					queueNotification(`Transaction submitted.`, 'info', _hash);
-				})
-				.on('receipt', () => {
-					queueNotification(`${underlyingAsset.symbol} allowance increased.`, 'success');
-				})
-				.on('error', (error: Error) => {
-					throw error;
-				});
-		} catch (err) {
-			// log error on non canceled tx
-			if (err.code !== 4001) {
-				console.log(err);
-			}
-		}
+		const method = this.getApprovalMethod(underlyingAsset, spender, amount);
+		queueNotification(`Sign the transaction to allow Badger to spend your ${underlyingAsset.symbol}`, 'info');
+		await this.executeMethod(
+			method,
+			`Increase ${underlyingAsset.symbol} allowance submitted.`,
+			`${underlyingAsset.symbol} allowance increased.`,
+		);
 	}
 
 	async mint(inToken: IbbtcOptionToken, amount: BigNumber, slippage: BigNumber): Promise<void> {
@@ -427,25 +405,11 @@ class IbBTCStore {
 		if (!address) {
 			return;
 		}
-		const { queueNotification, gasPrice } = this.store.uiState;
+		const { gasPrice } = this.store.uiState;
 		const { gasPrices } = this.store.network;
 		const price = gasPrices ? gasPrices[gasPrice] : 0;
 		const options = await getSendOptions(method, address, price);
-		await method
-			.send(options)
-			.on('transactionHash', (_hash: string) => {
-				queueNotification(infoMessage, 'info', _hash);
-			})
-			.on('receipt', () => {
-				queueNotification(successMessage, 'success');
-				this.init();
-			})
-			// code exists, app hates it, fuck you ts
-			.on('error', (err: any) => {
-				if (err.code !== 4001) {
-					throw err;
-				}
-			});
+		await sendContractMethod(this.store, method, options, infoMessage, successMessage);
 	}
 
 	private async fetchIbbtApyFromTimestamp(timestamp: number): Promise<string | null> {
