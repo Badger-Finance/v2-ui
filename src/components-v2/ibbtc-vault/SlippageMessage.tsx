@@ -1,7 +1,7 @@
 import React from 'react';
 import BigNumber from 'bignumber.js';
 import { makeStyles } from '@material-ui/core/styles';
-import { Box, Typography } from '@material-ui/core';
+import { Box, Grid, Typography } from '@material-ui/core';
 
 interface Props {
 	calculatedSlippage: BigNumber;
@@ -25,35 +25,42 @@ const SlippageMessage = ({ calculatedSlippage, limitSlippage }: Props): JSX.Elem
 
 	if (calculatedSlippage.isNegative()) {
 		return (
-			<Box display="flex" alignItems="center">
-				<img
-					className={classes.positiveSlippageIcon}
-					src="/assets/icons/positive-slippage.svg"
-					alt="positive slippage icon"
-				/>
-				<Typography
-					variant="subtitle2"
-					className={classes.positiveSlippage}
-				>{`Slippage bonus (incl. pricing): ${calculatedSlippage
-					.absoluteValue()
-					.decimalPlaces(3)}%`}</Typography>
-			</Box>
+			<Grid container alignItems="center" justify="space-between">
+				<Box display="flex" alignItems="center">
+					<img
+						className={classes.positiveSlippageIcon}
+						src="/assets/icons/positive-slippage.svg"
+						alt="positive slippage icon"
+					/>
+					<Typography variant="body2" className={classes.positiveSlippage}>
+						Slippage bonus (incl. pricing)
+					</Typography>
+				</Box>
+				<Typography variant="body2" className={classes.positiveSlippage}>
+					{`${calculatedSlippage.absoluteValue().decimalPlaces(4)}%`}
+				</Typography>
+			</Grid>
 		);
 	}
 
 	if (calculatedSlippage.isGreaterThan(limitSlippage)) {
 		return (
-			<Typography
-				variant="subtitle2"
-				className={classes.negativeSlippage}
-			>{`Slippage higher than expected (incl. pricing): ${calculatedSlippage.decimalPlaces(6)}%`}</Typography>
+			<Grid container alignItems="center" justify="space-between">
+				<Typography variant="body2" className={classes.negativeSlippage}>
+					Slippage higher than expected (incl. pricing):
+				</Typography>
+				<Typography variant="body2" className={classes.negativeSlippage}>
+					{`${calculatedSlippage.decimalPlaces(4)}%`}
+				</Typography>
+			</Grid>
 		);
 	}
 
 	return (
-		<Typography variant="subtitle2">{`Estiamated slippage (incl. pricing): ${calculatedSlippage.decimalPlaces(
-			3,
-		)}%`}</Typography>
+		<Grid container alignItems="center" justify="space-between">
+			<Typography variant="body2">Estimated slippage (incl. pricing):</Typography>
+			<Typography variant="body2">{`${calculatedSlippage.decimalPlaces(4)}%`}</Typography>
+		</Grid>
 	);
 };
 
