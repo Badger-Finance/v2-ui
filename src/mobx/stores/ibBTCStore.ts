@@ -286,7 +286,7 @@ class IbBTCStore {
 		queueNotification(`Sign the transaction to allow Badger to spend your ${underlyingAsset.symbol}`, 'info');
 		await this.executeMethod(
 			method,
-			`Sign transaction to increase ${underlyingAsset.symbol} allowance.`,
+			`Increase ${underlyingAsset.symbol} allowance submitted.`,
 			`${underlyingAsset.symbol} allowance increased.`,
 		);
 	}
