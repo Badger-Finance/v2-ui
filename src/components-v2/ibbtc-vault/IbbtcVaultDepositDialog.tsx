@@ -175,12 +175,15 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: SettModalProps): JSX
 			return;
 		}
 
-		const { 1: expectedAmount } = await getCalculations(multiTokenDepositBalances);
+		const [calculatedMint, expectedAmount] = await getCalculations(multiTokenDepositBalances);
 		const minOut = expectedAmount.multipliedBy(1 - newSlippage / 100);
+		const calculatedSlippage = expectedAmount.minus(calculatedMint).multipliedBy(100).dividedBy(expectedAmount);
 
+		setSlippage(newSlippage);
 		setMinPoolTokens(TokenBalance.fromBigNumber(userLpTokenBalance, minOut));
 		setExpectedPoolTokens(TokenBalance.fromBigNumber(userLpTokenBalance, expectedAmount));
-		setSlippage(newSlippage);
+		setSlippageRevertProtected(calculatedMint.isLessThan(minOut));
+		setExpectedSlippage(calculatedSlippage);
 	};
 
 	// reason: the plugin does not recognize the dependency inside the debounce function
