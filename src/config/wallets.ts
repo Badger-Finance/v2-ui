@@ -37,8 +37,8 @@ export const getOnboardWallets = (config: NetworkConfig): WalletProviderInfo[] =
 				{
 					walletName: 'walletConnect',
 					rpc: {
-						['1']: networkRPC,
-						[NETWORK_IDS.BSC.toString()]: networkRPC,
+						[NETWORK_IDS.ETH]: networkRPC,
+						[NETWORK_IDS.BSC]: networkRPC,
 					},
 				},
 				{ walletName: 'walletLink', rpcUrl: networkRPC, appName: APP_NAME },
@@ -62,10 +62,10 @@ const supportedNetwork = () => {
 		const { network, appNetworkId } = stateAndHelpers;
 		const chain = NetworkModel.networkFromId(network ?? appNetworkId);
 		if (!chain || !chain.symbol || !Object.values(Network).includes(chain.symbol as Network)) {
-			const networkMembers = Object.values(Network).map((key) => ' '.concat(key.toUpperCase()));
+			const networkMembers = Object.values(Network).join(', ');
 			return {
 				heading: `Unsupported Network`,
-				description: `Switch your network to one of the supported networks:${networkMembers}`,
+				description: `Switch your network to one of the supported networks: ${networkMembers}`,
 				eventCode: 'network',
 			};
 		}

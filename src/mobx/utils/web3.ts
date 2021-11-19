@@ -70,7 +70,7 @@ const _isEIP1559SendOption = (options: any): options is EIP1559SendOptions => {
 	return 'maxFeePerGas' in options;
 };
 
-export const sendContractMethod = async (
+export async function sendContractMethod(
 	store: RootStore,
 	// Methods do not have types in web3.js - allow for any typing here
 	/* eslint-disable  @typescript-eslint/explicit-module-boundary-types */
@@ -79,7 +79,7 @@ export const sendContractMethod = async (
 	txHashMessage: string,
 	receiptMessage: string,
 	errorMessage?: string,
-): Promise<void> => {
+): Promise<void> {
 	const queueNotification = store.uiState.queueNotification;
 	try {
 		await method
@@ -109,4 +109,4 @@ export const sendContractMethod = async (
 			queueNotification(errorMessage ? errorMessage : err.message, 'error');
 		}
 	}
-};
+}
