@@ -51,7 +51,7 @@ const TableHeader = observer(
 				</Grid>
 				<Grid item xs={12} md={2} className={clsx(classes.hiddenMobile, classes.title)}>
 					<Typography variant="body2" color="textSecondary">
-						Yearly APR
+						Variable APR
 					</Typography>
 				</Grid>
 				<Grid item xs={12} md={2} className={clsx(classes.hiddenMobile, classes.title)}>
