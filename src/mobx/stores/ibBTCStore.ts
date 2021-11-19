@@ -9,7 +9,7 @@ import settConfig from 'config/system/abis/Sett.json';
 import ibBTCConfig from 'config/system/abis/ibBTC.json';
 import addresses from 'config/ibBTC/addresses.json';
 import coreConfig from 'config/system/abis/BadgerBtcPeakCore.json';
-import { getSendOptions } from 'mobx/utils/web3';
+import { getSendOptions, sendContractMethod } from 'mobx/utils/web3';
 import { getNetworkFromProvider } from 'mobx/utils/helpers';
 import { IbbtcOptionToken } from '../model/tokens/ibbtc-option-token';
 import { ibBTCFees } from '../model/fees/ibBTCFees';
@@ -427,25 +427,11 @@ class IbBTCStore {
 		if (!address) {
 			return;
 		}
-		const { queueNotification, gasPrice } = this.store.uiState;
+		const { gasPrice } = this.store.uiState;
 		const { gasPrices } = this.store.network;
 		const price = gasPrices ? gasPrices[gasPrice] : 0;
 		const options = await getSendOptions(method, address, price);
-		await method
-			.send(options)
-			.on('transactionHash', (_hash: string) => {
-				queueNotification(infoMessage, 'info', _hash);
-			})
-			.on('receipt', () => {
-				queueNotification(successMessage, 'success');
-				this.init();
-			})
-			// code exists, app hates it, fuck you ts
-			.on('error', (err: any) => {
-				if (err.code !== 4001) {
-					throw err;
-				}
-			});
+		await sendContractMethod(this.store, method, options, infoMessage, successMessage);
 	}
 
 	private async fetchIbbtApyFromTimestamp(timestamp: number): Promise<string | null> {

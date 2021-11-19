@@ -109,6 +109,7 @@ export class OnboardStore {
 
 	private getProvider(network: NetworkConfig, provider: any, wallet: string | null): SDKProvider {
 		let library;
+		console.log(`Selected wallet: ${wallet}`);
 		if (isRpcWallet(wallet)) {
 			library = new JsonRpcBatchProvider(rpc[network.id], network.id);
 		} else {
