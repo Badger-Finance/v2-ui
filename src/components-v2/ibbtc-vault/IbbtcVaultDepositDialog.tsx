@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
 import { StoreContext } from '../../mobx/store-context';
@@ -30,6 +30,9 @@ import { toHex } from '../../mobx/utils/helpers';
 import { sendContractMethod } from '../../mobx/utils/web3';
 import { SettModalProps } from '../common/dialogs/SettDeposit';
 import { Loader } from '../../components/Loader';
+import SlippageMessage from './SlippageMessage';
+import { debounce } from '../../utils/componentHelpers';
+import { ReportProblem } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -53,38 +56,102 @@ const useStyles = makeStyles((theme) => ({
 		top: 8,
 	},
 	inputRow: {
-		marginTop: 21,
+		marginTop: theme.spacing(1.5),
 	},
 	divider: {
-		margin: theme.spacing(3, 0),
+		margin: theme.spacing(1, 0),
 	},
 	inputsContainer: {
 		marginTop: theme.spacing(1),
 	},
 	depositButton: {
-		marginTop: theme.spacing(3),
+		marginTop: theme.spacing(1),
 	},
 	loader: {
 		marginBottom: theme.spacing(1),
 	},
+	slippageProtectionContainer: {
+		borderRadius: 8,
+		border: '1px solid #D97706',
+		marginTop: theme.spacing(1.5),
+		padding: theme.spacing(1),
+	},
+	slippageProtectionMessage: {
+		color: '#D97706',
+		verticalAlign: 'middle',
+		display: 'inline-flex',
+	},
+	warningIcon: {
+		color: '#D97706',
+		marginRight: theme.spacing(1),
+	},
 }));
+
+const ibbtcVaultPeakAddress = mainnetDeploy.ibbtcVaultZap;
 
 const IbbtcVaultDepositDialog = ({ open = false, onClose }: SettModalProps): JSX.Element => {
 	const classes = useStyles();
 	const store = useContext(StoreContext);
 	const { user, uiState, contracts, onboard } = store;
+	const [slippageRevertProtected, setSlippageRevertProtected] = useState(false);
 	const [slippage, setSlippage] = useState(0.3);
+	const [expectedSlippage, setExpectedSlippage] = useState<BigNumber>();
 	const [depositOptions, setDepositOptions] = useState<TokenBalance[]>([]);
 	const [depositBalances, setDepositBalances] = useState<TokenBalance[]>([]);
 
 	const areOptionAvailable = Object.keys(user.tokenBalances).length > 0;
 	const totalDeposit = depositBalances.reduce((total, balance) => total.plus(balance.tokenBalance), new BigNumber(0));
 
-	const handleChange = (tokenBalance: TokenBalance, index: number) => {
-		const balances = [...depositBalances];
-		balances[index] = tokenBalance;
-		setDepositBalances(balances);
+	const handleClosing = () => {
+		setSlippageRevertProtected(false);
+		setExpectedSlippage(undefined);
+		onClose();
 	};
+
+	// reason: the plugin does not recognize the dependency inside the debounce function
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	const handleChange = useCallback(
+		debounce(200, async (tokenBalance: TokenBalance, index: number) => {
+			const balances = [...depositBalances];
+			balances[index] = tokenBalance;
+
+			const totalDeposit = balances.reduce(
+				(total, balance) => total.plus(balance.tokenBalance),
+				new BigNumber(0),
+			);
+
+			if (totalDeposit.isZero()) {
+				setDepositBalances(balances);
+				setSlippageRevertProtected(false);
+				setExpectedSlippage(undefined);
+				return;
+			}
+
+			const web3 = new Web3(onboard.wallet?.provider);
+			const ibbtcVaultPeak = new web3.eth.Contract(IbbtcVaultZapAbi as AbiItem[], ibbtcVaultPeakAddress);
+			const depositAmounts = balances.map((balance) => toHex(balance.tokenBalance));
+
+			console.log(JSON.stringify(depositAmounts));
+
+			const [calculatedMint, expectedAmount] = await Promise.all([
+				new BigNumber(await ibbtcVaultPeak.methods.calcMint(depositAmounts, true).call()),
+				new BigNumber(await ibbtcVaultPeak.methods.expectedAmount(depositAmounts).call()),
+			]);
+
+			console.log('calculatedMint =>', calculatedMint.toString());
+			console.log('expectedAmount =>', expectedAmount.toString());
+
+			// formula is: slippage = [(expectedAmount - calculatedMint) * 100] / expectedAmount
+			const calculatedSlippage = expectedAmount.minus(calculatedMint).multipliedBy(100).dividedBy(expectedAmount);
+			const minOut = expectedAmount.multipliedBy(1 - slippage / 100);
+
+			// this will protect users from submitting tx that will be reverted because of slippage
+			setSlippageRevertProtected(calculatedMint.isLessThan(minOut));
+			setExpectedSlippage(calculatedSlippage);
+			setDepositBalances(balances);
+		}),
+		[depositBalances, slippage],
+	);
 
 	const handleDeposit = async () => {
 		const invalidBalance = depositBalances.find((depositBalance, index) => {
@@ -96,8 +163,6 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: SettModalProps): JSX
 			uiState.queueError(`Insufficient ${invalidBalance.token.symbol} balance for deposit`);
 			return;
 		}
-
-		const ibbtcVaultPeakAddress = mainnetDeploy.ibbtcVaultZap;
 
 		for (const depositBalance of depositBalances) {
 			const allowance = await contracts.getAllowance(depositBalance.token, ibbtcVaultPeakAddress);
@@ -111,8 +176,10 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: SettModalProps): JSX
 		const ibbtcVaultPeak = new web3.eth.Contract(IbbtcVaultZapAbi as AbiItem[], ibbtcVaultPeakAddress);
 
 		const depositAmounts = depositBalances.map((balance) => toHex(balance.tokenBalance));
-		const minOut = await ibbtcVaultPeak.methods.minOut(depositAmounts).call();
-		const deposit = ibbtcVaultPeak.methods.deposit(depositAmounts, minOut, true);
+		const expectedAmount = await new BigNumber(await ibbtcVaultPeak.methods.expectedAmount(depositAmounts).call());
+		const minOut = expectedAmount.multipliedBy(1 - slippage / 100);
+
+		const deposit = ibbtcVaultPeak.methods.deposit(depositAmounts, toHex(minOut), true);
 		const options = await contracts.getMethodSendOptions(deposit);
 
 		uiState.queueNotification('Sign transaction to execute deposit', 'info');
@@ -131,15 +198,15 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: SettModalProps): JSX
 		const renBTC = user.getTokenBalance(mainnetDeploy.tokens['renBTC']);
 		const wBTC = user.getTokenBalance(mainnetDeploy.tokens['wBTC']);
 		const ibbtc = user.getTokenBalance(mainnetDeploy.tokens['ibBTC']);
-		setDepositOptions([sBTC, renBTC, wBTC, ibbtc]);
-		setDepositBalances([sBTC, renBTC, wBTC, ibbtc]);
+		setDepositOptions([ibbtc, renBTC, wBTC, sBTC]);
+		setDepositBalances([ibbtc, renBTC, wBTC, sBTC]);
 	}, [user, user.initialized]);
 
 	return (
 		<Dialog open={open} fullWidth maxWidth="sm" classes={{ paperWidthSm: classes.root }}>
 			<DialogTitle className={classes.title}>
 				Deposit Tokens
-				<IconButton className={classes.closeButton} onClick={onClose}>
+				<IconButton className={classes.closeButton} onClick={handleClosing}>
 					<CloseIcon />
 				</IconButton>
 			</DialogTitle>
@@ -190,6 +257,26 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: SettModalProps): JSX
 								</RadioGroup>
 							</Grid>
 						</Grid>
+						{expectedSlippage && (
+							<Grid item container alignItems="center" className={classes.inputRow}>
+								<SlippageMessage limitSlippage={slippage} calculatedSlippage={expectedSlippage} />
+							</Grid>
+						)}
+						{slippageRevertProtected && (
+							<Grid
+								item
+								container
+								direction="row"
+								alignItems="center"
+								className={classes.slippageProtectionContainer}
+							>
+								<Typography variant="subtitle2" className={classes.slippageProtectionMessage}>
+									<ReportProblem className={classes.warningIcon} />
+									With your current slippage selection the transaction will be reverted, please adjust
+									either slippage limit or deposit amount.
+								</Typography>
+							</Grid>
+						)}
 					</Grid>
 				) : (
 					<Grid container direction="column">
@@ -209,10 +296,10 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: SettModalProps): JSX
 					variant="contained"
 					color="primary"
 					className={classes.depositButton}
-					disabled={totalDeposit.isZero()}
+					disabled={totalDeposit.isZero() || slippageRevertProtected}
 					onClick={handleDeposit}
 				>
-					Deposit
+					{slippageRevertProtected ? 'Slippage out of range' : 'Deposit'}
 				</Button>
 			</DialogContent>
 		</Dialog>
