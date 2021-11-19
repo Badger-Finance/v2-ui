@@ -8,7 +8,6 @@ import { Mint } from '../../components/IbBTC/Mint';
 import { IbbtcOptionToken } from '../../mobx/model/tokens/ibbtc-option-token';
 import { Snackbar } from '../../components/Snackbar';
 import Header from '../../components/Header';
-import { action } from 'mobx';
 import IbBTCStore from 'mobx/stores/ibBTCStore';
 
 const tokensConfig = addresses.mainnet.tokens;
@@ -25,8 +24,6 @@ describe('ibBTC Mint', () => {
 		store.ibBTCStore.tokens = mockTokens;
 		store.ibBTCStore.tokens[0].balance = store.ibBTCStore.tokens[0].scale('5');
 		store.ibBTCStore.ibBTC.balance = mockIbBTC.scale('10');
-		store.honeyPot.fetchNFTS = action(jest.fn());
-		store.honeyPot.fetchPoolBalance = action(jest.fn());
 		/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
 		jest.spyOn(IbBTCStore.prototype, 'calcMintAmount').mockImplementation(async (_token, _amount) => ({
 			bBTC: mockIbBTC.scale('11.988'),
