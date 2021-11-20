@@ -1,3 +1,6 @@
+import mainnetDeploy from '../config/deployments/mainnet.json';
+import { Sett } from '@badger-dao/sdk';
+
 export const restrictToRange = (num: number, min: number, max: number): number => Math.min(Math.max(num, min), max);
 
 export const debounce = (n: number, fn: (...params: any[]) => any, immediate = false): any => {
@@ -37,3 +40,7 @@ export const roundWithDecimals = (value: number, decimals: number): number => {
 };
 
 export const formatStrategyFee = (fee: number): string => `${(fee / 100).toString()}%`;
+
+export const isSettVaultIbbtc = (sett: Sett): boolean => {
+	return sett.settToken === mainnetDeploy.sett_system.vaults['native.ibbtcCrv'];
+};

@@ -8,7 +8,6 @@ import React, { useContext } from 'react';
 import { PageHeaderContainer, LayoutContainer } from '../components-v2/common/Containers';
 import { SettState } from '@badger-dao/sdk';
 import SettListView from '../components-v2/landing/SettListView';
-import DepositDialog from '../components-v2/ibbtc-vault/DepositDialog';
 import SettListFiltersWidget from '../components-v2/common/SettListFiltersWidget';
 import CurrencyDisplay from '../components-v2/common/CurrencyDisplay';
 import { inCurrency } from '../mobx/utils/helpers';
@@ -156,7 +155,6 @@ const Landing = observer((props: LandingProps) => {
 				</div>
 			)}
 
-			<DepositDialog />
 			<SettListView state={state} />
 		</LayoutContainer>
 	);
