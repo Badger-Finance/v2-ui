@@ -37,6 +37,7 @@ import { debounce } from '../../utils/componentHelpers';
 import { ReportProblem } from '@material-ui/icons';
 import { BalanceNamespace } from '../../web3/config/namespaces';
 import clsx from 'clsx';
+import { StrategyFees } from '../common/StrategyFees';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -103,7 +104,10 @@ enum DepositMode {
 	lpToken = 'lp-token',
 }
 
-const ibbtcVaultPeakAddress = mainnetDeploy.ibbtcVaultZap;
+// BIG NOTE: FOR SOME REASON THE PROXY CONTRACT DOES NOT HAVE THE CALC MINT METHOD BUT THE lOCI ONE DOES
+// FOR NOW, WE'RE GOING TO SPLIT THE USAGE
+const ibbtcVaultPeakAddressWrite = '0x87C3Ef099c6143e4687b060285bad201b9efa493'; // this is the proxy
+const ibbtcVaultPeakAddressRead = mainnetDeploy.ibbtcVaultZap;
 
 const IbbtcVaultDepositDialog = ({ open = false, onClose }: SettModalProps): JSX.Element => {
 	const classes = useStyles();
@@ -115,6 +119,7 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: SettModalProps): JSX
 	const lpBadgerSett = network.network.setts.find(({ vaultToken }) => vaultToken.address === lpSett?.settToken);
 	const userLpTokenBalance = lpBadgerSett ? user.getBalance(BalanceNamespace.Token, lpBadgerSett) : undefined;
 	const userHasLpTokenBalance = userLpTokenBalance?.tokenBalance.gt(0);
+	const settStrategy = lpBadgerSett ? network.network.strategies[lpBadgerSett.vaultToken.address] : undefined;
 
 	// options
 	const [mode, setMode] = useState(userHasLpTokenBalance ? DepositMode.lpToken : DepositMode.tokens);
@@ -151,7 +156,7 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: SettModalProps): JSX
 	const getCalculations = useCallback(
 		async (balances: TokenBalance[]): Promise<BigNumber[]> => {
 			const web3 = new Web3(onboard.wallet?.provider);
-			const ibbtcVaultPeak = new web3.eth.Contract(IbbtcVaultZapAbi as AbiItem[], ibbtcVaultPeakAddress);
+			const ibbtcVaultPeak = new web3.eth.Contract(IbbtcVaultZapAbi as AbiItem[], ibbtcVaultPeakAddressRead);
 
 			const depositAmounts = balances.map((balance) => toHex(balance.tokenBalance));
 
@@ -211,6 +216,9 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: SettModalProps): JSX
 
 			const [calculatedMint, expectedAmount] = await getCalculations(balances);
 
+			console.log('calculatedMint =>', calculatedMint.toString());
+			console.log('expectedAmount =>', expectedAmount.toString());
+
 			// formula is: slippage = [(expectedAmount - calculatedMint) * 100] / expectedAmount
 			const calculatedSlippage = expectedAmount.minus(calculatedMint).multipliedBy(100).dividedBy(expectedAmount);
 			const minOut = expectedAmount.multipliedBy(1 - slippage / 100);
@@ -250,21 +258,29 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: SettModalProps): JSX
 		const allowanceApprovals = [];
 
 		for (const depositBalance of multiTokenDepositBalances) {
-			const allowance = await contracts.getAllowance(depositBalance.token, ibbtcVaultPeakAddress);
+			const allowance = await contracts.getAllowance(depositBalance.token, ibbtcVaultPeakAddressWrite);
 
 			if (allowance.tokenBalance.lt(depositBalance.tokenBalance)) {
-				allowanceApprovals.push(contracts.increaseAllowance(depositBalance.token, ibbtcVaultPeakAddress));
+				allowanceApprovals.push(contracts.increaseAllowance(depositBalance.token, ibbtcVaultPeakAddressWrite));
 			}
 		}
 
 		await Promise.all(allowanceApprovals);
 
 		const web3 = new Web3(onboard.wallet?.provider);
-		const ibbtcVaultPeak = new web3.eth.Contract(IbbtcVaultZapAbi as AbiItem[], ibbtcVaultPeakAddress);
+		const ibbtcVaultPeakRead = new web3.eth.Contract(IbbtcVaultZapAbi as AbiItem[], ibbtcVaultPeakAddressRead);
+		const ibbtcVaultPeak = new web3.eth.Contract(IbbtcVaultZapAbi as AbiItem[], ibbtcVaultPeakAddressWrite);
 
 		const depositAmounts = multiTokenDepositBalances.map((balance) => toHex(balance.tokenBalance));
-		const expectedAmount = await new BigNumber(await ibbtcVaultPeak.methods.expectedAmount(depositAmounts).call());
+		const expectedAmount = await new BigNumber(
+			await ibbtcVaultPeakRead.methods.expectedAmount(depositAmounts).call(),
+		);
 		const minOut = expectedAmount.multipliedBy(1 - slippage / 100).toFixed(0, BigNumber.ROUND_HALF_FLOOR);
+
+		console.log('params:');
+		console.log('_amounts =>', JSON.stringify(depositAmounts));
+		console.log('_minOut =>', minOut);
+		console.log('_mintIbbtc =>', false);
 
 		const deposit = ibbtcVaultPeak.methods.deposit(depositAmounts, toHex(new BigNumber(minOut)), false);
 		const options = await contracts.getMethodSendOptions(deposit);
@@ -440,6 +456,7 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: SettModalProps): JSX
 					</Grid>
 				)}
 				<Divider className={classes.divider} variant="fullWidth" />
+				{lpSett && settStrategy && <StrategyFees sett={lpSett} strategy={settStrategy} />}
 				<Button
 					fullWidth
 					variant="contained"
