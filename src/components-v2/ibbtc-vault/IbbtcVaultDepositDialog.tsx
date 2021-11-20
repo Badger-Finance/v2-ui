@@ -247,22 +247,26 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: SettModalProps): JSX
 			return;
 		}
 
+		const allowanceApprovals = [];
+
 		for (const depositBalance of multiTokenDepositBalances) {
 			const allowance = await contracts.getAllowance(depositBalance.token, ibbtcVaultPeakAddress);
 
 			if (allowance.tokenBalance.lt(depositBalance.tokenBalance)) {
-				await contracts.increaseAllowance(depositBalance.token, ibbtcVaultPeakAddress);
+				allowanceApprovals.push(contracts.increaseAllowance(depositBalance.token, ibbtcVaultPeakAddress));
 			}
 		}
+
+		await Promise.all(allowanceApprovals);
 
 		const web3 = new Web3(onboard.wallet?.provider);
 		const ibbtcVaultPeak = new web3.eth.Contract(IbbtcVaultZapAbi as AbiItem[], ibbtcVaultPeakAddress);
 
 		const depositAmounts = multiTokenDepositBalances.map((balance) => toHex(balance.tokenBalance));
 		const expectedAmount = await new BigNumber(await ibbtcVaultPeak.methods.expectedAmount(depositAmounts).call());
-		const minOut = expectedAmount.multipliedBy(1 - slippage / 100);
+		const minOut = expectedAmount.multipliedBy(1 - slippage / 100).toFixed(0, BigNumber.ROUND_HALF_FLOOR);
 
-		const deposit = ibbtcVaultPeak.methods.deposit(depositAmounts, toHex(minOut), true);
+		const deposit = ibbtcVaultPeak.methods.deposit(depositAmounts, toHex(new BigNumber(minOut)), false);
 		const options = await contracts.getMethodSendOptions(deposit);
 
 		uiState.queueNotification('Sign transaction to execute deposit', 'info');
