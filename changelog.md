@@ -1,5 +1,11 @@
 # v2 UI Changelog
 
+### 2.11.1 - 11/20/2021
+
+- introduce ibbtc deposit modal
+- fix rpc based wallet connections
+- fix ibbtc mint eip-1559 compatibility
+
 ### 2.11.0 - 11/16/2021
 
 - start app ux overhaul
