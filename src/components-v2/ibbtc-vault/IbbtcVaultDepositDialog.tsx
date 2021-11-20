@@ -110,18 +110,24 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: SettModalProps): JSX
 	const store = useContext(StoreContext);
 	const { contracts, network, onboard, setts, uiState, user } = store;
 
+	// lp token getters
 	const lpSett = setts.getSett(mainnetDeploy.sett_system.vaults['native.ibbtcCrv']);
 	const lpBadgerSett = network.network.setts.find(({ vaultToken }) => vaultToken.address === lpSett?.settToken);
-	const userLpTokenBalance = lpBadgerSett ? user.getBalance(BalanceNamespace.Sett, lpBadgerSett) : undefined;
+	const userLpTokenBalance = lpBadgerSett ? user.getBalance(BalanceNamespace.Token, lpBadgerSett) : undefined;
 	const userHasLpTokenBalance = userLpTokenBalance?.tokenBalance.gt(0);
 
+	// options
 	const [mode, setMode] = useState(userHasLpTokenBalance ? DepositMode.lpToken : DepositMode.tokens);
-	const [slippageRevertProtected, setSlippageRevertProtected] = useState(false);
-	const [slippage, setSlippage] = useState(0.3);
-	const [expectedSlippage, setExpectedSlippage] = useState<BigNumber>();
 	const [depositOptions, setDepositOptions] = useState<TokenBalance[]>([]);
+
+	// user inputs
+	const [slippage, setSlippage] = useState(0.3);
 	const [multiTokenDepositBalances, setMultiTokenDepositBalances] = useState<TokenBalance[]>([]);
 	const [lpTokenDepositBalance, setLpTokenDepositBalance] = useState<TokenBalance>();
+
+	// calculations
+	const [slippageRevertProtected, setSlippageRevertProtected] = useState(false);
+	const [expectedSlippage, setExpectedSlippage] = useState<BigNumber>();
 	const [expectedPoolTokens, setExpectedPoolTokens] = useState<TokenBalance>();
 	const [minPoolTokens, setMinPoolTokens] = useState<TokenBalance>();
 
@@ -278,6 +284,19 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: SettModalProps): JSX
 		setDepositOptions([ibbtc, renBTC, wBTC, sBTC]);
 		setMultiTokenDepositBalances([ibbtc, renBTC, wBTC, sBTC]);
 	}, [user, user.initialized]);
+
+	useEffect(() => {
+		const lpSett = setts.getSett(mainnetDeploy.sett_system.vaults['native.ibbtcCrv']);
+		const lpBadgerSett = network.network.setts.find(({ vaultToken }) => vaultToken.address === lpSett?.settToken);
+		const userLpTokenBalance = lpBadgerSett ? user.getBalance(BalanceNamespace.Token, lpBadgerSett) : undefined;
+
+		if (!userLpTokenBalance) {
+			return;
+		}
+
+		setLpTokenDepositBalance(userLpTokenBalance);
+		setMode(userLpTokenBalance ? DepositMode.lpToken : DepositMode.tokens);
+	}, [user, setts, network.network.setts]);
 
 	return (
 		<Dialog open={open} fullWidth maxWidth="sm" classes={{ paperWidthSm: classes.root }}>
