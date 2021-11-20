@@ -37,7 +37,7 @@ const SlippageMessage = ({ calculatedSlippage, limitSlippage }: Props): JSX.Elem
 					</Typography>
 				</Box>
 				<Typography variant="body2" className={classes.positiveSlippage}>
-					{`${calculatedSlippage.decimalPlaces(4)}%`}
+					{`${calculatedSlippage.absoluteValue().decimalPlaces(4)}%`}
 				</Typography>
 			</Grid>
 		);
