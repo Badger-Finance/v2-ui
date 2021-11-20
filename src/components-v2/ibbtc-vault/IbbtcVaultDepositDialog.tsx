@@ -294,8 +294,10 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: SettModalProps): JSX
 			return;
 		}
 
+		const userHasLpTokenBalance = userLpTokenBalance.tokenBalance.gt(0);
+
 		setLpTokenDepositBalance(userLpTokenBalance);
-		setMode(userLpTokenBalance ? DepositMode.lpToken : DepositMode.tokens);
+		setMode(userHasLpTokenBalance ? DepositMode.lpToken : DepositMode.tokens);
 	}, [user, setts, network.network.setts]);
 
 	return (
