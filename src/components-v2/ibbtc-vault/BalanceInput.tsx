@@ -39,7 +39,9 @@ const BalanceInput = ({ tokenBalance, onChange }: Props): JSX.Element => {
 
 	const handleApplyPercentage = (percentage: number) => {
 		setInputValue(balance.multipliedBy(percentage / 100).toString());
-		onChange(new TokenBalance(token, tokenBalance.tokenBalance.multipliedBy(percentage / 100), price));
+		onChange(
+			new TokenBalance(token, tokenBalance.tokenBalance.multipliedBy(percentage).dividedToIntegerBy(100), price),
+		);
 	};
 
 	const percentages = (
