@@ -100,11 +100,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 enum DepositMode {
-	tokens = 'tokens',
-	lpToken = 'lp-token',
+	Tokens = 'tokens',
+	LiquidityToken = 'liquidity-token',
 }
 
-// BIG NOTE: FOR SOME REASON THE PROXY CONTRACT DOES NOT HAVE THE CALC MINT METHOD BUT THE lOCI ONE DOES
+// BIG NOTE: FOR SOME REASON THE PROXY CONTRACT DOES NOT HAVE THE CALC MINT METHOD BUT THE LOGIC ONE DOES
 // FOR NOW, WE'RE GOING TO SPLIT THE USAGE
 const ibbtcVaultPeakAddressWrite = '0x87C3Ef099c6143e4687b060285bad201b9efa493'; // this is the proxy
 const ibbtcVaultPeakAddressRead = mainnetDeploy.ibbtcVaultZap;
@@ -122,7 +122,7 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: SettModalProps): JSX
 	const settStrategy = lpBadgerSett ? network.network.strategies[lpBadgerSett.vaultToken.address] : undefined;
 
 	// options
-	const [mode, setMode] = useState(userHasLpTokenBalance ? DepositMode.lpToken : DepositMode.tokens);
+	const [mode, setMode] = useState(userHasLpTokenBalance ? DepositMode.LiquidityToken : DepositMode.Tokens);
 	const [depositOptions, setDepositOptions] = useState<TokenBalance[]>([]);
 
 	// user inputs
@@ -136,7 +136,9 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: SettModalProps): JSX
 	const [expectedPoolTokens, setExpectedPoolTokens] = useState<TokenBalance>();
 	const [minPoolTokens, setMinPoolTokens] = useState<TokenBalance>();
 
-	const areOptionAvailable = Object.keys(user.tokenBalances).length > 0 && lpBadgerSett;
+	const areUserTokenBalancesAvailable = Object.keys(user.tokenBalances).length > 0;
+	const isLoading = !areUserTokenBalancesAvailable || !lpBadgerSett;
+
 	const totalDeposit = multiTokenDepositBalances.reduce(
 		(total, balance) => total.plus(balance.tokenBalance),
 		new BigNumber(0),
@@ -215,10 +217,6 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: SettModalProps): JSX
 			}
 
 			const [calculatedMint, expectedAmount] = await getCalculations(balances);
-
-			console.log('calculatedMint =>', calculatedMint.toString());
-			console.log('expectedAmount =>', expectedAmount.toString());
-
 			// formula is: slippage = [(expectedAmount - calculatedMint) * 100] / expectedAmount
 			const calculatedSlippage = expectedAmount.minus(calculatedMint).multipliedBy(100).dividedBy(expectedAmount);
 			const minOut = expectedAmount.multipliedBy(1 - slippage / 100);
@@ -272,16 +270,8 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: SettModalProps): JSX
 		const ibbtcVaultPeak = new web3.eth.Contract(IbbtcVaultZapAbi as AbiItem[], ibbtcVaultPeakAddressWrite);
 
 		const depositAmounts = multiTokenDepositBalances.map((balance) => toHex(balance.tokenBalance));
-		const expectedAmount = await new BigNumber(
-			await ibbtcVaultPeakRead.methods.expectedAmount(depositAmounts).call(),
-		);
+		const expectedAmount = new BigNumber(await ibbtcVaultPeakRead.methods.expectedAmount(depositAmounts).call());
 		const minOut = expectedAmount.multipliedBy(1 - slippage / 100).toFixed(0, BigNumber.ROUND_HALF_FLOOR);
-
-		console.log('params:');
-		console.log('_amounts =>', JSON.stringify(depositAmounts));
-		console.log('_minOut =>', minOut);
-		console.log('_mintIbbtc =>', false);
-
 		const deposit = ibbtcVaultPeak.methods.deposit(depositAmounts, toHex(new BigNumber(minOut)), false);
 		const options = await contracts.getMethodSendOptions(deposit);
 
@@ -317,7 +307,7 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: SettModalProps): JSX
 		const userHasLpTokenBalance = userLpTokenBalance.tokenBalance.gt(0);
 
 		setLpTokenDepositBalance(userLpTokenBalance);
-		setMode(userHasLpTokenBalance ? DepositMode.lpToken : DepositMode.tokens);
+		setMode(userHasLpTokenBalance ? DepositMode.LiquidityToken : DepositMode.Tokens);
 	}, [user, setts, network.network.setts]);
 
 	return (
@@ -329,7 +319,18 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: SettModalProps): JSX
 				</IconButton>
 			</DialogTitle>
 			<DialogContent className={classes.content}>
-				{areOptionAvailable ? (
+				{isLoading ? (
+					<Grid container direction="column">
+						<Grid item className={classes.loader}>
+							<Loader size={48} />
+						</Grid>
+						<Grid item container justify="center">
+							<Typography variant="h6" display="inline">
+								Loading
+							</Typography>
+						</Grid>
+					</Grid>
+				) : (
 					<Grid container direction="column">
 						<Grid item>
 							<Avatar
@@ -352,13 +353,13 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: SettModalProps): JSX
 							>
 								<Tab
 									className={classes.tab}
-									value={DepositMode.tokens}
+									value={DepositMode.Tokens}
 									label="ibBTC, renBTC, WBTC & sBTC"
 								/>
-								<Tab className={classes.tab} value={DepositMode.lpToken} label="LP Token" />
+								<Tab className={classes.tab} value={DepositMode.LiquidityToken} label="LP Token" />
 							</Tabs>
 							<Grid container direction="column" className={classes.inputsContainer}>
-								{mode === DepositMode.tokens ? (
+								{mode === DepositMode.Tokens ? (
 									<>
 										{depositOptions.map((tokenBalance, index) => (
 											<Grid
@@ -385,7 +386,7 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: SettModalProps): JSX
 												value={slippage}
 												onChange={(event) => handleSlippageChange(Number(event.target.value))}
 											>
-												{[0.1, 0.3, 0.5, 1].map((slippageOption, index) => (
+												{[0.15, 0.3, 0.5, 1].map((slippageOption, index) => (
 													<FormControlLabel
 														key={`${slippageOption}_${index}`}
 														control={<Radio color="primary" />}
@@ -443,17 +444,6 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: SettModalProps): JSX
 							</Grid>
 						)}
 					</Grid>
-				) : (
-					<Grid container direction="column">
-						<Grid item className={classes.loader}>
-							<Loader size={48} />
-						</Grid>
-						<Grid item container justify="center">
-							<Typography variant="h6" display="inline">
-								Loading
-							</Typography>
-						</Grid>
-					</Grid>
 				)}
 				<Divider className={classes.divider} variant="fullWidth" />
 				{lpSett && settStrategy && <StrategyFees sett={lpSett} strategy={settStrategy} />}
@@ -462,8 +452,8 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: SettModalProps): JSX
 					variant="contained"
 					color="primary"
 					className={classes.depositButton}
-					disabled={mode === DepositMode.tokens ? multiTokenDisabled : lpTokenDisabled}
-					onClick={mode === DepositMode.tokens ? handleMultiTokenDeposit : handleLpTokenDeposit}
+					disabled={mode === DepositMode.Tokens ? multiTokenDisabled : lpTokenDisabled}
+					onClick={mode === DepositMode.Tokens ? handleMultiTokenDeposit : handleLpTokenDeposit}
 				>
 					{slippageRevertProtected ? 'Slippage out of range' : 'Deposit'}
 				</Button>
