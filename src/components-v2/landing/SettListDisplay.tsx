@@ -58,7 +58,7 @@ const SettListDisplay = observer((props: SettListViewProps) => {
 			const guardedBalance = user.getBalance(BalanceNamespace.GuardedSett, badgerSett).scale(scalar, true);
 			const settBalance = generalBalance ?? guardedBalance;
 
-			return <SettListItem sett={sett} key={sett.name} currency={currency} balance={settBalance.balance} />;
+			return <SettListItem sett={sett} key={sett.settToken} currency={currency} balance={settBalance.balance} />;
 		})
 		.filter(Boolean);
 
