@@ -12,8 +12,8 @@ import Web3 from 'web3';
 import { BalanceNamespace } from 'web3/config/namespaces';
 import { Currency } from 'config/enums/currency.enum';
 import { BouncerType, Sett, SettState, ValueSource } from '@badger-dao/sdk';
-import mainnetDeploy from '../../config/deployments/mainnet.json';
 import IbbtcVaultDepositDialog from '../ibbtc-vault/IbbtcVaultDepositDialog';
+import { isSettVaultIbbtc } from '../../utils/componentHelpers';
 
 const useStyles = makeStyles((theme) => ({
 	messageContainer: {
@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const createSettListItem = (sett: Sett, itemBalance: TokenBalance, currency: Currency): JSX.Element | null => {
-	const isIbbtc = sett.settToken === mainnetDeploy.sett_system.vaults['native.ibbtcCrv'];
+	const isIbbtc = isSettVaultIbbtc(sett);
 
 	if (!itemBalance || itemBalance.tokenBalance.eq(0)) {
 		return null;

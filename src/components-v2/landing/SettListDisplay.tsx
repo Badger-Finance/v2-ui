@@ -10,8 +10,8 @@ import NoVaults from './NoVaults';
 import SettListItem from './SettListItem';
 import { SettListViewProps } from './SettListView';
 import SettTable from './SettTable';
-import mainnetDeploy from '../../config/deployments/mainnet.json';
 import IbbtcVaultDepositDialog from '../ibbtc-vault/IbbtcVaultDepositDialog';
+import { isSettVaultIbbtc } from '../../utils/componentHelpers';
 
 const useStyles = makeStyles((theme) => ({
 	messageContainer: {
@@ -59,7 +59,7 @@ const SettListDisplay = observer((props: SettListViewProps) => {
 			const generalBalance = user.getBalance(BalanceNamespace.Sett, badgerSett).scale(scalar, true);
 			const guardedBalance = user.getBalance(BalanceNamespace.GuardedSett, badgerSett).scale(scalar, true);
 			const settBalance = generalBalance ?? guardedBalance;
-			const isIbbtc = sett.settToken === mainnetDeploy.sett_system.vaults['native.ibbtcCrv'];
+			const isIbbtc = isSettVaultIbbtc(sett);
 
 			return (
 				<SettListItem
