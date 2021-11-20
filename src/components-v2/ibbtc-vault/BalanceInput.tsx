@@ -1,8 +1,5 @@
-import React, { useContext, useState, Fragment, useEffect } from 'react';
-import BigNumber from 'bignumber.js';
-import { observer } from 'mobx-react-lite';
+import React, { useState, Fragment, useEffect } from 'react';
 import { Box, ButtonBase, Divider, Grid, TextField, Typography } from '@material-ui/core';
-import { StoreContext } from '../../mobx/store-context';
 import { inCurrency } from '../../mobx/utils/helpers';
 import { useNumericInput } from '../../utils/useNumericInput';
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
@@ -11,7 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 interface Props {
 	tokenBalance: TokenBalance;
-	onChange: (balance: BigNumber) => void;
+	onChange: (balance: TokenBalance) => void;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -25,26 +22,26 @@ const useStyles = makeStyles((theme) => ({
 		textAlign: 'end',
 	},
 	balances: {
-		marginTop: theme.spacing(0.5),
+		marginTop: theme.spacing(1),
 	},
 }));
 
-const BalanceInput = ({ tokenBalance, onChange }: Props) => {
+const BalanceInput = ({ tokenBalance, onChange }: Props): JSX.Element => {
 	const { balance, price, token } = tokenBalance;
-	const { user } = useContext(StoreContext);
 	const [inputValue, setInputValue] = useState(balance.toString());
 	const { inputProps, onValidChange } = useNumericInput(12);
 	const classes = useStyles();
 
 	const handleInputChange = (amount: string) => {
 		setInputValue(amount);
-		onChange(TokenBalance.fromBalance(tokenBalance, amount).tokenBalance);
+		onChange(TokenBalance.fromBalance(tokenBalance, amount || '0'));
 	};
 
 	const handleApplyPercentage = (percentage: number) => {
-		const referenceToken = user.getTokenBalance(tokenBalance.token.address);
-		setInputValue(referenceToken.balance.dividedBy(percentage / 100).toString());
-		onChange(referenceToken.tokenBalance.dividedBy(percentage));
+		setInputValue(balance.multipliedBy(percentage / 100).toString());
+		onChange(
+			new TokenBalance(token, tokenBalance.tokenBalance.multipliedBy(percentage).dividedToIntegerBy(100), price),
+		);
 	};
 
 	const percentages = (
@@ -89,14 +86,9 @@ const BalanceInput = ({ tokenBalance, onChange }: Props) => {
 					</Box>
 					{percentages}
 				</Grid>
-				<Grid container>
-					<Typography variant="caption" color="textSecondary">{`(${tokenBalance.balanceValueDisplay(
-						Currency.USD,
-					)})`}</Typography>
-				</Grid>
 			</Grid>
 		</Grid>
 	);
 };
 
-export default observer(BalanceInput);
+export default BalanceInput;

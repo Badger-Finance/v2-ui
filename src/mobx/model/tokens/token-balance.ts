@@ -32,6 +32,11 @@ export class TokenBalance {
 		return new TokenBalance(token, amount, price);
 	}
 
+	static fromBigNumber(tokenBalance: TokenBalance, balance: BigNumber): TokenBalance {
+		const { token, price } = tokenBalance;
+		return new TokenBalance(token, balance, price);
+	}
+
 	static hasBalance(tokenBalance?: TokenBalance): boolean {
 		if (!tokenBalance) {
 			return false;
