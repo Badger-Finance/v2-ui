@@ -194,7 +194,7 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: SettModalProps): JSX
 
 		setSlippage(newSlippage);
 		setMinPoolTokens(TokenBalance.fromBigNumber(userLpTokenBalance, minOut));
-		setExpectedPoolTokens(TokenBalance.fromBigNumber(userLpTokenBalance, expectedAmount));
+		setExpectedPoolTokens(TokenBalance.fromBigNumber(userLpTokenBalance, calculatedMint));
 		setSlippageRevertProtected(calculatedMint.isLessThan(minOut));
 		setExpectedSlippage(calculatedSlippage);
 	};
@@ -223,7 +223,7 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: SettModalProps): JSX
 
 			if (userLpTokenBalance) {
 				setMinPoolTokens(TokenBalance.fromBigNumber(userLpTokenBalance, minOut));
-				setExpectedPoolTokens(TokenBalance.fromBigNumber(userLpTokenBalance, expectedAmount));
+				setExpectedPoolTokens(TokenBalance.fromBigNumber(userLpTokenBalance, calculatedMint));
 			}
 
 			// this will protect users from submitting tx that will be reverted because of slippage
