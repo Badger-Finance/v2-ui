@@ -13,16 +13,13 @@ import Sidebar from 'components-v2/sidebar';
 const useStyles = makeStyles((theme) => ({
 	root: {
 		display: 'flex',
-		overflow: 'hidden',
 	},
 	contentContainer: {
 		display: 'flex',
 		flexDirection: 'column',
 		flexGrow: 1,
-		overflow: 'hidden',
 	},
 	content: {
-		overflow: 'auto',
 		paddingBottom: theme.spacing(6),
 	},
 }));

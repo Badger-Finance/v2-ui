@@ -101,26 +101,29 @@ export class RootStore {
 		const signer = provider.getSigner();
 		let updateActions: Promise<void>[] = [];
 		this.rewards.resetRewards();
-		if (signer && this.onboard.address) {
-			const address = await signer.getAddress();
+
+		const { address } = this.onboard;
+		if (signer && address) {
 			const config = NetworkConfig.getConfig(network.id);
 			updateActions = updateActions.concat([
 				this.user.loadAccountDetails(address),
-				this.user.reloadBalances(address),
-				this.user.loadClaimProof(this.onboard.address, config.network),
+				this.user.loadClaimProof(address, config.network),
 			]);
-		}
-		if (network.id === NETWORK_IDS.ETH) {
-			updateActions = updateActions.concat([this.airdrops.fetchAirdrops()]);
-			// handle reloading only when connecting via ibbtc page - lazily init otherwise
-			if (this.router.currentPath === routes.IbBTC.path) {
-				updateActions.push(this.ibBTCStore.init());
+
+			if (network.id === NETWORK_IDS.ETH) {
+				updateActions = updateActions.concat([this.airdrops.fetchAirdrops()]);
+				// handle reloading only when connecting via ibbtc page - lazily init otherwise
+				if (this.router.currentPath === routes.IbBTC.path) {
+					updateActions.push(this.ibBTCStore.init());
+				}
+				if (this.router.currentPath === routes.boostLeaderBoard.path) {
+					updateActions.push(this.leaderBoard.loadData());
+				}
 			}
-			if (this.router.currentPath === routes.boostLeaderBoard.path) {
-				updateActions.push(this.leaderBoard.loadData());
-			}
+
+			await Promise.all(updateActions);
+			await this.user.reloadBalances(address);
 		}
-		await Promise.all(updateActions);
 	}
 }
 
