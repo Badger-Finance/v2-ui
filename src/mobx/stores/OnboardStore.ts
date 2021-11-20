@@ -6,7 +6,7 @@ import Notify, { InitOptions } from 'bnc-notify';
 import { BLOCKNATIVE_API_KEY } from 'config/constants';
 import { NetworkConfig } from '@badger-dao/sdk/lib/config/network/network.config';
 import { action, extendObservable } from 'mobx';
-import { JsonRpcBatchProvider, Web3Provider } from '@ethersproject/providers';
+import { JsonRpcProvider, Web3Provider } from '@ethersproject/providers';
 import { SDKProvider } from '@badger-dao/sdk';
 import { getOnboardWallets, isRpcWallet, onboardWalletCheck } from 'config/wallets';
 import rpc from 'config/rpc.config';
@@ -98,8 +98,8 @@ export class OnboardStore {
 	walletListener = action(
 		async (wallet: Wallet): Promise<void> => {
 			this.wallet = wallet;
-			if (wallet.provider || wallet.instance) {
-				this.provider = this.getProvider(this.config, wallet.provider ?? wallet.instance, wallet.name);
+			if (wallet.provider) {
+				this.provider = this.getProvider(this.config, wallet.provider, wallet.name);
 			}
 			if (wallet.name) {
 				window.localStorage.setItem(WALLET_STORAGE_KEY, wallet.name);
@@ -107,12 +107,12 @@ export class OnboardStore {
 		},
 	);
 
-	private getProvider(network: NetworkConfig, provider: any, wallet: string | null): SDKProvider {
+	private getProvider(config: NetworkConfig, provider: any, wallet: string | null): SDKProvider {
 		let library;
 		if (isRpcWallet(wallet)) {
-			library = new JsonRpcBatchProvider(rpc[network.id], network.id);
+			library = new JsonRpcProvider(rpc[config.network], config.id);
 		} else {
-			library = new Web3Provider(provider, network.id);
+			library = new Web3Provider(provider, config.id);
 		}
 		library.pollingInterval = 15000;
 		return library;

@@ -65,7 +65,7 @@ export const SETT_ABI = importedSett.abi as AbiItem[];
 export const YEARN_ABI = importedYearnSett.abi as AbiItem[];
 export const GUEST_LIST_ABI = importedGuestList.abi as AbiItem[];
 export const BSC_ERC20 = importedBscErc20;
-export const APP_NAME = 'badgerDAO';
+export const APP_NAME = 'BadgerDAO App';
 export const PORTIS_APP_ID = 'cbf7534d-170d-4903-943f-e607dc588b7f';
 export const EMPTY_DATA = '0x';
 export const ZERO_CURRENCY = '0.00000';
@@ -73,7 +73,7 @@ export const ZERO_CURRENCY = '0.00000';
 export const SITE_VERSION = '2.11.0';
 export const WC_BRIDGE = 'https://wc-bridge.badger.finance/';
 export const REN_FEES_ENDPOINT = 'https://lightnode-mainnet.herokuapp.com/ren_queryBlockState';
-export const BLOCKNATIVE_API_KEY = 'af74a87b-cd08-4f45-83ff-ade6b3859a07';
+export const BLOCKNATIVE_API_KEY = process.env.REACT_APP_BLOCKNATIVE_API_KEY;
 
 export const ZERO = new BigNumber(0);
 export const TEN = new BigNumber(10);
