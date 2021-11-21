@@ -24,7 +24,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
 import BalanceInput from './BalanceInput';
 import BigNumber from 'bignumber.js';
-
 import Web3 from 'web3';
 import IbbtcVaultZapAbi from '../../config/system/abis/IbbtcVaultZap.json';
 import { AbiItem } from 'web3-utils';
