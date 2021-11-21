@@ -10,6 +10,7 @@ import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { hasBalance } from '../utils';
 import { TokenDistributionIcon } from './TokenDistributionIcon';
 import { Sett, SettData } from '@badger-dao/sdk';
+import { shouldDisplayEarnings } from 'utils/componentHelpers';
 
 const useStyles = makeStyles((theme) => ({
 	settInfoTitle: {
@@ -27,16 +28,16 @@ interface Props {
 	sett: Sett;
 	badgerSett: BadgerSett;
 	tokenBalance: TokenBalance;
-	settBalance: SettData;
+	userData: SettData;
 }
 
-export const Holdings = observer(({ tokenBalance, settBalance, sett, badgerSett }: Props): JSX.Element | null => {
+export const Holdings = observer(({ tokenBalance, userData, sett, badgerSett }: Props): JSX.Element | null => {
 	const { setts, user } = React.useContext(StoreContext);
 	const isMediumSizeScreen = useMediaQuery(useTheme().breakpoints.up('sm'));
 	const classes = useStyles();
 	const canDeposit = user.onGuestList(sett);
 
-	if (!hasBalance(settBalance) && !TokenBalance.hasBalance(tokenBalance)) {
+	if (!hasBalance(userData) && !TokenBalance.hasBalance(tokenBalance)) {
 		return (
 			<Grid container>
 				<NoHoldings sett={sett} badgerSett={badgerSett} />
@@ -44,7 +45,7 @@ export const Holdings = observer(({ tokenBalance, settBalance, sett, badgerSett 
 		);
 	}
 
-	const { earnedBalance, earnedValue, balance, value } = settBalance;
+	const { earnedBalance, earnedValue, balance, value } = userData;
 	const logo = `/assets/icons/${sett.settAsset.toLowerCase()}.png`;
 
 	const depositToken = setts.getToken(sett.underlyingToken);
@@ -63,18 +64,20 @@ export const Holdings = observer(({ tokenBalance, settBalance, sett, badgerSett 
 						balance={balance}
 						value={value}
 						decimals={decimals}
-						helpIcon={<TokenDistributionIcon settBalance={settBalance} />}
+						helpIcon={<TokenDistributionIcon settBalance={userData} />}
 					/>
 				</Grid>
-				<Grid item xs={12} sm>
-					<HoldingItem
-						name="Total Earned"
-						logo={logo}
-						balance={earnedBalance}
-						value={earnedValue}
-						decimals={decimals}
-					/>
-				</Grid>
+				{shouldDisplayEarnings(sett, userData) && (
+					<Grid item xs={12} sm>
+						<HoldingItem
+							name="Total Earned"
+							logo={logo}
+							balance={earnedBalance}
+							value={earnedValue}
+							decimals={decimals}
+						/>
+					</Grid>
+				)}
 				{isMediumSizeScreen && (
 					<Grid item xs={12} sm>
 						<HoldingsActionButtons canDeposit={canDeposit} />

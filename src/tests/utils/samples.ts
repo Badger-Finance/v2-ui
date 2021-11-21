@@ -1,8 +1,7 @@
 import { BadgerSett } from '../../mobx/model/vaults/badger-sett';
-import { SettBalance } from '../../mobx/model/setts/sett-balance';
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
 import BigNumber from 'bignumber.js';
-import { BouncerType, Protocol, Sett, SettState } from '@badger-dao/sdk';
+import { BouncerType, Protocol, Sett, SettData, SettState } from '@badger-dao/sdk';
 import { TEST_ADDRESS } from './snapshots';
 
 export const SAMPLE_BADGER_SETT: BadgerSett = {
@@ -82,11 +81,11 @@ export const SAMPLE_SETT: Sett = {
 	settToken: '0xd04c48A53c111300aD41190D63681ed3dAd998eC',
 };
 
-export const SAMPLE_SETT_BALANCE: SettBalance = {
-	id: '0xd04c48A53c111300aD41190D63681ed3dAd998eC',
+export const SAMPLE_SETT_BALANCE: SettData = {
+	address: '0xd04c48A53c111300aD41190D63681ed3dAd998eC',
 	name: 'Convex renBTC/wBTC/sBTC',
-	asset: 'crvsBTC',
-	ppfs: 1.0131098014439799,
+	symbol: 'crvsBTC',
+	pricePerFullShare: 1.0131098014439799,
 	balance: 400,
 	value: 21219315.213123,
 	tokens: [
