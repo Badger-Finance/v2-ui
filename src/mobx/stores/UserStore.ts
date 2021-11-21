@@ -214,7 +214,11 @@ export default class UserStore {
 
 			try {
 				const multicallContractAddress = getChainMulticallContract(network.symbol);
-				const multicallRequests = network.getBalancesRequests(setts.settMap, queryAddress);
+				const multicallRequests = network.getBalancesRequests(
+					setts.settMap,
+					setts.getTokenConfigs(),
+					queryAddress,
+				);
 
 				const multicall = new Multicall({
 					web3Instance: new Web3(wallet.provider),

@@ -11,7 +11,7 @@ import { SettMap } from '../model/setts/sett-map';
 import { TokenBalances } from 'mobx/model/account/user-balances';
 import BigNumber from 'bignumber.js';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
-import { Currency, Network, ProtocolSummary, Sett, SettState } from '@badger-dao/sdk';
+import { Currency, Network, ProtocolSummary, Sett, SettState, TokenConfiguration } from '@badger-dao/sdk';
 import { SlugCache } from '../model/setts/slug-cache';
 import { parseCallReturnContext } from '../utils/multicall';
 import { ContractCallReturnContext } from 'ethereum-multicall/dist/esm/models/contract-call-return-context';
@@ -113,6 +113,15 @@ export default class SettStore {
 		return setts;
 	}
 
+	getTokenConfigs(): TokenConfiguration {
+		const { network } = this.store.network;
+		const tokenConfig = this.tokenCache[network.symbol];
+		if (!tokenConfig) {
+			return {};
+		}
+		return tokenConfig;
+	}
+
 	getToken(address: string): Token {
 		const { network } = this.store.network;
 		const tokens = this.tokenCache[network.symbol];
@@ -129,8 +138,7 @@ export default class SettStore {
 	}
 
 	isWalletToken(address: string): boolean {
-		const tokens = new Set(this.store.network.network.tokens.map((t) => Web3.utils.toChecksumAddress(t.address)));
-		return tokens.has(Web3.utils.toChecksumAddress(address));
+		return this.store.setts.getSett(address) === undefined;
 	}
 
 	async refresh(): Promise<void> {
