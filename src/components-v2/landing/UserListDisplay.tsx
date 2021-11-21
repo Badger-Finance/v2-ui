@@ -102,10 +102,9 @@ const UserListDisplay = observer(() => {
 		}
 	});
 
-	network.tokens.forEach((token) => {
-		const contractAddress = Web3.utils.toChecksumAddress(token.address);
-		const walletBalance = user.getTokenBalance(contractAddress);
-		const tokenInfo = setts.getToken(contractAddress);
+	Object.keys(setts.getTokenConfigs()).forEach((token) => {
+		const walletBalance = user.getTokenBalance(token);
+		const tokenInfo = setts.getToken(token);
 		const mockSett = {
 			name: tokenInfo.name,
 			state: SettState.Open,
