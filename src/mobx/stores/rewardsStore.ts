@@ -98,16 +98,7 @@ class RewardsStore {
 		return new TokenBalance(claimToken, amount, tokenPrice);
 	}
 	mockBalance(token: string): TokenBalance {
-		return new TokenBalance(
-			{
-				name: '',
-				symbol: '',
-				decimals: 18,
-				address: token,
-			},
-			new BigNumber(0),
-			new BigNumber(0),
-		);
+		return new TokenBalance(this.store.setts.getToken(token), new BigNumber(0), new BigNumber(0));
 	}
 
 	resetRewards = action((): void => {
