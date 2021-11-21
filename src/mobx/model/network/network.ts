@@ -12,9 +12,8 @@ import { NotifyLink } from '../system-config/notifyLink';
 import { BadgerSett } from '../vaults/badger-sett';
 import { AirdropNetworkConfig } from './airdrop-network-config';
 // TODO: the naming irony here is not lost - temporary gap for sdk integrations @jintao
-import { Network as ChainNetwork, SettState } from '@badger-dao/sdk';
+import { Network as ChainNetwork, SettState, TokenConfiguration } from '@badger-dao/sdk';
 import { ContractCallContext } from 'ethereum-multicall';
-import { BadgerToken } from '../tokens/badger-token';
 
 export abstract class Network {
 	private static idToNetwork: Record<number, Network> = {};
@@ -30,7 +29,6 @@ export abstract class Network {
 	readonly setts: BadgerSett[];
 	readonly strategies: StrategyNetworkConfig;
 	readonly airdrops: AirdropNetworkConfig[];
-	readonly tokens: BadgerToken[];
 	// TODO: stop gap implementation for API messaging system - remove once available
 	readonly notification?: string;
 	readonly notificationLink?: string;
@@ -44,7 +42,6 @@ export abstract class Network {
 		currency: Currency,
 		deploy: DeployConfig,
 		setts: BadgerSett[],
-		tokens?: BadgerToken[],
 		notification?: string,
 		notificationLink?: string,
 	) {
@@ -59,7 +56,6 @@ export abstract class Network {
 		this.setts = this.checksumSetts(setts);
 		this.strategies = getStrategies(symbol);
 		this.airdrops = getAirdrops(symbol);
-		this.tokens = tokens ?? [];
 		this.notification = notification;
 		this.notificationLink = notificationLink;
 		Network.register(this);
@@ -94,7 +90,7 @@ export abstract class Network {
 		return { link: `${this.explorer}/tx/${transaction.hash}` };
 	}
 
-	getBalancesRequests(setts: SettMap, userAddress: string): ContractCallContext[] {
+	getBalancesRequests(setts: SettMap, tokens: TokenConfiguration, userAddress: string): ContractCallContext[] {
 		const tokenAddresses = Object.values(setts).map((sett) => sett.underlyingToken);
 		const settAddresses = Object.values(setts).map((sett) => sett.settToken);
 		const generalSettAddresses = settAddresses.filter((sett) => setts[sett].state === SettState.Open);
@@ -105,9 +101,9 @@ export abstract class Network {
 		const allContracts = new Set(
 			...[...tokenAddresses, ...settAddresses, ...generalSettAddresses, ...guardedSettAddresses],
 		);
-		for (const token of this.tokens) {
-			if (!allContracts.has(token.address)) {
-				tokenAddresses.push(token.address);
+		for (const token of Object.keys(tokens)) {
+			if (!allContracts.has(token)) {
+				tokenAddresses.push(token);
 			}
 		}
 		return createBalancesRequest({

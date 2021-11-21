@@ -22,7 +22,6 @@ export class Ethereum extends NetworkModel {
 			Currency.ETH,
 			ETH_DEPLOY,
 			ethSettDefinitions,
-			ethRewards,
 		);
 	}
 	get settOrder(): string[] {
