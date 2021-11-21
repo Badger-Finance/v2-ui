@@ -9,7 +9,7 @@ import settConfig from 'config/system/abis/Sett.json';
 import ibBTCConfig from 'config/system/abis/ibBTC.json';
 import addresses from 'config/ibBTC/addresses.json';
 import coreConfig from 'config/system/abis/BadgerBtcPeakCore.json';
-import { getSendOptions, sendContractMethod } from 'mobx/utils/web3';
+import { getSendOptions, sendContractMethod, TransactionRequestResult } from 'mobx/utils/web3';
 import { getNetworkFromProvider } from 'mobx/utils/helpers';
 import { IbbtcOptionToken } from '../model/tokens/ibbtc-option-token';
 import { ibBTCFees } from '../model/fees/ibBTCFees';
@@ -291,7 +291,7 @@ class IbBTCStore {
 		);
 	}
 
-	async mint(inToken: IbbtcOptionToken, amount: BigNumber, slippage: BigNumber): Promise<void> {
+	async mint(inToken: IbbtcOptionToken, amount: BigNumber, slippage: BigNumber): Promise<TransactionRequestResult> {
 		const { queueNotification } = this.store.uiState;
 		try {
 			const zap = IbBTCMintZapFactory.getIbBTCZap(this.store, inToken);
@@ -302,11 +302,19 @@ class IbBTCStore {
 				await this.increaseAllowance(inToken, zap.address);
 			}
 
-			await this.mintBBTC(inToken, amount, slippage);
-			this.store.uiState.queueNotification('Wrap your minted tokens to deposit into the ibBTC vault!', 'info');
+			const result = await this.mintBBTC(inToken, amount, slippage);
+			if (result === TransactionRequestResult.Success) {
+				this.store.uiState.queueNotification(
+					'Wrap your minted tokens to deposit into the ibBTC vault!',
+					'info',
+				);
+				return result;
+			}
+			return TransactionRequestResult.Rejected;
 		} catch (error) {
-			process.env.NODE_ENV !== 'production' && console.error(error);
+			console.error(error);
 			queueNotification(`There was an error minting ${this.ibBTC.symbol}. Please try again later.`, 'error');
+			return TransactionRequestResult.Failure;
 		}
 	}
 
@@ -362,17 +370,22 @@ class IbBTCStore {
 		}
 	}
 
-	async mintBBTC(inToken: IbbtcOptionToken, amount: BigNumber, slippage: BigNumber): Promise<void> {
+	async mintBBTC(
+		inToken: IbbtcOptionToken,
+		amount: BigNumber,
+		slippage: BigNumber,
+	): Promise<TransactionRequestResult> {
 		try {
 			const zap = IbBTCMintZapFactory.getIbBTCZap(this.store, inToken);
 			const method = await zap.getMintMethod(amount, slippage);
-			await this.executeMethod(method, 'Mint submitted', `Successfully minted ${this.ibBTC.symbol}`);
-			await this.fetchTokensBalances();
+			return this.executeMethod(method, 'Mint submitted', `Successfully minted ${this.ibBTC.symbol}`);
 		} catch (err) {
-			// log error on non canceled tx
-			if (err.code !== 4001) {
-				console.log(err);
+			// handle rejected request
+			if (err.code === 4001) {
+				return TransactionRequestResult.Rejected;
 			}
+			console.log(err);
+			return TransactionRequestResult.Failure;
 		}
 	}
 
@@ -400,16 +413,16 @@ class IbBTCStore {
 		method: ContractSendMethod,
 		infoMessage: string,
 		successMessage: string,
-	): Promise<void> {
+	): Promise<TransactionRequestResult> {
 		const { address } = this.store.onboard;
 		if (!address) {
-			return;
+			return TransactionRequestResult.Rejected;
 		}
 		const { gasPrice } = this.store.uiState;
 		const { gasPrices } = this.store.network;
 		const price = gasPrices ? gasPrices[gasPrice] : 0;
 		const options = await getSendOptions(method, address, price);
-		await sendContractMethod(this.store, method, options, infoMessage, successMessage);
+		return sendContractMethod(this.store, method, options, infoMessage, successMessage);
 	}
 
 	private async fetchIbbtApyFromTimestamp(timestamp: number): Promise<string | null> {
