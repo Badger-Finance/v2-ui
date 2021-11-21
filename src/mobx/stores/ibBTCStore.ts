@@ -308,6 +308,7 @@ class IbBTCStore {
 					'Wrap your minted tokens to deposit into the ibBTC vault!',
 					'info',
 				);
+				await this.fetchTokensBalances();
 				return result;
 			}
 			return TransactionRequestResult.Rejected;

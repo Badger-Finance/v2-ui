@@ -55,7 +55,7 @@ export const getEIP1559SendOptions = async (
 		gas: maxFeePerGasWei.toNumber(),
 	};
 	const limit = await method.estimateGas(options);
-	const legacyGas = maxFeePerGasWei.div(2).minus(maxPriorityFeePerGasWei);
+	const legacyGas = maxFeePerGasWei.minus(maxPriorityFeePerGasWei).div(2);
 	return {
 		from,
 		gas: Math.floor(limit * 1.2),
