@@ -78,16 +78,10 @@ interface Props {
 export const Description = ({ sett }: Props): JSX.Element => {
 	const [timeframe, setTimeframe] = React.useState<keyof Performance>('sevenDay');
 	const classes = useStyles();
-
-	const nameHasSpaces = sett.name.split(' ').length > 1;
-	const shortenedName = sett.name.split(' ').slice(1).join(' ');
-	const displayName = nameHasSpaces ? shortenedName : sett.name;
-
 	const performanceSummary = getSourcesPerformanceSummary(sett);
 	const performance = performanceSummary[timeframe] ?? 0;
 
 	let performanceResultMode = ComparisonMode.neutral;
-
 	if (performance > 0) {
 		performanceResultMode = ComparisonMode.positive;
 	} else if (performance < 0) {
@@ -106,7 +100,7 @@ export const Description = ({ sett }: Props): JSX.Element => {
 			<Grid item container direction="column" justify="center" className={classes.namesContainer}>
 				<Grid item container alignItems="center">
 					<Grid item>
-						<Typography className={classes.settName}>{displayName}</Typography>
+						<Typography className={classes.settName}>{sett.name}</Typography>
 					</Grid>
 					<Grid item>
 						<Box display="flex" alignItems="center">
