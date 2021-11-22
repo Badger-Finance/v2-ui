@@ -3,39 +3,24 @@ import { observer } from 'mobx-react-lite';
 import views from '../../config/routes';
 import { useContext } from 'react';
 import { StoreContext } from '../../mobx/store-context';
-import {
-	List,
-	ListItem,
-	Drawer,
-	Collapse,
-	IconButton,
-	ListItemText,
-	Hidden,
-	Typography,
-	useMediaQuery,
-	useTheme,
-	Box,
-} from '@material-ui/core';
+import { Drawer, Collapse, IconButton, Hidden, useMediaQuery, useTheme, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { ExpandMore } from '@material-ui/icons';
 import { SITE_VERSION } from 'config/constants';
-import { Skeleton } from '@material-ui/lab';
-import { inCurrency } from '../../mobx/utils/helpers';
 import SidebarItem from './SidebarItem';
 import { getSidebarConfig } from './sidebar.config';
 import SidebarSection from './SidebarSection';
 import CloseIcon from '@material-ui/icons/Close';
-import CurrencyDisplay from '../common/CurrencyDisplay';
+import clsx from 'clsx';
 
 const DRAWER_WIDTH = 200;
 
 const useStyles = makeStyles((theme) => ({
 	contentRoot: {
 		display: 'flex',
-		overflowX: 'hidden',
-		height: '100%',
 		flexDirection: 'column',
 		justifyContent: 'space-between',
+		minHeight: '100vh',
 	},
 	drawer: {
 		[theme.breakpoints.up('md')]: {
@@ -46,21 +31,6 @@ const useStyles = makeStyles((theme) => ({
 	drawerPaper: {
 		width: DRAWER_WIDTH,
 	},
-	textListItem: {
-		userSelect: 'none',
-		msUserSelect: 'none',
-		MozUserSelect: 'none',
-		WebkitUserSelect: 'none',
-		padding: theme.spacing(1, 3),
-	},
-	secondaryListItem: {
-		cursor: 'pointer',
-		justifyContent: 'space-between',
-		'&:hover': {
-			backgroundColor: '#070707',
-		},
-		padding: theme.spacing(0.75, 2),
-	},
 	expand: {
 		transform: 'rotate(0deg)',
 		marginLeft: 'auto',
@@ -70,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
 		transition: theme.transitions.create('transform', {
 			duration: theme.transitions.duration.shortest,
 		}),
+		marginRight: theme.spacing(2),
 	},
 	expandOpen: {
 		transform: 'rotate(180deg)',
@@ -83,6 +54,28 @@ const useStyles = makeStyles((theme) => ({
 		'&:hover': {
 			background: '#434343',
 		},
+		padding: theme.spacing(0.5),
+		display: 'flex',
+		alignItems: 'center',
+		lineHeight: '20px',
+	},
+	daoItem: {
+		'&:hover': {
+			background: '#434343',
+		},
+		paddingTop: theme.spacing(0.25),
+		paddingBottom: theme.spacing(0.25),
+	},
+	boostText: {
+		fontSize: '13px',
+	},
+	rankText: {
+		color: theme.palette.text.secondary,
+		fontSize: '10px',
+	},
+	boostContainer: {
+		display: 'flex',
+		flexDirection: 'column',
 	},
 	sidebarContainer: {
 		display: 'flex',
@@ -99,8 +92,8 @@ const useStyles = makeStyles((theme) => ({
 	socialsContainer: {
 		display: 'flex',
 		justifyContent: 'flex-start',
-		padding: theme.spacing(1),
-		paddingLeft: '14px',
+		marginTop: theme.spacing(1),
+		marginBottom: theme.spacing(1),
 	},
 	socialIcon: {
 		height: '25px',
@@ -125,24 +118,29 @@ const useStyles = makeStyles((theme) => ({
 		textTransform: 'uppercase',
 		letterSpacing: '2px',
 	},
+	siteVersion: {
+		fontSize: '10px',
+		lineHeight: '20px',
+		fontWeight: 400,
+	},
+	daoContainer: {
+		paddingLeft: '27px',
+		paddingBottom: theme.spacing(1),
+	},
 }));
 
 const Sidebar = observer(() => {
 	const classes = useStyles();
 	const store = useContext(StoreContext);
 	const {
-		prices,
-		uiState: { sidebarOpen, closeSidebar, currency },
+		uiState: { sidebarOpen, closeSidebar },
 		rewards: { badgerTree },
 		network: { network },
 		user: { accountDetails },
 	} = store;
 
 	const isMobile = useMediaQuery(useTheme().breakpoints.down('sm'));
-	const [expanded, setExpanded] = useState('');
-
-	const badgerToken = network.deploy.token.length > 0 ? network.deploy.token : undefined;
-	const badgerPrice = badgerToken ? prices.getPrice(badgerToken) : undefined;
+	const [expanded, setExpanded] = useState(false);
 
 	const config = getSidebarConfig(network.symbol);
 	const drawerContent = (
@@ -163,51 +161,27 @@ const Sidebar = observer(() => {
 				</div>
 			)}
 			<div className={classes.linksContainer}>
-				{config.cycle ? (
-					<>
-						<ListItem
-							onClick={() => setExpanded(expanded === 'advanced' ? '' : 'advanced')}
-							className={classes.versionContainer}
-						>
-							{SITE_VERSION}
-							<IconButton
-								size="small"
-								className={classes.expand + ' ' + (expanded === 'advanced' ? classes.expandOpen : '')}
-								aria-label="show more"
-							>
-								<ExpandMore />
-							</IconButton>
-						</ListItem>
-						<Collapse in={expanded === 'advanced'} timeout="auto" unmountOnExit>
-							<ListItem className={classes.textListItem} key="rewards">
-								<ListItemText
-									primary={`Cycle Count: ${badgerTree.cycle}`}
-									secondary={
-										badgerTree?.timeSinceLastCycle &&
-										badgerTree.timeSinceLastCycle + ' since last cycle'
-									}
-								/>
-							</ListItem>
-						</Collapse>
-					</>
-				) : (
-					<>
-						<ListItem button className={classes.secondaryListItem}>
-							{SITE_VERSION}
-						</ListItem>
-						<ListItem key="rewards">
-							<ListItemText secondary={'Connect address to see cycle information'} />
-						</ListItem>
-					</>
-				)}
 				{accountDetails && (
-					<ListItem className={`${classes.versionContainer}`} key="boost">
-						<ListItemText
-							primary={`Boost: ${accountDetails?.boost.toFixed(2)}`}
-							secondary={`Rank: ${accountDetails.boostRank}`}
-						/>
-					</ListItem>
+					<div className={classes.versionContainer} onClick={() => setExpanded(!expanded)}>
+						<div className={classes.boostContainer}>
+							<span className={classes.boostText}>{`Boost: ${accountDetails.boost}`}</span>
+							<span className={classes.rankText}>{`Boost: ${accountDetails.boostRank}`}</span>
+						</div>
+						<div className={clsx(classes.expand, expanded && classes.expandOpen)}>
+							<ExpandMore />
+						</div>
+					</div>
 				)}
+				<Collapse in={expanded} timeout="auto" unmountOnExit>
+					<div className={classes.versionContainer}>
+						<div className={classes.boostContainer}>
+							<span className={classes.boostText}>{`Cycle: ${badgerTree.cycle}`}</span>
+							<span className={classes.rankText}>{`${
+								badgerTree?.timeSinceLastCycle && badgerTree.timeSinceLastCycle + ' since last cycle'
+							}`}</span>
+						</div>
+					</div>
+				</Collapse>
 				<SidebarItem route="/" view={views.home} title="Vaults" />
 				<SidebarItem route="/guarded" view={views.guarded} title="Guarded Vaults" />
 				{config.digg && <SidebarItem route="/digg" view={views.digg} title="Digg" />}
@@ -253,42 +227,16 @@ const Sidebar = observer(() => {
 					/>
 				)}
 			</div>
-			<List>
-				<ListItem className={classes.badgerPrice}>
-					<Typography variant="body2">Badger Price: </Typography>
-					{badgerPrice ? (
-						<CurrencyDisplay
-							displayValue={inCurrency(badgerPrice, currency)}
-							variant="subtitle2"
-							justify="center"
-						/>
-					) : (
-						<Skeleton width={32} animation="wave">
-							<Typography variant="subtitle2">Placeholder</Typography>
-						</Skeleton>
-					)}
-				</ListItem>
-				<ListItem
-					button
-					className={classes.secondaryListItem}
-					onClick={() => window.open('https://badger.wiki/')}
-				>
+			<div className={classes.daoContainer}>
+				<div className={classes.daoItem} onClick={() => window.open('https://badger.wiki/')}>
 					Wiki
-				</ListItem>
-				<ListItem
-					button
-					className={classes.secondaryListItem}
-					onClick={() => window.open('https://forum.badger.finance')}
-				>
+				</div>
+				<div className={classes.daoItem} onClick={() => window.open('https://forum.badger.finance')}>
 					Forum
-				</ListItem>
-				<ListItem
-					button
-					className={classes.secondaryListItem}
-					onClick={() => window.open('https://snapshot.page/#/badgerdao.eth')}
-				>
+				</div>
+				<div className={classes.daoItem} onClick={() => window.open('https://snapshot.page/#/badgerdao.eth')}>
 					Governance
-				</ListItem>
+				</div>
 				<div className={classes.socialsContainer}>
 					<img
 						onClick={() => window.open('https://discord.gg/BNGTCTAt', '_blank')}
@@ -309,12 +257,13 @@ const Sidebar = observer(() => {
 						src="/assets/icons/telegram.svg"
 					/>
 				</div>
-			</List>
+				<span className={classes.siteVersion}>{SITE_VERSION}</span>
+			</div>
 		</div>
 	);
 
 	return (
-		<nav className={classes.drawer}>
+		<div className={classes.drawer}>
 			<Hidden mdUp>
 				<Drawer
 					variant="temporary"
@@ -331,18 +280,8 @@ const Sidebar = observer(() => {
 					{drawerContent}
 				</Drawer>
 			</Hidden>
-			<Hidden smDown>
-				<Drawer
-					classes={{
-						paper: classes.drawerPaper,
-					}}
-					variant="permanent"
-					open
-				>
-					{drawerContent}
-				</Drawer>
-			</Hidden>
-		</nav>
+			<Hidden smDown>{drawerContent}</Hidden>
+		</div>
 	);
 });
 

@@ -35,6 +35,9 @@ const useStyles = makeStyles((theme) => ({
 		paddingRight: theme.spacing(2),
 		borderRadius: '25px',
 	},
+	nameContainer: {
+		display: 'flex',
+	},
 }));
 
 interface Props {
@@ -45,7 +48,7 @@ export const SettItemName = ({ sett }: Props): JSX.Element => {
 	const classes = useStyles();
 
 	return (
-		<Grid container>
+		<Grid sm container>
 			<Grid item className={classes.vaultIcon}>
 				<img
 					alt={`Badger ${sett.name} Vault Symbol`}
