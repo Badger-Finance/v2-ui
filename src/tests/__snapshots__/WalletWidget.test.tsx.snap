@@ -11,13 +11,6 @@ exports[`WalletWidget Connected address is properly displayed 1`] = `
       class="MuiButton-label-6"
     >
       0x1a..1a1a
-      <span
-        class="MuiButton-endIcon-30 MuiButton-iconSizeMedium-32"
-      >
-        <div
-          class="makeStyles-walletDot-1 makeStyles-greenDot-3"
-        />
-      </span>
     </span>
     <span
       class="MuiTouchRipple-root-37"
@@ -46,13 +39,6 @@ exports[`WalletWidget Renders correctly 1`] = `
       class="MuiButton-label-6"
     >
       Connect
-      <span
-        class="MuiButton-endIcon-30 MuiButton-iconSizeMedium-32"
-      >
-        <div
-          class="makeStyles-walletDot-1 makeStyles-redDot-2"
-        />
-      </span>
     </span>
     <span
       class="MuiTouchRipple-root-37"

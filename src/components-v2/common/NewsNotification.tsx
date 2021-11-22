@@ -7,7 +7,7 @@ import { observer } from 'mobx-react-lite';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
-		background: '#111729',
+		background: '#6B6B6B',
 		padding: '15px 0',
 		whiteSpace: 'pre-wrap',
 	},
@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
 		color: theme.palette.primary.main,
 		textDecoration: 'none',
 		fontWeight: 'bold',
-		// marginLeft: theme.spacing(1),
+		marginLeft: theme.spacing(0.25),
 	},
 	closeButton: {
 		padding: 0,

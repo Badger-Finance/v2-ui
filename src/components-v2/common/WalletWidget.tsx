@@ -28,20 +28,13 @@ const shortenAddress = (address?: string) => {
 	return address.slice(0, 4) + '..' + address.slice(address.length - 4, address.length);
 };
 
-interface Props {
-	className?: HTMLButtonElement['className'];
-}
-
-const WalletWidget = observer(({ className }: Props) => {
+const WalletWidget = observer(() => {
 	const classes = useStyles();
 	const store = useContext(StoreContext);
 	const { onboard, uiState } = store;
-	const { address } = onboard;
-	const isConnected = address !== undefined;
-	const walletIcon = <div className={clsx(classes.walletDot, isConnected ? classes.greenDot : classes.redDot)} />;
 
 	async function connect(): Promise<void> {
-		if (onboard.address) {
+		if (onboard.isActive()) {
 			onboard.disconnect();
 		} else {
 			const connected = await onboard.connect();
@@ -52,14 +45,8 @@ const WalletWidget = observer(({ className }: Props) => {
 	}
 
 	return (
-		<Button
-			disableElevation
-			variant="outlined"
-			onClick={connect}
-			endIcon={walletIcon}
-			className={clsx(classes.walletButton, className)}
-		>
-			{shortenAddress(address)}
+		<Button disableElevation variant="outlined" onClick={connect} className={clsx(classes.walletButton)}>
+			{shortenAddress(onboard.address)}
 		</Button>
 	);
 });

@@ -113,20 +113,22 @@ const Landing = observer((props: LandingProps) => {
 					<Grid item container xs={6} alignItems="center" justify="flex-end" spacing={2}>
 						{isMobile ? (
 							<>
-								<Grid item container xs justify="flex-end" className={classes.deposits}>
-									<Typography variant="body2" display="inline">
-										My assets:{' '}
-									</Typography>
-									{portfolioValue ? (
-										<CurrencyDisplay
-											displayValue={inCurrency(portfolioValue, uiState.currency)}
-											variant="subtitle2"
-											justify="flex-start"
-										/>
-									) : (
-										<Skeleton animation="wave" width={32} className={classes.loader} />
-									)}
-								</Grid>
+								{portfolioValue && (
+									<Grid item container xs justify="flex-end" className={classes.deposits}>
+										<Typography variant="body2" display="inline">
+											My assets:{' '}
+										</Typography>
+										{portfolioValue ? (
+											<CurrencyDisplay
+												displayValue={inCurrency(portfolioValue, uiState.currency)}
+												variant="subtitle2"
+												justify="flex-start"
+											/>
+										) : (
+											<Skeleton animation="wave" width={32} className={classes.loader} />
+										)}
+									</Grid>
+								)}
 								<Grid item>
 									<SettListFiltersWidget />
 								</Grid>

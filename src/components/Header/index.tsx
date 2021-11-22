@@ -52,6 +52,7 @@ const useStyles = makeStyles((theme) => ({
 const Header = observer(() => {
 	const {
 		user,
+		prices,
 		lockedCvxDelegation: { shouldBannerBeDisplayed },
 		uiState,
 		onboard,
@@ -62,6 +63,8 @@ const Header = observer(() => {
 	const { enqueueSnackbar } = useSnackbar();
 	const classes = useStyles();
 	const isMobile = useMediaQuery(useTheme().breakpoints.down('sm'));
+	const badgerToken = network.deploy.token.length > 0 ? network.deploy.token : undefined;
+	const badgerPrice = badgerToken ? prices.getPrice(badgerToken) : undefined;
 
 	const { notification, currency } = uiState;
 	const totalValueLocked = protocolSummary ? new BigNumber(protocolSummary.totalValue) : undefined;
@@ -93,7 +96,7 @@ const Header = observer(() => {
 			<LayoutContainer>
 				<Grid container>
 					<Grid container className={classes.container}>
-						<Grid item xs={3} md={6} container alignItems="center" className={classes.amounts}>
+						<Grid item xs={3} md={8} container alignItems="center" className={classes.amounts}>
 							{isMobile ? (
 								<div onClick={() => window.open('https://badger.com/', '_blank')}>
 									<img
@@ -105,7 +108,7 @@ const Header = observer(() => {
 							) : (
 								<>
 									{onboard.isActive() && (
-										<Grid item xs={12} sm={6}>
+										<Grid item xs={12} sm={6} md={4}>
 											<Typography variant="body2" display="inline">
 												My assets:{' '}
 											</Typography>
@@ -120,7 +123,7 @@ const Header = observer(() => {
 											)}
 										</Grid>
 									)}
-									<Grid item xs={12} sm={6}>
+									<Grid item xs={12} sm={6} md={onboard.isActive() ? 4 : 6}>
 										<Typography variant="body2" display="inline">
 											{`${chainName} TVL: `}
 										</Typography>
@@ -134,10 +137,24 @@ const Header = observer(() => {
 											valuePlaceholder
 										)}
 									</Grid>
+									<Grid item xs={12} sm={6} md={onboard.isActive() ? 4 : 6}>
+										<Typography variant="body2" display="inline">
+											{'Badger Price: '}
+										</Typography>
+										{badgerPrice ? (
+											<CurrencyDisplay
+												displayValue={inCurrency(badgerPrice, currency)}
+												variant="subtitle2"
+												justify="flex-start"
+											/>
+										) : (
+											valuePlaceholder
+										)}
+									</Grid>
 								</>
 							)}
 						</Grid>
-						<Grid item container xs={9} md={6} alignItems="center" justify="flex-end" spacing={1}>
+						<Grid item container xs={9} md={4} alignItems="center" justify="flex-end" spacing={1}>
 							{onboard.isActive() && (
 								<Grid item>
 									<RewardsWidget />
@@ -152,7 +169,7 @@ const Header = observer(() => {
 								<NetworkGasWidget />
 							</Grid>
 							<Grid item>
-								<WalletWidget className={classes.button} />
+								<WalletWidget />
 							</Grid>
 							<Grid item className={classes.sidebarButton}>
 								<Button
