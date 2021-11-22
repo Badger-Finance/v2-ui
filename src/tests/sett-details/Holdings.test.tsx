@@ -9,7 +9,7 @@ describe('Breadcrumb', () => {
 			<Holdings
 				sett={SAMPLE_SETT}
 				badgerSett={SAMPLE_BADGER_SETT}
-				settBalance={SAMPLE_SETT_BALANCE}
+				userData={SAMPLE_SETT_BALANCE}
 				tokenBalance={SAMPLE_TOKEN_BALANCE}
 			/>,
 		);
@@ -20,7 +20,7 @@ describe('Breadcrumb', () => {
 			<Holdings
 				sett={SAMPLE_SETT}
 				badgerSett={SAMPLE_BADGER_SETT}
-				settBalance={SAMPLE_SETT_BALANCE}
+				userData={SAMPLE_SETT_BALANCE}
 				tokenBalance={SAMPLE_TOKEN_BALANCE}
 			/>,
 		);

@@ -52,7 +52,7 @@ export const MainContent = observer(
 							sett={sett}
 							badgerSett={badgerSett}
 							tokenBalance={tokenBalance}
-							settBalance={settBalance}
+							userData={settBalance}
 						/>
 					</Grid>
 				)}
