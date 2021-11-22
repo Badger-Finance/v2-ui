@@ -97,22 +97,21 @@ export class RootStore {
 	}
 
 	async updateProvider(provider: SDKProvider): Promise<void> {
+		this.rewards.resetRewards();
+		const { address } = this.onboard;
 		const { network } = this.network;
 		const signer = provider.getSigner();
-		let updateActions: Promise<void>[] = [];
-		this.rewards.resetRewards();
 
-		const { address } = this.onboard;
 		if (signer && address) {
 			const config = NetworkConfig.getConfig(network.id);
-			updateActions = updateActions.concat([
-				this.user.loadAccountDetails(address),
-				this.user.loadClaimProof(address, config.network),
-			]);
+
+			let updateActions: Promise<void>[] = [];
+			updateActions = [this.user.loadAccountDetails(address), this.user.loadClaimProof(address, config.network)];
 
 			if (network.id === NETWORK_IDS.ETH) {
-				updateActions = updateActions.concat([this.airdrops.fetchAirdrops()]);
-				// handle reloading only when connecting via ibbtc page - lazily init otherwise
+				updateActions.push(this.airdrops.fetchAirdrops());
+
+				// handle per page reloads, when init route is skipped
 				if (this.router.currentPath === routes.IbBTC.path) {
 					updateActions.push(this.ibBTCStore.init());
 				}
@@ -121,8 +120,7 @@ export class RootStore {
 				}
 			}
 
-			await Promise.all(updateActions);
-			await this.user.reloadBalances(address);
+			await Promise.all([Promise.all(updateActions), this.user.reloadBalances(address)]);
 		}
 	}
 }

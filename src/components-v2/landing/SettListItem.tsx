@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	name: {
-		[theme.breakpoints.up('xs')]: {
+		[theme.breakpoints.up('md')]: {
 			flexGrow: 0,
 			maxWidth: '55%',
 			flexBasis: '55%',
