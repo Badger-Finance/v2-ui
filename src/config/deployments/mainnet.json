@@ -181,6 +181,7 @@
 	"claimEncoder": "0xf3ff1a5856b1726a8fef921ea57eab2c51466a93",
 	"cvxLocker": "0xD18140b4B819b895A3dba5442F959fA44994AF50",
 	"cvxDelegator": "0x469788fE6E9E9681C6ebF3bF78e7Fd26Fc015446",
+	"ibbtcVaultZap": "0xc5b45ab3d237b0dfc8f8808df39d49ebde8171fe",
 	"geysers": {
 		"native.badger": "0xa9429271a28F8543eFFfa136994c0839E7d7bF77",
 		"native.renCrv": "0x2296f174374508278DC12b806A7f27c87D53Ca15",

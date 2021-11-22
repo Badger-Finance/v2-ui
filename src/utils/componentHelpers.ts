@@ -1,3 +1,6 @@
+import mainnetDeploy from '../config/deployments/mainnet.json';
+import { Sett, SettData } from '@badger-dao/sdk';
+
 export const restrictToRange = (num: number, min: number, max: number): number => Math.min(Math.max(num, min), max);
 
 export const debounce = (n: number, fn: (...params: any[]) => any, immediate = false): any => {
@@ -37,3 +40,21 @@ export const roundWithDecimals = (value: number, decimals: number): number => {
 };
 
 export const formatStrategyFee = (fee: number): string => `${(fee / 100).toString()}%`;
+
+export const isSettVaultIbbtc = (sett: Sett): boolean => {
+	return sett.settToken === mainnetDeploy.sett_system.vaults['native.ibbtcCrv'];
+};
+
+export function shouldDisplayEarnings(sett: Sett, data: SettData): boolean {
+	// possible to have negative earned value (digg) :sadge:
+	if (data.earnedValue <= 0) {
+		return false;
+	}
+	// search for the vault source, always "Vault Compounding"
+	const vaultSource = sett.sources.find((s) => s.name.includes('Compounding'));
+	if (!vaultSource) {
+		return false;
+	}
+	const perf = vaultSource.performance;
+	return perf.oneDay > 0 || perf.threeDay > 0 || perf.sevenDay > 0 || perf.thirtyDay > 0;
+}

@@ -8,7 +8,6 @@ import React, { useContext } from 'react';
 import { PageHeaderContainer, LayoutContainer } from '../components-v2/common/Containers';
 import { SettState } from '@badger-dao/sdk';
 import SettListView from '../components-v2/landing/SettListView';
-import DepositDialog from '../components-v2/ibbtc-vault/DepositDialog';
 import SettListFiltersWidget from '../components-v2/common/SettListFiltersWidget';
 import CurrencyDisplay from '../components-v2/common/CurrencyDisplay';
 import { inCurrency } from '../mobx/utils/helpers';
@@ -114,20 +113,22 @@ const Landing = observer((props: LandingProps) => {
 					<Grid item container xs={6} alignItems="center" justify="flex-end" spacing={2}>
 						{isMobile ? (
 							<>
-								<Grid item container xs justify="flex-end" className={classes.deposits}>
-									<Typography variant="body2" display="inline">
-										My assets:{' '}
-									</Typography>
-									{portfolioValue ? (
-										<CurrencyDisplay
-											displayValue={inCurrency(portfolioValue, uiState.currency)}
-											variant="subtitle2"
-											justify="flex-start"
-										/>
-									) : (
-										<Skeleton animation="wave" width={32} className={classes.loader} />
-									)}
-								</Grid>
+								{portfolioValue && (
+									<Grid item container xs justify="flex-end" className={classes.deposits}>
+										<Typography variant="body2" display="inline">
+											My assets:{' '}
+										</Typography>
+										{portfolioValue ? (
+											<CurrencyDisplay
+												displayValue={inCurrency(portfolioValue, uiState.currency)}
+												variant="subtitle2"
+												justify="flex-start"
+											/>
+										) : (
+											<Skeleton animation="wave" width={32} className={classes.loader} />
+										)}
+									</Grid>
+								)}
 								<Grid item>
 									<SettListFiltersWidget />
 								</Grid>
@@ -156,7 +157,6 @@ const Landing = observer((props: LandingProps) => {
 				</div>
 			)}
 
-			<DepositDialog />
 			<SettListView state={state} />
 		</LayoutContainer>
 	);

@@ -9,18 +9,29 @@ import { StoreContext } from 'mobx/store-context';
 import NetworkNotification from 'components-v2/common/NetworkNotification';
 import NewsNotification from '../components-v2/common/NewsNotification';
 import Sidebar from 'components-v2/sidebar';
+import clsx from 'clsx';
 
 const useStyles = makeStyles((theme) => ({
-	root: {
+	flexContainer: {
 		display: 'flex',
+		maxHeight: '100vh',
+	},
+	columnContainer: {
+		flexDirection: 'column',
+	},
+	rowContainer: {
+		flexDirection: 'row',
 	},
 	contentContainer: {
 		display: 'flex',
-		flexDirection: 'column',
 		flexGrow: 1,
 	},
 	content: {
+		overflow: 'auto',
 		paddingBottom: theme.spacing(6),
+		'&::-webkit-scrollbar': {
+			display: 'none',
+		},
 	},
 }));
 
@@ -37,14 +48,16 @@ export const App = (): JSX.Element => {
 	});
 
 	return (
-		<div className={classes.root}>
-			<Sidebar />
-			<div className={classes.contentContainer}>
-				<Header />
-				<main className={classes.content}>
-					<NetworkNotification />
-					<NewsNotification />
-					<MobxRouter store={store} />
+		<div className={clsx(classes.flexContainer, classes.columnContainer)}>
+			<NetworkNotification />
+			<NewsNotification />
+			<div className={classes.flexContainer}>
+				<Sidebar />
+				<main className={clsx(classes.contentContainer, classes.columnContainer)}>
+					<Header />
+					<main className={classes.content}>
+						<MobxRouter store={store} />
+					</main>
 				</main>
 			</div>
 		</div>

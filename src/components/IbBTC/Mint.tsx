@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import {
 	Button,
 	Typography,
@@ -96,8 +96,11 @@ export const Mint = observer(
 		const [customSlippage, setCustomSlippage] = useState<string>();
 		const { onValidChange, inputProps } = useNumericInput();
 		const showSlippage = store.ibBTCStore.isZapToken(selectedToken);
-
 		const displayedConversionRate = Number(conversionRate) || selectedToken.mintRate;
+
+		useEffect(() => {
+			resetState();
+		}, [onboard.address]);
 
 		const resetState = () => {
 			setInputAmount(undefined);
@@ -188,9 +191,10 @@ export const Mint = observer(
 					mintSlippage,
 				);
 
-				if (!isValidAmount) return;
+				if (!isValidAmount) {
+					return;
+				}
 				await store.ibBTCStore.mint(selectedToken, inputAmount.actualValue, mintSlippage);
-				resetState();
 			}
 		};
 

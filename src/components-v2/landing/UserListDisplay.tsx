@@ -12,6 +12,8 @@ import Web3 from 'web3';
 import { BalanceNamespace } from 'web3/config/namespaces';
 import { Currency } from 'config/enums/currency.enum';
 import { BouncerType, Sett, SettState, ValueSource } from '@badger-dao/sdk';
+import IbbtcVaultDepositDialog from '../ibbtc-vault/IbbtcVaultDepositDialog';
+import { isSettVaultIbbtc } from '../../utils/componentHelpers';
 
 const useStyles = makeStyles((theme) => ({
 	messageContainer: {
@@ -27,17 +29,20 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const createSettListItem = (sett: Sett, itemBalance: TokenBalance, currency: Currency): JSX.Element | null => {
+	const isIbbtc = isSettVaultIbbtc(sett);
+
 	if (!itemBalance || itemBalance.tokenBalance.eq(0)) {
 		return null;
 	}
 	return (
 		<SettListItem
+			accountView
 			key={itemBalance.token.address}
 			sett={sett}
 			balance={itemBalance.balance}
 			balanceValue={itemBalance.balanceValueDisplay(currency)}
 			currency={currency}
-			accountView
+			CustomDepositModal={isIbbtc ? IbbtcVaultDepositDialog : undefined}
 		/>
 	);
 };
@@ -97,10 +102,9 @@ const UserListDisplay = observer(() => {
 		}
 	});
 
-	network.tokens.forEach((token) => {
-		const contractAddress = Web3.utils.toChecksumAddress(token.address);
-		const walletBalance = user.getTokenBalance(contractAddress);
-		const tokenInfo = setts.getToken(contractAddress);
+	Object.keys(setts.getTokenConfigs()).forEach((token) => {
+		const walletBalance = user.getTokenBalance(token);
+		const tokenInfo = setts.getToken(token);
 		const mockSett = {
 			name: tokenInfo.name,
 			state: SettState.Open,

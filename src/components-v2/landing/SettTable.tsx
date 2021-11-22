@@ -10,9 +10,6 @@ const useStyles = makeStyles((theme) => ({
 		background: `${theme.palette.background.paper}`,
 		padding: 0,
 		boxShadow: theme.shadows[1],
-		'&::-webkit-scrollbar': {
-			display: 'none',
-		},
 	},
 }));
 

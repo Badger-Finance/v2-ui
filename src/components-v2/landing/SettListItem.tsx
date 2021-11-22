@@ -11,7 +11,7 @@ import { SettItemApr } from './SettItemApr';
 import { SettItemUserApr } from './SettItemUserApr';
 import { StoreContext } from 'mobx/store-context';
 import routes from '../../config/routes';
-import { SettDeposit } from '../common/dialogs/SettDeposit';
+import { SettDeposit, SettModalProps } from '../common/dialogs/SettDeposit';
 import { SettWithdraw } from '../common/dialogs/SettWithdraw';
 import { Currency } from 'config/enums/currency.enum';
 import { Sett, SettState } from '@badger-dao/sdk';
@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	name: {
-		[theme.breakpoints.up('xs')]: {
+		[theme.breakpoints.up('md')]: {
 			flexGrow: 0,
 			maxWidth: '55%',
 			flexBasis: '55%',
@@ -79,10 +79,19 @@ export interface SettListItemProps {
 	balanceValue?: string;
 	accountView?: boolean;
 	currency: Currency;
+	// this will probably never be used except for special cases such as the ibBTC zap deposit workflow
+	CustomDepositModal?: (props: SettModalProps) => JSX.Element;
 }
 
 const SettListItem = observer(
-	({ sett, balance, balanceValue, currency, accountView = false }: SettListItemProps): JSX.Element => {
+	({
+		sett,
+		balance,
+		balanceValue,
+		currency,
+		CustomDepositModal,
+		accountView = false,
+	}: SettListItemProps): JSX.Element => {
 		const { user, network, router, onboard, setts } = useContext(StoreContext);
 		const [openDepositDialog, setOpenDepositDialog] = useState(false);
 		const [openWithdrawDialog, setOpenWithdrawDialog] = useState(false);
@@ -101,6 +110,8 @@ const SettListItem = observer(
 		const goToSettDetail = async () => {
 			await router.goTo(routes.settDetails, { settName: setts.getSlug(sett.settToken), accountView });
 		};
+
+		const DepositModal = CustomDepositModal || SettDeposit;
 
 		const listItem = (
 			<ListItem className={classes.listItem} disabled={isDisabled}>
@@ -146,7 +157,7 @@ const SettListItem = observer(
 				</Grid>
 				{badgerSett && (
 					<>
-						<SettDeposit
+						<DepositModal
 							open={openDepositDialog}
 							sett={sett}
 							badgerSett={badgerSett}
