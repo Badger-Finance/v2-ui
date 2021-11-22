@@ -20,7 +20,6 @@ const useStyles = makeStyles((theme) => ({
 		display: 'flex',
 		flexDirection: 'column',
 		justifyContent: 'space-between',
-		minHeight: '100vh',
 	},
 	drawer: {
 		[theme.breakpoints.up('md')]: {
@@ -59,19 +58,14 @@ const useStyles = makeStyles((theme) => ({
 		alignItems: 'center',
 		lineHeight: '20px',
 	},
-	daoItem: {
-		'&:hover': {
-			background: '#434343',
-		},
-		paddingTop: theme.spacing(0.25),
-		paddingBottom: theme.spacing(0.25),
-	},
 	boostText: {
 		fontSize: '13px',
+		cursor: 'default',
 	},
 	rankText: {
 		color: theme.palette.text.secondary,
 		fontSize: '10px',
+		cursor: 'default',
 	},
 	boostContainer: {
 		display: 'flex',
@@ -80,7 +74,7 @@ const useStyles = makeStyles((theme) => ({
 	sidebarContainer: {
 		display: 'flex',
 		flexDirection: 'column',
-		minHeight: '100vh',
+		minHeight: '100%',
 		borderRight: '1px solid #2B2B2B',
 		background: theme.palette.background.default,
 	},
@@ -94,6 +88,7 @@ const useStyles = makeStyles((theme) => ({
 		justifyContent: 'flex-start',
 		marginTop: theme.spacing(1),
 		marginBottom: theme.spacing(1),
+		paddingLeft: '27px',
 	},
 	socialIcon: {
 		height: '25px',
@@ -122,10 +117,20 @@ const useStyles = makeStyles((theme) => ({
 		fontSize: '10px',
 		lineHeight: '20px',
 		fontWeight: 400,
+		paddingLeft: '27px',
+		cursor: 'default',
 	},
 	daoContainer: {
+		paddingBottom: theme.spacing(2),
+	},
+	daoItem: {
+		cursor: 'pointer',
 		paddingLeft: '27px',
-		paddingBottom: theme.spacing(1),
+		paddingTop: theme.spacing(0.25),
+		paddingBottom: theme.spacing(0.25),
+		'&:hover': {
+			background: '#434343',
+		},
 	},
 }));
 

@@ -29,6 +29,9 @@ const useStyles = makeStyles((theme) => ({
 	content: {
 		overflow: 'auto',
 		paddingBottom: theme.spacing(6),
+		'&::-webkit-scrollbar': {
+			display: 'none',
+		},
 	},
 }));
 
