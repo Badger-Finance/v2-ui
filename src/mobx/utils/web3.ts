@@ -55,7 +55,7 @@ export const getEIP1559SendOptions = async (
 		gas: maxFeePerGasWei.toNumber(),
 	};
 	const limit = await method.estimateGas(options);
-	const legacyGas = maxFeePerGasWei.div(2).minus(maxPriorityFeePerGasWei);
+	const legacyGas = maxFeePerGasWei.minus(maxPriorityFeePerGasWei).div(2);
 	return {
 		from,
 		gas: Math.floor(limit * 1.2),
@@ -70,6 +70,12 @@ const _isEIP1559SendOption = (options: any): options is EIP1559SendOptions => {
 	return 'maxFeePerGas' in options;
 };
 
+export enum TransactionRequestResult {
+	Success = 'success',
+	Failure = 'failure',
+	Rejected = 'rejected',
+}
+
 export async function sendContractMethod(
 	store: RootStore,
 	// Methods do not have types in web3.js - allow for any typing here
@@ -79,9 +85,11 @@ export async function sendContractMethod(
 	txHashMessage: string,
 	receiptMessage: string,
 	errorMessage?: string,
-): Promise<void> {
+	reloadBalances = true,
+): Promise<TransactionRequestResult> {
 	const queueNotification = store.uiState.queueNotification;
 	try {
+		let result = TransactionRequestResult.Success;
 		await method
 			.send(options)
 			.on('transactionHash', (_hash: string) => {
@@ -89,24 +97,45 @@ export async function sendContractMethod(
 			})
 			.on('receipt', async () => {
 				queueNotification(receiptMessage, 'success');
-				await store.user.reloadBalances();
+				if (reloadBalances) {
+					await store.user.reloadBalances();
+				}
 			})
 			.on('error', async (error: any) => {
 				// code -32602 means that the params for an EIP1559 transaction were invalid.
 				// Retry the transaction with legacy options.
 				if (error.code === -32602 && _isEIP1559SendOption(options)) {
 					const newOptions = { from: options.from, gas: options.gas, gasPrice: options.legacyGas };
-					console.log(newOptions);
-					queueNotification('EIP1559 not currently supported for Ledger or this network', 'warning');
-					await sendContractMethod(store, method, newOptions, txHashMessage, receiptMessage, errorMessage);
-				} else {
-					queueNotification(errorMessage ? errorMessage : error.message, 'error');
+					result = await sendContractMethod(
+						store,
+						method,
+						newOptions,
+						txHashMessage,
+						receiptMessage,
+						errorMessage,
+					);
+					return;
 				}
+				// use canceled the transaction request
+				if (error.code === 4001) {
+					result = TransactionRequestResult.Rejected;
+					return;
+				}
+				result = TransactionRequestResult.Failure;
+				const message = errorMessage ?? error.message;
+				console.error(message);
+				queueNotification(message, 'error');
 			});
+		return result;
 	} catch (err) {
+		// use canceled the transaction request
+		if (err.code === 4001) {
+			return TransactionRequestResult.Rejected;
+		}
 		console.error(err);
 		if (DEBUG) {
 			queueNotification(errorMessage ? errorMessage : err.message, 'error');
 		}
+		return TransactionRequestResult.Failure;
 	}
 }
