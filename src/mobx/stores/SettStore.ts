@@ -29,7 +29,7 @@ export default class SettStore {
 	private settCache: SettCache;
 	private slugCache: SlugCache;
 	private protocolSummaryCache: ProtocolSummaryCache;
-	private vaultTokens: Set<string>;
+	public protocolTokens: Set<string>;
 	public initialized: boolean;
 	public availableBalances: TokenBalances = {};
 
@@ -49,7 +49,7 @@ export default class SettStore {
 		this.settCache = {};
 		this.slugCache = {};
 		this.protocolSummaryCache = {};
-		this.vaultTokens = new Set();
+		this.protocolTokens = new Set();
 		this.initialized = false;
 		this.refresh();
 	}
@@ -139,10 +139,6 @@ export default class SettStore {
 		return tokens[tokenAddress];
 	}
 
-	isWalletToken(address: string): boolean {
-		return !this.vaultTokens.has(Web3.utils.toChecksumAddress(address));
-	}
-
 	async refresh(): Promise<void> {
 		const { network } = this.store.network;
 		if (network) {
@@ -153,7 +149,6 @@ export default class SettStore {
 				this.loadAssets(network.symbol),
 			]);
 			this.initialized = true;
-			// await this.store.user.reloadBalances();
 		}
 	}
 
@@ -167,7 +162,12 @@ export default class SettStore {
 					...this.slugCache[chain],
 					...Object.fromEntries(settList.map(formatSettListItem)),
 				};
-				this.vaultTokens = new Set(settList.flatMap((s) => [s.underlyingToken, s.settToken]));
+				this.protocolTokens = new Set(settList.flatMap((s) => [s.underlyingToken, s.settToken]));
+				// add badger to tracked tokens on networks where it is not a sett related token (ex: Arbitrum)
+				const badgerToken = this.store.network.network.deploy.token;
+				if (badgerToken && !this.protocolTokens.has(badgerToken)) {
+					this.protocolTokens.add(badgerToken);
+				}
 			} else {
 				this.settCache[chain] = null;
 			}
