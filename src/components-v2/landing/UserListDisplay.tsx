@@ -103,6 +103,9 @@ const UserListDisplay = observer(() => {
 	});
 
 	Object.keys(setts.getTokenConfigs()).forEach((token) => {
+		if (!setts.isWalletToken(token)) {
+			return;
+		}
 		const walletBalance = user.getTokenBalance(token);
 		const tokenInfo = setts.getToken(token);
 		const mockSett = {
