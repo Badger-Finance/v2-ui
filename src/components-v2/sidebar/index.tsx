@@ -170,7 +170,7 @@ const Sidebar = observer(() => {
 					<div className={classes.versionContainer} onClick={() => setExpanded(!expanded)}>
 						<div className={classes.boostContainer}>
 							<span className={classes.boostText}>{`Boost: ${accountDetails.boost}`}</span>
-							<span className={classes.rankText}>{`Boost: ${accountDetails.boostRank}`}</span>
+							<span className={classes.rankText}>{`Rank: ${accountDetails.boostRank}`}</span>
 						</div>
 						<div className={clsx(classes.expand, expanded && classes.expandOpen)}>
 							<ExpandMore />
