@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
 		alignItems: 'center',
 		padding: theme.spacing(2, 0, 2, 2),
 		[theme.breakpoints.down('sm')]: {
-			padding: theme.spacing(2, 2, 0, 2),
+			padding: theme.spacing(2, 2, 1.5, 2),
 		},
 	},
 	nonClickableSection: {

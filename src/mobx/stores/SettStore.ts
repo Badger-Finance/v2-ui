@@ -29,6 +29,7 @@ export default class SettStore {
 	private settCache: SettCache;
 	private slugCache: SlugCache;
 	private protocolSummaryCache: ProtocolSummaryCache;
+	private vaultTokens: Set<string>;
 	public initialized: boolean;
 	public availableBalances: TokenBalances = {};
 
@@ -48,6 +49,7 @@ export default class SettStore {
 		this.settCache = {};
 		this.slugCache = {};
 		this.protocolSummaryCache = {};
+		this.vaultTokens = new Set();
 		this.initialized = false;
 		this.refresh();
 	}
@@ -138,7 +140,7 @@ export default class SettStore {
 	}
 
 	isWalletToken(address: string): boolean {
-		return this.store.setts.getSett(address) === undefined;
+		return !this.vaultTokens.has(Web3.utils.toChecksumAddress(address));
 	}
 
 	async refresh(): Promise<void> {
@@ -161,11 +163,11 @@ export default class SettStore {
 
 			if (settList) {
 				this.settCache[chain] = Object.fromEntries(settList.map((sett) => [sett.settToken, sett]));
-
 				this.slugCache[chain] = {
 					...this.slugCache[chain],
 					...Object.fromEntries(settList.map(formatSettListItem)),
 				};
+				this.vaultTokens = new Set(settList.flatMap((s) => [s.underlyingToken, s.settToken]));
 			} else {
 				this.settCache[chain] = null;
 			}
