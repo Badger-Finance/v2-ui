@@ -17,7 +17,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 	flexContainer: {
 		display: 'flex',
-		minHeight: '100%',
+		flexGrow: 1,
+		maxHeight: '100%',
 	},
 	columnContainer: {
 		flexDirection: 'column',
