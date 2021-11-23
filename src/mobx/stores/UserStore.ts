@@ -70,7 +70,9 @@ export default class UserStore {
 	}
 
 	get walletValue(): BigNumber {
-		return Object.values(this.tokenBalances).reduce((total, token) => total.plus(token.value), new BigNumber(0));
+		return Object.values(this.tokenBalances)
+			.filter((t) => this.store.setts.protocolTokens.has(t.token.address))
+			.reduce((total, token) => total.plus(token.value), new BigNumber(0));
 	}
 
 	get settValue(): BigNumber {

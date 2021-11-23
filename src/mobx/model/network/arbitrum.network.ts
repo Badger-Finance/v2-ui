@@ -22,6 +22,19 @@ export class Arbitrum extends NetworkModel {
 			arbitrumSetts,
 		);
 	}
+
+	get settOrder(): string[] {
+		return [
+			this.deploy.sett_system.vaults['native.tricrypto'],
+			this.deploy.sett_system.vaults['native.crvWbtcRen'],
+			this.deploy.sett_system.vaults['native.swaprWethIbbtc'],
+			this.deploy.sett_system.vaults['native.swaprWethBadger'],
+			this.deploy.sett_system.vaults['native.swaprWethWbtc'],
+			this.deploy.sett_system.vaults['native.swaprWethSwapr'],
+			this.deploy.sett_system.vaults['native.sushiWethWbtc'],
+			this.deploy.sett_system.vaults['native.sushiWethSushi'],
+		];
+	}
 }
 
 export const ARBITRUM_DEPLOY: Deploy = deploy;

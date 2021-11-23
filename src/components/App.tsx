@@ -12,9 +12,13 @@ import Sidebar from 'components-v2/sidebar';
 import clsx from 'clsx';
 
 const useStyles = makeStyles((theme) => ({
+	rootContainer: {
+		height: '100vh',
+	},
 	flexContainer: {
 		display: 'flex',
-		maxHeight: '100vh',
+		flexGrow: 1,
+		maxHeight: '100%',
 	},
 	columnContainer: {
 		flexDirection: 'column',
@@ -33,6 +37,9 @@ const useStyles = makeStyles((theme) => ({
 			display: 'none',
 		},
 	},
+	appContainer: {
+		overflow: 'auto',
+	},
 }));
 
 export const App = (): JSX.Element => {
@@ -48,10 +55,10 @@ export const App = (): JSX.Element => {
 	});
 
 	return (
-		<div className={clsx(classes.flexContainer, classes.columnContainer)}>
+		<div className={clsx(classes.rootContainer, classes.flexContainer, classes.columnContainer)}>
 			<NetworkNotification />
 			<NewsNotification />
-			<div className={classes.flexContainer}>
+			<div className={clsx(classes.appContainer, classes.flexContainer)}>
 				<Sidebar />
 				<main className={clsx(classes.contentContainer, classes.columnContainer)}>
 					<Header />
