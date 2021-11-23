@@ -74,6 +74,7 @@ const UserListDisplay = observer(() => {
 	const walletList: JSX.Element[] = [];
 	const settList: JSX.Element[] = [];
 
+	const accountedTokens = new Set<string>();
 	network.settOrder.forEach((contract) => {
 		const contractAddress = Web3.utils.toChecksumAddress(contract);
 		const sett = currentSettMap[contractAddress];
@@ -88,6 +89,7 @@ const UserListDisplay = observer(() => {
 
 		if (walletItem) {
 			walletList.push(walletItem);
+			accountedTokens.add(walletBalance.token.address);
 		}
 
 		const scalar = new BigNumber(sett.pricePerFullShare);
@@ -99,11 +101,12 @@ const UserListDisplay = observer(() => {
 
 		if (settItem) {
 			settList.push(settItem);
+			accountedTokens.add(settBalance.token.address);
 		}
 	});
 
-	Object.keys(setts.getTokenConfigs()).forEach((token) => {
-		if (!setts.isWalletToken(token)) {
+	setts.protocolTokens.forEach((token) => {
+		if (accountedTokens.has(token)) {
 			return;
 		}
 		const walletBalance = user.getTokenBalance(token);
