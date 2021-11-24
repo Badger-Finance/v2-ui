@@ -1,18 +1,100 @@
-import { Backdrop, Button, Fade, Grid, Modal, Typography } from '@material-ui/core';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+import {
+	Box,
+	Button,
+	Dialog,
+	DialogContent,
+	DialogTitle,
+	Divider,
+	Grid,
+	IconButton,
+	Link,
+	Typography,
+} from '@material-ui/core';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import BigNumber from 'bignumber.js';
 import { Loader } from 'components/Loader';
 import { observer } from 'mobx-react-lite';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { StoreContext } from 'mobx/store-context';
 import { inCurrency } from 'mobx/utils/helpers';
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { RewardsModalItem } from './RewardsModalItem';
 import clsx from 'clsx';
 import CurrencyDisplay from '../common/CurrencyDisplay';
+import CloseIcon from '@material-ui/icons/Close';
+import routes from '../../config/routes';
+import { ArrowBackIosOutlined } from '@material-ui/icons';
+import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
+		dialog: {
+			maxWidth: 862,
+		},
+		title: {
+			padding: theme.spacing(4, 4, 0, 4),
+		},
+		content: {
+			padding: theme.spacing(2, 4, 4, 4),
+		},
+		closeButton: {
+			position: 'absolute',
+			right: 8,
+			top: 8,
+		},
+		claimRow: {
+			marginBottom: theme.spacing(2),
+		},
+		divider: {
+			marginBottom: theme.spacing(2),
+		},
+		submitButton: {
+			marginTop: theme.spacing(4),
+			[theme.breakpoints.down('xs')]: {
+				marginTop: theme.spacing(2),
+			},
+		},
+		moreRewardsInformation: {
+			width: '90%',
+			margin: 'auto',
+			backgroundColor: '#181818',
+			borderRadius: 8,
+			padding: theme.spacing(4),
+			[theme.breakpoints.down('sm')]: {
+				width: '100%',
+				padding: theme.spacing(3),
+			},
+			[theme.breakpoints.down('xs')]: {
+				padding: theme.spacing(2),
+			},
+		},
+		moreRewardsDescription: {
+			marginTop: theme.spacing(1),
+		},
+		boostRewards: {
+			marginTop: theme.spacing(2),
+		},
+		rewardsGuideLinkContainer: {
+			marginTop: theme.spacing(2),
+			textAlign: 'center',
+		},
+		cursorPointer: {
+			cursor: 'pointer',
+		},
+		arrowBack: {
+			marginRight: theme.spacing(1),
+		},
+		userGuideTokens: {
+			[theme.breakpoints.up('sm')]: {
+				marginLeft: theme.spacing(7),
+			},
+		},
+		userGuideToken: {
+			marginBottom: theme.spacing(2),
+		},
+		rewardsOptions: {
+			paddingInlineStart: theme.spacing(2),
+		},
 		rewards: {
 			color: '#F2BC1B',
 		},
@@ -27,65 +109,6 @@ const useStyles = makeStyles((theme: Theme) =>
 			minWidth: 37,
 			width: 37,
 		},
-		modal: {
-			display: 'flex',
-			alignItems: 'center',
-			justifyContent: 'center',
-		},
-		paper: {
-			backgroundColor: theme.palette.background.paper,
-			boxShadow: theme.shadows[5],
-			padding: theme.spacing(4, 4, 3),
-			borderRadius: 8,
-			outline: 'none',
-			display: 'flex',
-			flexDirection: 'column',
-			minHeight: '30%',
-			maxHeight: '75%',
-			minWidth: '25%',
-		},
-		rewardsContainer: {
-			maxHeight: '75%',
-			overflowY: 'auto',
-		},
-		modalTitle: {
-			textAlign: 'center',
-		},
-		claimInput: {
-			paddingLeft: theme.spacing(6),
-		},
-		subtitle: {
-			paddingTop: theme.spacing(4),
-			paddingBottom: theme.spacing(2),
-		},
-		claimButton: {
-			width: '100%',
-			marginTop: theme.spacing(2),
-		},
-		openModalButton: { marginRight: theme.spacing(1), height: '1.8rem' },
-		maxAllButton: {
-			maxWidth: '25%',
-			marginLeft: 'auto',
-			marginRight: 'auto',
-			marginTop: theme.spacing(1),
-		},
-		amountDisplay: {
-			marginTop: 'auto',
-			marginBottom: 'auto',
-			paddingRight: theme.spacing(1),
-		},
-		widgetContainer: {
-			[theme.breakpoints.down('xs')]: {
-				marginBottom: theme.spacing(2),
-			},
-		},
-		loaderContainer: {
-			display: 'flex',
-			justifyContent: 'space-between',
-			marginRight: theme.spacing(3),
-			marginBottom: theme.spacing(0.3),
-			width: '125px',
-		},
 	}),
 );
 
@@ -95,7 +118,7 @@ export interface ClaimMapEntry {
 }
 
 export interface ClaimMap {
-	[address: string]: ClaimMapEntry;
+	[address: string]: TokenBalance;
 }
 
 export interface RewardsModalProps {
@@ -105,28 +128,49 @@ export interface RewardsModalProps {
 export const RewardsWidget = observer((): JSX.Element | null => {
 	const classes = useStyles();
 	const store = useContext(StoreContext);
-	const { setts, onboard, user } = store;
+	const { setts, onboard, user, router } = store;
 	const { badgerTree, claimGeysers, loadingRewards } = store.rewards;
 	const { currency } = store.uiState;
 
+	const [guideMode, setGuideMode] = useState(false);
 	const [open, setOpen] = useState(false);
-	const [maxFlag, setMaxFlag] = useState(true);
-	const [maxBalances, setMaxBalances] = useState<ClaimMap>({});
-	const [claimMap, setClaimMap] = useState<ClaimMap>({});
+	const [claims, setClaims] = useState<ClaimMap>({});
+	const [claimableRewards, setClaimableRewards] = useState<ClaimMap>({});
+
+	const hasRewards = Object.keys(claimableRewards).length > 0;
+
+	const totalClaimValue = Object.keys(claims).reduce(
+		(total, claimKey) => total.plus(claims[claimKey].value),
+		new BigNumber(0),
+	);
+
+	const totalRewardsValue = Object.keys(claimableRewards).reduce(
+		(total, claimKey) => total.plus(claimableRewards[claimKey].value),
+		new BigNumber(0),
+	);
+
+	const handleClaimCheckChange = (rewardKey: string, checked: boolean) => {
+		if (checked) {
+			setClaims({
+				...claims,
+				[rewardKey]: claimableRewards[rewardKey],
+			});
+		} else {
+			const newClaims = { ...claims };
+			delete newClaims[rewardKey];
+			setClaims(newClaims);
+		}
+	};
 
 	useEffect(() => {
 		const balances = Object.fromEntries(
-			badgerTree.claims.map((claim) => {
-				const entry = {
-					balance: claim,
-					visualBalance: claim.balanceDisplay(),
-				};
-				return [claim.token.address, entry];
-			}),
+			badgerTree.claims
+				.filter((claim) => !!setts.getToken(claim.token.address))
+				.map((claim) => [claim.token.address, claim]),
 		);
-		setMaxBalances(balances);
-		setClaimMap(balances);
-	}, [badgerTree.claims]);
+		setClaimableRewards(balances);
+		setClaims(balances);
+	}, [setts, badgerTree.claims]);
 
 	if (!onboard.isActive()) {
 		return null;
@@ -144,76 +188,6 @@ export const RewardsWidget = observer((): JSX.Element | null => {
 		);
 	}
 
-	const isMaxed = (token: string): boolean =>
-		claimMap[token].balance.tokenBalance.eq(maxBalances[token].balance.tokenBalance);
-
-	const handleClaimMap = (address: string, amount: string): void => {
-		const isMax = amount === maxBalances[address].visualBalance;
-		let entry: ClaimMapEntry;
-		if (isMax) {
-			entry = maxBalances[address];
-		} else {
-			const balance = store.rewards.balanceFromString(address, amount);
-			entry = { balance, visualBalance: amount };
-		}
-		setClaimMap({ ...claimMap, [address]: entry });
-		if (!isMaxed(address)) {
-			setMaxFlag(false);
-		}
-	};
-
-	const maxAll = (): void => {
-		setClaimMap(maxBalances);
-		setMaxFlag(true);
-	};
-
-	const claimableValue = badgerTree.claims.reduce((total, balance) => total.plus(balance.value), new BigNumber(0));
-	const claimItems = badgerTree.claims
-		.filter((claim) => {
-			const tokenDefinition = setts.getToken(claim.token.address);
-			if (!tokenDefinition) {
-				return false;
-			}
-			claim.token.symbol = tokenDefinition.symbol;
-			const entry = claimMap[claim.token.address];
-			const claimable = maxBalances[claim.token.address];
-			return entry && claimable.balance.tokenBalance.gt(0);
-		})
-		.map((claim) => {
-			const { token } = claim;
-			const maxClaim = maxBalances[token.address];
-			const currentClaim = claimMap[token.address].balance;
-			const currentClaimDisplay = claimMap[token.address].visualBalance;
-			return (
-				<RewardsModalItem
-					key={token.address}
-					amount={currentClaimDisplay}
-					maxAmount={maxClaim.visualBalance}
-					display={currentClaim.balanceDisplay(5)}
-					value={currentClaim.balanceValueDisplay(currency)}
-					address={token.address}
-					// symbol is explicitly set (or returned) in previous block
-					// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-					symbol={token.symbol!}
-					onChange={handleClaimMap}
-					maxFlag={isMaxed(token.address)}
-				/>
-			);
-		});
-
-	let canSubmit = true;
-
-	// update if typescript has a stream::allMatch
-	Object.entries(claimMap).forEach((entry) => {
-		const [key, value] = entry;
-		const max = maxBalances[key];
-		if (value.balance.tokenBalance.gt(max.balance.tokenBalance)) {
-			canSubmit = false;
-		}
-	});
-
-	const hasRewards = claimItems.length > 0;
-
 	return (
 		<>
 			<Button
@@ -223,74 +197,171 @@ export const RewardsWidget = observer((): JSX.Element | null => {
 				onClick={() => setOpen(true)}
 				disabled={!hasRewards}
 			>
-				{hasRewards ? (
-					<>
-						<img className={classes.rewardsIcon} src="/assets/icons/rewards-spark.svg" alt="rewards icon" />
-						{
-							<CurrencyDisplay
-								displayValue={inCurrency(claimableValue, currency)}
-								variant="body2"
-								justify="center"
-							/>
-						}
-					</>
-				) : (
-					<CurrencyDisplay
-						disabled
-						displayValue={inCurrency(new BigNumber(0), currency, 2)}
-						variant="body2"
-						justify="center"
-					/>
-				)}
+				<img className={classes.rewardsIcon} src="/assets/icons/rewards-spark.svg" alt="rewards icon" />
+				<CurrencyDisplay
+					displayValue={inCurrency(totalRewardsValue, currency)}
+					variant="body2"
+					justify="center"
+				/>
 			</Button>
-			<Modal
+			<Dialog
+				fullWidth
+				maxWidth="sm"
 				aria-labelledby="claim-modal"
 				aria-describedby="Claim your rewards"
+				classes={{ paperWidthSm: classes.dialog }}
 				open={open}
 				onClose={() => setOpen(false)}
-				className={classes.modal}
-				closeAfterTransition
-				BackdropComponent={Backdrop}
-				BackdropProps={{
-					timeout: 500,
-				}}
 			>
-				<Fade in={open}>
-					<div className={classes.paper}>
-						<Typography id="claim-title" className={classes.modalTitle}>
-							CLAIM REWARDS
-						</Typography>
-						<Button
-							className={classes.maxAllButton}
-							key="max-all-btn"
-							size="small"
-							variant="outlined"
-							disabled={maxFlag}
-							onClick={maxAll}
-						>
-							MAX ALL
-						</Button>
-						<Grid className={classes.subtitle} container direction="row" justify="space-between">
-							<Typography variant="subtitle2" color="textSecondary">
-								Claimable
-							</Typography>
-							<Typography variant="subtitle2" color="textSecondary">
-								Enter an amount to claim
-							</Typography>
+				<DialogTitle className={classes.title}>
+					{guideMode ? (
+						<>
+							<Box display="flex" alignItems="center">
+								<IconButton className={classes.arrowBack} onClick={() => setGuideMode(false)}>
+									<ArrowBackIosOutlined />
+								</IconButton>
+								Rewards User Guide
+							</Box>
+						</>
+					) : (
+						<>
+							My Claimable Rewards
+							<IconButton className={classes.closeButton} onClick={() => setOpen(false)}>
+								<CloseIcon />
+							</IconButton>
+						</>
+					)}
+				</DialogTitle>
+				<DialogContent className={classes.content}>
+					{guideMode ? (
+						<Grid container>
+							<Grid item container direction="column" xs={12} sm={4} className={classes.userGuideTokens}>
+								<Grid item className={classes.userGuideToken}>
+									{/*TODO: add link to view vaults when they're available*/}
+									<Typography variant="body2" color="textSecondary">
+										BADGERDAO TOKENS:
+									</Typography>
+									<Typography variant="body1">Badger, Bbadger, Digg, Bdigg</Typography>
+									<Box display="flex" alignItems="center">
+										<ArrowRightAltIcon color="primary" />
+										<Link className={classes.cursorPointer}>View Vaults</Link>
+									</Box>
+								</Grid>
+								<Grid item className={classes.userGuideToken}>
+									<Typography variant="body2" color="textSecondary">
+										NON NATIVE TOKENS:
+									</Typography>
+									<Typography variant="body1">bBTC, renBTC, oBTC...</Typography>
+									<Box display="flex" alignItems="center">
+										<ArrowRightAltIcon color="primary" />
+										<Link className={classes.cursorPointer}>View Vaults</Link>
+									</Box>
+								</Grid>
+								<Grid item className={classes.userGuideToken}>
+									<Typography variant="body2" color="textSecondary">
+										INDEPENDENT TOKENS:
+									</Typography>
+									<Typography variant="body1">CVX, bveCVX...</Typography>
+									<Box display="flex" alignItems="center">
+										<ArrowRightAltIcon color="primary" />
+										<Link className={classes.cursorPointer}>View Vaults</Link>
+									</Box>
+								</Grid>
+							</Grid>
+							<Grid item xs={12} sm container direction="column">
+								<Grid item>
+									<Typography>Receive maximum rewards when: </Typography>
+								</Grid>
+								<Grid item>
+									<ul className={classes.rewardsOptions}>
+										<li>
+											<Typography variant="body2">Staking 50% non native tokens</Typography>
+										</li>
+										<li>
+											<Typography variant="body2">
+												Holding and/or Staking 50% BadgerDAO tokens
+											</Typography>
+										</li>
+									</ul>
+								</Grid>
+							</Grid>
 						</Grid>
-						<div className={classes.rewardsContainer}>{claimItems}</div>
-						<Button
-							disabled={!canSubmit}
-							className={classes.claimButton}
-							onClick={() => claimGeysers(claimMap)}
-							variant="contained"
-							color="primary"
-						>
-							Claim
-						</Button>
-					</div>
-				</Fade>
-			</Modal>
+					) : (
+						<Grid container spacing={3}>
+							<Grid item xs={12} sm={6}>
+								{claimableRewards && (
+									<Grid container direction="column">
+										{Object.keys(claimableRewards).map((rewardsKey, index) => (
+											<Grid key={`${rewardsKey}_${index}`} item className={classes.claimRow}>
+												<RewardsModalItem
+													checked={!!claims[rewardsKey]}
+													claimBalance={claimableRewards[rewardsKey]}
+													onChange={(checked) => handleClaimCheckChange(rewardsKey, checked)}
+												/>
+											</Grid>
+										))}
+										<Divider className={classes.divider} />
+										<Grid item container alignItems="center" justify="space-between">
+											<Typography variant="body2">Total Claimable Rewards</Typography>
+											<CurrencyDisplay
+												variant="h6"
+												justify="flex-end"
+												displayValue={inCurrency(totalClaimValue, currency)}
+											/>
+										</Grid>
+										<Grid item className={classes.submitButton}>
+											<Button
+												fullWidth
+												disabled={totalClaimValue.eq(0)}
+												color="primary"
+												variant="contained"
+												onClick={async () => await claimGeysers(claims)}
+											>
+												Claim My Rewards
+											</Button>
+										</Grid>
+									</Grid>
+								)}
+							</Grid>
+							<Grid item xs={12} sm={6}>
+								<Grid container direction="column" className={classes.moreRewardsInformation}>
+									<Grid item>
+										<Typography variant="h6">Want more rewards ?</Typography>
+									</Grid>
+									<Grid item className={classes.moreRewardsDescription}>
+										<Typography variant="body2">
+											Boost your rewards and support the BadgerDAO ecosystem, by holding and
+											staking Badger tokens.
+										</Typography>
+									</Grid>
+									<Grid item className={classes.boostRewards}>
+										<Button
+											fullWidth
+											color="primary"
+											variant="outlined"
+											onClick={async () => {
+												await router.goTo(routes.boostOptimizer);
+												setOpen(false);
+											}}
+										>
+											Boost My Rewards
+										</Button>
+									</Grid>
+									<Grid item className={classes.rewardsGuideLinkContainer}>
+										<Link
+											className={classes.cursorPointer}
+											color="primary"
+											onClick={() => setGuideMode(true)}
+										>
+											Rewards User Guide
+										</Link>
+									</Grid>
+								</Grid>
+							</Grid>
+						</Grid>
+					)}
+				</DialogContent>
+			</Dialog>
 		</>
 	);
 });
