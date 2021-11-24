@@ -17,6 +17,7 @@ import {
 	RENVM_GATEWAY_ADDRESS,
 } from 'config/constants';
 import { BADGER_ADAPTER } from 'config/system/abis/BadgerAdapter';
+import { adapter_abi } from 'config/system/abis/BadgerAdapter.json';
 import { BTC_GATEWAY } from 'config/system/abis/BtcGateway';
 import { bridge_system, tokens, sett_system, defi_dollar } from 'config/deployments/mainnet.json';
 import { shortenAddress } from 'utils/componentHelpers';
@@ -144,6 +145,31 @@ class BridgeStore {
 			...defaultProps,
 		});
 
+		/*
+		observe(this.store.network as NetworkStore, 'network', async ({ newValue }: IValueDidChange<NetworkModel>) => {
+			if (!newValue) {
+				return;
+			}
+
+			this.network = newValue.symbol;
+			// NB: Only ETH supported for now.
+			if (this.network !== Network.Ethereum) {
+				return;
+			}
+			await this.reload();
+		});
+		*/
+
+		observe(this.store.onboard, 'address', async ({ newValue, oldValue }: IValueDidChange<string | undefined>) => {
+			if (oldValue === newValue) return;
+			if (!newValue) return;
+			// Set shortened addr.
+			const { network } = this.store.network;
+			// NB: Only ETH supported for now.
+			if (network.symbol !== Network.Ethereum) return;
+			await this.reload();
+		});
+
 		observe(
 			this as BridgeStore,
 			'current',
@@ -207,7 +233,8 @@ class BridgeStore {
 	reload = action(async () => {
 		// Always reset first on reload even though we may not be loading any data.
 		this.reset();
-		this.updateContracts();
+		const isOldLogic = await this.findLogicAddress();
+		this.updateContracts(isOldLogic);
 
 		const { queueNotification } = this.store.uiState;
 		const { wallet, address } = this.store.onboard;
@@ -249,13 +276,19 @@ class BridgeStore {
 		this.done = done;
 	});
 
-	updateContracts = action(() => {
+	updateContracts = action((isOldLogic: boolean) => {
 		const web3 = new Web3(this.store.onboard.wallet?.provider);
 		// We're disabling these because the web3-eth-contract package has not been updated to
 		// be compatible with the updated web3 package
-		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-		// @ts-ignore
-		this.adapter = new web3.eth.Contract(BADGER_ADAPTER, bridge_system['adapter']);
+		if (isOldLogic) {
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+			// @ts-ignore
+			this.adapter = new web3.eth.Contract(BADGER_ADAPTER, bridge_system['adapter']);
+		} else {
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+			// @ts-ignore
+			this.adapter = new web3.eth.Contract(adapter_abi, bridge_system['adapter']);
+		}
 		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 		// @ts-ignore
 		this.renbtc = new web3.eth.Contract(ERC20.abi as AbiItem[], tokens.renBTC);
@@ -277,6 +310,12 @@ class BridgeStore {
 		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 		// @ts-ignore
 		this.gateway = new web3.eth.Contract(BTC_GATEWAY, RENVM_GATEWAY_ADDRESS);
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
+		this.core = new web3.eth.Contract(coreConfig.abi as AbiItem[], defi_dollar['core']);
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
+		this.zapPeak = new web3.eth.Contract(abi as AbiItem[], defi_dollar['zap']);
 	});
 
 	// Complete tx processing.
@@ -646,6 +685,31 @@ class BridgeStore {
 		}
 	};
 
+	//temporary method to aid in migration of bridge contracts.
+	//TODO: Remove all traces of this method after ibbtc+zap integration.
+	findLogicAddress = async (): Promise<boolean> => {
+		const { queueNotification } = this.store.uiState;
+		let logicAddr = '';
+		try {
+			await retry(async () => {
+				const web3 = new Web3(this.store.onboard.wallet?.provider);
+				const proxyContract = bridge_system['adapter'];
+				const storagePosition = '0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc';
+				logicAddr = await web3.eth.getStorageAt(proxyContract, storagePosition);
+			}, defaultRetryOptions);
+		} catch (err) {
+			queueNotification(`Failed to fetch logic address: ${err.message}`, 'error');
+			console.error(err);
+		}
+		let isOldLogic = false;
+		const oldLogicAddr = '1362E51C1aA40fD180824D4A7Fc4F27E2BB3EFE5';
+		const oldIdx = logicAddr.toUpperCase().indexOf(oldLogicAddr.toUpperCase());
+		if (oldIdx !== -1) {
+			isOldLogic = true;
+		}
+		return isOldLogic;
+	};
+
 	calcIbbtcFees = async (amount: number, mintBool: boolean): Promise<number> => {
 		const { queueNotification } = this.store.uiState;
 		let fee = 0;
@@ -667,51 +731,26 @@ class BridgeStore {
 		return fee;
 	};
 
-	calcMintOrRedeemPath = async (amount: BigNumber, mintOrRedeem: boolean): Promise<any[]> => {
+	calcMintOrRedeemPath = async (amount: BigNumber, mintOrRedeem: boolean): Promise<string> => {
 		const { queueNotification } = this.store.uiState;
-		let poolId = undefined;
 		let tokenAmount = 0;
-		let optimalToken = undefined;
 		try {
 			await retry(async () => {
 				if (mintOrRedeem) {
 					//mint
-					const optimalPathRenbtc = await this.zapPeak.methods.calcMint(tokens.renBTC, amount).call();
-					const optimalPathWbtc = await this.zapPeak.methods.calcMint(tokens.wBTC, amount).call();
-					const ibbtcAmountRenbtc = optimalPathRenbtc['bBTC'];
-					const ibbtcAmountWbtc = optimalPathWbtc['bBTC'];
-					//pick wbtc or renbtc based on return values
-					if (ibbtcAmountRenbtc > ibbtcAmountWbtc) {
-						poolId = parseInt(optimalPathRenbtc['poolId']);
-						tokenAmount = ibbtcAmountRenbtc;
-						optimalToken = tokens.renBTC;
-					} else {
-						poolId = parseInt(optimalPathWbtc['poolId']);
-						tokenAmount = ibbtcAmountWbtc;
-						optimalToken = tokens.wBTC;
-					}
+					const optimalPathRenbtc = await this.zapPeak.methods.calcMintWithRen(amount).call();
+					tokenAmount = optimalPathRenbtc['bBTC'];
 				} else {
 					//burn
-					const optimalPathRenbtc = await this.zapPeak.methods.calcRedeem(tokens.renBTC, amount).call();
-					const optimalPathWbtc = await this.zapPeak.methods.calcRedeem(tokens.wBTC, amount).call();
-					const renbtcAmount = optimalPathRenbtc['bBTC'];
-					const wbtcAmount = optimalPathWbtc['bBTC'];
-					if (renbtcAmount > wbtcAmount) {
-						poolId = optimalPathRenbtc['poolId'];
-						tokenAmount = renbtcAmount;
-						optimalToken = tokens.renBTC;
-					} else {
-						poolId = optimalPathWbtc['poolId'];
-						tokenAmount = wbtcAmount;
-						optimalToken = tokens.wBTC;
-					}
+					const optimalPathRenbtc = await this.zapPeak.methods.calcRedeemInRen(amount).call();
+					tokenAmount = optimalPathRenbtc['bBTC'];
 				}
 			}, defaultRetryOptions);
 		} catch (err) {
 			queueNotification(`Failed to fetch optimal PoolID: ${err.message}`, 'error');
 			console.error(err.message);
 		}
-		return [poolId, new BigNumber(tokenAmount).dividedBy(SETT_DECIMALS).toString(), optimalToken];
+		return new BigNumber(tokenAmount).dividedBy(SETT_DECIMALS).toString();
 	};
 }
 
