@@ -292,6 +292,7 @@ export const BridgeForm = observer(({ classes, tabValue, setTabValue }: any) => 
 			error,
 			calcMintOrRedeemPath,
 			calcIbbtcFees,
+			findLogicAddress,
 
 			badgerBurnFee,
 			badgerMintFee,
@@ -498,7 +499,7 @@ export const BridgeForm = observer(({ classes, tabValue, setTabValue }: any) => 
 
 	// TODO: Can refactor most of these methods below into the store as well.
 	const deposit = async () => {
-		const amountSats = new BigNumber(amount).multipliedBy(10 ** 8); // Convert to Satoshis
+		//const amountSats = new BigNumber(amount).multipliedBy(10 ** 8); // Convert to Satoshis
 		let desiredToken = tokens.renBTC;
 		let maxSlippageBps = 0;
 
@@ -511,14 +512,12 @@ export const BridgeForm = observer(({ classes, tabValue, setTabValue }: any) => 
 		const ibBTCFlag = token === 'ibBTC';
 		let poolId = undefined;
 		if (token === 'ibBTC') {
-			const [id, , optToken] = await calcMintOrRedeemPath(amountSats, true);
-			if (optToken !== undefined && id !== undefined) {
-				desiredToken = optToken;
-				poolId = parseInt(id);
-			}
+			poolId = 0;
 		}
 
-		const contractParams: EthArgs = [
+		const isOldLogic = await findLogicAddress();
+
+		let contractParams: EthArgs = [
 			{
 				name: '_token',
 				type: 'address',
@@ -546,6 +545,34 @@ export const BridgeForm = observer(({ classes, tabValue, setTabValue }: any) => 
 				value: ibBTCFlag,
 			},
 		];
+
+		if (isOldLogic) {
+			contractParams = [
+				{
+					name: '_token',
+					type: 'address',
+					value: desiredToken,
+				},
+				{
+					name: '_slippage',
+					type: 'uint256',
+					value: maxSlippageBps,
+				},
+				{
+					name: '_user',
+					type: 'address',
+					value: onboard.address,
+				},
+				{
+					name: '_vault',
+					type: 'address',
+					// Will check in SC if address is addres(0), if not, will deposit to the desired vault
+					value: vaultAddress(poolId),
+				},
+			];
+		}
+
+		console.log(contractParams);
 
 		const params: RenVMParams = {
 			asset: 'BTC',
@@ -580,14 +607,12 @@ export const BridgeForm = observer(({ classes, tabValue, setTabValue }: any) => 
 		const ibBTCFlag = token === 'ibBTC';
 		let poolId = undefined;
 		if (token === 'ibBTC') {
-			const [id, , optToken] = await calcMintOrRedeemPath(amountOut, false);
-			if (optToken !== undefined && id !== undefined) {
-				burnToken = optToken;
-				poolId = parseInt(id);
-			}
+			poolId = 0;
 		}
 
-		const params: EthArgs = [
+		const isOldLogic = await findLogicAddress();
+
+		let params: EthArgs = [
 			{
 				name: '_token',
 				type: 'address',
@@ -622,6 +647,38 @@ export const BridgeForm = observer(({ classes, tabValue, setTabValue }: any) => 
 		];
 
 		const tokenParam = vaults.getToken(tokenAddress());
+		if (isOldLogic) {
+			params = [
+				{
+					name: '_token',
+					type: 'address',
+					value: burnToken,
+				},
+				{
+					name: '_vault',
+					type: 'address',
+					// Will check in SC if address is addres(0), if not, will deposit to the desired vault
+					value: vaultAddress(poolId),
+				},
+				{
+					name: '_slippage',
+					type: 'uint256',
+					value: maxSlippageBps,
+				},
+				{
+					name: '_to',
+					type: 'bytes',
+					value: '0x' + Buffer.from(btcAddr).toString('hex'),
+				},
+				{
+					name: '_amount',
+					type: 'uint256',
+					value: amountOut.toString(),
+				},
+			];
+		}
+
+		const tokenParam = setts.getToken(tokenAddress());
 
 		const allowance = await getAllowance(tokenParam, bridge_system.adapter);
 
@@ -701,7 +758,7 @@ export const BridgeForm = observer(({ classes, tabValue, setTabValue }: any) => 
 			if (name === 'burnAmount') {
 				mintBool = false;
 			}
-			const [, amount] = await calcMintOrRedeemPath(bigInputAmount, mintBool);
+			const amount = await calcMintOrRedeemPath(bigInputAmount, mintBool);
 			if (amount !== undefined) {
 				amountWithFee = Number(amount);
 			}
@@ -848,9 +905,9 @@ export const BridgeForm = observer(({ classes, tabValue, setTabValue }: any) => 
 							</span>
 						</MenuItem>
 
-						<MenuItem value={'ibBTC'}>
+						<MenuItem value={'ibBTC'} disabled={true}>
 							<span className={classes.menuItem}>
-								<img src={crvBTCLogo} className={classes.logo} />
+								<img src={crvrenBTCLogo} className={classes.logo} />
 								<span>ibBTC</span>
 							</span>
 						</MenuItem>
@@ -910,9 +967,9 @@ export const BridgeForm = observer(({ classes, tabValue, setTabValue }: any) => 
 							</span>
 						</MenuItem>
 
-						<MenuItem value={'ibBTC'}>
+						<MenuItem value={'ibBTC'} disabled={true}>
 							<span className={classes.menuItem}>
-								<img src={crvBTCLogo} className={classes.logo} />
+								<img src={crvrenBTCLogo} className={classes.logo} />
 								<span>ibBTC</span>
 							</span>
 						</MenuItem>

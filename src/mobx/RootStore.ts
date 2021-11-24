@@ -107,7 +107,7 @@ export class RootStore {
 		}
 
 		if (this.onboard.isActive() && network === NETWORK_IDS.ETH) {
-			this.bridge.updateContracts();
+			this.bridge.reload();
 		}
 
 		await Promise.all(refreshData);
