@@ -39,8 +39,8 @@ const useStyles = makeStyles((theme: Theme) =>
 		},
 		closeButton: {
 			position: 'absolute',
-			right: 8,
-			top: 8,
+			right: 24,
+			top: 24,
 		},
 		claimRow: {
 			marginBottom: theme.spacing(2),
@@ -55,7 +55,7 @@ const useStyles = makeStyles((theme: Theme) =>
 			},
 		},
 		moreRewardsInformation: {
-			width: '90%',
+			width: '75%',
 			margin: 'auto',
 			backgroundColor: '#181818',
 			borderRadius: 8,
@@ -63,9 +63,6 @@ const useStyles = makeStyles((theme: Theme) =>
 			[theme.breakpoints.down('sm')]: {
 				width: '100%',
 				padding: theme.spacing(3),
-			},
-			[theme.breakpoints.down('xs')]: {
-				padding: theme.spacing(2),
 			},
 		},
 		moreRewardsDescription: {
@@ -108,6 +105,23 @@ const useStyles = makeStyles((theme: Theme) =>
 		loadingRewardsButton: {
 			minWidth: 37,
 			width: 37,
+		},
+		noRewardsDialog: {
+			maxWidth: 672,
+		},
+		noRewardsContent: {
+			[theme.breakpoints.up('xs')]: {
+				marginTop: theme.spacing(2),
+			},
+		},
+		noRewardsIcon: {
+			marginRight: theme.spacing(1),
+		},
+		noRewardsExplanation: {
+			marginTop: theme.spacing(6),
+			[theme.breakpoints.down('xs')]: {
+				marginTop: theme.spacing(2),
+			},
 		},
 	}),
 );
@@ -188,14 +202,67 @@ export const RewardsWidget = observer((): JSX.Element | null => {
 		);
 	}
 
+	const userGuideTokens = (
+		<>
+			<Grid item className={classes.userGuideToken}>
+				{/*TODO: add link to view vaults when they're available*/}
+				<Typography variant="body2" color="textSecondary">
+					BADGERDAO TOKENS:
+				</Typography>
+				<Typography variant="body1">Badger, Bbadger, Digg, Bdigg</Typography>
+				<Box display="flex" alignItems="center">
+					<ArrowRightAltIcon color="primary" />
+					<Link className={classes.cursorPointer}>View Vaults</Link>
+				</Box>
+			</Grid>
+			<Grid item className={classes.userGuideToken}>
+				<Typography variant="body2" color="textSecondary">
+					NON NATIVE TOKENS:
+				</Typography>
+				<Typography variant="body1">bBTC, renBTC, oBTC...</Typography>
+				<Box display="flex" alignItems="center">
+					<ArrowRightAltIcon color="primary" />
+					<Link className={classes.cursorPointer}>View Vaults</Link>
+				</Box>
+			</Grid>
+			<Grid item className={classes.userGuideToken}>
+				<Typography variant="body2" color="textSecondary">
+					INDEPENDENT TOKENS:
+				</Typography>
+				<Typography variant="body1">CVX, bveCVX...</Typography>
+				<Box display="flex" alignItems="center">
+					<ArrowRightAltIcon color="primary" />
+					<Link className={classes.cursorPointer}>View Vaults</Link>
+				</Box>
+			</Grid>
+		</>
+	);
+
+	const rewardsExplanation = (
+		<>
+			<Grid item>
+				<Typography>Receive maximum rewards when: </Typography>
+			</Grid>
+			<Grid item>
+				<ul className={classes.rewardsOptions}>
+					<li>
+						<Typography variant="body2">Staking 50% non native tokens</Typography>
+					</li>
+					<li>
+						<Typography variant="body2">Holding and/or Staking 50% BadgerDAO tokens</Typography>
+					</li>
+				</ul>
+			</Grid>
+		</>
+	);
+
 	return (
 		<>
 			<Button
-				classes={{ outlined: hasRewards ? classes.rewardsButton : undefined }}
+				classes={{ outlined: classes.rewardsButton }}
 				className={clsx(classes.rewards, classes.button)}
 				variant="outlined"
 				onClick={() => setOpen(true)}
-				disabled={!hasRewards}
 			>
 				<img className={classes.rewardsIcon} src="/assets/icons/rewards-spark.svg" alt="rewards icon" />
 				<CurrencyDisplay
@@ -207,17 +274,63 @@ export const RewardsWidget = observer((): JSX.Element | null => {
 			<Dialog
 				fullWidth
 				maxWidth="sm"
+				aria-describedby="Claim your rewards"
+				aria-labelledby="claim-modal"
+				classes={{ paperWidthSm: classes.noRewardsDialog }}
+				open={open && !hasRewards}
+				onClose={() => setOpen(false)}
+			>
+				<DialogTitle className={classes.title}>
+					My Claimable Rewards
+					<IconButton
+						aria-label="go back to rewards"
+						className={classes.closeButton}
+						onClick={() => setOpen(false)}
+					>
+						<CloseIcon />
+					</IconButton>
+				</DialogTitle>
+				<DialogContent className={classes.content}>
+					<Grid container className={classes.noRewardsContent} spacing={2}>
+						<Grid item container direction="column" xs={12} sm={6}>
+							<Grid item>
+								<Box display="flex" alignItems="center">
+									<img className={classes.noRewardsIcon} src="/assets/icons/no-rewards-icon.svg" />
+									<CurrencyDisplay
+										variant="body1"
+										justify="flex-start"
+										displayValue={inCurrency(new BigNumber(0), currency)}
+									/>
+								</Box>
+							</Grid>
+							<Grid item className={classes.noRewardsExplanation}>
+								{rewardsExplanation}
+							</Grid>
+						</Grid>
+						<Grid item xs={12} sm={6}>
+							{userGuideTokens}
+						</Grid>
+					</Grid>
+				</DialogContent>
+			</Dialog>
+			<Dialog
+				fullWidth
+				maxWidth="sm"
 				aria-labelledby="claim-modal"
 				aria-describedby="Claim your rewards"
 				classes={{ paperWidthSm: classes.dialog }}
-				open={open}
+				open={open && hasRewards}
 				onClose={() => setOpen(false)}
 			>
 				<DialogTitle className={classes.title}>
 					{guideMode ? (
 						<>
 							<Box display="flex" alignItems="center">
-								<IconButton className={classes.arrowBack} onClick={() => setGuideMode(false)}>
+								<IconButton
+									aria-label="exit guide mode"
+									className={classes.arrowBack}
+									onClick={() => setGuideMode(false)}
+								>
 									<ArrowBackIosOutlined />
 								</IconButton>
 								Rewards User Guide
@@ -236,54 +349,10 @@ export const RewardsWidget = observer((): JSX.Element | null => {
 					{guideMode ? (
 						<Grid container>
 							<Grid item container direction="column" xs={12} sm={4} className={classes.userGuideTokens}>
-								<Grid item className={classes.userGuideToken}>
-									{/*TODO: add link to view vaults when they're available*/}
-									<Typography variant="body2" color="textSecondary">
-										BADGERDAO TOKENS:
-									</Typography>
-									<Typography variant="body1">Badger, Bbadger, Digg, Bdigg</Typography>
-									<Box display="flex" alignItems="center">
-										<ArrowRightAltIcon color="primary" />
-										<Link className={classes.cursorPointer}>View Vaults</Link>
-									</Box>
-								</Grid>
-								<Grid item className={classes.userGuideToken}>
-									<Typography variant="body2" color="textSecondary">
-										NON NATIVE TOKENS:
-									</Typography>
-									<Typography variant="body1">bBTC, renBTC, oBTC...</Typography>
-									<Box display="flex" alignItems="center">
-										<ArrowRightAltIcon color="primary" />
-										<Link className={classes.cursorPointer}>View Vaults</Link>
-									</Box>
-								</Grid>
-								<Grid item className={classes.userGuideToken}>
-									<Typography variant="body2" color="textSecondary">
-										INDEPENDENT TOKENS:
-									</Typography>
-									<Typography variant="body1">CVX, bveCVX...</Typography>
-									<Box display="flex" alignItems="center">
-										<ArrowRightAltIcon color="primary" />
-										<Link className={classes.cursorPointer}>View Vaults</Link>
-									</Box>
-								</Grid>
+								{userGuideTokens}
 							</Grid>
 							<Grid item xs={12} sm container direction="column">
-								<Grid item>
-									<Typography>Receive maximum rewards when: </Typography>
-								</Grid>
-								<Grid item>
-									<ul className={classes.rewardsOptions}>
-										<li>
-											<Typography variant="body2">Staking 50% non native tokens</Typography>
-										</li>
-										<li>
-											<Typography variant="body2">
-												Holding and/or Staking 50% BadgerDAO tokens
-											</Typography>
-										</li>
-									</ul>
-								</Grid>
+								{rewardsExplanation}
 							</Grid>
 						</Grid>
 					) : (
