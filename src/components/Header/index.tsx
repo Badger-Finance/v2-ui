@@ -15,6 +15,7 @@ import { RewardsWidget } from '../../components-v2/landing/RewardsWidget';
 import DelegationWidget from '../../components-v2/common/DelegationWidget';
 import NetworkGasWidget from '../../components-v2/common/NetworkGasWidget';
 import { MoreHoriz } from '@material-ui/icons';
+import clsx from 'clsx';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -46,6 +47,22 @@ const useStyles = makeStyles((theme) => ({
 	badgerLogo: {
 		width: 44,
 		height: 44,
+		[theme.breakpoints.down('md')]: {
+			width: 30,
+			height: 30,
+		},
+	},
+	offlineExtraSpacing: {
+		marginLeft: theme.spacing(10),
+	},
+	// this is a better alternative for spacing than using spacing={1} because we only need left spacing for these elements.
+	// the former version adds right spacing too, which was making the last element not aligned to the body content
+	headerRightSide: {
+		marginTop: theme.spacing(-1),
+		'& > div': {
+			marginLeft: theme.spacing(1),
+			marginTop: theme.spacing(1),
+		},
 	},
 }));
 
@@ -96,21 +113,29 @@ const Header = observer(() => {
 			<LayoutContainer>
 				<Grid container>
 					<Grid container className={classes.container}>
-						<Grid item xs={3} md={8} container alignItems="center" className={classes.amounts}>
+						<Grid
+							item
+							xs={3}
+							md={7}
+							container
+							alignItems="center"
+							justify={onboard.isActive() ? 'space-between' : 'flex-start'}
+							className={classes.amounts}
+						>
 							{isMobile ? (
 								<div onClick={() => window.open('https://badger.com/', '_blank')}>
 									<img
 										className={classes.badgerLogo}
 										alt="Badger Logo"
-										src={'/assets/icons/badger.png'}
+										src={'/assets/icons/badger_head.svg'}
 									/>
 								</div>
 							) : (
 								<>
 									{onboard.isActive() && (
-										<Grid item xs={12} sm={6} md={4}>
+										<Grid item>
 											<Typography variant="body2" display="inline">
-												My assets:{' '}
+												My Assets:{' '}
 											</Typography>
 											{portfolioValue ? (
 												<CurrencyDisplay
@@ -123,7 +148,7 @@ const Header = observer(() => {
 											)}
 										</Grid>
 									)}
-									<Grid item xs={12} sm={6} md={onboard.isActive() ? 4 : 6}>
+									<Grid item>
 										<Typography variant="body2" display="inline">
 											{`${chainName} TVL: `}
 										</Typography>
@@ -137,7 +162,7 @@ const Header = observer(() => {
 											valuePlaceholder
 										)}
 									</Grid>
-									<Grid item xs={12} sm={6} md={onboard.isActive() ? 4 : 6}>
+									<Grid item className={clsx(!onboard.isActive() && classes.offlineExtraSpacing)}>
 										<Typography variant="body2" display="inline">
 											{'Badger Price: '}
 										</Typography>
@@ -154,7 +179,15 @@ const Header = observer(() => {
 								</>
 							)}
 						</Grid>
-						<Grid item container xs={9} md={4} alignItems="center" justify="flex-end" spacing={1}>
+						<Grid
+							item
+							container
+							xs={9}
+							md={5}
+							alignItems="center"
+							justify="flex-end"
+							className={classes.headerRightSide}
+						>
 							{onboard.isActive() && (
 								<Grid item>
 									<RewardsWidget />
