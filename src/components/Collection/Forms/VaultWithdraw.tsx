@@ -17,6 +17,7 @@ import {
 	PercentagesContainer,
 	TextSkeleton,
 } from './Common';
+import { ContractNamespace } from '../../../web3/config/contract-namespace';
 
 export const VaultWithdraw = observer((props: SettModalProps) => {
 	const store = useContext(StoreContext);
@@ -27,15 +28,12 @@ export const VaultWithdraw = observer((props: SettModalProps) => {
 	const {
 		wallet: { connectedAddress },
 		network: { network },
-		user: { settBalances },
+		user,
 		contracts,
 		setts,
 	} = store;
 
-	const userBalance = settBalances[badgerSett.vaultToken.address];
-	if (!userBalance) {
-		return null;
-	}
+	const userBalance = user.getBalance(ContractNamespace.Sett, badgerSett);
 	const vaultSymbol = setts.getToken(badgerSett.vaultToken.address)?.symbol || sett.asset;
 
 	const underlying = userBalance.tokenBalance.multipliedBy(sett.pricePerFullShare);
