@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
 	closeButton: {
 		position: 'absolute',
 		right: 8,
-		top: 8,
+		top: 16,
 	},
 	selectedOption: {
 		border: `2px solid ${theme.palette.primary.main}`,

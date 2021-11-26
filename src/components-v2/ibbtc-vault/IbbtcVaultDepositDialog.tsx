@@ -59,8 +59,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 	closeButton: {
 		position: 'absolute',
-		right: 8,
-		top: 8,
+		right: 16,
+		top: 24,
 	},
 	inputRow: {
 		marginTop: theme.spacing(1.5),
