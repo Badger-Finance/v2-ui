@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
 		background: '#181818',
 	},
 	container: {
-		padding: '20px 0',
+		padding: '10px 0',
 	},
 	button: {
 		height: 36,
