@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import {
 	Button,
 	Checkbox,
@@ -17,21 +17,12 @@ import { StoreContext } from '../../mobx/store-context';
 import clsx from 'clsx';
 import { Currency } from '../../config/enums/currency.enum';
 
-const useDialogStyles = (connectedAddress: boolean) => {
-	const mobileBreakpoint = connectedAddress ? 480 : 370;
-	const notificationAddedSpace = document.getElementById('app-notification')?.clientHeight ?? 0;
-
-	return makeStyles((theme) => ({
+const useDialogStyles = (offsetHeight = 0) => {
+	return makeStyles(() => ({
 		dialog: {
 			position: 'absolute',
-			top: 140 + notificationAddedSpace,
 			right: '2%',
-			[theme.breakpoints.down(700)]: {
-				top: 150 + notificationAddedSpace,
-			},
-			[theme.breakpoints.down(mobileBreakpoint)]: {
-				top: (connectedAddress ? 180 : 160) + notificationAddedSpace,
-			},
+			top: offsetHeight,
 		},
 	}));
 };
@@ -71,12 +62,14 @@ const useStyles = makeStyles((theme) => ({
 
 const SettListFiltersWidget = (): JSX.Element => {
 	const { uiState, onboard, network } = useContext(StoreContext);
+	const widgetButton = useRef<HTMLButtonElement | null>(null);
 	const [selectedCurrency, setSelectedCurrency] = useState(uiState.currency);
 	const [selectedPortfolioView, setSelectedPortfolioView] = useState(uiState.showUserBalances);
+	const [widgetButtonOffset, setWidgetButtonOffset] = useState(widgetButton.current?.offsetTop ?? 0);
 	const [isDialogOpen, setIsDialogOpen] = useState(false);
-	const classes = useStyles();
-	const dialogClasses = useDialogStyles(onboard.isActive())();
 
+	const classes = useStyles();
+	const dialogClasses = useDialogStyles(widgetButtonOffset)();
 	const currencyOptions = [Currency.USD, Currency.CAD, Currency.BTC, network.network.currency];
 
 	const toggleDialog = () => setIsDialogOpen(!isDialogOpen);
@@ -88,12 +81,22 @@ const SettListFiltersWidget = (): JSX.Element => {
 	};
 
 	useEffect(() => {
+		setWidgetButtonOffset(widgetButton.current?.offsetTop ?? 0);
+	}, [widgetButton]);
+
+	useEffect(() => {
 		setSelectedCurrency(uiState.currency);
 	}, [uiState.currency]);
 
+	useLayoutEffect(() => {
+		const updateOffset = () => setWidgetButtonOffset(widgetButton.current?.offsetTop ?? 0);
+		window.addEventListener('resize', updateOffset);
+		return () => window.removeEventListener('resize', updateOffset);
+	}, []);
+
 	return (
 		<>
-			<IconButton onClick={toggleDialog}>
+			<IconButton onClick={toggleDialog} ref={widgetButton}>
 				<img src="assets/icons/sett-list-filters.svg" alt="sett list filters" />
 			</IconButton>
 			<Dialog
@@ -101,6 +104,7 @@ const SettListFiltersWidget = (): JSX.Element => {
 				fullWidth
 				maxWidth="sm"
 				classes={{ paper: dialogClasses.dialog, paperWidthSm: classes.paperSm }}
+				onClose={toggleDialog}
 			>
 				<DialogTitle className={classes.title}>
 					Filters
