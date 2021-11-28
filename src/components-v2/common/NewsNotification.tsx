@@ -13,6 +13,9 @@ const useStyles = makeStyles((theme) => ({
 		alignItems: 'center',
 		justifyContent: 'center',
 		padding: '16px 27px',
+		[theme.breakpoints.down('sm')]: {
+			padding: '12px 16px',
+		}
 	},
 	announcement: {
 		display: 'flex',
@@ -27,10 +30,23 @@ const useStyles = makeStyles((theme) => ({
 		textDecoration: 'none',
 		fontWeight: 'bold',
 		padding: '0px 12px',
+		[theme.breakpoints.down('sm')]: {
+			padding: '4px 0px 0px 0px',
+		}
 	},
 	closeButton: {
 		padding: 0,
 		fontSize: 14,
+		[theme.breakpoints.down('sm')]: {
+			margin: theme.spacing(1),
+		}
+	},
+	content: {
+		[theme.breakpoints.up('sm')]: {
+			display: 'flex',
+			flexGrow: 1,
+			flexDirection: 'column',
+		}
 	},
 }));
 
@@ -44,12 +60,14 @@ const NewsNotification = (): JSX.Element | null => {
 
 	return (
 		<div className={classes.root}>
-			<Typography className={classes.announcement} variant="body2">
-				{APP_NEWS_MESSAGE}
-			</Typography>
-			<a href={APP_NEWS_URL} rel="noreferrer" target="_blank" className={classes.link}>
-				Learn More
-			</a>
+			<div className={classes.content}>
+				<Typography className={classes.announcement} variant="body2">
+					{APP_NEWS_MESSAGE}
+				</Typography>
+				<a href={APP_NEWS_URL} rel="noreferrer" target="_blank" className={classes.link}>
+					Learn More
+				</a>
+			</div>
 			<IconButton className={classes.closeButton} onClick={() => uiState.closeNotification()}>
 				<CloseIcon />
 			</IconButton>
