@@ -99,3 +99,27 @@ export const baseRetryOptions = {
 export const defaultRetryOptions: PartialAttemptOptions<void> = baseRetryOptions;
 export const getDefaultRetryOptions = <T>(): PartialAttemptOptions<T> => baseRetryOptions;
 export const ESTIMATED_REWARDS_FREQUENCY = process.env.REACT_APP_REWARDS_FREQUENCY || 2; // in hours
+
+// App Notification Constants
+
+// https://stackoverflow.com/questions/7616461/generate-a-hash-from-string-in-javascript
+function stringHash(input?: string): string | undefined {
+	if (!input) {
+		return;
+	}
+	let hash = 0,
+		i,
+		chr;
+	if (input.length === 0) return hash.toString();
+	for (i = 0; i < input.length; i++) {
+		chr = input.charCodeAt(i);
+		hash = (hash << 5) - hash + chr;
+		hash |= 0; // Convert to 32bit integer
+	}
+	return hash.toString();
+}
+
+// Message should be defined or explicitly undefined.
+export const APP_NEWS_MESSAGE = 'ibBTC is well on its way to becoming the flagship tokenized Bitcoin in DeFi';
+export const APP_NEWS_URL = 'https://badger.com/news/bootstrapping-ibbtc';
+export const APP_NEWS_STORAGE_HASH = stringHash(APP_NEWS_MESSAGE);

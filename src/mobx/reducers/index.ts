@@ -1,7 +1,7 @@
 import { extendObservable, action } from 'mobx';
 import { RootStore } from '../RootStore';
 import { Currency } from 'config/enums/currency.enum';
-import { DEFAULT_CURRENCY } from 'config/constants';
+import { APP_NEWS_MESSAGE, APP_NEWS_STORAGE_HASH, DEFAULT_CURRENCY } from 'config/constants';
 import { GasSpeed } from '@badger-dao/sdk';
 
 const SHOW_USER_BALANCE_KEY = 'showUserBalance';
@@ -43,12 +43,11 @@ class UiState {
 	}
 
 	get notificationClosingThreshold(): number {
-		const { network } = this.store.network;
-		return Number(window.localStorage.getItem(`${network.name}-closing-threshold`)) || 0;
+		return APP_NEWS_STORAGE_HASH ? Number(window.localStorage.getItem(APP_NEWS_STORAGE_HASH)) : 0;
 	}
 
 	get shouldShowNotification(): boolean {
-		if (this.notificationClosingThreshold > 3) {
+		if (!APP_NEWS_MESSAGE || this.notificationClosingThreshold > 3) {
 			return false;
 		}
 
@@ -65,9 +64,10 @@ class UiState {
 	}
 
 	closeNotification = action(() => {
-		const { network } = this.store.network;
-		window.localStorage.setItem(`${network.name}-closing-threshold`, String(this.notificationClosingThreshold + 1));
-		this.showNotification = false;
+		if (APP_NEWS_STORAGE_HASH) {
+			window.localStorage.setItem(APP_NEWS_STORAGE_HASH, String(this.notificationClosingThreshold + 1));
+			this.showNotification = false;
+		}
 	});
 
 	queueNotification = action((message: string, variant: string, hash?: string) => {
