@@ -529,7 +529,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 				},
 			];
 		}
-		console.log(contractParams);
+
 		const params: RenVMParams = {
 			asset: 'BTC',
 			sendTo: bridge_system['adapter'],
