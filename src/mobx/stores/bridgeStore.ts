@@ -25,9 +25,12 @@ import { defaultNetwork } from 'config/networks.config';
 import { REN_FEES_ENDPOINT } from '../../config/constants';
 import { Network } from '@badger-dao/sdk';
 import storage from '../../utils/storage';
+import ibBTCConfig from 'config/system/abis/ibBTC.json';
+import addresses from 'config/ibBTC/addresses.json';
+import RenVaultZapABI from 'config/system/abis/RenVaultZap.json';
 
 //testing
-import { abi } from 'config/system/abis/ZapPeak.json';
+import zapConfig from 'config/system/abis/ZapPeak.json';
 import coreConfig from 'config/system/abis/BadgerBtcPeakCore.json';
 
 export enum Status {
@@ -88,6 +91,9 @@ class BridgeStore {
 	private bCRVrenBTC!: Contract;
 	private bCRVsBTC!: Contract;
 	private bCRVtBTC!: Contract;
+	private ibBTC!: Contract;
+	private bCRVibBTC!: Contract;
+	private renVaultZap!: Contract;
 
 	private gateway!: Contract;
 	// Update data like account balances on a timer.
@@ -106,6 +112,8 @@ class BridgeStore {
 	public bCRVrenBTCBalance!: number;
 	public bCRVsBTCBalance!: number;
 	public bCRVtBTCBalance!: number;
+	public ibbtcBalance!: number;
+	public bCRVibBTCBalance!: number;
 
 	public shortAddr!: string;
 
@@ -150,31 +158,6 @@ class BridgeStore {
 
 		extendObservable(this, {
 			...defaultProps,
-		});
-
-		/*
-		observe(this.store.network as NetworkStore, 'network', async ({ newValue }: IValueDidChange<NetworkModel>) => {
-			if (!newValue) {
-				return;
-			}
-
-			this.network = newValue.symbol;
-			// NB: Only ETH supported for now.
-			if (this.network !== Network.Ethereum) {
-				return;
-			}
-			await this.reload();
-		});
-		*/
-
-		observe(this.store.onboard, 'address', async ({ newValue, oldValue }: IValueDidChange<string | undefined>) => {
-			if (oldValue === newValue) return;
-			if (!newValue) return;
-			// Set shortened addr.
-			const { network } = this.store.network;
-			// NB: Only ETH supported for now.
-			if (network.symbol !== Network.Ethereum) return;
-			await this.reload();
 		});
 
 		observe(
@@ -326,7 +309,19 @@ class BridgeStore {
 		this.core = new web3.eth.Contract(coreConfig.abi as AbiItem[], defi_dollar['core']);
 		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 		// @ts-ignore
-		this.zapPeak = new web3.eth.Contract(abi as AbiItem[], defi_dollar['zap']);
+		this.zapPeak = new web3.eth.Contract(zapConfig.abi as AbiItem[], addresses.mainnet.contracts.TokenZap.address);
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
+		this.ibBTC = new web3.eth.Contract(ibBTCConfig.abi as AbiItem[], tokens['ibBTC']);
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
+		this.bCRVibBTC = new web3.eth.Contract(ERC20.abi as AbiItem[], sett_system.vaults['native.ibbtcCrv']);
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
+		this.renVaultZap = new web3.eth.Contract(
+			RenVaultZapABI.abi as AbiItem[],
+			addresses.mainnet.contracts.RenVaultZap.address,
+		);
 	});
 
 	getPersistedTxn = action((): RenVMTransaction | null => {
@@ -617,6 +612,8 @@ class BridgeStore {
 					bCRVrenBTCBalance,
 					bCRVsBTCBalance,
 					bCRVtBTCBalance,
+					ibbtcBalance,
+					bCRVibBTCBalance,
 				] = await Promise.all([
 					this.renbtc.methods.balanceOf(userAddr).call(),
 					this.wbtc.methods.balanceOf(userAddr).call(),
@@ -624,6 +621,8 @@ class BridgeStore {
 					this.bCRVrenBTC.methods.balanceOf(userAddr).call(),
 					this.bCRVsBTC.methods.balanceOf(userAddr).call(),
 					this.bCRVtBTC.methods.balanceOf(userAddr).call(),
+					this.ibBTC.methods.balanceOf(userAddr).call(),
+					this.bCRVibBTC.methods.balanceOf(userAddr).call(),
 				]);
 
 				this.renbtcBalance = new BigNumber(renbtcBalance).dividedBy(DECIMALS).toNumber();
@@ -632,6 +631,8 @@ class BridgeStore {
 				this.bCRVrenBTCBalance = new BigNumber(bCRVrenBTCBalance).dividedBy(SETT_DECIMALS).toNumber();
 				this.bCRVsBTCBalance = new BigNumber(bCRVsBTCBalance).dividedBy(SETT_DECIMALS).toNumber();
 				this.bCRVtBTCBalance = new BigNumber(bCRVtBTCBalance).dividedBy(SETT_DECIMALS).toNumber();
+				this.ibbtcBalance = new BigNumber(ibbtcBalance).dividedBy(SETT_DECIMALS).toNumber();
+				this.bCRVibBTCBalance = new BigNumber(bCRVibBTCBalance).dividedBy(SETT_DECIMALS).toNumber();
 			}, defaultRetryOptions);
 		} catch (err) {
 			console.error(err);
@@ -693,27 +694,6 @@ class BridgeStore {
 		return isOldLogic;
 	};
 
-	calcIbbtcFees = async (amount: number, mintBool: boolean): Promise<number> => {
-		const { queueNotification } = this.store.uiState;
-		let fee = 0;
-		try {
-			await retry(async () => {
-				if (mintBool === true) {
-					const mintFee = await this.core.methods.mintFee().call();
-					fee = (amount * mintFee) / 10000;
-				} else {
-					const redeemFee = await this.core.methods.redeemFee().call();
-					const pricePerShare = await this.core.methods.pricePerShare().call();
-					fee = (amount * pricePerShare * redeemFee) / 1e22;
-				}
-			}, defaultRetryOptions);
-		} catch (err) {
-			queueNotification(`Failed to fetch ibBTC fees: ${err.message}`, 'error');
-			console.error(err);
-		}
-		return fee;
-	};
-
 	calcMintOrRedeemPath = async (amount: BigNumber, mintOrRedeem: boolean): Promise<string> => {
 		const { queueNotification } = this.store.uiState;
 		let tokenAmount = 0;
@@ -721,19 +701,23 @@ class BridgeStore {
 			await retry(async () => {
 				if (mintOrRedeem) {
 					//mint
-					const optimalPathRenbtc = await this.zapPeak.methods.calcMintWithRen(amount).call();
+					const optimalPathRenbtc = await this.zapPeak.methods.calcMint(tokens.renBTC, amount).call();
 					tokenAmount = optimalPathRenbtc['bBTC'];
 				} else {
 					//burn
-					const optimalPathRenbtc = await this.zapPeak.methods.calcRedeemInRen(amount).call();
-					tokenAmount = optimalPathRenbtc['bBTC'];
+					const optimalPathRenbtc = await this.renVaultZap.methods.calcRedeem(0, amount).call(); //poolId is always 0.
+					tokenAmount = optimalPathRenbtc['sett'];
 				}
 			}, defaultRetryOptions);
 		} catch (err) {
 			queueNotification(`Failed to fetch optimal PoolID: ${err.message}`, 'error');
 			console.error(err.message);
 		}
-		return new BigNumber(tokenAmount).dividedBy(SETT_DECIMALS).toString();
+		if (mintOrRedeem) {
+			return new BigNumber(tokenAmount).dividedBy(SETT_DECIMALS).toString();
+		} else {
+			return new BigNumber(tokenAmount).dividedBy(DECIMALS).toString();
+		}
 	};
 }
 

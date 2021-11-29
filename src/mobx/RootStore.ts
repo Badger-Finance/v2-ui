@@ -107,7 +107,9 @@ export class RootStore {
 		}
 
 		if (this.onboard.isActive() && network === NETWORK_IDS.ETH) {
-			this.bridge.reload();
+			//TODO: Remove this logic after ibbtc/zap integration
+			const isOldLogic = await this.bridge.findLogicAddress();
+			this.bridge.updateContracts(isOldLogic);
 		}
 
 		await Promise.all(refreshData);

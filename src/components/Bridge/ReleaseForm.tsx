@@ -38,7 +38,16 @@ export const ReleaseForm = ({
 	const store = useContext(StoreContext);
 	const {
 		onboard,
-		bridge: { renbtcBalance, wbtcBalance, byvwbtcBalance, bCRVrenBTCBalance, bCRVsBTCBalance, bCRVtBTCBalance },
+		bridge: {
+			renbtcBalance,
+			wbtcBalance,
+			ibbtcBalance,
+			byvwbtcBalance,
+			bCRVrenBTCBalance,
+			bCRVsBTCBalance,
+			bCRVtBTCBalance,
+			bCRVibBTCBalance,
+		},
 	} = store;
 
 	const [validAddress, setValidAddress] = useState(false);
@@ -59,6 +68,8 @@ export const ReleaseForm = ({
 				return renbtcBalance;
 			case 'WBTC':
 				return wbtcBalance;
+			case 'ibBTC':
+				return ibbtcBalance;
 			case 'byvWBTC':
 				return byvwbtcBalance;
 			case 'bCRVrenBTC':
@@ -67,6 +78,8 @@ export const ReleaseForm = ({
 				return bCRVsBTCBalance;
 			case 'bCRVtBTC':
 				return bCRVtBTCBalance;
+			case 'bCRVibBTC':
+				return bCRVibBTCBalance;
 			default:
 				return 0;
 		}
