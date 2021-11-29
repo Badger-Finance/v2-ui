@@ -42,7 +42,7 @@ import { bridge_system, tokens, sett_system } from 'config/deployments/mainnet.j
 import { CURVE_EXCHANGE } from 'config/system/abis/CurveExchange';
 import { RenVMTransaction, RenVMParams } from '../../mobx/model/bridge/renVMTransaction';
 import { Network } from '@badger-dao/sdk';
-import { TOKEN_LIST, POOL_IDS } from './constants';
+import { BridgeMintOption, BridgePool } from './constants';
 import { ZERO_ADDR } from 'config/constants';
 
 const DECIMALS = 10 ** 8;
@@ -54,6 +54,7 @@ const crvrenBTCLogo = '/assets/icons/bcrvrenbtc.png';
 const crvsBTCLogo = '/assets/icons/bcrvsbtc.png';
 const crvtBTCLogo = '/assets/icons/bcrvtbtc.png';
 const btcLogo = '/assets/icons/btc.svg';
+const ibbtcLogo = 'assets/icons/ibbtc.png';
 
 const useStyles = makeStyles(() => ({
 	formContainer: {
@@ -227,7 +228,6 @@ const initialStateResettable = {
 	renFee: 0,
 	badgerFee: 0,
 	step: 1,
-	ibbtcFee: 0,
 };
 
 export const BridgeForm = observer(({ classes }: any) => {
@@ -245,7 +245,6 @@ export const BridgeForm = observer(({ classes }: any) => {
 			loading,
 			error,
 			calcMintOrRedeemPath,
-			calcIbbtcFees,
 			findLogicAddress,
 
 			badgerBurnFee,
@@ -261,7 +260,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 	} = store;
 
 	const initialTokenState = {
-		token: TOKEN_LIST.renBTC,
+		token: BridgeMintOption.renBTC,
 	};
 
 	const intialState = {
@@ -284,7 +283,6 @@ export const BridgeForm = observer(({ classes }: any) => {
 		maxSlippage,
 		renFee,
 		badgerFee,
-		ibbtcFee,
 	} = states;
 
 	// TODO: Refactor values to pull directly from mobx store for values in store.
@@ -301,7 +299,6 @@ export const BridgeForm = observer(({ classes }: any) => {
 		maxSlippage,
 		renFee,
 		badgerFee,
-		ibbtcFee,
 	};
 
 	const handleConnect = async () => {
@@ -316,10 +313,11 @@ export const BridgeForm = observer(({ classes }: any) => {
 		}));
 	}, []);
 
+	//Sets default state of mint/mint&earn/release tabs
 	const handleTabChange = (_: unknown, newValue: number) => {
 		setStates((prevState) => ({
 			...prevState,
-			token: newValue !== 1 ? TOKEN_LIST.renBTC : TOKEN_LIST.byvWBTC,
+			token: newValue !== 1 ? BridgeMintOption.renBTC : BridgeMintOption.byvWBTC,
 			tabValue: newValue,
 			receiveAmount: 0,
 			burnAmount: '',
@@ -362,8 +360,11 @@ export const BridgeForm = observer(({ classes }: any) => {
 		}));
 	};
 
-	//not sure if there's a better way to do this than this ugly nested switch statement
-	const vaultAddress = (poolId?: number) => {
+	/*function returns the proper vault depending on the token and potential poolId.
+	 *the vault address is passed as a parameter into the bridge smart contract's mint/burn.
+	 *a returned zero address signifies no vault.
+	 */
+	const vaultAddressLevel1 = (poolId?: number) => {
 		switch (token) {
 			case 'byvWBTC':
 				return sett_system.vaults['yearn.wBtc'];
@@ -373,9 +374,10 @@ export const BridgeForm = observer(({ classes }: any) => {
 				return sett_system.vaults['native.sbtcCrv'];
 			case 'bCRVtBTC':
 				return sett_system.vaults['native.tbtcCrv'];
+			case 'bCRVibBTC':
 			case 'ibBTC':
 				if (poolId !== undefined) {
-					switch (POOL_IDS[poolId]) {
+					switch (BridgePool[poolId]) {
 						case 'renCrv':
 							return sett_system.vaults['native.renCrv'];
 						case 'sbtcCrv':
@@ -387,6 +389,15 @@ export const BridgeForm = observer(({ classes }: any) => {
 					}
 				}
 				return ZERO_ADDR;
+			default:
+				return ZERO_ADDR;
+		}
+	};
+
+	const vaultAddressLevel2 = () => {
+		switch (token) {
+			case 'bCRVibBTC':
+				return sett_system.vaults['native.ibbtcCrv'];
 			default:
 				return ZERO_ADDR;
 		}
@@ -408,6 +419,8 @@ export const BridgeForm = observer(({ classes }: any) => {
 				return sett_system.vaults['native.tbtcCrv'];
 			case 'ibBTC':
 				return tokens.ibBTC;
+			case 'bCRVibBTC':
+				return sett_system.vaults['native.ibbtcCrv'];
 			default:
 				return ZERO_ADDR;
 		}
@@ -418,6 +431,8 @@ export const BridgeForm = observer(({ classes }: any) => {
 			case 'bCRVrenBTC':
 			case 'bCRVsBTC':
 			case 'bCRVtBTC':
+			case 'bCRVibBTC':
+			case 'ibBTC':
 				return SETT_DECIMALS;
 			case 'renBTC':
 			case 'WBTC':
@@ -438,7 +453,6 @@ export const BridgeForm = observer(({ classes }: any) => {
 
 	// TODO: Can refactor most of these methods below into the store as well.
 	const deposit = async () => {
-		//const amountSats = new BigNumber(amount).multipliedBy(10 ** 8); // Convert to Satoshis
 		let desiredToken = tokens.renBTC;
 		let maxSlippageBps = 0;
 
@@ -448,9 +462,9 @@ export const BridgeForm = observer(({ classes }: any) => {
 			desiredToken = tokens.wBTC;
 		}
 
-		const ibBTCFlag = token === 'ibBTC';
+		const ibBTCFlag = token === 'ibBTC' || token === 'bCRVibBTC';
 		let poolId = undefined;
-		if (token === 'ibBTC') {
+		if (ibBTCFlag) {
 			poolId = 0;
 		}
 
@@ -476,7 +490,12 @@ export const BridgeForm = observer(({ classes }: any) => {
 				name: '_vault',
 				type: 'address',
 				// Will check in SC if address is addres(0), if not, will deposit to the desired vault
-				value: vaultAddress(poolId),
+				value: vaultAddressLevel1(poolId),
+			},
+			{
+				name: '_vault2',
+				type: 'address',
+				value: vaultAddressLevel2(),
 			},
 			{
 				name: '_mintIbbtc',
@@ -506,13 +525,11 @@ export const BridgeForm = observer(({ classes }: any) => {
 					name: '_vault',
 					type: 'address',
 					// Will check in SC if address is addres(0), if not, will deposit to the desired vault
-					value: vaultAddress(poolId),
+					value: vaultAddressLevel1(poolId),
 				},
 			];
 		}
-
 		console.log(contractParams);
-
 		const params: RenVMParams = {
 			asset: 'BTC',
 			sendTo: bridge_system['adapter'],
@@ -543,9 +560,9 @@ export const BridgeForm = observer(({ classes }: any) => {
 			maxSlippageBps = Math.round(parseFloat(maxSlippage) * 100);
 		}
 
-		const ibBTCFlag = token === 'ibBTC';
+		const ibBTCFlag = token === 'ibBTC' || token === 'bCRVibBTC';
 		let poolId = undefined;
-		if (token === 'ibBTC') {
+		if (ibBTCFlag) {
 			poolId = 0;
 		}
 
@@ -561,7 +578,12 @@ export const BridgeForm = observer(({ classes }: any) => {
 				name: '_vault',
 				type: 'address',
 				// Will check in SC if address is addres(0), if not, will deposit to the desired vault
-				value: vaultAddress(poolId),
+				value: vaultAddressLevel1(poolId),
+			},
+			{
+				name: '_vault2',
+				type: 'address',
+				value: vaultAddressLevel2(),
 			},
 			{
 				name: '_slippage',
@@ -596,7 +618,7 @@ export const BridgeForm = observer(({ classes }: any) => {
 					name: '_vault',
 					type: 'address',
 					// Will check in SC if address is addres(0), if not, will deposit to the desired vault
-					value: vaultAddress(poolId),
+					value: vaultAddressLevel1(poolId),
 				},
 				{
 					name: '_slippage',
@@ -674,7 +696,6 @@ export const BridgeForm = observer(({ classes }: any) => {
 
 	const calcFees = async (inputAmount: number, name: string) => {
 		let estimatedSlippage = 0; // only need to calculate slippage for wbtc mint/burn
-
 		const renFeeAmount = inputAmount * (tabValue <= 1 ? renvmMintFee : renvmBurnFee);
 		const badgerFeeAmount = inputAmount * (tabValue <= 1 ? badgerMintFee : badgerBurnFee);
 		const networkFee = tabValue <= 1 ? lockNetworkFee : releaseNetworkFee;
@@ -685,9 +706,8 @@ export const BridgeForm = observer(({ classes }: any) => {
 			amountWithFee *= 1 - estimatedSlippage;
 		}
 
-		let ibbtcFees = 0;
 		//backspacing in the textbox caused issues without the second part of if statement
-		if (token === 'ibBTC' && inputAmount.toString() !== '') {
+		if ((token === 'ibBTC' || token === 'bCRVibBTC') && inputAmount.toString() !== '') {
 			const bigInputAmount = new BigNumber(inputAmount * 1e8);
 			let mintBool = true;
 			if (name === 'burnAmount') {
@@ -696,9 +716,8 @@ export const BridgeForm = observer(({ classes }: any) => {
 			const amount = await calcMintOrRedeemPath(bigInputAmount, mintBool);
 			if (amount !== undefined) {
 				amountWithFee = Number(amount);
+				amountWithFee -= renFeeAmount;
 			}
-			ibbtcFees = await calcIbbtcFees(inputAmount, mintBool);
-			ibbtcFees = parseFloat(ibbtcFees.toPrecision(6));
 		}
 
 		setStates((prevState) => ({
@@ -707,7 +726,6 @@ export const BridgeForm = observer(({ classes }: any) => {
 			receiveAmount: amountWithFee < 0 ? 0 : amountWithFee,
 			renFee: renFeeAmount,
 			badgerFee: badgerFeeAmount,
-			ibbtcFee: ibbtcFees,
 			estimatedSlippage,
 		}));
 	};
@@ -798,6 +816,13 @@ export const BridgeForm = observer(({ classes }: any) => {
 								<span>WBTC</span>
 							</span>
 						</MenuItem>
+
+						<MenuItem value={'ibBTC'}>
+							<span className={classes.menuItem}>
+								<img src={ibbtcLogo} className={classes.logo} />
+								<span>ibBTC</span>
+							</span>
+						</MenuItem>
 					</Select>
 				)}
 
@@ -840,10 +865,10 @@ export const BridgeForm = observer(({ classes }: any) => {
 							</span>
 						</MenuItem>
 
-						<MenuItem value={'ibBTC'} disabled={true}>
+						<MenuItem value={'bCRVibBTC'}>
 							<span className={classes.menuItem}>
 								<img src={crvrenBTCLogo} className={classes.logo} />
-								<span>ibBTC</span>
+								<span>bCRVibBTC</span>
 							</span>
 						</MenuItem>
 					</Select>
@@ -871,6 +896,13 @@ export const BridgeForm = observer(({ classes }: any) => {
 							<span className={classes.menuItem}>
 								<img src={WBTCLogo} className={classes.logo} />
 								<span>WBTC</span>
+							</span>
+						</MenuItem>
+
+						<MenuItem value={'ibBTC'}>
+							<span className={classes.menuItem}>
+								<img src={ibbtcLogo} className={classes.logo} />
+								<span>ibBTC</span>
 							</span>
 						</MenuItem>
 
@@ -902,10 +934,10 @@ export const BridgeForm = observer(({ classes }: any) => {
 							</span>
 						</MenuItem>
 
-						<MenuItem value={'ibBTC'} disabled={true}>
+						<MenuItem value={'bCRVibBTC'}>
 							<span className={classes.menuItem}>
 								<img src={crvrenBTCLogo} className={classes.logo} />
-								<span>ibBTC</span>
+								<span>bCRVibBTC</span>
 							</span>
 						</MenuItem>
 					</Select>

@@ -95,7 +95,9 @@ export class RootStore {
 		}
 
 		if (this.onboard.isActive() && network === NETWORK_IDS.ETH) {
-			this.bridge.reload();
+			//TODO: Remove this logic after ibbtc/zap integration
+			const isOldLogic = await this.bridge.findLogicAddress();
+			this.bridge.updateContracts(isOldLogic);
 		}
 
 		await Promise.all(refreshData);
@@ -120,6 +122,8 @@ export class RootStore {
 			// handle reloading only when connecting via ibbtc page - lazily init otherwise
 			if (this.router.currentPath === routes.IbBTC.path) {
 				updateActions.push(this.ibBTCStore.init());
+			} else if (this.router.currentPath === routes.bridge.path) {
+				updateActions.push(this.bridge.reload());
 			}
 		}
 		await Promise.all(updateActions);

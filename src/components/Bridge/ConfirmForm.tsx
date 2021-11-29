@@ -10,6 +10,7 @@ const WBTCLogo = '/assets/icons/wbtc.svg';
 const byvWBTCLogo = '/assets/icons/byvwbtc.svg';
 const renBTCLogo = '/assets/icons/renbtc.svg';
 const crvBTCLogo = '/assets/icons/bcrvrenwbtc.png';
+const ibbtcLogo = '/assets/icons/ibbtc.png';
 
 interface ConfirmFormProps {
 	values: any;
@@ -88,6 +89,8 @@ export const ConfirmForm = ({
 				return renBTCLogo;
 			case 'byvWBTC':
 				return byvWBTCLogo;
+			case 'ibBTC':
+				return ibbtcLogo;
 			case 'WBTC':
 				return WBTCLogo;
 			case 'bCRVrenBTC':
@@ -120,15 +123,16 @@ export const ConfirmForm = ({
 				return 600000;
 			case 'ibBTC':
 				return 750000;
+			case 'bCRVibBTC':
+				return 850000;
 			default:
 				return 0;
 		}
 	};
 
 	const isWBTC = ['byvWBTC', 'WBTC'].indexOf(values.token) >= 0;
-	const isIbbtc = ['ibBTC'].indexOf(values.token) >= 0;
 
-	const isVault = ['byvWBTC', 'bCRVrenBTC', 'bCRVsBTC', 'bCRVtBTC'].indexOf(values.token) >= 0;
+	const isVault = ['byvWBTC', 'bCRVrenBTC', 'bCRVsBTC', 'bCRVtBTC', 'bCRVibBTC'].indexOf(values.token) >= 0;
 
 	// M50 - Handle undefined / loading gas prices case
 	let displayGasPrice = null;
@@ -242,12 +246,6 @@ export const ConfirmForm = ({
 						)}
 					</>
 				)}
-				{isIbbtc &&
-					feeContainer(
-						'IbBTC Fee',
-						'This fee is paid to Defi Dollar when minting and redeeming IbBTC. This does not go to the Ren or Badger team.',
-						`${values.ibbtcFee} BTC`,
-					)}
 			</Grid>
 			{values.spacer}
 
