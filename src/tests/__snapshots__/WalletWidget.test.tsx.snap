@@ -3,7 +3,7 @@
 exports[`WalletWidget Connected address is properly displayed 1`] = `
 <div>
   <button
-    class="MuiButtonBase-root-34 MuiButton-root-5 MuiButton-outlined-10 makeStyles-walletButton-4 MuiButton-disableElevation-16"
+    class="MuiButtonBase-root-34 MuiButton-root-5 MuiButton-text-7 makeStyles-walletButton-4 MuiButton-textPrimary-8 MuiButton-disableElevation-16"
     tabindex="0"
     type="button"
   >
@@ -31,7 +31,7 @@ exports[`WalletWidget Displays walletSelect menu upon click 1`] = `
 exports[`WalletWidget Renders correctly 1`] = `
 <div>
   <button
-    class="MuiButtonBase-root-34 MuiButton-root-5 MuiButton-outlined-10 makeStyles-walletButton-4 MuiButton-disableElevation-16"
+    class="MuiButtonBase-root-34 MuiButton-root-5 MuiButton-text-7 makeStyles-walletButton-4 MuiButton-textPrimary-8 MuiButton-disableElevation-16"
     tabindex="0"
     type="button"
   >
