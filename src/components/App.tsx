@@ -7,9 +7,10 @@ import { ONE_MIN_MS } from 'config/constants';
 import { useContext } from 'react';
 import { StoreContext } from 'mobx/store-context';
 import NetworkNotification from 'components-v2/common/NetworkNotification';
-import NewsNotification from '../components-v2/common/NewsNotification';
+import Announcements from '../components-v2/common/Announcements';
 import Sidebar from 'components-v2/sidebar';
 import clsx from 'clsx';
+import { useMediaQuery, useTheme } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
 	rootContainer: {
@@ -45,6 +46,7 @@ const useStyles = makeStyles((theme) => ({
 export const App = (): JSX.Element => {
 	const classes = useStyles();
 	const store = useContext(StoreContext);
+	const isMobile = useMediaQuery(useTheme().breakpoints.down('sm'));
 
 	// network data updating
 	useEffect(() => {
@@ -57,11 +59,12 @@ export const App = (): JSX.Element => {
 	return (
 		<div className={clsx(classes.rootContainer, classes.flexContainer, classes.columnContainer)}>
 			<NetworkNotification />
-			<NewsNotification />
+			{!isMobile && <Announcements />}
 			<div className={clsx(classes.appContainer, classes.flexContainer)}>
 				<Sidebar />
 				<main className={clsx(classes.contentContainer, classes.columnContainer)}>
 					<Header />
+					{isMobile && <Announcements />}
 					<main className={classes.content}>
 						<MobxRouter store={store} />
 					</main>
