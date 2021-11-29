@@ -12,6 +12,7 @@ import BoostLeaderBoard from 'pages/BoostLeaderBoard';
 import { SettDetail } from '../components-v2/sett-detail/SettDetail';
 import { NotFound } from '../components-v2/common/NotFound';
 import { SettState } from '@badger-dao/sdk';
+import { Box, Link, Typography } from '@material-ui/core';
 
 const routes = {
 	home: new Route<RootStore, QueryParams>({
@@ -19,7 +20,21 @@ const routes = {
 		component: (
 			<Landing
 				title="Sett Vaults"
-				subtitle="Powerful Bitcoin strategies. Automatic staking rewards."
+				subtitle={
+					<Box display="flex" alignItems="center">
+						<Typography variant="body2" color="textSecondary">
+							The best Bitcoin rewards in all of Defi. Stake now to earn automatically.{' '}
+							<Link
+								color="primary"
+								target="_blank"
+								href="https://badger.com/new-to-defi"
+								rel="noreferrer"
+							>
+								New to Defi?
+							</Link>
+						</Typography>
+					</Box>
+				}
 				state={SettState.Open}
 			/>
 		),
