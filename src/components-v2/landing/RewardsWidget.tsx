@@ -24,7 +24,7 @@ import CurrencyDisplay from '../common/CurrencyDisplay';
 import CloseIcon from '@material-ui/icons/Close';
 import routes from '../../config/routes';
 import { ArrowBackIosOutlined } from '@material-ui/icons';
-import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
+// import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
@@ -209,31 +209,31 @@ export const RewardsWidget = observer((): JSX.Element | null => {
 				<Typography variant="body2" color="textSecondary">
 					BADGERDAO TOKENS:
 				</Typography>
-				<Typography variant="body1">Badger, Bbadger, Digg, Bdigg</Typography>
-				<Box display="flex" alignItems="center">
-					<ArrowRightAltIcon color="primary" />
-					<Link className={classes.cursorPointer}>View Vaults</Link>
-				</Box>
+				<Typography variant="body1">Badger, bBadger, Digg, bDigg</Typography>
+				{/*<Box display="flex" alignItems="center">*/}
+				{/*	<ArrowRightAltIcon color="primary" />*/}
+				{/*	<Link className={classes.cursorPointer}>View Vaults</Link>*/}
+				{/*</Box>*/}
 			</Grid>
 			<Grid item className={classes.userGuideToken}>
 				<Typography variant="body2" color="textSecondary">
 					NON NATIVE TOKENS:
 				</Typography>
 				<Typography variant="body1">bBTC, renBTC, oBTC...</Typography>
-				<Box display="flex" alignItems="center">
-					<ArrowRightAltIcon color="primary" />
-					<Link className={classes.cursorPointer}>View Vaults</Link>
-				</Box>
+				{/*<Box display="flex" alignItems="center">*/}
+				{/*	<ArrowRightAltIcon color="primary" />*/}
+				{/*	<Link className={classes.cursorPointer}>View Vaults</Link>*/}
+				{/*</Box>*/}
 			</Grid>
 			<Grid item className={classes.userGuideToken}>
 				<Typography variant="body2" color="textSecondary">
 					INDEPENDENT TOKENS:
 				</Typography>
 				<Typography variant="body1">CVX, bveCVX...</Typography>
-				<Box display="flex" alignItems="center">
-					<ArrowRightAltIcon color="primary" />
-					<Link className={classes.cursorPointer}>View Vaults</Link>
-				</Box>
+				{/*<Box display="flex" alignItems="center">*/}
+				{/*	<ArrowRightAltIcon color="primary" />*/}
+				{/*	<Link className={classes.cursorPointer}>View Vaults</Link>*/}
+				{/*</Box>*/}
 			</Grid>
 		</>
 	);
