@@ -1,8 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import {
 	Button,
 	Checkbox,
-	Dialog,
 	DialogContent,
 	DialogTitle,
 	FormControlLabel,
@@ -16,22 +15,14 @@ import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
 import clsx from 'clsx';
 import { Currency } from '../../config/enums/currency.enum';
+import Dialog from './dialogs/Dialog';
 
-const useDialogStyles = (connectedAddress: boolean) => {
-	const mobileBreakpoint = connectedAddress ? 480 : 370;
-	const notificationAddedSpace = document.getElementById('app-notification')?.clientHeight ?? 0;
-
-	return makeStyles((theme) => ({
+const useDialogStyles = (offsetHeight = 0) => {
+	return makeStyles(() => ({
 		dialog: {
 			position: 'absolute',
-			top: 140 + notificationAddedSpace,
 			right: '2%',
-			[theme.breakpoints.down(700)]: {
-				top: 150 + notificationAddedSpace,
-			},
-			[theme.breakpoints.down(mobileBreakpoint)]: {
-				top: (connectedAddress ? 180 : 160) + notificationAddedSpace,
-			},
+			top: offsetHeight,
 		},
 	}));
 };
@@ -49,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
 	closeButton: {
 		position: 'absolute',
 		right: 8,
-		top: 8,
+		top: 16,
 	},
 	selectedOption: {
 		border: `2px solid ${theme.palette.primary.main}`,
@@ -71,12 +62,13 @@ const useStyles = makeStyles((theme) => ({
 
 const SettListFiltersWidget = (): JSX.Element => {
 	const { uiState, onboard, network } = useContext(StoreContext);
+	const widgetButton = useRef<HTMLButtonElement | null>(null);
 	const [selectedCurrency, setSelectedCurrency] = useState(uiState.currency);
 	const [selectedPortfolioView, setSelectedPortfolioView] = useState(uiState.showUserBalances);
 	const [isDialogOpen, setIsDialogOpen] = useState(false);
-	const classes = useStyles();
-	const dialogClasses = useDialogStyles(onboard.isActive())();
 
+	const classes = useStyles();
+	const dialogClasses = useDialogStyles(widgetButton.current?.offsetTop ?? 0)();
 	const currencyOptions = [Currency.USD, Currency.CAD, Currency.BTC, network.network.currency];
 
 	const toggleDialog = () => setIsDialogOpen(!isDialogOpen);
@@ -93,7 +85,7 @@ const SettListFiltersWidget = (): JSX.Element => {
 
 	return (
 		<>
-			<IconButton onClick={toggleDialog}>
+			<IconButton onClick={toggleDialog} ref={widgetButton}>
 				<img src="assets/icons/sett-list-filters.svg" alt="sett list filters" />
 			</IconButton>
 			<Dialog
@@ -101,6 +93,7 @@ const SettListFiltersWidget = (): JSX.Element => {
 				fullWidth
 				maxWidth="sm"
 				classes={{ paper: dialogClasses.dialog, paperWidthSm: classes.paperSm }}
+				onClose={toggleDialog}
 			>
 				<DialogTitle className={classes.title}>
 					Filters

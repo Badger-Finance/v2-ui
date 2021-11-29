@@ -3,7 +3,7 @@ import { Typography, makeStyles } from '@material-ui/core';
 
 export interface PageHeaderProps {
 	title: string;
-	subtitle?: string;
+	subtitle?: string | React.ReactNode;
 }
 
 const useStyles = makeStyles(() => ({

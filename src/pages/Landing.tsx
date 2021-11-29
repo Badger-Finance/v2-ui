@@ -90,7 +90,7 @@ const useStyles = makeStyles((theme) => ({
 
 interface LandingProps {
 	title: string;
-	subtitle?: string;
+	subtitle?: string | React.ReactNode;
 	state: SettState;
 }
 
