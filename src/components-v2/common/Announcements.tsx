@@ -4,11 +4,12 @@ import { IconButton, Typography } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import { StoreContext } from '../../mobx/store-context';
 import { observer } from 'mobx-react-lite';
+import { APP_NEWS_MESSAGE, APP_NEWS_URL } from '../../config/constants';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
+		background: theme.palette.background.paper,
 		width: '100%',
-		background: '#6B6B6B',
 		padding: '15px 0',
 		whiteSpace: 'pre-wrap',
 	},
@@ -22,10 +23,8 @@ const useStyles = makeStyles((theme) => ({
 		padding: 0,
 		fontSize: 14,
 		marginLeft: 12,
-		[theme.breakpoints.down('sm')]: {
-			position: 'absolute',
-			right: theme.spacing(2),
-		},
+		position: 'absolute',
+		right: theme.spacing(2),
 	},
 	content: {
 		display: 'flex',
@@ -52,13 +51,8 @@ const Announcements = (): JSX.Element | null => {
 		<div id="app-notification" className={classes.root}>
 			<div className={classes.content}>
 				<Typography variant="body2">
-					{'Badger Boost Power has been implemented. '}{' '}
-					<a
-						href="https://badger.com/news/single-chain-boost"
-						rel="noreferrer"
-						target="_blank"
-						className={classes.link}
-					>
+					{APP_NEWS_MESSAGE}{' '}
+					<a href={APP_NEWS_URL} rel="noreferrer" target="_blank" className={classes.link}>
 						Learn More
 					</a>
 				</Typography>
