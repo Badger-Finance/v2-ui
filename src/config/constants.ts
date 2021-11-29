@@ -120,6 +120,6 @@ function stringHash(input?: string): string | undefined {
 }
 
 // Message should be defined or explicitly undefined.
-export const APP_NEWS_MESSAGE = 'ibBTC is well on its way to becoming the flagship tokenized Bitcoin in DeFi';
+export const APP_NEWS_MESSAGE = 'ibBTC is well on its way to becoming the flagship tokenized Bitcoin in DeFi.';
 export const APP_NEWS_URL = 'https://badger.com/news/bootstrapping-ibbtc';
 export const APP_NEWS_STORAGE_HASH = stringHash(APP_NEWS_MESSAGE);

@@ -6,7 +6,7 @@ import { StoreContext } from '../../../mobx/store-context';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
-		position: 'sticky',
+		position: 'absolute',
 		bottom: 0,
 		backgroundColor: '#181818',
 		padding: theme.spacing(2),
