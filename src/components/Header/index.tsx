@@ -23,7 +23,10 @@ const useStyles = makeStyles((theme) => ({
 		background: '#181818',
 	},
 	container: {
-		padding: '10px 0',
+		padding: '20px 0',
+		[theme.breakpoints.down('xs')]: {
+			padding: '10px 0',
+		},
 	},
 	button: {
 		height: 36,
@@ -47,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
 	badgerLogo: {
 		width: 44,
 		height: 44,
-		[theme.breakpoints.down('md')]: {
+		[theme.breakpoints.down('sm')]: {
 			width: 30,
 			height: 30,
 		},
