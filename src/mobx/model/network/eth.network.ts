@@ -1,4 +1,4 @@
-import { FLAGS, NETWORK_IDS, NETWORK_LIST } from 'config/constants';
+import { NETWORK_IDS, NETWORK_LIST } from 'config/constants';
 import { createChainBatchConfig, toSettConfig } from 'web3/config/config-utils';
 import { BatchCallRequest } from 'web3/interface/batch-call-request';
 import { Deploy } from 'web3/interface/deploy';
@@ -9,6 +9,7 @@ import { Network } from './network';
 import deploy from '../../../config/deployments/mainnet.json';
 import { toRecord } from 'web3/config/token-config';
 import { ProtocolTokens } from 'web3/interface/protocol-token';
+import { getApi } from 'mobx/utils/apiV2';
 
 export class Ethereum extends Network {
 	constructor() {
@@ -25,32 +26,18 @@ export class Ethereum extends Network {
 
 	get settOrder(): string[] {
 		return [
-			this.deploy.sett_system.vaults['native.cvxCrv'],
-			this.deploy.sett_system.vaults['native.cvx'],
-			this.deploy.sett_system.vaults['native.tricryptoCrv2'],
-			this.deploy.sett_system.vaults['native.sbtcCrv'],
-			this.deploy.sett_system.vaults['native.renCrv'],
-			this.deploy.sett_system.vaults['native.tbtcCrv'],
-			this.deploy.sett_system.vaults['native.hbtcCrv'],
-			this.deploy.sett_system.vaults['native.pbtcCrv'],
-			this.deploy.sett_system.vaults['native.obtcCrv'],
-			this.deploy.sett_system.vaults['native.bbtcCrv'],
-			this.deploy.sett_system.vaults['native.sushiibBTCwBTC'],
-			this.deploy.sett_system.vaults['yearn.wBtc'],
-			this.deploy.sett_system.vaults['native.digg'],
 			this.deploy.sett_system.vaults['native.badger'],
+			this.deploy.sett_system.vaults['yearn.wBtc'],
+			this.deploy.sett_system.vaults['native.renCrv'],
+			this.deploy.sett_system.vaults['native.sbtcCrv'],
+			this.deploy.sett_system.vaults['native.tbtcCrv'],
+			this.deploy.sett_system.vaults['native.digg'],
 			this.deploy.sett_system.vaults['native.sushiDiggWbtc'],
 			this.deploy.sett_system.vaults['native.sushiBadgerWbtc'],
 			this.deploy.sett_system.vaults['native.sushiWbtcEth'],
 			this.deploy.sett_system.vaults['native.uniDiggWbtc'],
 			this.deploy.sett_system.vaults['native.uniBadgerWbtc'],
 			this.deploy.sett_system.vaults['harvest.renCrv'],
-			this.deploy.sett_system.vaults['native.tricryptoCrv'],
-			...(FLAGS.STABILIZATION_SETTS ? [this.deploy.sett_system.vaults['experimental.digg']] : []),
-			...(FLAGS.RENBTC_SETT ? [this.deploy.sett_system.vaults['native.renBtc']] : []),
-			...(FLAGS.MSTABLE
-				? [this.deploy.sett_system.vaults['native.imBtc'], this.deploy.sett_system.vaults['native.fPmBtcHBtc']]
-				: []),
 		];
 	}
 
@@ -60,13 +47,13 @@ export class Ethereum extends Network {
 	}
 
 	async updateGasPrices(): Promise<GasPrices> {
-		const prices = await fetch('https://www.gasnow.org/api/v3/gas/price?utm_source=badgerv2');
+		const prices = await fetch(`${getApi()}/gas`);
 		const result = await prices.json();
 		return {
-			rapid: result.data['rapid'] / 1e9,
-			fast: result.data['fast'] / 1e9,
-			standard: result.data['standard'] / 1e9,
-			slow: result.data['slow'] / 1e9,
+			rapid: result['rapid'].maxFeePerGas / 2,
+			fast: result['fast'].maxFeePerGas / 2,
+			standard: result['standard'].maxFeePerGas / 2,
+			slow: result['slow'].maxFeePerGas / 2,
 		};
 	}
 }
@@ -106,16 +93,6 @@ const ethSettDefinitions: BadgerSett[] = [
 			decimals: 18,
 		},
 		geyser: ETH_DEPLOY.geysers['native.sushiWbtcEth'],
-	},
-	{
-		depositToken: {
-			address: ETH_DEPLOY.tokens['sushi.ibBTC-wBTC'],
-			decimals: 18,
-		},
-		vaultToken: {
-			address: ETH_DEPLOY.sett_system.vaults['native.sushiibBTCwBTC'],
-			decimals: 18,
-		},
 	},
 	{
 		depositToken: {
@@ -214,128 +191,6 @@ const ethSettDefinitions: BadgerSett[] = [
 			decimals: 18,
 		},
 		geyser: ETH_DEPLOY.geysers['native.sbtcCrv'],
-	},
-	{
-		depositToken: {
-			address: ETH_DEPLOY.tokens.digg,
-			decimals: 9,
-			symbol: 'DIGG',
-		},
-		vaultToken: {
-			address: ETH_DEPLOY.sett_system.vaults['experimental.digg'],
-			decimals: 18,
-		},
-	},
-	{
-		depositToken: {
-			address: ETH_DEPLOY.tokens['curve.hBTC'],
-			decimals: 18,
-		},
-		vaultToken: {
-			address: ETH_DEPLOY.sett_system.vaults['native.hbtcCrv'],
-			decimals: 18,
-		},
-	},
-	{
-		depositToken: {
-			address: ETH_DEPLOY.tokens['curve.pBTC'],
-			decimals: 18,
-		},
-		vaultToken: {
-			address: ETH_DEPLOY.sett_system.vaults['native.pbtcCrv'],
-			decimals: 18,
-		},
-	},
-	{
-		depositToken: {
-			address: ETH_DEPLOY.tokens['curve.oBTC'],
-			decimals: 18,
-		},
-		vaultToken: {
-			address: ETH_DEPLOY.sett_system.vaults['native.obtcCrv'],
-			decimals: 18,
-		},
-	},
-	{
-		depositToken: {
-			address: ETH_DEPLOY.tokens['curve.bBTC'],
-			decimals: 18,
-		},
-		vaultToken: {
-			address: ETH_DEPLOY.sett_system.vaults['native.bbtcCrv'],
-			decimals: 18,
-		},
-	},
-	{
-		depositToken: {
-			address: ETH_DEPLOY.tokens['curve.tricrypto'],
-			decimals: 18,
-		},
-		vaultToken: {
-			address: ETH_DEPLOY.sett_system.vaults['native.tricryptoCrv'],
-			decimals: 18,
-		},
-	},
-	{
-		depositToken: {
-			address: ETH_DEPLOY.tokens['curve.tricrypto2'],
-			decimals: 18,
-		},
-		vaultToken: {
-			address: ETH_DEPLOY.sett_system.vaults['native.tricryptoCrv2'],
-			decimals: 18,
-		},
-	},
-	{
-		depositToken: {
-			address: ETH_DEPLOY.tokens['cvx'],
-			decimals: 18,
-		},
-		vaultToken: {
-			address: ETH_DEPLOY.sett_system.vaults['native.cvx'],
-			decimals: 18,
-		},
-	},
-	{
-		depositToken: {
-			address: ETH_DEPLOY.tokens['cvxCRV'],
-			decimals: 18,
-		},
-		vaultToken: {
-			address: ETH_DEPLOY.sett_system.vaults['native.cvxCrv'],
-			decimals: 18,
-		},
-	},
-	{
-		depositToken: {
-			address: ETH_DEPLOY.tokens['renBTC'],
-			decimals: 8,
-		},
-		vaultToken: {
-			address: ETH_DEPLOY.sett_system.vaults['native.renBtc'],
-			decimals: 18,
-		},
-	},
-	{
-		depositToken: {
-			address: ETH_DEPLOY.tokens['imBtc'],
-			decimals: 8,
-		},
-		vaultToken: {
-			address: ETH_DEPLOY.sett_system.vaults['native.imBtc'],
-			decimals: 18,
-		},
-	},
-
-	{
-		depositToken: {
-			address: ETH_DEPLOY.tokens['fPmBtcHBtc'],
-			decimals: 8,
-		},
-		vaultToken: {
-			address: ETH_DEPLOY.sett_system.vaults['native.fPmBtcHBtc'],
-			decimals: 18,
-		},
 	},
 ];
 
