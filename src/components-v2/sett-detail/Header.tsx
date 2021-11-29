@@ -9,9 +9,6 @@ const useStyles = makeStyles((theme) => ({
 	root: {
 		marginTop: theme.spacing(1),
 		marginBottom: theme.spacing(3),
-		[theme.breakpoints.down('sm')]: {
-			marginTop: theme.spacing(8),
-		},
 	},
 	widgets: {
 		display: 'flex',

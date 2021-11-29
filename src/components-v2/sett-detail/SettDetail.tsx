@@ -19,6 +19,9 @@ const useStyles = makeStyles((theme) => ({
 	root: {
 		paddingTop: theme.spacing(0.5),
 		marginTop: theme.spacing(2),
+		[theme.breakpoints.down('xs')]: {
+			paddingBottom: theme.spacing(6),
+		},
 	},
 	notReadyContainer: {
 		textAlign: 'center',
