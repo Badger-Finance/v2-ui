@@ -207,7 +207,10 @@ export default class UserStore {
 					}
 					const contract = new web3.eth.Contract(GEYSER_ABI, geyser);
 					const staked = await contract.methods.totalStakedFor(this.store.wallet.connectedAddress).call();
-					const vault = this.store.network.network.setts.find((s) => s.geyser && Web3.utils.toChecksumAddress(s.geyser) === Web3.utils.toChecksumAddress(geyser));
+					const vault = this.store.network.network.setts.find(
+						(s) =>
+							s.geyser && Web3.utils.toChecksumAddress(s.geyser) === Web3.utils.toChecksumAddress(geyser),
+					);
 					if (!vault) {
 						return;
 					}
