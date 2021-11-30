@@ -1,3 +1,4 @@
+import { BadgerType } from '@badger-dao/sdk';
 import { BoostRank } from '../../mobx/model/boost/leaderboard-rank';
 
 export const BOOST_RANKS: BoostRank[] = [
@@ -89,7 +90,6 @@ export const BOOST_RANKS: BoostRank[] = [
 			},
 		],
 	},
-
 	{
 		name: 'Frenzy Badger',
 		signatureColor: '#F44336',
@@ -119,3 +119,11 @@ export const BOOST_LEVELS = BOOST_RANKS.flatMap((rank) => rank.levels);
 export const MIN_BOOST_LEVEL = BOOST_LEVELS[0];
 
 export const MAX_BOOST_LEVEL = BOOST_LEVELS[BOOST_LEVELS.length - 1];
+
+export const BADGER_TYPE_BOOSTS: Record<string, BoostRank> = {
+	[BadgerType.Basic]: BOOST_RANKS[0],
+	[BadgerType.Neo]: BOOST_RANKS[1],
+	[BadgerType.Hero]: BOOST_RANKS[2],
+	[BadgerType.Hyper]: BOOST_RANKS[3],
+	[BadgerType.Frenzy]: BOOST_RANKS[4],
+};

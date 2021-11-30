@@ -83,7 +83,12 @@ export class RootStore {
 		this.api = new BadgerAPI(network, BADGER_API);
 		this.rewards.resetRewards();
 
-		let refreshData = [this.network.updateGasPrices(), this.setts.refresh(), this.prices.loadPrices()];
+		let refreshData = [
+			this.network.updateGasPrices(),
+			this.setts.refresh(),
+			this.prices.loadPrices(),
+			this.leaderBoard.loadData(),
+		];
 
 		if (this.onboard.provider && this.network.network.hasBadgerTree) {
 			refreshData = refreshData.concat([this.rewards.loadTreeData(), this.rebase.fetchRebaseStats()]);
@@ -114,9 +119,6 @@ export class RootStore {
 				// handle per page reloads, when init route is skipped
 				if (this.router.currentPath === routes.IbBTC.path) {
 					updateActions.push(this.ibBTCStore.init());
-				}
-				if (this.router.currentPath === routes.boostLeaderBoard.path) {
-					updateActions.push(this.leaderBoard.loadData());
 				}
 			}
 
