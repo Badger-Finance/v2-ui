@@ -48,9 +48,13 @@ const LeaderboardRanks = observer(
 			);
 		}
 
+		// define the order display for the leaderboard
 		const displayRanks = [BadgerType.Frenzy, BadgerType.Hyper, BadgerType.Hero, BadgerType.Neo, BadgerType.Basic];
+
+		// iterate over the leaderboard ranks, keeping a partial sum of the users in the lower ranks
 		let users = 0;
 		const leaderboardEntries = displayRanks.map((badgerType, i) => {
+			// skipping the first set of ranks, add all the users in the rank below the 'current' as a partial sum
 			if (i > 0) {
 				users += ranks.summary[displayRanks[i - 1]];
 			}
@@ -61,10 +65,12 @@ const LeaderboardRanks = observer(
 			return (
 				<LeaderBoardListItem
 					key={badgerType}
+					// enumeration entry is all lower case, capitalize the first letter
 					name={badgerType.charAt(0).toUpperCase() + badgerType.slice(1)}
 					badgersCount={amount}
 					rankStart={rankStart}
 					rankEnd={rankEnd}
+					// rank boundaries are defined by the running partial sum, and the amount of users in a rank
 					firstEntryPosition={users + 1}
 					lastEntryPosition={users + amount}
 					signatureColor={rankData.signatureColor}
