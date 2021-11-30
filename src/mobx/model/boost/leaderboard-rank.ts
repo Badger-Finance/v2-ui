@@ -10,9 +10,3 @@ export interface BoostRankLevel {
 	stakeRatioBoundary: number;
 	multiplier: number;
 }
-
-export interface LeaderboardRank extends BoostRank {
-	rangeStart: number;
-	rangeEnd: number;
-	badgersInRank: LeaderBoardBadger[];
-}

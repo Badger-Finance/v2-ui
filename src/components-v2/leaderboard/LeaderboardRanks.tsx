@@ -5,7 +5,8 @@ import LeaderBoardListItem from './LeaderBoardListItem';
 import { Grid, ListItem } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import { makeStyles } from '@material-ui/core/styles';
-import { BOOST_RANKS } from '../../config/system/boost-ranks';
+import { BADGER_TYPE_BOOSTS, BOOST_RANKS } from '../../config/system/boost-ranks';
+import { BadgerType } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
 	placeholderItem: {
@@ -47,36 +48,36 @@ const LeaderboardRanks = observer(
 			);
 		}
 
-		return (
-			<>
-				{ranks
-					.slice()
-					.reverse()
-					.map((rank, index) => {
-						let isUserInRank = false;
+		const displayRanks = [BadgerType.Frenzy, BadgerType.Hyper, BadgerType.Hero, BadgerType.Neo, BadgerType.Basic];
+		let users = 0;
+		const leaderboardEntries = displayRanks.map((badgerType, i) => {
+			if (i > 0) {
+				users += ranks.summary[displayRanks[i - 1]];
+			}
+			const amount = ranks.summary[badgerType];
+			const rankData = BADGER_TYPE_BOOSTS[badgerType];
+			const rankStart = rankData.levels[0].multiplier;
+			const rankEnd = rankData.levels[rankData.levels.length - 1].multiplier;
+			return (
+				<LeaderBoardListItem
+					key={badgerType}
+					name={badgerType.charAt(0).toUpperCase() + badgerType.slice(1)}
+					badgersCount={amount}
+					rankStart={rankStart}
+					rankEnd={rankEnd}
+					firstEntryPosition={users + 1}
+					lastEntryPosition={users + amount}
+					signatureColor={rankData.signatureColor}
+					isUserInRank={
+						accountDetails
+							? accountDetails.boostRank >= rankStart && accountDetails.boostRank <= rankEnd
+							: false
+					}
+				/>
+			);
+		});
 
-						const userBoost = accountDetails?.boost;
-
-						if (userBoost) {
-							isUserInRank = rank.levels.some(({ multiplier }) => multiplier === userBoost);
-						}
-
-						return (
-							<LeaderBoardListItem
-								key={`${rank.rangeStart}_${rank.name}_${index}`}
-								name={rank.name}
-								badgersCount={rank.badgersInRank.length}
-								rankStart={rank.rangeStart}
-								rankEnd={rank.rangeEnd}
-								firstEntryPosition={rank.badgersInRank[0]?.rank}
-								lastEntryPosition={rank.badgersInRank[rank.badgersInRank.length - 1]?.rank}
-								signatureColor={rank.signatureColor}
-								isUserInRank={isUserInRank}
-							/>
-						);
-					})}
-			</>
-		);
+		return <>{leaderboardEntries}</>;
 	},
 );
 
