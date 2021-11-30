@@ -80,7 +80,7 @@ exports[`LeaderboardRanks No user connected, ranks loaded Displays the leaderboa
               <p
                 class="MuiTypography-root-131 MuiTypography-body2-132"
               >
-                Frenzy
+                Frenzy Badger
               </p>
             </div>
             <span
@@ -137,7 +137,7 @@ exports[`LeaderboardRanks No user connected, ranks loaded Displays the leaderboa
               <p
                 class="MuiTypography-root-131 MuiTypography-body2-132"
               >
-                Hyper
+                Hyper Badger
               </p>
             </div>
             <span
@@ -194,7 +194,7 @@ exports[`LeaderboardRanks No user connected, ranks loaded Displays the leaderboa
               <p
                 class="MuiTypography-root-131 MuiTypography-body2-132"
               >
-                Hero
+                Hero Badger
               </p>
             </div>
             <span
@@ -251,7 +251,7 @@ exports[`LeaderboardRanks No user connected, ranks loaded Displays the leaderboa
               <p
                 class="MuiTypography-root-131 MuiTypography-body2-132"
               >
-                Neo
+                Neo Badger
               </p>
             </div>
             <span
@@ -308,7 +308,7 @@ exports[`LeaderboardRanks No user connected, ranks loaded Displays the leaderboa
               <p
                 class="MuiTypography-root-131 MuiTypography-body2-132"
               >
-                Basic
+                Basic Badger
               </p>
             </div>
             <span
@@ -370,7 +370,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 5 boos
               <p
                 class="MuiTypography-root-131 MuiTypography-body2-132"
               >
-                Frenzy
+                Frenzy Badger
               </p>
             </div>
             <span
@@ -427,7 +427,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 5 boos
               <p
                 class="MuiTypography-root-131 MuiTypography-body2-132"
               >
-                Hyper
+                Hyper Badger
               </p>
             </div>
             <span
@@ -484,7 +484,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 5 boos
               <p
                 class="MuiTypography-root-131 MuiTypography-body2-132"
               >
-                Hero
+                Hero Badger
               </p>
             </div>
             <span
@@ -541,7 +541,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 5 boos
               <p
                 class="MuiTypography-root-131 MuiTypography-body2-132"
               >
-                Neo
+                Neo Badger
               </p>
             </div>
             <span
@@ -598,7 +598,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 5 boos
               <p
                 class="MuiTypography-root-131 MuiTypography-body2-132"
               >
-                Basic
+                Basic Badger
               </p>
               <span
                 class="makeStyles-userRankBadge-10"
@@ -665,7 +665,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 100 bo
               <p
                 class="MuiTypography-root-131 MuiTypography-body2-132"
               >
-                Frenzy
+                Frenzy Badger
               </p>
             </div>
             <span
@@ -722,7 +722,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 100 bo
               <p
                 class="MuiTypography-root-131 MuiTypography-body2-132"
               >
-                Hyper
+                Hyper Badger
               </p>
             </div>
             <span
@@ -779,7 +779,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 100 bo
               <p
                 class="MuiTypography-root-131 MuiTypography-body2-132"
               >
-                Hero
+                Hero Badger
               </p>
             </div>
             <span
@@ -836,7 +836,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 100 bo
               <p
                 class="MuiTypography-root-131 MuiTypography-body2-132"
               >
-                Neo
+                Neo Badger
               </p>
             </div>
             <span
@@ -893,7 +893,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 100 bo
               <p
                 class="MuiTypography-root-131 MuiTypography-body2-132"
               >
-                Basic
+                Basic Badger
               </p>
               <span
                 class="makeStyles-userRankBadge-10"
@@ -960,7 +960,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 400 bo
               <p
                 class="MuiTypography-root-131 MuiTypography-body2-132"
               >
-                Frenzy
+                Frenzy Badger
               </p>
             </div>
             <span
@@ -1017,7 +1017,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 400 bo
               <p
                 class="MuiTypography-root-131 MuiTypography-body2-132"
               >
-                Hyper
+                Hyper Badger
               </p>
             </div>
             <span
@@ -1074,7 +1074,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 400 bo
               <p
                 class="MuiTypography-root-131 MuiTypography-body2-132"
               >
-                Hero
+                Hero Badger
               </p>
             </div>
             <span
@@ -1131,7 +1131,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 400 bo
               <p
                 class="MuiTypography-root-131 MuiTypography-body2-132"
               >
-                Neo
+                Neo Badger
               </p>
             </div>
             <span
@@ -1188,7 +1188,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 400 bo
               <p
                 class="MuiTypography-root-131 MuiTypography-body2-132"
               >
-                Basic
+                Basic Badger
               </p>
               <span
                 class="makeStyles-userRankBadge-10"
@@ -1255,7 +1255,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 800 bo
               <p
                 class="MuiTypography-root-131 MuiTypography-body2-132"
               >
-                Frenzy
+                Frenzy Badger
               </p>
             </div>
             <span
@@ -1312,7 +1312,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 800 bo
               <p
                 class="MuiTypography-root-131 MuiTypography-body2-132"
               >
-                Hyper
+                Hyper Badger
               </p>
             </div>
             <span
@@ -1369,7 +1369,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 800 bo
               <p
                 class="MuiTypography-root-131 MuiTypography-body2-132"
               >
-                Hero
+                Hero Badger
               </p>
             </div>
             <span
@@ -1426,7 +1426,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 800 bo
               <p
                 class="MuiTypography-root-131 MuiTypography-body2-132"
               >
-                Neo
+                Neo Badger
               </p>
             </div>
             <span
@@ -1483,7 +1483,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 800 bo
               <p
                 class="MuiTypography-root-131 MuiTypography-body2-132"
               >
-                Basic
+                Basic Badger
               </p>
               <span
                 class="makeStyles-userRankBadge-10"
@@ -1550,7 +1550,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 2000 b
               <p
                 class="MuiTypography-root-131 MuiTypography-body2-132"
               >
-                Frenzy
+                Frenzy Badger
               </p>
             </div>
             <span
@@ -1607,7 +1607,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 2000 b
               <p
                 class="MuiTypography-root-131 MuiTypography-body2-132"
               >
-                Hyper
+                Hyper Badger
               </p>
             </div>
             <span
@@ -1664,7 +1664,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 2000 b
               <p
                 class="MuiTypography-root-131 MuiTypography-body2-132"
               >
-                Hero
+                Hero Badger
               </p>
             </div>
             <span
@@ -1721,7 +1721,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 2000 b
               <p
                 class="MuiTypography-root-131 MuiTypography-body2-132"
               >
-                Neo
+                Neo Badger
               </p>
             </div>
             <span
@@ -1778,7 +1778,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 2000 b
               <p
                 class="MuiTypography-root-131 MuiTypography-body2-132"
               >
-                Basic
+                Basic Badger
               </p>
               <span
                 class="makeStyles-userRankBadge-10"

@@ -66,7 +66,7 @@ const LeaderboardRanks = observer(
 				<LeaderBoardListItem
 					key={badgerType}
 					// enumeration entry is all lower case, capitalize the first letter
-					name={badgerType.charAt(0).toUpperCase() + badgerType.slice(1)}
+					name={`${badgerType.charAt(0).toUpperCase() + badgerType.slice(1)} Badger`}
 					badgersCount={amount}
 					rankStart={rankStart}
 					rankEnd={rankEnd}
