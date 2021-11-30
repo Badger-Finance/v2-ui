@@ -244,7 +244,7 @@ const Sidebar = observer(() => {
 				</div>
 				<div className={classes.socialsContainer}>
 					<img
-						onClick={() => window.open('https://discord.gg/BNGTCTAt', '_blank')}
+						onClick={() => window.open('https://discord.gg/badgerdao', '_blank')}
 						className={classes.socialIcon}
 						alt="Discord Icon"
 						src="/assets/icons/discord.svg"

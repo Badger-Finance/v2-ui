@@ -1,7 +1,6 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
 	Button,
-	Dialog,
 	DialogContent,
 	DialogTitle,
 	Grid,
@@ -9,6 +8,7 @@ import {
 	Typography,
 	ListItem,
 	List,
+	Box,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { GasSpeed, Network, NetworkConfig } from '@badger-dao/sdk';
@@ -18,10 +18,17 @@ import { observer } from 'mobx-react-lite';
 import { defaultNetwork, supportedNetworks } from '../../config/networks.config';
 import { StoreContext } from '../../mobx/store-context';
 import { Loader } from '../../components/Loader';
+import Dialog from './dialogs/Dialog';
 
 const useStyles = makeStyles((theme) => ({
+	dialog: {
+		maxWidth: 343,
+	},
 	title: {
 		padding: theme.spacing(3, 3, 0, 3),
+	},
+	titleText: {
+		fontWeight: 700,
 	},
 	content: {
 		padding: theme.spacing(2, 3, 3, 3),
@@ -41,11 +48,16 @@ const useStyles = makeStyles((theme) => ({
 		width: '33%',
 	},
 	selectedOption: {
-		border: `2px solid ${theme.palette.primary.main}`,
-		color: theme.palette.primary.main,
+		border: `1px solid ${theme.palette.primary.main}`,
+		'& p': {
+			fontWeight: 700,
+		},
+		'& span': {
+			fontWeight: 700,
+		},
 	},
 	nonSelectedOption: {
-		border: '2px solid #848484',
+		border: '1px solid transparent', // avoids content jumping caused by the 1px border only rendering for selected options
 	},
 	networkListIcon: {
 		width: 17,
@@ -61,19 +73,36 @@ const useStyles = makeStyles((theme) => ({
 		height: 17,
 	},
 	option: {
+		backgroundColor: '#121212',
 		borderRadius: 8,
 	},
 	confirmButton: {
-		marginTop: theme.spacing(4),
+		marginTop: theme.spacing(7),
+		height: 50,
+		[theme.breakpoints.down('xs')]: {
+			marginTop: theme.spacing(4),
+		},
 	},
 	gasSection: {
-		marginTop: theme.spacing(2),
+		marginTop: theme.spacing(6),
+		[theme.breakpoints.down('xs')]: {
+			marginTop: theme.spacing(2),
+		},
 	},
 	gasList: {
 		marginTop: theme.spacing(1),
 	},
 	networkOption: {
 		marginTop: theme.spacing(1),
+		height: 50,
+	},
+	buttonLabel: {
+		fontWeight: 400,
+	},
+	gasOption: {
+		minWidth: 60,
+		maxWidth: 60,
+		height: 50,
 	},
 }));
 
@@ -118,6 +147,10 @@ const NetworkGasWidget = (): JSX.Element => {
 		setIsDialogOpen(false);
 	};
 
+	useEffect(() => {
+		setSelectedNetwork(network);
+	}, [network]);
+
 	return (
 		<>
 			<Button
@@ -132,9 +165,11 @@ const NetworkGasWidget = (): JSX.Element => {
 					alt="selected network icon"
 				/>
 			</Button>
-			<Dialog open={isDialogOpen} fullWidth maxWidth="sm">
+			<Dialog classes={{ paperWidthSm: classes.dialog }} open={isDialogOpen} fullWidth maxWidth="sm">
 				<DialogTitle className={classes.title}>
-					Network & Gas
+					<Typography className={classes.titleText} variant="h6">
+						Network & Gas
+					</Typography>
 					<IconButton className={classes.closeButton} onClick={toggleDialog}>
 						<CloseIcon />
 					</IconButton>
@@ -142,37 +177,44 @@ const NetworkGasWidget = (): JSX.Element => {
 				<DialogContent className={classes.content}>
 					<Grid container>
 						<Grid item container direction="column">
-							<Typography variant="subtitle1" color="textSecondary">
+							<Typography variant="body2" color="textSecondary">
 								NETWORK
 							</Typography>
 							<List disablePadding>
-								{supportedNetworks.map((supportedNetwork, index) => (
+								{supportedNetworks.map((networkOption, index) => (
 									<ListItem
 										button
 										className={clsx(
 											classes.option,
 											classes.networkOption,
-											getOptionClassName(supportedNetwork.symbol === selectedNetwork.symbol),
+											getOptionClassName(networkOption.symbol === selectedNetwork.symbol),
 										)}
-										key={`${supportedNetwork.name}-${index}`}
-										onClick={() => setSelectedNetwork(supportedNetwork)}
+										key={`${networkOption.name}-${index}`}
+										onClick={() => setSelectedNetwork(networkOption)}
 									>
-										<img
-											className={classes.networkListIcon}
-											src={`/assets/icons/${networkIcons[supportedNetwork.symbol]}`}
-											alt={`${supportedNetwork.name} icon`}
-										/>
-										<Typography variant="subtitle1">{supportedNetwork.name}</Typography>
+										<Box
+											width="100%"
+											display="flex"
+											alignItems="center"
+											justifyContent="space-between"
+										>
+											<Typography variant="body2">{networkOption.name}</Typography>
+											<img
+												className={classes.networkListIcon}
+												src={`/assets/icons/${networkIcons[networkOption.symbol]}`}
+												alt={`${networkOption.name} icon`}
+											/>
+										</Box>
 									</ListItem>
 								))}
 							</List>
 						</Grid>
 						<Grid item container className={classes.gasSection}>
-							<Typography variant="subtitle1" color="textSecondary">
+							<Typography variant="body2" color="textSecondary">
 								GAS
 							</Typography>
 							{gasPrices.initialized && gasOptions ? (
-								<Grid container spacing={1} className={classes.gasList}>
+								<Grid container spacing={2} className={classes.gasList}>
 									{Object.entries(gasOptions).map((price) => {
 										const [key, value] = price;
 										const displayValue = typeof value === 'number' ? value : value.maxFeePerGas;
@@ -180,8 +222,10 @@ const NetworkGasWidget = (): JSX.Element => {
 											<Grid item key={key}>
 												<Button
 													onClick={() => setSelectedGas(key as GasSpeed)}
+													classes={{ label: classes.buttonLabel }}
 													className={clsx(
 														classes.option,
+														classes.gasOption,
 														getOptionClassName(selectedGas === key),
 													)}
 												>
