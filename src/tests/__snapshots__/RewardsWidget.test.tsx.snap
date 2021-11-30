@@ -178,27 +178,8 @@ exports[`Rewards Widget when there are no rewards displays no rewards dialog 1`]
                 <p
                   class="MuiTypography-root-62 MuiTypography-body1-64"
                 >
-                  Badger, Bbadger, Digg, Bdigg
+                  Badger, bBadger, Digg, bDigg
                 </p>
-                <div
-                  class="MuiBox-root-60 MuiBox-root-279"
-                >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root-161 MuiSvgIcon-colorPrimary-162"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M16.01 11H4v2h12.01v3L20 12l-3.99-4z"
-                    />
-                  </svg>
-                  <a
-                    class="MuiTypography-root-62 MuiLink-root-280 MuiLink-underlineHover-282 makeStyles-cursorPointer-12 MuiTypography-colorPrimary-85"
-                  >
-                    View Vaults
-                  </a>
-                </div>
               </div>
               <div
                 class="MuiGrid-root-172 makeStyles-userGuideToken-15 MuiGrid-item-174"
@@ -213,25 +194,6 @@ exports[`Rewards Widget when there are no rewards displays no rewards dialog 1`]
                 >
                   bBTC, renBTC, oBTC...
                 </p>
-                <div
-                  class="MuiBox-root-60 MuiBox-root-286"
-                >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root-161 MuiSvgIcon-colorPrimary-162"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M16.01 11H4v2h12.01v3L20 12l-3.99-4z"
-                    />
-                  </svg>
-                  <a
-                    class="MuiTypography-root-62 MuiLink-root-280 MuiLink-underlineHover-282 makeStyles-cursorPointer-12 MuiTypography-colorPrimary-85"
-                  >
-                    View Vaults
-                  </a>
-                </div>
               </div>
               <div
                 class="MuiGrid-root-172 makeStyles-userGuideToken-15 MuiGrid-item-174"
@@ -246,25 +208,6 @@ exports[`Rewards Widget when there are no rewards displays no rewards dialog 1`]
                 >
                   CVX, bveCVX...
                 </p>
-                <div
-                  class="MuiBox-root-60 MuiBox-root-287"
-                >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root-161 MuiSvgIcon-colorPrimary-162"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M16.01 11H4v2h12.01v3L20 12l-3.99-4z"
-                    />
-                  </svg>
-                  <a
-                    class="MuiTypography-root-62 MuiLink-root-280 MuiLink-underlineHover-282 makeStyles-cursorPointer-12 MuiTypography-colorPrimary-85"
-                  >
-                    View Vaults
-                  </a>
-                </div>
               </div>
             </div>
           </div>
@@ -433,27 +376,8 @@ exports[`Rewards Widget when there are rewards can display user guide 1`] = `
                 <p
                   class="MuiTypography-root-62 MuiTypography-body1-64"
                 >
-                  Badger, Bbadger, Digg, Bdigg
+                  Badger, bBadger, Digg, bDigg
                 </p>
-                <div
-                  class="MuiBox-root-60 MuiBox-root-323"
-                >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root-161 MuiSvgIcon-colorPrimary-162"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M16.01 11H4v2h12.01v3L20 12l-3.99-4z"
-                    />
-                  </svg>
-                  <a
-                    class="MuiTypography-root-62 MuiLink-root-314 MuiLink-underlineHover-316 makeStyles-cursorPointer-12 MuiTypography-colorPrimary-85"
-                  >
-                    View Vaults
-                  </a>
-                </div>
               </div>
               <div
                 class="MuiGrid-root-172 makeStyles-userGuideToken-15 MuiGrid-item-174"
@@ -468,25 +392,6 @@ exports[`Rewards Widget when there are rewards can display user guide 1`] = `
                 >
                   bBTC, renBTC, oBTC...
                 </p>
-                <div
-                  class="MuiBox-root-60 MuiBox-root-324"
-                >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root-161 MuiSvgIcon-colorPrimary-162"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M16.01 11H4v2h12.01v3L20 12l-3.99-4z"
-                    />
-                  </svg>
-                  <a
-                    class="MuiTypography-root-62 MuiLink-root-314 MuiLink-underlineHover-316 makeStyles-cursorPointer-12 MuiTypography-colorPrimary-85"
-                  >
-                    View Vaults
-                  </a>
-                </div>
               </div>
               <div
                 class="MuiGrid-root-172 makeStyles-userGuideToken-15 MuiGrid-item-174"
@@ -501,25 +406,6 @@ exports[`Rewards Widget when there are rewards can display user guide 1`] = `
                 >
                   CVX, bveCVX...
                 </p>
-                <div
-                  class="MuiBox-root-60 MuiBox-root-325"
-                >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root-161 MuiSvgIcon-colorPrimary-162"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M16.01 11H4v2h12.01v3L20 12l-3.99-4z"
-                    />
-                  </svg>
-                  <a
-                    class="MuiTypography-root-62 MuiLink-root-314 MuiLink-underlineHover-316 makeStyles-cursorPointer-12 MuiTypography-colorPrimary-85"
-                  >
-                    View Vaults
-                  </a>
-                </div>
               </div>
             </div>
             <div
@@ -685,18 +571,18 @@ exports[`Rewards Widget when there are rewards can go back from user guide 1`] =
                     class="MuiGrid-root-172 MuiGrid-container-173 MuiGrid-justify-xs-space-between-192"
                   >
                     <label
-                      class="MuiFormControlLabel-root-329"
+                      class="MuiFormControlLabel-root-326"
                     >
                       <span
                         aria-disabled="false"
-                        class="MuiButtonBase-root-55 MuiIconButton-root-152 PrivateSwitchBase-root-341 MuiCheckbox-root-335 MuiCheckbox-colorPrimary-339 PrivateSwitchBase-checked-342 MuiCheckbox-checked-336 MuiIconButton-colorPrimary-156"
+                        class="MuiButtonBase-root-55 MuiIconButton-root-152 PrivateSwitchBase-root-338 MuiCheckbox-root-332 MuiCheckbox-colorPrimary-336 PrivateSwitchBase-checked-339 MuiCheckbox-checked-333 MuiIconButton-colorPrimary-156"
                       >
                         <span
                           class="MuiIconButton-label-160"
                         >
                           <input
                             checked=""
-                            class="PrivateSwitchBase-input-344"
+                            class="PrivateSwitchBase-input-341"
                             data-indeterminate="false"
                             type="checkbox"
                             value=""
@@ -717,7 +603,7 @@ exports[`Rewards Widget when there are rewards can go back from user guide 1`] =
                         />
                       </span>
                       <span
-                        class="MuiTypography-root-62 MuiFormControlLabel-label-334 MuiTypography-body1-64"
+                        class="MuiTypography-root-62 MuiFormControlLabel-label-331 MuiTypography-body1-64"
                       >
                         <p
                           class="MuiTypography-root-62 MuiTypography-body2-63"
@@ -727,7 +613,7 @@ exports[`Rewards Widget when there are rewards can go back from user guide 1`] =
                       </span>
                     </label>
                     <div
-                      class="MuiBox-root-60 MuiBox-root-345"
+                      class="MuiBox-root-60 MuiBox-root-342"
                     >
                       <h6
                         class="MuiTypography-root-62 MuiTypography-h6-72"
@@ -735,10 +621,10 @@ exports[`Rewards Widget when there are rewards can go back from user guide 1`] =
                         0.02802
                       </h6>
                       <div
-                        class="makeStyles-currencyContainer-328"
+                        class="makeStyles-currencyContainer-325"
                       >
                         <div
-                          class="MuiBox-root-60 MuiBox-root-348"
+                          class="MuiBox-root-60 MuiBox-root-345"
                         >
                           <p
                             class="MuiTypography-root-62 MuiTypography-body2-63 MuiTypography-colorTextSecondary-88"
@@ -757,18 +643,18 @@ exports[`Rewards Widget when there are rewards can go back from user guide 1`] =
                     class="MuiGrid-root-172 MuiGrid-container-173 MuiGrid-justify-xs-space-between-192"
                   >
                     <label
-                      class="MuiFormControlLabel-root-329"
+                      class="MuiFormControlLabel-root-326"
                     >
                       <span
                         aria-disabled="false"
-                        class="MuiButtonBase-root-55 MuiIconButton-root-152 PrivateSwitchBase-root-341 MuiCheckbox-root-335 MuiCheckbox-colorPrimary-339 PrivateSwitchBase-checked-342 MuiCheckbox-checked-336 MuiIconButton-colorPrimary-156"
+                        class="MuiButtonBase-root-55 MuiIconButton-root-152 PrivateSwitchBase-root-338 MuiCheckbox-root-332 MuiCheckbox-colorPrimary-336 PrivateSwitchBase-checked-339 MuiCheckbox-checked-333 MuiIconButton-colorPrimary-156"
                       >
                         <span
                           class="MuiIconButton-label-160"
                         >
                           <input
                             checked=""
-                            class="PrivateSwitchBase-input-344"
+                            class="PrivateSwitchBase-input-341"
                             data-indeterminate="false"
                             type="checkbox"
                             value=""
@@ -789,7 +675,7 @@ exports[`Rewards Widget when there are rewards can go back from user guide 1`] =
                         />
                       </span>
                       <span
-                        class="MuiTypography-root-62 MuiFormControlLabel-label-334 MuiTypography-body1-64"
+                        class="MuiTypography-root-62 MuiFormControlLabel-label-331 MuiTypography-body1-64"
                       >
                         <p
                           class="MuiTypography-root-62 MuiTypography-body2-63"
@@ -799,7 +685,7 @@ exports[`Rewards Widget when there are rewards can go back from user guide 1`] =
                       </span>
                     </label>
                     <div
-                      class="MuiBox-root-60 MuiBox-root-349"
+                      class="MuiBox-root-60 MuiBox-root-346"
                     >
                       <h6
                         class="MuiTypography-root-62 MuiTypography-h6-72"
@@ -807,10 +693,10 @@ exports[`Rewards Widget when there are rewards can go back from user guide 1`] =
                         0.02453
                       </h6>
                       <div
-                        class="makeStyles-currencyContainer-328"
+                        class="makeStyles-currencyContainer-325"
                       >
                         <div
-                          class="MuiBox-root-60 MuiBox-root-352"
+                          class="MuiBox-root-60 MuiBox-root-349"
                         >
                           <p
                             class="MuiTypography-root-62 MuiTypography-body2-63 MuiTypography-colorTextSecondary-88"
@@ -829,18 +715,18 @@ exports[`Rewards Widget when there are rewards can go back from user guide 1`] =
                     class="MuiGrid-root-172 MuiGrid-container-173 MuiGrid-justify-xs-space-between-192"
                   >
                     <label
-                      class="MuiFormControlLabel-root-329"
+                      class="MuiFormControlLabel-root-326"
                     >
                       <span
                         aria-disabled="false"
-                        class="MuiButtonBase-root-55 MuiIconButton-root-152 PrivateSwitchBase-root-341 MuiCheckbox-root-335 MuiCheckbox-colorPrimary-339 PrivateSwitchBase-checked-342 MuiCheckbox-checked-336 MuiIconButton-colorPrimary-156"
+                        class="MuiButtonBase-root-55 MuiIconButton-root-152 PrivateSwitchBase-root-338 MuiCheckbox-root-332 MuiCheckbox-colorPrimary-336 PrivateSwitchBase-checked-339 MuiCheckbox-checked-333 MuiIconButton-colorPrimary-156"
                       >
                         <span
                           class="MuiIconButton-label-160"
                         >
                           <input
                             checked=""
-                            class="PrivateSwitchBase-input-344"
+                            class="PrivateSwitchBase-input-341"
                             data-indeterminate="false"
                             type="checkbox"
                             value=""
@@ -861,7 +747,7 @@ exports[`Rewards Widget when there are rewards can go back from user guide 1`] =
                         />
                       </span>
                       <span
-                        class="MuiTypography-root-62 MuiFormControlLabel-label-334 MuiTypography-body1-64"
+                        class="MuiTypography-root-62 MuiFormControlLabel-label-331 MuiTypography-body1-64"
                       >
                         <p
                           class="MuiTypography-root-62 MuiTypography-body2-63"
@@ -871,7 +757,7 @@ exports[`Rewards Widget when there are rewards can go back from user guide 1`] =
                       </span>
                     </label>
                     <div
-                      class="MuiBox-root-60 MuiBox-root-353"
+                      class="MuiBox-root-60 MuiBox-root-350"
                     >
                       <h6
                         class="MuiTypography-root-62 MuiTypography-h6-72"
@@ -879,10 +765,10 @@ exports[`Rewards Widget when there are rewards can go back from user guide 1`] =
                         0.03989
                       </h6>
                       <div
-                        class="makeStyles-currencyContainer-328"
+                        class="makeStyles-currencyContainer-325"
                       >
                         <div
-                          class="MuiBox-root-60 MuiBox-root-356"
+                          class="MuiBox-root-60 MuiBox-root-353"
                         >
                           <p
                             class="MuiTypography-root-62 MuiTypography-body2-63 MuiTypography-colorTextSecondary-88"
@@ -895,7 +781,7 @@ exports[`Rewards Widget when there are rewards can go back from user guide 1`] =
                   </div>
                 </div>
                 <hr
-                  class="MuiDivider-root-357 makeStyles-divider-6"
+                  class="MuiDivider-root-354 makeStyles-divider-6"
                 />
                 <div
                   class="MuiGrid-root-172 MuiGrid-container-173 MuiGrid-item-174 MuiGrid-align-items-xs-center-181 MuiGrid-justify-xs-space-between-192"
@@ -906,7 +792,7 @@ exports[`Rewards Widget when there are rewards can go back from user guide 1`] =
                     Total Claimable Rewards
                   </p>
                   <div
-                    class="MuiBox-root-60 MuiBox-root-366"
+                    class="MuiBox-root-60 MuiBox-root-363"
                   >
                     <h6
                       class="MuiTypography-root-62 MuiTypography-h6-72"
@@ -981,7 +867,7 @@ exports[`Rewards Widget when there are rewards can go back from user guide 1`] =
                   class="MuiGrid-root-172 makeStyles-rewardsGuideLinkContainer-11 MuiGrid-item-174"
                 >
                   <a
-                    class="MuiTypography-root-62 MuiLink-root-314 MuiLink-underlineHover-316 makeStyles-cursorPointer-12 MuiTypography-colorPrimary-85"
+                    class="MuiTypography-root-62 MuiLink-root-364 MuiLink-underlineHover-366 makeStyles-cursorPointer-12 MuiTypography-colorPrimary-85"
                   >
                     Rewards User Guide
                   </a>
