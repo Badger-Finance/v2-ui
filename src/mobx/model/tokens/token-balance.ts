@@ -66,8 +66,8 @@ export class TokenBalance {
 		return this.balance.toFixed(decimals);
 	}
 
-	balanceValueDisplay(currency: Currency): string | undefined {
-		return inCurrency(this.value, currency);
+	balanceValueDisplay(currency: Currency, precision?: number): string | undefined {
+		return inCurrency(this.value, currency, precision);
 	}
 
 	/**

@@ -232,7 +232,7 @@ class RewardsStore {
 				let claimBalance;
 
 				if (claimEntry) {
-					claimBalance = claimEntry.balance.tokenBalance;
+					claimBalance = claimEntry.tokenBalance;
 				} else {
 					claimBalance = this.mockBalance(token.address).tokenBalance;
 				}
@@ -266,10 +266,10 @@ class RewardsStore {
 				amountsToClaim,
 			);
 
-			queueNotification(`Sign the transaction to claim your earnings`, 'info');
-
 			const price = gasPrices ? gasPrices[GasSpeed.Fast] : 0;
 			const options = await getSendOptions(method, address, price);
+
+			queueNotification(`Sign the transaction to claim your earnings`, 'info');
 			await sendContractMethod(this.store, method, options, `Claim submitted.`, `Rewards claimed.`);
 		},
 	);
