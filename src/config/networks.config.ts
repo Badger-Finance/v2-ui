@@ -8,8 +8,8 @@ import { FLAGS } from './environment';
 
 export const supportedNetworks: Network[] = [
 	new Ethereum(),
-	new BinanceSmartChain(),
 	new Polygon(),
+	new BinanceSmartChain(),
 	new Arbitrum(),
 	...(FLAGS.XDAI ? [new xDai()] : []),
 ];
