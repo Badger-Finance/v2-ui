@@ -92,6 +92,7 @@ export const darkTheme = createMuiTheme({
 		MuiButton: {
 			...(theme.overrides?.MuiButton ?? {}),
 			root: {
+				textTransform: 'capitalize',
 				[theme.breakpoints.down('xs')]: {
 					padding: buttonPadding,
 				},
