@@ -16,6 +16,7 @@ import DelegationWidget from '../../components-v2/common/DelegationWidget';
 import NetworkGasWidget from '../../components-v2/common/NetworkGasWidget';
 import { MoreHoriz } from '@material-ui/icons';
 import clsx from 'clsx';
+import { getFormattedNetworkName } from '../../utils/componentHelpers';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -90,10 +91,7 @@ const Header = observer(() => {
 	const totalValueLocked = protocolSummary ? new BigNumber(protocolSummary.totalValue) : undefined;
 	const portfolioValue = onboard.isActive() && user.initialized ? user.portfolioValue : undefined;
 	const valuePlaceholder = <Skeleton animation="wave" width={32} className={classes.loader} />;
-	const chainName = network.name
-		.split(' ')
-		.map((word) => word.slice(0, 1).toUpperCase() + word.slice(1))
-		.join(' ');
+	const chainName = getFormattedNetworkName(network);
 
 	const enq = () => {
 		if (!notification || !notification.message) return;

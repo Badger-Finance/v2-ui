@@ -1,6 +1,6 @@
 import CurrencyPicker from '../components-v2/landing/CurrencyPicker';
 import WalletSlider from '../components-v2/landing/WalletSlider';
-import { Grid, makeStyles, Button, useMediaQuery, useTheme, Typography } from '@material-ui/core';
+import { Grid, makeStyles, Button, useMediaQuery, useTheme, Typography, Paper } from '@material-ui/core';
 import PageHeader from '../components-v2/common/PageHeader';
 import { StoreContext } from '../mobx/store-context';
 import { observer } from 'mobx-react-lite';
@@ -12,6 +12,8 @@ import SettListFiltersWidget from '../components-v2/common/SettListFiltersWidget
 import CurrencyDisplay from '../components-v2/common/CurrencyDisplay';
 import { inCurrency } from '../mobx/utils/helpers';
 import { Skeleton } from '@material-ui/lab';
+import { getFormattedNetworkName } from '../utils/componentHelpers';
+import BigNumber from 'bignumber.js';
 
 const useStyles = makeStyles((theme) => ({
 	marginTop: {
@@ -86,6 +88,22 @@ const useStyles = makeStyles((theme) => ({
 	deposits: {
 		whiteSpace: 'pre-wrap',
 	},
+	badgerMobileOverview: {
+		width: '100%',
+		padding: theme.spacing(2),
+		marginTop: theme.spacing(1),
+		marginBottom: 40,
+	},
+	badgerOverviewItem: {
+		marginBottom: theme.spacing(1),
+		whiteSpace: 'pre-wrap',
+	},
+	badgerOverviewValue: {
+		marginLeft: theme.spacing(1),
+	},
+	badgerOverviewValueText: {
+		fontWeight: 700,
+	},
 }));
 
 interface LandingProps {
@@ -95,40 +113,95 @@ interface LandingProps {
 }
 
 const Landing = observer((props: LandingProps) => {
-	const { onboard, user, uiState } = useContext(StoreContext);
+	const {
+		onboard,
+		user,
+		prices,
+		uiState: { currency },
+		network: { network },
+		setts: { protocolSummary },
+	} = useContext(StoreContext);
 
 	const { title, subtitle, state } = props;
 	const classes = useStyles();
 	const isMobile = useMediaQuery(useTheme().breakpoints.down('sm'));
+
+	const badgerToken = network.deploy.token.length > 0 ? network.deploy.token : undefined;
+	const badgerPrice = badgerToken ? prices.getPrice(badgerToken) : undefined;
+	const totalValueLocked = protocolSummary ? new BigNumber(protocolSummary.totalValue) : undefined;
 	const portfolioValue = onboard.isActive() && user.initialized ? user.portfolioValue : undefined;
+	const valuePlaceholder = <Skeleton animation="wave" width={32} className={classes.loader} />;
+	const chainName = getFormattedNetworkName(network);
 
 	return (
 		<LayoutContainer>
 			{/* Landing Metrics Cards */}
 			<Grid container spacing={1} justify="center">
 				<PageHeaderContainer item container xs={12}>
-					<Grid item xs={6}>
+					{isMobile && (
+						<>
+							<Typography variant="h6">Badger Overview</Typography>
+							<Paper className={classes.badgerMobileOverview}>
+								<Grid container direction="column">
+									<Grid item container alignItems="center" className={classes.badgerOverviewItem}>
+										<Typography variant="body2">{`${chainName} TVL:`}</Typography>
+										<span className={classes.badgerOverviewValue}>
+											{totalValueLocked ? (
+												<CurrencyDisplay
+													displayValue={inCurrency(totalValueLocked, currency, 0)}
+													variant="subtitle2"
+													justify="flex-start"
+													TypographyProps={{ className: classes.badgerOverviewValueText }}
+												/>
+											) : (
+												valuePlaceholder
+											)}
+										</span>
+									</Grid>
+									<Grid item container alignItems="center" className={classes.badgerOverviewItem}>
+										<Typography variant="body2" display="inline">
+											Badger Price:
+										</Typography>
+										<span className={classes.badgerOverviewValue}>
+											{badgerPrice ? (
+												<CurrencyDisplay
+													displayValue={inCurrency(badgerPrice, currency)}
+													variant="body2"
+													justify="flex-start"
+													TypographyProps={{ className: classes.badgerOverviewValueText }}
+												/>
+											) : (
+												valuePlaceholder
+											)}
+										</span>
+									</Grid>
+									<Grid item container alignItems="center">
+										<Typography variant="body2" display="inline">
+											My Assets:
+										</Typography>
+										<span className={classes.badgerOverviewValue}>
+											{portfolioValue ? (
+												<CurrencyDisplay
+													displayValue={inCurrency(portfolioValue, currency)}
+													variant="body2"
+													justify="flex-start"
+													TypographyProps={{ className: classes.badgerOverviewValueText }}
+												/>
+											) : (
+												valuePlaceholder
+											)}
+										</span>
+									</Grid>
+								</Grid>
+							</Paper>
+						</>
+					)}
+					<Grid item xs={10} md={6}>
 						<PageHeader title={title} subtitle={subtitle} />
 					</Grid>
-					<Grid item container xs={6} alignItems="center" justify="flex-end" spacing={2}>
+					<Grid item container xs={2} md={6} alignItems="center" justify="flex-end" spacing={2}>
 						{isMobile ? (
 							<>
-								{portfolioValue && (
-									<Grid item container xs justify="flex-end" className={classes.deposits}>
-										<Typography variant="body2" display="inline">
-											My assets:{' '}
-										</Typography>
-										{portfolioValue ? (
-											<CurrencyDisplay
-												displayValue={inCurrency(portfolioValue, uiState.currency)}
-												variant="subtitle2"
-												justify="flex-start"
-											/>
-										) : (
-											<Skeleton animation="wave" width={32} className={classes.loader} />
-										)}
-									</Grid>
-								)}
 								<Grid item>
 									<SettListFiltersWidget />
 								</Grid>
