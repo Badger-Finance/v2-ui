@@ -6,13 +6,8 @@ import { observer } from 'mobx-react-lite';
 import { StoreContext } from 'mobx/store-context';
 
 const useStyles = makeStyles((theme) => ({
-	root: {
-		paddingLeft: theme.spacing(2),
-		marginBottom: theme.spacing(2),
-	},
 	hiddenMobile: {
 		display: 'flex',
-		alignItems: 'flex-end',
 		[theme.breakpoints.down('sm')]: {
 			display: 'none',
 		},
@@ -38,7 +33,7 @@ const TableHeader = observer(
 
 		// leave 3 grid spaces for the action buttons section which has no column name
 		return (
-			<Grid item container className={classes.root}>
+			<Grid item container>
 				<Grid item container xs={12} md={5} alignItems="center">
 					<Grid item>
 						<Typography className={classes.title} variant="body2" color="textSecondary">
@@ -49,12 +44,26 @@ const TableHeader = observer(
 						<CurrencyDisplay displayValue={displayValue} variant="body1" justify="flex-start" />
 					</Grid>
 				</Grid>
-				<Grid item xs={12} md={2} className={clsx(classes.hiddenMobile, classes.title)}>
+				<Grid
+					item
+					container
+					xs={12}
+					md={2}
+					alignItems="center"
+					className={clsx(classes.hiddenMobile, classes.title)}
+				>
 					<Typography variant="body2" color="textSecondary">
 						Variable APR
 					</Typography>
 				</Grid>
-				<Grid item xs={12} md={2} className={clsx(classes.hiddenMobile, classes.title)}>
+				<Grid
+					item
+					container
+					xs={12}
+					md={2}
+					alignItems="center"
+					className={clsx(classes.hiddenMobile, classes.title)}
+				>
 					<Typography variant="body2" color="textSecondary">
 						{uiState.showUserBalances ? 'Assets' : 'TVL'}
 					</Typography>
