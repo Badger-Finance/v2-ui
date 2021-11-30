@@ -1,5 +1,3 @@
-import { LeaderBoardBadger } from './leader-board-badger';
-
 export interface BoostRank {
 	name: string;
 	signatureColor: string;
