@@ -669,6 +669,19 @@ class BridgeStore {
 		}
 	};
 
+	getIbbtcFee = async (): Promise<number> => {
+		const { queueNotification } = this.store.uiState;
+		let fee = 0;
+		try {
+			const redeemFee = await this.core.methods.redeemFee().call();
+			fee = redeemFee / MAX_BPS;
+		} catch (err) {
+			queueNotification(`Failed to fetch ibBTC fees: ${err.message}`, 'error');
+			console.error(err);
+		}
+		return fee;
+	};
+
 	//temporary method to aid in migration of bridge contracts.
 	//TODO: Remove all traces of this method after ibbtc+zap integration.
 	findLogicAddress = async (): Promise<boolean> => {

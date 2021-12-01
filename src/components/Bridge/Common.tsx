@@ -18,6 +18,8 @@ export interface ValuesProp {
 	maxSlippage: string;
 	renFee: number;
 	badgerFee: number;
+	ibbtcFee: number;
+	ibbtcFlag: boolean;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

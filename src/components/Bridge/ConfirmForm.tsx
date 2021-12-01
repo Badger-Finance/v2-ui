@@ -131,7 +131,7 @@ export const ConfirmForm = ({
 	};
 
 	const isWBTC = ['byvWBTC', 'WBTC'].indexOf(values.token) >= 0;
-
+	const isIbbtc = ['ibBTC', 'bCRVibBTC'].indexOf(values.token) >= 0;
 	const isVault = ['byvWBTC', 'bCRVrenBTC', 'bCRVsBTC', 'bCRVtBTC', 'bCRVibBTC'].indexOf(values.token) >= 0;
 
 	// M50 - Handle undefined / loading gas prices case
@@ -246,6 +246,13 @@ export const ConfirmForm = ({
 						)}
 					</>
 				)}
+				{isIbbtc &&
+					values.tabValue === 2 &&
+					feeContainer(
+						'ibBTC Fee',
+						'This fee is paid to Defi Dollar when redeeming ibBTC. This does not go to the Ren or Badger team.',
+						`${values.ibbtcFee} ibBTC`,
+					)}
 			</Grid>
 			{values.spacer}
 

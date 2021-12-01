@@ -275,6 +275,7 @@ const initialStateResettable = {
 	step: 1,
 	showResumeTxDialog: false,
 	ibbtcFee: 0,
+	ibbtcFlag: false,
 };
 
 export const BridgeForm = observer(({ classes, tabValue, setTabValue }: any) => {
@@ -293,6 +294,7 @@ export const BridgeForm = observer(({ classes, tabValue, setTabValue }: any) => 
 			error,
 			calcMintOrRedeemPath,
 			findLogicAddress,
+			getIbbtcFee,
 
 			badgerBurnFee,
 			badgerMintFee,
@@ -331,6 +333,7 @@ export const BridgeForm = observer(({ classes, tabValue, setTabValue }: any) => 
 		badgerFee,
 		showResumeTxDialog,
 		ibbtcFee,
+		ibbtcFlag,
 	} = states;
 
 	// TODO: Refactor values to pull directly from mobx store for values in store.
@@ -347,6 +350,8 @@ export const BridgeForm = observer(({ classes, tabValue, setTabValue }: any) => 
 		maxSlippage,
 		renFee,
 		badgerFee,
+		ibbtcFee,
+		ibbtcFlag,
 	};
 
 	const handleConnect = async () => {
@@ -370,6 +375,7 @@ export const BridgeForm = observer(({ classes, tabValue, setTabValue }: any) => 
 			receiveAmount: 0,
 			burnAmount: '',
 			amount: '',
+			ibbtcFlag: false,
 		}));
 		setTabValue(newValue);
 	};
@@ -442,7 +448,12 @@ export const BridgeForm = observer(({ classes, tabValue, setTabValue }: any) => 
 				return ZERO_ADDR;
 		}
 	};
-
+	/*function returns the proper vault depending on the token.
+	 *the vault address is passed as a parameter into the bridge smart contract's mint/burn.
+	 *a returned zero address signifies no vault.
+	 *The level 2 vault is currently used only for ibBTC, wherein zapping into
+	 *the ibbtc curve lp from renbtc/wbtc requires going through two separate badger vaults.
+	 */
 	const vaultAddressLevel2 = () => {
 		switch (token) {
 			case 'bCRVibBTC':
@@ -525,9 +536,9 @@ export const BridgeForm = observer(({ classes, tabValue, setTabValue }: any) => 
 			desiredToken = tokens.wBTC;
 		}
 
-		const ibBTCFlag = token === 'ibBTC' || token === 'bCRVibBTC';
+		//const ibBTCFlag = token === 'ibBTC' || token === 'bCRVibBTC';
 		let poolId = undefined;
-		if (ibBTCFlag) {
+		if (ibbtcFlag) {
 			poolId = 0;
 		}
 
@@ -563,7 +574,7 @@ export const BridgeForm = observer(({ classes, tabValue, setTabValue }: any) => 
 			{
 				name: '_mintIbbtc',
 				type: 'bool',
-				value: ibBTCFlag,
+				value: ibbtcFlag,
 			},
 		];
 
@@ -623,9 +634,8 @@ export const BridgeForm = observer(({ classes, tabValue, setTabValue }: any) => 
 			maxSlippageBps = Math.round(parseFloat(maxSlippage) * 100);
 		}
 
-		const ibBTCFlag = token === 'ibBTC' || token === 'bCRVibBTC';
 		let poolId = undefined;
-		if (ibBTCFlag) {
+		if (ibbtcFlag) {
 			poolId = 0;
 		}
 
@@ -666,7 +676,7 @@ export const BridgeForm = observer(({ classes, tabValue, setTabValue }: any) => 
 			{
 				name: '_burnIbbtc',
 				type: 'bool',
-				value: ibBTCFlag,
+				value: ibbtcFlag,
 			},
 		];
 
@@ -771,8 +781,9 @@ export const BridgeForm = observer(({ classes, tabValue, setTabValue }: any) => 
 			amountWithFee *= 1 - estimatedSlippage;
 		}
 
+		let ibbtcRedeemFee = 0;
 		//backspacing in the textbox caused issues without the second part of if statement
-		if ((token === 'ibBTC' || token === 'bCRVibBTC') && inputAmount.toString() !== '') {
+		if (ibbtcFlag && inputAmount.toString() !== '') {
 			const bigInputAmount = new BigNumber(inputAmount * 1e8);
 			let mintBool = true;
 			if (name === 'burnAmount') {
@@ -783,6 +794,10 @@ export const BridgeForm = observer(({ classes, tabValue, setTabValue }: any) => 
 				amountWithFee = Number(amount);
 				amountWithFee -= renFeeAmount;
 			}
+
+			const ibbtcFeeDecimal = await getIbbtcFee();
+			ibbtcRedeemFee = ibbtcFeeDecimal * inputAmount;
+			amountWithFee -= ibbtcRedeemFee;
 		}
 
 		setStates((prevState) => ({
@@ -791,6 +806,7 @@ export const BridgeForm = observer(({ classes, tabValue, setTabValue }: any) => 
 			receiveAmount: amountWithFee < 0 ? 0 : amountWithFee,
 			renFee: renFeeAmount,
 			badgerFee: badgerFeeAmount,
+			ibbtcFee: ibbtcRedeemFee,
 			estimatedSlippage,
 		}));
 	};
@@ -815,6 +831,7 @@ export const BridgeForm = observer(({ classes, tabValue, setTabValue }: any) => 
 				// Reset initial states when changing token.
 				...initialStateResettable,
 				[name]: value,
+				ibbtcFlag: value === 'ibBTC' || value === 'bCRVibBTC' ? true : false,
 			}));
 		} else {
 			const value = event.target.value;
