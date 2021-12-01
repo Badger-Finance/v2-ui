@@ -55,9 +55,6 @@ const useStyles = makeStyles((theme) => ({
 			height: 30,
 		},
 	},
-	offlineExtraSpacing: {
-		marginLeft: theme.spacing(10),
-	},
 	// this is a better alternative for spacing than using spacing={1} because we only need left spacing for these elements.
 	// the former version adds right spacing too, which was making the last element not aligned to the body content
 	headerRightSide: {
