@@ -20,6 +20,7 @@ const useCurrencyIconStyles = (typographyVariant: Variant) => {
 	}));
 };
 
+// TODO (TECH DEBT): replace variant and justify props for TypographyProps and ContainerProps to allow more flexibility
 export interface CurrencyDisplayProps {
 	displayValue?: string;
 	variant: Variant;
