@@ -15,7 +15,6 @@ import { RewardsWidget } from '../../components-v2/landing/RewardsWidget';
 import DelegationWidget from '../../components-v2/common/DelegationWidget';
 import NetworkGasWidget from '../../components-v2/common/NetworkGasWidget';
 import { MoreHoriz } from '@material-ui/icons';
-import clsx from 'clsx';
 import { getFormattedNetworkName } from '../../utils/componentHelpers';
 
 const useStyles = makeStyles((theme) => ({
@@ -89,7 +88,7 @@ const Header = observer(() => {
 
 	const { notification, currency } = uiState;
 	const totalValueLocked = protocolSummary ? new BigNumber(protocolSummary.totalValue) : undefined;
-	const portfolioValue = onboard.isActive() && user.initialized ? user.portfolioValue : undefined;
+	const portfolioValue = onboard.isActive() && user.initialized ? user.portfolioValue : new BigNumber(0);
 	const valuePlaceholder = <Skeleton animation="wave" width={32} className={classes.loader} />;
 	const chainName = getFormattedNetworkName(network);
 
@@ -116,11 +115,12 @@ const Header = observer(() => {
 					<Grid container className={classes.container}>
 						<Grid
 							item
+							container
 							xs={3}
 							md={7}
-							container
+							spacing={1}
 							alignItems="center"
-							justify={onboard.isActive() ? 'space-between' : 'flex-start'}
+							justify="space-between"
 							className={classes.amounts}
 						>
 							{isMobile ? (
@@ -133,22 +133,16 @@ const Header = observer(() => {
 								</div>
 							) : (
 								<>
-									{onboard.isActive() && (
-										<Grid item>
-											<Typography variant="body2" display="inline">
-												My Assets:{' '}
-											</Typography>
-											{portfolioValue ? (
-												<CurrencyDisplay
-													displayValue={inCurrency(portfolioValue, currency)}
-													variant="subtitle2"
-													justify="flex-start"
-												/>
-											) : (
-												valuePlaceholder
-											)}
-										</Grid>
-									)}
+									<Grid item>
+										<Typography variant="body2" display="inline">
+											My Assets:{' '}
+										</Typography>
+										<CurrencyDisplay
+											displayValue={inCurrency(portfolioValue, currency)}
+											variant="subtitle2"
+											justify="flex-start"
+										/>
+									</Grid>
 									<Grid item>
 										<Typography variant="body2" display="inline">
 											{`${chainName} TVL: `}
@@ -163,7 +157,7 @@ const Header = observer(() => {
 											valuePlaceholder
 										)}
 									</Grid>
-									<Grid item className={clsx(!onboard.isActive() && classes.offlineExtraSpacing)}>
+									<Grid item>
 										<Typography variant="body2" display="inline">
 											{'Badger Price: '}
 										</Typography>
