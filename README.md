@@ -48,3 +48,4 @@ The network class needs to be updated to include the new vault in the `settOrder
 #### Images
 
 Tokens pull their images from the `public/assets/icons` folder. They are organized by the `sett.asset.toLowerCase()` - for example: `slp-badger-wbtc.png` for the Sushi LP Badger/WBTC Token.
+
