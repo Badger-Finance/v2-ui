@@ -3,17 +3,17 @@
 exports[`WalletWidget Connected address is properly displayed 1`] = `
 <div>
   <button
-    class="MuiButtonBase-root-34 MuiButton-root-5 MuiButton-text-7 makeStyles-walletButton-4 MuiButton-textPrimary-8 MuiButton-disableElevation-16"
+    class="MuiButtonBase-root-35 MuiButton-root-6 MuiButton-text-8 makeStyles-walletButton-4 MuiButton-textPrimary-9 MuiButton-disableElevation-17"
     tabindex="0"
     type="button"
   >
     <span
-      class="MuiButton-label-6"
+      class="MuiButton-label-7 makeStyles-walletButtonLabel-5"
     >
       0x1a..1a1a
     </span>
     <span
-      class="MuiTouchRipple-root-37"
+      class="MuiTouchRipple-root-38"
     />
   </button>
 </div>
@@ -31,17 +31,36 @@ exports[`WalletWidget Displays walletSelect menu upon click 1`] = `
 exports[`WalletWidget Renders correctly 1`] = `
 <div>
   <button
-    class="MuiButtonBase-root-34 MuiButton-root-5 MuiButton-text-7 makeStyles-walletButton-4 MuiButton-textPrimary-8 MuiButton-disableElevation-16"
+    class="MuiButtonBase-root-35 MuiButton-root-6 MuiButton-outlined-11 makeStyles-walletButton-4 MuiButton-disableElevation-17"
     tabindex="0"
     type="button"
   >
     <span
-      class="MuiButton-label-6"
+      class="MuiButton-label-7 makeStyles-walletButtonLabel-5"
     >
       Connect
     </span>
     <span
-      class="MuiTouchRipple-root-37"
+      class="MuiTouchRipple-root-38"
+    />
+  </button>
+</div>
+`;
+
+exports[`WalletWidget Renders mobile version correctly 1`] = `
+<div>
+  <button
+    class="MuiButtonBase-root-35 MuiButton-root-6 MuiButton-text-8 makeStyles-walletButton-4 MuiButton-textPrimary-9 MuiButton-disableElevation-17"
+    tabindex="0"
+    type="button"
+  >
+    <span
+      class="MuiButton-label-7 makeStyles-walletButtonLabel-5"
+    >
+      Connect
+    </span>
+    <span
+      class="MuiTouchRipple-root-38"
     />
   </button>
 </div>
