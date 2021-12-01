@@ -1,15 +1,16 @@
 import React from 'react';
-import { List, makeStyles } from '@material-ui/core';
+import { List, ListSubheader, makeStyles } from '@material-ui/core';
 import TableHeader from 'components-v2/landing/TableHeader';
 
 const useStyles = makeStyles((theme) => ({
 	list: {
 		width: '100%',
 		borderRadius: theme.shape.borderRadius,
-		overflow: 'auto',
 		background: `${theme.palette.background.paper}`,
 		padding: 0,
-		boxShadow: theme.shadows[1],
+	},
+	subHeader: {
+		background: theme.palette.background.default,
 	},
 }));
 
@@ -24,7 +25,9 @@ const SettTable = ({ title, settList, displayValue }: SettTableProps): JSX.Eleme
 
 	return (
 		<>
-			<TableHeader title={title} displayValue={displayValue} />
+			<ListSubheader className={classes.subHeader}>
+				<TableHeader title={title} displayValue={displayValue} />
+			</ListSubheader>
 			<List className={classes.list}>{settList}</List>
 		</>
 	);
