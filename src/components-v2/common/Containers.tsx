@@ -10,6 +10,7 @@ export const PageHeaderContainer = styled(Grid)(({ theme }) => ({
 	marginTop: 42,
 	marginBottom: 42,
 	[theme.breakpoints.down('sm')]: {
-		marginTop: 30,
+		marginTop: 26,
+		marginBottom: 26,
 	},
 }));
