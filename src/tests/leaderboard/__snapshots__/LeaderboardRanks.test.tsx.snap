@@ -86,7 +86,7 @@ exports[`LeaderboardRanks No user connected, ranks loaded Displays the leaderboa
             <span
               class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
             >
-              1 - 4
+              1 - 842
             </span>
           </div>
         </div>
@@ -94,7 +94,7 @@ exports[`LeaderboardRanks No user connected, ranks loaded Displays the leaderboa
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        4
+        842
       </div>
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
@@ -143,7 +143,7 @@ exports[`LeaderboardRanks No user connected, ranks loaded Displays the leaderboa
             <span
               class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
             >
-              5 - 12
+              843 - 1073
             </span>
           </div>
         </div>
@@ -151,7 +151,7 @@ exports[`LeaderboardRanks No user connected, ranks loaded Displays the leaderboa
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        8
+        231
       </div>
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
@@ -200,7 +200,7 @@ exports[`LeaderboardRanks No user connected, ranks loaded Displays the leaderboa
             <span
               class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
             >
-              13 - 20
+              1074 - 1240
             </span>
           </div>
         </div>
@@ -208,7 +208,7 @@ exports[`LeaderboardRanks No user connected, ranks loaded Displays the leaderboa
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        8
+        167
       </div>
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
@@ -257,7 +257,7 @@ exports[`LeaderboardRanks No user connected, ranks loaded Displays the leaderboa
             <span
               class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
             >
-              21 - 28
+              1241 - 1364
             </span>
           </div>
         </div>
@@ -265,7 +265,7 @@ exports[`LeaderboardRanks No user connected, ranks loaded Displays the leaderboa
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        8
+        124
       </div>
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
@@ -314,7 +314,7 @@ exports[`LeaderboardRanks No user connected, ranks loaded Displays the leaderboa
             <span
               class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
             >
-              29 - 36
+              1365 - 30867
             </span>
           </div>
         </div>
@@ -322,7 +322,7 @@ exports[`LeaderboardRanks No user connected, ranks loaded Displays the leaderboa
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        8
+        29503
       </div>
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
@@ -376,7 +376,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 5 boos
             <span
               class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
             >
-              1 - 4
+              1 - 842
             </span>
           </div>
         </div>
@@ -384,7 +384,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 5 boos
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        4
+        842
       </div>
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
@@ -433,7 +433,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 5 boos
             <span
               class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
             >
-              5 - 12
+              843 - 1073
             </span>
           </div>
         </div>
@@ -441,7 +441,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 5 boos
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        8
+        231
       </div>
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
@@ -490,7 +490,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 5 boos
             <span
               class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
             >
-              13 - 20
+              1074 - 1240
             </span>
           </div>
         </div>
@@ -498,7 +498,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 5 boos
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        8
+        167
       </div>
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
@@ -547,7 +547,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 5 boos
             <span
               class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
             >
-              21 - 28
+              1241 - 1364
             </span>
           </div>
         </div>
@@ -555,7 +555,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 5 boos
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        8
+        124
       </div>
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
@@ -609,7 +609,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 5 boos
             <span
               class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
             >
-              29 - 36
+              1365 - 30867
             </span>
           </div>
         </div>
@@ -617,7 +617,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 5 boos
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        8
+        29503
       </div>
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
@@ -671,7 +671,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 100 bo
             <span
               class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
             >
-              1 - 4
+              1 - 842
             </span>
           </div>
         </div>
@@ -679,7 +679,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 100 bo
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        4
+        842
       </div>
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
@@ -728,7 +728,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 100 bo
             <span
               class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
             >
-              5 - 12
+              843 - 1073
             </span>
           </div>
         </div>
@@ -736,7 +736,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 100 bo
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        8
+        231
       </div>
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
@@ -785,7 +785,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 100 bo
             <span
               class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
             >
-              13 - 20
+              1074 - 1240
             </span>
           </div>
         </div>
@@ -793,7 +793,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 100 bo
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        8
+        167
       </div>
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
@@ -806,7 +806,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 100 bo
     class="MuiListItem-root-11 makeStyles-root-3"
   >
     <div
-      class="MuiGrid-root-22 makeStyles-leaderboardRow-5 makeStyles-usersRank-8 MuiGrid-container-23 MuiGrid-align-items-xs-center-31"
+      class="MuiGrid-root-22 makeStyles-leaderboardRow-5 MuiGrid-container-23 MuiGrid-align-items-xs-center-31"
     >
       <div
         class="MuiGrid-root-22 MuiGrid-item-24 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-5-89 MuiGrid-grid-lg-4-102"
@@ -838,16 +838,11 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 100 bo
               >
                 Neo Badger
               </p>
-              <span
-                class="makeStyles-userRankBadge-10"
-              >
-                YOU
-              </span>
             </div>
             <span
               class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
             >
-              21 - 28
+              1241 - 1364
             </span>
           </div>
         </div>
@@ -855,7 +850,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 100 bo
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        8
+        124
       </div>
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
@@ -868,7 +863,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 100 bo
     class="MuiListItem-root-11 makeStyles-root-3"
   >
     <div
-      class="MuiGrid-root-22 makeStyles-leaderboardRow-5 MuiGrid-container-23 MuiGrid-align-items-xs-center-31"
+      class="MuiGrid-root-22 makeStyles-leaderboardRow-5 makeStyles-usersRank-8 MuiGrid-container-23 MuiGrid-align-items-xs-center-31"
     >
       <div
         class="MuiGrid-root-22 MuiGrid-item-24 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-5-89 MuiGrid-grid-lg-4-102"
@@ -900,11 +895,16 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 100 bo
               >
                 Basic Badger
               </p>
+              <span
+                class="makeStyles-userRankBadge-10"
+              >
+                YOU
+              </span>
             </div>
             <span
               class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
             >
-              29 - 36
+              1365 - 30867
             </span>
           </div>
         </div>
@@ -912,7 +912,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 100 bo
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        8
+        29503
       </div>
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
@@ -966,7 +966,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 400 bo
             <span
               class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
             >
-              1 - 4
+              1 - 842
             </span>
           </div>
         </div>
@@ -974,7 +974,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 400 bo
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        4
+        842
       </div>
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
@@ -1023,7 +1023,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 400 bo
             <span
               class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
             >
-              5 - 12
+              843 - 1073
             </span>
           </div>
         </div>
@@ -1031,7 +1031,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 400 bo
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        8
+        231
       </div>
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
@@ -1044,7 +1044,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 400 bo
     class="MuiListItem-root-11 makeStyles-root-3"
   >
     <div
-      class="MuiGrid-root-22 makeStyles-leaderboardRow-5 makeStyles-usersRank-8 MuiGrid-container-23 MuiGrid-align-items-xs-center-31"
+      class="MuiGrid-root-22 makeStyles-leaderboardRow-5 MuiGrid-container-23 MuiGrid-align-items-xs-center-31"
     >
       <div
         class="MuiGrid-root-22 MuiGrid-item-24 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-5-89 MuiGrid-grid-lg-4-102"
@@ -1076,16 +1076,11 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 400 bo
               >
                 Hero Badger
               </p>
-              <span
-                class="makeStyles-userRankBadge-10"
-              >
-                YOU
-              </span>
             </div>
             <span
               class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
             >
-              13 - 20
+              1074 - 1240
             </span>
           </div>
         </div>
@@ -1093,7 +1088,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 400 bo
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        8
+        167
       </div>
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
@@ -1142,7 +1137,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 400 bo
             <span
               class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
             >
-              21 - 28
+              1241 - 1364
             </span>
           </div>
         </div>
@@ -1150,7 +1145,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 400 bo
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        8
+        124
       </div>
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
@@ -1163,7 +1158,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 400 bo
     class="MuiListItem-root-11 makeStyles-root-3"
   >
     <div
-      class="MuiGrid-root-22 makeStyles-leaderboardRow-5 MuiGrid-container-23 MuiGrid-align-items-xs-center-31"
+      class="MuiGrid-root-22 makeStyles-leaderboardRow-5 makeStyles-usersRank-8 MuiGrid-container-23 MuiGrid-align-items-xs-center-31"
     >
       <div
         class="MuiGrid-root-22 MuiGrid-item-24 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-5-89 MuiGrid-grid-lg-4-102"
@@ -1195,11 +1190,16 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 400 bo
               >
                 Basic Badger
               </p>
+              <span
+                class="makeStyles-userRankBadge-10"
+              >
+                YOU
+              </span>
             </div>
             <span
               class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
             >
-              29 - 36
+              1365 - 30867
             </span>
           </div>
         </div>
@@ -1207,7 +1207,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 400 bo
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        8
+        29503
       </div>
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
@@ -1261,7 +1261,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 800 bo
             <span
               class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
             >
-              1 - 4
+              1 - 842
             </span>
           </div>
         </div>
@@ -1269,7 +1269,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 800 bo
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        4
+        842
       </div>
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
@@ -1282,7 +1282,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 800 bo
     class="MuiListItem-root-11 makeStyles-root-3"
   >
     <div
-      class="MuiGrid-root-22 makeStyles-leaderboardRow-5 makeStyles-usersRank-8 MuiGrid-container-23 MuiGrid-align-items-xs-center-31"
+      class="MuiGrid-root-22 makeStyles-leaderboardRow-5 MuiGrid-container-23 MuiGrid-align-items-xs-center-31"
     >
       <div
         class="MuiGrid-root-22 MuiGrid-item-24 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-5-89 MuiGrid-grid-lg-4-102"
@@ -1314,16 +1314,11 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 800 bo
               >
                 Hyper Badger
               </p>
-              <span
-                class="makeStyles-userRankBadge-10"
-              >
-                YOU
-              </span>
             </div>
             <span
               class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
             >
-              5 - 12
+              843 - 1073
             </span>
           </div>
         </div>
@@ -1331,7 +1326,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 800 bo
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        8
+        231
       </div>
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
@@ -1380,7 +1375,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 800 bo
             <span
               class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
             >
-              13 - 20
+              1074 - 1240
             </span>
           </div>
         </div>
@@ -1388,7 +1383,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 800 bo
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        8
+        167
       </div>
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
@@ -1437,7 +1432,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 800 bo
             <span
               class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
             >
-              21 - 28
+              1241 - 1364
             </span>
           </div>
         </div>
@@ -1445,7 +1440,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 800 bo
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        8
+        124
       </div>
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
@@ -1458,7 +1453,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 800 bo
     class="MuiListItem-root-11 makeStyles-root-3"
   >
     <div
-      class="MuiGrid-root-22 makeStyles-leaderboardRow-5 MuiGrid-container-23 MuiGrid-align-items-xs-center-31"
+      class="MuiGrid-root-22 makeStyles-leaderboardRow-5 makeStyles-usersRank-8 MuiGrid-container-23 MuiGrid-align-items-xs-center-31"
     >
       <div
         class="MuiGrid-root-22 MuiGrid-item-24 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-5-89 MuiGrid-grid-lg-4-102"
@@ -1490,11 +1485,16 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 800 bo
               >
                 Basic Badger
               </p>
+              <span
+                class="makeStyles-userRankBadge-10"
+              >
+                YOU
+              </span>
             </div>
             <span
               class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
             >
-              29 - 36
+              1365 - 30867
             </span>
           </div>
         </div>
@@ -1502,7 +1502,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 800 bo
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        8
+        29503
       </div>
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
@@ -1520,7 +1520,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 2000 b
     class="MuiListItem-root-11 makeStyles-root-3"
   >
     <div
-      class="MuiGrid-root-22 makeStyles-leaderboardRow-5 makeStyles-usersRank-8 MuiGrid-container-23 MuiGrid-align-items-xs-center-31"
+      class="MuiGrid-root-22 makeStyles-leaderboardRow-5 MuiGrid-container-23 MuiGrid-align-items-xs-center-31"
     >
       <div
         class="MuiGrid-root-22 MuiGrid-item-24 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-5-89 MuiGrid-grid-lg-4-102"
@@ -1552,16 +1552,11 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 2000 b
               >
                 Frenzy Badger
               </p>
-              <span
-                class="makeStyles-userRankBadge-10"
-              >
-                YOU
-              </span>
             </div>
             <span
               class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
             >
-              1 - 4
+              1 - 842
             </span>
           </div>
         </div>
@@ -1569,7 +1564,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 2000 b
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        4
+        842
       </div>
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
@@ -1618,7 +1613,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 2000 b
             <span
               class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
             >
-              5 - 12
+              843 - 1073
             </span>
           </div>
         </div>
@@ -1626,7 +1621,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 2000 b
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        8
+        231
       </div>
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
@@ -1675,7 +1670,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 2000 b
             <span
               class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
             >
-              13 - 20
+              1074 - 1240
             </span>
           </div>
         </div>
@@ -1683,7 +1678,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 2000 b
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        8
+        167
       </div>
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
@@ -1732,7 +1727,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 2000 b
             <span
               class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
             >
-              21 - 28
+              1241 - 1364
             </span>
           </div>
         </div>
@@ -1740,7 +1735,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 2000 b
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        8
+        124
       </div>
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
@@ -1753,7 +1748,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 2000 b
     class="MuiListItem-root-11 makeStyles-root-3"
   >
     <div
-      class="MuiGrid-root-22 makeStyles-leaderboardRow-5 MuiGrid-container-23 MuiGrid-align-items-xs-center-31"
+      class="MuiGrid-root-22 makeStyles-leaderboardRow-5 makeStyles-usersRank-8 MuiGrid-container-23 MuiGrid-align-items-xs-center-31"
     >
       <div
         class="MuiGrid-root-22 MuiGrid-item-24 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-5-89 MuiGrid-grid-lg-4-102"
@@ -1785,11 +1780,16 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 2000 b
               >
                 Basic Badger
               </p>
+              <span
+                class="makeStyles-userRankBadge-10"
+              >
+                YOU
+              </span>
             </div>
             <span
               class="MuiTypography-root-131 makeStyles-rangeText-9 MuiTypography-caption-134 MuiTypography-colorTextSecondary-157"
             >
-              29 - 36
+              1365 - 30867
             </span>
           </div>
         </div>
@@ -1797,7 +1797,7 @@ exports[`LeaderboardRanks User connected, ranks loaded Displays user with 2000 b
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
       >
-        8
+        29503
       </div>
       <div
         class="MuiGrid-root-22 makeStyles-mobileRow-6 MuiGrid-container-23 MuiGrid-item-24 MuiGrid-align-items-xs-center-31 MuiGrid-justify-xs-space-between-42 MuiGrid-grid-xs-12-68 MuiGrid-grid-md-true-84"
