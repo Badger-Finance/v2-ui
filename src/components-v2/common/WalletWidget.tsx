@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Button, makeStyles } from '@material-ui/core';
+import { Button, makeStyles, useMediaQuery, useTheme } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
 
@@ -20,6 +20,9 @@ const useStyles = makeStyles((theme) => ({
 	walletButton: {
 		textTransform: 'none',
 	},
+	walletButtonLabel: {
+		fontWeight: 500,
+	},
 }));
 
 const shortenAddress = (address?: string) => {
@@ -33,6 +36,7 @@ const WalletWidget = observer(() => {
 	const classes = useStyles();
 	const store = useContext(StoreContext);
 	const { onboard, uiState } = store;
+	const isMobile = useMediaQuery(useTheme().breakpoints.down('sm'));
 
 	async function connect(): Promise<void> {
 		if (onboard.isActive()) {
@@ -46,7 +50,14 @@ const WalletWidget = observer(() => {
 	}
 
 	return (
-		<Button disableElevation color="primary" onClick={connect} className={classes.walletButton}>
+		<Button
+			disableElevation
+			color={isMobile ? 'primary' : 'default'}
+			variant={isMobile ? 'text' : 'outlined'}
+			onClick={connect}
+			className={classes.walletButton}
+			classes={{ label: classes.walletButtonLabel }}
+		>
 			{shortenAddress(onboard.address)}
 		</Button>
 	);
