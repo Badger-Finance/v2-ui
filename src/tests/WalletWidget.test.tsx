@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import React from 'react';
 import { customRender, act, cleanup, fireEvent, screen } from './Utils';
 import WalletWidget from '../components-v2/common/WalletWidget';
@@ -11,6 +12,30 @@ describe('WalletWidget', () => {
 	const testStore = store;
 
 	test('Renders correctly', () => {
+		const { container } = customRender(
+			<StoreProvider value={testStore}>
+				<WalletWidget />
+			</StoreProvider>,
+		);
+		expect(container).toMatchSnapshot();
+	});
+
+	test('Renders mobile version correctly', () => {
+		function createMatchMedia() {
+			return (): MediaQueryList => ({
+				media: '480px',
+				matches: true,
+				addEventListener: () => {},
+				addListener: () => {},
+				removeListener: () => {},
+				removeEventListener: () => {},
+				onchange: () => {},
+				dispatchEvent: () => true,
+			});
+		}
+
+		window.matchMedia = createMatchMedia();
+
 		const { container } = customRender(
 			<StoreProvider value={testStore}>
 				<WalletWidget />
