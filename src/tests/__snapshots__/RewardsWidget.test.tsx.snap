@@ -805,8 +805,9 @@ exports[`Rewards Widget when there are rewards can go back from user guide 1`] =
                   class="MuiGrid-root-172 makeStyles-submitButton-7 MuiGrid-item-174"
                 >
                   <button
-                    class="MuiButtonBase-root-55 MuiButton-root-26 MuiButton-contained-34 MuiButton-containedPrimary-35 MuiButton-fullWidth-49"
-                    tabindex="0"
+                    class="MuiButtonBase-root-55 MuiButton-root-26 MuiButton-contained-34 MuiButton-containedPrimary-35 MuiButton-disabled-39 MuiButton-fullWidth-49 MuiButtonBase-disabled-56"
+                    disabled=""
+                    tabindex="-1"
                     type="button"
                   >
                     <span
@@ -814,9 +815,6 @@ exports[`Rewards Widget when there are rewards can go back from user guide 1`] =
                     >
                       Claim My Rewards
                     </span>
-                    <span
-                      class="MuiTouchRipple-root-109"
-                    />
                   </button>
                 </div>
               </div>
@@ -1236,8 +1234,9 @@ exports[`Rewards Widget when there are rewards displays no rewards dialog 1`] = 
                   class="MuiGrid-root-172 makeStyles-submitButton-7 MuiGrid-item-174"
                 >
                   <button
-                    class="MuiButtonBase-root-55 MuiButton-root-26 MuiButton-contained-34 MuiButton-containedPrimary-35 MuiButton-fullWidth-49"
-                    tabindex="0"
+                    class="MuiButtonBase-root-55 MuiButton-root-26 MuiButton-contained-34 MuiButton-containedPrimary-35 MuiButton-disabled-39 MuiButton-fullWidth-49 MuiButtonBase-disabled-56"
+                    disabled=""
+                    tabindex="-1"
                     type="button"
                   >
                     <span
@@ -1245,9 +1244,6 @@ exports[`Rewards Widget when there are rewards displays no rewards dialog 1`] = 
                     >
                       Claim My Rewards
                     </span>
-                    <span
-                      class="MuiTouchRipple-root-109"
-                    />
                   </button>
                 </div>
               </div>
