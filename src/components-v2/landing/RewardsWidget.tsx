@@ -24,7 +24,6 @@ import CurrencyDisplay from '../common/CurrencyDisplay';
 import CloseIcon from '@material-ui/icons/Close';
 import routes from '../../config/routes';
 import { ArrowBackIosOutlined } from '@material-ui/icons';
-// import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
@@ -381,7 +380,7 @@ export const RewardsWidget = observer((): JSX.Element | null => {
 										<Grid item className={classes.submitButton}>
 											<Button
 												fullWidth
-												disabled={totalClaimValue.eq(0)}
+												disabled={true}
 												color="primary"
 												variant="contained"
 												onClick={async () => await claimGeysers(claims)}
