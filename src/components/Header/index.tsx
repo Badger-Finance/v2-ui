@@ -16,6 +16,7 @@ import DelegationWidget from '../../components-v2/common/DelegationWidget';
 import NetworkGasWidget from '../../components-v2/common/NetworkGasWidget';
 import { MoreHoriz } from '@material-ui/icons';
 import { getFormattedNetworkName } from '../../utils/componentHelpers';
+import clsx from 'clsx';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -43,6 +44,9 @@ const useStyles = makeStyles((theme) => ({
 		whiteSpace: 'pre-wrap',
 	},
 	sidebarButton: {
+		minWidth: 50,
+	},
+	sideButtonContainer: {
 		[theme.breakpoints.up('md')]: {
 			display: 'none',
 		},
@@ -113,7 +117,7 @@ const Header = observer(() => {
 						<Grid
 							item
 							container
-							xs={3}
+							xs={1}
 							md={7}
 							spacing={1}
 							alignItems="center"
@@ -174,7 +178,7 @@ const Header = observer(() => {
 						<Grid
 							item
 							container
-							xs={9}
+							xs={11}
 							md={5}
 							alignItems="center"
 							justify="flex-end"
@@ -196,10 +200,10 @@ const Header = observer(() => {
 							<Grid item>
 								<WalletWidget />
 							</Grid>
-							<Grid item className={classes.sidebarButton}>
+							<Grid item className={classes.sideButtonContainer}>
 								<Button
 									variant="outlined"
-									className={classes.button}
+									className={clsx(classes.button, classes.sidebarButton)}
 									onClick={() => uiState.openSidebar()}
 								>
 									<MoreHoriz />
