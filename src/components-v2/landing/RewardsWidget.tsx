@@ -256,6 +256,8 @@ export const RewardsWidget = observer((): JSX.Element | null => {
 		</>
 	);
 
+	const widgetButtonDecimals = totalRewardsValue.isZero() ? 0 : undefined; // use default otherwise
+
 	return (
 		<>
 			<Button
@@ -266,7 +268,7 @@ export const RewardsWidget = observer((): JSX.Element | null => {
 			>
 				<img className={classes.rewardsIcon} src="/assets/icons/rewards-spark.svg" alt="rewards icon" />
 				<CurrencyDisplay
-					displayValue={inCurrency(totalRewardsValue, currency)}
+					displayValue={inCurrency(totalRewardsValue, currency, widgetButtonDecimals)}
 					variant="body2"
 					justify="center"
 				/>
