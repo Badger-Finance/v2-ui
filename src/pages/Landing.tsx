@@ -214,7 +214,7 @@ const Landing = observer((props: LandingProps) => {
 								TypographyProps={{ className: classes.badgerOverviewValueText }}
 							/>
 						</Grid>
-						<Grid item xs={2} justify="flex-end" className={classes.filterWidgetContainer}>
+						<Grid item container xs={2} justify="flex-end" className={classes.filterWidgetContainer}>
 							<SettListFiltersWidget />
 						</Grid>
 					</Grid>
