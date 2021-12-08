@@ -1,5 +1,6 @@
 import mainnetDeploy from '../config/deployments/mainnet.json';
 import { Sett, SettData } from '@badger-dao/sdk';
+import { Network } from '../mobx/model/network/network';
 
 export const restrictToRange = (num: number, min: number, max: number): number => Math.min(Math.max(num, min), max);
 
@@ -58,3 +59,10 @@ export function shouldDisplayEarnings(sett: Sett, data: SettData): boolean {
 	const perf = vaultSource.performance;
 	return perf.oneDay > 0 || perf.threeDay > 0 || perf.sevenDay > 0 || perf.thirtyDay > 0;
 }
+
+export const getFormattedNetworkName = (network: Network): string => {
+	return network.name
+		.split(' ')
+		.map((word) => word.slice(0, 1).toUpperCase() + word.slice(1))
+		.join(' ');
+};

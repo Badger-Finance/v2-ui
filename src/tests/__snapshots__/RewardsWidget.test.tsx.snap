@@ -30,7 +30,7 @@ exports[`Rewards Widget when there are no rewards displays no rewards dialog 1`]
           <p
             class="MuiTypography-root-62 MuiTypography-body2-63"
           >
-            $0.00
+            $0
           </p>
         </div>
       </span>
@@ -243,7 +243,7 @@ exports[`Rewards Widget when there are no rewards displays zero amount in reward
         <p
           class="MuiTypography-root-62 MuiTypography-body2-63"
         >
-          $0.00
+          $0
         </p>
       </div>
     </span>

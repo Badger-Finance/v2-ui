@@ -1,6 +1,6 @@
 import { createMuiTheme } from '@material-ui/core';
 
-const buttonPadding = '11px 16px';
+const buttonPadding = '11px 13px';
 
 const theme = createMuiTheme({
 	palette: {
@@ -93,21 +93,25 @@ export const darkTheme = createMuiTheme({
 			...(theme.overrides?.MuiButton ?? {}),
 			root: {
 				textTransform: 'capitalize',
+				borderRadius: 10,
 				[theme.breakpoints.down('xs')]: {
 					padding: buttonPadding,
 				},
 			},
 			outlined: {
+				borderRadius: 10,
 				[theme.breakpoints.down('xs')]: {
 					padding: buttonPadding,
 				},
 			},
 			contained: {
+				borderRadius: 10,
 				[theme.breakpoints.down('xs')]: {
 					padding: buttonPadding,
 				},
 			},
 			text: {
+				borderRadius: 10,
 				[theme.breakpoints.down('xs')]: {
 					padding: buttonPadding,
 				},

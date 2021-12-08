@@ -43,8 +43,8 @@ export const RewardsModalItem = observer(
 						<CurrencyDisplay
 							variant="body2"
 							justify="flex-end"
-							color="textSecondary"
 							displayValue={claimBalance.balanceValueDisplay(uiState.currency, 5)}
+							TypographyProps={{ color: 'textSecondary' }}
 						/>
 					</div>
 				</Box>
