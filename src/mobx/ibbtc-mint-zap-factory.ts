@@ -4,14 +4,14 @@ import addresses from 'config/ibBTC/addresses.json';
 import { TokenZap } from './model/vaults/token-zap';
 import { GeneralVaultZap } from './model/vaults/general-vault-zap';
 import { RenVaultZap } from './model/vaults/ren-vault-zap';
-import { IbbtcOptionToken } from './model/tokens/ibbtc-option-token';
+import { Token } from '@badger-dao/sdk';
 
 export class IbBTCMintZapFactory {
 	private static tokenZaps: Record<string, TokenZap> = {};
 	private static generalVaultZaps: Record<string, GeneralVaultZap> = {};
 	private static renVaultZaps: Record<string, RenVaultZap> = {};
 
-	static getIbBTCZap(store: RootStore, token: IbbtcOptionToken): IbBTCMintZap {
+	static getIbBTCZap(store: RootStore, token: Token): IbBTCMintZap {
 		if (addresses.mainnet.contracts.TokenZap.supportedTokens.includes(token.symbol)) {
 			if (!this.tokenZaps[token.address]) {
 				this.tokenZaps[token.address] = new TokenZap(store, token);
