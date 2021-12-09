@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import { Typography, Button, Popper, Paper, List, ListItem } from '@material-ui/core';
 import { ArrowDropDown } from '@material-ui/icons';
-import { IbbtcOptionToken } from '../../mobx/model/tokens/ibbtc-option-token';
+import { TokenBalance } from '../../mobx/model/tokens/token-balance';
 
 const useStyles = makeStyles((theme) => ({
 	noUnderline: {
@@ -46,12 +46,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 type TokenListProps = {
-	tokens: Array<IbbtcOptionToken>;
-	selected: IbbtcOptionToken;
-	onTokenSelect: (token: IbbtcOptionToken) => void;
+	balances: Array<TokenBalance>;
+	selected: TokenBalance;
+	onTokenSelect: (token: TokenBalance) => void;
 };
 
-export const Tokens = ({ tokens, selected, onTokenSelect }: TokenListProps): any => {
+export const OptionTokens = ({ balances, selected, onTokenSelect }: TokenListProps): any => {
 	const classes = useStyles();
 
 	const [anchorEl, setAnchorEl] = React.useState(null);
@@ -64,28 +64,27 @@ export const Tokens = ({ tokens, selected, onTokenSelect }: TokenListProps): any
 	return (
 		<>
 			<Button
-				aria-label="token options"
 				size="small"
 				variant="outlined"
 				endIcon={<ArrowDropDown />}
 				onClick={handleClick}
 				className={classes.selectButton}
 			>
-				<Token token={selected} />
+				<OptionToken balance={selected} />
 			</Button>
 			<Popper style={{ zIndex: 100000 }} placement="bottom-end" id={'popper'} open={open} anchorEl={anchorEl}>
 				<Paper onMouseLeave={() => setAnchorEl(null)}>
-					<List aria-label="token options list">
-						{tokens.map((token) => (
+					<List>
+						{balances.map((balance) => (
 							<ListItem
-								key={token.address}
+								key={balance.token.address}
 								button
 								onClick={() => {
-									onTokenSelect(token);
+									onTokenSelect(balance);
 									setAnchorEl(null);
 								}}
 							>
-								<Token token={token} />
+								<OptionToken balance={balance} />
 							</ListItem>
 						))}
 					</List>
@@ -96,19 +95,15 @@ export const Tokens = ({ tokens, selected, onTokenSelect }: TokenListProps): any
 };
 
 interface TokenProps {
-	token: {
-		name: string;
-		symbol: string;
-		icon: string;
-	};
+	balance: TokenBalance;
 }
 
-export const Token = ({ token }: TokenProps): JSX.Element => {
-	const { name, icon, symbol } = token;
+export const OptionToken = ({ balance }: TokenProps): JSX.Element => {
+	const { name, symbol } = balance.token;
 	const classes = useStyles();
 	return (
 		<div className={classes.tokenContainer}>
-			<img className={classes.tokenIcon} src={icon} alt={`${name} icon`} />
+			<img className={classes.tokenIcon} src={`/assets/icons/${symbol.toLowerCase()}.png`} alt={name} />
 			<Typography variant="body1" component="div">
 				{symbol}
 			</Typography>

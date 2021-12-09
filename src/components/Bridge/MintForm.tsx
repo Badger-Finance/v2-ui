@@ -3,7 +3,7 @@ import { Grid, Button, TextField, Typography } from '@material-ui/core';
 import { ClassNameMap } from '@material-ui/core/styles/withStyles';
 import { ArrowDownward } from '@material-ui/icons';
 import { toJS } from 'mobx';
-import { Token } from 'components/IbBTC/Tokens';
+import { OptionToken } from 'components/IbBTC/OptionTokens';
 import { StoreContext } from 'mobx/store-context';
 import { MIN_AMOUNT } from './constants';
 import { Slippage, ValuesProp } from './Common';
@@ -99,7 +99,7 @@ export const MintForm = ({
 							style: { fontSize: '3rem' },
 							endAdornment: [
 								<div key="btc">
-									<Token token={{ name: 'Bitcoin', symbol: 'BTC', icon: '/assets/icons/btc.svg' }} />
+									<OptionToken token={{ name: 'Bitcoin', symbol: 'BTC', icon: '/assets/icons/btc.svg' }} />
 								</div>,
 							],
 						}}

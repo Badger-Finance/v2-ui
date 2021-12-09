@@ -7,7 +7,7 @@ import BigNumber from 'bignumber.js';
 
 import { debounce } from 'utils/componentHelpers';
 import { ZERO } from 'config/constants';
-import { Token, Tokens } from './Tokens';
+import { OptionToken, OptionTokens } from './OptionTokens';
 import { DownArrow } from './DownArrow';
 import { StoreContext } from 'mobx/store-context';
 import { useConnectWallet } from 'mobx/utils/hooks';
@@ -25,19 +25,14 @@ import {
 	ErrorText,
 } from './Common';
 import { useNumericInput } from '../../utils/useNumericInput';
-import { IbbtcOptionToken } from '../../mobx/model/tokens/ibbtc-option-token';
+import { TokenBalance } from '../../mobx/model/tokens/token-balance';
 
 type RedeemInformation = {
-	inputAmount: BigNumber;
-	redeemAmount: BigNumber;
-	max: BigNumber;
-	fee: BigNumber;
-	conversionRate: BigNumber;
-};
-
-type InputAmount = {
-	displayValue: string;
-	actualValue: BigNumber;
+	inputAmount: TokenBalance;
+	redeemAmount: TokenBalance;
+	max: TokenBalance;
+	fee: TokenBalance;
+	conversionRate: TokenBalance;
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -71,12 +66,11 @@ export const Redeem = observer((): any => {
 	const classes = useStyles();
 
 	const {
-		ibBTCStore: { redeemOptions, ibBTC, redeemFeePercent },
+		ibBTCStore: { redeemOptions, ibBTC, redeemFeePercent, tokenBalances },
 		onboard,
 	} = store;
 
-	const [selectedToken, setSelectedToken] = useState(redeemOptions[0]);
-	const [inputAmount, setInputAmount] = useState<InputAmount>();
+	const [redeemBalance, setRedeemBalance] = useState(redeemOptions[0]);
 	const [outputAmount, setOutputAmount] = useState<string>();
 	const [conversionRate, setConversionRate] = useState<string>();
 	const [maxRedeem, setMaxRedeem] = useState<BigNumber>();
@@ -86,7 +80,7 @@ export const Redeem = observer((): any => {
 	const { onValidChange, inputProps } = useNumericInput();
 
 	const resetState = () => {
-		setInputAmount(undefined);
+		// setInputAmount(undefined);
 		setOutputAmount(undefined);
 		setMaxRedeem(undefined);
 		setIsEnoughToRedeem(true);
@@ -102,10 +96,10 @@ export const Redeem = observer((): any => {
 		setConversionRate(conversionRate.toFixed(6, BigNumber.ROUND_HALF_FLOOR));
 	};
 
-	const calculateRedeem = async (ibBTCAmount: BigNumber, token: IbbtcOptionToken): Promise<void> => {
+	const calculateRedeem = async (balance: TokenBalance): Promise<void> => {
 		const [{ sett, fee, max }, conversionRate] = await Promise.all([
-			store.ibBTCStore.calcRedeemAmount(token, ibBTCAmount),
-			store.ibBTCStore.getRedeemConversionRate(token),
+			store.ibBTCStore.calcRedeemAmount(balance),
+			store.ibBTCStore.getRedeemConversionRate(balance.token),
 		]);
 
 		setMaxRedeem(max);
@@ -143,19 +137,20 @@ export const Redeem = observer((): any => {
 					return;
 				}
 
-				await calculateRedeem(ibBTC.scale(input), selectedToken);
+				await calculateRedeem(TokenBalance.fromBigNumber(redeemBalance, input));
 			},
 		),
-		[selectedToken],
+		[redeemBalance],
 	);
 
 	const handleApplyMaxBalance = async (): Promise<void> => {
-		if (ibBTC.balance.gt(ZERO) && selectedToken) {
-			setInputAmount({
-				displayValue: ibBTC.unscale(ibBTC.balance).toFixed(ibBTC.decimals, BigNumber.ROUND_HALF_FLOOR),
-				actualValue: ibBTC.balance,
-			});
-			await calculateRedeem(ibBTC.balance, selectedToken);
+		const selectedTokenBalance = tokenBalances.find(
+			(tokenBalance) => tokenBalance.token.address === redeemBalance.token.address,
+		);
+
+		if (selectedTokenBalance) {
+			setRedeemBalance(selectedTokenBalance);
+			await calculateRedeem(selectedTokenBalance);
 		}
 	};
 
@@ -164,21 +159,19 @@ export const Redeem = observer((): any => {
 			displayValue: ibBTC.unscale(limit).toFixed(ibBTC.decimals, BigNumber.ROUND_HALF_FLOOR),
 			actualValue: limit,
 		});
-		await calculateRedeem(limit, selectedToken);
+		await calculateRedeem(limit, redeemBalance);
 	};
 
-	const handleTokenChange = async (token: IbbtcOptionToken): Promise<void> => {
-		setSelectedToken(token);
-		if (inputAmount?.actualValue && !inputAmount.actualValue.isNaN()) {
-			await calculateRedeem(inputAmount.actualValue, token);
-		}
+	const handleTokenChange = async (tokenBalance: TokenBalance): Promise<void> => {
+		setRedeemBalance(tokenBalance);
+		await calculateRedeem(tokenBalance);
 	};
 
 	const handleRedeemClick = async (): Promise<void> => {
-		if (inputAmount?.actualValue && !inputAmount.actualValue.isNaN()) {
-			const isValidAmount = store.ibBTCStore.isValidAmount(ibBTC, inputAmount.actualValue);
+		if (redeemBalance) {
+			const isValidAmount = store.ibBTCStore.isValidAmount(redeemBalance);
 			if (!isValidAmount) return;
-			await store.ibBTCStore.redeem(selectedToken, inputAmount.actualValue);
+			await store.ibBTCStore.redeem(redeemBalance);
 			resetState();
 		}
 	};
@@ -208,7 +201,7 @@ export const Redeem = observer((): any => {
 							</Button>
 						</Grid>
 						<Grid item>
-							<Token token={ibBTC} />
+							<OptionToken token={ibBTC} />
 						</Grid>
 					</InputTokenActionButtonsGrid>
 				</BorderedFocusableContainerGrid>
@@ -222,7 +215,11 @@ export const Redeem = observer((): any => {
 						<OutputAmountText variant="h1">{outputAmount || '0.000'}</OutputAmountText>
 					</Grid>
 					<OutputTokenGrid item container xs={12} sm={5} md={12} lg={5}>
-						<Tokens tokens={redeemOptions} selected={selectedToken} onTokenSelect={handleTokenChange} />
+						<OptionTokens
+							balances={redeemOptions}
+							selected={redeemBalance}
+							onTokenSelect={handleTokenChange}
+						/>
 					</OutputTokenGrid>
 				</OutputContentGrid>
 			</Grid>
@@ -244,7 +241,7 @@ export const Redeem = observer((): any => {
 								</Tooltip>
 								<span>
 									{' '}
-									{ibBTC.symbol} can be redeemed for {selectedToken.symbol}.
+									{ibBTC.symbol} can be redeemed for {redeemBalance.symbol}.
 								</span>
 							</ErrorText>
 						</Grid>
@@ -255,7 +252,7 @@ export const Redeem = observer((): any => {
 						</Grid>
 						<Grid item xs={6}>
 							<EndAlignText variant="body1">
-								1 {ibBTC.symbol} : {conversionRate || selectedToken.redeemRate} {selectedToken.symbol}
+								1 {ibBTC.symbol} : {conversionRate || redeemBalance.redeemRate} {redeemBalance.symbol}
 							</EndAlignText>
 						</Grid>
 					</Grid>
@@ -285,7 +282,7 @@ export const Redeem = observer((): any => {
 							<Typography variant="subtitle1">Total Redeem Amount: </Typography>
 						</Grid>
 						<Grid item xs={6}>
-							<EndAlignText variant="body1">{`${totalRedeem} ${selectedToken.symbol}`}</EndAlignText>
+							<EndAlignText variant="body1">{`${totalRedeem} ${redeemBalance.symbol}`}</EndAlignText>
 						</Grid>
 					</Grid>
 				</SummaryGrid>
