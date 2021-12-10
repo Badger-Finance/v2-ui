@@ -14,7 +14,7 @@ const tokens = [
 
 it('starts with the first token as default value', () => {
 	customRender(<Tokens selected={tokens[0]} tokens={tokens} onTokenSelect={jest.fn()} />);
-	expect(screen.getByRole('button', { name: `${tokens[0].name} ${tokens[0].symbol}` })).toBeInTheDocument();
+	expect(screen.getByRole('button', { name: 'token options' })).toBeInTheDocument();
 });
 
 it.each(tokens)('displays token information', (token) => {

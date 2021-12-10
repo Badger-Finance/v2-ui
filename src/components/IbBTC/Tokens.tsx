@@ -64,6 +64,7 @@ export const Tokens = ({ tokens, selected, onTokenSelect }: TokenListProps): any
 	return (
 		<>
 			<Button
+				aria-label="token options"
 				size="small"
 				variant="outlined"
 				endIcon={<ArrowDropDown />}
@@ -74,7 +75,7 @@ export const Tokens = ({ tokens, selected, onTokenSelect }: TokenListProps): any
 			</Button>
 			<Popper style={{ zIndex: 100000 }} placement="bottom-end" id={'popper'} open={open} anchorEl={anchorEl}>
 				<Paper onMouseLeave={() => setAnchorEl(null)}>
-					<List>
+					<List aria-label="token options list">
 						{tokens.map((token) => (
 							<ListItem
 								key={token.address}
@@ -107,7 +108,7 @@ export const Token = ({ token }: TokenProps): JSX.Element => {
 	const classes = useStyles();
 	return (
 		<div className={classes.tokenContainer}>
-			<img className={classes.tokenIcon} src={icon} alt={name} />
+			<img className={classes.tokenIcon} src={icon} alt={`${name} icon`} />
 			<Typography variant="body1" component="div">
 				{symbol}
 			</Typography>
