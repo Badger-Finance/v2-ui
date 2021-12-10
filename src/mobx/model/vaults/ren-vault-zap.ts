@@ -9,7 +9,6 @@ import { toHex } from '../../utils/helpers';
 import BigNumber from 'bignumber.js';
 import settConfig from '../../../config/system/abis/Sett.json';
 import badgerPeakSwap from '../../../config/system/abis/BadgerBtcPeakSwap.json';
-import { IbbtcOptionToken } from '../tokens/ibbtc-option-token';
 import { IbbtcDepositTokenPoolIds } from '../../utils/ibbtc';
 import { Token } from '@badger-dao/sdk';
 

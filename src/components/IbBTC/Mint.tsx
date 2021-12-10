@@ -53,11 +53,6 @@ const useStyles = makeStyles({
 	},
 });
 
-type InputAmount = {
-	displayValue: string;
-	actualValue: BigNumber;
-};
-
 const ActionButton = observer(
 	({ children }): JSX.Element => {
 		const { onboard } = useContext(StoreContext);
@@ -85,6 +80,7 @@ export const Mint = observer(
 			onboard,
 		} = store;
 
+		const [inputAmount, setInputAmount] = useState('');
 		const [mintBalance, setMintBalance] = useState(mintOptions[0]);
 		const [outputAmount, setOutputAmount] = useState<string>();
 		const [conversionRate, setConversionRate] = useState<string>();
@@ -96,12 +92,12 @@ export const Mint = observer(
 		const showSlippage = store.ibBTCStore.isZapToken(mintBalance.token);
 		const displayedConversionRate = Number(conversionRate) || mintRates[mintBalance.token.address];
 
-		useEffect(() => {
-			resetState();
-		}, [onboard.address]);
+		const selectedTokenBalance = tokenBalances.find(
+			(tokenBalance) => tokenBalance.token.address === mintBalance.token.address,
+		);
 
 		const resetState = () => {
-			// setMintBalance(undefined);
+			setInputAmount('');
 			setFee('0.000');
 			setTotalMint('0.000');
 		};
@@ -128,6 +124,7 @@ export const Mint = observer(
 		};
 
 		const handleInputChange = (change: string) => {
+			setInputAmount(change);
 			setMintBalance(TokenBalance.fromBalance(mintBalance, change));
 			debounceInputAmountChange(change);
 		};
@@ -157,7 +154,7 @@ export const Mint = observer(
 						return;
 					}
 
-					await calculateMintInformation(TokenBalance.fromBigNumber(mintBalance, input));
+					await calculateMintInformation(TokenBalance.fromBalance(mintBalance, change));
 				},
 			),
 			[mintBalance],
@@ -169,12 +166,14 @@ export const Mint = observer(
 			);
 
 			if (selectedTokenBalance) {
+				setInputAmount(selectedTokenBalance.balance.decimalPlaces(6, BigNumber.ROUND_HALF_FLOOR).toString());
 				setMintBalance(selectedTokenBalance);
 				await calculateMintInformation(selectedTokenBalance);
 			}
 		};
 
 		const handleTokenChange = async (tokenBalance: TokenBalance): Promise<void> => {
+			setInputAmount(tokenBalance.balance.decimalPlaces(6, BigNumber.ROUND_HALF_FLOOR).toString());
 			setMintBalance(tokenBalance);
 			await calculateMintInformation(tokenBalance);
 		};
@@ -192,12 +191,24 @@ export const Mint = observer(
 			}
 		};
 
+		useEffect(() => {
+			resetState();
+		}, [onboard.address]);
+
+		useEffect(() => {
+			const defaultBalance = mintOptions[0];
+
+			if (mintBalance.token.address === defaultBalance.token.address && mintBalance.token.symbol === '') {
+				setMintBalance(defaultBalance);
+			}
+		}, [mintOptions, mintBalance]);
+
 		return (
 			<>
 				<Grid container>
 					<BalanceGrid item xs={12}>
 						<EndAlignText variant="body1" color="textSecondary">
-							Balance: {mintBalance.balanceDisplay(6)}
+							Balance: {selectedTokenBalance?.balanceDisplay(6) ?? '0'}
 						</EndAlignText>
 					</BalanceGrid>
 					<BorderedFocusableContainerGrid item container xs={12}>
@@ -205,7 +216,7 @@ export const Mint = observer(
 							<InputTokenAmount
 								inputProps={inputProps}
 								disabled={!onboard.address}
-								value={mintBalance?.balance || ''}
+								value={inputAmount || ''}
 								placeholder="0.000"
 								onChange={onValidChange(handleInputChange)}
 							/>
@@ -254,7 +265,7 @@ export const Mint = observer(
 				<Grid container>
 					<Grid item xs={12}>
 						<OutputBalanceText variant="body1" color="textSecondary">
-							Balance: {ibBTC.balanceDisplay()}
+							Balance: {ibBTC.balanceDisplay(6)}
 						</OutputBalanceText>
 					</Grid>
 					<OutputContentGrid container item xs={12}>
@@ -262,7 +273,7 @@ export const Mint = observer(
 							<OutputAmountText variant="h1">{outputAmount || '0.000'}</OutputAmountText>
 						</Grid>
 						<OutputTokenGrid item container xs={12} sm={3} md={12} lg={2}>
-							<OptionToken balance={ibBTC} />
+							<OptionToken token={ibBTC.token} />
 						</OutputTokenGrid>
 					</OutputContentGrid>
 				</Grid>
@@ -317,7 +328,7 @@ export const Mint = observer(
 							variant="contained"
 							color="primary"
 							onClick={handleMintClick}
-							disabled={!mintBalance || !outputAmount}
+							disabled={!inputAmount || !outputAmount}
 						>
 							MINT
 						</Button>
