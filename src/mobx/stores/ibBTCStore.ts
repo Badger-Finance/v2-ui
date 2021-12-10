@@ -84,15 +84,14 @@ class IbBTCStore {
 		return this.isInitialized;
 	}
 
-	// just to have the same pattern as redeem options, currently all peaks can mint
 	get mintOptions(): TokenBalance[] {
 		return this.tokenBalances;
 	}
 
 	// currently, the zap contract does not support redeem
 	get redeemOptions(): TokenBalance[] {
-		return this.tokens.filter(({ token }) =>
-			this.config.contracts.RenVaultZap.supportedTokens.includes(token.symbol),
+		return this.tokenBalances.filter(({ token }) =>
+			this.config.contracts.RenVaultZap.supportedTokens.includes(token.address),
 		);
 	}
 
@@ -182,28 +181,20 @@ class IbBTCStore {
 		return !this.config.contracts.RenVaultZap.supportedTokens.includes(token.address);
 	}
 
-	isValidAmount(mintBalance: TokenBalance, slippage?: BigNumber): boolean {
+	isValidAmount(amount: TokenBalance, tokenBalance: TokenBalance, slippage?: BigNumber): boolean {
 		const { queueNotification } = this.store.uiState;
 
-		const tokenBalance = this.tokenBalances.find(
-			(tokenBalance) => tokenBalance.token.address === mintBalance.token.address,
-		);
-
-		if (!tokenBalance) {
-			return false;
-		}
-
-		if (mintBalance.tokenBalance.isNaN() || mintBalance.tokenBalance.lte(0)) {
+		if (amount.tokenBalance.isNaN() || amount.tokenBalance.lte(0)) {
 			queueNotification('Please enter a valid amount', 'error');
 			return false;
 		}
 
-		if (mintBalance.tokenBalance.gt(tokenBalance.tokenBalance)) {
-			queueNotification(`You have insufficient balance of ${mintBalance.token.symbol}`, 'error');
+		if (amount.tokenBalance.gt(tokenBalance.tokenBalance)) {
+			queueNotification(`You have insufficient balance of ${amount.token.symbol}`, 'error');
 			return false;
 		}
 
-		if (this.isZapToken(mintBalance.token) && (slippage?.isNaN() || slippage?.lte(0))) {
+		if (this.isZapToken(amount.token) && (slippage?.isNaN() || slippage?.lte(0))) {
 			queueNotification('Please enter a valid slippage value', 'error');
 			return false;
 		}
@@ -307,9 +298,9 @@ class IbBTCStore {
 		}
 	}
 
-	async redeem(redeemBalance: TokenBalance): Promise<void> {
+	async redeem(redeemBalance: TokenBalance, outToken: Token): Promise<void> {
 		try {
-			await this.redeemBBTC(redeemBalance);
+			await this.redeemBBTC(redeemBalance, outToken);
 		} catch (error) {
 			process.env.NODE_ENV !== 'production' && console.error(error);
 			this.store.uiState.queueNotification(
@@ -343,7 +334,7 @@ class IbBTCStore {
 		}
 	}
 
-	async calcRedeemAmount(redeemBalance: TokenBalance): Promise<RedeemAmountCalculation> {
+	async calcRedeemAmount(redeemBalance: TokenBalance, outToken: Token): Promise<RedeemAmountCalculation> {
 		const { queueNotification } = this.store.uiState;
 
 		const fallbackResponse = {
@@ -353,7 +344,7 @@ class IbBTCStore {
 		};
 
 		try {
-			const zap = IbBTCMintZapFactory.getIbBTCZap(this.store, redeemBalance.token);
+			const zap = IbBTCMintZapFactory.getIbBTCZap(this.store, outToken);
 			const method = zap.getCalcRedeemMethod(redeemBalance.tokenBalance);
 			const { fee, max, sett } = await method.call();
 			return { fee: new BigNumber(fee), max: new BigNumber(max), sett: new BigNumber(sett) };
@@ -379,8 +370,8 @@ class IbBTCStore {
 		}
 	}
 
-	async redeemBBTC(redeemBalance: TokenBalance): Promise<void> {
-		const zap = IbBTCMintZapFactory.getIbBTCZap(this.store, redeemBalance.token);
+	async redeemBBTC(redeemBalance: TokenBalance, outToken: Token): Promise<void> {
+		const zap = IbBTCMintZapFactory.getIbBTCZap(this.store, outToken);
 		const method = zap.getRedeemMethod(redeemBalance.tokenBalance);
 		await this.executeMethod(method, 'Redeem submitted', `Successfully redeemed ${redeemBalance.token.symbol}`);
 	}

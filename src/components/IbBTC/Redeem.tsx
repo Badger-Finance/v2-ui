@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { Button, Typography, Grid, Tooltip } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -65,12 +65,13 @@ export const Redeem = observer((): any => {
 	const classes = useStyles();
 
 	const {
-		ibBTCStore: { redeemOptions, ibBTC, redeemFeePercent, tokenBalances, redeemRates },
+		ibBTCStore: { redeemOptions, ibBTC, redeemFeePercent, redeemRates },
 		onboard,
 	} = store;
 
+	const [selectedToken, setSelectedToken] = useState<TokenBalance>();
 	const [inputAmount, setInputAmount] = useState('');
-	const [redeemBalance, setRedeemBalance] = useState(redeemOptions[0]);
+	const [redeemBalance, setRedeemBalance] = useState<TokenBalance>();
 	const [outputAmount, setOutputAmount] = useState<string>();
 	const [conversionRate, setConversionRate] = useState<string>();
 	const [maxRedeem, setMaxRedeem] = useState<BigNumber>();
@@ -79,7 +80,7 @@ export const Redeem = observer((): any => {
 	const [isEnoughToRedeem, setIsEnoughToRedeem] = useState(true);
 	const { onValidChange, inputProps } = useNumericInput();
 
-	const redeemBalanceRedeemRate = redeemRates[redeemBalance.token.address];
+	const redeemBalanceRedeemRate = selectedToken ? redeemRates[selectedToken.token.address] : undefined;
 
 	const resetState = () => {
 		setInputAmount('');
@@ -98,19 +99,19 @@ export const Redeem = observer((): any => {
 		setConversionRate(conversionRate.balanceDisplay(6));
 	};
 
-	const calculateRedeem = async (balance: TokenBalance): Promise<void> => {
+	const calculateRedeem = async (ibbtcBalance: TokenBalance, outTokenBalance: TokenBalance): Promise<void> => {
 		const [{ sett, fee, max }, conversionRate] = await Promise.all([
-			store.ibBTCStore.calcRedeemAmount(balance),
-			store.ibBTCStore.getRedeemConversionRate(balance.token),
+			store.ibBTCStore.calcRedeemAmount(ibbtcBalance, outTokenBalance.token),
+			store.ibBTCStore.getRedeemConversionRate(outTokenBalance.token),
 		]);
 
 		setMaxRedeem(max);
 		setRedeemInformation({
-			inputAmount: balance,
-			redeemAmount: TokenBalance.fromBigNumber(balance, sett),
+			inputAmount: ibbtcBalance,
+			redeemAmount: TokenBalance.fromBigNumber(outTokenBalance, sett),
 			max: TokenBalance.fromBigNumber(ibBTC, max),
 			fee: TokenBalance.fromBigNumber(ibBTC, fee),
-			conversionRate: TokenBalance.fromBigNumber(balance, conversionRate),
+			conversionRate: TokenBalance.fromBigNumber(outTokenBalance, conversionRate),
 		});
 	};
 
@@ -124,9 +125,13 @@ export const Redeem = observer((): any => {
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	const debounceInputAmountChange = useCallback(
 		debounce(
-			600,
+			200,
 			async (change): Promise<void> => {
 				const input = new BigNumber(change);
+
+				if (!selectedToken) {
+					return;
+				}
 
 				if (!input.gt(ZERO)) {
 					setOutputAmount(undefined);
@@ -137,49 +142,64 @@ export const Redeem = observer((): any => {
 					return;
 				}
 
-				await calculateRedeem(TokenBalance.fromBigNumber(redeemBalance, input));
+				await calculateRedeem(TokenBalance.fromBalance(ibBTC, change), selectedToken);
 			},
 		),
 		[redeemBalance],
 	);
 
 	const handleApplyMaxBalance = async (): Promise<void> => {
-		const selectedTokenBalance = tokenBalances.find(
-			(tokenBalance) => tokenBalance.token.address === redeemBalance.token.address,
-		);
-
-		if (selectedTokenBalance) {
-			setRedeemBalance(selectedTokenBalance);
-			await calculateRedeem(selectedTokenBalance);
+		if (!selectedToken) {
+			return;
 		}
+
+		setInputAmount(ibBTC.balance.decimalPlaces(6, BigNumber.ROUND_HALF_FLOOR).toString());
+		setRedeemBalance(ibBTC);
+		await calculateRedeem(ibBTC, selectedToken);
 	};
 
 	const handleLimitClick = async (limit: BigNumber): Promise<void> => {
+		if (!selectedToken) {
+			return;
+		}
+
 		const limitBalance = TokenBalance.fromBigNumber(ibBTC, limit);
+		setInputAmount(limitBalance.balance.decimalPlaces(6, BigNumber.ROUND_HALF_FLOOR).toString());
 		setRedeemBalance(limitBalance);
-		await calculateRedeem(limitBalance);
+		await calculateRedeem(limitBalance, selectedToken);
 	};
 
 	const handleTokenChange = async (tokenBalance: TokenBalance): Promise<void> => {
-		setRedeemBalance(tokenBalance);
-		await calculateRedeem(tokenBalance);
+		setSelectedToken(tokenBalance);
+		if (inputAmount) {
+			await calculateRedeem(TokenBalance.fromBalance(ibBTC, inputAmount), tokenBalance);
+		}
 	};
 
 	const handleRedeemClick = async (): Promise<void> => {
-		if (redeemBalance) {
-			const isValidAmount = store.ibBTCStore.isValidAmount(redeemBalance);
+		if (redeemBalance && selectedToken) {
+			const isValidAmount = store.ibBTCStore.isValidAmount(redeemBalance, ibBTC);
 			if (!isValidAmount) return;
-			await store.ibBTCStore.redeem(redeemBalance);
+			await store.ibBTCStore.redeem(redeemBalance, selectedToken.token);
 			resetState();
 		}
 	};
+
+	useEffect(() => {
+		const defaultBalance = redeemOptions[0];
+
+		// reload balance to load symbol that's loaded async
+		if (!selectedToken && defaultBalance.token.symbol) {
+			setSelectedToken(defaultBalance);
+		}
+	}, [redeemOptions, selectedToken]);
 
 	return (
 		<>
 			<Grid container>
 				<BalanceGrid item xs={12}>
 					<EndAlignText variant="body1" color="textSecondary">
-						Balance: {ibBTC.balanceDisplay()}
+						Balance: {ibBTC.balanceDisplay(6)}
 					</EndAlignText>
 				</BalanceGrid>
 				<BorderedFocusableContainerGrid item container xs={12}>
@@ -215,77 +235,79 @@ export const Redeem = observer((): any => {
 					<OutputTokenGrid item container xs={12} sm={5} md={12} lg={5}>
 						<OptionTokens
 							balances={redeemOptions}
-							selected={redeemBalance}
+							selected={selectedToken || redeemOptions[0]}
 							onTokenSelect={handleTokenChange}
 						/>
 					</OutputTokenGrid>
 				</OutputContentGrid>
 			</Grid>
-			<Grid item xs={12}>
-				<SummaryGrid>
-					{!isEnoughToRedeem && maxRedeem && (
-						<Grid item xs={12} container>
-							<ErrorText variant="subtitle1">
-								<span>A maximum of </span>
-								<Tooltip
-									enterTouchDelay={0}
-									className={classes.maxAmount}
-									title="Apply limit"
-									arrow
-									placement="top"
-									onClick={() => handleLimitClick(maxRedeem)}
-								>
-									<span>{ibBTC.balanceDisplay(6)}</span>
-								</Tooltip>
-								<span>
-									{' '}
-									{ibBTC.token.symbol} can be redeemed for {redeemBalance.token.symbol}.
-								</span>
-							</ErrorText>
-						</Grid>
-					)}
-					<Grid item xs={12} container justify="space-between">
-						<Grid item xs={6}>
-							<Typography variant="subtitle1">Current Conversion Rate: </Typography>
-						</Grid>
-						<Grid item xs={6}>
-							<EndAlignText variant="body1">
-								1 {ibBTC.token.symbol} : {conversionRate || redeemBalanceRedeemRate}{' '}
-								{redeemBalance.token.symbol}
-							</EndAlignText>
-						</Grid>
-					</Grid>
-					<Grid item xs={12} container justify="space-between">
-						<Grid item xs={6}>
-							<Typography variant="subtitle1">Fees: </Typography>
-						</Grid>
-						<Grid item xs={6}>
-							<EndAlignText variant="body1">
-								<Tooltip
-									enterTouchDelay={0}
-									enterDelay={0}
-									leaveDelay={300}
-									arrow
-									placement="left"
-									title={'Redeem Fee: ' + redeemFeePercent + '%'}
-								>
+			{selectedToken && (
+				<Grid item xs={12}>
+					<SummaryGrid>
+						{!isEnoughToRedeem && maxRedeem && (
+							<Grid item xs={12} container>
+								<ErrorText variant="subtitle1">
+									<span>A maximum of </span>
+									<Tooltip
+										enterTouchDelay={0}
+										className={classes.maxAmount}
+										title="Apply limit"
+										arrow
+										placement="top"
+										onClick={() => handleLimitClick(maxRedeem)}
+									>
+										<span>{TokenBalance.fromBigNumber(ibBTC, maxRedeem).balanceDisplay(6)}</span>
+									</Tooltip>
 									<span>
-										{fee} {ibBTC.token.symbol}
+										{' '}
+										{ibBTC.token.symbol} can be redeemed for {selectedToken.token.symbol}.
 									</span>
-								</Tooltip>
-							</EndAlignText>
+								</ErrorText>
+							</Grid>
+						)}
+						<Grid item xs={12} container justify="space-between">
+							<Grid item xs={6}>
+								<Typography variant="subtitle1">Current Conversion Rate: </Typography>
+							</Grid>
+							<Grid item xs={6}>
+								<EndAlignText variant="body1">
+									1 {ibBTC.token.symbol} : {conversionRate || redeemBalanceRedeemRate}{' '}
+									{selectedToken.token.symbol}
+								</EndAlignText>
+							</Grid>
 						</Grid>
-					</Grid>
-					<Grid item xs={12} container justify="space-between">
-						<Grid item xs={6}>
-							<Typography variant="subtitle1">Total Redeem Amount: </Typography>
+						<Grid item xs={12} container justify="space-between">
+							<Grid item xs={6}>
+								<Typography variant="subtitle1">Fees: </Typography>
+							</Grid>
+							<Grid item xs={6}>
+								<EndAlignText variant="body1">
+									<Tooltip
+										enterTouchDelay={0}
+										enterDelay={0}
+										leaveDelay={300}
+										arrow
+										placement="left"
+										title={'Redeem Fee: ' + redeemFeePercent + '%'}
+									>
+										<span>
+											{fee} {ibBTC.token.symbol}
+										</span>
+									</Tooltip>
+								</EndAlignText>
+							</Grid>
 						</Grid>
-						<Grid item xs={6}>
-							<EndAlignText variant="body1">{`${totalRedeem} ${redeemBalance.token.symbol}`}</EndAlignText>
+						<Grid item xs={12} container justify="space-between">
+							<Grid item xs={6}>
+								<Typography variant="subtitle1">Total Redeem Amount: </Typography>
+							</Grid>
+							<Grid item xs={6}>
+								<EndAlignText variant="body1">{`${totalRedeem} ${selectedToken.token.symbol}`}</EndAlignText>
+							</Grid>
 						</Grid>
-					</Grid>
-				</SummaryGrid>
-			</Grid>
+					</SummaryGrid>
+				</Grid>
+			)}
 			<Grid item xs={12}>
 				<ActionButton>
 					<Button
