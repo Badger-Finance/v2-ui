@@ -1,4 +1,5 @@
 export const IbbtcDepositTokenPoolIds: Record<string, number> = {
+	'0x6dEf55d2e18486B9dDfaA075bc4e4EE0B28c1545': 0,
 	'0x4b92d19c11435614CD49Af1b589001b7c08cD4D5': 0,
 	'0xd04c48A53c111300aD41190D63681ed3dAd998eC': 1,
 	'0xb9D076fDe463dbc9f915E5392F807315Bf940334': 2,

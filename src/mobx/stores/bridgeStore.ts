@@ -167,20 +167,20 @@ class BridgeStore {
 
 				if (this.status == Status.PROCESSING) {
 					// No-op if tx processing not complete.
-					if (!_isTxComplete(newValue)) return;
+					if (!_isTxComplete(newValue as RenVMTransaction)) return;
 					this.complete();
 					return;
 				}
 
 				this.status = Status.INITIALIZING;
 				// Check if needs init (new tx).
-				if (newValue.created === undefined) {
-					this.initTx(newValue);
+				if ((newValue as RenVMTransaction).created === undefined) {
+					this.initTx(newValue as RenVMTransaction);
 					return;
 				}
 
 				this.status = Status.PROCESSING;
-				this.openTx(newValue);
+				this.openTx(newValue as RenVMTransaction);
 			},
 		);
 

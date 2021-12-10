@@ -1,5 +1,5 @@
 import { RootStore } from 'mobx/RootStore';
-import { extendObservable, action } from 'mobx';
+import { extendObservable, action, computed } from 'mobx';
 import BigNumber from 'bignumber.js';
 import { ContractSendMethod } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
@@ -50,8 +50,6 @@ class IbBTCStore {
 		this.redeemFeePercent = new BigNumber(0);
 
 		extendObservable(this, {
-			tokens: this.tokens,
-			ibBTC: this.ibBTC,
 			apyUsingLastDay: this.apyUsingLastDay,
 			apyUsingLastWeek: this.apyUsingLastWeek,
 			mintFeePercent: this.mintFeePercent,
@@ -61,10 +59,12 @@ class IbBTCStore {
 		});
 	}
 
+	@computed
 	get ibBTC(): TokenBalance {
 		return this.store.user.getTokenBalance(mainnetDeploy.tokens['ibBTC']);
 	}
 
+	@computed
 	get tokenBalances(): TokenBalance[] {
 		return [
 			this.store.user.getTokenBalance(mainnetDeploy.sett_system.vaults['native.renCrv']),
@@ -86,7 +86,7 @@ class IbBTCStore {
 
 	// just to have the same pattern as redeem options, currently all peaks can mint
 	get mintOptions(): TokenBalance[] {
-		return this.tokens;
+		return this.tokenBalances;
 	}
 
 	// currently, the zap contract does not support redeem
@@ -139,10 +139,10 @@ class IbBTCStore {
 			const { wallet } = this.store.onboard;
 			if (!wallet?.provider) return;
 
-			const fetchMintRates = await Promise.all(this.mintOptions.map(({ token }) => this.fetchMintRate(token)));
-			const fetchRedeemRates = await Promise.all(
-				this.redeemOptions.map(({ token }) => this.fetchRedeemRate(token)),
-			);
+			const [fetchMintRates, fetchRedeemRates] = await Promise.all([
+				Promise.all(this.mintOptions.map(({ token }) => this.fetchMintRate(token))),
+				Promise.all(this.redeemOptions.map(({ token }) => this.fetchRedeemRate(token))),
+			]);
 
 			for (let i = 0; i < fetchMintRates.length; i++) {
 				this.mintRates[this.mintOptions[i].token.address] = fetchMintRates[i];
@@ -160,7 +160,7 @@ class IbBTCStore {
 				const { bBTC, fee } = await this.calcMintAmount(
 					TokenBalance.fromBalance(this.store.user.getTokenBalance(token.address), '1'),
 				);
-				return TokenBalance.fromBigNumber(this.ibBTC, bBTC.plus(fee)).balanceDisplay(3);
+				return TokenBalance.fromBigNumber(this.ibBTC, bBTC.plus(fee)).balanceDisplay(6);
 			} catch (error) {
 				return '0.000';
 			}
@@ -171,7 +171,7 @@ class IbBTCStore {
 		async (token: Token): Promise<string> => {
 			try {
 				const redeemRate = await this.getRedeemConversionRate(token);
-				return TokenBalance.fromBigNumber(this.ibBTC, redeemRate).balanceDisplay(3);
+				return TokenBalance.fromBigNumber(this.ibBTC, redeemRate).balanceDisplay(6);
 			} catch (error) {
 				return '0.000';
 			}
@@ -179,7 +179,7 @@ class IbBTCStore {
 	);
 
 	isZapToken(token: Token): boolean {
-		return !this.config.contracts.RenVaultZap.supportedTokens.includes(token.symbol);
+		return !this.config.contracts.RenVaultZap.supportedTokens.includes(token.address);
 	}
 
 	isValidAmount(mintBalance: TokenBalance, slippage?: BigNumber): boolean {
@@ -193,7 +193,7 @@ class IbBTCStore {
 			return false;
 		}
 
-		if (!mintBalance.tokenBalance.isNaN() || mintBalance.tokenBalance.lte(0)) {
+		if (mintBalance.tokenBalance.isNaN() || mintBalance.tokenBalance.lte(0)) {
 			queueNotification('Please enter a valid amount', 'error');
 			return false;
 		}
@@ -389,7 +389,7 @@ class IbBTCStore {
 		const { wallet } = this.store.onboard;
 		const web3 = new Web3(wallet?.provider);
 
-		if (token.symbol === this.config.tokens.wBTC.symbol) {
+		if (token.address === mainnetDeploy.tokens['wBTC']) {
 			return new web3.eth.Contract(ERC20_ABI as AbiItem[], token.address).methods.approve(spender, amount);
 		}
 

@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Button, Popper, Paper, List, ListItem } from '@material-ui/core';
 import { ArrowDropDown } from '@material-ui/icons';
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
+import { Token } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
 	noUnderline: {
@@ -70,7 +71,7 @@ export const OptionTokens = ({ balances, selected, onTokenSelect }: TokenListPro
 				onClick={handleClick}
 				className={classes.selectButton}
 			>
-				<OptionToken balance={selected} />
+				<OptionToken token={selected.token} />
 			</Button>
 			<Popper style={{ zIndex: 100000 }} placement="bottom-end" id={'popper'} open={open} anchorEl={anchorEl}>
 				<Paper onMouseLeave={() => setAnchorEl(null)}>
@@ -84,7 +85,7 @@ export const OptionTokens = ({ balances, selected, onTokenSelect }: TokenListPro
 									setAnchorEl(null);
 								}}
 							>
-								<OptionToken balance={balance} />
+								<OptionToken token={balance.token} />
 							</ListItem>
 						))}
 					</List>
@@ -95,11 +96,11 @@ export const OptionTokens = ({ balances, selected, onTokenSelect }: TokenListPro
 };
 
 interface TokenProps {
-	balance: TokenBalance;
+	token: Token;
 }
 
-export const OptionToken = ({ balance }: TokenProps): JSX.Element => {
-	const { name, symbol } = balance.token;
+export const OptionToken = ({ token }: TokenProps): JSX.Element => {
+	const { name, symbol } = token;
 	const classes = useStyles();
 	return (
 		<div className={classes.tokenContainer}>
