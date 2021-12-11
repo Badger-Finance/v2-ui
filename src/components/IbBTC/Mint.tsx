@@ -1,14 +1,14 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import {
 	Button,
-	Typography,
+	FormControlLabel,
 	Grid,
 	InputAdornment,
-	Tooltip,
+	OutlinedInput,
 	Radio,
 	RadioGroup,
-	FormControlLabel,
-	OutlinedInput,
+	Tooltip,
+	Typography,
 } from '@material-ui/core';
 import { makeStyles, styled } from '@material-ui/core/styles';
 import { observer } from 'mobx-react-lite';
@@ -20,19 +20,21 @@ import { DownArrow } from './DownArrow';
 import { StoreContext } from 'mobx/store-context';
 import { useConnectWallet } from 'mobx/utils/hooks';
 import {
-	EndAlignText,
-	InputTokenAmount,
-	BorderedFocusableContainerGrid,
-	OutputContentGrid,
-	SummaryGrid,
 	BalanceGrid,
+	BorderedFocusableContainerGrid,
+	EndAlignText,
 	InputTokenActionButtonsGrid,
-	OutputBalanceText,
+	InputTokenAmount,
 	OutputAmountText,
+	OutputBalanceText,
+	OutputContentGrid,
 	OutputTokenGrid,
+	SummaryGrid,
 } from './Common';
 import { useNumericInput } from '../../utils/useNumericInput';
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
+import { Skeleton } from '@material-ui/lab';
+import { TransactionRequestResult } from '../../mobx/utils/web3';
 
 const SlippageContainer = styled(Grid)(({ theme }) => ({
 	marginTop: theme.spacing(1),
@@ -50,6 +52,10 @@ const useStyles = makeStyles({
 	customSlippage: {
 		padding: 8,
 		width: 30,
+	},
+	loader: {
+		display: 'inline-block',
+		width: 32,
 	},
 });
 
@@ -84,7 +90,6 @@ export const Mint = observer(
 		const [inputAmount, setInputAmount] = useState('');
 		const [mintBalance, setMintBalance] = useState<TokenBalance>();
 		const [outputAmount, setOutputAmount] = useState<string>();
-		const [conversionRate, setConversionRate] = useState<string>();
 		const [fee, setFee] = useState('0.000');
 		const [totalMint, setTotalMint] = useState('0.000');
 		const [slippage, setSlippage] = useState<string | undefined>('1');
@@ -93,7 +98,6 @@ export const Mint = observer(
 		const showSlippage = mintBalance ? store.ibBTCStore.isZapToken(mintBalance.token) : false;
 
 		const mintBalanceRate = mintBalance ? mintRates[mintBalance.token.address] : undefined;
-		const displayedConversionRate = Number(conversionRate) || mintBalanceRate;
 
 		const selectedTokenBalance = tokenBalances.find(
 			(tokenBalance) => tokenBalance.token.address === mintBalance?.token.address,
@@ -109,12 +113,6 @@ export const Mint = observer(
 			setFee(fee.balanceDisplay(6));
 			setTotalMint(outputAmount.balanceDisplay(6));
 			setOutputAmount(outputAmount.balanceDisplay(6));
-			setConversionRate(
-				TokenBalance.fromBigNumber(
-					outputAmount,
-					outputAmount.tokenBalance.plus(fee.tokenBalance).dividedBy(inputAmount.tokenBalance),
-				).balanceDisplay(6),
-			);
 		};
 
 		const calculateMintInformation = async (settTokenAmount: TokenBalance): Promise<void> => {
@@ -199,7 +197,11 @@ export const Mint = observer(
 					return;
 				}
 
-				await store.ibBTCStore.mint(mintBalance, mintSlippage);
+				const txResult = await store.ibBTCStore.mint(mintBalance, mintSlippage);
+
+				if (txResult === TransactionRequestResult.Success) {
+					resetState();
+				}
 			}
 		};
 
@@ -300,7 +302,9 @@ export const Mint = observer(
 								</Grid>
 								<Grid item xs={6}>
 									<EndAlignText variant="body1">
-										1 {selectedToken.token.symbol} : {displayedConversionRate} {ibBTC.token.symbol}
+										1 {selectedToken.token.symbol} :{' '}
+										{mintBalanceRate || <Skeleton className={classes.loader} />}{' '}
+										{ibBTC.token.symbol}
 									</EndAlignText>
 								</Grid>
 							</Grid>
