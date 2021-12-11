@@ -25,6 +25,7 @@ import {
 } from './Common';
 import { useNumericInput } from '../../utils/useNumericInput';
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
+import { TransactionRequestResult } from '../../mobx/utils/web3';
 
 type RedeemInformation = {
 	inputAmount: TokenBalance;
@@ -145,7 +146,7 @@ export const Redeem = observer((): any => {
 				await calculateRedeem(TokenBalance.fromBalance(ibBTC, change), selectedToken);
 			},
 		),
-		[redeemBalance],
+		[selectedToken],
 	);
 
 	const handleApplyMaxBalance = async (): Promise<void> => {
@@ -180,8 +181,12 @@ export const Redeem = observer((): any => {
 		if (redeemBalance && selectedToken) {
 			const isValidAmount = store.ibBTCStore.isValidAmount(redeemBalance, ibBTC);
 			if (!isValidAmount) return;
-			await store.ibBTCStore.redeem(redeemBalance, selectedToken.token);
-			resetState();
+
+			const txResult = await store.ibBTCStore.redeem(redeemBalance, selectedToken.token);
+
+			if (txResult === TransactionRequestResult.Success) {
+				resetState();
+			}
 		}
 	};
 
