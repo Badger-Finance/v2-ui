@@ -1,10 +1,10 @@
 import { RootStore } from 'mobx/RootStore';
-import { extendObservable, action, computed } from 'mobx';
+import { action, computed, extendObservable } from 'mobx';
 import BigNumber from 'bignumber.js';
 import { ContractSendMethod } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
 import Web3 from 'web3';
-import { ZERO, MAX, ERC20_ABI } from 'config/constants';
+import { ERC20_ABI, MAX, ZERO } from 'config/constants';
 import settConfig from 'config/system/abis/Sett.json';
 import ibBTCConfig from 'config/system/abis/ibBTC.json';
 import addresses from 'config/ibBTC/addresses.json';
@@ -298,15 +298,16 @@ class IbBTCStore {
 		}
 	}
 
-	async redeem(redeemBalance: TokenBalance, outToken: Token): Promise<void> {
+	async redeem(redeemBalance: TokenBalance, outToken: Token): Promise<TransactionRequestResult> {
 		try {
-			await this.redeemBBTC(redeemBalance, outToken);
+			return this.redeemBBTC(redeemBalance, outToken);
 		} catch (error) {
 			process.env.NODE_ENV !== 'production' && console.error(error);
 			this.store.uiState.queueNotification(
 				`There was an error redeeming ${redeemBalance.token.symbol}. Please try again later.`,
 				'error',
 			);
+			return TransactionRequestResult.Failure;
 		}
 	}
 
@@ -370,10 +371,10 @@ class IbBTCStore {
 		}
 	}
 
-	async redeemBBTC(redeemBalance: TokenBalance, outToken: Token): Promise<void> {
+	async redeemBBTC(redeemBalance: TokenBalance, outToken: Token): Promise<TransactionRequestResult> {
 		const zap = IbBTCMintZapFactory.getIbBTCZap(this.store, outToken);
 		const method = zap.getRedeemMethod(redeemBalance.tokenBalance);
-		await this.executeMethod(method, 'Redeem submitted', `Successfully redeemed ${redeemBalance.token.symbol}`);
+		return this.executeMethod(method, 'Redeem submitted', `Successfully redeemed ${redeemBalance.token.symbol}`);
 	}
 
 	private getApprovalMethod(token: Token, spender: string, amount: BigNumber | string = MAX) {
