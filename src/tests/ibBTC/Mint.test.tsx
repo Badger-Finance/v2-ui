@@ -13,8 +13,6 @@ import { SAMPLE_IBBTC_TOKEN_BALANCE } from '../utils/samples';
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
 import { TransactionRequestResult } from '../../mobx/utils/web3';
 
-jest.mock('mobx', () => ({ ...jest.requireActual('mobx'), computed: jest.fn() }));
-
 const mockTokens = [
 	new TokenBalance(
 		{

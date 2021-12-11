@@ -12,8 +12,6 @@ import { TokenBalance } from '../../mobx/model/tokens/token-balance';
 import BigNumber from 'bignumber.js';
 import { TransactionRequestResult } from '../../mobx/utils/web3';
 
-jest.mock('mobx', () => ({ ...jest.requireActual('mobx'), computed: jest.fn() }));
-
 describe('ibBTC Redeem', () => {
 	beforeEach(() => {
 		jest.spyOn(IbBTCStore.prototype, 'ibBTC', 'get').mockReturnValue(SAMPLE_IBBTC_TOKEN_BALANCE);

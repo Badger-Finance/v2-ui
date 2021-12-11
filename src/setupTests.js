@@ -9,6 +9,8 @@ Object.defineProperty(global, 'crypto', {
 	value: { getRandomValues: (arr) => crypto.randomBytes(arr.length) },
 });
 
+jest.mock('mobx', () => ({ ...jest.requireActual('mobx'), computed: jest.fn() }));
+
 jest.spyOn(LockedCvxDelegationStore.prototype, 'loadLockedCvxBalance').mockImplementation();
 jest.spyOn(LockedCvxDelegationStore.prototype, 'loadVotiumRewardsInformation').mockImplementation();
 jest.spyOn(LockedCvxDelegationStore.prototype, 'getUserDelegationState').mockImplementation();
