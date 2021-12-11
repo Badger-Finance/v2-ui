@@ -4,6 +4,17 @@ import BigNumber from 'bignumber.js';
 import { BouncerType, Protocol, Sett, SettData, SettState } from '@badger-dao/sdk';
 import { TEST_ADDRESS } from './snapshots';
 
+export const SAMPLE_IBBTC_TOKEN_BALANCE = new TokenBalance(
+	{
+		name: 'ibBTC',
+		symbol: 'ibBTC',
+		decimals: 18,
+		address: '0xc4E15973E6fF2A35cC804c2CF9D2a1b817a8b40F',
+	},
+	new BigNumber('10000000000000000000'),
+	new BigNumber('12.012381'),
+);
+
 export const SAMPLE_BADGER_SETT: BadgerSett = {
 	depositToken: {
 		address: '0x075b1bb99792c9E1041bA13afEf80C91a1e70fB3',
