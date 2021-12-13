@@ -8,8 +8,6 @@ import { Redeem } from '../../components/IbBTC/Redeem';
 import { IbbtcOptionToken } from '../../mobx/model/tokens/ibbtc-option-token';
 import Header from '../../components/Header';
 import { Snackbar } from '../../components/Snackbar';
-import { action } from 'mobx';
-import IbBTCStore from '../../mobx/stores/ibBTCStore';
 
 const tokensConfig = addresses.mainnet.tokens;
 
@@ -24,8 +22,7 @@ describe('ibBTC Redeem', () => {
 			sett: store.ibBTCStore.tokens[0].scale('11.988'),
 		});
 		store.ibBTCStore.getRedeemConversionRate = jest.fn().mockReturnValue(store.ibBTCStore.tokens[0].scale('1'));
-		store.honeyPot.fetchNFTS = action(jest.fn());
-		store.honeyPot.fetchPoolBalance = action(jest.fn());
+		store.ibBTCStore.redeem = jest.fn();
 	});
 
 	it('displays ibBTC balance and output token balance', () => {
@@ -109,7 +106,8 @@ describe('ibBTC Redeem', () => {
 		});
 
 		it('executes redeem with correct params', async () => {
-			const redeemSpy = jest.spyOn(IbBTCStore.prototype, 'redeem');
+			const redeemSpy = jest.fn();
+			store.ibBTCStore.redeem = redeemSpy;
 
 			customRender(
 				<StoreProvider value={store}>
@@ -125,6 +123,8 @@ describe('ibBTC Redeem', () => {
 			await screen.findByText('20.000000 bcrvRenBTC');
 
 			fireEvent.click(screen.getByRole('button', { name: /redeem/i }));
+
+			await screen.findByDisplayValue('');
 
 			expect(redeemSpy).toHaveBeenNthCalledWith(
 				1,

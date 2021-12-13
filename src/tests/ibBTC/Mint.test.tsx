@@ -29,6 +29,7 @@ describe('ibBTC Mint', () => {
 		store.ibBTCStore.tokens[0].balance = store.ibBTCStore.tokens[0].scale('5');
 		store.ibBTCStore.tokens[1].balance = store.ibBTCStore.tokens[1].scale('10');
 		store.ibBTCStore.ibBTC.balance = mockIbBTC.scale('10');
+		store.ibBTCStore.mint = jest.fn();
 		/* eslint-disable-next-line @typescript-eslint/no-unused-vars */
 		jest.spyOn(IbBTCStore.prototype, 'calcMintAmount').mockImplementation(async (_token, _amount) => ({
 			bBTC: mockIbBTC.scale('11.988'),
@@ -154,7 +155,8 @@ describe('ibBTC Mint', () => {
 	});
 
 	it('executes mint with correct params', async () => {
-		const mintSpy = jest.spyOn(IbBTCStore.prototype, 'mint');
+		const mintSpy = jest.fn();
+		store.ibBTCStore.mint = mintSpy;
 
 		customRender(
 			<StoreProvider value={store}>
