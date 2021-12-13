@@ -53,7 +53,7 @@ const TableHeader = observer(
 					className={clsx(classes.hiddenMobile, classes.title)}
 				>
 					<Typography variant="body2" color="textSecondary">
-						Variable APR
+						APR
 					</Typography>
 				</Grid>
 				<Grid
