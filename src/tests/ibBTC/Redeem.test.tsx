@@ -9,6 +9,7 @@ import { IbbtcOptionToken } from '../../mobx/model/tokens/ibbtc-option-token';
 import Header from '../../components/Header';
 import { Snackbar } from '../../components/Snackbar';
 import { action } from 'mobx';
+import IbBTCStore from '../../mobx/stores/ibBTCStore';
 
 const tokensConfig = addresses.mainnet.tokens;
 
@@ -16,6 +17,7 @@ describe('ibBTC Redeem', () => {
 	beforeEach(() => {
 		store.ibBTCStore.ibBTC = new IbbtcOptionToken(store, tokensConfig['ibBTC']);
 		store.ibBTCStore.tokens = [new IbbtcOptionToken(store, addresses.mainnet.tokens['bcrvRenBTC'])];
+		store.ibBTCStore.ibBTC.balance = store.ibBTCStore.ibBTC.scale('5');
 		store.ibBTCStore.calcRedeemAmount = jest.fn().mockReturnValue({
 			fee: store.ibBTCStore.ibBTC.scale('0.0120'),
 			max: store.ibBTCStore.ibBTC.scale('15'),
@@ -82,8 +84,6 @@ describe('ibBTC Redeem', () => {
 
 			fireEvent.change(await screen.findByRole('textbox'), { target: { value: '12' } });
 
-			jest.advanceTimersByTime(1000);
-
 			await screen.findByText('20.000000 bcrvRenBTC');
 
 			expect(container).toMatchSnapshot();
@@ -101,13 +101,70 @@ describe('ibBTC Redeem', () => {
 
 			fireEvent.change(screen.getByRole('textbox'), { target: { value: '20' } });
 
-			jest.advanceTimersByTime(1000);
-
 			await screen.findByText('20.000000 bcrvRenBTC');
 
 			fireEvent.click(screen.getByRole('button', { name: /redeem/i }));
 
 			expect(screen.getByText('You have insufficient balance of ibBTC')).toBeInTheDocument();
+		});
+
+		it('executes redeem with correct params', async () => {
+			const redeemSpy = jest.spyOn(IbBTCStore.prototype, 'redeem');
+
+			customRender(
+				<StoreProvider value={store}>
+					<Snackbar>
+						<Header />
+						<Redeem />
+					</Snackbar>
+				</StoreProvider>,
+			);
+
+			fireEvent.change(screen.getByRole('textbox'), { target: { value: '0.1' } });
+
+			await screen.findByText('20.000000 bcrvRenBTC');
+
+			fireEvent.click(screen.getByRole('button', { name: /redeem/i }));
+
+			expect(redeemSpy).toHaveBeenNthCalledWith(
+				1,
+				store.ibBTCStore.tokens[0],
+				store.ibBTCStore.tokens[0].scale('0.1'),
+			);
+		});
+
+		it('executes calcRedeem and getRedeemConversionRate with correct params', async () => {
+			const calcRedeemSpy = jest.fn().mockReturnValue({
+				fee: store.ibBTCStore.ibBTC.scale('0.0120'),
+				max: store.ibBTCStore.ibBTC.scale('100'),
+				sett: store.ibBTCStore.tokens[0].scale('20'),
+			});
+
+			const getConversionSpy = jest.fn().mockReturnValue(Promise.resolve(store.ibBTCStore.tokens[0].scale('20')));
+
+			store.ibBTCStore.calcRedeemAmount = calcRedeemSpy;
+			store.ibBTCStore.getRedeemConversionRate = getConversionSpy;
+
+			customRender(
+				<StoreProvider value={store}>
+					<Snackbar>
+						<Header />
+						<Redeem />
+					</Snackbar>
+				</StoreProvider>,
+			);
+
+			fireEvent.change(await screen.findByRole('textbox'), { target: { value: '12' } });
+
+			await screen.findByText('20.000000 bcrvRenBTC');
+
+			expect(calcRedeemSpy).toHaveBeenNthCalledWith(
+				1,
+				store.ibBTCStore.tokens[0],
+				store.ibBTCStore.ibBTC.scale('12'),
+			);
+
+			expect(getConversionSpy).toHaveBeenNthCalledWith(1, store.ibBTCStore.tokens[0]);
 		});
 	});
 });
