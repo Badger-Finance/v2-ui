@@ -21,11 +21,14 @@ const PageHeader: React.FC<PageHeaderProps> = (props: PageHeaderProps) => {
 			<Typography variant="h6" color="textPrimary">
 				{title}
 			</Typography>
-			{subtitle && (
-				<Typography variant="body2" color="textSecondary">
-					{subtitle}
-				</Typography>
-			)}
+			{subtitle &&
+				(typeof subtitle === 'string' ? (
+					<Typography variant="body2" color="textSecondary">
+						{subtitle}
+					</Typography>
+				) : (
+					subtitle
+				))}
 		</div>
 	);
 };

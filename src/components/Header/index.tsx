@@ -15,6 +15,7 @@ import { RewardsWidget } from '../../components-v2/landing/RewardsWidget';
 import DelegationWidget from '../../components-v2/common/DelegationWidget';
 import NetworkGasWidget from '../../components-v2/common/NetworkGasWidget';
 import { MoreHoriz } from '@material-ui/icons';
+import { getFormattedNetworkName } from '../../utils/componentHelpers';
 import clsx from 'clsx';
 
 const useStyles = makeStyles((theme) => ({
@@ -43,6 +44,9 @@ const useStyles = makeStyles((theme) => ({
 		whiteSpace: 'pre-wrap',
 	},
 	sidebarButton: {
+		minWidth: 50,
+	},
+	sideButtonContainer: {
 		[theme.breakpoints.up('md')]: {
 			display: 'none',
 		},
@@ -54,9 +58,6 @@ const useStyles = makeStyles((theme) => ({
 			width: 30,
 			height: 30,
 		},
-	},
-	offlineExtraSpacing: {
-		marginLeft: theme.spacing(10),
 	},
 	// this is a better alternative for spacing than using spacing={1} because we only need left spacing for these elements.
 	// the former version adds right spacing too, which was making the last element not aligned to the body content
@@ -88,12 +89,9 @@ const Header = observer(() => {
 
 	const { notification, currency } = uiState;
 	const totalValueLocked = protocolSummary ? new BigNumber(protocolSummary.totalValue) : undefined;
-	const portfolioValue = onboard.isActive() && user.initialized ? user.portfolioValue : undefined;
+	const portfolioValue = onboard.isActive() && user.initialized ? user.portfolioValue : new BigNumber(0);
 	const valuePlaceholder = <Skeleton animation="wave" width={32} className={classes.loader} />;
-	const chainName = network.name
-		.split(' ')
-		.map((word) => word.slice(0, 1).toUpperCase() + word.slice(1))
-		.join(' ');
+	const chainName = getFormattedNetworkName(network);
 
 	const enq = () => {
 		if (!notification || !notification.message) return;
@@ -118,11 +116,12 @@ const Header = observer(() => {
 					<Grid container className={classes.container}>
 						<Grid
 							item
-							xs={3}
-							md={7}
 							container
+							xs={1}
+							md={7}
+							spacing={1}
 							alignItems="center"
-							justify={onboard.isActive() ? 'space-between' : 'flex-start'}
+							justify="space-between"
 							className={classes.amounts}
 						>
 							{isMobile ? (
@@ -135,22 +134,16 @@ const Header = observer(() => {
 								</div>
 							) : (
 								<>
-									{onboard.isActive() && (
-										<Grid item>
-											<Typography variant="body2" display="inline">
-												My Assets:{' '}
-											</Typography>
-											{portfolioValue ? (
-												<CurrencyDisplay
-													displayValue={inCurrency(portfolioValue, currency)}
-													variant="subtitle2"
-													justify="flex-start"
-												/>
-											) : (
-												valuePlaceholder
-											)}
-										</Grid>
-									)}
+									<Grid item>
+										<Typography variant="body2" display="inline">
+											My Assets:{' '}
+										</Typography>
+										<CurrencyDisplay
+											displayValue={inCurrency(portfolioValue, currency)}
+											variant="subtitle2"
+											justify="flex-start"
+										/>
+									</Grid>
 									<Grid item>
 										<Typography variant="body2" display="inline">
 											{`${chainName} TVL: `}
@@ -165,7 +158,7 @@ const Header = observer(() => {
 											valuePlaceholder
 										)}
 									</Grid>
-									<Grid item className={clsx(!onboard.isActive() && classes.offlineExtraSpacing)}>
+									<Grid item>
 										<Typography variant="body2" display="inline">
 											{'Badger Price: '}
 										</Typography>
@@ -185,7 +178,7 @@ const Header = observer(() => {
 						<Grid
 							item
 							container
-							xs={9}
+							xs={11}
 							md={5}
 							alignItems="center"
 							justify="flex-end"
@@ -207,10 +200,10 @@ const Header = observer(() => {
 							<Grid item>
 								<WalletWidget />
 							</Grid>
-							<Grid item className={classes.sidebarButton}>
+							<Grid item className={classes.sideButtonContainer}>
 								<Button
 									variant="outlined"
-									className={classes.button}
+									className={clsx(classes.button, classes.sidebarButton)}
 									onClick={() => uiState.openSidebar()}
 								>
 									<MoreHoriz />

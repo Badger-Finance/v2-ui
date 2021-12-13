@@ -12,6 +12,8 @@ import SettListFiltersWidget from '../components-v2/common/SettListFiltersWidget
 import CurrencyDisplay from '../components-v2/common/CurrencyDisplay';
 import { inCurrency } from '../mobx/utils/helpers';
 import { Skeleton } from '@material-ui/lab';
+import { getFormattedNetworkName } from '../utils/componentHelpers';
+import BigNumber from 'bignumber.js';
 
 const useStyles = makeStyles((theme) => ({
 	marginTop: {
@@ -86,6 +88,25 @@ const useStyles = makeStyles((theme) => ({
 	deposits: {
 		whiteSpace: 'pre-wrap',
 	},
+	badgerMobileOverview: {
+		width: '100%',
+		padding: '18px 0px',
+		borderBottom: `1px solid ${theme.palette.divider}`,
+	},
+	badgerOverviewItem: {
+		display: 'flex',
+		alignItems: 'center',
+		whiteSpace: 'pre-wrap',
+	},
+	badgerOverviewValue: {
+		marginRight: theme.spacing(1),
+	},
+	badgerOverviewValueText: {
+		fontWeight: 700,
+	},
+	filterWidgetContainer: {
+		textAlign: 'end',
+	},
 }));
 
 interface LandingProps {
@@ -95,70 +116,121 @@ interface LandingProps {
 }
 
 const Landing = observer((props: LandingProps) => {
-	const { onboard, user, uiState } = useContext(StoreContext);
+	const {
+		onboard,
+		user,
+		prices,
+		uiState: { currency },
+		network: { network },
+		setts: { protocolSummary },
+	} = useContext(StoreContext);
 
 	const { title, subtitle, state } = props;
 	const classes = useStyles();
 	const isMobile = useMediaQuery(useTheme().breakpoints.down('sm'));
-	const portfolioValue = onboard.isActive() && user.initialized ? user.portfolioValue : undefined;
+
+	const badgerToken = network.deploy.token.length > 0 ? network.deploy.token : undefined;
+	const badgerPrice = badgerToken ? prices.getPrice(badgerToken) : undefined;
+	const totalValueLocked = protocolSummary ? new BigNumber(protocolSummary.totalValue) : undefined;
+	const portfolioValue = onboard.isActive() && user.initialized ? user.portfolioValue : new BigNumber(0);
+	const valuePlaceholder = <Skeleton animation="wave" width={32} className={classes.loader} />;
+	const chainName = getFormattedNetworkName(network);
 
 	return (
-		<LayoutContainer>
-			{/* Landing Metrics Cards */}
-			<Grid container spacing={1} justify="center">
-				<PageHeaderContainer item container xs={12}>
-					<Grid item xs={6}>
-						<PageHeader title={title} subtitle={subtitle} />
-					</Grid>
-					<Grid item container xs={6} alignItems="center" justify="flex-end" spacing={2}>
-						{isMobile ? (
-							<>
-								{portfolioValue && (
-									<Grid item container xs justify="flex-end" className={classes.deposits}>
-										<Typography variant="body2" display="inline">
-											My assets:{' '}
-										</Typography>
-										{portfolioValue ? (
-											<CurrencyDisplay
-												displayValue={inCurrency(portfolioValue, uiState.currency)}
-												variant="subtitle2"
-												justify="flex-start"
-											/>
-										) : (
-											<Skeleton animation="wave" width={32} className={classes.loader} />
-										)}
-									</Grid>
+		<>
+			{isMobile && (
+				<div className={classes.badgerMobileOverview}>
+					<LayoutContainer>
+						<Grid container alignItems="center" spacing={1}>
+							<Grid item container xs={6} alignItems="center">
+								<Typography
+									variant="body2"
+									className={classes.badgerOverviewValue}
+								>{`${chainName} TVL:`}</Typography>
+								{totalValueLocked ? (
+									<CurrencyDisplay
+										displayValue={inCurrency(totalValueLocked, currency, 0)}
+										variant="subtitle2"
+										justify="flex-start"
+										TypographyProps={{ className: classes.badgerOverviewValueText }}
+									/>
+								) : (
+									valuePlaceholder
 								)}
-								<Grid item>
-									<SettListFiltersWidget />
-								</Grid>
-							</>
-						) : (
-							<>
-								<Grid item>
-									<CurrencyPicker />
-								</Grid>
-								{onboard.isActive() && (
-									<Grid item>
-										<WalletSlider />
-									</Grid>
+							</Grid>
+							<Grid item container xs={6} alignItems="center">
+								<Typography variant="body2" className={classes.badgerOverviewValue}>
+									Badger Price:
+								</Typography>
+								{badgerPrice ? (
+									<CurrencyDisplay
+										displayValue={inCurrency(badgerPrice, currency)}
+										variant="body2"
+										justify="flex-start"
+										TypographyProps={{ className: classes.badgerOverviewValueText }}
+									/>
+								) : (
+									valuePlaceholder
 								)}
-							</>
-						)}
-					</Grid>
-				</PageHeaderContainer>
-			</Grid>
-
-			{state === SettState.Guarded && (
-				<div className={classes.announcementContainer}>
-					<Button className={classes.announcementButton} size="small" variant="outlined" color="primary">
-						Note: New Vaults may take up to 2 weeks from launch to reach full efficiency.
-					</Button>
+							</Grid>
+						</Grid>
+					</LayoutContainer>
 				</div>
 			)}
+			<LayoutContainer>
+				{/* Landing Metrics Cards */}
+				<Grid container justify="center">
+					<PageHeaderContainer item container xs={12}>
+						<Grid item xs={10} md={6}>
+							<PageHeader title={title} subtitle={subtitle} />
+						</Grid>
+						<Grid item container xs={2} md={6} alignItems="center" justify="flex-end" spacing={2}>
+							{!isMobile && (
+								<>
+									<Grid item>
+										<CurrencyPicker />
+									</Grid>
+									{onboard.isActive() && (
+										<Grid item>
+											<WalletSlider />
+										</Grid>
+									)}
+								</>
+							)}
+						</Grid>
+					</PageHeaderContainer>
+				</Grid>
 
-			<SettListView state={state} />
-		</LayoutContainer>
+				{isMobile && (
+					<Grid container>
+						<Grid item container xs={10} alignItems="center">
+							<Typography variant="body2" className={classes.badgerOverviewValue}>
+								My Assets:
+							</Typography>
+							<CurrencyDisplay
+								displayValue={inCurrency(portfolioValue, currency)}
+								variant="body2"
+								justify="flex-start"
+								TypographyProps={{ className: classes.badgerOverviewValueText }}
+							/>
+						</Grid>
+						<Grid item container xs={2} justify="flex-end" className={classes.filterWidgetContainer}>
+							<SettListFiltersWidget />
+						</Grid>
+					</Grid>
+				)}
+
+				{state === SettState.Guarded && (
+					<div className={classes.announcementContainer}>
+						<Button className={classes.announcementButton} size="small" variant="outlined" color="primary">
+							Note: New Vaults may take up to 2 weeks from launch to reach full efficiency.
+						</Button>
+					</div>
+				)}
+
+				<SettListView state={state} />
+			</LayoutContainer>
+		</>
 	);
 });
 

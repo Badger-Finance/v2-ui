@@ -92,7 +92,7 @@ describe('Rewards Widget', () => {
 				</StoreProvider>,
 			);
 
-			fireEvent.click(screen.getByRole('button', { name: 'rewards icon $0.00' }));
+			fireEvent.click(screen.getByRole('button', { name: 'rewards icon $0' }));
 			expect(baseElement).toMatchSnapshot();
 		});
 	});

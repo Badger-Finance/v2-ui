@@ -6,7 +6,11 @@ export const LayoutContainer = styled(Container)({
 	maxWidth: MAX_LAYOUT_WIDTH,
 });
 
-export const PageHeaderContainer = styled(Grid)({
+export const PageHeaderContainer = styled(Grid)(({ theme }) => ({
 	marginTop: 42,
 	marginBottom: 42,
-});
+	[theme.breakpoints.down('sm')]: {
+		marginTop: 26,
+		marginBottom: 26,
+	},
+}));
