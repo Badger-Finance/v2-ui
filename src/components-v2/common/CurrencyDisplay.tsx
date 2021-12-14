@@ -20,16 +20,17 @@ const useCurrencyIconStyles = (typographyVariant: Variant) => {
 	}));
 };
 
+// TODO (TECH DEBT): replace variant and justify props for TypographyProps and ContainerProps to allow more flexibility
 export interface CurrencyDisplayProps {
 	displayValue?: string;
 	variant: Variant;
 	justify: GridJustification;
-	color?: TypographyProps['color'];
+	TypographyProps?: TypographyProps;
 	disabled?: boolean;
 }
 
 const CurrencyDisplay = (props: CurrencyDisplayProps): JSX.Element => {
-	const { displayValue, variant, justify, color, disabled = false } = props;
+	const { displayValue, variant, justify, disabled = false, TypographyProps = {} } = props;
 	const [icon, displayAmount] = displayValue ? displayValue.split('.png') : [undefined, undefined];
 	const hasCurrencyIcon = displayAmount !== undefined;
 	const iconClasses = useCurrencyIconStyles(variant)();
@@ -42,7 +43,7 @@ const CurrencyDisplay = (props: CurrencyDisplayProps): JSX.Element => {
 					className={clsx(iconClasses.currencyIcon, disabled && iconClasses.disabledIcon)}
 				/>
 			)}
-			<Typography variant={variant} color={color}>
+			<Typography {...TypographyProps} variant={variant}>
 				{hasCurrencyIcon ? displayAmount : displayValue}
 			</Typography>
 		</Box>

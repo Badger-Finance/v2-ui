@@ -6,12 +6,10 @@ import { PageHeaderContainer, LayoutContainer } from '../components-v2/common/Co
 
 const useStyles = makeStyles((theme) => ({
 	leaderboardContainer: {
+		margin: 'auto',
 		[theme.breakpoints.up('md')]: {
-			marginTop: theme.spacing(2),
 			maxWidth: '70%',
 		},
-		marginTop: theme.spacing(3),
-		margin: 'auto',
 	},
 	viewContainer: {
 		textAlign: 'center',

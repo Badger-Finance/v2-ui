@@ -22,12 +22,11 @@ exports[`ibBTC Mint can apply max balance 1`] = `
         class="MuiGrid-root-2 MuiGrid-item-4 MuiGrid-grid-xs-12-48 MuiGrid-grid-sm-5-55"
       >
         <div
-          class="MuiInputBase-root-141 WithStyles(ForwardRef(InputBase))-root-140 MuiInputBase-disabled-144"
+          class="MuiInputBase-root-141 WithStyles(ForwardRef(InputBase))-root-140"
         >
           <input
             autocomplete="off"
-            class="MuiInputBase-input-152 MuiInputBase-disabled-144"
-            disabled=""
+            class="MuiInputBase-input-152"
             inputmode="decimal"
             maxlength="79"
             minlength="1"
@@ -65,6 +64,7 @@ exports[`ibBTC Mint can apply max balance 1`] = `
           class="MuiGrid-root-2 MuiGrid-item-4"
         >
           <button
+            aria-label="token options"
             class="MuiButtonBase-root-190 MuiButton-root-161 MuiButton-outlined-166 makeStyles-selectButton-198 MuiButton-outlinedSizeSmall-178 MuiButton-sizeSmall-182"
             tabindex="0"
             type="button"
@@ -76,7 +76,7 @@ exports[`ibBTC Mint can apply max balance 1`] = `
                 class="makeStyles-tokenContainer-200"
               >
                 <img
-                  alt="bcrvRenBTC"
+                  alt="bcrvRenBTC icon"
                   class="makeStyles-tokenIcon-195"
                   src="/assets/icons/bcrvrenbtc.png"
                 />
@@ -168,7 +168,7 @@ exports[`ibBTC Mint can apply max balance 1`] = `
           class="makeStyles-tokenContainer-200"
         >
           <img
-            alt="Interest Bearing BTC"
+            alt="Interest Bearing BTC icon"
             class="makeStyles-tokenIcon-195"
             src="/assets/icons/ibbtc.png"
           />
@@ -278,7 +278,452 @@ exports[`ibBTC Mint can apply max balance 1`] = `
       <span
         class="MuiButton-label-162"
       >
-        Connect Wallet
+        MINT
+      </span>
+      <span
+        class="MuiTouchRipple-root-231"
+      />
+    </button>
+  </div>
+</div>
+`;
+
+exports[`ibBTC Mint can change token 1`] = `
+<div>
+  <div
+    class="MuiGrid-root-2 MuiGrid-container-3"
+  >
+    <div
+      class="MuiGrid-root-2 WithStyles(ForwardRef(Grid))-root-105 WithStyles(ForwardRef(Grid))-root-106 MuiGrid-item-4 MuiGrid-grid-xs-12-48"
+    >
+      <p
+        class="MuiTypography-root-108 WithStyles(ForwardRef(Typography))-root-107 MuiTypography-body1-110 MuiTypography-colorTextSecondary-134"
+      >
+        Balance: 
+        10.000000
+      </p>
+    </div>
+    <div
+      class="MuiGrid-root-2 WithStyles(ForwardRef(Grid))-root-138 WithStyles(ForwardRef(Grid))-root-139 MuiGrid-container-3 MuiGrid-item-4 MuiGrid-grid-xs-12-48"
+    >
+      <div
+        class="MuiGrid-root-2 MuiGrid-item-4 MuiGrid-grid-xs-12-48 MuiGrid-grid-sm-5-55"
+      >
+        <div
+          class="MuiInputBase-root-141 WithStyles(ForwardRef(InputBase))-root-140"
+        >
+          <input
+            autocomplete="off"
+            class="MuiInputBase-input-152"
+            inputmode="decimal"
+            maxlength="79"
+            minlength="1"
+            pattern="^[0-9]*[.,]?[0-9]*$"
+            placeholder="0.000"
+            spellcheck="false"
+            style="text-align: right;"
+            type="text"
+            value="10.000000"
+          />
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-2 WithStyles(ForwardRef(Grid))-root-159 WithStyles(ForwardRef(Grid))-root-160 MuiGrid-container-3 MuiGrid-spacing-xs-1-25 MuiGrid-item-4 MuiGrid-grid-xs-12-48 MuiGrid-grid-sm-7-57"
+      >
+        <div
+          class="MuiGrid-root-2 MuiGrid-item-4"
+        >
+          <button
+            class="MuiButtonBase-root-190 MuiButton-root-161 MuiButton-outlined-166 MuiButton-outlinedSizeSmall-178 MuiButton-sizeSmall-182"
+            tabindex="0"
+            type="button"
+          >
+            <span
+              class="MuiButton-label-162"
+            >
+              max
+            </span>
+            <span
+              class="MuiTouchRipple-root-231"
+            />
+          </button>
+        </div>
+        <div
+          class="MuiGrid-root-2 MuiGrid-item-4"
+        >
+          <button
+            aria-label="token options"
+            class="MuiButtonBase-root-190 MuiButton-root-161 MuiButton-outlined-166 makeStyles-selectButton-198 MuiButton-outlinedSizeSmall-178 MuiButton-sizeSmall-182"
+            tabindex="0"
+            type="button"
+          >
+            <span
+              class="MuiButton-label-162"
+            >
+              <div
+                class="makeStyles-tokenContainer-200"
+              >
+                <img
+                  alt="bcrvRenSBTC icon"
+                  class="makeStyles-tokenIcon-195"
+                  src="/assets/icons/bcrvrensbtc.png"
+                />
+                <div
+                  class="MuiTypography-root-108 MuiTypography-body1-110"
+                >
+                  bcrvRenSBTC
+                </div>
+              </div>
+              <span
+                class="MuiButton-endIcon-186 MuiButton-iconSizeSmall-187"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root-201"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M7 10l5 5 5-5z"
+                  />
+                </svg>
+              </span>
+            </span>
+            <span
+              class="MuiTouchRipple-root-231"
+            />
+          </button>
+        </div>
+      </div>
+    </div>
+    <div
+      class="MuiGrid-root-2 WithStyles(ForwardRef(Grid))-root-284 WithStyles(ForwardRef(Grid))-root-285 MuiGrid-container-3 MuiGrid-item-4 MuiGrid-align-items-xs-center-11 MuiGrid-grid-xs-12-48"
+    >
+      <p
+        class="MuiTypography-root-108 MuiTypography-body1-110 MuiTypography-colorTextSecondary-134"
+      >
+        Max slippage:
+      </p>
+      <div
+        aria-label="slippage-percentage"
+        class="MuiFormGroup-root-288 ForwardRef(RadioGroup)-root-286 ForwardRef(RadioGroup)-root-287"
+        role="radiogroup"
+      >
+        <label
+          class="MuiFormControlLabel-root-290"
+        >
+          <span
+            aria-disabled="false"
+            class="MuiButtonBase-root-190 MuiIconButton-root-305 PrivateSwitchBase-root-301 MuiRadio-root-296 MuiRadio-colorPrimary-299 MuiIconButton-colorPrimary-309"
+          >
+            <span
+              class="MuiIconButton-label-313"
+            >
+              <input
+                class="PrivateSwitchBase-input-304"
+                name="slippage-percentage"
+                type="radio"
+                value="0.5"
+              />
+              <div
+                class="PrivateRadioButtonIcon-root-314"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root-201"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                  />
+                </svg>
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root-201 PrivateRadioButtonIcon-layer-315"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
+                  />
+                </svg>
+              </div>
+            </span>
+            <span
+              class="MuiTouchRipple-root-231"
+            />
+          </span>
+          <span
+            class="MuiTypography-root-108 MuiFormControlLabel-label-295 MuiTypography-body1-110"
+          >
+            0.5%
+          </span>
+        </label>
+        <label
+          class="MuiFormControlLabel-root-290"
+        >
+          <span
+            aria-disabled="false"
+            class="MuiButtonBase-root-190 MuiIconButton-root-305 PrivateSwitchBase-root-301 MuiRadio-root-296 MuiRadio-colorPrimary-299 PrivateSwitchBase-checked-302 MuiRadio-checked-297 MuiIconButton-colorPrimary-309"
+          >
+            <span
+              class="MuiIconButton-label-313"
+            >
+              <input
+                checked=""
+                class="PrivateSwitchBase-input-304"
+                name="slippage-percentage"
+                type="radio"
+                value="1"
+              />
+              <div
+                class="PrivateRadioButtonIcon-root-314 PrivateRadioButtonIcon-checked-316"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root-201"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"
+                  />
+                </svg>
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root-201 PrivateRadioButtonIcon-layer-315"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M8.465 8.465C9.37 7.56 10.62 7 12 7C14.76 7 17 9.24 17 12C17 13.38 16.44 14.63 15.535 15.535C14.63 16.44 13.38 17 12 17C9.24 17 7 14.76 7 12C7 10.62 7.56 9.37 8.465 8.465Z"
+                  />
+                </svg>
+              </div>
+            </span>
+            <span
+              class="MuiTouchRipple-root-231"
+            />
+          </span>
+          <span
+            class="MuiTypography-root-108 MuiFormControlLabel-label-295 MuiTypography-body1-110"
+          >
+            1%
+          </span>
+        </label>
+      </div>
+      <div
+        class="MuiInputBase-root-141 MuiOutlinedInput-root-317 MuiInputBase-adornedEnd-146 MuiOutlinedInput-adornedEnd-322"
+      >
+        <input
+          autocomplete="off"
+          class="MuiInputBase-input-152 MuiOutlinedInput-input-327 makeStyles-customSlippage-1 MuiInputBase-inputAdornedEnd-157 MuiOutlinedInput-inputAdornedEnd-331"
+          inputmode="decimal"
+          maxlength="79"
+          minlength="1"
+          pattern="^[0-9]*[.,]?[0-9]*$"
+          spellcheck="false"
+          style="text-align: right;"
+          type="text"
+          value=""
+        />
+        <div
+          class="MuiInputAdornment-root-332 MuiInputAdornment-positionEnd-335"
+        >
+          <p
+            class="MuiTypography-root-108 MuiTypography-body1-110 MuiTypography-colorTextSecondary-134"
+          >
+            %
+          </p>
+        </div>
+        <fieldset
+          aria-hidden="true"
+          class="PrivateNotchedOutline-root-339 MuiOutlinedInput-notchedOutline-326"
+          style="padding-left: 8px;"
+        >
+          <legend
+            class="PrivateNotchedOutline-legend-340"
+            style="width: 0.01px;"
+          >
+            <span>
+              ​
+            </span>
+          </legend>
+        </fieldset>
+      </div>
+    </div>
+  </div>
+  <div
+    class="MuiGrid-root-2 MuiGrid-container-3 MuiGrid-item-4 MuiGrid-align-items-xs-center-11 MuiGrid-grid-xs-12-48"
+  >
+    <svg
+      class="makeStyles-arrowDown-210"
+      fill="none"
+      height="18"
+      viewBox="0 0 13 18"
+      width="13"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        clip-rule="evenodd"
+        d="M6.5 15.2138L11.6295 10L13 11.3931L6.5 18L-6.08938e-08 11.3931L1.37054 10L6.5 15.2138Z"
+        fill="white"
+        fill-rule="evenodd"
+      />
+      <line
+        stroke="white"
+        stroke-width="2"
+        x1="6.5"
+        x2="6.5"
+        y1="16"
+        y2="4.37114e-08"
+      />
+    </svg>
+  </div>
+  <div
+    class="MuiGrid-root-2 MuiGrid-container-3"
+  >
+    <div
+      class="MuiGrid-root-2 MuiGrid-item-4 MuiGrid-grid-xs-12-48"
+    >
+      <p
+        class="MuiTypography-root-108 WithStyles(ForwardRef(Typography))-root-211 WithStyles(ForwardRef(Typography))-root-212 MuiTypography-body1-110 MuiTypography-colorTextSecondary-134"
+      >
+        Balance: 
+        10.000000
+      </p>
+    </div>
+    <div
+      class="MuiGrid-root-2 WithStyles(ForwardRef(Grid))-root-213 WithStyles(ForwardRef(Grid))-root-214 MuiGrid-container-3 MuiGrid-item-4 MuiGrid-grid-xs-12-48"
+    >
+      <div
+        class="MuiGrid-root-2 MuiGrid-item-4 MuiGrid-grid-xs-12-48 MuiGrid-grid-sm-9-59 MuiGrid-grid-md-12-76 MuiGrid-grid-lg-10-88"
+      >
+        <h1
+          class="MuiTypography-root-108 WithStyles(ForwardRef(Typography))-root-215 WithStyles(ForwardRef(Typography))-root-216 MuiTypography-h1-113"
+        >
+          11.988000
+        </h1>
+      </div>
+      <div
+        class="MuiGrid-root-2 WithStyles(ForwardRef(Grid))-root-217 WithStyles(ForwardRef(Grid))-root-218 MuiGrid-container-3 MuiGrid-item-4 MuiGrid-grid-xs-12-48 MuiGrid-grid-sm-3-53 MuiGrid-grid-md-12-76 MuiGrid-grid-lg-2-80"
+      >
+        <div
+          class="makeStyles-tokenContainer-200"
+        >
+          <img
+            alt="Interest Bearing BTC icon"
+            class="makeStyles-tokenIcon-195"
+            src="/assets/icons/ibbtc.png"
+          />
+          <div
+            class="MuiTypography-root-108 MuiTypography-body1-110"
+          >
+            ibBTC
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="MuiGrid-root-2 MuiGrid-item-4 MuiGrid-grid-xs-12-48"
+  >
+    <div
+      class="MuiGrid-root-2 WithStyles(ForwardRef(Grid))-root-219"
+    >
+      <div
+        class="MuiGrid-root-2 MuiGrid-container-3 MuiGrid-item-4 MuiGrid-justify-xs-space-between-22 MuiGrid-grid-xs-12-48"
+      >
+        <div
+          class="MuiGrid-root-2 MuiGrid-item-4 MuiGrid-grid-xs-6-42"
+        >
+          <h6
+            class="MuiTypography-root-108 MuiTypography-subtitle1-119"
+          >
+            Current Conversion Rate: 
+          </h6>
+        </div>
+        <div
+          class="MuiGrid-root-2 MuiGrid-item-4 MuiGrid-grid-xs-6-42"
+        >
+          <p
+            class="MuiTypography-root-108 WithStyles(ForwardRef(Typography))-root-107 MuiTypography-body1-110"
+          >
+            1 
+            bcrvRenSBTC
+             : 
+            1.2
+             
+            ibBTC
+          </p>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-2 MuiGrid-container-3 MuiGrid-item-4 MuiGrid-justify-xs-space-between-22 MuiGrid-grid-xs-12-48"
+      >
+        <div
+          class="MuiGrid-root-2 MuiGrid-item-4 MuiGrid-grid-xs-6-42"
+        >
+          <h6
+            class="MuiTypography-root-108 MuiTypography-subtitle1-119"
+          >
+            Fees: 
+          </h6>
+        </div>
+        <div
+          class="MuiGrid-root-2 MuiGrid-item-4 MuiGrid-grid-xs-6-42"
+        >
+          <p
+            class="MuiTypography-root-108 WithStyles(ForwardRef(Typography))-root-107 MuiTypography-body1-110"
+          >
+            <span
+              class=""
+              title="Mint Fee: 0%"
+            >
+              0.012000
+               
+              ibBTC
+            </span>
+          </p>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root-2 MuiGrid-container-3 MuiGrid-item-4 MuiGrid-justify-xs-space-between-22 MuiGrid-grid-xs-12-48"
+      >
+        <div
+          class="MuiGrid-root-2 MuiGrid-item-4 MuiGrid-grid-xs-6-42"
+        >
+          <h6
+            class="MuiTypography-root-108 MuiTypography-subtitle1-119"
+          >
+            Total Mint Amount: 
+          </h6>
+        </div>
+        <div
+          class="MuiGrid-root-2 MuiGrid-item-4 MuiGrid-grid-xs-6-42"
+        >
+          <p
+            class="MuiTypography-root-108 WithStyles(ForwardRef(Typography))-root-107 MuiTypography-body1-110"
+          >
+            11.988000 ibBTC
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="MuiGrid-root-2 MuiGrid-item-4 MuiGrid-grid-xs-12-48"
+  >
+    <button
+      class="MuiButtonBase-root-190 MuiButton-root-161 MuiButton-contained-169 MuiButton-containedPrimary-170 MuiButton-containedSizeLarge-181 MuiButton-sizeLarge-183 MuiButton-fullWidth-184"
+      tabindex="0"
+      type="button"
+    >
+      <span
+        class="MuiButton-label-162"
+      >
+        MINT
       </span>
       <span
         class="MuiTouchRipple-root-231"
@@ -310,12 +755,11 @@ exports[`ibBTC Mint displays output ibBTC when mint amount is inputted 1`] = `
         class="MuiGrid-root-2 MuiGrid-item-4 MuiGrid-grid-xs-12-48 MuiGrid-grid-sm-5-55"
       >
         <div
-          class="MuiInputBase-root-141 WithStyles(ForwardRef(InputBase))-root-140 MuiInputBase-disabled-144"
+          class="MuiInputBase-root-141 WithStyles(ForwardRef(InputBase))-root-140"
         >
           <input
             autocomplete="off"
-            class="MuiInputBase-input-152 MuiInputBase-disabled-144"
-            disabled=""
+            class="MuiInputBase-input-152"
             inputmode="decimal"
             maxlength="79"
             minlength="1"
@@ -353,6 +797,7 @@ exports[`ibBTC Mint displays output ibBTC when mint amount is inputted 1`] = `
           class="MuiGrid-root-2 MuiGrid-item-4"
         >
           <button
+            aria-label="token options"
             class="MuiButtonBase-root-190 MuiButton-root-161 MuiButton-outlined-166 makeStyles-selectButton-198 MuiButton-outlinedSizeSmall-178 MuiButton-sizeSmall-182"
             tabindex="0"
             type="button"
@@ -364,7 +809,7 @@ exports[`ibBTC Mint displays output ibBTC when mint amount is inputted 1`] = `
                 class="makeStyles-tokenContainer-200"
               >
                 <img
-                  alt="bcrvRenBTC"
+                  alt="bcrvRenBTC icon"
                   class="makeStyles-tokenIcon-195"
                   src="/assets/icons/bcrvrenbtc.png"
                 />
@@ -456,7 +901,7 @@ exports[`ibBTC Mint displays output ibBTC when mint amount is inputted 1`] = `
           class="makeStyles-tokenContainer-200"
         >
           <img
-            alt="Interest Bearing BTC"
+            alt="Interest Bearing BTC icon"
             class="makeStyles-tokenIcon-195"
             src="/assets/icons/ibbtc.png"
           />
@@ -566,7 +1011,7 @@ exports[`ibBTC Mint displays output ibBTC when mint amount is inputted 1`] = `
       <span
         class="MuiButton-label-162"
       >
-        Connect Wallet
+        MINT
       </span>
       <span
         class="MuiTouchRipple-root-231"
