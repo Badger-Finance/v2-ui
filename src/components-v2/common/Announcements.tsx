@@ -30,7 +30,8 @@ const useStyles = makeStyles((theme) => ({
 		display: 'flex',
 		alignItems: 'center',
 		justifyContent: 'center',
-		width: '100%',
+		width: '80%',
+		margin: 'auto',
 		[theme.breakpoints.down('xs')]: {
 			width: '60%',
 			margin: 'auto',
