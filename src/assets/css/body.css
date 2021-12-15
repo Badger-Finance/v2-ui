@@ -108,6 +108,10 @@ svg {
 	.bn-onboard-modal-select-wallets li {
 		padding: 0 !important;
 	}
+
+	ul.bn-onboard-modal-select-wallets > div {
+		margin-bottom: 20px !important;
+	}
 }
 
 @font-face {
