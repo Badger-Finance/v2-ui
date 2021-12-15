@@ -1,0 +1,12 @@
+fragment User on User {
+  id
+  approvals {
+    ...Approval
+  }
+  sentApprovals {
+    ...Approval
+  }
+  cumulativeApprovals {
+    ...CumulativeApproval
+  }
+}

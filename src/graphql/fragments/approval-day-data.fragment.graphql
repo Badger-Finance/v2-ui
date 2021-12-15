@@ -1,0 +1,9 @@
+fragment ApprovalDayData on ApprovalDayData {
+  id
+  timestamp
+  token {
+    ...Token
+  }
+  approvals
+  revokes
+}
