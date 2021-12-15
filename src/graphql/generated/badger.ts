@@ -1070,269 +1070,65 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
 	};
 }
 export type Sdk = ReturnType<typeof getSdk>;
-export type ApprovalDayDataFragment = {
-	__typename?: 'ApprovalDayData';
-	id: string;
-	timestamp: number;
-	approvals: any;
-	revokes: any;
-	token: { __typename?: 'Token'; id: string; name: string; symbol: string; decimals: any; totalSupply: any };
-};
+export type ApprovalDayDataFragment = { __typename?: 'ApprovalDayData' } & Pick<
+	ApprovalDayData,
+	'id' | 'timestamp' | 'approvals' | 'revokes'
+> & { token: { __typename?: 'Token' } & TokenFragment };
 
-export type ApprovalFragment = {
-	__typename?: 'Approval';
-	id: string;
-	transactionId: any;
-	timestamp: number;
-	amount: any;
-	token: { __typename?: 'Token'; id: string; name: string; symbol: string; decimals: any; totalSupply: any };
-	owner: { __typename?: 'User'; id: string };
-	spender: { __typename?: 'User'; id: string };
-};
-
-export type CumulativeApprovalFragment = {
-	__typename?: 'CumulativeApproval';
-	id: string;
-	approvals: any;
-	revokes: any;
-	token: { __typename?: 'Token'; id: string; name: string; symbol: string; decimals: any; totalSupply: any };
-	spender: { __typename?: 'User'; id: string };
-};
-
-export type TokenFragment = {
-	__typename?: 'Token';
-	id: string;
-	name: string;
-	symbol: string;
-	decimals: any;
-	totalSupply: any;
-};
-
-export type UserApprovalDayDataFragment = {
-	__typename?: 'UserApprovalDayData';
-	id: string;
-	timestamp: number;
-	approvals: any;
-	revokes: any;
-	spender: {
-		__typename?: 'User';
-		id: string;
-		approvals: Array<{
-			__typename?: 'Approval';
-			id: string;
-			transactionId: any;
-			timestamp: number;
-			amount: any;
-			token: { __typename?: 'Token'; id: string; name: string; symbol: string; decimals: any; totalSupply: any };
-			owner: { __typename?: 'User'; id: string };
-			spender: { __typename?: 'User'; id: string };
-		}>;
-		sentApprovals: Array<{
-			__typename?: 'Approval';
-			id: string;
-			transactionId: any;
-			timestamp: number;
-			amount: any;
-			token: { __typename?: 'Token'; id: string; name: string; symbol: string; decimals: any; totalSupply: any };
-			owner: { __typename?: 'User'; id: string };
-			spender: { __typename?: 'User'; id: string };
-		}>;
-		cumulativeApprovals: Array<{
-			__typename?: 'CumulativeApproval';
-			id: string;
-			approvals: any;
-			revokes: any;
-			token: { __typename?: 'Token'; id: string; name: string; symbol: string; decimals: any; totalSupply: any };
-			spender: { __typename?: 'User'; id: string };
-		}>;
+export type ApprovalFragment = { __typename?: 'Approval' } & Pick<
+	Approval,
+	'id' | 'transactionId' | 'timestamp' | 'amount'
+> & {
+		token: { __typename?: 'Token' } & TokenFragment;
+		owner: { __typename?: 'User' } & Pick<User, 'id'>;
+		spender: { __typename?: 'User' } & Pick<User, 'id'>;
 	};
-	token: { __typename?: 'Token'; id: string; name: string; symbol: string; decimals: any; totalSupply: any };
-};
 
-export type UserFragment = {
-	__typename?: 'User';
-	id: string;
-	approvals: Array<{
-		__typename?: 'Approval';
-		id: string;
-		transactionId: any;
-		timestamp: number;
-		amount: any;
-		token: { __typename?: 'Token'; id: string; name: string; symbol: string; decimals: any; totalSupply: any };
-		owner: { __typename?: 'User'; id: string };
-		spender: { __typename?: 'User'; id: string };
-	}>;
-	sentApprovals: Array<{
-		__typename?: 'Approval';
-		id: string;
-		transactionId: any;
-		timestamp: number;
-		amount: any;
-		token: { __typename?: 'Token'; id: string; name: string; symbol: string; decimals: any; totalSupply: any };
-		owner: { __typename?: 'User'; id: string };
-		spender: { __typename?: 'User'; id: string };
-	}>;
-	cumulativeApprovals: Array<{
-		__typename?: 'CumulativeApproval';
-		id: string;
-		approvals: any;
-		revokes: any;
-		token: { __typename?: 'Token'; id: string; name: string; symbol: string; decimals: any; totalSupply: any };
-		spender: { __typename?: 'User'; id: string };
-	}>;
-};
+export type CumulativeApprovalFragment = { __typename?: 'CumulativeApproval' } & Pick<
+	CumulativeApproval,
+	'id' | 'approvals' | 'revokes'
+> & { token: { __typename?: 'Token' } & TokenFragment; spender: { __typename?: 'User' } & Pick<User, 'id'> };
+
+export type TokenFragment = { __typename?: 'Token' } & Pick<
+	Token,
+	'id' | 'name' | 'symbol' | 'decimals' | 'totalSupply'
+>;
+
+export type UserApprovalDayDataFragment = { __typename?: 'UserApprovalDayData' } & Pick<
+	UserApprovalDayData,
+	'id' | 'timestamp' | 'approvals' | 'revokes'
+> & { spender: { __typename?: 'User' } & UserFragment; token: { __typename?: 'Token' } & TokenFragment };
+
+export type UserFragment = { __typename?: 'User' } & Pick<User, 'id'> & {
+		approvals: Array<{ __typename?: 'Approval' } & ApprovalFragment>;
+		sentApprovals: Array<{ __typename?: 'Approval' } & ApprovalFragment>;
+		cumulativeApprovals: Array<{ __typename?: 'CumulativeApproval' } & CumulativeApprovalFragment>;
+	};
 
 export type ApprovalDayDatasQueryVariables = Exact<{
-	first?: InputMaybe<Scalars['Int']>;
-	where?: InputMaybe<ApprovalDayData_Filter>;
-	orderBy?: InputMaybe<ApprovalDayData_OrderBy>;
-	orderDirection?: InputMaybe<OrderDirection>;
+	first?: Maybe<Scalars['Int']>;
+	where?: Maybe<ApprovalDayData_Filter>;
+	orderBy?: Maybe<ApprovalDayData_OrderBy>;
+	orderDirection?: Maybe<OrderDirection>;
 }>;
 
-export type ApprovalDayDatasQuery = {
-	__typename?: 'Query';
-	approvalDayDatas: Array<{
-		__typename?: 'ApprovalDayData';
-		id: string;
-		timestamp: number;
-		approvals: any;
-		revokes: any;
-		token: { __typename?: 'Token'; id: string; name: string; symbol: string; decimals: any; totalSupply: any };
-	}>;
+export type ApprovalDayDatasQuery = { __typename?: 'Query' } & {
+	approvalDayDatas: Array<{ __typename?: 'ApprovalDayData' } & ApprovalDayDataFragment>;
 };
 
 export type UserApprovalDayDatasQueryVariables = Exact<{
-	first?: InputMaybe<Scalars['Int']>;
-	where?: InputMaybe<UserApprovalDayData_Filter>;
-	orderBy?: InputMaybe<UserApprovalDayData_OrderBy>;
-	orderDirection?: InputMaybe<OrderDirection>;
+	first?: Maybe<Scalars['Int']>;
+	where?: Maybe<UserApprovalDayData_Filter>;
+	orderBy?: Maybe<UserApprovalDayData_OrderBy>;
+	orderDirection?: Maybe<OrderDirection>;
 }>;
 
-export type UserApprovalDayDatasQuery = {
-	__typename?: 'Query';
-	userApprovalDayDatas: Array<{
-		__typename?: 'UserApprovalDayData';
-		id: string;
-		timestamp: number;
-		approvals: any;
-		revokes: any;
-		spender: {
-			__typename?: 'User';
-			id: string;
-			approvals: Array<{
-				__typename?: 'Approval';
-				id: string;
-				transactionId: any;
-				timestamp: number;
-				amount: any;
-				token: {
-					__typename?: 'Token';
-					id: string;
-					name: string;
-					symbol: string;
-					decimals: any;
-					totalSupply: any;
-				};
-				owner: { __typename?: 'User'; id: string };
-				spender: { __typename?: 'User'; id: string };
-			}>;
-			sentApprovals: Array<{
-				__typename?: 'Approval';
-				id: string;
-				transactionId: any;
-				timestamp: number;
-				amount: any;
-				token: {
-					__typename?: 'Token';
-					id: string;
-					name: string;
-					symbol: string;
-					decimals: any;
-					totalSupply: any;
-				};
-				owner: { __typename?: 'User'; id: string };
-				spender: { __typename?: 'User'; id: string };
-			}>;
-			cumulativeApprovals: Array<{
-				__typename?: 'CumulativeApproval';
-				id: string;
-				approvals: any;
-				revokes: any;
-				token: {
-					__typename?: 'Token';
-					id: string;
-					name: string;
-					symbol: string;
-					decimals: any;
-					totalSupply: any;
-				};
-				spender: { __typename?: 'User'; id: string };
-			}>;
-		};
-		token: { __typename?: 'Token'; id: string; name: string; symbol: string; decimals: any; totalSupply: any };
-	}>;
+export type UserApprovalDayDatasQuery = { __typename?: 'Query' } & {
+	userApprovalDayDatas: Array<{ __typename?: 'UserApprovalDayData' } & UserApprovalDayDataFragment>;
 };
 
 export type UserQueryVariables = Exact<{
 	id: Scalars['ID'];
 }>;
 
-export type UserQuery = {
-	__typename?: 'Query';
-	user?:
-		| {
-				__typename?: 'User';
-				id: string;
-				approvals: Array<{
-					__typename?: 'Approval';
-					id: string;
-					transactionId: any;
-					timestamp: number;
-					amount: any;
-					token: {
-						__typename?: 'Token';
-						id: string;
-						name: string;
-						symbol: string;
-						decimals: any;
-						totalSupply: any;
-					};
-					owner: { __typename?: 'User'; id: string };
-					spender: { __typename?: 'User'; id: string };
-				}>;
-				sentApprovals: Array<{
-					__typename?: 'Approval';
-					id: string;
-					transactionId: any;
-					timestamp: number;
-					amount: any;
-					token: {
-						__typename?: 'Token';
-						id: string;
-						name: string;
-						symbol: string;
-						decimals: any;
-						totalSupply: any;
-					};
-					owner: { __typename?: 'User'; id: string };
-					spender: { __typename?: 'User'; id: string };
-				}>;
-				cumulativeApprovals: Array<{
-					__typename?: 'CumulativeApproval';
-					id: string;
-					approvals: any;
-					revokes: any;
-					token: {
-						__typename?: 'Token';
-						id: string;
-						name: string;
-						symbol: string;
-						decimals: any;
-						totalSupply: any;
-					};
-					spender: { __typename?: 'User'; id: string };
-				}>;
-		  }
-		| null
-		| undefined;
-};
+export type UserQuery = { __typename?: 'Query' } & { user?: Maybe<{ __typename?: 'User' } & UserFragment> };

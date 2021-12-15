@@ -77,7 +77,7 @@
 		"@graphql-codegen/cli": "1.21.4",
 		"@graphql-codegen/typescript": "1.22.0",
 		"@graphql-codegen/typescript-graphql-request": "3.2.0",
-		"@graphql-codegen/typescript-operations": "2.2.1",
+		"@graphql-codegen/typescript-operations": "1.17.16",
 		"graphql": "^15.5.0",
 		"graphql-request": "^3.4.0",
 		"graphql-tag": "^2.12.4",
