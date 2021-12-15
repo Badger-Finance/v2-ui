@@ -88,6 +88,10 @@ svg {
 		justify-content: center;
 	}
 
+	.bn-onboard-modal-select-wallets div {
+		margin-top: 0 !important;
+	}
+
 	.bn-onboard-modal-select-wallets li {
 		display: flex;
 		flex-grow: 0;
