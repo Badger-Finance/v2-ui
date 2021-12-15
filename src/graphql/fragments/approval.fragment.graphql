@@ -1,0 +1,15 @@
+fragment Approval on Approval {
+  id
+  transactionId
+  timestamp
+  token {
+    ...Token
+  }
+  owner {
+    id
+  }
+  spender {
+    id
+  }
+  amount
+}
