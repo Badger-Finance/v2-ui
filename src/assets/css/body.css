@@ -49,14 +49,15 @@ body::-webkit-scrollbar-thumb {
 }
 
 .bn-onboard-modal-select-wallets {
+	justify-content: flex-start !important;
 	margin-top: 10px !important;
-	margin-bottom: 28px !important;
+	margin-bottom: 0 !important;
 }
 
 .bn-onboard-icon-button {
 	position: relative;
 	background: #121212 !important;
-	padding: 22px 15px !important;
+	padding: 15px 22px !important;
 }
 
 .bn-onboard-icon-button > div {
@@ -78,11 +79,28 @@ svg {
 	display: none;
 }
 
-@media (max-width: 680px) {
+@media (min-width: 681px) {
+	.bn-onboard-icon-button {
+		width: 271px !important;
+	}
+
 	.bn-onboard-modal-select-wallets {
 		justify-content: center;
 	}
 
+	.bn-onboard-modal-select-wallets li {
+		display: flex;
+		flex-grow: 0;
+		flex-basis: 50%;
+		margin-bottom: 23px !important;
+	}
+
+	.bn-onboard-modal-select-wallets li:nth-child(even) {
+		justify-content: flex-end;
+	}
+}
+
+@media (max-width: 680px) {
 	.bn-onboard-modal-select-wallets li {
 		padding: 0 !important;
 	}
