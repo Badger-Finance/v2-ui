@@ -82,7 +82,7 @@ export const Mint = observer(
 		const classes = useStyles();
 
 		const {
-			ibBTCStore: { ibBTC, mintFeePercent, mintOptions, mintRates, tokenBalances },
+			ibBTCStore: { ibBTC, mintFeePercent, mintOptions, mintRates, tokenBalances, initialized },
 			onboard,
 		} = store;
 
@@ -238,18 +238,24 @@ export const Mint = observer(
 							/>
 						</Grid>
 						<InputTokenActionButtonsGrid item container spacing={1} xs={12} sm={7}>
-							<Grid item>
-								<Button size="small" variant="outlined" onClick={handleApplyMaxBalance}>
-									max
-								</Button>
-							</Grid>
-							<Grid item>
-								<OptionTokens
-									balances={mintOptions}
-									selected={selectedToken || mintOptions[0]}
-									onTokenSelect={handleTokenChange}
-								/>
-							</Grid>
+							{initialized ? (
+								<>
+									<Grid item>
+										<Button size="small" variant="outlined" onClick={handleApplyMaxBalance}>
+											max
+										</Button>
+									</Grid>
+									<Grid item>
+										<OptionTokens
+											balances={mintOptions}
+											selected={selectedToken || mintOptions[0]}
+											onTokenSelect={handleTokenChange}
+										/>
+									</Grid>
+								</>
+							) : (
+								<Skeleton width={172} height={70} />
+							)}
 						</InputTokenActionButtonsGrid>
 					</BorderedFocusableContainerGrid>
 					{showSlippage && (

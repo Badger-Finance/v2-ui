@@ -26,6 +26,7 @@ import {
 import { useNumericInput } from '../../utils/useNumericInput';
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
 import { TransactionRequestResult } from '../../mobx/utils/web3';
+import { Skeleton } from '@material-ui/lab';
 
 type RedeemInformation = {
 	inputAmount: TokenBalance;
@@ -66,7 +67,7 @@ export const Redeem = observer((): any => {
 	const classes = useStyles();
 
 	const {
-		ibBTCStore: { redeemOptions, ibBTC, redeemFeePercent, redeemRates },
+		ibBTCStore: { redeemOptions, ibBTC, redeemFeePercent, redeemRates, initialized },
 		onboard,
 	} = store;
 
@@ -218,14 +219,20 @@ export const Redeem = observer((): any => {
 						/>
 					</Grid>
 					<InputTokenActionButtonsGrid item container spacing={1} xs={4} sm={5}>
-						<Grid item>
-							<Button size="small" variant="outlined" onClick={handleApplyMaxBalance}>
-								max
-							</Button>
-						</Grid>
-						<Grid item>
-							<OptionToken token={ibBTC.token} />
-						</Grid>
+						{initialized ? (
+							<>
+								<Grid item>
+									<Button size="small" variant="outlined" onClick={handleApplyMaxBalance}>
+										max
+									</Button>
+								</Grid>
+								<Grid item>
+									<OptionToken token={ibBTC.token} />
+								</Grid>
+							</>
+						) : (
+							<Skeleton width={172} height={70} />
+						)}
 					</InputTokenActionButtonsGrid>
 				</BorderedFocusableContainerGrid>
 			</Grid>
@@ -238,11 +245,15 @@ export const Redeem = observer((): any => {
 						<OutputAmountText variant="h1">{outputAmount || '0.000'}</OutputAmountText>
 					</Grid>
 					<OutputTokenGrid item container xs={12} sm={5} md={12} lg={5}>
-						<OptionTokens
-							balances={redeemOptions}
-							selected={selectedToken || redeemOptions[0]}
-							onTokenSelect={handleTokenChange}
-						/>
+						{initialized ? (
+							<OptionTokens
+								balances={redeemOptions}
+								selected={selectedToken || redeemOptions[0]}
+								onTokenSelect={handleTokenChange}
+							/>
+						) : (
+							<Skeleton width={172} height={60} />
+						)}
 					</OutputTokenGrid>
 				</OutputContentGrid>
 			</Grid>

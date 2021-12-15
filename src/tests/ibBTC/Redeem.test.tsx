@@ -14,6 +14,7 @@ import { TransactionRequestResult } from '../../mobx/utils/web3';
 
 describe('ibBTC Redeem', () => {
 	beforeEach(() => {
+		jest.spyOn(IbBTCStore.prototype, 'initialized', 'get').mockReturnValue(true);
 		jest.spyOn(IbBTCStore.prototype, 'ibBTC', 'get').mockReturnValue(SAMPLE_IBBTC_TOKEN_BALANCE);
 		jest.spyOn(IbBTCStore.prototype, 'tokenBalances', 'get').mockReturnValue([
 			new TokenBalance(
@@ -27,6 +28,8 @@ describe('ibBTC Redeem', () => {
 				new BigNumber('12.47195816949324'),
 			),
 		]);
+
+		store.ibBTCStore.redeemFeePercent = new BigNumber(0);
 
 		store.ibBTCStore.redeemRates = {
 			'0x6dEf55d2e18486B9dDfaA075bc4e4EE0B28c1545': '0.976196',

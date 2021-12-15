@@ -31,12 +31,9 @@ interface RedeemAmountCalculation {
 
 class IbBTCStore {
 	private readonly store: RootStore;
-	private config: typeof addresses.mainnet;
-	private isInitialized = false;
 
 	public mintRates: Record<string, string> = {};
 	public redeemRates: Record<string, string> = {};
-	public tokens: Array<TokenBalance> = [];
 	public apyUsingLastDay?: string | null;
 	public apyUsingLastWeek?: string | null;
 	public mintFeePercent?: BigNumber;
@@ -44,18 +41,14 @@ class IbBTCStore {
 
 	constructor(store: RootStore) {
 		this.store = store;
-		this.config = addresses.mainnet;
-
-		this.mintFeePercent = new BigNumber(0);
-		this.redeemFeePercent = new BigNumber(0);
 
 		extendObservable(this, {
 			apyUsingLastDay: this.apyUsingLastDay,
 			apyUsingLastWeek: this.apyUsingLastWeek,
 			mintFeePercent: this.mintFeePercent,
 			redeemFeePercent: this.redeemFeePercent,
-			initialized: this.initialized,
-			isInitialized: this.isInitialized,
+			mintRates: this.mintRates,
+			redeemRates: this.redeemRates,
 		});
 	}
 
@@ -80,8 +73,16 @@ class IbBTCStore {
 		];
 	}
 
+	@computed
 	get initialized(): boolean {
-		return this.isInitialized;
+		const mintRatesAvailable = Object.keys(this.mintRates).length > 0;
+		const redeemRatesAvailable = Object.keys(this.redeemRates).length > 0;
+		const feesAreLoaded = !!this.mintFeePercent && !!this.redeemFeePercent;
+		const tokensInformationIsLoaded = this.tokenBalances.every(
+			(option) => !!option.token.name && !!option.token.symbol,
+		);
+
+		return mintRatesAvailable && redeemRatesAvailable && feesAreLoaded && tokensInformationIsLoaded;
 	}
 
 	get mintOptions(): TokenBalance[] {
@@ -91,7 +92,7 @@ class IbBTCStore {
 	// currently, the zap contract does not support redeem
 	get redeemOptions(): TokenBalance[] {
 		return this.tokenBalances.filter(({ token }) =>
-			this.config.contracts.RenVaultZap.supportedTokens.includes(token.address),
+			addresses.mainnet.contracts.RenVaultZap.supportedTokens.includes(token.address),
 		);
 	}
 
@@ -101,7 +102,7 @@ class IbBTCStore {
 		// connected wallet is using ETH network, not the site.
 		const network = getNetworkFromProvider(wallet?.provider);
 
-		if (this.isInitialized || network !== Network.Ethereum || !address) {
+		if (this.initialized || network !== Network.Ethereum || !address) {
 			return;
 		}
 
@@ -111,8 +112,6 @@ class IbBTCStore {
 			}
 			return;
 		});
-
-		this.isInitialized = true;
 	}
 
 	fetchFees = action(
@@ -178,7 +177,7 @@ class IbBTCStore {
 	);
 
 	isZapToken(token: Token): boolean {
-		return !this.config.contracts.RenVaultZap.supportedTokens.includes(token.address);
+		return !addresses.mainnet.contracts.RenVaultZap.supportedTokens.includes(token.address);
 	}
 
 	isValidAmount(amount: TokenBalance, tokenBalance: TokenBalance, slippage?: BigNumber): boolean {

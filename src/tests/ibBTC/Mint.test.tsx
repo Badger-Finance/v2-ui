@@ -44,6 +44,9 @@ describe('ibBTC Mint', () => {
 
 		jest.spyOn(IbBTCStore.prototype, 'ibBTC', 'get').mockReturnValue(SAMPLE_IBBTC_TOKEN_BALANCE);
 		jest.spyOn(IbBTCStore.prototype, 'tokenBalances', 'get').mockReturnValue(mockTokens);
+		jest.spyOn(IbBTCStore.prototype, 'initialized', 'get').mockReturnValue(true);
+
+		store.ibBTCStore.mintFeePercent = new BigNumber(0);
 
 		store.ibBTCStore.mintRates = {
 			'0x6dEf55d2e18486B9dDfaA075bc4e4EE0B28c1545': '1.024385',
