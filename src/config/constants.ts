@@ -58,6 +58,7 @@ export enum NETWORK_IDS {
 	ARB = 42161,
 }
 
+export const EXPLOIT_HACKER_ADDRESS = '0x1fcdb04d0c5364fbd92c73ca8af9baa72c269107';
 export const CONTACT_EMAIL = 'hello@badger.finance';
 export const ERC20 = importedErc20;
 export const ERC20_ABI = importedErc20.abi as AbiItem[];
@@ -84,6 +85,8 @@ export const CURVE_WBTC_RENBTC_TRADING_PAIR_ADDRESS = '0x93054188d876f558f4a66B2
 export const RENVM_GATEWAY_ADDRESS = '0xe4b679400F0f267212D5D812B95f58C83243EE71';
 export const RENVM_NETWORK = 'mainnet';
 export const ZERO_ADDR = '0x0000000000000000000000000000000000000000';
+
+export const APPROVALS_VULNERABILITIES_SUBGRAPH = 'https://api.thegraph.com/subgraphs/name/axejintao/jello-jintao';
 
 // time constants
 export const ONE_MIN_MS = 60 * 1000;

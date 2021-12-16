@@ -1,0 +1,10 @@
+query ApprovalDayDatas(
+  $first: Int
+  $where: ApprovalDayData_filter
+  $orderBy: ApprovalDayData_orderBy
+  $orderDirection: OrderDirection
+) {
+  approvalDayDatas(first: $first, where: $where, orderBy: $orderBy, orderDirection: $orderDirection) {
+    ...ApprovalDayData
+  }
+}
