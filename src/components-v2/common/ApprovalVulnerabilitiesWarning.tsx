@@ -56,10 +56,14 @@ const ApprovalVulnerabilitiesWarning = (): JSX.Element | null => {
 					<Typography variant="h4">SECURITY WARNING</Typography>
 				</Box>
 				<Typography variant="subtitle1">
-					You have approved the spending of the hacker for the following assets:
+					{
+						"We've detected that your wallet address signed a token approve request from the attacker for the following assets:"
+					}
 				</Typography>
 				<ul className={classes.list}>{vulnerabilities}</ul>
-				<Typography variant="subtitle1">Immediate Actions:</Typography>
+				<Typography variant="subtitle1">
+					As a precautionary measure, we recommend you take the following actions: :
+				</Typography>
 				<ol className={classes.list}>
 					<li>
 						<Typography variant="body1">
