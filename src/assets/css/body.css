@@ -70,7 +70,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 .bn-onboard-icon-button img,
-svg {
+.bn-onboard-icon-button svg {
 	width: 27px !important;
 	height: 27px !important;
 }
