@@ -62,7 +62,7 @@ const ApprovalVulnerabilitiesWarning = (): JSX.Element | null => {
 				</Typography>
 				<ul className={classes.list}>{vulnerabilities}</ul>
 				<Typography variant="subtitle1">
-					As a precautionary measure, we recommend you take the following actions: :
+					As a precautionary measure, we recommend you take the following actions:
 				</Typography>
 				<ol className={classes.list}>
 					<li>
