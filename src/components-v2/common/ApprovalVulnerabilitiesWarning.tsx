@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
 import { Warning } from '@material-ui/icons';
+import { EXPLOIT_HACKER_ADDRESS } from '../../config/constants';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -28,21 +29,6 @@ const ApprovalVulnerabilitiesWarning = (): JSX.Element | null => {
 		return null;
 	}
 
-	const vulnerableAssets = user.approvalVulnerabilities.map((vulnerability) => {
-		const assetName = user.getTokenBalance(vulnerability.asset);
-
-		return (
-			<li key={vulnerability.hash}>
-				<Typography variant="body1">
-					{assetName.token.symbol}:{' '}
-					<Link target="_blank" rel="noreferrer" href={`https://etherscan.io/tx/${vulnerability.hash}`}>
-						See on Etherscan
-					</Link>
-				</Typography>
-			</li>
-		);
-	});
-
 	return (
 		<LayoutContainer>
 			<Grid container component={Paper} className={classes.root} direction="column">
@@ -53,7 +39,22 @@ const ApprovalVulnerabilitiesWarning = (): JSX.Element | null => {
 				<Typography variant="subtitle1">
 					You have approved the spending of the hacker for the following assets:
 				</Typography>
-				<ul className={classes.list}>{vulnerableAssets}</ul>
+				<ul className={classes.list}>
+					{user.approvalVulnerabilities.map((vulnerability) => (
+						<li key={vulnerability.transactionId}>
+							<Typography variant="body1">
+								{vulnerability.token.symbol}:{' '}
+								<Link
+									target="_blank"
+									rel="noreferrer"
+									href={`https://etherscan.io/tx/${vulnerability.transactionId}`}
+								>
+									See on Etherscan
+								</Link>
+							</Typography>
+						</li>
+					))}
+				</ul>
 				<Typography variant="subtitle1">Immediate Actions:</Typography>
 				<ol className={classes.list}>
 					<li>
@@ -70,7 +71,7 @@ const ApprovalVulnerabilitiesWarning = (): JSX.Element | null => {
 					</li>
 					<li>
 						<Typography variant="body1">
-							{"Search for the hacker's address: 0x1fcdb04d0c5364fbd92c73ca8af9baa72c269107"}
+							{`Search for the hacker's address: ${EXPLOIT_HACKER_ADDRESS}`}
 						</Typography>
 					</li>
 					<li>

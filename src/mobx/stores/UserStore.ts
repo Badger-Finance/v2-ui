@@ -6,7 +6,7 @@ import BigNumber from 'bignumber.js';
 import { BalanceNamespace, ContractNamespaces } from 'web3/config/namespaces';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { BadgerSett } from 'mobx/model/vaults/badger-sett';
-import { APPROVALS_VULNERABILITIES_SUBGRAPH, ONE_MIN_MS, ZERO_ADDR } from 'config/constants';
+import { APPROVALS_VULNERABILITIES_SUBGRAPH, EXPLOIT_HACKER_ADDRESS, ONE_MIN_MS, ZERO_ADDR } from 'config/constants';
 import { UserBalanceCache } from 'mobx/model/account/user-balance-cache';
 import { CachedTokenBalances } from 'mobx/model/account/cached-token-balances';
 import { VaultCaps } from 'mobx/model/vaults/vault-cap copy';
@@ -22,8 +22,7 @@ import { createMulticallRequest } from '../../web3/config/config-utils';
 import { ContractCallResults } from 'ethereum-multicall/dist/esm/models';
 import { GraphQLClient } from 'graphql-request';
 import { getSdk } from '../../graphql/generated/badger';
-import exploitItems from '../../config/exploit-affected-items.json';
-import { ExploitItem } from '../model/exploit-item';
+import { ExploitApproval } from '../model/account/exploit-approval';
 
 export default class UserStore {
 	private store: RootStore;
@@ -37,7 +36,7 @@ export default class UserStore {
 	public settBalances: TokenBalances = {};
 	public vaultCaps: VaultCaps = {};
 	public loadingBalances: boolean;
-	public approvalVulnerabilities?: ExploitItem[];
+	public approvalVulnerabilities?: ExploitApproval[];
 
 	constructor(store: RootStore) {
 		this.store = store;
@@ -203,32 +202,12 @@ export default class UserStore {
 			return;
 		}
 
-		// check for users exploits where the user was the victim
-		const usersExploits = exploitItems.filter(
-			(item) => item.victim.toLowerCase() === address.toLowerCase(),
-		) as ExploitItem[];
+		const stillAtRisk: ExploitApproval[] = [];
 
-		const includedApprovals = new Set();
-		const stillAtRisk: ExploitItem[] = [];
-
-		for (const usersExploit of usersExploits) {
-			const isActive = userInformation.approvals.find((approval) => {
-				if (Number(approval.amount) === 0) {
-					return false;
-				}
-
-				return (
-					approval.token.id.toLowerCase() === usersExploit.asset.toLowerCase() &&
-					!includedApprovals.has(usersExploit.asset)
-				);
-			});
-
-			if (!isActive) {
-				continue;
+		for (const approval of userInformation.approvals) {
+			if (approval.spender.id === EXPLOIT_HACKER_ADDRESS.toLowerCase() && Number(approval.amount) > 0) {
+				stillAtRisk.push(approval);
 			}
-
-			stillAtRisk.push(usersExploit);
-			includedApprovals.add(usersExploit.asset);
 		}
 
 		this.approvalVulnerabilities = stillAtRisk;
