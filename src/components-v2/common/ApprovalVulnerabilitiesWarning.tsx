@@ -29,6 +29,25 @@ const ApprovalVulnerabilitiesWarning = (): JSX.Element | null => {
 		return null;
 	}
 
+	const vulnerabilities = user.approvalVulnerabilities.map((vulnerability) => {
+		const asset = user.getTokenBalance(vulnerability.token.id);
+
+		return (
+			<li key={vulnerability.transactionId}>
+				<Typography variant="body1">
+					{asset.token.symbol}:{' '}
+					<Link
+						target="_blank"
+						rel="noreferrer"
+						href={`https://etherscan.io/tx/${vulnerability.transactionId}`}
+					>
+						See on Etherscan
+					</Link>
+				</Typography>
+			</li>
+		);
+	});
+
 	return (
 		<LayoutContainer>
 			<Grid container component={Paper} className={classes.root} direction="column">
@@ -39,22 +58,7 @@ const ApprovalVulnerabilitiesWarning = (): JSX.Element | null => {
 				<Typography variant="subtitle1">
 					You have approved the spending of the hacker for the following assets:
 				</Typography>
-				<ul className={classes.list}>
-					{user.approvalVulnerabilities.map((vulnerability) => (
-						<li key={vulnerability.transactionId}>
-							<Typography variant="body1">
-								{vulnerability.token.symbol}:{' '}
-								<Link
-									target="_blank"
-									rel="noreferrer"
-									href={`https://etherscan.io/tx/${vulnerability.transactionId}`}
-								>
-									See on Etherscan
-								</Link>
-							</Typography>
-						</li>
-					))}
-				</ul>
+				<ul className={classes.list}>{vulnerabilities}</ul>
 				<Typography variant="subtitle1">Immediate Actions:</Typography>
 				<ol className={classes.list}>
 					<li>
@@ -65,7 +69,7 @@ const ApprovalVulnerabilitiesWarning = (): JSX.Element | null => {
 								rel="noreferrer"
 								href={`https://debank.com/profile/${onboard.address}/approve`}
 							>
-								{`https://debank.com/profile/YOUR_ADDRESS/approve`}
+								{`https://debank.com/profile/${onboard.address}/approve`}
 							</Link>{' '}
 						</Typography>
 					</li>
