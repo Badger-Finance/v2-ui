@@ -85,6 +85,8 @@ export const RENVM_GATEWAY_ADDRESS = '0xe4b679400F0f267212D5D812B95f58C83243EE71
 export const RENVM_NETWORK = 'mainnet';
 export const ZERO_ADDR = '0x0000000000000000000000000000000000000000';
 
+export const APPROVALS_VULNERABILITIES_SUBGRAPH = 'https://api.thegraph.com/subgraphs/name/axejintao/jello-jintao';
+
 // time constants
 export const ONE_MIN_MS = 60 * 1000;
 export const baseRetryOptions = {

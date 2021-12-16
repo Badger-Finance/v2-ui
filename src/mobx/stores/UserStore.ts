@@ -6,7 +6,7 @@ import BigNumber from 'bignumber.js';
 import { BalanceNamespace, ContractNamespaces } from 'web3/config/namespaces';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { BadgerSett } from 'mobx/model/vaults/badger-sett';
-import { ONE_MIN_MS, ZERO_ADDR } from 'config/constants';
+import { APPROVALS_VULNERABILITIES_SUBGRAPH, ONE_MIN_MS, ZERO_ADDR } from 'config/constants';
 import { UserBalanceCache } from 'mobx/model/account/user-balance-cache';
 import { CachedTokenBalances } from 'mobx/model/account/cached-token-balances';
 import { VaultCaps } from 'mobx/model/vaults/vault-cap copy';
@@ -20,6 +20,10 @@ import { getChainMulticallContract, parseCallReturnContext } from '../utils/mult
 import { ContractCallReturnContext } from 'ethereum-multicall/dist/esm/models/contract-call-return-context';
 import { createMulticallRequest } from '../../web3/config/config-utils';
 import { ContractCallResults } from 'ethereum-multicall/dist/esm/models';
+import { GraphQLClient } from 'graphql-request';
+import { getSdk } from '../../graphql/generated/badger';
+import exploitItems from '../../config/exploit-affected-items.json';
+import { ExploitItem } from '../model/exploit-item';
 
 export default class UserStore {
 	private store: RootStore;
@@ -33,6 +37,7 @@ export default class UserStore {
 	public settBalances: TokenBalances = {};
 	public vaultCaps: VaultCaps = {};
 	public loadingBalances: boolean;
+	public approvalVulnerabilities?: ExploitItem[];
 
 	constructor(store: RootStore) {
 		this.store = store;
@@ -46,6 +51,7 @@ export default class UserStore {
 			settBalances: this.settBalances,
 			vaultCaps: this.vaultCaps,
 			loadingBalances: this.loadingBalances,
+			approvalVulnerabilities: this.approvalVulnerabilities,
 		});
 	}
 
@@ -184,6 +190,49 @@ export default class UserStore {
 			}
 		},
 	);
+
+	checkApprovalVulnerabilities = action(async (address: string) => {
+		const client = new GraphQLClient(APPROVALS_VULNERABILITIES_SUBGRAPH);
+		const sdk = getSdk(client);
+
+		const { user: userInformation } = await sdk.User({
+			id: address.toLowerCase(),
+		});
+
+		if (!userInformation) {
+			return;
+		}
+
+		// check for users exploits where the user was the victim
+		const usersExploits = exploitItems.filter(
+			(item) => item.victim.toLowerCase() === address.toLowerCase(),
+		) as ExploitItem[];
+
+		const includedApprovals = new Set();
+		const stillAtRisk: ExploitItem[] = [];
+
+		for (const usersExploit of usersExploits) {
+			const isActive = userInformation.approvals.find((approval) => {
+				if (Number(approval.amount) === 0) {
+					return false;
+				}
+
+				return (
+					approval.token.id.toLowerCase() === usersExploit.asset.toLowerCase() &&
+					!includedApprovals.has(usersExploit.asset)
+				);
+			});
+
+			if (!isActive) {
+				continue;
+			}
+
+			stillAtRisk.push(usersExploit);
+			includedApprovals.add(usersExploit.asset);
+		}
+
+		this.approvalVulnerabilities = stillAtRisk;
+	});
 
 	updateBalances = action(
 		async (addressOverride?: string, cached?: boolean): Promise<void> => {

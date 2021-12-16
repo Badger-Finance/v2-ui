@@ -19,7 +19,8 @@
 		"noImplicitThis": true,
 		"strictNullChecks": true,
 		"noFallthroughCasesInSwitch": true,
-		"experimentalDecorators": true
+		"experimentalDecorators": true,
+		"downlevelIteration": true
 	},
 	"include": ["src"]
 }

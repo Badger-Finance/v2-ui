@@ -111,7 +111,11 @@ export class RootStore {
 			const config = NetworkConfig.getConfig(network.id);
 
 			let updateActions: Promise<void>[] = [];
-			updateActions = [this.user.loadAccountDetails(address), this.user.loadClaimProof(address, config.network)];
+			updateActions = [
+				this.user.loadAccountDetails(address),
+				this.user.loadClaimProof(address, config.network),
+				this.user.checkApprovalVulnerabilities(address),
+			];
 
 			if (network.id === NETWORK_IDS.ETH) {
 				updateActions.push(this.airdrops.fetchAirdrops());
