@@ -18,6 +18,7 @@ module.exports = {
 		'build',
 		'node_modules',
 		'coverage',
+		'generated',
 	],
 	extends: [
 		'plugin:react/recommended', // Uses the recommended rules from @eslint-plugin-react,

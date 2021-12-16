@@ -14,6 +14,7 @@ export interface WalletProviderInfo {
 	appName?: string;
 	appUrl?: string;
 	email?: string;
+	preferred?: boolean;
 }
 
 export const isRpcWallet = (walletName: string | null): boolean => {
@@ -21,18 +22,20 @@ export const isRpcWallet = (walletName: string | null): boolean => {
 	return RPC_WALLETS[walletName] ?? false;
 };
 
+// the preferred wallet true is to display the options upfront
 export const getOnboardWallets = (config: NetworkConfig): WalletProviderInfo[] => {
 	const networkRPC = rpc[config.network];
 	switch (config.network) {
 		case Network.BinanceSmartChain:
-			return [{ walletName: 'metamask' }];
+			return [{ walletName: 'metamask', preferred: true }];
 		default:
 			return [
-				{ walletName: 'metamask' },
-				{ walletName: 'coinbase' },
+				{ walletName: 'metamask', preferred: true },
+				{ walletName: 'coinbase', preferred: true },
 				{
 					walletName: 'ledger',
 					rpcUrl: networkRPC,
+					preferred: true,
 				},
 				{
 					walletName: 'walletConnect',
@@ -40,18 +43,21 @@ export const getOnboardWallets = (config: NetworkConfig): WalletProviderInfo[] =
 						[NETWORK_IDS.ETH]: networkRPC,
 						[NETWORK_IDS.BSC]: networkRPC,
 					},
+					preferred: true,
 				},
-				{ walletName: 'walletLink', rpcUrl: networkRPC, appName: APP_NAME },
+				{ walletName: 'walletLink', rpcUrl: networkRPC, appName: APP_NAME, preferred: true },
 				{
 					walletName: 'portis',
 					apiKey: PORTIS_APP_ID,
 					label: 'Portis',
+					preferred: true,
 				},
 				{
 					walletName: 'trezor',
 					appUrl: 'https://app.badger.finance/',
 					email: CONTACT_EMAIL,
 					rpcUrl: networkRPC,
+					preferred: true,
 				},
 			];
 	}
