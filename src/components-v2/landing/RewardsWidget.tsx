@@ -1,15 +1,4 @@
-import {
-	Box,
-	Button,
-	Dialog,
-	DialogContent,
-	DialogTitle,
-	Divider,
-	Grid,
-	IconButton,
-	Link,
-	Typography,
-} from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import BigNumber from 'bignumber.js';
 import { Loader } from 'components/Loader';
@@ -18,12 +7,10 @@ import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { StoreContext } from 'mobx/store-context';
 import { inCurrency } from 'mobx/utils/helpers';
 import React, { useContext, useEffect, useState } from 'react';
-import { RewardsModalItem } from './RewardsModalItem';
 import clsx from 'clsx';
 import CurrencyDisplay from '../common/CurrencyDisplay';
-import CloseIcon from '@material-ui/icons/Close';
-import routes from '../../config/routes';
-import { ArrowBackIosOutlined } from '@material-ui/icons';
+import NoRewardsDialog from '../common/dialogs/NoRewardsDialog';
+import RewardsSelectionDialog from '../common/dialogs/RewardsSelectionDialog';
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
@@ -141,39 +128,19 @@ export interface RewardsModalProps {
 export const RewardsWidget = observer((): JSX.Element | null => {
 	const classes = useStyles();
 	const store = useContext(StoreContext);
-	const { setts, onboard, user, router } = store;
-	const { badgerTree, claimGeysers, loadingRewards } = store.rewards;
+	const { setts, onboard, user } = store;
+	const { badgerTree, loadingRewards } = store.rewards;
 	const { currency } = store.uiState;
 
-	const [guideMode, setGuideMode] = useState(false);
 	const [open, setOpen] = useState(false);
-	const [claims, setClaims] = useState<ClaimMap>({});
 	const [claimableRewards, setClaimableRewards] = useState<ClaimMap>({});
 
 	const hasRewards = Object.keys(claimableRewards).length > 0;
-
-	const totalClaimValue = Object.keys(claims).reduce(
-		(total, claimKey) => total.plus(claims[claimKey].value),
-		new BigNumber(0),
-	);
 
 	const totalRewardsValue = Object.keys(claimableRewards).reduce(
 		(total, claimKey) => total.plus(claimableRewards[claimKey].value),
 		new BigNumber(0),
 	);
-
-	const handleClaimCheckChange = (rewardKey: string, checked: boolean) => {
-		if (checked) {
-			setClaims({
-				...claims,
-				[rewardKey]: claimableRewards[rewardKey],
-			});
-		} else {
-			const newClaims = { ...claims };
-			delete newClaims[rewardKey];
-			setClaims(newClaims);
-		}
-	};
 
 	useEffect(() => {
 		const balances = Object.fromEntries(
@@ -182,7 +149,6 @@ export const RewardsWidget = observer((): JSX.Element | null => {
 				.map((claim) => [claim.token.address, claim]),
 		);
 		setClaimableRewards(balances);
-		setClaims(balances);
 	}, [setts, badgerTree.claims]);
 
 	if (!onboard.isActive()) {
@@ -200,60 +166,6 @@ export const RewardsWidget = observer((): JSX.Element | null => {
 			</Button>
 		);
 	}
-
-	const userGuideTokens = (
-		<>
-			<Grid item className={classes.userGuideToken}>
-				{/*TODO: add link to view vaults when they're available*/}
-				<Typography variant="body2" color="textSecondary">
-					BADGERDAO TOKENS:
-				</Typography>
-				<Typography variant="body1">Badger, bBadger, Digg, bDigg</Typography>
-				{/*<Box display="flex" alignItems="center">*/}
-				{/*	<ArrowRightAltIcon color="primary" />*/}
-				{/*	<Link className={classes.cursorPointer}>View Vaults</Link>*/}
-				{/*</Box>*/}
-			</Grid>
-			<Grid item className={classes.userGuideToken}>
-				<Typography variant="body2" color="textSecondary">
-					NON NATIVE TOKENS:
-				</Typography>
-				<Typography variant="body1">bBTC, renBTC, oBTC...</Typography>
-				{/*<Box display="flex" alignItems="center">*/}
-				{/*	<ArrowRightAltIcon color="primary" />*/}
-				{/*	<Link className={classes.cursorPointer}>View Vaults</Link>*/}
-				{/*</Box>*/}
-			</Grid>
-			<Grid item className={classes.userGuideToken}>
-				<Typography variant="body2" color="textSecondary">
-					INDEPENDENT TOKENS:
-				</Typography>
-				<Typography variant="body1">CVX, bveCVX...</Typography>
-				{/*<Box display="flex" alignItems="center">*/}
-				{/*	<ArrowRightAltIcon color="primary" />*/}
-				{/*	<Link className={classes.cursorPointer}>View Vaults</Link>*/}
-				{/*</Box>*/}
-			</Grid>
-		</>
-	);
-
-	const rewardsExplanation = (
-		<>
-			<Grid item>
-				<Typography>Receive maximum rewards when: </Typography>
-			</Grid>
-			<Grid item>
-				<ul className={classes.rewardsOptions}>
-					<li>
-						<Typography variant="body2">Staking 50% non native tokens</Typography>
-					</li>
-					<li>
-						<Typography variant="body2">Holding and/or Staking 50% BadgerDAO tokens</Typography>
-					</li>
-				</ul>
-			</Grid>
-		</>
-	);
 
 	const widgetButtonDecimals = totalRewardsValue.isZero() ? 0 : undefined; // use default otherwise
 
@@ -273,166 +185,12 @@ export const RewardsWidget = observer((): JSX.Element | null => {
 					justify="center"
 				/>
 			</Button>
-			<Dialog
-				fullWidth
-				maxWidth="sm"
-				aria-describedby="Claim your rewards"
-				aria-labelledby="claim-modal"
-				classes={{ paperWidthSm: classes.noRewardsDialog }}
-				open={open && !hasRewards}
-				onClose={() => setOpen(false)}
-			>
-				<DialogTitle className={classes.title}>
-					My Claimable Rewards
-					<IconButton
-						aria-label="go back to rewards"
-						className={classes.closeButton}
-						onClick={() => setOpen(false)}
-					>
-						<CloseIcon />
-					</IconButton>
-				</DialogTitle>
-				<DialogContent className={classes.content}>
-					<Grid container className={classes.noRewardsContent} spacing={2}>
-						<Grid item container direction="column" xs={12} sm={6}>
-							<Grid item>
-								<Box display="flex" alignItems="center">
-									<img className={classes.noRewardsIcon} src="/assets/icons/no-rewards-icon.svg" />
-									<CurrencyDisplay
-										variant="body1"
-										justify="flex-start"
-										displayValue={inCurrency(new BigNumber(0), currency)}
-									/>
-								</Box>
-							</Grid>
-							<Grid item className={classes.noRewardsExplanation}>
-								{rewardsExplanation}
-							</Grid>
-						</Grid>
-						<Grid item xs={12} sm={6}>
-							{userGuideTokens}
-						</Grid>
-					</Grid>
-				</DialogContent>
-			</Dialog>
-			<Dialog
-				fullWidth
-				maxWidth="sm"
-				aria-labelledby="claim-modal"
-				aria-describedby="Claim your rewards"
-				classes={{ paperWidthSm: classes.dialog }}
+			<NoRewardsDialog open={open && !hasRewards} onClose={() => setOpen(false)} />
+			<RewardsSelectionDialog
 				open={open && hasRewards}
 				onClose={() => setOpen(false)}
-			>
-				<DialogTitle className={classes.title}>
-					{guideMode ? (
-						<>
-							<Box display="flex" alignItems="center">
-								<IconButton
-									aria-label="exit guide mode"
-									className={classes.arrowBack}
-									onClick={() => setGuideMode(false)}
-								>
-									<ArrowBackIosOutlined />
-								</IconButton>
-								Rewards User Guide
-							</Box>
-						</>
-					) : (
-						<>
-							My Claimable Rewards
-							<IconButton className={classes.closeButton} onClick={() => setOpen(false)}>
-								<CloseIcon />
-							</IconButton>
-						</>
-					)}
-				</DialogTitle>
-				<DialogContent className={classes.content}>
-					{guideMode ? (
-						<Grid container>
-							<Grid item container direction="column" xs={12} sm={4} className={classes.userGuideTokens}>
-								{userGuideTokens}
-							</Grid>
-							<Grid item xs={12} sm container direction="column">
-								{rewardsExplanation}
-							</Grid>
-						</Grid>
-					) : (
-						<Grid container spacing={3}>
-							<Grid item xs={12} sm={6}>
-								{claimableRewards && (
-									<Grid container direction="column">
-										{Object.keys(claimableRewards).map((rewardsKey, index) => (
-											<Grid key={`${rewardsKey}_${index}`} item className={classes.claimRow}>
-												<RewardsModalItem
-													checked={!!claims[rewardsKey]}
-													claimBalance={claimableRewards[rewardsKey]}
-													onChange={(checked) => handleClaimCheckChange(rewardsKey, checked)}
-												/>
-											</Grid>
-										))}
-										<Divider className={classes.divider} />
-										<Grid item container alignItems="center" justify="space-between">
-											<Typography variant="body2">Total Claimable Rewards</Typography>
-											<CurrencyDisplay
-												variant="h6"
-												justify="flex-end"
-												displayValue={inCurrency(totalClaimValue, currency)}
-											/>
-										</Grid>
-										<Grid item className={classes.submitButton}>
-											<Button
-												fullWidth
-												disabled={totalClaimValue.eq(0)}
-												color="primary"
-												variant="contained"
-												onClick={async () => await claimGeysers(claims)}
-											>
-												Claim My Rewards
-											</Button>
-										</Grid>
-									</Grid>
-								)}
-							</Grid>
-							<Grid item xs={12} sm={6}>
-								<Grid container direction="column" className={classes.moreRewardsInformation}>
-									<Grid item>
-										<Typography variant="h6">Want more rewards ?</Typography>
-									</Grid>
-									<Grid item className={classes.moreRewardsDescription}>
-										<Typography variant="body2">
-											Boost your rewards and support the BadgerDAO ecosystem, by holding and
-											staking Badger tokens.
-										</Typography>
-									</Grid>
-									<Grid item className={classes.boostRewards}>
-										<Button
-											fullWidth
-											color="primary"
-											variant="outlined"
-											onClick={async () => {
-												await router.goTo(routes.boostOptimizer);
-												setOpen(false);
-											}}
-										>
-											Boost My Rewards
-										</Button>
-									</Grid>
-									<Grid item className={classes.rewardsGuideLinkContainer}>
-										<Link
-											className={classes.cursorPointer}
-											color="primary"
-											onClick={() => setGuideMode(true)}
-										>
-											Rewards User Guide
-										</Link>
-									</Grid>
-								</Grid>
-							</Grid>
-						</Grid>
-					)}
-				</DialogContent>
-			</Dialog>
+				claimableRewards={claimableRewards}
+			/>
 		</>
 	);
 });
