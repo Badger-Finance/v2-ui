@@ -260,6 +260,7 @@ export const RewardsWidget = observer((): JSX.Element | null => {
 	return (
 		<>
 			<Button
+				aria-label="open rewards dialog"
 				classes={{ outlined: classes.rewardsButton }}
 				className={clsx(classes.rewards, classes.button)}
 				variant="outlined"

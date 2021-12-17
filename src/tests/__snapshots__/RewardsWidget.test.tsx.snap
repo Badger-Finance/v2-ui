@@ -12,6 +12,7 @@ exports[`Rewards Widget when there are no rewards displays no rewards dialog 1`]
     aria-hidden="true"
   >
     <button
+      aria-label="open rewards dialog"
       class="MuiButtonBase-root-55 MuiButton-root-26 MuiButton-outlined-31 makeStyles-rewardsButton-18 makeStyles-rewards-17 makeStyles-button-20"
       tabindex="0"
       type="button"
@@ -225,6 +226,7 @@ exports[`Rewards Widget when there are no rewards displays no rewards dialog 1`]
 exports[`Rewards Widget when there are no rewards displays zero amount in rewards button 1`] = `
 <div>
   <button
+    aria-label="open rewards dialog"
     class="MuiButtonBase-root-55 MuiButton-root-26 MuiButton-outlined-31 makeStyles-rewardsButton-18 makeStyles-rewards-17 makeStyles-button-20"
     tabindex="0"
     type="button"
@@ -266,6 +268,7 @@ exports[`Rewards Widget when there are rewards can display user guide 1`] = `
     aria-hidden="true"
   >
     <button
+      aria-label="open rewards dialog"
       class="MuiButtonBase-root-55 MuiButton-root-26 MuiButton-outlined-31 makeStyles-rewardsButton-18 makeStyles-rewards-17 makeStyles-button-20"
       tabindex="0"
       type="button"
@@ -467,6 +470,7 @@ exports[`Rewards Widget when there are rewards can go back from user guide 1`] =
     aria-hidden="true"
   >
     <button
+      aria-label="open rewards dialog"
       class="MuiButtonBase-root-55 MuiButton-root-26 MuiButton-outlined-31 makeStyles-rewardsButton-18 makeStyles-rewards-17 makeStyles-button-20"
       tabindex="0"
       type="button"
@@ -898,6 +902,7 @@ exports[`Rewards Widget when there are rewards displays claim options 1`] = `
     aria-hidden="true"
   >
     <button
+      aria-label="open rewards dialog"
       class="MuiButtonBase-root-55 MuiButton-root-26 MuiButton-outlined-31 makeStyles-rewardsButton-18 makeStyles-rewards-17 makeStyles-button-20"
       tabindex="0"
       type="button"
@@ -1320,6 +1325,7 @@ exports[`Rewards Widget when there are rewards displays claim options 1`] = `
 exports[`Rewards Widget when there are rewards displays rewards amount in rewards button 1`] = `
 <div>
   <button
+    aria-label="open rewards dialog"
     class="MuiButtonBase-root-55 MuiButton-root-26 MuiButton-outlined-31 makeStyles-rewardsButton-18 makeStyles-rewards-17 makeStyles-button-20"
     tabindex="0"
     type="button"
