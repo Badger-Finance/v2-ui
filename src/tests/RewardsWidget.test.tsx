@@ -93,7 +93,7 @@ describe('Rewards Widget', () => {
 				</StoreProvider>,
 			);
 
-			fireEvent.click(screen.getByRole('button', { name: 'rewards icon $0' }));
+			fireEvent.click(screen.getByRole('button', { name: 'open rewards dialog' }));
 			expect(baseElement).toMatchSnapshot();
 		});
 	});
@@ -125,7 +125,7 @@ describe('Rewards Widget', () => {
 				</StoreProvider>,
 			);
 
-			fireEvent.click(screen.getByRole('button', { name: 'rewards icon $12.92' }));
+			fireEvent.click(screen.getByRole('button', { name: 'open rewards dialog' }));
 			expect(baseElement).toMatchSnapshot();
 		});
 
@@ -136,7 +136,7 @@ describe('Rewards Widget', () => {
 				</StoreProvider>,
 			);
 
-			fireEvent.click(screen.getByRole('button', { name: 'rewards icon $12.92' }));
+			fireEvent.click(screen.getByRole('button', { name: 'open rewards dialog' }));
 			fireEvent.click(screen.getByText('Rewards User Guide'));
 			expect(baseElement).toMatchSnapshot();
 		});
@@ -148,7 +148,7 @@ describe('Rewards Widget', () => {
 				</StoreProvider>,
 			);
 
-			fireEvent.click(screen.getByRole('button', { name: 'rewards icon $12.92' }));
+			fireEvent.click(screen.getByRole('button', { name: 'open rewards dialog' }));
 			fireEvent.click(screen.getByText('Rewards User Guide'));
 			fireEvent.click(screen.getByRole('button', { name: 'exit guide mode' }));
 			expect(baseElement).toMatchSnapshot();
@@ -169,7 +169,7 @@ describe('Rewards Widget', () => {
 				</StoreProvider>,
 			);
 
-			fireEvent.click(screen.getByRole('button', { name: 'rewards icon $12.92' }));
+			fireEvent.click(screen.getByRole('button', { name: 'open rewards dialog' }));
 			fireEvent.click(screen.getByRole('button', { name: 'Claim My Rewards' }));
 			expect(claimSpy).toHaveBeenNthCalledWith(1, expectedParameters);
 		});
