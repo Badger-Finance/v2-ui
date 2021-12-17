@@ -886,7 +886,7 @@ exports[`Rewards Widget when there are rewards can go back from user guide 1`] =
 </body>
 `;
 
-exports[`Rewards Widget when there are rewards displays no rewards dialog 1`] = `
+exports[`Rewards Widget when there are rewards displays claim options 1`] = `
 <body
   style="padding-right: 0px; overflow: hidden;"
 >
