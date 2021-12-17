@@ -9,6 +9,7 @@ import { OnboardStore } from '../mobx/stores/OnboardStore';
 import RewardsStore from '../mobx/stores/rewardsStore';
 import { customRender, fireEvent, screen } from './Utils';
 import { StoreProvider } from '../mobx/store-context';
+import { action } from 'mobx';
 
 const mockExchangesRates = {
 	usd: 4337.2,
@@ -117,7 +118,7 @@ describe('Rewards Widget', () => {
 			expect(container).toMatchSnapshot();
 		});
 
-		it('displays no rewards dialog', () => {
+		it('displays claim options', async () => {
 			const { baseElement } = customRender(
 				<StoreProvider value={store}>
 					<RewardsWidget />
@@ -151,6 +152,26 @@ describe('Rewards Widget', () => {
 			fireEvent.click(screen.getByText('Rewards User Guide'));
 			fireEvent.click(screen.getByRole('button', { name: 'exit guide mode' }));
 			expect(baseElement).toMatchSnapshot();
+		});
+
+		it('executes claim geysers with correct parameters', () => {
+			const claimSpy = jest.fn();
+
+			const expectedParameters = Object.fromEntries(
+				mockBadgerTreeClaims.map((claim) => [claim.token.address, claim]),
+			);
+
+			store.rewards.claimGeysers = action(claimSpy);
+
+			customRender(
+				<StoreProvider value={store}>
+					<RewardsWidget />
+				</StoreProvider>,
+			);
+
+			fireEvent.click(screen.getByRole('button', { name: 'rewards icon $12.92' }));
+			fireEvent.click(screen.getByRole('button', { name: 'Claim My Rewards' }));
+			expect(claimSpy).toHaveBeenNthCalledWith(1, expectedParameters);
 		});
 	});
 });
