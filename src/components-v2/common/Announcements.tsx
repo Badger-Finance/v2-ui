@@ -4,7 +4,7 @@ import { IconButton, Typography } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import { StoreContext } from '../../mobx/store-context';
 import { observer } from 'mobx-react-lite';
-import { APP_NEWS_MESSAGE, APP_NEWS_URL } from '../../config/constants';
+import { APP_NEWS_MESSAGE, APP_NEWS_URL, APP_NEWS_URL_TEXT } from '../../config/constants';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -54,7 +54,7 @@ const Announcements = (): JSX.Element | null => {
 				<Typography variant="body2">
 					{APP_NEWS_MESSAGE}{' '}
 					<a href={APP_NEWS_URL} rel="noreferrer" target="_blank" className={classes.link}>
-						Learn More
+						{APP_NEWS_URL_TEXT}
 					</a>
 				</Typography>
 				<IconButton className={classes.closeButton} onClick={() => uiState.closeNotification()}>
