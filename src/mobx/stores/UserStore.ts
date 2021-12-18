@@ -16,6 +16,7 @@ import { Account } from '../model/account/account';
 import { RewardMerkleClaim } from '../model/rewards/reward-merkle-claim';
 import { UserPermissions } from '../model/account/userPermissions';
 import { NetworkStore } from './NetworkStore';
+import { getToken } from 'web3/config/token-config';
 
 export default class UserStore {
 	private store!: RootStore;
@@ -214,8 +215,9 @@ export default class UserStore {
 					if (!vault) {
 						return;
 					}
+					const token = getToken(vault.vaultToken.address);
 					geyserBalances[geyser] = new TokenBalance(
-						{ address: vault.vaultToken.address, decimals: 18 },
+						{ address: vault.vaultToken.address, decimals: token?.decimals || 18 },
 						new BigNumber(staked),
 						new BigNumber(0),
 					);
