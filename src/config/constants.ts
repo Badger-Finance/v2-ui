@@ -124,7 +124,8 @@ function stringHash(input?: string): string | undefined {
 
 // Message should be defined or explicitly undefined.
 export const APP_NEWS_MESSAGE =
-	'After extensive internal security reviews, upgrades, and the implementation of new safeguards with the support of Mandiant, Badger smart contracts have been safely reactivated.';
-export const APP_NEWS_URL_TEXT = 'Read more about our security upgrades.';
-export const APP_NEWS_URL = 'https://badger.com/recovery-phase';
+	'Claimable rewards have been paused while we investigate reports of negative claimable balances. Rewards are still accruing as we investigate.';
+// Text & URL should be defined or explicitly undefined.
+export const APP_NEWS_URL_TEXT = undefined;
+export const APP_NEWS_URL = undefined;
 export const APP_NEWS_STORAGE_HASH = stringHash(APP_NEWS_MESSAGE);
