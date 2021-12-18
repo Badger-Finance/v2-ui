@@ -382,7 +382,8 @@ export const RewardsWidget = observer((): JSX.Element | null => {
 										<Grid item className={classes.submitButton}>
 											<Button
 												fullWidth
-												disabled={totalClaimValue.eq(0)}
+												disabled={true}
+												// disabled={totalClaimValue.eq(0)}
 												color="primary"
 												variant="contained"
 												onClick={async () => await claimGeysers(claims)}
