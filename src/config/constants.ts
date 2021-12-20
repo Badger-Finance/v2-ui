@@ -124,7 +124,7 @@ function stringHash(input?: string): string | undefined {
 
 // Message should be defined or explicitly undefined.
 export const APP_NEWS_MESSAGE =
-	'Claimable rewards have been paused while we investigate reports of negative claimable balances. Rewards are still accruing as we investigate.';
+	'Due to delayed harvests, APRs in the application may be inaccurate.  This will resolve back to normal shortly.';
 // Text & URL should be defined or explicitly undefined.
 export const APP_NEWS_URL_TEXT = undefined;
 export const APP_NEWS_URL = undefined;
