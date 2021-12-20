@@ -10,6 +10,7 @@ import {
 	IconButton,
 	Link,
 	Typography,
+	useTheme,
 } from '@material-ui/core';
 import { ArrowBackIosOutlined } from '@material-ui/icons';
 import CloseIcon from '@material-ui/icons/Close';
@@ -22,6 +23,7 @@ import { ClaimMap } from '../../landing/RewardsWidget';
 import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../../mobx/store-context';
 import BigNumber from 'bignumber.js';
+import { TokenBalance } from '../../../mobx/model/tokens/token-balance';
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
@@ -89,6 +91,23 @@ const useStyles = makeStyles((theme: Theme) =>
 		rewardsOptions: {
 			paddingInlineStart: theme.spacing(2),
 		},
+		successIconContainer: {
+			marginBottom: theme.spacing(1),
+		},
+		rewardsTitle: {
+			fontSize: 20,
+			marginBottom: theme.spacing(2),
+		},
+		goBackButton: {
+			height: 50,
+			maxWidth: 267,
+			margin: 'auto',
+			marginTop: 27,
+		},
+		centeredText: {
+			textAlign: 'center',
+			margin: '67px 0px',
+		},
 	}),
 );
 
@@ -99,10 +118,18 @@ interface Props {
 }
 
 const RewardsSelectionDialog = ({ open, onClose, claimableRewards }: Props): JSX.Element => {
-	const { router, rewards, uiState } = useContext(StoreContext);
+	const { router, uiState } = useContext(StoreContext);
 	const classes = useStyles();
+	const closeDialogTransitionDuration = useTheme().transitions.duration.leavingScreen;
+
 	const [claims, setClaims] = useState<ClaimMap>(claimableRewards);
+	const [claimedRewards, setClaimedRewards] = useState<TokenBalance[]>();
 	const [guideMode, setGuideMode] = useState(false);
+
+	const handleClaim = async () => {
+		// await claimGeysers(claims);
+		setClaimedRewards(Object.values(claims));
+	};
 
 	const totalClaimValue = Object.keys(claims).reduce(
 		(total, claimKey) => total.plus(claims[claimKey].value),
@@ -122,9 +149,182 @@ const RewardsSelectionDialog = ({ open, onClose, claimableRewards }: Props): JSX
 		}
 	};
 
+	const handleClaimedRewardsDialogClose = () => {
+		onClose();
+		setTimeout(() => {
+			setClaimedRewards(undefined);
+		}, closeDialogTransitionDuration);
+	};
+
 	useEffect(() => {
 		setClaims(claimableRewards);
 	}, [claimableRewards]);
+
+	const claimedRewardsContent = (
+		<Grid container direction="column" className={classes.centeredText}>
+			<IconButton
+				aria-label="go back to rewards"
+				className={classes.closeButton}
+				onClick={handleClaimedRewardsDialogClose}
+			>
+				<CloseIcon />
+			</IconButton>
+			<Grid item className={classes.successIconContainer}>
+				<img src="/assets/icons/rewards-claim-success.svg" alt="rewards success icon" />
+			</Grid>
+			<Typography variant="h4" className={classes.rewardsTitle}>
+				Rewards Claimed
+			</Typography>
+			<Typography variant="body2">Rewards claimed for tokens:</Typography>
+			{claimedRewards && (
+				<>
+					{claimedRewards.map(({ token }) => (
+						<Typography variant="body2" key={token.address}>
+							{token.symbol}
+						</Typography>
+					))}
+				</>
+			)}
+			<Button
+				variant="contained"
+				color="primary"
+				className={classes.goBackButton}
+				onClick={() => setClaimedRewards(undefined)}
+			>
+				Go Back To My Rewards
+			</Button>
+		</Grid>
+	);
+
+	const claimChoseContent = (
+		<>
+			{guideMode ? (
+				<Grid container>
+					<Grid item container direction="column" xs={12} sm={4} className={classes.userGuideTokens}>
+						<Grid item className={classes.userGuideToken}>
+							{/*TODO: add link to view vaults when they're available*/}
+							<Typography variant="body2" color="textSecondary">
+								BADGERDAO TOKENS:
+							</Typography>
+							<Typography variant="body1">Badger, bBadger, Digg, bDigg</Typography>
+							{/*<Box display="flex" alignItems="center">*/}
+							{/*	<ArrowRightAltIcon color="primary" />*/}
+							{/*	<Link className={classes.cursorPointer}>View Vaults</Link>*/}
+							{/*</Box>*/}
+						</Grid>
+						<Grid item className={classes.userGuideToken}>
+							<Typography variant="body2" color="textSecondary">
+								NON NATIVE TOKENS:
+							</Typography>
+							<Typography variant="body1">bBTC, renBTC, oBTC...</Typography>
+							{/*<Box display="flex" alignItems="center">*/}
+							{/*	<ArrowRightAltIcon color="primary" />*/}
+							{/*	<Link className={classes.cursorPointer}>View Vaults</Link>*/}
+							{/*</Box>*/}
+						</Grid>
+						<Grid item className={classes.userGuideToken}>
+							<Typography variant="body2" color="textSecondary">
+								INDEPENDENT TOKENS:
+							</Typography>
+							<Typography variant="body1">CVX, bveCVX...</Typography>
+							{/*<Box display="flex" alignItems="center">*/}
+							{/*	<ArrowRightAltIcon color="primary" />*/}
+							{/*	<Link className={classes.cursorPointer}>View Vaults</Link>*/}
+							{/*</Box>*/}
+						</Grid>
+					</Grid>
+					<Grid item xs={12} sm container direction="column">
+						<Grid item>
+							<Typography>Receive maximum rewards when: </Typography>
+						</Grid>
+						<Grid item>
+							<ul className={classes.rewardsOptions}>
+								<li>
+									<Typography variant="body2">Staking 50% non native tokens</Typography>
+								</li>
+								<li>
+									<Typography variant="body2">Holding and/or Staking 50% BadgerDAO tokens</Typography>
+								</li>
+							</ul>
+						</Grid>
+					</Grid>
+				</Grid>
+			) : (
+				<Grid container spacing={3}>
+					<Grid item xs={12} sm={6}>
+						{claimableRewards && (
+							<Grid container direction="column">
+								{Object.keys(claimableRewards).map((rewardsKey, index) => (
+									<Grid key={`${rewardsKey}_${index}`} item className={classes.claimRow}>
+										<RewardsModalItem
+											checked={!!claims[rewardsKey]}
+											claimBalance={claimableRewards[rewardsKey]}
+											onChange={(checked) => handleClaimCheckChange(rewardsKey, checked)}
+										/>
+									</Grid>
+								))}
+								<Divider className={classes.divider} />
+								<Grid item container alignItems="center" justify="space-between">
+									<Typography variant="body2">Total Claimable Rewards</Typography>
+									<CurrencyDisplay
+										variant="h6"
+										justify="flex-end"
+										displayValue={inCurrency(totalClaimValue, uiState.currency)}
+									/>
+								</Grid>
+								<Grid item className={classes.submitButton}>
+									<Button
+										fullWidth
+										disabled={totalClaimValue.eq(0)}
+										color="primary"
+										variant="contained"
+										onClick={handleClaim}
+									>
+										Claim My Rewards
+									</Button>
+								</Grid>
+							</Grid>
+						)}
+					</Grid>
+					<Grid item xs={12} sm={6}>
+						<Grid container direction="column" className={classes.moreRewardsInformation}>
+							<Grid item>
+								<Typography variant="h6">Want more rewards ?</Typography>
+							</Grid>
+							<Grid item className={classes.moreRewardsDescription}>
+								<Typography variant="body2">
+									Boost your rewards and support the BadgerDAO ecosystem, by holding and staking
+									Badger tokens.
+								</Typography>
+							</Grid>
+							<Grid item className={classes.boostRewards}>
+								<Button
+									fullWidth
+									color="primary"
+									variant="outlined"
+									onClick={async () => {
+										await router.goTo(routes.boostOptimizer);
+										onClose();
+									}}
+								>
+									Boost My Rewards
+								</Button>
+							</Grid>
+							<Grid item className={classes.rewardsGuideLinkContainer}>
+								<Link
+									className={classes.cursorPointer}
+									color="primary"
+									onClick={() => setGuideMode(true)}
+								>
+									Rewards User Guide
+								</Link>
+							</Grid>
+						</Grid>
+					</Grid>
+				</Grid>
+			)}
+		</>
+	);
 
 	return (
 		<Dialog
@@ -136,157 +336,33 @@ const RewardsSelectionDialog = ({ open, onClose, claimableRewards }: Props): JSX
 			open={open}
 			onClose={onClose}
 		>
-			<DialogTitle className={classes.title}>
-				{guideMode ? (
-					<>
-						<Box display="flex" alignItems="center">
-							<IconButton
-								aria-label="exit guide mode"
-								className={classes.arrowBack}
-								onClick={() => setGuideMode(false)}
-							>
-								<ArrowBackIosOutlined />
+			{!claimedRewards && (
+				<DialogTitle className={classes.title}>
+					{guideMode ? (
+						<>
+							<Box display="flex" alignItems="center">
+								<IconButton
+									aria-label="exit guide mode"
+									className={classes.arrowBack}
+									onClick={() => setGuideMode(false)}
+								>
+									<ArrowBackIosOutlined />
+								</IconButton>
+								Rewards User Guide
+							</Box>
+						</>
+					) : (
+						<>
+							My Claimable Rewards
+							<IconButton className={classes.closeButton} onClick={onClose}>
+								<CloseIcon />
 							</IconButton>
-							Rewards User Guide
-						</Box>
-					</>
-				) : (
-					<>
-						My Claimable Rewards
-						<IconButton className={classes.closeButton} onClick={onClose}>
-							<CloseIcon />
-						</IconButton>
-					</>
-				)}
-			</DialogTitle>
+						</>
+					)}
+				</DialogTitle>
+			)}
 			<DialogContent className={classes.content}>
-				{guideMode ? (
-					<Grid container>
-						<Grid item container direction="column" xs={12} sm={4} className={classes.userGuideTokens}>
-							<Grid item className={classes.userGuideToken}>
-								{/*TODO: add link to view vaults when they're available*/}
-								<Typography variant="body2" color="textSecondary">
-									BADGERDAO TOKENS:
-								</Typography>
-								<Typography variant="body1">Badger, bBadger, Digg, bDigg</Typography>
-								{/*<Box display="flex" alignItems="center">*/}
-								{/*	<ArrowRightAltIcon color="primary" />*/}
-								{/*	<Link className={classes.cursorPointer}>View Vaults</Link>*/}
-								{/*</Box>*/}
-							</Grid>
-							<Grid item className={classes.userGuideToken}>
-								<Typography variant="body2" color="textSecondary">
-									NON NATIVE TOKENS:
-								</Typography>
-								<Typography variant="body1">bBTC, renBTC, oBTC...</Typography>
-								{/*<Box display="flex" alignItems="center">*/}
-								{/*	<ArrowRightAltIcon color="primary" />*/}
-								{/*	<Link className={classes.cursorPointer}>View Vaults</Link>*/}
-								{/*</Box>*/}
-							</Grid>
-							<Grid item className={classes.userGuideToken}>
-								<Typography variant="body2" color="textSecondary">
-									INDEPENDENT TOKENS:
-								</Typography>
-								<Typography variant="body1">CVX, bveCVX...</Typography>
-								{/*<Box display="flex" alignItems="center">*/}
-								{/*	<ArrowRightAltIcon color="primary" />*/}
-								{/*	<Link className={classes.cursorPointer}>View Vaults</Link>*/}
-								{/*</Box>*/}
-							</Grid>
-						</Grid>
-						<Grid item xs={12} sm container direction="column">
-							<Grid item>
-								<Typography>Receive maximum rewards when: </Typography>
-							</Grid>
-							<Grid item>
-								<ul className={classes.rewardsOptions}>
-									<li>
-										<Typography variant="body2">Staking 50% non native tokens</Typography>
-									</li>
-									<li>
-										<Typography variant="body2">
-											Holding and/or Staking 50% BadgerDAO tokens
-										</Typography>
-									</li>
-								</ul>
-							</Grid>
-						</Grid>
-					</Grid>
-				) : (
-					<Grid container spacing={3}>
-						<Grid item xs={12} sm={6}>
-							{claimableRewards && (
-								<Grid container direction="column">
-									{Object.keys(claimableRewards).map((rewardsKey, index) => (
-										<Grid key={`${rewardsKey}_${index}`} item className={classes.claimRow}>
-											<RewardsModalItem
-												checked={!!claims[rewardsKey]}
-												claimBalance={claimableRewards[rewardsKey]}
-												onChange={(checked) => handleClaimCheckChange(rewardsKey, checked)}
-											/>
-										</Grid>
-									))}
-									<Divider className={classes.divider} />
-									<Grid item container alignItems="center" justify="space-between">
-										<Typography variant="body2">Total Claimable Rewards</Typography>
-										<CurrencyDisplay
-											variant="h6"
-											justify="flex-end"
-											displayValue={inCurrency(totalClaimValue, uiState.currency)}
-										/>
-									</Grid>
-									<Grid item className={classes.submitButton}>
-										<Button
-											fullWidth
-											disabled={totalClaimValue.eq(0)}
-											color="primary"
-											variant="contained"
-											onClick={async () => await rewards.claimGeysers(claims)}
-										>
-											Claim My Rewards
-										</Button>
-									</Grid>
-								</Grid>
-							)}
-						</Grid>
-						<Grid item xs={12} sm={6}>
-							<Grid container direction="column" className={classes.moreRewardsInformation}>
-								<Grid item>
-									<Typography variant="h6">Want more rewards ?</Typography>
-								</Grid>
-								<Grid item className={classes.moreRewardsDescription}>
-									<Typography variant="body2">
-										Boost your rewards and support the BadgerDAO ecosystem, by holding and staking
-										Badger tokens.
-									</Typography>
-								</Grid>
-								<Grid item className={classes.boostRewards}>
-									<Button
-										fullWidth
-										color="primary"
-										variant="outlined"
-										onClick={async () => {
-											await router.goTo(routes.boostOptimizer);
-											onClose();
-										}}
-									>
-										Boost My Rewards
-									</Button>
-								</Grid>
-								<Grid item className={classes.rewardsGuideLinkContainer}>
-									<Link
-										className={classes.cursorPointer}
-										color="primary"
-										onClick={() => setGuideMode(true)}
-									>
-										Rewards User Guide
-									</Link>
-								</Grid>
-							</Grid>
-						</Grid>
-					</Grid>
-				)}
+				{claimedRewards ? claimedRewardsContent : claimChoseContent}
 			</DialogContent>
 		</Dialog>
 	);
