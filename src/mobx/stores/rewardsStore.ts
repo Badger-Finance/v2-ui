@@ -5,7 +5,7 @@ import { RootStore } from '../RootStore';
 import { abi as rewardsAbi } from '../../config/system/abis/BadgerTree.json';
 import BigNumber from 'bignumber.js';
 import { reduceClaims, reduceTimeSinceLastCycle } from 'mobx/reducers/statsReducers';
-import { getSendOptions, sendContractMethod } from 'mobx/utils/web3';
+import { getSendOptions, sendContractMethod, TransactionRequestResult } from 'mobx/utils/web3';
 import { getToken } from '../../web3/config/token-config';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { ClaimMap } from 'components-v2/landing/RewardsWidget';
@@ -197,7 +197,7 @@ class RewardsStore {
 	);
 
 	claimGeysers = action(
-		async (claimMap: ClaimMap): Promise<void> => {
+		async (claimMap: ClaimMap): Promise<TransactionRequestResult | null> => {
 			const { proof, amounts } = this.badgerTree;
 			const { wallet, address } = this.store.onboard;
 			const { queueNotification } = this.store.uiState;
@@ -205,19 +205,19 @@ class RewardsStore {
 			const { rebase } = this.store.rebase;
 
 			if (!address) {
-				return;
+				return null;
 			}
 
 			let sharesPerFragment = new BigNumber(1);
 			if (network.symbol === Network.Ethereum && !rebase) {
-				return;
+				return null;
 			} else if (rebase) {
 				sharesPerFragment = rebase.sharesPerFragment;
 			}
 
 			if (!proof || !claimMap) {
 				queueNotification(`Error retrieving reward data.`, 'error');
-				return;
+				return null;
 			}
 
 			const amountsToClaim: string[] = [];
@@ -252,7 +252,7 @@ class RewardsStore {
 
 			if (amountsToClaim.length < proof.tokens.length) {
 				queueNotification(`Error retrieving tokens for claiming.`, 'error');
-				return;
+				return null;
 			}
 
 			const web3 = new Web3(wallet?.provider);
@@ -270,7 +270,7 @@ class RewardsStore {
 			const options = await getSendOptions(method, address, price);
 
 			queueNotification(`Sign the transaction to claim your earnings`, 'info');
-			await sendContractMethod(this.store, method, options, `Claim submitted.`, `Rewards claimed.`);
+			return sendContractMethod(this.store, method, options, `Claim submitted.`, `Rewards claimed.`);
 		},
 	);
 }
