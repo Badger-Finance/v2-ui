@@ -24,6 +24,7 @@ import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../../mobx/store-context';
 import BigNumber from 'bignumber.js';
 import { TokenBalance } from '../../../mobx/model/tokens/token-balance';
+import { TransactionRequestResult } from '../../../mobx/utils/web3';
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
@@ -118,7 +119,7 @@ interface Props {
 }
 
 const RewardsSelectionDialog = ({ open, onClose, claimableRewards }: Props): JSX.Element => {
-	const { router, uiState } = useContext(StoreContext);
+	const { router, uiState, rewards } = useContext(StoreContext);
 	const classes = useStyles();
 	const closeDialogTransitionDuration = useTheme().transitions.duration.leavingScreen;
 
@@ -127,8 +128,11 @@ const RewardsSelectionDialog = ({ open, onClose, claimableRewards }: Props): JSX
 	const [guideMode, setGuideMode] = useState(false);
 
 	const handleClaim = async () => {
-		// await claimGeysers(claims);
-		setClaimedRewards(Object.values(claims));
+		const txResult = await rewards.claimGeysers(claims);
+
+		if (txResult === TransactionRequestResult.Success) {
+			setClaimedRewards(Object.values(claims));
+		}
 	};
 
 	const totalClaimValue = Object.keys(claims).reduce(
@@ -175,11 +179,11 @@ const RewardsSelectionDialog = ({ open, onClose, claimableRewards }: Props): JSX
 			<Typography variant="h4" className={classes.rewardsTitle}>
 				Rewards Claimed
 			</Typography>
-			<Typography variant="body2">Rewards claimed for tokens:</Typography>
+			<Typography variant="body1">Rewards claimed for tokens:</Typography>
 			{claimedRewards && (
 				<>
 					{claimedRewards.map(({ token }) => (
-						<Typography variant="body2" key={token.address}>
+						<Typography variant="body1" key={token.address}>
 							{token.symbol}
 						</Typography>
 					))}
