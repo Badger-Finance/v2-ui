@@ -182,11 +182,9 @@ const Header = observer(() => {
 							justifyContent="flex-end"
 							className={classes.headerRightSide}
 						>
-							{onboard.isActive() && (
-								<Grid item>
-									<RewardsWidget />
-								</Grid>
-							)}
+							<Grid item>
+								<RewardsWidget />
+							</Grid>
 							{shouldBannerBeDisplayed && (
 								<Grid item>
 									<DelegationWidget />
