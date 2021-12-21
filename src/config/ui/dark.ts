@@ -88,6 +88,31 @@ const theme = createTheme({
 				backgroundColor: 'rgba(18, 18, 18, 0.7)',
 			},
 		},
+		MuiCheckbox: {
+			colorPrimary: {
+				'&$checked': {
+					color: '#04BF00',
+					// tick is transparent so we use this approach https://stackoverflow.com/a/57982412
+					'& .MuiIconButton-label': {
+						position: 'relative',
+						zIndex: 0,
+					},
+					'& .MuiIconButton-label:after': {
+						content: '""',
+						left: 4,
+						top: 4,
+						height: 15,
+						width: 15,
+						position: 'absolute',
+						backgroundColor: 'white',
+						zIndex: -1,
+					},
+					'&:hover': {
+						backgroundColor: 'rgba(4, 191, 0, 0.08)',
+					},
+				},
+			},
+		},
 	},
 });
 
