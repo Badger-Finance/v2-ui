@@ -83,12 +83,18 @@ const theme = createMuiTheme({
 				fontWeight: 800,
 			},
 		},
+		MuiBackdrop: {
+			root: {
+				backgroundColor: 'rgba(18, 18, 18, 0.7)',
+			},
+		},
 	},
 });
 
 export const darkTheme = createMuiTheme({
 	...theme,
 	overrides: {
+		...(theme.overrides ?? {}),
 		MuiButton: {
 			...(theme.overrides?.MuiButton ?? {}),
 			root: {
