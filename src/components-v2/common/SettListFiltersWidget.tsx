@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import {
 	Button,
 	Checkbox,
+	Dialog,
 	DialogContent,
 	DialogTitle,
 	FormControlLabel,
@@ -15,7 +16,6 @@ import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
 import clsx from 'clsx';
 import { Currency } from '../../config/enums/currency.enum';
-import Dialog from './dialogs/Dialog';
 
 const useDialogStyles = (offsetHeight = 0) => {
 	return makeStyles(() => ({
