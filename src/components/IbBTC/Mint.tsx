@@ -174,11 +174,9 @@ export const Mint = observer(
 				return;
 			}
 
-			if (selectedToken) {
-				setInputAmount(selectedToken.balance.decimalPlaces(6, BigNumber.ROUND_HALF_FLOOR).toString());
-				setMintBalance(selectedToken);
-				await calculateMintInformation(selectedToken);
-			}
+			setInputAmount(selectedToken.balance.decimalPlaces(6, BigNumber.ROUND_HALF_FLOOR).toString());
+			setMintBalance(selectedToken);
+			await calculateMintInformation(selectedToken);
 		};
 
 		const handleTokenChange = async (tokenBalance: TokenBalance): Promise<void> => {
