@@ -153,7 +153,25 @@ export const RewardsWidget = observer((): JSX.Element | null => {
 	}, [vaults, badgerTree.claims]);
 
 	if (!onboard.isActive()) {
-		return null;
+		return (
+			<>
+				<Button
+					aria-label="open rewards dialog"
+					classes={{ outlined: classes.rewardsButton }}
+					className={clsx(classes.rewards, classes.button)}
+					variant="outlined"
+					onClick={() => setOpen(true)}
+				>
+					<img className={classes.rewardsIcon} src="/assets/icons/rewards-spark.svg" alt="rewards icon" />
+					<CurrencyDisplay
+						displayValue={inCurrency(new BigNumber(0), currency, 0)}
+						variant="body2"
+						justify="center"
+					/>
+				</Button>
+				<NoRewardsDialog open={open} onClose={() => setOpen(false)} />
+			</>
+		);
 	}
 
 	if (loadingRewards || user.claimProof === undefined) {
