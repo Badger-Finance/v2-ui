@@ -1,17 +1,17 @@
 import React from 'react';
 import '@testing-library/jest-dom';
 
-import addresses from 'config/ibBTC/addresses.json';
 import { customRender, screen } from '../../Utils';
 import { IbbtcRoi } from '../../../components/IbBTC/IbbtcRoi';
 import { CssBaseline, ThemeProvider } from '@material-ui/core';
 import { darkTheme } from '../../../config/ui/dark';
 import { StoreProvider } from '../../../mobx/store-context';
 import store from '../../../mobx/RootStore';
-import { IbbtcOptionToken } from '../../../mobx/model/tokens/ibbtc-option-token';
+import { SAMPLE_IBBTC_TOKEN_BALANCE } from '../../utils/samples';
+import IbBTCStore from '../../../mobx/stores/ibBTCStore';
 
 it('displays N/A state', () => {
-	store.ibBTCStore.ibBTC = new IbbtcOptionToken(store, addresses.mainnet.tokens.ibBTC);
+	jest.spyOn(IbBTCStore.prototype, 'ibBTC', 'get').mockReturnValue(SAMPLE_IBBTC_TOKEN_BALANCE);
 	customRender(
 		<StoreProvider value={store}>
 			<ThemeProvider theme={darkTheme}>
@@ -24,7 +24,7 @@ it('displays N/A state', () => {
 });
 
 it('displays logo and name', () => {
-	store.ibBTCStore.ibBTC = new IbbtcOptionToken(store, addresses.mainnet.tokens.ibBTC);
+	jest.spyOn(IbBTCStore.prototype, 'ibBTC', 'get').mockReturnValue(SAMPLE_IBBTC_TOKEN_BALANCE);
 	customRender(
 		<StoreProvider value={store}>
 			<ThemeProvider theme={darkTheme}>
@@ -33,12 +33,12 @@ it('displays logo and name', () => {
 			</ThemeProvider>
 		</StoreProvider>,
 	);
-	expect(screen.getByText(`${store.ibBTCStore.ibBTC.symbol} ROI`)).toBeInTheDocument();
+	expect(screen.getByText(`${store.ibBTCStore.ibBTC.token.symbol} ROI`)).toBeInTheDocument();
 	expect(screen.getByAltText('ROI Token Logo')).toBeInTheDocument();
 });
 
 it('displays APY information', () => {
-	store.ibBTCStore.ibBTC = new IbbtcOptionToken(store, addresses.mainnet.tokens.ibBTC);
+	jest.spyOn(IbBTCStore.prototype, 'ibBTC', 'get').mockReturnValue(SAMPLE_IBBTC_TOKEN_BALANCE);
 	store.ibBTCStore.apyUsingLastDay = '25.032%';
 	store.ibBTCStore.apyUsingLastWeek = '18.234%';
 

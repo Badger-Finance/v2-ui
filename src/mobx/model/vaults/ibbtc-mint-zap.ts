@@ -1,8 +1,8 @@
 import { ContractSendMethod } from 'web3-eth-contract';
 import BigNumber from 'bignumber.js';
-import { IbbtcOptionToken } from '../tokens/ibbtc-option-token';
 import { RootStore } from 'mobx/RootStore';
 import { AbiItem } from 'web3-utils';
+import { Token } from '@badger-dao/sdk';
 
 export const IBBTC_METHOD_NOT_SUPPORTED = 'ibBTC may only be redeemed for Badger renBTC Vault Tokens';
 
@@ -13,12 +13,7 @@ export enum ZapType {
 }
 
 export abstract class IbBTCMintZap {
-	constructor(
-		protected store: RootStore,
-		protected token: IbbtcOptionToken,
-		public address: string,
-		protected abi: AbiItem[],
-	) {}
+	constructor(protected store: RootStore, protected token: Token, public address: string, protected abi: AbiItem[]) {}
 	abstract getCalcMintMethod(amount: BigNumber): ContractSendMethod;
 	abstract getCalcRedeemMethod(amount: BigNumber): ContractSendMethod;
 	abstract getRedeemMethod(amount: BigNumber): ContractSendMethod;

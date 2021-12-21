@@ -60,17 +60,17 @@ export class RootStore {
 		this.rebase = new RebaseStore(this);
 		this.rewards = new RewardsStore(this);
 		this.uiState = new UiState(this);
-		this.ibBTCStore = new IbBTCStore(this);
+		this.setts = new SettStore(this);
+		this.user = new UserStore(this);
 		// RenVM bridge store.
 		this.bridge = new BridgeStore(this);
 		this.honeyPot = new HoneyPotStore(this);
-		this.setts = new SettStore(this);
-		this.user = new UserStore(this);
 		this.leaderBoard = new LeaderBoardStore(this);
 		this.settDetail = new SettDetailStore(this);
 		this.settCharts = new SettChartsStore(this);
 		this.lockedCvxDelegation = new LockedCvxDelegationStore(this);
 		this.gasPrices = new GasPricesStore(this);
+		this.ibBTCStore = new IbBTCStore(this);
 	}
 
 	async updateNetwork(network: number): Promise<void> {

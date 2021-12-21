@@ -166,6 +166,7 @@ const ethSettDefinitions: BadgerSett[] = [
 		vaultToken: {
 			address: ETH_DEPLOY.sett_system.vaults['native.renCrv'],
 			decimals: 18,
+			name: 'bcrvrenBTC',
 		},
 		geyser: ETH_DEPLOY.geysers['native.renCrv'],
 	},
