@@ -97,9 +97,13 @@ export const getRebaseLogs = async (provider: provider, network: NetworkModel): 
 	}
 	const policy = rebaseConfig.digg[1];
 	const contractInstance = new web3.eth.Contract(policy.abi as AbiItem[], policy.contractAddress);
+	const currentBlock = await web3.eth.getBlockNumber();
+	// remove one month of blocks to get start block
+	// 30 * 24 * 60 * 60 - number of seconds in a month, div 13 for seconds per block
+	const startBlock = currentBlock - (30 * 24 * 60 * 60) / 13;
 	const events = await contractInstance.getPastEvents('LogRebase', {
-		fromBlock: 11663433,
-		toBlock: 'latest',
+		fromBlock: startBlock.toFixed(),
+		toBlock: (currentBlock - 1).toFixed(),
 	});
 	return events.length ? events[events.length - 1].returnValues : null;
 };
