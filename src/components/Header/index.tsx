@@ -22,6 +22,9 @@ const useStyles = makeStyles((theme) => ({
 	root: {
 		borderBottom: '1px solid #2B2B2B',
 		background: '#181818',
+		'& button': {
+			height: 36,
+		},
 	},
 	container: {
 		padding: '20px 0',
