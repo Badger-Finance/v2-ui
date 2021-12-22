@@ -13,6 +13,9 @@ const useStyles = makeStyles((theme: Theme) =>
 		title: {
 			padding: theme.spacing(4, 4, 0, 4),
 		},
+		titleText: {
+			fontWeight: 700,
+		},
 		content: {
 			padding: theme.spacing(2, 4, 4, 4),
 		},
@@ -70,7 +73,9 @@ const NoRewardsDialog = ({ open, onClose }: Props): JSX.Element => {
 			onClose={onClose}
 		>
 			<DialogTitle className={classes.title}>
-				My Claimable Rewards
+				<Typography variant="h6" className={classes.titleText}>
+					My Rewards
+				</Typography>
 				<IconButton aria-label="go back to rewards" className={classes.closeButton} onClick={onClose}>
 					<CloseIcon />
 				</IconButton>
@@ -80,11 +85,16 @@ const NoRewardsDialog = ({ open, onClose }: Props): JSX.Element => {
 					<Grid item container direction="column" xs={12} sm={6}>
 						<Grid item>
 							<Box display="flex" alignItems="center">
-								<img className={classes.noRewardsIcon} src="/assets/icons/no-rewards-icon.svg" />
+								<img
+									className={classes.noRewardsIcon}
+									src="/assets/icons/no-rewards-icon.svg"
+									alt="no rewards icon"
+								/>
 								<CurrencyDisplay
-									variant="body1"
+									variant="h6"
 									justify="flex-start"
 									displayValue={inCurrency(new BigNumber(0), uiState.currency)}
+									TypographyProps={{ className: classes.titleText }}
 								/>
 							</Box>
 						</Grid>

@@ -75,6 +75,7 @@ describe('Rewards Widget', () => {
 		jest.spyOn(RewardsStore.prototype, 'isLoading', 'get').mockReturnValue(false);
 		store.user.claimProof = mockClaimProof;
 		store.prices.exchangeRates = mockExchangesRates;
+		store.rewards.loadTreeData = action(jest.fn());
 	});
 
 	describe('when there are no rewards', () => {

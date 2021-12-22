@@ -9,75 +9,10 @@ import { inCurrency } from 'mobx/utils/helpers';
 import React, { useContext, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import CurrencyDisplay from '../common/CurrencyDisplay';
-import NoRewardsDialog from '../common/dialogs/NoRewardsDialog';
-import RewardsSelectionDialog from '../common/dialogs/RewardsSelectionDialog';
+import RewardsDialog from '../common/dialogs/RewardsDialog';
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
-		dialog: {
-			maxWidth: 862,
-		},
-		title: {
-			padding: theme.spacing(4, 4, 0, 4),
-		},
-		content: {
-			padding: theme.spacing(2, 4, 4, 4),
-		},
-		closeButton: {
-			position: 'absolute',
-			right: 24,
-			top: 24,
-		},
-		claimRow: {
-			marginBottom: theme.spacing(2),
-		},
-		divider: {
-			marginBottom: theme.spacing(2),
-		},
-		submitButton: {
-			marginTop: theme.spacing(4),
-			[theme.breakpoints.down('xs')]: {
-				marginTop: theme.spacing(2),
-			},
-		},
-		moreRewardsInformation: {
-			width: '75%',
-			margin: 'auto',
-			backgroundColor: '#181818',
-			borderRadius: 8,
-			padding: theme.spacing(4),
-			[theme.breakpoints.down('sm')]: {
-				width: '100%',
-				padding: theme.spacing(3),
-			},
-		},
-		moreRewardsDescription: {
-			marginTop: theme.spacing(1),
-		},
-		boostRewards: {
-			marginTop: theme.spacing(2),
-		},
-		rewardsGuideLinkContainer: {
-			marginTop: theme.spacing(2),
-			textAlign: 'center',
-		},
-		cursorPointer: {
-			cursor: 'pointer',
-		},
-		arrowBack: {
-			marginRight: theme.spacing(1),
-		},
-		userGuideTokens: {
-			[theme.breakpoints.up('sm')]: {
-				marginLeft: theme.spacing(7),
-			},
-		},
-		userGuideToken: {
-			marginBottom: theme.spacing(2),
-		},
-		rewardsOptions: {
-			paddingInlineStart: theme.spacing(2),
-		},
 		rewards: {
 			color: '#F2BC1B',
 		},
@@ -91,23 +26,6 @@ const useStyles = makeStyles((theme: Theme) =>
 		loadingRewardsButton: {
 			minWidth: 37,
 			width: 37,
-		},
-		noRewardsDialog: {
-			maxWidth: 672,
-		},
-		noRewardsContent: {
-			[theme.breakpoints.up('xs')]: {
-				marginTop: theme.spacing(2),
-			},
-		},
-		noRewardsIcon: {
-			marginRight: theme.spacing(1),
-		},
-		noRewardsExplanation: {
-			marginTop: theme.spacing(6),
-			[theme.breakpoints.down('xs')]: {
-				marginTop: theme.spacing(2),
-			},
 		},
 	}),
 );
@@ -134,8 +52,6 @@ export const RewardsWidget = observer((): JSX.Element | null => {
 
 	const [open, setOpen] = useState(false);
 	const [claimableRewards, setClaimableRewards] = useState<ClaimMap>({});
-
-	const hasRewards = Object.keys(claimableRewards).length > 0;
 
 	const totalRewardsValue = Object.keys(claimableRewards).reduce(
 		(total, claimKey) => total.plus(claimableRewards[claimKey].value),
@@ -164,25 +80,28 @@ export const RewardsWidget = observer((): JSX.Element | null => {
 				>
 					<img className={classes.rewardsIcon} src="/assets/icons/rewards-spark.svg" alt="rewards icon" />
 					<CurrencyDisplay
-						displayValue={inCurrency(new BigNumber(0), currency, 0)}
+						displayValue={inCurrency(new BigNumber(0), currency)}
 						variant="body2"
 						justify="center"
 					/>
 				</Button>
-				<NoRewardsDialog open={open} onClose={() => setOpen(false)} />
+				<RewardsDialog open={open} onClose={() => setOpen(false)} claimableRewards={{}} />
 			</>
 		);
 	}
 
 	if (loadingRewards || user.claimProof === undefined) {
 		return (
-			<Button
-				disabled
-				variant="outlined"
-				className={clsx(classes.rewards, classes.button, classes.loadingRewardsButton)}
-			>
-				<Loader size={15} />
-			</Button>
+			<>
+				<Button
+					disabled
+					variant="outlined"
+					className={clsx(classes.rewards, classes.button, classes.loadingRewardsButton)}
+				>
+					<Loader size={15} />
+				</Button>
+				<RewardsDialog open={open} onClose={() => setOpen(false)} claimableRewards={claimableRewards} />
+			</>
 		);
 	}
 
@@ -204,12 +123,7 @@ export const RewardsWidget = observer((): JSX.Element | null => {
 					justifyContent="center"
 				/>
 			</Button>
-			<NoRewardsDialog open={open && !hasRewards} onClose={() => setOpen(false)} />
-			<RewardsSelectionDialog
-				open={open && hasRewards}
-				onClose={() => setOpen(false)}
-				claimableRewards={claimableRewards}
-			/>
+			<RewardsDialog open={open} onClose={() => setOpen(false)} claimableRewards={claimableRewards} />
 		</>
 	);
 });

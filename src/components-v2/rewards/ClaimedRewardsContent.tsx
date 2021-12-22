@@ -1,32 +1,36 @@
 import React from 'react';
+import { Button, DialogContent, Grid, IconButton, Typography } from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import { Button, Dialog, DialogContent, Grid, IconButton, Typography } from '@material-ui/core';
+import { TokenBalance } from '../../mobx/model/tokens/token-balance';
 import CloseIcon from '@material-ui/icons/Close';
-import { TokenBalance } from '../../../mobx/model/tokens/token-balance';
 
 const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
-		dialog: {
-			maxWidth: 672,
-		},
 		title: {
 			padding: theme.spacing(4, 4, 0, 4),
 		},
 		content: {
 			padding: theme.spacing(2, 4, 4, 4),
 		},
-		closeButton: {
-			position: 'absolute',
-			right: 24,
-			top: 24,
+		userGuideToken: {
+			marginBottom: theme.spacing(2),
 		},
-		centeredText: {
-			textAlign: 'center',
-			margin: '67px 0px 37px 0px',
+		rewardsOptions: {
+			paddingInlineStart: theme.spacing(2),
+		},
+		successIconContainer: {
+			marginBottom: theme.spacing(1),
 		},
 		rewardsTitle: {
 			fontSize: 20,
 			marginBottom: theme.spacing(2),
+		},
+		arrowBack: {
+			marginRight: theme.spacing(1),
+		},
+		centeredText: {
+			textAlign: 'center',
+			margin: '67px 0px',
 		},
 		goBackButton: {
 			height: 50,
@@ -34,35 +38,28 @@ const useStyles = makeStyles((theme: Theme) =>
 			margin: 'auto',
 			marginTop: 27,
 		},
-		successIconContainer: {
-			marginBottom: theme.spacing(1),
+		closeButton: {
+			position: 'absolute',
+			right: 24,
+			top: 24,
 		},
 	}),
 );
 
 interface Props {
-	open: boolean;
+	claimedRewards: TokenBalance[];
 	onClose: () => void;
 	onGoBack: () => void;
-	claims: TokenBalance[];
 }
 
-const RewardsClaimedDialog = ({ open, onClose, onGoBack, claims }: Props): JSX.Element => {
+const ClaimedRewardsContent = ({ claimedRewards, onClose, onGoBack }: Props): JSX.Element => {
 	const classes = useStyles();
 
 	return (
-		<Dialog
-			fullWidth
-			maxWidth="sm"
-			aria-describedby="Claim your rewards"
-			aria-labelledby="claim-modal"
-			classes={{ paperWidthSm: classes.dialog }}
-			open={open}
-			onClose={onClose}
-		>
+		<>
 			<DialogContent className={classes.content}>
 				<Grid container direction="column" className={classes.centeredText}>
-					<IconButton aria-label="go back to rewards" className={classes.closeButton} onClick={onClose}>
+					<IconButton className={classes.closeButton} onClick={onClose}>
 						<CloseIcon />
 					</IconButton>
 					<Grid item className={classes.successIconContainer}>
@@ -71,9 +68,9 @@ const RewardsClaimedDialog = ({ open, onClose, onGoBack, claims }: Props): JSX.E
 					<Typography variant="h4" className={classes.rewardsTitle}>
 						Rewards Claimed
 					</Typography>
-					<Typography variant="body2">Rewards claimed for tokens:</Typography>
-					{claims.map(({ token }) => (
-						<Typography variant="body2" key={token.address}>
+					<Typography variant="subtitle2">Rewards claimed for tokens:</Typography>
+					{claimedRewards.map(({ token }) => (
+						<Typography variant="subtitle2" key={token.address}>
 							{token.symbol}
 						</Typography>
 					))}
@@ -82,8 +79,8 @@ const RewardsClaimedDialog = ({ open, onClose, onGoBack, claims }: Props): JSX.E
 					</Button>
 				</Grid>
 			</DialogContent>
-		</Dialog>
+		</>
 	);
 };
 
-export default RewardsClaimedDialog;
+export default ClaimedRewardsContent;
