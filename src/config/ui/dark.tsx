@@ -1,11 +1,18 @@
+import React from 'react';
 import { createTheme } from '@material-ui/core';
 
 const buttonPadding = '11px 13px';
 
 const theme = createTheme({
+	props: {
+		MuiCheckbox: {
+			checkedIcon: <img src="/assets/icons/checked-checkbox.svg" alt="checked checkbox" />,
+			icon: <img src="/assets/icons/non-checked-checkbox.svg" alt="checkbox" />,
+		},
+	},
 	palette: {
 		type: 'dark',
-		primary: { main: '#F2A52B' },
+		primary: { main: '#F2BC1B' },
 		secondary: { main: '#121212' },
 		background: {
 			default: '#181818',
@@ -92,21 +99,6 @@ const theme = createTheme({
 			colorPrimary: {
 				'&$checked': {
 					color: '#04BF00',
-					// tick is transparent so we use this approach https://stackoverflow.com/a/57982412
-					'& .MuiIconButton-label': {
-						position: 'relative',
-						zIndex: 0,
-					},
-					'& .MuiIconButton-label:after': {
-						content: '""',
-						left: 4,
-						top: 4,
-						height: 15,
-						width: 15,
-						position: 'absolute',
-						backgroundColor: 'white',
-						zIndex: -1,
-					},
 					'&:hover': {
 						backgroundColor: 'rgba(4, 191, 0, 0.08)',
 					},
@@ -125,6 +117,7 @@ export const darkTheme = createTheme({
 			root: {
 				textTransform: 'capitalize',
 				borderRadius: 10,
+				height: 50,
 				[theme.breakpoints.down('xs')]: {
 					padding: buttonPadding,
 				},
