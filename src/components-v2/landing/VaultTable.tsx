@@ -11,6 +11,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	subHeader: {
 		background: theme.palette.background.default,
+		paddingRight: 0,
 	},
 }));
 
