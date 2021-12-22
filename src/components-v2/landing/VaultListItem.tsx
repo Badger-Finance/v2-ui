@@ -43,8 +43,8 @@ const useStyles = makeStyles((theme) => ({
 	name: {
 		[theme.breakpoints.up('md')]: {
 			flexGrow: 0,
-			maxWidth: '55%',
-			flexBasis: '55%',
+			maxWidth: '45%',
+			flexBasis: '45%',
 		},
 		[theme.breakpoints.down('sm')]: {
 			marginBottom: theme.spacing(2),
@@ -60,12 +60,22 @@ const useStyles = makeStyles((theme) => ({
 	clickableSection: {
 		alignItems: 'center',
 		padding: theme.spacing(2, 0, 2, 2),
+		[theme.breakpoints.up('md')]: {
+			flexGrow: 0,
+			maxWidth: '70%',
+			flexBasis: '70%',
+		},
 		[theme.breakpoints.down('sm')]: {
 			padding: theme.spacing(2, 2, 1.5, 2),
 		},
 	},
 	nonClickableSection: {
 		padding: theme.spacing(2, 2, 2, 0),
+		[theme.breakpoints.up('md')]: {
+			flexGrow: 0,
+			maxWidth: '30%',
+			flexBasis: '30%',
+		},
 		[theme.breakpoints.down('sm')]: {
 			textAlign: 'center',
 			padding: theme.spacing(1, 2, 2, 2),
@@ -117,14 +127,14 @@ const VaultListItem = observer(
 			<ListItem className={classes.listItem} disabled={isDisabled}>
 				<Grid container className={clsx(classes.root, !isDisabled && classes.enabledVault)}>
 					{/* the goToVaultDetail handle is used only for this piece to allow the action buttons to be clickable/*/}
-					<Grid container item xs={12} md={9} className={classes.clickableSection} onClick={goToVaultDetail}>
+					<Grid container item xs={12} md className={classes.clickableSection} onClick={goToVaultDetail}>
 						{/* we use custom flex basis for this item /*/}
 						<Grid item xs={12} md className={classes.name} container>
 							<VaultItemName vault={vault} />
 						</Grid>
 						<Grid item className={classes.mobileLabel} xs={6} md={1}>
 							<Typography variant="body2" color="textSecondary">
-								ROI
+								APR
 							</Typography>
 						</Grid>
 						<Grid item xs={6} md>
@@ -140,7 +150,7 @@ const VaultListItem = observer(
 							<CurrencyDisplay displayValue={displayValue} variant="body1" justifyContent="flex-start" />
 						</Grid>
 					</Grid>
-					<Grid item xs={12} md={3} className={classes.nonClickableSection}>
+					<Grid item xs={12} md className={classes.nonClickableSection}>
 						<VaultActionButtons
 							isWithdrawDisabled={!onboard.isActive() || !canWithdraw}
 							isDepositDisabled={!onboard.isActive() || isDisabled}
