@@ -66,6 +66,7 @@ interface Props {
 
 export const NativeBox = observer((props: Props) => {
 	const { user } = React.useContext(StoreContext);
+	// const nftBalance = 1234; //user.accountDetails?.nftBalance ?? 0;
 	const nativeHoldings = user.accountDetails?.nativeBalance;
 
 	const {
@@ -135,6 +136,11 @@ export const NativeBox = observer((props: Props) => {
 	return (
 		<Grid item className={classes.settInformation}>
 			<Typography variant="h6">Native: </Typography>
+			{/*{nftBalance > 0 && (*/}
+			{/*	<Typography variant="h6">*/}
+			{/*		(${numberWithCommas(formatWithoutExtraZeros(nftBalance, 3))} from cumulative NFT boost):{' '}*/}
+			{/*	</Typography>*/}
+			{/*)}*/}
 			<HoldingAssetInput
 				className={classes.assetInput}
 				disabled={isLoading}

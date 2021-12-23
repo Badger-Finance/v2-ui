@@ -79,7 +79,7 @@ const Header = observer(() => {
 		onboard,
 		onboard: { notify },
 		network: { network },
-		setts: { protocolSummary },
+		vaults: { protocolSummary },
 	} = useContext(StoreContext);
 	const { enqueueSnackbar } = useSnackbar();
 	const classes = useStyles();

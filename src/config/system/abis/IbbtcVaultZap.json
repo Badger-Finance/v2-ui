@@ -54,7 +54,7 @@
 	{
 		"inputs": [],
 		"name": "IBBTC_VAULT",
-		"outputs": [{ "internalType": "contract ISett", "name": "", "type": "address" }],
+		"outputs": [{ "internalType": "contract IVault", "name": "", "type": "address" }],
 		"stateMutability": "view",
 		"type": "function"
 	},
@@ -75,7 +75,7 @@
 	{
 		"inputs": [],
 		"name": "RENCRV_VAULT",
-		"outputs": [{ "internalType": "contract ISett", "name": "", "type": "address" }],
+		"outputs": [{ "internalType": "contract IVault", "name": "", "type": "address" }],
 		"stateMutability": "view",
 		"type": "function"
 	},
@@ -89,7 +89,7 @@
 	{
 		"inputs": [],
 		"name": "SETT_PEAK",
-		"outputs": [{ "internalType": "contract IBadgerSettPeak", "name": "", "type": "address" }],
+		"outputs": [{ "internalType": "contract IBadgerVaultPeak", "name": "", "type": "address" }],
 		"stateMutability": "view",
 		"type": "function"
 	},

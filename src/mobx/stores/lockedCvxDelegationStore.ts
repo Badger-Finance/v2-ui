@@ -5,7 +5,7 @@ import CvxDelegatorAbi from '../../config/system/abis/CvxDelegator.json';
 import CvxLockerAbi from '../../config/system/abis/CvxLocker.json';
 import { AbiItem } from 'web3-utils';
 import { sendContractMethod } from '../utils/web3';
-import { DelegationState } from '../model/setts/locked-cvx-delegation';
+import { DelegationState } from '../model/vaults/locked-cvx-delegation';
 import { extendObservable, observe } from 'mobx';
 import BigNumber from 'bignumber.js';
 import { NETWORK_IDS, ZERO_ADDR } from 'config/constants';
@@ -50,9 +50,9 @@ class LockedCvxDelegationStore {
 		});
 
 		observe(this.store.user, 'settBalances', () => {
-			const areSettBalancesAvailable = Object.keys(this.store.user.settBalances).length > 0;
+			const areVaultBalancesAvailable = Object.keys(this.store.user.settBalances).length > 0;
 
-			if (areSettBalancesAvailable) {
+			if (areVaultBalancesAvailable) {
 				this.getUserDelegationState();
 			}
 		});

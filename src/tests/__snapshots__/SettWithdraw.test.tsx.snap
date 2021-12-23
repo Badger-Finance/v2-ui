@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Sett Withdraw displays sett information 1`] = `
+exports[`Vault Withdraw displays sett information 1`] = `
 <body
   style="padding-right: 0px; overflow: hidden;"
 >

@@ -5,14 +5,14 @@ import { getAirdrops } from 'config/system/airdrops';
 import { getStrategies } from 'config/system/strategies';
 import Web3 from 'web3';
 import { createBalancesRequest } from 'web3/config/config-utils';
-import { SettMap } from '../setts/sett-map';
+import { VaultMap } from '../vaults/vault-map';
 import { StrategyNetworkConfig } from '../strategies/strategy-network-config';
 import { DeployConfig } from '../system-config/deploy-config';
 import { NotifyLink } from '../system-config/notifyLink';
-import { BadgerSett } from '../vaults/badger-sett';
+import { BadgerVault } from '../vaults/badger-vault';
 import { AirdropNetworkConfig } from './airdrop-network-config';
 // TODO: the naming irony here is not lost - temporary gap for sdk integrations @jintao
-import { Network as ChainNetwork, SettState, TokenConfiguration } from '@badger-dao/sdk';
+import { Network as ChainNetwork, VaultState, TokenConfiguration } from '@badger-dao/sdk';
 import { ContractCallContext } from 'ethereum-multicall';
 
 export abstract class Network {
@@ -26,7 +26,7 @@ export abstract class Network {
 	readonly id: number;
 	readonly currency: Currency;
 	readonly deploy: DeployConfig;
-	readonly setts: BadgerSett[];
+	readonly vaults: BadgerVault[];
 	readonly strategies: StrategyNetworkConfig;
 	readonly airdrops: AirdropNetworkConfig[];
 	// TODO: stop gap implementation for API messaging system - remove once available
@@ -41,7 +41,7 @@ export abstract class Network {
 		id: number,
 		currency: Currency,
 		deploy: DeployConfig,
-		setts: BadgerSett[],
+		setts: BadgerVault[],
 		notification?: string,
 		notificationLink?: string,
 	) {
@@ -53,7 +53,7 @@ export abstract class Network {
 		this.id = id;
 		this.currency = currency;
 		this.deploy = deploy;
-		this.setts = this.checksumSetts(setts);
+		this.vaults = this.checksumVaults(setts);
 		this.strategies = getStrategies(symbol);
 		this.airdrops = getAirdrops(symbol);
 		this.notification = notification;
@@ -83,23 +83,25 @@ export abstract class Network {
 	}
 
 	get settOrder(): string[] {
-		return this.setts.map((s) => s.vaultToken.address);
+		return this.vaults.map((s) => s.vaultToken.address);
 	}
 
 	notifyLink(transaction: TransactionData): NotifyLink {
 		return { link: `${this.explorer}/tx/${transaction.hash}` };
 	}
 
-	getBalancesRequests(setts: SettMap, tokens: TokenConfiguration, userAddress: string): ContractCallContext[] {
-		const tokenAddresses = Object.values(setts).map((sett) => sett.underlyingToken);
-		const settAddresses = Object.values(setts).map((sett) => sett.settToken);
-		const generalSettAddresses = settAddresses.filter((sett) => setts[sett].state === SettState.Open);
-		const guardedSettAddresses = settAddresses.filter(
-			(sett) => setts[sett].state === SettState.Guarded || setts[sett].state === SettState.Experimental,
+	getBalancesRequests(vaults: VaultMap, tokens: TokenConfiguration, userAddress: string): ContractCallContext[] {
+		const tokenAddresses = Object.values(vaults).map((vault) => vault.underlyingToken);
+		const vaultAddresses = Object.values(vaults).map((vault) => vault.vaultToken);
+		const generalVaultAddresses = vaultAddresses.filter((vault) => vaults[vault].state === VaultState.Open);
+		const guardedVaultAddresses = vaultAddresses.filter(
+			(vault) => vaults[vault].state === VaultState.Guarded || vaults[vault].state === VaultState.Experimental,
 		);
-		const deprecatedSettAddresses = settAddresses.filter((sett) => setts[sett].state === SettState.Deprecated);
+		const deprecatedVaultAddresses = vaultAddresses.filter(
+			(vault) => vaults[vault].state === VaultState.Deprecated,
+		);
 		const allContracts = new Set(
-			...[...tokenAddresses, ...settAddresses, ...generalSettAddresses, ...guardedSettAddresses],
+			...[...tokenAddresses, ...vaultAddresses, ...generalVaultAddresses, ...guardedVaultAddresses],
 		);
 		for (const token of Object.keys(tokens)) {
 			if (!allContracts.has(token)) {
@@ -108,21 +110,21 @@ export abstract class Network {
 		}
 		return createBalancesRequest({
 			tokenAddresses,
-			generalSettAddresses,
-			guardedSettAddresses,
-			deprecatedSettAddresses,
+			generalVaultAddresses,
+			guardedVaultAddresses,
+			deprecatedVaultAddresses,
 			userAddress,
 		});
 	}
 
-	private checksumSetts(setts: BadgerSett[]): BadgerSett[] {
-		return setts.map((sett) => {
-			sett.depositToken.address = Web3.utils.toChecksumAddress(sett.depositToken.address);
-			sett.vaultToken.address = Web3.utils.toChecksumAddress(sett.vaultToken.address);
-			if (sett.geyser) {
-				sett.geyser = Web3.utils.toChecksumAddress(sett.geyser);
+	private checksumVaults(vaults: BadgerVault[]): BadgerVault[] {
+		return vaults.map((vault) => {
+			vault.depositToken.address = Web3.utils.toChecksumAddress(vault.depositToken.address);
+			vault.vaultToken.address = Web3.utils.toChecksumAddress(vault.vaultToken.address);
+			if (vault.geyser) {
+				vault.geyser = Web3.utils.toChecksumAddress(vault.geyser);
 			}
-			return sett;
+			return vault;
 		});
 	}
 }

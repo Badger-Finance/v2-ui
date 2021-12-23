@@ -51,7 +51,7 @@ export const Airdrops = observer(() => {
 		onboard,
 		router: { goTo },
 		airdrops: { claimAirdrops, airdrops },
-		setts: { settMap },
+		vaults: { settMap },
 	} = store;
 
 	let maxNativeApy: number | undefined = undefined;

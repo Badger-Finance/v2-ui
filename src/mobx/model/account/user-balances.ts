@@ -6,9 +6,9 @@ export interface TokenBalances {
 
 export interface BalancesRequestAddresses {
 	tokenAddresses: string[];
-	generalSettAddresses: string[];
-	guardedSettAddresses: string[];
-	deprecatedSettAddresses: string[];
+	generalVaultAddresses: string[];
+	guardedVaultAddresses: string[];
+	deprecatedVaultAddresses: string[];
 	userAddress: string;
 }
 

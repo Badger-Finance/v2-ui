@@ -2,10 +2,10 @@ export enum ContractNamespaces {
 	GuestList = 'guestlist',
 }
 
-// TODO: Can probably replace with SettState in future
+// TODO: Can probably replace with VaultState in future
 export enum BalanceNamespace {
 	Token = 'token',
-	Sett = 'sett',
-	GuardedSett = 'guarded',
+	Vault = 'sett',
+	GuardedVault = 'guarded',
 	Deprecated = 'deprecated',
 }

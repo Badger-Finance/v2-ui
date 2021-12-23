@@ -5,7 +5,7 @@ import { ContractSendMethod } from 'web3-eth-contract';
 import { AbiItem } from 'web3-utils';
 import Web3 from 'web3';
 import { ERC20_ABI, MAX, ZERO } from 'config/constants';
-import settConfig from 'config/system/abis/Sett.json';
+import settConfig from 'config/system/abis/Vault.json';
 import ibBTCConfig from 'config/system/abis/ibBTC.json';
 import addresses from 'config/ibBTC/addresses.json';
 import coreConfig from 'config/system/abis/BadgerBtcPeakCore.json';

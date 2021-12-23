@@ -2,7 +2,7 @@
 
 exports[`User balances utils extractBalanceRequestResults extract results correctly 1`] = `
 Object {
-  "userDeprecatedSetts": Array [
+  "userDeprecatedVaults": Array [
     Object {
       "callsReturnContext": Array [
         Object {
@@ -74,7 +74,7 @@ Object {
       },
     },
   ],
-  "userGeneralSetts": Array [
+  "userGeneralVaults": Array [
     Object {
       "callsReturnContext": Array [
         Object {
@@ -111,7 +111,7 @@ Object {
       },
     },
   ],
-  "userGuardedSetts": Array [
+  "userGuardedVaults": Array [
     Object {
       "callsReturnContext": Array [
         Object {

@@ -4,7 +4,7 @@ import { customRender, fireEvent, screen } from './Utils';
 import { StoreProvider } from '../mobx/store-context';
 import LockeDelegationBanner from '../../src/components-v2/locked-cvx-bribes/Banner';
 import { checkSnapshot } from './utils/snapshots';
-import { DelegationState } from '../mobx/model/setts/locked-cvx-delegation';
+import { DelegationState } from '../mobx/model/vaults/locked-cvx-delegation';
 import BigNumber from 'bignumber.js';
 import LockedCvxDelegationStore from '../mobx/stores/lockedCvxDelegationStore';
 

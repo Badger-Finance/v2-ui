@@ -69,7 +69,7 @@ class RewardsStore {
 
 	// TODO: refactor various functions for a more unified approach
 	balanceFromString(token: string, balance: string): TokenBalance {
-		const badgerToken = this.store.setts.getToken(token);
+		const badgerToken = this.store.vaults.getToken(token);
 		const tokenPrice = this.store.prices.getPrice(token);
 		if (!tokenPrice) {
 			const amount = new BigNumber(balance);
@@ -83,7 +83,7 @@ class RewardsStore {
 	// TODO: refactor various functions for a more unified approach
 	balanceFromProof(token: string, balance: string): TokenBalance {
 		const { rebase: rebaseInfo } = this.store.rebase;
-		const claimToken = this.store.setts.getToken(token);
+		const claimToken = this.store.vaults.getToken(token);
 		const tokenPrice = this.store.prices.getPrice(token);
 
 		if (!tokenPrice) {
@@ -98,7 +98,7 @@ class RewardsStore {
 		return new TokenBalance(claimToken, amount, tokenPrice);
 	}
 	mockBalance(token: string): TokenBalance {
-		return new TokenBalance(this.store.setts.getToken(token), new BigNumber(0), this.store.prices.getPrice(token));
+		return new TokenBalance(this.store.vaults.getToken(token), new BigNumber(0), this.store.prices.getPrice(token));
 	}
 
 	resetRewards = action((): void => {
@@ -140,7 +140,7 @@ class RewardsStore {
 				this.badgerTree.cycle = cycle.toString();
 				this.badgerTree.timeSinceLastCycle = reduceTimeSinceLastCycle(timestamp);
 
-				await retry(() => this.fetchSettRewards(), defaultRetryOptions);
+				await retry(() => this.fetchVaultRewards(), defaultRetryOptions);
 			} catch (error) {
 				console.error('There was an error fetching rewards information: ', error);
 				queueNotification(
@@ -153,7 +153,7 @@ class RewardsStore {
 		},
 	);
 
-	fetchSettRewards = action(
+	fetchVaultRewards = action(
 		async (): Promise<void> => {
 			const {
 				network: { network },

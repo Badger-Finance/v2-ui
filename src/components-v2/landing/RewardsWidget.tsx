@@ -141,7 +141,7 @@ export interface RewardsModalProps {
 export const RewardsWidget = observer((): JSX.Element | null => {
 	const classes = useStyles();
 	const store = useContext(StoreContext);
-	const { setts, onboard, user, router } = store;
+	const { vaults, onboard, user, router } = store;
 	const { badgerTree, claimGeysers, loadingRewards } = store.rewards;
 	const { currency } = store.uiState;
 
@@ -178,12 +178,12 @@ export const RewardsWidget = observer((): JSX.Element | null => {
 	useEffect(() => {
 		const balances = Object.fromEntries(
 			badgerTree.claims
-				.filter((claim) => !!setts.getToken(claim.token.address))
+				.filter((claim) => !!vaults.getToken(claim.token.address))
 				.map((claim) => [claim.token.address, claim]),
 		);
 		setClaimableRewards(balances);
 		setClaims(balances);
-	}, [setts, badgerTree.claims]);
+	}, [vaults, badgerTree.claims]);
 
 	if (!onboard.isActive()) {
 		return null;

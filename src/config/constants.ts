@@ -1,9 +1,9 @@
 import Web3 from 'web3';
 import BigNumber from 'bignumber.js';
 import importedErc20 from '../config/system/abis/ERC20.json';
-import importedSett from '../config/system/abis/Sett.json';
+import importedVault from '../config/system/abis/Vault.json';
 import importedBscErc20 from '../config/system/abis/BscErc20.json';
-import importedYearnSett from '../config/system/abis/YearnWrapper.json';
+import importedYearnVault from '../config/system/abis/YearnWrapper.json';
 import importedGuestList from '../config/system/abis/GuestList.json';
 import { AbiItem } from 'web3-utils';
 import { PartialAttemptOptions } from '@lifeomic/attempt';
@@ -62,8 +62,8 @@ export const EXPLOIT_HACKER_ADDRESS = '0x1fcdb04d0c5364fbd92c73ca8af9baa72c26910
 export const CONTACT_EMAIL = 'hello@badger.finance';
 export const ERC20 = importedErc20;
 export const ERC20_ABI = importedErc20.abi as AbiItem[];
-export const SETT_ABI = importedSett.abi as AbiItem[];
-export const YEARN_ABI = importedYearnSett.abi as AbiItem[];
+export const SETT_ABI = importedVault.abi as AbiItem[];
+export const YEARN_ABI = importedYearnVault.abi as AbiItem[];
 export const GUEST_LIST_ABI = importedGuestList.abi as AbiItem[];
 export const BSC_ERC20 = importedBscErc20;
 export const APP_NAME = 'BadgerDAO App';

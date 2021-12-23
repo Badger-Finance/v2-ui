@@ -14,7 +14,7 @@ exports[`Specs Section displays sett information 1`] = `
         <h6
           class="MuiTypography-root-145 makeStyles-title-142 MuiTypography-h6-155"
         >
-          Sett Details
+          Vault Details
         </h6>
         <hr
           class="MuiDivider-root-177 WithStyles(ForwardRef(Divider))-root-175 WithStyles(ForwardRef(Divider))-root-176"
@@ -151,7 +151,7 @@ exports[`Specs Section displays sett information 1`] = `
         <span
           class="MuiTypography-root-145 makeStyles-frequencyDetail-211 MuiTypography-caption-148 MuiTypography-colorTextSecondary-171"
         >
-          This Sett’s rewards are currently being processed.
+          This Vault’s rewards are currently being processed.
         </span>
         <a
           class="MuiTypography-root-145 MuiLink-root-221 MuiLink-underlineHover-223 makeStyles-infoLink-212 MuiTypography-colorPrimary-168"
