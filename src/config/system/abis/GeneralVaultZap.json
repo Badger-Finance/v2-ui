@@ -57,7 +57,7 @@
 		{
 			"inputs": [],
 			"name": "RENCRV_SETT",
-			"outputs": [{ "internalType": "contract IVault", "name": "", "type": "address" }],
+			"outputs": [{ "internalType": "contract ISett", "name": "", "type": "address" }],
 			"stateMutability": "view",
 			"type": "function"
 		},
@@ -181,7 +181,7 @@
 			"inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
 			"name": "zapConfigs",
 			"outputs": [
-				{ "internalType": "contract IVault", "name": "sett", "type": "address" },
+				{ "internalType": "contract ISett", "name": "sett", "type": "address" },
 				{ "internalType": "contract IERC20Upgradeable", "name": "token", "type": "address" },
 				{ "internalType": "contract ICurveFi", "name": "curvePool", "type": "address" },
 				{ "internalType": "contract IERC20Upgradeable", "name": "withdrawToken", "type": "address" },

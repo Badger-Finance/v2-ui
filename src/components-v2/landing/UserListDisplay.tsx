@@ -60,7 +60,7 @@ const UserListDisplay = observer(() => {
 	const currentVaultMap = vaults.getVaultMap();
 
 	if (currentVaultMap === undefined || user.loadingBalances) {
-		return <Loader message={`Loading My ${network.name} Vaults...`} />;
+		return <Loader message={`Loading My ${network.name} Setts...`} />;
 	}
 
 	if (currentVaultMap === null) {

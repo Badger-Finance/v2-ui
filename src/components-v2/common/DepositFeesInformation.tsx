@@ -35,7 +35,7 @@ export const DepositFeesInformation = ({ closeIcon }: Props): JSX.Element => {
 			</Grid>
 			<div className={classes.content}>
 				<Typography variant="body1" color="textSecondary">
-					Fees are charged on certain Vault Vaults, and are sent to the BadgerDAO treasury, or shared with the
+					Fees are charged on certain Sett Vaults, and are sent to the BadgerDAO treasury, or shared with the
 					strategist who wrote the vault strategy.
 				</Typography>
 				<Divider className={classes.divider} />

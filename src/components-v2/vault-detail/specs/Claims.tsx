@@ -84,8 +84,8 @@ export const Claims = observer(
 				<StyledDivider />
 				<Typography className={classes.frequencyDetail} variant="caption" color="textSecondary">
 					{isDelayed
-						? 'This Vault’s rewards are currently taking longer than usual.'
-						: 'This Vault’s rewards are currently being processed.'}
+						? 'This Setts’s rewards are currently taking longer than usual.'
+						: 'This Setts’s rewards are currently being processed.'}
 				</Typography>
 				<Link
 					className={classes.infoLink}

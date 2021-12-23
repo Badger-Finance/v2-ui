@@ -38,7 +38,7 @@ export const Harvests = (): JSX.Element => {
 					<Typography className={classes.harvestFrequency} color="textSecondary">
 						Harvest Frequency
 					</Typography>
-					<Link className={classes.infoLink}>See Vault Harvest Stats</Link>
+					<Link className={classes.infoLink}>See Sett Harvest Stats</Link>
 				</Grid>
 				<Grid item xs className={classes.harvestContainer}>
 					<Typography className={classes.harvest} display="inline">
