@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid, makeStyles, Typography } from '@material-ui/core';
 import { StyledDivider } from '../styled';
 import { SettToken } from './SettToken';
-import { Sett } from '@badger-dao/sdk';
+import { Vault } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
 	title: {
@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface Props {
-	sett: Sett;
+	sett: Vault;
 }
 
 export const Tokens = ({ sett }: Props): JSX.Element => {

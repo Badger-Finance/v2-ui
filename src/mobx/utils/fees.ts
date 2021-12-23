@@ -1,4 +1,4 @@
-import { Sett } from '@badger-dao/sdk';
+import { Vault } from '@badger-dao/sdk';
 import { ethers } from 'ethers';
 import { SettStrategy } from 'mobx/model/setts/sett-strategy';
 import { StrategyConfig } from '../model/strategies/strategy-config';
@@ -10,7 +10,7 @@ export const getNonEmptyStrategyFees = (config: StrategyConfig): StrategyFee[] =
 	return feeKeys.filter((key) => fees[key]?.gt(0));
 };
 
-export function getStrategyFee(sett: Sett, fee: StrategyFee, config: StrategyConfig): number {
+export function getStrategyFee(sett: Vault, fee: StrategyFee, config: StrategyConfig): number {
 	const defaultFee = config.fees;
 	const { strategy } = sett;
 	let requestedFee: number | undefined;

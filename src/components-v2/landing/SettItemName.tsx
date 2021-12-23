@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid, Typography } from '@material-ui/core';
 import SettBadge from './SettBadge';
 import { makeStyles } from '@material-ui/core/styles';
-import { Sett, SettState } from '@badger-dao/sdk';
+import { Vault, VaultState } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
 	symbol: {
@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface Props {
-	sett: Sett;
+	sett: Vault;
 }
 
 export const SettItemName = ({ sett }: Props): JSX.Element => {
@@ -50,7 +50,7 @@ export const SettItemName = ({ sett }: Props): JSX.Element => {
 				<img
 					alt={`Badger ${sett.name} Vault Symbol`}
 					className={classes.symbol}
-					src={`/assets/icons/${sett.settAsset.toLowerCase()}.png`}
+					src={`/assets/icons/${sett.vaultAsset.toLowerCase()}.png`}
 				/>
 			</Grid>
 			<Grid item>
@@ -60,7 +60,7 @@ export const SettItemName = ({ sett }: Props): JSX.Element => {
 						<Typography variant="caption" color="textSecondary">
 							{sett.protocol}
 						</Typography>
-						{sett.state === SettState.Deprecated && <SettBadge protocol={'No Emissions'} />}
+						{sett.state === VaultState.Deprecated && <SettBadge protocol={'No Emissions'} />}
 					</Grid>
 				</Grid>
 			</Grid>

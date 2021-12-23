@@ -5,7 +5,7 @@ import store from '../mobx/RootStore';
 import { checkSnapshot } from './utils/snapshots';
 import BigNumber from 'bignumber.js';
 import UserStore from 'mobx/stores/UserStore';
-import { SettState } from '@badger-dao/sdk';
+import { VaultState } from '@badger-dao/sdk';
 
 describe('Landing', () => {
 	beforeEach(() => {
@@ -36,7 +36,7 @@ describe('Landing', () => {
 			<Landing
 				title="Test Bitcoin Strategies"
 				subtitle="Snapshots are great. Landing looks good."
-				state={SettState.Open}
+				state={VaultState.Open}
 			/>,
 		);
 	});

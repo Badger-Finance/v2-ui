@@ -10,7 +10,7 @@ import { StoreContext } from '../../../mobx/store-context';
 import { SettChart } from './SettChart';
 import ChartContent from './ChartContent';
 import { BoostChart } from './BoostChart';
-import { Sett } from '@badger-dao/sdk';
+import { Vault } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -48,7 +48,7 @@ const getYAxisAccessor = (mode: ChartMode) => {
 };
 
 interface Props {
-	sett: Sett;
+	sett: Vault;
 }
 
 export const ChartsCard = observer(

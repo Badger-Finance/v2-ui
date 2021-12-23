@@ -1,4 +1,4 @@
-import { Sett, SettData } from '@badger-dao/sdk';
+import { Vault, VaultData } from '@badger-dao/sdk';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import { ChartMode } from '../../mobx/model/setts/sett-charts';
@@ -29,9 +29,9 @@ export const calculateDifferenceInHoursFromCycle = (cycle: Date): number => {
 	return Math.abs(dayjs(cycle).diff(dayjs(), 'hours'));
 };
 
-export function defaultSettBalance(sett: Sett): SettData {
+export function defaultSettBalance(sett: Vault): VaultData {
 	return {
-		address: sett.settToken,
+		address: sett.vaultToken,
 		name: sett.name,
 		symbol: sett.asset,
 		pricePerFullShare: sett.pricePerFullShare,

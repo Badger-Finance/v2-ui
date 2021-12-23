@@ -16,7 +16,7 @@ import { DepositFeesInformation } from '../DepositFeesInformation';
 import { SettFees } from '../SettFees';
 import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
 import VaultAdvisory from './VaultAdvisory';
-import { Sett, SettState } from '@badger-dao/sdk';
+import { Vault, VaultState } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
 	content: {
@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
 
 export interface SettModalProps {
 	open?: boolean;
-	sett: Sett;
+	sett: Vault;
 	badgerSett: BadgerSett;
 	onClose: () => void;
 }
@@ -59,8 +59,8 @@ export const SettDeposit = observer(({ open = false, sett, badgerSett, onClose }
 
 	const userBalance = user.getBalance(BalanceNamespace.Token, badgerSett);
 	const depositBalance = TokenBalance.fromBalance(userBalance, amount ?? '0');
-	const vaultCaps = user.vaultCaps[sett.settToken];
-	const isLoading = contracts.settsBeingDeposited[sett.settToken];
+	const vaultCaps = user.vaultCaps[sett.vaultToken];
+	const isLoading = contracts.settsBeingDeposited[sett.vaultToken];
 
 	let canDeposit = onboard.isActive() && !!amount && depositBalance.tokenBalance.gt(0);
 
@@ -110,7 +110,7 @@ export const SettDeposit = observer(({ open = false, sett, badgerSett, onClose }
 		<Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
 			<SettDialogTitle sett={sett} mode="Deposit" />
 			<DialogContent dividers className={classes.content}>
-				{sett.state === SettState.Guarded && (
+				{sett.state === VaultState.Guarded && (
 					<Grid container className={classes.guardedVault}>
 						<NewVaultWarning />
 					</Grid>
@@ -162,7 +162,7 @@ export const SettDeposit = observer(({ open = false, sett, badgerSett, onClose }
 					)}
 				</ActionButton>
 			</DialogContent>
-			{user.vaultCaps[sett.settToken] && <SettAvailableDeposit vaultCapInfo={user.vaultCaps[sett.settToken]} />}
+			{user.vaultCaps[sett.vaultToken] && <SettAvailableDeposit vaultCapInfo={user.vaultCaps[sett.vaultToken]} />}
 		</Dialog>
 	);
 });

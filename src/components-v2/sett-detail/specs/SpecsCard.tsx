@@ -8,7 +8,7 @@ import SettDetailLinks from './SettDetailLinks';
 import { Fees } from './Fees';
 import { CardContainer } from '../styled';
 import SettMetrics from './SettMetrics';
-import { Sett } from '@badger-dao/sdk';
+import { Vault } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface Props {
-	sett: Sett;
+	sett: Vault;
 	badgerSett: BadgerSett;
 }
 

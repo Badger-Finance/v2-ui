@@ -10,7 +10,7 @@ import { BadgerSett } from 'mobx/model/vaults/badger-sett';
 import { toFixedDecimals, unscale } from '../utils/helpers';
 import { action, extendObservable } from 'mobx';
 import { ETH_DEPLOY } from 'mobx/model/network/eth.network';
-import { BouncerType, GasSpeed, Sett, Token } from '@badger-dao/sdk';
+import { BouncerType, GasSpeed, Vault, Token } from '@badger-dao/sdk';
 
 type ProgressTracker = Record<string, boolean>;
 
@@ -33,7 +33,7 @@ class ContractsStore {
 	/* Contract Interaction Methods */
 
 	deposit = async (
-		sett: Sett,
+		sett: Vault,
 		badgerSett: BadgerSett,
 		userBalance: TokenBalance,
 		depositAmount: TokenBalance,
@@ -61,7 +61,7 @@ class ContractsStore {
 	};
 
 	withdraw = async (
-		sett: Sett,
+		sett: Vault,
 		badgerSett: BadgerSett,
 		userBalance: TokenBalance,
 		withdrawAmount: TokenBalance,
@@ -111,21 +111,21 @@ class ContractsStore {
 	};
 
 	depositVault = action(
-		async (sett: Sett, amount: TokenBalance, depositAll?: boolean): Promise<void> => {
+		async (sett: Vault, amount: TokenBalance, depositAll?: boolean): Promise<void> => {
 			const { queueNotification } = this.store.uiState;
 			const { bouncerProof } = this.store.user;
 			const { onboard } = this.store;
 
 			const web3 = new Web3(onboard.wallet?.provider);
-			const settContract = new web3.eth.Contract(SETT_ABI, sett.settToken);
-			const yearnContract = new web3.eth.Contract(YEARN_ABI, sett.settToken);
+			const settContract = new web3.eth.Contract(SETT_ABI, sett.vaultToken);
+			const yearnContract = new web3.eth.Contract(YEARN_ABI, sett.vaultToken);
 			const depositBalance = amount.tokenBalance.toFixed(0, BigNumber.ROUND_HALF_FLOOR);
 			let method: ContractSendMethod = settContract.methods.deposit(depositBalance);
 
 			// TODO: Clean this up, too many branches
 			// Uncapped deposits on a wrapper still require an empty proof
 			// TODO: better designate abi <> sett pairing, single yearn vault uses yearn ABI.
-			if (sett.settToken === Web3.utils.toChecksumAddress(ETH_DEPLOY.sett_system.vaults['yearn.wBtc'])) {
+			if (sett.vaultToken === Web3.utils.toChecksumAddress(ETH_DEPLOY.sett_system.vaults['yearn.wBtc'])) {
 				if (depositAll) {
 					method = yearnContract.methods.deposit([]);
 				} else {
@@ -164,7 +164,7 @@ class ContractsStore {
 	);
 
 	withdrawVault = action(
-		async (sett: Sett, badgerSett: BadgerSett, amount: TokenBalance): Promise<void> => {
+		async (sett: Vault, badgerSett: BadgerSett, amount: TokenBalance): Promise<void> => {
 			const { onboard } = this.store;
 			const { queueNotification } = this.store.uiState;
 

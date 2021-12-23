@@ -5,7 +5,7 @@ import { Performance, scalePerformance } from '../../../mobx/model/rewards/perfo
 import ApyDisplayBadge, { ComparisonMode } from './ApyComparisonBadge';
 import { formatWithoutExtraZeros } from '../../../mobx/utils/helpers';
 import { ApyComparisonModeSelector } from './ApyComparisonModeSelector';
-import { Sett } from '@badger-dao/sdk';
+import { Vault } from '@badger-dao/sdk';
 
 const reduceSourcePerformance = (prev: Performance, current: Performance) => {
 	const {
@@ -30,7 +30,7 @@ const reduceSourcePerformance = (prev: Performance, current: Performance) => {
 	};
 };
 
-const getSourcesPerformanceSummary = (sett: Sett) => {
+const getSourcesPerformanceSummary = (sett: Vault) => {
 	const initialValue = { oneDay: 0, threeDay: 0, sevenDay: 0, thirtyDay: 0 };
 	return sett.sources
 		.map((source) => {
@@ -72,7 +72,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface Props {
-	sett: Sett;
+	sett: Vault;
 }
 
 export const Description = ({ sett }: Props): JSX.Element => {
@@ -93,7 +93,7 @@ export const Description = ({ sett }: Props): JSX.Element => {
 			<Grid item className={classes.logoContainer}>
 				<img
 					className={classes.settLogo}
-					src={`/assets/icons/${sett.settAsset.toLowerCase()}.png`}
+					src={`/assets/icons/${sett.vaultAsset.toLowerCase()}.png`}
 					alt={`Badger ${sett.name} Vault Symbol`}
 				/>
 			</Grid>

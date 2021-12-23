@@ -115,7 +115,7 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: SettModalProps): JSX
 
 	// lp token getters
 	const lpSett = setts.getSett(mainnetDeploy.sett_system.vaults['native.ibbtcCrv']);
-	const lpBadgerSett = network.network.setts.find(({ vaultToken }) => vaultToken.address === lpSett?.settToken);
+	const lpBadgerSett = network.network.setts.find(({ vaultToken }) => vaultToken.address === lpSett?.vaultToken);
 	const userLpTokenBalance = lpBadgerSett ? user.getBalance(BalanceNamespace.Token, lpBadgerSett) : undefined;
 	const userHasLpTokenBalance = userLpTokenBalance?.tokenBalance.gt(0);
 	const settStrategy = lpBadgerSett ? network.network.strategies[lpBadgerSett.vaultToken.address] : undefined;
@@ -296,7 +296,7 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: SettModalProps): JSX
 
 	useEffect(() => {
 		const lpSett = setts.getSett(mainnetDeploy.sett_system.vaults['native.ibbtcCrv']);
-		const lpBadgerSett = network.network.setts.find(({ vaultToken }) => vaultToken.address === lpSett?.settToken);
+		const lpBadgerSett = network.network.setts.find(({ vaultToken }) => vaultToken.address === lpSett?.vaultToken);
 		const userLpTokenBalance = lpBadgerSett ? user.getBalance(BalanceNamespace.Token, lpBadgerSett) : undefined;
 
 		if (!userLpTokenBalance) {

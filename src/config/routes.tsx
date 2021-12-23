@@ -11,7 +11,7 @@ import HoneybadgerDrop from '../components/HoneybadgerDrop/index';
 import BoostLeaderBoard from 'pages/BoostLeaderBoard';
 import { SettDetail } from '../components-v2/sett-detail/SettDetail';
 import { NotFound } from '../components-v2/common/NotFound';
-import { SettState } from '@badger-dao/sdk';
+import { VaultState } from '@badger-dao/sdk';
 import { Box, Link, Typography } from '@material-ui/core';
 
 const routes = {
@@ -35,7 +35,7 @@ const routes = {
 						</Typography>
 					</Box>
 				}
-				state={SettState.Open}
+				state={VaultState.Open}
 			/>
 		),
 	}),
@@ -49,7 +49,7 @@ const routes = {
 			<Landing
 				title="Guarded Vaults"
 				subtitle="New vaults to dip your toes in. Ape safe."
-				state={SettState.Guarded}
+				state={VaultState.Guarded}
 			/>
 		),
 	}),
@@ -59,7 +59,7 @@ const routes = {
 			<Landing
 				title="Experimental Vaults"
 				subtitle="Novel Bitcoin strategies. Bleeding edge innovation."
-				state={SettState.Experimental}
+				state={VaultState.Experimental}
 			/>
 		),
 	}),

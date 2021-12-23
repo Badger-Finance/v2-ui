@@ -3,10 +3,10 @@ import { Dialog, IconButton } from '@material-ui/core';
 import { DepositFeesInformation } from '../../common/DepositFeesInformation';
 import CloseIcon from '@material-ui/icons/Close';
 import { SettFees } from '../../common/SettFees';
-import { Sett } from '@badger-dao/sdk';
+import { Vault } from '@badger-dao/sdk';
 
 interface Props {
-	sett: Sett;
+	sett: Vault;
 }
 
 export const Fees = ({ sett }: Props): JSX.Element => {
