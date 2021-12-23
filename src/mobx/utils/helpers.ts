@@ -11,7 +11,7 @@ import { currencyConfiguration } from 'config/currency.config';
 import routes from 'config/routes';
 import SettStore from 'mobx/stores/SettStore';
 import { QueryParams, Route } from 'mobx-router';
-import { SettState } from '@badger-dao/sdk';
+import { VaultState } from '@badger-dao/sdk';
 
 export const jsonQuery = (url: string | undefined): Promise<Response> | undefined => {
 	if (!url) return;
@@ -311,9 +311,9 @@ export const getRouteBySlug = (slug: string | undefined, setts: SettStore): Rout
 		return routes.home;
 	}
 	switch (sett.state) {
-		case SettState.Guarded:
+		case VaultState.Guarded:
 			return routes.guarded;
-		case SettState.Experimental:
+		case VaultState.Experimental:
 			return routes.experimental;
 		default:
 			return routes.home;

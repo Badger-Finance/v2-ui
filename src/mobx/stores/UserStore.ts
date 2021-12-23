@@ -12,7 +12,7 @@ import { CachedTokenBalances } from 'mobx/model/account/cached-token-balances';
 import { VaultCaps } from 'mobx/model/vaults/vault-cap copy';
 import { RewardMerkleClaim } from '../model/rewards/reward-merkle-claim';
 import { defaultSettBalance } from 'components-v2/sett-detail/utils';
-import { Account, BouncerType, MerkleProof, Network, Sett, SettData } from '@badger-dao/sdk';
+import { Account, BouncerType, MerkleProof, Network, Vault, VaultData } from '@badger-dao/sdk';
 import { fetchClaimProof } from 'mobx/utils/apiV2';
 import { Multicall } from 'ethereum-multicall';
 import { extractBalanceRequestResults, RequestExtractedResults } from '../utils/user-balances';
@@ -56,7 +56,7 @@ export default class UserStore {
 
 	/* Read Variables */
 
-	onGuestList(sett: Sett): boolean {
+	onGuestList(sett: Vault): boolean {
 		// allow users who are not connected to nicely view setts
 		if (!this.store.onboard.isActive()) {
 			return true;
@@ -112,9 +112,9 @@ export default class UserStore {
 		}
 	}
 
-	getSettBalance(sett: Sett): SettData {
-		const currentSettBalance = this.getTokenBalance(sett.settToken);
-		let settBalance = this.accountDetails?.data[sett.settToken];
+	getSettBalance(sett: Vault): VaultData {
+		const currentSettBalance = this.getTokenBalance(sett.vaultToken);
+		let settBalance = this.accountDetails?.data[sett.vaultToken];
 
 		/**
 		 * settBalance data is populated via events from TheGraph and it is possible for it to be behind / fail.
@@ -374,7 +374,7 @@ export default class UserStore {
 			const remainingUserDepositAllowed = result.remainingUserDepositAllowed[0][0].value;
 			const userDepositCap = result.userDepositCap[0][0].value;
 
-			vaultCaps[vault.settToken] = {
+			vaultCaps[vault.vaultToken] = {
 				vaultCap: this.store.rewards.balanceFromProof(depositToken.address, remainingTotalDepositAllowed),
 				totalVaultCap: this.store.rewards.balanceFromProof(depositToken.address, totalDepositCap),
 				userCap: this.store.rewards.balanceFromProof(depositToken.address, remainingUserDepositAllowed),

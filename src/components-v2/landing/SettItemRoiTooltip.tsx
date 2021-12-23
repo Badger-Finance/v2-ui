@@ -1,9 +1,9 @@
-import { Sett } from '@badger-dao/sdk';
+import { Vault } from '@badger-dao/sdk';
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 
 interface Props {
-	sett: Sett;
+	sett: Vault;
 	multiplier?: number;
 }
 

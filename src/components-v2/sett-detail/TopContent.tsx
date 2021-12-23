@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid, makeStyles } from '@material-ui/core';
 import { Breadcrumb } from './Breadcrumb';
 import { Description } from './description/Description';
-import { Sett } from '@badger-dao/sdk';
+import { Vault } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
 	content: {
@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface Props {
-	sett: Sett;
+	sett: Vault;
 }
 
 export const TopContent = ({ sett }: Props): JSX.Element => {

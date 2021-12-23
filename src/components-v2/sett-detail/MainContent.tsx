@@ -8,7 +8,7 @@ import { StoreContext } from '../../mobx/store-context';
 import { BadgerSett } from '../../mobx/model/vaults/badger-sett';
 import { NewVaultWarning } from './NewVaultWarning';
 import { BalanceNamespace } from 'web3/config/namespaces';
-import { Sett, SettState } from '@badger-dao/sdk';
+import { Vault, VaultState } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
 	content: {
@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface Props {
-	sett: Sett;
+	sett: Vault;
 	badgerSett: BadgerSett;
 }
 
@@ -64,7 +64,7 @@ export const MainContent = observer(
 						<ChartsCard sett={sett} />
 					</Grid>
 				</Grid>
-				{sett.state === SettState.Guarded && (
+				{sett.state === VaultState.Guarded && (
 					<Grid container className={classes.guardedVault}>
 						<NewVaultWarning />
 					</Grid>

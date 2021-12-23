@@ -2,7 +2,7 @@ import React from 'react';
 import { makeStyles, Tooltip } from '@material-ui/core';
 import { TokenDistribution } from './TokenDistribution';
 import HelpIcon from '@material-ui/icons/Help';
-import { SettData } from '@badger-dao/sdk';
+import { VaultData } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
 	helpIcon: {
@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface Props {
-	settBalance: SettData;
+	settBalance: VaultData;
 }
 
 export const TokenDistributionIcon = ({ settBalance }: Props): JSX.Element | null => {

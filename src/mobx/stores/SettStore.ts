@@ -11,14 +11,14 @@ import { SettMap } from '../model/setts/sett-map';
 import { TokenBalances } from 'mobx/model/account/user-balances';
 import BigNumber from 'bignumber.js';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
-import { Currency, Network, ProtocolSummary, Sett, SettState, TokenConfiguration } from '@badger-dao/sdk';
+import { Currency, Network, ProtocolSummary, Vault, VaultState, TokenConfiguration } from '@badger-dao/sdk';
 import { SlugCache } from '../model/setts/slug-cache';
 import { parseCallReturnContext } from '../utils/multicall';
 import { ContractCallReturnContext } from 'ethereum-multicall/dist/esm/models/contract-call-return-context';
 
-const formatSettListItem = (sett: Sett): [string, string] => {
+const formatSettListItem = (sett: Vault): [string, string] => {
 	const sanitizedSettName = sett.name.replace(/\/+/g, '-'); // replace "/" with "-"
-	return [sett.settToken, slugify(sanitizedSettName, { lower: true })];
+	return [sett.vaultToken, slugify(sanitizedSettName, { lower: true })];
 };
 
 export default class SettStore {
@@ -72,7 +72,7 @@ export default class SettStore {
 		return this.slugCache[currentNetwork.symbol][address];
 	}
 
-	getSett(address: string): Sett | undefined {
+	getSett(address: string): Vault | undefined {
 		if (!this.settMap) {
 			return;
 		}
@@ -80,7 +80,7 @@ export default class SettStore {
 		return this.settMap[Web3.utils.toChecksumAddress(address)];
 	}
 
-	getSettBySlug(slug: string): Sett | undefined | null {
+	getSettBySlug(slug: string): Vault | undefined | null {
 		const { network: currentNetwork } = this.store.network;
 
 		if (!this.settMap) {
@@ -98,7 +98,7 @@ export default class SettStore {
 		return this.getSett(settBySlug[0]);
 	}
 
-	getSettMapByState(state: SettState): SettMap | undefined | null {
+	getSettMapByState(state: VaultState): SettMap | undefined | null {
 		const setts = this.getSettMap();
 		if (!setts) {
 			return setts;
@@ -157,12 +157,12 @@ export default class SettStore {
 			const settList = await this.store.api.loadSetts(Currency.ETH);
 
 			if (settList) {
-				this.settCache[chain] = Object.fromEntries(settList.map((sett) => [sett.settToken, sett]));
+				this.settCache[chain] = Object.fromEntries(settList.map((sett) => [sett.vaultToken, sett]));
 				this.slugCache[chain] = {
 					...this.slugCache[chain],
 					...Object.fromEntries(settList.map(formatSettListItem)),
 				};
-				this.protocolTokens = new Set(settList.flatMap((s) => [s.underlyingToken, s.settToken]));
+				this.protocolTokens = new Set(settList.flatMap((s) => [s.underlyingToken, s.vaultToken]));
 				// add badger to tracked tokens on networks where it is not a sett related token (ex: Arbitrum)
 				const badgerToken = this.store.network.network.deploy.token;
 				if (badgerToken && !this.protocolTokens.has(badgerToken)) {

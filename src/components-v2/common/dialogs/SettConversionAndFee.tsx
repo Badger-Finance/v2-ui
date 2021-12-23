@@ -6,7 +6,7 @@ import { Divider, Grid, Typography } from '@material-ui/core';
 import { formatStrategyFee } from '../../../utils/componentHelpers';
 import { StoreContext } from '../../../mobx/store-context';
 import { MAX_FEE } from 'config/constants';
-import { Sett } from '@badger-dao/sdk';
+import { Vault } from '@badger-dao/sdk';
 import { getStrategyFee } from '../../../mobx/utils/fees';
 import { StrategyFee } from '../../../mobx/model/system-config/stategy-fees';
 
@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface Props {
-	sett: Sett;
+	sett: Vault;
 	amount: BigNumber.Value;
 }
 
@@ -42,7 +42,7 @@ export const SettConversionAndFee = observer(
 		} = React.useContext(StoreContext);
 		const classes = useStyles();
 
-		const withdrawFee = getStrategyFee(sett, StrategyFee.withdraw, network.strategies[sett.settToken]);
+		const withdrawFee = getStrategyFee(sett, StrategyFee.withdraw, network.strategies[sett.vaultToken]);
 		const depositToken = setts.getToken(sett.underlyingToken);
 		const depositTokenSymbol = depositToken?.symbol || '';
 		const depositTokenDecimals = depositToken?.decimals || 18;

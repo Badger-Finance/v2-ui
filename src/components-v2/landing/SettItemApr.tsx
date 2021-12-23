@@ -2,7 +2,7 @@ import React from 'react';
 import { Tooltip, Typography } from '@material-ui/core';
 import SettItemRoiTooltip from './SettItemRoiTooltip';
 import { makeStyles } from '@material-ui/core/styles';
-import { Sett, SettState } from '@badger-dao/sdk';
+import { Vault, VaultState } from '@badger-dao/sdk';
 
 const useStyles = makeStyles({
 	normalCursor: {
@@ -10,7 +10,7 @@ const useStyles = makeStyles({
 	},
 });
 
-const getAprMessage = (sett: Sett) => {
+const getAprMessage = (sett: Vault) => {
 	if (!sett.apr) {
 		return '0%';
 	}
@@ -23,7 +23,7 @@ const getAprMessage = (sett: Sett) => {
 };
 
 interface Props {
-	sett: Sett;
+	sett: Vault;
 	isDisabled?: boolean;
 	multiplier?: number;
 }
@@ -32,7 +32,7 @@ export const SettItemApr = ({ sett, multiplier }: Props): JSX.Element => {
 	const classes = useStyles();
 	const apr = getAprMessage(sett);
 
-	if (sett.state === SettState.Deprecated) {
+	if (sett.state === VaultState.Deprecated) {
 		return (
 			<Typography className={classes.normalCursor} variant="body1" color={'textPrimary'}>
 				{apr}

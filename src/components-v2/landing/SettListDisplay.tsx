@@ -64,7 +64,7 @@ const SettListDisplay = observer((props: SettListViewProps) => {
 			return (
 				<SettListItem
 					sett={sett}
-					key={sett.settToken}
+					key={sett.vaultToken}
 					currency={currency}
 					balance={settBalance.balance}
 					CustomDepositModal={isIbbtc ? IbbtcVaultDepositDialog : undefined}

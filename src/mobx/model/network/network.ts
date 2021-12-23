@@ -12,7 +12,7 @@ import { NotifyLink } from '../system-config/notifyLink';
 import { BadgerSett } from '../vaults/badger-sett';
 import { AirdropNetworkConfig } from './airdrop-network-config';
 // TODO: the naming irony here is not lost - temporary gap for sdk integrations @jintao
-import { Network as ChainNetwork, SettState, TokenConfiguration } from '@badger-dao/sdk';
+import { Network as ChainNetwork, VaultState, TokenConfiguration } from '@badger-dao/sdk';
 import { ContractCallContext } from 'ethereum-multicall';
 
 export abstract class Network {
@@ -92,12 +92,12 @@ export abstract class Network {
 
 	getBalancesRequests(setts: SettMap, tokens: TokenConfiguration, userAddress: string): ContractCallContext[] {
 		const tokenAddresses = Object.values(setts).map((sett) => sett.underlyingToken);
-		const settAddresses = Object.values(setts).map((sett) => sett.settToken);
-		const generalSettAddresses = settAddresses.filter((sett) => setts[sett].state === SettState.Open);
+		const settAddresses = Object.values(setts).map((sett) => sett.vaultToken);
+		const generalSettAddresses = settAddresses.filter((sett) => setts[sett].state === VaultState.Open);
 		const guardedSettAddresses = settAddresses.filter(
-			(sett) => setts[sett].state === SettState.Guarded || setts[sett].state === SettState.Experimental,
+			(sett) => setts[sett].state === VaultState.Guarded || setts[sett].state === VaultState.Experimental,
 		);
-		const deprecatedSettAddresses = settAddresses.filter((sett) => setts[sett].state === SettState.Deprecated);
+		const deprecatedSettAddresses = settAddresses.filter((sett) => setts[sett].state === VaultState.Deprecated);
 		const allContracts = new Set(
 			...[...tokenAddresses, ...settAddresses, ...generalSettAddresses, ...guardedSettAddresses],
 		);

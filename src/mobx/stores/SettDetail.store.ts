@@ -1,12 +1,12 @@
 import { RootStore } from '../RootStore';
 import { action, extendObservable, observe } from 'mobx';
 import { BalanceNamespace } from 'web3/config/namespaces';
-import { Sett } from '@badger-dao/sdk';
+import { Vault } from '@badger-dao/sdk';
 
 export class SettDetailStore {
 	private readonly store: RootStore;
 	private searchSlug: string | undefined;
-	private searchedSett: Sett | undefined | null;
+	private searchedSett: Vault | undefined | null;
 
 	private comesFromPortfolioView = false;
 	private shouldShowDepositDialog = false;
@@ -36,7 +36,7 @@ export class SettDetailStore {
 		return this.comesFromPortfolioView;
 	}
 
-	get sett(): Sett | undefined | null {
+	get sett(): Vault | undefined | null {
 		return this.searchedSett;
 	}
 
@@ -61,7 +61,7 @@ export class SettDetailStore {
 			return false;
 		}
 		const { network } = this.store.network;
-		const settToken = this.searchedSett.settToken;
+		const settToken = this.searchedSett.vaultToken;
 		const sett = network.setts.find((s) => s.vaultToken.address === settToken);
 
 		if (!sett) {

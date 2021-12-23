@@ -3,7 +3,7 @@ import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import { Breadcrumbs, Link, makeStyles, Typography } from '@material-ui/core';
 import { StoreContext } from '../../mobx/store-context';
 import { getRouteBySlug } from 'mobx/utils/helpers';
-import { Sett } from '@badger-dao/sdk';
+import { Vault } from '@badger-dao/sdk';
 
 const useStyles = makeStyles({
 	breadcrumbsItem: {
@@ -13,7 +13,7 @@ const useStyles = makeStyles({
 });
 
 interface Props {
-	sett: Sett;
+	sett: Vault;
 }
 
 export const Breadcrumb = ({ sett }: Props): JSX.Element => {

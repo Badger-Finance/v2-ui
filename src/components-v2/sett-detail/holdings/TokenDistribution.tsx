@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { TokenDistributionItem } from './TokenDistributionItem';
-import { SettData } from '@badger-dao/sdk';
+import { VaultData } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface Props {
-	settBalance: SettData;
+	settBalance: VaultData;
 }
 
 export const TokenDistribution = ({ settBalance }: Props): JSX.Element => {

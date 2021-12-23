@@ -14,7 +14,7 @@ import routes from '../../config/routes';
 import { SettDeposit, SettModalProps } from '../common/dialogs/SettDeposit';
 import { SettWithdraw } from '../common/dialogs/SettWithdraw';
 import { Currency } from 'config/enums/currency.enum';
-import { Sett, SettState } from '@badger-dao/sdk';
+import { Vault, VaultState } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -74,7 +74,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export interface SettListItemProps {
-	sett: Sett;
+	sett: Vault;
 	balance?: BigNumber;
 	balanceValue?: string;
 	accountView?: boolean;
@@ -97,18 +97,18 @@ const SettListItem = observer(
 		const [openWithdrawDialog, setOpenWithdrawDialog] = useState(false);
 
 		const classes = useStyles();
-		const badgerSett = network.network.setts.find(({ vaultToken }) => vaultToken.address === sett?.settToken);
+		const badgerSett = network.network.setts.find(({ vaultToken }) => vaultToken.address === sett?.vaultToken);
 
 		const displayValue = balanceValue ? balanceValue : inCurrency(new BigNumber(sett.value), currency, 0);
 		const multiplier =
-			sett.state !== SettState.Deprecated ? user.accountDetails?.multipliers[sett.settToken] : undefined;
+			sett.state !== VaultState.Deprecated ? user.accountDetails?.multipliers[sett.vaultToken] : undefined;
 
 		const canWithdraw = balance ? balance.gt(0) : false;
 		// sett is disabled if they are internal setts, or have a bouncer and use has no access
 		const isDisabled = !user.onGuestList(sett);
 
 		const goToSettDetail = async () => {
-			await router.goTo(routes.settDetails, { settName: setts.getSlug(sett.settToken), accountView });
+			await router.goTo(routes.settDetails, { settName: setts.getSlug(sett.vaultToken), accountView });
 		};
 
 		const DepositModal = CustomDepositModal || SettDeposit;

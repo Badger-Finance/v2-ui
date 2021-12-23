@@ -11,7 +11,7 @@ import { ActionButton, AmountTextField, LoaderSpinner, PercentagesContainer, Set
 import { BalanceNamespace } from '../../../web3/config/namespaces';
 import { SettConversionAndFee } from './SettConversionAndFee';
 import { makeStyles } from '@material-ui/core/styles';
-import { Sett } from '@badger-dao/sdk';
+import { Vault } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
 	content: {
@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
 
 export interface SettModalProps {
 	open?: boolean;
-	sett: Sett;
+	sett: Vault;
 	badgerSett: BadgerSett;
 	onClose: () => void;
 }
@@ -60,14 +60,14 @@ export const SettWithdraw = observer(({ open = false, sett, badgerSett, onClose 
 	const userHasBalance = userBalance.balance.gt(0);
 
 	const depositToken = setts.getToken(sett.underlyingToken);
-	const bToken = setts.getToken(sett.settToken);
+	const bToken = setts.getToken(sett.vaultToken);
 
 	const vaultSymbol = setts.getToken(badgerSett.vaultToken.address)?.symbol || sett.asset;
 	const depositTokenSymbol = depositToken?.symbol || '';
 	const bTokenSymbol = bToken?.symbol || '';
 
 	const canWithdraw = onboard.isActive() && !!amount && userHasBalance;
-	const isLoading = contracts.settsBeingWithdrawn[sett.settToken];
+	const isLoading = contracts.settsBeingWithdrawn[sett.vaultToken];
 
 	const handlePercentageChange = (percent: number) => {
 		setAmount(userBalance.scaledBalanceDisplay(percent));

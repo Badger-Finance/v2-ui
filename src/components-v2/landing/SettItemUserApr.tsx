@@ -1,9 +1,9 @@
 import React from 'react';
 import { Typography } from '@material-ui/core';
-import { Sett } from '@badger-dao/sdk';
+import { Vault } from '@badger-dao/sdk';
 
 interface Props {
-	sett: Sett;
+	sett: Vault;
 	multiplier: number;
 }
 

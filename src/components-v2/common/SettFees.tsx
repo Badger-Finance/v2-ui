@@ -6,7 +6,7 @@ import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../mobx/store-context';
 import { getNonEmptyStrategyFees } from '../../mobx/utils/fees';
 import { StrategyFees } from './StrategyFees';
-import { Sett } from '@badger-dao/sdk';
+import { Vault } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
 	specName: {
@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
-	sett: Sett;
+	sett: Vault;
 	onHelpClick?: () => void;
 	showNoFees?: boolean;
 }
@@ -57,7 +57,7 @@ export const SettFees = observer(
 			</div>
 		);
 
-		const networkSett = network.setts.find(({ vaultToken }) => vaultToken.address === sett.settToken);
+		const networkSett = network.setts.find(({ vaultToken }) => vaultToken.address === sett.vaultToken);
 
 		if (!networkSett) {
 			return showNoFees ? noFees : null;

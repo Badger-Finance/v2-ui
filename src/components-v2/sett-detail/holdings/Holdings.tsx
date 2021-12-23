@@ -9,7 +9,7 @@ import { BadgerSett } from '../../../mobx/model/vaults/badger-sett';
 import { TokenBalance } from 'mobx/model/tokens/token-balance';
 import { hasBalance } from '../utils';
 import { TokenDistributionIcon } from './TokenDistributionIcon';
-import { Sett, SettData } from '@badger-dao/sdk';
+import { Vault, VaultData } from '@badger-dao/sdk';
 import { shouldDisplayEarnings } from 'utils/componentHelpers';
 
 const useStyles = makeStyles((theme) => ({
@@ -25,10 +25,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface Props {
-	sett: Sett;
+	sett: Vault;
 	badgerSett: BadgerSett;
 	tokenBalance: TokenBalance;
-	userData: SettData;
+	userData: VaultData;
 }
 
 export const Holdings = observer(({ tokenBalance, userData, sett, badgerSett }: Props): JSX.Element | null => {
@@ -46,7 +46,7 @@ export const Holdings = observer(({ tokenBalance, userData, sett, badgerSett }: 
 	}
 
 	const { earnedBalance, earnedValue, balance, value } = userData;
-	const logo = `/assets/icons/${sett.settAsset.toLowerCase()}.png`;
+	const logo = `/assets/icons/${sett.vaultAsset.toLowerCase()}.png`;
 
 	const depositToken = setts.getToken(sett.underlyingToken);
 	const decimals = depositToken?.decimals || 18;

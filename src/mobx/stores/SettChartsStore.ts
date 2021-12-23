@@ -4,13 +4,13 @@ import { SettChartData, SettChartTimeframe } from '../model/setts/sett-charts';
 import { RootStore } from '../RootStore';
 import { SettSnapshotGranularity } from '../model/setts/sett-snapshot';
 import { fetchSettChartInformation } from '../utils/apiV2';
-import { Sett } from '@badger-dao/sdk';
+import { Vault } from '@badger-dao/sdk';
 
 dayjs.extend(utc);
 
 type SettChartInformation = SettChartData[] | null;
 type ChartCacheByPeriod = Map<SettChartTimeframe, SettChartInformation>;
-type SettCache = Map<Sett['underlyingToken'], ChartCacheByPeriod>;
+type SettCache = Map<Vault['underlyingToken'], ChartCacheByPeriod>;
 
 export class SettChartsStore {
 	private readonly store: RootStore;
@@ -25,7 +25,7 @@ export class SettChartsStore {
 	 * @param sett
 	 * @param timeframe
 	 */
-	async search(sett: Sett, timeframe: SettChartTimeframe): Promise<SettChartInformation> {
+	async search(sett: Vault, timeframe: SettChartTimeframe): Promise<SettChartInformation> {
 		const settCache = this.cache.get(sett.underlyingToken);
 
 		if (!settCache) {
@@ -48,7 +48,7 @@ export class SettChartsStore {
 		return timeFrameCache;
 	}
 
-	private async fetchSettChart(sett: Sett, timeframe: SettChartTimeframe) {
+	private async fetchSettChart(sett: Vault, timeframe: SettChartTimeframe) {
 		const { network } = this.store.network;
 
 		const daysFromTimeFrame = {
@@ -68,7 +68,7 @@ export class SettChartsStore {
 
 		const fetchedData = await fetchSettChartInformation({
 			granularity,
-			id: sett.settToken,
+			id: sett.vaultToken,
 
 			from: from.toDate(),
 			to: now.toDate(),

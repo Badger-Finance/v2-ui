@@ -5,7 +5,7 @@ import { Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { formatStrategyFee } from '../../utils/componentHelpers';
 import { getStrategyFee } from 'mobx/utils/fees';
-import { Sett } from '@badger-dao/sdk';
+import { Vault } from '@badger-dao/sdk';
 
 const useStyles = makeStyles({
 	specName: {
@@ -15,7 +15,7 @@ const useStyles = makeStyles({
 });
 
 interface Props {
-	sett: Sett;
+	sett: Vault;
 	strategy: StrategyConfig;
 	showEmpty?: boolean;
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import { DialogTitle, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { Sett } from '@badger-dao/sdk';
+import { Vault } from '@badger-dao/sdk';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface Props {
-	sett: Sett;
+	sett: Vault;
 	mode: string;
 }
 
@@ -36,7 +36,7 @@ export const SettDialogTitle = ({ sett, mode }: Props): JSX.Element => {
 				<Grid item className={classes.logoContainer}>
 					<img
 						className={classes.settLogo}
-						src={`/assets/icons/${sett.settAsset.toLowerCase()}.png`}
+						src={`/assets/icons/${sett.vaultAsset.toLowerCase()}.png`}
 						alt={`Badger ${sett.name} Vault Symbol`}
 					/>
 				</Grid>

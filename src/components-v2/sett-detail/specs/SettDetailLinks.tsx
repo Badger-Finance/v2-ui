@@ -5,7 +5,7 @@ import { observer } from 'mobx-react-lite';
 import { StoreContext } from '../../../mobx/store-context';
 import { StyledDivider } from '../styled';
 import SettDetailLink from './SettDetailLink';
-import { Sett } from '@badger-dao/sdk';
+import { Vault } from '@badger-dao/sdk';
 import { ethers } from 'ethers';
 
 const useStyles = makeStyles((theme) => ({
@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface Props {
-	sett: Sett;
+	sett: Vault;
 	badgerSett: BadgerSett;
 }
 
@@ -47,7 +47,7 @@ const SettDetailLinks = observer(
 		const strategyAddress =
 			sett.strategy?.address && sett.strategy.address !== ethers.constants.AddressZero
 				? sett.strategy.address
-				: network.strategies[sett.settToken].address;
+				: network.strategies[sett.vaultToken].address;
 
 		return (
 			<Grid container className={classes.linksContainer}>
