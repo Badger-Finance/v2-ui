@@ -246,12 +246,12 @@
 							"type": "address"
 						},
 						{
-							"internalType": "contract IVault",
+							"internalType": "contract ISett",
 							"name": "sett",
 							"type": "address"
 						}
 					],
-					"internalType": "struct BadgerVaultPeak.CurvePool[]",
+					"internalType": "struct BadgerSettPeak.CurvePool[]",
 					"name": "_pools",
 					"type": "tuple[]"
 				}
@@ -303,7 +303,7 @@
 					"type": "address"
 				},
 				{
-					"internalType": "contract IVault",
+					"internalType": "contract ISett",
 					"name": "sett",
 					"type": "address"
 				}

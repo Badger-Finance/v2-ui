@@ -19,7 +19,7 @@ const routes = {
 		path: '/',
 		component: (
 			<Landing
-				title="Vault Vaults"
+				title="Sett Vaults"
 				subtitle={
 					<Box display="flex" alignItems="center">
 						<Typography variant="body2" color="textSecondary">

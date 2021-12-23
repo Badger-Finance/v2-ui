@@ -45,7 +45,7 @@
 				{ "indexed": false, "internalType": "uint256", "name": "longTokens", "type": "uint256" },
 				{ "indexed": false, "internalType": "uint256", "name": "shortTokens", "type": "uint256" }
 			],
-			"name": "PositionVaultled",
+			"name": "PositionSettled",
 			"type": "event"
 		},
 		{

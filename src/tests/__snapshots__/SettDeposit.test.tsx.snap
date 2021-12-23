@@ -378,7 +378,7 @@ exports[`Vault Deposit can see full fees descriptions  1`] = `
             <p
               class="MuiTypography-root-56 MuiTypography-body1-58 MuiTypography-colorTextSecondary-82"
             >
-              Fees are charged on certain Vault Vaults, and are sent to the BadgerDAO treasury, or shared with the strategist who wrote the vault strategy.
+              Fees are charged on certain Sett Vaults, and are sent to the BadgerDAO treasury, or shared with the strategist who wrote the vault strategy.
             </p>
             <hr
               class="MuiDivider-root-318 makeStyles-divider-341"

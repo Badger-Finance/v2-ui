@@ -123,7 +123,7 @@
 			"outputs": [
 				{ "internalType": "contract IERC20", "name": "lpToken", "type": "address" },
 				{ "internalType": "contract ICurveFi", "name": "deposit", "type": "address" },
-				{ "internalType": "contract IVault", "name": "sett", "type": "address" }
+				{ "internalType": "contract ISett", "name": "sett", "type": "address" }
 			],
 			"stateMutability": "view",
 			"type": "function"
@@ -145,7 +145,7 @@
 		{
 			"inputs": [],
 			"name": "settPeak",
-			"outputs": [{ "internalType": "contract IBadgerVaultPeak", "name": "", "type": "address" }],
+			"outputs": [{ "internalType": "contract IBadgerSettPeak", "name": "", "type": "address" }],
 			"stateMutability": "view",
 			"type": "function"
 		},

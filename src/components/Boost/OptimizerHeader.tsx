@@ -91,7 +91,7 @@ export const OptimizerHeader = observer(({ multiplier, onReset }: Props): JSX.El
 					<Tooltip
 						enterTouchDelay={0}
 						title={
-							'This is a boost estimation at a point in time for the purpose of illustration only. This is a means to help you optimize your returns. Please refer to the Vault page for your specific returns.'
+							'This is a boost estimation at a point in time for the purpose of illustration only. This is a means to help you optimize your returns. Please refer to the Sett page for your specific returns.'
 						}
 						arrow
 						placement="bottom"

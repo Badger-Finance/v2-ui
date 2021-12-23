@@ -151,7 +151,7 @@ exports[`Specs Section displays sett information 1`] = `
         <span
           class="MuiTypography-root-145 makeStyles-frequencyDetail-211 MuiTypography-caption-148 MuiTypography-colorTextSecondary-171"
         >
-          This Vault’s rewards are currently being processed.
+          This Setts’s rewards are currently being processed.
         </span>
         <a
           class="MuiTypography-root-145 MuiLink-root-221 MuiLink-underlineHover-223 makeStyles-infoLink-212 MuiTypography-colorPrimary-168"

@@ -34,7 +34,7 @@ const VaultListDisplay = observer((props: VaultListViewProps) => {
 	const currentVaultMap = vaults.getVaultMapByState(state);
 
 	if (currentVaultMap === undefined) {
-		return <Loader message={`Loading ${network.name} Vaults...`} />;
+		return <Loader message={`Loading ${network.name} Setts...`} />;
 	}
 
 	if (currentVaultMap === null) {
