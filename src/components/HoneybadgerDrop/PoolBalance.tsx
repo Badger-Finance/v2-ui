@@ -68,7 +68,7 @@ export const PoolBalance = observer(() => {
 	// triggers the reduceStats method that's needed for the
 	// bDIGG <> DIGG exchange
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const { setts, onboard } = store;
+	const { vaults, onboard } = store;
 	const { poolBalance, loadingPoolBalance } = store.honeyPot;
 
 	if (!onboard.isActive()) {
@@ -88,7 +88,7 @@ export const PoolBalance = observer(() => {
 		);
 	}
 
-	if (loadingPoolBalance || !poolBalance || !setts.settMap) {
+	if (loadingPoolBalance || !poolBalance || !vaults.settMap) {
 		return (
 			<Container>
 				<Grid item xs={12}>
@@ -110,7 +110,7 @@ export const PoolBalance = observer(() => {
 		);
 	}
 
-	const diggMultiplier = setts.settMap[sett_system.vaults['native.digg']].pricePerFullShare;
+	const diggMultiplier = vaults.settMap[sett_system.vaults['native.digg']].pricePerFullShare;
 	const poolBalanceDiggs = poolBalance.multipliedBy(diggMultiplier);
 	return (
 		<Container>

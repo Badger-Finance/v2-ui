@@ -2,7 +2,7 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import DroptModal from 'components/Digg/DroptModal';
 import store from 'mobx/RootStore';
-import SettStore from 'mobx/stores/SettStore';
+import VaultStore from 'mobx/stores/VaultStore';
 import UserStore from 'mobx/stores/UserStore';
 import { digg_system } from 'config/deployments/mainnet.json';
 import { checkSnapshot } from 'tests/utils/snapshots';
@@ -68,7 +68,7 @@ describe('Dropt Modal', () => {
 	beforeEach(() => {
 		store.rebase.rebase = validStore;
 
-		jest.spyOn(SettStore.prototype, 'getToken').mockReturnValue({
+		jest.spyOn(VaultStore.prototype, 'getToken').mockReturnValue({
 			address: '0x952F4Ac36EF204a28800AA1c1586C5261B600894',
 			decimals: 18,
 			name: 'DIGG Rebase Option 2',

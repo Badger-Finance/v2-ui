@@ -2,7 +2,7 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import { TokenBalance } from '../mobx/model/tokens/token-balance';
 import BigNumber from 'bignumber.js';
-import SettStore from '../mobx/stores/SettStore';
+import VaultStore from '../mobx/stores/VaultStore';
 import store from '../mobx/RootStore';
 import { RewardsWidget } from '../components-v2/landing/RewardsWidget';
 import { OnboardStore } from '../mobx/stores/OnboardStore';
@@ -99,7 +99,7 @@ describe('Rewards Widget', () => {
 
 	describe('when there are rewards', () => {
 		beforeEach(() => {
-			jest.spyOn(SettStore.prototype, 'getToken').mockReturnValue({
+			jest.spyOn(VaultStore.prototype, 'getToken').mockReturnValue({
 				name: 'Badger',
 				symbol: 'BADGER',
 				decimals: 18,

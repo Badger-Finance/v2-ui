@@ -1,11 +1,11 @@
 import React from 'react';
 import { checkSnapshot } from './utils/snapshots';
-import { SettAvailableDeposit } from '../components-v2/common/dialogs/SettAvailableDeposit';
+import { VaultAvailableDeposit } from '../components-v2/common/dialogs/VaultAvailableDeposit';
 import { TokenBalance } from '../mobx/model/tokens/token-balance';
 import BigNumber from 'bignumber.js';
 import { MAX } from '../config/constants';
 
-describe('SettAvailableDeposit', () => {
+describe('VaultAvailableDeposit', () => {
 	it('displays deposit limits', () => {
 		const mockCap = new TokenBalance(
 			{ address: '0x798D1bE841a82a273720CE31c822C61a67a601C3', decimals: 9, symbol: 'DIGG' },
@@ -14,7 +14,7 @@ describe('SettAvailableDeposit', () => {
 		);
 
 		checkSnapshot(
-			<SettAvailableDeposit
+			<VaultAvailableDeposit
 				vaultCapInfo={{
 					vaultCap: mockCap,
 					totalVaultCap: mockCap,
@@ -40,7 +40,7 @@ describe('SettAvailableDeposit', () => {
 		);
 
 		checkSnapshot(
-			<SettAvailableDeposit
+			<VaultAvailableDeposit
 				vaultCapInfo={{
 					vaultCap: normalCap,
 					totalVaultCap: normalCap,
@@ -66,7 +66,7 @@ describe('SettAvailableDeposit', () => {
 		);
 
 		checkSnapshot(
-			<SettAvailableDeposit
+			<VaultAvailableDeposit
 				vaultCapInfo={{
 					vaultCap: maxCap,
 					totalVaultCap: maxCap,
@@ -86,7 +86,7 @@ describe('SettAvailableDeposit', () => {
 		);
 
 		checkSnapshot(
-			<SettAvailableDeposit
+			<VaultAvailableDeposit
 				vaultCapInfo={{
 					vaultCap: maxCap,
 					totalVaultCap: maxCap,

@@ -2,7 +2,7 @@ import { BadgerAPI, BouncerType, Protocol, VaultState, VaultType } from '@badger
 
 export function setupMockAPI(): void {
 	jest.spyOn(BadgerAPI.prototype, 'loadPrices').mockImplementation();
-	jest.spyOn(BadgerAPI.prototype, 'loadSetts').mockImplementation(async () => [
+	jest.spyOn(BadgerAPI.prototype, 'loadVaults').mockImplementation(async () => [
 		{
 			type: VaultType.Standard,
 			apr: 1.28046491065017,
@@ -383,7 +383,7 @@ export function setupMockAPI(): void {
 			value: 2273681.99036851,
 		},
 	]);
-	jest.spyOn(BadgerAPI.prototype, 'loadSett').mockImplementation();
+	jest.spyOn(BadgerAPI.prototype, 'loadVault').mockImplementation();
 	jest.spyOn(BadgerAPI.prototype, 'loadAccount').mockImplementation();
 	jest.spyOn(BadgerAPI.prototype, 'loadTokens').mockImplementation();
 	jest.spyOn(BadgerAPI.prototype, 'loadProof').mockImplementation();

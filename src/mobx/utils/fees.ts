@@ -1,6 +1,6 @@
 import { Vault } from '@badger-dao/sdk';
 import { ethers } from 'ethers';
-import { SettStrategy } from 'mobx/model/setts/sett-strategy';
+import { VaultStrategy } from 'mobx/model/vaults/vault-strategy';
 import { StrategyConfig } from '../model/strategies/strategy-config';
 import { StrategyFee } from '../model/system-config/stategy-fees';
 
@@ -10,12 +10,12 @@ export const getNonEmptyStrategyFees = (config: StrategyConfig): StrategyFee[] =
 	return feeKeys.filter((key) => fees[key]?.gt(0));
 };
 
-export function getStrategyFee(sett: Vault, fee: StrategyFee, config: StrategyConfig): number {
+export function getStrategyFee(vault: Vault, fee: StrategyFee, config: StrategyConfig): number {
 	const defaultFee = config.fees;
-	const { strategy } = sett;
+	const { strategy } = vault;
 	let requestedFee: number | undefined;
 	if (strategy) {
-		requestedFee = getSettStrategyFee(strategy, fee);
+		requestedFee = getVaultStrategyFee(strategy, fee);
 	}
 	if (requestedFee === undefined) {
 		switch (fee) {
@@ -45,12 +45,12 @@ export function getStrategyFee(sett: Vault, fee: StrategyFee, config: StrategyCo
 		}
 	}
 	if (requestedFee === undefined) {
-		throw new Error(`${sett.name} missing default ${fee} fee`);
+		throw new Error(`${vault.name} missing default ${fee} fee`);
 	}
 	return requestedFee;
 }
 
-function getSettStrategyFee(strategy: SettStrategy, fee: StrategyFee): number | undefined {
+function getVaultStrategyFee(strategy: VaultStrategy, fee: StrategyFee): number | undefined {
 	if (strategy.address === ethers.constants.AddressZero) {
 		return;
 	}

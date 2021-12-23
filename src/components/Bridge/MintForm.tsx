@@ -7,7 +7,7 @@ import { StoreContext } from 'mobx/store-context';
 import { MIN_AMOUNT } from './constants';
 import { Slippage, ValuesProp } from './Common';
 import { sett_system } from 'config/deployments/mainnet.json';
-import { SettMap } from '../../mobx/model/setts/sett-map';
+import { VaultMap } from '../../mobx/model/vaults/vault-map';
 
 interface MintFormProps {
 	values: ValuesProp;
@@ -36,7 +36,7 @@ export const MintForm = ({
 
 	const {
 		onboard,
-		setts: { settMap },
+		vaults: { settMap },
 		bridge: { shortAddr },
 	} = store;
 
@@ -47,7 +47,7 @@ export const MintForm = ({
 
 	const isWBTC = values.token === 'WBTC' || values.token === 'byvWBTC';
 
-	const getAPY = (token: string, settMap: SettMap | null | undefined): number => {
+	const getAPY = (token: string, settMap: VaultMap | null | undefined): number => {
 		if (!settMap) {
 			return 0;
 		}
@@ -68,8 +68,8 @@ export const MintForm = ({
 		}
 		// No APY for non vault tokens.
 		if (!address) return 0;
-		const sett = settMap[address];
-		return sett ? sett.apr : 0;
+		const vault = settMap[address];
+		return vault ? vault.apr : 0;
 	};
 
 	return (

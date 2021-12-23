@@ -34,7 +34,7 @@ exports[`Boost Optimizer can change native and non native balances 1`] = `
                 aria-hidden="true"
                 class="MuiSvgIcon-root-186 memo-root-184 memo-root-185 MuiSvgIcon-colorPrimary-187"
                 focusable="false"
-                title="This is a boost estimation at a point in time for the purpose of illustration only. This is a means to help you optimize your returns. Please refer to the Sett page for your specific returns."
+                title="This is a boost estimation at a point in time for the purpose of illustration only. This is a means to help you optimize your returns. Please refer to the Vault page for your specific returns."
                 viewBox="0 0 24 24"
               >
                 <path
@@ -963,7 +963,7 @@ exports[`Boost Optimizer can decrease balances through the increase button 1`] =
                 aria-hidden="true"
                 class="MuiSvgIcon-root-186 memo-root-184 memo-root-185 MuiSvgIcon-colorPrimary-187"
                 focusable="false"
-                title="This is a boost estimation at a point in time for the purpose of illustration only. This is a means to help you optimize your returns. Please refer to the Sett page for your specific returns."
+                title="This is a boost estimation at a point in time for the purpose of illustration only. This is a means to help you optimize your returns. Please refer to the Vault page for your specific returns."
                 viewBox="0 0 24 24"
               >
                 <path
@@ -1909,7 +1909,7 @@ exports[`Boost Optimizer can increase balances through the increase button 1`] =
                 aria-hidden="true"
                 class="MuiSvgIcon-root-186 memo-root-184 memo-root-185 MuiSvgIcon-colorPrimary-187"
                 focusable="false"
-                title="This is a boost estimation at a point in time for the purpose of illustration only. This is a means to help you optimize your returns. Please refer to the Sett page for your specific returns."
+                title="This is a boost estimation at a point in time for the purpose of illustration only. This is a means to help you optimize your returns. Please refer to the Vault page for your specific returns."
                 viewBox="0 0 24 24"
               >
                 <path
@@ -2856,7 +2856,7 @@ exports[`Boost Optimizer can jump to rank 1`] = `
                 aria-hidden="true"
                 class="MuiSvgIcon-root-186 memo-root-184 memo-root-185 MuiSvgIcon-colorPrimary-187"
                 focusable="false"
-                title="This is a boost estimation at a point in time for the purpose of illustration only. This is a means to help you optimize your returns. Please refer to the Sett page for your specific returns."
+                title="This is a boost estimation at a point in time for the purpose of illustration only. This is a means to help you optimize your returns. Please refer to the Vault page for your specific returns."
                 viewBox="0 0 24 24"
               >
                 <path
@@ -3792,7 +3792,7 @@ exports[`Boost Optimizer displays correct information 1`] = `
                 aria-hidden="true"
                 class="MuiSvgIcon-root-186 memo-root-184 memo-root-185 MuiSvgIcon-colorPrimary-187"
                 focusable="false"
-                title="This is a boost estimation at a point in time for the purpose of illustration only. This is a means to help you optimize your returns. Please refer to the Sett page for your specific returns."
+                title="This is a boost estimation at a point in time for the purpose of illustration only. This is a means to help you optimize your returns. Please refer to the Vault page for your specific returns."
                 viewBox="0 0 24 24"
               >
                 <path
@@ -4720,7 +4720,7 @@ exports[`Boost Optimizer shows empty non native message 1`] = `
                 aria-hidden="true"
                 class="MuiSvgIcon-root-186 memo-root-184 memo-root-185 MuiSvgIcon-colorPrimary-187"
                 focusable="false"
-                title="This is a boost estimation at a point in time for the purpose of illustration only. This is a means to help you optimize your returns. Please refer to the Sett page for your specific returns."
+                title="This is a boost estimation at a point in time for the purpose of illustration only. This is a means to help you optimize your returns. Please refer to the Vault page for your specific returns."
                 viewBox="0 0 24 24"
               >
                 <path
@@ -5648,7 +5648,7 @@ exports[`Boost Optimizer supports no wallet mode 1`] = `
                 aria-hidden="true"
                 class="MuiSvgIcon-root-186 memo-root-184 memo-root-185 MuiSvgIcon-colorPrimary-187"
                 focusable="false"
-                title="This is a boost estimation at a point in time for the purpose of illustration only. This is a means to help you optimize your returns. Please refer to the Sett page for your specific returns."
+                title="This is a boost estimation at a point in time for the purpose of illustration only. This is a means to help you optimize your returns. Please refer to the Vault page for your specific returns."
                 viewBox="0 0 24 24"
               >
                 <path

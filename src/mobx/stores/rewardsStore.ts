@@ -69,7 +69,7 @@ class RewardsStore {
 
 	// TODO: refactor various functions for a more unified approach
 	balanceFromString(token: string, balance: string): TokenBalance {
-		const badgerToken = this.store.setts.getToken(token);
+		const badgerToken = this.store.vaults.getToken(token);
 		const tokenPrice = this.store.prices.getPrice(token);
 		if (!tokenPrice) {
 			const amount = new BigNumber(balance);
@@ -83,7 +83,7 @@ class RewardsStore {
 	// TODO: refactor various functions for a more unified approach
 	balanceFromProof(token: string, balance: string): TokenBalance {
 		const { rebase: rebaseInfo } = this.store.rebase;
-		const claimToken = this.store.setts.getToken(token);
+		const claimToken = this.store.vaults.getToken(token);
 		const tokenPrice = this.store.prices.getPrice(token);
 
 		if (!tokenPrice) {
@@ -98,7 +98,7 @@ class RewardsStore {
 		return new TokenBalance(claimToken, amount, tokenPrice);
 	}
 	mockBalance(token: string): TokenBalance {
-		return new TokenBalance(this.store.setts.getToken(token), new BigNumber(0), this.store.prices.getPrice(token));
+		return new TokenBalance(this.store.vaults.getToken(token), new BigNumber(0), this.store.prices.getPrice(token));
 	}
 
 	resetRewards = action((): void => {
@@ -126,38 +126,39 @@ class RewardsStore {
 			return;
 		}
 
-		this.loadingTreeData = true;
+			this.loadingTreeData = true;
 
-		const web3 = new Web3(wallet?.provider);
-		const rewardsTree = new web3.eth.Contract(rewardsAbi as AbiItem[], network.badgerTree);
-		try {
-			const [timestamp, cycle]: [number, number] = await Promise.all([
-				rewardsTree.methods.lastPublishTimestamp().call(),
-				rewardsTree.methods.currentCycle().call(),
-			]);
-			this.badgerTree.lastCycle = new Date(timestamp * 1000);
-			this.badgerTree.cycle = cycle.toString();
-			this.badgerTree.timeSinceLastCycle = reduceTimeSinceLastCycle(timestamp);
+			const web3 = new Web3(wallet?.provider);
+			const rewardsTree = new web3.eth.Contract(rewardsAbi as AbiItem[], network.badgerTree);
+			try {
+				const [timestamp, cycle]: [number, number] = await Promise.all([
+					rewardsTree.methods.lastPublishTimestamp().call(),
+					rewardsTree.methods.currentCycle().call(),
+				]);
+				this.badgerTree.lastCycle = new Date(timestamp * 1000);
+				this.badgerTree.cycle = cycle.toString();
+				this.badgerTree.timeSinceLastCycle = reduceTimeSinceLastCycle(timestamp);
 
-			await retry(() => this.fetchSettRewards(), defaultRetryOptions);
-		} catch (error) {
-			console.error('There was an error fetching rewards information: ', error);
-			queueNotification(
-				`Error retrieving rewards information, please refresh the page or check your web3 provider.`,
-				'error',
-			);
-		}
+				await retry(() => this.fetchVaultRewards(), defaultRetryOptions);
+			} catch (error) {
+				console.error('There was an error fetching rewards information: ', error);
+				queueNotification(
+					`Error retrieving rewards information, please refresh the page or check your web3 provider.`,
+					'error',
+				);
+			}
 
 		this.loadingTreeData = false;
 	});
 
-	fetchSettRewards = action(async (): Promise<void> => {
-		const {
-			network: { network },
-			prices: { arePricesAvailable },
-			user: { claimProof },
-			onboard: { wallet, address },
-		} = this.store;
+	fetchVaultRewards = action(
+		async (): Promise<void> => {
+			const {
+				network: { network },
+				prices: { arePricesAvailable },
+				user: { claimProof },
+				onboard: { wallet, address },
+			} = this.store;
 
 		if (this.loadingRewards) {
 			return;

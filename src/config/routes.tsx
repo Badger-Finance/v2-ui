@@ -9,7 +9,7 @@ import { IbBTC } from 'components/IbBTC';
 import { Bridge } from '../components/Bridge';
 import HoneybadgerDrop from '../components/HoneybadgerDrop/index';
 import BoostLeaderBoard from 'pages/BoostLeaderBoard';
-import { SettDetail } from '../components-v2/sett-detail/SettDetail';
+import { VaultDetail } from '../components-v2/vault-detail/VaultDetail';
 import { NotFound } from '../components-v2/common/NotFound';
 import { VaultState } from '@badger-dao/sdk';
 import { Box, Link, Typography } from '@material-ui/core';
@@ -19,7 +19,7 @@ const routes = {
 		path: '/',
 		component: (
 			<Landing
-				title="Sett Vaults"
+				title="Vault Vaults"
 				subtitle={
 					<Box display="flex" alignItems="center">
 						<Typography variant="body2" color="textSecondary">
@@ -98,18 +98,18 @@ const routes = {
 	}),
 	settDetails: new Route<RootStore, QueryParams>({
 		path: '/setts/:settName',
-		component: <SettDetail />,
+		component: <VaultDetail />,
 		onEnter: (_route, params, store) => {
 			if (!params || !params.settName) return;
 
 			if (params.accountView) {
-				store.settDetail.setAccountViewMode();
+				store.vaultDetail.setAccountViewMode();
 			}
 
-			store.settDetail.setSearchSlug(params.settName as string);
+			store.vaultDetail.setSearchSlug(params.settName as string);
 		},
 		onExit: (_route, _params, store) => {
-			store.settDetail.reset();
+			store.vaultDetail.reset();
 		},
 	}),
 };

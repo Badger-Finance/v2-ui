@@ -2,7 +2,7 @@ import { NETWORK_IDS } from 'config/constants';
 import { toRecord } from 'web3/config/token-config';
 import { Deploy } from 'web3/interface/deploy';
 import { ProtocolTokens } from 'web3/interface/protocol-token';
-import { BadgerSett } from '../vaults/badger-sett';
+import { BadgerVault } from '../vaults/badger-vault';
 import { Network as NetworkModel } from './network';
 import deploy from '../../../config/deployments/arbitrum.json';
 import { Currency } from 'config/enums/currency.enum';
@@ -19,7 +19,7 @@ export class Arbitrum extends NetworkModel {
 			NETWORK_IDS.ARB,
 			Currency.ETH,
 			ARBITRUM_DEPLOY,
-			arbitrumSetts,
+			arbitrumVaults,
 		);
 	}
 
@@ -39,7 +39,7 @@ export class Arbitrum extends NetworkModel {
 
 export const ARBITRUM_DEPLOY: Deploy = deploy;
 
-export const arbitrumSetts: BadgerSett[] = [
+export const arbitrumVaults: BadgerVault[] = [
 	{
 		depositToken: {
 			address: ARBITRUM_DEPLOY.tokens['sushi.WETH-SUSHI'],
@@ -151,6 +151,8 @@ export const arbitrumRewards = [
 	},
 ];
 
-const arbitrumTokens = arbitrumSetts.flatMap((sett) => [sett.depositToken, sett.vaultToken]).concat(arbitrumRewards);
+const arbitrumTokens = arbitrumVaults
+	.flatMap((vault) => [vault.depositToken, vault.vaultToken])
+	.concat(arbitrumRewards);
 
 export const arbitrumProtocolTokens: ProtocolTokens = toRecord(arbitrumTokens, 'address');

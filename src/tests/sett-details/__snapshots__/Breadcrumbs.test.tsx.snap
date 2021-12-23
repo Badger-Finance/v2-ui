@@ -15,7 +15,7 @@ exports[`Breadcrumb displays sett breadcrumb 1`] = `
         <button
           class="MuiTypography-root-6 MuiLink-root-36 MuiLink-underlineHover-38 makeStyles-breadcrumbsItem-1 MuiLink-button-40 MuiTypography-colorInherit-28"
         >
-          Setts
+          Vaults
         </button>
       </li>
       <li

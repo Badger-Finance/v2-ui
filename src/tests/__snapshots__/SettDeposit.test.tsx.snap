@@ -1,6 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+<<<<<<< HEAD
 exports[`Sett Deposit can go back from full fees descriptions 1`] = `
+=======
+exports[`Vault Deposit can go back from full fees descriptions  1`] = `
+>>>>>>> refactor(boom): rename setts to vaults
 <body
   style="padding-right: 0px; overflow: hidden;"
 >
@@ -293,7 +297,11 @@ exports[`Sett Deposit can go back from full fees descriptions 1`] = `
 </body>
 `;
 
+<<<<<<< HEAD
 exports[`Sett Deposit can see full fees descriptions 1`] = `
+=======
+exports[`Vault Deposit can see full fees descriptions  1`] = `
+>>>>>>> refactor(boom): rename setts to vaults
 <body
   style="padding-right: 0px; overflow: hidden;"
 >
@@ -370,7 +378,7 @@ exports[`Sett Deposit can see full fees descriptions 1`] = `
             <p
               class="MuiTypography-root-56 MuiTypography-body1-58 MuiTypography-colorTextSecondary-82"
             >
-              Fees are charged on certain Sett Vaults, and are sent to the BadgerDAO treasury, or shared with the strategist who wrote the vault strategy.
+              Fees are charged on certain Vault Vaults, and are sent to the BadgerDAO treasury, or shared with the strategist who wrote the vault strategy.
             </p>
             <hr
               class="MuiDivider-root-318 makeStyles-divider-341"
@@ -404,7 +412,7 @@ exports[`Sett Deposit can see full fees descriptions 1`] = `
 </body>
 `;
 
-exports[`Sett Deposit displays sett information 1`] = `
+exports[`Vault Deposit displays sett information 1`] = `
 <body
   style="padding-right: 0px; overflow: hidden;"
 >

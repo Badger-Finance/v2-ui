@@ -7,7 +7,7 @@ import { IbBTCMintZap } from './ibbtc-mint-zap';
 import { RootStore } from '../../RootStore';
 import { toHex } from '../../utils/helpers';
 import BigNumber from 'bignumber.js';
-import settConfig from '../../../config/system/abis/Sett.json';
+import vaultConfig from '../../../config/system/abis/Vault.json';
 import badgerPeakSwap from '../../../config/system/abis/BadgerBtcPeakSwap.json';
 import { IbbtcDepositTokenPoolIds } from '../../utils/ibbtc';
 import { Token } from '@badger-dao/sdk';
@@ -46,7 +46,7 @@ export class RenVaultZap extends IbBTCMintZap {
 
 	async bBTCToSett(amount: BigNumber): Promise<BigNumber> {
 		const web3 = new Web3(this.store.onboard.wallet?.provider);
-		const settToken = new web3.eth.Contract(settConfig.abi as AbiItem[], this.token.address);
+		const settToken = new web3.eth.Contract(vaultConfig.abi as AbiItem[], this.token.address);
 		const { swap: swapAddress } = await this.zap.methods.pools(IbbtcDepositTokenPoolIds[this.token.address]).call();
 		const swapContract = new web3.eth.Contract(badgerPeakSwap.abi as AbiItem[], swapAddress);
 
