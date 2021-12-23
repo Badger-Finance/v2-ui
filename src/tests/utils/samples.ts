@@ -1,9 +1,8 @@
 import { BadgerSett } from '../../mobx/model/vaults/badger-sett';
 import { TokenBalance } from '../../mobx/model/tokens/token-balance';
 import BigNumber from 'bignumber.js';
-import { BouncerType, Protocol, Vault, VaultData, VaultState } from '@badger-dao/sdk';
+import { BouncerType, Protocol, Vault, VaultData, VaultState, VaultType } from '@badger-dao/sdk';
 import { TEST_ADDRESS } from './snapshots';
-import { VaultType } from '@badger-dao/sdk/src/api/enums/index';
 
 export const SAMPLE_IBBTC_TOKEN_BALANCE = new TokenBalance(
 	{
