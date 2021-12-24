@@ -123,8 +123,7 @@ function stringHash(input?: string): string | undefined {
 }
 
 // Message should be defined or explicitly undefined.
-export const APP_NEWS_MESSAGE =
-	'Due to delayed harvests, APRs in the application may be inaccurate.  This will resolve back to normal shortly.';
+export const APP_NEWS_MESSAGE = undefined;
 // Text & URL should be defined or explicitly undefined.
 export const APP_NEWS_URL_TEXT = undefined;
 export const APP_NEWS_URL = undefined;
