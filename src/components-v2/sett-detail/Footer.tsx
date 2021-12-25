@@ -23,25 +23,23 @@ interface Props {
 	badgerSett: BadgerSett;
 }
 
-export const Footer = observer(
-	({ badgerSett }: Props): JSX.Element => {
-		const store = React.useContext(StoreContext);
-		const { network: networkStore } = store;
-		const { network } = networkStore;
-		const classes = useStyles();
+export const Footer = observer(({ badgerSett }: Props): JSX.Element => {
+	const store = React.useContext(StoreContext);
+	const { network: networkStore } = store;
+	const { network } = networkStore;
+	const classes = useStyles();
 
-		const strategy = network.strategies[badgerSett.vaultToken.address];
+	const strategy = network.strategies[badgerSett.vaultToken.address];
 
-		return (
-			<footer>
-				{strategy.description && (
-					<div className={classes.vaultDescription}>
-						<Typography variant="body2" color="textSecondary">
-							{strategy.description}
-						</Typography>
-					</div>
-				)}
-			</footer>
-		);
-	},
-);
+	return (
+		<footer>
+			{strategy.description && (
+				<div className={classes.vaultDescription}>
+					<Typography variant="body2" color="textSecondary">
+						{strategy.description}
+					</Typography>
+				</div>
+			)}
+		</footer>
+	);
+});

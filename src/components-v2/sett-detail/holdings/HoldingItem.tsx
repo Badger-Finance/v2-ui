@@ -47,31 +47,29 @@ interface Props {
 
 const displayUsdBalance = (value: BigNumber.Value) => `~$${numberWithCommas(formatWithoutExtraZeros(value, 2))}`;
 
-export const HoldingItem = observer(
-	({ name, logo, balance, value, decimals, helpIcon }: Props): JSX.Element => {
-		const classes = useStyles();
+export const HoldingItem = observer(({ name, logo, balance, value, decimals, helpIcon }: Props): JSX.Element => {
+	const classes = useStyles();
 
-		return (
-			<Paper className={classes.cardContainer}>
-				<div className={classes.titleContainer}>
-					<Typography className={classes.holdingsName}>{name}</Typography>
-					{helpIcon}
-				</div>
-				<Divider />
-				<Grid container className={classes.amountsContainer}>
-					<Box display="inline-flex" className={classes.amountText}>
-						<div className={classes.logoContainer}>
-							<img className={classes.logo} src={logo} alt={`${name} holdings`} />
-						</div>
-						<div>
-							<Typography variant="h5">{formatWithoutExtraZeros(balance, decimals)}</Typography>
-							<Typography variant="body2" color="textSecondary">
-								{displayUsdBalance(value)}
-							</Typography>
-						</div>
-					</Box>
-				</Grid>
-			</Paper>
-		);
-	},
-);
+	return (
+		<Paper className={classes.cardContainer}>
+			<div className={classes.titleContainer}>
+				<Typography className={classes.holdingsName}>{name}</Typography>
+				{helpIcon}
+			</div>
+			<Divider />
+			<Grid container className={classes.amountsContainer}>
+				<Box display="inline-flex" className={classes.amountText}>
+					<div className={classes.logoContainer}>
+						<img className={classes.logo} src={logo} alt={`${name} holdings`} />
+					</div>
+					<div>
+						<Typography variant="h5">{formatWithoutExtraZeros(balance, decimals)}</Typography>
+						<Typography variant="body2" color="textSecondary">
+							{displayUsdBalance(value)}
+						</Typography>
+					</div>
+				</Box>
+			</Grid>
+		</Paper>
+	);
+});

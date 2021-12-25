@@ -45,22 +45,20 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-const ActionButton = observer(
-	({ children }): JSX.Element => {
-		const { onboard } = useContext(StoreContext);
-		const connectWallet = useConnectWallet();
+const ActionButton = observer(({ children }): JSX.Element => {
+	const { onboard } = useContext(StoreContext);
+	const connectWallet = useConnectWallet();
 
-		if (!onboard.address) {
-			return (
-				<Button fullWidth size="large" variant="contained" color="primary" onClick={connectWallet}>
-					Connect Wallet
-				</Button>
-			);
-		}
+	if (!onboard.address) {
+		return (
+			<Button fullWidth size="large" variant="contained" color="primary" onClick={connectWallet}>
+				Connect Wallet
+			</Button>
+		);
+	}
 
-		return <>{children}</>;
-	},
-);
+	return <>{children}</>;
+});
 
 export const Redeem = observer((): any => {
 	const store = useContext(StoreContext);
@@ -126,27 +124,24 @@ export const Redeem = observer((): any => {
 	// reason: the plugin does not recognize the dependency inside the debounce function
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	const debounceInputAmountChange = useCallback(
-		debounce(
-			200,
-			async (change): Promise<void> => {
-				const input = new BigNumber(change);
+		debounce(200, async (change): Promise<void> => {
+			const input = new BigNumber(change);
 
-				if (!selectedToken) {
-					return;
-				}
+			if (!selectedToken) {
+				return;
+			}
 
-				if (!input.gt(ZERO)) {
-					setOutputAmount(undefined);
-					setMaxRedeem(undefined);
-					setIsEnoughToRedeem(true);
-					setFee('0.000');
-					setTotalRedeem('0.000');
-					return;
-				}
+			if (!input.gt(ZERO)) {
+				setOutputAmount(undefined);
+				setMaxRedeem(undefined);
+				setIsEnoughToRedeem(true);
+				setFee('0.000');
+				setTotalRedeem('0.000');
+				return;
+			}
 
-				await calculateRedeem(TokenBalance.fromBalance(ibBTC, change), selectedToken);
-			},
-		),
+			await calculateRedeem(TokenBalance.fromBalance(ibBTC, change), selectedToken);
+		}),
 		[selectedToken],
 	);
 

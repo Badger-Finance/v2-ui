@@ -47,36 +47,30 @@ export default class PricesStore {
 		return price ? new BigNumber(price) : new BigNumber(0);
 	}
 
-	loadPrices = action(
-		async (): Promise<void> => {
-			const { network } = this.store.network;
-			const prices = await this.store.api.loadPrices(Currency.ETH);
-			if (prices) {
-				this.priceCache = {
-					...this.priceCache,
-					...prices,
-				};
+	loadPrices = action(async (): Promise<void> => {
+		const { network } = this.store.network;
+		const prices = await this.store.api.loadPrices(Currency.ETH);
+		if (prices) {
+			this.priceCache = {
+				...this.priceCache,
+				...prices,
+			};
 
-				this.pricesAvailability = {
-					...this.pricesAvailability,
-					[network.symbol]: true,
-				};
-			}
-		},
-	);
+			this.pricesAvailability = {
+				...this.pricesAvailability,
+				[network.symbol]: true,
+			};
+		}
+	});
 
-	loadExchangeRates = action(
-		async (): Promise<void> => {
-			await retry(async () => {
-				const [exchangeRates, bDiggExchangeRates]: [
-					ExchangeRates | null,
-					BDiggExchangeRates | null,
-				] = await Promise.all([this.getExchangeRates(), this.getBdiggExchangeRates()]);
-				this.exchangeRates = exchangeRates;
-				this.bDiggExchangeRates = bDiggExchangeRates;
-			}, defaultRetryOptions);
-		},
-	);
+	loadExchangeRates = action(async (): Promise<void> => {
+		await retry(async () => {
+			const [exchangeRates, bDiggExchangeRates]: [ExchangeRates | null, BDiggExchangeRates | null] =
+				await Promise.all([this.getExchangeRates(), this.getBdiggExchangeRates()]);
+			this.exchangeRates = exchangeRates;
+			this.bDiggExchangeRates = bDiggExchangeRates;
+		}, defaultRetryOptions);
+	});
 
 	async getExchangeRates(): Promise<ExchangeRates | null> {
 		const baseRatesUrl = 'https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd,cad,btc,bnb';

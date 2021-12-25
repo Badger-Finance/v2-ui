@@ -38,28 +38,26 @@ export interface SidebarItemProps {
 	alt?: string;
 }
 
-const SidebarItem = observer(
-	({ title, route, view, icon, alt }: SidebarItemProps): JSX.Element => {
-		const classes = useStyles();
-		const store = useContext(StoreContext);
-		const {
-			router,
-			uiState: { closeSidebar },
-		} = store;
+const SidebarItem = observer(({ title, route, view, icon, alt }: SidebarItemProps): JSX.Element => {
+	const classes = useStyles();
+	const store = useContext(StoreContext);
+	const {
+		router,
+		uiState: { closeSidebar },
+	} = store;
 
-		async function visit() {
-			closeSidebar();
-			await router.goTo(view);
-		}
+	async function visit() {
+		closeSidebar();
+		await router.goTo(view);
+	}
 
-		const isActive = router.currentPath == route;
-		return (
-			<div onClick={visit} className={clsx(classes.sidebarItem, isActive && classes.active)}>
-				{icon && <img className={classes.icon} alt={alt} src={icon} />}
-				<span>{title}</span>
-			</div>
-		);
-	},
-);
+	const isActive = router.currentPath == route;
+	return (
+		<div onClick={visit} className={clsx(classes.sidebarItem, isActive && classes.active)}>
+			{icon && <img className={classes.icon} alt={alt} src={icon} />}
+			<span>{title}</span>
+		</div>
+	);
+});
 
 export default SidebarItem;
