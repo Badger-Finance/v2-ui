@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Sett Deposit can go back from full fees descriptions  1`] = `
+exports[`Sett Deposit can go back from full fees descriptions 1`] = `
 <body
   style="padding-right: 0px; overflow: hidden;"
 >
@@ -293,7 +293,7 @@ exports[`Sett Deposit can go back from full fees descriptions  1`] = `
 </body>
 `;
 
-exports[`Sett Deposit can see full fees descriptions  1`] = `
+exports[`Sett Deposit can see full fees descriptions 1`] = `
 <body
   style="padding-right: 0px; overflow: hidden;"
 >

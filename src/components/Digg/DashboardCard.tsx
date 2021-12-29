@@ -28,8 +28,6 @@ const DashboardCard = observer(() => {
 		handleChangeRange(7);
 	};
 
-	// Disable reason: Hook used for execution on mount.
-	// eslint-disable-next-line react-hooks/exhaustive-deps
 	useEffect(componentDidMount, []);
 	const [title, setGraphSelected] = useState<string>('Total Volume');
 
@@ -41,8 +39,6 @@ const DashboardCard = observer(() => {
 	};
 	useEffect(() => {
 		handleChangeRange(range);
-		// Disable reason: Hook used to trigger handleChangeRange() on change of 'title'.
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [title]);
 
 	const [chartData, setChartData] = useState<any>(undefined);

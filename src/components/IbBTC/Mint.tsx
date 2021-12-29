@@ -15,7 +15,7 @@ import { observer } from 'mobx-react-lite';
 import { debounce } from 'utils/componentHelpers';
 import { ZERO } from 'config/constants';
 import { BigNumber } from 'bignumber.js';
-import { OptionToken as OptionToken, OptionTokens } from './OptionTokens';
+import { OptionToken, OptionTokens } from './OptionTokens';
 import { DownArrow } from './DownArrow';
 import { StoreContext } from 'mobx/store-context';
 import { useConnectWallet } from 'mobx/utils/hooks';
@@ -144,8 +144,6 @@ export const Mint = observer(
 			setSlippage((event.target as HTMLInputElement).value);
 		};
 
-		// reason: the plugin does not recognize the dependency inside the debounce function
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 		const debounceInputAmountChange = useCallback(
 			debounce(
 				200,

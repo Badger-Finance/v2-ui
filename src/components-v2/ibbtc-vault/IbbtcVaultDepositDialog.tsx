@@ -198,8 +198,6 @@ const IbbtcVaultDepositDialog = ({ open = false, onClose }: SettModalProps): JSX
 		setExpectedSlippage(calculatedSlippage);
 	};
 
-	// reason: the plugin does not recognize the dependency inside the debounce function
-	// eslint-disable-next-line react-hooks/exhaustive-deps
 	const handleDepositBalanceChange = useCallback(
 		debounce(200, async (tokenBalance: TokenBalance, index: number) => {
 			const balances = [...multiTokenDepositBalances];

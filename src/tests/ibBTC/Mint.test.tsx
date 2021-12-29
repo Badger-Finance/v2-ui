@@ -87,10 +87,8 @@ describe('ibBTC Mint', () => {
 			</StoreProvider>,
 		);
 
-		await act(async () => {
-			fireEvent.click(await screen.findByRole('button', { name: /max/i }));
-		});
-
+		fireEvent.click(await screen.findByRole('button', { name: /max/i }));
+		await screen.findByText('11.988000');
 		expect(container).toMatchSnapshot();
 	});
 
@@ -101,10 +99,7 @@ describe('ibBTC Mint', () => {
 			</StoreProvider>,
 		);
 
-		await act(async () => {
-			fireEvent.change(await screen.findByRole('textbox'), { target: { value: '12' } });
-		});
-
+		fireEvent.change(await screen.findByRole('textbox'), { target: { value: '12' } });
 		await screen.findByRole('heading', { level: 1, name: '11.988000' });
 
 		expect(container).toMatchSnapshot();

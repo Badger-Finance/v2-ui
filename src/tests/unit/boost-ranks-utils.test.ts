@@ -1,4 +1,3 @@
-import 'jest';
 import { BOOST_LEVELS, BOOST_RANKS, MAX_BOOST_LEVEL, MIN_BOOST_LEVEL } from '../../config/system/boost-ranks';
 import {
 	calculateMultiplier,

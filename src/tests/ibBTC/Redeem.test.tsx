@@ -2,7 +2,7 @@ import React from 'react';
 import '@testing-library/jest-dom';
 import store from 'mobx/RootStore';
 import { StoreProvider } from '../../mobx/store-context';
-import { customRender, screen, fireEvent, act } from '../Utils';
+import { customRender, screen, fireEvent } from '../Utils';
 import { Redeem } from '../../components/IbBTC/Redeem';
 import Header from '../../components/Header';
 import { Snackbar } from '../../components/Snackbar';
@@ -62,9 +62,8 @@ describe('ibBTC Redeem', () => {
 				<Redeem />
 			</StoreProvider>,
 		);
-		await act(async () => {
-			await fireEvent.click(await screen.findByRole('button', { name: /max/i }));
-		});
+		fireEvent.click(await screen.findByRole('button', { name: /max/i }));
+		await screen.findByText('11.988000');
 		expect(container).toMatchSnapshot();
 	});
 

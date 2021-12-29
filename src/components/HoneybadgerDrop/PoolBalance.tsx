@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React from 'react';
 import { Button, Grid, makeStyles, Paper, Typography, Fade } from '@material-ui/core';
 import { bDiggToCurrency } from 'mobx/utils/helpers';

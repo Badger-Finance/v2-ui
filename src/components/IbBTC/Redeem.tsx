@@ -1,10 +1,8 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { Button, Typography, Grid, Tooltip } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-
 import { observer } from 'mobx-react-lite';
 import BigNumber from 'bignumber.js';
-
 import { debounce } from 'utils/componentHelpers';
 import { ZERO } from 'config/constants';
 import { OptionToken, OptionTokens } from './OptionTokens';
@@ -123,8 +121,6 @@ export const Redeem = observer((): any => {
 		debounceInputAmountChange(change);
 	};
 
-	// reason: the plugin does not recognize the dependency inside the debounce function
-	// eslint-disable-next-line react-hooks/exhaustive-deps
 	const debounceInputAmountChange = useCallback(
 		debounce(
 			200,
